@@ -113,9 +113,9 @@ export default function SupportWidget({
         return;
       }
 
-      setActionMessage(data?.message || 'Action completed.');
+      setActionMessage(data?.message || t('support.actionCompleted', 'Action completed.'));
     } catch {
-      setErr('Could not complete that action. Please try again.');
+      setErr(t('support.actionFailed', 'Could not complete that action. Please try again.'));
     } finally {
       setActionLoading(false);
     }
@@ -182,10 +182,10 @@ export default function SupportWidget({
         },
       });
 
-      setOk('We couldn’t resolve this automatically. Our team will follow up.');
+      setOk(t('support.ticketCreated', 'We couldn’t resolve this automatically. Our team will follow up.'));
       setMessage('');
     } catch (e) {
-      setErr('Something went wrong. Please try again.');
+      setErr(t('support.genericError', 'Something went wrong. Please try again.'));
     } finally {
       setSubmitting(false);
     }
@@ -345,7 +345,7 @@ export default function SupportWidget({
 
               {stage === 'diagnosing' && (
                 <Text size="sm" c="dimmed">
-                  Analyzing your issue...
+                  {t('support.analyzing', 'Analyzing your issue...')}
                 </Text>
               )}
 
@@ -370,7 +370,7 @@ export default function SupportWidget({
                     loading={actionLoading}
                     onClick={() => runSupportAction(diagnosis.autoAction)}
                   >
-                    Take recommended action
+                    {t('support.takeRecommendedAction', 'Take recommended action')}
                   </Button>
                 )}
 
@@ -393,13 +393,13 @@ export default function SupportWidget({
 
               {stage === 'resolved' && (
                 <Text c="green">
-                  Issue resolved instantly — no ticket needed.
+                  {t('support.resolvedInstantly', 'Issue resolved instantly — no ticket needed.')}
                 </Text>
               )}
 
               {stage === 'escalating' && (
                 <Text c="yellow">
-                  Escalating to support...
+                  {t('support.escalating', 'Escalating to support...')}
                 </Text>
               )}
 

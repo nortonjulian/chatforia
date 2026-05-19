@@ -1,379 +1,340 @@
 {
   "common": {
     "save": "Konservi",
-    "cancel": "Nuligi",
+    "cancel": "Anuligi",
     "refresh": "Refreŝigi",
     "noMatches": "Neniuj kongruoj",
-    "cancelAria": "Nuligi",
+    "cancelAria": "Anuligi",
     "copy": "Kopii",
-    "copied": "Kopiita!",
-    "errorWithMessage": "Eraro: {{message}}",
-    "loading": "Ŝargante…",
-    "saveError": "Konservado malsukcesis"
+    "copied": "Kopita!",
+    "errorWithMessage": "Eraro: { {mesaĝo}}",
+    "ŝarĝado": "Ŝarĝado…",
+    "eraro pri konservado": "Konservado malsukcesis"
   },
   "a11y": {
-    "skipToMain": "Salti al ĉefa enhavo"
+    "salti al ĉefaĵo": "Salti al ĉefa enhavo"
   },
-  "keys": {
-    "backupCreated": "Rezervo de ŝlosilo kreita kaj elŝutita ✓",
-    "restored": "Rezervo de ŝlosilo restarigita ✓ Ŝlosiloj instalitaj loke",
-    "noBackup": "Neniu ĉifrita rezervo ekzistas por ĉi tiu konto",
-    "missingPublicKey": "Al la rezervo mankas publika ŝlosilo"
+  "marko": {
+    "nomo": "Chatforia",
+    "ria": "Ria"
+  },
+  "ŝlosiloj": {
+    "backupCreated": "Ŝlosila sekurkopio kreita kaj elŝutita ✓",
+    "restored": "Ŝlosila sekurkopio restarigita ✓ Ŝlosiloj instalitaj loke",
+    "noBackup": "Ne ekzistas ĉifrita sekurkopio por ĉi tiu konto",
+    "missingPublicKey": "Al la sekurkopio mankas publika ŝlosilo"
   },
   "keySetup": {
-    "title": "Agordu la ŝlosilojn de via aparato",
-    "description": "Ĉi tiu aparato doesn’t have via private ŝlosilo yet. Import a pasvorto-protected rezervo, aŭ generate a nova keypair (vi’ll be able al legi nova mesaĝoj de nun sur).",
-    "chooseFile": "Elektu dosieron kaj enigu la pasvorton.",
-    "imported": "Privata ŝlosilo importita al ĉi tiu aparato. Vi nun povas legi malnovajn mesaĝojn.",
-    "enterPassword": "Enigu la pasvorton de via konto por ke ni povu sekure rezervi viajn ŝlosilojn."
+    "title ": "Agordu viajn aparatklaĉojn",
+    "priskribo": "Ĉi tiu aparato ankoraŭ ne havas vian privatan ŝlosilon. Importu pasvorte protektitan sekurkopion, aŭ generu novan ŝlosilparon (vi povos legi novajn mesaĝojn ekde nun).",
+    "elektiDosieron": "Elektu dosieron kaj enigu la pasvorton.",
+    "importita": "Privata ŝlosilo importita al ĉi tiu aparato. Vi nun povas legi malnovajn mesaĝojn.",
+    "eniguPasvorton": "Enigu vian kontan pasvorton, por ke ni povu sekure sekurkopii viajn ŝlosilojn."
+  },
+  "ĉifrado-restarigo": {
+    "titolo": "Administri Ĉifradon",
+    "priskribo": "Sekurkopiu, restarigu, malŝlosu, aŭ reŝlosu vian ĉifradan ŝlosilon.",
+    " alert": {
+      "keyRequiredTitle": "Kodŝlosilo bezonata",
+      "keyRequiredBody": "Ĉi tiu retumilo nuntempe ne povas malkodigi viajn kodigitajn mesaĝojn. Restarigu, malŝlosu aŭ reŝaltu vian ŝlosilon por daŭrigi."
+    },
+    "sections": {
+      "createBackup": "Krei ŝlosilan sekurkopion",
+      "restoreFromBackup": "Restarigi el konta sekurkopio",
+      "resetEncryption": "Reŝalti kodigon"
+    },
+    "kampoj": {
+      "malŝloskodo": {
+        "etikedo": "Malŝloskodo (nuna aparato)",
+        "priskribo": "Uzata por malĉifri viajn ŝlosilojn lokale antaŭ eksportado"
+      },
+      "sekurkopia pasvorto": {
+        "etikedo": "Sekurkopia pasvorto",
+        "priskribo": "Uzata por ĉifri la sekurkopian dosieron"
+      },
+      "restarigi sekurkopian pasvorton word": {
+        "label": "Sekurkopia pasvorto",
+        "description": "La pasvorto, kiun vi kreis kiam vi sekurkopiis vian ŝlosilon en iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Nova loka paskodo",
+        "description": "Protektu ripozantajn ŝlosilojn en ĉi tiu retumilo"
+      },
+      "resetLocalPasscode": {
+        "etikedo": "Nova loka paskodo",
+        "priskribo": "Postulas antaŭ restarigo por ke la nova ŝlosilo estu protektita sur ĉi tiu aparato"
+      }
+    },
+    "agoj": {
+      "malŝlosiŜlosilon": "Malŝlosi ĉifran ŝlosilon",
+      "restarigiElSekurkopio": " Restarigi el konta sekurkopio",
+      "resetEncryption": "Restarigi Ĉifradon"
+    },
+    "mesaĝoj": {
+      "backupCreated": "Ŝlosila sekurkopio kreita kaj elŝutita.",
+      "keyUnlocked": "Ĉifra ŝlosilo malŝlosita.",
+      "keyRestored": "Ŝlosilo restarigita el konta sekurkopio.",
+      "resetSuccess": "Ĉifrado sukcese restarigita."
+    },
+    "errors": {
+      "restoreIncomplete": "Restarigo de ŝlosilo neplena aŭ malĝusta por ĉi tiu konto",
+      "noBackup": "Ne ekzistas ĉifrita sekurkopio por ĉi tiu konto",
+      "mankasPublikaŜlosilo": "Al la sekurkopio mankas publika ŝlosilo",
+      "neniuServilaPublikaŜlosilo": "Ĉi tiu konto nuntempe ne eksponas servilan publikan ŝlosilon",
+      "servilaSekurkopiaMismato": "La servila sekurkopio ne kongruas kun la nuna konta ĉifra ŝlosilo",
+      "nekompletajMetadatenoj": "La sekurkopiaj metadatenoj estas nekompletaj",
+      "restarigoNeplenumita": "La ĉifra restarigo ne plenumiĝis ĝuste "
+    },
+    "konfirmi": {
+      "reset": "Resetigi la ĉifradon por ĉi tiu konto?\n\nPli malnovaj ĉifritaj mesaĝoj eble fariĝos nelegeblaj, krom se vi poste restarigos la originan ŝlosilon."
+    },
+    "reset-priskribo": "Ĉi tio generas novan ĉifran ŝlosilon por via konto. Pli malnovaj ĉifritaj mesaĝoj eble fariĝos nelegeblaj, krom se vi poste restarigos la originan ŝlosilon."
+  },
+  "smsConsent": {
+    "etikedo": "Mi konsentas ricevi SMS-avizojn kaj atentigojn de {{companyName}}. La mesaĝofteco povas varii. Tarifoj por mesaĝoj kaj datumoj povas aplikiĝi. Respondu <stop>STOP</stop> por malkaboniĝi iam ajn. Respondu <help>HELP</help> por helpo."
+  },
+  "phoneField": {
+    "etikedo": "Telefono",
+    "malvalida": "Malvalida telefonnumero",
+    "indiko": "Inkluzivu landkodon se necese (ekz., +1 415…)"
   },
   "auth": {
-    "headline": "Sekura mesaĝado por iu ajn, ie ajn",
-    "description": "End-al-end encryption, traduko al 100+ languages, malaperantaj mesaĝoj, kaj voice/video calling.",
-    "feature": {
-      "encryption": "Defaŭlta fin-al-fina ĉifrado",
-      "translation": "Lerta, enkonstruita mesaĝtraduko",
-      "disappearing": "Malaperantaj mesaĝoj kaj legokonfirmoj",
-      "privacy": "Privateco unue. Viaj datumoj, via kontrolo.",
-      "translate": "Lerta, enkonstruita mesaĝtraduko",
-      "disappear": "Malaperantaj mesaĝoj",
-      "privacyAlt": "Privatec-unua dezajno",
-      "seePlans": "Vidi planojn kaj prezojn"
+    "ĉeftitolo": "Sekura mesaĝado por ĉiuj, ie ajn",
+    "priskribo": "Finfina ĉifrado, tradukado al pli ol 100 lingvoj, malaperantaj mesaĝoj, kaj voĉ-/videovokoj.",
+    "trajto": {
+      "ĉifrado": "Fin-al-fina ĉifrado, ĉiam ŝaltita",
+      "traduki": "Superu lingvajn barojn en viaj konversacioj",
+      "malaperi": "Malaperantaj mesaĝoj kaj leg-konfirmoj",
+      "privateco": "Unue privateco. Viaj datumoj, via regado. "
     },
-    "hero": {
-      "line1": "Sekura messaging por anyone, anywhere — kun",
-      "em": "traduko al 100+ languages",
-      "sub": "Get a senpaga sekura telefonnumero al voko kaj teksto worldwide over Wi-Fi aŭ datumoj. Enjoy fin-al-fina ĉifrado, malaperantaj mesaĝoj, kaj HD voice/video calling — kun built-en tools tiu helpo vi stay connected across borders.",
-      "freeNote": "Baza calling kaj texting are senpaga. Altnivelaj AI kaj premium funkcioj require an upgrade."
-    },
-    "feat": {
-      "encryption": "End-al-end encryption, always sur",
-      "translate": "Break lingvo barriers en via conversations",
-      "disappear": "Malaperantaj mesaĝoj kaj legokonfirmoj",
-      "privacy": "Privateco unue. Viaj datumoj, via kontrolo."
+    "ĉefmesaĝo": {
+      "linio1": "Sekura mesaĝado por iu ajn, ie ajn — kun",
+      "em": "tradukado al pli ol 100 lingvoj",
+      "sub": "Akiru senpagan sekuran telefonnumeron por telefoni kaj tekstumi tutmonde per Wi-Fi aŭ datumoj. Ĝuu plenfinan ĉifradon, malaperantajn mesaĝojn, kaj altdifinajn voĉ- kaj video-vokojn — kun enkonstruitaj iloj, kiuj helpas vin resti konektita trans landlimoj.",
+      "senpagaNoto": "Bazaj vokoj kaj mesaĝado estas senpagaj. Altnivelaj AI- kaj premium-funkcioj postulas plibonigon."
     },
     "continueGoogle": "Daŭrigi per Google",
     "continueApple": "Daŭrigi per Apple",
-    "username": "Uzantnomo",
-    "password": "Pasvorto",
-    "keepSignedIn": "Restigi min ensalutinta",
-    "forgotPassword": "Ĉu vi forgesis pasvorton?",
-    "loginButton": "Ensaluti",
-    "createAccount": "Krei konton",
-    "freeAccountButton": "Krei senpagan konton",
-    "newHere": "Nova ĉi tie?",
-    "getApp": "Akiri la aplikaĵon",
-    "desktopTip": "On desktop? Scan kun via telefono al get la aplikaĵo.",
-    "scanHelper": "On desktop? Scan kun via telefono al get la aplikaĵo.",
-    "goHome": "Go al home",
-    "home": "Hejmo",
+    "uzantnomo": "Uzantnomo",
+    "pasvorto": "Pasvorto",
+    "restaskonektita": "Restigi min konektita",
+    "forgesitpasvorto": "Forgesis pasvorton?",
+    "ensalutbutono": "Ensaluti",
+    "kreiKonton": "Krei konton",
+    "liberaKontbutono": "Krei liberan konton",
+    "novaĈi tie": "Nova ĉi tie?",
+    "akiriAplikaĵon": "Akiri la aplikaĵon",
+    "labortipaKonsilo": "Ĉu sur labortablo? Skanu per via telefono por akiri la aplikaĵon.",
+    "skaniHelpanto": "Ĉu sur labortablo? Skanu per via telefono por akiri la aplikaĵon.",
+    "iriHejmen": "Iri al la ĉefpaĝo",
+    "ĉefpaĝo": "Hejmo",
     "headlineAlt": {
-      "main": "La sekura messenger tiu",
-      "highlight": "speaks via lingvo"
+      "main": "La sekura mesaĝilo kiu",
+      "highlight": "parolas vian lingvon"
     },
-    "subhead": "Private, encrypted, kaj translated messaging — instantly.",
-    "upgrade": "Ĝisdatigi nun",
-    "tip": "Konsilo: Uzu la saman konton en retejo kaj poŝtelefono. Viaj mesaĝoj restas sinkronigitaj.",
-    "openDownload": "Malfermi elŝutan paĝon",
+    "subtitolo": "Privataj, ĉifritaj kaj tradukitaj mesaĝoj — tuj.",
+    "ĝisdatigi": "Ĝisdatigu nun",
+    "konsileto": "Konsileto: Uzu la saman konton en la retversio kaj en la poŝtelefona aplikaĵo. Viaj mesaĝoj restas sinkronigitaj.",
+    "malfermi-elŝuto": "Malfermi la elŝutan paĝon",
     "qrAlt": "QR-kodo por Chatforia",
-    "scanHint": "Scan al elŝuti la aplikaĵo aŭ malfermi en via browser.",
-    "iosAria": "Elŝuti sur la App Store",
-    "iosTitle": "Elŝuti sur la App Store",
-    "iosBadgeAlt": "Insigno de App Store",
-    "androidAria": "Get it sur Google Play",
-    "androidTitle": "Butiko Google Play",
-    "androidBadgeAlt": "Insigno de Google Play",
-    "login": "Ensaluti",
-    "signup": "Registriĝi",
-    "email": "Retpoŝto",
-    "registration": {
-      "passwordDescription": "Minimum 6 characters. Use a strong, unique pasvorto.",
-      "smsConsent": "By creating an konto, vi agree al receive SMS notifications related al via Chatforia agado (such as mesaĝoj de other uzantoj). Mesaĝo & datumoj rates may apply. Vi povas opt out at any time en Agordoj.",
-      "termsLink": "Kondiĉoj de Servo",
+    "scanHint": "Skanu por elŝuti la aplikaĵon aŭ malfermi en via retumilo.",
+    "iosAria": "Elŝutu en la App Store",
+    "iosTitle": "Elŝutu en la App Store",
+    "iosBadgeAlt": "Badĝo de la App Store",
+    "androidAria": "Akiru ĝin en Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play-insigno",
+    "ensaluti": "Ensaluti",
+    "aliĝi": "Aliĝi",
+    "retpoŝto": "Retpoŝto",
+    "registriĝo": {
+      "pasvortopriskribo": "Minimume 6 signoj. Uzu fortan, unikan pasvorton.",
+      " smsConsent": "Kreante konton, vi konsentas ricevi SMS-avizojn rilatajn al via Chatforia-aktiveco (kiel mesaĝoj de aliaj uzantoj). Tarifoj por mesaĝoj kaj datumoj povas aplikiĝi. Vi povas iam ajn rezigni en Agordoj.",
+      "termsLink": "Servokondiĉoj",
       "privacyLink": "Privateca Politiko"
     },
-    "to": "Al:",
-    "enterRecipient": "Enigu nomon aŭ numeron",
-    "clearRecipients": "Forigi ricevantojn",
+    "al": "Al:",
+    "enigiDestinaton": "Enigu nomon aŭ numeron",
+    "forigiDestinatojn": "Forigi destinatojn",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Tajpu mesaĝon…",
-    "addRecipient": "Aldonu ricevanton supre por komenci…",
-    "oneRecipient": "Bonvolu enigi unu ricevanton nuntempe.",
-    "enterValidRecipient": "Enigu konservitan kontaktnomon aŭ telefonnumeron.",
-    "sendFailed": "Sendado malsukcesis. Kontrolu la konzolon por detaloj."
+    "skribiMesaĝon": "Skribu mesaĝon…",
+    "aldoniDestinaton": "Aldoni destinaton supre por komenci…",
+    "oneRecipient": "Bonvolu enigi unu ricevanton por nun.",
+    "enterValidRecipient": "Enigu nomon de konservita kontakto aŭ telefonnumeron.",
+    "sendFailed": "Sendo malsukcesis. Kontrolu la konzolon por detaloj."
   },
   "home": {
-    "title": "Hejmo",
-    "messagesTitle": "Viaj mesaĝoj",
-    "messagesSubtitle": "Enigu ricevanton supre, poste sendu mesaĝon por komenci konversacion.",
-    "subheader": "Sendu mesaĝon por komenci babilejon.",
-    "sendButton": "Sendi mesaĝon",
-    "gifPicker": "Malfermi GIF-elektilon",
+    " titolo": "Hejmo",
+    "mesaĝojTitolo": "Viaj mesaĝoj",
+    "mesaĝojSubtitolo": "Enigu ricevonton supre, poste sendu mesaĝon por komenci konversacion.",
+    "subkaplinio": "Sendu mesaĝon por komenci babilejon.",
+    "sendiButo": "Sendi mesaĝon",
+    "gif-elektilo": "Malfermi GIF-elektilon",
     "emoji": "Emoĝio",
-    "upload": "Alŝuti foton aŭ videon",
-    "inputPlaceholder": "Tajpu mesaĝon…",
-    "inputLabel": "Mesaĝverkilo",
-    "sendTooltip": "Sendi",
-    "sendTooltipEmpty": "Tajpu mesaĝon por sendi",
-    "send": "Sendi",
-    "welcomeMessage": "Bonvenon al Chatforia",
-    "getStarted": "Komenci",
-    "enterRecipient": "Enigu nomon aŭ numeron",
+    "alŝuti": "Alŝuti foton aŭ videon",
+    "eniga-loko-teksto": "Skribu mesaĝon…",
+    "eniga-etikedo": "Mesaĝ-redaktilo",
+    "send-il-pinto": "Sendi",
+    "send-il-pinto-malplena": "Skribu mesaĝon por sendi",
+    "sendi": "Sendi",
+    "bonvena-mesaĝo": "Bonvenon al Chatforia",
+    "Komencu": "Komencu",
+    "mixedRecipients": "Miksitaj ricevantoj detektitaj. Uzu aŭ ĉiujn telefonnumerojn (SMS) aŭ ĉiujn uzantnomojn (Chatforia).",
+    "Enigu ricevanton": "Enigu nomon aŭ numeron",
     "addRecipient": "Aldonu ricevonton supre por komenci…",
-    "mixedRecipients": "Mixed recipients detected. Use either ĉiuj telefonnumeros (SMS) aŭ ĉiuj usernames (Chatforia).",
-    "needNumber": "Vi need a Chatforia numero before sending SMS.",
-    "chooseNumber": "Elekti a numero"
+    "needNumber": "Vi bezonas numeron de Chatforia antaŭ ol sendi SMS-ojn.",
+    "chooseNumber": "Elektu numeron"
   },
-  "refund": {
-    "title": "Repaga Politiko",
-    "lastUpdated": "Laste ĝisdatigita:",
-    "intro": "At Chatforia, ni strive al provide a high-quality service al ĉiuj uzantoj. Ĉi tiu Refund Policy outlines kiam refunds may be issued.",
-    "subscriptions": {
-      "title": "Abonoj",
-      "body": "Subscriptions are billed en advance sur a recurring basis. Vi may nuligi at any time through via konto agordoj aŭ la platform used al purchase."
-    },
-    "eligibility": {
-      "title": "Rajto je Repago",
-      "body": "Refunds may be granted por duplicate charges, fakturadon errors, aŭ technical issues preventing access al paid funkcioj. Ĉiuj requests are reviewed case-by-case."
-    },
-    "nonRefundable": {
-      "title": "Ne-repagebla",
-      "body": "Ni generally do not provide refunds por unused time, partial subscription periods, aŭ failure al nuligi before renewal."
-    },
-    "thirdParty": {
-      "title": "Triaj Aĉetoj",
-      "body": "If purchased through third-party platforms such as la Apple App Store, refunds devas be requested directly through those platforms."
-    },
-    "contact": {
-      "title": "Kontakto",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
+  "flankaPanelo": {
+    "hazardaBabilado": "Hazarda Babilado",
+    "alvokoKajTeksto-Pludirektado": "Alvoko kaj Teksto-Pludirektado ",
+    "konversacioj": "Konversacioj",
+    "serĉiloko": "Serĉi babilejojn...",
+    "ŝarĝeraro": "Malsukcesis ŝargi babilejojn",
+    "malplena": "Ankoraŭ neniuj konversacioj.",
+    "komencibabilejon": "Komenci babilejon",
+    "homoj": "Homoj",
+    "agordoj": "Agordoj",
+    "statuso": "Statuso",
+    "pludirektado": "Voko- kaj Teksta Pludirektado",
+    "refreŝigi": "Refreŝigi",
+    "serĉi": "Serĉi konversaciojn",
+    " ensaluto-petado": "Ensalutu por redakti viajn agordojn.",
+    "ensaluti": "Ensaluti",
+    "registri": "Krei konton",
+    "babilĉambroj": "Babilĉambroj",
+    "elsaluti": "Elsaluti",
+    "komencibabilon": "Komenci novan babilon",
+    "vokoj": "Vokoj",
+    "video": "Video",
+    "voĉmesaĝoj": "Voĉmesaĝoj"
   },
-  "blog": {
-    "whyMessaging": {
-      "title": "Kial Messaging Platforms Matter More Than Ever",
-      "intro": "Messaging platforms have become one de la most important tools por communication en hodiaŭ’s world. From personal conversations al business interactions, messaging aplikaĵoj permesi people al stay connected instantly kaj efficiently.",
-      "everydayTitle": "Ĉiutaga Komunikado",
-      "everydayDesc": "People rely sur messaging aplikaĵoj por daily communication kun amikoj, familio, kaj colleagues. Whether it's a quick ĝisdatigi aŭ a long conversation, messaging provides a convenient kaj flexible way al stay en touch.",
-      "speedTitle": "Speed kaj Convenience",
-      "speedDesc": "One de la main advantages de messaging platforms is their speed. Messages are delivered instantly, allowing uzantoj al communicate en real time. Ĉi tiu level de convenience has made messaging la preferred method de communication por many people.",
-      "globalTitle": "Tutmonda Reach",
-      "globalDesc": "Messaging platforms connect people across la globe. With internet access, uzantoj povas communicate regardless de location, making it easier al build relationships kaj collaborate internationally.",
-      "privacyTitle": "Privateco kaj Control",
-      "privacyDesc": "Modern messaging platforms focus sur giving uzantoj control over their datumoj kaj conversations. Features like encryption, privateco agordoj, kaj mesaĝo controls permesi uzantoj al communicate kun confidence.",
-      "futureTitle": "La Future de Messaging",
-      "futureDesc": "Messaging continues al evolve kun nova funkcioj such as AI-powered responses, traduko, kaj multimedia sharing. As technology advances, messaging platforms estos become even more powerful kaj versatile.",
-      "outro": "Chatforia is built kun these principles en mind, offering a fast, sekura, kaj uzanto-friendly messaging experience por a connected world."
-    },
-    "global": {
-      "title": "La Future de Tutmonda Communication",
-      "intro": "Communication has evolved rapidly over la past few decades. Kio once bezonata telefono vokoj aŭ en-person meetings povas nun be done quickly through messaging platforms. As technology continues al advance, tutmonda communication is becoming faster, more accessible, kaj more inclusive.",
-      "barriersTitle": "Forigo de Baroj",
-      "barriersDesc": "One de la biggest changes en communication is la reduction de geographic barriers. People povas nun connect kun others across la world en near real time. Whether por personal conversations, business, aŭ collaboration, messaging platforms have made distance far less limiting.",
-      "translationTitle": "La Role de Traduko Technology",
-      "translationDesc": "Lingvo has traditionally been one de la biggest obstacles al tutmonda communication. Today, built-en traduko tools helpo bridge tiu gap. Platforms like Chatforia permesi uzantoj al communicate more easily even if they speak different languages, creating nova opportunities por connection kaj understanding.",
-      "realtimeTitle": "Realtempa Konektebleco",
-      "realtimeDesc": "Speed is a ŝlosilo factor shaping modern communication. Users expect mesaĝoj al be delivered quickly, kaj modern infrastructure supports tiu expectation. Real-time messaging enables more natural kaj fluid conversations.",
-      "privacyTitle": "Privateco kaj Sekureco",
-      "privacyDesc": "As communication becomes more digital, privateco kaj sekureco are increasingly important. Users want confidence tiu their conversations are protected. Features like encryption kaj uzanto-controlled agordoj helpo subteno a more sekura communication experience.",
-      "futureTitle": "Kio Comes Next",
-      "futureDesc": "La future de tutmonda communication estos likely include more altnivelaj tools, such as AI-assisted messaging, improved traduko, kaj enhanced uzanto experiences. As technology evolves, communication estos daŭrigi al become more intuitive kaj accessible.",
-      "outro": "Platforms like Chatforia are part de ĉi tiu shift, helping people connect more easily across languages kaj borders."
-    },
-    "index": {
-      "title": "Blogo de Chatforia",
-      "intro": "Explore insights sur communication, online safety, kaj kiel messaging technology is connecting people around la world.",
-      "post1": "Kiel al Babili Safely Online",
-      "post2": "La Future de Tutmonda Communication",
-      "post3": "Kial Messaging Platforms Matter"
-    }
+  "supra-breto": {
+    "nova-stato": "Nova Stato",
+    "eliro": "Eliro",
+    "helpo": "Helpo",
+    "krei-staton-aria": "Krei novan staton"
   },
-  "howItWorks": {
-    "title": "Kiel Chatforia Funkcias",
-    "intro": "Chatforia is designed al make communication simple, fast, kaj accessible. Getting started takes just a few steps.",
-    "step1Title": "1. Krei an Konto",
-    "step1Desc": "Ensaluti up using via retpoŝto aŭ uzantnomo al krei via Chatforia konto.",
-    "step2Title": "2. Komencu Konversacion",
-    "step2Desc": "Connect kun others by selecting kontaktoj aŭ starting nova babiloj.",
-    "step3Title": "3. Realtempa Mesaĝado",
-    "step3Desc": "Messages are delivered quickly al provide a smooth communication experience.",
-    "step4Title": "4. Tutmonda Communication",
-    "step4Desc": "Built-en traduko helps uzantoj communicate across different languages.",
-    "step5Title": "5. Stay en Control",
-    "step5Desc": "Administri via preferences, kontaktoj, kaj communication agordoj."
-  },
-  "safety": {
-    "title": "Sekurecaj kaj Komunumaj Gvidlinioj",
-    "intro": "Chatforia is committed al maintaining a safe kaj respectful environment por ĉiuj uzantoj. These guidelines helpo ensure a positive experience por everyone.",
-    "respectTitle": "Respektema Komunikado",
-    "respectDesc": "Users are expected al communicate respectfully. Harassment, abuse, aŭ harmful behavior is not permitted.",
-    "prohibitedTitle": "Malpermesita Enhavo",
-    "prohibited": {
-      "illegal": "Kontraŭleĝaj agadoj",
-      "harassment": "Ĉikanado aŭ timigado",
-      "hate": "Malama parolado aŭ diskriminacio",
-      "explicit": "Explicit aŭ harmful material",
-      "spam": "Trudmesaĝoj aŭ trompaj praktikoj"
+  "piedlinio": {
+    "planoj": "Planoj kaj Prezoj",
+    "pri": "Pri Chatforia",
+    "karieroj": " Karieroj",
+    "gazetara": "Gazetara",
+    "reklami": "Reklami",
+    "kontakto": "Kontaktu nin",
+    "helpo": " Helpa Centro",
+    "status": "Statusa Paĝo",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privateca Politiko",
+    "terms": "Kondiĉoj de Servo",
+    "cookies": "Agordoj pri Kuketoj",
+    "doNotSell": "Ne vendu miajn informojn",
+    "language": "Lingvo",
+    "contactShort": "Kontakto",
+    "aria": "Piedlinio",
+    "homeAria": "Ĉefpaĝo de Chatforia",
+    "section": {
+      "company": "KOMPANIO",
+      "support": "SUBTENO ",
+      "elŝutoj": "ELŜUTOJ",
+      "leĝa": "LEĜA"
     },
-    "toolsTitle": "Iloj por Uzanta Sekureco",
-    "tools": {
-      "report": "Raporti inappropriate behavior aŭ enhavo",
-      "block": "Bloki uzantoj al prevent further interaction",
-      "control": "Administri privateco kaj communication agordoj"
+    "ligiloj": {
+      "planoj-prezoj": "Planoj kaj Prezoj",
+      "pri-chatforia": "Pri Chatforia",
+      "karieroj": "Karieroj",
+      "gazetara": "Gazetara",
+      "reklami": "Reklami",
+      " komencado": "Komencado",
+      "helpo-centro": "Helpo-centro",
+      "kontaktu-nin": "Kontaktu nin",
+      "statuso-paĝo": "Statuso-paĝo",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privata-politiko": "Privata politiko",
+      "kondiĉoj-de -servo": "Kondiĉoj de Servo",
+      "ne-vendu-miajn-informojn": "Ne vendu miajn informojn",
+      "kuketaj-agordoj": "Kuketaj Agordoj",
+      "kiel-funkcias": "Kiel Ĝi Funkcias",
+      "blogo": "Blogo",
+      "rimburs-politiko": "Politiko pri Repago",
+      "sms-politiko": "Politiko pri SMS-mesaĝado"
     },
-    "enforcementTitle": "Plenumigo",
-    "enforcementDesc": "Ni may take action against kontoj tiu violate these guidelines, including warnings, restrictions, aŭ permanent removal de la platform."
+    "socia": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": " LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patento pendanta",
+    "backToTop": "↑ Reen al la supro"
   },
   "chat": {
-    "selectPrompt": "Elektu tekstan aŭ babilan ĉambron por komenci babili",
+    "selectPrompt": "Elektu tekston aŭ babilejon por komenci babili",
     "newMessages": "Novaj mesaĝoj",
-    "typing": "{{name}} tajpas...",
+    "typing": "{{name }} tajpas...",
     "emptyTitle": "Viaj mesaĝoj",
-    "emptySubtitle": "Sendu mesaĝon por komenci babilejon.",
-    "startChatButton": "Sendi mesaĝon",
-    "mediaAttachment": "Amaskomunikila aldonaĵo",
-    "thisUser": "ĉi tiu uzanto",
-    "blockConfirm": "Bloki {{name}}? Vi won't receive mesaĝoj de them.",
-    "blockedUser": "{{name}} blokita.",
-    "blockError": "Could not determine a target uzanto al bloki.",
-    "blockFailed": "Bloki malsukcesis (backend not wired yet).",
-    "encryptedUnavailable": "Ĉifrita mesaĝo (ŝlosilo nehavebla)",
+    "malplenaSubteksto": "Sendu mesaĝon por komenci babilejon.",
+    "komenciBabilejonButono": "Sendi mesaĝon",
+    "medioAlaĵo": "Medioalaĵo",
+    "ĉiTiuUzanto": "ĉi tiu uzanto",
+    "blokiKonfirmo": "Bloki {{name}}? Vi ne ricevos mesaĝojn de ili.",
+    "blokitaUzanto": "Blokita {{name}}.",
+    "blockError": "Ne eblis determini celuzanton por bloki.",
+    "blockFailed": "Blokado malsukcesis (malantaŭa sistemo ankoraŭ ne konektita).",
+    "encryptedUnavailable": "Ĉifrita mesaĝo (ŝlosilo ne disponebla)",
     "unlockToView": "Malŝlosu vian ŝlosilon por vidi ĉi tiun mesaĝon"
   },
-  "messageInput": {
+  " messageInput": {
     "ttl": {
       "off": "Malŝaltita"
     },
-    "freeLimit": "Free plano limit: aŭtomata-forigi up al 1 day. Clamped al 1d.",
-    "premiumLimit": "Max aŭtomata-forigi por Premium is 30 days. Clamped al 30d.",
-    "nothingToSend": "Tajpu mesaĝon aŭ aldonu dosieron por sendi.",
+    "freeLimit": "Limo por senpaga plano: aŭtomata forigo ĝis 1 tago. Limigita al 1 tago.",
+    "premiumLimit": "Maksimuma aŭtomata forigo por Premium estas 30 tagoj. Limigita al 30 tagoj.",
+    " nothingToSend": "Skribu mesaĝon aŭ alŝutu dosieron por sendi.",
     "encryptionFailed": "Ĉifrado malsukcesis. Mesaĝo ne sendita.",
     "sent": "Mesaĝo liverita.",
-    "placeholder": "Tajpu mesaĝon…",
-    "voiceAdded": "Voĉmesaĝo aldonita",
-    "attachmentAdded": "Aldonaĵo aldonita",
+    "placeholder": "Skribu mesaĝon… ",
     "autoDelete": "Aŭtomata forigo",
-    "typeToSend": "Tajpu mesaĝon por sendi",
+    "typeToSend": "Skribu mesaĝon por sendi",
     "send": "Sendi",
-    "sendWithEnter": "Sendi (Enter)",
+    "sendWithEnter": "Sendi (Enspaco)",
     "attachment": "aldonaĵo",
-    "caption": "Priskribo (nedeviga)",
+    "caption": "Titolo (nedeviga)",
     "remove": "Forigi",
-    "clear": "Forviŝi",
+    "clear": "Forigi",
     "gif": "GIF",
-    "sticker": "Glumarko",
-    "errors": {
-      "attachmentTooLarge": "Attachment too large. Provu a smaller file.",
-      "unsupportedFile": "Nesubtenata dosiertipo.",
-      "rateLimit": "Vi’re sending mesaĝoj too quickly. Please slow down.",
-      "validation": "Validation eraro. Please check via mesaĝo kaj provi denove.",
-      "failedToSend": "Malsukcesis al sendi. Vi povas retry la malsukcesis bubble."
+    "sticker": "Glumarkilo",
+    "eraroj": {
+      "aldonaĵoTroGranda": "La aldonaĵo estas tro granda. Provu pli malgrandan dosieron.",
+      "nesubtenataDosiertipo": "Nesubtenata dosiertipo.",
+      "limigokvoto": "Vi sendas mesaĝojn tro rapide. Bonvolu malrapidiĝi.",
+      "validigo": "Validigada eraro. Bonvolu kontroli vian mesaĝon kaj provi denove.",
+      "failedToSend": "Malsukcesis sendi. Vi povas resendi la malsukcesan vezikon."
     }
-  },
-  "contactList": {
-    "savedContacts": "Konservitaj Kontaktoj",
-    "refreshAria": "Refreŝigi kontaktojn",
-    "filterPlaceholder": "Filtri konservitajn kontaktojn…",
-    "filterAria": "Filtri konservita kontaktoj",
-    "noContactsFound": "Neniuj kontaktoj trovitaj.",
-    "externalContact": "Ekstera kontakto",
-    "notJoined": "Tiu kontakto hasn’t joined Chatforia yet.",
-    "couldNotStart": "Could not start babili. Please provi denove.",
-    "startFailed": "Malsukcesis al start babili. Please provi denove.",
-    "deleted": "Kontakto deleted.",
-    "deleteFailed": "Malsukcesis al forigi kontakto. Please provi denove.",
-    "aliasUpdated": "Alinomo updated.",
-    "updateAliasFailed": "Malsukcesis al ĝisdatigi alinomo. Please provi denove.",
-    "selectContact": "Elekti {{name}}",
-    "alias": "Alinomo",
-    "startChat": "Komenci babilejon",
-    "message": "Mesaĝo",
-    "delete": "Forigi",
-    "deleteContactAria": "Forigi kontakto",
-    "loadFailed": "Malsukcesis al load kontaktoj. Please provi denove.",
-    "loadMore": "Ŝargi pli",
-    "call": "Voki",
-    "callStarted": "Calling ĉi tiu numero via via Chatforia numero…",
-    "callFailed": "Malsukcesis al start voko. Please provi denove."
-  },
-  "startChatModal": {
-    "title": "Komenci konversacion",
-    "searchPlaceholder": "Serĉi nomo, uzantnomo, aŭ telefonnumero",
-    "messageThisPerson": "Mesaĝo ĉi tiu person",
-    "contacts": "Kontaktoj",
-    "recentInteractions": "Lastatempaj interagoj",
-    "noContactsMatch": "Ne kontaktoj match via serĉi.",
-    "noRecentInteractions": "Ne recent interactions yet.",
-    "unknown": "Nekonata",
-    "interactionType": {
-      "message": "Mesaĝo",
-      "call": "Voki",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Aldoni kontakton",
-    "phoneOrUsername": "Telefono aŭ uzantnomo",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 aŭ juliannorton",
-    "alias": "Alinomo (nedeviga)",
-    "aliasPlaceholder": "ekz. Laboro, Panjo, Mike – Eŭropo",
-    "enterPhoneOrUsername": "Enter a telefonnumero aŭ uzantnomo.",
-    "userLookupFailed": "Uzanto lookup malsukcesis.",
-    "cannotAddSelf": "Vi cannot aldoni yourself as a kontakto.",
-    "failedToAdd": "Malsukcesis al aldoni kontakto.",
-    "add": "Aldoni"
-  },
-  "sidebar": {
-    "randomChat": "Hazarda Babilejo",
-    "callTextForwarding": "Alidirektado de Vokoj kaj Tekstoj",
-    "conversations": "Konversacioj",
-    "searchPlaceholder": "Serĉi babilojn...",
-    "errorLoading": "Malsukcesis ŝargi babilojn",
-    "empty": "Ankoraŭ neniuj konversacioj.",
-    "startChat": "Komenci babilejon",
-    "people": "Homoj",
-    "settings": "Agordoj",
-    "status": "Stato",
-    "forwarding": "Alidirektado de Vokoj kaj Tekstoj",
-    "refresh": "Refreŝigi",
-    "search": "Serĉi conversations",
-    "loginPrompt": "Log en al edit via agordoj.",
-    "login": "Ensaluti",
-    "register": "Krei konton",
-    "chatrooms": "Babilejoj",
-    "logout": "Elsaluti",
-    "startChatAlt": "Start a nova babili",
-    "calls": "Vokoj",
-    "video": "Video",
-    "voicemail": "Voĉpoŝto"
-  },
-  "topbar": {
-    "newStatus": "Nova Stato",
-    "logout": "Elsaluti",
-    "help": "Helpo",
-    "createStatusAria": "Krei nova Stato"
   },
   "threadActions": {
-    "threadMenu": "Fadena menuo",
-    "premium": "Premium",
-    "aiPower": "AI-potenco",
-    "schedule": "Plani",
-    "upgrade": "Ĝisdatigi",
-    "upgradeSuffix": "(Ĝisdatigo)",
-    "thread": "Fadeno",
-    "about": "Pri",
-    "search": "Serĉi",
-    "media": "Amaskomunikiloj",
-    "invitePeople": "Inviti homojn",
-    "roomSettings": "Agordoj de ĉambro",
-    "clearConversation": "Forigi konversacion",
-    "clearConversationForMe": "Forigi por mi",
-    "clearConversationForEveryone": "Forigi por ĉiuj",
-    "block": "Bloki"
+    "threadMenu": "Fadenmenuo",
+    "premium": "Premio",
+    "aiPower": "AI-Potenco",
+    "horaro": "Horaro",
+    "ĝisdatigo": "Ĝisdatigo",
+    "ĝisdatiga-sufikso": "(Ĝisdatigo)",
+    "fadeno": "Fadeno",
+    "pri": "Pri",
+    "serĉo": "Serĉo",
+    "multmedio": "Multmedio",
+    "invitiHomojn": "Inviti homojn",
+    "ĉambrajAgordoj": "Ĉambraj agordoj",
+    "forigiKonversacion": "Forigi konversacion",
+    "bloki": "Bloki"
   },
-  "roomSearch": {
-    "title": "Serĉi en ĉambro",
+  "ĉambraSerĉo": {
+    "titolo": "Serĉi en ĉambro",
     "ariaLabel": "Serĉi en ĉambro",
     "search": "Serĉi",
     "searchMessages": "Serĉi mesaĝojn",
@@ -383,196 +344,296 @@
   "roomSettings": {
     "roles": {
       "member": "Membro",
-      "moderator": "Moderiganto",
-      "admin": "Administranto"
+      "moderator": " Moderatoro",
+      "administranto": "Administranto"
     },
-    "aiMode": {
-      "off": "Malŝaltita",
-      "mention": "Only sur @ForiaBot aŭ /ask",
-      "always": "Respondi proaktive"
+    "ai-reĝimo": {
+      "malŝalto": "Malŝalto",
+      "mencio": "Nur ĉe @ForiaBot aŭ /ask",
+      "ĉiam": "Respondu iniciateme"
     },
-    "autoTranslateMode": {
-      "off": "Malŝaltita",
-      "tagged": "Nur markitaj (/tr …)",
-      "all": "Ĉiuj mesaĝoj"
+    "aŭtomataTradukReĝimo": {
+      "malŝaltita": "Malŝaltita",
+      "etikeditaj": "Nur etikeditaj (/tr …)",
+      "ĉiuj": "Ĉiuj mesaĝoj"
     },
-    "updated": "Agordoj ĝisdatigitaj"
+    "ĝisdatigita": "Agordoj ĝisdatigitaj"
   },
-  "mediaGallery": {
-    "sharedMedia": "Kunhavita amaskomunikilaro",
-    "noMediaCached": "Ne amaskomunikiloj cached locally yet.",
+  "medioGalerio": {
+    "sharedMedia": "Kunhavigitaj amaskomunikiloj",
+    "noMediaCached": "Neniuj amaskomunikiloj ankoraŭ lokaj kaŝmemoreitaj.",
     "imageAlt": "bildo",
-    "openVideo": "Malfermi video",
-    "openVideoWithCaption": "Malfermi video: {{caption}}",
-    "preview": "Antaŭrigardo",
-    "previewWithCaption": "Antaŭrigardo: {{caption}}",
-    "previewKind": "Antaŭrigardo {{kind}}",
-    "download": "Elŝuti",
-    "downloadKind": "Elŝuti {{kind}}",
-    "file": "dosiero",
-    "kinds": {
-      "image": "bildo",
+    "openVideo": "Malfermi videon",
+    "openVideoWithCaption": "Malfermi videon: {{caption}}",
+    "preview": "Antaŭvido",
+    "previewWithCaption": "Antaŭvido: {{caption}}",
+    "previewKind": "Antaŭvido {{speco}}",
+    "elŝuto": "Elŝuto",
+    "elŝutaSpeco": "Elŝuto {{speco}}",
+    "dosiero": "dosiero",
+    "specoj": {
+      "bildo": "bildo",
       "video": "video",
-      "audio": "sono",
-      "file": "dosiero"
+      "aŭdio": "aŭdio",
+      "dosiero": "dosiero"
     }
   },
   "status": {
-    "userNumber": "Uzanto #{{id}}",
-    "posted": "Stato afiŝita",
-    "postFailed": "Malsukcesis afiŝi staton",
-    "createTitle": "Krei staton",
-    "modalAriaLabel": "Nova stato",
-    "captionLabel": "Kio's sur via mind?",
-    "captionPlaceholder": "Share an ĝisdatigi...",
-    "captionAria": "Stato mesaĝo",
-    "audienceLabel": "Publiko",
-    "audience": {
-      "public": "Publika",
-      "followers": "Sekvantoj",
-      "contacts": "Kontaktoj",
-      "mutuals": "Reciprokaj",
-      "custom": "Propra..."
+    "userNumber": "Uzanto n-ro {{id}}",
+    "posted": "Statuso afiŝita",
+    "postFailed": "Malsukcesis afiŝi statuson",
+    "createTitle": "Krei statuson",
+    "modalAriaLabel": "Nova statuso",
+    "captionLabel": "Kion vi pensas?",
+    "captionPlaceholder": "Kunhavigu ĝisdatigon.. .",
+    "captionAria": "Statusa mesaĝo",
+    "audiencoEtikedo": "Aŭdienco",
+    "audienco": {
+      "publika": "Publika",
+      "sekvantoj": "Sekvantoj",
+      "kontaktoj": "Kontaktoj",
+      "reciprokuloj": "Reciprokuloj",
+      "propra": "Laŭmenda..."
     },
-    "expiresHoursLabel": "Eksvalidiĝas (horoj)",
-    "maxTooltip": "Maksimume 7 tagoj",
-    "hoursAbbrev": "h",
-    "maxShort": "maks",
-    "expiresOn": "Expires sur:",
-    "chooseRecipients": "Elekti ricevantojn",
-    "selectContacts": "Elekti kontaktojn",
-    "attachmentsLabel": "Aldonaĵoj",
-    "attachmentsPlaceholder": "Aldoni images/videos",
-    "filesNote": "Up al 5 files. 24h expiry by default.",
-    "postAria": "Afiŝi stato",
+    "eternasHorojEtikedo": "Eternas (horoj)",
+    "maksTipoPluinformo": "Maksimumo de 7 tagoj",
+    "horojMallongigo": "h",
+    "maksMallonga": "max",
+    "eternasJe": "Validas ĝis:",
+    "elektiRicevilojn": "Elekti ricevilojn",
+    "elektiKontaktojn": "Elekti kontaktojn",
+    "etikedoPorAldonaĵoj": "Aldonaĵoj",
+    "rezervtekstoPorAldonaĵoj": "Aldoni bildojn/videojn",
+    "notoPriDosieroj": "Ĝis 5 dosieroj. Laŭdefaŭlte validas 24 horojn.",
+    "postAria": "Afiŝa statuso",
     "post": "Afiŝi"
   },
-  "voicemail": {
-    "pageTitle": "Voĉpoŝto",
-    "from": "De",
-    "to": "Al",
-    "unknownCaller": "Nekonata",
-    "yourNumber": "Via Chatforia-numero",
-    "durationSeconds": "{{count}}s",
-    "audioAria": "Voĉpoŝto sono player",
-    "transcriptHeading": "Transskribo",
-    "transcriptPending": "Transcribing voĉpoŝto…",
-    "transcriptFailed": "Transskribo ne disponeblas.",
-    "loading": "Ŝargante voĉpoŝton…",
-    "errorLoading": "Malsukcesis ŝargi voĉpoŝton.",
-    "empty": "Ankoraŭ neniuj voĉpoŝtoj.",
-    "deleteConfirm": "Ĉu forigi ĉi tiun voĉpoŝton?",
-    "deleteError": "Malsukcesis forigi voĉpoŝton.",
-    "markRead": "Marki kiel legita",
-    "delete": "Forigi",
-    "unreadDotAria": "Nelegita voĉpoŝto indicator"
+  "voĉmesaĝo": {
+    "paĝotitolo": "Voĉmesaĝo",
+    "de": "De",
+    "al": "Al",
+    "nekonata vokanto": "Neidentigita",
+    "via numero": "Via Chatforia numero",
+    "daŭro en sekundoj": " {{count}}oj",
+    "audioAria": "Aŭdilo por voĉmesaĝoj",
+    "transskribaTitolo": "Transskribo",
+    "transskriboPendanta": "Transskribas voĉmesaĝon…",
+    "transskriboMalsukcesa": "Transskribo ne disponebla.",
+    "ŝarĝanta": "Ŝarĝas voĉmesaĝon…",
+    "ŝarĝeraro": "Malsukcesis ŝargi voĉmesaĝon.",
+    "malplena": "Ankoraŭ neniuj voĉmesaĝoj.",
+    "konfirmo-forigo": "Ĉu forigi ĉi tiun voĉmesaĝon?",
+    "eraro-forigo": "Malsukcesis forigi voĉmesaĝon.",
+    "marki-legita": "Marki kiel legita",
+    "forigi": "Forigi",
+    "ne-legita-punkto-aria": "Indikilo de ne-legita voĉmesaĝo"
+  },
+  "kontaktlisto": {
+    "konservitajKontaktoj": "Konservitaj Kontaktoj",
+    "refreŝigiAria": "Refreŝigi kontaktojn",
+    "filtriLoktenilo": "Filtri konservitajn kontaktojn…",
+    "filtriAria": "Filtri konservitajn kontaktojn",
+    "neniujKontaktojTrovitaj": "Neniuj kontaktoj trovitaj.",
+    "eksteraKontakto": "Ekstera kontakto",
+    "notJoined": "Tiu kontakto ankoraŭ ne aliĝis al Chatforia.",
+    "couldNotStart": "Ne eblis komenci babiladon. Bonvolu provi denove.",
+    "startFailed": "Malsukcesis komenci babiladon. Bonvolu provi denove. ",
+    "forigita": "Kontakto forigita.",
+    "forigoMalsukcesis": "Malsukcesis forigi kontakton. Bonvolu provi denove.",
+    "aliasoĜisdatigita": "Aliaso ĝisdatigita.",
+    "ĝisdatigiAliasonMalsukcesis": "Malsukcesis ĝisdatigi alian. Bonvolu provi denove.",
+    "elektiKontakton": "Elektu {{name}}",
+    "aliaso": "Aliaso",
+    "komenciBabiladon": "Komenci babiladon",
+    "mesaĝo": "Mesaĝo",
+    "forigi": "Forigi",
+    "forigiKontaktoAria": "Forigi kontakton",
+    "ŝarĝmalsukcesis": "Malsukcesis ŝargi kontaktojn. Bonvolu provi denove.",
+    "ŝargiPli": "Ŝargi pli",
+    "voki": "Voki",
+    "vokoKomenciĝis": "Vokante ĉi tiun numeron per via Chatforia numero…",
+    "vokoMalsukcesis": "Malsukcesis komenci vokon. Bonvolu provi denove."
+  },
+  "aldoniKontaktoModalo": {
+    "titolo": "Aldoni kontakton",
+    "phoneOrUsername": "Telefona numero aŭ uzantnomo",
+    "phoneOrUsernamePlaceholder": "ekz. +13018019227 aŭ juliannorton",
+    "alias": "Alinomo (nedeviga)",
+    "aliasPlaceholder": "e. g. Laboro, Panjo, Mike – Eŭropo",
+    "eniguTelefononAuxUzantnomon": "Enigu telefonan numeron aŭ uzantnomon.",
+    "serĉoDeUzantoMalsukcesis": "Serĉo de uzanto malsukcesis.",
+    "neeblasAldoniSinMem": "Vi ne povas aldoni vin mem kiel kontakton.",
+    "malsukcesisAldoni": "Malsukcesis aldoni kontakton.",
+    "aldoni": "Aldoni"
+  },
+  "startChatModal": {
+    "title": "Komencu konversacion",
+    "searchPlaceholder": "Serĉu nomon, uzantnomon aŭ telefonnumeron",
+    "messageThisPerson": "Sendu mesaĝon al ĉi tiu persono",
+    "contacts": "Kontaktoj",
+    "recentInteractions": "Lastatempaj interagoj",
+    "noContactsMatch": "Neniuj kontaktoj kongruas kun via serĉo.",
+    "noRecentInteractions": "Ankoraŭ neniuj lastatempaj interagoj.",
+    "nekonata": "Nekonata",
+    "interagotip": {
+      "mesaĝo": "Mesaĝo",
+      "voko": "Voko",
+      "video": "Video"
+    },
+    "rapida elektilo": "Rapida elektilo",
+    "al": "Al",
+    "nomo aŭ uzantnomo": "Enigu nomon, uzantnomon",
+    "nameUsernamePhoneEmail": "Enigu nomon, uzantnomon, telefonon aŭ retpoŝton…",
+    "startWithSelected": "Komencu babilejon kun la elektita",
+    "searchByUsernameOrPhone": "Serĉu laŭ uzantnomo aŭ telefono",
+    "search": "Serĉi",
+    "searchPrompt": " Enigu uzantnomon aŭ telefonon kaj premu Serĉi.",
+    "elektuElKontaktoj": "Aŭ elektu el kontaktoj",
+    "aldoniKontakto": "Aldoni kontakton",
+    "montri": "Montri",
+    "aldoni": "Aldoni",
+    "fermi": "Fermi",
+    "elektitaNombro": "{{count}} elektitaj ",
+    "elektiAlmenaŭUnu": "Elektu almenaŭ unu ricevanton.",
+    "konserviKontaktojnIndiko": "Enskriboj de telefono/retpoŝto estos disponeblaj post kiam vi konservos ilin kiel kontaktojn.",
+    "malsukcesaAmasaKomenco": "Malsukcesis komenci babilejon kun elektitaj ricevantoj.",
+    "neniujRezultoj": "Neniuj rezultoj",
+    "reĝimo": "Reĝimo",
+    "grupo": "Grupo",
+    " elsendo": "Elsendo",
+    "grupnomoLaŭVola": "Grupnomo (laŭvola)",
+    "unuaMesaĝoLaŭVola": "Unua mesaĝo (laŭvola sed rekomendata)",
+    "kreiGrupon": "Krei grupon",
+    "sendiElsendon": "Sendi elsendon"
+  },
+  "paĝoDeHomoj": {
+    "homoj": "Homoj",
+    "serĉo": "Serĉi",
+    "searchPlaceholder": "Serĉu konservitajn kontaktojn laŭ kromnomo, nomo, uzantnomo aŭ telefono",
+    "quickStart": "Rapida komenco",
+    "quickStartDesc": "Administru viajn kontaktojn kaj invitu amikojn.",
+    "importContacts": "Enportu viajn kontaktojn",
+    "import ": "Enporti",
+    "aldoniKontakto": "Aldoni kontakton",
+    "aldoni": "Aldoni",
+    "invitiAmikojn": "Inviti amikojn",
+    "invitiDesc": "Kunhavigu vian invitligilon por tuj komenci babili.",
+    "akiriLaAplikaĵon": "Akiri la aplikaĵon",
+    "akiriLaAplikaĵonDesc": "Restu en kontakto survoje per Chatforia por iOS kaj Android.",
+    "elŝuti": "Elŝuti",
+    "syncTip": "Konsilo: Viaj mesaĝoj restas sinkronigitaj inter la retejo kaj poŝtelefonoj.",
+    "filterSaved": "Filtri konservitajn kontaktojn",
+    "noContactsFound": "Neniuj kontaktoj trovitaj",
+    "focusSearch": "Koncentri serĉon",
+    "findOrAdd": "Trovi aŭ aldoni iun",
+    "searchByPhoneOrUsername": "Serĉu laŭ telefono / uzantnomo"
   },
   "profile": {
-    "title": "Uzanta Profilo",
+    "title": "Uzantprofilo",
     "preferredLanguage": "Preferata lingvo",
     "chooseLanguage": "Elektu lingvon",
     "mustLogin": "Vi devas ensaluti por vidi la agordojn.",
     "autoTranslate": "Aŭtomate traduki mesaĝojn",
-    "showOriginalWithTranslation": "Montri originalajn kaj tradukitajn mesaĝojn",
-    "showOriginalAndTranslation": "Show original alongside traduko",
+    "showOriginalWithTrans lation": "Montri originalajn kaj tradukitajn mesaĝojn",
+    "showOriginalAndTranslation": "Montri originalon apud traduko",
     "filterExplicit": "Filtri eksplicitan enhavon",
-    "aiReply": "AI respondi",
-    "enableReadReceipts": "Ebligi legokonfirmojn",
+    "aiReply": "IA-respondo",
+    "enableReadReceipts": "Aktivigi legkonfirmojn",
     "allowExplicitContent": "Permesi eksplicitan enhavon",
-    "disappearingMessages": "Ebligi malaperantajn mesaĝojn",
+    "disappearingMessages": "Aktivigi malaperantajn mesaĝojn",
     "autoDeleteSeconds": "Sekundoj ĝis aŭtomata forigo",
     "saveSuccess": "Agordoj konservitaj!",
-    "saveError": "Eraro: Could not save agordoj",
-    "avatarAlt": "Profila avataro",
-    "uploadAvatar": "Alŝuti novan avataron",
-    "avatarSuccess": "Avataro alŝutita!",
-    "avatarError": "Malsukcesis alŝuti avataron",
-    "avatarUpdated": "Avataro ĝisdatigita!",
-    "uploadingAvatar": "Alŝutante avataron…",
-    "noPrivateKey": "There is ne private ŝlosilo sur ĉi tiu aparato al export.",
-    "setBackupPassword": "Set a pasvorto al encrypt via rezervo:",
-    "backupDownloaded": "Encrypted rezervo downloaded.",
-    "exportFailed": "Ŝlosilo export malsukcesis",
-    "enterBackupPassword": "Enter la pasvorto por ĉi tiu rezervo:",
-    "importSuccess": "Private ŝlosilo imported al ĉi tiu aparato.",
-    "importFailed": "Malsukcesis al import ŝlosilo (incorrect pasvorto aŭ corrupt file).",
-    "keysRotated": "Nova ŝlosilo pair generated kaj publika ŝlosilo uploaded.",
-    "rotateFailed": "Malsukcesis al rotate ŝlosiloj.",
-    "security": "Sekureco",
-    "exportKey": "Rezervi Ĉifradan Ŝlosilon",
-    "importKey": "Restarigi Ĉifradan Ŝlosilon",
-    "rotateKeys": "Rotacii Ĉifradan Ŝlosilon",
-    "keyDisclaimer": "Via private ŝlosilo never leaves ĉi tiu aparato. Export a pasvorto-protected kopii al restarigi it sur another aparato.",
+    "saveError": "Eraro: Ne eblis konservi agordojn",
+    "avatarAlt": "Profila avatarbildo",
+    "alŝutiAvatarbildon": "Alŝuti novan avatarbildon",
+    "avatarbildaSukceso": "Avatarbildo alŝutita!",
+    "avatarEraro": "Malsukcesis alŝuti avataron",
+    "avatarAktualigita": "Avataro aktualigita!",
+    "alŝutasAvataron": "Alŝutas avataron…",
+    "neniuPrivataŜlosilo": "Ne estas privata ŝlosilo sur ĉi tiu aparato por eksporti.",
+    "agordiSekurkopianPasvorton": "Agordu pasvorton por ĉifri vian sekurkopion:",
+    "sekurkopioElŝutita": "Ĉifrita sekurkopio elŝutita.",
+    "exportFailed": "Eksportado de ŝlosilo malsukcesis",
+    "enterBackupPassword": "Enigu la pasvorton por ĉi tiu sekurkopio:",
+    "importSuccess": "Privata ŝlosilo importita al ĉi tiu aparato.",
+    "importFailed": "Malsukcesis importi ŝlosilon (malĝusta pasvorto aŭ difektita dosiero).",
+    "keysRotated": "Nova ŝlosilparo generita kaj publika ŝlosilo alŝutita.",
+    "ŝlosilrotacioMalsukcesis": "Malsukcesis rotacii ŝlosilojn.",
+    "sekureco": "Sekureco",
+    "eksportiŜlosilon": "Sekurkopio de la Ĉifra Ŝlosilo",
+    "enportiŜlosilon": "Restarigi la Ĉifran Ŝlosilon",
+    "rotaciiŜlosilojn": "Rotacii la Ĉifran Ŝlosilon",
+    "ŝlosilMalgarantio": "Via privata ŝlosilo neniam forlasas ĉi tiun aparaton. Eksportu pasvorte protektitan kopion por restarigi ĝin sur alia aparato.",
     "sectionProfile": "Profilo",
-    "phoneNumber": "Telefonnumero",
+    "phoneNumber": "Telefona numero",
     "appearance": "Aspekto",
     "soundSettings": "Sonoj",
     "disappearing": "Malaperantaj mesaĝoj",
-    "backupSync": "Rezervo & Sinkronigo",
-    "ai": "AI",
-    "accessibility": "Alirebleco",
-    "privacy": "Privateco",
-    "devices": "Ligitaj aparatoj",
-    "themeFreeNotice": "Vi’re sur Free—use la quick Sun/Moon options below. Upgrade al unlock more themes.",
-    "sunTheme": "Use Dawn etoso",
-    "moonTheme": "Use Moon (Midnight) etoso",
+    "backupSync": "Sekurkopio kaj Sinkronigo",
+    "ai": "IA",
+    "alirebleco": "Alirebleco",
+    "privateco": "Privateco",
+    "aparatoj": "Konektitaj aparatoj",
+    "senpaga-avizo": "Vi estas en la senpaga versio—uzu la rapidajn Sun/Lun opciojn sube. Ĝisdatigu por malŝlosi pli da temoj.",
+    "sunTheme": "Uzu Tagiĝan temon",
+    "moonTheme": "Uzu Lunan (Meznokta) temon",
     "sun": "Suno",
     "moon": "Luno",
-    "backupTitle": "Encrypted Rezervoj & Aparato Sinkronigo",
-    "openBackupTools": "Malfermi Rezervo Tools",
-    "backupDesc": "Back up via encryption ŝlosilo al securely restarigi via mesaĝoj sur another aparato.",
-    "privacyBlurEnabled": "Blur mesaĝoj by default",
-    "privacyBlurOnUnfocus": "Blur kiam aplikaĵo is unfocused",
+    "backupTitle": "Ĉifritaj Sekurkopioj & Aparata Sinkronigo",
+    "openBackupTools": " Malfermu ilojn por sekurkopio",
+    "backupDesc": "Sekurkopiu vian ĉifradŝlosilon por sekure restarigi viajn mesaĝojn sur alia aparato. ",
+    "privacyBlurEnabled": "Nubigu mesaĝojn defaŭlte",
+    "privacyBlurOnUnfocus": "Nubigu kiam la aplikaĵo estas neaktiva",
     "planSection": "Mia plano",
-    "planLoading": "Ŝargante vian planon…",
-    "planLoadFailed": "Malsukcesis ŝargi vian planon.",
-    "currentPlan": "Aktuala plano",
-    "planRenewsOn": "Renoviĝas je",
-    "freePlanCopy": "Vi’re sur la senpaga plano. Upgrade al unlock more funkcioj like rezervoj, extra numeroj, kaj altnivelaj privateco options.",
-    "upgradePlanCta": "Ĝisdatigi planon",
-    "changePlanCta": "Ŝanĝi planon",
-    "manageBilling": "Administri fakturadon",
-    "portalOpenFailed": "Could not malfermi fakturada portalo. Please provi denove.",
-    "holdToReveal": "Hold al reveal",
-    "notifyOnCopy": "Notify me if my mesaĝo is copied",
-    "loadFailed": "Malsukcesis al load profilo",
-    "followed": "Sekvita",
-    "followFailed": "Malsukcesis al follow",
-    "unfollowed": "Malsekvita",
-    "unfollowFailed": "Malsukcesis al unfollow",
-    "follow": "Sekvi",
-    "unfollow": "Malsekvi",
-    "followHint": "Their stories estos appear en via Following feed if they afiŝi kun audience Followers (aŭ Publika).",
-    "userNotFound": "Uzanto ne trovita",
-    "followsYou": "Sekvas vin",
-    "sectionCrashedTitle": "Sekcio malsukcesis ŝargi",
-    "sectionCrashedBody": "Something went wrong en ĉi tiu section.",
-    "forwarding": "Alidirektado de Vokoj kaj Tekstoj",
-    "callTextForwardingSection": "Alidirektado de Vokoj kaj Tekstoj",
-    "callTextForwardingTitle": "Voko kaj/aŭ Teksto Forwarding",
-    "callTextForwardingDescription": "Forward envenanta vokoj kaj texts al via verified telefono aŭ retpoŝto. Eliranta vokoj/texts povas show via Chatforia numero.",
-    "enableTextForwarding": "Ebligi tekstan alidirektadon",
-    "forwardTextsToPhone": "Alidirekti tekstojn al telefono",
-    "forwardTextsToEmail": "Alidirekti tekstojn al retpoŝto",
-    "destinationPhone": "Destination telefono (E.164)",
-    "destinationEmail": "Cela retpoŝto",
-    "enableCallForwarding": "Ebligi vokan alidirektadon",
-    "destinationPhoneForCalls": "Destination (E.164) por vokoj",
-    "aliasBridging": "Voko Forwarding (alinomo bridging)",
-    "quietHoursOptional": "Quiet Hours (nedeviga)",
+    "planLoading": "Ŝargas vian planon…",
+    "planLoadFailed": "Malsukcesis ŝargi vian planon. ",
+    "aktualaPlano": "Aktuala plano",
+    "planoRenoviĝasJe": "Renoviĝas je",
+    "senpagaPlanoKopio": "Vi estas sur la senpaga plano. Ĝisdatigu por malŝlosi pli da funkcioj kiel sekurkopioj, kromaj numeroj, kaj altnivelaj privatecaj opcioj.",
+    "ĝisdatigiPlanonCta": "Ĝisdatigi planon",
+    "ŝanĝiPlanonCta": "Ŝanĝi planon",
+    "administriFakturadon": "Administri fakturadon",
+    "portalOpenFailed": "Ne eblis malfermi la fakturan portalon. Bonvolu provi denove.",
+    "tenuPorMalkaŝi": "Tenu por malkaŝi",
+    "avertiPriKopio": "Averti min se mia mesaĝo estas kopiita",
+    "ŝarĝadoMalsukcesis": "Malsukcesis ŝargi profilon",
+    "sekvata": "Sekvata",
+    "sekviMalsukcesis": "Malsukcesis sekvi",
+    "malsekvata": "Malsekvata",
+    "malsekviMalsukcesis": "Malsukcesis malsekvi",
+    "sekvi": "Sekvi",
+    "malsekvi": "Malsekvi",
+    "sekv-indiko": "Iliaj rakontoj aperos en via sekvata fluo se ili afiŝas kun publiko Sekvantoj (aŭ Publika).",
+    "uzanto-ne-trovita": "Uzanto ne trovita",
+    "sekvas-vin": "Sekvas vin",
+    "sekcio-kraŝis-titolo ": "La sekcio malsukcesis ŝarĝi",
+    "sectionCrashedBody": "Io misfunkciis en ĉi tiu sekcio.",
+    "forwarding": "Voko- kaj Teksta Pludonado",
+    "callTextForwardingSection": "Voko- kaj Teksta Pludonado",
+    "callTextForwardingTitle": "Voko- kaj/aŭ Teksta Pludonado",
+    "callTextForwardingDescription": "Pludonu envenantajn vokojn kaj tekstmesaĝojn al via kontrolita telefono aŭ retpoŝto. Elirantaj vokoj/mesaĝoj povas montri vian Chatforia-numeron.",
+    "ebligiTekst-pluigon": "Ebligi tekst-pluigon",
+    "forwardTextsToPhone": "Pludonigu tekstmesaĝojn al telefono",
+    "forwardTextsToEmail": "Pludonigu tekstmesaĝojn al retpoŝto",
+    "destinationPhone": "Cel-telefono (E.164)",
+    "destinationEmail": "Cel-retpoŝto",
+    "enableCallForwarding": "Aktivigu alvok-pludonigon",
+    "destinationPhoneForCalls": "Destinacio (E.164) por vokoj",
+    "aliasBridging": "Vok-pluigo (aliasa pontado)",
+    "quietHoursOptional": "Silentaj horoj (nedeviga)",
     "startHour": "Komenca horo (0–23)",
     "endHour": "Fina horo (0–23)",
-    "reset": "Restarigi",
+    "reset": "Reagordi",
     "saveBtn": "Konservi",
-    "saveProfile": "Konservi profilon",
-    "saveForwarding": "Konservi alidirektadon",
-    "forwardSaved": "Alidirektaj agordoj konservitaj",
+    "saveProfile ": "Konservi profilon",
+    "saveForwarding": "Konservi plusendon",
+    "forwardSaved": "Plusendaj agordoj konservitaj",
     "forwardSaveFailed": "Malsukcesis konservi agordojn",
-    "errE164": "Enter a valid E.164 telefono (e.g., +15551234567).",
-    "errEmail": "Enter a valid retpoŝto.",
-    "errSmsDest": "Elekti at least one destination (telefono aŭ retpoŝto).",
-    "errQuietHours": "Quiet hours devas be between 0 kaj 23.",
-    "randomChat": "Hazarda Babilejo",
+    "errE164": "Enigu validan E.164-telefonon (ekz., +15551234567).",
+    "errEmail": "Enigu validan retpoŝton.",
+    "errSmsDest": "Elektu almenaŭ unu celon (telefono aŭ retpoŝto).",
+    "errQuietHours": "Silentaj horoj devas esti inter 0 kaj 23.",
+    "randomChat": "Hazarda babilado",
     "ageBand": "Via aĝintervalo",
     "ageBandPlaceholder": "Elektu vian aĝintervalon",
     "ageTeen": "13–17",
@@ -580,513 +641,1194 @@
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Ni only store an aĝo range (not via exact date de birth). Ĉi tiu is used al keep Random Babili pairings reasonable.",
-    "wantsAgeFilter": "Use aĝo-based matching en Random Babili",
-    "wantsAgeFilterDesc": "Kiam sur, ni provi al pair vi kun people en compatible aĝo ranges.",
-    "partnerAgeBands": "Who povas vi be matched kun?",
-    "partnerAgeBandsDesc": "Teens are always matched only kun other teens. Adults cannot be matched kun teens.",
-    "teenMatchingNote": "For safety, kontoj en la 13–17 aĝo range povas only be matched kun other 13–17 kontoj en Random Babili.",
-    "foriaRemember": "Let Ria remember things vi tell it",
-    "foriaRememberDesc": "Kiam ĉi tiu is sur, Foria povas use via past Random Babili conversations (just kun vi) al keep la conversation flowing. Vi povas turn ĉi tiu malŝaltita any time.",
-    "voicemailSection": "Voĉpoŝto",
-    "voicemailEnabled": "Ebligi voĉpoŝton",
-    "voicemailAutoDeleteDays": "Aŭtomata-forigi voicemails after (days)",
-    "voicemailAutoDeletePlaceholder": "Leave malplena al keep forever",
-    "voicemailForwardEmail": "Forward voĉpoŝto al retpoŝto",
-    "voicemailForwardEmailPlaceholder": "Retpoŝto al sendi voĉpoŝto notifications al",
-    "voicemailGreetingText": "Teksto fallback greeting",
-    "voicemailGreetingTextDesc": "Used kiam via sono greeting is unavailable.",
-    "voicemailGreetingUpload": "Alŝuti voĉpoŝto greeting",
-    "voicemailPreviewGreeting": "Antaŭaŭskulti salutmesaĝon",
-    "voicemailGreetingUploaded": "Voĉpoŝto greeting uploaded successfully",
-    "voicemailGreetingUploadError": "Malsukcesis al alŝuti voĉpoŝto greeting",
-    "voicemailNote": "Voicemails de via Chatforia numeroj estos be stored en via Voĉpoŝto inbox. Vi povas ebligi transcription kaj forwarding en supported planoj.",
-    "portHint": "Want al keep via aktuala numero? Vi povas port it into Chatforia Sendrata.",
+    "ageBandHint": "Ni konservas nur aĝintervalon (ne vian precizan naskiĝdaton). Tio estas uzata por teni la parigojn en Hazarda Babilejo raciaj.",
+    "wantsAgeFilter": "Uzu aĝ-bazitan parigon en Hazarda Babilejo",
+    "wantsAgeFilterDesc": "Kiam ŝaltita, ni provas parigi vin kun homoj en kongruaj aĝintervaloj.",
+    "partnerAgeBands": "Kun kiuj vi povas esti parigita?",
+    "partnerAgeBandsDesc": "Adoleskantoj ĉiam estas parigitaj nur kun aliaj adoleskantoj. Plenkreskuloj ne povas esti parigitaj kun adoleskantoj.",
+    "teenMatchingNote": "Por sekureco, kontoj en la aĝintervalo de 13–17 jaroj povas esti parigitaj nur kun aliaj kontoj de 13–17 jaroj en Hazarda Babilejo.",
+    "foriaRemember": "Lasu Ria memori aferojn, kiujn vi diras al ĝi",
+    "foriaRememberDesc": "Kiam ĉi tio estas ŝaltita, Foria povas uzi viajn pasintajn konversaciojn en Hazarda Babilejo (nur kun vi) por fluligi la konversacion. Vi povas malŝalti ĉi tion iam ajn.",
+    "voicemailSection": "Voĉmesaĝujo",
+    "voicemailEnabled": "Aktivigi voĉmesaĝojn",
+    "voicemailAutoDeleteDays": "Aŭtomate forigi voĉmesaĝojn post (tagoj)",
+    "voicemailAutoDeletePlaceholder": "Lasu malplena por konservi por ĉiam",
+    "voicemailForwardEmail": "Pludon voĉmesaĝojn al retpoŝto",
+    "voicemailForwardEmailPlaceholder": "Retpoŝto por sendi vo icemail-avizojn al",
+    "voicemailGreetingText": "Teksta rezerva salutmesaĝo",
+    "voicemailGreetingTextDesc": "Uzata kiam via son-saluto ne disponeblas.",
+    "voicemailGreetingUpload": "Alŝuti voĉmesaĝan saluton",
+    "voicemailPreviewGreeting": "Antaŭrigardi saluton",
+    "voicemailGreetingUploaded": "Voĉmesaĝa saluto sukcese alŝutita",
+    "voicemailGreetingUploadError": "Malsukcesis alŝuti voĉmesaĝan saluton",
+    "voicemailNote": "Voĉmesaĝoj de viaj Chatforia-numeroj estos konservitaj en via Voĉmesaĝa enirkesto. Vi povas ebligi transskribon kaj plusendon en subtenataj planoj.",
+    "portHint": "Ĉu vi volas konservi vian nunan numeron? Vi povas porti ĝin al Chatforia Wireless.",
     "wireless": {
-      "manage": "Administri sendrata"
+      "manage": "Administri senfadenan konekton"
     },
     "esim": {
       "title": "Chatforia eSIM",
-      "desc": "Get poŝtelefono datumoj por Chatforia kiam vi’re away de Wi-Fi.",
-      "cta": "Akiri eSIM / Montri QR"
+      "desc": "Akiru poŝtelefonan datuman konekton por Chatforia kiam vi estas for de Wi-Fi.",
+      "cta": "Akiiri eSIM / Montri QR-kodon"
     },
-    "encryptedBackupsTitle": "Encryption Ŝlosilo Rezervo"
+    "encryptedBackupsTitle": "Sekureca Kopio de Ĉifra Ŝlosilo"
   },
-  "wireless": {
-    "title": "Chatforia Sendrata",
-    "description": "Administru vian poŝtelefonan planon de Chatforia, numerojn, alidirektadon kaj numerportadon.",
-    "options": {
-      "heading": "Elektu kiel vi volas uzi Chatforia",
-      "subheading": "Vi povas get a nova Chatforia numero, aŭ bring via existing numero de another carrier.",
-      "newNumber": "Akiri novan Chatforia-numeron",
-      "portNumber": "Porti vian aktualan numeron al Chatforia Sendrata"
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunsubiro",
+    "solarized": "Solarizita",
+    "velvet": "Veluro"
+  },
+  "sonoj": {
+    "sonsignaloj": "Sonsignaloj",
+    "resetado-al-normaj": "Resetado al normaj valoroj",
+    "libera-avizo-komenco": "Vi estas en la senpaga versio — premiumaj tonoj estas montrataj sed ŝlositaj. ",
+    "libera-avizo-fino": " por malŝlosi ĉion.",
+    "messageTone": "Mesaĝa tono",
+    "ringtone": "Sonorilo",
+    "preview": "Antaŭvido",
+    " ĉesigi": "Ĉesigi",
+    "volumeno": "Volumeno",
+    "konsileto_mesaĝtonaj_dosieroj": "Metu dosierojn en /public/sounds/Message_Tones",
+    "konsileto_sonaj_dosieroj": "Metu dosierojn en /public/sounds/Ringtones",
+    "postulas_premiumon": "Por tiu elekto necesas abono.",
+    "konservita": "Sonagordoj konservitaj.",
+    "konservomalsukceso": "Ne eblis konservi la sonagordojn.",
+    "restarigoNeKonservita": "Restarigi al defaŭltoj (ankoraŭ ne konservita).",
+    "premiumTono": "Tio estas Premium-tono.",
+    "premiumTintono": "Tio estas Premium-tintono.",
+    "propra ComingSoon": "Propraj son-alŝutoj baldaŭ haveblos.",
+    "freeNotice": "Vi estas en la senpaga versio — premiumaj tonoj estas montrataj sed ŝlositaj. Ĝisdatigu por malŝlosi ĉion.",
+    "default": "Normala",
+    "vibrate": "Vibri",
+    "dreamer": "Revulo",
+    "notify": "Sciigi",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsanta Sono",
+    "textMessage": "Teksta Mesaĝo",
+    "ksilofono": "Ksilofono",
+    "klasika": "Klasika",
+    "urĝeco": "Urĝeco",
+    "sonoriloj": "Sonoriloj",
+    "klingoj": "Klingoj",
+    "ciferecofono": "Cifereca Telefono",
+    "melodia": "Melodia",
+    "orgelnotoj": "Orgenaj Notoj",
+    "sonRealeco": "Sonrealeco",
+    "strato": "Strato",
+    "universkampo": "Universkampo"
+  },
+  "AI-Agordoj": {
+    "titolo": "Agordoj de IA",
+    "controlIntro": "Kontroli tradukon, inteligentajn respondojn kaj aŭtomatajn respondojn de ForiaBot.",
+    "translation": "Traduko",
+    "autoTranslateIncoming": "Aŭtomate traduki envenantajn mesaĝojn",
+    "showOriginalAlongside": "Montri la originalan tekston apud la traduko",
+    "smartReplies": "Inteligentaj respondoj ",
+    "ŝaltiInteligentajnRespondojn": "Ŝalti Inteligentajn Respondojn",
+    "indikoPorInteligentajRespondoj": "Sendu la lastajn kelkajn ricevitajn mesaĝojn (purigitajn) al la IA por sugesti rapidajn respondojn.",
+    "maskiMaldecajnVortojn": "Maski maldecajn vortojn en IA-sugestoj",
+    "indikoPorMaskiMaldecajnVortojn": "Se ŝaltita, sugestoj redonitaj de la IA havos markitajn vortojn maskitajn ",
+    "foriaBot": "ForiaBot Aŭtomata Respondilo",
+    "enableAutoReply": "Aktivigi aŭtomatan respondon kiam mi estas okupata",
+    "autoReplyMode": "Aŭtomata responda reĝimo",
+    "cooldownSeconds": "Malvarmiga tempo (sekundoj)",
+    "subskribo": "Subskribo",
+    "aŭtrepondo": "🤖 Aŭtrepondo",
+    "aktivaĜisLaŭvola": "Aktiva ĝis (laŭvola)",
+    "konservi": "Konservi AI-agordojn",
+    "konservita": "AI-preferoj konservitaj",
+    "konservomalsukcesis": " Malsukcesis konservi AI-agordojn",
+    "translateOff": "Malŝaltita",
+    "translateTagged": "Nur kiam @translated aŭ etikedita",
+    "translateAll": "Traduki ĉiujn envenantajn mesaĝojn ",
+    "modeDm": "Nur 1:1 babiladoj",
+    "modeMention": "Nur kiam mi estas @menciita",
+    "modeAll": "Ĉiuj envenantaj mesaĝoj",
+    "off": "Malŝaltita",
+    "on": "Ŝaltita"
+  },
+  "alireblecajAgordoj": {
+    "titolo": "Alirebleco & Avertoj",
+    "ŝargadoMalsukcesis": "Malsukcesis ŝargi agordojn",
+    "accessibilityDesc": "Opcioj por igi Chatforia pli facile uzebla sen dependi de sono.",
+    "interfaceFontSize": "Interfaca tipargrandeco",
+    "interfaceFontSizeHelp": "Komenciĝas je normala grandeco. Pligrandigu se vi preferas pli grandan tekston.",
+    "notifications": "Notoj",
+    "visualAlerts ": "Vidaj atentigoj por mesaĝoj kaj vokoj",
+    "visualAlertsDesc": "Montras banerojn kaj titolon, kiuj fulmas, por ke vi ne maltrafu aktivecon.",
+    "vibrateOnNewShort": "Vibrado ĉe novaj mesaĝoj (kiam subtenata)",
+    "vibrateOnNewDesc": "Ekbruligu la vibrilon de la aparato per sciigoj.",
+    "flashOnCallShort": "Fulmbrilo de la ekrano ĉe envenanta voko",
+    "flashOnCallDesc": "Mallonga hela fulmo kiam voko sonas.",
+    "liveCaptionsTitle ": "Vivaj subtekstoj (vokoj)",
+    "enableLiveCaptions": "Aktivigi vivajn subtekstojn dum vokoj (Premio)",
+    "liveCaptionsDesc": "Montri realtempajn subtekstojn el la aŭdio de la alia partoprenanto.",
+    "captionFontSize": "Grandeco de subteksta tiparo",
+    "captionBackground": "Fono de subteksto",
+    "voiceNotes": "Voĉnotoj",
+    "autoTranscribeVoice Notoj": "Aŭtomate transskribi voĉnotojn",
+    "autoTranscribeVoiceNotesDesc": "Aldoni transskribon al aŭdaj mesaĝoj, kiujn vi ricevas.",
+    "changesSavedInstantly": "Ŝanĝoj estas konservataj tuj.",
+    "sm": "Malgranda",
+    "md": "Meza",
+    "lg": "Granda",
+    "xl": " Ekstrema",
+    "hela": "hela",
+    "malhela": "malhela",
+    "travidebla": "travidebla",
+    "alirebleco": "alirebleco",
+    "notificationsDesc": "Vidaj atentigoj por mesaĝoj kaj vokoj\nMontras banner-ojn kaj titolon, kiuj fulmas por ke vi ne maltrafu aktivecon.",
+    "vibrateOnNew": "Vibru ĉe novaj mesaĝoj (kiam subtenate)\nEkbruligu la vibron de la aparato per sciigoj.",
+    "flashOnCall": "Ekrano fulmanta ĉe envenanta voko\nMallonga hela fulmo kiam voko sonas.",
+    "vivajSubtekstoj": "Vivaj subtekstoj (vokoj)"
+  },
+  "sekcioprivateco": {
+    "striktaE2E": "Strikta de-al-de-ĉifrado",
+    "notoCifertekstoNur": "Stoki nur cifertekston sur la servilo. Malŝaltas IA/ Tradukaj kaj moderigaj antaŭvidoj.",
+    "striktaE2EEAktivigita": "Strikta E2EE aktivigita. AI/Traduko estos malaktivigita.",
+    "striktaE2EEMalaktivigita": "Strikta E2EE malaktivigita. AI/Traduko reaktivigita."
+  },
+  "paneloDeLigitajAparatoj": {
+    "titolo": "Ligitaj aparatoj",
+    " nonefound": "Neniuj ligitaj aparatoj trovitaj.",
+    "refresh": "Rifreŝigi",
+    "unknown": "Nekonata",
+    "loadFailed": "Malsukcesis ŝargi ligitajn aparatojn",
+    "loadFailedLog": "Malsukcesis ŝargi ligitajn aparatojn",
+    "renamePrompt": "Enigu novan nomon por ĉi tiu aparato",
+    "renamed": "Aparato renomita",
+    "renameFailed": " Ne eblis renomi la aparaton",
+    "revokita": "Aparato revokita",
+    "revokfiasko": "Ne eblis revoki la aparaton",
+    "sen-noma-aparato": "Sen-noma aparato",
+    "primara": "Primara",
+    "revokita-stato": "Revokita",
+    "aldonita-lastevidita": "Aldonita {{created}} • Laste vidita {{lastSeen}}",
+    " renameDevice": "Renomu aparaton",
+    "revokeDevice": "Revoku aparaton"
+  },
+  "sendrata": {
+    "titolo": "Chatforia Sendrata",
+    "priskribo": "Administru vian Chatforia-poŝtelefonan planon, numerojn, plusendadon kaj numeran portadon.",
+    "opcioj": {
+      "titolo": "Elektu kiel vi volas uzi Chatforia-n",
+      "subtitolo": "Vi povas akiri novan Chatforia-numeron, aŭ alporti vian ekzistantan numeron de alia provizanto.",
+      "novaNumero": "Akiru novan Chatforia-numeron",
+      "portNumber": "Portu vian nunan numeron al Chatforia Wireless"
     },
     "port": {
-      "heading": "Porti vian ekzistantan numeron",
-      "subheading": "Move via aktuala telefonnumero de via existing carrier into Chatforia. Make sure la details match via carrier konto exactly al avoid delays.",
+      "heading": "Portu vian ekzistantan numeron",
+      "subheading": "Movu vian nunan telefonnumeron de via nuna provizanto al Chatforia. Certigu, ke la detaloj precize kongruas kun via konto ĉe la provizanto por eviti prokrastojn.",
       "phoneNumberLabel": "Telefonnumero por porti",
       "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "Aktuala portanto",
-      "carrierPlaceholder": "Verizon, AT&T, T-Poŝtelefono, etc.",
-      "accountNumberLabel": "Kontonumero",
-      "pinLabel": "Port-out PIN / pasvorto",
+      "carrierLabel": "Nuna provizanto",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, ktp.",
+      "accountNumberLabel": "Konta numero",
+      "pinLabel": "PIN-kodo por forportado / pasvorto",
       "fullNameLabel": "Plena nomo en la konto",
       "address1Label": "Adreslinio 1",
-      "address2Label": "Address line 2 (nedeviga)",
+      "address2Label": "Adreslinio 2 (nedeviga)",
       "cityLabel": "Urbo",
-      "stateLabel": "Ŝtato / Provinco",
-      "postalCodeLabel": "Poŝtkodo",
-      "countryLabel": "Lando",
-      "submitButton": "Sendi portpeton",
-      "success": "Port request submitted! Ni’ll keep vi updated.",
-      "genericError": "Io misfunkciis."
+      "stateLabel ": "Ŝtato / Provinco",
+      "etikedoPorPoŝtkodo": "Poŝtkodo",
+      "etikedoPorLando": "Lando",
+      "butonoPorSubmeti": "Submeti portpeton",
+      "sukceso": "Portpeto submetita! Ni informos vin.",
+      "ĝeneralaEraro": "Io misfunkciis."
     },
-    "status": {
-      "heading": "Stato de portado",
-      "subheading": "Track la stato de via numero port requests.",
-      "loading": "Ŝargante…",
-      "loadError": "Malsukcesis al load port requests.",
-      "none": "Ne porting agado yet.",
-      "pending": "Atendas revizion",
-      "submitted": "Sendita al portanto",
-      "inProgress": "En progreso",
-      "completed": "Kompletigita",
-      "failed": "Malsukcesis",
-      "canceled": "Nuligita",
-      "created": "Kreita:",
-      "scheduled": "Planita:",
-      "completedAt": "Kompletigita:"
+    "statuso": {
+      "titolo": " Porta statuso",
+      "subkaplinio": "Spuru la statuson de viaj petoj pri numero-portado.",
+      "ŝarĝado": "Ŝarĝado…",
+      "ŝarĝeraro": "Malsukcesis ŝargi la petojn pri numero-portado.",
+      "neniu": "Neniu porta aktiveco ankoraŭ.",
+      "prilaborata": "Prilaborata",
+      "submetita": "Submetita al la provizanto",
+      "enProgreso": "En progreso",
+      "kompletigita": "Kompletigita",
+      "malsukcesa": "Malsukcesa",
+      "nuligita": "Nuligita",
+      "kreita": "Kreita:",
+      "planita": "Planita:",
+      "kompletigitaJe": "Kompletigita:"
     },
-    "dataLow": "Via datumoj is running low.",
-    "topUp": "Top up nun",
-    "expiresIn": "Expires en {{days}} days",
-    "exhausted": "Via datumoj has run out. Aĉeti a nova pack al daŭrigi using poŝtelefono datumoj.",
-    "buyPack": "Aĉeti datumpakaĵo",
-    "esimPackLabel": "eSIM-pakaĵo"
+    "datumojMalpleniĝas": "Viaj datumoj malpleniĝas.",
+    "aldono": "Aldonu nun",
+    "eksvalidiĝasPost": "Eksvalidiĝas post {{tage}} tagoj",
+    "elĉerpiĝis": "Viaj datumoj elĉerpiĝis. Aĉetu novan pakaĵon por daŭre uzi poŝtelefonajn datumojn.",
+    "aĉetiPakaĵon": "Aĉeti datum-pakaĵon",
+    "e imPackLabel": "eSIM-pako"
   },
-  "family": {
-    "title": "Familio",
-    "loading": "Ŝargante via familio details…",
-    "error": {
-      "load": "Malsukcesis al load familio details.",
-      "invite": "Could not krei an inviti. Make sure vi are la familio owner kaj provi denove.",
-      "checkout": "Ni could not start checkout por a Familio plano. Please provi denove."
+  "phoneNumberManager": {
+    "elektiNumeron": "Elektu numeron",
+    "telefonaNumero": "Telefona numero",
+    "haveblaNumero": "Havebla numero",
+    "premium-Numero": "Premium-numero 🔒",
+    "indiko-pri-senpaga-numero": "Senpaga numero, kiu eble estos recikligita post neaktiveco.",
+    "indiko-pri-premium-numero": "Konservu vian numeron dum via Premium-abono estas aktiva.",
+    "lando": "Lando",
+    "areokodo": "Areokodo",
+    "areokoda-lokilo": "ekz., 415",
+    "kapablo": "Kapablo",
+    "serĉo": "Serĉo",
+    "ŝlosiĈiTiunNumeron": "Ŝlosi ĉi tiun numeron (semajna aldonaĵo, baldaŭ)",
+    "premiumProtectedHint": "Premiaj numeroj estas protektitaj kontraŭ reciklado dum via Premium-abono estas aktiva.",
+    "haveblajNumeroj": "Haveblaj numeroj",
+    "serĉaIndiko": "Enigu 3-ciferan areokodon (nur por Usono/Kanado), aŭ lasu malplena, poste serĉu.",
+    "konservi": "Konservi",
+    "elekti": "Elekti",
+    "unueAsigniNumeron": "Unue asignu numeron.",
+    "premium-Konserva-Funkcio": "Konservi vian numeron estas Premium-funkcio.",
+    "premium-Serura-Funkcio": "Seruri numerojn estas Premium-funkcio.",
+    "numeroAsignita": "Numero asignita. ",
+    "numeroProtektitaNun": "Via numero nun estas protektita.",
+    "numeroProtektita": "Numero protektita.",
+    "numeroNeprotektita": "Numero neprotektita.",
+    "numeroLiberigita": "Numero liberigita.",
+    "nePovisŜargiNumerojn": "Ne eblis ŝargi numerojn.",
+    "couldNotAssign": "Ne eblis asigni tiun numeron. Ĝi eble ĵus estis prenita—provu alian.",
+    "couldNotLease": "Ne eblis lui tiun numeron. Ĝi eble ĵus estis prenita—provu alian.",
+    "couldNotProtectNow": " Ne eblis protekti vian numeron nun.",
+    "couldNotProtect": "Ne eblis protekti la numeron.",
+    "couldNotUnprotect": "Ne eblis malprotekti la numeron.",
+    "couldNotRelease": "Ne eblis liberigi la numeron.",
+    "invalidAreaCode": "Bonvolu enigi 3-ciferan areokodon (ekz., 415) aŭ lasu malplena.",
+    "neniuStoko": "Neniu disponebla stoko nun.",
+    "neniajLiberajNumeroj": "Neniuj liberaj numeroj disponeblas nun.",
+    "neniuStokoAreokodo": "Neniu disponebla stoko por tiu areokodo nun.",
+    "neniajLiberajNumerojAreokodo": "Neniuj liberaj numeroj en nia aro por tiu areokodo nuntempe.",
+    "releaseConfirm": "Liberigi vian nunan numeron? Ĝi eble estos asignita al iu alia.",
+    "unprotect": "Malprotekti",
+    "keepThisNumber": "Konservi ĉi tiun numeron",
+    "anstataŭigi": "Anstataŭigi",
+    "liberigi": "Liberigi",
+    "aktiva": "Aktiva",
+    "neniu numero": "Neniu numero",
+    "premium-funkcio": "Premium-funkcio",
+    "protektiVianNumeron": "Protekti vian numeron",
+    "protected": "Protektita",
+    "notProtected": "Ne protektita",
+    "expiresInShort": "Eksvalidiĝas post {{count}}",
+    "eksvalidiĝasEnTagojPlena": "Eksvalidiĝas post {{count}} tago",
+    "baldaŭeksvalidiĝanta": "Baldaŭeksvalidiĝanta{{suffix}}",
+    "renoviĝasJe": "Renoviĝas {{date}}",
+    "avizoPriLiberigo": "Via numero eble estos liberigita post {{count}} tago. Ĝisdatigu al Premium por teni ĝin protektita. ",
+    "elektuNumeronIndiko": "Elektu Chatforian numeron por uzi por mesaĝado kaj komunikado ene de la aplikaĵo.",
+    "nekapablaŜargiStaton": "Ne eblas ŝargi la staton de la telefonnumero.",
+    "ŝlosi": "Ŝlosi",
+    "neniuNumeroAsignita": "Neniu numero asignita. Elektu unu laŭ areokodo por komenci tekstumi."
+  },
+  "dialilo": {
+    "titolo": "Vokoj",
+    "subtitolo": "Telefona klavaro kaj lastatempaj vokoj. (Se vi ne uzas la PSTN-reton, komencu vokojn el konversacia kaplinio.)",
+    "enigiNumeron": "Enigu numeron",
+    "enterNumberAria": "Enigu numeron",
+    "resolving": "Solvas la celon de la voko…",
+    "call": "Voki",
+    "callBrowser": "Voki per retumilo",
+    "backspace": "Reen",
+    "recents": "Lastatempaj vokoj",
+    "noRecents": "Ankoraŭ neniuj lastatempaj vokoj.",
+    "solvoMalsukcesa": "Ne eblis solvi la celon de la voko.",
+    "vokoPostulasNumeron": "Vi bezonas numeron de Chatforia antaŭ ol fari telefonvokojn.",
+    "vokoMalsukcesa": "Ne eblis fari la vokon.",
+    "konfirmi-forigon": "Forigi ĉi tiun vokon el la lastatempaj?",
+    "forigo-malsukcesis": "Ne eblis forigi la vokon.",
+    "forigo-malsukcesa-protokolo": "Malsukcesis forigi la vokon",
+    "elsenda": "Elsenda",
+    "envenanta": "Envenanta",
+    "maltrafita": "Maltrafita",
+    "rifuzita": "Rifuzita",
+    "malsukcesa": "Malsukcesa",
+    "completed": "Finkompletigita",
+    "outgoingCall": "Ekstera Voko",
+    "incomingCall": "Envenanta Voko",
+    "voicemail": "Voĉpoŝto",
+    "callAria": "Voko {{name}}",
+    "deleteAria": "Forigi vokon kun {{name}}",
+    "eniguNumeronPh": "Enigu numeron",
+    "neniujLastaj": "Neniuj lastatempaj vokoj ankoraŭ.",
+    "ŝlosilo": "Ŝlosilo {{d}}"
+  },
+  "vokhistorio": {
+    "titolo": "Vokoj",
+    "subteksto": "Viaj lastatempaj envenantaj kaj elirantaj vokoj.",
+    "ŝarĝmisa": "Ne eblis ŝargi la vokhistorion.",
+    "loadFailedTitle": "Ne eblis ŝargi la vokhistorion",
+    "emptyTitle": "Ankoraŭ neniuj vokoj",
+    "emptySubtitle": "Viaj lastatempaj vokoj aperos ĉi tie.",
+    "elsendita": "Elsendita",
+    "envenanta": "Envenanta",
+    "maltrafita": "Maltrafita",
+    "rifuzita": "Rifuzita",
+    "malsukcesa": "Malsukcesa",
+    "plenumita": "Plenumita",
+    "elsenditaVoko": "Elsendita Voko",
+    "envenantaVoko": "Envenanta Voko",
+    "voĉmesaĝo": "Voĉmesaĝo"
+  },
+  "video": {
+    "ĉefo": {
+      "titolo": "Video",
+      "subteksto": "Elektu videotipon."
     },
-    "billing": {
-      "myPlanTitle": "Mia plano",
-      "myPlanError": "Unable al load via plano.",
-      "myPlanLoading": "Ŝargante vian planon…",
-      "currentPlan": "Aktuala plano",
-      "renewsAt": "Renoviĝas je",
-      "freePlanCopy": "Vi’re sur la senpaga plano. Upgrade al unlock more funkcioj.",
-      "upgradeCta": "Ĝisdatigi planon",
-      "changePlanCta": "Ŝanĝi planon",
-      "manageBilling": "Administri fakturadon",
-      "portalError": "Unable al malfermi la fakturada portalo right nun.",
-      "cancelNow": "Nuligi nun",
-      "cancelNowHelp": "Vi povas administri aŭ nuligi via subscription en la fakturada portalo, aŭ nuligi immediately below.",
-      "cancelNowConfirm": "Are vi sure vi want al nuligi via plano immediately? Ĉi tiu cannot be undone.",
-      "cancelNowError": "Unable al nuligi via plano right nun. Please provi denove aŭ use Administri fakturadon."
+    "rekta": {
+      "titolo": "Rekta Video",
+      "subteksto": "Komencu 1:1 videovokon kun alia uzanto.",
+      "desc": "1:1 kameraa voko kun alia uzanto.",
+      "start": "Komenci",
+      "callBtn": "Voki",
+      "callByPhone": {
+        "title": "Voki per telefono"
+      },
+      "phone": {
+        "placeholder": "Enigu telefonon (ekz., +1-555-123-4567)",
+        "aria": "Telefono por voki"
+      },
+      "tipInvite": "Konsilo: Algluu numeron kaj voku sen konservi kontakton. Ni invitos neuzantojn per ligilo.",
+      "findUser": {
+        "title": "Trovi uzanton"
+      },
+      "search": {
+        "placeholder": " Serĉu laŭ nomo aŭ uzantnomo",
+        "aria": "Serĉu laŭ nomo aŭ uzantnomo",
+        "btn": "Serĉi"
+      }
     },
-    "none": {
-      "title": "Ne familio set up yet",
-      "body": "To krei a Chatforia Familio kaj kunhavita datuma aro, start a Familio plano.",
-      "goUpgrade": "Start a Familio plano",
-      "viewPlans": "Vidi ĉiuj planoj"
+    "ĉambroj": {
+      "titolo": "Ĉambroj",
+      "subteksto": "Kreu ĉambron aŭ aliĝu al ekzistanta per tajpado de la sama nomo.",
+      "desc": "Multpartia video uzante komunan ĉambran nomon.",
+      "roomLabel": "Ĉambra nomo",
+      " roomPlaceholder": "ekz. team-standup",
+      "roomAria": "Nomo de ĉambro",
+      "joinCreate": "Aliĝi / Krei",
+      "tip": "Konsilo: kunhavigu ĉi tiun nomon kun aliaj, aŭ rekte aligu al ĝi"
     },
-    "group": {
-      "defaultName": "My Chatforia Familio",
-      "role": "Via role: {{role}}"
-    },
-    "role": {
-      "owner": "Posedanto",
-      "member": "Membro"
-    },
-    "data": {
-      "heading": "Kunhavita datumoj pool",
-      "caption": "Ĉiuj members share ĉi tiu pool. Ni’ll warn vi as vi approach via limit."
-    },
-    "members": {
-      "title": "Familio members",
-      "name": "Nomo",
-      "role": "Rolo",
-      "usage": "Uzado",
-      "limit": "Limo",
-      "unlimited": "Neniu specifa limo",
-      "inviteCta": "Inviti member"
-    },
-    "invite": {
-      "title": "Inviti a nova member",
-      "body": "Sendi an retpoŝto aŭ link al inviti someone into via kunhavita familia datuma aro.",
-      "emailLabel": "Retpoŝto (nedeviga)",
-      "emailPlaceholder": "amiko@example.com",
-      "create": "Krei inviti",
-      "linkLabel": "Inviti link",
-      "copyAria": "Kopii inviti link",
-      "expiryHint": "Ĉi tiu link expires after a few days. Vi povas always krei a nova one."
-    },
-    "join": {
-      "title": "Join a familio",
-      "body": "Vi have been invited al join a Chatforia Familio kaj share their datumoj pool.",
-      "cta": "Accept kaj join familio",
-      "ctaLogin": "Ensaluti en kaj join familio",
-      "success": "Vi have joined ĉi tiu familio. Vi nun share their datumoj pool.",
-      "goFamily": "Go al familio dashboard",
-      "error": "Ni could not aldoni vi al ĉi tiu familio. La inviti may be invalid aŭ expired."
-    }
+    "title": "Video",
+    "chooseType": "Elektu videan tipon.",
+    "directTitle": "Rekta Video",
+    "directDesc": "1:1 kameraa voko kun alia uzanto.",
+    "directStart": "Komenci",
+    "roomsTitle": "Ĉambroj",
+    "roomsDesc": "Plurpartia video uzante komunan ĉambron.",
+    "ĉambroEnkonduko": "Aliĝu aŭ kreu plurpartian ĉambron.",
+    "ĉambraNomoEtikedo": "Ĉambra nomo",
+    "ĉambraNomoPh": "ekz. team-standup",
+    "aliĝi": "Aliĝi",
+    "profundaLigoKonsilo": "Konsilo: vi povas rekte ligi al <code>/video?room=ĉambro-nomo</code>."
+  },
+  "directVideo": {
+    "intro": "Komencu rektan 1:1 video-vokon.",
+    "findUserLabel": "Trovi uzanton",
+    "findUserPh": "Serĉi laŭ nomo aŭ uzantnomo",
+    "search": "Serĉi",
+    "call": "Voki"
+  },
+  "phoneWarning": {
+    "title": "Via numero baldaŭ eksvalidiĝos",
+    "body": "Via numero {{number} } baldaŭ eksvalidiĝos, krom se reaktivigita.",
+    "butono": "Konservi Mian Numeron"
   },
   "premium": {
-    "heading": "Iri al Premium",
-    "description": "Malŝlosu potencajn funkciojn kaj forigu reklamojn.",
+    "kaplinio": "Fariĝu Premium",
+    "priskribo": "Malŝlosu potencajn funkciojn kaj forigu reklamojn.",
     "cta": "Ĝisdatigi",
-    "upgrade": "Ĝisdatigi",
-    "upgradeAria": "Ĝisdatigi al Chatforia Premium"
+    "ĝisdatigo": "Ĝisdatigi",
+    "ĝisdatigoAria": "Ĝisdatigi al Chatforia Premium"
   },
   "upgrade": {
-    "title": "Ĝisdatigi",
-    "titleLoggedIn": "Ĝisdatigi",
-    "titlePublic": "Prezoj",
+    "title": "Plibonigi",
+    "titleLoggedIn": "Plibonigi",
+    "titlePublic": "Prezado",
     "h1": "Prezoj kaj Planoj de Chatforia",
-    "h1Subtitle": "Start kun our senpaga, ad-supported plano. Go ad-senpaga kun Plus, aŭ unlock full power funkcioj kun Premium.",
-    "subtitle": "Elekti an aplikaĵo plano, aldoni datumpakaĵos por yourself, aŭ share datumoj kun via familio — ĉiuj de one place.",
-    "subtitle.app": "Start kun our senpaga, ad-supported plano. Go ad-senpaga kun Plus, aŭ unlock full power funkcioj kun Premium.",
-    "subtitle.mobile": "Aldoni tutmonda eSIM datumoj so Chatforia keeps working even kiam vi’re away de Wi-Fi.",
-    "subtitle.family": "Krei a kunhavita datuma aro por via familio kaj administri everyone’s usage de one place.",
-    "perMonth": "monate",
-    "perYear": "jare",
-    "goPremium": "Iri al Premium",
+    "h1Subtitle": "Komencu per nia senpaga, reklam-subtenata plano. Forigu reklamojn per Plus, aŭ malŝlosu plenajn potencajn funkciojn per Premium.",
+    "subtitle": "Elektu aplikaĵan planon, aldonu datum-pakaĵojn por vi mem, aŭ kunhavigu datumojn kun via familio — ĉio el unu loko.",
+    "subtitle.app": "Komencu per nia senpaga, reklam-subtenata plano. Iĝu senreklama per Plus, aŭ malŝlosu plenpotencajn funkciojn per Premium.",
+    "subtitle.mobile": "Aldonu tutmondajn eSIM-datumojn, por ke Chatforia daŭre funkciu eĉ kiam vi estas for de Wi-Fi.",
+    "subtitle.family": "Kreu komunan datuman rezervujon por via familio kaj administru la uzadon de ĉiuj el unu loko.",
+    "perMonth": "mo",
+    "perYear": "year",
+    "goPremium": "Iru al Premium",
     "benefitsLine": "Malŝlosu potencajn funkciojn kaj forigu reklamojn.",
-    "ctaText": "Ĝisdatigi",
-    "aria": "Ĝisdatigi al Chatforia Premium",
-    "toggle": {
-      "monthly": "Monata",
-      "annual": "Jara (Ŝparu 30%)"
+    "ctaText": "Plibonigi",
+    "aria": "Plibonigi al Chatforia Premium",
+    "ŝaltilo": {
+      "monata": "Monata",
+      "jara": "Jara (Ŝparu 30%)"
     },
-    "scheduleBanner": {
-      "title": "Subscription estos end",
-      "body": "Vi’ll revert al Free sur",
-      "keepPlanCta": "Konservi {{plan}}",
+    "horaro-banner": {
+      "titolo": "La abono finiĝos",
+      "teksto": "Vi revenos al la senpaga plano je",
+      "daŭrigi-planon": "Daŭrigi {{plan}}",
       "manageBillingCta": "Administri fakturadon"
     },
     "billing": {
-      "opening": "Malfermante…",
-      "manage": "Administri Fakturadon"
+      "opening": "Malfermiĝas…",
+      "manage ": "Administri fakturadon"
     },
-    "checkout": {
-      "redirecting": "Redirektante…"
+    "kasregistro": {
+      "redirektanta": "Redirektanta…"
     },
-    "auth": {
-      "continue": "Daŭrigi al ensaluto",
-      "createAccount": "Krei konton",
-      "signIn": "Ensaluti"
+    "aŭtentikigo": {
+      "daŭrigi": "Daŭrigi al ensaluto",
+      "kreiKonton": "Krei konton",
+      "ensaluti": " Ensalutu"
     },
     "cta": {
-      "aria": "Elekti planon",
-      "getPlus": "Upgrade al Plus",
-      "upgradeMonthly": "Ĝisdatigi monate",
-      "upgradeAnnual": "Ĝisdatigi jare"
+      "aria": "Elektu planon",
+      "getPlus": "Plibonigi al Plus",
+      "upgradeMonthly": "Plibonigi monate",
+      "upgradeAnnual": "Plibonigi jare"
     },
     "section": {
-      "app": "Aplikaj planoj",
+      "app": "Planaj opcioj por aplikaĵo",
       "mobile": "Poŝtelefono (eSIM)",
       "family": "Familiaj planoj"
     },
-    "plans": {
-      "free": {
-        "title": "Senpaga",
-        "price": "$0",
-        "desc": "Start messaging por senpaga. Ideal if vi’re just trying Chatforia.",
-        "features": {
-          "chat": "Real-time 1:1 kaj group babili, plus voice kaj video vokoj",
-          "media": "Share photos, voice mesaĝoj, kaj short videos",
-          "ai": "AI-powered smart replies kaj instant traduko (fair use)",
-          "disappearing": "Disappearing mesaĝoj kaj baza privateco controls",
-          "ads": "Free forever kun ads en la aplikaĵo"
+    "planoj": {
+      "senpaga": {
+        "titolo": "Senpaga",
+        "prezo": "$0",
+        "priskribo": "Komencu mesaĝumi senpage. Ideala se vi nur provas Chatforia.",
+        "funkcioj": {
+          "babilado": "Real-tempa 1:1 kaj grupa babilado, plus voĉaj kaj videovokoj",
+          "media": "Kunhavigu fotojn, voĉmesaĝojn kaj mallongajn videojn",
+          "ai": "Inteligentaj respondoj kaj tuja tradukado per IA (justa uzo)",
+          "malaperantaj": "Malaperantaj mesaĝoj kaj bazaj privatecaj agordoj",
+          "anoncoj": "Senpaga por ĉiam kun anoncoj en la aplikaĵo"
         },
-        "ctaCurrent": "Aktuala plano",
-        "ctaManage": "Administri en fakturadon",
-        "ctaPublic": "Get started – daŭrigi al ensaluti",
-        "aria": "Free plano"
+        "ctaCurrent": "Nuna plano",
+        "ctaManage": "Administri en fakturado",
+        "ctaPublic": "Komencu – daŭrigu al ensaluto",
+        "aria": "Senpaga plano"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Ĉiuj la essentials, without ads. Great por everyday messaging kaj calling.",
-        "features": {
-          "allFree": "Everything en Free, kun ne ads",
-          "forwarding": "Forward vokoj kaj texts al via real telefonnumero",
-          "history": "Longer mesaĝo historio (up al 6 months)",
-          "support": "Faster subteno kiam something goes wrong"
+        "priskribo": "Ĉiuj necesaĵoj, sen reklamoj. Bonega por ĉiutaga mesaĝado kaj vokado.",
+        "trajtoj": {
+          "senpagaĈio": "Ĉio en la Senpaga plano, sen reklamoj",
+          "pludonado": "Pludonu vokojn kaj mesaĝojn al via vera telefonnumero",
+          "historio": "Pli longa mesaĝhistorio (ĝis 6 monatoj)",
+          "subteno": "Pli rapida subteno kiam io misfunkcias"
         },
-        "badge": "Populara",
-        "cta": "Iri sen reklamo",
-        "ctaPublic": "Get Plus – daŭrigi al ensaluti",
-        "aria": "Upgrade al Plus"
+        "insigno": "Populara",
+        "cta": "Iru senreklame",
+        "ctaPublic": "Akiru Plus – daŭrigu ensaluti",
+        "aria": "Ĝisdatigu al Plus"
       },
       "premiumMonthly": {
-        "title": "Premium (Monata)",
+        "title": "Premio (Monata)",
         "price": "$11.99",
-        "desc": "La full Chatforia experience: AI power tools, customization, kaj priority subteno.",
-        "features": {
-          "plusAll": "Everything en Plus",
-          "themes": "Unlock ĉiuj premium color themes kaj aplikaĵo customizations",
-          "ai": "Premium-only AI power tools por rewrites, smart replies, kaj summaries",
-          "support": "Priority subteno kiam vi need helpo most"
+        "desc": "La plena Chatforia sperto: AI-potencaj iloj, personigo kaj priorita subteno.",
+        "trajtoj": {
+          "plusĈio": "Ĉio en Plus",
+          "temo": "Malŝlosu ĉiujn altkvalitajn kolorajn temojn kaj aplikaĵajn agordojn",
+          "ai": "Nur-altkvalitaj AI-potenciloj por reverkoj, inteligentaj respondoj kaj resumoj",
+          "subteno": "Prioritata subteno kiam vi plej bezonas helpon"
         },
-        "badge": "Rekomendita",
-        "cta": "Ĝisdatigi (Monate)",
-        "ctaPublic": "Unlock Premium – daŭrigi al ensaluti",
-        "aria": "Upgrade al Premium Monthly"
+        "insigno": "Rekomendita",
+        "alvoko": "Ĝisdatigi (Monate)",
+        "ctaPublic": "Malŝlosi Premium – daŭrigu ensaluti",
+        "aria": "Ĝisdatigi al Premium Monata"
       },
-      "premiumAnnual": {
-        "title": "Premium (Jara)",
-        "price": "$99",
-        "desc": "Save more kiam billed yearly — including extra color themes, AI tools, kaj priority subteno.",
-        "features": {
-          "allPremium": "Everything en Premium Monthly — including extra color themes",
-          "annualBilling": "Fakturita unufoje jare",
-          "save25": "Save around 30% compared al paying monthly",
-          "bestFor": "Best por power uzantoj, remote workers, kaj heavy travelers"
+      "premiumJara": {
+        "titolo": "Premium (Jara)",
+        "prezo": "$99",
+        "priskribo": "Ŝparu pli kiam vi pagas jare — inkluzive de kromaj koloraj temoj, IA-iloj, kaj prioritata subteno.",
+        "trajtoj": {
+          "ĉiujPremium": "Ĉio en Premium Monata — inkluzive de kromaj koloraj temoj",
+          "annualBilling": "Pagendos unufoje jare",
+          "save25": "Ŝparu ĉirkaŭ 30% kompare kun monata pago",
+          "bestFor": "Plej bona por progresintaj uzantoj, telelaborantoj, kaj oftaj vojaĝantoj"
         },
         "badge": "Ŝparu 30%",
-        "cta": "Ĝisdatigi (Jare)",
-        "ctaPublic": "Save 30% kun annual – daŭrigi al ensaluti",
-        "aria": "Upgrade al Premium Annual",
-        "disclaimer": "Billed upfront. Nuligi anytime. Ne hidden fees."
+        "cta": "Plibonigi (Jara)",
+        "ctaPublic": "Ŝparu 30% per jara abono – daŭrigu ensaluti",
+        "aria": "Ĝisdatigu al Jara Premium",
+        "disclaimer": "Pagendas anticipe. Anstataŭigo eblas iam ajn. Neniuj kaŝitaj kostoj."
       }
     },
     "marketing": {
       "freeTitle": "Senpaga",
-      "freeDesc": "Start messaging por senpaga.",
+      "freeDesc": "Komencu senpage mesaĝumi.",
       "plusTitle": "Plus",
       "plusBadge": "Populara",
-      "plusDesc": "Most affordable ad-senpaga experience.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Full funkcioj, ringtones, kaj AI power tools.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Save more kiam billed yearly.",
-      "annualDisclaimer": "Billed upfront. Nuligi anytime. Ne hidden fees."
+      "plusDesc": "La plej malmultekosta senreklama sperto.",
+      "premiumMonthlyTitle": "Premia",
+      "premiumMonthlyDesc": "Plena funkcioj, sonoraj melodioj kaj AI-potencaj iloj.",
+      "premiumAnnualTitle": "Premio",
+      "premiumAnnualDesc": "Ŝparu pli kiam vi pagas jare.",
+      "annualDisclaimer": "Pagendas anticipe. Anuligu iam ajn. Neniuj kaŝitaj kostoj."
     },
     "mobile": {
-      "title": "Chatforia Poŝtelefono (eSIM datumpakaĵos)",
-      "subtitle": "Aldoni tutmonda datumoj al keep Chatforia working even without Wi-Fi. Prices automatically adjust based sur via lando kaj currency.",
-      "subtitle.detail": "Pick a one-time tutmonda datumpakaĵo so Chatforia keeps working kiam vi’re traveling aŭ away de Wi-Fi.",
+      "title": "Chatforia Mobile (eSIM-datumaj pakaĵoj)",
+      "subtitle": "Aldonu tutmondajn datumojn por ke Chatforia funkciu eĉ sen Wi-Fi. Prezoj aŭtomate alĝustiĝas laŭ via lando kaj valuto.",
+      " subtitle.detail": "Elektu unufojan tutmondan datuman pakaĵon por ke Chatforia daŭre funkciu kiam vi vojaĝas aŭ estas for de Vifio.",
       "scope": {
         "local": "Loka",
         "europe": "Eŭropo",
         "global": "Tutmonda"
       },
-      "note": "Ni don’t sell datumpakaĵos under 3 GB.",
       "localEquals": "Loka = {{country}}",
-      "localEqualsFallback": "Local = via aktuala lando",
+      "localEqualsFallback": "Loka = via nuna lando",
       "perPack": "/ pakaĵo",
-      "cta": "Get ĉi tiu datumpakaĵo",
-      "ctaPublic": "Get ĉi tiu datumpakaĵo",
+      "cta": "Akiru ĉi tiun datumpakaĵon",
+      "ctaPublic": "Akiru ĉi tiun datumpakaĵon",
       "checkout": {
         "redirecting": "Redirektante…"
       },
-      "unlimited": {
-        "features": {
-          "heavyUse": "High-speed datumoj por heavy use",
-          "throttle": "Rapidoj povas malrapidiĝi post alta uzado",
-          "coverage": "Fidinda kovrado",
-          "instant": "Tuja eSIM-aktivigo",
-          "noContract": "One-time pack, ne contract"
+      "senlima": {
+        "trajtoj": {
+          "pezaUzo": "Altrapida datumtransdono por peza uzo",
+          "limigo": "Altrapida datumtransdono submetita al politikoj pri justa uzo kaj reta administrado",
+          "kovrado": "Fidinda kovrado",
+          "tuja": "Tuja eSIM-aktivigo",
+          "senkontrakto": "Unufoja pakaĵo, sen kontrakto"
         }
       },
-      "disclaimer": {
-        "devices": "eSIM datumpakaĵos require an eSIM-compatible kaj malŝlosita aparato. Availability varies by telefono model, carrier, kaj lando. Coverage kaj speeds vary by region."
+      "malgarantio": {
+        "aparatoj": "eSIM-datumaj pakaĵoj postulas eSIM-kongruan kaj malŝlositan aparaton. Disponeblo varias laŭ telefona modelo, operatoro kaj lando. Kovrado kaj rapidoj varias laŭ regiono."
       },
-      "small": {
-        "title": "Komenca pakaĵo",
-        "desc": "Includes 3 GB de high-speed datumoj — ideal por light messaging kaj occasional vokoj.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Short trips, light messaging, kaj occasional vokoj",
-        "aria": "Aĉeti Starter eSIM datumpakaĵo"
+      "pakaĵoj": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "titolo": "{{scope}} 20 GB"
+        },
+        "senlima": {
+          "titolo": "{{scope}} Senlima"
+        }
       },
-      "medium": {
-        "title": "Vojaĝanta pakaĵo",
-        "desc": "Includes 5 GB de high-speed datumoj por trips, commuting, kaj regular VoIP vokoj.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Weekend trips, regular VoIP vokoj, kaj maps",
-        "aria": "Aĉeti Traveler eSIM datumpakaĵo"
-      },
-      "large": {
-        "title": "Potenca pakaĵo",
-        "desc": "Includes 10 GB de high-speed datumoj por heavy babili, vokoj, kaj video sur la Chatforia network.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Heavy babili, vokoj, video, kaj hotspot use",
-        "aria": "Aĉeti Power uzanto eSIM datumpakaĵo"
-      },
-      "compare": {
-        "title": "Compare eSIM datumpakaĵos",
+      "kompari": {
+        "titolo": "Kompari eSIM-datumajn pakaĵojn",
         "col": {
           "pack": "Pakaĵo",
-          "data": "Included datumoj",
-          "bestFor": "Best por"
+          "data": "Inkluzivitaj datumoj",
+          "bestFor": "Plej bona por"
         },
-        "disclaimer": "Actual datumoj usage depends sur kiel vi use Chatforia (voice, video, amaskomunikiloj, kaj other aplikaĵoj sur via telefono)."
+        "avizo": "La reala datuma uzo dependas de tio, kiel vi uzas Chatforia (voĉo, video, amaskomunikiloj, kaj aliaj aplikaĵoj en via telefono)."
       }
     },
-    "family": {
-      "title": "Chatforia Familio (kunhavita datumoj)",
-      "subtitle": "Share a single datumoj pool across via familio. One bill, multiple Chatforia kontoj, tutmonda coverage.",
-      "perPack": "/ pakaĵo",
+    "familio": {
+      "titolo": "Chatforia Familio (kunhavigita datumo)",
+      "subtitolo": " Kunhavigu unu datuman rezervujon tra via familio. Unu fakturo, pluraj Chatforia-kontoj, tutmonda kovrado.",
+      "perPack": "/ pako",
       "small": {
-        "title": "Familio Small",
-        "desc": "Includes 20 GB de kunhavita high-speed datumoj — great por 2–3 light uzantoj.",
+        "title": "Familio Malgranda",
+        "desc": "Inkluzivas 20 GB da kunhavigitaj alt-rapidecaj datumoj — bonega por 2–3 malpezaj uzantoj.",
         "price": "$29.99",
-        "aria": "Aĉeti Familio Small pack"
+        "aria": "Aĉetu la pakaĵon Familia Malgranda"
       },
-      "medium": {
-        "title": "Familio Medium",
-        "desc": "Includes 40 GB de kunhavita high-speed datumoj — ideal por 3–5 aktiva members.",
+      "mezgranda": {
+        "titolo": "Familia Mezgranda",
+        "priskribo": "Inkluzivas 40 GB da komuna altrapida datumo — ideala por 3–5 aktivaj membroj.",
         "price": "$49.99",
-        "aria": "Aĉeti Familio Medium pack"
+        "aria": "Aĉeti Familian Mezgrandan pakaĵon"
       },
       "large": {
-        "title": "Familio Large",
-        "desc": "Includes 80 GB de kunhavita high-speed datumoj — por power families tiu are always online.",
+        "title": "Familio Granda",
+        "desc": "Inkluzivas 80 GB da komuna altrapida datumo — por aktivaj familioj, kiuj ĉiam estas enretaj.",
         "price": "$84.99",
-        "aria": "Aĉeti Familio Large pack"
+        "aria": "Aĉeti la Familian Grandan pakaĵon"
       },
       "feature": {
-        "shared": "Kunhavita datumoj pool por via familio",
-        "members": "Inviti up al 4 additional members",
-        "membersMore": "Great por 3–5 aktiva members",
-        "manage": "Administri limits por each member",
-        "topUp": "Aldoni more packs anytime",
-        "bestValue": "Plej bona valoro po GB",
-        "fairUse": "Subject al fair-use policy kaj local limits"
+        "shared": "Komuna datuma baseno por via familio",
+        "members": "Invitu ĝis 4 pliajn membrojn",
+        "pliajMembroj": "Bonega por 3–5 aktivaj membroj",
+        "administri": "Administri limojn por ĉiu membro",
+        "aldoniPakaĵojn": "Aldonu pliajn pakaĵojn iam ajn",
+        "plejBonaValoro": "Plej bona valoro po GB",
+        "justaUzo": "Submetita al politiko pri justa uzo kaj lokaj limoj"
       },
-      "disclaimer": "Familio packs krei aŭ top up a kunhavita datuma aro. Vi povas inviti kaj forigi members anytime.",
-      "footnote": "Familio packs share a single datumoj pool across linked Chatforia kontoj. Availability kaj limits depend sur via lando kaj local regulations."
+      "avizo": "Familiaj pakaĵoj kreas aŭ replenigas komunan datuman rezervujon. Vi povas inviti kaj forigi membrojn iam ajn.",
+      "piednoto": "Familiaj pakaĵoj dividas ununuran datuman rezervujon inter ligitaj Chatforia-kontoj. Disponebleco kaj limoj dependas de via lando kaj lokaj regularoj."
     },
-    "why": {
-      "title": "Kial people switch al Chatforia",
-      "subtitle": "Chatforia gives vi a real telefonnumero, smart traduko, kaj a forviŝi path al go ad-senpaga kiam vi’re ready.",
+    "kial": {
+      "titolo": "Kial homoj ŝanĝas al Chatforia",
+      "subtitolo": "Chatforia donas al vi veran telefonnumeron, inteligentan tradukon, kaj klaran vojon por fariĝi senreklama kiam vi pretos.",
       "card": {
         "textnow": {
           "title": "Chatforia kontraŭ TextNow",
-          "body": "Lighter ads sur Free, a simple Plus upgrade kiam vi’re ready, kaj Premium tools TextNow doesn’t offer."
+          "body": "Pli malpezaj reklamoj en la senpaga plano, simpla Plus-ĝisdatigo kiam vi pretas, kaj Premium-iloj, kiujn TextNow ne ofertas."
         },
         "voice": {
           "title": "Chatforia kontraŭ Google Voice",
-          "body": "Modern aplikaĵo, tutmonda-first design, kaj built-en traduko instead de old-school voka alidirektado."
+          "body": "Moderna aplikaĵo, tutmonda -plej unua dezajno, kaj enkonstruita tradukado anstataŭ malnovmoda alvok-pluigo."
         },
-        "messengers": {
-          "title": "Chatforia vs babili aplikaĵoj",
-          "body": "Teksto real telefonnumeros — not just other aplikaĵo uzantoj — kun AI kaj stato built en. Great if vi’re coming de aplikaĵoj like TextFree aŭ TextMe."
+        "mesaĝiloj": {
+          "titolo": "Chatforia kontraŭ babil-aplikoj",
+          "enhavo": "Tekstumu realajn telefonnumerojn — ne nur aliajn uzantojn de la aplikaĵo — kun IA kaj enkonstruita statuso. Bonege se vi venas el aplikoj kiel TextFree aŭ TextMe."
         }
       },
-      "tableTitle": "Kiel Chatforia compares",
+      "tabelaTitolo": "Kiel Chatforia komparas",
       "col": {
         "feature": "Funkcio"
       },
       "feature": {
-        "freeNumber": "Free telefonnumero",
-        "translation": "Built-en aŭtomata-traduko",
-        "aiTools": "AI-iloj (reskriboj, respondoj, resumoj)",
+        "freeNumber": "Senpaga telefonnumero",
+        "translation": "Enkonstruita aŭtomata tradukado",
+        "aiTools": "IA-iloj (reverkadoj, respondoj, resumoj)",
         "ads": "Senreklama opcio",
-        "history": "Mesaĝo historio"
+        "history": "Mesaĝhistorio"
       },
-      "yes": "Jes",
-      "no": "Ne",
-      "yesPremium": "Jes (Premium)",
-      "plusPremium": "Plus kaj Premium",
-      "limited": "Limigita",
+      "jes": "Jes",
+      "ne": "Ne",
+      "jesPremio": "Jes (Premio)",
+      "plusPremio": "Plus & Premio",
+      "limigita": "Limigita",
       "nA": "N/A",
-      "history": {
-        "chatforia": "Up al 12+ months",
-        "textnow": "Varies by konto",
-        "voice": "Limited / konto-based"
+      "historio": {
+        "chatforia": "Ĝis 12+ monatoj",
+        "textnow": "Varias laŭ konto",
+        "voĉo": "Limigita / laŭ-konto"
       },
-      "disclaimer": "Comparison based sur publicly disponebla information kaj may ŝanĝi over time. Other senpaga-texting aplikaĵoj like TextFree aŭ TextMe are generally similar al TextNow."
+      "avertoteksto": "Komparo bazita sur publike haveblaj informoj kaj povas ŝanĝiĝi laŭlonge de la tempo. Aliaj senpagaj tekstmesaĝaj aplikaĵoj kiel TextFree aŭ TextMe estas ĝenerale similaj al TextNow."
     },
-    "faq": {
-      "title": "Oftaj Demandoj pri Prezoj kaj Planoj",
-      "free": {
-        "q": "Is la Free plano really senpaga?",
-        "a": "Jes. La Free plano includes a Chatforia numero, calling, kaj messaging kun ads. Vi povas stay sur Free as long as vi like, aŭ upgrade al forigi ads kaj unlock more funkcioj."
+    "oftaĵoj": {
+      "titolo": "Oftaj demandoj pri prezoj kaj planoj",
+      "senpaga": {
+        "d": "Ĉu la Senpaga plano estas vere senpaga?",
+        "r": "Jes. La Senpaga plano inkluzivas numeron de Chatforia, vokadon kaj mesaĝadon kun reklamoj. Vi povas resti ĉe la Senpaga plano tiom longe, kiom vi volas, aŭ plibonigi por forigi reklamojn kaj malŝlosi pli da funkcioj."
       },
       "plusPremium": {
-        "q": "Kio’s la difference between Plus kaj Premium?",
-        "a": "Plus removes ads kaj extends via mesaĝo historio — perfect por everyday use. Premium adds extra customization, AI tools por rewrites kaj replies, kaj priority subteno por heavy uzantoj."
+        "d": "Kio estas la diferenco inter Plus kaj Premium?",
+        "r": " Plus forigas reklamojn kaj plilongigas vian mesaĝan historion — perfekta por ĉiutaga uzo. Premium aldonas plian personigon, IA-ilojn por reskriboj kaj respondoj, kaj prioritan subtenon por intensaj uzantoj."
       },
       "esim": {
-        "q": "Kie do eSIM datumpakaĵos work?",
-        "a": "Chatforia Poŝtelefono uses tutmonda eSIM coverage. Availability depends sur via lando kaj aparato. Vi’ll see supported options during activation inside la aplikaĵo."
+        "q": "Kie funkcias eSIM-datumaj pakaĵoj?",
+        "a": "Chatforia Mobile uzas tutmondan eSIM-kovradon. Disponeblo dependas de via lando kaj aparato. Vi vidos subtenatajn opciojn dum aktivigo en la aplikaĵo."
       },
       "cancel": {
-        "q": "Povas I nuligi aŭ ŝanĝi planoj anytime?",
-        "a": "Jes. Vi povas administri aŭ nuligi via subscription de la fakturadon page en la aplikaĵo. Changes take effect at la end de via aktuala fakturadon period."
+        " q": "Ĉu mi povas nuligi aŭ ŝanĝi planojn iam ajn?",
+        "a": "Jes. Vi povas administri aŭ nuligi vian abonon de la pagpaĝo en la aplikaĵo. Ŝanĝoj ekvalidas fine de via nuna pagperiodo. "
       },
       "family": {
-        "q": "Kiel do Familio packs work?",
-        "a": "Familio packs krei a kunhavita datuma aro across multiple Chatforia kontoj. One person pays la bill, kaj vi povas inviti aŭ forigi members kaj set limits per person."
+        "q": "Kiel funkcias Familiaj pakaĵoj?",
+        "a": "Familiaj pakaĵoj kreas komunan datuman rezervujon inter pluraj Chatforia-kontoj. Unu persono pagas la fakturon, kaj vi povas inviti aŭ forigi membrojn kaj fiksi limojn por ĉiu persono."
+      }
+    }
+  },
+  "family": {
+    "title": "Familio",
+    "loading": "Ŝargante viajn familiajn detalojn…",
+    "error": {
+      "load": "Malsukcesis ŝargi familiajn detalojn.",
+      "invite": "Ne eblis krei inviton. Certiĝu, ke vi estas la familia posedanto kaj provu denove.",
+      "checkout": "Ni ne povis komenci la pagadon por Familia plano. Bonvolu provi denove."
+    },
+    "billing": {
+      "myPlanTitle": "Mia plano",
+      "myPlanError": "Neeble ŝargi vian planon.",
+      "myPlanLoading": "Ŝargas vian planon…",
+      "currentPlan": "Nuna plano",
+      "renewsAt": "Reniĝas je",
+      " freePlanCopy": "Vi estas sur la senpaga plano. Ĝisdatigu por malŝlosi pli da funkcioj.",
+      "upgradeCta": "Ĝisdatigi planon",
+      "changePlanCta": "Ŝanĝi planon",
+      "administriPagadon": "Administri pagadon",
+      "portalaEraro": "Ne eblas malfermi la pagadan portalon nun.",
+      "nuligiNun": "Nuligi nun",
+      "nuligiNunHelpo": "Vi povas administri aŭ nuligi vian abonon en la pagada portalo, aŭ nuligi tuj sube.",
+      "nuligiNunKonfirmo": "Ĉu vi certas, ke vi volas nuligi vian planon tuj? Tion ne eblas nuligi.",
+      "cancelNowError": "Ne eblas nuligi vian planon nun. Bonvolu provi denove aŭ uzu 'Administri fakturadon'."
+    },
+    "none": {
+      "title": "Ankoraŭ neniu familio kreita",
+      "body": "Por krei Chatforia-Familion kaj komunan datenujon, komencu Familian planon.",
+      "goUpgrade": "Komencu Familian planon",
+      "viewPlans": "Vidi ĉiujn planojn"
+    },
+    "group": {
+      "defaultName": "Mia Chatforia-Familio",
+      "role": "Via rolo: {{role}}"
+    },
+    "role": {
+      "posedanto": "Posedanto",
+      "membro": "Membro"
+    },
+    "datumoj": {
+      "kaplinio": "Komuna datuma baseno",
+      "subteksto": "Ĉiuj membroj kunhavas ĉi tiun basenon. Ni avertos vin kiam vi alproksimiĝos al via limo."
+    },
+    "membroj": {
+      "titolo": "Familianoj",
+      "nomo": "Nomo",
+      "rolo": "Rolo",
+      "uzado": "Uzado",
+      "limo": "Limo",
+      "senlima": "Neniu specifa limo",
+      "invituCta": "Inviti membron"
+    },
+    "invito": {
+      "titolo": "Inviti novan membron",
+      "korpo": "Sendu retpoŝton aŭ ligilon por inviti iun en vian komunan familian datumbazon.",
+      "etikedo_retpoŝto": "Retpoŝto (nedeviga)",
+      "retpoŝta_loko": "friend@example.com",
+      "krei": "Krei inviton",
+      "ligiloEtikedo": "Invita ligilo",
+      "kopiiAria": "Kopii invitligilon",
+      "eksvalidiĝaIndiko": "Ĉi tiu ligilo eksvalidiĝas post kelkaj tagoj. Vi ĉiam povas krei novan."
+    },
+    "aliĝi": {
+      "titolo": "Aliĝi al familio",
+      "body": "Vi estis invitita aliĝi al Chatforia Familio kaj kunhavigi ilian datumbazon.",
+      "cta": "Akceptu kaj aliĝu al la familio",
+      "ctaLogin": "Ensalutu kaj aliĝu al la familio",
+      "success": "Vi aliĝis al ĉi tiu familio. Vi nun kunhavas ilian datenujon.",
+      "goFamily": "Iru al la familia panelo",
+      "error": "Ni ne povis aldoni vin al ĉi tiu familio. La invito eble estas nevalida aŭ eksvalidiĝis."
+    }
+  },
+  "hazardaBabilado": {
+    "titolo": "Hazarda Babilado",
+    "subtitolo": "Instantane renkontu iun novan, aŭ elektu babili kun Ria.",
+    "komenci": "Komencu konversacion",
+    "priskribo": "Unue babilu anonime. Aldonu amikon poste, se tio plaĉas al vi.",
+    "troviMatĉon": "Trovu por mi matĉon",
+    "babiluKunRia": "Babilu kun Ria",
+    "agordiAĝon": "Agordu vian aĝintervalon en Profilo → Aĝo por kongrui kun homoj.",
+    "senfarado": "Senfara",
+    "kongruigado": "Kongruigado…",
+    "serĉado": "Serĉado…",
+    "nuligi": "Nuligi",
+    "konektaProblemo": "Konekta problemo",
+    "AI": "AI",
+    "anonima": "Anonima",
+    "konektitaKiel": "Konektita kiel",
+    "atendanteAldoniAmikon": "Atendante, ke ili akceptu Aldoni Amikon…",
+    "kaŝitajUzantnomoj": "Uzantnomoj restas kaŝitaj ĝis ambaŭ homoj elektas Aldoni Amikon.",
+    " riaSeparate": "Babilu kun Ria iam ajn — aparte de hazarda homa parigo.",
+    "sendMessage": "Sendi mesaĝon",
+    "chatEnded": "La babilado finiĝis",
+    "conversationEnded": "Tiu konversacio finiĝis.",
+    "findAnotherMatch": "Trovi alian kongruon",
+    "next": "Sekva persono",
+    "addFriend": "Aldoni amikon",
+    "requested": "Petita",
+    "Foriri": "Foriri",
+    "Sendi mesaĝon al Ria": "Sendi mesaĝon al Ria…",
+    "Sendi mesaĝon al via kongruulo": "Sendi mesaĝon al via kongruulo…",
+    "Babili kun Foria": "Babili kun Foria",
+    "Babili kun ForiaBot": "Babili kun ForiaBot",
+    "Fermi": "Fermi",
+    "Serĉante": "Serĉante…",
+    "serĉanta": "Serĉas iun…",
+    "komencasForia": "Komencas babilejon kun Foria…",
+    "partneroMalŝaltita": "Via partnero malŝaltis.",
+    "neniuPartnero": "Neniu partnero trovita nuntempe.",
+    "konektitaAl": "Konektita al {{name}}",
+    "konektita": "Konektita",
+    "partneroForiris": "La partnero foriris.",
+    "stopped": "Ĉesis.",
+    "skip": "Salti",
+    "save": "Konservi",
+    "saveGuard": "Nur hom-al-homaj babiladoj povas esti konservitaj",
+    "youAreChattingWith": "Vi babilas kun { {name}}",
+    "bot": "BOT",
+    "sayHi": "Salutu 👋",
+    "you": "Vi",
+    "typeMessage": "Tipu mesaĝon",
+    "send": "Sendi",
+    "partnero": "Partnero",
+    "kunRia": "Kun Ria",
+    "komencantaRia": "Komencante babiladon kun Ria…",
+    "aĝaMalgarantio": "Ni konservas nur aĝintervalon (ne vian precizan naskiĝdaton). Tio estas uzata por teni la parigojn en Hazarda Babilado raciaj. Por kongrui kun homoj (ne nur kun RiaBot), agordu vian aĝintervalon en Agordoj → Aĝo kaj Hazarda Babilado.",
+    "ageBandRequired": "Agordu vian aĝintervalon en Profilo → Aĝo & Hazarda Babilejo por kongrui kun homoj.",
+    "ageBandCallout": "Por kongrui kun homoj (ne nur RiaBot), agordu vian aĝintervalon en Agordoj → Aĝo & Hazarda Babilejo."
+  },
+  "ria": {
+    "fallbackName": "tie",
+    "intro": "Saluton 👋 Mi estas Ria. Kio okupas vian menson?",
+    "greetings": {
+      "long1": "Saluton {{name}} 👋 Mi estas ĉi tie. Kio okupas vian menson?",
+      "long2": "Saluton {{name}} 😊 Pri kio vi ŝatus paroli hodiaŭ?",
+      "long3": "Saluton {{name}}! Mi estas tute atentema — kio okazas?",
+      "long4": "Bele vidi vin, {{name}} 👋 Kio okupas vian menson hodiaŭ?",
+      "long5": "Saluton {{name}} 🙂 Ĉu vi volas elverŝi viajn sentojn, demandi ion, aŭ simple babili?",
+      "long6": "Saluton {{name}}! Mi havas tempon — pri kio vi ŝatus paroli?",
+      "short1": "Hej {{name}}, mi ankoraŭ estas ĉi tie. Kio okazas?",
+      "short2": "Bonvenon reen, {{name}} 👋 Ĉu vi volas aldoni ion plu?",
+      "short3": " Denove ĉi tie, {{name}}? 😊 Rakontu al mi, kio okupas vian menson.",
+      "short4": "Hej {{name}} ✨ Ĉu vi pretas daŭrigi de kie ni ĉesis?",
+      "short5": "Jes {{name}}? Mi aŭskultas 👂",
+      "short6": "Ho, hej {{name}}! Ĉu io nova okupas vian menson?"
+    },
+    "kaplinio": {
+      "malfermiNavigilon": "Malfermi navigacian menuon",
+      "closeNav": "Fermu la navigacian menuon",
+      "homeAria": "Ĉatforia Hejmo"
+    },
+    " ensaluto": {
+      " bonveno reen": "Bonvenon reen",
+      " titolo": "Daŭrigi al Ĉatforia",
+      " subteksto reveno": "Ensalutu al via Ĉatforia konto",
+      " google": "Daŭrigi per Google",
+      " apple": "Daŭrigi per Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Ensaluto per Google ne disponeblas",
+      "appleUnavailable": "Ensaluto per Apple ne disponeblas",
+      "ssoUnavailable": "Unufoja ensaluto nuntempe ne disponeblas. Uzu uzantnomon kaj pasvorton anstataŭe.",
+      "or": "aŭ",
+      "accountLabel": "Konto",
+      "identifierPh": "Retpoŝto aŭ uzantnomo",
+      "pasvortEtikedo": "Pasvorto",
+      "pasvortoPh": "Via pasvorto",
+      "restuEnsalutinta": "Restu ensalutinta",
+      "forgesis": "Forgesis la pasvorton?",
+      "resendiKonfirmon": "Resendi la konfirm-retpoŝton",
+      "submeti": "Ensaluti",
+      "ensalutas": "Ensalutas…",
+      "konfirmo": {
+        "sendita": "Konfirma retpoŝto sendita. Kontrolu vian enirkeston.",
+        "malsukcesa": "Malsukcesis resendi la konfirmretpoŝton."
+      },
+      "eraro": {
+        "mankas": "Bonvolu enigi viajn ensalutinformojn.",
+        "nevalida": "Nevalida uzantnomo aŭ pasvorto",
+        "malpermesita": "Aliro malpermesita.",
+        "neprilaborebla": "Nevalida peto. Kontrolu vian uzantnomon/retpoŝton kaj pasvorton.",
+        "aparatolimo": "Aparatolimo atingita por la Senpaga plano. Elsalutu ĉe alia aparato aŭ pligrandigu al Premium por ligi pli da aparatoj.",
+        "premiumbezonata": "Ĉi tiu ago postulas Premium-planon."
+      },
+      "forgesitapasvorto": {
+        "titolo": "Forgesis Pasvorton",
+        "helpo": "Enigu la retpoŝtadreson, kiun vi uzis por krei vian konton de Chatforia, kaj ni sendos al vi sekuran ligilon por restarigi vian pasvorton.",
+        "etikedo_retpoŝto": "Retpoŝto",
+        "retpoŝta_lokilo": "you@example.com",
+        "emailInvalid": "Bonvolu enigi validan retpoŝtadreson.",
+        "genericError": "Neeble prilabori la peton. Bonvolu provi denove post momento.",
+        "sending": "Sendas restarigan ligilon...",
+        "sendCta": "Sendi Restarigan Ligilon",
+        "senditaEtikedo": "Sendita!",
+        "senditaHelpo": "Se konto ekzistas kun tiu retpoŝtadreso, ni sendis ligilon por restarigi vian pasvorton. Ĝi eble bezonos kelkajn minutojn por alveni. Nepre kontrolu vian dosujon por spam-mesaĝoj aŭ promocioj.",
+        "previewDev": "Antaŭrigardi Retpoŝton (Dev)",
+        "backToLogin": "Reen al ensaluto"
+      },
+      "resetPassword": {
+        "title": "Reagordi Pasvorton",
+        "mankantaTokeneto": "Nevalida aŭ mankanta tokeno por restarigo de pasvorto.",
+        "mankantaTokenetoHelpo": "Nevalida aŭ mankanta tokeno. Bonvolu peti novan ligilon por restarigo de pasvorto.",
+        "pasvortMismatch": "La pasvortoj ne kongruas",
+        "success": "Via pasvorto estis sukcese restarigita",
+        "genericError": "Eraro: Neeble restarigi pasvorton.",
+        "newPasswordLabel": "Nova pasvorto",
+        "newPasswordPlaceholder": "Enigu vian novan pasvorton",
+        "confirmPasswordLabel": "Konfirmi novan pasvorton",
+        "confirmPasswordPlaceholder": "Re-enigu vian novan pasvorton",
+        "resetado": "Resetado...",
+        "submeti": "Resetigi Pasvorton",
+        "konsileto_pri_forta_pasvorto": "Elektu fortan pasvorton, kiun vi ne uzas aliloke."
+      }
+    }
+  },
+  "oauth": {
+    "kompletigo": " Finiĝas ensaluto…"
+  },
+  "subteno": {
+    "helpFab": "Helpo",
+    "openSupportAria": "Malfermi subtenon",
+    "badge": "Subteno",
+    "heading": "Kiel ni povas helpi?",
+    "tabs": {
+      "help": "Helpo-Centro",
+      "contact": "Kontaktu nin"
+    },
+    "searchPlaceholder": "Serĉu helpajn artikolojn…",
+    "searchAria": "Serĉi helpon",
+    "searchBtn": "Serĉi",
+    "quickTopicsLabel": "Rapidaj temoj",
+    "quickTopics": {
+      "login": "Ne eblas ensaluti",
+      "billing": "Pagoj / fakturado",
+      "misuzo": "Raporti misuzon"
+    },
+    "provuSerĉi": "Provu serĉi \"traduki\", \"sekurkopioj\", aŭ \"privateco\".",
+    "artikolo": "Artikolo",
+    "malfermiArtikolon": "Malfermi artikolon",
+    "kontaktaEnkonduko": "Ni provos solvi tion tuj. Se ne, nia teamo sekvos la aferon.",
+    "temoAria": "Elektu temon",
+    "messagePlaceholder": "Skribu vian mesaĝon…",
+    "sendBtn": "Sendi",
+    "sent": "Mesaĝo sendita. Ni respondos retpoŝte.",
+    "sendEraro": "Ne eblis sendi. Anstataŭe retpoŝtu al support@chatforia.com.",
+    "agoFinkompletigita": "Ago finkompletigita.",
+    "agoMalsukcesis": "Ne eblis plenumi tiun agon. Bonvolu provi denove.",
+    "biletoKreita": "Ni ne povis solvi tion aŭtomate. Nia teamo sekvos la aferon.",
+    "eskaladaMesaĝo": "Ni ne povis solvi tion aŭtomate. Nia teamo sekvos la aferon.",
+    "genericError": "Io misfunkciis. Bonvolu provi denove.",
+    "analyzing": "Analizanta vian problemon...",
+    "takeAction": "Faru la rekomenditan agon",
+    "resolvedInstantly": "Problemo solviĝis tuj — ne necesas bileto.",
+    "escalating": "Plialtigas al la subtena teamo..."
+  },
+  "help": {
+    "title": "Helpo",
+    "howCanWeHelp": "Kiel ni povas helpi?",
+    "helpCenter": "Helpo-Centro",
+    "contactUs": "Kontaktu nin",
+    "quickTopics": "Rapidaj temoj",
+    "searchExamples": "Provu serĉi \"traduki\", \"sekurkopioj\", aŭ \"privateco\".",
+    "nePovasEnsaluti": "Ne povas ensaluti",
+    "pagojFakturado": "Pagoj/ fakturado",
+    "raportiMisuzon": "Raporti misuzon",
+    "serĉiArtikolojnPriHelpo": "Serĉi artikolojn pri helpo",
+    "serĉi": "Serĉi"
+  },
+  "helpoCentro": {
+    "titolo": "Helpo-Centro",
+    "oftajDemandoj": {
+      "konto": {
+        "d": "Kiel mi kreas aŭ reakiras mian konton?"
+      },
+      "privacy": {
+        "q": "Ĉu mesaĝoj estas cifritaj de fino al fino?",
+        "a": "Jes. Mesaĝoj kaj vokoj estas defaŭlte cifritaj de fino al fino. Nur vi kaj la ricevanto povas legi ilin."
+      },
+      "traduki": {
+        "q": "Kiel funkcias tuja tradukado?",
+        "a": "Aktivigu \"Aŭtomata tradukado\" en Agordoj → Aspekto kaj Lingvo. Ni tradukas sur la aparato kie subtenate, alie per sekuraj API-oj kun minimumaj metadatenoj."
+      },
+      "kontakti": {
+        "q": "Kontaktu subtenon",
+        "a": "Kontaktu nin ĉe support@chatforia.com. Aldonu ekrankopiojn kaj vian aplikaĵversion."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Komencado",
+    "subtitle": "Ĉu vi estas nova en Chatforia? Ĉi tiu rapida komenco montras la esencaĵojn, por ke vi povu esti produktema en minutoj.",
+    "alert": {
+      "text": "Ĉi tiu gvidilo kreskos dum ni lanĉos novajn funkciojn. Se io mankas, sciigu nin per",
+      "contactLink": "Kontaktu Nin"
+    },
+    "section1": {
+      "title": "1) Kreu vian konton",
+      "signup": "Registriĝu",
+      "or": "or",
+      "login": "enlogi",
+      "loginText": "per via ekzistanta konto.",
+      "prefsStart": "En la aplikaĵo, malfermu Agordojn por agordi viajn preferojn",
+      "prefsLink": "preferoj",
+      "prefsRest": "(lingvo, legkonfirmoj, temoĵojn)."
+    },
+    "section2": {
+      "title": "2) Komencu mesaĝumi",
+      "item1": "Kreu privatan mesaĝon aŭ grupon kaj sendu vian unuan mesaĝon.",
+      "item2": "Uzu tujan tradukon por babili en pli ol 100 lingvoj.",
+      "item3": " Provu malaperantajn mesaĝojn kaj legokonfirmojn en Profilo → Privateco."
+    },
+    "section3": {
+      "title": "3) Plue",
+      "item1": "Vi povas ajn-tempe ĝisdatigi al pagita plano en la aplikaĵo.",
+      "item2": "Post kiam vi ensalutis, vi povas ligi pliajn aparatojn kaj agordi ĉifritajn sekurkopiojn el Agordoj en la aplikaĵo.",
+      "item2Part1": "Post kiam vi ensalutis, vi povas ligi pliajn aparatojn kaj agordi ĉifritajn sekurkopiojn el Agordoj en la aplikaĵo."
+    },
+    "cta": {
+      "seePlans": "Vidu planojn kaj prezojn",
+      "openSettings": "Malfermu agordojn",
+      "createAccount": " Krei konton"
+    }
+  },
+  "kielĜiFunkcias": {
+    "titolo": "Kiel Chatforia Funkcias",
+    "enkonduko": "Chatforia estas desegnita por simpligi komunikadon, rapide kaj alireble. Komenci postulas nur kelkajn paŝojn.",
+    "paŝo1Titolo": "1. Krei Konton",
+    "paŝo1Priskribo": "Registriĝu uzante vian retpoŝton aŭ uzantnomon por krei vian Chatforia-konton.",
+    "step2Title": "2. Komencu Konversacion",
+    "step2Desc": "Konektiĝu kun aliaj elektante kontaktojn aŭ komencante novajn babiladojn.",
+    "step3Title": "3. Realtempa Mesaĝado",
+    "step3Desc": "Mesaĝoj estas liverataj rapide por provizi glatan komunikadan sperton.",
+    "step4Title": "4. Tutmonda Komunikado",
+    "step4Desc": "Enkonstruita tradukilo helpas uzantojn komuniki trans diversaj lingvoj.",
+    "step5Title": "5. Restu en Kontrolo",
+    "step5Desc": "Administru viajn preferojn, kontaktojn kaj komunikajn agordojn."
+  },
+  "sekureco": {
+    "titolo": "Sekurecaj kaj Komunumaj Gvidlinioj",
+    "enkonduko": "Chatforia engaĝiĝas konservi sekuran kaj respektan medion por ĉiuj uzantoj. Ĉi tiuj gvidlinioj helpas certigi pozitivan sperton por ĉiuj.",
+    "respectTitle": "Respekta Komuniko",
+    "respectDesc": "Oni atendas, ke uzantoj komuniku respekteme. Ĉikanado, misuzo aŭ damaĝa konduto ne estas permesataj.",
+    "prohibitedTitle": "Malpermesita Enhavo",
+    "prohibited": {
+      "illegal": "Neleĝaj agadoj",
+      "ĉikanado": "Ĉikanado aŭ brutumado",
+      "malamo": "Parolado de malamo aŭ diskriminacio",
+      "eksplicita": "Eksplicita aŭ damaĝa materialo",
+      "spamo": "Spamo aŭ trompaj praktikoj"
+    },
+    "ilojTitle": "Iloj por Uzantsekureco",
+    "iloj": {
+      "raporti": "Raporti netaŭgan konduton aŭ enhavon",
+      "bloki": "Bloki uzantojn por malhelpi pluan interagadon",
+      "kontroli": "Administri agordojn pri privateco kaj komunikado"
+    },
+    "enforcementTitle": "Devigo",
+    "enforcementDesc": "Ni povas agi kontraŭ kontoj, kiuj malobservas ĉi tiujn gvidliniojn, inkluzive de avertoj, limigoj, aŭ permanenta forigo el la platformo."
+  },
+  "blog": {
+    "kialMesaĝado": {
+      "titolo": "Kial Mesaĝaj Platformoj Gravas Pli Ol Iam Ajn",
+      "enkonduko": "Mesaĝaj platformoj fariĝis unu el la plej gravaj iloj por komunikado en la hodiaŭa mondo. De personaj konversacioj ĝis komercaj interagoj, mesaĝaj aplikaĵoj permesas al homoj resti konektitaj tuj kaj efike.",
+      "ĉiutagaTitolo": "Ĉiutaga Komuniko",
+      "ĉiutagaPriskribo": "Homoj fidas je mesaĝaj aplikaĵoj por ĉiutaga komunikado kun amikoj, familio kaj kolegoj. Ĉu temas pri rapida ĝisdatigo aŭ longa konversacio, mesaĝado provizas oportunan kaj flekseblan manieron resti en kontakto.",
+      "rapidecoTitolo": "Rapideco kaj Konveneco",
+      "rapidecoPriskribo": "Unu el la ĉefaj avantaĝoj de mesaĝaj platformoj estas ilia rapideco. Mesaĝoj estas liveritaj tuj, kio permesas al uzantoj komuniki en reala tempo. Tiu ĉi nivelo de konveneco faris mesaĝadon la preferata komunikmaniero por multaj homoj.",
+      "globalTitle": "Tutmonda Atingo",
+      "globalDesc": "Sendemaj platformoj konektas homojn tra la tuta mondo. Per interreta aliro, uzantoj povas komuniki sendepende de loko, kio faciligas la konstruadon de rilatoj kaj la internacian kunlaboron.",
+      "privacyTitle": "Privateco kaj Kontrolo",
+      " privacyDesc": "Modernaj mesaĝaj platformoj celas doni al uzantoj kontrolon super siaj datumoj kaj konversacioj. Funkcioj kiel ĉifrado, privatecaj agordoj kaj mesaĝaj kontroloj permesas al uzantoj komuniki kun konfido.",
+      "futureTitle": "La Estonteco de Mesaĝado",
+      "futureDesc": "Mesaĝado daŭre evoluas kun novaj funkcioj kiel IA-bazitaj respondoj, tradukado, kaj multmedia kundivido. Dum teknologio progresas, mesaĝaj platformoj fariĝos eĉ pli potencaj kaj multflankaj.",
+      "outro": "Chatforia estas konstruita laŭ ĉi tiuj principoj, ofertante rapidan, sekuran, kaj uzant-amika mesaĝa sperto por konektita mondo."
+    },
+    "global": {
+      "title": "La Estonteco de Tutmonda Komunikado",
+      "intro": "Komunikado rapide evoluis dum la pasintaj kelkaj jardekoj. Tio, kio iam postulis telefonvokojn aŭ en -personaj kunvenoj nun povas esti faritaj rapide per mesaĝaj platformoj. Dum teknologio daŭre progresas, tutmonda komunikado fariĝas pli rapida, pli alirebla kaj pli inkluziva.",
+      "barriersTitle": "Disfaligo de Baroj",
+      "barriersDesc": "Unu el la plej grandaj ŝanĝoj en komunikado estas la redukto de geografiaj baroj. Homoj nun povas konektiĝi kun aliaj tra la mondo preskaŭ realtempe. Ĉu por personaj konversacioj, komerco aŭ kunlaboro, mesaĝaj platformoj igis distancon multe malpli limiga .",
+      "translationTitle": "La Rolo de Tradukteknologio",
+      "translationDesc": "Lingvo tradicie estis unu el la plej grandaj obstakloj al tutmonda komunikado. Hodiaŭ, enkonstruitaj tradukiloj helpas ponti tiun breĉon. Platformoj kiel Chatforia permesas al uzantoj komuniki pli facile eĉ se ili parolas malsamajn lingvojn, kreante novajn oportunojn por konekto kaj kompreno.",
+      "realtimeTitle": "Realtempa Konektebleco",
+      "realtimeDesc": "Rapideco estas ŝlosila faktoro formanta modernan komunikadon. Uzantoj atendas, ke mesaĝoj estu liveritaj rapide, kaj moderna infrastrukturo subtenas tiun atendon. Realtempa mesaĝado ebligas pli naturajn kaj fluajn konversaciojn.",
+      "privacyTitle": "Privateco kaj Sekureco",
+      "privacyDesc ": "Dum komunikado iĝas pli cifereca, privateco kaj sekureco estas ĉiam pli gravaj. Uzantoj volas certecon, ke iliaj konversacioj estas protektitaj. Funkcioj kiel ĉifrado kaj uzant-kontrolataj agordoj helpas subteni pli sekuran komunikadan sperton.",
+      " futureTitle": "Kio Venos Poste",
+      "futureDesc": "La estonteco de tutmonda komunikado verŝajne inkluzivos pli altnivelajn ilojn, kiel IA-asistatan mesaĝadon, plibonigitan tradukadon, kaj plibonigitajn uzantajn spertojn. Dum teknologio evoluas, komunikado daŭre fariĝos pli intuicia kaj alirebla.",
+      "outro": "Platformoj kiel Chatforia estas parto de ĉi tiu ŝanĝo, helpante homojn konektiĝi pli facile trans lingvojn kaj landlimojn."
+    },
+    "index": {
+      "title": "Blogo de Chatforia",
+      "intro": "Esploru komprenojn pri komunikado, reta sekureco, kaj kiel mesaĝada teknologio konektas homojn tra la mondo.",
+      "post1": "Kiel Sekure Retbabili",
+      "post2": "La Estonteco de Tutmonda Komunikado",
+      "post3": "Kial Mesaĝaj Platformoj Gravas"
+    },
+    "chatSafely": {
+      "title": "Kiel Sekure Babili Rete",
+      "intro": "Reta komunikado ebligis pli facile ol iam ajn konektiĝi kun homoj tra la mondo. Ĉu vi mesaĝas kun amikoj, renkontas novajn homojn, aŭ kunlaboras profesie, mesaĝaj platformoj ludas gravan rolon en la ĉiutaga vivo. Tamen, resti sekura rete estas same grava kiel resti konektita.",
+      "personalInfo": {
+        "title": " Protektu Viajn Personajn Informojn",
+        "body": "Unu el la plej gravaj reguloj de reta sekureco estas eviti kundividi sentemajn personajn informojn. Tio inkluzivas vian hejman adreson, financajn detalojn, pasvortojn, aŭ ajnan identigan informon, kiu povus esti misuzata. Eĉ en neformalaj konversacioj, estas plej bone atenti pri tio, kion vi kundividas kaj kun kiu vi kundividas ĝin.\"      ",
+        "sekurecajFunkcioj": {
+          "titolo": "Uzu Enkonstruitajn Sekurecajn Funkciojn",
+          "korpo": "Modernaj mesaĝaj platformoj kiel Chatforia provizas ilojn por helpi uzantojn resti sekuraj. Funkcioj kiel blokado, raportado kaj privatecaj agordoj estas desegnitaj por doni al uzantoj kontrolon super sia sperto. Se iu kondutas nedece aŭ sentigas vin malkomforta, vi devus uzi ĉi tiujn ilojn tuj."
+        },
+        "fraŭdoj": {
+          "titolo": "Atentu pri Fraŭdoj",
+          "korpo": "Fraŭdantoj ofte uzas mesaĝajn platformojn por trompi uzantojn, ke ili dividu personajn informojn aŭ sendu monon. Estu singarda pri mesaĝoj, kiuj ŝajnas tro bonaj por esti veraj, kiel ekzemple neatenditaj ofertoj, urĝaj petoj, aŭ nekonataj ligiloj. Ĉiam kontrolu la identecon de la persono, kun kiu vi komunikas, antaŭ ol fari ian agon."
+        },
+        "responsibly": {
+          "title": "Komuniku Responde",
+          "body": "Respekta komunikado helpas krei pli sekuran medion por ĉiuj. Evitu partopreni en damaĝaj aŭ misuzaj konversacioj, kaj konsciu pri tio, kiel viaj vortoj povas influi aliajn. Pozitivaj interagoj kontribuas al pli bona sperto por ĉiuj uzantoj."
+        },
+        "whySafety": {
+          "title": "Kial Interreta Sekureco Gravas",
+          "body": "Dum cifereca komunikado daŭre kreskas, konservi sekureco kaj fido fariĝas ĉiam pli gravaj. Sekvante bazajn sekurecajn praktikojn kaj uzante disponeblajn ilojn, uzantoj povas ĝui la avantaĝojn de mesaĝado dum ili minimumigas riskojn."
+        },
+        "konkludo": "Resti sekura rete ne postulas altnivelan teknikan scion—nur konscion, singardon kaj bonan juĝon. Kun la ĝustaj kutimoj, vi povas komuniki memfide kaj sekure."
       }
     },
-    "gettingStarted": {
-      "title": "Komencado",
-      "subtitle": "Nova al Chatforia? Ĉi tiu quick start shows la essentials so vi povas be productive en minutes.",
-      "alert": {
-        "text": "Ĉi tiu guide estos grow as ni launch nova funkcioj. If something’s missing, let us know via",
-        "contactLink": "Kontaktu Nin"
+    "pri": {
+      "titolo": "Pri Chatforia",
+      "priskribo": "Chatforia estas sekura, plurlingva mesaĝilo kun ĉifrado de fino al fino, tuja tradukado, kaj voĉ-/videovokado. Nia misio estas simpla: helpi homojn konektiĝi—sekure, private, kaj trans lingvoj.",
+      "valuesTitle": "Kion ni valoras",
+      "values": {
+        "privacy": "<b>Prioritato al privateco:</b> E2E-ĉifrado defaŭlte.",
+        "access": "<b>Alirebleco por ĉiuj:</b> Aŭtomata tradukado de pli ol 100 lingvoj.",
+        "control": "<b>Kontrolo:</b> Malaperantaj mesaĝoj kaj legokonfirmoj estas laŭvolaj.",
+        "privacy_ aria": "Prioritato al privateco: E2E-ĉifrado defaŭlte.",
+        "access_aria": "Alirebleco por ĉiuj: Aŭtomata tradukado de pli ol 100 lingvoj.",
+        "control_aria": "Kontrolo: Malaperantaj mesaĝoj kaj legokonfirmoj estas laŭvolaj."
       },
-      "section1": {
-        "title": "1) Krei via konto",
-        "signup": "Ensaluti up",
-        "or": "aŭ",
-        "login": "log en",
-        "loginText": "kun via existing konto.",
-        "prefsStart": "Set via",
-        "prefsLink": "preferoj",
-        "prefsRest": "(lingvo, legokonfirmoj, themes)."
+      "howTitle": "Kiel Chatforia funkcias",
+      " kielPriskribo": "Mesaĝoj estas ĉifritaj sur via aparato antaŭ ol ili forlasas ĝin. Tradukado, sekurkopioj kaj aparato-sinkronigo estas desegnitaj por minimumigi tion, kion niaj serviloj povas vidi."
+    },
+    "gazetara": {
+      "titolo": "Gazetara",
+      "kontaktaLinio": "Por amaskomunikilaj demandoj, kontaktu nin ĉe",
+      " boilerplateTitle": "Ŝablono",
+      "boilerplateBody": "Chatforia estas privateca mesaĝa aplikaĵo, kiu senpene ebligas interlingvan babiladon. Mesaĝoj estas defaŭlte cifere koditaj de fino ĝis fino, kaj la enkonstruita tradukilo subtenas pli ol 100 lingvojn realtempe. Uzantoj povas ebligi malaperantajn mesaĝojn, lasi legajn kvitancojn laŭvolaj, kaj sinkronigi tra aparatoj. Disponebla por iOS, Android, kaj la reto.",
+      "assetsTitle": " Markaj rimedoj",
+      "assetsSubtitle": "Logotipoj, ekranaĵoj kaj produktaj bildoj.",
+      "downloadCta": "Elŝuti la amaskomunikilan kompleton",
+      "downloadTitle": "Akiru la aplikaĵon",
+      "scanTip": "Ĉu vi estas ĉe komputilo? Skanu per via telefono por akiri la aplikaĵon.",
+      "qrAria": "Malfermu la retejon de Chatforia",
+      "appStore": "Elŝutu en la App Store",
+      "googlePlay": "Akiru ĝin en Google Play"
+    },
+    "karieroj": {
+      "title": "Karieroj",
+      "intro": "Ni estas malgranda fonda teamo konstruanta Chatforia-n — privatan, tutmondan mesaĝilon lanĉotan por retumilo, iOS kaj Android. Se vi zorgas pri privateco, ĉifrado kaj agrablaj uzantaj spertoj, ni tre ŝatus aŭdi de vi.",
+      "openRoles": "<b>Malfermitaj fondaj roloj:</b> Ĉefa plenstaka Inĝeniero, Malantaŭfonda Inĝeniero (Node.js), Antaŭfonda/ Reta Inĝeniero (React), Poŝtelefona Inĝeniero (iOS), Poŝtelefona Inĝeniero (Android), DevOps/SRE, Inĝeniero pri Sekureco kaj Ĉifrado, Telekomunika Inĝeniero (Twilio + eSIM).",
+      "apply": "Kiel kandidatiĝi: Uzu la suban butonon por retpoŝti vian vivresumon kaj ligilojn.",
+      "emailCta": "Retpoŝtu vian vivresumon",
+      "whyNow": "Kial aliĝi nun?",
+      "whyBullets": "• Helpu konstrui la fundamenton de nova tutmonda mesaĝilo.\n• Liveru plibonigojn uzatajn tra la retplatformo, iOS kaj Android.\n• Laboru rekte kun la fondinto pri arkitekturo kaj produkta direkto.\n• Respondecu pri alt-efikaj areoj de la teknika stako: mesaĝado, voĉo, video, ĉifrado, telekomunikado, IA.\n• Aliĝu komence — antaŭ ol la uzantaro kreskos."
+    },
+    "advertise": {
+      "title": "Reklamu ĉe Chatforia",
+      "description": "Atingu engaĝitajn mesaĝajn uzantojn per bongustaj, marksekuraj lokigoj. Ni ofertas baneran inventaron en altvideblaj lokoj, sponsoradojn kaj proprajn promociojn. Premiumaj abonantoj ne vidas reklamojn.",
+      "adsense": {
+        "withPubIdShort": "Ni ankaŭ servas inventaron per Google AdSense. Vi povas celi Chatforia per eldonista ID {{pub Id}}, aŭ uzu la suban formularon por rektaj sponsoradoj.",
+        "noPubIdShort": "Ni ankaŭ servas iom da inventaro per Google AdSense. Rektaj sponsoradoj estas haveblaj—uzu la suban formularon."
       },
-      "section2": {
-        "title": "2) Komencu mesaĝi",
-        "item1": "Krei a DM aŭ Group kaj sendi via first mesaĝo.",
-        "item2": "Use instant traduko al babili across 100+ languages.",
-        "item3": "Provu malaperantaj mesaĝoj kaj legokonfirmoj en Profilo → Privateco."
+      "inventoryHeader": "Inventaro & Specifoj",
+      "placement": {
+        " displayBadge": "Ekrano",
+        "acceptedSizes": "Akceptitaj grandecoj",
+        "adsenseSlot": "AdSense-sloto:"
       },
-      "section3": {
-        "title": "3) Iru plu",
-        "item1": "Vi povas upgrade al a paid plano anytime inside la aplikaĵo.",
-        "item2": "Once vi’re signed en, vi povas link additional aparatoj kaj set up encrypted rezervoj de Agordoj en la aplikaĵo."
+      "noPlacementsPublic": "Ni finpretigas nian reklaman inventaron. Rakontu al ni pri via kampanjo kaj ni rekomendos lokigojn.",
+      "whyHeader": "Kial Chatforia?",
+      "kial": {
+        "altaSesio": "Alta sesiofrekvenco kaj restotempo en la babilinterfaco",
+        "markSekura": "Marksekuraj formatoj; respektema frekvenclimigo",
+        "sponsoratajMomentoj": "Sponsorataj momentoj (ekz., la modala fenestro \"Komenci Babilon\") disponeblaj",
+        "ofertoj": "Rektaj interkonsentoj aŭ programatike per AdSense/Google Ads"
       },
-      "cta": {
-        "seePlans": "See planoj",
-        "openSettings": "Malfermi agordoj"
+      "contactHeader": "Kontakto",
+      "form": {
+        "submittedMsg": "Dankon! Via demando estas survoje. Ni baldaŭ respondos.",
+        "missingRequired": "Bonvolu enigi nomon, retpoŝton kaj mesaĝon.",
+        "successToast": "Dankon! Ni baldaŭ kontaktos vin.",
+        "mailtoInfo": "Malfermas vian retpoŝtprogramon por sendi la demandon…",
+        "nameLabel": "Via nomo",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "Retpoŝto",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "Kompanio",
+        " firmaoLokoTenilo": "Acme Inc.",
+        "etikedoBuĝeto": "Monata buĝeto (nedeviga)",
+        "buĝetoLokoTenilo": "ekz. $1,000–$20,000+",
+        "messageLabel": "Rakontu al ni pri via kampanjo",
+        "messagePlaceholder": "Celado, datoj, KPI-oj, preferoj pri lokigo…",
+        "sendCta": "Sendi demandon"
+      },
+      "legal": {
+        "disclaimerStart": "Submetante, vi konsentas kun niaj",
+        "kondiĉoj": "Kondiĉoj",
+        "kaj": "kaj",
+        "privateco": "Privateca Politiko"
       }
     },
-    "helpCenter": {
-      "title": "Helpcentro",
-      "faq": {
-        "account": {
-          "q": "Kiel mi kreas aŭ reakiras mian konton?",
-          "a": "Elŝuti la aplikaĵo aŭ use web, tap “Krei konto”, verify via retpoŝto/telefono. To recover, use “Forgot pasvorto”."
-        },
-        "privacy": {
-          "q": "Ĉu mesaĝoj estas fin-al-fine ĉifritaj?",
-          "a": "Jes. Messages kaj vokoj are fin-al-fine ĉifrita by default. Only vi kaj la recipient povas legi them."
-        },
-        "translate": {
-          "q": "Kiel funkcias tuja traduko?",
-          "a": "Ebligi “Aŭtomata-translate” en Agordoj → Appearance & Lingvo. Ni translate sur-aparato kie supported, otherwise through sekura APIs kun minimal metadata."
-        },
-        "contact": {
-          "q": "Kontakti subtenon",
-          "a": "Reach us at support@chatforia.com. Include screenshots kaj via aplikaĵo version."
-        }
-      }
-    },
-    "contact": {
-      "title": "Kontaktu Nin",
-      "successMsg": "Thanks—our team estos respondi by retpoŝto.",
-      "errorSend": "Could not sendi. Please retpoŝto support@chatforia.com.",
+    "kontakto": {
+      "titolo": "Kontaktu Nin",
+      "successMsg": "Dankon—nia teamo respondos per retpoŝto.",
+      "errorSend": "Ne eblis sendi. Bonvolu retpoŝti al support@chatforia.com.",
       "form": {
         "nameLabel": "Nomo",
         "emailLabel": "Retpoŝto",
@@ -1098,47 +1840,47 @@
       "title": "Privateca Politiko",
       "lastUpdated": "Laste ĝisdatigita:",
       "intro": {
-        "body": "Ĉi tiu Privateco Policy explains kiel Chatforia (“ni”, “us”) collects, uses, kaj shares information kiam vi use our aplikaĵoj kaj services. Ni design Chatforia al minimize la datumoj ni povas access."
+        "body": "Ĉi tiu Privateca Politiko klarigas kiel Chatforia (\"ni\") kolektas, uzas kaj dividas informojn kiam vi uzas niajn aplikaĵojn kaj servojn. Ni projektas Chatforia por minimumigi la datumojn, kiujn ni povas aliri."
       },
       "infoWeCollect": {
-        "title": "Information ni collect",
-        "account": "Konto info (e.g., retpoŝto/telefono) al krei kaj sekura via konto.",
-        "encrypted": "Encrypted enhavo (mesaĝoj/vokoj) is fin-al-fine ĉifrita; ni povas’t legi it.",
-        "diagnostics": "Diagnostic/usage like crash logs, aparato type, aŭ coarse analytics al improve performance."
+        "title": "Informoj, kiujn ni kolektas",
+        "konto": "Kontaj informoj (ekz., retpoŝto/telefono) por krei kaj sekurigi vian konton.",
+        "ĉifrita": "Ĉifrita enhavo (mesaĝoj/vokoj) estas fine-al-fina ĉifrita; ni ne povas legi ĝin.",
+        "diagnozoj": "Diagnozaj/uzaj datumoj kiel kraŝ-protokoloj, tipon de aparato, aŭ kruda analitiko por plibonigi la rendimenton."
       },
       "sms": {
-        "title": "Poŝtelefono telefonnumeros kaj SMS",
-        "body": "If vi elekti al provide a poŝtelefono telefonnumero, ni use it al ebligi funkcioj such as konto verification, ensaluti alerts, kaj uzanto-al-uzanto messaging via SMS kie supported. Ni may sendi transactional SMS mesaĝoj related al via konto kaj agado sur Chatforia. Vi povas opt out de receiving SMS mesaĝoj at any time by replying kun a supported opt-out keyword (such as “STOP”) aŭ by changing via notification preferences en la aplikaĵo. Ni do not sell via telefonnumero aŭ use it por unrelated marketing.",
+        "title": "Poŝtelefonaj numeroj kaj SMS",
+        "body": "Se vi elektas provizi poŝtelefonan numeron, ni uzas ĝin por ebligi funkciojn kiel konta konfirmo, ensalutaj atentigoj, kaj mesaĝado inter uzantoj per SMS kie subtenate. Ni eble sendos transakciajn SMS-mesaĝojn rilatajn al via konto kaj agado en Chatforia. Vi povas rezigni pri ricevo de SMS-mesaĝoj iam ajn tempo respondante per subtenata nuliga ŝlosilvorto (kiel \"STOP\") aŭ ŝanĝante viajn sciigajn preferojn en la aplikaĵo. Ni ne vendas vian telefonnumeron nek uzas ĝin por nerilataj merkataj celoj.",
         "newText": "Nova teksto",
         "enterRecipient": "Enigu nomon aŭ numeron",
-        "typeMessage": "Tajpu mesaĝon…",
-        "addRecipient": "Aldonu ricevanton supre por komenci…"
+        "typeMessage": "Skribu mesaĝon…",
+        "addRecipient": "Aldonu ricevonton supre por komenci…"
       },
       "howWeUse": {
-        "title": "Kiel ni use information",
-        "provide": "Provide kaj sekura la service (auth, spam/abuse detection).",
-        "improve": "Improve funkcioj (traduko quality, reliability).",
-        "legal": "Comply kun legal obligations."
+        "title": "Kiel ni uzas informojn ",
+        "provizi": "Provizi kaj sekurigi la servon (aŭtentigo, detekto de spamo/misuzo).",
+        "plibonigi": "Plibonigi funkciojn (tradukokvalito, fidindeco).",
+        "leĝa": "Plenumi leĝajn devojn."
       },
-      "sharing": {
-        "title": "Kunhavigo",
-        "body": "Ni don’t sell personal datumoj. Ni may share limited datumoj kun processors (e.g., push notifications, analytics) under strict contracts."
+      "kunhavigo": {
+        "titolo": "Kunhavigo",
+        "korpo": "Ni ne vendas personajn datumojn. Ni eble kunhavigos limigitajn datumojn kun prilaborantoj (ekz., puŝaj sciigoj, analitiko) sub striktaj kontraktoj."
       },
-      "rights": {
-        "title": "Via rights",
-        "body": "Depending sur via region (e.g., GDPR/UK GDPR/CPRA), vi may request access, correction, deletion, aŭ opt-out de certain processing. Kontakto: privacy@chatforia.com."
+      "rajtoj": {
+        "titolo": "Viaj rajtoj",
+        "korpo": "Depende de via regiono (ekz., GDPR/UK GDPR/CPRA), vi povas peti aliron, korekton, forigon aŭ rezignon de certa prilaborado. Kontakto: privacy@chatforia.com."
       },
-      "retention": {
-        "title": "Datumoj retention & sekureco",
-        "body": "Ni retain only kio’s needed al operate la service kaj apply industry-standard sekureco. E2E enhavo povas’t be decrypted by us."
+      "konservado ": {
+        "titolo": "Datuma konservado kaj sekureco",
+        "korpo": "Ni konservas nur tion, kio necesas por funkciigi la servon kaj apliki la sekurecon laŭ la industria normo. E2E-enhavo ne povas esti deĉifrita de ni."
       },
-      "children": {
-        "title": "Infanoj",
-        "body": "Chatforia isn’t directed al children under 13 (aŭ as bezonata by via local law)."
+      "infanoj": {
+        "titolo": "Infanoj",
+        "body": "Chatforia ne estas celita al infanoj sub 13 jaroj (aŭ laŭ postuloj de via loka leĝaro)."
       },
-      "changes": {
+      "ŝanĝoj": {
         "title": "Ŝanĝoj",
-        "body": "Ni’ll afiŝi updates here kaj revise la “Last updated” date."
+        "body": "Ni afiŝos ĝisdatigojn ĉi tie kaj revizios la daton \"Laste ĝisdatigita\"."
       },
       "contact": {
         "title": "Kontakto",
@@ -1146,946 +1888,109 @@
       }
     },
     "terms": {
-      "title": "Kondiĉoj de Servo",
+      "title": "Servokondiĉoj",
       "lastUpdated": "Laste ĝisdatigita:",
       "intro": {
-        "body": "By using Chatforia vi agree al these Terms. If vi do not agree, don’t use la service."
+        " korpo": "Uzante Chatforia vi konsentas pri ĉi tiuj Kondiĉoj. Se vi ne konsentas, ne uzu la servon."
       },
-      "accounts": {
-        "title": "Kontoj",
-        "itemAccurateInfo": "Provide accurate info kaj keep credentials sekura.",
-        "itemResponsibility": "Vi’re responsible por agado sur via konto."
+      "kontojn": {
+        "titolo": "Kontoj",
+        "itemAccurateInfo": " Provizu ĝustajn informojn kaj sekurigu viajn kredentecojn.",
+        "itemResponsibility": "Vi respondecas pri la agado en via konto."
       },
       "acceptableUse": {
         "title": "Akceptebla uzo",
-        "itemNoAbuse": "Ne illegal, abusive, aŭ infringing enhavo; ne spam aŭ automated abuse.",
-        "itemSuspend": "Ni may suspend/terminate por violations."
+        "itemNoAbuse": "Neniu kontraŭleĝa, abusa aŭ malobserva enhavo; neniu spamo aŭ aŭtomata misuzo.",
+        "itemSuspend": "Ni povas suspendi/ĉesigi pro malobservoj."
       },
       "sms": {
         "title": "SMS-komunikadoj",
-        "body": "If vi provide a poŝtelefono telefonnumero, vi agree tiu Chatforia may sendi vi SMS mesaĝoj related al via konto kaj use de la service, such as ensaluti alerts, sekureco notifications, kaj mesaĝoj related al conversations vi initiate aŭ participate en. Ni do not use SMS por promotional aŭ marketing mesaĝoj without via explicit consent. Standard mesaĝo kaj datumoj rates may apply. Vi povas opt out de SMS mesaĝoj at any time by replying kun a supported opt-out keyword (por example, “STOP”) aŭ by updating via notification agordoj en la aplikaĵo."
+        "body": "Se vi provizas poŝtelefonan numeron, vi konsentas, ke Chatforia povas sendi al vi SMS-mesaĝojn rilatajn al via konto kaj uzo de la servo, kiel ensalutaj atentigoj, sekurecaj sciigoj, kaj mesaĝoj rilataj al konversacioj, kiujn vi iniciatas aŭ en kiuj vi partoprenas. Ni ne uzas SMS por reklamaj aŭ merkataj mesaĝoj sen via eksplicita konsento. Normaj tarifoj por mesaĝoj kaj datumoj povas aplikiĝi. Vi povas rezigni de SMS-mesaĝoj iam ajn respondante per subtenata nuliga ŝlosilvorto (ekzemple, \"STOP\") aŭ ĝisdatigante viajn sciigajn agordojn en la aplikaĵo."
       },
       "yourContent": {
         "title": "Via enhavo",
-        "body": "Vi retain rights al via enhavo. Vi grant us necessary rights al operate la service (e.g., routing, storage, traduko)."
+        "body": "Vi konservas rajtojn pri via enhavo. Vi donas al ni la necesajn rajtojn por funkciigi la servon (ekz., rutado, stokado, tradukado)."
       },
-      "disclaimer": {
-        "title": "Malgarantioj kaj respondeco",
-        "body": "Service is provided “as is” without warranties. To la fullest extent permitted by law, Chatforia isn’t liable por indirect aŭ consequential damages."
+      "senrespondecigo": {
+        "titolo": "Senrespondecigoj kaj respondeco",
+        "korpo": "La servo estas provizata \"kiel estas\" sen garantioj. Laŭ la plej plena mezuro permesita de la leĝo, Chatforia ne respondecas pri nerektaj aŭ konsekvencaj damaĝoj."
       },
-      "changes": {
-        "title": "Ŝanĝoj",
-        "body": "Ni may ĝisdatigi these terms; continued use after changes means acceptance."
+      "ŝanĝoj": {
+        "titolo": "Ŝanĝoj",
+        " body": "Ni povas ĝisdatigi ĉi tiujn kondiĉojn; daŭra uzo post ŝanĝoj signifas akcepton."
       },
       "contact": {
         "title": "Kontakto",
         "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
     },
-    "doNotSell": {
-      "title": "Do Not Sell aŭ Share My Personal Information",
-      "body": "Chatforia does not sell personal information. California residents povas still sendi requests under CPRA using la button below.",
-      "cta": "Sendi a request"
-    },
-    "cookies": {
-      "title": "Cookie Agordoj",
-      "body": "Chatforia uses minimal cookies (e.g., session, sekureco). Ni don’t use third-party ads cookies. Administri cookies via via browser’s agordoj."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Unable al load telefonnumero stato.",
-      "lock": "Ŝlosi",
-      "noNumberAssigned": "Ne numero assigned. Pick one by area code al start texting.",
-      "pickNumber": "Pick a numero",
-      "phoneNumber": "Telefonnumero"
-    },
-    "startChatModal": {
-      "title": "Komenci babilejon",
-      "quickPicker": "Rapida elektilo",
-      "to": "Al",
-      "nameOrUsername": "Type a nomo, uzantnomo",
-      "nameUsernamePhoneEmail": "Type a nomo, uzantnomo, telefono, aŭ retpoŝto…",
-      "startWithSelected": "Start babili kun selected",
-      "searchByUsernameOrPhone": "Serĉi by uzantnomo aŭ telefono",
-      "search": "Serĉi",
-      "searchPrompt": "Type a uzantnomo aŭ telefono kaj press Serĉi.",
-      "pickFromContacts": "Or pick de kontaktoj",
-      "addContact": "Aldoni a Kontakto",
-      "show": "Montri",
-      "add": "Aldoni",
-      "close": "Fermi",
-      "selectedCount": "{{count}} elektitaj",
-      "pickAtLeastOne": "Elektu almenaŭ unu ricevonton.",
-      "saveContactsHint": "Telefono/retpoŝto entries estos be disponebla after vi save them as kontaktoj.",
-      "failedBulkStart": "Malsukcesis al start babili kun selected recipients.",
-      "noResults": "Neniuj rezultoj",
-      "mode": "Reĝimo",
-      "group": "Grupo",
-      "broadcast": "Dissendo",
-      "groupNameOptional": "Group nomo (nedeviga)",
-      "firstMessageOptional": "First mesaĝo (nedeviga but recommended)",
-      "createGroup": "Krei group",
-      "sendBroadcast": "Sendi broadcast"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aŭroro",
-      "neon": "Neono",
-      "sunset": "Sunsubiro",
-      "solarized": "Solarizita",
-      "velvet": "Veluro"
-    },
-    "sounds": {
-      "freeNotice": "Vi’re sur Free — premium tones are shown but ŝlosita. Upgrade al unlock ĉiuj.",
-      "preview": "Antaŭrigardo",
-      "resetToDefaults": "Restarigi al defaults",
-      "notificationSounds": "Sciigaj Sonoj",
-      "messageTone": "Mesaĝo tone",
-      "default": "Defaŭlta",
-      "vibrate": "Vibri",
-      "dreamer": "Revulo",
-      "notify": "Sciigi",
-      "pop": "Pop",
-      "pulsatingSound": "Pulsanta Sono",
-      "textMessage": "Teksto Mesaĝo",
-      "xylophone": "Ksilofono",
-      "classic": "Klasika",
-      "urgency": "Urĝeco",
-      "bells": "Sonoriletoj",
-      "chimes": "Sonoriloj",
-      "digitalPhone": "Digital Telefono",
-      "melodic": "Melodia",
-      "organNotes": "Orgenaj Notoj",
-      "soundReality": "Sona Realeco",
-      "street": "Strato",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Ĉi tiu funkcio requires a Premium plano."
-    },
-    "aiSettings": {
-      "title": "AI Agordoj",
-      "controlIntro": "Control traduko, smart replies, kaj ForiaBot aŭtomata-responses.",
-      "save": "Save AI Agordoj",
-      "autoTranslateIncoming": "Aŭtomata-translate envenanta mesaĝoj",
-      "showOriginalAlongside": "Show original teksto alongside traduko",
-      "enableSmartReplies": "Ebligi Smart Replies",
-      "smartRepliesHint": "Sendi la last few received mesaĝoj (sanitized) al AI al suggest quick replies.",
-      "maskProfanity": "Mask profanity en AI suggestions",
-      "maskProfanityHint": "If sur, suggestions returned by AI estos have flagged words masked",
-      "foriaBot": "ForiaBot Aŭtomata-Responder",
-      "enableAutoReply": "Ebligi aŭtomata-respondi kiam I’m busy",
-      "autoReplyMode": "Aŭtomata-respondi mode",
-      "cooldownSeconds": "Malvarmiĝa tempo (sekundoj)",
-      "off": "Malŝaltita",
-      "on": "Ŝaltita",
-      "signature": "Subskribo",
-      "autoReply": "Aŭtomata-respondi",
-      "activeUntilOptional": "Aktiva until (nedeviga)",
-      "saved": "AI preferences konservita",
-      "saveFailed": "Malsukcesis al save AI agordoj",
-      "translateOff": "Malŝaltita",
-      "translateTagged": "Only kiam @translated aŭ tagged",
-      "translateAll": "Translate ĉiuj envenanta mesaĝoj",
-      "modeDm": "1:1 babiloj only",
-      "modeMention": "Only kiam I’m @mentioned",
-      "modeAll": "Ĉiuj inbound mesaĝoj"
-    },
-    "accessibilitySettings": {
-      "title": "Alirebleco kaj Atentigoj",
-      "accessibility": "Alirebleco",
-      "accessibilityDesc": "Options al make Chatforia easier al use without relying sur sound.",
-      "interfaceFontSize": "Interfaca tipargrandeco",
-      "interfaceFontSizeHelp": "Starts at normal size. Increase if vi prefer larger teksto en accessibility agordoj.",
-      "sm": "malgranda",
-      "md": "meza",
-      "lg": "granda",
-      "xl": "tre granda",
-      "notifications": "Sciigoj",
-      "notificationsDesc": "Visual alerts por mesaĝoj & vokoj\nShow banners kaj titolo blink so vi don’t miss agado.",
-      "vibrateOnNew": "Vibrate sur nova mesaĝoj (kiam supported)\nTrigger aparato vibration kun notifications.",
-      "flashOnCall": "Flash screen sur envenanta voko\nBrief bright flash kiam a voko rings.",
-      "liveCaptions": "Live captions (vokoj)",
-      "captionFontSize": "Priskribo font size",
-      "captionBackground": "Priskribo background",
-      "light": "hela",
-      "dark": "malhela",
-      "transparent": "travidebla",
-      "voiceNotes": "Voĉnotoj",
-      "autoTranscribeVoiceNotes": "Aŭtomata-transcribe voice notes",
-      "autoTranscribeVoiceNotesDesc": "Attach a transcript al sono mesaĝoj vi receive.",
-      "changesSavedInstantly": "Changes are konservita instantly.",
-      "loadFailed": "Malsukcesis al load agordoj",
-      "visualAlerts": "Visual alerts por mesaĝoj & vokoj",
-      "visualAlertsDesc": "Show banners kaj titolo blink so vi don’t miss agado.",
-      "vibrateOnNewShort": "Vibrate sur nova mesaĝoj (kiam supported)",
-      "vibrateOnNewDesc": "Trigger aparato vibration kun notifications.",
-      "flashOnCallShort": "Flash screen sur envenanta voko",
-      "flashOnCallDesc": "Brief bright flash kiam a voko rings."
-    },
-    "privacySection": {
-      "strictE2EE": "Strict fin-al-fina ĉifrado",
-      "ciphertextOnlyNote": "Store only ciphertext sur la server. Disables AI/Translate kaj moderation previews."
-    },
-    "linkedDevicesPanel": {
-      "title": "Ligitaj Aparatoj",
-      "noneFound": "Ne linked aparatoj found.",
-      "refresh": "Refreŝigi"
-    },
-    "help": {
-      "title": "Helpo",
-      "howCanWeHelp": "Kiel povas ni helpo?",
-      "helpCenter": "Helpcentro",
-      "contactUs": "Kontakto us",
-      "quickTopics": "Rapidaj temoj",
-      "searchExamples": "Provu searching por “translate”, “rezervoj”, aŭ “privateco”.",
-      "cantLogin": "Povas't log en",
-      "paymentsBilling": "Payments/ fakturadon",
-      "reportAbuse": "Raporti abuse",
-      "searchHelpArticles": "Serĉi helpo articles",
-      "search": "Serĉi"
-    },
-    "peoplePage": {
-      "people": "Homoj",
-      "search": "Serĉi",
-      "searchPlaceholder": "Serĉi by alinomo, nomo, uzantnomo, aŭ telefono",
-      "filterSaved": "Filtri konservita kontaktoj",
-      "noContactsFound": "Ne kontaktoj found",
-      "quickStart": "Rapida komenco",
-      "quickStartDesc": "A few fast ways al get rolling.",
-      "importContacts": "Import via kontaktoj",
-      "add": "Aldoni",
-      "focusSearch": "Focus Serĉi",
-      "import": "Importi",
-      "findOrAdd": "Find aŭ aldoni someone",
-      "searchByPhoneOrUsername": "Serĉi by telefono / uzantnomo",
-      "inviteFriends": "Inviti amikoj",
-      "inviteDesc": "Share via inviti link al start chatting instantly.",
-      "getTheApp": "Akiri la aplikaĵon",
-      "getTheAppDesc": "Stay en touch sur la go kun Chatforia por iOS kaj Android.",
-      "download": "Elŝuti",
-      "syncTip": "Tip: Via mesaĝoj stay synced across web kaj poŝtelefono."
-    },
-    "randomChat": {
-      "title": "Hazarda Babilejo",
-      "description": "'Meet someone nova instantly'. 'Ni’ll match vi kaj malfermi a temporary babili room.' 'Babili anonymously first. Aldoni Amiko poste if it feels right.'",
-      "findMatch": "Trovu al mi kongruon",
-      "chatWithForia": "Babili kun Foria",
-      "chatWithForiaBot": "Babili kun ForiaBot",
-      "cancel": "Nuligi",
-      "close": "Fermi",
-      "searching": "Serĉante…",
-      "finding": "Trovante…",
-      "looking": "Looking por someone…",
-      "startingForia": "Starting a babili kun Foria…",
-      "partnerDisconnected": "Via partner disconnected.",
-      "noPartner": "Ne partner found right nun.",
-      "connectedTo": "Connected al {{name}}",
-      "connected": "Konektita",
-      "idle": "Neaktiva",
-      "partnerLeft": "Kunulo foriris.",
-      "stopped": "Haltigita.",
-      "skip": "Preterpasi",
-      "save": "Konservi",
-      "saveGuard": "Only human-al-human babiloj povas be konservita",
-      "youAreChattingWith": "Vi’re chatting kun {{name}}",
-      "bot": "ROBOTETO",
-      "leave": "Foriri",
-      "sayHi": "Salutu 👋",
-      "you": "Vi",
-      "typeMessage": "Type a mesaĝo",
-      "send": "Sendi",
-      "partner": "Kunulo",
-      "withRia": "Kun Ria",
-      "chatWithRia": "Babili kun Ria",
-      "startingRia": "Starting a babili kun Ria…",
-      "ageDisclaimer": "Ni only store an aĝo range (not via exact date de birth). Ĉi tiu is used al keep Random Babili pairings reasonable. To match kun people (not just RiaBot), set via aĝo band en Agordoj → Aĝo & Random Babili.",
-      "ageBandRequired": "Set via aĝo range en Profilo → Aĝo & Random Babili al be matched kun people.",
-      "ageBandCallout": "To match kun people (not just RiaBot), set via aĝo band en Agordoj → Aĝo & Random Babili.",
-      "subtitle": "Meet someone nova instantly, aŭ elekti al babili kun Ria.",
-      "start": "Komenci konversacion",
-      "matching": "Kongruigante…",
-      "setAge": "Set via aĝo range en Profilo → Aĝo & Random Babili al be matched kun people.",
-      "next": "Sekva Persono",
-      "addFriend": "Aldoni Amiko",
-      "requested": "Petita",
-      "messageRia": "Mesaĝo Ria…",
-      "messageMatch": "Mesaĝo via match…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "tie",
-      "intro": "Hey there 👋 I’m Ria. Kio’s sur via mind?",
-      "greetings": {
-        "long1": "Hey {{name}} 👋 I’m here. Kio’s sur via mind?",
-        "long2": "Hi {{name}} 😊 Kio would vi like al talk about hodiaŭ?",
-        "long3": "Hey {{name}}! I’m ĉiuj ears — kio’s up?",
-        "long4": "Nice al see vi, {{name}} 👋 Kio’s sur via mind hodiaŭ?",
-        "long5": "Hey {{name}} 🙂 Want al vent, ask, aŭ just babili?",
-        "long6": "Hi {{name}}! I’ve got time — kio would vi like al talk about?",
-        "short1": "Hey {{name}}, I’m still here. Kio’s up?",
-        "short2": "Welcome back {{name}} 👋 Anything else vi wanted al aldoni?",
-        "short3": "Back denove, {{name}}? 😊 Tell me kio’s sur via mind.",
-        "short4": "Hey {{name}} ✨ Ready al pick up kie ni left malŝaltita?",
-        "short5": "Jes {{name}}? I’m listening 👂",
-        "short6": "Oh hey {{name}}! Got something nova sur via mind?"
+    "refund": {
+      "title": "Politiko pri Repagoj",
+      "lasteĜisdatigita": "Laste ĝisdatigita:",
+      "enkonduko": "Ĉe Chatforia, ni strebas provizi altkvalitan servon al ĉiuj uzantoj. Ĉi tiu Politiko pri Repagoj skizas kiam repagoj povas esti eldonitaj.",
+      "abonoj": {
+        "titolo": "Abonoj",
+        "korpo": "Abonoj estas pagendaj anticipe kaj ripete. Vi povas nuligi iam ajn per viaj kontoparametroj aŭ per la platformo uzita por aĉeti."
       },
-      "header": {
-        "openNav": "Malfermi navigation menu",
-        "closeNav": "Fermi navigan menuon",
-        "homeAria": "Hejmo de Chatforia"
+      "rajteco": {
+        "title": "Rajto je Repago",
+        "body": "Repagoj povas esti konceditaj pro duoblaj pagoj, fakturaj eraroj, aŭ teknikaj problemoj malhelpantaj aliron al pagitaj funkcioj. Ĉiuj petoj estas ekzamenataj kazo post kazo."
       },
-      "login": {
-        "welcomeBack": "Bonvenon reen",
-        "title": "Daŭrigi al Chatforia",
-        "subtitleReturning": "Log en al via Chatforia konto",
-        "subtitle": "Log en al via Chatforia konto",
-        "google": "Daŭrigi per Google",
-        "apple": "Daŭrigi per Apple",
-        "googleUnavailable": "Google ensaluti-en unavailable",
-        "appleUnavailable": "Apple ensaluti-en unavailable",
-        "or": "aŭ",
-        "email": "Retpoŝto",
-        "emailPh": "vi@example.com",
-        "usernameLabel": "Uzantnomo",
-        "usernamePh": "Via uzantnomo",
-        "passwordLabel": "Pasvorto",
-        "passwordPh": "Via pasvorto",
-        "keepSignedIn": "Restigi min ensalutinta",
-        "forgot": {
-          "title": "Forgot Pasvorto",
-          "helper": "Enter la retpoŝto vi used al krei via Chatforia konto kaj ni'll sendi vi a sekura link al restarigi via pasvorto.",
-          "emailInvalid": "Please enter a valid retpoŝto address.",
-          "genericError": "Unable al process request. Please provi denove en a moment.",
-          "sending": "Sending restarigi link...",
-          "sendCta": "Sendi Restarigi Link",
-          "sentLabel": "Sendita!",
-          "sentHelper": "If an konto exists kun tiu retpoŝto, ni've sent a pasvorto restarigi link. It may take a few minutes al arrive. Be sure al check via spam aŭ promotions folder.",
-          "previewDev": "Preview Retpoŝto (Dev)",
-          "backToLogin": "Back al Ensaluti"
+      "neRepagebla": {
+        "title": "Ne-Repagebla",
+        "body": "Ni ĝenerale ne provizas repagojn pro neuzita tempo, partaj abonperiodoj, aŭ malsukceso nuligi antaŭ renovigo.\"    ",
+        "triapartio ": {
+          "title": "Aĉetoj de Triaj Partioj",
+          "body": "Se aĉetite per platformoj de triaj partioj kiel la Apple App Store, repagoj devas esti petataj rekte per tiuj platformoj."
         },
-        "submit": "Ensaluti",
-        "loggingIn": "Logging en…",
-        "newHere": "Nova here? <link>Krei an konto</link>",
-        "ssoUnavailable": "Single-ensaluti-sur is currently unavailable. Use uzantnomo & pasvorto instead.",
-        "error": {
-          "missing": "Please enter via credentials.",
-          "invalid": "Invalid uzantnomo aŭ pasvorto",
-          "denied": "Aliro rifuzita.",
-          "unprocessable": "Invalid request. Check via uzantnomo/retpoŝto kaj pasvorto.",
-          "deviceLimit": "Aparato limit reached por la Free plano. Log out sur another aparato aŭ upgrade al Premium al link more aparatoj.",
-          "premiumRequired": "Ĉi tiu action requires a Premium plano."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Completing ensaluti-en…"
-    },
-    "dialer": {
-      "title": "Vokoj",
-      "subtitle": "Keypad & recents. (If vi don’t use PSTN, start vokoj de a conversation header.)",
-      "enterNumberPh": "Enter numero",
-      "call": "Voki",
-      "backspace": "Retropaŝo",
-      "recents": "Lastatempaj",
-      "recentsEmpty": "Ne recent vokoj yet.",
-      "enterNumber": "Enter numero",
-      "enterNumberAria": "Enter numero",
-      "key": "Ŝlosilo {{d}}",
-      "noRecents": "Ne recent vokoj yet."
-    },
-    "video": {
-      "title": "Video",
-      "chooseType": "Elekti a video type.",
-      "directTitle": "Rekta Video",
-      "directDesc": "1:1 camera voko kun another uzanto.",
-      "directStart": "Komenci",
-      "roomsTitle": "Ĉambroj",
-      "roomsDesc": "Multi-party video using a kunhavita room nomo.",
-      "roomsIntro": "Join aŭ krei a multi-party room.",
-      "roomNameLabel": "Room nomo",
-      "roomNamePh": "ekz. team-standup",
-      "join": "Aliĝi",
-      "deeplinkTip": "Tip: vi povas deep link directly al <code>/video?room=room-nomo</code>.",
-      "hub": {
-        "title": "Video",
-        "subtitle": "Elekti a video type."
-      },
-      "direct": {
-        "title": "Rekta Video",
-        "subtitle": "Start a 1:1 video voko using a telefonnumero aŭ Chatforia uzantnomo.",
-        "desc": "1:1 camera voko kun another uzanto.",
-        "start": "Komenci",
-        "callBtn": "Voki",
-        "callByPhone": {
-          "title": "Voko by telefono"
-        },
-        "phone": {
-          "placeholder": "Enter telefono (e.g., +1-555-123-4567)",
-          "aria": "Telefono al voko"
-        },
-        "tipInvite": "Tip: Paste a numero kaj voko without saving a kontakto. Ni’ll inviti non-uzantoj by link.",
-        "findUser": {
-          "title": "Find a uzanto"
-        },
-        "search": {
-          "placeholder": "Serĉi by nomo aŭ uzantnomo",
-          "aria": "Serĉi by nomo aŭ uzantnomo",
-          "btn": "Serĉi"
+        "contact": {
+          "title": "Kontakto",
+          "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, Usono"
         }
       },
-      "rooms": {
-        "title": "Ĉambroj",
-        "subtitle": "Krei a room aŭ join an existing one by typing la same nomo.",
-        "desc": "Multi-party video using a kunhavita room nomo.",
-        "roomLabel": "Room nomo",
-        "roomPlaceholder": "ekz. team-standup",
-        "roomAria": "Room nomo",
-        "joinCreate": "Join / Krei",
-        "tip": "Tip: share ĉi tiu nomo kun others, aŭ deep link al <code>/video?room=room-nomo</code>."
+      "doNotSell": {
+        "title": "Ne vendu aŭ kunhavigu miajn personajn informojn",
+        "body": "Chatforia ne vendas personajn informojn. Kaliforniaj loĝantoj ankoraŭ povas sendi petojn laŭ CPRA uzante la suban butonon.",
+        "cta": "Sendi peton"
+      },
+      "cookies": {
+        "title": "Agordoj de kuketoj",
+        "body": "Chatforia uzas minimumajn kuketojn (ekz., sesiajn, sekurecajn). Ni ne uzas kuketojn por reklamoj de triaj partioj. Administru kuketojn per la agordoj de via retumilo."
+      },
+      "premiumGuard": {
+        "requiresPremium": "Ĉi tiu funkcio postulas Premium-planon."
+      },
+      "smsPolicy": {
+        "title": "Chatforia — SMS-Politiko kaj Aliĝo",
+        "lastUpdated": "Laste ĝisdatigita:",
+        "whatWeSend": {
+          "title": "Kion ni sendas",
+          "body": "Chatforia sendas nur konto-rilatajn kaj konversaciajn SMS-ojn al telefonnumeroj, kiujn uzanto eksplicite provizis kaj konsentis. Tipaj mesaĝoj inkluzivas ensalutkodojn/konfirmkodojn, sciigojn pri mesaĝ-livero, sekurecajn avertojn, kaj transakciajn konto-ĝisdatigojn."
+        },
+        "optIn": {
+          "title": "Kiel uzantoj aliĝas",
+          "body": "Uzantoj aliĝas enigante sian telefonnumeron dum registrado kaj markante la SMS-konsentan markobutonon sur la registra paĝo aŭ la dediĉita",
+          "link": "aliĝilo"
+        },
+        "malaliĝo": {
+          "title": "Kiel uzantoj malaliĝas",
+          "stop": "Respondu per STOP al iu ajn SMS de Chatforia por malaboni.",
+          "start": "Respondu per START por reaboni.",
+          "contactPrefix": "Kontaktu la subtenon ĉe"
+        },
+        "help": {
+          "title": "Helpo",
+          "bodyPrefix": "Respondu per HELP por helpo aŭ retpoŝtu al"
+        },
+        "privacyTerms": {
+          "title": "Privateco & Kondiĉoj",
+          "bodyStart": "Konsentante pri SMS, uzantoj ankaŭ konsentas pri niaj",
+          "terms": "Servokondiĉoj",
+          "and": "kaj",
+          "privacy": "Privateca Politiko"
+        },
+        "footer": "© 2026 Chatforia Inc."
       }
-    },
-    "directVideo": {
-      "intro": "Start a direct 1:1 video voko.",
-      "findUserLabel": "Find a uzanto",
-      "findUserPh": "Serĉi by nomo aŭ uzantnomo",
-      "search": "Serĉi",
-      "call": "Voki"
-    },
-    "phoneWarning": {
-      "title": "Via numero is expiring baldaŭ",
-      "body": "Via numero {{number}} estos be released sur {{date}} unless reactivated.",
-      "button": "Keep My Numero"
-    }
-  },
-  "support": {
-    "helpFab": "Helpo",
-    "openSupportAria": "Malfermi subteno",
-    "badge": "Subteno",
-    "heading": "Kiel povas ni helpo?",
-    "tabs": {
-      "help": "Helpcentro",
-      "contact": "Kontakto us"
-    },
-    "searchPlaceholder": "Serĉi helpo articles…",
-    "searchAria": "Serĉi helpo",
-    "searchBtn": "Serĉi",
-    "quickTopicsLabel": "Rapidaj temoj",
-    "quickTopics": {
-      "login": "Povas’t log en",
-      "billing": "Payments / fakturadon",
-      "abuse": "Raporti abuse"
-    },
-    "trySearching": "Provu searching por “translate”, “rezervoj”, aŭ “privateco”.",
-    "article": "Artikolo",
-    "openArticle": "Malfermi article",
-    "contactIntro": "Ni’ll provi al resolve ĉi tiu instantly. If not, our team estos follow up.",
-    "topicAria": "Elekti a topic",
-    "messagePlaceholder": "Write via mesaĝo…",
-    "sendBtn": "Sendi",
-    "sent": "Mesaĝo sent. Ni’ll respondi by retpoŝto.",
-    "sendError": "Could not sendi. Retpoŝto support@chatforia.com instead.",
-    "actionCompleted": "Action kompletigita.",
-    "actionFailed": "Could not complete tiu action. Please provi denove.",
-    "escalationMessage": "Ni couldn’t resolve ĉi tiu automatically. Our team estos follow up.",
-    "genericError": "Something went wrong. Please provi denove.",
-    "analyzing": "Analyzing via issue...",
-    "takeAction": "Fari rekomenditan agon",
-    "resolvedInstantly": "Issue resolved instantly — ne ticket needed.",
-    "escalating": "Escalating al subteno..."
-  },
-  "helpCenter": {
-    "title": "Helpcentro",
-    "faq": {
-      "account": {
-        "q": "Kiel mi kreas aŭ reakiras mian konton?",
-        "a": "Elŝuti la aplikaĵo aŭ use web, tap “Krei konto”, verify via retpoŝto/telefono. To recover, use “Forgot pasvorto”."
-      },
-      "privacy": {
-        "q": "Ĉu mesaĝoj estas fin-al-fine ĉifritaj?",
-        "a": "Jes. Messages kaj vokoj are fin-al-fine ĉifrita by default. Only vi kaj la recipient povas legi them."
-      },
-      "translate": {
-        "q": "Kiel funkcias tuja traduko?",
-        "a": "Ebligi “Aŭtomata-translate” en Agordoj → Appearance & Lingvo. Ni translate sur-aparato kie supported, otherwise through sekura APIs kun minimal metadata."
-      },
-      "contact": {
-        "q": "Kontakti subtenon",
-        "a": "Reach us at support@chatforia.com. Include screenshots kaj via aplikaĵo version."
-      }
-    }
-  },
-  "encryptionRecovery": {
-    "title": "Administri Encryption",
-    "description": "Back up, restarigi, unlock, aŭ restarigi via encryption ŝlosilo.",
-    "alert": {
-      "keyRequiredTitle": "Encryption ŝlosilo bezonata",
-      "keyRequiredBody": "Ĉi tiu browser cannot currently decrypt via encrypted mesaĝoj. Restarigi, unlock, aŭ restarigi via ŝlosilo al daŭrigi."
-    },
-    "sections": {
-      "createBackup": "Krei ŝlosilo rezervo",
-      "restoreFromBackup": "Restarigi de konto rezervo",
-      "resetEncryption": "Restarigi encryption"
-    },
-    "fields": {
-      "unlockPasscode": {
-        "label": "Unlock passcode (aktuala aparato)",
-        "description": "Used al decrypt via ŝlosiloj locally before exporting"
-      },
-      "backupPassword": {
-        "label": "Rezervo pasvorto",
-        "description": "Used al encrypt la rezervo file"
-      },
-      "restoreBackupPassword": {
-        "label": "Rezervo pasvorto",
-        "description": "La pasvorto vi created kiam backing up via ŝlosilo sur iPhone"
-      },
-      "newLocalPasscode": {
-        "label": "Nova local passcode",
-        "description": "Protect ŝlosiloj at rest sur ĉi tiu browser"
-      },
-      "resetLocalPasscode": {
-        "label": "Nova local passcode",
-        "description": "Required before resetting so la nova ŝlosilo is protected sur ĉi tiu aparato"
-      }
-    },
-    "actions": {
-      "unlockKey": "Unlock encryption ŝlosilo",
-      "restoreFromBackup": "Restarigi de konto rezervo",
-      "resetEncryption": "Restarigi Encryption"
-    },
-    "messages": {
-      "backupCreated": "Ŝlosilo rezervo created kaj downloaded.",
-      "keyUnlocked": "Encryption ŝlosilo malŝlosita.",
-      "keyRestored": "Ŝlosilo restored de konto rezervo.",
-      "resetSuccess": "Encryption restarigi successfully."
-    },
-    "errors": {
-      "restoreIncomplete": "Ŝlosilo restarigi incomplete aŭ incorrect por ĉi tiu konto",
-      "noBackup": "Neniu ĉifrita rezervo ekzistas por ĉi tiu konto",
-      "missingPublicKey": "Al la rezervo mankas publika ŝlosilo",
-      "noServerPublicKey": "Ĉi tiu konto does not currently expose a server publika ŝlosilo",
-      "serverBackupMismatch": "Server rezervo does not match la aktuala konto encryption ŝlosilo",
-      "incompleteMetadata": "Rezervo metadata is incomplete",
-      "resetIncomplete": "Encryption restarigi did not complete correctly"
-    },
-    "confirm": {
-      "reset": "Restarigi encryption por ĉi tiu konto?\n\nOlder encrypted mesaĝoj may become unreadable unless vi restarigi la original ŝlosilo poste."
-    },
-    "resetDescription": "Ĉi tiu generates a nova encryption ŝlosilo por via konto. Older encrypted mesaĝoj may become unreadable unless vi restarigi la original ŝlosilo poste."
-  },
-  "footer": {
-    "plans": "Planoj kaj Prezoj",
-    "about": "Pri Chatforia",
-    "careers": "Karieroj",
-    "press": "Gazetaro",
-    "advertise": "Reklami",
-    "contact": "Kontaktu Nin",
-    "help": "Helpcentro",
-    "status": "Stato Page",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Privateca Politiko",
-    "terms": "Kondiĉoj de Servo",
-    "cookies": "Cookie Agordoj",
-    "doNotSell": "Ne Vendu Miajn Informojn",
-    "language": "Lingvo",
-    "contactShort": "Kontakto",
-    "aria": "Piedo",
-    "homeAria": "Hejmo de Chatforia",
-    "section": {
-      "company": "KOMPANIO",
-      "support": "SUBTENO",
-      "downloads": "ELŜUTOJ",
-      "legal": "LEĜAĴOJ"
-    },
-    "links": {
-      "plans-pricing": "Planoj kaj Prezoj",
-      "about-chatforia": "Pri Chatforia",
-      "careers": "Karieroj",
-      "press": "Gazetaro",
-      "advertise": "Reklami",
-      "getting-started": "Komencado",
-      "help-center": "Helpcentro",
-      "contact-us": "Kontaktu Nin",
-      "status-page": "Stato Page",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Privateca Politiko",
-      "terms-of-service": "Kondiĉoj de Servo",
-      "do-not-sell-my-info": "Ne Vendu Miajn Informojn",
-      "cookie-settings": "Cookie Agordoj"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Patento pritraktata",
-    "backToTop": "↑ Back al top"
-  },
-  "press": {
-    "title": "Gazetaro",
-    "contactLine": "For amaskomunikiloj inquiries, reach us at",
-    "boilerplateTitle": "Norma priskribo",
-    "boilerplateBody": "Chatforia is a privateco-first messaging aplikaĵo tiu makes cross-lingvo babili effortless. Messages are fin-al-fine ĉifrita by default, kaj built-en traduko supports 100+ languages en real time. Users povas ebligi malaperantaj mesaĝoj, keep legokonfirmoj nedeviga, kaj sinkronigo across aparatoj. Disponebla sur iOS, Android, kaj la web.",
-    "assetsTitle": "Markaj aktivoj",
-    "assetsSubtitle": "Logos, screenshots, kaj product imagery.",
-    "downloadCta": "Elŝuti amaskomunikiloj kit",
-    "downloadTitle": "Akiri la aplikaĵon",
-    "scanTip": "On desktop? Scan kun via telefono al get la aplikaĵo.",
-    "qrAria": "Malfermi Chatforia website",
-    "appStore": "Elŝuti sur la App Store",
-    "googlePlay": "Get it sur Google Play"
-  },
-  "careers": {
-    "title": "Karieroj",
-    "intro": "Ni’re a small founding team building Chatforia — a private, tutmonda messenger launching sur web, iOS, kaj Android. If vi care about privateco, encryption, kaj delightful uzanto experiences, ni’d love al hear de vi.",
-    "openRoles": "<b>Malfermi founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Poŝtelefono Engineer (iOS), Poŝtelefono Engineer (Android), DevOps/SRE, Sekureco &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
-    "apply": "Kiel al apply: Use la button below al retpoŝto via resume kaj links.",
-    "emailCta": "Retpoŝto via resume",
-    "whyNow": "Kial join nun?",
-    "whyBullets": "• Helpo build la foundation de a nova tutmonda messenger.\n• Ship improvements used across web, iOS, kaj Android.\n• Work directly kun la founder sur architecture kaj product direction.\n• Own high-impact areas de la stack: messaging, voice, video, encryption, telecom, AI.\n• Join at la beginning — before la uzanto base scales."
-  },
-  "about": {
-    "title": "Pri Chatforia",
-    "description": "Chatforia is a sekura, multilingual messenger kun fin-al-fina ĉifrado, instant traduko, kaj voice/video calling. Our mission is simple: helpo people connect—safely, privately, kaj across languages.",
-    "valuesTitle": "Kio ni value",
-    "values": {
-      "privacy": "<b>Privateco-first:</b> E2E encryption by default.",
-      "access": "<b>Access por ĉiuj:</b> Aŭtomata-translate 100+ languages.",
-      "control": "<b>Control:</b> Disappearing mesaĝoj & legokonfirmoj are nedeviga.",
-      "privacy_aria": "Privateco-first: E2E encryption by default.",
-      "access_aria": "Access por ĉiuj: Aŭtomata-translate 100+ languages.",
-      "control_aria": "Control: Disappearing mesaĝoj kaj legokonfirmoj are nedeviga."
-    },
-    "howTitle": "Kiel Chatforia works",
-    "howDescription": "Messages are encrypted sur via aparato before they leave it. Traduko, rezervoj, kaj aparato sinkronigo are designed al minimize kio our servers povas see."
-  },
-  "advertise": {
-    "title": "Advertise kun Chatforia",
-    "description": "Reach engaged messaging uzantoj kun tasteful, brand-safe placements. Ni offer banner inventory en high-visibility spots, sponsorships, kaj house promos. Premium subscribers do not see ads.",
-    "adsense": {
-      "withPubIdShort": "Ni also serve inventory via Google AdSense. Vi povas target Chatforia kun publisher ID {{pubId}}, aŭ use la form below por direct sponsorships.",
-      "noPubIdShort": "Ni also serve some inventory via Google AdSense. Direct sponsorships are disponebla—use la form below."
-    },
-    "inventoryHeader": "Inventaro kaj Specifoj",
-    "placement": {
-      "displayBadge": "Montraĵo",
-      "acceptedSizes": "Akceptitaj grandecoj",
-      "adsenseSlot": "AdSense-loko:"
-    },
-    "noPlacementsPublic": "Ni’re finalizing our ad inventory. Tell us about via campaign kaj ni’ll recommend placements.",
-    "whyHeader": "Kial Chatforia?",
-    "why": {
-      "highSession": "High session frequency kaj dwell time en babili UI",
-      "brandSafe": "Mark-sekuraj formatoj; respektema frekvenca limigo",
-      "sponsoredMoments": "Sponsored moments (e.g., “Start a Babili” modal) disponebla",
-      "deals": "Direct deals aŭ programmatic via AdSense/Google Ads"
-    },
-    "contactHeader": "Kontakto",
-    "form": {
-      "submittedMsg": "Thanks! Via inquiry is sur its way. Ni’ll follow up shortly.",
-      "missingRequired": "Please fill en nomo, retpoŝto, kaj mesaĝo.",
-      "successToast": "Thanks! Ni’ll be en touch baldaŭ.",
-      "mailtoInfo": "Opening via retpoŝto client al sendi la inquiry…",
-      "nameLabel": "Via nomo",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "Retpoŝto",
-      "emailPlaceholder": "vi@kompanio.com",
-      "companyLabel": "Kompanio",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Monthly budget (nedeviga)",
-      "budgetPlaceholder": "ekz. $1,000–$20,000+",
-      "messageLabel": "Tell us about via campaign",
-      "messagePlaceholder": "Celado, datoj, KPI-oj, lokigaj preferoj…",
-      "sendCta": "Sendi inquiry"
-    },
-    "legal": {
-      "disclaimerStart": "By submitting, vi agree al our",
-      "terms": "Kondiĉoj",
-      "and": "kaj",
-      "privacy": "Privateca Politiko"
-    }
-  },
-  "randomChat": {
-    "title": "Hazarda Babilejo",
-    "subtitle": "Meet someone nova instantly, aŭ elekti al babili kun Ria.",
-    "start": "Komenci konversacion",
-    "description": "Babili anonymously first. Aldoni Amiko poste if it feels right.",
-    "findMatch": "Trovu al mi kongruon",
-    "chatWithRia": "Babili kun Ria",
-    "setAge": "Set via aĝo range en Profilo → Aĝo & Random Babili al be matched kun people.",
-    "idle": "Neaktiva",
-    "matching": "Kongruigante…",
-    "searching": "Serĉante…",
-    "cancel": "Nuligi",
-    "connectionProblem": "Konekta problemo",
-    "ai": "AI",
-    "anonymous": "Anonima",
-    "connectedAs": "Konektita kiel",
-    "waitingAddFriend": "Waiting por them al accept Aldoni Amiko…",
-    "hiddenUsernames": "Usernames stay hidden until both people elekti Aldoni Amiko.",
-    "riaSeparate": "Babili kun Ria anytime — separate de random human matching.",
-    "sendMessage": "Sendi mesaĝon",
-    "chatEnded": "Babili ended",
-    "conversationEnded": "Tiu conversation has ended.",
-    "findAnotherMatch": "Trovi alian kongruon",
-    "next": "Sekva Persono",
-    "addFriend": "Aldoni Amiko",
-    "requested": "Petita",
-    "leave": "Foriri",
-    "messageRia": "Mesaĝo Ria…",
-    "messageMatch": "Mesaĝo via match…"
-  },
-  "phoneNumberManager": {
-    "pickNumber": "Pick a numero",
-    "phoneNumber": "Telefonnumero",
-    "availableNumber": "Disponebla numero",
-    "premiumNumber": "Premium numero 🔒",
-    "freeNumberHint": "Free numero tiu may be recycled after inactivity.",
-    "premiumNumberHint": "Keep via numero while via Premium subscription is aktiva.",
-    "country": "Lando",
-    "areaCode": "Regionkodo",
-    "areaCodePlaceholder": "ekz., 415",
-    "capability": "Kapablo",
-    "search": "Serĉi",
-    "lockThisNumber": "Lock ĉi tiu numero (weekly aldoni-sur, coming baldaŭ)",
-    "premiumProtectedHint": "Premium numeroj are protected de recycling while via Premium subscription is aktiva.",
-    "availableNumbers": "Disponebla numeroj",
-    "searchHint": "Enter a 3-digit area code (US/CA only), aŭ leave blank, then serĉi.",
-    "keep": "Konservi",
-    "select": "Elekti",
-    "assignNumberFirst": "Assign a numero first.",
-    "premiumKeepFeature": "Keeping via numero is a Premium funkcio.",
-    "lockingPremiumFeature": "Locking numeroj is a Premium funkcio.",
-    "numberAssigned": "Numero assigned.",
-    "numberProtectedNow": "Via numero is nun protected.",
-    "numberProtected": "Numero protected.",
-    "numberUnprotected": "Numero unprotected.",
-    "numberReleased": "Numero released.",
-    "couldNotLoadNumbers": "Could not load numeroj.",
-    "couldNotAssign": "Could not assign tiu numero. It may have just been taken—provi another.",
-    "couldNotLease": "Could not lease tiu numero. It may have just been taken—provi another.",
-    "couldNotProtectNow": "Could not protect via numero right nun.",
-    "couldNotProtect": "Could not protect la numero.",
-    "couldNotUnprotect": "Could not unprotect la numero.",
-    "couldNotRelease": "Could not release la numero.",
-    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) aŭ leave blank.",
-    "noInventory": "Ne disponebla inventory right nun.",
-    "noFreeNumbers": "Ne senpaga numeroj are disponebla right nun.",
-    "noInventoryAreaCode": "Ne disponebla inventory por tiu area code right nun.",
-    "noFreeNumbersAreaCode": "Ne senpaga numeroj en our pool por tiu area code right nun.",
-    "releaseConfirm": "Release via aktuala numero? It may be assigned al someone else.",
-    "unprotect": "Malprotekti",
-    "keepThisNumber": "Keep ĉi tiu numero",
-    "replace": "Anstataŭigi",
-    "release": "Liberigi",
-    "active": "Aktiva",
-    "noNumber": "Ne numero",
-    "premiumFeature": "Premium funkcio",
-    "protectYourNumber": "Protect via numero",
-    "protected": "Protektita",
-    "notProtected": "Ne protektita",
-    "expiresInShort": "Expires en {{count}}d",
-    "expiresInDaysFull": "Expires en {{count}} day",
-    "expiringShort": "Eksvalidiĝanta{{suffix}}",
-    "renewsOn": "Renoviĝas {{date}}",
-    "releaseWarning": "Via numero may be released en {{count}} day. Upgrade al Premium al keep it protected.",
-    "pickNumberHint": "Pick a Chatforia numero al use por messaging kaj communication inside la aplikaĵo."
-  },
-  "sounds": {
-    "notificationSounds": "Sciigaj Sonoj",
-    "resetToDefaults": "Restarigi al defaults",
-    "freeNoticeStart": "Vi’re sur Free — premium tones are shown but ŝlosita. ",
-    "freeNoticeEnd": " al unlock ĉiuj.",
-    "messageTone": "Mesaĝo tone",
-    "ringtone": "Sonorilo",
-    "preview": "Antaŭrigardo",
-    "stop": "Halti",
-    "volume": "Volumo",
-    "messageToneFilesHint": "Put files en /publika/sounds/Mesaĝo_Tones",
-    "ringtoneFilesHint": "Put files en /publika/sounds/Ringtones",
-    "premiumRequired": "Premium bezonata por tiu selection.",
-    "saved": "Sound agordoj konservita.",
-    "saveFailed": "Could not save sound agordoj.",
-    "resetNotSaved": "Restarigi al defaults (not yet konservita).",
-    "premiumTone": "Tiu’s a Premium tone.",
-    "premiumRingtone": "Tiu’s a Premium ringtone.",
-    "customComingSoon": "Propra sound uploads coming baldaŭ."
-  },
-  "aiSettings": {
-    "title": "AI Agordoj",
-    "controlIntro": "Control traduko, smart replies, kaj ForiaBot aŭtomata-responses.",
-    "translation": "Traduko",
-    "autoTranslateIncoming": "Aŭtomata-translate envenanta mesaĝoj",
-    "showOriginalAlongside": "Show original teksto alongside traduko",
-    "smartReplies": "Lertaj Respondoj",
-    "enableSmartReplies": "Ebligi Smart Replies",
-    "smartRepliesHint": "Sendi la last few received mesaĝoj (sanitized) al AI al suggest quick replies.",
-    "maskProfanity": "Mask profanity en AI suggestions",
-    "maskProfanityHint": "If sur, suggestions returned by AI estos have flagged words masked",
-    "foriaBot": "ForiaBot Aŭtomata-Responder",
-    "enableAutoReply": "Ebligi aŭtomata-respondi kiam I’m busy",
-    "autoReplyMode": "Aŭtomata-respondi mode",
-    "cooldownSeconds": "Malvarmiĝa tempo (sekundoj)",
-    "signature": "Subskribo",
-    "autoReply": "🤖 Aŭtomata-respondi",
-    "activeUntilOptional": "Aktiva until (nedeviga)",
-    "save": "Save AI Agordoj",
-    "saved": "AI preferences konservita",
-    "saveFailed": "Malsukcesis al save AI agordoj",
-    "translateOff": "Malŝaltita",
-    "translateTagged": "Only kiam @translated aŭ tagged",
-    "translateAll": "Translate ĉiuj envenanta mesaĝoj",
-    "modeDm": "1:1 babiloj only",
-    "modeMention": "Only kiam I’m @mentioned",
-    "modeAll": "Ĉiuj inbound mesaĝoj",
-    "off": "Malŝaltita"
-  },
-  "accessibilitySettings": {
-    "title": "Alirebleco kaj Atentigoj",
-    "loadFailed": "Malsukcesis al load agordoj",
-    "accessibilityDesc": "Options al make Chatforia easier al use without relying sur sound.",
-    "interfaceFontSize": "Interfaca tipargrandeco",
-    "interfaceFontSizeHelp": "Starts at normal size. Increase if vi prefer larger teksto.",
-    "notifications": "Sciigoj",
-    "visualAlerts": "Visual alerts por mesaĝoj & vokoj",
-    "visualAlertsDesc": "Show banners kaj titolo blink so vi don’t miss agado.",
-    "vibrateOnNewShort": "Vibrate sur nova mesaĝoj (kiam supported)",
-    "vibrateOnNewDesc": "Trigger aparato vibration kun notifications.",
-    "flashOnCallShort": "Flash screen sur envenanta voko",
-    "flashOnCallDesc": "Brief bright flash kiam a voko rings.",
-    "liveCaptionsTitle": "Live captions (vokoj)",
-    "enableLiveCaptions": "Ebligi live captions during vokoj (Premium)",
-    "liveCaptionsDesc": "Show real-time captions de la other participant’s sono.",
-    "captionFontSize": "Priskribo font size",
-    "captionBackground": "Priskribo background",
-    "voiceNotes": "Voĉnotoj",
-    "autoTranscribeVoiceNotes": "Aŭtomata-transcribe voice notes",
-    "autoTranscribeVoiceNotesDesc": "Attach a transcript al sono mesaĝoj vi receive.",
-    "changesSavedInstantly": "Changes are konservita instantly.",
-    "sm": "Malgranda",
-    "md": "Meza",
-    "lg": "Granda",
-    "xl": "Ekstra Granda",
-    "light": "Hela",
-    "dark": "Malhela",
-    "transparent": "Travidebla"
-  },
-  "privacySection": {
-    "strictE2EE": "Strict fin-al-fina ĉifrado",
-    "ciphertextOnlyNote": "Store only ciphertext sur la server. Disables AI/Translate kaj moderation previews.",
-    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate estos be disabled.",
-    "strictE2EEDisabled": "Strikta E2EE malŝaltita. AI/Traduko reŝaltita."
-  },
-  "linkedDevicesPanel": {
-    "title": "Ligitaj aparatoj",
-    "noneFound": "Ne linked aparatoj found.",
-    "refresh": "Refreŝigi",
-    "unknown": "Nekonata",
-    "loadFailed": "Malsukcesis al load linked aparatoj",
-    "loadFailedLog": "Malsukcesis al load linked aparatoj",
-    "renamePrompt": "Enter a nova nomo por ĉi tiu aparato",
-    "renamed": "Aparato renamed",
-    "renameFailed": "Could not rename aparato",
-    "revoked": "Aparato revoked",
-    "revokeFailed": "Could not revoke aparato",
-    "unnamedDevice": "Unnamed aparato",
-    "primary": "Ĉefa",
-    "revokedStatus": "Revokita",
-    "addedLastSeen": "Aldonita {{created}} • Laste vidita {{lastSeen}}",
-    "renameDevice": "Rename aparato",
-    "revokeDevice": "Revoke aparato"
-  },
-  "peoplePage": {
-    "people": "Homoj",
-    "search": "Serĉi",
-    "searchPlaceholder": "Serĉi konservita kontaktoj by alinomo, nomo, uzantnomo, aŭ telefono",
-    "quickStart": "Rapida komenco",
-    "quickStartDesc": "Administri via kontaktoj kaj inviti amikoj.",
-    "importContacts": "Import via kontaktoj",
-    "import": "Importi",
-    "addContact": "Aldoni a kontakto",
-    "add": "Aldoni",
-    "inviteFriends": "Inviti amikoj",
-    "inviteDesc": "Share via inviti link al start chatting instantly.",
-    "getTheApp": "Akiri la aplikaĵon",
-    "getTheAppDesc": "Stay en touch sur la go kun Chatforia por iOS kaj Android.",
-    "download": "Elŝuti",
-    "syncTip": "Tip: Via mesaĝoj stay synced across web kaj poŝtelefono."
-  },
-  "dialer": {
-    "title": "Vokoj",
-    "subtitle": "Keypad & recents. (If vi don’t use PSTN, start vokoj de a conversation header.)",
-    "enterNumber": "Enter numero",
-    "enterNumberAria": "Enter numero",
-    "resolving": "Resolving voko target…",
-    "call": "Voki",
-    "callBrowser": "Voko via browser",
-    "backspace": "Retropaŝo",
-    "recents": "Lastatempaj",
-    "noRecents": "Ne recent vokoj yet.",
-    "resolveFailed": "Could not resolve voko target.",
-    "callRequiredNumber": "Vi need a Chatforia numero before placing telefono vokoj.",
-    "callFailed": "Could not place voko.",
-    "deleteConfirm": "Forigi ĉi tiu voko de recents?",
-    "deleteFailed": "Could not forigi voko.",
-    "deleteFailedLog": "Malsukcesis al forigi voko",
-    "outgoing": "Eliranta",
-    "incoming": "Envenanta",
-    "missed": "Maltrafita",
-    "declined": "Malakceptita",
-    "failed": "Malsukcesis",
-    "completed": "Kompletigita",
-    "outgoingCall": "Eliranta Voko",
-    "incomingCall": "Envenanta Voko",
-    "voicemail": "Voĉpoŝto",
-    "callAria": "Voko {{name}}",
-    "deleteAria": "Forigi voko kun {{name}}"
-  },
-  "callHistory": {
-    "title": "Vokoj",
-    "subtitle": "Via recent envenanta kaj eliranta vokoj.",
-    "loadFailed": "Could not load voko historio.",
-    "loadFailedTitle": "Couldn’t load voko historio",
-    "emptyTitle": "Ne vokoj yet",
-    "emptySubtitle": "Via recent vokoj estos show up here.",
-    "outgoing": "Eliranta",
-    "incoming": "Envenanta",
-    "missed": "Maltrafita",
-    "declined": "Malakceptita",
-    "failed": "Malsukcesis",
-    "completed": "Kompletigita",
-    "outgoingCall": "Eliranta Voko",
-    "incomingCall": "Envenanta Voko",
-    "voicemail": "Voĉpoŝto"
-  },
-  "video": {
-    "hub": {
-      "title": "Video",
-      "subtitle": "Elekti a video type."
-    },
-    "direct": {
-      "title": "Rekta Video",
-      "subtitle": "Start a 1:1 video voko kun another uzanto.",
-      "desc": "1:1 camera voko kun another uzanto.",
-      "start": "Komenci"
-    },
-    "rooms": {
-      "title": "Ĉambroj",
-      "subtitle": "Krei a room aŭ join an existing one by typing la same nomo.",
-      "desc": "Multi-party video using a kunhavita room nomo.",
-      "roomLabel": "Room nomo",
-      "roomPlaceholder": "ekz. team-standup",
-      "roomAria": "Room nomo",
-      "joinCreate": "Join / Krei",
-      "tip": "Tip: share ĉi tiu nomo kun others, aŭ deep link al"
     }
   }
 }

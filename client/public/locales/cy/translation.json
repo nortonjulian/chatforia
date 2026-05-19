@@ -1,2070 +1,982 @@
 {
-  "common": {
-    "save": "Cadw",
-    "cancel": "Canslo",
-    "refresh": "Adnewyddu",
-    "noMatches": "Dim cyfatebiaethau",
-    "cancelAria": "Canslo",
-    "copy": "Copïo",
-    "copied": "Wedi copïo!",
-    "errorWithMessage": "Gwall: {{message}}",
+  "cyffredin": {
+    "cadw": "Cadw",
+    "canslo": "Canslo",
+    "adnewyddu": "Adnewyddu",
+    "dimGweddill": "Dim gweddill",
+    "cansloAria": "Canslo",
+    "copïo": "Copïo",
+    "copïwyd": "Copïwyd!",
+    "gwallGydaNeges": "Gwall: { {message}}",
     "loading": "Yn llwytho…",
-    "saveError": "Methodd cadw"
+    "saveError": "Methodd y cadw"
   },
   "a11y": {
-    "skipToMain": "Neidio i’r prif gynnwys"
+    "skipToMain": "Neidio i'r prif gynnwys"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Allwedd copi wrth gefn crëwyd a downloaded ✓",
-    "restored": "Allwedd copi wrth gefn restored ✓ Allweddi installed locally",
-    "noBackup": "Na encrypted copi wrth gefn exists ar gyfer hwn cyfrif",
-    "missingPublicKey": "Copi wrth gefn is missing cyhoeddus allwedd"
+    "backupCreated": "Creodd a lawrlwythodd y copi wrth gefn allwedd ✓",
+    "restored": "Adferwyd y copi wrth gefn allwedd ✓ Gosodwyd yr allweddi'n lleol",
+    "noBackup": "Nid oes copi wrth gefn wedi'i amgryptio yn bodoli ar gyfer y cyfrif hwn",
+    "missingPublicKey": "Mae'r copi wrth gefn yn brin o allwedd gyhoeddus"
   },
   "keySetup": {
-    "title": "Set up eich dyfais allweddi",
-    "description": "Hwn dyfais ddim yn have eich preifat allwedd yet. Import password-protected copi wrth gefn, neu generate newydd keypair (you’ll be able i darllen newydd negeseuon o now ar).",
-    "chooseFile": "Dewis ffeil a enter y cyfrinair.",
-    "imported": "Preifat allwedd imported i hwn dyfais. Chi can darllen hen negeseuon now.",
-    "enterPassword": "Enter eich cyfrif cyfrinair so ni can yn ôl up eich allweddi securely."
+    "title ": "Sefydlu allweddi eich dyfais",
+    "disgrifiad": "Nid oes gan y ddyfais hon eich allwedd breifat eto. Mewnforwch gopi wrth gefn sydd wedi'i ddiogelu â chyfrinair, neu crëwch bâr o allweddi newydd (byddwch yn gallu darllen negeseuon newydd o hyn ymlaen).",
+    "dewisFfeil": "Dewiswch ffeil a nodwch y cyfrinair.",
+    "imported": "Mae'r allwedd breifat wedi'i mewnforio i'r ddyfais hon. Gallwch ddarllen negeseuon hen nawr.",
+    "enterPassword": "Rhowch gyfrinair eich cyfrif fel y gallwn wneud copi wrth gefn o'ch allweddi'n ddiogel."
+  },
+  "adfer-amgryptio": {
+    "title": "Rheoli Amgryptio",
+    "description": "Gwnewch gopi wrth gefn, adfer, datgloi, neu ailosod eich allwedd amgryptio.",
+    " alert": {
+      "keyRequiredTitle": "Mae angen allwedd amgryptio",
+      "keyRequiredBody": "Ni all y porwr hwn ddadgryptio eich negeseuon wedi'u hamgryptio ar hyn o bryd. Adfer, datgloi, neu ailosod eich allwedd i barhau."
+    },
+    "sections": {
+      "createBackup": "Creu copi wrth gefn o'r allwedd",
+      "restoreFromBackup": "Adfer o gopi wrth gefn y cyfrif",
+      "resetEncryption": "Ailosod amgryptio"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Cod pas datgloi (dyfais bresennol)",
+        "description": "Defnyddir i ddatgyfrifio'ch allweddi'n lleol cyn eu hallforio"
+      },
+      "backupPassword": {
+        "label": "Cyfrinair wrth gefn",
+        "description": "Defnyddir i gyfrifnu'r ffeil wrth gefn"
+      },
+      "restoreBackupPass word": {
+        "label": "Cyfrinair wrth gefn",
+        "description": "Y gyfrinair a grëwyd gennych wrth gefnogi eich allwedd ar iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Cod pas lleol newydd",
+        "description": "Diogelu allweddi wrth orffwys ar y porwr hwn"
+      },
+      "resetLocalPasscode": {
+        "label": "Cod pas lleol newydd",
+        "description": "Angenrheidiol cyn ailosod fel bod yr allwedd newydd yn cael ei diogelu ar y ddyfais hon"
+      }
+    },
+    "actions": {
+      "unlockKey": "Datgloi'r allwedd amgryptio",
+      "restoreFromBackup": " Adfer o gopi wrth gefn y cyfrif",
+      "ailosodAmgryptio": "Ailosod Amgryptio"
+    },
+    "negesau": {
+      "copiGwneud": "Mae copi wrth gefn o'r allwedd wedi'i greu a'i lawrlwytho.",
+      "allweddDatgloi": "Mae'r allwedd amgryptio wedi'i ddatgloi.",
+      "allweddAdfer": "Mae'r allwedd wedi'i adfer o gopi wrth gefn y cyfrif.",
+      "resetSuccess": "Ailgychwynwyd yr amgryptio'n llwyddiannus."
+    },
+    "gwallau": {
+      "restoreIncomplete": "Adferiad allwedd yn anghyflawn neu'n anghywir ar gyfer y cyfrif hwn",
+      "noBackup": "Nid oes copi wrth gefn wedi'i amgryptio yn bodoli ar gyfer y cyfrif hwn",
+      "allweddGyhoeddusArGoll": "Mae'r copi wrth gefn yn brin o allwedd gyhoeddus",
+      "dimAllweddGyhoeddusGweinydd": "Nid yw'r cyfrif hwn yn dangos allwedd gyhoeddus gweinydd ar hyn o bryd",
+      "gwahanolGopïauGwesteiwr": "Nid yw copi wrth gefn y gweinydd yn cyfateb i allwedd amgryptio cyfredol y cyfrif",
+      "metadataAnghyflawn": "Mae metadata y copi wrth gefn yn anghyflawn",
+      "ailgychwynAnghyflawn": "Ni chwblhaodd yr ailgychwyn amgryptio yn gywir "
+    },
+    "confirm": {
+      "reset": "Ailgadarnhau'r cyfrinair ar gyfer y cyfrif hwn?\n\nGall negeseuon wedi'u hamgryptio sy'n hŷn ddod yn anhygyr os na fyddwch yn adfer y cyfrinair gwreiddiol yn ddiweddarach."
+    },
+    "resetDescription": "Mae hwn yn cynhyrchu cyfrinair amgryptio newydd ar gyfer eich cyfrif. Gall negeseuon wedi'u hamgryptio sy'n hŷn ddod yn anhygyr os na fyddwch yn adfer y cyfrinair gwreiddiol yn ddiweddarach."
+  },
+  "smsConsent": {
+    "label": "Rwy'n cydsynio i dderbyn hysbysiadau a rhybuddion SMS gan {{companyName}}. Gall amlder y negeseuon amrywio. Gall costau negeseuon a data fod yn berthnasol. Atebwch <stop>STOP</stop> i ddad-danysgrifio ar unrhyw adeg. Atebwch <help>HELP</help> am gymorth."
+  },
+  "phoneField": {
+    "label": "Ffôn",
+    "anfod": "Rhif ffôn anghywir",
+    "awgrym": "Cynnwys côd gwlad os oes angen (e.e., +1 415…)"
   },
   "auth": {
-    "headline": "Negeseuon diogel i unrhyw un, unrhyw le",
-    "description": "Amgryptio pen-i-ben, cyfieithu i dros 100 o ieithoedd, negeseuon sy’n diflannu, a galwadau llais/fideo.",
-    "feature": {
-      "encryption": "amgryptio pen-i-ben by default",
-      "translation": "Smart, built-in neges cyfieithiad",
-      "disappearing": "Disappearing negeseuon & darllen receipts",
-      "privacy": "Privacy-first. Eich data, eich control.",
-      "translate": "Smart, built-in neges cyfieithiad",
-      "disappear": "Negeseuon sy’n diflannu",
-      "privacyAlt": "Privacy-first design",
-      "seePlans": "See cynlluniau & prisiau"
+    "pennawd": "Negeseuon diogel i unrhyw un, unrhyw le",
+    "disgrifiad": "Amgryptio o benn i ben, cyfieithu i 100+ o ieithoedd, negeseuon sy'n diflannu, a galwadau llais/fideo.",
+    "nodwedd": {
+      "amgryptio": "Amgryptio o benn i ben yn ddiofyn",
+      "cyfieithu": "Cyfieithu negeseuon clyfar, adeiledig",
+      "diflannu": "Negeseuon sy'n diflannu a derbynneb darllen",
+      "privacy": "Preifatrwydd yn gyntaf. Eich data, eich rheolaeth.",
+      "translate": "Cyfieithu negeseuon clyfar, adeiledig",
+      "disappear": "Negeseuon sy'n diflannu",
+      "privacyAlt": "Dyluniad sy'n rhoi preifatrwydd yn gyntaf",
+      "seePlans": "Gweld cynlluniau a phrisiau"
     },
     "hero": {
-      "line1": "Secure messaging ar gyfer anyone, anywhere — gyda",
-      "em": "cyfieithiad i 100+ ieithoedd",
-      "sub": "Get am ddim secure rhif ffôn i galwad a testun worldwide over Wi-Fi neu data. Enjoy amgryptio pen-i-ben, disappearing negeseuon, a HD voice/fideo calling — gyda built-in tools hynny cymorth chi stay connected across borders.",
-      "freeNote": "Basic calling a texting are am ddim. Advanced AI a premiwm features require uwchraddio."
+      "line1": "Negeseuon diogel i unrhyw un, unrhyw le — gyda",
+      "em": "cyfieithu i 100+ o ieithoedd",
+      "sub": "Cael rhif ffôn diogel am ddim i ffonio a thextio ledled y byd dros Wi-Fi neu ddata. Mwynhewch amgryptio pen-i-ben, negeseuon sy'n diflannu, a galwadau llais/fideo HD — gyda chyfarpar adeiledig sy'n eich helpu i aros yn gysylltiedig ar draws ffiniau.",
+      "freeNote": "Mae galw a theipio sylfaenol am ddim. Mae angen uwchraddio ar gyfer nodweddion AI a phremiwm."
     },
     "feat": {
-      "encryption": "amgryptio pen-i-ben, always ar",
-      "translate": "Break iaith barriers yn eich sgyrsiau",
-      "disappear": "Disappearing negeseuon & darllen receipts",
-      "privacy": "Privacy-first. Eich data, eich control."
+      "encryption": "Amgryptio pen-i-ben, ymlaen bob amser",
+      "translate": "Torri rhwystrau iaith yn eich sgyrsiau",
+      "disappear": "Negeseuon sy'n diflannu a derbynneb darllen",
+      "privacy": "Preifatrwydd yn gyntaf. Eich data, eich rheolaeth. "
     },
     "continueGoogle": "Parhau gyda Google",
     "continueApple": "Parhau gydag Apple",
     "username": "Enw defnyddiwr",
     "password": "Cyfrinair",
     "keepSignedIn": "Cadw fi wedi mewngofnodi",
-    "forgotPassword": "Wedi anghofio cyfrinair?",
+    "forgotPassword": "Anghofio cyfrinair?",
     "loginButton": "Mewngofnodi",
     "createAccount": "Creu cyfrif",
     "freeAccountButton": "Creu cyfrif am ddim",
     "newHere": "Newydd yma?",
     "getApp": "Cael yr ap",
-    "desktopTip": "Ar desktop? Scan gyda eich ffôn i get y app.",
-    "scanHelper": "Ar desktop? Scan gyda eich ffôn i get y app.",
-    "goHome": "Go i hafan",
+    "desktopTip": "Ar y bwrdd gwaith? Sganiwch gyda'ch ffôn i gael yr ap.",
+    "scanHelper": "Ar y bwrdd gwaith? Sganiwch gyda'ch ffôn i gael yr ap.",
+    "goHome": "Ewch adref",
     "home": "Hafan",
-    "headlineAlt": {
-      "main": "Y secure messenger hynny",
-      "highlight": "speaks eich iaith"
+    "pennawdAlt": {
+      "prif": "Y negesydd diogel sy'n",
+      "amlygu": "siarad eich iaith chi"
     },
-    "subhead": "Negeseuon preifat, wedi’u hamgryptio ac wedi’u cyfieithu — ar unwaith.",
-    "upgrade": "Uwchraddio nawr",
-    "tip": "Awgrym: Use y same cyfrif ar web a symudol. Eich negeseuon stay synced.",
-    "openDownload": "Agor tudalen lawrlwytho",
-    "qrAlt": "QR code ar gyfer Chatforia",
-    "scanHint": "Scan i lawrlwytho y app neu agor yn eich browser.",
-    "iosAria": "Lawrlwytho ar yr App Store",
-    "iosTitle": "Lawrlwytho ar yr App Store",
-    "iosBadgeAlt": "App Store badge",
-    "androidAria": "Cael ar Google Play",
+    "is-deitl": "Negeseuon preifat, wedi'u hamgryptio, a'u cyfieithu — ar unwaith.",
+    "uwchraddio": "Uwchraddiwch nawr",
+    "awgrym": "Awgrym: Defnyddiwch yr un cyfrif ar y we a ffonau symudol. Bydd eich negeseuon yn aros wedi'u cydamseru.",
+    "agorLawrlwytho": "Agor y dudalen lawrlwytho",
+    "qrAlt": "Cod QR ar gyfer Chatforia",
+    "scanHint": "Sganiwch i lawrlwytho'r ap neu agor yn eich porwr.",
+    "iosAria": "Lawrlwythwch ar yr App Store",
+    "iosTitle": "Lawrlwythwch ar yr App Store",
+    "iosBadgeAlt": "Badg yr App Store",
+    "androidAria": "Ewch amdani ar Google Play",
     "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play badge",
+    "androidBadgeAlt": "Badge Google Play",
     "login": "Mewngofnodi",
     "signup": "Cofrestru",
     "email": "E-bost",
     "registration": {
-      "passwordDescription": "Minimum 6 characters. Use strong, unique cyfrinair.",
-      "smsConsent": "By creating cyfrif, chi agree i derbyn SMS hysbysiadau related i eich Chatforia activity (such as negeseuon o other users). Neges & data rates may apply. Chi can opt out at any time yn Gosodiadau.",
-      "termsLink": "Telerau Gwasanaeth",
+      "passwordDescription": "O leiaf 6 nod. Defnyddiwch gyfrinair cryf, unigryw.",
+      " smsConsent": "Drwy greu cyfrif, rydych yn cytuno i dderbyn hysbysiadau SMS sy'n ymwneud â'ch gweithgarwch Chatforia (megis negeseuon gan ddefnyddwyr eraill). Gall costau negeseuon a data fod yn berthnasol. Gallwch optio allan ar unrhyw adeg yn y Gosodiadau.",
+      "termsLink": "Telerau'r Gwasanaeth",
       "privacyLink": "Polisi Preifatrwydd"
     },
-    "to": "I:",
-    "enterRecipient": "Rhowch enw neu rif",
-    "clearRecipients": "Clirio derbynwyr",
+    "i": "I:",
+    "rhoiDerbynnydd": "Rhowch enw neu rif",
+    "clirioDerbynyddion": "Clirio derbynyddion",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Teipiwch neges…",
-    "addRecipient": "Ychwanegwch dderbynnydd uchod i ddechrau…",
-    "oneRecipient": "Rhowch un derbynnydd am nawr.",
-    "enterValidRecipient": "Rhowch enw cysylltiad wedi’i gadw neu rif ffôn.",
-    "sendFailed": "Methodd anfon. Gwiriwch y consol am fanylion."
+    "teipioNeges": "Teipiwch neges…",
+    "ychwaneguDerbynnydd": "Ychwanegu derbynnydd uchod i ddechrau…",
+    "oneRecipient": "Rhowch un derbynnydd am y tro.",
+    "enterValidRecipient": "Rhowch enw cyswllt sydd wedi'i gadw neu rif ffôn.",
+    "sendFailed": "Methodd y neges. Gwiriwch y consol am fanylion."
   },
   "home": {
-    "title": "Hafan",
+    " title": "Hafan",
     "messagesTitle": "Eich negeseuon",
     "messagesSubtitle": "Rhowch dderbynnydd uchod, yna anfonwch neges i ddechrau sgwrs.",
     "subheader": "Anfonwch neges i ddechrau sgwrs.",
     "sendButton": "Anfon neges",
-    "gifPicker": "Agor dewiswr GIF",
+    "gifPicker": "Agor dewisydd GIF",
     "emoji": "Emoji",
     "upload": "Uwchlwytho llun neu fideo",
     "inputPlaceholder": "Teipiwch neges…",
-    "inputLabel": "Cyfansoddwr neges",
+    "inputLabel": "Cyfansoddwr negeseuon",
     "sendTooltip": "Anfon",
-    "sendTooltipEmpty": "Teipiwch neges i’w hanfon",
+    "sendTooltipEmpty": "Teipiwch neges i'w hanfon",
     "send": "Anfon",
     "welcomeMessage": "Croeso i Chatforia",
-    "getStarted": "Dechrau Arni",
+    "getStarted": "Cychwyn",
+    "mixedRecipients": "Canfuwyd derbynwyr cymysg. Defnyddiwch naill ai holl rifau ffôn (SMS) neu holl enwau defnyddwyr (Chatforia).",
     "enterRecipient": "Rhowch enw neu rif",
     "addRecipient": "Ychwanegwch dderbynnydd uchod i ddechrau…",
-    "mixedRecipients": "Canfuwyd derbynwyr cymysg. Defnyddiwch naill ai rifau ffôn i gyd (SMS) neu enwau defnyddiwr Chatforia i gyd.",
     "needNumber": "Mae angen rhif Chatforia arnoch cyn anfon SMS.",
-    "chooseNumber": "Dewis rhif"
+    "chooseNumber": "Dewiswch rif"
   },
-  "refund": {
-    "title": "Polisi Ad-daliadau",
-    "lastUpdated": "Diweddarwyd ddiwethaf:",
-    "intro": "At Chatforia, ni strive i provide high-quality service i pob users. Hwn Refund Policy outlines when refunds may be issued.",
-    "subscriptions": {
-      "title": "Tanysgrifiadau",
-      "body": "Subscriptions are billed yn advance ar recurring basis. Chi may canslo at any time through eich cyfrif gosodiadau neu y platform used i purchase."
-    },
-    "eligibility": {
-      "title": "Cymhwystra am Ad-daliad",
-      "body": "Refunds may be granted ar gyfer duplicate charges, bilio errors, neu technical issues preventing access i paid features. Pob requests are reviewed case-by-case."
-    },
-    "nonRefundable": {
-      "title": "Anad-daladwy",
-      "body": "Ni generally do not provide refunds ar gyfer unused time, partial subscription periods, neu failure i canslo before renewal."
-    },
-    "thirdParty": {
-      "title": "Pryniannau Trydydd Parti",
-      "body": "If purchased through third-party platforms such as y Apple App Store, refunds must be requested directly through y rheini platforms."
-    },
-    "contact": {
-      "title": "Cyswllt",
-      "body": "support@chatforia.com• Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
+  "bar ochr": {
+    "randomChat": "Sgwrs ar Hap",
+    "callTextForwarding": "Dargyfeirio Galwadau a Negeseuon Testun ",
+    "sgyrsiau": "Sgyrsiau",
+    "chwilioPlaceholder": "Chwilio sgyrsiau...",
+    "gwallLlwytho": "Methodd â llwytho'r sgyrsiau",
+    "gwag": "Dim sgyrsiau eto.",
+    "dechrauSgwrs": "Dechrau sgwrs",
+    "pobl": "Pobl",
+    "gosodiadau": "Gosodiadau",
+    "statws": "Statws",
+    "dyrannu": "Rhagflaenu Galwadau a Negeseuon",
+    "adnewyddu": "Adnewyddu",
+    "chwilio": "Chwilio sgyrsiau",
+    "loginPrompt": "Mewngofnodwch i olygu eich gosodiadau.",
+    "mewngofnodi": "Mewngofnodi",
+    "cofrestru": "Creu cyfrif",
+    "ystafelloeddsgwrs": "Ystafelloedd sgwrs",
+    "dechrauSgwrsArall": "Dechrau sgwrs newydd",
+    "galwadau": "Galwadau",
+    "fideo": "Fideo",
+    "negesleis": "Negesleis"
   },
-  "blog": {
-    "whyMessaging": {
-      "title": "Why Messaging Platforms Matter More Than Ever",
-      "intro": "Messaging platforms have become one o y most important tools ar gyfer communication yn today’s world. O personal sgyrsiau i business interactions, messaging apps allow pobl i stay connected instantly a efficiently.",
-      "everydayTitle": "Everyday Communication",
-      "everydayDesc": "Pobl rely ar messaging apps ar gyfer daily communication gyda ffrindiau, teulu, a colleagues. Whether it's quick update neu long sgwrs, messaging provides convenient a flexible way i stay yn touch.",
-      "speedTitle": "Speed a Convenience",
-      "speedDesc": "One o y main advantages o messaging platforms is their speed. Negeseuon are delivered instantly, allowing users i communicate yn real time. Hwn level o convenience has made messaging y preferred method o communication ar gyfer many pobl.",
-      "globalTitle": "Global Reach",
-      "globalDesc": "Messaging platforms connect pobl across y globe. Gyda internet access, users can communicate regardless o location, making it easier i build relationships a collaborate internationally.",
-      "privacyTitle": "Preifatrwydd a Control",
-      "privacyDesc": "Modern messaging platforms focus ar giving users control over their data a sgyrsiau. Features like encryption, preifatrwydd gosodiadau, a neges controls allow users i communicate gyda confidence.",
-      "futureTitle": "Y Future o Messaging",
-      "futureDesc": "Messaging continues i evolve gyda newydd features such as AI-powered responses, cyfieithiad, a multimedia sharing. As technology advances, messaging platforms will become even more powerful a versatile.",
-      "outro": "Chatforia is built gyda y rhain principles yn mind, offering fast, secure, a user-friendly messaging experience ar gyfer connected world."
-    },
-    "global": {
-      "title": "Y Future o Global Communication",
-      "intro": "Communication has evolved rapidly over y past few decades. What once gofynnol ffôn galwadau neu in-person meetings can now be done quickly through messaging platforms. As technology continues i advance, global communication is becoming faster, more accessible, a more inclusive.",
-      "barriersTitle": "Breaking Down Barriers",
-      "barriersDesc": "One o y biggest changes yn communication is y reduction o geographic barriers. Pobl can now connect gyda others across y world yn near real time. Whether ar gyfer personal sgyrsiau, business, neu collaboration, messaging platforms have made distance far less limiting.",
-      "translationTitle": "Y Role o Cyfieithiad Technology",
-      "translationDesc": "Iaith has traditionally been one o y biggest obstacles i global communication. Today, built-in cyfieithiad tools cymorth bridge hynny gap. Platforms like Chatforia allow users i communicate more easily even if nhw speak different ieithoedd, creating newydd opportunities ar gyfer connection a understanding.",
-      "realtimeTitle": "amser real Connectivity",
-      "realtimeDesc": "Speed is allwedd factor shaping modern communication. Users expect negeseuon i be delivered quickly, a modern infrastructure supports hynny expectation. amser real messaging enables more natural a fluid sgyrsiau.",
-      "privacyTitle": "Preifatrwydd a Diogelwch",
-      "privacyDesc": "As communication becomes more digital, preifatrwydd a diogelwch are increasingly important. Users want confidence hynny their sgyrsiau are wedi’i warchod. Features like encryption a user-controlled gosodiadau cymorth cymorth more secure communication experience.",
-      "futureTitle": "What Comes Nesaf",
-      "futureDesc": "Y future o global communication will likely include more advanced tools, such as AI-assisted messaging, improved cyfieithiad, a enhanced user experiences. As technology evolves, communication will parhau i become more intuitive a accessible.",
-      "outro": "Platforms like Chatforia are part o hwn shift, helping pobl connect more easily across ieithoedd a borders."
-    },
-    "index": {
-      "title": "Chatforia Blog",
-      "intro": "Explore insights ar communication, online safety, a how messaging technology is connecting pobl around y world.",
-      "post1": "How i Sgwrs Safely Online",
-      "post2": "Y Future o Global Communication",
-      "post3": "Why Messaging Platforms Matter"
-    }
+  "topbar": {
+    "newStatus": "Statws Newydd",
+    "logout": "Logio Allan",
+    "help": "Cymorth",
+    "createStatusAria": "Creu Statws newydd"
   },
-  "howItWorks": {
-    "title": "Sut mae Chatforia yn Gweithio",
-    "intro": "Chatforia is designed i make communication simple, fast, a accessible. Getting wedi dechrau takes just few steps.",
-    "step1Title": "1. Creu Cyfrif",
-    "step1Desc": "Sign up using eich e-bost neu enw defnyddiwr i creu eich Chatforia cyfrif.",
-    "step2Title": "2. Dechrau Sgwrs",
-    "step2Desc": "Connect gyda others by selecting cysylltiadau neu starting newydd sgyrsiau.",
-    "step3Title": "3. amser real Messaging",
-    "step3Desc": "Negeseuon are delivered quickly i provide smooth communication experience.",
-    "step4Title": "4. Global Communication",
-    "step4Desc": "Built-in cyfieithiad helps users communicate across different ieithoedd.",
-    "step5Title": "5. Stay yn Control",
-    "step5Desc": "Rheoli eich preferences, cysylltiadau, a communication gosodiadau."
-  },
-  "safety": {
-    "title": "Canllawiau Diogelwch a Chymuned",
-    "intro": "Chatforia is committed i maintaining safe a respectful environment ar gyfer pob users. Y rhain guidelines cymorth ensure positive experience ar gyfer everyone.",
-    "respectTitle": "Cyfathrebu Parchus",
-    "respectDesc": "Users are expected i communicate respectfully. Harassment, abuse, neu harmful behavior is not permitted.",
-    "prohibitedTitle": "Cynnwys Gwaharddedig",
-    "prohibited": {
-      "illegal": "Gweithgareddau anghyfreithlon",
-      "harassment": "Aflonyddu neu fwlio",
-      "hate": "Casineb neu wahaniaethu",
-      "explicit": "Explicit neu harmful material",
-      "spam": "Sbam neu arferion twyllodrus"
+  "footer": {
+    "plans": "Cynlluniau a Chostau",
+    "about": "Ynghylch Chatforia",
+    "careers": " Cyfweliadau",
+    "y wasg": "Y Wasg",
+    "hysbysebu": "Hysbysebu",
+    "cysylltu": "Cysylltu â Ni",
+    "cymorth": " Canolfan Gymorth",
+    "status": "Tudalen Statws",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Polisi Preifatrwydd",
+    "terms": "Telerau Gwasanaeth",
+    "cookies": "Gosodiadau Cwcis",
+    "doNotSell": "Peidiwch â Gwerthu Fy Ngwybodaeth",
+    "language": "Iaith",
+    "contactShort": "Cysylltu",
+    "aria": "Troedyn",
+    "homeAria": "Hafan Chatforia",
+    "section": {
+      "company": "CWMPANÎ",
+      "support": "CEFNOGIAD ",
+      "lawrlwythiadau": "LAWRLWYTHIADAU",
+      "cyfreithiol": "CYFREDITHIOL"
     },
-    "toolsTitle": "Offer Diogelwch Defnyddwyr",
-    "tools": {
-      "report": "Rhoi gwybod am ymddygiad neu gynnwys amhriodol",
-      "block": "Rhwystro defnyddwyr i atal rhyngweithio pellach",
-      "control": "Rheoli preifatrwydd a communication gosodiadau"
+    "dolenni": {
+      "cynlluniau-prisiau": "Cynlluniau a Phrisiau",
+      "am-chatforia": "Ynghylch Chatforia",
+      "cyfleoedd-gwaith": "Cyfleoedd Gwaith",
+      "y wasg": "Y Wasg",
+      "hysbysebu": "Hysbysebu",
+      " dechrau": "Dechrau",
+      "canolfan-gymorth": "Canolfan Gymorth",
+      "cysylltu-â-ni": "Cysylltu â Ni",
+      "tudalen-statws": "Tudalen Statws",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "polisï-preifatrwydd": "Polisi Preifatrwydd",
+      "termau-o -gwasanaeth": "Telerau Gwasanaeth",
+      "peidiwch-â-gwerthu-fy-manylion": "Peidiwch â Gwerthu Fy Manylion",
+      "gosodiadau-cwcis": "Gosodiadau Cwcis",
+      "sut-mae-'n-gweithio": "Sut Mae'n Gweithio",
+      "blog": "Blog",
+      "polisi-ad-daliadau": "Polisi Ad-dalu",
+      "polisi-sms": "Polisi Negeseuon SMS"
     },
-    "enforcementTitle": "Gorfodi",
-    "enforcementDesc": "Ni may take action against accounts hynny violate y rhain guidelines, including warnings, restrictions, neu permanent removal o y platform."
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": " LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Pendil am batent",
+    "backToTop": "↑ Yn ôl i'r brig"
   },
   "chat": {
-    "selectPrompt": "Dewiswch destun neu ystafell sgwrsio i ddechrau sgwrsio",
+    "selectPrompt": "Dewiswch neges destun neu ystafell sgwrsio i ddechrau sgwrsio",
     "newMessages": "Negeseuon newydd",
-    "typing": "Mae {{name}} yn teipio...",
+    "typing": "{{name }} yn teipio...",
     "emptyTitle": "Eich negeseuon",
     "emptySubtitle": "Anfonwch neges i ddechrau sgwrs.",
     "startChatButton": "Anfon neges",
     "mediaAttachment": "Atodiad cyfryngau",
     "thisUser": "y defnyddiwr hwn",
-    "blockConfirm": "Rhwystro{{name}}? Chi won't derbyn negeseuon o nhw.",
-    "blockedUser": "Wedi rhwystro {{name}}.",
-    "blockError": "Could not determine target user i rhwystro.",
-    "blockFailed": "Rhwystro wedi methu (backend not wired yet).",
-    "encryptedUnavailable": "Neges wedi’i hamgryptio (allwedd ddim ar gael)",
-    "unlockToView": "Datgloi eich allwedd i weld y neges hon"
+    "blockConfirm": "Blocio {{name}}? Ni fyddwch yn derbyn negeseuon ganddynt.",
+    "blockedUser": "{{name}} wedi'i flocio.",
+    "blockError": "Ni ellid penderfynu ar ddefnyddiwr i'w flocio.",
+    "blockFailed": "Methodd y bloc (y backend heb ei weirio eto).",
+    "encryptedUnavailable": "Neges amgryptiedig (allwedd ar goll)",
+    "unlockToView": "Datgloeio'ch allwedd i weld y neges hon"
   },
-  "messageInput": {
+  " messageInput": {
     "ttl": {
       "off": "I ffwrdd"
     },
-    "freeLimit": "Am ddim cynllun limit: auto-delete up i 1 diwrnod. Clamped i 1d.",
-    "premiumLimit": "Max auto-delete ar gyfer Premiwm is 30 diwrnod. Clamped i 30d.",
-    "nothingToSend": "Type neges neu attach ffeil i anfon.",
-    "encryptionFailed": "Encryption wedi methu. Neges not wedi’i anfon.",
-    "sent": "Neges delivered.",
-    "placeholder": "Teipiwch neges…",
-    "voiceAdded": "Nodyn llais wedi'i ychwanegu",
-    "attachmentAdded": "Atodiad wedi'i ychwanegu",
-    "autoDelete": "Auto-delete",
-    "typeToSend": "Teipiwch neges i’w hanfon",
-    "send": "Anfon",
-    "sendWithEnter": "Anfon (Enter)",
-    "attachment": "atodiad",
-    "caption": "Caption (dewisol)",
-    "remove": "Tynnu",
-    "clear": "Clear",
+    "freeLimit": "Terfyn cynllun rhad ac am ddim: dileu'n awtomatig hyd at 1 diwrnod. Wedi'i gyfyngu i 1d.",
+    "premiumLimit": "Y terfyn dileu'n awtomatig uchaf ar gyfer Premiwm yw 30 diwrnod. Wedi'i gyfyngu i 30d.",
+    " nothingToSend": "Teipiwch neges neu atodwch ffeil i'w hanfon.",
+    "encryptionFailed": "Methodd yr amgryptio. Ni anfonwyd y neges.",
+    "sent": "Anfonwyd y neges.",
+    "placeholder": "Teipiwch neges… ",
+    "dileu-awtomatig": "Dileu'n awtomatig",
+    "teipioI'wAnfon": "Teipiwch neges i'w hanfon",
+    "anfon": "Anfon",
+    "anfonGydaEnter": "Anfon (Enter)",
+    "atodiad": "atodiad",
+    "pennawd": "Pennawd (dewisol)",
+    "tynnu": "Tynnu",
+    "clirio": "Clirio",
     "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Mae’r atodiad yn rhy fawr. Rhowch gynnig ar ffeil lai.",
-      "unsupportedFile": "Math o ffeil heb ei gefnogi.",
-      "rateLimit": "Rydych yn anfon negeseuon yn rhy gyflym. Arafwch os gwelwch yn dda.",
-      "validation": "Gwall dilysu. Gwiriwch eich neges a rhowch gynnig arall arni.",
-      "failedToSend": "Methodd anfon. Gallwch ailgeisio’r swigen a fethodd."
+    "sticwr": "Sticwr",
+    "gwallau": {
+      "atodiadRhyFawr": "Mae'r atodiad yn rhy fawr. Rhowch gynnig ar ffeil lai.",
+      "ffeilAnnogefnogedig": "Math o ffeil nad yw'n cael ei gefnogi.",
+      "terfynCyflymder": "Rydych chi'n anfon negeseuon yn rhy gyflym. Arafwch, os gwelwch yn dda.",
+      "dilysu": "Gwall dilysu. Gwiriwch eich neges ac rhowch gynnig arall, os gwelwch yn dda.",
+      "failedToSend": "Methodd anfon. Gallwch ail-geisio'r swigen a fethodd."
     }
-  },
-  "contactList": {
-    "savedContacts": "Cysylltiadau wedi’u Cadw",
-    "refreshAria": "Adnewyddu cysylltiadau",
-    "filterPlaceholder": "Hidlo cysylltiadau wedi’u cadw…",
-    "filterAria": "Filter wedi’i gadw cysylltiadau",
-    "noContactsFound": "Dim cysylltiadau wedi’u canfod.",
-    "externalContact": "Cysylltiad allanol",
-    "notJoined": "Nid yw’r cysylltiad hwnnw wedi ymuno â Chatforia eto.",
-    "couldNotStart": "Methu dechrau sgwrs. Rhowch gynnig arall arni.",
-    "startFailed": "Wedi methu i dechrau sgwrs. Rhowch gynnig arall arni.",
-    "deleted": "Cysylltiad wedi’i ddileu.",
-    "deleteFailed": "Methu dileu cysylltiad. Rhowch gynnig arall arni.",
-    "aliasUpdated": "Alias wedi’i ddiweddaru.",
-    "updateAliasFailed": "Wedi methu i update alias. Rhowch gynnig arall arni.",
-    "selectContact": "Dewis {{name}}",
-    "alias": "Alias",
-    "startChat": "Dechrau sgwrs",
-    "message": "Neges",
-    "delete": "Dileu",
-    "deleteContactAria": "Dileu cysylltiad",
-    "loadFailed": "methu llwytho cysylltiadau. Rhowch gynnig arall arni.",
-    "loadMore": "Llwytho rhagor",
-    "call": "Galw",
-    "callStarted": "Yn galw’r rhif hwn drwy eich rhif Chatforia…",
-    "callFailed": "Wedi methu i dechrau galwad. Rhowch gynnig arall arni."
-  },
-  "startChatModal": {
-    "title": "Dechrau sgwrs",
-    "searchPlaceholder": "Chwilio enw, enw defnyddiwr, neu rhif ffôn",
-    "messageThisPerson": "Neges hwn person",
-    "contacts": "Cysylltiadau",
-    "recentInteractions": "Rhyngweithiadau diweddar",
-    "noContactsMatch": "Nid oes cysylltiadau yn cyfateb i’ch chwiliad.",
-    "noRecentInteractions": "Dim rhyngweithiadau diweddar eto.",
-    "unknown": "Anhysbys",
-    "interactionType": {
-      "message": "Neges",
-      "call": "Galw",
-      "video": "Fideo"
-    }
-  },
-  "addContactModal": {
-    "title": "Ychwanegu cysylltiad",
-    "phoneOrUsername": "Ffôn neu enw defnyddiwr",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 neu juliannorton",
-    "alias": "Alias (dewisol)",
-    "aliasPlaceholder": "e.g. Work, Mom, Mike – Europe",
-    "enterPhoneOrUsername": "Rhowch rif ffôn neu enw defnyddiwr.",
-    "userLookupFailed": "Methodd chwilio am ddefnyddiwr.",
-    "cannotAddSelf": "Ni allwch ychwanegu eich hun fel cysylltiad.",
-    "failedToAdd": "Methu ychwanegu cysylltiad.",
-    "add": "Ychwanegu"
-  },
-  "sidebar": {
-    "randomChat": "Sgwrs Ar Hap",
-    "callTextForwarding": "Anfon Galwadau a Negeseuon Testun Ymlaen",
-    "conversations": "Sgyrsiau",
-    "searchPlaceholder": "Chwilio sgyrsiau...",
-    "errorLoading": "Methu llwytho sgyrsiau",
-    "empty": "Dim sgyrsiau eto.",
-    "startChat": "Dechrau sgwrs",
-    "people": "Pobl",
-    "settings": "Gosodiadau",
-    "status": "Statws",
-    "forwarding": "Anfon Galwadau a Negeseuon Testun Ymlaen",
-    "refresh": "Adnewyddu",
-    "search": "Chwilio sgyrsiau",
-    "loginPrompt": "Mewngofnodwch i olygu eich gosodiadau.",
-    "login": "Log yn",
-    "register": "Creu cyfrif",
-    "chatrooms": "Ystafelloedd sgwrsio",
-    "logout": "Allgofnodi",
-    "startChatAlt": "Dechrau sgwrs newydd",
-    "calls": "Galwadau",
-    "video": "Fideo",
-    "voicemail": "Neges Lais"
-  },
-  "topbar": {
-    "newStatus": "Statws Newydd",
-    "logout": "Allgofnodi",
-    "help": "Cymorth",
-    "createStatusAria": "Creu Statws newydd"
   },
   "threadActions": {
     "threadMenu": "Dewislen edefyn",
-    "premium": "Premiwm",
-    "aiPower": "AI Power",
-    "schedule": "Amserlen",
-    "upgrade": "Uwchraddio",
-    "upgradeSuffix": "(Uwchraddio)",
-    "thread": "Edefyn",
-    "about": "Amdanom",
-    "search": "Chwilio",
-    "media": "Cyfryngau",
-    "invitePeople": "Gwahodd pobl",
-    "roomSettings": "Gosodiadau ystafell",
-    "clearConversation": "Clirio sgwrs",
-    "clearConversationForMe": "Clirio i mi",
-    "clearConversationForEveryone": "Clirio i bawb",
-    "block": "Rhwystro"
+    "premium": "Premium",
+    "aiPower": "Pŵer AI",
+    "amserlen": "Amserlen",
+    "uwchraddio": "Uwchraddio",
+    "cynfforffestyn": "(Uwchraddio)",
+    "edau": "Edau",
+    "am": "Am",
+    "chwilio": "Chwilio",
+    "cyfryngau": "Cyfryngau",
+    "gwahoddPobl": "Gwahodd pobl",
+    "gosodiadau'r ystafell": "Gosodiadau'r ystafell",
+    "clirio sgwrs": "Clirio sgwrs",
+    "rhwystro": "Rhwystro"
   },
-  "roomSearch": {
-    "title": "Chwilio yn yr ystafell",
+  "chwilio'r ystafell": {
+    "teitl": "Chwilio yn yr ystafell",
     "ariaLabel": "Chwilio yn yr ystafell",
     "search": "Chwilio",
     "searchMessages": "Chwilio negeseuon",
-    "noText": "[Na testun]",
+    "noText": "[Dim testun]",
     "noResults": "Dim canlyniadau"
   },
   "roomSettings": {
     "roles": {
       "member": "Aelod",
-      "moderator": "Cymedrolwr",
-      "admin": "Gweinyddwr"
+      "moderator": " Gweinyddwr",
+      "gweinyddwr": "Gweinyddwr"
     },
-    "aiMode": {
-      "off": "I ffwrdd",
-      "mention": "Only ar @ForiaBot neu /ask",
-      "always": "Ateb yn rhagweithiol"
+    "moddAI": {
+      "i ffwrdd": "I ffwrdd",
+      "mentioniad": "Dim ond ar @ForiaBot neu /ask",
+      "bobamser": "Ateb yn rhagweithiol"
     },
-    "autoTranslateMode": {
-      "off": "I ffwrdd",
-      "tagged": "Tagged only (/tr …)",
-      "all": "Pob negeseuon"
+    "moddCyfieithuAwtomatig": {
+      "i ffwrdd": "I ffwrdd",
+      "tagiwyd": "Tagiwyd yn unig (/tr …)",
+      "pob": "Pob neges"
     },
-    "updated": "Gosodiadau wedi’u diweddaru"
+    "diweddarwyd": "Diweddarwyd y gosodiadau"
   },
-  "mediaGallery": {
+  "orielGyfrwng": {
     "sharedMedia": "Cyfryngau a rennir",
-    "noMediaCached": "Dim cyfryngau wedi’u storio’n lleol eto.",
-    "imageAlt": "delwedd",
+    "noMediaCached": "Dim cyfryngau wedi'u storio'n lleol eto.",
+    "imageAlt": "ddelwedd",
     "openVideo": "Agor fideo",
-    "openVideoWithCaption": "Agor fideo:{{caption}}",
+    "openVideoWithCaption": "Agor fideo: {{caption}}",
     "preview": "Rhagolwg",
-    "previewWithCaption": "Preview:{{caption}}",
-    "previewKind": "Preview{{kind}}",
+    "previewWithCaption": "Rhagolwg: {{caption}}",
+    "previewKind": "Rhagolwg {{kind}}",
     "download": "Lawrlwytho",
     "downloadKind": "Lawrlwytho {{kind}}",
     "file": "ffeil",
     "kinds": {
       "image": "delwedd",
       "video": "fideo",
-      "audio": "sain",
+      "audio": "awdio",
       "file": "ffeil"
     }
   },
   "status": {
-    "userNumber": "User #{{id}}",
-    "posted": "Statws posted",
-    "postFailed": "Wedi methu i post statws",
+    "userNumber": "Defnyddiwr #{{id}}",
+    "posted": "Statws wedi'i bostio",
+    "postFailed": "Methodd â phostio'r statws",
     "createTitle": "Creu statws",
-    "modalAriaLabel": "Newydd statws",
+    "modalAriaLabel": "Statws newydd",
     "captionLabel": "Beth sydd ar eich meddwl?",
-    "captionPlaceholder": "Rhannwch ddiweddariad...",
-    "captionAria": "Statws neges",
+    "captionPlaceholder": "Rhannwch ddiweddariad.. .",
+    "captionAria": "Neges statws",
     "audienceLabel": "Cynulleidfa",
     "audience": {
       "public": "Cyhoeddus",
       "followers": "Dilynwyr",
       "contacts": "Cysylltiadau",
       "mutuals": "Cyd-ddilynwyr",
-      "custom": "Personol..."
+      "custom": "Custom..."
     },
-    "expiresHoursLabel": "Yn dod i ben (oriau)",
-    "maxTooltip": "Uchafswm 7 diwrnod",
+    "expiresHoursLabel": "Yn darfod (oriau)",
+    "maxTooltip": "Uchafswm o 7 diwrnod",
     "hoursAbbrev": "h",
     "maxShort": "max",
-    "expiresOn": "Yn dod i ben ar:",
-    "chooseRecipients": "Dewis derbynwyr",
-    "selectContacts": "Dewis cysylltiadau",
-    "attachmentsLabel": "Atodiadau",
-    "attachmentsPlaceholder": "Ychwanegu delweddau/fideos",
-    "filesNote": "Up i 5 files. 24h expiry by default.",
-    "postAria": "Post statws",
+    "expiresOn": "Yn darfod ar:",
+    "dewisDerbynwyr": "Dewis derbynwyr",
+    "dewisCysylltiadau": "Dewis cysylltiadau",
+    "labelAtodiadau": "Atodiadau",
+    "lle-dalAtodiadau": "Ychwanegu delweddau/fideos",
+    "nodiadFfeiliau": "Hyd at 5 ffeil. Yn darfod ar ôl 24 awr yn ddiofyn.",
+    "postAria": "Postio statws",
     "post": "Postio"
   },
-  "voicemail": {
-    "pageTitle": "Neges Lais",
-    "from": "Oddi wrth",
-    "to": "I",
-    "unknownCaller": "Anhysbys",
-    "yourNumber": "Eich rhif Chatforia",
-    "durationSeconds": "{{count}}s",
-    "audioAria": "Neges lais sain player",
-    "transcriptHeading": "Trawsgrifiad",
-    "transcriptPending": "Yn trawsgrifio neges lais…",
-    "transcriptFailed": "Trawsgrifiad ddim ar gael.",
-    "loading": "Yn llwytho neges lais…",
-    "errorLoading": "Methu llwytho neges lais.",
-    "empty": "Dim negeseuon llais eto.",
-    "deleteConfirm": "Dileu’r neges lais hon?",
-    "deleteError": "Methu dileu neges lais.",
-    "markRead": "Marcio fel wedi’i ddarllen",
-    "delete": "Dileu",
-    "unreadDotAria": "Heb ei ddarllen neges lais indicator"
+  "negeslais": {
+    "teitlY dudalen": "Negeislais",
+    "oddiwrth": "Oddiwrth",
+    "i": "I",
+    "galwr Anhysbys": "Anhysbys",
+    "eichRhif": "Eich rhif Chatforia",
+    "hydEiliadau": " {{count}}",
+    "chwaraewr-awdio": "Chwaraewr sain neges lais",
+    "pennawd-trawsgrifiad": "Trawsgrifiad",
+    "trawsgrifio-ar-y-gweill": "Yn trawsgrifio neges lais…",
+    "trawsgrifiad-methiant": "Trawsgrifiad ar gael.",
+    "llwytho": "Yn llwytho neges lais…",
+    "gwall-llwytho": "Methodd â llwytho neges lais.",
+    "gwag": "Dim negeseuon llais eto.",
+    "cadarnhauDileu": "Dileu'r neges lais hon?",
+    "gwallDileu": "Methodd â dileu'r neges lais.",
+    "marcioFelDarllen": "Marcio fel darllen",
+    "dileu": "Dileu",
+    "dotDdarllenwydAria": "Dangosydd neges lais heb ei darllen"
   },
-  "profile": {
-    "title": "Proffil Defnyddiwr",
-    "preferredLanguage": "Iaith ddewisol",
-    "chooseLanguage": "Dewis iaith",
-    "mustLogin": "Rhaid i chi fewngofnodi i weld y gosodiadau.",
-    "autoTranslate": "Cyfieithu negeseuon yn awtomatig",
-    "showOriginalWithTranslation": "Dangos negeseuon gwreiddiol a chyfieithiedig",
-    "showOriginalAndTranslation": "Show gwreiddiol alongside cyfieithiad",
-    "filterExplicit": "Hidlo cynnwys eglur",
-    "aiReply": "AI reply",
-    "enableReadReceipts": "Galluogi derbynebau darllen",
+  "rhestrCysylltiadau": {
+    "cysylltiadauWedi'uCadw": "Cysylltiadau Wedi'u Cadw",
+    "adnewydduAria": "Adnewyddu cysylltiadau",
+    "lle-dalyddHidlo": "Hilio cysylltiadau wedi'u cadw…",
+    "hilioAria": "Hilio cysylltiadau wedi'u cadw",
+    "dimCysylltiadauWedi'uCanfod": "Ni chanfuwyd unrhyw gysylltiadau.",
+    "cysylltiadAllanol": "Cysylltiad allanol",
+    "notJoined": "Nid yw'r cyswllt hwnnw wedi ymuno â Chatforia eto.",
+    "couldNotStart": "Ni lwyddwyd i ddechrau'r sgwrs. Cofiwch geisio eto.",
+    "startFailed": "Methodd â dechrau'r sgwrs. Cofiwch geisio eto. ",
+    "dileu": "Dileu",
+    "methuDileuCyswllt": "Methodd â dileu'r cyswllt. Rhowch gynnig arall.",
+    "diweddaruAlias": "Diweddarwyd yr alias.",
+    "methuDiweddaruAlias": "Methodd â diweddaru'r alias. Rhowch gynnig arall.",
+    "dewisCyswllt": "Dewis {{name}}",
+    "alias": "Alias",
+    "dechrauSgwrs": "Dechrau sgwrs",
+    "neges": "Neges",
+    "dileuCyswlltAria": "Dileu cyswllt",
+    "methuLlwytho": "Methu llwytho cysylltiadau. Rhowch gynnig arall.",
+    "llwythoMwy": "Llwytho mwy",
+    "galw": "Galw",
+    "galwadWediDechrau": "Yn galw'r rhif hwn drwy eich rhif Chatforia…",
+    "galwadWediMethu": "Methodd â dechrau'r galwad. Cofiwch geisio eto."
+  },
+  "modalYchwaneguCyswllt": {
+    "teitl": "Ychwanegu cyswllt",
+    "phoneOrUsername": "Rhif ffôn neu enw defnyddiwr",
+    "phoneOrUsernamePlaceholder": "e.e. +13018019227 neu juliannorton",
+    "alias": "Alias (dewisol)",
+    "aliasPlaceholder": "e. e.e. Gwaith, Mam, Mike – Ewrop",
+    "enterPhoneOrUsername": "Rhowch rif ffôn neu enw defnyddiwr.",
+    "userLookupFailed": "Methodd y chwiliad am ddefnyddiwr.",
+    "cannotAddSelf": "Ni allwch ychwanegu eich hun fel cyswllt.",
+    "failedToAdd": "Methodd y cais i ychwanegu cyswllt.",
+    "add": "Ychwanegu"
+  },
+  "startChatModal": {
+    "title": "Cychwyn sgwrs",
+    "searchPlaceholder": "Chwiliwch am enw, enw defnyddiwr, neu rif ffôn",
+    "messageThisPerson": "Anfon neges at y person hwn",
+    "contacts": "Cysylltiadau",
+    "recentInteractions": "Rhyngweithiadau diweddar",
+    "noContactsMatch": "Nid oes unrhyw gysylltiadau'n cyfateb i'ch chwiliad.",
+    "noRecentInteractions": "Dim rhyngweithiadau diweddar eto.",
+    "anhysbys": "Anhysbys",
+    "mathRhyngweithio": {
+      "neges": "Neges",
+      "galwad": "Galwad",
+      "fideo": "Fideo"
+    },
+    "dewisyddCyflym": "Dewisydd cyflym",
+    "i": "I",
+    "enwNeuEnwDefnyddiwr": "Teipiwch enw, enw defnyddiwr",
+    "nameUsernamePhoneEmail": "Teipiwch enw, enw defnyddiwr, ffôn, neu e-bost…",
+    "startWithSelected": "Dechreuwch sgwrs gyda'r un a ddewiswyd",
+    "searchByUsernameOrPhone": "Chwiliwch drwy enw defnyddiwr neu ffôn",
+    "search": "Chwilio",
+    "searchPrompt": " Teipiwch enw defnyddiwr neu rif ffôn a gwasgwch Chwilio.",
+    "dewisO'rCysylltiadau": "Neu dewiswch o'r cysylltiadau",
+    "ychwaneguCyswllt": "Ychwanegu Cyswllt",
+    "dangos": "Dangos",
+    "ychwanegu": "Ychwanegu",
+    "cau": "Cau",
+    "niferWedi'uDewis": "{{count}} wedi'u dewis ",
+    "pickAtLeastOne": "Dewiswch o leiaf un derbynnydd.",
+    "saveContactsHint": "Bydd cofnodion ffôn/e-bost ar gael ar ôl i chi eu cadw fel cysylltiadau.",
+    "failedBulkStart": "Methodd â dechrau sgwrs gyda'r derbynwyr a ddewiswyd.",
+    "noResults": "Dim canlyniadau",
+    "mode": "Modd",
+    "group": "Grŵp",
+    " darlledu": "Darlledu",
+    "enwGrŵpDewisol": "Enw'r grŵp (dewisol)",
+    "cyfarchiadCyntafDewisol": "Cyfarchiad cyntaf (dewisol ond argymhellir)",
+    "creuGrŵp": "Creu grŵp",
+    "anfonDarllediad": "Anfon darllediad"
+  },
+  "tudalenPobl": {
+    "pobl": "Pobl",
+    "chwilio": "Chwilio",
+    "searchPlaceholder": "Chwiliwch gysylltiadau sydd wedi'u cadw drwy alias, enw, enw defnyddiwr, neu ffôn",
+    "quickStart": "Cychwyn cyflym",
+    "quickStartDesc": "Rheolwch eich cysylltiadau a gwahoddwch ffrindiau.",
+    "importContacts": "Mewnforio'ch cysylltiadau",
+    "import ": "Mewnforio",
+    "addContact": "Ychwanegu cyswllt",
+    "add": "Ychwanegu",
+    "inviteFriends": "Gwahodd ffrindiau",
+    "inviteDesc": "Rhannwch eich dolen wahoddiad i ddechrau sgwrsio ar unwaith.",
+    "getTheApp": "Cael yr ap",
+    "getTheAppDesc": "Cadwch mewn cysylltiad wrth fynd gyda Chatforia ar gyfer iOS ac Android.",
+    "download": "Lawrlwytho",
+    "syncTip": "Awgrym: Mae eich negeseuon yn aros wedi'u cydamseru ar draws y we a ffonau symudol.",
+    "filterSaved": "Hidlo cysylltiadau sydd wedi'u cadw",
+    "noContactsFound": "Ni chanfuwyd unrhyw gysylltiadau",
+    "focusSearch": "Canolbwyntio ar y Chwiliad",
+    "findOrAdd": "Dod o hyd i rywun neu ychwanegu rhywun",
+    "searchByPhoneOrUsername": "Chwilio drwy ffôn / enw defnyddiwr"
+  },
+  "proffil": {
+    "teitl": "Proffil Defnyddiwr",
+    "iaithDdewisol": "Iaith ddymunol",
+    "dewisIaith": "Dewis iaith",
+    "rhaidMewngofnodi": "Rhaid i chi fewngofnodi i weld y gosodiadau.",
+    "trosglwyddoAwtomatig": "Trosglwyddo negeseuon yn awtomatig",
+    "dangosYrWreiddiolGydaTh lation": "Dangos negeseuon gwreiddiol ac wedi'u cyfieithu",
+    "showOriginalAndTranslation": "Dangos y gwreiddiol ochr yn ochr â'r cyfieithiad",
+    "filterExplicit": "Hidlo cynnwys anweddus",
+    "aiReply": "Ateb AI",
+    "enableReadReceipts": "Galluogi derbynneb darllen",
     "allowExplicitContent": "Caniatáu cynnwys eglur",
-    "disappearingMessages": "Galluogi negeseuon sy’n diflannu",
-    "autoDeleteSeconds": "Eiliadau tan ddileu awtomatig",
-    "saveSuccess": "Gosodiadau wedi’u cadw!",
-    "saveError": "Gwall: Methu cadw gosodiadau",
-    "avatarAlt": "Afatar proffil",
-    "uploadAvatar": "Uwchlwytho avatar newydd",
-    "avatarSuccess": "Avatar wedi’i uwchlwytho!",
-    "avatarError": "Methu uwchlwytho avatar",
-    "avatarUpdated": "Avatar updated!",
-    "uploadingAvatar": "Uploading avatar…",
-    "noPrivateKey": "There is na preifat allwedd ar hwn dyfais i export.",
-    "setBackupPassword": "Set cyfrinair i encrypt eich copi wrth gefn:",
-    "backupDownloaded": "Encrypted copi wrth gefn downloaded.",
-    "exportFailed": "Allwedd export wedi methu",
-    "enterBackupPassword": "Enter y cyfrinair ar gyfer hwn copi wrth gefn:",
-    "importSuccess": "Preifat allwedd imported i hwn dyfais.",
-    "importFailed": "Wedi methu i import allwedd (incorrect cyfrinair neu corrupt ffeil).",
-    "keysRotated": "Newydd allwedd pair generated a cyhoeddus allwedd uploaded.",
-    "rotateFailed": "Wedi methu i rotate allweddi.",
+    "disappearingMessages": "Galluogi negeseuon sy'n diflannu",
+    "autoDeleteSeconds": "Eiliadau nes dileu'n awtomatig",
+    "saveSuccess": "Cadwyd y gosodiadau!",
+    "saveError": "Gwall: Methu cadw'r gosodiadau",
+    "avatarAlt": "Ffuglun proffil",
+    "uploadAvatar": "Uwchlwytho ffuglun newydd",
+    "avatarSuccess": "Uwchlwythwyd y ffuglun!",
+    "avatarError": "Methodd uwchlwytho'r avatar",
+    "avatarUpdated": "Diweddarwyd yr avatar!",
+    "uploadingAvatar": "Wrthi'n uwchlwytho'r avatar…",
+    "noPrivateKey": "Nid oes allwedd breifat ar y ddyfais hon i'w allforio.",
+    "setBackupPassword": "Gosodwch gyfrinair i amgryptio'ch copi wrth gefn:",
+    "backupDownloaded": "Lawrlwythwyd y copi wrth gefn wedi'i amgryptio.",
+    "exportFailed": "Methodd allforio'r allwedd",
+    "enterBackupPassword": "Rhowch y cyfrinair ar gyfer y copi wrth gefn hwn:",
+    "importSuccess": "Mewnforio'r allwedd breifat i'r ddyfais hon.",
+    "importFailed": "Methodd mewnforio'r allwedd (cyfrinair anghywir neu ffeil lygredig).",
+    "keysRotated": "Pâr allwedd newydd wedi'i gynhyrchu ac allwedd gyhoeddus wedi'i huwchlwytho.",
+    "rotateFailed": "Methodd cylchdroi'r allweddi.",
     "security": "Diogelwch",
-    "exportKey": "Gwneud copi wrth gefn o’r Allwedd Amgryptio",
+    "exportKey": "Efru'r Allwedd Amgryptio",
     "importKey": "Adfer yr Allwedd Amgryptio",
-    "rotateKeys": "Cylchdroi’r Allwedd Amgryptio",
-    "keyDisclaimer": "Eich preifat allwedd never leaves hwn dyfais. Export password-protected copy i adfer it ar another dyfais.",
+    "rotateKeys": "Cylchdroi'r Allwedd Amgryptio",
+    "keyDisclaimer": "Ni fydd eich allwedd breifat byth yn gadael y ddyfais hon. Allforio copi sydd wedi'i ddiogelu â chyfrinair i'w adfer ar ddyfais arall.",
     "sectionProfile": "Proffil",
     "phoneNumber": "Rhif ffôn",
     "appearance": "Ymddangosiad",
-    "soundSettings": "Seiniau",
-    "disappearing": "Negeseuon sy’n diflannu",
-    "backupSync": "Copi wrth gefn a Chydamseru",
+    "soundSettings": "Sain",
+    "disappearing": "Negeseuon sy'n diflannu",
+    "backupSync": "Cwblhau copi wrth gefn a chydamseru",
     "ai": "AI",
-    "accessibility": "Hygyrchedd",
-    "privacy": "Preifatrwydd",
-    "devices": "Dyfeisiau cysylltiedig",
-    "themeFreeNotice": "Rydych chi’n ar Am ddim—use y quick Sun/Moon options below. Uwchraddio i datgloi more themes.",
-    "sunTheme": "Use Dawn theme",
-    "moonTheme": "Use Moon (Midnight) theme",
-    "sun": "Sun",
-    "moon": "Moon",
-    "backupTitle": "Encrypted Backups & Dyfais Sync",
-    "openBackupTools": "Agor Copi wrth gefn Tools",
-    "backupDesc": "Yn ôl up eich encryption allwedd i securely adfer eich negeseuon ar another dyfais.",
-    "privacyBlurEnabled": "Blur negeseuon by default",
-    "privacyBlurOnUnfocus": "Blur when app is unfocused",
-    "planSection": "Fy nghynllun",
-    "planLoading": "Yn llwytho eich cynllun…",
-    "planLoadFailed": "Methu llwytho eich cynllun.",
-    "currentPlan": "Cynllun cyfredol",
+    "hygyrchedd": "Hygyrchedd",
+    "preifatrwydd": "Preifatrwydd",
+    "dyfeisiau": "Dyfaisiau cysylltiedig",
+    "hysbysiadThemaRhadffôn": "Rydych chi ar y fersiwn rhadffôn—defnyddiwch yr opsiynau Haul/Lloer cyflym isod. Uwchraddiwch i ddatgloi mwy o themâu.",
+    "sunTheme": "Defnyddio thema Bore",
+    "moonTheme": "Defnyddio thema Lleuad (Hanner Nos)",
+    "sun": "Haul",
+    "moon": "Lleuad",
+    "backupTitle": "Copïau Wrth Gefn wedi'u Hamsgrifennu a Sincronio Dyfeisiau",
+    "openBackupTools": " Agor Offer Copi Wrth Gefn",
+    "backupDesc": "Gwnewch gopi wrth gefn o'ch allwedd amgryptio i adfer eich negeseuon yn ddiogel ar ddyfais arall. ",
+    "privacyBlurEnabled": "Cysgodi negeseuon yn ddiofyn",
+    "privacyBlurOnUnfocus": "Cysgodi pan fo'r ap allan o ffocws",
+    "planSection": "Fy nhrefn",
+    "planLoading": "Llwytho'ch trefn…",
+    "planLoadFailed": "Methodd â llwytho'ch trefn. ",
+    "currentPlan": "Y cynllun presennol",
     "planRenewsOn": "Yn adnewyddu ar",
-    "freePlanCopy": "Rydych chi’n ar y am ddim cynllun. Uwchraddio i datgloi more features like backups, extra rhifau, a advanced preifatrwydd options.",
+    "freePlanCopy": "Rydych chi ar y cynllun am ddim. Uwchraddiwch i ddatgloi mwy o nodweddion fel copïau wrth gefn, rhifau ychwanegol, ac opsiynau preifatrwydd uwch.",
     "upgradePlanCta": "Uwchraddio cynllun",
     "changePlanCta": "Newid cynllun",
     "manageBilling": "Rheoli bilio",
-    "portalOpenFailed": "Could not agor porth bilio. Rhowch gynnig arall arni.",
-    "holdToReveal": "Dal i ddatgelu",
-    "notifyOnCopy": "Notify fi if fy neges is copied",
-    "loadFailed": "methu llwytho proffil",
-    "followed": "Followed",
-    "followFailed": "Wedi methu i dilyn",
-    "unfollowed": "Unfollowed",
-    "unfollowFailed": "Wedi methu i dad-ddilyn",
-    "follow": "Dilyn",
-    "unfollow": "Dad-ddilyn",
-    "followHint": "Their stories will appear yn eich Following feed if nhw post gyda audience Followers (neu Cyhoeddus).",
-    "userNotFound": "Defnyddiwr heb ei ganfod",
-    "followsYou": "Yn eich dilyn",
-    "sectionCrashedTitle": "Methodd yr adran lwytho",
-    "sectionCrashedBody": "Aeth rhywbeth o’i le yn yr adran hon.",
-    "forwarding": "Anfon Galwadau a Negeseuon Testun Ymlaen",
-    "callTextForwardingSection": "Anfon Galwadau a Negeseuon Testun Ymlaen",
-    "callTextForwardingTitle": "Galwad a/neu Testun Anfon ymlaen",
-    "callTextForwardingDescription": "Anfon ymlaen i mewn galwadau a testunau i eich verified ffôn neu e-bost. Allan galwadau/testunau can show eich Chatforia rhif.",
-    "enableTextForwarding": "Galluogi anfon testun ymlaen",
-    "forwardTextsToPhone": "Anfon testunau ymlaen i ffôn",
-    "forwardTextsToEmail": "Anfon testunau ymlaen i e-bost",
+    "portalOpenFailed": "Methu ag agor y porth bilio. Cofiwch geisio eto.",
+    "dalIddDatgelu": "Daliwch i ddatgelu",
+    "hysbysuWrthGopïo": "Hysbyswch fi os caiff fy neges ei chopïo",
+    "methuLlwytho": "Methu llwytho'r proffil",
+    "dilynwyd": "Dilynwyd",
+    "methuDilyn": "Methu dilyn",
+    "dad-ddilynwyd": "Dad-ddilynwyd",
+    "methuDad-ddilyn": "Methodd â dad-ddilyn",
+    "dilyn": "Dilyn",
+    "dad-ddilyn": "Dad-ddilyn",
+    "hintDilyn": "Bydd eu straeon yn ymddangos yn eich porth Dilyn os byddant yn postio gyda'r gynulleidfa Dilynwyr (neu Gyhoeddus).",
+    "defnyddiwrDdimWedi'iDdarganfod": "Ni ddarganfuwyd y defnyddiwr",
+    "ynDilynChi": "Yn dilyn chi",
+    "teitlAdranWediChwalio ": "Methodd y adran â llwytho",
+    "sectionCrashedBody": "Aeth rhywbeth o'i le yn yr adran hon.",
+    "forwarding": "Symud Ymlaen Galwadau a Negeseuon",
+    "callTextForwardingSection": "Symud Ymlaen Galwadau a Negeseuon",
+    "callTextForwardingTitle": "Symud Ymlaen Galwadau a/neu Negeseuon",
+    "callTextForwardingDescription": "Symud ymlaen alwadau a negeseuon sy'n dod i mewn i'ch ffôn neu e-bost wedi'i wirio. Sy'n mynd allan gall galwadau/negesau ddangos eich rhif Chatforia.",
+    "enableTextForwarding": "Galluogi anfon negeseuon ymlaen",
+    "forwardTextsToPhone": "Trosglwyddo negeseuon testun i'r ffôn",
+    "forwardTextsToEmail": "Trosglwyddo negeseuon testun i e-bost",
     "destinationPhone": "Ffôn cyrchfan (E.164)",
     "destinationEmail": "E-bost cyrchfan",
-    "enableCallForwarding": "Galluogi anfon galwadau ymlaen",
-    "destinationPhoneForCalls": "Destination (E.164) ar gyfer galwadau",
-    "aliasBridging": "Galwad Anfon ymlaen (alias bridging)",
-    "quietHoursOptional": "Quiet Oriau (dewisol)",
-    "startHour": "Dechrau awr (0–23)",
-    "endHour": "End awr (0–23)",
+    "enableCallForwarding": "Galluogi trosglwyddo galwadau",
+    "destinationPhoneForCalls": "Cyrchfan (E.164) ar gyfer galwadau",
+    "aliasBridging": "Dargyfeirio Galwadau (bridio alias)",
+    "quietHoursOptional": "Awrau Tawel (dewisol)",
+    "startHour": "Awr gychwyn (0–23)",
+    "endHour": "Awr gorffen (0–23)",
     "reset": "Ailosod",
     "saveBtn": "Cadw",
-    "saveProfile": "Cadw proffil",
-    "saveForwarding": "Cadw anfon ymlaen",
-    "forwardSaved": "Gosodiadau anfon ymlaen wedi’u cadw",
-    "forwardSaveFailed": "Methu cadw gosodiadau",
-    "errE164": "Enter dilys E.164 ffôn (e.g., +15551234567).",
-    "errEmail": "Enter dilys e-bost.",
-    "errSmsDest": "Dewis at least one destination (ffôn neu e-bost).",
-    "errQuietHours": "Quiet oriau must be between 0 a 23.",
-    "randomChat": "Sgwrs Ar Hap",
+    "saveProfile ": "Cadw proffil",
+    "saveForwarding": "Cadw trefniadau blaenoriaeth",
+    "forwardSaved": "Trefniadau blaenoriaeth wedi'u cadw",
+    "forwardSaveFailed": "Methodd â chadw'r trefniadau",
+    "errE164": "Rhowch rif ffôn E.164 dilys (e.e., +15551234567).",
+    "errEmail": "Rhowch e-bost dilys.",
+    "errSmsDest": "Dewiswch o leiaf un cyrchfan (ffôn neu e-bost).",
+    "errQuietHours": "Rhaid i oriau tawel fod rhwng 0 a 23.",
+    "randomChat": "Sgwrs ar hap",
     "ageBand": "Eich ystod oedran",
-    "ageBandPlaceholder": "Dewis eich ystod oedran",
-    "ageTeen": "13–17",
-    "age18_24": "18–24",
-    "age25_34": "25–34",
-    "age35_49": "35–49",
-    "age50Plus": "50+",
-    "ageBandHint": "Ni only store oedran ystod (not eich exact date o birth). Hwn is used i keep Ar hap Sgwrs pairings reasonable.",
-    "wantsAgeFilter": "Defnyddio paru ar sail oedran mewn Sgwrs Ar Hap",
-    "wantsAgeFilterDesc": "When ar, ni try i pair chi gyda pobl yn compatible oedran ranges.",
-    "partnerAgeBands": "Gyda phwy allwch chi gael eich paru?",
-    "partnerAgeBandsDesc": "Teens are always matched only gyda other teens. Adults cannot be matched gyda teens.",
-    "teenMatchingNote": "Ar gyfer safety, accounts yn y 13–17 oedran ystod can only be matched gyda other 13–17 accounts yn Ar hap Sgwrs.",
-    "foriaRemember": "Let Ria remember things chi tell it",
-    "foriaRememberDesc": "When hwn is ar, Foria can use eich past Ar hap Sgwrs sgyrsiau (just gyda chi) i keep y sgwrs flowing. Chi can turn hwn off any time.",
-    "voicemailSection": "Neges Lais",
-    "voicemailEnabled": "Galluogi neges lais",
-    "voicemailAutoDeleteDays": "Auto-delete voicemails after (diwrnod)",
-    "voicemailAutoDeletePlaceholder": "Leave gwag i keep forever",
-    "voicemailForwardEmail": "Anfon neges lais ymlaen i e-bost",
-    "voicemailForwardEmailPlaceholder": "E-bost i anfon neges lais hysbysiadau i",
-    "voicemailGreetingText": "Testun fallback greeting",
-    "voicemailGreetingTextDesc": "Used when eich sain greeting is ddim ar gael.",
+    "ageBandPlaceholder": "Dewiswch eich ystod oedran",
+    "oedfaen": "13–17",
+    "oed18_24": "18–24",
+    "oed25_34": "25–34",
+    "oed35_49": "35–49",
+    "oed50Plws": "50+",
+    "ageBandHint": "Rydym ond yn storio ystod oedran (nid eich dyddiad geni union). Defnyddir hyn i gadw paru Sgwrs Ar Hap yn rhesymol.",
+    "wantsAgeFilter": "Defnyddio paru ar sail oedran yn Sgwrs Ar Hap",
+    "wantsAgeFilterDesc": "Pan mae'n weithredol, rydym yn ceisio eich paru â phobl mewn ystodau oedran addas.",
+    "partnerAgeBands": "Pwy allwch chi gael eich paru â nhw?",
+    "partnerAgeBandsDesc": "Mae pobl yn eu harddegau bob amser yn cael eu paru â phobl eraill yn eu harddegau yn unig. Ni ellir paru oedolion â phobl yn eu harddegau.",
+    "teenMatchingNote": "Er diogelwch, dim ond â chyfrifon 13–17 oed eraill y gellir paru cyfrifon yn yr ystod oedran 13–17 mewn Sgwrs Ar Hap.",
+    "foriaRemember": "Gadewch i Ria gofio pethau rydych chi'n eu dweud wrthi",
+    "foriaRememberDesc": "Pan fydd hwn ymlaen, gall Foria ddefnyddio'ch sgyrsiau Sgwrs Ar Hap blaenorol (gyda chi'n unig) i gadw'r sgwrs i lifo'n rhwydd. Gallwch chi ddiffodd hwn unrhyw bryd.",
+    "voicemailSection": "Neuaddleis",
+    "voicemailEnabled": "Galluogi neuaddleis",
+    "voicemailAutoDeleteDays": "Dileu negeseuon lleisi'n awtomatig ar ôl (dyddiau)",
+    "voicemailAutoDeletePlaceholder": "Gadewch yn wag i'w gadw am byth",
+    "voicemailForwardEmail": "Ailgyfeirio neuaddleis i e-bost",
+    "voicemailForwardEmailPlaceholder": "E-bost i anfon neu icemail notifications to",
+    "voicemailGreetingText": "Text fallback greeting",
+    "voicemailGreetingTextDesc": "Used when your audio greeting is unavailable.",
     "voicemailGreetingUpload": "Uwchlwytho cyfarchiad neges lais",
-    "voicemailPreviewGreeting": "Rhagolwg cyfarchiad",
-    "voicemailGreetingUploaded": "Cyfarchiad neges lais wedi’i uwchlwytho’n llwyddiannus",
-    "voicemailGreetingUploadError": "Methu uwchlwytho cyfarchiad neges lais",
-    "voicemailNote": "Voicemails o eich Chatforia rhifau will be stored yn eich Neges lais inbox. Chi can galluogi transcription a anfon ymlaen yn supported cynlluniau.",
-    "portHint": "Want i keep eich cyfredol rhif? Chi can port it into Chatforia Diwifr.",
+    "voicemailPreviewGreeting": "Rhagweld y cyfarchiad",
+    "voicemailGreetingUploaded": "Llwyddwyd i uwchlwytho'r cyfarchiad neges lais",
+    "voicemailGreetingUploadError": "Methodd â uwchlwytho'r cyfarchiad neges lais",
+    "voicemailNote": "Bydd negeseuon llais o'ch rhifau Chatforia yn cael eu storio yn eich mewnflwch Neges Llais. Gallwch alluogi trawsgrifio a throsglwyddo mewn cynlluniau a gefnogir.",
+    "portHint": "Ydych chi eisiau cadw eich rhif presennol? Gallwch ei drosglwyddo i Chatforia Wireless.",
     "wireless": {
       "manage": "Rheoli diwifr"
     },
     "esim": {
       "title": "eSIM Chatforia",
-      "desc": "Get symudol data ar gyfer Chatforia when you’re away o Wi-Fi.",
+      "desc": "Cael data symudol ar gyfer Chatforia pan fyddwch chi i ffwrdd o Wi-Fi.",
       "cta": "Cael eSIM / Dangos QR"
     },
-    "encryptedBackupsTitle": "Copi wrth gefn o’r Allwedd Amgryptio"
+    "encryptedBackupsTitle": "Cefnogaeth Allwedd Amgryptio"
+  },
+  "themas": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velwedi"
+  },
+  "sain": {
+    "sainHysbysu": "Sain Hysbysu",
+    "ailosodIDioRhagosodiadau": "Ailosod i ragosodiadau",
+    "hysbysiadamddimCychwyn": "Rydych chi ar Dâl Isel — dangosir tônau premiwm ond maent wedi'u cloi. ",
+    "hysbysiadamddimDiwedd": " i ddatgloi popeth.",
+    "messageTone": "Tôn neges",
+    "ringtone": "Tôn can",
+    "preview": "Rhagolwg",
+    " stop": "Stop",
+    "volume": "Sain",
+    "messageToneFilesHint": "Rhowch ffeiliau yn /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Rhowch ffeiliau yn /public/sounds/Ringtones",
+    "premiumRequired": "Mae premiwm ei angen ar gyfer y dewis hwnnw.",
+    "saved": "Gosodiadau sain wedi'u cadw.",
+    "saveFailed": "Ni lwyddwyd i gadw gosodiadau sain.",
+    "resetNotSaved": "Ailosod i ddiofyn (heb ei gadw eto).",
+    "premiumTone": "Tôn Premiwm yw hwnnw.",
+    "premiumRingtone": "Tôn Premiwm yw hwnnw.",
+    "custom ComingSoon": "Bydd uwchlwythiadau sain pwrpasol yn dod yn fuan.",
+    "freeNotice": "Rydych chi ar y Fersiwn Am Ddim — dangosir tynion premiwm ond maen nhw wedi'u cloi. Uwchraddiwch i ddatgloi popeth.",
+    "default": "Diofyn",
+    "vibrate": "Crynu",
+    "dreamer": "Breuddwydiwr",
+    "notify": "Hysbysu",
+    "pop": "Pop",
+    "pulsatingSound": "Sain Guriadol",
+    "textMessage": "Neges destun",
+    "seiloffon": "Seiloffon",
+    "clasurol": "Clasurol",
+    "brys": "Brys",
+    "clychau": "Clychau",
+    "chimes": "Chimes",
+    "ffôn digidol": "Ffôn Digidol",
+    "melodig": "Melodig",
+    "nodau organ": "Nodau Organ",
+    "realitiSain": "Realiti Sain",
+    "stryd": "Stryd",
+    "maesY bydysawd": "Maes y Bydysawd"
+  },
+  "gosodiadauAI": {
+    "teitl": "Gosodiadau AI",
+    "controlIntro": "Rheoli cyfieithu, atebion clyfar, ac ymatebion awtomatig ForiaBot.",
+    "translation": "Cyfieithu",
+    "autoTranslateIncoming": "Cyfieithu negeseuon sy'n dod i mewn yn awtomatig",
+    "showOriginalAlongside": "Dangos y testun gwreiddiol ochr yn ochr â'r cyfieithiad",
+    "smartReplies": "Atebion Clyfar ",
+    "enableSmartReplies": "Galluogi Atebion Clyfar",
+    "smartRepliesHint": "Anfonwch yr ychydig negeseuon diwethaf a dderbyniwyd (wedi'u glanhau) at yr AI i awgrymu atebion cyflym.",
+    "maskProfanity": "Mwgwdio rhegfeydd yn awgrymiadau'r AI",
+    "maskProfanityHint": "Os yw ar, bydd geiriau wedi'u marcio yn awgrymiadau'r AI yn cael eu mwgwdio ",
+    "foriaBot": "Atebwr Awtomatig ForiaBot",
+    "enableAutoReply": "Galluogi ateb awtomatig pan fyddaf yn brysur",
+    "autoReplyMode": "Modd ateb awtomatig",
+    "cooldownSeconds": "Amser oeri (eiliadau)",
+    "llofnod": "Llofnod",
+    "ymateb-awtomatig": "🤖 Ymateb-awtomatig",
+    "gweithredolHydAtDewisol": "Gweithredol hyd at (dewisol)",
+    "cadw": "Cadw Gosodiadau AI",
+    "wedi'i gadw": "Gosodiadau AI wedi'u cadw",
+    "methuCadw": " Methodd â chadw gosodiadau AI",
+    "translateOff": "I ffwrdd",
+    "translateTagged": "Dim ond pan @drosiwyd neu pan gaiff ei dagio",
+    "translateAll": "Trosi pob neges sy'n dod i mewn ",
+    "modeDm": "Sgyrsiau 1:1 yn unig",
+    "modeMention": "Dim ond pan fyddaf wedi'm @grybwyll",
+    "modeAll": "Pob neges sy'n dod i mewn",
+    "off": "I ffwrdd",
+    "on": "Ymlaen"
+  },
+  "gosodiadau hygyrchedd": {
+    "teitl": "Hygyrchedd a Rhybuddion",
+    "loadFailed": "Methodd â llwytho'r gosodiadau",
+    "accessibilityDesc": "Opsiwnau i wneud Chatforia yn haws i'w ddefnyddio heb ddibynnu ar sain.",
+    "interfaceFontSize": "Maint ffont y rhyngwyneb",
+    "interfaceFontSizeHelp": "Yn dechrau ar faint arferol. Cynyddwch os yw'n well gennych destun mwy.",
+    "notifications": "Hysbysiadau",
+    "visualAlerts ": "Rhybuddion gweledol ar gyfer negeseuon a galwadau",
+    "visualAlertsDesc": "Dangos baneri a gwneud i'r teitl fflachio fel nad ydych yn colli gweithgarwch.",
+    "vibrateOnNewShort": "Ysgwyddo ar negeseuon newydd (pan gaiff ei gefnogi)",
+    "vibrateOnNewDesc": "Triclo dirgryniad y ddyfais gyda hysbysiadau.",
+    "flashOnCallShort": "Fflachio'r sgrin ar alwad sy'n dod i mewn",
+    "flashOnCallDesc": "Fflach byr llachar pan fydd galwad yn canu.",
+    "liveCaptionsTitle ": "Capsiynau byw (galwadau)",
+    "enableLiveCaptions": "Galluogi capsiynau byw yn ystod galwadau (Premium)",
+    "liveCaptionsDesc": "Dangos capsiynau amser real o sain y sawl arall.",
+    "captionFontSize": "Maint ffont y capsiwn",
+    "captionBackground": "Cefndir y capsiwn",
+    "voiceNotes": "Nodiadau llais",
+    "autoTranscribeVoice Nodiadau": "Trawsgrifio nodiadau llais yn awtomatig",
+    "autoTranscribeVoiceNotesDesc": "Atod trawsgrifiad i negeseuon sain a dderbyniwch.",
+    "newidiadauWedi'uCadwArUnwaith": "Caiff newidiadau eu cadw ar unwaith.",
+    "sm": "Bach",
+    "md": "Canolig",
+    "lg": "Mawr",
+    "xl": " Hynod Fawr",
+    "golau": "Golau",
+    "tywyll": "Tywyll",
+    "dryloyw": "Dryloyw",
+    "hwylustod": "Hwylustod",
+    "notificationsDesc": "Rhybuddion gweledol ar gyfer negeseuon a galwadau\nDangos baneri a theitl yn peipio fel nad ydych yn colli gweithgarwch.",
+    "vibrateOnNew": "Ysgwyd ar negeseuon newydd (pan gaiff ei gefnogi)\nTricio dirgryniad y ddyfais gyda hysbysiadau.",
+    "flashOnCall": "Sgrin fflachio ar alwad sy'n dod i mewn\nFflach byr, llachar pan fydd galwad yn canu.",
+    "capsiynauByw": "Capsiynau byw (galwadau)"
+  },
+  "adranPreifatrwydd": {
+    "amgryptioLlym": "Amgryptio llym o benn i ben",
+    "nodynTestunSiffr": "Storio testun siffr yn unig ar y gweinydd. Mae'n analluogi AI/ Cofnodion cyfieithu a chymedroli.",
+    "strictE2EEEnabled": "E2EE Caeth wedi'i alluogi. Bydd AI/Cyfieithu wedi'i analluogi.",
+    "strictE2EEDisabled": "E2EE Caeth wedi'i analluogi. Ail-alluogir AI/Cyfieithu."
+  },
+  "linkedDevicesPanel": {
+    "title": "Dyfaisys cysylltiedig",
+    " nonefound": "Ni chanfuwyd unrhyw ddyfeisiau cysylltiedig.",
+    "refresh": "Adnewyddu",
+    "unknown": "Anghyfarwydd",
+    "loadFailed": "Methodd llwytho'r dyfeisiau cysylltiedig",
+    "loadFailedLog": "Methodd llwytho'r dyfeisiau cysylltiedig",
+    "renamePrompt": "Rhowch enw newydd ar gyfer y ddyfais hon",
+    "renamed": "Enw'r ddyfais wedi'i newid",
+    "renameFailed": " Ni lwyddwyd i ailenwi'r ddyfais",
+    "ddiddymwyd": "Diddymwyd y ddyfais",
+    "methuDiddymu": "Ni lwyddwyd i ddiddymu'r ddyfais",
+    "dyfaisHebEnw": "Dyfais heb enw",
+    "prif": "Prif",
+    "statwsWedi'iDdiddymu": "Wedi'i ddiddymu",
+    "ychwaneguGolygwydDiwethaf": "Ychwanegwyd {{created}} • Golygwyd ddiwethaf {{lastSeen}}",
+    " renameDevice": "Ailenwi'r ddyfais",
+    "revokeDevice": "Dirymu'r ddyfais"
   },
   "wireless": {
-    "title": "Diwifr Chatforia",
-    "description": "Rheoli eich Chatforia symudol cynllun, rhifau, anfon ymlaen, a rhif porting.",
-    "options": {
-      "heading": "Dewiswch sut rydych am ddefnyddio Chatforia",
-      "subheading": "Chi can get newydd Chatforia rhif, neu bring eich existing rhif o another carrier.",
-      "newNumber": "Cael rhif Chatforia newydd",
-      "portNumber": "Trosglwyddo eich rhif presennol i Ddiwifr Chatforia"
+    "title": "Chatforia Wireless",
+    "disgrifiad": "Rheoli eich cynllun symudol Chatforia, rhifau, dargyfeirio, a phorthi rhifau.",
+    "opsiynau": {
+      "pennawd": "Dewiswch sut rydych chi am ddefnyddio Chatforia",
+      "is-bennawd": "Gallwch gael rhif Chatforia newydd, neu ddod â'ch rhif presennol o gludwr arall.",
+      "rhifNewydd": "Cael rhif Chatforia newydd",
+      "portNumber": "Porthiwch eich rhif presennol i Chatforia Wireless"
     },
     "port": {
-      "heading": "Trosglwyddo eich rhif presennol",
-      "subheading": "Move eich cyfredol rhif ffôn o eich existing carrier into Chatforia. Make sure y details paru eich carrier cyfrif exactly i avoid delays.",
-      "phoneNumberLabel": "Rhif ffôn i’w drosglwyddo",
+      "heading": "Porthiwch eich rhif presennol",
+      "subheading": "Symudwch eich rhif ffôn presennol o'ch cludwr presennol i Chatforia. Gwnewch yn siŵr bod y manylion yn cyfateb yn union i'ch cyfrif cludwr i osgoi oedi.",
+      "phoneNumberLabel": "Rhif ffôn i'w borthi",
       "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "Cludwr presennol",
-      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
+      "carrierLabel": "Daliwr presennol",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, ac ati.",
       "accountNumberLabel": "Rhif cyfrif",
-      "pinLabel": "Port-out PIN / cyfrinair",
+      "pinLabel": "PIN / cyfrinair allforio",
       "fullNameLabel": "Enw llawn ar y cyfrif",
       "address1Label": "Llinell cyfeiriad 1",
       "address2Label": "Llinell cyfeiriad 2 (dewisol)",
       "cityLabel": "Dinas",
-      "stateLabel": "Talaith / Rhanbarth",
-      "postalCodeLabel": "Cod post",
-      "countryLabel": "Gwlad",
-      "submitButton": "Cyflwyno cais trosglwyddo",
-      "success": "Port request submitted! Byddwn yn keep chi updated.",
-      "genericError": "Something went wrong."
-    },
-    "status": {
-      "heading": "Statws trosglwyddo",
-      "subheading": "Track y statws o eich rhif port requests.",
-      "loading": "Yn llwytho…",
-      "loadError": "methu llwytho port requests.",
-      "none": "Na porting activity yet.",
-      "pending": "Yn aros am adolygiad",
-      "submitted": "Wedi’i gyflwyno i’r cludwr",
-      "inProgress": "Ar waith",
-      "completed": "Wedi’i chwblhau",
-      "failed": "Wedi methu",
-      "canceled": "Wedi’i ganslo",
-      "created": "Crëwyd:",
-      "scheduled": "Wedi’i amserlennu:",
-      "completedAt": "Wedi’i gwblhau:"
-    },
-    "dataLow": "Mae eich data’n rhedeg yn isel.",
-    "topUp": "Ychwanegu at y balans nawr",
-    "expiresIn": "Expires yn{{days}}diwrnod",
-    "exhausted": "Mae eich data wedi dod i ben. Prynwch becyn newydd i barhau i ddefnyddio data symudol.",
-    "buyPack": "Prynu pecyn data",
-    "esimPackLabel": "pecyn eSIM"
-  },
-  "family": {
-    "title": "Teulu",
-    "loading": "Yn llwytho manylion eich teulu…",
-    "error": {
-      "load": "Methu llwytho manylion teulu.",
-      "invite": "Could not creu invite. Make sure chi are y teulu owner a rhowch gynnig arall arni.",
-      "checkout": "Ni could not dechrau checkout ar gyfer Teulu cynllun. Rhowch gynnig arall arni."
-    },
-    "billing": {
-      "myPlanTitle": "Fy nghynllun",
-      "myPlanError": "Unable i load eich cynllun.",
-      "myPlanLoading": "Yn llwytho eich cynllun…",
-      "currentPlan": "Cynllun cyfredol",
-      "renewsAt": "Yn adnewyddu ar",
-      "freePlanCopy": "Rydych chi’n ar y am ddim cynllun. Uwchraddio i datgloi more features.",
-      "upgradeCta": "Uwchraddio cynllun",
-      "changePlanCta": "Newid cynllun",
-      "manageBilling": "Rheoli bilio",
-      "portalError": "Unable i agor y porth bilio right now.",
-      "cancelNow": "Canslo now",
-      "cancelNowHelp": "Chi can rheoli neu canslo eich subscription yn y porth bilio, neu canslo immediately below.",
-      "cancelNowConfirm": "Are chi sure chi want i canslo eich cynllun immediately? Hwn cannot be undone.",
-      "cancelNowError": "Unable i canslo eich cynllun right now. Rhowch gynnig arall arni neu use Rheoli bilio."
-    },
-    "none": {
-      "title": "Dim teulu wedi’i sefydlu eto",
-      "body": "I creu Chatforia Teulu a pwll data rennir, dechrau Teulu cynllun.",
-      "goUpgrade": "Dechrau Teulu cynllun",
-      "viewPlans": "View pob cynlluniau"
-    },
-    "group": {
-      "defaultName": "Fy Nheulu Chatforia",
-      "role": "Eich role:{{role}}"
-    },
-    "role": {
-      "owner": "Perchennog",
-      "member": "Aelod"
-    },
-    "data": {
-      "heading": "Pwll data a rennir",
-      "caption": "Pob aelodau share hwn pool. Byddwn yn warn chi as chi approach eich limit."
-    },
-    "members": {
-      "title": "Aelodau teulu",
-      "name": "Enw",
-      "role": "Rôl",
-      "usage": "Defnydd",
-      "limit": "Terfyn",
-      "unlimited": "Dim terfyn penodol",
-      "inviteCta": "Gwahodd aelod"
-    },
-    "invite": {
-      "title": "Gwahodd aelod newydd",
-      "body": "Anfon e-bost neu link i invite someone into eich shared teulu data pool.",
-      "emailLabel": "E-bost (dewisol)",
-      "emailPlaceholder": "friend@example.com",
-      "create": "Creu invite",
-      "linkLabel": "Dolen wahodd",
-      "copyAria": "Copïo dolen wahodd",
-      "expiryHint": "Hwn link expires after few diwrnod. Chi can always creu newydd one."
-    },
-    "join": {
-      "title": "Ymuno â theulu",
-      "body": "Chi have been invited i join Chatforia Teulu a share their data pool.",
-      "cta": "Accept a join teulu",
-      "ctaLogin": "Sign yn a join teulu",
-      "success": "Chi have joined hwn teulu. Chi now share their data pool.",
-      "goFamily": "Mynd i ddangosfwrdd teulu",
-      "error": "Ni could not ychwanegu chi i hwn teulu. Y invite may be annilys neu expired."
-    }
-  },
-  "premium": {
-    "heading": "Ewch yn Bremiwm",
-    "description": "Datgloi nodweddion pwerus a dileu hysbysebion.",
-    "cta": "Uwchraddio",
-    "upgrade": "Uwchraddio",
-    "upgradeAria": "Uwchraddio i Chatforia Premiwm"
-  },
-  "upgrade": {
-    "title": "Uwchraddio",
-    "titleLoggedIn": "Uwchraddio",
-    "titlePublic": "Prisiau",
-    "h1": "Prisiau a Chynlluniau Chatforia",
-    "h1Subtitle": "Dechrau gyda ein am ddim, ad-supported cynllun. Go ad-free gyda Plus, neu datgloi full power features gyda Premiwm.",
-    "subtitle": "Dewiswch gynllun ap, ychwanegwch becynnau data i chi’ch hun, neu rannwch ddata gyda’ch teulu — i gyd o un lle.",
-    "subtitle.app": "Dechrau gyda ein am ddim, ad-supported cynllun. Go ad-free gyda Plus, neu datgloi full power features gyda Premiwm.",
-    "subtitle.mobile": "Ychwanegu global eSIM data so Chatforia keeps working even when you’re away o Wi-Fi.",
-    "subtitle.family": "Creu pwll data rennir ar gyfer eich teulu a rheoli everyone’s usage o one place.",
-    "perMonth": "mo",
-    "perYear": "blwyddyn",
-    "goPremium": "Ewch yn Bremiwm",
-    "benefitsLine": "Datgloi nodweddion pwerus a dileu hysbysebion.",
-    "ctaText": "Uwchraddio",
-    "aria": "Uwchraddio i Chatforia Premiwm",
-    "toggle": {
-      "monthly": "Misol",
-      "annual": "Blynyddol (Arbed 30%)"
-    },
-    "scheduleBanner": {
-      "title": "Bydd y tanysgrifiad yn dod i ben",
-      "body": "You’ll revert i Am ddim ar",
-      "keepPlanCta": "Keep{{plan}}",
-      "manageBillingCta": "Rheoli bilio"
-    },
-    "billing": {
-      "opening": "Yn agor…",
-      "manage": "Rheoli Bilio"
-    },
-    "checkout": {
-      "redirecting": "Yn ailgyfeirio…"
-    },
-    "auth": {
-      "continue": "Parhau i fewngofnodi",
-      "createAccount": "Creu cyfrif",
-      "signIn": "Mewngofnodi"
-    },
-    "cta": {
-      "aria": "Dewis cynllun",
-      "getPlus": "Uwchraddio i Plus",
-      "upgradeMonthly": "Uwchraddio’n Fisol",
-      "upgradeAnnual": "Uwchraddio’n Flynyddol"
-    },
-    "section": {
-      "app": "Cynlluniau ap",
-      "mobile": "Symudol (eSIM)",
-      "family": "Cynlluniau teulu"
-    },
-    "plans": {
-      "free": {
-        "title": "Am Ddim",
-        "price": "$0",
-        "desc": "Dechreuwch anfon negeseuon am ddim. Delfrydol os ydych ond yn rhoi cynnig ar Chatforia.",
-        "features": {
-          "chat": "amser real 1:1 a group sgwrs, plus voice a fideo galwadau",
-          "media": "Share photos, voice negeseuon, a short videos",
-          "ai": "AI-powered smart replies a instant cyfieithiad (fair use)",
-          "disappearing": "Disappearing negeseuon a basic preifatrwydd controls",
-          "ads": "Am ddim forever gyda ads yn y app"
-        },
-        "ctaCurrent": "Cynllun cyfredol",
-        "ctaManage": "Rheoli mewn bilio",
-        "ctaPublic": "Get wedi dechrau – parhau i login",
-        "aria": "Am ddim cynllun"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Pob y essentials, heb ads. Great ar gyfer everyday messaging a calling.",
-        "features": {
-          "allFree": "Popeth yn Am Ddim, heb hysbysebion",
-          "forwarding": "Anfon ymlaen galwadau a testunau i eich real rhif ffôn",
-          "history": "Longer hanes negeseuon (up i 6 months)",
-          "support": "Faster cymorth when something goes wrong"
-        },
-        "badge": "Poblogaidd",
-        "cta": "Mynd heb Hysbysebion",
-        "ctaPublic": "Get Plus – parhau i login",
-        "aria": "Uwchraddio i Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premiwm (Misol)",
-        "price": "$11.99",
-        "desc": "Y full Chatforia experience: AI power tools, customization, a priority cymorth.",
-        "features": {
-          "plusAll": "Everything yn Plus",
-          "themes": "Datgloi pob premiwm color themes a app customizations",
-          "ai": "Premium-only AI power tools ar gyfer rewrites, smart replies, a summaries",
-          "support": "Priority cymorth when chi need cymorth most"
-        },
-        "badge": "Argymelledig",
-        "cta": "Uwchraddio (Misol)",
-        "ctaPublic": "Datgloi Premiwm – parhau i login",
-        "aria": "Uwchraddio i Premiwm Misol"
-      },
-      "premiumAnnual": {
-        "title": "Premiwm (Blynyddol)",
-        "price": "$99",
-        "desc": "Cadw more when billed yearly — including extra color themes, AI tools, a priority cymorth.",
-        "features": {
-          "allPremium": "Everything yn Premiwm Misol — including extra color themes",
-          "annualBilling": "Billed once per blwyddyn",
-          "save25": "Cadw around 30% compared i paying misol",
-          "bestFor": "Best ar gyfer power users, remote workers, a heavy travelers"
-        },
-        "badge": "Arbed 30%",
-        "cta": "Uwchraddio (Blynyddol)",
-        "ctaPublic": "Cadw 30% gyda blynyddol – parhau i login",
-        "aria": "Uwchraddio i Premiwm Blynyddol",
-        "disclaimer": "Wedi’i filio ymlaen llaw. Canslwch unrhyw bryd. Dim ffioedd cudd."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Am Ddim",
-      "freeDesc": "Dechrau messaging ar gyfer am ddim.",
-      "plusTitle": "Plus",
-      "plusBadge": "Poblogaidd",
-      "plusDesc": "Most affordable ad-free experience.",
-      "premiumMonthlyTitle": "Premiwm",
-      "premiumMonthlyDesc": "Full features, ringtones, a AI power tools.",
-      "premiumAnnualTitle": "Premiwm",
-      "premiumAnnualDesc": "Cadw more when billed yearly.",
-      "annualDisclaimer": "Wedi’i filio ymlaen llaw. Canslwch unrhyw bryd. Dim ffioedd cudd."
-    },
-    "mobile": {
-      "title": "Chatforia Symudol (eSIM pecynnau data)",
-      "subtitle": "Ychwanegu global data i keep Chatforia working even heb Wi-Fi. Prices automatically adjust based ar eich gwlad a currency.",
-      "subtitle.detail": "Pick one-time global pecyn data so Chatforia keeps working when you’re traveling neu away o Wi-Fi.",
-      "scope": {
-        "local": "Local",
-        "europe": "Europe",
-        "global": "Global"
-      },
-      "note": "Ni peidiwch sell pecynnau data under 3 GB.",
-      "localEquals": "Local ={{country}}",
-      "localEqualsFallback": "Local = eich cyfredol gwlad",
-      "perPack": "/ pecyn",
-      "cta": "Get hwn pecyn data",
-      "ctaPublic": "Get hwn pecyn data",
-      "checkout": {
-        "redirecting": "Yn ailgyfeirio…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "High-speed data ar gyfer heavy use",
-          "throttle": "Speeds may slow after high usage",
-          "coverage": "Reliable cwmpas",
-          "instant": "Instant eSIM activation",
-          "noContract": "One-time pecyn, na contract"
-        }
-      },
-      "disclaimer": {
-        "devices": "eSIM pecynnau data require eSIM-compatible a unlocked dyfais. Availability varies by ffôn model, carrier, a gwlad. Cwmpas a speeds vary by region."
-      },
-      "small": {
-        "title": "Starter pecyn",
-        "desc": "Includes 3 GB o high-speed data — ideal ar gyfer light messaging a occasional galwadau.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Short trips, light messaging, a occasional galwadau",
-        "aria": "Buy Starter eSIM pecyn data"
-      },
-      "medium": {
-        "title": "Traveler pecyn",
-        "desc": "Includes 5 GB o high-speed data ar gyfer trips, commuting, a regular VoIP galwadau.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Weekend trips, regular VoIP galwadau, a maps",
-        "aria": "Buy Traveler eSIM pecyn data"
-      },
-      "large": {
-        "title": "Power pecyn",
-        "desc": "Includes 10 GB o high-speed data ar gyfer heavy sgwrs, galwadau, a fideo ar y Chatforia network.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Heavy sgwrs, galwadau, fideo, a hotspot use",
-        "aria": "Buy Power user eSIM pecyn data"
-      },
-      "compare": {
-        "title": "Cymharu pecynnau data eSIM",
-        "col": {
-          "pack": "Pecyn",
-          "data": "Data wedi’i gynnwys",
-          "bestFor": "Gorau ar gyfer"
-        },
-        "disclaimer": "Actual data usage depends ar how chi use Chatforia (voice, fideo, cyfryngau, a other apps ar eich ffôn)."
-      }
-    },
-    "family": {
-      "title": "Chatforia Teulu (shared data)",
-      "subtitle": "Share single data pool across eich teulu. One bill, multiple Chatforia accounts, global cwmpas.",
-      "perPack": "/ pecyn",
-      "small": {
-        "title": "Teulu Small",
-        "desc": "Includes 20 GB o shared high-speed data — great ar gyfer 2–3 light users.",
-        "price": "$29.99",
-        "aria": "Buy Teulu Small pecyn"
-      },
-      "medium": {
-        "title": "Teulu Medium",
-        "desc": "Includes 40 GB o shared high-speed data — ideal ar gyfer 3–5 gweithredol aelodau.",
-        "price": "$49.99",
-        "aria": "Buy Teulu Medium pecyn"
-      },
-      "large": {
-        "title": "Teulu Large",
-        "desc": "Includes 80 GB o shared high-speed data — ar gyfer power families hynny are always online.",
-        "price": "$84.99",
-        "aria": "Buy Teulu Large pecyn"
-      },
-      "feature": {
-        "shared": "pwll data rennir ar gyfer eich teulu",
-        "members": "Invite up i 4 additional aelodau",
-        "membersMore": "Great ar gyfer 3–5 gweithredol aelodau",
-        "manage": "Rheoli limits ar gyfer each aelod",
-        "topUp": "Ychwanegu more pecynnau anytime",
-        "bestValue": "Best value per GB",
-        "fairUse": "Subject i fair-use policy a local limits"
-      },
-      "disclaimer": "Teulu pecynnau creu neu top up pwll data rennir. Chi can invite a tynnu aelodau anytime.",
-      "footnote": "Teulu pecynnau share single data pool across cysylltiedig Chatforia accounts. Availability a limits depend ar eich gwlad a local regulations."
-    },
-    "why": {
-      "title": "Pam mae pobl yn newid i Chatforia",
-      "subtitle": "Chatforia gives chi real rhif ffôn, smart cyfieithiad, a clear path i go ad-free when you’re ready.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Lighter ads ar Am ddim, simple Plus uwchraddio when you’re ready, a Premiwm tools TextNow ddim yn offer."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "Modern app, global-first design, a built-in cyfieithiad instead o old-school galwad anfon ymlaen."
-        },
-        "messengers": {
-          "title": "Chatforia vs sgwrs apps",
-          "body": "Testun real rhif ffôns — not just other app users — gyda AI a statws built yn. Great if you’re yn dod o apps like TextFree neu TextMe."
-        }
-      },
-      "tableTitle": "Sut mae Chatforia yn cymharu",
-      "col": {
-        "feature": "Nodwedd"
-      },
-      "feature": {
-        "freeNumber": "Rhif ffôn am ddim",
-        "translation": "Cyfieithu awtomatig adeiledig",
-        "aiTools": "AI tools (rewrites, replies, summaries)",
-        "ads": "Opsiwn heb hysbysebion",
-        "history": "Hanes negeseuon"
-      },
-      "yes": "Ie",
-      "no": "Na",
-      "yesPremium": "Ie (Premiwm)",
-      "plusPremium": "Plus & Premiwm",
-      "limited": "Cyfyngedig",
-      "nA": "N/",
-      "history": {
-        "chatforia": "Up i 12+ months",
-        "textnow": "Varies by cyfrif",
-        "voice": "Limited / account-based"
-      },
-      "disclaimer": "Comparison based ar publicly ar gael information a may newid over time. Other free-texting apps like TextFree neu TextMe are generally similar i TextNow."
-    },
-    "faq": {
-      "title": "Cwestiynau Cyffredin prisiau a chynlluniau",
-      "free": {
-        "q": "Ydy’r cynllun Am Ddim wir am ddim?",
-        "a": "Ie. Y Am ddim cynllun includes Chatforia rhif, calling, a messaging gyda ads. Chi can stay ar Am ddim as long as chi like, neu uwchraddio i tynnu ads a datgloi more features."
-      },
-      "plusPremium": {
-        "q": "What’s y difference between Plus a Premiwm?",
-        "a": "Plus removes ads a extends eich hanes negeseuon — perfect ar gyfer everyday use. Premiwm adds extra customization, AI tools ar gyfer rewrites a replies, a priority cymorth ar gyfer heavy users."
-      },
-      "esim": {
-        "q": "Where do eSIM pecynnau data work?",
-        "a": "Chatforia Symudol uses global eSIM cwmpas. Availability depends ar eich gwlad a dyfais. You’ll see supported options during activation inside y app."
-      },
-      "cancel": {
-        "q": "A allaf ganslo neu newid cynlluniau unrhyw bryd?",
-        "a": "Ie. Chi can rheoli neu canslo eich subscription o y bilio page yn y app. Changes take effect at y end o eich cyfredol bilio period."
-      },
-      "family": {
-        "q": "How do Teulu pecynnau work?",
-        "a": "Teulu pecynnau creu pwll data rennir across multiple Chatforia accounts. One person pays y bill, a chi can invite neu tynnu aelodau a set limits per person."
-      }
-    },
-    "gettingStarted": {
-      "title": "Dechrau Arni",
-      "subtitle": "Newydd i Chatforia? Mae’r cychwyn cyflym hwn yn dangos yr hanfodion fel y gallwch fod yn gynhyrchiol mewn munudau.",
-      "alert": {
-        "text": "Hwn guide will grow as ni launch newydd features. If something’s missing, let ni know via",
-        "contactLink": "Cysylltwch â Ni"
-      },
-      "section1": {
-        "title": "1) Creu eich cyfrif",
-        "signup": "Sign up",
-        "or": "neu",
-        "login": "log yn",
-        "loginText": "gyda eich existing cyfrif.",
-        "prefsStart": "Set eich",
-        "prefsLink": "preferences",
-        "prefsRest": "(iaith, darllen receipts, themes)."
-      },
-      "section2": {
-        "title": "2) Dechrau messaging",
-        "item1": "Creu DM neu Group a anfon eich first neges.",
-        "item2": "Use instant cyfieithiad i sgwrs across 100+ ieithoedd.",
-        "item3": "Try disappearing negeseuon a darllen receipts yn Proffil → Preifatrwydd."
-      },
-      "section3": {
-        "title": "3) Go further",
-        "item1": "Chi can uwchraddio i paid cynllun anytime inside y app.",
-        "item2": "Once you’re signed yn, chi can link additional dyfeisiau a set up encrypted backups o Gosodiadau yn y app."
-      },
-      "cta": {
-        "seePlans": "See cynlluniau",
-        "openSettings": "Agor gosodiadau"
-      }
-    },
-    "helpCenter": {
-      "title": "Canolfan Gymorth",
-      "faq": {
-        "account": {
-          "q": "How do I creu neu recover fy cyfrif?",
-          "a": "Lawrlwytho y app neu use web, tap “Creu cyfrif”, verify eich e-bost/ffôn. I recover, use “Forgot cyfrinair”."
-        },
-        "privacy": {
-          "q": "Are negeseuon wedi’u hamgryptio pen-i-ben?",
-          "a": "Ie. Negeseuon a galwadau are wedi’u hamgryptio pen-i-ben by default. Only chi a y recipient can darllen nhw."
-        },
-        "translate": {
-          "q": "How does instant cyfieithiad work?",
-          "a": "Galluogi “Auto-translate” yn Gosodiadau → Appearance & Iaith. Ni cyfieithu on-device where supported, otherwise through secure APIs gyda minimal metadata."
-        },
-        "contact": {
-          "q": "Cysylltiad cymorth",
-          "a": "Reach ni atsupport@chatforia.com. Include screenshots a eich app version."
-        }
-      }
-    },
-    "contact": {
-      "title": "Cysylltwch â Ni",
-      "successMsg": "Thanks—ein team will reply by e-bost.",
-      "errorSend": "Could not anfon. Please e-bostsupport@chatforia.com.",
-      "form": {
-        "nameLabel": "Enw",
-        "emailLabel": "E-bost",
-        "messageLabel": "Neges",
-        "sendCta": "Anfon"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Polisi Preifatrwydd",
-      "lastUpdated": "Diweddarwyd ddiwethaf:",
-      "intro": {
-        "body": "Hwn polisi preifatrwydd explains how Chatforia (“ni”, “ni”) collects, uses, a shares information when chi use ein apps a services. Ni design Chatforia i minimize y data ni can access."
-      },
-      "infoWeCollect": {
-        "title": "Information ni collect",
-        "account": "Cyfrif info (e.g., e-bost/ffôn) i creu a secure eich cyfrif.",
-        "encrypted": "Encrypted content (negeseuon/galwadau) is wedi’u hamgryptio pen-i-ben; ni methu darllen it.",
-        "diagnostics": "Diagnostic/usage like crash logs, dyfais type, neu coarse analytics i improve performance."
-      },
-      "sms": {
-        "title": "Symudol rhif ffôns a SMS",
-        "body": "If chi dewis i provide symudol rhif ffôn, ni use it i galluogi features such as cyfrif verification, login alerts, a user-to-user messaging via SMS where supported. Ni may anfon transactional SMS negeseuon related i eich cyfrif a activity ar Chatforia. Chi can opt out o receiving SMS negeseuon at any time by replying gyda supported opt-out keyword (such as “STOP”) neu by changing eich hysbysiad preferences yn y app. Ni do not sell eich rhif ffôn neu use it ar gyfer unrelated marketing.",
-        "newText": "Newydd testun",
-        "enterRecipient": "Rhowch enw neu rif",
-        "typeMessage": "Teipiwch neges…",
-        "addRecipient": "Ychwanegwch dderbynnydd uchod i ddechrau…"
-      },
-      "howWeUse": {
-        "title": "How ni use information",
-        "provide": "Provide a secure y service (auth, spam/abuse detection).",
-        "improve": "Improve features (cyfieithiad quality, reliability).",
-        "legal": "Comply gyda legal obligations."
-      },
-      "sharing": {
-        "title": "Sharing",
-        "body": "Ni peidiwch sell personal data. Ni may share limited data gyda processors (e.g., push hysbysiadau, analytics) under strict contracts."
-      },
-      "rights": {
-        "title": "Eich rights",
-        "body": "Depending ar eich region (e.g., GDPR/UK GDPR/CPRA), chi may request access, correction, deletion, neu opt-out o certain processing. Cysylltiad:privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Data retention & diogelwch",
-        "body": "Ni retain only what’s needed i operate y service a apply industry-standard diogelwch. E2E content methu be decrypted by ni."
-      },
-      "children": {
-        "title": "Children",
-        "body": "Chatforia isn’t directed i children under 13 (neu as gofynnol by eich local law)."
-      },
-      "changes": {
-        "title": "Changes",
-        "body": "Byddwn yn post updates here a revise y “Last updated” date."
-      },
-      "contact": {
-        "title": "Cyswllt",
-        "body": "privacy@chatforia.com• Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Telerau Gwasanaeth",
-      "lastUpdated": "Diweddarwyd ddiwethaf:",
-      "intro": {
-        "body": "By using Chatforia chi agree i y rhain Terms. If chi do not agree, peidiwch use y service."
-      },
-      "accounts": {
-        "title": "Accounts",
-        "itemAccurateInfo": "Provide accurate info a keep credentials secure.",
-        "itemResponsibility": "Rydych chi’n responsible ar gyfer activity ar eich cyfrif."
-      },
-      "acceptableUse": {
-        "title": "Acceptable use",
-        "itemNoAbuse": "Na illegal, abusive, neu infringing content; na spam neu automated abuse.",
-        "itemSuspend": "Ni may suspend/terminate ar gyfer violations."
-      },
-      "sms": {
-        "title": "SMS communications",
-        "body": "If chi provide symudol rhif ffôn, chi agree hynny Chatforia may anfon chi SMS negeseuon related i eich cyfrif a use o y service, such as login alerts, diogelwch hysbysiadau, a negeseuon related i sgyrsiau chi initiate neu participate yn. Ni do not use SMS ar gyfer promotional neu marketing negeseuon heb eich explicit consent. Standard neges a data rates may apply. Chi can opt out o SMS negeseuon at any time by replying gyda supported opt-out keyword (ar gyfer example, “STOP”) neu by updating eich hysbysiad gosodiadau yn y app."
-      },
-      "yourContent": {
-        "title": "Eich content",
-        "body": "Chi retain rights i eich content. Chi grant ni necessary rights i operate y service (e.g., routing, storage, cyfieithiad)."
-      },
-      "disclaimer": {
-        "title": "Disclaimers & liability",
-        "body": "Service is provided “as is” heb warranties. I y fullest extent permitted by law, Chatforia isn’t liable ar gyfer indirect neu consequential damages."
-      },
-      "changes": {
-        "title": "Changes",
-        "body": "Ni may update y rhain terms; continued use after changes means acceptance."
-      },
-      "contact": {
-        "title": "Cyswllt",
-        "body": "support@chatforia.com• Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Do Not Sell neu Share Fy Personal Information",
-      "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using y button below.",
-      "cta": "Submit request"
-    },
-    "cookies": {
-      "title": "Cookie Gosodiadau",
-      "body": "Chatforia uses minimal cookies (e.g., session, diogelwch). Ni peidiwch use third-party ads cookies. Rheoli cookies via eich browser’s gosodiadau."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Unable i load rhif ffôn statws.",
-      "lock": "Lock",
-      "noNumberAssigned": "Na rhif assigned. Pick one by area code i dechrau texting.",
-      "pickNumber": "Dewis rhif",
-      "phoneNumber": "Rhif ffôn"
-    },
-    "startChatModal": {
-      "title": "Dechrau sgwrs",
-      "quickPicker": "Quick picker",
-      "to": "I",
-      "nameOrUsername": "Type enw, enw defnyddiwr",
-      "nameUsernamePhoneEmail": "Type enw, enw defnyddiwr, ffôn, neu e-bost…",
-      "startWithSelected": "Dechrau sgwrs gyda selected",
-      "searchByUsernameOrPhone": "Chwilio by enw defnyddiwr neu ffôn",
-      "search": "Chwilio",
-      "searchPrompt": "Type enw defnyddiwr neu ffôn a press Chwilio.",
-      "pickFromContacts": "Neu pick o cysylltiadau",
-      "addContact": "Ychwanegu Cysylltiad",
-      "show": "Show",
-      "add": "Ychwanegu",
-      "close": "Cau",
-      "selectedCount": "{{count}}selected",
-      "pickAtLeastOne": "Pick at least one recipient.",
-      "saveContactsHint": "Ffôn/e-bost entries will be ar gael after chi cadw nhw as cysylltiadau.",
-      "failedBulkStart": "Wedi methu i dechrau sgwrs gyda selected recipients.",
-      "noResults": "Dim canlyniadau",
-      "mode": "Mode",
-      "group": "Group",
-      "broadcast": "Broadcast",
-      "groupNameOptional": "Group enw (dewisol)",
-      "firstMessageOptional": "First neges (dewisol but recommended)",
-      "createGroup": "Creu group",
-      "sendBroadcast": "Anfon broadcast"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
-    },
-    "sounds": {
-      "freeNotice": "Rydych chi’n ar Am ddim — premiwm tones are shown but wedi’i gloi. Uwchraddio i datgloi pob.",
-      "preview": "Rhagolwg",
-      "resetToDefaults": "Ailosod i’r rhagosodiadau",
-      "notificationSounds": "Seiniau Hysbysu",
-      "messageTone": "Tôn neges",
-      "default": "Default",
-      "vibrate": "Vibrate",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Pulsating Sain",
-      "textMessage": "Testun Neges",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Digital Ffôn",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Sain Reality",
-      "street": "Street",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Hwn feature requires Premiwm cynllun."
-    },
-    "aiSettings": {
-      "title": "Gosodiadau AI",
-      "controlIntro": "Control cyfieithiad, smart replies, a ForiaBot auto-responses.",
-      "save": "Cadw Gosodiadau AI",
-      "autoTranslateIncoming": "Cyfieithu negeseuon sy’n dod i mewn yn awtomatig",
-      "showOriginalAlongside": "Dangos y testun gwreiddiol ochr yn ochr â’r cyfieithiad",
-      "enableSmartReplies": "Galluogi Atebion Clyfar",
-      "smartRepliesHint": "Anfon y last few wedi’i dderbyn negeseuon (sanitized) i AI i suggest quick replies.",
-      "maskProfanity": "Cuddio geiriau sarhaus mewn awgrymiadau AI",
-      "maskProfanityHint": "If ar, suggestions returned by AI will have flagged words masked",
-      "foriaBot": "Ymatebydd Awtomatig ForiaBot",
-      "enableAutoReply": "Galluogi ateb awtomatig pan fyddaf yn brysur",
-      "autoReplyMode": "Modd ateb awtomatig",
-      "cooldownSeconds": "Oedi (eiliadau)",
-      "off": "I ffwrdd",
-      "on": "Ar",
-      "signature": "Llofnod",
-      "autoReply": "Auto-reply",
-      "activeUntilOptional": "Gweithredol tan (dewisol)",
-      "saved": "Dewisiadau AI wedi’u cadw",
-      "saveFailed": "Methu cadw gosodiadau AI",
-      "translateOff": "I ffwrdd",
-      "translateTagged": "Only when @wedi’i gyfieithu neu tagged",
-      "translateAll": "Cyfieithu pob neges sy’n dod i mewn",
-      "modeDm": "Sgyrsiau 1:1 yn unig",
-      "modeMention": "Only when I’m @mentioned",
-      "modeAll": "Pob neges sy’n dod i mewn"
-    },
-    "accessibilitySettings": {
-      "title": "Hygyrchedd a Rhybuddion",
-      "accessibility": "Hygyrchedd",
-      "accessibilityDesc": "Options i make Chatforia easier i use heb relying ar sain.",
-      "interfaceFontSize": "Maint ffont y rhyngwyneb",
-      "interfaceFontSizeHelp": "Starts at normal size. Increase if chi prefer larger testun yn accessibility gosodiadau.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Hysbysiadau",
-      "notificationsDesc": "Visual alerts ar gyfer negeseuon & galwadau\nShow banners a teitl blink so chi peidiwch miss activity.",
-      "vibrateOnNew": "Vibrate ar newydd negeseuon (when supported)\nTrigger dyfais vibration gyda hysbysiadau.",
-      "flashOnCall": "Flash screen ar i mewn galwad\nBrief bright flash when galwad rings.",
-      "liveCaptions": "Live captions (galwadau)",
-      "captionFontSize": "Maint ffont capsiynau",
-      "captionBackground": "Cefndir capsiynau",
-      "light": "light",
-      "dark": "dark",
-      "transparent": "transparent",
-      "voiceNotes": "Nodiadau llais",
-      "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
-      "autoTranscribeVoiceNotesDesc": "Attach trawsgrifiad i sain negeseuon chi derbyn.",
-      "changesSavedInstantly": "Caiff newidiadau eu cadw ar unwaith.",
-      "loadFailed": "Methu llwytho gosodiadau",
-      "visualAlerts": "Rhybuddion gweledol ar gyfer negeseuon a galwadau",
-      "visualAlertsDesc": "Show banners a teitl blink so chi peidiwch miss activity.",
-      "vibrateOnNewShort": "Vibrate ar newydd negeseuon (when supported)",
-      "vibrateOnNewDesc": "Trigger dyfais vibration gyda hysbysiadau.",
-      "flashOnCallShort": "Flash screen ar i mewn galwad",
-      "flashOnCallDesc": "Brief bright flash when galwad rings."
-    },
-    "privacySection": {
-      "strictE2EE": "Amgryptio pen-i-ben llym",
-      "ciphertextOnlyNote": "Store only ciphertext ar y server. Disables AI/Cyfieithu a moderation previews."
-    },
-    "linkedDevicesPanel": {
-      "title": "Cysylltiedig Dyfeisiau",
-      "noneFound": "Ni chanfuwyd dyfeisiau cysylltiedig.",
-      "refresh": "Adnewyddu"
-    },
-    "help": {
-      "title": "Cymorth",
-      "howCanWeHelp": "Sut gallwn helpu?",
-      "helpCenter": "Canolfan Gymorth",
-      "contactUs": "Cysylltwch â ni",
-      "quickTopics": "Pynciau cyflym",
-      "searchExamples": "Try yn chwilio ar gyfer “cyfieithu”, “backups”, neu “preifatrwydd”.",
-      "cantLogin": "Can't log yn",
-      "paymentsBilling": "Taliadau/ bilio",
-      "reportAbuse": "Rhoi gwybod am gam-drin",
-      "searchHelpArticles": "Chwilio cymorth articles",
-      "search": "Chwilio"
-    },
-    "peoplePage": {
-      "people": "Pobl",
-      "search": "Chwilio",
-      "searchPlaceholder": "Chwilio by alias, enw, enw defnyddiwr, neu ffôn",
-      "filterSaved": "Filter wedi’i gadw cysylltiadau",
-      "noContactsFound": "Na cysylltiadau found",
-      "quickStart": "Cychwyn cyflym",
-      "quickStartDesc": "few fast ways i get rolling.",
-      "importContacts": "Mewnforio eich cysylltiadau",
-      "add": "Ychwanegu",
-      "focusSearch": "Focus Chwilio",
-      "import": "Mewnforio",
-      "findOrAdd": "Find neu ychwanegu someone",
-      "searchByPhoneOrUsername": "Chwilio by ffôn / enw defnyddiwr",
-      "inviteFriends": "Gwahodd ffrindiau",
-      "inviteDesc": "Share eich invite link i dechrau chatting instantly.",
-      "getTheApp": "Cael yr ap",
-      "getTheAppDesc": "Stay yn touch ar y go gyda Chatforia ar gyfer iOS a Android.",
-      "download": "Lawrlwytho",
-      "syncTip": "Awgrym: Eich negeseuon stay synced across web a symudol."
-    },
-    "randomChat": {
-      "title": "Sgwrs Ar Hap",
-      "description": "'Meet someone newydd instantly'. 'Byddwn yn paru chi a agor temporary sgwrs ystafell.' 'Sgwrs anonymously first. Ychwanegu Ffrind later if it feels right.'",
-      "findMatch": "Dod o hyd i bartner sgwrs i mi",
-      "chatWithForia": "Sgwrs gyda Foria",
-      "chatWithForiaBot": "Sgwrs gyda ForiaBot",
-      "cancel": "Canslo",
-      "close": "Cau",
-      "searching": "Yn chwilio…",
-      "finding": "Finding…",
-      "looking": "Looking ar gyfer someone…",
-      "startingForia": "Starting sgwrs gyda Foria…",
-      "partnerDisconnected": "Eich partner disconnected.",
-      "noPartner": "Na partner found right now.",
-      "connectedTo": "Connected i{{name}}",
-      "connected": "Connected",
-      "idle": "Segur",
-      "partnerLeft": "Partner left.",
-      "stopped": "Stopped.",
-      "skip": "Skip",
-      "save": "Cadw",
-      "saveGuard": "Only human-to-human sgyrsiau can be wedi’i gadw",
-      "youAreChattingWith": "Rydych chi’n chatting gyda{{name}}",
-      "bot": "BOT",
-      "leave": "Gadael",
-      "sayHi": "Say hi 👋",
-      "you": "Chi",
-      "typeMessage": "Type neges",
-      "send": "Anfon",
-      "partner": "Partner",
-      "withRia": "Gyda Ria",
-      "chatWithRia": "Sgwrsio â Ria",
-      "startingRia": "Starting sgwrs gyda Ria…",
-      "ageDisclaimer": "Ni only store oedran ystod (not eich exact date o birth). Hwn is used i keep Ar hap Sgwrs pairings reasonable. I paru gyda pobl (not just RiaBot), set eich oedran band yn Gosodiadau → Oedran & Ar hap Sgwrs.",
-      "ageBandRequired": "Gosodwch eich ystod oedran yn Proffil → Oedran a Sgwrs Ar Hap er mwyn cael eich paru â phobl.",
-      "ageBandCallout": "I paru gyda pobl (not just RiaBot), set eich oedran band yn Gosodiadau → Oedran & Ar hap Sgwrs.",
-      "subtitle": "Cwrdd â rhywun newydd ar unwaith, neu dewis sgwrsio â Ria.",
-      "start": "Dechrau sgwrs",
-      "matching": "Yn paru…",
-      "setAge": "Gosodwch eich ystod oedran yn Proffil → Oedran a Sgwrs Ar Hap er mwyn cael eich paru â phobl.",
-      "next": "Person Nesaf",
-      "addFriend": "Ychwanegu Ffrind",
-      "requested": "Wedi gofyn",
-      "messageRia": "Negesu Ria…",
-      "messageMatch": "Negesu eich partner…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "there",
-      "intro": "Hey there 👋 I’m Ria. What’s ar eich mind?",
-      "greetings": {
-        "long1": "Hey{{name}}👋 I’m here. What’s ar eich mind?",
-        "long2": "Hi{{name}}😊 What would chi like i talk about today?",
-        "long3": "Hey{{name}}! I’m pob ears — what’s up?",
-        "long4": "Nice i see chi,{{name}}👋 What’s ar eich mind today?",
-        "long5": "Hey{{name}}🙂 Want i vent, ask, neu just sgwrs?",
-        "long6": "Hi{{name}}! I’ve got time — what would chi like i talk about?",
-        "short1": "Hey{{name}}, I’m still here. What’s up?",
-        "short2": "Welcome yn ôl{{name}}👋 Anything else chi wanted i ychwanegu?",
-        "short3": "Yn ôl again,{{name}}? 😊 Tell fi what’s ar eich mind.",
-        "short4": "Hey{{name}}✨ Ready i pick up where ni left off?",
-        "short5": "Ie{{name}}? I’m listening 👂",
-        "short6": "Oh hey{{name}}! Got something newydd ar eich mind?"
-      },
-      "header": {
-        "openNav": "Agor navigation menu",
-        "closeNav": "Cau navigation menu",
-        "homeAria": "Chatforia Hafan"
-      },
-      "login": {
-        "welcomeBack": "Welcome yn ôl",
-        "title": "Parhau i Chatforia",
-        "subtitleReturning": "Log yn i eich Chatforia cyfrif",
-        "subtitle": "Log yn i eich Chatforia cyfrif",
-        "google": "Parhau gyda Google",
-        "apple": "Parhau gydag Apple",
-        "googleUnavailable": "Google sign-in ddim ar gael",
-        "appleUnavailable": "Apple sign-in ddim ar gael",
-        "or": "neu",
-        "email": "E-bost",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Enw defnyddiwr",
-        "usernamePh": "Eich enw defnyddiwr",
-        "passwordLabel": "Cyfrinair",
-        "passwordPh": "Eich cyfrinair",
-        "keepSignedIn": "Cadw fi wedi mewngofnodi",
-        "forgot": {
-          "title": "Forgot Cyfrinair",
-          "helper": "Enter y e-bost chi used i creu eich Chatforia cyfrif a we'll anfon chi secure link i reset eich cyfrinair.",
-          "emailInvalid": "Please enter dilys e-bost cyfeiriad.",
-          "genericError": "Unable i process request. Rhowch gynnig arall arni yn moment.",
-          "sending": "Sending reset link...",
-          "sendCta": "Anfon Reset Link",
-          "sentLabel": "Wedi’i anfon!",
-          "sentHelper": "If cyfrif exists gyda hynny e-bost, we've wedi’i anfon cyfrinair reset link. It may take few minutes i arrive. Be sure i check eich spam neu promotions folder.",
-          "previewDev": "Preview E-bost (Dev)",
-          "backToLogin": "Yn ôl i Login"
-        },
-        "submit": "Mewngofnodi",
-        "loggingIn": "Logging yn…",
-        "newHere": "Newydd here? <link>Creu cyfrif</link>",
-        "ssoUnavailable": "Single-sign-on is currently ddim ar gael. Use enw defnyddiwr & cyfrinair instead.",
-        "error": {
-          "missing": "Please enter eich credentials.",
-          "invalid": "Annilys enw defnyddiwr neu cyfrinair",
-          "denied": "Access denied.",
-          "unprocessable": "Annilys request. Check eich enw defnyddiwr/e-bost a cyfrinair.",
-          "deviceLimit": "Dyfais limit reached ar gyfer y Am ddim cynllun. Log out ar another dyfais neu uwchraddio i Premiwm i link more dyfeisiau.",
-          "premiumRequired": "Hwn action requires Premiwm cynllun."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Completing sign-in…"
-    },
-    "dialer": {
-      "title": "Galwadau",
-      "subtitle": "Bysellbad a diweddar. (Os nad ydych yn defnyddio PSTN, dechreuwch alwadau o bennyn sgwrs.)",
-      "enterNumberPh": "Rhowch rif",
-      "call": "Galw",
-      "backspace": "Ôl-fwlch",
-      "recents": "Diweddar",
-      "recentsEmpty": "Dim galwadau diweddar eto.",
-      "enterNumber": "Rhowch rif",
-      "enterNumberAria": "Rhowch rif",
-      "key": "Allwedd{{d}}",
-      "noRecents": "Dim galwadau diweddar eto."
-    },
-    "video": {
-      "title": "Fideo",
-      "chooseType": "Dewiswch fath o fideo.",
-      "directTitle": "Fideo Uniongyrchol",
-      "directDesc": "1:1 camera galwad gyda another user.",
-      "directStart": "Dechrau",
-      "roomsTitle": "Ystafelloedd",
-      "roomsDesc": "Multi-party fideo using shared ystafell enw.",
-      "roomsIntro": "Join neu creu multi-party ystafell.",
-      "roomNameLabel": "Enw’r ystafell",
-      "roomNamePh": "e.g. team-standup",
-      "join": "Join",
-      "deeplinkTip": "Awgrym: chi can deep link directly i <code>/fideo?ystafell=room-name</code>.",
-      "hub": {
-        "title": "Fideo",
-        "subtitle": "Dewiswch fath o fideo."
-      },
-      "direct": {
-        "title": "Fideo Uniongyrchol",
-        "subtitle": "Dechrau 1:1 fideo galwad using rhif ffôn neu Chatforia enw defnyddiwr.",
-        "desc": "1:1 camera galwad gyda another user.",
-        "start": "Dechrau",
-        "callBtn": "Galw",
-        "callByPhone": {
-          "title": "Galwad by ffôn"
-        },
-        "phone": {
-          "placeholder": "Enter ffôn (e.g., +1-555-123-4567)",
-          "aria": "Ffôn i galwad"
-        },
-        "tipInvite": "Awgrym: Paste rhif a galwad heb saving cysylltiad. Byddwn yn invite non-users by link.",
-        "findUser": {
-          "title": "Find user"
-        },
-        "search": {
-          "placeholder": "Chwilio by enw neu enw defnyddiwr",
-          "aria": "Chwilio by enw neu enw defnyddiwr",
-          "btn": "Chwilio"
-        }
-      },
-      "rooms": {
-        "title": "Ystafelloedd",
-        "subtitle": "Creu ystafell neu join existing one by yn teipio y same enw.",
-        "desc": "Multi-party fideo using shared ystafell enw.",
-        "roomLabel": "Enw’r ystafell",
-        "roomPlaceholder": "e.g. team-standup",
-        "roomAria": "Enw’r ystafell",
-        "joinCreate": "Ymuno / Creu",
-        "tip": "Awgrym: share hwn enw gyda others, neu deep link i <code>/fideo?ystafell=room-name</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Dechrau direct 1:1 fideo galwad.",
-      "findUserLabel": "Find user",
-      "findUserPh": "Chwilio by enw neu enw defnyddiwr",
-      "search": "Chwilio",
-      "call": "Galw"
-    },
-    "phoneWarning": {
-      "title": "Eich rhif is expiring soon",
-      "body": "Eich rhif{{number}}will be released ar{{date}}unless reactivated.",
-      "button": "Keep Fy Rhif"
-    }
-  },
-  "support": {
-    "helpFab": "Cymorth",
-    "openSupportAria": "Agor cymorth",
-    "badge": "Cymorth",
-    "heading": "Sut gallwn helpu?",
-    "tabs": {
-      "help": "Canolfan Gymorth",
-      "contact": "Cysylltwch â ni"
-    },
-    "searchPlaceholder": "Chwilio erthyglau cymorth…",
-    "searchAria": "Chwilio cymorth",
-    "searchBtn": "Chwilio",
-    "quickTopicsLabel": "Pynciau cyflym",
-    "quickTopics": {
-      "login": "Methu mewngofnodi",
-      "billing": "Taliadau / bilio",
-      "abuse": "Rhoi gwybod am gam-drin"
-    },
-    "trySearching": "Try yn chwilio ar gyfer “cyfieithu”, “backups”, neu “preifatrwydd”.",
-    "article": "Erthygl",
-    "openArticle": "Agor erthygl",
-    "contactIntro": "Byddwn yn try i resolve hwn instantly. If not, ein team will dilyn up.",
-    "topicAria": "Dewis topic",
-    "messagePlaceholder": "Ysgrifennwch eich neges…",
-    "sendBtn": "Anfon",
-    "sent": "Neges wedi’i anfon. Byddwn yn reply by e-bost.",
-    "sendError": "Could not anfon. E-bostsupport@chatforia.cominstead.",
-    "actionCompleted": "Cam gweithredu wedi’i gwblhau.",
-    "actionFailed": "Methu cwblhau’r weithred honno. Rhowch gynnig arall arni.",
-    "escalationMessage": "Ni couldn’t resolve hwn automatically. Ein team will dilyn up.",
-    "genericError": "Aeth rhywbeth o’i le. Rhowch gynnig arall arni.",
-    "analyzing": "Yn dadansoddi eich problem...",
-    "takeAction": "Cymryd y cam a argymhellir",
-    "resolvedInstantly": "Datryswyd y broblem ar unwaith — dim angen tocyn.",
-    "escalating": "Yn uwchgyfeirio at gymorth..."
-  },
-  "helpCenter": {
-    "title": "Canolfan Gymorth",
-    "faq": {
-      "account": {
-        "q": "How do I creu neu recover fy cyfrif?",
-        "a": "Lawrlwytho y app neu use web, tap “Creu cyfrif”, verify eich e-bost/ffôn. I recover, use “Forgot cyfrinair”."
-      },
-      "privacy": {
-        "q": "Are negeseuon wedi’u hamgryptio pen-i-ben?",
-        "a": "Ie. Negeseuon a galwadau are wedi’u hamgryptio pen-i-ben by default. Only chi a y recipient can darllen nhw."
-      },
-      "translate": {
-        "q": "How does instant cyfieithiad work?",
-        "a": "Galluogi “Auto-translate” yn Gosodiadau → Appearance & Iaith. Ni cyfieithu on-device where supported, otherwise through secure APIs gyda minimal metadata."
-      },
-      "contact": {
-        "q": "Cysylltiad cymorth",
-        "a": "Reach ni atsupport@chatforia.com. Include screenshots a eich app version."
-      }
-    }
-  },
-  "encryptionRecovery": {
-    "title": "Rheoli Encryption",
-    "description": "Yn ôl up, adfer, datgloi, neu reset eich encryption allwedd.",
-    "alert": {
-      "keyRequiredTitle": "Encryption allwedd gofynnol",
-      "keyRequiredBody": "Hwn browser cannot currently decrypt eich encrypted negeseuon. Adfer, datgloi, neu reset eich allwedd i parhau."
-    },
-    "sections": {
-      "createBackup": "Creu allwedd copi wrth gefn",
-      "restoreFromBackup": "Adfer o cyfrif copi wrth gefn",
-      "resetEncryption": "Reset encryption"
-    },
-    "fields": {
-      "unlockPasscode": {
-        "label": "Datgloi passcode (cyfredol dyfais)",
-        "description": "Used i decrypt eich allweddi locally before exporting"
-      },
-      "backupPassword": {
-        "label": "Copi wrth gefn cyfrinair",
-        "description": "Used i encrypt y copi wrth gefn ffeil"
-      },
-      "restoreBackupPassword": {
-        "label": "Copi wrth gefn cyfrinair",
-        "description": "Y cyfrinair chi crëwyd when backing up eich allwedd ar iPhone"
-      },
-      "newLocalPasscode": {
-        "label": "Newydd local passcode",
-        "description": "Gwarchod allweddi at rest ar hwn browser"
-      },
-      "resetLocalPasscode": {
-        "label": "Newydd local passcode",
-        "description": "Gofynnol before resetting so y newydd allwedd is wedi’i warchod ar hwn dyfais"
-      }
-    },
-    "actions": {
-      "unlockKey": "Datgloi encryption allwedd",
-      "restoreFromBackup": "Adfer o cyfrif copi wrth gefn",
-      "resetEncryption": "Reset Encryption"
-    },
-    "messages": {
-      "backupCreated": "Allwedd copi wrth gefn crëwyd a downloaded.",
-      "keyUnlocked": "Encryption allwedd unlocked.",
-      "keyRestored": "Allwedd restored o cyfrif copi wrth gefn.",
-      "resetSuccess": "Encryption reset successfully."
-    },
-    "errors": {
-      "restoreIncomplete": "Allwedd adfer incomplete neu incorrect ar gyfer hwn cyfrif",
-      "noBackup": "Na encrypted copi wrth gefn exists ar gyfer hwn cyfrif",
-      "missingPublicKey": "Copi wrth gefn is missing cyhoeddus allwedd",
-      "noServerPublicKey": "Hwn cyfrif does not currently expose server cyhoeddus allwedd",
-      "serverBackupMismatch": "Server copi wrth gefn does not paru y cyfredol cyfrif encryption allwedd",
-      "incompleteMetadata": "Copi wrth gefn metadata is incomplete",
-      "resetIncomplete": "Encryption reset did not complete correctly"
-    },
-    "confirm": {
-      "reset": "Reset encryption ar gyfer hwn cyfrif?\n\nOlder encrypted negeseuon may become unreadable unless chi adfer y gwreiddiol allwedd later."
-    },
-    "resetDescription": "Hwn generates newydd encryption allwedd ar gyfer eich cyfrif. Older encrypted negeseuon may become unreadable unless chi adfer y gwreiddiol allwedd later."
-  },
-  "footer": {
-    "plans": "Cynlluniau & Prisiau",
-    "about": "About Chatforia",
-    "careers": "Careers",
-    "press": "Press",
-    "advertise": "Advertise",
-    "contact": "Cysylltwch â Ni",
-    "help": "Canolfan Gymorth",
-    "status": "Statws Page",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Polisi Preifatrwydd",
-    "terms": "Telerau Gwasanaeth",
-    "cookies": "Cookie Gosodiadau",
-    "doNotSell": "Do Not Sell Fy Info",
-    "language": "Iaith",
-    "contactShort": "Cyswllt",
-    "aria": "Footer",
-    "homeAria": "Chatforia hafan",
-    "section": {
-      "company": "COMPANY",
-      "support": "Cymorth",
-      "downloads": "DOWNLOADS",
-      "legal": "LEGAL"
-    },
-    "links": {
-      "plans-pricing": "Cynlluniau & Prisiau",
-      "about-chatforia": "About Chatforia",
-      "careers": "Careers",
-      "press": "Press",
-      "advertise": "Advertise",
-      "getting-started": "Dechrau Arni",
-      "help-center": "Canolfan Gymorth",
-      "contact-us": "Cysylltwch â Ni",
-      "status-page": "Statws Page",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Polisi Preifatrwydd",
-      "terms-of-service": "Telerau Gwasanaeth",
-      "do-not-sell-my-info": "Do Not Sell Fy Info",
-      "cookie-settings": "Cookie Gosodiadau"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Patent pending",
-    "backToTop": "↑ Yn ôl i top"
-  },
-  "press": {
-    "title": "Press",
-    "contactLine": "Ar gyfer cyfryngau inquiries, reach ni at",
-    "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia is privacy-first messaging app hynny makes cross-language sgwrs effortless. Negeseuon are wedi’u hamgryptio pen-i-ben by default, a built-in cyfieithiad supports 100+ ieithoedd yn real time. Users can galluogi disappearing negeseuon, keep darllen receipts dewisol, a sync across dyfeisiau. Ar gael ar iOS, Android, a y web.",
-    "assetsTitle": "Brand assets",
-    "assetsSubtitle": "Logos, screenshots, a product imagery.",
-    "downloadCta": "Lawrlwytho cyfryngau kit",
-    "downloadTitle": "Cael yr ap",
-    "scanTip": "Ar desktop? Scan gyda eich ffôn i get y app.",
-    "qrAria": "Agor Chatforia website",
-    "appStore": "Lawrlwytho ar yr App Store",
-    "googlePlay": "Cael ar Google Play"
-  },
-  "careers": {
-    "title": "Careers",
-    "intro": "We’re small founding team building Chatforia — preifat, global messenger launching ar web, iOS, a Android. If chi care about preifatrwydd, encryption, a delightful user experiences, we’d love i hear o chi.",
-    "openRoles": "<b>Agor founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Symudol Engineer (iOS), Symudol Engineer (Android), DevOps/SRE, Diogelwch &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
-    "apply": "How i apply: Use y button below i e-bost eich resume a links.",
-    "emailCta": "E-bost eich resume",
-    "whyNow": "Why join now?",
-    "whyBullets": "• Cymorth build y foundation o newydd global messenger.\n• Ship improvements used across web, iOS, a Android.\n• Work directly gyda y founder ar architecture a product direction.\n• Own high-impact areas o y stack: messaging, voice, fideo, encryption, telecom, AI.\n• Join at y beginning — before y user base scales."
-  },
-  "about": {
-    "title": "About Chatforia",
-    "description": "Chatforia is secure, multilingual messenger gyda amgryptio pen-i-ben, instant cyfieithiad, a voice/fideo calling. Ein mission is simple: cymorth pobl connect—safely, privately, a across ieithoedd.",
-    "valuesTitle": "What ni value",
-    "values": {
-      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
-      "access": "<b>Access ar gyfer pob:</b> Auto-translate 100+ ieithoedd.",
-      "control": "<b>Control:</b> Disappearing negeseuon & darllen receipts are dewisol.",
-      "privacy_aria": "Privacy-first: E2E encryption by default.",
-      "access_aria": "Access ar gyfer pob: Auto-translate 100+ ieithoedd.",
-      "control_aria": "Control: Disappearing negeseuon a darllen receipts are dewisol."
-    },
-    "howTitle": "How Chatforia works",
-    "howDescription": "Negeseuon are encrypted ar eich dyfais before nhw leave it. Cyfieithiad, backups, a dyfais sync are designed i minimize what ein servers can see."
-  },
-  "advertise": {
-    "title": "Advertise gyda Chatforia",
-    "description": "Reach engaged messaging users gyda tasteful, brand-safe placements. Ni offer banner inventory yn high-visibility spots, sponsorships, a house promos. Premiwm subscribers do not see ads.",
-    "adsense": {
-      "withPubIdShort": "Ni also serve inventory via Google AdSense. Chi can target Chatforia gyda publisher ID{{pubId}}, neu use y form below ar gyfer direct sponsorships.",
-      "noPubIdShort": "Ni also serve some inventory via Google AdSense. Direct sponsorships are ar gael—use y form below."
-    },
-    "inventoryHeader": "Inventory & Specs",
-    "placement": {
-      "displayBadge": "Display",
-      "acceptedSizes": "Accepted sizes",
-      "adsenseSlot": "AdSense slot:"
-    },
-    "noPlacementsPublic": "We’re finalizing ein ad inventory. Tell ni about eich campaign a byddwn yn recommend placements.",
-    "whyHeader": "Why Chatforia?",
-    "why": {
-      "highSession": "High session frequency a dwell time yn sgwrs UI",
-      "brandSafe": "Brand-safe formats; respectful frequency capping",
-      "sponsoredMoments": "Sponsored moments (e.g., “Dechrau Sgwrs” modal) ar gael",
-      "deals": "Direct deals neu programmatic via AdSense/Google Ads"
-    },
-    "contactHeader": "Cyswllt",
-    "form": {
-      "submittedMsg": "Thanks! Eich inquiry is ar its way. Byddwn yn dilyn up shortly.",
-      "missingRequired": "Please fill yn enw, e-bost, a neges.",
-      "successToast": "Thanks! Byddwn yn be yn touch soon.",
-      "mailtoInfo": "Opening eich e-bost client i anfon y inquiry…",
-      "nameLabel": "Eich enw",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "E-bost",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "Company",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Misol budget (dewisol)",
-      "budgetPlaceholder": "e.g. $1,000–$20,000+",
-      "messageLabel": "Tell ni about eich campaign",
-      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
-      "sendCta": "Anfon inquiry"
-    },
-    "legal": {
-      "disclaimerStart": "By submitting, chi agree i ein",
-      "terms": "Terms",
-      "and": "a",
-      "privacy": "Polisi Preifatrwydd"
-    }
-  },
-  "randomChat": {
-    "title": "Sgwrs Ar Hap",
-    "subtitle": "Cwrdd â rhywun newydd ar unwaith, neu dewis sgwrsio â Ria.",
-    "start": "Dechrau sgwrs",
-    "description": "Sgwrsiwch yn ddienw yn gyntaf. Ychwanegwch Ffrind yn nes ymlaen os yw’n teimlo’n iawn.",
-    "findMatch": "Dod o hyd i bartner sgwrs i mi",
-    "chatWithRia": "Sgwrsio â Ria",
-    "setAge": "Gosodwch eich ystod oedran yn Proffil → Oedran a Sgwrs Ar Hap er mwyn cael eich paru â phobl.",
-    "idle": "Segur",
-    "matching": "Yn paru…",
-    "searching": "Yn chwilio…",
-    "cancel": "Canslo",
-    "connectionProblem": "Problem cysylltu",
-    "ai": "AI",
-    "anonymous": "Dienw",
-    "connectedAs": "Wedi cysylltu fel",
-    "waitingAddFriend": "Yn aros iddynt dderbyn Ychwanegu Ffrind…",
-    "hiddenUsernames": "Mae enwau defnyddiwr yn aros yn gudd nes bod y ddau berson yn dewis Ychwanegu Ffrind.",
-    "riaSeparate": "Sgwrs gyda Ria anytime — separate o ar hap human yn paru.",
-    "sendMessage": "Anfon neges",
-    "chatEnded": "Daeth y sgwrs i ben",
-    "conversationEnded": "Mae’r sgwrs honno wedi dod i ben.",
-    "findAnotherMatch": "Dod o hyd i bartner arall",
-    "next": "Person Nesaf",
-    "addFriend": "Ychwanegu Ffrind",
-    "requested": "Wedi gofyn",
-    "leave": "Gadael",
-    "messageRia": "Negesu Ria…",
-    "messageMatch": "Negesu eich partner…"
+      "stateLabel ": "Talaith / Talaith",
+      "labelCodPost": "Cod post",
+      "labelGwlad": "Gwlad",
+      "botwmCyflwyno": "Cyflwyno cais portio",
+      "llwyddiant": "Cyflwynwyd y cais portio! Byddwn yn rhoi'r wybodaeth ddiweddaraf i chi.",
+      "gwallgenerig": "Aeth rhywbeth o'i le."
+    },
+    "statws": {
+      "pennawd": " Statws trosglwyddo",
+      "is-deitl": "Dilynwch statws eich ceisiadau trosglwyddo rhif.",
+      "llwytho": "Yn llwytho…",
+      "gwallLlwytho": "Methodd â llwytho'r ceisiadau trosglwyddo.",
+      "dim": "Dim gweithgarwch trosglwyddo eto.",
+      "arhosol": "Arhosol am adolygiad",
+      "cyflwynwyd": "Wedi'i gyflwyno i'r cludwr",
+      "arGynnydd": "Ar y gweill",
+      "cwblhawyd": "Cwblhawyd",
+      "methiant": "Methiant",
+      "canslwyd": "Canslwyd",
+      "crëwyd": "Crëwyd:",
+      "trefnwyd": "Trefnwyd:",
+      "cwblhawydAr": "Cwblhawyd:"
+    },
+    "dataIsel": "Mae eich data'n rhedeg yn isel.",
+    "taluiFyny": "Taliwch ymlaen nawr",
+    "dawIBenAr": "Yn dod i ben ymhen {{days}} diwrnod",
+    "ddiweddar": "Mae eich data wedi darfod. Prynwch becyn newydd i barhau i ddefnyddio data symudol.",
+    "prynuPecyn": "Prynwch becyn data",
+    "es imPackLabel": "pecyn eSIM"
   },
   "phoneNumberManager": {
-    "pickNumber": "Dewis rhif",
-    "phoneNumber": "Rhif ffôn",
-    "availableNumber": "Rhif sydd ar gael",
-    "premiumNumber": "Rhif Premiwm 🔒",
-    "freeNumberHint": "Rhif am ddim y gellir ei ailgylchu ar ôl anweithgarwch.",
-    "premiumNumberHint": "Cadwch eich rhif tra bod eich tanysgrifiad Premiwm yn weithredol.",
-    "country": "Gwlad",
-    "areaCode": "Cod ardal",
-    "areaCodePlaceholder": "e.g., 415",
-    "capability": "Gallu",
-    "search": "Chwilio",
-    "lockThisNumber": "Lock hwn rhif (weekly add-on, yn dod yn fuan)",
-    "premiumProtectedHint": "Premiwm rhifau are wedi’i warchod o recycling while eich Premiwm subscription is gweithredol.",
-    "availableNumbers": "Ar gael rhifau",
-    "searchHint": "Enter 3-digit area code (Ni/CA only), neu leave blank, then chwilio.",
+    "dewisRhif": "Dewiswch rif",
+    "rhifFfôn": "Rhif ffôn",
+    "rhifArGael": "Rhif ar gael",
+    "rhifpremiwm": "Rhif premiwm 🔒",
+    "awgrymRhifRhadffôn": "Rhif rhadffôn a allai gael ei ailgylchu ar ôl anweithgarwch.",
+    "awgrymRhifPremiwm": "Cadwch eich rhif tra bod eich tanysgrifiad Premiwm yn weithredol.",
+    "gwlad": "Gwlad",
+    "codArdal": "Cod ardal",
+    "lle-dalwrCodArdal": "e.e., 415",
+    "gallu": "Gallu",
+    "chwilio": "Chwilio",
+    "cloi'rRhifHwn": "Cloi'r rhif hwn (ychwanegyn wythnosol, yn dod yn fuan)",
+    "premiumProtectedHint": "Mae rhifau Premiwm yn cael eu diogelu rhag cael eu hailgylchu tra bod eich tanysgrifiad Premiwm yn weithredol.",
+    "availableNumbers": "Rhifau sydd ar gael",
+    "searchHint": "Rhowch god ardal 3-digid (UDA/CA yn unig), neu gadewch yn wag, yna chwiliwch.",
     "keep": "Cadw",
     "select": "Dewis",
-    "assignNumberFirst": "Neilltuwch rif yn gyntaf.",
-    "premiumKeepFeature": "Keeping eich rhif is Premiwm feature.",
-    "lockingPremiumFeature": "Locking rhifau is Premiwm feature.",
-    "numberAssigned": "Rhif wedi’i neilltuo.",
-    "numberProtectedNow": "Eich rhif is now wedi’i warchod.",
-    "numberProtected": "Rhif wedi’i warchod.",
-    "numberUnprotected": "Rhif heb ei warchod.",
-    "numberReleased": "Rhif wedi’i ryddhau.",
-    "couldNotLoadNumbers": "methu llwytho rhifau.",
-    "couldNotAssign": "Could not assign hynny rhif. It may have just been taken—try another.",
-    "couldNotLease": "Could not lease hynny rhif. It may have just been taken—try another.",
-    "couldNotProtectNow": "Could not gwarchod eich rhif right now.",
-    "couldNotProtect": "Could not gwarchod y rhif.",
-    "couldNotUnprotect": "Could not unprotect y rhif.",
-    "couldNotRelease": "Could not release y rhif.",
-    "invalidAreaCode": "Please enter 3-digit area code (e.g., 415) neu leave blank.",
-    "noInventory": "Dim stoc ar gael ar hyn o bryd.",
-    "noFreeNumbers": "Na am ddim rhifau are ar gael right now.",
-    "noInventoryAreaCode": "Na ar gael inventory ar gyfer hynny area code right now.",
-    "noFreeNumbersAreaCode": "Na am ddim rhifau yn ein pool ar gyfer hynny area code right now.",
-    "releaseConfirm": "Release eich cyfredol rhif? It may be assigned i someone else.",
-    "unprotect": "Unprotect",
-    "keepThisNumber": "Keep hwn rhif",
-    "replace": "Replace",
-    "release": "Rhyddhau",
-    "active": "Gweithredol",
-    "noNumber": "Dim rhif",
-    "premiumFeature": "Nodwedd Bremiwm",
-    "protectYourNumber": "Gwarchod eich rhif",
-    "protected": "Wedi’i warchod",
-    "notProtected": "Heb ei warchod",
-    "expiresInShort": "Yn dod i ben mewn {{count}}d",
-    "expiresInDaysFull": "Yn dod i ben mewn {{count}} diwrnod",
-    "expiringShort": "Expiring{{suffix}}",
+    "neilltuoRhifYnNesaf": "Neilltuo rhif yn gyntaf.",
+    "cadwNiferNodweddPremium": "Mae cadw'ch rhif yn nodwedd Premium.",
+    "cloiNiferoeddNodweddPremium": "Mae cloi rhifau yn nodwedd Premium.",
+    "rhifWedi'iNeilltuo": "Rhif wedi'i neilltuo. ",
+    "numberProtectedNow": "Mae eich rhif bellach wedi'i ddiogelu.",
+    "numberProtected": "Rhif wedi'i ddiogelu.",
+    "numberUnprotected": "Rhif heb ei ddiogelu.",
+    "numberReleased": "Rhif wedi'i ryddhau.",
+    "couldNotLoadNumbers": "Ni ellir llwytho rhifau.",
+    "couldNotAssign": "Ni ellir aseinio'r rhif hwnnw. Mae'n bosibl ei fod newydd gael ei gymryd—ceisiwch un arall.",
+    "couldNotLease": "Ni ellir prydlesu'r rhif hwnnw. Mae'n bosibl ei fod newydd gael ei gymryd—ceisiwch un arall.",
+    "couldNotProtectNow": " Ni ellid amddiffyn eich rhif ar hyn o bryd.",
+    "couldNotProtect": "Ni ellid amddiffyn y rhif.",
+    "couldNotUnprotect": "Ni ellid dad-amddiffyn y rhif.",
+    "couldNotRelease": "Ni ellid rhyddhau'r rhif.",
+    "invalidAreaCode": "Rhowch god ardal 3-digid (e.e., 415) neu gadewch yn wag.",
+    "dimStoc": "Dim stoc ar gael ar hyn o bryd.",
+    "dimRhifauRhadffôn": "Nid oes unrhyw rifau rhadffôn ar gael ar hyn o bryd.",
+    "dimStocCodArdal": "Dim stoc ar gael ar gyfer y cod ardal hwnnw ar hyn o bryd.",
+    "dimRhifauRhadffônCodArdal": "Nid oes unrhyw rifau rhadffôn yn ein cronfa ar gyfer y cod ardal ar hyn o bryd.",
+    "releaseConfirm": "Rhyddhau eich rhif presennol? Gellir ei neilltuo i rywun arall.",
+    "unprotect": "Angwarchoddi",
+    "keepThisNumber": "Cadw'r rhif hwn",
+    "newid": "Newid",
+    "rhyddhau": "Rhyddhau",
+    "weithredol": "Gweithredol",
+    "dim rhif": "Dim rhif",
+    "nodwedd premium": "Nodwedd premium",
+    "diogeluEichRhif": "Diogelu eich rhif",
+    "protected": "Wedi'i ddiogelu",
+    "notProtected": "Heb ei ddiogelu",
+    "expiresInShort": "Yn darfod ymhen {{count}}d",
+    "expiresInDaysFull": "Yn dod i ben ymhen {{count}} diwrnod",
+    "expiringShort": "Yn dod i ben{{suffix}}",
     "renewsOn": "Yn adnewyddu {{date}}",
-    "releaseWarning": "Eich rhif may be released yn{{count}}diwrnod. Uwchraddio i Premiwm i keep it wedi’i warchod.",
-    "pickNumberHint": "Pick Chatforia rhif i use ar gyfer messaging a communication inside y app."
-  },
-  "sounds": {
-    "notificationSounds": "Seiniau Hysbysu",
-    "resetToDefaults": "Ailosod i’r rhagosodiadau",
-    "freeNoticeStart": "Rydych chi’n ar Am ddim — premiwm tones are shown but wedi’i gloi.",
-    "freeNoticeEnd": "i datgloi pob.",
-    "messageTone": "Tôn neges",
-    "ringtone": "Tôn ffôn",
-    "preview": "Rhagolwg",
-    "stop": "Stopio",
-    "volume": "Cyfaint",
-    "messageToneFilesHint": "Put files yn /cyhoeddus/seiniau/Message_Tones",
-    "ringtoneFilesHint": "Put files yn /cyhoeddus/seiniau/Ringtones",
-    "premiumRequired": "Mae Premiwm yn ofynnol ar gyfer y dewis hwnnw.",
-    "saved": "Gosodiadau sain wedi’u cadw.",
-    "saveFailed": "Methu cadw gosodiadau sain.",
-    "resetNotSaved": "Reset i defaults (not yet wedi’i gadw).",
-    "premiumTone": "That’s Premiwm tone.",
-    "premiumRingtone": "That’s Premiwm tôn ffôn.",
-    "customComingSoon": "Uwchlwytho seiniau personol yn dod yn fuan."
-  },
-  "aiSettings": {
-    "title": "Gosodiadau AI",
-    "controlIntro": "Control cyfieithiad, smart replies, a ForiaBot auto-responses.",
-    "translation": "Cyfieithu",
-    "autoTranslateIncoming": "Cyfieithu negeseuon sy’n dod i mewn yn awtomatig",
-    "showOriginalAlongside": "Dangos y testun gwreiddiol ochr yn ochr â’r cyfieithiad",
-    "smartReplies": "Atebion Clyfar",
-    "enableSmartReplies": "Galluogi Atebion Clyfar",
-    "smartRepliesHint": "Anfon y last few wedi’i dderbyn negeseuon (sanitized) i AI i suggest quick replies.",
-    "maskProfanity": "Cuddio geiriau sarhaus mewn awgrymiadau AI",
-    "maskProfanityHint": "If ar, suggestions returned by AI will have flagged words masked",
-    "foriaBot": "Ymatebydd Awtomatig ForiaBot",
-    "enableAutoReply": "Galluogi ateb awtomatig pan fyddaf yn brysur",
-    "autoReplyMode": "Modd ateb awtomatig",
-    "cooldownSeconds": "Oedi (eiliadau)",
-    "signature": "Llofnod",
-    "autoReply": "🤖 Auto-reply",
-    "activeUntilOptional": "Gweithredol tan (dewisol)",
-    "save": "Cadw Gosodiadau AI",
-    "saved": "Dewisiadau AI wedi’u cadw",
-    "saveFailed": "Methu cadw gosodiadau AI",
-    "translateOff": "I ffwrdd",
-    "translateTagged": "Only when @wedi’i gyfieithu neu tagged",
-    "translateAll": "Cyfieithu pob neges sy’n dod i mewn",
-    "modeDm": "Sgyrsiau 1:1 yn unig",
-    "modeMention": "Only when I’m @mentioned",
-    "modeAll": "Pob neges sy’n dod i mewn",
-    "off": "I ffwrdd"
-  },
-  "accessibilitySettings": {
-    "title": "Hygyrchedd a Rhybuddion",
-    "loadFailed": "Methu llwytho gosodiadau",
-    "accessibilityDesc": "Options i make Chatforia easier i use heb relying ar sain.",
-    "interfaceFontSize": "Maint ffont y rhyngwyneb",
-    "interfaceFontSizeHelp": "Starts at normal size. Increase if chi prefer larger testun.",
-    "notifications": "Hysbysiadau",
-    "visualAlerts": "Rhybuddion gweledol ar gyfer negeseuon a galwadau",
-    "visualAlertsDesc": "Show banners a teitl blink so chi peidiwch miss activity.",
-    "vibrateOnNewShort": "Vibrate ar newydd negeseuon (when supported)",
-    "vibrateOnNewDesc": "Trigger dyfais vibration gyda hysbysiadau.",
-    "flashOnCallShort": "Flash screen ar i mewn galwad",
-    "flashOnCallDesc": "Brief bright flash when galwad rings.",
-    "liveCaptionsTitle": "Live captions (galwadau)",
-    "enableLiveCaptions": "Galluogi live captions during galwadau (Premiwm)",
-    "liveCaptionsDesc": "Show amser real captions o y other participant’s sain.",
-    "captionFontSize": "Maint ffont capsiynau",
-    "captionBackground": "Cefndir capsiynau",
-    "voiceNotes": "Nodiadau llais",
-    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
-    "autoTranscribeVoiceNotesDesc": "Attach trawsgrifiad i sain negeseuon chi derbyn.",
-    "changesSavedInstantly": "Caiff newidiadau eu cadw ar unwaith.",
-    "sm": "Bach",
-    "md": "Canolig",
-    "lg": "Mawr",
-    "xl": "Mawr Iawn",
-    "light": "Golau",
-    "dark": "Tywyll",
-    "transparent": "Tryloyw"
-  },
-  "privacySection": {
-    "strictE2EE": "Amgryptio pen-i-ben llym",
-    "ciphertextOnlyNote": "Store only ciphertext ar y server. Disables AI/Cyfieithu a moderation previews.",
-    "strictE2EEEnabled": "Strict E2EE wedi’i alluogi. AI/Cyfieithu will be analluog.",
-    "strictE2EEDisabled": "Strict E2EE analluog. AI/Cyfieithu re-enabled."
-  },
-  "linkedDevicesPanel": {
-    "title": "Dyfeisiau cysylltiedig",
-    "noneFound": "Ni chanfuwyd dyfeisiau cysylltiedig.",
-    "refresh": "Adnewyddu",
-    "unknown": "Anhysbys",
-    "loadFailed": "Methu llwytho dyfeisiau cysylltiedig",
-    "loadFailedLog": "Methu llwytho dyfeisiau cysylltiedig",
-    "renamePrompt": "Enter newydd enw ar gyfer hwn dyfais",
-    "renamed": "Dyfais wedi’i hailenwi",
-    "renameFailed": "Methu ailenwi’r ddyfais",
-    "revoked": "Dyfais wedi’i dirymu",
-    "revokeFailed": "Methu dirymu’r ddyfais",
-    "unnamedDevice": "Dyfais ddienw",
-    "primary": "Cynradd",
-    "revokedStatus": "Wedi’i ddirymu",
-    "addedLastSeen": "Wedi’i ychwanegu{{created}}• Last seen{{lastSeen}}",
-    "renameDevice": "Ailenwi dyfais",
-    "revokeDevice": "Dirymu dyfais"
-  },
-  "peoplePage": {
-    "people": "Pobl",
-    "search": "Chwilio",
-    "searchPlaceholder": "Chwilio cysylltiadau wedi’u cadw yn ôl alias, enw, enw defnyddiwr neu ffôn",
-    "quickStart": "Cychwyn cyflym",
-    "quickStartDesc": "Rheoli eich cysylltiadau a gwahodd ffrindiau.",
-    "importContacts": "Mewnforio eich cysylltiadau",
-    "import": "Mewnforio",
-    "addContact": "Ychwanegu cysylltiad",
-    "add": "Ychwanegu",
-    "inviteFriends": "Gwahodd ffrindiau",
-    "inviteDesc": "Share eich invite link i dechrau chatting instantly.",
-    "getTheApp": "Cael yr ap",
-    "getTheAppDesc": "Stay yn touch ar y go gyda Chatforia ar gyfer iOS a Android.",
-    "download": "Lawrlwytho",
-    "syncTip": "Awgrym: Eich negeseuon stay synced across web a symudol."
+    "releaseWarning": "Gallai eich rhif gael ei ryddhau ymhen {{count}} diwrnod. Uwchraddiwch i Premium i'w gadw'n ddiogel. ",
+    "pickNumberHint": "Dewiswch rif Chatforia i'w ddefnyddio ar gyfer negeseuon a chyfathrebu yn yr ap.",
+    "unableToLoadStatus": "Analluog i lwytho statws rhif ffôn.",
+    "lock": "Clòs",
+    "noNumberAssigned": "Dim rhif wedi'i neilltuo. Dewiswch un yn ôl côd ardal i ddechrau tecstio."
   },
   "dialer": {
     "title": "Galwadau",
-    "subtitle": "Bysellbad a diweddar. (Os nad ydych yn defnyddio PSTN, dechreuwch alwadau o bennyn sgwrs.)",
-    "enterNumber": "Rhowch rif",
-    "enterNumberAria": "Rhowch rif",
+    "isdeitl": "Padal a galwadau diweddar. (Os nad ydych yn defnyddio'r PSTN, dechreuwch alwadau o bennyn sgwrs.)",
+    "enterNumber": "Rhoi rhif",
+    "enterNumberAria": "Rhoi rhif",
     "resolving": "Yn datrys targed yr alwad…",
     "call": "Galw",
-    "callBrowser": "Galw drwy borwr",
-    "backspace": "Ôl-fwlch",
-    "recents": "Diweddar",
+    "callBrowser": "Galw drwy'r porwr",
+    "backspace": "Cilfach",
+    "recents": "Galwadau diweddar",
     "noRecents": "Dim galwadau diweddar eto.",
     "resolveFailed": "Methu datrys targed yr alwad.",
     "callRequiredNumber": "Mae angen rhif Chatforia arnoch cyn gwneud galwadau ffôn.",
-    "callFailed": "Methu gwneud galwad.",
-    "deleteConfirm": "Dileu’r alwad hon o’r rhai diweddar?",
-    "deleteFailed": "Methu dileu’r alwad.",
-    "deleteFailedLog": "Wedi methu i dileu galwad",
-    "outgoing": "Allan",
-    "incoming": "I mewn",
-    "missed": "Wedi’i cholli",
-    "declined": "Wedi’i wrthod",
-    "failed": "Wedi methu",
-    "completed": "Wedi’i chwblhau",
-    "outgoingCall": "Galwad Allan",
-    "incomingCall": "Galwad I Mewn",
-    "voicemail": "Neges Lais",
-    "callAria": "Galwad{{name}}",
-    "deleteAria": "Dileu galwad gyda{{name}}"
+    "callFailed": "Methu gwneud yr alwad.",
+    "cadarnhauDileu": "Dileu'r alwad hon o'r diweddar?",
+    "dileuWediMethu": "Ni lwyddwyd i ddileu'r alwad.",
+    "dileuWediMethuLog": "Methiant i ddileu'r alwad",
+    "allan": "Allan",
+    "dodI": "Daw",
+    "gweld": "Wedi'i fethu",
+    "gwrthod": "Wedi'i wrthod",
+    "methu": "Wedi methu",
+    "cwblhawyd": "Cwblhawyd",
+    "galwadSy'nMyndAllan": "Galwad sy'n mynd allan",
+    "galwadSy'nDodIMewn": "Galwad sy'n dod i mewn",
+    "negesLlais": "Neges llais",
+    "galwadAria": "Galwad {{name}}",
+    "dileuAria": "Dileu galwad gyda {{name}}",
+    "enterNumberPh": "Rhowch y rhif",
+    "recentsEmpty": "Dim galwadau diweddar eto.",
+    "key": "Key {{d}}"
   },
   "callHistory": {
     "title": "Galwadau",
-    "subtitle": "Eich diweddar i mewn a allan galwadau.",
-    "loadFailed": "methu llwytho galwad history.",
-    "loadFailedTitle": "Couldn’t load galwad history",
-    "emptyTitle": "Na galwadau yet",
-    "emptySubtitle": "Eich diweddar galwadau will show up here.",
-    "outgoing": "Allan",
-    "incoming": "I mewn",
-    "missed": "Wedi’i cholli",
-    "declined": "Wedi’i wrthod",
-    "failed": "Wedi methu",
-    "completed": "Wedi’i chwblhau",
-    "outgoingCall": "Galwad Allan",
-    "incomingCall": "Galwad I Mewn",
-    "voicemail": "Neges Lais"
+    "subtitle": "Eich galwadau diweddar sy'n dod i mewn ac yn mynd allan.",
+    "loadFailed": "Methu llwytho hanes galwadau.",
+    "loadFailedTitle": "Methu llwytho hanes galwadau",
+    "emptyTitle": "Dim galwadau eto",
+    "emptySubtitle": "Bydd eich galwadau diweddar yn ymddangos yma.",
+    "allan": "Allan",
+    "i mewn": "I Mewn",
+    "gweld": "Gweld",
+    "gwrthod": "Gwrthod",
+    "methu": "Methu",
+    "cwblhau": "Cwblhau",
+    "galwadallan": "Galwad Allan",
+    "galwadimewn": "Galwad I Mewn",
+    "voicemail": "Nefail llais"
   },
   "video": {
     "hub": {
@@ -2073,19 +985,1021 @@
     },
     "direct": {
       "title": "Fideo Uniongyrchol",
-      "subtitle": "Dechreuwch alwad fideo 1:1 gyda defnyddiwr arall.",
-      "desc": "1:1 camera galwad gyda another user.",
-      "start": "Dechrau"
+      "subtitle": "Dechreuwch alwad fideo 1:1 gydag defnyddiwr arall.",
+      "desc": "Alwad camera 1:1 gydag defnyddiwr arall.",
+      "start": "Dechrau",
+      "callBtn": "Galw",
+      "callByPhone": {
+        "title": "Galw ar y ffôn"
+      },
+      "phone": {
+        "placeholder": "Rhowch rif ffôn (e.e., +1-555-123-4567)",
+        "aria": "Ffôn i'w alw"
+      },
+      "tipInvite": "Awgrym: Gludwch rif a galwch heb gadw cyswllt. Byddwn yn gwahodd y rhai nad ydynt yn ddefnyddwyr drwy ddolen.",
+      "findUser": {
+        "title": "Dod o hyd i ddefnyddiwr"
+      },
+      "search": {
+        "placeholder": " Chwiliwch yn ôl enw neu enw defnyddiwr",
+        "aria": "Chwiliwch yn ôl enw neu enw defnyddiwr",
+        "btn": "Chwilio"
+      }
     },
-    "rooms": {
-      "title": "Ystafelloedd",
-      "subtitle": "Creu ystafell neu join existing one by yn teipio y same enw.",
-      "desc": "Multi-party fideo using shared ystafell enw.",
-      "roomLabel": "Enw’r ystafell",
-      "roomPlaceholder": "e.g. team-standup",
-      "roomAria": "Enw’r ystafell",
+    "ystafelloedd": {
+      "teitl": "Ystafelloedd",
+      "is-deitl": "Crëwch ystafell neu ymunwch ag un sy'n bodoli eisoes drwy deipio'r un enw.",
+      "desc": "Fideo aml-barti gan ddefnyddio enw ystafell a rennir.",
+      "roomLabel": "Enw ystafell",
+      " roomPlaceholder": "e.e. team-standup",
+      "roomAria": "Enw ystafell",
       "joinCreate": "Ymuno / Creu",
-      "tip": "Awgrym: rhannwch yr enw hwn ag eraill, neu ddolen ddofn i"
+      "tip": "Awgrym: rhannwch yr enw hwn ag eraill, neu gysylltwch yn uniongyrchol â"
+    },
+    "title": "Fideo",
+    "chooseType": "Dewiswch fath o fideo.",
+    "directTitle": "Fideo Uniongyrchol",
+    "directDesc": "Galwad camera 1:1 gydag defnyddiwr arall.",
+    "directStart": "Cychwyn",
+    "roomsTitle": "Ystafelloedd",
+    "roomsDesc": "Fideo aml-barti gan ddefnyddio enw ystafell a rennir.",
+    "roomsIntro": "Ymunwch neu crëwch ystafell aml-barti.",
+    "roomNameLabel": "Enw'r ystafell",
+    "roomNamePh": "e.e. team-standup",
+    "join": "Ymunwch",
+    "deeplinkTip": "Awgrym: gallwch ddeeplinkio'n uniongyrchol i <code>/video?room=enw-ystafell</code>."
+  },
+  "directVideo": {
+    "intro": "Cychwyn galwad fideo uniongyrchol 1:1.",
+    "findUserLabel": "Dod o hyd i ddefnyddiwr",
+    "findUserPh": "Chwilio yn ôl enw neu enw defnyddiwr",
+    "search": "Chwilio",
+    "call": "Galw"
+  },
+  "phoneWarning": {
+    "title": "Mae eich rhif yn darfod yn fuan",
+    "body": "Mae eich rhif {{number} bydd eich rhif yn darfod ar {{date}} oni bai ei ail-actifadu.",
+    "button": "Cadw Fy Rhif"
+  },
+  "premium": {
+    "heading": "Ewch yn Premium",
+    "description": "Datgloi nodweddion pwerus a chael gwared ar hysbysebion.",
+    "cta": "Uwchraddiwch",
+    "upgrade": "Uwchraddiwch",
+    "upgradeAria": "Uwchraddio i Chatforia Premium"
+  },
+  "uwchraddio": {
+    "teitl": "Uwchraddio",
+    "teitlWediMewngofnodi": "Uwchraddio",
+    "teitlCyhoeddus": "Prisiau",
+    "h1": "Prisiau a Chynlluniau Chatforia",
+    "h1Subtitle": "Dechreuwch gyda'n cynllun rhad ac am ddim, sy'n cael ei gefnogi gan hysbysebion. Ewch yn ddi-hysbyseb gyda Plus, neu datgloeewch nodweddion pŵer llawn gyda Premium.",
+    "subtitle": "Dewiswch gynllun ap, ychwanegwch becynnau data i chi'ch hun, neu rhannwch ddata gyda'ch teulu — y cyfan o un lle.",
+    "subtitle.app": "Dechreuwch gyda'n cynllun rhad ac am ddim, a gefnogir gan hysbysebion. Ewch ad -rhydd gyda Plus, neu ddatgloi nodweddion pŵer llawn gyda Premium.",
+    "subtitle.mobile": "Ychwanegu data eSIM byd-eang fel bod Chatforia yn parhau i weithio hyd yn oed pan fyddwch chi i ffwrdd o Wi-Fi.",
+    "subtitle.family": "Creu pwll data a rennir ar gyfer eich teulu a rheoli defnydd pawb o un lle.",
+    "perMonth": "mis",
+    "perYear": "blwyddyn",
+    "goPremium": "Ewch yn Premium",
+    "benefitsLine": "Datgloi nodweddion pwerus a chael gwared ar hysbysebion.",
+    "ctaText": "Uwchraddiwch",
+    "aria": "Uwchraddio i Chatforia Premium",
+    "toggle": {
+      "monthly": "Misol",
+      "annual": "Blynyddol (Arbed 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Bydd y tanysgrifiad yn dod i ben",
+      "body": "Byddwch yn dychwelyd i'r Fersiwn Am Ddim ar",
+      "keepPlanCta": "Cadw {{plan}}",
+      "manageBillingCta": "Rheoli bilio"
+    },
+    "billing": {
+      "opening": "Agor…",
+      "manage ": "Rheoli Taliadau"
+    },
+    "checkout": {
+      "redirecting": "Yn ailgyfeirio…"
+    },
+    "auth": {
+      "continue": "Parhau i fewngofnodi",
+      "createAccount": "Creu cyfrif",
+      "signIn": " Mewngofnodi"
+    },
+    "cta": {
+      "aria": "Dewis cynllun",
+      "getPlus": "Uwchraddiwch i Plus",
+      "upgradeMonthly": "Uwchraddiwch Fisol",
+      "upgradeAnnual": "Uwchraddiwch Flynyddol"
+    },
+    "section": {
+      "app": "Cynlluniau ap",
+      "mobile": "Symudol (eSIM)",
+      "family": "Teulu"
+    },
+    "cynlluniau": {
+      "am-ddim": {
+        "teitl": "Am-ddim",
+        "pris": "$0",
+        "disgrif": "Dechreuwch negeseuon am ddim. Delfrydol os ydych chi'n rhoi cynnig ar Chatforia.",
+        "nodweddion": {
+          "sgaen": "Sgaen 1:1 a grŵp amser real, ynghyd â galwadau llais a fideo",
+          "media": "Rhannu lluniau, negeseuon llais, a fideos byr",
+          "ai": "Atebion clyfar a chyfieithiad ar unwaith wedi'u pweru gan AI (defnydd teg)",
+          "disappearing": "Negeseuon sy'n diflannu a rheolyddion preifatrwydd sylfaenol",
+          "ads": "Am ddim am byth gyda hysbysebion yn yr ap "
+        },
+        "ctaCurrent": "Y cynllun presennol",
+        "ctaManage": "Rheoli yn y bilio",
+        "ctaPublic": "Cychwyn – parhau i fewngofnodi",
+        "aria": "Cynllun am ddim"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Yr holl bethau hanfodol, heb hysbysebion. Gwych ar gyfer negeseuon a galwadau bob dydd.",
+        "features": {
+          "allFree": "Popeth yn y fersiwn am ddim, heb hysbysebion",
+          "forwarding": "Trosglwyddo galwadau a negeseuon i'ch rhif ffôn go iawn",
+          "hanes": "Hanes negeseuon hirach (hyd at 6 mis)",
+          "cymorth": "Cymorth cyflymach pan aiff rhywbeth o'i le"
+        },
+        "badge": "Poblogaidd",
+        "cta": "Mynd yn Ddi-hysbyseb",
+        "ctaPublic": "Cael Plus – parhewch i fewngofnodi",
+        "aria": "Uwchraddiwch i Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Misol)",
+        "price": "$11.99",
+        "desc": "Profiad llawn Chatforia: offer pŵer AI, addasu, a chymorth blaenoriaeth.",
+        "features": {
+          "plusAll": "Popeth yn Plus",
+          "themes": "Datgloi'r holl themâu lliw premiwm ac addasiadau'r ap",
+          "ai": "Offer pŵer AI ar gyfer ailysgrifennu, atebion clyfar, a chrynodebau sydd ar gael yn Premiwm yn unig",
+          "support": "Cymorth blaenoriaeth pan fyddwch chi ei angen fwyaf"
+        },
+        "badge": "Argymhellir",
+        "cta": "Uwchraddiwch (Misol)",
+        "ctaPublic": "Datgloi Premiwm – parhewch i fewngofnodi",
+        "aria": "Uwchraddiwch i Premium Misol"
+      },
+      "premiumBlynyddol": {
+        "teitl": "Premium (Blynyddol)",
+        "pris": "$99",
+        "disgrifiad": "Arbedwch fwy wrth gael eich bilio'n flynyddol — gan gynnwys themâu lliw ychwanegol, offer AI, a chymorth blaenoriaeth.",
+        "nodweddion": {
+          "pobPremium": "Popeth yn Premium Misol — gan gynnwys themâu lliw ychwanegol",
+          "taluBlynyddol": "Talu unwaith y flwyddyn",
+          "arbed25": "Arbed tua 30% o'i gymharu â thalu'n fisol",
+          "gorauAr gyfer": "Gorau ar gyfer defnyddwyr pwerus, gweithwyr o bell, a theithwyr mynych"
+        },
+        "badge": "Arbed 30%",
+        "cta": "Uwchraddio (Blynyddol)",
+        "ctaPublic": "Arbed 30% gyda thaliad blynyddol – parhewch i fewngofnodi",
+        "aria": "Uwchraddiwch i Premium Blynyddol",
+        "disclaimer": "Caiff ei filio ymlaen llaw. Canslwch unrhyw bryd. Dim ffioedd cudd."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Am Ddim",
+      "freeDesc": "Dechreuwch negeseuon am ddim.",
+      "plusTitle": "Plus",
+      "plusBadge": "Poblogaidd",
+      "plusDesc": "Y profiad mwyaf fforddiadwy di-hysbysebion.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Nodweddion llawn, seiniau'r gloch, ac offer pwerus Deallusrwydd Artiffisial.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Arbedwch fwy pan gewch eich bilio'n flynyddol.",
+      "annualDisclaimer": "Caiff ei filio ymlaen llaw. Canslwch unrhyw bryd. Dim ffioedd cudd."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (pecynnau data eSIM)",
+      "subtitle": "Ychwanegwch ddata byd-eang i gadw Chatforia i weithio hyd yn oed heb Wi-Fi. Mae prisiau'n addasu'n awtomatig yn seiliedig ar eich gwlad a'ch arian cyfred.",
+      " subtitle.detail": "Dewiswch becyn data byd-eang untro fel bod Chatforia yn parhau i weithio pan fyddwch chi'n teithio neu'n bell o Wi-Fi.",
+      "scope": {
+        "local": "Lleol",
+        "europe": "Yr Ewrop",
+        "global": "Byd-eang"
+      },
+      "localEquals": "Lleol = {{country}}",
+      "localEqualsFallback": "Lleol = eich gwlad bresennol",
+      "perPack": "/ pack",
+      "cta": "Cael y pecyn data hwn",
+      "ctaPublic": "Cael y pecyn data hwn",
+      "checkout": {
+        "redirecting": "Yn ailgyfeirio…"
+      },
+      "diderfyn": {
+        "nodweddion": {
+          "defnyddtrwm": "Data cyflym ar gyfer defnydd trwm",
+          "rheoli": "Data cyflym yn amodol ar bolisïau defnydd teg a rheoli rhwydwaith",
+          "cwmpas": "Cwmpas dibynadwy",
+          "cynamserol": "Actifadu eSIM ar unwaith",
+          "dimCytundeb": "Pecyn untro, dim contract"
+        }
+      },
+      "disclaimer": {
+        "devices": "Mae pecynnau data eSIM yn gofyn am ddyfais sy'n gydnaws ag eSIM ac sydd wedi'i datgloi. Mae argaeledd yn amrywio yn ôl model y ffôn, y cludwr, a'r wlad. Mae darpariaeth a chyflymder yn amrywio yn ôl rhanbarth."
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "teitl": "{{scope}} 20 GB"
+        },
+        "diderfyn": {
+          "teitl": "{{scope}} Diderfyn"
+        }
+      },
+      "cymharu": {
+        "teitl": "Cymharu pecynnau data eSIM",
+        "col": {
+          "pecyn": "Pecyn",
+          "data": "Data wedi'i gynnwys",
+          "gorauAr gyfer": "Gorau ar gyfer"
+        },
+        "disgrifiad": "Mae'r defnydd data gwirioneddol yn dibynnu ar sut rydych chi'n defnyddio Chatforia (llais, fideo, cyfryngau, ac apiau eraill ar eich ffôn)."
+      }
+    },
+    "teulu": {
+      "teitl": "Teulu Chatforia (data a rennir)",
+      "is-deitl": " Rhannwch un pwll data ar draws eich teulu. Un bil, sawl cyfrif Chatforia, darpariaeth fyd-eang.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Teulu Bach",
+        "desc": "Yn cynnwys 20 GB o ddata cyflym cyffredin — gwych ar gyfer 2–3 defnyddiwr ysgafn.",
+        "price": "$29.99",
+        "aria": "Prynwch becyn Teulu Bach"
+      },
+      "canolig": {
+        "title": "Teulu Canolig",
+        "desc": "Yn cynnwys 40 GB o ddata cyflym cyffredin — yn ddelfrydol ar gyfer 3–5 aelod gweithgar.",
+        "price": "$49.99",
+        "aria": "Prynu pecyn Teulu Canolig"
+      },
+      "large": {
+        "title": "Teulu Mawr",
+        "desc": "Yn cynnwys 80 GB o ddata cyflym a rennir — ar gyfer teuluoedd egnïol sydd ar-lein bob amser.",
+        "price": "$84.99",
+        "aria": "Prynwch becyn Teulu Mawr"
+      },
+      "feature": {
+        "shared": "Pwll data a rennir i'ch teulu",
+        "members": "Gwahodd hyd at 4 aelod ychwanegol",
+        "mwyOaelodau": "Gwych ar gyfer 3–5 aelod gweithgar",
+        "rheoli": "Rheoli terfynau ar gyfer pob aelod",
+        "ailGodi": "Ychwanegu mwy o becynnau unrhyw bryd",
+        "gwerthGorau": "Y gwerth gorau fesul GB",
+        "defnyddCyfiawn": "Yn amodol ar bolisi defnydd teg a therfynau lleol"
+      },
+      "ymadroddYmwadiad": "Mae pecynnau teulu yn creu neu'n ychwanegu at gronfa ddata a rennir. Gallwch wahodd a dileu aelodau unrhyw bryd.",
+      "nodyn troed": "Mae pecynnau teulu yn rhannu un pwll data ar draws cyfrifon Chatforia cysylltiedig. Mae argaeledd a therfynau yn dibynnu ar eich gwlad a rheoliadau lleol."
+    },
+    "pam": {
+      "teitl": "Pam mae pobl yn newid i Chatforia",
+      "is-deitl": "Mae Chatforia yn rhoi rhif ffôn go iawn i chi, cyfieithu clyfar, a llwybr clir i gael gwared ar hysbysebion pan fyddwch chi'n barod.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia yn erbyn TextNow",
+          "body": "Hysbysebion ysgafnach ar Free, uwchraddiad Plus syml pan fyddwch chi'n barod, ac offer Premium nad yw TextNow yn eu cynnig."
+        },
+        "voice": {
+          "title": "Chatforia yn erbyn Google Voice",
+          "body": "Ap modern, byd-eang -dyluniad yn gyntaf, a chyfieithu adeiledig yn lle anfon galwadau ymlaen yn y ffordd hen ffasiwn."
+        },
+        "messengers": {
+          "title": "Chatforia vs apiau sgwrsio",
+          "body": "Anfonwch negeseuon testun gyda rhifau ffôn go iawn — nid dim ond defnyddwyr apiau eraill — gydag AI a statws wedi'u cynnwys. Gwych os ydych chi'n dod o apiau fel TextFree neu TextMe."
+        }
+      },
+      "tableTitle": "Sut mae Chatforia yn cymharu",
+      "col": {
+        "nodwedd": "Nodwedd"
+      },
+      "nodwedd": {
+        "rhifamddim": "Rhif ffôn am ddim",
+        "cyfieithu": "Hunan-gyfieithu adeiledig",
+        "offerAI": "Offer AI (ailysgrifennu, atebion, crynodebau)",
+        "hysbysebion": "Opsiwn di-hysbyseb",
+        "hanes": "Hanes negeseuon"
+      },
+      "ie": "Ie",
+      "na": "Na",
+      "iePremium": "Ie (Premium)",
+      "plusPremium": "Plus a Premium",
+      "cyfyngedig": "Cyfyngedig",
+      "nA": "N/A",
+      "hanes": {
+        "chatforia": "Hyd at 12+ mis",
+        "textnow": "Yn amrywio yn ôl y cyfrif",
+        "llais": "Cyfyngedig / yn seiliedig ar gyfrif"
+      },
+      "ymadrodd": "Cymhariaeth yn seiliedig ar wybodaeth sydd ar gael i'r cyhoedd ac a all newid dros amser. Mae apiau testio am ddim eraill fel TextFree neu TextMe yn gyffredinol debyg i TextNow."
+    },
+    "cwestiynau-cyff": {
+      "teitl": "Cwestiynau Cyffredin am Brisiau a Chynlluniau",
+      "am-ddim": {
+        "c": "Ydy'r cynllun Rhad ac am ddim yn rhad ac am ddim go iawn?",
+        "a": "Ydy. Mae'r cynllun Rhad ac am ddim yn cynnwys rhif Chatforia, galw, a negeseuon gyda hysbysebion. Gallwch aros ar y cynllun Rhad ac am ddim cyhyd ag y mynnwch, neu uwchraddio i gael gwared ar hysbysebion ac i ddatgloi mwy o nodweddion."
+      },
+      "plusPremium": {
+        "q": "Beth yw'r gwahaniaeth rhwng Plus a Premium?",
+        "a": " Mae Plus yn cael gwared ar hysbysebion ac yn ymestyn hanes eich negeseuon — perffaith ar gyfer defnydd bob dydd. Mae Premium yn ychwanegu mwy o addasu, offer AI ar gyfer ailysgrifennu ac atebion, a chymorth blaenoriaeth i ddefnyddwyr trwm."
+      },
+      "esim": {
+        "q": "Lle mae pecynnau data eSIM yn gweithio?",
+        "a": "Mae Chatforia Mobile yn defnyddio darpariaeth eSIM fyd-eang. Mae argaeledd yn dibynnu ar eich gwlad a'ch dyfais. Byddwch yn gweld opsiynau a gefnogir wrth actifadu y tu mewn i'r ap."
+      },
+      "canslo": {
+        " q": "A allaf ganslo neu newid cynlluniau unrhyw bryd?",
+        "a": "Gallwch. Gallwch reoli neu ganslo eich tanysgrifiad o'r dudalen filio yn yr ap. Daw newidiadau i rym ar ddiwedd eich cyfnod bilio presennol. "
+      },
+      "family": {
+        "q": "Sut mae pecynnau Teulu yn gweithio?",
+        "a": "Mae pecynnau Teulu yn creu pwll data a rennir ar draws sawl cyfrif Chatforia. Un person sy'n talu'r bil, a gallwch wahodd neu ddileu aelodau a gosod terfynau fesul unigolyn."
+      }
     }
+  },
+  "family": {
+    "title": "Teulu",
+    "loading": "Yn llwytho manylion eich teulu…",
+    "gwall": {
+      "llwytho": "Methodd â llwytho manylion y teulu.",
+      "gwahoddiad": "Ni ellid creu gwahoddiad. Gwnewch yn siŵr mai chi yw perchennog y teulu a cheisiwch eto.",
+      "talu": "Ni allem ddechrau'r broses dalu ar gyfer cynllun Teulu. Cofiwch geisio eto."
+    },
+    "biliadu": {
+      "myPlanTitle": "Fy nhrefn i",
+      "myPlanError": "Analluog i lwytho eich trefn.",
+      "myPlanLoading": "Yn llwytho eich trefn…",
+      "currentPlan": "Y drefn bresennol",
+      "renewsAt": "Yn adnewyddu ar",
+      " freePlanCopy": "Rydych chi ar y cynllun rhad ac am ddim. Uwchraddiwch i ddatgloi mwy o nodweddion.",
+      "upgradeCta": "Uwchraddio cynllun",
+      "changePlanCta": "Newid cynllun",
+      "rheoliTalud": "Rheoli talu",
+      "gwallYPorth": "Analluog i agor y porth talu ar hyn o bryd.",
+      "cansloNawr": "Canslo nawr",
+      "cansloNawrHelp": "Gallwch reoli neu ganslo eich tanysgrifiad yn y porth talu, neu ganslo ar unwaith isod.",
+      "cansloNawrCadarnhau": "Ydych chi'n siŵr eich bod chi am ganslo eich cynllun ar unwaith? Ni ellir ddad-wneud hyn.",
+      "cancelNowError": "Analluog i ganslo'ch cynllun ar hyn o bryd. Cofiwch geisio eto neu ddefnyddio Rheoli bilio."
+    },
+    "none": {
+      "title": "Dim teulu wedi'i sefydlu eto",
+      "body": "I greu Teulu Chatforia a chronfa ddata a rennir, dechreuwch gynllun Teulu.",
+      "goUpgrade": "Dechrau cynllun Teulu",
+      "viewPlans": "Gweld yr holl gynlluniau"
+    },
+    "group": {
+      "defaultName": "Fy Nhŷ-deulu Chatforia",
+      "role": "Eich rôl: {{role}}"
+    },
+    "role": {
+      "perchennog": "Perchennog",
+      "aelod": "Aelod"
+    },
+    "data": {
+      "pennawd": "Pwll data a rennir",
+      "is-deitl": "Mae pob aelod yn rhannu'r pwll hwn. Byddwn yn eich rhybuddio wrth i chi agosáu at eich terfyn."
+    },
+    "aelodau": {
+      "teitl": "Aelodau'r teulu",
+      "enw": "Enw",
+      "swyddogaeth": "Swyddogaeth",
+      "defnydd": "Defnydd",
+      "terfyn": "Terfyn",
+      "diderfyn": "Dim terfyn penodol",
+      "gwahoddiadCta": "Gwahodd aelod"
+    },
+    "gwahoddiad": {
+      "teitl": "Gwahodd aelod newydd",
+      "body": "Anfonwch e-bost neu ddolen i wahodd rhywun i'ch pwll data teuluol a rennir.",
+      "emailLabel": "E-bost (dewisol)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Creu gwahoddiad",
+      "linkLabel": "Dolen wahoddiad",
+      "copyAria": "Copïo dolen y gwahoddiad",
+      "expiryHint": "Bydd y ddolen hon yn darfod ar ôl ychydig ddyddiau. Gallwch chi bob amser greu un newydd."
+    },
+    "join": {
+      "title": "Ymunwch â theulu",
+      "body": "Rydych wedi cael eich gwahodd i ymuno â Theulu Chatforia a rhannu eu pwll data.",
+      "cta": "Derbyn ac ymuno â'r teulu",
+      "ctaLogin": "Mewngofnodwch ac ymunwch â'r teulu",
+      "success": "Rydych wedi ymuno â'r teulu hwn. Rydych bellach yn rhannu eu pwll data.",
+      "goFamily": "Ewch i dangosfwrdd y teulu",
+      "error": "Ni allem eich ychwanegu at y teulu hwn. Mae'n bosibl bod y gwahoddiad yn annilys neu wedi dod i ben."
+    }
+  },
+  "randomChat": {
+    "title": "Sgwrs Ar Hap",
+    "isdeitl": "Dewch i gwrdd â rhywun newydd ar unwaith, neu dewiswch sgwrsio â Ria.",
+    "dechrau": "Dechrau sgwrs",
+    "disgrifiad": "Sgwrsiwch yn ddienw yn gyntaf. Ychwanegwch ffrind yn ddiweddarach os yw'n teimlo'n iawn.",
+    "canfodCwpl": "Canfod cwpl i mi",
+    "sgwrsioGydaRia": "Sgwrsio â Ria",
+    "setAge": "Gosodwch eich ystod oedran yn Proffil → Oedran a Sgwrs Ar Hap i gael eich paru â phobl.",
+    "idle": "Di-wneud",
+    "matching": "Yn paru…",
+    "searching": "Yn chwilio…",
+    "cancel": "Canslo",
+    "connectionProblem": "Problem cysylltu",
+    "ai": "AI",
+    "dienw": "Dienw",
+    "wedi'i gysylltu fel": "Wedi'i gysylltu fel",
+    "aros i ychwanegu ffrind": "Ar osteg am iddyn nhw dderbyn Ychwanegu Ffrind…",
+    "enwau defnyddwyr cudd": "Mae enwau defnyddwyr yn aros yn gudd nes bod y ddau berson yn dewis Ychwanegu Ffrind.",
+    " riaSeparate": "Siaradwch â Ria unrhyw bryd — ar wahân i baru dynol ar hap.",
+    "sendMessage": "Anfon neges",
+    "chatEnded": "Daeth y sgwrs i ben",
+    "conversationEnded": "Mae'r sgwrs honno wedi dod i ben.",
+    "findAnotherMatch": "Dod o hyd i baru arall",
+    "next": "Person Nesaf",
+    "addFriend": "Ychwanegu Ffrind",
+    "requested": "Gofynnwyd",
+    "gadael": "Gadael",
+    "negesuRia": "Nefesiwch Ria…",
+    "negesuCydweddiad": "Nefesiwch eich cydweddiad…",
+    "sgwrsioGydaForia": "Sgwrsio â Foria",
+    "sgwrsioGydaForiaBot": "Sgwrsio â ForiaBot",
+    "cau": "Cau",
+    "canfod": "Canfod…",
+    "chwilio": "Yn chwilio am rywun…",
+    "dechrauSgwrsGydaForia": "Yn dechrau sgwrs gyda Foria…",
+    "partnerWediDatgysylltu": "Mae eich partner wedi datgysylltu.",
+    "dimPartner": "Ni ddarganfuwyd partner ar hyn o bryd.",
+    "cysylltiedigGyda": "Cysylltiedig â {{name}}",
+    "cysylltiedig": "Cysylltiedig",
+    "partnerWediGadael": "Mae'r partner wedi gadael.",
+    "stopped": "Wedi stopio.",
+    "skip": "Neidio",
+    "save": "Cadw",
+    "saveGuard": "Dim ond sgyrsiau rhwng pobl y gellir eu cadw",
+    "youAreChattingWith": "Rydych chi'n sgwrsio gyda { {name}}",
+    "bot": "BOT",
+    "sayHi": "Dywed helo 👋",
+    "you": "Ti",
+    "typeMessage": "Teipio neges",
+    "send": "Anfon",
+    "partner": "Partner",
+    "gydaRia": "Gyda Ria",
+    "dechrauRia": "Yn dechrau sgwrs gyda Ria…",
+    "ymwadiadOedran": "Dim ond ystod oedran yr ydym yn ei storio (nid eich dyddiad geni union). Defnyddir hyn i gadw paru Sgwrs Ar Hap yn rhesymol. I baru â phobl (nid RiaBot yn unig), gosodwch eich band oedran yn Gosodiadau → Oedran a Sgwrs Ar Hap.",
+    "ageBandRequired": "Gosodwch eich ystod oedran yn Proffil → Oedran a Sgwrs Ar Hap i gael eich paru â phobl.",
+    "ageBandCallout": "I gael eich paru â phobl (nid RiaBot yn unig), gosodwch eich band oedran yn Gosodiadau → Oedran a Sgwrs Ar Hap."
+  },
+  "ria": {
+    "fallbackName": "yno",
+    "intro": "Helo 👋 Ria ydw i. Beth sydd ar dy feddwl?",
+    "greetings": {
+      "long1": "Helo {{name}} 👋 Dw i yma. Beth sydd ar dy feddwl?",
+      "long2": "Hi {{name}} 😊 Am beth hoffet ti siarad heddiw?",
+      "long3": "Hey {{name}}! Wrandaw'n astud ydw i — beth sy'n bod?",
+      "long4": "Braf dy weld di, {{name}} 👋 Beth sy'n bod ar dy feddwl heddiw?",
+      "long5": "Hei {{name}} 🙂 Wyt ti eisiau rhannu dy farn, gofyn cwestiwn, neu sgwrsio'n gyffredinol?",
+      "long6": "Helo {{name}}! Mae gen i amser — am beth hoffet ti siarad?",
+      "short1": "Hei {{name}}, dw i'n dal yma. Beth sy'n bod?",
+      "short2": "Croeso'n ôl {{name}} 👋 Oes unrhyw beth arall ti eisiau ei ychwanegu?",
+      "short3": " Yn ôl eto, {{name}}? 😊 Dywed wrthyf beth sydd ar dy feddwl.",
+      "short4": "Hei {{name}} ✨ Wedi barod i barhau o'r man lle gorffennon ni?",
+      "short5": "Ie {{name}}? Rwy'n gwrando 👂",
+      "short6": "O hei {{name}}! Oes rhywbeth newydd ar dy feddwl?"
+    },
+    "pennawd": {
+      "agorLlywio": "Agor y ddewislen llywio",
+      "closeNav": "Cau'r ddewislen llywio",
+      "homeAria": "Cartref Chatforia"
+    },
+    "login": {
+      "welcomeBack": "Croeso'n ôl",
+      "title": "Parhau i Chatforia",
+      "subtitleReturning": "Mewngofnodwch i'ch cyfrif Chatforia",
+      "google": "Parhau gyda Google",
+      "apple": "Parhau gydag Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Nid yw mewngofnodi Google ar gael",
+      "appleUnavailable": "Nid yw mewngofnodi Apple ar gael",
+      "ssoUnavailable": "Nid yw mewngofnodi sengl ar gael ar hyn o bryd. Defnyddiwch enw defnyddiwr a chyfrinair yn lle.",
+      "neu": "neu",
+      "accountLabel": "Cyfrif",
+      "identifierPh": "E-bost neu enw defnyddiwr",
+      "labelCyfrinair": "Cyfrinair",
+      "cyfrinairPh": "Eich cyfrinair",
+      "cadwMewngofnodedig": "Cadw fi'n fewngofnodedig",
+      "anghofio": "Anghofio cyfrinair?",
+      "ailanfonGwirio": "Ailanfon e-bost gwirio",
+      "cyflwyno": "Mewngofnodi",
+      "mewngofnodi": "Mewngofnodi...",
+      "gwirio": {
+        "sent": "Anfonwyd e-bost dilysu. Gwiriwch eich mewnflwch.",
+        "failed": "Methodd ag anfon yr e-bost dilysu eto."
+      },
+      "error": {
+        "missing": "Rhowch eich manylion mewngofnodi.",
+        "invalid": "Enw defnyddiwr neu gyfrinair anghywir",
+        "denied": "Gwrthodwyd mynediad.",
+        "anweithiadadwy": "Cais annilys. Gwiriwch eich enw defnyddiwr/e-bost a'ch cyfrinair.",
+        "terfynDyfais": "Cyrhaeddwyd y terfyn dyfeisiau ar gyfer y cynllun Rhad ac am ddim. Mewngofnodwch ar ddyfais arall neu uwchraddiwch i Premium i gysylltu mwy o ddyfeisiau.",
+        "gofynionpremium": "Mae'r weithred hon yn gofyn am gynllun Premium."
+      },
+      "anghofioCyfrinair": {
+        "teitl": "Anghofio Cyfrinair",
+        "helper": "Rhowch y cyfeiriad e-bost a ddefnyddioch i greu eich cyfrif Chatforia a byddwn yn anfon dolen ddiogel atoch i ailosod eich cyfrinair.",
+        "labelE-bost": "E-bost",
+        "deiliadE-bost": "you@example.com",
+        "emailAnghywir": "Rhowch gyfeiriad e-bost dilys.",
+        "gwallCyffredinol": "Analluog i brosesu'r cais. Rhowch gynnig eto ymhen eiliad.",
+        "anfon": "Yn anfon y ddolen ailosod...",
+        "anfonCTA": "Anfon Dolen Ailosod",
+        "sentLabel": "Anfonwyd!",
+        "sentHelper": "Os yw cyfrif yn bodoli gyda'r e-bost hwnnw, rydym wedi anfon dolen ailosod cyfrinair. Gall gymryd ychydig funudau i gyrraedd. Gwnewch yn siŵr eich bod yn gwirio'ch ffolder sbam neu hyrwyddiadau.",
+        "previewDev": "Rhagolwg E-bost (Dev)",
+        "backToLogin": "Yn ôl i Gofrestru"
+      },
+      "resetPassword": {
+        "title": "Ailgydio Cyfrinair",
+        "tokenArGoll": "Tocyn ailddechrau cyfrinair annilys neu ar goll.",
+        "helperTocynArGoll": "Tocyn annilys neu ar goll. Cysylltwch i ofyn am ddolen ailddechrau cyfrinair newydd.",
+        "anghydweddiadCyfrinair": "Nid yw'r cyfrineiriau'n cyfateb",
+        "llwyddiant": "Mae eich cyfrinair wedi'i hailosod yn llwyddiannus",
+        "gwallgyffredinol": "Gwall: Methu ag ailosod y gyfrinair.",
+        "labelcyfrinairnewydd": "Cyfrinair newydd",
+        "deiliadllecyfrinairnewydd": "Rhowch eich cyfrinair newydd",
+        "labelcadarnhaucyfrinair": "Cadarnhau'r cyfrinair newydd",
+        "deiliadllecyfrinaircadarnhau": "Ail-rwngwch eich cyfrinair newydd",
+        "adfer": "Yn adfer...",
+        "cyflwyno": "Adfer Cyfrinair",
+        "awgrymCyfrinairCryf": "Dewiswch gyfrinair cryf nad ydych yn ei ddefnyddio mewn mannau eraill."
+      }
+    }
+  },
+  "oauth": {
+    "cwblhau": " Cwblhau mewngofnodi…"
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Agor cymorth",
+    "badge": "Cymorth",
+    "heading": "Sut allwn ni helpu?",
+    "tabs": {
+      "help": "Canolfan Gymorth",
+      "contact": "Cysylltu â ni"
+    },
+    "searchPlaceholder": "Chwilio am erthyglau cymorth…",
+    "searchAria": "Chwilio am gymorth",
+    "searchBtn": "Chwilio",
+    "quickTopicsLabel": "Pynciau cyflym",
+    "quickTopics": {
+      "login": "Methu mewngofnodi",
+      "billing": "Taliadau / billing",
+      "abuse": "Adrodd am gam-drin"
+    },
+    "trySearching": "Rhowch gynnig ar chwilio am \"cyfieithu\", \"copïau wrth gefn\", neu \"preifatrwydd\".",
+    "article": "Erthygl",
+    "openArticle": "Agor erthygl",
+    "contactIntro": "Byddwn yn ceisio datrys hyn ar unwaith. Os na, bydd ein tîm yn dilyn i fyny.",
+    "topicAria": "Dewiswch bwnc",
+    "messagePlaceholder": "Ysgrifennwch eich neges…",
+    "sendBtn": "Anfon",
+    "sent": "Neges wedi'i hanfon. Byddwn yn ateb drwy e-bost.",
+    "sendError": "Methu anfon. E-bostiwch support@chatforia.com yn lle hynny.",
+    "actionCompleted": "Gweithred wedi'i chwblhau.",
+    "actionFailed": "Methu cwblhau'r weithred honno. Rhowch gynnig arall.",
+    "ticketCreated": "Ni allem ddatrys hyn yn awtomatig. Bydd ein tîm yn dilyn i fyny.",
+    "escalationMessage": "Ni allem ddatrys hyn yn awtomatig. Bydd ein tîm yn dilyn i fyny.",
+    "genericError": "Aeth rhywbeth o'i le. Rhowch gynnig arall.",
+    "analyzing": "Yn dadansoddi'ch problem...",
+    "takeAction": "Gweithredwch yr argymhelliad",
+    "resolvedInstantly": "Datrysiwyd y broblem ar unwaith — nid oes angen tocyn.",
+    "escalating": "Yn uwchgyfeirio at y tîm cymorth..."
+  },
+  "help": {
+    "title": "Cymorth",
+    "howCanWeHelp": "Sut allwn ni helpu?",
+    "helpCenter": "Canolfan Gymorth",
+    "contactUs": "Cysylltwch â ni",
+    "quickTopics": "Pynciau cyflym",
+    "searchExamples": "Rhowch gynnig ar chwilio am \"cyfieithu\", \"copïau wrth gefn\", neu \"preifatrwydd\".",
+    "methuMewngofnodi": "Methu mewngofnodi",
+    "taliadauBilio": "Taliadau/ bilio",
+    "reportAbuse": "Adrodd am gam-drin",
+    "searchHelpArticles": "Chwilio erthyglau cymorth",
+    "search": "Chwilio"
+  },
+  "helpCenter": {
+    "title": "Canolfan Gymorth",
+    "faq": {
+      "account": {
+        "q": "Sut ydw i'n creu neu adfer fy nghyfrif?",
+        "a": "Lawrlwythwch yr ap neu defnyddiwch y we, tapio \"Creu cyfrif\", dilysu eich e-bost/ffôn. I adfer, defnyddiwch \"Anghofio cyfrinair\"."
+      },
+      "privacy": {
+        "q": "A yw negeseuon wedi'u hamgryptio o benn i benn?",
+        "a": "Ydy. Mae negeseuon a galwadau wedi'u hamgryptio o benn i benn yn ddiofyn. Dim ond chi a'r derbynnydd all eu darllen."
+      },
+      "cyfieithu": {
+        "q": "Sut mae cyfieithu ar unwaith yn gweithio?",
+        "a": "Galluogi \"Hunan-gyfieithu\" yn Gosodiadau → Ymddangosiad ac Iaith. Rydym yn cyfieithu ar y ddyfais lle ceir cefnogaeth, fel arall trwy APIs diogel gyda metadata cyn lleied â phosibl."
+      },
+      "cysylltu": {
+        "q": "Cysylltu â chymorth",
+        "a": "Cysylltwch â ni yn support@chatforia.com. Cynhwyswch sgrinluniau a fersiwn eich ap."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Cychwyn arni",
+    "subtitle": "Newydd i Chatforia? Mae'r dechrau cyflym hwn yn dangos y pethau hanfodol fel y gallwch fod yn gynhyrchiol mewn munudau.",
+    "alert": {
+      "text": "Bydd y canllaw hwn yn tyfu wrth i ni lansio nodweddion newydd. Os oes rhywbeth ar goll, rhowch wybod i ni drwy",
+      "contactLink": "Cysylltu â Ni"
+    },
+    "section1": {
+      "title": "1) Creu eich cyfrif",
+      "signup": "Cofrestru",
+      "neu": "neu",
+      "mewngofnodi": "mewngofnodi",
+      "loginText": "gyda'ch cyfrif presennol.",
+      "prefsStart": "Yn yr ap, agorwch Osodiadau i osod eich dewisiadau",
+      "prefsLink": "dewisiadau",
+      "prefsRest": "(iaith, derbynnebion darllen, themâu)."
+    },
+    "section2": {
+      "title": "2) Dechrau negeseuon",
+      "item1": "Creu DM neu Grŵp a anfon eich neges gyntaf.",
+      "item2": "Defnyddiwch gyfieithu ar unwaith i sgwrsio ar draws 100+ o ieithoedd.",
+      "item3": " Rhowch gynnig ar negeseuon sy'n diflannu a derbynneb darllen yn Proffil → Preifatrwydd."
+    },
+    "section3": {
+      "title": "3) Ewch ymhellach",
+      "item1": "Gallwch uwchraddio i gynllun taledig unrhyw bryd o fewn yr ap.",
+      "item2": "Unwaith y byddwch wedi mewngofnodi, gallwch gysylltu dyfeisiau ychwanegol a sefydlu copïau wrth gefn wedi'u hamgryptio o Gosodiadau yn yr ap.",
+      "item2Part1": "Unwaith y byddwch wedi mewngofnodi, gallwch gysylltu dyfeisiau ychwanegol a sefydlu copïau wrth gefn wedi'u hamgryptio o'r Gosodiadau yn yr ap."
+    },
+    "cta": {
+      "seePlans": "Gweld cynlluniau a phrisiau",
+      "openSettings": "Agor gosodiadau",
+      "createAccount": " Creu cyfrif"
+    }
+  },
+  "howItWorks": {
+    "title": "Sut mae Chatforia'n Gweithio",
+    "intro": "Mae Chatforia wedi'i ddylunio i wneud cyfathrebu'n syml, yn gyflym, ac yn hygyrch. Dim ond ychydig o gamau sydd eu hangen i ddechrau.",
+    "step1Title": "1. Creu Cyfrif",
+    "step1Desc": "Cofrestrwch gan ddefnyddio'ch e-bost neu'ch enw defnyddiwr i greu eich cyfrif Chatforia.",
+    "step2Title": "2. Cychwyn Sgwrs",
+    "step2Desc": "Cysylltwch â phobl eraill drwy ddewis cysylltiadau neu ddechrau sgyrsiau newydd.",
+    "step3Title": "3. Negeseuon Amser Real",
+    "step3Desc": "Caiff negeseuon eu danfon yn gyflym i ddarparu profiad cyfathrebu llyfn.",
+    "step4Title": "4. Cyfathrebu Byd-eang",
+    "step4Desc": "Mae cyfieithu mewnol yn helpu defnyddwyr i gyfathrebu ar draws ieithoedd gwahanol.",
+    "step5Title": "5. Cadw Rheolaeth",
+    "step5Desc": "Rheoli'ch dewisiadau, cysylltiadau, a'ch gosodiadau cyfathrebu."
+  },
+  "safety": {
+    "title": "Canllawiau Diogelwch a Chymuned",
+    "intro": "Mae Chatforia wedi ymrwymo i gynnal amgylchedd diogel a pharchus i bob defnyddiwr. Mae'r canllawiau hyn yn helpu i sicrhau profiad cadarnhaol i bawb.",
+    "respectTitle": "Cyfathrebu Gwerthfawrogol",
+    "respectDesc": "Disgwylir i ddefnyddwyr gyfathrebu'n werthfawrogol. Ni chaniateir aflonyddu, cam-drin, nac ymddygiad niweidiol.",
+    "prohibitedTitle": "Cynnwys Gwaharddedig",
+    "prohibited": {
+      "illegal": "Gweithgareddau anghyfreithlon",
+      "aflonyddu": "Aflonyddu neu fwlio",
+      "casineb": "Araith casineb neu wahaniaethu",
+      "explicit": "Deunydd anweddus neu niweidiol",
+      "spam": "Sbam neu arferion twyllodrus"
+    },
+    "toolsTitle": "Offer Diogelwch Defnyddwyr",
+    "tools": {
+      "report": "Adrodd ar ymddygiad neu gynnwys amhriodol",
+      "block": "Blocio defnyddwyr i atal rhyngweithio pellach",
+      "control": "Rheoli gosodiadau preifatrwydd a chyfathrebu"
+    },
+    "enforcementTitle": "Gorfodi",
+    "enforcementDesc": "Gallwn gymryd camau yn erbyn cyfrifon sy'n torri'r canllawiau hyn, gan gynnwys rhybuddion, cyfyngiadau, neu gael eu tynnu oddi ar y platfform yn barhaol."
+  },
+  "blog": {
+    "pamMaeLlwyfannauNegeseuon": {
+      "teitl": "Pam Mae Llwyfannau Negeseuon yn Bwysicach Nag Erioed",
+      "cyflwyniad": "Mae llwyfannau negeseuon wedi dod yn un o'r offer pwysicaf ar gyfer cyfathrebu ym myd heddiw. O sgyrsiau personol i ryngweithiadau busnes, mae apiau negeseuon yn caniatáu i bobl aros yn gysylltiedig ar unwaith ac yn effeithlon.",
+      "everydayTitle": "CommuniCiad Bob Dydd",
+      "everydayDesc": "Mae pobl yn dibynnu ar apiau negeseuon ar gyfer cyfathrebu bob dydd gyda ffrindiau, teulu, a chydweithwyr. Boed yn ddiweddariad cyflym neu'n sgwrs hir, mae negeseuon yn darparu ffordd gyfleus a hyblyg o gadw mewn cysylltiad.",
+      "speedTitle": "Cyflymder a Hwylustod",
+      "speedDesc": "Un o brif fanteision llwyfannau negeseuon yw eu cyflymder. Caiff negeseuon eu danfon ar unwaith, gan ganiatáu i ddefnyddwyr gyfathrebu mewn amser real. Mae'r lefel hon o hwylustod wedi gwneud negeseuon y dull dewisol o gyfathrebu i lawer o bobl.",
+      "globalTitle": "Cyrhaeddiad Byd-eang",
+      "globalDesc": "Mae llwyfannau negeseuon yn cysylltu pobl ar draws y byd. Gyda mynediad i'r rhyngrwyd, gall defnyddwyr gyfathrebu waeth ble maen nhw, sy'n ei gwneud hi'n haws meithrin perthnasoedd a chydweithio'n rhyngwladol.",
+      "privacyTitle": "Preifatrwydd a Rheolaeth",
+      " privacyDesc": "Mae llwyfannau negeseuon modern yn canolbwyntio ar roi rheolaeth i ddefnyddwyr dros eu data a'u sgyrsiau. Mae nodweddion fel amgryptio, gosodiadau preifatrwydd, a rheolyddion negeseuon yn caniatáu i ddefnyddwyr gyfathrebu'n hyderus.",
+      "futureTitle": "Dyfodol Negeseuon",
+      "futureDesc": "Mae negeseuon yn parhau i esblygu gyda nodweddion newydd fel ymatebion wedi'u pweru gan AI, cyfieithu, a rhannu amgyfryngau. Wrth i dechnoleg ddatblygu, bydd llwyfannau negeseuon yn dod yn fwy pwerus ac amlbwrpas fyth.",
+      "outro": "Mae Chatforia wedi'i adeiladu gyda'r egwyddorion hyn mewn golwg, gan gynnig profiad negeseuon cyflym, diogel, a phrofiad negeseuon hawdd ei ddefnyddio ar gyfer byd cysylltiedig."
+    },
+    "global": {
+      "title": "Dyfodol Cyfathrebu Byd-eang",
+      "intro": "Mae cyfathrebu wedi esblygu'n gyflym dros y degawdau diwethaf. Yr hyn a oedd unwaith yn gofyn am alwadau ffôn neu mewn -gellir cynnal cyfarfodydd tri-pherson bellach yn gyflym trwy blatfformau negeseuon. Wrth i dechnoleg barhau i ddatblygu, mae cyfathrebu byd-eang yn mynd yn gyflymach, yn fwy hygyrch, ac yn fwy cynhwysol.",
+      "barriersTitle": "Torri i Lawr ar Rwystrau",
+      "barriersDesc": "Un o'r newidiadau mwyaf mewn cyfathrebu yw lleihau rhwystrau daearyddol. Gall pobl nawr gysylltu ag eraill ar draws y byd bron mewn amser real. Boed ar gyfer sgyrsiau personol, busnes, neu gydweithio, mae platfformau negeseuon wedi gwneud pellter yn llawer llai cyfyngol .",
+      "translationTitle": "Rôl Technoleg Cyfieithu",
+      "translationDesc": "Yn draddodiadol, mae iaith wedi bod yn un o'r rhwystrau mwyaf i gyfathrebu byd-eang. Heddiw, mae offer cyfieithu mewnol yn helpu i bontio'r bwlch hwnnw. Mae llwyfannau fel Chatforia yn caniatáu i ddefnyddwyr gyfathrebu'n haws hyd yn oed os siaradant wahanol ieithoedd, gan greu cyfleoedd newydd ar gyfer cysylltu a deall.",
+      "realtimeTitle": "Cysylltedd Amser Real",
+      "realtimeDesc": "Mae cyflymder yn ffactor allweddol sy'n llywio cyfathrebu modern. Mae defnyddwyr yn disgwyl i negeseuon gael eu danfon yn gyflym, ac mae seilwaith modern yn cefnogi'r disgwyliad hwnnw. Mae negeseuon amser real yn galluogi sgyrsiau mwy naturiol a llyfn.",
+      "privacyTitle": "Preifatrwydd a Diogelwch",
+      "privacyDesc ": "Wrth i gyfathrebu ddod yn fwy digidol, mae preifatrwydd a diogelwch yn fwyfwy pwysig. Mae defnyddwyr eisiau sicrwydd bod eu sgyrsiau'n cael eu diogelu. Mae nodweddion fel amgryptio a gosodiadau a reolir gan y defnyddiwr yn helpu i gefnogi profiad cyfathrebu mwy diogel.",
+      " futureTitle": "Beth Sydd i Ddod Nesaf",
+      "futureDesc": "Mae'n debyg y bydd dyfodol cyfathrebu byd-eang yn cynnwys offer mwy datblygedig, megis negeseuon gyda chymorth AI, cyfieithu gwell, a phrofiadau gwell i ddefnyddwyr. Wrth i dechnoleg esblygu, bydd cyfathrebu'n parhau i fod yn fwy greddfol a hygyrch.",
+      "outro": "Mae llwyfannau fel Chatforia yn rhan o'r newid hwn, gan helpu pobl i gysylltu'n haws ar draws ieithoedd a ffiniau."
+    },
+    "index": {
+      "title": "Blog Chatforia",
+      "intro": "Archwiliwch fewnwelediadau ar gyfathrebu, diogelwch ar-lein, a sut mae technoleg negeseuon yn cysylltu pobl ledled y byd.",
+      "post1": "Sut i Sgwrsio'n Ddiogel Ar-lein",
+      "post2": "Dyfodol Cyfathrebu Byd-eang",
+      "post3": "Pam Mae Platfformau Negeseuon yn Bwysig"
+    },
+    "chatSafely": {
+      "title": "Sut i Sgwrsio'n Ddiogel Ar-lein",
+      "intro": "Mae cyfathrebu ar-lein wedi ei gwneud hi'n haws nag erioed i gysylltu â phobl ar draws y byd. P'un a ydych yn anfon negeseuon at ffrindiau, yn cwrdd â phobl newydd, neu'n cydweithio'n broffesiynol, mae llwyfannau negeseuon yn chwarae rhan fawr ym mywyd bob dydd. Fodd bynnag, mae aros yn ddiogel ar-lein yr un mor bwysig ag aros yn gysylltiedig.",
+      "personalInfo": {
+        "title": " Diogelu Eich Gwybodaeth Bersonol",
+        "body": "Un o'r rheolau pwysicaf o ran diogelwch ar-lein yw osgoi rhannu gwybodaeth bersonol sensitif. Mae hyn yn cynnwys eich cyfeiriad cartref, manylion ariannol, cyfrineiriau, neu unrhyw wybodaeth adnabyddol a allai gael ei chamddefnyddio. Hyd yn oed mewn sgyrsiau anffurfiol, mae'n well bod yn ymwybodol o'r hyn rydych chi'n ei rannu a phwy rydych chi'n ei rannu ag ef."
+      },
+      "safetyFeatures": {
+        "title": "Defnyddiwch Nodweddion Diogelwch Mewnol",
+        "body": "Mae llwyfannau negeseuon modern fel Chatforia yn darparu offer i helpu defnyddwyr i aros yn ddiogel. Mae nodweddion fel rhwystro, adrodd, a rheolaethau preifatrwydd wedi'u cynllunio i roi rheolaeth i ddefnyddwyr dros eu profiad. Os bydd rhywun yn ymddwyn yn amhriodol neu'n gwneud i chi deimlo'n anghyfforddus, dylech ddefnyddio'r offer hyn ar unwaith."
+      },
+      "sgamiau": {
+        "teitl": "Byddwch yn Ymwybodol o Sgamiau",
+        "corff": "Mae sgamwyr yn aml yn defnyddio llwyfannau negeseuon i dwyllo defnyddwyr i rannu gwybodaeth bersonol neu anfon arian. Byddwch yn ofalus gyda negeseuon sy'n ymddangos yn ormod o dda i fod yn wir, megis cynigion annisgwyl, ceisiadau brys, neu ddolenni anghyfarwydd. Gwirhewch bob amser bwy yw'r person rydych yn cyfathrebu ag ef cyn cymryd unrhyw gamau."
+      },
+      "gyfrifol": {
+        "teitl": "Cyfleu'n Gyfrifol",
+        "corff": "Mae cyfathrebu parchus yn helpu i greu amgylchedd mwy diogel i bawb. Osgowch gymryd rhan mewn sgyrsiau niweidiol neu sarhaus, a byddwch yn ymwybodol o sut y gall eich geiriau effeithio ar eraill. Mae rhyngweithiadau cadarnhaol yn cyfrannu at brofiad gwell i bob defnyddiwr."
+      },
+      "pamDiogelwch": {
+        "teitl": "Pam Mae Diogelwch Ar-lein yn Bwysig",
+        "corff": "Wrth i gyfathrebu digidol barhau i dyfu, cynnal diogelwch ac ymddiriedaeth yn dod yn fwyfwy pwysig. Trwy ddilyn arferion diogelwch sylfaenol a defnyddio'r offer sydd ar gael, gall defnyddwyr fwynhau manteision negeseuon wrth leihau risgiau."
+      },
+      "casgliad": "Nid yw aros yn ddiogel ar-lein yn gofyn am wybodaeth dechnegol ddatblygedig—dim ond ymwybyddiaeth, gofal, a barn dda. Gyda'r arferion cywir, gallwch gyfathrebu'n hyderus ac yn ddiogel."
+    }
+  },
+  "am": {
+    "teitl": "Ynghylch Chatforia",
+    "disgrifiad": "Mae Chatforia yn negesydd aml-iaith diogel gyda chyfrinair o ben i ben, cyfieithu ar unwaith, a galwadau llais/fideo. Mae ein cenhadaeth yn syml: helpu pobl i gysylltu—yn ddiogel, yn breifat, ac ar draws ieithoedd.",
+    "valuesTitle": "Yr hyn rydym yn ei werthfawrogi",
+    "values": {
+      "privacy": "<b>Preifatrwydd yn gyntaf:</b> Amgryptio E2E yn ddiofyn.",
+      "access": "<b>Mynediad i bawb:</b> Cyfieithu 100+ o ieithoedd yn awtomatig.",
+      "control": "<b>Rheolaeth:</b> Mae negeseuon sy'n diflannu a derbynebau darllen yn ddewisol.",
+      "privacy_ aria": "Preifatrwydd yn gyntaf: Amgryptio E2E yn ddiofyn.",
+      "access_aria": "Mynediad i bawb: Trawsgrifio'n awtomatig dros 100 o ieithoedd.",
+      "control_aria": "Rheolaeth: Mae negeseuon sy'n diflannu a derbynebau darllen yn ddewisol."
+    },
+    "howTitle": "Sut mae Chatforia yn gweithio",
+    " howDescription": "Caiff negeseuon eu hamgryptio ar eich dyfais cyn iddynt ei gadael. Mae cyfieithu, copïau wrth gefn, a chydamseru dyfeisiau wedi'u dylunio i leihau'r hyn y gall ein gweinyddion ei weld."
+  },
+  "press": {
+    "title": "Y Wasg",
+    "contactLine": "Am ymholiadau'r cyfryngau, cysylltwch â ni yn",
+    " boilerplateTitle": "Testun parod",
+    "boilerplateBody": "Mae Chatforia yn ap negeseuon sy'n rhoi preifatrwydd yn gyntaf, gan wneud sgwrsio traws-iaith yn ddiymdrech. Mae negeseuon wedi'u hamgryptio o benn i benn yn ddiofyn, ac mae'r gyfieithiad adeiledig yn cefnogi 100+ o ieithoedd mewn amser real. Gall defnyddwyr alluogi negeseuon sy'n diflannu, cadw derbynneb darllen yn ddewisol, a chydamseru ar draws dyfeisiau. Ar gael ar iOS, Android, a'r we.",
+    "assetsTitle": " Asedau brand",
+    "assetsSubtitle": "Logoau, sgrinluniau, a delweddau cynnyrch.",
+    "downloadCta": "Lawrlwytho'r pecyn cyfryngau",
+    "downloadTitle": "Cael yr ap",
+    "scanTip": "Ar y bwrdd gwaith? Sganiwch gyda'ch ffôn i gael yr ap.",
+    "qrAria": "Agor gwefan Chatforia",
+    "appStore": "Lawrlwytho ar yr App Store",
+    "googlePlay": "Cael ar Google Play"
+  },
+  "careers": {
+    "title": "Cyrchfannau",
+    "intro": "Rydym yn dîm sefydlu bach sy'n adeiladu Chatforia — negesydd preifat, byd-eang sy'n lansio ar y we, iOS, ac Android. Os ydych chi'n poeni am breifatrwydd, amgryptio, a phrofiadau defnyddwyr hyfryd, byddem wrth ein bodd yn clywed gennych.",
+    "openRoles": "<b>Swyddi sefydlu agored:</b> Prif Beiriannydd Stac Llawn, Peiriannydd Cefn-ben (Node.js), Blaen-ben/ Peiriannydd Gwe (React), Peiriannydd Symudol (iOS), Peiriannydd Symudol (Android), DevOps/SRE, Peiriannydd Diogelwch ac Amgryptio, Peiriannydd Telegyfathrebu (Twilio + eSIM).",
+    "apply": "Sut i wneud cais: Defnyddiwch y botwm isod i e-bostio'ch CV a'ch dolenni.",
+    "emailCta": "E-bostiwch eich CV",
+    "whyNow": "Pam ymuno nawr?",
+    "whyBullets": "• Helpwch i adeiladu sylfaen negesydd byd-eang newydd.\n• Cyflwyno gwelliannau a ddefnyddir ar draws y we, iOS, ac Android.\n• Gweithio'n uniongyrchol gyda'r sylfaenydd ar bensaernïaeth a chyfeiriad y cynnyrch.\n• Berchnogi meysydd uchel eu heffaith yn y stac: negeseuon, llais, fideo, amgryptio, telegyfathrebu, AI.\n• Ymunwch ar y dechrau — cyn i'r nifer o ddefnyddwyr gynyddu."
+  },
+  "advertise": {
+    "title": "Hysbysebu gyda Chatforia",
+    "description": "Cyrhaeddwch ddefnyddwyr negeseuon ymgysylltiedig gyda lleoliadau chwaethus, sy'n ddiogel i'r brand. Rydym yn cynnig stoc baneri mewn mannau gwelededd uchel, nawdd, a hyrwyddiadau mewnol. Nid yw tanysgrifwyr premiwm yn gweld hysbysebion.",
+    "adsense": {
+      "withPubIdShort": "Rydym hefyd yn gweini stoc drwy Google AdSense. Gallwch dargedu Chatforia gyda ID cyhoeddwr {{pub Id}}, neu defnyddiwch y ffurflen isod ar gyfer nawdd uniongyrchol.",
+      "noPubIdShort": "Rydym hefyd yn gweini peth stoc drwy Google AdSense. Mae nawdd uniongyrchol ar gael—defnyddiwch y ffurflen isod."
+    },
+    "inventoryHeader": "Stoc & Manylebau",
+    "placement": {
+      " displayBadge": "Arddangos",
+      "acceptedSizes": "Meintiau a dderbynnir",
+      "adsenseSlot": "Slot AdSense:"
+    },
+    "noPlacementsPublic": "Rydym yn cwblhau ein stoc hysbysebion. Dywedwch wrthym am eich ymgyrch a byddwn yn argymell lleoliadau.",
+    "whyHeader": "Pam Chatforia?",
+    "why": {
+      "highSession": "Amlder sesiynau uchel ac amser aros hir yn y UI sgwrsio",
+      "brandSafe": "Fformatau diogel i'r brand; capio amlder parchus",
+      "sponsoredMoments": "Amseroedd noddedig (e.e., modal \"Cychwyn Sgwrs\") ar gael",
+      "deals": "Cytundebau uniongyrchol neu raglennol drwy AdSense/Google Ads"
+    },
+    "contactHeader": "Cyswllt",
+    "form": {
+      "submittedMsg": "Diolch! Mae eich ymholiad ar ei ffordd. Byddwn yn cysylltu'n fuan.",
+      "missingRequired": "Llenwch enw, e-bost, a neges, os gwelwch yn dda.",
+      "successToast": "Diolch! Byddwn yn cysylltu'n fuan.",
+      "mailtoInfo": "Yn agor eich cleient e-bost i anfon yr ymholiad…",
+      "nameLabel": "Eich enw",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "E-bost",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Cwmni",
+      " companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Cyllideb fisol (dewisol)",
+      "budgetPlaceholder": "e.e. $1,000–$20,000+",
+      "messageLabel": "Dywedwch wrthym am eich ymgyrch",
+      "messagePlaceholder": "Targedu, dyddiadau, KPIs, dewisiadau lleoli…",
+      "sendCta": "Anfon ymholiad"
+    },
+    "legal": {
+      "disclaimerStart": "Drwy gyflwyno, rydych yn cytuno â'n",
+      "termau": "Telerau",
+      "a": "a",
+      "preifatrwydd": "Polisi Preifatrwydd"
+    }
+  },
+  "cyswllt": {
+    "teitl": "Cysylltu â Ni",
+    "successMsg": "Diolch—bydd ein tîm yn ateb drwy e-bost.",
+    "errorSend": "Ni ellid anfon. Anfonwch e-bost at support@chatforia.com.",
+    "form": {
+      "nameLabel": "Enw",
+      "emailLabel": "E-bost",
+      "messageLabel": "Neges",
+      "sendCta": "Anfon"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Polisi Preifatrwydd",
+    "lastUpdated": "Diweddarwyd ddiwethaf:",
+    "intro": {
+      "body": "Mae'r Polisi Preifatrwydd hwn yn esbonio sut mae Chatforia (\"ni\") yn casglu, defnyddio, a rhannu gwybodaeth pan fyddwch yn defnyddio ein apiau a'n gwasanaethau. Rydym yn dylunio Chatforia i leihau'r data y gallwn ei gyrchu."
+    },
+    "infoWeCollect": {
+      "title": "Gwybodaeth rydym yn ei chasglu",
+      "cyfrif": "Gwybodaeth cyfrif (e.e., e-bost/ffôn) i greu a diogelu eich cyfrif.",
+      "amgryptiedig": "Mae cynnwys wedi'i amgryptio (negesau/galwadau) wedi'i amgryptio o benn i benn; ni allwn ei ddarllen.",
+      "diagnosteg": "Diagnosteg/defnydd fel logiau chwalu, math o ddyfais, neu ddadansoddeg fras i wella perfformiad."
+    },
+    "sms": {
+      "title": "Niferoedd ffôn symudol ac SMS",
+      "body": "Os byddwch yn dewis darparu rhif ffôn symudol, rydym yn ei ddefnyddio i alluogi nodweddion fel dilysu cyfrif, hysbysiadau mewngofnodi, a negeseuon rhwng defnyddwyr drwy SMS lle ceir ei gefnogi. Efallai y byddwn yn anfon negeseuon SMS trafodol sy'n ymwneud â'ch cyfrif a'ch gweithgarwch ar Chatforia. Gallwch optio allan o dderbyn negeseuon SMS ar unrhyw amser drwy ymateb â geiryn allwedair optio allan a gefnogir (fel \"STOP\") neu drwy newid eich dewisiadau hysbysu yn yr ap. Nid ydym yn gwerthu eich rhif ffôn nac yn ei ddefnyddio ar gyfer marchnata amherthnasol.",
+      "newText": "Testun newydd",
+      "enterRecipient": "Rhowch enw neu rif",
+      "typeMessage": "Teipiwch neges…",
+      "addRecipient": "Ychwanegwch dderbynnydd uchod i ddechrau…"
+    },
+    "howWeUse": {
+      "title": "Sut rydym yn defnyddio gwybodaeth ",
+      "darparu": "Darparu a sicrhau'r gwasanaeth (dilysu, canfod sbam/cam-drin).",
+      "gwella": "Gwella nodweddion (ansawdd cyfieithu, dibynadwyedd).",
+      "cyfreithiol": "Cydymffurfio â rhwymedigaethau cyfreithiol."
+    },
+    "rhannu": {
+      "teitl": "Rhannu",
+      "corff": "Nid ydym yn gwerthu data personol. Efallai y byddwn yn rhannu data cyfyngedig gyda phroseswyr (e.e., hysbysiadau gwthio, dadansoddeg) o dan gontractau llym."
+    },
+    "hawliau": {
+      "teitl": "Eich hawliau",
+      "corff": "Yn dibynnu ar eich rhanbarth (e.e., GDPR/UK GDPR/CPRA), gallwch ofyn am fynediad, cywiro, dileu, neu optio allan o brosesu penodol. Cyswllt: privacy@chatforia.com."
+    },
+    "cadw ": {
+      "title": "Cadw a diogelwch data",
+      "body": "Rydym yn cadw dim ond yr hyn sydd ei angen i weithredu'r gwasanaeth a chymhwyso diogelwch safonol y diwydiant. Ni allwn ddatgyfrifo cynnwys E2E."
+    },
+    "plant": {
+      "title": "Plant",
+      "body": "Nid yw Chatforia wedi'i anelu at blant dan 13 oed (neu fel y gofynnir gan eich cyfraith leol)."
+    },
+    "newidiadau": {
+      "title": "Newidiadau",
+      "body": "Byddwn yn postio diweddariadau yma ac yn diwygio'r dyddiad \"Diweddarwyd ddiwethaf\"."
+    },
+    "contact": {
+      "title": "Cyswllt",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Telerau'r Gwasanaeth",
+    "lastUpdated": "Diweddarwyd ddiwethaf:",
+    "intro": {
+      " body": "Trwy ddefnyddio Chatforia rydych yn cytuno i'r Telerau hyn. Os nad ydych yn cytuno, peidiwch â defnyddio'r gwasanaeth."
+    },
+    "cyfrifon": {
+      "teitl": "Cyfrifon",
+      "itemGwybodaethGywir": " Darparwch wybodaeth gywir a chadwch fanylion mewngofnodi'n ddiogel.",
+      "itemCyfrifoldeb": "Rydych chi'n gyfrifol am y gweithgarwch ar eich cyfrif."
+    },
+    "defnydd derbyniol": {
+      "teitl": "Defnydd derbyniol",
+      "itemDimCamdrin": "Dim cynnwys anghyfreithlon, sarhaus, neu sy'n torri hawlfraint; dim sbam na chamdriniaeth awtomataidd.",
+      "itemAtal": "Gallwn atal/derfynu am dorri'r telerau."
+    },
+    "sms": {
+      "title": "Cyfathrebiadau SMS",
+      "body": "Os byddwch yn darparu rhif ffôn symudol, rydych yn cytuno y gall Chatforia anfon negeseuon SMS atoch sy'n ymwneud â'ch cyfrif a'ch defnydd o'r gwasanaeth, megis hysbysiadau mewngofnodi, hysbysiadau diogelwch, a negeseuon sy'n ymwneud â sgyrsiau rydych yn eu cychwyn neu'n cymryd rhan ynddynt. Nid ydym yn defnyddio SMS ar gyfer negeseuon hyrwyddo neu farchnata heb eich caniatâd penodol. Gall cyfraddau negeseuon a data safonol fod yn berthnasol. Gallwch optio allan o negeseuon SMS ar unrhyw adeg drwy ateb gyda geiryn allwedd optio allan a gefnogir (er enghraifft, \"STOP\") neu drwy ddiweddaru eich gosodiadau hysbysu yn yr ap."
+    },
+    "yourContent": {
+      "title": "Eich cynnwys",
+      "body": "Rydych yn cadw hawliau i'ch cynnwys. Rydych yn rhoi i ni'r hawliau angenrheidiol i weithredu'r gwasanaeth (e.e., llwybro, storio, cyfieithu)."
+    },
+    "disclaimer": {
+      "title": "Ymwadiadau a rhwymedigaeth",
+      "body": "Darperir y gwasanaeth \"fel y mae\" heb warantau. I'r graddau eithaf a ganiateir gan y gyfraith, nid yw Chatforia yn atebol am iawndal anuniongyrchol neu ganlyniadol."
+    },
+    "newidiadau": {
+      "title": "Newidiadau",
+      " body": "Gallwn ddiweddaru'r telerau hyn; mae parhau i ddefnyddio ar ôl newidiadau yn golygu derbyn."
+    },
+    "contact": {
+      "title": "Cyswllt",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Polisi Ad-daliadau",
+    "lastUpdated": "Diweddarwyd ddiwethaf:",
+    "intro": "Yn Chatforia, rydym yn ymdrechu i ddarparu gwasanaeth o ansawdd uchel i bob defnyddiwr. Mae'r Polisi Ad-daliadau hwn yn amlinellu pryd y gellir rhoi ad-daliadau.",
+    "tanysgrifiadau": {
+      "teitl": "Tanysgrifiadau",
+      "corff": "Caiff tanysgrifiadau eu bilio ymlaen llaw ar sail gylchol. Gallwch ganslo ar unrhyw adeg drwy osodiadau eich cyfrif neu'r platfform a ddefnyddiwyd i brynu."
+    },
+    "cymhwysedd": {
+      "title": "Cymhwysedd Ad-daliad",
+      "body": "Gellir rhoi ad-daliadau am daliadau dyblyg, gwallau bilio, neu broblemau technegol sy'n atal mynediad i nodweddion taledig. Caiff pob cais ei adolygu fesul achos."
+    },
+    "anad-daliadwy": {
+      "title": "Anad-daliadwy",
+      "body": "Fel arfer, nid ydym yn rhoi ad-daliadau am amser heb ei ddefnyddio, cyfnodau tanysgrifio rhannol, neu fethu â chanslo cyn adnewyddu."
+    },
+    "thirdParty ": {
+      "title": "Pryniannau gan Drydydd Partïon",
+      "body": "Os prynwyd drwy lwyfannau trydydd parti fel Siop Apiau Apple, rhaid gofyn am ad-daliadau yn uniongyrchol drwy'r llwyfannau hynny."
+    },
+    "contact": {
+      "title": "Cyswllt",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, UDA"
+    }
+  },
+  "doNotSell": {
+    "title": "Peidiwch â Gwerthu na Rhannu Fy Ngwybodaeth Bersonol",
+    "body": "Nid yw Chatforia yn gwerthu gwybodaeth bersonol. Gall preswylwyr California ddal i gyflwyno ceisiadau o dan CPRA gan ddefnyddio'r botwm isod.",
+    "cta": "Cyflwyno cais"
+  },
+  "cookies": {
+    "title": "Gosodiadau Cwcis",
+    "body": "Mae Chatforia yn defnyddio cwcis minimol (e.e., sesiwn, diogelwch). Nid ydym yn defnyddio cwcis hysbysebion trydydd parti. Rheolwch gwcis drwy osodiadau eich porwr."
+  },
+  "premiumGuard": {
+    "requiresPremium": "Mae'r nodwedd hon yn gofyn am gynllun Premiwm."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — Polisi SMS a Chydsynio",
+    "lastUpdated": "Diweddarwyd ddiwethaf:",
+    "whatWeSend": {
+      "title": "Beth rydym yn ei anfon",
+      "body": "Dim ond negeseuon SMS sy'n ymwneud â chyfrif ac â sgwrsio y mae Chatforia yn eu hanfon i rifau ffôn y mae defnyddiwr wedi'u darparu'n benodol ac wedi cydsynio iddynt. Mae negeseuon nodweddiadol yn cynnwys codau mewngofnodi/gwirio, hysbysiadau am ddosbarthiad negeseuon, hysbysiadau diogelwch, a diweddariadau cyfrif trafodiadol."
+    },
+    "optIn": {
+      "title": "Sut mae defnyddwyr yn optio i mewn",
+      "body": "Mae defnyddwyr yn optio i mewn drwy nodi eu rhif ffôn wrth gofrestru a thicio'r blwch cydsyniad SMS ar y dudalen gofrestru neu'r ffurflen optio i mewn bwrpasol",
+      "link": "ffurflen optio i mewn"
+    },
+    "optOut": {
+      "title": "Sut mae defnyddwyr yn optio allan",
+      "stop": "Ateb STOP i unrhyw SMS Chatforia i optio allan.",
+      "start": "Ateb START i ail-danysgrifio.",
+      "contactPrefix": "Cysylltwch â'r tîm cymorth yn"
+    },
+    "help": {
+      "title": "Cymorth",
+      "bodyPrefix": "Ateb HELP am gymorth neu e-bostiwch"
+    },
+    "privacyTerms": {
+      "title": "Preifatrwydd a Thelerau",
+      "bodyStart": "Drwy gydsynio i SMS, mae defnyddwyr hefyd yn cytuno i'n",
+      "terms": "Telerau Gwasanaeth",
+      "and": "a",
+      "preifatrwydd": "Polisi Preifatrwydd"
+    },
+    "gwaelod": "© 2026 Chatforia Inc."
   }
 }

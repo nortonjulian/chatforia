@@ -2,81 +2,152 @@
   "common": {
     "save": "Sove",
     "cancel": "Anile",
-    "refresh": "Rafrechi",
-    "noMatches": "Pa gen matche",
+    "refresh": "Mizajou",
+    "noMatches": "Pa gen okenn rezilta",
     "cancelAria": "Anile",
     "copy": "Kopye",
     "copied": "Kopye!",
-    "errorWithMessage": "Erè: {{message}}"
+    "errorWithMessage": "Erè: { {message}}",
+    "loading": "Ap chaje…",
+    "saveError": "Anrejistreman an echwe"
   },
   "a11y": {
-    "skipToMain": "Sote nan kontni prensipal"
+    "skipToMain": "Ale nan kontni prensipal la"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Backup kle kreye epi telechaje ✓",
-    "restored": "Backup kle restore ✓ Kle enstale lokalman",
-    "noBackup": "Pa gen backup chifre ki egziste pou kont sa a",
-    "missingPublicKey": "Backup manke yon kle piblik"
+    "backupCreated": "Kopi sekirite kle a kreye epi telechaje ✓",
+    "restored": "Kopi sekirite kle a restore ✓ Kle yo enstale lokalman",
+    "noBackup": "Pa gen okenn kopi sekirite ankripte pou kont sa a",
+    "missingPublicKey": "Kopi sekirite a manke yon kle piblik"
   },
   "keySetup": {
-    "title": "Konfigire kle aparèy ou yo",
-    "description": "Aparèy sa a pa gen kle prive ou ankò. Enpòte yon backup ki pwoteje ak modpas, oswa jenere yon nouvo pè kle (ou pral kapab li nouvo mesaj depi kounye a).",
+    "title ": "Konfigire kle aparèy ou an",
+    "description": "Aparèy sa a poko gen kle prive ou a. Enpòte yon sovgad ki pwoteje ak modpas, oswa jenere yon nouvo pè kle (w ap kapab li nouvo mesaj apati kounye a).",
     "chooseFile": "Chwazi yon fichye epi antre modpas la.",
-    "imported": "Kle prive enpòte sou aparèy sa a. Ou ka li ansyen mesaj kounye a.",
-    "enterPassword": "Antre modpas kont ou pou nou ka backup kle yo an sekirite."
+    "Enpòte": "Kle prive a enpòte sou aparèy sa a. Ou ka li ansyen mesaj yo kounye a.",
+    "antreModpas": "Antre modpas kont ou a pou nou ka fè yon kopi sekirite kle ou yo an sekirite."
+  },
+  "rekiperasyonChifreman": {
+    "tit": "Jere Chifreman",
+    "deskripsyon": "Fè yon kopi sekirite, retabli, debloke, oswa reini kle chifreman ou an.",
+    " alèt": {
+      "titKleObjektif": "Kle chifreman obligatwa",
+      "KòKleObjektif": "Navigatè sa a pa ka dechifre mesaj ou yo ki chifre kounye a. Restore, debloke, oswa reiniisye kle ou a pou kontinye."
+    },
+    "seksyon": {
+      "kreyeSovgad": "Kreye sovgad kle",
+      "restoreApatiSovgad": "Restore apati sovgad kont la",
+      "reiniisyeChifreman": "Reiniisye chifreman"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Kòd deblòkaj (aparèy aktyèl la)",
+        "description": "Sèvi pou debloke kle ou yo lokalman anvan ou ekspòte yo"
+      },
+      "backupPassword": {
+        "label": "Modpas sekou",
+        "description": "Sèvi pou ankripte fichye sekou a"
+      },
+      "restoreBackupPass word": {
+        "label": "Modpas sekou",
+        "description": "Modpas ou te kreye lè w t ap fè sekou kle w la sou iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Nouvo modpas lokal",
+        "description": "Pwoteje kle yo lè yo an repo sou navigatè sa a"
+      },
+      "resetLocalPasscode": {
+        "label": "Nouvo kòd sekirite lokal",
+        "description": "Ou dwe fè sa anvan ou re-mete l pou nouvo kle a ka pwoteje sou aparèy sa a"
+      }
+    },
+    "actions": {
+      "unlockKey": "Devwale kle ankriptaj la",
+      "restoreFromBackup": " Restoure apati sovgad kont lan",
+      "resetEncryption": "Reinisye Chifreman"
+    },
+    "messages": {
+      "backupCreated": "Sovgad kle a kreye epi telechaje.",
+      "keyUnlocked": "Kle chifreman an debloke.",
+      "keyRestored": "Kle a restore apati sovgad kont lan.",
+      "resetSuccess": "Reinisyalizasyon ankriptaj la reyisi."
+    },
+    "errors": {
+      "restoreIncomplete": "Restaurasyon kle a enkonplè oswa pa kòrèk pou kont sa a",
+      "noBackup": "Pa gen okenn backup ki ankripte pou kont sa a",
+      "klePiblikMank": "Backup la manke yon kle piblik",
+      "paGenKlePiblikSèvè": "Kont sa a pa gen yon kle piblik sèvè pou kounye a",
+      "backupSèvèPaKoresponn": "Backup sèvè a pa koresponn ak kle ankriptaj aktyèl kont lan",
+      "metadataEnkomple": "Metadata backup la enkonplè",
+      "retablismanPaKonplè": "Retablisman ankriptaj la pa t konplete kòrèkteman "
+    },
+    "confirm": {
+      "reset": "Reinisyalize chifreman pou kont sa a?\n\nMesaj ki te chifre anvan yo ka vin pa lizib sof si w restore kle orijinal la pita."
+    },
+    "resetDescription": "Sa a jenere yon nouvo kle chifreman pou kont ou a. Mesaj ki te chifre anvan yo ka vin pa lizib sof si w restore kle orijinal la pita."
+  },
+  "smsConsent": {
+    "label": "Mwen dakò pou m resevwa notifikasyon ak alèt SMS ki soti nan {{companyName}}. Frekans mesaj yo ka varye. Frè mesaj ak done ka aplike. Reponn <stop>STOP</stop> pou dezabòne nenpòt ki lè. Reponn <help>HELP</help> pou jwenn èd."
+  },
+  "phoneField": {
+    "label": "Telefòn",
+    "invalid": "Nimewo telefòn ki pa valab",
+    "hint": "Enkli kòd peyi a si sa nesesè (pa egzanp, +1 415…)"
   },
   "auth": {
-    "headline": "Mesaj sekirite pou nenpòt moun, nenpòt kote",
-    "description": "Chifreman bout-a-bout, tradiksyon nan 100+ lang, mesaj ki disparèt, ak apèl vwa/videyo.",
-    "feature": {
-      "encryption": "Chifreman bout-a-bout pa default",
-      "translation": "Tradiksyon mesaj entelijan entegre",
-      "disappearing": "Mesaj ki disparèt & resi lekti",
-      "privacy": "Prive premye. Done ou yo, kontwòl ou.",
-      "translate": "Tradiksyon mesaj entelijan entegre",
-      "disappear": "Mesaj ki disparèt",
-      "privacyAlt": "Konsepsyon prive premye",
-      "seePlans": "Wè plan & pri"
+    "tit": "Mesajri sekirifye pou tout moun, toupatou",
+    "deskripsyon": "Chifreman bout-a-bout, tradiksyon nan plis pase 100 lang, mesaj k ap disparèt, ak apèl vwa/videyo.",
+    "karakteristik": {
+      "chifreman": "Chifreman bout-a-bout pa defo",
+      "tradiksyon": "Tradiksyon mesaj entèlijan ki entegre",
+      "disparèt": "Mesaj k ap disparèt",
+      "privacy": "Konfidansyalite an premye. Done w, kontwòl ou.",
+      "konfidansyaliteAlt": "Konsepsyon ki bay konfidansyalite an premye",
+      "gadePlan": "Gade plan ak pri yo"
     },
-    "hero": {
-      "line1": "Mesaj sekirite pou nenpòt moun, nenpòt kote — avèk",
-      "em": "tradiksyon nan 100+ lang",
-      "sub": "Jwenn yon nimewo telefòn sekirite gratis pou rele epi voye tèks atravè mond lan sou Wi-Fi oswa done. Jwi chifreman bout-a-bout, mesaj ki disparèt, ak apèl vwa/videyo HD — avèk zouti entegre ki ede ou rete konekte atravè fwontyè.",
-      "freeNote": "Apèl ak tèks debaz yo gratis. AI avanse ak fonksyon prim mande yon ajou."
+    "ewo": {
+      "liy1": "Mesajri sekirize pou nenpòt moun, nenpòt kote — avèk",
+      "em": "tradiksyon nan plis pase 100 lang",
+      "sub": "Jwenn yon nimewo telefòn sekirize gratis pou rele ak voye mesaj atravè lemond sou Wi-Fi oswa done. Pwofite chifreman bout-a-bout, mesaj k ap disparèt, ak apèl vwa/videyo HD — avèk zouti entegre ki ede w rete konekte atravè fwontyè yo.",
+      "freeNote": "Apèl ak mesajri debaz yo gratis. AI avanse ak opsyon prim yo mande pou w fè yon amelyorasyon."
     },
     "feat": {
-      "encryption": "Chifreman bout-a-bout, toujou aktif",
-      "translate": "Kraze baryè lang nan konvèsasyon ou yo",
-      "disappear": "Mesaj ki disparèt & resi lekti",
-      "privacy": "Prive premye. Done ou yo, kontwòl ou."
+      "encryption": "Chifreman bout-a-bout, toujou aktive",
+      "translate": "Frase baryè lang yo nan konvèsasyon w yo",
+      "disappear": "Mesaj k ap disparèt & resi lekti",
+      "privacy": "Konfidansyalite an premye. Done w yo, se ou ki gen kontwòl. "
     },
     "continueGoogle": "Kontinye ak Google",
     "continueApple": "Kontinye ak Apple",
     "username": "Non itilizatè",
     "password": "Modpas",
     "keepSignedIn": "Kenbe m konekte",
-    "forgotPassword": "Bliye modpas?",
+    "forgotPassword": "Ou bliye modpas ou?",
     "loginButton": "Konekte",
-    "createAccount": "Kreye yon kont",
-    "freeAccountButton": "Kreye kont gratis",
-    "newHere": "Nouvo isit?",
-    "getApp": "Jwenn app la",
-    "desktopTip": "Sou desktop? Eskane ak telefòn ou pou jwenn app la.",
-    "scanHelper": "Sou desktop? Eskane ak telefòn ou pou jwenn app la.",
-    "goHome": "Ale nan kay",
-    "home": "Kay",
-    "headlineAlt": {
-      "main": "Mesaje sekirite ki",
-      "highlight": "pale lang ou"
+    "kreyeKont": "Kreye yon kont",
+    "boutonKontGratis": "Kreye kont gratis",
+    "nouvoIsit": "Nouvo isit la?",
+    "getApp": "Jwenn aplikasyon an",
+    "desktopTip": "Sou òdinatè? Skane ak telefòn ou pou jwenn aplikasyon an.",
+    "scanHelper": "Sou òdinatè? Skane ak telefòn ou pou jwenn aplikasyon an.",
+    "goHome": "Ale lakay",
+    "home": "Akèy",
+    "titAlt": {
+      "prensipal": "Mesaje sekirize ki",
+      "anfaz": "pale lang ou"
     },
-    "subhead": "Mesaj prive, chifre, ak tradui — imedyatman.",
-    "upgrade": "Ajou kounye a",
-    "tip": "Tip: Sèvi ak menm kont sou wèb ak mobil. Mesaj ou yo rete senkronize.",
-    "openDownload": "Louvri paj telechajman",
+    "subhead": "Mesajri prive, ankripte, ak tradui — enstantane.",
+    "upgrade": "Fè yon amelyorasyon kounye a",
+    "tip": "Konsèy: Sèvi ak menm kont lan sou entènèt ak mobil. Mesaj ou yo rete senkronize.",
+    "openDownload": "Ouvri paj telechajman an",
     "qrAlt": "Kòd QR pou Chatforia",
-    "scanHint": "Eskane pou telechaje app la oswa louvri nan navigatè ou.",
-    "iosAria": "Telechaje sou App Store",
-    "iosTitle": "Telechaje sou App Store",
+    "scanHint": "Eskane pou telechaje aplikasyon an oswa louvri l nan navigatè w la.",
+    "iosAria": "Telechaje sou App Store la",
+    "iosTitle": "Telechaje sou App Store la",
     "iosBadgeAlt": "Badj App Store",
     "androidAria": "Jwenn li sou Google Play",
     "androidTitle": "Google Play Store",
@@ -85,307 +156,194 @@
     "signup": "Enskri",
     "email": "Imèl",
     "registration": {
-      "passwordDescription": "Minimòm 6 karaktè. Sèvi ak yon modpas fò, inik.",
-      "smsConsent": "Lè ou kreye yon kont, ou dakò resevwa notifikasyon SMS ki gen rapò ak aktivite Chatforia ou (tankou mesaj soti nan lòt itilizatè yo). Pri mesaj & done ka aplike. Ou ka sispann nenpòt lè nan Paramèt.",
-      "termsLink": "Tèm Sèvis",
-      "privacyLink": "Politik Konfidansyalite"
+      "passwordDescription": "Minimòm 6 karaktè. Sèvi ak yon modpas ki solid e ki inik.",
+      " smsConsent": "Lè w kreye yon kont, ou dakò pou w resevwa notifikasyon SMS ki gen rapò ak aktivite w sou Chatforia (tankou mesaj ki soti nan lòt itilizatè). Frè mesaj ak done ka aplike. Ou ka dezabòne nenpòt ki lè nan Paramèt yo.",
+      "termsLink": "Kondisyon Sèvis",
+      "privacyLink": "Règleman sou Konfidansyalite"
     },
-    "to": "Pou:",
-    "enterRecipient": "Antre yon non oswa yon nimewo",
-    "clearRecipients": "Efase moun k ap resevwa yo",
+    "bay": "Bay:",
+    "antreResipyan": "Antre yon non oswa yon nimewo",
+    "netwayeResipyan": "Netwaye resipyan yo",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Tape yon mesaj…",
-    "addRecipient": "Ajoute yon moun k ap resevwa anwo a pou kòmanse…",
-    "oneRecipient": "Tanpri antre yon sèl moun k ap resevwa pou kounye a.",
-    "enterValidRecipient": "Antre yon non kontak ki sove oswa yon nimewo telefòn.",
-    "sendFailed": "Voye echwe. Tcheke konsole pou detay."
+    "ekriMesaj": "Ekri yon mesaj…",
+    "ajouteResipyan": "Ajoute yon resipyan anlè a pou kòmanse…",
+    "oneRecipient": "Tanpri antre yon sèl reseptè pou kounye a.",
+    "enterValidRecipient": "Antre non yon kontak ki anrejistre oswa yon nimewo telefòn.",
+    "sendFailed": "Kout mesaj la echwe. Tcheke konsòl la pou plis detay."
   },
   "home": {
-    "title": "Kay",
-    "header": "Mesaj ou yo",
-    "subheader": "Voye yon mesaj pou kòmanse yon chat.",
-    "sendButton": "Voye mesaj",
-    "gifPicker": "Louvri selektè GIF",
+    " tit": "Akèy",
+    "titMesaj": "Mesaj ou yo",
+    "sous-titMesaj": "Antre yon reseptè anlè a, epi voye yon mesaj pou kòmanse yon konvèsasyon.",
+    "sous-tit": "Voye yon mesaj pou kòmanse yon chat.",
+    "boutonVoye": "Voye mesaj",
+    "pikèGIF": "Ouvri pikè GIF la",
     "emoji": "Emoji",
-    "upload": "Telechaje foto oswa videyo",
-    "inputPlaceholder": "Tape yon mesaj…",
+    "upload": "Monte foto oswa videyo",
+    "inputPlaceholder": "Ekri yon mesaj…",
     "inputLabel": "Konpozitè mesaj",
     "sendTooltip": "Voye",
-    "sendTooltipEmpty": "Tape yon mesaj pou voye",
+    "sendTooltipEmpty": "Ekri yon mesaj pou voye",
     "send": "Voye",
-    "enterRecipient": "Antre yon non oswa yon nimewo",
-    "addRecipient": "Ajoute yon moun k ap resevwa anlè a pou kòmanse…",
     "welcomeMessage": "Byenveni nan Chatforia",
-    "getStarted": "Kòmanse"
+    "getStarted": "Kòmanse",
+    "mixedRecipients": "Nou detekte plizyè kalite reseptè. Swa itilize tout nimewo telefòn yo (SMS) oswa tout non itilizatè yo (Chatforia).",
+    "enterRecipient": "Antre yon non oswa yon nimewo",
+    "addRecipient": "Ajoute yon reseptè anlè a pou kòmanse…",
+    "needNumber": "Ou bezwen yon nimewo Chatforia anvan ou voye SMS.",
+    "chooseNumber": "Chwazi yon nimewo"
   },
-  "refund": {
-    "title": "Règleman Ranbousman",
-    "lastUpdated": "Dènye mizajou:",
-    "intro": "Nan Chatforia, nou fè tout efò pou bay yon sèvis kalite siperyè pou tout itilizatè. Règleman ranbousman sa a esplike nan ki ka yo ka bay ranbousman.",
-    "subscriptions": {
-      "title": "Abònman",
-      "body": "Abònman yo peye davans sou yon baz renouvlab. Ou ka anile nenpòt lè atravè paramèt kont ou oswa platfòm ou te itilize pou achte a."
-    },
-    "eligibility": {
-      "title": "Elijibilite pou Ranbousman",
-      "body": "Ranbousman ka akòde pou chaj doub, erè fakti, oswa pwoblèm teknik ki anpeche aksè a fonksyon peye yo. Tout demann yo egzamine ka pa ka."
-    },
-    "nonRefundable": {
-      "title": "Pa Ranbousab",
-      "body": "An jeneral, nou pa bay ranbousman pou tan ki pa itilize, pati nan peryòd abònman, oswa si ou pa anile anvan renouvèlman an."
-    },
-    "thirdParty": {
-      "title": "Acha Twazyèm Pati",
-      "body": "Si acha a fèt atravè platfòm twazyèm pati tankou Apple App Store, ou dwe mande ranbousman dirèkteman atravè platfòm sa yo."
-    },
-    "contact": {
-      "title": "Kontakte Nou",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
+  "sidebar": {
+    "randomChat": "Chat o aza",
+    "callTextForwarding": "Transfè Apèl & Mesaj ",
+    "konvèsasyon": "Konvèsasyon",
+    "rechèchPlaceholder": "Chèche chat...",
+    "erèChajman": "Echèk pou chaje chat yo",
+    "vid": "Pa gen konvèsasyon ankò.",
+    "kòmanseChat": "Kòmanse yon chat",
+    "moun": "Moun",
+    "paramèt": "Paramèt",
+    "estati": "Estati",
+    "transfè": "Avansman Apèl & Mesaj",
+    "refresh": "Refresh",
+    "search": "Chèche konvèsasyon",
+    "loginPrompt": "Konekte pou modifye paramèt ou yo.",
+    "login": "Konekte",
+    "register": "Kreye yon kont",
+    "salchat": "Sal chat",
+    "sòti": "Sòti",
+    "kòmanseChatAlt": "Kòmanse yon nouvo chat",
+    "apèl": "Apèl",
+    "videyo": "Videyo",
+    "mesajvokal": "Mesaj vokal"
   },
-
-  "about": {
-    "title": "Sou Chatforia",
-    "description": "Chatforia se yon platfòm mesaj modèn ki fèt pou kominikasyon sekirize ak plizyè lang...",
-    "valuesTitle": "Sa nou bay enpòtans",
-    "privacyTitle": "Konfidansyalite an premye",
-    "privacyDesc": "Chifreman solid ak paramèt konfidansyalite itilizatè kontwole",
-    "accessTitle": "Aksè pou tout moun",
-    "accessDesc": "Tradiksyon entegre pou plizyè lang",
-    "controlTitle": "Kontwòl",
-    "controlDesc": "Fonksyon tankou mesaj ki disparèt ak konfimasyon lekti"
+  "topbar": {
+    "newStatus": "Nouvo Estati",
+    "logout": "Sòti",
+    "help": "Ede",
+    "createStatusAria": "Kreye nouvo Estati"
   },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Poukisa Platfòm Mesaj yo Pi Enpòtan Pase Tout Tan",
-      "intro": "Platfòm mesaj yo vin youn nan zouti ki pi enpòtan pou kominikasyon nan mond jodi a...",
-      "everydayTitle": "Kominikasyon Chak Jou",
-      "everydayDesc": "Moun depann de aplikasyon mesaj pou kominikasyon chak jou...",
-      "speedTitle": "Vitès ak Konvenyans",
-      "speedDesc": "Mesaj yo delivre imedyatman...",
-      "globalTitle": "Rive Toupatou nan Mond lan",
-      "globalDesc": "Platfòm mesaj yo konekte moun atravè lemond...",
-      "privacyTitle": "Konfidansyalite ak Kontwòl",
-      "privacyDesc": "Platfòm modèn bay itilizatè yo plis kontwòl...",
-      "futureTitle": "Avni Mesaj",
-      "futureDesc": "Mesaj ap kontinye evolye ak nouvo fonksyon...",
-      "outro": "Chatforia bati sou prensip sa yo..."
+  "footer": {
+    "plans": "Plan & Pri",
+    "about": "Apwopo Chatforia",
+    "careers": " Karyè",
+    "Lapwès": "Lapwès",
+    "Piblisite": "Piblisite",
+    "Kontakte nou": "Kontakte nou",
+    "Ede": " Sant Èd",
+    "status": "Paj Estati",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Règleman sou Konfidansyalite",
+    "terms": "Kondisyon Sèvis",
+    "cookies": "Paramèt Cookie",
+    "doNotSell": "Pa Vann Enfòmasyon Mwen",
+    "language": "Lang",
+    "contactShort": "Kontak",
+    "aria": "Pye paj",
+    "homeAria": "Akèy Chatforia",
+    "section": {
+      "company": "KONPAYI",
+      "support": "SIPÒT ",
+      "telechajman": "TELECHAJMAN",
+      "legal": "LEGAL"
     },
-
-    "global": {
-      "title": "Avni Kominikasyon Mondyal",
-      "intro": "Kominikasyon evolye rapidman...",
-      "barriersTitle": "Kraze Baryè yo",
-      "barriersDesc": "Moun kapab konekte atravè lemond...",
-      "translationTitle": "Wòl Teknoloji Tradiksyon",
-      "translationDesc": "Lang te toujou yon baryè...",
-      "realtimeTitle": "Koneksyon an Tan Reyèl",
-      "realtimeDesc": "Vitès enpòtan anpil...",
-      "privacyTitle": "Sekirite ak Konfidansyalite",
-      "privacyDesc": "Itilizatè yo vle asirans ke konvèsasyon yo pwoteje...",
-      "futureTitle": "Sa k ap vini",
-      "futureDesc": "Avni kominikasyon mondyal ap gen ladan nouvo inovasyon...",
-      "outro": "Platfòm tankou Chatforia fè pati chanjman sa a..."
+    "lyen": {
+      "plan-pri": "Plan & Pri",
+      "apwopo-chatforia": "Apwopo Chatforia",
+      "karyè": "Karyè",
+      "lapwès": "Lapwès",
+      "piblisite": "Piblisite",
+      " getting-started": "Kòman pou Kòmanse",
+      "help-center": "Sant Èd",
+      "contact-us": "Kontakte Nou",
+      "status-page": "Paj Estati",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Règleman sou Konfidansyalite",
+      "terms-of -service": "Tèm Sèvis",
+      "do-not-sell-my-info": "Pa Vann Enfòmasyon Mwen",
+      "cookie-settings": "Paramèt Cookie",
+      "how-it-works": "Kijan li Fonksyone",
+      "blog": "Blog",
+      "refund-policy": "Politik Ranbousman",
+      "politik-sms": "Politik Mesaj SMS"
     },
-
-    "index": {
-      "title": "Blog Chatforia",
-      "intro": "Eksplore refleksyon sou kominikasyon...",
-      "post1": "Kijan pou Pale An Sekirite sou Entènèt",
-      "post2": "Avni Kominikasyon Mondyal",
-      "post3": "Poukisa Platfòm Mesaj yo Enpòtan"
-    }
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": " LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent an atant",
+    "backToTop": "↑ Tounen anlè"
   },
-
-  "howItWorks": {
-    "title": "Kijan Chatforia Fonksyone",
-    "intro": "Chatforia fèt pou fè kominikasyon vin senp...",
-    "step1Title": "1. Kreye yon Kont",
-    "step1Desc": "Enskri ak imèl ou oswa non itilizatè...",
-    "step2Title": "2. Kòmanse yon Konvèsasyon",
-    "step2Desc": "Konekte ak lòt moun...",
-    "step3Title": "3. Mesaj an Tan Reyèl",
-    "step3Desc": "Mesaj yo delivre rapidman...",
-    "step4Title": "4. Kominikasyon Mondyal",
-    "step4Desc": "Tradiksyon entegre ede itilizatè yo...",
-    "step5Title": "5. Rete nan Kontwòl",
-    "step5Desc": "Jere preferans ou..."
-  },
-
-  "safety": {
-    "title": "Sekirite ak Règleman Kominote",
-    "intro": "Chatforia angaje pou kenbe yon anviwònman ki an sekirite...",
-    "respectTitle": "Kominikasyon Respè",
-    "respectDesc": "Itilizatè yo dwe kominike avèk respè...",
-    "prohibitedTitle": "Kontni Entèdi",
-    "prohibited": {
-      "illegal": "Aktivite ilegal",
-      "harassment": "Arasman oswa entimidasyon",
-      "hate": "Diskou rayisman oswa diskriminasyon",
-      "explicit": "Kontni eksplisit oswa danjere",
-      "spam": "Spam oswa pratik twonpe"
-    },
-    "toolsTitle": "Zouti Sekirite Itilizatè",
-    "tools": {
-      "report": "Rapòte konpòtman ki pa apwopriye",
-      "block": "Bloke itilizatè",
-      "control": "Jere paramèt konfidansyalite"
-    },
-    "enforcementTitle": "Aplikasyon Règleman",
-    "enforcementDesc": "Nou ka pran mezi kont kont yo..."
-},
   "chat": {
-    "selectPrompt": "Chwazi yon tèks oswa chanm chat pou kòmanse chat",
-    "newMessages": "Nouvo mesaj",
-    "typing": "{{name}} ap tape...",
+    "selectPrompt": "Chwazi yon tèks oswa yon chanm chat pou kòmanse chat",
+    "newMessages": "Mesaj nouvo",
+    "typing": "{{name }} ap tape...",
     "emptyTitle": "Mesaj ou yo",
     "emptySubtitle": "Voye yon mesaj pou kòmanse yon chat.",
     "startChatButton": "Voye mesaj",
     "mediaAttachment": "Atachman medya",
     "thisUser": "itilizatè sa a",
-    "blockConfirm": "Bloke {{name}}? Ou p ap resevwa mesaj yo.",
-    "blockedUser": "Bloke {{name}}.",
-    "blockError": "Pa ka detèmine yon itilizatè sib pou bloke.",
-    "blockFailed": "Bloke echwe (backend pa konekte ankò).",
-    "encryptedUnavailable": "Mesaj chifre (kle pa disponib)",
-    "unlockToView": "Deblokle kle ou pou wè mesaj sa a"
+    "blockConfirm": "Bloke {{name}}? Ou pap resevwa mesaj nan men li.",
+    "blockedUser": "{{name}} bloke.",
+    "blockError": "Pa t ka detèmine yon itilizatè pou bloke.",
+    "blockFailed": "Blòkaj la echwe (backend la poko konekte).",
+    "encryptedUnavailable": "Mesaj ankripte (kle a pa disponib)",
+    "unlockToView": "Dezaktive kle w la pou w ka wè mesaj sa a"
   },
-  "messageInput": {
+  " messageInput": {
     "ttl": {
-      "off": "Off"
+      "off": "Ete"
     },
-    "freeLimit": "Limit plan gratis: oto-efase jiska 1 jou. Limite a 1 jou.",
-    "premiumLimit": "Maks oto-efase pou Premium se 30 jou. Limite a 30 jou.",
-    "nothingToSend": "Tape yon mesaj oswa atache yon fichye pou voye.",
-    "encryptionFailed": "Chifreman echwe. Mesaj pa voye.",
-    "sent": "Mesaj livre.",
-    "placeholder": "Tape yon mesaj…",
-    "voiceAdded": "Nòt vokal ajoute",
-    "attachmentAdded": "Fichye ajoute",
-    "autoDelete": "Oto-efase",
+    "freeLimit": "Limit plan gratis la: efase otomatikman jiska 1 jou. Limite a 1 jou.",
+    "premiumLimit": "Limit maksimòm pou efasman otomatik pou Premium se 30 jou. Limite a 30 jou.",
+    " nothingToSend": "Tape yon mesaj oswa atache yon fichye pou voye.",
+    "encryptionFailed": "Chifreman echwe. Mesaj la pa voye.",
+    "sent": "Mesaj la livre.",
+    "placeholder": "Tape yon mesaj… ",
+    "autoDelete": "Efase otomatik",
     "typeToSend": "Tape yon mesaj pou voye",
     "send": "Voye",
-    "sendWithEnter": "Voye (Enter)",
-    "attachment": "atachman",
-    "caption": "Lejand (opsyonèl)",
+    "sendWithEnter": "Voye (Antre)",
+    "attachment": "Atachman",
+    "caption": "Lèzèk (opsyonèl)",
     "remove": "Retire",
-    "clear": "Efase",
+    "clear": "Netwaye",
     "gif": "GIF",
-    "sticker": "Stiker",
+    "sticker": "Sticker",
     "errors": {
-      "attachmentTooLarge": "Atachman twò gwo. Eseye yon fichye pi piti.",
-      "unsupportedFile": "Kalite fichye pa sipòte.",
+      "attachmentTooLarge": "Fichye a twò gwo. Eseye yon fichye ki pi piti.",
+      "unsupportedFile": "Kalite fichye a pa sipòte.",
       "rateLimit": "Ou ap voye mesaj twò vit. Tanpri ralanti.",
-      "validation": "Erè validasyon. Tanpri tcheke mesaj ou epi eseye ankò.",
-      "failedToSend": "Echwe voye. Ou ka eseye ankò bul ki echwe a."
+      "validation": "Erè validasyon. Tanpri tcheke mesaj ou a epi eseye ankò.",
+      "paTKapabVoye": "Pa t kapab voye. Ou ka eseye ankò boul ki pa t reyisi a."
     }
   },
-  "contactList": {
-    "savedContacts": "Kontak ki Sove",
-    "refreshAria": "Rafrechi kontak",
-    "filterPlaceholder": "Filtre kontak ki sove…",
-    "filterAria": "Filtre kontak ki sove",
-    "noContactsFound": "Pa gen kontak jwenn.",
-    "externalContact": "Kontak ekstèn",
-    "notJoined": "Kontak sa a pa rantre nan Chatforia ankò.",
-    "couldNotStart": "Pa ka kòmanse chat. Tanpri eseye ankò.",
-    "startFailed": "Echwe kòmanse chat. Tanpri esye ankò.",
-    "deleted": "Kontak efase.",
-    "deleteFailed": "Echwe efase kontak. Tanpri eseye ankò.",
-    "aliasUpdated": "Alias mete ajou.",
-    "updateAliasFailed": "Echwe mete ajou alias. Tanpri eseye ankò.",
-    "selectContact": "Chwazi {{name}}",
-    "alias": "Alias",
-    "startChat": "Kòmanse chat",
-    "message": "Mesaj",
-    "delete": "Efase",
-    "deleteContactAria": "Efase kontak",
-    "loadFailed": "Echwe chaje kontak. Tanpri eseye ankò.",
-    "loadMore": "Chaje plis",
-    "call": "Rele",
-    "callStarted": "Ap rele nimewo sa a via nimewo Chatforia ou…",
-    "callFailed": "Echwe kòmanse apèl. Tanpri eseye ankò."
+  "aksyonFilKonvèsasyon": {
+    "menuFilKonvèsasyon": "Menu fil konvèsasyon",
+    "premyòm": "Premyòm",
+    "pouvwaAI": "Pouvwa AI",
+    "Orè": "Orè",
+    "Mizajou": "Mizajou",
+    "SufiksMizajou": "(Mizajou)",
+    "Fil": "Fil",
+    "Apwopo": "Apwopo",
+    "Rechèch": "Rechèch",
+    "Medya": "Medya",
+    "EnviteMoun": "Envite moun",
+    "paramètSal": "Paramèt sal",
+    "netwayeKonvèsasyon": "Netwaye konvèsasyon",
+    "bloke": "Bloke"
   },
-  "startChatModal": {
-    "title": "Kòmanse yon konvèsasyon",
-    "searchPlaceholder": "Chèche non, non itilizatè, oswa nimewo telefòn",
-    "messageThisPerson": "Mesaj moun sa a",
-    "contacts": "Kontak",
-    "recentInteractions": "Entèraksyon resan",
-    "noContactsMatch": "Pa gen kontak ki matche rechèch ou.",
-    "noRecentInteractions": "Pa gen entèraksyon resan ankò.",
-    "unknown": "Enkoni",
-    "interactionType": {
-      "message": "Mesaj",
-      "call": "Rele",
-      "video": "Videyo"
-    }
-  },
-  "addContactModal": {
-    "title": "Ajoute kontak",
-    "phoneOrUsername": "Nimewo telefòn oswa non itilizatè",
-    "phoneOrUsernamePlaceholder": "egz. +13018019227 oswa juliannorton",
-    "alias": "Alias (opsyonèl)",
-    "aliasPlaceholder": "egz. Travay, Manman, Mike – Ewòp",
-    "enterPhoneOrUsername": "Antre yon nimewo telefòn oswa non itilizatè.",
-    "userLookupFailed": "Rechèch itilizatè echwe.",
-    "cannotAddSelf": "Ou pa ka ajoute tèt ou kòm kontak.",
-    "failedToAdd": "Echwe ajoute kontak.",
-    "add": "Ajoute"
-  },
-  "sidebar": {
-    "randomChat": "Chat Aleatwa",
-    "callTextForwarding": "Rele & Transfere Tèks",
-    "conversations": "Konvèsasyon",
-    "searchPlaceholder": "Chèche konvèsasyon...",
-    "errorLoading": "Echwe chaje chat",
-    "empty": "Pa gen konvèsasyon ankò.",
-    "startChat": "Kòmanse yon chat",
-    "people": "Moun",
-    "settings": "Paramèt",
-    "status": "Estati",
-    "forwarding": "Rele & Transfere Tèks",
-    "refresh": "Rafrechi",
-    "search": "Chèche konvèsasyon",
-    "loginPrompt": "Konekte pou modifye paramèt ou yo.",
-    "login": "Konekte",
-    "register": "Kreye kont",
-    "chatrooms": "Chanm chat",
-    "logout": "Dekonekte",
-    "startChatAlt": "Kòmanse yon nouvo chat",
-    "calls": "Apèl",
-    "video": "Videyo",
-    "voicemail": "Mesaj vwa"
-  },
-  "topbar": {
-    "newStatus": "Nouvo Estati",
-    "logout": "Dekonekte",
-    "help": "Èd",
-    "createStatusAria": "Kreye nouvo Estati"
-  },
-  "threadActions": {
-    "threadMenu": "Meni fil",
-    "premium": "Premium",
-    "aiPower": "Pisans AI",
-    "schedule": "Planifye",
-    "upgrade": "Ajou",
-    "upgradeSuffix": "(Ajou)",
-    "thread": "Fil",
-    "about": "Sou",
-    "search": "Chèche",
-    "media": "Medya",
-    "invitePeople": "Envite moun",
-    "roomSettings": "Paramèt chanm",
-    "clearConversation": "Efase konvèsasyon",
-    "clearConversationForMe": "Efase pou mwen",
-    "clearConversationForEveryone": "Efase pou tout moun",
-    "block": "Bloke"
-  },
-  "roomSearch": {
-    "title": "Chèche nan chanm",
-    "ariaLabel": "Chèche nan chanm",
+  "rechèchSal": {
+    "tit": "Chèche nan chanm nan",
+    "ariaLabel": "Chèche nan chanm nan",
     "search": "Chèche",
     "searchMessages": "Chèche mesaj",
     "noText": "[Pa gen tèks]",
@@ -394,410 +352,746 @@
   "roomSettings": {
     "roles": {
       "member": "Manm",
-      "moderator": "Moderatè",
+      "moderator": " Moderator",
       "admin": "Admin"
     },
     "aiMode": {
       "off": "Off",
       "mention": "Sèlman sou @ForiaBot oswa /ask",
-      "always": "Reponn aktif"
+      "toujou": "Reponn proaktivman"
     },
     "autoTranslateMode": {
-      "off": "Off",
-      "tagged": "Sèlman tag (/tr …)",
-      "all": "Tout mesaj"
+      "etenn": "Etann",
+      "tagged": "Sèlman sa ki make yo (/tr …)",
+      "tout": "Tout mesaj"
     },
-    "updated": "Paramèt mete ajou"
+    "mizajou": "Aranjman yo mete ajou"
   },
-  "mediaGallery": {
+  "galeri medya": {
     "sharedMedia": "Medya pataje",
-    "noMediaCached": "Pa gen medya ki sove lokalman ankò.",
+    "noMediaCached": "Pa gen medya ki kache lokalman ankò.",
     "imageAlt": "imaj",
-    "openVideo": "Louvri videyo",
-    "openVideoWithCaption": "Louvri videyo: {{caption}}",
-    "preview": "Preview",
-    "previewWithCaption": "Preview: {{caption}}",
-    "previewKind": "Preview {{kind}}",
-    "download": "Telechaje",
-    "downloadKind": "Telechaje {{kind}}",
-    "file": "fichye",
-    "kinds": {
-      "image": "imaj",
-      "video": "videyo",
-      "audio": "odyo",
-      "file": "fichye"
+    "openVideo": "Ouvri videyo",
+    "openVideoWithCaption": "Ouvri videyo: {{caption}}",
+    "preview": "Apèsi",
+    "previewWithCaption": "Apèsi: {{caption}}",
+    "previewKind": "Previzyalizasyon {{kind}}",
+    "telechaje": "Telechaje",
+    "downloadKind": "Telechajman {{kind}}",
+    "fichye": "fichye",
+    "kalite": {
+      "imaj": "imaj",
+      "videyo": "videyo",
+      "odyo": "odyo",
+      "fichye": "fichye"
     }
   },
   "status": {
     "userNumber": "Itilizatè #{{id}}",
-    "posted": "Estati poste",
-    "postFailed": "Echwe poste estati",
+    "posted": "Estati pibliye",
+    "postFailed": "Pa t reyisi pibliye estati a",
     "createTitle": "Kreye yon estati",
     "modalAriaLabel": "Nouvo estati",
-    "captionLabel": "Ki sa ki nan tèt ou?",
-    "captionPlaceholder": "Pataje yon aktyalizasyon...",
+    "captionLabel": "Kisa k nan tèt ou?",
+    "captionPlaceholder": "Pataje yon mizajou.. .",
     "captionAria": "Mesaj estati",
-    "audienceLabel": "Odians",
+    "audienceLabel": "Odyans",
     "audience": {
-      "public": "Piblik",
-      "followers": "Swivè",
-      "contacts": "Kontak",
-      "mutuals": "Mityèl",
-      "custom": "Custom..."
+      "piblik": "Piblik",
+      "swivè": "Swivè",
+      "kontak": "Kontak",
+      "mityèl": "Mityèl",
+      "pèsonalize": "Pèsonalize..."
     },
-    "expiresHoursLabel": "Ekspire (è)",
-    "maxTooltip": "Maksimòm 7 jou",
-    "hoursAbbrev": "è",
-    "maxShort": "maks",
-    "expiresOn": "Ekspire sou:",
-    "chooseRecipients": "Chwazi moun k ap resevwa",
-    "selectContacts": "Chwazi kontak",
+    "expiresHoursLabel": "Ekspire (èdtan)",
+    "maxTooltip": "Maximòm 7 jou",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Ekspire nan:",
+    "chooseRecipients": "Chwazi reseptè yo",
+    "selectContacts": "Chwazi kontak yo",
     "attachmentsLabel": "Atachman",
     "attachmentsPlaceholder": "Ajoute imaj/videyo",
-    "filesNote": "Jiska 5 fichye. Ekspirasyon 24è pa default.",
-    "postAria": "Poste estati",
-    "post": "Poste"
+    "filesNote": "Jiska 5 fichye. Ekspire apre 24 èdtan pa defo.",
+    "postAria": "Afiche estati",
+    "post": "Afiche"
   },
-  "voicemail": {
-    "pageTitle": "Mesaj vwa",
-    "from": "Soti nan",
-    "to": "Pou",
-    "unknownCaller": "Enkoni",
-    "yourNumber": "Nimewo Chatforia ou",
-    "durationSeconds": "{{count}}s",
-    "audioAria": "Jwè odyo mesaj vwa",
-    "transcriptHeading": "Transkripsyon",
-    "transcriptPending": "Transkri mesaj vwa…",
-    "transcriptFailed": "Transkripsyon pa disponib.",
-    "loading": "Chaje mesaj vwa…",
-    "errorLoading": "Echwe chaje mesaj vwa.",
-    "empty": "Pa gen mesaj vwa ankò.",
-    "deleteConfirm": "Efase mesaj vwa sa a?",
-    "deleteError": "Echwe efase mesaj vwa.",
+  "mesajvokal": {
+    "titPaj": "Mesaj vokal",
+    "kiSotiNan": "Soti nan",
+    "kiAleNan": "Ale nan",
+    "apèlEnkoni": "Enkoni",
+    "nimewoOu": "Nimewo Chatforia ou a",
+    "direAnSegonn": " {{count}} yo",
+    "jwèOdyo": "Jwè odyo mesaj vokal",
+    "antètTranskripsyon": "Transkripsyon",
+    "transkripsyonAnAtant": "Y ap transkri mesaj vokal la…",
+    "erèTranskripsyon": "Transkripsyon pa disponib.",
+    "apChaje": "Ap chaje mesaj vokal la…",
+    "erèChajman": "Pa t reyisi chaje mesaj vokal la.",
+    "empty": "Pa gen mesaj vokal pou kounye a.",
+    "deleteConfirm": "Efase mesaj vokal sa a?",
+    "deleteError": "Pa t reyisi efase mesaj vokal la.",
     "markRead": "Make kòm li",
     "delete": "Efase",
-    "unreadDotAria": "Endikatè mesaj vwa ki pa li"
+    "unreadDotAria": "Endikatè mesaj vokal ki poko li"
+  },
+  "lisKontak": {
+    "kontakSove": "Kontak Sove",
+    "rafrechiAria": "Rafrechi kontak yo",
+    "filtrePlaceholder": "Filtre kontak sove yo…",
+    "filtreAria": "Filtre kontak sove yo",
+    "paJwennKontak": "Pa gen kontak ki jwenn.",
+    "kontakEksteryè": "Kontak eksteryè",
+    "notJoined": "Kontak sa a poko konekte sou Chatforia.",
+    "couldNotStart": "Pa t kapab kòmanse chat la. Tanpri eseye ankò.",
+    "startFailed": "Fayit pou kòmanse chat la. Tanpri eseye ankò. ",
+    "efase": "Kontak la efase.",
+    "efasmanEchèk": "Fasèk efase kontak la. Tanpri eseye ankò.",
+    "aliasMizajou": "Alias la mizajou.",
+    "mizajouAliasEchèk": "Fasèk mizajou alias la. Tanpri eseye ankò.",
+    "chwaziKontak": "Chwazi {{name}}",
+    "alias": "Alias",
+    "kòmanseChat": "Kòmanse chat",
+    "message": "Mesaj",
+    "delete": "Efase",
+    "deleteContactAria": "Efase kontak",
+    "loadFailed": "Faili pou chaje kontak yo. Tanpri eseye ankò.",
+    "chajePlis": "Chaje plis",
+    "rele": "Rele",
+    "apRele": "Ap rele nimewo sa a atravè nimewo Chatforia ou a…",
+    "releEchèk": "Rele a pa t reyisi. Tanpri eseye ankò."
+  },
+  "ajouteKontakModal": {
+    "tit": "Ajoute kontak",
+    "phoneOrUsername": "Nimewo telefòn oswa non itilizatè",
+    "phoneOrUsernamePlaceholder": "egz. +13018019227 oswa juliannorton",
+    "alias": "Alias (opsyonèl)",
+    "aliasPlaceholder": "egz. g. Travay, Manman, Mike – Ewòp",
+    "enterPhoneOrUsername": "Antre yon nimewo telefòn oswa yon non itilizatè.",
+    "userLookupFailed": "Rechèch itilizatè a echwe.",
+    "cannotAddSelf": "Ou pa ka ajoute tèt ou kòm kontak.",
+    "failedToAdd": "Echwe pou ajoute kontak la.",
+    "add": "Ajoute"
+  },
+  "startChatModal": {
+    "title": "Kòmanse yon konvèsasyon",
+    "searchPlaceholder": "Chèche non, non itilizatè, oswa nimewo telefòn",
+    "messageThisPerson": "Voye mesaj bay moun sa a",
+    "contacts": "Kontak yo",
+    "recentInteractions": "Entèraksyon resan yo",
+    "noContactsMatch": "Pa gen kontak ki koresponn ak rechèch ou a.",
+    "noRecentInteractions": "Pa gen entèraksyon resan ankò.",
+    "enkoni": "Enkoni",
+    "tipEntèraksyon": {
+      "mesaj": "Mesaj",
+      "apèl": "Apèl",
+      "videyo": "Videyo"
+    },
+    "seleksyon rapid": "Seleksyon rapid",
+    "pou": "Pou",
+    "nonOswaNonItilizatè": "Antre yon non, non itilizatè",
+    "nameUsernamePhoneEmail": "Antre yon non, non itilizatè, telefòn, oswa imèl…",
+    "startWithSelected": "Kòmanse chat ak moun ki seleksyone a",
+    "searchByUsernameOrPhone": "Chèche pa non itilizatè oswa telefòn",
+    "search": "Chèche",
+    "searchPrompt": " Antre yon non itilizatè oswa yon nimewo telefòn epi peze Chèche.",
+    "pickFromContacts": "Oswa chwazi nan kontak yo",
+    "addContact": "Ajoute yon Kontak",
+    "show": "Montre",
+    "add": "Ajoute",
+    "close": "Fèmen",
+    "selectedCount": "{{count}} chwazi ",
+    "pickAtLeastOne": "Chwazi omwen yon reseptè.",
+    "saveContactsHint": "Antre telefòn/imèl yo ap disponib apre ou fin sove yo kòm kontak.",
+    "failedBulkStart": "Pa t reyisi kòmanse chat ak reseptè seleksyone yo.",
+    "noResults": "Pa gen rezilta",
+    "mode": "Mòd",
+    "group": "Gwoup",
+    " broadcast": "Broadcast",
+    "groupNameOptional": "Non gwoup (opsyonèl)",
+    "firstMessageOptional": "Premye mesaj (opsyonèl men rekòmande)",
+    "createGroup": "Kreye gwoup",
+    "sendBroadcast": "Voye difizyon"
+  },
+  "peoplePage": {
+    "people": "Moun",
+    "search": "Chèche",
+    "searchPlaceholder": "Chèche kontak ki sove yo pa aliase, non, non itilizatè, oswa telefòn",
+    "quickStart": "Kòmanse rapid",
+    "quickStartDesc": "Jere kontak ou yo epi envite zanmi.",
+    "importContacts": "Enpòte kontak ou yo",
+    "import ": "Enpòte",
+    "ajouteKontak": "Ajoute yon kontak",
+    "ajoute": "Ajoute",
+    "enviteZanmi": "Envite zanmi",
+    "enviteDesc": "Pataje lyen envitasyon w la pou w kòmanse chatte touswit.",
+    "jwennAplikasyonAn": "Jwenn aplikasyon an",
+    "jwennAplikasyonAnDesc": "Rete an kontak kèlkeswa kote w ye ak Chatforia pou iOS ak Android.",
+    "telechaje": "Telechaje",
+    "syncTip": "Konsèy: Mesaj ou yo rete senkronize sou entènèt ak mobil.",
+    "filterSaved": "Filtre kontak ki anrejistre yo",
+    "noContactsFound": "Pa gen kontak ki jwenn",
+    "focusSearch": "Rechèch Konsantre",
+    "findOrAdd": "Jwenn oswa ajoute yon moun",
+    "searchByPhoneOrUsername": "Chèche pa telefòn / non itilizatè"
   },
   "profile": {
-    "title": "Profil Itilizatè",
-    "preferredLanguage": "Lang prefere",
+    "title": "Pwofil Itilizatè",
+    "preferredLanguage": "Lang ou prefere",
     "chooseLanguage": "Chwazi yon lang",
     "mustLogin": "Ou dwe konekte pou wè paramèt yo.",
-    "autoTranslate": "Oto-tradui mesaj",
-    "showOriginalWithTranslation": "Montre tèks orijinal ak mesaj tradui",
-    "showOriginalAndTranslation": "Montre orijinal ak tradiksyon ansanm",
+    "autoTranslate": "Tradui mesaj yo otomatikman",
+    "showOriginalWithTrans lation": "Montre mesaj orijinal ak tradui yo",
+    "showOriginalAndTranslation": "Montre orijinal la ak tradiksyon an ansanm",
     "filterExplicit": "Filtre kontni eksplisit",
     "aiReply": "Repons AI",
     "enableReadReceipts": "Aktive resi lekti",
     "allowExplicitContent": "Pèmèt kontni eksplisit",
-    "disappearingMessages": "Aktive mesaj ki disparèt",
-    "autoDeleteSeconds": "Segonn jiska oto-efase",
-    "saveSuccess": "Paramèt sove!",
-    "saveError": "Erè: Pa ka sove paramèt",
-    "avatarAlt": "Avatar profil",
-    "uploadAvatar": "Telechaje nouvo avatar",
-    "avatarSuccess": "Avatar telechaje!",
-    "avatarError": "Echwe telechaje avatar",
-    "avatarUpdated": "Avatar mete ajou!",
-    "uploadingAvatar": "Telechaje avatar…",
-    "noPrivateKey": "Pa gen kle prive sou aparèy sa a pou ekspòte.",
-    "setBackupPassword": "Mete yon modpas pou chifre backup ou:",
-    "backupDownloaded": "Backup chifre telechaje.",
-    "exportFailed": "Ekspòtasyon kle echwe",
-    "enterBackupPassword": "Antre modpas pou backup sa a:",
-    "importSuccess": "Kle prive enpòte sou aparèy sa a.",
-    "importFailed": "Echwe enpòte kle (modpas pa kòrèk oswa fichye koripsyon).",
-    "keysRotated": "Nouvo pè kle jenere epi kle piblik telechaje.",
-    "rotateFailed": "Echwe chanje kle yo.",
+    "disappearingMessages": "Aktive mesaj k ap disparèt",
+    "autoDeleteSeconds": "Segonn anvan efasman otomatik",
+    "saveSuccess": "Aranjman yo anrejistre!",
+    "saveError": "Erè: Pa t ka anrejistre paramèt yo",
+    "avatarAlt": "Avatar pwofil",
+    "uploadAvatar": "Chaje nouvo avatar",
+    "avatarSuccess": "Avatar chaje!",
+    "avatarError": "Pa t reyisi telechaje avatar a",
+    "avatarMizajou": "Avatar a mete ajou!",
+    "telechajeAvatar": "Ap telechaje avatar a…",
+    "paGenKlePrive": "Pa gen okenn kle prive sou aparèy sa a pou ekspòte.",
+    "meteModpasSekou": "Mete yon modpas pou ankripte sekou ou a:",
+    "sekouTelechaje": "Sekou ankripte a telechaje.",
+    "exportFailed": "Ekspòtasyon kle a echwe",
+    "enterBackupPassword": "Antre modpas pou sovgad sa a:",
+    "importSuccess": "Kle prive a enpòte sou aparèy sa a.",
+    "importFailed": "Echwe pou enpòte kle a (modpas ki pa kòrèk oswa fichye kòwonpi).",
+    "keysRotated": "Yon nouvo pè kle jenere epi kle piblik la telechaje.",
+    "rotateFailed": "Pa t reyisi vire kle yo.",
     "security": "Sekirite",
-    "exportKey": "Backup Kle Chifreman",
-    "importKey": "Restore Kle Chifreman",
-    "rotateKeys": "Chanje Kle Chifreman",
-    "keyDisclaimer": "Kle prive ou pa janm kite aparèy sa a. Ekspòte yon kopi ki pwoteje ak modpas pou restore li sou yon lòt aparèy.",
-    "sectionProfile": "Profil",
+    "exportKey": "Fè yon kopi Rezèv Kle Ankriptaj la",
+    "importKey": "Restoure Kle Ankriptaj la",
+    "rotateKeys": "Vire Kle Ankriptaj la",
+    "keyDisclaimer": "Kle prive w la pa janm kite aparèy sa a. Ekspòte yon kopi ki pwoteje ak modpas pou restore li sou yon lòt aparèy.",
+    "sectionProfile": "Pwofil",
     "phoneNumber": "Nimewo telefòn",
     "appearance": "Aparans",
     "soundSettings": "Son",
-    "disappearing": "Mesaj ki disparèt",
-    "backupSync": "Backup Kle Chifreman",
+    "disappearing": "Mesaj k ap disparèt",
+    "backupSync": "Sekou & Senkronizasyon",
     "ai": "AI",
-    "accessibility": "Aksesibilite",
+    "accessibility": "Aksèbite",
     "privacy": "Konfidansyalite",
-    "devices": "Aparèy ki konekte",
-    "themeFreeNotice": "Ou sou Gratis—sèvi ak opsyon rapid Solèy/Lalin anba a. Ajou pou debloke plis tèm.",
-    "sunTheme": "Sèvi ak tèm Dawn",
-    "moonTheme": "Sèvi ak tèm Moon (Mitan lannwit)",
+    "devices": "Aparèy konekte",
+    "themeFreeNotice": "Ou sou vèsyon gratis la—itilize opsyon rapid Solèy/Lalin ki anba a. Fè yon ajou pou debloke plis tèm.",
+    "sunTheme": "Itilize tèm Zore",
+    "moonTheme": "Itilize tèm Lalin (Minui)",
     "sun": "Solèy",
     "moon": "Lalin",
-    "backupTitle": "Backup Chifre & Senkronizasyon Aparèy",
-    "openBackupTools": "Louvri Zouti Backup",
-    "backupDesc": "Backup kle chifreman ou pou restore mesaj ou yo an sekirite sou yon lòt aparèy.",
-    "privacyBlurEnabled": "Flou mesaj pa default",
-    "privacyBlurOnUnfocus": "Flou lè app la pa konsantre",
+    "backupTitle": "Kopi Sekirite Ankripte & Senkronizasyon Aparèy",
+    "openBackupTools": " Ouvri Zouti Sekou",
+    "backupDesc": "Fè yon sekou kle ankriptaj ou pou w ka retabli mesaj ou yo an sekirite sou yon lòt aparèy. ",
+    "privacyBlurEnabled": "Floute mesaj yo pa defo",
+    "privacyBlurOnUnfocus": "Floute lè aplikasyon an pa aktif",
     "planSection": "Plan mwen",
-    "planLoading": "Chaje plan ou…",
-    "planLoadFailed": "Echwe chaje plan ou.",
+    "planLoading": "Ap chaje plan ou an…",
+    "planLoadFailed": "Plan ou an pa t ka chaje. ",
     "currentPlan": "Plan aktyèl",
-    "planRenewsOn": "Renouvle sou",
-    "freePlanCopy": "Ou sou plan gratis. Ajou pou debloke plis fonksyon tankou backup, plis nimewo, ak opsyon konfidansyalite avanse.",
+    "planRenewsOn": "Renouvle nan",
+    "freePlanCopy": "Ou sou plan gratis la. Fè yon ajou pou debloke plis fonksyonalite tankou sovgad, nimewo anplis, ak opsyon konfidansyalite avanse.",
     "upgradePlanCta": "Ajou plan",
     "changePlanCta": "Chanje plan",
-    "manageBilling": "Jere bòdè",
-    "portalOpenFailed": "Pa ka louvri pòtal bòdè. Tanpri eseye ankò.",
-    "holdToReveal": "Kenbe pou revele",
-    "notifyOnCopy": "Notifye m si mesaj mwen kopye",
-    "loadFailed": "Echwe chaje profil",
-    "followed": "Swiv",
-    "followFailed": "Echwe swiv",
-    "unfollowed": "Pa swiv ankò",
-    "unfollowFailed": "Echwe pa swiv ankò",
-    "follow": "Swiv",
-    "unfollow": "Pa swiv ankò",
-    "followHint": "Istwa yo pral parèt nan fil Swiv ou si yo poste ak odians Swivè (oswa Piblik).",
-    "userNotFound": "Itilizatè pa jwenn",
-    "followsYou": "Swiv ou",
-    "sectionCrashedTitle": "Seksyon echwe chaje",
-    "sectionCrashedBody": "Yon bagay ale mal nan seksyon sa a.",
-    "forwarding": "Rele & Transfere Tèks",
-    "callTextForwardingSection": "Rele & Transfere Tèks",
-    "callTextForwardingTitle": "Transfere apèl ak/oswa tèks",
-    "callTextForwardingDescription": "Transfere apèl ak tèks entrant nan telefòn verifye oswa imèl ou. Apèl/tèks sortant ka montre nimewo Chatforia ou.",
-    "enableTextForwarding": "Aktive transfere tèks",
-    "forwardTextsToPhone": "Transfere tèks nan telefòn",
-    "forwardTextsToEmail": "Transfere tèks nan imèl",
-    "destinationPhone": "Destinasyon telefòn (E.164)",
-    "destinationEmail": "Destinasyon imèl",
-    "enableCallForwarding": "Aktive transfere apèl",
-    "destinationPhoneForCalls": "Destinasyon (E.164) pou apèl",
-    "aliasBridging": "Transfere Apèl (alias bridging)",
-    "quietHoursOptional": "È trankil (opsyonèl)",
-    "startHour": "È kòmanse (0–23)",
-    "endHour": "È fini (0–23)",
-    "reset": "Reset",
+    "manageBilling": "Jere fakti",
+    "portalOpenFailed": "Pa t kapab louvri pòtal faktirasyon an. Tanpri eseye ankò.",
+    "kenbePouMontre": "Kenbe pou montre",
+    "avètiLèYoKopye": "Avèti m si yo kopye mesaj mwen",
+    "echèkChaje": "Pa t kapab chaje pwofil la",
+    "swiv": "Swiv",
+    "echèkSwiv": "Pa t kapab swiv",
+    "deswiv": "Deswiv",
+    "echèkDeswiv": "Pa t reyisi dezfè swivi a",
+    "dezfè swivi": "Dezfè swivi",
+    "endikasyon pou swiv": "Istwa yo ap parèt nan fil Swivi w la si yo pibliye pou yon odyans Swivè (oswa Piblik).",
+    "itilizatè pa jwenn": "Itilizatè a pa jwenn",
+    "swiv ou": "Swiv ou",
+    "tit seksyon ki plante a ": "Seksyon an pa t ka chaje",
+    "sectionCrashedBody": "Gen yon bagay ki pa mache nan seksyon sa a.",
+    "forwarding": "Avansman Apèl & Mesaj",
+    "callTextForwardingSection": "Avansman Apèl & Mesaj",
+    "callTextForwardingTitle": "Avansman Apèl ak/oswa Mesaj",
+    "callTextForwardingDescription": "Avanse apèl ak mesaj k ap antre yo sou telefòn oswa imel verifye ou. Apèl k ap soti apèl/mesaj tèks ka montre nimewo Chatforia ou a.",
+    "enableTextForwarding": "Aktive transfè tèks",
+    "forwardTextsToPhone": "Fòwade mesaj tèks sou telefòn",
+    "forwardTextsToEmail": "Fòwade mesaj tèks sou imèl",
+    "destinationPhone": "Telefòn destinasyon (E.164)",
+    "destinationEmail": "Imèl destinasyon",
+    "enableCallForwarding": "Aktive transfè apèl",
+    "destinationPhoneForCalls": "Destinasyon (E.164) pou apèl yo",
+    "aliasBridging": "Transfè Apèl (alias bridging)",
+    "quietHoursOptional": "Lè Trankil (opsyonèl)",
+    "startHour": "Lè pou kòmanse (0–23)",
+    "endHour": "Lè pou fini (0–23)",
+    "reset": "Reinisyalize",
     "saveBtn": "Sove",
-    "saveProfile": "Sove profil",
-    "saveForwarding": "Sove transfere",
-    "forwardSaved": "Paramèt transfere sove",
-    "forwardSaveFailed": "Echwe sove paramèt",
-    "errE164": "Antre yon nimewo telefòn E.164 valab (egz., +15551234567).",
-    "errEmail": "Antre yon imèl valab.",
+    "saveProfile ": "Sove pwofil",
+    "saveForwarding": "Sove transfè",
+    "forwardSaved": "Anviwònman transfè yo sove",
+    "forwardSaveFailed": "Echèk nan sove anviwònman yo",
+    "errE164": "Antre yon nimewo telefòn E.164 ki valab (egzanp, +15551234567).",
+    "errEmail": "Antre yon imèl ki valab.",
     "errSmsDest": "Chwazi omwen yon destinasyon (telefòn oswa imèl).",
-    "errQuietHours": "È trankil dwe ant 0 ak 23.",
-    "randomChat": "Chat Aleatwa",
-    "ageBand": "Ranje laj ou",
-    "ageBandPlaceholder": "Chwazi ranje laj ou",
+    "errQuietHours": "Lè trankilite yo dwe ant 0 ak 23.",
+    "randomChat": "Chat o aza",
+    "ageBand": "Peryòd laj ou",
+    "ageBandPlaceholder": "Chwazi peryòd laj ou",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Nou sèlman estoke yon ranje laj (pa dat nesans egzak ou). Sa itilize pou kenbe matche Chat Aleatwa rezonab.",
-    "wantsAgeFilter": "Sèvi ak matche ki baze sou laj nan Chat Aleatwa",
-    "wantsAgeFilterDesc": "Lè aktif, nou eseye matche ou ak moun nan ranje laj konpatib.",
-    "partnerAgeBands": "Ak ki moun ou ka matche?",
-    "partnerAgeBandsDesc": "Tinedjè toujou matche sèlman ak lòt tinedjè. Granmoun pa ka matche ak tinedjè.",
-    "teenMatchingNote": "Pou sekirite, kont nan ranje laj 13–17 ka sèlman matche ak lòt kont 13–17 nan Chat Aleatwa.",
-    "foriaRemember": "Kite Ria sonje bagay ou di li",
-    "foriaRememberDesc": "Lè sa aktif, Foria ka itilize konvèsasyon Chat Aleatwa pase ou (sèlman avèk ou) pou kenbe konvèsasyon an ap koule. Ou ka fèmen li nenpòt lè.",
-    "voicemailSection": "Mesaj vwa",
-    "voicemailEnabled": "Aktive mesaj vwa",
-    "voicemailAutoDeleteDays": "Oto-efase mesaj vwa apre (jou)",
-    "voicemailAutoDeletePlaceholder": "Kite vid pou kenbe pou tout tan",
-    "voicemailForwardEmail": "Transfere mesaj vwa nan imèl",
-    "voicemailForwardEmailPlaceholder": "Imèl pou voye notifikasyon mesaj vwa",
-    "voicemailGreetingText": "Lejand tèks fallback",
-    "voicemailGreetingTextDesc": "Itilize lè salitasyon odyo ou pa disponib.",
-    "voicemailGreetingUpload": "Telechaje salitasyon mesaj vwa",
-    "voicemailPreviewGreeting": "Preview salitasyon",
-    "voicemailGreetingUploaded": "Salitasyon mesaj vwa telechaje avèk siksè",
-    "voicemailGreetingUploadError": "Echwe telechaje salitasyon mesaj vwa",
-    "voicemailNote": "Mesaj vwa soti nan nimewo Chatforia ou yo estoke nan bwat resepsyon Mesaj vwa ou. Ou ka aktive transkripsyon ak transfere nan plan ki sipòte.",
-    "portHint": "Ou vle kenbe nimewo aktyèl ou? Ou ka pòte li nan Chatforia Wireless.",
+    "ageBandHint": "Nou sèlman estoke yon seri laj (pa dat nesans egzak ou). Nou itilize sa pou asire konbinezon nan Chat O a rete rezonab.",
+    "wantsAgeFilter": "Itilize matche ki baze sou laj nan Chat O a",
+    "wantsAgeFilterDesc": "Lè li aktive, nou eseye mete w an pè ak moun ki nan kategori laj ki konpatib.",
+    "partnerAgeBands": "Ak ki moun ou ka fè pè?",
+    "partnerAgeBandsDesc": "Adolesan yo toujou fè pè sèlman ak lòt adolesan. Adilt yo pa ka fè pè ak adolesan.",
+    "teenMatchingNote": "Pou sekirite, kont ki nan laj 13–17 an ka sèlman matche ak lòt kont 13–17 an nan Chat O aza.",
+    "foriaRemember": "Kite Ria sonje bagay ou di l yo",
+    "foriaRememberDesc": "Lè sa a aktive, Foria ka itilize konvèsasyon Chat O aza ou te genyen anvan yo (sèlman avèk ou) pou konvèsasyon an ka kontinye byen. Ou ka dezaktive sa nenpòt ki lè.",
+    "voicemailSection": "Mesaj Vokal",
+    "voicemailEnabled": "Aktive mesaj vokal",
+    "voicemailAutoDeleteDays": "Effase mesaj vokal otomatikman apre (jou)",
+    "voicemailAutoDeletePlaceholder": "Kite vid pou kenbe yo pou toutan",
+    "voicemailForwardEmail": "Fowade mesaj vokal nan imèl",
+    "voicemailForwardEmailPlaceholder": "Imèl pou voye vo icemail notifications to",
+    "voicemailGreetingText": "Text fallback greeting",
+    "voicemailGreetingTextDesc": "Used when your audio greeting is unavailable.",
+    "voicemailGreetingUpload": "Chaje mesaj akeyi mesaj vokal la",
+    "voicemailPreviewGreeting": "Gade yon apèsi mesaj akeyi a",
+    "voicemailGreetingUploaded": "Mesaj akeyi mesaj vokal la chaje avèk siksè",
+    "voicemailGreetingUploadError": "Pa t posib pou chaje mesaj akeyi mesaj vokal la",
+    "voicemailNote": "Mesaj vokal ki soti nan nimewo Chatforia ou yo ap estoke nan bwat resepsyon Mesaj Vokal ou a. Ou ka aktive transkripsyon ak transfè nan plan ki sipòte yo.",
+    "portHint": "Ou vle kenbe nimewo ou genyen kounye a? Ou ka transfere l sou Chatforia Wireless.",
     "wireless": {
-      "manage": "Jere wireless"
+      "manage": "Jere sanfil"
     },
     "esim": {
       "title": "Chatforia eSIM",
-      "desc": "Jwenn done mobil pou Chatforia lè ou lwen Wi-Fi.",
+      "desc": "Jwenn done mobil pou Chatforia lè w pa sou Wi-Fi.",
       "cta": "Jwenn eSIM / Montre QR"
-    }
+    },
+    "encryptedBackupsTitle": "Sèvè Kle Enkripsyon"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "son": {
+    "sonNotifikasyon": "Son Notifikasyon",
+    "retabliAparansOrijinal": "Retabli aparans orijinal",
+    "avètismanGratisKòmanse": "Ou sou vèsyon gratis la — son prim yo parèt men yo bloke. ",
+    "avètismanGratisFen": " pou debloke tout.",
+    "messageTone": "Ton mesaj",
+    "ringtone": "Sonri",
+    "preview": "Apèsi",
+    " stop": "Sispann",
+    "volim": "Volim",
+    "messageToneFilesHint": "Mete fichye yo nan /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Mete fichye yo nan /public/sounds/Ringtones",
+    "premiumRequired": "Ou bezwen abònman Premium pou seleksyon sa a.",
+    "saved": "Anviwònman son an anrejistre.",
+    "saveFailed": "Pa t ka anrejistre anviwònman son an.",
+    "resetNotSaved": "Retabli nan valè pa defo (pa anrejistre toujou).",
+    "premiumTone": "Sa a se yon son Premium.",
+    "premiumRingtone": "Sa a se yon son apèl Premium.",
+    "custom ComingSoon": "Chajman son pèsonalize ap vini byento.",
+    "freeNotice": "Ou sou plan Gratis — son Premium yo parèt men yo bloke. Fè yon ajou pou debloke yo tout.",
+    "default": "Pa defo",
+    "vibrate": "Vibre",
+    "dreamer": "Rèvè",
+    "notify": "Nòtifye",
+    "pop": "Pop",
+    "pulsatingSound": "Son k ap bat",
+    "textMessage": "Mesaj tèks",
+    "ksilofòn": "Ksilofòn",
+    "klasik": "Klasik",
+    "ijans": "Ijans",
+    "klòch": "Klòch",
+    "klòch mizik": "Klòch mizik",
+    "telefòn dijital": "Telefòn dijital",
+    "melodik": "Melodik",
+    "nòt òg": "Nòt òg",
+    "soundReality": "Reyalite Son",
+    "street": "Ri",
+    "universfield": "Espas Linivè"
+  },
+  "aiSettings": {
+    "title": "Paramèt AI",
+    "kontwòlEntwodiksyon": "Kontwole tradiksyon, repons entèlijan, ak repons otomatik ForiaBot.",
+    "tradiksyon": "Tradiksyon",
+    "traduiOtomatikMesajKiVini": "Tradui otomatikman mesaj k ap vini yo",
+    "montreTèksOrijinalLaBòKote": "Montre tèks orijinal la bò kote tradiksyon an",
+    "reponsEntèlijan": "Repons Entèlijan ",
+    "enableSmartReplies": "Aktive Repons Entelijan",
+    "smartRepliesHint": "Voye dènye mesaj resevwa yo (netwaye) bay AI pou sijere repons rapid.",
+    "maskProfanity": "Mask mo vulgè nan sijesyon AI yo",
+    "maskProfanityHint": "Si li aktive, mo make yo ap mask nan sijesyon AI yo bay la ",
+    "foriaBot": "ForiaBot Otoreponsè",
+    "enableAutoReply": "Aktive otorepons lè m okipe",
+    "autoReplyMode": "Mòd otorepons",
+    "cooldownSeconds": "Tan dètann (segonn)",
+    "siyat": "Siyati",
+    "repons otomatik": "🤖 Repons otomatik",
+    "aktifJiskaOpsyonèl": "Aktif jiska (opsyonèl)",
+    "anrejistre": "Preferans AI anrejistre",
+    "anrejistreEchèk": " Pa t kapab anrejistre paramèt AI yo",
+    "translateOff": "Dezaktive",
+    "translateTagged": "Sèlman lè @translated oswa make",
+    "translateAll": "Tradui tout mesaj k ap antre yo ",
+    "modeDm": "Chat 1:1 sèlman",
+    "modeMention": "Sèlman lè yo @ mansyone m",
+    "modeAll": "Tout mesaj k ap antre yo",
+    "off": "Ete",
+    "on": "O"
+  },
+  "accessibilitySettings": {
+    "title": "Aksèbilite & Alèt",
+    "loadFailed": "Echèk pou chaje anviwònman yo",
+    "accessibilityDesc": "Opsyon pou fè Chatforia pi fasil pou itilize san w pa bezwen tande son.",
+    "interfaceFontSize": "Gwosè polis entèfas la",
+    "interfaceFontSizeHelp": "Li kòmanse nan gwosè nòmal. Ogmante si w prefere tèks ki pi gwo.",
+    "notifikasyon": "Notifikasyon",
+    "alètvizyèl ": "Alèt vizyèl pou mesaj & apèl",
+    "visualAlertsDesc": "Afiche banyè epi fè tit la klere pou ou pa rate okenn aktivite.",
+    "vibrateOnNewShort": "Vibre lè gen nouvo mesaj (lè aparèy la sipòte sa)",
+    "vibrateOnNewDesc": "Deplase aparèy la lè gen notifikasyon.",
+    "flashOnCallShort": "Fè ekran an klere lè gen yon apèl k ap antre",
+    "flashOnCallDesc": "Yon ti flach klere lè yon apèl ap sonnen.",
+    "liveCaptionsTitle ": "Tit an dirèk (apèl)",
+    "enableLiveCaptions": "Aktive tit an dirèk pandan apèl yo (Premium)",
+    "liveCaptionsDesc": "Montre tit an tan reyèl ki soti nan odyo lòt patisipan an.",
+    "captionFontSize": "Gwosè polis tit la",
+    "captionBackground": "Fon tit la",
+    "voiceNotes": "Nòt vokal",
+    "autoTranscribeVoice Nòt": "Transkri vwa nòt yo otomatikman",
+    "autoTranscribeVoiceNotesDesc": "Atache yon transkripsyon ak mesaj odyo ou resevwa yo.",
+    "changesSavedInstantly": "Chanjman yo anrejistre enstantane.",
+    "sm": "Ti",
+    "md": "Mwayen",
+    "lg": "Gwo",
+    "xl": " Gwo Anpil",
+    "klè": "Klè",
+    "fonse": "Fonse",
+    "transparan": "Transparan",
+    "aksèbilite": "Aksèbilite",
+    "notifikasyonDesc": "Alèt vizyèl pou mesaj & apèl\nAfiche banyè ak tit k ap bat pou ou pa rate okenn aktivite.",
+    "vibreSouNouvo": "Vibre sou nouvo mesaj (lè sa sipòte)\nDeplase vibrasyon aparèy la ak notifikasyon yo.",
+    "flachSouApèl": "Ekran klere pou apèl k ap antre\nYon ti klere fò lè yon apèl ap sonnen.",
+    "liveCaptions": "Sous-tit an dirèk (apèl)"
+  },
+  "privacySection": {
+    "strictE2EE": "Chifreman bout-a-bout strik",
+    "ciphertextOnlyNote": "Sere sèlman tèks chifre a sou sèvè a. Dezaktive AI/ Tradiksyon ak apèsi moderasyon.",
+    "strictE2EEEnabled": "E2EE strik aktive. AI/Tradiksyon ap dezaktive.",
+    "strictE2EEDisabled": "E2EE strik dezaktive. AI/Tradiksyon re-aktive."
+  },
+  "linkedDevicesPanel": {
+    "title": "Aparèy konekte yo",
+    " nonefound": "Pa gen okenn aparèy konekte ki jwenn.",
+    "refresh": "Refresh",
+    "unknown": "Inkoni",
+    "loadFailed": "Echèk pou chaje aparèy konekte yo",
+    "loadFailedLog": "Echèk pou chaje aparèy konekte yo",
+    "renamePrompt": "Antre yon nouvo non pou aparèy sa a",
+    "renamed": "Aparèy la chanje non",
+    "renameFailed": " Pa t ka chanje non aparèy la",
+    "revoked": "Aparèy la revoke",
+    "revokeFailed": "Pa t ka revoke aparèy la",
+    "unnamedDevice": "Aparèy san non",
+    "primary": "Primè",
+    "revokedStatus": "Revoke",
+    "addedLastSeen": "Ajoute {{created}} • Dènye fwa wè {{lastSeen}}",
+    " renameDevice": "Chanje non aparèy la",
+    "revokeDevice": "Revoke aparèy la"
   },
   "wireless": {
-    "title": "Chatforia Wireless",
-    "description": "Jere plan mobil Chatforia ou, nimewo, transfere, ak pòt nimewo.",
-    "options": {
-      "heading": "Chwazi fason ou vle itilize Chatforia",
-      "subheading": "Ou ka jwenn yon nouvo nimewo Chatforia, oswa pote nimewo ki egziste deja ou soti nan yon lòt operatè.",
-      "newNumber": "Jwenn yon nouvo nimewo Chatforia",
+    "title": "Chatforia Sanfil",
+    "deskripsyon": "Jere plan mobil Chatforia w la, nimewo w yo, transfè apèl, ak pòtay nimewo.",
+    "opsyon": {
+      "antèt": "Chwazi kijan ou vle itilize Chatforia",
+      "sous-antèt": "Ou ka pran yon nouvo nimewo Chatforia, oswa pote nimewo ou genyen an ki soti nan yon lòt operatè.",
+      "nouvoNimewo": "Pran yon nouvo nimewo Chatforia",
       "portNumber": "Pòte nimewo aktyèl ou nan Chatforia Wireless"
     },
     "port": {
-      "heading": "Pòte nimewo ki egziste deja ou",
-      "subheading": "Deplase nimewo telefòn aktyèl ou soti nan operatè ou nan Chatforia. Asire detay yo matche ak kont operatè ou egzakman pou evite reta.",
-      "phoneNumberLabel": "Nimewo telefòn pou pòte",
+      "heading": "Pòte nimewo ou genyen deja a",
+      "subheading": "Deplase nimewo telefòn aktyèl ou a soti nan operatè ou genyen kounye a pou mete l nan Chatforia. Asire w detay yo koresponn egzakteman ak kont operatè ou a pou evite reta.",
+      "phoneNumberLabel": "Nimewo telefòn pou pòte a",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "Operatè aktyèl",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile, elatriye.",
       "accountNumberLabel": "Nimewo kont",
-      "pinLabel": "PIN / modpas pòte-soti",
-      "fullNameLabel": "Non konplè sou kont la",
+      "pinLabel": "Kòd PIN pou pòte nimewo a / modpas",
+      "fullNameLabel": "Non konplè sou kont lan",
       "address1Label": "Liy adrès 1",
       "address2Label": "Liy adrès 2 (opsyonèl)",
       "cityLabel": "Vil",
-      "stateLabel": "Eta / Pwovens",
-      "postalCodeLabel": "Kòd postal",
-      "countryLabel": "Peyi",
-      "submitButton": "Soumèt demann pòt",
-      "success": "Demann pòt soumèt! Nou pral kenbe ou ajou.",
-      "genericError": "Yon bagay ale mal."
+      "stateLabel ": "Eta / Pwovens",
+      "etikètKòdPostal": "Kòd postal",
+      "etikètPeyi": "Peyi",
+      "boutonSoumèt": "Soumèt demann pòt la",
+      "siksè": "Demann pòt la soumèt! N ap kenbe w enfòme.",
+      "erèJenerik": "Gen yon bagay ki pa mache."
     },
-    "status": {
-      "heading": "Estati pòt",
-      "subheading": "Swiv estati demann pòt nimewo ou yo.",
-      "loading": "Chaje…",
-      "loadError": "Echwe chaje demann pòt.",
-      "none": "Pa gen aktivite pòt ankò.",
-      "pending": "An revizyon",
-      "submitted": "Soumèt bay operatè",
-      "inProgress": "An pwogrè",
-      "completed": "Konplete",
-      "failed": "Echwe",
-      "canceled": "Anile",
-      "created": "Kreye:",
-      "scheduled": "Planifye:",
-      "completedAt": "Konplete:"
+    "estati": {
+      "antèt": " Estati transfè a",
+      "sous-tit": "Swiv estati demann transfè nimewo ou yo.",
+      "apChaje": "Ap chaje…",
+      "erèChajman": "Pa t kapab chaje demann transfè yo.",
+      "okenn": "Pa gen okenn aktivite transfè ankò.",
+      "anAtant": "An atant revizyon",
+      "soumèt": "Soumèt bay operatè a",
+      "anKours": "An kours",
+      "konplete": "Konplete",
+      "echwe": "Echwe",
+      "anile": "Anile",
+      "kreye": "Kreye:",
+      "pwograme": "Pwograme:",
+      "konpleteNan": "Konplete nan:"
     },
-    "dataLow": "Done ou ap ba.",
-    "topUp": "Ajoute kounye a",
-    "expiresIn": "Ekspire nan {{days}} jou",
-    "exhausted": "Done ou fini. Achte yon nouvo pake pou kontinye itilize done mobil.",
-    "buyPack": "Achte pake done",
-    "esimPackLabel": "Pake eSIM"
+    "doneBa": "Done w yo prèske fini.",
+    "rechaje": "Rechaje kounye a",
+    "ekspireNan": "Ekspire nan {{days}} jou",
+    "fini": "Done w yo fini. Achte yon nouvo pake pou kontinye itilize done mobil.",
+    "achtePake": "Achte pake done",
+    "es imPackLabel": "eSIM pack"
   },
-  "family": {
-    "title": "Fanmi",
-    "loading": "Chaje detay fanmi ou…",
-    "error": {
-      "load": "Echwe chaje detay fanmi.",
-      "invite": "Pa ka kreye yon envit. Asire ou se pwopriyetè fanmi epi eseye ankò.",
-      "checkout": "Nou pa ka kòmanse kesye pou yon plan Fanmi. Tanpri eseye ankò."
+  "phoneNumberManager": {
+    "choisirNimewo": "Chwazi yon nimewo",
+    "nimewoTelefòn": "Nimewo telefòn",
+    "nimewoDisponib": "Nimewo ki disponib",
+    "nimewoPremium": "Nimewo Premium 🔒",
+    "endisNimewoGratis": "Nimewo gratis ki ka resikle apre inaktivite.",
+    "endisNimewoPremium": "Kenbe nimewo w la pandan abònman Premium ou a aktif.",
+    "pays": "Pays",
+    "kòdZòn": "Kòd zòn",
+    "kòdZònPlasdèten": "egzanp, 415",
+    "kapasite": "Kapasite",
+    "rechèch": "Rechèch",
+    "blokeNimewoSaA": "Bloke nimewo sa a (abònman anplis chak semèn, ap vini byento)",
+    "premiumProtectedHint": "Nimewo Premium yo pwoteje kont resiklaj pandan abònman Premium ou a aktif.",
+    "availableNumbers": "Nimewo ki disponib",
+    "searchHint": "Antre yon kòd zòn 3 chif (Etazini/Kanada sèlman), oswa kite l vid, epi fè rechèch la.",
+    "keep": "Kenbe",
+    "select": "Seleksyone",
+    "assignNumberFirst": "Asiyen yon nimewo an premye.",
+    "premiumKeepFeature": "Kenbe nimewo w se yon karakteristik Premium.",
+    "lockingPremiumFeature": "Bloke nimewo se yon karakteristik Premium.",
+    "numberAssigned": "Nimewo asiyen. ",
+    "nimewoPwotejeKounyeA": "Nimewo w la pwoteje kounye a.",
+    "nimewoPwoteje": "Nimewo pwoteje.",
+    "nimewoPaPwoteje": "Nimewo pa pwoteje.",
+    "nimewoLage": "Nimewo lage.",
+    "paTKaChajeNimewo": "Pa t kapab chaje nimewo yo.",
+    "couldNotAssign": "Pa t kapab asiyen nimewo sa a. Li ka fèk pran—eseye yon lòt.",
+    "couldNotLease": "Pa t kapab lwe nimewo sa a. Li ka fèk pran—eseye yon lòt.",
+    "couldNotProtectNow": " Pa t kapab pwoteje nimewo w la kounye a.",
+    "couldNotProtect": "Pa t kapab pwoteje nimewo a.",
+    "couldNotUnprotect": "Pa t kapab de-pwoteje nimewo a.",
+    "couldNotRelease": "Pa t kapab libere nimewo a.",
+    "invalidAreaCode": "Tanpri antre yon kòd zòn 3 chif (egzanp, 415) oswa kite l vid.",
+    "paGenEnvè": "Pa gen envantè ki disponib kounye a.",
+    "paGenNimewoGratis": "Pa gen okenn nimewo gratis ki disponib kounye a.",
+    "paGenEnvèKòdZòn": "Pa gen envantè ki disponib pou kòd zòn sa a kounye a.",
+    "paGenNimewoGratisKòdZòn": "Pa gen okenn nimewo gratis nan rezèv nou an pou kòd zòn sa a kòd zòn sa a kounye a.",
+    "releaseConfirm": "Libere nimewo ou genyen kounye a? Yo ka bay li yon lòt moun.",
+    "unprotect": "Dez pwoteje",
+    "keepThisNumber": "Kenbe nimewo sa a",
+    "ranplase": "Ranplase",
+    "libere": "Libere",
+    "aktif": "Aktif",
+    "pa gen nimewo": "Pa gen nimewo",
+    "fèktè primyòm": "Fèktè primyòm",
+    "pwotejeNimewoOu": "Pwoteje nimewo ou",
+    "protected": "Pwoteje",
+    "notProtected": "Pa pwoteje",
+    "expiresInShort": "Ekspire nan {{count}}e",
+    "expirèsyonAnJou": "Ekspire nan {{count}} jou",
+    "prètEkspire": "Prèt ekspire{{suffix}}",
+    "renouvleNan": "Renouvle {{date}}",
+    "avètismanLach": "Nimewo w la ka lage nan {{count}} jou. Fè yon ajou Premium pou kenbe l pwoteje. ",
+    "pickNumberHint": "Chwazi yon nimewo Chatforia pou w itilize pou mesajri ak kominikasyon anndan aplikasyon an.",
+    "unableToLoadStatus": "Enkapab chaje estati nimewo telefòn nan.",
+    "lock": "Bloke",
+    "noNumberAssigned": "Pa gen nimewo ki asiyen. Chwazi youn pa kòd zòn pou kòmanse voye mesaj."
+  },
+  "dialer": {
+    "title": "Apèl",
+    "sou-tit": "Pad & resan. (Si ou pa itilize PSTN, kòmanse apèl yo apati antèt konvèsasyon an.)",
+    "antreNimewo": "Antre nimewo",
+    "enterNumberAria": "Antre nimewo",
+    "resolving": "Ap rezoud destinasyon apèl la…",
+    "call": "Apèl",
+    "callBrowser": "Apèl atravè navigatè a",
+    "backspace": "Efase bak",
+    "recents": "Apèl resan yo",
+    "noRecents": "Pa gen apèl resan ankò.",
+    "resolveFailed": "Pa t ka rezoud destinasyon apèl la.",
+    "callRequiredNumber": "Ou bezwen yon nimewo Chatforia anvan ou fè apèl telefòn.",
+    "callFailed": "Pa t ka fè apèl la.",
+    "konfimeEfase": "Efase apèl sa a nan lis dènye yo?",
+    "efaseEchèk": "Pa t ka efase apèl la.",
+    "efaseEchèkJounal": "Echèk nan efase apèl la",
+    "Soti": "Soti",
+    "Antre": "Antre",
+    "Manke": "Manke",
+    "Refize": "Refize",
+    "Echèk": "Echèk",
+    "konplete": "Konplete",
+    "apèlSoti": "Apèl k ap Soti",
+    "apèlAntre": "Apèl k ap Antre",
+    "mesajvokal": "Mesaj Vokal",
+    "callAria": "Apèl {{name}}",
+    "deleteAria": "Efase apèl {{name}}",
+    "Antre nimewo": "Antre nimewo",
+    "paGenResan": "Pa gen apèl resan ankò.",
+    "kle": "Kle {{d}}"
+  },
+  "istwaApèl": {
+    "tit": "Apèl yo",
+    "sous-tit": "Apèl resan ou yo, ni sa ki antre ni sa ki soti.",
+    "echèkChajman": "Pa t kapab chaje istwa apèl la.",
+    "loadFailedTitle": "Pa t kapab chaje istwa apèl la",
+    "emptyTitle": "Pa gen apèl ankò",
+    "emptySubtitle": "Dènye apèl ou yo ap parèt la a.",
+    "Sòti": "Sòti",
+    "Antre": "Antre",
+    "Manke": "Manke",
+    "Rejte": "Rejte",
+    "Echèk": "Echèk",
+    "Konplete": "Konplete",
+    "Apèl Sòti": "Apèl Sòti",
+    "Apèl Antre": "Apèl Antre",
+    "mesajvokal": "Mesaj vokal"
+  },
+  "videyo": {
+    "sant": {
+      "tit": "Videyo",
+      "sous-tit": "Chwazi yon kalite videyo."
     },
-    "billing": {
-      "myPlanTitle": "Plan mwen",
-      "myPlanError": "Enkapab chaje plan ou.",
-      "myPlanLoading": "Chaje plan ou…",
-      "currentPlan": "Plan aktyèl",
-      "renewsAt": "Renouvle sou",
-      "freePlanCopy": "Ou sou plan gratis. Ajou pou debloke plis fonksyon.",
-      "upgradeCta": "Ajou plan",
-      "changePlanCta": "Chanje plan",
-      "manageBilling": "Jere bòdè",
-      "portalError": "Enkapab louvri pòtal bòdè kounye a.",
-      "cancelNow": "Anile kounye a",
-      "cancelNowHelp": "Ou ka jere oswa anile abònman ou nan pòtal bòdè, oswa anile imedyatman anba a.",
-      "cancelNowConfirm": "Èske ou sèten ou vle anile plan ou imedyatman? Sa pa ka defèt.",
-      "cancelNowError": "Enkapab anile plan ou kounye a. Tanpri eseye ankò oswa sèvi ak Jere bòdè."
+    "dirèk": {
+      "tit": "Videyo Dirèk",
+      "sous-tit": "Kòmanse yon apèl videyo 1:1 ak yon lòt itilizatè.",
+      "desc": "Apèl kamera 1:1 ak yon lòt itilizatè.",
+      "start": "Kòmanse",
+      "callBtn": "Rele",
+      "callByPhone": {
+        "title": "Rele pa telefòn"
+      },
+      "phone": {
+        "placeholder": "Antre nimewo telefòn (pa egzanp, +1-555-123-4567)",
+        "aria": "Telefòn pou rele"
+      },
+      "tipInvite": "Konsèy: Kole yon nimewo epi rele san ou pa sove kontak la. N ap envite moun ki pa itilizatè yo pa lyen.",
+      "findUser": {
+        "title": "Jwenn yon itilizatè"
+      },
+      "search": {
+        "placeholder": " Chèche pa non oswa non itilizatè",
+        "aria": "Chèche pa non oswa non itilizatè",
+        "btn": "Chèche"
+      }
     },
-    "none": {
-      "title": "Pa gen fanmi konfigire ankò",
-      "body": "Pou kreye yon Fanmi Chatforia ak pisin done pataje, kòmanse yon plan Fanmi.",
-      "goUpgrade": "Kòmanse yon plan Fanmi",
-      "viewPlans": "Wè tout plan yo"
+    "rooms": {
+      "title": "Sal yo",
+      "subtitle": "Kreye yon sal oswa rantre nan youn ki egziste deja lè w tape menm non an.",
+      "desc": "Videyo plizyè moun k ap itilize yon non chanm pataje.",
+      "roomLabel": "Non chanm",
+      " roomPlaceholder": "pa egzanp team-standup",
+      "roomAria": "Non chanm nan",
+      "joinCreate": "Antre / Kreye",
+      "tip": "Konsèy: pataje non sa a ak lòt moun, oswa mete yon lyen dirèk pou"
     },
-    "group": {
-      "defaultName": "Fanmi Chatforia mwen",
-      "role": "Wòl ou: {{role}}"
-    },
-    "role": {
-      "owner": "Pwopriyetè",
-      "member": "Manm"
-    },
-    "data": {
-      "heading": "Pisin done pataje",
-      "caption": "Tout manm pataje pisin sa a. Nou pral avèti ou lè ou apwoche limit ou."
-    },
-    "members": {
-      "title": "Manm fanmi",
-      "name": "Non",
-      "role": "Wòl",
-      "usage": "Itilizasyon",
-      "limit": "Limit",
-      "unlimited": "Pa gen limit espesifik",
-      "inviteCta": "Envite manm"
-    },
-    "invite": {
-      "title": "Envite yon nouvo manm",
-      "body": "Voye yon imèl oswa lyen pou envite yon moun nan pisin done fanmi pataje ou.",
-      "emailLabel": "Imèl (opsyonèl)",
-      "emailPlaceholder": "zanmi@egzanp.com",
-      "create": "Kreye envit",
-      "linkLabel": "Lyen envit",
-      "copyAria": "Kopye lyen envit",
-      "expiryHint": "Lyen sa a ekspire apre kèk jou. Ou ka toujou kreye yon nouvo."
-    },
-    "join": {
-      "title": "Rantre nan yon fanmi",
-      "body": "Ou te envite rantre nan yon Fanmi Chatforia epi pataje pisin done yo.",
-      "cta": "Aksepte epi rantre nan fanmi",
-      "ctaLogin": "Konekte epi rantre nan fanmi",
-      "success": "Ou rantre nan fanmi sa a. Ou kounye a pataje pisin done yo.",
-      "goFamily": "Ale nan tablodbò fanmi",
-      "error": "Nou pa ka ajoute ou nan fanmi sa a. Envit la ka pa valab oswa ekspire."
-    }
+    "tit": "Videyo",
+    "chooseType": "Chwazi yon kalite videyo.",
+    "directTitle": "Videyo Dirèk",
+    "directDesc": "Apèl kamera 1:1 ak yon lòt itilizatè.",
+    "directStart": "Kòmanse",
+    "roomsTitle": "Sal yo",
+    "roomsDesc": "Videyo plizyè moun k ap itilize yon non sal pataje.",
+    "roomsIntro": "Antre oswa kreye yon sal plizyè moun.",
+    "roomNameLabel": "Non sal la",
+    "roomNamePh": "pa egzanp team-standup",
+    "join": "Antre",
+    "deeplinkTip": "Konsèy: ou ka fè yon lyen pwofon dirèkteman nan <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Kòmanse yon apèl videyo dirèk 1:1.",
+    "findUserLabel": "Jwenn yon itilizatè",
+    "findUserPh": "Chèche pa non oswa non itilizatè",
+    "search": "Chèche",
+    "call": "Rele"
+  },
+  "phoneWarning": {
+    "title": "Nimewo w la pral ekspire byento",
+    "body": "Nimewo w la {{number} } pral ekspire nan {{date}} sof si w reaktive l.",
+    "button": "Kenbe Nimewo M"
   },
   "premium": {
-    "heading": "Ale Premium",
-    "description": "Debloke fonksyon pisans & retire piblisite.",
-    "cta": "Ajou",
-    "upgrade": "Ajou",
-    "upgradeAria": "Ajou nan Chatforia Premium"
+    "heading": "Pase Premium",
+    "description": "Devwale fonksyonalite avanse & retire piblisite.",
+    "cta": "Mete ajou",
+    "upgrade": "Mete ajou",
+    "upgradeAria": "Mete ajou pou Chatforia Premium"
   },
   "upgrade": {
-    "title": "Ajou",
-    "titleLoggedIn": "Ajou",
+    "title": "Mete ajou",
+    "titleLoggedIn": "Mete ajou",
     "titlePublic": "Pri",
-    "h1": "Pri & Plan Chatforia",
-    "h1Subtitle": "Kòmanse ak plan gratis nou an ki gen piblisite. Ale san piblisite ak Plus, oswa debloke tout fonksyon pisans ak Premium.",
-    "subtitle": "Chwazi yon plan app, ajoute pake done pou tèt ou, oswa pataje done ak fanmi ou — tout nan yon sèl kote.",
-    "subtitle.app": "Kòmanse ak plan gratis nou an ki gen piblisite. Ale san piblisite ak Plus, oswa debloke tout fonksyon pisans ak Premium.",
-    "subtitle.mobile": "Ajoute done eSIM mondyal pou Chatforia kontinye travay menm lè ou lwen Wi-Fi.",
-    "subtitle.family": "Kreye yon pisin done pataje pou fanmi ou epi jere itilizasyon tout moun nan yon sèl kote.",
-    "perMonth": "mwa",
-    "perYear": "ane",
-    "goPremium": "Ale Premium",
-    "benefitsLine": "Debloke fonksyon pisans & retire piblisite.",
-    "ctaText": "Ajou",
-    "aria": "Ajou nan Chatforia Premium",
+    "h1": "Pri ak Plan Chatforia",
+    "h1Subtitle": "Kòmanse ak plan gratis nou an ki gen piblisite. Pa gen piblisite ak Plus, oswa debloke tout fonksyonalite avanse yo ak Premium.",
+    "subtitle": "Chwazi yon plan aplikasyon, ajoute pake done pou tèt ou, oswa pataje done ak fanmi w — tout bagay nan yon sèl kote.",
+    "subtitle.app": "Kòmanse ak plan gratis nou an ki gen piblisite. Ale san piblisite ak Plus, oswa debloke tout fonksyonalite avanse yo ak Premium.",
+    "subtitle.mobile": "Ajoute done eSIM mondyal pou Chatforia ka kontinye fonksyone menm lè w pa sou Wi-Fi.",
+    "subtitle.family": "Kreye yon pak done pataje pou fanmi w epi jere itilizasyon tout moun nan yon sèl kote.",
+    "perMonth": "mo",
+    "perYear": "year",
+    "goPremium": "Pase nan Premium",
+    "benefitsLine": "Devwale fonksyonalite avanse & retire piblisite.",
+    "ctaText": "Mete ajou",
+    "aria": "Mete ajou pou Chatforia Premium",
     "toggle": {
-      "monthly": "Mwa",
-      "annual": "Anyèl (Ekonomize 30%)"
+      "monthly": "Chak mwa",
+      "annual": "Chak ane (Ekonomize 30%)"
     },
     "scheduleBanner": {
-      "title": "Abònman pral fini",
-      "body": "Ou pral retounen nan Gratis sou",
+      "title": "Abònman w ap fini",
+      "body": "W ap retounen nan vèsyon Gratis nan",
       "keepPlanCta": "Kenbe {{plan}}",
-      "manageBillingCta": "Jere bòdè"
+      "manageBillingCta": "Jere faktirasyon"
     },
     "billing": {
-      "opening": "Louvri…",
-      "manage": "Jere Bòdè"
+      "opening": "Ap louvri…",
+      "manage ": "Jere Faktirasyon"
     },
     "checkout": {
       "redirecting": "Redireksyon…"
     },
     "auth": {
-      "continue": "Kontinye nan konekte",
+      "continue": "Kontinye pou konekte",
       "createAccount": "Kreye kont",
-      "signIn": "Konekte"
+      "signIn": " Konekte"
     },
     "cta": {
       "aria": "Chwazi plan",
-      "getPlus": "Ajou nan Plus",
-      "upgradeMonthly": "Ajou Chak Mwa",
-      "upgradeAnnual": "Ajou Anyèl"
+      "getPlus": "Monte nan plan Plus",
+      "upgradeMonthly": "Monte chak mwa",
+      "upgradeAnnual": "Monte chak ane"
     },
     "section": {
-      "app": "Plan app",
+      "app": "Plan aplikasyon",
       "mobile": "Mobil (eSIM)",
       "family": "Plan fanmi"
     },
@@ -805,992 +1099,902 @@
       "free": {
         "title": "Gratis",
         "price": "$0",
-        "desc": "Kòmanse mesaj gratis. Ideyal si ou jis ap eseye Chatforia.",
+        "desc": "Kòmanse voye mesaj gratis. Ideyal si w ap eseye Chatforia pou premye fwa.",
         "features": {
-          "chat": "Chat 1:1 ak gwoup an tan reyèl, plis apèl vwa ak videyo",
-          "media": "Pataje foto, mesaj vwa, ak videyo kout",
-          "ai": "Repons entelijan ak tradiksyon imedyat ki mache ak AI (itilizasyon jis)",
-          "disappearing": "Mesaj ki disparèt ak kontwòl konfidansyalite debaz",
-          "ads": "Gratis pou tout tan ak piblisite nan app la"
+          "chat": "Chat an tan reyèl 1:1 ak an gwoup, plis apèl vwa ak videyo",
+          "media": "Pataje foto, mesaj vokal, ak videyo kout",
+          "ai": "Repons entèlijan ki mache ak AI ak tradiksyon enstantane (itilizasyon rezonab)",
+          "disappearing": "Mesaj ki disparèt ak kontwòl vi prive debaz",
+          "ads": "Gratis pou toutan ak piblisite nan aplikasyon an "
         },
-        "ctaCurrent": "Plan aktyèl",
-        "ctaManage": "Jere nan bòdè",
-        "ctaPublic": "Kòmanse – kontinye nan konekte",
+        "ctaCurrent": "Plan aktyèl la",
+        "ctaManage": "Jere nan fakti a",
+        "ctaPublic": "Kòmanse – kontinye pou w konekte",
         "aria": "Plan gratis"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Tout esansyèl yo, san piblisite. Gran pou mesaj ak apèl chak jou.",
+        "desc": "Tout sa ki esansyèl, san piblisite. Ideyal pou mesajri ak apèl chak jou.",
         "features": {
-          "allFree": "Tout nan Gratis, san piblisite",
-          "forwarding": "Transfere apèl ak tèks nan nimewo telefòn reyèl ou",
-          "history": "Istorik mesaj pi long (jiska 6 mwa)",
-          "support": "Sipò pi rapid lè yon bagay ale mal"
+          "allFree": "Tout sa ki nan vèsyon Gratis la, san piblisite",
+          "forwarding": "Transfere apèl ak mesaj sou nimewo telefòn reyèl ou",
+          "istorik": "Istorik mesaj ki pi long (jiska 6 mwa)",
+          "sipò": "Sipò pi rapid lè gen yon pwoblèm"
         },
-        "badge": "Popilè",
-        "cta": "Ale San Piblisite",
-        "ctaPublic": "Jwenn Plus – kontinye nan konekte",
-        "aria": "Ajou nan Plus"
+        "badj": "Popilè",
+        "cta": "Pa gen Piblisite",
+        "ctaPublic": "Jwenn Plus – kontinye konekte",
+        "aria": "Mete ajou pou Plus"
       },
       "premiumMonthly": {
         "title": "Premium (Chak Mwa)",
         "price": "$11.99",
-        "desc": "Ekspèryans Chatforia konplè: zouti pisans AI, pèsonalizasyon, ak sipò priyorite.",
+        "desc": "Tout eksperyans Chatforia a: Zouti AI pwisan, pèsonalizasyon, ak sipò priyoritè.",
         "features": {
-          "plusAll": "Tout nan Plus",
-          "themes": "Debloke tout tèm koulè premium ak pèsonalizasyon app",
-          "ai": "Zouti pisans AI sèlman Premium pou re-ekri, repons entelijan, ak rezime",
-          "support": "Sipò priyorite lè ou bezwen èd plis"
+          "plusAll": "Tout bagay ki nan Plus la",
+          "themes": "Devwale tout tèm koulè prim ak pèsonalizasyon aplikasyon an",
+          "ai": "Zouti entèlijans atifisyèl (AI) ki gen gwo pouvwa pou Plus sèlman, pou reekriti, repons entèlijan, ak rezime",
+          "support": "Sipò priyoritè lè ou plis bezwen èd"
         },
         "badge": "Rekòmande",
-        "cta": "Ajou (Chak Mwa)",
-        "ctaPublic": "Debloke Premium – kontinye nan konekte",
-        "aria": "Ajou nan Premium Chak Mwa"
+        "cta": "Mete ajou (Chak Mwa)",
+        "ctaPublic": "Devwale Premium – kontinye konekte",
+        "aria": "Mete ajou pou Premium Chak Mwa"
       },
-      "premiumAnnual": {
-        "title": "Premium (Anyèl)",
-        "price": "$99",
-        "desc": "Ekonomize plis lè ou peye chak ane — ki gen ladan tèm koulè siplemantè, zouti AI, ak sipò priyorite.",
-        "features": {
-          "allPremium": "Tout nan Premium Chak Mwa — ki gen ladan tèm koulè siplemantè",
-          "annualBilling": "Peye yon sèl fwa chak ane",
-          "save25": "Ekonomize anviwon 30% konpare ak peye chak mwa",
-          "bestFor": "Pi bon pou itilizatè pisans, travayè aleka, ak vwayajè lou"
+      "premiumAnyèl": {
+        "tit": "Premium (Anyèl)",
+        "pri": "$99",
+        "deskripsyon": "Ekonomize plis lè w peye chak ane — sa gen ladan l tèm koulè anplis, zouti AI, ak sipò priyoritè.",
+        "karakteristik": {
+          "toutPremium": "Tout sa ki nan Premium Chak Mwa — ki gen ladan tèm koulè anplis",
+          "pemanAnyèl": "Yo faktire yon fwa pa ane",
+          "ekonomi25": "Ekonomize anviwon 30% konpare ak peye chak mwa",
+          "piBonPou": "Pi bon pou gwo itilizatè, moun k ap travay adistans, ak moun k ap vwayaje anpil"
         },
-        "badge": "Ekonomize 30%",
-        "cta": "Ajou (Anyèl)",
-        "ctaPublic": "Ekonomize 30% ak anyèl – kontinye nan konekte",
-        "aria": "Ajou nan Premium Anyèl",
-        "disclaimer": "Peye davans. Anile nenpòt lè. Pa gen frè kache."
+        "badj": "Ekonomize 30%",
+        "apèlaLaksyon": "Mete ajou (Anyèl)",
+        "ctaPublic": "Ekonomize 30% ak abònman anyèl – kontinye konekte",
+        "aria": "Mete ajou pou Abònman Anyèl Premium",
+        "disclaimer": "Yo faktire w davans. Kansele nenpòt ki lè. Pa gen frè kache."
       }
     },
     "marketing": {
       "freeTitle": "Gratis",
-      "freeDesc": "Kòmanse mesaj gratis.",
+      "freeDesc": "Kòmanse voye mesaj gratis.",
       "plusTitle": "Plus",
       "plusBadge": "Popilè",
-      "plusDesc": "Ekspèryans san piblisite ki pi abòdab.",
+      "plusDesc": "Eksperyans ki pi abòdab san piblisite.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Tout fonksyon, sonnerie, ak zouti pisans AI.",
+      "premiumMonthlyDesc": "Tout karakteristik yo, sonri, ak zouti AI pwisan.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Ekonomize plis lè ou peye chak ane.",
-      "annualDisclaimer": "Peye davans. Anile nenpòt lè. Pa gen frè kache."
+      "premiumAnnualDesc": "Ekonomize plis lè w peye pou ane.",
+      "annualDisclaimer": "Yo faktire w davans. Kansele nenpòt lè. Pa gen frè kache."
     },
     "mobile": {
-      "title": "Chatforia Mobil (pake done eSIM)",
-      "subtitle": "Ajoute done mondyal pou Chatforia kontinye travay menm san Wi-Fi. Pri yo ajiste otomatikman dapre peyi ou ak lajan.",
-      "subtitle.detail": "Chwazi yon pake done mondyal yon sèl fwa pou Chatforia kontinye travay lè ou ap vwayaje oswa lwen Wi-Fi.",
+      "title": "Chatforia Mobile (pak done mondyal eSIM)",
+      "subtitle": "Ajoute done mondyal pou Chatforia ka kontinye fonksyone menm san Wi-Fi. Pri yo ajiste otomatikman selon peyi w ak lajan w.",
+      " subtitle.detail": "Chwazi yon pake done mondyal yon sèl fwa pou Chatforia ka kontinye fonksyone lè w ap vwayaje oswa lè w pa gen Wi-Fi.",
       "scope": {
         "local": "Lokal",
         "europe": "Ewòp",
         "global": "Mondyal"
       },
-      "note": "Nou pa vann pake done ki mwens pase 3 GB.",
       "localEquals": "Lokal = {{country}}",
-      "localEqualsFallback": "Lokal = peyi aktyèl ou",
+      "localEqualsFallback": "Lokal = peyi kote w ye a",
       "perPack": "/ pake",
       "cta": "Jwenn pake done sa a",
       "ctaPublic": "Jwenn pake done sa a",
       "checkout": {
-        "redirecting": "Redireksyon…"
+        "redirecting": "Ap redireksyone…"
       },
       "unlimited": {
         "features": {
-          "heavyUse": "Done gwo vitès pou itilizasyon lou",
-          "throttle": "Vitès ka ralanti apre gwo itilizasyon",
-          "coverage": "Kouvèti serye",
-          "instant": "Aktivasyon eSIM imedyat",
-          "noContract": "Pake yon sèl fwa, pa gen kontra"
+          "heavyUse": "Done gwo vitès pou gwo itilizasyon",
+          "throttle": "Done gwo vitès ki soumèt anba politik itilizasyon ekitab ak jesyon rezo",
+          "coverage": "Kouvèti fyab",
+          "instant": "Aktivasyon eSIM enstantane",
+          "noContract": "Pake yon sèl fwa, san kontra"
         }
       },
-      "disclaimer": {
-        "devices": "Pake done eSIM mande yon aparèy ki konpatib ak eSIM epi deblokaje. Disponibilite varye dapre modèl telefòn, operatè, ak peyi. Kouvèti ak vitès varye dapre rejyon."
+      "avètisman": {
+        "aparèy": "Pake done eSIM yo mande yon aparèy ki konpatib ak eSIM epi ki debloke. Disponibilite varye selon modèl telefòn, operatè, ak peyi. Kouvèti ak vitès yo varye selon rejyon."
       },
-      "small": {
-        "title": "Pake demaraj",
-        "desc": "Gen ladan 3 GB done gwo vitès — ideyal pou mesaj limyè ak apèl okazyonèl.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Vwayaj kout, mesaj limyè, ak apèl okazyonèl",
-        "aria": "Achte pake done eSIM demaraj"
+      "pake": {
+        "3gb": {
+          "tit": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "tit": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "tit": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "tit": "{{scope}} 20 GB"
+        },
+        "sanlimit": {
+          "tit": "{{scope}} Sanlimit"
+        }
       },
-      "medium": {
-        "title": "Pake vwayajè",
-        "desc": "Gen ladan 5 GB done gwo vitès pou vwayaj, deplasman, ak apèl VoIP regilye.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Vwayaj fen semèn, apèl VoIP regilye, ak kat",
-        "aria": "Achte pake done eSIM vwayajè"
-      },
-      "large": {
-        "title": "Pake pisans",
-        "desc": "Gen ladan 10 GB done gwo vitès pou chat lou, apèl, ak videyo sou rezo Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Chat lou, apèl, videyo, ak itilizasyon hotspot",
-        "aria": "Achte pake done eSIM itilizatè pisans"
-      },
-      "compare": {
-        "title": "Konpare pake done eSIM",
+      "konpare": {
+        "tit": "Konpare pake done eSIM yo",
         "col": {
           "pack": "Pake",
-          "data": "Done ki gen ladan",
+          "data": "Done ki enkli",
           "bestFor": "Pi bon pou"
         },
-        "disclaimer": "Itilizasyon done aktyèl depann sou fason ou itilize Chatforia (vwa, videyo, medya, ak lòt app sou telefòn ou)."
+        "avètisman": "Itilizasyon done reyèl la depann de fason ou itilize Chatforia (vwa, videyo, medya, ak lòt aplikasyon sou telefòn ou)."
       }
     },
-    "family": {
-      "title": "Chatforia Fanmi (done pataje)",
-      "subtitle": "Pataje yon sèl pisin done atravè fanmi ou. Yon sèl bòdè, plizyè kont Chatforia, kouvèti mondyal.",
-      "perPack": "/ pake",
+    "fanmi": {
+      "tit": "Fanmi Chatforia (done pataje)",
+      "sous-tit": " Pataje yon sèl pakè done pou tout fanmi w. Yon sèl bòdwo, plizyè kont Chatforia, kouvèti mondyal.",
+      "perPack": "/ pakè",
       "small": {
         "title": "Fanmi Ti",
-        "desc": "Gen ladan 20 GB done gwo vitès pataje — bon pou 2–3 itilizatè limyè.",
+        "desc": "Gen ladan l 20 GB done pataje gwo vitès — li bon pou 2–3 moun ki pa itilize anpil.",
         "price": "$29.99",
         "aria": "Achte pake Fanmi Ti"
       },
       "medium": {
         "title": "Fanmi Mwayen",
-        "desc": "Gen ladan 40 GB done gwo vitès pataje — ideyal pou 3–5 manm aktif.",
+        "desc": "Enkli 40 GB done pataje a gwo vitès — ideyal pou 3–5 manm aktif.",
         "price": "$49.99",
-        "aria": "Achte pake Fanmi Mwayen"
+        "aria": "Achte pake Fanmi Mwayen an"
       },
       "large": {
         "title": "Fanmi Gwo",
-        "desc": "Gen ladan 80 GB done gwo vitès pataje — pou fanmi pisans ki toujou sou entènèt.",
+        "desc": "Gen ladan l 80 GB done pataje gwo vitès — pou fanmi ki toujou sou entènèt.",
         "price": "$84.99",
         "aria": "Achte pake Fanmi Gwo"
       },
       "feature": {
-        "shared": "Pisin done pataje pou fanmi ou",
-        "members": "Envite jiska 4 manm siplemantè",
-        "membersMore": "Bon pou 3–5 manm aktif",
+        "shared": "Pisin done pataje pou fanmi w",
+        "members": "Envite jiska 4 manm anplis",
+        "membersMore": "Pafè pou 3–5 manm aktif",
         "manage": "Jere limit pou chak manm",
         "topUp": "Ajoute plis pake nenpòt lè",
-        "bestValue": "Pi bon valè pa GB",
-        "fairUse": "Sijè a politik itilizasyon jis ak limit lokal"
+        "piBonValè": "Pi bon valè pa GB",
+        "itilizasyonJis": "Sijè a politik itilizasyon jis ak limit lokal"
       },
-      "disclaimer": "Pake fanmi kreye oswa ajoute yon pisin done pataje. Ou ka envite epi retire manm nenpòt lè.",
-      "footnote": "Pake fanmi pataje yon sèl pisin done atravè kont Chatforia ki konekte. Disponibilite ak limit depann sou peyi ou ak règleman lokal."
+      "avètisman": "Pak fanmi yo kreye oswa ranpli yon pisin done pataje. Ou ka envite epi retire manm nenpòt lè.",
+      "nòt anba paj": "Pak fanmi yo pataje yon sèl pisin done atravè kont Chatforia ki lye yo. Disponibilite ak limit yo depann de peyi w ak règleman lokal yo."
     },
-    "why": {
-      "title": "Poukisa moun chanje nan Chatforia",
-      "subtitle": "Chatforia ba ou yon nimewo telefòn reyèl, tradiksyon entelijan, ak yon chemen klè pou ale san piblisite lè ou pare.",
+    "poukisa": {
+      "tit": "Poukisa moun chanje pou Chatforia",
+      "sous-tit": "Chatforia ba ou yon vrè nimewo telefòn, tradiksyon entèlijan, ak yon chemen klè pou w pa gen piblisite lè w pare.",
       "card": {
         "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Piblisite pi limyè sou Gratis, yon ajou Plus senp lè ou pare, ak zouti Premium TextNow pa ofri."
+          "title": "Chatforia kont TextNow",
+          "body": "Piblisite ki pi lejè sou Gratis, yon senp amelyorasyon Plus lè w pare, ak zouti Premium TextNow pa ofri."
         },
         "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "App modèn, konsepsyon mondyal premye, ak tradiksyon entegre olye de transfere apèl ansyen."
+          "title": "Chatforia kont Google Voice",
+          "body": "Aplikasyon modèn, mondyal -premye konsepsyon, ak tradiksyon entegre olye de ansyen sistèm transfè apèl la."
         },
         "messengers": {
-          "title": "Chatforia vs app chat",
-          "body": "Voye tèks nan nimewo telefòn reyèl — pa sèlman lòt itilizatè app — avèk AI ak estati entegre. Bon si ou soti nan app tankou TextFree oswa TextMe."
+          "title": "Chatforia vs aplikasyon chat",
+          "body": "Voye mesaj ak vrè nimewo telefòn — pa sèlman ak lòt itilizatè aplikasyon — avèk AI ak estati entegre. Li bon anpil si w ap soti nan aplikasyon tankou TextFree oswa TextMe."
         }
       },
       "tableTitle": "Kijan Chatforia konpare",
       "col": {
-        "feature": "Fonksyon"
+        "feature": "Karakteristik"
       },
       "feature": {
         "freeNumber": "Nimewo telefòn gratis",
-        "translation": "Oto-tradiksyon entegre",
-        "aiTools": "Zouti AI (re-ekri, repons, rezime)",
+        "translation": "Tradiksyon otomatik entegre",
+        "aiTools": "Zouti AI (re-ekriti, repons, rezime)",
         "ads": "Opsyon san piblisite",
         "history": "Istorik mesaj"
       },
-      "yes": "Wi",
-      "no": "Non",
-      "yesPremium": "Wi (Premium)",
+      "wi": "Wi",
+      "non": "Non",
+      "wiPremium": "Wi (Premium)",
       "plusPremium": "Plus & Premium",
-      "limited": "Limite",
+      "limite": "Limite",
       "nA": "N/A",
-      "history": {
+      "istorik": {
         "chatforia": "Jiska 12+ mwa",
-        "textnow": "Varye dapre kont",
-        "voice": "Limite / ki baze sou kont"
+        "textnow": "Li varye selon kont lan",
+        "voice": "Limite / selon kont lan"
       },
-      "disclaimer": "Konparezon ki baze sou enfòmasyon piblik disponib epi li ka chanje sou tan. Lòt app tèks gratis tankou TextFree oswa TextMe jeneralman sanble ak TextNow."
+      "disclaimer": "Konparezon an baze sou enfòmasyon ki disponib piblikman e li ka chanje avèk letan. Lòt aplikasyon mesajri gratis tankou TextFree oswa TextMe jeneralman sanble ak TextNow."
     },
     "faq": {
-      "title": "FAQ Pri & Plan",
+      "title": "FAQ sou Pri & Plan",
       "free": {
         "q": "Èske plan Gratis la vrèman gratis?",
-        "a": "Wi. Plan Gratis la gen ladan yon nimewo Chatforia, apèl, ak mesaj ak piblisite. Ou ka rete sou Gratis osi lontan ou vle, oswa ajou pou retire piblisite epi debloke plis fonksyon."
+        "a": "Wi. Plan Gratis la gen ladan l yon nimewo Chatforia, apèl, ak mesajri avèk piblisite. Ou ka rete sou plan Gratis la tout tan ou vle, oswa w ka fè yon amelyorasyon pou retire piblisite yo epi debloke plis fonksyonalite."
       },
       "plusPremium": {
-        "q": "Ki diferans ant Plus ak Premium?",
-        "a": "Plus retire piblisite epi pwolonje istorik mesaj ou — pafè pou itilizasyon chak jou. Premium ajoute pèsonalizasyon siplemantè, zouti AI pou re-ekri ak repons, ak sipò priyorite pou itilizatè lou."
+        "q": "Ki diferans ki genyen ant Plus ak Premium?",
+        "a": " Plan Plus la retire piblisite epi li pwolonje istwa mesaj ou — li pafè pou itilizasyon chak jou. Plan Premium la ajoute plis pèsonalizasyon, zouti AI pou reekri ak reponn, epi sipò priyoritè pou gwo itilizatè yo."
       },
       "esim": {
-        "q": "Ki kote pake done eSIM yo travay?",
-        "a": "Chatforia Mobil itilize kouvèti eSIM mondyal. Disponibilite depann sou peyi ou ak aparèy ou. Ou pral wè opsyon ki sipòte pandan aktivasyon andedan app la."
+        "q": "Ki kote pake done eSIM yo mache?",
+        "a": "Chatforia Mobile itilize kouvèti eSIM mondyal. Disponibilite depann de peyi w ak aparèy ou. W ap wè opsyon ki disponib yo pandan aktivasyon an nan aplikasyon an."
       },
-      "cancel": {
-        "q": "Èske mwen ka anile oswa chanje plan nenpòt lè?",
-        "a": "Wi. Ou ka jere oswa anile abònman ou soti nan paj bòdè nan app la. Chanjman pran efè nan fen peryòd bòdè aktyèl ou."
+      "kansele": {
+        " q": "Èske m ka anile oswa chanje plan nenpòt lè?",
+        "a": "Wi. Ou ka jere oswa anile abònman w lan apati paj fakti a nan aplikasyon an. Chanjman yo ap pran efè nan fen peryòd fakti aktyèl ou a. "
       },
       "family": {
-        "q": "Kijan pake Fanmi yo travay?",
-        "a": "Pake Fanmi kreye yon pisin done pataje atravè plizyè kont Chatforia. Yon moun peye bòdè a, epi ou ka envite oswa retire manm epi mete limit pa moun."
+        "q": "Kijan pake Fanmi yo fonksyone?",
+        "a": "Pake Fanmi yo kreye yon pisin done pataje atravè plizyè kont Chatforia. Yon moun peye bòdwo a, epi ou ka envite oswa retire manm epi mete limit pou chak moun."
+      }
+    }
+  },
+  "family": {
+    "title": "Fanmi",
+    "loading": "Ap chaje detay fanmi w...",
+    "error": {
+      "load": "Echèk pou chaje detay fanmi an.",
+      "invite": "Pa t kapab kreye yon envitasyon. Asire w se ou ki pwopriyetè fanmi an epi eseye ankò.",
+      "checkout": "Nou pa t kapab kòmanse pwosesis peman pou yon plan Fanmi. Tanpri eseye ankò."
+    },
+    "billing": {
+      "myPlanTitle": "Plan mwen an",
+      "myPlanError": "Enkapab chaje plan ou an.",
+      "myPlanLoading": "Ap chaje plan ou an…",
+      "currentPlan": "Plan aktyèl",
+      "renewsAt": "Renouvle nan",
+      " freePlanCopy": "Ou sou plan gratis la. Fè yon amelyorasyon pou debloke plis fonksyonalite.",
+      "upgradeCta": "Amelyore plan",
+      "changePlanCta": "Chanje plan",
+      "jerePeman": "Jere peman",
+      "erèPòtal": "Enkapab louvri pòtal peman an kounye a.",
+      "anileKounyeA": "Anile kounye a",
+      "anileKounyeAEde": "Ou ka jere oswa anile abònman w lan nan pòtal peman an, oswa anile imedyatman anba a.",
+      "anileKounyeAKonfime": "Èske w sèten ou vle anile plan w lan imedyatman? Ou pa ka tounen dèyè.",
+      "cancelNowError": "Ou pa ka anile plan ou an kounye a. Tanpri eseye ankò oswa itilize Jere fakti."
+    },
+    "none": {
+      "title": "Pa gen fanmi ki konfigire ankò",
+      "body": "Pou kreye yon Fanmi Chatforia ak yon pisin done pataje, kòmanse yon plan Fanmi.",
+      "goUpgrade": "Kòmanse yon plan Fanmi",
+      "viewPlans": "Gade tout plan yo"
+    },
+    "group": {
+      "defaultName": "Fanmi Chatforia mwen an",
+      "role": "Wòl ou: {{role}}"
+    },
+    "role": {
+      "owner": "Pwopriyetè",
+      "member": "Manm"
+    },
+    "data": {
+      "heading": "Rezèvwa done pataje",
+      "caption": "Tout manm yo pataje rezèvwa sa a. N ap avèti w lè w ap pwoche limit ou a."
+    },
+    "members": {
+      "title": "Manm fanmi yo",
+      "non": "Non",
+      "wòl": "Wòl",
+      "itilizasyon": "Itilizasyon",
+      "limit": "Limit",
+      "san limit": "Pa gen limit espesifik",
+      "enviteCta": "Envite manm"
+    },
+    "envite": {
+      "tit": "Envite yon nouvo manm",
+      "body": "Voye yon imèl oswa yon lyen pou envite yon moun nan espas done fanmi pataje w la.",
+      "emailLabel": "Imèl (opsyonèl)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Kreye envitasyon",
+      "linkLabel": "Lyen envitasyon",
+      "copyAria": "Kopye lyen envitasyon an",
+      "expiryHint": "Lyen sa a ap ekspire apre kèk jou. Ou ka toujou kreye yon nouvo."
+    },
+    "join": {
+      "title": "Antre nan yon fanmi",
+      "body": "Yo envite w pou w rantre nan yon Fanmi Chatforia epi pataje baz done yo.",
+      "cta": "Aksepte epi rantre nan fanmi an",
+      "ctaLogin": "Konekte epi antre nan fanmi an",
+      "success": "Ou antre nan fanmi sa a. Kounye a ou pataje pakè done yo.",
+      "goFamily": "Ale nan tablodbò fanmi an",
+      "error": "Nou pa t ka ajoute w nan fanmi sa a. Envitasyon an ka pa valab oswa li ekspire."
+    }
+  },
+  "randomChat": {
+    "title": "Chat O aza",
+    "sous-tit": "Rankontre yon moun nouvo touswit, oswa chwazi chat ak Ria.",
+    "kòmanse": "Kòmanse yon konvèsasyon",
+    "deskripsyon": "Chat an anonim anvan. Ajoute zanmi pita si w santi w alèz.",
+    "jwennMounPouMarye": "Jwenn yon moun pou mwen",
+    "chatAkRia": "Chat ak Ria",
+    "setAge": "Mete laj ou nan Pwofil → Laj & Chat O aza pou yo ka matche w ak moun.",
+    "idle": "Pa aktif",
+    "matching": "Ap matche…",
+    "searching": "Ap chèche…",
+    "cancel": "Anile",
+    "connectionProblem": "Pwoblèm koneksyon",
+    "ai": "AI",
+    "anonim": "Anonim",
+    "konekteKòm": "Konekte kòm",
+    "ap tann pou ajoute zanmi": "Ap tann pou yo aksepte Add Friend…",
+    "non itilizatè kache": "Non itilizatè yo rete kache jiskaske toude moun yo chwazi Add Friend.",
+    " riaSeparate": "Chat ak Ria nenpòt lè — apa de matche ak moun o aza.",
+    "sendMessage": "Voye mesaj",
+    "chatEnded": "Chat la fini",
+    "conversationEnded": "Konvèsasyon sa a fini.",
+    "findAnotherMatch": "Jwenn yon lòt moun ki matche",
+    "next": "Pwochen Moun",
+    "addFriend": "Ajoute Zanmi",
+    "requested": "Mande",
+    "Kite": "Kite",
+    "Mesej Ria": "Mesej Ria…",
+    "Mesej Moun ou matche a": "Mesej moun ou matche a…",
+    "Chat ak Foria": "Chat ak Foria",
+    "Chat ak ForiaBot": "Chat ak ForiaBot",
+    "Fèmen": "Fèmen",
+    "Ap chèche": "Ap chèche…",
+    "apChèche": "Ap chèche yon moun…",
+    "kòmanseChatAvèkForia": "Kòmanse yon chat ak Foria…",
+    "patnèDeKonekte": "Patnè w la dekonekte.",
+    "paGenPatnè": "Pa gen patnè kounye a.",
+    "konekteAvèk": "Konekte ak {{name}}",
+    "konekte": "Konekte",
+    "patnèKite": "Patnè a kite.",
+    "stopped": "Sispann.",
+    "skip": "Sote",
+    "save": "Sove",
+    "saveGuard": "Se sèlman chat ant moun ki ka sove",
+    "youAreChattingWith": "Ou ap chat ak { {name}}",
+    "bot": "BOT",
+    "sayHi": "Di bonjou 👋",
+    "you": "Ou",
+    "typeMessage": "Ekri yon mesaj",
+    "send": "Voye",
+    "partner": "Patnè",
+    "withRia": "Avèk Ria",
+    "startingRia": "Ap kòmanse yon konvèsasyon ak Ria…",
+    "ageDisclaimer": "Nou anrejistre sèlman yon kategori laj (pa dat nesans egzak ou). Nou itilize sa pou asire matche nan Konvèsasyon O a rete rezonab. Pou matche ak moun (pa sèlman RiaBot), mete kategori laj ou nan Paramèt → Laj & Konvèsasyon O.",
+    "ageBandRequired": "Mete entèval laj ou nan Pwofil → Laj & Chat o aza pou w ka matche ak moun.",
+    "ageBandCallout": "Pou w matche ak moun (pa sèlman RiaBot), mete entèval laj ou nan Paramèt → Laj & Chat o aza."
+  },
+  "ria": {
+    "fallbackName": "la",
+    "intro": "Hey la 👋 Mwen se Ria. Kisa k nan tèt ou?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 Mwen la. Kisa k nan tèt ou?",
+      "long2": "Bonjou {{name}} 😊 Sou kisa ou ta renmen pale jodi a?",
+      "long3": "Hey {{name}}! Mwen la pou tande w — kisa k genyen?",
+      "long4": "Kontan wè w, {{name}} 👋 Kisa k nan tèt ou jodi a?",
+      "long5": "Hey {{name}} 🙂 Ou vle lage sa k nan kè w, poze kesyon, oswa jis fè yon ti pale?",
+      "long6": "Bonjou {{name}}! Mwen disponib — sou kisa ou ta renmen pale?",
+      "short1": "Hey {{name}}, mwen toujou la. Kisa k genyen?",
+      "short2": "Byenveni tounen {{name}} 👋 Èske gen lòt bagay ou te vle ajoute?",
+      "short3": " Ou tounen ankò, {{name}}? 😊 Di m sa k nan tèt ou a.",
+      "short4": "Hey {{name}} ✨ Ou pare pou nou rekòmanse kote nou te kite a?",
+      "short5": "Wi {{name}}? M ap koute 👂",
+      "short6": "O hey {{name}}! Ou gen yon bagay nèf nan tèt ou?"
+    },
+    "header": {
+      "openNav": "Ouvri meni navigasyon an",
+      "closeNav": "Fèmen meni navigasyon an",
+      "homeAria": "Chatforia Home"
+    },
+    "login": {
+      "welcomeBack": "Byenveni tounen",
+      "title": "Kontinye sou Chatforia",
+      "subtitleReturning": "Konekte sou kont Chatforia ou a",
+      "google": "Kontinye ak Google",
+      "apple": "Kontinye ak Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Koneksyon Google pa disponib",
+      "appleUnavailable": "Koneksyon Apple pa disponib",
+      "ssoUnavailable": "Koneksyon inik pa disponib kounye a. Sèvi ak non itilizatè ak modpas pito.",
+      "oswa": "oswa",
+      "accountLabel": "Kont",
+      "identifierPh": "Imèl oswa non itilizatè",
+      "passwordLabel": "Modpas",
+      "passwordPh": "Modpas ou",
+      "keepSignedIn": "Kenbe m konekte",
+      "forgot": "Ou bliye modpas ou?",
+      "resendVerification": "Re-voye imèl verifikasyon an",
+      "submit": "Konekte",
+      "loggingIn": "Ap konekte…",
+      "verification": {
+        "sent": "Imèl verifikasyon an voye. Tcheke bwat resepsyon ou.",
+        "failed": "Echèk nan reenvwaye imèl verifikasyon an."
+      },
+      "error": {
+        "missing": "Tanpri antre enfòmasyon koneksyon ou yo.",
+        "invalid": "Non itilizatè oswa modpas ki pa valab",
+        "denied": "Aksè refize.",
+        "pa ka trete": "Demann pa valab. Tcheke non itilizatè/imèl ou ak modpas ou.",
+        "limitaparèy": "Limit aparèy pou plan Gratis la atenn. De konekte sou yon lòt aparèy oswa mete ajou nan plan Premium pou konekte plis aparèy.",
+        "premiumrekyè": "Aksyon sa a mande yon plan Premium."
+      },
+      "konenmodpas": {
+        "tit": "Ou bliye modpas",
+        "ekspè": "Antre imèl ou te itilize pou kreye kont Chatforia ou a epi n ap voye yon lyen sekirize ba ou pou w ka remete modpas ou.",
+        "etikètImèl": "Imèl",
+        "plasdetenImèl": "you@example.com",
+        "emailInvalid": "Tanpri antre yon adrès imel ki valab.",
+        "genericError": "Pa kapab trete demann lan. Tanpri eseye ankò nan yon ti moman.",
+        "sending": "Ap voye lyen reajisteman an...",
+        "sendCta": "Voye Lyen Reajisteman",
+        "sentLabel": "Voye!",
+        "sentHelper": "Si gen yon kont ki egziste ak imel sa a, nou voye yon lyen pou redefini modpas la. Li ka pran kèk minit pou l rive. Asire w tcheke dosye spam ou oswa dosye pwomosyon ou.",
+        "previewDev": "Apèsi Imèl (Dev)",
+        "backToLogin": "Tounen nan Koneksyon"
+      },
+      "resetPassword": {
+        "title": "Reinisyalize Modpas",
+        "tokenMank": "Token pou redefini modpas la pa valab oswa li manke.",
+        "tokenMankAyd": "Token pa valab oswa li manke. Tanpri mande yon nouvo lyen pou redefini modpas.",
+        "modpasPaKoresponn": "Modpas yo pa koresponn",
+        "success": "Modpas ou a reyisi reset avèk siksè",
+        "genericError": "Erè: Enkapab reset modpas la.",
+        "newPasswordLabel": "Nouvo modpas",
+        "newPasswordPlaceholder": "Antre nouvo modpas ou a",
+        "confirmPasswordLabel": "Konfime nouvo modpas la",
+        "confirmPasswordPlaceholder": "Re-antre nouvo modpas ou a",
+        "resetting": "Ap reajiste...",
+        "submit": "Reajiste Modpas",
+        "strongPasswordHint": "Chwazi yon modpas solid ou pa itilize lòt kote."
+      }
+    }
+  },
+  "oauth": {
+    "completing": " Ap fini koneksyon an…"
+  },
+  "support": {
+    "helpFab": "Ede",
+    "openSupportAria": "Ouvri sipò",
+    "badge": "Sipò",
+    "heading": "Kijan nou ka ede?",
+    "tabs": {
+      "help": "Sant Èd",
+      "contact": "Kontakte nou"
+    },
+    "searchPlaceholder": "Chèche atik èd…",
+    "searchAria": "Chèche èd",
+    "searchBtn": "Chèche",
+    "quickTopicsLabel": "Sijè rapid",
+    "quickTopics": {
+      "login": "Pa ka konekte",
+      "billing": "Peman / faktirasyon",
+      "abiz": "Rapòte abi"
+    },
+    "trySearching": "Eseye chèche \"translate\", \"backups\", oswa \"privacy\".",
+    "article": "Atik",
+    "openArticle": "Ouvri atik",
+    "contactIntro": "N ap eseye rezoud sa touswit. Si non, ekip nou an ap suiv dosye a.",
+    "topicAria": "Chwazi yon sijè",
+    "messagePlaceholder": "Ekri mesaj ou a…",
+    "sendBtn": "Voye",
+    "sent": "Mesaj la voye. N ap reponn pa imèl.",
+    "sendError": "Pa t ka voye. Voye yon imèl bay support@chatforia.com pito.",
+    "actionCompleted": "Aksyon an fini.",
+    "actionFailed": "Pa t ka fini aksyon sa a. Tanpri eseye ankò.",
+    "ticketCreated": "Nou pa t ka rezoud sa a otomatikman. Ekip nou an ap suiv dosye a.",
+    "escalationMessage": "Nou pa t ka rezoud sa a otomatikman. Ekip nou an ap suiv dosye a.",
+    "genericError": "Gen yon bagay ki pa mache. Tanpri eseye ankò.",
+    "analyzing": "N ap analize pwoblèm ou an...",
+    "takeAction": "Fè aksyon yo rekòmande a",
+    "resolvedInstantly": "Pwoblèm nan rezoud touswit — pa bezwen tikè.",
+    "escalating": "N ap monte ka a bay sipò..."
+  },
+  "help": {
+    "title": "Ede",
+    "howCanWeHelp": "Kijan nou ka ede?",
+    "helpCenter": "Sant Èd",
+    "contactUs": "Kontakte nou",
+    "quickTopics": "Sijè rapid",
+    "searchExamples": "Eseye chèche \"tradui\", \"kopi sekirite\", oswa \"konfidansyalite\".",
+    "paKapabKonekte": "Pa kapab konekte",
+    "pemanFaktirasyon": "Peman/ faktirasyon",
+    "reportAbuse": "Rapòte abi",
+    "searchHelpArticles": "Chèche atik èd",
+    "search": "Chèche"
+  },
+  "helpCenter": {
+    "title": "Sant Èd",
+    "faq": {
+      "account": {
+        "q": "Kijan pou m kreye oswa rekipere kont mwen?"
+      },
+      "privacy": {
+        "q": "Èske mesaj yo ankripte bout-a-bout?",
+        "a": "Wi. Mesaj ak apèl yo gen chifreman bout-a-bout pa defo. Se sèlman ou menm ak moun k ap resevwa yo ki ka li yo."
+      },
+      "tradui": {
+        "q": "Kijan tradiksyon enstantane a mache?",
+        "a": "Aktive \"Tradui otomatik\" nan Paramèt → Aparans & Lang. Nou tradui sou aparèy la kote sa posib, sinon atravè API ki an sekirite ak metadone minimòm."
+      },
+      "kontak": {
+        "q": "Kontakte sipò",
+        "a": "Kontakte nou nan support@chatforia.com. Mete kapchèn ak vèsyon aplikasyon w lan."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Kòmanse",
+    "subtitle": "Ou nouvo nan Chatforia? Gid rapid sa a montre w baz yo pou w ka pwodiktif nan kèk minit.",
+    "alèt": {
+      "tekst": "Gid sa a ap grandi pandan n ap lanse nouvo fonksyonalite. Si gen yon bagay ki manke, fè nou konnen atravè",
+      "lyenKontak": "Kontakte Nou"
+    },
+    "seksyon1": {
+      "tit": "1) Kreye kont ou",
+      "enskripsyon": "Enskri",
+      "oswa": "oswa",
+      "konekte": "konekte",
+      "loginText": "ak kont ou deja genyen an.",
+      "prefsStart": "Nan aplikasyon an, ouvri Paramèt pou mete preferans ou yo",
+      "prefsLink": "preferans",
+      "prefsRest": "(lang, resi lekti, tèm yo)."
+    },
+    "section2": {
+      "title": "2) Kòmanse voye mesaj",
+      "item1": "Kreye yon DM oswa yon Gwoup epi voye premye mesaj ou a.",
+      "item2": "Itilize tradiksyon enstantane pou chat nan plis pase 100 lang.",
+      "item3": " Eseye mesaj ki disparèt yo ak resi lekti yo nan Pwofil → Konfidansyalite."
+    },
+    "section3": {
+      "title": "3) Ale pi lwen",
+      "item1": "Ou ka fè yon abònman peyan nenpòt lè andedan aplikasyon an.",
+      "item2": "Yon fwa ou konekte, ou ka konekte lòt aparèy epi mete sou pye sovgad ki ankripte nan Paramèt aplikasyon an.",
+      "item2Part1": "Yon fwa ou konekte, ou ka konekte lòt aparèy epi mete kanpe sovgad ankripte apati Paramèt nan aplikasyon an."
+    },
+    "cta": {
+      "seePlans": "Gade plan ak pri yo",
+      "openSettings": "Ouvri paramèt yo",
+      "createAccount": " Kreye yon kont"
+    }
+  },
+  "kijanLiFonksyone": {
+    "tit": "Kijan Chatforia Fonksyone",
+    "entwodiksyon": "Chatforia fèt pou rann kominikasyon senp, rapid, ak aksesib. Pou kòmanse, sa pran sèlman kèk etap.",
+    "etap1Tit": "1. Kreye yon Kont",
+    "etap1Deskripsyon": "Enskri avèk imèl ou oswa non itilizatè ou pou kreye kont Chatforia ou a.",
+    "step2Title": "2. Kòmanse yon Konvèsasyon",
+    "step2Desc": "Konekte ak lòt moun lè w chwazi kontak oswa lè w kòmanse nouvo chat.",
+    "step3Title": "3. Mesajri an Tan Reyèl",
+    "step3Desc": "Mesaj yo livre rapid pou bay yon eksperyans kominikasyon ki fèt san pwoblèm.",
+    "step4Title": "4. Kominikasyon Mondyal",
+    "step4Desc": "Tradiksyon entegre a ede itilizatè yo kominike atravè diferan lang.",
+    "step5Title": "5. Rete an Kontwòl",
+    "step5Desc": "Jere preferans ou, kontak ou, ak paramèt kominikasyon ou."
+  },
+  "sekirite": {
+    "tit": "Sekirite & Gid Kominotè",
+    "entwodiksyon": "Chatforia angaje l pou l kenbe yon anviwònman ki an sekirite e ki gen respè pou tout itilizatè. Gid sa yo ede asire yon eksperyans pozitif pou tout moun.",
+    "respectTitle": "Kominikasyon Respè",
+    "respectDesc": "Nou atann pou itilizatè yo kominike avèk respè. Noyay, abi, oswa konpòtman ki ka fè mal pa pèmèt.",
+    "prohibitedTitle": "Kontni Entèdi",
+    "prohibited": {
+      "illegal": "Aktivite ilegal",
+      "asosyasyon": "Asosyasyon oswa entimidasyon",
+      "rayi": "Diskou rayisab oswa diskriminasyon",
+      "explicit": "Materyèl eksplisit oswa ki gen move efè",
+      "spam": "Spam oswa pratik twonpe"
+    },
+    "toolsTitle": "Zouti Sekirite Itilizatè",
+    "tools": {
+      "report": "Fè rapò sou konpòtman oswa kontni ki pa apwopriye",
+      "block": "Bloke itilizatè pou anpeche plis entèraksyon",
+      "control": "Jere paramèt konfidansyalite ak kominikasyon"
+    },
+    "enforcementTitle": "Aplikasyon",
+    "enforcementDesc": "Nou ka pran aksyon kont kont ki vyole direktiv sa yo, sa gen ladan l avètisman, restriksyon, oswa retire pèmanan sou platfòm nan."
+  },
+  "blog": {
+    "rezonMesajri": {
+      "tit": "Poukisa Platfòm Mesajri yo Enpòtan Plis Pase Jamè",
+      "entwodiksyon": "Platfòm mesajri yo vin tounen youn nan zouti ki pi enpòtan pou kominikasyon nan mond jodi a. Soti nan konvèsasyon pèsonèl rive nan entèraksyon biznis, aplikasyon mesajri yo pèmèt moun rete konekte touswit epi avèk efikasite.",
+      "everydayTitle": "Kominikasyon Chak Jou",
+      "everydayDesc": "Moun konte sou aplikasyon mesajri pou kominike chak jou ak zanmi, fanmi, ak kòlèg. Kit se yon ti mesaj rapid oswa yon konvèsasyon long, mesajri bay yon fason pratik ak fleksib pou rete an kontak.",
+      "Vitès ak Konvenyans\",\n      \"VitèsDesc": "Youn nan pi gwo avantaj platfòm mesajri yo se vitès yo. Mesaj yo delivre enstantane, sa ki pèmèt itilizatè yo kominike an tan reyèl. Nivo konvenyans sa a fè mesajri tounen metòd kominikasyon anpil moun prefere.",
+      "globalTitle": "Pòte Mondyal",
+      "globalDesc": "Platfòm mesajri konekte moun atravè lemond. Avèk aksè entènèt, itilizatè yo ka kominike kèlkeswa kote yo ye, sa ki rann li pi fasil pou bati relasyon ak kolabore entènasyonalman.",
+      "privacyTitle": "Konfidansyalite ak Kontwòl",
+      " privacyDesc": "Platfòm mesajri modèn yo konsantre sou bay itilizatè yo kontwòl sou done yo ak konvèsasyon yo. Fonksyonalite tankou chifreman, paramèt konfidansyalite, ak kontwòl mesaj pèmèt itilizatè yo kominike avèk konfyans.",
+      "futureTitle": "Avni Mesajri a",
+      "futureDesc": "Mesajri kontinye ap evolye ak nouvo karakteristik tankou repons ki mache ak entèlijans atifisyèl (AI), tradiksyon, ak pataj miltimedya. Pandan teknoloji ap avanse, platfòm mesajri yo ap vin pi pisan ak pi versatil.",
+      "outro": "Chatforia bati ak prensip sa yo nan tèt li, li ofri yon eksperyans rapid, an sekirite, ak yon eksperyans mesajri ki fasil pou itilize pou yon mond konekte."
+    },
+    "global": {
+      "title": "Avni Kominikasyon Global",
+      "intro": "Kominikasyon evolye rapidman pandan kèk deseni ki sot pase yo. Sa ki te konn mande apèl telefòn oswa an -rencont an pèsòn ka fèt rapidman kounye a atravè platfòm mesajri. Pandan teknoloji kontinye ap avanse, kominikasyon mondyal ap vin pi rapid, pi aksesib, epi pi enklizif.",
+      "barriersTitle": "Kase Baryè yo",
+      "barriersDesc": "Youn nan pi gwo chanjman nan kominikasyon se rediksyon baryè jewografik yo. Moun ka kounye a konekte ak lòt moun atravè lemond prèske an tan reyèl. Kit se pou konvèsasyon pèsonèl, biznis, oswa kolaborasyon, platfòm mesajri yo fè distans la vin pi piti limite .",
+      "translationTitle": "Wòl Teknoloji Tradiksyon",
+      "translationDesc": "Tradisyonèlman, lang te youn nan pi gwo obstak pou kominikasyon mondyal. Jodi a, zouti tradiksyon ki entegre yo ede konble diferans sa a. Platfòm tankou Chatforia pèmèt itilizatè yo kominike pi fasil menm si yo pale lang diferan, sa ki kreye nouvo opòtinite pou koneksyon ak konpreyansyon.",
+      "realtimeTitle": "Koneksyon an Tan Reyèl",
+      "realtimeDesc": "Vitès se yon faktè kle ki fòme kominikasyon modèn. Itilizatè yo atann pou mesaj yo livre rapid, e enfrastrikti modèn nan sipòte atant sa a. Mesajri an tan reyèl pèmèt konvèsasyon ki pi natirèl e ki pi fasil.",
+      "privacyTitle": "Konfidansyalite ak Sekirite",
+      "privacyDesc ": "Pandan kominikasyon ap vin pi dijital, vi prive ak sekirite vin pi enpòtan toujou. Itilizatè yo vle gen konfyans konvèsasyon yo pwoteje. Fonksyonalite tankou chifreman ak paramèt itilizatè kontwole ede sipòte yon eksperyans kominikasyon ki pi an sekirite.",
+      " futureTitle": "Sa k Ap Vini",
+      "futureDesc": "Avni kominikasyon mondyal la gen anpil chans pou l genyen ladan l zouti ki pi avanse, tankou mesajri ki gen asistans entèlijans atifisyèl (AI), tradiksyon ki amelyore, ak eksperyans itilizatè ki pi bon. Pandan teknoloji ap evolye, kominikasyon ap kontinye vin pi entwisyonèl ak aksesib.",
+      "outro": "Platfòm tankou Chatforia fè pati chanjman sa a, yo ede moun konekte pi fasil atravè lang ak fwontyè."
+    },
+    "index": {
+      "title": "Blog Chatforia",
+      "intro": "Eksplore konesans sou kominikasyon, sekirite sou entènèt, ak fason teknoloji mesajri ap konekte moun atravè mond lan.",
+      "post1": "Kijan pou Chat an Sekirite sou Entènèt",
+      "post2": "Avni Kominikasyon Mondyal",
+      "post3": "Poukisa Platfòm Mesajri Enpòtan"
+    },
+    "chatSafely": {
+      "title": "Kijan pou Chat an Sekirite sou Entènèt",
+      "intro": "Kominikasyon sou entènèt rann li pi fasil pase tout tan pou konekte ak moun atravè lemond. Kit w ap voye mesaj bay zanmi, rankontre nouvo moun, oswa kolabore pwofesyonèlman, platfòm mesajri jwe yon gwo wòl nan lavi chak jou. Sepandan, rete an sekirite sou entènèt enpòtan menm jan ak rete konekte.",
+      "personalInfo": {
+        "title": " Pwoteje Enfòmasyon Pèsonèl Ou",
+        "body": "Youn nan règ ki pi enpòtan pou sekirite sou entènèt se evite pataje enfòmasyon pèsonèl sansib. Sa gen ladan adrès lakay ou, detay finansye, modpas, oswa nenpòt enfòmasyon idantifyan ki ta ka mal itilize. Menm nan konvèsasyon enfòmèl, li pi bon pou w fè atansyon ak sa w pataje ak ak ki moun w pataje l.\"      ",
+        "safetyFeatures": {
+          "title": "Itilize Fonksyonalite Sekirite ki Enstale yo",
+          "body": "Platfòm mesajri modèn tankou Chatforia bay zouti pou ede itilizatè yo rete an sekirite. Fonksyonalite tankou bloke, rapòte, ak kontwòl konfidansyalite fèt pou bay itilizatè yo kontwòl sou eksperyans yo. Si yon moun konpòte l yon fason ki pa apwopriye oswa si li fè w santi w pa alèz, ou ta dwe itilize zouti sa yo imedyatman."
+        },
+        "Fwòd": {
+          "tit": "Fè Atansyon ak Fwòd",
+          "kò": "Moun k ap fè fwòd yo souvan itilize platfòm mesajri pou twonpe itilizatè yo pou fè yo pataje enfòmasyon pèsonèl oswa voye lajan. Fè atansyon ak mesaj ki sanble twò bèl pou se ta vre, tankou òf ou pa t atann, demann ijan, oswa lyen ou pa rekonèt. Toujou verifye idantite moun w ap kominike avè l la anvan w pran okenn dispozisyon."
+        },
+        "responsibly": {
+          "title": "Kominike yon Fason Responsab",
+          "body": "Yon kominikasyon ki gen respè ede kreye yon anviwònman ki pi an sekirite pou tout moun. Evite patisipe nan konvèsasyon ki ka fè mal oswa ki abizif, epi fè atansyon ak fason pawòl ou yo ka afekte lòt moun. Entèraksyon pozitif yo kontribye nan yon pi bon eksperyans pou tout itilizatè yo."
+        },
+        "whySafety": {
+          "title": "Poukisa Sekirite sou Entènèt Enpòtan",
+          "body": "Pandan kominikasyon dijital ap kontinye grandi, kenbe sekirite ak konfyans vin pi enpòtan toujou. Lè w suiv pratik sekirite de baz epi w itilize zouti ki disponib yo, itilizatè yo ka pwofite avantaj mesajri a pandan y ap minimize risk yo."
+        },
+        "konklizyon": "Rete an sekirite sou entènèt pa mande gwo konesans teknik—li jis mande konsyans, prekosyon, ak bon jijman. Avèk bon abitid yo, ou ka kominike avèk konfyans epi an sekirite."
       }
     },
-    "gettingStarted": {
-      "title": "Kòmanse",
-      "subtitle": "Nouvo nan Chatforia? Gid rapid sa a montre esansyèl yo pou ou ka pwodiktif nan minit.",
-      "alert": {
-        "text": "Gid sa a ap grandi pandan nou lanse nouvo fonksyon. Si yon bagay manke, fè nou konnen via",
-        "contactLink": "Kontakte Nou"
+    "about": {
+      "title": "Apwopo Chatforia",
+      "description": "Chatforia se yon mesajè ki an sekirite, ki disponib nan plizyè lang, ki gen chifreman bout-a-bout, tradiksyon enstantane, ak apèl vwa/videyo. Misyon nou senp: ede moun konekte—an sekirite, an prive, epi atravè lang yo.",
+      "valuesTitle": "Sa nou bay valè",
+      "values": {
+        "privacy": "<b>Konfidansyalite an premye:</b> Chifreman bout-a-bout pa defo.",
+        "access": "<b>Aksè pou tout moun:</b> Tradiksyon otomatik 100+ lang.",
+        "control": "<b>Kontwòl:</b> Mesaj ki disparèt & resi lekti se opsyonèl.",
+        "privacy_ aria": "Premyèman konfidansyalite: Chifreman bout-a-bout pa defo.",
+        "access_aria": "Aksè pou tout moun: Tradiksyon otomatik 100+ lang.",
+        "control_aria": "Kontwòl: Mesaj k ap disparèt ak resi lekti se opsyonèl."
       },
-      "section1": {
-        "title": "1) Kreye kont ou",
-        "signup": "Enskri",
-        "or": "oswa",
-        "login": "konekte",
-        "loginText": "ak kont ki egziste deja ou.",
-        "prefsStart": "Mete",
-        "prefsLink": "preferans ou",
-        "prefsRest": "(lang, resi lekti, tèm)."
-      },
-      "section2": {
-        "title": "2) Kòmanse mesaj",
-        "item1": "Kreye yon DM oswa Gwoup epi voye premye mesaj ou.",
-        "item2": "Sèvi ak tradiksyon imedyat pou chat atravè 100+ lang.",
-        "item3": "Eseye mesaj ki disparèt ak resi lekti nan Profil → Konfidansyalite."
-      },
-      "section3": {
-        "title": "3) Ale pi lwen",
-        "item1": "Ou ka ajou nan yon plan peye nenpòt lè andedan app la.",
-        "item2": "Yon fwa ou konekte, ou ka konekte aparèy siplemantè epi konfigire backup chifre soti nan Paramèt nan app la."
-      },
-      "cta": {
-        "seePlans": "Wè plan yo",
-        "openSettings": "Louvri paramèt"
-      }
+      "howTitle": "Kijan Chatforia fonksyone",
+      " howDescription": "Mesaj yo ankripte sou aparèy ou an anvan yo kite l. Tradiksyon, sovgad, ak senkronizasyon aparèy fèt pou minimize sa sèvè nou yo ka wè."
     },
-    "helpCenter": {
-      "title": "Sant Èd",
-      "faq": {
-        "account": {
-          "q": "Kijan mwen kreye oswa rekipere kont mwen?",
-          "a": "Telechaje app la oswa sèvi ak wèb, tape “Kreye kont”, verifye imèl/telefòn ou. Pou rekipere, sèvi ak “Bliye modpas”."
-        },
-        "privacy": {
-          "q": "Èske mesaj yo chifre bout-a-bout?",
-          "a": "Wi. Mesaj ak apèl yo chifre bout-a-bout pa default. Se sèl ou ak moun k ap resevwa ki ka li yo."
-        },
-        "translate": {
-          "q": "Kijan tradiksyon imedyat travay?",
-          "a": "Aktive “Oto-tradui” nan Paramèt → Aparans & Lang. Nou tradui sou aparèy kote li sipòte, otreman atravè API sekirite ak metadata minim."
-        },
-        "contact": {
-          "q": "Kontakte sipò",
-          "a": "Jwenn nou nan support@chatforia.com. Mete ekran ak vèsyon app ou."
-        }
+    "press": {
+      "title": "Lapwès",
+      "contactLine": "Pou demann medya, kontakte nou nan",
+      " boilerplateTitle": "Modèl tèks",
+      "boilerplateBody": "Chatforia se yon aplikasyon mesajri ki bay vi prive priyorite ki fè konvèsasyon ant lang diferan vin fasil. Mesaj yo gen chifreman bout-a-bout pa defo, epi tradiksyon entegre a sipòte plis pase 100 lang an tan reyèl. Itilizatè yo ka aktive mesaj ki disparèt, kenbe resi lekti yo opsyonèl, epi senkronize ant aparèy yo. Disponib sou iOS, Android, ak entènèt la.",
+      "assetsTitle": " Byen mak",
+      "assetsSubtitle": "Logo, kapti ekran, ak imaj pwodwi.",
+      "downloadCta": "Telechaje kit medya a",
+      "downloadTitle": "Jwenn aplikasyon an",
+      "scanTip": "Sou òdinatè? Skane ak telefòn ou pou w jwenn aplikasyon an.",
+      "qrAria": "Ouvri sitwèb Chatforia a",
+      "appStore": "Telechaje sou App Store la",
+      "googlePlay": "Jwenn li sou Google Play"
+    },
+    "careers": {
+      "tit": "Karyè",
+      "entwodiksyon": "Nou se yon ti ekip fondatè k ap bati Chatforia — yon mesajè prive, mondyal k ap lanse sou web, iOS, ak Android. Si w sousye de vi prive, ankriptaj, ak bèl eksperyans itilizatè, nou ta renmen tande pale de ou.",
+      "wòlkiouvè": "<b>Wòl fondatè ki ouvè:</b> Enjenyè Full-stack Lidè, Enjenyè Backend (Node.js), Enjenyè Frontend/ Enjenyè Web (React), Enjenyè Mobil (iOS), Enjenyè Mobil (Android), DevOps/SRE, Enjenyè Sekirite & Ankriptaj, Enjenyè Telekominikasyon (Twilio + eSIM).",
+      "apply": "Kijan pou aplike: Sèvi ak bouton ki anba a pou voye rezime w ak lyen yo pa imèl.",
+      "emailCta": "Voye rezime w pa imèl",
+      "whyNow": "Poukisa pou w rantre kounye a?",
+      "whyBullets": "• Ede bati fondasyon yon nouvo mesajè mondyal.\n• Pibliye amelyorasyon yo itilize sou web, iOS, ak Android.\n• Travay dirèkteman ak fondatè a sou achitekti ak direksyon pwodwi a.\n• Pran an chaj domèn ki gen gwo enpak nan pil la: mesajri, vwa, videyo, ankriptaj, telekominikasyon, AI.\n• Antre nan kòmansman — anvan baz itilizatè a grandi."
+    },
+    "advertise": {
+      "tit": "Fè piblisite ak Chatforia",
+      "deskripsyon": "Rive jwenn itilizatè mesajri ki angaje yo ak plasman ki gen bon gou e ki an sekirite pou mak la. Nou ofri espas banyè nan zòn ki gen gwo vizibilite, patwonaj, ak pwomosyon espesyal. Abòne prim yo pa wè piblisite.",
+      "adsense": {
+        "withPubIdShort": "Nou sèvi envantè tou atravè Google AdSense. Ou ka vize Chatforia ak ID piblikatè {{pub Id}}, oswa itilize fòm ki anba a pou patwonaj dirèk.",
+        "noPubIdShort": "Nou sèvi tou kèk envantè atravè Google AdSense. Patwonaj dirèk disponib—itilize fòm ki anba a."
+      },
+      "inventoryHeader": "Envantè & Espesifikasyon",
+      "placement": {
+        " displayBadge": "Afichaj",
+        "acceptedSizes": "Gwosè aksepte yo",
+        "adsenseSlot": "Espas AdSense:"
+      },
+      "noPlacementsPublic": "N ap finalize envantè piblisite nou an. Pale nou de kanpay ou a epi n ap rekòmande w plasman yo.",
+      "whyHeader": "Poukisa Chatforia?",
+      "why": {
+        "highSession": "Gwo frekans sesyon ak tan rete nan UI chat la",
+        "brandSafe": "Fòma ki san danje pou mak la; limit frekans ki respekte",
+        "sponsoredMoments": "Moman patwone (pa egzanp, modal \"Kòmanse yon Chat\") ki disponib",
+        "deals": "Akò dirèk oswa pwogramasyon atravè AdSense/Google Ads"
+      },
+      "contactHeader": "Kontak",
+      "form": {
+        "submittedMsg": "Mèsi! Demann ou an ap trete. N ap kontakte w byento.",
+        "missingRequired": "Tanpri ranpli non, imèl, ak mesaj."
       }
+    }
+  },
+  "successToast": "Mèsi! N ap kontakte w byento.",
+  "mailtoInfo": "L ap louvri kliyan imel ou a pou voye demann lan…",
+  "nameLabel": "Non w",
+  "namePlaceholder": "Jane Doe",
+  "emailLabel": "Imel",
+  "emailPlaceholder": "you@company.com",
+  "companyLabel": "Konpayi",
+  " companyPlaceholder": "Acme Inc.",
+  "budgetLabel": "Bidjè chak mwa (opsyonèl)",
+  "budgetPlaceholder": "egz. $1,000–$20,000+",
+  "messageLabel": "Di nou sou kanpay ou a",
+  "messagePlaceholder": "Cibleman, dat, KPI, preferans plasman…",
+  "sendCta": "Voye demann",
+  "legal": {
+    "disclaimerStart": "Lè w soumèt, ou dakò ak nou",
+    "tèm": "Tèm",
+    "epi": "epi",
+    "konfidansyalite": "Règleman sou Konfidansyalite"
+  },
+  "kontak": {
+    "tit": "Kontakte Nou",
+    "successMsg": "Mèsi—ekip nou an ap reponn ou pa imèl.",
+    "errorSend": "Pa t ka voye. Tanpri voye yon imèl nan support@chatforia.com.",
+    "form": {
+      "nameLabel": "Non",
+      "emailLabel": "Imèl",
+      "messageLabel": "Mesaj",
+      "sendCta": "Voye"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Règleman sou Konfidansyalite",
+    "lastUpdated": "Dènye mizajou:",
+    "intro": {
+      "body": "Règleman sou Konfidansyalite sa a esplike kijan Chatforia (\"nou\") kolekte, itilize, epi pataje enfòmasyon lè w ap itilize aplikasyon ak sèvis nou yo. Nou fèt Chatforia pou minimize done nou ka jwenn aksè a yo."
+    },
+    "infoNouKolekte": {
+      "tit": "Enfòmasyon nou kolekte",
+      "kont": "Enfòmasyon kont (pa egzanp, imèl/telefòn) pou kreye epi sekirize kont ou.",
+      "ankripte": "Kontni ankripte (mesaj/apèl) ankripte depi nan yon bout rive nan lòt; nou pa ka li l.",
+      "dyagnostik": "Dyagnostik/itilizasyon tankou dosye plantaj, tip aparèy, oswa analiz jeneral pou amelyore pèfòmans."
+    },
+    "sms": {
+      "title": "Nimewo telefòn mobil ak SMS",
+      "body": "Si ou chwazi bay yon nimewo telefòn mobil, nou itilize li pou aktive fonksyon tankou verifikasyon kont, alèt koneksyon, ak mesaj ant itilizatè atravè SMS kote sa sipòte. Nou ka voye mesaj SMS tranzaksyonèl ki gen rapò ak kont ou ak aktivite ou sou Chatforia. Ou ka chwazi sispann resevwa mesaj SMS nenpòt tan lè w reponn ak yon mo kle pou dezabònman ki sipòte (tankou \"STOP\") oswa lè w chanje preferans notifikasyon w yo nan aplikasyon an. Nou pa vann nimewo telefòn ou ni nou pa itilize l pou maketing ki pa gen rapò.",
+      "newText": "Nouvo tèks",
+      "enterRecipient": "Antre yon non oswa yon nimewo",
+      "typeMessage": "Ekri yon mesaj…",
+      "addRecipient": "Ajoute yon reseptè anlè a pou kòmanse…"
+    },
+    "howWeUse": {
+      "title": "Kijan nou itilize enfòmasyon yo ",
+      "founi": "Founi epi sekirize sèvis la (otantifikasyon, deteksyon spam/abiz).",
+      "amelyore": "Amelyore karakteristik yo (kalite tradiksyon, fyabilite).",
+      "legal": "Respekte obligasyon legal yo."
+    },
+    "pataj": {
+      "tit": "Pataj",
+      "kò": "Nou pa vann done pèsonèl. Nou ka pataje done limite ak pwosesisè (pa egzanp, notifikasyon pouse, analiz) anba kontra strik."
+    },
+    "dwa": {
+      "tit": "Dwa ou yo",
+      "kò": "Depann de rejyon ou (pa egzanp, GDPR/UK GDPR/CPRA), ou ka mande aksè, koreksyon, efasman, oswa sispann sèten tretman. Kontakte: privacy@chatforia.com."
+    },
+    "retansyon ": {
+      "tit": "Konsèvasyon done & sekirite",
+      "kò": "Nou konsève sèlman sa ki nesesè pou fè sèvis la mache epi aplike sekirite estanda endistri a. Nou pa ka dekripte kontni E2E (soti nan bout a bout)."
+    },
+    "timoun": {
+      "tit": "Timoun",
+      "body": "Chatforia pa vize timoun ki poko gen 13 an (oswa jan lwa lokal ou a egzije sa)."
+    },
+    "changes": {
+      "title": "Chanjman",
+      "body": "N ap poste mizajou isit la epi n ap revize dat \"Dènye mizajou\" a."
     },
     "contact": {
-      "title": "Kontakte Nou",
-      "successMsg": "Mèsi—ekip nou pral reponn pa imèl.",
-      "errorSend": "Pa ka voye. Tanpri voye imèl support@chatforia.com.",
-      "form": {
-        "nameLabel": "Non",
-        "emailLabel": "Imèl",
-        "messageLabel": "Mesaj",
-        "sendCta": "Voye"
-      }
+      "title": "Kontak",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Tèm Sèvis",
+    "lastUpdated": "Dènye mizajou:",
+    "intro": {
+      " body": "Lè w itilize Chatforia, ou dakò ak Kondisyon sa yo. Si w pa dakò, pa itilize sèvis la."
     },
-    "privacyPolicy": {
-      "title": "Politik Konfidansyalite",
-      "lastUpdated": "Dènye mete ajou:",
-      "intro": {
-        "body": "Politik Konfidansyalite sa a eksplike kijan Chatforia (“nou”, “nou”) kolekte, itilize, epi pataje enfòmasyon lè ou itilize app nou yo ak sèvis yo. Nou fèt Chatforia pou minimize done nou ka jwenn."
-      },
-      "infoWeCollect": {
-        "title": "Enfòmasyon nou kolekte",
-        "account": "Enfòmasyon kont (egz., imèl/telefòn) pou kreye epi sekirize kont ou.",
-        "encrypted": "Kontni chifre (mesaj/apèl) chifre bout-a-bout; nou pa ka li li.",
-        "diagnostics": "Diagnostic/itilizasyon tankou log aksidan, kalite aparèy, oswa analiz kouran pou amelyore pèfòmans."
-      },
-      "sms": {
-        "title": "Nimewo telefòn mobil ak SMS",
-        "body": "Si ou chwazi bay yon nimewo telefòn mobil, nou itilize li pou aktive fonksyon tankou verifikasyon kont, alèt login, ak mesaj itilizatè-a-itilizatè via SMS kote li sipòte. Nou ka voye mesaj SMS transaksyon ki gen rapò ak kont ou ak aktivite sou Chatforia. Ou ka sispann resevwa mesaj SMS nenpòt lè lè ou reponn ak yon mo kle sispann sipòte (tankou “STOP”) oswa lè ou chanje preferans notifikasyon ou nan app la. Nou pa vann nimewo telefòn ou oswa itilize li pou maketing ki pa gen rapò.",
-        "newText": "Nouvo tèks",
-        "enterRecipient": "Antre yon non oswa yon nimewo",
-        "typeMessage": "Tape yon mesaj…",
-        "addRecipient": "Ajoute yon moun k ap resevwa anwo a pou kòmanse…"
-      },
-      "howWeUse": {
-        "title": "Kijan nou itilize enfòmasyon",
-        "provide": "Bay epi sekirize sèvis la (otantifikasyon, deteksyon spam/abi).",
-        "improve": "Amelyore fonksyon (kalite tradiksyon, fyab).",
-        "legal": "Konfòme ak obligasyon legal."
-      },
-      "sharing": {
-        "title": "Pataje",
-        "body": "Nou pa vann done pèsonèl. Nou ka pataje done limite ak procesè (egz., notifikasyon push, analiz) anba kontra strik."
-      },
-      "rights": {
-        "title": "Dwa ou yo",
-        "body": "Dapre rejyon ou (egz., GDPR/UK GDPR/CPRA), ou ka mande aksè, koreksyon, efasman, oswa sispann sèten pwosesis. Kontakte: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Retansyon done & sekirite",
-        "body": "Nou kenbe sèlman sa ki nesesè pou opere sèvis la epi aplike sekirite estanda endistri. Kontni E2E pa ka dechifre pa nou."
-      },
-      "children": {
-        "title": "Timoun",
-        "body": "Chatforia pa dirije pou timoun ki mwens pase 13 (oswa jan lwa lokal ou mande)."
-      },
-      "changes": {
-        "title": "Chanjman",
-        "body": "Nou pral poste aktyalizasyon isit epi revize dat “Dènye mete ajou”."
+    "kont": {
+      "tit": "Kont",
+      "itemAccurateInfo": " Bay enfòmasyon egzak epi kenbe enfòmasyon koneksyon ou an sekirite.",
+      "itemResponsibility": "Ou responsab pou aktivite ki fèt sou kont ou a."
+    },
+    "acceptableUse": {
+      "title": "Itilizasyon akseptab",
+      "itemNoAbuse": "Pa gen kontni ilegal, abizif, oswa ki vyole dwa; pa gen spam oswa abi otomatik.",
+      "itemSuspend": "Nou ka sispann/mete fen nan sèvis la pou vyolasyon."
+    },
+    "sms": {
+      "title": "Kominikasyon SMS",
+      "body": "Si ou bay yon nimewo telefòn mobil, ou dakò ke Chatforia ka voye mesaj SMS ba ou ki gen rapò ak kont ou ak itilizasyon sèvis la, tankou alèt koneksyon, notifikasyon sekirite, ak mesaj ki gen rapò ak konvèsasyon ou inisye oswa patisipe ladan yo. Nou pa itilize SMS pou mesaj pwomosyonèl oswa maketing san konsantman eksplisit ou. Frè estanda pou mesaj ak done ka aplike. Ou ka dezabòne de mesaj SMS yo nenpòt ki lè lè w reponn ak yon mo kle sipòte pou kanpe abònman an (pa egzanp, \"STOP\") oswa lè w mete ajou paramèt notifikasyon w yo nan aplikasyon an."
+    },
+    "yourContent": {
+      "title": "Kontni w la",
+      "body": "Ou kenbe dwa sou kontni w la. Ou ban nou dwa ki nesesè yo pou nou fè sèvis la mache (pa egzanp, routaj, stokaj, tradiksyon)."
+    },
+    "disclaimer": {
+      "title": "Avètisman & responsablite",
+      "body": "Sèvis la bay \"jan li ye a\" san okenn garanti. Nan pi gwo limit lalwa pèmèt, Chatforia pa responsab pou domaj endirèk oswa konsekansyèl."
+    },
+    "changes": {
+      "title": "Chanjman",
+      " body": "Nou ka mete tèm sa yo ajou; si w kontinye itilize l apre chanjman yo, sa vle di ou aksepte yo."
+    },
+    "contact": {
+      "title": "Kontak",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Politik Ranbousman",
+    "lastUpdated": "Dènye mizajou:",
+    "intro": "Nan Chatforia, nou fè efò pou bay yon sèvis kalite siperyè pou tout itilizatè. Règleman Ranbousman sa a dekri ki lè yo ka bay ranbousman.",
+    "abonman": {
+      "tit": "Abonman",
+      "kò": "Yo faktire abònman yo davans sou yon baz regilye. Ou ka anile nenpòt ki lè atravè paramèt kont ou oswa sou platfòm ou te itilize pou achte a."
+    },
+    "elyabilite": {
+      "tit": "Kalifikasyon pou Ranbousman",
+      "kò": "Yo ka bay ranbousman pou chaj an doub, erè nan fakti, oswa pwoblèm teknik ki anpeche aksè a fonksyonalite peye yo. Yo egzamine tout demann yo ka pa ka."
+    },
+    "paRanbousab": {
+      "tit": "Pa Ranbousab",
+      "kò": "Anjeneral, nou pa bay ranbousman pou tan ki pa itilize, peryòd abònman pasyèl, oswa si w pa anile abònman an anvan renouvèlman an.\"    ",
+      "thirdParty ": {
+        "title": "Acha nan men Twazyèm Pati",
+        "body": "Si w te achte atravè platfòm twazyèm pati tankou Apple App Store, ou dwe mande ranbousman dirèkteman nan men platfòm sa yo."
       },
       "contact": {
-        "title": "Kontakte",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Tèm Sèvis",
-      "lastUpdated": "Dènye mete ajou:",
-      "intro": {
-        "body": "Lè ou itilize Chatforia ou dakò ak Tèm sa yo. Si ou pa dakò, pa itilize sèvis la."
-      },
-      "accounts": {
-        "title": "Kont",
-        "itemAccurateInfo": "Bay enfòmasyon egzak epi kenbe kredansyèl sekirite.",
-        "itemResponsibility": "Ou responsab aktivite sou kont ou."
-      },
-      "acceptableUse": {
-        "title": "Itilizasyon akseptab",
-        "itemNoAbuse": "Pa gen kontni ilegal, abi, oswa ki vyole; pa gen spam oswa abi otomatik.",
-        "itemSuspend": "Nou ka sispann/revoke pou vyolasyon."
-      },
-      "sms": {
-        "title": "Kominikasyon SMS",
-        "body": "Si ou bay yon nimewo telefòn mobil, ou dakò ke Chatforia ka voye ou mesaj SMS ki gen rapò ak kont ou ak itilizasyon sèvis la, tankou alèt login, notifikasyon sekirite, ak mesaj ki gen rapò ak konvèsasyon ou inisye oswa patisipe. Nou pa itilize SMS pou mesaj pwomosyonèl oswa maketing san konsantman eksplisit ou. Pri mesaj estanda ak done ka aplike. Ou ka sispann mesaj SMS nenpòt lè lè ou reponn ak yon mo kle sispann sipòte (egz., “STOP”) oswa lè ou mete ajou paramèt notifikasyon ou nan app la."
-      },
-      "yourContent": {
-        "title": "Kontni ou",
-        "body": "Ou kenbe dwa sou kontni ou. Ou bay nou dwa nesesè pou opere sèvis la (egz., routage, estokaj, tradiksyon)."
-      },
-      "disclaimer": {
-        "title": "Avètisman & responsablite",
-        "body": "Sèvis la bay “jan li ye” san garanti. Nan limit total ki pèmèt pa lwa, Chatforia pa responsab pou domaj endirèk oswa konsekan."
-      },
-      "changes": {
-        "title": "Chanjman",
-        "body": "Nou ka mete ajou tèm sa yo; kontinye itilize apre chanjman vle di aksepte."
-      },
-      "contact": {
-        "title": "Kontakte",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        "title": "Kontak",
+        "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
       }
     },
     "doNotSell": {
-      "title": "Pa Vann oswa Pataje Enfòmasyon Pèsonèl mwen",
-      "body": "Chatforia pa vann enfòmasyon pèsonèl. Rezidan Kalifòni ka toujou soumèt demann anba CPRA lè yo sèvi ak bouton anba a.",
+      "title": "Pa Vann oswa Pataje Enfòmasyon Pèsonèl Mwen",
+      "body": "Chatforia pa vann enfòmasyon pèsonèl. Rezidan Kalifòni yo ka toujou soumèt demann anba CPRA lè yo itilize bouton ki anba a.",
       "cta": "Soumèt yon demann"
     },
     "cookies": {
       "title": "Paramèt Cookie",
-      "body": "Chatforia itilize cookie minim (egz., sesyon, sekirite). Nou pa itilize cookie piblisite twazyèm pati. Jere cookie via paramèt navigatè ou."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Enkapab chaje estati nimewo telefòn.",
-      "lock": "Bloke",
-      "noNumberAssigned": "Pa gen nimewo asiyen. Chwazi youn pa kòd zòn pou kòmanse voye tèks.",
-      "pickNumber": "Chwazi yon nimewo",
-      "phoneNumber": "Nimewo telefòn"
-    },
-    "startChatModal": {
-      "title": "Kòmanse yon chat",
-      "quickPicker": "Selektè rapid",
-      "to": "Pou",
-      "nameOrUsername": "Tape yon non, non itilizatè",
-      "nameUsernamePhoneEmail": "Tape yon non, non itilizatè, telefòn, oswa imèl…",
-      "startWithSelected": "Kòmanse chat ak moun chwazi",
-      "searchByUsernameOrPhone": "Chèche pa non itilizatè oswa telefòn",
-      "search": "Chèche",
-      "searchPrompt": "Tape yon non itilizatè oswa telefòn epi peze Chèche.",
-      "pickFromContacts": "Oswa chwazi nan kontak",
-      "addContact": "Ajoute yon Kontak",
-      "show": "Montre",
-      "add": "Ajoute",
-      "close": "Fèmen",
-      "selectedCount": "{{count}} chwazi",
-      "pickAtLeastOne": "Chwazi omwen yon moun k ap resevwa.",
-      "saveContactsHint": "Antre telefòn/imèl pral disponib apre ou sove yo kòm kontak.",
-      "failedBulkStart": "Echwe kòmanse chat ak moun chwazi yo.",
-      "noResults": "Pa gen rezilta",
-      "mode": "Mòd",
-      "group": "Gwoup",
-      "broadcast": "Difizyon",
-      "groupNameOptional": "Non gwoup (opsyonèl)",
-      "firstMessageOptional": "Premye mesaj (opsyonèl men rekòmande)",
-      "createGroup": "Kreye gwoup",
-      "sendBroadcast": "Voye difizyon"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Oro",
-      "neon": "Neon",
-      "sunset": "Kouch solèy",
-      "solarized": "Solè",
-      "velvet": "Velours"
-    },
-    "sounds": {
-      "freeNotice": "Ou sou Gratis — ton premium yo montre men bloke. Ajou pou debloke tout.",
-      "preview": "Preview",
-      "resetToDefaults": "Reset nan default",
-      "notificationSounds": "Son Notifikasyon",
-      "messageTone": "Ton mesaj",
-      "default": "Default",
-      "vibrate": "Vibre",
-      "dreamer": "Rèv",
-      "notify": "Notifye",
-      "pop": "Pop",
-      "pulsatingSound": "Son Pulsan",
-      "textMessage": "Mesaj Tèks",
-      "xylophone": "Zilofòn",
-      "classic": "Klasik",
-      "urgency": "Ijans",
-      "bells": "Klòch",
-      "chimes": "Son klòch",
-      "digitalPhone": "Telefòn Dijital",
-      "melodic": "Melodik",
-      "organNotes": "Nòt Òg",
-      "soundReality": "Son Reyalite",
-      "street": "Lari",
-      "universfield": "Universfield"
+      "body": "Chatforia itilize yon minimòm cookie (pa egzanp, sesyon, sekirite). Nou pa itilize cookie piblisite twazyèm pati. Jere cookie yo atravè paramèt navigatè w la."
     },
     "premiumGuard": {
-      "requiresPremium": "Fonksyon sa a mande yon plan Premium."
+      "requiresPremium": "Fonksyonalite sa a mande yon plan Premium."
     },
-    "aiSettings": {
-      "title": "Paramèt AI",
-      "controlIntro": "Kontwole tradiksyon, repons entelijan, ak repons otomatik ForiaBot.",
-      "save": "Sove Paramèt AI",
-      "autoTranslateIncoming": "Oto-tradui mesaj entrant",
-      "showOriginalAlongside": "Montre tèks orijinal ak tradiksyon ansanm",
-      "enableSmartReplies": "Aktive Repons Entelijan",
-      "smartRepliesHint": "Voye dènye kèk mesaj resevwa (netwaye) nan AI pou sijere repons rapid.",
-      "maskProfanity": "Maske move mo nan sijesyon AI",
-      "maskProfanityHint": "Si aktif, sijesyon AI pral gen mo make maske",
-      "foriaBot": "Repons otomatik ForiaBot",
-      "enableAutoReply": "Aktive repons otomatik lè mwen okipe",
-      "autoReplyMode": "Mòd repons otomatik",
-      "cooldownSeconds": "Tan refwadisman (segonn)",
-      "off": "Off",
-      "on": "On",
-      "signature": "Siyati",
-      "autoReply": "Repons otomatik",
-      "activeUntilOptional": "Aktif jiska (opsyonèl)",
-      "saved": "Preferans AI sove",
-      "saveFailed": "Echwe sove paramèt AI",
-      "translateOff": "Off",
-      "translateTagged": "Sèlman lè @tradui oswa tag",
-      "translateAll": "Tradui tout mesaj entrant",
-      "modeDm": "Sèlman chat 1:1",
-      "modeMention": "Sèlman lè mwen @mentionne",
-      "modeAll": "Tout mesaj entrant"
-    },
-    "accessibilitySettings": {
-      "title": "Aksesibilite & Alèt",
-      "accessibility": "Aksesibilite",
-      "accessibilityDesc": "Opsyon pou fè Chatforia pi fasil pou itilize san depann sou son.",
-      "interfaceFontSize": "Gwosè polis entèfas",
-      "interfaceFontSizeHelp": "Kòmanse nan gwosè nòmal. Ogmante si ou prefere tèks pi gwo nan paramèt aksesibilite.",
-      "sm": "ti",
-      "md": "mwayen",
-      "lg": "gwo",
-      "xl": "trè gwo",
-      "notifications": "Notifikasyon",
-      "notificationsDesc": "Alèt vizyèl pou mesaj & apèl\nMontre bandyè ak clignote tit pou ou pa rate aktivite.",
-      "vibrateOnNew": "Vibre sou nouvo mesaj (kote li sipòte)\nDeklanshe vibrasyon aparèy ak notifikasyon.",
-      "flashOnCall": "Flach ekran sou apèl entrant\nFlach klere kout lè yon apèl sonnen.",
-      "liveCaptions": "Soutit laj vivan (apèl)",
-      "captionFontSize": "Gwosè polis soutit",
-      "captionBackground": "Fond soutit",
-      "light": "limyè",
-      "dark": "fènwa",
-      "transparent": "transparan",
-      "voiceNotes": "Nòt vwa",
-      "autoTranscribeVoiceNotes": "Oto-transkri nòt vwa",
-      "autoTranscribeVoiceNotesDesc": "Atache yon transkripsyon nan mesaj odyo ou resevwa.",
-      "changesSavedInstantly": "Chanjman sove imedyatman.",
-      "loadFailed": "Echwe chaje paramèt",
-      "visualAlerts": "Alèt vizyèl pou mesaj & apèl",
-      "visualAlertsDesc": "Montre bandyè ak clignote tit pou ou pa rate aktivite.",
-      "vibrateOnNewShort": "Vibre sou nouvo mesaj (kote li sipòte)",
-      "vibrateOnNewDesc": "Deklanshe vibrasyon aparèy ak notifikasyon.",
-      "flashOnCallShort": "Flach ekran sou apèl entrant",
-      "flashOnCallDesc": "Flach klere kout lè yon apèl sonnen."
-    },
-    "privacySection": {
-      "strictE2EE": "Chifreman bout-a-bout strik",
-      "ciphertextOnlyNote": "Estoke sèlman tèks chifre sou sèvè. Dezaktive AI/Tradui ak preview modération."
-    },
-    "linkedDevicesPanel": {
-      "title": "Aparèy ki Konekte",
-      "noneFound": "Pa gen aparèy konekte jwenn.",
-      "refresh": "Rafrechi"
-    },
-    "help": {
-      "title": "Èd",
-      "howCanWeHelp": "Kijan nou ka ede?",
-      "helpCenter": "Sant Èd",
-      "contactUs": "Kontakte nou",
-      "quickTopics": "Sijè rapid",
-      "searchExamples": "Eseye chèche “tradui”, “backup”, oswa “konfidansyalite”.",
-      "cantLogin": "Pa ka konekte",
-      "paymentsBilling": "Peman/bòdè",
-      "reportAbuse": "Rapòte abi",
-      "searchHelpArticles": "Chèche atik èd",
-      "search": "Chèche"
-    },
-    "peoplePage": {
-      "people": "Moun",
-      "search": "Chèche",
-      "searchPlaceholder": "Chèche pa alias, non, non itilizatè, oswa telefòn",
-      "filterSaved": "Filtre kontak ki sove",
-      "noContactsFound": "Pa gen kontak jwenn",
-      "quickStart": "Kòmanse rapid",
-      "quickStartDesc": "Yon kèk fason rapid pou kòmanse.",
-      "importContacts": "Enpòte kontak ou yo",
-      "add": "Ajoute",
-      "focusSearch": "Konsantre Chèche",
-      "import": "Enpòte",
-      "findOrAdd": "Jwenn oswa ajoute yon moun",
-      "searchByPhoneOrUsername": "Chèche pa telefòn / non itilizatè",
-      "inviteFriends": "Envite zanmi",
-      "inviteDesc": "Pataje lyen envit ou pou kòmanse chat imedyatman.",
-      "getTheApp": "Jwenn app la",
-      "getTheAppDesc": "Rete an kontak sou wout ak Chatforia pou iOS ak Android.",
-      "download": "Telechaje",
-      "syncTip": "Tip: Mesaj ou yo rete senkronize atravè wèb ak mobil."
-    },
-    "randomChat": {
-      "title": "Chat Aleatwa",
-      "description": "Rankontre yon moun nouvo imedyatman. Nou pral matche ou epi louvri yon chanm chat tanporè. Chat anonim premye. Ajoute Zanmi pita si li santi bon.",
-      "findMatch": "Jwenn yon matche pou mwen",
-      "chatWithForia": "Chat ak Foria",
-      "chatWithForiaBot": "Chat ak ForiaBot",
-      "cancel": "Anile",
-      "close": "Fèmen",
-      "searching": "Chèche...",
-      "finding": "Chèche...",
-      "looking": "Chèche yon moun...",
-      "startingForia": "Kòmanse yon chat ak Foria...",
-      "partnerDisconnected": "Patnè ou dekonekte.",
-      "noPartner": "Pa gen patnè jwenn kounye a.",
-      "connectedTo": "Konekte ak {{name}}",
-      "connected": "Konekte",
-      "idle": "San aktivite",
-      "partnerLeft": "Patnè ale.",
-      "stopped": "Sispann.",
-      "skip": "Sote",
-      "save": "Sove",
-      "saveGuard": "Se sèlman chat moun-a-moun ki ka sove",
-      "youAreChattingWith": "Ou ap chat ak {{name}}",
-      "bot": "BOT",
-      "leave": "Kite",
-      "sayHi": "Di bonjou 👋",
-      "you": "Ou",
-      "typeMessage": "Tape yon mesaj",
-      "send": "Voye",
-      "partner": "Patnè",
-      "withRia": "Ak Ria",
-      "chatWithRia": "Chat ak Ria",
-      "startingRia": "Kòmanse yon chat ak Ria...",
-      "ageDisclaimer": "Nou sèlman estoke yon ranje laj (pa dat nesans egzak ou). Sa itilize pou kenbe matche Chat Aleatwa rezonab. Pou matche ak moun (pa sèlman RiaBot), mete seri laj ou nan Paramèt → Laj & Chat Aleatwa.",
-      "ageBandRequired": "Mete seri laj ou nan Profil → Laj & Chat Aleatwa pou yo matche ak moun.",
-      "ageBandCallout": "Pou matche ak moun (pa sèlman RiaBot), mete seri laj ou nan Paramèt → Laj & Chat Aleatwa.",
-      "subtitle": "Rankontre yon moun nouvo imedyatman, oswa chwazi chat ak Ria.",
-      "start": "Kòmanse yon konvèsasyon",
-      "matching": "Matche...",
-      "setAge": "Mete seri laj ou nan Profil → Laj & Chat Aleatwa pou yo matche ak moun.",
-      "next": "Pwochen Moun",
-      "addFriend": "Ajoute Zanmi",
-      "requested": "Mande",
-      "messageRia": "Mesaj Ria...",
-      "messageMatch": "Mesaj matche ou..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "la",
-      "intro": "Bonjou la 👋 Mwen se Ria. Ki sa ki nan tèt ou?",
-      "greetings": {
-        "long1": "Bonjou {{name}} 👋 Mwen la. Ki sa ki nan tèt ou?",
-        "long2": "Bonjou {{name}} 😊 Ki sa ou ta renmen pale sou jodi a?",
-        "long3": "Bonjou {{name}}!! Mwen tout zòrèy — ki sa ki ap pase?",
-        "long4": "Bon pou wè ou, {{name}} 👋 Ki sa ki nan tèt ou jodi a?",
-        "long5": "Bonjou {{name}} 😊 Ou vle fè yon plent, mande, oswa jis chat?",
-        "long6": "Bonjou {{name}}!! Mwen gen tan — ki sa ou ta renmen pale sou?",
-        "short1": "Bonjou {{name}}, mwen toujou la. Ki sa ki ap pase?",
-        "short2": "Byenveni tounen {{name}} 👋 Yon lòt bagay ou te vle ajoute?",
-        "short3": "Tounen ankò, {{name}}? 😊 Di m ki sa ki nan tèt ou.",
-        "short4": "Bonjou {{name}} 👋 Pare pou kontinye kote nou te sispann?",
-        "short5": "Wi {{name}}? Mwen ap koute 👂",
-        "short6": "Oh bonjou {{name}}!! Gen yon bagay nouvo nan tèt ou?"
+    "smsPolicy": {
+      "title": "Chatforia — Règleman SMS & Opt-in",
+      "lastUpdated": "Dènye mizajou:",
+      "whatWeSend": {
+        "title": "Sa nou voye",
+        "body": "Chatforia voye sèlman SMS ki gen rapò ak kont ak konvèsasyonèl nan nimewo telefòn yon itilizatè te bay klèman epi li te bay konsantman pou sa. Mesaj tipik yo gen ladan yo kòd koneksyon/verifikasyon, alèt livrezon mesaj, avi sekirite, ak mizajou tranzaksyonèl sou kont."
       },
-      "header": {
-        "openNav": "Louvri meni navigasyon",
-        "closeNav": "Fèmen meni navigasyon",
-        "homeAria": "Chatforia Kay"
+      "optIn": {
+        "title": "Kijan itilizatè yo abòne",
+        "body": "Itilizatè yo abòne lè yo antre nimewo telefòn yo pandan enskripsyon an epi yo koche kaz konsantman SMS la sou paj enskripsyon an oswa sou fòmilè abònman an",
+        "link": "fòmilè abònman"
       },
-      "login": {
-        "welcomeBack": "Byenveni tounen",
-        "title": "Kontinye nan Chatforia",
-        "subtitleReturning": "Konekte nan kont Chatforia ou",
-        "subtitle": "Konekte nan kont Chatforia ou",
-        "google": "Kontinye ak Google",
-        "apple": "Kontinye ak Apple",
-        "googleUnavailable": "Koneksyon Google pa disponib",
-        "appleUnavailable": "Koneksyon Apple pa disponib",
-        "or": "oswa",
-        "email": "Imèl",
-        "emailPh": "ou@egzanp.com",
-        "usernameLabel": "Non itilizatè",
-        "usernamePh": "Non itilizatè ou",
-        "passwordLabel": "Modpas",
-        "passwordPh": "Modpas ou",
-        "keepSignedIn": "Kenbe m konekte",
-        "forgot": {
-          "title": "Bliye Modpas",
-          "helper": "Antre imèl ou te itilize pou kreye kont Chatforia ou epi nou pral voye yon lyen sekirite pou reset modpas ou.",
-          "emailInvalid": "Tanpri antre yon adrès imèl valab.",
-          "genericError": "Enkapab trete demann. Tanpri eseye ankò nan yon moman.",
-          "sending": "Ap voye lyen reset...",
-          "sendCta": "Voye Lyen Reset",
-          "sentLabel": "Voye!",
-          "sentHelper": "Si yon kont egziste ak imèl sa a, nou voye yon lyen reset modpas. Li ka pran kèk minit pou rive. Asire ou tcheke spam oswa dosye pwomosyon.",
-          "previewDev": "Preview Imèl (Dev)",
-          "backToLogin": "Tounen nan Konekte"
+      "dezabònman": {
+        "title": "Kijan itilizatè yo dezabòne",
+        "stop": "Reponn STOP a nenpòt SMS Chatforia pou dezabòne.",
+        "start": "Reponn START pou re-abòne.",
+        "contactPrefix": "Kontakte sipò nan"
+      },
+      "help": {
+        "title": "Ede",
+        "bodyPrefix": "Reponn HELP pou asistans oswa imèl\"    ",
+        "privacyTerms": {
+          "title": "Règleman sou Konfidansyalite & Kondisyon",
+          "bodyStart": "Lè w dakò resevwa SMS, itilizatè yo dakò tou ak",
+          "terms": "Kondisyon Sèvis",
+          "and": "and",
+          "privacy": "Règleman sou Konfidansyalite"
         },
-        "submit": "Konekte",
-        "loggingIn": "Ap konekte…",
-        "newHere": "Nouvo isit? <link>Kreye yon kont</link>",
-        "ssoUnavailable": "Single-sign-on pa disponib kounye a. Sèvi ak non itilizatè & modpas pito.",
-        "error": {
-          "missing": "Tanpri antre kredansyèl ou yo.",
-          "invalid": "Non itilizatè oswa modpas pa valab",
-          "denied": "Aksè refize.",
-          "unprocessable": "Demann pa valab. Tcheke non itilizatè/imèl ak modpas ou.",
-          "deviceLimit": "Limit aparèy rive pou plan Gratis. Dekonekte sou yon lòt aparèy oswa ajou nan Premium pou konekte plis aparèy.",
-          "premiumRequired": "Aksyon sa a mande yon plan Premium."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Ap fini koneksyon…"
-    },
-    "dialer": {
-      "title": "Apèl",
-      "subtitle": "Klavyè & resan. (Si ou pa itilize PSTN, kòmanse apèl soti nan yon header konvèsasyon.)",
-      "enterNumberPh": "Antre nimewo",
-      "call": "Rele",
-      "backspace": "Efase",
-      "recents": "Resan",
-      "recentsEmpty": "Pa gen apèl resan ankò.",
-      "enterNumber": "Antre nimewo",
-      "enterNumberAria": "Antre nimewo",
-      "key": "Touche {{d}}",
-      "noRecents": "Pa gen apèl resan ankò."
-    },
-    "video": {
-      "title": "Videyo",
-      "chooseType": "Chwazi yon kalite videyo.",
-      "directTitle": "Videyo Dirèk",
-      "directDesc": "Apèl kamera 1:1 ak yon lòt itilizatè.",
-      "directStart": "Kòmanse",
-      "roomsTitle": "Chanm",
-      "roomsDesc": "Videyo plizyè pati lè l sèvi avèk yon non chanm pataje.",
-      "roomsIntro": "Rantre oswa kreye yon chanm plizyè pati.",
-      "roomNameLabel": "Non chanm",
-      "roomNamePh": "egz. team-standup",
-      "join": "Rantre",
-      "deeplinkTip": "Tip: ou ka deep link dirèkteman nan <code>/video?room=room-name</code>.",
-      "hub": {
-        "title": "Videyo",
-        "subtitle": "Chwazi yon kalite videyo."
-      },
-      "direct": {
-        "title": "Videyo Dirèk",
-        "subtitle": "Kòmanse yon apèl videyo 1:1 lè l sèvi avèk yon nimewo telefòn oswa non itilizatè Chatforia.",
-        "desc": "Apèl kamera 1:1 ak yon lòt itilizatè.",
-        "start": "Kòmanse",
-        "callBtn": "Rele",
-        "callByPhone": {
-          "title": "Rele pa telefòn"
-        },
-        "phone": {
-          "placeholder": "Antre telefòn (egz., +1-555-123-4567)",
-          "aria": "Telefòn pou rele"
-        },
-        "tipInvite": "Tip: Kole yon nimewo epi rele san sove yon kontak. Nou pral envite itilizatè ki pa nan app la pa lyen.",
-        "findUser": {
-          "title": "Jwenn yon itilizatè"
-        },
-        "search": {
-          "placeholder": "Chèche pa non oswa non itilizatè",
-          "aria": "Chèche pa non oswa non itilizatè",
-          "btn": "Chèche"
-        }
-      },
-      "rooms": {
-        "title": "Chanm",
-        "subtitle": "Kreye yon chanm oswa rantre nan youn ki egziste deja lè ou tape menm non an.",
-        "desc": "Videyo plizyè pati lè l sèvi avèk yon non chanm pataje.",
-        "roomLabel": "Non chanm",
-        "roomPlaceholder": "egz. team-standup",
-        "roomAria": "Non chanm",
-        "joinCreate": "Rantre / Kreye",
-        "tip": "Tip: pataje non sa a ak lòt moun, oswa deep link nan <code>/video?room=room-name</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Kòmanse yon apèl videyo dirèk 1:1.",
-      "findUserLabel": "Jwenn yon itilizatè",
-      "findUserPh": "Chèche pa non oswa non itilizatè",
-      "search": "Chèche",
-      "call": "Rele"
-    },
-    "phoneWarning": {
-      "title": "Nimewo ou ap ekspire byento",
-      "body": "Nimewo {{number}} ou pral lage sou {{date}} sof si li reaktive.",
-      "button": "Kenbe Nimewo mwen"
-    },
-    "support": {
-      "helpFab": "Èd",
-      "openSupportAria": "Louvri sipò",
-      "badge": "Sipò",
-      "heading": "Kijan nou ka ede?",
-      "tabs": {
-        "help": "Sant Èd",
-        "contact": "Kontakte nou"
-      },
-      "searchPlaceholder": "Chèche atik èd…",
-      "searchAria": "Chèche èd",
-      "searchBtn": "Chèche",
-      "quickTopicsLabel": "Sijè rapid",
-      "quickTopics": {
-        "login": "Pa ka konekte",
-        "billing": "Peman / bòdè",
-        "abuse": "Rapòte abi"
-      },
-      "trySearching": "Eseye chèche pou “tradui”, “backup”, oswa “konfidansyalite”.",
-      "article": "Atik",
-      "openArticle": "Louvri atik",
-      "contactIntro": "Nou pral voye ou yon repons pa imèl. Mete detay pou ede nou repwodwi pwoblèm nan.",
-      "topicAria": "Chwazi yon sijè",
-      "messagePlaceholder": "Ekri mesaj ou…",
-      "sendBtn": "Voye",
-      "sent": "Mesaj voye. Nou pral reponn pa imèl.",
-      "sendError": "Pa ka voye. Voye imèl support@chatforia.com pito."
-    },
-    "encryptionRecovery": {
-      "title": "Jere Chifreman",
-      "description": "Backup, restore, deblokle, oswa reset kle chifreman ou.",
-      "alert": {
-        "keyRequiredTitle": "Kle chifreman obligatwa",
-        "keyRequiredBody": "Navigatè sa a pa ka dechifre mesaj chifre ou yo kounye a. Restore, deblokle, oswa reset kle ou pou kontinye."
-      },
-      "sections": {
-        "createBackup": "Kreye backup kle",
-        "restoreFromBackup": "Restore soti nan backup kont",
-        "resetEncryption": "Reset chifreman"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Kòd deblokaj (aparèy aktyèl)",
-          "description": "Itilize pou dechifre kle ou lokalman anvan ekspòtasyon"
-        },
-        "backupPassword": {
-          "label": "Modpas backup",
-          "description": "Itilize pou chifre fichye backup la"
-        },
-        "restoreBackupPassword": {
-          "label": "Modpas backup",
-          "description": "Modpas ou te kreye lè ou te backup kle ou sou iPhone"
-        },
-        "newLocalPasscode": {
-          "label": "Nouvo kòd lokal",
-          "description": "Pwoteje kle yo nan repo sou navigatè sa a"
-        },
-        "resetLocalPasscode": {
-          "label": "Nouvo kòd lokal",
-          "description": "Obligatwa anvan reset pou nouvo kle a pwoteje sou aparèy sa a"
-        }
-      },
-      "actions": {
-        "unlockKey": "Deblokle kle chifreman",
-        "restoreFromBackup": "Restore soti nan backup kont",
-        "resetEncryption": "Reset Chifreman"
-      },
-      "messages": {
-        "backupCreated": "Backup kle kreye epi telechaje.",
-        "keyUnlocked": "Kle chifreman deblokle.",
-        "keyRestored": "Kle restore soti nan backup kont.",
-        "resetSuccess": "Chifreman reset avèk siksè."
-      },
-      "errors": {
-        "restoreIncomplete": "Restore kle enkonplè oswa pa kòrèk pou kont sa a",
-        "noBackup": "Pa gen backup chifre ki egziste pou kont sa a",
-        "missingPublicKey": "Backup manke yon kle piblik",
-        "noServerPublicKey": "Kont sa a pa ekspoze yon kle piblik sèvè kounye a",
-        "serverBackupMismatch": "Backup sèvè pa matche ak kle chifreman kont aktyèl la",
-        "incompleteMetadata": "Metadata backup enkonplè",
-        "resetIncomplete": "Reset chifreman pa fini kòrèkteman"
-      },
-      "confirm": {
-        "reset": "Reset chifreman pou kont sa a?\n\nAnsyen mesaj chifre yo ka vin pa lizib sof si ou restore kle orijinal la pita."
-      },
-      "resetDescription": "Sa jenere yon nouvo kle chifreman pou kont ou. Ansyen mesaj chifre yo ka vin pa lizib sof si ou restore kle orijinal la pita."
-    },
-    "footer": {
-      "plans": "Plan & Pri",
-      "about": "Sou Chatforia",
-      "careers": "Karyè",
-      "press": "Laprès",
-      "advertise": "Piblisite",
-      "contact": "Kontakte Nou",
-      "help": "Sant Èd",
-      "status": "Paj Estati",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Politik Konfidansyalite",
-      "terms": "Tèm Sèvis",
-      "cookies": "Paramèt Cookie",
-      "doNotSell": "Pa Vann Enfòmasyon mwen",
-      "language": "Lang",
-      "contactShort": "Kontakte",
-      "aria": "Pye",
-      "homeAria": "Chatforia kay",
-      "section": {
-        "company": "KONPAYI",
-        "support": "SIPÒ",
-        "downloads": "TELECHAJMAN",
-        "legal": "LEGAL"
-      },
-      "links": {
-        "plans-pricing": "Plan & Pri",
-        "about-chatforia": "Sou Chatforia",
-        "careers": "Karyè",
-        "press": "Laprès",
-        "advertise": "Piblisite",
-        "getting-started": "Kòmanse",
-        "help-center": "Sant Èd",
-        "contact-us": "Kontakte Nou",
-        "status-page": "Paj Estati",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Politik Konfidansyalite",
-        "terms-of-service": "Tèm Sèvis",
-        "do-not-sell-my-info": "Pa Vann Enfòmasyon mwen",
-        "cookie-settings": "Paramèt Cookie"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Patant an atant",
-      "backToTop": "↑ Tounen anlè"
-    },
-    "press": {
-      "title": "Laprès",
-      "contactLine": "Pou demann medya, jwenn nou nan",
-      "boilerplateTitle": "Boilerplate",
-      "boilerplateBody": "Chatforia se yon app mesaj prive premye ki fè chat kwa-lang fasil. Mesaj yo chifre bout-a-bout pa default, epi tradiksyon entegre sipòte 100+ lang an tan reyèl. Itilizatè yo ka aktive mesaj ki disparèt, kenbe resi lekti opsyonèl, epi senkronize atravè aparèy. Disponib sou iOS, Android, ak wèb.",
-      "assetsTitle": "Byen mak",
-      "assetsSubtitle": "Logo, ekran, ak imaj pwodwi.",
-      "downloadCta": "Telechaje kit medya",
-      "downloadTitle": "Jwenn app la",
-      "scanTip": "Sou desktop? Eskane ak telefòn ou pou jwenn app la.",
-      "qrAria": "Louvri sit Chatforia",
-      "appStore": "Telechaje sou App Store",
-      "googlePlay": "Jwenn li sou Google Play"
-    },
-    "careers": {
-      "title": "Karyè",
-      "intro": "Nou se yon ti ekip fondatè k ap bati Chatforia — yon mesaje prive, mondyal k ap lanse sou wèb, iOS, ak Android. Si ou pran swen konfidansyalite, chifreman, ak eksperyans itilizatè délisye, nou ta renmen tande de ou.",
-      "openRoles": "<b>Wòl fondatè ouvè:</b> Chèf Enjenyè Full-stack, Enjenyè Backend (Node.js), Enjenyè Front-end/Wèb (React), Enjenyè Mobil (iOS), Enjenyè Mobil (Android), DevOps/SRE, Enjenyè Sekirite & Chifreman, Enjenyè Telecom (Twilio + eSIM).",
-      "apply": "Kijan pou aplike: Sèvi ak bouton anba a pou voye imèl CV ou ak lyen.",
-      "emailCta": "Voye CV ou pa imèl",
-      "whyNow": "Poukisa rantre kounye a?",
-      "whyBullets": "• Ede bati fondasyon yon nouvo mesaje mondyal.\n• Voye amelyorasyon yo itilize atravè wèb, iOS, ak Android.\n• Travay dirèkteman ak fondatè sou achitekti ak direksyon pwodwi.\n• Pran zòn gwo enpak nan pil la: mesaj, vwa, videyo, chifreman, telecom, AI.\n• Rantre nan kòmansman — anvan baz itilizatè a grandi."
-    },
-    "about": {
-      "title": "Sou Chatforia",
-      "description": "Chatforia se yon mesaje sekirite, plizyè lang ak chifreman bout-a-bout, tradiksyon imedyat, ak apèl vwa/videyo. Misyon nou senp: ede moun konekte—san danje, prive, epi atravè lang.",
-      "valuesTitle": "Sa nou valè",
-      "values": {
-        "privacy": "<b>Prive premye:</b> Chifreman E2E pa default.",
-        "access": "<b>Aksè pou tout:</b> Oto-tradui 100+ lang.",
-        "control": "<b>Kontwòl:</b> Mesaj ki disparèt & resi lekti opsyonèl.",
-        "privacy_aria": "Prive premye: Chifreman E2E pa default.",
-        "access_aria": "Aksè pou tout: Oto-tradui 100+ lang.",
-        "control_aria": "Kontwòl: Mesaj ki disparèt ak resi lekti opsyonèl."
-      },
-      "howTitle": "Kijan Chatforia travay",
-      "howDescription": "Mesaj yo chifre sou aparèy ou anvan yo kite li. Tradiksyon, backup, ak senkronizasyon aparèy fèt pou minimize sa sèvè nou yo ka wè."
-    },
-    "advertise": {
-      "title": "Piblisite ak Chatforia",
-      "description": "Rantre itilizatè mesaj angaje ak plasman gou, san danje pou mak. Nou ofri envantè bandyè nan kote vizibilite wo, parennaj, ak pwomosyon kay. Abònè Premium pa wè piblisite.",
-      "adsense": {
-        "withPubIdShort": "Nou sèvi envantè tou via Google AdSense. Ou ka vize Chatforia ak ID piblikatè {{pubId}}, oswa sèvi ak fòm anba a pou parennaj dirèk.",
-        "noPubIdShort": "Nou sèvi kèk envantè tou via Google AdSense. Parennaj dirèk disponib—sèvi ak fòm anba a."
-      },
-      "inventoryHeader": "Envantè & Espesifikasyon",
-      "placement": {
-        "displayBadge": "Ekran",
-        "acceptedSizes": "Gwosè aksepte",
-        "adsenseSlot": "Slot AdSense:"
-      },
-      "noPlacementsPublic": "Nou ap finalize envantè piblisite nou an. Di nou sou kanpay ou epi nou pral rekòmande plasman.",
-      "whyHeader": "Poukisa Chatforia?",
-      "why": {
-        "highSession": "Frekans sesyon wo ak tan rete nan UI chat",
-        "brandSafe": "Fòma san danje pou mak; limit frekans respekte",
-        "sponsoredMoments": "Moments parennaje (egz., “Kòmanse yon Chat” modal) disponib",
-        "deals": "Kontra dirèk oswa pwogramatik via AdSense/Google Ads"
-      },
-      "contactHeader": "Kontakte",
-      "form": {
-        "submittedMsg": "Mèsi! Demann ou an sou wout. Nou pral swiv byento.",
-        "missingRequired": "Tanpri ranpli non, imèl, ak mesaj.",
-        "successToast": "Mèsi! Nou pral an kontak byento.",
-        "mailtoInfo": "Ap louvri kliyan imèl ou pou voye demann nan…",
-        "nameLabel": "Non ou",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "Imèl",
-        "emailPlaceholder": "ou@konpayi.com",
-        "companyLabel": "Konpayi",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Bidjè chak mwa (opsyonèl)",
-        "budgetPlaceholder": "egz. $1,000–$20,000+",
-        "messageLabel": "Di nou sou kanpay ou",
-        "messagePlaceholder": "Vize, dat, KPI, preferans plasman…",
-        "sendCta": "Voye demann"
-      },
-      "legal": {
-        "disclaimerStart": "Lè ou soumèt, ou dakò ak",
-        "terms": "Tèm",
-        "and": "ak",
-        "privacy": "Politik Konfidansyalite"
+        "footer": "© 2026 Chatforia Inc."
       }
     }
   }

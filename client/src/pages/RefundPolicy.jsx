@@ -11,7 +11,7 @@ export default function RefundPolicy() {
       </Title>
 
       <Text c="dimmed" mb="md">
-        {t('refund.lastUpdated', 'Last updated:')} April 13, 2026
+        {t('refund.lastUpdated', 'Last updated:')} {LAST_UPDATED}
       </Text>
 
       <Text mb="md">

@@ -1,15 +1,15 @@
 {
   "common": {
     "save": "Hifadhi",
-    "cancel": "Batilisha",
+    "cancel": "Futa",
     "refresh": "Boresha",
-    "noMatches": "Hakuna vinavyoendana",
-    "cancelAria": "Batilisha",
+    "noMatches": "Hakuna vinavyolingana",
+    "cancelAria": "Futa",
     "copy": "Nakili",
     "copied": "Imenakiliwa!",
-    "errorWithMessage": "Hitilafu: {{message}}",
-    "inapakia": "Inapakia…",
-    "kosaLa kuhifadhi": "Kuhifadhi kumeshindikana"
+    "errorWithMessage": "Hitilafu: { {message}}",
+    "loading": "Inapakia…",
+    "saveError": "Uhifadhi umeshindikana"
   },
   "a11y": {
     "skipToMain": "Ruka hadi kwenye maudhui makuu"
@@ -19,24 +19,24 @@
     "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Nakala rudufu ya ufunguo imetengenezwa na kupakuliwa ✓",
-    "restored": "Nakala ya akiba ya ufunguo imerejeshwa ✓ Vifunguo vimewekwa hapa",
-    "hakunaNakala": "Hakuna nakala iliyosimbwa kwa akaunti hii",
-    "funguoLaUmmaLimepotea": "Nakala ya akiba inakosa ufunguo wa umma"
+    "backupCreated": "Nakala ya ufunguo imetengenezwa na kupakuliwa ✓",
+    "restored": "Nakala ya ufunguo imerejeshwa ✓ Ufunguo umesakinishwa kienyeji",
+    "noBackup": "Hakuna nakala iliyosimbwa kwa njia fiche kwa akaunti hii",
+    "missingPublicKey": "Nakala inakosa ufunguo wa umma"
   },
-  "usanidiwaKifunguo": {
-    "kichwa": "Weka funguo za kifaa chako",
-    "maelezo": "Kifaa hiki bado hakina ufunguo wako wa siri. Agiza nakala iliyolindwa na nenosiri, au tengeneza jozi mpya ya funguo (utaweza kusoma jumbe mpya kuanzia sasa). ",
+  "keySetup": {
+    "title": "Weka funguo za kifaa chako",
+    "maelezo": "Kifaa hiki bado hakina ufunguo wako wa siri. Agiza nakala iliyolindwa na nenosiri, au tengeneza jozi mpya ya funguo (utaweza kusoma jumbe mpya kuanzia sasa).",
     "chaguaFaili": "Chagua faili na uingize nenosiri.",
     "imeingizwa": "Ufunguo wa siri umeingizwa kwenye kifaa hiki. Unaweza kusoma ujumbe wa zamani sasa.",
-    "ingizaNenosiri": "Ingiza nenosiri la akaunti yako ili tuweze kuhifadhi ufunguo wako kwa usalama."
+    "ingizaNenosiri": "Ingiza nenosiri la akaunti yako ili tuweze kuhifadhi nakala ya funguo zako kwa usalama."
   },
-  "urejeshajiUfichuzi": {
+  "urejeshoUfichuzi": {
     "kichwa": "Dhibiti Ufichuzi",
-    "maelezo": "Hifadhi nakala, rejesha, fungua, au washa upya ufunguo wako wa usimbaji fiche.",
+    "maelezo": "Hifadhi nakala, rejesha, fungua, au weka upya ufunguo wako wa ufichuzi.",
     "alert": {
       "keyRequiredTitle": "Ufunguo wa usimbaji fiche unahitajika",
-      "keyRequiredBody": "Kivinjari hiki hakiwezi kwa sasa kufungua ujumbe wako uliosimbwa. Rejesha, fungua, au washa upya ufunguo wako ili uendelee."
+      "keyRequiredBody": "Kivinjari hiki hakiwezi kusimbua ujumbe wako uliosimbwa kwa sasa. Rejesha, fungua, au weka upya ufunguo wako ili uendelee."
     },
     "sections": {
       "createBackup": "Tengeneza nakala ya ufunguo",
@@ -46,19 +46,19 @@
     "fields": {
       "unlockPasscode": {
         "label": "Nambari ya siri ya kufungua (kifaa cha sasa)",
-        "description": "Inatumika kufungua ufunguo wako hapa kabla ya kuutumia kwingine"
+        "description": "Inatumika kufungua ufunguo wako kwa ndani kabla ya kusafirisha"
       },
-      "nenosiriLaNakala": {
+      "backupPassword": {
         "label": "Nenosiri la nakala",
-        "description": "Inatumika kusimba faili la nakala"
+        "description": "Inatumika kufunika faili la nakala"
       },
-      "nenosiriLaKurejeshaNakala": {
-        "label": "Nenosiri la nakala rudufu",
-        "description": "Nenosiri ulilotengeneza wakati wa kuhifadhi nakala ya ufunguo wako kwenye iPhone"
+      "restoreBackupPassword": {
+        "lebo": "Nenosiri la nakala rudufu",
+        "maelezo": "Nenosiri ulilotengeneza wakati wa kufanya nakala rudufu ya ufunguo wako kwenye iPhone"
       },
-      "newLocalPasscode": {
-        "label": "Nenosiri jipya la ndani",
-        "description": "Lililotumika kulinda funguo zilizohifadhiwa kwenye kivinjari hiki"
+      "nenosiriJipyaLaMuda": {
+        "lebo": "Nenosiri jipya la eneo husika",
+        "maelezo": "Linda funguo zilizohifadhiwa kwenye kivinjari hiki"
       },
       "resetLocalPasscode": {
         "label": "Nambari mpya ya siri ya ndani",
@@ -67,66 +67,73 @@
     },
     "actions": {
       "unlockKey": "Fungua ufunguo wa usimbaji fiche",
-      "restoreFromBackup": "Rejesha kutoka kwa nakala rudufu ya akaunti",
-      "resetEncryption": "Weka upya Usimbaji Fiche"
+      "restoreFromBackup": " Rekebisha Usimbaji"
     },
-    "messages": {
-      "backupCreated": "Nakala rudufu ya ufunguo imetengenezwa na kupakuliwa.",
-      "keyUnlocked": "Ufunguo wa usimbaji fiche umefunguliwa.",
-      "keyRestored": "Ufunguo umerejeshwa kutoka kwa nakala rudufu ya akaunti.",
-      "resetSuccess": "Usimbaji fiche umewekwa upya kwa mafanikio."
+    "meseji": {
+      "nakalaImetengenezwa": "Nakala ya ufunguo imetengenezwa na kupakuliwa.",
+      "ufunguoUmefunguliwa": "Ufunguo wa usimbaji umefunguliwa.",
+      "ufunguoUmerudishwa": "Ufunguo umerudishwa kutoka kwenye nakala ya akaunti.",
+      "resetSuccess": "Uwekaji upya wa usimbaji fiche umefanikiwa."
     },
     "errors": {
       "restoreIncomplete": "Urejeshaji wa ufunguo haujakamilika au si sahihi kwa akaunti hii",
       "noBackup": "Hakuna nakala rudufu iliyosimbwa kwa akaunti hii",
-      "missingPublicKey": "Nakala rudufu inakosa ufunguo wa umma",
-      "noServerPublicKey": " Akaunti hii kwa sasa haionyeshi ufunguo wa umma wa seva",
-      "serverBackupMismatch": "Nakala ya hifadhi ya seva hailingani na ufunguo wa sasa wa usimbaji fiche wa akaunti",
-      "incompleteMetadata": "Metadata ya nakala ya hifadhi haijakamilika",
-      "resetIncomplete": "Usanidi upya wa usimbaji fiche haukukamilika ipasavyo"
+      "kunaUfunguoWaUmmaKama": "Nakala rudufu inakosa ufunguo wa umma",
+      "hakunaUfunguoWaUmmaWaSeva": "Akaunti hii kwa sasa haionyeshi ufunguo wa umma wa seva",
+      "nakalaRudufuYaSevaHaifanani": "Nakala rudufu ya seva haifanani na ufunguo wa sasa wa usimbaji wa akaunti",
+      "metadataIsiyoKamilifu": "Metadata ya nakala rudufu si kamilifu",
+      "usanidiUpyaHaukukamilika": "Usanidi upya wa usimbaji haukukamilika ipasavyo "
     },
     "thibitisha": {
-      "usanidi upya": "Weka upya usimbaji fiche kwa akaunti hii?\n\nUjumbe wa zamani uliosimbwa fiche unaweza kuwa usisomeki isipokuwa urekebishe ufunguo wa awali baadaye."
+      "reset": "Reset usimbaji fiche wa akaunti hii?\n\nUjumbe uliosimbwa fiche wa zamani unaweza kuwa usisomeki isipokuwa urejeshe ufunguo wa awali baadaye."
     },
-    "resetDescription": "Hii huunda ufunguo mpya wa usimbaji fiche kwa akaunti yako. Ujumbe wa zamani uliosimbwa fiche unaweza kuwa usisomeki isipokuwa urekebishe ufunguo wa awali baadaye."
+    "resetDescription": "Hii inatengeneza ufunguo mpya wa usimbaji fiche kwa akaunti yako. Ujumbe uliosimbwa fiche wa zamani unaweza kuwa usisomeki isipokuwa urejeshe ufunguo wa awali baadaye."
   },
-  "auth": {
-    "headline": " Ujumbe salama kwa yeyote, popote",
-    "maelezo": "Usimbaji fiche wa mwanzo hadi mwisho, tafsiri katika lugha zaidi ya 100, ujumbe unaotoweka, na simu za sauti/video.",
+  "smsConsent": {
+    "label": "Ninakubali kupokea arifa na taarifa za SMS kutoka kwa {{companyName}}. Mzunguko wa ujumbe unaweza kutofautiana. Ada za ujumbe na data zinaweza kutozwa. Jibu <stop>STOP</stop> ili kujiondoa wakati wowote. Jibu <help>HELP</help> kwa usaidizi."
+  },
+  "phoneField": {
+    "label": "Simu",
+    "isiyo halali": "Nambari ya simu isiyo halali",
+    "dokezo": "Jumuisha msimbo wa nchi ikiwa inahitajika (k.m., +1 415…)"
+  },
+  "uthibitisho": {
+    "kichwa": "Ujumbe salama kwa yeyote, mahali popote",
+    "maelezo": "Usimbaji fiche wa mwisho hadi mwisho, tafsiri katika lugha zaidi ya 100, ujumbe unaotoweka, na simu za sauti/video.",
     "sifa": {
-      "usimbaji fiche": "Usimbaji fiche wa mwanzo hadi mwisho kwa chaguo-msingi",
-      "translation": "Utafsiri wa ujumbe wenye akili uliojengewa ndani",
-      "disappearing": "Ujumbe unaotoweka na stakabadhi za kusoma",
-      "privacy": "Muundo unaozingatia faragha kwanza. Data yako, udhibiti wako.",
+      "usimbaji fiche": "Usimbaji fiche wa mwisho hadi mwisho kwa chaguo-msingi",
+      "tafsiri": "Tafsiri ya ujumbe iliyojengewa ndani na mahiri",
+      "utowaji": "Ujumbe unaotoweka na stakabadhi za kusoma",
+      "privacy": "Usiri kipaumbele. Data yako, udhibiti wako.",
       "translate": "Tafsiri ya ujumbe mahiri iliyojengewa ndani",
-      "kutoweka": "Ujumbe unaotoweka",
-      "faraghaMbadala": "Muundo unaozingatia faragha kwanza",
-      "onaMipango": "Tazama mipango na bei"
+      "disappear": "Ujumbe unaotoweka",
+      "privacyAlt": "Muundo unaozingatia usiri kipaumbele",
+      "seePlans": "Tazama mipango na bei"
     },
-    "shujaa": {
-      "mstari1": "Ujumbe salama kwa yeyote, mahali popote — na",
+    "hero": {
+      "line1": "Ujumbe salama kwa yeyote, mahali popote — na",
       "em": "tafsiri katika lugha 100+",
-      "sub": "Pata nambari ya simu salama ya bure ya kupiga simu na kutuma ujumbe duniani kote kupitia Wi-Fi au data. Furahia usimbaji fiche wa mwanzo hadi mwisho, ujumbe unaozama, na simu za sauti/video za HD — na zana zilizojengewa ndani zinazokusaidia kubaki umeunganishwa kuvuka mipaka.",
-      "freeNote": "Kupiga simu na kutuma ujumbe za msingi ni bure. Akili Mnemba ya hali ya juu na vipengele vya kulipia vinahitaji kusasisha. "
+      "sub": "Pata nambari ya simu salama ya bure ya kupiga simu na kutuma ujumbe duniani kote kupitia Wi-Fi au data. Furahia usimbaji fiche wa mwanzo hadi mwisho, ujumbe unaozama, na simu za sauti/video za HD — ukiwa na zana zilizojengewa ndani zinazokusaidia kubaki umeunganishwa kuvuka mipaka.",
+      "freeNote": "Kupiga simu na kutuma ujumbe wa kawaida ni bure. Vipengele vya hali ya juu vya AI na vya kulipia vinahitaji kusasisha."
     },
     "feat": {
       "usimbaji fiche": "Usimbaji fiche wa mwanzo hadi mwisho, daima umewashwa",
       "tafsiri": "Vunja vizuizi vya lugha katika mazungumzo yako",
       "kutoweka": "Ujumbe unaotoweka na stakabadhi za kusoma",
-      "faragha": "Faragha kipaumbele. Data yako, udhibiti wako."
+      "faragha": "Faragha kipaumbele. Data yako, udhibiti wako. "
     },
     "endeleaGoogle": "Endelea na Google",
     "endeleaApple": "Endelea na Apple",
     "jinaLaMtumiaji": "Jina la mtumiaji",
     "nenosiri": "Nenosiri",
-    "endeleaKukaaNimeingia": "Nifanye niendelee kukaa nimeingia",
+    "endeleaKuwingia": "Niendelee kuwaingia",
     "nisahauNenosiri": "Umesahau nenosiri?",
     "kitufeChaKuingia": "Ingia",
     "undaAkaunti": "Unda akaunti",
     "kitufeChaAkauntiBure": "Unda akaunti ya bure",
-    "hapaKwaMaraYaKwanza": "Hapa kwa mara ya kwanza?",
-    "pataApp": "Pata programu",
-    "dondooLaDesktop": "Kwenye desktop? Skana kwa simu yako ili kupata programu.",
+    "hapaMpya": "Hapa mpya?",
+    "getApp": "Pata programu",
+    "desktopTip": "Kwenye kompyuta? Skana kwa simu yako ili kupata programu.",
     "scanHelper": "Kwenye kompyuta? Skana kwa simu yako ili kupata programu.",
     "goHome": "Nenda nyumbani",
     "home": "Nyumbani",
@@ -136,10 +143,10 @@
     },
     "subhead": "Ujumbe wa faragha, uliosimbwa, na uliotafsiriwa — papo hapo.",
     "upgrade": "Boresha sasa",
-    "dokezo": "Dokezo: Tumia akaunti ile ile kwenye wavuti na simu. Ujumbe wako utaendelea kusawazishwa.",
-    "funguaUpakuaji": "Fungua ukurasa wa upakuaji",
-    "qrMbadala": "Msimbo wa QR wa Chatforia",
-    "skaniDokezo": "Skani ili kupakua programu au kufungua kwenye kivinjari chako.",
+    "tip": "Dokezo: Tumia akaunti ile ile kwenye wavuti na simu. Ujumbe wako unabaki umeunganishwa.",
+    "openDownload": "Fungua ukurasa wa kupakua",
+    "qrAlt": "Msimbo wa QR wa Chatforia",
+    "scanHint": "Skena ili kupakua programu au kufungua kwenye kivinjari chako.",
     "iosAria": "Pakua kwenye App Store",
     "iosTitle": "Pakua kwenye App Store",
     "iosBadgeAlt": "Begi la App Store",
@@ -153,21 +160,21 @@
       "passwordDescription": "Angalau herufi 6. Tumia nenosiri imara na la kipekee.",
       "smsConsent": "Kwa kuunda akaunti, unakubali kupokea arifa za SMS zinazohusiana na shughuli zako za Chatforia (kama vile ujumbe kutoka kwa watumiaji wengine). Gharama za ujumbe na data zinaweza kutozwa. Unaweza kujiondoa wakati wowote katika Mipangilio.",
       "termsLink": "Masharti ya Huduma",
-      " privacyLink": "Sera ya Faragha"
+      "privacyLink": "Sera ya Faragha"
     },
-    "to": "Kwa:",
-    "enterRecipient": "Ingiza jina au nambari",
-    "clearRecipients": "Futa wapokeaji",
-    "sms": " SMS",
+    "kwamba": "Kwa:",
+    "ingizaMpokeaji": "Ingiza jina au nambari",
+    "futaWapokeaji": "Futa wapokeaji",
+    "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Andika ujumbe…",
-    "addRecipient": "Ongeza mpokeaji hapo juu ili kuanza…",
+    "andikaUjumbe": "Andika ujumbe…",
+    "ongezaMpokeaji": "Ongeza mpokeaji hapo juu ili kuanza…",
     "oneRecipient": "Tafadhali ingiza mpokeaji mmoja kwa sasa.",
     "enterValidRecipient": "Ingiza jina la mwasiliano aliyehifadhiwa au nambari ya simu.",
-    "sendFailed": "Ujumbe umetumwa bila mafanikio. Angalia konsoli kwa maelezo."
+    "sendFailed": "Ujumbe umeshindikana kutumwa. Angalia konsoli kwa maelezo."
   },
   "home": {
-    "title": "Mwanzo",
+    " title": "Mwanzo",
     "messagesTitle": "Ujumbe wako",
     "messagesSubtitle": "Weka mpokeaji hapo juu, kisha tuma ujumbe ili kuanza mazungumzo.",
     "subheader": "Tuma ujumbe ili kuanza soga.",
@@ -176,44 +183,44 @@
     "emoji": "Emoji",
     "upload": "Pakia picha au video",
     "inputPlaceholder": "Andika ujumbe…",
-    "inputLabel": "Kipanga ujumbe",
+    "inputLabel": "Kihariri ujumbe",
     "sendTooltip": "Tuma",
     "sendTooltipEmpty": "Andika ujumbe wa kutuma",
     "send": "Tuma",
     "welcomeMessage": "Karibu Chatforia",
-    "getStarted": "Anza",
-    "enterRecipient": "Weka jina au nambari",
+    "Anza": "Anza",
+    "wapokeajiWaliotofautishwa": "Wapokeaji waliotofautishwa wamegunduliwa. Tumia ama nambari zote za simu (SMS) au majina yote ya watumiaji (Chatforia).",
+    "ingizaMpokeaji": "Ingiza jina au nambari",
     "addRecipient": "Ongeza mpokeaji hapo juu ili kuanza…",
-    "mixedRecipients": "Wapokeaji mchanganyiko wamegunduliwa. Tumia ama nambari zote za simu (SMS) au majina yote ya watumiaji (Chatforia).",
-    "unahitajiNambari": "Unahitaji nambari ya Chatforia kabla ya kutuma SMS.",
-    "chaguaNambari": "Chagua nambari"
+    "needNumber": "Unahitaji nambari ya Chatforia kabla ya kutuma SMS.",
+    "chooseNumber": "Chagua nambari"
   },
-  "upau wa pembeni": {
-    "sogaLaKubahatisha": "Soga la Kubahatisha",
-    "UhamishajiWaPigaNaTumaUjumbe": "Uhamishaji wa Piga na Tuma Ujumbe",
-    "mazungumzo": "Mazungumzo",
-    "tafsiriMahaliPaUtafutaji": "Tafuta mazungumzo...",
-    "hitilafuKupakia": "Imeshindikana kupakia mazungumzo",
-    "tupu": "Hakuna mazungumzo bado.",
-    "anzaMazungumzo": "Anza mazungumzo",
+  "sidebar": {
+    "randomChat": "Soga ya Kubahatisha",
+    "callTextForwarding": "Uhamishaji wa Simu na Ujumbe ",
+    "conversations": "Mazungumzo",
+    "searchPlaceholder": "Tafuta mazungumzo...",
+    "errorLoading": "Imeshindikana kupakia mazungumzo",
+    "empty": "Bado hakuna mazungumzo.",
+    "startChat": "Anza mazungumzo",
     "people": "Watu",
     "settings": "Mipangilio",
     "status": "Hali",
     "forwarding": "Uhamishaji wa Simu na Ujumbe",
-    "refresh": "Boresha",
-    "search": "Tafuta mazungumzo",
-    "loginPrompt": "Ingia ili kuhariri mipangilio yako.",
-    "login": "Ingia",
-    "register": " Tengeneza akaunti",
-    "vyumba vya mazungumzo": "Vyumba vya mazungumzo",
+    "sasisha": "Sasisha",
+    "tafut": "Tafuta mazungumzo",
+    "arifaYaKuingia": "Ingia ili kuhariri mipangilio yako.",
+    "ingia": "Ingia",
+    "jisajili": "Fungua akaunti",
+    "vyumbaVyaMazungumzo": "Vyumba vya mazungumzo",
     "toka": "Toka",
     "anzaMazungumzoMbadala": "Anza mazungumzo mapya",
     "simu": "Simu",
     "video": "Video",
-    "barua ya sauti": "Barua ya sauti"
+    "baruaToni": "Barua toni"
   },
-  "bar ya juu": {
-    "hali mpya": "Hali Mpya",
+  "topbar": {
+    "newStatus": "Hali Mpya",
     "logout": "Toka",
     "help": "Msaada",
     "createStatusAria": "Tengeneza Hali mpya"
@@ -221,29 +228,29 @@
   "footer": {
     "plans": "Mipango na Bei",
     "about": "Kuhusu Chatforia",
-    "careers": "Ajira",
-    "press": "Vyombo vya Habari",
-    "advertise": "Tangaza",
-    "contact": "Wasiliana Nasi",
-    "help": "Kituo cha Msaada",
+    "careers": " Kazi",
+    "vyombo vya habari": "Vyombo vya Habari",
+    "kutangaza": "Tangaza",
+    "mawasiliano": "Wasiliana Nasi",
+    "usaidizi": " Kituo cha Msaada",
     "status": "Ukurasa wa Hali",
     "iosDownload": "iOS / App Store",
-    "androidDownload": " Android / Google Play",
+    "androidDownload": "Android / Google Play",
     "privacy": "Sera ya Faragha",
     "terms": "Masharti ya Huduma",
     "cookies": "Mipangilio ya Vidakuzi",
     "doNotSell": "Usinauze Taarifa Zangu",
     "language": "Lugha",
-    "contactShort": "Mawasiliano ",
+    "contactShort": "Mawasiliano",
     "aria": "Mwisho",
     "homeAria": "Ukurasa wa nyumbani wa Chatforia",
-    "sehemu": {
-      "kampuni": "KAMPUNI",
-      "usaidizi": "USAIDIZI",
+    "section": {
+      "company": "KAMPUNI",
+      "support": "USAIDHI ",
       "downloads": "UPAKUZI",
       "legal": "KISHERIA"
     },
-    "links": {
+    "viungo": {
       "plans-pricing": "Mipango na Bei",
       "about-chatforia": "Kuhusu Chatforia",
       "careers": "Ajira",
@@ -253,91 +260,91 @@
       "help-center": "Kituo cha Msaada",
       "contact-us": "Wasiliana Nasi",
       "status-page": "Ukurasa wa Hali",
-      "ios-app-store": " iOS / App Store",
+      "ios-app-store": "iOS / Duka la Programu",
       "android-google-play": "Android / Google Play",
       "privacy-policy": "Sera ya Faragha",
       "terms-of-service": "Masharti ya Huduma",
       "do-not-sell-my-info": "Usinauze Taarifa Zangu",
-      "cookie-settings": "Mipangilio ya Vidakuzi"
+      "cookie-settings": "Mipangilio ya Vidakuzi",
+      "how-it-works": "Jinsi Inavyofanya Kazi",
+      "blog": "Blogu",
+      "refund-policy": "Sera ya Kurejeshewa Pesa",
+      "sera-ya-sms": "Sera ya Ujumbe wa SMS"
     },
-    "social": {
+    "mitandao-ya-kijamii": {
       "tiktok": "TikTok",
       "instagram": "Instagram",
       "facebook": "Facebook",
-      "linkedin": "LinkedIn",
+      "linkedin": " LinkedIn",
       "x": "X"
     },
     "copyright": "© Chatforia",
     "patentPending": "Hakimiliki inasubiriwa",
-    "backToTop": "↑ Kurudi juu"
+    "backToTop": "↑ Rudi juu"
   },
   "chat": {
-    "selectPrompt": "Chagua maandishi au chumba cha mazungumzo kuanza kupiga soga",
+    "selectPrompt": "Chagua ujumbe au chumba cha mazungumzo ili kuanza kupiga soga",
     "newMessages": "Ujumbe mpya",
-    "typing": "{{name}} anaandika...",
+    "typing": "{{name }} anaandika...",
     "emptyTitle": "Ujumbe wako",
     "emptySubtitle": "Tuma ujumbe ili kuanza soga.",
     "startChatButton": "Tuma ujumbe",
-    "kiambatishoCha": "Kiambatisho cha media",
-    "mtumiajiHuyu": "mtumiaji huyu",
-    "thibitishaKuzuia": "Kuzuia {{name}}? Hutapokea ujumbe kutoka kwao.",
-    "mtumiajiAlizuiwa": "{{name}} amezuiwa.",
-    "hitilafuYaKuzuia": "Haikuwezekana kubaini mtumiaji wa kulenga kuzuia.",
-    "kuzuiaKumeshindikana": "Kuzuia kumeshindikana (backend bado haijaunganishwa).",
-    "ujumbeUliokodiwaHaupatikani": "Ujumbe uliokodiwa (funguo haipatikani)",
-    "funguaIliKuona": "Fungua ufunguo wako ili kuona ujumbe huu"
+    "mediaAttachment": "Kiambatisho cha media",
+    "thisUser": "mtumiaji huyu",
+    "blockConfirm": "Kuzuia {{name}}? Hutapokea ujumbe kutoka kwao.",
+    "blockedUser": "{{name}} amezuiwa.",
+    "blockError": "Haikuwezekana kumtambua mtumiaji wa kuzuia.",
+    "blockFailed": "Uzuiaji umeshindikana (backend bado haijawekwa).",
+    "encryptedUnavailable": "Ujumbe uliosimbwa (ufunguo haupatikani)",
+    "unlockToView": "Fungua ufunguo wako ili kuona ujumbe huu"
   },
   "messageInput": {
     "ttl": {
-      "off": "Imewezwa"
+      "off": "Imewezeshwa"
     },
-    "freeLimit": "Kipimo cha mpango wa bure: kufutwa kiotomatiki hadi siku 1. Kimefungwa kwa siku 1.",
-    "premiumLimit": "Kipimo cha juu cha kufuta kiotomatiki kwa Premium ni siku 30. Kimefungwa kwa siku 30.",
-    "nothingToSend": "Andika ujumbe au panga faili ili kutuma.",
-    "usimbajiUmehifadhiwa": "Usimbaji umehifadhiwa. Ujumbe haujatumwa.",
-    "umehifadhiwa": "Ujumbe umehifadhiwa.",
-    "voiceAdded": "Ujumbe wa sauti umeongezwa",
-    "attachmentAdded": "Kiambatisho kimeongezwa",
-    "eneoWazi": "Andika ujumbe…",
-    "futaKiotomatiki": "Futa kiotomatiki",
-    "andikaKutumia": "Andika ujumbe wa kutuma",
-    "tuma": "Tuma",
-    "tumaKwaEnter": "Tuma (Enter)",
-    "kiambatisho": "kiambatisho",
-    "maelezo": "Maelezo (hiari)",
-    "ondoa": "Ongeza",
-    "futa": "Futa",
+    "freeLimit": "Kipimo cha mpango wa bure: hufuta kiotomatiki hadi siku 1. Imefungwa kwa siku 1.",
+    "premiumLimit": "Kipimo cha juu cha kufuta kiotomatiki kwa Premium ni siku 30. Imefungwa kwa siku 30.",
+    "nothingToSend": "Andika ujumbe au panga faili kutuma.",
+    "encryptionFailed": "Ufichaji data umeshindikana. Ujumbe haujatumwa.",
+    "sent": "Ujumbe umewasilishwa.",
+    "placeholder": "Andika ujumbe… ",
+    "autoDelete": "Futa kiotomatiki",
+    "typeToSend": "Andika ujumbe wa kutuma",
+    "send": "Tuma",
+    "sendWithEnter": "Tuma (Enter)",
+    "attachment": "Kiambatisho",
+    "caption": "Maelezo (hiari)",
+    "remove": "Ondoa",
+    "clear": "Safisha",
     "gif": "GIF",
     "stika": "Stika",
     "makosa": {
-      "kiambatishoKikoKubwa": "Kiambatisho kikubwa mno. Jaribu faili ndogo zaidi.",
-      "failiIsiyotumika": "Aina ya faili haitumiwi.",
-      "rateLimit": "Unatuma ujumbe haraka sana. Tafadhali punguza mwendo.",
-      "validation": "Kosa la uthibitishaji. Tafadhali angalia ujumbe wako na ujaribu tena.",
+      "kiambatishoKikoKubwa": "Kiambatisho kikubwa mno. Jaribu faili ndogo.",
+      "failiIsiyotumika": "Aina ya faili isiyotumika.",
+      "kipimoChaKazi": "Unatuma ujumbe haraka sana. Tafadhali punguza mwendo.",
+      "uthibitishaji": "Hitilafu ya uthibitishaji. Tafadhali angalia ujumbe wako na ujaribu tena.",
       "failedToSend": "Imeshindikana kutuma. Unaweza kujaribu tena bubble iliyoshindikana."
     }
   },
   "threadActions": {
-    "threadMenu": "Menyu ya Uzi",
+    "threadMenu": "Menyu ya thread",
     "premium": "Premium",
     "aiPower": "Nguvu ya AI",
-    "schedule": "Ratiba",
-    "upgrade": "Boresha",
-    "upgradeSuffix": "(Boresha)",
-    "thread": "Uzi",
-    "about": "Kuhusu",
-    "search": "Tafuta",
-    "media": " Media",
-    "invitePeople": "Alika watu",
-    "roomSettings": "Mipangilio ya chumba",
-    "clearConversation": "Futa mazungumzo",
-    "clearConversationForMe": "Futa kwangu",
-    "clearConversationForEveryone": "Futa kwa wote",
-    "block": "Zuia"
+    "Ratiba": "Ratiba",
+    "Boresha": "Boresha",
+    "Kiambishi awali cha kuboresha": "(Boresha)",
+    "Mfululizo": "Mfululizo",
+    "Kuhusu": "Kuhusu",
+    "Tafuta": "Tafuta",
+    "Vyombo vya habari": "Vyombo vya habari",
+    "Waalike watu": "Alika watu",
+    "mipangilioYaChumba": "Mipangilio ya chumba",
+    "futaMazungumzo": "Futa mazungumzo",
+    "zuia": "Kuzuia"
   },
-  "roomSearch": {
-    "title": "Tafuta ndani ya chumba",
-    "ariaLabel": "Tafuta ndani ya chumba",
+  "utafutajiWaChumba": {
+    "kichwa": "Tafuta chumbani",
+    "ariaLabel": "Tafuta chumbani",
     "search": "Tafuta",
     "searchMessages": "Tafuta ujumbe",
     "noText": "[Hakuna maandishi]",
@@ -346,77 +353,76 @@
   "roomSettings": {
     "roles": {
       "member": "Mwanachama",
-      "moderator": "Msimamizi",
-      "admin": "Msimamizi mkuu"
+      "moderator": " Msimamizi",
+      "msimamizi mkuu": "Msimamizi mkuu"
     },
     "aiMode": {
       "off": "Imewezwa",
-      "mention": "Kwa @ForiaBot au /ask pekee",
-      "daima": "Jibu mapema"
+      "kutaja": "Kwa @ForiaBot au /ask pekee",
+      "kila": "Jibu mapema"
     },
     "autoTranslateMode": {
-      "off": "Zima",
-      "tagged": "Iliyotagiwa pekee (/tr …)",
+      "off": "Imewezeshwa",
+      "tagged": "Zilizotagiwa pekee (/tr …)",
       "all": "Ujumbe wote"
     },
-    "imesasishwa": "Mipangilio imesasishwa"
+    "updated": "Mipangilio imesasishwa"
   },
   "mediaGallery": {
-    "media ya pamoja": "Media ya pamoja",
-    "hakuna media iliyohifadhiwa": "Hakuna media iliyohifadhiwa hapa bado.",
-    "maelezo mbadala ya picha": "picha",
-    "fungua video": "Fungua video",
-    "fungua video na maelezo": "Fungua video: {{maelezo}}",
-    "tazama": "Tazama",
-    "tazamaNaMaelezo": "Tazama: {{maelezo}}",
-    "ainaYaTazama": "Tazama {{aina}}",
-    "pakua": "Pakua",
-    "ainaYaPakua": "Pakua {{aina}}",
-    "file": "file",
+    "sharedMedia": "Vyombo vya habari vilivyoshirikiwa",
+    "noMediaCached": "Hakuna vyombo vya habari vilivyohifadhiwa kwa muda katika kifaa.",
+    "imageAlt": "picha",
+    "openVideo": "Fungua video",
+    "openVideoWithCaption": "Fungua video: {{maelezo}}",
+    "preview": "Tazama awali",
+    "previewWithCaption": "Tazama awali: {{maelezo}}",
+    "previewKind": "Preview {{kind}}",
+    "download": "Pakua",
+    "downloadKind": "Pakua {{kind}}",
+    "file": "faili",
     "kinds": {
-      "image": "image",
+      "image": "picha",
       "video": "video",
-      "audio": "audio",
-      "file": "file"
+      "audio": "sauti",
+      "file": "faili"
     }
   },
   "status": {
     "userNumber": "Mtumiaji #{{id}}",
     "posted": "Hali imechapishwa",
-    "postFailed": "Imeshindikana kutuma hali",
+    "postFailed": "Imeshindikana kuchapisha hali",
     "createTitle": "Tengeneza hali",
     "modalAriaLabel": "Hali mpya",
     "captionLabel": "Una mawazo gani?",
-    "captionPlaceholder": "Shiriki taarifa mpya...",
+    "captionPlaceholder": "Shiriki taarifa mpya.. .",
     "captionAria": "Ujumbe wa hali",
-    "audienceLabel": "Hadhi",
-    "audience": {
-      "public": "Umma",
-      "followers": "Wafuasi",
-      "contacts": "Mawasiliano",
-      "mutuals": "Washirikiana",
-      "custom": "Binafsi..."
+    "hadhira": {
+      "umma": "Umma",
+      "wafuasi": "Wafuasi",
+      "mawasiliano": "Mawasiliano",
+      "wafuasi wa pamoja": "Wafuasi wa pamoja",
+      "maalum": "Custom..."
     },
     "expiresHoursLabel": "Muda wa kuisha (saa)",
-    "maxTooltip": "Kipimo cha juu ni siku 7",
+    "maxTooltip": "Kipimo cha juu siku 7",
     "hoursAbbrev": "h",
     "maxShort": "max",
-    "expiresOn": "Inamalizika tarehe:",
-    "chooseRecipients": "Chagua wapokeaji",
-    "selectContacts": "Chagua mawasiliano",
-    "attachmentsLabel": "Vifaa vilivyoambatishwa",
-    "attachmentsPlaceholder": "Ongeza picha/video",
-    "filesNote": "Hadi faili 5. Hukwisha baada ya saa 24 kwa chaguo-msingi.",
-    "postAria": "Weka hali",
-    "post": "Weka"
+    "expiresOn": "Muda wa kuisha:",
+    "chaguaWapokeaji": "Chagua wapokeaji",
+    "chaguaMawasiliano": "Chagua mawasiliano",
+    "leboYaVifungo": "Vifungo",
+    "eneoLaVifungo": "Ongeza picha/video",
+    "maelezoYaFaili": "Hadi faili 5. Muda wa kuisha wa saa 24 kwa chaguo-msingi.",
+    "postAria": "Chapisha hali",
+    "post": "Chapisha"
   },
   "voicemail": {
     "pageTitle": "Ujumbe wa sauti",
     "from": "Kutoka kwa",
     "to": "Kwa",
-    "unknownCaller": "Haijulikani",
+    "unknownCaller": "Simu isiyojulikana",
     "yourNumber": "Nambari yako ya Chatforia",
-    "durationSeconds": "{{count}}s",
+    "durationSeconds": " {{count}}s",
     "audioAria": "Kicheza sauti cha ujumbe wa sauti",
     "transcriptHeading": "Nakala",
     "transcriptPending": "Inatafsiri ujumbe wa sauti…",
@@ -433,208 +439,208 @@
   "orodhaYaMawasiliano": {
     "mawasilianoYaliyohifadhiwa": "Mawasiliano yaliyohifadhiwa",
     "boreshaAria": "Boresha mawasiliano",
-    "kigezoChaUchujaji": "Chuja mawasiliano yaliyohifadhiwa…",
-    "filterAria": "Chuja mawasiliano yaliyohifadhiwa",
-    "noContactsFound": "Hakuna mawasiliano yaliyopatikana.",
-    "externalContact": "Mwasiliano wa nje",
-    "notJoined": "Mwasiliano huyo bado hajajiunga na Chatforia. ",
-    "couldNotStart": "Haikuweza kuanzisha mazungumzo. Tafadhali jaribu tena.",
-    "startFailed": "Imeshindikana kuanzisha mazungumzo. Tafadhali jaribu tena.",
-    "deleted": "Mwasiliano umefutwa.",
-    "deleteFailed": "Imeshindikana kufuta anwani. Tafadhali jaribu tena.",
-    "aliasUpdated": "Jina la utani limepangwa upya.",
-    "updateAliasFailed": "Imeshindikana kusasisha jina la utani. Tafadhali jaribu tena.",
-    "selectContact": "Chagua {{name}}",
-    "alias": "Jina la utani",
-    "startChat": "Anzisha mazungumzo",
+    "kifunguChaKuchuja": "Chuja mawasiliano yaliyohifadhiwa…",
+    "kuchujaAria": "Chuja mawasiliano yaliyohifadhiwa",
+    "hakunaMawasilianoYaliyopatikana": "Hakuna mawasiliano yaliyopatikana.",
+    "wasilianaNaWaNje": "Mwasiliano wa nje",
+    "notJoined": "Mwasiliani huyo bado hajajiunga na Chatforia.",
+    "couldNotStart": "Haikuwezekana kuanzisha mazungumzo. Tafadhali jaribu tena.",
+    "startFailed": "Imeshindikana kuanzisha mazungumzo. Tafadhali jaribu tena. ",
+    "imefutwa": "Mwasiliano umefutwa.",
+    "kufutaKumeshindikana": "Imeshindikana kumfuta mwasiliano. Tafadhali jaribu tena.",
+    "jinaLaUbadilishaji": "Jina la ubadilishaji",
+    "sasishaJinaLaUbadilishajiKumeshindikana": "Imeshindikana kusasisha jina la ubadilishaji. Tafadhali jaribu tena.",
+    "chaguaMwasiliano": "Chagua {{name}}",
+    "anzaUjumbe": "Anza ujumbe",
     "message": "Ujumbe",
     "delete": "Futa",
-    "deleteContactAria": "Futa mwasiliano",
-    "loadFailed": "Imeshindikana kupakia mawasiliano. Tafadhali jaribu tena.",
-    "loadMore": "Pakia zaidi",
-    "call": "Piga simu ",
-    "callStarted": "Unapiga simu kwa nambari hii kupitia nambari yako ya Chatforia…",
-    "callFailed": "Imeshindikana kuanzisha simu. Tafadhali jaribu tena."
+    "deleteContactAria": "Futa anwani",
+    "loadFailed": "Imeshindikana kupakia anwani. Tafadhali jaribu tena.",
+    "pakiaZaidi": "Pakia zaidi",
+    "pigaSimu": "Piga simu",
+    "simuImeanza": "Unapiga simu hii kupitia nambari yako ya Chatforia…",
+    "simuImeshindikana": "Imeshindikana kuanzisha simu. Tafadhali jaribu tena."
   },
-  "addContactModal": {
-    "title": "Ongeza mwasiliani",
-    "phoneOrUsername": "Simu au jina la mtumiaji",
+  "ongezaMawasilianoModali": {
+    "kichwa": "Ongeza mawasiliano",
+    "phoneOrUsername": "Nambari ya simu au jina la mtumiaji",
     "phoneOrUsernamePlaceholder": "mfano +13018019227 au juliannorton",
-    "alias": "Alias (hiari)",
-    "aliasPlaceholder": "mfano. Kazi, Mama, Mike – Ulaya",
-    "enterPhoneOrUsername": "Weka nambari ya simu au jina la mtumiaji.",
-    "userLookupFailed": "Utafutaji wa mtumiaji umeshindikana.",
-    "cannotAddSelf": "Huwezi kujiongeza kama mwasiliano.",
-    "failedToAdd": "Imeshindikana kuongeza mwasiliano.",
+    "alias": "Jina la utani (hiari)",
+    "aliasPlaceholder": "mfano k. Kazi, Mama, Mike – Ulaya",
+    "ingizaNambariYaSimuAuJinaLaMtumiaji": "Ingiza nambari ya simu au jina la mtumiaji.",
+    "utafutajiWaMtumiajiUmeshindikana": "Utafutaji wa mtumiaji umeshindikana.",
+    "huweziKujiongeza": "Huwezi kujiongeza kama mwasiliano.",
+    "imeshindikanaKuongeza": "Imeshindikana kuongeza mwasiliano.",
     "ongeza": "Ongeza"
   },
   "startChatModal": {
-    "kichwa": "Anza mazungumzo",
-    "sehemu-tupu-ya-utafutaji": "Tafuta jina, jina la mtumiaji, au nambari ya simu",
-    "mtumie-mtu-huyu-ujumbe": "Mtumie mtu huyu ujumbe",
-    "mawasiliano": "Mawasiliano",
-    "mwingiliano-wa-hivi-karibuni": "Mwingiliano wa hivi karibuni",
-    "noContactsMatch": "Hakuna anayejulikana anayekidhi utafutaji wako.",
+    "title": "Anza mazungumzo",
+    "searchPlaceholder": "Tafuta jina, jina la mtumiaji, au nambari ya simu",
+    "messageThisPerson": "Mtumie ujumbe mtu huyu",
+    "contacts": "Mawasiliano",
+    "recentInteractions": "Mwingiliano wa hivi karibuni",
+    "noContactsMatch": "Hakuna mawasiliano yanayolingana na utafutaji wako.",
     "noRecentInteractions": "Hakuna maingiliano ya hivi karibuni bado.",
-    "unknown": "Haijulikani",
-    "interactionType": {
-      "message": "Ujumbe",
-      "call": "Simu",
+    "asiyejulikana": "Asiyejulikana",
+    "ainaYaMuingiliano": {
+      "ujumbe": "Ujumbe",
+      "simu": "Simu",
       "video": "Video"
     },
-    "quickPicker": "Chaguo haraka",
-    "to": "Kwa",
-    "nameOrUsername": "Andika jina, jina la mtumiaji",
+    "kichaguaHaraka": "Kichagua haraka",
+    "kwa": "Kwa",
+    "jinaAuJinaLaMtumiaji": "Andika jina, jina la mtumiaji",
     "nameUsernamePhoneEmail": "Andika jina, jina la mtumiaji, nambari ya simu, au barua pepe…",
     "startWithSelected": "Anza gumzo na aliyechaguliwa",
     "searchByUsernameOrPhone": "Tafuta kwa kutumia jina la mtumiaji au nambari ya simu",
-    " search": "Tafuta",
-    "searchPrompt": "Andika jina la mtumiaji au nambari ya simu na bonyeza Tafuta.",
-    "pickFromContacts": "Au chagua kutoka kwa anwani",
-    "addContact": "Ongeza Anwani",
-    "show": "Onyesha",
+    "search": "Tafuta",
+    "searchPrompt": " Andika jina la mtumiaji au nambari ya simu na bonyeza Tafuta.",
+    "chaguaKutokaKwaMawasiliano": "Au chagua kutoka kwa mawasiliano",
+    "ongezaMwasiliano": "Ongeza Mwasiliano",
+    "onyesha": "Onyesha",
     "ongeza": "Ongeza",
     "funga": "Funga",
-    "idadiIliyochaguliwa": "{{count}} wamechaguliwa",
-    "chaguaAngalauMmoja": "Chagua angalau mpokeaji mmoja. ",
-    "saveContactsHint": "Maingizo ya simu/barua pepe yatapatikana baada ya kuyahifadhi kama mawasiliano.",
-    "failedBulkStart": "Imeshindikana kuanzisha mazungumzo na wapokeaji waliochaguliwa.",
-    "noResults": "Hakuna matokeo",
-    "mode": "Hali",
-    "group": "Kundi",
+    "idadiYaVyoteViliyochaguliwa": "{{count}} vilivyochaguliwa ",
+    "chaguaAngalauMmoja": "Chagua angalau mpokeaji mmoja.",
+    "dokezoLaKuhifadhiMawasiliano": "Nambari za simu/barua pepe zitapatikana baada ya kuzihifadhi kama mawasiliano.",
+    "kuanzishaUjumbeKwaWengiKumeshindikana": "Imeshindikana kuanzisha ujumbe na wapokeaji waliochaguliwa.",
+    "hakunaMatokeo": "Hakuna matokeo",
+    "mtindo": "Mtindo",
+    "kundi": "Kundi",
     "broadcast": "Matangazo",
-    "groupNameOptional": "Jina la kundi (hiari)",
-    "firstMessageOptional": "Ujumbe wa kwanza (hiari lakini inapendekezwa)",
-    "createGroup": "Tengeneza kikundi",
-    "sendBroadcast": "Tuma matangazo"
+    "jinaLaKikundiSiLaZima": "Jina la kikundi (si la lazima)",
+    "ujumbeWaKwanzaSiLaZima": "Ujumbe wa kwanza (si la lazima lakini inapendekezwa)",
+    "undaKikundi": "Unda kikundi",
+    "tumaMatangazo": "Tuma matangazo"
   },
-  "peoplePage": {
-    "people": "Watu",
-    "search": "Tafuta",
+  "ukurasaWaWatu": {
+    "watu": "Watu",
+    "tafut": "Tafuta",
     "searchPlaceholder": "Tafuta mawasiliano yaliyohifadhiwa kwa kutumia jina la utani, jina, jina la mtumiaji, au nambari ya simu",
-    "quickStart": "Mwanzo wa haraka",
-    "quickStartDesc": "Dhibiti anwani zako na ualike marafiki.",
-    "importContacts": "Ingiza anwani zako",
+    "quickStart": "Kuanza haraka",
+    "quickStartDesc": "Dhibiti mawasiliano yako na uwaalike marafiki.",
+    "importContacts": "Injiza mawasiliano yako",
     "import": "Ingiza",
-    "addContact": "Ongeza anwani",
-    "add": "Ongeza",
-    " alikaribishaMarafiki": "Alikaribisha marafiki",
-    "aliokuwa akialikisha": "Shiriki kiungo chako cha mwaliko ili kuanza kupiga soga papo hapo.",
-    "pataApp": "Endelea kuwasiliana ukiwa njiani na Chatforia kwa iOS na Android.",
+    "ongezaMawasiliano": "Ongeza mawasiliano",
+    "ongeza": "Ongeza",
+    "alikaribishaMarafiki": "Alikaribisha marafiki",
+    "maelezoYaMwaliko": "Shiriki kiungo chako cha mwaliko ili kuanza kupiga soga mara moja.",
+    "pataApp": "Pata programu",
+    "maelezoYaPataApp": "Endelea kuwasiliana ukiwa safarini na Chatforia kwa iOS na Android.",
     "pakua": "Pakua",
-    "dokezoLaSawazisha": "Dokezo: Ujumbe wako hubaki umesawazishwa kwenye wavuti na simu.",
-    "chujioLaZilizohifadhiwa": "Chuja mawasiliano yaliyohifadhiwa",
-    "hakunaMawasilianoYaliyopatikana": "Hakuna mawasiliano yaliyopatikana",
-    "tafutaKwaMakini": "Tafuta Kwa Makini",
-    "tafutaAuOngeza": " Tafuta au ongeza mtu",
-    "tafutaKwaNambariAuJinaLaMtumiaji": "Tafuta kwa nambari ya simu / jina la mtumiaji"
+    "syncTip": "Dokezo: Ujumbe wako hubaki umesawazishwa kwenye wavuti na simu.",
+    "filterSaved": "Chuja mawasiliano yaliyohifadhiwa",
+    "noContactsFound": "Hakuna mawasiliano yaliyopatikana",
+    "focusSearch": "Lenga Utafutaji",
+    "findOrAdd": "Tafuta au ongeza mtu",
+    "searchByPhoneOrUsername": "Tafuta kwa nambari ya simu / jina la mtumiaji"
   },
   "wasifu": {
     "kichwa": "Wasifu wa Mtumiaji",
     "lughaUipendayo": "Lugha unayopendelea",
     "chaguaLugha": "Chagua lugha",
     "lazimaUingie": "Lazima uingie ili kuona mipangilio.",
-    "autoTranslate": "Tafsiri otomatiki ujumbe",
+    "tafsiriKiotomatiki": "Tafsiri ujumbe kiotomatiki",
     "showOriginalWithTranslation": "Onyesha ujumbe asili na uliotafsiriwa",
     "showOriginalAndTranslation": "Onyesha asili pamoja na tafsiri",
-    "chujioLaMaudhuiYaWazi": "Chuja maudhui ya wazi",
-    "majibuYaAI": "Majibu ya AI",
-    "wezeshaUthibitishoWaUsomaji": "Wezesha uthibitisho wa usomaji",
-    "ruhusuMaudhuiYaWazi": "Ruhusu maudhui ya wazi",
-    "uandishiWaUjumbeUnaotoweka": "Wezesha ujumbe unaotoweka",
-    "autoDeleteSeconds": "Sekunde hadi kufuta kiotomatiki",
+    "filterExplicit": "Chuja maudhui ya wazi",
+    "aiReply": "Jibu la AI",
+    "enableReadReceipts": "Wezesha stakabadhi za kusoma",
+    "allowExplicitContent": "Ruhusu maudhui ya wazi",
+    "disappearingMessages": "Wezesha ujumbe unaotoweka",
+    "autoDeleteSeconds": "Sekunde hadi kufutwa kiotomatiki",
     "saveSuccess": "Mipangilio imehifadhiwa!",
     "saveError": "Hitilafu: Hakuwezekana kuhifadhi mipangilio",
     "avatarAlt": "Picha ya wasifu",
     "uploadAvatar": "Pakia picha mpya ya wasifu",
-    "avatarSuccess": "Picha ya wasifu imepakuliwa!",
+    "avatarSuccess": "Picha ya wasifu imepakiwa!",
     "avatarError": "Imeshindikana kupakia picha ya wasifu",
     "avatarUpdated": "Picha ya wasifu imesasishwa!",
     "uploadingAvatar": "Inapakia picha ya wasifu…",
-    "noPrivateKey": "Hakuna ufunguo wa faragha kwenye kifaa hiki wa kusafirisha.",
+    "noPrivateKey": "Hakuna ufunguo wa siri kwenye kifaa hiki wa kusafirisha.",
     "setBackupPassword": "Weka nenosiri ili kuficha nakala yako akiba:",
-    "backupDownloaded": "Nakala rudufu iliyosimbwa kwa njia fiche imepakuliwa.",
+    "backupDownloaded": "Nakala akiba iliyosimbwa imepakuliwa.",
     "exportFailed": "Uhamishaji wa ufunguo umeshindikana",
-    "enterBackupPassword": "Weka nenosiri la nakala hii rudufu:",
-    "importSuccess": "Ufunguo wa siri umeingizwa kwenye kifaa hiki.",
-    "importFailed": "Imeshindikana kuingiza ufunguo (nenosiri si sahihi au faili limeharibika).",
-    "funguoZimebadilishwa": "Jozi mpya ya funguo imetengenezwa na ufunguo wa umma umepakiwa.",
-    "kubadilishaFunguoKumeshindikana": "Imeshindikana kubadilisha funguo.",
-    "usalama": "Usalama",
-    "toaUfunguo": " Hifadhi Ufunguo wa Usimbaji",
-    "rejeshaUfunguo": "Rejesha Ufunguo wa Usimbaji",
-    "geuzaVifunguo": "Geuza Ufunguo wa Usimbaji",
-    "onyoKuhusuUfunguo": "Ufunguo wako wa siri hauondoki kamwe kwenye kifaa hiki. Toa nakala iliyolindwa na nenosiri ili kuurejesha kwenye kifaa kingine.",
-    "wasifu": "Wasifu",
-    "nambariYaSimu": "Nambari ya simu",
-    "muonekano": "Muonekano",
+    "enterBackupPassword": "Ingiza nenosiri la nakala hii:",
+    "importSuccess": "Ufunguo wa faragha umeingizwa kwenye kifaa hiki.",
+    "importFailed": "Umeishindwa kuingiza ufunguo (nenosiri si sahihi au faili limeharibika).",
+    "keysRotated": "Jozi mpya ya funguo imetengenezwa na ufunguo wa umma umepakiwa.",
+    "rotateFailed": "Imeshindikana kuzungusha funguo.",
+    "security": "Usalama",
+    "exportKey": "Hifadhi Ufunguo wa Usimbaji",
+    "importKey": "Rejesha Ufunguo wa Usimbaji",
+    "rotateKeys": "Zungusha Funguo za Usimbaji",
+    "keyDisclaimer": "Ufunguo wako wa siri hauondoki kamwe kwenye kifaa hiki. Tuma nakala iliyolindwa kwa nenosiri ili kuiweka upya kwenye kifaa kingine.",
+    "sectionProfile": "Wasifu",
+    "phoneNumber": "Nambari ya simu",
+    "appearance": "Mwonekano",
     "soundSettings": "Sauti",
     "disappearing": "Ujumbe unaotoweka",
-    "backupSync": "Nakili na Sawazisha",
+    "backupSync": "Nakala Rudufu na Sinc",
     "ai": "Akili Mnemba",
-    "accessibility": "Ufikivu",
-    "privacy": "Faragha",
-    "devices": "Vifaa vilivyounganishwa",
-    "themeFreeNotice": " Uko kwenye Toleo la Bure—tumia chaguo za haraka za Jua/Mwezi hapa chini. Boresha ili kufungua mandhari zaidi.",
+    "upatikanaji": "Upatikanaji",
+    "faragha": "Faragha",
+    "vifaa": "Vifaa vilivyounganishwa",
+    "taarifaBureyaMandhari": "Uko kwenye toleo la bure—tumia chaguo za haraka za Jua/Mwezi hapa chini. Boresha ili kufungua mandhari zaidi.",
     "sunTheme": "Tumia mandhari ya Alfajiri",
     "moonTheme": "Tumia mandhari ya Mwezi (Usiku wa manane)",
     "sun": "Jua",
     "moon": "Mwezi",
-    "backupTitle": "Nakala za Usimbaji fiche na Usawazishaji wa Vifaa",
-    "openBackupTools": "Fungua Vifaa vya Hifadhi Nakala",
-    "backupDesc": "Hifadhi nakala ya ufunguo wako wa usimbaji fiche ili kurejesha ujumbe wako kwa usalama kwenye kifaa kingine.",
+    "backupTitle": "Nakala za Usimbaji fiche & Ulinganisho wa Vifaa",
+    "openBackupTools": " Fungua Vifaa vya Hifadhi Nakala",
+    "backupDesc": "Hifadhi nakala ya ufunguo wako wa usimbaji fiche ili kurejesha ujumbe wako kwa usalama kwenye kifaa kingine. ",
     "privacyBlurEnabled": "Fifisha ujumbe kwa chaguo-msingi",
-    "privacyBlurOnUnfocus": "Fifisha wakati programu haiko kwenye kipaumbele",
+    "privacyBlurOnUnfocus": "Fifisha wakati programu haijazingatiwa",
     "planSection": "Mpango wangu",
     "planLoading": "Inapakia mpango wako…",
-    "planLoadFailed": "Imeshindikana kupakia mpango wako.",
-    "currentPlan": "Mpango wa sasa",
-    "planRenewsOn": "Hufanywa upya tarehe",
-    "freePlanCopy": "Uko kwenye mpango wa bure. Boresha ili kufungua vipengele zaidi kama vile nakala rudufu, nambari za ziada, na chaguo za faragha za hali ya juu.",
-    "upgradePlanCta": "Boresha mpango",
-    "changePlanCta": "Badilisha mpango",
-    "dhibitiMalipo": "Dhibiti malipo",
-    "hakuwezekanaKufunguaKituo": "Haikuwezekana kufungua kituo cha malipo. Tafadhali jaribu tena.",
+    "planLoadFailed": "Imeshindikana kupakia mpango wako. ",
+    "mpangoWaSasa": "Mpango wa sasa",
+    "mpangoUnajipyaSiku": "Unajipya siku ya",
+    "mpangoWaBureNakala": "Uko kwenye mpango wa bure. Boresha ili kufungua vipengele zaidi kama vile nakala rudufu, nambari za ziada, na chaguo za faragha za hali ya juu.",
+    "boreshaMpangoCta": "Boresha mpango",
+    "badilishaMpangoCta": "Badilisha mpango",
+    "simamiaMalipo": "Simamia malipo",
+    "portalOpenFailed": "Haikuweza kufungua lango la malipo. Tafadhali jaribu tena.",
     "shikiliaIliKufichua": "Shikilia ili kufichua",
-    "taarifaKwaKunakili": "Nitajulishe ikiwa ujumbe wangu unanakiliwa",
-    "hakuwezekanaKupakia": "Imeshindikana kupakia wasifu",
-    "anafuatiliwa": "Amefuatiwa",
-    "fuataFaili": "Imeshindikana kufuata",
-    "ameondolewaKufuatwa": "Ameondolewa kufuatwa",
-    "ondoaKufuatwaFaili": "Imeshindikana kuondolewa kufuatwa",
-    "fuata": "Fuata",
-    "ondoaUfuatiliaji": "Ongeza ufuatiliaji",
-    "fuataDokezo": "Hadithi zao zitaonekana kwenye mtiririko wako wa Unayowafuata ikiwa watachapisha kwa hadhira ya Wafuasi (au Umma).",
-    "mtumiajiHajatopatikana": "Mtumiaji hajatopatikana kupatikana",
-    "anakufuata": "Anakufuata",
-    "kichwaChaKosaLaSehemu": "Sehemu imeshindwa kupakia",
-    "maudhuiYaKosaLaSehemu": "Kuna tatizo limetokea katika sehemu hii.",
-    "uhamishaji": "Uhamishaji wa Simu na Ujumbe",
-    "sehemuYaUhamishajiWaSimuNaUjumbe": "Uhamishaji wa Simu na Ujumbe",
-    "kichwaChaUhamishajiWaSimuNaUjumbe": "Uhamishaji wa Simu na/au Ujumbe",
-    "callTextForwardingDescription": "Hamisha simu na ujumbe unaoingia kwenye simu au barua pepe yako iliyothibitishwa. Simu/ujumbe unaotoka unaweza kuonyesha nambari yako ya Chatforia.",
-    "enableTextForwarding": "Wezesha uhamishaji wa ujumbe",
-    "forwardTextsToPhone": "Hamisha ujumbe kwenye simu",
-    "forwardTextsToEmail": "Pitisha ujumbe mfupi kwa barua pepe",
-    "destinationPhone": "Nambari ya simu ya mwisho (E.164)",
-    "destinationEmail": "Barua pepe ya mwisho",
+    "taarifaKwaKunakili": "Nijulishe ikiwa ujumbe wangu unanakiliwa",
+    "kupakiaKumeshindikana": "Imeshindikana kupakia wasifu",
+    "umefuata": "Umefuata",
+    "kufuataKumeshindikana": "Imeshindikana kufuata",
+    "umeondolewaUfuatiliaji": "Umeondolewa ufuatiliaji",
+    "kuondoaUfuatiliajiKumeshindikana": "Imeshindikana kutofuatilia",
+    "fuatilia": "Fuatilia",
+    "toa ufuatiliaji": "Toa ufuatiliaji",
+    "dokezoLaKufuatilia": "Hadithi zao zitaonekana kwenye mtiririko wako wa Unayowafuata ikiwa watachapisha kwa hadhira ya Wafuasi (au Umma).",
+    "mtumiajiHajapatikana": "Mtumiaji hajapatikana",
+    "anakufuatilia": "Anakufuatilia",
+    "kichwaChaSehemuIliyoporomoka ": "Sehemu imeshindwa kupakia",
+    "sectionCrashedBody": "Kuna tatizo limetokea katika sehemu hii.",
+    "forwarding": "Uhamishaji wa Simu na Ujumbe",
+    "callTextForwardingSection": "Uhamishaji wa Simu na Ujumbe",
+    "callTextForwardingTitle": "Uhamishaji wa Simu na/au Ujumbe",
+    "callTextForwardingDescription": "Hamisha simu na ujumbe unaoingia kwenye simu yako iliyothibitishwa au barua pepe. Zinazotoka simu/meseji zinaweza kuonyesha nambari yako ya Chatforia.",
+    "wezeshaUhamishajiMeseji": "Wezesha uhamishaji meseji",
+    "forwardTextsToPhone": "Pitisha ujumbe mfupi kwenye simu",
+    "forwardTextsToEmail": "Pitisha ujumbe mfupi kwenye barua pepe",
+    "destinationPhone": "Simu ya kuelekezwa (E.164)",
+    "destinationEmail": "Barua pepe ya kuelekezwa",
     "enableCallForwarding": "Wezesha upitishaji wa simu",
     "destinationPhoneForCalls": "Nambari ya kuelekezwa (E.164) kwa simu",
-    "aliasBridging": "Uhamishaji wa simu (alias bridging)",
-    "quietHoursOptional": "Saa za utulivu (hiari)",
+    "aliasBridging": "Uhamishaji wa Simu (alias bridging)",
+    "quietHoursOptional": "Saa za Utulivu (hiari)",
     "startHour": "Saa ya kuanza (0–23)",
-    "endHour": "Mwisho wa saa (0–23)",
+    "endHour": "Saa ya kumaliza (0–23)",
     "reset": "Weka upya",
     "saveBtn": "Hifadhi",
     "saveProfile": "Hifadhi wasifu",
-    "saveForwarding": "Hifadhi uelekezaji",
+    "saveForwarding": "Hifadhi uhamishaji",
     "forwardSaved": "Mipangilio ya uhamishaji imehifadhiwa",
     "forwardSaveFailed": "Imeshindikana kuhifadhi mipangilio",
-    "errE164": "Ingiza nambari halali ya simu ya E.164 (k.m., +15551234567).",
-    "errEmail": "Ingiza barua pepe halali.",
-    "errSmsDest": "Chagua angalau kituo kimoja cha uhamishaji (simu au barua pepe).",
+    "errE164": "Weka nambari halali ya simu ya E.164 (k.m., +15551234567).",
+    "errEmail": "Weka barua pepe halali.",
+    "errSmsDest": "Chagua angalau eneo moja la kupeleka (simu au barua pepe).",
     "errQuietHours": "Saa za utulivu lazima ziwe kati ya 0 na 23.",
-    "randomChat": "Mazungumzo ya Kubahatisha",
+    "randomChat": "Soga ya Kubahatisha",
     "ageBand": "Kipindi chako cha umri",
     "ageBandPlaceholder": "Chagua kipindi chako cha umri",
     "ageTeen": "13–17",
@@ -642,34 +648,34 @@
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Tunahifadhi tu wigo wa umri (sio tarehe yako halisi ya kuzaliwa). Hii hutumika ili kuhakikisha pango za Random Chat ni za busara.",
-    "wantsAgeFilter": "Tumia upatanisho kulingana na umri katika Soga ya Kubahatisha",
-    "wantsAgeFilterDesc": "Ukiwasha, tunajaribu kukupatanisha na watu katika makundi ya umri yanayofaa.",
-    "partnerAgeBands": "Unaweza kupatanishwa na nani?",
-    "partnerAgeBandsDesc": "Watu wa umri wa kubalehe daima hupatanishwa na watu wengine wa umri wa kubalehe pekee. Watu wazima hawawezi kupatanishwa na watu wa umri wa kubalehe.",
-    "teenMatchingNote": "Kwa usalama, akaunti za umri wa miaka 13–17 zinaweza kupangwa tu na akaunti nyingine za umri wa miaka 13–17 katika Soga ya Nasibu.",
+    "ageBandHint": "Tunahifadhi tu wigo wa umri (sio tarehe yako halisi ya kuzaliwa). Hii hutumika ili kuhakikisha pango za Mazungumzo ya Nasibu ni za busara.",
+    "wantsAgeFilter": "Tumia upatanisho kulingana na umri katika Mazungumzo ya Nasibu",
+    "wantsAgeFilterDesc": "Ukiwa umewasha, tunajaribu kukuunganisha na watu katika makundi ya umri yanayofaa.",
+    "partnerAgeBands": "Unaweza kuunganishwa na nani?",
+    "partnerAgeBandsDesc": "Vijana daima huunganishwa tu na vijana wengine. Watu wazima hawawezi kuunganishwa na vijana.",
+    "teenMatchingNote": "Kwa usalama, akaunti za umri wa miaka 13–17 zinaweza kuoanishwa tu na akaunti nyingine za umri wa miaka 13–17 katika Soga ya Nasibu.",
     "foriaRemember": "Ruhusu Ria ikumbuke mambo unayoiambia",
-    "foriaRememberDesc": "Hii ikiwashwa, Foria inaweza kutumia mazungumzo yako ya zamani ya Soga ya Nasibu (yako pekee) ili kuendeleza mazungumzo. Unaweza kuzima hii wakati wowote.",
+    "foriaRememberDesc": "Hii ikiwashwa, Foria inaweza kutumia mazungumzo yako ya zamani ya Soga ya Nasibu (ni wewe tu) ili kuendeleza mazungumzo. Unaweza kuzima hii wakati wowote.",
     "voicemailSection": "Ujumbe wa sauti",
     "voicemailEnabled": "Washa ujumbe wa sauti",
     "voicemailAutoDeleteDays": "Futa ujumbe wa sauti kiotomatiki baada ya (siku)",
     "voicemailAutoDeletePlaceholder": "Acha wazi ili uhifadhiwe milele",
-    "voicemailForwardEmail": "Pangilia ujumbe wa sauti kwa barua pepe",
-    "voicemailForwardEmailPlaceholder": "Barua pepe ya kutuma arifa za ujumbe wa sauti",
-    "voicemailGreetingText": "Ujumbe mbadala wa maandishi",
-    "voicemailGreetingTextDesc": "Hutumika wakati ujumbe wako wa sauti haupatikani.",
+    "voicemailForwardEmail": "Peleka ujumbe wa sauti kwa barua pepe",
+    "voicemailForwardEmailPlaceholder": "Barua pepe ya kutuma ujumbe wa sauti icemail notifications to",
+    "voicemailGreetingText": "Ujumbe wa salamu wa maandishi mbadala",
+    "voicemailGreetingTextDesc": "Hutumika wakati salamu yako ya sauti haipatikani.",
     "voicemailGreetingUpload": "Pakia salamu ya ujumbe wa sauti",
     "voicemailPreviewGreeting": "Angalia salamu",
     "voicemailGreetingUploaded": "Salamu ya ujumbe wa sauti imepakiwa kwa mafanikio",
     "voicemailGreetingUploadError": "Imeshindikana kupakia salamu ya ujumbe wa sauti",
     "voicemailNote": "Ujumbe wa sauti kutoka kwa nambari zako za Chatforia utahifadhiwa kwenye kikasha chako cha Ujumbe wa Sauti. Unaweza kuwasha ufasiri wa maandishi na uhamishaji katika mipango inayotumika.",
-    "portHint": "Unataka kubaki na nambari yako ya sasa? Unaweza kuihamisha ukiingia Chatforia Wireless.",
+    "portHint": "Unataka kubaki na nambari yako ya sasa? Unaweza kuihamisha kwenye Chatforia Wireless.",
     "wireless": {
       "manage": "Dhibiti wireless"
     },
     "esim": {
       "title": "Chatforia eSIM",
-      "desc": "Pata data ya simu ya Chatforia unapokuwa mbali na Wi-Fi. ",
+      "desc": "Pata data ya simu ya Chatforia unapokuwa mbali na Wi-Fi.",
       "cta": "Pata eSIM / Onyesha QR"
     },
     "encryptedBackupsTitle": "Nakala ya Ufunguo wa Usimbaji"
@@ -678,151 +684,151 @@
     "amoled": "Amoled",
     "aurora": "Aurora",
     "neon": "Neon",
-    "sunset": "Kuzama kwa jua",
+    "sunset": "Sunset",
     "solarized": "Solarized",
     "velvet": "Velvet"
   },
   "sauti": {
     "sauti za arifa": "Sauti za Arifa",
-    "resetToDefaults": "Weka upya hadi chaguo-msingi",
-    "freeNoticeStart": "Uko kwenye toleo la bure — sauti za premium zinaonyeshwa lakini zimefungwa. ",
-    "freeNoticeEnd": " ili kufungua zote.",
+    "rejesha chaguo-msingi": "Rejesha chaguo-msingi",
+    "arifa ya bure kuanza": "Uko kwenye toleo la bure — sauti za premium zinaonyeshwa lakini zimefungwa. ",
+    "arifa ya bure kumalizika": " ili kufungua zote.",
     "messageTone": "Sauti ya ujumbe",
-    "ringtone": "Sauti ya simu",
-    "preview": "Onyesho",
-    "stop": "Simamisha",
-    "volume": "Vol ume",
-    "messageToneFilesHint": "Weka faili katika /public/sounds/Message_Tones",
-    "ringtoneFilesHint": "Weka faili katika /public/sounds/Ringtones",
-    "premiumRequired": "Premium inahitajika kwa uteuzi huo.",
-    "saved": "Mipangilio ya sauti imehifadhiwa.",
-    "saveFailed": "Haikuwezekana kuhifadhi mipangilio ya sauti.",
-    "resetNotSaved": "Weka upya hadi chaguo-msingi (bado haijahifadhiwa).",
-    "premiumTone": "Hiyo ni toni ya Premium.",
-    "premiumRingtone": "Hiyo ni tona ya simu ya Premium.",
+    "ringtone": "Sauti ya kengele",
+    "preview": "Tazama awali",
+    "stop": "Simama",
+    "sauti": "Sauti",
+    "dokezoLaFailiZaToniZaUjumbe": "Weka faili katika /public/sounds/Message_Tones",
+    "dokezoLaFailiZaKengele": "Weka faili katika /public/sounds/Ringtones",
+    "hitajiLaPremium": "Inahitaji Premium kwa uteuzi huo.",
+    "imehifadhiwa": "Mipangilio ya sauti imehifadhiwa.",
+    "hifadhiImeshindikana": "Haikuwezekana kuhifadhi mipangilio ya sauti.",
+    "wekaUpyaHaijahifadhiwa": "Weka upya hadi chaguo-msingi (haijahifadhiwa bado).",
+    "toni ya Premium": "Hiyo ni toni ya Premium.",
+    "ringi ya simu ya Premium": "Hiyo ni ringu ya simu ya Premium.",
     "customComingSoon": "Upakiaji wa sauti za kawaida utakuja hivi karibuni.",
-    "freeNotice": "Uko kwenye toleo la Bure — toni za premium zinaonyeshwa lakini zimefungwa. Boresha ili kufungua zote. ",
-    "default": "Kawaida",
-    "vibrate": "Kutetemeka",
+    "freeNotice": "Uko kwenye toleo la bure — midundo ya premium inaonyeshwa lakini imefungwa. Boresha ili kufungua yote.",
+    "default": "Chaguo-msingi",
+    "vibrate": "Kutikisa",
     "dreamer": "Mwenye ndoto",
-    "notify": "Arifa",
+    "notify": "Kujulisha",
     "pop": "Pop",
-    "pulsatingSound": "Sauti ya kupulsa",
+    "pulsatingSound": "Sauti inayopulsa",
     "textMessage": "Ujumbe mfupi",
     "xylophone": "Xilofoni",
     "classic": "Klasiki",
     "urgency": "Dharura",
     "bells": "Kengele",
-    "Chimes": "Chimes",
-    "Simu ya Kidijitali": "Simu ya Kidijitali",
-    "Melodiki": "Melodiki",
-    "Noti za Ogani": "Noti za Ogani",
-    "Uhalisia wa Sauti": "Uhalisia wa Sauti",
-    "Mtaa": "Mtaa",
-    "Universfield": "Universfield"
+    "chimes": "Chimes",
+    "digitalPhone": "Simu ya kidijitali",
+    "melodic": "Melodiki",
+    "organNotes": "Noti za organi",
+    "soundReality": "Uhalisia wa Sauti",
+    "street": "Mtaa",
+    "universfield": "Universfield"
   },
-  "Mipangilio ya AI": {
-    "Kichwa": "Mipangilio ya AI",
+  "aiSettings": {
+    "title": "Mipangilio ya AI",
     "controlIntro": "Dhibiti tafsiri, majibu mahiri, na majibu ya kiotomatiki ya ForiaBot.",
     "translation": "Tafsiri",
     "autoTranslateIncoming": "Tafsiri kiotomatiki ujumbe unaoingia",
     "showOriginalAlongside": "Onyesha maandishi halisi kando ya tafsiri",
-    "smartReplies": "Majibu Mahiri",
+    "smartReplies": "Majibu Mahiri ",
     "enableSmartReplies": "Wezesha Majibu Mahiri",
-    "smartRepliesHint": "Tuma ujumbe chache uliopokelewa mwishoni (uliosafishwa) kwa AI ili kupendekeza majibu ya haraka.",
+    "smartRepliesHint": "Tuma ujumbe chache uliopokelewa mwishoni (uliopambanuliwa) kwa AI ili kupendekeza majibu ya haraka.",
     "maskProfanity": "Ficha matusi katika mapendekezo ya AI",
-    "maskProfanityHint": "Ikiwa imewashwa, mapendekezo yanayotolewa na AI yatawa na maneno yaliyowekewa alama yamefichwa",
-    "foriaBot": "Jibu-kiotomatiki la ForiaBot",
-    "enableAutoReply": "Wezesha majibu ya kiotomatiki ninapokuwa na shughuli nyingi",
-    "autoReplyMode": "Hali ya majibu ya kiotomatiki",
-    "cooldownSeconds": "Muda wa kupumzika (sekunde)",
-    "signature": "Saini",
-    "autoReply": "🤖 Majibu ya kiotomatiki",
-    "activeUntilOptional": "Inafanya kazi hadi (hiari)",
-    "save": "Hifadhi Mipangilio ya AI",
-    "saved": "Mapendeleo ya AI yamehifadhiwa",
-    "saveFailed": "Imeshindwa kuhifadhi mipangilio ya AI",
-    "translateOff": "Zimwa",
-    "tafsiriIliyotagiwa": "Wakati tu @imefasiriwa au imetagiwa",
-    "fasiriZote": "Fasiri ujumbe wote unaoingia",
-    "haliDm": "Meseji za 1:1 pekee",
-    "modeMention": "Pindi tu ninapotajwa kwa @",
-    "modeAll": "Ujumbe wote unaoingia",
-    "off": "Imizwa",
-    "on": "Imewashwa"
+    "maskProfanityHint": "Ikiwa itawezeshwa, mapendekezo yanayotolewa na AI yatakuwa na maneno yaliyofunikwa ",
+    "foriaBot": "Jibu la Kiotomatiki la ForiaBot",
+    "enableAutoReply": "Washa jibu la kiotomatiki ninapokuwa na shughuli nyingi",
+    "autoReplyMode": "Hali ya kujibu kiotomatiki",
+    "cooldownSeconds": "Muda wa kusubiri (sekunde)",
+    "saini": "Saini",
+    "jibu-kiotomatiki": "🤖 Jibu-kiotomatiki",
+    "haiHadiChaguo": "Hai hadi (chaguo)",
+    "hifadhi": "Hifadhi Mipangilio ya AI",
+    "imehifadhiwa": "Mapendeleo ya AI yamehifadhiwa",
+    "hifadhiImeshindikana": " Imeshindwa kuhifadhi mipangilio ya AI",
+    "translateOff": "Imewezeshwa",
+    "translateTagged": "Wakati tu @imefasiriwa au imewekewa lebo",
+    "translateAll": "Tafsiri ujumbe wote unaoingia ",
+    "modeDm": "Meseji za 1:1 pekee",
+    "modeMention": "Pekee ninapotajwa @",
+    "modeAll": "Meseji zote zinazoingia",
+    "off": "Imewezeshwa",
+    "on": "Imezimwa"
   },
-  "accessibilitySettings": {
-    "title": " Upatikanaji na Arifa",
+  "mipangilioYaUfikivu": {
+    "kichwa": "Ufikivu na Arifa",
     "loadFailed": "Imeshindikana kupakia mipangilio",
-    "accessibilityDesc": "Chaguzi za kufanya Chatforia iwe rahisi kutumia bila kutegemea sauti.",
+    "accessibilityDesc": "Chaguo za kufanya Chatforia iwe rahisi kutumia bila kutegemea sauti.",
     "interfaceFontSize": "Ukubwa wa fonti ya kiolesura",
     "interfaceFontSizeHelp": "Inaanza kwa ukubwa wa kawaida. Ongeza ikiwa unapendelea maandishi makubwa zaidi.",
-    "arifa": "Arifa",
-    "arifa za kuona": "Arifa za kuona kwa ujumbe na simu",
-    "maelezo ya arifa za kuona": "Onyesha mabango na kichwa cha habari kinachomweka ili usikose shughuli.",
-    "vibrateOnNewShort": "Tetemesha simu unapopata ujumbe mpya (inapotumika)",
-    "vibrateOnNewDesc": "Sababisha simu itetemeke unapopata arifa.",
-    "flashOnCallShort": "Washa skrini inapopokelewa simu",
-    "flashOnCallDesc": "Mweko mfupi na angavu simu inapolia.",
-    "liveCaptionsTitle": "Maandishi ya moja kwa moja (simu)",
-    "enableLiveCaptions": "Wezesha maandishi ya moja kwa moja wakati wa simu (Premium)",
-    "liveCaptionsDesc": "Onyesha maandishi ya wakati halisi kutoka kwa sauti ya mshiriki mwingine.",
-    "captionFontSize": "Ukubwa wa fonti ya maandishi",
-    "captionBackground": "Mandharinyuma ya maandishi",
+    "notifications": "Arifa",
+    "visualAlerts": "Arifa za kuona kwa ujumbe na simu",
+    "visualAlertsDesc": "Onyesha mabango na kichwa cha habari kinachomweka ili usikose shughuli.",
+    "vibrateOnNewShort": "Kutetemeka kwa ujumbe mpya (inapounga mkono)",
+    "vibrateOnNewDesc": "Washa kutetemeka kwa kifaa na arifa.",
+    "flashOnCallShort": "Mwaka skrini kwa simu inayoingia",
+    "flashOnCallDesc": "Mweko mfupi mkali wakati simu inapopiga.",
+    "liveCaptionsTitle": "Manukuu ya moja kwa moja (simu)",
+    "enableLiveCaptions": "Wezesha manukuu ya moja kwa moja wakati wa simu (Premium)",
+    "liveCaptionsDesc": "Onyesha manukuu ya wakati halisi kutoka kwa sauti ya mshiriki mwingine.",
+    "captionFontSize": "Ukubwa wa fonti ya manukuu",
+    "captionBackground": "Mandhari ya manukuu",
     "voiceNotes": "Dondoo za sauti",
-    "autoTranscribeVoiceNotes": "Tafsiri kiotomatiki dondoo za sauti",
-    "autoTranscribeVoiceNotesDesc": "Ambatanisha nakala ya maandishi kwenye ujumbe wa sauti unaopokea.",
-    "changesSavedInstantly": "Mabadiliko yanahifadhiwa papo hapo.",
+    "autoTranscribeVoiceNotes": "Kutafsiri kiotomatiki noti za sauti",
+    "autoTranscribeVoiceNotesDesc": "Kuambatanisha nakala kwenye ujumbe wa sauti unaopokea.",
+    "changesSavedInstantly": "Mabadiliko huhifadhiwa papo hapo.",
     "sm": "Ndogo",
     "md": "Katikati",
     "lg": "Kubwa",
-    "xl": "Kubwa Zaidi",
-    "light": "Nyepesi",
-    "dark": "Giza",
-    "transparent": "Wazi",
-    " upatikanaji": "Upatikanaji",
-    "maelezoYaArifa": "Arifa za kuona kwa ujumbe na simu\nOnyesha mabango na kichwa cha habari kinachomweka ili usikose shughuli.",
-    "tetemekaKwaUjumbeMpya": "Tetemeka kwa ujumbe mpya (inapounga mkono)\nSababisha kifaa kitetemeke kwa arifa.",
-    "mwangazaKwaSimu": "Washa skrini kwa simu inayoingia\nMwangaza mfupi na mkali wakati simu inapopiga.",
-    "manukuuYaMojaKwaMoja": " Maandishi ya moja kwa moja (miito)"
+    "xl": " Kubwa Zaidi",
+    "angavu": "Angavu",
+    "giza": "Giza",
+    "wazi": "Wazi",
+    "ufikivu": "Ufikivu",
+    "notificationsDesc": "Arifa za kuona kwa ujumbe na simu\nOnyesha mabango na kichwa cha habari kinachomweka ili usikose shughuli.",
+    "vibrateOnNew": "Kutetemeka kwa ujumbe mpya (inapoungwa mkono)\nSababisha kifaa kitetemeke kwa arifa.",
+    "flashOnCall": "Mwangaza wa skrini kwa simu inayoingia\nMwangaza mfupi na mkali wakati simu inapopiga.",
+    "maelezoYaMojaKwaMoja": "Maelezo ya moja kwa moja (simu)"
   },
   "sehemuYaFaragha": {
-    "strictE2EE": "Usimbaji fiche mkali kutoka mwanzo hadi mwisho",
-    "ciphertextOnlyNote": "Hifadhi maandishi yaliyosimbwa pekee kwenye seva. Inazima AI/Tafsiri na maonyesho ya awali ya udhibiti.",
-    "strictE2EEEnabled": "Usimbaji thabiti wa mwisho-kwa-mwisho umewezeshwa. AI/Tafsiri itazimwa.",
-    "strictE2EEDisabled": "Usimbaji thabiti wa mwisho-kwa-mwisho umezimwa. AI/Tafsiri itawezeshwa tena. "
+    "usimbajiMkaliWaMwishoHadiMwisho": "Usimbaji mkali wa mwisho hadi mwisho",
+    "kumbukaMaandishiYaliyosimbwaPekee": "Hifadhi maandishi yaliyosimbwa pekee kwenye seva. Huzima AI/ Tafsiri na ukaguzi wa awali wa moderasheni.",
+    "strictE2EEEnabled": "Uwekaji siri mkali kutoka mwanzo hadi mwisho umewezeshwa. AI/Tafsiri zitazimwa.",
+    "strictE2EEDisabled": "Uwekaji siri mkali kutoka mwanzo hadi mwisho umezimwa. AI/Tafsiri zimewezeshwa tena."
   },
   "linkedDevicesPanel": {
     "title": "Vifaa vilivyounganishwa",
-    "nonefound": "Hakuna vifaa vilivyounganishwa vilivyopatikana.",
-    "refresh": "Boresha",
-    "unknown": "Haijulikani",
-    "loadFailed": "Imeshindikana kupakia vifaa vilivyounganishwa",
-    "loadFailedLog": "Imeshindikana kupakia vifaa vilivyounganishwa",
-    "renamePrompt": "Weka jina jipya kwa kifaa hiki",
-    "renamed": "Kifaa kimebadilishwa jina",
-    "renameFailed": "Haikuwezekana kubadilisha jina la kifaa",
-    "revoked": "Kifaa kimefutwa",
-    "revokeFailed": "Haikuwezekana kufuta kifaa",
-    "unnamedDevice": "Kifaa kisicho na jina",
-    "primary": "Msingi",
-    "revokedStatus": "Imefutwa",
-    "addedLastSeen": "Imeongezwa {{created}} • Imeonekana mara ya mwisho {{lastSeen}}",
+    "noneFound": "Hakuna vifaa vilivyounganishwa vilivyopatikana.",
+    "sasisha": "Sasisha",
+    "siojulikana": "Siojulikana",
+    "kupakiaKumeshindikana": "Imeshindikana kupakia vifaa vilivyounganishwa",
+    "logiYaKupakiaKumeshindikana": "Imeshindikana kupakia vifaa vilivyounganishwa",
+    "ombaKubadilishaJina": "Ingiza jina jipya kwa kifaa hiki",
+    "kimebadilishwaJina": "Kifaa kimebadilishwa jina",
+    "kubadilishaJinaKumeshindikana": " Haikuweza kubadilisha jina la kifaa",
+    "imefutwa": "Kifaa kimefutwa",
+    "kufutaKumeshindikana": "Haikuweza kufuta kifaa",
+    "kifaaBilaJina": "Kifaa kisicho na jina",
+    "kikuu": "Kikuu",
+    "haliYaKufutwa": "Kimefutwa",
+    "imeongezwaIliyotazamwaMwisho": "Imeongezwa {{created}} • Iliyoonekana mwisho {{lastSeen}}",
     "renameDevice": "Badilisha jina la kifaa",
     "revokeDevice": "Futa kifaa"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Dhibiti mpango wako wa simu wa Chatforia, nambari, uhamishaji, na uhamishaji nambari.",
-    "options": {
-      "heading": "Chagua jinsi unavyotaka kutumia Chatforia",
-      "subheading": "Unaweza kupata nambari mpya ya Chatforia, au ulete nambari yako iliyopo kutoka kwa mtoa huduma mwingine.",
-      "newNumber": "Pata nambari mpya ya Chatforia",
-      "portNumber": "Hamisha nambari yako ya sasa uiingize kwenye Chatforia Wireless"
+    "maelezo": "Dhibiti mpango wako wa simu wa Chatforia, nambari, upashaji mbele, na uhamishaji nambari.",
+    "chaguzi": {
+      "kichwa": "Chagua jinsi unavyotaka kutumia Chatforia",
+      "kichwa kidogo": "Unaweza kupata nambari mpya ya Chatforia, au ulete nambari yako iliyopo kutoka kwa mtoa huduma mwingine.",
+      "nambariMpya": "Pata nambari mpya ya Chatforia",
+      "portNumber": "Hamisha nambari yako ya sasa kwenye Chatforia Wireless"
     },
     "port": {
-      "heading": "Hamisha nambari yako iliyopo",
-      "subheading": "Hamisha nambari yako ya simu ya sasa kutoka kwa mtoa huduma wako wa sasa uiingize Chatforia. Hakikisha maelezo yanafanana kabisa na akaunti yako ya mtoa huduma ili kuepuka ucheleweshaji.",
+      "heading": "Hamisha nambari yako uliyonayo",
+      "subheading": "Hamisha nambari yako ya simu ya sasa kutoka kwa mtoa huduma wako wa sasa kwenda Chatforia. Hakikisha maelezo yanaendana kabisa na akaunti yako ya mtoa huduma ili kuepuka ucheleweshaji.",
       "phoneNumberLabel": "Nambari ya simu ya kuhamisha",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "Mtoa huduma wa sasa",
@@ -832,143 +838,143 @@
       "fullNameLabel": "Jina kamili kwenye akaunti",
       "address1Label": "Mstari wa anwani 1",
       "address2Label": "Mstari wa anwani 2 (hiari)",
-      "cityLabel": "Jiji",
+      "cityLabel": "Mji",
       "stateLabel": "Jimbo / Mkoa",
-      "postalCodeLabel": "Nambari ya posta",
-      "countryLabel": "Nchi",
-      "submitButton": "Wasilisha ombi la kuhamisha nambari",
-      "success": "Ombi la kuhamisha nambari limewasilishwa! Tutakujulisha maendeleo.",
-      "genericError": "Kuna tatizo limetokea."
+      "lebo ya msimbo wa posta": "Msimbo wa posta",
+      "lebo ya nchi": "Nchi",
+      "kitufe cha kuwasilisha": "Wasilisha ombi la kuhamisha nambari",
+      "mafanikio": "Ombi la kuhamisha nambari limewasilishwa! Tutakujulisha maendeleo.",
+      "kosa la jumla": "Kuna tatizo limetokea."
     },
     "hali": {
-      "kichwa": "Hali ya uhamishaji",
-      "kichwa kidogo": "Fuatilia hali ya maombi yako ya kuhamisha nambari.",
-      "inapakia": "Inapakia…",
-      "hitilafu ya kupakia": "Imeshindikana kupakia maombi ya uhamishaji.",
+      "kichwa": " Hali ya uhamishaji",
+      "kichwa cha chini": "Fuatilia hali ya maombi yako ya kuhamisha nambari.",
+      "kupakia": "Inapakia…",
+      "hitilafu ya kupakia": "Imeshindwa kupakia maombi ya uhamishaji.",
       "hakuna": "Hakuna shughuli ya uhamishaji bado.",
       "inasubiriwa": "Inasubiri ukaguzi",
-      "imewasilishwa": "Imewasilishwa kwa mtoa huduma",
-      "inProgress": "Inaendelea",
-      "completed": "Imekamilika",
-      "failed": "Imeshindikana",
-      "canceled": "Imefutwa",
-      "created": "Imeundwa:",
-      "scheduled": "Imepangwa:",
-      "completedAt": "Imekamilika:"
+      "imewasilishwa": "Imetumwa kwa mtoa huduma",
+      "inaendelea": "Inakwenda",
+      "imekamilika": "Imekamilika",
+      "imefeli": "Imefeli",
+      "imefutwa": "Imefutwa",
+      "imeundwa": "Imeundwa:",
+      "imepangwa": "Imepangwa:",
+      "imetimizwa": "Imetimizwa:"
     },
     "dataLow": "Data yako inakaribia kuisha.",
     "topUp": "Jaza salio sasa",
-    "expiresIn": "Inaisha baada ya {{days}} siku",
+    "expiresIn": "Itaisha baada ya {{days}} siku",
     "exhausted": "Data yako imeisha. Nunua kifurushi kipya ili kuendelea kutumia data ya simu.",
-    "buyPack": " Nunua kifurushi cha data",
-    "leboYaKifurushiChaeSIM": "Kifurushi cha eSIM"
+    "buyPack": "Nunua kifurushi cha data",
+    "es imPackLabel": "Pakiti ya eSIM"
   },
-  "msimamiziWaNambariYaSimu": {
+  "phoneNumberManager": {
     "chaguaNambari": "Chagua nambari",
     "nambariYaSimu": "Nambari ya simu",
-    "availableNumber": "Nambari inayopatikana",
-    "premiumNumber": "Nambari ya Premium 🔒",
-    "Dokezo la nambari ya bure": "Nambari ya bure ambayo inaweza kurejeshwa kutumika baada ya kutotumika.",
-    "Dokezo la nambari ya Premium": "Hifadhi nambari yako wakati usajili wako wa Premium bado unafanya kazi.",
+    "nambariInayopatikana": "Nambari inayopatikana",
+    "nambariYaPremium": "Nambari ya Premium 🔒",
+    "dokezoLaNambariBure": "Nambari ya bure ambayo inaweza kurejeshwa kutumika baada ya kutotumika.",
+    "dokezoLaNambariYaPremium": "Hifadhi nambari yako wakati usajili wako wa Premium bado unafanya kazi.",
     "nchi": "Nchi",
-    "msimbo wa eneo": "Nambari ya eneo",
-    "eneoKodiMahaliPaWekwa": "mfano, 415",
+    "nambariYaEneo": "Nambari ya eneo",
+    "sehemuYaNambariYaEneo": "mfano, 415",
     "uwezo": "Uwezo",
     "tafutu": "Tafuta",
     "fungaNambariHii": "Funga nambari hii (nyongeza ya kila wiki, inakuja hivi karibuni)",
-    "dokezoLaUlinziWaPremium": "Nambari za Premium zinalindwa isipelekwe kwa mtu mwingine wakati usajili wako wa Premium bado unafanya kazi.",
-    "nambariZilizopo": "Nambari zilizopo",
-    "searchHint": "Weka nambari ya eneo yenye tarakimu 3 (US/CA pekee), au acha wazi, kisha tafuta.",
-    "keep": "Weka",
+    "premiumProtectedHint": "Nambari za Premium zinalindwa dhidi ya kurejeshwa matumizi wakati usajili wako wa Premium bado unafanya kazi.",
+    "availableNumbers": "Nambari zinazopatikana",
+    "searchHint": "Weka nambari ya eneo ya tarakimu 3 (US/CA pekee), au acha wazi, kisha tafuta.",
+    "keep": "Hifadhi",
     "select": "Chagua",
-    "assignNumberFirst": "Weka nambari kwanza.",
-    "premiumKeepFeature": "Kuweka nambari yako ni kipengele cha Premium. ",
-    "lockingPremiumFeature": "Kufunga nambari ni kipengele cha Premium.",
-    "numberAssigned": "Nambari imepangiwa.",
-    "numberProtectedNow": "Nambari yako sasa imelindwa.",
-    "numberProtected": "Nambari imelindwa.",
-    "nambariHaijalindwa": "Nambari haijalindwa.",
+    "pangaNambariKwanza": "Panga nambari kwanza.",
+    "hudumaYaKuhifadhiYaPremium": "Kuhifadhi nambari yako ni huduma ya Premium.",
+    "hudumaYaKufungaYaPremium": "Kufunga nambari ni huduma ya Premium.",
+    "nambariImetolewa": "Nambari imetolewa. ",
+    "nambariImedhihirishwaSasa": "Nambari yako sasa imedhihirishwa.",
+    "nambariImedhihirishwa": "Nambari imedhihirishwa.",
+    "nambariHaijadhibitiwa": "Nambari haijadhibitiwa.",
     "nambariImeachiliwa": "Nambari imeachiliwa.",
-    "haikuwezekanaKupakiaNambari": "Haikuweza kupakia nambari.",
-    "haikuwezekanaKupanga": "Haikuweza kupanga nambari hiyo. Huenda imechukuliwa hivi punde—jaribu nyingine.",
-    "haikuwezekanaKukodisha": "Haikuweza kukodisha nambari hiyo. Huenda imechukuliwa hivi punde—jaribu nyingine.",
-    "couldNotProtectNow": "Hatuwezi kulinda nambari yako kwa sasa.",
+    "haikuwezaKupakiaNambari": "Haikuwezekana kupakia nambari.",
+    "couldNotAssign": "Haikuwezekana kuteua nambari hiyo. Huenda imechukuliwa hivi punde—jaribu nyingine.",
+    "couldNotLease": "Haikuwezekana kukodisha nambari hiyo. Huenda imechukuliwa hivi punde—jaribu nyingine.",
+    "couldNotProtectNow": " Hatuwezi kulinda nambari yako kwa sasa.",
     "couldNotProtect": "Hatuwezi kulinda nambari.",
     "couldNotUnprotect": "Hatuwezi kuondoa ulinzi wa nambari.",
     "couldNotRelease": "Hatuwezi kuachilia nambari.",
-    "nambariYaEneoIsiyoSahihi": "Tafadhali ingiza nambari ya eneo yenye tarakimu 3 (k.m., 415) au acha wazi.",
+    "invalidAreaCode": "Tafadhali ingiza nambari ya eneo yenye tarakimu 3 (k.m., 415) au acha wazi.",
     "hakunaAkiba": "Hakuna akiba inayopatikana kwa sasa.",
     "hakunaNambariHuru": "Hakuna nambari huru zinazopatikana kwa sasa.",
-    "hakunaAkibaKwaNambariYaEneo": "Hakuna akiba inayopatikana kwa nambari hiyo ya eneo kwa sasa.",
-    "hakunaNambariHuruKwaNambariYaEneo": "Hakuna nambari za bure katika hifadhini mwetu kwa nambari hiyo ya eneo kwa sasa.",
-    "releaseConfirm": "Kuachilia nambari yako ya sasa? Inaweza kupewa mtu mwingine.",
-    "unprotect": "Kuondoa ulinzi",
-    "keepThisNumber": "Hifadhi nambari hii",
-    "replace": "Badilisha",
-    "release": "Achia",
-    "active": "Inafanya kazi",
-    "noNumber": "Hakuna nambari",
-    "premiumFeature": "Kipengele cha premium",
-    "protectYourNumber": "Linda nambari yako",
-    "protected": "Imedhihirishwa",
-    "notProtected": "Haijadhibitiwa",
-    "expiresInShort": "Inaisha ndani ya {{count}}d",
-    "expiresInDaysFull": "Inaisha ndani ya {{count}} siku",
-    "expiringShort": "Expiring{{suffix}}",
-    "renewsOn": "Husasishwa {{date}}",
-    "releaseWarning": "Nambari yako inaweza kutolewa baada ya {{count}} siku. Boresha hadi Premium ili kuiweka salama.",
-    "pickNumberHint": "Chagua nambari ya Chatforia ya kutumia kwa ujumbe na mawasiliano ndani ya programu.",
-    "unableToLoadStatus": "Haiwezekani kupakia hali ya nambari ya simu.",
-    "lock": "Kufuli",
+    "hakunaAkibaKodiEneo": "Hakuna akiba inayopatikana kwa kodi hiyo ya eneo kwa sasa.",
+    "hakunaNambariHuruKodiEneo": "Hakuna nambari huru katika mkusanyiko wetu kwa kodi hiyo ya eneo msimbo wa eneo kwa sasa.",
+    "releaseConfirm": "Uachilie nambari yako ya sasa? Inaweza kupewa mtu mwingine.",
+    "unprotect": "Ondoa ulinzi",
+    "keepThisNumber": "Weka nambari hii",
+    "badilisha": "Badilisha",
+    "achilia": "Acha",
+    "hai": "Hai",
+    "hakunaNambari": "Hakuna nambari",
+    "kipengeleChaPremium": "Kipengele cha premium",
+    "lindaNambariYako": "Linda nambari yako",
+    "protected": "Imehifadhiwa",
+    "notProtected": "Haijahifadhiwa",
+    "expiresInShort": "Inaisha katika {{count}}",
+    "expiringInDaysFull": "Inaisha baada ya {{count}} siku",
+    "expiringShort": "Inaisha{{suffix}}",
+    "renewsOn": "Inajirudia {{date}}",
+    "releaseWarning": "Nambari yako inaweza kutolewa baada ya {{count}} siku. Boresha hadi Premium ili kuiweka salama. ",
+    "chaguaNambariDokezo": "Chagua nambari ya Chatforia ya kutumia kwa kutuma ujumbe na mawasiliano ndani ya programu.",
+    "haikuwezekanaKupakiaHali": "Haikuwezekana kupakia hali ya nambari ya simu.",
+    "kufunga": "Kufunga",
     "hakunaNambariIliyotolewa": "Hakuna nambari iliyotolewa. Chagua moja kwa msimbo wa eneo ili kuanza kutuma ujumbe."
   },
   "dialer": {
-    "kichwa": "Mioyo",
-    "kichwa kidogo": "Kitufe cha nambari & hivi karibuni. (Ikiwa hutumii PSTN, anza mioyo kutoka kwenye kichwa cha mazungumzo.)",
-    "ingizaNambari": "Ingiza nambari",
-    "ingizaNambariAria": "Ingiza nambari",
+    "kichwa": "Simu",
+    "subtitle": "Kitufe cha nambari & zilizopita. (Ikiwa hutumii PSTN, anza simu kutoka kichwa cha mazungumzo.)",
+    "enterNumber": "Ingiza nambari",
+    "enterNumberAria": "Ingiza nambari",
     "resolving": "Inatafuta lengo la simu…",
     "call": "Piga simu",
     "callBrowser": "Piga simu kupitia kivinjari",
     "backspace": "Futa nyuma",
     "recents": "Simu za hivi karibuni",
     "noRecents": "Hakuna simu za hivi karibuni bado.",
-    "resolveFailed": "Hakuwezekana kutatua lengo la simu.",
+    "resolveFailed": "Haikuwezekana kutatua lengo la simu.",
     "callRequiredNumber": "Unahitaji nambari ya Chatforia kabla ya kupiga simu.",
-    "callFailed": "Hakuwezekana kupiga simu.",
+    "callFailed": "Haikuwezekana kupiga simu.",
     "deleteConfirm": "Futa simu hii kutoka kwa zilizopita?",
-    "deleteFailed": "Hakuwezekana kufuta simu.",
-    "deleteFailedLog": "Imeshindikana kufuta simu",
-    "inayoondoka": "Inayoondoka",
-    "inayokuja": "Inayokuja",
-    "iliyokosekana": "Iliyokosekana",
-    "iliyokataliwa": "Iliyokataliwa",
-    "iliyofeli": "Iliyofeli",
-    "iliyokamilika": "Iliyokamilika",
-    "simuInayoondoka": "Simu Inayoondoka",
-    "simuInayokuja": "Simu Inayoingia",
-    "voicemail": "Ujumbe wa sauti",
+    "deleteFailed": "Simu haikuweza kufutwa.",
+    "deleteFailedLog": "Imeshindwa kufuta simu",
+    "outgoing": "Inayoendelea",
+    "incoming": "Inaingia",
+    "missed": "Imepitwa",
+    "declined": "Imekataliwa",
+    "failed": "Imeshindikana",
+    "completed": "Imekamilika",
+    "Simu Inayoendelea": "Simu Inayoendelea",
+    "Simu Inayoingia": "Simu Inayoingia",
+    "Ujumbe wa Sauti": "Ujumbe wa Sauti",
     "callAria": "Simu {{name}}",
-    "deleteAria": "Futa simu na {{name}}",
-    "enterNumberPh": "Weka nambari",
-    "recentsEmpty": "Hakuna simu za hivi karibuni bado.",
-    "key": "Key {{d}}"
+    "deleteAria": "Futa simu ya {{name}}",
+    "ingizaNambariPh": "Ingiza nambari",
+    "hakunaMpya": "Hakuna simu za hivi karibuni bado.",
+    "kitufe": "Kitufe {{d}}"
   },
-  "callHistory": {
-    "title": "Simu",
-    "subtitle": "Simu zako za hivi karibuni zilizopokelewa na zilizotolewa.",
-    "loadFailed": "Haikuweza kupakia historia ya simu.",
+  "historiaYaSimu": {
+    "kichwa": "Simu",
+    "kichwaKidogo": "Simu zako za hivi karibuni zilizopokelewa na zilizotolewa.",
+    "kupakiaKumeshindikana": "Haikuweza kupakia historia ya simu.",
     "loadFailedTitle": "Haikuweza kupakia historia ya simu",
     "emptyTitle": "Hakuna simu bado",
     "emptySubtitle": "Simu zako za hivi karibuni zitaonekana hapa.",
-    "outgoing": "Zilizotolewa",
+    "outgoing": "Zilizotoka",
     "incoming": "Zilizopokelewa",
-    "missed": "Simu ulizopitwa nao",
-    "declined": "Simu ulizokataa",
-    "failed": "Simu zilizoshindikana",
-    "completed": "Simu zilizokamilika",
-    "outgoingCall": "Simu ya kutoka",
-    "incomingCall": "Simu ya kuingia",
+    "missed": "Zilizokosekana",
+    "declined": "Zilizokataliwa",
+    "failed": "Zilizoshindikana",
+    "completed": "Zilizokamilika",
+    "outgoingCall": "Simu Inayotoka",
+    "incomingCall": "Simu Inayopokelewa",
     "voicemail": "Ujumbe wa sauti"
   },
   "video": {
@@ -983,31 +989,31 @@
       "start": "Anza",
       "callBtn": "Piga simu",
       "callByPhone": {
-        "title": "Piga kwa simu"
+        "title": "Piga simu kwa kutumia simu"
       },
       "phone": {
-        "placeholder": "Ingiza nambari ya simu (k.m., +1-555-123-4567)",
+        "placeholder": "Weka nambari ya simu (k.m., +1-555-123-4567)",
         "aria": "Simu ya kupigia"
       },
-      "tipInvite": "Dokezo: Bandika nambari na upige bila kuhifadhi anwani. Tutaualika wasio watumiaji kupitia kiungo.",
+      "tipInvite": "Dokezo: Bandika nambari na upige bila kuhifadhi anwani. Tutawaalika wasio watumiaji kupitia kiungo.",
       "findUser": {
         "title": "Tafuta mtumiaji"
       },
       "search": {
-        "placeholder": "Tafuta kwa jina au jina la mtumiaji",
+        "placeholder": " Tafuta kwa jina au jina la mtumiaji",
         "aria": "Tafuta kwa jina au jina la mtumiaji",
         "btn": "Tafuta"
       }
     },
-    "rooms": {
-      "title": "Vyumba",
-      "subtitle": "Tengeneza chumba au jiunge na kilichopo kwa kuandika jina lile lile.",
-      "desc": "Video ya pande nyingi kwa kutumia jina la chumba linaloshirikiwa.",
+    "vyumba": {
+      "kichwa": "Vyumba",
+      "kichwa kidogo": "Tengeneza chumba au jiunge na kilichopo kwa kuandika jina lile lile.",
+      "desc": "Video ya pande nyingi kwa kutumia jina la chumba lililoshirikiwa.",
       "roomLabel": "Jina la chumba",
-      "roomPlaceholder": "mfano. team-standup",
+      " roomPlaceholder": "k.m. team-standup",
       "roomAria": "Jina la chumba",
       "joinCreate": "Jiunge / Tengeneza",
-      "tip": "Dokezo: shiriki jina hili na wengine, au tumia kiungo cha kina kwenda"
+      "tip": "Dokezo: shiriki jina hili na wengine, au tumia kiungo maalum kwenda"
     },
     "title": "Video",
     "chooseType": "Chagua aina ya video.",
@@ -1015,51 +1021,51 @@
     "directDesc": "Simu ya kamera ya 1:1 na mtumiaji mwingine.",
     "directStart": "Anza",
     "roomsTitle": "Vyumba",
-    "roomsDesc": "Video ya pande nyingi kwa kutumia jina la chumba lililoshirikiwa.",
+    "roomsDesc": "Video ya pande nyingi kwa kutumia jina la chumba la pamoja.",
     "roomsIntro": "Jiunge au uunde chumba cha pande nyingi.",
     "roomNameLabel": "Jina la chumba",
-    "roomNamePh": "mf. k. team-standup",
+    "roomNamePh": "mfano. team-standup",
     "join": "Jiunge",
-    "deeplinkTip": "Dokezo: unaweza kutumia kiungo cha moja kwa moja kwenda <code>/video?room=jina-la-chumba</code>."
+    "deeplinkTip": "Dokezo: unaweza kutumia kiungo cha kina moja kwa moja kwa <code>/video?room=jina-la-chumba</code>."
   },
   "directVideo": {
     "intro": "Anza simu ya video ya moja kwa moja ya 1:1.",
     "findUserLabel": "Tafuta mtumiaji",
     "findUserPh": "Tafuta kwa jina au jina la mtumiaji",
-    "tafut": "Tafuta",
-    "piga simu": "Piga simu"
+    "search": "Tafuta",
+    "call": "Piga simu"
   },
-  "onyoLaSimu": {
-    "kichwa": "Nambari yako inakaribia kuisha",
-    "maudhui": "Nambari yako {{number}} itatolewa tarehe {{date}} isipokuwa ikirudishwa shughuli.",
-    "kitufe": "Weka Nambari Yangu"
+  "phoneWarning": {
+    "title": "Nambari yako inakaribia kuisha muda wake",
+    "body": "Nambari yako {{number} } itamalizika muda wake tarehe {{date}} isipochangiwa tena.",
+    "button": "Weka Nambari Yangu"
   },
   "premium": {
-    "heading": "Pata Premium",
-    "maelezo": "Fungua vipengele vya nguvu na uondoe matangazo.",
-    "wito": "Boresha",
-    "boresha": "Boresha",
-    "boreshaAria": "Boresha hadi Chatforia Premium"
+    "heading": "Chukua Premium",
+    "description": "Fungua vipengele vya ziada na uondoe matangazo.",
+    "cta": "Boresha",
+    "upgrade": "Boresha",
+    "upgradeAria": "Boresha hadi Chatforia Premium"
   },
   "upgrade": {
     "title": "Boresha",
     "titleLoggedIn": "Boresha",
     "titlePublic": "Bei",
     "h1": "Bei na Mipango ya Chatforia",
-    "h1Subtitle": "Anza na mpango wetu wa bure unaotegemea matangazo. Ondokana na matangazo na Plus, au fungua vipengele vyote vya nguvu na Premium.",
+    "h1Subtitle": "Anza na mpango wetu wa bure wenye matangazo. Ondoa matangazo na Plus, au fungua vipengele vyote vya nguvu na Premium.",
     "subtitle": "Chagua mpango wa programu, ongeza vifurushi vya data kwa ajili yako, au shiriki data na familia yako — vyote kutoka sehemu moja.",
-    "subtitle.app": "Anza na mpango wetu wa bure unaotegemea matangazo. Ondokana na matangazo na Plus, au fungua vipengele vyote vya nguvu na Premium.",
+    "subtitle.app": "Anza na mpango wetu wa bure unaotegemea matangazo. Pata Plus bila matangazo, au fungua vipengele vyote vya nguvu na Premium.",
     "subtitle.mobile": "Ongeza data ya eSIM ya kimataifa ili Chatforia iendelee kufanya kazi hata ukiwa mbali na Wi-Fi.",
-    "subtitle.family": "Tengeneza bwawa la data la pamoja kwa familia yako na usimamie matumizi ya kila mtu kutoka sehemu moja.",
+    "subtitle.family": "Tengeneza mfuko wa data wa pamoja kwa familia yako na usimamie matumizi ya kila mtu kutoka sehemu moja.",
     "perMonth": "mo",
-    "perYear": "mwaka",
-    "goPremium": "Nenda Premium",
+    "perYear": "year",
+    "goPremium": "Chukua Premium",
     "benefitsLine": "Fungua vipengele vya nguvu na uondoe matangazo.",
     "ctaText": "Boresha",
     "aria": "Boresha hadi Chatforia Premium",
     "toggle": {
-      "monthly": "Kila Mwezi",
-      "Kila Mwaka": "Kila Mwaka (Okoa 30%)"
+      "monthly": "Kila mwezi",
+      "annual": "Kila mwaka (Okoa 30%)"
     },
     "scheduleBanner": {
       "title": "Usajili utaisha",
@@ -1067,39 +1073,43 @@
       "keepPlanCta": "Endelea na {{plan}}",
       "manageBillingCta": "Dhibiti malipo"
     },
-    "malipo": {
-      "kuelekeza": "Inaelekeza…"
+    "billing": {
+      "opening": "Inafunguka…",
+      "manage ": "Dhibiti Malipo"
     },
-    "idhinisho": {
+    "malipo": {
+      "kuelekeza": "Unaelekezwa…"
+    },
+    "uthibitisho": {
       "endelea": "Endelea kuingia",
       "undaAkaunti": "Unda akaunti",
-      "ingia": "Ingia"
+      "ingia": " Ingia"
     },
     "cta": {
       "aria": "Chagua mpango",
-      "pataPlus": "Boresha hadi Plus",
-      "boreshaKwaMwezi": "Boresha Kwa Mwezi",
-      "boreshaKwaMwaka": "Boresha Kwa Mwaka"
+      "getPlus": "Boresha hadi Plus",
+      "upgradeMonthly": "Boresha Kila Mwezi",
+      "upgradeAnnual": "Boresha Kila Mwaka"
     },
-    "sehemu": {
+    "section": {
       "app": "Mipango ya App",
       "mobile": "Simu (eSIM)",
-      "family": "Mipango ya familia"
+      "family": "Mipango ya Familia"
     },
-    "plans": {
-      "free": {
-        "title": "Bure",
-        "price": "$0",
-        "desc": "Anza kutuma ujumbe bure. Inafaa ikiwa unajaribu Chatforia tu.",
-        "features": {
-          "chat": "Soga ya ana kwa ana (1:1) na ya kikundi ya wakati halisi, pamoja na simu za sauti na video",
+    "mipango": {
+      "bure": {
+        "kichwa": "Bure",
+        "bei": "$0",
+        "maelezo": "Anza kutuma ujumbe bure. Inafaa ikiwa unajaribu Chatforia tu.",
+        "vipengele": {
+          "soga": "Soga ya ana kwa ana na ya kikundi ya wakati halisi, pamoja na simu za sauti na video",
           "media": "Shiriki picha, ujumbe wa sauti, na video fupi",
-          "ai": "Majibu ya akili yanayotumia AI na tafsiri ya papo kwa papo (matumizi ya haki)",
-          "zinazotoweka": "Ujumbe unaotoweka na vidhibiti vya msingi vya faragha",
-          " ads": "Bure milele na matangazo kwenye programu"
+          "ai": "Majibu ya busara yanayotumia AI na tafsiri ya papo kwa papo (matumizi ya haki)",
+          "disappearing": "Ujumbe unaotoweka na vidhibiti vya msingi vya faragha",
+          "ads": "Bure milele na matangazo ndani ya programu "
         },
         "ctaCurrent": "Mpango wa sasa",
-        "ctaManage": "Dhibiti kwenye malipo",
+        "ctaManage": "Dhibiti katika malipo",
         "ctaPublic": "Anza – endelea kuingia",
         "aria": "Mpango wa bure"
       },
@@ -1109,9 +1119,9 @@
         "desc": "Vipengele vyote muhimu, bila matangazo. Bora kwa kutuma ujumbe na kupiga simu za kila siku.",
         "features": {
           "allFree": "Kila kitu katika toleo la Bure, bila matangazo",
-          "forwarding": "Peleka simu na ujumbe kwenye nambari yako halisi ya simu",
+          "forwarding": "Pitisha simu na ujumbe kwenye nambari yako halisi ya simu",
           "history": "Historia ndefu ya ujumbe (hadi miezi 6)",
-          "usaidizi": "Huduma ya haraka zaidi wakati tatizo linapotokea"
+          "support": "Huduma ya haraka zaidi wakati tatizo linapotokea"
         },
         "badge": "Maarufu",
         "cta": "Ondoa Matangazo",
@@ -1121,14 +1131,14 @@
       "premiumMonthly": {
         "title": "Premium (Kwa Mwezi)",
         "price": "$11.99",
-        "desc": "Uzoefu kamili wa Chatforia: Zana zenye nguvu za AI, ubinafsishaji, na usaidizi wa kipaumbele.",
-        "vipengele": {
-          "plusAll": "Kila kitu katika Plus",
-          "mada": "Fungua mada zote za kulipia na ubinafsishaji wa programu",
-          "ai": "Zana za nguvu za AI za Premium pekee kwa ajili ya uandishi upya, majibu ya akili, na muhtasari",
-          "usaidizi": "Huduma ya kipaumbele unapohitaji msaada zaidi"
+        "desc": "Uzoefu kamili wa Chatforia: zana zenye nguvu za AI, ubinafsishaji, na usaidizi wa kipaumbele.",
+        "sifa": {
+          "plusZote": "Kila kitu katika Plus",
+          "mada": "Fungua mada zote za rangi za premium na ubinafsishaji wa programu",
+          "ai": "Zana za nguvu za AI za premium pekee kwa ajili ya uandishi upya, majibu ya akili, na muhtasari",
+          "usaidizi": "Usaidizi wa kipaumbele unapohitaji msaada zaidi"
         },
-        "badge": "Inapendekezwa",
+        "beji": "Inapendekezwa",
         "cta": "Boresha (Kwa Mwezi)",
         "ctaPublic": "Fungua Premium – endelea kuingia",
         "aria": "Boresha hadi Premium ya Mwezi"
@@ -1137,17 +1147,17 @@
         "title": "Premium (Mwaka)",
         "price": "$99",
         "desc": "Okoa zaidi unapolipishwa kila mwaka — ikijumuisha mandhari za ziada za rangi, zana za AI, na usaidizi wa kipaumbele.",
-        "sifa": {
-          "allPremium": "Kila kitu katika Premium ya Mwezi — ikiwa ni pamoja na mandhari za ziada za rangi",
-          "annualBilling": "Inatozwa mara moja kwa mwaka",
-          "save25": "Okoa takriban 30% ikilinganishwa na kulipa kila mwezi",
-          "bestFor": "Bora kwa watumiaji mahiri, wafanyakazi wa mbali, na wasafiri wazito"
+        "features": {
+          "allPremium": "Kila kitu katika Premium ya Mwezi — ikijumuisha mandhari za ziada za rangi",
+          "malipoYaMwaka": "Hulipishwa mara moja kwa mwaka",
+          "okoa25": "Okoa takriban 30% ikilinganishwa na kulipa kila mwezi",
+          "boraKwa": "Bora kwa watumiaji mahiri, wafanyakazi wa mbali, na wasafiri wazito"
         },
-        "badge": "Okoa 30%",
-        "cta": "Boresha (Mwaka)",
+        "beji": "Okoa 30%",
+        "kitendoChaKutekeleza": "Boresha (Mwaka)",
         "ctaPublic": "Okoa 30% kwa malipo ya mwaka – endelea kuingia",
         "aria": "Boresha hadi Premium ya Mwaka",
-        "disclaimer": "Malipo hutozwa mapema. Futa wakati wowote. Hakuna ada fiche."
+        "disclaimer": "Malipo hutozwa mapema. Futa wakati wowote. Hakuna ada zilizofichwa."
       }
     },
     "marketing": {
@@ -1157,67 +1167,59 @@
       "plusBadge": "Maarufu",
       "plusDesc": "Uzoefu wa bei nafuu zaidi usio na matangazo.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Vipengele kamili, miziki ya simu, na zana zenye nguvu za AI.",
+      "premiumMonthlyDesc": "Vipengele kamili, midundo ya simu, na zana za nguvu za AI.",
       "premiumAnnualTitle": "Premium",
       "premiumAnnualDesc": "Okoa zaidi unapolipishwa kila mwaka.",
-      "annualDisclaimer": "Unalipishwa mapema. Futa usajili wakati wowote. Hakuna ada fiche."
+      "annualDisclaimer": "Lipa mapema. Futa usajili wakati wowote. Hakuna ada zilizofichwa."
     },
     "mobile": {
       "title": "Chatforia Mobile (vifurushi vya data vya eSIM)",
       "subtitle": "Ongeza data ya kimataifa ili Chatforia iendelee kufanya kazi hata bila Wi-Fi. Bei hubadilika kiotomatiki kulingana na nchi na sarafu yako.",
-      "subtitle.detail": "Chagua kifurushi cha data cha kimataifa cha mara moja ili Chatforia iendelee kufanya kazi unapokuwa unasafiri au mbali na Wi-Fi.",
+      " subtitle.detail": "Chagua kifurushi cha data cha kimataifa cha mara moja ili Chatforia iendelee kufanya kazi unapokuwa unasafiri au mbali na Wi-Fi.",
       "scope": {
         "local": "Mitaa",
         "europe": "Ulaya",
         "global": "Kimataifa"
       },
-      "note": "Hatutauza vifurushi vya data chini ya GB 3.",
-      "localEquals": "Mkoa = {{country}}",
-      "localEqualsFallback": "Mkoa = nchi yako ya sasa",
-      "perPack": "/ pakiti",
-      "cta": "Pata pakiti hii ya data",
-      "ctaPublic": "Pata pakiti hii ya data",
+      "localEquals": "Eneo = {{country}}",
+      "localEqualsFallback": "Eneo = nchi yako ya sasa",
+      "perPack": "/ kifurushi",
+      "cta": "Pata kifurushi hiki cha data",
+      "ctaPublic": "Pata kifurushi hiki cha data",
       "checkout": {
         "redirecting": "Inakuelekeza…"
       },
       "isiyo na kikomo": {
         "sifa": {
           "matumizi makubwa": "Data ya kasi kubwa kwa matumizi makubwa",
-          "kikomo": "Kasi inaweza kupungua baada ya matumizi makubwa",
+          "kikomo": "Data ya kasi kubwa inasimamiwa na sera za matumizi ya haki na usimamizi wa mtandao",
           "ufikiaji": "Ufikaji wa kuaminika",
-          "papo hapo": "Uwashoaji wa papo hapo wa eSIM",
+          "papo hapo": "Uamilishaji wa papo hapo wa eSIM",
           "hakunaMkataba": "Pakiti ya mara moja, bila mkataba"
         }
       },
       "disclaimer": {
-        "devices": "Pakiti za data za eSIM zinahitaji kifaa kinachokubali eSIM na ambacho kimefunguliwa. Upatikanaji hutofautiana kulingana na mfano wa simu, mtoa huduma, na nchi. Ufikiaji na kasi hutofautiana kulingana na eneo."
+        "devices": "Pakiti za data za eSIM zinahitaji kifaa kinachokubali eSIM na kisichofungwa. Upatikanaji hutofautiana kulingana na mfano wa simu, mtoa huduma, na nchi. Ufikiaji na kasi hutofautiana kulingana na eneo."
       },
-      "small": {
-        "title": "Pakiti ya Kuanza",
-        "desc": "Inajumuisha GB 3 za data ya kasi ya juu — bora kwa ujumbe mfupi na simu za mara kwa mara.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Safari fupi, ujumbe mfupi, na simu za mara kwa mara",
-        "aria": "Nunua kifurushi cha eSIM cha Starter"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} GB 3"
+        },
+        "5gb": {
+          "title": "{{scope}} GB 5"
+        },
+        "10gb": {
+          "title": "{{scope}} GB 10"
+        },
+        "20gb": {
+          "kichwa": "{{scope}} GB 20"
+        },
+        "isiyo na kikomo": {
+          "kichwa": "{{scope}} Isiyo na kikomo"
+        }
       },
-      "medium": {
-        "title": "Kifurushi cha Msafiri",
-        "desc": "Kinajumuisha GB 5 za data ya kasi ya juu kwa ajili ya safari, usafiri wa kila siku, na simu za kawaida za VoIP. ",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Safari za wikendi, simu za kawaida za VoIP, na ramani",
-        "aria": "Nunua kifurushi cha data cha eSIM cha Msafiri"
-      },
-      "large": {
-        "title": "Power pack",
-        "desc": "Inajumuisha GB 10 za data ya kasi ya juu kwa ajili ya mazungumzo mengi, simu, na video kwenye mtandao wa Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Ujumbe mwingi, simu, video, na matumizi ya hotspot",
-        "aria": "Nunua kifurushi cha data cha eSIM cha mtumiaji wa nguvu"
-      },
-      "compare": {
-        "title": "Linganisha vifurushi vya data vya eSIM",
+      "linganisha": {
+        "kichwa": "Linganisha vifurushi vya data vya eSIM",
         "col": {
           "pack": "Kifurushi",
           "data": "Data iliyojumuishwa",
@@ -1227,42 +1229,42 @@
       }
     },
     "family": {
-      "title": "Familia ya Chatforia (data ya pamoja)",
-      "subtitle": "Shiriki bwawa moja la data kati ya familia yako. Bili moja, akaunti nyingi za Chatforia, huduma duniani kote.",
-      "perPack": "/ pakiti",
+      "title": "Chatforia Familia (data ya pamoja)",
+      "subtitle": " Shiriki bwawa moja la data kwa familia yako. Bili moja, akaunti nyingi za Chatforia, huduma duniani kote.",
+      "perPack": "/ pack",
       "small": {
         "title": "Familia Ndogo",
-        "desc": "Inajumuisha GB 20 za data ya pamoja ya kasi ya juu — inafaa kwa watumiaji 2–3 wasio wazito.",
+        "desc": "Inajumuisha GB 20 za data ya pamoja ya kasi ya juu — inafaa kwa watumiaji 2–3 wasiotumia sana.",
         "price": "$29.99",
-        "aria": "Nunua kifurushi cha Familia Ndogo"
+        "aria": "Nunua kifurushi cha Familia Kidogo"
       },
       "medium": {
         "title": "Familia ya Kati",
-        "desc": "Inajumuisha GB 40 za data ya pamoja ya kasi ya juu — inafaa kwa wanachama 3–5 wanaotumia sana.",
-        "price": " $49.99",
-        "aria": "Nunua kifurushi cha Family Medium"
+        "desc": "Inajumuisha GB 40 za data ya pamoja ya kasi kubwa — inafaa kwa wanachama 3–5 wanaotumia sana.",
+        "price": "$49.99",
+        "aria": "Nunua kifurushi cha Familia ya Kati"
       },
       "large": {
-        "title": "Family Large",
-        "desc": "Inajumuisha GB 80 za data ya pamoja ya kasi ya juu — kwa familia zinazotumia sana mtandao kila wakati.",
+        "title": "Familia Kubwa",
+        "desc": "Inajumuisha GB 80 za data ya pamoja ya kasi ya juu — kwa familia zenye shughuli nyingi zinazotumia mtandao kila wakati.",
         "price": "$84.99",
         "aria": "Nunua kifurushi cha Family Large"
       },
       "feature": {
         "shared": "Hifadhi ya data ya pamoja kwa familia yako",
         "members": "Alika hadi wanachama 4 wa ziada",
-        "membersMore": "Inafaa kwa wanachama 3–5 wanaotumia",
-        "manage": "Dhibiti mipaka kwa kila mwanachama",
-        "topUp": "Ongeza vifurushi zaidi wakati wowote",
-        "bestValue": " Thamani bora kwa GB",
-        "matumiziSawa": "Inategemea sera ya matumizi sawa na vikomo vya ndani"
+        "wanachamaWengi": "Inafaa kwa wanachama 3–5 wanaotumia",
+        "simamia": "Simamia mipaka kwa kila mwanachama",
+        "ongezaKipengele": "Ongeza vifurushi zaidi wakati wowote",
+        "bestValue": "Thamani bora kwa GB",
+        "fairUse": "Inategemea sera ya matumizi ya haki na vikomo vya ndani"
       },
-      "kanusho": "Vifurushi vya familia huunda au huongeza kiasi cha data cha pamoja. Unaweza kuwaalika na kuondoa wanachama wakati wowote.",
-      "maelezo ya ziada": "Paki za familia hushiriki bwawa moja la data kati ya akaunti za Chatforia zilizounganishwa. Upatikanaji na mipaka hutegemea nchi yako na kanuni za ndani."
+      "disclaimer": "Vifurushi vya familia huunda au huongeza kiasi cha data cha pamoja. Unaweza kuwaalika na kuondoa wanachama wakati wowote.",
+      "maelezo": "Pakeji za Familia hushiriki bwawa moja la data kati ya akaunti za Chatforia zilizounganishwa. Upatikanaji na vizingiti hutegemea nchi yako na kanuni za ndani."
     },
     "kwaNini": {
-      "kichwa": "Kwa nini watu hubadili kwenda Chatforia",
-      "kichwa kidogo": "Chatforia inakupa nambari halisi ya simu, tafsiri mahiri, na njia wazi ya kuondoa matangazo unapokuwa tayari.",
+      "kichwa": "Kwa nini watu wanahamia Chatforia",
+      "kichwaKidogo": "Chatforia inakupa nambari halisi ya simu, tafsiri janja, na njia wazi ya kuondoa matangazo unapokuwa tayari.",
       "card": {
         "textnow": {
           "title": "Chatforia dhidi ya TextNow",
@@ -1270,89 +1272,89 @@
         },
         "voice": {
           "title": "Chatforia dhidi ya Google Voice",
-          "body": "App ya kisasa, muundo wa kimataifa, na tafsiri iliyojengewa ndani badala ya mbinu ya zamani ya kupitisha simu."
+          "body": "App ya kisasa, ya kimataifa -muundo wa kisasa kabisa, na tafsiri iliyojengewa ndani badala ya mbinu ya zamani ya kupitisha simu."
         },
         "messengers": {
-          "title": "Chatforia dhidi ya programu za soga",
-          "body": "Tuma maandishi kwa nambari halisi za simu — sio tu watumiaji wengine wa programu — ukiwa na AI na hali iliyojengewa ndani. Ni nzuri ikiwa wewe na kuja kutoka kwa programu kama TextFree au TextMe."
+          "title": "Chatforia dhidi ya programu za chat",
+          "body": "Tuma ujumbe kwa nambari halisi za simu — sio tu watumiaji wengine wa programu — ukiwa na AI na hali iliyojengewa ndani. Ni bora ikiwa unatoka kwenye programu kama TextFree au TextMe."
         }
       },
-      "title": "Jinsi Chatforia inavyolingana",
+      "tableTitle": "Jinsi Chatforia inavyolingana",
       "col": {
         "feature": "Kipengele"
       },
       "feature": {
         "freeNumber": "Nambari ya simu ya bure",
-        "translation": "Ufasiri wa kiotomatiki uliojengewa ndani",
+        "translation": "Tafsiri ya kiotomatiki iliyojengewa ndani",
         "aiTools": "Zana za AI (kuandika upya, kujibu, muhtasari)",
         "ads": "Chaguo lisilo na matangazo",
         "history": "Historia ya ujumbe"
       },
-      "yes": "Ndio",
-      "no": "Hapana",
-      "yesPremium": "Ndio (Premium)",
+      "ndiyo": "Ndiyo",
+      "hapana": "Hapana",
+      "ndiyoPremium": "Ndiyo (Premium)",
       "plusPremium": "Plus & Premium",
-      "limited": "Limited",
-      "nA": "N/A",
-      "history": {
+      "mdogo": "Mdogo",
+      "hakuna": "Hakuna",
+      "historia": {
         "chatforia": "Hadi miezi 12+",
         "textnow": "Inatofautiana kulingana na akaunti",
         "voice": "Imepunguzwa / kulingana na akaunti"
       },
-      "disclaimer": "Ulinganisho umejengwa kwa kutumia taarifa zinazopatikana hadharani na unaweza kubadilika kadri muda unavyosonga. Programu zingine za kutuma ujumbe wa bure kama TextFree au TextMe kwa ujumla zinafanana na TextNow."
+      "disclaimer": "Ulinganisho umetokana na taarifa zinazopatikana hadharani na unaweza kubadilika kadri muda unavyosonga. Programu zingine za kutuma ujumbe wa bure kama TextFree au TextMe kwa ujumla zinafanana na TextNow."
     },
     "faq": {
       "title": "Maswali ya Kawaida kuhusu Bei na Mipango",
       "free": {
         "q": "Je, mpango wa Bure ni bure kweli?",
-        "a": "Ndio. Mpango wa Bure unajumuisha nambari ya Chatforia, kupiga simu, na kutuma ujumbe wenye matangazo. Unaweza kubaki kwenye mpango wa Bure muda wote unaotaka, au uboreshe ili kuondoa matangazo na kufungua vipengele zaidi."
+        "j": "Ndio. Mpango wa Bure unajumuisha nambari ya Chatforia, kupiga simu, na kutuma ujumbe wenye matangazo. Unaweza kubaki kwenye mpango wa Bure muda wote unaotaka, au uboreshe ili kuondoa matangazo na kufungua vipengele zaidi."
       },
       "plusPremium": {
         "q": "Ni tofauti gani kati ya Plus na Premium?",
-        "j": "Plus huondoa matangazo na huongeza muda wa kumbukumbu yako ya ujumbe — bora kwa matumizi ya kila siku. Premium huongeza ubinafsishaji zaidi, zana za AI za kuandika upya na kujibu, na usaidizi wa kipaumbele kwa watumiaji wazito."
+        "j": " Plus huondoa matangazo na kurefusha historia yako ya ujumbe — bora kwa matumizi ya kila siku. Premium huongeza ubinafsishaji zaidi, zana za AI za kuandika upya na kujibu, na usaidizi wa kipaumbele kwa watumiaji wazito."
       },
       "esim": {
         "q": "Vifurushi vya data vya eSIM hufanya kazi wapi?",
-        "a": "Chatforia Mobile hutumia mtandao wa kimataifa wa eSIM. Upatikanaji hutegemea nchi yako na kifaa chako. Utaona chaguzi zinazotumika wakati wa uamilishaji ndani ya programu."
+        "a": "Chatforia Mobile hutumia ufikiaji wa kimataifa wa eSIM. Upatikanaji hutegemea nchi yako na kifaa chako. Utaona chaguzi zinazotumika wakati wa uanzishaji ndani ya programu."
       },
-      "cancel": {
-        "q": "Je, naweza kufuta au kubadilisha mipango wakati wowote?",
-        "a": "Ndio. Unaweza kusimamia au kufuta usajili wako kutoka kwenye ukurasa wa malipo katika programu. Mabadiliko huanza kutumika mwishoni mwa kipindi chako cha sasa cha malipo."
+      "kusitisha": {
+        " q": "Je, naweza kusitisha au kubadilisha mipango wakati wowote?",
+        "a": "Ndio. Unaweza kusimamia au kusitisha usajili wako kutoka kwenye ukurasa wa malipo katika programu. Mabadiliko huanza kutumika mwishoni mwa kipindi chako cha sasa cha malipo. "
       },
       "family": {
         "q": "Vifurushi vya Familia hufanyaje kazi?",
-        "a": "Vifurushi vya Familia huunda bwawa la data la pamoja kwa akaunti nyingi za Chatforia. Mtu mmoja hulipa bili, na unaweza kuwaalika au kuondoa wanachama na kuweka vikomo kwa kila mtu."
+        "a": "Vifurushi vya Familia huunda bwawa la data la pamoja kwa akaunti nyingi za Chatforia. Mtu mmoja hulipa bili, na unaweza kumwalika au kumwondoa mwanachama na kuweka vikomo kwa kila mtu."
       }
     }
   },
   "family": {
     "title": "Familia",
     "loading": "Inapakia maelezo ya familia yako…",
-    "error": {
-      "load": "Imeshindikana kupakia maelezo ya familia.",
-      "invite": "Haikuwezekana kutengeneza mwaliko. Hakikisha wewe ndiye mmiliki wa familia na ujaribu tena.",
-      "checkout": "Hatukuweza kuanza malipo kwa mpango wa Familia. Tafadhali jaribu tena."
+    "kosa": {
+      "kupakia": "Imeshindikana kupakia maelezo ya familia.",
+      "kualika": "Haikuwezekana kuunda mwaliko. Hakikisha wewe ni mmiliki wa familia na ujaribu tena.",
+      "malipo": "Hatukuweza kuanza malipo kwa mpango wa Familia. Tafadhali jaribu tena."
     },
-    "billing": {
+    "malipo": {
       "myPlanTitle": "Mpango wangu",
-      "myPlanError": "Hakuwezekana kupakia mpango wako.",
+      "myPlanError": "Hakuwezekani kupakia mpango wako.",
       "myPlanLoading": "Inapakia mpango wako…",
       "currentPlan": "Mpango wa sasa",
       "renewsAt": "Unajirudia tarehe",
-      "freePlanCopy": "Uko kwenye mpango wa bure. Boresha ili kufungua vipengele zaidi.",
+      " freePlanCopy": "Uko kwenye mpango wa bure. Boresha ili kufungua vipengele zaidi.",
       "upgradeCta": "Boresha mpango",
       "changePlanCta": "Badilisha mpango",
-      "manageBilling": "Dhibiti malipo",
-      "portalError": "Haiwezekani kufungua lango la malipo kwa sasa.",
-      "cancelNow": "Futa sasa",
-      "cancelNowHelp": "Unaweza kusimamia au kufuta usajili wako katika lango la malipo, au kufuta mara moja hapa chini.",
-      "cancelNowConfirm": "Je, una hakika unataka kufuta mpango wako mara moja? Hii haiwezi kurejeshwa.",
-      "cancelNowError": "Haiwezekani kufuta mpango wako sasa hivi. Tafadhali jaribu tena au tumia Simamia malipo."
+      "dhibitiMalipo": "Dhibiti malipo",
+      "hitilafuYaPortal": "Hatuwezi kufungua portal ya malipo kwa sasa.",
+      "futaSasa": "Futa sasa",
+      "usaidiziWaFutaSasa": "Unaweza kudhibiti au kufuta usajili wako katika portal ya malipo, au kufuta mara moja hapa chini.",
+      "thibitishaFutaSasa": "Je, una hakika unataka kufuta mpango wako mara moja? Hii haiwezi kurejeshwa.",
+      "cancelNowError": "Haiwezekani kufuta mpango wako kwa sasa. Tafadhali jaribu tena au tumia Simamia malipo."
     },
     "hakuna": {
-      "kichwa": "Bado hakuna familia iliyoundwa",
-      "maudhui": "Ili kuunda Familia ya Chatforia na bwawa la data la pamoja, anza mpango wa Familia.",
-      "goUpgrade": "Anzisha mpango wa Familia",
+      "kichwa": "Hakuna familia iliyowekwa bado",
+      "body": "Ili kuunda Familia ya Chatforia na bwawa la data la pamoja, anza mpango wa Familia.",
+      "goUpgrade": "Anza mpango wa Familia",
       "viewPlans": "Tazama mipango yote"
     },
     "group": {
@@ -1360,8 +1362,8 @@
       "role": "Jukumu lako: {{role}}"
     },
     "role": {
-      "owner": "Mmiliki",
-      "member": "Mwanachama"
+      "mmiliki": "Mmiliki",
+      "mwanachama": "Mwanachama"
     },
     "data": {
       "kichwa": "Hifadhi ya data ya pamoja",
@@ -1372,155 +1374,179 @@
       "jina": "Jina",
       "nafasi": "Nafasi",
       "matumizi": "Matumizi",
-      "Kikomo": "Kikomo",
+      "kikomo": "Kikomo",
       "bila kikomo": "Hakuna kikomo maalum",
-      "witoCta": "Mwalike mwanachama"
+      "kitufe cha mwaliko": "Mwaliko"
     },
     "mwaliko": {
       "kichwa": "Mwalike mwanachama mpya",
-      "maudhui": "Tuma barua pepe au kiungo kumwalika mtu kwenye bwawa lako la data ya familia mnaloshirikiana.",
-      "leboYaBaruaPepe": "Barua pepe (hiari)",
-      "sehemuYaBaruaPepe": "friend@example.com",
+      "body": "Tuma barua pepe au kiungo kumwalika mtu kwenye hifadhi yako ya pamoja ya data za familia.",
+      "emailLabel": "Barua pepe (hiari)",
+      "emailPlaceholder": "friend@example.com",
       "create": "Tengeneza mwaliko",
       "linkLabel": "Kiungo cha mwaliko",
       "copyAria": "Nakili kiungo cha mwaliko",
-      "expiryHint": "Kiungo hiki kitamaliza muda wake baada ya siku chache. Unaweza kutengeneza kipya wakati wowote."
+      "expiryHint": "Kiungo hiki kitaisha baada ya siku chache. Unaweza kutengeneza kipya wakati wowote."
     },
     "join": {
       "title": "Jiunge na familia",
       "body": "Umealikwa kujiunga na Familia ya Chatforia na kushiriki hifadhi yao ya data.",
       "cta": "Kubali na ujiunge na familia",
       "ctaLogin": "Ingia na ujiunge na familia",
-      "success": "Umejiunga na familia hii. Sasa unaweza kushiriki hifadhi yao ya data.",
+      "success": "Umejiunga na familia hii. Sasa unashiriki bwawa lao la data.",
       "goFamily": "Nenda kwenye dashibodi ya familia",
-      "error": "Hatuwezi kukuongeza kwenye familia hii. Mwaliko huenda hauko sahihi au umeisha muda wake."
+      "error": "Hatuwezi kukuongeza kwenye familia hii. Mwaliko unaweza kuwa haufai au umeisha muda wake."
     }
   },
   "randomChat": {
-    "title": "Soga ya Nasibu",
-    "kichwa kidogo": "Kutana na mtu mpya papo hapo, au chagua kusoga na Ria.",
+    "title": "Soga ya Kubahatisha",
+    "kichwa cha chini": "Kutana na mtu mpya papo hapo, au chagua kuzungumza na Ria.",
     "anza": "Anza mazungumzo",
-    "maelezo": "Soga bila kujitambulisha kwanza. Mwongeze kuwa Rafiki baadaye ikiwa utahisi ni sawa.",
+    "maelezo": "Zungumza bila kujitambulisha kwanza. Mwongeze kama Rafiki baadaye ikiwa utahisi ni sawa.",
     "tafutaMlingano": "Nitafutie mlingano",
-    "ongeaNaRia": "Ongea na Ria",
-    "wekaUmri": "Weka wigo wako wa umri katika Wasifu → Umri & Soga ya Kubahatisha ili ulinganishwe na watu.",
-    "kibofu": "Kibofu",
-    "matching": "Inalinganisha…",
-    "searching": "Inatafuta…",
-    "cancel": "Futa",
-    "connectionProblem": "Tatizo la muunganisho",
+    "zungumzaNaRia": "Zungumza na Ria",
+    "wekaUmri": "Weka wigo wako wa umri katika Wasifu → Umri ili ulinganishwe na watu.",
+    "bilaKazi": "Bila kazi",
+    "inalinganisha": "Inalinganisha…",
+    "inatafuta": "Inatafuta…",
+    "futa": "Futa",
+    "tatizoLaMuunganisho": "Tatizo la muunganisho",
     "ai": "AI",
-    "anonymous": "Siri",
-    "connectedAs": "Umeunganishwa kama",
-    "waitingAddFriend": " Nasubiri wakubali Ongeza Rafiki…",
-    "hiddenUsernames": "Majina ya watumiaji hubaki siri hadi watu wote wawili wachague Ongeza Rafiki.",
-    "riaSeparate": " Zungumza na Ria wakati wowote — tofauti na upatanisho wa binadamu wa nasibu.",
-    "tumaUjumbe": "Tuma ujumbe",
-    "mazungumzoYameisha": "Mazungumzo hayo yameisha.",
-    "tafutaMwingineAnaofaa": "Tafuta mlingano mwingine",
-    "ifuatayo": "Mtu anayefuata",
-    "ongezaRafiki": "Ongeza Rafiki",
-    "imeombwa": "Imeombwa",
+    "siojulikana": "Siojulikana",
+    "ameunganishwaKama": "Ameunganishwa kama",
+    "akisubiriOngezaRafiki": "Anasubiri wakubali Ongeza Rafiki…",
+    "majinaYatumiwaYamefichwa": "Majina ya watumiaji hubaki yamefichwa hadi watu wote wawili wachague Ongeza Rafiki.",
+    " riaSeparate": "Zungumza na Ria wakati wowote — tofauti na kuunganishwa na binadamu mwingine kwa bahati nasibu.",
+    "sendMessage": "Tuma ujumbe",
+    "chatEnded": "Soga imeisha",
+    "conversationEnded": "Soga hiyo imeisha.",
+    "findAnotherMatch": "Tafuta mlingano mwingine",
+    "next": "Mtu anayefuata",
+    "addFriend": "Ongeza Rafiki",
+    "requested": "Imeombwa",
     "ondoka": "Ondoka",
     "tumaUjumbeKwaRia": "Tuma ujumbe kwa Ria…",
-    "messageMatch": "Tuma ujumbe kwa mlingana wako…",
-    "chatWithForia": "Zungumza na Foria",
-    "chatWithForiaBot": "Zungumza na ForiaBot",
-    "close": "Funga",
-    "finding": " Akitafuta…",
+    "tumaUjumbeKwaMlingano": "Tuma ujumbe kwa mlingano wako…",
+    "ongeaNaForia": "Ongea na Foria",
+    "ongeaNaForiaBot": "Ongea na ForiaBot",
+    "funga": "Funga",
+    "akitafuta": "Akitafuta…",
     "anatafuta": "Anatafuta mtu…",
-    "anazungumzaNaForia": "Anazungumza na Foria…",
-    "mshirikaAmetengwa": "Mshirika wako ametengwa.",
-    "hakunaMshirika": "Hakuna mshirika aliyepatikana kwa sasa.",
-    "connectedTo": "Umeunganishwa na {{name}}",
-    "connected": "Umeunganishwa",
-    "partnerLeft": "Mshirika ameondoka.",
-    "stopped": "Imesimama.",
-    "skip": "Ruka",
-    "save": "Hifadhi",
-    "saveGuard": "Mazungumzo ya binadamu kwa binadamu pekee ndiyo yanaweza kuhifadhiwa",
-    "unazungumzaNa": "Unazungumza na {{name}}",
-    "boti": "BOTI",
-    "semaHabari": "Sema habari 👋",
-    "wewe": "Wewe",
-    "andikaUjumbe": "Andika ujumbe",
-    "tuma": "Tuma",
-    "mwenzi": "Mwenzi",
-    "naRia": "Na Ria",
-    "startingRia": "Unaanza mazungumzo na Ria…",
-    "ageDisclaimer": "Tunahifadhi tu wigo wa umri (sio tarehe yako halisi ya kuzaliwa). Hii hutumika ili kufanya upatanisho wa Mazungumzo ya Kubahatisha kuwa wa busara. Ili kupatanishwa na watu (sio RiaBot pekee), weka wigo wako wa umri katika Mipangilio → Umri na Mazungumzo ya Kubahatisha.",
-    "ageBandRequired": "Weka wigo wako wa umri katika Wasifu → Umri na Mazungumzo ya Kubahatisha ili kupatanishwa na watu.",
-    "ageBandCallout": "Ili kuendana na watu (sio RiaBot pekee), weka kikundi chako cha umri katika Mipangilio → Umri & Soga ya Nasibu."
+    "anzaMesejiNaForia": "Unaanza kutuma ujumbe na Foria…",
+    "mwenzakoAmeachana": "Mwenzako ameachana.",
+    "hakunaMwenza": "Hakuna mwenza aliyepatikana kwa sasa.",
+    "ameunganishwaNa": "Ameunganishwa na {{name}}",
+    "ameunganishwa": "Ameunganishwa",
+    "mwenzakoAmeondoka": "Mwenzako ameondoka.",
+    "imeyumba": "Imeyumba.",
+    "ruka": "Ruka",
+    "hifadhi": "Hifadhi",
+    "hifadhiLazima": "Ni mazungumzo ya binadamu kwa binadamu pekee ndiyo yanaweza kuhifadhiwa",
+    "unazungumzaNa": "Unazungumza na { {name}}",
+    "bot": "BOT",
+    "sayHi": "Sema hi 👋",
+    "you": "Wewe",
+    "typeMessage": "Andika ujumbe",
+    "send": "Tuma",
+    "partner": "Mwenzi",
+    "withRia": "Na Ria",
+    "startingRia": "Unaanza soga na Ria…",
+    "ageDisclaimer": "Tunahifadhi tu wigo wa umri (sio tarehe yako halisi ya kuzaliwa). Hii hutumika ili kuhakikisha watu wanaolingana katika Soga ya Kubahatisha ni wa makundi yanayofaa. Ili kulingana na watu (sio RiaBot pekee), weka wigo wako wa umri katika Mipangilio → Umri & Soga ya Kubahatisha.",
+    "ageBandRequired": "Weka wigo wako wa umri katika Wasifu → Umri & Soga ya Kubahatisha ili ulinganishwe na watu.",
+    "ageBandCallout": "Ili ulinganishwe na watu (sio RiaBot pekee), weka wigo wako wa umri katika Mipangilio → Umri & Soga ya Kubahatisha."
   },
   "ria": {
-    "fallbackName": "kuna",
-    "intro": "Habari 👋 Mimi ni Ria. Una nini akilini?",
-    "salamu": {
-      "long1": "Hey {{name}} 👋 Niko hapa. Una nini akilini?",
-      "long2": "Habari {{name}} 😊 Ungependa kuzungumzia nini leo?",
+    "fallbackName": "hapo",
+    "intro": "Habari 👋 Mimi ni Ria. Unafikiria nini?",
+    "greetings": {
+      "long1": "Habari {{name}} 👋 Niko hapa. Unafikiria nini?",
+      "long2": "Hi {{name}} 😊 Ungependa kuzungumzia nini leo?",
       "long3": "Hey {{name}}! Niko tayari kusikiliza — kuna nini?",
-      "long4": "Ni furaha kukutana nawe, {{name}} 👋 Una mawazo gani leo?",
+      "long4": "Ipoje kukutana nawe, {{name}} 👋 Una mawazo gani leo?",
       "long5": "Hey {{name}} 🙂 Unataka kutoa hisia zako, kuuliza, au tu kuzungumza?",
-      "long6": "Habari {{name}}! Nina muda — ungependa tuzungumzie nini?",
+      "long6": "Hi {{name}}! Nina muda — ungependa tuzungumzie nini?",
       "short1": "Hey {{name}}, bado niko hapa. Kuna nini?",
-      "short2": "Karibu tena {{name}} 👋 Kuna jambo lingine ungependa kuongeza?",
-      "short3": "Umerudi tena, {{name}}? 😊 Niambie kilicho akilini mwako.",
+      "short2": "Karibu tena {{name}} 👋 Kuna jambo lingine ulilotaka kuongeza?",
+      "short3": " Umerudi tena, {{name}}? 😊 Niambie kinachokuzungumzia.",
       "short4": "Hey {{name}} ✨ Uko tayari kuendelea tulikokwisha?",
       "short5": "Ndio {{name}}? Ninakusikiliza 👂",
-      "short6": "Oh habari {{name}}! Kuna kitu kipya akilini mwako?"
+      "short6": "Oh hey {{name}}! Kuna kitu kipya kinachokuzungumzia?"
     },
     "header": {
       "openNav": "Fungua menyu ya urambazaji",
       "closeNav": "Funga menyu ya urambazaji",
-      "homeAria": "Ukurasa wa Mwanzo wa Chatforia"
+      "homeAria": "Chatforia Home"
     },
     "login": {
       "welcomeBack": "Karibu tena",
       "title": "Endelea na Chatforia",
       "subtitleReturning": "Ingia kwenye akaunti yako ya Chatforia",
-      "subtitle": "Ingia kwenye akaunti yako ya Chatforia",
       "google": "Endelea na Google",
       "apple": "Endelea na Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
       "googleUnavailable": "Uingiaji wa Google haupatikani",
       "appleUnavailable": "Uingiaji wa Apple haupatikani",
+      "ssoUnavailable": "Uingiaji wa pamoja haupatikani kwa sasa. Tumia jina la mtumiaji na nenosiri badala yake.",
       "au": "au",
-      "barua pepe": "Barua pepe",
-      "you@example.com": "Nenosiri lako",
-      "lebo ya jina la mtumiaji": "Jina la mtumiaji",
-      "lebo ya nenosiri": "Nenosiri",
-      "endeleaKukaaKimeingia": "Nifanye niendelee kukaa nimeingia",
-      "sahau": {
+      "accountLabel": "Akaunti",
+      "identifierPh": "Barua pepe au jina la mtumiaji",
+      "leboYaNenosiri": "Nenosiri",
+      "nenosiriPh": "Nenosiri lako",
+      "endeleaKuwepo": "Niendelee kuwa nimeingia",
+      "nisahau": "Umesahau nenosiri?",
+      "tumaTenaUthibitisho": "Tuma tena barua pepe ya uthibitisho",
+      "wasilisha": "Ingia",
+      "unaingia": "Unaingia…",
+      "uthibitisho": {
+        "sent": "Barua pepe ya uthibitisho imetumwa. Angalia kikasha chako.",
+        "failed": "Imeshindikana kutuma tena barua pepe ya uthibitisho."
+      },
+      "error": {
+        "missing": "Tafadhali ingiza taarifa zako za kuingia.",
+        "invalid": "Jina la mtumiaji au nenosiri si sahihi",
+        "denied": "Uruhusa umekataliwa.",
+        "haweziKusindikwa": "Ombi si sahihi. Angalia jina lako la mtumiaji/barua pepe na nenosiri.",
+        "kipimoChaKifaa": "Kipimo cha vifaa kimefikiwa kwa mpango wa Bure. Tokoka kwenye kifaa kingine au sasisha hadi Premium ili kuunganisha vifaa zaidi.",
+        "PremiumInahitajika": "Kitendo hiki kinahitaji mpango wa Premium."
+      },
+      "kusahauNenosiri": {
         "kichwa": "Umesahau Nenosiri",
-        "msaidizi": "Ingiza barua pepe uliyotumia kuunda akaunti yako ya Chatforia na tutakutumia kiungo salama cha kuweka upya nenosiri lako.",
-        "barua pepeSiHalali": "Tafadhali ingiza anwani ya barua pepe halali.",
-        "genericError": "Hakuwezekana kushughulikia ombi. Tafadhali jaribu tena baadaye.",
-        "sending": "Inatuma kiungo cha kurejesha...",
-        "sendCta": "Tuma Kiungo cha Kurejesha ",
+        "maelezo": "Weka barua pepe uliyotumia kuunda akaunti yako ya Chatforia na tutakutumia kiungo salama cha kuweka upya nenosiri lako.",
+        "leboYaBaruaPepe": "Barua pepe",
+        "eneoLaBaruaPepe": "you@example.com",
+        "emailIsiyoHalali": "Tafadhali ingiza anwani ya barua pepe halali.",
+        "HitilafuYaKawaida": "Hatuwezi kuchakata ombi. Tafadhali jaribu tena baadaye.",
+        "Inatuma": "Inatuma kiungo cha kurejesha...",
+        "TumaCTA": "Tuma Kiungo cha Kurejesha",
         "sentLabel": "Imetumwa!",
-        "sentHelper": "Ikiwa akaunti ipo kwa barua pepe hiyo, tumetuma kiungo cha kuweka upya nenosiri. Inaweza kuchukua dakika chache kufika. Hakikisha unaangalia folda yako ya barua taka (spam) au promosheni.",
-        "previewDev": "Tazama Awali Barua Pepe (Dev)",
+        "sentHelper": "Ikiwa akaunti ipo na barua pepe hiyo, tumetuma kiungo cha kurejesha nenosiri. Inaweza kuchukua dakika chache kufika. Hakikisha unaangalia folda yako ya spam au promotions.",
+        "previewDev": "Tazama Barua pepe ya Awali (Dev)",
         "backToLogin": "Rudi Kwenye Kuingia"
       },
-      "submit": "Ingia",
-      " kuingia": "Kuingia…",
-      "hapaKwaMaraYaKwanza": "Hapa kwa mara ya kwanza? <link>Fungua akaunti</link>",
-      "ssoHaipatikani": "Uingiaji wa pamoja haupatikani kwa sasa. Tumia jina la mtumiaji na nenosiri badala yake.",
-      "kosa": {
-        "kinachokosekana": "Tafadhali ingiza taarifa zako za utambulisho.",
-        "isiyo halali": "Jina la mtumiaji au nenosiri si sahihi",
-        "imekataliwa": "Upatikanaji umekataliwa.",
-        "haiwezi kushughulikiwa": "Ombi si sahihi. Angalia jina lako la mtumiaji/barua pepe na nenosiri.",
-        "deviceLimit": "Uwiano wa vifaa umefikiwa kwa mpango wa Bure. Toka kwenye kifaa kingine au sasisha hadi Premium ili kuunganisha vifaa zaidi.",
-        "premiumRequired": "Kitendo hiki kinahitaji mpango wa Premium."
+      "resetPassword": {
+        "title": "Weka Upya Nenosiri",
+        "missingToken": "Token ya kuseti upya nenosiri si halali au inakosekana.",
+        "missingTokenHelper": "Token si halali au inakosekana. Tafadhali omba kiungo kipya cha kuseti upya nenosiri.",
+        "passwordMismatch": "Nenosiri hazilingani",
+        "success": "Nenosiri lako limewekwa upya kwa mafanikio",
+        "genericError": "Hitilafu: Hakuwezekani kuweka upya nenosiri.",
+        "newPasswordLabel": "Nenosiri jipya",
+        "newPasswordPlaceholder": "Weka nenosiri lako jipya",
+        "confirmPasswordLabel": "Thibitisha nenosiri jipya",
+        "confirmPasswordPlaceholder": "Weka tena nenosiri lako jipya",
+        "resetting": "Inarekebishwa...",
+        "submit": "Rekebisha Nenosiri",
+        "strongPasswordHint": "Chagua nenosiri imara ambalo hutumii mahali pengine."
       }
     }
   },
   "oauth": {
-    "completing": "Inakamilisha kuingia…"
+    "completing": " Inakamilisha kuingia…"
   },
-  "support": {
+  "usaidizi": {
     "helpFab": "Msaada",
-    "openSupportAria": "Fungua msaada",
+    "openSupportAria": "Fungua usaidizi",
     "badge": "Msaada",
     "heading": "Tunawezaje kusaidia?",
     "tabs": {
@@ -1533,63 +1559,64 @@
     "quickTopicsLabel": "Mada za haraka",
     "quickTopics": {
       "login": "Siwezi kuingia",
-      "billing": "Malipo / bili",
-      "abuse": "Ripoti matumizi mabaya"
+      "billing": "Malipo / malipo",
+      "ukiukaji": "Ripoti ukiukaji"
     },
-    "trySearching": "Jaribu kutafuta \"translate\", \"backups\", au \"privacy\".",
-    "article": "Makala",
-    "openArticle": "Fungua makala ",
-    "contactIntro": "Tutajaribu kutatua hili mara moja. Ikiwa sivyo, timu yetu itafuatilia.",
-    "topicAria": "Chagua mada",
+    "jaribuKutafuta": "Jaribu kutafuta \"tafsiri\", \"nakala za akiba\", au \"faragha\".",
+    "makala": "Makala",
+    "funguaMakala": "Fungua makala",
+    "mawasilianoMwanzo": "Tutajaribu kutatua hili mara moja. Ikiwa sivyo, timu yetu itafuatilia.",
+    "madaAria": "Chagua mada",
     "messagePlaceholder": "Andika ujumbe wako…",
     "sendBtn": "Tuma",
     "sent": "Ujumbe umetumwa. Tutajibu kwa barua pepe.",
     "sendError": "Hakuwezekana kutuma. Tuma barua pepe kwa support@chatforia.com badala yake.",
     "actionCompleted": "Kitendo kimekamilika.",
     "actionFailed": "Hakuwezekana kukamilisha kitendo hicho. Tafadhali jaribu tena.",
+    "ticketCreated": "Hatuwezi kutatua hili kiotomatiki. Timu yetu itafuatilia.",
     "escalationMessage": "Hatuwezi kutatua hili kiotomatiki. Timu yetu itafuatilia.",
     "genericError": "Kuna tatizo limetokea. Tafadhali jaribu tena.",
-    "analyzing": "Tunachanganua tatizo lako...",
-    "chukuaHatua": "Chukua hatua inayopendekezwa",
-    "tatizoLitatuliwaMaraMmoja": "Tatizo litatuliwa mara moja — tiketi haihitajiki.",
-    "kusafirishwa": "Inasafirishwa kwa timu ya usaidizi..."
+    "analyzing": "Tunachambua tatizo lako...",
+    "takeAction": "Fanya hatua zinazopendekezwa",
+    "resolvedInstantly": "Tatizo limetatuliwa papo hapo — tiketi haihitajiki.",
+    "escalating": "Tunaipeleka kwa timu ya usaidizi..."
   },
-  "usaidizi": {
-    "kichwa": "Msaada",
-    "tunawezajeKusaidia": "Tunawezaje kusaidia?",
-    "kituoChaMsaada": "Kituo cha Msaada",
-    "wasilianaNasi": "Wasiliana nasi",
-    "madaZaHaraka": "Mada za haraka",
-    "tafutaMifano": "Jaribu kutafuta \"translate\", \"backups\", au \"privacy\".",
+  "help": {
+    "title": "Msaada",
+    "howCanWeHelp": "Tunaweza kusaidia vipi?",
+    "helpCenter": "Kituo cha Msaada",
+    "contactUs": "Wasiliana nasi",
+    "quickTopics": "Mada za haraka",
+    "searchExamples": "Jaribu kutafuta \"tafsiri\", \"nakala za akiba\", au \"faragha\".",
     "siweziKuingia": "Siwezi kuingia",
-    "malipoBili": "Malipo/ bili",
-    "ripotiUkiukaji": "Ripoti ukiukaji",
+    "malipoUtoaji": "Malipo/ utoaji",
+    "ripotiMatumiziMabaya": "Ripoti matumizi mabaya",
     "tafutiaMakalaZaMsaada": "Tafuta makala za msaada",
     "tafutia": "Tafuta"
   },
   "kituoChaMsaada": {
     "kichwa": "Kituo cha Msaada",
-    "maswaliYayoyoyote": {
+    "maswaliYayoyojibiwaKwaMara": {
       "akaunti": {
-        "q": "Ninawezaje kuunda au kurejesha akaunti yangu?\",        \"a\": \"Pakua programu au tumia wavuti, gusa \"Unda akaunti\", thibitisha barua pepe/simu yako. Ili kurejesha, tumia \"Nimesahau nenosiri\"."
+        "swali": "Ninawezaje kuunda au kurejesha akaunti yangu?"
       },
       "faragha": {
-        "q": "Je, ujumbe umefichwa kutoka mwanzo hadi mwisho? ",
-        "a": "Ndiyo. Ujumbe na simu zimewekwa usimbaji fiche wa mwisho-kwa-mwisho kwa chaguo-msingi. Ni wewe na mpokeaji pekee ndio mnaoweza kuzisoma."
+        "q": "Je, ujumbe umefichwa kutoka mwanzo hadi mwisho?",
+        "a": "Ndio. Ujumbe na simu zimesimbwa kwa njia ya mwisho-kwa-mwisho kwa chaguo-msingi. Ni wewe na mpokeaji pekee ndio mnaoweza kuzisoma."
       },
-      "translate": {
-        "q": "Ufasiri wa papo kwa papo hufanyaje kazi?",
-        "a": "Washa \"Ufasiri wa kiotomatiki\" katika Mipangilio → Muonekano na Lugha. Tunafasiri kwenye kifaa pale inapoungwa mkono, vinginevyo kupitia API salama zenye metadata kidogo."
+      "tafsiri": {
+        "q": "Tafsiri ya papo kwa papo hufanyaje kazi?",
+        "a": "Washa \"Tafsiri-kiotomatiki\" katika Mipangilio → Muonekano na Lugha. Tunatafsiri kwenye kifaa pale inapoungwa mkono, vinginevyo kupitia API salama zenye metadata kidogo."
       },
       "mawasiliano": {
         "q": "Wasiliana na usaidizi",
-        "a": "Wasiliana nasi kupitia support@chatforia.com. Jumuisha picha za skrini na toleo la programu yako."
+        "a": "Tufikie kupitia support@chatforia.com. Jumuisha picha za skrini na toleo la programu yako."
       }
     }
   },
   "gettingStarted": {
     "title": "Kuanza",
-    "subtitle": "Mpya kwa Chatforia? Mwongozo huu wa haraka unaonyesha mambo muhimu ili uweze kuwa na tija ndani ya dakika chache.",
+    "subtitle": "Mpya kwa Chatforia? Mwongozo huu wa haraka unaonyesha mambo muhimu ili uweze kuanza kutumia kwa ufanisi ndani ya dakika chache.",
     "alert": {
       "text": "Mwongozo huu utaongezeka kadri tunavyozindua vipengele vipya. Ikiwa kuna kitu kinakosekana, tujulishe kupitia",
       "contactLink": "Wasiliana Nasi"
@@ -1597,93 +1624,96 @@
     "section1": {
       "title": "1) Tengeneza akaunti yako",
       "signup": "Jisajili",
-      "or": "au",
-      "login": "ingia",
-      "loginText": "kwa kutumia akaunti yako iliyopo.",
-      "prefsStart": "Weka",
-      "prefsLink": "mapendeleo yako",
-      "prefsRest": "(lugha, stakabadhi za kusoma, mandhari)."
+      "au": "au",
+      "ingia": "ingia",
+      "loginText": "kwa akaunti yako iliyopo.",
+      "prefsStart": "Katika programu, fungua Mipangilio ili kuweka mapendeleo yako",
+      "prefsLink": "mapendeleo",
+      "prefsRest": "(lugha, stakabadhi za kusoma, mada)."
     },
     "section2": {
       "title": "2) Anza kutuma ujumbe",
       "item1": "Tengeneza DM au Kundi na utume ujumbe wako wa kwanza.",
       "item2": "Tumia tafsiri ya papo kwa papo kuwasiliana katika lugha zaidi ya 100.",
-      "item3": "Jaribu ujumbe unaotoweka na stakabadhi za kusoma katika Wasifu → Faragha."
+      "item3": " Jaribu jumbe zinazotoweka na stakabadhi za kusoma katika Wasifu → Faragha."
     },
     "section3": {
-      "kichwa": "3) Endelea mbele",
-      "kitu1": "Unaweza kuboresha hadi mpango wa kulipia wakati wowote ndani ya programu.",
-      "kitu2": "Mara tu unapokuwa umeingia, unaweza kuunganisha vifaa vya ziada na kuweka nakala rudufu zilizosimbwa kutoka kwenye Mipangilio katika programu."
+      "title": "3) Endelea mbele",
+      "item1": "Unaweza kuboresha hadi mpango wa kulipia wakati wowote ndani ya programu.",
+      "item2": "Mara tu unapokuwa umeingia, unaweza kuunganisha vifaa vya ziada na kuweka akiba fiche kutoka kwa Mipangilio katika programu.",
+      "item2Part1": "Mara tu unapojisajili, unaweza kuunganisha vifaa vya ziada na kuanzisha nakala rudufu zilizosimbwa kutoka kwa Mipangilio kwenye programu."
     },
     "cta": {
-      "seePlans": "Tazama mipango",
-      "openSettings": "Fungua mipangilio "
+      "seePlans": "Tazama mipango na bei",
+      "openSettings": "Fungua mipangilio",
+      "createAccount": " Tengeneza akaunti"
     }
   },
   "howItWorks": {
     "title": "Jinsi Chatforia Inavyofanya Kazi",
-    "intro": "Chatforia imeundwa kurahisisha mawasiliano, kuwa ya haraka, na kupatikana kwa urahisi. Kuanza kunachukua hatua chache tu.",
-    "step1Title": "1. Fungua Akaunti",
-    "step1Desc": "Jisajili kwa kutumia barua pepe yako au jina la mtumiaji ili kufungua akaunti yako ya Chatforia.",
+    "intro": "Chatforia imeundwa kurahisisha mawasiliano, kuwa ya haraka, na kupatikana. Kuanza kunachukua hatua chache tu.",
+    "step1Title": "1. Tengeneza Akaunti",
+    "step1Desc": "Jisajili kwa kutumia barua pepe yako au jina la mtumiaji ili kutengeneza akaunti yako ya Chatforia.",
     "step2Title": "2. Anza Mazungumzo",
     "step2Desc": "Ungana na wengine kwa kuchagua mawasiliano au kuanzisha mazungumzo mapya.",
-    "step3Title": "Ujumbe wa Wakati Halisi",
-    "step3Desc": "Ujumbe hufika haraka ili kutoa uzoefu mzuri wa mawasiliano.",
+    "step3Title": "3. Ujumbe wa Wakati Halisi",
+    "step3Desc": "Ujumbe hufikishwa haraka ili kutoa uzoefu mzuri wa mawasiliano.",
     "step4Title": "4. Mawasiliano ya Kimataifa",
-    "step4Desc": "Ufasiri uliojengewa ndani huwasaidia watumiaji kuwasiliana katika lugha tofauti.",
-    "step5Title": "5. Endelea Udhibiti",
+    "step4Desc": "Ufasiri uliojengewa ndani husaidia watumiaji kuwasiliana kwa lugha tofauti.",
+    "step5Title": "5. Dhibiti",
     "step5Desc": "Dhibiti mapendeleo yako, anwani, na mipangilio ya mawasiliano."
   },
   "usalama": {
-    "title": "Miongozo ya Usalama na Jamii",
-    "intro": "Chatforia imejitolea kudumisha mazingira salama na yenye heshima kwa watumiaji wote. Miongozo hii husaidia kuhakikisha uzoefu chanya kwa kila mtu.",
+    "kichwa": "Miongozo ya Usalama na Jamii",
+    "utangulizi": "Chatforia imejitolea kudumisha mazingira salama na yenye heshima kwa watumiaji wote. Miongozo hii husaidia kuhakikisha uzoefu chanya kwa kila mtu.",
     "respectTitle": "Mawasiliano ya Heshima",
-    "respectDesc": "Watumiaji wanatarajiwa kuwasiliana kwa heshima. Unyanyasaji, matumizi mabaya, au tabia hatari haviruhusiwi.",
+    "respectDesc": "Watumiaji wanatarajiwa kuwasiliana kwa heshima. Unyanyasaji, matusi, au tabia hatari haviruhusiwi.",
     "prohibitedTitle": "Maudhui Yaliyopigwa Marufuku",
     "prohibited": {
       "illegal": "Shughuli haramu",
       "unyanyasaji": "Unyanyasaji au uonevu",
       "chuki": "Hotuba za chuki au ubaguzi",
-      "maudhui ya wazi": "Maudhui ya wazi au hatari",
-      "barua taka": "Barua taka au mbinu za udanganyifu"
+      "explicit": "Maudhui ya wazi au hatari",
+      "spam": "Barua taka au mbinu za udanganyifu"
     },
-    "vifaaKichwa": "Zana za Usalama wa Mtumiaji",
-    "vifaa": {
-      "ripoti": "Ripoti tabia au maudhui yasiyofaa",
-      "zuia": "Wazuie watumiaji ili kuzuia mwingiliano zaidi",
-      "dhibiti": "Dhibiti mipangilio ya faragha na mawasiliano"
+    "toolsTitle": "Zana za Usalama wa Mtumiaji",
+    "tools": {
+      "report": "Ripoti tabia au maudhui yasiyofaa",
+      "block": "Wazuie watumiaji ili kuzuia mwingiliano zaidi",
+      "control": "Dhibiti mipangilio ya faragha na mawasiliano"
     },
-    "utekelezajiTitle": "Utekelezaji",
-    "utekelezajiDesc": "Tunaweza kuchukua hatua dhidi ya akaunti zinazokiuka miongozo hii, ikiwa ni pamoja na maonyo, vizuizi, au kufukuzwa kabisa kutoka kwenye jukwaa."
+    "enforcementTitle": "Utekelezaji",
+    "enforcementDesc": "Tunaweza kuchukua hatua dhidi ya akaunti zinazokiuka miongozo hii, ikiwa ni pamoja na maonyo, vizuizi, au kufukuzwa kabisa kutoka kwenye jukwaa."
   },
   "blog": {
-    "whyMessaging": {
-      "title": "Kwa Nini Majukwaa ya Ujumbe ni Muhimu Zaidi Kuliko Wakati Mwingine Wowote",
-      "intro": "Majukwaa ya ujumbe yamekuwa mojawapo ya zana muhimu zaidi za mawasiliano katika ulimwengu wa leo. Kuanzia mazungumzo ya kibinafsi hadi mwingiliano wa kibiashara, programu za ujumbe huwaruhusu watu kuwasiliana papo hapo na kwa ufanisi.",
-      "Kila Siku": "Watu hutegemea programu za ujumbe kwa mawasiliano ya kila siku na marafiki, familia, na wenzake. Iwe ni taarifa fupi au mazungumzo marefu, ujumbe hutoa njia rahisi na inayobadilika ya kuwasiliana.",
+    "kwaNiniUjumbe": {
+      "kichwa": "Kwa Nini Majukwaa ya Ujumbe ni Muhimu Zaidi Kuliko Wakati Mwingine Wowote",
+      "utangulizi": "Majukwaa ya ujumbe yamekuwa mojawapo ya zana muhimu zaidi za mawasiliano katika ulimwengu wa leo. Kuanzia mazungumzo ya kibinafsi hadi mwingiliano wa kibiashara, programu za ujumbe huwaruhusu watu kuwasiliana papo hapo na kwa ufanisi.",
+      "kilaSikuKichwa": "Mawasiliano ya Kila Siku",
+      "kilaSikuMaelezo": "Watu hutegemea programu za kutuma ujumbe kwa mawasiliano ya kila siku na marafiki, familia, na wenzake. Iwe ni taarifa fupi au mazungumzo marefu, kutuma ujumbe kunatoa njia rahisi na inayobadilika ya kuwasiliana.",
       "speedTitle": "Kasi na Urahisi",
-      "speedDesc": "Moja ya faida kuu za majukwaa ya kutuma ujumbe ni kasi yake. Ujumbe hufika papo hapo, na kuwaruhusu watumiaji kuwasiliana kwa wakati halisi. Kiwango hiki cha urahisi kimefanya kutuma ujumbe kuwa njia pendwa ya mawasiliano kwa watu wengi.",
+      "speedDesc": "Moja ya faida kuu za majukwaa ya kutuma ujumbe ni kasi yake. Ujumbe hufika papo hapo, na kuwaruhusu watumiaji kuwasiliana kwa wakati halisi. Kiwango hiki cha urahisi kimefanya kutuma ujumbe kuwa njia inayopendekezwa zaidi ya mawasiliano kwa watu wengi.",
       "globalTitle": "Ufikiaji wa Kimataifa",
-      "globalDesc": "Majukwaa ya kutuma ujumbe huunganisha watu kote duniani. Kwa kuwa na intaneti, watumiaji wanaweza kuwasiliana bila kujali eneo, na kufanya iwe rahisi kujenga mahusiano na kushirikiana kimataifa.",
+      "globalDesc": "Majukwaa ya kutuma ujumbe huunganisha watu kote duniani. Kwa kuwa na intaneti, watumiaji wanaweza kuwasiliana bila kujali eneo, na hivyo kurahisisha kujenga mahusiano na kushirikiana kimataifa.",
       "privacyTitle": "Usiri na Udhibiti",
-      "privacyDesc": "Majukwaa ya kisasa ya kutuma ujumbe yanazingatia kuwapa watumiaji udhibiti wa data na mazungumzo yao. Vipengele kama vile usimbaji fiche, mipangilio ya faragha, na vidhibiti vya ujumbe huwaruhusu watumiaji kuwasiliana kwa kujiamini.",
-      "futureTitle": "Mustakabali wa Utumaji Ujumbe",
-      "futureDesc": "Utumaji ujumbe unaendelea kubadilika na vipengele vipya kama vile majibu yanayotumia akili bandia (AI), tafsiri, na kushiriki midia mbalimbali. Teknolojia inapoendelea, majukwaa ya kutuma ujumbe yatakuwa na nguvu zaidi na yenye matumizi mengi zaidi.",
-      "out ro": "Chatforia imejengwa kwa kuzingatia kanuni hizi, ikitoa uzoefu wa kutuma ujumbe wa haraka, salama, na rahisi kutumia kwa ulimwengu uliounganika."
+      " privacyDesc": "Majukwaa ya kisasa ya kutuma ujumbe yanazingatia kuwapa watumiaji udhibiti juu ya data na mazungumzo yao. Vipengele kama vile usimbaji fiche, mipangilio ya faragha, na vidhibiti vya ujumbe huwaruhusu watumiaji kuwasiliana kwa kujiamini.",
+      "futureTitle": "Mustakabali wa Ujumbe",
+      "futureDesc": "Ujumbe unaendelea kubadilika na vipengele vipya kama vile majibu yanayotumia AI, tafsiri, na kushiriki midia. Teknolojia inapoendelea, majukwaa ya ujumbe yatakuwa na nguvu zaidi na yenye matumizi mengi zaidi.",
+      "outro": "Chatforia imejengwa kwa kuzingatia kanuni hizi, ikitoa ujumbe wa haraka, salama, na uzoefu wa kutuma ujumbe unaomfaa mtumiaji kwa ulimwengu uliounganika."
     },
     "global": {
       "title": "Mustakabali wa Mawasiliano ya Kimataifa",
-      "intro": "Mawasiliano yamebadilika kwa kasi katika miongo michache iliyopita. Kile ambacho hapo awali kilihitaji simu au mikutano ya ana kwa ana sasa kinaweza kufanywa haraka kupitia majukwaa ya kutuma ujumbe. Kadiri teknolojia inavyoendelea kusonga mbele, mawasiliano ya kimataifa yanazidi kuwa ya haraka, yanapatikana kwa urahisi zaidi, na yanajumuisha wengi zaidi.",
+      "intro": "Mawasiliano yamebadilika kwa kasi katika miongo michache iliyopita. Kile ambacho hapo awali kilihitaji simu au katika -mikutano ya watu wengi sasa inaweza kufanyika haraka kupitia majukwaa ya kutuma ujumbe. Teknolojia inavyoendelea kusonga mbele, mawasiliano ya kimataifa yanazidi kuwa ya haraka, yanayopatikana kwa urahisi, na yanayojumuisha wengi zaidi.",
       "vizingitiTitle": "Kuvunja Vizingiti",
-      "vizingitiDesc": "Mojawapo ya mabadiliko makubwa katika mawasiliano ni kupungua kwa vizingiti vya kijiografia. Sasa watu wanaweza kuungana na wengine kote ulimwenguni kwa wakati halisi karibu. Iwe ni kwa ajili ya mazungumzo ya kibinafsi, biashara, au ushirikiano, majukwaa ya kutuma ujumbe yamefanya umbali usiweke vikwazo vingi. ",
+      "vizingitiDesc": "Mojawapo ya mabadiliko makubwa katika mawasiliano ni kupungua kwa vizingiti vya kijiografia. Sasa watu wanaweza kuungana na wengine kote ulimwenguni kwa wakati halisi. Iwe ni kwa ajili ya mazungumzo ya kibinafsi, biashara, au ushirikiano, majukwaa ya kutuma ujumbe yamefanya umbali kuwa na vikwazo vidogo zaidi .",
       "translationTitle": "Nafasi ya Teknolojia ya Tafsiri",
       "translationDesc": "Kwa jadi, lugha imekuwa mojawapo ya vikwazo vikubwa zaidi kwa mawasiliano ya kimataifa. Leo, zana za tafsiri zilizojengewa ndani husaidia kuziba pengo hilo. Majukwaa kama Chatforia yanawawezesha watumiaji kuwasiliana kwa urahisi zaidi hata kama wanazungumza lugha tofauti, na hivyo kuunda fursa mpya za kuungana na kuelewana.",
       "realtimeTitle": "Muunganisho wa Wakati Halisi",
       "realtimeDesc": "Kasi ni kigezo muhimu kinachoainisha mawasiliano ya kisasa. Watumiaji wanatarajia jumbe zifike haraka, na miundombinu ya kisasa inasaidia matarajio hayo. Ujumbe wa wakati halisi unawezesha mazungumzo ya asili na laini zaidi.",
       "privacyTitle": "Faragha na Usalama",
-      "privacyDesc": "Wakati mawasiliano yanavyozidi kuwa ya kidijitali, faragha na usalama vinazidi kuwa muhimu. Watumiaji wanataka uhakika kwamba mazungumzo yao ni zimehifadhiwa. Vipengele kama vile usimbaji fiche na mipangilio inayodhibitiwa na mtumiaji husaidia kusaidia uzoefu wa mawasiliano salama zaidi.",
-      "futureTitle": "Kinachofuata",
-      "futureDesc": "Mustakabali wa mawasiliano ya kimataifa huenda ukajumuisha zana za hali ya juu zaidi, kama vile ujumbe unaosaidiwa na AI, tafsiri iliyoboreshwa, na uzoefu ulioboreshwa kwa mtumiaji. Teknolojia inavyoendelea, mawasiliano yataendelea kuwa ya kawaida zaidi na rahisi kupatikana.",
+      "privacyDesc ": "Kadiri mawasiliano yanavyokuwa ya kidijitali zaidi, faragha na usalama vinazidi kuwa muhimu. Watumiaji wanataka uhakika kwamba mazungumzo yao yanalindwa. Vipengele kama vile usimbaji fiche na mipangilio inayodhibitiwa na mtumiaji husaidia kusaidia uzoefu wa mawasiliano salama zaidi.",
+      " futureTitle": "Kinachofuata",
+      "futureDesc": "Mustakabali wa mawasiliano ya kimataifa huenda ukajumuisha zana za hali ya juu zaidi, kama vile ujumbe unaosaidiwa na AI, tafsiri iliyoboreshwa, na uzoefu ulioboreshwa kwa watumiaji. Teknolojia inavyoendelea, mawasiliano yataendelea kuwa rahisi kueleweka na kufikiwa.",
       "outro": "Majukwaa kama Chatforia ni sehemu ya mabadiliko haya, yakisaidia watu kuungana kwa urahisi zaidi kuvuka lugha na mipaka."
     },
     "index": {
@@ -1691,226 +1721,285 @@
       "intro": "Gundua maarifa kuhusu mawasiliano, usalama mtandaoni, na jinsi teknolojia ya kutuma ujumbe inavyowaunganisha watu kote ulimwenguni.",
       "post1": "Jinsi ya Kuzungumza Salama Mtandaoni",
       "post2": "Mustakabali wa Mawasiliano ya Kimataifa",
-      "post3": "Kwa Nini Majukwaa ya Ujumbe ni Muhimu"
-    }
-  },
-  "kuhusu": {
-    "kichwa": "Kuhusu Chatforia",
-    "maelezo": "Chatforia ni programu salama ya kutuma ujumbe inayotumia lugha nyingi, yenye usimbaji fiche wa mwanzo hadi mwisho, tafsiri ya papo kwa papo, na uwezo wa kupiga simu za sauti/video. Dhamira yetu ni rahisi: kuwasaidia watu kuungana—kwa usalama, faragha, na kuvuka lugha.",
-    "vipengeleVyaKuthamini": "Tunachothamini",
-    "vipengele": {
-      "faragha": "<b>Kipaumbele faragha:</b> Usimbaji fiche wa mwanzo-mwisho (E2E) kwa chaguo-msingi.",
-      "ufikiaji": "<b>Ufikivu kwa wote:</b> Tafsiri kiotomatiki ya lugha zaidi ya 100.",
-      "udhibiti": "<b>Udhibiti:</b> Ujumbe unaotoweka na stakabadhi za kusoma ni hiari.",
-      "faragha_aria": "Kipaumbele faragha: Usimbaji fiche wa mwanzo-mwisho (E2E) kwa chaguo-msingi.",
-      "ufikiaji_ aria": "Upatikanaji kwa wote: Tafsiri kiotomatiki ya lugha zaidi ya 100.",
-      "control_aria": "Udhibiti: Ujumbe unaotoweka na stakabadhi za kusoma ni za hiari."
+      "post3": "Kwa Nini Majukwaa ya Kutuma Ujumbe ni Muhimu"
     },
-    "howTitle": "Jinsi Chatforia inavyofanya kazi",
-    " howDescription": "Ujumbe hufungwa kwa njia fiche kwenye kifaa chako kabla haujaondoka. Tafsiri, nakala rudufu, na usawazishaji wa kifaa vimeundwa kupunguza kile ambacho seva zetu zinaweza kuona."
-  },
-  "press": {
-    "title": "Vyombo vya Habari",
-    "contactLine": "Kwa maswali ya vyombo vya habari, wasiliana nasi kupitia",
-    "boilerplateTitle": "Maelezo ya Msingi",
-    "boilerplateBody": "Chatforia ni programu ya ujumbe inayozingatia faragha kwanza inayofanya mazungumzo ya lugha mbalimbali kuwa rahisi. Ujumbe hufungwa kwa usimbaji fiche kutoka mwanzo hadi mwisho kwa chaguo-msingi, na tafsiri iliyojengewa ndani inaunga mkono zaidi ya lugha 100 kwa wakati halisi. Watumiaji wanaweza kuwezesha ujumbe utakaotoweka, kuweka stakabadhi za kusoma kuwa za hiari, na kusawazisha kwenye vifaa mbalimbali. Inapatikana kwenye iOS, Android, na wavuti.",
-    "assetsTitle": "Rasilimali za chapa",
-    "assetsSubtitle": "Nembo, picha za skrini , na picha za bidhaa.",
-    "downloadCta": "Pakua seti ya vyombo vya habari",
-    "downloadTitle": "Pata programu",
-    "scanTip": "Kwenye kompyuta? Skana kwa simu yako ili kupata programu.",
-    "qrAria": "Fungua tovuti ya Chatforia",
-    "appStore": " Pakua kwenye App Store",
-    "googlePlay": "Pata kwenye Google Play"
-  },
-  "careers": {
-    "title": "Ajira",
-    "intro": "Sisi ni timu ndogo ya waanzilishi wanaojenga Chatforia — programu ya ujumbe ya kibinafsi, ya kimataifa inayozinduliwa kwenye wavuti, iOS, na Android. Ikiwa unajali kuhusu faragha, usimbaji fiche, na uzoefu mzuri wa watumiaji, tungependa kusikia kutoka kwako.",
-    "openRoles": "<b>Nafasi za kuanzisha:</b> Mhandisi Mkuu wa Full-stack, Mhandisi wa Backend (Node.js), Mhandisi wa Frontend/Wavuti (React), Mhandisi wa Simu (iOS), Mhandisi wa Simu\n (Android), Mhandisi wa DevOps/SRE, Mhandisi wa Usalama na Usimbaji fiche, Mhandisi wa Mawasiliano (Twilio + eSIM).",
-    "apply": "Jinsi ya kuomba: Tumia kitufe hapa chini kutuma wasifu wako na viungo kwa barua pepe.",
-    "emailCta": "Tuma wasifu wako kwa barua pepe",
-    "whyNow": "Kwa nini ujiunge sasa?",
-    "whyBullets": "• Saidia kujenga msingi wa mtumaji ujumbe mpya wa kimataifa.\n• Tolea maboresho yanayotumika kwenye wavuti, iOS, na Android.\n• Fanya kazi moja kwa moja na mwanzilishi kuhusu usanifu na mwelekeo wa bidhaa.\n• Miliki maeneo yenye athari kubwa ya mfumo: ujumbe, sauti, video, usimbaji fiche, mawasiliano, Akili Mnemba (AI).\n• Jiunge mwanzoni — kabla ya idadi ya watumiaji kuongezeka."
-  },
-  "advertise": {
-    "title": "Tangaza na Chatforia",
-    "maelezo": "Wafikie watumiaji wanaojishughulisha na ujumbe kwa matangazo yenye ladha nzuri na salama kwa chapa. Tunatoa nafasi za mabango katika maeneo yenye mwonekano mkubwa, udhamini, na promosheni za ndani. Wanaolipia huduma ya Premium hawaoni matangazo.",
-    "adsense": {
-      "withPubIdShort": "Pia tunatoa matangazo kupitia Google AdSense. Unaweza kulenga Chatforia kwa kitambulisho cha mchapishaji {{pubId}}, au tumia fomu iliyo hapa chini kwa udhamini wa moja kwa moja.",
-      "noPubIdShort": "Pia tunatoa baadhi ya nafasi kupitia Google AdSense. Ufadhili wa moja kwa moja unapatikana—tumia fomu iliyo hapa chini."
+    "chatSafely": {
+      "title": "Jinsi ya Kuzungumza Salama Mtandaoni",
+      "intro": "Mawasiliano ya mtandaoni yamefanya iwe rahisi zaidi kuliko wakati mwingine wowote kuungana na watu kote ulimwenguni. Iwe unatumia ujumbe na marafiki, unakutana na watu wapya, au unafanya kazi kwa pamoja kitaaluma, majukwaa ya kutuma ujumbe yana jukumu kubwa katika maisha ya kila siku. Hata hivyo, kuwa salama mtandaoni ni muhimu kama vile kuendelea kuungana.",
+      "personalInfo": {
+        "title": " Linda Taarifa Zako Binafsi",
+        "body": "Moja ya kanuni muhimu zaidi za usalama mtandaoni ni kuepuka kushiriki taarifa binafsi nyeti. Hii inajumuisha anwani yako ya nyumbani, maelezo ya kifedha, nywila, au taarifa yoyote ya utambulisho ambayo inaweza kutumiwa vibaya. Hata katika mazungumzo ya kawaida, ni bora kuwa makini na kile unachoshiriki na unakishirikisha nani.\"      ",
+        "safetyFeatures": {
+          "title": "Tumia Vipengele vya Usalama Vilivyojengewa Ndani",
+          "body": "Majukwaa ya kisasa ya kutuma ujumbe kama Chatforia hutoa zana za kuwasaidia watumiaji kuwa salama. Vipengele kama vile kuzuia, kuripoti, na vidhibiti vya faragha vimeundwa kuwapa watumiaji udhibiti juu ya uzoefu wao. Ikiwa mtu atatenda isivyofaa au kukufanya usijisikie vizuri, unapaswa kutumia zana hizi mara moja."
+        },
+        "utapeli": {
+          "kichwa": "Jihadhari na Utapeli",
+          "maudhui": "Watapeli mara nyingi hutumia majukwaa ya kutuma ujumbe kuwadanganya watumiaji ili washiriki taarifa za kibinafsi au kutuma pesa. Kuwa mwangalifu na ujumbe unaoonekana kuwa mzuri mno kuweza kuwa kweli, kama vile ofa zisizotarajiwa, maombi ya haraka, au viungo visivyojulikana. Daima thibitisha utambulisho wa mtu unayezungumza naye kabla ya kuchukua hatua yoyote."
+        },
+        "responsibly": {
+          "title": "Wasiliana kwa Uwajibikaji",
+          "body": "Mawasiliano yenye heshima husaidia kuunda mazingira salama zaidi kwa kila mtu. Epuka kushiriki katika mazungumzo yenye madhara au ya unyanyasaji, na zingatia jinsi maneno yako yanavyoweza kuathiri wengine. Mwingiliano chanya huchangia uzoefu bora kwa watumiaji wote."
+        },
+        "whySafety": {
+          "title": "Kwa Nini Usalama Mtandaoni ni Muhimu",
+          "body": "Kadiri mawasiliano ya kidijitali yanavyoendelea kukua, kudumisha usalama na uaminifu vinazidi kuwa muhimu. Kwa kufuata taratibu za msingi za usalama na kutumia zana zilizopo, watumiaji wanaweza kufurahia manufaa ya kutuma ujumbe huku wakipunguza hatari."
+        },
+        "hitimisho": "Kukaa salama mtandaoni hakuhitaji ujuzi wa hali ya juu wa kiufundi—inahitaji tu ufahamu, tahadhari, na busara. Kwa kuwa na tabia njema, unaweza kuwasiliana kwa kujiamini na kwa usalama."
+      }
     },
-    "inventoryHeader": "Orodha ya Nafasi na Vigezo",
-    "placement": {
-      "displayBadge": "Onyesho",
-      "acceptedSizes": "Ukubwa unaokubalika",
-      "adsenseSlot": "Slot ya AdSense:"
+    "kuhusu": {
+      "kichwa": "Kuhusu Chatforia",
+      "maelezo": "Chatforia ni programu ya ujumbe salama, ya lugha nyingi yenye usimbaji fiche wa mwanzo hadi mwisho, tafsiri ya papo kwa papo, na simu za sauti/video. Dhamira yetu ni rahisi: kuwasaidia watu kuungana—kwa usalama, faragha, na kuvuka lugha.",
+      "valuesTitle": "Tunachothamini",
+      "values": {
+        "faragha": "<b>Kipaumbele faragha:</b> Usimbaji fiche wa mwanzo hadi mwisho kama chaguo-msingi.",
+        "ufikiaji": "<b>Ufikivu kwa wote:</b> Tafsiri kiotomatiki ya lugha zaidi ya 100.",
+        "udhibiti": "<b>Udhibiti:</b> Ujumbe unaotoweka na stakabadhi za kusoma ni hiari.",
+        "faragha_ aria": "Kipaumbele faragha: Usimbaji fiche wa mwanzo-mwisho (E2E) kama chaguo-msingi.",
+        "access_aria": "Upatikanaji kwa wote: Tafsiri kiotomatiki ya lugha zaidi ya 100.",
+        "control_aria": "Udhibiti: Ujumbe unaotoweka na stakabadhi za kusoma ni za hiari."
+      },
+      "howTitle": "Jinsi Chatforia inavyofanya kazi",
+      " howDescription": "Ujumbe hufungwa kwa njia fiche kwenye kifaa chako kabla haujaondoka. Tafsiri, nakala rudufu, na usawazishaji wa kifaa vimeundwa kupunguza kile ambacho seva zetu zinaweza kuona."
     },
-    "noPlacementsPublic": "Tunamalizia hesabu yetu ya matangazo. Tueleze kuhusu kampeni yako nasi tutapendekeza maeneo ya kuweka matangazo.",
-    "whyHeader": "Kwa nini Chatforia?",
-    "why": {
-      "highSession": "Mzunguko wa juu wa vikao na muda wa kukaa kwenye kiolesura cha mazungumzo",
-      "brandSafe": "Fomati salama kwa chapa; upunguzaji wa mzunguko unaoheshimu",
-      "sponsoredMoments": "Nyakati zilizofadhiliwa (k.m., modal ya \"Anza Mazungumzo\") zinapatikana\",      \"deals\": \"Makubaliano ya moja kwa moja au ya kimfumo kupitia AdSense/Google Ads"
+    "press": {
+      "title": "Vyombo vya Habari",
+      "contactLine": "Kwa maswali ya vyombo vya habari, wasiliana nasi kwa",
+      " boilerplateTitle": "Boilerplate",
+      "boilerplateBody": "Chatforia ni programu ya ujumbe inayozingatia faragha kwanza ambayo hurahisisha mazungumzo ya lugha mbalimbali. Ujumbe hufungwa kwa usimbaji fiche wa mwanzo hadi mwisho kwa chaguo-msingi, na tafsiri iliyojengewa ndani inaunga mkono zaidi ya lugha 100 kwa wakati halisi. Watumiaji wanaweza kuwasha ujumbe unaotoweka, kuweka stakabadhi za kusoma kuwa za hiari, na kusawazisha kwenye vifaa mbalimbali. Inapatikana kwenye iOS, Android, na wavuti.",
+      "assetsTitle": " Rasilimali za chapa",
+      "assetsSubtitle": "Nembo, picha za skrini, na picha za bidhaa.",
+      "downloadCta": "Pakua seti ya vyombo vya habari",
+      "downloadTitle": "Pata programu",
+      "scanTip": "Kwenye kompyuta? Skana kwa simu yako ili kupata programu.",
+      "qrAria": "Fungua tovuti ya Chatforia",
+      "appStore": "Pakua kwenye App Store",
+      "googlePlay": "Ipate kwenye Google Play"
     },
-    "contactHeader": "Wasiliana",
-    "form": {
-      "submittedMsg": "Asante! Maulizo yako yamepokelewa. Tutawasiliana nawe hivi karibuni.",
-      "missingRequired": "Tafadhali jaza jina, barua pepe, na ujumbe.",
-      "successToast": "Asante! Tutawasiliana nawe hivi karibuni.",
-      "mailtoInfo": "Tunaifungua programu yako ya barua pepe ili kutuma ombi…",
-      "nameLabel": "Jina lako",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": " Barua pepe",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "Kampuni",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Bajeti ya kila mwezi (hiari)",
-      "budgetPlaceholder": "k.m. $1,000–$20,000+",
-      "messageLabel": "Tuambie kuhusu kampeni yako",
-      "messagePlaceholder": "Lengo, tarehe, KPIs, mapendeleo ya uwekaji…",
-      "sendCta": "Tuma maulizo"
+    "kazi": {
+      "title": "Ajira",
+      "intro": "Sisi ni timu ndogo ya waanzilishi inayojenga Chatforia — programu ya faragha ya ujumbe ya kimataifa inayozinduliwa kwenye wavuti, iOS, na Android. Ikiwa unajali kuhusu faragha, usimbaji fiche, na uzoefu mzuri wa watumiaji, tungependa kusikia kutoka kwako.",
+      "openRoles": "<b>Nafasi za uanzishaji zilizo wazi:</b> Mhandisi Mkuu wa Full-stack, Mhandisi wa Backend (Node.js), Mhandisi wa Frontend/ Mhandisi wa Wavuti (React), Mhandisi wa Simu (iOS), Mhandisi wa Simu (Android), DevOps/SRE, Mhandisi wa Usalama na Usimbaji fiche, Mhandisi wa Mawasiliano (Twilio + eSIM).",
+      "apply": "Jinsi ya kuomba: Tumia kitufe kilicho hapa chini kutuma wasifu wako na viungo kwa barua pepe.",
+      "emailCta": "Tuma wasifu wako kwa barua pepe",
+      "whyNow": "Kwa nini ujiunge sasa?",
+      "whyBullets": "• Saidia kujenga msingi wa mtumaji mpya wa kimataifa.\n• Tuma maboresho yanayotumika kwenye wavuti, iOS, na Android.\n• Fanya kazi moja kwa moja na mwanzilishi kuhusu usanifu na mwelekeo wa bidhaa.\n• Miliki maeneo yenye athari kubwa ya mfumo: ujumbe, sauti, video, usimbaji fiche, mawasiliano ya simu, Akili Mnemba (AI).\n• Jiunge mwanzoni — kabla ya idadi ya watumiaji kuongezeka.",
+      "advertise": {
+        "title": "Tangaza na Chatforia",
+        "description": "Wafikie watumiaji wanaojishughulisha na ujumbe kwa kuweka matangazo yenye ladha nzuri na salama kwa chapa. Tunatoa nafasi za mabango katika maeneo yenye mwonekano mkubwa, udhamini, na promosheni za ndani. Wanaolipia huduma ya Premium hawaoni matangazo.",
+        "adsense": {
+          "withPubIdShort": "Pia tunatoa nafasi za matangazo kupitia Google AdSense. Unaweza kulenga Chatforia kwa kitambulisho cha mchapishaji {{pub Id}}, au tumia fomu iliyo hapa chini kwa udhamini wa moja kwa moja.",
+          "noPubIdShort": "Pia tunatoa baadhi ya nafasi kupitia Google AdSense. Udhamini wa moja kwa moja unapatikana—tumia fomu iliyo hapa chini."
+        },
+        "inventoryHeader": "Orodha ya Nafasi na Vigezo",
+        "placement": {
+          " displayBadge": "Onyesha",
+          "acceptedSizes": "Ukubwa unaokubalika",
+          "adsenseSlot": "Slot ya AdSense:"
+        },
+        "noPlacementsPublic": "Tunamalizia hesabu yetu ya matangazo. Tueleze kuhusu kampeni yako nasi tutapendekeza maeneo ya kuweka matangazo.",
+        "whyHeader": "Kwa nini Chatforia?",
+        "kwaNini": {
+          "sessionKubwa": "Mzunguko mkubwa wa vikao na muda wa kukaa kwenye kiolesura cha mazungumzo",
+          "salamaKwaChapa": "Miundo salama kwa chapa; kikomo cha mara za kuonyesha kwa heshima",
+          "nyakatiZilizofadhiliwa": "Nyakati zilizofadhiliwa (k.m., dirisha ibukizi la \"Anza Mazungumzo\") zinapatikana",
+          "mikataba": "Makubaliano ya moja kwa moja au ya kiotomatiki kupitia AdSense/Google Ads"
+        },
+        "contactHeader": "Mawasiliano",
+        "form": {
+          "submittedMsg": "Asante! Maombi yako yamepokelewa. Tutawasiliana nawe hivi karibuni.",
+          "missingRequired": "Tafadhali jaza jina, barua pepe, na ujumbe.",
+          "successToast": "Asante! Tutawasiliana nawe hivi karibuni.",
+          "mailtoInfo": "Tunaifungua programu yako ya barua pepe kutuma ombi…",
+          "nameLabel": "Jina lako",
+          "namePlaceholder": "Jane Doe",
+          "emailLabel": "Barua pepe",
+          "emailPlaceholder": "you@company.com",
+          "companyLabel": "Kampuni",
+          " companyPlaceholder": "Acme Inc.",
+          "budgetLabel": "Bajeti ya kila mwezi (hiari)",
+          "budgetPlaceholder": "k.m. $1,000–$20,000+",
+          "messageLabel": "Tueleze kuhusu kampeni yako",
+          "messagePlaceholder": "Lengo, tarehe, KPIs, mapendeleo ya uwekaji…",
+          "sendCta": "Tuma maulizo"
+        },
+        "legal": {
+          "disclaimerStart": "Kwa kuwasilisha, unakubaliana na",
+          "masharti": "Masharti",
+          "na": "na",
+          "faragha": "Sera ya Faragha"
+        }
+      },
+      "mawasiliano": {
+        "kichwa": "Wasiliana Nasi",
+        "successMsg": "Asante—timu yetu itajibu kwa barua pepe.",
+        "errorSend": "Haikuweza kutumwa. Tafadhali tuma barua pepe kwa support@chatforia.com.",
+        "form": {
+          "nameLabel": "Jina",
+          "emailLabel": "Barua pepe",
+          "messageLabel": "Ujumbe",
+          "sendCta": "Tuma"
+        }
+      },
+      "privacyPolicy": {
+        "title": "Sera ya Faragha",
+        "lastUpdated": "Ilisasishwa mwisho:",
+        "intro": {
+          "body": "Sera hii ya Faragha inaelezea jinsi Chatforia (\"sisi\") hukusanya, kutumia, na kushiriki taarifa unapotumia programu na huduma zetu. Tumeunda Chatforia ili kupunguza data tunayoweza kupata."
+        },
+        "infoWeCollect": {
+          "title": "Taarifa tunazokusanya",
+          "akaunti": "Maelezo ya akaunti (k.m., barua pepe/simu) ili kuunda na kulinda akaunti yako.",
+          "imewekwa-siri": "Maudhui yaliyowekwa siri (jumbe/miito) yamewekwa siri kutoka mwanzo hadi mwisho; hatuwezi kuyasoma.",
+          "utambuzi": "Utambuzi/matumizi kama vile kumbukumbu za hitilafu, aina ya kifaa, au uchanganuzi wa jumla ili kuboresha utendaji."
+        },
+        "sms": {
+          "title": "Nambari za simu za mkononi na SMS",
+          "body": "Ukichagua kutoa nambari ya simu ya mkononi, tunaitumia kuwezesha vipengele kama vile uthibitishaji wa akaunti, arifa za kuingia, na utumaji ujumbe kutoka mtumiaji mmoja hadi mwingine kupitia SMS pale inapoungwa mkono. Tunaweza kutuma ujumbe mfupi wa SMS wa kimiamala unaohusiana na akaunti yako na shughuli zako kwenye Chatforia. Unaweza kujiondoa kupokea ujumbe mfupi wa SMS wakati wowote wakati wowote kwa kujibu na neno kuu la kujiondoa linalotumika (kama vile \"STOP\") au kwa kubadilisha mapendeleo yako ya arifa kwenye programu. Hatuiuzi nambari yako ya simu au kuitumia kwa masoko yasiyohusiana.",
+          "newText": "Ujumbe mpya",
+          "enterRecipient": "Weka jina au nambari",
+          "typeMessage": "Andika ujumbe…",
+          "addRecipient": "Ongeza mpokeaji hapo juu ili kuanza…"
+        },
+        "howWeUse": {
+          "title": "Jinsi tunavyotumia taarifa ",
+          "kutoa": "Kutoa na kuimarisha huduma (uthibitishaji, ugunduzi wa barua taka/matumizi mabaya).",
+          "kuboresha": "Kuboresha vipengele (ubora wa tafsiri, uaminifu).",
+          "kisheria": "Kuzingatia majukumu ya kisheria."
+        },
+        "ushirikishaji": {
+          "kichwa": "Kushiriki",
+          "maudhui": "Hatuiuzi data binafsi. Tunaweza kushiriki data chache na wasindikaji (k.m., arifa za kusukuma, uchanganuzi) chini ya mikataba mikali."
+        },
+        "haki": {
+          "kichwa": "Haki zako",
+          "maudhui": "Kulingana na eneo lako (k.m., GDPR/UK GDPR/CPRA), unaweza kuomba ufikiaji, usahihishaji, ufutaji, au kujiondoa kwenye usindikaji fulani. Wasiliana na: privacy@chatforia.com."
+        },
+        "uhifadhi ": {
+          "kichwa": "Uhifadhi wa data na usalama",
+          "maudhui": "Tunahifadhi tu kile kinachohitajika kuendesha huduma na kutumia usalama wa kiwango cha sekta. Maudhui ya E2E hayawezi kufunguliwa na sisi."
+        },
+        "watoto": {
+          "kichwa": "Watoto",
+          "body": "Chatforia haijaelekezwa kwa watoto walio chini ya umri wa miaka 13 (au kama inavyotakiwa na sheria ya eneo lako)."
+        },
+        "mabadiliko": {
+          "title": "Mabadiliko",
+          "body": "Tutachapisha masasisho hapa na kurekebisha tarehe ya \"Ilisasishwa mara ya mwisho\"."
+        },
+        "contact": {
+          "title": "Mawasiliano",
+          "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "terms": {
+        "title": "Masharti ya Huduma",
+        "lastUpdated": "Ilisasishwa mwisho:",
+        "intro": {
+          " body": "Kwa kutumia Chatforia unakubaliana na Masharti haya. Ikiwa hukubaliani, usitumie huduma."
+        },
+        "accounts": {
+          "title": "Akaunti",
+          "itemAccurateInfo": " Tolea taarifa sahihi na uhifadhi taarifa zako za usalama.",
+          "itemResponsibility": "Wewe ndiye unawajibika kwa shughuli kwenye akaunti yako."
+        },
+        "matumiziYayokubalika": {
+          "title": "Matumizi yanayokubalika",
+          "itemNoAbuse": "Hakuna maudhui haramu, ya unyanyasaji, au yanayokiuka; hakuna barua taka au unyanyasaji wa kiotomatiki.",
+          "itemSuspend": "Tunaweza kusitisha/kumaliza kwa ukiukaji."
+        },
+        "sms": {
+          "title": "Mawasiliano ya SMS",
+          "body": "Ukitoa nambari ya simu ya mkononi, unakubali kwamba Chatforia inaweza kukutumia jumbe za SMS zinazohusiana na akaunti yako na matumizi ya huduma, kama vile arifa za kuingia, arifa za usalama, na jumbe zinazohusiana na mazungumzo unayoanzisha au kushiriki. Hatutumii SMS kwa jumbe za matangazo au masoko bila idhini yako ya wazi. Viwango vya kawaida vya jumbe na data vinaweza kutumika. Unaweza kujiondoa ya ujumbe wa SMS wakati wowote kwa kujibu na neno kuu linalotumika kujiondoa (kwa mfano, \"STOP\") au kwa kusasisha mipangilio yako ya arifa katika programu."
+        },
+        "yourContent": {
+          "title": "Maudhui yako",
+          "body": "Unabaki na haki za maudhui yako. Unatupa haki muhimu za kuendesha huduma (k.m., uelekezaji, uhifadhi, tafsiri)."
+        },
+        "disclaimer": {
+          "title": "Kanusho na dhima",
+          "body": "Huduma inatolewa \"kama ilivyo\" bila dhamana. Kwa kiwango kikamilifu kinachoruhusiwa na sheria, Chatforia haibebi dhima kwa hasara zisizo za moja kwa moja au zinazofuata."
+        },
+        "mabadiliko": {
+          "title": "Mabadiliko",
+          " body": "Tunaweza kusasisha masharti haya; kuendelea kutumia baada ya mabadiliko kunamaanisha kukubali."
+        },
+        "contact": {
+          "title": "Mawasiliano",
+          "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "refund": {
+        "title": "Sera ya Marejesho",
+        "lastUpdated": "Ilisasishwa mwisho:",
+        "intro": "Katika Chatforia, tunajitahidi kutoa huduma ya hali ya juu kwa watumiaji wote. Sera hii ya Marejesho inaelezea ni lini marejesho yanaweza kutolewa.",
+        "usajili": {
+          "kichwa": "Usajili",
+          "maudhui": "Usajili hulipishwa mapema kwa msingi wa kujirudia. Unaweza kufuta wakati wowote kupitia mipangilio ya akaunti yako au jukwaa ulilotumia kununua."
+        },
+        "ustahiki": {
+          "kichwa": "Sifa za Kurejeshewa Pesa",
+          "maudhui": "Kurejeshewa pesa kunaweza kutolewa kwa malipo ya mara mbili, makosa ya bili, au matatizo ya kiufundi yanayozuia ufikiaji wa vipengele vya kulipia. Maombi yote hupitiwa kimojamoja."
+        },
+        "zisizorejeshwa": {
+          "kichwa": "Zisizorejeshwa",
+          "maudhui": "Kwa kawaida hatutoi marejesho ya pesa kwa muda usiotumika, vipindi vya usajili vya nusu, au kushindwa kufuta usajili kabla ya muda wake kuisha.\"    ",
+          "thirdParty ": {
+            "title": "Manunuzi ya Watu wa Tatu",
+            "body": "Ikiwa imenunuliwa kupitia majukwaa ya watu wa tatu kama vile Apple App Store, marejesho lazima yaombwe moja kwa moja kupitia majukwaa hayo."
+          },
+          "contact": {
+            "title": "Mawasiliano",
+            "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
+          }
+        },
+        "doNotSell": {
+          "title": "Usinauze au Kushiriki Taarifa Zangu Binafsi",
+          "body": "Chatforia haiuzi taarifa binafsi. Wakazi wa California bado wanaweza kuwasilisha maombi chini ya CPRA kwa kutumia kitufe hapa chini.",
+          "cta": "Wasilisha ombi"
+        },
+        "cookies": {
+          "kichwa": "Mipangilio ya Vidakuzi",
+          "maudhui": "Chatforia hutumia vidakuzi vichache (k.m., kipindi, usalama). Hatutumii vidakuzi vya matangazo ya wahusika wengine. Dhibiti vidakuzi kupitia mipangilio ya kivinjari chako."
+        },
+        "premiumGuard": {
+          "inahitajiPremium": "Kipengele hiki kinahitaji mpango wa Premium."
+        },
+        "smsPolicy": {
+          "title": "Chatforia — Sera ya SMS na Kujisajili",
+          "lastUpdated": "Ilisasishwa mwisho:",
+          "whatWeSend": {
+            "title": "Tunachotuma",
+            "body": "Chatforia hutuma tu SMS zinazohusiana na akaunti na za mazungumzo kwa nambari za simu ambazo mtumiaji ametoa waziwazi na kukubali. Ujumbe wa kawaida ni pamoja na misimbo ya kuingia/uthibitisho, arifa za uwasilishaji wa ujumbe, taarifa za usalama, na masasisho ya akaunti ya miamala."
+          },
+          "optIn": {
+            "title": "Jinsi watumiaji wanavyojisajili kupokea SMS",
+            "body": "Watumiaji hujisajili kupokea SMS kwa kuingiza nambari yao ya simu wakati wa usajili na kuweka tiki kwenye kisanduku cha ridhaa ya SMS kwenye ukurasa wa usajili au fomu maalum ya",
+            "link": "kujisajili"
+          },
+          "kujiondoa": {
+            "title": "Jinsi watumiaji wanavyojiondoa",
+            "stop": "Jibu STOP kwa SMS yoyote ya Chatforia ili kujiondoa.",
+            "start": "Jibu START ili kujiandikisha tena.",
+            "contactPrefix": "Wasiliana na usaidizi kwa"
+          },
+          "help": {
+            "title": "Msaada",
+            "bodyPrefix": "Jibu HELP kwa usaidizi au barua pepe",
+            "na\", \"privacy": "Sera ya Faragha"
+          },
+          "optOut": {
+            "title": "Jinsi watumiaji wanavyoondoka",
+            "stop": "Jibu STOP kwa SMS yoyote ya Chatforia ili kuondoka.",
+            "start": "Jibu START ili kujiandikisha tena.",
+            "contactPrefix": "Wasiliana na usaidizi kwa"
+          },
+          "footer": "© 2026 Chatforia Inc."
+        }
+      },
+      "na\", \"faragha": "Sera ya Faragha"
     },
-    "legal": {
-      "disclaimerStart": "Kwa kuwasilisha, unakubaliana na",
-      "terms": "Masharti",
-      "and": "na",
-      "privacy": "Sera ya Faragha"
-    }
-  },
-  "contact": {
-    "title": "Wasiliana Nasi",
-    "successMsg": "Asante—timu yetu itajibu kwa barua pepe.",
-    "errorSend": "Haikuweza kutumwa. Tafadhali tuma barua pepe kwa support@chatforia.com.",
-    "form": {
-      "nameLabel": "Jina",
-      "emailLabel": "Barua pepe",
-      "messageLabel": "Ujumbe",
-      "sendCta": "Tuma"
-    }
-  },
-  "privacyPolicy": {
-    "title": "Sera ya Faragha",
-    "lastUpdated": "Ilisasishwa mwisho:",
-    "intro": {
-      "body": "Sera hii ya Faragha inaelezea jinsi Chatforia (\"sisi\", \"wetu\") inavyokusanya, kutumia, na kushiriki taarifa unapotumia programu na huduma zetu. Tumeunda Chatforia ili kupunguza data tunayoweza kupata."
-    },
-    "tunaokusanya": {
-      "kichwa": "Taarifa tunayokusanya",
-      "akaunti": "Taarifa za akaunti (k.m., barua pepe/simu) ili kuunda na kulinda akaunti yako.",
-      "iliyosimbwa": "Maudhui yaliyosimbwa (jumbe/miito) yamesimbwa kutoka mwanzo hadi mwisho; hatuwezi kuyasoma.",
-      "utambuzi": "Utambuzi/matumizi kama vile kumbukumbu za hitilafu, aina ya kifaa, au uchanganuzi wa jumla ili kuboresha utendaji."
-    },
-    "sms": {
-      "title": "Nambari za simu za mkononi na SMS",
-      "body": "Ukichagua kutoa nambari ya simu ya mkononi, tunaitumia kuwezesha vipengele kama vile uthibitishaji wa akaunti, arifa za kuingia, na utumaji ujumbe kutoka mtumiaji hadi mtumiaji kupitia SMS pale inapoungwa mkono. Tunaweza kutuma ujumbe wa SMS wa kimiamala unaohusiana na akaunti yako na shughuli zako kwenye Chatforia. Unaweza kujiondoa kupokea ujumbe wa SMS wakati wowote kwa kujibu na neno la kujiondoa linaloungwa mkono - neno la kuondoka (kama vile \"STOP\") au kwa kubadilisha mapendeleo yako ya arifa kwenye programu. Hatuiuzi nambari yako ya simu au kuitumia kwa masoko yasiyohusiana.",
-      "newText": "Ujumbe mpya",
-      "enterRecipient": "Weka jina au nambari",
-      "typeMessage": "Andika ujumbe…",
-      "addRecipient": "Ongeza mpokeaji hapo juu ili kuanza…"
-    },
-    "howWeUse": {
-      "title": "Jinsi tunavyotumia taarifa",
-      "provide": "Kutoa na kulinda huduma (uthibitishaji, ugunduzi wa barua taka/matumizi mabaya).",
-      "improve": "Kuboresha vipengele (ubora wa tafsiri, uaminifu).",
-      "legal": "Kuzingatia wajibu wa kisheria."
-    },
-    "ushirikishaji": {
-      "kichwa": "Ushirikishaji",
-      "maudhui": "Hatuiuzi data binafsi. Tunaweza kushiriki data ndogo na wasindikaji (k.m., arifa za kusukuma, uchanganuzi) chini ya mikataba mkali."
-    },
-    "haki": {
-      "kichwa": "Haki zako",
-      "maudhui": "Kulingana na eneo lako (k.m., GDPR/UK GDPR/CPRA), unaweza kuomba ufikiaji, usahihishaji, ufutaji, au kujiondoa kwenye usindikaji fulani. Wasiliana na: privacy@chatforia.com."
-    },
-    "uhifadhi": {
-      "kichwa": "Uhifadhi wa data na usalama",
-      "maudhui": "Tunahifadhi tu kile kinachohitajika kuendesha huduma na kutumia usalama wa kiwango cha sekta. Maudhui ya E2E hayawezi kufunguliwa na sisi."
-    },
-    "watoto": {
-      "kichwa": "Watoto",
-      "maudhui": "Chatforia haikusudiwi watoto walio chini ya umri wa miaka 13 (au kama inavyohitajika na sheria za eneo lako)."
-    },
-    "mabadiliko": {
-      "kichwa": "Mabadiliko",
-      "maudhui": "Tutachapisha masasisho hapa na kurekebisha tarehe ya \"Ilisasishwa mwisho\"."
-    },
-    "mawasiliano": {
-      "kichwa": "Mawasiliano",
-      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-    }
-  },
-  "vigezo": {
-    "kichwa": "Vigezo vya Huduma",
-    "lastUpdated": "Ilisasishwa mwisho:",
-    "intro": {
-      "body": "Kwa kutumia Chatforia unakubaliana na Masharti haya. Ikiwa hukubaliani, usitumie huduma."
-    },
-    "accounts": {
-      "title": "Akaunti",
-      "itemAccurateInfo": "Toa taarifa sahihi na uhifadhi taarifa zako za usalama.",
-      "itemResponsibility": "Wewe ndiye unaowajibika kwa shughuli kwenye akaunti yako."
-    },
-    "acceptableUse": {
-      "kichwa": "Matumizi yanayokubalika",
-      "itemNoAbuse": "Hakuna maudhui haramu, ya unyanyasaji, au yanayokiuka hakimiliki; hakuna barua taka au unyanyasaji wa kiotomatiki.",
-      "itemSuspend": "Tunaweza kusitisha/kumaliza kwa ukiukaji."
-    },
-    "sms": {
-      "kichwa": "Mawasiliano ya SMS",
-      "body": "Ikiwa utatoa nambari ya simu ya mkononi, unakubali kwamba Chatforia inaweza kutuma jumbe za SMS zinazohusiana na akaunti yako na matumizi ya huduma, kama vile arifa za kuingia, arifa za usalama, na jumbe zinazohusiana na mazungumzo unayoanzisha au unayoshiriki. Hatutumii SMS kwa jumbe za matangazo au masoko bila idhini yako ya wazi. Ada za kawaida za ujumbe na data zinaweza kutumika. Unaweza kujiondoa kwenye jumbe za SMS wakati wowote kwa kujibu na neno kuu la kujiondoa linalotumika (kwa mfano, \"ACHIA\") au kwa kusasisha mipangilio yako ya arifa katika programu."
-    },
-    "maudhuiYako": {
-      "kichwa": "Maudhui yako",
-      "kiini": "Unabaki na haki za maudhui yako. Unatupa haki muhimu za kuendesha huduma (k.m., uelekezaji, uhifadhi, tafsiri)."
-    },
-    "kanusho": {
-      "kichwa": "Kanusho na dhima",
-      "body": "Huduma inatolewa \"kama ilivyo\" bila dhamana. Kwa kiwango kikamilifu kinachoruhusiwa na sheria, Chatforia haibebi dhima kwa hasara zisizo za moja kwa moja au zinazofuata."
-    },
-    "mabadiliko": {
-      "title": "Mabadiliko",
-      "body": "Tunaweza kusasisha masharti haya; kuendelea kutumia baada ya mabadiliko kunamaanisha kukubali."
-    },
-    "mawasiliano": {
-      "kichwa": "Mawasiliano",
-      "maudhui": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-    }
-  },
-  "marejesho": {
-    "kichwa": "Sera ya Marejesho",
-    "lastUpdated": "Ilisasishwa mwisho:",
-    "intro": "Katika Chatforia, tunajitahidi kutoa huduma ya hali ya juu kwa watumiaji wote. Sera hii ya Marejesho inaelezea ni lini marejesho yanaweza kutolewa.",
-    "subscriptions": {
-      "title": "Usajili",
-      "body": "Malipo ya usajili hutozwa mapema kwa msingi wa kujirudia. Unaweza kufuta wakati wowote kupitia mipangilio ya akaunti yako au jukwaa ulilotumia kununua."
-    },
-    "ustahiki": {
-      "title": "Ustahiki wa Kurejeshewa Pesa",
-      "body": "Rejesho la pesa linaweza kutolewa kwa malipo maradufu, makosa ya bili, au matatizo ya kiufundi yanayozuia ufikiaji wa vipengele vya kulipia. Maombi yote hupitiwa kesi kwa kesi."
-    },
-    "zisizorejeshwa": {
-      "title": "Hazirudishiwi Pesa",
-      "body": "Kwa kawaida hatutoi marejesho ya pesa kwa muda usiotumika, vipindi vya usajili vya nusu, au kushindwa kufuta usajili kabla ya muda wake kuisha."
-    },
-    "thirdParty": {
-      "title": "Manunuzi ya Watu wa Tatu",
-      "body": "Ikiwa umenunua kupitia majukwaa ya watu wa tatu kama vile Apple App Store, marejesho lazima yaombwe moja kwa moja kupitia majukwaa hayo."
-    },
-    "mawasiliano": {
-      "kichwa": "Mawasiliano",
-      "maudhui": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-  "usitauze": {
-    "kichwa": "Usinauze au Kushiriki Taarifa Zangu Binafsi",
-    "maudhui": "Chatforia haiuzi taarifa za kibinafsi. Wakazi wa California bado wanaweza kuwasilisha maombi chini ya CPRA kwa kutumia kitufe hapa chini.",
-    "cta": "Wasilisha ombi"
-  },
-  "cookies": {
-    "title": "Mipangilio ya Vidakuzi",
-    "body": "Chatforia inatumia vidakuzi vichache (k.m., kipindi, usalama). Hatutumii vidakuzi vya matangazo vya wahusika wengine. Dhibiti vidakuzi kupitia mipangilio ya kivinjari chako."
-  },
-  "premiumGuard": {
-    "requiresPremium": "Kipengele hiki kinahitaji mpango wa Premium."
+    "footer": "© 2026 Chatforia Inc."
   }
 }

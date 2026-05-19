@@ -1,423 +1,382 @@
 {
   "common": {
     "save": "Vista",
-    "cancel": "Hætta við",
-    "refresh": "Endurhlaða",
-    "noMatches": "Engar samsvaranir",
-    "cancelAria": "Hætta við",
+    "cancel": "Hætta",
+    "refresh": "Endurnýja",
+    "noMatches": "Engar niðurstöður",
+    "cancelAria": "Hætta",
     "copy": "Afrita",
     "copied": "Afritað!",
-    "errorWithMessage": "Villa: {{message}}"
+    "errorWithMessage": "Villa: { {skilaboð}}",
+    "hlaðast": "Að hlaða…",
+    "villaViðVista": "Vistaðist ekki"
   },
-  "a11y": {
-    "skipToMain": "Hoppa yfir í aðalefni"
+  "aðgengileiki": {
+    "sleppaÍAðal": "Sleppa í aðal efni"
   },
-  "keys": {
-    "backupCreated": "Lykilafrit búið til og sótt ✓",
-    "restored": "Lykilafrit endurheimt ✓ Lyklar settir upp á tækinu",
-    "noBackup": "Ekkert dulkóðað afrit er til fyrir þennan reikning",
-    "missingPublicKey": "Afritinu vantar opinberan lykil"
+  "vörumerki": {
+    "nafn": "Chatforia",
+    "ria": "Ria"
+  },
+  "lyklar": {
+    "backupCreated": "Búið að búa til og hlaða niður lykilafriti ✓",
+    "restored": "Búið að endurheimta lykilafrit ✓ Lyklar settir upp staðbundið",
+    "noBackup": "Engin dulkóðuð afrit er til fyrir þennan reikning",
+    "missingPublicKey": "Búið er að afrita en opinberi lykillinn vantar"
   },
   "keySetup": {
-    "title": "Settu upp tækislykla þína",
-    "description": "Þetta tæki hefur ekki enn einkalykilinn þinn. Flyttu inn lykilafrit verndað með lykilorði eða búðu til nýtt lykilpar (þú getur lesið ný skilaboð héðan í frá).",
-    "chooseFile": "Veldu skrá og sláðu inn lykilorðið.",
-    "imported": "Einkalykill fluttur inn á þetta tæki. Þú getur nú lesið gömul skilaboð.",
-    "enterPassword": "Sláðu inn reikningslykilorðið þitt svo við getum afritað lykla þína á öruggan hátt."
+    "title ": "Settu upp tækilykla þína",
+    "lýsing": "Þetta tæki hefur ekki ennþá einkalyklinn þinn. Innfluttu öryggisafrit sem er verndað með lykilorði, eða búaðu til nýjan lykilpör (þú munt geta lesið ný skilaboð héðan í frá).",
+    "veljaSkjal": "Veldu skrá og sláðu inn lykilorðið.",
+    "innflutt": "Einkalykill fluttur inn á þennan búnað. Þú getur nú lesið eldri skilaboð.",
+    "sláðuinnleyfi": "Sláðu inn lykilorð reikningsins þíns svo við getum afritað lykla þína örugglega."
   },
-  "auth": {
-    "headline": "Öruggt skilaboðakerfi fyrir alla, hvar sem er",
-    "description": "Enda-til-enda dulkóðun, þýðing á 100+ tungumál, sjálfsvinnandi skilaboð og hringingar/myndfundir.",
+  "endurheimt dulkóðunar": {
+    "titill": "Stjórna dulkóðun",
+    "lýsing": "Taktu afrit af, endurheimtu, opnaðu eða stilltu upp á nýtt dulkóðunarlykilinn þinn.",
+    " alert": {
+      "keyRequiredTitle": "Dulkóðunarlykill nauðsynlegur",
+      "keyRequiredBody": "Þessi vafrari getur ekki afkóðað dulkóðuðu skilaboðin þín núna. Endurheimtu, opnaðu eða endurstilltu lykilinn þinn til að halda áfram."
+    },
+    "sections": {
+      "createBackup": "Búa til afrit af lykli",
+      "restoreFromBackup": "Endurheimta úr reikningsafriti",
+      "resetEncryption": "Endurstilla dulkóðun"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Lyklakóði til að opna (núverandi tæki)",
+        "description": "Notaður til að afkóða lykla þína staðbundið áður en þeir eru fluttir út"
+      },
+      "backupPassword": {
+        "label": "Öryggisafritskóði",
+        "description": "Notaður til að dulkóða öryggisafritsskrána"
+      },
+      "restoreBackupPass word": {
+        "label": "Bakhjarlorð",
+        "description": "Lykilorðið sem þú bjóst til þegar þú gerðir afrit af lykli þínum á iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Nýtt staðbundið lykilorð",
+        "description": "Verndar lyklana á þessum vafrara"
+      },
+      "resetLocalPasscode": {
+        "label": "Nýtt staðbundið lykilorð",
+        "description": "Krafist áður en endurstillingu er lokið svo nýi lykillinn sé varinn á þessu tæki"
+      }
+    },
+    "actions": {
+      "unlockKey": "Læsa upp dulkóðunarlykil",
+      "restoreFromBackup": " Endurheimt úr varasafni reiknings",
+      "endurstillaÖkutækni": "Endurstilla dulkóðun"
+    },
+    "skilaboð": {
+      "varasafnBúiðTil": "Búið til varasafn fyrir lykil og það hlaðið niður.",
+      "lykillÓlæstur": "Dulkóðunarlykillinn er ólæstur.",
+      "lykillEndurheimtur": "Lykin endurheimtur úr varasafni reiknings.",
+      "resetSuccess": "Dulkóðun endurstillt með góðum árangri."
+    },
+    "errors": {
+      "restoreIncomplete": "Endurheimt lykils ófullgerð eða röng fyrir þennan reikning",
+      "noBackup": "Engin dulkóðuð afrit er til fyrir þennan reikning",
+      "skortirOpinberaLykil": "Afritinu vantar opinberan lykil",
+      "enginServerOpinberaLykill": "Þessi reikningur birtir ekki opinberan lykil netþjónsins",
+      "ósamræmiServerAfrit": "Afrit netþjónsins passar ekki við núverandi dulkóðunarlykil reikningsins",
+      "ófullkomnarMetagögn": "Metagögn afritsins eru ófullkomn",
+      "endurstillingÓfullkomnuð": "Endurstilling dulkóðunar gekk ekki almennilega fyrir sig "
+    },
+    "confirm": {
+      "reset": "Endurstilla dulkóðun fyrir þennan reikning?\n\nEligri dulkóðuð skilaboð geta orðið ólesanleg nema þú endurheimtir upprunalega lykilinn síðar."
+    },
+    "resetDescription": "Þetta býr til nýjan dulkóðunarlykil fyrir reikninginn þinn. Eligri dulkóðuð skilaboð geta orðið ólesanleg nema þú endurheimtir upprunalega lykilinn síðar."
+  },
+  "smsConsent": {
+    "label": "Ég samþykki að fá SMS tilkynningar og viðvaranir frá {{companyName}}. Fréquentía skilaboða getur verið misjöfn. Gjalda gætu fyrir skilaboð og gögn. Svaraðu <stop>STOP</stop> til að afskrá þig hvenær sem er. Svaraðu <help>HELP</help> fyrir aðstoð."
+  },
+  "phoneField": {
+    "label": "Símtal",
+    "ógilt": "Ógilt símanúmer",
+    "vísbending": "Settu inn landsnúmer ef þörf krefur (t.d. +1 415…)"
+  },
+  "staðfesting": {
+    "headline": "Öruggur skilaboðaflutningur fyrir alla, hvar sem er",
+    "description": "Öryggisstaðfest dulkóðun frá upphafi til enda, þýðing á yfir 100 tungumálum, hverfandi skilaboð og radd-/myndsímtöl.",
     "feature": {
-      "encryption": "Enda-til-enda dulkóðun sjálfgefið",
-      "translation": "Snjöll innbyggð skilaboðaþýðing",
-      "disappearing": "Sjálfsvinnandi skilaboð og leskvittanir",
-      "privacy": "Persónuvernd í fyrsta sæti. Þín gögn, þín stjórn.",
-      "translate": "Snjöll innbyggð skilaboðaþýðing",
-      "disappear": "Sjálfsvinnandi skilaboð",
-      "privacyAlt": "Persónuvernd í fyrsta sæti",
-      "seePlans": "Skoða áætlanir og verð"
+      "encryption": "Öryggisstaðfest dulkóðun frá upphafi til enda sem sjálfgefinn valkostur",
+      "translation": "Snjöll, innbyggð þýðing skilaboða",
+      "disappearing": "Eyddar skilaboð & leskvittanir",
+      "privacy": "Persónuvernd í fyrsta sæti. Gögnin þín, stjórn þín.",
+      "translate": "Snjöll, innbyggð þýðing á skilaboðum",
+      "disappear": "Skilaboð sem hverfa",
+      "privacyAlt": "Hönnun sem setur persónuvernd í fyrsta sæti",
+      "seePlans": "Sjá áætlanir og verð"
     },
     "hero": {
-      "line1": "Öruggt skilaboðakerfi fyrir alla, hvar sem er — með",
-      "em": "þýðingu á 100+ tungumál",
-      "sub": "Fáðu ókeypis öruggt símanúmer til að hringja og senda skilaboð um allan heim yfir Wi-Fi eða gögn. Njótðu enda-til-enda dulkóðunar, sjálfsvinnandi skilaboða og HD hringinga/myndfundir — með innbyggðum verkfærum sem hjálpa þér að vera tengdur yfir landamæri.",
-      "freeNote": "Grunnhringingar og skilaboð eru ókeypis. Ítarlegir gervigreind og úrvals eiginleikar krefjast uppfærslu."
+      "line1": "Öruggt skilaboðaforrit fyrir alla, alls staðar — með",
+      "em": "þýðing á yfir 100 tungumálum",
+      "sub": "Fáðu ókeypis öruggt símanúmer til að hringja og senda skilaboð um allan heim yfir Wi-Fi eða gögn. Njóttu dulkóðunar frá enda til enda, skilaboða sem hverfa, og HD-símtala og myndsímtala — með innbyggðum verkfærum sem hjálpa þér að halda sambandi þvert yfir landamæri.",
+      "freeNote": "Grunnsímtöl og textaskilaboð eru ókeypis. Háþróuð gervigreind og úrvalsaðgerðir krefjast uppfærslu."
     },
     "feat": {
-      "encryption": "Enda-til-enda dulkóðun, alltaf á",
-      "translate": "Brjóttu tungumálahindranir í samtölum þínum",
-      "disappear": "Sjálfsvinnandi skilaboð og leskvittanir",
-      "privacy": "Persónuvernd í fyrsta sæti. Þín gögn, þín stjórn."
+      "encryption": "End-to-end dulkóðun, alltaf virk",
+      "translate": "Brjótið niður tungumálahindranir í samtölum ykkar",
+      "disappear": "Eydd skilaboð & leskvittanir",
+      "privacy": "Persónuvernd í fyrsta sæti. Gögnin þín, stjórn þín. "
     },
     "continueGoogle": "Halda áfram með Google",
     "continueApple": "Halda áfram með Apple",
-    "username": "Notendanafn",
-    "password": "Lykilorð",
-    "keepSignedIn": "Halda mér innskráðum",
-    "forgotPassword": "Gleymt lykilorð?",
-    "loginButton": "Skrá inn",
-    "createAccount": "Búa til reikning",
-    "freeAccountButton": "Búa til ókeypis reikning",
-    "newHere": "Nýr hér?",
-    "getApp": "Sækja appið",
-    "desktopTip": "Á tölvu? Skannaðu með símanum til að sækja appið.",
-    "scanHelper": "Á tölvu? Skannaðu með símanum til að sækja appið.",
-    "goHome": "Fara á heim",
+    "notandanafn": "Notandanafn",
+    "lykilorð": "Lykilorð",
+    "halda mér innskráð": "Halda mér innskráð",
+    "gleymað lykilorði": "Gleymað lykilorði?",
+    "innskráningahnappur": "Innskráning",
+    "búaTilReikning": "Búa til reikning",
+    "ókeypisReikningsHnappur": "Búa til ókeypis reikning",
+    "nýrHér": "Nýr hér?",
+    "getApp": "Fá appið",
+    "desktopTip": "Á skjáborðinu? Skannaðu með símanum til að fá appið.",
+    "scanHelper": "Á skjáborðinu? Skannaðu með símanum til að fá appið.",
+    "goHome": "Fara á heimasíðuna",
     "home": "Heim",
     "headlineAlt": {
-      "main": "Örugga skilaboðaappið sem",
+      "main": "Öruggur skilaboðaforrit sem",
       "highlight": "talar tungumálið þitt"
     },
-    "subhead": "Einka, dulkóðuð og þýdd skilaboð — samstundis.",
-    "upgrade": "Uppfæra núna",
-    "tip": "Ábending: Notaðu sama reikninginn á vef og farsíma. Skilaboðin þín haldast samstillt.",
-    "openDownload": "Opna niðurhalsíðu",
-    "qrAlt": "QR-kóði fyrir Chatforia",
-    "scanHint": "Skannaðu til að sækja appið eða opna í vafranum þínum.",
-    "iosAria": "Sækja í App Store",
-    "iosTitle": "Sækja í App Store",
+    "subhead": "Einkaskilaboð, dulkóðuð og þýdd — samstundis.",
+    "upgrade": "Uppfærðu núna",
+    "tip": "Ábending: Notaðu sama aðganginn á vef og farsíma. Skilaboðin þín haldast samstillt.",
+    "openDownload": "Opna niðurhalssíðu",
+    "qrAlt": "QR kóði fyrir Chatforia",
+    "scanHint": "Skannaðu til að hlaða niður forritinu eða opna það í vafranum þínum.",
+    "iosAria": "Hlaða niður á App Store",
+    "iosTitle": "Hlaða niður á App Store",
     "iosBadgeAlt": "App Store merki",
-    "androidAria": "Sækja í Google Play",
+    "androidAria": "Fáðu það á Google Play",
     "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play merki",
-    "login": "Skrá inn",
-    "signup": "Skrá sig",
-    "email": "Tölvupóstur",
+    "androidBadgeAlt": "Google Play badge",
+    "login": "Innganga",
+    "signup": "Skráning",
+    "email": "Netfang",
     "registration": {
       "passwordDescription": "Lágmark 6 stafir. Notaðu sterkt, einstakt lykilorð.",
-      "smsConsent": "Með því að búa til reikning samþykkir þú að fá SMS-tilkynningar tengdar Chatforia virkni þinni (svo sem skilaboð frá öðrum notendum). Skilaboða- og gagnagjöld gætu átt við. Þú getur afskráð þig hvenær sem er í stillingum.",
+      " smsConsent": "Með því að stofna reikning samþykkir þú að fá SMS-tilkynningar sem tengjast virkni þinni í Chatforia (svo sem skilaboð frá öðrum notendum). Gjalda fyrir skilaboð og gögn geta átt við. Þú getur sagt upp hvenær sem er í Stillingum.",
       "termsLink": "Notkunarskilmálar",
       "privacyLink": "Persónuverndarstefna"
     },
-    "to": "Til:",
-    "enterRecipient": "Sláðu inn nafn eða númer",
-    "clearRecipients": "Hreinsa viðtakendur",
+    "til": "Til:",
+    "sláinnviðtakanda": "Sláðu inn nafn eða númer",
+    "hreinsaáðtakendur": "Hreinsa áðtakendur",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Skrifaðu skilaboð…",
-    "addRecipient": "Bættu viðtakanda ofan við til að byrja…",
-    "oneRecipient": "Sláðu inn einn viðtakanda í bili.",
-    "enterValidRecipient": "Sláðu inn vistað tengiliðsnafnn eða símanúmer.",
-    "sendFailed": "Sending mistókst. Athugaðu stjórnborð fyrir upplýsingar."
+    "skrifaSkilaboð": "Skrifaðu skilaboð…",
+    "bætaÁðtakanda": "Bæta áðtakanda hér að ofan til að byrja…",
+    "oneRecipient": "Vinsamlegast sláðu inn einn viðtakanda að svo stöddu.",
+    "enterValidRecipient": "Sláðu inn nafn vistaðs tengiliðs eða símanúmer.",
+    "sendFailed": "Sending mistókst. Skoðaðu skráningarbúnaðinn fyrir nánari upplýsingar."
   },
   "home": {
-    "title": "Heim",
-    "header": "Skilaboðin þín",
+    " title": "Heim",
+    "messagesTitle": "Skilaboðin þín",
+    "messagesSubtitle": "Sláðu inn viðtakanda hér að ofan og sendu skilaboð til að hefja samtal.",
     "subheader": "Sendu skilaboð til að hefja spjall.",
     "sendButton": "Senda skilaboð",
-    "gifPicker": "Opna GIF-val",
+    "gifPicker": "Opna GIF-valara",
     "emoji": "Emoji",
-    "upload": "Hlaða upp mynd eða myndbandi",
-    "inputPlaceholder": "Skrifaðu skilaboð…",
-    "inputLabel": "Skilaboðasamsetning",
-    "sendTooltip": "Senda",
-    "sendTooltipEmpty": "Skrifaðu skilaboð til að senda",
-    "send": "Senda",
+    "upload": "Hlaða upp mynd eða myndband",
+    "inputPlaceholder": "Sláðu inn skilaboð…",
+    "inputLabel": "Skilaboðasmiður",
+    "sendTooltip": "Send",
+    "sendTooltipEmpty": "Sláðu inn skilaboð til að senda",
+    "send": "Send",
+    "welcomeMessage": "Velkomin/n í Chatforia",
+    "getStarted": "Byrja",
+    "mixedRecipients": "Blandaðir viðtakendur greindir. Notaðu annaðhvort öll símanúmer (SMS) eða öll notendanafnin (Chatforia).",
     "enterRecipient": "Sláðu inn nafn eða númer",
-    "addRecipient": "Bættu við viðtakanda hér að ofan til að byrja…",
-    "welcomeMessage": "Velkomin í Chatforia",
-    "getStarted": "Byrjaðu"
+    "addRecipient": "Bættu við viðtakanda hér að ofan til að hefja…",
+    "needNumber": "Þú þarft Chatforia-númer áður en þú sendir SMS.",
+    "chooseNumber": "Veldu númer"
   },
-  "refund": {
-    "title": "Endurgreiðslustefna",
-    "lastUpdated": "Síðast uppfært:",
-    "intro": "Hjá Chatforia leggjum við okkur fram við að veita öllum notendum þjónustu í hæsta gæðaflokki. Þessi endurgreiðslustefna útskýrir hvenær hægt er að veita endurgreiðslu.",
-    "subscriptions": {
-      "title": "Áskriftir",
-      "body": "Áskriftir eru rukkaðar fyrirfram á endurteknum grunni. Þú getur sagt upp hvenær sem er í stillingum reikningsins þíns eða í gegnum þann vettvang sem þú notaðir til kaupa."
-    },
-    "eligibility": {
-      "title": "Réttur til endurgreiðslu",
-      "body": "Endurgreiðslur geta verið veittar vegna tvítekinnar rukkunar, villna í greiðslum eða tæknilegra vandamála sem koma í veg fyrir aðgang að greiddum eiginleikum. Allar beiðnir eru metnar í hverju tilviki fyrir sig."
-    },
-    "nonRefundable": {
-      "title": "Ekki endurgreitt",
-      "body": "Almennt veitum við ekki endurgreiðslur fyrir ónotaðan tíma, hluta áskriftartímabila eða ef áskrift er ekki sagt upp fyrir endurnýjun."
-    },
-    "thirdParty": {
-      "title": "Kaup í gegnum þriðja aðila",
-      "body": "Ef keypt er í gegnum þriðja aðila eins og Apple App Store þarf að sækja um endurgreiðslu beint til þeirra."
-    },
-    "contact": {
-      "title": "Hafðu samband",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, Bandaríkin"
-    }
+  "sidebar": {
+    "randomChat": "Handahófskennd spjall",
+    "callTextForwarding": "Símtals- og textaskilaboðaflutningur ",
+    "tölvupóstur": "Tölvupóstur",
+    "leitarskjár": "Leitaðu í spjöllum...",
+    "hleðsluvilla": "Ekki tókst að hlaða spjöllum",
+    "tómt": "Engin spjöll enn.",
+    "hafna spjalli": "Hafa upp nýtt spjall",
+    "fólk": "Fólk",
+    "stillingar": "Stillingar",
+    "staða": "Staða",
+    "framsending": "Símtals- og textamiðlun",
+    "endurhlaða": "Endurhlaða",
+    "leit": "Leita í samtölum",
+    "innskráningarviðvörun": "Skráðu þig inn til að breyta stillingum þínum.",
+    "innskrá": "Innskrá",
+    "skrá": "Búa til reikning",
+    "spjallherbergi": "Spjallherbergi",
+    "skrá sig út": "Skrá sig út",
+    "símtöl": "Símtöl",
+    "myndband": "Myndband",
+    "raddpóstur": "Raddpóstur"
   },
-
-  "about": {
-    "title": "Um Chatforia",
-    "description": "Chatforia er nútímalegur samskiptavettvangur hannaður fyrir örugg og fjöltyngd samskipti...",
-    "valuesTitle": "Það sem við metum",
-    "privacyTitle": "Persónuvernd í forgrunni",
-    "privacyDesc": "Sterk dulkóðun og persónuverndarstillingar undir stjórn notenda",
-    "accessTitle": "Aðgengi fyrir alla",
-    "accessDesc": "Innbyggð þýðing á milli margra tungumála",
-    "controlTitle": "Stjórn",
-    "controlDesc": "Eiginleikar eins og hverfandi skilaboð og lestrarkvittanir"
+  "topbar": {
+    "newStatus": "Nýtt ástand",
+    "logout": "Hætta að nota",
+    "help": "Aðstoð",
+    "createStatusAria": "Búa til nýtt ástand"
   },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Hvers vegna skilaboðavettvangar skipta meira máli en nokkru sinni fyrr",
-      "intro": "Skilaboðavettvangar hafa orðið eitt mikilvægasta tækið til samskipta í heiminum í dag...",
-      "everydayTitle": "Dagleg samskipti",
-      "everydayDesc": "Fólk treystir á skilaboðaforrit fyrir dagleg samskipti...",
-      "speedTitle": "Hraði og þægindi",
-      "speedDesc": "Skilaboð berast samstundis...",
-      "globalTitle": "Alþjóðlegt umfang",
-      "globalDesc": "Vettvangar tengja fólk um allan heim...",
-      "privacyTitle": "Persónuvernd og stjórn",
-      "privacyDesc": "Nútímalegir vettvangar leggja áherslu á að veita notendum stjórn...",
-      "futureTitle": "Framtíð skilaboða",
-      "futureDesc": "Skilaboð halda áfram að þróast með nýjum eiginleikum...",
-      "outro": "Chatforia er byggt á þessum meginreglum..."
+  "footer": {
+    "plans": "Áætlanir og verð",
+    "about": "Um Chatforia",
+    "careers": " Starfsferlar",
+    "pressa": "Pressa",
+    "auglýsingar": "Auglýsingar",
+    "hafa samband": "Hafa samband við okkur",
+    "aðstoð": " Aðstoðarmiðstöð",
+    "status": "Stöðu síða",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Persónuverndarstefna",
+    "terms": "Þjónustuskilmálar",
+    "cookies": "Köku stillingar",
+    "doNotSell": "Seldu ekki upplýsingar mínar",
+    "language": "Tungumál",
+    "contactShort": "Hafðu samband",
+    "aria": "Fótanot",
+    "homeAria": "Heimasíða Chatforia",
+    "section": {
+      "company": "Fyrirtæki",
+      "support": "Þjónustudeild ",
+      "sækja": "SÆKJA",
+      "löglegt": "LÖGLEGT"
     },
-
-    "global": {
-      "title": "Framtíð alþjóðlegra samskipta",
-      "intro": "Samskipti hafa þróast hratt...",
-      "barriersTitle": "Að brjóta niður hindranir",
-      "barriersDesc": "Fólk getur nú tengst um allan heim...",
-      "translationTitle": "Hlutverk þýðingartækni",
-      "translationDesc": "Tungumál hafa lengi verið hindrun...",
-      "realtimeTitle": "Rauntímatengingar",
-      "realtimeDesc": "Hraði er lykilatriði...",
-      "privacyTitle": "Persónuvernd og öryggi",
-      "privacyDesc": "Notendur vilja vera vissir um að samskipti þeirra séu vernduð...",
-      "futureTitle": "Hvað er næst",
-      "futureDesc": "Framtíð samskipta mun fela í sér nýja eiginleika...",
-      "outro": "Vettvangar eins og Chatforia eru hluti af þessari þróun..."
+    "tenglar": {
+      "áætlanir-verðlagning": "Áætlanir og verðlagning",
+      "um-chatforia": "Um Chatforia",
+      "starfsferill": "Starfsferill",
+      "pressa": "Pressa",
+      "auglýsingar": "Auglýsingar",
+      " getting-started": "Að byrja",
+      "help-center": "Aðstoðarmiðstöð",
+      "contact-us": "Hafðu samband",
+      "status-page": "Stöðu síða",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Persónuverndarstefna",
+      "terms-of -service": "Skilmálar þjónustu",
+      "do-not-sell-my-info": "Seldu ekki upplýsingar mínar",
+      "cookie-settings": "Köku-stillingar",
+      "how-it-works": "Hvernig það virkar",
+      "blog": "Blogg",
+      "refund-policy": "Endurgreiðslustefna",
+      "sms-stefna": "Stefna um SMS-skilaboð"
     },
-
-    "index": {
-      "title": "Chatforia blogg",
-      "intro": "Kynntu þér innsýn í samskipti...",
-      "post1": "Hvernig á að spjalla örugglega á netinu",
-      "post2": "Framtíð alþjóðlegra samskipta",
-      "post3": "Hvers vegna skilaboðavettvangar skipta máli"
-    }
+    "félagsmiðlar": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": " LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Einpatent í bið",
+    "backToTop": "↑ Aftur upp"
   },
-
-  "howItWorks": {
-    "title": "Hvernig Chatforia virkar",
-    "intro": "Chatforia er hannað til að gera samskipti einföld...",
-    "step1Title": "1. Búa til reikning",
-    "step1Desc": "Skráðu þig með netfanginu þínu eða notendanafni...",
-    "step2Title": "2. Hefja samtal",
-    "step2Desc": "Tengstu öðrum...",
-    "step3Title": "3. Rauntímaskilaboð",
-    "step3Desc": "Skilaboð berast hratt...",
-    "step4Title": "4. Alþjóðleg samskipti",
-    "step4Desc": "Innbyggð þýðing hjálpar notendum...",
-    "step5Title": "5. Vertu við stjórnvölinn",
-    "step5Desc": "Stjórnaðu stillingunum þínum..."
-  },
-
-  "safety": {
-    "title": "Öryggi og samfélagsreglur",
-    "intro": "Chatforia leggur áherslu á að viðhalda öruggu umhverfi...",
-    "respectTitle": "Virðing í samskiptum",
-    "respectDesc": "Notendur eiga að sýna hver öðrum virðingu...",
-    "prohibitedTitle": "Bannað efni",
-    "prohibited": {
-      "illegal": "Ólögleg starfsemi",
-      "harassment": "Áreitni eða einelti",
-      "hate": "Hatursorðræða eða mismunun",
-      "explicit": "Óviðeigandi eða skaðlegt efni",
-      "spam": "Ruslpóstur eða villandi aðferðir"
-    },
-    "toolsTitle": "Öryggistól notenda",
-    "tools": {
-      "report": "Tilkynna óviðeigandi hegðun",
-      "block": "Loka á notendur",
-      "control": "Stjórna persónuverndarstillingum"
-    },
-    "enforcementTitle": "Framfylgd",
-    "enforcementDesc": "Við gætum gripið til aðgerða gagnvart reikningum..."
-},
   "chat": {
-    "selectPrompt": "Veldu texta eða spjallherbergi til að byrja að spjalla",
+    "selectPrompt": "Veldu texta eða spjallherbergi til að hefja spjall",
     "newMessages": "Ný skilaboð",
-    "typing": "{{name}} er að skrifa...",
-    "emptyTitle": "Skilaboðin þín",
+    "typing": "{{name }} er að skrifa...",
+    "emptyTitle": "Skilaboð þín",
     "emptySubtitle": "Sendu skilaboð til að hefja spjall.",
-    "startChatButton": "Senda skilaboð",
-    "mediaAttachment": "Miðlungsviðhengi",
+    "startChatButton": "Sendu skilaboð",
+    "mediaAttachment": "Miðlunarskeyti",
     "thisUser": "þessi notandi",
-    "blockConfirm": "Loka á {{name}}? Þú munt ekki fá skilaboð frá þeim.",
-    "blockedUser": "Lokað á {{name}}.",
-    "blockError": "Gat ekki ákvarðað marknotanda til að loka á.",
-    "blockFailed": "Loka á mistókst (bakvinnslan ekki tengd enn).",
-    "encryptedUnavailable": "Dulkóðuð skilaboð (lykill ekki tiltækur)",
-    "unlockToView": "Opnaðu lykilinn þinn til að skoða þessi skilaboð"
+    "blockConfirm": "Banna {{name}}? Þú munt ekki fá skilaboð frá þeim.",
+    "blockedUser": "Bann við {{name}}.",
+    "blockError": "Ekki var hægt að finna notanda til að banna.",
+    "blockFailed": "Banni mistókst (bakendi ekki tengdur ennþá).",
+    "encryptedUnavailable": "Dulkóðuð skilaboð (lykill óaðgengilegur)",
+    "unlockToView": "Læstu upp lykilinn þinn til að sjá þessi skilaboð"
   },
-  "messageInput": {
+  " messageInput": {
     "ttl": {
       "off": "Slökkt"
     },
-    "freeLimit": "Ókeypis áætlunartakmörk: sjálfvirk eyðing upp að 1 degi. Læst við 1d.",
-    "premiumLimit": "Hámarks sjálfvirk eyðing fyrir Premium er 30 dagar. Læst við 30d.",
-    "nothingToSend": "Skrifaðu skilaboð eða bættu við skrá til að senda.",
-    "encryptionFailed": "Dulkóðun mistókst. Skilaboð ekki send.",
-    "sent": "Skilaboð afhent.",
-    "placeholder": "Skrifaðu skilaboð…",
-    "voiceAdded": "Raddskilaboð bætt við",
-    "attachmentAdded": "Viðhengi bætt við",
-    "autoDelete": "Sjálfvirk eyðing",
-    "typeToSend": "Skrifaðu skilaboð til að senda",
+    "freeLimit": "Ókeypis áætlunarmörk: sjálfvirk eyðing allt að 1 dag. Takmarkað við 1 dag.",
+    "premiumLimit": "Hámarks sjálfvirk eyðing fyrir Premium er 30 dagar. Takmarkað við 30 daga.",
+    " nothingToSend": "Sláðu inn skilaboð eða bætðu við skrá til að senda.",
+    "encryptionFailed": "Öryggislykill mistókst. Skilaboðin sendust ekki.",
+    "sent": "Skilaboðin send.",
+    "placeholder": "Sláðu inn skilaboð… ",
+    "autoDelete": "Eyða sjálfkrafa",
+    "typeToSend": "Sláðu inn skilaboð til að senda",
     "send": "Senda",
     "sendWithEnter": "Senda (Enter)",
     "attachment": "viðhengi",
-    "caption": "Yfirskrift (valfrjálst)",
+    "caption": "Myndatexti (valfrjálst)",
     "remove": "Fjarlægja",
     "clear": "Hreinsa",
     "gif": "GIF",
-    "sticker": "Stíker",
-    "errors": {
-      "attachmentTooLarge": "Viðhengi of stórt. Prófaðu minni skrá.",
-      "unsupportedFile": "Óstudd skráartegund.",
-      "rateLimit": "Þú ert að senda skilaboð of hratt. Hægðu á þér.",
-      "validation": "Staðfestingarvilla. Athugaðu skilaboðin þín og reyndu aftur.",
-      "failedToSend": "Mistókst að senda. Þú getur reynt aftur á misheppnuðu kúlu."
+    "sticker": " límmiði",
+    "villur": {
+      "viðhengisStórt": "Viðhengið er of stórt. Reyndu minni skrá.",
+      "óstuddurSkráarGerð": "Óstuddur skráarformi.",
+      "hraðatakmörkun": "Þú ert að senda skilaboð of hratt. Vinsamlegast hægðu á þér.",
+      "gildunarvillur": "Gildunarvillur. Vinsamlegast athugaðu skilaboðin þín og reyndu aftur.",
+      "failedToSend": "Ekki tókst að senda. Þú getur reynt aftur með misheppnaða bóluna."
     }
-  },
-  "contactList": {
-    "savedContacts": "Vistaðir tengiliðir",
-    "refreshAria": "Endurhlaða tengiliði",
-    "filterPlaceholder": "Sía vistaða tengiliði…",
-    "filterAria": "Sía vistaða tengiliði",
-    "noContactsFound": "Engir tengiliðir fundust.",
-    "externalContact": "Ytri tengiliður",
-    "notJoined": "Þessi tengiliður hefur ekki gengið í Chatforia enn.",
-    "couldNotStart": "Gat ekki byrjað spjall. Reyndu aftur.",
-    "startFailed": "Mistókst að byrja spjall. Reyndu aftur.",
-    "deleted": "Tengiliður eytt.",
-    "deleteFailed": "Mistókst að eyða tengilið. Reyndu aftur.",
-    "aliasUpdated": "Stuttnefni uppfært.",
-    "updateAliasFailed": "Mistókst að uppfæra stuttnefni. Reyndu aftur.",
-    "selectContact": "Velja {{name}}",
-    "alias": "Stuttnefni",
-    "startChat": "Hefja spjall",
-    "message": "Skilaboð",
-    "delete": "Eyða",
-    "deleteContactAria": "Eyða tengilið",
-    "loadFailed": "Mistókst að hlaða tengiliðum. Reyndu aftur.",
-    "loadMore": "Hlaða fleira",
-    "call": "Hringja",
-    "callStarted": "Hringt í þetta númer með Chatforia númerinu þínu…",
-    "callFailed": "Mistókst að hefja hringingu. Reyndu aftur."
-  },
-  "startChatModal": {
-    "title": "Hefja samtöl",
-    "searchPlaceholder": "Leita að nafni, notendanafni eða símanúmeri",
-    "messageThisPerson": "Senda skilaboð til þessarar manneskju",
-    "contacts": "Tengiliðir",
-    "recentInteractions": "Nýleg samskipti",
-    "noContactsMatch": "Engir tengiliðir passa við leitina þína.",
-    "noRecentInteractions": "Engin nýleg samskipti enn.",
-    "unknown": "Óþekkt",
-    "interactionType": {
-      "message": "Skilaboð",
-      "call": "Hringing",
-      "video": "Myndband"
-    }
-  },
-  "addContactModal": {
-    "title": "Bæta við tengilið",
-    "phoneOrUsername": "Sími eða notendanafn",
-    "phoneOrUsernamePlaceholder": "t.d. +13018019227 eða juliannorton",
-    "alias": "Stuttnefni (valfrjálst)",
-    "aliasPlaceholder": "t.d. Vinna, Mamma, Mike – Evrópa",
-    "enterPhoneOrUsername": "Sláðu inn símanúmer eða notendanafn.",
-    "userLookupFailed": "Leit að notanda mistókst.",
-    "cannotAddSelf": "Þú getur ekki bætt sjálfum þér við sem tengilið.",
-    "failedToAdd": "Mistókst að bæta við tengilið.",
-    "add": "Bæta við"
-  },
-  "sidebar": {
-    "randomChat": "Slembispjall",
-    "callTextForwarding": "Hringingar- og textaáframsending",
-    "conversations": "Samtöl",
-    "searchPlaceholder": "Leita í samtölum...",
-    "errorLoading": "Mistókst að hlaða spjallum",
-    "empty": "Engin samtöl enn.",
-    "startChat": "Hefja spjall",
-    "people": "Fólk",
-    "settings": "Stillingar",
-    "status": "Staða",
-    "forwarding": "Hringingar- og textaáframsending",
-    "refresh": "Endurhlaða",
-    "search": "Leita í samtölum",
-    "loginPrompt": "Skráðu þig inn til að breyta stillingum þínum.",
-    "login": "Skrá inn",
-    "register": "Búa til reikning",
-    "chatrooms": "Spjallherbergi",
-    "logout": "Útskrá",
-    "startChatAlt": "Hefja nýtt spjall",
-    "calls": "Hringingar",
-    "video": "Myndband",
-    "voicemail": "Talhólf"
-  },
-  "topbar": {
-    "newStatus": "Ný staða",
-    "logout": "Útskrá",
-    "help": "Hjálp",
-    "createStatusAria": "Búa til nýja stöðu"
   },
   "threadActions": {
-    "threadMenu": "Spjallvalmynd",
+    "threadMenu": "Þráðarmatseðill",
     "premium": "Premium",
-    "aiPower": "Gervigreindar afl",
-    "schedule": "Áætla",
-    "upgrade": "Uppfæra",
-    "upgradeSuffix": "(Uppfæra)",
+    "aiPower": "AI Power",
+    "schedule": "Áætlun",
+    "upgrade": "Uppfærsla",
+    "upgradeSuffix": "(Uppfærsla)",
     "thread": "Þráður",
     "about": "Um",
-    "search": "Leita",
+    "search": "Leit",
     "media": "Miðlar",
     "invitePeople": "Bjóða fólki",
-    "roomSettings": "Herbergisstillingar",
-    "clearConversation": "Hreinsa samtal",
-    "clearConversationForMe": "Hreinsa fyrir mig",
-    "clearConversationForEveryone": "Hreinsa fyrir alla",
-    "block": "Loka á"
+    "herbergisstillingar": "Herbergisstillingar",
+    "hreinsa samtal": "Hreinsa samtal",
+    "banna": "Banna"
   },
-  "roomSearch": {
-    "title": "Leita í herbergi",
+  "herbergisleit": {
+    "titill": "Leita í herbergi",
     "ariaLabel": "Leita í herbergi",
     "search": "Leita",
     "searchMessages": "Leita í skilaboðum",
-    "noText": "[Ekkert texta]",
+    "noText": "[Enginn texti]",
     "noResults": "Engar niðurstöður"
   },
   "roomSettings": {
     "roles": {
       "member": "Meðlimur",
-      "moderator": "Stjórnandi",
-      "admin": "Stjórnandi"
+      "moderator": " Umsjónarmaður",
+      "admin": "Admin"
     },
     "aiMode": {
-      "off": "Slökkt",
+      "off": "Off",
       "mention": "Aðeins á @ForiaBot eða /ask",
-      "always": "Svara forvirkt"
+      "alltaf": "Svara fyrirfram"
     },
-    "autoTranslateMode": {
-      "off": "Slökkt",
-      "tagged": "Aðeins merkt (/tr …)",
-      "all": "Öll skilaboð"
+    "sjálfvirkþýðing": {
+      "af": "Af",
+      "merkt": "Merkt aðeins (/tr …)",
+      "allt": "Allar skilaboð"
     },
-    "updated": "Stillingar uppfærðar"
+    "uppfært": "Stillingar uppfærðar"
   },
-  "mediaGallery": {
-    "sharedMedia": "Sameigin miðlar",
-    "noMediaCached": "Engir miðlar vistaðir á tækinu enn.",
+  "miðlugasafn": {
+    "sharedMedia": "Deilt efni",
+    "noMediaCached": "Engin myndband eru enn í staðarnum.",
     "imageAlt": "mynd",
     "openVideo": "Opna myndband",
-    "openVideoWithCaption": "Opna myndband: {{caption}}",
+    "openVideoWithCaption": "Opna myndband: {{lýsing}}",
     "preview": "Forskoðun",
-    "previewWithCaption": "Forskoðun: {{caption}}",
-    "previewKind": "Forskoðun {{kind}}",
+    "previewWithCaption": "Forskoðun: {{lýsing}}",
+    "previewKind": "Sýnishorn af {{kind}}",
     "download": "Sækja",
     "downloadKind": "Sækja {{kind}}",
     "file": "skrá",
@@ -430,160 +389,259 @@
   },
   "status": {
     "userNumber": "Notandi #{{id}}",
-    "posted": "Staða sett inn",
-    "postFailed": "Mistókst að setja inn stöðu",
+    "posted": "Staða birt",
+    "postFailed": "Staða birting mistókst",
     "createTitle": "Búa til stöðu",
     "modalAriaLabel": "Ný staða",
-    "captionLabel": "Hvað er í gangi hjá þér?",
-    "captionPlaceholder": "Deila uppfærslu...",
-    "captionAria": "Stöðuskilaboð",
-    "audienceLabel": "Áhorfendur",
-    "audience": {
-      "public": "Opinbert",
-      "followers": "Fylgjendur",
-      "contacts": "Tengiliðir",
-      "mutuals": "Gagnkvæmir",
-      "custom": "Sérsniðið..."
+    "captionLabel": "Hvað gengur á?",
+    "captionPlaceholder": "Deildu uppfærslu.. .",
+    "captionAria": "Staðarfærslu skilaboð",
+    "áhorfendahópur": {
+      "opinber": "Opinber",
+      "fylgjendur": "Fylgjendur",
+      "tengiliðaskrá": "Tengiliðir",
+      "sameiginlegir": "Sameiginlegir",
+      "sérsniðinn": "Sérsniðin..."
     },
     "expiresHoursLabel": "Rennur út (klukkustundir)",
     "maxTooltip": "Hámark 7 dagar",
     "hoursAbbrev": "klst",
-    "maxShort": "hámark",
-    "expiresOn": "Rennur út þann:",
-    "chooseRecipients": "Velja viðtakendur",
-    "selectContacts": "Velja tengiliði",
-    "attachmentsLabel": "Viðhengi",
-    "attachmentsPlaceholder": "Bæta við myndum/myndböndum",
-    "filesNote": "Allt að 5 skrár. 24 klst gildistími sjálfgefið.",
-    "postAria": "Setja inn stöðu",
-    "post": "Setja inn"
+    "maxShort": "max",
+    "expiresOn": "Rennur út:",
+    "veljaMóttakendur": "Velja móttakendur",
+    "veljaTengiliði": "Velja tengiliði",
+    "viðhengismiði": "Viðhengni",
+    "viðhengisstaðfylling": "Bæta við myndum/myndböndum",
+    "skrárathugasemd": "Hámark 5 skrár. Sjálfgefið 24 klst. gildistími.",
+    "postAria": "Staða færslu",
+    "post": "Færsla"
   },
-  "voicemail": {
-    "pageTitle": "Talhólf",
-    "from": "Frá",
-    "to": "Til",
-    "unknownCaller": "Óþekktur",
-    "yourNumber": "Chatforia númerið þitt",
-    "durationSeconds": "{{count}} sek",
-    "audioAria": "Talhólfshljóðspilari",
-    "transcriptHeading": "Afrit",
-    "transcriptPending": "Afritar talhólf…",
-    "transcriptFailed": "Afrit ekki tiltækt.",
-    "loading": "Hleður talhólf…",
-    "errorLoading": "Mistókst að hlaða talhólfi.",
-    "empty": "Engin talhólf enn.",
-    "deleteConfirm": "Eyða þessu talhólfi?",
-    "deleteError": "Mistókst að eyða talhólfi.",
-    "markRead": "Merkja sem lesið",
-    "delete": "Eyða",
-    "unreadDotAria": "Ólesið talhólfsmerki"
+  "raddpóstur": {
+    "síðufyrirsögn": "Raddpóstur",
+    "frá": "Frá",
+    "til": "Til",
+    "óþekktur hringjandi": "Óþekktur",
+    "númerið þitt": "Þitt Chatforia-númer",
+    "varir í sekúndum": " {{count}}",
+    "audioAria": "Hljóðuppspilari talhólfsskilaboða",
+    "transcriptHeading": "Upptaka",
+    "transcriptPending": "Að skrifa upp talhólfsskilaboð…",
+    "transcriptFailed": "Upptaka ekki tiltæk.",
+    "loading": "Að hlaða talhólfsskilaboðum…",
+    "errorLoading": "Misheppnað að hlaða talhólfsskilaboðum.",
+    "tómt": "Engar talhólfsskilaboð enn.",
+    "eyðaStaðfesting": "Eyða þessu talhólfsskilaboði?",
+    "eyðaVilla": "Misheppnað að eyða talhólfsskilaboði.",
+    "merktLesið": "Merkt sem lesið",
+    "eyða": "Eyða",
+    "ólesiðPunkturAria": "Vísir á ólesin talhólfsskilaboð"
   },
-  "profile": {
-    "title": "Notandaprófíll",
-    "preferredLanguage": "Valið tungumál",
-    "chooseLanguage": "Velja tungumál",
-    "mustLogin": "Þú verður að skrá þig inn til að skoða stillingar.",
-    "autoTranslate": "Sjálfvirk þýðing skilaboða",
-    "showOriginalWithTranslation": "Sýna upprunaleg og þýdd skilaboð",
-    "showOriginalAndTranslation": "Sýna upprunalegt ásamt þýðingu",
-    "filterExplicit": "Sía óviðeigandi efni",
-    "aiReply": "Gervigreindarsvör",
-    "enableReadReceipts": "Virkja leskvittanir",
-    "allowExplicitContent": "Leyfa óviðeigandi efni",
-    "disappearingMessages": "Virkja sjálfsvinnandi skilaboð",
+  "contactList": {
+    "savedContacts": "Vistaðir tengiliðir",
+    "refreshAria": "Endurnýja tengiliði",
+    "filterPlaceholder": "Sía vistaða tengiliði…",
+    "filterAria": "Sía vistaða tengiliði",
+    "noContactsFound": "Engir tengiliðir fundust.",
+    "externalContact": "Utanaðkomandi tengiliður",
+    "notJoined": "Þessi tengiliður hefur ekki gengið til liðs við Chatforia ennþá.",
+    "couldNotStart": "Ekki var hægt að hefja spjall. Vinsamlegast reyndu aftur.",
+    "startFailed": "Spjallið tókst ekki að hefja. Vinsamlegast reyndu aftur. ",
+    "eytt": "Tengiliður eyddur.",
+    "eyðingMisheppnuð": "Eyðing tengiliðar misheppnuð. Vinsamlegast reyndu aftur.",
+    "nafnbreytt": "Nafn uppfært.",
+    "nafnbreytingMisheppnuð": "Nafnbreyting misheppnuð. Vinsamlegast reyndu aftur.",
+    "veljaTengilið": "Velja {{name}}",
+    "nafn": "Nafn",
+    "byrjaSpjall": "Byrja spjall",
+    "skilaboð": "Skilaboð",
+    "eyða": "Eyða",
+    "eyðaTengiliðAria": "Eyða tengilið",
+    "hleðslaMisheppnuð": "Félst ekki að hlaða tengiliðum. Vinsamlegast reyndu aftur.",
+    "loadMore": "Hlaða fleiri",
+    "call": "Hringja",
+    "callStarted": "Hringja í þennan númer með Chatforia-númerinu þínu…",
+    "callFailed": "Ekki tókst að hefja símtal. Vinsamlegast reyndu aftur."
+  },
+  "addContactModal": {
+    "title": "Bæta við tengilið",
+    "phoneOrUsername": "Símnúmer eða notendanafn",
+    "phoneOrUsernamePlaceholder": "t.d. +13018019227 eða juliannorton",
+    "alias": "Gælunafn (valfrjálst)",
+    "aliasPlaceholder": "e.d. Vinnustaður, Mamma, Mike – Evrópa",
+    "enterPhoneOrUsername": "Sláðu inn símanúmer eða notendanafn.",
+    "userLookupFailed": "Leit að notanda mistókst.",
+    "cannotAddSelf": "Þú getur ekki bætt sjálfum þér við sem tengilið.",
+    "failedToAdd": "Bætti ekki tengilið við.",
+    "add": "Bæta við"
+  },
+  "startChatModal": {
+    "title": "Byrja samtal",
+    "searchPlaceholder": "Leitaðu að nafni, notendanafni eða símanúmeri",
+    "messageThisPerson": "Senda þessum aðila skilaboð",
+    "contacts": "Tengiliðir",
+    "recentInteractions": "Nýleg samskipti",
+    "noContactsMatch": "Engir tengiliðir passa við leitina þína.",
+    "noRecentInteractions": "Engar nýlegar samskipti enn.",
+    "óþekkt": "Óþekkt",
+    "samskiptagerð": {
+      "skilaboð": "Skilaboð",
+      "símtal": "Símtal",
+      "myndband": "Myndband"
+    },
+    "hröð valmynd": "Hröð valmynd",
+    "til": "Til",
+    "nafnEðaNotandanafn": "Sláðu inn nafn eða notendanafn",
+    "nameUsernamePhoneEmail": "Sláðu inn nafn, notendanafn, símanúmer eða netfang…",
+    "startWithSelected": "Byrjaðu spjall við valinn",
+    "searchByUsernameOrPhone": "Leitaðu eftir notendanafni eða símanúmeri",
+    "search": "Leita",
+    "searchPrompt": " Sláðu inn notendanafn eða símanúmer og ýttu á Leita.",
+    "veljaúrsnertum": "Eða velja úr snertum",
+    "bæta við snert": "Bæta við snert",
+    "sýna": "Sýna",
+    "bæta við": "Bæta við",
+    "loka": "Loka",
+    "fjöldi valinna": "{{count}} valdir ",
+    "veljaA.m.k.einn": "Veljaðu að minnsta kosti einn viðtakanda.",
+    "varaathugasemdViðbóta": "Símanúmer/netfang sem þú bætir við sem tengiliði verða tiltæk eftir að þú vistaðir þau.",
+    "villuHópsendingar": "Ekki tókst að hefja spjall við valda viðtakendur.",
+    "enginNiðurstöður": "Engar niðurstöður",
+    "hamur": "Hamar",
+    "hópur": "Hópur",
+    " útsending": "Útsending",
+    "hópnafnValmikið": "Hópnafn (valkvætt)",
+    "fyrstaSkilaboðValmikið": "Fyrsta skilaboð (valkvætt en mælt er með)",
+    "búaTilHóp": "Búa til hóp",
+    " sendaÚtsendingu": "Senda útsendingu"
+  },
+  "fólkissíða": {
+    "fólk": "Fólk",
+    "leit": "Leita",
+    "searchPlaceholder": "Leitaðu í vistaðri tengiliðum eftir gælunafni, nafni, notendanafni eða símanúmeri",
+    "quickStart": "Hraðbyrjun",
+    "quickStartDesc": "Stjórnaðu tengiliðum þínum og bjóða vinum.",
+    "importContacts": "Flytja inn tengiliði þína",
+    "import ": "Flytja inn",
+    "bætaVini": "Bæta vini",
+    "bæta": "Bæta",
+    "boðaVini": "Boða vini",
+    "boðaLýsing": "Deildu boðstenglinum þínum til að byrja að spjalla strax.",
+    "fáForritið": "Fá forritið",
+    "fáForritiðLýsing": "Vertu í sambandi á ferðinni með Chatforia fyrir iOS og Android.",
+    "halaNiður": "Hala niður",
+    "syncTip": "Ábending: Skilaboðin þín haldast samstillt á vef og farsíma.",
+    "filterSaved": "Sía vistaða tengiliði",
+    "noContactsFound": "Engir tengiliðir fundust",
+    "focusSearch": "Leita með fókus",
+    "findOrAdd": "Finndu eða bættu einhverjum við",
+    "leitAðsímanúmeriEðaNotandanafni": "Leita að símanúmeri / notandanafni"
+  },
+  "prófíll": {
+    "titill": "Notendaprófíll",
+    "kjarnmál": "Kjarnmál",
+    "veljaMál": "Velja mál",
+    "skaltInniLogga": "Þú verður að skrá þig inn til að sjá stillingarnar.",
+    "sjálfvirkÞýðing": "Sjálfvirk þýðing á skilaboðum",
+    "sýnaUpprunalegtMeðÞýð lation": "Sýna upprunaleg skilaboð og þýðingu",
+    "showOriginalAndTranslation": "Sýna upprunalegt og þýtt hlið við hlið",
+    "filterExplicit": "Sía klámfengið efni",
+    "aiReply": "Svara frá gervigreind",
+    "enableReadReceipts": "Kveikja á leskvittunum",
+    "allowExplicitContent": "Leyfa klámfengið efni",
+    "disappearingMessages": "Kveikja á skilaboðum sem hverfa",
     "autoDeleteSeconds": "Sekúndur þar til sjálfvirk eyðing",
     "saveSuccess": "Stillingar vistaðar!",
-    "saveError": "Villa: Gat ekki vistað stillingar",
-    "avatarAlt": "Prófílmynd",
-    "uploadAvatar": "Hlaða upp nýrri prófílmynd",
-    "avatarSuccess": "Prófílmynd hlaðið upp!",
-    "avatarError": "Mistókst að hlaða upp prófílmynd",
-    "avatarUpdated": "Prófílmynd uppfærð!",
-    "uploadingAvatar": "Hleður upp prófílmynd…",
-    "noPrivateKey": "Enginn einkalykill er á þessu tæki til að flytja út.",
+    "saveError": "Villa: Ekki var hægt að vista stillingar",
+    "avatarAlt": "Persónuleikamynd",
+    "uploadAvatar": "Hlaða upp nýrri persónuleikamynd",
+    "avatarSuccess": "Persónuleikamynd hlaðin upp!",
+    "avatarError": "Misheppnað að hlaða upp gervi",
+    "avatarUpdated": "Gervi uppfærður!",
+    "uploadingAvatar": "Að hlaða upp gervi…",
+    "noPrivateKey": "Engin einkalykill er á þessu tæki til útflutnings.",
     "setBackupPassword": "Settu lykilorð til að dulkóða afritið þitt:",
-    "backupDownloaded": "Dulkóðað afrit sótt.",
-    "exportFailed": "Lyklaútflutningur mistókst",
-    "enterBackupPassword": "Sláðu inn lykilorðið fyrir þetta afrit:",
-    "importSuccess": "Einkalykill fluttur inn á þetta tæki.",
-    "importFailed": "Mistókst að flytja inn lykil (rangt lykilorð eða skemmd skrá).",
-    "keysRotated": "Nýtt lykilpar búið til og opinber lykill sendur upp.",
-    "rotateFailed": "Mistókst að snúa lyklum.",
-    "security": "Öryggi",
-    "exportKey": "Afrita dulkóðunarlykil",
-    "importKey": "Endurheimta dulkóðunarlykil",
-    "rotateKeys": "Snúa dulkóðunarlykil",
-    "keyDisclaimer": "Einkalykillinn þinn fer aldrei frá þessu tæki. Flyttu út lykilafrit verndað með lykilorði til að endurheimta það á öðru tæki.",
-    "sectionProfile": "Prófíll",
-    "phoneNumber": "Símanúmer",
+    "backupDownloaded": "Dulkóðuðu afritið hlaðið niður.",
+    "exportFailed": "Lykilútflutningur mistókst",
+    "enterBackupPassword": "Sláðu inn lykilorðið fyrir þessa öryggisafritun:",
+    "importSuccess": "Einkalykill fluttur inn á þennan búnað.",
+    "importFailed": "Lykilinnflutningur mistókst (rangt lykilorð eða skemmd skrá).",
+    "keysRotated": "Nýtt lykilpar búið til og opinberi lykillinn hlaðinn upp.",
+    "rotaðist": "Misheppnað að rota lykla.",
+    "öryggi": "Öryggi",
+    "útflutningurlykils": "Afrita dulkóðunarlykil",
+    "innflutningurlykils": "Endurheimta dulkóðunarlykil",
+    "rotaðilykla": "Rota dulkóðunarlykil",
+    "lykilsábyrgð": "Einkalykillinn þinn yfirgefur aldrei þennan búnað. Flytja út lykilorðvarið afrit til að endurheimta það á öðru tæki.",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Símnúmer",
     "appearance": "Útlit",
-    "soundSettings": "Hljóð",
-    "disappearing": "Sjálfsvinnandi skilaboð",
-    "backupSync": "Dulkóðunarlykilafrit",
+    "soundSettings": "Hljóðstillingar",
+    "disappearing": "Eyðandi skilaboð",
+    "backupSync": "Afritun og samstilling",
     "ai": "Gervigreind",
-    "accessibility": "Aðgengileiki",
-    "privacy": "Persónuvernd",
-    "devices": "Tengd tæki",
-    "themeFreeNotice": "Þú ert á ókeypis — notaðu fljótlegu Sun/Moon valmöguleikana hér að neðan. Uppfærðu til að opna fleiri þemu.",
-    "sunTheme": "Nota Dawn þema",
-    "moonTheme": "Nota Moon (Miðnætti) þema",
+    "aðgengi": "Aðgengi",
+    "nauðsyn": "Nauðsyn",
+    "tæki": "Tengd tæki",
+    "ókeypisþemaTilkynning": "Þú ert á ókeypisútgáfu—notaðu skjótar sólar/mána valkosti hér að neðan. Uppfærðu til að opna fleiri þemu.",
+    "sunTheme": "Notaðu Dawn-þema",
+    "moonTheme": "Notaðu Moon (miðnætti) þema",
     "sun": "Sól",
-    "moon": "Tungl",
-    "backupTitle": "Dulkóðuð afrit og tækissamstilling",
-    "openBackupTools": "Opna afritunarverkfæri",
-    "backupDesc": "Afritaðu dulkóðunarlykilinn þinn til að endurheimta skilaboðin þín á öruggan hátt á öðru tæki.",
-    "privacyBlurEnabled": "Mála skilaboð sjálfgefið",
-    "privacyBlurOnUnfocus": "Mála þegar appið er óvirkt",
-    "planSection": "Áætlunin mín",
-    "planLoading": "Hleður áætlun þína…",
-    "planLoadFailed": "Mistókst að hlaða áætlun þína.",
+    "moon": "Máni",
+    "backupTitle": "Dulkóðuð afrit & tækjasamstilling",
+    "openBackupTools": " Opnaðu Backup Tools",
+    "backupDesc": "Búðu til afrit af dulkóðunarlyklinum þínum til að endurheimta skilaboðin þín örugglega á öðru tæki. ",
+    "privacyBlurEnabled": "Óskýrðu skilaboð sjálfgefið",
+    "privacyBlurOnUnfocus": "Óskýrðu þegar forritið er óvirkt",
+    "planSection": "Mín áætlun",
+    "planLoading": "Að hlaða áætluninni þinni…",
+    "planLoadFailed": "Ekki tókst að hlaða áætluninni þinni. ",
     "currentPlan": "Núverandi áætlun",
     "planRenewsOn": "Endurnýjast þann",
-    "freePlanCopy": "Þú ert á ókeypis áætluninni. Uppfærðu til að opna fleiri eiginleika eins og afrit, aukasímanúmer og ítarlegar persónuverndarvalkosti.",
+    "freePlanCopy": "Þú ert á ókeypis áætlun. Uppfærðu til að opna fleiri eiginleika eins og öryggisafrit, auka símanúmer og háþróaðar persónuverndarvalkosti.",
     "upgradePlanCta": "Uppfæra áætlun",
     "changePlanCta": "Breyta áætlun",
-    "manageBilling": "Stjórna greiðslum",
-    "portalOpenFailed": "Gat ekki opnað greiðsluportál. Reyndu aftur.",
-    "holdToReveal": "Haltu til að sýna",
-    "notifyOnCopy": "Tilkynna mér ef skilaboðin mín eru afrituð",
-    "loadFailed": "Mistókst að hlaða prófíl",
-    "followed": "Fylgt",
-    "followFailed": "Mistókst að fylgja",
-    "unfollowed": "Hætt að fylgja",
-    "unfollowFailed": "Mistókst að hætta að fylgja",
+    "manageBilling": "Stjórna gjaldtöku",
+    "portalOpenFailed": "Ekki tókst að opna innheimtugátt. Vinsamlegast reyndu aftur.",
+    "heldiTilAðKynna": "Haltu til að kynna",
+    "tilkynnaViðEftirritun": "Tilkynna mér ef skilaboðin mín eru afrituð",
+    "hleðslaMisheppnuð": "Misheppnuð hleðsla á prófíl",
+    "fylgistMeð": "Fylgist með",
+    "fylgjaMisheppnuð": "Misheppnað að fylgja",
+    "ófylgistMeð": "Ófylgist með",
+    "ófylgjaMisheppnuð": "Tókst ekki að affylgja",
     "follow": "Fylgja",
-    "unfollow": "Hætta að fylgja",
-    "followHint": "Sögur þeirra birtast í Fylgjendafæði þínu ef þeir setja inn með áhorfendum Fylgjendur (eða Opinbert).",
-    "userNotFound": "Notandi fannst ekki",
+    "unfollow": "Affeiga",
+    "followHint": "Sögur þeirra munu birtast í Fylgdarláninu þínu ef þeir birta með áhorfendum Fylgjendur (eða Opinberir).",
+    "userNotFound": "Notandi fundinn ekki",
     "followsYou": "Fylgir þér",
-    "sectionCrashedTitle": "Hluti mistókst að hlaða",
+    "sectionCrashedTitle ": "Hluti mistókst að hlaða",
     "sectionCrashedBody": "Eitthvað fór úrskeiðis í þessum hluta.",
-    "forwarding": "Hringingar- og textaáframsending",
-    "callTextForwardingSection": "Hringingar- og textaáframsending",
-    "callTextForwardingTitle": "Hringingar- og/eða textaáframsending",
-    "callTextForwardingDescription": "Áframsenda innkomandi hringingar og texta til staðfestu símanúmeri eða tölvupósti. Útgönguhringar/textar geta sýnt Chatforia númerið þitt.",
-    "enableTextForwarding": "Virkja textaáframsendingu",
-    "forwardTextsToPhone": "Áframsenda texta til síma",
-    "forwardTextsToEmail": "Áframsenda texta til tölvupósts",
+    "forwarding": "Símtals- og textaskilaboðaflutningur",
+    "callTextForwardingSection": "Símtals- og textaskilaboðaflutningur",
+    "callTextForwardingTitle": "Símtals- og/eða textaskilaboðaflutningur",
+    "callTextForwardingDescription": "Framsetjandi innkomandi símtöl og textaskilaboð á staðfesta símanúmerið þitt eða netfangið þitt. Útgangandi símtöl/textar geta sýnt Chatforia-númerið þitt.",
+    "virkjaTextamiðlun": "Virka textamiðlun",
+    "forwardTextsToPhone": "Framsetja textaskilaboð á símann",
+    "forwardTextsToEmail": "Framsetja textaskilaboð á netfangið",
     "destinationPhone": "Áfangasími (E.164)",
-    "destinationEmail": "Áfangatölvupóstur",
-    "enableCallForwarding": "Virkja hringingaáframsendingu",
-    "destinationPhoneForCalls": "Áfangastaður (E.164) fyrir hringingar",
-    "aliasBridging": "Hringingaáframsending (stuttnefni brú)",
-    "quietHoursOptional": "Kyrrðartími (valfrjálst)",
+    "destinationEmail": "Áfanganetfang",
+    "enableCallForwarding": "Kveikja á hringiháflun",
+    "destinationPhoneForCalls": "Áfangastaður (E.164) fyrir símtöl",
+    "aliasBridging": "Símaleiðsögn (alias-tenging)",
+    "quietHoursOptional": "Þögnartími (valkvætt)",
     "startHour": "Upphafstími (0–23)",
-    "endHour": "Lokastími (0–23)",
+    "endHour": "Lokutími (0–23)",
     "reset": "Endurstilla",
     "saveBtn": "Vista",
-    "saveProfile": "Vista prófíl",
-    "saveForwarding": "Vista áframsendingu",
-    "forwardSaved": "Áframsendingarstillingar vistaðar",
-    "forwardSaveFailed": "Mistókst að vista stillingar",
-    "errE164": "Sláðu inn gilt E.164 símanúmer (t.d. +15551234567).",
-    "errEmail": "Sláðu inn gilt tölvupóstfang.",
-    "errSmsDest": "Veldu að minnsta kosti einn áfangastað (sími eða tölvupóstur).",
-    "errQuietHours": "Kyrrðartími verður að vera á milli 0 og 23.",
-    "randomChat": "Slembispjall",
+    "saveProfile ": "Vista prófíl",
+    "saveForwarding": "Vista framleiðslu",
+    "forwardSaved": "Framleiðslustillingar vistaðar",
+    "forwardSaveFailed": "Ekki tókst að vista stillingar",
+    "errE164": "Sláið inn gilda E.164 símanúmer (t.d. +15551234567).",
+    "errEmail": "Sláðu inn gilt netfang.",
+    "errSmsDest": "Veldu að minnsta kosti einn áfangastað (símann eða netfang).",
+    "errQuietHours": "Kyrrlátt tímabil verður að vera á bilinu 0 til 23.",
+    "randomChat": "Handahófskennd spjall",
     "ageBand": "Aldursbil þitt",
     "ageBandPlaceholder": "Veldu aldursbil þitt",
     "ageTeen": "13–17",
@@ -591,28 +649,28 @@
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Við geymum aðeins aldursbil (ekki nákvæman fæðingardag). Þetta er notað til að halda slembispjallpörunum sanngjörnum.",
-    "wantsAgeFilter": "Nota aldursbundna samsvörun í slembispjalli",
-    "wantsAgeFilterDesc": "Þegar kveikt er á, reynum við að para þig við fólk í samhliða aldursbilum.",
-    "partnerAgeBands": "Hver geturðu verið paraður við?",
-    "partnerAgeBandsDesc": "Unglingar eru alltaf paraðir aðeins við aðra unglinga. Fullorðnir geta ekki verið paraðir við unglinga.",
-    "teenMatchingNote": "Til öryggis geta reikningar á aldrinum 13–17 aðeins verið paraðir við aðra 13–17 reikninga í slembispjalli.",
-    "foriaRemember": "Leyfa Ria að muna hluti sem þú segir henni",
-    "foriaRememberDesc": "Þegar þetta er kveikt á getur Foria notað fyrri slembispjallsamtöl (aðeins með þér) til að halda samtalinu gangandi. Þú getur slökkt á þessu hvenær sem er.",
-    "voicemailSection": "Talhólf",
-    "voicemailEnabled": "Virkja talhólf",
-    "voicemailAutoDeleteDays": "Sjálfvirk eyðing talhólfa eftir (dagar)",
-    "voicemailAutoDeletePlaceholder": "Skildu autt til að halda að eilífu",
-    "voicemailForwardEmail": "Áframsenda talhólf til tölvupósts",
-    "voicemailForwardEmailPlaceholder": "Tölvupóstur til að senda talhólfstilkynningar til",
-    "voicemailGreetingText": "Textabakvarða kveðja",
-    "voicemailGreetingTextDesc": "Notað þegar hljóðkveðja þín er ekki tiltæk.",
-    "voicemailGreetingUpload": "Hlaða upp talhólfskveðju",
-    "voicemailPreviewGreeting": "Forskoða kveðju",
-    "voicemailGreetingUploaded": "Talhólfskveðja hlaðið upp með góðum árangri",
-    "voicemailGreetingUploadError": "Mistókst að hlaða upp talhólfskveðju",
-    "voicemailNote": "Talhólf frá Chatforia númerunum þínum verða geymd í talhólfspósthólfinu þínu. Þú getur virkjað afritun og áframsendingu í studdum áætlunum.",
-    "portHint": "Viltu halda núverandi númeri? Þú getur flutt það inn í Chatforia Wireless.",
+    "ageBandHint": "Við geymum aðeins aldursbil (ekki nákvæman fæðingardag þinn). Þetta er notað til að tryggja sanngjarna paraðsetningu í Handahófskenndri spjallinu.",
+    "wantsAgeFilter": "Notaðu aldursbundna paraðsetningu í Handahófskenndri spjallinu",
+    "wantsAgeFilterDesc": "Þegar þetta er virkt reynum við að para þig við fólk í samhæfum aldursbilum.",
+    "partnerAgeBands": "Hvern getur þú verið paraður við?",
+    "partnerAgeBandsDesc": "Unglingar eru alltaf paraðir eingöngu við aðra unglinga. Fullorðnir geta ekki verið paraðir við unglinga.",
+    "teenMatchingNote": "Til öryggis geta reikningar á aldrinum 13–17 ára aðeins verið paraðir saman við aðra reikninga á aldrinum 13–17 ára í Handahófskenndri spjallinu.",
+    "foriaRemember": "Láttu Ria muna hluti sem þú segir henni",
+    "foriaRememberDesc": "Þegar þetta er virkt getur Foria notað fyrri Handahófskennd spjöll þín (aðeins með þér) til að halda spjallinu gangandi. Þú getur slökkt á þessu hvenær sem er.",
+    "voicemailSection": "Raddpóstur",
+    "voicemailEnabled": "Kveikja á raddpósti",
+    "voicemailAutoDeleteDays": "Eyða raddpóstum sjálfkrafa eftir (daga)",
+    "voicemailAutoDeletePlaceholder": "Látið tómt til að geyma að eilífu",
+    "voicemailForwardEmail": "Framsenda raddpóst á tölvupóst",
+    "voicemailForwardEmailPlaceholder": "Tölvupóstfang til að senda vo icemail notifications to",
+    "voicemailGreetingText": "Text fallback greeting",
+    "voicemailGreetingTextDesc": "Used when your audio greeting is unavailable.",
+    "voicemailGreetingUpload": "Hlaða upp talhólfsheilsun",
+    "voicemailPreviewGreeting": "Forskoða heilsun",
+    "voicemailGreetingUploaded": "Talhólfsheilsun hlaðin upp með góðum árangri",
+    "voicemailGreetingUploadError": "Misheppnað að hlaða upp talhólfsheilsun",
+    "voicemailNote": "Talhólfsskilaboð frá Chatforia-númerunum þínum verða geymd í talhólfsmöppunni þinni. Þú getur virkjað tal-í-texta og áframsendingu í studdum áætlunum.",
+    "portHint": "Viltu halda núverandi númeri þínu? Þú getur flutt það yfir í Chatforia Wireless.",
     "wireless": {
       "manage": "Stjórna þráðlausu"
     },
@@ -620,175 +678,409 @@
       "title": "Chatforia eSIM",
       "desc": "Fáðu farsímagögn fyrir Chatforia þegar þú ert fjarri Wi-Fi.",
       "cta": "Fá eSIM / Sýna QR"
-    }
+    },
+    "encryptedBackupsTitle": "Búnaður til dulkóðunarlykilsafrits"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "hljóð": {
+    "tilkynningahljóð": "Tilkynningahljóð",
+    "endurstilla í sjálfgefið": "Endurstilla í sjálfgefið",
+    "frjálsTilkynningByrjun": "Þú ert á ókeypis — úrvalshljóð eru sýnd en læst. ",
+    "frjálsTilkynningEndi": " til að opna allt.",
+    "messageTone": "Skilaboðatónn",
+    "ringtone": "Hringitóni",
+    "preview": "Forskoðun",
+    " stop": "Stöðva",
+    "volume": "Hljóðstyrkur",
+    "messageToneFilesHint": "Settu skrár í /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Settu skrár í /public/sounds/Ringtones",
+    "premiumRequired": "Þarf Premium fyrir þessa valmöguleika.",
+    "saved": "Hljóðstillingar vistaðar.",
+    "saveFailed": "Ekki hægt að vista hljóðstillingar.",
+    "resetNotSaved": "Endurstillt í sjálfgefin gildi (ekki vistað ennþá).",
+    "premiumTone": "Þetta er Premium tónn.",
+    "premiumRingtone": "Þetta er Premium hringitóna.",
+    "custom ComingSoon": "Möguleiki á að hlaða upp sérsniðnum hljóðum kemur fljótlega.",
+    "freeNotice": "Þú ert á ókeypis áskrift — úrvalshljóð eru sýnd en læst. Uppfærðu til að opna allt.",
+    "default": "Skilgreint",
+    "vibrate": "Hristing",
+    "dreamer": "Draumur",
+    "notify": "Tilkynning",
+    "pop": "Pop",
+    "pulsatingSound": "Púlsandi hljóð",
+    "textMessage": "Skilaboð",
+    "xylófón": "Xylófónn",
+    "klassískur": "Klassískur",
+    "brýni": "Brýni",
+    "klukkur": "Klukkur",
+    "hljómklukkur": "Hljómklukkur",
+    "stafrænt símtal": "Stafrænt símtal",
+    "melódískur": "Melódískur",
+    "orgelnótur": "Orgelnótur",
+    "soundReality": "Hljóðveruleiki",
+    "street": "Gata",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Stjórna þýðingu, snjallsvörum og sjálfvirkum svörum ForiaBot.",
+    "translation": "Þýðing",
+    "autoTranslateIncoming": "Sjálfvirk þýðing á innkomandi skilaboðum",
+    "showOriginalAlongside": "Sýna upprunalegan texta við hlið þýðingar",
+    "smartReplies": "Snjallsvör ",
+    "enableSmartReplies": "Kveikja á snjallsvörunum",
+    "smartRepliesHint": "Senda síðustu fáein mótteknu skilaboðin (hreinsuð) til gervigreindarinnar til að stinga upp á skjótum svörum.",
+    "maskProfanity": "Fela óviðeigandi orð í tillögum gervigreindarinnar",
+    "maskProfanityHint": "Ef kveikt er, verða merkt orð í tillögum gervigreindarinnar dulbúin ",
+    "foriaBot": "ForiaBot sjálfvirk svörun",
+    "enableAutoReply": "Kveikja á sjálfvirkri svörun þegar ég er upptekinn",
+    "autoReplyMode": "Sjálfvirk svörunarstilling",
+    "cooldownSeconds": "Bíltími (sekúndur)",
+    "undirskrift": "Undirskrift",
+    "sjálfvirk svar": "🤖 Sjálfvirk svar",
+    "virkurÞangaðTilValfrjálst": "Virkur til (valfrjálst)",
+    "vista": "Vista AI-stillingar",
+    "vistað": "AI-stillingar vistaðar",
+    "vistun misheppnuð": " Tókst ekki að vista AI-stillingar",
+    "translateOff": "Af",
+    "translateTagged": "Aðeins þegar @þýtt eða merkt",
+    "translateAll": "Þýða allar innkomandi skilaboð ",
+    "modeDm": "Aðeins 1:1 spjall",
+    "modeMention": "Aðeins þegar ég er @nefndur",
+    "modeAll": "Öll innkomin skilaboð",
+    "off": "Slökkt",
+    "on": "Kveikt"
+  },
+  "aðgengisstillingar": {
+    "titill": "Aðgengi & Viðvaranir",
+    "loadFailed": "Ekki tókst að hlaða stillingum",
+    "accessibilityDesc": "Valmöguleikar til að gera Chatforia auðveldara í notkun án þess að treysta á hljóð.",
+    "interfaceFontSize": "Leturstærð viðmóts",
+    "interfaceFontSizeHelp": "Byggir á venjulegri stærð. Auka ef þú vilt stærra letur.",
+    "tilkynningar": "Tilkynningar",
+    "sjónrænarViðvaranir ": "Sjónrænar tilkynningar fyrir skilaboð & símtöl",
+    "visualAlertsDesc": "Sýnir borða og titil sem blikka svo þú missir ekki af virkni.",
+    "vibrateOnNewShort": "Hristir við ný skilaboð (þegar stuðningur er fyrir hendi)",
+    "vibrateOnNewDesc": "Kveikir á titringi tækisins með tilkynningum.",
+    "flashOnCallShort": "Ljósblossi á skjánum við innhringingar",
+    "flashOnCallDesc": "Stuttur bjart flassi þegar símtal hringir.",
+    "liveCaptionsTitle ": "Rauntímatextar (í símtölum)",
+    "enableLiveCaptions": "Kveikja á rauntímatextum í símtölum (Premium)",
+    "liveCaptionsDesc": "Sýna rauntímatexta úr hljóði hins aðilans.",
+    "captionFontSize": "Stærð leturs rauntímatexta",
+    "captionBackground": "Bakgrunnur rauntímatexta",
+    "voiceNotes": "Raddnótur",
+    "autoTranscribeVoiceNotes": "Rita sjálfkrafa upp talnótur",
+    "autoTranscribeVoiceNotesDesc": "Hengja viðritun við hljóðskilaboð sem þú færð.",
+    "changesSavedInstantly": "Breytingar vistast samstundis.",
+    "sm": "Lítill",
+    "md": "Miðlungs",
+    "lg": "Stór",
+    "xl": " Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Aðgengi",
+    "notificationsDesc": "Sjónrænar tilkynningar fyrir skilaboð og símtöl\nSýna borða og titil sem blikka svo þú missir ekki af neinu.",
+    "vibrateOnNew": "Hristir við ný skilaboð (þegar það er studd)\nKveikir á titringi tækisins með tilkynningum.",
+    "flashOnCall": "Birta skjá við innhringingar\nStutt, bjart flassi þegar hringing hringir.",
+    "liveCaptions": "Rauntímatexti (hringingar)"
+  },
+  "privacySection": {
+    "strictE2EE": "Ströng end-to-end dulkóðun",
+    "ciphertextOnlyNote": "Vista eingöngu dulkóðaðan texta á netþjóninum. Óvirkjar gervigreind/ Þýðing og forsýning miðlunar.",
+    "strictE2EEEnabled": "Ströng E2EE virkjuð. AI/Þýðing verður óvirk.",
+    "strictE2EEDisabled": "Ströng E2EE afvirkjuð. AI/Þýðing virkjuð aftur."
+  },
+  "linkedDevicesPanel": {
+    "title": "Tengd tæki",
+    " nonefound": "Engin tengd tæki fundin.",
+    "refresh": "Endurnýja",
+    "unknown": "Óþekkt",
+    "loadFailed": "Misheppnað að hlaða tengdum tækjum",
+    "loadFailedLog": "Misheppnað að hlaða tengdum tækjum",
+    "renamePrompt": "Sláðu inn nýtt nafn fyrir þetta tæki",
+    "renamed": "Tækið endurnefnt",
+    "renameFailed": " Tókst ekki að endurnefna tækið",
+    "afturkallað": "Tækið hefur verið afturkallað",
+    "tókst ekki að afturkalla": "Tókst ekki að afturkalla tækið",
+    "ónefnt tæki": "Ónefnt tæki",
+    "aðal": "Aðal",
+    "afturköllunarstaða": "Afturkallað",
+    "bætt við síðast séð": "Bætt við {{created}} • Síðast séð {{lastSeen}}",
+    " renameDevice": "Endurnefna tæki",
+    "revokeDevice": "Fella úr gildi tæki"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Stjórna Chatforia farsímaáætlun, númerum, áframsendingu og númeraflutningi.",
-    "options": {
-      "heading": "Veldu hvernig þú vilt nota Chatforia",
-      "subheading": "Þú getur fengið nýtt Chatforia númer eða flutt inn núverandi númer frá öðrum símafyrirtæki.",
-      "newNumber": "Fá nýtt Chatforia númer",
-      "portNumber": "Flytja núverandi númer inn í Chatforia Wireless"
+    "lýsing": "Stjórnaðu farsímaplaninu þínu hjá Chatforia, númerum, framvísun og númeraflutningi.",
+    "valkostir": {
+      "yfirskrift": "Veldu hvernig þú vilt nota Chatforia",
+      "undirsrkrift": "Þú getur fengið nýtt Chatforia-númer eða flutt núverandi númer frá öðrum þjónustuveitanda.",
+      "newNumber": "Fá nýtt Chatforia-númer",
+      "portNumber": "Flytja núverandi númer yfir í Chatforia Wireless"
     },
     "port": {
       "heading": "Flytja núverandi númer",
-      "subheading": "Flyttu núverandi símanúmerið þitt frá núverandi símafyrirtæki inn í Chatforia. Gakktu úr skugga um að upplýsingarnar passi nákvæmlega við reikninginn þinn hjá símafyrirtækinu til að forðast tafir.",
-      "phoneNumberLabel": "Símanúmer til að flytja",
+      "subheading": "Flytjaðu núverandi símanúmer frá núverandi þjónustuveitanda yfir í Chatforia. Gakktu úr skugga um að upplýsingarnar samræmist reikningi þínum hjá þjónustuveitandanum nákvæmlega til að forðast töf.",
+      "phoneNumberLabel": "Símanúmer til flutnings",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "Núverandi símafyrirtæki",
-      "carrierPlaceholder": "Verizon, AT&T, T-Mobile o.s.frv.",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, o.s.frv.",
       "accountNumberLabel": "Reikningsnúmer",
-      "pinLabel": "Flutnings PIN / lykilorð",
-      "fullNameLabel": "Fullt nafn á reikningi",
-      "address1Label": "Heimilisfang lína 1",
-      "address2Label": "Heimilisfang lína 2 (valfrjálst)",
+      "pinLabel": "Útskriftarkóði / lykilorð",
+      "fullNameLabel": "Fullt nafn á reikningnum",
+      "address1Label": "Heimilisfangslína 1",
+      "address2Label": "Heimilisfangslína 2 (valkvætt)",
       "cityLabel": "Borg",
-      "stateLabel": "Ríki / Hérað",
-      "postalCodeLabel": "Póstnúmer",
-      "countryLabel": "Land",
+      "stateLabel ": "Ríki / fylki",
+      "póstnúmerLabel": "Póstnúmer",
+      "landLabel": "Land",
       "submitButton": "Senda flutningsbeiðni",
       "success": "Flutningsbeiðni send! Við munum halda þér upplýstum.",
       "genericError": "Eitthvað fór úrskeiðis."
     },
     "status": {
-      "heading": "Flutningsstaða",
-      "subheading": "Fylgstu með stöðu númeraflutningsbeiðna þinna.",
-      "loading": "Hleður…",
-      "loadError": "Mistókst að hlaða flutningsbeiðnum.",
-      "none": "Engin flutningsvirkni enn.",
-      "pending": "Í bið eftir yfirferð",
-      "submitted": "Sent til símafyrirtækis",
-      "inProgress": "Í vinnslu",
-      "completed": "Lokið",
-      "failed": "Mistókst",
-      "canceled": "Hætt við",
-      "created": "Búið til:",
-      "scheduled": "Áætlað:",
-      "completedAt": "Lokið:"
+      "heading": " Staða flutnings",
+      "undirhaus": "Fylgstu með stöðu beiðna um númeraflutning.",
+      "hleðsla": "Að hlaða…",
+      "hleðslufeilar": "Misheppnað að hlaða flutningsbeiðnir.",
+      "engin": "Engin flutningsvirkni enn.",
+      "í bið": "Í bið eftir yfirferð",
+      "lögð fram": "Sent til netfyrirtækis",
+      "í vinnslu": "Í vinnslu",
+      "lokið": "Lokið:",
+      "mistókst": "Mistókst",
+      "aflýst": "Aflýst",
+      "búið til": "Búið til:",
+      "áætlað": "Áætlað:"
     },
-    "dataLow": "Gögnin þín eru að klárast.",
-    "topUp": "Fylltu á núna",
-    "expiresIn": "Rennur út eftir {{days}} daga",
-    "exhausted": "Gögnin þín eru búin. Kauptu nýtt pakka til að halda áfram að nota farsímagögn.",
-    "buyPack": "Kaupa gagnapakka",
-    "esimPackLabel": "eSIM pakki"
+    "gagnaLow": "Gögnin þín eru að klárast.",
+    "topUp": "Endurnýjaðu núna",
+    "rútarEftir": "Rútar eftir {{days}} daga",
+    "uppurinn": "Gögnin þín eru búin. Kaupðu nýjan pakka til að halda áfram að nota farsímagögn.",
+    "kaupaPack": "Kaupa gagnapakka",
+    "es imPackLabel": "eSIM-pakki"
   },
-  "family": {
-    "title": "Fjölskylda",
-    "loading": "Hleður fjölskylduupplýsingum þínum…",
-    "error": {
-      "load": "Mistókst að hlaða fjölskylduupplýsingum.",
-      "invite": "Gat ekki búið til boð. Gakktu úr skugga um að þú sért fjölskyldueigandi og reyndu aftur.",
-      "checkout": "Við gátum ekki byrjað greiðslu fyrir fjölskylduáætlun. Reyndu aftur."
+  "phoneNumberManager": {
+    "veljaNúmer": "Velja númer",
+    "símnúmer": "Símnúmer",
+    "laustNúmer": "Laust númer",
+    "premiumNúmer": "Premium númer 🔒",
+    "áminningUmÓkeypisNúmer": "Ókeypis númer sem gæti verið endurtekið eftir kyrrsetu.",
+    "áminningUmPremiumNúmer": "Varðveittu númerið þitt á meðan Premium áskriftin þín er virk.",
+    "land": "Land",
+    "símtalasvæði": "Símtalasvæði",
+    "símtalasvæðiplásshalder": "t.d., 415",
+    "geta": "Getu",
+    "leit": "Leit",
+    "læsaÞessuNúmeri": "Læsa þessu númeri (vikuleg viðbót, kemur fljótlega)",
+    "premiumProtectedHint": "Premium-númer eru varin gegn endurvinnslu á meðan Premium-áskriftin þín er virk.",
+    "availableNumbers": "Laust númer",
+    "searchHint": "Sláðu inn þriggja stafa svæðiskóða (US/CA eingöngu), eða skildu eftir tómt, og leitaðu.",
+    "keep": "Geymdu",
+    "select": "Veldu",
+    "úthlutaNúmeriFyrst": "Úthlutaðu númeri fyrst.",
+    "PremiumGeymslaEiginleiki": "Að geyma númerið þitt er Premium-eiginleiki.",
+    "LæsingarPremiumEiginleiki": "Að læsa númerum er Premium-eiginleiki.",
+    "númerÚthlutað": "Númer úthlutað. ",
+    "númerVerndaðNú": "Númerið þitt er nú verndað.",
+    "númerVerndað": "Númer verndað.",
+    "númerÓverndað": "Númer óverndað.",
+    "númerLosað": "Númer losað.",
+    "gætiEkkiHlaðiðNúmerum": "Tókst ekki að hlaða númerum.",
+    "couldNotAssign": "Tókst ekki að úthluta því númeri. Það gæti hafa verið nýlega tekið—reyndu annað.",
+    "couldNotLease": "Tókst ekki að leigja það númer. Það gæti hafa verið nýlega tekið—reyndu annað.",
+    "couldNotProtectNow": " Getur ekki verndað númerið þitt núna.",
+    "couldNotProtect": "Getur ekki verndað númerið.",
+    "couldNotUnprotect": "Getur ekki aflétt vernd á númerinu.",
+    "couldNotRelease": "Getur ekki losað númerið.",
+    "invalidAreaCode": "Vinsamlegast sláðu inn þriggja stafa svæðiskóða (t.d. 415) eða skilðu eftir tómt.",
+    "noInventory": "Engar birgðir tiltækar núna.",
+    "noFreeNumbers": "Engar lausa númer tiltækar núna.",
+    "noInventoryAreaCode": "Engar birgðir tiltækar fyrir þennan svæðiskóða núna.",
+    "noFreeNumbersAreaCode": "Engin lausa númer í úrvali okkar fyrir þennan svæðiskóða núna.",
+    "releaseConfirm": "Losa númerið þitt? Það gæti verið úthlutað einhverjum öðrum.",
+    "unprotect": "Óvernda",
+    "keepThisNumber": "Haltu þessu númeri",
+    "skipta": "Skipta",
+    "losa": "Losa",
+    "virkur": "Virkur",
+    "ekkert númer": "Ekkert númer",
+    "premium-eiginleiki": "Premium-eiginleiki",
+    "verndaðu númerið þitt": "Verndaðu númerið þitt",
+    "protected": "Verndað",
+    "notProtected": "Óverndað",
+    "expiresInShort": "Rennur út eftir {{count}} d",
+    "expiresInDaysFull": "Rennur út eftir {{count}} daga",
+    "expiringShort": "Rennur út eftir {{suffix}}",
+    "renewsOn": "Endurnýjast {{date}}",
+    "releaseWarning": "Númerið þitt gæti verið losað eftir {{count}} daga. Uppfærðu í Premium til að halda því verndu. ",
+    "pickNumberHint": "Veldu Chatforia-númer til að nota fyrir skilaboð og samskipti í forritinu.",
+    "unableToLoadStatus": "Ekki hægt að hlaða stöðu símanúmers.",
+    "lock": "Læst",
+    "noNumberAssigned": "Engu númeri úthlutað. Veldu eitt með svæðisnúmeri til að byrja að senda skilaboð."
+  },
+  "dialer": {
+    "title": "Símtöl",
+    "Undirtitill": "Tölustafaforrit & nýjustu símtöl. (Ef þú notar ekki PSTN, byrjaðu símtöl úr samtalshaus.)",
+    "sláinnúmer": "Sláðu inn númer",
+    "enterNumberAria": "Sláðu inn númer",
+    "resolving": "Að leysa markmið hringingar…",
+    "call": "Hringja",
+    "callBrowser": "Hringja í gegnum vafrann",
+    "backspace": "Eyða bókstaf",
+    "recents": "Nýjustu símtöl",
+    "noRecents": "Engar nýlegar símhringingar enn.",
+    "resolveFailed": "Ekki var hægt að finna hringingarmarkmiðið.",
+    "callRequiredNumber": "Þú þarft Chatforia-númer áður en þú hringir í síma.",
+    "callFailed": "Ekki var hægt að hringja.",
+    "eyðaStaðfesta": "Eyða þessu símtali úr nýlegum símtölum?",
+    "eyðaMisheppnað": "Ekki hægt að eyða símtalinu.",
+    "eyðaMisheppnaðSkrá": "Misheppnað að eyða símtalinu",
+    "útgangandi": "Útgangandi",
+    "inngangandi": "Inngangandi",
+    "fellt": "Fellt",
+    "frestað": "Frestað",
+    "misheppnað": "Misheppnað",
+    "lokið": "Lokið",
+    "útkall": "Útkall",
+    "innkall": "Innkall",
+    "raddaðskilaboð": "Raddaðskilaboð",
+    "callAria": "Símtal {{name}}",
+    "eyðaAria": "Eyða símtali með {{name}}",
+    "engirNýjustuSímtöl": "Engin nýleg símtöl enn.",
+    "lykill": "Lylla {{d}}"
+  },
+  "símtalasaga": {
+    "titill": "Símtöl",
+    "undirtitill": "Nýjustu innhringingar og úthringingar.",
+    "hleðslaMisheppnuð": "Ekki hægt að hlaða símtalasögu.",
+    "loadFailedTitle": "Ekki hægt að hlaða símtalasögu",
+    "emptyTitle": "Engin símtöl ennþá",
+    "emptySubtitle": "Nýjustu símtölin þín munu birtast hér.",
+    "útkall": "Útkall",
+    "innkall": "Innkall",
+    "ósvöruð": "Ósvöruð",
+    "fráhöndnuð": "Fráhöndnuð",
+    "misheppnuð": "Misheppnuð",
+    "lokið": "Lokið",
+    "raddpóstur": "Raddpóstur"
+  },
+  "myndband": {
+    "miðstöð": {
+      "titill": "Myndband",
+      "undirskrift": "Veldu tegund myndbands."
     },
-    "billing": {
-      "myPlanTitle": "Áætlunin mín",
-      "myPlanError": "Gat ekki hlaðið áætlun þína.",
-      "myPlanLoading": "Hleður áætlun þína…",
-      "currentPlan": "Núverandi áætlun",
-      "renewsAt": "Endurnýjast þann",
-      "freePlanCopy": "Þú ert á ókeypis áætluninni. Uppfærðu til að opna fleiri eiginleika.",
-      "upgradeCta": "Uppfæra áætlun",
-      "changePlanCta": "Breyta áætlun",
-      "manageBilling": "Stjórna greiðslum",
-      "portalError": "Gat ekki opnað greiðsluportál núna.",
-      "cancelNow": "Hætta núna",
-      "cancelNowHelp": "Þú getur stjórnað eða hætt við áskrift í greiðsluportálinu eða hætt strax hér að neðan.",
-      "cancelNowConfirm": "Ertu viss um að þú viljir hætta við áætlunina strax? Þetta er ekki hægt að afturkalla.",
-      "cancelNowError": "Gat ekki hætt við áætlunina núna. Reyndu aftur eða notaðu Stjórna greiðslum."
+    "beint": {
+      "titill": "Beint myndband",
+      "undirskrift": "Byrjaðu 1:1 myndsímtal við annan notanda.",
+      "desc": "1:1 myndsímtal við annan notanda.",
+      "start": "Byrja",
+      "callBtn": "Hringja",
+      "callByPhone": {
+        "title": "Hringja í síma"
+      },
+      "phone": {
+        "placeholder": "Sláðu inn símanúmer (t.d., +1-555-123-4567)",
+        "aria": "Símtal til að hringja í"
+      },
+      "tipInvite": "Ábending: Límaðu inn númer og hringdu án þess að vista tengilið. Við munum senda óskráðum notendum boð með hlekk.",
+      "findUser": {
+        "title": "Finndu notanda"
+      },
+      "search": {
+        "placeholder": " Leitaðu eftir nafni eða notendanafni",
+        "aria": "Leitaðu eftir nafni eða notendanafni",
+        "btn": "Leita"
+      }
     },
-    "none": {
-      "title": "Engin fjölskylda sett upp enn",
-      "body": "Til að búa til Chatforia fjölskyldu og sameigin gagnasafn, byrjaðu fjölskylduáætlun.",
-      "goUpgrade": "Byrja fjölskylduáætlun",
-      "viewPlans": "Skoða allar áætlanir"
+    "herbergin": {
+      "titill": "Herbergi",
+      "undirskrift": "Búðu til herbergi eða tengstu núverandi með því að slá inn sama nafn.",
+      "desc": "Myndbandsfundur með mörgum þátttakendum með sameiginlegu herbergisnafni.",
+      "roomLabel": "Herbergisnafn",
+      " roomPlaceholder": "t.d. team-standup",
+      "roomAria": "Herbergisnafn",
+      "joinCreate": "Ganga í / Búa til",
+      "tip": "Ábending: deildu þessu nafni með öðrum, eða búa til djúptengil að"
     },
-    "group": {
-      "defaultName": "Chatforia fjölskylda mín",
-      "role": "Hlutverk þitt: {{role}}"
-    },
-    "role": {
-      "owner": "Eigandi",
-      "member": "Meðlimur"
-    },
-    "data": {
-      "heading": "Sameigin gagnasafn",
-      "caption": "Allir meðlimir deila þessu safni. Við munum vara þig við þegar þú nálgast takmörkin."
-    },
-    "members": {
-      "title": "Fjölskyldumeðlimir",
-      "name": "Nafn",
-      "role": "Hlutverk",
-      "usage": "Notkun",
-      "limit": "Takmörk",
-      "unlimited": "Engin sérstök takmörk",
-      "inviteCta": "Bjóða meðlimi"
-    },
-    "invite": {
-      "title": "Bjóða nýjum meðlimi",
-      "body": "Sendu tölvupóst eða hlekk til að bjóða einhverjum inn í sameigin fjölskyldugagnasafn þitt.",
-      "emailLabel": "Tölvupóstur (valfrjálst)",
-      "emailPlaceholder": "vinur@dæmi.is",
-      "create": "Búa til boð",
-      "linkLabel": "Boðshlekkur",
-      "copyAria": "Afrita boðshlekk",
-      "expiryHint": "Þessi hlekkur rennur út eftir nokkra daga. Þú getur alltaf búið til nýjan."
-    },
-    "join": {
-      "title": "Ganga í fjölskyldu",
-      "body": "Þér hefur verið boðið að ganga í Chatforia fjölskyldu og deila gagnasafni þeirra.",
-      "cta": "Samþykkja og ganga í fjölskyldu",
-      "ctaLogin": "Skrá inn og ganga í fjölskyldu",
-      "success": "Þú hefur gengið í þessa fjölskyldu. Þú deilir nú gagnasafni þeirra.",
-      "goFamily": "Fara á fjölskyldustjórnborð",
-      "error": "Við gátum ekki bætt þér við þessa fjölskyldu. Boðið gæti verið ógilt eða útrunnið."
-    }
+    "title": "Myndband",
+    "chooseType": "Veldu myndbandsgerð.",
+    "directTitle": "Beint myndband",
+    "directDesc": "1:1 myndavélarsímtal við annan notanda.",
+    "directStart": "Byrja",
+    "roomsTitle": "Herbergi",
+    "roomsDesc": "Myndbandsfundur með mörgum þátttakendum með sameiginlegu herbergisnafni.",
+    "roomsIntro": "Taktu þátt í eða búaðu til herbergi fyrir marga.",
+    "roomNameLabel": "Herbergisnafn",
+    "roomNamePh": "t.d. team-standup",
+    "join": "Taka þátt",
+    "deeplinkTip": "Ábending: þú getur sett beinan dýptartengil beint á <code>/video?room=herbergisnafn</code>."
+  },
+  "directVideo": {
+    "intro": "Hafaðu beint 1:1 myndsímtal.",
+    "findUserLabel": "Finndu notanda",
+    "findUserPh": "Leitaðu eftir nafni eða notendanafni",
+    "search": "Leita",
+    "call": "Hringja"
+  },
+  "phoneWarning": {
+    "title": "Númerið þitt rennur út fljótlega",
+    "body": "Númerið þitt {{number} } verður úrelt þann {{date}} nema það verði endurvirkjað.",
+    "hnappur": "Halda númerinu mínu"
   },
   "premium": {
-    "heading": "Fáðu Premium",
-    "description": "Opnaðu kraftmikla eiginleika og fjarlægðu auglýsingar.",
+    "yfirskrift": "Fáðu Premium",
+    "lýsing": "Opnaðu öflugar aðgerðir og fjarlægðu auglýsingar.",
     "cta": "Uppfæra",
-    "upgrade": "Uppfæra",
-    "upgradeAria": "Uppfæra í Chatforia Premium"
+    "uppfæra": "Uppfæra",
+    "uppfæraAria": "Uppfæra í Chatforia Premium"
   },
   "upgrade": {
     "title": "Uppfæra",
     "titleLoggedIn": "Uppfæra",
-    "titlePublic": "Verðlag",
-    "h1": "Chatforia verðlag og áætlanir",
-    "h1Subtitle": "Byrjaðu með ókeypis, auglýsingastuddri áætlun. Farðu auglýsingalaus með Plus eða opnaðu fulla kraftmikla eiginleika með Premium.",
-    "subtitle": "Veldu appáætlun, bættu við gagnapökkum fyrir sjálfan þig eða deildu gögnum með fjölskyldu þinni — allt á einum stað.",
-    "subtitle.app": "Byrjaðu með ókeypis, auglýsingastuddri áætlun. Farðu auglýsingalaus með Plus eða opnaðu fulla kraftmikla eiginleika með Premium.",
-    "subtitle.mobile": "Bættu við alþjóðlegum eSIM gögnum svo Chatforia virki jafnvel þegar þú ert fjarri Wi-Fi.",
-    "subtitle.family": "Búðu til sameigin gagnasafn fyrir fjölskyldu þína og stjórnaðu notkun allra á einum stað.",
-    "perMonth": "má",
-    "perYear": "ár",
-    "goPremium": "Fáðu Premium",
-    "benefitsLine": "Opnaðu kraftmikla eiginleika og fjarlægðu auglýsingar.",
+    "titlePublic": "Verðlagning",
+    "h1": "Chatforia verðlagning og áætlanir",
+    "h1Subtitle": "Byrjaðu með ókeypis áætlun með auglýsingum. Vertu án auglýsinga með Plus, eða opnaðu aðgang að fullum afli með Premium.",
+    "subtitle": "Veldu áskriftaráætlun, bættu við gagnapakka fyrir þig, eða deildu gögnum með fjölskyldunni — allt á einum stað.",
+    "subtitle.app": "Byrjaðu með ókeypis áætlun okkar með auglýsingum. Farðu auglýsingalaus með Plus, eða opnaðu alla afköst með Premium.",
+    "subtitle.mobile": "Bættu við alþjóðlegum eSIM-gögnum svo Chatforia haldi áfram að virka jafnvel þegar þú ert utan Wi-Fi.",
+    "subtitle.family": "Búðu til sameiginlegan gagnapott fyrir fjölskylduna þína og stjórnaðu notkun allra á einum stað.",
+    "perMonth": "mo",
+    "perYear": "year",
+    "goPremium": "Fara í Premium",
+    "benefitsLine": "Opnaðu öflugar aðgerðir og fjarlægðu auglýsingar.",
     "ctaText": "Uppfæra",
     "aria": "Uppfæra í Chatforia Premium",
     "toggle": {
-      "monthly": "Mánaðarlega",
-      "annual": "Árlega (Spara 30%)"
+      "monthly": "Mánaðarlegt",
+      "annual": "Árlegt (Sparaðu 30%)"
     },
     "scheduleBanner": {
-      "title": "Áskrift rennur út",
-      "body": "Þú ferð aftur í ókeypis þann",
-      "keepPlanCta": "Halda {{plan}}",
-      "manageBillingCta": "Stjórna greiðslum"
+      "title": "Áskriftinni lýkur",
+      "body": "Þú munt fara aftur í ókeypis á",
+      "keepPlanCta": "Halda áfram með {{plan}}",
+      "manageBillingCta": "Stjórna gjaldtöku"
     },
     "billing": {
-      "opening": "Opnar…",
-      "manage": "Stjórna greiðslum"
+      "opening": "Opnun…",
+      "manage ": "Stjórna gjaldmiðlum"
     },
-    "checkout": {
-      "redirecting": "Endurbeindir…"
+    "greiðsluáætlun": {
+      "endurbeina": "Að endurbeina…"
     },
-    "auth": {
-      "continue": "Halda áfram til innskráningar",
-      "createAccount": "Búa til reikning",
-      "signIn": "Skrá inn"
+    "auðkenning": {
+      "halda áfram": "Halda áfram innskráningu",
+      "búa til reikning": "Búa til reikning",
+      "skrá sig inn": " Skrá sig inn"
     },
     "cta": {
       "aria": "Velja áætlun",
@@ -797,199 +1089,191 @@
       "upgradeAnnual": "Uppfæra árlega"
     },
     "section": {
-      "app": "Appáætlanir",
-      "mobile": "Farsími (eSIM)",
+      "app": "Áætlanir fyrir app",
+      "mobile": "Snjallsími (eSIM)",
       "family": "Fjölskylduáætlanir"
     },
-    "plans": {
-      "free": {
-        "title": "Ókeypis",
-        "price": "$0",
-        "desc": "Byrjaðu að senda skilaboð ókeypis. Fullkomið ef þú ert bara að prófa Chatforia.",
-        "features": {
-          "chat": "Rauntíma 1:1 og hópaspjall, auk hringinga og myndfundir",
-          "media": "Deila myndum, raddskilaboðum og stuttum myndböndum",
-          "ai": "Gervigreindarsnjall svör og samstundis þýðing (sanngjörn notkun)",
-          "disappearing": "Sjálfsvinnandi skilaboð og grunn persónuverndarstýringar",
-          "ads": "Ókeypis að eilífu með auglýsingum í appinu"
+    "áætlanir": {
+      "ókeypis": {
+        "titill": "Ókeypis",
+        "verð": "0 $",
+        "lýsing": "Byrjaðu að senda skilaboð ókeypis. Tilvalið ef þú ert bara að prófa Chatforia.",
+        "eiginleikar": {
+          "spjall": "Rauntíma 1:1 og hópsspjall, auk radd- og myndsímtala",
+          "media": "Deila myndum, talnótum og stuttum myndböndum",
+          "ai": "Snjall svör knúin áfram af gervigreind og tafarlaust þýðing (sanngjörn notkun)",
+          "disappearing": "Skilaboð sem hverfa og grunn persónuverndarstýringar",
+          "ads": "Ókeypis að eilífu með auglýsingum í forritinu "
         },
-        "ctaCurrent": "Núverandi áætlun",
-        "ctaManage": "Stjórna í greiðslum",
-        "ctaPublic": "Byrjaðu – halda áfram til innskráningar",
-        "aria": "Ókeypis áætlun"
+        "ctaCurrent": "Núverandi áskrift",
+        "ctaManage": "Stjórna í innheimtu",
+        "ctaPublic": "Hafna – halda áfram innskráningu",
+        "aria": "Ókeypis áskrift"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Allt nauðsynlegt, án auglýsinga. Fullkomið fyrir daglegt skilaboð og hringingar.",
+        "desc": "Allt það nauðsynlegasta, án auglýsinga. Frábært fyrir dagleg skilaboð og símtöl.",
         "features": {
-          "allFree": "Allt í ókeypis, án auglýsinga",
-          "forwarding": "Áframsenda hringingar og texta til raunverulegs símanúmeris þíns",
-          "history": "Lengri skilaboðasaga (allt að 6 mánuðir)",
-          "support": "Hraðari stuðningur þegar eitthvað fer úrskeiðis"
+          "allFree": "Allt í ókeypis útgáfunni, án auglýsinga",
+          "forwarding": "Framsetja símtöl og skilaboð á raunverulega símanúmerið þitt",
+          "history": "Lengra skilaboðasaga (allt að 6 mánuðum)",
+          "support": "Fljótari þjónustuþing þegar eitthvað fer úrskeiðis"
         },
-        "badge": "Vinsælt",
-        "cta": "Fáðu auglýsingalaust",
-        "ctaPublic": "Fáðu Plus – halda áfram til innskráningar",
+        "badge": "Vinsæll",
+        "cta": "Fara án auglýsinga",
+        "ctaPublic": "Fá Plus – halda áfram innskráningu",
         "aria": "Uppfæra í Plus"
       },
       "premiumMonthly": {
-        "title": "Premium (mánaðarlega)",
+        "title": "Premium (Mánaðarlegt)",
         "price": "$11.99",
-        "desc": "Full Chatforia upplifun: Gervigreindar verkfæri, sérsniðning og forgangsstuðningur.",
-        "features": {
+        "desc": "Heildarupplifun Chatforia: öflug AI-verkfæri, sérsniðning og forgangsstuðningur.",
+        "eiginleikar": {
           "plusAll": "Allt í Plus",
-          "themes": "Opnaðu öll úrvals litþemu og app sérsniðningar",
-          "ai": "Premium-aðeins gervigreindar kraftverkfæri fyrir endurskrif, snjall svör og samantektir",
-          "support": "Forgangsstuðningur þegar þú þarft hjálp mest"
+          "þemu": "Opnaðu öll úrvals litasnið og forritanpassanir",
+          "ai": "Premium-einstök gervigreindartól fyrir endurskrif, snjall svör og yfirlitsatriði",
+          "stuðningur": "Forystustuðningur þegar þú þarft mest á honum að halda"
         },
-        "badge": "Mælt með",
-        "cta": "Uppfæra (mánaðarlega)",
-        "ctaPublic": "Opna Premium – halda áfram til innskráningar",
+        "merki": "Mælt með",
+        "cta": "Uppfærsla (Mánaðarleg)",
+        "ctaPublic": "Læstu upp Premium – haltu áfram að skrá þig inn",
         "aria": "Uppfæra í Premium mánaðarlega"
       },
-      "premiumAnnual": {
-        "title": "Premium (árlega)",
+      "premiumAnnuellt": {
+        "title": "Premium (Árlegt)",
         "price": "$99",
-        "desc": "Sparaðu meira þegar greitt er árlega — þar á meðal aukaleg litþemu, gervigreindar verkfæri og forgangsstuðningur.",
-        "features": {
-          "allPremium": "Allt í Premium mánaðarlega — þar á meðal aukaleg litþemu",
-          "annualBilling": "Greiðsla einu sinni á ári",
-          "save25": "Sparaðu um 30% miðað við mánaðarlega greiðslu",
-          "bestFor": "Best fyrir kraftnotendur, fjarkennara og mikla ferðamenn"
+        "desc": "Sparaðu meira með árlegri greiðslu — þar á meðal aukaleg litasnið, gervigreindartól og forgangsaðstoð.",
+        "eiginleikar": {
+          "allPremium": "Allt í Premium mánaðarlega — þar á meðal aukaleg litasniðmát",
+          "árlegGreiðsla": "Greitt einu sinni á ári",
+          "spara25": "Sparaðu um 30% miðað við mánaðarlega greiðslu",
+          "hentugastFyrir": "Hentugast fyrir kraftmikla notendur, fjarvinnendur og mikla ferðalanga"
         },
-        "badge": "Spara 30%",
-        "cta": "Uppfæra (árlega)",
-        "ctaPublic": "Spara 30% með árlegu – halda áfram til innskráningar",
-        "aria": "Uppfæra í Premium árlega",
-        "disclaimer": "Greiðsla fyrirfram. Hætta hvenær sem er. Engin falin gjöld."
+        "merki": "Sparaðu 30%",
+        "hnappur": "Uppfæra (Árlegt)",
+        "ctaPublic": "Sparaðu 30% með ársáskrift – haltu áfram að skrá þig inn",
+        "aria": "Uppfærðu í ársáskrift Premium",
+        "disclaimer": "Greiðsla innheimt fyrirfram. Hægt að segja upp hvenær sem er. Engin falin gjöld."
       }
     },
     "marketing": {
       "freeTitle": "Ókeypis",
-      "freeDesc": "Byrjaðu að senda skilaboð ókeypis.",
+      "freeDesc": "Byggðu upp skilaboð ókeypis.",
       "plusTitle": "Plus",
       "plusBadge": "Vinsælt",
-      "plusDesc": "Hagkvæmasta auglýsingalausa upplifunin.",
+      "plusDesc": "Ódýrasta reynslan án auglýsinga.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Fullir eiginleikar, hringitónar og gervigreindar kraftverkfæri.",
+      "premiumMonthlyDesc": "Fullkomið úrvali eiginleika, hringitóna og gervigreindarverkfæra.",
       "premiumAnnualTitle": "Premium",
       "premiumAnnualDesc": "Sparaðu meira þegar greitt er árlega.",
-      "annualDisclaimer": "Greiðsla fyrirfram. Hætta hvenær sem er. Engin falin gjöld."
+      "annualDisclaimer": "Greiðsla innheimt fyrirfram. Hægt að segja upp hvenær sem er. Engin falin gjöld."
     },
     "mobile": {
-      "title": "Chatforia farsími (eSIM gagnapakkar)",
-      "subtitle": "Bættu við alþjóðlegum gögnum til að halda Chatforia gangandi jafnvel án Wi-Fi. Verðlag breytist sjálfkrafa eftir landi og gjaldmiðli.",
-      "subtitle.detail": "Veldu einnota alþjóðlegan gagnapakka svo Chatforia haldi áfram að virka þegar þú ert að ferðast eða fjarri Wi-Fi.",
+      "title": "Chatforia Mobile (eSIM gagnapakkar)",
+      "subtitle": "Bættu við alþjóðlegum gögnum til að halda Chatforia gangandi jafnvel án Wi-Fi. Verð stillist sjálfkrafa eftir landi og gjaldmiðli.",
+      " subtitle.detail": "Veldu einnota alþjóðlegan gagnapakka svo Chatforia haldi áfram að virka þegar þú ert á ferðalagi eða fjarri Wi-Fi.",
       "scope": {
-        "local": "Staðbundin",
+        "local": "Staðbundið",
         "europe": "Evrópa",
-        "global": "Alþjóðleg"
+        "global": "Alþjóðlegt"
       },
-      "note": "Við seljum ekki gagnapakka undir 3 GB.",
-      "localEquals": "Staðbundin = {{country}}",
-      "localEqualsFallback": "Staðbundin = núverandi land þitt",
+      "localEquals": "Staðbundið = {{country}}",
+      "localEqualsFallback": "Staðbundið = núverandi land þitt",
       "perPack": "/ pakki",
       "cta": "Fá þennan gagnapakka",
       "ctaPublic": "Fá þennan gagnapakka",
       "checkout": {
-        "redirecting": "Endurbeindir…"
+        "redirecting": "Endur beinir…"
       },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Háhraða gögn fyrir mikla notkun",
-          "throttle": "Hraði getur hægst eftir mikla notkun",
-          "coverage": "Áreiðanleg þekja",
-          "instant": "Samstundis eSIM virkjun",
-          "noContract": "Einnota pakki, engin samningur"
+      "ótakmarkað": {
+        "eiginleikar": {
+          "mikilnotkun": "Háhraðagögn fyrir mikla notkun",
+          "hámarksstýring": "Háhraðagögn háð sanngirnisnotkunar- og netstjórnunarstefnu",
+          "þekja": "Áreiðanleg þekja",
+          "strax": "Strax eSIM virkjun",
+          "engursamningur": "Einnota pakki, án samnings"
         }
       },
       "disclaimer": {
-        "devices": "eSIM gagnapakkar krefjast eSIM-samhæfs og ólæsts tækis. Framboð er breytilegt eftir símamódeli, símafyrirtæki og landi. Þekja og hraði er breytilegt eftir svæði."
+        "devices": "eSIM gagnapakkar krefjast eSIM-samhæfs og opins tækis. Framboð er misjafnt eftir síma-gerð, netfyrirtæki og landi. Netið náð og hraði eru misjöfn eftir svæðum."
       },
-      "small": {
-        "title": "Byrjunarpakki",
-        "desc": "Inniheldur 3 GB háhraða gagna — fullkomið fyrir létt skilaboð og stundum hringingar.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Stuttar ferðir, létt skilaboð og stundum hringingar",
-        "aria": "Kaupa byrjunar eSIM gagnapakka"
-      },
-      "medium": {
-        "title": "Ferðamannapakki",
-        "desc": "Inniheldur 5 GB háhraða gagna fyrir ferðir, ferðir og venjulegar VoIP hringingar.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Helgarferðir, venjulegar VoIP hringingar og kort",
-        "aria": "Kaupa ferðamanna eSIM gagnapakka"
-      },
-      "large": {
-        "title": "Kraftpakki",
-        "desc": "Inniheldur 10 GB háhraða gagna fyrir mikil spjall, hringingar og myndfundir á Chatforia netinu.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Mikil spjall, hringingar, myndfundir og heitastaðanotkun",
-        "aria": "Kaupa kraftnotenda eSIM gagnapakka"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Ótakmarkað"
+        }
       },
       "compare": {
         "title": "Bera saman eSIM gagnapakka",
         "col": {
           "pack": "Pakki",
-          "data": "Inniheldur gögn",
-          "bestFor": "Best fyrir"
+          "data": "Innifalin gögn",
+          "bestFor": "Hentar best fyrir"
         },
-        "disclaimer": "Raunveruleg gagnanotkun fer eftir því hvernig þú notar Chatforia (rödd, myndband, miðlar og önnur forrit á símanum þínum)."
+        "áskilnaður": "Raunveruleg gagnanotkun fer eftir því hvernig þú notar Chatforia (símtöl, myndbönd, fjölmiðlar og önnur forrit á símanum þínum)."
       }
     },
-    "family": {
-      "title": "Chatforia fjölskylda (sameigin gögn)",
-      "subtitle": "Deildu einu gagnasafni yfir fjölskyldu þína. Ein reikningur, mörg Chatforia reikningar, alþjóðleg þekja.",
+    "fjölskylda": {
+      "titill": "Chatforia fjölskylda (sameiginleg gögn)",
+      "undirskrift": " Deilið einum gagnapakka með fjölskyldunni. Einn reikningur, mörg Chatforia-reikningar, alþjóðleg þjónusta.",
       "perPack": "/ pakki",
       "small": {
-        "title": "Fjölskylda lítil",
-        "desc": "Inniheldur 20 GB sameigin háhraða gagna — frábært fyrir 2–3 létta notendur.",
+        "title": "Family Small",
+        "desc": "Innifelur 20 GB af sameiginlegum háhraða gögnum — frábært fyrir 2–3 létta notendur.",
         "price": "$29.99",
-        "aria": "Kaupa fjölskyldu litla pakka"
+        "aria": "Kauptu Family Small-pakkann"
       },
       "medium": {
-        "title": "Fjölskylda meðal",
-        "desc": "Inniheldur 40 GB sameigin háhraða gagna — fullkomið fyrir 3–5 virka meðlimi.",
+        "title": "Family Medium",
+        "desc": "Innifelur 40 GB af deilt háhraða gögnum — kjörin fyrir 3–5 virka meðlimi.",
         "price": "$49.99",
-        "aria": "Kaupa fjölskyldu meðal pakka"
+        "aria": "Kauptu Family Medium pakka"
       },
       "large": {
-        "title": "Fjölskylda stór",
-        "desc": "Inniheldur 80 GB sameigin háhraða gagna — fyrir kraftmiklar fjölskyldur sem eru alltaf á netinu.",
+        "title": "Family Large",
+        "desc": "Innifelur 80 GB af sameiginlegum háhraða gögnum — fyrir virka fjölskyldur sem eru alltaf tengdar.",
         "price": "$84.99",
-        "aria": "Kaupa fjölskyldu stóra pakka"
+        "aria": "Kauptu Family Large pakka"
       },
       "feature": {
-        "shared": "Sameigin gagnasafn fyrir fjölskyldu þína",
-        "members": "Bjóddu allt að 4 viðbótar meðlimum",
+        "shared": "Sameiginlegur gagnapottur fyrir fjölskylduna þína",
+        "members": "Bjóða allt að 4 viðbótarmeðlimum",
         "membersMore": "Frábært fyrir 3–5 virka meðlimi",
-        "manage": "Stjórna takmörkum fyrir hvern meðlim",
-        "topUp": "Bæta við fleiri pökkum hvenær sem er",
-        "bestValue": "Besta virði á GB",
-        "fairUse": "Háð sanngjörnri notkunarstefnu og staðbundnum takmörkum"
+        "manage": "Stjórna takmörkunum fyrir hvern meðlim",
+        "topUp": "Bæta við fleiri pakka hvenær sem er",
+        "bestaVirði": "Besta verðmæti á GB",
+        "sanngjarntNot": "Undirorðið sanngjörn notkunarstefnu og staðbundnum takmörkunum"
       },
-      "disclaimer": "Fjölskyldupakkar búa til eða fylla á sameigin gagnasafn. Þú getur boðið og fjarlægt meðlimi hvenær sem er.",
-      "footnote": "Fjölskyldupakkar deila einu gagnasafni yfir tengda Chatforia reikninga. Framboð og takmörk fer eftir landi og staðbundnum reglum."
+      "áskilnaður": "Fjölskyldupakkar búa til eða bæta við sameiginlegan gagnapott. Þú getur boðið meðlimum og fjarlægt þá hvenær sem er.",
+      "footnote": "Fjölskyldupakkar deila einum gagnapotti yfir tengda Chatforia-reikninga. Aðgengi og takmarkanir ráðast af landi þínu og staðbundnum reglum."
     },
     "why": {
       "title": "Af hverju fólk skiptir yfir í Chatforia",
-      "subtitle": "Chatforia gefur þér raunverulegt símanúmer, snjalla þýðingu og skýra leið til að fara auglýsingalaust þegar þú ert tilbúinn.",
+      "subtitle": "Chatforia gefur þér raunverulegt símanúmer, snjalla þýðingu og skýran veg til að losna við auglýsingar þegar þú ert tilbúinn.",
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
-          "body": "Léttari auglýsingar á ókeypis, einföld Plus uppfærsla þegar þú ert tilbúinn og Premium verkfæri sem TextNow býður ekki upp á."
+          "body": "Léttari auglýsingar á ókeypis, einföld uppfærsla í Plus þegar þú ert tilbúinn, og Premium-verkfæri sem TextNow býður ekki upp á."
         },
         "voice": {
           "title": "Chatforia vs Google Voice",
-          "body": "Nútímalegt app, alþjóðlegt fyrsta hönnun og innbyggð þýðing í stað gamaldags hringingaáframsendingar."
+          "body": "Nútímaleg forrit, alþjóðleg -fyrstu hönnun, og innbyggð þýðing í stað gömlu leiðarinnar að hringja áfram."
         },
         "messengers": {
           "title": "Chatforia vs spjallforrit",
-          "body": "Sendu texta á raunveruleg símanúmer — ekki bara öðrum appnotendum — með gervigreind og stöðu innbyggð. Frábært ef þú kemur frá forritum eins og TextFree eða TextMe."
+          "body": "Sendu textaskilaboð á alvöru símanúmer — ekki bara aðra notendur forritsins — með gervigreind og innbyggðu stöðu. Frábært ef þú ert að skipta yfir úr forritum eins og TextFree eða TextMe."
         }
       },
       "tableTitle": "Hvernig Chatforia ber saman",
@@ -999,798 +1283,714 @@
       "feature": {
         "freeNumber": "Ókeypis símanúmer",
         "translation": "Innbyggð sjálfvirk þýðing",
-        "aiTools": "Gervigreindar verkfæri (endurskrif, svör, samantektir)",
-        "ads": "Auglýsingalaus valmöguleiki",
+        "aiTools": "AI-verkfæri (endurrit, svör, samantektir)",
+        "ads": "Valkostur án auglýsinga",
         "history": "Skilaboðasaga"
       },
-      "yes": "Já",
-      "no": "Nei",
-      "yesPremium": "Já (Premium)",
-      "plusPremium": "Plus og Premium",
-      "limited": "Takmarkað",
-      "nA": "Á ekki við",
-      "history": {
-        "chatforia": "Allt að 12+ mánuðir",
-        "textnow": "Breytilegt eftir reikningi",
-        "voice": "Takmarkað / reikningsbundin"
+      "já": "Já",
+      "nei": "Nei",
+      "jáPremium": "Já (Premium)",
+      "plusPremium": "Plus & Premium",
+      "takmarkað": "Takmarkað",
+      "N/A": "N/A",
+      "saga": {
+        "chatforia": "Að hámarki 12+ mánuðir",
+        "textnow": "Fer eftir reikningi",
+        "voice": "Takmarkað / reikningsbundið"
       },
-      "disclaimer": "Samanburður byggður á opinberum upplýsingum og getur breyst með tíma. Önnur ókeypis textaforrit eins og TextFree eða TextMe eru almennt svipuð TextNow."
+      "disclaimer": "Samanburðurinn byggir á opinberum upplýsingum og getur breyst með tímanum. Önnur forrit til að senda ókeypis skilaboð, eins og TextFree eða TextMe, eru almennt svipuð TextNow."
     },
     "faq": {
-      "title": "Verðlag og áætlanir FAQ",
+      "title": "Verðlagning og áætlanir – algengar spurningar",
       "free": {
         "q": "Er ókeypis áætlunin virkilega ókeypis?",
-        "a": "Já. Ókeypis áætlunin inniheldur Chatforia númer, hringingar og skilaboð með auglýsingum. Þú getur haldið áfram á ókeypis eins lengi og þú vilt eða uppfært til að fjarlægja auglýsingar og opna fleiri eiginleika."
+        "s": "Já. Ókeypis áætlunin inniheldur Chatforia-númer, símtöl og skilaboð með auglýsingum. Þú getur verið á ókeypis áætluninni eins lengi og þú vilt, eða uppfært til að fjarlægja auglýsingar og opna fleiri eiginleika."
       },
       "plusPremium": {
         "q": "Hver er munurinn á Plus og Premium?",
-        "a": "Plus fjarlægir auglýsingar og lengir skilaboðasögu þína — fullkomið fyrir daglega notkun. Premium bætir við aukalegri sérsniðningu, gervigreindar verkfæri fyrir endurskrif og svör og forgangsstuðning fyrir mikla notendur."
+        "s": " Plus fjarlægir auglýsingar og lengir skilaboðasögu þína — fullkomið fyrir daglega notkun. Premium bætir við auknum sérsniðnum valkostum, gervigreindartólum til endurskrifta og svara, og forgangsstuðningi fyrir notendur sem nota mikið."
       },
       "esim": {
         "q": "Hvar virka eSIM gagnapakkar?",
-        "a": "Chatforia farsími notar alþjóðlega eSIM þekju. Framboð fer eftir landi þínu og tæki. Þú sérð studda valkosti við virkjun inni í appinu."
+        "a": "Chatforia Mobile notar alþjóðlega eSIM þekju. Aðgengi fer eftir landi og tæki. Þú munt sjá studda valkosti við virkjun í forritinu."
       },
       "cancel": {
-        "q": "Get ég hætt við eða breytt áætlunum hvenær sem er?",
-        "a": "Já. Þú getur stjórnað eða hætt við áskrift frá greiðslusíðunni í appinu. Breytingar taka gildi við lok núverandi greiðslutímabils."
+        " q": "Get ég sagt upp eða breytt áætlunum hvenær sem er?",
+        "a": "Já. Þú getur stjórnað eða sagt upp áskriftinni þinni á reikningssíðunni í forritinu. Breytingar taka gildi í lok núverandi reikningstímabils. "
       },
       "family": {
         "q": "Hvernig virka fjölskyldupakkar?",
-        "a": "Fjölskyldupakkar búa til sameigin gagnasafn yfir mörg Chatforia reikninga. Ein manneskja greiðir reikninginn og þú getur boðið eða fjarlægt meðlimi og sett takmörk á mann."
+        "a": "Fjölskyldupakkar búa til sameiginlegan gagnapott sem deilt er á milli margra Chatforia-reikninga. Ein manneskja greiðir reikninginn, og þú getur boðið meðlimum eða fjarlægt þá og sett takmörk á hvern einstakling."
+      }
+    }
+  },
+  "family": {
+    "title": "Fjölskylda",
+    "loading": "Að hlaða fjölskylduupplýsingum þínum…",
+    "error": {
+      "load": "Misheppnað að hlaða fjölskylduupplýsingum.",
+      "invite": "Ekki var hægt að búa til boð. Gakktu úr skugga um að þú sért eigandi fjölskyldunnar og reyndu aftur.",
+      "checkout": "Okkur mistókst að hefja greiðsluferli fyrir fjölskylduáætlun. Vinsamlegast reyndu aftur."
+    },
+    "billing": {
+      "myPlanTitle": "Áætlun mín",
+      "myPlanError": "Ekki hægt að hlaða áætluninni þinni.",
+      "myPlanLoading": "Að hlaða áætluninni þinni…",
+      "currentPlan": "Núverandi áætlun",
+      "renewsAt": "Endurnýjast þann",
+      " freePlanCopy": "Þú ert á ókeypis áætlun. Uppfærðu til að opna fleiri eiginleika.",
+      "upgradeCta": "Uppfæra áætlun",
+      "changePlanCta": "Breyta áætlun",
+      "stjórnaGreiðslum": "Stjórna greiðslum",
+      "villaÍViðskiptagátt": "Ekki er hægt að opna viðskiptagáttina núna.",
+      "hættaNúna": "Hætta núna",
+      "hættaNúnaHjálp": "Þú getur stjórnað eða hætt áskriftinni þinni í viðskiptagáttinni, eða hætt strax hér að neðan.",
+      "staðfestaHætt": "Viltu vera viss um að þú viljir hætta áætluninni þinni strax? Ekki er hægt að taka þetta til baka.",
+      "cancelNowError": "Ekki er hægt að afskrá áætlunina þína núna. Vinsamlegast reyndu aftur eða notaðu Stjórna gjaldmiðlun."
+    },
+    "none": {
+      "title": "Engin fjölskylda stofnuð ennþá",
+      "body": "Til að búa til Chatforia fjölskyldu og sameiginlegan gagnapott, byrjaðu á fjölskylduáætlun.",
+      "goUpgrade": "Byrjaðu á fjölskylduáætlun",
+      "viewPlans": "Sjá allar áætlanir"
+    },
+    "group": {
+      "defaultName": "Mín Chatforia fjölskylda",
+      "role": "Þitt hlutverk: {{role}}"
+    },
+    "role": {
+      "owner": "Eigendur",
+      "member": "Meðlimir"
+    },
+    "gögn": {
+      "heading": "Sameiginlegur gagnapottur",
+      "caption": "Allir meðlimir deila þessum potti. Við munum vara þig við þegar þú nálgast takmörk þín."
+    },
+    "meðlimir": {
+      "title": "Fjölskyldumeðlimir",
+      "name": "Nafn",
+      "role": "Hlutverk",
+      "usage": "Notkun",
+      "limit": "Hámark",
+      "unlimited": "Engin takmörk",
+      "inviteCta": "Bjóða meðlimi"
+    },
+    "invite": {
+      "title": "Bjóða nýjan meðlim",
+      "body": "Sendu tölvupóst eða hlekk til að bjóða einhverjum í sameiginlega fjölskyldugagnadallinn þinn.",
+      "emailLabel": "Tölvupóstur (valfrjálst)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Búa til boð",
+      "linkLabel": "Boðstengill",
+      "copyAria": "Afrita boðstengil",
+      "expiryHint": "Þessi tengill rennur út eftir nokkra daga. Þú getur alltaf búið til nýjan."
+    },
+    "join": {
+      "title": "Ganga í fjölskyldu",
+      "body": "Þú hefur verið boðinn til að ganga í Chatforia-fjölskyldu og deila gagnageymi þeirra.",
+      "cta": "Samþykkja og ganga í fjölskyldu",
+      "ctaLogin": "Skráðu þig inn og vertu með í fjölskyldunni",
+      "success": "Þú hefur gengið í þessa fjölskyldu. Þú deilir nú gagnageymi þeirra.",
+      "goFamily": "Farðu á mælaborð fjölskyldunnar",
+      "error": "Okkur mistókst að bæta þér í þessa fjölskyldu. Boðið gæti verið ógilt eða útrunnið."
+    }
+  },
+  "randomChat": {
+    "title": "Handahófskennd spjall",
+    "undirskrift": "Kynnstu einhverjum nýjum strax, eða veldu að spjalla við Ria.",
+    "hafna": "Hafna samtali",
+    "lýsing": "Spjallaðu nafnlaust fyrst. Bættu við vinum síðar ef þér líkar.",
+    "finnduPörun": "Finndu mér maka",
+    "spjallaVidRia": "Spjalla við Ria",
+    "setAge": "Settu aldursbil þitt í prófíl → Aldur & Handahófskennt spjall til að passa þig við fólk.",
+    "idle": "Óvirkur",
+    "matching": "Að para…",
+    "searching": "Að leita…",
+    "cancel": "Hætta",
+    "connectionProblem": "Tengingarvandi",
+    "ai": "Gervigreind",
+    "nafnlaus": "Nafnlaus",
+    "tengdur sem": "Tengdur sem",
+    "bíður eftir vinabókun": "Bíður eftir að þeir samþykki vinabókun…",
+    "falið notendanafnið": "Notendanafnið verður falin þar til báðir aðilar velja Vinabókun.",
+    " riaSeparate": "Talaðu við Ria hvenær sem er — aðskilið frá handahófskenndri para­ningu við manneskjur.",
+    "sendMessage": "Senda skilaboð",
+    "chatEnded": "Spjallið er lokið",
+    "conversationEnded": "Þetta samtal er lokið.",
+    "findAnotherMatch": "Finndu annan maka",
+    "next": "Næsta manneskja",
+    "addFriend": "Bæta við vini",
+    "requested": "Beðið",
+    "Hætta": "Hætta",
+    "Senda Ria skilaboð": "Senda Ria skilaboð…",
+    "Senda maka þínum skilaboð": "Senda maka þínum skilaboð…",
+    "Spjalla við Foria": "Spjalla við Foria",
+    "Spjalla við ForiaBot": "Spjalla við ForiaBot",
+    "Hafa lokið": "Hafa lokið",
+    "Að leita": "Að leita…",
+    "leitar": "Að leita að einhverjum…",
+    "hafarForia": "Að hefja spjall við Foria…",
+    "samstarfsaðiliAftengdur": "Samstarfsaðilinn þinn aftengdist.",
+    "enginnSamstarfsaðili": "Enginn samstarfsaðili fundinn núna.",
+    "tengdurVið": "Tengdur við {{name}}",
+    "tengdur": "Tengdur",
+    "samstarfsaðiliFarin": "Samstarfsaðilinn fór.",
+    "stopped": "Hætt.",
+    "skip": "Yfirgefa",
+    "save": "Vista",
+    "saveGuard": "Aðeins samtöl milli manna er hægt að vista",
+    "youAreChattingWith": "Þú ert að spjalla við { {name}}",
+    "bot": "BOT",
+    "sayHi": "Segðu hæ 👋",
+    "you": "Þú",
+    "typeMessage": "Sláðu inn skilaboð",
+    "send": "Senda",
+    "partner": "Samræðufélagi",
+    "withRia": "Með Ria",
+    "startingRia": "Er að hefja spjall við Ria…",
+    "ageDisclaimer": "Við geymum aðeins aldursbil (ekki nákvæma fæðingardagsetningu þína). Þetta er notað til að halda tilviljunarkenndum spjallspörunum sanngjörnum. Til að para þig við fólk (ekki bara RiaBot), stilltu aldursbil þitt í Stillingar → Aldur & Tilviljunarkennd spjall.",
+    "ageBandRequired": "Settu aldursbil þitt í prófíl → Aldur & Handahófskennd spjall til að para þig við fólk.",
+    "ageBandCallout": "Til að para þig við fólk (ekki bara RiaBot), stilltu aldursbil þitt í Stillingar → Aldur & Handahófskennd spjall."
+  },
+  "ria": {
+    "fallbackName": "þarna",
+    "intro": "Hæ 👋 Ég heiti Ria. Hvað gengur um í huga þínum?",
+    "greetings": {
+      "long1": "Hæ {{name}} 👋 Ég er hér. Hvað gengur um í huga þínum?",
+      "long2": "Hæ {{name}} 😊 Um hvað viltu tala í dag?",
+      "long3": "Hæ {{name}}! Ég er alveg til – hvað er að gerast?",
+      "long4": "Gaman að sjá þig, {{name}} 👋 Hvað gengur um í huga þínum í dag?",
+      "long5": "Hæ {{name}} 🙂 Viltu láta af þér, spyrja eða bara spjalla?",
+      "long6": "Hæ {{name}}! Ég hef tíma — hvað viltu ræða?",
+      "short1": "Hæ {{name}}, ég er enn hér. Hvað er að gerast?",
+      "short2": "Velkominn aftur, {{name}} 👋 Er eitthvað fleira sem þú vildir bæta við?",
+      "short3": " Kominn aftur, {{name}}? 😊 Segðu mér hvað gengur þér í gegnum huga.",
+      "short4": "Hæ {{name}} ✨ Ertu tilbúinn að halda áfram þar sem við hættum?",
+      "short5": "Já {{name}}? Ég hlusta 👂",
+      "short6": "Ó, hæ {{name}}! Er eitthvað nýtt sem þér finnst?"
+    },
+    "header": {
+      "openNav": "Opna valmynd",
+      "closeNav": "Loka valmyndinni",
+      "homeAria": "Chatforia Heima"
+    },
+    "login": {
+      "welcomeBack": "Velkomin aftur",
+      "title": "Halda áfram í Chatforia",
+      "subtitleReturning": "Skráðu þig inn á Chatforia-reikninginn þinn",
+      "google": "Halda áfram með Google",
+      "apple": "Halda áfram með Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google-innskráning óvirk",
+      "appleUnavailable": "Apple-innskráning óvirk",
+      "ssoUnavailable": "Einföld innskráning er ekki í boði. Notaðu notandanafn og lykilorð í staðinn.",
+      "or": "eða",
+      "accountLabel": "Aðgangur",
+      "identifierPh": "Netfang eða notendanafn",
+      "lyklorð": "Lykilorð",
+      "lyklorðPh": "Lykilorðið þitt",
+      "halda mér innskráð": "Halda mér innskráð",
+      "gleyma": "Gleymað lykilorðinu þínu?",
+      "endur senda staðfestingarpóst": "Endursenda staðfestingarpóst",
+      "senda inn": "Innskrá",
+      "innskráning": "Að innskrá…",
+      "staðfesting": {
+        "sent": "Staðfestingarpóstur sendur. Athugaðu pósthólfið þitt.",
+        "failed": "Misheppnað að endursenda staðfestingarpóst."
+      },
+      "error": {
+        "missing": "Vinsamlegast sláðu inn auðkenningargögnin þín.",
+        "invalid": "Ógild notendanafn eða lykilorð",
+        "denied": "Aðgangi neitað.",
+        "unprocessable": "Ógild beiðni. Athugaðu notandanafn/netfang og lykilorð.",
+        "deviceLimit": "Hámark tækja hefur náðst fyrir ókeypis áætlun. Skráðu þig út á öðru tæki eða uppfærðu í Premium til að tengja fleiri tæki.",
+        "premiumRequired": "Þessi aðgerð krefst Premium-áætlunar."
+      },
+      "forgotPassword": {
+        "title": "Ég gleymdi lykilorðinu mínu",
+        "helper": "Sláðu inn netfangið sem þú notaðir til að búa til Chatforia-reikninginn þinn og við sendum þér öruggan hlekk til að endurstilla lykilorðið þitt.",
+        "emailLabel": "Netfang",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Vinsamlegast sláðu inn gilt netfang.",
+        "genericError": "Ómögulegt að vinna úr beiðninni. Vinsamlegast reyndu aftur eftir stund.",
+        "sending": "Að senda endurstillingartengil...",
+        "sendCta": "Senda endurstillingartengil",
+        "sentLabel": "Sent!",
+        "sentHelper": "Ef reikningur er til með þessari netfangi, höfum við sent þér hlekk til að endurstilla lykilorð. Það getur tekið nokkrar mínútur að hann bærist. Gakktu úr skugga um að athuga ruslpóst- eða kynningahornið þitt.",
+        "previewDev": "Forskoða tölvupóst (Dev)",
+        "backToLogin": "Aftur að innskráningu"
+      },
+      "resetPassword": {
+        "title": "Endurstilla lykilorð",
+        "missingToken": "Ógilt eða vantar endurstillingartokен fyrir lykilorð.",
+        "missingTokenHelper": "Ógilt eða vantar token. Vinsamlegast biðjið um nýjan hlekk til að endurstilla lykilorð.",
+        "passwordMismatch": "Lykilorðin passa ekki saman",
+        "success": "Lykilorðið þitt hefur verið endurstillt með góðum árangri",
+        "genericError": "Villa: Ekki var hægt að endurstilla lykilorð.",
+        "newPasswordLabel": "Nýtt lykilorð",
+        "newPasswordPlaceholder": "Sláðu inn nýja lykilorðið þitt",
+        "confirmPasswordLabel": "Staðfestu nýja lykilorðið",
+        "confirmPasswordPlaceholder": "Sláðu aftur inn nýja lykilorðið þitt",
+        "endurstilla": "Að endurstilla...",
+        "senda": "Endurstilla lykilorð",
+        "sterkt-lyklorðs-vísbending": "Veldu sterkt lykilorð sem þú notar ekki annars staðar."
+      }
+    }
+  },
+  "oauth": {
+    "lokið": " Að ljúka innskráningu…"
+  },
+  "stuðningur": {
+    "helpFab": "Hjálp",
+    "openSupportAria": "Opna stuðning",
+    "badge": "Aðstoð",
+    "heading": "Hvernig getum við hjálpað?",
+    "tabs": {
+      "help": "Hjálparmiðstöð",
+      "contact": "Hafðu samband"
+    },
+    "searchPlaceholder": "Leitaðu í hjálpargreinum…",
+    "searchAria": "Leita í hjálp",
+    "searchBtn": "Leita",
+    "quickTopicsLabel": "Fljótleg efni",
+    "quickTopics": {
+      "login": "Ekki hægt að skrá sig inn",
+      "billing": "Greiðslur / billing",
+      "abuse": "Tilkynna misnotkun"
+    },
+    "trySearching": "Reyndu að leita að \"translate\", \"backups\", eða \"privacy\".",
+    "article": "Grein",
+    "openArticle": "Opna grein",
+    "contactIntro": "Við munum reyna að leysa þetta strax. Ef ekki, mun teymið okkar fylgja málinu eftir.",
+    "topicAria": "Veldu efni",
+    "messagePlaceholder": "Skrifaðu skilaboðin þín…",
+    "sendBtn": "Senda",
+    "sent": "Skilaboð send. Við munum svara með tölvupósti.",
+    "sendError": "Ekki tókst að senda. Sendu tölvupóst á support@chatforia.com í staðinn.",
+    "actionCompleted": "Aðgerð lokið.",
+    "actionFailed": "Ekki tókst að ljúka þeirri aðgerð. Vinsamlegast reyndu aftur.",
+    "ticketCreated": "Okkur tókst ekki að leysa þetta sjálfkrafa. Teymið okkar mun fylgja málinu eftir.",
+    "escalationMessage": "Okkur tókst ekki að leysa þetta sjálfkrafa. Teymið okkar mun fylgja málinu eftir.",
+    "genericError": "Eitthvað fór úrskeiðis. Vinsamlegast reyndu aftur.",
+    "analyzing": "Að greina vandamálið þitt...",
+    "takeAction": "Taktu tillögur til aðgerða",
+    "resolvedInstantly": "Vandamálið leystist samstundis — engin miði þarf.",
+    "escalating": "Færist til stuðnings..."
+  },
+  "help": {
+    "title": "Aðstoð",
+    "howCanWeHelp": "Hvernig getum við hjálpað?",
+    "helpCenter": "Aðstoðarmiðstöð",
+    "contactUs": "Hafðu samband",
+    "quickTopics": "Fljótleg efni",
+    "searchExamples": "Reyndu að leita að \"translate\", \"backups\" eða \"privacy\".",
+    "getEkkiInn": "Get ekki skráð inn",
+    "greiðslurReikningsmál": "Greiðslur/ reikningsmál",
+    "reportAbuse": "Tilkynna misnotkun",
+    "searchHelpArticles": "Leita í hjálpargreinum",
+    "search": "Leita"
+  },
+  "helpCenter": {
+    "title": "Hjálparmiðstöð",
+    "faq": {
+      "account": {
+        "q": "Hvernig bý ég til eða endurheimti ég reikninginn minn?",
+        "a": "Sæktu forritið eða notaðu vefútgáfuna, pikkaðu á \"Búa til reikning\", staðfestu netfangið/símanúmerið þitt. Til að endurheimta reikninginn skaltu nota \"Gleyma lykilorði\"."
+      },
+      "privacy": {
+        "q": "Eru skilaboð dulkóðuð frá enda til enda?",
+        "a": "Já. Skilaboð og símtöl eru sjálfgefið dulkóðuð frá enda til enda. Aðeins þú og viðtakandinn getið lesið þau."
+      },
+      "translate": {
+        "q": "Hvernig virkar tafarlaust þýðing?",
+        "a": "Kveiktu á \"Auto-translate\" í Stillingar → Útlits- og tungumál. Við þýðum á tækinu þar sem það er studd, annars í gegnum örugga API með lágmarks auðkennisgögnum."
+      },
+      "contact": {
+        "q": "Hafa samband við þjónustuver",
+        "a": "Hafðu samband við okkur á support@chatforia.com. Settu inn skjáskot og útgáfu forritsins þíns."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Upphaf",
+    "subtitle": "Nýtt í Chatforia? Þetta stutta leiðbeiningarýni sýnir það sem mestu skiptir svo þú getir verið afkastamikill á örfáum mínútum.",
+    "alert": {
+      "text": "Þessi leiðarvísir mun vaxa eftir því sem við bjóðum upp á nýja eiginleika. Ef eitthvað vantar, látið okkur vita í gegnum",
+      "contactLink": "Hafðu samband"
+    },
+    "section1": {
+      "title": "1) Búðu til reikninginn þinn",
+      "signup": "Skráðu þig",
+      "or": "eða",
+      "login": "skráðu þig inn",
+      "loginText": "með núverandi reikningi þínum.",
+      "prefsStart": "Í forritinu, opnaðu Stillingar til að stilla óskir þínar",
+      "prefsLink": "óskir",
+      "prefsRest": "(mál, leskvittanir, þemu)."
+    },
+    "section2": {
+      "title": "2) Byrjaðu að senda skilaboð",
+      "item1": "Búðu til DM eða hóp og sendu fyrsta skilaboðin þín.",
+      "item2": "Notaðu tafarlausa þýðingu til að spjalla á yfir 100 tungumálum.",
+      "item3": " Reyndu skilaboð sem hverfa og leskvittanir í Prófíll → Nauðsynir."
+    },
+    "section3": {
+      "title": "3) Fara lengra",
+      "item1": "Þú getur uppfært í greidda áætlun hvenær sem er í appinu.",
+      "item2": "Þegar þú ert innskráður geturðu tengt fleiri tæki og sett upp dulkóðuð afrit í Stillingum í appinu.",
+      "item2Part1": "Þegar þú ert skráð(ur) inn geturðu tengt fleiri tæki og sett upp dulkóðuð afrit í Stillingum í appinu."
+    },
+    "cta": {
+      "seePlans": "Sjá áætlanir og verð",
+      "openSettings": "Opna stillingar",
+      "createAccount": " Búa til reikning"
+    }
+  },
+  "howItWorks": {
+    "title": "Hvernig Chatforia virkar",
+    "intro": "Chatforia er hönnuð til að gera samskipti einföld, hröð og aðgengileg. Að koma af stað tekur aðeins nokkur skref.",
+    "step1Title": "1. Búa til reikning",
+    "step1Desc": "Skráðu þig með netfangi þínu eða notendanafni til að búa til Chatforia-reikninginn þinn.",
+    "step2Title": "2. Byrjaðu samtal",
+    "step2Desc": "Tengstu öðrum með því að velja tengiliði eða hefja ný samtöl.",
+    "step3Title": "3. Skilaboð í rauntíma",
+    "step3Desc": "Skilaboð berast fljótt til að tryggja hnökralausa samskiptareynslu.",
+    "step4Title": "4. Alþjóðleg samskipti",
+    "step4Desc": "Innbyggð þýðing hjálpar notendum að eiga samskipti á mismunandi tungumálum.",
+    "step5Title": "5. Vertu með stjórn",
+    "step5Desc": "Stjórnaðu stillingum þínum, tengiliðum og samskiptastillingum."
+  },
+  "öryggi": {
+    "titill": "Öryggis- og samfélagsreglur",
+    "inngangur": "Chatforia er staðráðið í að viðhalda öruggu og virðingarfullu umhverfi fyrir alla notendur. Þessar leiðbeiningar hjálpa til við að tryggja jákvæða reynslu fyrir alla.",
+    "virðingaratitill": "Virðingarsamskipti",
+    "virðingarlýsing": "Notendur eiga að eiga samskipti af virðingu. Áreitni, ofbeldi eða skaðleg hegðun er ekki leyfð.",
+    "bannviðfangsefni": "Bannvænt efni",
+    "bannvænt": {
+      "ólöglegt": "Lögbrot",
+      "Áreitni": "Áreitni eða einelti",
+      "Hatur": "Hatursáróður eða mismunun",
+      "explicit": "Ósæmilegt eða skaðlegt efni",
+      "spam": "Ruslpóstur eða blekkingar"
+    },
+    "toolsTitle": "Öryggisverkfæri notenda",
+    "tools": {
+      "report": "Tilkynna óviðeigandi hegðun eða efni",
+      "block": "Banna notendur til að koma í veg fyrir frekari samskipti",
+      "control": "Stjórna persónuverndar- og samskiptastillingum"
+    },
+    "enforcementTitle": "Viðurlög",
+    "enforcementDesc": "Við gætum gripið til aðgerða gegn reikningum sem brjóta í bága við þessar leiðbeiningar, þar á meðal viðvaranir, takmarkanir eða varanlega fjarlægingu af vettvangi."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Af hverju eru skilaboðapallar mikilvægari en nokkru sinni fyrr",
+      "intro": "Skilaboðapallar hafa orðið eitt mikilvægasta tækið til samskipta í heimi nútímans. Frá persónulegum samtölum til viðskipta samskipta gera skilaboðaforrit fólki kleift að vera í sambandi strax og á skilvirkan hátt.",
+      "everydayTitle": "Hversdagsleg samskipti",
+      "everydayDesc": "Fólk treystir á skilaboðaforrit fyrir dagleg samskipti við vini, fjölskyldu og samstarfsfólk. Hvort sem um er að ræða stutta tilkynningu eða langt samtal, bjóða skilaboð þægilegan og sveigjanlegan hátt til að halda sambandi.",
+      "hraðiTitle": "Hraði og þægindi",
+      "hraðiDesc": "Einn helsti kostur skilaboðapalla er hraði þeirra. Skilaboð berast samstundis, sem gerir notendum kleift að eiga samskipti í rauntíma. Þessi þægindi hafa gert skilaboð að uppáhalds samskiptamáta margra.",
+      "globalTitle": "Alþjóðleg náð",
+      "globalDesc": "Skilaboðapallar tengja fólk um allan heim. Með aðgangi að internetinu geta notendur átt samskipti óháð staðsetningu, sem gerir það auðveldara að byggja upp sambönd og vinna saman alþjóðlega.",
+      "privacyTitle": "Persónuvernd og stjórn",
+      " privacyDesc": "Nútímalegir skilaboðapallar leggja áherslu á að veita notendum stjórn á gögnum sínum og samtölum. Eiginleikar eins og dulkóðun, persónuverndarstillingar og stýringar á skilaboðum gera notendum kleift að eiga samskipti af öryggi.",
+      "futureTitle": "Framtíð skilaboðamiðlunar",
+      "futureDesc": "Skilaboðamiðlun heldur áfram að þróast með nýjum eiginleikum eins og svörum knúnum áfram af gervigreind, þýðingu og miðlun margmiðla. Eftir því sem tækni þróast munu skilaboðamiðlunarvettvangar verða enn öflugri og fjölhæfari.",
+      "outro": "Chatforia er byggt með þessum meginreglum í huga, býður upp á hraðan, öruggan, og notendavænt skilaboðaviðmót fyrir tengdan heim."
+    },
+    "global": {
+      "title": "Framtíð alþjóðlegrar samskipta",
+      "intro": "Samskipti hafa þróast hratt á undanförnum áratugum. Það sem áður krafðist símtala eða í -manna fundir eru nú fljótlega haldnir í gegnum skilaboðapalla. Þegar tækni heldur áfram að þróast verður alþjóðleg samskipti hraðari, aðgengilegri og opnara.",
+      "hindranirTitle": "Að brjóta niður hindranir",
+      "hindranirDesc": "Ein af stærstu breytingunum í samskiptum er minnkun landfræðilegra hindrana. Fólk getur nú tengst öðrum um allan heim nánast í rauntíma. Hvort sem um er að ræða persónuleg samtöl, viðskipti eða samvinnu hafa skilaboðapallar gert fjarlægð mun minna takmarkandi .",
+      "translationTitle": "Hlutverk þýðingartækni",
+      "translationDesc": "Mál hefur hefðbundið verið einn af stærstu hindrunum fyrir alþjóðlegum samskiptum. Í dag hjálpa innbyggð þýðingartól að brúa þennan gjá. Vettvangar eins og Chatforia gera notendum kleift að eiga auðveldari samskipti jafnvel þó þeir tali mismunandi tungumál, sem skapar ný tækifæri til tengsla og skilnings.",
+      "realtimeTitle": "Tengingar í rauntíma",
+      "realtimeDesc": "Hraði er lykilþáttur sem mótar nútíma samskipti. Notendur gera ráð fyrir að skilaboð berist fljótt, og nútíma innviðir styðja þá væntingu. Rauntímaskilaboð gera samræður náttúrulegri og flæðandi.",
+      "privacyTitle": "Persónuvernd og öryggi",
+      "privacyDesc ": "Þegar samskipti verða sífellt stafrænari verða persónuvernd og öryggi sífellt mikilvægari. Notendur vilja geta treyst því að samtöl þeirra séu vernduð. Eiginleikar eins og dulkóðun og stillingar sem notendur stjórna stuðla að öruggari samskiptum.",
+      " futureTitle": "Hvað kemur næst",
+      "futureDesc": "Framtíð alþjóðlegrar samskipta mun líklega fela í sér fullkomnari verkfæri, svo sem AI-stuðaða skilaboðasendingu, bættan þýðingu og bætt notendaupplifun. Eftir því sem tækni þróast munu samskipti halda áfram að verða innsæi og aðgengilegri.",
+      "outro": "Vettvangar eins og Chatforia eru hluti af þessari breytingu og hjálpa fólki að tengjast auðveldlega þvert yfir tungumál og landamæri."
+    },
+    "index": {
+      "title": "Chatforia Blogg",
+      "intro": "Kynntu þér innsýn í samskipti, netöryggi og hvernig skilaboðatækni tengir fólk um allan heim.",
+      "post1": "Hvernig á að spjalla örugglega á netinu",
+      "post2": "Framtíð alþjóðlegra samskipta",
+      "post3": "Af hverju skilaboðapallar skipta máli"
+    },
+    "chatSafely": {
+      "title": "Hvernig á að spjalla örugglega á netinu",
+      "intro": "Talsamskipti á netinu hafa gert það auðveldara en nokkru sinni fyrr að tengjast fólki um allan heim. Hvort sem þú ert að senda skilaboð til vina, hitta nýtt fólk eða vinna með öðrum í faglegum samstarfi, spila spjallpallar stórt hlutverk í daglegu lífi. Hins vegar er jafn mikilvægt að vera öruggur á netinu og að vera í sambandi.",
+      "personalInfo": {
+        "title": " Verndaðu persónuupplýsingar þínar",
+        "body": "Nútímalegir skilaboðapallar eins og Chatforia bjóða upp á verkfæri til að hjálpa notendum að vera öruggir. Aðgerðir eins og að blokka, tilkynna og stjórna persónuvernd eru hannaðar til að gefa notendum stjórn á upplifun sinni. Ef einhver hagar sér óviðeigandi eða veldur þér óþægindum, ættir þú að nota þessi verkfæri strax."
+      },
+      "svik": {
+        "title": "Varastu svik",
+        "body": "Svikarar nota oft boðberaþjónustur til að blekkja notendur til að deila persónuupplýsingum eða senda peninga. Vertu varkár með skilaboð sem virðast of góð til að vera sönn, svo sem óvænt tilboð, brýn erindi eða ókunnugir hlekkir. Staðfestu alltaf hverjum þú ert að eiga samskipti við áður en þú grípur til aðgerða."
+      },
+      "ábyrgt": {
+        "title": "Samskiptum með ábyrgð",
+        "body": "Virðingarsamskipti hjálpa til við að skapa öruggara umhverfi fyrir alla. Forðastu að taka þátt í skaðlegum eða misnotkunarsamræðum og hugsaðu um hvernig orð þín geta haft áhrif á aðra. Jákvæð samskipti stuðla að betri upplifun fyrir alla notendur."
+      },
+      "hversvegnaÖryggi": {
+        "title": "Af hverju skiptir máli netöryggi",
+        "body": "Þar sem stafræn samskipti halda áfram að vaxa, að viðhalda öryggi og traust verða sífellt mikilvægari. Með því að fylgja grunnreglum um öryggi og nota tiltæk verkfæri geta notendur notið góðs af spjalli á meðan þeir lágmarka áhættu."
+      },
+      "niðurlag": "Að vera öruggur á netinu krefst ekki sérfræðiþekkingar—aðeins meðvitundar, varúðar og skynsemi. Með réttum venjum geturðu átt örugga og trausta samskipti."
+    }
+  },
+  "um": {
+    "titill": "Um Chatforia",
+    "lýsing": "Chatforia er öruggur, fjöltyngdur boðberi með dulkóðun frá enda til enda, tafarlausri þýðingu og tal-/myndsímtölum. Markmið okkar er einfalt: að hjálpa fólki að tengjast—örugglega, naumhyggjalega og yfir tungumál.",
+    "valuesTitle": "Það sem við metum",
+    "values": {
+      "privacy": "<b>Persónuvernd í fyrsta sæti:</b> E2E-dulkóðun sem sjálfgefinn valkostur.",
+      "access": "<b>Aðgangur fyrir alla:</b> Sjálfvirk þýðing á yfir 100 tungumálum.",
+      "control": "<b>Stýring:</b> Eyðandi skilaboð og leskvittanir eru valfrjálsar.",
+      "privacy_ aria": "Persónuvernd í fyrsta sæti: E2E-dulkóðun sem staðalbúnaður.",
+      "access_aria": "Aðgengi fyrir alla: Sjálfvirk þýðing á yfir 100 tungumálum.",
+      "control_aria": "Stýring: Eyðandi skilaboð og leskvittanir eru valfrjálsar."
+    },
+    "howTitle": "Hvernig Chatforia virkar",
+    " howDescription": "Skilaboð eru dulkóðuð á tækinu þínu áður en þau yfirgefa það. Þýðing, afrit og samstilling tækja eru hönnuð til að lágmarka það sem netþjónar okkar sjá."
+  },
+  "press": {
+    "title": "Fjölmiðlar",
+    "contactLine": "Fyrir fyrirspurnir fjölmiðla, hafið samband við okkur á",
+    " boilerplateTitle": "Staðalbúnaður",
+    "boilerplateBody": "Chatforia er skilaboðaforrit sem setur friðhelgi persónuupplýsinga í fyrsta sæti og gerir tungumála­tvíræðu auðvelda. Skilaboð eru sjálfgefið dulkóðuð frá enda til enda, og innbyggð þýðing styður yfir 100 tungumál í rauntíma. Notendur geta virkjað skilaboð sem hverfa, gert leskvittanir valfrjálsar og samstillt tæki sín. Fáanlegt á iOS, Android og vefnum.",
+    "assetsTitle": " Vörumerkjaefni",
+    "assetsSubtitle": "Merki, skjámyndir og vörumyndir.",
+    "downloadCta": "Sæktu fjölmiðlasettið",
+    "downloadTitle": "Fáðu forritið",
+    "scanTip": "Á skjáborði? Skannaðu með símanum til að fá forritið.",
+    "qrAria": "Opna vefsíðu Chatforia",
+    "appStore": "Sæktu á App Store",
+    "googlePlay": "Fáðu á Google Play"
+  },
+  "careers": {
+    "title": "Starfsferlar",
+    "intro": "Við erum lítið stofnendateymi sem er að byggja Chatforia — einkarekinn, alþjóðlegur skilaboðaforrit sem verður hleypt af stokkunum á vef, iOS og Android. Ef þú hefur áhuga á persónuvernd, dulkóðun og notendaupplifunum sem gleðja, langar okkur að heyra frá þér.",
+    "openRoles": "<b>Laust stofnendastarfsfólk:</b> Leiðandi full-stack verkfræðingur, bakenda-verkfræðingur (Node.js), fronthauga-/ Vefverkfræðingur (React), Farsímaforritari (iOS), Farsímaforritari (Android), DevOps/SRE, Öryggis- og dulkóðunarverkfræðingur, Fjarskiptaverkfræðingur (Twilio + eSIM).",
+    "apply": "Hvernig á að sækja um: Notaðu hnappinn hér að neðan til að senda ferilskrá þína og tengla á netfangið.",
+    "emailCta": "Sendu ferilskrána þína á netfangið",
+    "whyNow": "Af hverju að ganga til liðs núna?",
+    "whyBullets": "• Aðstoðaðu við að byggja grunninn að nýjum alþjóðlegum skilaboðamiðlara.\n• Útgáfa á endurbótum sem eru notaðar á vef, iOS og Android.\n• Vinna beint með stofnanda að arkitektúr og vöruþróun.\n• Berja ábyrgð á mikilvægustu þáttum kerfisins: skilaboðum, tal, myndband, dulkóðun, fjarskiptum, gervigreind.\n• Vertu hluti af teyminu frá upphafi — áður en notendahópurinn stækkar.",
+    "advertise": {
+      "title": "Auglýstu hjá Chatforia",
+      "description": "Náðu til virkra skilaboðanotenda með smekklegum, vörumerkjaöruggum birtingum. Við bjóðum upp á banner-birgðir á áberandi stöðum, styrktarsamstarf og innanhúss kynningar. Premium áskrifendur sjá ekki auglýsingar.",
+      "adsense": {
+        "withPubIdShort": "Við bjóðum einnig upp á birgðir í gegnum Google AdSense. Þú getur miðað Chatforia með útgefandaauðkenni {{pub Id}}, eða notaðu eyðublaðið hér að neðan fyrir beinar styrktarsamninga.",
+        "noPubIdShort": "Við bjóðum einnig upp á hluta af birtingum í gegnum Google AdSense. Beinar styrktarsamninga er hægt að gera – notaðu eyðublaðið hér að neðan."
+      },
+      "inventoryHeader": "Birgðir & Tæknilýsingar",
+      "placement": {
+        " displayBadge": "Sýning",
+        "acceptedSizes": "Samþykktar stærðir",
+        "adsenseSlot": "AdSense-rými:"
+      },
+      "noPlacementsPublic": "Við erum að ljúka við auglýsingabirgðir okkar. Segðu okkur frá herferðinni þinni og við munum mæla með birtingarstöðum.",
+      "whyHeader": "Af hverju Chatforia?",
+      "why": {
+        "highSession": "Hár tíðni funda og dvölartími í spjallviðmótinu",
+        "brandSafe": "Öruggar auglýsingagerðir; tillitssamleg tíðnispörkun",
+        "sponsoredMoments": "Stuðningsaugnablik (t.d. \"Byrjaðu spjall\") í boði",
+        "deals": "Beinar samningagerðir eða sjálfvirkar í gegnum AdSense/Google Ads"
+      },
+      "contactHeader": "Hafðu samband",
+      "form": {
+        "submittedMsg": "Takk fyrir! Beiðni þín er á leiðinni. Við munum hafa samband fljótlega.",
+        "missingRequired": "Vinsamlegast sláðu inn nafn, netfang og skilaboð.",
+        "successToast": "Takk! Við munum hafa samband fljótlega.",
+        "mailtoInfo": "Opnar póstforritið þitt til að senda fyrirspurnina…",
+        "nameLabel": "Nafn þitt",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "Netfang",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "Fyrirtæki",
+        " companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Mánaðarlegur kostnaður (valkvætt)",
+        "budgetPlaceholder": "t.d. $1,000–$20,000+",
+        "messageLabel": "Segðu okkur frá herferðinni þinni",
+        "messagePlaceholder": "Markhópar, dagsetningar, lykilmælikvarðar (KPIs), forgangsröðun birtinga…",
+        "sendCta": "Senda fyrirspurn"
+      },
+      "legal": {
+        "disclaimerStart": "Með því að senda inn samþykkir þú okkar",
+        "skilmálar": "Skilmálar",
+        "og": "og",
+        "nauðsynjar": "Persónuverndarstefna"
       }
     },
-    "gettingStarted": {
-      "title": "Byrjunarleiðbeiningar",
-      "subtitle": "Nýr í Chatforia? Þessi fljótlega byrjun sýnir nauðsynleg atriði svo þú getir verið afkastamikill á nokkrum mínútum.",
-      "alert": {
-        "text": "Þessi leiðbeining mun vaxa þegar við setjum nýja eiginleika á markað. Ef eitthvað vantar, láttu okkur vita í gegnum",
-        "contactLink": "Hafa samband"
-      },
-      "section1": {
-        "title": "1) Búðu til reikninginn þinn",
-        "signup": "Skrá sig",
-        "or": "eða",
-        "login": "skrá inn",
-        "loginText": "með núverandi reikningi.",
-        "prefsStart": "Stilltu",
-        "prefsLink": "valkosti þína",
-        "prefsRest": "(tungumál, leskvittanir, þemu)."
-      },
-      "section2": {
-        "title": "2) Byrjaðu að senda skilaboð",
-        "item1": "Búðu til DM eða hóp og sendu fyrstu skilaboðin þín.",
-        "item2": "Notaðu samstundis þýðingu til að spjalla yfir 100+ tungumál.",
-        "item3": "Prófaðu sjálfsvinnandi skilaboð og leskvittanir í Prófíll → Persónuvernd."
-      },
-      "section3": {
-        "title": "3) Farðu lengra",
-        "item1": "Þú getur uppfært í greidda áætlun hvenær sem er inni í appinu.",
-        "item2": "Þegar þú hefur skráð þig inn geturðu tengt viðbótartæki og sett upp dulkóðuð afrit úr Stillingum í appinu."
-      },
-      "cta": {
-        "seePlans": "Skoða áætlanir",
-        "openSettings": "Opna stillingar"
-      }
-    },
-    "helpCenter": {
-      "title": "Hjálparmiðstöð",
-      "faq": {
-        "account": {
-          "q": "Hvernig bý ég til eða endurheimti reikninginn minn?",
-          "a": "Sæktu appið eða notaðu vef, ýttu á „Búa til reikning“, staðfestu tölvupóst/síma. Til að endurheimta, notaðu „Gleymt lykilorð“."
-        },
-        "privacy": {
-          "q": "Eru skilaboð enda-til-enda dulkóðuð?",
-          "a": "Já. Skilaboð og hringingar eru enda-til-enda dulkóðuð sjálfgefið. Aðeins þú og viðtakandinn getur lesið þau."
-        },
-        "translate": {
-          "q": "Hvernig virkar samstundis þýðing?",
-          "a": "Virkjaðu „Sjálfvirk þýðing“ í Stillingar → Útlit og tungumál. Við þýðum á tækinu þar sem stutt er, annars í gegnum öruggar API með lágmarks lýsigögnum."
-        },
-        "contact": {
-          "q": "Hafa samband við stuðning",
-          "a": "Náðu í okkur á support@chatforia.com. Láttu með skjámyndir og app útgáfu."
-        }
-      }
-    },
-    "contact": {
-      "title": "Hafa samband",
-      "successMsg": "Takk — teymið okkar svarar með tölvupósti.",
-      "errorSend": "Gat ekki sent. Sendu tölvupóst á support@chatforia.com.",
+    "hafa samband": {
+      "titill": "Hafa samband",
+      "successMsg": "Takk—teymið okkar mun svara með tölvupósti.",
+      "errorSend": "Ekki tókst að senda. Vinsamlegast sendu tölvupóst á support@chatforia.com.",
       "form": {
         "nameLabel": "Nafn",
-        "emailLabel": "Tölvupóstur",
+        "emailLabel": "Netfang",
         "messageLabel": "Skilaboð",
-        "sendCta": "Senda"
+        "sendCta": "Send"
       }
     },
     "privacyPolicy": {
       "title": "Persónuverndarstefna",
       "lastUpdated": "Síðast uppfært:",
       "intro": {
-        "body": "Þessi persónuverndarstefna útskýrir hvernig Chatforia („við“, „okkur“) safnar, notar og deilir upplýsingum þegar þú notar appin og þjónustuna okkar. Við hönnum Chatforia til að lágmarka gögnin sem við getum nálgast."
+        "body": "Þessi persónuverndarstefna útskýrir hvernig Chatforia (\"við\", \"oss\") safna, nota og deila upplýsingum þegar þú notar forritin og þjónusturnar okkar. Við hönnum Chatforia til að lágmarka þær upplýsingar sem við höfum aðgang að."
       },
-      "infoWeCollect": {
+      "upplyningarViðSafnam": {
         "title": "Upplýsingar sem við söfnum",
-        "account": "Reikningsupplýsingar (t.d. tölvupóstur/sími) til að búa til og tryggja reikninginn þinn.",
-        "encrypted": "Dulkóðað efni (skilaboð/hringar) er enda-til-enda dulkóðað; við getum ekki lesið það.",
-        "diagnostics": "Greiningar/notkun eins og hrunskráir, tækistegund eða grófar greiningar til að bæta afköst."
+        "reikningur": "Upplýsingar um reikning (t.d. netfang/símanúmer) til að búa til og tryggja reikninginn þinn.",
+        "dulkóðuð": "Dulkóðuð efni (skilaboð/símtöl) er dulkóðuð frá enda til enda; við getum ekki lesið það.",
+        "greiningar": "Greiningar/notkunargögn eins og bilanaskýrslur, tegund tækis, eða grófar greiningar til að bæta frammistöðu."
       },
       "sms": {
-        "title": "Farsímanúmer og SMS",
-        "body": "Ef þú velur að gefa upp farsímanúmer notum við það til að virkja eiginleika eins og reikningsstaðfestingu, innskráningartilkynningar og notanda-til-notanda SMS skilaboð þar sem stutt er. Við getum sent viðskipta SMS skilaboð tengd reikningi þínum og virkni á Chatforia. Þú getur afskráð SMS skilaboð hvenær sem er með því að svara með studdu afskráningarorði (svo sem „STOP“) eða með því að breyta tilkynningastillingum í appinu. Við seljum ekki símanúmerið þitt eða notum það fyrir óskyldar markaðssetningar.",
-        "newText": "Nýtt texta",
+        "title": "Símarnúmer og SMS",
+        "body": "Ef þú velur að gefa upp farsímannúmer notum við það til að virkja eiginleika eins og reikningsstaðfestingu, innskráningarviðvaranir og notendatil-notenda skilaboð í SMS þar sem það er studt. Við gætum sent viðskiptaleg SMS-skilaboð sem tengjast reikningnum þínum og virkni á Chatforia. Þú getur afskráð þig frá því að fá SMS-skilaboð hvenær sem er tíma með því að svara með viðeigandi hættuleiðbeiningu (t.d. \"STOPP\") eða með því að breyta tilkynningastillingum þínum í forritinu. Við seljum ekki símanúmerið þitt né notum það í markaðssetningu sem tengist ekki þjónustu okkar.",
+        "newText": "Nýr texti",
         "enterRecipient": "Sláðu inn nafn eða númer",
-        "typeMessage": "Skrifaðu skilaboð…",
-        "addRecipient": "Bættu viðtakanda ofan við til að byrja…"
+        "typeMessage": "Sláðu inn skilaboð…",
+        "addRecipient": "Bættu við viðtakanda hér að ofan til að byrja…"
       },
       "howWeUse": {
-        "title": "Hvernig við notum upplýsingar",
-        "provide": "Veita og tryggja þjónustuna (auðkenning, ruslpóst/misnotkun uppgötvun).",
-        "improve": "Bæta eiginleika (þýðingargæði, áreiðanleiki).",
-        "legal": "Fylgja lagalegum skyldum."
+        "title": "Hvernig við notum upplýsingar ",
+        "veita": "Veita og tryggja þjónustuna (auðkenning, greining á ruslpósti/misnotkun).",
+        "bæta": "Bæta eiginleika (gæði þýðingar, áreiðanleika).",
+        "lögleg": "Fylgja lagalegum skuldbindingum."
       },
-      "sharing": {
+      "deiling": {
         "title": "Deiling",
-        "body": "Við seljum ekki persónuupplýsingar. Við getum deilt takmörkuðum gögnum með vinnsluaðilum (t.d. ýtja tilkynningar, greiningar) undir ströngum samningum."
+        "body": "Við seljum ekki persónuupplýsingar. Við gætum deilt takmörkuðum gögnum með vinnsluaðilum (t.d. tilkynningum, greiningu) samkvæmt ströngum samningum."
       },
-      "rights": {
+      "réttindi": {
         "title": "Réttindi þín",
-        "body": "Það fer eftir svæði þínu (t.d. GDPR/UK GDPR/CPRA) geturðu óskað eftir aðgangi, leiðréttingu, eyðingu eða afskráningu ákveðinnar vinnslu. Hafðu samband: privacy@chatforia.com."
+        "body": "Fer eftir landsvæði þínu (t.d., GDPR/UK GDPR/CPRA), geturðu óskað eftir aðgangi, leiðréttingu, eyðingu eða að taka aftur samþykki fyrir ákveðna vinnslu. Hafðu samband: privacy@chatforia.com."
       },
-      "retention": {
-        "title": "Geymsla gagna og öryggi",
-        "body": "Við geymum aðeins það sem þarf til að reka þjónustuna og notum iðnaðarstaðla öryggi. E2E efni getur ekki verið afkóðað af okkur."
+      "geymsla ": {
+        "title": "Geymsla persónuupplýsinga og öryggi",
+        "body": "Við geymum aðeins það sem nauðsynlegt er til að reka þjónustuna og beitum öryggisstaðli sem er í samræmi við iðnaðinn. Innihald sem er dulkóðað frá enda til enda (E2E) er ekki hægt að afkóða af okkar hálfu."
       },
       "children": {
         "title": "Börn",
-        "body": "Chatforia er ekki beint að börnum undir 13 ára (eða eins og krafist er af staðbundnum lögum)."
+        "body": "Chatforia beinist ekki að börnum yngri en 13 ára (eða eins og krafist er samkvæmt staðbundnum lögum)."
       },
-      "changes": {
+      "breytingar": {
         "title": "Breytingar",
-        "body": "Við munum birta uppfærslur hér og breyta „Síðast uppfært“ dagsetningu."
+        "body": "Við munum birta uppfærslur hér og breyta dagsetningunni \"Síðast uppfært\"."
       },
       "contact": {
-        "title": "Hafa samband",
+        "title": "Hafðu samband",
         "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
     },
-    "terms": {
-      "title": "Notkunarskilmálar",
+    "skilmálar": {
+      "title": "Skilmálar þjónustunnar",
       "lastUpdated": "Síðast uppfært:",
       "intro": {
-        "body": "Með því að nota Chatforia samþykkir þú þessa skilmála. Ef þú samþykkir ekki, ekki nota þjónustuna."
+        " body": "Með því að nota Chatforia samþykkir þú þessa þjónustusamninga. Ef þú ert ekki sammála, skaltu ekki nota þjónustuna."
       },
-      "accounts": {
+      "reikningar": {
         "title": "Reikningar",
-        "itemAccurateInfo": "Gefðu nákvæmar upplýsingar og haltu auðkennum öruggum.",
-        "itemResponsibility": "Þú berð ábyrgð á virkni á reikningi þínum."
+        "itemAccurateInfo": " Gefðu nákvæmar upplýsingar og haltu aðgangsauðkennum öruggum.",
+        "itemÁbyrgð": "Þú berð ábyrgð á athöfnum á reikningnum þínum."
       },
-      "acceptableUse": {
-        "title": "Sanngjörn notkun",
-        "itemNoAbuse": "Engin ólögleg, misnotkun eða brotleg efni; enginn ruslpóstur eða sjálfvirk misnotkun.",
-        "itemSuspend": "Við getum stöðvað/útskúfað fyrir brot."
+      "viðunandiNotkun": {
+        "title": "Viðunandi notkun",
+        "itemEkkiMisnota": "Engin ólögleg, misnotandi eða brot á réttindum efni; enginn ruslpóstur eða sjálfvirk misnotkun.",
+        "itemStöðva": "Við getum stöðvað/lokið vegna brota."
       },
       "sms": {
-        "title": "SMS samskipti",
-        "body": "Ef þú gefur upp farsímanúmer samþykkir þú að Chatforia geti sent þér SMS skilaboð tengd reikningi þínum og notkun þjónustunnar, svo sem innskráningartilkynningar, öryggistilkynningar og skilaboð tengd samtölum sem þú byrjar eða tekur þátt í. Við notum ekki SMS fyrir kynningar- eða markaðssetningarskilmála án skýrs samþykkis þíns. Venjuleg skilaboða- og gagnagjöld gætu átt við. Þú getur afskráð SMS skilaboð hvenær sem er með því að svara með studdu afskráningarorði (til dæmis „STOP“) eða með því að uppfæra tilkynningastillingar í appinu."
+        "title": "SMS-samskipti",
+        "body": "Ef þú gefur upp farsímannúmer samþykkir þú að Chatforia geti sent þér SMS-skilaboð sem tengjast reikningnum þínum og notkun þinni á þjónustunni, svo sem innskráningarviðvaranir, öryggisviðvaranir og skilaboð sem tengjast samtölum sem þú byrjar eða tekur þátt í. Við notum ekki SMS til kynninga- eða markaðssetningarskilaboða án þíns skýra samþykkis. Venjuleg gjöld fyrir skilaboð og gögn geta átt við. Þú getur afskráð þig af SMS-skilaboðum hvenær sem er með því að svara með stuðluðu afskráningarorði (til dæmis \"STOP\") eða með því að uppfæra tilkynningastillingar þínar í forritinu."
       },
       "yourContent": {
-        "title": "Efni þitt",
-        "body": "Þú heldur réttindum yfir efni þínu. Þú veitir okkur nauðsynleg réttindi til að reka þjónustuna (t.d. leiðbeiningar, geymsla, þýðing)."
+        "title": "Innihald þitt",
+        "body": "Þú átt áfram réttinn á innihaldi þínu. Þú veitir okkur nauðsynlega réttindi til að reka þjónustuna (t.d. leiðsögn, geymsla, þýðing)."
       },
       "disclaimer": {
-        "title": "Fyrirvarar og ábyrgð",
-        "body": "Þjónustan er veitt „eins og hún er“ án ábyrgða. Að fullu leyfi laga er Chatforia ekki ábyrg fyrir óbeinum eða afleiddum skaða."
+        "title": "Ábyrgðar- og skaðabótaskilmálar",
+        "body": "Þjónustan er veitt \"eins og hún er\" án ábyrgðar. Að því marki sem lög leyfa, ber Chatforia ekki ábyrgð á óbeinum eða afleiðingartjónum."
       },
       "changes": {
         "title": "Breytingar",
-        "body": "Við getum uppfært þessa skilmála; áframhaldandi notkun eftir breytingar þýðir samþykki."
+        " body": "Við gætum uppfært þessa skilmála; áframhaldandi notkun eftir breytingar þýðir samþykki."
       },
       "contact": {
-        "title": "Hafa samband",
+        "title": "Hafðu samband",
         "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
     },
-    "doNotSell": {
-      "title": "Seljið ekki eða deilið persónuupplýsingum mínum",
-      "body": "Chatforia selur ekki persónuupplýsingar. Íbúar Kaliforníu geta samt sent beiðnir samkvæmt CPRA með því að nota hnappinn hér að neðan.",
-      "cta": "Senda beiðni"
-    },
-    "cookies": {
-      "title": "Vafrakökustillingar",
-      "body": "Chatforia notar lágmarks vafrakökur (t.d. lota, öryggi). Við notum ekki þriðja aðila auglýsingavafrakökur. Stjórnaðu vafrakökum í vafrastillingum þínum."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Gat ekki hlaðið símanúmer stöðu.",
-      "lock": "Læsa",
-      "noNumberAssigned": "Ekkert númer úthlutað. Veldu númer eftir svæðiskóða til að byrja að senda texta.",
-      "pickNumber": "Velja númer",
-      "phoneNumber": "Símanúmer"
-    },
-    "startChatModal": {
-      "title": "Hefja spjall",
-      "quickPicker": "Fljótlegt val",
-      "to": "Til",
-      "nameOrUsername": "Skrifaðu nafn, notendanafn",
-      "nameUsernamePhoneEmail": "Skrifaðu nafn, notendanafn, síma eða tölvupóst…",
-      "startWithSelected": "Hefja spjall með völdum",
-      "searchByUsernameOrPhone": "Leita eftir notendanafni eða síma",
-      "search": "Leita",
-      "searchPrompt": "Skrifaðu notendanafn eða síma og ýttu á Leita.",
-      "pickFromContacts": "Eða veldu úr tengiliðum",
-      "addContact": "Bæta við tengilið",
-      "show": "Sýna",
-      "add": "Bæta við",
-      "close": "Loka",
-      "selectedCount": "{{count}} valið",
-      "pickAtLeastOne": "Veldu að minnsta kosti einn viðtakanda.",
-      "saveContactsHint": "Síma/tölvupóstfærslur verða tiltækar eftir að þú hefur vistað þær sem tengiliði.",
-      "failedBulkStart": "Mistókst að hefja spjall með völdum viðtakendum.",
-      "noResults": "Engar niðurstöður",
-      "mode": "Hamur",
-      "group": "Hópur",
-      "broadcast": "Útsending",
-      "groupNameOptional": "Hópnafn (valfrjálst)",
-      "firstMessageOptional": "Fyrstu skilaboð (valfrjálst en mælt með)",
-      "createGroup": "Búa til hóp",
-      "sendBroadcast": "Senda útsendingu"
-    },
-    "themes": {
-      "amoled": "AMOLED",
-      "aurora": "Norðurljós",
-      "neon": "Neon",
-      "sunset": "Sólsetur",
-      "solarized": "Sólrík",
-      "velvet": "Velúr"
-    },
-    "sounds": {
-      "freeNotice": "Þú ert á ókeypis — úrvals tónar eru sýndir en læstir. Uppfærðu til að opna alla.",
-      "preview": "Forskoðun",
-      "resetToDefaults": "Endurstilla á sjálfgefið",
-      "notificationSounds": "Tilkynningahljóð",
-      "messageTone": "Skilaboðatónn",
-      "default": "Sjálfgefið",
-      "vibrate": "Titringur",
-      "dreamer": "Draumur",
-      "notify": "Tilkynna",
-      "pop": "Popp",
-      "pulsatingSound": "Púlsandi hljóð",
-      "textMessage": "Textaskilaboð",
-      "xylophone": "Xylófon",
-      "classic": "Klassískt",
-      "urgency": "Ákafur",
-      "bells": "Björ",
-      "chimes": "Klingur",
-      "digitalPhone": "Stafrænn sími",
-      "melodic": "Melódískt",
-      "organNotes": "Orgul nótur",
-      "soundReality": "Hljóðveruleiki",
-      "street": "Gata",
-      "universfield": "Alheimsreitur"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Þessi eiginleiki krefst Premium áætlunar."
-    },
-    "aiSettings": {
-      "title": "Gervigreindarstillingar",
-      "controlIntro": "Stjórna þýðingu, snjöllum svörum og ForiaBot sjálfvirkum svörum.",
-      "save": "Vista gervigreindarstillingar",
-      "autoTranslateIncoming": "Sjálfvirk þýðing innkomandi skilaboða",
-      "showOriginalAlongside": "Sýna upprunalegan texta ásamt þýðingu",
-      "enableSmartReplies": "Virkja snjall svör",
-      "smartRepliesHint": "Senda síðustu fáu móttökuð skilaboð (hreinsuð) til gervigreindar til að stinga upp á fljótum svörum.",
-      "maskProfanity": "Mála blótsyrði í gervigreindartillögum",
-      "maskProfanityHint": "Ef kveikt er á, verða tillögur frá gervigreind með merktum orðum málaðar",
-      "foriaBot": "ForiaBot sjálfvirkur svörari",
-      "enableAutoReply": "Virkja sjálfvirk svör þegar ég er upptekin",
-      "autoReplyMode": "Sjálfvirk svör hamur",
-      "cooldownSeconds": "Kæling (sekúndur)",
-      "off": "Slökkt",
-      "on": "Kveikt",
-      "signature": "Undirskrift",
-      "autoReply": "Sjálfvirk svör",
-      "activeUntilOptional": "Virkur til (valfrjálst)",
-      "saved": "Gervigreindarvalkostir vistaðir",
-      "saveFailed": "Mistókst að vista gervigreindarstillingar",
-      "translateOff": "Slökkt",
-      "translateTagged": "Aðeins þegar @þýtt eða merkt",
-      "translateAll": "Þýða öll innkomandi skilaboð",
-      "modeDm": "Aðeins 1:1 spjall",
-      "modeMention": "Aðeins þegar ég er @minnt á",
-      "modeAll": "Öll innkomandi skilaboð"
-    },
-    "accessibilitySettings": {
-      "title": "Aðgengileiki og viðvaranir",
-      "accessibility": "Aðgengileiki",
-      "accessibilityDesc": "Valkostir til að gera Chatforia auðveldara í notkun án þess að treysta á hljóð.",
-      "interfaceFontSize": "Leturstærð viðmóts",
-      "interfaceFontSizeHelp": "Byrjar á venjulegri stærð. Auka ef þú vilt stærri texta í aðgengisstillingum.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Tilkynningar",
-      "notificationsDesc": "Sjónrænar viðvaranir fyrir skilaboð og hringingar\nSýna borða og titilblikk svo þú missir ekki af virkni.",
-      "vibrateOnNew": "Titringur við ný skilaboð (þegar stutt)\nKveikja á tækistitringi með tilkynningum.",
-      "flashOnCall": "Blikka skermi við innkomandi hringingu\nStutt björt blikka þegar hringing hringir.",
-      "liveCaptions": "Beinar undirtextar (hringar)",
-      "captionFontSize": "Leturstærð undirtexta",
-      "captionBackground": "Bakgrunnur undirtexta",
-      "light": "ljóst",
-      "dark": "dökkt",
-      "transparent": "gegnsætt",
-      "voiceNotes": "Raddskilaboð",
-      "autoTranscribeVoiceNotes": "Sjálfvirk afritun raddskilaboða",
-      "autoTranscribeVoiceNotesDesc": "Bæta afriti við hljóðskilaboð sem þú færð.",
-      "changesSavedInstantly": "Breytingar eru vistaðar samstundis.",
-      "loadFailed": "Mistókst að hlaða stillingar",
-      "visualAlerts": "Sjónrænar viðvaranir fyrir skilaboð og hringingar",
-      "visualAlertsDesc": "Sýna borða og titilblikk svo þú missir ekki af virkni.",
-      "vibrateOnNewShort": "Titringur við ný skilaboð (þegar stutt)",
-      "vibrateOnNewDesc": "Kveikja á tækistitringi með tilkynningum.",
-      "flashOnCallShort": "Blikka skermi við innkomandi hringingu",
-      "flashOnCallDesc": "Stutt björt blikka þegar hringing hringir."
-    },
-    "privacySection": {
-      "strictE2EE": "Ströng enda-til-enda dulkóðun",
-      "ciphertextOnlyNote": "Geyma aðeins dulmál á netþjóni. Gerir gervigreind/þýðingu og stjórnendaforskoðanir óvirkar."
-    },
-    "linkedDevicesPanel": {
-      "title": "Tengd tæki",
-      "noneFound": "Engin tengd tæki fundust.",
-      "refresh": "Endurhlaða"
-    },
-    "help": {
-      "title": "Hjálp",
-      "howCanWeHelp": "Hvernig getum við hjálpað?",
-      "helpCenter": "Hjálparmiðstöð",
-      "contactUs": "Hafa samband",
-      "quickTopics": "Fljótleg efni",
-      "searchExamples": "Prófaðu að leita að „þýða“, „afrit“ eða „persónuvernd“.",
-      "cantLogin": "Get ekki skráð inn",
-      "paymentsBilling": "Greiðslur/greiðslur",
-      "reportAbuse": "Tilkynna misnotkun",
-      "searchHelpArticles": "Leita í hjálpargreinum",
-      "search": "Leita"
-    },
-    "peoplePage": {
-      "people": "Fólk",
-      "search": "Leita",
-      "searchPlaceholder": "Leita eftir stuttnefni, nafni, notendanafni eða síma",
-      "filterSaved": "Sía vistaða tengiliði",
-      "noContactsFound": "Engir tengiliðir fundust",
-      "quickStart": "Fljótleg byrjun",
-      "quickStartDesc": "Nokkrar fljótlegar leiðir til að byrja.",
-      "importContacts": "Flytja inn tengiliði þína",
-      "add": "Bæta við",
-      "focusSearch": "Einbeita leit",
-      "import": "Flytja inn",
-      "findOrAdd": "Finna eða bæta við einhverjum",
-      "searchByPhoneOrUsername": "Leita eftir síma / notendanafni",
-      "inviteFriends": "Bjóða vinum",
-      "inviteDesc": "Deildu boðshlekk til að byrja að spjalla samstundis.",
-      "getTheApp": "Sækja appið",
-      "getTheAppDesc": "Haltu sambandi á ferðinni með Chatforia fyrir iOS og Android.",
-      "download": "Sækja",
-      "syncTip": "Ábending: Skilaboðin þín haldast samstillt yfir vef og farsíma."
-    },
-    "randomChat": {
-      "title": "Slembispjall",
-      "description": "Kynntu þér einhvern nýjan samstundis. Við pörum þig og opnum tímabundið spjallherbergi. Spjallaðu nafnlaust fyrst. Bættu við vini síðar ef það finnst rétt.",
-      "findMatch": "Finndu mér pörun",
-      "chatWithForia": "Spjalla við Foria",
-      "chatWithForiaBot": "Spjalla við ForiaBot",
-      "cancel": "Hætta við",
-      "close": "Loka",
-      "searching": "Leita...",
-      "finding": "Finnur...",
-      "looking": "Leita að einhverjum...",
-      "startingForia": "Byrja spjall við Foria...",
-      "partnerDisconnected": "Pörun þín aftengdist.",
-      "noPartner": "Engin pörun fundin núna.",
-      "connectedTo": "Tengt við {{name}}",
-      "connected": "Tengt",
-      "idle": "Óvirkt",
-      "partnerLeft": "Pörun fór.",
-      "stopped": "Stöðvað.",
-      "skip": "Sleppa",
-      "save": "Vista",
-      "saveGuard": "Aðeins mann-til-mann spjall getur verið vistað",
-      "youAreChattingWith": "Þú ert að spjalla við {{name}}",
-      "bot": "BOT",
-      "leave": "Yfirgefa",
-      "sayHi": "Segðu hæ 👋",
-      "you": "Þú",
-      "typeMessage": "Skrifaðu skilaboð",
-      "send": "Senda",
-      "partner": "Pörun",
-      "withRia": "Með Ria",
-      "chatWithRia": "Spjalla við Ria",
-      "startingRia": "Byrja spjall við Ria...",
-      "ageDisclaimer": "Við geymum aðeins aldursbil (ekki nákvæman fæðingardag). Þetta er notað til að halda slembispjallpörunum sanngjörnum. Til að para við fólk (ekki bara RiaBot), stilltu aldursbil í Stillingar → Aldur og slembispjall.",
-      "ageBandRequired": "Stilltu aldursbil í Prófíll → Aldur og slembispjall til að vera paraður við fólk.",
-      "ageBandCallout": "Til að para við fólk (ekki bara RiaBot), stilltu aldursbil í Stillingar → Aldur og slembispjall.",
-      "subtitle": "Kynntu þér einhvern nýjan samstundis eða veldu að spjalla við Ria.",
-      "start": "Hefja samtöl",
-      "matching": "Pörun...",
-      "setAge": "Stilltu aldursbil í Prófíll → Aldur og slembispjall til að vera paraður við fólk.",
-      "next": "Næsta manneskja",
-      "addFriend": "Bæta við vin",
-      "requested": "Beðið",
-      "messageRia": "Senda skilaboð til Ria...",
-      "messageMatch": "Senda skilaboð til pörunarinnar..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "þarna",
-      "intro": "Hæ þarna 👋 Ég er Ria. Hvað er í gangi hjá þér?",
-      "greetings": {
-        "long1": "Hæ {{name}} 👋 Ég er hér. Hvað er í gangi hjá þér?",
-        "long2": "Hæ {{name}} 😊 Um hvað viltu tala í dag?",
-        "long3": "Hæ {{name}}!! Ég er öll eyru — hvað er að frétta?",
-        "long4": "Gaman að sjá þig, {{name}} 👋 Hvað er í gangi hjá þér í dag?",
-        "long5": "Hæ {{name}} 😊 Viltu útrása, spyrja eða bara spjalla?",
-        "long6": "Hæ {{name}}!! Ég hef tíma — um hvað viltu tala?",
-        "short1": "Hæ {{name}}, ég er enn hér. Hvað er að frétta?",
-        "short2": "Velkomin aftur {{name}} 👋 Viltu bæta við eitthvað annað?",
-        "short3": "Aftur, {{name}}? 😊 Segðu mér hvað er í gangi hjá þér.",
-        "short4": "Hæ {{name}} 👋 Tilbúin/n að halda áfram þar sem við hættum?",
-        "short5": "Já {{name}}? Ég er að hlusta 👂",
-        "short6": "Ó hæ {{name}}!! Ertu með eitthvað nýtt í gangi?"
+    "refund": {
+      "title": "Endurgreiðslustefna",
+      "lastUpdated": "Síðast uppfært:",
+      "intro": "Hjá Chatforia reynum við að veita hágæða þjónustu til allra notenda. Þessi endurgreiðslustefna lýsir því hvenær endurgreiðslur geta verið veittar.",
+      "áskriftir": {
+        "title": "Áskriftir",
+        "body": "Áskriftum er rukkað fyrirfram með reglubundnum endurnýjunum. Þú getur sagt upp hvenær sem er í gegnum reikningsstillingar þínar eða á vettvangi sem notaður var til kaupa."
       },
-      "header": {
-        "openNav": "Opna leiðsöguvalmynd",
-        "closeNav": "Loka leiðsöguvalmynd",
-        "homeAria": "Chatforia heim"
+      "hæfi": {
+        "title": "Skilyrði endurgreiðslu",
+        "body": "Endurgreiðslur geta verið veittar vegna tvítekinna gjalda, reikningsvilla eða tæknilegra vandamála sem hindra aðgang að greiddum eiginleikum. Öllum beiðnum er sinnt í hverju tilviki fyrir sig."
       },
-      "login": {
-        "welcomeBack": "Velkomin aftur",
-        "title": "Halda áfram í Chatforia",
-        "subtitleReturning": "Skráðu þig inn á Chatforia reikninginn þinn",
-        "subtitle": "Skráðu þig inn á Chatforia reikninginn þinn",
-        "google": "Halda áfram með Google",
-        "apple": "Halda áfram með Apple",
-        "googleUnavailable": "Google innskráning ekki tiltæk",
-        "appleUnavailable": "Apple innskráning ekki tiltæk",
-        "or": "eða",
-        "email": "Tölvupóstur",
-        "emailPh": "þú@dæmi.is",
-        "usernameLabel": "Notendanafn",
-        "usernamePh": "Notendanafnið þitt",
-        "passwordLabel": "Lykilorð",
-        "passwordPh": "Lykilorðið þitt",
-        "keepSignedIn": "Halda mér innskráðum",
-        "forgot": {
-          "title": "Gleymt lykilorð",
-          "helper": "Sláðu inn tölvupóstinn sem þú notaðir til að búa til Chatforia reikninginn þinn og við sendum þér öruggan hlekk til að endurstilla lykilorðið.",
-          "emailInvalid": "Sláðu inn gilt tölvupóstfang.",
-          "genericError": "Gat ekki unnið úr beiðni. Reyndu aftur eftir smá stund.",
-          "sending": "Sendi endurstillingarleið...",
-          "sendCta": "Senda endurstillingarleið",
-          "sentLabel": "Sent!",
-          "sentHelper": "Ef reikningur er til með þessum tölvupósti höfum við sent endurstillingarleið. Það getur tekið nokkrar mínútur að berast. Athugaðu ruslpóst eða kynningarmöppu.",
-          "previewDev": "Forskoða tölvupóst (Dev)",
-          "backToLogin": "Aftur til innskráningar"
+      "nonRefundable": {
+        "title": "Óafturkræft",
+        "body": "Almennt veitum við ekki endurgreiðslur fyrir ónotaðan tíma, hluta áskriftartímabila eða ef áskrift er ekki felld niður fyrir endurnýjun.\"    ",
+        "thirdParty ": {
+          "title": "Kaup hjá þriðja aðila",
+          "body": "Ef keypt er í gegnum þriðja aðila, svo sem Apple App Store, skal óska eftir endurgreiðslu beint hjá þeim."
         },
-        "submit": "Skrá inn",
-        "loggingIn": "Skrá inn…",
-        "newHere": "Nýr hér? <link>Búa til reikning</link>",
-        "ssoUnavailable": "Einni innskráning er ekki tiltæk núna. Notaðu notendanafn og lykilorð í staðinn.",
-        "error": {
-          "missing": "Sláðu inn auðkenni þín.",
-          "invalid": "Ógilt notendanafn eða lykilorð",
-          "denied": "Aðgangur hafnað.",
-          "unprocessable": "Ógild beiðni. Athugaðu notendanafn/tölvupóst og lykilorð.",
-          "deviceLimit": "Takmörkum tækja náð fyrir ókeypis áætlun. Skráðu þig út á öðru tæki eða uppfærðu í Premium til að tengja fleiri tæki.",
-          "premiumRequired": "Þessi aðgerð krefst Premium áætlunar."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Klára innskráningu…"
-    },
-    "dialer": {
-      "title": "Hringingar",
-      "subtitle": "Lyklaborð og nýleg. (Ef þú notar ekki PSTN, byrjaðu hringingar frá spjallhaus.)",
-      "enterNumberPh": "Sláðu inn númer",
-      "call": "Hringja",
-      "backspace": "Eyða",
-      "recents": "Nýleg",
-      "recentsEmpty": "Engar nýlegar hringingar enn.",
-      "enterNumber": "Sláðu inn númer",
-      "enterNumberAria": "Sláðu inn númer",
-      "key": "Lykill {{d}}",
-      "noRecents": "Engar nýlegar hringingar enn."
-    },
-    "video": {
-      "title": "Myndband",
-      "chooseType": "Veldu myndbandstegund.",
-      "directTitle": "Beint myndband",
-      "directDesc": "1:1 myndfundur með öðrum notanda.",
-      "directStart": "Byrja",
-      "roomsTitle": "Herbergi",
-      "roomsDesc": "Fjölmanna myndfundur með sameigin herbergisnafni.",
-      "roomsIntro": "Ganga í eða búa til fjölmanna herbergi.",
-      "roomNameLabel": "Herbergisnafn",
-      "roomNamePh": "t.d. team-standup",
-      "join": "Ganga í",
-      "deeplinkTip": "Ábending: þú getur djúptengst beint í <code>/video?room=herbergi-nafn</code>.",
-      "hub": {
-        "title": "Myndband",
-        "subtitle": "Veldu myndbandstegund."
-      },
-      "direct": {
-        "title": "Beint myndband",
-        "subtitle": "Byrjaðu 1:1 myndfund með símanúmeri eða Chatforia notendanafni.",
-        "desc": "1:1 myndfundur með öðrum notanda.",
-        "start": "Byrja",
-        "callBtn": "Hringja",
-        "callByPhone": {
-          "title": "Hringja með síma"
-        },
-        "phone": {
-          "placeholder": "Sláðu inn síma (t.d. +1-555-123-4567)",
-          "aria": "Sími til að hringja"
-        },
-        "tipInvite": "Ábending: Límdu númer og hringdu án þess að vista tengilið. Við bjóðum ónotendum með hlekk.",
-        "findUser": {
-          "title": "Finna notanda"
-        },
-        "search": {
-          "placeholder": "Leita eftir nafni eða notendanafni",
-          "aria": "Leita eftir nafni eða notendanafni",
-          "btn": "Leita"
+        "contact": {
+          "title": "Hafðu samband",
+          "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
         }
       },
-      "rooms": {
-        "title": "Herbergi",
-        "subtitle": "Búðu til herbergi eða gengdu í núverandi með því að slá inn sama nafnið.",
-        "desc": "Fjölmanna myndfundur með sameigin herbergisnafni.",
-        "roomLabel": "Herbergisnafn",
-        "roomPlaceholder": "t.d. team-standup",
-        "roomAria": "Herbergisnafn",
-        "joinCreate": "Ganga í / Búa til",
-        "tip": "Ábending: deildu þessu nafni með öðrum eða djúptengdu í <code>/video?room=herbergi-nafn</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Byrjaðu beinan 1:1 myndfund.",
-      "findUserLabel": "Finna notanda",
-      "findUserPh": "Leita eftir nafni eða notendanafni",
-      "search": "Leita",
-      "call": "Hringja"
-    },
-    "phoneWarning": {
-      "title": "Númerið þitt rennur út fljótlega",
-      "body": "Númerið þitt {{number}} verður sleppt þann {{date}} nema það sé endurvirkjað.",
-      "button": "Halda númerinu mínu"
-    },
-    "support": {
-      "helpFab": "Hjálp",
-      "openSupportAria": "Opna stuðning",
-      "badge": "Stuðningur",
-      "heading": "Hvernig getum við hjálpað?",
-      "tabs": {
-        "help": "Hjálparmiðstöð",
-        "contact": "Hafa samband"
+      "doNotSell": {
+        "title": "Selja ekki eða deila persónuupplýsingum mínum",
+        "body": "Chatforia selur ekki persónuupplýsingar. Íbúar Kaliforníu geta samt sent inn beiðnir samkvæmt CPRA með hnappinum hér að neðan.",
+        "cta": "Senda inn beiðni"
       },
-      "searchPlaceholder": "Leita í hjálpargreinum…",
-      "searchAria": "Leita hjálp",
-      "searchBtn": "Leita",
-      "quickTopicsLabel": "Fljótleg efni",
-      "quickTopics": {
-        "login": "Get ekki skráð inn",
-        "billing": "Greiðslur / greiðslur",
-        "abuse": "Tilkynna misnotkun"
+      "cookies": {
+        "title": "Köku-stillingar",
+        "body": "Chatforia notar örfáar kökur (t.d. lotukökur, öryggiskökur). Við notum ekki kökur frá þriðja aðila til auglýsinga. Stjórnaðu kökum í stillingum vafrans þíns."
       },
-      "trySearching": "Prófaðu að leita að „þýða“, „afrit“ eða „persónuvernd“.",
-      "article": "Grein",
-      "openArticle": "Opna grein",
-      "contactIntro": "Við munum senda þér svar með tölvupósti. Láttu með upplýsingar til að hjálpa okkur að endurskapa vandamálið.",
-      "topicAria": "Velja efni",
-      "messagePlaceholder": "Skrifaðu skilaboðin þín…",
-      "sendBtn": "Senda",
-      "sent": "Skilaboð send. Við svarum með tölvupósti.",
-      "sendError": "Gat ekki sent. Sendu tölvupóst á support@chatforia.com í staðinn."
-    },
-    "encryptionRecovery": {
-      "title": "Stjórna dulkóðun",
-      "description": "Afrita, endurheimta, opna eða endurstilla dulkóðunarlykilinn þinn.",
-      "alert": {
-        "keyRequiredTitle": "Dulkóðunarlykill nauðsynlegur",
-        "keyRequiredBody": "Þessi vafri getur ekki núna afkóðað dulkóðuð skilaboðin þín. Endurheimtu, opnaðu eða endurstilltu lykilinn þinn til að halda áfram."
+      "premiumGuard": {
+        "requiresPremium": "Þessi aðgerð krefst Premium-áætlunar."
       },
-      "sections": {
-        "createBackup": "Búa til lykilafrit",
-        "restoreFromBackup": "Endurheimta úr reikningsafriti",
-        "resetEncryption": "Endurstilla dulkóðun"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Opnunarlykilorð (núverandi tæki)",
-          "description": "Notað til að afkóða lykla þína á tækinu áður en flutt er út"
+      "smsPolicy": {
+        "title": "Chatforia — SMS-stefna og samþykki",
+        "lastUpdated": "Síðast uppfært:",
+        "whatWeSend": {
+          "title": "Hvað við sendum",
+          "body": "Chatforia sendir eingöngu SMS sem tengjast reikningi og samtölum á símanúmer sem notandi hefur skýrt gefið upp og samþykkt. Algeng skilaboð eru innskráningar-/staðfestingarkóðar, tilkynningar um skilaboðafhendingu, öryggisviðvaranir og viðskiptalegar reikningsuppfærslur."
         },
-        "backupPassword": {
-          "label": "Afritunarlykilorð",
-          "description": "Notað til að dulkóða afritunarskrána"
+        "optIn": {
+          "title": "Hvernig notendur skrá sig inn",
+          "body": "Notendur skrá sig inn með því að slá inn símanúmer sitt við skráningu og haka við samþykki fyrir SMS á skráningarsíðunni eða í sérstakri",
+          "link": "skráningarskrifstofu"
         },
-        "restoreBackupPassword": {
-          "label": "Afritunarlykilorð",
-          "description": "Lykilorðið sem þú bjótt til þegar þú afritaðir lykilinn þinn á iPhone"
+        "útskrá": {
+          "title": "Hvernig notendur skrá sig út",
+          "stop": "Svaraðu STOP á hvaða Chatforia SMS sem er til að afskrá þig.",
+          "start": "Svaraðu START til að endurskrá þig.",
+          "contactPrefix": "Hafðu samband við þjónustuverið á"
         },
-        "newLocalPasscode": {
-          "label": "Nýtt staðbundið lykilorð",
-          "description": "Vernda lykla í hvíld á þessum vafra"
+        "help": {
+          "title": "Aðstoð",
+          "bodyPrefix": "Svaraðu HELP fyrir aðstoð eða sendu tölvupóst"
         },
-        "resetLocalPasscode": {
-          "label": "Nýtt staðbundið lykilorð",
-          "description": "Nauðsynlegt áður en endurstilling svo nýi lykillinn sé verndaður á þessu tæki"
-        }
-      },
-      "actions": {
-        "unlockKey": "Opna dulkóðunarlykil",
-        "restoreFromBackup": "Endurheimta úr reikningsafriti",
-        "resetEncryption": "Endurstilla dulkóðun"
-      },
-      "messages": {
-        "backupCreated": "Lykilafrit búið til og sótt.",
-        "keyUnlocked": "Dulkóðunarlykill opnaður.",
-        "keyRestored": "Lykill endurheimtur úr reikningsafriti.",
-        "resetSuccess": "Dulkóðun endurstillt með góðum árangri."
-      },
-      "errors": {
-        "restoreIncomplete": "Lyklaendurheimt ófullnægjandi eða rangt fyrir þennan reikning",
-        "noBackup": "Ekkert dulkóðað afrit er til fyrir þennan reikning",
-        "missingPublicKey": "Afritinu vantar opinberan lykil",
-        "noServerPublicKey": "Þessi reikningur birtir ekki opinberan netþjónslykil núna",
-        "serverBackupMismatch": "Netþjónsafrit passar ekki við núverandi reiknings dulkóðunarlykil",
-        "incompleteMetadata": "Afritunarlýsigögn eru ófullnægjandi",
-        "resetIncomplete": "Dulkóðunarendurstilling lauk ekki rétt"
-      },
-      "confirm": {
-        "reset": "Endurstilla dulkóðun fyrir þennan reikning?\n\nEldri dulkóðuð skilaboð geta orðið ólesanleg nema þú endurheimtir upprunalegan lykil síðar."
-      },
-      "resetDescription": "Þetta býr til nýjan dulkóðunarlykil fyrir reikninginn þinn. Eldri dulkóðuð skilaboð geta orðið ólesanleg nema þú endurheimtir upprunalegan lykil síðar."
-    },
-    "footer": {
-      "plans": "Áætlanir og verðlag",
-      "about": "Um Chatforia",
-      "careers": "Störf",
-      "press": "Fjölmiðlar",
-      "advertise": "Auglýsa",
-      "contact": "Hafa samband",
-      "help": "Hjálparmiðstöð",
-      "status": "Staða síða",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Persónuverndarstefna",
-      "terms": "Notkunarskilmálar",
-      "cookies": "Vafrakökustillingar",
-      "doNotSell": "Seljið ekki upplýsingar mínar",
-      "language": "Tungumál",
-      "contactShort": "Hafa samband",
-      "aria": "Neðanmál",
-      "homeAria": "Chatforia heim",
-      "section": {
-        "company": "FYRIRTÆKI",
-        "support": "STUÐNINGUR",
-        "downloads": "NIÐURHAL",
-        "legal": "LÖGLEG"
-      },
-      "links": {
-        "plans-pricing": "Áætlanir og verðlag",
-        "about-chatforia": "Um Chatforia",
-        "careers": "Störf",
-        "press": "Fjölmiðlar",
-        "advertise": "Auglýsa",
-        "getting-started": "Byrjunarleiðbeiningar",
-        "help-center": "Hjálparmiðstöð",
-        "contact-us": "Hafa samband",
-        "status-page": "Staða síða",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Persónuverndarstefna",
-        "terms-of-service": "Notkunarskilmálar",
-        "do-not-sell-my-info": "Seljið ekki upplýsingar mínar",
-        "cookie-settings": "Vafrakökustillingar"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Einkaleyfi í vinnslu",
-      "backToTop": "↑ Aftur efst"
-    },
-    "press": {
-      "title": "Fjölmiðlar",
-      "contactLine": "Fyrir fjölmiðla fyrirspurnir, náðu í okkur á",
-      "boilerplateTitle": "Grunntexti",
-      "boilerplateBody": "Chatforia er persónuverndar-fyrsta skilaboðaapp sem gerir fjöltyng spjall auðvelt. Skilaboð eru enda-til-enda dulkóðuð sjálfgefið og innbyggð þýðing styður 100+ tungumál í rauntíma. Notendur geta virkjað sjálfsvinnandi skilaboð, haldið leskvittanir valfrjálsar og samstillt yfir tæki. Tiltækt á iOS, Android og vef.",
-      "assetsTitle": "Vörumerkiseign",
-      "assetsSubtitle": "Lógó, skjámyndir og vörumerki.",
-      "downloadCta": "Sækja miðlunarsetti",
-      "downloadTitle": "Sækja appið",
-      "scanTip": "Á tölvu? Skannaðu með símanum til að sækja appið.",
-      "qrAria": "Opna Chatforia vefsvæði",
-      "appStore": "Sækja í App Store",
-      "googlePlay": "Sækja í Google Play"
-    },
-    "careers": {
-      "title": "Störf",
-      "intro": "Við erum lítið stofnandi teymi að byggja Chatforia — einka, alþjóðlegt skilaboðaapp sem kemur á vef, iOS og Android. Ef þú hefur áhuga á persónuvernd, dulkóðun og ánægjulegum notendaupplifunum, viljum við gjarnan heyra frá þér.",
-      "openRoles": "<b>Opin stofnandi störf:</b> Leiðandi full-stack verkfræðingur, bakvinnsluverkfræðingur (Node.js), framvinnslu/vef verkfræðingur (React), farsímaverkfræðingur (iOS), farsímaverkfræðingur (Android), DevOps/SRE, öryggis- og dulkóðunarverkfræðingur, fjarskiptaverkfræðingur (Twilio + eSIM).",
-      "apply": "Hvernig sækirðu um: Notaðu hnappinn hér að neðan til að senda ferilskrána þína og hlekki með tölvupósti.",
-      "emailCta": "Sendu ferilskrána þína með tölvupósti",
-      "whyNow": "Af hverju ganga til liðs núna?",
-      "whyBullets": "• Hjálpaðu að byggja grunninn að nýju alþjóðlegu skilaboðaappi.\n• Sendu úrbætur sem notaðar eru yfir vef, iOS og Android.\n• Vinna beint með stofnanda á arkitektúr og vöruáætlun.\n• Eiga hááhrifasvæði í staflanum: skilaboð, rödd, myndfundir, dulkóðun, fjarskipti, gervigreind.\n• Ganga til liðs í upphafi — áður en notendafjöldi vex."
-    },
-    "about": {
-      "title": "Um Chatforia",
-      "description": "Chatforia er öruggt, fjöltyngt skilaboðaapp með enda-til-enda dulkóðun, samstundis þýðingu og hringingar/myndfundir. Markmið okkar er einfalt: hjálpa fólki að tengjast — örugglega, einkalega og yfir tungumál.",
-      "valuesTitle": "Hvað við metum",
-      "values": {
-        "privacy": "<b>Persónuvernd í fyrsta sæti:</b> E2E dulkóðun sjálfgefið.",
-        "access": "<b>Aðgangur fyrir alla:</b> Sjálfvirk þýðing á 100+ tungumál.",
-        "control": "<b>Stjórn:</b> Sjálfsvinnandi skilaboð og leskvittanir eru valfrjálsar.",
-        "privacy_aria": "Persónuvernd í fyrsta sæti: E2E dulkóðun sjálfgefið.",
-        "access_aria": "Aðgangur fyrir alla: Sjálfvirk þýðing á 100+ tungumál.",
-        "control_aria": "Stjórn: Sjálfsvinnandi skilaboð og leskvittanir eru valfrjálsar."
-      },
-      "howTitle": "Hvernig Chatforia virkar",
-      "howDescription": "Skilaboð eru dulkóðuð á tækinu þínu áður en þau fara þaðan. Þýðing, afrit og tækissamstilling eru hönnuð til að lágmarka það sem netþjónar okkar geta séð."
-    },
-    "advertise": {
-      "title": "Auglýsa með Chatforia",
-      "description": "Náðu til virkra skilaboðanotenda með smekklegum, vörumerkja-öruggum staðsetningum. Við bjóðum upp á borða birtingar á hássýnilegu svæðum, styrktarauglýsingar og innanhúss kynningar. Premium áskrifendur sjá engar auglýsingar.",
-      "adsense": {
-        "withPubIdShort": "Við bjóðum einnig upp á birtingar í gegnum Google AdSense. Þú getur miðað Chatforia með útgáfuaðila ID {{pubId}} eða notað eyðublaðið hér að neðan fyrir beinar styrktarauglýsingar.",
-        "noPubIdShort": "Við bjóðum einnig upp á suma birtingar í gegnum Google AdSense. Beinar styrktarauglýsingar eru tiltækar — notaðu eyðublaðið hér að neðan."
-      },
-      "inventoryHeader": "Birtingar og forskriftir",
-      "placement": {
-        "displayBadge": "Birting",
-        "acceptedSizes": "Samþykktar stærðir",
-        "adsenseSlot": "AdSense rauf:"
-      },
-      "noPlacementsPublic": "Við erum að klára auglýsingabirtingar okkar. Segðu okkur um herferðina þína og við munum mæla með staðsetningum.",
-      "whyHeader": "Af hverju Chatforia?",
-      "why": {
-        "highSession": "Mikil lotutíðni og dvalartími í spjallviðmóti",
-        "brandSafe": "Vörumerkja-öruggar form; virðingarfull tíðnibreyting",
-        "sponsoredMoments": "Styrktar augnablik (t.d. „Hefja spjall“ gluggi) tiltæk",
-        "deals": "Beinar samningar eða forritun í gegnum AdSense/Google Ads"
-      },
-      "contactHeader": "Hafa samband",
-      "form": {
-        "submittedMsg": "Takk! Fyrirspurnin þín er á leiðinni. Við munum hafa samband fljótlega.",
-        "missingRequired": "Vinsamlegast fylltu út nafn, tölvupóst og skilaboð.",
-        "successToast": "Takk! Við munum hafa samband fljótlega.",
-        "mailtoInfo": "Opna tölvupóstforrit til að senda fyrirspurnina…",
-        "nameLabel": "Nafnið þitt",
-        "namePlaceholder": "Jóna Jónsdóttir",
-        "emailLabel": "Tölvupóstur",
-        "emailPlaceholder": "þú@fyrirtæki.is",
-        "companyLabel": "Fyrirtæki",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Mánaðarlegur fjárhagsáætlun (valfrjálst)",
-        "budgetPlaceholder": "t.d. $1.000–$20.000+",
-        "messageLabel": "Segðu okkur um herferðina þína",
-        "messagePlaceholder": "Miðun, dagsetningar, KPI, staðsetningarval…",
-        "sendCta": "Senda fyrirspurn"
-      },
-      "legal": {
-        "disclaimerStart": "Með því að senda samþykkir þú",
-        "terms": "Notkunarskilmála",
-        "and": "og",
-        "privacy": "Persónuverndarstefnu"
+        "privacyTerms": {
+          "title": "Persónuverndarskilmálar & Skilmálar",
+          "bodyStart": "Með því að samþykkja SMS samþykkja notendur einnig okkar",
+          "terms": "Þjónustuskilmálar",
+          "and": "og",
+          "nüldur": "Nüldurreglur"
+        },
+        "fótnóta": "© 2026 Chatforia Inc."
       }
     }
   }

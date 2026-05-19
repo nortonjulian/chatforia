@@ -7,7 +7,7 @@
     "cancelAria": "Anulo",
     "copy": "Kopjo",
     "copied": "Kopjuar!",
-    "errorWithMessage": "Gabim: {{message}}",
+    "errorWithMessage": "Gabim: { {message}}",
     "loading": "Po ngarkohet…",
     "saveError": "Dështoi ruajtja"
   },
@@ -20,129 +20,137 @@
   },
   "keys": {
     "backupCreated": "Kopja rezervë e çelësit u krijua dhe u shkarkua ✓",
-    "restored": "Kopja rezervë e çelësit është rikthyer ✓ Çelësat janë instaluar lokalisht",
+    "restored": "Kopja rezervë e çelësit u rikthye ✓ Çelësat instaluar lokalisht",
     "noBackup": "Nuk ekziston asnjë kopje rezervë e kriptuar për këtë llogari",
     "missingPublicKey": "Kopjes rezervë i mungon një çelës publik"
   },
   "keySetup": {
-    "title": "Konfiguro çelësat e pajisjes suaj",
-    "përshkrimi": "Kjo pajisje ende nuk ka çelësin tuaj privat. Importoni një kopje rezervë të mbrojtur me fjalëkalim, ose krijoni një palë çelësash të reja (tani do të mund të lexoni mesazhe të reja). ",
-    "zgjidhSkedarin": "Zgjidh një skedar dhe fut fjalëkalimin.",
-    "importuar": "Çelësi privat është importuar në këtë pajisje. Tani mund të lexosh mesazhet e vjetra.",
-    "futFjalekalimin": "Fut fjalëkalimin e llogarisë tënde që të mund të ruajmë çelësat e tu në mënyrë të sigurt."
+    "title ": "Konfiguro çelësat e pajisjes suaj",
+    "description": "Kjo pajisje ende nuk ka çelësin tuaj privat. Importoni një kopje rezervë të mbrojtur me fjalëkalim, ose krijoni një palë çelësash të reja (tani do të mund të lexoni mesazhe të reja).",
+    "chooseFile": "Zgjidhni një skedar dhe shkruani fjalëkalimin.",
+    "imported": "Çelësi privat u importua në këtë pajisje. Tani mund të lexoni mesazhet e vjetra.",
+    "enterPassword": "Futni fjalëkalimin e llogarisë suaj që të mund të bëjmë kopje rezervë të çelësave tuaj në mënyrë të sigurt."
   },
-  "rimëkëmbjeShifrimi": {
-    "title": "Menaxho Shifrimin",
-    "description": "Ruaj kopje rezervë, rikthe, zhblloko, ose rivendosni çelësin tuaj të enkriptimit.",
-    "alert": {
-      "keyRequiredTitle": "Nevojitet çelësi i enkriptimit",
-      "keyRequiredBody": "Ky shfletues aktualisht nuk mund të dekriptojë mesazhet tuaja të enkriptuara. Rivendosni, zhbllokoni ose rivendosni çelësin tuaj për të vazhduar."
+  "encryptionRecovery": {
+    "title": "Menaxho Kriptimin",
+    "description": "Bëni kopje rezervë, riktheni, zhbllokoni ose rivendosni çelësin tuaj të kriptimit.",
+    " alert": {
+      "keyRequiredTitle": "Kërkohet çelësi i enkriptimit",
+      "keyRequiredBody": "Ky shfletues aktualisht nuk mund të dekriptojë mesazhet tuaja të enkriptuara. Rikthe, zhblloko ose rivendos çelësin për të vazhduar."
     },
     "sections": {
       "createBackup": "Krijo kopje rezervë të çelësit",
       "restoreFromBackup": "Rikthe nga kopja rezervë e llogarisë",
-      "resetEncryption": "Rinis enkriptimin"
+      "resetEncryption": "Rivendos enkriptimin"
     },
     "fields": {
       "unlockPasscode": {
-        "etiketa": "Kodi i zhbllokimit (pajisja aktuale)",
-        "përshkrimi": "Përdoret për të deshifruar çelësat tuaj lokalisht para eksportimit"
+        "label": "Kodi i zhbllokimit (pajisja aktuale)",
+        "description": "Përdoret për të deshifruar çelësat tuaj lokalisht para eksportimit"
       },
-      "fjalëkalimi i kopjes rezervë": {
-        "etiketa": "Fjalëkalimi i kopjes rezervë",
-        "përshkrimi": "Përdoret për të enkriptuar skedarin e kopjes rezervë"
+      "backupPassword": {
+        "label": "Fjalëkalimi i kopjes rezervë",
+        "description": "Përdoret për të koduar skedarin e kopjes rezervë"
       },
-      "fjalëkalimi i rikthimit të kopjes rezervë": {
+      "restoreBackupPass word": {
         "label": "Fjalëkalimi i kopjes rezervë",
         "description": "Fjalëkalimi që krijuat kur bëtë kopje rezervë të çelësit tuaj në iPhone"
       },
       "newLocalPasscode": {
         "label": "Fjalëkalimi i ri lokal",
-        "description": "Mbron çelësat në pushim në këtë shfletues"
+        "description": "Mbron çelësat në këtë shfletues"
       },
       "resetLocalPasscode": {
         "label": "Kod kalimi lokal i ri",
         "description": "Kërkohet para rivendosjes që çelësi i ri të mbrohet në këtë pajisje"
       }
     },
-    "veprimet": {
-      "hapKodrin": "Hap kodrinën e enkriptimit",
-      "restauroshPrejKopjeRezervë": "Restaurosh nga kopja rezervë e llogarisë",
-      "rivendosEnkriptimin": "Rinovon enkriptimin"
+    "actions": {
+      "unlockKey": "Hap çelësin e enkriptimit",
+      "restoreFromBackup": " Rikthe nga kopja rezervë e llogarisë",
+      "resetEncryption": "Rinis enkriptimin"
     },
-    "mesazhet": {
-      "kopjeRezervëKrijuar": "Kopja rezervë e kodrës u krijua dhe u shkarkua.",
-      "kodrinaHapur": "Kodrina e enkriptimit u hap.",
-      "keyRestored": "Çelësi është rikthyer nga kopja rezervë e llogarisë.",
-      "resetSuccess": "Rikthimi i enkriptimit u krye me sukses."
+    "messages": {
+      "backupCreated": "Kopja rezervë e çelësit u krijua dhe u shkarkua.",
+      "keyUnlocked": "Çelësi i enkriptimit u çkyç.",
+      "keyRestored": "Çelësi u rikthye nga kopja rezervë e llogarisë.",
+      "resetSuccess": "Riestatimi i enkriptimit u krye me sukses."
     },
     "errors": {
       "restoreIncomplete": "Rikthimi i çelësit është i paplotë ose i pasaktë për këtë llogari",
       "noBackup": "Nuk ekziston asnjë kopje rezervë e enkriptuar për këtë llogari",
-      "missingPublicKey": "Kopjes rezervë i mungon një çelës publik",
-      "noServerPublicKey": " Ky llogari aktualisht nuk tregon një çelës publik të serverit",
-      "serverBackupMismatch": "Kopja rezervë e serverit nuk përputhet me çelësin aktual të enkriptimit të llogarisë",
-      "incompleteMetadata": "Metadatat e kopjes rezervë janë të paplotë",
-      "resetIncomplete": "Riestatimi i enkriptimit nuk u përfundua si duhet"
+      "mungonÇelësiPublik": "Kopjes rezervë i mungon një çelës publik",
+      "paÇelësPublikServeri": "Kjo llogari aktualisht nuk ekspozon një çelës publik serveri",
+      "kopjaRezervëeServeritnukpërkon": "Kopja rezervë e serverit nuk përkon me çelësin aktual të enkriptimit të llogarisë",
+      "metadataePapakët": "Metadatat e kopjes rezervë janë të paplotë",
+      "riaktivizimIpaplotë": "Riaktivizimi i enkriptimit nuk u përfundua si duhet "
     },
     "confirm": {
-      "reset": "Rinisni enkriptimin për këtë llogari?\n\nMesazhet më të vjetra të enkriptuara mund të bëhen të padalueshme nëse nuk riktheni çelësin origjinal më vonë."
+      "reset": "Rinisni enkriptimin për këtë llogari?\n\nMesazhet më të vjetra të enkriptuara mund të bëhen të padalueshme nëse nuk rivendosni më vonë çelësin origjinal."
     },
-    "resetDescription": "Kjo gjeneron një çelës të ri enkriptimi për llogarinë tuaj. Mesazhet më të vjetra të enkriptuara mund të bëhen të padalueshme nëse nuk riktheni çelësin origjinal më vonë."
+    "resetDescription": "Kjo gjeneron një çelës të ri enkriptimi për llogarinë tuaj. Mesazhet më të vjetra të enkriptuara mund të bëhen të padalueshme nëse nuk rivendosni më vonë çelësin origjinal."
+  },
+  "smsConsent": {
+    "label": "Unë pajtohem të marr njoftime dhe alarme me SMS nga {{companyName}}. Frekuenca e mesazheve mund të ndryshojë. Mund të aplikohen tarifa për mesazhe dhe të dhëna. Përgjigju <stop>STOP</stop> për t'u çregjistruar në çdo kohë. Përgjigju <help>HELP</help> për ndihmë."
+  },
+  "phoneField": {
+    "label": "Telefon",
+    "i pavlefshëm": "Numër telefoni i pavlefshëm",
+    "udhëzim": "Përfshini kodin e vendit nëse është e nevojshme (p.sh., +1 415…)"
   },
   "auth": {
-    "headline": " Mesazhe të sigurta për të gjithë, kudo",
-    "përshkrimi": "Shifrim nga skaji në skaj, përkthim në mbi 100 gjuhë, mesazhe që zhduken dhe thirrje zanore/video.",
-    "veçoria": {
-      "shifrimi": "Shifrim nga skaji në skaj si parazgjedhje",
-      "translation": "Përkthim inteligjent i integruar i mesazheve",
+    "headline": "Mesazhe të sigurta për të gjithë, kudo",
+    "description": "Enkriptim nga skaji në skaj, përkthim në mbi 100 gjuhë, mesazhe që zhduken dhe thirrje zanore/video.",
+    "feature": {
+      "encryption": "Enkriptim nga skaji në skaj si parazgjedhje",
+      "translation": "Përkthim inteligjent i integruar të mesazheve",
       "disappearing": "Mesazhe që zhduken & pranimet e leximit",
-      "privacy": "Projektim me privatësi të paracaktuar. Të dhënat e tua, kontrolli yt.",
-      "translate": "Përkthim inteligjent i integruar të mesazheve",
-      "zhduket": "Mesazhe që zhduken",
-      "privacyAlt": "Dizajn i orientuar drejt privatësisë",
-      "seePlans": "Shiko planet & çmimet"
+      "privacy": "Projektim i orientuar nga privatësia. Të dhënat e tua, kontrolli yt.",
+      "përkthim": "Përkthim inteligjent i integruar i mesazheve",
+      "zhdukje": "Mesazhe që zhduken",
+      "privatësiAlternativ": "Projektim i orientuar nga privatësia",
+      "shikoPlanet": "Shiko planet & çmimet"
     },
     "hero": {
       "line1": "Mesazhe të sigurta për të gjithë, kudo — me",
       "em": "përkthim në mbi 100 gjuhë",
-      "sub": "Merrni një numër telefoni të sigurt falas për të telefonuar dhe dërguar mesazhe në mbarë botën përmes Wi-Fi ose të dhënave. Shijoni enkriptim nga fundi në fund, mesazhe që zhduken dhe thirrje zanore/video HD — me mjete të integruara që ju ndihmojnë të qëndroni të lidhur përtej kufijve.",
-      "freeNote": "Thirrjet dhe mesazhet bazë janë falas. AI e avancuar dhe veçoritë premium kërkojnë një përmirësim. "
+      "sub": "Merrni një numër telefoni të sigurt falas për të bërë thirrje dhe për të dërguar mesazhe në mbarë botën përmes Wi-Fi ose të dhënave. Shijoni enkriptim nga një skaj në tjetrin, mesazhe që zhduken dhe thirrje zanore/video HD — me mjete të integruara që ju ndihmojnë të qëndroni të lidhur përtej kufijve.",
+      "freeNote": "Thirrjet dhe mesazhet bazë janë falas. AI e avancuar dhe veçoritë premium kërkojnë një përmirësim."
     },
     "feat": {
       "encryption": "Shifrim nga skaji në skaj, gjithmonë i ndezur",
       "translate": "Thyejni barrierat gjuhësore në bisedat tuaja",
       "disappear": "Mesazhe që zhduken & pranime leximi",
-      "privacy": "Mbrojtje e privatësisë. Të dhënat e tua, kontrolli yt."
+      "privacy": "Fokusi te privatësia. Të dhënat tuaja, kontrolli juaj. "
     },
     "continueGoogle": "Vazhdo me Google",
     "continueApple": "Vazhdo me Apple",
     "username": "Emri i përdoruesit",
     "password": "Fjalëkalimi",
-    "keepSignedIn": "Mbetem i/e kyçur",
+    "keepSignedIn": "Mbajmë të kyçur",
     "forgotPassword": "Harrove fjalëkalimin?",
-    "loginButton": "Hyni",
-    "createAccount": "Krijoni një llogari",
-    "freeAccountButton": "Krijoni llogari falas",
-    "newHere": "Jeni i ri këtu?",
-    "getApp": "Merrni aplikacionin",
-    "desktopTip": "Në desktop? Skano me telefonin tuaj për të marrë aplikacionin.",
-    "scanuesi": "Në desktop? Skano me telefonin tënd për të marrë aplikacionin.",
-    "shkoNëShtëpi": "Shko në shtëpi",
-    "shtëpia": "Shtëpia",
-    "altTitle": {
-      "kryesor": "Mesazheri i sigurt që",
-      "theks": "flet gjuhën tënde"
+    "loginButton": "Hy",
+    "createAccount": "Krijo një llogari",
+    "freeAccountButton": "Krijo llogari falas",
+    "newHere": "Je i ri këtu?",
+    "getApp": "Merr aplikacionin",
+    "desktopTip": "Në desktop? Skano me telefonin tënd për të marrë aplikacionin.",
+    "scanHelper": "Në desktop? Skano me telefonin tënd për të marrë aplikacionin.",
+    "goHome": "Shko në shtëpi",
+    "home": "Shtëpia",
+    "headlineAlt": {
+      "main": "Mesazheri i sigurt që",
+      "highlight": "flet gjuhën tënde"
     },
-    "nënkryetari": "Mesazhe private, të kriptuara dhe të përkthyera — menjëherë.",
-    "përmirësimi": "Përmirëso tani",
-    "tip": "Këshillë: Përdorni të njëjtin llogari në web dhe celular. Mesazhet tuaja mbeten të sinkronizuara.",
+    "subhead": "Mesazhe private, të kriptuara dhe të përkthyera — menjëherë.",
+    "upgrade": "Përmirëso tani",
+    "tip": "Këshillë: Përdor të njëjtin llogari në web dhe celular. Mesazhet e tua mbeten të sinkronizuara.",
     "openDownload": "Hape faqen e shkarkimit",
     "qrAlt": "Kodi QR për Chatforia",
-    "scanHint": "Skano për të shkarkuar aplikacionin ose për ta hapur në shfletuesin tuaj.",
+    "scanHint": "Skano për të shkarkuar aplikacionin ose për ta hapur në shfletuesin tënd.",
     "iosAria": "Shkarko në App Store",
     "iosTitle": "Shkarko në App Store",
-    "iosBadgeAlt": "Badge i App Store",
+    "iosBadgeAlt": "Nishani i App Store",
     "androidAria": "Merr në Google Play",
     "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Badge i Google Play",
@@ -150,27 +158,27 @@
     "signup": "Regjistrohu",
     "email": "Email",
     "registration": {
-      "passwordDescription": "Më së paku 6 karaktere. Përdorni një fjalëkalim të fortë dhe unik.",
-      "smsConsent": "Duke krijuar një llogari, ju pranoni të merrni njoftime SMS në lidhje me aktivitetin tuaj në Chatforia (si mesazhe nga përdorues të tjerë). Mund të zbatohen tarifa për mesazhe dhe të dhëna. Mund të tërhiqeni në çdo kohë në Cilësimet.",
+      "passwordDescription": "Minimumi 6 karaktere. Përdorni një fjalëkalim të fortë dhe unik.",
+      " smsConsent": "Duke krijuar një llogari, ju pranoni të merrni njoftime me SMS në lidhje me aktivitetin tuaj në Chatforia (të tilla si mesazhe nga përdorues të tjerë). Mund të zbatohen tarifa për mesazhe dhe të dhëna. Ju mund të tërhiqeni në çdo kohë në Cilësimet.",
       "termsLink": "Kushtet e Shërbimit",
-      " privacyLink": "Politika e Privatësisë"
+      "privacyLink": "Politika e Privatësisë"
     },
-    "to": "Për:",
+    "to": "Tek:",
     "enterRecipient": "Fut një emër ose numër",
     "clearRecipients": "Fshij marrësit",
-    "sms": " SMS",
+    "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Shkruani një mesazh…",
-    "addRecipient": "Shtoni një marrës më sipër për të filluar…",
+    "typeMessage": "Shkruaj një mesazh…",
+    "addRecipient": "Shto një marrës më sipër për të filluar…",
     "oneRecipient": "Ju lutemi shkruani një marrës për tani.",
-    "enterValidRecipient": "Futni emrin e një kontakti të ruajtur ose një numër telefoni.",
+    "enterValidRecipient": "Shkruani emrin e një kontakti të ruajtur ose një numër telefoni.",
     "sendFailed": "Dërgimi dështoi. Kontrolloni konsolën për detaje."
   },
   "home": {
-    "title": "Shtëpia",
+    " title": "Koha kryesore",
     "messagesTitle": "Mesazhet tuaja",
-    "messagesSubtitle": "Fut një marrës më sipër, pastaj dërgo një mesazh për të nisur një bisedë.",
-    "subheader": "Dërgo një mesazh për të nisur një bisedë.",
+    "messagesSubtitle": "Fut një marrës më sipër, pastaj dërgo një mesazh për të filluar një bisedë.",
+    "subheader": "Dërgo një mesazh për të filluar një bisedë.",
     "sendButton": "Dërgo mesazh",
     "gifPicker": "Hape zgjedhësin e GIF-eve",
     "emoji": "Emoji",
@@ -182,35 +190,35 @@
     "send": "Dërgo",
     "welcomeMessage": "Mirë se vini në Chatforia",
     "getStarted": "Filloni",
-    "enterRecipient": "Shkruani një emër ose numër",
-    "addRecipient": "Shtoni një marrës më sipër për të filluar…",
     "mixedRecipients": "Janë zbuluar marrës të përzier. Përdorni ose të gjitha numrat e telefonit (SMS) ose të gjitha emrat e përdoruesit (Chatforia).",
-    "juNevojitetNumri": "Ju duhet një numër Chatforia para se të dërgoni SMS.",
-    "zgjidhniNumrin": "Zgjidhni një numër"
+    "enterRecipient": "Futni një emër ose numër",
+    "addRecipient": "Shto një marrës më sipër për të filluar…",
+    "needNumber": "Ju duhet një numër Chatforia para se të dërgoni SMS.",
+    "chooseNumber": "Zgjidh një numër"
   },
   "sidebar": {
-    "bisedëRastësore": "Bisedë Rastësore",
-    "transferimThirrjeshDheMesazhesh": "Transferim Thirrjesh & Mesazhesh",
+    "randomChat": "Bisedë e rastësishme",
+    "callTextForwarding": "Transferim Thirrjesh & Mesazhesh ",
     "conversations": "Bisedat",
-    "searchPlaceholder": "Kërko biseda...",
+    "searchPlaceholder": "Kërko bisedat...",
     "errorLoading": "Dështoi ngarkimi i bisedave",
-    "empty": "Ende nuk ka biseda.",
+    "empty": "Ende pa biseda.",
     "startChat": "Filloni një bisedë",
-    "people": "Njerëz",
-    "settings": "Cilësimet",
+    "people": "Njerëzit",
+    "settings": "Caktimet",
     "status": "Statusi",
-    "forwarding": "Transferimi i thirrjeve & mesazheve",
-    "refresh": "Rifresko",
-    "search": "Kërko biseda",
+    "forwarding": "Transferimi i Thirrjeve & Mesazheve",
+    "rifreskim": "Rifresko",
+    "kërkim": "Kërko biseda",
     "loginPrompt": "Hyni për të redaktuar cilësimet tuaja.",
-    "login": "Hyni",
-    "register": " Krijo llogari",
+    "hyrje": "Hyni",
+    "regjistrim": "Krijo llogari",
     "chatrooms": "Dhoma bisedash",
     "logout": "Dalje",
     "startChatAlt": "Fillo një bisedë të re",
     "calls": "Thirrje",
     "video": "Video",
-    "voicemail": "Mesazh zanor"
+    "voicemail": "Mesazhe zanore"
   },
   "topbar": {
     "newStatus": "Statusi i ri",
@@ -221,27 +229,27 @@
   "footer": {
     "plans": "Planet & Çmimet",
     "about": "Rreth Chatforia",
-    "careers": "Karrierat",
-    "press": "Shtypi",
-    "advertise": "Reklamoni",
-    "contact": "Na kontaktoni",
-    "help": "Qendra e Ndihmës",
+    "careers": " Karrierat",
+    "shtyp": "Shtyp",
+    "reklamoni": "Reklamoni",
+    "na kontaktoni": "Na kontaktoni",
+    "ndihmë": " Qendra e Ndihmës",
     "status": "Faqja e Statusit",
     "iosDownload": "iOS / App Store",
-    "androidDownload": " Android / Google Play",
+    "androidDownload": "Android / Google Play",
     "privacy": "Politika e Privatësisë",
     "terms": "Kushtet e Shërbimit",
     "cookies": "Caktimet e Cookies",
     "doNotSell": "Mos Shisni Informacionin Tim",
-    "language": "Gjuha",
-    "contactShort": "Kontakt ",
+    "language": "Gjuhë",
+    "contactShort": "Kontakt",
     "aria": "Piedestali",
     "homeAria": "Faqja kryesore e Chatforia",
     "section": {
       "company": "KOMPANIA",
-      "support": "SUPORTI",
+      "support": "SUPORTI ",
       "downloads": "SHKARKIME",
-      "legal": "LEGALE"
+      "legal": "LIGJOR"
     },
     "lidhjet": {
       "plans-pricing": "Planet & Çmimet",
@@ -249,22 +257,26 @@
       "careers": "Karrierat",
       "press": "Shtypi",
       "advertise": "Reklamoni",
-      "getting-started": "Fillimi",
+      " getting-started": "Fillimi",
       "help-center": "Qendra e Ndihmës",
       "contact-us": "Na Kontaktoni",
       "status-page": "Faqja e Statusit",
-      "ios-app-store": " iOS / App Store",
+      "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
       "privacy-policy": "Politika e Privatësisë",
-      "terms-of-service": "Kushtet e Shërbimit",
+      "terms-of -service": "Kushtet e Shërbimit",
       "do-not-sell-my-info": "Mos Shisni Informacionin Tim",
-      "cookie-settings": "Caktimet e Cookies"
+      "cookie-settings": "Caktimet e Kukive",
+      "how-it-works": "Si Funksionon",
+      "blog": "Blog",
+      "refund-policy": "Politika e rimbursimit",
+      "politika-e-mesazheve-sms": "Politika e mesazheve SMS"
     },
     "social": {
       "tiktok": "TikTok",
       "instagram": "Instagram",
       "facebook": "Facebook",
-      "linkedin": "LinkedIn",
+      "linkedin": " LinkedIn",
       "x": "X"
     },
     "copyright": "© Chatforia",
@@ -272,155 +284,151 @@
     "backToTop": "↑ Kthehu në krye"
   },
   "chat": {
-    "selectPrompt": "Zgjidhni një tekst ose dhomë bisede për të filluar bisedën",
+    "selectPrompt": "Zgjidh një tekst ose dhomë bisede për të filluar bisedën",
     "newMessages": "Mesazhe të reja",
-    "typing": "{{name}} po shkruan...",
+    "typing": "{{name }} po shkruan...",
     "emptyTitle": "Mesazhet tuaja",
-    "emptySubtitle": "Dërgoni një mesazh për të filluar një bisedë.",
+    "emptySubtitle": "Dërgo një mesazh për të filluar një bisedë.",
     "startChatButton": "Dërgo mesazh",
     "mediaAttachment": "Shtojcë media",
     "thisUser": "ky përdorues",
     "blockConfirm": "Blloko {{name}}? Nuk do të marrësh më mesazhe prej tyre.",
     "blockedUser": "Bllokuar {{name}}.",
-    "blockError": "Nuk mund të përcaktohej një përdorues për bllokim.",
-    "blockFailed": "Bllokimi dështoi (backend ende nuk është lidhur).",
-    "encryptedUnavailable": "Mesazhi i enkriptuar (kyçi i papërdorshëm)",
-    "shkyçjePërTëPashur": "Shkyçni çelësin tuaj për të parë këtë mesazh"
+    "blockError": "Nuk mund të përcaktohej një përdorues për t'u bllokuar.",
+    "blockFailed": "Bllokimi dështoi (backend-i ende nuk është lidhur).",
+    "encryptedUnavailable": "Mesazh i enkriptuar (çelësi i paarritshëm)",
+    "unlockToView": "Ç'kyçni çelësin tuaj për të parë këtë mesazh"
   },
-  "messageInput": {
+  " messageInput": {
     "ttl": {
       "off": "I fikur"
     },
-    "freeLimit": "Kufiri i planit falas: fshirje automatike deri në 1 ditë. I kufizuar në 1d.",
+    "freeLimit": "Kufiri i planit falas: fshihet automatikisht deri në 1 ditë. I kufizuar në 1d.",
     "premiumLimit": "Kufiri maksimal i fshirjes automatike për Premium është 30 ditë. I kufizuar në 30d.",
-    "nothingToSend": "Shkruani një mesazh ose bashkëngjitni një skedar për ta dërguar.",
+    " nothingToSend": "Shkruani një mesazh ose bashkëngjitni një skedar për t'u dërguar.",
     "encryptionFailed": "Enkriptimi dështoi. Mesazhi nuk u dërgua.",
     "sent": "Mesazhi u dorëzua.",
-    "placeholder": "Shkruani një mesazh…",
-    "voiceAdded": "Shënimi zanor u shtua",
-    "attachmentAdded": "Bashkëngjitja u shtua",
+    "placeholder": "Shkruani një mesazh… ",
     "autoDelete": "Fshirje automatike",
     "typeToSend": "Shkruani një mesazh për t'u dërguar",
     "send": "Dërgo",
     "sendWithEnter": "Dërgo (Enter)",
-    "attachment": "shtojca",
+    "attachment": "Shtojcë",
     "caption": "Kaption (opsional)",
     "remove": "Hiq",
     "clear": "Pastro",
     "gif": "GIF",
-    "sticker": "Stiker",
+    "sticker": "Sticker",
     "errors": {
       "attachmentTooLarge": "Shtojca tepër e madhe. Përdorni një skedar më të vogël.",
       "unsupportedFile": "Lloj skedari i papërkrahur.",
       "rateLimit": "Po dërgoni mesazhe shumë shpejt. Ju lutemi ngadalësoni.",
       "validation": "Gabim validimi. Ju lutemi kontrolloni mesazhin tuaj dhe provoni përsëri.",
-      "failedToSend": "Dështoi dërgimi. Mund të riprovoni flluskën e dështuar."
+      "failedToSend": "Dështoi dërgimi. Mund të provoni përsëri flluskën e dështuar."
     }
   },
   "threadActions": {
     "threadMenu": "Menyja e temës",
     "premium": "Premium",
-    "aiPower": "Fuqia e AI",
-    "schedule": "Orari",
-    "upgrade": "Përmirësim",
-    "upgradeSuffix": "(Përmirësim)",
-    "thread": "Tema",
-    "about": "Rreth",
-    "search": "Kërkim",
-    "media": " Media",
-    "ftoPeople": "Fto njerëz",
-    "roomSettings": "Caktimet e dhomës",
-    "clearConversation": "Pastro bisedën",
-    "clearConversationForMe": "Pastro për mua",
-    "clearConversationForEveryone": "Pastro për të gjithë",
-    "block": "Blloko"
+    "aiPower": "Fuqi AI",
+    "orari": "Orari",
+    "përmirësimi": "Përmirësimi",
+    "prapashtesaPërmirësimi": "(Përmirësimi)",
+    "fije": "Fije",
+    "rreth": "Rreth",
+    "kërkim": "Kërkim",
+    "media": "Media",
+    "ftoPersonat": "Fto njerëz",
+    "cilësimet e dhomës": "Cilësimet e dhomës",
+    "pastro bisedën": "Pastro bisedën",
+    "blloko": "Blloko"
   },
   "kërkimi i dhomës": {
-    "title": "Kërko në dhomë",
+    "titulli": "Kërko në dhomë",
     "ariaLabel": "Kërko në dhomë",
-    "kërko": "Kërko",
-    "kërkoMesazhe": "Kërko mesazhe",
+    "search": "Kërko",
+    "searchMessages": "Kërko mesazhe",
     "noText": "[Pa tekst]",
     "noResults": "Pa rezultate"
   },
   "roomSettings": {
     "roles": {
       "member": "Anëtar",
-      "moderator": "Moderator",
-      "admin": "Administrator"
+      "moderator": " Moderator",
+      "admin": "Admin"
     },
     "aiMode": {
-      "off": "Fikur",
+      "off": "Off",
       "mention": "Vetëm në @ForiaBot ose /ask",
       "gjithmonë": "Përgjigju proaktivisht"
     },
     "autoTranslateMode": {
-      "ç'aktivizuar": "Ç'aktivizuar",
-      "etiquetuar": "Vetëm të etiketuarit (/tr …)",
-      "të gjithë": "Të gjitha mesazhet"
+      "off": "Fikur",
+      "tagged": "Vetëm të etiketuarit (/tr …)",
+      "all": "Të gjitha mesazhet"
     },
-    "përditësuar": "Caktimet e përditësuara"
+    "updated": "Cilësimet e përditësuara"
   },
-  "galeria e mediave": {
-    "media e përbashkët": "Media e përbashkët",
-    "pa media të ruajtur në cache": "Ende pa media të ruajtur në cache.",
-    "imazh alternativ": "imazh",
-    "hap videon": "Hap videon",
-    "hap videon me mbishkrim": "Hap videon: {{caption}}",
-    "preview": "Parathënie",
-    "previewWithCaption": "Parathënie: {{caption}}",
-    "previewKind": "Parathënie {{kind}}",
+  "mediaGallery": {
+    "sharedMedia": "Media të ndara",
+    "noMediaCached": "Ende pa media të ruajtura lokalisht.",
+    "imageAlt": "imazh",
+    "openVideo": "Hape video",
+    "openVideoWithCaption": "Hape video: {{caption}}",
+    "preview": "Parapamje",
+    "previewWithCaption": "Parapamje: {{caption}}",
+    "previewKind": "Paralajmërim {{kind}}",
     "download": "Shkarko",
     "downloadKind": "Shkarko {{kind}}",
-    "file": "file",
+    "file": "skedar",
     "kinds": {
-      "image": "image",
+      "image": "imazh",
       "video": "video",
       "audio": "audio",
-      "file": "file"
+      "file": "skedar"
     }
   },
   "status": {
-    "userNumber": "Përdoruesi #{{id}}",
+    "userNumber": "Përdoruesi nr. {{id}}",
     "posted": "Statusi postuar",
     "postFailed": "Dështoi postimi i statusit",
     "createTitle": "Krijo një status",
     "modalAriaLabel": "Status i ri",
     "captionLabel": "Çfarë ke në mendje?",
-    "captionPlaceholder": "Ndaj një përditësim...",
+    "captionPlaceholder": "Ndaj një përditësim.. .",
     "captionAria": "Mesazh statusi",
     "audienceLabel": "Audienca",
     "audience": {
-      "public": "Publik",
-      "followers": "Njësitë",
+      "public": "Publike",
+      "followers": "Ndjekësit",
       "contacts": "Kontaktet",
-      "mutuals": "Mutualet",
+      "mutuals": "Të përbashkët",
       "custom": "Përshtatur..."
     },
-    "expiresHoursLabel": "Skadon (orë)",
-    "maxTooltip": "Maksimumi 7 ditë",
-    "hoursAbbrev": "h",
-    "maxShort": "max",
-    "expiresOn": "Skadon më:",
-    "chooseRecipients": "Zgjidh marrësit",
-    "selectContacts": "Zgjidh kontaktet",
-    "attachmentsLabel": "Shtojca",
-    "attachmentsPlaceholder": "Shto imazhe/videot",
-    "filesNote": "Deri në 5 skedarë. Skadencë 24-orëshe si parazgjedhje.",
-    "postAria": "Postoni statusin",
-    "post": "Postoni"
+    "etiketëOrëSkadimi": "Skadon (orë)",
+    "maksTooltip": "Maksimumi 7 ditë",
+    "shkurtorëOrësh": "h",
+    "maksShkurtër": "max",
+    "skadonMë": "Skadon më:",
+    "zgjidhMarrësit": "Zgjidh marrësit",
+    "zgjidhKontaktet": "Zgjidh kontaktet",
+    "etiketaEShtojcave": "Shtojca",
+    "vendosjeEshteojcave": "Shto imazhe/video",
+    "shënimPërSkedarët": "Deri në 5 skedarë. Skadon automatikisht pas 24 orësh.",
+    "postAria": "Postimi i statusit",
+    "post": "Postimi"
   },
   "voicemail": {
     "pageTitle": "Mesazh zanor",
     "from": "Nga",
     "to": "Për",
     "unknownCaller": "I panjohur",
-    "yourNumber": "Numri yt Chatforia",
-    "durationSeconds": "{{count}} sekonda",
-    "audioAria": "Lojtari audio i mesazhit zanor",
-    "transcriptHeading": "Transkript",
+    "yourNumber": "Numri juaj Chatforia",
+    "durationSeconds": " {{count}}",
+    "audioAria": "Lojtari audio i mesazheve zanore",
+    "transcriptHeading": "Transkripti",
     "transcriptPending": "Po transkriptohet mesazhi zanor…",
-    "transcriptFailed": "Transkripti i paarritshëm.",
+    "transcriptFailed": "Transkripti i pamundur.",
     "loading": "Po ngarkohet mesazhi zanor…",
     "errorLoading": "Dështoi ngarkimi i mesazhit zanor.",
     "empty": "Ende asnjë mesazh zanor.",
@@ -428,81 +436,81 @@
     "deleteError": "Dështoi fshirja e mesazhit zanor.",
     "markRead": "Shëno si të lexuar",
     "delete": "Fshi",
-    "unreadDotAria": "Indikatori i mesazheve zanore të papërfillura"
+    "unreadDotAria": "Indikatori i mesazhit zanor të papërpunuar"
   },
   "lista e kontakteve": {
     "kontakte të ruajtura": "Kontakte të ruajtura",
     "rifreshoAria": "Rifresko kontaktet",
     "vendfiltri": "Filtroni kontaktet e ruajtura…",
     "filterAria": "Filtroni kontaktet e ruajtura",
-    "noContactsFound": "Nuk u gjetën kontakte.",
-    "externalContact": "Kontakt i jashtëm",
-    "notJoined": "Ai kontakt ende nuk është bashkuar me Chatforia. ",
+    "nuk u gjetën kontakte": "Nuk u gjetën kontakte.",
+    "kontakt i jashtëm": "Kontakt i jashtëm",
+    "notJoined": "Ai kontakt nuk është bashkuar ende me Chatforia.",
     "couldNotStart": "Nuk mund të fillojë biseda. Ju lutemi provoni përsëri.",
-    "startFailed": "Dështoi të fillojë biseda. Ju lutemi provoni përsëri.",
-    "deleted": "Kontakti u fshi.",
-    "deleteFailed": "Dështoi të fshihet kontakti. Ju lutemi provoni përsëri.",
-    "aliasUpdated": "Aliasi u përditësua.",
-    "updateAliasFailed": "Dështoi të përditësohet aliasi. Ju lutemi provoni përsëri.",
-    "selectContact": "Zgjidh {{name}}",
+    "startFailed": "Dështoi të fillojë biseda. Ju lutemi provoni përsëri. ",
+    "iFshirë": "Kontakti u fshi.",
+    "fshirjeDështuar": "Dështoi të fshihet kontakti. Ju lutemi provoni përsëri.",
+    "aliasIAzhurnuar": "Aliasi u azhurnua.",
+    "azhurnimIaliasitDështuar": "Dështoi të azhurnuar aliasin. Ju lutemi provoni përsëri.",
+    "zgjidhKontaktin": "Zgjidh {{name}}",
     "alias": "Alias",
-    "startChat": "Filloni bisedën",
+    "filloBisedën": "Fillo bisedën",
     "message": "Mesazh",
-    "delete": "Fshi",
-    "deleteContactAria": "Fshi kontaktin",
+    "delete": "Fshij",
+    "deleteContactAria": "Fshij kontaktin",
     "loadFailed": "Dështoi ngarkimi i kontakteve. Ju lutemi provoni përsëri.",
-    "loadMore": "Ngarko më shumë",
-    "call": "Telefononi ",
-    "callStarted": "Po telefonohet ky numër përmes numrit tuaj Chatforia…",
-    "callFailed": "Dështoi nisja e thirrjes. Ju lutemi provoni përsëri."
+    "ngarkoMë": "Ngarko më shumë",
+    "thirrje": "Thirrje",
+    "thirrjeFilluar": "Po e thërret këtë numër përmes numrit tënd Chatforia…",
+    "thirrjeDështuar": "Dështoi nisja e thirrjes. Ju lutemi provoni përsëri."
   },
   "addContactModal": {
     "title": "Shto kontakt",
     "phoneOrUsername": "Numër telefoni ose emër përdoruesi",
-    "phoneOrUsernamePlaceholder": "p.sh. +13018019227 or juliannorton",
+    "phoneOrUsernamePlaceholder": "p.sh. +13018019227 ose juliannorton",
     "alias": "Alias (opsional)",
-    "aliasPlaceholder": "p.sh. Punë, Nënë, Mike – Evropë",
-    "enterPhoneOrUsername": "Futni një numër telefoni ose emër përdoruesi.",
-    "userLookupFailed": "Kërkimi i përdoruesit dështoi.",
-    "cannotAddSelf": "Nuk mund të shtoni veten si kontakt.",
-    "failedToAdd": "Dështoi shtimi i kontaktit.",
+    "aliasPlaceholder": "e. p.sh. Punë, Mamaja, Mike – Evropë",
+    "hyrjaENumritTelefonitOseEmritPerdoruesit": "Hidhni një numër telefoni ose emër përdoruesi.",
+    "kërkimiI Përdoruesit Dështoi": "Kërkimi i përdoruesit dështoi.",
+    "nukMundTëShtoshVeten": "Nuk mund të shtosh veten si kontakt.",
+    "dështoiNëShtim": "Dështoi shtimi i kontaktit.",
     "shto": "Shto"
   },
   "startChatModal": {
     "title": "Filloni një bisedë",
     "searchPlaceholder": "Kërkoni emrin, emrin e përdoruesit ose numrin e telefonit",
-    "messageThisPerson": "Dërgo mesazh kësaj personi",
+    "messageThisPerson": "Dërgo një mesazh kësaj personi",
     "contacts": "Kontaktet",
     "recentInteractions": "Ndërveprimet e fundit",
     "noContactsMatch": "Nuk ka kontakte që përputhen me kërkimin tuaj.",
-    "noRecentInteractions": "Ende nuk ka ndërveprime të fundit.",
-    "unknown": "Të panjohur",
-    "interactionType": {
-      "message": "Mesazh",
-      "call": "Thirrje",
+    "noRecentInteractions": "Nuk ka ndërveprime të fundit ende.",
+    "të panjohur": "Të panjohur",
+    "lloji i ndërveprimit": {
+      "mesazh": "Mesazh",
+      "thirrje": "Thirrje",
       "video": "Video"
     },
-    "quickPicker": "Zgjedhës i shpejtë",
-    "to": "Për",
-    "nameOrUsername": "Shkruani një emër, emër përdoruesi",
-    "nameUsernamePhoneEmail": "Shkruani një emër, emër përdoruesi, telefon ose email…",
+    "zgjedhësi i shpejtë": "Zgjedhësi i shpejtë",
+    "për": "Për",
+    "emër ose emër përdoruesi": "Shkruani një emër, emër përdoruesi",
+    "nameUsernamePhoneEmail": "Shkruani një emër, emër përdoruesi, telefon, ose email…",
     "startWithSelected": "Filloni bisedën me të zgjedhurin",
     "searchByUsernameOrPhone": "Kërkoni me emër përdoruesi ose telefon",
-    " search": "Kërko",
-    "searchPrompt": "Shkruani një emër përdoruesi ose numër telefoni dhe shtypni Kërko.",
+    "search": "Kërko",
+    "searchPrompt": " Shkruani një emër përdoruesi ose telefon dhe shtypni Kërko.",
     "pickFromContacts": "Ose zgjidhni nga kontaktet",
-    "addContact": "Shto një kontakt",
+    "addContact": "Shto kontakt",
     "show": "Shfaq",
-    "shto": "Shto",
-    "mbyll": "Mbyll",
-    "numriIperzgjedhur": "{{count}} të përzgjedhur",
-    "zgjidhTëPaktënNjë": "Zgjidh të paktën një marrës. ",
-    "saveContactsHint": "Regjistrimet e telefonit/email-it do të jenë të disponueshme pasi t'i ruani si kontakte.",
-    "failedBulkStart": "Dështoi fillimi i bisedës me marrësit e përzgjedhur.",
+    "add": "Shto",
+    "close": "Mbyll",
+    "selectedCount": "{{count}} të zgjedhur ",
+    "pickAtLeastOne": "Zgjidh të paktën një marrës.",
+    "saveContactsHint": "Numrat e telefonit/email-et do të jenë të disponueshëm pasi t'i ruani si kontakte.",
+    "failedBulkStart": "Dështoi nisja e bisedës me marrësit e zgjedhur.",
     "noResults": "Asnjë rezultat",
     "mode": "Modi",
     "group": "Grupi",
-    "broadcast": "Transmetim",
+    " broadcast": "Broadcast",
     "groupNameOptional": "Emri i grupit (opsional)",
     "firstMessageOptional": "Mesazhi i parë (opsional por i rekomanduar)",
     "createGroup": "Krijo grup",
@@ -515,36 +523,36 @@
     "quickStart": "Fillim i shpejtë",
     "quickStartDesc": "Menaxho kontaktet e tua dhe fto miqtë.",
     "importContacts": "Importo kontaktet e tua",
-    "import": "Importo",
-    "addContact": "Shto një kontakt",
-    "add": "Shto",
-    " ftoMiqtë": "Fto miqtë",
-    "ftoDesc": "Ndajeni linkun e ftesës për të filluar bisedën menjëherë.",
+    "import ": "Importo",
+    "shtoKontakt": "Shto një kontakt",
+    "shto": "Shto",
+    "ftoMiq": "Fto miq",
+    "ftoDesc": "Ndaj linkun e ftesës për të filluar bisedën menjëherë.",
     "merrAplikacionin": "Merr aplikacionin",
     "merrAplikacioninDesc": "Qëndro në kontakt kudo me Chatforia për iOS dhe Android.",
     "shkarko": "Shkarko",
-    "këshillëPërSinkronizim": "Këshillë: Mesazhet tuaja mbeten të sinkronizuara në web dhe celular.",
-    "filtronKontaktetERuajtura": "Filtroni kontaktet e ruajtura",
+    "syncTip": "Këshillë: Mesazhet tuaja mbeten të sinkronizuara në web dhe celular.",
+    "filterSaved": "Filtruar kontaktet e ruajtura",
     "noContactsFound": "Nuk u gjetën kontakte",
     "focusSearch": "Kërkim i fokusuar",
-    "findOrAdd": " Gjej ose shto dikë",
-    "kërkoMeTelefonOseEmërPërdorues": "Kërko me telefon / emër përdorues"
+    "findOrAdd": "Gjej ose shto dikë",
+    "searchByPhoneOrUsername": "Kërko me telefon / emër përdoruesi"
   },
   "profile": {
     "title": "Profili i përdoruesit",
-    "gjuhëEpreferuar": "Gjuha e preferuar",
-    "zgjidhGjuhen": "Zgjidh një gjuhë",
-    "duhetTëhyj": "Duhet të hyni për të parë cilësimet.",
+    "preferredLanguage": "Gjuha e preferuar",
+    "chooseLanguage": "Zgjidh një gjuhë",
+    "mustLogin": "Duhet të hyni për të parë cilësimet.",
     "autoTranslate": "Përkthe mesazhet automatikisht",
-    "showOriginalWithTranslation": "Shfaq mesazhet origjinale dhe të përkthyera",
+    "showOriginalWithTrans lation": "Shfaq mesazhet origjinale dhe të përkthyera",
     "showOriginalAndTranslation": "Shfaq origjinalin pranë përkthimit",
-    "filterExplicit": "Filtroni përmbajtjen eksplicite",
+    "filterExplicit": "Filtron përmbajtjen eksplicite",
     "aiReply": "Përgjigje nga AI",
-    "enableReadReceipts": "Aktivizo pranimet e leximit",
-    "allowExplicitContent": "Lejo përmbajtjen eksplicite",
+    "enableReadReceipts": "Aktivizo konfirmimet e leximit",
+    "allowExplicitContent": "Lejo përmbajtje eksplicite",
     "disappearingMessages": "Aktivizo mesazhet që zhduken",
-    "autoDeleteSeconds": "Sekondat deri në fshirje automatike",
-    "saveSuccess": "Caktimet ruajtën!",
+    "autoDeleteSeconds": "Sekonda deri në fshirje automatike",
+    "saveSuccess": "Caktimet u ruajtën!",
     "saveError": "Gabim: Nuk mund të ruhen cilësimet",
     "avatarAlt": "Avatari i profilit",
     "uploadAvatar": "Ngarko avatar të ri",
@@ -552,113 +560,113 @@
     "avatarError": "Dështoi ngarkimi i avatarit",
     "avatarUpdated": "Avatari u përditësua!",
     "uploadingAvatar": "Po ngarkohet avatari…",
-    "noPrivateKey": "Nuk ka çelës privat në këtë pajisje për t'u eksportuar.",
+    "noPrivateKey": "Nuk ka çelës privat në këtë pajisje për eksport.",
     "setBackupPassword": "Caktoni një fjalëkalim për të enkriptuar kopjen tuaj rezervë:",
-    "backupDownloaded": "Kopja rezervë e kriptuar u shkarkua.",
+    "backupDownloaded": "Kopja rezervë e enkriptuar u shkarkua.",
     "exportFailed": "Eksportimi i çelësit dështoi",
     "enterBackupPassword": "Futni fjalëkalimin për këtë kopje rezervë:",
     "importSuccess": "Çelësi privat u importua në këtë pajisje.",
     "importFailed": "Dështoi importimi i çelësit (fjalëkalim i pasaktë ose skedar i korruptuar).",
-    "keysRotated": "U gjenerua një palë çelësash të reja dhe u ngarkua çelësi publik.",
-    "rotateFailed": "Dështoi rrotullimi i çelësave.",
+    "keysRotated": "Për çift kyçjesh të reja është gjeneruar dhe çelësi publik është ngarkuar.",
+    "rotateFailed": "Dështoi rotacioni i çelësave.",
     "security": "Siguri",
-    "exportKey": " Bëj kopje rezervë të çelësit të enkriptimit",
+    "exportKey": "Bëj kopje rezervë të çelësit të enkriptimit",
     "importKey": "Rikthe çelësin e enkriptimit",
     "rotateKeys": "Rrotullo çelësin e enkriptimit",
-    "keyDisclaimer": "Çelësi juaj privat nuk largohet kurrë nga ky pajisje. Eksportoni një kopje të mbrojtur me fjalëkalim për ta rikthyer në një pajisje tjetër.",
+    "keyDisclaimer": "Çelësi juaj privat kurrë nuk largohet nga ky pajisje. Eksportoni një kopje të mbrojtur me fjalëkalim për ta rikthyer në një pajisje tjetër.",
     "sectionProfile": "Profil",
     "phoneNumber": "Numri i telefonit",
     "appearance": "Pamja",
     "soundSettings": "Tinguj",
     "disappearing": "Mesazhe që zhduken",
-    "backupSync": "Kopje rezervë & Sinkronizim",
+    "backupSync": "Kopje Rezervë & Sinkronizim",
     "ai": "AI",
-    "accessibility": "Aksesueshmëri",
-    "privacy": "Privatësi",
-    "devices": "Pajisje të lidhura",
-    "themeFreeNotice": " Jeni në versionin Falas—përdorni opsionet e shpejta Diell/Hënë më poshtë. Përmirësoni për të zhbllokuar më shumë tema.",
-    "sunTheme": "Përdorni temën Agim",
-    "moonTheme": "Përdorni temën Hënë (Mesnatë)",
+    "accessibility": "Aksesueshmëria",
+    "privacy": "Privatësia",
+    "devices": "Pajisjet e lidhura",
+    "themeFreeNotice": "Jeni në versionin falas—përdorni opsionet e shpejta Diell/Hënë më poshtë. Përmirëso për të zhbllokuar më shumë tema.",
+    "sunTheme": "Përdor temën Agim",
+    "moonTheme": "Përdor temën Hëna (Mesnatë)",
     "sun": "Diell",
-    "moon": "Hënë",
-    "backupTitle": "Kopje Rezervë të Kriptuara & Sinkronizim i Pajisjeve",
-    "openBackupTools": "Hape Mjetet e Kopjeve Rezervë",
-    "backupDesc": "Ruaj një kopje rezervë të çelësit tënd të kriptimit për të rikthyer në mënyrë të sigurt mesazhet në një pajisje tjetër.",
-    "privacyBlurEnabled": "Fjollë mesazhet si parazgjedhje",
-    "privacyBlurOnUnfocus": "Fjollë kur aplikacioni është jashtë fokusit",
+    "moon": "Hëna",
+    "backupTitle": "Kopje Rezervë të Kriptuara & Sinkronizim me Pajisjen",
+    "openBackupTools": " Hape Mjetet e Kopjimit Rezervë",
+    "backupDesc": "Ruaj kopjen rezervë të çelësit tënd të enkriptimit për të rikthyer në mënyrë të sigurt mesazhet në një pajisje tjetër. ",
+    "privacyBlurEnabled": "Zbeh mesazhet si parazgjedhje",
+    "privacyBlurOnUnfocus": "Zbeh kur aplikacioni është jashtë fokusit",
     "planSection": "Plani im",
     "planLoading": "Po ngarkohet plani juaj…",
-    "planLoadFailed": "Dështoi ngarkimi i planit tuaj.",
+    "planLoadFailed": "Dështoi ngarkimi i planit tuaj. ",
     "currentPlan": "Plani aktual",
     "planRenewsOn": "Rinovon më",
-    "freePlanCopy": "Jeni në planin falas. Përmirësoni për të zhbllokuar më shumë veçori si kopje rezervë, numra shtesë dhe opsione të avancuara të privatësisë.",
+    "freePlanCopy": "Jeni në planin falas. Përmirësoni për të zhbllokuar më shumë veçori si kopje rezervë, numra shtesë dhe opsione të avancuara privatësie.",
     "upgradePlanCta": "Përmirëso planin",
     "changePlanCta": "Ndrysho planin",
     "manageBilling": "Menaxho faturimin",
     "portalOpenFailed": "Nuk u hap portali i faturimit. Ju lutemi provoni përsëri.",
-    "holdToReveal": "Mbaje për të zbuluar",
-    "notifyOnCopy": "Njoftomë nëse mesazhi im kopjohet",
-    "loadFailed": "Dështoi ngarkimi i profilit",
-    "followed": "E ndjek",
-    "ndjekjeDështuar": "Dështoi të ndjekësh",
-    "i ndjekur": "I ndjekur",
-    "shkëputjeDështuar": "Dështoi të shkëputesh",
+    "mbajePerTeZbuluar": "Mbaje për të zbuluar",
+    "njoftoPerKopjim": "Njofto më nëse mesazhi im kopjohet",
+    "ngarkimDështuar": "Dështoi ngarkimi i profilit",
+    "ndjekur": "Ndjekur",
+    "ndjekjeDështuar": "Dështoi ndjekja",
+    "shkëputur": "Shkëputur",
+    "shkëputjeDështuar": "Dështoi të ndjekësh",
     "ndjek": "Ndjek",
-    "shkëput": "Shkëput",
-    "udhëzimNdjekje": "Historitë e tyre do të shfaqen në ushqimin tënd të Ndjekjeve nëse postojnë me audiencën Një ndjekës (ose Publik).",
-    "përdoruesiNukGjendet": "Përdoruesi nuk gjetur",
-    "tëndjek": "Të ndjek",
-    "titulliKurSeksioniDështoi": "Seksioni dështoi të ngarkohet",
-    "trupiKurSeksioniDështoi": "Diçka shkoi keq në këtë seksion.",
-    "përpara": "Transferimi i Thirrjeve & Mesazheve",
-    "seksioniTransferimiThirrjeMesazh": "Transferimi i Thirrjeve & Mesazheve",
-    "titulliTransferimiThirrjeMesazh": "Transferimi i Thirrjeve dhe/ose i Mesazheve",
-    "callTextForwardingDescription": "Transferoni thirrjet dhe mesazhet hyrëse në telefonin ose emailin tuaj të verifikuar. Thirrjet/mesazhet dalëse mund të shfaqin numrin tuaj të Chatforia.",
-    "enableTextForwarding": "Aktivizo transferimin e mesazheve",
-    "forwardTextsToPhone": "Transferoni mesazhet në telefon",
+    "ndjekje": "Ndjekje",
+    "këshillëNdjekjeje": "Historitë e tyre do të shfaqen në ushqimin tënd të Ndjekjeve nëse postojnë me audiencën Një ndjekës (ose Publik).",
+    "përdoruesiNukUgjet": "Përdoruesi nuk u gjet",
+    "tëNdjek": "Të ndjek",
+    "titulliI seksionit që u rrëzua ": "Seksioni dështoi të ngarkohet",
+    "sectionCrashedBody": "Diçka shkoi keq në këtë seksion.",
+    "forwarding": "Transferimi i thirrjeve & mesazheve",
+    "callTextForwardingSection": "Transferimi i thirrjeve & mesazheve",
+    "callTextForwardingTitle": "Transferimi i thirrjeve dhe/ose mesazheve",
+    "callTextForwardingDescription": "Transferoni thirrjet dhe mesazhet hyrëse në telefonin tuaj të verifikuar ose email. Dalëse thirrjet/mesazhet mund të shfaqin numrin tuaj të Chatforia.",
+    "enableTextForwarding": "Aktivizo përparimin e mesazheve",
+    "forwardTextsToPhone": "Dërgo tekstet në telefon",
     "forwardTextsToEmail": "Dërgo tekstet në email",
-    "destinationPhone": "Numri i destinacionit (E.164)",
-    "destinationEmail": "Email-i i destinacionit",
+    "destinationPhone": "Telefon destinacioni (E.164)",
+    "destinationEmail": "Email destinacioni",
     "enableCallForwarding": "Aktivizo transferimin e thirrjeve",
     "destinationPhoneForCalls": "Destinacioni (E.164) për thirrjet",
     "aliasBridging": "Transferimi i thirrjeve (alias bridging)",
     "quietHoursOptional": "Orët e qeta (opsionale)",
     "startHour": "Ora e fillimit (0–23)",
-    "endHour": "Orë e fundit (0–23)",
+    "endHour": "Ora e përfundimit (0–23)",
     "reset": "Rinis",
     "saveBtn": "Ruaj",
-    "saveProfile": "Ruaj profilin",
+    "saveProfile ": "Ruaj profilin",
     "saveForwarding": "Ruaj transferimin",
     "forwardSaved": "Caktimet e transferimit janë ruajtur",
     "forwardSaveFailed": "Dështoi ruajtja e caktimeve",
-    "errE164": "Futni një numër telefoni E.164 të vlefshëm (p.sh., +15551234567).",
+    "errE164": "Fut një numër telefoni E.164 të vlefshëm (p.sh., +15551234567).",
     "errEmail": "Futni një email të vlefshëm.",
     "errSmsDest": "Zgjidhni të paktën një destinacion (telefon ose email).",
     "errQuietHours": "Orët e qeta duhet të jenë midis 0 dhe 23.",
     "randomChat": "Bisedë e rastësishme",
-    "ageBand": "Intervali yt i moshës",
-    "ageBandPlaceholder": "Zgjidh intervalin tënd të moshës",
+    "ageBand": "Intervali juaj i moshës",
+    "ageBandPlaceholder": "Zgjidhni intervalin tuaj të moshës",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
     "ageBandHint": "Ne ruajmë vetëm një gamë moshash (jo datën tuaj të saktë të lindjes). Kjo përdoret për të mbajtur çiftimet në Chat të rastësishëm të arsyeshme.",
-    "wantsAgeFilter": "Përdor përputhje bazuar në moshë në Chat të rastësishëm",
-    "wantsAgeFilterDesc": "Kur është aktiv, ne përpiqemi t'ju përputhim me njerëz në grupmosha të përshtatshme.",
+    "wantsAgeFilter": "Përdorni përputhjen bazuar në moshë në Chat të rastësishëm",
+    "wantsAgeFilterDesc": "Kur është ndezur, ne përpiqemi t'ju çiftrojmë me njerëz në grupmosha të përshtatshme.",
     "partnerAgeBands": "Me kë mund të përputheni?",
     "partnerAgeBandsDesc": "Adoleshentët përputhen gjithmonë vetëm me adoleshentë të tjerë. Të rriturit nuk mund të përputhen me adoleshentë.",
-    "teenMatchingNote": "Për siguri, llogaritë në grupmoshën 13–17 vjeç mund të përputhen vetëm me llogari të tjera 13–17 vjeç në Chat-in e Rastësishëm.",
+    "teenMatchingNote": "Për siguri, llogaritë në grupmoshën 13–17 vjeç mund të përputhen vetëm me llogari të tjera 13–17 vjeç në Chat të rastësishëm.",
     "foriaRemember": "Lejo që Ria të mbajë mend gjërat që i tregon",
-    "foriaRememberDesc": "Kur kjo është e ndezur, Foria mund të përdorë bisedat e tua të mëparshme në Chat-in e Rastësishëm (vetëm me ty) për të mbajtur bisedën të rrjedhshme. Mund ta fikësh këtë në çdo kohë.",
+    "foriaRememberDesc": "Kur kjo është e ndezur, Foria mund të përdorë bisedat e tua të mëparshme në Chat të rastësishëm (vetëm me ty) për të mbajtur bisedën të rrjedhshme. Mund ta fikësh këtë në çdo kohë.",
     "voicemailSection": "Mesazhe zanore",
     "voicemailEnabled": "Aktivizo mesazhet zanore",
     "voicemailAutoDeleteDays": "Fshi automatikisht mesazhet zanore pas (ditësh)",
     "voicemailAutoDeletePlaceholder": "Lëre bosh për t'i ruajtur përgjithmonë",
     "voicemailForwardEmail": "Dërgo mesazhet zanore në email",
-    "voicemailForwardEmailPlaceholder": "Email-i për të dërguar njoftimet e mesazheve zanore",
-    "voicemailGreetingText": "Teksti si përgjigje rezervë",
-    "voicemailGreetingTextDesc": "Përdoret kur përshëndetja juaj zanore nuk është e disponueshme.",
+    "voicemailForwardEmailPlaceholder": "Email për të dërguar mesazh icemail notifications to",
+    "voicemailGreetingText": "Teksti i përshëndetjes rezervë",
+    "voicemailGreetingTextDesc": "Përdoret kur përshëndetja juaj me zë nuk është e disponueshme.",
     "voicemailGreetingUpload": "Ngarko përshëndetjen e mesazheve zanore",
     "voicemailPreviewGreeting": "Parathënie e përshëndetjes",
     "voicemailGreetingUploaded": "Përshëndetja e mesazheve zanore u ngarkua me sukses",
@@ -666,11 +674,11 @@
     "voicemailNote": "Mesazhet zanore nga numrat tuaj Chatforia do të ruhen në kutinë tuaj të postës zanore. Ju mund të aktivizoni transkriptimin dhe përparësimin në planet e mbështetura.",
     "portHint": "Dëshironi të mbani numrin tuaj aktual? Mund ta transferoni në Chatforia Wireless.",
     "wireless": {
-      "manage": "Menaxho pa tel"
+      "manage": "Menaxho pa tela"
     },
     "esim": {
       "title": "Chatforia eSIM",
-      "desc": "Merrni të dhëna mobile për Chatforia kur jeni larg Wi-Fi. ",
+      "desc": "Merrni të dhëna mobile për Chatforia kur jeni larg Wi-Fi.",
       "cta": "Merr eSIM / Shfaq QR"
     },
     "encryptedBackupsTitle": "Kopje Rezervë e Çelësit të Kriptimit"
@@ -679,406 +687,406 @@
     "amoled": "Amoled",
     "aurora": "Aurora",
     "neon": "Neon",
-    "sunset": "Perëndim dielli",
-    "solarized": "Solarizuar",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
     "velvet": "Velvet"
   },
   "tinguj": {
-    "tinguj njoftimi": "Tinguj njoftimi",
-    "resetToDefaults": "Riestho në parazgjedhje",
-    "freeNoticeStart": "Jeni në versionin falas — tonet premium shfaqen por janë të kyçura. ",
-    "freeNoticeEnd": " për t'i zhbllokuar të gjitha.",
+    "tingujt e njoftimeve": "Tingujt e njoftimeve",
+    " rivendosje në parazgjedhje": "Rivendosje në parazgjedhje",
+    " njoftimi i lirë fillon": "Jeni në planin falas — tingujt premium shfaqen por janë të kyçur. ",
+    " njoftimi i lirë përfundon": " për të zhbllokuar të gjitha.",
     "messageTone": "Toni i mesazhit",
-    "ringtone": "Toni i telefonit",
+    "ringtone": "Toni i sinjalit",
     "preview": "Parathënie",
-    "stop": "Ndalo",
-    "volume": "Volu ume",
+    " stop": "Ndalo",
+    "volume": "Volumi",
     "messageToneFilesHint": "Vendosni skedarët në /public/sounds/Message_Tones",
     "ringtoneFilesHint": "Vendosni skedarët në /public/sounds/Ringtones",
-    "premiumRequired": "Nevojitet Premium për atë zgjedhje.",
-    "saved": "Caktimet e tingullit janë ruajtur.",
-    "saveFailed": "Nuk u ruajtën caktimet e tingullit.",
-    "resetNotSaved": "Rinisni në parazgjedhje (ende nuk është ruajtur).",
-    "premiumTone": "Kjo është një tingull Premium.",
-    "premiumRingtone": "Kjo është një melodia telefonike Premium.",
-    "customComingSoon": "Ngarkimet e tingujve të personalizuar do të vijnë së shpejti.",
-    "freeNotice": "Jeni në planin Falas — tingujt premium shfaqen por janë të kyçur. Përmirësoni për t'i zhbllokuar të gjitha. ",
-    "default": "Default",
-    "vibrate": "Vibrate",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
+    "premiumRequired": "Nevojitet premium për atë zgjedhje.",
+    "ruajtur": "Caktimet e tingullit janë ruajtur.",
+    "ruajtjeDështuar": "Nuk mund të ruhen caktimet e tingullit.",
+    "ri-caktimJoRuajtur": "Ri-caktim në parazgjedhje (ende nuk është ruajtur).",
+    "tingullPremium": "Ai është një tingull Premium.",
+    "zilePremium": "Ajo është një zile Premium.",
+    "tëpersonalizuara ComingSoon": "Ngarkimet e tingujve të personalizuar do të vijnë së shpejti.",
+    "freeNotice": "Jeni në planin Falas — tingujt premium shfaqen por janë të kyçur. Përmirësoni planin për t'i zhbllokuar të gjitha.",
+    "default": "Parazgjedhje",
+    "vibrate": "Të dridhësh",
+    "dreamer": "Ëndërrimtar",
+    "notify": "Të njoftojë",
     "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
+    "pulsatingSound": "Zë pulsues",
+    "textMessage": "Mesazh me tekst",
     "xylophone": "Ksilofon",
     "classic": "Klasik",
-    "urgency": "Nxitim",
-    "bells": "Zilja",
-    "Tinguj": "Tinguj",
-    "TelefonDigital": "Telefon Digital",
-    "Melodik": "Melodik",
-    "ShënimeOrgani": "Shënime Organi",
-    "RealitetZanor": "Realitet Zanor",
-    "Rruga": "Rruga",
-    "FushëUniversi": "Fushë Universi"
+    "urgency": "Ngutësi",
+    "bells": "Zile",
+    "chimes": "Zile melodike",
+    "digitalPhone": "Telefon dixhital",
+    "melodic": "Melodik",
+    "organNotes": "Nota të organit",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
   },
-  "CilatdoqoftëCilatdoqoftë": {
-    "Titulli": "Cilatdoqoftë Cilatdoqoftë",
-    "controlIntro": "Kontrolloni përkthimin, përgjigjet e zgjuara dhe përgjigjet automatike të ForiaBot.",
-    "translation": "Përkthim",
-    "autoTranslateIncoming": "Përkthe automatikisht mesazhet hyrëse",
-    "showOriginalAlongside": "Shfaq tekstin origjinal pranë përkthimit",
-    "smartReplies": "Përgjigje të mençura",
-    "enableSmartReplies": "Aktivizo përgjigjet e mençura",
+  "aiSettings": {
+    "title": "Caktimet e AI-së",
+    "kontroll": "Kontrolloni përkthimin, përgjigjet inteligjente dhe përgjigjet automatike të ForiaBot.",
+    "përkthim": "Përkthim",
+    "përktheAutomatikishtMesazhetPrapamardhëse": "Përkthe automatikisht mesazhet prapamardhëse",
+    "tregoTekstinOrigjinalPranë": "Tregoni tekstin origjinal pranë përkthimit",
+    "përgjigjetInteligjente": "Përgjigjet Inteligjente ",
+    "enableSmartReplies": "Aktivizo Përgjigjet e Mençura",
     "smartRepliesHint": "Dërgo mesazhet e fundit të marra (të pastruara) te AI për të sugjeruar përgjigje të shpejta.",
-    "maskProfanity": "Maska fjalët e fyeshme në sugjerimet e AI",
-    "maskProfanityHint": "Nëse është aktiv, fjalët e shënuara në sugjerimet e AI do të maskohen",
+    "maskProfanity": "Maska fjalët e fëlliqta në sugjerimet e AI",
+    "maskProfanityHint": "Nëse është aktiv, fjalët e shënuara në sugjerimet e AI do të maskohen ",
     "foriaBot": "ForiaBot Auto-Përgjigjës",
     "enableAutoReply": "Aktivizo përgjigjen automatike kur jam i zënë",
     "autoReplyMode": "Modi i përgjigjes automatike",
-    "cooldownSeconds": "Koha e pritjes (sekonda)",
+    "cooldownSeconds": "Cooldown (sekonda)",
     "signature": "Nënshkrimi",
     "autoReply": "🤖 Përgjigje automatike",
     "activeUntilOptional": "Aktiv deri në (opsional)",
-    "save": "Ruaj Cilësimet e AI",
-    "saved": "Përparësitë e AI të ruajtura",
-    "saveFailed": "Dështoi ruajtja e cilësimeve të AI",
-    "translateOff": "Fikur",
-    "përktheTëEtiketuar": "Vetëm kur @përkthehet ose etiketohet",
-    "përktheTëGjitha": "Përkthe të gjitha mesazhet hyrëse",
+    "save": "Ruaj cilësimet e AI",
+    "saved": "Preferencat e AI janë ruajtur",
+    "saveFailed": " Dështoi ruajtja e cilësimeve të AI-së",
+    "translateOff": "I fikur",
+    "translateTagged": "Vetëm kur @përkthehet ose etiketohet",
+    "translateAll": "Përkthe të gjitha mesazhet hyrëse ",
     "modeDm": "Vetëm biseda 1:1",
     "modeMention": "Vetëm kur jam @përmendur",
     "modeAll": "Të gjitha mesazhet hyrëse",
-    "off": "I fikur",
-    "on": "I ndezur"
+    "off": "Fikur",
+    "on": "Nxitur"
   },
-  "cilësimetEaksesueshmërisë": {
-    "titulli": " Aksesueshmëri & Njoftime",
+  "accessibilitySettings": {
+    "title": "Aksesueshmëria & Njoftimet",
     "loadFailed": "Dështoi ngarkimi i cilësimeve",
     "accessibilityDesc": "Opsione për ta bërë Chatforia më të lehtë për t'u përdorur pa u mbështetur në tingull.",
     "interfaceFontSize": "Madhësia e fontit të ndërfaqes",
     "interfaceFontSizeHelp": "Fillon në madhësinë normale. Rriteni nëse preferoni tekst më të madh.",
-    "njoftime": "Njoftime",
-    "alerteVizuale": "Alerte vizuale për mesazhe & thirrje",
-    "alerteVizualeDesc": "Shfaqni banera dhe titullin që pulsojnë në mënyrë që të mos humbisni aktivitetin.",
+    "notifications": "Njoftime",
+    "visualAlerts ": "Alertet vizuale për mesazhe & thirrje",
+    "visualAlertsDesc": "Shfaq bannerë dhe titull që pulsojnë që të mos humbisni aktivitetin.",
     "vibrateOnNewShort": "Vibrimi për mesazhe të reja (kur mbështetet)",
     "vibrateOnNewDesc": "Shkakto dridhje të pajisjes me njoftimet.",
-    "flashOnCallShort": "Shfaqje e ekranit me dridhje gjatë thirrjeve hyrëse",
-    "flashOnCallDesc": "Flash i shkurtër dhe i ndritshëm kur bie një thirrje.",
-    "liveCaptionsTitle": "Titra të drejtpërdrejta (thirrje)",
-    "enableLiveCaptions": "Aktivizo titrat e drejtpërdrejta gjatë thirrjeve (Premium)",
+    "flashOnCallShort": "Shfaqje e ekranit me dridhje për thirrje hyrëse",
+    "flashOnCallDesc": "Një shkëlqim i shkurtër dhe i ndritshëm kur bie një thirrje.",
+    "liveCaptionsTitle ": "Titra të drejtpërdrejtë (thirrje)",
+    "enableLiveCaptions": "Aktivizo titrat e drejtpërdrejtë gjatë thirrjeve (Premium)",
     "liveCaptionsDesc": "Shfaq titra në kohë reale nga audioja e pjesëmarrësit tjetër.",
     "captionFontSize": "Madhësia e fontit të titrave",
-    "captionBackground": "Sfondi i titullit",
+    "captionBackground": "Sfondi i titrave",
     "voiceNotes": "Shënime zanore",
-    "autoTranscribeVoiceNotes": "Transkripto automatikisht shënimet zanore",
-    "autoTranscribeVoiceNotesDesc": "Shto një transkript mesazheve audio që merr.",
+    "autoTranscribeVoice Notes": "Transkripto automatikisht shënimet zanore",
+    "autoTranscribeVoiceNotesDesc": "Shto një transkriptim mesazheve audio që merrni.",
     "changesSavedInstantly": "Ndryshimet ruhen menjëherë.",
-    "sm": "E vogël",
+    "sm": "I vogël",
     "md": "Mesatar",
     "lg": "I madh",
-    "xl": "Shumë i madh",
-    "light": "I lehtë",
-    "dark": "I errët",
-    "transparent": "Transparent",
-    " aksesueshmëri": "Aksesueshmëri",
-    "njoftimetDesc": "Alertime vizuale për mesazhe & thirrje\nShfaq bannerë dhe titull që pulsojnë në mënyrë që të mos humbisni aktivitetin.",
-    "vibrateOnNew": "Vibrim për mesazhe të reja (kur mbështetet)\nShkakto vibrim të pajisjes me njoftimet.",
-    "flashOnCall": "Shkëlqim i ekranit gjatë thirrjes hyrëse\nShkëlqim i shkurtër dhe i ndritshëm kur bie një thirrje.",
-    "liveCaptions": " Titra të drejtpërdrejtë (thirrje)"
+    "xl": " Shumë i madh",
+    "i lehtë": "I lehtë",
+    "i errët": "I errët",
+    "i tejdukshëm": "I tejdukshëm",
+    "aksesueshmëri": "Aksesueshmëri",
+    "notificationsDesc": "Njoftime vizuale për mesazhe & thirrje\nShfaq bannerë dhe titull që pulsojnë që të mos humbisni aktivitetin.",
+    "vibrateOnNew": "Vibrimi për mesazhe të reja (kur mbështetet)\nShkakto vibrimin e pajisjes me njoftimet.",
+    "flashOnCall": "Shfaqje e ekranit me dritë për thirrje hyrëse\nNjë shkëlqim i shkurtër dhe i ndritshëm kur bie një thirrje.",
+    "mbishkrimeDirekte": "Mbishkrime direkte (thirrje)"
   },
-  "privacySection": {
-    "strictE2EE": "Enkriptim i rreptë nga skaji në skaj",
-    "ciphertextOnlyNote": "Ruaj vetëm tekstin e koduar në server. Çaktivizon AI/Përkthimin dhe parathëniet e moderimit.",
-    "strictE2EEEnabled": "E2EE e rreptë e aktivizuar. AI/Përkthimi do të çaktivizohet.",
-    "strictE2EEDisabled": "E2EE e rreptë e çaktivizuar. AI/Përkthimi riaktivizohet. "
+  "seksioniPrivatësisë": {
+    "kriptimRreptëFund-në-fund": "Kriptim i rreptë fund-në-fund",
+    "shënimVetëmTekstiIkriptuar": "Ruaj vetëm tekstin e kriptuar në server. Çaktivizon AI/ Parashikime përkthimi dhe moderimi.",
+    "strictE2EEEnabled": "Aktivizuar E2EE e rreptë. AI/Përkthimi do të çaktivizohet.",
+    "strictE2EEDisabled": "Çaktivizuar E2EE e rreptë. AI/Përkthimi riaktivizohet."
   },
   "linkedDevicesPanel": {
     "title": "Pajisjet e lidhura",
-    "nonefound": "Nuk u gjetën pajisje të lidhura.",
+    " nonefound": "Nuk u gjetën pajisje të lidhura.",
     "refresh": "Përditëso",
-    "unknown": "E panjohur",
+    "unknown": "Të panjohura",
     "loadFailed": "Dështoi ngarkimi i pajisjeve të lidhura",
     "loadFailedLog": "Dështoi ngarkimi i pajisjeve të lidhura",
     "renamePrompt": "Fut një emër të ri për këtë pajisje",
-    "renamed": "Pajisja është riemëruar",
-    "renameFailed": "Nuk u riemërua pajisja",
-    "revoked": "Pajisja është revokuar",
-    "revokeFailed": "Nuk u revokua pajisja",
+    "renamed": "Pajisja u riemërtua",
+    "renameFailed": " Nuk mund të riemërtohet pajisja",
+    "revoked": "Pajisja e revokuar",
+    "revokeFailed": "Nuk mund të revokohet pajisja",
     "unnamedDevice": "Pajisje pa emër",
     "primary": "Primare",
     "revokedStatus": "E revokuar",
-    "addedLastSeen": "Shtuar {{created}} • E parë për herë të fundit {{lastSeen}}",
-    "renameDevice": "Riemërto pajisjen",
-    "revokeDevice": "Revoko pajisjen"
+    "addedLastSeen": "Shtuar {{created}} • E fundit e parë {{lastSeen}}",
+    " renameDevice": "Riemërto pajisjen",
+    "revokeDevice": "Revokoni pajisjen"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Menaxhoni planin tuaj mobil Chatforia, numrat, transferimin, dhe transferimin e numrit.",
-    "opsionet": {
-      "titulli": "Zgjidhni se si dëshironi të përdorni Chatforia",
-      "nën-titulli": "Ju mund të merrni një numër të ri Chatforia, ose të sillni numrin tuaj ekzistues nga një operator tjetër.",
-      "numërIri": "Merrni një numër të ri Chatforia",
-      "transferoniNumrin": "Transferoni numrin tuaj aktual në Chatforia Wireless"
+    "description": "Menaxhoni planin tuaj mobil Chatforia, numrat, transferimin dhe portimin e numrit.",
+    "options": {
+      "heading": "Zgjidhni se si dëshironi të përdorni Chatforia",
+      "subheading": "Ju mund të merrni një numër të ri Chatforia, ose të sillni numrin tuaj ekzistues nga një operator tjetër.",
+      "newNumber": "Merrni një numër të ri Chatforia",
+      "portNumber": "Transferoni numrin tuaj aktual në Chatforia Wireless"
     },
     "port": {
       "heading": "Transferoni numrin tuaj ekzistues",
-      "subheading": "Transferoni numrin tuaj aktual të telefonit nga operatori juaj ekzistues në Chatforia. Sigurohuni që detajet të përputhen saktësisht me llogarinë tuaj te operatori për të shmangur vonesat.",
+      "subheading": "Lëvizni numrin tuaj aktual të telefonit nga operatori juaj ekzistues në Chatforia. Sigurohuni që detajet të përputhen saktësisht me llogarinë tuaj te operatori për të shmangur vonesat.",
       "phoneNumberLabel": "Numri i telefonit për t'u transferuar",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "Operatori aktual",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etj.",
       "accountNumberLabel": "Numri i llogarisë",
-      "pinLabel": "PIN-i i transferimit / fjalëkalimi",
+      "pinLabel": "PIN-i / fjalëkalimi për transferim",
       "fullNameLabel": "Emri i plotë në llogari",
-      "address1Label": "Linja e adresës 1",
-      "address2Label": "Linja e adresës 2 (opsionale)",
+      "address1Label": "Adresa rreshti 1",
+      "address2Label": "Adresa rreshti 2 (opsional)",
       "cityLabel": "Qyteti",
-      "stateLabel": "Shteti / Provinca",
-      "postalCodeLabel": "Kodi postar",
-      "countryLabel": "Vendi",
-      "submitButton": "Dërgo kërkesën për portim",
-      "success": "Kërkesa për portim u dërgua! Do t'ju mbajmë të informuar.",
-      "genericError": "Diçka shkoi gabim."
+      "stateLabel ": "Shtet / Provincë",
+      "etiketaEkodPostal": "Kodi postar",
+      "etiketaEvendit": "Vendi",
+      "butoniPerDorazim": "Dorëzo kërkesën për portim",
+      "sukses": "Kërkesa për portim u dorëzua! Do t'ju mbajmë të informuar.",
+      "gabimIpergjithshem": "Diçka shkoi keq."
     },
-    "status": {
-      "heading": "Statusi i portimit",
-      "subheading": "Ndjekni statusin e kërkesave tuaja për portimin e numrit.",
-      "loading": "Po ngarkohet…",
-      "loadError": "Dështoi ngarkimi i kërkesave për portim.",
-      "none": "Ende pa aktivitet portimi.",
-      "pending": "Në pritje të rishikimit",
-      "submitted": "Dorëzuar operatorit",
-      "inProgress": "Në proces",
-      "completed": "Përfunduar",
-      "failed": "Dështuar",
-      "canceled": "Anuluar",
-      "created": "Krijuar:",
-      "scheduled": "Planifikuar:",
-      "completedAt": "Përfunduar:"
+    "stadi": {
+      "titulli": " Statusi i transferimit",
+      "nënkrye": "Ndjekni statusin e kërkesave tuaja për transferimin e numrit.",
+      "po ngarkohet": "Po ngarkohet…",
+      "gabimNgarkimi": "Dështoi ngarkimi i kërkesave për transferim.",
+      "asnjë": "Ende asnjë aktivitet transferimi.",
+      "në pritje": "Në pritje për rishikim",
+      "dërguar": "Dërguar operatorit",
+      "nëProgres": "Në proces",
+      "përfunduar": "Përfunduar",
+      "dështuar": "Dështuar",
+      "anuluar": "Anuluar",
+      "krijuar": "Krijuar:",
+      "planifikuar": "Planifikuar:",
+      "përfunduarNë": "Përfunduar:"
     },
-    "dataLow": "Të dhënat tuaja po mbarojnë.",
-    "topUp": "Shto kredi tani",
-    "expiresIn": "Skadon pas {{days}} ditësh",
-    "exhausted": "Të dhënat tuaja kanë mbaruar. Bli një paketë të re për të vazhduar përdorimin e të dhënave mobile.",
-    "buyPack": " Bli paketë të dhënash",
-    "etiketëPaketeeSIM": "paketë eSIM"
+    "tëdhënaTëUleta": "Të dhënat tuaja po mbarojnë.",
+    "plotëso": "Bëj plotësim tani",
+    "skadonPas": "Skadon pas {{ditë}} ditësh",
+    "shterur": "Të dhënat tuaja kanë mbaruar. Bli një paketë të re për të vazhduar përdorimin e të dhënave mobile.",
+    "blejPaketë": "Bli paketë të dhënash",
+    "es imPackLabel": "paketë eSIM"
   },
-  "menaxheriNumritTelefon": {
-    "zgjidhNumrin": "Zgjidh një numër",
-    "numriTelefon": "Numri i telefonit",
-    "availableNumber": "Numër i disponueshëm",
-    "premiumNumber": "Numër premium 🔒",
-    "freeNumberHint": "Numër falas që mund të riciklohet pas inaktivitetit.",
-    "premiumNumberHint": "Ruaj numrin tënd ndërkohë që abonimi yt Premium është aktiv.",
-    "country": "Vend",
-    "areaCode": "Kodi i zonës",
-    "vendmbajtësi i kodit të zonës": "p.sh., 415",
+  "phoneNumberManager": {
+    "zgjidhNjëNumër": "Zgjidh një numër",
+    "numriITelefonit": "Numri i telefonit",
+    "numriIDisponueshëm": "Numër i disponueshëm",
+    "numriPremium": "Numër premium 🔒",
+    "sugjerimiPërNumrinFalas": "Numër falas që mund të riciklohet pas inaktivitetit.",
+    "sugjerimiPërNumrinPremium": "Ruaj numrin tënd ndërkohë që abonimi yt Premium është aktiv.",
+    "vend": "Vend",
+    "kodiZonal": "Kodi zonal",
+    "vendZëvendësuesiKodZonal": "p.sh., 415",
     "aftësi": "Aftësi",
     "kërkim": "Kërkim",
     "bllokoKëtëNumër": "Blloko këtë numër (shtesë javore, së shpejti)",
-    "këshillë për numrat premium të mbrojtur": "Numrat premium janë të mbrojtur nga riciklimi ndërkohë që abonimi yt Premium është aktiv.",
-    "numrat e disponueshëm": "Numrat e disponueshëm",
-    "searchHint": "Futni një kod zonë me 3 shifra (vetëm SHBA/Kanada), ose lini bosh, pastaj kërkoni.",
+    "premiumProtectedHint": "Numrat Premium janë të mbrojtur nga riciklimi ndërkohë që abonimi juaj Premium është aktiv.",
+    "availableNumbers": "Numrat e disponueshëm",
+    "searchHint": "Futni një kod zonë me 3 shifra (vetëm SHBA/KAN), ose lini bosh, pastaj kërkoni.",
     "keep": "Ruaj",
     "select": "Zgjidh",
-    "assignNumberFirst": "Cakto një numër së pari.",
-    "premiumKeepFeature": "Ruajtja e numrit tuaj është një veçori Premium. ",
+    "assignNumberFirst": "Caktoni një numër së pari.",
+    "premiumKeepFeature": "Ruajtja e numrit tuaj është një veçori Premium.",
     "lockingPremiumFeature": "Bllokimi i numrave është një veçori Premium.",
-    "numberAssigned": "Numri është caktuar.",
+    "numberAssigned": "Numri është caktuar. ",
     "numberProtectedNow": "Numri juaj tani është i mbrojtur.",
     "numberProtected": "Numri i mbrojtur.",
-    "numriIpambuluar": "Numri i pambuluar.",
-    "numriIlihtur": "Numri i lihtur.",
-    "nukMundTeNgarkojeNumrat": "Nuk mund të ngarkosh numrat.",
-    "nukMundTeCaktoje": "Nuk mund të caktoje atë numër. Mund të jetë marrë sapo—provo një tjetër.",
-    "nukMundTeQeraje": "Nuk mund të qeraje atë numër. Mund të jetë marrë sapo—provo një tjetër.",
-    "couldNotProtectNow": "Nuk mund të mbrojmë numrin tuaj tani.",
+    "numberUnprotected": "Numri i pambrojtur.",
+    "numberReleased": "Numri i liruar.",
+    "couldNotLoadNumbers": "Nuk u ngarkuan numrat.",
+    "couldNotAssign": "Nuk mund të caktojmë atë numër. Mund të jetë sapo marrë—provoni një tjetër.",
+    "couldNotLease": "Nuk mund të marrim me qira atë numër. Mund të jetë sapo marrë—provoni një tjetër.",
+    "couldNotProtectNow": " Nuk mund të mbrojmë numrin tuaj tani.",
     "couldNotProtect": "Nuk mund të mbrojmë numrin.",
-    "couldNotUnprotect": "Nuk mund ta çaktivizojmë mbrojtjen e numrit.",
-    "couldNotRelease": "Nuk mund ta çlirojmë numrin.",
-    "kodeZonashJoValide": "Ju lutemi shkruani një kod zone me 3 shifra (p.sh., 415) ose lini bosh.",
-    "paInventar": "Nuk ka inventar të disponueshëm tani.",
-    "paNumraFale": "Nuk ka numra falas të disponueshëm tani.",
-    "paInventarKodZone": "Nuk ka inventar të disponueshëm për atë kod zone tani.",
-    "paNumraFaleKodZone": "Nuk ka numra të lirë në bazën tonë për atë kod zonë aktualisht.",
-    "releaseConfirm": "Lironi numrin tuaj aktual? Ai mund t'i caktohet dikujt tjetër.",
-    "unprotect": "Ç'mbrojtje",
+    "couldNotUnprotect": "Nuk mund të çaktivizojmë mbrojtjen e numrit.",
+    "couldNotRelease": "Nuk mund të çlirojmë numrin.",
+    "invalidAreaCode": "Ju lutemi fusni një kod zonë me 3 shifra (p.sh., 415) ose lini bosh.",
+    "noInventory": "Nuk ka inventar të disponueshëm tani.",
+    "noFreeNumbers": "Nuk ka numra të lirë të disponueshëm tani.",
+    "noInventoryAreaCode": "Nuk ka inventar të disponueshëm për atë kod zonë tani.",
+    "noFreeNumbersAreaCode": "Nuk ka numra të lirë në grupin tonë për atë kod zonë aktualisht.",
+    "releaseConfirm": "Të lironi numrin tuaj aktual? Ai mund t'i caktohet dikujt tjetër.",
+    "unprotect": "Ç'aktivizo",
     "keepThisNumber": "Ruaj këtë numër",
-    "replace": "Zëvendëso",
-    "release": "Liro",
-    "active": "Aktiv",
-    "noNumber": "Asnjë numër",
-    "veçoriPremium": "Veçori premium",
-    "mbrojtNumrinTënd": "Mbroj numrin tënd",
-    "iMbrojtur": "I mbrojtur",
-    "joiMbrojtur": "Jo i mbrojtur",
-    "skadonShumëShtkurtra": "Skadon në {{count}}d",
-    "skadonNëDitëPlot": "Skadon në {{count}} ditë",
-    "expiringShort": "Expiring{{suffix}}",
-    "renewsOn": "Renews {{date}}",
-    "releaseWarning": "Numri juaj mund të publikohet pas {{count}} ditësh. Përmirësoni në Premium për ta mbajtur të mbrojtur.",
-    "pickNumberHint": "Zgjidhni një numër Chatforia për të përdorur për mesazhe dhe komunikim brenda aplikacionit.",
+    "zëvendëso": "Zëvendëso",
+    "liro": "Liro",
+    "aktiv": "Aktiv",
+    "pa numër": "Pa numër",
+    "veçori premium": "Veçori premium",
+    "mbro numrin tënd": "Mbro numrin tënd",
+    "protected": "I mbrojtur",
+    "notProtected": "Jo i mbrojtur",
+    "expiresInShort": "Skadon në {{count}}ur",
+    "skadonNëDitëPlotë": "Skadon në {{count}} ditë",
+    "poSkadonShkurt": "Po skadon{{suffix}}",
+    "rinovohetMë": "Rinovohet më {{date}}",
+    "paralajmërimPërLëshim": "Numri juaj mund të lirohet pas {{count}} ditësh. Përmirësohuni në Premium për ta mbajtur të mbrojtur. ",
+    "pickNumberHint": "Zgjidhni një numër Chatforia për t'u përdorur për mesazhe dhe komunikim brenda aplikacionit.",
     "unableToLoadStatus": "Nuk mund të ngarkohet statusi i numrit të telefonit.",
     "lock": "Bllok",
     "noNumberAssigned": "Nuk është caktuar numër. Zgjidhni një me kodin e zonës për të filluar dërgimin e mesazheve."
   },
   "dialer": {
     "title": "Thirrjet",
-    "subtitle": "Tastiera & të fundit. (Nëse nuk përdorni PSTN, filloni thirrjet nga koka e bisedës.)",
-    "enterNumber": "Hidhni numrin",
-    "enterNumberAria": "Hyrni numrin",
-    "resolving": "Po zgjidhet qëllimi i thirrjes…",
+    "nënkapës": "Tastiera & të fundit. (Nëse nuk përdorni PSTN, nisni thirrjet nga koka e bisedës.)",
+    "enterNumber": "Fut numrin",
+    "enterNumberAria": "Fut numrin",
+    "resolving": "Po zgjidh shënjestrën e thirrjes…",
     "call": "Thirrje",
     "callBrowser": "Thirrje përmes shfletuesit",
-    "backspace": "Shlyejnë karakterin e mëparshëm",
+    "backspace": "Shlyej",
     "recents": "Thirrjet e fundit",
     "noRecents": "Ende pa thirrje të fundit.",
-    "resolveFailed": "Nuk u zgjodh destinacioni i thirrjes.",
-    "callRequiredNumber": "Ju duhet një numër Chatforia para se të bëni thirrje telefonike.",
+    "resolveFailed": "Nuk u zgjidh objektivi i thirrjes.",
+    "callRequiredNumber": "Ju nevojitet një numër Chatforia para se të bëni thirrje telefonike.",
     "callFailed": "Nuk u bë thirrja.",
-    "deleteConfirm": "Të fshihet kjo thirrje nga të fundit?",
-    "deleteFailed": "Nuk u fshi thirrja.",
-    "deleteFailedLog": "Dështoi të fshihet thirrja",
-    "dalëse": "Dalëse",
-    "hyrëse": "Hyrëse",
-    "të humbura": "Të humbura",
-    "të refuzuara": "Të refuzuara",
-    "dështuar": "Dështuar",
-    "të përfunduara": "Të përfunduara",
-    "thirrjeDalëse": "Thirrje dalëse",
-    "thirrjeHyrëse": "Thirrje hyrëse",
-    "voicemail": "Mesazh zanor",
+    "deleteConfirm": "Fshi këtë thirrje nga të fundit?",
+    "deleteFailed": "Nuk mund të fshihet thirrja.",
+    "deleteFailedLog": "Dështoi fshirja e thirrjes",
+    "outgoing": "Dalëse",
+    "incoming": "Hyrëse",
+    "missed": "Të humbura",
+    "declined": "Refuzuar",
+    "failed": "Dështuar",
+    "përfunduar": "Përfunduar",
+    "thirrjeDalëse": "Thirrje Dalëse",
+    "thirrjeHyrëse": "Thirrje Hyrëse",
+    "mesazhZanor": "Mesazh Zanor",
     "callAria": "Thirrja {{name}}",
     "deleteAria": "Fshi thirrjen me {{name}}",
     "enterNumberPh": "Fut numrin",
-    "recentsEmpty": "Ende pa thirrje të fundit.",
-    "key": "Key {{d}}"
+    "recentsEmpty": "Nuk ka ende thirrje të fundit.",
+    "key": "Çelësi {{d}}"
   },
-  "callHistory": {
+  "historia e thirrjeve": {
     "title": "Thirrjet",
     "subtitle": "Thirrjet tuaja të fundit hyrëse dhe dalëse.",
     "loadFailed": "Nuk u ngarkua historia e thirrjeve.",
     "loadFailedTitle": "Nuk u ngarkua historia e thirrjeve",
     "emptyTitle": "Ende pa thirrje",
     "emptySubtitle": "Thirrjet tuaja të fundit do të shfaqen këtu.",
-    "outgoing": "Dalëse",
-    "incoming": "Hyrëse",
-    "missed": "Munguar",
-    "declined": "Refuzuar",
-    "failed": "Dështuar",
-    "completed": "Përfunduar",
-    "outgoingCall": "Thirrje dalëse",
-    "incomingCall": "Thirrje hyrëse",
+    "dalëse": "Dalëse",
+    "hyëse": "Hyëse",
+    "të humbura": "Të humbura",
+    "të refuzuara": "Të refuzuara",
+    "të dështuara": "Të dështuara",
+    "të përfunduara": "Të përfunduara",
+    "thirrjeDalëse": "Thirrje dalëse",
+    "thirrjeHyëse": "Thirrje hyëse",
     "voicemail": "Mesazh zanor"
   },
   "video": {
     "hub": {
       "title": "Video",
-      "subtitle": "Zgjidhni një lloj video."
+      "subtitle": "Zgjidhni një lloj videoje."
     },
     "direct": {
       "title": "Video e drejtpërdrejtë",
       "subtitle": "Filloni një thirrje video 1:1 me një përdorues tjetër.",
-      "desc": "Thirrje kamerë 1:1 me një përdorues tjetër.",
-      "start": "Filloni",
-      "callBtn": "Thirrje",
+      "desc": "Thirrje me kamerë 1:1 me një përdorues tjetër.",
+      "start": "Start",
+      "callBtn": "Call",
       "callByPhone": {
-        "title": "Telefononi me telefon"
+        "title": "Thirrje me telefon"
       },
       "phone": {
         "placeholder": "Futni numrin e telefonit (p.sh., +1-555-123-4567)",
-        "aria": "Numri për t'u thirrur"
+        "aria": "Telefon për të thirrur"
       },
       "tipInvite": "Këshillë: Ngjitni një numër dhe telefononi pa ruajtur një kontakt. Ne do të ftojmë jo-përdoruesit me një lidhje.",
       "findUser": {
         "title": "Gjej një përdorues"
       },
       "search": {
-        "placeholder": "Kërko me emër ose emër përdoruesi",
-        "aria": "Kërko me emër ose emër përdoruesi",
+        "placeholder": " Kërko sipas emrit ose emrit të përdoruesit",
+        "aria": "Kërko sipas emrit ose emrit të përdoruesit",
         "btn": "Kërko"
       }
     },
     "dhomat": {
-      "title": "Dhomat",
-      "nënkapak": "Krijoni një dhomë ose bashkohuni me një ekzistuese duke shkruar të njëjtin emër.",
-      "përshkrim": "Video me shumë palë duke përdorur një emër dhome të përbashkët.",
-      "etiketa e dhomës": "Emri i dhomës",
-      "vendëzëri i dhomës": "p.sh. team-standup",
+      "titulli": "Dhomat",
+      "nën-titulli": "Krijoni një dhomë ose bashkohuni me një ekzistuese duke shkruar të njëjtin emër.",
+      "desc": "Video me shumë palë duke përdorur një emër dhome të përbashkët.",
+      "roomLabel": "Emri i dhomës",
+      " roomPlaceholder": "p.sh. team-standup",
       "roomAria": "Emri i dhomës",
       "joinCreate": "Bashkohu / Krijo",
-      "tip": "Këshillë: ndani këtë emër me të tjerët, ose lidhje të thellë në"
+      "tip": "Këshillë: ndani këtë emër me të tjerët, ose krijoni një lidhje të thellë drejt"
     },
     "title": "Video",
-    "chooseType": "Zgjidhni një lloj videoje.",
-    "directTitle": "Video e drejtpërdrejtë",
+    "chooseType": "Zgjidhni një lloj video.",
+    "directTitle": "Video e Drejtpërdrejtë",
     "directDesc": "Thirrje kamerë 1:1 me një përdorues tjetër.",
     "directStart": "Filloni",
-    "roomsTitle": "Dhoma",
-    "roomsDesc": "Video me shumë pjesëmarrës duke përdorur një emër dhome të përbashkët.",
-    "roomsIntro": "Bashkohuni ose krijoni një dhomë me shumë pjesëmarrës.",
+    "roomsTitle": "Dhomat",
+    "roomsDesc": "Video me shumë palë duke përdorur një emër të përbashkët dhome.",
+    "roomsIntro": "Bashkohuni ose krijoni një dhomë me shumë palë.",
     "roomNameLabel": "Emri i dhomës",
-    "roomNamePh": "e. p.sh. team-standup",
+    "roomNamePh": "p.sh. team-standup",
     "join": "Bashkohu",
-    "deeplinkTip": "Këshillë: mund të krijoni lidhje të thella direkt në <code>/video?room=room-name</code>."
+    "deeplinkTip": "Këshillë: mund të bëni lidhje të thellë direkt në <code>/video?room=room-name</code>."
   },
   "directVideo": {
     "intro": "Filloni një thirrje video direkte 1:1.",
     "findUserLabel": "Gjej një përdorues",
-    "findUserPh": "Kërko me emër ose emrin e përdoruesit",
-    "kërkim": "Kërko",
-    "thirrje": "Telefononi"
+    "findUserPh": "Kërko me emër ose emër përdoruesi",
+    "search": "Kërko",
+    "call": "Telefononi"
   },
   "phoneWarning": {
-    "title": "Numri juaj po skadon së shpejti",
-    "body": "Numri juaj {{number}} do të lirohet më {{date}} nëse nuk riaktivizohet.",
-    "button": "Ruan numrin tim"
+    "title": "Numri juaj skadon së shpejti",
+    "body": "Numri juaj {{number} } do të skadojë më {{date}} nëse nuk riaktivizohet.",
+    "button": "Ruaj Numrin Tim"
   },
   "premium": {
     "heading": "Bëhu Premium",
-    "description": "Hap veçoritë e fuqishme & heq reklamat.",
+    "description": "Hap funksionalitete të fuqishme & heq reklamat.",
     "cta": "Përmirëso",
     "upgrade": "Përmirëso",
-    "upgradeAria": "Përmirëso në Chatfor ia Premium"
+    "upgradeAria": "Përmirëso në Chatforia Premium"
   },
   "upgrade": {
-    "title": "Upgrade",
-    "titleLoggedIn": "Upgrade",
-    "titlePublic": "Pricing",
-    "h1": "Chatforia Pricing & Plans",
-    "h1Subtitle": "Filloni me planin tonë falas, me reklama. Hiqni reklamat me Plus, ose çaktivizoni veçoritë e plota me Premium.",
-    "subtitle": "Zgjidhni një plan aplikacioni, shtoni pako të dhënash për veten tuaj, ose ndani të dhëna me familjen tuaj — të gjitha në një vend.",
-    "subtitle.app": "Filloni me planin tonë falas, me reklama. Hiqni reklamat me Plus, ose çaktivizoni veçoritë e plota me Premium.",
-    "subtitle.mobile": "Shto të dhëna globale eSIM që Chatforia të vazhdojë të funksionojë edhe kur je larg Wi-Fi.",
-    "subtitle.family": "Krijo një pishinë të përbashkët të dhënash për familjen tënde dhe menaxho përdorimin e të gjithëve nga një vend.",
+    "title": "Përmirëso",
+    "titleLoggedIn": "Përmirëso",
+    "titlePublic": "Çmimet",
+    "h1": "Çmimet & Planet e Chatforia",
+    "h1Subtitle": "Filloni me planin tonë falas me reklama. Hiqni reklamat me Plus, ose zhbllokoni veçoritë e plota me Premium.",
+    "subtitle": "Zgjidhni një plan aplikacioni, shtoni pako të dhënash për veten tuaj, ose ndani të dhënat me familjen tuaj — të gjitha në një vend.",
+    "subtitle.app": "Filloni me planin tonë falas me reklama. Shkoni pa reklama me Plus, ose aktivizoni veçoritë e plota me Premium.",
+    "subtitle.mobile": "Shtoni të dhëna globale eSIM që Chatforia të funksionojë edhe kur jeni larg Wi-Fi.",
+    "subtitle.family": "Krijoni një pishinë të përbashkët të të dhënave për familjen tuaj dhe menaxhoni përdorimin e të gjithëve nga një vend.",
     "perMonth": "muaj",
-    "perYear": "vjet",
+    "perYear": "vit",
     "goPremium": "Shko Premium",
-    "benefitsLine": "Hapni veçoritë e fuqishme & hiqni reklamat.",
+    "benefitsLine": "Hidhni veçoritë e fuqishme & hiqni reklamat.",
     "ctaText": "Përmirëso",
     "aria": "Përmirëso në Chatforia Premium",
     "toggle": {
-      "monthly": "Mujor",
-      "vjetor": "Vjetor (Kurseni 30%)"
+      "monthly": "Mujore",
+      "annual": "Vjetore (Kurseni 30%)"
     },
     "scheduleBanner": {
       "title": "Abonimi do të përfundojë",
-      "body": "Do të ktheheni në planin Falas më",
+      "body": "Do të ktheheni te Plani Falas më",
       "keepPlanCta": "Ruaj {{plan}}",
       "manageBillingCta": "Menaxho faturimin"
     },
     "billing": {
       "opening": "Po hapet…",
-      "manage": "Menaxho faturimin"
+      "manage ": "Menaxho pagesën"
     },
     "checkout": {
-      "redirecting": "Po ridrejtohet…"
+      "redirecting": "Po ridrejtuesh…"
     },
     "auth": {
-      "continue": "Vazhdo për t'u identifikuar",
+      "continue": "Vazhdo për t'u kyçur",
       "createAccount": "Krijo llogari",
-      "signIn": "Hyni"
+      "signIn": " Hyni"
     },
     "cta": {
       "aria": "Zgjidh planin",
@@ -1091,17 +1099,17 @@
       "mobile": "Mobile (eSIM)",
       "family": "Planet familjare"
     },
-    "plans": {
-      "free": {
-        "title": "Faleminderit",
-        "price": "$0",
-        "desc": "Filloni të dërgoni mesazhe falas. Ideale nëse sapo po provoni Chatforia.",
-        "features": {
-          "chat": "Bisedë 1:1 dhe grupore në kohë reale, plus thirrje zanore dhe video",
+    "planet": {
+      "falas": {
+        "titulli": "Falësisht",
+        "çmimi": "0 $",
+        "përshkrimi": "Filloni të dërgoni mesazhe falas. Ideale nëse sapo po provoni Chatforia.",
+        "veçoritë": {
+          "bisedë": "Bisedë 1:1 dhe grupore në kohë reale, plus thirrje zanore dhe video",
           "media": "Ndani foto, mesazhe zanore dhe video të shkurtra",
           "ai": "Përgjigje të zgjuara të bazuara në AI dhe përkthim të menjëhershëm (përdorim i drejtë)",
           "mesazhe që zhduken": "Mesazhe që zhduken dhe kontrolle themelore të privatësisë",
-          " reklama": "Falas përgjithmonë me reklama në aplikacion"
+          "reklama": "Falas përgjithmonë me reklama në aplikacion "
         },
         "ctaCurrent": "Plani aktual",
         "ctaManage": "Menaxho në faturim",
@@ -1111,16 +1119,16 @@
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Të gjitha të domosdoshmet, pa reklama. I shkëlqyer për mesazhe dhe thirrje çdo ditë.",
+        "desc": "Të gjitha gjërat thelbësore, pa reklama. I shkëlqyer për mesazhe dhe thirrje çdo ditë.",
         "veçoritë": {
-          "allFree": "Të gjitha në planin Falas, pa reklama",
-          "forwarding": "Transferoni thirrjet dhe mesazhet në numrin tuaj të vërtetë të telefonit",
-          "history": "Historik më i gjatë i mesazheve (deri në 6 muaj)",
-          "support": "Mbështetje më e shpejtë kur diçka shkon keq"
+          "allFree": "Të gjitha gjërat në planin Falas, pa reklama",
+          "forwarding": "Dërgo thirrjet dhe mesazhet në numrin tënd të vërtetë të telefonit",
+          "historia": "Histori më e gjatë e mesazheve (deri në 6 muaj)",
+          "mbështetje": "Mbështetje më e shpejtë kur diçka shkon keq"
         },
-        "badge": "Popullor",
-        "cta": "Shko pa reklama",
-        "ctaPublic": "Merr Plus – vazhdo të kyçesh",
+        "badge": "Popullore",
+        "cta": "Shko Pa Reklamat",
+        "ctaPublic": "Merr Plus – vazhdo të hyjsh",
         "aria": "Përmirëso në Plus"
       },
       "premiumMonthly": {
@@ -1128,31 +1136,31 @@
         "price": "$11.99",
         "desc": "E gjithë përvoja Chatforia: mjete të fuqishme me AI, personalizim dhe mbështetje prioritare.",
         "veçoritë": {
-          "plusAll": "Të gjitha veçoritë e Plus",
+          "plusAll": "Të gjitha në Plus",
           "temat": "Hapni të gjitha temat premium me ngjyra dhe personalizimet e aplikacionit",
-          "ai": "Vetëm për Premium: mjete të fuqishme AI për rishkrime, përgjigje të zgjuara dhe përmbledhje",
-          "support": "Mbështetje prioritare kur keni më shumë nevojë për ndihmë"
+          "ai": "Pajisje të fuqishme AI vetëm për Plus për rishkrime, përgjigje të zgjuara dhe përmbledhje",
+          "mbështetje": "Mbështetje prioritare kur keni më shumë nevojë për ndihmë"
         },
         "badge": "E rekomanduar",
         "cta": "Përmirëso (Mujore)",
-        "ctaPublic": "Hapni Premium – vazhdoni të hyni",
-        "aria": "Përmirësohu në Premium Mujor"
+        "ctaPublic": "Hap Premium – vazhdo të hyni",
+        "aria": "Përmirëso në Premium Mujor"
       },
       "premiumVjetor": {
         "title": "Premium (Vjetor)",
         "price": "$99",
-        "desc": "Kurseni më shumë kur paguani çdo vit — duke përfshirë tema shtesë ngjyrash, mjete AI dhe mbështetje prioritare.",
+        "desc": "Kurseni më shumë kur paguani çdo vit — duke përfshirë tema ngjyrash shtesë, mjete AI dhe mbështetje prioritare.",
         "veçoritë": {
-          "tëgjithaPremium": "Të gjitha në Premium Mujor — përfshirë tema shtesë ngjyrash",
+          "tëgjithaPremium": "Të gjitha veçoritë në Premium Mujor — duke përfshirë tema shtesë ngjyrash",
           "faturimVjetor": "Faturë një herë në vit",
           "kursen25": "Kurseni rreth 30% krahasuar me pagesën mujore",
           "mëEmirëPër": "Më e mira për përdoruesit e avancuar, punonjësit në distancë dhe udhëtarët e shpeshtë"
         },
         "badge": "Kurseni 30%",
         "cta": "Përmirëso (Vjetore)",
-        "ctaPublic": "Kurseni 30% me pagesë vjetore – vazhdoni të hyni",
-        "aria": "Përmirëso në Premium Vjetore",
-        "disclaimer": "Faturë paraprake. Anulo në çdo kohë. Pa tarifa të fshehta."
+        "ctaPublic": "Shpëtoni 30% me abonim vjetor – vazhdoni të hyni",
+        "aria": "Përmirësohuni në Premium Vjetor",
+        "disclaimer": "Faturë paraprake. Anuloni në çdo kohë. Pa tarifa të fshehura."
       }
     },
     "marketing": {
@@ -1160,114 +1168,106 @@
       "freeDesc": "Filloni të dërgoni mesazhe falas.",
       "plusTitle": "Plus",
       "plusBadge": "Popullor",
-      "plusDesc": "Përvoja më e përballueshme pa reklama.",
+      "plusDesc": "Eksperienca më e përballueshme pa reklama.",
       "premiumMonthlyTitle": "Premium",
       "premiumMonthlyDesc": "Funksionalitete të plota, meloditë e telefonit dhe mjete të fuqishme me AI.",
       "premiumAnnualTitle": "Premium",
       "premiumAnnualDesc": "Kurseni më shumë kur paguani çdo vit.",
-      "annualDisclaimer": "Paguhet paraprakisht. Anulo në çdo kohë. Pa tarifa të fshehta."
+      "annualDisclaimer": "Paguhet paraprakisht. Anuloni kur të doni. Pa tarifa të fshehura."
     },
     "mobile": {
       "title": "Chatforia Mobile (paketat e të dhënave eSIM)",
-      "subtitle": "Shto të dhëna globale që Chatforia të funksionojë edhe pa Wi-Fi. Çmimet përshtaten automatikisht bazuar në vendin dhe monedhën tënde.",
-      "subtitle.detail": "Zgjidhni një paketë globale të dhënash njëherëshme që Chatforia të vazhdojë të funksionojë kur jeni duke udhëtuar ose larg Wi-Fi.",
+      "subtitle": "Shtoni të dhëna globale që Chatforia të funksionojë edhe pa Wi-Fi. Çmimet përshtaten automatikisht bazuar në vendin dhe monedhën tuaj.",
+      " subtitle.detail": "Zgjidhni një paketë globale të dhënash njëherëshme që Chatforia të vazhdojë të funksionojë kur jeni duke udhëtuar ose larg Wi-Fi-t.",
       "scope": {
         "local": "Lokal",
         "europe": "Evropë",
         "global": "Global"
       },
-      "note": "Ne nuk shesim paketa të dhënash nën 3 GB.",
-      "localEquals": "Lokal = {{country}}",
-      "localEqualsFallback": "Lokal = vendi juaj aktual",
-      "perPack": "/ paketë",
-      "cta": "Merrni këtë paketë të dhënash",
-      "ctaPublic": "Merrni këtë paketë të dhënash",
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = your current country",
+      "perPack": "/ pack",
+      "cta": "Get this data pack",
+      "ctaPublic": "Get this data pack",
       "checkout": {
-        "redirecting": "Po ridrejtoheni…"
+        "redirecting": "Redirecting…"
       },
       "unlimited": {
-        "features": {
-          "heavyUse": "Të dhëna me shpejtësi të lartë për përdorim të rëndë",
-          "throttle": "Shpejtësitë mund të ngadalësohen pas përdorimit të lartë",
-          "coverage": "Mbulim i besueshëm",
-          "instant": "Aktivizim i menjëhershëm i eSIM-it",
-          "noContract": "Paketë njëherëshe, pa kontratë"
+        "veçoritë": {
+          "përdorimIintensiv": "Të dhëna me shpejtësi të lartë për përdorim intensiv",
+          "kufizim": "Të dhënat me shpejtësi të lartë i nënshtrohen politikave të përdorimit të drejtë dhe menaxhimit të rrjetit",
+          "mbulim": "Mbulim i besueshëm",
+          "menjëhershëm": "Aktivizim i menjëhershëm i eSIM",
+          "paKontratë": "Paketë njëherëshe, pa kontratë"
         }
       },
       "disclaimer": {
-        "devices": "Paketat e të dhënave eSIM kërkojnë një pajisje të pajtueshme me eSIM dhe të ç'kyçur. Disponueshmëria ndryshon sipas modelit të telefonit, operatorit dhe vendit. Mbulimi dhe shpejtësitë ndryshojnë sipas rajonit."
+        "pajisjet": "Paketat e të dhënave eSIM kërkojnë një pajisje të pajtueshme me eSIM dhe të ç'kyçur. Disponueshmëria ndryshon sipas modelit të telefonit, operatorit dhe vendit. Mbulimi dhe shpejtësitë ndryshojnë sipas rajonit."
       },
-      "small": {
-        "title": "Paketa Starter",
-        "desc": "Përfshin 3 GB të dhëna me shpejtësi të lartë — ideale për mesazhe të lehta dhe thirrje të rastësishme.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Udhëtime të shkurtra, mesazhe të lehta dhe thirrje të rastësishme",
-        "aria": "Bli paketën Starter eSIM"
-      },
-      "medium": {
-        "title": "Paketa për udhëtarë",
-        "desc": "Përfshin 5 GB të dhëna me shpejtësi të lartë për udhëtime, lëvizje ditore dhe thirrje të rregullta VoIP. ",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Udhëtimet e fundjavës, thirrjet e rregullta VoIP, dhe hartat",
-        "aria": "Bli paketën e të dhënave eSIM për udhëtarë"
-      },
-      "large": {
-        "title": "Power pack",
-        "desc": "Përfshin 10 GB të dhëna me shpejtësi të lartë për biseda të dendura, thirrje dhe video në rrjetin Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Biseda intensive, thirrje, video dhe përdorim hotspot",
-        "aria": "Bli paketën e të dhënave eSIM për përdoruesin Power"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Pa kufi"
+        }
       },
       "compare": {
         "title": "Krahaso paketat e të dhënave eSIM",
         "col": {
-          "pack": "Paketë",
+          "pack": "Paketa",
           "data": "Të dhëna të përfshira",
-          "bestFor": "Më e mira për"
+          "bestFor": "Më i mirë për"
         },
-        "disclaimer": "Përdorimi aktual i të dhënave varet nga mënyra se si përdorni Chatforia (zë, video, media dhe aplikacione të tjera në telefonin tuaj)."
+        "shënim": "Përdorimi aktual i të dhënave varet nga mënyra se si përdorni Chatforia (zë, video, media dhe aplikacione të tjera në telefonin tuaj)."
       }
     },
-    "family": {
-      "title": "Chatforia Family (të dhëna të përbashkëta)",
-      "nënkapull": "Ndani një pishinë të vetme të dhënash me familjen tuaj. Një faturë, shumë llogari Chatforia, mbulim global.",
+    "familje": {
+      "titulli": "Chatforia Familje (të dhëna të përbashkëta)",
+      "nën-titulli": " Ndani një pishinë të vetme të dhënash me familjen tuaj. Një faturë, shumë llogari Chatforia, mbulim global.",
       "perPack": "/ paketë",
       "small": {
         "title": "Familje e Vogël",
         "desc": "Përfshin 20 GB të dhëna të përbashkëta me shpejtësi të lartë — e shkëlqyer për 2–3 përdorues të lehtë.",
         "price": "$29.99",
-        "aria": "Bli paketën Familje e Vogël"
+        "aria": "Bli paketën Familjare të Vogël"
       },
       "medium": {
-        "title": "Familje e Mesme",
+        "title": "Familjare Mesatare",
         "desc": "Përfshin 40 GB të dhëna të përbashkëta me shpejtësi të lartë — ideale për 3–5 anëtarë aktivë.",
-        "price": " $49.99",
-        "aria": "Bli paketën Family Medium"
+        "price": "$49.99",
+        "aria": "Bli paketën Familje e Mesme"
       },
       "large": {
-        "title": "Family Large",
-        "desc": "Përfshin 80 GB të dhëna të përbashkëta me shpejtësi të lartë — për familjet aktive që janë gjithmonë online.",
+        "title": "Familje e Madhe",
+        "desc": "Përfshin 80 GB të dhëna të përbashkëta me shpejtësi të lartë — për familje aktive që janë gjithmonë online.",
         "price": "$84.99",
         "aria": "Bli paketën Family Large"
       },
       "feature": {
         "shared": "Pishinë e përbashkët të të dhënave për familjen tuaj",
-        "members": "Ftoni deri në 4 anëtarë shtesë",
-        "membersMore": "E shkëlqyer për 3–5 anëtarë aktivë",
-        "manage": "Menaxhoni kufijtë për secilin anëtar",
-        "topUp": "Shtoni paketa më shumë në çdo kohë",
-        "bestValue": " Vlera më e mirë për GB",
-        "fairUse": "I nënshtrohet politikës së përdorimit të drejtë dhe kufizimeve lokale"
+        "members": "Fto deri në 4 anëtarë shtesë",
+        "anëtarëMëShumë": "E shkëlqyer për 3–5 anëtarë aktivë",
+        "menaxho": "Menaxho kufijtë për secilin anëtar",
+        "plotëso": "Shto paketa më shumë në çdo kohë",
+        "vleraMëEmirë": "Vlera më e mirë për GB",
+        "përdorimIrejtë": "I nënshtrohet politikës së përdorimit të drejtë dhe kufizimeve lokale"
       },
-      "disclaimer": "Paketat familjare krijojnë ose plotësojnë një pishinë të përbashkët të të dhënave. Ju mund të ftoni dhe të hiqni anëtarë në çdo kohë.",
+      "përjashtim": "Paketat familjare krijojnë ose plotësojnë një pishinë të përbashkët të të dhënave. Ju mund të ftoni dhe të hiqni anëtarë në çdo kohë.",
       "footnote": "Paketat familjare ndajnë një pishinë të vetme të dhënash ndër llogaritë e lidhura Chatforia. Disponueshmëria dhe kufijtë varen nga vendi juaj dhe rregulloret lokale."
     },
     "why": {
       "title": "Pse njerëzit kalojnë në Chatforia",
-      "subtitle": "Chatforia ju jep një numër telefoni të vërtetë, përkthim inteligjent, dhe një rrugë të qartë për t'u bërë pa reklama kur jeni gati.",
+      "subtitle": "Chatforia ju jep një numër telefoni të vërtetë, përkthim inteligjent, dhe një rrugë të qartë për t'u bërë pa reklama kur të jeni gati.",
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
@@ -1275,21 +1275,21 @@
         },
         "voice": {
           "title": "Chatforia vs Google Voice",
-          "body": "Aplikacion modern, dizajn global që nga fillimi, dhe përkthim i integruar në vend të transferimit të thirrjeve në stil të vjetër."
+          "body": "Aplikacion modern, global -dizajn i orientuar nga përdoruesi, dhe përkthim të integruar në vend të transferimit të vjetër të thirrjeve."
         },
         "messengers": {
           "title": "Chatforia vs aplikacionet e bisedave",
-          "body": "Dërgoni mesazhe me numra telefoni të vërtetë — jo vetëm me përdorues të tjerë të aplikacionit — me AI dhe status të integruar. E shkëlqyer nëse ju shtë duke ardhur nga aplikacione si TextFree ose TextMe."
+          "body": "Dërgoni mesazhe me numra telefoni të vërtetë — jo vetëm me përdorues të tjerë të aplikacionit — me AI dhe status të integruar. I shkëlqyer nëse vini nga aplikacione si TextFree ose TextMe."
         }
       },
       "tableTitle": "Si krahasohet Chatforia",
       "col": {
-        "feature": "Karakteristikë"
+        "feature": "Veçori"
       },
       "feature": {
         "freeNumber": "Numër telefoni falas",
         "translation": "Përkthim automatik i integruar",
-        "aiTools": "Mjetet e AI-së (rishkrime, përgjigje, përmbledhje)",
+        "aiTools": "Mjetet e inteligjencës artificiale (rishkrime, përgjigje, përmbledhje)",
         "ads": "Opsion pa reklama",
         "history": "Historia e mesazheve"
       },
@@ -1297,32 +1297,32 @@
       "no": "Jo",
       "yesPremium": "Po (Premium)",
       "plusPremium": "Plus & Premium",
-      "i kufizuar": "I kufizuar",
+      "limited": "I kufizuar",
       "nA": "N/A",
-      "historia": {
+      "history": {
         "chatforia": "Deri në 12+ muaj",
         "textnow": "Varies by account",
         "voice": "Limited / account-based"
       },
-      "disclaimer": "Krahasimi bazohet në informacion të disponueshëm publikisht dhe mund të ndryshojë me kalimin e kohës. Aplikacione të tjera për mesazhe falas si TextFree ose TextMe janë përgjithësisht të ngjashme me TextNow."
+      "disclaimer": "Krahasimi bazohet në informacion të disponueshëm publikisht dhe mund të ndryshojë me kalimin e kohës. Aplikacione të tjera falas për mesazhe si TextFree ose TextMe janë përgjithësisht të ngjashme me TextNow."
     },
     "faq": {
       "title": "FAQ për çmimet dhe planet",
       "free": {
-        "pyetje": "A është plani Falas vërtet falas?",
-        "përgjigje": "Po. Plani Falas përfshin një numër Chatforia, thirrje dhe mesazhe me reklama. Mund të qëndroni në planin Falas sa të doni, ose të përmirësoni për të hequr reklamat dhe për të zhbllokuar më shumë veçori."
+        "q": "A është plani Falas me të vërtetë falas?",
+        "a": "Po. Plani Falas përfshin një numër Chatforia, thirrje dhe mesazhe me reklama. Mund të qëndroni në planin Falas sa të doni, ose të përmirësoni planin për të hequr reklamat dhe për të zhbllokuar më shumë veçori."
       },
       "plusPremium": {
-        "pyetje": "Cili është ndryshimi midis Plus dhe Premium?",
-        "p": "Plus heq reklamat dhe zgjat historikun tuaj të mesazheve — i përsosur për përdorim të përditshëm. Premium shton personalizim shtesë, mjete AI për rishkrime dhe përgjigje, dhe mbështetje prioritare për përdoruesit e rëndë."
+        "q": "Cili është ndryshimi midis Plus dhe Premium?",
+        "a": " Plus heq reklamat dhe zgjat historikun tuaj të mesazheve — i përsosur për përdorim të përditshëm. Premium shton personalizim shtesë, mjete AI për rishkrime dhe përgjigje, dhe mbështetje prioritare për përdoruesit e rëndë."
       },
       "esim": {
-        "p": "Ku funksionojnë paketat e të dhënave eSIM?",
+        "q": "Ku funksionojnë paketat e të dhënave eSIM?",
         "a": "Chatforia Mobile përdor mbulim global eSIM. Disponueshmëria varet nga vendi dhe pajisja juaj. Do të shihni opsionet e mbështetura gjatë aktivizimit brenda aplikacionit."
       },
-      "anulo": {
-        "pyetje": "A mund të anuloj ose të ndryshoj planet në çdo kohë?",
-        "përgjigje": "Po. Mund të menaxhoni ose të anuloni abonimin tuaj nga faqja e faturimit në aplikacion. Ndryshimet hyjnë në fuqi në fund të periudhës suaj aktuale të faturimit."
+      "anulim": {
+        " q": "A mund të anuloj ose të ndryshoj planet në çdo kohë?",
+        "a": "Po. Mund të menaxhoni ose të anuloni abonimin tuaj nga faqja e faturimit në aplikacion. Ndryshimet hyjnë në fuqi në fund të periudhës suaj aktuale të faturimit. "
       },
       "family": {
         "q": "Si funksionojnë paketat Familjare?",
@@ -1331,7 +1331,7 @@
     }
   },
   "family": {
-    "title": "Familja",
+    "title": "Familje",
     "loading": "Po ngarkohen detajet e familjes suaj…",
     "error": {
       "load": "Dështoi ngarkimi i detajeve të familjes.",
@@ -1344,21 +1344,21 @@
       "myPlanLoading": "Po ngarkohet plani juaj…",
       "currentPlan": "Plani aktual",
       "renewsAt": "Rinovon në",
-      "freePlanCopy": "Jeni në planin falas. Përmirëso për të zhbllokuar më shumë veçori.",
+      " freePlanCopy": "Jeni në planin falas. Përmirësoni për të zhbllokuar më shumë veçori.",
       "upgradeCta": "Përmirëso planin",
       "changePlanCta": "Ndrysho planin",
-      "manageBilling": "Menaxho faturimin",
-      "portalError": "Nuk mund të hapet portali i faturimit tani.",
-      "cancelNow": "Anulo tani",
-      "cancelNowHelp": "Ju mund të menaxhoni ose anuloni abonimin tuaj në portalin e faturimit, ose ta anuloni menjëherë më poshtë.",
-      "cancelNowConfirm": "A jeni të sigurt që dëshironi të anuloni planin tuaj menjëherë? Kjo nuk mund të rikthehet.",
+      "menaxhoPaguimin": "Menaxho pagesën",
+      "gabimIportalit": "Nuk mund të hapet portali i pagesave tani.",
+      "anuloTani": "Anulo tani",
+      "anuloTaniNdihma": "Ju mund të menaxhoni ose anuloni abonimin tuaj në portalin e pagesave, ose ta anuloni menjëherë më poshtë.",
+      "konfirmimAnulimi": "A jeni të sigurt që dëshironi të anuloni planin tuaj menjëherë? Kjo nuk mund tëundohet.",
       "cancelNowError": "Nuk mund të anuloni planin tuaj tani. Ju lutemi provoni përsëri ose përdorni Menaxho faturimin."
     },
     "none": {
       "title": "Ende nuk është krijuar asnjë familje",
       "body": "Për të krijuar një Familje Chatforia dhe një pishinë të përbashkët të të dhënave, filloni një plan Familjar.",
       "goUpgrade": "Filloni një plan Familjar",
-      "viewPlans": "Shikoni të gjitha planet"
+      "viewPlans": "Shiko të gjitha planet"
     },
     "group": {
       "defaultName": "Familja ime Chatforia",
@@ -1368,33 +1368,33 @@
       "owner": "Pronar",
       "member": "Anëtar"
     },
-    "të dhëna": {
-      "titull": "Pishina e të dhënave të përbashkëta",
-      "përshkrim": "Të gjithë anëtarët ndajnë këtë pishinë. Ne do t'ju paralajmërojmë kur të afroheni kufirit tuaj."
+    "data": {
+      "heading": "Pishina e të dhënave të përbashkëta",
+      "caption": "Të gjithë anëtarët ndajnë këtë pishinë. Ne do t'ju paralajmërojmë kur të afroheni kufirit tuaj."
     },
-    "anëtarët": {
-      "titull": "Anëtarët e familjes",
-      "emri": "Emri",
-      "roli": "Roli",
-      "përdorimi": "Përdorimi",
-      "kufiri": "Kufiri",
-      "i pakufizuar": "Pa kufi të caktuar",
-      "thirrjePërVeprim": "Fto një anëtar"
+    "members": {
+      "title": "Anëtarët e familjes",
+      "name": "Emri",
+      "role": "Roli",
+      "usage": "Përdorimi",
+      "limit": "Kufiri",
+      "unlimited": "Pa kufi të caktuar",
+      "inviteCta": "Fto një anëtar"
     },
-    "ftesa": {
-      "titulli": "Fto një anëtar të ri",
-      "trupi": "Dërgo një email ose lidhje për të ftuar dikë në pishinën tuaj të përbashkët të të dhënave familjare.",
-      "etiketaE-mail": "Email (opsional)",
-      "vendmbajtësiI-mail": "friend@example.com",
+    "invite": {
+      "title": "Fto një anëtar të ri",
+      "body": "Dërgo një email ose lidhje për të ftuar dikë në pishinën tuaj të përbashkët të të dhënave familjare.",
+      "emailLabel": "Email (opsional)",
+      "emailPlaceholder": "friend@example.com",
       "create": "Krijo ftesë",
       "linkLabel": "Lidhja e ftesës",
       "copyAria": "Kopjo lidhjen e ftesës",
-      "expiryHint": "Kjo lidhje skadon pas disa ditësh. Ju gjithmonë mund të krijoni një të re."
+      "expiryHint": "Kjo lidhje skadon pas disa ditësh. Gjithmonë mund të krijoni një të re."
     },
     "join": {
-      "title": "Bashkohu në një familje",
-      "body": "Je ftuar të bashkohesh në një Familje Chatforia dhe të ndash pishinën e tyre të të dhënave.",
-      "cta": "Prano dhe bashkohu në familje",
+      "title": "Bashkohu me një familje",
+      "body": "Jeni ftuar të bashkoheni me një Familje Chatforia dhe të ndani bazën e tyre të të dhënave.",
+      "cta": "Prano dhe bashkohu me familjen",
       "ctaLogin": "Hyni dhe bashkohuni me familjen",
       "success": "Jeni bashkuar me këtë familje. Tani ndani pishinën e tyre të të dhënave.",
       "goFamily": "Shkoni te paneli i familjes",
@@ -1405,171 +1405,193 @@
     "title": "Bisedë e rastësishme",
     "nëntitull": "Njoftohu me dikë të ri menjëherë, ose zgjidh të bisedosh me Ria.",
     "filloni": "Filloni një bisedë",
-    "përshkrimi": "Bisedoni në mënyrë anonime së pari. Shtoni mik më vonë nëse ndiheni rehat.",
-    "findMatch": "Më gjej një partner",
-    "chatWithRia": "Bisedo me Ria",
-    "setAge": "Caktoni gamën e moshës në Profili → Mosha & Bisedë e rastësishme për t'u përputhur me njerëz.",
-    "idle": "Pa aktivitet",
-    "matching": "Po përputhet…",
-    "searching": "Po kërkon…",
-    "cancel": "Anulo",
-    "connectionProblem": "Probleme lidhjeje",
+    "përshkrimi": "Bisedoni fillimisht në mënyrë anonime. Shtoni mik më vonë nëse ndiheni rehat.",
+    "gjejPërputhje": "Gjej një përputhje për mua",
+    "bisedoMeRia": "Bisedo me Ria",
+    "vendosMoshen": "Vendos intervalin e moshës në Profili → Mosha & Bisedë e rastësishme për t'u përputhur me njerëzit.",
+    "iQetë": "I qetë",
+    "poPërputhet": "Po përputhet…",
+    "poKërkon": "Po kërkon…",
+    "anulo": "Anulo",
+    "problemLidhjeje": "Probleme lidhjeje",
     "ai": "AI",
     "anonymous": "Anonim",
     "connectedAs": "Të lidhur si",
-    "waitingAddFriend": " Po pret që ata të pranojnë Shto Miq…",
+    "waitingAddFriend": "Po pret që ata të pranojnë Shto Miq…",
     "hiddenUsernames": "Emrat e përdoruesve mbeten të fshehur derisa të dy personat të zgjedhin Shto Miq.",
-    "riaSeparate": " Bisedo me Ria në çdo kohë — e veçantë nga përputhja e rastësishme me njerëz.",
+    " riaSeparate": "Bisedo me Rian në çdo kohë — e ndarë nga përputhja e rastësishme me njerëz.",
     "sendMessage": "Dërgo mesazh",
     "chatEnded": "Biseda përfundoi",
     "conversationEnded": "Ajo bisedë ka përfunduar.",
     "findAnotherMatch": "Gjej një përputhje tjetër",
-    "tjetër": "Personi tjetër",
-    "shtoMiq": "Shto Miq",
-    "kërkuar": "Kërkuar",
-    "largohu": "Largohu",
-    "dërgoMesazhRia": "Dërgo mesazh Rias…",
-    "messageMatch": "Dërgo mesazh partnerit tënd…",
-    "chatWithForia": "Bisedo me Forian",
-    "chatWithForiaBot": "Bisedo me ForiaBot",
-    "close": "Mbyll",
-    "finding": " Po kërkon…",
-    "po kërkon": "Po kërkon dikë…",
-    "po-fillon-foriën": "Po fillon një bisedë me Foria…",
-    "partneri-u-ndërpre": "Partneri yt u ndërpre.",
-    "pa-partner": "Nuk është gjetur partner në këtë moment.",
+    "next": "Personi tjetër",
+    "addFriend": "Shto mik",
+    "requested": "Kërkuar",
+    "Largohu": "Largohu",
+    "Dërgo mesazh Rias": "Dërgo mesazh Rias…",
+    "Dërgo mesazh përputhjes": "Dërgo mesazh përputhjes…",
+    "Bisedo me Forian": "Bisedo me Forian",
+    "Bisedo me ForiaBot": "Bisedo me ForiaBot",
+    "Mbyll": "Mbyll",
+    "Po gjen": "Po gjen…",
+    "looking": "Po kërkon dikë…",
+    "startingForia": "Po fillon një bisedë me Foria…",
+    "partnerDisconnected": "Partneri yt u shkëput.",
+    "noPartner": "Nuk u gjet partner në këtë moment.",
     "connectedTo": "I lidhur me {{name}}",
     "connected": "I lidhur",
     "partnerLeft": "Partneri u largua.",
-    "stopped": "U ndal.",
-    "skip": "Shkofsh tutje",
+    "stopped": "Ndaluar.",
+    "skip": "Shkëput",
     "save": "Ruaj",
     "saveGuard": "Vetëm bisedat njeri-me-njeri mund të ruhen",
-    "jeDukeBiseduarMe": "Po bisedon me {{name}}",
+    "youAreChattingWith": "Po bisedon me { {name}}",
     "bot": "BOT",
-    "përshëndet": "Thuaj përshëndetje 👋",
-    "ti": "Ti",
-    "shkruajMesazh": "Shkruaj një mesazh",
-    "dërgo": "Dërgo",
-    "partneri": "Partneri",
-    "meRian": "Me Rian",
+    "sayHi": "Thuaj përshëndetje 👋",
+    "you": "Ti",
+    "typeMessage": "Shkruaj një mesazh",
+    "send": "Dërgo",
+    "partner": "Partner",
+    "withRia": "Me Ria",
     "startingRia": "Po filloni një bisedë me Ria…",
-    "ageDisclaimer": "Ne ruajmë vetëm një grupmoshë (jo datën tuaj të saktë të lindjes). Kjo përdoret për të mbajtur çiftimet në Bisedën e Rastësishme të arsyeshme. Për t'u përputhur me njerëz (jo vetëm me RiaBot), vendosni grupmoshën tuaj në Cilësimet → Mosha & Biseda e Rastësishme.",
-    "ageBandRequired": "Vendosni grupmoshën tuaj në Profil → Mosha & Biseda e Rastësishme për t'u përputhur me njerëz.",
-    "ageBandCallout": "Për t'u përputhur me njerëz (jo vetëm me RiaBot), vendosni grupmoshën tuaj në Cilësimet → Mosha & Biseda e rastësishme."
+    "ageDisclaimer": "Ne ruajmë vetëm një gamë moshash (jo datën tuaj të saktë të lindjes). Kjo përdoret për të mbajtur çiftimet në Bisedën e Rastësishme të arsyeshme. Për t'u përputhur me njerëz (jo vetëm me RiaBot), vendosni grupmoshën tuaj në Cilësimet → Mosha & Biseda e Rastësishme.",
+    "ageBandRequired": "Caktoni gamën tuaj të moshës në Profil → Mosha & Biseda e rastësishme për t'u përputhur me njerëz.",
+    "ageBandCallout": "Për t'u përputhur me njerëz (jo vetëm me RiaBot), caktoni gamën tuaj të moshës në Cilësimet → Mosha & Biseda e rastësishme."
   },
   "ria": {
     "fallbackName": "aty",
-    "intro": "Përshëndetje aty 👋 Jam Ria. Çfarë ke në mendje?",
-    "përshëndetje": {
-      "long1": "Hey {{name}} 👋 Jam këtu. Çfarë ke në mendje?",
-      "long2": "Përshëndetje {{name}} 😊 Çfarë do të doje të flisje sot?",
-      "long3": "Hey {{name}}! Jam tërësisht i vëmendshëm — çfarë ka?",
+    "intro": "Përshëndetje 👋 Unë jam Ria. Çfarë ke në mendje?",
+    "greetings": {
+      "long1": "Përshëndetje {{name}} 👋 Jam këtu. Çfarë ke në mendje?",
+      "long2": "Përshëndetje {{name}} 😊 Për çfarë dëshiron të flasësh sot?",
+      "long3": "Hey {{name}}! Jam tërësisht i vëmendshëm — çfarë po ndodh?",
       "long4": "Më vjen mirë që të shoh, {{name}} 👋 Çfarë ke në mendje sot?",
       "long5": "Hey {{name}} 🙂 Dëshiron të shfryhesh, të pyesësh, apo thjesht të bisedosh?",
-      "long6": "Përshëndetje {{name}}! Kam kohë — për çfarë dëshiron të flasim?",
-      "short1": "Hej {{name}}, jam ende këtu. Çfarë ka të re?",
-      "short2": "Mirë se erdhe përsëri {{name}} 👋 Ka ndonjë gjë tjetër që doje të shtoje?",
-      "short3": "U ktheve përsëri, {{name}}? 😊 Më trego çfarë ke në mendje.",
-      "short4": "Hey {{name}} ✨ Gati për të vazhduar aty ku e lamë?",
-      "short5": "Po {{name}}? Po të dëgjoj 👂",
-      "short6": "Oh hej {{name}}! Ke diçka të re në mendje?"
+      "long6": "Hi {{name}}! Kam kohë — për çfarë dëshiron të flasim?",
+      "short1": "Hey {{name}}, jam ende këtu. Çfarë ka të re?",
+      "short2": "Mirë se erdhe përsëri {{name}} 👋 Ka diçka tjetër që doje të shtoje?",
+      "short3": " U ktheve përsëri, {{name}}? 😊 Më trego çfarë ke në mendje.",
+      "short4": "Hey {{name}} ✨ Gati për të vazhduar nga aty ku e lamë?",
+      "short5": "Po, {{name}}? Po të dëgjoj 👂",
+      "short6": "Oh hey {{name}}! Ke diçka të re në mendje?"
     },
     "header": {
       "openNav": "Hape menunë e navigimit",
-      "closeNav": "Mbylle menunë e navigimit",
-      "homeAria": "Chatforia Kryesore"
+      "closeNav": "Mbyll menunë e navigimit",
+      "homeAria": "Chatforia Home"
     },
     "login": {
       "welcomeBack": "Mirë se erdhe përsëri",
       "title": "Vazhdo në Chatforia",
-      "subtitleReturning": "Hyni në llogarinë tuaj në Chatforia",
-      "nënkapak": "Hyni në llogarinë tuaj në Chatforia",
+      "subtitleReturning": "Hy në llogarinë tënde në Chatforia",
       "google": "Vazhdo me Google",
       "apple": "Vazhdo me Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
       "googleUnavailable": "Hyrja me Google nuk është e disponueshme",
       "appleUnavailable": "Hyrja me Apple nuk është e disponueshme",
-      "ose": "or",
-      "email": "Email",
-      "emailPh": "you@example.com",
-      "usernameLabel": "Emri i përdoruesit",
-      "usernamePh": "Emri juaj i përdoruesit",
-      "passwordLabel": "Fjalëkalimi",
+      "ssoUnavailable": "Hyrja e vetme nuk është aktualisht e disponueshme. Përdorni emrin e përdoruesit dhe fjalëkalimin në vend të saj.",
+      "or": "ose",
+      "accountLabel": "Llogaria",
+      "identifierPh": "Email ose emri i përdoruesit",
+      "passwordLabel": "Fjalëkalim",
       "passwordPh": "Fjalëkalimi juaj",
-      "keepSignedIn": "Më mbaj të kyçur",
-      "forgot": {
-        "title": "Harrova fjalëkalimin",
-        "helper": "Futni adresën e email-it që keni përdorur për të krijuar llogarinë tuaj në Chatforia dhe ne do t'ju dërgojmë një lidhje të sigurt për të rivendosur fjalëkalimin tuaj.",
-        "emailInvalid": "Ju lutemi futni një adresë email-i të vlefshme.",
-        "genericError": "Nuk mund të përpunohet kërkesa. Ju lutemi provoni përsëri pas pak.",
-        "sending": "Dërgimi i lidhjes së rivendosjes...",
-        "sendCta": "Dërgo lidhjen e rivendosjes ",
-        "sentLabel": "Dërguar!",
-        "sentHelper": "Nëse ekziston një llogari me atë email, ne kemi dërguar një lidhje për rivendosjen e fjalëkalimit. Mund të duhen disa minuta që të arrijë. Sigurohuni të kontrolloni dosjen tuaj të spam-it ose të promovimeve.",
-        "previewDev": "Parathënie Email (Dev)",
-        "backToLogin": "Kthehu te hyrja"
-      },
+      "keepSignedIn": "Mbetem i/e kyçur",
+      "forgot": "Harrova fjalëkalimin?",
+      "resendVerification": "Risi emailin e verifikimit",
       "submit": "Hyni",
-      " loggingIn": "Po hyni…",
-      "newHere": "Jeni i ri këtu? <link>Krijo një llogari</link>",
-      "ssoUnavailable": "Hyja e vetme aktualisht nuk është e disponueshme. Përdor emrin e përdoruesit dhe fjalëkalimin në vend të saj.",
+      "loggingIn": "Po hyni…",
+      "verification": {
+        "sent": "Email-i i verifikimit është dërguar. Kontrolloni kutinë tuaj të postës elektronike.",
+        "failed": "Dështoi ri-dërgimi i email-it të verifikimit."
+      },
       "error": {
-        "missing": "Ju lutemi fusni të dhënat tuaja të hyrjes.",
+        "missing": "Ju lutemi futni të dhënat tuaja të hyrjes.",
         "invalid": "Emër përdoruesi ose fjalëkalim i pavlefshëm",
         "denied": "Qasje e refuzuar.",
-        "unprocessable": "Kërkesë e pavlefshme. Kontrolloni emrin e përdoruesit/emailin dhe fjalëkalimin tuaj.",
-        "deviceLimit": "Është arritur kufiri i pajisjeve për planin Falas. Dilni nga sesioni në një pajisje tjetër ose përmirësoni në Premium për të lidhur më shumë pajisje.",
+        "unprocessable": "Kërkesë e pavlefshme. Kontrolloni emrin tuaj të përdoruesit/emailin dhe fjalëkalimin.",
+        "deviceLimit": "U arrit kufiri i pajisjeve për planin Falas. Dilni nga një pajisje tjetër ose përmirësoni në Premium për të lidhur më shumë pajisje.",
         "premiumRequired": "Kjo veprim kërkon një plan Premium."
+      },
+      "forgotPassword": {
+        "title": "Harrova fjalëkalimin",
+        "helper": "Futni email-in që keni përdorur për të krijuar llogarinë tuaj Chatforia dhe ne do t'ju dërgojmë një lidhje të sigurt për të rivendosur fjalëkalimin tuaj.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailIpavlefshëm": "Ju lutemi shkruani një adresë emaili të vlefshme.",
+        "gabimIpërgjithshëm": "Nuk mund të përpunohet kërkesa. Ju lutemi provoni përsëri pas pak.",
+        "dërgim": "Po dërgohet lidhja e rivendosjes...",
+        "dërgoCta": "Dërgo Lidhjen e Rivendosjes",
+        "sentLabel": "Dërguar!",
+        "sentHelper": "Nëse ekziston një llogari me atë email, ne kemi dërguar një lidhje për rivendosjen e fjalëkalimit. Mund të duhen disa minuta që të arrijë. Sigurohuni të kontrolloni dosjen tuaj të spam-it ose të promovimeve.",
+        "previewDev": "Parapamje Email (Dev)",
+        "backToLogin": "Kthehu te hyrja"
+      },
+      "resetPassword": {
+        "title": "Riestablisimi i fjalëkalimit",
+        "missingToken": "Token i pavlefshëm ose i munguar për rivendosjen e fjalëkalimit.",
+        "missingTokenHelper": "Token i pavlefshëm ose i munguar. Ju lutemi kërkoni një lidhje të re për rivendosjen e fjalëkalimit.",
+        "passwordMismatch": "Fjalëkalimet nuk përputhen",
+        "success": "Fjalëkalimi juaj është rivendosur me sukses",
+        "genericError": "Gabim: Nuk mund të rivendoset fjalëkalimi.",
+        "newPasswordLabel": "Fjalëkalim i ri",
+        "newPasswordPlaceholder": "Futni fjalëkalimin tuaj të ri",
+        "confirmPasswordLabel": "Konfirmo fjalëkalimin e ri",
+        "confirmPasswordPlaceholder": "Rifutni fjalëkalimin tuaj të ri",
+        "resetting": "Po rivendoset...",
+        "submit": "Rivendos fjalëkalimin",
+        "strongPasswordHint": "Zgjidhni një fjalëkalim të fortë që nuk e përdorni diku tjetër."
       }
     }
   },
   "oauth": {
-    "completing": "Po përfundohet hyrja…"
+    "completing": " Po përfundon hyrja…"
   },
   "support": {
     "helpFab": "Ndihmë",
-    "openSupportAria": "Hape mbështetjen",
-    "badge": "Mbështetje",
-    "heading": "Si mund të ndihmojmë?",
+    "openSupportAria": "Hap mbështetjen",
+    "badge": "Support",
+    "heading": "How can we help?",
     "tabs": {
-      "help": "Qendra e Ndihmës",
-      "contact": "Na kontaktoni"
+      "help": "Help Center",
+      "contact": "Contact us"
     },
-    "searchPlaceholder": "Kërko artikuj ndihme…",
-    "searchAria": "Kërko ndihmë",
-    "searchBtn": "Kërko",
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
     "quickTopicsLabel": "Tema të shpejta",
     "quickTopics": {
-      "login": "Nuk mund të hyj",
-      "billing": "Pagesat / faturimi",
-      "abuse": "Raportoni abuzim"
+      "login": "Nuk mund të hyni",
+      "billing": "Pagesat / faturim",
+      "abuzim": "Raportoni abuzim"
     },
-    "trySearching": "Provoni të kërkoni \"përkthim\", \"kopje rezervë\" ose \"private\".",
-    "article": "Artikulli",
-    "openArticle": "Hap artikullin ",
-    "contactIntro": "Do të përpiqemi ta zgjidhim këtë menjëherë. Nëse jo, ekipi ynë do të ndjekë çështjen.",
-    "topicAria": "Zgjidh një temë",
+    "provoniKërkimin": "Provoni të kërkoni për \"përkthim\", \"kopje rezervë\" ose \"private\".",
+    "artikulli": "Artikulli",
+    "hapArtikullin": "Hap artikullin",
+    "introKontakti": "Do të përpiqemi ta zgjidhim këtë menjëherë. Nëse jo, ekipi ynë do të ndjekë çështjen.",
+    "ariaTemë": "Zgjidhni një temë",
     "messagePlaceholder": "Shkruani mesazhin tuaj…",
     "sendBtn": "Dërgo",
-    "sent": "Mesazhi u dërgua. Do t'ju përgjigjemi me email.",
-    "sendError": "Nuk mundi të dërgohej. Dërgoni email në support@chatforia.com në vend.",
-    "actionCompleted": "Veprimi u krye.",
-    "actionFailed": "Nuk mundi të kryhej veprimi. Ju lutemi provoni përsëri.",
+    "sent": "Mesazhi u dërgua. Ne do t'ju përgjigjemi me email.",
+    "sendError": "Nuk mund të dërgohet. Dërgoni email në support@chatforia.com në vend.",
+    "actionCompleted": "Veprimi u përfundua.",
+    "actionFailed": "Nuk mund të përfundojmë atë veprim. Ju lutemi provoni përsëri.",
+    "ticketCreated": "Nuk mundëm ta zgjidhnim këtë automatikisht. Ekipi ynë do të ndjekë çështjen.",
     "escalationMessage": "Nuk mundëm ta zgjidhnim këtë automatikisht. Ekipi ynë do të ndjekë çështjen.",
-    "genericError": "Diçka shkoi keq. Ju lutemi provoni përsëri.",
+    "genericError": "Diçka shkoi gabim. Ju lutemi provoni përsëri.",
     "analyzing": "Po analizojmë problemin tuaj...",
-    "takeAction": "Merrni veprimet e rekomanduara",
-    "resolvedInstantly": "Çështja u zgjidh menjëherë — nuk nevojitet tiket.",
-    "escalating": "Po e përcjellim te mbështetja..."
+    "takeAction": "Ndërmerrni veprimin e rekomanduar",
+    "resolvedInstantly": "Problemi u zgjidh menjëherë — nuk nevojitet tiket.",
+    "escalating": "Po e kalojmë te mbështetja..."
   },
   "help": {
     "title": "Ndihmë",
     "howCanWeHelp": "Si mund të ndihmojmë?",
     "helpCenter": "Qendra e Ndihmës",
     "contactUs": "Na kontaktoni",
-    "tema të shpejta": "Tema të shpejta",
-    "shembujKërkimi": "Provoni të kërkoni \"përkthim\", \"kopje rezervë\" ose \"private\".",
-    "nukMundTëHyni": "Nuk mund të hyni",
+    "quickTopics": "Tema të shpejta",
+    "searchExamples": "Provoni të kërkoni \"përkthim\", \"kopje rezervë\" ose \"private\".",
+    "cantLogin": "Nuk mund të hyni",
     "paymentsBilling": "Pagesat/ faturimi",
     "reportAbuse": "Raptoni keqpërdorimin",
     "searchHelpArticles": "Kërko artikuj ndihme",
@@ -1579,15 +1601,16 @@
     "title": "Qendra e Ndihmës",
     "faq": {
       "account": {
-        "q": "Si të krijoj ose të rikuperoj llogarinë time?\",        \"a\": \"Shkarkoni aplikacionin ose përdorni uebin, prekni \"Krijo llogari\", verifikoni emailin/telefonin tuaj. Për ta rikuperuar, përdorni \"Harrova fjalëkalimin\"."
+        "q": "Si të krijoj ose të rikuperoj llogarinë time?",
+        "a": "Shkarkoni aplikacionin ose përdorni uebin, prekni \"Krijo llogari\", verifikoni emailin/telefonin tuaj. Për ta rikuperuar, përdorni \"Harrova fjalëkalimin\"."
       },
       "privacy": {
-        "q": "A janë mesazhet të kriptuara nga skaji në skaj? ",
+        "q": "A janë mesazhet të kriptuara nga një skaj në tjetrin?",
         "a": "Po. Mesazhet dhe thirrjet janë të kriptuara nga një skaj në tjetrin si parazgjedhje. Vetëm ju dhe marrësi mund t'i lexoni ato."
       },
-      "translate": {
-        "q": "Si funksionon përkthimi i menjëhershëm?",
-        "a": "Aktivizo \"Përkthe automatikisht\" në Cilësimet → Pamja & Gjuha. Ne përkthejmë në pajisje kur mbështetet, përndryshe përmes API-ve të sigurta me metadata minimale."
+      "përkthim": {
+        "pyetje": "Si funksionon përkthimi i menjëhershëm?",
+        "përgjigje": "Aktivizoni \"Përkthe vetë\" në Cilësimet → Pamje & Gjuha. Ne përkthejmë në pajisje aty ku mbështetet, përndryshe përmes API-ve të sigurta me metadata minimale."
       },
       "kontakt": {
         "q": "Kontaktoni mbështetjen",
@@ -1597,102 +1620,104 @@
   },
   "gettingStarted": {
     "title": "Fillimi",
-    "subtitle": "Të ri në Chatforia? Ky udhëzues i shpejtë tregon gjërat thelbësore që të jeni produktiv në pak minuta.",
+    "subtitle": "Të ri në Chatforia? Ky udhëzues i shpejtë tregon gjërat thelbësore në mënyrë që të jeni produktiv në pak minuta.",
     "alert": {
-      "text": "Ky udhëzues do të zgjerohet ndërsa lançojmë veçori të reja. Nëse diçka mungon, na tregoni përmes",
-      "contactLink": "Na kontaktoni"
+      "text": "Ky udhëzues do të zgjerohet ndërsa lançojmë veçori të reja. Nëse diçka mungon, na njofto përmes",
+      "contactLink": "Na Kontaktoni"
     },
     "section1": {
       "title": "1) Krijoni llogarinë tuaj",
       "signup": "Regjistrohu",
-      "or": "ose",
+      "or": "or",
       "login": "hyni",
       "loginText": "me llogarinë tuaj ekzistuese.",
-      "prefsStart": "Caktoni",
-      "prefsLink": "preferencat tuaja",
+      "prefsStart": "Në aplikacion, hapni Cilësimet për të vendosur preferencat tuaja",
+      "prefsLink": "preferencat",
       "prefsRest": "(gjuhë, pranimet e leximit, temat)."
     },
     "section2": {
       "title": "2) Filloni mesazhet",
       "item1": "Krijoni një DM ose Grup dhe dërgoni mesazhin tuaj të parë.",
       "item2": "Përdorni përkthim të menjëhershëm për të biseduar në më shumë se 100 gjuhë.",
-      "item3": "Provoni mesazhe që zhduken dhe pranime leximi në Profil → Privatësi."
+      "item3": " Provoni mesazhe që zhduken dhe konfirmime leximi në Profil → Privatësi."
     },
     "section3": {
-      "title": "3) Shko më tej",
-      "item1": "Mund të përmirësohesh në një plan me pagesë në çdo kohë brenda aplikacionit.",
-      "item2": "Pasi të jesh kyçur, mund të lidhësh pajisje shtesë dhe të krijosh kopje rezervë të kriptuara nga Cilësimet në aplikacion."
+      "title": "3) Shkoni më tej",
+      "item1": "Mund të përmirësoni në një plan me pagesë në çdo kohë brenda aplikacionit.",
+      "item2": "Pasi të jeni futur, mund të lidhni pajisje shtesë dhe të krijoni kopje rezervë të kriptuara nga Cilësimet në aplikacion.",
+      "item2Part1": "Pasi të jeni regjistruar, mund të lidhni pajisje shtesë dhe të krijoni kopje rezervë të kriptuara nga Cilësimet në aplikacion."
     },
     "cta": {
-      "seePlans": "Shiko planet",
-      "openSettings": "Hape cilësimet "
+      "seePlans": "Shiko planet & çmimet",
+      "openSettings": "Hape cilësimet",
+      "createAccount": " Krijo një llogari"
     }
   },
   "howItWorks": {
     "title": "Si funksionon Chatforia",
-    "intro": "Chatforia është projektuar për të bërë komunikimin të thjeshtë, të shpejtë dhe të aksesueshëm. Fillimi kërkon vetëm disa hapa.",
-    "step1Title": "1. Krijoni një llogari",
-    "step1Desc": "Regjistrohuni duke përdorur email-in ose emrin tuaj të përdoruesit për të krijuar llogarinë tuaj në Chatforia.",
+    "intro": "Chatforia është krijuar për ta bërë komunikimin të thjeshtë, të shpejtë dhe të aksesueshëm. Fillimi kërkon vetëm disa hapa.",
+    "step1Title": "1. Krijo një llogari",
+    "step1Desc": "Regjistrohu duke përdorur email-in ose emrin tënd të përdoruesit për të krijuar llogarinë tënde në Chatforia.",
     "step2Title": "2. Filloni një bisedë",
-    "step2Desc": "Lidhu me të tjerët duke zgjedhur kontaktet ose duke nisur biseda të reja.",
+    "step2Desc": "Lidhuni me të tjerët duke zgjedhur kontaktet ose duke nisur biseda të reja.",
     "step3Title": "3. Mesazhe në kohë reale",
     "step3Desc": "Mesazhet dorëzohen shpejt për të ofruar një përvojë komunikimi të qetë.",
-    "step4Title": "4. Komunikim global",
+    "step4Title": "4. Komunikim Global",
     "step4Desc": "Përkthimi i integruar ndihmon përdoruesit të komunikojnë në gjuhë të ndryshme.",
-    "step5Title": "5. Qëndro në Kontroll",
+    "step5Title": "5. Qëndroni në Kontroll",
     "step5Desc": "Menaxhoni preferencat, kontaktet dhe cilësimet e komunikimit tuaj."
   },
-  "safety": {
-    "title": "Udhëzime për Siguri & Komunitet",
+  "siguria": {
+    "title": "Udhëzime për Sigurinë & Komunitetin",
     "intro": "Chatforia është e përkushtuar për të ruajtur një mjedis të sigurt dhe të respektueshëm për të gjithë përdoruesit. Këto udhëzime ndihmojnë për të siguruar një përvojë pozitive për të gjithë.",
-    "respectTitle": "Komunikim i Respektueshëm",
+    "respectTitle": "Komunikim me Respekt",
     "respectDesc": "Përdoruesit pritet të komunikojnë me respekt. Ngacmimi, abuzimi ose sjellja e dëmshme nuk lejohet.",
     "prohibitedTitle": "Përmbajtje të Ndaluara",
     "prohibited": {
-      "illegal": "Veprimtari të paligjshme",
-      "ngacmim": "Ngacmim ose bullizëm",
-      "urrejtje": "Fjalim urrejtjeje ose diskriminim",
-      "eksplicite": "Material eksplicit ose i dëmshëm",
+      "illegal": "Aktivitetet e paligjshme",
+      "ngacmimi": "Ngacmimi ose bullizmi",
+      "urrejtja": "Fjalim urrejtjeje ose diskriminim",
+      "explicit": "Materiale eksplicite ose të dëmshme",
       "spam": "Spam ose praktika mashtruese"
     },
-    "toolsTitle": "Mjetet për Sigurinë e Përdoruesit",
+    "toolsTitle": "Mjetet e Sigurisë së Përdoruesit",
     "tools": {
       "report": "Raportoni sjellje ose përmbajtje të papërshtatshme",
       "block": "Bllokoni përdoruesit për të parandaluar ndërveprim të mëtejshëm",
-      "control": "Menaxhoni cilësimet e privatësisë dhe të komunikimit"
+      "control": "Menaxho cilësimet e privatësisë dhe të komunikimit"
     },
     "enforcementTitle": "Zbatimi",
     "enforcementDesc": "Ne mund të ndërmarrim veprime kundër llogarive që shkelin këto udhëzime, duke përfshirë paralajmërime, kufizime, ose heqje të përhershme nga platforma."
   },
   "blog": {
-    "whyMessaging": {
-      "title": "Pse platformat e mesazheve janë më të rëndësishme se kurrë më parë",
+    "arsyeMesazhet": {
+      "title": "Pse platformat e mesazheve janë më të rëndësishme se kurrë",
       "intro": "Platformat e mesazheve janë bërë një nga mjetet më të rëndësishme për komunikim në botën e sotme. Që nga bisedat personale e deri te ndërveprimet e biznesit, aplikacionet e mesazheve i lejojnë njerëzit të qëndrojnë të lidhur menjëherë dhe në mënyrë efikase.",
       "everydayTitle": "Komunikimi i Përditshëm",
       "everydayDesc": "Njerëzit mbështeten në aplikacionet e mesazheve për komunikim të përditshëm me miqtë, familjen dhe kolegët. Qoftë një përditësim i shpejtë apo një bisedë e gjatë, mesazhet ofrojnë një mënyrë të përshtatshme dhe fleksibël për të qëndruar në kontakt.",
-      "shpejtësiTitle": "Shpejtësi dhe Përshtatshmëri",
-      "shpejtësiDesc": "Një nga avantazhet kryesore të platformave të mesazheve është shpejtësia e tyre. Mesazhet dërgohen menjëherë, duke i lejuar përdoruesit të komunikojnë në kohë reale. Ky nivel përshtatshmërie e ka bërë mesazheve metodën e preferuar të komunikimit për shumë njerëz.",
+      "shpejtesiTitle": "Shpejtësi dhe Përshtatshmëri",
+      "shpejtesiDesc": "Një nga avantazhet kryesore të platformave të mesazheve është shpejtësia e tyre. Mesazhet dorëzohen menjëherë, duke i lejuar përdoruesit të komunikojnë në kohë reale. Ky nivel përshtatshmërie e ka bërë mesazheve metodën e preferuar të komunikimit për shumë njerëz.",
       "globalTitle": "Arritje Globale",
-      "globalDesc": "Platformat e mesazheve lidhin njerëzit në mbarë botën. Me akses në internet, përdoruesit mund të komunikojnë pavarësisht vendndodhjes, duke e bërë më të lehtë për të ndërtuar marrëdhënie dhe për të bashkëpunuar ndërkombëtarisht.",
-      "privacyTitle": "Privatësia dhe Kontrolli",
-      "privacyDesc": "Platformat moderne të mesazheve përqendrohen në dhënien e kontrollit përdoruesve mbi të dhënat dhe bisedat e tyre. Karakteristikat si enkriptimi, cilësimet e privatësisë dhe kontrollet e mesazheve u lejojnë përdoruesve të komunikojnë me besim.",
-      "futureTitle": "E ardhmja e mesazheve",
-      "futureDesc": "Mesazhet vazhdojnë të evoluojnë me veçori të reja si përgjigjet e bazuara në inteligjencë artificiale, përkthimi dhe ndarja e përmbajtjeve multimediale. Ndërsa teknologjia përparon, platformat e mesazheve do të bëhen edhe më të fuqishme dhe më të gjithanshme.",
-      "out ro": "Chatforia është ndërtuar duke pasur parasysh këto parime, duke ofruar një përvojë mesazhimi të shpejtë, të sigurt dhe miqësore për përdoruesit për një botë të lidhur."
+      "globalDesc": "Platformat e mesazheve lidhin njerëzit në mbarë botën. Me akses në internet, përdoruesit mund të komunikojnë pavarësisht vendndodhjes, duke e bërë më të lehtë ndërtimin e marrëdhënieve dhe bashkëpunimin ndërkombëtar.",
+      "privacyTitle": "Privatësi dhe Kontroll",
+      " privacyDesc": "Platformat moderne të mesazheve përqendrohen në dhënien e kontrollit përdoruesve mbi të dhënat dhe bisedat e tyre. Karakteristikat si enkriptimi, cilësimet e privatësisë dhe kontrollet e mesazheve u mundësojnë përdoruesve të komunikojnë me besim.",
+      "futureTitle": "E ardhmja e Mesazheve",
+      "futureDesc": "Mesazhet vazhdojnë të evoluojnë me veçori të reja si përgjigjet e bazuara në AI, përkthimi dhe ndarja e përmbajtjes multimediale. Ndërsa teknologjia përparon, platformat e mesazheve do të bëhen edhe më të fuqishme dhe më të larmishme.",
+      "outro": "Chatforia është ndërtuar duke pasur parasysh këto parime, duke ofruar një përvojë të shpejtë, të sigurt, dhe një përvojë mesazhimi miqësore për përdoruesit për një botë të lidhur."
     },
     "global": {
       "title": "E ardhmja e Komunikimit Global",
-      "intro": "Komunikimi ka evoluar me shpejtësi gjatë dekadave të fundit. Ajo që dikur kërkonte thirrje telefonike ose takime ballë për ballë, tani mund të bëhet shpejt përmes platformave të mesazheve. Ndërsa teknologjia vazhdon të përparojë, komunikimi global po bëhet më i shpejtë, më i aksesueshëm dhe më gjithëpërfshirës.",
-      "barriersTitle": "Thyerja e Barrierave",
-      "barriersDesc": "Një nga ndryshimet më të mëdha në komunikim është reduktimi i barrierave gjeografike. Tani njerëzit mund të lidhen me të tjerët në mbarë botën pothuajse në kohë reale. Qoftë për biseda personale, biznes apo bashkëpunim, platformat e mesazheve kanë bërë që distanca të jetë shumë më pak kufizuese. ",
+      "intro": "Komunikimi ka evoluar shpejt gjatë dekadave të fundit. Ajo që dikur kërkonte thirrje telefonike ose në -person meetings can now be done quickly through messaging platforms. As technology continues to advance, global communication is becoming faster, more accessible, and more inclusive.",
+      "barriersTitle": "Breaking Down Barriers",
+      "barriersDesc": "One of the biggest changes in communication is the reduction of geographic barriers. People can now connect with others across the world in near real time. Whether for personal conversations, business, or collaboration, messaging platforms have made distance far less limiting .",
       "translationTitle": "Roli i Teknologjisë së Përkthimit",
-      "translationDesc": "Gjuha ka qenë tradicionalisht një nga pengesat më të mëdha për komunikimin global. Sot, mjetet e përkthimit të integruara ndihmojnë në mbylljen e kësaj hendeku. Platforma si Chatforia u lejojnë përdoruesve të komunikojnë më lehtë edhe nëse flasin gjuhë të ndryshme, duke krijuar mundësi të reja për lidhje dhe mirëkuptim.",
-      "realtimeTitle": "Lidhje në Kohë Reale",
-      "realtimeDesc": "Shpejtësia është një faktor kyç që formëson komunikimin modern. Përdoruesit presin që mesazhet të dorëzohen shpejt, dhe infrastruktura moderne mbështet këtë pritshmëri. Mesazhet në kohë reale mundësojnë biseda më natyrale dhe më të rrjedhshme.",
+      "translationDesc": "Gjuha ka qenë tradicionalisht një nga pengesat më të mëdha për komunikimin global. Sot, mjetet e integruara të përkthimit ndihmojnë në mbylljen e kësaj hendeku. Platforma si Chatforia u lejojnë përdoruesve të komunikojnë më lehtë edhe nëse flasin gjuhë të ndryshme, duke krijuar mundësi të reja për lidhje dhe mirëkuptim.",
+      "realtimeTitle": "Lidhshmëri në Kohë Reale",
+      "realtimeDesc": "Shpejtësia është një faktor kyç që formëson komunikimin modern. Përdoruesit presin që mesazhet të dorëzohen shpejt, dhe infrastruktura moderne mbështet këtë pritshmëri. Mesazhet në kohë reale mundësojnë biseda më natyrale dhe të rrjedhshme.",
       "privacyTitle": "Privatësia dhe Siguria",
-      "privacyDesc": "Ndërsa komunikimi bëhet më dixhital, privatësia dhe siguria janë gjithnjë e më të rëndësishme. Përdoruesit duan të jenë të sigurt që bisedat e tyre janë mbrojtur. Karakteristikat si enkriptimi dhe cilësimet e kontrolluara nga përdoruesi ndihmojnë në mbështetjen e një përvoje komunikimi më të sigurt.",
-      "futureTitle": "Çfarë Vjen Më Pas",
-      "futureDesc": "E ardhmja e komunikimit global me shumë gjasa do të përfshijë mjete më të avancuara, të tilla si mesazhe me ndihmë AI, përkthim të përmirësuar dhe përvoja të përmirësuara për përdoruesit. Ndërsa teknologjia evoluon, komunikimi do të vazhdojë të bëhet më intuitiv dhe i aksesueshëm.",
+      "privacyDesc ": "Ndërsa komunikimi bëhet më dixhital, privatësia dhe siguria janë gjithnjë e më të rëndësishme. Përdoruesit duan të jenë të sigurt që bisedat e tyre janë të mbrojtura. Karakteristikat si enkriptimi dhe cilësimet e kontrolluara nga përdoruesi ndihmojnë në ofrimin e një përvoje komunikimi më të sigurt.",
+      " futureTitle": "Çfarë vjen më pas",
+      "futureDesc": "E ardhmja e komunikimit global me shumë gjasa do të përfshijë mjete më të avancuara, siç janë mesazhet e asistuara nga inteligjenca artificiale, përkthimi i përmirësuar dhe përvoja të përmirësuara për përdoruesit. Ndërsa teknologjia evoluon, komunikimi do të vazhdojë të bëhet më intuitiv dhe i aksesueshëm.",
       "outro": "Platformat si Chatforia janë pjesë e kësaj ndryshimi, duke ndihmuar njerëzit të lidhen më lehtë përtej gjuhëve dhe kufijve."
     },
     "index": {
@@ -1701,19 +1726,40 @@
       "post1": "Si të bisedoni në mënyrë të sigurt online",
       "post2": "E ardhmja e komunikimit global",
       "post3": "Pse platformat e mesazheve janë të rëndësishme"
+    },
+    "chatSafely": {
+      "title": "Si të bisedoni në mënyrë të sigurt online",
+      "intro": "Komunikimi online e ka bërë më të lehtë se kurrë lidhjen me njerëzit në mbarë botën. Qoftë që po dërgoni mesazhe miqve, po takoni njerëz të rinj, apo po bashkëpunoni profesionalisht, platformat e mesazheve luajnë një rol të madh në jetën e përditshme. Megjithatë, të qëndroni të sigurt online është po aq e rëndësishme sa të qëndroni të lidhur.",
+      "personalInfo": {
+        "title": "Përdorni veçoritë e sigurisë të integruara",
+        "body": "Platformat moderne të mesazheve si Chatforia ofrojnë mjete për t'i ndihmuar përdoruesit të qëndrojnë të sigurt. Veçoritë si bllokimi, raportimi dhe kontrollet e privatësisë janë krijuar për t'u dhënë përdoruesve kontroll mbi përvojën e tyre. Nëse dikush sillet në mënyrë të papërshtatshme ose ju bën të ndiheni të pakëndshëm, duhet të përdorni këto mjete menjëherë."
+      },
+      "mashtrimet": {
+        "title": "Kini kujdes nga mashtrimet",
+        "body": "Mashtruesit shpesh përdorin platformat e mesazheve për t'i mashtruar përdoruesit që të ndajnë informacion personal ose të dërgojnë para. Jini të kujdesshëm me mesazhet që duken tepër të mira për të qenë të vërteta, si ofertat e papritura, kërkesat urgjente, ose lidhjet e panjohura. Gjithmonë verifikoni identitetin e personit me të cilin po komunikoni para se të ndërmerrni ndonjë veprim."
+      },
+      "responsibly": {
+        "title": "Komunikoni në mënyrë të përgjegjshme",
+        "body": "Komunikimi me respekt ndihmon në krijimin e një mjedisi më të sigurt për të gjithë. Shmangni angazhimin në biseda të dëmshme ose abuzive, dhe kini kujdes se si fjalët tuaja mund të ndikojnë tek të tjerët. Ndërveprimet pozitive kontribuojnë në një përvojë më të mirë për të gjithë përdoruesit."
+      },
+      "whySafety": {
+        "title": "Pse Siguria Online Është e Rëndësishme",
+        "body": "Ndërsa komunikimi dixhital vazhdon të rritet, ruajtja e siguria dhe besimi bëhen gjithnjë e më të rëndësishëm. Duke ndjekur praktikat bazë të sigurisë dhe duke përdorur mjetet e disponueshme, përdoruesit mund të shijojnë përfitimet e mesazheve duke minimizuar rreziqet."
+      },
+      "përfundim": "Të qëndrosh i sigurt në internet nuk kërkon njohuri teknike të avancuara—vetëm vetëdije, kujdes dhe gjykim të mirë. Me zakonet e duhura, mund të komunikoni me besim dhe siguri."
     }
   },
-  "rreth": {
-    "titulli": "Rreth Chatforia",
-    "description": "Chatforia është një aplikacion i sigurt, shumëgjuhësh me enkriptim nga fundi në fund, përkthim të menjëhershëm dhe thirrje zanore/video. Misioni ynë është i thjeshtë: të ndihmojmë njerëzit të lidhen—në mënyrë të sigurt, private dhe ndërmjet gjuhëve.",
+  "about": {
+    "title": "Rreth Chatforia",
+    "description": "Chatforia është një mesazher i sigurt, shumëgjuhësh me enkriptim nga një skaj në tjetrin, përkthim të menjëhershëm dhe thirrje zanore/video. Misioni ynë është i thjeshtë: t'u ndihmojmë njerëzve të lidhen—në mënyrë të sigurt, private dhe ndërmjet gjuhëve.",
     "valuesTitle": "Çfarë vlerësojmë",
     "values": {
-      "privacy": "Privacy-first: Kriptim E2E si parazgjedhje.",
-      "access": "Qasje për të gjithë: Përkthim automatik i mbi 100 gjuhëve.",
-      "control": "Kontroll: Mesazhet që zhduken dhe konfirmimet e leximit janë opsionale.",
-      "privacy_aria": "Privacy-first: Kriptim E2E si parazgjedhje.",
-      "access_ aria": "Qasje për të gjithë: Përkthim automatik i mbi 100 gjuhëve.",
-      "control_aria": "Kontroll: Mesazhet që zhduken dhe konfirmimet e leximit janë opsionale."
+      "privacy": "<b>Fokusi te privatësia:</b> Kriptim E2E si parazgjedhje.",
+      "access": "<b>Qasje për të gjithë:</b> Përkthim automatik në mbi 100 gjuhë.",
+      "control": "<b>Kontroll:</b> Mesazhet që zhduken & konfirmimet e leximit janë opsionale.",
+      "privacy_ aria": "Fokusi te privatësia: Kriptim E2E si parazgjedhje.",
+      "access_aria": "Qasje për të gjithë: Përkthim automatik i mbi 100 gjuhëve.",
+      "control_aria": "Kontroll: Mesazhet që zhduken dhe pranimet e leximit janë opsionale."
     },
     "howTitle": "Si funksionon Chatforia",
     " howDescription": "Mesazhet enkriptohen në pajisjen tuaj përpara se të largohen prej saj. Përkthimi, kopjet rezervë dhe sinkronizimi i pajisjeve janë projektuar për të minimizuar atë që serverët tanë mund të shohin."
@@ -1721,165 +1767,191 @@
   "press": {
     "title": "Shtypi",
     "contactLine": "Për pyetje nga media, na kontaktoni në",
-    "boilerplateTitle": "Teksti standard",
-    "boilerplateBody": "Chatforia është një aplikacion mesazhesh që i jep përparësi privatësisë dhe e bën bisedën ndërgjuhësore të lehtë. Mesazhet janë të kriptuara nga një skaj në tjetrin si parazgjedhje, dhe përkthimi i integruar mbështet mbi 100 gjuhë në kohë reale. Përdoruesit mund të aktivizojnë mesazhet që zhduken, t'i mbajnë konfirmimet e leximit të opsionala, dhe të sinkronizojnë nëpër pajisje. Disponueshëm në iOS, Android dhe në internet.",
-    "assetsTitle": "Asete të markës",
-    "assetsSubtitle": "Logot, pamjet e ekranit , dhe imazhe të produktit.",
-    "downloadCta": "Shkarko media kit",
+    " boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia është një aplikacion mesazhesh që i jep përparësi privatësisë dhe e bën bisedën ndërgjuhësore të lehtë. Mesazhet janë të kriptuara nga fundi në fund si parazgjedhje, dhe përkthimi i integruar mbështet mbi 100 gjuhë në kohë reale. Përdoruesit mund të aktivizojnë mesazhet që zhduken, t'i mbajnë konfirmimet e leximit të opsionala dhe të sinkronizojnë mes pajisjeve. E disponueshme në iOS, Android dhe në internet.",
+    "assetsTitle": " Asete të markës",
+    "assetsSubtitle": "Logot, pamjet e ekranit dhe imazhet e produktit.",
+    "downloadCta": "Shkarko paketën e mediave",
     "downloadTitle": "Merr aplikacionin",
     "scanTip": "Në desktop? Skano me telefonin tënd për të marrë aplikacionin.",
-    "qrAria": "Hape faqen e Chatforia",
-    "appStore": " Shkarko në App Store",
-    "googlePlay": "Merr atë në Google Play"
+    "qrAria": "Hapni faqen e Chatforia",
+    "appStore": "Shkarkoni në App Store",
+    "googlePlay": "Merrni në Google Play"
   },
   "careers": {
     "title": "Karrierat",
-    "intro": "Ne jemi një ekip themelues i vogël që po ndërton Chatforia — një mesazher privat global që po lansohet në web, iOS dhe Android. Nëse ju interesojnë privatësia, enkriptimi dhe përvojat e mrekullueshme të përdoruesit, do të na pëlqente të dëgjonim nga ju.",
-    "openRoles": "Role themeluese të hapura: Udhëheqës Inxhinier Full-stack, Inxhinier Backend (Node.js), Inxhinier Frontend/Web (React), Inxhinier Mobil (iOS), Inxhinier Mobil\n (Android), Inxhinier i DevOps/SRE, Inxhinier i Sigurisë & Enkriptimit, Inxhinier Telekomunikacionesh (Twilio + eSIM).",
+    "intro": "Ne jemi një ekip i vogël themelues që po ndërton Chatforia — një mesazher global privat që do të lançohet në web, iOS dhe Android. Nëse ju intereson privatësia, enkriptimi dhe përvojat e këndshme të përdoruesit, do të na pëlqente të dëgjonim nga ju.",
+    "openRoles": "<b>Pozicione themeluese të hapura:</b> Inxhinier Kryesor Full-stack, Inxhinier Backend (Node.js), Inxhinier Frontend/ Inxhinier Web (React), Inxhinier Mobil (iOS), Inxhinier Mobil (Android), DevOps/SRE, Inxhinier Sigurie & Kriptimi, Inxhinier Telekomunikacionesh (Twilio + eSIM).",
     "apply": "Si të aplikoni: Përdorni butonin më poshtë për të dërguar me email CV-në tuaj dhe lidhjet.",
-    "emailCta": "Dërgo me email CV-në tuaj",
+    "emailCta": "Dërgo CV-në me email",
     "whyNow": "Pse të bashkoheni tani?",
-    "whyBullets": "• Ndihmoni në ndërtimin e themelit të një mesazheri të ri global.\n• Lironi përmirësime të përdorura në web, iOS dhe Android.\n• Punoni drejtpërdrejt me themeluesin për arkitekturën dhe drejtimin e produktit.\n• Merrni përsipër fusha me ndikim të lartë në stack: mesazhe, zë, video, enkriptim, telekom, AI.\n• Bashkohuni në fillim — para se të rritet baza e përdoruesve."
-  },
-  "advertise": {
-    "title": "Reklamoni me Chatforia",
-    "përshkrimi": "Arrinni tek përdoruesit e angazhuar të mesazheve me vendosje të hijshme dhe të sigurta për markën. Ne ofrojmë inventar bannerësh në vende me dukshmëri të lartë, sponsorizime dhe promovime të brendshme. Abonentët premium nuk shohin reklama.",
-    "adsense": {
-      "withPubIdShort": "Ne gjithashtu ofrojmë inventar përmes Google AdSense. Ju mund të synoni Chatforia me ID-në e botuesit {{pubId}}, ose përdorni formularin më poshtë për sponsorizime direkte.",
-      "noPubIdShort": "Ne gjithashtu ofrojmë disa inventarë përmes Google AdSense. Sponsorizimet e drejtpërdrejta janë në dispozicion—përdorni formularin më poshtë."
+    "whyBullets": "• Ndihmoni në ndërtimin e themelit të një mesazheri të ri global.\n• Sillni përmirësime të përdorura në web, iOS dhe Android.\n• Punoni drejtpërdrejt me themeluesin për arkitekturën dhe drejtimin e produktit.\n• Merreni përgjegjësi fushat me ndikim të lartë të stack-ut: mesazhe, zë, video, enkriptim, telekom, AI.\n• Bashkohuni në fillim — para se të rritet baza e përdoruesve.\n\n",
+    "advertise": {
+      "title": "Reklamoni me Chatforia",
+      "description": "Arrinni tek përdoruesit e angazhuar të mesazheve me vendosje elegante dhe të sigurta për markën. Ne ofrojmë inventar bannerësh në vende me dukshmëri të lartë, sponsorizime dhe promovime të brendshme. Abonentët premium nuk shohin reklama.",
+      "adsense": {
+        "withPubIdShort": "Ne gjithashtu shërbejmë inventar përmes Google AdSense. Ju mund të synoni Chatforia me ID-në e botuesit {{pub Id}}, ose përdorni formularin më poshtë për sponsorizime direkte.",
+        "noPubIdShort": "Ne gjithashtu shërbejmë disa inventarë përmes Google AdSense. Sponsorizimet direkte janë në dispozicion—përdorni formularin më poshtë."
+      },
+      "inventoryHeader": "Inventari & Specifikimet",
+      "placement": {
+        " displayBadge": "Display",
+        "acceptedSizes": "Accepted sizes",
+        "adsenseSlot": "AdSense slot:"
+      },
+      "noPlacementsPublic": "Po finalizojmë inventarin tonë të reklamave. Na tregoni për fushatën tuaj dhe ne do t'ju rekomandojmë vendosjet.",
+      "whyHeader": "Pse Chatforia?",
+      "why": {
+        "highSession": "Frekuencë e lartë e seancave dhe koha e qëndrimit në UI të bisedës",
+        "brandSafe": "Formate të sigurta për markën; kufizim i respektueshëm i frekuencës",
+        "sponsoredMoments": "Çaste të sponsorizuara (p.sh., modalja \"Filloni një bisedë\") në dispozicion",
+        "deals": "Marrëveshje direkte ose programatike përmes AdSense/Google Ads"
+      },
+      "contactHeader": "Kontakt",
+      "form": {
+        "submittedMsg": "Faleminderit! Kërkesa juaj është dërguar. Do t'ju kontaktojmë së shpejti.",
+        "missingRequired": "Ju lutemi plotësoni emrin, emailin dhe mesazhin.",
+        "successToast": "Faleminderit! Do të kontaktohemi së shpejti.",
+        "mailtoInfo": "Po hapni klientin tuaj të postës elektronike për të dërguar kërkesën…",
+        "nameLabel": "Emri juaj",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "Kompania",
+        " companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Buxheti mujor (opsional)",
+        "budgetPlaceholder": "p.sh. $1,000–$20,000+",
+        "messageLabel": "Na tregoni për fushatën tuaj",
+        "messagePlaceholder": "Targetimi, datat, KPI-të, preferencat e vendosjes…",
+        "sendCta": "Dërgo kërkesë"
+      },
+      "legal": {
+        "disclaimerStart": "Duke dërguar, ju pranoni kushtet tona",
+        "kushtet": "Kushtet",
+        "dhe": "dhe",
+        "private": "Politika e Privatësisë"
+      }
     },
-    "inventoryHeader": "Inventari & Specifikimet",
-    "placement": {
-      "displayBadge": "Display",
-      "acceptedSizes": "Madhësitë e pranueshme",
-      "adsenseSlot": "Sloti AdSense:"
+    "kontakt": {
+      "titulli": "Na kontaktoni",
+      "successMsg": "Faleminderit—ekipi ynë do t'ju përgjigjet me email.",
+      "errorSend": "Nuk mund të dërgohet. Ju lutemi dërgoni email në support@chatforia.com.",
+      "form": {
+        "nameLabel": "Emri",
+        "emailLabel": "Email",
+        "messageLabel": "Mesazhi",
+        "sendCta": "Dërgo"
+      }
     },
-    "noPlacementsPublic": "Po finalizojmë inventarin tonë të reklamave. Na tregoni për fushatën tuaj dhe ne do t'ju rekomandojmë vendosjet.",
-    "whyHeader": "Pse Chatforia?",
-    "why": {
-      "highSession": "Frekuencë e lartë e seancave dhe koha e qëndrimit në UI të bisedës",
-      "brandSafe": "Formate të sigurta për markën; kufizim i frekuencës me respekt",
-      "sponsoredMoments": "Çaste të sponsorizuara (p.sh., modalja \"Filloni një bisedë\") të disponueshme",
-      "deals": "Marrëveshje direkte ose programatike përmes AdSense/Google Ads"
+    "privacyPolicy": {
+      "title": "Politika e Privatësisë",
+      "lastUpdated": "Përditësuar së fundi:",
+      "intro": {
+        "body": "Kjo Politikë Privatësie shpjegon se si Chatforia (\"ne\", \"na\") mbledh, përdor dhe ndan informacion kur përdorni aplikacionet dhe shërbimet tona. Ne e projektojmë Chatforia-n për të minimizuar të dhënat që mund të aksesojmë."
+      },
+      "infoWeCollect": {
+        "title": "Informacioni që mbledhim",
+        "account": "Informacione të llogarisë (p.sh., email/numër telefoni) për të krijuar dhe siguruar llogarinë tuaj.",
+        "encrypted": "Përmbajtja e enkriptuar (mesazhe/thirrje) është e enkriptuar nga një skaj në tjetrin; ne nuk mund ta lexojmë.",
+        "diagnostics": "Diagnostike/përdorim si log-et e rrëzimit, tipi i pajisjes, ose analitika të përgjithshme për të përmirësuar performancën."
+      },
+      "sms": {
+        "title": "Numrat e telefonit celular dhe SMS",
+        "body": "Nëse zgjidhni të jepni një numër telefoni celular, ne e përdorim atë për të mundësuar veçori të tilla si verifikimi i llogarisë, njoftimet e hyrjes dhe mesazhet nga përdoruesi në përdorues përmes SMS kur mbështetet. Ne mund të dërgojmë mesazhe SMS transaksionale në lidhje me llogarinë tuaj dhe aktivitetin në Chatforia. Ju mund të tërhiqeni nga marrja e mesazheve SMS në çdo kohë duke iu përgjigjur me një fjalë kyçe të mbështetur për t'u tërhequr (si \"STOP\") ose duke ndryshuar preferencat tuaja të njoftimeve në aplikacion. Ne nuk e shesim numrin tuaj të telefonit ose nuk e përdorim atë për marketing të pa lidhur.",
+        "newText": "Tekst i ri",
+        "enterRecipient": "Fut një emër ose numër",
+        "typeMessage": "Shkruaj një mesazh…",
+        "addRecipient": "Shto një marrës më sipër për të filluar…"
+      },
+      "howWeUse": {
+        "title": "Si i përdorim informacionet ",
+        "ofrojmë": "Të ofrojmë dhe sigurojmë shërbimin (autentifikim, zbulim të spam-it/abuzimit).",
+        "përmirësojmë": "Të përmirësojmë veçoritë (cilësinë e përkthimit, besueshmërinë).",
+        "ligjor": "Të përmbushim detyrimet ligjore."
+      },
+      "ndarja": {
+        "title": "Ndajmi",
+        "body": "Ne nuk shesim të dhëna personale. Ne mund të ndajmë të dhëna të kufizuara me përpunues (p.sh., njoftime push, analitika) nën kontrata të rrepta."
+      },
+      "tëdrejtat": {
+        "title": "Të drejtat tuaja",
+        "body": "Në varësi të rajonit tuaj (p.sh., GDPR/UK GDPR/CPRA), mund të kërkoni akses, korrigjim, fshirje ose tërheqje nga përpunimi i caktuar. Kontakt: privacy@chatforia.com."
+      },
+      "ruajtja ": {
+        "title": "Ruajtja e të dhënave & siguria",
+        "body": "Ne ruajmë vetëm atë që nevojitet për të operuar shërbimin dhe zbatojmë siguri sipas standardeve të industrisë. Përmbajtja E2E nuk mund të dekriptohet nga ne."
+      },
+      "children": {
+        "title": "Fëmijët",
+        "body": "Chatforia nuk është e drejtuar për fëmijët nën 13 vjeç (ose sipas kërkesave të ligjit tuaj lokal)."
+      },
+      "changes": {
+        "title": "Ndryshimet",
+        "body": "Ne do të postojmë përditësimet këtu dhe do të rishikojmë datën \"Përditësuar së fundi\"."
+      },
+      "contact": {
+        "title": "Kontakt",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "contactHeader": "Kontakt",
-    "form": {
-      "submittedMsg": "Faleminderit! Kërkesa juaj është dërguar. Do t'ju kontaktojmë së shpejti.",
-      "missingRequired": "Ju lutemi plotësoni emrin, emailin dhe mesazhin.",
-      "successToast": "Faleminderit! Do të kontaktohemi së shpejti.",
-      "mailtoInfo": "Po hapni klientin tuaj të postës elektronike për të dërguar kërkesën…",
-      "nameLabel": "Emri juaj",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": " Email",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "Kompania",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Buxheti mujor (opsional)",
-      "budgetPlaceholder": "p.sh. $1,000–$20,000+",
-      "messageLabel": "Na tregoni për fushatën tuaj",
-      "messagePlaceholder": "Synoimi, datat, KPI-të, preferencat e vendosjes…",
-      "sendCta": "Dërgo kërkesë"
+    "terms": {
+      "title": "Kushtet e Shërbimit",
+      "lastUpdated": "Përditësuar së fundi:",
+      "intro": {
+        " body": "Duke përdorur Chatforia, ju pranoni këto Kushtet. Nëse nuk pajtoheni, mos e përdorni shërbimin."
+      },
+      "accounts": {
+        "title": "Llogaritë",
+        "itemAccurateInfo": " Jepni informacion të saktë dhe mbani të dhënat e hyrjes të sigurta.",
+        "itemResponsibility": "Ju jeni përgjegjës për aktivitetin në llogarinë tuaj."
+      },
+      "acceptableUse": {
+        "title": "Përdorimi i pranueshëm",
+        "itemNoAbuse": "Asnjë përmbajtje e paligjshme, abuzive ose që shkel të drejtat; asnjë spam ose abuzim i automatizuar.",
+        "itemSuspend": "Ne mund të pezullojmë/ndërpresim për shkelje."
+      },
+      "sms": {
+        "title": "Komunikimet me SMS",
+        "body": "Nëse jepni një numër telefoni celular, pranoni që Chatforia mund t'ju dërgojë mesazhe SMS në lidhje me llogarinë tuaj dhe përdorimin e shërbimit, si paralajmërime për hyrje, njoftime sigurie dhe mesazhe që lidhen me bisedat që nisni ose në të cilat merrni pjesë. Ne nuk përdorim SMS për mesazhe promovuese ose marketingu pa pëlqimin tuaj të qartë. Mund të zbatohen tarifat standarde për mesazhe dhe të dhëna. Mund të tërhiqeni nga marrja e mesazheve SMS në çdo kohë duke përgjigjur me një fjalë kyçe të mbështetur për t'u tërhequr (p.sh., \"STOP\") ose duke azhurnuar cilësimet tuaja të njoftimeve në aplikacion."
+      },
+      "përmbajtjaJuaj": {
+        "title": "Përmbajtja juaj",
+        "body": "Ju ruani të drejtat mbi përmbajtjen tuaj. Ju na jepni të drejtat e nevojshme për të operuar shërbimin (p.sh., ridrejtimi, ruajtja, përkthimi)."
+      },
+      "disclaimer": {
+        "title": "Përjashtimet & përgjegjësia",
+        "body": "Shërbimi ofrohet \"siç është\" pa garanci. Në masën më të plotë të lejuar nga ligji, Chatforia nuk është përgjegjëse për dëmet tërthore ose pasuese."
+      },
+      "changes": {
+        "title": "Ndryshimet",
+        " body": "Ne mund të përditësojmë këto kushte; përdorimi i vazhdueshëm pas ndryshimeve do të thotë pranimin."
+      },
+      "contact": {
+        "title": "Kontakt",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "legal": {
-      "disclaimerStart": "Me dërgimin, ju pranoni",
-      "kushtet": "Kushtet",
-      "dhe": "dhe",
-      "privacy": "Politika e Privatësisë"
-    }
-  },
-  "contact": {
-    "title": "Na kontaktoni",
-    "successMsg": "Faleminderit—ekipi ynë do t'ju përgjigjet me email.",
-    "errorSend": "Nuk mund të dërgohet. Ju lutemi dërgoni email në support@chatforia.com.",
-    "form": {
-      "nameLabel": "Emri",
-      "emailLabel": "Emaili",
-      "messageLabel": "Mesazhi",
-      "sendCta": "Dërgo"
-    }
-  },
-  "privacyPolicy": {
-    "title": "Politika e Privatësisë",
-    "lastUpdated": "Përditësuar së fundmi:",
-    "intro": {
-      "body": "Kjo Politikë Privatësie shpjegon se si Chatforia (\"ne\", \"na\") mbledh, përdor dhe ndan informacionin kur përdorni aplikacionet dhe shërbimet tona. Ne e projektojmë Chatforian për të minimizuar të dhënat që mund të aksesojmë."
-    },
-    "infoWeCollect": {
-      "title": "Informacioni që mbledhim",
-      "account": "Informacione të llogarisë (p.sh., email/numër telefoni) për të krijuar dhe siguruar llogarinë tuaj.",
-      "tëkriptuar": "Përmbajtja e kriptuar (mesazhe/thirrje) është e kriptuar nga një skaj në tjetrin; ne nuk mund ta lexojmë.",
-      "diagnostike": "Diagnostike/përdorimi si regjistrat e rrëzimeve, lloji i pajisjes, ose analitika e përafërt për të përmirësuar performancën."
-    },
-    "sms": {
-      "title": "Numrat e telefonit celular dhe SMS",
-      "body": "Nëse zgjidhni të jepni një numër telefoni celular, ne e përdorim atë për të mundësuar veçori të tilla si verifikimi i llogarisë, njoftimet e hyrjes dhe mesazhet nga përdoruesi në përdorues përmes SMS kur mbështetet. Ne mund të dërgojmë mesazhe SMS transaksionale në lidhje me llogarinë tuaj dhe aktivitetin në Chatforia. Ju mund të tërhiqeni nga marrja e mesazheve SMS në çdo kohë duke u përgjigjur me një kod të mbështetur opt -fjalë kyçe për t'u ç'regjistruar (si \"STOP\") ose duke ndryshuar preferencat tuaja të njoftimeve në aplikacion. Ne nuk shesim numrin tuaj të telefonit ose nuk e përdorim atë për marketing të pa lidhur.",
-      "newText": "Tekst i ri",
-      "enterRecipient": "Futni një emër ose numër",
-      "typeMessage": "Shkruani një mesazh…",
-      "addRecipient": "Shto një marrës më sipër për të filluar…"
-    },
-    "howWeUse": {
-      "title": "Si i përdorim informacionet",
-      "provide": "Të ofrojmë dhe sigurojmë shërbimin (autentifikim, zbulim të spam/abuzimit).",
-      "improve": "Të përmirësojmë veçoritë (cilësinë e përkthimit, besueshmërinë).",
-      "legal": "Përmbushim detyrimet ligjore."
-    },
-    "ndarja": {
-      "titulli": "Ndarja",
-      "trupi": "Ne nuk shesim të dhëna personale. Ne mund të ndajmë të dhëna të kufizuara me përpunuesit (p.sh., njoftime push, analitika) nën kontrata të rrepta."
-    },
-    "tëdrejtat": {
-      "title": "Të drejtat tuaja",
-      "body": "Në varësi të rajonit tuaj (p.sh., GDPR/UK GDPR/CPRA), mund të kërkoni akses, korrigjim, fshirje, ose tërheqje nga përpunimi i caktuar. Kontakt: privacy@chatforia.com."
-    },
-    "ruajtja": {
-      "titulli": "Ruajtja e të dhënave & siguria",
-      "trupi": "Ne ruajmë vetëm atë që nevojitet për të operuar shërbimin dhe zbatojmë sigurinë standarde të industrisë. Përmbajtja E2E nuk mund të dekriptohet nga ne."
-    },
-    "fëmijët": {
-      "titulli": "Fëmijët",
-      "trupi": "Chatforia nuk është e drejtuar për fëmijët nën 13 vjeç (ose sipas kërkesave të ligjit tuaj lokal)."
-    },
-    "ndryshimet": {
-      "title": "Ndryshimet",
-      "body": "Ne mund të përditësojmë këto kushte; përdorimi i vazhdueshëm pas ndryshimeve do të thotë pranimin."
-    },
-    "përmbajtjaJote": {
-      "titulli": "Përmbajtja juaj",
-      "trupi": "Ju ruani të drejtat mbi përmbajtjen tuaj. Na jepni të drejtat e nevojshme për të operuar shërbimin (p.sh., ridrejtimi, ruajtja, përkthimi)."
-    },
-    "përjashtimi": {
-      "titulli": "Përjashtimet & përgjegjësia",
-      "body": "Shërbimi ofrohet \"siç është\" pa garanci. Në masën më të plotë të lejuar nga ligji, Chatforia nuk është përgjegjëse për dëme të tërthorta ose pasuese."
-    },
-    "contact": {
-      "title": "Kontakt",
-      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-    }
-  },
-  "refund": {
-    "title": "Politika e rimbursimit",
-    "lastUpdated": "Përditësuar së fundi:",
-    "intro": "Në Chatforia, ne përpiqemi të ofrojmë një shërbim me cilësi të lartë për të gjithë përdoruesit. Kjo Politikë Kthimi përshkruan kur mund të lëshohen rimbursimet.",
-    "subscriptions": {
+    "refund": {
       "title": "Abonnementet",
-      "body": "Abonnementet faturohen paraprakisht në baza të përsëritura. Ju mund të anuloni në çdo kohë përmes cilësimeve të llogarisë suaj ose platformës së përdorur për blerje."
+      "lastUpdated": "Përditësuar së fundi:",
+      "intro": "Në Chatforia, ne përpiqemi të ofrojmë një shërbim me cilësi të lartë për të gjithë përdoruesit. Kjo Politikë e Kthimit të Parave përshkruan kur mund të lëshohen rimbursimet.",
+      "body": "Abonnementet faturohen paraprakisht në mënyrë të përsëritur. Ju mund t'i anuloni në çdo kohë përmes cilësimeve të llogarisë suaj ose platformës së përdorur për blerje."
     },
     "eligibility": {
-      "title": "Kualifikueshmëria për rimbursim",
-      "body": "Rimbursimet mund të jepen për tarifime të dyfishta, gabime në faturim, ose probleme teknike që pengojnë aksesin në veçoritë me pagesë. Të gjitha kërkesat shqyrtohen rast pas rasti."
+      "title": "Kualifikimi për rimbursim",
+      "body": "Rimbursimet mund të jepen për pagesa të dyfishta, gabime në faturim, ose probleme teknike që pengojnë aksesin në veçoritë me pagesë. Të gjitha kërkesat shqyrtohen rast pas rasti."
     },
-    "nonRefundable": {
-      "title": "Jo-të rimbursueshme",
-      "body": "Ne përgjithësisht nuk ofrojmë rimbursime për kohën e papërdorur, periudhat e pjesshme të abonimit, ose dështimin për të anuluar para rinovimit."
+    "joRimbursueshëm": {
+      "title": "Jo-Rimbursueshëm",
+      "body": "Ne përgjithësisht nuk ofrojmë rimbursime për kohën e papërdorur, periudha pjesore abonimi, ose dështimin për të anuluar para rinovimit."
     },
-    "thirdParty": {
-      "title": "Blerjet nga palë të treta",
+    "thirdParty ": {
+      "title": "Blerjet nga palë e tretë",
       "body": "Nëse janë blerë përmes platformave të palëve të treta si Apple App Store, rimbursimet duhet të kërkohen drejtpërdrejt përmes atyre platformave."
     },
     "contact": {
       "title": "Kontakt",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, SHBA"
     }
   },
   "doNotSell": {
@@ -1888,10 +1960,41 @@
     "cta": "Dërgo një kërkesë"
   },
   "cookies": {
-    "title": "Caktimet e cookies",
-    "body": "Chatforia përdor cookies minimale (p.sh., sesion, siguri). Ne nuk përdorim cookies për reklama nga palë të treta. Menaxho cookies përmes caktimeve të shfletuesit tuaj."
+    "title": "Caktimet e cookie-ve",
+    "body": "Chatforia përdor cookie minimale (p.sh., sesion, siguri). Ne nuk përdorim cookie për reklama nga palë të treta. Menaxhoni cookie-t përmes caktimeve të shfletuesit tuaj."
   },
   "premiumGuard": {
     "requiresPremium": "Kjo veçori kërkon një plan Premium."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — Politika e SMS & Opt-in",
+    "lastUpdated": "Përditësuar së fundi:",
+    "whatWeSend": {
+      "title": "Çfarë dërgojmë",
+      "body": "Chatforia dërgon vetëm SMS të lidhura me llogarinë dhe bisedat në numrat e telefonit që një përdorues i ka dhënë shprehimisht dhe ka pranuar. Mesazhet tipike përfshijnë kode hyrjeje/verifikimi, njoftime për dorëzimin e mesazheve, njoftime sigurie dhe përditësime transaksionale të llogarisë."
+    },
+    "optIn": {
+      "title": "Si përdoruesit regjistrohen",
+      "body": "Përdoruesit regjistrohen duke futur numrin e tyre të telefonit gjatë regjistrimit dhe duke shënuar kutinë e pëlqimit për SMS në faqen e regjistrimit ose në formularin e dedikuar",
+      "link": "formularin e regjistrimit"
+    },
+    "optOut": {
+      "title": "Si përdoruesit tërhiqen",
+      "stop": "Dërgo STOP në çdo SMS të Chatforia për t'u ç'regjistruar.",
+      "start": "Dërgo START për t'u riabbonuar.",
+      "contactPrefix": "Kontaktoni mbështetjen në"
+    },
+    "help": {
+      "title": "Ndihmë",
+      "bodyPrefix": "Dërgo HELP për ndihmë ose email"
+    },
+    "privacyTerms": {
+      "title": "Privatësia & Kushtet",
+      "bodyStart": "Duke pranuar SMS, përdoruesit gjithashtu bien dakord me",
+      "terms": "Kushtet e Shërbimit",
+      "and": "and",
+      "privacy": "Politika e Privatësisë"
+    },
+    "footer": "© 2026 Chatforia Inc."
   }
 }

@@ -1,359 +1,220 @@
 {
   "common": {
-    "save": "Salvează",
-    "cancel": "Anulează",
-    "refresh": "Reîmprospătează",
-    "noMatches": "Nicio potrivire",
-    "cancelAria": "Anulează",
-    "copy": "Copiază",
+    "save": "Salvare",
+    "cancel": "Anulare",
+    "refresh": "Reîmprospătare",
+    "noMatches": "Nu s-au găsit rezultate",
+    "cancelAria": "Anulare",
+    "copy": "Copiere",
     "copied": "Copiat!",
-    "errorWithMessage": "Eroare: {{message}}"
+    "errorWithMessage": "Eroare: { {message}}",
+    "loading": "Se încarcă…",
+    "saveError": "Eșec la salvare"
   },
   "a11y": {
     "skipToMain": "Sari la conținutul principal"
   },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
+  },
   "keys": {
-    "backupCreated": "Backup-ul cheii a fost creat și descărcat ✓",
-    "restored": "Backup-ul cheii a fost restaurat ✓ Cheile instalate local",
-    "noBackup": "Nu există un backup criptat pentru acest cont",
-    "missingPublicKey": "Backup-ul nu conține o cheie publică"
+    "backupCreated": "Copie de rezervă a cheii creată și descărcată ✓",
+    "restored": "Copie de rezervă a cheii restaurată ✓ Cheile instalate local",
+    "noBackup": "Nu există nicio copie de rezervă criptată pentru acest cont",
+    "missingPublicKey": "Lipsește o cheie publică din copia de rezervă"
   },
   "keySetup": {
-    "title": "Configurează cheile dispozitivului tău",
-    "description": "Acest dispozitiv nu are încă cheia ta privată. Importă un backup protejat prin parolă sau generează o nouă pereche de chei (vei putea citi mesajele noi de acum înainte).",
-    "chooseFile": "Alege un fișier și introduce parola.",
-    "imported": "Cheia privată a fost importată pe acest dispozitiv. Acum poți citi mesajele vechi.",
-    "enterPassword": "Introdu parola contului tău pentru a-ți salva cheile în siguranță."
+    "title": "Configurați cheile dispozitivului",
+    "description": "Acest dispozitiv nu are încă cheia dvs. privată. Importați o copie de rezervă protejată cu parolă sau generați o nouă pereche de chei (veți putea citi mesaje noi de acum înainte).",
+    "chooseFile": "Alegeți un fișier și introduceți parola.",
+    "imported": "Cheia privată a fost importată pe acest dispozitiv. Acum puteți citi mesajele vechi.",
+    "enterPassword": "Introduceți parola contului dvs. pentru a ne permite să facem o copie de rezervă a cheilor dvs. în siguranță."
+  },
+  "encryptionRecovery": {
+    "title": "Gestionați criptarea",
+    "description": "Faceți o copie de rezervă, restaurați, deblocați sau resetați cheia de criptare.",
+    "alert": {
+      "keyRequiredTitle": "Cheie de criptare necesară",
+      "keyRequiredBody": "Acest browser nu poate decripta în prezent mesajele dvs. criptate. Restaurați, deblocați sau resetați cheia pentru a continua."
+    },
+    "sections": {
+      "createBackup": "Creați o copie de rezervă a cheii",
+      "restoreFromBackup": "Restaurați din copia de rezervă a contului",
+      "resetEncryption": "Resetați criptarea"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Cod de deblocare (dispozitivul curent)",
+        "description": "Utilizat pentru a decripta cheile la nivel local înainte de exportare"
+      },
+      "backupPassword": {
+        "label": "Parolă de backup",
+        "description": "Utilizată pentru a cripta fișierul de backup"
+      },
+      "restoreBackupPassword": {
+        "label": "Parola de rezervă",
+        "description": "Parola pe care ați creat-o la copierea de rezervă a cheii pe iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Nou cod de acces local",
+        "description": "Protejează cheile stocate pe acest browser"
+      },
+      "resetLocalPasscode": {
+        "label": "Nou cod de acces local",
+        "description": "Necesar înainte de resetare, astfel încât noua cheie să fie protejată pe acest dispozitiv"
+      }
+    },
+    "actions": {
+      "unlockKey": "Deblochează cheia de criptare",
+      "restoreFromBackup": "Restaurează din backupul contului",
+      "resetEncryption": "Resetează criptarea"
+    },
+    "messages": {
+      "backupCreated": "Backupul cheii a fost creat și descărcat.",
+      "keyUnlocked": "Cheia de criptare a fost deblocată.",
+      "keyRestored": "Cheia a fost restaurată din backupul contului.",
+      "resetSuccess": "Criptarea a fost resetată cu succes."
+    },
+    "errors": {
+      "restoreIncomplete": "Restaurarea cheii este incompletă sau incorectă pentru acest cont",
+      "noBackup": "Nu există nicio copie de rezervă criptată pentru acest cont",
+      "missingPublicKey": "Lipsește o cheie publică din copia de rezervă",
+      "noServerPublicKey": "Acest cont nu expune în prezent o cheie publică de server",
+      "serverBackupMismatch": "Copia de rezervă a serverului nu se potrivește cu cheia de criptare curentă a contului",
+      "incompleteMetadata": "Metadatele copiei de rezervă sunt incomplete",
+      "resetIncomplete": "Resetarea criptării nu s-a finalizat corect"
+    },
+    "confirm": {
+      "reset": "Doriți să resetați criptarea pentru acest cont?\n\nMesajele criptate mai vechi pot deveni ilizibile dacă nu restaurați cheia originală ulterior."
+    },
+    "resetDescription": "Aceasta generează o nouă cheie de criptare pentru contul dvs. Mesajele criptate mai vechi pot deveni ilizibile dacă nu restaurați cheia originală ulterior."
+  },
+  "smsConsent": {
+    "label": "Sunt de acord să primesc notificări și alerte prin SMS de la {{companyName}}. Frecvența mesajelor poate varia. Se pot aplica tarife pentru mesaje și date. Răspundeți <stop>STOP</stop> pentru a vă dezabona în orice moment. Răspundeți <help>HELP</help> pentru ajutor."
+  },
+  "phoneField": {
+    "label": "Telefon",
+    "invalid": "Număr de telefon invalid",
+    "hint": "Includeți codul de țară dacă este necesar (de ex., +1 415…)"
   },
   "auth": {
     "headline": "Mesagerie securizată pentru oricine, oriunde",
-    "description": "Criptare end-to-end, traducere în peste 100 de limbi, mesaje care dispar și apeluri video/voce.",
+    "description": "Criptare end-to-end, traducere în peste 100 de limbi, mesaje care dispar și apeluri voce/video.",
     "feature": {
       "encryption": "Criptare end-to-end implicită",
-      "translation": "Traducere inteligentă integrată a mesajelor",
+      "translation": "Traducere inteligentă și integrată a mesajelor",
       "disappearing": "Mesaje care dispar și confirmări de citire",
-      "privacy": "Prioritate confidențialității. Datele tale, controlul tău.",
-      "translate": "Traducere inteligentă integrată a mesajelor",
+      "privacy": "Confidențialitatea pe primul loc. Datele tale, controlul tău.",
+      "translate": "Traducere inteligentă și integrată a mesajelor",
       "disappear": "Mesaje care dispar",
-      "privacyAlt": "Design axat pe confidențialitate",
-      "seePlans": "Vezi planuri și prețuri"
+      "privacyAlt": "Design care pune confidențialitatea pe primul loc",
+      "seePlans": "Vezi planurile și prețurile"
     },
     "hero": {
       "line1": "Mesagerie securizată pentru oricine, oriunde — cu",
       "em": "traducere în peste 100 de limbi",
-      "sub": "Obține un număr de telefon securizat gratuit pentru a apela și a trimite mesaje text în întreaga lume prin Wi-Fi sau date. Bucură-te de criptare end-to-end, mesaje care dispar și apeluri voce/video HD — cu instrumente integrate care te ajută să rămâi conectat peste granițe.",
-      "freeNote": "Apelurile și mesajele de bază sunt gratuite. Funcțiile AI avansate și premium necesită un upgrade."
+      "sub": "Obțineți un număr de telefon securizat gratuit pentru a apela și a trimite mesaje text în întreaga lume prin Wi-Fi sau date mobile. Beneficiați de criptare end-to-end, mesaje care dispar și apeluri voce/video HD — cu instrumente integrate care vă ajută să rămâneți conectat peste granițe.",
+      "freeNote": "Apelurile și mesajele text de bază sunt gratuite. Funcțiile avansate de IA și cele premium necesită un upgrade."
     },
     "feat": {
-      "encryption": "Criptare end-to-end, mereu activă",
+      "encryption": "Criptare end-to-end, activată permanent",
       "translate": "Depășește barierele lingvistice în conversațiile tale",
       "disappear": "Mesaje care dispar și confirmări de citire",
-      "privacy": "Prioritate confidențialității. Datele tale, controlul tău."
+      "privacy": "Confidențialitatea pe primul loc. Datele tale, controlul tău."
     },
-    "continueGoogle": "Continuă cu Google",
-    "continueApple": "Continuă cu Apple",
+    "continueGoogle": "Continuați cu Google",
+    "continueApple": "Continuați cu Apple",
     "username": "Nume de utilizator",
     "password": "Parolă",
-    "keepSignedIn": "Păstrează-mă conectat",
-    "forgotPassword": "Ai uitat parola?",
-    "loginButton": "Conectează-te",
+    "keepSignedIn": "Rămâneți conectat",
+    "forgotPassword": "Ați uitat parola?",
+    "loginButton": "Autentificare",
     "createAccount": "Creează un cont",
-    "freeAccountButton": "Creează cont gratuit",
+    "freeAccountButton": "Creează un cont gratuit",
     "newHere": "Ești nou aici?",
-    "getApp": "Descarcă aplicația",
-    "desktopTip": "Pe desktop? Scanează cu telefonul pentru a descărca aplicația.",
-    "scanHelper": "Pe desktop? Scanează cu telefonul pentru a descărca aplicația.",
-    "goHome": "Mergi acasă",
+    "getApp": "Descărcați aplicația",
+    "desktopTip": "Sunteți pe desktop? Scanați cu telefonul pentru a descărca aplicația.",
+    "scanHelper": "Sunteți pe desktop? Scanați cu telefonul pentru a descărca aplicația.",
+    "goHome": "Mergeți la pagina principală",
     "home": "Acasă",
     "headlineAlt": {
-      "main": "Mesagerul securizat care",
+      "main": "Aplicația de mesagerie securizată care",
       "highlight": "vorbește limba ta"
     },
     "subhead": "Mesagerie privată, criptată și tradusă — instantaneu.",
-    "upgrade": "Upgrade acum",
-    "tip": "Sfat: Folosește același cont pe web și mobil. Mesajele tale rămân sincronizate.",
+    "upgrade": "Actualizează acum",
+    "tip": "Sfat: Folosește același cont pe web și pe mobil. Mesajele tale rămân sincronizate.",
     "openDownload": "Deschide pagina de descărcare",
     "qrAlt": "Cod QR pentru Chatforia",
-    "scanHint": "Scanează pentru a descărca aplicația sau a o deschide în browser.",
-    "iosAria": "Descarcă din App Store",
-    "iosTitle": "Descarcă din App Store",
+    "scanHint": "Scanează pentru a descărca aplicația sau pentru a o deschide în browserul tău.",
+    "iosAria": "Descărcați din App Store",
+    "iosTitle": "Descărcați din App Store",
     "iosBadgeAlt": "Insignă App Store",
-    "androidAria": "Descarcă din Google Play",
+    "androidAria": "Descărcați de pe Google Play",
     "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Insignă Google Play",
-    "login": "Conectează-te",
-    "signup": "Înregistrează-te",
-    "email": "Email",
+    "login": "Autentificare",
+    "signup": "Înregistrare",
+    "email": "E-mail",
     "registration": {
-      "passwordDescription": "Minim 6 caractere. Folosește o parolă puternică și unică.",
-      "smsConsent": "Prin crearea unui cont, accepți să primești notificări SMS legate de activitatea ta pe Chatforia (cum ar fi mesaje de la alți utilizatori). Tarifele pentru mesaje și date pot aplica. Poți renunța oricând din Setări.",
+      "passwordDescription": "Minimum 6 caractere. Folosește o parolă puternică și unică.",
+      "smsConsent": "Prin crearea unui cont, ești de acord să primești notificări prin SMS legate de activitatea ta pe Chatforia (cum ar fi mesaje de la alți utilizatori). Se pot aplica tarife pentru mesaje și date. Te poți dezabona oricând din Setări.",
       "termsLink": "Termeni și condiții",
       "privacyLink": "Politica de confidențialitate"
     },
     "to": "Către:",
-    "enterRecipient": "Introdu un nume sau un număr",
-    "clearRecipients": "Șterge destinatarii",
+    "enterRecipient": "Introduceți un nume sau un număr",
+    "clearRecipients": "Ștergeți destinatarii",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Scrie un mesaj…",
-    "addRecipient": "Adaugă un destinatar mai sus pentru a începe…",
-    "oneRecipient": "Introdu un singur destinatar deocamdată.",
-    "enterValidRecipient": "Introdu un contact salvat sau un număr de telefon.",
-    "sendFailed": "Trimitere eșuată. Verifică consola pentru detalii."
+    "typeMessage": "Tastați un mesaj…",
+    "addRecipient": "Adăugați un destinatar mai sus pentru a începe…",
+    "oneRecipient": "Vă rugăm să introduceți un singur destinatar pentru moment.",
+    "enterValidRecipient": "Introduceți numele unui contact salvat sau un număr de telefon.",
+    "sendFailed": "Trimiterea a eșuat. Verificați consola pentru detalii."
   },
   "home": {
     "title": "Acasă",
-    "header": "Mesajele tale",
+    "messagesTitle": "Mesajele tale",
+    "messagesSubtitle": "Introdu un destinatar mai sus, apoi trimite un mesaj pentru a începe o conversație.",
     "subheader": "Trimite un mesaj pentru a începe o conversație.",
     "sendButton": "Trimite mesaj",
     "gifPicker": "Deschide selectorul de GIF-uri",
-    "emoji": "Emojis",
-    "upload": "Încarcă fotografie sau video",
-    "inputPlaceholder": "Scrie un mesaj…",
-    "inputLabel": "Editor de mesaj",
-    "sendTooltip": "Trimite",
-    "sendTooltipEmpty": "Scrie un mesaj pentru a trimite",
-    "send": "Trimite",
-    "welcomeMessage": "Bine ai venit pe Chatforia",
+    "emoji": "Emoji",
+    "upload": "Încărcați o fotografie sau un videoclip",
+    "inputPlaceholder": "Tastați un mesaj…",
+    "inputLabel": "Editor de mesaje",
+    "sendTooltip": "Trimiteți",
+    "sendTooltipEmpty": "Tastați un mesaj pentru a-l trimite",
+    "send": "Trimiteți",
+    "welcomeMessage": "Bine ați venit la Chatforia",
+    "getStarted": "Începeți",
+    "mixedRecipients": "S-au detectat destinatari mixți. Utilizați fie toate numerele de telefon (SMS), fie toate numele de utilizator (Chatforia).",
     "enterRecipient": "Introduceți un nume sau un număr",
     "addRecipient": "Adăugați un destinatar mai sus pentru a începe…",
-    "getStarted": "Începe"
-  },
-  "refund": {
-    "title": "Politica de rambursare",
-    "lastUpdated": "Ultima actualizare:",
-    "intro": "La Chatforia, ne străduim să oferim un serviciu de înaltă calitate tuturor utilizatorilor. Această Politică de rambursare descrie situațiile în care pot fi acordate rambursări.",
-    "subscriptions": {
-      "title": "Abonamente",
-      "body": "Abonamentele sunt facturate în avans pe bază recurentă. Le puteți anula oricând din setările contului sau prin platforma utilizată pentru achiziție."
-    },
-    "eligibility": {
-      "title": "Eligibilitate pentru rambursare",
-      "body": "Rambursările pot fi acordate pentru taxe duplicate, erori de facturare sau probleme tehnice care împiedică accesul la funcțiile plătite. Toate solicitările sunt analizate de la caz la caz."
-    },
-    "nonRefundable": {
-      "title": "Nerambursabil",
-      "body": "În general, nu oferim rambursări pentru perioade neutilizate, perioade parțiale de abonament sau neanularea înainte de reînnoire."
-    },
-    "thirdParty": {
-      "title": "Achiziții prin terți",
-      "body": "Dacă achiziția a fost efectuată prin platforme terțe, cum ar fi Apple App Store, rambursările trebuie solicitate direct de la acele platforme."
-    },
-    "contact": {
-      "title": "Contact",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, SUA"
-    }
-  },
-
-  "about": {
-    "title": "Despre Chatforia",
-    "description": "Chatforia este o platformă modernă de mesagerie concepută pentru comunicare sigură și multilingvă...",
-    "valuesTitle": "Valorile noastre",
-    "privacyTitle": "Confidențialitate pe primul loc",
-    "privacyDesc": "Criptare puternică și setări de confidențialitate controlate de utilizator",
-    "accessTitle": "Acces pentru toți",
-    "accessDesc": "Traducere integrată pentru mai multe limbi",
-    "controlTitle": "Control",
-    "controlDesc": "Funcții precum mesajele care dispar și confirmările de citire"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "De ce platformele de mesagerie sunt mai importante ca niciodată",
-      "intro": "Platformele de mesagerie au devenit unele dintre cele mai importante instrumente de comunicare în lumea de astăzi...",
-      "everydayTitle": "Comunicarea zilnică",
-      "everydayDesc": "Oamenii se bazează pe aplicațiile de mesagerie pentru comunicarea de zi cu zi...",
-      "speedTitle": "Viteză și comoditate",
-      "speedDesc": "Mesajele sunt livrate instantaneu...",
-      "globalTitle": "Acoperire globală",
-      "globalDesc": "Platformele de mesagerie conectează oamenii din întreaga lume...",
-      "privacyTitle": "Confidențialitate și control",
-      "privacyDesc": "Platformele moderne de mesagerie se concentrează pe oferirea controlului utilizatorilor...",
-      "futureTitle": "Viitorul mesageriei",
-      "futureDesc": "Mesageria continuă să evolueze cu noi funcții...",
-      "outro": "Chatforia este construită având în vedere aceste principii..."
-    },
-
-    "global": {
-      "title": "Viitorul comunicării globale",
-      "intro": "Comunicarea a evoluat rapid...",
-      "barriersTitle": "Eliminarea barierelor",
-      "barriersDesc": "Oamenii se pot conecta acum la nivel global...",
-      "translationTitle": "Rolul tehnologiei de traducere",
-      "translationDesc": "Limba a fost în mod tradițional o barieră...",
-      "realtimeTitle": "Conectivitate în timp real",
-      "realtimeDesc": "Viteza este un factor esențial...",
-      "privacyTitle": "Confidențialitate și securitate",
-      "privacyDesc": "Utilizatorii vor să aibă încredere că conversațiile lor sunt protejate...",
-      "futureTitle": "Ce urmează",
-      "futureDesc": "Viitorul comunicării globale va include...",
-      "outro": "Platforme precum Chatforia fac parte din această schimbare..."
-    },
-
-    "index": {
-      "title": "Blogul Chatforia",
-      "intro": "Explorați informații despre comunicare...",
-      "post1": "Cum să comunici în siguranță online",
-      "post2": "Viitorul comunicării globale",
-      "post3": "De ce platformele de mesagerie contează"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Cum funcționează Chatforia",
-    "intro": "Chatforia este concepută pentru a face comunicarea simplă...",
-    "step1Title": "1. Creează un cont",
-    "step1Desc": "Înregistrează-te folosind emailul sau numele de utilizator...",
-    "step2Title": "2. Începe o conversație",
-    "step2Desc": "Conectează-te cu alți utilizatori...",
-    "step3Title": "3. Mesagerie în timp real",
-    "step3Desc": "Mesajele sunt livrate rapid...",
-    "step4Title": "4. Comunicare globală",
-    "step4Desc": "Traducerea integrată ajută utilizatorii...",
-    "step5Title": "5. Păstrează controlul",
-    "step5Desc": "Gestionează-ți preferințele..."
-  },
-
-  "safety": {
-    "title": "Siguranță și reguli ale comunității",
-    "intro": "Chatforia se angajează să mențină un mediu sigur...",
-    "respectTitle": "Comunicare respectuoasă",
-    "respectDesc": "Utilizatorii sunt așteptați să comunice cu respect...",
-    "prohibitedTitle": "Conținut interzis",
-    "prohibited": {
-      "illegal": "Activități ilegale",
-      "harassment": "Hărțuire sau intimidare",
-      "hate": "Discurs instigator la ură sau discriminare",
-      "explicit": "Material explicit sau dăunător",
-      "spam": "Spam sau practici înșelătoare"
-    },
-    "toolsTitle": "Instrumente de siguranță",
-    "tools": {
-      "report": "Raportează comportamentul nepotrivit",
-      "block": "Blochează utilizatori",
-      "control": "Gestionează setările de confidențialitate"
-    },
-    "enforcementTitle": "Aplicare",
-    "enforcementDesc": "Putem lua măsuri împotriva conturilor..."
-},
-  "chat": {
-    "selectPrompt": "Selectează un chat text sau o cameră pentru a începe conversația",
-    "newMessages": "Mesaje noi",
-    "typing": "{{name}} scrie…",
-    "emptyTitle": "Mesajele tale",
-    "emptySubtitle": "Trimite un mesaj pentru a începe o conversație.",
-    "startChatButton": "Trimite mesaj",
-    "mediaAttachment": "Atașament media",
-    "thisUser": "acest utilizator",
-    "blockConfirm": "Blochezi pe {{name}}? Nu vei mai primi mesaje de la el/ea.",
-    "blockedUser": "Utilizatorul {{name}} a fost blocat.",
-    "blockError": "Nu s-a putut determina utilizatorul țintă pentru blocare.",
-    "blockFailed": "Blocarea a eșuat (backend-ul nu este încă conectat).",
-    "encryptedUnavailable": "Mesaj criptat (cheia indisponibilă)",
-    "unlockToView": "Deblochează cheia pentru a vedea acest mesaj"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Dezactivat"
-    },
-    "freeLimit": "Limită plan gratuit: auto-ștergere până la 1 zi. Limitat la 1 zi.",
-    "premiumLimit": "Auto-ștergere maximă pentru Premium este 30 de zile. Limitat la 30 de zile.",
-    "nothingToSend": "Scrie un mesaj sau atașează un fișier pentru a trimite.",
-    "encryptionFailed": "Criptarea a eșuat. Mesajul nu a fost trimis.",
-    "sent": "Mesaj livrat.",
-    "placeholder": "Scrie un mesaj…",
-    "voiceAdded": "Mesaj vocal adăugat",
-    "attachmentAdded": "Atașament adăugat",
-    "autoDelete": "Auto-ștergere",
-    "typeToSend": "Scrie un mesaj pentru a trimite",
-    "send": "Trimite",
-    "sendWithEnter": "Trimite (Enter)",
-    "attachment": "atașament",
-    "caption": "Legendă (opțional)",
-    "remove": "Elimină",
-    "clear": "Șterge",
-    "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Atașamentul este prea mare. Încearcă un fișier mai mic.",
-      "unsupportedFile": "Tip de fișier neacceptat.",
-      "rateLimit": "Trimiți mesaje prea repede. Te rugăm să încetinești.",
-      "validation": "Eroare de validare. Verifică mesajul și încearcă din nou.",
-      "failedToSend": "Trimitere eșuată. Poți reîncerca bulina eșuată."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Contacte salvate",
-    "refreshAria": "Reîmprospătează contactele",
-    "filterPlaceholder": "Filtrează contactele salvate…",
-    "filterAria": "Filtrează contactele salvate",
-    "noContactsFound": "Niciun contact găsit.",
-    "externalContact": "Contact extern",
-    "notJoined": "Acest contact nu s-a alăturat încă Chatforia.",
-    "couldNotStart": "Nu s-a putut începe conversația. Te rugăm să încerci din nou.",
-    "startFailed": "Începerea conversației a eșuat. Te rugăm să încerci din nou.",
-    "deleted": "Contact șters.",
-    "deleteFailed": "Ștergerea contactului a eșuat. Te rugăm să încerci din nou.",
-    "aliasUpdated": "Alias actualizat.",
-    "updateAliasFailed": "Actualizarea alias-ului a eșuat. Te rugăm să încerci din nou.",
-    "selectContact": "Selectează {{name}}",
-    "alias": "Alias",
-    "startChat": "Începe conversație",
-    "message": "Mesaj",
-    "delete": "Șterge",
-    "deleteContactAria": "Șterge contact",
-    "loadFailed": "Încărcarea contactelor a eșuat. Te rugăm să încerci din nou.",
-    "loadMore": "Încarcă mai multe",
-    "call": "Apel",
-    "callStarted": "Se apelează acest număr prin numărul tău Chatforia…",
-    "callFailed": "Apelul nu a putut fi inițiat. Te rugăm să încerci din nou."
-  },
-  "startChatModal": {
-    "title": "Începe o conversație",
-    "searchPlaceholder": "Caută nume, nume de utilizator sau număr de telefon",
-    "messageThisPerson": "Trimite mesaj acestei persoane",
-    "contacts": "Contacte",
-    "recentInteractions": "Interacțiuni recente",
-    "noContactsMatch": "Niciun contact nu se potrivește căutării tale.",
-    "noRecentInteractions": "Încă nu există interacțiuni recente.",
-    "unknown": "Necunoscut",
-    "interactionType": {
-      "message": "Mesaj",
-      "call": "Apel",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Adaugă contact",
-    "phoneOrUsername": "Telefon sau nume de utilizator",
-    "phoneOrUsernamePlaceholder": "ex. +13018019227 sau juliannorton",
-    "alias": "Alias (opțional)",
-    "aliasPlaceholder": "ex. Serviciu, Mamă, Mike – Europa",
-    "enterPhoneOrUsername": "Introdu un număr de telefon sau nume de utilizator.",
-    "userLookupFailed": "Căutarea utilizatorului a eșuat.",
-    "cannotAddSelf": "Nu te poți adăuga pe tine ca contact.",
-    "failedToAdd": "Adăugarea contactului a eșuat.",
-    "add": "Adaugă"
+    "needNumber": "Aveți nevoie de un număr Chatforia înainte de a trimite SMS-uri.",
+    "chooseNumber": "Alegeți un număr"
   },
   "sidebar": {
     "randomChat": "Chat aleatoriu",
-    "callTextForwarding": "Redirecționare apeluri & mesaje text",
+    "callTextForwarding": "Redirecționare apeluri și mesaje text",
     "conversations": "Conversații",
-    "searchPlaceholder": "Caută conversații…",
-    "errorLoading": "Încărcarea conversațiilor a eșuat",
-    "empty": "Încă nu există conversații.",
-    "startChat": "Începe o conversație",
+    "searchPlaceholder": "Căutați conversații...",
+    "errorLoading": "Nu s-au încărcat conversațiile",
+    "empty": "Nu există încă conversații.",
+    "startChat": "Începeți o conversație",
     "people": "Persoane",
     "settings": "Setări",
     "status": "Stare",
-    "forwarding": "Redirecționare apeluri & mesaje text",
+    "forwarding": "Redirecționare apeluri și mesaje",
     "refresh": "Reîmprospătează",
-    "search": "Caută conversații",
-    "loginPrompt": "Conectează-te pentru a edita setările.",
-    "login": "Conectează-te",
+    "search": "Căutare conversații",
+    "loginPrompt": "Conectează-te pentru a-ți edita setările.",
+    "login": "Conectare",
     "register": "Creează cont",
     "chatrooms": "Camere de chat",
-    "logout": "Deconectează-te",
+    "logout": "Deconectare",
     "startChatAlt": "Începe o conversație nouă",
     "calls": "Apeluri",
     "video": "Video",
@@ -361,65 +222,164 @@
   },
   "topbar": {
     "newStatus": "Stare nouă",
-    "logout": "Deconectează-te",
+    "logout": "Deconectare",
     "help": "Ajutor",
-    "createStatusAria": "Creează stare nouă"
+    "createStatusAria": "Creează o stare nouă"
+  },
+  "footer": {
+    "plans": "Planuri și prețuri",
+    "about": "Despre Chatforia",
+    "careers": "Carieră",
+    "press": "Presă",
+    "advertise": "Publicitate",
+    "contact": "Contactați-ne",
+    "help": "Centru de ajutor",
+    "status": "Pagina de stare",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Politica de confidențialitate",
+    "terms": "Termeni și condiții",
+    "cookies": "Setări cookie-uri",
+    "doNotSell": "Nu vindeți informațiile mele",
+    "language": "Limba",
+    "contactShort": "Contact",
+    "aria": "Subsol",
+    "homeAria": "Pagina principală Chatforia",
+    "section": {
+      "company": "COMPANIE",
+      "support": "ASISTENȚĂ",
+      "downloads": "DESCĂRCĂRI",
+      "legal": "INFORMAȚII LEGALE"
+    },
+    "links": {
+      "plans-pricing": "Planuri și prețuri",
+      "about-chatforia": "Despre Chatforia",
+      "careers": "Cariere",
+      "press": "Presă",
+      "advertise": "Publicitate",
+      "getting-started": "Noțiuni introductive",
+      "help-center": "Centru de ajutor",
+      "contact-us": "Contactați-ne",
+      "status-page": "Pagina de stare",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Politica de confidențialitate",
+      "terms-of -service": "Termeni de utilizare",
+      "do-not-sell-my-info": "Nu vindeți informațiile mele",
+      "cookie-settings": "Setări cookie",
+      "how-it-works": "Cum funcționează",
+      "blog": "Blog",
+      "refund-policy": "Politica de rambursare",
+      "sms-policy": "Politica privind mesajele SMS"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "În curs de brevetare",
+    "backToTop": "↑ Înapoi sus"
+  },
+  "chat": {
+    "selectPrompt": "Selectează un text sau o cameră de chat pentru a începe conversația",
+    "newMessages": "Mesaje noi",
+    "typing": "{{name }} tastează...",
+    "emptyTitle": "Mesajele tale",
+    "emptySubtitle": "Trimite un mesaj pentru a începe o conversație.",
+    "startChatButton": "Trimite mesaj",
+    "mediaAttachment": "Atașament media",
+    "thisUser": "acest utilizator",
+    "blockConfirm": "Blochezi {{name}}? Nu vei mai primi mesaje de la el.",
+    "blockedUser": "Blocat {{name}}.",
+    "blockError": "Nu s-a putut determina un utilizator țintă de blocat.",
+    "blockFailed": "Blocarea a eșuat (backend-ul nu este încă conectat).",
+    "encryptedUnavailable": "Mesaj criptat (cheie indisponibilă)",
+    "unlockToView": "Deblochează-ți cheia pentru a vizualiza acest mesaj"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Dezactivat"
+    },
+    "freeLimit": "Limită plan gratuit: ștergere automată până la 1 zi. Limitat la 1 zi.",
+    "premiumLimit": "Limita maximă de ștergere automată pentru Premium este de 30 de zile. Limitat la 30 de zile.",
+    "nothingToSend": "Tastați un mesaj sau atașați un fișier pentru a-l trimite.",
+    "encryptionFailed": "Criptarea a eșuat. Mesajul nu a fost trimis.",
+    "sent": "Mesaj livrat.",
+    "placeholder": "Tastați un mesaj…",
+    "autoDelete": "Ștergere automată",
+    "typeToSend": "Tastați un mesaj pentru a-l trimite",
+    "send": "Trimite",
+    "sendWithEnter": "Trimite (Enter)",
+    "attachment": "atașament",
+    "caption": "Legendă (opțional)",
+    "remove": "Eliminare",
+    "clear": "Șterge",
+    "gif": "GIF",
+    "sticker": "Autocolant",
+    "errors": {
+      "attachmentTooLarge": "Atașament prea mare. Încearcă un fișier mai mic.",
+      "unsupportedFile": "Tip de fișier neacceptat.",
+      "rateLimit": "Trimiți mesaje prea repede. Te rugăm să încetinești.",
+      "validation": "Eroare de validare. Te rugăm să verifici mesajul și să încerci din nou.",
+      "failedToSend": "Nu s-a putut trimite. Puteți încerca din nou cu balonul eșuat."
+    }
   },
   "threadActions": {
-    "threadMenu": "Meniu conversație",
+    "threadMenu": "Meniul firului de discuție",
     "premium": "Premium",
-    "aiPower": "Putere AI",
-    "schedule": "Programează",
+    "aiPower": "AI Power",
+    "schedule": "Programare",
     "upgrade": "Upgrade",
     "upgradeSuffix": "(Upgrade)",
-    "thread": "Conversație",
+    "thread": "Discuție",
     "about": "Despre",
-    "search": "Caută",
+    "search": "Căutare",
     "media": "Media",
     "invitePeople": "Invită persoane",
     "roomSettings": "Setări cameră",
     "clearConversation": "Șterge conversația",
-    "clearConversationForMe": "Șterge pentru mine",
-    "clearConversationForEveryone": "Șterge pentru toată lumea",
     "block": "Blochează"
   },
   "roomSearch": {
-    "title": "Caută în cameră",
-    "ariaLabel": "Caută în cameră",
-    "search": "Caută",
-    "searchMessages": "Caută mesaje",
+    "title": "Căutare în cameră",
+    "ariaLabel": "Căutare în cameră",
+    "search": "Căutare",
+    "searchMessages": "Căutare mesaje",
     "noText": "[Fără text]",
-    "noResults": "Niciun rezultat"
+    "noResults": "Fără rezultate"
   },
   "roomSettings": {
     "roles": {
       "member": "Membru",
       "moderator": "Moderator",
-      "admin": "Admin"
+      "admin": "Administrator"
     },
     "aiMode": {
-      "off": "Dezactivat",
-      "mention": "Doar la @ForiaBot sau /ask",
+      "off": "Oprit",
+      "mention": "Doar pe @ForiaBot sau /ask",
       "always": "Răspunde proactiv"
     },
     "autoTranslateMode": {
-      "off": "Dezactivat",
+      "off": "Oprit",
       "tagged": "Doar etichetate (/tr …)",
       "all": "Toate mesajele"
     },
-    "updated": "Setările au fost actualizate"
+    "updated": "Setări actualizate"
   },
   "mediaGallery": {
-    "sharedMedia": "Media partajate",
-    "noMediaCached": "Nicio media stocată local încă.",
+    "sharedMedia": "Conținut media partajat",
+    "noMediaCached": "Niciun conținut media nu a fost încă stocat în cache local.",
     "imageAlt": "imagine",
-    "openVideo": "Deschide video",
-    "openVideoWithCaption": "Deschide video: {{caption}}",
+    "openVideo": "Deschide videoclipul",
+    "openVideoWithCaption": "Deschide videoclipul: {{caption}}",
     "preview": "Previzualizare",
     "previewWithCaption": "Previzualizare: {{caption}}",
     "previewKind": "Previzualizare {{kind}}",
-    "download": "Descarcă",
-    "downloadKind": "Descarcă {{kind}}",
+    "download": "Descărcare",
+    "downloadKind": "Descărcare {{kind}}",
     "file": "fișier",
     "kinds": {
       "image": "imagine",
@@ -431,216 +391,454 @@
   "status": {
     "userNumber": "Utilizator #{{id}}",
     "posted": "Stare postată",
-    "postFailed": "Postarea stării a eșuat",
+    "postFailed": "Eșec la postarea stării",
     "createTitle": "Creează o stare",
     "modalAriaLabel": "Stare nouă",
-    "captionLabel": "Ce ai pe gânduri?",
-    "captionPlaceholder": "Distribuie o actualizare…",
+    "captionLabel": "La ce te gândești?",
+    "captionPlaceholder": "Partajează o actualizare.. .",
     "captionAria": "Mesaj de stare",
-    "audienceLabel": "Public",
+    "audienceLabel": "Audiență",
     "audience": {
       "public": "Public",
       "followers": "Urmăritori",
       "contacts": "Contacte",
       "mutuals": "Reciproci",
-      "custom": "Personalizat…"
+      "custom": "Personalizat..."
     },
     "expiresHoursLabel": "Expiră (ore)",
-    "maxTooltip": "Maxim 7 zile",
+    "maxTooltip": "Maximum 7 zile",
     "hoursAbbrev": "h",
     "maxShort": "max",
-    "expiresOn": "Expiră la:",
+    "expiresOn": "Expiră pe:",
     "chooseRecipients": "Alege destinatarii",
-    "selectContacts": "Selectează contacte",
+    "selectContacts": "Selectează contactele",
     "attachmentsLabel": "Atașamente",
-    "attachmentsPlaceholder": "Adaugă imagini/video",
-    "filesNote": "Până la 5 fișiere. Expirare implicită 24h.",
-    "postAria": "Postează stare",
-    "post": "Postează"
+    "attachmentsPlaceholder": "Adaugă imagini/videoclipuri",
+    "filesNote": "Până la 5 fișiere. Expiră în 24 de ore în mod implicit.",
+    "postAria": "Stare postare",
+    "post": "Postare"
   },
   "voicemail": {
-    "pageTitle": "Mesagerie vocală",
+    "pageTitle": "Mesaj vocal",
     "from": "De la",
     "to": "Către",
     "unknownCaller": "Necunoscut",
     "yourNumber": "Numărul tău Chatforia",
     "durationSeconds": "{{count}}s",
-    "audioAria": "Player audio mesagerie vocală",
+    "audioAria": "Player audio mesaje vocale",
     "transcriptHeading": "Transcriere",
-    "transcriptPending": "Se transcrie mesageria vocală…",
-    "transcriptFailed": "Transcrierea indisponibilă.",
-    "loading": "Se încarcă mesageria vocală…",
-    "errorLoading": "Încărcarea mesageriei vocale a eșuat.",
-    "empty": "Încă nu există mesagerii vocale.",
-    "deleteConfirm": "Ștergi această mesagerie vocală?",
-    "deleteError": "Ștergerea mesageriei vocale a eșuat.",
-    "markRead": "Marchează ca citit",
+    "transcriptPending": "Transcrierea mesajului vocal...",
+    "transcriptFailed": "Transcriere indisponibilă.",
+    "loading": "Se încarcă mesajul vocal...",
+    "errorLoading": "Nu s-a putut încărca mesajul vocal.",
+    "empty": "Nu există încă mesaje vocale.",
+    "deleteConfirm": "Ștergeți acest mesaj vocal?",
+    "deleteError": "Eroare la ștergerea mesajului vocal.",
+    "markRead": "Marcați ca citit",
+    "delete": "Ștergeți",
+    "unreadDotAria": "Indicator mesaje vocale necitite"
+  },
+  "contactList": {
+    "savedContacts": "Contacte salvate",
+    "refreshAria": "Reîmprospătează contactele",
+    "filterPlaceholder": "Filtrează contactele salvate…",
+    "filterAria": "Filtrează contactele salvate",
+    "noContactsFound": "Nu s-au găsit contacte.",
+    "externalContact": "Contact extern",
+    "notJoined": "Contactul respectiv nu s-a alăturat încă Chatforia.",
+    "couldNotStart": "Nu s-a putut iniția chatul. Vă rugăm să încercați din nou.",
+    "startFailed": "Eșec la inițierea chatului. Vă rugăm să încercați din nou.",
+    "deleted": "Contact șters.",
+    "deleteFailed": "Eșec la ștergerea contactului. Vă rugăm să încercați din nou.",
+    "aliasUpdated": "Alias actualizat.",
+    "updateAliasFailed": "Eșec la actualizarea aliasului. Vă rugăm să încercați din nou.",
+    "selectContact": "Selectați {{name}}",
+    "alias": "Alias",
+    "startChat": "Porniți chatul",
+    "message": "Mesaj",
     "delete": "Șterge",
-    "unreadDotAria": "Indicator mesagerie vocală necitită"
+    "deleteContactAria": "Șterge contactul",
+    "loadFailed": "Nu s-au încărcat contactele. Vă rugăm să încercați din nou.",
+    "loadMore": "Încărcați mai multe",
+    "call": "Apel",
+    "callStarted": "Apelăm acest număr prin numărul dvs. Chatforia…",
+    "callFailed": "Nu s-a putut iniția apelul. Vă rugăm să încercați din nou."
+  },
+  "addContactModal": {
+    "title": "Adăugați contact",
+    "phoneOrUsername": "Număr de telefon sau nume de utilizator",
+    "phoneOrUsernamePlaceholder": "de ex. +13018019227 sau juliannorton",
+    "alias": "Alias (opțional)",
+    "aliasPlaceholder": "de ex. g. Serviciu, Mama, Mike – Europa",
+    "enterPhoneOrUsername": "Introduceți un număr de telefon sau un nume de utilizator.",
+    "userLookupFailed": "Căutarea utilizatorului a eșuat.",
+    "cannotAddSelf": "Nu vă puteți adăuga pe dvs. ca contact.",
+    "failedToAdd": "Nu s-a putut adăuga contactul.",
+    "add": "Adăugați"
+  },
+  "startChatModal": {
+    "title": "Începe o conversație",
+    "searchPlaceholder": "Caută nume, nume de utilizator sau număr de telefon",
+    "messageThisPerson": "Trimite un mesaj acestei persoane",
+    "contacts": "Contacte",
+    "recentInteractions": "Interacțiuni recente",
+    "noContactsMatch": "Niciun contact nu corespunde căutării tale.",
+    "noRecentInteractions": "Nu există încă interacțiuni recente.",
+    "unknown": "Necunoscut",
+    "interactionType": {
+      "message": "Mesaj",
+      "call": "Apel",
+      "video": "Video"
+    },
+    "quickPicker": "Selector rapid",
+    "to": "Către",
+    "nameOrUsername": "Introduceți un nume, un nume de utilizator",
+    "nameUsernamePhoneEmail": "Introduceți un nume, un nume de utilizator, un număr de telefon sau o adresă de e-mail…",
+    "startWithSelected": "Începeți conversația cu persoana selectată",
+    "searchByUsernameOrPhone": "Căutați după nume de utilizator sau număr de telefon",
+    "search": "Căutare",
+    "searchPrompt": "Introduceți un nume de utilizator sau un număr de telefon și apăsați Căutare.",
+    "pickFromContacts": "Sau alegeți din contacte",
+    "addContact": "Adăugați un contact",
+    "show": "Afișați",
+    "add": "Adăugați",
+    "close": "Închideți",
+    "selectedCount": "{{count}} selectați",
+    "pickAtLeastOne": "Alege cel puțin un destinatar.",
+    "saveContactsHint": "Intrările de telefon/e-mail vor fi disponibile după ce le salvezi ca contacte.",
+    "failedBulkStart": "Nu s-a putut iniția chatul cu destinatarii selectați.",
+    "noResults": "Niciun rezultat",
+    "mode": "Mod",
+    "group": "Grup",
+    "difuzare": "Difuzare",
+    "numegrupOptional": "Numele grupului (opțional)",
+    "primulMesajOptional": "Primul mesaj (opțional, dar recomandat)",
+    "creaGrup": "Creați grup",
+    "trimiteDifuzare": "Trimite difuzare"
+  },
+  "paginaPersoane": {
+    "persoane": "Persoane",
+    "căutare": "Căutare",
+    "searchPlaceholder": "Căutați contactele salvate după alias, nume, nume de utilizator sau număr de telefon",
+    "quickStart": "Început rapid",
+    "quickStartDesc": "Gestionați-vă contactele și invitați prieteni.",
+    "importContacts": "Importați-vă contactele",
+    "import": "Import",
+    "addContact": "Adăugare contact",
+    "add": "Adăugare",
+    "inviteFriends": "Invită prieteni",
+    "inviteDesc": "Partajează linkul de invitație pentru a începe să discuți instantaneu.",
+    "getTheApp": "Descărcă aplicația",
+    "getTheAppDesc": "Rămâi în contact oriunde te-ai afla cu Chatforia pentru iOS și Android.",
+    "download": "Descărcare",
+    "syncTip": "Sfat: Mesajele tale rămân sincronizate pe web și pe mobil.",
+    "filterSaved": "Filtrează contactele salvate",
+    "noContactsFound": "Nu s-au găsit contacte",
+    "focusSearch": "Căutare focalizată",
+    "findOrAdd": "Găsește sau adaugă pe cineva",
+    "searchByPhoneOrUsername": "Căutare după număr de telefon / nume de utilizator"
   },
   "profile": {
     "title": "Profil utilizator",
-    "preferredLanguage": "Limbă preferată",
+    "preferredLanguage": "Limba preferată",
     "chooseLanguage": "Alege o limbă",
-    "mustLogin": "Trebuie să te conectezi pentru a vedea setările.",
+    "mustLogin": "Trebuie să te autentifici pentru a vizualiza setările.",
     "autoTranslate": "Traducere automată a mesajelor",
-    "showOriginalWithTranslation": "Afișează mesajul original și traducerea",
+    "showOriginalWithTranslation": "Afișează mesajele originale și traduse",
     "showOriginalAndTranslation": "Afișează originalul alături de traducere",
     "filterExplicit": "Filtrează conținutul explicit",
     "aiReply": "Răspuns AI",
     "enableReadReceipts": "Activează confirmările de citire",
     "allowExplicitContent": "Permite conținut explicit",
-    "disappearingMessages": "Activează mesaje care dispar",
-    "autoDeleteSeconds": "Secunde până la auto-ștergere",
+    "disappearingMessages": "Activează mesajele care dispar",
+    "autoDeleteSeconds": "Secunde până la ștergerea automată",
     "saveSuccess": "Setările au fost salvate!",
     "saveError": "Eroare: Nu s-au putut salva setările",
     "avatarAlt": "Avatar profil",
-    "uploadAvatar": "Încarcă avatar nou",
-    "avatarSuccess": "Avatarul a fost încărcat!",
-    "avatarError": "Încărcarea avatarului a eșuat",
+    "uploadAvatar": "Încărcați un avatar nou",
+    "avatarSuccess": "Avatar încărcat!",
+    "avatarError": "Nu s-a putut încărca avatarul",
     "avatarUpdated": "Avatar actualizat!",
     "uploadingAvatar": "Se încarcă avatarul…",
-    "noPrivateKey": "Nu există cheie privată pe acest dispozitiv pentru export.",
-    "setBackupPassword": "Setează o parolă pentru a cripta backup-ul:",
-    "backupDownloaded": "Backup-ul criptat a fost descărcat.",
-    "exportFailed": "Exportul cheii a eșuat",
-    "enterBackupPassword": "Introdu parola pentru acest backup:",
+    "noPrivateKey": "Nu există nicio cheie privată pe acest dispozitiv care să poată fi exportată.",
+    "setBackupPassword": "Setați o parolă pentru a cripta copia de rezervă:",
+    "backupDownloaded": "Copia de rezervă criptată a fost descărcată.",
+    "exportFailed": "Eșec la exportarea cheii",
+    "enterBackupPassword": "Introduceți parola pentru această copie de rezervă:",
     "importSuccess": "Cheia privată a fost importată pe acest dispozitiv.",
-    "importFailed": "Importul cheii a eșuat (parolă incorectă sau fișier corupt).",
-    "keysRotated": "Pereche nouă de chei generată și cheia publică încărcată.",
-    "rotateFailed": "Rotirea cheilor a eșuat.",
+    "importFailed": "Eșec la importarea cheii (parolă incorectă sau fișier corupt).",
+    "keysRotated": "S-a generat o nouă pereche de chei și s-a încărcat cheia publică.",
+    "rotateFailed": "Eșec la rotirea cheilor.",
     "security": "Securitate",
-    "exportKey": "Backup cheie de criptare",
-    "importKey": "Restaurează cheie de criptare",
-    "rotateKeys": "Rotire cheie de criptare",
-    "keyDisclaimer": "Cheia ta privată nu părăsește niciodată acest dispozitiv. Exportă o copie protejată prin parolă pentru a o restaura pe alt dispozitiv.",
+    "exportKey": "Copiați de rezervă cheia de criptare",
+    "importKey": "Restaurați cheia de criptare",
+    "rotateKeys": "Rotiți cheia de criptare",
+    "keyDisclaimer": "Cheia dvs. privată nu părăsește niciodată acest dispozitiv. Exportați o copie protejată cu parolă pentru a o restaura pe un alt dispozitiv.",
     "sectionProfile": "Profil",
     "phoneNumber": "Număr de telefon",
     "appearance": "Aspect",
     "soundSettings": "Sunete",
     "disappearing": "Mesaje care dispar",
-    "backupSync": "Backup cheie de criptare",
+    "backupSync": "Backup și sincronizare",
     "ai": "AI",
     "accessibility": "Accesibilitate",
     "privacy": "Confidențialitate",
     "devices": "Dispozitive conectate",
-    "themeFreeNotice": "Ești pe planul Gratuit — folosește opțiunile rapide Soare/Lună de mai jos. Upgrade pentru mai multe teme.",
-    "sunTheme": "Folosește tema Zori",
-    "moonTheme": "Folosește tema Lună (Miezul nopții)",
+    "themeFreeNotice": "Sunteți în versiunea gratuită — utilizați opțiunile rapide Soare/Lună de mai jos. Treceți la versiunea superioară pentru a debloca mai multe teme.",
+    "sunTheme": "Utilizați tema Zori",
+    "moonTheme": "Utilizați tema Lună (Miezul nopții)",
     "sun": "Soare",
     "moon": "Lună",
-    "backupTitle": "Backup-uri criptate & sincronizare dispozitive",
-    "openBackupTools": "Deschide instrumente backup",
-    "backupDesc": "Fă backup la cheia de criptare pentru a-ți restaura mesajele în siguranță pe alt dispozitiv.",
-    "privacyBlurEnabled": "Blurare mesaje implicit",
-    "privacyBlurOnUnfocus": "Blurare când aplicația nu este în prim-plan",
+    "backupTitle": "Copii de rezervă criptate și sincronizare dispozitive",
+    "openBackupTools": "Deschideți Instrumentele de backup",
+    "backupDesc": "Faceți o copie de rezervă a cheii de criptare pentru a vă restaura în siguranță mesajele pe un alt dispozitiv.",
+    "privacyBlurEnabled": "Estompează mesajele în mod implicit",
+    "privacyBlurOnUnfocus": "Estompează când aplicația nu este activă",
     "planSection": "Planul meu",
     "planLoading": "Se încarcă planul tău…",
-    "planLoadFailed": "Încărcarea planului a eșuat.",
-    "currentPlan": "Plan curent",
-    "planRenewsOn": "Se reînnoiește la",
-    "freePlanCopy": "Ești pe planul gratuit. Upgrade pentru a debloca mai multe funcții precum backup-uri, numere suplimentare și opțiuni avansate de confidențialitate.",
+    "planLoadFailed": "Nu s-a putut încărca planul tău.",
+    "currentPlan": "Planul actual",
+    "planRenewsOn": "Se reînnoiește pe",
+    "freePlanCopy": "Utilizați planul gratuit. Faceți upgrade pentru a debloca mai multe funcții, cum ar fi copiile de rezervă, numerele suplimentare și opțiunile avansate de confidențialitate.",
     "upgradePlanCta": "Upgrade plan",
-    "changePlanCta": "Schimbă planul",
-    "manageBilling": "Gestionare facturare",
-    "portalOpenFailed": "Nu s-a putut deschide portalul de facturare. Te rugăm să încerci din nou.",
-    "holdToReveal": "Ține apăsat pentru a revela",
-    "notifyOnCopy": "Notifică-mă dacă mesajul meu este copiat",
-    "loadFailed": "Încărcarea profilului a eșuat",
+    "changePlanCta": "Schimbați planul",
+    "manageBilling": "Gestionați facturarea",
+    "portalOpenFailed": "Nu s-a putut deschide portalul de facturare. Vă rugăm să încercați din nou.",
+    "holdToReveal": "Țineți apăsat pentru a afișa",
+    "notifyOnCopy": "Notificați-mă dacă mesajul meu este copiat",
+    "loadFailed": "Nu s-a putut încărca profilul",
     "followed": "Urmărit",
-    "followFailed": "Urmărirea a eșuat",
-    "unfollowed": "Nu mai urmărești",
-    "unfollowFailed": "Anularea urmăririi a eșuat",
+    "followFailed": "Nu s-a putut urmări",
+    "unfollowed": "Nu mai este urmărit",
+    "unfollowFailed": "Nu s-a putut renunța la urmărire",
     "follow": "Urmărește",
     "unfollow": "Nu mai urmări",
-    "followHint": "Poveștile lor vor apărea în feed-ul Urmăritori dacă postează cu publicul Urmăritori (sau Public).",
-    "userNotFound": "Utilizatorul nu a fost găsit",
+    "followHint": "Povestirile lor vor apărea în fluxul tău de urmărire dacă postează cu publicul Urmăritori (sau Public).",
+    "userNotFound": "Utilizator neidentificat",
     "followsYou": "Te urmărește",
-    "sectionCrashedTitle": "Secțiunea nu a putut fi încărcată",
-    "sectionCrashedBody": "Ceva a mers greșit în această secțiune.",
-    "forwarding": "Redirecționare apeluri & mesaje text",
-    "callTextForwardingSection": "Redirecționare apeluri & mesaje text",
-    "callTextForwardingTitle": "Redirecționare apeluri și/sau mesaje text",
-    "callTextForwardingDescription": "Redirecționează apelurile și mesajele primite către telefonul sau email-ul tău verificat. Apelurile/mesajele trimise pot afișa numărul tău Chatforia.",
-    "enableTextForwarding": "Activează redirecționarea mesajelor text",
-    "forwardTextsToPhone": "Redirecționează mesajele text către telefon",
-    "forwardTextsToEmail": "Redirecționează mesajele text către email",
-    "destinationPhone": "Destinație telefon (E.164)",
-    "destinationEmail": "Destinație email",
-    "enableCallForwarding": "Activează redirecționarea apelurilor",
+    "sectionCrashedTitle": "Secțiunea nu s-a încărcat",
+    "sectionCrashedBody": "A apărut o eroare în această secțiune.",
+    "forwarding": "Redirecționare apeluri și mesaje",
+    "callTextForwardingSection": "Redirecționare apeluri și mesaje",
+    "callTextForwardingTitle": "Redirecționare apeluri și/sau mesaje",
+    "callTextForwardingDescription": "Redirecționează apelurile și mesajele primite către telefonul sau adresa de e-mail verificate. pot afișa numărul dvs. Chatforia.",
+    "enableTextForwarding": "Activați redirecționarea mesajelor text",
+    "forwardTextsToPhone": "Redirecționați mesajele text către telefon",
+    "forwardTextsToEmail": "Redirecționați mesajele text către e-mail",
+    "destinationPhone": "Telefon de destinație (E.164)",
+    "destinationEmail": "E-mail de destinație",
+    "enableCallForwarding": "Activați redirecționarea apelurilor",
     "destinationPhoneForCalls": "Destinație (E.164) pentru apeluri",
-    "aliasBridging": "Redirecționare apeluri (alias bridging)",
-    "quietHoursOptional": "Ore liniștite (opțional)",
-    "startHour": "Oră început (0–23)",
-    "endHour": "Oră sfârșit (0–23)",
-    "reset": "Resetează",
-    "saveBtn": "Salvează",
-    "saveProfile": "Salvează profil",
-    "saveForwarding": "Salvează redirecționarea",
-    "forwardSaved": "Setările de redirecționare au fost salvate",
-    "forwardSaveFailed": "Salvarea setărilor a eșuat",
-    "errE164": "Introdu un număr de telefon E.164 valid (ex., +15551234567).",
-    "errEmail": "Introdu un email valid.",
-    "errSmsDest": "Alege cel puțin o destinație (telefon sau email).",
-    "errQuietHours": "Orele liniștite trebuie să fie între 0 și 23.",
+    "aliasBridging": "Redirecționare apeluri (punte de alias)",
+    "quietHoursOptional": "Ore de liniște (opțional)",
+    "startHour": "Ora de începere (0–23)",
+    "endHour": "Ora de încheiere (0–23)",
+    "reset": "Resetare",
+    "saveBtn": "Salvare",
+    "saveProfile": "Salvare profil",
+    "saveForwarding": "Salvare redirecționare",
+    "forwardSaved": "Setări de redirecționare salvate",
+    "forwardSaveFailed": "Eroare la salvarea setărilor",
+    "errE164": "Introduceți un număr de telefon E.164 valid (de ex., +15551234567).",
+    "errEmail": "Introduceți o adresă de e-mail validă.",
+    "errSmsDest": "Alegeți cel puțin o destinație (telefon sau e-mail).",
+    "errQuietHours": "Orele de liniște trebuie să fie între 0 și 23.",
     "randomChat": "Chat aleatoriu",
-    "ageBand": "Intervalul tău de vârstă",
-    "ageBandPlaceholder": "Selectează intervalul de vârstă",
+    "ageBand": "Intervalul dvs. de vârstă",
+    "ageBandPlaceholder": "Selectați intervalul dvs. de vârstă",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Stocăm doar un interval de vârstă (nu data exactă de naștere). Acest lucru este folosit pentru a menține potrivirile rezonabile în Chatul aleatoriu.",
-    "wantsAgeFilter": "Folosește potrivire bazată pe vârstă în Chatul aleatoriu",
-    "wantsAgeFilterDesc": "Când este activat, încercăm să te potrivim cu persoane din intervale de vârstă compatibile.",
-    "partnerAgeBands": "Cu cine poți fi potrivit?",
-    "partnerAgeBandsDesc": "Adolescenții sunt potriviți doar cu alți adolescenți. Adulții nu pot fi potriviți cu adolescenți.",
-    "teenMatchingNote": "Pentru siguranță, conturile din intervalul 13–17 ani pot fi potrivite doar cu alte conturi 13–17 în Chatul aleatoriu.",
-    "foriaRemember": "Lasă Ria să țină minte lucrurile pe care i le spui",
-    "foriaRememberDesc": "Când este activat, Foria poate folosi conversațiile tale anterioare din Chatul aleatoriu (doar cu tine) pentru a menține conversația fluentă. Poți dezactiva oricând.",
+    "ageBandHint": "Stocăm doar o categorie de vârstă (nu data exactă a nașterii). Aceasta este utilizată pentru a menține potrivirile din Chat aleatoriu rezonabile.",
+    "wantsAgeFilter": "Utilizează potrivirea bazată pe vârstă în Chat aleatoriu",
+    "wantsAgeFilterDesc": "Când această opțiune este activată, încercăm să te împerechem cu persoane din intervalele de vârstă compatibile.",
+    "partnerAgeBands": "Cu cine poți fi împerecheat?",
+    "partnerAgeBandsDesc": "Adolescenții sunt întotdeauna împerecheați doar cu alți adolescenți. Adulții nu pot fi împerecheați cu adolescenți.",
+    "teenMatchingNote": "Din motive de siguranță, conturile cu vârste cuprinse între 13 și 17 ani pot fi potrivite doar cu alte conturi de 13–17 ani în Chat aleatoriu.",
+    "foriaRemember": "Lasă-l pe Ria să-și amintească lucrurile pe care i le spui",
+    "foriaRememberDesc": "Când această opțiune este activată, Foria poate folosi conversațiile tale anterioare din Chat aleatoriu (doar cu tine) pentru a menține fluxul conversației. Poți dezactiva această opțiune oricând.",
     "voicemailSection": "Mesagerie vocală",
     "voicemailEnabled": "Activează mesageria vocală",
-    "voicemailAutoDeleteDays": "Auto-ștergere mesagerii vocale după (zile)",
-    "voicemailAutoDeletePlaceholder": "Lasă gol pentru a păstra pe termen nelimitat",
-    "voicemailForwardEmail": "Redirecționează mesageria vocală către email",
-    "voicemailForwardEmailPlaceholder": "Email pentru notificări de mesagerie vocală",
-    "voicemailGreetingText": "Mesaj text de întâmpinare alternativ",
-    "voicemailGreetingTextDesc": "Folosit când salutul audio nu este disponibil.",
-    "voicemailGreetingUpload": "Încarcă salut mesagerie vocală",
-    "voicemailPreviewGreeting": "Previzualizează salutul",
-    "voicemailGreetingUploaded": "Salutul de mesagerie vocală a fost încărcat cu succes",
-    "voicemailGreetingUploadError": "Încărcarea salutului de mesagerie vocală a eșuat",
-    "voicemailNote": "Mesageriile vocale de la numerele tale Chatforia sunt stocate în inbox-ul de mesagerie vocală. Poți activa transcrierea și redirecționarea în planurile suportate.",
-    "portHint": "Vrei să păstrezi numărul actual? Îl poți porta în Chatforia Wireless.",
+    "voicemailAutoDeleteDays": "Șterge automat mesajele vocale după (zile)",
+    "voicemailAutoDeletePlaceholder": "Lasă necompletat pentru a le păstra pentru totdeauna",
+    "voicemailForwardEmail": "Redirecționează mesajele vocale către e-mail",
+    "voicemailForwardEmailPlaceholder": "E-mail către care să se trimită notificările prin e-mail",
+    "voicemailGreetingText": "Text de salut de rezervă",
+    "voicemailGreetingTextDesc": "Se utilizează atunci când mesajul de salut audio nu este disponibil.",
+    "voicemailGreetingUpload": "Încărcați mesajul de întâmpinare pentru mesageria vocală",
+    "voicemailPreviewGreeting": "Previzualizați mesajul de întâmpinare",
+    "voicemailGreetingUploaded": "Mesajul de întâmpinare pentru mesageria vocală a fost încărcat cu succes",
+    "voicemailGreetingUploadError": "Nu s-a putut încărca mesajul de întâmpinare pentru mesageria vocală",
+    "voicemailNote": "Mesajele vocale de la numerele dvs. Chatforia vor fi stocate în căsuța de mesaje a mesageriei vocale. Puteți activa transcrierea și redirecționarea în planurile compatibile.",
+    "portHint": "Doriți să vă păstrați numărul actual? Îl puteți porta în Chatforia Wireless.",
     "wireless": {
-      "manage": "Gestionare wireless"
+      "manage": "Gestionați serviciul wireless"
     },
     "esim": {
-      "title": "eSIM Chatforia",
-      "desc": "Obține date mobile pentru Chatforia când ești departe de Wi-Fi.",
-      "cta": "Obține eSIM / Arată QR"
-    }
+      "title": "Chatforia eSIM",
+      "desc": "Obțineți date mobile pentru Chatforia când nu aveți acces la Wi-Fi.",
+      "cta": "Obțineți eSIM / Afișați codul QR"
+    },
+    "encryptedBackupsTitle": "Copie de rezervă a cheii de criptare"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Apus de soare",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Sunete de notificare",
+    "resetToDefaults": "Resetare la setările implicite",
+    "freeNoticeStart": "Sunteți în modul gratuit — tonurile premium sunt afișate, dar blocate.",
+    "freeNoticeEnd": "pentru a debloca toate.",
+    "messageTone": "Ton mesaj",
+    "ringtone": "Ton de apel",
+    "preview": "Previzualizare",
+    "stop": "Oprire",
+    "volume": "Volum",
+    "messageToneFilesHint": "Pune fișierele în /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Pune fișierele în /public/sounds/Ringtones",
+    "premiumRequired": "Este necesar abonamentul Premium pentru acea selecție.",
+    "saved": "Setările de sunet au fost salvate.",
+    "saveFailed": "Nu s-au putut salva setările de sunet.",
+    "resetNotSaved": "Resetare la setările implicite (nu s-au salvat încă).",
+    "premiumTone": "Acesta este un ton Premium.",
+    "premiumRingtone": "Acesta este un ton de apel Premium.",
+    "customComingSoon": "Încărcarea sunetelor personalizate va fi disponibilă în curând.",
+    "freeNotice": "Sunteți în versiunea gratuită — tonurile premium sunt afișate, dar blocate. Faceți upgrade pentru a le debloca pe toate.",
+    "default": "Implicit",
+    "vibrate": "Vibrații",
+    "dreamer": "Visător",
+    "notify": "Notificare",
+    "pop": "Pop",
+    "pulsatingSound": "Sunet pulsatoriu",
+    "textMessage": "Mesaj text",
+    "xylophone": "Xilofon",
+    "classic": "Clasic",
+    "urgency": "Urgență",
+    "bells": "Clopote",
+    "chimes": "Clopote",
+    "digitalPhone": "Telefon digital",
+    "melodic": "Melodic",
+    "organNotes": "Note de orgă",
+    "realitate sonoră": "Realitate sonoră",
+    "stradă": "Stradă",
+    "câmp universal": "Câmp universal"
+  },
+  "setări AI": {
+    "titlu": "Setări AI",
+    "controlIntro": "Controlează traducerea, răspunsurile inteligente și răspunsurile automate ale ForiaBot.",
+    "translation": "Traducere",
+    "autoTranslateIncoming": "Traduce automat mesajele primite",
+    "showOriginalAlongside": "Afișează textul original alături de traducere",
+    "smartReplies": "Răspunsuri inteligente",
+    "enableSmartReplies": "Activează răspunsurile inteligente",
+    "smartRepliesHint": "Trimite ultimele câteva mesaje primite (curățate) către AI pentru a sugera răspunsuri rapide.",
+    "maskProfanity": "Mască limbajul obscen din sugestiile AI",
+    "maskProfanityHint": "Dacă este activată, cuvintele marcate din sugestiile returnate de AI vor fi mascate",
+    "foriaBot": "Răspuns automat ForiaBot",
+    "enableAutoReply": "Activează răspunsul automat când sunt ocupat",
+    "autoReplyMode": "Mod răspuns automat",
+    "cooldownSeconds": "Timp de așteptare (secunde)",
+    "signature": "Semnătură",
+    "autoReply": "🤖 Răspuns automat",
+    "activeUntilOptional": "Activ până la (opțional)",
+    "save": "Salvează setările AI",
+    "saved": "Preferințele AI salvate",
+    "saveFailed": "Eșec la salvarea setărilor AI",
+    "translateOff": "Dezactivat",
+    "translateTagged": "Doar când sunt @menționat sau etichetat",
+    "translateAll": "Traduce toate mesajele primite",
+    "modeDm": "Doar conversații 1:1",
+    "modeMention": "Doar când sunt @menționat",
+    "modeAll": "Toate mesajele primite",
+    "off": "Dezactivat",
+    "on": "Activat"
+  },
+  "accessibilitySettings": {
+    "title": "Accesibilitate și alerte",
+    "loadFailed": "Eșec la încărcarea setărilor",
+    "accessibilityDesc": "Opțiuni pentru a face Chatforia mai ușor de utilizat fără a depinde de sunet.",
+    "interfaceFontSize": "Dimensiunea fontului interfeței",
+    "interfaceFontSizeHelp": "Pornește de la dimensiunea normală. Măriți-o dacă preferați textul mai mare.",
+    "notifications": "Notificări",
+    "visualAlerts": "Alerte vizuale pentru mesaje și apeluri",
+    "visualAlertsDesc": "Afișează bannere și titluri intermitente pentru a nu rata nicio activitate.",
+    "vibrateOnNewShort": "Vibrație la mesaje noi (dacă este acceptat)",
+    "vibrateOnNewDesc": "Activează vibrația dispozitivului la notificări.",
+    "flashOnCallShort": "Ecran intermitent la apeluri primite",
+    "flashOnCallDesc": "Un scurt flash luminos când sună un apel.",
+    "liveCaptionsTitle": "Subtitrări live (apeluri)",
+    "enableLiveCaptions": "Activează subtitrările live în timpul apelurilor (Premium)",
+    "liveCaptionsDesc": "Afișează subtitrări în timp real din sunetul celuilalt participant.",
+    "captionFontSize": "Dimensiunea fontului subtitrărilor",
+    "captionBackground": "Fundalul subtitrărilor",
+    "voiceNotes": "Note vocale",
+    "autoTranscribeVoiceNotes": "Transcriere automată a notelor vocale",
+    "autoTranscribeVoiceNotesDesc": "Atașează o transcriere la mesajele audio pe care le primești.",
+    "changesSavedInstantly": "Modificările sunt salvate instantaneu.",
+    "sm": "Mic",
+    "md": "Mediu",
+    "lg": "Mare",
+    "xl": "Extra mare",
+    "light": "Luminos",
+    "dark": "Întunecat",
+    "transparent": "Transparent",
+    "accessibility": "Accesibilitate",
+    "notificationsDesc": "Alertele vizuale pentru mesaje și apeluri\nAfișează bannere și titluri intermitente pentru a nu rata nicio activitate.",
+    "vibrateOnNew": "Vibrație la mesaje noi (când este acceptat)\nDeclanșează vibrația dispozitivului cu notificări.",
+    "flashOnCall": "Blicare ecran la apeluri primite\nBlicare scurtă și puternică când sună un apel.",
+    "liveCaptions": "Subtitrări live (apeluri)"
+  },
+  "privacySection": {
+    "strictE2EE": "Criptare strictă end-to-end",
+    "ciphertextOnlyNote": "Stochează doar textul criptat pe server. Dezactivează previzualizările AI/\n\nPrevizualizările AI/Translate și moderare.",
+    "strictE2EEEnabled": "E2EE strict activat. AI/Translate va fi dezactivat.",
+    "strictE2EEDisabled": "E2EE strict dezactivat. AI/Translate reactivat."
+  },
+  "linkedDevicesPanel": {
+    "title": "Dispozitive conectate",
+    "noneFound": "Nu s-au găsit dispozitive conectate.",
+    "refresh": "Reîmprospătează",
+    "unknown": "Necunoscut",
+    "loadFailed": "Eroare la încărcarea dispozitivelor conectate",
+    "loadFailedLog": "Eroare la încărcarea dispozitivelor conectate",
+    "renamePrompt": "Introdu un nume nou pentru acest dispozitiv",
+    "renamed": "Dispozitiv redenumit",
+    "renameFailed": "Nu s-a putut redenumi dispozitivul",
+    "revoked": "Dispozitiv revocat",
+    "revokeFailed": "Nu s-a putut revoca dispozitivul",
+    "unnamedDevice": "Dispozitiv fără nume",
+    "primary": "Primar",
+    "revokedStatus": "Revocat",
+    "addedLastSeen": "Adăugat {{created}} • Văzut ultima dată {{lastSeen}}",
+    "renameDevice": "Redenumire dispozitiv",
+    "revokeDevice": "Revocare dispozitiv"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Gestionați planul mobil Chatforia, numerele, redirecționarea și portarea numerelor.",
+    "description": "Gestionați planul mobil Chatforia, numerele, redirecționarea și portarea numărului.",
     "options": {
-      "heading": "Alege cum vrei să folosești Chatforia",
-      "subheading": "Poți obține un număr nou Chatforia sau aduce numărul existent de la alt operator.",
-      "newNumber": "Obține un număr nou Chatforia",
-      "portNumber": "Portă numărul actual în Chatforia Wireless"
+      "heading": "Alegeți cum doriți să utilizați Chatforia",
+      "subheading": "Puteți obține un număr Chatforia nou sau puteți transfera numărul existent de la un alt operator.",
+      "newNumber": "Obțineți un număr Chatforia nou",
+      "portNumber": "Portați numărul dvs. actual în Chatforia Wireless"
     },
     "port": {
-      "heading": "Portă numărul existent",
-      "subheading": "Mută numărul de telefon actual de la operatorul existent în Chatforia. Asigură-te că detaliile se potrivesc exact cu contul tău de la operator pentru a evita întârzierile.",
-      "phoneNumberLabel": "Numărul de telefon de portat",
+      "heading": "Portați numărul dvs. existent",
+      "subheading": "Mutați numărul dvs. de telefon actual de la operatorul dvs. existent în Chatforia. Asigurați-vă că detaliile corespund exact cu contul dvs. de la operator pentru a evita întârzierile.",
+      "phoneNumberLabel": "Număr de telefon de portat",
       "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "Operator actual",
+      "carrierLabel": "Operatorul actual",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile etc.",
       "accountNumberLabel": "Număr de cont",
-      "pinLabel": "PIN / parolă port-out",
-      "fullNameLabel": "Nume complet pe cont",
+      "pinLabel": "PIN / parolă de transfer",
+      "fullNameLabel": "Numele complet din cont",
       "address1Label": "Adresă linia 1",
       "address2Label": "Adresă linia 2 (opțional)",
       "cityLabel": "Oraș",
@@ -648,18 +846,18 @@
       "postalCodeLabel": "Cod poștal",
       "countryLabel": "Țară",
       "submitButton": "Trimite cererea de portare",
-      "success": "Cererea de portare a fost trimisă! Te vom ține la curent.",
-      "genericError": "Ceva a mers greșit."
+      "success": "Cererea de portare a fost trimisă! Vă vom ține la curent.",
+      "genericError": "A apărut o eroare."
     },
     "status": {
-      "heading": "Stare portare",
-      "subheading": "Urmărește starea cererilor tale de portare de număr.",
+      "heading": "Starea portării",
+      "subheading": "Urmăriți starea cererilor dvs. de portare a numărului.",
       "loading": "Se încarcă…",
-      "loadError": "Încărcarea cererilor de portare a eșuat.",
-      "none": "Încă nu există activitate de portare.",
-      "pending": "În revizuire",
-      "submitted": "Trimis operatorului",
-      "inProgress": "În desfășurare",
+      "loadError": "Nu s-au putut încărca cererile de portare.",
+      "none": "Nicio activitate de portare încă.",
+      "pending": "În așteptare de verificare",
+      "submitted": "Trimis către operator",
+      "inProgress": "În curs",
       "completed": "Finalizat",
       "failed": "Eșuat",
       "canceled": "Anulat",
@@ -667,329 +865,421 @@
       "scheduled": "Programat:",
       "completedAt": "Finalizat:"
     },
-    "dataLow": "Datele tale sunt pe terminate.",
-    "topUp": "Reîncarcă acum",
+    "dataLow": "Datele dvs. sunt pe terminate.",
+    "topUp": "Reîncărcați acum",
     "expiresIn": "Expiră în {{days}} zile",
-    "exhausted": "Datele tale s-au terminat. Cumpără un pachet nou pentru a continua să folosești date mobile.",
-    "buyPack": "Cumpără pachet de date",
+    "exhausted": "Datele dvs. s-au epuizat. Cumpărați un pachet nou pentru a continua să utilizați datele mobile.",
+    "buyPack": "Cumpărați pachet de date",
     "esimPackLabel": "Pachet eSIM"
   },
-  "family": {
-    "title": "Familie",
-    "loading": "Se încarcă detaliile familiei tale…",
-    "error": {
-      "load": "Încărcarea detaliilor familiei a eșuat.",
-      "invite": "Nu s-a putut crea invitația. Asigură-te că ești proprietarul familiei și încearcă din nou.",
-      "checkout": "Nu am putut începe checkout-ul pentru un plan Familie. Te rugăm să încerci din nou."
+  "phoneNumberManager": {
+    "pickNumber": "Alege un număr",
+    "phoneNumber": "Număr de telefon",
+    "availableNumber": "Număr disponibil",
+    "premiumNumber": "Număr premium 🔒",
+    "freeNumberHint": "Număr gratuit care poate fi reciclat după o perioadă de inactivitate.",
+    "premiumNumberHint": "Păstrează-ți numărul cât timp abonamentul Premium este activ.",
+    "country": "Țară",
+    "areaCode": "Prefix",
+    "areaCodePlaceholder": "de ex., 415",
+    "capability": "Capacitate",
+    "search": "Căutare",
+    "lockThisNumber": "Blochează acest număr (supliment săptămânal, disponibil în curând)",
+    "premiumProtectedHint": "Numerele Premium sunt protejate împotriva reciclării cât timp abonamentul dvs. Premium este activ.",
+    "availableNumbers": "Numere disponibile",
+    "searchHint": "Introduceți un cod de zonă din 3 cifre (numai SUA/CA) sau lăsați câmpul necompletat, apoi căutați.",
+    "keep": "Păstrați",
+    "select": "Selectați",
+    "assignNumberFirst": "Atribuiți mai întâi un număr.",
+    "premiumKeepFeature": "Păstrarea numărului dvs. este o funcție Premium.",
+    "lockingPremiumFeature": "Blocarea numerelor este o funcție Premium.",
+    "numberAssigned": "Număr atribuit.",
+    "numberProtectedNow": "Numărul dvs. este acum protejat.",
+    "numberProtected": "Număr protejat.",
+    "numberUnprotected": "Număr neprotejat.",
+    "numberReleased": "Număr eliberat.",
+    "couldNotLoadNumbers": "Nu s-au putut încărca numerele.",
+    "couldNotAssign": "Nu s-a putut aloca acel număr. Este posibil să fi fost deja luat — încercați altul.",
+    "couldNotLease": "Nu s-a putut închiria acel număr. Este posibil să fi fost deja luat — încercați altul.",
+    "couldNotProtectNow": "Nu s-a putut proteja numărul dvs. în acest moment.",
+    "couldNotProtect": "Nu s-a putut proteja numărul.",
+    "couldNotUnprotect": "Nu s-a putut dezactiva protecția numărului.",
+    "couldNotRelease": "Nu s-a putut elibera numărul.",
+    "invalidAreaCode": "Vă rugăm să introduceți un cod de zonă din 3 cifre (de ex., 415) sau lăsați câmpul necompletat.",
+    "noInventory": "Nu există stoc disponibil în acest moment.",
+    "noFreeNumbers": "Nu sunt disponibile numere libere în acest moment.",
+    "noInventoryAreaCode": "Nu există stoc disponibil pentru acel cod de zonă în acest moment.",
+    "noFreeNumbersAreaCode": "Nu există numere libere în baza noastră de date pentru acel prefix.",
+    "releaseConfirm": "Doriți să eliberați numărul actual? Acesta poate fi atribuit altcuiva.",
+    "unprotect": "Dezactivare protecție",
+    "keepThisNumber": "Păstrați acest număr",
+    "replace": "Înlocuiți",
+    "release": "Eliberați",
+    "active": "Activ",
+    "noNumber": "Fără număr",
+    "premiumFeature": "Funcție premium",
+    "protectYourNumber": "Protejați-vă numărul",
+    "protected": "Protejat",
+    "notProtected": "Neprotejat",
+    "expiresInShort": "Expiră în {{count}} zile",
+    "expiresInDaysFull": "Expiră în {{count}} zile",
+    "expiringShort": "Expiră în {{suffix}}",
+    "renewsOn": "Se reînnoiește la {{date}}",
+    "releaseWarning": "Numărul tău ar putea fi eliberat în {{count}} zile. Trece la Premium pentru a-l păstra protejat.",
+    "pickNumberHint": "Alege un număr Chatforia pe care să-l folosești pentru mesagerie și comunicare în cadrul aplicației.",
+    "unableToLoadStatus": "Nu se poate încărca starea numărului de telefon.",
+    "lock": "Blocare",
+    "noNumberAssigned": "Nu este alocat niciun număr. Alege unul după prefix pentru a începe să trimiți mesaje."
+  },
+  "dialer": {
+    "title": "Apeluri",
+    "subtitle": "Tastatură și apeluri recente. (Dacă nu utilizați PSTN, inițiați apelurile din antetul unei conversații.)",
+    "enterNumber": "Introduceți numărul",
+    "enterNumberAria": "Introduceți numărul",
+    "resolving": "Se rezolvă destinația apelului…",
+    "call": "Apel",
+    "callBrowser": "Apel prin browser",
+    "backspace": "Backspace",
+    "recents": "Apeluri recente",
+    "noRecents": "Nu există încă apeluri recente.",
+    "resolveFailed": "Nu s-a putut rezolva destinația apelului.",
+    "callRequiredNumber": "Aveți nevoie de un număr Chatforia înainte de a efectua apeluri telefonice.",
+    "callFailed": "Nu s-a putut efectua apelul.",
+    "deleteConfirm": "Ștergeți acest apel din apelurile recente?",
+    "deleteFailed": "Nu s-a putut șterge apelul.",
+    "deleteFailedLog": "Eșec la ștergerea apelului",
+    "outgoing": "Ieșire",
+    "incoming": "Intrare",
+    "missed": "Pierdut",
+    "declined": "Respins",
+    "failed": "Eșuat",
+    "completed": "Finalizat",
+    "outgoingCall": "Apel efectuat",
+    "incomingCall": "Apel primit",
+    "voicemail": "Mesagerie vocală",
+    "callAria": "Apelează {{name}}",
+    "deleteAria": "Șterge apelul cu {{name}}",
+    "enterNumberPh": "Introduceți numărul",
+    "recentsEmpty": "Nu există încă apeluri recente.",
+    "key": "Tasta {{d}}"
+  },
+  "callHistory": {
+    "title": "Apeluri",
+    "subtitle": "Apelurile recente primite și efectuate.",
+    "loadFailed": "Nu s-a putut încărca istoricul apelurilor.",
+    "loadFailedTitle": "Nu s-a putut încărca istoricul apelurilor",
+    "emptyTitle": "Nu există încă apeluri",
+    "emptySubtitle": "Apelurile tale recente vor apărea aici.",
+    "outgoing": "Efectuate",
+    "incoming": "Primite",
+    "missed": "Pierdute",
+    "declined": "Respinse",
+    "failed": "Eșuate",
+    "completed": "Finalizate",
+    "outgoingCall": "Apel efectuat",
+    "incomingCall": "Apel primit",
+    "voicemail": "Mesagerie vocală"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Alegeți un tip de video."
     },
-    "billing": {
-      "myPlanTitle": "Planul meu",
-      "myPlanError": "Nu s-a putut încărca planul tău.",
-      "myPlanLoading": "Se încarcă planul tău…",
-      "currentPlan": "Plan curent",
-      "renewsAt": "Se reînnoiește la",
-      "freePlanCopy": "Ești pe planul gratuit. Upgrade pentru a debloca mai multe funcții.",
-      "upgradeCta": "Upgrade plan",
-      "changePlanCta": "Schimbă planul",
-      "manageBilling": "Gestionare facturare",
-      "portalError": "Nu s-a putut deschide portalul de facturare acum.",
-      "cancelNow": "Anulează acum",
-      "cancelNowHelp": "Poți gestiona sau anula abonamentul în portalul de facturare sau anula imediat mai jos.",
-      "cancelNowConfirm": "Ești sigur că vrei să anulezi planul imediat? Aceasta nu poate fi anulată.",
-      "cancelNowError": "Nu s-a putut anula planul acum. Te rugăm să încerci din nou sau să folosești Gestionare facturare."
+    "direct": {
+      "title": "Video direct",
+      "subtitle": "Inițiază un apel video 1:1 cu un alt utilizator.",
+      "desc": "Apel video 1:1 cu un alt utilizator.",
+      "start": "Start",
+      "callBtn": "Apel",
+      "callByPhone": {
+        "title": "Apel prin telefon"
+      },
+      "phone": {
+        "placeholder": "Introdu numărul de telefon (de ex., +1-555-123-4567)",
+        "aria": "Număr de telefon de apelat"
+      },
+      "tipInvite": "Sfat: Lipiți un număr și apelați fără a salva un contact. Vom invita utilizatorii care nu sunt înregistrați prin link.",
+      "findUser": {
+        "title": "Găsiți un utilizator"
+      },
+      "search": {
+        "placeholder": "Căutați după nume sau nume de utilizator",
+        "aria": "Căutați după nume sau nume de utilizator",
+        "btn": "Căutare"
+      }
     },
-    "none": {
-      "title": "Încă nu există familie configurată",
-      "body": "Pentru a crea o Familie Chatforia și un pool de date partajat, începe un plan Familie.",
-      "goUpgrade": "Începe un plan Familie",
-      "viewPlans": "Vezi toate planurile"
+    "rooms": {
+      "title": "Camere",
+      "subtitle": "Creați o cameră sau alăturați-vă uneia existente introducând același nume.",
+      "desc": "Videoconferință cu mai mulți participanți folosind un nume de cameră comun.",
+      "roomLabel": "Numele camerei",
+      "roomPlaceholder": "de ex. team-standup",
+      "roomAria": "Numele camerei",
+      "joinCreate": "Alăturare / Creare",
+      "tip": "Sfat: partajează acest nume cu alții sau folosește un link direct către"
     },
-    "group": {
-      "defaultName": "Familia mea Chatforia",
-      "role": "Rolul tău: {{role}}"
-    },
-    "role": {
-      "owner": "Proprietar",
-      "member": "Membru"
-    },
-    "data": {
-      "heading": "Pool de date partajat",
-      "caption": "Toți membrii împart acest pool. Te vom avertiza pe măsură ce te apropii de limită."
-    },
-    "members": {
-      "title": "Membrii familiei",
-      "name": "Nume",
-      "role": "Rol",
-      "usage": "Utilizare",
-      "limit": "Limită",
-      "unlimited": "Fără limită specifică",
-      "inviteCta": "Invită membru"
-    },
-    "invite": {
-      "title": "Invită un membru nou",
-      "body": "Trimite un email sau un link pentru a invita pe cineva în pool-ul de date partajat al familiei tale.",
-      "emailLabel": "Email (opțional)",
-      "emailPlaceholder": "prieten@example.com",
-      "create": "Creează invitație",
-      "linkLabel": "Link invitație",
-      "copyAria": "Copiază link-ul de invitație",
-      "expiryHint": "Acest link expiră după câteva zile. Poți crea oricând unul nou."
-    },
-    "join": {
-      "title": "Alătură-te unei familii",
-      "body": "Ai fost invitat să te alături unei Familii Chatforia și să împărți pool-ul lor de date.",
-      "cta": "Acceptă și alătură-te familiei",
-      "ctaLogin": "Conectează-te și alătură-te familiei",
-      "success": "Te-ai alăturat acestei familii. Acum împărți pool-ul lor de date.",
-      "goFamily": "Mergi la dashboard-ul familiei",
-      "error": "Nu te-am putut adăuga la această familie. Invitația poate fi invalidă sau expirată."
-    }
+    "title": "Video",
+    "chooseType": "Alege un tip de video.",
+    "directTitle": "Video direct",
+    "directDesc": "Apel video 1:1 cu un alt utilizator.",
+    "directStart": "Start",
+    "roomsTitle": "Camere",
+    "roomsDesc": "Videoconferință cu mai mulți participanți folosind un nume de cameră partajat.",
+    "roomsIntro": "Alătură-te sau creează o cameră cu mai mulți participanți.",
+    "roomNameLabel": "Numele camerei",
+    "roomNamePh": "de ex. team-standup",
+    "join": "Alătură-te",
+    "deeplinkTip": "Sfat: puteți crea un link direct către <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Porniți un apel video direct 1:1.",
+    "findUserLabel": "Găsește un utilizator",
+    "findUserPh": "Caută după nume sau nume de utilizator",
+    "search": "Caută",
+    "call": "Apelează"
+  },
+  "phoneWarning": {
+    "title": "Numărul tău expiră în curând",
+    "body": "Numărul tău {{number} } va fi eliberat la data de {{date}} dacă nu este reactivat.",
+    "button": "Păstrează-mi numărul"
   },
   "premium": {
-    "heading": "Trece la Premium",
-    "description": "Deblochează funcții puternice și elimină reclamele.",
+    "heading": "Treci la Premium",
+    "description": "Deblochează funcții avansate și elimină reclamele.",
     "cta": "Upgrade",
     "upgrade": "Upgrade",
-    "upgradeAria": "Upgrade la Chatforia Premium"
+    "upgradeAria": "Treci la Chatforia Premium"
   },
   "upgrade": {
     "title": "Upgrade",
     "titleLoggedIn": "Upgrade",
     "titlePublic": "Prețuri",
-    "h1": "Prețuri & Planuri Chatforia",
-    "h1Subtitle": "Începe cu planul nostru gratuit, susținut de reclame. Trece la Plus fără reclame sau deblochează toate funcțiile puternice cu Premium.",
-    "subtitle": "Alege un plan pentru aplicație, adaugă pachete de date pentru tine sau partajează date cu familia — totul dintr-un singur loc.",
-    "subtitle.app": "Începe cu planul nostru gratuit, susținut de reclame. Trece la Plus fără reclame sau deblochează toate funcțiile puternice cu Premium.",
-    "subtitle.mobile": "Adaugă date eSIM globale astfel încât Chatforia să funcționeze chiar și când ești departe de Wi-Fi.",
-    "subtitle.family": "Creează un pool de date partajat pentru familia ta și gestionează utilizarea tuturor dintr-un singur loc.",
+    "h1": "Prețuri și planuri Chatforia",
+    "h1Subtitle": "Începe cu planul nostru gratuit, susținut de reclame. Renunță la reclame cu Plus sau deblochează funcțiile avansate cu Premium.",
+    "subtitle": "Alege un plan de aplicație, adaugă pachete de date pentru tine sau partajează date cu familia ta — totul dintr-un singur loc.",
+    "subtitle.app": "Începeți cu planul nostru gratuit, susținut de reclame. Renunțați la reclame cu Plus sau deblocați funcțiile complete cu Premium.",
+    "subtitle.mobile": "Adăugați date eSIM globale, astfel încât Chatforia să funcționeze chiar și când nu aveți Wi-Fi.",
+    "subtitle.family": "Creați un fond comun de date pentru familia dvs. și gestionați consumul tuturor dintr-un singur loc.",
     "perMonth": "lună",
     "perYear": "an",
-    "goPremium": "Trece la Premium",
-    "benefitsLine": "Deblochează funcții puternice & elimină reclamele.",
+    "goPremium": "Treci la Premium",
+    "benefitsLine": "Deblochează funcții avansate și elimină reclamele.",
     "ctaText": "Upgrade",
     "aria": "Upgrade la Chatforia Premium",
     "toggle": {
       "monthly": "Lunar",
-      "annual": "Anual (Economisești 30%)"
+      "annual": "Anual (Economisiți 30%)"
     },
     "scheduleBanner": {
-      "title": "Abonamentul se va încheia",
-      "body": "Vei reveni la Gratuit pe",
-      "keepPlanCta": "Păstrează {{plan}}",
-      "manageBillingCta": "Gestionare facturare"
+      "title": "Abonamentul va expira",
+      "body": "Veți reveni la versiunea gratuită pe",
+      "keepPlanCta": "Păstrați {{plan}}",
+      "manageBillingCta": "Gestionați facturarea"
     },
     "billing": {
       "opening": "Se deschide…",
-      "manage": "Gestionare facturare"
+      "manage": "Gestionați facturarea"
     },
     "checkout": {
-      "redirecting": "Se redirecționează…"
+      "redirecting": "Redirecționare…"
     },
     "auth": {
-      "continue": "Continuă la conectare",
-      "createAccount": "Creează cont",
-      "signIn": "Conectează-te"
+      "continue": "Continuați cu autentificarea",
+      "createAccount": "Creați un cont",
+      "signIn": "Autentificare"
     },
     "cta": {
       "aria": "Selectează planul",
-      "getPlus": "Upgrade la Plus",
-      "upgradeMonthly": "Upgrade lunar",
-      "upgradeAnnual": "Upgrade anual"
+      "getPlus": "Treci la Plus",
+      "upgradeMonthly": "Treci la abonament lunar",
+      "upgradeAnnual": "Treci la abonament anual"
     },
     "section": {
-      "app": "Planuri aplicație",
+      "app": "Planuri pentru aplicații",
       "mobile": "Mobil (eSIM)",
-      "family": "Planuri Familie"
+      "family": "Planuri de familie"
     },
     "plans": {
       "free": {
         "title": "Gratuit",
         "price": "$0",
-        "desc": "Începe mesageria gratuit. Ideal dacă abia testezi Chatforia.",
+        "desc": "Începe să trimiți mesaje gratuit. Ideal dacă doar testezi Chatforia.",
         "features": {
-          "chat": "Chat 1:1 și de grup în timp real, plus apeluri voce și video",
-          "media": "Partajează fotografii, mesaje vocale și videouri scurte",
-          "ai": "Răspunsuri inteligente AI și traducere instantanee (utilizare corectă)",
-          "disappearing": "Mesaje care dispar și controale de confidențialitate de bază",
-          "ads": "Gratuit pe viață cu reclame în aplicație"
+          "chat": "Chat 1:1 și de grup în timp real, plus apeluri vocale și video",
+          "media": "Partajează fotografii, mesaje vocale și videoclipuri scurte",
+          "ai": "Răspunsuri inteligente bazate pe AI și traducere instantanee (utilizare corectă)",
+          "disappearing": "Mesaje care dispar și controale de bază pentru confidențialitate",
+          "ads": "Gratuit pentru totdeauna cu reclame în aplicație"
         },
-        "ctaCurrent": "Plan curent",
-        "ctaManage": "Gestionare în facturare",
-        "ctaPublic": "Începe — continuă la conectare",
-        "aria": "Plan Gratuit"
+        "ctaCurrent": "Planul actual",
+        "ctaManage": "Gestionați în facturare",
+        "ctaPublic": "Începeți – continuați cu autentificarea",
+        "aria": "Plan gratuit"
       },
       "plus": {
         "title": "Plus",
-        "price": "$6.99",
-        "desc": "Toate esențialele, fără reclame. Grozav pentru mesagerie și apeluri zilnice.",
+        "price": "6,99 $",
+        "desc": "Toate elementele esențiale, fără reclame. Excelent pentru mesaje și apeluri zilnice.",
         "features": {
-          "allFree": "Tot ce este în Gratuit, fără reclame",
-          "forwarding": "Redirecționează apeluri și mesaje text către numărul tău real de telefon",
-          "history": "Istoric de mesaje mai lung (până la 6 luni)",
-          "support": "Suport mai rapid când ceva nu merge bine"
+          "allFree": "Tot ce este în planul gratuit, fără reclame",
+          "forwarding": "Redirecționează apelurile și mesajele text către numărul tău de telefon real",
+          "history": "Istoric mai lung al mesajelor (până la 6 luni)",
+          "support": "Asistență mai rapidă când ceva nu merge bine"
         },
         "badge": "Popular",
         "cta": "Fără reclame",
-        "ctaPublic": "Obține Plus — continuă la conectare",
-        "aria": "Upgrade la Plus"
+        "ctaPublic": "Obține Plus – continuă să te autentifici",
+        "aria": "Treci la Plus"
       },
       "premiumMonthly": {
-        "title": "Premium (Lunar)",
-        "price": "$11.99",
-        "desc": "Experiența completă Chatforia: instrumente AI puternice, personalizare și suport prioritar.",
+        "title": "Premium (lunar)",
+        "price": "11,99 $",
+        "desc": "Experiența completă Chatforia: instrumente puternice bazate pe IA, personalizare și asistență prioritară.",
         "features": {
-          "plusAll": "Tot ce este în Plus",
+          "plusAll": "Tot ce este inclus în Plus",
           "themes": "Deblochează toate temele de culori premium și personalizările aplicației",
-          "ai": "Instrumente AI exclusive Premium pentru rescrieri, răspunsuri inteligente și rezumate",
-          "support": "Suport prioritar când ai nevoie cel mai mult de ajutor"
+          "ai": "Instrumente puternice bazate pe IA, disponibile doar în versiunea Premium, pentru rescriere, răspunsuri inteligente și rezumate",
+          "support": "Asistență prioritară atunci când ai cea mai mare nevoie de ajutor"
         },
         "badge": "Recomandat",
-        "cta": "Upgrade (Lunar)",
-        "ctaPublic": "Deblochează Premium — continuă la conectare",
-        "aria": "Upgrade la Premium Lunar"
+        "cta": "Upgrade (lunar)",
+        "ctaPublic": "Deblocați Premium – continuați să vă autentificați",
+        "aria": "Treceți la Premium lunar"
       },
       "premiumAnnual": {
-        "title": "Premium (Anual)",
-        "price": "$99",
-        "desc": "Economisește mai mult cu facturare anuală — inclusiv teme de culori extra, instrumente AI și suport prioritar.",
+        "title": "Premium (anual)",
+        "price": "99 $",
+        "desc": "Economisiți mai mult cu facturarea anuală — inclusiv teme de culori suplimentare, instrumente AI și asistență prioritară.",
         "features": {
-          "allPremium": "Tot ce este în Premium Lunar — inclusiv teme de culori extra",
+          "allPremium": "Tot ce este inclus în Premium lunar — inclusiv teme de culori suplimentare",
           "annualBilling": "Facturat o dată pe an",
-          "save25": "Economisești aproximativ 30% față de plata lunară",
-          "bestFor": "Cel mai bun pentru utilizatori intensi, lucrători remote și călători frecvenți"
+          "save25": "Economisiți aproximativ 30% comparativ cu plata lunară",
+          "bestFor": "Ideal pentru utilizatori avansați, lucrători la distanță și călători frecvenți"
         },
-        "badge": "Economisești 30%",
-        "cta": "Upgrade (Anual)",
-        "ctaPublic": "Economisește 30% cu anual — continuă la conectare",
-        "aria": "Upgrade la Premium Anual",
-        "disclaimer": "Facturat în avans. Anulează oricând. Fără taxe ascunse."
+        "badge": "Economisiți 30%",
+        "cta": "Treceți la Premium (Anual)",
+        "ctaPublic": "Economisiți 30% cu abonamentul anual – continuați să vă autentificați",
+        "aria": "Treceți la Premium Anual",
+        "disclaimer": "Facturat în avans. Anulați oricând. Fără taxe ascunse."
       }
     },
     "marketing": {
       "freeTitle": "Gratuit",
-      "freeDesc": "Începe mesageria gratuit.",
+      "freeDesc": "Începe să trimiți mesaje gratuit.",
       "plusTitle": "Plus",
       "plusBadge": "Popular",
       "plusDesc": "Cea mai accesibilă experiență fără reclame.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Funcții complete, tonuri de apel și instrumente AI puternice.",
+      "premiumMonthlyDesc": "Funcții complete, tonuri de apel și instrumente puternice bazate pe IA.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Economisește mai mult cu facturare anuală.",
-      "annualDisclaimer": "Facturat în avans. Anulează oricând. Fără taxe ascunse."
+      "premiumAnnualDesc": "Economisești mai mult cu facturarea anuală.",
+      "annualDisclaimer": "Facturare în avans. Anulează oricând. Fără taxe ascunse."
     },
     "mobile": {
       "title": "Chatforia Mobile (pachete de date eSIM)",
       "subtitle": "Adaugă date globale pentru ca Chatforia să funcționeze chiar și fără Wi-Fi. Prețurile se ajustează automat în funcție de țara și moneda ta.",
-      "subtitle.detail": "Alege un pachet de date global unic pentru ca Chatforia să funcționeze când călătorești sau ești departe de Wi-Fi.",
+      "subtitle.detail": "Alege un pachet de date global unic, astfel încât Chatforia să funcționeze în continuare când călătorești sau ești departe de Wi-Fi.",
       "scope": {
         "local": "Local",
         "europe": "Europa",
         "global": "Global"
       },
-      "note": "Nu vindem pachete de date sub 3 GB.",
       "localEquals": "Local = {{country}}",
-      "localEqualsFallback": "Local = țara ta actuală",
+      "localEqualsFallback": "Local = țara dvs. actuală",
       "perPack": "/ pachet",
-      "cta": "Obține acest pachet de date",
-      "ctaPublic": "Obține acest pachet de date",
+      "cta": "Obțineți acest pachet de date",
+      "ctaPublic": "Obțineți acest pachet de date",
       "checkout": {
-        "redirecting": "Se redirecționează…"
+        "redirecting": "Redirecționare…"
       },
       "unlimited": {
         "features": {
           "heavyUse": "Date de mare viteză pentru utilizare intensă",
-          "throttle": "Vitezele pot încetini după utilizare intensă",
+          "throttle": "Date de mare viteză supuse politicilor de utilizare echitabilă și de gestionare a rețelei",
           "coverage": "Acoperire fiabilă",
-          "instant": "Activare instantanee eSIM",
+          "instant": "Activare eSIM instantanee",
           "noContract": "Pachet unic, fără contract"
         }
       },
       "disclaimer": {
-        "devices": "Pachetele de date eSIM necesită un dispozitiv compatibil eSIM și deblocat. Disponibilitatea variază în funcție de modelul telefonului, operator și țară. Acoperirea și vitezele variază pe regiuni."
+        "devices": "Pachetele de date eSIM necesită un dispozitiv compatibil cu eSIM și deblocat. Disponibilitatea variază în funcție de modelul telefonului, operatorul de telefonie mobilă și țara. Acoperirea și vitezele variază în funcție de regiune."
       },
-      "small": {
-        "title": "Pachet starter",
-        "desc": "Include 3 GB de date de mare viteză — ideal pentru mesagerie ușoară și apeluri ocazionale.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Călătorii scurte, mesagerie ușoară și apeluri ocazionale",
-        "aria": "Cumpără pachet de date eSIM Starter"
-      },
-      "medium": {
-        "title": "Pachet călător",
-        "desc": "Include 5 GB de date de mare viteză pentru călătorii, navetă și apeluri VoIP regulate.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Călătorii de weekend, apeluri VoIP regulate și hărți",
-        "aria": "Cumpără pachet de date eSIM Călător"
-      },
-      "large": {
-        "title": "Pachet putere",
-        "desc": "Include 10 GB de date de mare viteză pentru chat intens, apeluri și video pe rețeaua Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Chat intens, apeluri, video și utilizare hotspot",
-        "aria": "Cumpără pachet de date eSIM Utilizator intens"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Nelimitat"
+        }
       },
       "compare": {
         "title": "Compară pachetele de date eSIM",
         "col": {
           "pack": "Pachet",
           "data": "Date incluse",
-          "bestFor": "Cel mai bun pentru"
+          "bestFor": "Ideal pentru"
         },
-        "disclaimer": "Utilizarea reală a datelor depinde de modul în care folosești Chatforia (voce, video, media și alte aplicații pe telefon)."
+        "disclaimer": "Utilizarea efectivă a datelor depinde de modul în care folosiți Chatforia (voce, video, media și alte aplicații de pe telefon)."
       }
     },
     "family": {
       "title": "Chatforia Family (date partajate)",
-      "subtitle": "Partajează un singur pool de date în familia ta. O singură factură, mai multe conturi Chatforia, acoperire globală.",
+      "subtitle": "Împărțiți un singur pachet de date cu întreaga familie. O singură factură, mai multe conturi Chatforia, acoperire globală.",
       "perPack": "/ pachet",
       "small": {
-        "title": "Familie Mic",
-        "desc": "Include 20 GB de date de mare viteză partajate — grozav pentru 2–3 utilizatori ușori.",
-        "price": "$29.99",
-        "aria": "Cumpără pachet Familie Mic"
+        "title": "Family Small",
+        "desc": "Include 20 GB de date de mare viteză partajate — ideal pentru 2–3 utilizatori ocazionali.",
+        "price": "29,99 $",
+        "aria": "Cumpărați pachetul Family Small"
       },
       "medium": {
-        "title": "Familie Mediu",
+        "title": "Family Medium",
         "desc": "Include 40 GB de date de mare viteză partajate — ideal pentru 3–5 membri activi.",
-        "price": "$49.99",
-        "aria": "Cumpără pachet Familie Mediu"
+        "price": "49,99 $",
+        "aria": "Cumpără pachetul Family Medium"
       },
       "large": {
-        "title": "Familie Mare",
-        "desc": "Include 80 GB de date de mare viteză partajate — pentru familii puternice mereu online.",
-        "price": "$84.99",
-        "aria": "Cumpără pachet Familie Mare"
+        "title": "Family Large",
+        "desc": "Include 80 GB de date de mare viteză partajate — pentru familiile active care sunt mereu online.",
+        "price": "$84,99",
+        "aria": "Cumpără pachetul Family Large"
       },
       "feature": {
-        "shared": "Pool de date partajat pentru familia ta",
-        "members": "Invită până la 4 membri suplimentari",
-        "membersMore": "Grozav pentru 3–5 membri activi",
-        "manage": "Gestionează limitele pentru fiecare membru",
-        "topUp": "Adaugă mai multe pachete oricând",
-        "bestValue": "Cel mai bun preț pe GB",
-        "fairUse": "Supus politicii de utilizare corectă și limitelor locale"
+        "shared": "Rezervă de date partajată pentru familia ta",
+        "members": "Invitați până la 4 membri suplimentari",
+        "membersMore": "Ideal pentru 3–5 membri activi",
+        "manage": "Gestionați limitele pentru fiecare membru",
+        "topUp": "Adăugați mai multe pachete oricând",
+        "bestValue": "Cel mai bun raport preț/GB",
+        "fairUse": "Sub rezerva politicii de utilizare corectă și a limitelor locale"
       },
-      "disclaimer": "Pachetele Familie creează sau reîncarcă un pool de date partajat. Poți invita și elimina membri oricând.",
-      "footnote": "Pachetele Familie partajează un singur pool de date între conturile Chatforia conectate. Disponibilitatea și limitele depind de țara și reglementările locale."
+      "disclaimer": "Pachetele Family creează sau reîncarcă un fond comun de date. Puteți invita și elimina membri oricând.",
+      "notă de subsol": "Pachetele familiale partajează un singur fond de date între conturile Chatforia conectate. Disponibilitatea și limitele depind de țara dvs. și de reglementările locale."
     },
-    "why": {
-      "title": "De ce trec oamenii la Chatforia",
-      "subtitle": "Chatforia îți oferă un număr de telefon real, traducere inteligentă și un drum clar spre experiența fără reclame când ești pregătit.",
+    "de ce": {
+      "titlu": "De ce oamenii trec la Chatforia",
+      "subtitlu": "Chatforia vă oferă un număr de telefon real, traducere inteligentă și o cale clară de a renunța la reclame când sunteți gata.",
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
-          "body": "Reclame mai ușoare pe Gratuit, un upgrade simplu Plus când ești gata și instrumente Premium pe care TextNow nu le oferă."
+          "body": "Reclame mai puțin invazive în versiunea Free, un upgrade simplu la Plus când ești pregătit și instrumente Premium pe care TextNow nu le oferă."
         },
         "voice": {
           "title": "Chatforia vs Google Voice",
-          "body": "Aplicație modernă, design global-first și traducere integrată în locul redirecționării apelurilor vechi."
+          "body": "Aplicație modernă, și traducere integrată în loc de redirecționarea apelurilor de modă veche."
         },
         "messengers": {
           "title": "Chatforia vs aplicații de chat",
-          "body": "Trimite mesaje text la numere de telefon reale — nu doar altor utilizatori de aplicație — cu AI și stare integrate. Grozav dacă vii de la aplicații precum TextFree sau TextMe."
+          "body": "Trimite mesaje către numere de telefon reale — nu doar către alți utilizatori ai aplicației — cu AI și stare integrate. Excelent dacă vii de la aplicații precum TextFree sau TextMe."
         }
       },
       "tableTitle": "Cum se compară Chatforia",
@@ -1012,786 +1302,706 @@
       "history": {
         "chatforia": "Până la 12+ luni",
         "textnow": "Variază în funcție de cont",
-        "voice": "Limitat / bazat pe cont"
+        "voice": "Limitat / în funcție de cont"
       },
-      "disclaimer": "Comparație bazată pe informații publice disponibile și poate să se schimbe în timp. Alte aplicații gratuite de mesaje text precum TextFree sau TextMe sunt în general similare cu TextNow."
+      "disclaimer": "Comparație bazată pe informații disponibile public și care se poate modifica în timp. Alte aplicații de mesagerie gratuită, precum TextFree sau TextMe, sunt în general similare cu TextNow."
     },
     "faq": {
-      "title": "Întrebări frecvente despre prețuri & planuri",
+      "title": "Întrebări frecvente despre prețuri și planuri",
       "free": {
-        "q": "Este planul Gratuit cu adevărat gratuit?",
-        "a": "Da. Planul Gratuit include un număr Chatforia, apeluri și mesagerie cu reclame. Poți rămâne pe Gratuit cât vrei, sau face upgrade pentru a elimina reclamele și a debloca mai multe funcții."
+        "q": "Planul Free este cu adevărat gratuit?",
+        "a": "Da. Planul Free include un număr Chatforia, apeluri și mesaje cu reclame. Puteți rămâne la planul Free cât doriți sau puteți face upgrade pentru a elimina reclamele și a debloca mai multe funcții."
       },
       "plusPremium": {
         "q": "Care este diferența dintre Plus și Premium?",
-        "a": "Plus elimină reclamele și extinde istoricul mesajelor — perfect pentru utilizare zilnică. Premium adaugă personalizare extra, instrumente AI pentru rescrieri și răspunsuri, plus suport prioritar pentru utilizatorii intensi."
+        "a": "Plus elimină reclamele și extinde istoricul mesajelor — perfect pentru utilizarea zilnică. Premium adaugă personalizare suplimentară, instrumente AI pentru rescriere și răspunsuri, precum și asistență prioritară pentru utilizatorii intensivi."
       },
       "esim": {
         "q": "Unde funcționează pachetele de date eSIM?",
-        "a": "Chatforia Mobile folosește acoperire eSIM globală. Disponibilitatea depinde de țara și dispozitivul tău. Vei vedea opțiunile suportate în timpul activării în aplicație."
+        "a": "Chatforia Mobile utilizează acoperire globală eSIM. Disponibilitatea depinde de țara și dispozitivul dvs. Veți vedea opțiunile acceptate în timpul activării în aplicație."
       },
       "cancel": {
-        "q": "Pot anula sau schimba planurile oricând?",
-        "a": "Da. Poți gestiona sau anula abonamentul din pagina de facturare din aplicație. Modificările intră în vigoare la sfârșitul perioadei de facturare curente."
+        "q": "Pot anula sau modifica planurile oricând?",
+        "a": "Da. Puteți gestiona sau anula abonamentul din pagina de facturare din aplicație. Modificările intră în vigoare la sfârșitul perioadei de facturare curente."
       },
       "family": {
-        "q": "Cum funcționează pachetele Familie?",
-        "a": "Pachetele Familie creează un pool de date partajat între mai multe conturi Chatforia. O persoană plătește factura, iar tu poți invita sau elimina membri și seta limite per persoană."
+        "q": "Cum funcționează pachetele Family?",
+        "a": "Pachetele Family creează un fond comun de date pentru mai multe conturi Chatforia. O singură persoană plătește factura, iar tu poți invita sau elimina membri și poți seta limite pentru fiecare persoană."
       }
+    }
+  },
+  "family": {
+    "title": "Family",
+    "loading": "Se încarcă detaliile familiei dvs…",
+    "error": {
+      "load": "Nu s-au putut încărca detaliile familiei.",
+      "invite": "Nu s-a putut crea o invitație. Asigurați-vă că sunteți proprietarul familiei și încercați din nou.",
+      "checkout": "Nu am putut iniția procesul de plată pentru un plan de familie. Vă rugăm să încercați din nou."
     },
-    "gettingStarted": {
-      "title": "Cum să începi",
-      "subtitle": "Nou pe Chatforia? Acest ghid rapid îți arată esențialul ca să fii productiv în câteva minute.",
-      "alert": {
-        "text": "Acest ghid va crește pe măsură ce lansăm funcții noi. Dacă lipsește ceva, spune-ne prin",
-        "contactLink": "Contactează-ne"
-      },
-      "section1": {
-        "title": "1) Creează-ți contul",
-        "signup": "Înregistrează-te",
-        "or": "sau",
-        "login": "conectează-te",
-        "loginText": "cu contul tău existent.",
-        "prefsStart": "Setează-ți",
-        "prefsLink": "preferințele",
-        "prefsRest": "(limbă, confirmări de citire, teme)."
-      },
-      "section2": {
-        "title": "2) Începe mesageria",
-        "item1": "Creează un DM sau Grup și trimite primul mesaj.",
-        "item2": "Folosește traducerea instantanee pentru a conversa în peste 100 de limbi.",
-        "item3": "Încearcă mesaje care dispar și confirmări de citire în Profil → Confidențialitate."
-      },
-      "section3": {
-        "title": "3) Mergi mai departe",
-        "item1": "Poți face upgrade la un plan plătit oricând în aplicație.",
-        "item2": "Odată conectat, poți conecta dispozitive suplimentare și configura backup-uri criptate din Setări în aplicație."
-      },
-      "cta": {
-        "seePlans": "Vezi planuri",
-        "openSettings": "Deschide setările"
-      }
+    "billing": {
+      "myPlanTitle": "Planul meu",
+      "myPlanError": "Nu se poate încărca planul dvs.",
+      "myPlanLoading": "Se încarcă planul dvs…",
+      "currentPlan": "Planul curent",
+      "renewsAt": "Se reînnoiește la",
+      "freePlanCopy": "Aveți planul gratuit. Faceți upgrade pentru a debloca mai multe funcții.",
+      "upgradeCta": "Faceți upgrade la plan",
+      "changePlanCta": "Schimbați planul",
+      "manageBilling": "Gestionați facturarea",
+      "portalError": "Nu se poate deschide portalul de facturare în acest moment.",
+      "cancelNow": "Anulați acum",
+      "cancelNowHelp": "Puteți gestiona sau anula abonamentul în portalul de facturare sau îl puteți anula imediat mai jos.",
+      "cancelNowConfirm": "Sunteți sigur că doriți să vă anulați planul imediat? Această acțiune nu poate fi anulată.",
+      "cancelNowError": "Nu se poate anula planul în acest moment. Vă rugăm să încercați din nou sau să utilizați Gestionați facturarea."
     },
-    "helpCenter": {
-      "title": "Centru de ajutor",
-      "faq": {
-        "account": {
-          "q": "Cum creez sau recuperez contul meu?",
-          "a": "Descarcă aplicația sau folosește web-ul, apasă „Creează cont”, verifică email-ul/telefonul. Pentru recuperare, folosește „Ai uitat parola”."
-        },
-        "privacy": {
-          "q": "Mesajele sunt criptate end-to-end?",
-          "a": "Da. Mesajele și apelurile sunt criptate end-to-end implicit. Doar tu și destinatarul le puteți citi."
-        },
-        "translate": {
-          "q": "Cum funcționează traducerea instantanee?",
-          "a": "Activează „Traducere automată” în Setări → Aspect & Limbă. Traducem pe dispozitiv unde este suportat, altfel prin API-uri securizate cu metadate minime."
-        },
-        "contact": {
-          "q": "Contactează suportul",
-          "a": "Contactează-ne la support@chatforia.com. Include capturi de ecran și versiunea aplicației."
-        }
+    "none": {
+      "title": "Nu s-a configurat încă nicio familie",
+      "body": "Pentru a crea o familie Chatforia și un fond comun de date, începeți un plan de familie.",
+      "goUpgrade": "Începeți un plan de familie",
+      "viewPlans": "Vizualizați toate planurile"
+    },
+    "group": {
+      "defaultName": "Familia mea Chatforia",
+      "role": "Rolul dvs.: {{role}}"
+    },
+    "role": {
+      "owner": "Proprietar",
+      "member": "Membru"
+    },
+    "data": {
+      "heading": "Baza de date partajată",
+      "caption": "Toți membrii partajează această bază de date. Vă vom avertiza când vă apropiați de limită."
+    },
+    "members": {
+      "title": "Membrii familiei",
+      "name": "Nume",
+      "role": "Rol",
+      "usage": "Utilizare",
+      "limit": "Limită",
+      "unlimited": "Fără limită specifică",
+      "inviteCta": "Invită membru"
+    },
+    "invite": {
+      "title": "Invitați un membru nou",
+      "body": "Trimiteți un e-mail sau un link pentru a invita pe cineva în fondul comun de date al familiei dvs.",
+      "emailLabel": "E-mail (opțional)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Creează invitație",
+      "linkLabel": "Link de invitație",
+      "copyAria": "Copiază linkul de invitație",
+      "expiryHint": "Acest link expiră după câteva zile. Poți crea oricând unul nou."
+    },
+    "join": {
+      "title": "Alătură-te unei familii",
+      "body": "Ați fost invitat să vă alăturați unei familii Chatforia și să partajați baza de date a acesteia.",
+      "cta": "Acceptați și alăturați-vă familiei",
+      "ctaLogin": "Conectează-te și alătură-te familiei",
+      "success": "Te-ai alăturat acestei familii. Acum partajezi baza lor de date.",
+      "goFamily": "Mergi la tabloul de bord al familiei",
+      "error": "Nu te-am putut adăuga la această familie. Este posibil ca invitația să fie invalidă sau expirată."
+    }
+  },
+  "randomChat": {
+    "title": "Chat aleatoriu",
+    "subtitle": "Cunoaște pe cineva nou instantaneu sau alege să discuți cu Ria.",
+    "start": "Începe o conversație",
+    "description": "Discută mai întâi anonim. Adaugă prietenul mai târziu, dacă simți că este potrivit.",
+    "findMatch": "Găsește-mi o potrivire",
+    "chatWithRia": "Discută cu Ria",
+    "setAge": "Setează intervalul de vârstă în Profil → Vârstă și Chat aleatoriu pentru a fi potrivit cu alte persoane.",
+    "idle": "Inactiv",
+    "matching": "Se caută potriviri…",
+    "searching": "Se caută…",
+    "cancel": "Anulează",
+    "connectionProblem": "Problemă de conexiune",
+    "ai": "AI",
+    "anonymous": "Anonim",
+    "connectedAs": "Conectat ca",
+    "waitingAddFriend": "Aștept ca aceștia să accepte Adăugare prieten…",
+    "hiddenUsernames": "Numele de utilizator rămân ascunse până când ambele persoane aleg Adăugare prieten.",
+    "riaSeparate": "Discută cu Ria oricând — separat de potrivirea aleatorie cu oameni.",
+    "sendMessage": "Trimite mesaj",
+    "chatEnded": "Discuția s-a încheiat",
+    "conversationEnded": "Această conversație s-a încheiat.",
+    "findAnotherMatch": "Găsește o altă potrivire",
+    "next": "Următoarea persoană",
+    "addFriend": "Adaugă prieten",
+    "requested": "Solicitat",
+    "pleacă": "Pleacă",
+    "mesajRia": "Trimite un mesaj către Ria…",
+    "mesajPotrivire": "Trimite un mesaj către potrivirea ta…",
+    "discuțieCuForia": "Discută cu Foria",
+    "discuțieCuForiaBot": "Discută cu ForiaBot",
+    "închide": "Închide",
+    "căutare": "Caută…",
+    "looking": "Caut pe cineva…",
+    "startingForia": "Încep o conversație cu Foria…",
+    "partnerDisconnected": "Partenerul tău s-a deconectat.",
+    "noPartner": "Nu s-a găsit niciun partener în acest moment.",
+    "connectedTo": "Conectat la {{name}}",
+    "connected": "Conectat",
+    "partnerLeft": "Partenerul a plecat.",
+    "stopped": "Oprit.",
+    "skip": "Sari",
+    "save": "Salvează",
+    "saveGuard": "Doar conversațiile între oameni pot fi salvate",
+    "youAreChattingWith": "Discuți cu { {name}}",
+    "bot": "BOT",
+    "sayHi": "Salută 👋",
+    "you": "Tu",
+    "typeMessage": "Scrie un mesaj",
+    "send": "Trimite",
+    "partner": "Partener",
+    "withRia": "Cu Ria",
+    "startingRia": "Încep o conversație cu Ria…",
+    "ageDisclaimer": "Stocăm doar o categorie de vârstă (nu data exactă a nașterii). Aceasta este folosită pentru a menține potrivirile din Chat-ul aleatoriu rezonabile. Pentru a fi potrivit cu persoane (nu doar cu RiaBot), setează-ți categoria de vârstă în Setări → Vârstă & Chat aleatoriu.",
+    "ageBandRequired": "Setează-ți intervalul de vârstă în Profil → Vârstă și Chat aleatoriu pentru a fi potrivit cu alte persoane.",
+    "ageBandCallout": "Pentru a fi potrivit cu alte persoane (nu doar cu RiaBot), setează-ți intervalul de vârstă în Setări → Vârstă și Chat aleatoriu."
+  },
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Salut 👋 Sunt Ria. La ce te gândești?",
+    "greetings": {
+      "long1": "Salut {{name}} 👋 Sunt aici. La ce te gândești?",
+      "long2": "Bună {{name}} 😊 Despre ce ai vrea să vorbim astăzi?",
+      "long3": "Bună {{name}}! Sunt numai urechi — ce mai faci?",
+      "long4": "Mă bucur să te văd, {{name}} 👋 La ce te gândești astăzi?",
+      "long5": "Salut {{name}} 🙂 Vrei să te descarci, să întrebi ceva sau doar să stăm de vorbă?",
+      "long6": "Bună\n\n{{name}}! Am timp — despre ce ai vrea să vorbim?",
+      "short1": "Salut {{name}}, sunt încă aici. Ce mai faci?",
+      "short2": "Bine ai revenit {{name}} 👋 Mai vrei să adaugi ceva?",
+      "short3": "Te-ai întors, {{name}}? 😊 Spune-mi ce te preocupă.",
+      "short4": "Salut {{name}} ✨ Ești gata să continuăm de unde am rămas?",
+      "short5": "Da, {{name}}? Te ascult 👂",
+      "short6": "Oh, salut {{name}}! Ai ceva nou pe suflet?"
+    },
+    "header": {
+      "openNav": "Deschide meniul de navigare",
+      "closeNav": "Închide meniul de navigare",
+      "homeAria": "Pagina principală Chatforia"
+    },
+    "login": {
+      "welcomeBack": "Bine ai revenit",
+      "title": "Continuă pe Chatforia",
+      "subtitleReturning": "Conectează-te la contul tău Chatforia",
+      "google": "Continuă cu Google",
+      "apple": "Continuă cu Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Conectarea cu Google nu este disponibilă",
+      "appleUnavailable": "Conectarea cu Apple nu este disponibilă",
+      "ssoUnavailable": "Autentificarea unică nu este disponibilă în acest moment. Folosește numele de utilizator și parola în schimb.",
+      "or": "sau",
+      "accountLabel": "Cont",
+      "identifierPh": "E-mail sau nume de utilizator",
+      "passwordLabel": "Parolă",
+      "passwordPh": "Parola dvs.",
+      "keepSignedIn": "Rămâneți conectat",
+      "forgot": "Ați uitat parola?",
+      "resendVerification": "Retrimiteți e-mailul de verificare",
+      "submit": "Conectare",
+      "loggingIn": "Vă conectați…",
+      "verification": {
+        "sent": "E-mailul de verificare a fost trimis. Verificați-vă căsuța de e-mail.",
+        "failed": "Nu s-a putut retrimite e-mailul de verificare."
+      },
+      "error": {
+        "missing": "Vă rugăm să introduceți datele de autentificare.",
+        "invalid": "Nume de utilizator sau parolă nevalidă",
+        "denied": "Acces refuzat.",
+        "unprocessable": "Solicitare nevalidă. Verificați numele de utilizator/adresa de e-mail și parola.",
+        "deviceLimit": "Limita de dispozitive atinsă pentru planul Free. Deconectați-vă de pe un alt dispozitiv sau treceți la planul Premium pentru a conecta mai multe dispozitive.",
+        "premiumRequired": "Această acțiune necesită un plan Premium."
+      },
+      "forgotPassword": {
+        "title": "Ați uitat parola",
+        "helper": "Introduceți adresa de e-mail pe care ați folosit-o pentru a vă crea contul Chatforia și vă vom trimite un link securizat pentru a vă reseta parola.",
+        "emailLabel": "E-mail",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Vă rugăm să introduceți o adresă de e-mail validă.",
+        "genericError": "Nu se poate procesa solicitarea. Vă rugăm să încercați din nou în câteva momente.",
+        "sending": "Se trimite linkul de resetare...",
+        "sendCta": "Trimiteți linkul de resetare",
+        "sentLabel": "Trimis!",
+        "sentHelper": "Dacă există un cont cu acea adresă de e-mail, am trimis un link de resetare a parolei. Poate dura câteva minute până ajunge. Asigurați-vă că verificați folderul de spam sau promoții.",
+        "previewDev": "Previzualizare e-mail (Dev)",
+        "backToLogin": "Înapoi la autentificare"
+      },
+      "resetPassword": {
+        "title": "Resetare parolă",
+        "missingToken": "Token de resetare a parolei invalid sau lipsă.",
+        "missingTokenHelper": "Token invalid sau lipsă. Vă rugăm să solicitați un nou link de resetare a parolei.",
+        "passwordMismatch": "Parolele nu se potrivesc",
+        "success": "Parola dvs. a fost resetată cu succes",
+        "genericError": "Eroare: Nu se poate reseta parola.",
+        "newPasswordLabel": "Parolă nouă",
+        "newPasswordPlaceholder": "Introduceți noua parolă",
+        "confirmPasswordLabel": "Confirmați noua parolă",
+        "confirmPasswordPlaceholder": "Reintroduceți noua parolă",
+        "resetting": "Se resetează...",
+        "submit": "Resetează parola",
+        "strongPasswordHint": "Alege o parolă puternică pe care nu o folosești în altă parte."
       }
+    }
+  },
+  "oauth": {
+    "completing": "Finalizare autentificare..."
+  },
+  "support": {
+    "helpFab": "Ajutor",
+    "openSupportAria": "Deschide asistență",
+    "badge": "Asistență",
+    "heading": "Cu ce vă putem ajuta?",
+    "tabs": {
+      "help": "Centru de ajutor",
+      "contact": "Contactați-ne"
+    },
+    "searchPlaceholder": "Căutați articole de ajutor…",
+    "searchAria": "Căutare ajutor",
+    "searchBtn": "Căutare",
+    "quickTopicsLabel": "Subiecte rapide",
+    "quickTopics": {
+      "login": "Nu mă pot autentifica",
+      "billing": "Plăți / facturare",
+      "abuz": "Raportează abuz"
+    },
+    "trySearching": "Încearcă să cauți \"traducere\", \"copii de rezervă\" sau \"confidențialitate\".",
+    "article": "Articol",
+    "openArticle": "Deschide articolul",
+    "contactIntro": "Vom încerca să rezolvăm problema imediat. Dacă nu, echipa noastră va lua legătura cu tine.",
+    "topicAria": "Selectează un subiect",
+    "messagePlaceholder": "Scrieți mesajul...",
+    "sendBtn": "Trimite",
+    "sent": "Mesaj trimis. Vă vom răspunde prin e-mail.",
+    "sendError": "Nu s-a putut trimite. Trimiteți un e-mail la support@chatforia.com.",
+    "actionCompleted": "Acțiune finalizată.",
+    "actionFailed": "Nu s-a putut finaliza acțiunea. Vă rugăm să încercați din nou.",
+    "ticketCreated": "Nu am putut rezolva această problemă automat. Echipa noastră va lua legătura cu dvs.",
+    "escalationMessage": "Nu am putut rezolva această problemă automat. Echipa noastră va lua legătura cu dvs.",
+    "genericError": "A apărut o eroare. Vă rugăm să încercați din nou.",
+    "analyzing": "Analizăm problema dvs...",
+    "takeAction": "Luați măsura recomandată",
+    "resolvedInstantly": "Problemă rezolvată instantaneu — nu este necesar un tichet.",
+    "escalating": "Se escaladează către asistență..."
+  },
+  "help": {
+    "title": "Ajutor",
+    "howCanWeHelp": "Cum vă putem ajuta?",
+    "helpCenter": "Centru de ajutor",
+    "contactUs": "Contactați-ne",
+    "quickTopics": "Subiecte rapide",
+    "searchExamples": "Încercați să căutați \"traducere\", \"copii de rezervă\" sau \"confidențialitate\".",
+    "cantLogin": "Nu vă puteți conecta",
+    "paymentsBilling": "Plăți/facturare",
+    "reportAbuse": "Raportează abuz",
+    "searchHelpArticles": "Caută articole de ajutor",
+    "search": "Căutare"
+  },
+  "helpCenter": {
+    "title": "Centru de ajutor",
+    "faq": {
+      "account": {
+        "q": "Cum îmi creez sau îmi recuperez contul?",
+        "a": "Descărcați aplicația sau utilizați versiunea web, atingeți \"Creați un cont\", verificați-vă adresa de e-mail/numărul de telefon. Pentru a-l recupera, utilizați \"Ați uitat parola?\"."
+      },
+      "privacy": {
+        "q": "Mesajele sunt criptate end-to-end?",
+        "a": "Da. Mesajele și apelurile sunt criptate end-to-end în mod implicit. Numai tu și destinatarul le puteți citi."
+      },
+      "translate": {
+        "q": "Cum funcționează traducerea instantanee?",
+        "a": "Activează \"Traducere automată\" în Setări → Aspect și limbă. Traducem pe dispozitiv acolo unde este acceptat, altfel prin API-uri securizate cu metadate minime."
+      },
+      "contact": {
+        "q": "Contactați asistența",
+        "a": "Contactați-ne la support@chatforia.com. Includeți capturi de ecran și versiunea aplicației dvs."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Noțiuni introductive",
+    "subtitle": "Sunteți nou la Chatforia? Acest ghid de pornire rapidă prezintă elementele esențiale, astfel încât să puteți fi productiv în câteva minute.",
+    "alert": {
+      "text": "Acest ghid se va extinde pe măsură ce vom lansa noi funcții. Dacă lipsește ceva, anunțați-ne prin",
+      "contactLink": "Contactați-ne"
+    },
+    "section1": {
+      "title": "1) Creați-vă contul",
+      "signup": "Înregistrați-vă",
+      "or": "sau",
+      "login": "autentificați-vă",
+      "loginText": "cu contul dvs. existent.",
+      "prefsStart": "În aplicație, deschideți Setări pentru a vă configura preferințele",
+      "prefsLink": "preferințe",
+      "prefsRest": "(limbă, confirmări de citire,\n\nteme)."
+    },
+    "section2": {
+      "title": "2) Începe să trimiți mesaje",
+      "item1": "Creează un mesaj direct sau un grup și trimite primul tău mesaj.",
+      "item2": "Folosește traducerea instantanee pentru a discuta în peste 100 de limbi.",
+      "item3": "Încearcă mesajele care dispar și confirmările de citire în Profil → Confidențialitate."
+    },
+    "section3": {
+      "title": "3) Mergi mai departe",
+      "item1": "Poți trece la un plan plătit oricând din aplicație.",
+      "item2": "După ce te-ai conectat, poți conecta dispozitive suplimentare și configura copii de rezervă criptate din Setări în aplicație.",
+      "item2Part1": "Odată ce v-ați conectat, puteți conecta dispozitive suplimentare și configura copii de rezervă criptate din Setări în aplicație."
+    },
+    "cta": {
+      "seePlans": "Vedeți planurile și prețurile",
+      "openSettings": "Deschideți setările",
+      "createAccount": "Creați un cont"
+    }
+  },
+  "howItWorks": {
+    "title": "Cum funcționează Chatforia",
+    "intro": "Chatforia este concepută pentru a face comunicarea simplă, rapidă și accesibilă. Începerea utilizării necesită doar câțiva pași.",
+    "step1Title": "1. Creați un cont",
+    "step1Desc": "Înregistrați-vă folosind adresa de e-mail sau numele de utilizator pentru a vă crea contul Chatforia.",
+    "step2Title": "2. Începe o conversație",
+    "step2Desc": "Conectează-te cu alții selectând contacte sau începând noi conversații.",
+    "step3Title": "3. Mesagerie în timp real",
+    "step3Desc": "Mesajele sunt livrate rapid pentru a oferi o experiență de comunicare fluentă.",
+    "step4Title": "4. Comunicare globală",
+    "step4Desc": "Funcția de traducere integrată ajută utilizatorii să comunice în diferite limbi.",
+    "step5Title": "5. Păstrează controlul",
+    "step5Desc": "Gestionați-vă preferințele, contactele și setările de comunicare."
+  },
+  "safety": {
+    "title": "Siguranță și reguli ale comunității",
+    "intro": "Chatforia se angajează să mențină un mediu sigur și respectuos pentru toți utilizatorii. Aceste reguli ajută la asigurarea unei experiențe pozitive pentru toată lumea.",
+    "respectTitle": "Comunicare respectuoasă",
+    "respectDesc": "Se așteaptă ca utilizatorii să comunice respectuos. Hărțuirea, abuzul sau comportamentul dăunător nu sunt permise.",
+    "prohibitedTitle": "Conținut interzis",
+    "prohibited": {
+      "illegal": "Activități ilegale",
+      "harassment": "Hărțuire sau intimidare",
+      "hate": "Discursuri de ură sau discriminare",
+      "explicit": "Material explicit sau dăunător",
+      "spam": "Spam sau practici înșelătoare"
+    },
+    "toolsTitle": "Instrumente de siguranță pentru utilizatori",
+    "tools": {
+      "report": "Raportează comportamentul sau conținutul inadecvat",
+      "block": "Blochează utilizatorii pentru a preveni interacțiunile ulterioare",
+      "control": "Gestionați setările de confidențialitate și comunicare"
+    },
+    "enforcementTitle": "Aplicare",
+    "enforcementDesc": "Putem lua măsuri împotriva conturilor care încalcă aceste linii directoare, inclusiv avertismente, restricții sau eliminarea permanentă de pe platformă."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "De ce platformele de mesagerie sunt mai importante ca niciodată",
+      "intro": "Platformele de mesagerie au devenit unul dintre cele mai importante instrumente de comunicare în lumea de astăzi. De la conversații personale la interacțiuni de afaceri, aplicațiile de mesagerie permit oamenilor să rămână conectați instantaneu și eficient.",
+      "everydayTitle": "Comunicarea de zi cu zi",
+      "everydayDesc": "Oamenii se bazează pe aplicațiile de mesagerie pentru comunicarea zilnică cu prietenii, familia și colegii. Fie că este vorba de o scurtă actualizare sau de o conversație lungă, mesageria oferă o modalitate convenabilă și flexibilă de a păstra legătura.",
+      "speedTitle": "Viteză și comoditate",
+      "speedDesc": "Unul dintre principalele avantaje ale platformelor de mesagerie este viteza lor. Mesajele sunt livrate instantaneu, permițând utilizatorilor să comunice în timp real. Acest nivel de comoditate a făcut ca mesageria să devină metoda preferată de comunicare pentru multe persoane.",
+      "globalTitle": "Acoperire globală",
+      "globalDesc": "Platformele de mesagerie conectează oameni de pe tot globul. Cu acces la internet, utilizatorii pot comunica indiferent de locație, ceea ce facilitează construirea de relații și colaborarea la nivel internațional.",
+      "privacyTitle": "Confidențialitate și control",
+      "privacyDesc": "Platformele moderne de mesagerie se concentrează pe oferirea utilizatorilor control asupra datelor și conversațiilor lor. Funcții precum criptarea, setările de confidențialitate și controalele mesajelor permit utilizatorilor să comunice cu încredere.",
+      "futureTitle": "Viitorul mesageriei",
+      "futureDesc": "Mesageria continuă să evolueze cu noi funcții, precum răspunsuri bazate pe IA, traducere și partajare multimedia. Pe măsură ce tehnologia avansează, platformele de mesagerie vor deveni și mai puternice și mai versatile.",
+      "outro": "Chatforia este construită având în vedere aceste principii, oferind o experiență de mesagerie rapidă, sigură și ușor de utilizat pentru o lume conectată."
+    },
+    "global": {
+      "title": "Viitorul comunicării globale",
+      "intro": "Comunicarea a evoluat rapid în ultimele câteva decenii. Ceea ce odată necesita apeluri telefonice sau întâlniri față în față se poate realiza acum rapid prin intermediul platformelor de mesagerie. Pe măsură ce tehnologia continuă să avanseze, comunicarea globală devine mai rapidă, mai accesibilă și mai incluzivă.",
+      "barriersTitle": "Eliminarea barierelor",
+      "barriersDesc": "Una dintre cele mai mari schimbări în comunicare este reducerea barierelor geografice. Oamenii se pot conecta acum cu alții din întreaga lume aproape în timp real. Fie că este vorba de conversații personale, afaceri sau colaborare, platformele de mesagerie au făcut ca distanța să fie mult mai puțin limitativă .",
+      "translationTitle": "Rolul tehnologiei de traducere",
+      "translationDesc": "Limba a fost, în mod tradițional, unul dintre cele mai mari obstacole în calea comunicării globale. Astăzi, instrumentele de traducere integrate ajută la depășirea acestei bariere. Platforme precum Chatforia permit utilizatorilor să comunice mai ușor chiar dacă vorbesc limbi diferite, creând noi oportunități de conectare și înțelegere.",
+      "realtimeTitle": "Conectivitate în timp real",
+      "realtimeDesc": "Viteza este un factor cheie care modelează comunicarea modernă. Utilizatorii se așteaptă ca mesajele să fie livrate rapid, iar infrastructura modernă susține această așteptare. Mesageria în timp real permite conversații mai naturale și mai fluide.",
+      "privacyTitle": "Confidențialitate și securitate",
+      "privacyDesc": "Pe măsură ce comunicarea devine tot mai digitală, confidențialitatea și securitatea devin din ce în ce mai importante. Utilizatorii vor să aibă încrederea că conversațiile lor sunt protejate. Funcții precum criptarea și setările controlate de utilizator contribuie la o experiență de comunicare mai sigură.",
+      "futureTitle": "Ce urmează",
+      "futureDesc": "Viitorul comunicării globale va include probabil instrumente mai avansate, precum mesageria asistată de IA, traducerea îmbunătățită și experiențe de utilizator optimizate. Pe măsură ce tehnologia evoluează, comunicarea va deveni din ce în ce mai intuitivă și accesibilă.",
+      "outro": "Platforme precum Chatforia fac parte din această schimbare, ajutând oamenii să se conecteze mai ușor peste limbi și granițe."
+    },
+    "index": {
+      "title": "Blogul Chatforia",
+      "intro": "Descoperiți informații despre comunicare, siguranța online și modul în care tehnologia de mesagerie conectează oamenii din întreaga lume.",
+      "post1": "Cum să discutați în siguranță online",
+      "post2": "Viitorul comunicării globale",
+      "post3": "De ce sunt importante platformele de mesagerie"
+    },
+    "chatSafely": {
+      "title": "Cum să discutați în siguranță online",
+      "intro": "Comunicarea online a făcut mai ușoară ca niciodată conectarea cu oameni din întreaga lume. Fie că trimiteți mesaje prietenilor, cunoașteți oameni noi sau colaborați profesional, platformele de mesagerie joacă un rol major în viața de zi cu zi. Cu toate acestea, siguranța online este la fel de importantă ca și menținerea conexiunii.",
+      "personalInfo": {
+        "title": "Protejați-vă informațiile personale",
+        "body": "Una dintre cele mai importante reguli de siguranță online este să evitați să partajați informații personale sensibile. Acestea includ adresa de domiciliu, detalii financiare, parole sau orice informații de identificare care ar putea fi utilizate în mod abuziv. Chiar și în conversațiile informale, este bine să fiți atenți la ceea ce partajați și cu cine partajați."
+      },
+      "safetyFeatures": {
+        "title": "Utilizați funcțiile de siguranță încorporate",
+        "body": "Platformele moderne de mesagerie, precum Chatforia, oferă instrumente care ajută utilizatorii să rămână în siguranță. Funcții precum blocarea, raportarea și controalele de confidențialitate sunt concepute pentru a le oferi utilizatorilor control asupra experienței lor. Dacă cineva se comportă inadecvat sau vă face să vă simțiți inconfortabil, ar trebui să utilizați aceste instrumente imediat."
+      },
+      "scams": {
+        "title": "Fii atent la escrocherii",
+        "body": "Escrocii folosesc adesea platformele de mesagerie pentru a-i păcăli pe utilizatori să împărtășească informații personale sau să trimită bani. Fii prudent cu mesajele care par prea bune pentru a fi adevărate, cum ar fi oferte neașteptate, cereri urgente sau linkuri necunoscute. Verifică întotdeauna identitatea persoanei cu care comunici înainte de a întreprinde orice acțiune."
+      },
+      "responsibly": {
+        "title": "Comunicați responsabil",
+        "body": "Comunicarea respectuoasă ajută la crearea unui mediu mai sigur pentru toată lumea. Evitați să vă angajați în conversații dăunătoare sau abuzive și fiți atenți la modul în care cuvintele dvs. pot afecta pe alții. Interacțiunile pozitive contribuie la o experiență mai bună pentru toți utilizatorii."
+      },
+      "whySafety": {
+        "title": "De ce este importantă siguranța online",
+        "body": "Pe măsură ce comunicarea digitală continuă să crească, menținerea siguranței și a încrederii devine din ce în ce mai importantă. Urmând practicile de bază privind siguranța și folosind instrumentele disponibile, utilizatorii se pot bucura de beneficiile mesageriei, minimizând în același timp riscurile."
+      },
+      "conclusion": "Să rămâi în siguranță online nu necesită cunoștințe tehnice avansate — doar conștientizare, prudență și bun simț. Cu obiceiurile potrivite, poți comunica cu încredere și în siguranță."
+    }
+  },
+  "about": {
+    "title": "Despre Chatforia",
+    "description": "Chatforia este o aplicație de mesagerie sigură și multilingvă, cu criptare end-to-end, traducere instantanee și apeluri voce/video. Misiunea noastră este simplă: să ajutăm oamenii să comunice — în siguranță, în confidențialitate și peste barierele lingvistice.",
+    "valuesTitle": "Ce prețuim",
+    "values": {
+      "privacy": "<b>Confidențialitatea pe primul loc:</b> Criptare E2E implicită.",
+      "access": "<b>Acces pentru toți:</b> Traducere automată în peste 100 de limbi.",
+      "control": "<b>Control:</b> Mesajele care dispar și confirmările de citire sunt opționale.",
+      "privacy_ aria": "Confidențialitatea pe primul loc: criptare E2E implicită.",
+      "access_aria": "Acces pentru toți: traducere automată în peste 100 de limbi.",
+      "control_aria": "Control: mesajele care dispar și confirmările de citire sunt opționale."
+    },
+    "howTitle": "Cum funcționează Chatforia",
+    "howDescription": "Mesajele sunt criptate pe dispozitivul dvs. înainte de a părăsi acesta. Traducerea, copiile de rezervă și sincronizarea dispozitivelor sunt concepute pentru a reduce la minimum ceea ce pot vedea serverele noastre."
+  },
+  "press": {
+    "title": "Presă",
+    "contactLine": "Pentru întrebări din partea mass-media, ne puteți contacta la",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia este o aplicație de mesagerie care pune pe primul plan confidențialitatea și facilitează conversațiile în mai multe limbi. Mesajele sunt criptate end-to-end în mod implicit, iar funcția de traducere integrată suportă peste 100 de limbi în timp real. Utilizatorii pot activa mesajele care dispar, pot opta pentru confirmări de citire opționale și pot sincroniza între dispozitive. Disponibilă pe iOS, Android și web.",
+    "assetsTitle": "Resurse de brand",
+    "assetsSubtitle": "Logo-uri, capturi de ecran și imagini ale produsului.",
+    "downloadCta": "Descărcați kitul media",
+    "downloadTitle": "Descărcați aplicația",
+    "scanTip": "Sunteți pe desktop? Scanați cu telefonul pentru a descărca aplicația.",
+    "qrAria": "Deschide site-ul Chatforia",
+    "appStore": "Descărcați din App Store",
+    "googlePlay": "Descărcați din Google Play"
+  },
+  "careers": {
+    "title": "Carieră",
+    "intro": "Suntem o mică echipă fondatoare care construiește Chatforia — un serviciu de mesagerie privat, global, care se lansează pe web, iOS și Android. Dacă îți pasă de confidențialitate, criptare și experiențe plăcute pentru utilizatori, ne-ar plăcea să auzim de la tine.",
+    "openRoles": "<b>Posturi disponibile pentru fondatori:</b> Inginer Full-stack principal, Inginer Backend (Node.js), Inginer Frontend/ Web (React), Inginer mobil (iOS), Inginer mobil (Android), DevOps/SRE, Inginer securitate și criptare, Inginer telecomunicații (Twilio + eSIM).",
+    "apply": "Cum să aplici: Folosește butonul de mai jos pentru a ne trimite CV-ul și link-urile tale prin e-mail.",
+    "emailCta": "Trimite-ne CV-ul tău prin e-mail",
+    "whyNow": "De ce să te alături acum?",
+    "whyBullets": "• Ajută la construirea bazelor unui nou serviciu global de mesagerie.\n• Implementează îmbunătățiri utilizate pe web, iOS și Android.\n• Lucrează direct cu fondatorul la arhitectură și direcția produsului.\n• Deține responsabilitatea pentru domenii de mare impact ale stivei: mesagerie, voce, video, criptare, telecomunicații, AI.\n• Alătură-te la început — înainte ca baza de utilizatori să crească."
+  },
+  "advertise": {
+    "title": "Promovează-te cu Chatforia",
+    "description": "Ajunge la utilizatori de mesagerie implicați cu plasări de bun gust și sigure pentru brand. Oferim inventar de bannere în locuri cu vizibilitate ridicată, sponsorizări și promoții interne. Abonații premium nu văd reclame.",
+    "adsense": {
+      "withPubIdShort": "De asemenea, oferim inventar prin Google AdSense. Poți viza Chatforia cu ID-ul de editor {{pub Id}}, sau puteți utiliza formularul de mai jos pentru sponsorizări directe.",
+      "noPubIdShort": "De asemenea, oferim un inventar prin Google AdSense. Sunt disponibile sponsorizări directe — utilizați formularul de mai jos."
+    },
+    "inventoryHeader": "Inventar și specificații",
+    "placement": {
+      "displayBadge": "Afișare",
+      "acceptedSizes": "Dimensiuni acceptate",
+      "adsenseSlot": "Slot AdSense:"
+    },
+    "noPlacementsPublic": "Ne finalizăm inventarul publicitar. Spuneți-ne despre campania dvs. și vă vom recomanda plasări.",
+    "whyHeader": "De ce Chatforia?",
+    "why": {
+      "highSession": "Frecvență ridicată a sesiunilor și timp de staționare în interfața de chat",
+      "brandSafe": "Formate sigure pentru brand; limitare respectuoasă a frecvenței",
+      "sponsoredMoments": "Momente sponsorizate (de ex., fereastra modală \"Începe o conversație\") disponibile",
+      "deals": "Oferte directe sau programatice prin AdSense/Google Ads"
+    },
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Mulțumim! Solicitarea dvs. a fost trimisă. Vă vom contacta în scurt timp.",
+      "missingRequired": "Vă rugăm să completați numele, adresa de e-mail și mesajul.",
+      "successToast": "Mulțumim! Vă vom contacta în curând.",
+      "mailtoInfo": "Deschidem clientul de e-mail pentru a trimite solicitarea…",
+      "nameLabel": "Numele dvs.",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Companie",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Buget lunar (opțional)",
+      "budgetPlaceholder": "de ex. 1.000–20.000+ USD",
+      "messageLabel": "Spune-ne despre campania ta",
+      "messagePlaceholder": "Segmentare, date, KPI, preferințe de plasare…",
+      "sendCta": "Trimite cerere"
+    },
+    "legal": {
+      "disclaimerStart": "Prin trimiterea formularului, ești de acord cu",
+      "terms": "Termeni",
+      "and": "și",
+      "privacy": "Politica de confidențialitate"
+    }
+  },
+  "contact": {
+    "title": "Contactați-ne",
+    "successMsg": "Mulțumim — echipa noastră vă va răspunde prin e-mail.",
+    "errorSend": "Nu s-a putut trimite. Vă rugăm să trimiteți un e-mail la support@chatforia.com.",
+    "form": {
+      "nameLabel": "Nume",
+      "emailLabel": "E-mail",
+      "messageLabel": "Mesaj",
+      "sendCta": "Trimite"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Politica de confidențialitate",
+    "lastUpdated": "Ultima actualizare:",
+    "intro": {
+      "body": "Această Politică de confidențialitate explică modul în care Chatforia (\"noi\", \"nouă\") colectează, utilizează și partajează informații atunci când utilizați aplicațiile și serviciile noastre. Am conceput Chatforia pentru a reduce la minimum datele la care avem acces."
+    },
+    "infoWeCollect": {
+      "title": "Informațiile pe care le colectăm",
+      "account": "Informații despre cont (de ex., e-mail/telefon) pentru a vă crea și securiza contul.",
+      "encrypted": "Conținutul criptat (mesaje/apeluri) este criptat end-to-end; nu îl putem citi.",
+      "diagnostics": "Date de diagnosticare/utilizare, cum ar fi jurnalele de erori, tipul dispozitivului, sau analize generale pentru a îmbunătăți performanța."
+    },
+    "sms": {
+      "title": "Numere de telefon mobil și SMS",
+      "body": "Dacă alegeți să furnizați un număr de telefon mobil, îl folosim pentru a activa funcții precum verificarea contului, alerte de conectare și mesagerie între utilizatori prin SMS, acolo unde este acceptat. Este posibil să trimitem mesaje SMS tranzacționale legate de contul și activitatea dvs. pe Chatforia. Puteți renunța la primirea mesajelor SMS în orice moment, răspunzând cu un cuvânt cheie de renunțare acceptat (cum ar fi \"STOP\") sau modificând preferințele de notificare din aplicație. Nu vindem numărul dvs. de telefon și nu îl folosim pentru marketing fără legătură cu serviciul nostru.",
+      "newText": "Text nou",
+      "enterRecipient": "Introduceți un nume sau un număr",
+      "typeMessage": "Tastați un mesaj…",
+      "addRecipient": "Adăugați un destinatar mai sus pentru a începe…"
+    },
+    "howWeUse": {
+      "title": "Cum utilizăm informațiile",
+      "provide": "Furnizarea și securizarea serviciului (autentificare, detectarea spamului/abuzurilor).",
+      "improve": "Îmbunătățirea funcționalităților (calitatea traducerii, fiabilitatea).",
+      "legal": "Respectarea obligațiilor legale."
+    },
+    "sharing": {
+      "title": "Partajare",
+      "body": "Nu vindem date personale. Putem partaja date limitate cu procesatori (de ex., notificări push, analize) în baza unor contracte stricte."
+    },
+    "rights": {
+      "title": "Drepturile dvs.",
+      "body": "În funcție de regiunea dvs. (de ex., GDPR/UK GDPR/CPRA), puteți solicita accesul, corectarea, ștergerea sau renunțarea la anumite prelucrări. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Păstrarea și securitatea datelor",
+      "body": "Păstrăm doar ceea ce este necesar pentru funcționarea serviciului și aplicăm standardele de securitate din industrie. Conținutul E2E nu poate fi decriptat de noi."
+    },
+    "children": {
+      "title": "Copii",
+      "body": "Chatforia nu se adresează copiilor sub 13 ani (sau conform cerințelor legislației locale)."
+    },
+    "changes": {
+      "title": "Modificări",
+      "body": "Vom publica actualizări aici și vom revizui data \"Ultima actualizare\"."
     },
     "contact": {
-      "title": "Contactează-ne",
-      "successMsg": "Mulțumim — echipa noastră va răspunde prin email.",
-      "errorSend": "Nu s-a putut trimite. Te rugăm să trimiți email la support@chatforia.com.",
-      "form": {
-        "nameLabel": "Nume",
-        "emailLabel": "Email",
-        "messageLabel": "Mesaj",
-        "sendCta": "Trimite"
-      }
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, SUA"
+    }
+  },
+  "terms": {
+    "title": "Termeni și condiții",
+    "lastUpdated": "Ultima actualizare:",
+    "intro": {
+      "body": "Prin utilizarea Chatforia, sunteți de acord cu acești Termeni. Dacă nu sunteți de acord, nu utilizați serviciul."
     },
-    "privacyPolicy": {
-      "title": "Politica de confidențialitate",
-      "lastUpdated": "Ultima actualizare:",
-      "intro": {
-        "body": "Această Politică de confidențialitate explică modul în care Chatforia („noi”, „noi”) colectează, utilizează și partajează informații atunci când folosești aplicațiile și serviciile noastre. Proiectăm Chatforia pentru a minimiza datele la care avem acces."
-      },
-      "infoWeCollect": {
-        "title": "Informații pe care le colectăm",
-        "account": "Informații cont (ex., email/telefon) pentru crearea și securizarea contului tău.",
-        "encrypted": "Conținut criptat (mesaje/apeluri) este criptat end-to-end; nu îl putem citi.",
-        "diagnostics": "Diagnostic/utilizare cum ar fi jurnale de erori, tip dispozitiv sau analize grosiere pentru a îmbunătăți performanța."
-      },
-      "sms": {
-        "title": "Numere de telefon mobil și SMS",
-        "body": "Dacă alegi să furnizezi un număr de telefon mobil, îl folosim pentru a activa funcții precum verificarea contului, alerte de conectare și mesagerie utilizator-către-utilizator prin SMS unde este suportat. Putem trimite mesaje SMS tranzacționale legate de contul și activitatea ta pe Chatforia. Poți renunța la primirea mesajelor SMS oricând răspunzând cu un cuvânt-cheie de renunțare suportat (cum ar fi „STOP”) sau modificând preferințele de notificare în aplicație. Nu vindem numărul tău de telefon și nu îl folosim pentru marketing nelegat.",
-        "newText": "Text nou",
-        "enterRecipient": "Introdu un nume sau un număr",
-        "typeMessage": "Scrie un mesaj…",
-        "addRecipient": "Adaugă un destinatar mai sus pentru a începe…"
-      },
-      "howWeUse": {
-        "title": "Cum folosim informațiile",
-        "provide": "Furnizăm și securizăm serviciul (autentificare, detectare spam/abuz).",
-        "improve": "Îmbunătățim funcțiile (calitatea traducerii, fiabilitate).",
-        "legal": "Respectăm obligațiile legale."
-      },
-      "sharing": {
-        "title": "Partajare",
-        "body": "Nu vindem date personale. Putem partaja date limitate cu procesatori (ex., notificări push, analize) sub contracte stricte."
-      },
-      "rights": {
-        "title": "Drepturile tale",
-        "body": "În funcție de regiunea ta (ex., GDPR/UK GDPR/CPRA), poți solicita acces, corectare, ștergere sau renunțare la anumite prelucrări. Contact: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Păstrare date & securitate",
-        "body": "Păstrăm doar ceea ce este necesar pentru a opera serviciul și aplicăm securitate standard din industrie. Conținutul E2E nu poate fi decriptat de noi."
-      },
-      "children": {
-        "title": "Copii",
-        "body": "Chatforia nu este direcționat către copii sub 13 ani (sau conform legii locale)."
-      },
-      "changes": {
-        "title": "Modificări",
-        "body": "Vom posta actualizări aici și vom revizui data „Ultima actualizare”."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, SUA"
-      }
+    "accounts": {
+      "title": "Conturi",
+      "itemAccurateInfo": "Furnizați informații corecte și păstrați datele de autentificare în siguranță.",
+      "itemResponsibility": "Sunteți responsabil pentru activitatea din contul dvs."
     },
-    "terms": {
-      "title": "Termeni și condiții",
-      "lastUpdated": "Ultima actualizare:",
-      "intro": {
-        "body": "Prin utilizarea Chatforia accepți acești Termeni. Dacă nu ești de acord, nu folosi serviciul."
-      },
-      "accounts": {
-        "title": "Conturi",
-        "itemAccurateInfo": "Furnizează informații corecte și păstrează datele de autentificare în siguranță.",
-        "itemResponsibility": "Ești responsabil pentru activitatea din contul tău."
-      },
-      "acceptableUse": {
-        "title": "Utilizare acceptabilă",
-        "itemNoAbuse": "Fără conținut ilegal, abuziv sau care încalcă drepturi; fără spam sau abuz automatizat.",
-        "itemSuspend": "Putem suspenda/termina contul pentru încălcări."
-      },
-      "sms": {
-        "title": "Comunicări SMS",
-        "body": "Dacă furnizezi un număr de telefon mobil, accepți ca Chatforia să îți trimită mesaje SMS legate de contul și utilizarea serviciului, cum ar fi alerte de conectare, notificări de securitate și mesaje legate de conversațiile pe care le inițiezi sau la care participi. Nu folosim SMS pentru mesaje promoționale sau de marketing fără consimțământul tău explicit. Tarifele standard pentru mesaje și date pot aplica. Poți renunța la mesajele SMS oricând răspunzând cu un cuvânt-cheie de renunțare suportat (de exemplu, „STOP”) sau actualizând setările de notificare în aplicație."
-      },
-      "yourContent": {
-        "title": "Conținutul tău",
-        "body": "Păstrezi drepturile asupra conținutului tău. Ne acorzi drepturile necesare pentru a opera serviciul (ex., rutare, stocare, traducere)."
-      },
-      "disclaimer": {
-        "title": "Declinări de răspundere & răspundere",
-        "body": "Serviciul este furnizat „așa cum este” fără garanții. În măsura maximă permisă de lege, Chatforia nu este răspunzătoare pentru daune indirecte sau consecvențiale."
-      },
-      "changes": {
-        "title": "Modificări",
-        "body": "Putem actualiza acești termeni; utilizarea continuă după modificări înseamnă acceptare."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, SUA"
-      }
+    "acceptableUse": {
+      "title": "Utilizare acceptabilă",
+      "itemNoAbuse": "Fără conținut ilegal, abuziv sau care încalcă drepturile de autor; fără spam sau abuz automatizat.",
+      "itemSuspend": "Putem suspenda/închide contul în caz de încălcări."
     },
-    "doNotSell": {
-      "title": "Nu vinde sau partaja informațiile mele personale",
-      "body": "Chatforia nu vinde informații personale. Rezidenții din California pot totuși trimite cereri conform CPRA folosind butonul de mai jos.",
-      "cta": "Trimite o cerere"
+    "sms": {
+      "title": "Comunicări prin SMS",
+      "body": "Dacă furnizați un număr de telefon mobil, sunteți de acord ca Chatforia să vă trimită mesaje SMS legate de contul dvs. și de utilizarea serviciului, cum ar fi alerte de conectare, notificări de securitate și mesaje legate de conversațiile pe care le inițiați sau la care participați. Nu folosim SMS-urile pentru mesaje promoționale sau de marketing fără consimțământul dvs. explicit. Se pot aplica tarife standard pentru mesaje și date. Vă puteți dezabona de la mesajele SMS în orice moment, răspunzând cu un cuvânt cheie de renunțare acceptat (de exemplu, \"STOP\") sau actualizând setările de notificare din aplicație."
     },
-    "cookies": {
-      "title": "Setări cookie-uri",
-      "body": "Chatforia folosește cookie-uri minime (ex., sesiune, securitate). Nu folosim cookie-uri de reclame terțe. Gestionează cookie-urile prin setările browserului tău."
+    "yourContent": {
+      "title": "Conținutul dvs.",
+      "body": "Vă păstrați drepturile asupra conținutului dvs. Ne acordați drepturile necesare pentru a opera serviciul (de exemplu, rutare, stocare, traducere)."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Nu s-a putut încărca starea numărului de telefon.",
-      "lock": "Blochează",
-      "noNumberAssigned": "Niciun număr atribuit. Alege unul după prefix pentru a începe să trimiți mesaje text.",
-      "pickNumber": "Alege un număr",
-      "phoneNumber": "Număr de telefon"
+    "disclaimer": {
+      "title": "Declinarea responsabilității și răspunderea",
+      "body": "Serviciul este furnizat \"așa cum este\", fără garanții. În măsura maximă permisă de lege, Chatforia nu este răspunzătoare pentru daune indirecte sau consecințiale."
     },
-    "startChatModal": {
-      "title": "Începe un chat",
-      "quickPicker": "Selector rapid",
-      "to": "Către",
-      "nameOrUsername": "Scrie un nume, nume de utilizator",
-      "nameUsernamePhoneEmail": "Scrie un nume, nume de utilizator, telefon sau email…",
-      "startWithSelected": "Începe chat cu selectat",
-      "searchByUsernameOrPhone": "Caută după nume de utilizator sau telefon",
-      "search": "Caută",
-      "searchPrompt": "Scrie un nume de utilizator sau telefon și apasă Caută.",
-      "pickFromContacts": "Sau alege din contacte",
-      "addContact": "Adaugă un contact",
-      "show": "Arată",
-      "add": "Adaugă",
-      "close": "Închide",
-      "selectedCount": "{{count}} selectate",
-      "pickAtLeastOne": "Alege cel puțin un destinatar.",
-      "saveContactsHint": "Intrările de telefon/email vor fi disponibile după ce le salvezi ca contacte.",
-      "failedBulkStart": "Începerea chat-ului cu destinatarii selectați a eșuat.",
-      "noResults": "Niciun rezultat",
-      "mode": "Mod",
-      "group": "Grup",
-      "broadcast": "Difuzare",
-      "groupNameOptional": "Nume grup (opțional)",
-      "firstMessageOptional": "Primul mesaj (opțional, dar recomandat)",
-      "createGroup": "Creează grup",
-      "sendBroadcast": "Trimite difuzare"
+    "changes": {
+      "title": "Modificări",
+      "body": "Este posibil să actualizăm acești termeni; utilizarea în continuare după modificări înseamnă acceptarea acestora."
     },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Apus",
-      "solarized": "Solarizat",
-      "velvet": "Catifea"
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, SUA"
+    }
+  },
+  "refund": {
+    "title": "Politica de rambursare",
+    "lastUpdated": "Ultima actualizare:",
+    "intro": "La Chatforia, ne străduim să oferim un serviciu de înaltă calitate tuturor utilizatorilor. Această Politică de rambursare prezintă situațiile în care se pot efectua rambursări.",
+    "subscriptions": {
+      "title": "Abonamente",
+      "body": "Abonamentele sunt facturate în avans, în mod recurent. Puteți anula oricând prin setările contului dvs. sau prin platforma utilizată pentru achiziție."
     },
-    "sounds": {
-      "freeNotice": "Ești pe Gratuit — tonurile premium sunt afișate, dar blocate. Upgrade pentru a debloca toate.",
-      "preview": "Previzualizare",
-      "resetToDefaults": "Resetează la implicite",
-      "notificationSounds": "Sunete de notificare",
-      "messageTone": "Ton mesaj",
-      "default": "Implicit",
-      "vibrate": "Vibrează",
-      "dreamer": "Visător",
-      "notify": "Notifică",
-      "pop": "Pop",
-      "pulsatingSound": "Sunet pulsant",
-      "textMessage": "Mesaj text",
-      "xylophone": "Xilofon",
-      "classic": "Clasic",
-      "urgency": "Urgență",
-      "bells": "Clopoței",
-      "chimes": "Clopoței",
-      "digitalPhone": "Telefon digital",
-      "melodic": "Melodic",
-      "organNotes": "Note de orgă",
-      "soundReality": "Sunet realitate",
-      "street": "Stradă",
-      "universfield": "Universfield"
+    "eligibility": {
+      "title": "Eligibilitate pentru rambursare",
+      "body": "Rambursările pot fi acordate pentru taxări duble, erori de facturare sau probleme tehnice care împiedică accesul la funcțiile plătite. Toate cererile sunt analizate de la caz la caz."
     },
-    "premiumGuard": {
-      "requiresPremium": "Această funcție necesită un plan Premium."
+    "nonRefundable": {
+      "title": "Nerambursabil",
+      "body": "În general, nu oferim rambursări pentru timpul neutilizat, perioade parțiale de abonament sau neanularea înainte de reînnoire."
     },
-    "aiSettings": {
-      "title": "Setări AI",
-      "controlIntro": "Control traducere, răspunsuri inteligente și răspunsuri automate ForiaBot.",
-      "save": "Salvează setări AI",
-      "autoTranslateIncoming": "Traducere automată a mesajelor primite",
-      "showOriginalAlongside": "Afișează textul original alături de traducere",
-      "enableSmartReplies": "Activează răspunsuri inteligente",
-      "smartRepliesHint": "Trimite ultimele câteva mesaje primite (sanatizate) către AI pentru a sugera răspunsuri rapide.",
-      "maskProfanity": "Maschează profanitatea în sugestiile AI",
-      "maskProfanityHint": "Dacă este activat, sugestiile returnate de AI vor avea cuvintele marcate mascate",
-      "foriaBot": "Răspuns automat ForiaBot",
-      "enableAutoReply": "Activează răspuns automat când sunt ocupat",
-      "autoReplyMode": "Mod răspuns automat",
-      "cooldownSeconds": "Cooldown (secunde)",
-      "off": "Dezactivat",
-      "on": "Activ",
-      "signature": "Semnătură",
-      "autoReply": "Răspuns automat",
-      "activeUntilOptional": "Activ până la (opțional)",
-      "saved": "Preferințele AI au fost salvate",
-      "saveFailed": "Salvarea setărilor AI a eșuat",
-      "translateOff": "Dezactivat",
-      "translateTagged": "Doar când @translated sau etichetat",
-      "translateAll": "Traduce toate mesajele primite",
-      "modeDm": "Doar chat-uri 1:1",
-      "modeMention": "Doar când sunt @menționat",
-      "modeAll": "Toate mesajele primite"
+    "thirdParty": {
+      "title": "Achiziții de la terți",
+      "body": "Dacă achiziția a fost efectuată prin intermediul unor platforme terțe, cum ar fi Apple App Store, rambursările trebuie solicitate direct prin intermediul acelor platforme."
     },
-    "accessibilitySettings": {
-      "title": "Accesibilitate & Alerte",
-      "accessibility": "Accesibilitate",
-      "accessibilityDesc": "Opțiuni pentru a face Chatforia mai ușor de folosit fără a depinde de sunet.",
-      "interfaceFontSize": "Dimensiune font interfață",
-      "interfaceFontSizeHelp": "Începe de la dimensiune normală. Mărește dacă preferi text mai mare în setările de accesibilitate.",
-      "sm": "mic",
-      "md": "mediu",
-      "lg": "mare",
-      "xl": "extra-mare",
-      "notifications": "Notificări",
-      "notificationsDesc": "Alerte vizuale pentru mesaje & apeluri\nAfișează bannere și clipire titlu ca să nu ratezi activitate.",
-      "vibrateOnNew": "Vibrează la mesaje noi (când este suportat)\nDeclanșează vibrația dispozitivului cu notificările.",
-      "flashOnCall": "Flash ecran la apel primit\nFlash luminos scurt când sună un apel.",
-      "liveCaptions": "Subtitrări live (apeluri)",
-      "captionFontSize": "Dimensiune font subtitrare",
-      "captionBackground": "Fundal subtitrare",
-      "light": "luminos",
-      "dark": "întunecat",
-      "transparent": "transparent",
-      "voiceNotes": "Note vocale",
-      "autoTranscribeVoiceNotes": "Transcriere automată note vocale",
-      "autoTranscribeVoiceNotesDesc": "Atașează o transcriere la mesajele audio primite.",
-      "changesSavedInstantly": "Modificările sunt salvate instantaneu.",
-      "loadFailed": "Încărcarea setărilor a eșuat",
-      "visualAlerts": "Alerte vizuale pentru mesaje & apeluri",
-      "visualAlertsDesc": "Afișează bannere și clipire titlu ca să nu ratezi activitate.",
-      "vibrateOnNewShort": "Vibrează la mesaje noi (când este suportat)",
-      "vibrateOnNewDesc": "Declanșează vibrația dispozitivului cu notificările.",
-      "flashOnCallShort": "Flash ecran la apel primit",
-      "flashOnCallDesc": "Flash luminos scurt când sună un apel."
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, SUA"
+    }
+  },
+  "doNotSell": {
+    "title": "Nu vindeți și nu partajați informațiile mele personale",
+    "body": "Chatforia nu vinde informații personale. Locuitorii din California pot trimite în continuare solicitări în conformitate cu CPRA folosind butonul de mai jos.",
+    "cta": "Trimiteți o solicitare"
+  },
+  "cookies": {
+    "title": "Setări cookie-uri",
+    "body": "Chatforia utilizează un număr minim de cookie-uri (de exemplu, de sesiune, de securitate). Nu utilizăm cookie-uri publicitare de la terți. Gestionați cookie-urile prin setările browserului dumneavoastră."
+  },
+  "premiumGuard": {
+    "requiresPremium": "Această funcție necesită un plan Premium."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — Politica privind SMS-urile și opțiunea de acceptare",
+    "lastUpdated": "Ultima actualizare:",
+    "whatWeSend": {
+      "title": "Ce trimitem",
+      "body": "Chatforia trimite numai SMS-uri legate de cont și conversaționale către numerele de telefon pe care un utilizator le-a furnizat în mod explicit și pentru care și-a dat consimțământul. Mesajele tipice includ coduri de autentificare/verificare, alerte de livrare a mesajelor, notificări de securitate și actualizări tranzacționale ale contului."
     },
-    "privacySection": {
-      "strictE2EE": "Criptare end-to-end strictă",
-      "ciphertextOnlyNote": "Stochează doar ciphertext pe server. Dezactivează AI/Traducere și previzualizări de moderare."
+    "optIn": {
+      "title": "Cum se înscriu utilizatorii",
+      "body": "Utilizatorii se înscriu introducând numărul lor de telefon în timpul înregistrării și bifând caseta de consimțământ pentru SMS-uri de pe pagina de înregistrare sau din",
+      "link": "formularul de înscriere"
     },
-    "linkedDevicesPanel": {
-      "title": "Dispozitive conectate",
-      "noneFound": "Niciun dispozitiv conectat găsit.",
-      "refresh": "Reîmprospătează"
+    "optOut": {
+      "title": "Cum se dezabonează utilizatorii",
+      "stop": "Răspundeți cu STOP la orice SMS Chatforia pentru a vă dezabona.",
+      "start": "Răspundeți cu START pentru a vă reabona.",
+      "contactPrefix": "Contactați asistența la"
     },
     "help": {
       "title": "Ajutor",
-      "howCanWeHelp": "Cu ce te putem ajuta?",
-      "helpCenter": "Centru de ajutor",
-      "contactUs": "Contactează-ne",
-      "quickTopics": "Subiecte rapide",
-      "searchExamples": "Încearcă să cauți „traducere”, „backup-uri” sau „confidențialitate”.",
-      "cantLogin": "Nu mă pot conecta",
-      "paymentsBilling": "Plăți / facturare",
-      "reportAbuse": "Raportează abuz",
-      "searchHelpArticles": "Caută articole de ajutor",
-      "search": "Caută"
+      "bodyPrefix": "Răspundeți cu HELP pentru asistență sau trimiteți un e-mail"
     },
-    "peoplePage": {
-      "people": "Persoane",
-      "search": "Caută",
-      "searchPlaceholder": "Caută după alias, nume, nume de utilizator sau telefon",
-      "filterSaved": "Filtrează contacte salvate",
-      "noContactsFound": "Niciun contact găsit",
-      "quickStart": "Pornire rapidă",
-      "quickStartDesc": "Câteva moduri rapide de a începe.",
-      "importContacts": "Importă contactele tale",
-      "add": "Adaugă",
-      "focusSearch": "Focalizează căutarea",
-      "import": "Importă",
-      "findOrAdd": "Găsește sau adaugă pe cineva",
-      "searchByPhoneOrUsername": "Caută după telefon / nume de utilizator",
-      "inviteFriends": "Invită prieteni",
-      "inviteDesc": "Partajează link-ul de invitație pentru a începe conversația instantaneu.",
-      "getTheApp": "Descarcă aplicația",
-      "getTheAppDesc": "Rămâi în legătură pe drum cu Chatforia pentru iOS și Android.",
-      "download": "Descarcă",
-      "syncTip": "Sfat: Mesajele tale rămân sincronizate pe web și mobil."
+    "privacyTerms": {
+      "title": "Confidențialitate și termeni",
+      "bodyStart": "Prin acceptarea SMS-urilor, utilizatorii sunt de acord și cu",
+      "terms": "Termenii și condițiile noastre",
+      "and": "și",
+      "privacy": "Politica de confidențialitate"
     },
-    "randomChat": {
-      "title": "Chat aleatoriu",
-      "description": "Întâlnește pe cineva nou instantaneu. Te vom potrivi și vom deschide o cameră de chat temporară. Chat anonim mai întâi. Adaugă ca prieten mai târziu dacă se simte bine.",
-      "findMatch": "Găsește-mi un match",
-      "chatWithForia": "Chat cu Foria",
-      "chatWithForiaBot": "Chat cu ForiaBot",
-      "cancel": "Anulează",
-      "close": "Închide",
-      "searching": "Se caută…",
-      "finding": "Se caută…",
-      "looking": "Caut pe cineva…",
-      "startingForia": "Se începe o conversație cu Foria…",
-      "partnerDisconnected": "Partenerul s-a deconectat.",
-      "noPartner": "Niciun partener găsit acum.",
-      "connectedTo": "Conectat la {{name}}",
-      "connected": "Conectat",
-      "idle": "Inactiv",
-      "partnerLeft": "Partenerul a plecat.",
-      "stopped": "Oprit.",
-      "skip": "Sari",
-      "save": "Salvează",
-      "saveGuard": "Doar conversațiile om-om pot fi salvate",
-      "youAreChattingWith": "Vorbești cu {{name}}",
-      "bot": "BOT",
-      "leave": "Ieși",
-      "sayHi": "Spune salut 👋",
-      "you": "Tu",
-      "typeMessage": "Scrie un mesaj",
-      "send": "Trimite",
-      "partner": "Partener",
-      "withRia": "Cu Ria",
-      "chatWithRia": "Chat cu Ria",
-      "startingRia": "Se începe o conversație cu Ria…",
-      "ageDisclaimer": "Stocăm doar un interval de vârstă (nu data exactă de naștere). Acesta este folosit pentru a menține potrivirile rezonabile în Chatul aleatoriu. Pentru a fi potrivit cu persoane (nu doar RiaBot), setează intervalul de vârstă în Setări → Vârstă & Chat aleatoriu.",
-      "ageBandRequired": "Setează intervalul de vârstă în Profil → Vârstă & Chat aleatoriu pentru a fi potrivit cu persoane.",
-      "ageBandCallout": "Pentru a fi potrivit cu persoane (nu doar RiaBot), setează intervalul de vârstă în Setări → Vârstă & Chat aleatoriu.",
-      "subtitle": "Întâlnește pe cineva nou instantaneu sau alege să vorbești cu Ria.",
-      "start": "Începe o conversație",
-      "matching": "Se potrivește…",
-      "setAge": "Setează intervalul de vârstă în Profil → Vârstă & Chat aleatoriu pentru a fi potrivit cu persoane.",
-      "next": "Următoarea persoană",
-      "addFriend": "Adaugă prieten",
-      "requested": "Solicitat",
-      "messageRia": "Mesaj Ria…",
-      "messageMatch": "Mesaj match-ului tău…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "acolo",
-      "intro": "Salut acolo 👋 Sunt Ria. Ce ai pe gânduri?",
-      "greetings": {
-        "long1": "Salut {{name}} 👋 Sunt aici. Ce ai pe gânduri?",
-        "long2": "Bună {{name}} 😊 Despre ce ai vrea să vorbim azi?",
-        "long3": "Salut {{name}}!! Sunt numai urechi — ce mai faci?",
-        "long4": "Mă bucur să te văd, {{name}} 👋 Ce ai pe gânduri azi?",
-        "long5": "Salut {{name}} 😊 Vrei să te descarci, să întrebi sau doar să vorbești?",
-        "long6": "Bună {{name}}!! Am timp — despre ce ai vrea să vorbim?",
-        "short1": "Salut {{name}}, sunt încă aici. Ce mai faci?",
-        "short2": "Bine ai revenit {{name}} 👋 Mai ai ceva de adăugat?",
-        "short3": "Ai revenit, {{name}}? 😊 Spune-mi ce ai pe gânduri.",
-        "short4": "Salut {{name}} 👋 Gata să continuăm de unde am rămas?",
-        "short5": "Da {{name}}? Ascult 👂",
-        "short6": "O, salut {{name}}!! Ai ceva nou pe gânduri?"
-      },
-      "header": {
-        "openNav": "Deschide meniul de navigare",
-        "closeNav": "Închide meniul de navigare",
-        "homeAria": "Acasă Chatforia"
-      },
-      "login": {
-        "welcomeBack": "Bine ai revenit",
-        "title": "Continuă pe Chatforia",
-        "subtitleReturning": "Conectează-te la contul tău Chatforia",
-        "subtitle": "Conectează-te la contul tău Chatforia",
-        "google": "Continuă cu Google",
-        "apple": "Continuă cu Apple",
-        "googleUnavailable": "Conectarea cu Google indisponibilă",
-        "appleUnavailable": "Conectarea cu Apple indisponibilă",
-        "or": "sau",
-        "email": "Email",
-        "emailPh": "tu@example.com",
-        "usernameLabel": "Nume de utilizator",
-        "usernamePh": "Numele tău de utilizator",
-        "passwordLabel": "Parolă",
-        "passwordPh": "Parola ta",
-        "keepSignedIn": "Păstrează-mă conectat",
-        "forgot": {
-          "title": "Ai uitat parola",
-          "helper": "Introdu email-ul folosit pentru a crea contul Chatforia și îți vom trimite un link securizat pentru resetare parolă.",
-          "emailInvalid": "Te rugăm să introduci o adresă de email validă.",
-          "genericError": "Nu s-a putut procesa cererea. Te rugăm să încerci din nou într-un moment.",
-          "sending": "Se trimite link-ul de resetare…",
-          "sendCta": "Trimite link de resetare",
-          "sentLabel": "Trimis!",
-          "sentHelper": "Dacă există un cont cu acest email, am trimis un link de resetare parolă. Poate dura câteva minute să ajungă. Verifică folderul de spam sau promoții.",
-          "previewDev": "Previzualizare email (Dev)",
-          "backToLogin": "Înapoi la conectare"
-        },
-        "submit": "Conectează-te",
-        "loggingIn": "Se conectează…",
-        "newHere": "Ești nou aici? <link>Creează un cont</link>",
-        "ssoUnavailable": "Conectarea single-sign-on este indisponibilă momentan. Folosește nume de utilizator & parolă.",
-        "error": {
-          "missing": "Te rugăm să introduci datele de conectare.",
-          "invalid": "Nume de utilizator sau parolă invalid",
-          "denied": "Acces refuzat.",
-          "unprocessable": "Cerere invalidă. Verifică numele de utilizator/email și parola.",
-          "deviceLimit": "Limita de dispozitive a fost atinsă pentru planul Gratuit. Deconectează-te de pe alt dispozitiv sau upgrade la Premium pentru a conecta mai multe dispozitive.",
-          "premiumRequired": "Această acțiune necesită un plan Premium."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Se finalizează conectarea…"
-    },
-    "dialer": {
-      "title": "Apeluri",
-      "subtitle": "Tastatură & recente. (Dacă nu folosești PSTN, începe apelurile dintr-un antet de conversație.)",
-      "enterNumberPh": "Introdu numărul",
-      "call": "Apel",
-      "backspace": "Backspace",
-      "recents": "Recente",
-      "recentsEmpty": "Încă nu există apeluri recente.",
-      "enterNumber": "Introdu numărul",
-      "enterNumberAria": "Introdu numărul",
-      "key": "Tastă {{d}}",
-      "noRecents": "Încă nu există apeluri recente."
-    },
-    "video": {
-      "title": "Video",
-      "chooseType": "Alege un tip de video.",
-      "directTitle": "Video direct",
-      "directDesc": "Apel video 1:1 cu un alt utilizator.",
-      "directStart": "Începe",
-      "roomsTitle": "Camere",
-      "roomsDesc": "Video multi-partener folosind un nume de cameră partajat.",
-      "roomsIntro": "Alătură-te sau creează o cameră multi-partener.",
-      "roomNameLabel": "Nume cameră",
-      "roomNamePh": "ex. team-standup",
-      "join": "Alătură-te",
-      "deeplinkTip": "Sfat: poți folosi deep link direct către <code>/video?room=nume-cameră</code>.",
-      "hub": {
-        "title": "Video",
-        "subtitle": "Alege un tip de video."
-      },
-      "direct": {
-        "title": "Video direct",
-        "subtitle": "Începe un apel video 1:1 folosind un număr de telefon sau nume de utilizator Chatforia.",
-        "desc": "Apel video 1:1 cu un alt utilizator.",
-        "start": "Începe",
-        "callBtn": "Apel",
-        "callByPhone": {
-          "title": "Apel prin telefon"
-        },
-        "phone": {
-          "placeholder": "Introdu telefon (ex., +1-555-123-4567)",
-          "aria": "Telefon pentru apel"
-        },
-        "tipInvite": "Sfat: Lipeste un număr și apelează fără a salva un contact. Vom invita utilizatorii neînregistrați prin link.",
-        "findUser": {
-          "title": "Găsește un utilizator"
-        },
-        "search": {
-          "placeholder": "Caută după nume sau nume de utilizator",
-          "aria": "Caută după nume sau nume de utilizator",
-          "btn": "Caută"
-        }
-      },
-      "rooms": {
-        "title": "Camere",
-        "subtitle": "Creează o cameră sau alătură-te uneia existente tastând același nume.",
-        "desc": "Video multi-partener folosind un nume de cameră partajat.",
-        "roomLabel": "Nume cameră",
-        "roomPlaceholder": "ex. team-standup",
-        "roomAria": "Nume cameră",
-        "joinCreate": "Alătură-te / Creează",
-        "tip": "Sfat: partajează acest nume cu alții sau folosește deep link către <code>/video?room=nume-cameră</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Începe un apel video direct 1:1.",
-      "findUserLabel": "Găsește un utilizator",
-      "findUserPh": "Caută după nume sau nume de utilizator",
-      "search": "Caută",
-      "call": "Apel"
-    },
-    "phoneWarning": {
-      "title": "Numărul tău expiră în curând",
-      "body": "Numărul tău {{number}} va fi eliberat pe {{date}} dacă nu este reactivat.",
-      "button": "Păstrează-mi numărul"
-    },
-    "support": {
-      "helpFab": "Ajutor",
-      "openSupportAria": "Deschide suport",
-      "badge": "Suport",
-      "heading": "Cu ce te putem ajuta?",
-      "tabs": {
-        "help": "Centru de ajutor",
-        "contact": "Contactează-ne"
-      },
-      "searchPlaceholder": "Caută articole de ajutor…",
-      "searchAria": "Caută ajutor",
-      "searchBtn": "Caută",
-      "quickTopicsLabel": "Subiecte rapide",
-      "quickTopics": {
-        "login": "Nu mă pot conecta",
-        "billing": "Plăți / facturare",
-        "abuse": "Raportează abuz"
-      },
-      "trySearching": "Încearcă să cauți „traducere”, „backup-uri” sau „confidențialitate”.",
-      "article": "Articol",
-      "openArticle": "Deschide articol",
-      "contactIntro": "Îți vom răspunde prin email. Include detalii pentru a ne ajuta să reproducem problema.",
-      "topicAria": "Selectează un subiect",
-      "messagePlaceholder": "Scrie mesajul tău…",
-      "sendBtn": "Trimite",
-      "sent": "Mesaj trimis. Îți vom răspunde prin email.",
-      "sendError": "Nu s-a putut trimite. Trimite email la support@chatforia.com."
-    },
-    "encryptionRecovery": {
-      "title": "Gestionează criptarea",
-      "description": "Fă backup, restaurează, deblochează sau resetează cheia de criptare.",
-      "alert": {
-        "keyRequiredTitle": "Cheie de criptare necesară",
-        "keyRequiredBody": "Acest browser nu poate decripta momentan mesajele tale criptate. Restaurează, deblochează sau resetează cheia pentru a continua."
-      },
-      "sections": {
-        "createBackup": "Creează backup cheie",
-        "restoreFromBackup": "Restaurează din backup cont",
-        "resetEncryption": "Resetează criptarea"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Cod de deblocare (dispozitiv curent)",
-          "description": "Folosit pentru a decripta cheile local înainte de export"
-        },
-        "backupPassword": {
-          "label": "Parolă backup",
-          "description": "Folosit pentru a cripta fișierul de backup"
-        },
-        "restoreBackupPassword": {
-          "label": "Parolă backup",
-          "description": "Parola creată când ai făcut backup la cheie pe iPhone"
-        },
-        "newLocalPasscode": {
-          "label": "Cod local nou",
-          "description": "Protejează cheile în repaus pe acest browser"
-        },
-        "resetLocalPasscode": {
-          "label": "Cod local nou",
-          "description": "Necesar înainte de resetare pentru ca noua cheie să fie protejată pe acest dispozitiv"
-        }
-      },
-      "actions": {
-        "unlockKey": "Deblochează cheia de criptare",
-        "restoreFromBackup": "Restaurează din backup cont",
-        "resetEncryption": "Resetează criptarea"
-      },
-      "messages": {
-        "backupCreated": "Backup-ul cheii a fost creat și descărcat.",
-        "keyUnlocked": "Cheia de criptare a fost deblocată.",
-        "keyRestored": "Cheia a fost restaurată din backup cont.",
-        "resetSuccess": "Criptarea a fost resetată cu succes."
-      },
-      "errors": {
-        "restoreIncomplete": "Restaurarea cheii incompletă sau incorectă pentru acest cont",
-        "noBackup": "Nu există backup criptat pentru acest cont",
-        "missingPublicKey": "Backup-ul nu conține o cheie publică",
-        "noServerPublicKey": "Acest cont nu expune momentan o cheie publică de server",
-        "serverBackupMismatch": "Backup-ul de pe server nu se potrivește cu cheia de criptare a contului curent",
-        "incompleteMetadata": "Metadatele backup-ului sunt incomplete",
-        "resetIncomplete": "Resetarea criptării nu s-a finalizat corect"
-      },
-      "confirm": {
-        "reset": "Resetezi criptarea pentru acest cont?\n\nMesajele criptate vechi pot deveni ilizibile dacă nu restaurezi cheia originală mai târziu."
-      },
-      "resetDescription": "Aceasta generează o cheie de criptare nouă pentru contul tău. Mesajele criptate vechi pot deveni ilizibile dacă nu restaurezi cheia originală mai târziu."
-    },
-    "footer": {
-      "plans": "Planuri & Prețuri",
-      "about": "Despre Chatforia",
-      "careers": "Cariere",
-      "press": "Presa",
-      "advertise": "Publicitate",
-      "contact": "Contactează-ne",
-      "help": "Centru de ajutor",
-      "status": "Pagină de stare",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Politica de confidențialitate",
-      "terms": "Termeni și condiții",
-      "cookies": "Setări cookie-uri",
-      "doNotSell": "Nu vinde informațiile mele",
-      "language": "Limbă",
-      "contactShort": "Contact",
-      "aria": "Footer",
-      "homeAria": "Acasă Chatforia",
-      "section": {
-        "company": "COMPANIE",
-        "support": "SUPORT",
-        "downloads": "DESCĂRCĂRI",
-        "legal": "LEGAL"
-      },
-      "links": {
-        "plans-pricing": "Planuri & Prețuri",
-        "about-chatforia": "Despre Chatforia",
-        "careers": "Cariere",
-        "press": "Presa",
-        "advertise": "Publicitate",
-        "getting-started": "Cum să începi",
-        "help-center": "Centru de ajutor",
-        "contact-us": "Contactează-ne",
-        "status-page": "Pagină de stare",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Politica de confidențialitate",
-        "terms-of-service": "Termeni și condiții",
-        "do-not-sell-my-info": "Nu vinde informațiile mele",
-        "cookie-settings": "Setări cookie-uri"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Brevet în curs",
-      "backToTop": "↑ Înapoi sus"
-    },
-    "press": {
-      "title": "Presa",
-      "contactLine": "Pentru întrebări media, contactează-ne la",
-      "boilerplateTitle": "Boilerplate",
-      "boilerplateBody": "Chatforia este o aplicație de mesagerie axată pe confidențialitate care face conversațiile multilingve effortless. Mesajele sunt criptate end-to-end implicit, iar traducerea integrată suportă peste 100 de limbi în timp real. Utilizatorii pot activa mesaje care dispar, păstra confirmările de citire opționale și sincroniza pe dispozitive. Disponibil pe iOS, Android și web.",
-      "assetsTitle": "Active de brand",
-      "assetsSubtitle": "Logouri, capturi de ecran și imagini de produs.",
-      "downloadCta": "Descarcă kit media",
-      "downloadTitle": "Descarcă aplicația",
-      "scanTip": "Pe desktop? Scanează cu telefonul pentru a descărca aplicația.",
-      "qrAria": "Deschide site-ul Chatforia",
-      "appStore": "Descarcă din App Store",
-      "googlePlay": "Descarcă din Google Play"
-    },
-    "careers": {
-      "title": "Cariere",
-      "intro": "Suntem o echipă mică de fondatori care construim Chatforia — un mesager global privat care se lansează pe web, iOS și Android. Dacă îți pasă de confidențialitate, criptare și experiențe utilizator minunate, ne-ar plăcea să auzim de la tine.",
-      "openRoles": "<b>Roluri fondatoare deschise:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
-      "apply": "Cum să aplici: Folosește butonul de mai jos pentru a trimite CV-ul și link-urile prin email.",
-      "emailCta": "Trimite CV-ul prin email",
-      "whyNow": "De ce să te alături acum?",
-      "whyBullets": "• Ajută la construirea fundației unui nou mesager global.\n• Livrează îmbunătățiri folosite pe web, iOS și Android.\n• Lucrează direct cu fondatorul la arhitectură și direcție de produs.\n• Deții zone de impact înalt din stack: mesagerie, voce, video, criptare, telecom, AI.\n• Alătură-te de la început — înainte ca baza de utilizatori să scaleze."
-    },
-    "about": {
-      "title": "Despre Chatforia",
-      "description": "Chatforia este un mesager securizat, multilingv cu criptare end-to-end, traducere instantanee și apeluri voce/video. Misiunea noastră este simplă: ajutăm oamenii să se conecteze — în siguranță, privat și peste limbi.",
-      "valuesTitle": "Ce apreciem",
-      "values": {
-        "privacy": "<b>Prioritate confidențialității:</b> Criptare E2E implicită.",
-        "access": "<b>Acces pentru toți:</b> Traducere automată în peste 100 de limbi.",
-        "control": "<b>Control:</b> Mesaje care dispar & confirmări de citire sunt opționale.",
-        "privacy_aria": "Prioritate confidențialității: Criptare E2E implicită.",
-        "access_aria": "Acces pentru toți: Traducere automată în peste 100 de limbi.",
-        "control_aria": "Control: Mesaje care dispar și confirmări de citire sunt opționale."
-      },
-      "howTitle": "Cum funcționează Chatforia",
-      "howDescription": "Mesajele sunt criptate pe dispozitivul tău înainte de a pleca. Traducerea, backup-urile și sincronizarea dispozitivelor sunt proiectate pentru a minimiza ceea ce serverele noastre pot vedea."
-    },
-    "advertise": {
-      "title": "Fă publicitate cu Chatforia",
-      "description": "Ajunge la utilizatori angajați de mesagerie cu plasamente elegante și sigure pentru brand. Oferim inventar de bannere în locuri cu vizibilitate ridicată, sponsorizări și promoții interne. Abonații Premium nu văd reclame.",
-      "adsense": {
-        "withPubIdShort": "Servim inventar și prin Google AdSense. Poți targeta Chatforia cu ID editor {{pubId}}, sau folosește formularul de mai jos pentru sponsorizări directe.",
-        "noPubIdShort": "Servim ceva inventar prin Google AdSense. Sponsorizările directe sunt disponibile — folosește formularul de mai jos."
-      },
-      "inventoryHeader": "Inventar & Specificații",
-      "placement": {
-        "displayBadge": "Display",
-        "acceptedSizes": "Dimensiuni acceptate",
-        "adsenseSlot": "Slot AdSense:"
-      },
-      "noPlacementsPublic": "Finalizăm inventarul de reclame. Spune-ne despre campania ta și îți vom recomanda plasamente.",
-      "whyHeader": "De ce Chatforia?",
-      "why": {
-        "highSession": "Frecvență ridicată de sesiuni și timp petrecut în interfața de chat",
-        "brandSafe": "Formate sigure pentru brand; limitare de frecvență respectuoasă",
-        "sponsoredMoments": "Momente sponsorizate (ex., modal „Începe un chat”) disponibile",
-        "deals": "Oferte directe sau programatice prin AdSense/Google Ads"
-      },
-      "contactHeader": "Contact",
-      "form": {
-        "submittedMsg": "Mulțumim! Cererea ta este pe drum. Te vom contacta în curând.",
-        "missingRequired": "Te rugăm să completezi nume, email și mesaj.",
-        "successToast": "Mulțumim! Te vom contacta în curând.",
-        "mailtoInfo": "Se deschide clientul de email pentru a trimite cererea…",
-        "nameLabel": "Numele tău",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "Email",
-        "emailPlaceholder": "tu@companie.com",
-        "companyLabel": "Companie",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Buget lunar (opțional)",
-        "budgetPlaceholder": "ex. $1.000–$20.000+",
-        "messageLabel": "Spune-ne despre campania ta",
-        "messagePlaceholder": "Targetare, date, KPI-uri, preferințe de plasare…",
-        "sendCta": "Trimite cerere"
-      },
-      "legal": {
-        "disclaimerStart": "Prin trimitere, accepți",
-        "terms": "Termenii",
-        "and": "și",
-        "privacy": "Politica de confidențialitate"
-      }
-    }
+    "footer": "© 2026 Chatforia Inc."
   }
 }

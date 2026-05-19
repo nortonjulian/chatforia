@@ -7,1791 +7,2001 @@
     "cancelAria": "Khansela",
     "copy": "Kopisha",
     "copied": "Kopishiwe!",
-    "errorWithMessage": "Iphutha: {{message}}"
+    "errorWithMessage": "Iphutha: {{message}}",
+    "loading": "Kulayishwa…",
+    "saveError": "Ukugcina kwehlulekile"
   },
   "a11y": {
-    "skipToMain": "Yeqa ukuya kokuqukethwe okuyinhloko"
+    "skipToMain": "Dlula uye kokuqukethwe okuyinhloko"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Isipele sokhiye senziwe futhi salayishwa ✓",
-    "restored": "Isipele sokhiye sibuyisiwe ✓ Okhiye bafakwe endaweni",
-    "noBackup": "Akukho sipele esifihliwe esikhona kule akhawunti",
-    "missingPublicKey": "Isipele sishoda ukhiye womphakathi"
+    "backupCreated": "Ukugcinwa kwekhiye sekudalwe futhi kwalandwa ✓",
+    "restored": "Ukugcinwa kwekhiye sekubuyiselwe ✓ Amakhiye afakwe endaweni",
+    "noBackup": "Akukho ukugcinwa okufihliwe okukhona kule akhawunti",
+    "missingPublicKey": "Ukugcinwa kwekhiye kushoda ikhiye lomphakathi"
   },
   "keySetup": {
-    "title": "Hlela okhiye bakho bedivayisi",
-    "description": "Le divayisi ayikabi nakho ukhiye wakho wangasese. Ngenisa isipele esivikelwe ngephasiwedi, noma wenze ipheya entsha yokhiye (uzokwazi ukufunda imiyalezo emisha kusukela manje).",
-    "chooseFile": "Khetha ifayela futhi ufake iphasiwedi.",
-    "imported": "Ukhiye wangasese ungenisiwe kule divayisi. Ungafunda imiyalezo endala manje.",
-    "enterPassword": "Faka iphasiwedi ye-akhawunti yakho ukuze sikwazi ukugcina okhiye bakho ngokuphepha."
+    "title": "Lungisa amakhiwo edivayisi yakho",
+    "incazelo": "Le divayisi ayikabi nendima yakho yangasese okwamanje. Genisa isipele esivikelwe ngephasiwedi, noma udale ipheya elisha lamakhi (uzokwazi ukufunda imilayezo emisha kusukela manje).",
+    "khethaIfayela": "Khetha ifayela bese ufaka iphasiwedi.",
+    "imported": "Isihluthulelo esiyimfihlo sesingenisiwe kulesi sixhobo. Ungafunda imilayezo yakudala manje.",
+    "enterPassword": "Faka iphasiwedi ye-akhawunti yakho ukuze sikwazi ukugcina izihluthulelo zakho ngokuphepha."
+  },
+  "encryptionRecovery": {
+    "title": "Lawula Ukufihla",
+    "description": "Gcina, buyisela, vula, noma usethe kabusha isihluthulelo sakho sokufihla.",
+    "alert": {
+      "keyRequiredTitle": "Kudingeka ukhiye wokufihla",
+      "keyRequiredBody": "Leli bhrawuza alikwazi okwamanje ukuvula imilayezo yakho efihliwe. Buyisela, vula, noma usethe kabusha ukhiye wakho ukuze uqhubeke."
+    },
+    "sections": {
+      "createBackup": "Dala ukugcinwa kokhiye",
+      "restoreFromBackup": "Buyisela kusuka ekugcineni kwe-akhawunti",
+      "resetEncryption": "Seta kabusha ukufihla"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Ikhodi yokuvula (idivayisi yamanje)",
+        "description": "Isetshenziselwa ukuvula imilayezo yakho ngaphambi kokuyithumela ngaphandle"
+      },
+      "backupPassword": {
+        "label": "Iphasiwedi yokugcina",
+        "description": "Isetshenziselwa ukufihla ifayela lokugcina"
+      },
+      "restoreBackupPassword": {
+        "label": "Iphasiwedi yokubuyinza",
+        "description": "Iphasiwedi oyidalile lapho ubuyinza ukhiye wakho ku-iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Iphasiwedi entsha yendawo",
+        "description": "Vikela amakhiye agcinwe kulesi sibhrawuza"
+      },
+      "resetLocalPasscode": {
+        "label": "Ikhodi yendawo entsha",
+        "description": "Idingeka ngaphambi kokusetha kabusha ukuze ukhiye omusha uvikelwe kulesi sixhobo"
+      }
+    },
+    "actions": {
+      "unlockKey": "Vula ukhiye wokubethela",
+      "restoreFromBackup": " Buyisela kusuka kukhophi yohlelo",
+      "resetEncryption": "Seta kabusha i-Encryption"
+    },
+    "messages": {
+      "backupCreated": "Kudalwe ikhophi yokuphepha yephasi futhi yalandwa.",
+      "keyUnlocked": "Iphasi lokubethela livuliwe.",
+      "keyRestored": "Iphasi libuyiselwe kusuka kukhophi yohlelo.",
+      "resetSuccess": "Ukubuyisela ukufihlwa kwedatha kuphumelele."
+    },
+    "errors": {
+      "restoreIncomplete": "Ukubuyisela ukhiye akuphelele noma akulungile kule akhawunti",
+      "noBackup": "Ayikho i-backup efihliwe ekhona kule akhawunti",
+      "missingPublicKey": "I-backup ilahlekelwe yikhiye lomphakathi",
+      "noServerPublicKey": "Le akhawunti okwamanje ayivezi ikhiye lomphakathi lomseva",
+      "serverBackupMismatch": "I-backup yomseva ayihambisani nekhiye lokufihla le-akhawunti lamanje",
+      "incompleteMetadata": "I-metadata ye-backup ayiphelele",
+      "resetIncomplete": "Ukubuyisela ukufihla akuphelelanga kahle "
+    },
+    "confirm": {
+      "reset": "Sethaphansi kabusha ukufihla imininingwane yale akhawunti?\n\nImilayezo endala efihliwe ingase ingasafundeki ngaphandle kokuthi ubuyisele ukhiye wokuqala kamuva."
+    },
+    "resetDescription": "Lokhu kukhiqiza ukhiye omusha wokufihla imininingwane ye-akhawunti yakho. Imilayezo endala efihliwe ingase ingasafundeki ngaphandle kokuthi ubuyisele ukhiye wokuqala kamuva."
+  },
+  "smsConsent": {
+    "label": "Ngivuma ukuthola izaziso nama-alerts e-SMS avela ku-{{companyName}}. Ukujwayeleka kwemiyalezo kungahluka. Izindleko zemiyalezo neddatha zingase zisebenze. Phendula <stop>STOP</stop> ukuze ukhansele noma kunini. Phendula <help>HELP</help> ukuze uthole usizo."
+  },
+  "phoneField": {
+    "label": "Ucingo",
+    "okungelona": "Inombolo yocingo engalungile",
+    "isaziso": "Faka ikhodi yezwe uma kudingeka (isb., +1 415…)"
   },
   "auth": {
-    "headline": "Ukuthumela imiyalezo evikelekile kunoma ngubani, noma kuphi",
-    "description": "Ukufihla ukuphela ukuphela, ukuhumusha ezilimini ezingaphezu kuka-100, imiyalezo enyamalala, nokushaya ucingo/ividiyo.",
-    "feature": {
-      "encryption": "Ukufihla ukuphela ukuphela ngokuzenzakalelayo",
-      "translation": "Ukuhumusha umyalezo okhaliphile, okwakhelwe ngaphakathi",
-      "disappearing": "Imiyalezo enyamalala nokwamukela ukufundwa",
-      "privacy": "Okubekwa kuqala ubumfihlo. Idatha yakho, ukulawula kwakho.",
-      "translate": "Ukuhumusha umyalezo okhaliphile, okwakhelwe ngaphakathi",
-      "disappear": "Imiyalezo enyamalala",
-      "privacyAlt": "Idizayini yokubekwa kuqala ubumfihlo",
-      "seePlans": "Bona izinhlelo nokubiza"
+    "isihloko": "Ukuthumela imiyalezo okuphephile kunoma ubani, noma kuphi",
+    "incazelo": "Ukubethela kusukela ekuqaleni kuya ekugcineni, ukuhumusha ezilimini ezingaphezu kuka-100, imiyalezo ephunyayo, nokushayela ngomsindo/ividiyo.",
+    "isici": {
+      "ukubethela": "Ukubethela kusukela ekuqaleni kuya ekugcineni ngokujwayelekile",
+      "ukuhumusha": "Ukuhumusha imiyalezo okwakhelwe ngaphakathi okuhlakaniphile",
+      "okuphunyayo": "Imilayezo ephunyayo & izitifiketi zokufundwa",
+      "privacy": "Ubumfihlo kuqala. Idatha yakho, ukulawula kwakho.",
+      "translate": "Ukuguqulwa kwemilayezo okuhlakaniphile okwakhelwe ngaphakathi",
+      "disappear": "Imilayezo ephunyayo",
+      "privacyAlt": "Umklamo wobumfihlo kuqala",
+      "seePlans": "Bona izinhlelo nezintengo"
     },
     "hero": {
-      "line1": "Ukuthumela imiyalezo evikelekile kunoma ngubani, noma kuphi — nge",
+      "line1": "Ukuthumela imilayezo ephephile kunoma ubani, noma kuphi — nge",
       "em": "ukuhumusha ezilimini ezingaphezu kuka-100",
-      "sub": "Thola inombolo yocingo evikelekile yamahhala ukuze ushayele futhi uthumele imiyalezo emhlabeni wonke nge-Wi-Fi noma idatha. Jabulela ukufihla ukuphela ukuphela, imiyalezo enyamalala, nokushaya ucingo/ividiyo ye-HD — namathuluzi akhelwe ngaphakathi asiza ukuhlala uxhumene ngaphesheya kwemingcele.",
-      "freeNote": "Ukushaya ucingo nokuthumela imiyalezo okuyisisekelo kumahhala. Izici ze-AI ezithuthukile nezici ze-premium zidinga ukuthuthukiswa."
+      "sub": "Thola inombolo yocingo evikelekile yamahhala ongayisebenzisa ukushayela nokuthumela imiyalezo emhlabeni wonke nge-Wi-Fi noma ngedatha. Jabulela ukuvikelwa kwedatha kusukela ekuqaleni kuya ekugcineni, imiyalezo ephunyayo, nokushayela kwezwi/ividiyo nge-HD — ngezinsiza ezakhelwe ngaphakathi ezikusiza ukuthi uhlale uxhumekile ngaphesheya kwemingcele.",
+      "freeNote": "Ukushayela nokuthumela imiyalezo okuyisisekelo kumahhala. Izici ezithuthukisiwe ze-AI nezisezingeni eliphezulu zidinga ukuthuthukiswa."
     },
     "feat": {
-      "encryption": "Ukufihla ukuphela ukuphela, kuhlala kuvuliwe",
-      "translate": "Yephula izithiyo zolimi ezingxoxweni zakho",
-      "disappear": "Imiyalezo enyamalala nokwamukela ukufundwa",
-      "privacy": "Okubekwa kuqala ubumfihlo. Idatha yakho, ukulawula kwakho."
+      "encryption": "Ukubethela kusukela ekuqaleni kuya ekugcineni, kuhlala kusebenza",
+      "translate": "Phula izithiyo zolimi ezingxoxweni zakho",
+      "disappear": "Imiyalezo ephunyayo nezitifiketi zokufundwa",
+      "privacy": "Ubumfihlo kuqala. Idatha yakho, ukulawula kwakho. "
     },
-    "continueGoogle": "Qhubeka ne-Google",
-    "continueApple": "Qhubeka ne-Apple",
+    "continueGoogle": "Qhubeka nge-Google",
+    "continueApple": "Qhubeka nge-Apple",
     "username": "Igama lomsebenzisi",
     "password": "Iphasiwedi",
     "keepSignedIn": "Ngigcine ngingene ngemvume",
     "forgotPassword": "Ukhohlwe iphasiwedi?",
     "loginButton": "Ngena ngemvume",
-    "createAccount": "Yakha i-akhawunti",
-    "freeAccountButton": "Yakha i-akhawunti yamahhala",
-    "newHere": "Uqala lapha?",
+    "dalaI-akhawunti": "Dala i-akhawunti",
+    "qophaI-akhawuntiYamahhala": "Dala i-akhawunti yamahhala",
+    "ulapha": "Ulapha?",
     "getApp": "Thola uhlelo lokusebenza",
-    "desktopTip": "Kudeskithophu? Skena ngefoni yakho ukuze uthole uhlelo lokusebenza.",
-    "scanHelper": "Kudeskithophu? Skena ngefoni yakho ukuze uthole uhlelo lokusebenza.",
-    "goHome": "Iya ekhaya",
+    "desktopTip": "Kwi-desktop? Skena ngocingo lwakho ukuze uthole uhlelo lokusebenza.",
+    "scanHelper": "Kwi-desktop? Skena ngocingo lwakho ukuze uthole uhlelo lokusebenza.",
+    "goHome": "Hamba ekhaya",
     "home": "Ikhaya",
-    "headlineAlt": {
-      "main": "Isithunywa esivikelekile esithi",
-      "highlight": "sikhuluma ulimi lwakho"
+    "isihlokoEsinye": {
+      "eyinhloko": "Umlayezo ophephile othi",
+      "okugqamile": "ukhuluma ulimi lwakho"
     },
-    "subhead": "Ukuthumela imiyalezo eyimfihlo, efihliwe, nehunyushiwe — ngokushesha.",
-    "upgrade": "Thuthukisa manje",
-    "tip": "Ithiphu: Sebenzisa i-akhawunti efanayo kuwebhu naku-mobile. Imiyalezo yakho ihlala ivumelaniswe.",
-    "openDownload": "Vula ikhasi lokulayisha",
+    "subhead": "Ukuthumela imilayezo ngasese, efihliwe, futhi ehumushiwe — ngokushesha.",
+    "upgrade": "Yithuthukise manje",
+    "tip": "Ithiphu: Sebenzisa i-akhawunti efanayo kuwebhu nakuselula. Imilayezo yakho ihlala ivumelanisiwe.",
+    "openDownload": "Vula ikhasi lokulanda",
     "qrAlt": "Ikhodi ye-QR ye-Chatforia",
-    "scanHint": "Skena ukuze ulayishe uhlelo lokusebenza noma uvule kusiphequluli sakho.",
-    "iosAria": "Layisha ku-App Store",
-    "iosTitle": "Layisha ku-App Store",
-    "iosBadgeAlt": "Ibheji ye-App Store",
-    "androidAria": "Ithole ku-Google Play",
-    "androidTitle": "Isitolo se-Google Play",
+    "scanHint": "Skenisha ukuze ulande uhlelo lokusebenza noma ulivule kusiphequluli sakho.",
+    "iosAria": "Landa ku-App Store",
+    "iosTitle": "Landa ku-App Store",
+    "iosBadgeAlt": "Ibheji le-App Store",
+    "androidAria": "Yithole ku-Google Play",
+    "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Ibheji ye-Google Play",
-    "login": "Ngena ngemvume",
+    "login": "Ngena",
     "signup": "Bhalisa",
     "email": "I-imeyili",
     "registration": {
       "passwordDescription": "Okungenani izinhlamvu ezi-6. Sebenzisa iphasiwedi eqinile, eyingqayizivele.",
-      "smsConsent": "Ngokwakha i-akhawunti, uyavuma ukuthola izaziso ze-SMS ezihlobene nomsebenzi wakho we-Chatforia (njengemiyalezo evela kwabanye abasebenzisi). Amazinga omyalezo nedatha angase asebenze. Ungakhetha ukuphuma noma nini ku-Settings.",
+      "smsConsent": "Ngokudala i-akhawunti, uyavuma ukuthola izaziso ze-SMS ezihlobene nemisebenzi yakho ye-Chatforia (njengemilayezo evela kwabanye abasebenzisi). Izindleko zemilayezo nedatha zingase zisebenze. Ungakhetha ukungathathi hlangothi noma kunini ku-Izilungiselelo.",
       "termsLink": "Imigomo Yesevisi",
       "privacyLink": "Inqubomgomo Yobumfihlo"
     },
-    "to": "Kuya ku:",
+    "to": "Ku:",
     "enterRecipient": "Faka igama noma inombolo",
     "clearRecipients": "Sula abamukeli",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Thayipha umyalezo…",
-    "addRecipient": "Engeza umamukeli ngenhla ukuze uqale…",
+    "typeMessage": "Bhala umlayezo…",
+    "addRecipient": "Engeza umamukeli ongemuva ukuze uqale…",
     "oneRecipient": "Sicela ufake umamukeli oyedwa okwamanje.",
-    "enterValidRecipient": "Faka igama lomuntu oxhumene olondoloziwe noma inombolo yocingo.",
-    "sendFailed": "Ukuthumela kwehlulekile. Hlola ikhonsoli ukuze uthole imininingwane."
+    "enterValidRecipient": "Faka igama lomuntu oqhagamshelwayo ogciniwe noma inombolo yocingo.",
+    "sendFailed": "Ukuthumela kwehlulekile. Bheka ikhonsoli ukuze uthole imininingwane."
   },
   "home": {
-    "title": "Ikhaya",
-    "header": "Imiyalezo yakho",
-    "subheader": "Thumela umyalezo ukuze uqale ingxoxo.",
-    "sendButton": "Thumela umyalezo",
-    "gifPicker": "Vula i-GIF picker",
-    "emoji": "I-emoji",
+    "isihloko": "Ikhaya",
+    "izihlokoZemilayezo": "Imilayezo yakho",
+    "isihlokwanaSemilayezo": "Faka umamukeli ngenhla, bese uthumela umlayezo ukuze uqale ingxoxo.",
+    "isihlokwanaEsingaphansi": "Thumela umlayezo ukuze uqale ingxoxo.",
+    "inkinobhoYokuthumela": "Thumela umlayezo",
+    "ukukhethaamaGIF": "Vula ukukhethaamaGIF",
+    "emoji": "Emoji",
     "upload": "Layisha isithombe noma ividiyo",
-    "inputPlaceholder": "Thayipha umyalezo…",
-    "inputLabel": "Umakhi womyalezo",
+    "inputPlaceholder": "Bhala umlayezo…",
+    "inputLabel": "Umhlanganisi wemilayezo",
     "sendTooltip": "Thumela",
-    "sendTooltipEmpty": "Thayipha umyalezo ukuze uthumele",
+    "sendTooltipEmpty": "Bhala umlayezo ozothumela",
     "send": "Thumela",
-    "welcomeMessage": "Wamukelekile ku-Chatforia",
+    "welcomeMessage": "Siyakwamukela eChatforia",
+    "getStarted": "Qala",
+    "mixedRecipients": "Kutholakale abamukeli abaxubekile. Sebenzisa wonke amanombolo wefoni (SMS) noma wonke amagama abasebenzisi (Chatforia).",
     "enterRecipient": "Faka igama noma inombolo",
     "addRecipient": "Engeza umamukeli ngenhla ukuze uqale…",
-    "getStarted": "Qala"
-  },
-  "refund": {
-    "title": "Inqubomgomo Yokubuyiselwa Kwemali",
-    "lastUpdated": "Kubuyekezwe okokugcina:",
-    "intro": "Kwa-Chatforia, sizama ukunikeza isevisi esezingeni eliphezulu kubo bonke abasebenzisi. Le nqubomgomo ichaza ukuthi imali ingabuyiselwa nini.",
-    "subscriptions": {
-      "title": "Okubhaliselwe",
-      "body": "Okubhaliselwe kukhokhwa kusengaphambili futhi kuphindaphindeka ngokuzenzakalelayo. Ungakukhansela noma nini kuzilungiselelo ze-akhawunti yakho noma kupulatifomu oyisebenzisile ukuyithenga."
-    },
-    "eligibility": {
-      "title": "Ukufaneleka Kokubuyiselwa",
-      "body": "Imali ingabuyiselwa uma kukhona ukukhokha kabili, amaphutha ekukhokheni, noma izinkinga zobuchwepheshe ezivimba ukufinyelela kuzici ezikhokhelwayo. Zonke izicelo zibhekwa ngakunye."
-    },
-    "nonRefundable": {
-      "title": "Okungabuyiselwa",
-      "body": "Ngokuvamile asibuyiseli imali ngesikhathi esingasetshenziswanga, izingxenye zesikhathi sokubhalisa, noma ukwehluleka ukukhansela ngaphambi kokuvuselelwa."
-    },
-    "thirdParty": {
-      "title": "Ukuthengwa Kwangaphandle",
-      "body": "Uma kuthengiwe ngezinkundla zangaphandle ezifana ne-Apple App Store, ukubuyiselwa kwemali kumele kucelwe kulezo zinkundla ngqo."
-    },
-    "contact": {
-      "title": "Xhumana Nathi",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Mayelana ne-Chatforia",
-    "description": "I-Chatforia iyinkundla yesimanje yokuxhumana eyenzelwe ukuxhumana okuphephile ngezilimi eziningi...",
-    "valuesTitle": "Esikubalulekile kithi",
-    "privacyTitle": "Ubumfihlo kuqala",
-    "privacyDesc": "Ukuvikelwa okuqinile kanye nezilungiselelo zobumfihlo ezilawulwa ngumsebenzisi",
-    "accessTitle": "Ukufinyelela kubo bonke",
-    "accessDesc": "Ukuhumusha okwakhelwe ngaphakathi ezilimini eziningi",
-    "controlTitle": "Ukulawula",
-    "controlDesc": "Izici ezifana nemilayezo enyamalalayo nezaziso zokufunda"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Kungani Izinkundla Zokuthumela Imilayezo Zibaluleke Kakhulu",
-      "intro": "Izinkundla zokuthumela imilayezo seziyithuluzi elibalulekile lokuxhumana emhlabeni wanamuhla...",
-      "everydayTitle": "Ukuxhumana Kwansuku Zonke",
-      "everydayDesc": "Abantu bathembele ezinhlelweni zokuthumela imilayezo nsuku zonke...",
-      "speedTitle": "Isivinini Nokulula",
-      "speedDesc": "Imilayezo ifika ngokushesha...",
-      "globalTitle": "Ukufinyelela Emhlabeni Wonke",
-      "globalDesc": "Lezi zinkundla zixhumanisa abantu emhlabeni wonke...",
-      "privacyTitle": "Ubumfihlo Nokulawula",
-      "privacyDesc": "Izinkundla zesimanje zinikeza abasebenzisi ukulawula...",
-      "futureTitle": "Ikusasa Lokuthumela Imilayezo",
-      "futureDesc": "Ukuthumela imilayezo kuyaqhubeka nokuthuthuka...",
-      "outro": "I-Chatforia yakhiwe ngalemigomo..."
-    },
-
-    "global": {
-      "title": "Ikusasa Lokuxhumana Komhlaba",
-      "intro": "Ukuxhumana kushintshe ngokushesha...",
-      "barriersTitle": "Ukwephula Izithiyo",
-      "barriersDesc": "Abantu manje bangaxhumana emhlabeni wonke...",
-      "translationTitle": "Indima Yokuhumusha",
-      "translationDesc": "Ulimi bekulokhu kuyisithiyo...",
-      "realtimeTitle": "Ukuxhumana Ngesikhathi Sangempela",
-      "realtimeDesc": "Isivinini sibalulekile...",
-      "privacyTitle": "Ubumfihlo Nokuphepha",
-      "privacyDesc": "Abasebenzisi bafuna ukuvikeleka kokuxhumana kwabo...",
-      "futureTitle": "Okuzayo",
-      "futureDesc": "Ikusasa lokuxhumana lizofaka izinto ezintsha...",
-      "outro": "Izinkundla ezifana ne-Chatforia ziyingxenye yalokhu..."
-    },
-
-    "index": {
-      "title": "Ibhulogi ye-Chatforia",
-      "intro": "Hlola imibono mayelana nokuxhumana...",
-      "post1": "Indlela Yokuxoxa Ngokuphepha Ku-inthanethi",
-      "post2": "Ikusasa Lokuxhumana Komhlaba",
-      "post3": "Kungani Izinkundla Zokuthumela Imilayezo Zibalulekile"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Isebenza Kanjani i-Chatforia",
-    "intro": "I-Chatforia yakhelwe ukwenza ukuxhumana kube lula...",
-    "step1Title": "1. Dala I-akhawunti",
-    "step1Desc": "Bhalisa usebenzisa i-imeyili noma igama lomsebenzisi...",
-    "step2Title": "2. Qala Ingxoxo",
-    "step2Desc": "Xhumana nabanye...",
-    "step3Title": "3. Imiyalezo Yesikhathi Sangempela",
-    "step3Desc": "Imilayezo ifika ngokushesha...",
-    "step4Title": "4. Ukuxhumana Komhlaba",
-    "step4Desc": "Ukuhumusha okusakhelwe ngaphakathi kusiza abasebenzisi...",
-    "step5Title": "5. Hlala Ulawula",
-    "step5Desc": "Phatha izilungiselelo zakho..."
-  },
-
-  "safety": {
-    "title": "Ukuphepha Nemithetho Yomphakathi",
-    "intro": "I-Chatforia izibophezele ekugcineni indawo ephephile...",
-    "respectTitle": "Ukuxhumana Ngokuhlonipha",
-    "respectDesc": "Abasebenzisi kulindeleke ukuthi bahloniphane...",
-    "prohibitedTitle": "Okuvinjelwe",
-    "prohibited": {
-      "illegal": "Imisebenzi engekho emthethweni",
-      "harassment": "Ukuhlukumeza noma ukubhidliza",
-      "hate": "Inkulumo enenzondo noma ukucwasa",
-      "explicit": "Okuqukethwe okungcolile noma okuyingozi",
-      "spam": "Ugaxekile noma ubuqili"
-    },
-    "toolsTitle": "Amathuluzi Okuphepha",
-    "tools": {
-      "report": "Bika ukuziphatha okungafanele",
-      "block": "Vimba abasebenzisi",
-      "control": "Phatha izilungiselelo zobumfihlo"
-    },
-    "enforcementTitle": "Ukuqaliswa",
-    "enforcementDesc": "Singathatha izinyathelo kuma-akhawunti..."
-},
-  "chat": {
-    "selectPrompt": "Khetha umbhalo noma igumbi lengxoxo ukuze uqale ukuxoxa",
-    "newMessages": "Imiyalezo emisha",
-    "typing": "{{name}} uyathayipha...",
-    "emptyTitle": "Imiyalezo yakho",
-    "emptySubtitle": "Thumela umyalezo ukuze uqale ingxoxo.",
-    "startChatButton": "Thumela umyalezo",
-    "mediaAttachment": "Okunamathiselwe kwemidiya",
-    "thisUser": "lo msebenzisi",
-    "blockConfirm": "Vimba {{name}}? Ngeke uthole imiyalezo kubo.",
-    "blockedUser": "Uvimbe {{name}}.",
-    "blockError": "Ayikwazanga ukuthola umsebenzisi oqondiwe ukumvimba.",
-    "blockFailed": "Ukuvimba kwehlulekile (i-backend ayikaxhunywa okwamanje).",
-    "encryptedUnavailable": "Umyalezo ofihliwe (ukhiye awutholakali)",
-    "unlockToView": "Vula ukhiye wakho ukuze ubuke lo myyalezo"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Valiwe"
-    },
-    "freeLimit": "Umkhawulo weplan yamahhala: ukususa ngokuzenzakalelayo kuze kube usuku olu-1. Kufinyelelwe ku-1d.",
-    "premiumLimit": "Okuphezulu kokususa ngokuzenzakalelayo kwe-Premium yizinsuku ezingama-30. Kufinyelelwe ku-30d.",
-    "nothingToSend": "Thayipha umyalezo noma namathisela ifayela ukuze uthumele.",
-    "encryptionFailed": "Ukufihla kwehlulekile. Umyalezo awuthunyelwanga.",
-    "sent": "Umyalezo uthunyelwe.",
-    "placeholder": "Thayipha umyalezo…",
-    "voiceAdded": "Inothi lezwi lingeziwe",
-    "attachmentAdded": "Okunamathiselwe kwengeziwe",
-    "autoDelete": "Susa ngokuzenzakalelayo",
-    "typeToSend": "Thayipha umyalezo ukuze uthumele",
-    "send": "Thumela",
-    "sendWithEnter": "Thumela (Enter)",
-    "attachment": "okunamathiselwe",
-    "caption": "Umbhalo (okungenzeka)",
-    "remove": "Susa",
-    "clear": "Sula",
-    "gif": "GIF",
-    "sticker": "Isitika",
-    "errors": {
-      "attachmentTooLarge": "Okunamathiselwe kukhulu kakhulu. Zama ifayela elincane.",
-      "unsupportedFile": "Uhlobo lwefayela olungasekelwe.",
-      "rateLimit": "Uthumela imiyalezo ngokushesha kakhulu. Sicela wehlise isivinini.",
-      "validation": "Iphutha lokuqinisekisa. Sicela uhlole umyalezo wakho futhi uzame futhi.",
-      "failedToSend": "Ukuthumela kwehlulekile. Ungazama futhi ibhola elwehlulekile."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Oxhumene Abalondoloziwe",
-    "refreshAria": "Vuselela oxhumene",
-    "filterPlaceholder": "Hlunga oxhumene abalondoloziwe…",
-    "filterAria": "Hlunga oxhumene abalondoloziwe",
-    "noContactsFound": "Akukho oxhumene abatholakali.",
-    "externalContact": "Oxhumene wangaphandle",
-    "notJoined": "Loxhumene akakajoyini i-Chatforia okwamanje.",
-    "couldNotStart": "Ayikwazanga ukuqala ingxoxo. Sicela uzame futhi.",
-    "startFailed": "Ukugalulwa kwengxoxo kwehlulekile. Sicela uzame futhi.",
-    "deleted": "Oxhumene ususiwe.",
-    "deleteFailed": "Ukususa oxhumene kwehlulekile. Sicela uzame futhi.",
-    "aliasUpdated": "I-alias ibuyekeziwe.",
-    "updateAliasFailed": "Ukubuyekeza i-alias kwehlulekile. Sicela uzame futhi.",
-    "selectContact": "Khetha {{name}}",
-    "alias": "I-alias",
-    "startChat": "Qala ingxoxo",
-    "message": "Umyalezo",
-    "delete": "Susa",
-    "deleteContactAria": "Susa oxhumene",
-    "loadFailed": "Ukulayisha oxhumene kwehlulekile. Sicela uzame futhi.",
-    "loadMore": "Layisha okuningi",
-    "call": "Shayela",
-    "callStarted": "Ushayela le nombolo ngenombolo yakho ye-Chatforia…",
-    "callFailed": "Ukugalulwa kocingo kwehlulekile. Sicela uzame futhi."
-  },
-  "startChatModal": {
-    "title": "Qala ingxoxo",
-    "searchPlaceholder": "Sesha igama, igama lomsebenzisi, noma inombolo yocingo",
-    "messageThisPerson": "Thumela lo muntu umyalezo",
-    "contacts": "Oxhumene",
-    "recentInteractions": "Ukusebenzisana kwakamuva",
-    "noContactsMatch": "Akukho oxhumene abafana nokusesha kwakho.",
-    "noRecentInteractions": "Akukho ukusebenzisana kwakamuva okwamanje.",
-    "unknown": "Akwaziwa",
-    "interactionType": {
-      "message": "Umyalezo",
-      "call": "Shayela",
-      "video": "Ividiyo"
-    }
-  },
-  "addContactModal": {
-    "title": "Engeza oxhumene",
-    "phoneOrUsername": "Ifoni noma igama lomsebenzisi",
-    "phoneOrUsernamePlaceholder": "isib. +13018019227 noma juliannorton",
-    "alias": "I-alias (okungenzeka)",
-    "aliasPlaceholder": "isib. Umsebenzi, Umama, Mike – I-Europe",
-    "enterPhoneOrUsername": "Faka inombolo yocingo noma igama lomsebenzisi.",
-    "userLookupFailed": "Ukusesha umsebenzisi kwehlulekile.",
-    "cannotAddSelf": "Awukwazi ukugeza wena njengoxhumene.",
-    "failedToAdd": "Ukugeza oxhumene kwehlulekile.",
-    "add": "Engeza"
+    "needNumber": "Udinga inombolo ye-Chatforia ngaphambi kokuthumela i-SMS.",
+    "chooseNumber": "Khetha inombolo"
   },
   "sidebar": {
     "randomChat": "Ingxoxo Engahleliwe",
-    "callTextForwarding": "Ukudlulisa Ucingo & Imiyalezo",
-    "conversations": "Izingxoxo",
+    "callTextForwarding": "Ukudlulisela Izingcingo Nezimilayezo ",
+    "conversations": "Izinkulumo",
     "searchPlaceholder": "Sesha izingxoxo...",
-    "errorLoading": "Ukuthola izingxoxo kwehlulekile",
-    "empty": "Akukho izingxoxo okwamanje.",
+    "errorLoading": "Kwehlulekile ukulayisha izingxoxo",
+    "empty": "Akukho izinkulumo okwamanje.",
     "startChat": "Qala ingxoxo",
     "people": "Abantu",
     "settings": "Izilungiselelo",
     "status": "Isimo",
-    "forwarding": "Ukudlulisa Ucingo & Imiyalezo",
-    "refresh": "Vuselela",
-    "search": "Sesha izingxoxo",
-    "loginPrompt": "Ngena ngemvume ukuhlela izilungiselelo zakho.",
-    "login": "Ngena ngemvume",
-    "register": "Yakha i-akhawunti",
-    "chatrooms": "Amagumbi engxoxo",
+    "forwarding": "Ukudlulisela Izingcingo Nezimilayezo",
+    "vuselela": "Vuselela",
+    "sesha": "Sesha izingxoxo",
+    "sicelo sokungena": "Ngena ukuze uhlele izilungiselelo zakho.",
+    "ungena": "Ngena",
+    "bhalisa": "Dala i-akhawunti",
+    "chatrooms": "Amagumbi okuxoxa",
     "logout": "Phuma",
     "startChatAlt": "Qala ingxoxo entsha",
-    "calls": "Ocingo",
+    "calls": "Izibizo",
     "video": "Ividiyo",
-    "voicemail": "I-voicemail"
+    "voicemail": "Imilayezo yezwi"
   },
   "topbar": {
     "newStatus": "Isimo Esisha",
     "logout": "Phuma",
     "help": "Usizo",
-    "createStatusAria": "Yakha isimo esisha"
+    "createStatusAria": "Dala Isimo Esisha"
+  },
+  "footer": {
+    "plans": "Izinhlelo Namanani",
+    "about": "Mayelana neChatforia",
+    "careers": " Imisebenzi",
+    "abezindaba": "Abezindaba",
+    "ukukhangisa": "Khangisa",
+    "xhumana": "Xhumana Nathi",
+    "usizo": " Isikhungo Sosizo",
+    "status": "Ikhasi Lesimo",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Inqubomgomo Yobumfihlo",
+    "terms": "Imigomo Yesevisi",
+    "cookies": "Izilungiselelo Zama-cookie",
+    "doNotSell": "Ungathengisi Ulwazi Lwami",
+    "language": "Ulimi",
+    "contactShort": "Xhumana",
+    "aria": "Isifinyezo esingezansi",
+    "homeAria": "Ikhaya le-Chatforia",
+    "section": {
+      "company": "INKAMPANI",
+      "support": "UKUSEKELWA ",
+      "izilanda": "IZILANDA",
+      "ezomthetho": "EZOMTHETHO"
+    },
+    "izixhumanisi": {
+      "izinketho-namanani": "Izinketho & Amanani",
+      "ngobani-i-chatforia": "Mayelana ne-Chatforia",
+      "imikhakha-yemisebenzi": "Imikhakha Yemisebenzi",
+      "abezindaba": "Abezindaba",
+      "khangisa": "Khangisa",
+      "getting-started": "Ukuqala",
+      "help-center": "Isikhungo Sosizo",
+      "contact-us": "Xhumana Nathi",
+      "status-page": "Ikhasi Lesimo",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Inqubomgomo Yobumfihlo",
+      "terms-of-service": "Imigomo Yesevisi",
+      "do-not-sell-my-info": "Ungathengisi Ulwazi Lwami",
+      "cookie-settings": "Izilungiselelo Zama-cookie",
+      "how-it-works": "Indlela Esisebenza Ngayo",
+      "blog": "Ibhulogi",
+      "refund-policy": "Inqubomgomo Yokubuyiselwa Imali",
+      "inqubomgomo-ye-sms": "Inqubomgomo Yokuthumela Imiyalezo ye-SMS"
+    },
+    "yezokuxhumana": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": " LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Ilungelo lobunikazi lisalindile",
+    "backToTop": "↑ Buyela phezulu"
+  },
+  "chat": {
+    "selectPrompt": "Khetha umbhalo noma igumbi lokuxoxa ukuze uqale ukuxoxa",
+    "newMessages": "Imilayezo emisha",
+    "typing": "{{name }} ibhala...",
+    "emptyTitle": "Imilayezo yakho",
+    "emptySubtitle": "Thumela umlayezo ukuze uqale ingxoxo.",
+    "startChatButton": "Thumela umlayezo",
+    "mediaAttachment": "Ukuxhumana kwemidiya",
+    "thisUser": "lolu msebenzisi",
+    "blockConfirm": "Uvimba {{name}}? Awusoze wamukele imilayezo evela kubo.",
+    "blockedUser": "Uvimbe {{name}}.",
+    "blockError": "Akwenzeki ukunquma umsebenzisi okuzovinjwa.",
+    "blockFailed": "Ukubhloka kwehlulekile (i-backend ayikaxhunywanga okwamanje).",
+    "encryptedUnavailable": "Umlayezo oviwe (isihluthulelo asitholakali)",
+    "unlockToView": "Vula isihluthulelo sakho ukuze ubone lo myalezo"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Off"
+    },
+    "freeLimit": "Umkhawulo wohlelo lwamahhala: ukusula ngokuzenzakalelayo kuze kufike usuku olulodwa. Kuboshwe ku-1d.",
+    "premiumLimit": "Umkhawulo omkhulu wokusula ngokuzenzakalelayo we-Premium yizinsuku ezingama-30. Kuboshwe ku-30d.",
+    "nothingToSend": "Bhala umlayezo noma uxhume ifayela ongathumela.",
+    "encryptionFailed": "Ukufihla-magama kwehlulekile. Umlayezo awuthunyelwanga.",
+    "sent": "Umlayezo wathunyelwa.",
+    "placeholder": "Bhala umlayezo… ",
+    "autoDelete": "Ukuzisusa ngokuzenzakalelayo",
+    "typeToSend": "Bhala umlayezo ozothumelwa",
+    "send": "Thumela",
+    "sendWithEnter": "Thumela (Enter)",
+    "attachment": "attachment",
+    "caption": "Isihlokwana (okungeyona imfuneko)",
+    "remove": "Susa",
+    "clear": "Kucoca",
+    "gif": "GIF",
+    "sticker": "Isteka",
+    "errors": {
+      "attachmentTooLarge": "Ifayela elinamathiselwe likhulu kakhulu. Zama ifayela elincane.",
+      "unsupportedFile": "Uhlobo lwefayela olungekho emthethweni.",
+      "rateLimit": "Uthumela imilayezo ngokushesha kakhulu. Sicela wehlise ijubane.",
+      "validation": "Iphutha lokuqinisekisa. Sicela uhlole umlayezo wakho bese uzama futhi.",
+      "failedToSend": "Kwehlulekile ukuthumela. Ungazama futhi ibhubhu elihlulekile."
+    }
   },
   "threadActions": {
-    "threadMenu": "Imenyu yentambo",
-    "premium": "I-Premium",
+    "threadMenu": "Imenyu yohlaka",
+    "premium": "Premium",
     "aiPower": "Amandla e-AI",
-    "schedule": "Hlela",
-    "upgrade": "Thuthukisa",
-    "upgradeSuffix": "(Thuthukisa)",
-    "thread": "Intambo",
-    "about": "Mayelana",
-    "search": "Sesha",
-    "media": "Imidiya",
-    "invitePeople": "Mema abantu",
-    "roomSettings": "Izilungiselelo zegumbi",
-    "clearConversation": "Sula ingxoxo",
-    "clearConversationForMe": "Ngisulele mina",
-    "clearConversationForEveryone": "Sulela wonke umuntu",
-    "block": "Vimba"
+    "Uhlelo": "Uhlelo",
+    "Ukuthuthukisa": "Ukuthuthukisa",
+    "Isifinyezo sokuthuthukisa": "(Ukuthuthukisa)",
+    "Uthredhi": "Uthredhi",
+    "Mayelana": "Mayelana",
+    "Ukusesha": "Ukusesha",
+    "Imidiya": "Imidiya",
+    "Ukumema abantu": "Mema abantu",
+    "izilungiseleloZigumbi": "Izilungiselelo zegumbi",
+    "sulaIngxoxo": "Sula ingxoxo",
+    "vimba": "Vimba"
   },
-  "roomSearch": {
-    "title": "Sesha egumbini",
+  "ukuseshaKwegumbi": {
+    "isihloko": "Sesha egumbini",
     "ariaLabel": "Sesha egumbini",
     "search": "Sesha",
-    "searchMessages": "Sesha imiyalezo",
+    "searchMessages": "Sesha imilayezo",
     "noText": "[Akukho mbhalo]",
-    "noResults": "Akukho miphumela"
+    "noResults": "Akukho okutholakele"
   },
   "roomSettings": {
     "roles": {
-      "member": "Ilungu",
-      "moderator": "Umlawuli",
-      "admin": "Umlawuli omkhulu"
+      "member": "Lungu",
+      "moderator": " Umlawuli",
+      "umlawuli": "Umlawuli"
     },
     "aiMode": {
-      "off": "Valiwe",
-      "mention": "Kuphela ku-@ForiaBot noma /ask",
-      "always": "Phendula ngokuzenzekelayo"
+      "off": "Off",
+      "mention": "Kuphela ku-@ForiaBot noma ku-/ask",
+      "njalo": "Phendula ngokushesha"
     },
-    "autoTranslateMode": {
-      "off": "Valiwe",
-      "tagged": "Kuphela okuphawuliwe (/tr …)",
-      "all": "Yonke imiyalezo"
+    "indlela yokuhumusha ngokuzenzakalelayo": {
+      "kuvalwe": "Kuvalwe",
+      "eziphawuliwe": "Eziphawuliwe kuphela (/tr …)",
+      "zonke": "Yonke imilayezo"
     },
-    "updated": "Izilungiselelo zibuyekeziwe"
+    "kuvuselelwe": "Izilungiselelo zivuselelwe"
   },
-  "mediaGallery": {
-    "sharedMedia": "Imidiya eyabiwe",
-    "noMediaCached": "Akukho midiya egcinwe endaweni okwamanje.",
+  "igalari yemidiya": {
+    "sharedMedia": "Imidiya ekwabelwe",
+    "noMediaCached": "Ayikho imidiya egcinwe lapha okwamanje.",
     "imageAlt": "isithombe",
     "openVideo": "Vula ividiyo",
     "openVideoWithCaption": "Vula ividiyo: {{caption}}",
-    "preview": "Buka kuqala",
-    "previewWithCaption": "Buka kuqala: {{caption}}",
-    "previewKind": "Buka kuqala {{kind}}",
-    "download": "Landa",
-    "downloadKind": "Landa {{kind}}",
-    "file": "ifayela",
+    "preview": "Ukubuka kwangaphambili",
+    "previewWithCaption": "Ukubuka kwangaphambili: {{caption}}",
+    "previewKind": "Preview {{kind}}",
+    "download": "Download",
+    "downloadKind": "Download {{kind}}",
+    "file": "file",
     "kinds": {
-      "image": "isithombe",
-      "video": "ividiyo",
-      "audio": "umsindo",
-      "file": "ifayela"
+      "image": "image",
+      "video": "video",
+      "audio": "audio",
+      "file": "file"
     }
   },
   "status": {
-    "userNumber": "Umsebenzisi #{{id}}",
-    "posted": "Isimo sithunyelwe",
-    "postFailed": "Ukuthumela isimo kwehlulekile",
-    "createTitle": "Yakha isimo",
-    "modalAriaLabel": "Isimo esisha",
-    "captionLabel": "Yini esemqondweni wakho?",
-    "captionPlaceholder": "Yabelana ngezindaba...",
-    "captionAria": "Umyalezo wesimo",
-    "audienceLabel": "Izilaleli",
+    "userNumber": "User #{{id}}",
+    "posted": "Status posted",
+    "postFailed": "Failed to post status",
+    "createTitle": "Create a status",
+    "modalAriaLabel": "New status",
+    "captionLabel": "What's on your mind?",
+    "captionPlaceholder": "Share an update.. .",
+    "captionAria": "Umlayezo wesimo",
+    "audienceLabel": "Ababukeli",
     "audience": {
-      "public": "Umlomunye",
+      "public": "Esidlangalaleni",
       "followers": "Abalandeli",
-      "contacts": "Oxhumene",
-      "mutuals": "Abaxhumene ngokubuyiselana",
-      "custom": "Ngokwezifiso..."
+      "contacts": "Axhumana naye",
+      "mutuals": "Abaxhumana nabo bobabili",
+      "custom": "Custom..."
     },
-    "expiresHoursLabel": "Iphelelwa yisikhathi (amahora)",
-    "maxTooltip": "Okuphezulu izinsuku ezi-7",
+    "expiresHoursLabel": "Iphothulwa ngemva kwehora:",
+    "maxTooltip": "Ubuningi bezinsuku ezi-7",
     "hoursAbbrev": "h",
-    "maxShort": "okuphezulu",
-    "expiresOn": "Iphelelwa yisikhathi ngo:",
-    "chooseRecipients": "Khetha abamukeli",
-    "selectContacts": "Khetha oxhumene",
-    "attachmentsLabel": "Okunamathiselwe",
-    "attachmentsPlaceholder": "Engeza izithombe/ividiyo",
-    "filesNote": "Kuze kube amafayela angu-5. Ukuphelelwa yisikhathi kwe-24h ngokuzenzakalelayo.",
+    "maxShort": "max",
+    "expiresOn": "Iphuma ngom:",
+    "khethaAbamukeli": "Khetha abamukeli",
+    "khethaAxhumanaNabo": "Khetha abaxhumana nabo",
+    "ilebulaLokunamathiselwe": "Lokunamathiselwe",
+    "indawoYokunamathiselwe": "Engeza izithombe/amavidiyo",
+    "inothiLamaFayela": "Kufika kumafayela angu-5. Kuphelelwa yisikhathi emahoreni angu-24 ngokujwayelekile.",
     "postAria": "Thumela isimo",
     "post": "Thumela"
   },
   "voicemail": {
-    "pageTitle": "I-voicemail",
-    "from": "Ukusuka ku-",
-    "to": "Kuya ku-",
-    "unknownCaller": "Akwaziwa",
+    "pageTitle": "Voicemail",
+    "from": "Okuvela ku",
+    "to": "Ku",
+    "unknownCaller": "Ongaziwa",
     "yourNumber": "Inombolo yakho ye-Chatforia",
-    "durationSeconds": "{{count}}s",
-    "audioAria": "Isidlali somsindo we-voicemail",
-    "transcriptHeading": "Ukubhalwa",
-    "transcriptPending": "Ibhala i-voicemail…",
-    "transcriptFailed": "Ukubhalwa akutholakali.",
-    "loading": "Ilayisha i-voicemail…",
-    "errorLoading": "Ukuthola i-voicemail kwehlulekile.",
-    "empty": "Akukho ama-voicemail okwamanje.",
-    "deleteConfirm": "Susa le voicemail?",
-    "deleteError": "Ukususa i-voicemail kwehlulekile.",
-    "markRead": "Maka njengofundiwe",
+    "durationSeconds": " {{count}}s",
+    "audioAria": "Umdlali we-audio we-Voicemail",
+    "transcriptHeading": "Umbhalo",
+    "transcriptPending": "Kubhalwa umbhalo we-Voicemail…",
+    "transcriptFailed": "Umbhalo awutholakali.",
+    "loading": "Kulayishwa i-Voicemail…",
+    "errorLoading": "Kwehlulekile ukulayisha i-Voicemail.",
+    "empty": "Ayikho imilayezo yezwi okwamanje.",
+    "deleteConfirm": "Susa lo myalezo wezwi?",
+    "deleteError": "Kwehlulekile ukususa umlayezo wezwi.",
+    "markRead": "Phawula njengokufundile",
     "delete": "Susa",
-    "unreadDotAria": "Inkomba ye-voicemail engafundiwe"
+    "unreadDotAria": "Isibonisi somlayezo wezwi ongakafundwa"
+  },
+  "contactList": {
+    "savedContacts": "Abaxhumana nabo abagcinwe",
+    "refreshAria": "Vuselela abaxhumana nabo",
+    "filterPlaceholder": "Hlunga abaxhumana nabo abagcinwe…",
+    "filterAria": "Hlunga abaxhumana nabo abagcinwe",
+    "noContactsFound": "Akutholakali abaxhumana nabo.",
+    "externalContact": "Uxhumana naye wangaphandle",
+    "notJoined": "Lowo muntu akakakayijoyini i-Chatforia okwamanje.",
+    "couldNotStart": "Akwenzeki ukuqala ingxoxo. Sicela uzame futhi.",
+    "startFailed": "Kwehlulekile ukuqala ingxoxo. Sicela uzame futhi. ",
+    "kususwe": "Uxhumano lususiwe.",
+    "ukususa kwehlulekile": "Kwehlulekile ukususa uxhumano. Sicela uzame futhi.",
+    "igama elibizwayo livuselelwe": "Igama elibizwayo livuselelwe.",
+    "ukuvuselela igama elibizwayo kwehlulekile": "Kwehlulekile ukuvuselela igama elibizwayo. Sicela uzame futhi.",
+    "khetha uxhumano": "Khetha {{name}}",
+    "igama elibizwayo": "Igama elibizwayo",
+    "qala ingxoxo": "Qala ingxoxo",
+    "message": "Message",
+    "delete": "Delete",
+    "deleteContactAria": "Delete contact",
+    "loadFailed": "Failed to load contacts. Please try again.",
+    "loadMore": "Layisha okwengeziwe",
+    "call": "Shayela",
+    "callStarted": "Kushayelwa le nombolo usebenzisa inombolo yakho ye-Chatforia…",
+    "callFailed": "Kwehlulekile ukuqala ucingo. Sicela uzame futhi."
+  },
+  "addContactModal": {
+    "title": "Engeza umuntu ohlanganyelayo",
+    "phoneOrUsername": "Inombolo yocingo noma igama lomsebenzisi",
+    "phoneOrUsernamePlaceholder": "Isibonelo +13018019227 noma juliannorton",
+    "alias": "Igama elihlukile (okuzikhethela)",
+    "aliasPlaceholder": "Isibonelo isib. Umsebenzi, Umama, uMike – eYurophu",
+    "fakaInomboloYocingoNomaIgamaLomsebenzisi": "Faka inombolo yocingo noma igama lomsebenzisi.",
+    "ukuseshaUmsebenzisiKwehlulekile": "Ukusesha umsebenzisi kwehlulekile.",
+    "awukwaziUkuzengeza": "Awukwazi ukuzengeza njengoxhumana naye.",
+    "kuhlulekileUkungeza": "Kuhlulekile ukungeza uxhumana naye.",
+    "engeza": "Engeza"
+  },
+  "startChatModal": {
+    "title": "Qala ingxoxo",
+    "searchPlaceholder": "Sesha igama, igama lomsebenzisi, noma inombolo yocingo",
+    "messageThisPerson": "Thumela umlayezo kulomuntu",
+    "contacts": "Abaxhumana nabo",
+    "recentInteractions": "Ukuxhumana kwakamuva",
+    "noContactsMatch": "Akukho abaxhumana nabo abahambisana nokusesha kwakho.",
+    "noRecentInteractions": "Akukho ukuxhumana kwakamuva okwamanje.",
+    "okungaziwa": "Okungaziwa",
+    "uhloboLokuxhumana": {
+      "umlayezo": "Umlayezo",
+      "ukushayela": "Ukushayela",
+      "ividiyo": "Ividiyo"
+    },
+    "ukukhetha ngokushesha": "Ukukhetha ngokushesha",
+    "ku": "Ku",
+    "igamaNomaIgamaLomsebenzisi": "Bhala igama, igama lomsebenzisi",
+    "nameUsernamePhoneEmail": "Bhala igama, igama lomsebenzisi, inombolo yocingo, noma i-imeyili…",
+    "startWithSelected": "Qala ingxoxo nomuntu okhethiwe",
+    "searchByUsernameOrPhone": "Sesha ngegama lomsebenzisi noma ngocingo",
+    "search": "Sesha",
+    "searchPrompt": " Bhala igama lomsebenzisi noma inombolo yocingo bese ucindezela Bheka.",
+    "khethaKubaxhaxha": "Noma khetha kubaxhaxha",
+    "engezaUxhumana": "Engeza Uxhumana",
+    "bonisa": "Bonisa",
+    "engeza": "Engeza",
+    "vala": "Vala",
+    "inaniElikhethiwe": "{{count}} okhethiwe ",
+    "pickAtLeastOne": "Khetha okungenani umamukeli oyedwa.",
+    "saveContactsHint": "Okufakiwe kwefoni/i-imeyili kuzotholakala ngemva kokuwagcina njengoxhumana naye.",
+    "failedBulkStart": "Kwehlulekile ukuqala ingxoxo nabamukeli abakhethiwe.",
+    "noResults": "Akukho okutholakele",
+    "mode": "Indlela",
+    "group": "Iqembu",
+    "broadcast": "Sakaza",
+    "groupNameOptional": "Igama leqembu (okuzikhethela)",
+    "firstMessageOptional": "Umlayezo wokuqala (okuzikhethela kodwa kunconywa)",
+    "createGroup": "Dala iqembu",
+    "sendBroadcast": "Thumela isakazo"
+  },
+  "peoplePage": {
+    "people": "Abantu",
+    "search": "Sesha",
+    "searchPlaceholder": "Sesha abaxhumana nabo abagcinwe nge-alias, igama, igama lomsebenzisi, noma inombolo yocingo",
+    "quickStart": "Ukuqala ngokushesha",
+    "quickStartDesc": "Lawula abaxhumana nabo bakho futhi umemeze abangane.",
+    "importContacts": "Genisa abaxhumana nabo bakho",
+    "import": "Importa",
+    "addContact": "Engeza umuntu oxhumana naye",
+    "add": "Engeza",
+    "inviteFriends": "Mema abangane",
+    "inviteDesc": "Yabelana ngesixhumanisi sakho sokumema ukuze uqale ukuxoxa ngokushesha.",
+    "getTheApp": "Thola uhlelo lokusebenza",
+    "getTheAppDesc": "Hlala uxhumekile noma kuphi nge-Chatforia ye-iOS ne-Android.",
+    "download": "Landa",
+    "syncTip": "Ithiphu: Imilayezo yakho ihlala ivumelanisiwe kuwebhu nakuzo zonke izelula.",
+    "filterSaved": "Hlunga oxhumana nabo abagcinwe",
+    "noContactsFound": "Akutholakali oxhumana nabo",
+    "focusSearch": "Gxila ekusesheni",
+    "findOrAdd": "Thola noma ungeze umuntu",
+    "searchByPhoneOrUsername": "Sesha ngocingo / igama lomsebenzisi"
   },
   "profile": {
-    "title": "Iphrofayili Yomsebenzisi",
-    "preferredLanguage": "Ulimi oluthandwayo",
+    "title": "Iphrofayela Yomsebenzisi",
+    "preferredLanguage": "Ulimi olukhethwayo",
     "chooseLanguage": "Khetha ulimi",
-    "mustLogin": "Kufanele ungene ngemvume ukuze ubone izilungiselelo.",
-    "autoTranslate": "Humusha ngokuzenzakalelayo imiyalezo",
-    "showOriginalWithTranslation": "Bonisa umbhalo wokuqala nemiyalezo ehunyushiwe",
-    "showOriginalAndTranslation": "Bonisa okokuqala kanye nokuhumusha",
-    "filterExplicit": "Hlunga okuqukethwe okungcolile",
-    "aiReply": "I-AI iphendula",
-    "enableReadReceipts": "Nika amandla ukuthola ukufundwa",
-    "allowExplicitContent": "Vumela okuqukethwe okungcolile",
-    "disappearingMessages": "Nika amandla imiyalezo enyamalala",
-    "autoDeleteSeconds": "Amasekhondi aze asuswe ngokuzenzakalelayo",
-    "saveSuccess": "Izilungiselelo zilondoloziwe!",
-    "saveError": "Iphutha: Ayikwazanga ukulondoloza izilungiselelo",
-    "avatarAlt": "I-avatar yephrofayili",
-    "uploadAvatar": "Layisha i-avatar entsha",
-    "avatarSuccess": "I-avatar ilayishiwe!",
-    "avatarError": "Ukuthumela i-avatar kwehlulekile",
-    "avatarUpdated": "I-avatar ibuyekeziwe!",
-    "uploadingAvatar": "Ilayisha i-avatar…",
-    "noPrivateKey": "Akukho khiye wangasese kule divayisi ukuthumela.",
-    "setBackupPassword": "Setha iphasiwedi ukuze ufihle isipele sakho:",
-    "backupDownloaded": "Isipele esifihliwe silayishiwe.",
-    "exportFailed": "Ukuthumela ukhiye kwehlulekile",
-    "enterBackupPassword": "Faka iphasiwedi yalesi sipele:",
-    "importSuccess": "Ukhiye wangasese ungenisiwe kule divayisi.",
-    "importFailed": "Ukungenisa ukhiye kwehlulekile (iphasiwedi engalungile noma ifayela elonakele).",
-    "keysRotated": "Ipheya entsha yokhiye yakhiwe futhi ukhiye womphakathi wathunyelwa.",
-    "rotateFailed": "Ukuzungeza okhiye kwehlulekile.",
+    "mustLogin": "Kufanele ungene ukuze ubone izilungiselelo.",
+    "autoTranslate": "Humusha ngokuzenzakalelayo imilayezo",
+    "showOriginalWithTranslation": "Bonisa imilayezo yokuqala neyihunyushelwe",
+    "showOriginalAndTranslation": "Bonisa okokuqala kanye nokuhunyushelwe",
+    "filterExplicit": "Hlunga okuqukethwe okucacile",
+    "aiReply": "Impendulo ye-AI",
+    "enableReadReceipts": "Vumela izitholi zokufunda",
+    "allowExplicitContent": "Vumela okuqukethwe okucacile",
+    "disappearingMessages": "Vumela imilayezo ephunyayo",
+    "autoDeleteSeconds": "Imizuzwana zokucisha ngokuzenzakalelayo",
+    "saveSuccess": "Izilungiselelo zigcinwe!",
+    "saveError": "Iphutha: Akwenzeki ukugcina izilungiselelo",
+    "avatarAlt": "Isithombe sephrofayela",
+    "uploadAvatar": "Layisha isithombe sephrofayela esisha",
+    "avatarSuccess": "Isithombe sephrofayela silayishiwe!",
+    "avatarError": "Kwehlulekile ukulayisha i-avatar",
+    "avatarUpdated": "I-avatar ivuselelwe!",
+    "uploadingAvatar": "Kulayishwa i-avatar…",
+    "noPrivateKey": "Ayikho ukhiye wangasese kulesi sixhobo ongawuthumela ngaphandle.",
+    "setBackupPassword": "Beka iphasiwedi ukuze uvikele ukugcinwa kwakho:",
+    "backupDownloaded": "Ukugcinwa kuvikelwe kudawunilodiwe.",
+    "exportFailed": "Ukuthumela ukhiye ngaphandle kwehlulekile",
+    "enterBackupPassword": "Faka iphasiwedi yalesi sigcinwa:",
+    "importSuccess": "Ukhiye wangasese ulayishiwe kulesi sixhobo.",
+    "importFailed": "Kwehlulekile ukulayisha ukhiye (iphasiwedi engalungile noma ifayela elonakele).",
+    "keysRotated": "Iqembu elisha lezihluthulelo lakhiwa futhi ukhiye womphakathi ulayishiwe.",
+    "rotateFailed": "Kwehlulekile ukujikeleza izihluthulelo.",
     "security": "Ukuphepha",
-    "exportKey": "Gcina Isipele Sokhiye Wokufihla",
-    "importKey": "Buyisela Isipele Sokhiye Wokufihla",
-    "rotateKeys": "Zungeza Isipele Sokhiye Wokufihla",
-    "keyDisclaimer": "Ukhiye wakho wangasese awushiyi kule divayisi. Thumela ikhophi evikelwe ngephasiwedi ukuze uyibuyise kwenye idivayisi.",
-    "sectionProfile": "Iphrofayili",
+    "exportKey": "Gcina Ukhiye Wokufihla",
+    "importKey": "Buyisela Ukhiye Wokufihla",
+    "rotateKeys": "Jikeleza Izihluthulelo Zokufihla",
+    "keyDisclaimer": "Ukhiye wakho wangasese awukaze uphume kulesi sixhobo. Thumela ikhophi evikelwe ngephasiwedi ukuze uyibuyisele kwesinye isisetshenziswa.",
+    "sectionProfile": "Iphrofayela",
     "phoneNumber": "Inombolo yocingo",
     "appearance": "Ukubukeka",
     "soundSettings": "Imisindo",
-    "disappearing": "Imiyalezo enyamalala",
-    "backupSync": "Isipele Sokhiye Wokufihla",
+    "disappearing": "Imilayezo epholayo",
+    "backupSync": "Isipele & Ukuvumelanisa",
     "ai": "I-AI",
     "accessibility": "Ukufinyeleleka",
     "privacy": "Ubumfihlo",
     "devices": "Amadivayisi axhunyiwe",
-    "themeFreeNotice": "Use ku-Free—sebenzisa izinketho ezisheshayo ze-Sun/Moon ngezansi. Thuthukisa ukuze uvule izihloko eziningi.",
-    "sunTheme": "Sebenzisa isihloko se-Dawn",
-    "moonTheme": "Sebenzisa isihloko se-Moon (Midnight)",
+    "themeFreeNotice": "Use kumahhala—sebenzisa izinketho ezisheshayo zeLanga/zeNyanga ngezansi. Thuthukisa ukuze uvule izindikimba eziningi.",
+    "sunTheme": "Sebenzisa indikimba ye-Dawn",
+    "moonTheme": "Sebenzisa indikimba ye-Moon (Midnight)",
     "sun": "Ilanga",
-    "moon": "Inyanga",
-    "backupTitle": "Izipele Ezifihliwe & Ukuvumelaniswa Kwedivayisi",
-    "openBackupTools": "Vula Amathuluzi Esipele",
-    "backupDesc": "Gcina ukhiye wakho wokufihla ukuze ubuyise ngokuphepha imiyalezo yakho kwenye idivayisi.",
-    "privacyBlurEnabled": "Fipha imiyalezo ngokuzenzakalelayo",
-    "privacyBlurOnUnfocus": "Fipha lapho uhlelo lokusebenza lungagxili",
-    "planSection": "Iplan yami",
-    "planLoading": "Ilayisha iplan yakho…",
-    "planLoadFailed": "Ukuthola iplan yakho kwehlulekile.",
-    "currentPlan": "Iplan yamanje",
-    "planRenewsOn": "Ivuselela ngo",
-    "freePlanCopy": "Use kuplan yamahhala. Thuthukisa ukuze uvule izici eziningi njengezipele, izinombolo ezengeziwe, nezinketho zokuphepha ezithuthukile.",
-    "upgradePlanCta": "Thuthukisa iplan",
-    "changePlanCta": "Shintsha iplan",
-    "manageBilling": "Phatha ukubhadala",
-    "portalOpenFailed": "Ayikwazanga ukuvula iphothali yokubhadala. Sicela uzame futhi.",
-    "holdToReveal": "Bamba ukuze ubonise",
-    "notifyOnCopy": "Ngazise uma umyalezo wami ukopishiwe",
-    "loadFailed": "Ukuthola iphrofayili kwehlulekile",
-    "followed": "Ulandelwe",
-    "followFailed": "Ukulandela kwehlulekile",
-    "unfollowed": "Ayilandelwanga",
-    "unfollowFailed": "Ukuyeka ukulandela kwehlulekile",
-    "follow": "Landela",
-    "unfollow": "Yeka ukulandela",
-    "followHint": "Izindaba zabo zizovela ekudleni kwakho kokulandelayo uma bethumela ngezilaleli Abalandeli (noma Umlomunye).",
-    "userNotFound": "Umsebenzisi akatholakali",
-    "followsYou": "Uyalandela",
-    "sectionCrashedTitle": "Isigaba sehlulekile ukulayisha",
-    "sectionCrashedBody": "Kukhona okonakele kulesi sigaba.",
-    "forwarding": "Ukudlulisa Ucingo & Imiyalezo",
-    "callTextForwardingSection": "Ukudlulisa Ucingo & Imiyalezo",
-    "callTextForwardingTitle": "Ukudlulisa izingcingo nemiyalezo",
-    "callTextForwardingDescription": "Dlulisa izingcingo nemiyalezo ezingenayo kunombolo yocingo noma i-imeyili yakho eqinisekisiwe. Izingcingo/imiyalezo ephumayo ingabonisa inombolo yakho ye-Chatforia.",
-    "enableTextForwarding": "Nika amandla ukudlulisa imiyalezo",
-    "forwardTextsToPhone": "Dlulisa imiyalezo efoni",
-    "forwardTextsToEmail": "Dlulisa imiyalezo ku-imeyili",
-    "destinationPhone": "Ifoni lapho kuya khona (E.164)",
-    "destinationEmail": "I-imeyili lapho kuya khona",
-    "enableCallForwarding": "Nika amandla ukudlulisa izingcingo",
-    "destinationPhoneForCalls": "Lapho kuya khona (E.164) yezingcingo",
-    "aliasBridging": "Ukudlulisa Ucingo (ukuxhumanisa i-alias)",
-    "quietHoursOptional": "Amahora Okuthula (okungenzeka)",
+    "moon": "Inkanyezi",
+    "backupTitle": "Ukugcinwa Okufihliwe & Ukuvumelanisa Amadivayisi",
+    "openBackupTools": " Vula Amathuluzi Okugcina Ikhophi",
+    "backupDesc": "Gcina ikhiyi yakho yokufihla ukuze ubuyisele ngokuphephile imilayezo yakho kwenye idivayisi. ",
+    "privacyBlurEnabled": "Fihla imilayezo ngokujwayelekile",
+    "privacyBlurOnUnfocus": "Fihla uma uhlelo lungagxilile",
+    "planSection": "Uhlelo lwami",
+    "planLoading": "Kulayishwa uhlelo lwakho…",
+    "planLoadFailed": "Kwehlulekile ukulayisha uhlelo lwakho. ",
+    "currentPlan": "Uhlelo lwamanje",
+    "planRenewsOn": "Ivuselelwa ngomhlaka",
+    "freePlanCopy": "Usehlelweni lwamahhala. Khuphula ukuze uvule izici ezengeziwe ezifana nezipele, izinombolo ezengeziwe, nezinketho zobumfihlo ezithuthukile.",
+    "upgradePlanCta": "Khuphula uhlelo",
+    "changePlanCta": "Shintsha uhlelo",
+    "manageBilling": "Phatha ukukhokhisa",
+    "portalOpenFailed": "Akwenzeki ukuvula i-portal yokukhokha. Sicela uzame futhi.",
+    "bambaUkuzeUveze": "Bamba ukuze uveze",
+    "azisaUmaIkhophiwe": "Ngazise uma umlayezo wami ukhishwe",
+    "kwehlulekileUkulayisha": "Kwehlulekile ukulayisha iphrofayela",
+    "ulandele": "Ulandele",
+    "kwehlulekileUkulandela": "Kwehlulekile ukulandela",
+    "awulandele": "Awulandele",
+    "kwehlulekileUkungalandela": "Kwehlulekile ukumkhangela",
+    "landela": "Landela",
+    "yeka ukulandela": "Yeka ukulandela",
+    "isaziso sokulandela": "Izindaba zabo zizovela ku-feed yakho yokulandela uma bethumela kubalandeli (noma Esidlangalaleni).",
+    "umsebenzisi akatholakali": "Umsebenzisi akatholakali",
+    "ukulandela wena": "Ukulandela wena",
+    "isihloko sesigaba esiphukile ": "Ingxenye yehlulekile ukulayisha",
+    "sectionCrashedBody": "Kukhona okuthile okungahambi kahle kulesi sigaba.",
+    "forwarding": "Ukudlulisela Izingcingo Nezimilayezo",
+    "callTextForwardingSection": "Ukudlulisela Izingcingo Nezimilayezo",
+    "callTextForwardingTitle": "Ukudlulisela Izingcingo Noma/Nezimilayezo",
+    "callTextForwardingDescription": "Dlulisa izingcingo nezimilayezo ezingenayo kuye kube ucingo lwakho oluqinisekisiwe noma i-imeyili. Eziphuma izingcingo/imiyalezo zingakhombisa inombolo yakho ye-Chatforia.",
+    "enableTextForwarding": "Vumela ukudluliselwa kwemiyalezo",
+    "forwardTextsToPhone": "Dlulisela imiyalezo kumakhalekhukhwini",
+    "forwardTextsToEmail": "Dlulisela imiyalezo ku-imeyili",
+    "destinationPhone": "Umakhalekhukhwini oya kuwo (E.164)",
+    "destinationEmail": "Imeyili oya kuwo",
+    "enableCallForwarding": "Vumela ukudlulisela izingcingo",
+    "destinationPhoneForCalls": "Indawo (E.164) yokushayela",
+    "aliasBridging": "Ukudlulisela Izimemezelo Zocingo (alias bridging)",
+    "quietHoursOptional": "Amahora Athule (okuzikhethela)",
     "startHour": "Ihora lokuqala (0–23)",
     "endHour": "Ihora lokuphela (0–23)",
-    "reset": "Setha kabusha",
+    "reset": "Sethestha kabusha",
     "saveBtn": "Gcina",
     "saveProfile": "Gcina iphrofayili",
-    "saveForwarding": "Gcina ukudlulisa",
-    "forwardSaved": "Izilungiselelo zokudlulisa zilondoloziwe",
-    "forwardSaveFailed": "Ukugcina izilungiselelo kwehlulekile",
-    "errE164": "Faka inombolo yocingo evumelekile ye-E.164 (isib., +15551234567).",
+    "saveForwarding": "Gcina ukudlulisela",
+    "forwardSaved": "Izilungiselelo zokudlulisela zigcinwe",
+    "forwardSaveFailed": "Kwehlulekile ukugcina izilungiselelo",
+    "errE164": "Faka inombolo yocingo evumelekile ye-E.164 (isb., +15551234567).",
     "errEmail": "Faka i-imeyili evumelekile.",
     "errSmsDest": "Khetha okungenani indawo eyodwa (ifoni noma i-imeyili).",
-    "errQuietHours": "Amahora okuthula kufanele abe phakathi kuka-0 no-23.",
+    "errQuietHours": "Amahora athule kumele abe phakathi kuka-0 no-23.",
     "randomChat": "Ingxoxo Engahleliwe",
-    "ageBand": "Ibhendi yeminyaka yakho",
-    "ageBandPlaceholder": "Khetha ibhendi yeminyaka yakho",
+    "ageBand": "Ububanzi bakho beminyaka",
+    "ageBandPlaceholder": "Khetha ububanzi bakho beminyaka",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Sigcina kuphela ibhendi yeminyaka (hhayi usuku lwakho lokuzalwa oluqondile). Lokhu kusetshenziselwa ukugcina ukubhanqa kwe-Random Chat kunengqondo.",
-    "wantsAgeFilter": "Sebenzisa ukubhanqa okusekelwe eminyakeni ku-Random Chat",
-    "wantsAgeFilterDesc": "Uma ivuliwe, sizama ukukubhanqa nabantu abasemabandeni eminyaka ehambisanayo.",
-    "partnerAgeBands": "Ubani ongabhanqwa naye?",
-    "partnerAgeBandsDesc": "Abasakhulayo bahlala bebhanqwa kuphela nabanye abasakhulayo. Abadala abakwazi ukubhanqwa nabasakhulayo.",
-    "teenMatchingNote": "Ngokuphepha, ama-akhawunti asemabandeni eminyaka engu-13–17 angabhanqwa kuphela namanye ama-akhawunti angu-13–17 ku-Random Chat.",
-    "foriaRemember": "Vumela u-Ria akhumbule izinto ozitshelayo",
-    "foriaRememberDesc": "Uma lokhu kuvuliwe, i-Foria ingasebenzisa izingxoxo zakho zakamuva ze-Random Chat (kuphela nawe) ukuze igcine ingxoxo ihamba. Ungayivala noma nini.",
-    "voicemailSection": "I-voicemail",
-    "voicemailEnabled": "Nika amandla i-voicemail",
-    "voicemailAutoDeleteDays": "Susa ngokuzenzakalelayo ama-voicemail emva kwezinsuku",
-    "voicemailAutoDeletePlaceholder": "Shiya kungenalutho ukuze ugcine kuze kube phakade",
-    "voicemailForwardEmail": "Dlulisa i-voicemail ku-imeyili",
-    "voicemailForwardEmailPlaceholder": "I-imeyili okuthunyelwa kuyo izaziso ze-voicemail",
-    "voicemailGreetingText": "Umbhalo wokubingelela osekuyi-fallback",
-    "voicemailGreetingTextDesc": "Isetshenziswa lapho ukubingelela kwakho komsindo kungatholakali.",
-    "voicemailGreetingUpload": "Layisha ukubingelela kwe-voicemail",
-    "voicemailPreviewGreeting": "Buka kuqala ukubingelela",
-    "voicemailGreetingUploaded": "Ukubingelela kwe-voicemail kulayishiwe ngempumelelo",
-    "voicemailGreetingUploadError": "Ukuthumela ukubingelela kwe-voicemail kwehlulekile",
-    "voicemailNote": "Ama-voicemail avela ezinombolweni zakho ze-Chatforia agcinwa kwi-inbox yakho ye-Voicemail. Unganika amandla ukubhalwa nokudlulisa kuma-plan asekelwayo.",
-    "portHint": "Ufuna ukugcina inombolo yakho yamanje? Ungayifaka ku-Chatforia Wireless.",
+    "ageBandHint": "Sigcina kuphela ibanga lobudala (hhayi usuku lwakho lokuzalwa ngqo). Lokhu kusetshenziselwa ukugcina ukuphathwa kwamaqembu ku-Random Chat kufanelekile.",
+    "wantsAgeFilter": "Sebenzisa ukufanisa okusekelwe eminyakeni ku-Random Chat",
+    "wantsAgeFilterDesc": "Uma ivuliwe, sizama ukukuhlanganisa nabantu abaneminyaka efanele.",
+    "partnerAgeBands": "Ungahlanganiswa nobani?",
+    "partnerAgeBandsDesc": "Abasha bahlala behlangene kuphela nabanye abasha. Abantu abadala abakwazi ukuhlanganiswa nabasha.",
+    "teenMatchingNote": "Ngenxa yokuphepha, ama-akhawunti aneminyaka engu-13 kuya kwengu-17 angahlanganyelwa kuphela namanye ama-akhawunti angu-13 kuya kwengu-17 ku-Random Chat.",
+    "foriaRemember": "Vumela iRia ikhumbule izinto ozitshela zona",
+    "foriaRememberDesc": "Lena isebenza, iForia ingasebenzisa izingxoxo zakho zangaphambilini ze-Random Chat (nguwe kuphela) ukuze ingxoxo iqhubeke. Ungakwazi ukuyivala noma yinini.",
+    "voicemailSection": "Umyalezo wezwi",
+    "voicemailEnabled": "Vumela imiyalezo yezwi",
+    "voicemailAutoDeleteDays": "Susa ngokuzenzakalelayo imiyalezo yezwi ngemva kwezinsuku (ezingu)",
+    "voicemailAutoDeletePlaceholder": "Shiya kungagcwaliswanga ukuze kugcinwe unomphela",
+    "voicemailForwardEmail": "Dlulisela umyalezo wezwi ku-imeyili",
+    "voicemailForwardEmailPlaceholder": "Imeyili yokuthumela umy icemail notifications to",
+    "voicemailGreetingText": "Text fallback greeting",
+    "voicemailGreetingTextDesc": "Used when your audio greeting is unavailable.",
+    "voicemailGreetingUpload": "Layisha isibingelelo somlayezo wezwi",
+    "voicemailPreviewGreeting": "Hlola isibingelelo",
+    "voicemailGreetingUploaded": "Isibingelelo somlayezo wezwi silayishiwe ngempumelelo",
+    "voicemailGreetingUploadError": "Kwehlulekile ukulayisha isibingelelo somlayezo wezwi",
+    "voicemailNote": "Imilayezo yezwi evela kumanombolo akho eChatforia izogcinwa ebhokisini lakho lokungenayo lomlayezo wezwi. Ungavumela ukuguqulwa kombhalo nokudluliselwa ezinhlelweni ezisekelwayo.",
+    "portHint": "Ufuna ukugcina inombolo yakho yamanje? Ungayidlulisela ku-Chatforia Wireless.",
     "wireless": {
-      "manage": "Phatha i-wireless"
+      "manage": "Lawula i-wireless"
     },
     "esim": {
-      "title": "I-eSIM ye-Chatforia",
-      "desc": "Thola idatha yeselula ye-Chatforia lapho ukude ne-Wi-Fi.",
-      "cta": "Thola i-eSIM / Bonisa i-QR"
-    }
+      "title": "i-eSIM ye-Chatforia",
+      "desc": "Thola idatha yeselula ye-Chatforia uma ukude ne-Wi-Fi.",
+      "cta": "Thola i-eSIM / Khombisa i-QR"
+    },
+    "encryptedBackupsTitle": "Isipele Senkiyi Yokufihla"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Imisindo Yezaziso",
+    "resetToDefaults": "Sethaphansi kwezilungiselelo ezijwayelekile",
+    "freeNoticeStart": "Useku-Free — imisindo ye-premium ikhombisiwe kodwa ivaliwe. ",
+    "freeNoticeEnd": " ukuze uvule konke.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    " misa": "Misa",
+    "ivolumu": "Ivolumu",
+    "messageToneFilesHint": "Faka amafayela ku-/public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Faka amafayela ku-/public/sounds/Ringtones",
+    "premiumRequired": "Kudingeka i-Premium ukukhetha lokho.",
+    "saved": "Izilungiselelo zomsindo zigcinwe.",
+    "saveFailed": "Akwenzekanga ukugcina izilungiselelo zomsindo.",
+    "resetNotSaved": "Sethwa kabusha kube sezilungiselelweni ezizenzakalelayo (akukagcinwa okwamanje).",
+    "premiumTone": "Lowo ngumthunzi we-Premium.",
+    "premiumRingtone": "Lowo ngumthunzi wokushaya we-Premium.",
+    "customComingSoon": "Ukufakwa komsindo okwenziwe ngokwezifiso kuzofika kungekudala.",
+    "freeNotice": "Useku-Free — amatoni e-premium abonakala kodwa avaliwe. Khuphula ukuze uvule konke.",
+    "default": "Okujwayelekile",
+    "vibrate": "Ukuzamazama",
+    "dreamer": "Umphuphi",
+    "notify": "Ukuzisa",
+    "pop": "Pop",
+    "pulsatingSound": "Umsindo oshaya amachashaza",
+    "textMessage": "Umyalezo wombhalo",
+    "xylophone": "Ixilofoni",
+    "classic": "Iklasiki",
+    "urgency": "Ukuphuthuma",
+    "bells": "Izinsimbi",
+    "chimes": "Izinsimbi zokwazisa",
+    "digitalPhone": "Ucingo lwedijithali",
+    "melodic": "Umculo",
+    "organNotes": "Amanothi e-organi",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "Izilungiselelo ze-AI",
+    "controlIntro": "Lawula ukuhumusha, izimpendulo ezihlakaniphile, kanye nezimpendulo ezenzakalelayo ze-ForiaBot.",
+    "translation": "Ukuhumusha",
+    "autoTranslateIncoming": "Humusha ngokuzenzakalelayo imilayezo engenayo",
+    "showOriginalAlongside": "Bonisa umbhalo wokuqala eceleni kokuhumusha",
+    "smartReplies": "Izimpendulo EziHlakaniphile ",
+    "enableSmartReplies": "Vumela Izimpendulo Eziqondayo",
+    "smartRepliesHint": "Thumela imilayezo embalwa yakamuva eyamukelwe (ecocwe) ku-AI ukuze iphakamise izimpendulo ezisheshayo.",
+    "maskProfanity": "Fihla amagama ahlambalazayo eziphakamisweni ze-AI",
+    "maskProfanityHint": "Uma kuvuliwe, amagama afakwe uphawu eziphakamisweni ezibuyiselwa yi-AI azofihlwa ",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Vumela impendulo ezenzakalelayo uma ngimatasa",
+    "autoReplyMode": "Imodi yokuphendula ezenzakalelayo",
+    "cooldownSeconds": "Isikhathi sokupholisa (imizuzwana)",
+    "isiginesha": "Isiginesha",
+    "impendulo ezenzakalelayo": "🤖 Impendulo ezenzakalelayo",
+    "isebenza kuze kube (okukhethwayo)": "Isesebenza kuze kube (okukhethwayo)",
+    "gcina": "Gcina Izilungiselelo ze-AI",
+    "segcinwe": "Izintandokazi ze-AI sezigcinwe",
+    "ukugcinwa kwehlulekile": " Kwehlulekile ukulondoloza izilungiselelo ze-AI",
+    "translateOff": "Kuvaliwe",
+    "translateTagged": "Lapho kuphela @kuhumushelwe noma kuphawulwe",
+    "translateAll": "Humusha yonke imilayezo engenayo ",
+    "modeDm": "Izinkulumo ze-1:1 kuphela",
+    "modeMention": "Ngi @menzwe kuphela",
+    "modeAll": "Yonke imilayezo engenayo",
+    "off": "Kuvaliwe",
+    "on": "Kuvuliwe"
+  },
+  "accessibilitySettings": {
+    "title": "Ukufinyeleleka & Izixwayiso",
+    "loadFailed": "Kwehlulekile ukulayisha izilungiselelo",
+    "accessibilityDesc": "Izinketho zokwenza i-Chatforia ibe lula ukuyisebenzisa ngaphandle kokuthembela emisindweni.",
+    "interfaceFontSize": "Usayizi wefonti yobuso bokuxhumana",
+    "interfaceFontSizeHelp": "Iqala ngosayizi ojwayelekile. Khuphula uma uthanda umbhalo omkhulu.",
+    "notifications": "Izaziso",
+    "visualAlerts": "Izixwayiso ezibonakalayo zemilayezo nezingcingo",
+    "visualAlertsDesc": "Khombisa amabhanela futhi isihloko sikhanyise ukuze ungaphuthelwa imisebenzi.",
+    "vibrateOnNewShort": "Yivibrate uma kufika imilayezo emisha (lapho sekuxhaswa)",
+    "vibrateOnNewDesc": "Vusa i-vibration yedivayisi ngezaziso.",
+    "flashOnCallShort": "Khanyisa isikrini uma kufika ingcingo",
+    "flashOnCallDesc": "Ukukhanya okukhanyayo okufushane lapho ucingo luyakhala.",
+    "liveCaptionsTitle": "Izihlokwana ezibukhoma (ezingcingweni)",
+    "enableLiveCaptions": "Vumela izihlokwana ezibukhoma ngesikhathi sokushayela (Premium)",
+    "liveCaptionsDesc": "Bonisa izihlokwana zesikhathi sangempela ezivela kumakhaludi womunye umuntu.",
+    "captionFontSize": "Usayizi wefonti yezihlokwana",
+    "captionBackground": "Isizinda sezihlokwana",
+    "voiceNotes": "Izincwadi zomsindo",
+    "autoTranscribeVoiceNotes": "Ukushicilela ngokuzenzakalelayo amanothi ezwi",
+    "autoTranscribeVoiceNotesDesc": "Xhuma umbhalo emilayezweni yomsindo oyitholayo.",
+    "changesSavedInstantly": "Izinguquko zigcinwa ngokushesha.",
+    "sm": "Esincane",
+    "md": "Ephakathi",
+    "lg": "Elikhulu",
+    "xl": " Okukhulu Kakhulu",
+    "light": "Ukukhanya",
+    "dark": "Obumnyama",
+    "transparent": "Okubonakalayo",
+    "accessibility": "Ukufinyeleleka",
+    "notificationsDesc": "Izaziso ezibonakalayo zemilayezo nezingcingo\nIbhengeza amabhana nesihloko ukuze ungaphuthelwa lutho.",
+    "vibrateOnNew": "Yivibrate emilayezo emisha (lapho sekuxhaswa)\nVunguza idivayisi ngokuvibrate lapho kunezaziso.",
+    "flashOnCall": "Skrini lokukhanya ekushayweni kwefoni okungena\nUkukhanya okukhanyayo okufushane lapho ifoni ishaya.",
+    "liveCaptions": "Izihlokwana ezibukhoma (izingcingo)"
+  },
+  "privacySection": {
+    "strictE2EE": "Ukubethela okuqinile kusukela ekupheleni kuya ekupheleni",
+    "ciphertextOnlyNote": "Gcina i-ciphertext kuphela kuseva. Kuvala i-AI/ Ukubuka kwangaphambilini kokuhumusha nokulawula.",
+    "strictE2EEEnabled": "I-Strict E2EE ivuliwe. I-AI/Ukhumusha kuzovinjwa.",
+    "strictE2EEDisabled": "I-Strict E2EE ivaliwe. I-AI/Ukhumusha ivuselelwe."
+  },
+  "linkedDevicesPanel": {
+    "title": "Amadivayisi axhunyiwe",
+    "noneFound": "Akukho amadivayisi axhunyiwe atholakalile.",
+    "refresh": "Vuselela",
+    "unknown": "Okungaziwa",
+    "loadFailed": "Kwehlulekile ukulayisha amadivayisi axhunyiwe",
+    "loadFailedLog": "Kwehlulekile ukulayisha amadivayisi axhunyiwe",
+    "renamePrompt": "Faka igama elisha laledivayisi",
+    "renamed": "Idivayisi isibizwe kabusha",
+    "renameFailed": " Bekungekho ukuguqula igama lomshini",
+    "revoked": "Umshini usususiwe",
+    "revokeFailed": "Bekungekho ukususa umshini",
+    "unnamedDevice": "Umshini ongenamagama",
+    "primary": "Okuyinhloko",
+    "revokedStatus": "Kususwe",
+    "addedLastSeen": "Yongezwe {{created}} • Yabonwa okokugcina {{lastSeen}}",
+    "renameDevice": "Shintsha igama lwedivayisi",
+    "revokeDevice": "Khansela idivayisi"
   },
   "wireless": {
-    "title": "I-Chatforia Wireless",
-    "description": "Phatha iplan yakho ye-Chatforia yeselula, izinombolo, ukudlulisa, nokufaka inombolo.",
-    "options": {
-      "heading": "Khetha ukuthi ufuna ukusebenzisa kanjani i-Chatforia",
-      "subheading": "Ungathola inombolo entsha ye-Chatforia, noma ulethe inombolo yakho ekhona evela kwenye inkampani.",
-      "newNumber": "Thola inombolo entsha ye-Chatforia",
-      "portNumber": "Faka inombolo yakho yamanje ku-Chatforia Wireless"
+    "title": "Chatforia Wireless",
+    "incazelo": "Lawula uhlelo lwakho lweselula lwe-Chatforia, izinombolo, ukudlulisela, nokudlulisa inombolo.",
+    "izinketho": {
+      "isihloko": "Khetha ukuthi ufuna ukusebenzisa kanjani i-Chatforia",
+      "isihlokwana": "Ungathola inombolo entsha ye-Chatforia, noma ulethe inombolo yakho ekhona evela komunye umhlinzeki.",
+      "inomboloEntsha": "Thola inombolo entsha ye-Chatforia",
+      "portNumber": "Dlulisa inombolo yakho yamanje uye ku-Chatforia Wireless"
     },
     "port": {
-      "heading": "Faka inombolo yakho ekhona",
-      "subheading": "Hambisa inombolo yakho yocingo yamanje evela kwinkampani yakho yamanje iye ku-Chatforia. Qiniseka ukuthi imininingwane ifana ncamashi ne-akhawunti yakho yenkampani ukuze ugweme ukubambezeleka.",
-      "phoneNumberLabel": "Inombolo yocingo okufanele ifakwe",
+      "heading": "Dlulisa inombolo yakho ekhona",
+      "subheading": "Dlulisa inombolo yakho yocingo yamanje kusuka kumhlinzeki wakho wamanje uye ku-Chatforia. Qiniseka ukuthi imininingwane iyahambisana ne-akhawunti yakho yomhlinzeki ngokunembile ukuze ugweme ukubambezeleka.",
+      "phoneNumberLabel": "Inombolo yocingo ezodluliswa",
       "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "Inkampani yamanje",
+      "carrierLabel": "Umhlinzeki wamanje",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile, njll.",
       "accountNumberLabel": "Inombolo ye-akhawunti",
-      "pinLabel": "I-PIN yokuphuma / iphasiwedi",
-      "fullNameLabel": "Igama eliphelele kwi-akhawunti",
+      "pinLabel": "I-PIN yokudlulisa / iphasiwedi",
+      "fullNameLabel": "Igama eligcwele ku-akhawunti",
       "address1Label": "Umugqa wekheli 1",
-      "address2Label": "Umugqa wekheli 2 (okungenzeka)",
+      "address2Label": "Umugqa wekheli 2 (okuzikhethela)",
       "cityLabel": "Idolobha",
-      "stateLabel": "Isifundazwe / Isifunda",
-      "postalCodeLabel": "Ikhodi yaseposini",
+      "stateLabel": "Isifundazwe / Iphrovinsi",
+      "postalCodeLabel": "Ikhodi yeposi",
       "countryLabel": "Izwe",
-      "submitButton": "Thumela isicelo sokufaka",
-      "success": "Isicelo sokufaka sithunyelwe! Sizokwazisa.",
-      "genericError": "Kukhona okonakele."
+      "submitButton": "Thumela isicelo sokudlulisa inombolo",
+      "success": "Isicelo sokudlulisa inombolo sithunyelwe! Sizokwazisa.",
+      "genericError": "Kukhona okungahambi kahle."
     },
     "status": {
-      "heading": "Isimo sokufaka",
-      "subheading": "Landelela isimo sezicelo zakho zokufaka inombolo.",
-      "loading": "Ilayisha…",
-      "loadError": "Ukuthola izicelo zokufaka kwehlulekile.",
-      "none": "Akukho msebenzi wokufaka okwamanje.",
-      "pending": "Kulindele ukubuyekezwa",
-      "submitted": "Kuthunyelwe enkampanini",
-      "inProgress": "Kuyaqhubeka",
-      "completed": "Kuqedile",
+      "heading": " Isimo sokudlulisa inombolo",
+      "isihloko esingaphansi": "Landela isimo sezicelo zakho zokudlulisa inombolo.",
+      "ukulayisha": "Kulayisha…",
+      "iphutha lokulayisha": "Kwehlulekile ukulayisha izicelo zokudlulisa inombolo.",
+      "akukho": "Akukho okwenzekayo ekudluliseni inombolo okwamanje.",
+      "okulindile": "Kulindile ukubuyekezwa",
+      "ethunyelwe": "Ithunyelwe kumhlinzeki",
+      "inProgress": "Kusebenza",
+      "completed": "Sekuphothuliwe",
       "failed": "Kwehlulekile",
-      "canceled": "Khanseliwe",
-      "created": "Kwakhiwe:",
-      "scheduled": "Kuhleliwe:",
-      "completedAt": "Kuqedile:"
+      "canceled": "Kukhanseliwe",
+      "created": "Kudalwe:",
+      "scheduled": "Sihleliwe:",
+      "seqediweNgesikhathi": "Seqediwe:"
     },
-    "dataLow": "Idatha yakho iphela kancane.",
-    "topUp": "Gcwalisa manje",
-    "expiresIn": "Iphelelwa yisikhathi emva kwezinsuku ezingu-{{days}}",
-    "exhausted": "Idatha yakho iphelile. Thenga ipakethe elisha ukuze uqhubeke usebenzisa idatha yeselula.",
-    "buyPack": "Thenga ipakethe yedatha",
-    "esimPackLabel": "Ipakethe ye-eSIM"
+    "idathaIphansi": "Idatha yakho isiphansi.",
+    "khokhaOkwengeziwe": "Khokha manje",
+    "iphelelwaNgesikhathi": "Iphelelwa ngesikhathi {{izinsuku}} ezizayo",
+    "iphelile": "Idatha yakho isiphelile. Thenga iphakethe elisha ukuze uqhubeke usebenzisa idatha yeselula.",
+    "thengaIphakethe": "Thenga iphakethe ledatha",
+    "esimPackLabel": "eSIM pack"
   },
-  "family": {
-    "title": "Umndeni",
-    "loading": "Ilayisha imininingwane yomndeni wakho…",
-    "error": {
-      "load": "Ukuthola imininingwane yomndeni kwehlulekile.",
-      "invite": "Ayikwazanga ukudala isimemo. Qiniseka ukuthi ungumnikazi womndeni futhi uzame futhi.",
-      "checkout": "Asikwazanga ukuqala ukukhokha kweplan yomndeni. Sicela uzame futhi."
+  "phoneNumberManager": {
+    "pickNumber": "Khetha inombolo",
+    "phoneNumber": "Inombolo yocingo",
+    "availableNumber": "Inombolo etholakalayo",
+    "premiumNumber": "Inombolo ye-Premium 🔒",
+    "freeNumberHint": "Inombolo yamahhala engase iphinde isetshenziswe ngemuva kokungasebenzi.",
+    "premiumNumberHint": "Gcina inombolo yakho ngenkathi ukubhaliselwa kwakho kwe-Premium kusasebenza.",
+    "country": "Izwe",
+    "areaCode": "Ikhodi yendawo",
+    "areaCodePlaceholder": "isb., 415",
+    "capability": "Ikhono",
+    "search": "Usebenzise ukusesha",
+    "lockThisNumber": "Vala le nombolo (isengezo seviki, sizofika maduze)",
+    "premiumProtectedHint": "Amanombolo e-Premium avikelwe ekuphinde asetshenziswe ngenkathi isibhalelo sakho se-Premium sisebenza.",
+    "availableNumbers": "Amanombolo atholakalayo",
+    "searchHint": "Faka ikhodi yendawo enezinhlamvu ezi-3 (e-US/CA kuphela), noma ushiye kungagcwaliswanga, bese usesha.",
+    "keep": "Gcina",
+    "select": "Khetha",
+    "assignNumberFirst": "Beka inombolo kuqala.",
+    "premiumKeepFeature": "Ukugcina inombolo yakho kuyisici se-Premium.",
+    "lockingPremiumFeature": "Ukuvala izinombolo kuyisici se-Premium.",
+    "numberAssigned": "Inombolo isethwe. ",
+    "inomboloivikelweManje": "Inombolo yakho ivikelwe manje.",
+    "inomboloivikelwe": "Inombolo ivikelwe.",
+    "inomboloayivikelwanga": "Inombolo ayivikelwanga.",
+    "inomboloikhishiwe": "Inombolo ikhishiwe.",
+    "angikwazangaLayishaAmanombolo": "Angikwazanga ukulayisha izinombolo.",
+    "couldNotAssign": "Angikwazanga ukunikeza leyo nombolo. Kungenzeka isanda kuthathwa—zama enye.",
+    "couldNotLease": "Angikwazanga ukuqasha leyo nombolo. Kungenzeka isanda kuthathwa—zama enye.",
+    "couldNotProtectNow": " Asikwazanga ukuvikela inombolo yakho okwamanje.",
+    "couldNotProtect": "Asikwazanga ukuvikela inombolo.",
+    "couldNotUnprotect": "Asikwazanga ukukhipha ukuvikelwa kwenombolo.",
+    "couldNotRelease": "Asikwazanga ukukhulula inombolo.",
+    "invalidAreaCode": "Sicela ufake ikhodi yendawo enezinombolo ezi-3 (isb., 415) noma ushiye kungenalutho.",
+    "akukhoIsitoko": "Akukho isitoko esitholakalayo okwamanje.",
+    "akukhoAmanomboloAkhululekile": "Akukho manombolo akhululekile atholakalayo okwamanje.",
+    "akukhoIsitokoSekhodiYendawo": "Akukho isitoko esitholakalayo salo ikhodi yendawo okwamanje.",
+    "akukhoAmanomboloAkhululekileSekhodiYendawo": "Akukho manombolo akhululekile eqenjini lethu salo ikhodi yendawo okwamanje.",
+    "releaseConfirm": "Ukhipha inombolo yakho yamanje? Ingase inikezwe omunye umuntu.",
+    "unprotect": "Susa ukuvikelwa",
+    "keepThisNumber": "Gcina le nombolo",
+    "shintsha": "Shintsha",
+    "khulula": "Khulula",
+    "isebenzayo": "Isebenzayo",
+    "akukho nombolo": "Akukho nombolo",
+    "isici esiphakeme": "Isici esiphakeme",
+    "vikelaInomboloYakho": "Vikela inombolo yakho",
+    "protected": "Kuvikelwe",
+    "notProtected": "Akukavikelwanga",
+    "expiresInShort": "Kuphelelwa isikhathi kungakapheli {{count}}we",
+    "expiresInDaysFull": "Iphelelwa isikhathi ezinsukwini eziyi-{{count}}",
+    "expiringShort": "Iphelelwa isikhathi ngokushesha{{suffix}}",
+    "renewsOn": "Izovuselelwa ngo-{{date}}",
+    "releaseWarning": "Inombolo yakho ingakhululwa ezinsukwini eziyi-{{count}}. Yenza u-upgrade uye ku-Premium ukuze igcinwe ivikelekile. ",
+    "pickNumberHint": "Khetha inombolo ye-Chatforia ozoyisebenzisa ukuthumela imilayezo nokuxhumana ngaphakathi kohlelo.",
+    "unableToLoadStatus": "Akwenzeki ukulayisha isimo senombolo yocingo.",
+    "lock": "Lock",
+    "noNumberAssigned": "Ayikho inombolo enikeziwe. Khetha eyodwa ngokhodi yendawo ukuze uqale ukuthumela imilayezo."
+  },
+  "dialer": {
+    "title": "Izicelo zocingo",
+    "subtitle": "I-Keypad nezingcingo zakamuva. (Uma ungayisebenzisi i-PSTN, qala izingcingo kusukela esihlokweni sengxoxo.)",
+    "enterNumber": "Faka inombolo",
+    "enterNumberAria": "Faka inombolo",
+    "resolving": "Kuxazululwa umgomo wokushaya ucingo…",
+    "call": "Shaya ucingo",
+    "callBrowser": "Shaya ucingo nge-browser",
+    "backspace": "Buyisela emuva",
+    "recents": "Okwamuva",
+    "noRecents": "Akukho izingcingo zakamuva okwamanje.",
+    "resolveFailed": "Akwenzeki ukuxazulula umgomo wocingo.",
+    "callRequiredNumber": "Udinga inombolo ye-Chatforia ngaphambi kokwenza izingcingo zocingo.",
+    "callFailed": "Akwenzeki ukwenza ucingo.",
+    "deleteConfirm": "Susa lo mshayelo ohlwini lwezishayelo zakamuva?",
+    "deleteFailed": "Akwenzekanga ukususa umshayelo.",
+    "deleteFailedLog": "Kwehlulekile ukususa umshayelo",
+    "outgoing": "Okuphumayo",
+    "incoming": "Okungenayo",
+    "missed": "Okuphuthelwe",
+    "declined": "Okwenqatshwayo",
+    "failed": "Okwehlulekile",
+    "qediwe": "Qediwe",
+    "cingoelokuphuma": "Cingo Eliphuma",
+    "cingoelokungena": "Cingo Elingena",
+    "umlayezomemezelo": "Umlayezomemezelo",
+    "callAria": "Cingo {{name}}",
+    "deleteAria": "Susa ucingo oluthi {{name}}",
+    "fakaInomboloPh": "Faka inombolo",
+    "ezisandaKwenzekaEzingenalutho": "Akukho izingcingo ezisanda kwenzeka.",
+    "isihluthulelo": "Isihluthulelo {{d}}"
+  },
+  "umlandoWokushayela": {
+    "isihloko": "Izingcingo",
+    "isihlokwana": "Izingcingo zakho zakamuva ezingenayo neziphumayo.",
+    "ukulayishaKwehlulekile": "Akukwazanga ukulayisha umlando wokushayela.",
+    "loadFailedTitle": "Akukwazanga ukulayisha umlando wokushayela",
+    "emptyTitle": "Akukho izingcingo okwamanje",
+    "emptySubtitle": "Izingcingo zakho zakamuva zizovela lapha.",
+    "eziphuma": "Eziphuma",
+    "ezingenayo": "Ezingena",
+    "ezishiywe": "Ezishiywe",
+    "ezinqanyuliwe": "Ezinqanyuliwe",
+    "ezihlulekile": "EziHlulekile",
+    "eziphelele": "Eziphelele",
+    "i-call ephuma": "I-call ephuma",
+    "i-call engenayo": "I-call engenayo",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Khetha uhlobo lwevidiyo."
     },
-    "billing": {
-      "myPlanTitle": "Iplan yami",
-      "myPlanError": "Ayikwazanga ukulayisha iplan yakho.",
-      "myPlanLoading": "Ilayisha iplan yakho…",
-      "currentPlan": "Iplan yamanje",
-      "renewsAt": "Ivuselela ngo",
-      "freePlanCopy": "Use kuplan yamahhala. Thuthukisa ukuze uvule izici eziningi.",
-      "upgradeCta": "Thuthukisa iplan",
-      "changePlanCta": "Shintsha iplan",
-      "manageBilling": "Phatha ukubhadala",
-      "portalError": "Ayikwazanga ukuvula iphothali yokubhadala okwamanje.",
-      "cancelNow": "Khansela manje",
-      "cancelNowHelp": "Ungaphatha noma ukhansela ukubhalisa kwakho kwephothali yokubhadala, noma ukhansela ngokushesha ngezansi.",
-      "cancelNowConfirm": "Uqinisekile ukuthi ufuna ukukhansela iplan yakho ngokushesha? Lokhu ngeke kuphinde kwenzeke.",
-      "cancelNowError": "Ayikwazanga ukukhansela iplan yakho okwamanje. Sicela uzame futhi noma usebenzise Phatha ukubhadala."
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Qala ucingo lwevidiyo lwe-1:1 nomunye umsebenzisi.",
+      "desc": "Ucingo lwekhamera lwe-1:1 nomunye umsebenzisi.",
+      "start": "Qala",
+      "callBtn": "Shayela",
+      "callByPhone": {
+        "title": "Shayela ngocingo"
+      },
+      "phone": {
+        "placeholder": "Faka inombolo yocingo (isb., +1-555-123-4567)",
+        "aria": "Ucingo ongashayela kulo"
+      },
+      "tipInvite": "Ithiphu: Namathisela inombolo bese ushaya ucingo ngaphandle kokugcina uxhumano. Sizomema labo abangewona abasebenzisi ngesixhumanisi.",
+      "findUser": {
+        "title": "Thola umsebenzisi"
+      },
+      "search": {
+        "placeholder": " Sesha ngegama noma igama lomsebenzisi",
+        "aria": "Sesha ngegama noma igama lomsebenzisi",
+        "btn": "Sesha"
+      }
     },
-    "none": {
-      "title": "Akukho mndeni osethelwe okwamanje",
-      "body": "Ukuze udale Umndeni we-Chatforia kanye nephuli yedatha eyabiwe, qala iplan yomndeni.",
-      "goUpgrade": "Qala iplan yomndeni",
-      "viewPlans": "Buka zonke izinhlelo"
+    "amagumbi": {
+      "isihloko": "Amagumbi",
+      "isihlokwana": "Dala igumbi noma ujoyine elikhona ngokuthayipha igama elifanayo.",
+      "desc": "Ividiyo yabantu abaningi esebenzisa igama legumbi elabelwe bonke.",
+      "roomLabel": "Igama legumbi",
+      " roomPlaceholder": "isb. team-standup",
+      "roomAria": "Igama legumbi",
+      "joinCreate": "Hlanganyela / Dala",
+      "tip": "Ithiphu: yabelana ngaleli gama nabanye, noma uxhumanise ngqo ku-"
     },
-    "group": {
-      "defaultName": "Umndeni Wami we-Chatforia",
-      "role": "Indima yakho: {{role}}"
-    },
-    "role": {
-      "owner": "Umnikazi",
-      "member": "Ilungu"
-    },
-    "data": {
-      "heading": "Iphuli yedatha eyabiwe",
-      "caption": "Onke amalungu abelana ngale phuli. Sizokuxwayisa njengoba usondela kumkhawulo wakho."
-    },
-    "members": {
-      "title": "Amalungu omndeni",
-      "name": "Igama",
-      "role": "Indima",
-      "usage": "Ukusetshenziswa",
-      "limit": "Umkhawulo",
-      "unlimited": "Akukho mkhawulo othize",
-      "inviteCta": "Mema ilungu"
-    },
-    "invite": {
-      "title": "Mema ilungu elisha",
-      "body": "Thumela i-imeyili noma isixhumanisi ukuze umeme othile kwiphuli yedatha yomndeni wakho eyabiwe.",
-      "emailLabel": "I-imeyili (okungenzeka)",
-      "emailPlaceholder": "friend@example.com",
-      "create": "Yakha isimemo",
-      "linkLabel": "Isixhumanisi sesimemo",
-      "copyAria": "Kopisha isixhumanisi sesimemo",
-      "expiryHint": "Lesixhumanisi siphelelwa yisikhathi emva kwezinsuku ezimbalwa. Ungahlala udala esinye esisha."
-    },
-    "join": {
-      "title": "Joyina umndeni",
-      "body": "Umemwe ukujoyina Umndeni we-Chatforia futhi wabelane ngephuli yedatha yabo.",
-      "cta": "Yamukela futhi ujoyine umndeni",
-      "ctaLogin": "Ngena ngemvume futhi ujoyine umndeni",
-      "success": "Ujoyine lo mndeni. Manje wabelana ngephuli yedatha yabo.",
-      "goFamily": "Iya kudeshibhodi yomndeni",
-      "error": "Asikwazanga ukugeza wena kulo mndeni. Isimemo singase singavumeleki noma siphelelwe yisikhathi."
-    }
+    "title": "Ividiyo",
+    "chooseType": "Khetha uhlobo lwevidiyo.",
+    "directTitle": "Ividiyo Ngqo",
+    "directDesc": "Ucingo lwekhamera lwe-1:1 nomunye umsebenzisi.",
+    "directStart": "Qala",
+    "roomsTitle": "Amagumbi",
+    "roomsDesc": "Ividiyo yabantu abaningi esebenzisa igama legumbi elabelwe bonke.",
+    "roomsIntro": "Hlanganyela noma udale igumbi labantu abaningi.",
+    "roomNameLabel": "Igama legumbi",
+    "roomNamePh": "isb. team-standup",
+    "join": "Hlanganyela",
+    "deeplinkTip": "Ithiphu: ungakwazi ukuxhuma ngqo ku-<code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Qala ucingo lwevidiyo oluqondile lwabantu ababili (1:1).",
+    "findUserLabel": "Thola umsebenzisi",
+    "findUserPh": "Sesha ngegama noma negama lomsebenzisi",
+    "search": "Sesha",
+    "call": "Shayela"
+  },
+  "phoneWarning": {
+    "title": "Inombolo yakho izophela maduze",
+    "body": "Inombolo yakho {{number} } izokhishwa ngo {{date}} ngaphandle kokuthi ivuselelwe.",
+    "button": "Gcina Inombolo Yami"
   },
   "premium": {
-    "heading": "Iya ku-Premium",
-    "description": "Vula izici zamandla futhi ususe izikhangiso.",
-    "cta": "Thuthukisa",
-    "upgrade": "Thuthukisa",
-    "upgradeAria": "Thuthukisa ku-Chatforia Premium"
+    "heading": "Hamba uye ku-Premium",
+    "description": "Vula izici ezinamandla & susa izikhangiso.",
+    "cta": "Yithuthukise",
+    "upgrade": "Yithuthukise",
+    "upgradeAria": "Yithuthukise iye ku-Chatforia Premium"
   },
   "upgrade": {
-    "title": "Thuthukisa",
-    "titleLoggedIn": "Thuthukisa",
+    "title": "Ukuthuthukisa",
+    "titleLoggedIn": "Ukuthuthukisa",
     "titlePublic": "Amanani",
-    "h1": "Amanani & Izinhlelo ze-Chatforia",
-    "h1Subtitle": "Qala ngeplan yamahhala esekelwe izikhangiso. Yiba mahhala nge-Plus, noma vula izici zamandla aphelele nge-Premium.",
-    "subtitle": "Khetha iplan yohlelo lokusebenza, engeza amapakethe edatha kuwe, noma wabelane ngedatha nomndeni wakho — konke kusendaweni eyodwa.",
-    "subtitle.app": "Qala ngeplan yamahhala esekelwe izikhangiso. Yiba mahhala nge-Plus, noma vula izici zamandla aphelele nge-Premium.",
-    "subtitle.mobile": "Engeza idatha ye-eSIM yomhlaba wonke ukuze i-Chatforia iqhubeke isebenza ngisho nalapho ukude ne-Wi-Fi.",
-    "subtitle.family": "Yakha iphuli yedatha eyabiwe yomndeni wakho futhi uphathe ukusetshenziswa kwawo wonke umuntu endaweni eyodwa.",
-    "perMonth": "nyanga",
-    "perYear": "ngonyaka",
-    "goPremium": "Iya ku-Premium",
-    "benefitsLine": "Vula izici zamandla futhi ususe izikhangiso.",
-    "ctaText": "Thuthukisa",
-    "aria": "Thuthukisa ku-Chatforia Premium",
+    "h1": "Amanani Nezinhlelo ze-Chatforia",
+    "h1Subtitle": "Qala ngohlelo lwethu lwamahhala oluxhaswa izikhangiso. Hamba ngaphandle kwezikhangiso nge-Plus, noma uvule izici ezinamandla ngokuphelele nge-Premium.",
+    "subtitle": "Khetha uhlelo lwe-app, engeza amaphakheji edatha ngawe, noma wabelane ngedatha nomndeni wakho — konke endaweni eyodwa.",
+    "subtitle.app": "Qala ngohlelo lwethu lwamahhala oluxhaswa izikhangiso. Hamba ad -mahhala nge-Plus, noma uvule izici ezinamandla ngokuphelele nge-Premium.",
+    "subtitle.mobile": "Engeza idatha ye-eSIM yomhlaba wonke ukuze i-Chatforia iqhubeke isebenza ngisho nasezindaweni ezingenayo i-Wi-Fi.",
+    "subtitle.family": "Dala ichibi ledatha elabelwe umndeni wakho futhi uphathe ukusetshenziswa kwabo bonke endaweni eyodwa.",
+    "perMonth": "inyanga",
+    "perYear": "unonyaka",
+    "goPremium": "Hamba uye ku-Premium",
+    "benefitsLine": "Vula izici ezinamandla & susa izikhangiso.",
+    "ctaText": "Yithuthukise",
+    "aria": "Yithuthukise uye ku-Chatforia Premium",
     "toggle": {
-      "monthly": "Ngenyanga",
-      "annual": "Yonyaka (Gcina ama-30%)"
+      "monthly": "Nyangazonke",
+      "annual": "Wonyaka (Londoloza u-30%)"
     },
     "scheduleBanner": {
-      "title": "Ukubhalisa kuzophela",
-      "body": "Uzobuyela ku-Free ngo",
-      "keepPlanCta": "Gcina {{plan}}",
-      "manageBillingCta": "Phatha ukubhadala"
+      "title": "Ukubhalisela kuzophela",
+      "body": "Uzobuyela kuMahhala ngo",
+      "keepPlanCta": "Gcina u-{{plan}}",
+      "manageBillingCta": "Lawula ukukhokhisa"
     },
     "billing": {
-      "opening": "Ivula…",
-      "manage": "Phatha Ukubhadala"
+      "opening": "Kuvulwa…",
+      "manage ": "Lawula Ukukhokhisa"
     },
     "checkout": {
-      "redirecting": "Iyaqondisa…"
+      "redirecting": "Ukudlulisela…"
     },
     "auth": {
-      "continue": "Qhubeka ukuya ekungeneni ngemvume",
-      "createAccount": "Yakha i-akhawunti",
-      "signIn": "Ngena ngemvume"
+      "continue": "Qhubeka nokungena",
+      "createAccount": "Dala i-akhawunti",
+      "signIn": " Ngena"
     },
     "cta": {
-      "aria": "Khetha iplan",
-      "getPlus": "Thuthukisa ku-Plus",
-      "upgradeMonthly": "Thuthukisa Ngenyanga",
-      "upgradeAnnual": "Thuthukisa Yonyaka"
+      "aria": "Khetha uhlelo",
+      "getPlus": "Yithuthukise iye ku-Plus",
+      "upgradeMonthly": "Yithuthukise Nyangazonke",
+      "upgradeAnnual": "Yithuthukise Ngonyaka"
     },
     "section": {
-      "app": "Izinhlelo zohlelo lokusebenza",
-      "mobile": "I-Mobile (eSIM)",
-      "family": "Izinhlelo zomndeni"
+      "app": "Izicwangciso ze-App",
+      "mobile": "Eselula (eSIM)",
+      "family": "Family plans"
     },
-    "plans": {
-      "free": {
-        "title": "Mahhala",
-        "price": "$0",
-        "desc": "Qala ukuthumela imiyalezo mahhala. Kuhle uma uzama nje i-Chatforia.",
-        "features": {
-          "chat": "Ingxoxo yangempela 1:1 namagumbi, kanye nokushaya ucingo nevidiyo",
-          "media": "Yabelana ngezithombe, imiyalezo yomsindo, namavidiyo amafushane",
-          "ai": "Izimpendulo ezihlakaniphile eziqhutshwa yi-AI nokuhumusha okusheshayo (ukusetshenziswa okufanele)",
-          "disappearing": "Imiyalezo enyamalala nezilawuli zokuphepha eziyisisekelo",
-          "ads": "Mahhala kuze kube phakade ngezikhangiso ohlelweni lokusebenza"
+    "izinhloso": {
+      "yamahhala": {
+        "isihloko": "Yamahhala",
+        "intengo": "$0",
+        "incazelo": "Qala ukuthumela imilayezo mahhala. Kufaneleka uma nje uzama i-Chatforia.",
+        "izici": {
+          "inkulumo": "Ingxoxo yesikhathi sangempela engu-1:1 neqembu, kanye nezingcingo zomsindo nevidiyo",
+          "media": "Yabelana ngezithombe, imilayezo yezwi, namavidiyo amafushane",
+          "ai": "Izimpendulo ezihlakaniphile ezisebenzisa i-AI nokuhumusha ngokushesha (ukusetshenziswa okufanele)",
+          "disappearing": "Imilayezo ephunyayo nezilawuli eziyisisekelo zobumfihlo",
+          "ads": "Mahhala unomphela nezikhangiso kuhlelo lokusebenza "
         },
-        "ctaCurrent": "Iplan yamanje",
-        "ctaManage": "Phatha ekubhadaleni",
-        "ctaPublic": "Qala — qhubeka ukuya ekungeneni ngemvume",
-        "aria": "Iplan yamahhala"
+        "ctaCurrent": "Uhlelo lwamanje",
+        "ctaManage": "Phatha ekukhokhweni",
+        "ctaPublic": "Qala – qhubeka nokungena",
+        "aria": "Uhlelo lwamahhala"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Konke okuyisisekelo, ngaphandle kwezikhangiso. Kuhle ukuthumela imiyalezo nokushaya ucingo kwansuku zonke.",
+        "desc": "Konke okuyisisekelo, ngaphandle kwezikhangiso. Kuhle ekuthumeleni imiyalezo nasekushayeleni nsuku zonke.",
         "features": {
-          "allFree": "Konke okuku-Free, ngaphandle kwezikhangiso",
-          "forwarding": "Dlulisa izingcingo nemiyalezo kunombolo yakho yocingo yangempela",
-          "history": "Umlando womyalezo omude (kuze kube izinyanga ezi-6)",
-          "support": "Usizo olusheshayo lapho kukhona okonakele"
+          "allFree": "Konke okusezingeni lamahhala, ngaphandle kwezikhangiso",
+          "forwarding": "Dlulisa izingcingo nemiyalezo kumnombolo wakho wangempela wocingo",
+          "history": "Umlando wemilayezo omude (kuze kufike ezinyangeni ezi-6)",
+          "support": "Ukusekelwa okusheshayo uma kukhona okungahambi kahle"
         },
-        "badge": "Okuthandwayo",
-        "cta": "Yiba Mahhala Ngezikhangiso",
-        "ctaPublic": "Thola i-Plus — qhubeka ukuya ekungeneni ngemvume",
-        "aria": "Thuthukisa ku-Plus"
+        "badge": "Ethandwayo",
+        "cta": "Hamba ngaphandle kwezikhangiso",
+        "ctaPublic": "Thola i-Plus – qhubeka ungene ngemvume",
+        "aria": "Yithuthukise ube yi-Plus"
       },
       "premiumMonthly": {
-        "title": "I-Premium (Ngenyanga)",
+        "title": "Premium (Nyangeni)",
         "price": "$11.99",
-        "desc": "Okuhlangenwe nakho okuphelele kwe-Chatforia: amathuluzi amandla e-AI, ukwezela, nokusekela okubalulekile.",
+        "desc": "Ukuhlangenwe nakho okuphelele kwe-Chatforia: amathuluzi anamandla e-AI, ukwenza ngezifiso, nokwesekwa okuphuthumayo.",
         "features": {
-          "plusAll": "Konke okuku-Plus",
-          "themes": "Vula zonke izihloko zemibala ze-premium nokwezela kohlelo lokusebenza",
-          "ai": "Amathuluzi amandla e-AI kuphela kwe-Premium okubhalwa kabusha, izimpendulo ezihlakaniphile, nezinhlukaniso",
-          "support": "Usizo olubalulekile lapho udinga usizo kakhulu"
+          "plusAll": "Konke okuse-Plus",
+          "themes": "Vula zonke izindikimba zemibala ezisezingeni eliphezulu nokwenza ngokwezifiso kohlelo lokusebenza",
+          "ai": "Amathuluzi anamandla e-AI awase-Premium kuphela wokubhala kabusha, izimpendulo ezihlakaniphile, nezifinyezo",
+          "support": "Ukusekelwa okubalulekile lapho udinga usizo kakhulu"
         },
-        "badge": "Kunconyiwe",
-        "cta": "Thuthukisa (Ngenyanga)",
-        "ctaPublic": "Vula i-Premium — qhubeka ukuya ekungeneni ngemvume",
-        "aria": "Thuthukisa ku-Premium Ngenyanga"
+        "badge": "Okunconywayo",
+        "cta": "Yithuthukise (Nyanga nenyanga)",
+        "ctaPublic": "Vula i-Premium – qhubeka nokungena ngemvume",
+        "aria": "Yithuthukise iye ku-Premium Yanyanga Zonke"
       },
       "premiumAnnual": {
-        "title": "I-Premium (Yonyaka)",
+        "title": "Premium (Yonyaka)",
         "price": "$99",
-        "desc": "Gcina kakhulu uma ukhokhwa ngonyaka — kuhlanganise izihloko zemibala ezengeziwe, amathuluzi e-AI, nokusekela okubalulekile.",
+        "desc": "Londoloza okuningi uma ukhokhiswa unyaka wonke — kuhlanganisa nezindikimba zemibala ezengeziwe, amathuluzi e-AI, kanye nokwesekwa okuphuthumayo.",
         "features": {
-          "allPremium": "Konke okuku-Premium Ngenyanga — kuhlanganise izihloko zemibala ezengeziwe",
-          "annualBilling": "Ikhokhwa kanye ngonyaka",
-          "save25": "Gcina cishe ama-30% uma uqhathaniswa nokukhokha ngenyanga",
-          "bestFor": "Kuhle kakhulu kubasebenzisi abanamandla, abasebenzi abakude, nabahambi abasindayo"
+          "allPremium": "Konke okuse-Premium Yanyanga Zonke — kufaka phakathi izindikimba zemibala ezengeziwe",
+          "annualBilling": "Kukhokhiswa kanye ngonyaka",
+          "save25": "Londoloza cishe u-30% uma kuqhathaniswa nokukhokha ngenyanga",
+          "bestFor": "Kuhle kakhulu kubasebenzisi abasebenzisa kakhulu, abasebenzi abasebenza kude, nabahambi abaningi"
         },
-        "badge": "Gcina ama-30%",
-        "cta": "Thuthukisa (Yonyaka)",
-        "ctaPublic": "Gcina ama-30% ngonyaka — qhubeka ukuya ekungeneni ngemvume",
-        "aria": "Thuthukisa ku-Premium Yonyaka",
-        "disclaimer": "Ikhokhwa ngaphambili. Khansela noma nini. Akukho zinkokhelo ezifihliwe."
+        "badge": "Londoloza u-30%",
+        "cta": "Yithuthukise (Yonyaka)",
+        "ctaPublic": "Londoloza u-30% ngokukhokha konyaka – qhubeka ungene",
+        "aria": "Yithuthukise i-Premium Yonyaka",
+        "disclaimer": "Kukhokhiswa kusengaphambili. Khansela noma kunini. Akukho izimali ezifihliwe."
       }
     },
     "marketing": {
       "freeTitle": "Mahhala",
-      "freeDesc": "Qala ukuthumela imiyalezo mahhala.",
+      "freeDesc": "Qala ukuthumela imilayezo mahhala.",
       "plusTitle": "Plus",
-      "plusBadge": "Okuthandwayo",
-      "plusDesc": "Okuhlangenwe nakho okungenazikhangiso okungabizi kakhulu.",
-      "premiumMonthlyTitle": "I-Premium",
-      "premiumMonthlyDesc": "Izici ezigcwele, amaringithoni, namathuluzi amandla e-AI.",
-      "premiumAnnualTitle": "I-Premium",
-      "premiumAnnualDesc": "Gcina kakhulu uma ukhokhwa ngonyaka.",
-      "annualDisclaimer": "Ikhokhwa ngaphambili. Khansela noma nini. Akukho zinkokhelo ezifihliwe."
+      "plusBadge": "Ethandwayo",
+      "plusDesc": "Okuhlangenwe nakho okungabizi kakhulu okungenazikhangiso.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Izici ezigcwele, ama-ringtone, namathuluzi anamandla e-AI.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Londoloza kakhulu uma ukhokhiswa minyaka yonke.",
+      "annualDisclaimer": "Kukhokhiswa kusengaphambili. Khansela noma kunini. Azikho izimali ezifihliwe."
     },
     "mobile": {
-      "title": "I-Chatforia Mobile (amapakethe edatha ye-eSIM)",
-      "subtitle": "Engeza idatha yomhlaba wonke ukuze i-Chatforia iqhubeke isebenza ngisho nalapho ungekho ku-Wi-Fi. Amanani alungiswa ngokuzenzakalelayo ngokwezwe lakho nemali.",
-      "subtitle.detail": "Khetha ipakethe yedatha yomhlaba wonke yesikhathi esisodwa ukuze i-Chatforia iqhubeke isebenza lapho uhamba noma ukude ne-Wi-Fi.",
+      "title": "Chatforia Mobile (amaphakheji edatha eSIM)",
+      "subtitle": "Engeza idatha yomhlaba wonke ukuze iChatforia iqhubeke isebenza ngisho naphandle kwe-Wi-Fi. Amanani alungiswa ngokuzenzakalelayo ngokususelwa ezweni lakho nasemalini yakho.",
+      " subtitle.detail": "Khetha iphakethe ledatha yomhlaba wonke elikhokhwa kanye ukuze i-Chatforia iqhubeke isebenza uma uhamba noma ukude ne-Wi-Fi.",
       "scope": {
-        "local": "Yendawo",
-        "europe": "I-Europe",
+        "local": "Lendawo",
+        "europe": "IYurophu",
         "global": "Umhlaba wonke"
       },
-      "note": "Asithengisi amapakethe edatha angaphansi kwe-3 GB.",
-      "localEquals": "Yendawo = {{country}}",
-      "localEqualsFallback": "Yendawo = izwe lakho lamanje",
-      "perPack": "/ ipakethe",
-      "cta": "Thola le pakethe yedatha",
-      "ctaPublic": "Thola le pakethe yedatha",
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = your current country",
+      "perPack": "/ pack",
+      "cta": "Get this data pack",
+      "ctaPublic": "Get this data pack",
       "checkout": {
-        "redirecting": "Iyaqondisa…"
+        "redirecting": "Redirecting…"
       },
       "unlimited": {
         "features": {
-          "heavyUse": "Idatha enesivinini esiphezulu yokusetshenziswa okusindayo",
-          "throttle": "Izinga lesivinini lingase lehle emva kokusetshenziswa okuphezulu",
-          "coverage": "Ukumbozwa okuthembekile",
-          "instant": "Ukusebenza kwe-eSIM ngokushesha",
-          "noContract": "Ipakethe yesikhathi esisodwa, akukho isivumelwano"
+          "heavyUse": "Idatha esheshayo yokusetshenziswa okuningi",
+          "throttle": "Idatha esheshayo ehlangabezana nemigomo yokusetshenziswa ngokulinganayo kanye nokuphathwa kwenethiwekhi",
+          "coverage": "Ukumboza okuthembekile",
+          "instant": "Ukuvulwa kwe-eSIM okusheshayo",
+          "noContract": "Iphakethe eliyodwa, akukho nkontileka"
         }
       },
       "disclaimer": {
-        "devices": "Amapakethe edatha ye-eSIM adinga idivayisi esekelwe i-eSIM futhi evuliwe. Ukutholakala kuyahlukahluka ngomodeli yefoni, inkampani, nezwe. Ukumbozwa namazinga esivinini kuyahlukahluka ngendawo."
+        "devices": "Amaphakethe edatha we-eSIM adinga idivayisi ehambisana ne-eSIM futhi evulekile. Ukutholakala kuyahluka ngokuya ngomodeli wocingo, umhlinzeki wenethiwekhi, kanye nezwe. Ukumbozwa kanye nezivinini kuyahluka ngokuya ngendawo."
       },
-      "small": {
-        "title": "Ipakethe yokuqala",
-        "desc": "Ihlanganisa i-3 GB yedatha enesivinini esiphezulu — kuhle ukuthumela imiyalezo elula nokushaya ucingo ngezikhathi ezithile.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Uhambo olufushane, ukuthumela imiyalezo elula, nokushaya ucingo ngezikhathi ezithile",
-        "aria": "Thenga ipakethe yedatha ye-eSIM yokuqala"
-      },
-      "medium": {
-        "title": "Ipakethe yomhambi",
-        "desc": "Ihlanganisa i-5 GB yedatha enesivinini esiphezulu yohambo, ukuya nokubuya, nokushaya ucingo kwe-VoIP njalo.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Amasonto ohambo, ukushaya ucingo kwe-VoIP njalo, namamephu",
-        "aria": "Thenga ipakethe yedatha ye-eSIM yomhambi"
-      },
-      "large": {
-        "title": "Ipakethe yamandla",
-        "desc": "Ihlanganisa i-10 GB yedatha enesivinini esiphezulu yokuxoxa okusindayo, izingcingo, nevidiyo kunethiwekhi ye-Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Ukuxoxa okusindayo, izingcingo, ividiyo, nokusebenzisa i-hotspot",
-        "aria": "Thenga ipakethe yedatha ye-eSIM yomsebenzisi wamandla"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Enganqamuki"
+        }
       },
       "compare": {
-        "title": "Qhathanisa amapakethe edatha ye-eSIM",
+        "title": "Qhathanisa amaphakheji edatha we-eSIM",
         "col": {
-          "pack": "Ipakethe",
+          "pack": "Iphakheji",
           "data": "Idatha ehlanganisiwe",
-          "bestFor": "Kuhle kakhulu ku-"
+          "bestFor": "Okungcono kakhulu ku-"
         },
-        "disclaimer": "Ukusetshenziswa kwedatha kwangempela kuncike ekutheni usebenzisa kanjani i-Chatforia (ukushaya ucingo, ividiyo, imidiya, nezinye izinhlelo zefoni yakho)."
+        "disclaimer": "Ukusetshenziswa kwedatha yangempela kuncike endleleni osebenzisa ngayo i-Chatforia (izwi, ividiyo, imidiya, nezinye izinhlelo zokusebenza efonini yakho)."
       }
     },
     "family": {
-      "title": "Umndeni we-Chatforia (idatha eyabiwe)",
-      "subtitle": "Yabelana ngephuli yedatha eyodwa emndenini wakho. I-bill eyodwa, ama-akhawunti amaningi e-Chatforia, ukumbozwa komhlaba wonke.",
-      "perPack": "/ ipakethe",
+      "title": "Umndeni we-Chatforia (idatha ekwabelwana ngayo)",
+      "subtitle": " Yabelana ngenqwaba yedatha eyodwa nomndeni wakho. Ibhili elilodwa, ama-akhawunti amaningi e-Chatforia, ukumbozwa komhlaba wonke.",
+      "perPack": "/ pack",
       "small": {
         "title": "Umndeni Omncane",
-        "desc": "Ihlanganisa i-20 GB yedatha enesivinini esiphezulu eyabiwe — kuhle kubasebenzisi abangu-2–3 abalula.",
+        "desc": "Ihlanganisa ama-20 GB wedatha esabelwe esheshayo — ilungele abasebenzisi ababili kuya kwabathathu abasebenzisa kancane.",
         "price": "$29.99",
-        "aria": "Thenga ipakethe yomndeni omncane"
+        "aria": "Thenga iphakethe lomndeni elincane"
       },
       "medium": {
-        "title": "Umndeni Omaphakathi",
-        "desc": "Ihlanganisa i-40 GB yedatha enesivinini esiphezulu eyabiwe — kuhle kumalungu angu-3–5 asebenzayo.",
+        "title": "Umndeni Ophakathi",
+        "desc": "Ihlanganisa ama-GB angu-40 edatha esabelwe esheshayo — ilungele amalungu asebenzayo angu-3–5.",
         "price": "$49.99",
-        "aria": "Thenga ipakethe yomndeni omaphakathi"
+        "aria": "Thenga iphakethe Lomndeni Ophakathi"
       },
       "large": {
         "title": "Umndeni Omkhulu",
-        "desc": "Ihlanganisa i-80 GB yedatha enesivinini esiphezulu eyabiwe — kumindeneni enamandla ehlala iku-inthanethi.",
+        "desc": "Ihlanganisa ama-80 GB edatha ekwabelwana ngayo esheshayo — yemindeni esebenzayo njalo eku-inthanethi.",
         "price": "$84.99",
-        "aria": "Thenga ipakethe yomndeni omkhulu"
+        "aria": "Thenga iphakethe lomndeni omkhulu"
       },
       "feature": {
-        "shared": "Iphuli yedatha eyabiwe yomndeni wakho",
-        "members": "Mema amalungu engeziwe angafika ku-4",
-        "membersMore": "Kuhle kumalungu angu-3–5 asebenzayo",
-        "manage": "Phatha imikhawulo yalungu ngalinye",
-        "topUp": "Engeza amapakethe engeziwe noma nini",
-        "bestValue": "Inani elingcono kakhulu nge-GB",
-        "fairUse": "Ngaphansi kwenqubomgomo yokusetshenziswa okufanele nemikhawulo yendawo"
+        "shared": "Ibhodi ledatha ekwabelwana ngalo lomndeni wakho",
+        "members": "Mema amalungu angeziwe angu-4",
+        "membersMore": "Kuhle kumalungu asebenzayo angu-3 kuya kwangu-5",
+        "manage": "Lawula imingcele yelungu ngalinye",
+        "topUp": "Engeza amaphakheji amaningi noma kunini",
+        "bestValue": "Inani elihle kakhulu nge-GB ngayinye",
+        "fairUse": "Kuncike kumgomo wokusetshenziswa okufanele nemikhawulo yasendaweni"
       },
-      "disclaimer": "Amapakethe omndeni akha noma engeza iphuli yedatha eyabiwe. Ungamema futhi ususe amalungu noma nini.",
-      "footnote": "Amapakethe omndeni abelana ngephuli yedatha eyodwa kuwo wonke ama-akhawunti e-Chatforia axhunyiwe. Ukutholakala nemikhawulo kuncike ezweni lakho nemithetho yendawo."
+      "disclaimer": "Amaphakheji omndeni adala noma agcwalisa iphuli yedatha ekwabelwana ngayo. Ungamenywa futhi ususe amalungu noma kunini.",
+      "footnote": "Amaphakethe omndeni ahlanganyela ichibi ledatha elilodwa kuzo zonke izikhawu ze-Chatforia ezixhunyiwe. Ukutholakala nemikhawulo kuncike ezweni lakho nasemithethweni yasendaweni."
     },
     "why": {
-      "title": "Kungani abantu beshintshela ku-Chatforia",
-      "subtitle": "I-Chatforia ikunikeza inombolo yocingo yangempela, ukuhumusha okhaliphile, nendlela ecacile yokuba mahhala ngezikhangiso lapho usukulungele.",
+      "title": "Kungani abantu bethuthela ku-Chatforia",
+      "subtitle": "I-Chatforia ikunikeza inombolo yocingo yangempela, ukuguqulela okuhlakaniphile, kanye nendlela ecacile yokuyeka izikhangiso uma usukulungele.",
       "card": {
         "textnow": {
-          "title": "I-Chatforia vs TextNow",
-          "body": "Izikhangiso ezilula ku-Free, ukuthuthukiswa okulula kwe-Plus lapho usukulungele, namathuluzi e-Premium u-TextNow angawanikezi."
+          "title": "Chatforia vs TextNow",
+          "body": "Izikhangiso ezilula ku-Mahhala, ukuthuthukisa okulula kwe-Plus uma usukulungele, namathuluzi e-Premium angahlinzekiwa yi-TextNow."
         },
         "voice": {
-          "title": "I-Chatforia vs Google Voice",
-          "body": "Uhlelo lokusebenza lwesimanje, idizayini yomhlaba wonke kuqala, nokuhumusha okwakhelwe ngaphakathi esikhundleni sokudlulisa ucingo kwesikolo esidala."
+          "title": "Chatforia vs Google Voice",
+          "body": "Uhlelo lokusebenza lwesimanje, umhlaba wonke -ukuklama okuqala, nokuhumusha okwakhelwe ngaphakathi esikhundleni sokudlulisela izingcingo kwesitayela sakudala."
         },
         "messengers": {
-          "title": "I-Chatforia vs izinhlelo zokuthumela imiyalezo",
-          "body": "Thumela izinombolo zocingo zangempela — hhayi nje abanye abasebenzisi bohlelo — nge-AI nesimo esakhelwe ngaphakathi. Kuhle uma uvela ezinhlelweni ezifana ne-TextFree noma i-TextMe."
+          "title": "Chatforia vs izinhlelo zokuxoxa",
+          "body": "Thumela imiyalezo yamanombolo ucingo wangempela — hhayi abasebenzisi bezinye izinhlelo kuphela — nge-AI nesimo esakhelwe ngaphakathi. Kuhle uma uvela kwezinhlelo ezifana ne-TextFree noma i-TextMe."
         }
       },
-      "tableTitle": "I-Chatforia iqhathanisa kanjani",
+      "tableTitle": "Indlela i-Chatforia eqhathaniswa ngayo",
       "col": {
         "feature": "Isici"
       },
       "feature": {
         "freeNumber": "Inombolo yocingo yamahhala",
-        "translation": "Ukuhumusha ngokuzenzakalelayo okwakhelwe ngaphakathi",
-        "aiTools": "Amathuluzi e-AI (ukubhalwa kabusha, izimpendulo, izinhlukaniso)",
+        "translation": "Ukuguqulela okuzenzakalelayo okwakhelwe ngaphakathi",
+        "aiTools": "Amathuluzi e-AI (ukubhala kabusha, izimpendulo, izifinyezo)",
         "ads": "Inketho engenazikhangiso",
-        "history": "Umlando womyalezo"
+        "history": "Umlando wemilayezo"
       },
-      "yes": "Yebo",
-      "no": "Cha",
-      "yesPremium": "Yebo (I-Premium)",
-      "plusPremium": "I-Plus & I-Premium",
-      "limited": "Kulinganiselwe",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "Kuze kube izinyanga ezi-12+",
-        "textnow": "Kuyahlukahluka nge-akhawunti",
-        "voice": "Kulinganiselwe / okusekelwe e-akhawunti"
+      "yebo": "Yebo",
+      "cha": "Cha",
+      "yeboPremium": "Yebo (Premium)",
+      "plusPremium": "Plus & Premium",
+      "elilinganiselwe": "Elilinganiselwe",
+      "nA": "Akusebenzi",
+      "umlando": {
+        "chatforia": "Kuze kufike ezinyangeni eziyi-12+",
+        "textnow": "Kuyahlukahluka ngokwe-akhawunti",
+        "voice": "Limited / kusekelwe ku-akhawunti"
       },
-      "disclaimer": "Ukuqhathanisa kususelwa olwazini olutholakala emphakathini futhi lungase lushintshe ngokuhamba kwesikhathi. Ezinye izinhlelo zokuthumela imiyalezo yamahhala ezifana ne-TextFree noma i-TextMe ngokuvamile ziyafana ne-TextNow."
+      "disclaimer": "Ukuqhathanisa kusekelwe olwazini olutholakala obala futhi kungashintsha ngokuhamba kwesikhathi. Ezinye izinhlelo zokusebenza zokuthumela imiyalezo yamahhala ezifana ne-TextFree noma i-TextMe ngokuvamile ziyafana ne-TextNow."
     },
     "faq": {
-      "title": "Imibuzo evame ukubuzwa ngamanani & izinhlelo",
+      "title": "Imibuzo Evame Ukubuzwa Ngezamanani Nezinhlelo",
       "free": {
-        "q": "Ingabe iplan yamahhala ingempela yamahhala?",
-        "a": "Yebo. Iplan yamahhala ihlanganisa inombolo ye-Chatforia, ukushaya ucingo, nokuthumela imiyalezo ngezikhangiso. Ungahlala ku-Free isikhathi eside ngendlela othanda ngayo, noma thuthukise ukuze ususe izikhangiso futhi uvule izici eziningi."
+        "q": "Ingabe uhlelo lwamahhala luyamahhala ngempela?",
+        "a": "Yebo. Uhlelo lwamahhala luqukethe inombolo ye-Chatforia, ukushaya izingcingo nokuthumela imiyalezo kunezikhangiso. Ungahlala ohlelweni lwamahhala isikhathi eside njengoba uthanda, noma uthuthukise ukuze ususe izikhangiso futhi uvule izici eziningi."
       },
       "plusPremium": {
         "q": "Yini umehluko phakathi kwe-Plus ne-Premium?",
-        "a": "I-Plus isusa izikhangiso futhi inweba umlando womyalezo wakho — iphelele ukusetshenziswa kwansuku zonke. I-Premium engeza ukwezela okwengeziwe, amathuluzi e-AI okubhalwa kabusha nezimpendulo, nokusekela okubalulekile kubasebenzisi abasindayo."
+        "a": " I-Plus isusa izikhangiso futhi yandise umlando wemilayezo yakho — ifanele ukusetshenziswa kwansuku zonke. I-Premium ingeza izilungiselelo ezengeziwe, amathuluzi e-AI wokubhala kabusha nokuphendula, kanye nokwesekwa okubalulekile kwabasebenzisi abasebenzisa kakhulu."
       },
       "esim": {
-        "q": "Isebenza kuphi amapakethe edatha ye-eSIM?",
-        "a": "I-Chatforia Mobile isebenzisa ukumbozwa kwe-eSIM yomhlaba wonke. Ukutholakala kuncike ezweni lakho nedivayisi. Uzobona izinketho ezisekelwayo ngesikhathi sokusebenza ngaphakathi kohlelo lokusebenza."
+        "q": "Ipaki yedatha ye-eSIM isebenza kuphi?",
+        "a": "I-Chatforia Mobile isebenzisa ukumbozwa kwe-eSIM emhlabeni wonke. Ukutholakala kuncike ezweni lakho nasemkhiqizweni wakho. Uzobona izinketho ezisekelwayo ngesikhathi sokuvula ngaphakathi kohlelo lokusebenza."
       },
       "cancel": {
-        "q": "Ngingakhansela noma shintsha izinhlelo noma nini?",
-        "a": "Yebo. Ungaphatha noma ukhansela ukubhalisa kwakho ekhasini lokubhadala ohlelweni lokusebenza. Izinguquko zisebenza ekupheleni kwesikhathi sakho sokubhadala samanje."
+        " q": "Ngingakhansela noma ngishintshe izinhlelo noma kunini?",
+        "a": "Yebo. Ungaphatha noma ukhansele ukubhalisa kwakho ekhasini lokukhokha kuhlelo lokusebenza. Izinguquko ziqala ukusebenza ekupheleni kwesikhathi sakho samanje sokukhokha. "
       },
       "family": {
-        "q": "Amapakethe omndeni asebenza kanjani?",
-        "a": "Amapakethe omndeni akha iphuli yedatha eyabiwe kuwo wonke ama-akhawunti e-Chatforia amaningi. Umuntu oyedwa ukhokha i-bill, futhi ungamema noma ususe amalungu futhi usethe imikhawulo ngomuntu ngamunye."
+        "q": "Ama-Family packs asebenza kanjani?",
+        "a": "Ama-Family packs adala ichibi ledatha elabelwe ama-akhawunti amaningi e-Chatforia. Umuntu oyedwa ukhokha ibhili, futhi ungamema noma ususe amalungu futhi usethe imingcele kumuntu ngamunye."
       }
+    }
+  },
+  "family": {
+    "title": "Umndeni",
+    "loading": "Kulayisha imininingwane yomndeni wakho…",
+    "iphutha": {
+      "ukulayisha": "Kwehlulekile ukulayisha imininingwane yomndeni.",
+      "ukumema": "Akwenzeki ukudala isimemo. Qiniseka ukuthi ungumnikazi womndeni bese uzama futhi.",
+      "ukukhokha": "Asikwazanga ukuqala ukukhokha uhlelo Lomndeni. Sicela uzame futhi."
     },
-    "gettingStarted": {
-      "title": "Ukuqala",
-      "subtitle": "Uqala ku-Chatforia? Lesi siqondiso esisheshayo sibonisa izinto eziyisisekelo ukuze ukwazi ukusebenza ngeminithi ezimbalwa.",
-      "alert": {
-        "text": "Lesisiqondiso sizokhula njengoba sethula izici ezintsha. Uma kukhona okushodayo, sazise nge",
-        "contactLink": "Xhumana Nathi"
-      },
-      "section1": {
-        "title": "1) Yakha i-akhawunti yakho",
-        "signup": "Bhalisa",
-        "or": "noma",
-        "login": "ngena ngemvume",
-        "loginText": "nge-akhawunti yakho ekhona.",
-        "prefsStart": "Setha ",
-        "prefsLink": "okuthandayo kwakho",
-        "prefsRest": "(ulimi, ukuthola ukufundwa, izihloko)."
-      },
-      "section2": {
-        "title": "2) Qala ukuthumela imiyalezo",
-        "item1": "Yakha i-DM noma i-Group futhi uthumele umyalezo wakho wokuqala.",
-        "item2": "Sebenzisa ukuhumusha okusheshayo ukuze uxoxe ezilimini ezingaphezu kuka-100.",
-        "item3": "Zama imiyalezo enyamalala nokwamukela ukufundwa ku-Profile → Ubumfihlo."
-      },
-      "section3": {
-        "title": "3) Qhubeka kakhulu",
-        "item1": "Ungathuthukisa kuplan ekhokhwayo noma nini ngaphakathi kohlelo lokusebenza.",
-        "item2": "Uma usungenile ngemvume, ungaxhuma amadivayisi engeziwe futhi usethe izipele ezifihliwe ezivela ku-Settings ohlelweni lokusebenza."
-      },
-      "cta": {
-        "seePlans": "Bona izinhlelo",
-        "openSettings": "Vula izilungiselelo"
-      }
+    "ukukhokha": {
+      "myPlanTitle": "Uhlelo lwami",
+      "myPlanError": "Akwenzeki ukulayisha uhlelo lwakho.",
+      "myPlanLoading": "Kulayishwa uhlelo lwakho…",
+      "currentPlan": "Uhlelo lwamanje",
+      "renewsAt": "Izovuselelwa ngom",
+      " freePlanCopy": "Usehlelo lwamahhala. Khuphula ukuze uvule izici eziningi.",
+      "upgradeCta": "Khuphula uhlelo",
+      "changePlanCta": "Shintsha uhlelo",
+      "phathaUkukhokha": "Phatha ukukhokha",
+      "iphuthaLePortal": "Akwenzeki ukuvula i-portal yokukhokha njengamanje.",
+      "khanselaManje": "Khansela manje",
+      "khanselaManjeUsizo": "Ungaphatha noma ukhansele ukubhalisa kwakho ku-portal yokukhokha, noma ukhansele ngokushesha ngezansi.",
+      "qinisekisaKhanselaManje": "Ingabe uqinisekile ukuthi ufuna ukukhansela uhlelo lwakho ngokushesha? Lokhu ngeke kubuyiselwe emuva.",
+      "cancelNowError": "Akwenzeki ukukhansela uhlelo lwakho okwamanje. Sicela uzame futhi noma usebenzise Ukuphatha izinkokhelo."
     },
-    "helpCenter": {
-      "title": "Isikhungo Sosizo",
-      "faq": {
-        "account": {
-          "q": "Ngenza kanjani noma ngibuyise i-akhawunti yami?",
-          "a": "Landa uhlelo lokusebenza noma usebenzise iwebhu, thepha “Yakha i-akhawunti”, qinisekisa i-imeyili/ifoni yakho. Ukuze ubuyise, sebenzisa “Ukhohlwe iphasiwedi”."
-        },
-        "privacy": {
-          "q": "Ingabe imiyalezo ifihliwe ukuphela ukuphela?",
-          "a": "Yebo. Imiyalezo nezingcingo zifihlwe ukuphela ukuphela ngokuzenzakalelayo. Wena nomamukeli kuphela ongazifunda."
-        },
-        "translate": {
-          "q": "Isebenza kanjani ukuhumusha okusheshayo?",
-          "a": "Nika amandla “Humusha ngokuzenzakalelayo” ku-Settings → Ukubukeka & Ulimi. Sihumusha edivayisini lapho kusekelwe khona, ngaphandle kwalokho ngama-API avikelekile anemininingwane encane."
-        },
-        "contact": {
-          "q": "Xhumana nosizo",
-          "a": "Sifinyelele ku-support@chatforia.com. Hlanganisa izithombe-skrini nenguqulo yohlelo lokusebenza lakho."
-        }
+    "none": {
+      "title": "Akukho umndeni osusethwe okwamanje",
+      "body": "Ukuze udale i-Chatforia Family kanye nebhange ledatha elabelwe, qala uhlelo lomndeni.",
+      "goUpgrade": "Qala uhlelo lomndeni",
+      "viewPlans": "Buka zonke izinhlelo"
+    },
+    "group": {
+      "defaultName": "Umndeni wami we-Chatforia",
+      "role": "Indima yakho: {{role}}"
+    },
+    "role": {
+      "umnikazi": "Umnikazi",
+      "ilungu": "Ilungu"
+    },
+    "idatha": {
+      "isihloko": "Iphuli yedatha ekwabelwana ngayo",
+      "incazelo": "Wonke amalungu ayabelana ngaleli phuli. Sizokwazisa uma usondela emkhawulweni wakho."
+    },
+    "amalungu": {
+      "isihloko": "Amalungu omndeni",
+      "igama": "Igama",
+      "indima": "Indima",
+      "ukusetshenziswa": "Ukusetshenziswa",
+      "umkhawulo": "Umkhawulo",
+      "okungenamkhawulo": "Ayikho imingcele ethile",
+      "inviteCta": "Mema ilungu"
+    },
+    "ukumema": {
+      "isihloko": "Mema ilungu elisha",
+      "body": "Thumela i-imeyili noma isixhumanisi ukumema umuntu ukuthi angene eqoqweni lwakho lwedatha yomndeni enabelwana ngayo.",
+      "emailLabel": "I-imeyili (okuzikhethela)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Dala isimemo",
+      "linkLabel": "Ixhumanisi lokumema",
+      "copyAria": "Kopisha ikhonkco lokumema",
+      "expiryHint": "Leli khonkco liphelelwa yisikhathi ngemva kwezinsuku ezimbalwa. Ungahlala udala elisha."
+    },
+    "join": {
+      "title": "Ungene emndenini",
+      "body": "Umenyiwe ukuba ujoyine Umndeni we-Chatforia futhi wabelane ngenqwaba yedatha yabo.",
+      "cta": "Yamukela bese ujoyina umndeni",
+      "ctaLogin": "Ngena ungene emndenini",
+      "success": "Usejoyine lo mndeni. Manje wabelana ngenqwaba yedatha yabo.",
+      "goFamily": "Hamba uye kudashibhodi lomndeni",
+      "error": "Asikwazanga ukukwengeza kulomndeni. Isimemo singase singasebenzi noma siphelelwe yisikhathi."
+    }
+  },
+  "randomChat": {
+    "title": "Ingxoxo Engahleliwe",
+    "isihlokwana": "Hlangana nomuntu omusha ngokushesha, noma ukhethe ukuxoxa noRia.",
+    "qala": "Qala ingxoxo",
+    "incazelo": "Qala ukuxoxa ungaziwa kuqala. Engeza umngane kamuva uma uzizwa ukhululekile.",
+    "tholaOfanayo": "Ngitholele umuntu ofanayo",
+    "xoxaNoRia": "Xoxa noRia",
+    "setAge": "Seta ibanga lakho lobudala ku-Profile → Iminyaka ukuze uhlangane nabantu.",
+    "idle": "Awungenzi lutho",
+    "matching": "Kuhlangana…",
+    "searching": "Kusesha…",
+    "cancel": "Khansela",
+    "connectionProblem": "Inkinga yokuxhumana",
+    "ai": "AI",
+    "anonymous": "Angaziwa",
+    "connectedAs": "Xhumene njengo",
+    "waitingAddFriend": "Silinde ukuthi bamukele ukwengeza umngane…",
+    "hiddenUsernames": "Amagama abasebenzisi afihlwe kuze kube bobabili bekhetha ukwengeza umngane.",
+    " riaSeparate": "Xoxa noRia noma yinini — ngokwehlukana nokuhlanganiswa kwabantu abangahleliwe.",
+    "sendMessage": "Thumela umlayezo",
+    "chatEnded": "Ingxoxo iphelile",
+    "conversationEnded": "Le ngxoxo isiphelile.",
+    "findAnotherMatch": "Thola omunye umlingani",
+    "next": "Umuntu olandelayo",
+    "addFriend": "Engeza umngane",
+    "requested": "Kuceliwe",
+    "shiya": "Shiya",
+    "thumelaUmyalezoKuRia": "Thumela umyalezo kuRia…",
+    "thumelaUmyalezoKuHlanganyeli": "Thumela umyalezo kumlingani wakho…",
+    "xoxaNoForia": "Xoxa noForia",
+    "xoxaNeForiaBot": "Xoxa neForiaBot",
+    "vala": "Vala",
+    "kusesha": "Kusesha…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Kuyekile.",
+    "skip": "Dlula",
+    "save": "Gcina",
+    "saveGuard": "Izingxoxo zabantu kuphela ezingagcinwa",
+    "youAreChattingWith": "Uxoxa no-{ {name}}",
+    "bot": "BOT",
+    "sayHi": "Sawubona 👋",
+    "you": "Wena",
+    "typeMessage": "Bhala umlayezo",
+    "send": "Thumela",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Uqala ingxoxo noRia…",
+    "ageDisclaimer": "Sigcina kuphela ibanga lobudala (hhayi usuku lwakho lokuzalwa ngqo). Lokhu kusetshenziselwa ukugcina ukufanisa kwengxoxo engahleliwe kufanelekile. Ukuze ufaniswe nabantu (hhayi iRiaBot kuphela), setha ibanga lakho lobudala ku-Settings → Age & Random Chat.",
+    "ageBandRequired": "Setha ibanga lakho lobudala ku-Profile → Age & Random Chat ukuze uhlangane nabantu.",
+    "ageBandCallout": "Ukuze uhlangane nabantu (hhayi i-RiaBot kuphela), setha ibanga lakho lobudala ku-Settings → Age & Random Chat."
+  },
+  "ria": {
+    "fallbackName": "khona",
+    "intro": "Sawubona 👋 NginguRia. Yini engqondweni yakho?",
+    "greetings": {
+      "long1": "Sawubona {{name}} 👋 Ngikhona lapha. Yini engqondweni yakho?",
+      "long2": "Sawubona {{name}} 😊 Ungathanda ukukhuluma ngani namuhla?",
+      "long3": "Hey {{name}}! Ngikulalele — kwenzekani?",
+      "long4": "Kuhle ukukubona, {{name}} 👋 Yini ekucabangayo namuhla?",
+      "long5": "Hey {{name}} 🙂 Ufuna ukukhulula umoya, ubuze, noma nje ukuxoxa?",
+      "long6": "Hi {{name}}! Nginesikhathi — ungathanda ukukhuluma ngani?",
+      "short1": "Hey {{name}}, ngisakhona. Kuthini?",
+      "short2": "Sawubona futhi {{name}} 👋 Kukhona okunye ofuna ukukwengeza?",
+      "short3": " Ubuyile futhi, {{name}}? 😊 Ngitshele ukuthi yini engqondweni yakho.",
+      "short4": "Hey {{name}} ✨ Usukulungele ukuqhubeka lapho esishiyele khona?",
+      "short5": "Yebo {{name}}? Ngiyalalela 👂",
+      "short6": "O hey {{name}}! Unento entsha engqondweni yakho?"
+    },
+    "header": {
+      "openNav": "Vula imenyu yokuhamba",
+      "closeNav": "Vala imenyu yokuhamba",
+      "homeAria": "Khaya le-Chatforia"
+    },
+    "login": {
+      "welcomeBack": "Siyakwamukela futhi",
+      "title": "Qhubeka uye ku-Chatforia",
+      "subtitleReturning": "Ngena ku-akhawunti yakho ye-Chatforia",
+      "google": "Qhubeka nge-Google",
+      "apple": "Qhubeka nge-Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Ukubhalisa nge-Google akwenzeki",
+      "appleUnavailable": "Ukubhalisa nge-Apple akwenzeki",
+      "ssoUnavailable": "Ukubhalisa okukodwa okwamanje akwenzeki. Sebenzisa igama lomsebenzisi nephasiwedi esikhundleni salokho.",
+      "or": "noma",
+      "accountLabel": "I-akhawunti",
+      "identifierPh": "I-imeyili noma igama lomsebenzisi",
+      "passwordLabel": "Iphasiwedi",
+      "passwordPh": "Iphasiwedi yakho",
+      "keepSignedIn": "Ngigcine ngingene",
+      "forgot": "Ukhohlwe iphasiwedi?",
+      "resendVerification": "Thumela kabusha i-imeyili yokuqinisekisa",
+      "submit": "Ngena",
+      "loggingIn": "Ungena…",
+      "verification": {
+        "sent": "I-imeyili yokuqinisekisa ithunyelwe. Bheka i-inbox yakho.",
+        "failed": "Kwehlulekile ukuthumela kabusha i-imeyili yokuqinisekisa."
+      },
+      "error": {
+        "missing": "Sicela ufake imininingwane yakho yokungena.",
+        "invalid": "Igama lomsebenzisi noma iphasiwedi akulungile",
+        "denied": "Ukunqatshelwe ukufinyelela.",
+        "unprocessable": "Isicelo esingalungile. Hlola igama lakho lomsebenzisi/i-imeyili nephasiwedi yakho.",
+        "deviceLimit": "Umkhawulo wamadivayisi usufinyelelwe kuhlelo lwamahhala. Phuma kwenye idivayisi noma uthuthukise uye ku-Premium ukuze uxhume amadivayisi amaningi.",
+        "premiumRequired": "Lesi senzo sidinga uhlelo lwe-Premium."
+      },
+      "forgotPassword": {
+        "isihloko": "Kukhohlwe iPhasiwedi",
+        "umsizi": "Faka ikheli le-imeyili owalisebenzisile ukudala i-akhawunti yakho ye-Chatforia bese sikuthumelela isixhumanisi esiphephile sokubuyekeza iphasiwedi yakho.",
+        "ileyibhuli ye-imeyili": "Imeyili",
+        "isibonelo sekheli le-imeyili": "you@example.com",
+        "emailInvalid": "Sicela ufake ikheli le-imeyili elivumelekile.",
+        "genericError": "Akwenzeki ukucubungula isicelo. Sicela uzame futhi ngemva komzuzwana.",
+        "sending": "Kuthunyelwa isixhumanisi sokubuyisela...",
+        "sendCta": "Thumela Isixhumanisi Sokubuyisela",
+        "sentLabel": "Kuthunyelwe!",
+        "sentHelper": "Uma kune-akhawunti ekhona naleyo imeyili, sesithumele isixhumanisi sokubuyekeza iphasiwedi. Kungathatha imizuzu embalwa ukufika. Qiniseka ukuthi uhlole ifolda yakho ye-spam noma yezokuphromotha.",
+        "previewDev": "Buka i-imeyili (Dev)",
+        "backToLogin": "Buyela ekuLogin"
+      },
+      "resetPassword": {
+        "title": "Sethusa Iphasiwedi",
+        "missingToken": "Ithokheni yokusetha kabusha iphasiwedi ayilungile noma ayikho.",
+        "missingTokenHelper": "Ithokheni ayilungile noma ayikho. Sicela ucele isixhumanisi esisha sokubuyisela iphasiwedi.",
+        "passwordMismatch": "Amaphasiwedi awahambisani",
+        "success": "Iphasiwedi yakho isethwe kabusha ngempumelelo",
+        "genericError": "Iphutha: Akwenzeki ukusetha kabusha iphasiwedi.",
+        "newPasswordLabel": "Iphasiwedi entsha",
+        "newPasswordPlaceholder": "Faka iphasiwedi yakho entsha",
+        "confirmPasswordLabel": "Qinisekisa iphasiwedi entsha",
+        "confirmPasswordPlaceholder": "Phinda ufake iphasiwedi yakho entsha",
+        "resetting": "Kuyasethwa kabusha...",
+        "submit": "Sethweni kabusha i-password",
+        "strongPasswordHint": "Khetha i-password eqinile ongayisebenzisi kwenye indawo."
       }
+    }
+  },
+  "oauth": {
+    "completing": "Ukuphothula ukungena…"
+  },
+  "support": {
+    "helpFab": "Usizo",
+    "openSupportAria": "Vula ukwesekwa",
+    "badge": "Sekela",
+    "heading": "Singakusiza kanjani?",
+    "tabs": {
+      "help": "Isikhungo Sosizo",
+      "contact": "Xhumana nathi"
+    },
+    "searchPlaceholder": "Sesha izihloko zosizo…",
+    "searchAria": "Sesha usizo",
+    "searchBtn": "Sesha",
+    "quickTopicsLabel": "Izihloko ezisheshayo",
+    "quickTopics": {
+      "login": "Angikwazi ukungena",
+      "billing": "Ukukhokha / billing",
+      "abuse": "Bika ukusetshenziswa kabi"
+    },
+    "trySearching": "Zama ukusesha \"translate\", \"backups\", noma \"privacy\".",
+    "article": "I-athikili",
+    "openArticle": "Vula i-athikili",
+    "contactIntro": "Sizozama ukuxazulula lokhu ngokushesha. Uma kungenjalo, ithimba lethu lizolandela.",
+    "topicAria": "Khetha isihloko",
+    "messagePlaceholder": "Bhala umlayezo wakho…",
+    "sendBtn": "Thumela",
+    "sent": "Umlayezo uthunyelwe. Sizophendula nge-imeyili.",
+    "sendError": "Akwenzekanga ukuthumela. Thumela i-imeyili ku-support@chatforia.com esikhundleni salokho.",
+    "actionCompleted": "Isenzo siqediwe.",
+    "actionFailed": "Asikwazanga ukuqedela leso senzo. Sicela uzame futhi.",
+    "ticketCreated": "Asikwazanga ukuxazulula lokhu ngokuzenzakalelayo. Ithimba lethu lizolandela.",
+    "escalationMessage": "Asikwazanga ukuxazulula lokhu ngokuzenzakalelayo. Ithimba lethu lizolandela.",
+    "genericError": "Kukhona okungahambi kahle. Sicela uzame futhi.",
+    "analyzing": "Sihlaziya inkinga yakho...",
+    "takeAction": "Thatha isinyathelo esinconyiwe",
+    "resolvedInstantly": "Inkinga ixazululiwe ngokushesha — akudingeki ithikithi.",
+    "escalating": "Sidlulisela ekusekelweni..."
+  },
+  "help": {
+    "title": "Usizo",
+    "howCanWeHelp": "Singakusiza kanjani?",
+    "helpCenter": "Isikhungo Sosizo",
+    "contactUs": "Xhumana nathi",
+    "quickTopics": "Izihloko ezisheshayo",
+    "searchExamples": "Zama ukusesha \"uguqulela\", \"izipele\", noma \"imfihlo\".",
+    "angikwaziUkungena": "Angikwazi ukungena",
+    "ukukhokhisaIzinkokhelo": "Izinkokhelo/ ukukhokhisa",
+    "reportAbuse": "Bika ukusetshenziswa kabi",
+    "searchHelpArticles": "Sesha izihloko zosizo",
+    "search": "Sesha"
+  },
+  "helpCenter": {
+    "title": "Isikhungo Sosizo",
+    "faq": {
+      "account": {
+        "q": "Ngingadala kanjani noma ngibuyisele kanjani i-akhawunti yami?",
+        "a": "Landa uhlelo lokusebenza noma usebenzise iwebhu, thinta \"Dala i-akhawunti\", qinisekisa i-imeyili/inombolo yakho yocingo. Ukuze ubuyise i-akhawunti, sebenzisa \"Ngikhohliwe iphasiwedi\"."
+      },
+      "privacy": {
+        "q": "Ingabe imilayezo ifihlwe ngokuphelele?",
+        "a": "Yebo. Imilayezo nezingcingo zifihlwe kusukela ekuqaleni kuya ekugcineni ngokujwayelekile. Nguwe kuphela nomamukeli ongakwazi ukuzifunda."
+      },
+      "translate": {
+        "q": "Ukuhumusha okusheshayo kusebenza kanjani?",
+        "a": "Vumela \"Auto-translate\" ku-Settings → Appearance & Language. Sihumusha kudivayisi lapho sekuxhaswa khona, kungenjalo sisebenzisa ama-API avikelekile ane-metadata encane."
+      },
+      "contact": {
+        "q": "Xhumana nesexhaso",
+        "a": "Sithinte ku support@chatforia.com. Faka izithombe-skrini kanye nohlobo lwe-app yakho."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Ukuqala",
+    "subtitle": "Usemusha eChatforia? Leli qalo elisheshayo likhombisa izinto eziyisisekelo ukuze ukwazi ukusebenza ngempumelelo ngemizuzu.",
+    "alert": {
+      "text": "Lomhlahlandlela uzokhula njengoba sisungula izici ezintsha. Uma kukhona okushodayo, sazise nge-",
+      "contactLink": "Xhumana Nathi"
+    },
+    "section1": {
+      "title": "1) Dala i-akhawunti yakho",
+      "signup": "Bhalisa",
+      "or": "or",
+      "login": "ungene",
+      "loginText": "nge-akhawunti yakho esikhona.",
+      "prefsStart": "Ku-app, vula Izilungiselelo ukuze usethe izintandokazi zakho",
+      "prefsLink": "izintandokazi",
+      "prefsRest": "(ulimi, izitholi zokufunda, izindikimba)."
+    },
+    "section2": {
+      "title": "2) Qala ukuthumela imilayezo",
+      "item1": "Dala i-DM noma Iqembu bese uthumela umlayezo wakho wokuqala.",
+      "item2": "Sebenzisa ukuguqulwa ngokushesha ukuze uxoxe ngezilimi ezingaphezu kuka-100.",
+      "item3": " Zama imilayezo ephunyayo nezitifiketi zokufunda ku-Profayela → Ubumfihlo."
+    },
+    "section3": {
+      "title": "3) Hamba phambili",
+      "item1": "Ungakwazi ukuthuthukisa uhlelo olukhokhelwayo noma kunini ngaphakathi kohlelo lokusebenza.",
+      "item2": "Uma usungenile, ungaxhuma amadivayisi angeziwe futhi usethe ukugcinwa kwedatha okuvikeliwe kusuka ku-Izilungiselelo kohlelo lokusebenza.",
+      "item2Part1": "Uma usungene, ungaxhuma eminye imishini futhi usethe ukugcinwa kwedatha okufihliwe kusuka kuzilungiselelo ku-app."
+    },
+    "cta": {
+      "seePlans": "Bona izinhlelo nezintengo",
+      "openSettings": "Vula izilungiselelo",
+      "createAccount": " Dala i-akhawunti"
+    }
+  },
+  "howItWorks": {
+    "title": "Indlela i-Chatforia Esisebenza Ngayo",
+    "intro": "I-Chatforia yakhelwe ukwenza ukuxhumana kube lula, kusheshe, futhi kufinyeleleke. Ukuqala kuthatha izinyathelo ezimbalwa nje.",
+    "step1Title": "1. Dala i-Akhawunti",
+    "step1Desc": "Bhalisa usebenzisa i-imeyili yakho noma igama lomsebenzisi ukuze udale i-akhawunti yakho ye-Chatforia.",
+    "step2Title": "2. Qala Ingxoxo",
+    "step2Desc": "Xhumana nabanye ngokukhetha abaxhumana nabo noma ukuqala izingxoxo ezintsha.",
+    "step3Title": "3. Ukuthumela Imilayezo Ngasikhathi Sangempela",
+    "step3Desc": "Imilayezo iletwa ngokushesha ukuze kunikezwe isipiliyoni sokuxhumana esibushelelezi.",
+    "step4Title": "4. Ukuxhumana Emhlabeni Wonke",
+    "step4Desc": "Ukuhumusha okwakhelwe ngaphakathi kusiza abasebenzisi ukuxhumana ngezilimi ezahlukene.",
+    "step5Title": "5. Hlala Ulawula",
+    "step5Desc": "Lawula izintandokazi zakho, abaxhumana nabo, nezilungiselelo zokuxhumana."
+  },
+  "safety": {
+    "title": "Ukuvikeleka Nezindlela Zokuziphatha Zomphakathi",
+    "intro": "I-Chatforia izibophezele ekugcineni indawo ephephile nenhlonipho kubo bonke abasebenzisi. Lezi zindlela zokuziphatha zisiza ukuqinisekisa isipiliyoni esihle kubo bonke.",
+    "respectTitle": "Ukuxhumana Ngokuhlonipha",
+    "respectDesc": "Kulindeleke ukuthi abasebenzisi baxhumane ngokuhlonipha. Ukuhlukunyezwa, ukuxhatshazwa, noma ukuziphatha okubucayi akuvunyelwe.",
+    "prohibitedTitle": "Okuqukethwe Okungavunyelwe",
+    "prohibited": {
+      "illegal": "Imisebenzi engekho emthethweni",
+      "Ukuhlukunyezwa": "Ukuhlukunyezwa noma ukuhlukumeza",
+      "Intukuthelo": "Intukuthelo noma ukuhlukumeza ngenxa yobuhlanga",
+      "explicit": "Izinto ezicacile noma eziyingozi",
+      "spam": "I-spam noma imikhuba yokukhohlisa"
+    },
+    "titile yamathuluzi": "Amathuluzi Okuphepha Komsebenzisi",
+    "amathuluzi": {
+      "report": "Bika ukuziphatha okungafanele noma okuqukethwe",
+      "block": "Vimba abasebenzisi ukuze uvimbele ukuxhumana okwengeziwe",
+      "control": "Lawula izilungiselelo zobumfihlo nokuxhumana"
+    },
+    "enforcementTitle": "Ukuqinisekisa Ukuhambisana",
+    "enforcementDesc": "Singase sithathe izinyathelo maqondana nama-akhawunti aphula le mihlahlandlela, okuhlanganisa izixwayiso, izithiyo, noma ukususwa unomphela epulatifomu."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Kungani Amapulatifomu Okuthumela Imiyalezo Ebaluleke Kakhulu Kunjalo",
+      "intro": "Amapulatifomu okuthumela imiyalezo sekuyizinsiza ezibaluleke kakhulu zokuxhumana emhlabeni wanamuhla. Kusukela ezingxoxweni zomuntu siqu kuya ebudlelwaneni bebhizinisi, izinhlelo zokuthumela imiyalezo zivumela abantu ukuthi bahlale bexhumene ngokushesha nangempumelelo.",
+      "everydayTitle": "Ukuxhumana Kwansuku Zonke",
+      "everydayDesc": "Abantu bathembele kumasu lokuthumela imilayezo ukuze baxhumane nsuku zonke nabangane, umndeni, kanye nozakwabo. Noma ngabe kuwukwazisa okusheshayo noma ingxoxo ende, ukuthumela imilayezo kunikeza indlela elula futhi eguquguqukayo yokuhlala uxhumekile.",
+      "speedTitle": "Isivinini Nokunethezeka",
+      "speedDesc": "Enye yezinzuzo ezinkulu zama-platform wokuthumela imilayezo isivinini sawo. Imilayezo iletwa ngokushesha, ivumela abasebenzisi ukuba baxhumane ngesikhathi sangempela. Leli zinga lokunethezeka lenze ukuthumela imilayezo kube yindlela yokuxhumana ekhethwa abantu abaningi.",
+      "globalTitle": "Ukufinyelela Emhlabeni Wonke",
+      "globalDesc": "Amapulatifomu okuthumela imilayezo axhumanisa abantu emhlabeni wonke. Ngenxa yokufinyelela ku-inthanethi, abasebenzisi bangakwazi ukuxhumana kungakhathalekile indawo abakhona, okwenza kube lula ukwakha ubudlelwano nokusebenzisana emazweni ngamazwe.",
+      "privacyTitle": "Ubumfihlo Nokulawula",
+      " privacyDesc": "Amapulatifomu okuthumela imiyalezo zanamuhla agxile ekunikezeni abasebenzisi ukulawula idatha yabo nezingxoxo zabo. Izici ezifana nokufihla imininingwane (encryption), izilungiselelo zobumfihlo, nezilawuli zemiyalezo zivumela abasebenzisi ukuba baxhumane ngokuzethemba.",
+      "futureTitle": "Ikusasa Lokuthumela Imilayezo",
+      "futureDesc": "Ukuthumela imilayezo kuyaqhubeka nokuthuthuka ngezinye izici ezintsha ezifana nezimpendulo ezisebenzisa i-AI, ukuhumusha, nokwabelana ngemidiya ehlukahlukene. Njengoba ubuchwepheshe buqhubeka nokuthuthuka, amapulatifomu okuthumela imilayezo azoba namandla kakhulu futhi abe nokuguquguquka okwengeziwe.",
+      "outro": "I-Chatforia yakhiwe ngale migaqo engqondweni, inikeza isipiliyoni esheshayo, esiphephile, futhi isipiliyoni sokuthumela imiyalezo esilula somsebenzisi emhlabeni oxhumene."
+    },
+    "global": {
+      "title": "Ikusasa Lokuxhumana Komhlaba Wonke",
+      "intro": "Ukuxhumana sekushintshe ngokushesha emashumini eminyaka ambalwa edlule. Lokho okwakudinga izingcingo noma ngqo -imihlangano yomuntu nomuntu manje isingafezeka ngokushesha ngezinkundla zokuthumela imilayezo. Njengoba ubuchwepheshe buqhubeka nokuthuthuka, ukuxhumana emhlabeni wonke kuya kusiba ngokushesha, kufinyeleleka kalula, futhi kubandakanya wonke umuntu.",
+      "izithiyoTitle": "Ukuqeda Izithiyo",
+      "izithiyoDesc": "Olunye lwezinguquko ezinkulu ekuxhumaneni ukuncishiswa kwezithiyo zendawo. Abantu manje bangaxhumana nabanye emhlabeni wonke cishe ngesikhathi sangempela. Noma ngabe izingxoxo zomuntu siqu, ibhizinisi, noma ukubambisana, izinkundla zokuthumela imilayezo zenze ibanga lingabi yisithiyo esikhulu kangako .",
+      "translationTitle": "Indima Yobuchwepheshe Bokuhumusha",
+      "translationDesc": "Ulimi ngokwesiko belulokhu luyisithiyo esikhulu kakhulu ekuxhumaneni komhlaba wonke. Namuhla, amathuluzi okuhumusha akhelwe ngaphakathi asiza ukuvala lelo banga. Amapulatifomu afana ne-Chatforia avumela abasebenzisi ukuba baxhumane kalula noma ngabe bakhuluma izilimi ezahlukene, edala amathuba amasha okuxhumana nokuqonda.",
+      "realtimeTitle": "Uxhumano Lwangempela-Ngesikhathi",
+      "realtimeDesc": "Ijubane liyisici esibalulekile esibumba ukuxhumana kwanamuhla. Abasebenzisi balindele ukuthi imilayezo ithunyelwe ngokushesha, futhi ingqalasizinda yanamuhla isekela lokho okulindelekile. Ukuthumela imilayezo ngesikhathi sangempela kuvumela izingxoxo zemvelo neziguquguqukayo.",
+      "privacyTitle": "Ubumfihlo Nokuphepha",
+      "privacyDesc ": "Njengoba ukuxhumana kuya kuba kwe-digital, ubumfihlo nokuphepha kuya kubaluleka kakhulu. Abasebenzisi bafuna ukuzethemba ukuthi izingxoxo zabo zivikelekile. Izici ezifana nokufihlwa kwemininingwane (encryption) nezilungiselelo ezilawulwa ngumsebenzisi zisiza ukunikeza isipiliyoni sokuxhumana esiphephile kakhulu.",
+      " futureTitle": "Okuzolandela",
+      "futureDesc": "Ikusasa lokuxhumana komhlaba wonke kungenzeka libe namathuluzi athuthukile, njengokuthumela imilayezo ngosizo lwe-AI, ukuguqulela okuthuthukisiwe, kanye nezipiliyoni zabasebenzisi ezithuthukisiwe. Njengoba ubuchwepheshe buqhubeka bukhula, ukuxhumana kuzoqhubeka kuba nokuqonda kalula futhi kufinyeleleke kalula.",
+      "outro": "Amapulatifomu afana ne-Chatforia ayingxenye yalolu shintsho, asiza abantu baxhumane kalula ngaphezu kwezilimi nemingcele."
+    },
+    "index": {
+      "title": "Ibhulogi ye-Chatforia",
+      "intro": "Hlola ukuqonda ngokuxhumana, ukuphepha ku-inthanethi, nokuthi ubuchwepheshe bokuthumela imilayezo buxhumanisa kanjani abantu emhlabeni wonke.",
+      "post1": "Indlela Yokuxoxa Ngokuphepha Ku-inthanethi",
+      "post2": "Ikusasa Lokuxhumana Komhlaba Wonke",
+      "post3": "Kungani Amapulatifomu Okuthumela Imilayezo Ebalulekile"
+    },
+    "chatSafely": {
+      "title": "Indlela Yokuxoxa Ngokuphepha Ku-inthanethi",
+      "intro": "Ukuxhumana ku-inthanethi sekwenze kwaba lula kakhulu kunanini ukuhlangana nabantu emhlabeni wonke. Noma ngabe uthumela imilayezo kubangane, uhlangana nabantu abasha, noma usebenzisana ngobungcweti, amapulatifomu wokuthumela imilayezo adlala indima enkulu ekuphileni kwansuku zonke. Nokho, ukuhlala uphephile ku-inthanethi kubalulekile njengokuhlala uxhumekile.",
+      "personalInfo": {
+        "title": " Vikela Ulwazi Lwakho Lomuntu Siqu",
+        "body": "Omunye wemithetho ebaluleke kakhulu yokuphepha ku-inthanethi wukugwema ukwabelana ngolwazi lomuntu siqu olubucayi. Lokhu kufaka ikheli lakho lasekhaya, imininingwane yezimali, amaphasiwedi, noma yiluphi ulwazi olungakusiza ukukuhlonza olungase lusetshenziswe kabi. Ngisho nasezingxoxweni ezijwayelekile, kungcono ukuqaphela ukuthi yini oyabelana ngayo nokuthi ubabelana nobani."
+      },
+      "safetyFeatures": {
+        "title": "Sebenzisa Izici Zokuphepha Ezakhelwe Ngaphakathi",
+        "body": "Amapulatifomu wanamuhla okuthumela imilayezo afana ne-Chatforia anikeza amathuluzi okusiza abasebenzisi bahlale bephephile. Izici ezifana nokuvimba, ukubika, nezilawuli zobumfihlo zakhelwe ukunikeza abasebenzisi ukulawula okuhlangenwe nakho kwabo. Uma othile ephatha ngendlela engafanele noma ekwenza ungakhululeki, kufanele usebenzise lawa mathuluzi ngokushesha."
+      },
+      "izinkohliso": {
+        "isihloko": "Qaphela Izinkohliso",
+        "umzimba": "Abakhohlisi bavame ukusebenzisa amapulatifomu okuthumela imiyalezo ukuze bakhohlise abasebenzisi ukuthi babelane ngolwazi lwabo siqu noma bathumele imali. Qaphela imiyalezo ebonakala ingcono kakhulu ukuze kube yiqiniso, njengeminikelo engalindelekile, izicelo eziphuthumayo, noma izixhumanisi ongaziqondi. Hlala uqinisekisa ubunikazi bomuntu okhuluma naye ngaphambi kokuthatha noma yiziphi izinyathelo."
+      },
+      "responsibly": {
+        "title": "Xhumana Ngokuziphatha",
+        "body": "Ukuxhumana ngenhlonipho kusiza ukudala indawo ephephile kubo bonke. Gwema ukubamba iqhaza ezingxoxweni eziyingozi noma ezihlambalazayo, futhi uqaphele ukuthi amazwi akho angase athinte abanye kanjani. Ukuxhumana okuhle kunikela ekuhlangenwe nakho okungcono kubo bonke abasebenzisi."
+      },
+      "whySafety": {
+        "title": "Kungani Ukuvikeleka Ku-inthanethi Kubalulekile",
+        "body": "Njengoba ukuxhumana kwedijithali kuqhubeka kukhula, ukugcina ukuphepha nokwethenjwa kuba kubaluleke kakhulu. Ngokulandela izindlela eziyisisekelo zokuphepha nokusebenzisa amathuluzi atholakalayo, abasebenzisi bangajabulela izinzuzo zokuthumela imiyalezo ngenkathi banciphisa ubungozi."
+      },
+      "ukuphetha": "Ukuhlala uphephile ku-inthanethi akudingi ulwazi lobuchwepheshe olujulile—kudinga ukuqaphela, ukucophelela, nokwahlulela okuhle. Ngezindlela ezifanele, ungakwazi ukuxhumana ngokuzethemba nangokuphepha."
+    }
+  },
+  "ngokwe": {
+    "isihloko": "Mayelana ne-Chatforia",
+    "incazelo": "I-Chatforia iyinhlelo yokuthumela imiyalezo ephephile, ekhuluma izilimi eziningi enokufihlwa kwedatha kusukela ekuqaleni kuya ekugcineni (E2E), ukuhumusha ngokushesha, kanye nokubiza ngomsindo/ividiyo. Inhloso yethu ilula: ukusiza abantu baxhumane—ngokuphepha, ngasese, nangaphezu kwezilimi.",
+    "valuesTitle": "Izinto esizibekayo",
+    "values": {
+      "privacy": "<b>Ukuvikelwa kwemfihlo kuqala:</b> Ukuvalwa kwemilayezo kusukela ekuqaleni (E2E) ngokujwayelekile.",
+      "access": "<b>Ukufinyelela kubo bonke:</b> Ukuguqulela ngokuzenzakalelayo izilimi ezingaphezu kuka-100.",
+      "control": "<b>Ukulawula:</b> Imilayezo ephumayo kanye nezitifiketi zokufunda aziyona impoqo.",
+      "privacy_ aria": "Ukuvikelwa kwemfihlo kuqala: Ukubethela kwe-E2E ngokujwayelekile.",
+      "access_aria": "Ukufinyelela kubo bonke: Ukuguqulela ngokuzenzakalelayo izilimi ezingaphezu kuka-100.",
+      "control_aria": "Ukulawula: Imilayezo ephunyayo nezitifiketi zokufunda aziyona impoqo."
+    },
+    "howTitle": "Indlela iChatforia esebenza ngayo",
+    " howDescription": "Imilayezo ifihlwe kumadivayisi akho ngaphambi kokuba iphume kuwo. Ukuhumusha, ukugcinwa kwedatha, nokuvumelanisa amadivayisi kuhlelwe ukunciphisa lokho iziphakeli zethu ezingakubona."
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "Ngezicelo zezindaba, xhumana nathi ku",
+    " boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "I-Chatforia uhlelo lokuthumela imiyalezo oluqala ngobumfihlo olwenza ukuxoxa phakathi kwezilimi kube lula. Imiyalezo ivikelwe ngokuphelele kusukela ekuqaleni kuya ekugcineni ngokujwayelekile, futhi ukuguqulwa okwakhelwe ngaphakathi kusekela izilimi ezingaphezu kuka-100 ngesikhathi sangempela. Abasebenzisi bangavumela imiyalezo ephunyayo, bagcine izitholi zokufunda ziyinketho, futhi bahlanganise amadivayisi. Iyatholakala ku-iOS, Android, nakuwebhu.",
+    "assetsTitle": " Izinsiza zomkhiqizo",
+    "assetsSubtitle": "Amalogo, izithombe zesikrini, nezithombe zomkhiqizo.",
+    "downloadCta": "Landa ikhithi yemidiya",
+    "downloadTitle": "Thola uhlelo lokusebenza",
+    "scanTip": "Kudeskithophu? Skena ngocingo lwakho ukuze uthole uhlelo lokusebenza.",
+    "qrAria": "Vula iwebhusayithi ye-Chatforia",
+    "appStore": "Landa ku-App Store",
+    "googlePlay": "Yithole ku-Google Play"
+  },
+  "careers": {
+    "title": "Imisebenzi",
+    "intro": "Siyithimba elincane elisungulayo elakha i-Chatforia — umlayezo wangasese womhlaba wonke ozosethulwa kuwebhu, ku-iOS, naku-Android. Uma ukhathalela ubumfihlo, ukufihlwa kwemininingwane, kanye nezipiliyoni zabasebenzisi ezimnandi, singathanda ukuzwa ngawe.",
+    "openRoles": "<b>Izikhala zokusungula ezivulekile:</b> Umholi we-Full-stack Engineer, i-Backend Engineer (Node.js), i-Frontend/ Umkhandi weWebhu (React), Umkhandi weSelfoni (iOS), Umkhandi weSelfoni (Android), Umkhandi we-DevOps/SRE, Umkhandi Wezokuphepha Nokufihla Imfihlo, Umkhandi Wezokuxhumana (Twilio + eSIM).",
+    "apply": "Ungafaka kanjani isicelo: Sebenzisa inkinobho engezansi ukuthumela i-imeyili neresume yakho nezixhumanisi.",
+    "emailCta": "Thumela i-imeyili neresume yakho",
+    "whyNow": "Kungani ujoyina manje?",
+    "whyBullets": "• Siza ukwakha isisekelo somlayezo omusha womhlaba wonke.\n• Thumela izithuthukisi ezisetshenziswa kuwebhu, iOS, ne-Android.\n• Sebenza ngqo nomsunguli ekwakhiweni nasekuqondiseni umkhiqizo.\n• Bamba izindawo ezinethonya elikhulu ku-stack: ukuthumela imilayezo, izwi, ividiyo, ukufihla imininingwane, ezokuxhumana, i-AI.\n• Joyina ekuqaleni — ngaphambi kokuba inani labasebenzisi likhule."
+  },
+  "advertise": {
+    "title": "Khangisa ne-Chatforia",
+    "description": "Finyelela kubasebenzisi abathumela imilayezo abazibophezele ngokubeka izikhangiso ezinhle, eziphephile kumkhiqizo. Sinikeza izikhangiso zebhana ezindaweni ezibonakala kakhulu, izixhaso, kanye nezikhangiso zangaphakathi. Ababhalisele i-Premium ababoni izikhangiso.",
+    "adsense": {
+      "withPubIdShort": "Siphinde sinikeze izikhangiso nge-Google AdSense. Ungaqondisa i-Chatforia nge-ID yomshicileli {{pub Id}}, noma usebenzise ifomu elingezansi ukuthola ukuxhaswa ngokuqondile.",
+      "noPubIdShort": "Siphinde sinikeze ezinye izikhangiso nge-Google AdSense. Ukuxhaswa ngokuqondile kuyatholakala—sebenzisa ifomu elingezansi."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      " displayBadge": "Okubonakalayo",
+      "acceptedSizes": "Osayizi abamukelekayo",
+      "adsenseSlot": "Isikhala se-AdSense:"
+    },
+    "noPlacementsPublic": "Sisafinaliza isitoko sethu sezikhangiso. Sitshele ngomkhankaso wakho futhi sizoncoma izindawo zokubeka.",
+    "whyHeader": "Kungani i-Chatforia?",
+    "why": {
+      "highSession": "Inani eliphezulu lezikhathi zokuxoxa kanye nesikhathi eside sokuhlala ku-UI yokuxoxa",
+      "brandSafe": "Izinhlobo eziphephile kubhrendi; ukulinganiselwa kwesibalo ngenhlonipho",
+      "sponsoredMoments": "Izikhathi ezixhaswayo (isb., i-modal ethi \"Qala Ingxoxo\") ziyatholakala",
+      "deals": "Izivumelwano eziqondile noma ezihlelwayo nge-AdSense/Google Ads"
+    },
+    "contactHeader": "Xhumana",
+    "form": {
+      "submittedMsg": "Ngiyabonga! Isicelo sakho sesithunyelwe. Sizobuya ngokushesha.",
+      "missingRequired": "Sicela ugcwalise igama, i-imeyili, nomlayezo.",
+      "successToast": "Ngiyabonga! Sizoxhumana nawe masinyane.",
+      "mailtoInfo": "Sivula uhlelo lwakho lwe-imeyili ukuthumela isicelo…",
+      "nameLabel": "Igama lakho",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Imeyili",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Inkampani",
+      " companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Isabelomali yenyanga (okuzikhethela)",
+      "budgetPlaceholder": "isb. $1,000–$20,000+",
+      "messageLabel": "Sitshele ngomkhankaso wakho",
+      "messagePlaceholder": "Ukugxila, izinsuku, ama-KPI, izintandokazi zokubekwa…",
+      "sendCta": "Thumela umbuzo"
+    },
+    "legal": {
+      "disclaimerStart": "Ngokuthumela, uyavuma ezethu",
+      "imigomo": "Imigomo",
+      "futhi": "futhi",
+      "bumfihlo": "Inqubomgomo Yobumfihlo"
+    }
+  },
+  "xhumana": {
+    "isihloko": "Xhumana Nathi",
+    "successMsg": "Siyabonga—ithimba lethu lizophendula nge-imeyili.",
+    "errorSend": "Akukwazanga ukuthumela. Sicela uthumele i-imeyili ku-support@chatforia.com.",
+    "form": {
+      "nameLabel": "Igama",
+      "emailLabel": "Imeyili",
+      "messageLabel": "Umyalezo",
+      "sendCta": "Thumela"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Inqubomgomo Yobumfihlo",
+    "lastUpdated": "Kubuyekezwe okokugcina:",
+    "intro": {
+      "body": "Le Nqubomgomo Yobumfihlo ichaza ukuthi i-Chatforia (\"thina\", \"kithi\") siqoqa, sisebenzisa, futhi sabelane ngolwazi lapho usebenzisa izinhlelo zethu zokusebenza nezinsizakalo. Sakha i-Chatforia ukuze sinciphise idatha esingayifinyelela."
+    },
+    "infoWeCollect": {
+      "title": "Ulwazi esiluqoqayo",
+      "akhawunti": "Ulwazi lwe-akhawunti (isb., i-imeyili/inombolo yocingo) ukuze kwakhiwe futhi kuvikelwe i-akhawunti yakho.",
+      "okufihliwe": "Okuqukethwe okufihliwe (imiyalezo/izingcingo) kufihlwe kusukela ekuqaleni kuya ekugcineni; asikwazi ukukufunda.",
+      "ukuxilonga": "Ukuxilonga/ukusetshenziswa njengezilogi zokuwa, uhlobo lwedivayisi, noma ukuhlaziywa okujwayelekile ukuze kuthuthukiswe ukusebenza."
+    },
+    "sms": {
+      "title": "Amanombolo weselula nama-SMS",
+      "body": "Uma ukhetha ukunikeza inombolo yocingo yeselula, siyisebenzisa ukuvumela izici ezifana nokuqinisekisa i-akhawunti, izaziso zokungena, nokuthumela imilayezo kusuka kumsebenzisi kuya kumsebenzisi nge-SMS lapho sekuxhaswa khona. Singathumela imilayezo ye-SMS yokuthengiselana ehlobene ne-akhawunti yakho nemisebenzi yakho ku-Chatforia. Ungakhetha ukungatholi imilayezo ye-SMS noma kunini noma yisiphi isikhathi ngokuphendula ngegama elisekelwayo lokuphuma (njenge-\"STOP\") noma ngokushintsha izintandokazi zakho zezaziso kuhlelo lokusebenza. Asidayisi inombolo yakho yocingo noma siyisebenzisele ukumaketha okungahlangene.",
+      "newText": "Umbhalo omusha",
+      "enterRecipient": "Faka igama noma inombolo",
+      "typeMessage": "Bhala umlayezo…",
+      "addRecipient": "Engeza umamukeli ngenhla ukuze uqale…"
+    },
+    "howWeUse": {
+      "title": "Indlela esisebenzisa ngayo imininingwane ",
+      "provide": "Hlinzeka futhi uvikeleke ngesevisi (ukuqinisekisa ubunikazi, ukutholwa kwe-spam/ukusetshenziswa kabi).",
+      "improve": "Thuthukisa izici (ikhwalithi yokuhumusha, ukwethembeka).",
+      "legal": "Landela izibopho zomthetho."
+    },
+    "sharing": {
+      "title": "Ukwabelana",
+      "body": "Asidayisi imininingwane yakho siqu. Singabelana ngemininingwane ethile nabacubunguli (isb., izaziso zokupush, ukuhlaziywa kwedatha) ngaphansi kwezivumelwano eziqinile."
+    },
+    "amalungelo": {
+      "title": "Amalungelo akho",
+      "body": "Kuncike esifundeni sakho (isb., GDPR/UK GDPR/CPRA), ungacela ukufinyelela, ukulungisa, ukususa, noma ukuphuma ekucubungulweni okuthile. Xhumana: privacy@chatforia.com."
+    },
+    "ukugcinwa ": {
+      "title": "Ukugcinwa kwedatha nokuphepha",
+      "body": "Sigcina kuphela lokho okudingekayo ukuze sisebenze insiza futhi sisebenzise izindinganiso zokuphepha zemboni. Okuqukethwe kwe-E2E akukwazi ukuvulwa kithi."
+    },
+    "children": {
+      "title": "Izingane",
+      "body": "I-Chatforia ayihloselwe izingane ezingaphansi kweminyaka engu-13 (noma njengoba kudingeka ngumthetho wendawo yakho)."
+    },
+    "izinguquko": {
+      "isihloko": "Izinguquko",
+      "umzimba": "Sizothumela izibuyekezo lapha futhi sibuyekeze usuku oluthi \"Okubuyekezwe okokugcina\"."
+    },
+    "contact": {
+      "title": "Xhumana nathi",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Imigomo Yesevisi",
+    "lastUpdated": "Kubuyekezwe okokugcina:",
+    "intro": {
+      "body": "Ngokusebenzisa i-Chatforia uyavuma le Miqathango. Uma ungavumelani, ungayisebenzisi insiza."
+    },
+    "ama-akhawunti": {
+      "isihloko": "Ama-akhawunti",
+      "itemAccurateInfo": " Nikeza imininingwane eqondile futhi ugcine izitifiketi zakho ziphephile.",
+      "itemResponsibility": "Unesibopho ngemisebenzi eyenziwa ku-akhawunti yakho."
+    },
+    "acceptableUse": {
+      "title": "Ukusetshenziswa okwamukelekayo",
+      "itemNoAbuse": "Akukho okuqukethwe okungekho emthethweni, okudlulele, noma okuphulayo; akukho spam noma ukusetshenziswa ngokuzenzakalelayo okungekho emthethweni.",
+      "itemSuspend": "Singase simise noma siqede ukusebenza ngenxa yokwephulwa."
+    },
+    "sms": {
+      "title": "Ukuxhumana nge-SMS",
+      "body": "Uma unikeza inombolo yocingo ephathekayo, uyavuma ukuthi i-Chatforia ingakuthumelela imilayezo ye-SMS ehlobene ne-akhawunti yakho nokusetshenziswa kwesevisi, njengokwaziswa kokungena, izaziso zokuphepha, nemilayezo ehlobene nezingxoxo ozisungulayo noma ozihilelayo. Asisebenzisi i-SMS ukuthumela imilayezo yokuphromotha noma yokumaketha ngaphandle kwemvume yakho ecacile. Izimali ezijwayelekile zemilayezo nedatha zingase zisebenze. Ungakhetha ukungatholi imilayezo ye-SMS imiyalezo ye-SMS nganoma yisiphi isikhathi ngokuphendula ngegama eliyinhloko lokuphuma (isb., \"STOP\") noma ngokuvuselela izilungiselelo zakho zezaziso ku-app."
+    },
+    "yourContent": {
+      "title": "Okuqukethwe kwakho",
+      "body": "Ugcina amalungelo okuqukethwe kwakho. Usinika amalungelo adingekayo ukuze sisebenzise insiza (isb., ukuhambisa, ukugcina, ukuhumusha)."
+    },
+    "disclaimer": {
+      "title": "Izitatimende Zokungabi Nezibopho Nokubophezeleka",
+      "body": "Isevisi inikezwa \"njengoba injalo\" ngaphandle kweziqinisekiso. Ngokugcwele okuvunyelwe ngumthetho, iChatforia ayibophekile ekubhekaneni nokulimala okungaqondile noma okubangelwa ngemiphumela."
+    },
+    "changes": {
+      "title": "Izinguquko",
+      "body": "Singavuselela le mibandela; ukuqhubeka nokusebenzisa ngemva kwezinguquko kusho ukwamukela."
     },
     "contact": {
       "title": "Xhumana Nathi",
-      "successMsg": "Siyabonga—ithimba lethu lizophendula nge-imeyili.",
-      "errorSend": "Ayikwazanga ukuthumela. Sicela uthumele i-imeyili ku-support@chatforia.com.",
-      "form": {
-        "nameLabel": "Igama",
-        "emailLabel": "I-imeyili",
-        "messageLabel": "Umyalezo",
-        "sendCta": "Thumela"
-      }
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Inqubomgomo Yokubuyiselwa Imali",
+    "lastUpdated": "Kubuyekezwe okokugcina:",
+    "intro": "E-Chatforia, sizama ukuhlinzeka ngesevisi esezingeni eliphezulu kubo bonke abasebenzisi. Le Nqubomgomo Yokubuyiselwa Imali ichaza ukuthi imali ingabuyiselwa nini.",
+    "subscriptions": {
+      "title": "Izibhaliso",
+      "body": "Izibhaliso zikhokhiswa kusengaphambili ngokuphindaphindiwe. Ungakukhansela noma kunini ngokusebenzisa izilungiselelo ze-akhawunti yakho noma ipulatifomu esetshenziselwe ukuthenga."
     },
-    "privacyPolicy": {
-      "title": "Inqubomgomo Yobumfihlo",
-      "lastUpdated": "Ibuyekezwe ekugcineni:",
-      "intro": {
-        "body": "Le Nqubomgomo Yobumfihlo ichaza ukuthi i-Chatforia (“thina”, “us”) iqoqa, isebenzise, futhi yabelane ngolwazi kanjani lapho usebenzisa izinhlelo zethu namasevisi. Sakhela i-Chatforia ukuze inciphise idatha esingayifinyelela."
-      },
-      "infoWeCollect": {
-        "title": "Ulwazi esiliqoqayo",
-        "account": "Ulwazi lwe-akhawunti (isib., i-imeyili/ifoni) ukuze udale futhi uvikele i-akhawunti yakho.",
-        "encrypted": "Okuqukethwe okufihliwe (imiyalezo/izingcingo) kufihlwe ukuphela ukuphela; asikwazi ukukufunda.",
-        "diagnostics": "Ukuxilonga/ukusetshenziswa njengezikhonjwa zokuphahlazeka, uhlobo lwedivayisi, noma izibalo eziyisisekelo ukuze kuthuthukiswe ukusebenza."
-      },
-      "sms": {
-        "title": "Izinombolo zocingo ezihambayo ne-SMS",
-        "body": "Uma ukhetha ukunikeza inombolo yocingo ephathekayo, siyisebenzisa ukuze sinike amandla izici ezifana nokuqinisekisa i-akhawunti, izaziso zokungena ngemvume, nokuthumela imiyalezo yomsebenzisi kuya komunye umsebenzisi nge-SMS lapho kusekelwe khona. Singase sithumele imiyalezo ye-SMS ephathelene nokusebenza kwakho nokusebenza ku-Chatforia. Ungakhetha ukuphuma ekutholeni imiyalezo ye-SMS noma nini ngokuphendula ngegama elivumelekile lokuphuma (njenge-“STOP”) noma ngokushintsha okuthandayo kwezaziso zakho ohlelweni lokusebenza. Asithengisi inombolo yakho yocingo noma siyisebenzise ukumaketha okungahlangene.",
-        "newText": "Umyalezo omusha",
-        "enterRecipient": "Faka igama noma inombolo",
-        "typeMessage": "Thayipha umyalezo…",
-        "addRecipient": "Engeza umamukeli ngenhla ukuze uqale…"
-      },
-      "howWeUse": {
-        "title": "Sisebenzisa kanjani ulwazi",
-        "provide": "Nikeza futhi uvikele isevisi (ukuqinisekisa, ukuthola ugaxekile/ukuhlukumeza).",
-        "improve": "Thuthukisa izici (ikhwalithi yokuhumusha, ukuthembeka).",
-        "legal": "Hambisana nezibopho zomthetho."
-      },
-      "sharing": {
-        "title": "Ukwabelana",
-        "body": "Asithengisi idatha yomuntu siqu. Singase sabelane ngedatha elinganiselwe nabaphathi (isib., izaziso zokuphusha, izibalo) ngaphansi kwezinkontileka eziqinile."
-      },
-      "rights": {
-        "title": "Amalungelo akho",
-        "body": "Ngokuya ngesifunda sakho (isib., GDPR/UK GDPR/CPRA), ungase ucele ukufinyelela, ukulungisa, ukususa, noma ukuphuma ekucubunguleni okuthile. Xhumana: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Ukugcinwa kwedatha nokuphepha",
-        "body": "Sigcina kuphela lokho okudingekayo ukuze sisebenzise isevisi futhi sisebenzise ukuphepha okujwayelekile kwezimboni. Okuqukethwe kwe-E2E ngeke kukhishiwe yithi."
-      },
-      "children": {
-        "title": "Izingane",
-        "body": "I-Chatforia ayiqondiswe ezinganeni ezingaphansi kweminyaka engu-13 (noma njengoba kudingeka ngumthetho wakho wendawo)."
-      },
-      "changes": {
-        "title": "Izinguquko",
-        "body": "Sizothumela izibuyekezo lapha futhi sibuyekeze idethi “Ibuyekezwe ekugcineni”."
-      },
-      "contact": {
-        "title": "Xhumana",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "eligibility": {
+      "isihloko": "Ukufaneleka Kwe-Refund",
+      "umzimba": "Ama-refund angase anikezwe izindleko eziphindwe kabili, amaphutha okukhokhisa, noma izinkinga zobuchwepheshe ezivimbela ukufinyelela ezici ezikhokhelwayo. Zonke izicelo ziyabuyekezwa ngokwezimo."
     },
-    "terms": {
-      "title": "Imigomo Yesevisi",
-      "lastUpdated": "Ibuyekezwe ekugcineni:",
-      "intro": {
-        "body": "Ngokusebenzisa i-Chatforia uyavuma kule Migomo. Uma ungavumi, ungasebenzisi isevisi."
-      },
-      "accounts": {
-        "title": "Ama-akhawunti",
-        "itemAccurateInfo": "Nikeza ulwazi olunembile futhi ugcine iziqinisekiso zakho zivikelekile.",
-        "itemResponsibility": "Uthweswe umthwalo womsebenzi kwi-akhawunti yakho."
-      },
-      "acceptableUse": {
-        "title": "Ukusetshenziswa okwamukelekayo",
-        "itemNoAbuse": "Akukho okuqukethwe okungekho emthethweni, okunokuhlukumeza, noma okuphulayo; akukho ugaxekile noma ukuhlukumeza okuzenzakalelayo.",
-        "itemSuspend": "Singase simise/sikhansele ngenxa yokwephulwa."
-      },
-      "sms": {
-        "title": "Ukuxhumana nge-SMS",
-        "body": "Uma unikeza inombolo yocingo ephathekayo, uyavuma ukuthi i-Chatforia ingase ikuthumele imiyalezo ye-SMS ehlobene ne-akhawunti yakho nokusebenzisa isevisi, njengezaziso zokungena ngemvume, izaziso zokuphepha, nemiyalezo ehlobene nezingxoxo oziqalayo noma ozihlanganyelayo. Asisebenzisi i-SMS ukumaketha noma ukuthengisa ngaphandle kwemvume yakho ecacile. Amazinga omyalezo nedatha angase asebenze. Ungakhetha ukuphuma ezimiyalezweni ze-SMS noma nini ngokuphendula ngegama elivumelekile lokuphuma (isib., “STOP”) noma ngokubuyekeza izilungiselelo zezaziso zakho ohlelweni lokusebenza."
-      },
-      "yourContent": {
-        "title": "Okuqukethwe kwakho",
-        "body": "Ugcina amalungelo okuqukethwe kwakho. Usinikeza amalungelo adingekayo ukuze sisebenzise isevisi (isib., ukudlulisela, ukugcina, ukuhumusha)."
-      },
-      "disclaimer": {
-        "title": "Izexwayiso nokubhekana nesibopho",
-        "body": "Isevisi inikezwa “njengoba injalo” ngaphandle kweziqinisekiso. Ngokwezinga eliphelele elivunyelwe ngumthetho, i-Chatforia ayinabhekana nesibopho sokulimala okungaqondile noma okulandelanayo."
-      },
-      "changes": {
-        "title": "Izinguquko",
-        "body": "Singase sibuyekeze le migomo; ukuqhubeka nokusebenzisa emva kwezinguquko kusho ukwamukela."
-      },
-      "contact": {
-        "title": "Xhumana",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "okungabuyiselwa": {
+      "isihloko": "Okungabuyiselwa",
+      "umzimba": "Ngokuvamile asinikezi ama-refund ngesikhathi esingasetshenziswanga, izikhathi zokubhalisa ezingaphelele, noma ukwehluleka ukukhansela ngaphambi kokuvuselelwa."
     },
-    "doNotSell": {
-      "title": "Ungathengisi noma Wabelane Ngolwazi Lwami Lomuntu Siqu",
-      "body": "I-Chatforia ayithengisi ulwazi lomuntu siqu. Izakhamizi zaseCalifornia zingase zithumele izicelo ngaphansi kwe-CPRA usebenzisa inkinobho engezansi.",
-      "cta": "Thumela isicelo"
+    "thirdParty": {
+      "title": "Ukuthenga Kwesithathu",
+      "body": "Uma kuthengiwe ngezinye izinkundla ezifana ne-Apple App Store, izicelo zokubuyiselwa imali kumele zenziwe ngqo kulezo zinkundla."
     },
-    "cookies": {
-      "title": "Izilungiselelo zekhukhi",
-      "body": "I-Chatforia isebenzisa amakhukhi amancane (isib., isikhathi, ukuphepha). Asisebenzisi amakhukhi ezikhangiso zenkampani yesithathu. Phatha amakhukhi ngokusebenzisa izilungiselelo zesiphequluli sakho."
+    "contact": {
+      "title": "Xhumana Nathi",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Ungathengisi noma Wabelane Ngemininingwane Yami Yomuntu Siqu",
+    "body": "I-Chatforia ayithengisi imininingwane yomuntu siqu. Abahlali baseCalifornia bangaqhubeka nokufaka izicelo ngaphansi kwe-CPRA besebenzisa inkinobho engezansi.",
+    "cta": "Faka isicelo"
+  },
+  "cookies": {
+    "title": "Izilungiselelo Zama-cookie",
+    "body": "I-Chatforia isebenzisa ama-cookie amancane (isb., seshini, ukuphepha). Asisebenzisi ama-cookie wokukhangisa avela kwabanye. Lawula ama-cookie ngezilungiselelo zebhrawuza yakho."
+  },
+  "premiumGuard": {
+    "requiresPremium": "Lesi sici sidinga uhlelo lwe-Premium."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — Inqubomgomo ye-SMS & Ukuzibhalisa",
+    "lastUpdated": "Kubuyekezwe okokugcina:",
+    "whatWeSend": {
+      "title": "Okuthunyelwayo kithi",
+      "body": "I-Chatforia ithumela kuphela ama-SMS ahlobene ne-akhawunti nawokuxoxa kumanombolo weselula umsebenzisi awahlinzekile ngokusobala futhi avumile. Imilayezo ejwayelekile ifaka amakhodi okungena/okuqinisekisa, izaziso zokulethwa kwemilayezo, izaziso zokuphepha, nezibuyekezo ze-akhawunti zokuthengiselana."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Ayikwazanga ukulayisha isimo senombolo yocingo.",
-      "lock": "Khiya",
-      "noNumberAssigned": "Akukho nombolo eyabelwe. Khetha eyodwa ngekhodi yendawo ukuze uqale ukuthumela imiyalezo.",
-      "pickNumber": "Khetha inombolo",
-      "phoneNumber": "Inombolo yocingo"
+    "optIn": {
+      "title": "Indlela abasebenzisi abangena ngayo",
+      "body": "Abasebenzisi bangena ngokufaka inombolo yabo yocingo ngesikhathi sokubhalisa nokuhlola ibhokisi lokuvuma i-SMS ekhasini lokubhalisa noma kufomu elikhethekile lokungena",
+      "link": "fomu lokungena"
     },
-    "startChatModal": {
-      "title": "Qala ingxoxo",
-      "quickPicker": "I-picker esheshayo",
-      "to": "Kuya ku-",
-      "nameOrUsername": "Thayipha igama, igama lomsebenzisi",
-      "nameUsernamePhoneEmail": "Thayipha igama, igama lomsebenzisi, ifoni, noma i-imeyili…",
-      "startWithSelected": "Qala ingxoxo nokukhethiwe",
-      "searchByUsernameOrPhone": "Sesha nge-igama lomsebenzisi noma ifoni",
-      "search": "Sesha",
-      "searchPrompt": "Thayipha igama lomsebenzisi noma ifoni bese ucindezela Sesha.",
-      "pickFromContacts": "Noma khetha oxhumene",
-      "addContact": "Engeza Oxhumene",
-      "show": "Bonisa",
-      "add": "Engeza",
-      "close": "Vala",
-      "selectedCount": "{{count}} kukhethiwe",
-      "pickAtLeastOne": "Khetha okungenani umamukeli oyedwa.",
-      "saveContactsHint": "Okufakwe ifoni/i-imeyili kuzotholakala emva kokuthi uziwisele njengoxhumene.",
-      "failedBulkStart": "Kwehlulekile ukuqala ingxoxo nabamukeli abakhethiwe.",
-      "noResults": "Akukho miphumela",
-      "mode": "Imodi",
-      "group": "Iqembu",
-      "broadcast": "Ukusakaza",
-      "groupNameOptional": "Igama leqembu (okungenzeka)",
-      "firstMessageOptional": "Umyalezo wokuqala (okungenzeka kodwa kunconyiwe)",
-      "createGroup": "Yakha iqembu",
-      "sendBroadcast": "Thumela ukusakaza"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Ukushona kwelanga",
-      "solarized": "I-Solarized",
-      "velvet": "Ivelvet"
-    },
-    "sounds": {
-      "freeNotice": "Use ku-Free — amathoni e-premium abonisiwe kodwa akhiyiwe. Thuthukisa ukuze uvule konke.",
-      "preview": "Buka kuqala",
-      "resetToDefaults": "Setha kabusha kokuzenzakalelayo",
-      "notificationSounds": "Imisindo Yezaziso",
-      "messageTone": "Ithoni yomyalezo",
-      "default": "Okuzenzakalelayo",
-      "vibrate": "Vibrate",
-      "dreamer": "Iphupho",
-      "notify": "Yazisa",
-      "pop": "Pop",
-      "pulsatingSound": "Umsindo ophulayo",
-      "textMessage": "Umyalezo wombhalo",
-      "xylophone": "I-xylophone",
-      "classic": "I-classic",
-      "urgency": "Ukuphuthuma",
-      "bells": "Amabell",
-      "chimes": "Amachime",
-      "digitalPhone": "Ifoni yedijithali",
-      "melodic": "I-melodic",
-      "organNotes": "Amanothi e-organ",
-      "soundReality": "Umsindo wangempela",
-      "street": "Umgwaqo",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Lesi sici sidinga iplan ye-Premium."
-    },
-    "aiSettings": {
-      "title": "Izilungiselelo ze-AI",
-      "controlIntro": "Lawula ukuhumusha, izimpendulo ezihlakaniphile, nezimpendulo ezizenzakalelayo ze-ForiaBot.",
-      "save": "Gcina Izilungiselelo ze-AI",
-      "autoTranslateIncoming": "Humusha ngokuzenzakalelayo imiyalezo engenayo",
-      "showOriginalAlongside": "Bonisa umbhalo wokuqala kanye nokuhumusha",
-      "enableSmartReplies": "Nika amandla Izimpendulo Ezihlakaniphile",
-      "smartRepliesHint": "Thumela imiyalezo embalwa etholiwe yokugcina (ehlanziwe) ku-AI ukuze iphakamise izimpendulo ezisheshayo.",
-      "maskProfanity": "Fihla amagama angcolile eziphakamisweni ze-AI",
-      "maskProfanityHint": "Uma ivuliwe, iziphakamiso ezibuyiswa yi-AI zizoba namagama aphawuliwe afihliwe",
-      "foriaBot": "I-ForiaBot Auto-Responder",
-      "enableAutoReply": "Nika amandla ukuphendula ngokuzenzakalelayo lapho ngimatasa",
-      "autoReplyMode": "Imodi yokuphendula ngokuzenzakalelayo",
-      "cooldownSeconds": "Ukupholisa (amasekhondi)",
-      "off": "Valiwe",
-      "on": "Vuliwe",
-      "signature": "Isiginesha",
-      "autoReply": "Ukuphendula ngokuzenzakalelayo",
-      "activeUntilOptional": "Isebenza kuze kube (okungenzeka)",
-      "saved": "Okuthandwayo kwe-AI kulondoloziwe",
-      "saveFailed": "Ukugcina izilungiselelo ze-AI kwehlulekile",
-      "translateOff": "Valiwe",
-      "translateTagged": "Kuphela uma @translated noma kuphawuliwe",
-      "translateAll": "Humusha yonke imiyalezo engenayo",
-      "modeDm": "Izingxoxo 1:1 kuphela",
-      "modeMention": "Kuphela uma ngiphawuliwe nge-@",
-      "modeAll": "Yonke imiyalezo engenayo"
-    },
-    "accessibilitySettings": {
-      "title": "Ukufinyeleleka & Izaziso",
-      "accessibility": "Ukufinyeleleka",
-      "accessibilityDesc": "Izinketho zokwenza i-Chatforia ibe lula ukuyisebenzisa ngaphandle kokuthembela emsindweni.",
-      "interfaceFontSize": "Usayizi wefonti yesixhumi sezinhlelo",
-      "interfaceFontSizeHelp": "Iqala ngosayizi ovamile. Khulisa uma uthanda umbhalo omkhulu ezilungiselelweni zokufinyeleleka.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Izaziso",
-      "notificationsDesc": "Izaziso ezibonakalayo zemiyalezo nezingcingo\nBonisa amabhena nokucwayita kwesihloko ukuze ungaphuthelwa umsebenzi.",
-      "vibrateOnNew": "Vibrate emiyalezweni emisha (lapho kusekelwe khona)\nQala ukudlidliza kwedivayisi ngezaziso.",
-      "flashOnCall": "Khanyisa isikrini ezingcingweni ezingenayo\nUkukhanya okufushane okukhanyayo lapho ucingo lukhala.",
-      "liveCaptions": "Amazwi abukhoma (izingcingo)",
-      "captionFontSize": "Usayizi wefonti yamazwi",
-      "captionBackground": "Isizinda samazwi",
-      "light": "khanyayo",
-      "dark": "mnyama",
-      "transparent": "esobala",
-      "voiceNotes": "Amanothi omsindo",
-      "autoTranscribeVoiceNotes": "Bhala ngokuzenzakalelayo amanothi omsindo",
-      "autoTranscribeVoiceNotesDesc": "Namathisela ukubhalwa kumiyalezo yomsindo otholiwe.",
-      "changesSavedInstantly": "Izinguquko zilondoloziwe ngokushesha.",
-      "loadFailed": "Ukuthola izilungiselelo kwehlulekile",
-      "visualAlerts": "Izaziso ezibonakalayo zemiyalezo nezingcingo",
-      "visualAlertsDesc": "Bonisa amabhena nokucwayita kwesihloko ukuze ungaphuthelwa umsebenzi.",
-      "vibrateOnNewShort": "Vibrate emiyalezweni emisha (lapho kusekelwe khona)",
-      "vibrateOnNewDesc": "Qala ukudlidliza kwedivayisi ngezaziso.",
-      "flashOnCallShort": "Khanyisa isikrini ezingcingweni ezingenayo",
-      "flashOnCallDesc": "Ukukhanya okufushane okukhanyayo lapho ucingo lukhala."
-    },
-    "privacySection": {
-      "strictE2EE": "Ukufihla ukuphela ukuphela okuqinile",
-      "ciphertextOnlyNote": "Gcina kuphela i-ciphertext kuseva. Kuyavalwa i-AI/Ukuhumusha nokubuka kuqala kokuphatha."
-    },
-    "linkedDevicesPanel": {
-      "title": "Amadivayisi Axhunyiwe",
-      "noneFound": "Akukho madivayisi axhunyiwe atholakali.",
-      "refresh": "Vuselela"
+    "optOut": {
+      "title": "Indlela abasebenzisi abaphuma ngayo",
+      "stop": "Phendula STOP kunoma iyiphi i-SMS ye-Chatforia ukuze ukhethe ukuphuma.",
+      "start": "Phendula START ukuze ubhalisele kabusha.",
+      "contactPrefix": "Xhumana nesevisi yokweseka ku"
     },
     "help": {
       "title": "Usizo",
-      "howCanWeHelp": "Singakusiza kanjani?",
-      "helpCenter": "Isikhungo Sosizo",
-      "contactUs": "Xhumana nathi",
-      "quickTopics": "Izihloko ezisheshayo",
-      "searchExamples": "Zama ukusesha “humusha”, “izipele”, noma “ubumfihlo”.",
-      "cantLogin": "Ayikwazi ukungena ngemvume",
-      "paymentsBilling": "Ukukhokha/ukubhadala",
-      "reportAbuse": "Bika ukuhlukumeza",
-      "searchHelpArticles": "Sesha izindatshana zosizo",
-      "search": "Sesha"
+      "bodyPrefix": "Phendula HELP ukuze uthole usizo noma i-imeyili"
     },
-    "peoplePage": {
-      "people": "Abantu",
-      "search": "Sesha",
-      "searchPlaceholder": "Sesha nge-alias, igama, igama lomsebenzisi, noma ifoni",
-      "filterSaved": "Hlunga oxhumene abalondoloziwe",
-      "noContactsFound": "Akukho oxhumene abatholakali",
-      "quickStart": "Ukuqala okusheshayo",
-      "quickStartDesc": "Izindlela ezimbalwa ezisheshayo zokuqala.",
-      "importContacts": "Ngenisa oxhumene bakho",
-      "add": "Engeza",
-      "focusSearch": "Gxila Sesha",
-      "import": "Ngenisa",
-      "findOrAdd": "Thola noma engeza othile",
-      "searchByPhoneOrUsername": "Sesha ngefoni / igama lomsebenzisi",
-      "inviteFriends": "Mema abangane",
-      "inviteDesc": "Yabelana ngesixhumanisi sakho sesimemo ukuze uqale ukuxoxa ngokushesha.",
-      "getTheApp": "Thola uhlelo lokusebenza",
-      "getTheAppDesc": "Hlala uxhumene usohambweni nge-Chatforia ye-iOS ne-Android.",
-      "download": "Landa",
-      "syncTip": "Ithiphu: Imiyalezo yakho ihlala ivumelaniswe kuwebhu naku-mobile."
-    },
-    "randomChat": {
-      "title": "Ingxoxo Engahleliwe",
-      "description": "Hlangana nomuntu omusha ngokushesha. Sizokubhanqa futhi sivule igumbi lengxoxo lesikhashana. Xoxa ngokungaziwa kuqala. Engeza Umngane kamuva uma kuzwakala kulungile.",
-      "findMatch": "Ngitholele umbhanqi",
-      "chatWithForia": "Xoxa no-Foria",
-      "chatWithForiaBot": "Xoxa no-ForiaBot",
-      "cancel": "Khansela",
-      "close": "Vala",
-      "searching": "Iyasesha...",
-      "finding": "Iyathola...",
-      "looking": "Ifuna othile...",
-      "startingForia": "Iqala ingxoxo no-Foria...",
-      "partnerDisconnected": "Uzakwenu unqamukile.",
-      "noPartner": "Akukho zakwenu otholakele okwamanje.",
-      "connectedTo": "Uxhumene no-{{name}}",
-      "connected": "Uxhumene",
-      "idle": "Ayisebenzi",
-      "partnerLeft": "Uzakwenu ushiyile.",
-      "stopped": "Imile.",
-      "skip": "Yeqa",
-      "save": "Gcina",
-      "saveGuard": "Izingxoxo zomuntu nomuntu kuphela ezingagcinwa",
-      "youAreChattingWith": "Uxoxa no-{{name}}",
-      "bot": "I-BOT",
-      "leave": "Shiya",
-      "sayHi": "Yithi sawubona 👋",
-      "you": "Wena",
-      "typeMessage": "Thayipha umyalezo",
-      "send": "Thumela",
-      "partner": "Uzakwenu",
-      "withRia": "No-Ria",
-      "chatWithRia": "Xoxa no-Ria",
-      "startingRia": "Iqala ingxoxo no-Ria...",
-      "ageDisclaimer": "Sigcina kuphela ibhendi yeminyaka (hhayi usuku lwakho lokuzalwa oluqondile). Lokhu kusetshenziselwa ukugcina ukubhanqa kwe-Random Chat kunengqondo. Ukuze ubhanqwe nabantu (hhayi nje i-RiaBot), setha ibhendi yeminyaka yakho ku-Settings → Iminyaka & Ingxoxo Engahleliwe.",
-      "ageBandRequired": "Setha ibhendi yeminyaka yakho ku-Profile → Iminyaka & Ingxoxo Engahleliwe ukuze ubhanqwe nabantu.",
-      "ageBandCallout": "Ukuze ubhanqwe nabantu (hhayi nje i-RiaBot), setha ibhendi yeminyaka yakho ku-Settings → Iminyaka & Ingxoxo Engahleliwe.",
-      "subtitle": "Hlangana nomuntu omusha ngokushesha, noma khetha ukuxoxa no-Ria.",
-      "start": "Qala ingxoxo",
-      "matching": "Iyabhanqa...",
-      "setAge": "Setha ibhendi yeminyaka yakho ku-Profile → Iminyaka & Ingxoxo Engahleliwe ukuze ubhanqwe nabantu.",
-      "next": "Umuntu Olandelayo",
-      "addFriend": "Engeza Umngane",
-      "requested": "Kuceliwe",
-      "messageRia": "Thumela u-Ria umyalezo...",
-      "messageMatch": "Thumela umbhanqi wakho umyalezo..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "lapho",
-      "intro": "Sawubona lapho 👋 Ngingu-Ria. Yini esemqondweni wakho?",
-      "greetings": {
-        "long1": "Sawubona {{name}} 👋 Ngilapha. Yini esemqondweni wakho?",
-        "long2": "Sawubona {{name}} 😊 Yini ongathanda ukuyixoxa namuhla?",
-        "long3": "Sawubona {{name}}!! Ngilalela konke — yini esikhulayo?",
-        "long4": "Kuhle ukukubona, {{name}} 👋 Yini esemqondweni wakho namuhla?",
-        "long5": "Sawubona {{name}} 😊 Ufuna ukukhuluma, ubuze, noma uxoxe nje?",
-        "long6": "Sawubona {{name}}!! Nginesikhathi — yini ongathanda ukuyixoxa?",
-        "short1": "Sawubona {{name}}, ngisalaphaya. Yini esikhulayo?",
-        "short2": "Wamukelekile emuva {{name}} 👋 Kukhona yini okunye obufuna ukukwengeza?",
-        "short3": "Emuva futhi, {{name}}? 😊 Ngitshele yini esemqondweni wakho.",
-        "short4": "Sawubona {{name}} 👋 Ulungele ukuqhubeka lapho besiyeke khona?",
-        "short5": "Yebo {{name}}? Ngilalela 👂",
-        "short6": "Oh sawubona {{name}}!! Unokuthile okusha emqondweni wakho?"
-      },
-      "header": {
-        "openNav": "Vula imenyu yokuzulazula",
-        "closeNav": "Vala imenyu yokuzulazula",
-        "homeAria": "Ikhaya le-Chatforia"
-      },
-      "login": {
-        "welcomeBack": "Wamukelekile emuva",
-        "title": "Qhubeka ku-Chatforia",
-        "subtitleReturning": "Ngena ngemvume kwi-akhawunti yakho ye-Chatforia",
-        "subtitle": "Ngena ngemvume kwi-akhawunti yakho ye-Chatforia",
-        "google": "Qhubeka ne-Google",
-        "apple": "Qhubeka ne-Apple",
-        "googleUnavailable": "Ukungena ngemvume nge-Google akutholakali",
-        "appleUnavailable": "Ukungena ngemvume nge-Apple akutholakali",
-        "or": "noma",
-        "email": "I-imeyili",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Igama lomsebenzisi",
-        "usernamePh": "Igama lomsebenzisi lakho",
-        "passwordLabel": "Iphasiwedi",
-        "passwordPh": "Iphasiwedi yakho",
-        "keepSignedIn": "Ngigcine ngingene ngemvume",
-        "forgot": {
-          "title": "Ukhohlwe Iphasiwedi",
-          "helper": "Faka i-imeyili owasebenzisa ukudala i-akhawunti yakho ye-Chatforia futhi sizokuthumela isixhumanisi esivikelekile sokusetha kabusha iphasiwedi yakho.",
-          "emailInvalid": "Sicela ufake ikheli le-imeyili elivumelekile.",
-          "genericError": "Ayikwazanga ukucubungula isicelo. Sicela uzame futhi emva komzuzwana.",
-          "sending": "Ithumela isixhumanisi sokusetha kabusha...",
-          "sendCta": "Thumela Isixhumanisi Sokusetha Kabusha",
-          "sentLabel": "Ithunyelwe!",
-          "sentHelper": "Uma i-akhawunti ikhona ngaleyo imeyili, sithumele isixhumanisi sokusetha kabusha iphasiwedi. Kungase kuthathe imizuzu embalwa ukufika. Qiniseka ukuthi uhlola ifolda ye-spam noma yezikhangiso.",
-          "previewDev": "Buka kuqala I-imeyili (Dev)",
-          "backToLogin": "Emuva ku-Ngena ngemvume"
-        },
-        "submit": "Ngena ngemvume",
-        "loggingIn": "Ingene ngemvume…",
-        "newHere": "Uqala lapha? <link>Yakha i-akhawunti</link>",
-        "ssoUnavailable": "Ukungena ngemvume eyodwa akutholakali okwamanje. Sebenzisa igama lomsebenzisi & iphasiwedi esikhundleni.",
-        "error": {
-          "missing": "Sicela ufake iziqinisekiso zakho.",
-          "invalid": "Igama lomsebenzisi noma iphasiwedi engalungile",
-          "denied": "Ukufinyelela kwenqatshiwe.",
-          "unprocessable": "Isicelo esingavumelekile. Hlola igama lomsebenzisi/i-imeyili nephasiwedi yakho.",
-          "deviceLimit": "Umkhawulo wedivayisi ufinyelelwe kuplan yamahhala. Phuma kwenye idivayisi noma thuthukisa ku-Premium ukuze uxhumane namadivayisi engeziwe.",
-          "premiumRequired": "Lesi senzo sidinga iplan ye-Premium."
-        }
-      },
-      "oauth": {
-        "completing": "Iqedela ukungena ngemvume…"
-      },
-      "dialer": {
-        "title": "Ocingo",
-        "subtitle": "Ikhiphedi & okwakamuva. (Uma ungasebenzisi i-PSTN, qala izingcingo kusuka kunhlokweni yengxoxo.)",
-        "enterNumberPh": "Faka inombolo",
-        "call": "Shayela",
-        "backspace": "Susa isikhala",
-        "recents": "Okwakamuva",
-        "recentsEmpty": "Akukho izingcingo zakamuva okwamanje.",
-        "enterNumber": "Faka inombolo",
-        "enterNumberAria": "Faka inombolo",
-        "key": "Ukhiye {{d}}",
-        "noRecents": "Akukho izingcingo zakamuva okwamanje."
-      },
-      "video": {
-        "title": "Ividiyo",
-        "chooseType": "Khetha uhlobo lwevidiyo.",
-        "directTitle": "Ividiyo Eqondile",
-        "directDesc": "Ucingo lwekhamera 1:1 nomunye umsebenzisi.",
-        "directStart": "Qala",
-        "roomsTitle": "Amagumbi",
-        "roomsDesc": "Ividiyo yamaqembu amaningi isebenzisa igama legumbi elabiwe.",
-        "roomsIntro": "Joyina noma yakha igumbi lamaqembu amaningi.",
-        "roomNameLabel": "Igama legumbi",
-        "roomNamePh": "isib. team-standup",
-        "join": "Joyina",
-        "deeplinkTip": "Ithiphu: ungaxhumanisa ngokuqondile ku-<code>/video?room=room-name</code>.",
-        "hub": {
-          "title": "Ividiyo",
-          "subtitle": "Khetha uhlobo lwevidiyo."
-        },
-        "direct": {
-          "title": "Ividiyo Eqondile",
-          "subtitle": "Qala ucingo lwevidiyo 1:1 usebenzisa inombolo yocingo noma igama lomsebenzisi le-Chatforia.",
-          "desc": "Ucingo lwekhamera 1:1 nomunye umsebenzisi.",
-          "start": "Qala",
-          "callBtn": "Shayela",
-          "callByPhone": {
-            "title": "Shayela ngefoni"
-          },
-          "phone": {
-            "placeholder": "Faka ifoni (isib., +1-555-123-4567)",
-            "aria": "Ifoni okufanele ushayele kuyo"
-          },
-          "tipInvite": "Ithiphu: Namathisela inombolo futhi ushayele ngaphandle kokulondoloza oxhumene. Sizomema abasebenzisi abangewona ngesixhumanisi.",
-          "findUser": {
-            "title": "Thola umsebenzisi"
-          },
-          "search": {
-            "placeholder": "Sesha nge-igama noma igama lomsebenzisi",
-            "aria": "Sesha nge-igama noma igama lomsebenzisi",
-            "btn": "Sesha"
-          }
-        },
-        "rooms": {
-          "title": "Amagumbi",
-          "subtitle": "Yakha igumbi noma joyina elikhona ngokuthayipha igama elifanayo.",
-          "desc": "Ividiyo yamaqembu amaningi isebenzisa igama legumbi elabiwe.",
-          "roomLabel": "Igama legumbi",
-          "roomPlaceholder": "isib. team-standup",
-          "roomAria": "Igama legumbi",
-          "joinCreate": "Joyina / Yakha",
-          "tip": "Ithiphu: yabelana ngaleli gama nabanye, noma xhumanisa ngokuqondile ku-<code>/video?room=room-name</code>."
-        }
-      },
-      "directVideo": {
-        "intro": "Qala ucingo lwevidiyo eqondile 1:1.",
-        "findUserLabel": "Thola umsebenzisi",
-        "findUserPh": "Sesha nge-igama noma igama lomsebenzisi",
-        "search": "Sesha",
-        "call": "Shayela"
-      },
-      "phoneWarning": {
-        "title": "Inombolo yakho izophela maduzane",
-        "body": "Inombolo yakho {{number}} izokhululwa ngo-{{date}} ngaphandle kokuthi ivuselelwe.",
-        "button": "Gcina Inombolo Yami"
-      }
-    },
-    "support": {
-      "helpFab": "Usizo",
-      "openSupportAria": "Vula usizo",
-      "badge": "Usizo",
-      "heading": "Singakusiza kanjani?",
-      "tabs": {
-        "help": "Isikhungo Sosizo",
-        "contact": "Xhumana nathi"
-      },
-      "searchPlaceholder": "Sesha izindatshana zosizo…",
-      "searchAria": "Sesha usizo",
-      "searchBtn": "Sesha",
-      "quickTopicsLabel": "Izihloko ezisheshayo",
-      "quickTopics": {
-        "login": "Ayikwazi ukungena ngemvume",
-        "billing": "Ukukhokha / ukubhadala",
-        "abuse": "Bika ukuhlukumeza"
-      },
-      "trySearching": "Zama ukusesha “humusha”, “izipele”, noma “ubumfihlo”.",
-      "article": "Indatshana",
-      "openArticle": "Vula indatshana",
-      "contactIntro": "Sizokuthumela impendulo nge-imeyili. Hlanganisa imininingwane ukuze sisize ukuphindaphinda inkinga.",
-      "topicAria": "Khetha isihloko",
-      "messagePlaceholder": "Bhala umyalezo wakho…",
-      "sendBtn": "Thumela",
-      "sent": "Umyalezo uthunyelwe. Sizophendula nge-imeyili.",
-      "sendError": "Ayikwazanga ukuthumela. Thumela i-imeyili ku-support@chatforia.com esikhundleni."
-    },
-    "encryptionRecovery": {
-      "title": "Phatha Ukufihla",
-      "description": "Gcina, buyisela, vula, noma setha kabusha ukhiye wakho wokufihla.",
-      "alert": {
-        "keyRequiredTitle": "Ukhiye wokufihla uyadingeka",
-        "keyRequiredBody": "Lesiphequluli ngeke sikwazi ukufihla imiyalezo yakho efihliwe okwamanje. Buyisela, vula, noma setha kabusha ukhiye wakho ukuze uqhubeke."
-      },
-      "sections": {
-        "createBackup": "Yakha isipele sokhiye",
-        "restoreFromBackup": "Buyisela kusuka kwisipele se-akhawunti",
-        "resetEncryption": "Setha kabusha ukufihla"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Vula iphasikhodi (idivayisi yamanje)",
-          "description": "Isetshenziselwa ukufihla okhiye bakho endaweni ngaphambi kokuthumela"
-        },
-        "backupPassword": {
-          "label": "Iphasiwedi yesipele",
-          "description": "Isetshenziselwa ukufihla ifayela lesipele"
-        },
-        "restoreBackupPassword": {
-          "label": "Iphasiwedi yesipele",
-          "description": "Iphasiwedi owakhe yona ngesikhathi sokugcina ukhiye wakho ku-iPhone"
-        },
-        "newLocalPasscode": {
-          "label": "Iphasiwedi yendawo entsha",
-          "description": "Vikela okhiye ekuphumulekeni kulesi siphequluli"
-        },
-        "resetLocalPasscode": {
-          "label": "Iphasiwedi yendawo entsha",
-          "description": "Kudingeka ngaphambi kokusetha kabusha ukuze ukhiye omusha uvikelekile kule divayisi"
-        }
-      },
-      "actions": {
-        "unlockKey": "Vula ukhiye wokufihla",
-        "restoreFromBackup": "Buyisela kusuka kwisipele se-akhawunti",
-        "resetEncryption": "Setha Kabusha Ukufihla"
-      },
-      "messages": {
-        "backupCreated": "Isipele sokhiye senziwe futhi salayishwa.",
-        "keyUnlocked": "Ukhiye wokufihla uvuliwe.",
-        "keyRestored": "Ukhiye ubuyisiwe kusuka kwisipele se-akhawunti.",
-        "resetSuccess": "Ukufihla kusethelwe kabusha ngempumelelo."
-      },
-      "errors": {
-        "restoreIncomplete": "Ukubuyisa ukhiye akuphelele noma akulungile kule akhawunti",
-        "noBackup": "Akukho sipele esifihliwe esikhona kule akhawunti",
-        "missingPublicKey": "Isipele sishoda ukhiye womphakathi",
-        "noServerPublicKey": "Le akhawunti ayikona ukubonisa ukhiye womphakathi weseva",
-        "serverBackupMismatch": "Isipele seseva asihambisani nokhiye wokufihla we-akhawunti yamanje",
-        "incompleteMetadata": "I-metadata yesipele ayiphelele",
-        "resetIncomplete": "Ukufihla ukusetha kabusha akuphelanga kahle"
-      },
-      "confirm": {
-        "reset": "Setha kabusha ukufihla kule akhawunti?\n\nImiyalezo emidala efihliwe ingase ingafundeki ngaphandle kokuthi ubuyise ukhiye wokuqala kamuva."
-      },
-      "resetDescription": "Lokhu kwakha ukhiye wokufihla omusha we-akhawunti yakho. Imiyalezo emidala efihliwe ingase ingafundeki ngaphandle kokuthi ubuyise ukhiye wokuqala kamuva."
-    },
-    "footer": {
-      "plans": "Izinhlelo & Amanani",
-      "about": "Mayelana ne-Chatforia",
-      "careers": "Imisebenzi",
-      "press": "Ukushicilela",
-      "advertise": "Khangisa",
-      "contact": "Xhumana Nathi",
-      "help": "Isikhungo Sosizo",
-      "status": "Ikhasi Lesimo",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Inqubomgomo Yobumfihlo",
+    "privacyTerms": {
+      "title": "Imigomo Yobumfihlo Nezokusebenzisa",
+      "bodyStart": "Ngokuvuma i-SMS, abasebenzisi bavuma futhi imigomo yethu",
       "terms": "Imigomo Yesevisi",
-      "cookies": "Izilungiselelo zekhukhi",
-      "doNotSell": "Ungathengisi Ulwazi Lwami",
-      "language": "Ulimi",
-      "contactShort": "Xhumana",
-      "aria": "I-footer",
-      "homeAria": "Ikhaya le-Chatforia",
-      "section": {
-        "company": "INKAMPANI",
-        "support": "USIZO",
-        "downloads": "UKULAYISHA",
-        "legal": "OKOMTHETHO"
-      },
-      "links": {
-        "plans-pricing": "Izinhlelo & Amanani",
-        "about-chatforia": "Mayelana ne-Chatforia",
-        "careers": "Imisebenzi",
-        "press": "Ukushicilela",
-        "advertise": "Khangisa",
-        "getting-started": "Ukuqala",
-        "help-center": "Isikhungo Sosizo",
-        "contact-us": "Xhumana Nathi",
-        "status-page": "Ikhasi Lesimo",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Inqubomgomo Yobumfihlo",
-        "terms-of-service": "Imigomo Yesevisi",
-        "do-not-sell-my-info": "Ungathengisi Ulwazi Lwami",
-        "cookie-settings": "Izilungiselelo zekhukhi"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Ilungelo lobunikazi liyalindeleka",
-      "backToTop": "↑ Emuva phezulu"
+      "and": "and",
+      "privacy": "Inqubomgomo Yobumfihlo"
     },
-    "press": {
-      "title": "Ukushicilela",
-      "contactLine": "Ngokubuza kwabezindaba, sifinyelele ku-",
-      "boilerplateTitle": "I-boilerplate",
-      "boilerplateBody": "I-Chatforia iyinhlelo lokusebenza lokuthumela imiyalezo elibeka ubumfihlo kuqala elenza ukuxoxa ngezilimi ezihlukene kube lula. Imiyalezo ifihlwe ukuphela ukuphela ngokuzenzakalelayo, futhi ukuhumusha okwakhelwe ngaphakathi kusekela izilimi ezingaphezu kuka-100 ngesikhathi sangempela. Abasebenzisi bangakwazi ukunika amandla imiyalezo enyamalala, ukugcina ukuthola ukufundwa ngokuzikhethela, nokuvumelanisa kuwo wonke amadivayisi. Itholakala ku-iOS, Android, kanye newebhu.",
-      "assetsTitle": "Izimpahla zomkhiqizo",
-      "assetsSubtitle": "Amalogo, izithombe-skrini, nezithombe zomkhiqizo.",
-      "downloadCta": "Landa i-media kit",
-      "downloadTitle": "Thola uhlelo lokusebenza",
-      "scanTip": "Kudeskithophu? Skena ngefoni yakho ukuze uthole uhlelo lokusebenza.",
-      "qrAria": "Vula iwebhusayithi ye-Chatforia",
-      "appStore": "Landa ku-App Store",
-      "googlePlay": "Ithole ku-Google Play"
-    },
-    "careers": {
-      "title": "Imisebenzi",
-      "intro": "Siyithimba elincane labasunguli elakha i-Chatforia — isithunywa somhlaba esiyimfihlo esethulwa kuwebhu, iOS, ne-Android. Uma ukhathalela ubumfihlo, ukufihla, nokuhlangenwe nakho komsebenzisi okujabulisayo, singathanda ukuzwa ngawe.",
-      "openRoles": "<b>Imisebenzi yokusungula evulekile:</b> Umphathi Wobunjiniyela Obuphelele, Unjiniyela Wemuva (Node.js), Unjiniyela Waphambili/Webhu (React), Unjiniyela Wemobile (iOS), Unjiniyela Wemobile (Android), DevOps/SRE, Unjiniyela Wokuphepha & Ukufihla, Unjiniyela Wezokuxhumana (Twilio + eSIM).",
-      "apply": "Indlela yokufaka isicelo: Sebenzisa inkinobho engezansi ukuze uthumele i-CV yakho nezixhumanisi nge-imeyili.",
-      "emailCta": "Thumela i-CV yakho nge-imeyili",
-      "whyNow": "Kungani ujoyina manje?",
-      "whyBullets": "• Siza ukwakha isisekelo sesithunywa esisha somhlaba.\n• Thumela ukuthuthukiswa okusetshenziswa kuwebhu, iOS, ne-Android.\n• Sebenza ngqo nomsunguli ngokwakha nokubhekisisa umkhiqizo.\n• Nakekela izindawo ezinomthelela omkhulu wesitaki: ukuthumela imiyalezo, ukushaya ucingo, ividiyo, ukufihla, ukuxhumana, i-AI.\n• Joyina ekuqaleni — ngaphambi kokuthi isisebenzi sikhule."
-    },
-    "about": {
-      "title": "Mayelana ne-Chatforia",
-      "description": "I-Chatforia iyisithunywa esivikelekile, esinezilimi eziningi esinokufihla ukuphela ukuphela, ukuhumusha okusheshayo, nokushaya ucingo/ividiyo. Inhloso yethu ilula: siza abantu ukuxhumana—ngokuphepha, ngokuyimfihlo, nangaphesheya kwezilimi.",
-      "valuesTitle": "Lokhu esikwazisayo",
-      "values": {
-        "privacy": "<b>Okubekwa kuqala ubumfihlo:</b> Ukufihla ukuphela ukuphela ngokuzenzakalelayo.",
-        "access": "<b>Ukufinyelela kwawo wonke umuntu:</b> Humusha ngokuzenzakalelayo izilimi ezingaphezu kuka-100.",
-        "control": "<b>Ukudlulisa:</b> Imiyalezo enyamalala nokwamukela ukufundwa kuyinketho.",
-        "privacy_aria": "Okubekwa kuqala ubumfihlo: Ukufihla ukuphela ukuphela ngokuzenzakalelayo.",
-        "access_aria": "Ukufinyelela kwawo wonke umuntu: Humusha ngokuzenzakalelayo izilimi ezingaphezu kuka-100.",
-        "control_aria": "Ukudlulisa: Imiyalezo enyamalala nokwamukela ukufundwa kuyinketho."
-      },
-      "howTitle": "Isebenza kanjani i-Chatforia",
-      "howDescription": "Imiyalezo ifihlwa edivayisini yakho ngaphambi kokuthi ishiye. Ukuhumusha, izipele, nokuvumelanisa kwedivayisi kuhlelelwe ukunciphisa lokho amaseva ethu angakubona."
-    },
-    "advertise": {
-      "title": "Khangisa ne-Chatforia",
-      "description": "Finyelela abasebenzisi abaxoxayo abazimisele ngokubekwa okunambithekayo, okuphephile kumkhiqizo. Sinikeza ukubonakala kwebhena ezindaweni ezibonakalayo kakhulu, ukuxhasa, namaphromoshini endlu. Ababhalisile be-premium ababoni izikhangiso.",
-      "adsense": {
-        "withPubIdShort": "Siphinde sinikeze ukubonakala nge-Google AdSense. Ungaqondisa i-Chatforia nge-ID yomshicileli {{pubId}}, noma usebenzise ifomu engezansi ukuxhasa ngokuqondile.",
-        "noPubIdShort": "Siphinde sinikeze okunye ukubonakala nge-Google AdSense. Ukuxhasa ngokuqondile kuyatholakala—sebenzisa ifomu engezansi."
-      },
-      "inventoryHeader": "Ukubonakala & Izincwadi",
-      "placement": {
-        "displayBadge": "Bonisa",
-        "acceptedSizes": "Osayizi abamukelekayo",
-        "adsenseSlot": "Isikhala se-AdSense:"
-      },
-      "noPlacementsPublic": "Sisalungisa ukubonakala kwezikhangiso zethu. Sitshele ngomkhankaso wakho futhi sizokuncoma ukubekwa.",
-      "whyHeader": "Kungani i-Chatforia?",
-      "why": {
-        "highSession": "Ukuphakama kwezikhathi zesikhathi nokuhlala esikhathini eside ku-UI yengxoxo",
-        "brandSafe": "Izinhlobo eziphephile kumkhiqizo; ukuphela kwezikhathi ezihloniphekile",
-        "sponsoredMoments": "Izikhathi ezixhasiwe (isib., imodal “Qala Ingxoxo”) ziyatholakala",
-        "deals": "Izivumelwano eziqondile noma izinhlelo nge-AdSense/Google Ads"
-      },
-      "contactHeader": "Xhumana",
-      "form": {
-        "submittedMsg": "Siyabonga! Umbuzo wakho usendleleni. Sizoxhumana maduzane.",
-        "missingRequired": "Sicela ugcwalise igama, i-imeyili, nomyalezo.",
-        "successToast": "Siyabonga! Sizoxhumana maduzane.",
-        "mailtoInfo": "Ivula iklayenti le-imeyili lakho ukuthumela umbuzo…",
-        "nameLabel": "Igama lakho",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "I-imeyili",
-        "emailPlaceholder": "you@company.com",
-        "companyLabel": "Inkampani",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Isabelomali senyanga (okungenzeka)",
-        "budgetPlaceholder": "isib. $1,000–$20,000+",
-        "messageLabel": "Sitshele ngomkhankaso wakho",
-        "messagePlaceholder": "Ukuqondisa, izinsuku, ama-KPI, okuthandwayo kokubekwa…",
-        "sendCta": "Thumela umbuzo"
-      },
-      "legal": {
-        "disclaimerStart": "Ngokuthumela, uyavuma kwi-",
-        "terms": "Imigomo",
-        "and": "futhi",
-        "privacy": "Inqubomgomo Yobumfihlo"
-      }
-    }
+    "footer": "© 2026 Chatforia Inc."
   }
 }

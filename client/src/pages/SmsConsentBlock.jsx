@@ -1,4 +1,5 @@
 import { Checkbox, Stack, Text } from '@mantine/core';
+import { useTranslation, Trans } from 'react-i18next';
 
 export default function SmsConsentBlock({
   checked,
@@ -7,6 +8,8 @@ export default function SmsConsentBlock({
   companyName = 'Chatforia',
   error,
 }) {
+  const { t } = useTranslation();
+
   return (
     <Stack gap={6} mt="xs">
       <Checkbox
@@ -15,14 +18,18 @@ export default function SmsConsentBlock({
         onChange={(e) => onChange?.(e.currentTarget.checked)}
         label={
           <Text size="sm">
-            I consent to receive SMS notifications and alerts from {companyName}. Message
-            frequency may vary. Msg &amp; data rates may apply. Reply <b>STOP</b> to unsubscribe at
-            any time. Reply <b>HELP</b> for help.
+            <Trans
+              i18nKey="smsConsent.label"
+              values={{ companyName }}
+              components={{
+                stop: <b />,
+                help: <b />,
+              }}
+            />
           </Text>
         }
       />
 
-      {/* No Terms/Privacy links here — telecom consent only. */}
       {!!error && (
         <Text size="xs" c="red.6">
           {error}

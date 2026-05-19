@@ -90,6 +90,14 @@
     },
     "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later."
   },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
+  },
   "auth": {
     "headline": "Secure messaging for anyone, anywhere",
     "description": "End-to-end encryption, translation to 100+ languages, disappearing messages, and voice/video calling.",
@@ -258,7 +266,11 @@
       "privacy-policy": "Privacy Policy",
       "terms-of-service": "Terms of Service",
       "do-not-sell-my-info": "Do Not Sell My Info",
-      "cookie-settings": "Cookie Settings"
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
     },
     "social": {
       "tiktok": "TikTok",
@@ -1172,7 +1184,6 @@
         "europe": "Europe",
         "global": "Global"
       },
-      "note": "We don’t sell data packs under 3 GB.",
       "localEquals": "Local = {{country}}",
       "localEqualsFallback": "Local = your current country",
       "perPack": "/ pack",
@@ -1184,7 +1195,7 @@
       "unlimited": {
         "features": {
           "heavyUse": "High-speed data for heavy use",
-          "throttle": "Speeds may slow after high usage",
+          "throttle": "High-speed data subject to fair-use and network management policies",
           "coverage": "Reliable coverage",
           "instant": "Instant eSIM activation",
           "noContract": "One-time pack, no contract"
@@ -1193,29 +1204,22 @@
       "disclaimer": {
         "devices": "eSIM data packs require an eSIM-compatible and unlocked device. Availability varies by phone model, carrier, and country. Coverage and speeds vary by region."
       },
-      "small": {
-        "title": "Starter pack",
-        "desc": "Includes 3 GB of high-speed data — ideal for light messaging and occasional calls.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Short trips, light messaging, and occasional calls",
-        "aria": "Buy Starter eSIM data pack"
-      },
-      "medium": {
-        "title": "Traveler pack",
-        "desc": "Includes 5 GB of high-speed data for trips, commuting, and regular VoIP calls.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Weekend trips, regular VoIP calls, and maps",
-        "aria": "Buy Traveler eSIM data pack"
-      },
-      "large": {
-        "title": "Power pack",
-        "desc": "Includes 10 GB of high-speed data for heavy chat, calls, and video on the Chatforia network.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Heavy chat, calls, video, and hotspot use",
-        "aria": "Buy Power user eSIM data pack"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
       },
       "compare": {
         "title": "Compare eSIM data packs",
@@ -1477,68 +1481,68 @@
       "homeAria": "Chatforia Home"
     },
     "login": {
-  "welcomeBack": "Welcome back",
-  "title": "Continue to Chatforia",
-  "subtitleReturning": "Log in to your Chatforia account",
-  "google": "Continue with Google",
-  "apple": "Continue with Apple",
-  "googleShort": "Google",
-  "appleShort": "Apple",
-  "googleUnavailable": "Google sign-in unavailable",
-  "appleUnavailable": "Apple sign-in unavailable",
-  "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
-  "or": "or",
-  "accountLabel": "Account",
-  "identifierPh": "Email or username",
-  "passwordLabel": "Password",
-  "passwordPh": "Your password",
-  "keepSignedIn": "Keep me signed in",
-  "forgot": "Forgot password?",
-  "resendVerification": "Resend verification email",
-  "submit": "Log In",
-  "loggingIn": "Logging in…",
-  "verification": {
-    "sent": "Verification email sent. Check your inbox.",
-    "failed": "Failed to resend verification email."
-  },
-  "error": {
-    "missing": "Please enter your credentials.",
-    "invalid": "Invalid username or password",
-    "denied": "Access denied.",
-    "unprocessable": "Invalid request. Check your username/email and password.",
-    "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
-    "premiumRequired": "This action requires a Premium plan."
-  },
-  "forgotPassword": {
-    "title": "Forgot Password",
-    "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
-    "emailLabel": "Email",
-    "emailPlaceholder": "you@example.com",
-    "emailInvalid": "Please enter a valid email address.",
-    "genericError": "Unable to process request. Please try again in a moment.",
-    "sending": "Sending reset link...",
-    "sendCta": "Send Reset Link",
-    "sentLabel": "Sent!",
-    "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
-    "previewDev": "Preview Email (Dev)",
-    "backToLogin": "Back to Login"
-  },
-  "resetPassword": {
-    "title": "Reset Password",
-    "missingToken": "Invalid or missing password reset token.",
-    "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
-    "passwordMismatch": "Passwords do not match",
-    "success": "Your password has been reset successfully",
-    "genericError": "Error: Unable to reset password.",
-    "newPasswordLabel": "New password",
-    "newPasswordPlaceholder": "Enter your new password",
-    "confirmPasswordLabel": "Confirm new password",
-    "confirmPasswordPlaceholder": "Re-enter your new password",
-    "resetting": "Resetting...",
-    "submit": "Reset Password",
-    "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
-  }
-}
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
   },
   "oauth": {
     "completing": "Completing sign-in…"
@@ -1572,6 +1576,7 @@
     "sendError": "Could not send. Email support@chatforia.com instead.",
     "actionCompleted": "Action completed.",
     "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
     "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
     "genericError": "Something went wrong. Please try again.",
     "analyzing": "Analyzing your issue...",
@@ -1626,7 +1631,7 @@
       "or": "or",
       "login": "log in",
       "loginText": "with your existing account.",
-      "prefsStart": "Set your",
+      "prefsStart": "In the app, open Settings to set your preferences",
       "prefsLink": "preferences",
       "prefsRest": "(language, read receipts, themes)."
     },
@@ -1639,11 +1644,13 @@
     "section3": {
       "title": "3) Go further",
       "item1": "You can upgrade to a paid plan anytime inside the app.",
-      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
     "cta": {
-      "seePlans": "See plans",
-      "openSettings": "Open settings"
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
     }
   },
   "howItWorks": {
@@ -1719,6 +1726,31 @@
       "post1": "How to Chat Safely Online",
       "post2": "The Future of Global Communication",
       "post3": "Why Messaging Platforms Matter"
+    },
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
+      },
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
+      },
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
+      },
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
+      },
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
     }
   },
   "about": {
@@ -1940,5 +1972,36 @@
   },
   "premiumGuard": {
     "requiresPremium": "This feature requires a Premium plan."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
+    },
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
+    },
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
+    },
+    "help": {
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
+    },
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "footer": "© 2026 Chatforia Inc."
   }
 }

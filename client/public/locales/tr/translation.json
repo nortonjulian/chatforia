@@ -7,7 +7,7 @@
     "cancelAria": "İptal",
     "copy": "Kopyala",
     "copied": "Kopyalandı!",
-    "errorWithMessage": "Hata: {{message}}",
+    "errorWithMessage": "Hata: { {message}}",
     "loading": "Yükleniyor…",
     "saveError": "Kaydetme başarısız"
   },
@@ -21,19 +21,19 @@
   "keys": {
     "backupCreated": "Anahtar yedeği oluşturuldu ve indirildi ✓",
     "restored": "Anahtar yedeği geri yüklendi ✓ Anahtarlar yerel olarak yüklendi",
-    "noBackup": "Bu hesap için şifrelenmiş yedek yok",
+    "noBackup": "Bu hesap için şifrelenmiş bir yedek mevcut değil",
     "missingPublicKey": "Yedekte bir açık anahtar eksik"
   },
   "keySetup": {
     "title": "Cihaz anahtarlarınızı kurun",
-    "description": "Bu cihazda henüz özel anahtarınız yok. Parola korumalı bir yedeği içe aktarın veya yeni bir anahtar çifti oluşturun (bundan sonra yeni mesajları okuyabileceksiniz). ",
-    "chooseFile": "Bir dosya seçin ve şifreyi girin.",
+    "description": "Bu cihazda henüz özel anahtarınız yok. Parola korumalı bir yedeği içe aktarın veya yeni bir anahtar çifti oluşturun (bundan sonra yeni mesajları okuyabileceksiniz).",
+    "chooseFile": "Bir dosya seçin ve parolayı girin.",
     "imported": "Özel anahtar bu cihaza aktarıldı. Artık eski mesajları okuyabilirsiniz.",
     "enterPassword": "Anahtarlarınızı güvenli bir şekilde yedekleyebilmemiz için hesap şifrenizi girin."
   },
   "encryptionRecovery": {
     "title": "Şifrelemeyi Yönet",
-    "description": "Yedekleyin, geri yükleyin, kilidi açın veya sıfırlayın.",
+    "description": "Şifreleme anahtarınızı yedekleyin, geri yükleyin, kilidini açın veya sıfırlayın.",
     "alert": {
       "keyRequiredTitle": "Şifreleme anahtarı gerekli",
       "keyRequiredBody": "Bu tarayıcı şu anda şifrelenmiş mesajlarınızı çözemez. Devam etmek için anahtarınızı geri yükleyin, kilidini açın veya sıfırlayın."
@@ -67,53 +67,61 @@
     },
     "actions": {
       "unlockKey": "Şifreleme anahtarının kilidini aç",
-      "restoreFromBackup": "Hesap yedeklemesinden geri yükle",
+      "restoreFromBackup": " Hesap yedeklemesinden geri yükle",
       "resetEncryption": "Şifrelemeyi sıfırla"
     },
     "messages": {
       "backupCreated": "Anahtar yedeklemesi oluşturuldu ve indirildi.",
-      "keyUnlocked": "Şifreleme anahtarının kilidi açıldı.",
-      "keyRestored": "Anahtar hesap yedeklemesinden geri yüklendi.",
+      "keyUnlocked": "Şifreleme anahtarı kilidi açıldı.",
+      "keyRestored": "Anahtar, hesap yedeklemesinden geri yüklendi.",
       "resetSuccess": "Şifreleme başarıyla sıfırlandı."
     },
     "errors": {
       "restoreIncomplete": "Bu hesap için anahtar geri yüklemesi eksik veya hatalı",
       "noBackup": "Bu hesap için şifrelenmiş yedekleme mevcut değil",
-      "missingPublicKey": "Yedeklemede bir açık anahtar eksik",
-      "noServerPublicKey": " Bu hesap şu anda bir sunucu açık anahtarı sunmuyor",
-      "serverBackupMismatch": "Sunucu yedeği mevcut hesap şifreleme anahtarıyla eşleşmiyor",
-      "incompleteMetadata": "Yedek metaveri eksik",
-      "resetIncomplete": "Şifreleme sıfırlama işlemi doğru şekilde tamamlanmadı"
+      "missingPublicKey": "Yedeklemede bir genel anahtar eksik",
+      "noServerPublicKey": "Bu hesap şu anda bir sunucu genel anahtarı göstermiyor",
+      "serverBackupMismatch": "Sunucu yedeklemesi mevcut hesap şifreleme anahtarıyla eşleşmiyor",
+      "incompleteMetadata": "Yedekleme meta verileri eksik",
+      "resetIncomplete": "Şifreleme sıfırlama işlemi doğru şekilde tamamlanmadı "
     },
     "confirm": {
-      "reset": "Bu hesabın şifrelemesini sıfırlamak istiyor musunuz?\n\nDaha sonra orijinal anahtarı geri yüklemezseniz, eski şifrelenmiş mesajlar okunamaz hale gelebilir."
+      "reset": "Bu hesabın şifrelemesini sıfırlamak istiyor musunuz?\n\nDaha sonra orijinal anahtarı geri yüklemezseniz, eski şifreli mesajlar okunamaz hale gelebilir."
     },
-    "resetDescription": "Bu işlem, hesabınız için yeni bir şifreleme anahtarı oluşturur. Daha sonra orijinal anahtarı geri yüklemezseniz, eski şifrelenmiş mesajlar okunamaz hale gelebilir."
+    "resetDescription": "Bu işlem, hesabınız için yeni bir şifreleme anahtarı oluşturur. Daha sonra orijinal anahtarı geri yüklemezseniz, eski şifreli mesajlar okunamaz hale gelebilir."
+  },
+  "smsConsent": {
+    "label": "{{companyName}}'den SMS bildirimleri ve uyarıları almayı kabul ediyorum. Mesaj sıklığı değişebilir. Mesaj ve veri ücretleri uygulanabilir. Aboneliği istediğiniz zaman iptal etmek için <stop>STOP</stop> yazıp gönderin. Yardım için <help>HELP</help> yazıp gönderin."
+  },
+  "phoneField": {
+    "label": "Telefon",
+    "invalid": "Geçersiz telefon numarası",
+    "hint": "Gerekirse ülke kodunu ekleyin (ör. +1 415…)"
   },
   "auth": {
-    "headline": " Herkes için, her yerde güvenli mesajlaşma",
+    "headline": "Herkes için, her yerde güvenli mesajlaşma",
     "description": "Uçtan uca şifreleme, 100'den fazla dile çeviri, kaybolan mesajlar ve sesli/görüntülü arama.",
     "feature": {
       "encryption": "Varsayılan olarak uçtan uca şifreleme",
       "translation": "Akıllı, yerleşik mesaj çevirisi",
       "disappearing": "Kaybolan mesajlar ve okundu bilgisi",
-      "privacy": "Önce gizlilik. Verileriniz, kontrol sizde.",
+      "privacy": "Gizlilik öncelikli. Verileriniz, kontrol sizde.",
       "translate": "Akıllı, yerleşik mesaj çevirisi",
       "disappear": "Kaybolan mesajlar",
       "privacyAlt": "Gizlilik öncelikli tasarım",
       "seePlans": "Planları ve fiyatları görün"
     },
     "hero": {
-      "line1": "Herkes için güvenli mesajlaşma, her yerde — ile",
+      "line1": "Herkes için, her yerde güvenli mesajlaşma — ile",
       "em": "100'den fazla dile çeviri",
       "sub": "Wi-Fi veya veri üzerinden dünya çapında arama ve mesajlaşma için ücretsiz güvenli bir telefon numarası alın. Sınırların ötesinde bağlantıda kalmanıza yardımcı olan yerleşik araçlarla uçtan uca şifreleme, kaybolan mesajlar ve HD sesli/görüntülü aramaların keyfini çıkarın.",
-      "freeNote": "Temel arama ve mesajlaşma ücretsizdir. Gelişmiş AI ve premium özellikler için yükseltme gerekir. "
+      "freeNote": "Temel arama ve mesajlaşma ücretsizdir. Gelişmiş AI ve premium özellikler için yükseltme gerekir."
     },
     "feat": {
-      "encryption": "Uçtan uca şifreleme, her zaman açık",
+      "encryption": "Her zaman açık uçtan uca şifreleme",
       "translate": "Konuşmalarınızda dil engellerini aşın",
       "disappear": "Kaybolan mesajlar ve okundu bilgisi",
-      "privacy": "Gizlilik öncelikli. Verileriniz, kontrol sizde."
+      "privacy": "Önce gizlilik. Verileriniz, kontrol sizde."
     },
     "continueGoogle": "Google ile devam et",
     "continueApple": "Apple ile devam et",
@@ -125,16 +133,16 @@
     "createAccount": "Hesap oluştur",
     "freeAccountButton": "Ücretsiz hesap oluştur",
     "newHere": "Burada yeni misiniz?",
-    "getApp": "Uygulamayı indirin",
-    "desktopTip": "Masaüstü bilgisayar mı kullanıyorsunuz? Uygulamayı indirmek için telefonunuzla tarayın.",
-    "scanHelper": "Masaüstü mü? Uygulamayı indirmek için telefonunuzla tarayın.",
+    "getApp": "Uygulamayı indir",
+    "desktopTip": "Masaüstü mü kullanıyorsunuz? Uygulamayı indirmek için telefonunuzla tarayın.",
+    "scanHelper": "Masaüstü mü kullanıyorsunuz? Uygulamayı indirmek için telefonunuzla tarayın.",
     "goHome": "Ana sayfaya git",
-    "home": "Ana sayfa",
+    "home": "Ana Sayfa",
     "headlineAlt": {
-      "main": "Sizin dilinizi konuşan",
+      "main": "Dilinizi konuşan",
       "highlight": "güvenli mesajlaşma uygulaması"
     },
-    "subhead": "Anında özel, şifreli ve çevrilmiş mesajlaşma.",
+    "subhead": "Gizli, şifreli ve çevrilmiş mesajlaşma — anında.",
     "upgrade": "Şimdi yükselt",
     "tip": "İpucu: Web ve mobilde aynı hesabı kullanın. Mesajlarınız senkronize kalır.",
     "openDownload": "İndirme sayfasını aç",
@@ -146,28 +154,28 @@
     "androidAria": "Google Play'den indir",
     "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Google Play rozeti",
-    "login": "Giriş Yap",
+    "login": "Giriş",
     "signup": "Kaydol",
     "email": "E-posta",
     "registration": {
       "passwordDescription": "En az 6 karakter. Güçlü ve benzersiz bir şifre kullanın.",
-      "smsConsent": "Bir hesap oluşturarak, Chatforia etkinliğinizle ilgili SMS bildirimlerini (diğer kullanıcılardan gelen mesajlar gibi) almayı kabul edersiniz. Mesaj ve veri ücretleri uygulanabilir. Ayarlar'dan istediğiniz zaman bu seçeneği devre dışı bırakabilirsiniz.",
+      "smsConsent": "Hesap oluşturarak, Chatforia etkinliğinizle ilgili SMS bildirimlerini (diğer kullanıcılardan gelen mesajlar gibi) almayı kabul edersiniz. Mesaj ve veri ücretleri uygulanabilir. Ayarlar'dan istediğiniz zaman bu seçeneği devre dışı bırakabilirsiniz.",
       "termsLink": "Hizmet Şartları",
-      " privacyLink": "Gizlilik Politikası"
+      "privacyLink": "Gizlilik Politikası"
     },
     "to": "Kime:",
     "enterRecipient": "Bir isim veya numara girin",
     "clearRecipients": "Alıcıları temizle",
-    "sms": " SMS",
+    "sms": "SMS",
     "chatforia": "Chatforia",
     "typeMessage": "Bir mesaj yazın…",
-    "addRecipient": "Başlamak için yukarıya bir alıcı ekleyin…",
-    "oneRecipient": "Lütfen şimdilik tek bir alıcı girin.",
+    "addRecipient": "Başlamak için yukarıdan bir alıcı ekleyin…",
+    "oneRecipient": "Lütfen şimdilik bir alıcı girin.",
     "enterValidRecipient": "Kaydedilmiş bir kişi adı veya telefon numarası girin.",
-    "sendFailed": "Gönderme başarısız. Ayrıntılar için konsolu kontrol edin."
+    "sendFailed": "Gönderme başarısız. Ayrıntılar için konsola bakın."
   },
   "home": {
-    "title": "Ana Sayfa",
+    "\n \ntitle": "Ana Sayfa",
     "messagesTitle": "Mesajlarınız",
     "messagesSubtitle": "Yukarıya bir alıcı girin, ardından mesaj göndererek sohbeti başlatın.",
     "subheader": "Sohbeti başlatmak için mesaj gönderin.",
@@ -180,17 +188,17 @@
     "sendTooltip": "Gönder",
     "sendTooltipEmpty": "Göndermek için bir mesaj yazın",
     "send": "Gönder",
-    "enterRecipient": "Bir ad veya numara girin",
-    "addRecipient": "Başlamak için yukarıya bir alıcı ekleyin…",
     "welcomeMessage": "Chatforia'ya hoş geldiniz",
     "getStarted": "Başlayın",
-    "mixedRecipients": "Karışık alıcılar tespit edildi. Ya tüm telefon numaralarını (SMS) ya da tüm kullanıcı adlarını (Chatforia) kullanın.",
+    "mixedRecipients": "Karışık alıcılar algılandı. Ya tüm telefon numaralarını (SMS) ya da tüm kullanıcı adlarını (Chatforia) kullanın.",
+    "enterRecipient": "Bir isim veya numara girin",
+    "addRecipient": "Başlamak için yukarıya bir alıcı ekleyin…",
     "needNumber": "SMS göndermeden önce bir Chatforia numarasına ihtiyacınız var.",
     "chooseNumber": "Bir numara seçin"
   },
   "sidebar": {
     "randomChat": "Rastgele Sohbet",
-    "callTextForwarding": "Arama ve Mesaj Yönlendirme",
+    "callTextForwarding": "Arama ve Mesaj Yönlendirme ",
     "conversations": "Sohbetler",
     "searchPlaceholder": "Sohbetleri ara...",
     "errorLoading": "Sohbetler yüklenemedi",
@@ -204,9 +212,9 @@
     "search": "Sohbetleri ara",
     "loginPrompt": "Ayarlarını düzenlemek için giriş yap.",
     "login": "Giriş yap",
-    "register": " Hesap oluştur",
+    "register": "Hesap oluştur",
     "chatrooms": "Sohbet odaları",
-    "logout": "Çık",
+    "logout": "Oturumu kapat",
     "startChatAlt": "Yeni sohbet başlat",
     "calls": "Aramalar",
     "video": "Video",
@@ -219,27 +227,27 @@
     "createStatusAria": "Yeni Durum Oluştur"
   },
   "footer": {
-    "plans": "Planlar ve Fiyatlandırma",
+    "plans": "Planlar ve Fiyatlar",
     "about": "Chatforia Hakkında",
-    "careers": "Kariyer",
+    "careers": " Kariyer",
     "press": "Basın",
-    "advertise": "Reklam Ver",
+    "advertise": "Reklam Verin",
     "contact": "Bize Ulaşın",
-    "help": "Yardım Merkezi",
+    "help": " Yardım Merkezi",
     "status": "Durum Sayfası",
     "iosDownload": "iOS / App Store",
-    "androidDownload": " Android / Google Play",
+    "androidDownload": "Android / Google Play",
     "privacy": "Gizlilik Politikası",
     "terms": "Hizmet Şartları",
     "cookies": "Çerez Ayarları",
     "doNotSell": "Bilgilerimi Satmayın",
     "language": "Dil",
-    "contactShort": "İletişim ",
+    "contactShort": "İletişim",
     "aria": "Altbilgi",
     "homeAria": "Chatforia ana sayfası",
     "section": {
       "company": "ŞİRKET",
-      "support": "DESTEK",
+      "support": "DESTEK ",
       "downloads": "İNDİRMELER",
       "legal": "YASAL"
     },
@@ -248,23 +256,27 @@
       "about-chatforia": "Chatforia Hakkında",
       "careers": "Kariyer",
       "press": "Basın",
-      "reklam": "Reklam",
-      "başlangıç": "Başlangıç",
+      "advertise": "Reklam",
+      " başlangıç": "Başlangıç",
       "yardım-merkezi": "Yardım Merkezi",
       "bize-ulaşın": "Bize Ulaşın",
       "durum-sayfası": "Durum Sayfası",
-      "ios-app-store": " iOS / App Store",
+      "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "Gizlilik Politikası",
-      "terms-of-service": "Hizmet Şartları",
+      "gizlilik-politikası": "Gizlilik Politikası",
+      "hizmet-şartları -service": "Hizmet Şartları",
       "do-not-sell-my-info": "Bilgilerimi Satmayın",
-      "cookie-settings": "Çerez Ayarları"
+      "cookie-settings": "Çerez Ayarları",
+      "how-it-works": "Nasıl Çalışır",
+      "blog": "Blog",
+      "refund-policy": "İade Politikası",
+      "sms-policy": "SMS Mesajlaşma Politikası"
     },
     "social": {
       "tiktok": "TikTok",
       "instagram": "Instagram",
       "facebook": "Facebook",
-      "linkedin": "LinkedIn",
+      "linkedin": " LinkedIn",
       "x": "X"
     },
     "copyright": "© Chatforia",
@@ -274,9 +286,9 @@
   "chat": {
     "selectPrompt": "Sohbete başlamak için bir metin veya sohbet odası seçin",
     "newMessages": "Yeni mesajlar",
-    "typing": "{{name}} yazıyor...",
+    "typing": "{{name }} yazıyor...",
     "emptyTitle": "Mesajlarınız",
-    "emptySubtitle": "Sohbete başlamak için bir mesaj gönderin.",
+    "emptySubtitle": "Sohbeti başlatmak için bir mesaj gönder.",
     "startChatButton": "Mesaj gönder",
     "mediaAttachment": "Medya eki",
     "thisUser": "bu kullanıcı",
@@ -284,7 +296,7 @@
     "blockedUser": "{{name}} engellendi.",
     "blockError": "Engellenecek hedef kullanıcı belirlenemedi.",
     "blockFailed": "Engelleme başarısız (arka uç henüz bağlanmadı).",
-    "encryptedUnavailable": "Şifreli mesaj (anahtar mevcut değil)",
+    "encryptedUnavailable": "Şifrelenmiş mesaj (anahtar mevcut değil)",
     "unlockToView": "Bu mesajı görüntülemek için anahtarınızın kilidini açın"
   },
   "messageInput": {
@@ -293,12 +305,10 @@
     },
     "freeLimit": "Ücretsiz plan sınırı: 1 güne kadar otomatik silme. 1 güne sınırlandırıldı.",
     "premiumLimit": "Premium için maksimum otomatik silme süresi 30 gündür. 30 güne sınırlandırıldı.",
-    "nothingToSend": "Göndermek için bir mesaj yazın veya dosya ekleyin.",
+    "\n \nnothingToSend": "Göndermek için bir mesaj yazın veya dosya ekleyin.",
     "encryptionFailed": "Şifreleme başarısız. Mesaj gönderilmedi.",
     "sent": "Mesaj teslim edildi.",
-    "placeholder": "Mesaj yazın…",
-    "voiceAdded": "Sesli not eklendi",
-    "attachmentAdded": "Ek eklendi",
+    "placeholder": "Bir mesaj yazın… ",
     "autoDelete": "Otomatik silme",
     "typeToSend": "Göndermek için mesaj yazın",
     "send": "Gönder",
@@ -314,11 +324,11 @@
       "unsupportedFile": "Desteklenmeyen dosya türü.",
       "rateLimit": "Mesajları çok hızlı gönderiyorsunuz. Lütfen hızınızı azaltın.",
       "validation": "Doğrulama hatası. Lütfen mesajınızı kontrol edin ve tekrar deneyin.",
-      "failedToSend": "Gönderilemedi. Gönderilemeyen balonu tekrar deneyebilirsiniz."
+      "failedToSend": "Gönderilemedi. Başarısız olan balonu yeniden deneyebilirsiniz."
     }
   },
   "threadActions": {
-    "threadMenu": "Konuşma menüsü",
+    "threadMenu": "Konu menüsü",
     "premium": "Premium",
     "aiPower": "AI Power",
     "schedule": "Zamanla",
@@ -327,17 +337,15 @@
     "thread": "Konuşma",
     "about": "Hakkında",
     "search": "Ara",
-    "media": " Medya",
+    "media": "Medya",
     "invitePeople": "Kişileri davet et",
     "roomSettings": "Oda ayarları",
     "clearConversation": "Sohbeti temizle",
-    "clearConversationForMe": "Benim için temizle",
-    "clearConversationForEveryone": "Herkes için temizle",
     "block": "Engelle"
   },
   "roomSearch": {
-    "title": "Odada ara",
-    "ariaLabel": "Odada ara",
+    "title": "Oda içinde ara",
+    "ariaLabel": "Oda içinde ara",
     "search": "Ara",
     "searchMessages": "Mesajları ara",
     "noText": "[Metin yok]",
@@ -346,7 +354,7 @@
   "roomSettings": {
     "roles": {
       "member": "Üye",
-      "moderator": "Moderatör",
+      "moderator": " Moderatör",
       "admin": "Yönetici"
     },
     "aiMode": {
@@ -369,9 +377,9 @@
     "openVideoWithCaption": "Videoyu aç: {{caption}}",
     "preview": "Önizleme",
     "previewWithCaption": "Önizleme: {{caption}}",
-    "previewKind": "Önizleme {{kind}}",
+    "previewKind": "{{kind}} önizlemesi",
     "download": "İndir",
-    "downloadKind": "İndir {{kind}}",
+    "downloadKind": "{{kind}} indir",
     "file": "dosya",
     "kinds": {
       "image": "resim",
@@ -387,7 +395,7 @@
     "createTitle": "Durum oluştur",
     "modalAriaLabel": "Yeni durum",
     "captionLabel": "Aklında ne var?",
-    "captionPlaceholder": "Bir güncelleme paylaş...",
+    "captionPlaceholder": "Bir güncelleme paylaş.. .",
     "captionAria": "Durum mesajı",
     "audienceLabel": "Hedef kitle",
     "audience": {
@@ -405,7 +413,7 @@
     "chooseRecipients": "Alıcıları seç",
     "selectContacts": "Kişileri seç",
     "attachmentsLabel": "Ekler",
-    "attachmentsPlaceholder": "Resim/video ekle",
+    "attachmentsPlaceholder": "Görseller/videolar ekle",
     "filesNote": "En fazla 5 dosya. Varsayılan olarak 24 saat sonra sona erer.",
     "postAria": "Durum güncelle",
     "post": "Gönder"
@@ -414,10 +422,10 @@
     "pageTitle": "Sesli mesaj",
     "from": "Gönderen",
     "to": "Alıcı",
-    "unknownCaller": "Bilinmiyor",
+    "unknownCaller": "Bilinmeyen",
     "yourNumber": "Chatforia numaranız",
-    "durationSeconds": "{{count}} saniye",
-    "audioAria": "Sesli mesaj ses oynatıcı",
+    "durationSeconds": " {{count}} saniye",
+    "audioAria": "Sesli mesaj ses çaları",
     "transcriptHeading": "Transkript",
     "transcriptPending": "Sesli mesaj transkripsiyonu yapılıyor…",
     "transcriptFailed": "Transkript mevcut değil.",
@@ -425,7 +433,7 @@
     "errorLoading": "Sesli mesaj yüklenemedi.",
     "empty": "Henüz sesli mesaj yok.",
     "deleteConfirm": "Bu sesli mesajı silmek istiyor musunuz?",
-    "deleteError": "Sesli mesaj silinemedi.",
+    "deleteError": "Sesli mesaj silinemed.",
     "markRead": "Okundu olarak işaretle",
     "delete": "Sil",
     "unreadDotAria": "Okunmamış sesli mesaj göstergesi"
@@ -433,18 +441,18 @@
   "contactList": {
     "savedContacts": "Kaydedilen Kişiler",
     "refreshAria": "Kişileri yenile",
-    "filterPlaceholder": "Kaydedilmiş kişileri filtrele…",
-    "filterAria": "Kaydedilmiş kişileri filtrele",
+    "filterPlaceholder": "Kaydedilen kişileri filtrele…",
+    "filterAria": "Kaydedilen kişileri filtrele",
     "noContactsFound": "Kişi bulunamadı.",
-    "externalContact": "Harici kişi",
-    "notJoined": "Bu kişi henüz Chatforia'ya katılmadı. ",
+    "externalContact": "Dış kişi",
+    "notJoined": "Bu kişi henüz Chatforia'ya katılmadı.",
     "couldNotStart": "Sohbet başlatılamadı. Lütfen tekrar deneyin.",
-    "startFailed": "Sohbet başlatılamadı. Lütfen tekrar deneyin.",
+    "startFailed": "Sohbet başlatılamadı. Lütfen tekrar deneyin. ",
     "deleted": "Kişi silindi.",
     "deleteFailed": "Kişi silinemedi. Lütfen tekrar deneyin.",
     "aliasUpdated": "Takma ad güncellendi.",
     "updateAliasFailed": "Takma ad güncellenemedi. Lütfen tekrar deneyin.",
-    "selectContact": "{{name}}'ı seç",
+    "selectContact": "{{name}}'i seç",
     "alias": "Takma ad",
     "startChat": "Sohbeti başlat",
     "message": "Mesaj",
@@ -452,20 +460,20 @@
     "deleteContactAria": "Kişiyi sil",
     "loadFailed": "Kişiler yüklenemedi. Lütfen tekrar deneyin.",
     "loadMore": "Daha fazlasını yükle",
-    "call": "Arama ",
+    "call": "Arama",
     "callStarted": "Chatforia numaranız üzerinden bu numarayı arıyoruz…",
     "callFailed": "Arama başlatılamadı. Lütfen tekrar deneyin."
   },
   "addContactModal": {
     "title": "Kişi ekle",
-    "phoneOrUsername": "Telefon veya kullanıcı adı",
+    "phoneOrUsername": "Telefon numarası veya kullanıcı adı",
     "phoneOrUsernamePlaceholder": "ör. +13018019227 veya juliannorton",
     "alias": "Takma ad (isteğe bağlı)",
-    "takmaAdYerTutucu": "örn. İş, Anne, Mike – Avrupa",
-    "telefonNumarasıVeyaKullanıcıAdıGir": "Bir telefon numarası veya kullanıcı adı girin.",
-    "kullanıcıAramasıBaşarısız": "Kullanıcı araması başarısız.",
-    "kendiniEkleYemez": "Kendinizi kişi olarak ekleyemezsiniz.",
-    "eklemeBaşarısız": "Kişi eklenemedi.",
+    "aliasPlaceholder": "ör. ör. İş, Anne, Mike – Avrupa",
+    "enterPhoneOrUsername": "Bir telefon numarası veya kullanıcı adı girin.",
+    "userLookupFailed": "Kullanıcı araması başarısız.",
+    "cannotAddSelf": "Kendinizi kişi olarak ekleyemezsiniz.",
+    "failedToAdd": "Kişi eklenemedi.",
     "add": "Ekle"
   },
   "startChatModal": {
@@ -484,19 +492,19 @@
     },
     "quickPicker": "Hızlı seçici",
     "to": "Kime",
-    "nameOrUsername": "Bir isim, kullanıcı adı yazın",
-    "nameUsernamePhoneEmail": "Bir isim, kullanıcı adı, telefon numarası veya e-posta adresi girin…",
+    "nameOrUsername": "Bir isim veya kullanıcı adı yazın",
+    "nameUsernamePhoneEmail": "Bir isim, kullanıcı adı, telefon numarası veya e-posta adresi yazın…",
     "startWithSelected": "Seçilen kişiyle sohbeti başlat",
     "searchByUsernameOrPhone": "Kullanıcı adı veya telefon numarasıyla ara",
-    " search": "Ara",
-    "searchPrompt": "Bir kullanıcı adı veya telefon numarası girin ve Ara'ya basın.",
+    "search": "Ara",
+    "searchPrompt": " Bir kullanıcı adı veya telefon numarası girin ve Ara'ya basın.",
     "pickFromContacts": "Veya kişilerden seçin",
     "addContact": "Kişi ekle",
     "show": "Göster",
     "add": "Ekle",
     "close": "Kapat",
     "selectedCount": "{{count}} seçildi",
-    "pickAtLeastOne": "En az bir alıcı seçin. ",
+    "pickAtLeastOne": "En az bir alıcı seçin.",
     "saveContactsHint": "Telefon/e-posta girişleri, bunları kişi olarak kaydettikten sonra kullanılabilir hale gelecektir.",
     "failedBulkStart": "Seçilen alıcılarla sohbet başlatılamadı.",
     "noResults": "Sonuç yok",
@@ -506,44 +514,44 @@
     "groupNameOptional": "Grup adı (isteğe bağlı)",
     "firstMessageOptional": "İlk mesaj (isteğe bağlı ancak önerilir)",
     "createGroup": "Grup oluştur",
-    "sendBroadcast": "Yayını gönder"
+    "sendBroadcast": "Yayın gönder"
   },
   "peoplePage": {
     "people": "Kişiler",
     "search": "Ara",
     "searchPlaceholder": "Kaydedilmiş kişileri takma ad, ad, kullanıcı adı veya telefon numarasına göre ara",
     "quickStart": "Hızlı başlangıç",
-    "quickStartDesc": "Kişilerinizi yönetin ve arkadaşlarınızı davet edin.",
-    "importContacts": "Kişilerinizi içe aktarın",
+    "quickStartDesc": "Kişilerini yönet ve arkadaşlarını davet et.",
+    "importContacts": "Kişilerini içe aktar",
     "import": "İçe aktar",
     "addContact": "Kişi ekle",
     "add": "Ekle",
-    " inviteFriends": "Arkadaşlarını davet et",
+    "inviteFriends": "Arkadaşlarını davet et",
     "inviteDesc": "Davet bağlantını paylaşarak anında sohbet etmeye başla.",
     "getTheApp": "Uygulamayı indir",
     "getTheAppDesc": "iOS ve Android için Chatforia ile hareket halindeyken de bağlantıda kal.",
     "download": "İndir",
-    "syncTip": "İpucu: Mesajların web ve mobil cihazlar arasında senkronize kalır.",
+    "syncTip": "İpucu: Mesajlarınız web ve mobil cihazlar arasında senkronize kalır.",
     "filterSaved": "Kaydedilen kişileri filtrele",
     "noContactsFound": "Kişi bulunamadı",
     "focusSearch": "Odaklanmış Arama",
-    "findOrAdd": " Birini bul veya ekle",
+    "findOrAdd": "Birini bul veya ekle",
     "searchByPhoneOrUsername": "Telefon / kullanıcı adına göre ara"
   },
   "profile": {
     "title": "Kullanıcı Profili",
     "preferredLanguage": "Tercih edilen dil",
-    "chooseLanguage": "Bir dil seç",
+    "chooseLanguage": "Dil seç",
     "mustLogin": "Ayarları görüntülemek için oturum açmalısınız.",
     "autoTranslate": "Mesajları otomatik olarak çevir",
     "showOriginalWithTranslation": "Orijinal ve çevrilmiş mesajları göster",
-    "showOriginalAndTranslation": "Orijinali çevirinin yanında göster",
+    "showOriginalAndTranslation": "Çevirinin yanında orijinali göster",
     "filterExplicit": "Müstehcen içeriği filtrele",
     "aiReply": "AI yanıtı",
-    "enableReadReceipts": "Okundu bilgisini etkinleştir",
+    "enableReadReceipts": "Okundu bildirimlerini etkinleştir",
     "allowExplicitContent": "Müstehcen içeriğe izin ver",
     "disappearingMessages": "Kaybolan mesajları etkinleştir",
-    "autoDeleteSeconds": "Otomatik silinmeye kadar kalan saniye",
+    "autoDeleteSeconds": "Otomatik silinmeye kalan saniye",
     "saveSuccess": "Ayarlar kaydedildi!",
     "saveError": "Hata: Ayarlar kaydedilemedi",
     "avatarAlt": "Profil avatarı",
@@ -555,14 +563,14 @@
     "noPrivateKey": "Bu cihazda dışa aktarılacak özel anahtar yok.",
     "setBackupPassword": "Yedeklemenizi şifrelemek için bir şifre belirleyin:",
     "backupDownloaded": "Şifrelenmiş yedekleme indirildi.",
-    "exportFailed": "Anahtar dışa aktarma başarısız",
+    "exportFailed": "Anahtar dışa aktarımı başarısız",
     "enterBackupPassword": "Bu yedekleme için şifreyi girin:",
     "importSuccess": "Özel anahtar bu cihaza içe aktarıldı.",
-    "importFailed": "Anahtarı içe aktaramadı (yanlış şifre veya bozuk dosya).",
+    "importFailed": "Anahtar içe aktarılmadı (yanlış şifre veya bozuk dosya).",
     "keysRotated": "Yeni anahtar çifti oluşturuldu ve açık anahtar yüklendi.",
     "rotateFailed": "Anahtarları döndürme başarısız.",
     "security": "Güvenlik",
-    "exportKey": " Şifreleme Anahtarını Yedekle",
+    "exportKey": "Şifreleme Anahtarını Yedekle",
     "importKey": "Şifreleme Anahtarını Geri Yükle",
     "rotateKeys": "Şifreleme Anahtarını Döndür",
     "keyDisclaimer": "Özel anahtarınız bu cihazdan asla çıkmaz. Başka bir cihazda geri yüklemek için şifre korumalı bir kopyasını dışa aktarın.",
@@ -576,44 +584,44 @@
     "accessibility": "Erişilebilirlik",
     "privacy": "Gizlilik",
     "devices": "Bağlı cihazlar",
-    "themeFreeNotice": " Ücretsiz sürümü kullanıyorsunuz — aşağıdaki hızlı Güneş/Ay seçeneklerini kullanın. Daha fazla temanın kilidini açmak için yükseltin.",
+    "themeFreeNotice": "Ücretsiz sürümdesiniz—aşağıdaki hızlı Güneş/Ay seçeneklerini kullanın. Daha fazla temanın kilidini açmak için yükseltin.",
     "sunTheme": "Şafak teması kullan",
     "moonTheme": "Ay (Gece yarısı) teması kullan",
     "sun": "Güneş",
     "moon": "Ay",
     "backupTitle": "Şifreli Yedeklemeler ve Cihaz Senkronizasyonu",
-    "openBackupTools": "Yedekleme Araçlarını Aç",
-    "backupDesc": "Mesajlarınızı başka bir cihazda güvenli bir şekilde geri yüklemek için şifreleme anahtarınızı yedekleyin.",
-    "privacyBlurEnabled": "Varsayılan olarak mesajları bulanıklaştır",
+    "openBackupTools": " Yedekleme Araçlarını Aç",
+    "backupDesc": "Mesajlarınızı başka bir cihazda güvenli bir şekilde geri yüklemek için şifreleme anahtarınızı yedekleyin. ",
+    "privacyBlurEnabled": "Mesajları varsayılan olarak bulanıklaştır",
     "privacyBlurOnUnfocus": "Uygulama odak dışı kaldığında bulanıklaştır",
     "planSection": "Planım",
     "planLoading": "Planınız yükleniyor…",
-    "planLoadFailed": "Planınız yüklenemedi.",
+    "planLoadFailed": "Planınız yüklenemedi. ",
     "currentPlan": "Mevcut plan",
     "planRenewsOn": "Şu tarihte yenilenir",
-    "freePlanCopy": "Ücretsiz plandasınız. Yedekleme, ekstra numaralar ve gelişmiş gizlilik seçenekleri gibi daha fazla özelliğin kilidini açmak için yükseltin.",
+    "freePlanCopy": "Ücretsiz plan kullanıyorsunuz. Yedekleme, ekstra numaralar ve gelişmiş gizlilik seçenekleri gibi daha fazla özelliğin kilidini açmak için yükseltin.",
     "upgradePlanCta": "Planı yükselt",
     "changePlanCta": "Planı değiştir",
     "manageBilling": "Faturalandırmayı yönet",
-    "portalOpenFailed": "Faturalandırma portalı açılamadı. Lütfen tekrar deneyin.",
+    "portalOpenFailed": "Fatura portalı açılamadı. Lütfen tekrar deneyin.",
     "holdToReveal": "Göstermek için basılı tutun",
     "notifyOnCopy": "Mesajım kopyalanırsa bana bildir",
     "loadFailed": "Profil yüklenemedi",
-    "followed": "Takip Edilenler",
+    "followed": "Takip edildi",
     "followFailed": "Takip edilemedi",
-    "unfollowed": "Takibi bırakıldı",
+    "unfollowed": "Takipten çıkıldı",
     "unfollowFailed": "Takibi bırakılamadı",
     "follow": "Takip et",
     "unfollow": "Takibi bırak",
-    "followHint": "Takipçiler (veya Herkese Açık) kitlesiyle paylaşım yaparlarsa hikayeleri Takip Edilenler akışında görünür.",
-    "userNotFound": "Kullanıcı ",
+    "followHint": "Takipçiler (veya Herkese Açık) kitlesiyle paylaşım yaparlarsa hikayeleri Takip Edilenler akışında görünecektir.",
+    "userNotFound": "Kullanıcı bulunamadı",
     "followsYou": "Seni takip ediyor",
-    "sectionCrashedTitle": "Bölüm yüklenemedi",
+    "sectionCrashedTitle ": "Bölüm yüklenemedi",
     "sectionCrashedBody": "Bu bölümde bir sorun oluştu.",
     "forwarding": "Arama ve Mesaj Yönlendirme",
     "callTextForwardingSection": "Arama ve Mesaj Yönlendirme",
     "callTextForwardingTitle": "Arama ve/veya Mesaj Yönlendirme",
-    "callTextForwardingDescription": "Gelen aramaları ve mesajları doğrulanmış telefonunuza veya e-postanıza yönlendirin. Giden aramalar/mesajlar Chatforia numaranızı gösterebilir.",
+    "callTextForwardingDescription": "Gelen aramaları ve mesajları doğrulanmış telefonunuza veya e-postanıza yönlendirin. Giden çağrılar/mesajlar Chatforia numaranızı gösterebilir.",
     "enableTextForwarding": "Mesaj yönlendirmeyi etkinleştir",
     "forwardTextsToPhone": "Mesajları telefona yönlendir",
     "forwardTextsToEmail": "Mesajları e-postaya yönlendir",
@@ -621,19 +629,19 @@
     "destinationEmail": "Hedef e-posta",
     "enableCallForwarding": "Arama yönlendirmeyi etkinleştir",
     "destinationPhoneForCalls": "Aramalar için hedef (E.164)",
-    "aliasBridging": "Arama Yönlendirme (takma ad köprüleme)",
+    "aliasBridging": "Çağrı Yönlendirme (takma ad köprüleme)",
     "quietHoursOptional": "Sessiz Saatler (isteğe bağlı)",
     "startHour": "Başlangıç saati (0–23)",
-    "bitişSaati": "Bitiş saati (0–23)",
-    "sıfırla": "Sıfırla",
-    "kaydetDüğmesi": "Kaydet",
-    "profiliKaydet": "Profili kaydet",
-    "yönlendirmeyiKaydet": "Yönlendirmeyi kaydet",
+    "endHour": "Bitiş saati (0–23)",
+    "reset": "Sıfırla",
+    "saveBtn": "Kaydet",
+    "saveProfile": "Profili kaydet",
+    "saveForwarding": "Yönlendirmeyi kaydet",
     "forwardSaved": "Yönlendirme ayarları kaydedildi",
-    "forwardSaveFailed": "Ayarlar kaydedilemedi",
+    "forwardSaveFailed": "Ayarları kaydetme başarısız",
     "errE164": "Geçerli bir E.164 telefon numarası girin (ör. +15551234567).",
     "errEmail": "Geçerli bir e-posta adresi girin.",
-    "errSmsDest": "En az bir hedef seçin (telefon veya e-posta) seçin.",
+    "errSmsDest": "En az bir hedef (telefon veya e-posta) seçin.",
     "errQuietHours": "Sessiz saatler 0 ile 23 arasında olmalıdır.",
     "randomChat": "Rastgele Sohbet",
     "ageBand": "Yaş aralığınız",
@@ -645,8 +653,8 @@
     "age50Plus": "50+",
     "ageBandHint": "Sadece yaş aralığını saklıyoruz (tam doğum tarihinizi değil). Bu, Rastgele Sohbet eşleşmelerinin makul olmasını sağlamak için kullanılır.",
     "wantsAgeFilter": "Rastgele Sohbet'te yaşa dayalı eşleştirme kullan",
-    "wantsAgeFilterDesc": "Açık olduğunda, sizi uyumlu yaş aralıklarındaki kişilerle eşleştirmeye çalışırız.",
-    "partnerAgeBands": "Kimlerle eşleştirilebilirsin?",
+    "wantsAgeFilterDesc": "Etkin olduğunda, sizi uyumlu yaş aralıklarındaki kişilerle eşleştirmeye çalışırız.",
+    "partnerAgeBands": "Kimlerle eşleştirilebilirsiniz?",
     "partnerAgeBandsDesc": "Gençler her zaman sadece diğer gençlerle eşleştirilir. Yetişkinler gençlerle eşleştirilemez.",
     "teenMatchingNote": "Güvenlik nedeniyle, 13–17 yaş aralığındaki hesaplar Rastgele Sohbet'te yalnızca diğer 13–17 yaş aralığındaki hesaplarla eşleştirilebilir.",
     "foriaRemember": "Ria'nın sana söylediklerini hatırlamasına izin ver",
@@ -656,21 +664,21 @@
     "voicemailAutoDeleteDays": "Sesli mesajları (gün) sonra otomatik olarak sil",
     "voicemailAutoDeletePlaceholder": "Sonsuza kadar saklamak için boş bırak",
     "voicemailForwardEmail": "Sesli mesajı e-postaya ilet",
-    "voicemailForwardEmailPlaceholder": "Sesli mesaj bildirimlerinin gönderileceği e-posta adresi",
-    "voicemailGreetingText": "Yedek metin selamlama",
+    "voicemailForwardEmailPlaceholder": "Sesli mesaj bildirimlerini gönderilecek e-posta ",
+    "voicemailGreetingText": "Yedek selamlama metni",
     "voicemailGreetingTextDesc": "Sesli selamlamanız kullanılamadığında kullanılır.",
     "voicemailGreetingUpload": "Sesli mesaj selamlamasını yükle",
     "voicemailPreviewGreeting": "Selamlamayı önizle",
     "voicemailGreetingUploaded": "Sesli mesaj selamlaması başarıyla yüklendi",
     "voicemailGreetingUploadError": "Sesli mesaj selamlamasını yükleyemedim",
-    "voicemailNote": "Chatforia numaralarından gelen sesli mesajlar Sesli Mesaj gelen kutunuzda saklanacaktır. Desteklenen planlarda transkripsiyon ve yönlendirmeyi etkinleştirebilirsiniz.",
+    "voicemailNote": "Chatforia numaralarınızdan gelen sesli mesajlar, Sesli Mesaj gelen kutunuzda saklanacaktır. Desteklenen planlarda transkripsiyon ve yönlendirmeyi etkinleştirebilirsiniz.",
     "portHint": "Mevcut numaranızı korumak mı istiyorsunuz? Numaranızı Chatforia Wireless'a taşıyabilirsiniz.",
     "wireless": {
       "manage": "Kablosuz bağlantıyı yönet"
     },
     "esim": {
       "title": "Chatforia eSIM",
-      "desc": "Wi-Fi bağlantınız olmadığında Chatforia için mobil veri alın. ",
+      "desc": "Wi-Fi bağlantınız olmadığında Chatforia için mobil veri alın.",
       "cta": "eSIM Al / QR Göster"
     },
     "encryptedBackupsTitle": "Şifreleme Anahtarı Yedeklemesi"
@@ -686,23 +694,23 @@
   "sounds": {
     "notificationSounds": "Bildirim Sesleri",
     "resetToDefaults": "Varsayılanlara sıfırla",
-    "freeNoticeStart": "Ücretsiz sürümdesiniz — premium sesler gösteriliyor ancak kilitli. ",
+    "freeNoticeStart": "Ücretsiz moddasınız — premium sesler gösteriliyor ancak kilitli. ",
     "freeNoticeEnd": "hepsinin kilidini açmak için.",
     "messageTone": "Mesaj sesi",
     "ringtone": "Zil sesi",
     "preview": "Önizleme",
-    "stop": "Durdur",
-    "volume": "Ses",
-    "messageToneFilesHint": "Dosyaları /public/sounds/Message_Tones klasörüne koyun",
-    "ringtoneFilesHint": "Dosyaları /public/sounds/Ringtones klasörüne koyun",
-    "premiumRequired": "Bu seçim için Premium gereklidir.",
+    "\n \ndurdur": "Durdur",
+    "sesSeviyesi": "Ses Seviyesi",
+    "mesajSesiDosyalarıİpucu": "Dosyaları /public/sounds/Message_Tones klasörüne koyun",
+    "zilSesiDosyalarıİpucu": "Dosyaları /public/sounds/Ringtones klasörüne koyun",
+    "premiumGerekli": "Bu seçim için Premium gereklidir.",
     "saved": "Ses ayarları kaydedildi.",
     "saveFailed": "Ses ayarları kaydedilemedi.",
     "resetNotSaved": "Varsayılanlara sıfırla (henüz kaydedilmedi).",
     "premiumTone": "Bu bir Premium ses.",
     "premiumRingtone": "Bu bir Premium zil sesi.",
     "customComingSoon": "Özel ses yüklemeleri yakında geliyor.",
-    "freeNotice": "Ücretsiz sürümdesiniz — premium sesler gösteriliyor ancak kilitli. Hepsini kilidini açmak için yükseltin. ",
+    "freeNotice": "Ücretsiz sürümdesiniz — premium tonlar gösteriliyor ancak kilitli. Hepsini kilidini açmak için yükseltin.",
     "default": "Varsayılan",
     "vibrate": "Titreşim",
     "dreamer": "Dreamer",
@@ -714,10 +722,10 @@
     "classic": "Klasik",
     "urgency": "Acil",
     "bells": "Çanlar",
-    "çan sesleri": "Çan Sesleri",
-    "dijitalTelefon": "Dijital Telefon",
-    "melodik": "Melodik",
-    "orgNotaları": "Org Notaları",
+    "chimes": "Çan Sesleri",
+    "digitalPhone": "Dijital Telefon",
+    "melodic": "Melodik",
+    "organNotes": "Org Notaları",
     "sesGerçekliği": "Ses Gerçekliği",
     "sokak": "Sokak",
     "evrenalanı": "Evren Alanı"
@@ -728,24 +736,24 @@
     "translation": "Çeviri",
     "autoTranslateIncoming": "Gelen mesajları otomatik olarak çevir",
     "showOriginalAlongside": "Çevirinin yanında orijinal metni göster",
-    "smartReplies": "Akıllı Yanıtlar",
+    "smartReplies": "Akıllı Yanıtlar ",
     "enableSmartReplies": "Akıllı Yanıtları etkinleştir",
-    "smartRepliesHint": "Hızlı yanıtlar önermek için son alınan birkaç mesajı (temizlenmiş olarak) AI'ya gönder.",
+    "smartRepliesHint": "Hızlı yanıtlar önermek için alınan son birkaç mesajı (temizlenmiş olarak) AI'ya gönder.",
     "maskProfanity": "AI önerilerindeki küfürlü kelimeleri maskeleme",
-    "maskProfanityHint": "Açık ise, AI tarafından döndürülen önerilerde işaretli kelimeler maskelenir",
+    "maskProfanityHint": "Etkinleştirildiğinde, AI tarafından döndürülen önerilerde işaretli kelimeler maskelenir ",
     "foriaBot": "ForiaBot Otomatik Yanıtlayıcı",
-    "enableAutoReply": "Meşgul olduğumda otomatik yanıtı etkinleştir",
+    "enableAutoReply": "Meşgulken otomatik yanıtı etkinleştir",
     "autoReplyMode": "Otomatik yanıt modu",
-    "cooldownSeconds": "Bekleme süresi (saniye)",
+    "cooldownSeconds": "Bekleme Süresi (saniye)",
     "signature": "İmza",
-    "autoReply": "🤖 Otomatik yanıt",
-    "activeUntilOptional": "Şu tarihe kadar aktif (isteğe bağlı)",
+    "autoReply": "🤖 Otomatik Yanıt",
+    "activeUntilOptional": "Etkinlik Süresi (isteğe bağlı)",
     "save": "AI Ayarlarını Kaydet",
     "saved": "AI tercihleri kaydedildi",
-    "saveFailed": "AI ayarlarını kaydetme başarısız",
+    "saveFailed": "\n \nAI ayarları kaydedilemedi",
     "translateOff": "Kapalı",
     "translateTagged": "Yalnızca @translated veya etiketlendiğinde",
-    "translateAll": "Tüm gelen mesajları çevir",
+    "translateAll": "Tüm gelen mesajları çevir ",
     "modeDm": "Yalnızca 1:1 sohbetler",
     "modeMention": "Yalnızca @bahsedildiğimde",
     "modeAll": "Tüm gelen mesajlar",
@@ -753,17 +761,17 @@
     "on": "Açık"
   },
   "accessibilitySettings": {
-    "title": " Erişilebilirlik ve Uyarılar",
+    "title": "Erişilebilirlik ve Uyarılar",
     "loadFailed": "Ayarlar yüklenemedi",
     "accessibilityDesc": "Ses kullanmadan Chatforia'yı daha kolay kullanabilmenizi sağlayan seçenekler.",
     "interfaceFontSize": "Arayüz yazı tipi boyutu",
     "interfaceFontSizeHelp": "Normal boyutta başlar. Daha büyük metin tercih ediyorsanız artırın.",
     "notifications": "Bildirimler",
     "visualAlerts": "Mesajlar ve aramalar için görsel uyarılar",
-    "visualAlertsDesc": "Etkinlikleri kaçırmamanız için başlıkların yanıp sönmesini ve başlıkların yanıp sönmesini göster.",
+    "visualAlertsDesc": "Etkinlikleri kaçırmamanız için başlıkların yanıp sönmesini ve başlıkların gösterilmesini sağlar.",
     "vibrateOnNewShort": "Yeni mesajlarda titreşim (destekleniyorsa)",
-    "vibrateOnNewDesc": "Bildirimlerle cihazın titreşmesini tetikleyin.",
-    "flashOnCallShort": "Gelen aramada ekranı flaşlat",
+    "vibrateOnNewDesc": "Bildirimlerle cihazın titreşmesini tetikler.",
+    "flashOnCallShort": "Gelen aramada ekranın yanıp sönmesi",
     "flashOnCallDesc": "Arama geldiğinde kısa süreli parlak flaş.",
     "liveCaptionsTitle": "Canlı altyazılar (aramalar)",
     "enableLiveCaptions": "Aramalar sırasında canlı altyazıları etkinleştir (Premium)",
@@ -777,21 +785,21 @@
     "sm": "Küçük",
     "md": "Orta",
     "lg": "Büyük",
-    "xl": "Ekstra Büyük",
+    "xl": " Ekstra Büyük",
     "light": "Açık",
     "dark": "Koyu",
     "transparent": "Şeffaf",
-    " accessibility": "Erişilebilirlik",
+    "accessibility": "Erişilebilirlik",
     "notificationsDesc": "Mesajlar ve aramalar için görsel uyarılar\nEtkinlikleri kaçırmamanız için başlık çubukları ve başlık yanıp sönmesini göster.",
     "vibrateOnNew": "Yeni mesajlarda titreşim (destekleniyorsa)\nBildirimlerle cihazın titreşmesini tetikle.",
-    "flashOnCall": "Gelen aramada ekran flaşlaması\nArama geldiğinde kısa süreli parlak flaş.",
+    "flashOnCall": "Gelen aramada ekranı flaşla\nArama geldiğinde kısa süreli parlak flaş.",
     "liveCaptions": "Canlı altyazılar (aramalar)"
   },
   "privacySection": {
     "strictE2EE": "Sıkı uçtan uca şifreleme",
-    "ciphertextOnlyNote": "Sunucuda yalnızca şifreli metin sakla. AI/Çeviri ve denetim önizlemelerini devre dışı bırak.",
-    "strictE2EEEnabled": "Sıkı E2EE etkin. AI/Çeviri devre dışı bırakılacak.",
-    "strictE2EEDisabled": "Sıkı E2EE devre dışı. AI/Çeviri yeniden etkinleştirildi. "
+    "ciphertextOnlyNote": "Sunucuda yalnızca şifreli metin depola. AI/\n \nÇeviri ve moderasyon önizlemelerini devre dışı bırakır.",
+    "strictE2EEEnabled": "Sıkı E2EE etkinleştirildi. AI/Çeviri devre dışı bırakılacak.",
+    "strictE2EEDisabled": "Sıkı E2EE devre dışı bırakıldı. AI/Çeviri yeniden etkinleştirildi."
   },
   "linkedDevicesPanel": {
     "title": "Bağlı cihazlar",
@@ -802,18 +810,18 @@
     "loadFailedLog": "Bağlı cihazlar yüklenemedi",
     "renamePrompt": "Bu cihaz için yeni bir ad girin",
     "renamed": "Cihazın adı değiştirildi",
-    "renameFailed": "Cihazın adı değiştirilemedi",
+    "renameFailed": " Cihazın adı değiştirilemedi",
     "revoked": "Cihaz iptal edildi",
     "revokeFailed": "Cihaz iptal edilemedi",
     "unnamedDevice": "Adsız cihaz",
     "primary": "Birincil",
     "revokedStatus": "İptal edildi",
-    "addedLastSeen": "{{created}} eklendi • Son görülme tarihi {{lastSeen}}",
+    "addedLastSeen": "Eklendi {{created}} • Son görülme tarihi {{lastSeen}}",
     "renameDevice": "Cihazı yeniden adlandır",
     "revokeDevice": "Cihazı iptal et"
   },
   "wireless": {
-    "title": "Chatforia Kablosuz",
+    "title": "Chatforia Wireless",
     "description": "Chatforia mobil planınızı, numaralarınızı, yönlendirme ve numara taşıma işlemlerinizi yönetin.",
     "options": {
       "heading": "Chatforia'yı nasıl kullanmak istediğinizi seçin",
@@ -829,12 +837,12 @@
       "carrierLabel": "Mevcut operatör",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile, vb.",
       "accountNumberLabel": "Hesap numarası",
-      "pinLabel": "Numara taşıma PIN'i / şifresi",
+      "pinLabel": "Taşıma PIN'i / şifre",
       "fullNameLabel": "Hesaptaki tam ad",
       "address1Label": "Adres satırı 1",
       "address2Label": "Adres satırı 2 (isteğe bağlı)",
       "cityLabel": "Şehir",
-      "stateLabel": "Eyalet / İl",
+      "stateLabel ": "Eyalet / İl",
       "postalCodeLabel": "Posta kodu",
       "countryLabel": "Ülke",
       "submitButton": "Numara taşıma talebini gönder",
@@ -842,13 +850,13 @@
       "genericError": "Bir sorun oluştu."
     },
     "status": {
-      "heading": "Numara taşıma durumu",
-      "subheading": "Numara taşıma taleplerinizin durumunu takip edin.",
-      "loading": "Yükleniyor…",
-      "loadError": "Numara taşıma talepleri yüklenemedi.",
-      "none": "Henüz numara taşıma faaliyeti yok.",
-      "pending": "İnceleme bekliyor",
-      "submitted": "Operatöre gönderildi",
+      "heading": " Numara taşıma durumu",
+      "altbaşlık": "Numara taşıma taleplerinizin durumunu takip edin.",
+      "yükleniyor": "Yükleniyor…",
+      "yükleme hatası": "Numara taşıma talepleri yüklenemedi.",
+      "yok": "Henüz numara taşıma faaliyeti yok.",
+      "beklemede": "İnceleme bekliyor",
+      "gönderildi": "Operatöre gönderildi",
       "inProgress": "Devam ediyor",
       "completed": "Tamamlandı",
       "failed": "Başarısız",
@@ -858,10 +866,10 @@
       "completedAt": "Tamamlandı:"
     },
     "dataLow": "Verileriniz azalıyor.",
-    "topUp": "Şimdi yükle",
+    "topUp": "Şimdi yükleyin",
     "expiresIn": "{{days}} gün sonra sona eriyor",
     "exhausted": "Verileriniz bitti. Mobil veriyi kullanmaya devam etmek için yeni bir paket satın alın.",
-    "buyPack": " Veri paketi satın al",
+    "buyPack": "Veri paketi satın al",
     "esimPackLabel": "eSIM paketi"
   },
   "phoneNumberManager": {
@@ -872,36 +880,36 @@
     "freeNumberHint": "Kullanılmadığında geri dönüştürülebilen ücretsiz numara.",
     "premiumNumberHint": "Premium aboneliğiniz aktifken numaranızı koruyun.",
     "country": "Ülke",
-    "areaCode": "Alan kodu",
-    "areaCodePlaceholder": "örn., 415",
-    "capability": "Özellik",
-    "search": "Ara",
-    "lockThisNumber": "Bu numarayı kilitle (haftalık eklenti, yakında),",
-    "premiumProtectedHint": "Premium aboneliğiniz aktifken Premium numaralar yeniden kullanımdan korunur.",
+    "alanKodu": "Alan kodu",
+    "alanKoduYerTutucu": "örn., 415",
+    "özellik": "Özellik",
+    "arama": "Arama",
+    "buNumarayıKilitle": "Bu numarayı kilitle (haftalık eklenti, yakında)",
+    "premiumProtectedHint": "Premium aboneliğiniz aktif olduğu sürece Premium numaralar yeniden kullanımdan korunur.",
     "availableNumbers": "Mevcut numaralar",
-    "searchHint": "3 haneli bir alan kodu girin (sadece ABD/Kanada) veya boş bırakın, ardından arayın.",
-    "keep": "Sakla",
-    "select": "Seç",
+    "searchHint": "3 haneli alan kodu girin (sadece ABD/Kanada) veya boş bırakın, ardından arayın.",
+    "keep": "Koruyun",
+    "select": "Seçin",
     "assignNumberFirst": "Önce bir numara atayın.",
-    "premiumKeepFeature": "Numaranızı saklamak bir Premium özelliktir. ",
+    "premiumKeepFeature": "Numaranızı korumak bir Premium özelliktir.",
     "lockingPremiumFeature": "Numaraları kilitlemek bir Premium özelliktir.",
-    "numberAssigned": "Numara atandı.",
+    "numberAssigned": "Numara atandı. ",
     "numberProtectedNow": "Numaranız artık korunuyor.",
     "numberProtected": "Numara korundu.",
     "numberUnprotected": "Numara korunmuyor.",
     "numberReleased": "Numara serbest bırakıldı.",
     "couldNotLoadNumbers": "Numaralar yüklenemedi.",
-    "couldNotAssign": "Bu numarayı atayamadım. Muhtemelen yeni alınmıştır—başka bir tane deneyin.",
-    "couldNotLease": "Bu numarayı kiralayamadım. Muhtemelen yeni alınmıştır—başka bir tane deneyin.",
-    "couldNotProtectNow": "Şu anda numaranızı koruyamıyoruz.",
-    "couldNotProtect": "Numarayı koruyamıyoruz.",
-    "couldNotUnprotect": "Numaranın korumasını kaldıramıyoruz.",
-    "couldNotRelease": "Numarayı serbest bırakamıyoruz.",
-    "invalidAreaCode": "Lütfen 3 haneli bir alan kodu girin (ör. 415) veya boş bırakın.",
+    "couldNotAssign": "Bu numara atanamadı. Numara yeni alınmış olabilir—başka bir numara deneyin.",
+    "couldNotLease": "Bu numara kiralanamadı. Numara yeni alınmış olabilir—başka bir numara deneyin.",
+    "couldNotProtectNow": " Şu anda numaranızı koruyamıyoruz.",
+    "couldNotProtect": "Numarayı koruyamadı.",
+    "couldNotUnprotect": "Numaranın korumasını kaldıramadı.",
+    "couldNotRelease": "Numarayı serbest bırakamadı.",
+    "invalidAreaCode": "Lütfen 3 haneli bir alan kodu (ör. 415) girin veya boş bırakın.",
     "noInventory": "Şu anda kullanılabilir stok yok.",
     "noFreeNumbers": "Şu anda kullanılabilir boş numara yok.",
     "noInventoryAreaCode": "Şu anda o alan kodu için kullanılabilir stok yok.",
-    "noFreeNumbersAreaCode": "Şu anda havuzumuzda o alan kodu için boş numara yok.",
+    "noFreeNumbersAreaCode": "Şu anda havuzumuzda o bölge kodu için mevcut değildir.",
     "releaseConfirm": "Mevcut numaranızı serbest bırakmak istiyor musunuz? Başka birine atanabilir.",
     "unprotect": "Korumayı kaldır",
     "keepThisNumber": "Bu numarayı tut",
@@ -913,19 +921,19 @@
     "protectYourNumber": "Numaranızı koruyun",
     "protected": "Korunuyor",
     "notProtected": "Korunmuyor",
-    "expiresInShort": "{{count}} gün içinde sona eriyor",
+    "expiresInShort": "{{count}} gün içinde {{count}} gün içinde",
     "expiresInDaysFull": "{{count}} gün içinde sona eriyor",
     "expiringShort": "{{suffix}}'da sona eriyor",
-    "renewsOn": "Yenilenme: {{date}}",
-    "releaseWarning": "Numaranız {{count}} gün içinde serbest bırakılabilir. Korunmasını sağlamak için Premium'a yükseltin.",
+    "renewsOn": "{{date}} tarihinde yenileniyor",
+    "releaseWarning": "Numaranız {{count}} gün içinde serbest bırakılabilir. Korumaya devam etmek için Premium'a yükseltin. ",
     "pickNumberHint": "Uygulama içinde mesajlaşma ve iletişim için kullanmak üzere bir Chatforia numarası seçin.",
     "unableToLoadStatus": "Telefon numarası durumu yüklenemiyor.",
     "lock": "Kilitle",
-    "noNumberAssigned": "Atanmış numara yok. Mesajlaşmaya başlamak için alan koduna göre bir numara seçin."
+    "noNumberAssigned": "Atanmış numara yok. Mesajlaşmaya başlamak için alan koduna göre bir tane seçin."
   },
   "dialer": {
     "title": "Aramalar",
-    "subtitle": "Tuş takımı ve son aramalar. (PSTN kullanmıyorsanız, aramaları sohbet başlığından başlatın.)",
+    "altbaşlık": "Tuş takımı ve son aramalar. (PSTN kullanmıyorsanız, aramaları sohbet başlığından başlatın.)",
     "enterNumber": "Numara girin",
     "enterNumberAria": "Numara girin",
     "resolving": "Arama hedefi çözümleniyor…",
@@ -933,13 +941,13 @@
     "callBrowser": "Tarayıcı üzerinden ara",
     "backspace": "Geri al",
     "recents": "Son aramalar",
-    "noRecents": "Henüz son arama yok.",
+    "noRecents": "Henüz son aramalar yok.",
     "resolveFailed": "Arama hedefi belirlenemedi.",
-    "callRequiredNumber": "Telefon görüşmesi yapmadan önce bir Chatforia numarasına ihtiyacınız var.",
+    "callRequiredNumber": "Telefon aramaları yapmadan önce bir Chatforia numarasına ihtiyacınız var.",
     "callFailed": "Arama yapılamadı.",
     "deleteConfirm": "Bu aramayı son aramalar listesinden silmek istiyor musunuz?",
     "deleteFailed": "Arama silinemedi.",
-    "deleteFailedLog": "Aramayı silemedi",
+    "deleteFailedLog": "Arama silinemedi",
     "outgoing": "Giden",
     "incoming": "Gelen",
     "missed": "Cevapsız",
@@ -950,27 +958,27 @@
     "incomingCall": "Gelen Arama",
     "voicemail": "Sesli Posta",
     "callAria": "{{name}}'ı ara",
-    "deleteAria": "{{name}} ile aramayı sil",
+    "deleteAria": "{{name}} ile yapılan aramayı sil",
     "enterNumberPh": "Numara girin",
     "recentsEmpty": "Henüz son aramalar yok.",
-    "key": "Anahtar {{d}}"
+    "key": "Tuş {{d}}"
   },
   "callHistory": {
     "title": "Aramalar",
-    "altbaşlık": "Son gelen ve giden aramalarınız.",
-    "yüklemeBaşarısız": "Arama geçmişi yüklenemedi.",
-    "yüklemeBaşarısızBaşlık": "Arama geçmişi yüklenemedi",
-    "boşBaşlık": "Henüz arama yok",
-    "boşAltBaşlık": "Son aramalarınız burada gösterilecektir.",
-    "giden": "Giden",
-    "gelen": "Gelen",
+    "subtitle": "Son gelen ve giden aramalarınız.",
+    "loadFailed": "Arama geçmişi yüklenemedi.",
+    "loadFailedTitle": "Arama geçmişi yüklenemedi",
+    "emptyTitle": "Henüz arama yok",
+    "emptySubtitle": "Son aramalarınız burada gösterilecektir.",
+    "outgoing": "Giden",
+    "incoming": "Gelen",
     "missed": "Cevapsız",
     "declined": "Reddedilen",
     "failed": "Başarısız",
-    "completed": "Tamamlandı",
+    "completed": "Tamamlanan",
     "outgoingCall": "Giden Arama",
     "incomingCall": "Gelen Arama",
-    "voicemail": "Sesli Posta"
+    "sesli mesaj": "Sesli mesaj"
   },
   "video": {
     "hub": {
@@ -995,20 +1003,20 @@
         "title": "Kullanıcı bul"
       },
       "search": {
-        "placeholder": "Ad veya kullanıcı adına göre ara",
+        "placeholder": " Ad veya kullanıcı adına göre ara",
         "aria": "Ad veya kullanıcı adına göre ara",
         "btn": "Ara"
       }
     },
     "rooms": {
       "title": "Odalar",
-      "altbaşlık": "Aynı adı yazarak bir oda oluşturun veya mevcut bir odaya katılın.",
-      "açıklama": "Paylaşılan oda adını kullanarak çok taraflı video görüşmesi.",
-      "odaEtiketi": "Oda adı",
-      "odaYer Tutucu": "örn. team-standup",
+      "subtitle": "Aynı adı yazarak bir oda oluşturun veya mevcut bir odaya katılın.",
+      "desc": "Paylaşılan oda adını kullanarak çok taraflı video görüşmesi.",
+      "roomLabel": "Oda adı",
+      " roomPlaceholder": "ör. team-standup",
       "roomAria": "Oda adı",
       "joinCreate": "Katıl / Oluştur",
-      "tip": "İpucu: bu adı başkalarıyla paylaşın veya derin bağlantı verin"
+      "tip": "İpucu: bu adı başkalarıyla paylaşın veya doğrudan bağlantı verin"
     },
     "title": "Video",
     "chooseType": "Bir video türü seçin.",
@@ -1016,15 +1024,15 @@
     "directDesc": "Başka bir kullanıcıyla 1:1 kamera görüşmesi.",
     "directStart": "Başlat",
     "roomsTitle": "Odalar",
-    "roomsDesc": "Paylaşılan oda adı kullanılarak yapılan çok taraflı video.",
-    "roomsIntro": "Çok taraflı bir odaya katılın veya oluşturun.",
+    "roomsDesc": "Paylaşılan oda adını kullanarak çoklu video görüşmesi.",
+    "roomsIntro": "Çoklu odaya katıl veya oluştur.",
     "roomNameLabel": "Oda adı",
-    "roomNamePh": "örn. g. team-standup",
+    "roomNamePh": "ör. team-standup",
     "join": "Katıl",
     "deeplinkTip": "İpucu: <code>/video?room=room-name</code> adresine doğrudan derin bağlantı verebilirsiniz."
   },
   "directVideo": {
-    "intro": "1:1 doğrudan video görüşmesi başlat.",
+    "intro": "Doğrudan 1:1 video görüşmesi başlat.",
     "findUserLabel": "Kullanıcı bul",
     "findUserPh": "Ad veya kullanıcı adına göre ara",
     "search": "Ara",
@@ -1032,7 +1040,7 @@
   },
   "phoneWarning": {
     "title": "Numaranızın süresi yakında dolacak",
-    "body": "{{number}} numaranız, yeniden etkinleştirilmediği takdirde {{date}} tarihinde serbest bırakılacaktır.",
+    "body": "{{number}} numaralı numaranız } yeniden etkinleştirilmezse {{date}} tarihinde serbest bırakılacaktır.",
     "button": "Numaramı Koruyun"
   },
   "premium": {
@@ -1040,37 +1048,37 @@
     "description": "Gelişmiş özelliklerin kilidini açın ve reklamları kaldırın.",
     "cta": "Yükseltin",
     "upgrade": "Yükseltin",
-    "upgradeAria": "Chatforia Premium'a yükseltin"
+    "upgradeAria": "Chatforia Premium'a Yükseltin"
   },
   "upgrade": {
     "title": "Yükselt",
     "titleLoggedIn": "Yükselt",
     "titlePublic": "Fiyatlandırma",
     "h1": "Chatforia Fiyatlandırma ve Planlar",
-    "h1Subtitle": "Ücretsiz, reklam destekli planımızla başlayın. Plus ile reklamsız kullanın veya Premium ile tüm güçlü özelliklerin kilidini açın.",
+    "h1Subtitle": "Ücretsiz, reklam destekli planımızla başlayın. Plus ile reklamsız kullanın veya Premium ile tüm gelişmiş özelliklerin kilidini açın.",
     "subtitle": "Bir uygulama planı seçin, kendiniz için veri paketleri ekleyin veya ailenizle veri paylaşın — hepsi tek bir yerden.",
-    "subtitle.app": "Ücretsiz, reklam destekli planımızla başlayın. Plus ile reklamsız kullanın veya Premium ile tüm güçlü özelliklerin kilidini açın.",
-    "subtitle.mobile": "Chatforia'nın Wi-Fi bağlantınız olmadığında da çalışmaya devam etmesi için global eSIM veri paketi ekleyin.",
-    "subtitle.family": "Aileniz için ortak bir veri havuzu oluşturun ve herkesin kullanımını tek bir yerden yönetin.",
+    "subtitle.app": "Ücretsiz, reklam destekli planımızla başlayın. Plus ile -Plus ile reklamsız kullanın veya Premium ile tüm güçlü özelliklerin kilidini açın.",
+    "subtitle.mobile": "Global eSIM verisi ekleyin, böylece Wi-Fi'dan uzaktayken bile Chatforia çalışmaya devam etsin.",
+    "subtitle.family": "Aileniz için paylaşımlı bir veri havuzu oluşturun ve herkesin kullanımını tek bir yerden yönetin.",
     "perMonth": "ay",
-    "perYear": "year",
+    "perYear": "yıl",
     "goPremium": "Premium'a geçin",
     "benefitsLine": "Güçlü özelliklerin kilidini açın ve reklamları kaldırın.",
     "ctaText": "Yükseltin",
     "aria": "Chatforia Premium'a yükseltin",
     "toggle": {
       "monthly": "Aylık",
-      "yıllık": "Yıllık (%30 tasarruf edin)"
+      "annual": "Yıllık (%30 tasarruf edin)"
     },
     "scheduleBanner": {
       "title": "Abonelik sona erecek",
       "body": "Şu tarihte Ücretsiz sürüme döneceksiniz",
-      "keepPlanCta": "{{plan}}'ı koru",
-      "manageBillingCta": "Faturalandırmayı yönet"
+      "keepPlanCta": "{{plan}}'ı koruyun",
+      "manageBillingCta": "Faturayı yönet"
     },
     "billing": {
       "opening": "Açılıyor…",
-      "manage": "Faturayı yönet"
+      "manage": "Faturayı Yönet"
     },
     "checkout": {
       "redirecting": "Yönlendiriliyor…"
@@ -1078,7 +1086,7 @@
     "auth": {
       "continue": "Giriş yapmaya devam et",
       "createAccount": "Hesap oluştur",
-      "signIn": "Giriş yap"
+      "signIn": " Giriş yap"
     },
     "cta": {
       "aria": "Plan seç",
@@ -1091,37 +1099,37 @@
       "mobile": "Mobil (eSIM)",
       "family": "Aile planları"
     },
-    "plans": {
-      "free": {
-        "title": "Ücretsiz",
-        "price": "$0",
-        "desc": "Ücretsiz mesajlaşmaya başlayın. Chatforia'yı denemek istiyorsanız ideal.",
-        "features": {
-          "chat": "Gerçek zamanlı 1:1 ve grup sohbeti, artı sesli ve görüntülü aramalar",
+    "planlar": {
+      "ücretsiz": {
+        "başlık": "Ücretsiz",
+        "fiyat": "$0",
+        "açıklama": "Ücretsiz olarak mesajlaşmaya başlayın. Chatforia'yı denemek istiyorsanız ideal.",
+        "özellikler": {
+          "sohbet": "Gerçek zamanlı 1:1 ve grup sohbeti, ayrıca sesli ve görüntülü aramalar",
           "media": "Fotoğraf, sesli mesaj ve kısa videolar paylaşın",
           "ai": "AI destekli akıllı yanıtlar ve anında çeviri (adil kullanım)",
           "disappearing": "Kaybolan mesajlar ve temel gizlilik kontrolleri",
-          " ads": "Uygulamada reklamlarla sonsuza kadar ücretsiz"
+          "ads": "Uygulamada reklamlarla sonsuza kadar ücretsiz "
         },
         "ctaCurrent": "Mevcut plan",
         "ctaManage": "Faturalandırmada yönet",
-        "ctaPublic": "Başlayın – giriş yapmaya devam edin",
+        "ctaPublic": "Başlayın – oturum açmaya devam edin",
         "aria": "Ücretsiz plan"
       },
       "plus": {
         "title": "Plus",
-        "price": "$6.99",
+        "price": "6,99 $",
         "desc": "Reklamsız, tüm temel özellikler. Günlük mesajlaşma ve arama için ideal.",
         "features": {
-          "allFree": "Ücretsiz sürümdeki her şey, reklamlar olmadan",
+          "allFree": "Ücretsiz plandaki her şey, reklamlar olmadan",
           "forwarding": "Aramaları ve mesajları gerçek telefon numaranıza yönlendirin",
           "history": "Daha uzun mesaj geçmişi (6 aya kadar)",
           "support": "Bir sorun olduğunda daha hızlı destek"
         },
         "badge": "Popüler",
-        "cta": "Reklamsız Ol",
-        "ctaPublic": "Plus'ı Al – giriş yapmaya devam et",
-        "aria": "Plus'a Yükselt"
+        "cta": "Reklamsız Olun",
+        "ctaPublic": "Plus'ı edinin – giriş yapmaya devam edin",
+        "aria": "Plus'a yükseltin"
       },
       "premiumMonthly": {
         "title": "Premium (Aylık)",
@@ -1130,12 +1138,12 @@
         "features": {
           "plusAll": "Plus'taki her şey",
           "themes": "Tüm premium renk temalarını ve uygulama özelleştirmelerini açın",
-          "ai": "Yeniden yazma, akıllı yanıtlar ve özetler için yalnızca Premium'a özel AI güç araçları",
-          "support": "En çok yardıma ihtiyaç duyduğunuzda öncelikli destek"
+          "ai": "Yeniden yazma, akıllı yanıtlar ve özetler için sadece Premium'a özel AI güç araçları",
+          "support": "En çok yardıma ihtiyacınız olduğunda öncelikli destek"
         },
         "badge": "Önerilen",
         "cta": "Yükselt (Aylık)",
-        "ctaPublic": "Premium'u aç – oturum açmaya devam et",
+        "ctaPublic": "Premium'u aç – giriş yapmaya devam et",
         "aria": "Aylık Premium'a Yükselt"
       },
       "premiumAnnual": {
@@ -1143,16 +1151,16 @@
         "price": "99 $",
         "desc": "Yıllık faturalandırma ile daha fazla tasarruf edin — ekstra renk temaları, AI araçları ve öncelikli destek dahil.",
         "features": {
-          "allPremium": "Aylık Premium'daki her şey – ekstra renk temaları dahil",
+          "allPremium": "Aylık Premium'daki her şey — ekstra renk temaları dahil",
           "annualBilling": "Yılda bir kez faturalandırılır",
           "save25": "Aylık ödemeye kıyasla yaklaşık %30 tasarruf edin",
           "bestFor": "İleri düzey kullanıcılar, uzaktan çalışanlar ve sık seyahat edenler için en iyisi"
         },
         "badge": "%30 tasarruf edin",
         "cta": "Yükselt (Yıllık)",
-        "ctaPublic": "Yıllık ödeme ile %30 tasarruf edin – oturum açmaya devam edin",
+        "ctaPublic": "Yıllık planla %30 tasarruf edin – oturum açmaya devam edin",
         "aria": "Premium Yıllık'a yükseltin",
-        "disclaimer": "Peşin faturalandırılır. İstediğiniz zaman iptal edebilirsiniz. Gizli ücret yoktur."
+        "disclaimer": "Peşin faturalandırılır. İstediğiniz zaman iptal edebilirsiniz. Gizli ücret yok."
       }
     },
     "marketing": {
@@ -1160,23 +1168,22 @@
       "freeDesc": "Ücretsiz mesajlaşmaya başlayın.",
       "plusTitle": "Plus",
       "plusBadge": "Popüler",
-      "plusDesc": "En uygun fiyatlı reklamsız deneyim.",
+      "plusDesc": "En uygun fiyatlı, reklamsız deneyim.",
       "premiumMonthlyTitle": "Premium",
       "premiumMonthlyDesc": "Tüm özellikler, zil sesleri ve AI güç araçları.",
       "premiumAnnualTitle": "Premium",
       "premiumAnnualDesc": "Yıllık faturalandırma ile daha fazla tasarruf edin.",
-      "annualDisclaimer": "Önceden faturalandırılır. İstediğiniz zaman iptal edebilirsiniz. Gizli ücret yoktur."
+      "annualDisclaimer": "Peşin faturalandırılır. İstediğiniz zaman iptal edebilirsiniz. Gizli ücret yok."
     },
     "mobile": {
       "title": "Chatforia Mobile (eSIM veri paketleri)",
       "subtitle": "Wi-Fi olmasa bile Chatforia'nın çalışmaya devam etmesi için küresel veri ekleyin. Fiyatlar, ülkenize ve para biriminize göre otomatik olarak ayarlanır.",
-      "subtitle.detail": "Seyahat ederken veya Wi-Fi bağlantınız olmadığında Chatforia'nın çalışmaya devam etmesi için tek seferlik bir global veri paketi seçin.",
+      "\n subtitle.detail": "Seyahat ederken veya Wi-Fi bağlantınız olmadığında Chatforia'nın çalışmaya devam etmesi için tek seferlik bir global veri paketi seçin.",
       "scope": {
         "local": "Yerel",
         "europe": "Avrupa",
         "global": "Global"
       },
-      "note": "3 GB'nin altındaki veri paketleri satmıyoruz.",
       "localEquals": "Yerel = {{country}}",
       "localEqualsFallback": "Yerel = şu anki ülkeniz",
       "perPack": "/ paket",
@@ -1188,7 +1195,7 @@
       "unlimited": {
         "features": {
           "heavyUse": "Yoğun kullanım için yüksek hızlı veri",
-          "throttle": "Yoğun kullanımdan sonra hızlar düşebilir",
+          "throttle": "Adil kullanım ve ağ yönetimi politikalarına tabi yüksek hızlı veri",
           "coverage": "Güvenilir kapsama",
           "instant": "Anında eSIM etkinleştirme",
           "noContract": "Tek seferlik paket, sözleşmesiz"
@@ -1197,69 +1204,62 @@
       "disclaimer": {
         "devices": "eSIM veri paketleri için eSIM uyumlu ve kilidi açılmış bir cihaz gerekir. Kullanılabilirlik telefon modeline, operatöre ve ülkeye göre değişir. Kapsama alanı ve hızlar bölgeye göre değişir."
       },
-      "small": {
-        "title": "Başlangıç paketi",
-        "desc": "3 GB yüksek hızlı veri içerir — hafif mesajlaşma ve ara sıra yapılan aramalar için idealdir.",
-        "price": "9,99 $",
-        "data": "3 GB",
-        "bestFor": "Kısa seyahatler, hafif mesajlaşma ve ara sıra yapılan aramalar",
-        "aria": "Başlangıç eSIM veri paketi satın al"
-      },
-      "medium": {
-        "title": "Seyahat paketi",
-        "desc": "Seyahatler, işe gidip gelme ve düzenli VoIP aramaları için 5 GB yüksek hızlı veri içerir. ",
-        "fiyat": "$14,99",
-        "veri": "5 GB",
-        "en uygun": "Hafta sonu gezileri, düzenli VoIP aramaları ve haritalar",
-        "aria": "Traveler eSIM veri paketi satın al"
-      },
-      "büyük": {
-        "title": "Güç paketi",
-        "desc": "Chatforia ağında yoğun sohbet, arama ve video için 10 GB yüksek hızlı veri içerir.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Yoğun sohbet, arama, video ve hotspot kullanımı",
-        "aria": "Power user eSIM veri paketi satın al"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Sınırsız"
+        }
       },
       "compare": {
         "title": "eSIM veri paketlerini karşılaştır",
         "col": {
           "pack": "Paket",
           "data": "Dahil olan veri",
-          "bestFor": "En uygun kullanım"
+          "bestFor": "En uygun"
         },
         "disclaimer": "Gerçek veri kullanımı, Chatforia'yı nasıl kullandığınıza (ses, video, medya ve telefonunuzdaki diğer uygulamalar) bağlıdır."
       }
     },
     "family": {
-      "title": "Chatforia Aile (paylaşımlı veri)",
-      "alt başlık": "Ailenizle tek bir veri havuzunu paylaşın. Tek fatura, birden fazla Chatforia hesabı, küresel kapsama.",
+      "title": "Chatforia Family (paylaşımlı veri)",
+      "subtitle": " Ailenizle tek bir veri havuzunu paylaşın. Tek fatura, birden fazla Chatforia hesabı, küresel kapsama.",
       "perPack": "/ paket",
       "small": {
         "title": "Aile Küçük",
         "desc": "20 GB paylaşımlı yüksek hızlı veri içerir — 2–3 az kullanan kullanıcı için idealdir.",
-        "price": "$29,99",
+        "price": "29,99 $",
         "aria": "Aile Küçük paketi satın al"
       },
       "medium": {
         "title": "Aile Orta",
         "desc": "40 GB paylaşımlı yüksek hızlı veri içerir — 3–5 aktif üye için idealdir.",
-        "price": " 49,99 $",
+        "price": "$49.99",
         "aria": "Aile Orta paketi satın al"
       },
       "large": {
         "title": "Aile Büyük",
         "desc": "80 GB paylaşımlı yüksek hızlı veri içerir — her zaman çevrimiçi olan aktif aileler için.",
-        "price": "84,99 $",
+        "price": "$84.99",
         "aria": "Aile Büyük paketi satın al"
       },
       "feature": {
-        "shared": "Aileniz için paylaşılan veri havuzu",
+        "shared": "Aileniz için paylaşımlı veri havuzu",
         "members": "En fazla 4 üye daha davet edin",
         "membersMore": "3–5 aktif üye için ideal",
         "manage": "Her üye için limitleri yönetin",
         "topUp": "İstediğiniz zaman paket ekleyin",
-        "bestValue": " GB başına en iyi değer",
+        "bestValue": "GB başına en iyi değer",
         "fairUse": "Adil kullanım politikasına ve yerel sınırlamalara tabidir"
       },
       "disclaimer": "Aile paketleri, paylaşılan bir veri havuzu oluşturur veya bu havuzu doldurur. Üyeleri istediğiniz zaman davet edebilir ve kaldırabilirsiniz.",
@@ -1267,7 +1267,7 @@
     },
     "why": {
       "title": "İnsanlar neden Chatforia'ya geçiyor?",
-      "subtitle": "Chatforia size gerçek bir telefon numarası, akıllı çeviri ve hazır olduğunuzda reklamsız bir deneyime geçmek için net bir yol sunar.",
+      "subtitle": "Chatforia size gerçek bir telefon numarası, akıllı çeviri ve hazır olduğunuzda reklamsız bir deneyime geçmenin net bir yolunu sunar.",
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
@@ -1279,17 +1279,17 @@
         },
         "messengers": {
           "title": "Chatforia vs sohbet uygulamaları",
-          "body": "Yapay zeka ve durum bilgisi yerleşik olarak, sadece diğer uygulama kullanıcılarına değil, gerçek telefon numaralarına mesaj gönderin. TextFree veya TextMe gibi uygulamalardan geliyorsanız harika bir seçenek."
+          "body": "Yapay zeka ve durum bilgisi yerleşik olarak, sadece diğer uygulama kullanıcılarıyla değil, gerçek telefon numaralarına mesaj gönderin. TextFree veya TextMe gibi uygulamalardan geliyorsanız harika bir seçenek."
         }
       },
-      "tableTitle": "Chatforia karşılaştırması",
+      "tableTitle": "Chatforia'nın karşılaştırması",
       "col": {
         "feature": "Özellik"
       },
       "feature": {
         "freeNumber": "Ücretsiz telefon numarası",
         "translation": "Yerleşik otomatik çeviri",
-        "aiTools": "AI araçları (yeniden yazma, yanıtlama, özetleme)",
+        "aiTools": "AI araçları (yeniden yazma, yanıtlar, özetler)",
         "ads": "Reklamsız seçenek",
         "history": "Mesaj geçmişi"
       },
@@ -1314,43 +1314,43 @@
       },
       "plusPremium": {
         "q": "Plus ve Premium arasındaki fark nedir?",
-        "a": "Plus, reklamları kaldırır ve mesaj geçmişinizi uzatır — günlük kullanım için mükemmeldir. Premium, ekstra özelleştirme, yeniden yazma ve yanıtlama için AI araçları ve yoğun kullanıcılar için öncelikli destek ekler."
+        "a": " Plus, reklamları kaldırır ve mesaj geçmişinizi uzatır — günlük kullanım için mükemmeldir. Premium, ekstra özelleştirme, yeniden yazma ve yanıtlama için AI araçları ve yoğun kullanıcılar için öncelikli destek ekler."
       },
       "esim": {
         "q": "eSIM veri paketleri nerede çalışır?",
         "a": "Chatforia Mobile, küresel eSIM kapsama alanını kullanır. Kullanılabilirlik, ülkenize ve cihazınıza bağlıdır. Uygulama içindeki aktivasyon sırasında desteklenen seçenekleri göreceksiniz."
       },
       "cancel": {
-        "q": "Planları istediğim zaman iptal edebilir veya değiştirebilir miyim?",
-        "a": "Evet. Uygulamadaki fatura sayfasından aboneliğinizi yönetebilir veya iptal edebilirsiniz. Değişiklikler, mevcut fatura döneminizin sonunda yürürlüğe girer."
+        " q": "Planları istediğim zaman iptal edebilir veya değiştirebilir miyim?",
+        "a": "Evet. Uygulamadaki fatura sayfasından aboneliğinizi yönetebilir veya iptal edebilirsiniz. Değişiklikler, mevcut fatura döneminizin sonunda yürürlüğe girer. "
       },
       "family": {
         "q": "Aile paketleri nasıl çalışır?",
-        "a": "Aile paketleri, birden fazla Chatforia hesabı arasında paylaşılan bir veri havuzu oluşturur. Faturayı tek bir kişi öder ve siz de üye davet edebilir veya çıkarabilir ve kişi başına limitler belirleyebilirsiniz."
+        "a": "Aile paketleri, birden fazla Chatforia hesabı arasında paylaşılan bir veri havuzu oluşturur. Faturayı tek bir kişi öder ve siz üyeleri davet edebilir veya kaldırabilir ve kişi başına limitler belirleyebilirsiniz."
       }
     }
   },
   "family": {
     "title": "Aile",
-    "loading": "Aile bilgilerinizi yüklüyoruz…",
+    "loading": "Aile bilgilerinizi yüklüyor…",
     "error": {
-      "load": "Aile bilgilerini yükleyemedik.",
+      "load": "Aile bilgilerini yükleyemedi.",
       "invite": "Davet oluşturulamadı. Aile sahibi olduğunuzdan emin olun ve tekrar deneyin.",
       "checkout": "Aile planı için ödeme işlemine başlayamadık. Lütfen tekrar deneyin."
     },
     "billing": {
       "myPlanTitle": "Planım",
-      "myPlanError": "Planınız yüklenemiyor.",
+      "myPlanError": "Planınız yüklenemedi.",
       "myPlanLoading": "Planınız yükleniyor…",
       "currentPlan": "Mevcut plan",
       "renewsAt": "Yenileme tarihi",
-      "freePlanCopy": "Ücretsiz plan kullanıyorsunuz. Daha fazla özelliğin kilidini açmak için yükseltin.",
+      " freePlanCopy": "Ücretsiz plandasınız. Daha fazla özelliğin kilidini açmak için yükseltin.",
       "upgradeCta": "Planı yükselt",
       "changePlanCta": "Planı değiştir",
       "manageBilling": "Faturalandırmayı yönet",
       "portalError": "Faturalandırma portalı şu anda açılamıyor.",
       "cancelNow": "Şimdi iptal et",
-      "cancelNowHelp": "Aboneliğinizi fatura portalından yönetebilir veya iptal edebilir ya da hemen aşağıdan iptal edebilirsiniz.",
+      "cancelNowHelp": "Aboneliğinizi faturalandırma portalından yönetebilir veya iptal edebilir ya da hemen aşağıdan iptal edebilirsiniz.",
       "cancelNowConfirm": "Planınızı hemen iptal etmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
       "cancelNowError": "Planınızı şu anda iptal edemiyoruz. Lütfen tekrar deneyin veya Faturayı yönet seçeneğini kullanın."
     },
@@ -1370,7 +1370,7 @@
     },
     "data": {
       "heading": "Paylaşılan veri havuzu",
-      "caption": "Tüm üyeler bu havuzu paylaşır. Limitinize yaklaştığınızda sizi uyaracağız."
+      "caption": "Tüm üyeler bu havuzu paylaşır. Sınırınıza yaklaştığınızda sizi uyaracağız."
     },
     "members": {
       "title": "Aile üyeleri",
@@ -1382,8 +1382,8 @@
       "inviteCta": "Üye davet et"
     },
     "invite": {
-      "title": "Yeni bir üye davet et",
-      "body": "Paylaşılan aile veri havuzunuza birini davet etmek için bir e-posta veya bağlantı gönderin.",
+      "title": "Yeni üye davet et",
+      "body": "Paylaşılan aile veri havuzuna birini davet etmek için bir e-posta veya bağlantı gönder.",
       "emailLabel": "E-posta (isteğe bağlı)",
       "emailPlaceholder": "friend@example.com",
       "create": "Davet oluştur",
@@ -1403,12 +1403,12 @@
   },
   "randomChat": {
     "title": "Rastgele Sohbet",
-    "alt başlık": "Anında yeni biriyle tanışın veya Ria ile sohbet etmeyi seçin.",
+    "altbaşlık": "Anında yeni biriyle tanışın veya Ria ile sohbet etmeyi seçin.",
     "başlat": "Sohbeti başlat",
     "açıklama": "Önce anonim olarak sohbet edin. Uygun görürseniz daha sonra Arkadaş ekleyin.",
-    "findMatch": "Bana bir eşleşme bul",
-    "chatWithRia": "Ria ile sohbet et",
-    "setAge": "Eşleşmek istediğin kişileri belirlemek için Profil → Yaş ve Rastgele Sohbet bölümünden yaş aralığını ayarla.",
+    "eşleşmeyi bul": "Bana bir eşleşme bul",
+    "Ria ile sohbet": "Ria ile Sohbet Et",
+    "setAge": "Eşleştirilmek istediğiniz kişileri belirlemek için Profil → Yaş ve Rastgele Sohbet bölümünden yaş aralığınızı ayarlayın.",
     "idle": "Beklemede",
     "matching": "Eşleştiriliyor…",
     "searching": "Aranıyor…",
@@ -1416,36 +1416,36 @@
     "connectionProblem": "Bağlantı sorunu",
     "ai": "AI",
     "anonymous": "Anonim",
-    "connectedAs": "Şu şekilde bağlandı",
-    "waitingAddFriend": " Arkadaş Ekle isteğinin kabul edilmesini bekliyor…",
-    "hiddenUsernames": "Her iki kişi de Arkadaş Ekle'yi seçene kadar kullanıcı adları gizli kalır.",
-    "riaSeparate": " Ria ile istediğiniz zaman sohbet edin — rastgele insan eşleştirmesinden ayrı.",
+    "connectedAs": "Şu şekilde bağlandın",
+    "waitingAddFriend": "Arkadaşlık isteğinin kabul edilmesini bekliyorsun…",
+    "hiddenUsernames": "Her iki kişi de Arkadaşlık İsteği'ni seçene kadar kullanıcı adları gizli kalır.",
+    " riaSeparate": "Ria ile istediğiniz zaman sohbet edin — rastgele insan eşleştirmesinden ayrı olarak.",
     "sendMessage": "Mesaj gönder",
     "chatEnded": "Sohbet sona erdi",
     "conversationEnded": "Bu sohbet sona erdi.",
     "findAnotherMatch": "Başka bir eşleşme bul",
     "next": "Sonraki Kişi",
     "addFriend": "Arkadaş Ekle",
-    "requested": "İstek gönderildi",
-    "leave": "Çık",
+    "requested": "İstenen",
+    "ayrıl": "Ayrıl",
     "messageRia": "Ria'ya mesaj gönder…",
     "messageMatch": "Eşleşmene mesaj gönder…",
     "chatWithForia": "Foria ile sohbet et",
     "chatWithForiaBot": "ForiaBot ile sohbet et",
     "close": "Kapat",
-    "finding": " Aranıyor…",
+    "finding": "Aranıyor…",
     "looking": "Birini arıyor…",
     "startingForia": "Foria ile sohbet başlatılıyor…",
     "partnerDisconnected": "Eşinizin bağlantısı kesildi.",
     "noPartner": "Şu anda eş bulunamadı.",
-    "connectedTo": "{{name}} ile bağlandın",
+    "connectedTo": "{{name}} ile bağlandınız",
     "connected": "Bağlandı",
-    "partnerLeft": "Eşin ayrıldı.",
+    "partnerLeft": "Eşiniz ayrıldı.",
     "stopped": "Durduruldu.",
     "skip": "Atla",
     "save": "Kaydet",
     "saveGuard": "Yalnızca insan-insan sohbetleri kaydedilebilir",
-    "youAreChattingWith": "{{name}} ile sohbet ediyorsunuz",
+    "youAreChattingWith": "{ {name}} ile sohbet ediyorsunuz",
     "bot": "BOT",
     "sayHi": "Merhaba de 👋",
     "you": "Sen",
@@ -1454,9 +1454,9 @@
     "partner": "Partner",
     "withRia": "Ria ile",
     "startingRia": "Ria ile sohbet başlatılıyor…",
-    "ageDisclaimer": "Sadece yaş aralığını saklıyoruz (tam doğum tarihinizi değil). Bu, Rastgele Sohbet eşleşmelerinin makul olmasını sağlamak için kullanılır. İnsanlarla (sadece RiaBot ile değil) eşleşmek için, Ayarlar → Yaş ve Rastgele Sohbet'te yaş aralığını ayarla.",
-    "ageBandRequired": "İnsanlarla eşleşmek için Profil → Yaş ve Rastgele Sohbet'te yaş aralığını ayarla.",
-    "ageBandCallout": "İnsanlarla eşleşmek için (sadece RiaBot ile değil), Ayarlar → Yaş ve Rastgele Sohbet bölümünden yaş aralığınızı ayarlayın."
+    "ageDisclaimer": "Sadece yaş aralığını saklıyoruz (tam doğum tarihinizi değil). Bu, Rastgele Sohbet eşleşmelerinin makul olmasını sağlamak için kullanılır. İnsanlarla (sadece RiaBot ile değil) eşleşmek için, Ayarlar → Yaş ve Rastgele Sohbet bölümünden yaş aralığını ayarla.",
+    "ageBandRequired": "İnsanlarla eşleştirilmek için Profil → Yaş ve Rastgele Sohbet bölümünden yaş aralığınızı ayarlayın.",
+    "ageBandCallout": "İnsanlarla (sadece RiaBot ile değil) eşleştirilmek için Ayarlar → Yaş ve Rastgele Sohbet bölümünden yaş aralığınızı ayarlayın."
   },
   "ria": {
     "fallbackName": "there",
@@ -1467,13 +1467,13 @@
       "long3": "Merhaba {{name}}! Dinliyorum — ne var ne yok?",
       "long4": "Seni görmek güzel, {{name}} 👋 Bugün aklında ne var?",
       "long5": "Merhaba {{name}} 🙂 İçini dökmek, bir şey sormak ya da sadece sohbet etmek ister misin?",
-      "long6": "Merhaba {{name}}! Vaktim var — ne hakkında konuşmak istersin?",
+      "long6": "Merhaba\n {{name}}! Vaktim var — ne hakkında konuşmak istersin?",
       "short1": "Selam {{name}}, hâlâ buradayım. Neler oluyor?",
       "short2": "Hoş geldin {{name}} 👋 Eklemek istediğin başka bir şey var mı?",
-      "short3": "Yine mi geldin, {{name}}? 😊 Aklında ne var, anlat bana.",
-      "short4": "Selam {{name}} ✨ Kaldığımız yerden devam etmeye hazır mısın?",
+      "short3": " Yine mi geldin, {{name}}? 😊 Aklındakileri anlat.",
+      "short4": "Merhaba {{name}} ✨ Kaldığımız yerden devam etmeye hazır mısın?",
       "short5": "Evet {{name}}? Dinliyorum 👂",
-      "short6": "Oh hey {{name}}! Aklında yeni bir şey mi var?"
+      "short6": "Merhaba {{name}}! Aklında yeni bir şey mi var?"
     },
     "header": {
       "openNav": "Navigasyon menüsünü aç",
@@ -1484,35 +1484,27 @@
       "welcomeBack": "Hoş geldin",
       "title": "Chatforia'ya devam et",
       "subtitleReturning": "Chatforia hesabına giriş yap",
-      "alt başlık": "Chatforia hesabına giriş yap",
       "google": "Google ile devam et",
       "apple": "Apple ile devam et",
+      "googleShort": "Google",
+      "appleShort": "Apple",
       "googleUnavailable": "Google ile giriş yapılamıyor",
       "appleUnavailable": "Apple ile giriş yapılamıyor",
-      "veya": "veya",
-      "email": "E-posta",
-      "emailPh": "you@example.com",
-      "usernameLabel": "Kullanıcı adı",
-      "usernamePh": "Kullanıcı adınız",
+      "ssoUnavailable": "Tek oturum açma şu anda kullanılamıyor. Bunun yerine kullanıcı adı ve şifreyi kullanın.",
+      "or": "veya",
+      "accountLabel": "Hesap",
+      "identifierPh": "E-posta veya kullanıcı adı",
       "passwordLabel": "Şifre",
       "passwordPh": "Şifreniz",
       "keepSignedIn": "Oturumumu açık tut",
-      "forgot": {
-        "title": "Şifremi Unuttum",
-        "helper": "Chatforia hesabınızı oluştururken kullandığınız e-posta adresini girin, şifrenizi sıfırlamanız için güvenli bir bağlantı gönderelim.",
-        "emailInvalid": "Lütfen geçerli bir e-posta adresi girin.",
-        "genericError": "İsteği işleyemiyoruz. Lütfen biraz sonra tekrar deneyin.",
-        "sending": "Sıfırlama bağlantısı gönderiliyor...",
-        "sendCta": "Sıfırlama Bağlantısını Gönder ",
-        "sentLabel": "Gönderildi!",
-        "sentHelper": "Bu e-posta adresiyle bir hesap varsa, şifre sıfırlama bağlantısı gönderdik. Bağlantının ulaşması birkaç dakika sürebilir. Spam veya promosyonlar klasörünüzü kontrol etmeyi unutmayın.",
-        "previewDev": "E-postayı Önizle (Dev)",
-        "backToLogin": "Giriş Sayfasına Dön"
-      },
+      "forgot": "Şifrenizi mi unuttunuz?",
+      "resendVerification": "Doğrulama e-postasını yeniden gönder",
       "submit": "Giriş Yap",
-      " loggingIn": "Giriş yapılıyor…",
-      "newHere": "Burada yeni misiniz? <link>Hesap oluştur</link>",
-      "ssoUnavailable": "Tek oturum açma şu anda kullanılamıyor. Bunun yerine kullanıcı adı ve şifreyi kullanın.",
+      "loggingIn": "Giriş yapılıyor…",
+      "verification": {
+        "sent": "Doğrulama e-postası gönderildi. Gelen kutunuzu kontrol edin.",
+        "failed": "Doğrulama e-postası yeniden gönderilemedi."
+      },
       "error": {
         "missing": "Lütfen kimlik bilgilerinizi girin.",
         "invalid": "Geçersiz kullanıcı adı veya şifre",
@@ -1520,11 +1512,40 @@
         "unprocessable": "Geçersiz istek. Kullanıcı adınızı/e-postanızı ve şifrenizi kontrol edin.",
         "deviceLimit": "Ücretsiz plan için cihaz sınırına ulaşıldı. Başka bir cihazda oturumu kapatın veya daha fazla cihaz bağlamak için Premium'a yükseltin.",
         "premiumRequired": "Bu işlem için Premium plan gereklidir."
+      },
+      "forgotPassword": {
+        "title": "Şifremi Unuttum",
+        "helper": "Chatforia hesabınızı oluştururken kullandığınız e-posta adresini girin, şifrenizi sıfırlamanız için güvenli bir bağlantı gönderelim.",
+        "emailLabel": "E-posta",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Lütfen geçerli bir e-posta adresi girin.",
+        "genericError": "İsteği işleyemiyoruz. Lütfen biraz sonra tekrar deneyin.",
+        "sending": "Sıfırlama bağlantısı gönderiliyor...",
+        "sendCta": "Sıfırlama Bağlantısını Gönder",
+        "sentLabel": "Gönderildi!",
+        "sentHelper": "Bu e-posta adresiyle bir hesap varsa, şifre sıfırlama bağlantısı gönderdik. Linkin gelmesi birkaç dakika sürebilir. Spam veya promosyonlar klasörünüzü kontrol etmeyi unutmayın.",
+        "previewDev": "E-postayı Önizle (Dev)",
+        "backToLogin": "Giriş Sayfasına Dön"
+      },
+      "resetPassword": {
+        "title": "Şifreyi Sıfırla",
+        "missingToken": "Şifre sıfırlama jetonu geçersiz veya eksik.",
+        "missingTokenHelper": "Jeton geçersiz veya eksik. Lütfen yeni bir şifre sıfırlama bağlantısı isteyin.",
+        "passwordMismatch": "Şifreler eşleşmiyor",
+        "success": "Şifreniz başarıyla sıfırlandı",
+        "genericError": "Hata: Şifre sıfırlanamadı.",
+        "newPasswordLabel": "Yeni şifre",
+        "newPasswordPlaceholder": "Yeni şifrenizi girin",
+        "confirmPasswordLabel": "Yeni şifreyi onaylayın",
+        "confirmPasswordPlaceholder": "Yeni şifrenizi tekrar girin",
+        "resetting": "Sıfırlanıyor...",
+        "submit": "Şifreyi Sıfırla",
+        "strongPasswordHint": "Başka bir yerde kullanmadığınız güçlü bir şifre seçin."
       }
     }
   },
   "oauth": {
-    "completing": "Oturum açma işlemi tamamlanıyor…"
+    "completing": " Oturum açma işlemi tamamlanıyor…"
   },
   "support": {
     "helpFab": "Yardım",
@@ -1541,13 +1562,13 @@
     "quickTopicsLabel": "Hızlı konular",
     "quickTopics": {
       "login": "Giriş yapamıyorum",
-      "billing": "Ödemeler / faturalandırma",
-      "abuse": "Kötüye kullanımı bildir"
+      "billing": "Ödemeler / fatura",
+      "kötüye kullanım": "Kötüye kullanımı bildir"
     },
-    "trySearching": "\"çeviri\", \"yedeklemeler\" veya \"gizlilik\" kelimelerini aramayı deneyin.",
-    "article": "Makale",
-    "openArticle": "Makaleyi aç ",
-    "contactIntro": "Bu sorunu anında çözmeye çalışacağız. Aksi takdirde, ekibimiz konuyu takip edecektir.",
+    "trySearching": "çeviri",
+    "yedeklemeler\" veya \"gizlilik\" kelimelerini aramayı deneyin.\", \"article": "Makale",
+    "openArticle": "Makaleyi aç",
+    "contactIntro": "Bu sorunu anında çözmeye çalışacağız. Çözülemezse, ekibimiz konuyu takip edecektir.",
     "topicAria": "Bir konu seçin",
     "messagePlaceholder": "Mesajınızı yazın…",
     "sendBtn": "Gönder",
@@ -1555,7 +1576,8 @@
     "sendError": "Gönderilemedi. Bunun yerine support@chatforia.com adresine e-posta gönderin.",
     "actionCompleted": "İşlem tamamlandı.",
     "actionFailed": "Bu işlem tamamlanamadı. Lütfen tekrar deneyin.",
-    "escalationMessage": "Bu sorunu otomatik olarak çözemedik. Ekibimiz konuyla ilgilenecektir.",
+    "ticketCreated": "Bu sorunu otomatik olarak çözemedik. Ekibimiz konuyu takip edecek.",
+    "escalationMessage": "Bu sorunu otomatik olarak çözemedik. Ekibimiz konuyu takip edecek.",
     "genericError": "Bir sorun oluştu. Lütfen tekrar deneyin.",
     "analyzing": "Sorununuzu analiz ediyoruz...",
     "takeAction": "Önerilen eylemi gerçekleştirin",
@@ -1568,8 +1590,8 @@
     "helpCenter": "Yardım Merkezi",
     "contactUs": "Bize ulaşın",
     "quickTopics": "Hızlı konular",
-    "searchExamples": "\"çeviri\", \"yedeklemeler\" veya \"gizlilik\" kelimelerini aramayı deneyin.",
-    "cantLogin": "Giriş yapılamıyor",
+    "searchExamples": "çeviri",
+    "yedeklemeler\" veya \"gizlilik\" kelimelerini aramayı deneyin.\", \"cantLogin": "Giriş yapamıyorum",
     "paymentsBilling": "Ödemeler/faturalandırma",
     "reportAbuse": "Kötüye kullanımı bildir",
     "searchHelpArticles": "Yardım makalelerini ara",
@@ -1583,16 +1605,16 @@
         "a": "Uygulamayı indirin veya web sitesini kullanın, \"Hesap oluştur\"a dokunun, e-postanızı/telefon numaranızı doğrulayın. Hesabınızı kurtarmak için \"Şifremi unuttum\" seçeneğini kullanın."
       },
       "privacy": {
-        "q": "Mesajlar uçtan uca şifreleniyor mu? ",
+        "q": "Mesajlar uçtan uca şifreleniyor mu?",
         "a": "Evet. Mesajlar ve aramalar varsayılan olarak uçtan uca şifrelenir. Yalnızca siz ve alıcı bunları okuyabilir."
       },
       "translate": {
         "q": "Anlık çeviri nasıl çalışır?",
-        "a": "Ayarlar → Görünüm ve Dil bölümünden \"Otomatik çeviri\"yi etkinleştirin. Desteklenen durumlarda cihaz üzerinde çeviri yapıyoruz, aksi takdirde minimum meta verilerle güvenli API'ler aracılığıyla çeviri yapıyoruz."
+        "a": "Ayarlar → Görünüm ve Dil bölümünden \"Otomatik çeviri\"yi etkinleştirin. Desteklenen durumlarda cihaz üzerinde çeviri yaparız, aksi takdirde minimum meta veri içeren güvenli API'ler aracılığıyla çeviri yaparız."
       },
       "contact": {
-        "q": "Destek ekibiyle iletişime geçin",
-        "a": "Bize support@chatforia.com adresinden ulaşabilirsiniz. Ekran görüntülerini ve uygulama sürümünüzü ekleyin."
+        "q": "Destekle iletişime geçin",
+        "a": "Bize support@chatforia.com adresinden ulaşın. Ekran görüntülerini ve uygulama sürümünüzü ekleyin."
       }
     }
   },
@@ -1609,51 +1631,53 @@
       "or": "veya",
       "login": "giriş yapın",
       "loginText": "mevcut hesabınızla.",
-      "prefsStart": "Tercihlerinizi",
-      "prefsLink": "ayarlayın",
+      "prefsStart": "Uygulamada, Ayarlar'ı açarak tercihlerinizi belirleyin",
+      "prefsLink": "tercihler",
       "prefsRest": "(dil, okundu bilgisi, temalar)."
     },
     "section2": {
       "title": "2) Mesajlaşmaya başlayın",
       "item1": "Bir DM veya Grup oluşturun ve ilk mesajınızı gönderin.",
-      "item2": "Anlık çeviri özelliğini kullanarak 100'den fazla dilde sohbet edin.",
-      "item3": "Profil → Gizlilik bölümünden kaybolan mesajlar ve okundu bildirimlerini deneyin."
+      "item2": "100'den fazla dilde sohbet etmek için anında çeviri özelliğini kullanın.",
+      "item3": " Profil → Gizlilik bölümünden kaybolan mesajlar ve okundu bilgilerini deneyin."
     },
     "section3": {
       "title": "3) Daha fazlasını keşfedin",
       "item1": "Uygulama içinden istediğiniz zaman ücretli bir plana geçebilirsiniz.",
-      "item2": "Giriş yaptıktan sonra, uygulamanın Ayarlar bölümünden ek cihazlar bağlayabilir ve şifreli yedeklemeler ayarlayabilirsiniz."
+      "item2": "Giriş yaptıktan sonra, uygulama içindeki Ayarlar'dan ek cihazları bağlayabilir ve şifreli yedeklemeler ayarlayabilirsiniz.",
+      "item2Part1": "Giriş yaptıktan sonra, uygulamadaki Ayarlar'dan ek cihazlar bağlayabilir ve şifreli yedeklemeler ayarlayabilirsiniz."
     },
     "cta": {
-      "seePlans": "Planları gör",
-      "openSettings": "Ayarları aç "
+      "seePlans": "Planları ve fiyatları görün",
+      "openSettings": "Ayarları aç",
+      "createAccount": " Hesap oluştur"
     }
   },
   "howItWorks": {
-    "title": "Chatforia Nasıl Çalışır",
+    "title": "Chatforia Nasıl Çalışır?",
     "intro": "Chatforia, iletişimi basit, hızlı ve erişilebilir hale getirmek için tasarlanmıştır. Başlamak için sadece birkaç adım yeterlidir.",
     "step1Title": "1. Hesap Oluşturun",
     "step1Desc": "E-posta adresinizi veya kullanıcı adınızı kullanarak kaydolun ve Chatforia hesabınızı oluşturun.",
     "step2Title": "2. Sohbeti Başlatın",
     "step2Desc": "Kişileri seçerek veya yeni sohbetler başlatarak diğer kullanıcılarla bağlantı kurun.",
     "step3Title": "3. Gerçek Zamanlı Mesajlaşma",
-    "step3Desc": "Mesajlar, sorunsuz bir iletişim deneyimi sunmak için hızlı bir şekilde iletilir.",
+    "step3Desc": "Mesajlar, sorunsuz bir iletişim deneyimi sağlamak için hızlı bir şekilde iletilir.",
     "step4Title": "4. Küresel İletişim",
     "step4Desc": "Yerleşik çeviri özelliği, kullanıcıların farklı dillerde iletişim kurmasına yardımcı olur.",
-    "step5Title": "5. Kontrolü Elinizde Tutun",
+    "step5Title": "5. Kontrol Sizde",
     "step5Desc": "Tercihlerinizi, kişilerinizi ve iletişim ayarlarınızı yönetin."
   },
   "safety": {
     "title": "Güvenlik ve Topluluk Kuralları",
     "intro": "Chatforia, tüm kullanıcılar için güvenli ve saygılı bir ortam sağlamaya kendini adamıştır. Bu kurallar, herkes için olumlu bir deneyim sağlanmasına yardımcı olur.",
     "respectTitle": "Saygılı İletişim",
-    "respectDesc": "Kullanıcıların saygılı bir şekilde iletişim kurması beklenir. Taciz, kötüye kullanım veya zararlı davranışlara izin verilmez.",
+    "respectDesc": "Kullanıcıların saygılı bir şekilde iletişim kurmaları beklenir. Taciz, kötüye kullanım veya zararlı davranışlara izin verilmez.",
     "prohibitedTitle": "Yasaklanmış İçerik",
     "prohibited": {
       "illegal": "Yasadışı faaliyetler",
       "taciz": "Taciz veya zorbalık",
       "nefret": "Nefret söylemi veya ayrımcılık",
-      "müstehcen": "Müstehcen veya zararlı içerik",
+      "explicit": "Müstehcen veya zararlı içerik",
       "spam": "Spam veya aldatıcı uygulamalar"
     },
     "toolsTitle": "Kullanıcı Güvenliği Araçları",
@@ -1667,114 +1691,139 @@
   },
   "blog": {
     "whyMessaging": {
-      "title": "Mesajlaşma Platformları Neden Her Zamankinden Daha Önemli?",
+      "title": "Mesajlaşma Platformları Neden Her Zamankinden Daha Önemli",
       "intro": "Mesajlaşma platformları, günümüz dünyasında iletişim için en önemli araçlardan biri haline gelmiştir. Kişisel sohbetlerden iş etkileşimlerine kadar, mesajlaşma uygulamaları insanların anında ve verimli bir şekilde bağlantıda kalmasını sağlar.",
       "everydayTitle": "Günlük İletişim",
       "everydayDesc": "İnsanlar arkadaşları, aileleri ve iş arkadaşlarıyla günlük iletişim kurmak için mesajlaşma uygulamalarına güveniyor. İster kısa bir güncelleme ister uzun bir sohbet olsun, mesajlaşma iletişimde kalmak için kullanışlı ve esnek bir yol sunar.",
       "speedTitle": "Hız ve Kolaylık",
-      "speedDesc": "Mesajlaşma platformlarının en önemli avantajlarından biri hızlarıdır. Mesajlar anında iletilir ve kullanıcıların gerçek zamanlı iletişim kurmasına olanak tanır. Bu kolaylık, mesajlaşmayı birçok kişi için tercih edilen iletişim yöntemi haline getirmiştir.",
+      "speedDesc": "Mesajlaşma platformlarının en önemli avantajlarından biri hızlarıdır. Mesajlar anında iletilir ve kullanıcıların gerçek zamanlı olarak iletişim kurmasına olanak tanır. Bu kolaylık, mesajlaşmayı birçok kişi için tercih edilen iletişim yöntemi haline getirmiştir.",
       "globalTitle": "Küresel Erişim",
-      "globalDesc": "Mesajlaşma platformları, dünyanın dört bir yanındaki insanları birbirine bağlar. İnternet erişimi sayesinde kullanıcılar, konumlarından bağımsız olarak iletişim kurabilir ve bu da ilişkiler kurmayı ve uluslararası işbirliği yapmayı kolaylaştırır.",
+      "globalDesc": "Mesajlaşma platformları, dünyanın dört bir yanındaki insanları birbirine bağlar. İnternet erişimi sayesinde kullanıcılar, konumlarından bağımsız olarak iletişim kurabilir; bu da ilişkiler kurmayı ve uluslararası işbirliği yapmayı kolaylaştırır.",
       "privacyTitle": "Gizlilik ve Kontrol",
-      "privacyDesc": "Modern mesajlaşma platformları, kullanıcılara verileri ve sohbetleri üzerinde kontrol sağlama konusunda odaklanır. Şifreleme, gizlilik ayarları ve mesaj denetimleri gibi özellikler, kullanıcıların güvenle iletişim kurmasını sağlar.",
+      " privacyDesc": "Modern mesajlaşma platformları, kullanıcılara verileri ve sohbetleri üzerinde kontrol sağlama konusunda odaklanmaktadır. Şifreleme, gizlilik ayarları ve mesaj kontrolleri gibi özellikler, kullanıcıların güvenle iletişim kurmasını sağlar.",
       "futureTitle": "Mesajlaşmanın Geleceği",
       "futureDesc": "Mesajlaşma, yapay zeka destekli yanıtlar, çeviri ve multimedya paylaşımı gibi yeni özelliklerle gelişmeye devam ediyor. Teknoloji ilerledikçe, mesajlaşma platformları daha da güçlü ve çok yönlü hale gelecektir.",
-      "out ro": "Chatforia, bu ilkeler göz önünde bulundurularak geliştirilmiştir ve bağlantılı bir dünya için hızlı, güvenli ve kullanıcı dostu bir mesajlaşma deneyimi sunar."
+      "outro": "Chatforia, bu ilkeler göz önünde bulundurularak oluşturulmuştur ve bağlantılı bir dünya için hızlı, güvenli ve kullanıcı dostu bir mesajlaşma deneyimi sunar."
     },
     "global": {
       "title": "Küresel İletişimin Geleceği",
-      "intro": "İletişim, son birkaç on yılda hızla gelişmiştir. Eskiden telefon görüşmeleri veya yüz yüze toplantılar gerektiren şeyler, artık mesajlaşma platformları aracılığıyla hızlı bir şekilde yapılabilmektedir. Teknoloji ilerlemeye devam ettikçe, küresel iletişim daha hızlı, daha erişilebilir ve daha kapsayıcı hale geliyor.",
+      "intro": "İletişim, son birkaç on yılda hızla gelişmiştir. Eskiden telefon görüşmeleri veya yüz yüz yüze görüşmeler gerektiren şeyler artık mesajlaşma platformları aracılığıyla hızla yapılabiliyor. Teknoloji ilerlemeye devam ettikçe, küresel iletişim daha hızlı, daha erişilebilir ve daha kapsayıcı hale geliyor.",
       "barriersTitle": "Engelleri Aşmak",
-      "barriersDesc": "İletişimdeki en büyük değişikliklerden biri, coğrafi engellerin azalmasıdır. İnsanlar artık dünyanın dört bir yanındaki diğer insanlarla neredeyse gerçek zamanlı olarak bağlantı kurabilir. İster kişisel sohbetler, ister iş veya işbirliği için olsun, mesajlaşma platformları mesafeyi çok daha az sınırlayıcı hale getirmiştir. ",
+      "barriersDesc": "İletişimdeki en büyük değişikliklerden biri coğrafi engellerin azalmasıdır. İnsanlar artık dünyanın dört bir yanındaki diğer insanlarla neredeyse gerçek zamanlı olarak bağlantı kurabilir. İster kişisel sohbetler, ister iş veya işbirliği için olsun, mesajlaşma platformları mesafenin sınırlayıcı etkisini büyük ölçüde azalttı .",
       "translationTitle": "Çeviri Teknolojisinin Rolü",
       "translationDesc": "Dil, geleneksel olarak küresel iletişimin önündeki en büyük engellerden biri olmuştur. Günümüzde, yerleşik çeviri araçları bu boşluğu doldurmaya yardımcı olmaktadır. Chatforia gibi platformlar, kullanıcılar farklı diller konuşsalar bile daha kolay iletişim kurmalarını sağlayarak, bağlantı ve anlayış için yeni fırsatlar yaratmaktadır.",
       "realtimeTitle": "Gerçek Zamanlı Bağlantı",
       "realtimeDesc": "Hız, modern iletişimi şekillendiren temel bir faktördür. Kullanıcılar mesajların hızlı bir şekilde iletilmesini bekler ve modern altyapı bu beklentiyi destekler. Gerçek zamanlı mesajlaşma, daha doğal ve akıcı sohbetler sağlar.",
       "privacyTitle": "Gizlilik ve Güvenlik",
-      "privacyDesc": "İletişim giderek daha dijital hale geldikçe, gizlilik ve güvenlik de giderek daha önemli hale geliyor. Kullanıcılar, sohbetlerinin korunduğundan emin olmak isterler. Şifreleme ve kullanıcı tarafından kontrol edilen ayarlar gibi özellikler, daha güvenli bir iletişim deneyimini desteklemeye yardımcı olur.",
-      "futureTitle": "Sırada Ne Var",
+      "privacyDesc ": "İletişim giderek daha dijital hale geldikçe, gizlilik ve güvenlik de giderek daha önemli hale geliyor. Kullanıcılar, sohbetlerinin korunduğuna dair güvence istiyor. Şifreleme ve kullanıcı tarafından kontrol edilen ayarlar gibi özellikler, daha güvenli bir iletişim deneyimini desteklemeye yardımcı oluyor.",
+      " futureTitle": "Gelecekte Neler Olacak",
       "futureDesc": "Küresel iletişimin geleceği muhtemelen AI destekli mesajlaşma, geliştirilmiş çeviri ve iyileştirilmiş kullanıcı deneyimleri gibi daha gelişmiş araçları içerecektir. Teknoloji geliştikçe, iletişim daha sezgisel ve erişilebilir hale gelmeye devam edecektir.",
       "outro": "Chatforia gibi platformlar bu dönüşümün bir parçasıdır ve insanların diller ve sınırlar ötesinde daha kolay bağlantı kurmasına yardımcı olur."
     },
     "index": {
       "title": "Chatforia Blog",
       "intro": "İletişim, çevrimiçi güvenlik ve mesajlaşma teknolojisinin dünyadaki insanları nasıl birbirine bağladığına dair içgörüler keşfedin.",
-      "post1": "Çevrimiçi Olarak Güvenli Bir Şekilde Sohbet Etme",
+      "post1": "Çevrimiçi Güvenli Sohbet Etme",
       "post2": "Küresel İletişimin Geleceği",
       "post3": "Mesajlaşma Platformları Neden Önemlidir?"
+    },
+    "chatSafely": {
+      "title": "Çevrimiçi Olarak Güvenli Bir Şekilde Sohbet Etme",
+      "intro": "Çevrimiçi iletişim, dünyanın dört bir yanındaki insanlarla bağlantı kurmayı her zamankinden daha kolay hale getirdi. İster arkadaşlarınızla mesajlaşın, ister yeni insanlarla tanışın, ister profesyonel olarak işbirliği yapın, mesajlaşma platformları günlük yaşamda önemli bir rol oynar. Ancak, çevrimiçi ortamda güvende kalmak, bağlantıda kalmak kadar önemlidir.",
+      "personalInfo": {
+        "title": " Kişisel Bilgilerinizi Koruyun",
+        "body": "Çevrimiçi güvenliğin en önemli kurallarından biri, hassas kişisel bilgileri paylaşmaktan kaçınmaktır. Buna ev adresiniz, finansal bilgileriniz, şifreleriniz veya kötüye kullanılabilecek herhangi bir kimlik bilgisi dahildir. Sıradan sohbetlerde bile, neyi kiminle paylaştığınıza dikkat etmeniz en iyisidir."
+      },
+      "safetyFeatures": {
+        "title": "Yerleşik Güvenlik Özelliklerini Kullanın",
+        "body": "Chatforia gibi modern mesajlaşma platformları, kullanıcıların güvende kalmasına yardımcı olacak araçlar sunar. Engelleme, bildirme ve gizlilik kontrolleri gibi özellikler, kullanıcılara deneyimleri üzerinde kontrol sağlamak için tasarlanmıştır. Birisi uygunsuz davranırsa veya sizi rahatsız ederse, bu araçları hemen kullanmalısınız."
+      },
+      "scams": {
+        "title": "Dolandırıcılıklara Karşı Dikkatli Olun",
+        "body": "Dolandırıcılar genellikle mesajlaşma platformlarını kullanarak kullanıcıları kişisel bilgilerini paylaşmaya veya para göndermeye ikna eder. Beklenmedik teklifler, acil istekler veya tanıdık olmayan bağlantılar gibi gerçek olamayacak kadar iyi görünen mesajlara karşı dikkatli olun. Herhangi bir işlem yapmadan önce, iletişim kurduğunuz kişinin kimliğini daima doğrulayın."
+      },
+      "responsibly": {
+        "title": "Sorumlu İletişim Kurun",
+        "body": "Saygılı iletişim, herkes için daha güvenli bir ortam yaratmaya yardımcı olur. Zararlı veya küfürlü konuşmalara girmeyin ve sözlerinizin başkalarını nasıl etkileyebileceğine dikkat edin. Olumlu etkileşimler, tüm kullanıcılar için daha iyi bir deneyime katkıda bulunur."
+      },
+      "whySafety": {
+        "title": "Çevrimiçi Güvenlik Neden Önemlidir?",
+        "body": "Dijital iletişim büyümeye devam ettikçe, güvenliği ve güveni korumak giderek daha önemli hale gelir. Temel güvenlik uygulamalarını takip ederek ve mevcut araçları kullanarak, kullanıcılar riskleri en aza indirirken mesajlaşmanın faydalarından yararlanabilirler."
+      },
+      "conclusion": "Çevrimiçi ortamda güvende kalmak için ileri düzeyde teknik bilgi gerekmez; sadece farkındalık, dikkat ve sağduyu yeterlidir. Doğru alışkanlıklarla, kendinizden emin ve güvenli bir şekilde iletişim kurabilirsiniz."
     }
   },
   "about": {
     "title": "Chatforia Hakkında",
-    "description": "Chatforia, uçtan uca şifreleme, anında çeviri ve sesli/görüntülü arama özelliklerine sahip güvenli, çok dilli bir mesajlaşma uygulamasıdır. Misyonumuz basit: insanların güvenli, gizli ve diller arası bir şekilde bağlantı kurmasına yardımcı olmak.",
+    "description": "Chatforia, uçtan uca şifreleme, anında çeviri ve sesli/görüntülü arama özelliklerine sahip güvenli, çok dilli bir mesajlaşma uygulamasıdır. Misyonumuz basit: insanların güvenli, gizli ve diller arası iletişim kurmasına yardımcı olmak.",
     "valuesTitle": "Değerlerimiz",
     "values": {
       "privacy": "<b>Gizlilik öncelikli:</b> Varsayılan olarak uçtan uca şifreleme.",
-      "access": "<b>Herkes için erişim:</b> 100'den fazla dili otomatik olarak çevirir.",
+      "access": "<b>Herkes için erişim:</b> 100'den fazla dili otomatik çeviri.",
       "control": "<b>Kontrol:</b> Kaybolan mesajlar ve okundu bilgisi isteğe bağlıdır.",
-      "privacy_aria": "Gizlilik öncelikli: Varsayılan olarak uçtan uca şifreleme.",
-      "access_ aria": "Herkes için erişim: 100'den fazla dilde otomatik çeviri.",
-      "control_aria": "Kontrol: Kaybolan mesajlar ve okundu bildirimleri isteğe bağlıdır."
+      "privacy_ aria": "Önce gizlilik: Varsayılan olarak uçtan uca şifreleme.",
+      "access_aria": "Herkes için erişim: 100'den fazla dilde otomatik çeviri.",
+      "control_aria": "Kontrol: Kaybolan mesajlar ve okundu bilgisi isteğe bağlıdır."
     },
     "howTitle": "Chatforia nasıl çalışır",
-    "\n howDescription": "Mesajlar cihazınızdan ayrılmadan önce cihazınızda şifrelenir. Çeviri, yedekleme ve cihaz senkronizasyonu, sunucularımızın görebileceği bilgileri en aza indirecek şekilde tasarlanmıştır."
+    " howDescription": "Mesajlar cihazınızdan ayrılmadan önce cihazınızda şifrelenir. Çeviri, yedekleme ve cihaz senkronizasyonu, sunucularımızın görebileceği bilgileri en aza indirecek şekilde tasarlanmıştır."
   },
   "press": {
     "title": "Basın",
     "contactLine": "Medya ile ilgili sorularınız için bize ulaşın",
-    "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia, diller arası sohbeti zahmetsiz hale getiren, gizliliği ön planda tutan bir mesajlaşma uygulamasıdır. Mesajlar varsayılan olarak uçtan uca şifrelenir ve yerleşik çeviri özelliği 100'den fazla dili gerçek zamanlı olarak destekler. Kullanıcılar kaybolan mesajları etkinleştirebilir, okundu bilgilerini isteğe bağlı tutabilir ve cihazlar arasında senkronizasyon yapabilir. iOS, Android ve web'de mevcuttur.",
-    "assetsTitle": "Marka varlıkları",
+    " boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia, diller arası sohbeti kolaylaştıran, gizliliği ön planda tutan bir mesajlaşma uygulamasıdır. Mesajlar varsayılan olarak uçtan uca şifrelenir ve yerleşik çeviri özelliği 100'den fazla dili gerçek zamanlı olarak destekler. Kullanıcılar kaybolan mesajları etkinleştirebilir, okundu bilgilerini isteğe bağlı tutabilir ve cihazlar arasında senkronizasyon yapabilir. iOS, Android ve web'de mevcuttur.",
+    "assetsTitle": " Marka varlıkları",
     "assetsSubtitle": "Logolar, ekran görüntüleri ve ürün görselleri.",
     "downloadCta": "Medya kitini indir",
     "downloadTitle": "Uygulamayı indir",
     "scanTip": "Masaüstü bilgisayar mı kullanıyorsunuz? Uygulamayı indirmek için telefonunuzla tarayın.",
     "qrAria": "Chatforia web sitesini aç",
-    "appStore": " App Store'dan indir",
+    "appStore": "App Store'dan indir",
     "googlePlay": "Google Play'den indir"
   },
   "careers": {
     "title": "Kariyer",
-    "intro": "Biz, web, iOS ve Android'de kullanıma sunulan özel ve küresel bir mesajlaşma uygulaması olan Chatforia'yı geliştiren küçük bir kurucu ekibiz. Gizlilik, şifreleme ve keyifli kullanıcı deneyimlerine önem veriyorsanız, sizden haber almak isteriz.",
-    "openRoles": "<b>Açık kurucu pozisyonlar:</b> Baş Full-stack Mühendisi, Arka Uç Mühendisi (Node.js), Ön Uç/Web Mühendisi (React), Mobil Mühendisi (iOS), Mobil Mühendisi (Android), DevOps/SRE, Güvenlik ve Şifreleme Mühendisi, Telekom Mühendisi (Twilio + eSIM).",
+    "intro": "Biz, web, iOS ve Android'de kullanıma sunulacak özel ve küresel bir mesajlaşma uygulaması olan Chatforia'yı geliştiren küçük bir kurucu ekibiz. Gizlilik, şifreleme ve keyifli kullanıcı deneyimlerine önem veriyorsanız, sizden haber almayı çok isteriz.",
+    "openRoles": "<b>Açık kurucu pozisyonlar:</b> Baş Full-stack Mühendisi, Arka Uç Mühendisi (Node.js), Ön Uç/ Web Mühendisi (React), Mobil Mühendisi (iOS), Mobil Mühendisi (Android), DevOps/SRE, Güvenlik ve Şifreleme Mühendisi, Telekom Mühendisi (Twilio + eSIM).",
     "apply": "Nasıl başvurulur: Aşağıdaki düğmeyi kullanarak özgeçmişinizi ve bağlantılarınızı e-posta ile gönderin.",
     "emailCta": "Özgeçmişinizi e-posta ile gönderin",
     "whyNow": "Neden şimdi katılmalısınız?",
-    "whyBullets": "• Yeni bir küresel mesajlaşma uygulamasının temellerini oluşturmaya yardımcı olun.\n• Web, iOS ve Android'de kullanılan iyileştirmeleri hayata geçirin.\n• Mimari ve ürün yönü konusunda kurucu ile doğrudan çalışın.\n• Yığının yüksek etkili alanlarından sorumlu olun: mesajlaşma, ses, video, şifreleme, telekom, AI.\n• Kullanıcı tabanı büyümeden önce, başlangıçta aramıza katılın."
+    "whyBullets": "• Yeni bir küresel mesajlaşma uygulamasının temellerini oluşturmaya yardımcı olun.\n• Web, iOS ve Android'de kullanılan iyileştirmeleri hayata geçirin.\n• Mimari ve ürün yönelimi konusunda kurucu ile doğrudan çalışın.\n• Yığının yüksek etkili alanlarından sorumlu olun: mesajlaşma, ses, video, şifreleme, telekom, AI.\n• Kullanıcı tabanı büyümeden önce, başlangıçta katılın."
   },
-  "advertise": {
+  "reklam": {
     "title": "Chatforia ile reklam verin",
-    "description": "Zevkli, marka güvenliği sağlayan yerleşimlerle aktif mesajlaşma kullanıcılarına ulaşın. Yüksek görünürlükteki noktalarda banner envanteri, sponsorluklar ve şirket içi promosyonlar sunuyoruz. Premium aboneler reklamları görmez.",
+    "description": "Zevkli, marka güvenliği sağlayan yerleşimlerle aktif mesajlaşma kullanıcılarına ulaşın. Yüksek görünürlükteki noktalarda banner envanteri, sponsorluklar ve site içi promosyonlar sunuyoruz. Premium aboneler reklamları görmez.",
     "adsense": {
-      "withPubIdShort": "Google AdSense aracılığıyla da reklam envanteri sunuyoruz. Yayıncı kimliği {{pubId}} ile Chatforia'yı hedefleyebilir veya doğrudan sponsorluklar için aşağıdaki formu kullanabilirsiniz.",
+      "withPubIdShort": "Google AdSense aracılığıyla da envanter sunuyoruz. Yayıncı kimliği {{pub Id}} ile Chatforia'yı hedefleyebilir veya doğrudan sponsorluklar için aşağıdaki formu kullanabilirsiniz.",
       "noPubIdShort": "Bazı reklam alanlarını Google AdSense üzerinden de sunuyoruz. Doğrudan sponsorluklar mevcuttur — aşağıdaki formu kullanın."
     },
     "inventoryHeader": "Reklam Alanları ve Özellikler",
     "placement": {
-      "displayBadge": "Görüntüleme",
+      " displayBadge": "Görüntüleme",
       "acceptedSizes": "Kabul edilen boyutlar",
       "adsenseSlot": "AdSense yuvası:"
     },
     "noPlacementsPublic": "Reklam envanterimizi sonlandırıyoruz. Kampanyanız hakkında bize bilgi verin, size yerleştirmeler önerelim.",
     "whyHeader": "Neden Chatforia?",
-    "why": {
-      "highSession": "Sohbet arayüzünde yüksek oturum sıklığı ve kalma süresi",
-      "brandSafe": "Marka güvenli formatlar; saygılı sıklık sınırlaması",
-      "sponsoredMoments": "Sponsorlu anlar (ör. \"Sohbeti Başlat\" modülü) mevcut",
-      "deals": "Doğrudan anlaşmalar veya AdSense/Google Ads aracılığıyla programatik"
+    "neden": {
+      "yüksekOturum": "Sohbet arayüzünde yüksek oturum sıklığı ve kalma süresi",
+      "markaGüvenli": "Marka güvenli formatlar; saygılı sıklık sınırlaması",
+      "sponsorluAnlar": "Sponsorlu anlar (ör. \"Sohbeti Başlat\" modali) mevcut",
+      "anlaşmalar": "Doğrudan anlaşmalar veya AdSense/Google Ads aracılığıyla programatik"
     },
     "contactHeader": "İletişim",
     "form": {
-      "submittedMsg": "Teşekkürler! Talebiniz iletildi. Kısa süre içinde sizinle iletişime geçeceğiz.",
+      "submittedMsg": "Teşekkürler! Talebiniz gönderildi. Kısa süre içinde sizinle iletişime geçeceğiz.",
       "missingRequired": "Lütfen ad, e-posta ve mesaj alanlarını doldurun.",
       "successToast": "Teşekkürler! Yakında sizinle iletişime geçeceğiz.",
       "mailtoInfo": "Talebi göndermek için e-posta istemcinizi açıyor…",
       "nameLabel": "Adınız",
       "namePlaceholder": "Jane Doe",
-      "emailLabel": " E-posta",
+      "emailLabel": "E-posta",
       "emailPlaceholder": "you@company.com",
       "companyLabel": "Şirket",
-      "companyPlaceholder": "Acme Inc.",
+      " companyPlaceholder": "Acme Inc.",
       "budgetLabel": "Aylık bütçe (isteğe bağlı)",
       "budgetPlaceholder": "ör. 1.000–20.000+ $",
       "messageLabel": "Kampanyanız hakkında bize bilgi verin",
@@ -1782,7 +1831,7 @@
       "sendCta": "Talep gönder"
     },
     "legal": {
-      "disclaimerStart": "Göndererek, aşağıdakileri kabul etmiş olursunuz",
+      "disclaimerStart": "Göndererek, bizim",
       "terms": "Şartlar",
       "and": "ve",
       "privacy": "Gizlilik Politikası"
@@ -1801,45 +1850,45 @@
   },
   "privacyPolicy": {
     "title": "Gizlilik Politikası",
-    "lastUpdated": "Son güncelleme tarihi:",
+    "lastUpdated": "Son güncelleme:",
     "intro": {
-      "body": "Bu Gizlilik Politikası, uygulamalarımızı ve hizmetlerimizi kullandığınızda Chatforia'nın (\"biz\", \"bize\") bilgileri nasıl topladığını, kullandığını ve paylaştığını açıklamaktadır. Chatforia'yı, erişebileceğimiz verileri en aza indirecek şekilde tasarlıyoruz."
+      "body": "Bu Gizlilik Politikası, Chatforia (\"biz\", \"bize\") uygulamalarımızı ve hizmetlerimizi kullandığınızda bilgileri nasıl topladığını, kullandığını ve paylaştığını açıklamaktadır. Chatforia'yı, erişebileceğimiz verileri en aza indirecek şekilde tasarladık."
     },
     "infoWeCollect": {
       "title": "Topladığımız bilgiler",
       "account": "Hesabınızı oluşturmak ve güvenliğini sağlamak için hesap bilgileri (ör. e-posta/telefon).",
-      "encrypted": "Şifrelenmiş içerik (mesajlar/arama), uçtan uca şifrelenmiştir; biz bunları okuyamayız.",
-      "diagnostics": "Çökme günlükleri, cihaz türü veya performansı iyileştirmek için genel analizler gibi tanılama/kullanım bilgileri."
+      "encrypted": "Şifrelenmiş içerik (mesajlar/arama) uçtan uca şifrelenmiştir; biz bunları okuyamayız.",
+      "diagnostics": "Çökme günlükleri, cihaz türü, veya kaba analizler."
     },
     "sms": {
       "title": "Cep telefonu numaraları ve SMS",
-      "body": "Bir cep telefonu numarası vermeyi seçerseniz, bunu hesap doğrulama, oturum açma uyarıları ve desteklenen yerlerde SMS yoluyla kullanıcılar arası mesajlaşma gibi özellikleri etkinleştirmek için kullanırız. Hesabınız ve Chatforia'daki faaliyetlerinizle ilgili işlem SMS mesajları gönderebiliriz. Desteklenen bir iptal -out anahtar kelimesiyle (örneğin \"STOP\") yanıt vererek veya uygulamadaki bildirim tercihlerinizi değiştirerek SMS mesajlarını almayı istediğiniz zaman iptal edebilirsiniz. Telefon numaranızı satmayız veya alakasız pazarlama amaçları için kullanmayız.",
+      "body": "Bir cep telefonu numarası vermeyi seçerseniz, bunu hesap doğrulama, oturum açma uyarıları ve desteklenen yerlerde SMS yoluyla kullanıcılar arası mesajlaşma gibi özellikleri etkinleştirmek için kullanırız. Hesabınız ve Chatforia'daki faaliyetlerinizle ilgili işlem SMS mesajları gönderebiliriz. Desteklenen bir devre dışı bırakma anahtar kelimesi (örneğin \"STOP\") ile yanıt vererek veya uygulamadaki bildirim tercihlerinizi değiştirerek istediğiniz desteklenen bir iptal anahtar kelimesi (örneğin \"STOP\") ile yanıt vererek veya uygulamadaki bildirim tercihlerinizi değiştirerek SMS mesajlarını almayı reddedebilirsiniz. Telefon numaranızı satmayız veya alakasız pazarlama amaçları için kullanmayız.",
       "newText": "Yeni metin",
       "enterRecipient": "Bir isim veya numara girin",
       "typeMessage": "Bir mesaj yazın…",
-      "addRecipient": "Başlamak için yukarıya bir alıcı ekleyin…"
+      "addRecipient": "Başlamak için yukarıdan bir alıcı ekleyin…"
     },
     "howWeUse": {
-      "title": "Bilgileri nasıl kullanıyoruz",
+      "title": "Bilgileri nasıl kullanıyoruz ",
       "provide": "Hizmeti sunmak ve güvenliğini sağlamak (kimlik doğrulama, spam/kötüye kullanım tespiti).",
       "improve": "Özellikleri iyileştirmek (çeviri kalitesi, güvenilirlik).",
-      "legal": "Yasal yükümlülükleri yerine getirme."
+      "legal": "Yasal yükümlülükleri yerine getirmek."
     },
     "sharing": {
-      "title": "Paylaşma",
-      "body": "Kişisel verileri satmıyoruz. Sıkı sözleşmeler kapsamında işleyicilerle (ör. push bildirimleri, analitik) sınırlı verileri paylaşabiliriz."
+      "title": "Paylaşım",
+      "body": "Kişisel verileri satmıyoruz. Sıkı sözleşmeler kapsamında işleyicilerle (ör. anlık bildirimler, analizler) sınırlı verileri paylaşabiliriz."
     },
     "rights": {
       "title": "Haklarınız",
       "body": "Bölgenize bağlı olarak (ör. GDPR/UK GDPR/CPRA), erişim, düzeltme, silme veya belirli işlemlerden vazgeçme talebinde bulunabilirsiniz. İletişim: privacy@chatforia.com."
     },
-    "retention": {
+    "saklama ": {
       "title": "Veri saklama ve güvenlik",
       "body": "Hizmeti işletmek için gerekli olan verileri saklar ve endüstri standardı güvenlik önlemleri uygularız. E2E içeriği tarafımızdan deşifre edilemez."
     },
     "children": {
       "title": "Çocuklar",
-      "body": "Chatforia, 13 yaşın altındaki çocuklara yönelik değildir (veya yerel yasalarınızın gerektirdiği şekilde)."
+      "body": "Chatforia, 13 yaşın altındaki çocuklara (veya yerel yasalarınızın gerektirdiği şekilde) yönelik değildir."
     },
     "changes": {
       "title": "Değişiklikler",
@@ -1854,11 +1903,11 @@
     "title": "Hizmet Şartları",
     "lastUpdated": "Son güncelleme:",
     "intro": {
-      "body": "Chatforia'yı kullanarak bu Koşulları kabul etmiş olursunuz. Kabul etmiyorsanız, hizmeti kullanmayın."
+      " body": "Chatforia'yı kullanarak bu Koşulları kabul etmiş olursunuz. Kabul etmiyorsanız, hizmeti kullanmayın."
     },
     "accounts": {
       "title": "Hesaplar",
-      "itemAccurateInfo": "Doğru bilgi verin ve kimlik bilgilerinizi güvende tutun.",
+      "itemAccurateInfo": " Doğru bilgi verin ve kimlik bilgilerinizi güvende tutun.",
       "itemResponsibility": "Hesabınızdaki faaliyetlerden siz sorumlusunuz."
     },
     "acceptableUse": {
@@ -1868,19 +1917,19 @@
     },
     "sms": {
       "title": "SMS iletişimi",
-      "body": "Bir cep telefonu numarası verirseniz, Chatforia'nın size hesabınız ve hizmetin kullanımıyla ilgili SMS mesajları gönderebileceğini kabul edersiniz; örneğin, oturum açma uyarıları, güvenlik bildirimleri ve başlattığınız veya katıldığınız sohbetlerle ilgili mesajlar. Açık rızanız olmadan SMS'leri tanıtım veya pazarlama mesajları için kullanmayız. Standart mesaj ve veri ücretleri uygulanabilir. Desteklenen bir iptal anahtar kelimesiyle (örneğin \"STOP\") veya uygulamadaki bildirim ayarlarınızı güncelleyerek SMS mesajlarını istediğiniz zaman iptal edebilirsiniz."
+      "body": "Bir cep telefonu numarası verdiğinizde, Chatforia'nın size hesabınız ve hizmetin kullanımıyla ilgili SMS mesajları gönderebileceğini kabul edersiniz; bu mesajlar arasında oturum açma uyarıları, güvenlik bildirimleri ve başlattığınız veya katıldığınız sohbetlerle ilgili mesajlar yer alabilir. Açık rızanız olmadan SMS'leri tanıtım veya pazarlama mesajları için kullanmayız. Standart mesaj ve veri ücretleri geçerli olabilir. desteklenen bir iptal anahtar kelimesi (örneğin, \"STOP\") ile yanıt vererek veya uygulamadaki bildirim ayarlarınızı güncelleyerek SMS mesajlarını istediğiniz zaman iptal edebilirsiniz."
     },
     "yourContent": {
       "title": "İçeriğiniz",
       "body": "İçeriğinizin hakları size aittir. Hizmeti işletmemiz için gerekli hakları (ör. yönlendirme, depolama, çeviri) bize verirsiniz."
     },
     "disclaimer": {
-      "title": "Feragatnameler ve sorumluluk",
-      "body": "Hizmet, herhangi bir garanti olmaksızın \"olduğu gibi\" sunulmaktadır. Yasanın izin verdiği en geniş ölçüde, Chatforia dolaylı veya sonuçsal zararlardan sorumlu değildir."
+      "title": "Feragatname ve sorumluluk",
+      "body": "Hizmet, herhangi bir garanti olmaksızın \"olduğu gibi\" sunulur. Yasanın izin verdiği en geniş ölçüde, Chatforia dolaylı veya sonuçsal zararlardan sorumlu değildir."
     },
     "changes": {
       "title": "Değişiklikler",
-      "body": "Bu şartları güncelleyebiliriz; değişikliklerden sonra kullanmaya devam etmeniz, bunları kabul ettiğiniz anlamına gelir."
+      " body": "Bu şartları güncelleyebiliriz; değişikliklerden sonra hizmetin kullanılmaya devam edilmesi, şartların kabul edildiği anlamına gelir."
     },
     "contact": {
       "title": "İletişim",
@@ -1889,11 +1938,11 @@
   },
   "refund": {
     "title": "İade Politikası",
-    "lastUpdated": "Son güncelleme:",
+    "lastUpdated": "Son güncelleme tarihi:",
     "intro": "Chatforia olarak, tüm kullanıcılara yüksek kaliteli bir hizmet sunmak için çaba gösteriyoruz. Bu İade Politikası, iadelerin ne zaman yapılabileceğini özetlemektedir.",
     "subscriptions": {
       "title": "Abonelikler",
-      "body": "Abonelikler, tekrarlayan bir şekilde önceden faturalandırılır. Hesap ayarlarınız veya satın alma işlemi için kullandığınız platform üzerinden istediğiniz zaman iptal edebilirsiniz."
+      "body": "Abonelikler, düzenli olarak peşin olarak faturalandırılır. Hesap ayarlarınızdan veya satın alma işlemi için kullandığınız platformdan istediğiniz zaman iptal edebilirsiniz."
     },
     "eligibility": {
       "title": "İade Uygunluğu",
@@ -1901,27 +1950,58 @@
     },
     "nonRefundable": {
       "title": "İade Edilemez",
-      "body": "Genellikle kullanılmayan süreler, kısmi abonelik dönemleri veya yenileme öncesinde iptal edilememesi durumunda iade yapılmaz."
+      "body": "Genellikle kullanılmayan süreler, kısmi abonelik dönemleri veya yenileme öncesinde iptal edilememesi durumlarında iade yapmıyoruz."
     },
-    "thirdParty": {
+    "thirdParty ": {
       "title": "Üçüncü Taraf Satın Alımları",
-      "body": "Apple App Store gibi üçüncü taraf platformlar üzerinden satın alınmışsa, iadeler doğrudan bu platformlar üzerinden talep edilmelidir."
+      "body": "Apple App Store gibi üçüncü taraf platformlar üzerinden satın alınmışsa, geri ödemeler doğrudan bu platformlar üzerinden talep edilmelidir."
     },
     "contact": {
       "title": "İletişim",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, ABD"
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, ABD"
     }
   },
   "doNotSell": {
     "title": "Kişisel Bilgilerimi Satmayın veya Paylaşmayın",
-    "body": "Chatforia kişisel bilgileri satmaz. Kaliforniya sakinleri, aşağıdaki düğmeyi kullanarak CPRA kapsamında yine de talepte bulunabilir.",
-    "cta": "Talepte bulun"
+    "body": "Chatforia kişisel bilgileri satmaz. Kaliforniya sakinleri yine de aşağıdaki düğmeyi kullanarak CPRA kapsamında taleplerini iletebilirler.",
+    "cta": "Talep gönder"
   },
   "cookies": {
     "title": "Çerez Ayarları",
     "body": "Chatforia minimum düzeyde çerez kullanır (örn. oturum, güvenlik). Üçüncü taraf reklam çerezleri kullanmıyoruz. Çerezleri tarayıcınızın ayarlarından yönetebilirsiniz."
   },
   "premiumGuard": {
-    "requiresPremium": "Bu özellik için Premium plan gereklidir."
+    "requiresPremium": "Bu özellik Premium plan gerektirir."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Politikası ve Onay",
+    "lastUpdated": "Son güncelleme:",
+    "whatWeSend": {
+      "title": "Ne gönderiyoruz",
+      "body": "Chatforia, kullanıcının açıkça sağladığı ve onayladığı telefon numaralarına yalnızca hesapla ilgili ve sohbet amaçlı SMS'ler gönderir. Tipik mesajlar arasında oturum açma/doğrulama kodları, mesaj teslim uyarıları, güvenlik bildirimleri ve işlem hesap güncellemeleri bulunur."
+    },
+    "optIn": {
+      "title": "Kullanıcılar nasıl onay verir",
+      "body": "Kullanıcılar, kayıt sırasında telefon numaralarını girerek ve kayıt sayfasında veya özel",
+      "link": "onay formunda",
+      ", \"optOut": {
+        "title": "Kullanıcılar nasıl iptal eder",
+        "stop": "Çıkmak için herhangi bir Chatforia SMS'ine STOP yazıp yanıtlayın.",
+        "start": "Tekrar abone olmak için START yazıp yanıtlayın.",
+        "contactPrefix": "Destek için"
+      },
+      "help": {
+        "title": "Yardım",
+        "bodyPrefix": "Yardım için HELP yazıp yanıtlayın veya e-posta gönderin"
+      },
+      "privacyTerms": {
+        "title": "Gizlilik ve Şartlar",
+        "bodyStart": "SMS'i kabul ederek, kullanıcılar ayrıca bizim",
+        "terms": "Hizmet Şartları",
+        "and": "ve",
+        "privacy": "Gizlilik Politikası"
+      },
+      "footer": "© 2026 Chatforia Inc."
+    }
   }
 }

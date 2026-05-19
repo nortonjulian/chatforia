@@ -2,1801 +2,2000 @@
   "common": {
     "save": "Späicheren",
     "cancel": "Ofbriechen",
-    "refresh": "Aktualiséieren",
-    "noMatches": "Keng Treffer",
+    "refresh": "Erfrëschen",
+    "noMatches": "Keng Matcher",
     "cancelAria": "Ofbriechen",
     "copy": "Kopéieren",
-    "copied": "Kopéiert!",
-    "errorWithMessage": "Feeler: {{message}}"
+    "copied": "Kopieiert!",
+    "errorWithMessage": "Feeler: { {message}}",
+    "loading": "Lued…",
+    "saveError": "Späicheren ass fehlgeschloen"
   },
   "a11y": {
-    "skipToMain": "Direkt zum Haaptinhalt"
+    "skipToMain": "Sprang op den Haaptinhalt"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Schlëssel-Backup erstallt an erofgelueden ✓",
-    "restored": "Schlëssel-Backup restauréiert ✓ Schlësselen lokal installéiert",
-    "noBackup": "Fir dësen Account gëtt et kee verschlësselt Backup",
-    "missingPublicKey": "De Backup feelt e public Schlëssel"
+    "backupCreated": "Schlëssel-Backup erstallt a erofgeluede ✓",
+    "restored": "Schlëssel-Backup zréckgesat ✓ Schlëssel lokal installéiert",
+    "noBackup": "Keng verschlësselt Kopie existéiert fir dëse Kont",
+    "missingPublicKey": "Dem Backup feelt eng ëffentlech Schlëssel"
   },
   "keySetup": {
-    "title": "Richt d’Gerät-Schlësselen op",
-    "description": "Dëst Gerät huet nach net däi private Schlëssel. Importéier e passwuert-geschützten Backup oder generéier e neit Schlësselpaar (du kanns dann nei Messagen liesen).",
-    "chooseFile": "Wiel eng Datei a gëff d’Passwuert an.",
-    "imported": "Private Schlëssel op dëst Gerät importéiert. Du kanns elo al Messagen liesen.",
-    "enterPassword": "Gëff däi Account-Passwuert an, dam mir däi Schlëssel sécher backupéiere kënnen."
+    "title ": "Setzt Är Apparat-Schlësselen op",
+    "beschreiwung": "Dëse Apparat huet Är privat Schlëssel nach net. Importéiert e mat engem Passwuert geséchert Backup, oder generéiert e neit Schlësselpaar (duerno kënnt Dir nei Noriichten liesen).",
+    "wieltDatei": "Wielt eng Datei a gitt d'Passwuert an.",
+    "imported": "Privatschlëssel op dësem Apparat importéiert. Dir kënnt elo al Noriichten liesen.",
+    "enterPassword": "Gitt Äert Kontpasswuert an, sou datt mir Är Schlësselen sécher sécheren."
+  },
+  "encryptionRecovery": {
+    "title": "Verschlësselung verwalten",
+    "description": "Maacht eng Sécherheetskopie vun Ärem Verschlësselungsschlëssel, stellt en erëm hier, schléisst en op oder setzt en op de Standardzoustand zréck.",
+    " alert": {
+      "keyRequiredTitle": "Verschlësselungsschlëssel erfuerderlech",
+      "keyRequiredBody": "Dëse Browser kann aktuell Är verschlësselt Noriichten net entschlësselen. Restauréiert, entschlësselt oder setzt Äre Schlëssel zréck, fir weiderzemaachen."
+    },
+    "sections": {
+      "createBackup": "Schlëssel-Backup erstellen",
+      "restoreFromBackup": "Aus dem Kont-Backup restauréieren",
+      "resetEncryption": "Verschlësselung zréckzetzen"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Passcode opmaachen (aktuellt Apparat)",
+        "description": "Gëtt benotzt fir Är Schlësselen lokal ze entschlësselen ier se exportéiert ginn"
+      },
+      "backupPassword": {
+        "label": "Backup-Passwuert",
+        "description": "Gëtt benotzt fir d'Backup-Datei ze verschlësselen"
+      },
+      "restoreBackupPass word": {
+        "label": "Backup-Passwuert",
+        "description": "Dat Passwuert, dat Dir erstallt hutt, wéi Dir Äre Schlëssel op iPhone geséchert hutt"
+      },
+      "newLocalPasscode": {
+        "label": "Neie lokale Passcode",
+        "description": "Schlësselen op dësem Browser am Rou-Zoustand schützen"
+      },
+      "resetLocalPasscode": {
+        "label": "Neie lokalen Passcode",
+        "description": "Erfuerderlech virum Zuréckzielen, sou datt de neie Schlëssel op dësem Apparat geschützt ass"
+      }
+    },
+    "actions": {
+      "unlockKey": "D'Verschlësselungsschlëssel opschléissen",
+      "restoreFromBackup": " Aus dem Kont-Backup restauréieren",
+      "verschlësselung zrécksetzen": "Verschlësselung zrécksetzen"
+    },
+    "messages": {
+      "backupCreated": "Schlëssel-Backup gouf erstallt an erofgeluede.",
+      "keyUnlocked": "Verschlësselungsschlëssel gouf entsperrt.",
+      "keyRestored": "Schlëssel gouf aus dem Kont-Backup restauréiert.",
+      "resetSuccess": "Verschlësselung erfollegräich zréckgesat."
+    },
+    "errors": {
+      "restoreIncomplete": "Schlësselrestauratioun onvollstänneg oder falsch fir dëse Kont",
+      "noBackup": "Fir dëse Kont existéiert keng verschlësselt Backup",
+      "öffentlechSchlësselFeelt": "Dem Backup feelt eng ëffentlech Schlëssel",
+      "keeServerÖffentlechSchlëssel": "Dëse Kont weist aktuell keng Server-öffentlech Schlëssel",
+      "ServerBackupOfstëmmung": "De Server-Backup passt net mam aktuellen Kont-Verschlësselungsschlëssel",
+      "onvollstännegMetadaten": "D'Backup-Metadaten sinn onvollstänneg",
+      "ResetOnvollstänneg": "D'Verschlësselungs-Reset gouf net korrekt ofgeschloss "
+    },
+    "confirm": {
+      "reset": "Verschlësselung fir dëse Kont zréckzestellen?\n\nÄlter verschlësselt Noriichten kënnen onliesbar ginn, ausser Dir stellt de Originalklëssch duerno erëm hier."
+    },
+    "resetDescription": "Dëst generéiert en neie Verschlësselungsklëssch fir Äre Kont. Älter verschlësselt Noriichten kënnen onliesbar ginn, ausser Dir stellt de Originalklëssch duerno erëm hier."
+  },
+  "smsConsent": {
+    "label": "Ech stëmmen zou, SMS-Notifikatiounen an Alerten vun {{companyName}} ze kréien. D'Frequenz vun de Messagen kann variéieren. Et kënne Message- a Datenkäschten ugoen. Äntwert <stop>STOP</stop> fir Iech zu all Moment ofzemellen. Äntwert <help>HELP</help> fir Hëllef."
+  },
+  "phoneField": {
+    "label": "Telefon",
+    "ongëlteg": "Ongëlteg Telefonsnummer",
+    "Tipp": "Füügt de Lännercode derbäi wann néideg (z. B. +1 415…)"
   },
   "auth": {
-    "headline": "Sécher Messagerie fir jiddereng an iwwerall",
-    "description": "End-to-End Verschlësselung, Iwwersetzung an 100+ Sproochen, verschwindend Messagen a Stëmm-/Video-Appellen.",
-    "feature": {
-      "encryption": "End-to-End Verschlësselung standardmäßig",
-      "translation": "Intelligent, agebaute Message-Iwwersetzung",
-      "disappearing": "Verschwindend Messagen & Liesbestätegungen",
-      "privacy": "Privatsphäre-firscht. Deng Daten, däi Kontroll.",
-      "translate": "Intelligent, agebaute Message-Iwwersetzung",
-      "disappear": "Verschwindend Messagen",
-      "privacyAlt": "Privatsphäre-firscht Design",
-      "seePlans": "Kuck d’Pläng & Präisser"
+    "Überschrëft": "Sécher Messaging fir jiddereen, iwwerall",
+    "Beschreiwung": "Verschlësselung vun Enn-zu-Enn, Iwwersetzung an iwwer 100 Sproochen, verschwinnend Noriichten an Stëmm-/Videoanrufe.",
+    "Funktioun": {
+      "Verschlësselung": "Verschlësselung vun Enn-zu-Enn standardméisseg",
+      "Iwwersetzung": "Klug, agebaute Noriichtiwwersetzung",
+      "verschwinnend": "Verschwinnend Noriichten & Lesequittungen",
+      "privacy": "Datenschutz-éischt. Är Donnéeën, Är Kontroll.",
+      "iwwersetzung": "Smart, agebaute Noriichtiwwersetzung",
+      "verschwannen": "Verschwinnend Noriichten",
+      "privacyAlt": "Design mat Fokus op Privatsphär",
+      "seePlans": "Pläng & Präisser gesinn"
     },
     "hero": {
-      "line1": "Sécher Messagerie fir jiddereng, iwwerall — mat",
-      "em": "Iwwersetzung an 100+ Sproochen",
-      "sub": "Kréi eng gratis sécher Telefonsnummer fir weltwäit iwwer Wi-Fi oder Mobilfunk ze ruffen an ze schreiwen. Geniess End-to-End Verschlësselung, verschwindend Messagen a HD Stëmm-/Video-Appellen — mat agebaute Tools, déi dir hëllefen, iwwer Grenzen ze bleiwen.",
-      "freeNote": "Basis-Appellen a Schreiwen sinn gratis. Erweidert AI a Premium-Funktioune brauchen en Upgrade."
+      "line1": "Sécher Messaging fir jiddereen, iwwerall — mat",
+      "em": "Iwwersetzung an iwwer 100 Sproochen",
+      "sub": "Kritt eng gratis sécher Telefonsnummer fir weltwäit iwwer Wi-Fi oder Daten ze uruffen an ze schreiwen. Genéisst End-to-End-Verschlësselung, verschwinnend Noriichten an HD-Stëmm-/Videoanrufe — mat agebaute Tools, déi Iech hëllefen, iwwer d'Grenzen eraus verbonnen ze bleiwen.",
+      "freeNote": "Basis-Uruff an -Noriichten sinn gratis. Fortgeschratt KI an Premium-Funktiounen erfuerderen en Upgrade."
     },
     "feat": {
-      "encryption": "End-to-End Verschlësselung, ëmmer un",
-      "translate": "Bréck Sproochbarrièren an dengen Gespréicher",
-      "disappear": "Verschwindend Messagen & Liesbestätegungen",
-      "privacy": "Privatsphäre-firscht. Deng Daten, däi Kontroll."
+      "verschlësselung": "Verschlësselung vun Enn-zu-Enn, ëmmer aktiv",
+      "iwwersetzen": "Spréchgrenzen an äre Gespréicher iwwerwannen",
+      "verschwannen": "Verschwinnend Noriichten & Lesequittungen",
+      "privatheet": "Privatheet als Prioritéit. Är Donnéeën, Är Kontroll. "
     },
-    "continueGoogle": "Weider mat Google",
-    "continueApple": "Weider mat Apple",
+    "continueGoogle": "Mat Google weidergoen",
+    "continueApple": "Mat Apple weidergoen",
     "username": "Benotzernumm",
     "password": "Passwuert",
-    "keepSignedIn": "Mäi Login behalen",
+    "keepSignedIn": "Bleif ageloggt",
     "forgotPassword": "Passwuert vergiess?",
-    "loginButton": "Aloggen",
-    "createAccount": "Account erstellen",
-    "freeAccountButton": "Gratis Account erstellen",
+    "loginButton": "Aaloggen",
+    "createAccount": "E Kont erstellen",
+    "freeAccountButton": "Gratis-Kont erstellen",
     "newHere": "Nei hei?",
-    "getApp": "D’App kréien",
-    "desktopTip": "Op Desktop? Scann mat dengem Telefon fir d’App ze kréien.",
-    "scanHelper": "Op Desktop? Scann mat dengem Telefon fir d’App ze kréien.",
-    "goHome": "Zum Home",
-    "home": "Home",
+    "getApp": "Kritt d'App",
+    "desktopTip": "Op Desktop? Scannt mat ärem Telefon fir d'App ze kréien.",
+    "scanHelper": "Op Desktop? Scannt mat ärem Telefon fir d'App ze kréien.",
+    "goHome": "Gitt op d'Heem",
+    "home": "Heem",
     "headlineAlt": {
-      "main": "De séchere Messenger, deen",
-      "highlight": "deng Sprooch schwätzt"
+      "main": "De séchere Messenger deen",
+      "highlight": "däi Sprooch schwätzt"
     },
-    "subhead": "Privat, verschlësselt a iwwersetzt Messagerie — direkt.",
-    "upgrade": "Elo upgraden",
-    "tip": "Tipp: Benotz dee selwechte Account op Web a Mobil. Deng Messagen bleiwen synchroniséiert.",
-    "openDownload": "Download-Säit opmaachen",
+    "subhead": "Privat, verschlësselt a iwwersat Messaging — direkt.",
+    "upgrade": "Upgrade elo",
+    "tip": "Tipp: Benotzt de selwechte Kont op Web a mobil. Är Noriichten bleiwen synchroniséiert.",
+    "openDownload": "Maacht d'Downloadsäit op",
     "qrAlt": "QR-Code fir Chatforia",
-    "scanHint": "Scann fir d’App erofzelueden oder am Browser opzemaachen.",
-    "iosAria": "Am App Store erofzelueden",
-    "iosTitle": "Am App Store erofzelueden",
-    "iosBadgeAlt": "App Store Badge",
-    "androidAria": "Op Google Play kréien",
+    "scanHint": "Scannt fir d'App erofzelueden oder se an Ärem Browser opzemaachen.",
+    "iosAria": "Eroflueden am App Store",
+    "iosTitle": "Eroflueden am App Store",
+    "iosBadgeAlt": "App Store-Badge",
+    "androidAria": "Kritt et op Google Play",
     "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play Badge",
-    "login": "Aloggen",
-    "signup": "Registréieren",
+    "androidBadgeAlt": "Google Play badge",
+    "login": "Umellen",
+    "signup": "Umellen",
     "email": "E-Mail",
     "registration": {
-      "passwordDescription": "Minimum 6 Zeechen. Benotz e staarkt, eenzegaartegt Passwuert.",
-      "smsConsent": "Mat der Erstellung vun engem Account akzeptéiers du SMS-Notifikatioune am Zesummenhang mat denger Chatforia-Aktivitéit (z. B. Messagen vun anere Benotzer). Messagen- a Datetariffer kënnen uwenden. Du kanns jidderzäit an den Astellungen ofschalten.",
-      "termsLink": "Nutzungsbedéngungen",
-      "privacyLink": "Privatsphäre-Politik"
+      "passwordDescription": "Mindestens 6 Zeechen. Benotzt e staarkt, eenzegaartegt Passwuert.",
+      " smsConsent": "Duerch d'Erstellung vun engem Kont akzeptéiert Dir, SMS-Notifikatiounen iwwer Är Chatforia-Aktivitéit ze kréien (wéi Noriichten vun anere Benotzer). Message- a Dataraten kënnen ugewandt ginn. Dir kënnt Iech zu all Moment an deenen Astellungen ofmellen.",
+      "termsLink": "Allgemeng Bedéngungen",
+      "privacyLink": "Datenschutzpolitik"
     },
     "to": "Un:",
-    "enterRecipient": "Gëff e Numm oder eng Nummer an",
+    "enterRecipient": "Gitt e Numm oder eng Nummer an",
     "clearRecipients": "Empfänger läschen",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Schreif eng Messaggio...",
-    "addRecipient": "Setz en Empfänger uewen drun fir unzefänken...",
-    "oneRecipient": "Gëff fir den Moment nëmmen een Empfänger an.",
-    "enterValidRecipient": "Gëff e gespäichert Kontaktnumm oder eng Telefonsnummer an.",
-    "sendFailed": "Schécken gescheitert. Kuck d’Konsol fir Detailer."
+    "typeMessage": "Schreif eng Noriicht…",
+    "addRecipient": "Füüg e Empfänger uewen derbäi fir unzefänken…",
+    "oneRecipient": "Gitt w.e.g. fir de Moment ee Empfänger an.",
+    "enterValidRecipient": "Gitt e gespaarten Kontaktnumm oder eng Telefonsnummer un.",
+    "sendFailed": "Verschécken gescheitert. Kuckt d'Konsole fir méi Detailer."
   },
   "home": {
-    "title": "Home",
-    "header": "Deng Messagen",
-    "subheader": "Schéck eng Messaggio fir e Chat unzefänken.",
-    "sendButton": "Messaggio schécken",
-    "gifPicker": "GIF-Auswiel opmaachen",
+    " title": "Heem",
+    "messagesTitle": "Är Noriichten",
+    "messagesSubtitle": "Gitt hei uewen e Empfänger an, da schéckt eng Noriicht fir eng Konversatioun unzefänken.",
+    "subheader": "Schéckt eng Noriicht fir e Chat unzefänken.",
+    "sendButton": "Noriicht schécken",
+    "gifPicker": "GIF-Auswieler opmaachen",
     "emoji": "Emoji",
     "upload": "Foto oder Video eroplueden",
-    "inputPlaceholder": "Schreif eng Messaggio...",
-    "inputLabel": "Messaggio-Composer",
+    "inputPlaceholder": "Schreif eng Noriicht…",
+    "inputLabel": "Noriicht-Komponist",
     "sendTooltip": "Schécken",
-    "sendTooltipEmpty": "Schreif eng Messaggio fir ze schécken",
+    "sendTooltipEmpty": "Schreif eng Noriicht fir ze schécken",
     "send": "Schécken",
-    "enterRecipient": "Gitt en Numm oder eng Nummer an",
-    "addRecipient": "Füügt uewen en Empfänger derbäi fir unzefänken…",
     "welcomeMessage": "Wëllkomm bei Chatforia",
-    "getStarted": "Fänk un"
-  },
-  "refund": {
-    "title": "Remboursementspolitik",
-    "lastUpdated": "Lescht aktualiséiert:",
-    "intro": "Bei Chatforia beméie mir eis, eng héichwäerteg Déngschtleeschtung fir all Benotzer ze bidden. Dës Remboursementspolitik erkläert, wéini Remboursementer méiglech sinn.",
-    "subscriptions": {
-      "title": "Abonnementer",
-      "body": "Abonnementer ginn am Viraus op enger widderhuelender Basis verrechent. Dir kënnt zu all Moment iwwer Är Kont-Astellungen oder iwwer d’Plattform, wou Dir kaaft hutt, ofbriechen."
-    },
-    "eligibility": {
-      "title": "Remboursementberechtegung",
-      "body": "Remboursementer kënnen zougestane ginn am Fall vu duebele Belaaschtungen, Rechnungsfeeler oder technesche Problemer, déi den Zougang zu bezuelte Funktiounen verhënneren. All Ufro gëtt eenzel iwwerpréift."
-    },
-    "nonRefundable": {
-      "title": "Net rembourséierbar",
-      "body": "Mir ginn normalerweis keng Remboursementer fir net benotzt Zäit, deelweis Abonnementperioden oder wann net virum Erneierungsdatum ofgesot gouf."
-    },
-    "thirdParty": {
-      "title": "Drëtt-Partei Akeef",
-      "body": "Wann de Kaf iwwer Drëtt-Partei Plattformen wéi den Apple App Store gemaach gouf, mussen d’Remboursementer direkt iwwer dës Plattformen ugefrot ginn."
-    },
-    "contact": {
-      "title": "Kontakt",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-  "blog": {
-    "whyMessaging": {
-      "title": "Firwat Messaging-Plattformen méi wichteg sinn wéi jee",
-      "intro": "Messaging-Plattformen sinn haut ee vun de wichtegste Mëttel fir Kommunikatioun ginn...",
-      "everydayTitle": "Alldäglech Kommunikatioun",
-      "everydayDesc": "Leit benotze Messaging-Apps fir alldeeglech Kommunikatioun...",
-      "speedTitle": "Geschwindegkeet a Komfort",
-      "speedDesc": "Messagen ginn direkt geliwwert...",
-      "globalTitle": "Global Reechwäit",
-      "globalDesc": "Messaging-Plattformen verbannen Leit op der ganzer Welt...",
-      "privacyTitle": "Privatsphär a Kontroll",
-      "privacyDesc": "Modern Plattformen ginn de Benotzer méi Kontroll...",
-      "futureTitle": "D’Zukunft vum Messaging",
-      "futureDesc": "Messaging entwéckelt sech weider mat neie Funktiounen...",
-      "outro": "Chatforia ass op dëse Prinzipie gebaut..."
-    },
-
-    "global": {
-      "title": "D’Zukunft vun der globaler Kommunikatioun",
-      "intro": "Kommunikatioun huet sech séier entwéckelt...",
-      "barriersTitle": "Barrièren ofbauen",
-      "barriersDesc": "Leit kënnen elo weltwäit verbonne sinn...",
-      "translationTitle": "D’Roll vun der Iwwersetzungstechnologie",
-      "translationDesc": "Sprooch war traditionell eng Barrière...",
-      "realtimeTitle": "Echtzäit-Verbindung",
-      "realtimeDesc": "Geschwindegkeet ass entscheedend...",
-      "privacyTitle": "Privatsphär a Sécherheet",
-      "privacyDesc": "Benotzer wëllen sécher sinn, datt hir Gespréicher geschützt sinn...",
-      "futureTitle": "Wat kënnt als nächst",
-      "futureDesc": "D’Zukunft vun der Kommunikatioun wäert nei Méiglechkeeten enthalen...",
-      "outro": "Plattformen wéi Chatforia si Deel dovun..."
-    },
-
-    "index": {
-      "title": "Chatforia Blog",
-      "intro": "Entdeckt Abléck an d’Kommunikatioun...",
-      "post1": "Wéi ee sécher online chattet",
-      "post2": "D’Zukunft vun der globaler Kommunikatioun",
-      "post3": "Firwat Messaging-Plattformen wichteg sinn"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Wéi Chatforia funktionéiert",
-    "intro": "Chatforia ass entwéckelt fir Kommunikatioun einfach ze maachen...",
-    "step1Title": "1. E Kont erstellen",
-    "step1Desc": "Mellt Iech un mat Ärer E-Mail oder Ärem Benotzernumm...",
-    "step2Title": "2. Eng Conversatioun starten",
-    "step2Desc": "Verbënnt Iech mat anere Leit...",
-    "step3Title": "3. Echtzäit Messaging",
-    "step3Desc": "Messagen ginn séier geliwwert...",
-    "step4Title": "4. Global Kommunikatioun",
-    "step4Desc": "Integréiert Iwwersetzung hëlleft de Benotzer...",
-    "step5Title": "5. Kontroll behalen",
-    "step5Desc": "Verwalten Är Preferenzen..."
-  },
-
-  "safety": {
-    "title": "Sécherheet & Gemeinschaftsrichtlinnen",
-    "intro": "Chatforia setzt sech dofir an, eng sécher Ëmwelt ze garantéieren...",
-    "respectTitle": "Respektvoll Kommunikatioun",
-    "respectDesc": "Benotzer solle respektvoll matenee kommunizéieren...",
-    "prohibitedTitle": "Verbuedenen Inhalt",
-    "prohibited": {
-      "illegal": "Illegal Aktivitéiten",
-      "harassment": "Belästegung oder Mobbing",
-      "hate": "Haassried oder Diskriminatioun",
-      "explicit": "Expliziten oder schiedlechen Inhalt",
-      "spam": "Spam oder täuschend Praktiken"
-    },
-    "toolsTitle": "Sécherheets-Tools",
-    "tools": {
-      "report": "Onpassend Verhalen mellen",
-      "block": "Benotzer blockéieren",
-      "control": "Privatsphär-Astellungen verwalten"
-    },
-    "enforcementTitle": "Duerchsetzung",
-    "enforcementDesc": "Mir kënnen Moossname géint Konten ergräifen..."
-},
-  "chat": {
-    "selectPrompt": "Wiel en Text oder e Chatraum fir ze chatten",
-    "newMessages": "Nei Messagen",
-    "typing": "{{name}} tippt...",
-    "emptyTitle": "Deng Messagen",
-    "emptySubtitle": "Schéck eng Messaggio fir e Chat unzefänken.",
-    "startChatButton": "Messaggio schécken",
-    "mediaAttachment": "Medien-Unhang",
-    "thisUser": "dëse Benotzer",
-    "blockConfirm": "{{name}} blockéieren? Du kriss keng Messagen méi vun hinnen.",
-    "blockedUser": "{{name}} blockéiert.",
-    "blockError": "Et konnt keen Zielbenotzer fir ze blockéieren bestëmmt ginn.",
-    "blockFailed": "Blockéieren gescheitert (Backend nach net verbonnen).",
-    "encryptedUnavailable": "Verschlësselt Messaggio (Schlëssel net verfügbar)",
-    "unlockToView": "Spär däi Schlëssel op fir dës Messaggio ze gesinn"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Aus"
-    },
-    "freeLimit": "Gratis-Plang-Limit: Automatesch läschen bis 1 Dag. Op 1 Dag limitéiert.",
-    "premiumLimit": "Max. Automatesch läschen fir Premium ass 30 Deeg. Op 30 Deeg limitéiert.",
-    "nothingToSend": "Schreif eng Messaggio oder hänkt eng Datei un fir ze schécken.",
-    "encryptionFailed": "Verschlësselung gescheitert. Messaggio net geschéckt.",
-    "sent": "Messaggio geliwwert.",
-    "placeholder": "Schreif eng Messaggio...",
-    "voiceAdded": "Stëmmnotiz bäigefüügt",
-    "attachmentAdded": "Uschlëss bäigefüügt",
-    "autoDelete": "Automatesch läschen",
-    "typeToSend": "Schreif eng Messaggio fir ze schécken",
-    "send": "Schécken",
-    "sendWithEnter": "Schécken (Enter)",
-    "attachment": "Unhang",
-    "caption": "Beschreiwung (optional)",
-    "remove": "Ewechhuelen",
-    "clear": "Läschen",
-    "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Unhang ze grouss. Probéier eng méi kleng Datei.",
-      "unsupportedFile": "Net ënnerstëtzte Dateityp.",
-      "rateLimit": "Du schéckst Messagen ze schnell. Maach lueser.",
-      "validation": "Validéierungsfeeler. Kuck deng Messaggio a probéier nach eng Kéier.",
-      "failedToSend": "Schécken gescheitert. Du kanns d’fehlende Blasen nach eng Kéier probéieren."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Gespäichert Kontakter",
-    "refreshAria": "Kontakter aktualiséieren",
-    "filterPlaceholder": "Gespäichert Kontakter filteren...",
-    "filterAria": "Gespäichert Kontakter filteren",
-    "noContactsFound": "Keng Kontakter fonnt.",
-    "externalContact": "Externen Kontakt",
-    "notJoined": "Dëse Kontakt huet Chatforia nach net bäigetrieden.",
-    "couldNotStart": "Chat konnt net gestart ginn. Probéier nach eng Kéier.",
-    "startFailed": "Chat-Start gescheitert. Probéier nach eng Kéier.",
-    "deleted": "Kontakt geläscht.",
-    "deleteFailed": "Kontakt läschen gescheitert. Probéier nach eng Kéier.",
-    "aliasUpdated": "Alias aktualiséiert.",
-    "updateAliasFailed": "Alias aktualiséieren gescheitert. Probéier nach eng Kéier.",
-    "selectContact": "{{name}} wielen",
-    "alias": "Alias",
-    "startChat": "Chat starten",
-    "message": "Messaggio",
-    "delete": "Läschen",
-    "deleteContactAria": "Kontakt läschen",
-    "loadFailed": "Kontakter lueden gescheitert. Probéier nach eng Kéier.",
-    "loadMore": "Méi lueden",
-    "call": "Ruffen",
-    "callStarted": "Dës Nummer gëtt iwwer däi Chatforia-Nummer geruff...",
-    "callFailed": "Ruff starten gescheitert. Probéier nach eng Kéier."
-  },
-  "startChatModal": {
-    "title": "Gespréich starten",
-    "searchPlaceholder": "Numm, Benotzernumm oder Telefonsnummer sichen",
-    "messageThisPerson": "Dëser Persoun eng Messaggio schécken",
-    "contacts": "Kontakter",
-    "recentInteractions": "Rezent Interaktiounen",
-    "noContactsMatch": "Keng Kontakter passen zu denger Sich.",
-    "noRecentInteractions": "Nach keng rezent Interaktiounen.",
-    "unknown": "Onbekannt",
-    "interactionType": {
-      "message": "Messaggio",
-      "call": "Ruff",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Kontakt bäifügen",
-    "phoneOrUsername": "Telefon oder Benotzernumm",
-    "phoneOrUsernamePlaceholder": "z. B. +13018019227 oder juliannorton",
-    "alias": "Alias (optional)",
-    "aliasPlaceholder": "z. B. Aarbecht, Mamm, Mike – Europa",
-    "enterPhoneOrUsername": "Gëff eng Telefonsnummer oder Benotzernumm an.",
-    "userLookupFailed": "Benotzer-Sich gescheitert.",
-    "cannotAddSelf": "Du kanns dech net selwer als Kontakt bäifügen.",
-    "failedToAdd": "Kontakt bäifügen gescheitert.",
-    "add": "Bäifügen"
+    "getStarted": "Ufänken",
+    "mixedRecipients": "Mëschtempfänger detektéiert. Benotzt entweder all Telefonsnummeren (SMS) oder all Benotzernimm (Chatforia).",
+    "enterRecipient": "Gitt e Numm oder eng Nummer an",
+    "addRecipient": "Füügt e Empfänger uewen derbäi fir unzefänken…",
+    "needNumber": "Dir braucht eng Chatforia-Nummer ier Dir SMS verschéckt.",
+    "chooseNumber": "Wielt eng Nummer"
   },
   "sidebar": {
     "randomChat": "Zoufällege Chat",
-    "callTextForwarding": "Ruff- & Text-Weiderleedung",
-    "conversations": "Gespréicher",
-    "searchPlaceholder": "Gespréicher sichen...",
-    "errorLoading": "Gespréicher lueden gescheitert",
-    "empty": "Nach keng Gespréicher.",
-    "startChat": "Chat starten",
+    "callTextForwarding": "Uruff- & SMS-Weiderleedung ",
+    "Conversations": "Conversatiounen",
+    "searchPlaceholder": "Sicht no Chats...",
+    "errorLoading": "Et huet net geklappt, d'Chats ze lueden",
+    "empty": "Nach keng Conversatiounen.",
+    "startChat": "Eng Chat ufänken",
     "people": "Leit",
     "settings": "Astellungen",
     "status": "Status",
-    "forwarding": "Ruff- & Text-Weiderleedung",
-    "refresh": "Aktualiséieren",
-    "search": "Gespréicher sichen",
-    "loginPrompt": "Logg dech an fir deng Astellungen ze änneren.",
-    "login": "Aloggen",
-    "register": "Account erstellen",
-    "chatrooms": "Chatraumen",
-    "logout": "Ausloggen",
-    "startChatAlt": "Neien Chat starten",
-    "calls": "Appellen",
+    "forwarding": "Uruff- & SMS-Weiderleedung",
+    "erneieren": "Erneieren",
+    "sich": "Sich no Gespréicher",
+    "loginPrompt": "Mellt Iech un, fir Är Astellungen z'änneren.",
+    "login": "Mellt Iech un",
+    "registréieren": "Kont erstellen",
+    "chatrooms": "Chatrooms",
+    "logout": "Log out",
+    "startChatAlt": "Start a new chat",
+    "calls": "Calls",
     "video": "Video",
     "voicemail": "Voicemail"
   },
   "topbar": {
-    "newStatus": "Neie Status",
-    "logout": "Ausloggen",
-    "help": "Hëllef",
-    "createStatusAria": "Neie Status erstellen"
+    "neieStatus": "Neie Status",
+    "ausloggen": "Ausloggen",
+    "hëllef": "Hëllef",
+    "neieStatusErstelle": "Neie Status erstellen"
+  },
+  "footer": {
+    "pläng": "Pläng & Präisser",
+    "iwwer": "Iwwer Chatforia",
+    "karriären": " Karriären",
+    "Press": "Press",
+    "Reklamm": "Reklamm maachen",
+    "Kontakt": "Kontaktéiert eis",
+    "Hëllef": " Hëllefszenter",
+    "status": "Status-Säit",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Datenschutzpolitik",
+    "terms": "Allgemeng Bedéngungen",
+    "cookies": "Cookie-Astellungen",
+    "doNotSell": "Verkaaft meng Donnéeën net",
+    "language": "Sprooch",
+    "contactShort": "Kontakt",
+    "aria": "Fousszeil",
+    "homeAria": "Chatforia Heem",
+    "section": {
+      "company": "Firma",
+      "support": "Ënnerstëtzung ",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      " getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of -service": "Allgemeng Bedéngungen",
+      "do-not-sell-my-info": "Verkaaft meng Donnéeën net",
+      "cookie-settings": "Cookie-Astellungen",
+      "how-it-works": "Wéi et funktionéiert",
+      "blog": "Blog",
+      "refund-policy": "Remboursementspolitik",
+      "sms-politik": "SMS-Messaging-Politik"
+    },
+    "sozial": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": " LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Zréck uewen"
+  },
+  "chat": {
+    "selectPrompt": "Wielt e Text oder e Chatraum fir mat dem Chatten unzefänken",
+    "newMessages": "Nei Noriichten",
+    "typing": "{{name }} schreiwt...",
+    "emptyTitle": "Är Noriichten",
+    "emptySubtitle": "Schéck eng Noriicht fir e Chat unzefänken.",
+    "startChatButton": "Noriicht schécken",
+    "mediaAttachment": "Medie-Uleeër",
+    "thisUser": "dëse Benotzer",
+    "blockConfirm": "Blockéieren {{name}}? Du kritt keng Noriichten méi vun hinnen.",
+    "blockedUser": "Blockéierten {{name}}.",
+    "blockError": "Et konnt kee Benotzer fonnt ginn, deen blockéiert soll ginn.",
+    "blockFailed": "Blockéierung gescheitert (Backend nach net ageriicht).",
+    "encryptedUnavailable": "Verschlësselt Noriicht (Schlëssel net verfügbar)",
+    "unlockToView": "Schléisst Äre Schlëssel op, fir dës Noriicht ze gesinn"
+  },
+  " messageInput": {
+    "ttl": {
+      "off": "Aus"
+    },
+    "freeLimit": "Limit vum gratis Plang: automatesch Läschung bis zu 1 Dag. Op 1 Dag beschränkt.",
+    "premiumLimit": "Maximal automatesch Läschung fir Premium ass 30 Deeg. Op 30 Deeg beschränkt.",
+    " nothingToSend": "Gitt eng Noriicht an oder füügt eng Datei un fir ze verschécken.",
+    "encryptionFailed": "Verschlësselung gescheitert. Noriicht net verschéckt.",
+    "sent": "Noriicht geliwwert.",
+    "placeholder": "Gitt eng Noriicht an… ",
+    "autoDelete": "Auto-Läschung",
+    "typeToSend": "Schreif eng Noriicht fir ze schécken",
+    "send": "Schécken",
+    "sendWithEnter": "Schécken (Enter)",
+    "attachment": "Uleeë",
+    "caption": "Beschreiwung (optional)",
+    "remove": "Ewechhuelen",
+    "clear": "Läichen",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "Feeler": {
+      "Anhang ze grouss": "Anhang ze grouss. Probéiert eng méi kleng Datei.",
+      "net ënnerstëtzte Datei": "Net ënnerstëtzte Dateityp.",
+      "Geschwindegkeetsbegrenzung": "Dir schéckt Messagen ze séier. Verlangsamt w.e.g.",
+      "Validéierung": "Validéierungsfeeler. Iwwerpréift w.e.g. Är Noriicht a probéiert et nees.",
+      "failedToSend": "Verschécken net erfollegräich. Dir kënnt d'Bubbel nach eng Kéier versichen."
+    }
   },
   "threadActions": {
     "threadMenu": "Thread-Menü",
     "premium": "Premium",
-    "aiPower": "AI-Kraaft",
-    "schedule": "Planen",
-    "upgrade": "Upgraden",
-    "upgradeSuffix": "(Upgraden)",
+    "aiPower": "AI Power",
+    "schedule": "Schedule",
+    "upgrade": "Upgrade",
+    "upgradeSuffix": "(Upgrade)",
     "thread": "Thread",
-    "about": "Iwwer",
-    "search": "Sichen",
-    "media": "Medien",
+    "about": "About",
+    "search": "Search",
+    "media": "Media",
     "invitePeople": "Leit invitéieren",
-    "roomSettings": "Raum-Astellungen",
-    "clearConversation": "Gespréich läschen",
-    "clearConversationForMe": "Fir mech läschen",
-    "clearConversationForEveryone": "Fir jidderee läschen",
-    "block": "Blockéieren"
+    "Zëmmerastellungen": "Zëmmerastellungen",
+    "Gespréich läschen": "Gespréich läschen",
+    "Blockéieren": "Blockéieren"
   },
-  "roomSearch": {
-    "title": "Am Raum sichen",
-    "ariaLabel": "Am Raum sichen",
+  "Zëmmer Sich": {
+    "Titel": "Sichen am Raum",
+    "ariaLabel": "Sichen am Raum",
     "search": "Sichen",
-    "searchMessages": "Messagen sichen",
-    "noText": "[Keen Text]",
+    "searchMessages": "Sichen Noriichten",
+    "noText": "[Kengem Text]",
     "noResults": "Keng Resultater"
   },
   "roomSettings": {
     "roles": {
       "member": "Member",
-      "moderator": "Moderator",
+      "moderator": " Moderator",
       "admin": "Admin"
     },
     "aiMode": {
-      "off": "Aus",
-      "mention": "Nëmme bei @ForiaBot oder /ask",
-      "always": "Proaktiv äntweren"
+      "off": "Off",
+      "mention": "Nëmmen op @ForiaBot oder /ask",
+      "ëmmer": "Proaktiv äntweren"
     },
     "autoTranslateMode": {
-      "off": "Aus",
-      "tagged": "Nëmme markéiert (/tr ...)",
-      "all": "All Messagen"
+      "aus": "Aus",
+      "getaggt": "Nëmmen getaggt (/tr …)",
+      "all": "All Noriichten"
     },
-    "updated": "Astellungen aktualiséiert"
+    "aktualiséiert": "Astellungen aktualiséiert"
   },
   "mediaGallery": {
     "sharedMedia": "Gedeelt Medien",
-    "noMediaCached": "Nach keng Medien lokal gespäichert.",
+    "noMediaCached": "Keng Medien sinn nach lokal gespäichert.",
     "imageAlt": "Bild",
     "openVideo": "Video opmaachen",
-    "openVideoWithCaption": "Video opmaachen: {{caption}}",
-    "preview": "Preview",
-    "previewWithCaption": "Preview: {{caption}}",
-    "previewKind": "Preview {{kind}}",
-    "download": "Eroflueden",
-    "downloadKind": "Eroflueden {{kind}}",
+    "openVideoWithCaption": "Video opmaachen: {{beschreiwung}}",
+    "preview": "Virschau",
+    "previewWithCaption": "Virschau: {{beschreiwung}}",
+    "previewKind": "Virlag {{art}}",
+    "download": "Download",
+    "downloadKind": "Download {{art}}",
     "file": "Datei",
-    "kinds": {
-      "image": "Bild",
-      "video": "Video",
-      "audio": "Audio",
-      "file": "Datei"
+    "arts": {
+      "bild": "bild",
+      "video": "video",
+      "audio": "audio",
+      "datei": "datei"
     }
   },
   "status": {
     "userNumber": "Benotzer #{{id}}",
     "posted": "Status publizéiert",
-    "postFailed": "Status publizéieren gescheitert",
-    "createTitle": "Status erstellen",
-    "modalAriaLabel": "Neie Status",
+    "postFailed": "D'Verëffentlechung vum Status ass gescheitert",
+    "createTitle": "E Status erstellen",
+    "modalAriaLabel": "Neien Status",
     "captionLabel": "Wat geet dir duerch de Kapp?",
-    "captionPlaceholder": "Deelen eng Aktualisatioun...",
-    "captionAria": "Status-Messaggio",
+    "captionPlaceholder": "Deelt en Update.. .",
+    "captionAria": "Status-Noriicht",
     "audienceLabel": "Publikum",
     "audience": {
       "public": "Ëffentlech",
-      "followers": "Follower",
+      "followers": "Folger",
       "contacts": "Kontakter",
-      "mutuals": "Mutuellen",
-      "custom": "Benotzerdefinéiert..."
+      "mutuals": "Gegenseitig",
+      "custom": "Custom..."
     },
-    "expiresHoursLabel": "Läschung (Stonnen)",
+    "expiresHoursLabel": "Verfallszäit (Stonnen)",
     "maxTooltip": "Maximum 7 Deeg",
     "hoursAbbrev": "h",
     "maxShort": "max",
-    "expiresOn": "Läschung um:",
-    "chooseRecipients": "Empfänger wielen",
-    "selectContacts": "Kontakter wielen",
-    "attachmentsLabel": "Unhäng",
-    "attachmentsPlaceholder": "Biller/Videos bäifügen",
-    "filesNote": "Bis zu 5 Dateien. Standardmäßig 24 Stonnen Gültigkeit.",
-    "postAria": "Status publizéieren",
-    "post": "Publizéieren"
+    "expiresOn": "Läuft of op:",
+    "empfängerAuswielen": "Wielt Empfänger aus",
+    "kontakterAuswielen": "Wielt Kontakter aus",
+    "bäilagenEtikett": "Bäilagen",
+    "bäilagenPlaceholder": "Füügt Biller/Videoen derbäi",
+    "dateiNotiz": "Bis zu 5 Dateien. Standardméisseg 24 Stonnen Verfallszäit.",
+    "postAria": "Post-Status",
+    "post": "Post"
   },
-  "voicemail": {
+  "Voicemail": {
     "pageTitle": "Voicemail",
     "from": "Vun",
     "to": "Un",
     "unknownCaller": "Onbekannt",
-    "yourNumber": "Deng Chatforia-Nummer",
-    "durationSeconds": "{{count}}s",
+    "yourNumber": "Är Chatforia-Nummer",
+    "durationSeconds": " {{count}}en",
     "audioAria": "Voicemail-Audio-Player",
     "transcriptHeading": "Transkript",
-    "transcriptPending": "Voicemail transkribéiert...",
+    "transcriptPending": "Transkribéiert d'Voicemail…",
     "transcriptFailed": "Transkript net verfügbar.",
-    "loading": "Voicemail lueden...",
-    "errorLoading": "Voicemail lueden gescheitert.",
-    "empty": "Nach keng Voicemails.",
-    "deleteConfirm": "Dës Voicemail läschen?",
-    "deleteError": "Voicemail läschen gescheitert.",
+    "loading": "Luede d'Voicemail…",
+    "errorLoading": "Luede vun der Voicemail gescheitert.",
+    "empty": "Nach keng Sprachnoriichten.",
+    "deleteConfirm": "Dës Sprachnoriicht läschen?",
+    "deleteError": "D'Sprachnoriicht konnt net geläscht ginn.",
     "markRead": "Als gelies markéieren",
     "delete": "Läschen",
-    "unreadDotAria": "Ungelies Voicemail-Indikator"
+    "unreadDotAria": "Indikator fir ongelies Sprachnoriichten"
   },
-  "profile": {
-    "title": "Benotzerprofil",
-    "preferredLanguage": "Bevorzugt Sprooch",
-    "chooseLanguage": "Sprooch wielen",
-    "mustLogin": "Du muss dech anloggen fir d’Astellungen ze gesinn.",
-    "autoTranslate": "Messagen automatesch iwwersetzen",
-    "showOriginalWithTranslation": "Original an iwwersetzt Messagen uweisen",
-    "showOriginalAndTranslation": "Original nieft der Iwwersetzung uweisen",
-    "filterExplicit": "Explizit Inhalt filteren",
-    "aiReply": "AI-Äntwert",
+  "contactList": {
+    "savedContacts": "Späichert Kontakter",
+    "refreshAria": "Kontakter erfrëschen",
+    "filterPlaceholder": "Späichert Kontakter filtere…",
+    "filterAria": "Späichert Kontakter filtere",
+    "noContactsFound": "Keng Kontakter fonnt.",
+    "externalContact": "Äusseren Kontakt",
+    "notJoined": "Dëse Kontakt huet nach net bei Chatforia matgemaach.",
+    "couldNotStart": "De Chat konnt net gestart ginn. Probéiert et nees.",
+    "startFailed": "Et huet net geklappt de Chat unzefänken. Probéiert et nees. ",
+    "geläscht": "Kontakt geläscht.",
+    "KontaktläschenFeeler": "Et ass net gelongen de Kontakt ze läschen. Probéiert et nees.",
+    "Alias aktualiséiert": "Alias aktualiséiert.",
+    "Alias aktualiséierenFeeler": "Et ass net gelongen den Alias ze aktualiséieren. Probéiert et nees.",
+    "Kontakt auswielen": "Wielt {{name}} aus",
+    "Alias": "Alias",
+    "Chat starten": "Chat starten",
+    "message": "Noriicht",
+    "delete": "Läschen",
+    "deleteContactAria": "Kontakt läschen",
+    "loadFailed": "Kontaktluedung gescheitert. Probéiert et nees.",
+    "nachméiLued": "Nach méi lueden",
+    "uruff": "Uruff",
+    "UruffUfank": "Uruff dës Nummer iwwer deng Chatforia-Nummer…",
+    "UruffFeeler": "Uruff konnt net ugefaangen ginn. Probéier et nees."
+  },
+  "KontaktderbäisetzenModal": {
+    "Titel": "Kontakt derbäisetzen",
+    "phoneOrUsername": "Telefon- oder Benotzernumm",
+    "phoneOrUsernamePlaceholder": "z. B. +13018019227 oder juliannorton",
+    "alias": "Alias (optional)",
+    "aliasPlaceholder": "e. z. B. Aarbecht, Mamm, Mike – Europa",
+    "enterPhoneOrUsername": "Gitt eng Telefonsnummer oder e Benotzernumm an.",
+    "userLookupFailed": "D'Sich no Benotzer ass gescheitert.",
+    "cannotAddSelf": "Dir kënnt Iech net selwer als Kontakt derbäisetzen.",
+    "failedToAdd": "Et ass net gelongen, de Kontakt derbäi ze setzen.",
+    "add": "Derbäisetzen"
+  },
+  "startChatModal": {
+    "title": "Eng Konversatioun ufänken",
+    "searchPlaceholder": "Sicht no engem Numm, Benotzernumm oder Telefonsnummer",
+    "messageThisPerson": "Schécks dëser Persoun eng Noriicht",
+    "contacts": "Kontakter",
+    "recentInteractions": "Kürzlech Interaktiounen",
+    "noContactsMatch": "Keng Kontakter entspriechen Ärer Sich.",
+    "noRecentInteractions": "Keng rezent Interaktiounen nach.",
+    "onbekannt": "Onbekannt",
+    "interaktiounstyp": {
+      "noriicht": "Noriicht",
+      "uruff": "Uruff",
+      "video": "Video"
+    },
+    "schnellauswiel": "Schnellauswiel",
+    "un": "Un",
+    "nummOderbenotzernumm": "Gitt e Numm oder Benotzernumm an",
+    "nameUsernamePhoneEmail": "Gitt e Numm, Benotzernumm, Telefonsnummer oder E-Mail-Adress an…",
+    "startWithSelected": "Fänkt de Chat mam ausgewielten Kontakt un",
+    "searchByUsernameOrPhone": "Sicht no Benotzernumm oder Telefonsnummer",
+    "search": "Sichen",
+    "searchPrompt": " Gitt e Benotzernumm oder eng Telefonsnummer an a dréckt op Sich.",
+    "pickFromContacts": "Oder wielt aus Kontakter",
+    "addContact": "Füügt e Kontakt derbäi",
+    "show": "Weise",
+    "add": "Füügt derbäi",
+    "close": "Zoumaachen",
+    "selectedCount": "{{count}} ausgewielt ",
+    "pickAtLeastOne": "Wielt op d'mannst ee Empfänger.",
+    "saveContactsHint": "Telefonsnummeren/E-Mail-Adressen sinn verfügbar, nodeems Dir se als Kontakter gespäichert hutt.",
+    "failedBulkStart": "Et huet net geklappt, de Chat mat de gewielten Empfängeren unzefänken.",
+    "noResults": "Keng Resultater",
+    "mode": "Modus",
+    "group": "Grupp",
+    " broadcast": "Broadcast",
+    "groupNameOptional": "Gruppennumm (optional)",
+    "firstMessageOptional": "Éischt Noriicht (optional mee recommandéiert)",
+    "createGroup": "Grupp erstellen",
+    "sendBroadcast": "Broadcast schécken"
+  },
+  "peoplePage": {
+    "people": "Leit",
+    "search": "Sichen",
+    "searchPlaceholder": "Sicht no gespaarten Kontakter no Spëtznumm, Numm, Benotzernumm oder Telefonsnummer",
+    "quickStart": "Séierstart",
+    "quickStartDesc": "Verwalt däi Kontakter a lued Frënn an.",
+    "importContacts": "Importéier däi Kontakter",
+    "import ": "Importéieren",
+    "Kontaktderbäisetzen": "En Kontakt derbäisetzen",
+    "derbäisetzen": "Derbäisetzen",
+    "Frënn invitéieren": "Frënn invitéieren",
+    "inviteDesc": "Deel däi Invitatiounslink fir direkt mat dem Chatten unzefänken.",
+    "App kréien": "D'App kréien",
+    "getTheAppDesc": "Bleif ënnerwee mat Chatforia fir iOS an Android a Kontakt.",
+    "eroflueden": "Eroflueden",
+    "syncTip": "Tipp: Är Noriichten bleiwen iwwer Web a mobil synchroniséiert.",
+    "filterSaved": "Gespäichert Kontakter filtern",
+    "noContactsFound": "Keng Kontakter fonnt",
+    "focusSearch": "Sich fokusséieren",
+    "findOrAdd": "Fannen oder derbäisetzen",
+    "searchByPhoneOrUsername": "Sich no Telefonsnummer oder Benotzernumm"
+  },
+  "profil": {
+    "titel": "Benotzerprofil",
+    "préferéiertSprooch": "Préferéiert Sprooch",
+    "sproochAuswielen": "Wielt eng Sprooch",
+    "mussAalogéiertSin": "Dir musst Iech aginn, fir d'Astellungen ze gesinn.",
+    "autoIwwersetzen": "Botschaften automatesch iwwersetzen",
+    "originalMatIwwerset lation": "Original- a iwwersat Noriichten weisen",
+    "showOriginalAndTranslation": "Original nieft der Iwwersetzung weisen",
+    "filterExplicit": "Explizit Inhalter filtern",
+    "aiReply": "Äntwert vun der KI",
     "enableReadReceipts": "Liesbestätegungen aktivéieren",
-    "allowExplicitContent": "Explizit Inhalt erlaben",
-    "disappearingMessages": "Verschwindend Messagen aktivéieren",
-    "autoDeleteSeconds": "Sekonnen bis automatesch läschen",
+    "allowExplicitContent": "Explizit Inhalter erlaben",
+    "disappearingMessages": "Botzen, déi verschwannen, aktivéieren",
+    "autoDeleteSeconds": "Sekonnen bis automatesch Läschung",
     "saveSuccess": "Astellungen gespäichert!",
-    "saveError": "Feeler: Astellungen konnten net gespäichert ginn",
-    "avatarAlt": "Profil-Avatar",
-    "uploadAvatar": "Neien Avatar eroplueden",
-    "avatarSuccess": "Avatar eroplueden!",
-    "avatarError": "Avatar eroplueden gescheitert",
+    "saveError": "Feeler: D'Astellungen konnten net gespäichert ginn",
+    "avatarAlt": "Profilaufnimm",
+    "uploadAvatar": "Nei Profilaufnimm eroplueden",
+    "avatarSuccess": "Profilaufnimm eropgelueden!",
+    "avatarError": "Avatar eropzelueden gescheitert",
     "avatarUpdated": "Avatar aktualiséiert!",
-    "uploadingAvatar": "Avatar eroplueden...",
-    "noPrivateKey": "Et gëtt kee private Schlëssel op dësem Gerät fir ze exportéieren.",
-    "setBackupPassword": "Setz e Passwuert fir däi Backup ze verschlësselen:",
-    "backupDownloaded": "Verschlësselt Backup erofgelueden.",
-    "exportFailed": "Schlëssel-Export gescheitert",
-    "enterBackupPassword": "Gëff d’Passwuert fir dësen Backup an:",
-    "importSuccess": "Private Schlëssel op dëst Gerät importéiert.",
-    "importFailed": "Schlëssel importéieren gescheitert (falscht Passwuert oder korrupt Datei).",
-    "keysRotated": "Neit Schlësselpaar generéiert a public Schlëssel eropgelueden.",
-    "rotateFailed": "Schlësselen rotéieren gescheitert.",
+    "uploadingAvatar": "Avatar eropzelueden…",
+    "noPrivateKey": "Et gëtt keng privat Schlëssel op dësem Apparat fir ze exportéieren.",
+    "setBackupPassword": "Setzt e Passwuert fir däi Backup ze verschlësselen:",
+    "backupDownloaded": "Verschlësselt Backup erofgeluede.",
+    "exportFailed": "D'Exportéiere vum Schlëssel huet net geklappt",
+    "enterBackupPassword": "Gitt d'Passwuert fir dëse Backup an:",
+    "importSuccess": "Privatschlëssel op dësem Apparat importéiert.",
+    "importFailed": "Importéiere vum Schlëssel huet net geklappt (falsch Passwuert oder korrupt Datei).",
+    "keysRotated": "Nei Schlësselpaar generéiert an ëffentlech Schlëssel eropgelueden.",
+    "rotateFailed": "D'Schlësselen konnten net gedréint ginn.",
     "security": "Sécherheet",
-    "exportKey": "Verschlësselungs-Schlëssel backupéieren",
-    "importKey": "Verschlësselungs-Schlëssel restauréieren",
-    "rotateKeys": "Verschlësselungs-Schlëssel rotéieren",
-    "keyDisclaimer": "Däi private Schlëssel verléisst dëst Gerät ni. Exportéier eng passwuert-geschützt Kopie fir se op engem anere Gerät ze restauréieren.",
+    "exportKey": "Sécherheets-Schlëssel exportéieren",
+    "importKey": "Sécherheets-Schlëssel zréckféieren",
+    "rotateKeys": "Sécherheets-Schlëssel dréinen",
+    "keyDisclaimer": "Äre privaten Schlëssel verléisst dëse Apparat ni. Exportéiert eng duerch e Passwuert geschützt Kopie fir se op engem aneren Apparat erëmzestellen.",
     "sectionProfile": "Profil",
     "phoneNumber": "Telefonsnummer",
-    "appearance": "Erscheinungsbild",
-    "soundSettings": "Téin",
-    "disappearing": "Verschwindend Messagen",
-    "backupSync": "Verschlësselungs-Schlëssel-Backup",
-    "ai": "AI",
+    "appearance": "Ausgesinn",
+    "soundSettings": "Kläng",
+    "disappearing": "Verschwindend Noriichten",
+    "backupSync": "Backup & Synchroniséierung",
+    "ai": "KI",
     "accessibility": "Zougänglechkeet",
-    "privacy": "Privatsphäre",
-    "devices": "Verbonne Geräter",
-    "themeFreeNotice": "Du bass op Gratis – benotz déi séier Sun/Moon-Optiounen ënnen. Upgrad fir méi Themen ze entspären.",
-    "sunTheme": "Dawn-Thema benotzen",
-    "moonTheme": "Moon (Midnight)-Thema benotzen",
-    "sun": "Sun",
-    "moon": "Moon",
-    "backupTitle": "Verschlësselt Backups & Gerät-Sync",
-    "openBackupTools": "Backup-Tools opmaachen",
-    "backupDesc": "Backupéier däi Verschlësselungs-Schlëssel fir deng Messagen sécher op engem anere Gerät ze restauréieren.",
-    "privacyBlurEnabled": "Messagen standardmäßig verschwummen",
-    "privacyBlurOnUnfocus": "Verschwummen, wann d’App net fokusséiert ass",
-    "planSection": "Mäi Plang",
-    "planLoading": "Däi Plang lueden...",
-    "planLoadFailed": "Däi Plang lueden gescheitert.",
-    "currentPlan": "Aktuelle Plang",
-    "planRenewsOn": "Erneiert den",
-    "freePlanCopy": "Du bass op dem Gratis-Plang. Upgrad fir méi Funktioune wéi Backups, zousätzlech Nummeren a fortgeschrëttene Privatsphäre-Optiounen ze entspären.",
-    "upgradePlanCta": "Plang upgraden",
-    "changePlanCta": "Plang änneren",
-    "manageBilling": "Abrechnung verwalten",
-    "portalOpenFailed": "Abrechnungs-Portal konnt net opgemaach ginn. Probéier nach eng Kéier.",
-    "holdToReveal": "Drécken fir ze weisen",
-    "notifyOnCopy": "Mëngel mech, wann meng Messaggio kopéiert gëtt",
-    "loadFailed": "Profil lueden gescheitert",
-    "followed": "Gefollegt",
-    "followFailed": "Follegen gescheitert",
-    "unfollowed": "Entfollegt",
-    "unfollowFailed": "Entfollegen gescheitert",
-    "follow": "Follegen",
-    "unfollow": "Entfollegen",
-    "followHint": "Hir Stories erschéngen an dengem Following-Feed, wann se mat Publikum „Followers“ (oder Public) publizéieren.",
+    "privacy": "Privatsphär",
+    "devices": "Verbonnen Apparater",
+    "themeFreeNotice": "Dir sidd op der gratis Versioun—benotzt déi séier Sonn/Mound-Optiounen hei ënnen. Upgrade fir méi Themen opzeschléissen.",
+    "sunTheme": "Benotzt den Dawn-Theme",
+    "moonTheme": "Benotzt den Moon (Mëtternuecht)-Theme",
+    "sun": "Sonn",
+    "moon": "Mound",
+    "backupTitle": "Verschlësselt Backups & Apparat-Synchroniséierung",
+    "openBackupTools": " Open Backup Tools",
+    "backupDesc": "Späichert Äre Verschlësselungsschlëssel, fir Är Noriichten op engem aneren Apparat sécher zréckzestellen. ",
+    "privacyBlurEnabled": "Botzen Noriichten standardméisseg",
+    "privacyBlurOnUnfocus": "Botzen wann d'App am Hannergrond ass",
+    "planSection": "Mäin Plang",
+    "planLoading": "Äre Plang gëtt gelueden…",
+    "planLoadFailed": "Et huet net geklappt Äre Plang ze lueden. ",
+    "aktuellenPlang": "Aktuellen Plang",
+    "PlangErneiertSichOp": "Erneiert sech op",
+    "gratisPlangKopie": "Dir sidd um gratis Plang. Upgrade fir méi Funktiounen wéi Backups, zousätzlech Nummeren an fortgeschratt Privatsphär-Optiounen ze entsperren.",
+    "upgradePlangCta": "Plang upgraden",
+    "plangännerenCta": "Plang änneren",
+    "bezuelungVerwalten": "Bezuelung verwalten",
+    "portalOpenFailed": "De Billing-Portal konnt net opgemaach ginn. Probéiert et w.e.g. nach eng Kéier.",
+    "holdToReveal": "Halt fir ze weisen",
+    "notifyOnCopy": "Mellt mech wann meng Noriicht kopéiert gëtt",
+    "loadFailed": "Profilsladung gescheitert",
+    "followed": "Gefollt",
+    "followFailed": "Folgoen gescheitert",
+    "unfollowed": "Ofgefollegt",
+    "unfollowFailed": "Onglécklech ofzefollowen",
+    "follow": "Folleg",
+    "unfollow": "Ofzefollowen",
+    "followHint": "Hir Stories erschéngen an denger Following-Timeline wann se mat engem Publikum vun Followers (oder ëffentlech) posten.",
     "userNotFound": "Benotzer net fonnt",
-    "followsYou": "Follegt dir",
-    "sectionCrashedTitle": "Sektioun konnt net gelueden ginn",
-    "sectionCrashedBody": "Et ass eppes schiefgaang an dëser Sektioun.",
-    "forwarding": "Ruff- & Text-Weiderleedung",
-    "callTextForwardingSection": "Ruff- & Text-Weiderleedung",
-    "callTextForwardingTitle": "Ruff- a/oder Text-Weiderleedung",
-    "callTextForwardingDescription": "Weiderleed inklommend Appellen a Texten op deng verifizéiert Telefon oder E-Mail. Ausgehend Appellen/Texten kënnen deng Chatforia-Nummer weisen.",
-    "enableTextForwarding": "Text-Weiderleedung aktivéieren",
-    "forwardTextsToPhone": "Texten op Telefon weiderleeden",
-    "forwardTextsToEmail": "Texten op E-Mail weiderleeden",
-    "destinationPhone": "Ziel-Telefon (E.164)",
-    "destinationEmail": "Ziel-E-Mail",
-    "enableCallForwarding": "Ruff-Weiderleedung aktivéieren",
-    "destinationPhoneForCalls": "Ziel (E.164) fir Appellen",
-    "aliasBridging": "Ruff-Weiderleedung (Alias-Bridging)",
-    "quietHoursOptional": "Roug Stonnen (optional)",
-    "startHour": "Startstonn (0–23)",
+    "followsYou": "Follegt dir no",
+    "sectionCrashedTitle ": "D'Sektioun konnt net geluede ginn",
+    "sectionCrashedBody": "Eppes ass an dëser Sektioun falsch gaangen.",
+    "forwarding": "Uruff- & SMS-Weiderleedung",
+    "callTextForwardingSection": "Uruff- & SMS-Weiderleedung",
+    "callTextForwardingTitle": "Uruff- a/oder SMS-Weiderleedung",
+    "callTextForwardingDescription": "Leet erakomm Uruff an SMS op Äre verifizéierten Telefon oder Är E-Mail weider. Erausgaang Uruff/Noriichten kënnen Är Chatforia-Nummer weisen.",
+    "EnableTextForwarding": "Aktivéiert d'Text-Weiderleedung",
+    "forwardTextsToPhone": "Schéckt Texter op d'Telefon",
+    "forwardTextsToEmail": "Schéckt Texter op d'E-Mail",
+    "destinationPhone": "Destinatiouns-Telefon (E.164)",
+    "destinationEmail": "Destinatiouns-E-Mail",
+    "enableCallForwarding": "Aktivéiert Uruff-Weiderleedung",
+    "destinationPhoneForCalls": "Destinatioun (E.164) fir Uruff",
+    "aliasBridging": "Uruffsweiderleeung (alias Bridging)",
+    "quietHoursOptional": "Stëll Stonnen (optional)",
+    "startHour": "Ufangsstonn (0–23)",
     "endHour": "Endstonn (0–23)",
-    "reset": "Zerécksetzen",
+    "reset": "Reset",
     "saveBtn": "Späicheren",
-    "saveProfile": "Profil späicheren",
-    "saveForwarding": "Weiderleedung späicheren",
-    "forwardSaved": "Weiderleedungs-Astellungen gespäichert",
-    "forwardSaveFailed": "Astellungen späicheren gescheitert",
-    "errE164": "Gëff eng valabel E.164-Telefonnummer an (z. B. +15551234567).",
-    "errEmail": "Gëff eng valabel E-Mail an.",
-    "errSmsDest": "Wiel op mannst een Ziel (Telefon oder E-Mail).",
-    "errQuietHours": "Roug Stonnen mussen tëscht 0 an 23 sinn.",
+    "saveProfile ": "Profil späicheren",
+    "späicherenWeiderleedung": "Weiderleedungs-Astellungen späicheren",
+    "WeiderleedungSpäichert": "Weiderleedungs-Astellungen gespäichert",
+    "WeiderleedungSpäicherenFeeler": "Feeler bei der Späicherung vun den Astellungen",
+    "errE164": "Gitt eng gëlteg E.164-Telefonsnummer un (z. B. +15551234567).",
+    "errEmail": "Gitt eng gëlteg E-Mailadress un.",
+    "errSmsDest": "Wielt op d'mannst ee Zil (Telefon oder E-Mail).",
+    "errQuietHours": "Stëll Stonnen mussen tëscht 0 an 23 sinn.",
     "randomChat": "Zoufällege Chat",
-    "ageBand": "Deng Altersgrupp",
-    "ageBandPlaceholder": "Wiel deng Altersgrupp",
+    "ageBand": "Är Altersgrupp",
+    "ageBandPlaceholder": "Wielt Är Altersgrupp",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Mir späicheren nëmmen eng Altersgrupp (net däi genauen Gebuertsdatum). Dat gëtt benotzt, fir Random-Chat-Paarungen raisonnabel ze halen.",
-    "wantsAgeFilter": "Altersbaséiert Matching am Random Chat benotzen",
-    "wantsAgeFilterDesc": "Wann un, probéiere mir, dech mat Leit an kompatiblen Altersgruppen ze paaren.",
-    "partnerAgeBands": "Mat wéi engem kanns du gepaart ginn?",
-    "partnerAgeBandsDesc": "Teenager ginn ëmmer nëmme mat anere Teenageren gepaart. Erwuessen kënnen net mat Teenageren gepaart ginn.",
-    "teenMatchingNote": "Aus Sécherheetsgrënn kënnen Accounts am 13–17-Altersberäich nëmme mat anere 13–17-Accounts am Random Chat gepaart ginn.",
-    "foriaRemember": "Looss Ria sech un d’Sachen erënneren, déi du hir seet",
-    "foriaRememberDesc": "Wann dat un ass, kann Foria deng fréier Random-Chat-Gespréicher (nëmme mat dir) benotzen, fir d’Gespréich am Floss ze halen. Du kanns dat jidderzäit ausschalten.",
-    "voicemailSection": "Voicemail",
-    "voicemailEnabled": "Voicemail aktivéieren",
-    "voicemailAutoDeleteDays": "Voicemails automatesch läschen no (Deeg)",
-    "voicemailAutoDeletePlaceholder": "Eidel loossen fir ëmmer ze behalen",
-    "voicemailForwardEmail": "Voicemail op E-Mail weiderleeden",
-    "voicemailForwardEmailPlaceholder": "E-Mail fir Voicemail-Notifikatioune ze schécken",
-    "voicemailGreetingText": "Text-Fallback-Begréissung",
-    "voicemailGreetingTextDesc": "Benotzt, wann deng Audio-Begréissung net verfügbar ass.",
-    "voicemailGreetingUpload": "Voicemail-Begréissung eroplueden",
-    "voicemailPreviewGreeting": "Begréissung previewen",
-    "voicemailGreetingUploaded": "Voicemail-Begréissung erfollegräich eropgelueden",
-    "voicemailGreetingUploadError": "Voicemail-Begréissung eroplueden gescheitert",
-    "voicemailNote": "Voicemails vun dengen Chatforia-Nummeren ginn an denger Voicemail-Inbox gespäichert. Du kanns Transkriptioun a Weiderleedung an ënnerstëtzte Pläng aktivéieren.",
-    "portHint": "Wëlls du deng aktuell Nummer behalen? Du kanns se an Chatforia Wireless portéieren.",
+    "ageBandHint": "Mir späicheren nëmmen e Altersberäich (net Äre genauen Gebuertsdatum). Dëst gëtt benotzt, fir d'Zouweisungen am Random Chat raisonnabel ze halen.",
+    "wantsAgeFilter": "Benotzt Alters-baséiert Zouweisung am Random Chat",
+    "wantsAgeFilterDesc": "Wann et ageschalt ass, probéiere mir dech mat Leit an kompatiblen Altersberäicher ze verpassen.",
+    "partnerAgeBands": "Mat wien kanns du verpasst ginn?",
+    "partnerAgeBandsDesc": "Teenager ginn ëmmer nëmmen mat anere Teenageren verpasst. Erwuessener kënnen net mat Teenageren verpasst ginn.",
+    "teenMatchingNote": "Aus Sécherheetsgrënn kënnen Konten am Alter vun 13–17 Joer am Random Chat nëmmen mat anere Konten am Alter vun 13–17 Joer gepaart ginn.",
+    "foriaRemember": "Loosst Ria Saachen erënneren, déi Dir him erzielt",
+    "foriaRememberDesc": "Wann dëst ageschalt ass, kann Foria Är fréier Random Chat-Konversatiounen (nëmmen mat Iech) benotzen, fir de Floss vun der Konversatioun oprechtzuerhalen. Dir kënnt dëst all Moment ausschalten.",
+    "voicemailSection": "Stëmmnoriicht",
+    "voicemailEnabled": "Stëmmnoriicht aktivéieren",
+    "voicemailAutoDeleteDays": "Stëmmnoriichten no (Deeg) automatesch läschen",
+    "voicemailAutoDeletePlaceholder": "Loosst eidel fir se fir ëmmer ze behalen",
+    "voicemailForwardEmail": "Stëmmnoriicht per E-Mail weiderleeden",
+    "voicemailForwardEmailPlaceholder": "E-Mail fir Stëmmnoriichten ze schécken icemail-Notifikatiounen un",
+    "voicemailGreetingText": "Fallback-Text fir d'Begrëssung",
+    "voicemailGreetingTextDesc": "Gëtt benotzt wann Är Audio-Begrëssung net verfügbar ass.",
+    "voicemailGreetingUpload": "Voicemail-Gréiss eroplueden",
+    "voicemailPreviewGreeting": "Virschau vun der Gréiss",
+    "voicemailGreetingUploaded": "Voicemail-Gréiss gouf erfollegräich eropgeluede",
+    "voicemailGreetingUploadError": "Feeler beim Eroplueden vun der Voicemail-Gréiss",
+    "voicemailNote": "Voicemailen vun äre Chatforia-Nummeren ginn an ärem Voicemail-Inbox gespäichert. Dir kënnt d'Transkriptioun an d'Weiderleedung an ënnerstëtzte Pläng aktivéieren.",
+    "portHint": "Wëllt Dir Är aktuell Nummer behale? Dir kënnt se op Chatforia Wireless portéieren.",
     "wireless": {
-      "manage": "Wireless verwalten"
+      "manage": "Gestioun vum Wireless"
     },
     "esim": {
       "title": "Chatforia eSIM",
-      "desc": "Kréi Mobilfunkdaten fir Chatforia, wann du vum Wi-Fi ewech bass.",
+      "desc": "Kritt mobil Daten fir Chatforia wann Dir net um Wi-Fi sidd.",
       "cta": "eSIM kréien / QR weisen"
-    }
+    },
+    "encryptedBackupsTitle": "Backup vum Verschlësselungsschlëssel"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "kläng": {
+    "notifikatiounskläng": "Notifikatiounskläng",
+    "resetOpStandard": "Reset op Standard",
+    "freeNoticeStart": "Dir sidd am Gratistarif — Premium-Téin ginn ugewisen, sinn awer gespaart. ",
+    "freeNoticeEnd": " fir alles opzeschléissen.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    " stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Setzt d'Dateien an /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Setzt d'Dateien an /public/sounds/Ringtones",
+    "premiumRequired": "Fir dës Auswiel gëtt Premium erfuerderlech.",
+    "gespaichert": "Tounastellungen gespaichert.",
+    "saveFailed": "Tounastellungen konnten net gespaichert ginn.",
+    "resetNotSaved": "Op Standardwäerter zréckgesat (nach net gespaichert).\"",
+    "premiumTone": "Dat ass e Premium-Toun.",
+    "premiumRingtone": "Dat ass e Premium-Klingelton.",
+    "custom ComingSoon": "Personaliséiert Toun-Uploads kommen geschwënn.",
+    "freeNotice": "Dir sidd um Gratistarif — Premium-Téin ginn ugewisen, sinn awer gespaart. Upgradéiert fir alles ze entsperren.",
+    "default": "Standard",
+    "vibrate": "Vibréieren",
+    "dreamer": "Dreemer",
+    "notify": "Notifizéieren",
+    "pop": "Pop",
+    "pulsatingSound": "Pulséierende Toun",
+    "textMessage": "Textnoriicht",
+    "xylophone": "Xylofon",
+    "classic": "Klassesch",
+    "urgency": "Urtgitéit",
+    "bells": "Kléck",
+    "chimes": "Chimes",
+    "digitalPhone": "Digitalt Telefon",
+    "melodic": "Melodesch",
+    "organNotes": "Orgelnoten",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI-Astellungen",
+    "controlIntro": "Kontrolléiert d'Iwwersetzung, déi schlaue Äntwerten an d'ForiaBot-Auto-Äntwerten.",
+    "translation": "Iwwersetzung",
+    "autoTranslateIncoming": "Auto-iwwersetzt erakommend Noriichten",
+    "showOriginalAlongside": "Weist den Originaltext nieft der Iwwersetzung",
+    "smartReplies": "Schlaue Äntwerten ",
+    "enableSmartReplies": "Smart-Äntwerten aktivéieren",
+    "smartRepliesHint": "Schéck déi lescht puer empfaange Messagen (gereinigt) un d'KI, fir séier Äntwerten virzeschloen.",
+    "maskProfanity": "Vulgärwuert an de Virschléi vun der KI maskéieren",
+    "maskProfanityHint": "Wann aktiv, ginn d'Wierder an de Virschléi vun der KI maskéiert ",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Erlaabt Auto-Äntwert wann ech beschäftegt sinn",
+    "autoReplyMode": "Auto-Äntwert-Modus",
+    "cooldownSeconds": "Cooldown (Sekonnen)",
+    "signature": "Signatur",
+    "autoReply": "🤖 Auto-Äntwert",
+    "activeUntilOptional": "Aktiv bis (optional)",
+    "save": "AI-Astellungen späicheren",
+    "saved": "AI-Virléiften gespäichert",
+    "saveFailed": " Späichere vun den AI-Astellungen gescheitert",
+    "translateOff": "Aus",
+    "translateTagged": "Nëmmen wann ech @translated oder getaggt sinn",
+    "translateAll": "All erakommend Noriichten iwwersetzen ",
+    "modeDm": "Nëmmen 1:1 Chats",
+    "modeMention": "Nëmmen wann ech @erwäänt ginn",
+    "modeAll": "All erakommend Noriichten",
+    "off": "Aus",
+    "on": "Un"
+  },
+  "accessibilitySettings": {
+    "title": "Zougänglechkeet & Alerten",
+    "loadFailed": "D'Astellungen konnten net geluede ginn",
+    "accessibilityDesc": "Optiounen fir Chatforia méi einfach ze benotzen ouni op Toun ze vertrauen.",
+    "interfaceFontSize": "Schrëftgréisst vun der Benotzeroberfläche",
+    "interfaceFontSizeHelp": "Fänkt un bei normaler Gréisst. Erhéicht wann Dir e méi groussen Text léiwer hutt.",
+    "notifications": "Notifikatiounen",
+    "visualAlerts ": "Visuell Alerten fir Noriichten & Uruff",
+    "visualAlertsDesc": "Weist Banner a blénkt de Titel, sou datt Dir keng Aktivitéit verpasst.",
+    "vibrateOnNewShort": "Vibréiert bei neie Noriichten (wann ënnerstëtzt)",
+    "vibrateOnNewDesc": "Ausléist d'Vibratioun vum Apparat mat Notifikatiounen.",
+    "flashOnCallShort": "Blénkt de Bildschierm bei engem erakommende Uruff",
+    "flashOnCallDesc": "Kuerzen helle Blëtz wann e Uruff klingelt.",
+    "liveCaptionsTitle ": "Live-Überschrëften (Uruff)",
+    "enableLiveCaptions": "Aktivéiert Live-Überschrëften wärend Uruff (Premium)",
+    "liveCaptionsDesc": "Weist Echtzäit-Überschrëften vum Audio vum aneren Participant.",
+    "captionFontSize": "Schrëftgréisst vun der Ünnerschrëft",
+    "captionBackground": "Hannergrond vun der Ünnerschrëft",
+    "voiceNotes": "Stëmmnotizen",
+    "autoTranscribeVoice Notes": "Stëmmnotizen automatesch transkribéieren",
+    "autoTranscribeVoiceNotesDesc": "Füügt eng Transkriptioun bei Audio-Noriichten, déi Dir kritt.",
+    "changesSavedInstantly": "Ännerungen ginn direkt gespäichert.",
+    "sm": "Kleng",
+    "md": "Mëttel",
+    "lg": "Grouss",
+    "xl": " Extra grouss",
+    "liicht": "Liicht",
+    "däischter": "Däischter",
+    "transparent": "Transparent",
+    "Zougänglechkeet": "Zougänglechkeet",
+    "notificationsDesc": "Visuell Alerten fir Noriichten & Uruff\nWeist Banner a Titelen, déi blénken, sou datt Dir keng Aktivitéit verpasst.",
+    "vibrateOnNew": "Vibréiere bei neie Noriichten (wann ënnerstëtzt)\nAusléist d'Vibratioun vum Apparat mat Notifikatiounen.",
+    "flashOnCall": "Blëtzbildschierm bei erakommende Uruff\nKuerzen helle Blëtz wann e Uruff klingelt.",
+    "liveCaptions": "Live-Überschrëften (Uriff)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strikt Ende-zu-Ende-Verschlësselung",
+    "ciphertextOnlyNote": "Späichert nëmmen de Chifretext um Server. Deaktivéiert KI/ Iwwersetzung an Moderatiounsvirschauen.",
+    "strictE2EEEnabled": "Strikt E2EE aktivéiert. AI/Iwwersetzung gëtt deaktivéiert.",
+    "strictE2EEDisabled": "Strikt E2EE deaktivéiert. AI/Iwwersetzung erëm aktivéiert."
+  },
+  "linkedDevicesPanel": {
+    "title": "Verbonne Geräter",
+    " nonefound": "Keng verbonne Apparater fonnt.",
+    "refresh": "Erfrëschen",
+    "unknown": "Onbekannt",
+    "loadFailed": "Luedung vun de verbonne Apparater gescheitert",
+    "loadFailedLog": "Luedung vun de verbonne Apparater gescheitert",
+    "renamePrompt": "Gitt e neie Numm fir dësen Apparat an",
+    "renamed": "Apparat ëmbenannt",
+    "renameFailed": " Konn d'Gerät net ëmbenennen",
+    "revoked": "Gerät zréckgezunn",
+    "revokeFailed": "Konn d'Gerät net zréckzéien",
+    "unnamedDevice": "Onbenannt Gerät",
+    "primary": "Primär",
+    "revokedStatus": "Zréckgezunn",
+    "addedLastSeen": "Gezunn {{created}} • Lescht gesinn {{lastSeen}}",
+    " renameDevice": "Gerät ëmbenennen",
+    "revokeDevice": "Gerät widerruffen"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Verwalt däi Chatforia-Mobilplang, Nummeren, Weiderleedung a Nummer-Portéierung.",
-    "options": {
-      "heading": "Wiel, wéi du Chatforia benotze wëlls",
-      "subheading": "Du kanns eng nei Chatforia-Nummer kréien oder deng existéierend Nummer vun engem anere Provider matbréngen.",
-      "newNumber": "Nei Chatforia-Nummer kréien",
-      "portNumber": "Deng aktuell Nummer an Chatforia Wireless portéieren"
+    "Beschreiwung": "Verwalten Dir Äre Chatforia Mobilplang, Är Nummeren, d'Weiderleedung an d'Nummerportéierung.",
+    "Optiounen": {
+      "Überschrëft": "Wielt, wéi Dir Chatforia benotze wëllt",
+      "Ënnertitel": "Dir kënnt eng nei Chatforia-Nummer kréien, oder Är bestehend Nummer vun engem aneren Provider bréngen.",
+      "neiNummer": "Kritt eng nei Chatforia-Nummer",
+      "portNumber": "Portéiert Är aktuell Nummer an Chatforia Wireless"
     },
     "port": {
-      "heading": "Deng existéierend Nummer portéieren",
-      "subheading": "Verréck deng aktuell Telefonsnummer vun dengem Provider an Chatforia. Vergewëssere dech, datt d’Detailer exakt mat dengem Provider-Account iwwereneestëmmen, fir Verzögerungen ze vermeiden.",
-      "phoneNumberLabel": "Telefonsnummer ze portéieren",
+      "heading": "Portéiert Är bestehend Nummer",
+      "subheading": "Transferéiert Är aktuell Telefonnummer vun Ärem aktuellen Provider an Chatforia. Séchert Iech, datt d'Detailer exakt mat Ärem Provider-Kont iwwerstëmmen, fir Verzögerungen ze vermeiden.",
+      "phoneNumberLabel": "Telefonnummer fir ze portéieren",
       "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "Aktuelle Provider",
+      "carrierLabel": "Aktuellen Provider",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
-      "accountNumberLabel": "Account-Nummer",
-      "pinLabel": "Port-out-PIN / Passwuert",
-      "fullNameLabel": "Vollstännegen Numm um Account",
+      "accountNumberLabel": "Kontnummer",
+      "pinLabel": "PIN / Passwuert fir d'Portéierung",
+      "fullNameLabel": "Vollstännege Numm um Kont",
       "address1Label": "Adresszeil 1",
       "address2Label": "Adresszeil 2 (optional)",
       "cityLabel": "Stad",
-      "stateLabel": "Staat / Provënz",
+      "stateLabel ": "Staat / Provënz",
       "postalCodeLabel": "Postleitzuel",
       "countryLabel": "Land",
-      "submitButton": "Port-Antrag ofschécken",
-      "success": "Port-Antrag ofgeschickt! Mir halen dech op der Laf.",
-      "genericError": "Et ass eppes schiefgaang."
+      "submitButton": "Port-Ufro ofschécken",
+      "success": "Port-Ufro ofgeschéckt! Mir halen Iech um Lafenden.",
+      "genericError": "Eppes ass falsch gaangen."
     },
     "status": {
-      "heading": "Port-Status",
-      "subheading": "Verfolleg de Status vun dengen Nummer-Port-Anträgen.",
-      "loading": "Lueden...",
-      "loadError": "Port-Anträge lueden gescheitert.",
-      "none": "Nach keng Port-Aktivitéit.",
-      "pending": "Auswäertung ausstehend",
-      "submitted": "Un Provider geschéckt",
-      "inProgress": "Am Gaang",
-      "completed": "Ofgeschloss",
-      "failed": "Gescheitert",
-      "canceled": "Ofgebrach",
-      "created": "Erstellt:",
-      "scheduled": "Geplangt:",
-      "completedAt": "Ofgeschloss:"
+      "heading": " Portéierungsstatus",
+      "Ënnertitel": "Verfollegt de Status vun äre Nummerportéierungsufroen.",
+      "Lued": "Lueden…",
+      "LuedFeeler": "D'Lueden vun de Portéierungsufroen ass gescheitert.",
+      "keen": "Nach keng Portéierungsaktivitéit.",
+      "op pending": "Op Bewäertung",
+      "agereecht": "Submitted to carrier",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "failed": "Failed",
+      "canceled": "Canceled",
+      "created": "Created:",
+      "scheduled": "Scheduled:",
+      "completedAt": "Completed:"
     },
-    "dataLow": "Deng Daten gi knapp.",
-    "topUp": "Elo opfëllen",
-    "expiresIn": "Läschung an {{days}} Deeg",
-    "exhausted": "Deng Daten si verbraucht. Kaaft e neie Pack fir weider Mobilfunkdaten ze benotzen.",
-    "buyPack": "Daten-Pack kafen",
-    "esimPackLabel": "eSIM-Pack"
+    "dataLow": "Är Daten gi knapp.",
+    "topUp": "Toppt elo op",
+    "expiresIn": "Gëllt nach {{days}} Deeg",
+    "exhausted": "Är Daten si opgebraucht. Kaaft e neie Pack fir weider mobil Daten ze benotzen.",
+    "buyPack": "Kaaft e Datenpack",
+    "es imPackLabel": "eSIM pack"
   },
-  "family": {
-    "title": "Famill",
-    "loading": "Deng Famill-Detailer lueden...",
-    "error": {
-      "load": "Famill-Detailer lueden gescheitert.",
-      "invite": "Invite konnt net erstallt ginn. Vergewëssere dech, dass du de Famill-Eegner bass, a probéier nach eng Kéier.",
-      "checkout": "Mir konnten de Checkout fir en Famill-Plang net starten. Probéier nach eng Kéier."
+  "phoneNumberManager": {
+    "pickNumber": "Wielt eng Nummer",
+    "phoneNumber": "Telefonsnummer",
+    "availableNumber": "Verfügbar Nummer",
+    "premiumNumber": "Premium-Nummer 🔒",
+    "freeNumberHint": "Gratis-Nummer, déi no Inaktivitéit recycléiert ka ginn.",
+    "premiumNumberHint": "Behalt Är Nummer, während Äre Premium-Abonnement aktiv ass.",
+    "country": "Land",
+    "Area code": "Gebittscode",
+    "Area Code Placeholder": "z. Bsp., 415",
+    "Fäegkeet": "Fäegkeet",
+    "Sich": "Sich",
+    "LockThisNumber": "Dës Nummer sperren (wöchentlecht Zousaz, geschwënn verfügbar)",
+    "premiumProtectedHint": "Premium-Nummeren sinn geschützt virum Widderverwerten, soulaang Äre Premium-Abonnement aktiv ass.",
+    "availableNumbers": "Verfügbar Nummeren",
+    "searchHint": "Gitt e 3-Zifferen-Gebittscode (USA/Kanada nëmmen) an, oder loosst et eidel, an duerno sichen.",
+    "keep": "Behalen",
+    "select": "Auswielen",
+    "assignNumberFirst": "Gitt als éischt eng Nummer zou.",
+    "premiumKeepFeature": "Är Nummer ze behalen ass eng Premium-Funktioun.",
+    "lockingPremiumFeature": "Nummeren ze sperren ass eng Premium-Funktioun.",
+    "numberAssigned": "Nummer zougewisen. ",
+    "nummergeschützt": "Nummer geschützt.",
+    "nummerongeschützt": "Nummer ongeschützt.",
+    "nummerfräigegeben": "Nummer fräigegeben.",
+    "nummereloaden": "Konn net d'Nummeren lueden.",
+    "couldNotAssign": "Konn déi Nummer net zouweisen. Si kéint grad geholl gi sinn—probéiert eng aner.",
+    "couldNotLease": "Konn déi Nummer net lounen. Si kéint grad geholl gi sinn—probéiert eng aner.",
+    "couldNotProtectNow": " Kënne Är Nummer elo net schützen.",
+    "couldNotProtect": "Kënne d'Nummer net schützen.",
+    "couldNotUnprotect": "Kënne d'Nummer net entschützen.",
+    "couldNotRelease": "Kënne d'Nummer net fräiginn.",
+    "invalidAreaCode": "Gitt w.e.g. e dräizifferge Gebittscode an (z. B. 415) oder loosst et eidel.",
+    "noInventory": "Keng Disponibilitéit de Moment.",
+    "noFreeNumbers": "Keng fräi Nummeren verfügbar de Moment.",
+    "noInventoryAreaCode": "Keng Disponibilitéit fir deen Gebittscode de Moment.",
+    "noFreeNumbersAreaCode": "Keng fräi Nummeren an eisem Pool fir deen Gebittscode aktuell.",
+    "releaseConfirm": "Äre aktuellen Nummer fräiginn? Dëse kann un en aneren zougewise ginn.",
+    "unprotect": "Entschützen",
+    "keepThisNumber": "Behale dës Nummer",
+    "ersetzen": "Ersetzen",
+    "fräiginn": "Fräiginn",
+    "aktiv": "Aktiv",
+    "keenNummer": "Keng Nummer",
+    "PremiumFunktioun": "Premiumfunktioun",
+    "beschütztDengNummer": "Beschützt deng Nummer",
+    "geschützt": "Geschützt",
+    "net-geschützt": "Net geschützt",
+    "verfällt-an-kuerz": "Verfällt an {{count}}",
+    "expiresInDaysFull": "Gëllt nach {{count}} Deeg",
+    "expiringShort": "Verliefend{{suffix}}",
+    "renewsOn": "Erneiert sech {{date}}",
+    "releaseWarning": "Är Nummer kann an {{count}} Deeg fräiginn ginn. Upgrade op Premium fir se geschützt ze halen. ",
+    "pickNumberHint": "Wielt eng Chatforia-Nummer, déi Dir fir Messaging a Kommunikatioun an der App benotze wëllt.",
+    "unableToLoadStatus": "Keng Telefonsnummer-Status luede méiglech.",
+    "lock": "Sperren",
+    "noNumberAssigned": "Keng Nummer zougewise. Wielt eng iwwer d'Virwahl, fir mat Messagen unzefänken."
+  },
+  "dialer": {
+    "title": "Uruff",
+    "Ënnertitel": "Tastatur & rezent Uruff. (Wann Dir PSTN net benotzt, start Dir Uruffen aus engem Gespréichs-Header.)",
+    "Uruffnummer": "Gitt d'Nummer an",
+    "enterNumberAria": "Gitt d'Nummer an",
+    "resolving": "Resolvéiert d'Zilsnummer…",
+    "call": "Uruff",
+    "callBrowser": "Uruff iwwer de Browser",
+    "backspace": "Réckzécken",
+    "recents": "Kierzlech",
+    "noRecents": "Nach keng rezent Uruff.",
+    "resolveFailed": "Uruffszil konnt net opgeléist ginn.",
+    "callRequiredNumber": "Dir braucht eng Chatforia-Nummer, ier Dir Telefonsruffe maacht.",
+    "callFailed": "Uruff konnt net ugeluecht ginn.",
+    "deleteConfirm": "Dëse Uruff aus de rezenten Läschten?",
+    "deleteFailed": "Uruff konnt net geläscht ginn.",
+    "deleteFailedLog": "Uruff geläscht ze kréien ass gescheitert",
+    "outgoing": "Ausgaang",
+    "incoming": "Inkommend",
+    "missed": "Vermësst",
+    "declined": "Ofgeleent",
+    "failed": "Gefailed",
+    "ofgeschloss": "Ofgeschloss",
+    "ausgaang": "Ausgaang Uruff",
+    "eraankomm": "Eraankomm Uruff",
+    "Stëmmpost": "Stëmmpost",
+    "UruffAria": "Uruff {{name}}",
+    "LäschAria": "Uruff mat {{name}} läschen",
+    "nummeraginn": "Gitt d'Nummer an",
+    "keenaktuellen": "Nach keng rezent Uruff.",
+    "schlëssel": "Schlëssel {{d}}"
+  },
+  "Uruffgeschicht": {
+    "titel": "Uruff",
+    "ënnertitel": "Är rezent erakommend an erausgaang Uruff.",
+    "laddefel": "Konn d'Uruffgeschicht net lueden.",
+    "loadFailedTitle": "Konn d'Uruffgeschicht net lueden",
+    "emptyTitle": "Nach keng Uruff",
+    "emptySubtitle": "Är rezent Uruff ginn hei ugewisen.",
+    "outgoing": "Ausgaang",
+    "incoming": "Inkommend",
+    "missed": "Vermësst",
+    "declined": "Ofgeleent",
+    "failed": "Feelerhaft",
+    "completed": "Fäerdeg",
+    "outgoingCall": "Ausgaang Uruff",
+    "incomingCall": "Inkommend Uruff",
+    "Stëmmnoriicht": "Stëmmnoriicht"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Wielt e Videotyp."
     },
-    "billing": {
-      "myPlanTitle": "Mäi Plang",
-      "myPlanError": "Däi Plang konnt net gelueden ginn.",
-      "myPlanLoading": "Däi Plang lueden...",
-      "currentPlan": "Aktuelle Plang",
-      "renewsAt": "Erneiert den",
-      "freePlanCopy": "Du bass op dem Gratis-Plang. Upgrad fir méi Funktioune ze entspären.",
-      "upgradeCta": "Plang upgraden",
-      "changePlanCta": "Plang änneren",
-      "manageBilling": "Abrechnung verwalten",
-      "portalError": "Abrechnungs-Portal kann aktuell net opgemaach ginn.",
-      "cancelNow": "Elo ofschléissen",
-      "cancelNowHelp": "Du kanns däi Abonnement am Abrechnungs-Portal verwalten oder ofschléissen oder direkt ënnen ofschléissen.",
-      "cancelNowConfirm": "Bass du sécher, dass du däi Plang direkt ofschléissen wëlls? Dat kann net réckgängeg gemaach ginn.",
-      "cancelNowError": "Däi Plang kann aktuell net ofgeschloss ginn. Probéier nach eng Kéier oder benotz „Abrechnung verwalten“."
+    "direct": {
+      "title": "Direkt Video",
+      "subtitle": "Fänkt en 1:1 Video-Uruff mat engem aneren Benotzer un.",
+      "desc": "1:1 Kamera-Uruff mat engem aneren Benotzer.",
+      "start": "Start",
+      "callBtn": "Uruff",
+      "callByPhone": {
+        "title": "Uruff per Telefon"
+      },
+      "phone": {
+        "placeholder": "Gitt de Telefon un (z. B., +1-555-123-4567)",
+        "aria": "Telefon fir unzeruffen"
+      },
+      "tipInvite": "Tipp: Gitt eng Nummer an a rufft un ouni e Kontakt ze späicheren. Mir invitéieren Net-Benotzer per Link.",
+      "findUser": {
+        "title": "Fënnt e Benotzer"
+      },
+      "search": {
+        "placeholder": " Sicht no Numm oder Benotzernumm",
+        "aria": "Sicht no Numm oder Benotzernumm",
+        "btn": "Sichen"
+      }
     },
-    "none": {
-      "title": "Nach keng Famill opgesat",
-      "body": "Fir eng Chatforia-Famill an e gedeelt Daten-Pool ze erstellen, start e Famill-Plang.",
-      "goUpgrade": "Famill-Plang starten",
-      "viewPlans": "All Pläng weisen"
+    "Zëmmeren": {
+      "Titel": "Zëmmeren",
+      "Ënnertitel": "Maacht e Zëmmer op oder gitt an e bestehenden andeems Dir deen selwechte Numm tippt.",
+      "desc": "Multi-Partei-Video mat engem gemeinsame Raum-Numm.",
+      "roomLabel": "Raumnumm",
+      " roomPlaceholder": "z. B. team-standup",
+      "roomAria": "Zëmmer-Numm",
+      "joinCreate": "Beitrieden / Erstellen",
+      "tip": "Tipp: deelt dëse Numm mat aneren, oder maacht en Deep Link op"
     },
-    "group": {
-      "defaultName": "Meng Chatforia-Famill",
-      "role": "Deng Roll: {{role}}"
-    },
-    "role": {
-      "owner": "Eegner",
-      "member": "Member"
-    },
-    "data": {
-      "heading": "Gedeelt Daten-Pool",
-      "caption": "All Member deelen dësen Pool. Mir warnen dech, wann du sech dem Limit noh kënns."
-    },
-    "members": {
-      "title": "Famill-Memberen",
-      "name": "Numm",
-      "role": "Roll",
-      "usage": "Verbrauch",
-      "limit": "Limit",
-      "unlimited": "Kee spezifescht Limit",
-      "inviteCta": "Member invitéieren"
-    },
-    "invite": {
-      "title": "Neien Member invitéieren",
-      "body": "Schéck eng E-Mail oder e Link, fir jiddereng an däi gedeelt Famill-Daten-Pool ze invitéieren.",
-      "emailLabel": "E-Mail (optional)",
-      "emailPlaceholder": "frënd@example.com",
-      "create": "Invite erstellen",
-      "linkLabel": "Invite-Link",
-      "copyAria": "Invite-Link kopéieren",
-      "expiryHint": "Dëse Link leeft no puer Deeg of. Du kanns ëmmer en neien erstellen."
-    },
-    "join": {
-      "title": "Eng Famill bäitrieden",
-      "body": "Du wëss gest invitéiert, eng Chatforia-Famill bäizetrieden a hir Daten-Pool ze deelen.",
-      "cta": "Akzeptéieren a Famill bäitrieden",
-      "ctaLogin": "Aloggen a Famill bäitrieden",
-      "success": "Du bass elo Member vun dëser Famill. Du deels elo hire Daten-Pool.",
-      "goFamily": "Zum Famill-Dashboard",
-      "error": "Mir konnten dech net zu dëser Famill bäifügen. Den Invite ass vläicht ongültig oder ofgelaf."
-    }
+    "title": "Video",
+    "chooseType": "Wielt e Videotyp.",
+    "directTitle": "Direkt Video",
+    "directDesc": "1:1 Kamera-Uruff mat engem aneren Benotzer.",
+    "directStart": "Ufänken",
+    "roomsTitle": "Zëmmeren",
+    "roomsDesc": "Video mat ville Leit mat engem gemeinsame Raum-Numm.",
+    "roomsIntro": "Schléiss dech engem Multi-Party-Raum un oder erstallt een.",
+    "roomNameLabel": "Raumnumm",
+    "roomNamePh": "z. B. team-standup",
+    "join": "Matmaachen",
+    "deeplinkTip": "Tipp: Dir kënnt direkt op <code>/video?room=room-name</code> deep-linken."
+  },
+  "directVideo": {
+    "intro": "Eng direkt 1:1 Video-Uruff ufänken.",
+    "findUserLabel": "Fënn e Benotzer",
+    "findUserPh": "Sich no Numm oder Benotzernumm",
+    "search": "Sich",
+    "call": "Uruff"
+  },
+  "phoneWarning": {
+    "title": "Äre Nummer leeft geschwënn of",
+    "body": "Äre Nummer {{number} wäert den {{date}} ofgelaf sinn, ausser se gëtt nei aktivéiert.",
+    "button": "Meng Nummer behale"
   },
   "premium": {
-    "heading": "Premium ginn",
-    "description": "Entspär Kraaft-Funktioune & läscht Annoncen.",
-    "cta": "Upgraden",
-    "upgrade": "Upgraden",
-    "upgradeAria": "Op Chatforia Premium upgraden"
+    "heading": "Op Premium goen",
+    "description": "Zougang zu mächtege Funktiounen kréien & Reklammen ewechhuelen.",
+    "cta": "Opgraden",
+    "upgrade": "Opgraden",
+    "upgradeAria": "Opgraden op Chatforia Premium"
   },
   "upgrade": {
-    "title": "Upgraden",
-    "titleLoggedIn": "Upgraden",
+    "title": "Upgrade",
+    "titleLoggedIn": "Upgrade",
     "titlePublic": "Präisser",
     "h1": "Chatforia Präisser & Pläng",
-    "h1Subtitle": "Fänk mat eisem gratis, annonce-ënnerstëtzte Plang un. Gëtt annonce-frei mat Plus oder entspär voll Kraaft-Funktioune mat Premium.",
-    "subtitle": "Wiel en App-Plang, bäifüg Daten-Packen fir dech oder deelen Daten mat denger Famill – alles op engem Plaz.",
-    "subtitle.app": "Fänk mat eisem gratis, annonce-ënnerstëtzte Plang un. Gëtt annonce-frei mat Plus oder entspär voll Kraaft-Funktioune mat Premium.",
-    "subtitle.mobile": "Bäifüg global eSIM-Daten, fir dass Chatforia och weider funktionéiert, wann du vum Wi-Fi ewech bass.",
-    "subtitle.family": "Erstell e gedeelt Daten-Pool fir deng Famill a verwal all Benotzer vun engem Plaz aus.",
-    "perMonth": "Mt.",
-    "perYear": "Joer",
-    "goPremium": "Premium ginn",
-    "benefitsLine": "Entspär Kraaft-Funktioune & läscht Annoncen.",
+    "h1Subtitle": "Fänkt un mat eisem gratis, vun Annoncen ënnerstëtzten Plang. Gitt ouni Annoncen mat Plus, oder schalt déi vollstänneg Kraaftfunktiounen mat Premium fräi.",
+    "subtitle": "Wielt en App-Plang, füügt Datenpakete fir Iech selwer derbäi, oder deelt Daten mat Ärer Famill — alles op enger Plaz.",
+    "subtitle.app": "Fänkt un mat eisem gratis, vun Annoncen ënnerstëtzten Plang. Gitt ad -fräi mat Plus, oder schalt d'vollstänneg Funktiounen mat Premium fräi.",
+    "subtitle.mobile": "Füügt global eSIM-Daten derbäi, sou datt Chatforia weider funktionéiert, och wann Dir net um Wi-Fi sidd.",
+    "subtitle.family": "Erstellt e gemeinsame Datenpool fir Är Famill a verwalt d'Nutzung vun allen op enger Plaz.",
+    "perMonth": "mo",
+    "perYear": "year",
+    "goPremium": "Gitt Premium",
+    "benefitsLine": "Schalt mächteg Funktiounen fräi & ewechhëlt Annoncen.",
     "ctaText": "Upgraden",
-    "aria": "Op Chatforia Premium upgraden",
+    "aria": "Upgraden op Chatforia Premium",
     "toggle": {
-      "monthly": "Monatlëch",
-      "annual": "Joresabonnement (30 % spueren)"
+      "monthly": "Monatlech",
+      "annual": "Joresabonnement (Spuert 30 %)"
     },
     "scheduleBanner": {
-      "title": "Abonnement endegt",
-      "body": "Du fälls op Gratis zeréck den",
-      "keepPlanCta": "{{plan}} behalen",
-      "manageBillingCta": "Abrechnung verwalten"
+      "title": "D'Abonnement geet zu Enn",
+      "body": "Dir gitt op gratis zréck op",
+      "keepPlanCta": "Behalt {{plan}}",
+      "manageBillingCta": "Bezuelung verwalten"
     },
     "billing": {
-      "opening": "Opmachen...",
-      "manage": "Abrechnung verwalten"
+      "opening": "Opmaachen…",
+      "manage ": "Bezuellung verwalten"
     },
     "checkout": {
-      "redirecting": "Weiderleeden..."
+      "Weiderleet": "Weiderleet…"
     },
     "auth": {
-      "continue": "Weider zum Login",
-      "createAccount": "Account erstellen",
-      "signIn": "Aloggen"
+      "Weidergoen": "Weidergoen fir Iech unzemellen",
+      "Kont erstellen": "Kont erstellen",
+      "Ugemellt": " Mellt Iech un"
     },
     "cta": {
-      "aria": "Plang wielen",
+      "aria": "Plang auswielen",
       "getPlus": "Op Plus upgraden",
       "upgradeMonthly": "Monatlëch upgraden",
-      "upgradeAnnual": "Joresabonnement upgraden"
+      "upgradeAnnual": "Joreswäis upgraden"
     },
     "section": {
       "app": "App-Pläng",
       "mobile": "Mobil (eSIM)",
-      "family": "Famill-Pläng"
+      "family": "Familljepläng"
     },
-    "plans": {
-      "free": {
-        "title": "Gratis",
-        "price": "$0",
-        "desc": "Fänk gratis mat Messagerie un. Ideal, wann du Chatforia just ausprobéiere wëlls.",
-        "features": {
-          "chat": "Echtzäit 1:1- a Grupp-Chat, plus Stëmm- a Video-Appellen",
-          "media": "Deelen vu Fotoen, Stëmm-Messagen a kuerzen Videoen",
-          "ai": "AI-ënnerstëtzt smart Äntwerten a direkt Iwwersetzung (fair use)",
-          "disappearing": "Verschwindend Messagen a Basis-Privatsphäre-Kontrollen",
-          "ads": "Gratis op ëmmer mat Annoncen an der App"
+    "pläng": {
+      "gratis": {
+        "titel": "Gratis",
+        "präis": "$0",
+        "beschreiwung": "Fänkt un, gratis ze chatten. Ideal wann Dir Chatforia just ausprobéiert.",
+        "funktiounen": {
+          "chat": "Real-Time 1:1 an Grupp-Chat, plus Stëmm- a Video-Uruff",
+          "media": "Deelt Fotoen, Stëmmnoriichten an kuerz Videoen",
+          "ai": "AI-gestiwwt schlau Äntwerten an direkt Iwwersetzung (fair use)",
+          "disappearing": "Verschwannen Noriichten an Basis-Privatsphärkontrollen",
+          "ads": "Ewéi gratis mat Annoncen an der App "
         },
-        "ctaCurrent": "Aktuelle Plang",
-        "ctaManage": "Am Abrechnung verwalten",
-        "ctaPublic": "Fänk un – weider zum Login",
+        "ctaCurrent": "Aktuellen Plang",
+        "ctaManage": "An der Ofrechnung verwalten",
+        "ctaPublic": "Ufänken – weider fir Iech anzemellen",
         "aria": "Gratis-Plang"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "All Basis-Funktioune ouni Annoncen. Ideal fir alldeeglech Messagerie a Appellen.",
+        "desc": "All d'Grondleeënd Funktiounen, ouni Annoncen. Super fir deeglech Messagen a Uruff.",
         "features": {
-          "allFree": "Alles aus Gratis, ouni Annoncen",
-          "forwarding": "Appellen a Texten op deng richteg Telefonsnummer weiderleeden",
-          "history": "Méi laang Messagio-Geschicht (bis zu 6 Méint)",
-          "support": "Séier Hëllef, wann eppes schiefgeet"
+          "allFree": "Alles am gratis Plang, ouni Annoncen",
+          "forwarding": "Uriff a Messagen op Är reell Telefonsnummer weiderleeden",
+          "Geschicht": "Längere Noriichtgeschicht (bis zu 6 Méint)",
+          "Ënnerstëtzung": "Séier Ënnerstëtzung wann eppes net klappt"
         },
-        "badge": "Beléift",
-        "cta": "Annonce-frei ginn",
-        "ctaPublic": "Plus kréien – weider zum Login",
+        "Badge": "Beléift",
+        "cta": "Ouni Reklammen",
+        "ctaPublic": "Plus kréien – weider fir Iech anzemellen",
         "aria": "Op Plus upgraden"
       },
       "premiumMonthly": {
-        "title": "Premium (monatlëch)",
+        "title": "Premium (Méintlech)",
         "price": "$11.99",
-        "desc": "Déi voll Chatforia-Erfahrung: AI-Kraaft-Tools, Personalisatioun a Prioritéits-Support.",
+        "desc": "Déi komplett Chatforia-Erfarung: KI-Kraaftwierkzeeger, Personaliséierung an Prioritéits-Ënnerstëtzung.",
         "features": {
-          "plusAll": "Alles aus Plus",
-          "themes": "All Premium-Faarw-Themen a App-Personalisatiounen entspären",
-          "ai": "Premium-exklusiv AI-Kraaft-Tools fir Rewrites, smart Äntwerten a Resuméen",
-          "support": "Prioritéits-Support, wann du am meeschten Hëllef brauchs"
+          "plusAll": "Alles am Plus",
+          "themes": "Sperrt all Premium-Faarfthemen an App-Personaliséierungen",
+          "ai": "Premium-exklusiv KI-Kraaftwierkzeeger fir Neiverfaassungen, intelligent Äntwerten an Zesummefaassungen",
+          "support": "Prioritéitssupport wann Dir et am meeschten braucht"
         },
-        "badge": "Empfohlen",
-        "cta": "Upgraden (monatlëch)",
-        "ctaPublic": "Premium entspären – weider zum Login",
-        "aria": "Op Premium monatlëch upgraden"
+        "badge": "Empfohlent",
+        "cta": "Opgraden (Monatlech)",
+        "ctaPublic": "Premium fräischalten – weider fir Iech anzemellen",
+        "aria": "Op Premium Méint upgraden"
       },
       "premiumAnnual": {
-        "title": "Premium (jäerlech)",
+        "title": "Premium (Joerlech)",
         "price": "$99",
-        "desc": "Méi spueren bei jäerlecher Rechnung – inklusiv zousätzlech Faarw-Themen, AI-Tools a Prioritéits-Support.",
+        "desc": "Spuert méi wann et jäerlech ofgerechent gëtt — inklusiv zousätzlech Faarfthemen, AI-Tools an Prioritéitssupport.",
         "features": {
-          "allPremium": "Alles aus Premium monatlëch – inklusiv zousätzlech Faarw-Themen",
-          "annualBilling": "Eemol am Joer berechent",
-          "save25": "Ungeféier 30 % spueren am Verglach zum monatlëche Bezuelen",
-          "bestFor": "Ideal fir Power-User, Tele-Arbechter a vill Reesender"
+          "allPremium": "Alles am Premium Méint — inklusiv zousätzlech Faarf-Themen",
+          "annualBilling": "Eemol am Joer ofgerechent",
+          "save25": "Spuert ronn 30% am Verglach mat enger monatlecher Bezuelung",
+          "bestFor": "Am Beschten fir Power-Benotzer, Fernaarbechter a vill Reesender"
         },
-        "badge": "30 % spueren",
-        "cta": "Upgraden (jäerlech)",
-        "ctaPublic": "30 % spueren mat jäerlech – weider zum Login",
-        "aria": "Op Premium jäerlech upgraden",
-        "disclaimer": "Viraus bezuelt. Jidderzäit ofschléissbar. Keng verstoppte Käschten."
+        "badge": "Spuert 30%",
+        "cta": "Opgraden (Joresabonnement)",
+        "ctaPublic": "Spuert 30 % mam jäerlechen Abonnement – bleift ageloggt",
+        "aria": "Upgrade op Premium Jäerlech",
+        "disclaimer": "Virläifend ofgerechent. Kënnegt zu all Moment. Keng verstoppt Käschten."
       }
     },
     "marketing": {
       "freeTitle": "Gratis",
-      "freeDesc": "Fänk gratis mat Messagerie un.",
+      "freeDesc": "Fänkt un, gratis Noriichten ze schécken.",
       "plusTitle": "Plus",
       "plusBadge": "Beléift",
-      "plusDesc": "Déi bezuelbarst annonce-frei Erfahrung.",
+      "plusDesc": "Déi bezuelbarst erfarungsfräi Erfahrung.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Voll Funktioune, Klingeltéin a AI-Kraaft-Tools.",
+      "premiumMonthlyDesc": "Komplett Funktiounen, Klingeltéin a kënschtlech Intelligenz-Tools.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Méi spueren bei jäerlecher Rechnung.",
-      "annualDisclaimer": "Viraus bezuelt. Jidderzäit ofschléissbar. Keng verstoppte Käschten."
+      "premiumAnnualDesc": "Spuert méi wann Dir jäerlech bezilt.",
+      "annualDisclaimer": "Virdru berechent. Kënnegt zu all Moment. Keng verstoppt Käschten."
     },
     "mobile": {
-      "title": "Chatforia Mobile (eSIM-Daten-Packen)",
-      "subtitle": "Bäifüg global Daten, fir dass Chatforia och ouni Wi-Fi funktionéiert. Präisser passen sech automatesch un däi Land a Währung un.",
-      "subtitle.detail": "Wiel e eemolegen globalen Daten-Pack, fir dass Chatforia weider funktionéiert, wann du op Rees oder vum Wi-Fi ewech bass.",
+      "title": "Chatforia Mobile (eSIM-Datenpakete)",
+      "subtitle": "Füügt global Daten derbäi fir Chatforia och ouni Wi-Fi weiderzeschaffen. D'Präisser passen sech automatesch un Äert Land an Är Währung un.",
+      " subtitle.detail": "Wielt e eenzege globale Datapack, sou datt Chatforia weider funktionéiert, wann Dir reest oder net um Wi-Fi sidd.",
       "scope": {
         "local": "Lokal",
         "europe": "Europa",
         "global": "Global"
       },
-      "note": "Mir verkafen keng Daten-Packen ënner 3 GB.",
       "localEquals": "Lokal = {{country}}",
-      "localEqualsFallback": "Lokal = däi aktuelles Land",
-      "perPack": "/ Pack",
-      "cta": "Dësen Daten-Pack kréien",
-      "ctaPublic": "Dësen Daten-Pack kréien",
+      "localEqualsFallback": "Lokal = Äert aktuellt Land",
+      "perPack": "/ pack",
+      "cta": "Dëse Datapack kafen",
+      "ctaPublic": "Dëse Datapack kafen",
       "checkout": {
-        "redirecting": "Weiderleeden..."
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "High-Speed-Daten fir intensiv Notzung",
-          "throttle": "Geschwindegkeet kann no héijer Notzung ofsenken",
-          "coverage": "Zouverlässege Coverage",
-          "instant": "Direkt eSIM-Aktivatioun",
-          "noContract": "Eemolegen Pack, keen Kontrakt"
+        "redirecting": "Weiderleet…\"      ",
+        "unlimited": {
+          "features": {
+            "heavyUse": "Daten mat héijer Vitesse fir staarken Asaz",
+            "throttle": "Daten mat héijer Vitesse ënnerleien Fair-Use- a Netzwierkmanagement-Richtlinnen",
+            "coverage": "Zouverlässeg Ofdeckung",
+            "instant": "Onmiddlech eSIM-Aktivéierung",
+            "noContract": "Een-Mol-Pack, ouni Kontrakt"
+          }
+        },
+        "disclaimer": {
+          "devices": "eSIM-Datenpacks erfuerderen e Gerät, dat eSIM-kompatibel an entsperrt ass. D'Verfügbarkeet variéiert jee no Telefonmodell, Netzbetreiber an Land. D'Ofdeckung an d'Geschwindegkeeten variéieren jee no Regioun."
+        },
+        "packs": {
+          "3gb": {
+            "title": "{{scope}} 3 GB"
+          },
+          "5gb": {
+            "title": "{{scope}} 5 GB"
+          },
+          "10gb": {
+            "title": "{{scope}} 10 GB"
+          },
+          "20gb": {
+            "title": "{{scope}} 20 GB"
+          },
+          "unlimited": {
+            "title": "{{scope}} Onbegrenzt"
+          }
+        },
+        "compare": {
+          "title": "eSIM-Datenpakete vergläichen",
+          "col": {
+            "pack": "Pack",
+            "data": "Inklusiv-Daten",
+            "bestFor": "Am Beschten fir"
+          },
+          "Disclaimer": "D'tatsächlech Datenbenotzung hänkt dovun of, wéi Dir Chatforia benotzt (Stëmm, Video, Medien an aner Apps op Ärem Telefon)."
         }
       },
-      "disclaimer": {
-        "devices": "eSIM-Daten-Packen brauchen e eSIM-kompatibelt an entspäert Gerät. Verfügbarkeet hänkt vum Telefon-Modell, Provider a Land of. Coverage a Geschwindegkeeten variéieren no Regioun."
-      },
-      "small": {
-        "title": "Starter-Pack",
-        "desc": "Inklusiv 3 GB High-Speed-Daten – ideal fir liicht Messagerie a sporadësch Appellen.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Kuerz Reesen, liicht Messagerie a sporadësch Appellen",
-        "aria": "Starter eSIM-Daten-Pack kafen"
-      },
-      "medium": {
-        "title": "Traveler-Pack",
-        "desc": "Inklusiv 5 GB High-Speed-Daten fir Reesen, Pendelen a regelméisseg VoIP-Appellen.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Weekend-Reesen, regelméisseg VoIP-Appellen a Kaarten",
-        "aria": "Traveler eSIM-Daten-Pack kafen"
-      },
-      "large": {
-        "title": "Power-Pack",
-        "desc": "Inklusiv 10 GB High-Speed-Daten fir intensiv Chat, Appellen a Video am Chatforia-Netzwierk.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Intensiv Chat, Appellen, Video a Hotspot-Notzung",
-        "aria": "Power-User eSIM-Daten-Pack kafen"
-      },
-      "compare": {
-        "title": "eSIM-Daten-Packen vergläichen",
-        "col": {
-          "pack": "Pack",
-          "data": "Inklusiv Daten",
-          "bestFor": "Ideal fir"
+      "Famill": {
+        "Titel": "Chatforia Famill (gedeelt Daten)",
+        "Ënnertitel": " Deelt e eenzege Datapool iwwer Är Famill. Eng Rechnung, verschidde Chatforia-Konten, weltwäit Ofdeckung.",
+        "perPack": "/ pack",
+        "small": {
+          "title": "Famill Kleng",
+          "desc": "Enthält 20 GB gedeelt héichgeschwindeg Daten — perfekt fir 2–3 liicht Benotzer.",
+          "price": "$29.99",
+          "aria": "Kaaft de Family Small Pack"
         },
-        "disclaimer": "Aktuelle Datenverbrauch hänkt dovun of, wéi du Chatforia benotz (Stëmm, Video, Medien an aner Apps op dengem Telefon)."
+        "medium": {
+          "title": "Family Medium",
+          "desc": "Enthält 40 GB gedeelt héichgeschwindeg Date — ideal fir 3–5 aktiv Memberen.",
+          "price": "$49.99",
+          "aria": "Kaaft de Family Medium Pack"
+        },
+        "large": {
+          "title": "Family Large",
+          "desc": "Enthält 80 GB gedeelt héichgeschwindeg Date — fir aktiv Familljen, déi ëmmer online sinn.",
+          "price": "$84.99",
+          "aria": "Kaaft de Family Large Pack"
+        },
+        "feature": {
+          "shared": "Gedeelt Date-Pool fir Är Famill",
+          "members": "Bis zu 4 zousätzlech Memberen invitéieren",
+          "membersMore": "Gutt fir 3–5 aktiv Memberen",
+          "manage": "Limiten fir all Member verwalten",
+          "topUp": "Allzäit méi Packagen derbäisetzen",
+          "bestValue": "Beschte Wäert pro GB",
+          "fairUse": "Ënnerleien der Fair-Use-Politik an de lokalen Limiten"
+        },
+        "disclaimer": "Family Packs erstellen oder eropladen e gemeinsame Datenpool. Dir kënnt Memberen zu all Moment invitéieren an ewechhuelen.",
+        "Foussnote": "Family Packs deelen e eenzege Datapool iwwer verbonnen Chatforia-Konten. Disponibilitéit an Limiten hänken vun Ärem Land an de lokalen Reglementer of."
+      },
+      "firwat": {
+        "Titel": "Firwat Leit op Chatforia wiesselen",
+        "Ënnertitel": "Chatforia gëtt Iech eng richteg Telefonsnummer, eng intelligent Iwwersetzung, an e kloere Wee fir werbefräi ze ginn, wann Dir prett sidd.",
+        "card": {
+          "textnow": {
+            "title": "Chatforia vs TextNow",
+            "body": "Liicht Reklammen op Free, e einfachen Plus-Upgrade wann Dir prett sidd, an Premium-Tools déi TextNow net ubitt."
+          },
+          "voice": {
+            "title": "Chatforia vs Google Voice",
+            "body": "Modern App, global -Design vun Ufank un, an agebauter Iwwersetzung amplaz vum ale Uruff-Weiderleeden."
+          },
+          "messengers": {
+            "title": "Chatforia vs Chat-Apps",
+            "body": "Schéckt SMSen mat richtege Telefonsnummeren — net nëmmen mat anere App-Benotzer — mat kënschtlecher Intelligenz an agebautem Status. Super wann Dir vun Apps wéi TextFree oder TextMe kënnt."
+          }
+        },
+        "tableTitle": "Wéi Chatforia sech vergläicht",
+        "col": {
+          "feature": "Feature"
+        },
+        "feature": {
+          "freeNumber": "Gratis Telefonsnummer",
+          "translation": "Agebaute Auto-Iwwersetzung",
+          "aiTools": "KI-Tools (Neischreiwen, Äntwerten, Zesummefaassungen)",
+          "ads": "Ad-fräi Optioun",
+          "history": "Noriichtgeschicht"
+        },
+        "jo": "Jo",
+        "nee": "Nee",
+        "joPremium": "Jo (Premium)",
+        "plusPremium": "Plus & Premium",
+        "limitiert": "Limitiert",
+        "N/A": "N/A",
+        "geschicht": {
+          "chatforia": "Bis zu 12+ Méint",
+          "textnow": "Variéiert jee no Kont",
+          "voice": "Limitiert / kont-baséiert"
+        },
+        "disclaimer": "Verglach baséiert op ëffentlech zougänglechen Informatiounen a kann sech iwwer d'Zäit änneren. Aner gratis-Messaging-Apps wéi TextFree oder TextMe si am Allgemengen ähnlech wéi TextNow."
+      },
+      "faq": {
+        "title": "Pricing & plans FAQ",
+        "free": {
+          "q": "Ass de Free-Plang wierklech gratis?",
+          "a": "Jo. De Free-Plang enthält eng Chatforia-Nummer, Uruff- a Messaging-Funktiounen mat Annoncen. Dir kënnt esou laang wéi Dir wëllt um Free-Plang bleiwen oder op e Plus- oder Premium-Plang upgraden, fir d'Annoncen ewechzehuelen an weider Funktiounen ze entsperren."
+        },
+        "plusPremium": {
+          "q": "Wat ass de Ënnerscheed tëscht Plus an Premium?",
+          "a": " Plus ewechhëlt Reklammen a verlängert Är Noriichtgeschicht — perfekt fir den Alldag. Premium füügt zousätzlech Personaliséierung, KI-Tools fir Neiverfaassungen a Äntwerten, an Prioritéitssupport fir intensiv Benotzer derbäi."
+        },
+        "esim": {
+          "q": "Wou funktionéieren eSIM-Datenpakete?",
+          "a": "Chatforia Mobile benotzt eng global eSIM-Ofdeckung. D'Verfügbarkeet hänkt vun Ärem Land an Ärem Apparat of. Dir gesitt ënnerstëtzte Optiounen wärend der Aktivéierung an der App."
+        },
+        "ofsoen": {
+          " q": "Kann ech Pläng zu all Moment annuléieren oder änneren?",
+          "a": "Jo. Dir kënnt Är Abonnemente vun der Bezuelsäit an der App aus verwalten oder annuléieren. Ännerungen trëtt um Enn vun Ärer aktueller Abrechnungsperiod a Kraaft. "
+        },
+        "family": {
+          "q": "Wéi funktionéieren Family-Päck?",
+          "a": "Family-Päck erstellen e gemeinsame Datentopf iwwer verschidde Chatforia-Konten. Eng Persoun bezilt d'Rechnung, a Dir kënnt Memberen invitéieren oder ewechhuelen an Limiten pro Persoun setzen."
+        }
       }
     },
     "family": {
-      "title": "Chatforia Famill (gedeelt Daten)",
-      "subtitle": "Deel eenege Daten-Pool mat denger Famill. Eng Rechnung, puer Chatforia-Accounts, global Coverage.",
-      "perPack": "/ Pack",
-      "small": {
-        "title": "Famill Small",
-        "desc": "Inklusiv 20 GB gedeelt High-Speed-Daten – super fir 2–3 liicht Benotzer.",
-        "price": "$29.99",
-        "aria": "Famill Small Pack kafen"
+      "title": "Famill",
+      "loading": "Luede Är Familljedetailer…",
+      "error": {
+        "load": "Et ass net gelongen, d'Familljedetailer ze lueden.",
+        "invite": "Et konnt keng Invitatioun erstallt ginn. Gitt sécher, datt Dir de Familljebesëtzer sidd, a probéiert et nees.",
+        "checkout": "Mir konnten de Checkout fir e Familljeplang net starten. Probéiert et w.e.g. nach eng Kéier."
       },
-      "medium": {
-        "title": "Famill Medium",
-        "desc": "Inklusiv 40 GB gedeelt High-Speed-Daten – ideal fir 3–5 aktive Memberen.",
-        "price": "$49.99",
-        "aria": "Famill Medium Pack kafen"
+      "billing": {
+        "myPlanTitle": "Mäin Plang",
+        "myPlanError": "Et ass net méiglech, Äre Plang ze lueden.",
+        "myPlanLoading": "Äre Plang gëtt gelueden…",
+        "currentPlan": "Aktuellen Plang",
+        "renewsAt": "Erneiert sech um",
+        " freePlanCopy": "Dir sidd um gratis Plang. Upgrade fir méi Funktiounen ze entsperren.",
+        "upgradeCta": "Opgrade Plang",
+        "changePlanCta": "Plang änneren",
+        "manageBilling": "Verwaltung vun der Bezuelung",
+        "portalError": "Et ass de Moment net méiglech de Bezuelportal opzemaachen.",
+        "cancelNow": "Elo ofsoen",
+        "cancelNowHelp": "Dir kënnt Är Abonnemente am Bezuelportal verwalten oder ofsoen, oder se direkt hei ënnen ofsoen.",
+        "cancelNowConfirm": "Sidd Dir sécher, datt Dir Äre Plang direkt ofsoe wëllt? Dëst kann net zréckgedréckt ginn.",
+        "cancelNowError": "Et ass de Moment net méiglech Äre Plang ofzesoen. Probéiert et w.e.g. nach eng Kéier oder benotzt 'Fakturatioun verwalten'."
       },
-      "large": {
-        "title": "Famill Large",
-        "desc": "Inklusiv 80 GB gedeelt High-Speed-Daten – fir Power-Famillen, déi ëmmer online sinn.",
-        "price": "$84.99",
-        "aria": "Famill Large Pack kafen"
+      "none": {
+        "title": "Keng Famill nach ageriicht",
+        "body": "Fir eng Chatforia-Famill an e gemeinsame Dateepool ze erstellen, fänkt e Familljeplang un.",
+        "goUpgrade": "Fänkt e Familljeplang un",
+        "viewPlans": "Kuckt all Pläng"
       },
-      "feature": {
-        "shared": "Gedeelt Daten-Pool fir deng Famill",
-        "members": "Bis zu 4 zousätzlech Memberen invitéieren",
-        "membersMore": "Super fir 3–5 aktive Memberen",
-        "manage": "Limiten pro Member verwalten",
-        "topUp": "Méi Packen zu all Moment bäifügen",
-        "bestValue": "Beste Wäert pro GB",
-        "fairUse": "Ënnerworf fair-use-Politik a lokale Limiten"
+      "group": {
+        "defaultName": "Meng Chatforia-Famill",
+        "role": "Äre Roll: {{role}}"
       },
-      "disclaimer": "Famill-Packen erstellen oder fëllen e gedeelt Daten-Pool op. Du kanns Memberen zu all Moment invitéieren oder ewechhuelen.",
-      "footnote": "Famill-Packen deelen eenege Daten-Pool iwwer verbonnene Chatforia-Accounts. Verfügbarkeet a Limiten hänken vun dengem Land a lokalen Reglementer of."
-    },
-    "why": {
-      "title": "Firwat Leit op Chatforia wiesselen",
-      "subtitle": "Chatforia gëtt dir eng richteg Telefonsnummer, intelligent Iwwersetzung a e kloore Wee fir annonce-frei ze ginn, wann du bereet bass.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Liichter Annoncen op Gratis, einfach Plus-Upgrade wann du bereet bass, a Premium-Tools, déi TextNow net huet."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "Moderner App, global-firscht Design a agebaute Iwwersetzung statt alldeeglecher Ruff-Weiderleedung."
-        },
-        "messengers": {
-          "title": "Chatforia vs Chat-Apps",
-          "body": "Schreif richteg Telefonsnummeren – net nëmme aner App-Benotzer – mat AI a Status agebaut. Super, wann du vun Apps wéi TextFree oder TextMe kënns."
-        }
+      "role": {
+        "owner": "Besëtzer",
+        "member": "Member"
       },
-      "tableTitle": "Wéi Chatforia sech vergläicht",
-      "col": {
-        "feature": "Funktioun"
+      "data": {
+        "heading": "Gedeelt Datenspeicher",
+        "caption": "All Memberen deelen dëse Pool. Mir warnen Iech, wann Dir Äre Limit erreecht."
       },
-      "feature": {
-        "freeNumber": "Gratis Telefonsnummer",
-        "translation": "Agebaute Auto-Iwwersetzung",
-        "aiTools": "AI-Tools (Rewrites, Äntwerten, Resuméen)",
-        "ads": "Annonce-frei Optioun",
-        "history": "Messagio-Geschicht"
+      "members": {
+        "title": "Familljememberen",
+        "name": "Numm",
+        "role": "Roll",
+        "usage": "Benotzung",
+        "limit": "Limit",
+        "unlimited": "Keng spezifesch Limit",
+        "inviteCta": "Member invitéieren"
       },
-      "yes": "Jo",
-      "no": "Nee",
-      "yesPremium": "Jo (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "Limitéiert",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "Bis zu 12+ Méint",
-        "textnow": "Variéiert no Account",
-        "voice": "Limitéiert / account-baséiert"
+      "invite": {
+        "title": "E neie Member invitéieren",
+        "body": "Schéckt eng E-Mail oder e Link, fir iergendeen an Äre gemeinsame Familljedaten-Pool ze invitéieren.",
+        "emailLabel": "E-Mail (optional)",
+        "emailPlaceholder": "friend@example.com",
+        "create": "Erstelle Invitatioun",
+        "linkLabel": "Invitatiounslink",
+        "copyAria": "Kopéiert den Invitatiounslink",
+        "expiryHint": "Dëse Link leeft no e puer Deeg of. Dir kënnt ëmmer en neien erstellen."
       },
-      "disclaimer": "Verglach baséiert op ëffentlech verfügbaren Informatiounen a kann sech mat der Zäit änneren. Aner gratis Text-Apps wéi TextFree oder TextMe sinn allgemeng ähnlech wéi TextNow."
-    },
-    "faq": {
-      "title": "Präisser & Pläng FAQ",
-      "free": {
-        "q": "Ass de Gratis-Plang wierklech gratis?",
-        "a": "Jo. De Gratis-Plang enthält eng Chatforia-Nummer, Appellen a Messagerie mat Annoncen. Du kanns esou laang op Gratis bleiwen, wéi du wëlls, oder upgraden, fir Annoncen ze läschen a méi Funktioune ze entspären."
-      },
-      "plusPremium": {
-        "q": "Wat ass den Ënnerscheed tëscht Plus a Premium?",
-        "a": "Plus läscht Annoncen a verlängert deng Messagio-Geschicht – perfekt fir alldeeglech Notzung. Premium bäifügt zousätzlech Personalisatioun, AI-Tools fir Rewrites a smart Äntwerten souwéi Prioritéits-Support fir schwéier Benotzer."
-      },
-      "esim": {
-        "q": "Wou funktionéieren eSIM-Daten-Packen?",
-        "a": "Chatforia Mobile benotzt global eSIM-Coverage. Verfügbarkeet hänkt vun dengem Land a Gerät of. Du gesäis ënnerstëtzte Optiounen während der Aktivatioun an der App."
-      },
-      "cancel": {
-        "q": "Kann ech Pläng jidderzäit ofschléissen oder änneren?",
-        "a": "Jo. Du kanns däi Abonnement vun der Abrechnungs-Säit an der App verwalten oder ofschléissen. Ännerungen gëllen um Enn vun der aktueller Rechnungsperiod."
-      },
-      "family": {
-        "q": "Wéi funktionéieren Famill-Packen?",
-        "a": "Famill-Packen erstellen e gedeelt Daten-Pool iwwer puer Chatforia-Accounts. Eng Persoun bezuelt d’Rechnung, an du kanns Memberen invitéieren oder ewechhuelen a Limiten pro Persoun setzen."
+      "join": {
+        "title": "Schléiss der Famill un",
+        "body": "Dir sidd invitéiert, Iech enger Chatforia-Famill unzeschléissen an hiren Datenspool ze deelen.",
+        "cta": "Akzeptéieren an der Famill bäitrieden",
+        "ctaLogin": "Mellt Iech un a gitt der Famill bäi",
+        "success": "Dir sidd dëser Famill bäigetrueden. Dir deelt elo hiren Datapool.",
+        "goFamily": "Gitt op d'Familljedashboard",
+        "error": "Mir konnten Iech net dëser Famill derbäisetzen. D'Invitatioun ass vläicht ongëlteg oder ass ofgelaf."
       }
-    },
-    "gettingStarted": {
-      "title": "Fänk un",
-      "subtitle": "Nei bei Chatforia? Dëse séiere Guide weist d’Essentiellen, fir dass du bannent Minutten produktiv kanns sinn.",
-      "alert": {
-        "text": "Dësen Guide wächst mat, wann mir nei Funktioune lancéieren. Wann eppes feelt, loos eis dat iwwer",
-        "contactLink": "Kontaktéier eis"
-      },
-      "section1": {
-        "title": "1) Erstelle däi Account",
-        "signup": "Registréieren",
-        "or": "oder",
-        "login": "loggen",
-        "loginText": "mat dengem existéierenden Account.",
-        "prefsStart": "Setz deng",
-        "prefsLink": "Preferenzen",
-        "prefsRest": "(Sprooch, Liesbestätegungen, Themen)."
-      },
-      "section2": {
-        "title": "2) Fänk mat Messagerie un",
-        "item1": "Erstell en DM oder Grupp a schéck deng éischt Messaggio.",
-        "item2": "Benotz direkt Iwwersetzung, fir iwwer 100+ Sproochen ze chatten.",
-        "item3": "Probéier verschwindend Messagen a Liesbestätegungen am Profil → Privatsphäre."
-      },
-      "section3": {
-        "title": "3) Gëtt méi wäit",
-        "item1": "Du kanns zu all Moment an der App op en bezuelten Plang upgraden.",
-        "item2": "Wann du ageloggt bass, kanns du zousätzlech Geräter verknäppen a verschlësselt Backups an den Astellungen an der App opsetzen."
-      },
-      "cta": {
-        "seePlans": "Pläng weisen",
-        "openSettings": "Astellungen opmaachen"
-      }
-    },
-    "helpCenter": {
-      "title": "Hëllef-Zentrum",
-      "faq": {
-        "account": {
-          "q": "Wéi erstell oder recuperéier ech mäi Account?",
-          "a": "Lued d’App erof oder benotz de Web, tipp op „Account erstellen“, verifizéier deng E-Mail/Telefon. Fir ze recuperéieren, benotz „Passwuert vergiess“."
-        },
-        "privacy": {
-          "q": "Sinn Messagen end-to-end verschlësselt?",
-          "a": "Jo. Messagen a Appellen sinn standardmäßig end-to-end verschlësselt. Nëmmen du an den Empfänger kënnen se liesen."
-        },
-        "translate": {
-          "q": "Wéi funktionéiert direkt Iwwersetzung?",
-          "a": "Aktivéier „Auto-Iwwersetzen“ an den Astellungen → Erscheinungsbild & Sprooch. Mir iwwersetzen op dem Gerät, wou ënnerstëtzt, soss iwwer sécher APIs mat minimalen Metadaten."
-        },
-        "contact": {
-          "q": "Kontaktéier Support",
-          "a": "Errech eis op support@chatforia.com. Füügt Screenshots a deng App-Versioun bäi."
-        }
-      }
-    },
-    "contact": {
-      "title": "Kontaktéier eis",
-      "successMsg": "Merci – eis Equipe äntwert per E-Mail.",
-      "errorSend": "Konnt net schécken. Schreif w.e.g. un support@chatforia.com.",
-      "form": {
-        "nameLabel": "Numm",
-        "emailLabel": "E-Mail",
-        "messageLabel": "Messaggio",
-        "sendCta": "Schécken"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Privatsphäre-Politik",
-      "lastUpdated": "Lescht aktualiséiert:",
-      "intro": {
-        "body": "Dës Privatsphäre-Politik erkläert, wéi Chatforia („mir“, „eis“) Informatiounen sammelt, benotzt a deelt, wann du eis Apps a Servicer benotz. Mir designe Chatforia, fir d’Donnéeën ze minimiséieren, déi mir kënnen zougräifen."
-      },
-      "infoWeCollect": {
-        "title": "Informatiounen, déi mir sammelen",
-        "account": "Account-Info (z. B. E-Mail/Telefon) fir däi Account ze erstellen a sécher ze maachen.",
-        "encrypted": "Verschlësselt Inhalt (Messagen/Appellen) ass end-to-end verschlësselt; mir kënnen et net liesen.",
-        "diagnostics": "Diagnostik-/Notzungsdaten wéi Crash-Logs, Gerät-Typ oder grob Analysen, fir d’Leeschtung ze verbesseren."
-      },
-      "sms": {
-        "title": "Mobiltelefonsnummeren a SMS",
-        "body": "Wann du eng Mobiltelefonsnummer bäigëss, benotze mir se fir Funktioune wéi Account-Verifizéierung, Login-Alarmen a Benotzer-zu-Benotzer-Messagerie iwwer SMS ze aktivéieren, wou ënnerstëtzt. Mir kënnen transaktional SMS-Messagen am Zesummenhang mat dengem Account a Aktivitéit op Chatforia schécken. Du kanns jidderzäit SMS-Messagen ofschalten, andeems du mat engem ënnerstëtzte Opt-out-Wuert äntwerts (z. B. „STOP“) oder andeems du deng Notifikatiouns-Preferenzen an der App änners. Mir verkafen deng Telefonsnummer net a benotzen se net fir onbezuelte Marketing.",
-        "newText": "Neien Text",
-        "enterRecipient": "Gëff e Numm oder eng Nummer an",
-        "typeMessage": "Schreif eng Messaggio...",
-        "addRecipient": "Setz en Empfänger uewen drun fir unzefänken..."
-      },
-      "howWeUse": {
-        "title": "Wéi mir Informatiounen benotzen",
-        "provide": "De Servicer bidden a sécher maachen (Auth, Spam-/Abuse-Erkennung).",
-        "improve": "Funktioune verbesseren (Iwwersetzungsqualitéit, Zouverlässegkeet).",
-        "legal": "Rechtlech Verpflichtungen erfëllen."
-      },
-      "sharing": {
-        "title": "Deelen",
-        "body": "Mir verkafen keng perséinlech Donnéeën. Mir kënnen limitéiert Donnéeën mat Prozessore (z. B. Push-Notifikatiounen, Analysen) ënner strikten Kontrakter deelen."
-      },
-      "rights": {
-        "title": "Deng Rechter",
-        "body": "Ofhängeg vun denger Regioun (z. B. GDPR/UK GDPR/CPRA) kanns du Zougrëff, Korrektur, Läschen oder Opt-out vu bestëmmte Veraarbechtungen ufroen. Kontakt: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Donnéeën-Retention & Sécherheet",
-        "body": "Mir behalen nëmmen wat néideg ass, fir de Servicer ze bedreiwen, an wenden Industriestandard-Sécherheet un. E2E-Inhalt kann vun eis net entschëlsselt ginn."
-      },
-      "children": {
-        "title": "Kanner",
-        "body": "Chatforia ass net un Kanner ënner 13 (oder wéi vun dengem lokalen Gesetz gefuerdert) geriicht."
-      },
-      "changes": {
-        "title": "Ännerungen",
-        "body": "Mir publizéieren Aktualisatioune hei a reviséieren d’„Lescht aktualiséiert“-Datum."
-      },
-      "contact": {
-        "title": "Kontakt",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Nutzungsbedéngungen",
-      "lastUpdated": "Lescht aktualiséiert:",
-      "intro": {
-        "body": "Mat der Benotzung vu Chatforia akzeptéiers du dës Bedéngungen. Wann du net akzeptéiers, benotz de Servicer net."
-      },
-      "accounts": {
-        "title": "Accounts",
-        "itemAccurateInfo": "Gëff korrekt Informatiounen an behal d’Zougangsdaten sécher.",
-        "itemResponsibility": "Du bass responsabel fir Aktivitéit op dengem Account."
-      },
-      "acceptableUse": {
-        "title": "Akzeptabel Notzung",
-        "itemNoAbuse": "Keng illegal, abusiv oder verletzend Inhalter; keen Spam oder automatiséiert Abus.",
-        "itemSuspend": "Mir kënnen de Account suspendéieren oder läschen bei Verstéiss."
-      },
-      "sms": {
-        "title": "SMS-Kommunikatiounen",
-        "body": "Wann du eng Mobiltelefonsnummer bäigëss, akzeptéiers du, dass Chatforia dir SMS-Messagen am Zesummenhang mat dengem Account a Notzung vum Servicer schécke kann, wéi Login-Alarmen, Sécherheetsnotifikatiounen a Messagen am Zesummenhang mat Gespréicher, déi du initiéierst oder drun deelhëls. Mir benotzen SMS net fir promotiounell oder Marketing-Messagen ouni däin explizite Consens. Standard Messagen- a Datetariffer kënnen uwenden. Du kanns SMS-Messagen jidderzäit ofschalten, andeems du mat engem ënnerstëtzte Opt-out-Wuert äntwerts (z. B. „STOP“) oder andeems du deng Notifikatiouns-Astellungen an der App aktualiséiers."
-      },
-      "yourContent": {
-        "title": "Deng Inhalter",
-        "body": "Du behälst d’Rechter un dengem Inhalt. Du gëss eis déi néideg Rechter, fir de Servicer ze bedreiwen (z. B. Routing, Späicherung, Iwwersetzung)."
-      },
-      "disclaimer": {
-        "title": "Disclaimer & Haftung",
-        "body": "De Servicer gëtt „as is“ ouni Garantien zur Verfügung gestallt. Bis zum maximal erlaabte Mooss vum Gesetz ass Chatforia net haftbar fir indirekt oder Konsequenzschäden."
-      },
-      "changes": {
-        "title": "Ännerungen",
-        "body": "Mir kënnen dës Bedéngungen aktualiséieren; weider Notzung no Ännerungen bedeit Akzeptanz."
-      },
-      "contact": {
-        "title": "Kontakt",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Verkaf oder Deelen vu mengen perséinlechen Informatiounen verbueden",
-      "body": "Chatforia verkaaft keng perséinlech Informatiounen. Kalifornesch Awunner kënnen nach Rechter no CPRA mat dem Knäppchen ënnen ufroen.",
-      "cta": "Ufro ofschécken"
-    },
-    "cookies": {
-      "title": "Cookie-Astellungen",
-      "body": "Chatforia benotzt minimal Cookies (z. B. Session, Sécherheet). Mir benotzen keng Drëtt-Parteien-Annonce-Cookies. Verwal Cookies iwwer d’Astellungen vun dengem Browser."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Telefonsnummer-Status konnt net gelueden ginn.",
-      "lock": "Spären",
-      "noNumberAssigned": "Keng Nummer zougewisen. Wiel eng mat Virwahl fir mat Schreiwen unzefänken.",
-      "pickNumber": "Nummer wielen",
-      "phoneNumber": "Telefonsnummer"
-    },
-    "startChatModal": {
-      "title": "Chat starten",
-      "quickPicker": "Séier Auswiel",
-      "to": "Un",
-      "nameOrUsername": "Gëff e Numm, Benotzernumm an",
-      "nameUsernamePhoneEmail": "Gëff e Numm, Benotzernumm, Telefon oder E-Mail an...",
-      "startWithSelected": "Chat mat Ausgewielten starten",
-      "searchByUsernameOrPhone": "No Benotzernumm oder Telefon sichen",
-      "search": "Sichen",
-      "searchPrompt": "Gëff e Benotzernumm oder Telefon an dréck op Sich.",
-      "pickFromContacts": "Oder wiel aus Kontakter",
-      "addContact": "Kontakt bäifügen",
-      "show": "Weisen",
-      "add": "Bäifügen",
-      "close": "Zoumaachen",
-      "selectedCount": "{{count}} ausgewielt",
-      "pickAtLeastOne": "Wiel op mannst een Empfänger.",
-      "saveContactsHint": "Telefon-/E-Mail-Einträg sinn eréischt no Späicheren als Kontakter verfügbar.",
-      "failedBulkStart": "Chat mat ausgewielten Empfänger starten gescheitert.",
-      "noResults": "Keng Resultater",
-      "mode": "Modus",
-      "group": "Grupp",
-      "broadcast": "Broadcast",
-      "groupNameOptional": "Grupp-Numm (optional)",
-      "firstMessageOptional": "Éischt Messaggio (optional, awer recommandéiert)",
-      "createGroup": "Grupp erstellen",
-      "sendBroadcast": "Broadcast schécken"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sonnenënnergank",
-      "solarized": "Solariséiert",
-      "velvet": "Velours"
-    },
-    "sounds": {
-      "freeNotice": "Du bass op Gratis – Premium-Téin ginn gewisen, awer gespaart. Upgrad fir all ze entspären.",
-      "preview": "Preview",
-      "resetToDefaults": "Op Standard zerécksetzen",
-      "notificationSounds": "Notifikatiouns-Téin",
-      "messageTone": "Messaggio-Ton",
-      "default": "Standard",
-      "vibrate": "Vibréieren",
-      "dreamer": "Träumer",
-      "notify": "Notifizéieren",
-      "pop": "Pop",
-      "pulsatingSound": "Pulséierenden Ton",
-      "textMessage": "Text-Messaggio",
-      "xylophone": "Xylophon",
-      "classic": "Klassesch",
-      "urgency": "Dréngend",
-      "bells": "Glocken",
-      "chimes": "Klingelen",
-      "digitalPhone": "Digital Telefon",
-      "melodic": "Melodiesch",
-      "organNotes": "Orgel-Noten",
-      "soundReality": "Real-Ton",
-      "street": "Strooss",
-      "universfield": "Universfeld"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Dës Funktioun brauch en Premium-Plang."
-    },
-    "aiSettings": {
-      "title": "AI-Astellungen",
-      "controlIntro": "Kontrolléier Iwwersetzung, smart Äntwerten a ForiaBot-Auto-Äntwerten.",
-      "save": "AI-Astellungen späicheren",
-      "autoTranslateIncoming": "Einkommend Messagen automatesch iwwersetzen",
-      "showOriginalAlongside": "Originaltext nieft der Iwwersetzung weisen",
-      "enableSmartReplies": "Smart Äntwerten aktivéieren",
-      "smartRepliesHint": "Schéck déi lescht puer empfaangen Messagen (gereinegt) un AI fir schnell Äntwerten ze virschloen.",
-      "maskProfanity": "Fluchwierder an AI-Virschléi maskéieren",
-      "maskProfanityHint": "Wann un, ginn Fluchwierder an AI-Virschléi maskéiert",
-      "foriaBot": "ForiaBot Auto-Äntwerter",
-      "enableAutoReply": "Auto-Äntwert aktivéieren, wann ech beschäftegt sinn",
-      "autoReplyMode": "Auto-Äntwert-Modus",
-      "cooldownSeconds": "Cooldown (Sekonnen)",
-      "off": "Aus",
-      "on": "Un",
-      "signature": "Ënnerschrëft",
-      "autoReply": "Auto-Äntwert",
-      "activeUntilOptional": "Aktiv bis (optional)",
-      "saved": "AI-Preferenzen gespäichert",
-      "saveFailed": "AI-Astellungen späicheren gescheitert",
-      "translateOff": "Aus",
-      "translateTagged": "Nëmme wann @translated oder markéiert",
-      "translateAll": "All einkommend Messagen iwwersetzen",
-      "modeDm": "Nëmme 1:1-Chats",
-      "modeMention": "Nëmme wann ech @mentionéiert ginn",
-      "modeAll": "All einkommend Messagen"
-    },
-    "accessibilitySettings": {
-      "title": "Zougänglechkeet & Alarmer",
-      "accessibility": "Zougänglechkeet",
-      "accessibilityDesc": "Optiounen, fir Chatforia ouni Toun méi einfach ze benotzen.",
-      "interfaceFontSize": "Interface-Schrëftgréisst",
-      "interfaceFontSizeHelp": "Fänkt mat normaler Gréisst un. Erhéij, wann du méi grouss Text an Zougänglechkeets-Astellungen wëlls.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Notifikatiounen",
-      "notificationsDesc": "Visuell Alarmer fir Messagen & Appellen\nWeis Banneren a Titel-Blinken, fir dass du keng Aktivitéit verpasst.",
-      "vibrateOnNew": "Vibréieren bei neie Messagen (wann ënnerstëtzt)\nGerät-Vibratioun mat Notifikatioune ausléisen.",
-      "flashOnCall": "Bildschierm blëtzelen bei einkommendem Ruff\nKuerze helle Blëtz, wann e Ruff klingelt.",
-      "liveCaptions": "Live-Untertitele (Appellen)",
-      "captionFontSize": "Untertitel-Schrëftgréisst",
-      "captionBackground": "Untertitel-Hannergrond",
-      "light": "hell",
-      "dark": "däischter",
-      "transparent": "transparent",
-      "voiceNotes": "Stëmm-Notizen",
-      "autoTranscribeVoiceNotes": "Stëmm-Notizen automatesch transkribéieren",
-      "autoTranscribeVoiceNotesDesc": "Transkript un Audio-Messagen, déi du kriss, hänken.",
-      "changesSavedInstantly": "Ännerungen ginn direkt gespäichert.",
-      "loadFailed": "Astellungen lueden gescheitert",
-      "visualAlerts": "Visuell Alarmer fir Messagen & Appellen",
-      "visualAlertsDesc": "Weis Banneren a Titel-Blinken, fir dass du keng Aktivitéit verpasst.",
-      "vibrateOnNewShort": "Vibréieren bei neie Messagen (wann ënnerstëtzt)",
-      "vibrateOnNewDesc": "Gerät-Vibratioun mat Notifikatioune ausléisen.",
-      "flashOnCallShort": "Bildschierm blëtzelen bei einkommendem Ruff",
-      "flashOnCallDesc": "Kuerze helle Blëtz, wann e Ruff klingelt."
-    },
-    "privacySection": {
-      "strictE2EE": "Streng end-to-end Verschlësselung",
-      "ciphertextOnlyNote": "Nëmme Chiffretext um Server späicheren. Deaktivéiert AI/Iwwersetzung a Moderatiouns-Previews."
-    },
-    "linkedDevicesPanel": {
-      "title": "Verbonne Geräter",
-      "noneFound": "Keng verbonne Geräter fonnt.",
-      "refresh": "Aktualiséieren"
-    },
-    "help": {
-      "title": "Hëllef",
-      "howCanWeHelp": "Wéi kënne mir hëllefen?",
-      "helpCenter": "Hëllef-Zentrum",
-      "contactUs": "Kontaktéier eis",
-      "quickTopics": "Séier Themen",
-      "searchExamples": "Probéier no „iwwersetzen“, „backups“ oder „privatsphäre“ ze sichen.",
-      "cantLogin": "Kann net aloggen",
-      "paymentsBilling": "Bezuelungen/Abrechnung",
-      "reportAbuse": "Abus melden",
-      "searchHelpArticles": "Hëllef-Artikelen sichen",
-      "search": "Sichen"
-    },
-    "peoplePage": {
-      "people": "Leit",
-      "search": "Sichen",
-      "searchPlaceholder": "No Alias, Numm, Benotzernumm oder Telefon sichen",
-      "filterSaved": "Gespäichert Kontakter filteren",
-      "noContactsFound": "Keng Kontakter fonnt",
-      "quickStart": "Séier Start",
-      "quickStartDesc": "E puer séier Weeër fir un den Drock ze kommen.",
-      "importContacts": "Deng Kontakter importéieren",
-      "add": "Bäifügen",
-      "focusSearch": "Sich fokusséieren",
-      "import": "Importéieren",
-      "findOrAdd": "Jiddereng fannen oder bäifügen",
-      "searchByPhoneOrUsername": "No Telefon / Benotzernumm sichen",
-      "inviteFriends": "Frënn invitéieren",
-      "inviteDesc": "Deel däi Invite-Link, fir direkt ze chatten.",
-      "getTheApp": "D’App kréien",
-      "getTheAppDesc": "Bleif op der Go mat Chatforia fir iOS an Android an Kontakt.",
-      "download": "Eroflueden",
-      "syncTip": "Tipp: Deng Messagen bleiwen iwwer Web a Mobil synchroniséiert."
     },
     "randomChat": {
       "title": "Zoufällege Chat",
-      "description": "Trëff direkt een Neien. Mir paaren dech an maachen e temporären Chatraum op. Chat anonym fir d’éischt. Bäifüg als Frënd, wann et passt.",
-      "findMatch": "Fann mir e Match",
-      "chatWithForia": "Mat Foria chatten",
-      "chatWithForiaBot": "Mat ForiaBot chatten",
-      "cancel": "Ofbriechen",
-      "close": "Zoumaachen",
-      "searching": "Sichen...",
-      "finding": "Fannen...",
-      "looking": "Sichen no engem...",
-      "startingForia": "Chat mat Foria starten...",
-      "partnerDisconnected": "Däi Partner ass ofgetrennt.",
-      "noPartner": "Momentan kee Partner fonnt.",
-      "connectedTo": "Verbonne mat {{name}}",
-      "connected": "Verbonne",
+      "Ënnertitel": "Trefft direkt een neien, oder wielt, mat der Ria ze chatten.",
+      "Ufank": "Fänkt eng Konversatioun un",
+      "Beschreiwung": "Chatt éischt anonym. Füügt de Frënd spéider derbäi, wann et sech richteg unfillt.",
+      "FannenMatch": "Fënnt mir e Match",
+      "ChatMatRia": "Chat mat Ria",
+      "setAge": "Setzt Äre Altersberäich am Profil → Alter & Random-Chat fir mat Leit gepaart ze ginn.",
       "idle": "Inaktiv",
+      "matching": "Amgaang ze passen…",
+      "searching": "Amgaang ze sichen…",
+      "cancel": "Ofbriechen",
+      "connectionProblem": "Verbindungsproblem",
+      "ai": "KI",
+      "anonymous": "Anonym",
+      "connectedAs": "Als verbënnt",
+      "waitingAddFriend": "Waart drop, datt si d'Ufro fir Frënd derbäi ze ginn akzeptéieren…",
+      "hiddenUsernames": "Usernamen bleiwen verstoppt, bis béid Persounen 'Frënd derbäi ginn' ausgewielt hunn.",
+      " riaSeparate": "Chat mat Ria zu all Moment — getrennt vun zoufällege Mënsche-Paarungen.",
+      "sendMessage": "Schéck eng Noriicht",
+      "chatEnded": "De Chat ass eriwwer",
+      "conversationEnded": "Déi Konversatioun ass eriwwer.",
+      "findAnotherMatch": "Fënn en aneren Match",
+      "next": "Nächst Persoun",
+      "addFriend": "Füüg e Frënd derbäi",
+      "requested": "Ugefrot",
+      "Verloossen": "Verloossen",
+      "Ria eng Noriicht schécken": "Ria eng Noriicht schécken…",
+      "Däin Match eng Noriicht schécken": "Däin Match eng Noriicht schécken…",
+      "Mat Foria chatten": "Mat Foria chatten",
+      "Mat ForiaBot chatten": "Mat ForiaBot chatten",
+      "Zoumaachen": "Zoumaachen",
+      "Am Fannen": "Am Fannen…",
+      "looking": "Looking for someone…",
+      "startingForia": "Starting a chat with Foria…",
+      "partnerDisconnected": "Däi Partner ass ofgemellt.",
+      "noPartner": "Elo gëtt kee Partner fonnt.",
+      "connectedTo": "Mat {{name}} verbonnen",
+      "connected": "Verbonnen",
       "partnerLeft": "Partner ass fort.",
-      "stopped": "Gestoppt.",
+      "stopped": "Opgehalen.",
       "skip": "Iwwersprangen",
       "save": "Späicheren",
-      "saveGuard": "Nëmme Mënsch-zu-Mënsch-Chats kënnen gespäichert ginn",
-      "youAreChattingWith": "Du chatt mat {{name}}",
+      "saveGuard": "Nëmmen Mënsch-zu-Mënsch-Chats kënnen gespäichert ginn",
+      "youAreChattingWith": "Du bass am Chat mat { {name}}",
       "bot": "BOT",
-      "leave": "Verloossen",
-      "sayHi": "Hallo soen 👋",
+      "sayHi": "Sot hi 👋",
       "you": "Du",
-      "typeMessage": "Schreif eng Messaggio",
+      "typeMessage": "Tippt eng Noriicht",
       "send": "Schécken",
       "partner": "Partner",
       "withRia": "Mat Ria",
-      "chatWithRia": "Mat Ria chatten",
-      "startingRia": "Chat mat Ria starten...",
-      "ageDisclaimer": "Mir späicheren nëmmen eng Altersgrupp (net däi genauen Gebuertsdatum). Dat gëtt benotzt, fir Random-Chat-Paarungen raisonnabel ze halen. Fir mat Leit (net nëmme RiaBot) gepaart ze ginn, setz deng Altersgrupp an den Astellungen → Alter & Zoufällege Chat.",
-      "ageBandRequired": "Setz deng Altersgrupp am Profil → Alter & Zoufällege Chat, fir mat Leit gepaart ze ginn.",
-      "ageBandCallout": "Fir mat Leit (net nëmme RiaBot) gepaart ze ginn, setz deng Altersgrupp an den Astellungen → Alter & Zoufällege Chat.",
-      "subtitle": "Trëff direkt een Neien oder wiel mat Ria ze chatten.",
-      "start": "Gespréich starten",
-      "matching": "Paaren...",
-      "setAge": "Setz deng Altersgrupp am Profil → Alter & Zoufällege Chat, fir mat Leit gepaart ze ginn.",
-      "next": "Nächst Persoun",
-      "addFriend": "Frënd bäifügen",
-      "requested": "Ugefroen",
-      "messageRia": "Ria eng Messaggio schécken...",
-      "messageMatch": "Dengem Match eng Messaggio schécken..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
+      "startingRia": "En Chat mat Ria ufänken…",
+      "ageDisclaimer": "Mir späicheren nëmmen e Altersberäich (net Äre genauen Gebuertsdatum). Dëst gëtt benotzt, fir d'Zouweisung am Zoufällege Chat raisonnabel ze halen. Fir mat anere Leit (net nëmmen dem RiaBot) gepaart ze ginn, setzt Äre Altersberäich an den Astellungen → Alter & Zoufällege Chat.",
+      "ageBandRequired": "Setzt Är Altersspann am Profil → Alter & Zoufällege Chat fir mat anere Leit gepaart ze ginn.",
+      "ageBandCallout": "Fir mat anere Leit gepaart ze ginn (net nëmmen mam RiaBot), setzt Är Altersspann an den Astellungen → Alter & Zoufällege Chat."
     },
     "ria": {
       "fallbackName": "do",
-      "intro": "Hallo do 👋 Ech sinn Ria. Wat geet dir duerch de Kapp?",
+      "intro": "Hey do 👋 Ech sinn d'Ria. Wat geet dir duerch de Kapp?",
       "greetings": {
-        "long1": "Hallo {{name}} 👋 Ech sinn hei. Wat geet dir duerch de Kapp?",
-        "long2": "Hi {{name}} 😊 Worüber wëlls du haut schwätzen?",
-        "long3": "Hallo {{name}}!! Ech lauschteren – wat ass los?",
+        "long1": "Hey {{name}} 👋 Ech sinn hei. Wat geet dir duerch de Kapp?",
+        "long2": "Salut {{name}} 😊 Iwwer wat wëlls du haut schwätzen?",
+        "long3": "Hey {{name}}! Ech hunn all Oueren op — wat geet lass?",
         "long4": "Schéin, dech ze gesinn, {{name}} 👋 Wat geet dir haut duerch de Kapp?",
-        "long5": "Hallo {{name}} 😊 Wëlls du di auslueden, froen oder einfach chatten?",
-        "long6": "Hi {{name}}!! Ech hunn Zäit – worüber wëlls du schwätzen?",
-        "short1": "Hallo {{name}}, ech sinn nach hei. Wat ass los?",
-        "short2": "Wëllkomm zréck {{name}} 👋 Wëlls du nach eppes bäifügen?",
-        "short3": "Zréck, {{name}}? 😊 Erzähl mir, wat dir duerch de Kapp geet.",
-        "short4": "Hallo {{name}} 👋 Bereet fir wou mir opgehale hunn weiderzemaachen?",
-        "short5": "Jo {{name}}? Ech lauschteren 👂",
-        "short6": "Oh hallo {{name}}!! Hutt dir eppes Neies am Kapp?"
+        "long5": "Hey {{name}} 🙂 Wëlls du dengen Damp ofloossen, eppes froen oder einfach quatschen?",
+        "long6": "Hi {{name}}! Ech hu Zäit — iwwer wat wëlls du schwätzen?",
+        "short1": "Hey {{name}}, ech sinn nach hei. Wat geet?",
+        "short2": "Wëllkomm zréck {{name}} 👋 Wëlls du nach eppes derbäisetzen?",
+        "short3": " Erëm do, {{name}}? 😊 Sot mir, wat de um Kapp hues.",
+        "short4": "Hey {{name}} ✨ Bass du prett, do weider unzefänken, wou mir opgehalen hunn?",
+        "\n      \"short5": "Jo {{name}}? Ech lauschteren 👂",
+        "short6": "Oh hey {{name}}! Hues du eppes Neies um Kapp?"
       },
       "header": {
-        "openNav": "Navigatiounsmenü opmaachen",
+        "openNav": "Navigatiounsmenu opmaachen",
         "closeNav": "Navigatiounsmenü zoumaachen",
-        "homeAria": "Chatforia Home"
+        "homeAria": "Chatforia Heem"
       },
       "login": {
         "welcomeBack": "Wëllkomm zréck",
-        "title": "Weider zu Chatforia",
-        "subtitleReturning": "Logg dech an däi Chatforia-Account an",
-        "subtitle": "Logg dech an däi Chatforia-Account an",
+        "title": "Weider op Chatforia",
+        "subtitleReturning": "Mellt Iech bei Ärem Chatforia-Kont un",
         "google": "Weider mat Google",
-        "apple": "Weider mat Apple",
-        "googleUnavailable": "Google-Login net verfügbar",
-        "appleUnavailable": "Apple-Login net verfügbar",
-        "or": "oder",
-        "email": "E-Mail",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Benotzernumm",
-        "usernamePh": "Däi Benotzernumm",
+        "apple": "Mat Apple weidergoen",
+        "googleShort": "Google",
+        "appleShort": "Apple",
+        "googleUnavailable": "Google-Umloggen net verfügbar",
+        "appleUnavailable": "Apple-Umloggen net verfügbar",
+        "ssoUnavailable": "Single-Sign-On ass de Moment net verfügbar. Benotzt amplaz Benotzernumm & Passwuert.",
+        "oder": "oder",
+        "accountLabel": "Kont",
+        "identifierPh": "E-Mail oder Benotzernumm",
         "passwordLabel": "Passwuert",
-        "passwordPh": "Däi Passwuert",
-        "keepSignedIn": "Mäi Login behalen",
-        "forgot": {
-          "title": "Passwuert vergiess",
-          "helper": "Gëff d’E-Mail an, mat där du däi Chatforia-Account erstallt hues, a mir schécken dir en séchere Link, fir däi Passwuert zeréckzesetzen.",
-          "emailInvalid": "Gëff eng valabel E-Mail-Adress an.",
-          "genericError": "Ufro konnt net veraarbecht ginn. Probéier an e puer Momenter nach eng Kéier.",
-          "sending": "Reset-Link schécken...",
-          "sendCta": "Reset-Link schécken",
-          "sentLabel": "Geschéckt!"
+        "passwordPh": "Äert Passwuert",
+        "keepSignedIn": "Bleif ageloggt",
+        "forgot": "Passwuert vergiess?",
+        "resendVerification": "Verifizéierungs-E-Mail nei schécken",
+        "submit": "Aaloggen",
+        "loggingIn": "Aaloggen…",
+        "verification": {
+          "geschéckt": "Verifizéierungs-E-Mail geschéckt. Kuckt an Ärem Posteingang no.",
+          "gescheitert": "D'Verifizéierungs-E-Mail konnt net nei geschéckt ginn."
         },
-        "submit": "Aloggen",
-        "loggingIn": "Aloggen...",
-        "newHere": "Nei hei? <link>Account erstellen</link>",
-        "ssoUnavailable": "Single-Sign-On ass aktuell net verfügbar. Benotz Benotzernumm & Passwuert.",
-        "error": {
-          "missing": "Gëff deng Zougangsdaten an.",
-          "invalid": "Falsche Benotzernumm oder Passwuert",
-          "denied": "Zougang verweigert.",
-          "unprocessable": "Ongülteg Ufro. Kuck däi Benotzernumm/E-Mail a Passwuert.",
-          "deviceLimit": "Gerät-Limit fir de Gratis-Plang erreecht. Logg op engem anere Gerät aus oder upgrad op Premium, fir méi Geräter ze verknäppen.",
-          "premiumRequired": "Dës Aktioun brauch en Premium-Plang."
+        "Feeler": {
+          "feelt": "Gitt w.e.g. Är Zougangsdaten an.",
+          "ongëlteg": "Ongëltege Benotzernumm oder Passwuert",
+          "ofgeleent": "Zougang ofgeleent.",
+          "unprocessable": "Onvalide Ufro. Iwwerpréift Ären Benotzernumm/Är E-Mail an Äert Passwuert.",
+          "deviceLimit": "Gerätegrenze fir de gratis Plang erreecht. Mellt Iech op engem aneren Apparat of oder upgradet op Premium fir méi Apparater ze verbannen.",
+          "premiumRequired": "Dës Aktioun erfuerdert e Premium-Plang."
+        },
+        "forgotPassword": {
+          "title": "Passwuert vergiess",
+          "helper": "Gitt d'E-Mailadress an, déi Dir benotzt hutt fir Äre Chatforia-Kont ze erstellen, an mir schécken Iech e sécheren Link fir Äert Passwuert zréckzesetzen.",
+          "emailLabel": "E-Mail",
+          "emailPlaceholder": "you@example.com",
+          "emailInvalid": "Gitt w.e.g. eng gëlteg E-Mail-Adress an.",
+          "genericError": "Ufro net veraarbechtbar. Probéiert et w.e.g. an engem Moment nach eng Kéier.",
+          "sending": "Reset-Link gëtt verschéckt...",
+          "sendCta": "Reset-Link verschécken",
+          "sentLabel": "Verschéckt!",
+          "sentHelper": "Wann e Kont mat där E-Mailadress existéiert, hu mir e Link fir d'Passwuert zréckzesetzen geschéckt. Et kann e puer Minutten daueren, bis en ukënnt. Kuckt w.e.g. an Ärem Spam- oder Promotions-Ordner no.",
+          "previewDev": "E-Mail virschauen (Dev)",
+          "backToLogin": "Zréck op d'Login"
+        },
+        "resetPassword": {
+          "title": "Passwuert zuréckgesat",
+          "missingToken": "Onvalide oder feelend Token fir d'Passwuert-Reset.",
+          "missingTokenHelper": "Onvalide oder feelend Token. Frot w.e.g. e neie Link fir d'Passwuert-Reset un.",
+          "passwordMismatch": "D'Passwierder passen net",
+          "success": "Äert Passwuert gouf erfollegräich zréckgesat",
+          "genericError": "Feeler: Et ass net méiglech, d'Passwuert zréckzesetzen.",
+          "newPasswordLabel": "Neit Passwuert",
+          "newPasswordPlaceholder": "Gitt Äert neit Passwuert an",
+          "confirmPasswordLabel": "Bestätegt d'neit Passwuert",
+          "confirmPasswordPlaceholder": "Gitt Äert neit Passwuert nach eng Kéier an",
+          "resetting": "Reset...",
+          "submit": "Passwuert zuréckgesat",
+          "strongPasswordHint": "Wielt e staarkt Passwuert, dat Dir net anescht benotzt."
         }
       }
     },
     "oauth": {
-      "completing": "Login ofschléissen..."
+      "completing": " Fäerdeg mat der Umeldung…"
     },
-    "dialer": {
-      "title": "Appellen",
-      "subtitle": "Tastatur & Rezent. (Wann du PSTN net benotz, start Appellen aus engem Gespréich-Header.)",
-      "enterNumberPh": "Nummer aginn",
-      "call": "Ruffen",
-      "backspace": "Zréck",
-      "recents": "Rezent",
-      "recentsEmpty": "Nach keng rezent Appellen.",
-      "enterNumber": "Nummer aginn",
-      "enterNumberAria": "Nummer aginn",
-      "key": "Taste {{d}}",
-      "noRecents": "Nach keng rezent Appellen."
-    },
-    "video": {
-      "title": "Video",
-      "chooseType": "Wiel en Video-Typ.",
-      "directTitle": "Direkt Video",
-      "directDesc": "1:1 Kamera-Appell mat engem anere Benotzer.",
-      "directStart": "Starten",
-      "roomsTitle": "Raumen",
-      "roomsDesc": "Multi-Party-Video mat engem gedeelte Raum-Numm.",
-      "roomsIntro": "Bäitrieden oder e Multi-Party-Raum erstellen.",
-      "roomNameLabel": "Raum-Numm",
-      "roomNamePh": "z. B. team-standup",
-      "join": "Bäitrieden",
-      "deeplinkTip": "Tipp: du kanns direkt op <code>/video?room=raum-numm</code> deeplinkéieren.",
-      "hub": {
-        "title": "Video",
-        "subtitle": "Wiel en Video-Typ."
+    "support": {
+      "helpFab": "Hëllef",
+      "openSupportAria": "Support opmaachen",
+      "badge": "Support",
+      "heading": "Wéi kënne mir hëllefen?",
+      "tabs": {
+        "help": "Hëllefszenter",
+        "contact": "Kontaktéiert eis"
       },
-      "direct": {
-        "title": "Direkt Video",
-        "subtitle": "Start en 1:1-Video-Appell mat enger Telefonsnummer oder Chatforia-Benotzernumm.",
-        "desc": "1:1 Kamera-Appell mat engem anere Benotzer.",
-        "start": "Starten",
-        "callBtn": "Ruffen",
-        "callByPhone": {
-          "title": "Per Telefon ruffen"
+      "searchPlaceholder": "Sicht no Hëllefartikelen…",
+      "searchAria": "Sicht no Hëllef",
+      "searchBtn": "Sichen",
+      "quickTopicsLabel": "Séier Themen",
+      "quickTopics": {
+        "login": "Kann net ageloggt ginn",
+        "billing": "Bezuelungen / Fakturatioun",
+        "Mëssbrauch": "Mëssbrauch mellen"
+      },
+      "probéierZeSichen": "Probéiert no \"iwwersetzen\", \"Sécherkopien\" oder \"Privatsphär\" ze sichen.",
+      "Artikel": "Artikel",
+      "ArtikelOpmaachen": "Artikel opmaachen",
+      "KontaktAféierung": "Mir probéieren dëst direkt ze léisen. Wann net, da geet eise Team der Saach no.",
+      "ThemaAria": "Wielt e Thema",
+      "messagePlaceholder": "Schreif deng Noriicht…",
+      "sendBtn": "Schécken",
+      "sent": "Noriicht verschéckt. Mir äntweren per E-Mail.",
+      "sendError": "Konn net verschécken. Schéck amplaz eng E-Mail un support@chatforia.com.",
+      "actionCompleted": "Aktioun ofgeschloss.",
+      "actionFailed": "Konn déi Aktioun net ofschléissen. Probéier et nees.",
+      "ticketCreated": "Mir konnten dëst net automatesch léisen. Eist Team wäert sech drëm këmmeren.",
+      "escalationMessage": "Mir konnten dëst net automatesch léisen. Eist Team wäert sech drëm këmmeren.",
+      "genericError": "Eppes ass falsch gaangen. Probéiert et w.e.g. nach eng Kéier.",
+      "analyzing": "Mir analyséieren Äre Problem...",
+      "takeAction": "Maacht déi recommandéiert Aktioun",
+      "resolvedInstantly": "Problem direkt geléist — kee Ticket néideg.",
+      "escalating": "Wird un de Support eskaléiert..."
+    },
+    "help": {
+      "title": "Hëllef",
+      "howCanWeHelp": "Wéi kënne mir hëllefen?",
+      "helpCenter": "Hëllefzenter",
+      "contactUs": "Kontaktéiert eis",
+      "quickTopics": "Schnell Themen",
+      "searchExamples": "Probt no \"iwwersetzen\", \"Backups\" oder \"Privatsphär\" ze sichen.",
+      "cantLogin": "Kann net ageloggt ginn",
+      "paymentsBilling": "Bezuelungen/Ofrechnung",
+      "Report abuse": "Mellt Missbrauch",
+      "searchHelpArticles": "Sicht Hëllefsartikelen",
+      "search": "Sich"
+    },
+    "helpCenter": {
+      "title": "Hëllefszenter",
+      "faq": {
+        "account": {
+          "q": "Wéi kann ech mäi Kont erstellen oder zréckgewinnen?"
         },
-        "phone": {
-          "placeholder": "Telefon aginn (z. B. +1-555-123-4567)",
-          "aria": "Telefon ze ruffen"
+        "privacy": {
+          "q": "Si d'Noriichten en-to-en verschlësselt?",
+          "a": "Jo. Noriichten a Uruff si standardméisseg en-to-end verschlësselt. Nëmmen Dir an de Empfänger kënnt se liesen."
         },
-        "tipInvite": "Tipp: Kopéier eng Nummer a ruff ouni Kontakt ze späicheren. Mir invitéieren Net-Benotzer iwwer Link.",
-        "findUser": {
-          "title": "Benotzer fannen"
+        "iwwersetzen": {
+          "q": "Wéi funktionéiert d'Instant-Iwwersetzung?",
+          "a": "Schalt 'Auto-iwwersetzen' an den Astellungen → Ausgesinn & Sprooch un. Mir iwwersetzen op dem Apparat wou et ënnerstëtzt gëtt, soss iwwer sécher APIs mat minimalen Metadaten."
         },
-        "search": {
-          "placeholder": "No Numm oder Benotzernumm sichen",
-          "aria": "No Numm oder Benotzernumm sichen",
-          "btn": "Sichen"
+        "Kontakt": {
+          "q": "Kontaktéiert de Support",
+          "a": "Kontaktéiert eis op support@chatforia.com. Füügt Screenshots an Är App-Versioun derbäi."
+        }
+      }
+    },
+    "gettingStarted": {
+      "title": "Um Ufank",
+      "subtitle": "Nei bei Chatforia? Dëse séiere Start weist déi wichtegst Saachen, sou datt Dir an e puer Minutten produktiv sidd.",
+      "alert": {
+        "text": "Dëse Guide wäert wuessen, wéi mir nei Funktiounen lancéieren. Wann eppes feelt, loosst eis w.e.g. wësse via",
+        "contactLink": "Kontaktéiert eis"
+      },
+      "section1": {
+        "title": "1) Erstellt Äre Kont",
+        "signup": "Mellt Iech un",
+        "or": "oder",
+        "login": "Mellt Iech un",
+        "loginText": "mat Ärem bestehenden Kont.",
+        "prefsStart": "An der App, maacht d'Astellungen op fir Är Virléiften ze setzen",
+        "prefsLink": "Virléiften",
+        "prefsRest": "(Sprooch, Liesenbestätegungen, Themen)."
+      },
+      "section2": {
+        "title": "2) Ufänken ze messagen",
+        "item1": "Maacht e DM oder eng Grupp op a schéckt Är éischt Noriicht.",
+        "item2": "Benotzt direkt Iwwersetzung fir iwwer 100 Sproochen ze chatten.",
+        "item3": " Probéiert verschidde Noriichten an Liesenbestätegungen am Profil → Privatsphär aus."
+      },
+      "section3": {
+        "title": "3) Gei weider",
+        "item1": "Du kanns all Moment an der App op e bezuelte Plang upgraden.",
+        "item2": "Sobald du ageloggt bass, kanns du zousätzlech Apparater verbannen an verschlësselt Backups an den Astellungen an der App opsetzen.",
+        "item2Part1": "Sobald Dir ageloggt sidd, kënnt Dir zousätzlech Apparater verbannen an verschlësselt Backups an deenen Astellungen an der App opzestellen."
+      },
+      "cta": {
+        "seePlans": "Pläng & Präisser gesinn",
+        "openSettings": "Astellungen opmaachen",
+        "createAccount": " En Kont erstellen"
+      }
+    },
+    "howItWorks": {
+      "title": "Wéi Chatforia funktionéiert",
+      "intro": "Chatforia gouf entworf, fir Kommunikatioun einfach, séier an zougänglech ze maachen. Fir unzefänken, brauch een nëmmen e puer Schrëtt.",
+      "step1Title": "1. En Kont erstellen",
+      "step1Desc": "Mellt Iech mat Ärer E-Mail oder Ärem Benotzernumm un, fir Äre Chatforia-Kont ze erstellen.",
+      "step2Title": "2. Eng Konversatioun ufänken",
+      "step2Desc": "Verbindt Iech mat aneren andeems Dir Kontakter auswielt oder nei Chats ufänkt.",
+      "step3Title": "3. Echtzäit-Messaging",
+      "step3Desc": "Noriichten ginn séier geliwwert, fir eng reibungslos Kommunikatiounserfarung ze bidden.",
+      "step4Title": "4. Global Kommunikatioun",
+      "step4Desc": "Eng agebaute Iwwersetzung hëlleft de Benotzer, iwwer verschidde Sproochen ze kommunizéieren.",
+      "step5Title": "5. Bleift an der Kontroll",
+      "step5Desc": "Verwalt Är Virléiften, Kontakter an d'Kommunikatiounsastellungen."
+    },
+    "Sécherheet": {
+      "Titel": "Sécherheet & Gemeinschaftsrichtlinnen",
+      "Aféierung": "Chatforia engagéiert sech dozou, eng sécher an respektvoll Ëmwelt fir all Benotzer ze erhalen. Dës Richtlinnen hëllefen, eng positiv Erfahrung fir jiddereen ze garantéieren.",
+      "respectTitle": "Respektvoll Kommunikatioun",
+      "respectDesc": "Et gëtt vun de Benotzer erwaart, respektvoll ze kommunizéieren. Belästegung, Mëssbrauch oder schiedlecht Verhalen ass net erlaabt.",
+      "prohibitedTitle": "Verbueden Inhalter",
+      "prohibited": {
+        "illegal": "Illegal Aktivitéiten",
+        "Belästegung": "Belästegung oder Mobbing",
+        "Hass": "Hassrede oder Diskriminatioun",
+        "explicit": "Explicit oder schiedlecht Material",
+        "spam": "Spam oder täuschend Praktiken"
+      },
+      "toolsTitle": "Benotzer-Sécherheets-Tools",
+      "tools": {
+        "report": "Mellt onpassend Verhalen oder Inhalter",
+        "block": "Blockéiert Benotzer fir weider Interaktioun ze verhënneren",
+        "control": "Verwaltung vun de Privatsphär- a Kommunikatiounsastellungen"
+      },
+      "enforcementTitle": "Duerchféierung",
+      "enforcementDesc": "Mir kënnen géint Konten virgoen, déi dës Richtlinnen verletzen, dorënner Warnungen, Restriktiounen oder eng permanent Entfernung vun der Plattform."
+    },
+    "blog": {
+      "whyMessaging": {
+        "title": "Firwat Messaging-Plattformen méi wichteg sinn wéi jee",
+        "intro": "Messaging-Plattformen hunn sech zu engem vun de wichtegsten Instrumenter fir d'Kommunikatioun an der Welt vu haut entwéckelt. Vu perséinleche Gespréicher bis hin zu geschäftleche Interaktiounen erlaben Messaging-Apps de Leit, direkt a effizient verbonnen ze bleiwen.",
+        "everydayTitle": "Allgemeng Kommunikatioun",
+        "everydayDesc": "D'Leit vertrauen op Messaging-Apps fir hir deeglech Kommunikatioun mat Frënn, Famill a Kollegë. Ob et eng séier Aktualiséierung oder e laange Gespréich ass, Messaging bitt eng praktesch a flexibel Manéier, a Kontakt ze bleiwen.",
+        "speedTitle": "Geschwindegkeet a Bequemlechkeet",
+        "speedDesc": "Ee vun de wichtegste Virdeeler vun Messaging-Plattformen ass hir Geschwindegkeet. Noriichten ginn direkt geliwwert, wat d'Benotzer erlaabt, a Echtzäit ze kommunizéieren. Dëse Komfort huet Messaging fir vill Leit zur bevorzugter Kommunikatiounsform gemaach.",
+        "globalTitle": "Globaler Erreechewäit",
+        "globalDesc": "Messaging-Plattformen verbannen d'Leit iwwer d'ganz Welt. Mat Internetzougang kënnen d'Benotzer onofhängeg vum Standuert kommunizéieren, wat et méi einfach mécht, Bezéiungen opzebauen an international zesummenzeschaffen.",
+        "privacyTitle": "Privatsphär a Kontroll",
+        " privacyDesc": "Modern Messaging-Plattformen konzentréieren sech dorop, de Benotzer d'Kontroll iwwer hir Donnéeën an Gespréicher ze ginn. Funktiounen wéi Verschlësselung, Privatsphärastellungen an Kontrollméiglechkeeten fir Noriichten erlaben de Benotzer, mat Vertraue ze kommunizéieren.",
+        "futureTitle": "D'Zukunft vun der Messaging",
+        "futureDesc": "Messaging entwéckelt sech weider mat neie Funktiounen wéi AI-gestiierte Äntwerten, Iwwersetzungen an Multimedia-Deele. Mat dem technologesche Fortschrëtt ginn Messaging-Plattformen nach méi mächteg a villsäiteg.",
+        "outro": "Chatforia gouf mat dëse Prinzipien am Kapp entwéckelt, bitt eng séier, sécher, an eng benotzerfrëndlech Messaging-Erfarung fir eng verbonne Welt."
+      },
+      "global": {
+        "title": "D'Zukunft vun der globaler Kommunikatioun",
+        "intro": "D'Kommunikatioun huet sech an de leschte puer Joerzéngten séier entwéckelt. Wat eemol Telefonsruffe oder an -Persounen-Treffen kënnen elo séier iwwer Messaging-Plattformen ofgehale ginn. Wéi d'Technologie weiderhi virugeet, gëtt d'global Kommunikatioun méi séier, méi zougänglech an méi inklusiv.",
+        "barriersTitle": "Barrièren ofbriechen",
+        "barriersDesc": "Eng vun de gréisste Verännerungen an der Kommunikatioun ass d'Reduktioun vun geographesche Barrièren. Leit kënnen elo an Echtzäit mat aneren op der ganzer Welt verbonne sinn. Ob fir perséinlech Gespréicher, Geschäfter oder Zesummenaarbecht, Messaging-Plattformen hunn d'Distanz vill manner limitéierend gemaach .",
+        "translationTitle": "D'Roll vun der Iwwersetzungstechnologie",
+        "translationDesc": "D'Sprooch war traditionell ee vun de gréisste Hindernisser fir d'global Kommunikatioun. Haut hëllefen agebaute Iwwersetzungs-Tools dës Lück ze iwwerbrécken. Plattformen wéi Chatforia erlaben de Benotzer, méi einfach ze kommunizéieren, och wann si verschidde Sproochen schwätzen, a schafen domat nei Méiglechkeeten fir Verbindung an Verständnis.",
+        "realtimeTitle": "Verbindung an Echtzäit",
+        "privacyDesc": "Geschwindegkeet ass e wichtege Faktor, deen d'modern Kommunikatioun prägt. Benotzer erwaarden, datt Noriichten séier geliwwert ginn, an d'modern Infrastruktur ënnerstëtzt dës Erwaardung. Echtzäit-Noriichten erméiglechen méi natierlech a fléissend Gespréicher.",
+        "privacyTitle": "Privatsphär a Sécherheet",
+        "privacyDesc ": "Wéi d'Kommunikatioun ëmmer méi digital gëtt, ginn Privatsphär a Sécherheet ëmmer méi wichteg. Benotzer wëllen d'Sécherheet, datt hir Gespréicher geschützt sinn. Funktiounen wéi Verschlësselung an vum Benotzer kontrolléiert Astellungen hëllefen eng méi sécher Kommunikatiounserfarung ze bidden.",
+        " futureTitle": "Wat als nächst kënnt",
+        "futureDesc": "D'Zukunft vun der globaler Kommunikatioun wäert wahrscheinlech méi fortgeschratt Tools enthalen, wéi KI-assistéiert Messaging, verbessert Iwwersetzungen an optiméiert Benotzererfarungen. Wéi d'Technologie sech weiderentwéckelt, gëtt d'Kommunikatioun ëmmer méi intuitiv an zougänglech.",
+        "outro": "Plattformen wéi Chatforia sinn Deel vun dësem Wandel a hëllefen de Leit, sech iwwer Sproochen a Grenzen erliichtert ze verbannen."
+      },
+      "index": {
+        "title": "Chatforia Blog",
+        "intro": "Entdeckt Abléck an d'Kommunikatioun, d'Online-Sécherheet an wéi d'Messaging-Technologie d'Leit ronderëm d'Welt verbënnt.",
+        "post1": "Wéi een sécher online chattet",
+        "post2": "D'Zukunft vun der globaler Kommunikatioun",
+        "post3": "Firwat Messaging-Plattformen wichteg sinn"
+      },
+      "chatSafely": {
+        "title": "Wéi een sécher online chattet",
+        "intro": "Online-Kommunikatioun huet et méi einfach gemaach wéi jee, mat Leit op der ganzer Welt a Kontakt ze trieden. Egal ob Dir mat Frënn schreiwt, nei Leit trefft oder professionell zesumme schafft, Messaging-Plattformen spillen eng wichteg Roll am Alldag. Awer sou wichteg wéi et ass, verbonnen ze bleiwen, ass et och, online sécher ze bleiwen.",
+        "personalInfo": {
+          "title": " Schützt Är perséinlech Informatiounen",
+          "body": "Modern Messaging-Plattformen wéi Chatforia bidden Tools, déi d'Benotzer hëllefen, sécher ze bleiwen. Funktiounen wéi Blockéieren, Melden an Privatsphärkontrollen si entworf, fir d'Benotzer d'Kontroll iwwer hir Erfahrung ze ginn. Wann een sech onpassend verhält oder Iech onwuel fillt, sollt Dir dës Tools direkt benotzen."
+        },
+        "Betrug": {
+          "Titel": "Pass op bei Betrug",
+          "Inhalt": "Betrüger benotzen dacks Messaging-Plattformen, fir Benotzer dozou ze bréngen, perséinlech Informatiounen ze deelen oder Suen ze schécken. Pass op bei Noriichten, déi ze gutt schéngen, fir wouer ze sinn, wéi onerwaart Offeren, dréngend Ufroen oder onbekannt Linken. Iwwerpréiw ëmmer d'Identitéit vun der Persoun, mat där du kommunizéiers, ier du eng Aktioun ënnerhëls."
+        },
+        "verantwortlech": {
+          "Titel": "Kommunikéiert verantwortlech",
+          "Inhalt": "Respektvoll Kommunikatioun hëlleft, eng méi sécher Ëmwelt fir jiddereen ze schafen. Vermeit et, un schiedlechen oder beleidegenden Diskussiounen deelzehuelen, a passt op, wéi Är Wierder anerer beaflossen kënnen. Positiv Interaktiounen droen zu enger besserer Erfahrung fir all Benotzer bäi."
+        },
+        "firwatSécherheet": {
+          "Titel": "Firwat Online-Sécherheet wichteg ass",
+          "Inhalt": "Wéi d'digital Kommunikatioun weiderhi wiisst, ass et wichteg, Sécherheet a Vertrauen ëmmer méi wichteg ginn. Andeems een déi grundleeënd Sécherheetspraktiken befollegt an d'verfügbar Tools benotzt, kënnen d'Benotzer d'Virdeeler vun der Messagerie genéissen, während si d'Risiken miniméieren."
+        },
+        "conclusion": "Fir online sécher ze bleiwen, brauch een keng fortgeschratt technesch Kenntnisser—nëmmen Bewosstsinn, Virsiichtegkeet an gutt Urteel. Mat de richtege Gewunnechten kënnt Dir zouversiichtlech a sécher kommunizéieren."
+      }
+    },
+    "about": {
+      "title": "Iwwer Chatforia",
+      "description": "Chatforia ass e sécheren, méisproochegen Messenger mat Ende-zu-Ende-Verschlësselung, automatescher Iwwersetzung an Stëmm-/Video-Uriff. Eis Missioun ass einfach: Leit dobäi ze hëllefen, sech ze verbannen—séchert, privat a iwwer Sproochen.",
+      "valuesTitle": "Wat mir schätzen",
+      "values": {
+        "privacy": "<b>Privatsphär-éischt:</b> E2E-Verschlësselung standardméisseg.",
+        "access": "<b>Zougang fir all:</b> Automatesch Iwwersetzung vu méi wéi 100 Sproochen.",
+        "control": "<b>Kontroll:</b> Verschwannen Noriichten & Lesequittungen sinn optional.",
+        "privacy_ aria": "Datenschutz-éischt: E2E-Verschlësselung standardméisseg.",
+        "access_aria": "Zougang fir all: Automatesch Iwwersetzung vun iwwer 100 Sproochen.",
+        "control_aria": "Kontroll: Verschwannen Noriichten a Liesenbestätegungen sinn optional."
+      },
+      "howTitle": "Wéi Chatforia funktionéiert",
+      " howDescription": "Noriichten ginn op Ärem Apparat verschlësselt, ier se en verloossen. Iwwersetzungen, Backups an d'Synchroniséierung tëscht Apparater si sou designt, datt eis Server sou wéineg wéi méiglech gesinn."
+    },
+    "press": {
+      "title": "Presse",
+      "contactLine": "Fir Medienufroen, kontaktéiert eis op",
+      " boilerplateTitle": "Boilerplate",
+      "boilerplateBody": "Chatforia ass eng Messaging-App mat engem Fokus op Privatsphär, déi iwwersproocheg Chats mühelos mécht. Noriichten si standardméisseg end-to-end verschlësselt, an d'agebaute Iwwersetzung ënnerstëtzt iwwer 100 Sproochen an Echtzäit. Benotzer kënnen verschidde Noriichten aktivéieren, Lesequittungen optional halen an iwwer Apparater synchroniséieren. Disponibel fir iOS, Android an am Web.",
+      "assetsTitle": " Marke-Assets",
+      "assetsSubtitle": "Logos, Screenshots an Produktbiller.",
+      "downloadCta": "Medienkit eroflueden",
+      "downloadTitle": "App eroflueden",
+      "scanTip": "Op dem Desktop? Scannt mat ärem Telefon fir d'App ze kréien.",
+      "qrAria": "Maacht d'Chatforia-Websäit op",
+      "appStore": "Luet et am App Store erof",
+      "googlePlay": "Kritt et op Google Play"
+    },
+    "careers": {
+      "title": "Karriären",
+      "intro": "Mir sinn e klengt Grënnteam, dat Chatforia baut — e privaten, globale Messenger, deen um Web, iOS an Android lancéiert gëtt. Wann Dir Wäert op Privatsphär, Verschlësselung an wonnerbar Benotzererfarungen leet, da héiere mir gären vun Iech.",
+      "openRoles": "<b>Oppen Grënnerpositiounen:</b> Lead Full-stack Ingenieur, Backend Ingenieur (Node.js), Frontend/ Web-Ingenieur (React), Mobile-Ingenieur (iOS), Mobile-Ingenieur (Android), DevOps/SRE, Sécherheets- & Verschlësselungs-Ingenieur, Telekom-Ingenieur (Twilio + eSIM).",
+      "apply": "Wéi Dir Iech bewerft: Benotzt de Knäppchen hei ënnen fir Äre CV an Linken per E-Mail ze schécken.",
+      "emailCta": "Schéckt Äre CV per E-Mail",
+      "whyNow": "Firwat elo matmaachen?",
+      "whyBullets": "• Hëlleft d'Fundament vun engem neie globale Messenger opzebauen.\n• Verëffentlecht Verbesserungen, déi iwwer Web, iOS an Android agesat ginn.\n• Aarbecht direkt mam Grënner un der Architektur an der Produktorientéierung.\n• Iwwerhëlt wichteg Beräicher vum Stack: Messaging, Stëmm, Video, Verschlësselung, Telekom, KI.\n• Kommt am Ufank dobäi — ier d'Benotzerbasis skaléiert.",
+      "advertise": {
+        "title": "Reklamm mat Chatforia",
+        "description": "Erreecht engagéiert Messaging-Benotzer mat geschmaachvollen, markesécher Plazen. Mir bidden Banner-Inventar an héich-visiblen Plazen, Sponsorings an Hauspromotiounen. Premium-Abonnenten gesinn keng Annoncen.",
+        "adsense": {
+          "withPubIdShort": "Mir déngen och Inventar iwwer Google AdSense. Dir kënnt Chatforia mat der Publisher-ID {{pub Id}}, oder benotzt de Formulaire hei ënnen fir direkt Sponsoriséierungen.",
+          "noPubIdShort": "Mir bidden och e puer Inventar iwwer Google AdSense un. Direkt Sponsoriséierungen si verfügbar—benotzt de Formulaire hei ënnen."
+        },
+        "inventoryHeader": "Inventar & Spezifikatiounen",
+        "placement": {
+          " displayBadge": "Display",
+          "acceptedSizes": "Acceptéiert Gréissten",
+          "adsenseSlot": "AdSense-Slot:"
+        },
+        "noPlacementsPublic": "Mir finaliséieren eis Annonceinventar. Sot eis vun ärer Kampagne a mir recommandéieren Plazen.",
+        "whyHeader": "Firwat Chatforia?",
+        "why": {
+          "highSession": "Héich Sessiounsfrequenz an Dwellzäit an der Chat-UI",
+          "brandSafe": "Markeséchere Formater; respektvoll Frequenzbegrenzung",
+          "sponsoredMoments": "Sponsoriséiert Momenter (z. B. \"Start a Chat\"-Modal) verfügbar",
+          "deals": "Direkt Ofkommes oder programmatesch iwwer AdSense/Google Ads"
+        },
+        "contactHeader": "Kontakt",
+        "form": {
+          "submittedMsg": "Merci! Är Ufro ass op dem Wee. Mir kontaktéieren Iech geschwënn.",
+          "missingRequired": "Gitt w.e.g. Ären Numm, Är E-Mail an eng Noriicht un.",
+          "successToast": "Merci! Mir kontaktéieren Iech geschwënn.",
+          "mailtoInfo": "Maacht Ären E-Mail-Client op fir d'Ufro ze schécken…",
+          "nameLabel": "Ären Numm",
+          "namePlaceholder": "Jane Doe",
+          "emailLabel": "E-Mail",
+          "emailPlaceholder": "you@company.com",
+          "companyLabel": "Firma",
+          " companyPlaceholder": "Acme Inc.",
+          "budgetLabel": "Monatlecht Budget (optional)",
+          "budgetPlaceholder": "z. B. $1,000–$20,000+",
+          "messageLabel": "Erziel eis vun denger Kampagne",
+          "messagePlaceholder": "Zilgruppen, Datumen, KPIs, Plazéierungspräferenzen…",
+          "sendCta": "Ufro schécken"
+        },
+        "legal": {
+          "disclaimerStart": "Duerch d'Ofschécken stëmmt Dir eise",
+          "terms": "Allgemeng Bedéngungen",
+          "and": "an",
+          "privacy": "Datenschutzrichtlinnen"
         }
       },
-      "rooms": {
-        "title": "Raumen",
-        "subtitle": "Erstell e Raum oder bäitried mat dem selwechte Numm.",
-        "desc": "Multi-Party-Video mat engem gedeelte Raum-Numm.",
-        "roomLabel": "Raum-Numm",
-        "roomPlaceholder": "z. B. team-standup",
-        "roomAria": "Raum-Numm",
-        "joinCreate": "Bäitrieden / Erstellen",
-        "tip": "Tipp: deel dësen Numm mat aneren oder deeplink op <code>/video?room=raum-numm</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Start en direkt 1:1-Video-Appell.",
-      "findUserLabel": "Benotzer fannen",
-      "findUserPh": "No Numm oder Benotzernumm sichen",
-      "search": "Sichen",
-      "call": "Ruffen"
-    },
-    "phoneWarning": {
-      "title": "Deng Nummer leeft bal of",
-      "body": "Deng Nummer {{number}} gëtt den {{date}} fräigelooss, wann se net reaktivéiert gëtt.",
-      "button": "Meng Nummer behalen"
-    }
-  },
-  "support": {
-    "helpFab": "Hëllef",
-    "openSupportAria": "Support opmaachen",
-    "badge": "Support",
-    "heading": "Wéi kënne mir hëllefen?",
-    "tabs": {
-      "help": "Hëllef-Zentrum",
-      "contact": "Kontaktéier eis"
-    },
-    "searchPlaceholder": "Hëllef-Artikelen sichen...",
-    "searchAria": "Hëllef sichen",
-    "searchBtn": "Sichen",
-    "quickTopicsLabel": "Séier Themen",
-    "quickTopics": {
-      "login": "Kann net aloggen",
-      "billing": "Bezuelungen / Abrechnung",
-      "abuse": "Abus melden"
-    },
-    "trySearching": "Probéier no „iwwersetzen“, „backups“ oder „privatsphäre“ ze sichen.",
-    "article": "Artikel",
-    "openArticle": "Artikel opmaachen",
-    "contactIntro": "Mir schécken dir eng Äntwert per E-Mail. Füügt Detailer bäi, fir dass mir de Problem reproduzéieren kënnen.",
-    "topicAria": "Thema wielen",
-    "messagePlaceholder": "Schreif deng Messaggio...",
-    "sendBtn": "Schécken",
-    "sent": "Messaggio geschéckt. Mir äntwerten per E-Mail.",
-    "sendError": "Konnt net schécken. Schreif w.e.g. un support@chatforia.com."
-  },
-  "helpCenter": {
-    "title": "Hëllef-Zentrum",
-    "faq": {
-      "account": {
-        "q": "Wéi erstell oder recuperéier ech mäi Account?",
-        "a": "Lued d’App erof oder benotz de Web, tipp op „Account erstellen“, verifizéier deng E-Mail/Telefon. Fir ze recuperéieren, benotz „Passwuert vergiess“."
-      },
-      "privacy": {
-        "q": "Sinn Messagen end-to-end verschlësselt?",
-        "a": "Jo. Messagen a Appellen sinn standardmäßig end-to-end verschlësselt. Nëmmen du an den Empfänger kënnen se liesen."
-      },
-      "translate": {
-        "q": "Wéi funktionéiert direkt Iwwersetzung?",
-        "a": "Aktivéier „Auto-Iwwersetzen“ an den Astellungen → Erscheinungsbild & Sprooch. Mir iwwersetzen op dem Gerät, wou ënnerstëtzt, soss iwwer sécher APIs mat minimalen Metadaten."
-      },
       "contact": {
-        "q": "Kontaktéier Support",
-        "a": "Errech eis op support@chatforia.com. Füügt Screenshots a deng App-Versioun bäi."
+        "title": "Kontaktéiert eis",
+        "successMsg": "Merci—eist Equipe äntwert Iech per E-Mail.",
+        "errorSend": "Konn net verschécken. W.e.g. schéckt eng E-Mail un support@chatforia.com.",
+        "form": {
+          "nameLabel": "Numm",
+          "emailLabel": "E-Mail",
+          "messageLabel": "Noriicht",
+          "sendCta": "Schécken"
+        }
+      },
+      "privacyPolicy": {
+        "title": "Datenschutzrichtlinnen",
+        "lastUpdated": "Lescht aktualiséiert:",
+        "intro": {
+          "body": "Dës Datenschutzrichtlinnen erklären, wéi Chatforia (\"mir\", \"eis\") sammelt, benotzt a deelt Informatiounen, wann Dir eis Apps a Servicer benotzt. Mir entwéckelen Chatforia esou, datt mir esou wéineg Donnéeën wéi méiglech zougräife kënnen."
+        },
+        "infoWeCollect": {
+          "title": "Informatiounen, déi mir sammelen",
+          "account": "Kontinformatioun (z. B. E-Mail/Telefonsnummer) fir Äre Kont ze erstellen an ze sécheren.",
+          "encrypted": "Verschlësselt Inhalter (Noriichten/Uriff) sinn en-zu-en verschlësselt; mir kënnen se net liesen.",
+          "diagnostics": "Diagnostik/Benotzung wéi Crash-Logs, Apparat-Typ, oder grof Analytik fir d'Leeschtung ze verbesseren."
+        },
+        "sms": {
+          "title": "Mobilnummeren a SMS",
+          "body": "Wann Dir eng Mobilnummer ugitt, benotze mir se fir Funktiounen wéi Kontbestätegung, Login-Alarmer an Benotzer-zu-Benotzer-Messaging per SMS ze erméiglechen, wou et ënnerstëtzt gëtt. Mir kënnen transaktiounsbezunn SMS-Noriichten iwwer Äre Kont an Är Aktivitéit op Chatforia schécken. Dir kënnt d'Erhale vun SMS-Noriichten zu all Zäit andeems Dir mat engem ënnerstëtzten Opt-Out-Schlësselwuert (wéi \"STOP\") äntwert oder andeems Dir Är Notifikatiounsvirstellungen an der App ännert. Mir verkafen Är Telefonsnummer net oder benotzen se net fir onrelatéiert Marketing.",
+          "newText": "Nei Text",
+          "enterRecipient": "Gitt e Numm oder eng Nummer an",
+          "typeMessage": "Schreif eng Noriicht…",
+          "addRecipient": "Füüg e Empfänger uewen derbäi fir unzefänken…"
+        },
+        "howWeUse": {
+          "title": "Wéi mir Informatiounen benotzen ",
+          "provide": "De Service ubidden an sécherstellen (Authentifikatioun, Spam-/Missbrauchsdetektioun).",
+          "improve": "Funktiounen verbesseren (Iwwersetzungsqualitéit, Zouverlässegkeet).",
+          "legal": "Juristesch Obligatiounen erfëllen."
+        },
+        "sharing": {
+          "title": "Deelen",
+          "body": "Mir verkafen keng perséinlech Donnéeën. Mir kënnen limitéiert Donnéeën mat Veraarbechter (z. B. Push-Notifikatiounen, Analytik) ënner strenge Kontrakter deelen."
+        },
+        "rechter": {
+          "title": "Är Rechter",
+          "body": "Ofhängeg vun Ärer Regioun (z. B., DSGVO/UK DSGVO/CPRA), kënnt Dir Zougang, Korrektur, Läschung oder den Opt-out aus bestëmmten Veraarbechtungen ufroen. Kontakt: privacy@chatforia.com."
+        },
+        "Retentioun ": {
+          "title": "Donnéeëretentioun & Sécherheet",
+          "body": "Mir späicheren nëmmen dat, wat néideg ass fir de Service ze bedreiwen, an uwenden Sécherheetsmoossnamen op Industriestandard. E2E-Inhalter kënnen vun eis net entschlësselt ginn."
+        },
+        "children": {
+          "title": "Kanner",
+          "body": "Chatforia ass net op Kanner ënner 13 Joer geriicht (oder wéi et vun ärem lokale Gesetz erfuerderlech ass)."
+        },
+        "ännerungen": {
+          "title": "Ännerungen",
+          "body": "Mir posten hei Aktualiséierungen a revidéieren de Datum \"Lescht aktualiséiert\"."
+        },
+        "contact": {
+          "title": "Kontakt",
+          "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "terms": {
+        "title": "Allgemeng Bedéngungen",
+        "lastUpdated": "Lescht aktualiséiert:",
+        "intro": {
+          " body": "Duerch d'Benotzung vu Chatforia stëmmt Dir dëse Bedéngungen zou. Wann Dir net averstan sidd, benotzt de Service net."
+        },
+        "accounts": {
+          "title": "Konten",
+          "itemAccurateInfo": " Gitt korrekt Informatiounen un a hält Är Zougangsdaten sécher.",
+          "itemResponsibility": "Dir sidd verantwortlech fir d'Aktivitéiten op Ärem Kont."
+        },
+        "acceptableUse": {
+          "title": "Zoulässeg Notzung",
+          "itemNoAbuse": "Keng illegal, missbräichlech oder verletzend Inhalter; kee Spam oder automatiséierten Missbrauch.",
+          "itemSuspend": "Mir kënnen de Service bei Verstéiss suspendéieren oder beendegen."
+        },
+        "sms": {
+          "title": "SMS-Kommunikatiounen",
+          "body": "Wann Dir eng Mobiltelefonummer ugitt, stëmmt Dir zou, datt Chatforia Iech SMS-Noriichten schéckt, déi mat Ärem Kont an der Notzung vum Service ze dinn hunn, wéi Login-Alarmen, Sécherheetsnotifikatiounen an Noriichten iwwer Gespréicher, déi Dir ufänkt oder un deenen Dir deelhëlt. Mir benotzen SMS net fir promotéierend oder marketingbezunn Noriichten ouni Är explizit Zoustëmmung. Standard-Noriicht- a Dataraten kënnen ugewandt ginn. Dir kënnt Iech ofmellen vun SMS-Noriichten zu all Moment andeems Dir mat engem ënnerstëtzten Opt-out-Schlësselwuert äntwert (zum Beispill \"STOP\") oder andeems Dir Är Notifikatiounsastellungen an der App aktualiséiert."
+        },
+        "yourContent": {
+          "title": "Ären Inhalt",
+          "body": "Dir behalt d'Rechter un Ärem Inhalt. Dir gitt eis déi néideg Rechter fir de Service ze bedreiwen (z. B. Routing, Späicheren, Iwwersetzung)."
+        },
+        "disclaimer": {
+          "title": "Disclaimer & Haftung",
+          "body": "De Service gëtt \"wéi en ass\" ouni Garantie geliwwert. Sou wäit d'Gesetz et erlaabt, ass Chatforia net haftbar fir indirekt oder konsekwent Schied."
+        },
+        "ännerungen": {
+          "title": "Ännerungen",
+          " body": "Mir kënnen dës Bedéngungen aktualiséieren; d'Weiderbenotzung no Ännerungen bedeit Akzeptatioun."
+        },
+        "contact": {
+          "title": "Kontakt",
+          "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "refund": {
+        "title": "Remboursements-Politik",
+        "lastUpdated": "Lescht aktualiséiert:",
+        "intro": "Bei Chatforia striewen mir drop hin, all Benotzer e qualitativ héichwäertege Service ze bidden. Dës Remboursements-Politik erkläert, ënner wéi enge Konditiounen Remboursementer erausginn kënne ginn.",
+        "Abonnemente": {
+          "Titel": "Abonnemente",
+          "Inhalt": "Abonnemente ginn am Viraus op enger widderhuelender Basis ofgerechent. Dir kënnt zu all Moment iwwer Är Kontastellungen oder d'Plattform, déi fir de Kaf benotzt gouf, ofmellen."
+        },
+        "Berechtegung": {
+          "title": "Berechtegung fir eng Remboursement",
+          "body": "Remboursementer kënnen fir duebel Bezuelungen, Rechnungsfeeler oder technesch Problemer, déi de Zougang zu bezuelten Funktiounen verhënneren, gewährt ginn. All Ufroen ginn am Einzelfall iwwerpréift."
+        },
+        "netZréckbezuels": {
+          "title": "Net zréckbezuels",
+          "body": "Mir bidden am Allgemengen keng Remboursementer fir onbenotzt Zäit, deelweis Abonnementperioden oder wann d'Kënnegung virum Erneierung net ofgeschloss gouf.\"    ",
+          "thirdParty ": {
+            "title": "Kaf vun Drëttpersounen",
+            "body": "Wann se iwwer Drëttplattformen wéi den Apple App Store kaaft goufen, mussen d'Remboursementer direkt iwwer dës Plattformen ugefrot ginn."
+          },
+          "contact": {
+            "title": "Kontakt",
+            "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
+          }
+        },
+        "doNotSell": {
+          "title": "Verkaaft oder deelt meng perséinlech Informatioun net",
+          "body": "Chatforia verkaaft keng perséinlech Informatioun. Awunner vu Kalifornien kënnen ënnert der CPRA nach ëmmer Ufroen iwwer de Knäppchen hei ënnen aginn.",
+          "cta": "Ufro aginn"
+        },
+        "cookies": {
+          "title": "Cookie-Astellungen",
+          "body": "Chatforia benotzt minimal Cookies (z. B. Sessioun, Sécherheet). Mir benotzen keng Third-Party-Annonce-Cookies. Gitt d'Cookies iwwer d'Astellungen vun Ärem Browser verwalten."
+        },
+        "premiumGuard": {
+          "requiresPremium": "Dës Funktioun erfuerdert e Premium-Plang."
+        },
+        "smsPolicy": {
+          "title": "Chatforia — SMS-Politik & Opt-in",
+          "lastUpdated": "Lescht aktualiséiert:",
+          "whatWeSend": {
+            "title": "Wat mir schécken",
+            "body": "Chatforia schéckt nëmmen kontobezunn an konversatiounsbezunn SMS un Telefonsnummeren, déi e Benotzer explizit uginn an zougestëmmt huet. Typesch Noriichten enthalen Login-/Verifizéierungscoden, Noriichtelieferungs-Alerten, Sécherheetsnotifikatiounen an transaktiounsbezunn Kontoberäichungen."
+          },
+          "optIn": {
+            "title": "Wéi d'Benotzer sech aschreiwen",
+            "body": "Benotzer schreiwen sech an, andeems si hir Telefonsnummer wärend der Umeldung aginn an d'Këscht fir d'Zoustëmmung zu SMSen op der Umeldungssäit oder dem dedizéierten",
+            "link": "Opt-in-Formulaire"
+          },
+          "Opt-out": {
+            "title": "Wéi d'Benotzer sech ofmellen",
+            "stop": "Äntwert op STOP op all Chatforia SMS fir ofzemellen.",
+            "start": "Äntwert op START fir nees ze abonéieren.",
+            "contactPrefix": "Kontaktéiert d'Support op"
+          },
+          "help": {
+            "title": "Hëllef",
+            "bodyPrefix": "Äntwert op HELP fir Hëllef oder E-Mail"
+          },
+          "privacyTerms": {
+            "title": "Privatsphär & Bedéngungen",
+            "bodyStart": "Duerch d'Zoustëmmung zu SMS stëmmen d'Benotzer och eise",
+            "terms": "Servicekonditiounen",
+            "an": "an",
+            "privacy": "Datenschutzpolitik"
+          },
+          "footer": "© 2026 Chatforia Inc."
+        }
       }
-    }
-  },
-  "encryptionRecovery": {
-    "title": "Verschlësselung verwalten",
-    "description": "Backupéier, restauréier, spär op oder zerécksetz däi Verschlësselungs-Schlëssel.",
-    "alert": {
-      "keyRequiredTitle": "Verschlësselungs-Schlëssel néideg",
-      "keyRequiredBody": "Dësen Browser kann deng verschlësselt Messagen aktuell net entschëlsselen. Restauréier, spär op oder zerécksetz däi Schlëssel fir weiderzemaachen."
-    },
-    "sections": {
-      "createBackup": "Schlëssel-Backup erstellen",
-      "restoreFromBackup": "Vum Account-Backup restauréieren",
-      "resetEncryption": "Verschlësselung zerécksetzen"
-    },
-    "fields": {
-      "unlockPasscode": {
-        "label": "Opmaach-Code (aktuellt Gerät)",
-        "description": "Benotzt, fir deng Schlësselen lokal ze entschëlsselen, virum Export"
-      },
-      "backupPassword": {
-        "label": "Backup-Passwuert",
-        "description": "Benotzt, fir d’Backup-Datei ze verschlësselen"
-      },
-      "restoreBackupPassword": {
-        "label": "Backup-Passwuert",
-        "description": "D’Passwuert, dat du beim Backup vun dengem Schlëssel op iPhone erstallt hues"
-      },
-      "newLocalPasscode": {
-        "label": "Neien lokal Code",
-        "description": "Schlësselen am Ruhezoustand op dësem Browser schützen"
-      },
-      "resetLocalPasscode": {
-        "label": "Neien lokal Code",
-        "description": "Néideg virum Zerécksetzen, fir dass dee neie Schlëssel op dësem Gerät geschützt ass"
-      }
-    },
-    "actions": {
-      "unlockKey": "Verschlësselungs-Schlëssel opspären",
-      "restoreFromBackup": "Vum Account-Backup restauréieren",
-      "resetEncryption": "Verschlësselung zerécksetzen"
-    },
-    "messages": {
-      "backupCreated": "Schlëssel-Backup erstallt an erofgelueden.",
-      "keyUnlocked": "Verschlësselungs-Schlëssel opgemaach.",
-      "keyRestored": "Schlëssel vum Account-Backup restauréiert.",
-      "resetSuccess": "Verschlësselung erfollegräich zeréckgesat."
-    },
-    "errors": {
-      "restoreIncomplete": "Schlëssel-Restauratioun onvollstänneg oder falsch fir dësen Account",
-      "noBackup": "Fir dësen Account gëtt et kee verschlësselt Backup",
-      "missingPublicKey": "De Backup feelt e public Schlëssel",
-      "noServerPublicKey": "Dësen Account weist aktuell kee Server-Public-Schlëssel",
-      "serverBackupMismatch": "Server-Backup passt net zum aktuellen Account-Verschlësselungs-Schlëssel",
-      "incompleteMetadata": "Backup-Metadaten sinn onvollstänneg",
-      "resetIncomplete": "Verschlësselung-Zerécksetzung net korrekt ofgeschloss"
-    },
-    "confirm": {
-      "reset": "Verschlësselung fir dësen Account zerécksetzen?\n\nEeler verschlësselt Messagen kënnen onliesbar ginn, wann du den Original-Schlëssel net méi spéit restauréiers."
-    },
-    "resetDescription": "Dëst generéiert en neie Verschlësselungs-Schlëssel fir däi Account. Eeler verschlësselt Messagen kënnen onliesbar ginn, wann du den Original-Schlëssel net méi spéit restauréiers."
-  },
-  "footer": {
-    "plans": "Pläng & Präisser",
-    "about": "Iwwer Chatforia",
-    "careers": "Carrière",
-    "press": "Press",
-    "advertise": "Reklaméieren",
-    "contact": "Kontaktéier eis",
-    "help": "Hëllef-Zentrum",
-    "status": "Status-Säit",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Privatsphäre-Politik",
-    "terms": "Nutzungsbedéngungen",
-    "cookies": "Cookie-Astellungen",
-    "doNotSell": "Meng Info net verkafen",
-    "language": "Sprooch",
-    "contactShort": "Kontakt",
-    "aria": "Footer",
-    "homeAria": "Chatforia Home",
-    "section": {
-      "company": "FIRMA",
-      "support": "SUPPORT",
-      "downloads": "DOWNLOADS",
-      "legal": "RECHTLICH"
-    },
-    "links": {
-      "plans-pricing": "Pläng & Präisser",
-      "about-chatforia": "Iwwer Chatforia",
-      "careers": "Carrière",
-      "press": "Press",
-      "advertise": "Reklaméieren",
-      "getting-started": "Fänk un",
-      "help-center": "Hëllef-Zentrum",
-      "contact-us": "Kontaktéier eis",
-      "status-page": "Status-Säit",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Privatsphäre-Politik",
-      "terms-of-service": "Nutzungsbedéngungen",
-      "do-not-sell-my-info": "Meng Info net verkafen",
-      "cookie-settings": "Cookie-Astellungen"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Patent a Bearbechtung",
-    "backToTop": "↑ Zréck no uewen"
-  },
-  "press": {
-    "title": "Press",
-    "contactLine": "Fir Medienufroen errech eis op",
-    "boilerplateTitle": "Standardtext",
-    "boilerplateBody": "Chatforia ass eng Privatsphäre-firscht Messagerie-App, déi grenziwwerschreidend Chat einfach mécht. Messagen sinn standardmäßig end-to-end verschlësselt, an déi agebaute Iwwersetzung ënnerstëtzt 100+ Sproochen an Echtzäit. Benotzer kënnen verschwindend Messagen aktivéieren, Liesbestätegungen optional halen a iwwer Geräter synchroniséieren. Verfügbar op iOS, Android a Web.",
-    "assetsTitle": "Marken-Assets",
-    "assetsSubtitle": "Logos, Screenshots a Produkt-Biller.",
-    "downloadCta": "Medien-Kit eroflueden",
-    "downloadTitle": "D’App kréien",
-    "scanTip": "Op Desktop? Scann mat dengem Telefon fir d’App ze kréien.",
-    "qrAria": "Chatforia-Website opmaachen",
-    "appStore": "Am App Store erofzelueden",
-    "googlePlay": "Op Google Play kréien"
-  },
-  "careers": {
-    "title": "Carrière",
-    "intro": "Mir sinn e klengt Grënner-Team, dat Chatforia baut – e privat, globalen Messenger op Web, iOS an Android. Wann dir Privatsphäre, Verschlësselung a bezauberend Benotzer-Erfahrungen wichteg fannen, héiere mir gär vun dir.",
-    "openRoles": "<b>Offen Grënner-Positiounen:</b> Lead Full-Stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Verschlësselung Engineer, Telecom Engineer (Twilio + eSIM).",
-    "apply": "Wéi bewerben: Benotz de Knäppchen ënnen, fir däi CV an Linken per E-Mail ze schécken.",
-    "emailCta": "CV per E-Mail schécken",
-    "whyNow": "Firwat elo bäitrieden?",
-    "whyBullets": "• Hëllef bei der Grënndung vun engem neien globalen Messenger.\n• Verbesserungen ausrolléieren, déi iwwer Web, iOS an Android benotzt ginn.\n• Direkt mam Grënner un Architektur a Produkt-Richtung schaffen.\n• Héich-Impakt-Bereicher vum Stack iwwerhuelen: Messagerie, Stëmm, Video, Verschlësselung, Telekom, AI.\n• Am Ufank bäitrieden – virum Skaléiere vun der Benotzerbasis."
-  },
-  "about": {
-    "title": "Iwwer Chatforia",
-    "description": "Chatforia ass en séchere, méisproochege Messenger mat End-to-End Verschlësselung, direkt Iwwersetzung a Stëmm-/Video-Appellen. Eis Missioun ass einfach: Leit sécher, privat an iwwer Sproochen verbannen.",
-    "valuesTitle": "Wat mir schätzen",
-    "values": {
-      "privacy": "<b>Privatsphäre-firscht:</b> E2E Verschlësselung standardmäßig.",
-      "access": "<b>Zougang fir all:</b> Auto-Iwwersetzung 100+ Sproochen.",
-      "control": "<b>Kontroll:</b> Verschwindend Messagen & Liesbestätegungen sinn optional.",
-      "privacy_aria": "Privatsphäre-firscht: E2E Verschlësselung standardmäßig.",
-      "access_aria": "Zougang fir all: Auto-Iwwersetzung 100+ Sproochen.",
-      "control_aria": "Kontroll: Verschwindend Messagen a Liesbestätegungen sinn optional."
-    },
-    "howTitle": "Wéi Chatforia funktionéiert",
-    "howDescription": "Messagen ginn op dengem Gerät verschlësselt, ier se et verloossen. Iwwersetzung, Backups a Gerät-Sync sinn esou designt, dass eis Serveren esou wéineg wéi méiglech gesinn."
-  },
-  "advertise": {
-    "title": "Mat Chatforia reklaméieren",
-    "description": "Errech engagéiert Messagerie-Benotzer mat geschmackvoll, marke-séchere Plazéierungen. Mir bidden Banner-Inventar op héich-sichtbare Plazen, Sponsoringe a Haus-Promos. Premium-Abonnenten gesinn keng Annoncen.",
-    "adsense": {
-      "withPubIdShort": "Mir bidden och Inventar iwwer Google AdSense. Du kanns Chatforia mat Publisher-ID {{pubId}} zielen oder de Formulaire ënnen fir direkt Sponsoringe benotzen.",
-      "noPubIdShort": "Mir bidden och e puer Inventar iwwer Google AdSense. Direkt Sponsoringe sinn verfügbar – benotz de Formulaire ënnen."
-    },
-    "inventoryHeader": "Inventar & Spezifikatiounen",
-    "placement": {
-      "displayBadge": "Display",
-      "acceptedSizes": "Akzeptéiert Gréissten",
-      "adsenseSlot": "AdSense-Slot:"
-    },
-    "noPlacementsPublic": "Mir finaliséieren eis Annonce-Inventar. Erzähl eis vun denger Kampagne a mir recommandéieren Plazéierungen.",
-    "whyHeader": "Firwat Chatforia?",
-    "why": {
-      "highSession": "Héich Session-Frequenz a Verweildauer am Chat-UI",
-      "brandSafe": "Marke-sécher Formater; respektvoll Frequenz-Kappung",
-      "sponsoredMoments": "Gesponsert Momenter (z. B. „Chat starten“-Modal) verfügbar",
-      "deals": "Direkt Deals oder programmatesch iwwer AdSense/Google Ads"
-    },
-    "contactHeader": "Kontakt",
-    "form": {
-      "submittedMsg": "Merci! Deng Ufro ass ënnerwee. Mir follegen séier.",
-      "missingRequired": "Fëll w.e.g. Numm, E-Mail a Messaggio aus.",
-      "successToast": "Merci! Mir si séier bei dir.",
-      "mailtoInfo": "Deng E-Mail-App gëtt opgemaach fir d’Ufro ze schécken...",
-      "nameLabel": "Däi Numm",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "E-Mail",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "Firma",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Monatlëche Budget (optional)",
-      "budgetPlaceholder": "z. B. $1.000–$20.000+",
-      "messageLabel": "Erzähl eis vun denger Kampagne",
-      "messagePlaceholder": "Zielgrupp, Datumer, KPIs, Plazéierungs-Preferenzen...",
-      "sendCta": "Ufro schécken"
-    },
-    "legal": {
-      "disclaimerStart": "Mat dem Ofschécken akzeptéiers du eis",
-      "terms": "Nutzungsbedéngungen",
-      "and": "an",
-      "privacy": "Privatsphäre-Politik"
     }
   }
 }

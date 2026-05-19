@@ -3,389 +3,348 @@
     "save": "儲存",
     "cancel": "取消",
     "refresh": "重新整理",
-    "noMatches": "冇結果",
+    "noMatches": "冇匹配",
     "cancelAria": "取消",
     "copy": "複製",
-    "copied": "已複製！",
-    "errorWithMessage": "錯誤：{{message}}"
+    "copied": "複製完成!",
+    "errorWithMessage": "錯誤: {{message}}",
+    "loading": "正加載…",
+    "saveError": "儲存失敗"
   },
   "a11y": {
     "skipToMain": "跳去主要內容"
   },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
+  },
   "keys": {
-    "backupCreated": "加密金鑰備份已建立並下載 ✓",
-    "restored": "加密金鑰已還原 ✓ 金鑰已安裝喺本地",
-    "noBackup": "呢個帳戶冇加密備份",
-    "missingPublicKey": "備份缺少公開金鑰"
+    "backupCreated": "已建立並下載密鑰備份 ✓",
+    "restored": "已還原密鑰備份 ✓ 密鑰已本地安裝",
+    "noBackup": "此帳戶無加密備份",
+    "missingPublicKey": "備份缺失公用金鑰"
   },
   "keySetup": {
-    "title": "設定你嘅裝置金鑰",
-    "description": "呢個裝置仲未有你嘅私人金鑰。匯入密碼保護嘅備份，或者產生新金鑰對（之後你可以睇新訊息）。",
-    "chooseFile": "揀檔案並輸入密碼。",
-    "imported": "私人金鑰已匯入呢個裝置。你而家可以睇舊訊息。",
-    "enterPassword": "輸入你嘅帳戶密碼，我哋先可以安全備份你嘅金鑰。"
+    "title": "設定裝置金鑰",
+    "描述": "呢部裝置未有你嘅私鑰。匯入有密碼保護嘅備份,或者產生一對新金鑰 (你就可以閱讀新訊息)",
+    "揀檔案": "揀一個檔案並輸入密碼。",
+    "imported": "私人密鑰已匯入此裝置。你而家可以閱讀舊訊息。",
+    "enterPassword": "輸入你嘅帳戶密碼,咁我哋就可以安全咁備份你嘅密鑰。"
+  },
+  "encryptionRecovery": {
+    "title": "管理加密",
+    "description": "備份、還原、解鎖或重設你嘅加密密鑰。",
+    "alert": {
+      "keyRequiredTitle": "需要加密金鑰",
+      "keyRequiredBody": "呢個瀏覽器而家未能解密你嘅加密訊息。請還原、解鎖或重設金鑰先繼續。"
+    },
+    "sections": {
+      "createBackup": "建立金鑰備份",
+      "restoreFromBackup": "從帳戶備份還原",
+      "resetEncryption": "重設加密"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "解鎖通行碼 (當前裝置)",
+        "description": "用於在匯出前本地解密你的金鑰"
+      },
+      "backupPassword": {
+        "label": "備份密碼",
+        "description": "用於加密備份檔案"
+      },
+      "restoreBackupPassword": {
+        "label": "備份密碼",
+        "description": "你喺 iPhone 上備份密鑰時創建嘅密碼"
+      },
+      "newLocalPasscode": {
+        "label": "新本地密碼",
+        "description": "喺本瀏覽器中保護靜態密鑰"
+      },
+      "resetLocalPasscode": {
+        "label": "新本地通行碼",
+        "description": "重設前必須,以保障此裝置上嘅新金鑰"
+      }
+    },
+    "actions": {
+      "unlockKey": "解鎖加密金鑰",
+      "restoreFromBackup": " 從帳戶備份還原",
+      "重設加密": "重設加密"
+    },
+    "messages": {
+      "backupCreated": "已建立並下載密鑰備份。",
+      "keyUnlocked": "已解鎖加密金鑰。",
+      "keyRestored": "已從帳戶備份還原密鑰。",
+      "resetSuccess": "加密重設成功。"
+    }
+  },
+  "errors": {
+    "restoreIncomplete": "此帳戶密鑰還原不完整或錯誤",
+    "noBackup": "此帳戶無加密備份",
+    "缺失公鑰": "備份缺失公鑰",
+    "無伺服器公鑰": "此帳戶目前未公開伺服器公鑰",
+    "伺服器備份不符": "伺服器備份與目前帳戶加密金鑰不符",
+    "元資料不完整": "備份元資料不完整",
+    "重設不完整": "加密重設未正確完成 "
+  },
+  "confirm": {
+    "reset": "重設此帳戶的加密?\n\n除非您稍後還原原始金鑰,否則較舊的加密訊息可能會變得無法閱讀。"
+  },
+  "resetDescription": "此操作會為您的帳戶產生新的加密金鑰。除非您稍後還原原始金鑰,否則較舊的加密訊息可能會變得無法閱讀。",
+  "smsConsent": {
+    "label": "我同意接收 {{companyName}} 發送嘅 SMS 通知同警示。訊息頻率可能唔同。可能需支付訊息及數據費用。隨時回覆 <stop>STOP</stop> 取消訂閱。回覆 <help>HELP</help> 獲取幫助。"
+  },
+  "phoneField": {
+    "label": "電話",
+    "無效": "電話號碼無效",
+    "提示": "如有需要請包括國家代碼 (例如:+1 415…)"
   },
   "auth": {
-    "headline": "任何人都可以用嘅安全訊息應用，隨時隨地",
-    "description": "預設端到端加密、翻譯超過100種語言、自動消失訊息，同埋語音/視像通話。",
-    "feature": {
-      "encryption": "預設端到端加密",
-      "translation": "智能內建訊息翻譯",
-      "disappearing": "自動消失訊息同已讀回條",
-      "privacy": "私隱第一。你嘅資料，你話事。",
-      "translate": "智能內建訊息翻譯",
-      "disappear": "自動消失訊息",
-      "privacyAlt": "私隱第一設計",
-      "seePlans": "睇計劃同價錢"
+    "標題": "安全訊息傳遞,人人可用,隨處可用",
+    "描述": "端對端加密、支援100多種語言翻譯、訊息自動銷毀,以及語音/視像通話。",
+    "功能": {
+      "加密": "預設端對端加密",
+      "自動銷毀": "消失訊息同閱讀回執",
+      "privacy": "以私隱為先。你嘅資料,你話事。",
+      "翻譯": "智能內置訊息翻譯",
+      "消失": "訊息自動消失",
+      "私隱": "sub\": \"翻譯成100多種語言",
+      "sub": "攞免費安全電話號碼,透過 Wi-Fi 或數據全球通話及發訊息。享受端對端加密、訊息自動消失,同高清畫質通話。"
     },
     "hero": {
-      "line1": "任何人都可以用嘅安全訊息應用，隨時隨地 — 附帶",
-      "em": "翻譯超過100種語言",
-      "sub": "免費攞一個安全電話號碼，用 Wi-Fi 或流動數據打電話同傳訊息。享受端到端加密、自動消失訊息，同高清語音/視像通話 — 仲有內建工具幫你跨國界保持聯繫。",
-      "freeNote": "基本通話同傳訊免費。進階 AI 同高級功能需要升級。"
+      "line1": "安全訊息傳遞,喺任何地方都得 - 同",
+      "em": "支援 100 多種語言翻譯",
+      "sub": "免費獲取安全電話號碼,透過 Wi-Fi 或數據在全球範圍內通話及發送訊息。享受端對端加密、訊息消失功能,以及高清音頻/視頻通話--內置工具助你跨越邊界保持聯繫。",
+      "freeNote": "基本通話同發訊息係免費。進階 AI 同高級功能需要升級。"
     },
     "feat": {
-      "encryption": "端到端加密，一直開啟",
+      "encryption": "端對端加密,全程開啟",
       "translate": "打破對話中嘅語言障礙",
-      "disappear": "自動消失訊息同已讀回條",
-      "privacy": "私隱第一。你嘅資料，你話事。"
+      "disappear": "訊息消失同閱讀回執",
+      "privacy": "以私隱為先。你嘅資料,你話事。"
     },
-    "continueGoogle": "用 Google 繼續",
-    "continueApple": "用 Apple 繼續",
-    "username": "用戶名稱",
+    "continueGoogle": "繼續使用 Google",
+    "continueApple": "繼續使用 Apple",
+    "username": "用戶名",
     "password": "密碼",
     "keepSignedIn": "保持登入",
-    "forgotPassword": "忘記密碼？",
+    "forgotPassword": "忘記密碼?",
     "loginButton": "登入",
     "createAccount": "建立帳戶",
     "freeAccountButton": "建立免費帳戶",
-    "newHere": "新嚟？",
-    "getApp": "下載應用程式",
-    "desktopTip": "用緊桌面版？用手機掃描嚟攞應用程式。",
-    "scanHelper": "用緊桌面版？用手機掃描嚟攞應用程式。",
+    "newHere": "新嚟到?",
+    "getApp": "攞App",
+    "desktopTip": "喺桌面?用你嘅手機掃描攞App.",
+    "scanHelper": "喺桌面?用你嘅手機掃描攞App.",
     "goHome": "返主頁",
     "home": "主頁",
     "headlineAlt": {
-      "main": "安全訊息應用，",
-      "highlight": "講你嘅語言"
+      "main": "呢個安全通訊程式",
+      "highlight": "識講你嘅語言"
     },
-    "subhead": "私隱、加密、同即時翻譯訊息。",
-    "upgrade": "即刻升級",
-    "tip": "提示：網頁版同手機版用同一個帳戶。訊息會自動同步。",
+    "subhead": "私人、加密、同翻譯訊息 - 即時.",
+    "upgrade": "而家升級",
+    "tip": "提示:網頁同手機用同一帳戶。你嘅訊息會保持同步.",
     "openDownload": "打開下載頁面",
-    "qrAlt": "Chatforia QR code",
-    "scanHint": "掃描嚟下載應用程式或者喺瀏覽器打開。",
-    "iosAria": "喺 App Store 下載",
-    "iosTitle": "喺 App Store 下載",
-    "iosBadgeAlt": "App Store 標誌",
-    "androidAria": "喺 Google Play 下載",
+    "qrAlt": "Chatforia嘅QR碼",
+    "scanHint": "掃描以下載應用程式或喺瀏覽器打開.",
+    "iosAria": "App Store下載",
+    "iosTitle": "App Store下載",
+    "iosBadgeAlt": "App Store徽章",
+    "androidAria": "喺Google Play攞到佢",
     "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play 標誌",
+    "androidBadgeAlt": "Google Play 徽章",
     "login": "登入",
     "signup": "註冊",
     "email": "電郵",
     "registration": {
-      "passwordDescription": "最少 6 個字元。用強而獨特嘅密碼。",
-      "smsConsent": "建立帳戶即表示你同意接收同 Chatforia 活動有關嘅 SMS 通知（例如其他用戶嘅訊息）。可能會產生訊息同數據費用。你可以隨時喺設定入面取消。",
+      "passwordDescription": "最少 6 個字元。使用強而獨特的密碼。",
+      "smsConsent": "當你開設帳戶,即表示你同意接收與你嘅 Chatforia 活動相關嘅 SMS 通知(例如其他用戶嘅訊息)。可能會有訊息同數據費用。你可隨時喺\"設定\"中取消訂閱。",
       "termsLink": "服務條款",
       "privacyLink": "私隱政策"
     },
-    "to": "收件人：",
-    "enterRecipient": "輸入名稱或號碼",
+    "to": "收件人:",
+    "enterRecipient": "輸入姓名或電話號碼",
     "clearRecipients": "清除收件人",
-    "sms": "SMS",
+    "sms": "短訊",
     "chatforia": "Chatforia",
     "typeMessage": "輸入訊息…",
-    "addRecipient": "喺上面加收件人先開始…",
-    "oneRecipient": "而家請輸入一位收件人。",
-    "enterValidRecipient": "輸入已儲存聯絡人名稱或電話號碼。",
-    "sendFailed": "傳送失敗。查閱控制台詳細資料。"
+    "addRecipient": "新增收件人以開始…",
+    "oneRecipient": "暫時請輸入一個收件人。",
+    "enterValidRecipient": "輸入已儲存的聯絡人名稱或電話號碼。",
+    "sendFailed": "傳送失敗。請檢查控制台以獲取詳情。"
   },
   "home": {
-    "title": "主頁",
-    "header": "你嘅訊息",
-    "subheader": "傳送訊息嚟開始對話。",
-    "sendButton": "傳送訊息",
-    "gifPicker": "打開 GIF 選擇器",
-    "emoji": "表情符號",
-    "upload": "上傳相片或影片",
+    "標題": "主頁",
+    "訊息標題": "你的訊息",
+    "訊息副標題": "請在上面輸入收件人,然後發送訊息以開始對話。",
+    "子標題": "發送訊息以開始聊天。",
+    "發送按鈕": "發送訊息",
+    "GIF 選擇器": "開啟 GIF 選擇器",
+    "emoji": "Emoji",
+    "upload": "上載相片或影片",
     "inputPlaceholder": "輸入訊息…",
-    "inputLabel": "訊息輸入框",
+    "inputLabel": "訊息撰寫器",
     "sendTooltip": "傳送",
-    "sendTooltipEmpty": "輸入訊息先傳送",
+    "sendTooltipEmpty": "輸入訊息以傳送",
     "send": "傳送",
-    "welcomeMessage": "歡迎嚟到 Chatforia",
-    "enterRecipient": "輸入名字或者電話號碼",
-    "addRecipient": "請先喺上方加入收件人先開始…",
-    "getStarted": "開始使用"
-  },
-  "refund": {
-    "title": "退款政策",
-    "lastUpdated": "最後更新：",
-    "intro": "喺 Chatforia，我哋致力為所有用戶提供高品質服務。呢份退款政策說明喺咩情況下可以獲得退款。",
-    "subscriptions": {
-      "title": "訂閱",
-      "body": "訂閱會以預付方式按週期收費。你可以隨時透過帳戶設定或者購買平台取消訂閱。"
-    },
-    "eligibility": {
-      "title": "退款資格",
-      "body": "如出現重複收費、帳單錯誤，或者技術問題導致無法使用付費功能，可能會獲得退款。所有申請都會逐一審核。"
-    },
-    "nonRefundable": {
-      "title": "不可退款項目",
-      "body": "一般情況下，未使用時間、部分訂閱期間，或者未於續訂前取消，都唔會提供退款。"
-    },
-    "thirdParty": {
-      "title": "第三方購買",
-      "body": "如果透過第三方平台（例如 Apple App Store）購買，退款需要直接向該平台申請。"
-    },
-    "contact": {
-      "title": "聯絡我哋",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "關於 Chatforia",
-    "description": "Chatforia 係一個現代化通訊平台，專為安全、多語言溝通而設計...",
-    "valuesTitle": "我哋重視嘅價值",
-    "privacyTitle": "私隱優先",
-    "privacyDesc": "強大加密同由用戶控制嘅私隱設定",
-    "accessTitle": "人人可用",
-    "accessDesc": "內建多語言翻譯功能",
-    "controlTitle": "自主控制",
-    "controlDesc": "例如訊息消失同已讀回條等功能"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "點解通訊平台比以往更重要",
-      "intro": "通訊平台已經成為現今世界最重要嘅溝通工具之一...",
-      "everydayTitle": "日常溝通",
-      "everydayDesc": "人哋每日都依賴通訊應用程式...",
-      "speedTitle": "速度同便利",
-      "speedDesc": "訊息可以即時送達...",
-      "globalTitle": "全球連接",
-      "globalDesc": "通訊平台可以連繫世界各地嘅人...",
-      "privacyTitle": "私隱同控制",
-      "privacyDesc": "現代通訊平台重視用戶控制權...",
-      "futureTitle": "通訊未來",
-      "futureDesc": "通訊科技持續發展...",
-      "outro": "Chatforia 就係基於呢啲理念建立..."
-    },
-
-    "global": {
-      "title": "全球通訊嘅未來",
-      "intro": "溝通方式正快速演變...",
-      "barriersTitle": "打破障礙",
-      "barriersDesc": "而家人哋可以跨越世界各地交流...",
-      "translationTitle": "翻譯技術嘅角色",
-      "translationDesc": "語言一直係溝通障礙...",
-      "realtimeTitle": "即時連接",
-      "realtimeDesc": "速度係關鍵因素...",
-      "privacyTitle": "私隱同安全",
-      "privacyDesc": "用戶希望確保對話受到保護...",
-      "futureTitle": "未來發展",
-      "futureDesc": "未來嘅全球通訊將會包括更多新功能...",
-      "outro": "Chatforia 等平台正正係呢個轉變一部分..."
-    },
-
-    "index": {
-      "title": "Chatforia 博客",
-      "intro": "探索有關溝通嘅見解...",
-      "post1": "如何安全地在線聊天",
-      "post2": "全球通訊嘅未來",
-      "post3": "點解通訊平台重要"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Chatforia 運作方式",
-    "intro": "Chatforia 設計簡單易用...",
-    "step1Title": "1. 建立帳戶",
-    "step1Desc": "使用電郵或用戶名稱註冊...",
-    "step2Title": "2. 開始對話",
-    "step2Desc": "與其他人建立聯繫...",
-    "step3Title": "3. 即時通訊",
-    "step3Desc": "訊息快速送達...",
-    "step4Title": "4. 全球溝通",
-    "step4Desc": "內建翻譯幫助用戶...",
-    "step5Title": "5. 掌握控制權",
-    "step5Desc": "管理你嘅設定..."
-  },
-
-  "safety": {
-    "title": "安全與社群指引",
-    "intro": "Chatforia 致力維持一個安全嘅環境...",
-    "respectTitle": "尊重溝通",
-    "respectDesc": "用戶應該互相尊重...",
-    "prohibitedTitle": "禁止內容",
-    "prohibited": {
-      "illegal": "非法活動",
-      "harassment": "騷擾或欺凌",
-      "hate": "仇恨言論或歧視",
-      "explicit": "露骨或有害內容",
-      "spam": "垃圾訊息或欺詐行為"
-    },
-    "toolsTitle": "用戶安全工具",
-    "tools": {
-      "report": "舉報不當行為",
-      "block": "封鎖用戶",
-      "control": "管理私隱設定"
-    },
-    "enforcementTitle": "執行措施",
-    "enforcementDesc": "我哋可能會對帳戶採取行動..."
-},
-  "chat": {
-    "selectPrompt": "揀一個文字或聊天室開始傾偈",
-    "newMessages": "新訊息",
-    "typing": "{{name}} 打緊字…",
-    "emptyTitle": "你嘅訊息",
-    "emptySubtitle": "傳送訊息嚟開始對話。",
-    "startChatButton": "傳送訊息",
-    "mediaAttachment": "媒體附件",
-    "thisUser": "呢個用戶",
-    "blockConfirm": "封鎖 {{name}}？你之後會收唔到佢嘅訊息。",
-    "blockedUser": "已封鎖 {{name}}。",
-    "blockError": "無法確定要封鎖嘅目標用戶。",
-    "blockFailed": "封鎖失敗（後端未接駁）。",
-    "encryptedUnavailable": "加密訊息（金鑰唔可用）",
-    "unlockToView": "解鎖你嘅金鑰先睇呢條訊息"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "關閉"
-    },
-    "freeLimit": "免費計劃限制：自動刪除最長 1 日。已鎖定喺 1 日。",
-    "premiumLimit": "Premium 最長自動刪除 30 日。已鎖定喺 30 日。",
-    "nothingToSend": "輸入訊息或者附加檔案先傳送。",
-    "encryptionFailed": "加密失敗。訊息未傳送。",
-    "sent": "訊息已送達。",
-    "placeholder": "輸入訊息…",
-    "voiceAdded": "已加入語音訊息",
-    "attachmentAdded": "已加入附件",
-    "autoDelete": "自動刪除",
-    "typeToSend": "輸入訊息先傳送",
-    "send": "傳送",
-    "sendWithEnter": "傳送（Enter）",
-    "attachment": "附件",
-    "caption": "標題（可選）",
-    "remove": "移除",
-    "clear": "清除",
-    "gif": "GIF",
-    "sticker": "貼紙",
-    "errors": {
-      "attachmentTooLarge": "附件太大。試小啲嘅檔案。",
-      "unsupportedFile": "唔支援嘅檔案類型。",
-      "rateLimit": "你傳訊息太快。請慢啲。",
-      "validation": "驗證錯誤。請檢查你嘅訊息再試。",
-      "failedToSend": "傳送失敗。你可以重試失敗嘅氣泡。"
-    }
-  },
-  "contactList": {
-    "savedContacts": "已儲存聯絡人",
-    "refreshAria": "重新整理聯絡人",
-    "filterPlaceholder": "篩選已儲存聯絡人…",
-    "filterAria": "篩選已儲存聯絡人",
-    "noContactsFound": "搵唔到聯絡人。",
-    "externalContact": "外部聯絡人",
-    "notJoined": "呢個聯絡人仲未加入 Chatforia。",
-    "couldNotStart": "無法開始聊天。請再試。",
-    "startFailed": "開始聊天失敗。請再試。",
-    "deleted": "聯絡人已刪除。",
-    "deleteFailed": "刪除聯絡人失敗。請再試。",
-    "aliasUpdated": "別名已更新。",
-    "updateAliasFailed": "更新別名失敗。請再試。",
-    "selectContact": "揀 {{name}}",
-    "alias": "別名",
-    "startChat": "開始聊天",
-    "message": "訊息",
-    "delete": "刪除",
-    "deleteContactAria": "刪除聯絡人",
-    "loadFailed": "載入聯絡人失敗。請再試。",
-    "loadMore": "載入更多",
-    "call": "通話",
-    "callStarted": "用緊你嘅 Chatforia 號碼打呢個號碼…",
-    "callFailed": "開始通話失敗。請再試。"
-  },
-  "startChatModal": {
-    "title": "開始對話",
-    "searchPlaceholder": "搜尋名稱、用戶名稱或電話號碼",
-    "messageThisPerson": "傳訊息俾呢個人",
-    "contacts": "聯絡人",
-    "recentInteractions": "最近互動",
-    "noContactsMatch": "你嘅搜尋冇聯絡人符合。",
-    "noRecentInteractions": "而家仲未有最近互動。",
-    "unknown": "未知",
-    "interactionType": {
-      "message": "訊息",
-      "call": "通話",
-      "video": "視像"
-    }
-  },
-  "addContactModal": {
-    "title": "加入聯絡人",
-    "phoneOrUsername": "電話或用戶名稱",
-    "phoneOrUsernamePlaceholder": "例如 +13018019227 或 juliannorton",
-    "alias": "別名（可選）",
-    "aliasPlaceholder": "例如 工作、媽媽、Mike – 歐洲",
-    "enterPhoneOrUsername": "輸入電話號碼或用戶名稱。",
-    "userLookupFailed": "查詢用戶失敗。",
-    "cannotAddSelf": "你唔可以加自己做聯絡人。",
-    "failedToAdd": "加入聯絡人失敗。",
-    "add": "加入"
+    "welcomeMessage": "歡迎使用 Chatforia",
+    "開始": "開始",
+    "混合收件人": "偵測到混合收件人。請選擇所有電話號碼 (SMS) 或所有用戶名 (Chatforia)",
+    "輸入收件人": "輸入名稱或號碼",
+    "addRecipient": "喺上面新增收件人就可以開始…",
+    "needNumber": "發送 SMS 之前,你需要有 Chatforia 號碼。",
+    "chooseNumber": "揀一個號碼"
   },
   "sidebar": {
     "randomChat": "隨機聊天",
-    "callTextForwarding": "通話同訊息轉寄",
+    "callTextForwarding": "來電及短訊轉駁 ",
     "conversations": "對話",
-    "searchPlaceholder": "搜尋對話…",
-    "errorLoading": "載入聊天失敗",
-    "empty": "而家仲未有對話。",
+    "searchPlaceholder": "搜尋聊天室...",
+    "errorLoading": "加載聊天室失敗",
+    "empty": "未有對話.",
     "startChat": "開始聊天",
-    "people": "聯絡人",
+    "people": "人員",
     "settings": "設定",
     "status": "狀態",
-    "forwarding": "通話同訊息轉寄",
-    "refresh": "重新整理",
-    "search": "搜尋對話",
-    "loginPrompt": "登入先可以改設定。",
-    "login": "登入",
-    "register": "建立帳戶",
+    "forwarding": "通話及短訊轉寄",
+    "重新整理": "重新整理",
+    "搜尋": "搜尋對話",
+    "登入提示": "登入以編輯設定.",
+    "登入": "登入",
+    "註冊": "建立帳戶",
     "chatrooms": "聊天室",
     "logout": "登出",
-    "startChatAlt": "開始新聊天",
+    "startChatAlt": "開始新對話",
     "calls": "通話",
     "video": "視像",
     "voicemail": "語音留言"
   },
   "topbar": {
-    "newStatus": "新狀態",
+    "newStatus": "新增狀態",
     "logout": "登出",
     "help": "幫助",
-    "createStatusAria": "建立新狀態"
+    "createStatusAria": "新增狀態"
+  },
+  "footer": {
+    "plans": "方案與定價",
+    "about": "關於 Chatforia",
+    "careers": " 職位",
+    "新聞": "新聞",
+    "廣告": "廣告",
+    "聯絡": "聯絡我們",
+    "協助": " 客戶支援中心",
+    "狀態": "狀態頁面",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "私隱": "私隱政策",
+    "條款": "服務條款",
+    "cookie": "cookie 設定",
+    "doNotSell": "請勿出售我的資料",
+    "language": "語言",
+    "contactShort": "聯絡",
+    "aria": "頁腳",
+    "homeAria": "Chatforia 首頁",
+    "section": {
+      "company": "公司",
+      "support": "支援 ",
+      "downloads": "下載",
+      "legal": "法律"
+    },
+    "links": {
+      "plans-pricing": "計劃與定價",
+      "about-chatforia": "關於 Chatforia",
+      "careers": "職位",
+      "press": "新聞",
+      "advertise": "廣告",
+      "getting-started": "開始使用",
+      "help-center": "協助中心",
+      "contact-us": "聯絡我們",
+      "status-page": "狀態頁面",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "私隱政策",
+      "terms-of-service": "服務條款",
+      "do-not-sell-my-info": "請勿出售我的資料",
+      "cookie-settings": "Cookie 設定",
+      "how-it-works": "如何運作",
+      "blog": "部落格",
+      "refund-policy": "退款政策",
+      "sms-policy": "SMS 訊息政策"
+    },
+    "社交": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "專利申請中",
+    "backToTop": "↑ 返到頂"
+  },
+  "chat": {
+    "selectPrompt": "揀一段文字或聊天室開始聊天",
+    "newMessages": "新訊息",
+    "typing": "{{name}} 正在輸入...",
+    "emptyTitle": "你的訊息",
+    "emptySubtitle": "發送訊息開始聊天。",
+    "startChatButton": "發送訊息",
+    "mediaAttachment": "媒體附件",
+    "thisUser": "此用戶",
+    "blockConfirm": "封鎖 {{name}}?你將不會收到佢嘅訊息。",
+    "blockedUser": "已封鎖 {{name}}。",
+    "blockError": "無法確定目標用戶以進行封鎖。",
+    "blockFailed": "封鎖失敗 (後端尚未連線)",
+    "encryptedUnavailable": "加密訊息 (金鑰不可用)",
+    "unlockToView": "解鎖你的金鑰以查看此訊息"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "關閉"
+    },
+    "freeLimit": "免費計劃限制:最多自動刪除1天。限制為1天。",
+    "premiumLimit": "Premium最多自動刪除30天。限制為30天。",
+    "nothingToSend": "打字留言或附加檔案再送出.",
+    "encryptionFailed": "加密失敗。訊息未送出.",
+    "sent": "訊息已送達.",
+    "placeholder": "輸入訊息… ",
+    "autoDelete": "自動刪除",
+    "typeToSend": "輸入要傳送嘅訊息",
+    "send": "傳送",
+    "sendWithEnter": "傳送 (Enter)",
+    "attachment": "附件",
+    "caption": "說明 (可選)",
+    "remove": "移除",
+    "clear": "清除",
+    "gif": "GIF",
+    "貼紙": "貼紙",
+    "errors": {
+      "attachmentTooLarge": "檔案太大。請試吓用細啲嘅檔案。",
+      "unsupportedFile": "唔支援呢種檔案類型。",
+      "rateLimit": "你發送訊息太快。請放慢啲。",
+      "validation": "驗證錯誤。請檢查你嘅訊息再試一次。",
+      "failedToSend": "發送失敗。你可以重試嗰個未送出嘅泡泡。"
+    }
   },
   "threadActions": {
-    "threadMenu": "對話選單",
-    "premium": "Premium",
-    "aiPower": "AI 功能",
-    "schedule": "預約",
-    "upgrade": "升級",
-    "upgradeSuffix": "（升級）",
-    "thread": "對話",
-    "about": "關於",
-    "search": "搜尋",
-    "media": "媒體",
-    "invitePeople": "邀請朋友",
-    "roomSettings": "聊天室設定",
-    "clearConversation": "清除對話",
-    "clearConversationForMe": "只為我清除",
-    "clearConversationForEveryone": "為所有人清除",
-    "block": "封鎖"
+    "threadMenu": "線程選單",
+    "premium": "高級",
+    "aiPower": "AI 動力",
+    "排程": "排程",
+    "升級": "升級",
+    "升級後綴": "(升級)",
+    "串流": "串流",
+    "關於": "關於",
+    "搜尋": "搜尋",
+    "媒體": "媒體",
+    "邀請人": "邀請人",
+    "房間設定": "房間設定",
+    "清除對話": "清除對話",
+    "封鎖": "封鎖"
   },
-  "roomSearch": {
-    "title": "喺聊天室內搜尋",
-    "ariaLabel": "喺聊天室內搜尋",
+  "房間搜尋": {
+    "標題": "喺房間搜尋",
+    "ariaLabel": "喺房間搜尋",
     "search": "搜尋",
     "searchMessages": "搜尋訊息",
     "noText": "[冇文字]",
@@ -393,30 +352,30 @@
   },
   "roomSettings": {
     "roles": {
-      "member": "成員",
-      "moderator": "管理員",
-      "admin": "管理員"
+      "member": "會員",
+      "moderator": " 主持人",
+      "管理員": "管理員"
     },
     "aiMode": {
       "off": "關閉",
-      "mention": "只喺 @ForiaBot 或 /ask 時",
+      "@提及": "只喺 @ForiaBot 或 /ask 先得",
       "always": "主動回覆"
     },
     "autoTranslateMode": {
       "off": "關閉",
-      "tagged": "只限標記 (/tr …)",
+      "tagged": "只限標籤 (/tr …)",
       "all": "所有訊息"
     },
     "updated": "設定已更新"
   },
   "mediaGallery": {
     "sharedMedia": "已分享媒體",
-    "noMediaCached": "本地未有快取媒體。",
-    "imageAlt": "圖片",
-    "openVideo": "打開影片",
-    "openVideoWithCaption": "打開影片：{{caption}}",
+    "noMediaCached": "未有本地緩存媒體.",
+    "imageAlt": "image",
+    "openVideo": "開啟影片",
+    "openVideoWithCaption": "開啟影片:{{caption}}",
     "preview": "預覽",
-    "previewWithCaption": "預覽：{{caption}}",
+    "previewWithCaption": "預覽:{{caption}}",
     "previewKind": "預覽 {{kind}}",
     "download": "下載",
     "downloadKind": "下載 {{kind}}",
@@ -424,1374 +383,1599 @@
     "kinds": {
       "image": "圖片",
       "video": "影片",
-      "audio": "音訊",
+      "audio": "音頻",
       "file": "檔案"
     }
   },
   "status": {
     "userNumber": "用戶 #{{id}}",
-    "posted": "狀態已發佈",
+    "posted": "已發佈狀態",
     "postFailed": "發佈狀態失敗",
     "createTitle": "建立狀態",
     "modalAriaLabel": "新狀態",
-    "captionLabel": "你而家諗緊乜？",
-    "captionPlaceholder": "分享更新…",
+    "captionLabel": "你心入面有咩?",
+    "captionPlaceholder": "分享最新動態.. .",
     "captionAria": "狀態訊息",
-    "audienceLabel": "受眾",
-    "audience": {
-      "public": "公開",
-      "followers": "追蹤者",
-      "contacts": "聯絡人",
-      "mutuals": "互相關注",
-      "custom": "自訂…"
+    "觀眾標籤": "觀眾",
+    "觀眾": {
+      "公開": "公開",
+      "追蹤者": "追蹤者",
+      "聯絡人": "聯絡人",
+      "共同追蹤": "共同追蹤",
+      "自訂": "自訂..."
     },
-    "expiresHoursLabel": "到期（小時）",
-    "maxTooltip": "最長 7 日",
-    "hoursAbbrev": "小時",
-    "maxShort": "最多",
-    "expiresOn": "到期日：",
-    "chooseRecipients": "揀收件人",
-    "selectContacts": "揀聯絡人",
-    "attachmentsLabel": "附件",
-    "attachmentsPlaceholder": "加圖片/影片",
-    "filesNote": "最多 5 個檔案。預設 24 小時到期。",
+    "expiresHoursLabel": "到期時間 (小時)",
+    "maxTooltip": "最多 7 日",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "到期時間:",
+    "揀收件人": "揀收件人",
+    "揀聯絡人": "揀聯絡人",
+    "附加檔案標籤": "附加檔案",
+    "附加檔案佔位符": "新增圖片/影片",
+    "檔案備註": "最多5個檔案。預設24小時到期。",
     "postAria": "發佈狀態",
     "post": "發佈"
   },
-  "voicemail": {
-    "pageTitle": "語音留言",
-    "from": "來自",
-    "to": "至",
-    "unknownCaller": "未知來電者",
-    "yourNumber": "你嘅 Chatforia 號碼",
-    "durationSeconds": "{{count}} 秒",
-    "audioAria": "語音留言播放器",
-    "transcriptHeading": "轉錄文字",
-    "transcriptPending": "轉錄語音留言緊…",
-    "transcriptFailed": "轉錄文字唔可用。",
-    "loading": "載入語音留言緊…",
-    "errorLoading": "載入語音留言失敗。",
-    "empty": "而家仲未有語音留言。",
-    "deleteConfirm": "刪除呢個語音留言？",
-    "deleteError": "刪除語音留言失敗。",
-    "markRead": "標記為已讀",
-    "delete": "刪除",
-    "unreadDotAria": "未讀語音留言提示"
-  },
-  "profile": {
-    "title": "用戶檔案",
-    "preferredLanguage": "偏好語言",
-    "chooseLanguage": "揀語言",
-    "mustLogin": "你必須登入先可以睇設定。",
-    "autoTranslate": "自動翻譯訊息",
-    "showOriginalWithTranslation": "同時顯示原文同翻譯",
-    "showOriginalAndTranslation": "原文同翻譯一齊顯示",
-    "filterExplicit": "過濾露骨內容",
-    "aiReply": "AI 回覆",
-    "enableReadReceipts": "開啟已讀回條",
-    "allowExplicitContent": "容許露骨內容",
-    "disappearingMessages": "開啟自動消失訊息",
-    "autoDeleteSeconds": "自動刪除倒數秒數",
-    "saveSuccess": "設定已儲存！",
-    "saveError": "錯誤：無法儲存設定",
-    "avatarAlt": "個人頭像",
-    "uploadAvatar": "上傳新頭像",
-    "avatarSuccess": "頭像已上傳！",
-    "avatarError": "上傳頭像失敗",
-    "avatarUpdated": "頭像已更新！",
-    "uploadingAvatar": "上傳頭像緊…",
-    "noPrivateKey": "呢個裝置冇私人金鑰可以匯出。",
-    "setBackupPassword": "設定密碼嚟加密你嘅備份：",
-    "backupDownloaded": "加密備份已下載。",
-    "exportFailed": "金鑰匯出失敗",
-    "enterBackupPassword": "輸入呢個備份嘅密碼：",
-    "importSuccess": "私人金鑰已匯入呢個裝置。",
-    "importFailed": "匯入金鑰失敗（密碼錯誤或檔案損壞）。",
-    "keysRotated": "新金鑰對已產生並上傳公開金鑰。",
-    "rotateFailed": "金鑰輪換失敗。",
-    "security": "安全",
-    "exportKey": "備份加密金鑰",
-    "importKey": "還原加密金鑰",
-    "rotateKeys": "輪換加密金鑰",
-    "keyDisclaimer": "你嘅私人金鑰從來唔會離開呢個裝置。匯出密碼保護嘅副本嚟喺其他裝置還原。",
-    "sectionProfile": "個人檔案",
-    "phoneNumber": "電話號碼",
-    "appearance": "外觀",
-    "soundSettings": "聲音",
-    "disappearing": "自動消失訊息",
-    "backupSync": "加密金鑰備份",
-    "ai": "AI",
-    "accessibility": "無障礙",
-    "privacy": "私隱",
-    "devices": "已連結裝置",
-    "themeFreeNotice": "你而家用緊免費版 — 下面有快速日/月主題。升級先解鎖更多主題。",
-    "sunTheme": "用 Dawn 主題",
-    "moonTheme": "用 Moon（午夜）主題",
-    "sun": "日",
-    "moon": "月",
-    "backupTitle": "加密備份同裝置同步",
-    "openBackupTools": "打開備份工具",
-    "backupDesc": "備份你嘅加密金鑰，安全喺其他裝置還原訊息。",
-    "privacyBlurEnabled": "預設模糊訊息",
-    "privacyBlurOnUnfocus": "應用程式失去焦點時模糊",
-    "planSection": "我嘅計劃",
-    "planLoading": "載入你嘅計劃緊…",
-    "planLoadFailed": "載入你嘅計劃失敗。",
-    "currentPlan": "目前計劃",
-    "planRenewsOn": "續訂日期",
-    "freePlanCopy": "你而家用緊免費計劃。升級解鎖更多功能，例如備份、額外號碼，同進階私隱選項。",
-    "upgradePlanCta": "升級計劃",
-    "changePlanCta": "更改計劃",
-    "manageBilling": "管理帳單",
-    "portalOpenFailed": "無法打開帳單入口。請再試。",
-    "holdToReveal": "按住顯示",
-    "notifyOnCopy": "如果我嘅訊息被複製就通知我",
-    "loadFailed": "載入個人檔案失敗",
-    "followed": "已追蹤",
-    "followFailed": "追蹤失敗",
-    "unfollowed": "已取消追蹤",
-    "unfollowFailed": "取消追蹤失敗",
-    "follow": "追蹤",
-    "unfollow": "取消追蹤",
-    "followHint": "如果佢用「追蹤者」或「公開」受眾發佈故事，就會出現在你嘅「追蹤中」動態。",
-    "userNotFound": "搵唔到用戶",
-    "followsYou": "跟緊你",
-    "sectionCrashedTitle": "呢部分載入失敗",
-    "sectionCrashedBody": "呢部分出咗問題。",
-    "forwarding": "通話同訊息轉寄",
-    "callTextForwardingSection": "通話同訊息轉寄",
-    "callTextForwardingTitle": "通話同/或訊息轉寄",
-    "callTextForwardingDescription": "將來電同訊息轉寄去你已驗證嘅電話或電郵。外撥通話/訊息可以顯示你嘅 Chatforia 號碼。",
-    "enableTextForwarding": "開啟訊息轉寄",
-    "forwardTextsToPhone": "轉寄訊息去電話",
-    "forwardTextsToEmail": "轉寄訊息去電郵",
-    "destinationPhone": "目的地電話（E.164）",
-    "destinationEmail": "目的地電郵",
-    "enableCallForwarding": "開啟通話轉寄",
-    "destinationPhoneForCalls": "通話目的地（E.164）",
-    "aliasBridging": "通話轉寄（別名橋接）",
-    "quietHoursOptional": "靜音時段（可選）",
-    "startHour": "開始時間（0–23）",
-    "endHour": "結束時間（0–23）",
-    "reset": "重設",
-    "saveBtn": "儲存",
-    "saveProfile": "儲存個人檔案",
-    "saveForwarding": "儲存轉寄設定",
-    "forwardSaved": "轉寄設定已儲存",
-    "forwardSaveFailed": "儲存設定失敗",
-    "errE164": "輸入有效 E.164 電話（例如 +15551234567）。",
-    "errEmail": "輸入有效電郵。",
-    "errSmsDest": "最少揀一個目的地（電話或電郵）。",
-    "errQuietHours": "靜音時段必須喺 0 同 23 之間。",
-    "randomChat": "隨機聊天",
-    "ageBand": "你嘅年齡範圍",
-    "ageBandPlaceholder": "揀你嘅年齡範圍",
-    "ageTeen": "13–17",
-    "age18_24": "18–24",
-    "age25_34": "25–34",
-    "age35_49": "35–49",
-    "age50Plus": "50+",
-    "ageBandHint": "我哋只儲存年齡範圍（唔係你準確出生日期）。用嚟保持隨機聊天配對合理。",
-    "wantsAgeFilter": "喺隨機聊天用年齡匹配",
-    "wantsAgeFilterDesc": "開啟時，我哋會盡量配對年齡相近嘅人。",
-    "partnerAgeBands": "你可以同邊個年齡範圍匹配？",
-    "partnerAgeBandsDesc": "青少年永遠只同其他青少年匹配。成人唔可以同青少年匹配。",
-    "teenMatchingNote": "為安全起見，13–17 歲帳戶只可以同其他 13–17 歲帳戶喺隨機聊天匹配。",
-    "foriaRemember": "讓 Ria 記住你講過嘅嘢",
-    "foriaRememberDesc": "開啟時，Foria 會用你之前隨機聊天嘅對話（只限同你）嚟保持對話流暢。你可以隨時關閉。",
-    "voicemailSection": "語音留言",
-    "voicemailEnabled": "開啟語音留言",
-    "voicemailAutoDeleteDays": "語音留言自動刪除（日）",
-    "voicemailAutoDeletePlaceholder": "留空就永久保留",
-    "voicemailForwardEmail": "轉寄語音留言去電郵",
-    "voicemailForwardEmailPlaceholder": "接收語音留言通知嘅電郵",
-    "voicemailGreetingText": "文字後備問候語",
-    "voicemailGreetingTextDesc": "當你嘅語音問候語唔可用時用。",
-    "voicemailGreetingUpload": "上傳語音留言問候語",
-    "voicemailPreviewGreeting": "預覽問候語",
-    "voicemailGreetingUploaded": "語音留言問候語上傳成功",
-    "voicemailGreetingUploadError": "上傳語音留言問候語失敗",
-    "voicemailNote": "你 Chatforia 號碼嘅語音留言會儲存喺你嘅語音留言收件箱。你可以喺支援嘅計劃開啟轉錄同轉寄。",
-    "portHint": "想保留你而家嘅號碼？可以轉移去 Chatforia Wireless。",
-    "wireless": {
-      "manage": "管理無線服務"
+  "留言信箱": {
+    "頁面標題": "留言信箱",
+    "發件人": "發件人",
+    "收件人": "收件人",
+    "未知來電者": "未知",
+    "你的 Chatforia 號碼": "你的 Chatforia 號碼",
+    "時長(秒):\",": {
+      "audioAria": "留言音訊播放器",
+      "transcriptHeading": "留言轉錄",
+      "transcriptPending": "轉錄留言中…",
+      "transcriptFailed": "無法轉錄留言.",
+      "loading": "載入留言中…",
+      "errorLoading": "無法載入留言.",
+      "empty": "未有留言訊息.",
+      "deleteConfirm": "刪除呢條留言訊息嗎?",
+      "deleteError": "刪除留言訊息失敗.",
+      "markRead": "標示為已讀",
+      "delete": "刪除",
+      "unreadDotAria": "未讀留言訊息指標"
     },
-    "esim": {
-      "title": "Chatforia eSIM",
-      "desc": "離開 Wi-Fi 時攞 Chatforia 流動數據。",
-      "cta": "攞 eSIM / 顯示 QR"
-    }
-  },
-  "wireless": {
-    "title": "Chatforia Wireless",
-    "description": "管理你嘅 Chatforia 流動計劃、號碼、轉寄，同號碼轉移。",
-    "options": {
-      "heading": "揀你想點樣用 Chatforia",
-      "subheading": "你可以攞新 Chatforia 號碼，或者將而家嘅號碼轉移入 Chatforia Wireless。",
-      "newNumber": "攞新 Chatforia 號碼",
-      "portNumber": "將而家號碼轉移入 Chatforia Wireless"
+    "contactList": {
+      "savedContacts": "已儲存聯絡人",
+      "refreshAria": "重新整理聯絡人",
+      "filterPlaceholder": "篩選已儲存聯絡人…",
+      "filterAria": "篩選已儲存聯絡人",
+      "noContactsFound": "搵唔到聯絡人.",
+      "externalContact": "外部聯絡人",
+      "notJoined": "嗰個聯絡人仲未加入 Chatforia.",
+      "couldNotStart": "無法開始聊天。請再試.",
+      "startFailed": "失敗咗開始聊天。請再試。",
+      "刪除": "已刪除聯絡人。",
+      "刪除失敗": "刪除聯絡人失敗。請重試。",
+      "別名更新": "已更新別名。",
+      "更新別名失敗": "更新別名失敗。請重試。",
+      "選擇聯絡人": "選擇 {{name}}",
+      "別名": "別名",
+      "開始聊天": "開始聊天",
+      "message": "訊息",
+      "delete": "刪除",
+      "deleteContactAria": "刪除聯絡人",
+      "loadFailed": "加載聯絡人失敗。請重試。",
+      "loadMore": "載入更多",
+      "call": "撥打",
+      "callStarted": "正透過你嘅 Chatforia 號碼撥打呢個電話…",
+      "callFailed": "無法開始通話。請重試。"
     },
-    "port": {
-      "heading": "轉移你而家嘅號碼",
-      "subheading": "將你而家電話號碼由現有電訊商轉移入 Chatforia。確保資料同你電訊商帳戶完全一樣，避免延誤。",
-      "phoneNumberLabel": "要轉移嘅電話號碼",
-      "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "現有電訊商",
-      "carrierPlaceholder": "Verizon、AT&T、T-Mobile 等",
-      "accountNumberLabel": "帳戶號碼",
-      "pinLabel": "轉出 PIN / 密碼",
-      "fullNameLabel": "帳戶上嘅全名",
-      "address1Label": "地址第一行",
-      "address2Label": "地址第二行（可選）",
-      "cityLabel": "城市",
-      "stateLabel": "州 / 省",
-      "postalCodeLabel": "郵政編碼",
-      "countryLabel": "國家",
-      "submitButton": "提交轉移申請",
-      "success": "轉移申請已提交！我們會更新你。",
-      "genericError": "出咗問題。"
+    "addContactModal": {
+      "title": "新增聯絡人",
+      "phoneOrUsername": "電話或用戶名",
+      "phoneOrUsernamePlaceholder": "例如 +13018019227 或 juliannorton",
+      "alias": "別名 (可選)",
+      "aliasPlaceholder": "e. g. 工作、媽媽、Mike - 歐洲",
+      "enterPhoneOrUsername": "輸入電話號碼或用戶名。",
+      "userLookupFailed": "搜尋用戶失敗。",
+      "cannotAddSelf": "你無法將自己新增為聯絡人。",
+      "failedToAdd": "新增聯絡人失敗。",
+      "add": "新增"
     },
-    "status": {
-      "heading": "轉移狀態",
-      "subheading": "追蹤你號碼轉移申請嘅狀態。",
-      "loading": "載入緊…",
-      "loadError": "載入轉移申請失敗。",
-      "none": "而家仲未有轉移活動。",
-      "pending": "等待審批",
-      "submitted": "已提交俾電訊商",
-      "inProgress": "處理中",
-      "completed": "已完成",
-      "failed": "失敗",
-      "canceled": "已取消",
-      "created": "建立：",
-      "scheduled": "預約：",
-      "completedAt": "完成："
+    "startChatModal": {
+      "title": "開始對話",
+      "searchPlaceholder": "搜尋名稱、用戶名或電話號碼",
+      "messageThisPerson": "傳訊畀呢個人",
+      "contacts": "聯絡人",
+      "recentInteractions": "最近互動",
+      "noContactsMatch": "冇聯絡人符合你嘅搜尋條件.",
+      "noRecentInteractions": "未有最近互動。",
+      "未知": "未知",
+      "互動類型": {
+        "訊息": "訊息",
+        "通話": "通話",
+        "視像": "視像"
+      },
+      "快速揀選": "快速揀選",
+      "寄給": "寄給",
+      "姓名或用戶名": "輸入姓名或用戶名",
+      "nameUsernamePhoneEmail": "輸入姓名、用戶名、電話或電郵…",
+      "startWithSelected": "與所選聯絡人開始聊天",
+      "searchByUsernameOrPhone": "按用戶名或電話搜尋",
+      "search": "搜尋",
+      "searchPrompt": " 輸入用戶名或電話號碼,然後按\"搜尋。\"",
+      "從聯絡人中揀": "或從聯絡人中揀",
+      "新增聯絡人": "新增聯絡人",
+      "顯示": "顯示",
+      "新增": "新增",
+      "關閉": "關閉",
+      "已選數量": "{{count}} 個已揀 ",
+      "pickAtLeastOne": "揀至少一個收件人。",
+      "saveContactsHint": "電話/電郵資料儲存後就會成為聯絡人,之後就可以用。",
+      "failedBulkStart": "無法與所選收件人開始聊天。",
+      "noResults": "冇結果",
+      "mode": "模式",
+      "group": "群組",
+      "broadcast": "群發",
+      "groupNameOptional": "群組名稱 (可選)",
+      "firstMessageOptional": "第一則訊息 (可選但建議)",
+      "createGroup": "建立群組",
+      "sendBroadcast": "發送群發訊息"
     },
-    "dataLow": "你嘅數據快用完。",
-    "topUp": "即刻增值",
-    "expiresIn": "剩低 {{days}} 日到期",
-    "exhausted": "你嘅數據用晒。買新數據包先繼續用流動數據。",
-    "buyPack": "買數據包",
-    "esimPackLabel": "eSIM 數據包"
-  },
-  "family": {
-    "title": "家庭",
-    "loading": "載入你嘅家庭資料緊…",
-    "error": {
-      "load": "載入家庭資料失敗。",
-      "invite": "無法建立邀請。確保你係家庭擁有者再試。",
-      "checkout": "無法開始家庭計劃結帳。請再試。"
+    "peoplePage": {
+      "people": "人員",
+      "search": "搜尋",
+      "searchPlaceholder": "用別名、姓名、用戶名或電話搜尋已儲存的聯絡人",
+      "quickStart": "快速開始",
+      "quickStartDesc": "管理聯絡人並邀請朋友.",
+      "importContacts": "匯入聯絡人",
+      "import": "匯入",
+      "addContact": "新增聯絡人",
+      "add": "新增",
+      "inviteFriends": "邀請朋友",
+      "inviteDesc": "分享邀請連結,即可即時開始聊天。",
+      "getTheApp": "取得應用程式",
+      "getTheAppDesc": "用 Chatforia iOS 及 Android 版,隨時隨地保持聯絡。",
+      "download": "下載",
+      "syncTip": "提示:你嘅訊息會喺網頁同手機之間保持同步。",
+      "filterSaved": "篩選已儲存嘅聯絡人",
+      "noContactsFound": "搵唔到聯絡人",
+      "focusSearch": "專注搜尋",
+      "findOrAdd": "搵人或新增聯絡人",
+      "searchByPhoneOrUsername": "搜尋電話/用戶名稱"
     },
-    "billing": {
-      "myPlanTitle": "我嘅計劃",
-      "myPlanError": "無法載入你嘅計劃。",
-      "myPlanLoading": "載入你嘅計劃緊…",
-      "currentPlan": "目前計劃",
-      "renewsAt": "續訂日期",
-      "freePlanCopy": "你而家用緊免費計劃。升級解鎖更多功能。",
-      "upgradeCta": "升級計劃",
+    "profile": {
+      "title": "用戶檔案",
+      "preferredLanguage": "首選語言",
+      "chooseLanguage": "選擇語言",
+      "mustLogin": "您必須登入才能檢視設定。",
+      "autoTranslate": "自動翻譯訊息",
+      "showOriginalWithTranslation": "顯示原文同翻譯訊息",
+      "showOriginalAndTranslation": "並排顯示原文同翻譯",
+      "filterExplicit": "過濾露骨內容",
+      "aiReply": "AI回覆",
+      "enableReadReceipts": "開啟已讀回執",
+      "allowExplicitContent": "允許露骨內容",
+      "disappearingMessages": "開啟消失訊息",
+      "autoDeleteSeconds": "自動刪除秒數",
+      "saveSuccess": "設定儲存成功!",
+      "saveError": "錯誤:無法儲存設定",
+      "頭像替代": "個人頭像",
+      "頭像成功": "頭像已上載!",
+      "頭像錯誤": "上載頭像失敗",
+      "頭像已更新!\",\n\"上載頭像": "正在上載頭像…",
+      "無私鑰": "本裝置無私鑰可匯出。",
+      "設定備份密碼": "設定密碼以加密你的備份:",
+      "加密備份已下載。\",\n\"exportFailed": "密鑰匯出失敗",
+      "enterBackupPassword": "輸入此備份的密碼:",
+      "importSuccess": "私人密鑰已匯入此裝置.",
+      "importFailed": "匯入密鑰失敗 (密碼錯誤或檔案損毀).",
+      "keysRotated": "生成咗新嘅金鑰對,並上載咗公鑰。",
+      "rotateFailed": "無法輪換金鑰。",
+      "security": "安全",
+      "exportKey": "備份加密金鑰",
+      "importKey": "還原加密金鑰",
+      "rotateKeys": "輪換加密金鑰",
+      "keyDisclaimer": "你嘅私鑰永遠唔會離開呢部裝置。匯出受密碼保護嘅副本,就可以喺其他裝置上還原。",
+      "sectionProfile": "個人檔案",
+      "phoneNumber": "電話號碼",
+      "appearance": "外觀",
+      "soundSettings": "聲音設定",
+      "disappearing": "消失訊息",
+      "backupSync": "備份及同步",
+      "ai": "AI",
+      "accessibility": "輔助功能",
+      "privacy": "私隱",
+      "devices": "已連結裝置",
+      "themeFreeNotice": "你而家用緊免費版-可使用下方嘅快速太陽/月亮選項。升級解鎖更多主題。",
+      "sunTheme": "使用曙光主題",
+      "moonTheme": "使用月夜 (午夜) 主題",
+      "sun": "太陽",
+      "moon": "月亮",
+      "backupTitle": "加密備份及裝置同步",
+      "openBackupTools": " 打開備份工具",
+      "backupDesc": "備份你嘅加密金鑰,以安全方式喺另一部裝置上還原你嘅訊息。",
+      "privacyBlurEnabled": "預設模糊訊息",
+      "privacyBlurOnUnfocus": "應用程式失去焦點時模糊",
+      "planSection": "我的計劃",
+      "planLoading": "正在載入你的計劃…",
+      "planLoadFailed": "無法載入你的計劃。",
+      "currentPlan": "現有計劃",
+      "planRenewsOn": "續約時間",
+      "freePlanCopy": "你而家使用緊免費計劃。升級可解鎖更多功能,例如備份、額外電話號碼同進階私隱選項。",
+      "upgradePlanCta": "升級計劃",
       "changePlanCta": "更改計劃",
       "manageBilling": "管理帳單",
-      "portalError": "而家無法打開帳單入口。",
-      "cancelNow": "即刻取消",
-      "cancelNowHelp": "你可以在帳單入口管理或取消訂閱，或者下面即刻取消。",
-      "cancelNowConfirm": "你確定要即刻取消計劃？呢個動作無法還原。",
-      "cancelNowError": "而家無法取消計劃。請再試或用「管理帳單」。"
+      "portalOpenFailed": "無法開啟開通門戶。請再試一次。",
+      "holdToReveal": "撥開以顯示",
+      "notifyOnCopy": "複製時通知我",
+      "loadFailed": "無法載入個人檔案",
+      "followed": "已追蹤",
+      "followFailed": "無法追蹤",
+      "unfollowed": "已取消追蹤",
+      "unfollowFailed": "取消追蹤失敗",
+      "追蹤": "追蹤",
+      "取消追蹤": "取消追蹤",
+      "追蹤提示": "如果他們以公開(或追蹤者)設定發佈故事,就會出現在你的追蹤動態中。",
+      "用戶未找到\",\n\"追蹤你": "追蹤你",
+      "分頁崩潰標題": "該部分載入失敗",
+      "sectionCrashedBody": "呢個部分出咗問題.",
+      "forwarding": "來電及短訊轉發",
+      "callTextForwardingSection": "來電及短訊轉發",
+      "callTextForwardingTitle": "來電及/或短訊轉發",
+      "callTextForwardingDescription": "將 incoming calls and texts 轉到你驗證咗嘅電話或電郵。 outgoing 通話/短訊可以顯示你的 Chatforia 號碼。",
+      "enableTextForwarding": "啟用短訊轉發",
+      "forwardTextsToPhone": "將短訊轉至電話",
+      "forwardTextsToEmail": "將短訊轉至電郵",
+      "destinationPhone": "目的地電話 (E.164)",
+      "destinationEmail": "目的地電郵",
+      "enableCallForwarding": "啟用來電轉接",
+      "destinationPhoneForCalls": "通話嘅目的地 (E.164)",
+      "aliasBridging": "來電轉駁 (別名橋接)",
+      "quietHoursOptional": "靜音時段 (可選)",
+      "startHour": "開始時間 (0-23)",
+      "endHour": "結束時間 (0-23)",
+      "reset": "重設",
+      "saveBtn": "儲存",
+      "saveProfile": "儲存個人設定",
+      "saveForwarding": "儲存轉駁設定",
+      "forwardSaved": "轉駁設定已儲存",
+      "forwardSaveFailed": "儲存設定失敗",
+      "errE164": "請輸入有效嘅 E.164 電話號碼 (例如:+15551234567)",
+      "errEmail": "請輸入有效嘅電郵地址。",
+      "errSmsDest": "最少揀一個目的地 (電話或電郵)。",
+      "errQuietHours": "靜音時間必須介乎 0 至 23 時之間。",
+      "randomChat": "隨機聊天",
+      "ageBand": "你嘅年齡範圍",
+      "ageBandPlaceholder": "揀你嘅年齡範圍",
+      "ageTeen": "13-17",
+      "age18_24": "18-24",
+      "age25_34": "25-34",
+      "age35_49": "35-49",
+      "age50Plus": "50+",
+      "ageBandHint": "我哋只會儲存年齡範圍(唔係你嘅確實出生日期)。呢個用嚟令隨機聊天配對更合理。",
+      "wantsAgeFilter": "喺隨機聊天使用年齡配對",
+      "wantsAgeFilterDesc": "開啟時,我哋會嘗試為你配對合適年齡範圍嘅人士。",
+      "partnerAgeBands": "你可以同邊啲人配對?",
+      "partnerAgeBandsDesc": "青少年永遠只會同其他青少年配對。成年人唔可以同青少年配對。",
+      "teenMatchingNote": "為咗安全,13-17 歲嘅帳戶只可以喺隨機聊天度配對其他 13-17 歲嘅帳戶。",
+      "voicemailSection": "語音留言",
+      "voicemailEnabled": "啟用語音留言",
+      "voicemailAutoDeleteDays": "自動刪除語音留言後 (天)",
+      "voicemailAutoDeletePlaceholder": "留空可永久保留",
+      "voicemailForwardEmail": "將語音留言轉寄至電郵",
+      "voicemailForwardEmailPlaceholder": "要寄嘅電郵 icemail 通知到",
+      "voicemailGreetingText": "文字預設招呼語",
+      "voicemailGreetingTextDesc": "當你嘅語音招呼語唔可用時使用.",
+      "voicemailGreetingUpload": "上載語音信招呼",
+      "voicemailPreviewGreeting": "預覽招呼",
+      "voicemailGreetingUploaded": "語音信招呼已成功上載",
+      "voicemailGreetingUploadError": "失敗上載語音信招呼",
+      "voicemailNote": "來自您 Chatforia 號碼的語音信會儲存在您的語音信收件箱。您可以在支援的計劃中開啟轉錄和轉發功能。",
+      "portHint": "想保留你而家嘅號碼?你可以將佢轉到 Chatforia Wireless.",
+      "wireless": {
+        "manage": "管理無線"
+      },
+      "esim": {
+        "title": "Chatforia eSIM",
+        "desc": "當你冇 Wi-Fi 時,就可以用 Chatforia 流動數據。",
+        "cta": "攞 eSIM / 顯示二維碼"
+      },
+      "encryptedBackupsTitle": "加密金鑰備份"
     },
-    "none": {
-      "title": "而家仲未有家庭設定",
-      "body": "要建立 Chatforia Family 同共享數據池，就開始家庭計劃。",
-      "goUpgrade": "開始家庭計劃",
-      "viewPlans": "睇所有計劃"
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Sunset",
+      "solarized": "Solarized",
+      "velvet": "天鵝絨"
     },
-    "group": {
-      "defaultName": "我嘅 Chatforia 家庭",
-      "role": "你嘅角色：{{role}}"
+    "聲音": {
+      "通知聲音": "通知聲音",
+      "重設為預設": "重設為預設",
+      "免費通知開始": "你而家係免費版 - 高級鈴聲會顯示但鎖住。 ",
+      "免費通知結束": "要解鎖全部。",
+      "messageTone": "訊息鈴聲",
+      "ringtone": "鈴聲",
+      "preview": "預覽",
+      "stop": "停止",
+      "volume": "音量",
+      "messageToneFilesHint": "將檔案放入 /public/sounds/Message_Tones",
+      "ringtoneFilesHint": "將檔案放入 /public/sounds/Ringtones",
+      "premiumRequired": "呢個選項需要訂閱先得.",
+      "已儲存": "音效設定已儲存.",
+      "儲存失敗": "未能儲存音效設定.",
+      "重設未儲存": "重設為預設值 (未儲存).",
+      "高級鈴聲": "嗰個係高級鈴聲.",
+      "高級來電答鈴": "嗰個係高級來電答鈴.",
+      "自訂 ComingSoon": "自訂鈴聲上載即將推出.",
+      "freeNotice": "你而家係免費版 - 高級鈴聲會顯示但鎖住。升級就可以解鎖全部.",
+      "default": "預設",
+      "vibrate": "震動",
+      "dreamer": "夢幻",
+      "notify": "通知",
+      "pop": "Pop",
+      "pulsatingSound": "脈動聲",
+      "textMessage": "文字訊息",
+      "xylophone": "木琴",
+      "classic": "經典",
+      "urgency": "急促",
+      "bells": "鐘聲",
+      "chimes": "鐘聲",
+      "digitalPhone": "數碼電話",
+      "melodic": "旋律",
+      "organNotes": "管風琴音符",
+      "soundReality": "聲效實境",
+      "street": "街道",
+      "universfield": "Universfield"
     },
-    "role": {
-      "owner": "擁有者",
-      "member": "成員"
+    "aiSettings": {
+      "title": "AI 設定",
+      "控制簡介": "控制翻譯、智能回覆同 ForiaBot 自動回覆。",
+      "翻譯": "翻譯",
+      "自動翻譯 incoming": "自動翻譯 incoming 訊息",
+      "顯示原文並排": "顯示原文同翻譯並排",
+      "智能回覆": "智能回覆 ",
+      "enableSmartReplies": "開啟智能回覆",
+      "smartRepliesHint": "將最後幾則已接收訊息(已清理)傳送給 AI 以建議快速回覆。",
+      "maskProfanity": "在 AI 建議中遮掩粗口字詞",
+      "maskProfanityHint": "開啟後,AI 回覆的建議會將標記字詞遮掩 ",
+      "foriaBot": "ForiaBot 自動回覆",
+      "enableAutoReply": "當我忙嗰陣開啟自動回覆",
+      "autoReplyMode": "自動回覆模式",
+      "cooldownSeconds": "冷卻時間 (秒)",
+      "簽名": "簽名",
+      "自動回覆": "🤖 自動回覆",
+      "activeUntilOptional": "有效直到 (可選)",
+      "儲存": "儲存 AI 設定",
+      "saved": "AI 偏好已儲存",
+      "saveFailed": " 未能儲存 AI 設定",
+      "translateOff": "關閉",
+      "translateTagged": "只有當 @translated 或被標籤時",
+      "translateAll": "翻譯所有 incoming 訊息 ",
+      "modeDm": "只限一對一聊天",
+      "modeMention": "只有當我被@提及",
+      "modeAll": "所有 incoming 訊息",
+      "off": "關",
+      "on": "開"
     },
-    "data": {
-      "heading": "共享數據池",
-      "caption": "所有成員共享呢個數據池。接近上限時我哋會提醒你。"
+    "accessibilitySettings": {
+      "title": "無障礙設定 & 通知",
+      "loadFailed": "無法載入設定",
+      "accessibilityDesc": "可讓 Chatforia 更容易使用,而無需依賴聲音的選項。",
+      "interfaceFontSize": "介面字體大小",
+      "interfaceFontSizeHelp": "預設為正常大小。如要顯示較大文字,請增加。",
+      "notifications": "通知",
+      "visualAlerts": "訊息及來電嘅視覺提示",
+      "visualAlertsDesc": "顯示橫額同標題閃爍,確保你唔會錯過任何動態。",
+      "vibrateOnNewShort": "有新訊息時震動 (支援時)",
+      "vibrateOnNewDesc": "用通知觸發裝置振動。",
+      "flashOnCallShort": "來電時閃屏",
+      "flashOnCallDesc": "來電時短暫閃亮閃光燈.",
+      "liveCaptionsTitle": "即時字幕(來電)",
+      "enableLiveCaptions": "來電期間開啟即時字幕(高級功能)",
+      "liveCaptionsDesc": "顯示對方音訊的即時字幕.",
+      "captionFontSize": "字幕字體大小",
+      "captionBackground": "字幕背景",
+      "voiceNotes": "語音備忘",
+      "autoTranscribeVoiceNotes": "自動轉錄語音備忘",
+      "autoTranscribeVoiceNotesDesc": "為您收到的語音訊息附加轉錄文字.",
+      "changesSavedInstantly": "更改會即時儲存.",
+      "sm": "細",
+      "md": "中",
+      "lg": "大",
+      "xl": "Extra Large",
+      "light": "Light",
+      "dark": "Dark",
+      "transparent": "Transparent",
+      "accessibility": "Accessibility",
+      "notificationsDesc": "訊息及來電嘅視覺提示\n顯示橫額同標題閃爍,唔會錯過任何動態。",
+      "vibrateOnNew": "新訊息時震動 (支援時)\n用通知觸發裝置震動。",
+      "flashOnCall": "來電閃爍螢幕\n當有來電時,短暫閃爍明亮光線。",
+      "即時字幕": "通話即時字幕"
     },
-    "members": {
-      "title": "家庭成員",
-      "name": "名稱",
-      "role": "角色",
-      "usage": "用量",
-      "limit": "限制",
-      "unlimited": "冇特定限制",
-      "inviteCta": "邀請成員"
+    "私隱設定": {
+      "嚴格端對端加密": "嚴格端對端加密",
+      "只儲存密文備註": "只喺伺服器上儲存密文。停用 AI/ 翻譯同審核預覽.",
+      "strictE2EEEnabled": "嚴格 E2EE 已啟用。AI/翻譯會被停用।",
+      "strictE2EEDisabled": "嚴格 E2EE 已停用。AI/翻譯重新啟用."
     },
-    "invite": {
-      "title": "邀請新成員",
-      "body": "發電郵或連結邀請人加入你嘅共享家庭數據池。",
-      "emailLabel": "電郵（可選）",
-      "emailPlaceholder": "friend@example.com",
-      "create": "建立邀請",
-      "linkLabel": "邀請連結",
-      "copyAria": "複製邀請連結",
-      "expiryHint": "呢個連結幾日後到期。你可以隨時建立新嘅。"
+    "linkedDevicesPanel": {
+      "title": "已連結裝置",
+      "nonefound": "冇搵到已連結裝置.",
+      "refresh": "重新整理",
+      "unknown": "未知",
+      "loadFailed": "載入已連結裝置失敗",
+      "loadFailedLog": "載入已連結裝置失敗",
+      "renamePrompt": "為呢部裝置輸入新名稱",
+      "renamed": "已重新命名裝置",
+      "renameFailed": " 未能重新命名裝置",
+      "撤銷": "裝置已被撤銷",
+      "撤銷失敗": "未能撤銷裝置",
+      "未命名裝置": "未命名裝置",
+      "主要": "主要",
+      "撤銷狀態": "已撤銷",
+      "最後新增": "新增 {{created}} • 最後見到 {{lastSeen}}",
+      "renameDevice": "重命名裝置",
+      "revokeDevice": "撤銷裝置"
     },
-    "join": {
-      "title": "加入家庭",
-      "body": "你已被邀請加入 Chatforia Family 同共享佢哋嘅數據池。",
-      "cta": "接受並加入家庭",
-      "ctaLogin": "登入並加入家庭",
-      "success": "你已加入呢個家庭。你而家共享佢哋嘅數據池。",
-      "goFamily": "去家庭儀表板",
-      "error": "無法加你入呢個家庭。邀請可能無效或過期。"
-    }
+    "wireless": {
+      "title": "Chatforia 無線",
+      "description": "管理你嘅 Chatforia 流動計劃、電話號碼、轉駁及號碼轉入轉出。",
+      "options": {
+        "heading": "揀你想點用 Chatforia",
+        "subheading": "你可以攞新嘅 Chatforia 號碼,或者由其他電訊商轉入你現有嘅號碼。",
+        "newNumber": "攞新嘅 Chatforia 號碼",
+        "portNumber": "將你現有嘅號碼轉入 Chatforia Wireless"
+      },
+      "port": {
+        "heading": "轉入你現有嘅號碼",
+        "subheading": "將你現時嘅電話號碼由現有電訊商轉入 Chatforia。請確保資料同你嘅電訊商戶口完全一致,以免延誤。",
+        "phoneNumberLabel": "要轉入嘅電話號碼"
+      }
+    },
+    "phoneNumberPlaceholder": "+1 555 123 4567",
+    "carrierLabel": "現有電訊商",
+    "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
+    "accountNumberLabel": "戶口號碼",
+    "pinLabel": "轉出PIN碼 / 密碼",
+    "fullNameLabel": "戶口上嘅全名",
+    "address1Label": "地址第1行",
+    "address2Label": "地址第2行 (可選)",
+    "cityLabel": "城市",
+    "stateLabel": "州/省",
+    "郵遞區號標籤": "郵遞區號",
+    "國家/地區標籤": "國家/地區",
+    "提交按鈕": "提交轉出申請",
+    "成功": "轉出申請已提交!我們會通知你進度。",
+    "一般錯誤": "發生錯誤。"
+  },
+  "狀態": {
+    "標題": " 轉移狀態",
+    "副標題": "追蹤你嘅號碼轉移申請狀態.",
+    "加載": "加載中…",
+    "加載錯誤": "加載轉移申請失敗.",
+    "無": "未有任何轉移活動.",
+    "審核中": "待審核",
+    "已提交": "已提交畀電訊商",
+    "進行中": "進行中",
+    "完成": "完成",
+    "失敗": "失敗",
+    "取消": "取消",
+    "建立": "建立:",
+    "排程": "排定:",
+    "完成時間": "完成:"
+  },
+  "數據不足": "你嘅數據快用晒。",
+  "即刻增值\",\n\"到期日": "{{days}} 日後到期",
+  "用盡": "你嘅數據已經用晒。買新數據包繼續使用流動數據。",
+  "買數據包": "買數據包",
+  "es imPackLabel": "eSIM 數據包",
+  "phoneNumberManager": {
+    "pickNumber": "揀號碼",
+    "phoneNumber": "電話號碼",
+    "availableNumber": "可用號碼",
+    "premiumNumber": "高級號碼 🔒",
+    "freeNumberHint": "免費號碼可能在長時間未使用後被回收。",
+    "premiumNumberHint": "在您的高級訂閱有效期間保留您的號碼。",
+    "country": "國家",
+    "區域碼": "區域碼",
+    "區域碼預留位": "例如,415",
+    "功能": "功能",
+    "搜尋": "搜尋",
+    "鎖定此電話號碼": "鎖定此電話號碼 (每週增值服務,即將推出)",
+    "premiumProtectedHint": "當你嘅 Premium 訂閱有效期間,Premium 號碼會受到保護,唔會被重用。",
+    "availableNumbers": "可用嘅號碼",
+    "searchHint": "輸入 3 位區碼 (只限美國/加拿大),或者留空,然後搜尋。",
+    "keep": "保留",
+    "select": "選擇",
+    "assignNumberFirst": "先分配號碼.",
+    "premiumKeepFeature": "保留號碼係高級功能.",
+    "lockingPremiumFeature": "鎖定號碼係高級功能.",
+    "numberAssigned": "號碼已分配. ",
+    "numberProtectedNow": "你嘅電話號碼而家已經受保護。",
+    "numberProtected": "電話號碼已受保護。",
+    "numberUnprotected": "電話號碼未受保護。",
+    "numberReleased": "電話號碼已釋出。",
+    "couldNotLoadNumbers": "無法載入號碼。",
+    "couldNotAssign": "無法分配該號碼。可能啱啱俾人攞走──試另一個號碼。",
+    "couldNotLease": "無法租用該號碼。可能啱啱俾人攞走──試另一個號碼。",
+    "couldNotProtectNow": " 而家未能保護你嘅號碼。",
+    "couldNotProtect": "未能保護該號碼。",
+    "couldNotUnprotect": "未能解除保護該號碼。",
+    "couldNotRelease": "未能釋放該號碼。",
+    "invalidAreaCode": "請輸入三位區碼(例如:415),或留空。",
+    "noInventory": "而家冇得庫存。",
+    "noFreeNumbers": "而家冇得免費號碼。",
+    "noInventoryAreaCode": "而家嗰個區碼冇得庫存。",
+    "noFreeNumbersAreaCode": "而家我哋嗰個 區碼而家冇得用。",
+    "releaseConfirm": "釋放你而家嘅號碼?可能會俾其他人用咗。",
+    "unprotect": "解除保護",
+    "keepThisNumber": "保留此號碼",
+    "更換": "更換",
+    "釋放": "釋放",
+    "已啟用": "已啟用",
+    "冇號碼": "冇號碼",
+    "高級功能": "高級功能",
+    "保護你嘅號碼": "保護你嘅號碼",
+    "protected": "已保護",
+    "notProtected": "未保護",
+    "expiresInShort": "到期前{{suffix}}",
+    "renewsOn": "{{date}}續期",
+    "expiresInDaysFull": "{{count}}日後到期",
+    "expiringShort": "{{suffix}}到期",
+    "releaseWarning": "你嘅電話號碼可能喺{{count}}日後被釋出。升級至Premium可繼續保持保護。",
+    "pickNumberHint": "揀一個 Chatforia 號碼,喺應用程式內發訊息同通訊。",
+    "unableToLoadStatus": "無法載入電話號碼狀態。",
+    "lock": "鎖",
+    "noNumberAssigned": "未分配號碼。請按區號揀一個開始發訊息。"
+  },
+  "撥號器": {
+    "title": "通話",
+    "副標題": "鍵盤及最近通訊。 (如你唔用PSTN,請喺對話標題開始通話。)",
+    "enterNumber": "輸入號碼",
+    "enterNumberAria": "輸入號碼",
+    "resolving": "正在解析呼叫目標…",
+    "call": "撥打",
+    "callBrowser": "透過瀏覽器撥打",
+    "backspace": "退格",
+    "recents": "通訊錄",
+    "noRecents": "未有任何來電記錄。",
+    "resolveFailed": "無法解析來電目標。",
+    "callRequiredNumber": "打電話前你需要一個 Chatforia 號碼。",
+    "callFailed": "無法撥打電話。",
+    "deleteConfirm": "刪除呢通來電?",
+    "deleteFailed": "無法刪除來電。",
+    "deleteFailedLog": "刪除來電失敗",
+    "outgoing": "outgoing",
+    "incoming": "incoming",
+    "missed": "missed",
+    "declined": "declined",
+    "failed": "failed",
+    "completed": "完成",
+    "outgoingCall": "outgoing 來電",
+    "incomingCall": "incoming 來電",
+    "voicemail": " 語音留言",
+    "callAria": " {{name}} 來電",
+    "deleteAria": "刪除 {{name}} 來電",
+    "enterNumberPh": "輸入號碼",
+    "recentsEmpty": "未有任何來電記錄.",
+    "key": "Key {{d}}"
+  },
+  "來電記錄": {
+    "標題": "來電",
+    "副標題": "你的近期來電及去電.",
+    "loadFailed": "無法載入通話記錄。",
+    "outgoing": "outgoing",
+    "incoming": "incoming",
+    "missed": "missed",
+    "declined": "declined",
+    "failed": "failed",
+    "completed": "completed",
+    "outgoingCall": "outgoing Call",
+    "incomingCall": "incoming Call",
+    "留言信箱": "留言信箱"
+  },
+  "影片": {
+    "主": {
+      "標題": "影片",
+      "副標": "揀選影片類型."
+    },
+    "直接": {
+      "標題": "直接影片",
+      "副標": "與另一個用戶開始一對一視像通話。",
+      "desc": "與另一個用戶一對一鏡頭通話。",
+      "start": "開始",
+      "callBtn": "通話",
+      "callByPhone": {
+        "title": "以電話撥打"
+      },
+      "phone": {
+        "placeholder": "輸入電話號碼 (例如, +1-555-123-4567)",
+        "aria": "電話號碼撥打"
+      },
+      "tipInvite": "提示:貼上號碼即可撥打,毋須儲存聯絡人。我們會透過連結邀請非用戶。",
+      "findUser": {
+        "title": "搵用戶"
+      },
+      "search": {
+        "placeholder": " 按名稱或用戶名搜尋",
+        "aria": "按名稱或用戶名搜尋",
+        "btn": "搜尋"
+      }
+    },
+    "rooms": {
+      "title": "房間",
+      "subtitle": "輸入相同名稱即可創建房間或加入現有房間.",
+      "desc": "多人視像通話使用共用房間名稱。",
+      "roomLabel": "房間名稱",
+      "roomPlaceholder": "例如 team-standup",
+      "roomAria": "房間名稱",
+      "joinCreate": "加入 / 建立",
+      "tip": "提示:將呢個名稱分享畀其他人,或者用深層連結去"
+    },
+    "title": "影片",
+    "chooseType": "揀影片類型.",
+    "directTitle": "直接影片",
+    "directDesc": "同另一個用戶一對一視像通話.",
+    "directStart": "開始",
+    "roomsTitle": "房間",
+    "roomsDesc": "多人視像會議使用共用房間名稱。",
+    "roomsIntro": "加入或建立多人房間。",
+    "roomNameLabel": "房間名稱",
+    "roomNamePh": "例如 team-standup",
+    "join": "加入",
+    "deeplinkTip": "提示:你可以直接使用 deep link 去 <code>/video?room=room-name</code>。",
+    "findUserLabel": "搵用戶",
+    "findUserPh": "按名稱或用戶名搜尋",
+    "search": "搜尋",
+    "call": "通話"
+  },
+  "phoneWarning": {
+    "title": "你嘅電話號碼快將到期",
+    "body": "你嘅電話號碼 {{number}} 否則將會於 {{date}} 到期,除非重新啟用。",
+    "button": "保留我的號碼"
   },
   "premium": {
-    "heading": "升級去 Premium",
-    "description": "解鎖強大功能同移除廣告。",
+    "heading": "升級至 Premium",
+    "description": "解鎖強大功能並移除廣告。",
     "cta": "升級",
     "upgrade": "升級",
-    "upgradeAria": "升級去 Chatforia Premium"
+    "upgradeAria": "升級至 Chatforia Premium"
   },
   "upgrade": {
     "title": "升級",
     "titleLoggedIn": "升級",
-    "titlePublic": "價錢",
-    "h1": "Chatforia 價錢同計劃",
-    "h1Subtitle": "由免費、附廣告計劃開始。用 Plus 去廣告，或者用 Premium 解鎖全部強大功能。",
-    "subtitle": "喺一個地方揀應用程式計劃、加數據包，或者同家人共享數據。",
-    "subtitle.app": "由免費、附廣告計劃開始。用 Plus 去廣告，或者用 Premium 解鎖全部強大功能。",
-    "subtitle.mobile": "加全球 eSIM 數據，令 Chatforia 離開 Wi-Fi 都繼續運作。",
-    "subtitle.family": "建立共享數據池俾家人，並喺一個地方管理大家用量。",
-    "perMonth": "每月",
-    "perYear": "每年",
-    "goPremium": "去 Premium",
-    "benefitsLine": "解鎖強大功能同移除廣告。",
+    "titlePublic": "定價",
+    "h1": "Chatforia 收費及計劃",
+    "h1Subtitle": "由我哋免費帶廣告嘅計劃開始。升級至 Plus 去除廣告,或者用 Premium 解鎖完整功能。",
+    "subtitle": "揀一個應用程式計劃,為自己加購數據套餐,或者同家人分享數據--全部一次搞掂。",
+    "subtitle.app": "由我哋免費帶廣告計劃開始。升級至 Plus 去廣告,或者用 Premium 解鎖全部強大功能。\" -Plus 無廣告,或以 Premium 解鎖全部強大功能。",
+    "subtitle.mobile": "新增全球 eSIM 數據,即使離開 Wi-Fi 都能繼續使用 Chatforia。",
+    "subtitle.family": "為家人建立共享數據池,並在同一個地方管理每個人嘅用量。",
+    "perMonth": "mo",
+    "perYear": "year",
+    "goPremium": "升級至 Premium",
+    "benefitsLine": "解鎖強大功能並移除廣告.",
     "ctaText": "升級",
-    "aria": "升級去 Chatforia Premium",
+    "aria": "升級至 Chatforia Premium",
     "toggle": {
       "monthly": "每月",
-      "annual": "每年（慳 30%）"
+      "annual": "年度 (節省30%)"
     },
     "scheduleBanner": {
-      "title": "訂閱即將結束",
-      "body": "你將喺以下日期回復免費版",
-      "keepPlanCta": "保留 {{plan}}",
-      "manageBillingCta": "管理帳單"
+      "title": "訂閱將於 {{endDate}} 結束",
+      "body": "您將於 {{endDate}} 恢復至免費版",
+      "keepPlanCta": "繼續 {{plan}}",
+      "manageBillingCta": "管理賬單"
     },
     "billing": {
-      "opening": "打開緊…",
-      "manage": "管理帳單"
+      "opening": "正在開啟…",
+      "manage": "管理賬單"
     },
-    "checkout": {
-      "redirecting": "轉移緊…"
+    "結帳": {
+      "重定向": "正在重定向…"
     },
-    "auth": {
-      "continue": "繼續登入",
-      "createAccount": "建立帳戶",
-      "signIn": "登入"
+    "認證": {
+      "繼續": "繼續登入",
+      "建立帳戶": "建立帳戶",
+      "登入": " 登入"
     },
     "cta": {
-      "aria": "揀計劃",
-      "getPlus": "升級去 Plus",
+      "aria": "揀選計劃",
+      "getPlus": "升級至 Plus",
       "upgradeMonthly": "每月升級",
-      "upgradeAnnual": "每年升級"
+      "upgradeAnnual": "年度升級"
     },
     "section": {
-      "app": "應用程式計劃",
-      "mobile": "流動（eSIM）",
+      "app": "App 計劃",
+      "mobile": "流動 (eSIM)",
       "family": "家庭計劃"
     },
     "plans": {
       "free": {
         "title": "免費",
         "price": "$0",
-        "desc": "免費開始用訊息。適合只係試 Chatforia 嘅人。",
+        "desc": "免費發送訊息。如果你只係想試用 Chatforia,就最啱。",
         "features": {
-          "chat": "即時 1:1 同群組聊天，加語音同視像通話",
-          "media": "分享相片、語音訊息，同短片",
-          "ai": "AI 智能回覆同即時翻譯（公平使用）",
-          "disappearing": "自動消失訊息同基本私隱控制",
-          "ads": "永久免費，應用程式內有廣告"
+          "chat": "即時一對一同群組聊天,仲有語音同視像通話",
+          "media": "分享相片、語音訊息同短片",
+          "ai": "AI 智能回覆同即時翻譯 (公平使用)",
+          "disappearing": "消失訊息同基本私隱設定",
+          "ads": "終身免費,應用程式內有廣告 "
         },
-        "ctaCurrent": "目前計劃",
-        "ctaManage": "喺帳單管理",
-        "ctaPublic": "開始使用 — 繼續登入",
-        "aria": "免費計劃"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "所有基本功能，冇廣告。適合日常訊息同通話。",
-        "features": {
-          "allFree": "免費版全部功能，加冇廣告",
-          "forwarding": "將通話同訊息轉寄去你真實電話號碼",
-          "history": "更長訊息記錄（最長 6 個月）",
-          "support": "更快支援"
-        },
-        "badge": "受歡迎",
-        "cta": "去廣告版",
-        "ctaPublic": "攞 Plus — 繼續登入",
-        "aria": "升級去 Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium（每月）",
-        "price": "$11.99",
-        "desc": "完整 Chatforia 體驗：AI 強大工具、自訂，同優先支援。",
-        "features": {
-          "plusAll": "Plus 全部功能",
-          "themes": "解鎖全部高級顏色主題同應用程式自訂",
-          "ai": "Premium 專屬 AI 強大工具：重寫、智能回覆、同摘要",
-          "support": "最需要時嘅優先支援"
-        },
-        "badge": "推薦",
-        "cta": "升級（每月）",
-        "ctaPublic": "解鎖 Premium — 繼續登入",
-        "aria": "升級去 Premium 每月"
-      },
-      "premiumAnnual": {
-        "title": "Premium（每年）",
-        "price": "$99",
-        "desc": "每年收費更慳 — 包括額外顏色主題、AI 工具，同優先支援。",
-        "features": {
-          "allPremium": "Premium 每月版全部功能 — 包括額外顏色主題",
-          "annualBilling": "每年一次收費",
-          "save25": "比每月收費慳大約 30%",
-          "bestFor": "適合重度用戶、遙距工作同頻繁出差人士"
-        },
-        "badge": "慳 30%",
-        "cta": "升級（每年）",
-        "ctaPublic": "每年慳 30% — 繼續登入",
-        "aria": "升級去 Premium 每年",
-        "disclaimer": "預先收費。可隨時取消。冇隱藏費用。"
-      }
-    },
-    "marketing": {
-      "freeTitle": "免費",
-      "freeDesc": "免費用訊息。",
-      "plusTitle": "Plus",
-      "plusBadge": "受歡迎",
-      "plusDesc": "最抵嘅去廣告體驗。",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "完整功能、鈴聲，同 AI 強大工具。",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "每年收費更慳。",
-      "annualDisclaimer": "預先收費。可隨時取消。冇隱藏費用。"
-    },
-    "mobile": {
-      "title": "Chatforia 流動（eSIM 數據包）",
-      "subtitle": "加全球數據，令 Chatforia 離開 Wi-Fi 都繼續運作。價錢會自動根據你國家同貨幣調整。",
-      "subtitle.detail": "揀一次過全球數據包，令 Chatforia 出差或離開 Wi-Fi 時都繼續運作。",
-      "scope": {
-        "local": "本地",
-        "europe": "歐洲",
-        "global": "全球"
-      },
-      "note": "我哋唔賣少過 3 GB 嘅數據包。",
-      "localEquals": "本地 = {{country}}",
-      "localEqualsFallback": "本地 = 你目前國家",
-      "perPack": "/ 包",
-      "cta": "攞呢個數據包",
-      "ctaPublic": "攞呢個數據包",
-      "checkout": {
-        "redirecting": "轉移緊…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "高速數據適合重度使用",
-          "throttle": "高用量後速度可能減慢",
-          "coverage": "可靠覆蓋",
-          "instant": "即時 eSIM 激活",
-          "noContract": "一次過數據包，冇合約"
+        "plus": {
+          "title": "Plus",
+          "price": "$6.99"
         }
       },
-      "disclaimer": {
-        "devices": "eSIM 數據包需要支援 eSIM 並已解鎖嘅裝置。可用性視乎電話型號、電訊商同國家而定。覆蓋同速度視地區而定。"
-      },
-      "small": {
-        "title": "入門包",
-        "desc": "包括 3 GB 高速數據 — 適合輕度訊息同偶爾通話。",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "短途旅行、輕度訊息同偶爾通話",
-        "aria": "買入門 eSIM 數據包"
-      },
-      "medium": {
-        "title": "旅行包",
-        "desc": "包括 5 GB 高速數據，適合旅行、通勤同定期 VoIP 通話。",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "週末旅行、定期 VoIP 通話同地圖",
-        "aria": "買旅行 eSIM 數據包"
-      },
-      "large": {
-        "title": "強力包",
-        "desc": "包括 10 GB 高速數據，適合 Chatforia 網絡重度聊天、通話同視像。",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "重度聊天、通話、視像同熱點使用",
-        "aria": "買強力用戶 eSIM 數據包"
-      },
-      "compare": {
-        "title": "比較 eSIM 數據包",
-        "col": {
-          "pack": "數據包",
-          "data": "包含數據",
-          "bestFor": "最適合"
-        },
-        "disclaimer": "實際數據用量視乎你點樣用 Chatforia（語音、視像、媒體，同手機上其他應用程式）。"
+      "ctaCurrent": "現有計劃",
+      "ctaManage": "在賬單中管理",
+      "ctaPublic": "開始 - 繼續登入",
+      "aria": "免費計劃"
+    }
+  },
+  "desc": "所有基本功能,無廣告。日常訊息同通話嘅好選擇。",
+  "features": {
+    "allFree": "免費版所有功能,無廣告",
+    "forwarding": "將來電同訊息轉駁到你嘅真實電話號碼",
+    "歷史": "更長嘅訊息記錄(最多6個月)",
+    "支援": "出現問題時獲得更快支援"
+  },
+  "徽章": "熱門",
+  "cta": "移除廣告",
+  "ctaPublic": "升級至 Plus - 繼續登入",
+  "aria": "升級至 Plus",
+  "premiumMonthly": {
+    "title": "高級 (每月)",
+    "price": "$11.99",
+    "desc": "完整 Chatforia 體驗:AI 強大工具、自訂化同優先支援。",
+    "features": {
+      "plusAll": "Plus 內所有功能",
+      "themes": "解鎖所有高級彩色主題同應用程式自訂選項",
+      "ai": "僅限 Plus 的 AI 強大工具,支援重寫、智能回覆同摘要",
+      "support": "最需要幫助時享優先支援"
+    },
+    "badge": "推薦",
+    "cta": "升級 (每月)",
+    "ctaPublic": "解鎖 Premium - 繼續登入",
+    "aria": "升級至每月 Premium"
+  },
+  "premiumAnnual": {
+    "title": "Premium (年度)",
+    "price": "$99",
+    "desc": "每年一次收費更慳錢 - 包括額外主題顏色、AI 工具同優先支援。",
+    "features": {
+      "allPremium": "每月 Premium 所有功能 - 包括額外主題顏色",
+      "annualBilling": "每年一次過收費",
+      "save25": "與每月付款相比可節省約30%",
+      "bestFor": "最適合重度用戶、遠程工作者及經常出差人士"
+    },
+    "badge": "節省30%",
+    "cta": "升級 (年度)",
+    "ctaPublic": "年度訂閱慳30% - 繼續登入",
+    "aria": "升級至年度Premium",
+    "disclaimer": "一次過收費。隨時取消。無隱藏收費。"
+  },
+  "marketing": {
+    "freeTitle": "免費",
+    "freeDesc": "免費開始發訊息。",
+    "plusTitle": "Plus",
+    "plusBadge": "熱門",
+    "plusDesc": "最平價無廣告體驗。",
+    "premiumMonthlyTitle": "Premium",
+    "premiumMonthlyDesc": "完整功能、鈴聲同 AI 強大工具.",
+    "premiumAnnualTitle": "Premium",
+    "premiumAnnualDesc": "每年收費更慳錢.",
+    "annualDisclaimer": "一次過收費. 隨時取消. 無隱藏收費."
+  },
+  "mobile": {
+    "title": "Chatforia 手機版 (eSIM 數據包)",
+    "subtitle": "加入全球數據,即使冇 Wi-Fi 都可以繼續用 Chatforia。價格會根據你嘅國家同貨幣自動調整.",
+    "subtitle.detail": "揀一次過嘅全球數據包,咁 Chatforia 喺你旅行或者冇 Wi-Fi 嘅時候都繼續運作.",
+    "scope": {
+      "local": "本地",
+      "europe": "歐洲",
+      "global": "全球"
+    },
+    "localEquals": "Local = {{country}}",
+    "localEqualsFallback": "Local = 你而家嘅國家",
+    "perPack": "/ pack",
+    "cta": "取得呢個數據包",
+    "ctaPublic": "取得呢個數據包",
+    "checkout": {
+      "redirecting": "重定向中…"
+    },
+    "unlimited": {
+      "features": {
+        "heavyUse": "高用量嘅高速數據",
+        "throttle": "高速數據受公平使用同網絡管理政策約束",
+        "coverage": "可靠嘅覆蓋",
+        "instant": "即時 eSIM 啟動",
+        "noContract": "一次性套餐,無合約"
       }
+    },
+    "免責聲明": {
+      "裝置": "eSIM 數據包需配合支援 eSIM 並已解鎖嘅裝置使用。可用性會因手機型號、電訊商同地區而異。覆蓋範圍同速度因地區而異。"
+    },
+    "數據包": {
+      "3gb": {
+        "title": "{{scope}} 3 GB"
+      },
+      "5gb": {
+        "title": "{{scope}} 5 GB"
+      },
+      "10gb": {
+        "title": "{{scope}} 10 GB"
+      },
+      "20gb": {
+        "標題": "{{scope}} 20 GB"
+      },
+      "無限量": {
+        "標題": "{{scope}} 無限量"
+      }
+    },
+    "比較": {
+      "標題": "比較 eSIM 數據套裝",
+      "col": {
+        "pack": "套裝",
+        "data": "包含數據",
+        "bestFor": "最啱用嚟做"
+      },
+      "免責聲明": "實際數據用量視乎你點用 Chatforia (通話、影片、媒體同手機上其他應用程式)."
+    }
+  },
+  "家庭": {
+    "標題": "Chatforia 家庭計劃 (共用數據)",
+    "副標題": " 與家人共用一個數據池。一張賬單、多個 Chatforia 帳戶、全球覆蓋。",
+    "perPack": "/ pack",
+    "small": {
+      "title": "家庭小套餐",
+      "desc": "包含 20GB 共享高速數據 - 適合 2-3 名輕度用戶。",
+      "price": "$29.99",
+      "aria": "買家庭小套餐"
+    },
+    "medium": {
+      "title": "家庭中套餐",
+      "desc": "包括40 GB共享高速數據 - 適合3至5個活躍成員.",
+      "price": "$49.99",
+      "aria": "買家庭中碼套餐"
+    },
+    "large": {
+      "title": "家庭大碼",
+      "desc": "包括80 GB共享高速數據──專為經常上網嘅家庭而設。",
+      "price": "$84.99",
+      "aria": "購買家庭大容量套裝"
+    },
+    "feature": {
+      "shared": "家庭共享數據池",
+      "members": "最多邀請額外 4 位成員",
+      "更多成員": "適合 3-5 位活躍成員",
+      "管理": "為每位成員管理用量限制",
+      "增值": "隨時加購更多數據包",
+      "最抵": "每GB最抵",
+      "公平使用": "受公平使用政策及本地限制約束"
+    },
+    "免責聲明": "家庭套餐會建立或增值一個共享數據池。你隨時可以邀請同移除成員。",
+    ",\n\"腳註": "家庭套餐會喺連結嘅 Chatforia 帳戶之間共用同一個數據池。可用性同限制視乎你嘅國家同當地法例而定。"
+  },
+  "點解": {
+    "標題": "點解人哋轉用 Chatforia",
+    "副標題": "Chatforia 畀你真實電話號碼、智能翻譯,仲有清晰嘅途徑,等你準備好就免廣告.",
+    "card": {
+      "textnow": {
+        "title": "Chatforia vs TextNow",
+        "body": "免費版廣告較輕量,準備好時可輕鬆升級至 Plus,並提供 TextNow 沒有的 Premium 工具。"
+      },
+      "voice": {
+        "title": "Chatforia vs Google Voice",
+        "body": "現代化應用程式,全球 -優先設計,內置翻譯,唔係用舊式轉駁電話。"
+      },
+      "messengers": {
+        "title": "Chatforia vs 聊天應用程式",
+        "body": "用真實電話號碼發送訊息--唔只係其他應用程式用戶--內置 AI 同狀態功能。如果你由 TextFree 或 TextMe 嚟,就最啱用。"
+      }
+    },
+    "tableTitle": "Chatforia 同其他嘅比較",
+    "col": {
+      "feature": "功能"
+    },
+    "feature": {
+      "freeNumber": "免費電話號碼",
+      "translation": "內置自動翻譯",
+      "aiTools": "AI 工具 (重寫、回覆、摘要)",
+      "ads": "無廣告選項",
+      "history": "訊息記錄"
+    },
+    "yes": "Yes",
+    "no": "No",
+    "yesPremium": "Yes (Premium)",
+    "plusPremium": "Plus & Premium",
+    "limited": "Limited",
+    "nA": "N/A",
+    "history": {
+      "chatforia": "最多12+個月",
+      "textnow": "視乎帳戶而定",
+      "voice": "有限制 / 以帳戶為本"
+    },
+    "免責聲明": "比較係基於公開資料,並可能隨時間更改。其他免費短訊應用程式,例如 TextFree 或 TextMe,一般都同 TextNow 差唔多。"
+  },
+  "faq": {
+    "title": "收費及計劃常見問題",
+    "free": {
+      "q": "免費計劃真係免費咩?"
+    },
+    "plusPremium": {
+      "q": "Plus 同 Premium 有咩分別?",
+      "a": "Plus 計劃移除廣告,並延長你的訊息記錄--非常適合日常使用。Premium 計劃則加入額外自訂功能、AI 重寫及回覆工具,以及為重度用戶提供優先支援。"
+    },
+    "esim": {
+      "q": "eSIM數據包喺邊度用得?",
+      "a": "Chatforia Mobile 採用全球 eSIM 覆蓋。可用性視乎你嘅國家同裝置。你喺應用程式入面啟動時就會見到支援嘅選項。"
+    },
+    "取消": {
+      "q": "我可唔可以隨時取消或更改計劃?",
+      "a": "可以。你可以喺應用程式嘅賬單頁面管理或取消訂閱。更改會喺你現有賬單週期結束時生效。"
     },
     "family": {
-      "title": "Chatforia 家庭（共享數據）",
-      "subtitle": "喺家人之間共享一個數據池。一張單，多个 Chatforia 帳戶，全球覆蓋。",
-      "perPack": "/ 包",
-      "small": {
-        "title": "家庭小",
-        "desc": "包括 20 GB 共享高速數據 — 適合 2–3 個輕度用戶。",
-        "price": "$29.99",
-        "aria": "買家庭小數據包"
-      },
-      "medium": {
-        "title": "家庭中",
-        "desc": "包括 40 GB 共享高速數據 — 適合 3–5 個活躍成員。",
-        "price": "$49.99",
-        "aria": "買家庭中數據包"
-      },
-      "large": {
-        "title": "家庭大",
-        "desc": "包括 80 GB 共享高速數據 — 適合經常在線嘅強力家庭。",
-        "price": "$84.99",
-        "aria": "買家庭大數據包"
-      },
-      "feature": {
-        "shared": "家人共享數據池",
-        "members": "最多邀請 4 個額外成員",
-        "membersMore": "適合 3–5 個活躍成員",
-        "manage": "為每個成員管理限制",
-        "topUp": "隨時加更多數據包",
-        "bestValue": "每 GB 最抵",
-        "fairUse": "受公平使用政策同本地限制"
-      },
-      "disclaimer": "家庭數據包會建立或增值共享數據池。你可以隨時邀請或移除成員。",
-      "footnote": "家庭數據包喺已連結 Chatforia 帳戶之間共享一個數據池。可用性同限制視乎你國家同本地法規。"
+      "q": "家庭套餐點樣運作?",
+      "a": "家庭套餐會喺多個 Chatforia 帳戶之間建立一個共享數據池。一個人付帳單,你可以邀請或移除成員,並為每個人設定用量上限。"
+    }
+  },
+  "family": {
+    "title": "家庭",
+    "loading": "正在加载你的家庭详情…",
+    "error": {
+      "load": "加载家庭详情失败。",
+      "invite": "无法创建邀请。请确认你是家庭所有者,再试一次。",
+      "checkout": "无法开始家庭套餐的结算。请再试一次。"
     },
-    "why": {
-      "title": "點解人哋轉用 Chatforia",
-      "subtitle": "Chatforia 畀你真實電話號碼、智能翻譯，同清楚嘅去廣告途徑。",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "免費版廣告較少，簡單 Plus 升級，仲有 TextNow 冇嘅 Premium 工具。"
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "現代應用程式、全球優先設計，同內建翻譯，而唔係舊式通話轉寄。"
-        },
-        "messengers": {
-          "title": "Chatforia vs 聊天應用程式",
-          "body": "可以傳真實電話號碼 — 唔止應用程式用戶 — 仲有 AI 同狀態。適合由 TextFree 或 TextMe 等應用程式轉嚟。"
-        }
-      },
-      "tableTitle": "Chatforia 點樣比較",
-      "col": {
-        "feature": "功能"
-      },
-      "feature": {
-        "freeNumber": "免費電話號碼",
-        "translation": "內建自動翻譯",
-        "aiTools": "AI 工具（重寫、回覆、摘要）",
-        "ads": "去廣告選項",
-        "history": "訊息記錄"
-      },
-      "yes": "有",
-      "no": "冇",
-      "yesPremium": "有（Premium）",
-      "plusPremium": "Plus 同 Premium",
-      "limited": "有限",
-      "nA": "不適用",
-      "history": {
-        "chatforia": "最長 12 個月以上",
-        "textnow": "視乎帳戶",
-        "voice": "有限 / 視乎帳戶"
-      },
-      "disclaimer": "比較基於公開資料，可能隨時間改變。其他免費傳訊應用程式如 TextFree 或 TextMe 大致同 TextNow 類似。"
+    "billing": {
+      "myPlanTitle": "我嘅計劃",
+      "myPlanError": "無法載入你嘅計劃。",
+      "myPlanLoading": "正在載入你嘅計劃…",
+      "currentPlan": "現有計劃",
+      "renewsAt": "續約時間",
+      "freePlanCopy": "你而家用緊免費計劃。升級以解鎖更多功能。",
+      "upgradeCta": "升級計劃",
+      "changePlanCta": "更改計劃",
+      "manageBilling": "管理帳單",
+      "portalError": "而家打唔開帳單入口.",
+      "cancelNow": "而家取消",
+      "cancelNowHelp": "你可以喺帳單入口管理或取消訂閱,或者喺下面即時取消.",
+      "cancelNowConfirm": "你確定要即時取消你嘅計劃?此操作無法撤銷.",
+      "cancelNowError": "而家未能取消你嘅計劃。請再試一次或者使用\"管理賬單\"."
     },
+    "none": {
+      "title": "未設家庭成員",
+      "body": "要建立 Chatforia 家庭同共享資料庫,請開始家庭計劃。",
+      "goUpgrade": "開始家庭計劃",
+      "viewPlans": "檢視所有計劃"
+    },
+    "group": {
+      "defaultName": "我的 Chatforia 家庭",
+      "role": "你的角色:{{role}}"
+    },
+    "role": {
+      "owner": "擁有人",
+      "member": "成員"
+    },
+    "data": {
+      "heading": "共享資料庫",
+      "caption": "所有成員共用此資料庫。當你接近容量上限時,我們會發出警告。"
+    },
+    "members": {
+      "title": "家庭成員",
+      "name": "姓名",
+      "role": "角色",
+      "usage": "用途",
+      "limit": "限制",
+      "unlimited": "無特定限制",
+      "inviteCta": "邀請成員"
+    },
+    "invite": {
+      "title": "邀請新成員",
+      "body": "發送電郵或連結,邀請其他人加入你嘅共享家庭資料池。",
+      "emailLabel": "電郵 (可選)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "建立邀請",
+      "linkLabel": "邀請連結",
+      "copyAria": "複製邀請連結",
+      "expiryHint": "呢條連結幾日後會過期。你可以隨時建立新嘅。"
+    },
+    "join": {
+      "title": "加入家庭",
+      "body": "你已經獲邀加入 Chatforia 家庭,並分享佢哋嘅資料庫。",
+      "cta": "接受並加入家庭",
+      "ctaLogin": "簽入並加入家庭",
+      "success": "你已經加入咗呢個家庭。你而家同佢哋共用資料庫.",
+      "goFamily": "去家庭儀表板",
+      "error": "我哋未能將你加入呢個家庭。邀請可能無效或者已經過期."
+    }
+  },
+  "隨機聊天": {
+    "標題": "隨機聊天",
+    "副標題": "即刻認識新朋友,或者揀同Ria傾偈。",
+    "開始": "開始對話",
+    "描述": "先匿名傾偈,啱feel先加朋友。",
+    "搵配對": "搵配對我",
+    "同Ria傾偈": "同Ria傾偈",
+    "setAge": "喺個人檔案 → 年齡及隨機聊天設定你嘅年齡範圍,就會配對到相符嘅人。",
+    ",\n\"idle": "閒置",
+    "matching": "配對中…",
+    "searching": "搜尋中…",
+    "cancel": "取消",
+    "connectionProblem": "連線問題",
+    "ai": "AI",
+    "匿名": "匿名",
+    "以 ____ 身份連線": "以 ____ 身份連線",
+    "等待對方接受好友請求": "等待對方接受好友請求…",
+    "用戶名隱藏": "用戶名會隱藏",
+    "直到雙方都選擇加好友。\"riaSeparate": "隨時同 Ria 傾偈 - 同隨機配對人類分開.",
+    "sendMessage": "發送訊息",
+    "chatEnded": "聊天結束",
+    "conversationEnded": "嗰段對話已經結束.",
+    "findAnotherMatch": "搵另一個配對",
+    "next": "下一個",
+    "addFriend": "加朋友",
+    "requested": "Requested",
+    "leave": "離開",
+    "messageRia": "傳訊畀Ria…",
+    "messageMatch": "傳訊畀你嘅配對…",
+    "chatWithForia": "同Foria傾偈",
+    "chatWithForiaBot": "同ForiaBot傾偈",
+    "close": "關閉",
+    "finding": "搵緊…",
+    "looking": "搵緊人…",
+    "startingForia": "開始同 Foria 傾偈…",
+    "partnerDisconnected": "對方斷線咗。",
+    "noPartner": "而家搵唔到對方。",
+    "connectedTo": "連線到 {{name}}",
+    "connected": "已連線",
+    "partnerLeft": "對方離開咗。",
+    "stopped": "停咗.",
+    "skip": "跳過",
+    "save": "儲存",
+    "saveGuard": "只有人與人之間嘅對話先可以儲存",
+    "youAreChattingWith": "你而家同 { {name}}",
+    "bot": "機械人",
+    "sayHi": "嗨 👋",
+    "you": "你",
+    "typeMessage": "打字",
+    "send": "發送",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "開始同 Ria 傾偈…",
+    "ageDisclaimer": "我哋只會儲存年齡範圍(唔係你嘅確實出生日期)。呢個用嚟令隨機聊天配對合理。要同其他人(唔只係 RiaBot)配對,請喺\"設定 → 年齡及隨機聊天\"設定你嘅年齡範圍。",
+    "ageBandRequired": "請喺\"個人檔案 → 年齡及隨機聊天\"設定你嘅年齡範圍,先可以同真人配對。",
+    "ageBandCallout": "要同真人配對(唔只係 RiaBot),請喺\"設定 → 年齡及隨機聊天\"設定你嘅年齡範圍。"
+  },
+  "ria": {
+    "fallbackName": "嗨",
+    "intro": "嗨 👋 我係 Ria。你有咩想講呀?",
+    "greetings": {
+      "long1": "嗨 {{name}} 👋 我喺度。你有咩想講呀?",
+      "long2": "Hi {{name}} 😊 今日想傾咩呀?",
+      "long3": "Hey {{name}}! 我洗耳恭聽--有咩嘢講?",
+      "long4": "好開心見到你,{{name}} 👋 今日有咩嘢喺心?",
+      "long5": "喂 {{name}} 🙂 想抒發一下、想問嘢,定係淨係想傾偈?",
+      "long6": "Hi {{name}}!我有時間--你想傾咩?",
+      "short1": "喂 {{name}},我仲喺度。有咩嘢?",
+      "short2": "歡迎返嚟 {{name}} 👋 仲有咩想講?",
+      "short3": " 又返嚟喇,{{name}}?😊 同我講下你心入面諗緊啲乜嘢啦。",
+      "short4": "喂 {{name}} ✨ 準備好由我哋上次停低嗰度繼續傾啦?",
+      "short5": "係呀 {{name}}?我聽緊你講 👂",
+      "short6": "噢喂 {{name}}!你有冇新嘢想同我講呀?"
+    },
+    "header": {
+      "openNav": "打開導航選單",
+      "closeNav": "關閉導航選單",
+      "homeAria": "Chatforia 主頁"
+    },
+    "login": {
+      "welcomeBack": "歡迎回歸",
+      "title": "繼續使用 Chatforia",
+      "subtitleReturning": "登入你的 Chatforia 帳戶",
+      "google": "繼續使用 Google",
+      "apple": "繼續使用 Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google 登入中斷",
+      "appleUnavailable": "Apple 登入中斷",
+      "ssoUnavailable": "單一登入目前無法使用。請改用用戶名及密碼登入。",
+      "or": "或",
+      "accountLabel": "帳戶",
+      "identifierPh": "電郵或用戶名",
+      "passwordLabel": "密碼",
+      "passwordPh": "你的密碼",
+      "keepSignedIn": "保持登入",
+      "forgot": "忘記密碼?",
+      "resendVerification": "重寄驗證電郵",
+      "submit": "登入",
+      "loggingIn": "正在登入…",
+      "verification": {
+        "sent": "已發送驗證電郵。請檢查你的收件箱。",
+        "failed": "無法重新發送驗證電郵。"
+      },
+      "error": {
+        "missing": "請輸入你的登入資料。",
+        "invalid": "用戶名或密碼無效",
+        "denied": "存取被拒絕。",
+        "unprocessable": "請求無效。請檢查你的用戶名/電郵和密碼。",
+        "deviceLimit": "免費方案已達裝置上限。請在其他裝置登出,或升級至 Premium 方案以連結更多裝置。",
+        "premiumRequired": "此操作需為 Premium 方案。"
+      },
+      "forgotPassword": {
+        "標題": "忘記密碼",
+        "提示": "請輸入您用來註冊 Chatforia 帳戶的電郵地址,我們會發送一條安全連結讓您重設密碼。",
+        "電郵標籤": "電郵",
+        "電郵預填文字": "you@example.com",
+        "emailInvalid": "請輸入有效嘅電郵地址。",
+        "genericError": "無法處理請求。請一陣再試。",
+        "sending": "發送重設連結中...",
+        "sendCta": "發送重設連結",
+        "sentLabel": "已寄!",
+        "sentHelper": "如果該電郵地址已有帳戶,我哋已經寄咗密碼重設連結。可能需要幾分鐘先收到。記得檢查你嘅垃圾郵件或推廣郵件資料夾。",
+        "previewDev": "預覽電郵 (開發)",
+        "backToLogin": "返去登入"
+      },
+      "resetPassword": {
+        "title": "重設密碼",
+        "missingToken": "無效或缺失密碼重設令牌。",
+        "missingTokenHelper": "令牌無效或缺失。請重新索取密碼重設連結。",
+        "passwordMismatch": "密碼不符",
+        "success": "您嘅密碼已成功重設",
+        "genericError": "錯誤:無法重設密碼。",
+        "newPasswordLabel": "新密碼",
+        "newPasswordPlaceholder": "輸入您嘅新密碼",
+        "confirmPasswordLabel": "確認新密碼",
+        "confirmPasswordPlaceholder": "再次輸入您嘅新密碼",
+        "重設": "重設中...",
+        "提交": "重設密碼",
+        "強密碼提示": "選擇一個你喺其他地方都唔用嘅強密碼。"
+      }
+    }
+  },
+  "oauth": {
+    "完成": " 完成登入…"
+  },
+  "支援": {
+    "helpFab": "協助",
+    "openSupportAria": "開啟支援",
+    "badge": "支援",
+    "heading": "我哋可以點幫到你?",
+    "tabs": {
+      "help": "協助中心",
+      "contact": "聯絡我哋"
+    },
+    "searchPlaceholder": "搜尋幫助文章…",
+    "searchAria": "搜尋幫助",
+    "searchBtn": "搜尋",
+    "quickTopicsLabel": "快速主題",
+    "quickTopics": {
+      "login": "登入失敗",
+      "billing": "收費 / billing",
+      "abuse": "舉報濫用"
+    },
+    "trySearching": "試下搜尋\"翻譯\"、\"備份\"或\"私隱\".",
+    "article": "文章",
+    "openArticle": "打開文章",
+    "contactIntro": "我哋會盡快為你解決。如果唔得,我哋嘅團隊會跟進。",
+    ",\n\"topicAria": "揀一個主題",
+    "messagePlaceholder": "寫你嘅訊息…",
+    "sendBtn": "傳送",
+    "sent": "訊息已傳送。我哋會電郵覆回。",
+    "sendError": "未能發送。請改以電郵 support@chatforia.com 聯絡。",
+    "actionCompleted": "操作已完成。",
+    "actionFailed": "未能完成該操作。請再次嘗試。",
+    "ticketCreated": "我們未能自動解決此問題。我們的團隊會跟進。",
+    "escalationMessage": "我們未能自動解決此問題。我們的團隊會跟進。",
+    "genericError": "出咗啲問題。請再試一次。",
+    "analyzing": "分析緊你嘅問題...",
+    "takeAction": "採取建議嘅行動",
+    "resolvedInstantly": "問題即時解決 - 唔使開工單。",
+    "escalating": "已 escalate 畀支援團隊..."
+  },
+  "help": {
+    "title": "協助",
+    "howCanWeHelp": "我哋可以點樣幫到你?",
+    "helpCenter": "協助中心",
+    "contactUs": "聯絡我哋",
+    "quickTopics": "快速主題",
+    "searchExamples": "試下搜尋\"翻譯\"、\"備份\"或\"私隱\"。",
+    "登唔入": "登唔入",
+    "付款賬單": "付款/賬單",
+    "reportAbuse": "舉報濫用",
+    "searchHelpArticles": "搜尋幫助文章",
+    "search": "搜尋"
+  },
+  "helpCenter": {
+    "title": "協助中心",
     "faq": {
-      "title": "價錢同計劃常見問題",
-      "free": {
-        "q": "免費計劃係咪真係免費？",
-        "a": "係。免費計劃包括 Chatforia 號碼、通話同訊息，應用程式內有廣告。你可以永久用免費版，或者升級移除廣告同解鎖更多功能。"
+      "account": {
+        "q": "我點樣建立或取回我嘅帳戶?",
+        "a": "下載應用程式或使用網頁版,點擊\"建立帳戶\",驗證你的電郵/電話號碼。要找回密碼,請使用\"忘記密碼\"."
       },
-      "plusPremium": {
-        "q": "Plus 同 Premium 有乜分別？",
-        "a": "Plus 移除廣告同延長訊息記錄 — 適合日常使用。Premium 加額外自訂、AI 重寫同回覆工具，同重度用戶嘅優先支援。"
+      "privacy": {
+        "q": "訊息會唔會做端對端加密?",
+        "a": "係。訊息同通話預設都係端對端加密。只有你同收件人先可以睇到佢哋。"
       },
-      "esim": {
-        "q": "eSIM 數據包喺邊度用？",
-        "a": "Chatforia 流動用全球 eSIM 覆蓋。可用性視乎你國家同裝置。你喺應用程式內激活時會見到支援選項。"
+      "translate": {
+        "q": "即時翻譯點樣運作?",
+        "a": "喺\"設定\"→\"外觀與語言\"開啟\"自動翻譯\"。我哋會喺支援嘅裝置上本地翻譯,否則會透過安全嘅 API 同最少嘅元數據進行翻譯。"
       },
-      "cancel": {
-        "q": "我可唔可以隨時取消或改計劃？",
-        "a": "可以。你喺應用程式帳單頁可以管理或取消訂閱。更改會喺目前計費週期結束時生效。"
-      },
-      "family": {
-        "q": "家庭數據包點樣運作？",
-        "a": "家庭數據包喺多個 Chatforia 帳戶之間建立共享數據池。一個人付款，你可以邀請或移除成員，並為每個人設定限制。"
+      "contact": {
+        "q": "聯絡支援",
+        "a": "請電郵至 support@chatforia.com 聯絡我們。並附上截圖及應用程式版本。"
       }
+    }
+  },
+  "gettingStarted": {
+    "title": "開始使用",
+    "subtitle": "第一次使用 Chatforia?本快速入門指南將介紹基本操作,助你數分鐘內投入使用。",
+    "alert": {
+      "text": "當我哋推出新功能時,呢份指南會不斷擴充。如果發現有咩缺漏,請透過",
+      "contactLink": "聯絡我哋"
     },
-    "gettingStarted": {
-      "title": "開始使用",
-      "subtitle": "新嚟 Chatforia？呢個快速指南顯示基本步驟，令你幾分鐘內就可以開始用。",
-      "alert": {
-        "text": "呢個指南會隨新功能推出而更新。如果有咩缺失，歡迎透過",
-        "contactLink": "聯絡我哋"
-      },
-      "section1": {
-        "title": "1) 建立你嘅帳戶",
-        "signup": "註冊",
-        "or": "或者",
-        "login": "登入",
-        "loginText": "用你現有帳戶。",
-        "prefsStart": "設定你嘅",
-        "prefsLink": "偏好設定",
-        "prefsRest": "（語言、已讀回條、主題）。"
-      },
-      "section2": {
-        "title": "2) 開始用訊息",
-        "item1": "建立 DM 或群組並傳送你第一條訊息。",
-        "item2": "用即時翻譯同 100+ 種語言傾偈。",
-        "item3": "試下自動消失訊息同已讀回條，去「個人檔案 → 私隱」。"
-      },
-      "section3": {
-        "title": "3) 更進一步",
-        "item1": "你可以隨時喺應用程式內升級去付費計劃。",
-        "item2": "登入之後，你可以連結額外裝置，同喺應用程式設定入面設定加密備份。"
-      },
-      "cta": {
-        "seePlans": "睇計劃",
-        "openSettings": "打開設定"
-      }
+    "section1": {
+      "title": "1) 建立帳戶",
+      "signup": "註冊",
+      "or": "or",
+      "login": "登入",
+      "loginText": "用你現有嘅帳戶.",
+      "prefsStart": "喺應用程式入面,打開\"設定\"去設定你嘅偏好",
+      "prefsLink": "偏好設定",
+      "prefsRest": "(語言、閱讀回執、 主題)."
     },
-    "helpCenter": {
-      "title": "幫助中心",
-      "faq": {
-        "account": {
-          "q": "我點樣建立或恢復帳戶？",
-          "a": "下載應用程式或用網頁版，撳「建立帳戶」，驗證電郵/電話。要恢復，用「忘記密碼」。"
-        },
-        "privacy": {
-          "q": "訊息係咪端到端加密？",
-          "a": "係。訊息同通話預設端到端加密。只有你同收件人可以睇到。"
-        },
-        "translate": {
-          "q": "即時翻譯點樣運作？",
-          "a": "去「設定 → 外觀同語言」開啟「自動翻譯」。支援嘅地方會喺裝置上翻譯，否則用安全 API 並只傳最少元數據。"
-        },
-        "contact": {
-          "q": "聯絡支援",
-          "a": "用 support@chatforia.com 聯絡我哋。記住附上截圖同你應用程式版本。"
-        }
-      }
+    "section2": {
+      "title": "2) 開始訊息傳遞",
+      "item1": "建立私人訊息或群組並發送你的第一則訊息。",
+      "item2": "使用即時翻譯跨語言聊天,支援100多種語言。",
+      "item3": " 喺\"個人檔案 → 私隱\"試下消失訊息同閱讀回執。"
+    },
+    "section3": {
+      "title": "3) 更進一步",
+      "item1": "你隨時可以喺應用程式內升級至付費方案。",
+      "item2": "一旦你登入,就可以喺應用程式設定中連結額外裝置並設定加密備份。"
+    },
+    "cta": {
+      "seePlans": "查看方案及收費",
+      "openSettings": "打開設定",
+      "createAccount": " 建立帳戶"
+    }
+  },
+  "howItWorks": {
+    "title": "Chatforia 如何運作",
+    "intro": "Chatforia 旨在令溝通更簡單、更快捷、更普及。只需幾個步驟即可開始使用。",
+    "step1Title": "1. 建立帳戶",
+    "step1Desc": "使用電郵或用戶名註冊,建立你的 Chatforia 帳戶。",
+    "step2Title": "2. 開始對話",
+    "step2Desc": "透過揀聯絡人或開新對話室同其他人聯繫.",
+    "step3Title": "3. 即時訊息",
+    "step3Desc": "訊息會快速送達,提供順暢嘅溝通體驗.",
+    "step4Title": "4. 全球溝通",
+    "step4Desc": "內置翻譯功能,助你跨語言溝通。",
+    "step5Title": "5. 保持掌控",
+    "step5Desc": "管理你嘅偏好、聯絡人同通訊設定."
+  },
+  "安全": {
+    "標題": "安全及社群指引",
+    "簡介": "Chatforia 致力為所有用家維持安全同尊重嘅環境。呢啲指引有助確保每個人都有正面嘅體驗.",
+    "尊重標題": "尊重嘅溝通",
+    "尊重描述": "用戶應該保持尊重嘅溝通。騷擾、虐待或有害嘅行為係唔容許嘅।",
+    "禁止標題": "禁止內容",
+    "禁止": {
+      "違法": "非法活動",
+      "騷擾": "騷擾或欺凌",
+      "仇恨": "仇恨言論或歧視",
+      "explicit": "露骨或有害嘅內容",
+      "spam": "垃圾訊息或欺騙性行為"
+    },
+    "toolsTitle": "用戶安全工具",
+    "tools": {
+      "report": "舉報不當行為或內容",
+      "block": "封鎖用戶以防止進一步互動",
+      "control": "管理私隱及通訊設定"
+    },
+    "enforcementTitle": "執行",
+    "enforcementDesc": "我們可能會對違反這些指引的帳戶採取行動,包括發出警告、實施限制,或永久移除帳戶。"
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "點解訊息平台而家比以往更重要",
+      "intro": "訊息平台已經成為而家世界最重要嘅溝通工具之一。無論係私人對話定係商業互動,訊息應用程式都可以令大家即刻又高效咁保持聯繫。",
+      "日常標題": "日常生活溝通",
+      "日常描述": "人哋靠訊息應用程式同朋友、家人同同事做日常溝通。無論係簡單更新定係長篇對話,訊息都提供咗一種方便同靈活嘅方式去保持聯繫。",
+      "speedTitle": "速度同便利",
+      "speedDesc": "訊息平台其中一個最大優勢就係速度。訊息可以即時送達,令用家可以實時溝通。呢種便利性已經令訊息成為好多人首選嘅溝通方式。",
+      "globalTitle": "全球觸達",
+      "globalDesc": "訊息平台將全球的人連繫起來。只要有網絡,用戶就可以無關地點進行溝通,令建立人際關係同國際合作變得更簡單。",
+      "privacyTitle": "私隱同控制",
+      "privacyDesc": "現代訊息平台着重畀用戶掌控佢哋嘅資料同對話。例如加密、私隱設定同訊息控制等功能,令用戶可以安心溝通。",
+      "futureTitle": "訊息傳遞的未來",
+      "futureDesc": "訊息傳遞持續演變,加入 AI 驅動的回覆、翻譯及多媒體分享等新功能。隨着科技進步,訊息平台將變得更加強大與多功能。",
+      "outro": "Chatforia 正是秉持這些原則而建,提供快速、安全、 同埋一個方便用戶嘅訊息體驗,為緊密聯繫嘅世界而設。"
+    },
+    "global": {
+      "title": "打破隔閡",
+      "三方會議而家都可以好快喺訊息平台度搞掂。隨住科技不斷進步,全球溝通變得更快、更普及、更具包容性。\",\n\"破除障礙Title": "打破隔閡",
+      "破除障礙Desc": "溝通上最大嘅改變之一就係地理障礙嘅減少。而家人哋可以幾乎即時同全世界嘅人聯繫。無論係私人對話、商業定合作,訊息平台都令距離冇咁大限制 .",
+      "translationTitle": "翻譯科技嘅角色",
+      "translationDesc": "語言向來都係全球溝通最大嘅障礙之一。而家,內置嘅翻譯工具幫手彌補呢個差距。好似 Chatforia 呢類平台,就算唔同語言都可以更容易溝通,為連繫同理解創造咗新機會。",
+      "realtimeTitle": "即時連線",
+      "realtimeDesc": "速度係塑造現代溝通嘅關鍵因素。用家期望訊息可以快速送達,而現代基建就滿足咗呢個期望。即時訊息令對話更加自然同流暢。",
+      "Privacy and Security\",\n\"privacyDesc": "隨住通訊越嚟越數碼化",
+      "私隱同安全變得日益重要。用家想有信心佢哋嘅對話受到保護。例如加密同由用家控制嘅設定,就幫助提供更安全嘅通訊體驗。\"未來標題": "下一步",
+      "未來描述": "全球通訊的未來可能會包括更先進的工具,例如 AI 協助訊息傳遞、更佳的翻譯,以及更優質的用户體驗。隨着科技演進,通訊會持續變得更直觀、更易使用。",
+      "結尾": "像 Chatforia 这样的平台是这场变革的一部分,幫助人們更容易跨越語言和邊界建立連繫。"
+    },
+    "index": {
+      "title": "Chatforia 部落格",
+      "intro": "探索有關溝通、網上安全,以及訊息技術如何連接全球人們的見解。",
+      "post1": "如何安全地上網聊天",
+      "post2": "全球溝通的未來",
+      "post3": "訊息平台為何重要"
+    },
+    "chatSafely": {
+      "title": "點樣安全喺網上聊天",
+      "intro": "網上溝通令我哋比以往更容易同世界各地嘅人聯繫。無論係同朋友訊息溝通、認識新朋友,定係專業合作,訊息平台都喺日常生活入面扮演住好重要嘅角色。不過,保持網上安全同埋保持聯繫一樣重要。",
+      "personalInfo": {
+        "title": " 保護你嘅個人資料",
+        "body": "網上安全其中一條最重要嘅規則就係避免分享敏感嘅個人資料。呢啲包括你嘅住址、財務資料、密碼,或者任何可能被濫用嘅身份資料。就算係輕鬆嘅對話,都最好留意自己分享咗啲乜嘢同埋同邊個分享。     ",
+        "標題": "使用內置安全功能",
+        "內容": "現代訊息平台好似 Chatforia 都提供咗工具,幫助用戶保持安全。例如封鎖、舉報同私隱設定等功能,都係為咗俾用戶掌控自己嘅體驗。如果有人行為不當或者令你感到唔舒服,就要即刻使用呢啲功能。"
+      },
+      "騙案": {
+        "標題": "提防騙案",
+        "內容": "騙徒經常利用訊息平台嚟誘騙用戶分享私人資料或轉帳。要提防啲聽落太好以至於唔可信嘅訊息,例如突如其來嘅優惠、緊急請求,或者陌生連結。喺採取任何行動之前,一定要核實對方嘅身份。"
+      },
+      "responsibly": {
+        "title": "負責任地溝通",
+        "body": "尊重嘅溝通有助為每個人締造更安全嘅環境。避免參與有害或虐待性嘅對話,並留意你嘅言詞可能點樣影響他人。正面嘅互動有助為所有用家帶來更好嘅體驗。"
+      },
+      "whySafety": {
+        "title": "點解網上安全咁重要",
+        "body": "隨住數碼溝通持續增長,保持 安全同信任變得愈嚟愈重要。透過跟足基本安全措施同善用可用工具,用戶可以一邊享受訊息傳遞嘅好處,一邊將風險減到最低。"
+      },
+      "結論": "上網保持安全唔需要咩高深技術知識--只要有意識、小心謹慎同良好判斷力就得。養成正確習慣,你就可以自信同安全咁溝通。"
+    }
+  },
+  "about": {
+    "title": "關於 Chatforia",
+    "description": "Chatforia 係一個安全、多語言嘅通訊應用程式,具備端對端加密、即時翻譯同語音/視像通話功能。我哋嘅使命好簡單:幫助人哋安全、私隱同跨語言咁連繫。",
+    "valuesTitle": "我哋重視嘅",
+    "values": {
+      "privacy": "<b>以私隱為先:</b>預設端對端加密.",
+      "access": "<b>人人可及:</b>自動翻譯100+種語言.",
+      "control": "<b>控制:</b>訊息消失同閱後回執可選.",
+      "privacy_aria": "以私隱為先:預設端對端加密.",
+      "access_aria": "人人可及:自動翻譯100+種語言.",
+      "control_aria": "掌控:消失訊息同閱後回執可選."
+    },
+    "howTitle": "Chatforia點樣運作",
+    "howDescription": "訊息會喺你嘅裝置上加密,喺離開裝置之前就已經加密。翻譯、備份同裝置同步都係為咗減少我哋伺服器所見嘅資料而設計嘅。"
+  },
+  "press": {
+    "title": "新聞稿",
+    "contactLine": "如需傳媒查詢,請聯絡我哋:",
+    "boilerplateTitle": "常用介紹",
+    "boilerplateBody": "Chatforia 係一款以私隱為先嘅訊息應用程式,令跨語言聊天輕鬆無阻。訊息預設採用端對端加密,內置即時翻譯支援超過100種語言。用戶可以開啟訊息消失功能、讀取回執可選,並可跨裝置同步。支援 iOS、Android 同網頁版。",
+    "assetsTitle": " 品牌資產",
+    "assetsSubtitle": "標誌、截圖同產品圖片.",
+    "downloadCta": "下載媒體包",
+    "downloadTitle": "下載應用程式",
+    "scanTip": "喺桌面電腦?用手機掃描就可以攞到應用程式.",
+    "qrAria": "打開 Chatforia 網站",
+    "appStore": "喺 App Store 下載",
+    "googlePlay": "喺 Google Play 取得"
+  },
+  "職位": {
+    "title": "職位",
+    "intro": "我哋係一支細小嘅創辦團隊,打造 Chatforia - 一個私密嘅全球訊息應用程式,將於網頁、iOS 同 Android 推出。如果你關心私隱、加密同令人驚喜嘅用戶體驗,我哋好想聽你分享意見。",
+    "openRoles": "<b>開放嘅創辦職位:</b> 領先全棧工程師、後端工程師 (Node.js)、前端/ Web 工程師 (React)、手機工程師 (iOS)、手機工程師 (Android)、DevOps/SRE、安全及加密工程師、電訊工程師 (Twilio + eSIM)。",
+    "apply": "點樣申請:使用下方按鈕電郵你的履歷同連結。",
+    "emailCta": "電郵你的履歷",
+    "whyNow": "點解而家加入?",
+    "whyBullets": "• 協助建立全新全球通訊應用程式基礎。\n• 推出於網頁、iOS 及 Android 平台使用的改進功能。\n• 與創辦人直接合作,制定架構及產品方向。\n• 負責技術棧中具高影響力的領域:訊息傳遞、語音、視頻、加密、電信、AI。\n• 從零開始加入--在用戶基礎擴展之前。: {\n\"title\": \"喺 Chatforia 做廣告",
+    "description": "接觸投入度高嘅訊息用戶,提供有品味、品牌安全嘅曝光位置。我哋提供高能見度 Banner 廣告位、贊助同自家推廣。高級訂閱者唔會見到廣告。",
+    "adsense": {
+      "withPubIdShort": "我哋亦透過 Google AdSense 投放廣告。你可以用出版商 ID {{pub Id}},或者使用以下表格直接贊助。",
+      "noPubIdShort": "我哋亦都透過 Google AdSense 投放部分廣告庫存。直接贊助亦可--使用以下表格。"
+    },
+    "inventoryHeader": "廣告庫存及規格",
+    "placement": {
+      "displayBadge": "顯示",
+      "acceptedSizes": "可接受尺寸",
+      "adsenseSlot": "AdSense 插槽:"
+    },
+    "noPlacementsPublic": "我哋而家正整理廣告庫存。同我哋講吓你嘅活動,我哋會為你推薦位置。",
+    "whyHeader": "點解揀 Chatforia?",
+    "why": {
+      "highSession": "聊天介面嘅高頻次同停留時間",
+      "brandSafe": "品牌安全格式;尊重頻次限制",
+      "sponsoredMoments": "可用嘅贊助時刻 (例如:\"開始聊天\"彈出視窗)",
+      "deals": "直接交易或透過 AdSense/Google Ads 程式化購買"
+    },
+    "contactHeader": "聯絡",
+    "form": {
+      "submittedMsg": "多謝!我哋已經收到你嘅查詢, shortly 會同你聯絡。",
+      "missingRequired": "請填寫姓名、電郵同訊息。",
+      "successToast": "多謝!我哋會盡快聯絡你。",
+      "mailtoInfo": "打開你嘅電郵程式去發送查詢…",
+      "nameLabel": "你嘅姓名",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "電郵",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "公司",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "每月預算 (可選)",
+      "budgetPlaceholder": "例如:$1,000-$20,000+",
+      "messageLabel": "同我哋講下你嘅活動",
+      "messagePlaceholder": "受眾、日期、KPI、投放偏好…",
+      "sendCta": "發送查詢"
+    },
+    "legal": {
+      "disclaimerStart": "提交後,即表示你同意我哋嘅",
+      "條款": "條款",
+      "同": "同",
+      "私隱": "私隱政策"
+    }
+  },
+  "聯絡": {
+    "標題": "聯絡我哋",
+    "successMsg": "多謝-我哋團隊會電郵回覆你。",
+    "errorSend": "未能發送。請電郵至 support@chatforia.com。",
+    "form": {
+      "nameLabel": "姓名",
+      "emailLabel": "電郵",
+      "messageLabel": "留言",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "私隱政策",
+    "lastUpdated": "最後更新:",
+    "intro": {
+      "body": "本私隱政策解釋 Chatforia 如何 (\"我哋\")喺你使用我哋嘅應用程式同服務時收集、使用同分享資料。我哋設計 Chatforia 嘅目標係盡量減少我哋可以存取嘅資料。"
+    },
+    "infoWeCollect": {
+      "title": "我哋收集嘅資料",
+      "帳戶": "帳戶資料 (例如電郵/電話) 用嚟建立同保障你嘅帳戶.",
+      "加密": "加密內容 (訊息/通話) 會做端對端加密;我哋睇唔到.",
+      "診斷": "診斷/使用資料"
+    },
+    "sms": {
+      "title": "手機號碼同 SMS",
+      "body": "如果你揀提供手機號碼,我哋會用嚟啟用功能,例如帳戶驗證、登入提示,以及喺支援嘅情況下透過 SMS 進行用戶間訊息傳送。我哋可能會發送有關你帳戶同 Chatforia 上活動嘅交易性 SMS 訊息。你可隨時選擇停止接收 SMS 訊息 時間,可透過回覆支援的退訂關鍵字(例如\"STOP\")或更改應用程式中的通知設定來退出。我們不會出售你的電話號碼,也不會用於與此無關的營銷。",
+      "newText": "新文字",
+      "enterRecipient": "輸入姓名或電話號碼",
+      "typeMessage": "輸入訊息…",
+      "addRecipient": "喺上面新增收件人以開始…"
+    },
+    "howWeUse": {
+      "title": "我哋點樣使用資料 ",
+      "提供": "提供及保障服務 (驗證、垃圾/濫用檢測)。",
+      "改進": "改進功能 (翻譯質素、可靠性)。",
+      "法律": "遵守法律責任。"
+    },
+    "分享": {
+      "標題": "分享",
+      "內容": "我哋唔會出售個人資料。我哋可能會喺嚴格合約下,同處理者(例如推送通知、分析服務)分享有限嘅資料。"
+    },
+    "權利": {
+      "標題": "你嘅權利",
+      "內容": "視乎你嘅地區(例如, GDPR/UK GDPR/CPRA),你可以根據你所在地區(例如, ",
+      "title": "資料保留及安全",
+      "body": "我哋只保留營運服務所需嘅資料,並採用業界標準嘅安全措施。端對端內容我哋無法解密。"
+    },
+    "children": {
+      "title": "兒童",
+      "body": "Chatforia 並唔針對 13 歲以下人士(或根據你當地法律嘅要求)。"
+    },
+    "changes": {
+      "title": "更改",
+      "body": "我哋會喺呢度發佈更新,並修訂\"上次更新\"日期。"
     },
     "contact": {
-      "title": "聯絡我哋",
-      "successMsg": "多謝 — 我哋團隊會用電郵回覆。",
-      "errorSend": "無法傳送。請電郵 support@chatforia.com。",
-      "form": {
-        "nameLabel": "名稱",
-        "emailLabel": "電郵",
-        "messageLabel": "訊息",
-        "sendCta": "傳送"
-      }
+      "title": "聯絡",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "服務條款",
+    "lastUpdated": "最後更新:",
+    "intro": {
+      "body": "使用 Chatforia 即表示你同意呢啲條款。如果你唔同意"
     },
-    "privacyPolicy": {
-      "title": "私隱政策",
-      "lastUpdated": "最後更新：",
-      "intro": {
-        "body": "呢份私隱政策解釋 Chatforia（「我哋」）喺你用我哋應用程式同服務時點樣收集、使用同分享資料。我哋設計 Chatforia 係為咗盡量減少我哋可以接觸嘅資料。"
-      },
-      "infoWeCollect": {
-        "title": "我哋收集嘅資料",
-        "account": "帳戶資料（例如電郵/電話）嚟建立同保護你嘅帳戶。",
-        "encrypted": "加密內容（訊息/通話）係端到端加密；我哋睇唔到。",
-        "diagnostics": "診斷/使用資料例如崩潰記錄、裝置類型或粗略分析嚟改善效能。"
-      },
-      "sms": {
-        "title": "流動電話號碼同 SMS",
-        "body": "如果你選擇提供流動電話號碼，我哋會用嚟啟用帳戶驗證、登入提示，同用戶之間 SMS 訊息（支援時）。我哋可能會發送同你帳戶同 Chatforia 活動有關嘅交易 SMS。你可以隨時用支援嘅取消關鍵字（例如「STOP」）或喺應用程式設定改通知偏好嚟取消接收 SMS。我哋唔會賣你電話號碼或用嚟無關嘅市場推廣。",
-        "newText": "新訊息",
-        "enterRecipient": "輸入名稱或號碼",
-        "typeMessage": "輸入訊息…",
-        "addRecipient": "喺上面加收件人先開始…"
-      },
-      "howWeUse": {
-        "title": "我哋點樣用資料",
-        "provide": "提供同保護服務（驗證、垃圾/濫用偵測）。",
-        "improve": "改善功能（翻譯質素、可靠性）。",
-        "legal": "遵守法律義務。"
-      },
-      "sharing": {
-        "title": "分享",
-        "body": "我哋唔賣個人資料。我哋可能喺嚴格合約下同處理商分享有限資料（例如推送通知、分析）。"
-      },
-      "rights": {
-        "title": "你嘅權利",
-        "body": "視乎你地區（例如 GDPR/UK GDPR/CPRA），你可以要求存取、修正、刪除，或選擇退出某些處理。聯絡：privacy@chatforia.com。"
-      },
-      "retention": {
-        "title": "資料保留同安全",
-        "body": "我哋只保留運作服務所需嘅資料，並應用業界標準安全。E2E 內容我哋無法解密。"
-      },
-      "children": {
-        "title": "兒童",
-        "body": "Chatforia 唔係針對 13 歲以下兒童（或你本地法例要求）。"
-      },
-      "changes": {
-        "title": "更改",
-        "body": "我哋會喺呢度公佈更新，並修改「最後更新」日期。"
+    "accounts": {
+      "title": "帳戶",
+      "itemAccurateInfo": " 提供準確資料,並妥善保管登入憑證。",
+      "itemResponsibility": "你對帳戶內的活動負責。"
+    },
+    "acceptableUse": {
+      "title": "可接受使用",
+      "itemNoAbuse": "不得用於非法、濫用或侵犯內容;不得發送垃圾郵件或自動化濫用。",
+      "itemSuspend": "我們可因違規而暫停或終止服務。"
+    }
+  },
+  "title": "SMS 通訊",
+  "body": "如果你提供手機號碼,即表示你同意 Chatforia 會向你發送與帳戶及服務使用相關的 SMS 訊息,例如登入提示、安全通知,以及與你發起或參與的對話相關的訊息。我們不會在未經你明確同意的情況下,使用 SMS 發送推廣或營銷訊息。標準訊息及數據費用可能適用。你可以選擇退出 隨時透過回覆支援的取消關鍵字(例如\"STOP\")或於應用程式中更新通知設定",
+  "yourContent": {
+    "title": "你的內容",
+    "body": "你保留對內容的所有權。你授予我們必要的權利以運行服務(例如:路由、儲存、翻譯)。"
+  },
+  "disclaimer": {
+    "title": "免責聲明及責任",
+    "body": "服務\"按原樣\"提供,不作任何保證。在法律允許的最大範圍內,Chatforia 不會對間接或後果性損害承擔責任。"
+  },
+  "changes": {
+    "title": "變更",
+    "body": "我哋可能會更新呢啲條款;繼續使用即代表接受更改。"
+  },
+  "contact": {
+    "title": "聯絡",
+    "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+  },
+  "refund": {
+    "title": "退款政策",
+    "lastUpdated": "最後更新:",
+    "intro": "喺 Chatforia,我哋致力為所有用戶提供高質素嘅服務。呢份退款政策概述咗咩時候可以退款。",
+    "subscriptions": {
+      "title": "訂閱",
+      "body": "訂閱會預先按定期循環方式收費。你可以隨時透過你的帳戶設定或購買時使用的平台取消訂閱。"
+    },
+    "eligibility": {
+      "title": "退款資格",
+      "body": "如出現重複扣款、收費錯誤或因技術問題無法使用付費功能,可獲退款。所有申請均會逐案審核。"
+    },
+    "nonRefundable": {
+      "title": "不可退款",
+      "body": "我們一般不為未使用時間、部分訂閱期或未能於續期前取消訂閱而退款。",
+      ",\n\"thirdParty": {
+        "title": "第三方購買",
+        "body": "如透過第三方平台(例如 Apple App Store)購買,必須直接向該等平台申請退款。"
       },
       "contact": {
         "title": "聯絡",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "服務條款",
-      "lastUpdated": "最後更新：",
-      "intro": {
-        "body": "用 Chatforia 即表示你同意呢啲條款。如果你唔同意，就唔好用服務。"
-      },
-      "accounts": {
-        "title": "帳戶",
-        "itemAccurateInfo": "提供準確資料並保持登入資料安全。",
-        "itemResponsibility": "你對你帳戶上嘅活動負責。"
-      },
-      "acceptableUse": {
-        "title": "可接受使用",
-        "itemNoAbuse": "唔可以有非法、濫用或侵權內容；唔可以有垃圾訊息或自動濫用。",
-        "itemSuspend": "我哋可能因違規而暫停/終止。"
-      },
-      "sms": {
-        "title": "SMS 通訊",
-        "body": "如果你提供流動電話號碼，即表示你同意 Chatforia 可以發送同你帳戶同服務使用有關嘅 SMS，例如登入提示、安全通知，同你發起或參與對話有關嘅訊息。我哋唔會未經你明確同意用 SMS 做推廣或市場推廣。標準訊息同數據費用可能適用。你可以隨時用支援嘅取消關鍵字（例如「STOP」）或更新應用程式通知設定嚟取消 SMS。"
-      },
-      "yourContent": {
-        "title": "你嘅內容",
-        "body": "你保留你內容嘅權利。你授予我哋必要權利嚟運作服務（例如路由、儲存、翻譯）。"
-      },
-      "disclaimer": {
-        "title": "免責聲明同責任",
-        "body": "服務「現狀」提供，冇任何保證。喺法律容許最大範圍內，Chatforia 唔對間接或後果損害負責。"
-      },
-      "changes": {
-        "title": "更改",
-        "body": "我哋可能更新呢啲條款；繼續使用即表示接受更改。"
-      },
-      "contact": {
-        "title": "聯絡",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
       }
     },
     "doNotSell": {
-      "title": "唔好賣或分享我嘅個人資料",
-      "body": "Chatforia 唔賣個人資料。加州居民仍然可以用下面按鈕提交 CPRA 要求。",
+      "title": "請勿出售或分享我的個人資料",
+      "body": "Chatforia 不會出售個人資料。加州居民仍可使用下方按鈕根據 CPRA 提交要求。",
       "cta": "提交要求"
     },
     "cookies": {
-      "title": "Cookie 設定",
-      "body": "Chatforia 只用最少 cookies（例如工作階段、安全）。我哋唔用第三方廣告 cookies。你可以用瀏覽器設定管理 cookies。"
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "無法載入電話號碼狀態。",
-      "lock": "鎖定",
-      "noNumberAssigned": "未分配號碼。揀一個區號開始傳訊息。",
-      "pickNumber": "揀號碼",
-      "phoneNumber": "電話號碼"
-    },
-    "startChatModal": {
-      "title": "開始聊天",
-      "quickPicker": "快速選擇器",
-      "to": "收件人",
-      "nameOrUsername": "輸入名稱、用戶名稱",
-      "nameUsernamePhoneEmail": "輸入名稱、用戶名稱、電話或電郵…",
-      "startWithSelected": "同已揀收件人開始聊天",
-      "searchByUsernameOrPhone": "用用戶名稱或電話搜尋",
-      "search": "搜尋",
-      "searchPrompt": "輸入用戶名稱或電話然後撳搜尋。",
-      "pickFromContacts": "或者由聯絡人揀",
-      "addContact": "加入聯絡人",
-      "show": "顯示",
-      "add": "加入",
-      "close": "關閉",
-      "selectedCount": "已揀 {{count}} 個",
-      "pickAtLeastOne": "最少揀一位收件人。",
-      "saveContactsHint": "電話/電郵會喺你儲存做聯絡人之後可用。",
-      "failedBulkStart": "無法同已揀收件人開始聊天。",
-      "noResults": "冇結果",
-      "mode": "模式",
-      "group": "群組",
-      "broadcast": "廣播",
-      "groupNameOptional": "群組名稱（可選）",
-      "firstMessageOptional": "第一條訊息（可選但建議）",
-      "createGroup": "建立群組",
-      "sendBroadcast": "傳送廣播"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "霓虹",
-      "sunset": "日落",
-      "solarized": "Solarized",
-      "velvet": "天鵝絨"
-    },
-    "sounds": {
-      "freeNotice": "你而家用緊免費版 — 高級鈴聲會顯示但鎖住。升級解鎖全部。",
-      "preview": "預覽",
-      "resetToDefaults": "重設去預設",
-      "notificationSounds": "通知聲音",
-      "messageTone": "訊息鈴聲",
-      "default": "預設",
-      "vibrate": "震動",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "脈動聲音",
-      "textMessage": "文字訊息",
-      "xylophone": "木琴",
-      "classic": "經典",
-      "urgency": "Urgency",
-      "bells": "鐘聲",
-      "chimes": "鐘琴",
-      "digitalPhone": "數碼電話",
-      "melodic": "旋律",
-      "organNotes": "風琴音符",
-      "soundReality": "Sound Reality",
-      "street": "街頭",
-      "universfield": "Universfield"
+      "title": "曲奇設定",
+      "body": "Chatforia 只會使用最少量的曲奇 (例如:會話、安全)。我們不會使用第三方廣告曲奇。請透過瀏覽器設定管理曲奇。"
     },
     "premiumGuard": {
-      "requiresPremium": "呢個功能需要 Premium 計劃。"
+      "requiresPremium": "此功能需訂閱 Premium 計劃。"
     },
-    "aiSettings": {
-      "title": "AI 設定",
-      "controlIntro": "控制翻譯、智能回覆，同 ForiaBot 自動回應。",
-      "save": "儲存 AI 設定",
-      "autoTranslateIncoming": "自動翻譯收到嘅訊息",
-      "showOriginalAlongside": "同時顯示原文",
-      "enableSmartReplies": "開啟智能回覆",
-      "smartRepliesHint": "將最近幾條收到嘅訊息（已消毒）傳俾 AI 嚟建議快速回覆。",
-      "maskProfanity": "AI 建議遮蔽粗口",
-      "maskProfanityHint": "開啟時，AI 返嚟嘅建議會遮蔽標記嘅粗口字眼",
-      "foriaBot": "ForiaBot 自動回應器",
-      "enableAutoReply": "當我忙時開啟自動回覆",
-      "autoReplyMode": "自動回覆模式",
-      "cooldownSeconds": "冷卻時間（秒）",
-      "off": "關閉",
-      "on": "開啟",
-      "signature": "簽名",
-      "autoReply": "自動回覆",
-      "activeUntilOptional": "有效至（可選）",
-      "saved": "AI 偏好已儲存",
-      "saveFailed": "儲存 AI 設定失敗",
-      "translateOff": "關閉",
-      "translateTagged": "只喺 @translated 或標記時",
-      "translateAll": "翻譯所有收到嘅訊息",
-      "modeDm": "只限 1:1 聊天",
-      "modeMention": "只喺我被 @ 提及時",
-      "modeAll": "所有收到嘅訊息"
-    },
-    "accessibilitySettings": {
-      "title": "無障礙同提示",
-      "accessibility": "無障礙",
-      "accessibilityDesc": "令 Chatforia 更容易用，而唔使依賴聲音。",
-      "interfaceFontSize": "介面字型大小",
-      "interfaceFontSizeHelp": "由正常大小開始。如果你鍾意大啲字，就喺無障礙設定增加。",
-      "sm": "小",
-      "md": "中",
-      "lg": "大",
-      "xl": "特大",
-      "notifications": "通知",
-      "notificationsDesc": "訊息同通話視覺提示\n顯示橫幅同標題閃爍，避免錯過活動。",
-      "vibrateOnNew": "新訊息震動（支援時）\n觸發裝置震動通知。",
-      "flashOnCall": "來電閃屏\n來電響時短暫亮閃。",
-      "liveCaptions": "即時字幕（通話）",
-      "captionFontSize": "字幕字型大小",
-      "captionBackground": "字幕背景",
-      "light": "淺色",
-      "dark": "深色",
-      "transparent": "透明",
-      "voiceNotes": "語音筆記",
-      "autoTranscribeVoiceNotes": "自動轉錄語音筆記",
-      "autoTranscribeVoiceNotesDesc": "喺收到嘅音訊訊息附加轉錄文字。",
-      "changesSavedInstantly": "更改即時儲存。",
-      "loadFailed": "載入設定失敗",
-      "visualAlerts": "訊息同通話視覺提示",
-      "visualAlertsDesc": "顯示橫幅同標題閃爍，避免錯過活動。",
-      "vibrateOnNewShort": "新訊息震動（支援時）",
-      "vibrateOnNewDesc": "觸發裝置震動通知。",
-      "flashOnCallShort": "來電閃屏",
-      "flashOnCallDesc": "來電響時短暫亮閃。"
-    },
-    "privacySection": {
-      "strictE2EE": "嚴格端到端加密",
-      "ciphertextOnlyNote": "伺服器只儲存密文。會停用 AI/翻譯同審核預覽。"
-    },
-    "linkedDevicesPanel": {
-      "title": "已連結裝置",
-      "noneFound": "搵唔到已連結裝置。",
-      "refresh": "重新整理"
-    },
-    "help": {
-      "title": "幫助",
-      "howCanWeHelp": "我哋點樣幫到你？",
-      "helpCenter": "幫助中心",
-      "contactUs": "聯絡我哋",
-      "quickTopics": "快速主題",
-      "searchExamples": "試搜尋「翻譯」、「備份」或「私隱」。",
-      "cantLogin": "登入唔到",
-      "paymentsBilling": "付款/帳單",
-      "reportAbuse": "舉報濫用",
-      "searchHelpArticles": "搜尋幫助文章",
-      "search": "搜尋"
-    },
-    "peoplePage": {
-      "people": "聯絡人",
-      "search": "搜尋",
-      "searchPlaceholder": "用別名、名稱、用戶名稱或電話搜尋",
-      "filterSaved": "篩選已儲存聯絡人",
-      "noContactsFound": "搵唔到聯絡人",
-      "quickStart": "快速開始",
-      "quickStartDesc": "幾個快速方法開始。",
-      "importContacts": "匯入你嘅聯絡人",
-      "add": "加入",
-      "focusSearch": "聚焦搜尋",
-      "import": "匯入",
-      "findOrAdd": "搵或加入人",
-      "searchByPhoneOrUsername": "用電話 / 用戶名稱搜尋",
-      "inviteFriends": "邀請朋友",
-      "inviteDesc": "分享你嘅邀請連結即刻開始聊天。",
-      "getTheApp": "攞應用程式",
-      "getTheAppDesc": "用 Chatforia iOS 同 Android 版隨時聯絡。",
-      "download": "下載",
-      "syncTip": "提示：你嘅訊息喺網頁版同手機版會同步。"
-    },
-    "randomChat": {
-      "title": "隨機聊天",
-      "description": "即刻認識新人。我們會幫你配對並打開臨時聊天室。先匿名傾偈。如果感覺啱，就之後加朋友。",
-      "findMatch": "幫我搵配對",
-      "chatWithForia": "同 Foria 傾偈",
-      "chatWithForiaBot": "同 ForiaBot 傾偈",
-      "cancel": "取消",
-      "close": "關閉",
-      "searching": "搜尋緊…",
-      "finding": "搵緊…",
-      "looking": "搵緊人…",
-      "startingForia": "開始同 Foria 傾偈…",
-      "partnerDisconnected": "你嘅夥伴斷線。",
-      "noPartner": "而家搵唔到夥伴。",
-      "connectedTo": "已連接到 {{name}}",
-      "connected": "已連接",
-      "idle": "閒置",
-      "partnerLeft": "夥伴離開。",
-      "stopped": "已停止。",
-      "skip": "跳過",
-      "save": "儲存",
-      "saveGuard": "只可以儲存人對人聊天",
-      "youAreChattingWith": "你而家同 {{name}} 傾偈",
-      "bot": "機械人",
-      "leave": "離開",
-      "sayHi": "講聲 hi 👋",
-      "you": "你",
-      "typeMessage": "輸入訊息",
-      "send": "傳送",
-      "partner": "夥伴",
-      "withRia": "同 Ria",
-      "chatWithRia": "同 Ria 傾偈",
-      "startingRia": "開始同 Ria 傾偈…",
-      "ageDisclaimer": "我哋只儲存年齡範圍（唔係你準確出生日期）。用嚟保持隨機聊天配對合理。要同真人（唔止 RiaBot）匹配，去「設定 → 年齡同隨機聊天」設定年齡範圍。",
-      "ageBandRequired": "去「個人檔案 → 年齡同隨機聊天」設定年齡範圍，先可以同真人匹配。",
-      "ageBandCallout": "要同真人（唔止 RiaBot）匹配，去「設定 → 年齡同隨機聊天」設定年齡範圍。",
-      "subtitle": "即刻認識新人，或者揀同 Ria 傾偈。",
-      "start": "開始對話",
-      "matching": "匹配緊…",
-      "setAge": "去「個人檔案 → 年齡同隨機聊天」設定年齡範圍，先可以同真人匹配。",
-      "next": "下一個人",
-      "addFriend": "加朋友",
-      "requested": "已請求",
-      "messageRia": "傳訊息俾 Ria…",
-      "messageMatch": "傳訊息俾你嘅配對…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "你",
-      "intro": "你好 👋 我係 Ria。你而家諗緊乜？",
-      "greetings": {
-        "long1": "你好 {{name}} 👋 我喺度。你而家諗緊乜？",
-        "long2": "Hi {{name}} 😊 你今日想傾乜？",
-        "long3": "你好 {{name}}！！我聽緊 — 有乜事？",
-        "long4": "好開心見到你，{{name}} 👋 你今日諗緊乜？",
-        "long5": "你好 {{name}} 😊 想發洩、問問題，定只係傾偈？",
-        "long6": "Hi {{name}}！！我有時間 — 你想傾乜？",
-        "short1": "你好 {{name}}，我仲喺度。有乜新事？",
-        "short2": "歡迎返嚟 {{name}} 👋 你仲有冇嘢想加？",
-        "short3": "又返嚟，{{name}}？ 😊 話我知你諗緊乜。",
-        "short4": "你好 {{name}} 👋 準備好由上次繼續？",
-        "short5": "係 {{name}}？我聽緊 👂",
-        "short6": "哦你好 {{name}}！！有新嘢諗？"
+    "smsPolicy": {
+      "title": "Chatforia - SMS 政策及同意加入",
+      "lastUpdated": "最後更新:",
+      "whatWeSend": {
+        "title": "我哋會發送啲咩",
+        "body": "Chatforia 只會向用戶明確提供並已同意嘅電話號碼發送與帳戶相關同對話性質嘅 SMS。典型訊息包括登入/驗證碼、訊息送達通知、安全提示同交易帳戶更新。"
       },
-      "header": {
-        "openNav": "打開導航選單",
-        "closeNav": "關閉導航選單",
-        "homeAria": "Chatforia 主頁"
+      "optIn": {
+        "title": "用戶點樣 opt-in",
+        "body": "用戶喺註冊時輸入電話號碼,並喺註冊頁面或專用嘅",
+        "link": "opt-in 表格"
       },
-      "login": {
-        "welcomeBack": "歡迎返嚟",
-        "title": "繼續去 Chatforia",
-        "subtitleReturning": "登入你嘅 Chatforia 帳戶",
-        "subtitle": "登入你嘅 Chatforia 帳戶",
-        "google": "用 Google 繼續",
-        "apple": "用 Apple 繼續",
-        "googleUnavailable": "Google 登入暫時唔可用",
-        "appleUnavailable": "Apple 登入暫時唔可用",
-        "or": "或者",
-        "email": "電郵",
-        "emailPh": "you@example.com",
-        "usernameLabel": "用戶名稱",
-        "usernamePh": "你嘅用戶名稱",
-        "passwordLabel": "密碼",
-        "passwordPh": "你嘅密碼",
-        "keepSignedIn": "保持登入",
-        "forgot": {
-          "title": "忘記密碼",
-          "helper": "輸入你建立 Chatforia 帳戶時用嘅電郵，我哋會發安全連結俾你重設密碼。",
-          "emailInvalid": "請輸入有效電郵地址。",
-          "genericError": "無法處理請求。請稍後再試。",
-          "sending": "發送重設連結緊…",
-          "sendCta": "發送重設連結",
-          "sentLabel": "已發送！",
-          "sentHelper": "如果有帳戶用緊呢個電郵，我哋已經發咗密碼重設連結。可能要幾分鐘先收到。記住查閱垃圾或推廣資料夾。",
-          "previewDev": "預覽電郵（開發）",
-          "backToLogin": "返去登入"
-        },
-        "submit": "登入",
-        "loggingIn": "登入緊…",
-        "newHere": "新嚟？<link>建立帳戶</link>",
-        "ssoUnavailable": "單一登入而家唔可用。用用戶名稱同密碼代替。",
-        "error": {
-          "missing": "請輸入你嘅登入資料。",
-          "invalid": "用戶名稱或密碼無效",
-          "denied": "拒絕存取。",
-          "unprocessable": "無效請求。檢查你嘅用戶名稱/電郵同密碼。",
-          "deviceLimit": "免費計劃裝置上限已達。喺另一個裝置登出，或者升級去 Premium 連結更多裝置。",
-          "premiumRequired": "呢個動作需要 Premium 計劃。"
-        }
-      }
-    },
-    "oauth": {
-      "completing": "完成登入…"
-    },
-    "dialer": {
-      "title": "通話",
-      "subtitle": "撥號盤同最近通話。（如果你唔用 PSTN，就喺對話標題開始通話。）",
-      "enterNumberPh": "輸入號碼",
-      "call": "通話",
-      "backspace": "後退",
-      "recents": "最近",
-      "recentsEmpty": "而家仲未有最近通話。",
-      "enterNumber": "輸入號碼",
-      "enterNumberAria": "輸入號碼",
-      "key": "按鍵 {{d}}",
-      "noRecents": "而家仲未有最近通話。"
-    },
-    "video": {
-      "title": "視像",
-      "chooseType": "揀視像類型。",
-      "directTitle": "直接視像",
-      "directDesc": "同另一個用戶 1:1 鏡頭通話。",
-      "directStart": "開始",
-      "roomsTitle": "聊天室",
-      "roomsDesc": "用共享房間名稱嘅多人視像。",
-      "roomsIntro": "加入或建立多人聊天室。",
-      "roomNameLabel": "聊天室名稱",
-      "roomNamePh": "例如 team-standup",
-      "join": "加入",
-      "deeplinkTip": "提示：你可以直接深層連結去 <code>/video?room=room-name</code>。",
-      "hub": {
-        "title": "視像",
-        "subtitle": "揀視像類型。"
+      "optOut": {
+        "title": "用戶點樣 opt-out",
+        "stop": "回覆 STOP 到任何 Chatforia SMS 來取消訂閱。",
+        "start": "回覆 START 重新訂閱。",
+        "contactPrefix": "聯絡支援部"
       },
-      "direct": {
-        "title": "直接視像",
-        "subtitle": "用電話號碼或 Chatforia 用戶名稱開始 1:1 視像通話。",
-        "desc": "同另一個用戶 1:1 鏡頭通話。",
-        "start": "開始",
-        "callBtn": "通話",
-        "callByPhone": {
-          "title": "用電話通話"
-        },
-        "phone": {
-          "placeholder": "輸入電話（例如 +1-555-123-4567）",
-          "aria": "要打嘅電話"
-        },
-        "tipInvite": "提示：貼上號碼就可以打，而唔使儲存聯絡人。我哋會用連結邀請非用戶。",
-        "findUser": {
-          "title": "搵用戶"
-        },
-        "search": {
-          "placeholder": "用名稱或用戶名稱搜尋",
-          "aria": "用名稱或用戶名稱搜尋",
-          "btn": "搜尋"
-        }
+      "help": {
+        "title": "協助",
+        "bodyPrefix": "回覆 HELP 獲取協助或電郵"
       },
-      "rooms": {
-        "title": "聊天室",
-        "subtitle": "建立聊天室或輸入同樣名稱加入現有嘅。",
-        "desc": "用共享房間名稱嘅多人視像。",
-        "roomLabel": "聊天室名稱",
-        "roomPlaceholder": "例如 team-standup",
-        "roomAria": "聊天室名稱",
-        "joinCreate": "加入 / 建立",
-        "tip": "提示：同其他人分享呢個名稱，或者深層連結去 <code>/video?room=room-name</code>。"
-      }
-    },
-    "directVideo": {
-      "intro": "開始直接 1:1 視像通話。",
-      "findUserLabel": "搵用戶",
-      "findUserPh": "用名稱或用戶名稱搜尋",
-      "search": "搜尋",
-      "call": "通話"
-    },
-    "phoneWarning": {
-      "title": "你嘅號碼快到期",
-      "body": "你嘅號碼 {{number}} 將喺 {{date}} 釋放，除非重新激活。",
-      "button": "保留我嘅號碼"
-    },
-    "support": {
-      "helpFab": "幫助",
-      "openSupportAria": "打開支援",
-      "badge": "支援",
-      "heading": "我哋點樣幫到你？",
-      "tabs": {
-        "help": "幫助中心",
-        "contact": "聯絡我哋"
-      },
-      "searchPlaceholder": "搜尋幫助文章…",
-      "searchAria": "搜尋幫助",
-      "searchBtn": "搜尋",
-      "quickTopicsLabel": "快速主題",
-      "quickTopics": {
-        "login": "登入唔到",
-        "billing": "付款 / 帳單",
-        "abuse": "舉報濫用"
-      },
-      "trySearching": "試搜尋「翻譯」、「備份」或「私隱」。",
-      "article": "文章",
-      "openArticle": "打開文章",
-      "contactIntro": "我哋會用電郵回覆你。提供詳細資料幫我哋重現問題。",
-      "topicAria": "揀主題",
-      "messagePlaceholder": "寫你嘅訊息…",
-      "sendBtn": "傳送",
-      "sent": "訊息已傳送。我哋會用電郵回覆。",
-      "sendError": "無法傳送。請改為電郵 support@chatforia.com。"
-    },
-    "encryptionRecovery": {
-      "title": "管理加密",
-      "description": "備份、還原、解鎖或重設你嘅加密金鑰。",
-      "alert": {
-        "keyRequiredTitle": "需要加密金鑰",
-        "keyRequiredBody": "呢個瀏覽器而家無法解密你嘅加密訊息。還原、解鎖或重設你嘅金鑰先繼續。"
-      },
-      "sections": {
-        "createBackup": "建立金鑰備份",
-        "restoreFromBackup": "由帳戶備份還原",
-        "resetEncryption": "重設加密"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "解鎖密碼（目前裝置）",
-          "description": "用嚟喺匯出之前本地解密你嘅金鑰"
-        },
-        "backupPassword": {
-          "label": "備份密碼",
-          "description": "用嚟加密備份檔案"
-        },
-        "restoreBackupPassword": {
-          "label": "備份密碼",
-          "description": "你喺 iPhone 備份金鑰時建立嘅密碼"
-        },
-        "newLocalPasscode": {
-          "label": "新本地密碼",
-          "description": "保護呢個瀏覽器上靜止狀態嘅金鑰"
-        },
-        "resetLocalPasscode": {
-          "label": "新本地密碼",
-          "description": "重設之前需要，用嚟保護新金鑰喺呢個裝置上"
-        }
-      },
-      "actions": {
-        "unlockKey": "解鎖加密金鑰",
-        "restoreFromBackup": "由帳戶備份還原",
-        "resetEncryption": "重設加密"
-      },
-      "messages": {
-        "backupCreated": "金鑰備份已建立並下載。",
-        "keyUnlocked": "加密金鑰已解鎖。",
-        "keyRestored": "金鑰已由帳戶備份還原。",
-        "resetSuccess": "加密重設成功。"
-      },
-      "errors": {
-        "restoreIncomplete": "金鑰還原未完成或唔適合呢個帳戶",
-        "noBackup": "呢個帳戶冇加密備份",
-        "missingPublicKey": "備份缺少公開金鑰",
-        "noServerPublicKey": "呢個帳戶而家冇公開伺服器金鑰",
-        "serverBackupMismatch": "伺服器備份同目前帳戶加密金鑰唔匹配",
-        "incompleteMetadata": "備份元數據未完成",
-        "resetIncomplete": "加密重設未正確完成"
-      },
-      "confirm": {
-        "reset": "重設呢個帳戶嘅加密？\n\n舊加密訊息可能會變得無法閱讀，除非你之後還原原本金鑰。"
-      },
-      "resetDescription": "呢個動作會為你帳戶產生新加密金鑰。舊加密訊息可能會變得無法閱讀，除非你之後還原原本金鑰。"
-    },
-    "footer": {
-      "plans": "計劃同價錢",
-      "about": "關於 Chatforia",
-      "careers": "招賢",
-      "press": "新聞",
-      "advertise": "廣告",
-      "contact": "聯絡我哋",
-      "help": "幫助中心",
-      "status": "狀態頁",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "私隱政策",
-      "terms": "服務條款",
-      "cookies": "Cookie 設定",
-      "doNotSell": "唔好賣我資料",
-      "language": "語言",
-      "contactShort": "聯絡",
-      "aria": "頁腳",
-      "homeAria": "Chatforia 主頁",
-      "section": {
-        "company": "公司",
-        "support": "支援",
-        "downloads": "下載",
-        "legal": "法律"
-      },
-      "links": {
-        "plans-pricing": "計劃同價錢",
-        "about-chatforia": "關於 Chatforia",
-        "careers": "招賢",
-        "press": "新聞",
-        "advertise": "廣告",
-        "getting-started": "開始使用",
-        "help-center": "幫助中心",
-        "contact-us": "聯絡我哋",
-        "status-page": "狀態頁",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "私隱政策",
-        "terms-of-service": "服務條款",
-        "do-not-sell-my-info": "唔好賣我資料",
-        "cookie-settings": "Cookie 設定"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "專利申請中",
-      "backToTop": "↑ 返去頂"
-    },
-    "press": {
-      "title": "新聞",
-      "contactLine": "傳媒查詢，請聯絡",
-      "boilerplateTitle": "公司簡介",
-      "boilerplateBody": "Chatforia 係私隱第一嘅訊息應用，令跨語言聊天變得輕鬆。訊息預設端到端加密，內建翻譯即時支援超過100種語言。用戶可以開啟自動消失訊息、選擇性已讀回條，並跨裝置同步。支援 iOS、Android 同網頁版。",
-      "assetsTitle": "品牌資產",
-      "assetsSubtitle": "標誌、截圖，同產品圖片。",
-      "downloadCta": "下載媒體套件",
-      "downloadTitle": "攞應用程式",
-      "scanTip": "用緊桌面版？用手機掃描嚟攞應用程式。",
-      "qrAria": "打開 Chatforia 網站",
-      "appStore": "喺 App Store 下載",
-      "googlePlay": "喺 Google Play 下載"
-    },
-    "careers": {
-      "title": "招賢",
-      "intro": "我哋係一隊細小創辦團隊，開發 Chatforia — 私隱優先、全球訊息應用，將會喺網頁、iOS 同 Android 推出。如果你關心私隱、加密同令人愉悅嘅用戶體驗，我哋好想聽到你嘅意見。",
-      "openRoles": "<b>開放創辦職位：</b> 首席全端工程師、後端工程師（Node.js）、前端/網頁工程師（React）、流動工程師（iOS）、流動工程師（Android）、DevOps/SRE、安全同加密工程師、電訊工程師（Twilio + eSIM）。",
-      "apply": "點樣申請：用下面按鈕電郵你嘅履歷同連結。",
-      "emailCta": "電郵你嘅履歷",
-      "whyNow": "點解而家加入？",
-      "whyBullets": "• 幫手建立新全球訊息應用嘅基礎。\n• 推出跨網頁、iOS 同 Android 嘅改善。\n• 直接同創辦人合作架構同產品方向。\n• 負責堆疊中高影響力部分：訊息、語音、視像、加密、電訊、AI。\n• 喺開始階段加入 — 喺用戶基數擴大之前。"
-    },
-    "about": {
-      "title": "關於 Chatforia",
-      "description": "Chatforia 係安全、多語言訊息應用，附帶端到端加密、即時翻譯，同語音/視像通話。我哋嘅使命好簡單：幫助人安全、私隱、同跨語言連接。",
-      "valuesTitle": "我哋重視嘅嘢",
-      "values": {
-        "privacy": "<b>私隱第一：</b> 預設 E2E 加密。",
-        "access": "<b>人人可用：</b> 自動翻譯超過100種語言。",
-        "control": "<b>控制：</b> 自動消失訊息同已讀回條可選。",
-        "privacy_aria": "私隱第一：預設 E2E 加密。",
-        "access_aria": "人人可用：自動翻譯超過100種語言。",
-        "control_aria": "控制：自動消失訊息同已讀回條可選。"
-      },
-      "howTitle": "Chatforia 點樣運作",
-      "howDescription": "訊息喺離開你裝置之前已經加密。翻譯、備份同裝置同步都設計成盡量減少伺服器可以看到嘅資料。"
-    },
-    "advertise": {
-      "title": "喺 Chatforia 登廣告",
-      "description": "用優質、品牌安全嘅位置接觸活躍訊息用戶。我哋提供高曝光橫幅、贊助，同自家推廣。Premium 用戶唔會見到廣告。",
-      "adsense": {
-        "withPubIdShort": "我哋亦透過 Google AdSense 提供廣告庫存。你可以用發佈商 ID {{pubId}} 針對 Chatforia，或者用下面表格直接贊助。",
-        "noPubIdShort": "我哋亦透過 Google AdSense 提供部分廣告庫存。直接贊助可用 — 用下面表格。"
-      },
-      "inventoryHeader": "庫存同規格",
-      "placement": {
-        "displayBadge": "顯示",
-        "acceptedSizes": "接受尺寸",
-        "adsenseSlot": "AdSense 位置："
-      },
-      "noPlacementsPublic": "我哋而家正喺最終確定廣告庫存。話我哋知你嘅活動，我哋會推薦位置。",
-      "whyHeader": "點解揀 Chatforia？",
-      "why": {
-        "highSession": "聊天介面內高頻率同長停留時間",
-        "brandSafe": "品牌安全格式；尊重頻率上限",
-        "sponsoredMoments": "贊助時刻（例如「開始聊天」彈出視窗）可用",
-        "deals": "直接交易或透過 AdSense/Google Ads 程式化"
-      },
-      "contactHeader": "聯絡",
-      "form": {
-        "submittedMsg": "多謝！你嘅查詢已經喺路上。我哋會快啲跟進。",
-        "missingRequired": "請填寫名稱、電郵同訊息。",
-        "successToast": "多謝！我哋會快啲聯絡你。",
-        "mailtoInfo": "打開你電郵客戶端嚟傳送查詢…",
-        "nameLabel": "你嘅名稱",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "電郵",
-        "emailPlaceholder": "you@company.com",
-        "companyLabel": "公司",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "每月預算（可選）",
-        "budgetPlaceholder": "例如 $1,000–$20,000+",
-        "messageLabel": "話我哋知你嘅活動詳情",
-        "messagePlaceholder": "目標、日期、KPI、位置偏好…",
-        "sendCta": "傳送查詢"
-      },
-      "legal": {
-        "disclaimerStart": "提交即表示你同意我哋嘅",
+      "privacyTerms": {
+        "title": "私隱及條款",
+        "bodyStart": "同意接收 SMS,即表示用戶亦同意我們的",
         "terms": "服務條款",
-        "and": "同",
+        "and": "and",
         "privacy": "私隱政策"
-      }
+      },
+      "footer": "© 2026 Chatforia Inc."
     }
   }
 }

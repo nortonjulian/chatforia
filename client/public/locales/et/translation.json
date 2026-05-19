@@ -3,412 +3,383 @@
     "save": "Salvesta",
     "cancel": "Tühista",
     "refresh": "Värskenda",
-    "noMatches": "Vasteid pole",
+    "noMatches": "Sobivaid tulemusi pole",
     "cancelAria": "Tühista",
     "copy": "Kopeeri",
     "copied": "Kopeeritud!",
-    "errorWithMessage": "Viga: {{message}}",
-    "loading": "Laadimine…",
+    "errorWithMessage": "Viga: { {message}}",
+    "loading": "Laadimine...",
     "saveError": "Salvestamine ebaõnnestus"
   },
   "a11y": {
-    "skipToMain": "Liigu põhisisu juurde"
+    "skipToMain": "Hüppa põhilisele sisule"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Võtme varukoopia loodi ja laaditi alla ✓",
-    "restored": "Võtme varukoopia taastati ✓ Võtmed paigaldati kohapeal",
-    "noBackup": "Selle konto jaoks krüpteeritud varukoopiat ei ole",
-    "missingPublicKey": "Varukoopial puudub avalik võti"
+    "backupCreated": "Võtme varukoopia loodud ja alla laaditud ✓",
+    "restored": "Võtme varukoopia taastatud ✓ Võtmed paigaldatud lokaalselt",
+    "noBackup": "Selle konto jaoks pole krüpteeritud varukoopiat",
+    "missingPublicKey": "Varukoopias puudub avalik võti"
   },
   "keySetup": {
-    "title": "Seadista oma seadme võtmed",
-    "description": "This device doesn’t have your private key yet. Impordi  password-kaitstud backup, või generate  uus keypair (sa’ll be able et read uus sõnumid alates nüüd on).",
+    "title ": "Seadista oma seadme võtmed",
+    "description": "Sellel seadmel pole veel sinu privaatvõtit. Impordi parooliga kaitstud varukoopia või loo uus võtmepaar (saad nüüdsest lugeda uusi sõnumeid).",
     "chooseFile": "Vali fail ja sisesta parool.",
-    "imported": "Privaatvõti imporditi sellesse seadmesse. Nüüd saad vanu sõnumeid lugeda.",
-    "enterPassword": "Sisesta oma konto parool, et saaksime sinu võtmed turvaliselt varundada."
+    "imported": "Eravõti on sellesse seadmesse imporditud. Nüüd saate lugeda vanu sõnumeid.",
+    "enterPassword": "Sisestage oma konto parool, et saaksime teie võtmed turvaliselt varundada."
+  },
+  "encryptionRecovery": {
+    "title": "Krüpteerimise haldamine",
+    "description": "Varundage, taastage, avage või lähtestage oma krüpteerimisvõti.",
+    " alert": {
+      "keyRequiredTitle": "Krüpteerimisvõti on vajalik",
+      "keyRequiredBody": "See brauser ei suuda hetkel teie krüpteeritud sõnumeid dekodeerida. Taastage, avage või lähtestage oma võti, et jätkata."
+    },
+    "sections": {
+      "createBackup": "Loo võtme varukoopia",
+      "restoreFromBackup": "Taasta kontovaru koopia",
+      "resetEncryption": "Lähtesta krüpteerimine"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Lukustuse kood (praegune seade)",
+        "description": "Kasutatakse teie võtmete kohalikuks dekodeerimiseks enne eksportimist"
+      },
+      "backupPassword": {
+        "label": "Varukoopia parool",
+        "description": "Kasutatakse varukoopia faili krüpteerimiseks"
+      },
+      "restoreBackupPass word": {
+        "label": "Varundusparool",
+        "description": "Parool, mille lootsite, kui varundasite oma võtme iPhone'is"
+      },
+      "newLocalPasscode": {
+        "label": "Uus kohalik parool",
+        "description": "Kaitseb selles brauseris salvestatud võtmeid"
+      },
+      "resetLocalPasscode": {
+        "label": "Uus kohalik parool",
+        "description": "Vajalik enne lähtestamist, et uus võti oleks selles seadmes kaitstud"
+      }
+    },
+    "actions": {
+      "unlockKey": "Lukusta krüpteerimisvõti",
+      "restoreFromBackup": " Taasta kontovaruandmetest",
+      "resetEncryption": "Taasta krüpteerimine"
+    },
+    "messages": {
+      "backupCreated": "Võtme varukoopia loodud ja alla laaditud.",
+      "keyUnlocked": "Krüpteerimisvõti avatud.",
+      "keyRestored": "Võti taastatud kontovaruandmetest.",
+      "resetSuccess": "Krüpteerimine taastati edukalt."
+    },
+    "errors": {
+      "restoreIncomplete": "Võtme taastamine on selle konto jaoks poolik või vale",
+      "noBackup": "Selle konto jaoks pole olemas krüpteeritud varukoopiat",
+      "missingPublicKey": "Varukoopias puudub avalik võti",
+      "noServerPublicKey": "See konto ei avalda hetkel serveri avalikku võtit",
+      "serverBackupMismatch": "Serveri varukoopia ei sobi kokku praeguse konto krüpteerimisvõtmega",
+      "incompleteMetadata": "Varukoopia metaandmed on puudulikud",
+      "resetIncomplete": "Krüpteerimise taastamine ei lõppenud õigesti "
+    },
+    "confirm": {
+      "reset": "Kas soovite selle konto krüpteerimise taastada?\n\nVanemad krüpteeritud sõnumid võivad muutuda loetamatuks, kui te hiljem algset võtit taastada ei suuda."
+    },
+    "resetDescription": "See loob teie kontole uue krüpteerimisvõtme. Vanemad krüpteeritud sõnumid võivad muutuda loetamatuks, kui te hiljem algset võtit taastada ei suuda."
+  },
+  "smsConsent": {
+    "label": "Nõustun saama SMS-teateid ja hoiatusi ettevõttelt {{companyName}}. Sõnumite sagedus võib varieeruda. Võivad kehtida sõnumite ja andmeside tasud. Vastake <stop>STOP</stop>, et igal ajal tellimus tühistada. Vastake <help>HELP</help>, kui vajate abi."
+  },
+  "phoneField": {
+    "label": "Telefon",
+    "invalid": "Kehtetu telefoninumber",
+    "hint": "Lisage vajadusel riigikood (nt +1 415…)"
   },
   "auth": {
-    "headline": "Turvaline sõnumside kõigile ja kõikjal",
-    "description": "Läbiv krüpteerimine, tõlge enam kui 100 keelde, kaduvad sõnumid ning hääl- ja videokõned.",
-    "feature": {
-      "encryption": "Vaikimisi läbiv krüpteerimine",
-      "translation": "Nutikas sisseehitatud sõnumitõlge",
-      "disappearing": "Kaduvad sõnumid ja lugemiskinnitused",
-      "privacy": "Privaatsus ennekõike. Sinu andmed, sinu kontroll.",
-      "translate": "Nutikas sisseehitatud sõnumitõlge",
+    "pealkiri": "Turvaline sõnumivahetus kõigile, kõikjal",
+    "kirjeldus": "Läbiv krüpteerimine, tõlkimine enam kui 100 keelde, kaduvad sõnumid ning hääl- ja videokõned.",
+    "funktsioon": {
+      "krüpteerimine": "Vaikimisi läbiv krüpteerimine",
+      "tõlkimine": "Nutikas, sisseehitatud sõnumite tõlkimine",
+      "kaduvad": "Kaduvad sõnumid ja lugemiskinnitused",
+      "privacy": "Privaatsus esikohal. Sinu andmed, sinu kontroll.",
+      "translate": "Nutikas, sisseehitatud sõnumite tõlkimine",
       "disappear": "Kaduvad sõnumid",
-      "privacyAlt": "Privaatsuskeskne disain",
+      "privacyAlt": "Privaatsust esikohale seadev disain",
       "seePlans": "Vaata pakette ja hindu"
     },
     "hero": {
-      "line1": "Turvaline sõnumside kõigile ja kõikjal — koos",
-      "em": "tõlkega enam kui 100 keelde",
-      "sub": "Get  tasuta secure telefoninumber et call ja text worldwide over Wi-Fi või data. Naudi läbivat krüpteerimist, kaduvad sõnumid, ja HD hääl/video calling — koos built-sisse tools that help sa stay connected across borders.",
-      "freeNote": "Tavalised kõned ja sõnumid on tasuta. Täpsemad AI- ja premium-funktsioonid nõuavad uuendamist."
+      "line1": "Turvaline sõnumivahetus kõigile, kõikjal — koos",
+      "em": "tõlkimine enam kui 100 keelde",
+      "sub": "Hangi tasuta turvaline telefoninumber, et helistada ja saata sõnumeid üle maailma Wi-Fi või andmeside kaudu. Naudi otspunktidevahelist krüpteerimist, kaduvaid sõnumeid ja HD-kõne- ja videokõnesid — koos sisseehitatud tööriistadega, mis aitavad sul piiriüleselt ühenduses püsida.",
+      "freeNote": "Põhikõned ja sõnumid on tasuta. Täiustatud AI ja premium-funktsioonid nõuavad versiooniuuendust."
     },
     "feat": {
-      "encryption": "Läbiv krüpteerimine, alati sees",
-      "translate": "Murra vestlustes keelebarjäärid",
+      "encryption": "Läbiv krüpteerimine, alati sisse lülitatud",
+      "translate": "Ületage keelebarjäärid oma vestlustes",
       "disappear": "Kaduvad sõnumid ja lugemiskinnitused",
-      "privacy": "Privaatsus ennekõike. Sinu andmed, sinu kontroll."
+      "privacy": "Privaatsus esikohal. Teie andmed, teie kontroll."
     },
-    "continueGoogle": "Jätka Google’iga",
-    "continueApple": "Jätka Apple’iga",
+    "continueGoogle": "Jätka Google'iga",
+    "continueApple": "Jätka Apple'iga",
     "username": "Kasutajanimi",
     "password": "Parool",
-    "keepSignedIn": "Hoia mind sisselogituna",
+    "keepSignedIn": "Hoia mind sisse logitud",
     "forgotPassword": "Unustasid parooli?",
     "loginButton": "Logi sisse",
     "createAccount": "Loo konto",
     "freeAccountButton": "Loo tasuta konto",
     "newHere": "Oled siin uus?",
-    "getApp": "Hangi rakendus",
-    "desktopTip": "Kasutad arvutit? Rakenduse saamiseks skanni telefoniga.",
-    "scanHelper": "Kasutad arvutit? Rakenduse saamiseks skanni telefoniga.",
+    "getApp": "Lae rakendus alla",
+    "desktopTip": "Kas kasutad arvutit? Skaneeri oma telefoniga, et rakendus alla laadida.",
+    "scanHelper": "Kas kasutad arvutit? Skaneeri oma telefoniga, et rakendus alla laadida.",
     "goHome": "Mine avalehele",
-    "home": "Avaleht",
+    "home": "Kodu",
     "headlineAlt": {
       "main": "Turvaline sõnumirakendus, mis",
       "highlight": "räägib sinu keelt"
     },
-    "subhead": "Privaatne, krüpteeritud ja tõlgitud sõnumside — hetkega.",
+    "subhead": "Privaatsed, krüpteeritud ja tõlgitud sõnumid — koheselt.",
     "upgrade": "Uuenda kohe",
-    "tip": "Nõuanne: kasuta veebis ja mobiilis sama kontot. Sinu sõnumid püsivad sünkroonis.",
+    "tip": "Nõuanne: Kasuta sama kontot veebis ja mobiilis. Su sõnumid jäävad sünkroniseeritud.",
     "openDownload": "Ava allalaadimisleht",
     "qrAlt": "Chatforia QR-kood",
-    "scanHint": "Skanni rakenduse allalaadimiseks või ava brauseris.",
-    "iosAria": "Laadi alla App Store’ist",
-    "iosTitle": "Laadi alla App Store’ist",
-    "iosBadgeAlt": "App Store’i märk",
-    "androidAria": "Hangi Google Playst",
-    "androidTitle": "Google Play pood",
+    "scanHint": "Skanni, et rakendus alla laadida või avada brauseris.",
+    "iosAria": "Lae alla App Store'ist",
+    "iosTitle": "Lae alla App Store'ist",
+    "iosBadgeAlt": "App Store'i märk",
+    "androidAria": "Lae alla Google Playst",
+    "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Google Play märk",
     "login": "Logi sisse",
     "signup": "Registreeru",
     "email": "E-post",
     "registration": {
-      "passwordDescription": "Minimum 6 characters. Use  strong, unique password.",
-      "smsConsent": "By creating  konto, sa agree et receive SMS notifications related et your Chatforia activity (such as sõnumid alates other kasutajad). Sõnum & data rates may apply. Sina saab opt out at any time sisse Seaded.",
-      "termsLink": "Teenustingimused",
+      "passwordDescription": "Vähemalt 6 tähemärki. Kasuta tugevat ja unikaalset parooli.",
+      " smsConsent": "Konto loomisel nõustud saama SMS-teateid, mis on seotud su Chatforia tegevusega (nt teated teistelt kasutajatelt). Võivad kehtida sõnumite ja andmeside tasud. Saad sellest igal ajal loobuda seadete alt.",
+      "termsLink": "Kasutustingimused",
       "privacyLink": "Privaatsuspoliitika"
     },
-    "to": "Saajale:",
+    "to": "Kellele:",
     "enterRecipient": "Sisesta nimi või number",
     "clearRecipients": "Tühjenda saajad",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Kirjuta sõnum…",
-    "addRecipient": "Alustamiseks lisa ülal saaja…",
-    "oneRecipient": "Palun sisesta praegu üks saaja.",
+    "typeMessage": "Sisesta sõnum…",
+    "addRecipient": "Lisa saaja ülal, et alustada…",
+    "oneRecipient": "Palun sisesta esialgu üks saaja.",
     "enterValidRecipient": "Sisesta salvestatud kontakti nimi või telefoninumber.",
     "sendFailed": "Saatmine ebaõnnestus. Vaata üksikasju konsoolist."
   },
   "home": {
-    "title": "Avaleht",
+    "\n \ntitle": "Kodu",
     "messagesTitle": "Sinu sõnumid",
-    "messagesSubtitle": "Sisesta ülal saaja ja saada vestluse alustamiseks sõnum.",
-    "subheader": "Vestluse alustamiseks saada sõnum.",
+    "messagesSubtitle": "Sisesta ülal saaja ja saada sõnum, et alustada vestlust.",
+    "subheader": "Saada sõnum, et alustada vestlust.",
     "sendButton": "Saada sõnum",
     "gifPicker": "Ava GIF-valija",
-    "emoji": "Emotikon",
+    "emoji": "Emoji",
     "upload": "Laadi üles foto või video",
-    "inputPlaceholder": "Kirjuta sõnum…",
-    "inputLabel": "Sõnumikoostaja",
+    "inputPlaceholder": "Sisesta sõnum…",
+    "inputLabel": "Sõnumi koostaja",
     "sendTooltip": "Saada",
-    "sendTooltipEmpty": "Kirjuta saatmiseks sõnum",
+    "sendTooltipEmpty": "Sisesta saadetav sõnum",
     "send": "Saada",
     "welcomeMessage": "Tere tulemast Chatforiasse",
     "getStarted": "Alusta",
-    "enterRecipient": "Sisestage nimi või number",
-    "addRecipient": "Lisage alustamiseks ülal adressaat…",
-    "mixedRecipients": "Mixed recipients detected. Use either kõik telefoninumbers (SMS) või kõik usernames (Chatforia).",
-    "needNumber": "Sina need  Chatforia number before sending SMS.",
-    "chooseNumber": "Vali  number"
+    "mixedRecipients": "Avastati segatud saajad. Kasuta kas kõiki telefoninumbreid (SMS) või kõiki kasutajanimesid (Chatforia).",
+    "enterRecipient": "Sisesta nimi või number",
+    "addRecipient": "Lisa eespool saaja, et alustada…",
+    "needNumber": "Enne SMSi saatmist on vaja Chatforia numbrit.",
+    "chooseNumber": "Vali number"
   },
-  "refund": {
-    "title": "Tagasimaksepoliitika",
-    "lastUpdated": "Viimati uuendatud:",
-    "intro": "At Chatforia, me strive et provide  high-quality teenus et kõik kasutajad. This Refund Poliitika outlines when refunds may be issued.",
-    "subscriptions": {
-      "title": "Tellimused",
-      "body": "Subscriptions on billed sisse advance on  recurring basis. Sina may cancel at any time through your konto seaded või  platform used et purchase."
-    },
-    "eligibility": {
-      "title": "Tagasimakse sobivus",
-      "body": "Refunds may be granted jaoks duplicate charges, billing errors, või technical issues preventing access et paid features. Kõik requests on reviewed case-by-case."
-    },
-    "nonRefundable": {
-      "title": "Tagastamatu",
-      "body": "Me generally do not provide refunds jaoks unused time, partial subscription periods, või failure et cancel before renewal."
-    },
-    "thirdParty": {
-      "title": "Kolmanda osapoole ostud",
-      "body": "If purchased through third-party platforms such as  Apple App Store, refunds must be requested directly through those platforms."
-    },
-    "contact": {
-      "title": "Kontakt",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
+  "sidebar": {
+    "randomChat": "Juhuslik vestlus",
+    "callTextForwarding": "Kõnede ja tekstisõnumite edastamine ",
+    "conversations": "Vestlused",
+    "searchPlaceholder": "Otsi vestlusi...",
+    "errorLoading": "Vestluste laadimine ebaõnnestus",
+    "empty": "Vestlusi pole veel.",
+    "startChat": "Alusta vestlust",
+    "people": "Inimesed",
+    "settings": "Seaded",
+    "status": "Staatus",
+    "forwarding": "Kõnede ja sõnumite edastamine",
+    "refresh": "Värskenda",
+    "search": "Otsi vestlusi",
+    "loginPrompt": "Logi sisse, et muuta oma seadeid.",
+    "login": "Logi sisse",
+    "register": "Loo konto",
+    "chatrooms": "Vestlusruumid",
+    "logout": "Välju",
+    "startChatAlt": "Alusta uut vestlust",
+    "calls": "Kõned",
+    "video": "Video",
+    "voicemail": "Häälpost"
   },
-  "blog": {
-    "whyMessaging": {
-      "title": "Miks sõnumiplatvormid on tähtsamad kui kunagi varem",
-      "intro": "Messaging platforms have become one   most important tools jaoks communication sisse today’s world. From personal conversations et business interactions, messaging apps allow people et stay connected instantly ja efficiently.",
-      "everydayTitle": "Igapäevane suhtlus",
-      "everydayDesc": "Inimesed rely on messaging apps jaoks daily communication koos sõbrad, family, ja colleagues. Whether it's  quick update või  long vestlus, messaging provides  convenient ja flexible way et stay sisse touch.",
-      "speedTitle": "Kiirus ja mugavus",
-      "speedDesc": "One   main advantages  messaging platforms on their speed. Sõnumid on delivered instantly, allowing kasutajad et communicate sisse real time. This level  convenience has made messaging  preferred method  communication jaoks many people.",
-      "globalTitle": "Ülemaailmne ulatus",
-      "globalDesc": "Messaging platforms connect people across  globe. With internet access, kasutajad saab communicate regardless  location, making it easier et build relationships ja collaborate internationally.",
-      "privacyTitle": "Privaatsus ja kontroll",
-      "privacyDesc": "Modern messaging platforms focus on giving kasutajad control over their data ja conversations. Funktsioonid like encryption, privacy seaded, ja message controls allow kasutajad et communicate koos confidence.",
-      "futureTitle": "Sõnumside tulevik",
-      "futureDesc": "Messaging continues et evolve koos uus features such as AI-powered responses, tõlge, ja multimedia sharing. As technology advances, messaging platforms hakkab become even rohkem powerful ja versatile.",
-      "outro": "Chatforia on built koos these principles sisse mind, offering  fast, secure, ja user-friendly messaging experience jaoks  connected world."
-    },
-    "global": {
-      "title": "Ülemaailmse suhtluse tulevik",
-      "intro": "Communication has evolved rapidly over  past few decades. What once nõutav phone kõned või sisse-person meetings saab nüüd be done quickly through messaging platforms. As technology continues et advance, global communication on becoming faster, rohkem accessible, ja rohkem inclusive.",
-      "barriersTitle": "Barjääride murdmine",
-      "barriersDesc": "One   biggest changes sisse communication on  reduction  geographic barriers. Inimesed saab nüüd connect koos others across  world sisse near real time. Whether jaoks personal conversations, business, või collaboration, messaging platforms have made distance far vähem limiting.",
-      "translationTitle": "Tõlketehnoloogia roll",
-      "translationDesc": "Keel has traditionally been one   biggest obstacles et global communication. Today, built-sisse tõlge tools help bridge that gap. Platforms like Chatforia allow kasutajad et communicate rohkem easily even if they speak different keeled, creating uus opportunities jaoks connection ja understanding.",
-      "realtimeTitle": "Reaalajas ühenduvus",
-      "realtimeDesc": "Speed on  key factor shaping modern communication. Users expect sõnumid et be delivered quickly, ja modern infrastructure supports that expectation. Real-time messaging enables rohkem natural ja fluid conversations.",
-      "privacyTitle": "Privaatsus ja turvalisus",
-      "privacyDesc": "As communication becomes rohkem digital, privacy ja security on increasingly important. Users want confidence that their conversations on kaitstud. Funktsioonid like encryption ja user-controlled seaded help tugi  rohkem secure communication experience.",
-      "futureTitle": "Mis saab edasi",
-      "futureDesc": "The future  global communication hakkab likely include rohkem advanced tools, such as AI-assisted messaging, improved tõlge, ja enhanced user experiences. As technology evolves, communication hakkab jätka et become rohkem intuitive ja accessible.",
-      "outro": "Platforms like Chatforia on part  this shift, helping people connect rohkem easily across keeled ja borders."
-    },
-    "index": {
-      "title": "Chatforia blogi",
-      "intro": "Explore insights on communication, online safety, ja how messaging technology on connecting people around  world.",
-      "post1": "Kuidas veebis turvaliselt vestelda",
-      "post2": "Ülemaailmse suhtluse tulevik",
-      "post3": "Miks sõnumiplatvormid on olulised"
-    }
+  "topbar": {
+    "newStatus": "Uus staatus",
+    "logout": "Välju",
+    "help": "Abi",
+    "createStatusAria": "Loo uus staatus"
   },
-  "howItWorks": {
-    "title": "Kuidas Chatforia töötab",
-    "intro": "Chatforia on designed et make communication simple, fast, ja accessible. Getting started takes just  few steps.",
-    "step1Title": "1. Loo  Konto",
-    "step1Desc": "Sign up using your email või username et create your Chatforia konto.",
-    "step2Title": "2. Alusta  Conversation",
-    "step2Desc": "Connect koos others by selecting kontaktid või starting uus chats.",
-    "step3Title": "3. Reaalajas sõnumside",
-    "step3Desc": "Sõnumid on delivered quickly et provide  smooth communication experience.",
-    "step4Title": "4. Globaalne Communication",
-    "step4Desc": "Built-sisse tõlge helps kasutajad communicate across different keeled.",
-    "step5Title": "5. Stay sisse Control",
-    "step5Desc": "Halda your eelistused, kontaktid, ja communication seaded."
-  },
-  "safety": {
-    "title": "Ohutus- ja kogukonnajuhised",
-    "intro": "Chatforia on committed et maintaining  safe ja respectful environment jaoks kõik kasutajad. These guidelines help ensure  positive experience jaoks everyone.",
-    "respectTitle": "Lugupidav suhtlus",
-    "respectDesc": "Users on expected et communicate respectfully. Harassment, abuse, või harmful behavior on not permitted.",
-    "prohibitedTitle": "Keelatud sisu",
-    "prohibited": {
-      "illegal": "Ebaseaduslik tegevus",
-      "harassment": "Ahistamine või kiusamine",
-      "hate": "Vihakõne või diskrimineerimine",
-      "explicit": "Selgesõnaline või kahjulik materjal",
-      "spam": "Rämpspost või petlikud võtted"
+  "footer": {
+    "plans": "Paketid ja hinnad",
+    "about": "Chatforia kohta",
+    "careers": " Karjäär",
+    "press": "Press",
+    "advertise": "Reklaam",
+    "contact": "Võta meiega ühendust",
+    "help": " Abi",
+    "status": "Staatusleht",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privaatsuspoliitika",
+    "terms": "Kasutustingimused",
+    "cookies": "Küpsiste seaded",
+    "doNotSell": "Ära müü minu andmeid",
+    "language": "Keel",
+    "contactShort": "Kontakt",
+    "aria": "Jalamärge",
+    "homeAria": "Chatforia avaleht",
+    "section": {
+      "company": "ETTEVÕTE",
+      "support": "TUGITEENUS ",
+      "downloads": "ALLALAADIMISED",
+      "legal": "ÕIGUSLIK"
     },
-    "toolsTitle": "Kasutaja ohutustööriistad",
-    "tools": {
-      "report": "Teata sobimatust käitumisest või sisust",
-      "block": "Blokeeri kasutajad edasise suhtluse vältimiseks",
-      "control": "Halda privaatsus- ja suhtlusseadeid"
+    "links": {
+      "plans-pricing": "Paketid ja hinnad",
+      "about-chatforia": "Chatforia kohta",
+      "careers": "Karjäär",
+      "press": "Press",
+      "advertise": "Reklaam",
+      " alustamine": "Alustamine",
+      "abikeskus": "Abikeskus",
+      "võta-meiega-ühendust": "Võta meiega ühendust",
+      "staatusleht": "Staatusleht",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privaatsuspoliitika": "Privaatsuspoliitika",
+      "kasutustingimused -service": "Kasutustingimused",
+      "do-not-sell-my-info": "Ära müü minu andmeid",
+      "cookie-settings": "Küpsiste seaded",
+      "how-it-works": "Kuidas see töötab",
+      "blog": "Blogi",
+      "refund-policy": "Tagasimaksepoliitika",
+      "sms-policy": "SMS-sõnumite poliitika"
     },
-    "enforcementTitle": "Jõustamine",
-    "enforcementDesc": "Me may take action against accounts that violate these guidelines, including warnings, restrictions, või permanent removal alates  platform."
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": " LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent taotluses",
+    "backToTop": "↑ Tagasi üles"
   },
   "chat": {
-    "selectPrompt": "Vali  text või vestlus room et start chatting",
-    "newMessages": "Uus sõnumid",
-    "typing": "{{name}} on typing...",
+    "selectPrompt": "Vali tekst või jututuba, et alustada vestlust",
+    "newMessages": "Uued sõnumid",
+    "typing": "{{name }} kirjutab...",
     "emptyTitle": "Sinu sõnumid",
-    "emptySubtitle": "Vestluse alustamiseks saada sõnum.",
+    "emptySubtitle": "Saada sõnum, et alustada vestlust.",
     "startChatButton": "Saada sõnum",
-    "mediaAttachment": "Meediamanus",
+    "mediaAttachment": "Meedia manuse lisamine",
     "thisUser": "see kasutaja",
-    "blockConfirm": "Blokeeri {{name}}? Sina won't receive sõnumid alates them.",
+    "blockConfirm": "Blokeerida {{name}}? Sa ei saa enam temalt sõnumeid.",
     "blockedUser": "Blokeeritud {{name}}.",
-    "blockError": "Could not determine  target user et block.",
-    "blockFailed": "Blokeeri failed (backend not wired yet).",
-    "encryptedUnavailable": "Krüpteeritud message (key pole saadaval)",
-    "unlockToView": "Unlock your key et view this message"
+    "blockError": "Ei õnnestunud kindlaks teha blokeeritavat kasutajat.",
+    "blockFailed": "Blokeerimine ebaõnnestus (tagapõhi pole veel ühendatud).",
+    "encryptedUnavailable": "Krüpteeritud sõnum (võti pole saadaval)",
+    "unlockToView": "Vabasta oma võti, et seda sõnumit vaadata"
   },
-  "messageInput": {
+  " messageInput": {
     "ttl": {
       "off": "Väljas"
     },
-    "freeLimit": "Tasuta plan limit: auto-delete up et 1 day. Clamped et 1d.",
-    "premiumLimit": "Max auto-delete jaoks Premium on 30 days. Clamped et 30d.",
-    "nothingToSend": "Kirjuta  message või attach  fail et send.",
-    "encryptionFailed": "Krüpteerimine failed. Sõnum not saadetud.",
-    "sent": "Sõnum delivered.",
-    "placeholder": "Kirjuta sõnum…",
+    "freeLimit": "Tasuta paketi piirang: automaatne kustutamine kuni 1 päev. Piiratud 1 päevaga.",
+    "premiumLimit": "Premium-paketi maksimaalne automaatne kustutamine on 30 päeva. Piiratud 30 päevaga.",
+    "\n \nnothingToSend": "Sisesta sõnum või lisa fail saatmiseks.",
+    "encryptionFailed": "Krüpteerimine ebaõnnestus. Sõnumit ei saadetud.",
+    "sent": "Sõnum edastatud.",
+    "placeholder": "Sisesta sõnum… ",
     "autoDelete": "Automaatne kustutamine",
-    "voiceAdded": "Häälsõnum lisatud",
-    "attachmentAdded": "Manus lisatud",
-    "typeToSend": "Kirjuta saatmiseks sõnum",
+    "typeToSend": "Sisesta saadetav sõnum",
     "send": "Saada",
-    "sendWithEnter": "Saada (Sisesta)",
+    "sendWithEnter": "Saada (Enter)",
     "attachment": "manus",
-    "caption": "Subtiitrid (valikuline)",
+    "caption": "Pealkiri (valikuline)",
     "remove": "Eemalda",
     "clear": "Tühjenda",
     "gif": "GIF",
     "sticker": "Kleebis",
     "errors": {
-      "attachmentTooLarge": "Attachment too large. Proovi  smaller fail.",
-      "unsupportedFile": "Unsupported fail kirjuta.",
-      "rateLimit": "Sina’re sending sõnumid too quickly. Palun slow down.",
-      "validation": "Validation error. Palun kontrolli your message ja proovi uuesti.",
-      "failedToSend": "Ebaõnnestus et send. Sina saab retry  failed bubble."
+      "attachmentTooLarge": "Manus on liiga suur. Proovi väiksemat faili.",
+      "unsupportedFile": "Toetamata failitüüp.",
+      "rateLimit": "Saadad sõnumeid liiga kiiresti. Palun aeglusta.",
+      "validation": "Valideerimisviga. Palun kontrolli oma sõnumit ja proovi uuesti.",
+      "failedToSend": "Saatmine ebaõnnestus. Võid ebaõnnestunud mullikest uuesti proovida."
     }
-  },
-  "contactList": {
-    "savedContacts": "Salvestatud Kontaktid",
-    "refreshAria": "Värskenda kontaktid",
-    "filterPlaceholder": "Filter salvestatud kontaktid…",
-    "filterAria": "Filter salvestatud kontaktid",
-    "noContactsFound": "Ei kontaktid leitud.",
-    "externalContact": "External kontakt",
-    "notJoined": "That kontakt hasn’t joined Chatforia yet.",
-    "couldNotStart": "Could not start vestlus. Palun proovi uuesti.",
-    "startFailed": "Ebaõnnestus et start vestlus. Palun proovi uuesti.",
-    "deleted": "Kontakt deleted.",
-    "deleteFailed": "Ebaõnnestus et delete kontakt. Palun proovi uuesti.",
-    "aliasUpdated": "Hüüdnimi uuendatud.",
-    "updateAliasFailed": "Ebaõnnestus et update alias. Palun proovi uuesti.",
-    "selectContact": "Vali {{name}}",
-    "alias": "Hüüdnimi",
-    "startChat": "Alusta vestlus",
-    "message": "Sõnum",
-    "delete": "Kustuta",
-    "deleteContactAria": "Kustuta kontakt",
-    "loadFailed": "Ebaõnnestus et laadi kontaktid. Palun proovi uuesti.",
-    "loadMore": "Laadi rohkem",
-    "call": "Helista",
-    "callStarted": "Calling this number via your Chatforia number…",
-    "callFailed": "Ebaõnnestus et start call. Palun proovi uuesti."
-  },
-  "startChatModal": {
-    "title": "Alusta vestlust",
-    "searchPlaceholder": "Otsi name, username, või telefoninumber",
-    "messageThisPerson": "Sõnum this person",
-    "contacts": "Kontaktid",
-    "recentInteractions": "Hiljutised suhtlused",
-    "noContactsMatch": "Ei kontaktid match your search.",
-    "noRecentInteractions": "Ei recent interactions yet.",
-    "unknown": "Tundmatu",
-    "interactionType": {
-      "message": "Sõnum",
-      "call": "Helista",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Lisa kontakt",
-    "phoneOrUsername": "Telefon või username",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 või juliannorton",
-    "alias": "Alias (valikuline)",
-    "aliasPlaceholder": "e.g. Work, Mom, Mike – Euroopa",
-    "enterPhoneOrUsername": "Sisesta  telefoninumber või username.",
-    "userLookupFailed": "Kasutaja otsing ebaõnnestus.",
-    "cannotAddSelf": "Sina cannot add yourself as  kontakt.",
-    "failedToAdd": "Ebaõnnestus et add kontakt.",
-    "add": "Lisa"
-  },
-  "sidebar": {
-    "randomChat": "Juhuslik vestlus",
-    "callTextForwarding": "Kõne & Text Edastamine",
-    "conversations": "Vestlused",
-    "searchPlaceholder": "Otsi chats...",
-    "errorLoading": "Ebaõnnestus et laadi chats",
-    "empty": "Ei conversations yet.",
-    "startChat": "Alusta  vestlus",
-    "people": "Inimesed",
-    "settings": "Seaded",
-    "status": "Olek",
-    "forwarding": "Kõne & Text Edastamine",
-    "refresh": "Värskenda",
-    "search": "Otsi conversations",
-    "loginPrompt": "Log sisse et edit your seaded.",
-    "login": "Log sisse",
-    "register": "Loo konto",
-    "chatrooms": "Jututoad",
-    "logout": "Logi välja",
-    "startChatAlt": "Alusta  uus vestlus",
-    "calls": "Kõned",
-    "video": "Video",
-    "voicemail": "Kõnepost"
-  },
-  "topbar": {
-    "newStatus": "Uus Olek",
-    "logout": "Logi välja",
-    "help": "Abi",
-    "createStatusAria": "Loo uus Olek"
   },
   "threadActions": {
-    "threadMenu": "Lõime menüü",
+    "threadMenu": "Teemamenüü",
     "premium": "Premium",
-    "aiPower": "AI võimsus",
+    "aiPower": "AI Power",
     "schedule": "Ajakava",
     "upgrade": "Uuenda",
     "upgradeSuffix": "(Uuenda)",
-    "thread": "Lõim",
-    "about": "Teave",
+    "thread": "Teema",
+    "about": "Meist",
     "search": "Otsi",
     "media": "Meedia",
     "invitePeople": "Kutsu inimesi",
-    "roomSettings": "Toa seaded",
-    "clearConversation": "Kustuta vestlus",
-    "clearConversationForMe": "Kustuta minu jaoks",
-    "clearConversationForEveryone": "Kustuta kõigi jaoks",
+    "roomSettings": "Ruumi seaded",
+    "clearConversation": "Tühjenda vestlus",
     "block": "Blokeeri"
   },
   "roomSearch": {
-    "title": "Otsi toast",
-    "ariaLabel": "Otsi toast",
+    "title": "Otsi ruumis",
+    "ariaLabel": "Otsi ruumis",
     "search": "Otsi",
-    "searchMessages": "Otsi sõnumid",
-    "noText": "[Ei text]",
+    "searchMessages": "Otsi sõnumeid",
+    "noText": "[Teksti pole]",
     "noResults": "Tulemusi pole"
   },
   "roomSettings": {
     "roles": {
       "member": "Liige",
-      "moderator": "Moderaator",
-      "admin": "Administraator"
+      "moderator": " Moderaator",
+      "admin": "Admin"
     },
     "aiMode": {
       "off": "Väljas",
-      "mention": "Only on @ForiaBot või /ask",
-      "always": "Vasta ennetavalt"
+      "mention": "Ainult @ForiaBot või /ask",
+      "always": "Vasta proaktiivselt"
     },
     "autoTranslateMode": {
       "off": "Väljas",
       "tagged": "Ainult märgistatud (/tr …)",
       "all": "Kõik sõnumid"
     },
-    "updated": "Seaded updated"
+    "updated": "Seaded uuendatud"
   },
   "mediaGallery": {
     "sharedMedia": "Jagatud meedia",
-    "noMediaCached": "Ei meedia cached locally yet.",
+    "noMediaCached": "Meediat pole veel kohalikult salvestatud.",
     "imageAlt": "pilt",
     "openVideo": "Ava video",
     "openVideoWithCaption": "Ava video: {{caption}}",
     "preview": "Eelvaade",
     "previewWithCaption": "Eelvaade: {{caption}}",
     "previewKind": "Eelvaade {{kind}}",
-    "download": "Laadi alla",
-    "downloadKind": "Laadi alla {{kind}}",
+    "download": "Lae alla",
+    "downloadKind": "Lae alla {{kind}}",
     "file": "fail",
     "kinds": {
       "image": "pilt",
@@ -419,14 +390,14 @@
   },
   "status": {
     "userNumber": "Kasutaja #{{id}}",
-    "posted": "Olek postitatud",
-    "postFailed": "Oleku postitamine ebaõnnestus",
-    "createTitle": "Loo olek",
-    "modalAriaLabel": "Uus status",
+    "posted": "Staatus postitatud",
+    "postFailed": "Staatuse postitamine ebaõnnestus",
+    "createTitle": "Loo staatus",
+    "modalAriaLabel": "Uus staatus",
     "captionLabel": "Mis sul mõttes on?",
-    "captionPlaceholder": "Share  update...",
-    "captionAria": "Olek message",
-    "audienceLabel": "Vaatajaskond",
+    "captionPlaceholder": "Jaga uudis.. .",
+    "captionAria": "Staatussõnum",
+    "audienceLabel": "Sihtrühm",
     "audience": {
       "public": "Avalik",
       "followers": "Jälgijad",
@@ -436,308 +407,645 @@
     },
     "expiresHoursLabel": "Aegub (tundides)",
     "maxTooltip": "Maksimaalselt 7 päeva",
-    "hoursAbbrev": "t",
+    "hoursAbbrev": "h",
     "maxShort": "max",
     "expiresOn": "Aegub:",
-    "chooseRecipients": "Vali recipients",
+    "chooseRecipients": "Vali saajad",
     "selectContacts": "Vali kontaktid",
     "attachmentsLabel": "Manused",
-    "attachmentsPlaceholder": "Lisa images/videos",
-    "filesNote": "Up et 5 failid. 24h expiry by default.",
-    "postAria": "Postita status",
+    "attachmentsPlaceholder": "Lisa pilte/videoid",
+    "filesNote": "Kuni 5 faili. Vaikimisi aegub 24 tunni pärast.",
+    "postAria": "Postita staatus",
     "post": "Postita"
   },
   "voicemail": {
-    "pageTitle": "Kõnepost",
+    "pageTitle": "Häälsõnum",
     "from": "Saatja",
-    "to": "Saajale",
+    "to": "Saaja",
     "unknownCaller": "Tundmatu",
     "yourNumber": "Sinu Chatforia number",
-    "durationSeconds": "{{count}} s",
-    "audioAria": "Kõnepost heli player",
-    "transcriptHeading": "Transkript",
-    "transcriptPending": "Kõneposti transkribeerimine…",
-    "transcriptFailed": "Transkript pole saadaval.",
-    "loading": "Kõneposti laadimine…",
-    "errorLoading": "Kõneposti laadimine ebaõnnestus.",
-    "empty": "Kõneposte veel pole.",
-    "deleteConfirm": "Kas kustutada see kõnepost?",
-    "deleteError": "Kõneposti kustutamine ebaõnnestus.",
+    "durationSeconds": " {{count}}s",
+    "audioAria": "Häälsõnumi helimängija",
+    "transcriptHeading": "Transkriptsioon",
+    "transcriptPending": "Häälsõnumi transkribeerimine…",
+    "transcriptFailed": "Transkriptsioon pole saadaval.",
+    "loading": "Häälsõnumi laadimine…",
+    "errorLoading": "Häälsõnumi laadimine ebaõnnestus.",
+    "empty": "Häälsõnumeid pole veel.",
+    "deleteConfirm": "Kas soovid selle häälsõnumi kustutada?",
+    "deleteError": "Häälsõnumi kustutamine ebaõnnestus.",
     "markRead": "Märgi loetuks",
     "delete": "Kustuta",
-    "unreadDotAria": "Lugemata kõneposti tähis"
+    "unreadDotAria": "Loetamata häälsõnumi indikaator"
+  },
+  "contactList": {
+    "savedContacts": "Salvestatud kontaktid",
+    "refreshAria": "Värskenda kontakte",
+    "filterPlaceholder": "Filtreeri salvestatud kontakte…",
+    "filterAria": "Filtreeri salvestatud kontakte",
+    "noContactsFound": "Kontakte ei leitud.",
+    "externalContact": "Väliskontakt",
+    "notJoined": "See kontakt ei ole veel Chatforia liitunud.",
+    "couldNotStart": "Vestlust ei saanud alustada. Palun proovi uuesti.",
+    "startFailed": "Vestluse alustamine ebaõnnestus. Palun proovi uuesti. ",
+    "deleted": "Kontakt on kustutatud.",
+    "deleteFailed": "Kontakti kustutamine ebaõnnestus. Palun proovi uuesti.",
+    "aliasUpdated": "Alias on uuendatud.",
+    "updateAliasFailed": "Aliase uuendamine ebaõnnestus. Palun proovi uuesti.",
+    "selectContact": "Vali {{name}}",
+    "alias": "Alias",
+    "startChat": "Alusta vestlust",
+    "message": "Sõnum",
+    "delete": "Kustuta",
+    "deleteContactAria": "Kustuta kontakt",
+    "loadFailed": "Kontaktide laadimine ebaõnnestus. Palun proovi uuesti.",
+    "loadMore": "Laadi rohkem",
+    "call": "Helista",
+    "callStarted": "Helistan sellele numbrile sinu Chatforia numbri kaudu…",
+    "callFailed": "Helistamine ebaõnnestus. Palun proovi uuesti."
+  },
+  "addContactModal": {
+    "title": "Lisa kontakt",
+    "phoneOrUsername": "Telefoninumber või kasutajanimi",
+    "phoneOrUsernamePlaceholder": "nt +13018019227 või juliannorton",
+    "alias": "Alias (valikuline)",
+    "aliasPlaceholder": "nt nt. Töö, Ema, Mike – Euroopa",
+    "enterPhoneOrUsername": "Sisesta telefoninumber või kasutajanimi.",
+    "userLookupFailed": "Kasutaja otsimine ebaõnnestus.",
+    "cannotAddSelf": "Sa ei saa ennast kontaktina lisada.",
+    "failedToAdd": "Kontakti lisamine ebaõnnestus.",
+    "add": "Lisa"
+  },
+  "startChatModal": {
+    "title": "Alusta vestlust",
+    "searchPlaceholder": "Otsi nime, kasutajanime või telefoninumbrit",
+    "messageThisPerson": "Saada sellele inimesele sõnum",
+    "contacts": "Kontaktid",
+    "recentInteractions": "Viimased suhtlused",
+    "noContactsMatch": "Sinu otsingule ei leitud ühtegi kontakti.",
+    "noRecentInteractions": "Viimaseid suhtlusi pole veel.",
+    "unknown": "Teadmata",
+    "interactionType": {
+      "message": "Sõnum",
+      "call": "Kõne",
+      "video": "Video"
+    },
+    "quickPicker": "Kiirvalik",
+    "to": "Kellele",
+    "nameOrUsername": "Sisesta nimi, kasutajanimi",
+    "nameUsernamePhoneEmail": "Sisesta nimi, kasutajanimi, telefoninumber või e-posti aadress…",
+    "startWithSelected": "Alusta vestlust valitud isikuga",
+    "searchByUsernameOrPhone": "Otsi kasutajanime või telefoninumbri järgi",
+    "search": "Otsi",
+    "searchPrompt": " Sisesta kasutajanimi või telefoninumber ja vajuta Otsi.",
+    "pickFromContacts": "Või vali kontaktide hulgast",
+    "addContact": "Lisa kontakt",
+    "show": "Näita",
+    "add": "Lisa",
+    "close": "Sulge",
+    "selectedCount": "{{count}} valitud",
+    "pickAtLeastOne": "Vali vähemalt üks saaja.",
+    "saveContactsHint": "Telefoni- ja e-postiandmed on kättesaadavad pärast nende salvestamist kontaktidena.",
+    "failedBulkStart": "Vestluse alustamine valitud saajatega ebaõnnestus.",
+    "noResults": "Tulemusi pole",
+    "mode": "Režiim",
+    "group": "Rühm",
+    " broadcast": "Üldine teade",
+    "groupNameOptional": "Rühma nimi (valikuline)",
+    "firstMessageOptional": "Esimene sõnum (valikuline, kuid soovitatav)",
+    "createGroup": "Loo rühm",
+    "sendBroadcast": "Saada üldine teade"
+  },
+  "peoplePage": {
+    "people": "Inimesed",
+    "search": "Otsi",
+    "searchPlaceholder": "Otsi salvestatud kontakteid hüüdnime, nime, kasutajanime või telefoni järgi",
+    "quickStart": "Kiirstart",
+    "quickStartDesc": "Haldage oma kontakte ja kutsuge sõpru.",
+    "importContacts": "Impordi oma kontaktid",
+    "import ": "Impordi",
+    "addContact": "Lisa kontakt",
+    "add": "Lisa",
+    "inviteFriends": "Kutsu sõpru",
+    "inviteDesc": "Jaga oma kutselingi, et alustada vestlust kohe.",
+    "getTheApp": "Lae rakendus alla",
+    "getTheAppDesc": "Hoia ühendust ka liikvel olles Chatforia iOS-i ja Androidi rakendusega.",
+    "download": "Lae alla",
+    "syncTip": "Vihje: su sõnumid sünkroniseeritakse veebi ja mobiili vahel.",
+    "filterSaved": "Filtreeri salvestatud kontakte",
+    "noContactsFound": "Kontakte ei leitud",
+    "focusSearch": "Keskendu otsingule",
+    "findOrAdd": "Leia või lisa keegi",
+    "searchByPhoneOrUsername": "Otsi telefoni / kasutajanime järgi"
   },
   "profile": {
-    "title": "Kasutajaprofiil",
+    "title": "Kasutaja profiil",
     "preferredLanguage": "Eelistatud keel",
     "chooseLanguage": "Vali keel",
-    "mustLogin": "Seadete vaatamiseks pead sisse logima.",
-    "autoTranslate": "Tõlgi sõnumid automaatselt",
-    "showOriginalWithTranslation": "Näita algset ja tõlgitud sõnumit",
-    "showOriginalAndTranslation": "Näita algteksti koos tõlkega",
-    "filterExplicit": "Filtreeri selgesõnalist sisu",
-    "aiReply": "AI vastus",
+    "mustLogin": "Sa pead sisse logima, et seadeid vaadata.",
+    "autoTranslate": "Sõnumite automaatne tõlkimine",
+    "showOriginalWithTrans lation": "Näita originaali ja tõlgitud sõnumeid",
+    "showOriginalAndTranslation": "Näita originaali koos tõlkega",
+    "filterExplicit": "Filtreeri eksplitsiitset sisu",
+    "aiReply": "AI-vastus",
     "enableReadReceipts": "Luba lugemiskinnitused",
-    "allowExplicitContent": "Luba selgesõnaline sisu",
+    "allowExplicitContent": "Luba eksplitsiitset sisu",
     "disappearingMessages": "Luba kaduvad sõnumid",
     "autoDeleteSeconds": "Sekundid automaatse kustutamiseni",
     "saveSuccess": "Seaded salvestatud!",
     "saveError": "Viga: seadeid ei saanud salvestada",
     "avatarAlt": "Profiili avatar",
     "uploadAvatar": "Laadi üles uus avatar",
-    "avatarSuccess": "Avatar laaditi üles!",
+    "avatarSuccess": "Avatar üles laaditud!",
     "avatarError": "Avatari üleslaadimine ebaõnnestus",
     "avatarUpdated": "Avatar uuendatud!",
-    "uploadingAvatar": "Avatari üleslaadimine…",
-    "noPrivateKey": "There on no private key on this device et export.",
-    "setBackupPassword": "Set  password et encrypt your backup:",
-    "backupDownloaded": "Krüpteeritud backup downloaded.",
-    "exportFailed": "Võtme eksport ebaõnnestus",
-    "enterBackupPassword": "Sisesta  password jaoks this backup:",
-    "importSuccess": "Privaatne key imported et this device.",
-    "importFailed": "Ebaõnnestus et import key (incorrect password või corrupt fail).",
-    "keysRotated": "Uus key pair generated ja public key uploaded.",
-    "rotateFailed": "Ebaõnnestus et rotate keys.",
+    "uploadingAvatar": "Avatari üleslaadimine...",
+    "noPrivateKey": "Sellel seadmel pole eksportimiseks privaatset võtit.",
+    "setBackupPassword": "Määra parool oma varukoopia krüpteerimiseks:",
+    "backupDownloaded": "Krüpteeritud varukoopia alla laaditud.",
+    "exportFailed": "Võtme eksportimine ebaõnnestus",
+    "enterBackupPassword": "Sisesta selle varukoopia parool:",
+    "importSuccess": "Privaatvõti imporditi sellesse seadmesse.",
+    "importFailed": "Võtme importimine ebaõnnestus (vale parool või rikutud fail).",
+    "keysRotated": "Uus võtmepaar on loodud ja avalik võti üles laaditud.",
+    "rotateFailed": "Võtmete vahetamine ebaõnnestus.",
     "security": "Turvalisus",
-    "exportKey": "Varunda krüpteerimisvõti",
-    "importKey": "Taasta krüpteerimisvõti",
-    "rotateKeys": "Vaheta krüpteerimisvõti",
-    "keyDisclaimer": "Sinu private key never leaves this device. Ekspordi  password-kaitstud copy et restore it on another device.",
+    "exportKey": "Krüpteerimisvõtme varundamine",
+    "importKey": "Krüpteerimisvõtme taastamine",
+    "rotateKeys": "Krüpteerimisvõtme vahetamine",
+    "keyDisclaimer": "Teie privaatvõti ei lahku kunagi sellest seadmest. Ekspordi parooliga kaitstud koopia, et taastada see teisel seadmel.",
     "sectionProfile": "Profiil",
     "phoneNumber": "Telefoninumber",
     "appearance": "Välimus",
-    "soundSettings": "Helid",
+    "soundSettings": "Heli",
     "disappearing": "Kaduvad sõnumid",
-    "backupSync": "Varukoopia & Sync",
+    "backupSync": "Varundamine ja sünkroonimine",
     "ai": "AI",
-    "accessibility": "Ligipääsetavus",
+    "accessibility": "Juurdepääsetavus",
     "privacy": "Privaatsus",
     "devices": "Seotud seadmed",
-    "themeFreeNotice": "Sina’re on Tasuta—use  quick Sun/Moon options below. Uuenda et ava rohkem themes.",
-    "sunTheme": "Kasuta Koidiku teemat",
-    "moonTheme": "Kasuta Kuu (kesköö) teemat",
+    "themeFreeNotice": "Kasutad tasuta versiooni – kasuta allpool olevaid kiireid Päike/Kuu valikuid. Uuendage, et avada rohkem teemasid.",
+    "sunTheme": "Kasuta koiduteemat",
+    "moonTheme": "Kasuta kuuteemat (kesköö)",
     "sun": "Päike",
     "moon": "Kuu",
-    "backupTitle": "Krüpteeritud Backups & Seade Sync",
-    "openBackupTools": "Ava Varukoopia Tools",
-    "backupDesc": "Back up your encryption key et securely restore your sõnumid on another device.",
-    "privacyBlurEnabled": "Blur sõnumid by default",
-    "privacyBlurOnUnfocus": "Blur when rakendus on unfocused",
+    "backupTitle": "Krüpteeritud varukoopiad ja seadmete sünkroniseerimine",
+    "openBackupTools": " Ava varundustööriistad",
+    "backupDesc": "Varunda oma krüpteerimisvõti, et taastada oma sõnumid turvaliselt teisel seadmel. ",
+    "privacyBlurEnabled": "Hägusta sõnumeid vaikimisi",
+    "privacyBlurOnUnfocus": "Hägusta, kui rakendus ei ole fookuses",
     "planSection": "Minu pakett",
-    "planLoading": "Paketi laadimine…",
-    "planLoadFailed": "Paketi laadimine ebaõnnestus.",
+    "planLoading": "Laadime teie paketti…",
+    "planLoadFailed": "Teie paketi laadimine ebaõnnestus. ",
     "currentPlan": "Praegune pakett",
-    "planRenewsOn": "Uueneb",
-    "freePlanCopy": "Sina’re on  tasuta plan. Uuenda et ava rohkem features like backups, extra numbrid, ja advanced privacy options.",
+    "planRenewsOn": "Uuendatakse",
+    "freePlanCopy": "Sul on tasuta pakett. Uuenda, et avada rohkem funktsioone, nagu varundused, lisinumbrid ja täiustatud privaatsusvalikud.",
     "upgradePlanCta": "Uuenda paketti",
     "changePlanCta": "Muuda paketti",
-    "manageBilling": "Halda arveldust",
-    "portalOpenFailed": "Could not open arveldusportaal. Palun proovi uuesti.",
-    "holdToReveal": "Hold et reveal",
-    "notifyOnCopy": "Notify me if my message on copied",
-    "loadFailed": "Ebaõnnestus et laadi profile",
-    "followed": "Jälgitud",
-    "followFailed": "Ebaõnnestus et follow",
+    "manageBilling": "Haldusarveldused",
+    "portalOpenFailed": "Arveldusportaali ei õnnestunud avada. Palun proovi uuesti.",
+    "holdToReveal": "Hoia all, et avada",
+    "notifyOnCopy": "Teavita mind, kui mu sõnumit kopeeritakse",
+    "loadFailed": "Profiili laadimine ebaõnnestus",
+    "followed": "Jälgitakse",
+    "followFailed": "Jälgimise alustamine ebaõnnestus",
     "unfollowed": "Jälgimine lõpetatud",
-    "unfollowFailed": "Ebaõnnestus et unfollow",
+    "unfollowFailed": "Jälgimise lõpetamine ebaõnnestus",
     "follow": "Jälgi",
     "unfollow": "Lõpeta jälgimine",
-    "followHint": "Their stories hakkab appear sisse your Following feed if they post koos audience Jälgijad (või Avalik).",
-    "userNotFound": "User not leitud",
-    "followsYou": "Follows sa",
-    "sectionCrashedTitle": "Section failed et laadi",
-    "sectionCrashedBody": "Something went wrong sisse this section.",
-    "forwarding": "Kõne & Text Edastamine",
-    "callTextForwardingSection": "Kõne & Text Edastamine",
-    "callTextForwardingTitle": "Kõne ja/or Text Edastamine",
-    "callTextForwardingDescription": "Forward sissetulevad kõned ja sõnumid et your kinnitatud telefonile või e-postile. Väljuv kõned/texts saab näita your Chatforia number.",
-    "enableTextForwarding": "Luba text forwarding",
-    "forwardTextsToPhone": "Forward sõnumid et phone",
-    "forwardTextsToEmail": "Forward sõnumid et email",
-    "destinationPhone": "Sihttelefon (E.164)",
-    "destinationEmail": "Siht-e-post",
-    "enableCallForwarding": "Luba call forwarding",
-    "destinationPhoneForCalls": "Destination (E.164) jaoks kõned",
-    "aliasBridging": "Kõne Edastamine (alias bridging)",
-    "quietHoursOptional": "Quiet Tundi (valikuline)",
-    "startHour": "Alusta hour (0–23)",
-    "endHour": "Lõpptund (0–23)",
-    "reset": "Lähtesta",
+    "followHint": "Nende lood ilmuvad sinu jälgitavate voos, kui nad postitavad publikule \"Jälgijad\" (või \"Avalik\").",
+    "userNotFound": "Kasutajat ei leitud",
+    "followsYou": "Jälgib sind",
+    "sectionCrashedTitle ": "Jaotist ei õnnestunud laadida",
+    "sectionCrashedBody": "Selles jaotises tekkis viga.",
+    "forwarding": "Kõnede ja sõnumite edastamine",
+    "callTextForwardingSection": "Kõnede ja sõnumite edastamine",
+    "callTextForwardingTitle": "Kõnede ja/või sõnumite edastamine",
+    "callTextForwardingDescription": "Edasta sissetulevad kõned ja sõnumid oma kinnitatud telefonile või e-posti aadressile. Väljaminevad kõned/sõnumid võivad näidata teie Chatforia numbrit.",
+    "enableTextForwarding": "Luba sõnumite edastamine",
+    "forwardTextsToPhone": "Edasta tekstisõnumid telefonile",
+    "forwardTextsToEmail": "Edasta tekstisõnumid e-postile",
+    "destinationPhone": "Sihtnumbriga telefon (E.164)",
+    "destinationEmail": "Sihtnumbriga e-post",
+    "enableCallForwarding": "Luba kõnede edastamine",
+    "destinationPhoneForCalls": "Kõnede sihtkoht (E.164)",
+    "aliasBridging": "Kõnede edastamine (alias-sild)",
+    "quietHoursOptional": "Vaikne aeg (valikuline)",
+    "startHour": "Algusaeg (0–23)",
+    "endHour": "Lõpuaeg (0–23)",
+    "reset": "Tühista",
     "saveBtn": "Salvesta",
-    "saveProfile": "Salvesta profiil",
-    "saveForwarding": "Salvesta edastamine",
-    "forwardSaved": "Edastamise seaded salvestatud",
+    "saveProfile ": "Salvesta profiil",
+    "saveForwarding": "Salvesta suunamine",
+    "forwardSaved": "Suunamise seaded salvestatud",
     "forwardSaveFailed": "Seadete salvestamine ebaõnnestus",
-    "errE164": "Sisesta  valid E.164 phone (e.g., +15551234567).",
-    "errEmail": "Sisesta  valid email.",
-    "errSmsDest": "Vali at least one destination (phone või email).",
-    "errQuietHours": "Quiet hours must be between 0 ja 23.",
+    "errE164": "Sisesta kehtiv E.164-telefoninumber (nt +15551234567).",
+    "errEmail": "Sisestage kehtiv e-posti aadress.",
+    "errSmsDest": "Valige vähemalt üks sihtkoht (telefon või e-post).",
+    "errQuietHours": "Vaikne aeg peab olema vahemikus 0–23.",
     "randomChat": "Juhuslik vestlus",
-    "ageBand": "Sinu age range",
-    "ageBandPlaceholder": "Vali your age range",
+    "ageBand": "Teie vanuserühm",
+    "ageBandPlaceholder": "Valige oma vanuserühm",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Me only store  age range (not your exact date  birth). This on used et keep Random Chat pairings reasonable.",
-    "wantsAgeFilter": "Use age-based matching sisse Random Chat",
-    "wantsAgeFilterDesc": "When on, me proovi et pair sa koos people sisse compatible age ranges.",
-    "partnerAgeBands": "Who saab sa be matched koos?",
-    "partnerAgeBandsDesc": "Teens on always matched only koos other teens. Adults cannot be matched koos teens.",
-    "teenMatchingNote": "For safety, accounts sisse  13–17 age range saab only be matched koos other 13–17 accounts sisse Random Chat.",
-    "foriaRemember": "Let Ria remember things sa tell it",
-    "foriaRememberDesc": "When this on on, Foria saab use your past Random Chat conversations (just koos sa) et keep  vestlus flowing. Sina saab turn this off any time.",
-    "voicemailSection": "Kõnepost",
-    "voicemailEnabled": "Luba kõnepost",
-    "voicemailAutoDeleteDays": "Kustuta kõnepostid automaatselt pärast (päeva)",
-    "voicemailAutoDeletePlaceholder": "Leave empty et keep forever",
-    "voicemailForwardEmail": "Forward voicemail et email",
-    "voicemailForwardEmailPlaceholder": "E-post et send voicemail notifications et",
-    "voicemailGreetingText": "Tekstipõhine varutervitus",
-    "voicemailGreetingTextDesc": "Used when your heli greeting on pole saadaval.",
-    "voicemailGreetingUpload": "Laadi üles voicemail greeting",
+    "ageBandHint": "Me salvestame ainult vanuserühma (mitte teie täpset sünnikuupäeva). Seda kasutatakse juhusliku vestluse paaride moodustamise mõistlikuks hoidmiseks.",
+    "wantsAgeFilter": "Kasuta juhuslikus vestluses vanusel põhinevat sobitamist",
+    "wantsAgeFilterDesc": "Kui see on sisse lülitatud, püüame sind sobitada inimestega sobivates vanuserühmades.",
+    "partnerAgeBands": "Kellega sind saab sobitada?",
+    "partnerAgeBandsDesc": "Teismelisi sobitatakse alati ainult teiste teismelistega. Täiskasvanuid ei saa teismelistega sobitada.",
+    "teenMatchingNote": "Ohutuse tagamiseks saab 13–17-aastaste kontosid juhuslikus vestluses sobitada ainult teiste 13–17-aastaste kontodega.",
+    "foriaRemember": "Lase Rial meelde jätta asjad, mida sa talle räägid",
+    "foriaRememberDesc": "Kui see on sisse lülitatud, saab Foria kasutada su varasemaid juhusliku vestluse vestlusi (ainult sinuga), et vestlus sujuks. Saad selle igal ajal välja lülitada.",
+    "voicemailSection": "Häälpost",
+    "voicemailEnabled": "Luba häälpost",
+    "voicemailAutoDeleteDays": "Kustuta häälpost automaatselt pärast (päeva)",
+    "voicemailAutoDeletePlaceholder": "Jäta tühjaks, et säilitada igavesti",
+    "voicemailForwardEmail": "Edasta häälpost e-postile",
+    "voicemailForwardEmailPlaceholder": "E-post, kuhu saata e-posti teavitused",
+    "voicemailGreetingText": "Tekstiline varutervitus",
+    "voicemailGreetingTextDesc": "Kasutatakse, kui teie helitervitus pole kättesaadav.",
+    "voicemailGreetingUpload": "Laadi üles kõneposti tervitus",
     "voicemailPreviewGreeting": "Tervituse eelvaade",
-    "voicemailGreetingUploaded": "Kõnepost greeting uploaded successfully",
-    "voicemailGreetingUploadError": "Ebaõnnestus et upload voicemail greeting",
-    "voicemailNote": "Voicemails alates your Chatforia numbrid hakkab be stored sisse your Kõnepost inbox. Sina saab luba transcription ja forwarding sisse supported plans.",
-    "portHint": "Want et keep your current number? Sina saab port it into Chatforia Traadita.",
+    "voicemailGreetingUploaded": "Kõneposti tervitus on edukalt üles laaditud",
+    "voicemailGreetingUploadError": "Kõneposti tervituse üleslaadimine ebaõnnestus",
+    "voicemailNote": "Teie Chatforia numbritelt saadud kõneposti sõnumid salvestatakse teie kõneposti postkasti. Toetatud pakettides saate lubada transkriptsiooni ja edastamise funktsioone.",
+    "portHint": "Soovite oma praegust numbrit säilitada? Saate selle üle kanda Chatforia Wirelessi.",
     "wireless": {
-      "manage": "Halda wireless"
+      "manage": "Haldage mobiilsidet"
     },
     "esim": {
       "title": "Chatforia eSIM",
-      "desc": "Get mobile data jaoks Chatforia when sa’re away alates Wi-Fi.",
+      "desc": "Hangi mobiilne andmeside Chatforia jaoks, kui oled eemal Wi-Fi-st.",
       "cta": "Hangi eSIM / Näita QR-koodi"
     },
-    "encryptedBackupsTitle": "Krüpteerimine Key Varukoopia"
+    "encryptedBackupsTitle": "Krüpteerimisvõtme varukoopia"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Teavituste helid",
+    "resetToDefaults": "Taasta vaikimisi seaded",
+    "freeNoticeStart": "Kasutad tasuta versiooni — premium-helid on näha, kuid lukustatud. ",
+    "freeNoticeEnd": " et kõik lukust lahti teha.",
+    "messageTone": "Sõnumitoon",
+    "ringtone": "Helin",
+    "preview": "Eelvaade",
+    "\n \nstop": "Peata",
+    "volume": "Helitugevus",
+    "messageToneFilesHint": "Pane failid kataloogi /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Pane failid kataloogi /public/sounds/Ringtones",
+    "premiumRequired": "Selle valiku jaoks on vaja Premium-paketti.",
+    "saved": "Heli seaded salvestatud.",
+    "saveFailed": "Heli seadeid ei saanud salvestada.",
+    "resetNotSaved": "Taasta vaikimisi seaded (veel salvestamata).",
+    "premiumTone": "See on Premium-heli.",
+    "premiumRingtone": "See on Premium-helina.",
+    "custom ComingSoon": "Kohandatud helide üleslaadimine on peagi saadaval.",
+    "freeNotice": "Kasutad tasuta versiooni — premium-helid on näha, kuid lukustatud. Uuenda, et need kõik avada.",
+    "default": "Vaikimisi",
+    "vibrate": "Vibreerimine",
+    "dreamer": "Unistaja",
+    "notify": "Teavitamine",
+    "pop": "Pop",
+    "pulsatingSound": "Pulseeriv heli",
+    "textMessage": "Tekstisõnum",
+    "ksülofon": "Ksülofon",
+    "klassikaline": "Klassikaline",
+    "kiire": "Kiire",
+    "kellad": "Kellad",
+    "kellamäng": "Kellamäng",
+    "digitaaltelefon": "Digitaaltelefon",
+    "meloodiline": "Meloodiline",
+    "orelinoodid": "Orelinoodid",
+    "soundReality": "Heli reaalsus",
+    "street": "Tänav",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI-seaded",
+    "controlIntro": "Juhi tõlkimist, nutikaid vastuseid ja ForiaBoti automaatvastuseid.",
+    "translation": "Tõlkimine",
+    "autoTranslateIncoming": "Tõlgi sissetulevad sõnumid automaatselt",
+    "showOriginalAlongside": "Näita originaalteksti tõlke kõrval",
+    "smartReplies": "Nutikad vastused ",
+    "enableSmartReplies": "Luba nutikad vastused",
+    "smartRepliesHint": "Saada viimased saadud sõnumid (puhastatud) AI-le, et soovitada kiirvastuseid.",
+    "maskProfanity": "Peida roppused AI soovitustes",
+    "maskProfanityHint": "Kui see on sisse lülitatud, peidetakse AI poolt tagastatud soovitustes märgistatud sõnad ",
+    "foriaBot": "ForiaBot automaatvastus",
+    "enableAutoReply": "Luba automaatvastus, kui olen hõivatud",
+    "autoReplyMode": "Automaatvastuse režiim",
+    "cooldownSeconds": "Ooteaeg (sekundites)",
+    "signature": "Allkiri",
+    "autoReply": "🤖 Automaatvastus",
+    "activeUntilOptional": "Aktiivne kuni (valikuline)",
+    "save": "Salvesta AI-seaded",
+    "saved": "AI-eelistused salvestatud",
+    "saveFailed": "\n \nAI-seadete salvestamine ebaõnnestus",
+    "translateOff": "Väljas",
+    "translateTagged": "Ainult kui @tõlgitud või märgitud",
+    "translateAll": "Tõlgi kõik sissetulevad sõnumid ",
+    "modeDm": "Ainult 1:1 vestlused",
+    "modeMention": "Ainult kui mind @mainitakse",
+    "modeAll": "Kõik sissetulevad sõnumid",
+    "off": "Väljas",
+    "on": "Sees"
+  },
+  "accessibilitySettings": {
+    "title": "Juurdepääsetavus ja teated",
+    "loadFailed": "Seadete laadimine ebaõnnestus",
+    "accessibilityDesc": "Valikud, mis muudavad Chatforia kasutamise lihtsamaks ilma helile tuginemata.",
+    "interfaceFontSize": "Liidese kirjasuurus",
+    "interfaceFontSizeHelp": "Alustab normaalse suurusega. Suurenda, kui eelistad suuremat teksti.",
+    "notifications": "Teated",
+    "visualAlerts ": "Sõnumite ja kõnede visuaalsed teated",
+    "visualAlertsDesc": "Näita bännereid ja pealkirja vilkumist, et sa ei jääks tegevusest ilma.",
+    "vibrateOnNewShort": "Vibreeri uute sõnumite korral (kui toetatud)",
+    "vibrateOnNewDesc": "Käivita seadme vibratsioon teavituste korral.",
+    "flashOnCallShort": "Ekraani vilkumine sissetuleva kõne korral",
+    "flashOnCallDesc": "Lühike ere välgatus, kui heliseb kõne.",
+    "liveCaptionsTitle ": "Reaalajas subtiitrid (kõned)",
+    "enableLiveCaptions": "Luba reaalajas subtiitrid kõnede ajal (Premium)",
+    "liveCaptionsDesc": "Näita reaalajas subtiitreid teise osaleja helist.",
+    "captionFontSize": "Subtiitrite kirjasuurus",
+    "captionBackground": "Subtiitrite taust",
+    "voiceNotes": "Häälmärkmed",
+    "autoTranscribeVoice Notes": "Häälmärkuste automaatne transkribeerimine",
+    "autoTranscribeVoiceNotesDesc": "Lisa saadud helisõnumitele transkriptsioon.",
+    "changesSavedInstantly": "Muudatused salvestatakse kohe.",
+    "sm": "Väike",
+    "md": "Keskmine",
+    "lg": "Suur",
+    "xl": " Eriti suur",
+    "light": "Hele",
+    "dark": "Tume",
+    "transparent": "Läbipaistev",
+    "accessibility": "Juurdepääsetavus",
+    "notificationsDesc": "Sõnumite ja kõnede visuaalsed teated\nNäita bännereid ja pealkirja vilkumist, et sa ei jääks tegevusest ilma.",
+    "vibrateOnNew": "Vibreeri uute sõnumite korral (kui toetatud)\nKäivita seadme vibratsioon teavitustega.",
+    "flashOnCall": "Ekraani vilkumine sissetuleva kõne korral\nLühike ere vilkumine, kui heliseb kõne.",
+    "liveCaptions": "Reaalajas subtiitrid (kõned)"
+  },
+  "privacySection": {
+    "strictE2EE": "Ranget otspunktidevahelist krüpteerimist",
+    "ciphertextOnlyNote": "Salvestab serverisse ainult krüpteeritud teksti. Lülitab välja AI/\n \nTranslate ja modereerimise eelvaated.",
+    "strictE2EEEnabled": "Range E2EE on lubatud. AI/Translate lülitatakse välja.",
+    "strictE2EEDisabled": "Range E2EE on keelatud. AI/Translate lülitatakse uuesti sisse."
+  },
+  "linkedDevicesPanel": {
+    "title": "Seotud seadmed",
+    " noneFound": "Ühendatud seadmeid ei leitud.",
+    "refresh": "Värskenda",
+    "unknown": "Tundmatu",
+    "loadFailed": "Ühendatud seadmete laadimine ebaõnnestus",
+    "loadFailedLog": "Ühendatud seadmete laadimine ebaõnnestus",
+    "renamePrompt": "Sisesta sellele seadmele uus nimi",
+    "renamed": "Seade ümber nimetatud",
+    "renameFailed": " Seadet ei saanud ümber nimetada",
+    "revoked": "Seade tühistatud",
+    "revokeFailed": "Seadet ei saanud tühistada",
+    "unnamedDevice": "Nimetu seade",
+    "primary": "Esmane",
+    "revokedStatus": "Tühistatud",
+    "addedLastSeen": "Lisatud {{created}} • Viimati nähtud {{lastSeen}}",
+    " renameDevice": "Seadme ümbernimetamine",
+    "revokeDevice": "Seadme tühistamine"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Halda your Chatforia mobile plan, numbrid, forwarding, ja number porting.",
+    "description": "Haldage oma Chatforia mobiilipaketti, numbreid, suunamist ja numbri ülekandmist.",
     "options": {
-      "heading": "Vali how sa want et use Chatforia",
-      "subheading": "Sina saab get  uus Chatforia number, või bring your existing number alates another carrier.",
-      "newNumber": "Get  uus Chatforia number",
-      "portNumber": "Pordi your current number into Chatforia Traadita"
+      "heading": "Valige, kuidas soovite Chatforia kasutada",
+      "subheading": "Võite saada uue Chatforia numbri või tuua oma olemasoleva numbri teiselt operaatorilt.",
+      "newNumber": "Hangi uus Chatforia number",
+      "portNumber": "Kanna oma praegune number üle Chatforia Wirelessi"
     },
     "port": {
-      "heading": "Pordi your existing number",
-      "subheading": "Move your current telefoninumber alates your existing carrier into Chatforia. Make sure  üksikasjad match your carrier konto exactly et avoid delays.",
-      "phoneNumberLabel": "Telefoninumber et port",
+      "heading": "Kanna oma olemasolev number üle",
+      "subheading": "Kanna oma praegune telefoninumber olemasolevalt operaatorilt üle Chatforiasse. Veendu, et andmed vastavad täpselt sinu operaatori kontol olevatele andmetele, et vältida viivitusi.",
+      "phoneNumberLabel": "Üle kantav telefoninumber",
       "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "Praegune carrier",
-      "carrierPlaceholder": "Verizon, AT&T, T-Mobiil, etc.",
-      "accountNumberLabel": "Konto number",
-      "pinLabel": "Pordi-out PIN / password",
-      "fullNameLabel": "Full name on  konto",
-      "address1Label": "Aadress line 1",
-      "address2Label": "Aadress line 2 (valikuline)",
+      "carrierLabel": "Praegune operaator",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile jne.",
+      "accountNumberLabel": "Kontonumber",
+      "pinLabel": "Ülekandepin / parool",
+      "fullNameLabel": "Kontole registreeritud täisnimi",
+      "address1Label": "Aadressi 1. rida",
+      "address2Label": "Aadressi 2. rida (valikuline)",
       "cityLabel": "Linn",
-      "stateLabel": "Osariik / Province",
-      "postalCodeLabel": "Posti kood",
+      "stateLabel ": "Osariik / provints",
+      "postalCodeLabel": "Postikood",
       "countryLabel": "Riik",
-      "submitButton": "Esita port request",
-      "success": "Pordi request submitted! Me’ll keep sa updated.",
+      "submitButton": "Esita numbri ülekandetaotlus",
+      "success": "Numbri ülekandetaotlus on esitatud! Hoiame teid kursis.",
       "genericError": "Midagi läks valesti."
     },
     "status": {
-      "heading": "Portimise olek",
-      "subheading": "Track  status  your number port requests.",
-      "loading": "Laadimine…",
-      "loadError": "Ebaõnnestus et laadi port requests.",
-      "none": "Ei porting activity yet.",
-      "pending": "Ootel review",
-      "submitted": "Submitted et carrier",
-      "inProgress": "Pooleli",
+      "heading": " Numbri ülekandmise staatus",
+      "subheading": "Jälgi oma numbri ülekandmise taotluste staatust.",
+      "loading": "Laadimine...",
+      "loadError": "Numbri ülekandmise taotluste laadimine ebaõnnestus.",
+      "none": "Numbri ülekandmist pole veel toimunud.",
+      "pending": "Ootab läbivaatamist",
+      "submitted": "Esitatud operaatorile",
+      "inProgress": "Käsil",
       "completed": "Lõpetatud",
       "failed": "Ebaõnnestus",
       "canceled": "Tühistatud",
       "created": "Loodud:",
-      "scheduled": "Ajastatud:",
+      "scheduled": "Kavandatud:",
       "completedAt": "Lõpetatud:"
     },
-    "dataLow": "Sinu andmemaht hakkab lõppema.",
-    "topUp": "Lae nüüd juurde",
-    "expiresIn": "Expires sisse {{days}} days",
-    "exhausted": "Sinu andmemaht on otsas. Mobiilandmeside jätkamiseks osta uus pakett.",
+    "dataLow": "Teie andmemaht hakkab otsa saama.",
+    "topUp": "Laadige kohe juurde",
+    "expiresIn": "Aegub {{days}} päeva pärast",
+    "exhausted": "Teie andmemaht on otsa saanud. Ostke uus pakett, et mobiilsidet jätkata.",
     "buyPack": "Osta andmepakett",
-    "esimPackLabel": "eSIM-pakett"
+    "es imPackLabel": "eSIM-pakett"
   },
-  "family": {
-    "title": "Pere",
-    "loading": "Pereandmete laadimine…",
-    "error": {
-      "load": "Ebaõnnestus et laadi family üksikasjad.",
-      "invite": "Could not create  invite. Make sure sa on  family owner ja proovi uuesti.",
-      "checkout": "Me saaks not start checkout jaoks  Pere plan. Palun proovi uuesti."
+  "phoneNumberManager": {
+    "pickNumber": "Vali number",
+    "phoneNumber": "Telefoninumber",
+    "availableNumber": "Saadaval olev number",
+    "premiumNumber": "Premium-number 🔒",
+    "freeNumberHint": "Tasuta number, mis võib pärast kasutamata olekut uuesti kasutusele võetud saada.",
+    "premiumNumberHint": "Säilita oma number, kuni sinu Premium-pakett on aktiivne.",
+    "country": "Riik",
+    "areaCode": "Suunakood",
+    "areaCodePlaceholder": "nt 415",
+    "capability": "Võimalus",
+    "search": "Otsi",
+    "lockThisNumber": "Lukusta see number (nädalane lisateenus, varsti saadaval)",
+    "premiumProtectedHint": "Premium-numbrid on kaitstud taaskasutamise eest, kuni teie Premium-tellimus on aktiivne.",
+    "availableNumbers": "Saadaval olevad numbrid",
+    "searchHint": "Sisestage 3-kohaline suunakood (ainult USA/CA) või jätke väli tühjaks ja seejärel otsige.",
+    "keep": "Säilita",
+    "select": "Vali",
+    "assignNumberFirst": "Määra number esmalt.",
+    "premiumKeepFeature": "Numbri säilitamine on Premium-funktsioon.",
+    "lockingPremiumFeature": "Numbrite lukustamine on Premium-funktsioon.",
+    "numberAssigned": "Number on määratud. ",
+    "numberProtectedNow": "Teie number on nüüd kaitstud.",
+    "numberProtected": "Number on kaitstud.",
+    "numberUnprotected": "Number on kaitseta.",
+    "numberReleased": "Number on vabastatud.",
+    "couldNotLoadNumbers": "Numbreid ei saanud laadida.",
+    "couldNotAssign": "Seda numbrit ei saanud määrata. Võib-olla on see just hõivatud – proovi teist.",
+    "couldNotLease": "Seda numbrit ei saanud rentida. Võib-olla on see just hõivatud – proovi teist.",
+    "couldNotProtectNow": " Hetkel ei saanud teie numbrit kaitsta.",
+    "couldNotProtect": "Numbrit ei saanud kaitsta.",
+    "couldNotUnprotect": "Numbrit ei saanud kaitse alt vabastada.",
+    "couldNotRelease": "Numbrit ei saanud vabastada.",
+    "invalidAreaCode": "Palun sisesta 3-kohaline suunakood (nt 415) või jäta tühjaks.",
+    "noInventory": "Hetkel pole varusid saadaval.",
+    "noFreeNumbers": "Hetkel pole vabu numbreid saadaval.",
+    "noInventoryAreaCode": "Selle suunakoodi jaoks pole hetkel varusid saadaval.",
+    "noFreeNumbersAreaCode": "Meie varudes pole hetkel vabu numbreid selle suunakoodi jaoks.",
+    "releaseConfirm": "Vabastada praegune number? See võib olla määratud kellelegi teisele.",
+    "unprotect": "Kaitsest vabastada",
+    "keepThisNumber": "Säilita see number",
+    "replace": "Asenda",
+    "release": "Vabasta",
+    "active": "Aktiivne",
+    "noNumber": "Numbrit pole",
+    "premiumFeature": "Premium-funktsioon",
+    "protectYourNumber": "Kaitse oma numbrit",
+    "protected": "Kaitstud",
+    "notProtected": "Kaitstud",
+    "expiresInShort": "Aegub {{count}} päeva pärast",
+    "expiresInDaysFull": "Aegub {{count}} päeva pärast",
+    "expiringShort": "Aegub {{suffix}}",
+    "renewsOn": "Uuendatakse {{date}}",
+    "releaseWarning": "Sinu number võib vabaneda {{count}} päeva pärast. Uuenda Premium-paketi, et seda kaitsta. ",
+    "pickNumberHint": "Vali Chatforia number, mida kasutada sõnumite saatmiseks ja suhtlemiseks rakenduses.",
+    "unableToLoadStatus": "Telefoninumbri staatust ei õnnestunud laadida.",
+    "lock": "Lukusta",
+    "noNumberAssigned": "Numbrit pole määratud. Vali number suunakoodi järgi, et alustada sõnumite saatmist."
+  },
+  "dialer": {
+    "title": "Kõned",
+    "subtitle": "Numbriklaviatuur ja viimased kõned. (Kui sa ei kasuta PSTN-i, alusta kõnesid vestluse päisest.)",
+    "enterNumber": "Sisesta number",
+    "enterNumberAria": "Sisesta number",
+    "resolving": "Kõne sihtpunkti otsimine…",
+    "call": "Helista",
+    "callBrowser": "Helista brauseri kaudu",
+    "backspace": "Tagasiklahv",
+    "recents": "Viimased kõned",
+    "noRecents": "Viimaseid kõnesid pole veel.",
+    "resolveFailed": "Kõne sihtpunkti ei õnnestunud leida.",
+    "callRequiredNumber": "Enne kõne tegemist on vaja Chatforia numbrit.",
+    "callFailed": "Kõnet ei õnnestunud teha.",
+    "deleteConfirm": "Kas soovid selle kõne viimaste kõnede hulgast kustutada?",
+    "deleteFailed": "Kõnet ei õnnestunud kustutada.",
+    "deleteFailedLog": "Kõne kustutamine ebaõnnestus",
+    "outgoing": "Väljaminev",
+    "incoming": "Sissetulev",
+    "missed": "Vastamata",
+    "declined": "Tagasi lükatud",
+    "failed": "Ebaõnnestunud",
+    "completed": "Lõpetatud",
+    "outgoingCall": "Väljaminev kõne",
+    "incomingCall": "Sissetulev kõne",
+    "voicemail": "Häälpost",
+    "callAria": "Helista {{name}}-le",
+    "deleteAria": "Kustuta kõne {{name}}-ga",
+    "enterNumberPh": "Sisesta number",
+    "recentsEmpty": "Viimaseid kõnesid pole veel.",
+    "key": "Võti {{d}}"
+  },
+  "callHistory": {
+    "title": "Kõned",
+    "subtitle": "Sinu viimased sissetulevad ja väljaminevad kõned.",
+    "loadFailed": "Kõnelooja ei õnnestunud laadida.",
+    "loadFailedTitle": "Kõnelooja ei õnnestunud laadida",
+    "emptyTitle": "Kõnesid pole veel",
+    "emptySubtitle": "Sinu viimased kõned kuvatakse siin.",
+    "outgoing": "Väljaminevad",
+    "incoming": "Sissetulevad",
+    "missed": "Vastamata",
+    "declined": "Tagasi lükatud",
+    "failed": "Ebaõnnestunud",
+    "completed": "Lõpetatud",
+    "outgoingCall": "Väljaminev kõne",
+    "incomingCall": "Sissetulev kõne",
+    "voicemail": "Häälpost"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Vali videotüüp."
     },
-    "billing": {
-      "myPlanTitle": "Minu pakett",
-      "myPlanError": "Unable et laadi your plan.",
-      "myPlanLoading": "Paketi laadimine…",
-      "currentPlan": "Praegune pakett",
-      "renewsAt": "Uueneb",
-      "freePlanCopy": "Sina’re on  tasuta plan. Uuenda et ava rohkem features.",
-      "upgradeCta": "Uuenda paketti",
-      "changePlanCta": "Muuda paketti",
-      "manageBilling": "Halda arveldust",
-      "portalError": "Unable et open  arveldusportaal right nüüd.",
-      "cancelNow": "Tühista nüüd",
-      "cancelNowHelp": "Sina saab manage või cancel your subscription sisse  arveldusportaal, või cancel immediately below.",
-      "cancelNowConfirm": "Are sa sure sa want et cancel your plan immediately? This cannot be undone.",
-      "cancelNowError": "Unable et cancel your plan right nüüd. Palun proovi uuesti või use Halda billing."
+    "direct": {
+      "title": "Otsene video",
+      "subtitle": "Alusta 1:1 videokõne teise kasutajaga.",
+      "desc": "1:1 videokõne teise kasutajaga.",
+      "start": "Alusta",
+      "callBtn": "Helista",
+      "callByPhone": {
+        "title": "Helista telefoniga"
+      },
+      "phone": {
+        "placeholder": "Sisesta telefoninumber (nt +1-555-123-4567)",
+        "aria": "Helistatav telefoninumber"
+      },
+      "tipInvite": "Nõuanne: Kleebi number ja helista ilma kontakti salvestamata. Me kutsume mittekasutajad lingi kaudu.",
+      "findUser": {
+        "title": "Leia kasutaja"
+      },
+      "search": {
+        "placeholder": " Otsi nime või kasutajanime järgi",
+        "aria": "Otsi nime või kasutajanime järgi",
+        "btn": "Otsi"
+      }
     },
-    "none": {
-      "title": "Ei family set up yet",
-      "body": "To create  Chatforia Pere ja jagatud andmemaht, start  Pere plan.",
-      "goUpgrade": "Alusta  Pere plan",
-      "viewPlans": "View kõik plans"
+    "rooms": {
+      "title": "Ruumi",
+      "subtitle": "Loo ruum või liitu olemasolevaga, kirjutades sama nime.",
+      "desc": "Mitme osapoolega videokõne, kasutades jagatud ruumi nime.",
+      "roomLabel": "Ruumi nimi",
+      " roomPlaceholder": "nt team-standup",
+      "roomAria": "Ruumi nimi",
+      "joinCreate": "Liitu / Loo",
+      "tip": "Vihje: jaga seda nime teistega või loo süvaliin"
     },
-    "group": {
-      "defaultName": "Minu Chatforia pere",
-      "role": "Sinu role: {{role}}"
-    },
-    "role": {
-      "owner": "Omanik",
-      "member": "Liige"
-    },
-    "data": {
-      "heading": "Jagatud andmemaht",
-      "caption": "Kõik members share this pool. Me’ll warn sa as sa approach your limit."
-    },
-    "members": {
-      "title": "Pereliikmed",
-      "name": "Nimi",
-      "role": "Roll",
-      "usage": "Kasutus",
-      "limit": "Piirang",
-      "unlimited": "Ei specific limit",
-      "inviteCta": "Kutsu liige"
-    },
-    "invite": {
-      "title": "Kutsu uus liige",
-      "body": "Saada  email või link et invite someone into your shared family data pool.",
-      "emailLabel": "E-post (valikuline)",
-      "emailPlaceholder": "friend@example.com",
-      "create": "Loo kutse",
-      "linkLabel": "Kutse link",
-      "copyAria": "Kopeeri invite link",
-      "expiryHint": "This link aegub after  few days. Sina saab always create  uus one."
-    },
-    "join": {
-      "title": "Liitu perega",
-      "body": "Sina have been invited et join  Chatforia Pere ja share their data pool.",
-      "cta": "Accept ja join family",
-      "ctaLogin": "Sign sisse ja join family",
-      "success": "Sina have joined this family. Sina nüüd share their data pool.",
-      "goFamily": "Mine pere töölauale",
-      "error": "Me saaks not add sa et this family. The invite may be invalid või expired."
-    }
+    "title": "Video",
+    "chooseType": "Vali videotüüp.",
+    "directTitle": "Otsene video",
+    "directDesc": "1:1 videokõne teise kasutajaga.",
+    "directStart": "Alusta",
+    "roomsTitle": "Ruumi",
+    "roomsDesc": "Mitme osapoolega videokõne, kasutades jagatud ruumi nime.",
+    "roomsIntro": "Liitu või loo mitme osapoolega ruum.",
+    "roomNameLabel": "Ruumi nimi",
+    "roomNamePh": "nt team-standup",
+    "join": "Liitu",
+    "deeplinkTip": "Vihje: saad luua otselingi otse aadressile <code>/video?room=ruumi-nimi</code>."
+  },
+  "directVideo": {
+    "intro": "Alusta otsene 1:1 videokõne.",
+    "findUserLabel": "Leia kasutaja",
+    "findUserPh": "Otsi nime või kasutajanime järgi",
+    "search": "Otsi",
+    "call": "Helista"
+  },
+  "phoneWarning": {
+    "title": "Sinu number aegub peagi",
+    "body": "Sinu number {{number} } vabastatakse {{date}}, kui seda uuesti ei aktiveerita.",
+    "button": "Säilita minu number"
   },
   "premium": {
     "heading": "Mine Premiumile",
-    "description": "Ava võimsad funktsioonid ja eemalda reklaamid.",
+    "description": "Avage võimsad funktsioonid ja eemaldage reklaamid.",
     "cta": "Uuenda",
     "upgrade": "Uuenda",
     "upgradeAria": "Uuenda Chatforia Premiumile"
@@ -747,1345 +1055,953 @@
     "titleLoggedIn": "Uuenda",
     "titlePublic": "Hinnad",
     "h1": "Chatforia hinnad ja paketid",
-    "h1Subtitle": "Alusta koos our tasuta, ad-supported plan. Go ad-tasuta koos Plus, või ava full power features koos Premium.",
-    "subtitle": "Vali  rakendus plan, add andmepaketts jaoks yourself, või share data koos your family — kõik alates one place.",
-    "subtitle.app": "Alusta koos our tasuta, ad-supported plan. Go ad-tasuta koos Plus, või ava full power features koos Premium.",
-    "subtitle.mobile": "Lisa global eSIM data so Chatforia keeps working even when sa’re away alates Wi-Fi.",
-    "subtitle.family": "Loo  jagatud andmemaht jaoks your family ja manage everyone’s usage alates one place.",
+    "h1Subtitle": "Alusta meie tasuta, reklaamidega toetatud paketiga. Vabasta end reklaamidest Plus-paketiga või ava kõik võimsad funktsioonid Premium-paketiga.",
+    "subtitle": "Vali rakenduse pakett, lisa endale andmepakette või jaga andmeid oma perega — kõik ühest kohast.",
+    "subtitle.app": "Alusta meie tasuta, reklaamidega toetatud paketiga. Vabane reklaamidest vabaks Plus-paketiga või ava kõik võimsad funktsioonid Premium-paketiga.",
+    "subtitle.mobile": "Lisa globaalne eSIM-andmeside, et Chatforia töötaks ka siis, kui oled eemal Wi-Fi-st.",
+    "subtitle.family": "Loo oma perele jagatud andmesidepakett ja halda kõigi kasutust ühest kohast.",
     "perMonth": "kuu",
     "perYear": "aasta",
     "goPremium": "Mine Premiumile",
-    "benefitsLine": "Ava võimsad funktsioonid ja eemalda reklaamid.",
-    "ctaText": "Uuenda",
-    "aria": "Uuenda Chatforia Premiumile",
+    "benefitsLine": "Avage võimsad funktsioonid ja eemaldage reklaamid.",
+    "ctaText": "Uuendage",
+    "aria": "Uuendage Chatforia Premiumile",
     "toggle": {
-      "monthly": "Kuu kaupa",
-      "annual": "Aastane (säästa 30%)"
+      "monthly": "Kuu",
+      "annual": "Aasta (Säästa 30%)"
     },
     "scheduleBanner": {
       "title": "Tellimus lõpeb",
-      "body": "Sina’ll revert et Tasuta on",
+      "body": "Sa naasid tasuta versioonile",
       "keepPlanCta": "Säilita {{plan}}",
-      "manageBillingCta": "Halda arveldust"
+      "manageBillingCta": "Haldus"
     },
     "billing": {
       "opening": "Avamine…",
-      "manage": "Halda arveldust"
+      "manage ": "Haldada arveldust"
     },
     "checkout": {
-      "redirecting": "Ümbersuunamine…"
+      "redirecting": "Suunatakse ümber…"
     },
     "auth": {
       "continue": "Jätka sisselogimisega",
       "createAccount": "Loo konto",
-      "signIn": "Logi sisse"
+      "signIn": " Logi sisse"
     },
     "cta": {
       "aria": "Vali pakett",
-      "getPlus": "Uuenda Plusile",
-      "upgradeMonthly": "Uuenda kuupaketile",
-      "upgradeAnnual": "Uuenda aastapaketile"
+      "getPlus": "Uuenda Plus-paketiks",
+      "upgradeMonthly": "Uuenda kuupaketiks",
+      "upgradeAnnual": "Uuenda aastapaketiks"
     },
     "section": {
-      "app": "Rakenduse paketid",
+      "app": "Rakenduste paketid",
       "mobile": "Mobiil (eSIM)",
       "family": "Perepaketid"
     },
-    "plans": {
-      "free": {
-        "title": "Tasuta",
-        "price": "$0",
-        "desc": "Alusta messaging jaoks tasuta. Ideal if sa’re just trying Chatforia.",
-        "features": {
-          "chat": "Real-time 1:1 ja grupp vestlus, plus hääl- ja videokõned",
-          "media": "Share fotod, hääl sõnumid, ja short videod",
-          "ai": "AI-powered nutikad vastused ja instant tõlge (fair use)",
-          "disappearing": "Kaduvad sõnumid ja basic privacy controls",
-          "ads": "Tasuta forever koos ads sisse  rakendus"
+    "paketid": {
+      "tasuta": {
+        "pealkiri": "Tasuta",
+        "hind": "$0",
+        "kirjeldus": "Alusta tasuta sõnumite saatmist. Ideaalne, kui soovid Chatforia lihtsalt proovida.",
+        "funktsioonid": {
+          "chat": "Reaalajas 1:1 ja grupivestlus, lisaks hääl- ja videokõned",
+          "media": "Jaga fotosid, häälsõnumeid ja lühivideoid",
+          "ai": "AI-põhised nutikad vastused ja kiirtõlge (õiglane kasutamine)",
+          "disappearing": "Kaduvad sõnumid ja põhilised privaatsusseaded",
+          "ads": "Igavesti tasuta koos reklaamidega rakenduses "
         },
         "ctaCurrent": "Praegune pakett",
-        "ctaManage": "Halda sisse billing",
-        "ctaPublic": "Get started – jätka et login",
-        "aria": "Tasuta plan"
+        "ctaManage": "Haldamine arvelduses",
+        "ctaPublic": "Alusta – jätka sisselogimisega",
+        "aria": "Tasuta pakett"
       },
       "plus": {
         "title": "Plus",
-        "price": "$6.99",
-        "desc": "Kõik  essentials, ilma ads. Great jaoks everyday messaging ja calling.",
+        "price": "6,99 $",
+        "desc": "Kõik oluline, ilma reklaamideta. Suurepärane igapäevaseks sõnumite saatmiseks ja helistamiseks.",
         "features": {
-          "allFree": "Kõik Tasuta paketist, ilma reklaamideta",
-          "forwarding": "Forward kõned ja sõnumid et your real telefoninumber",
-          "history": "Longer sõnumite ajalugu (up et 6 months)",
-          "support": "Faster tugi when something goes wrong"
+          "allFree": "Kõik, mis on tasuta versioonis, ilma reklaamideta",
+          "forwarding": "Edasta kõned ja tekstsõnumid oma tegelikule telefoninumbrile",
+          "history": "Pikem sõnumiajalugu (kuni 6 kuud)",
+          "support": "Kiirem tugi, kui midagi läheb valesti"
         },
         "badge": "Populaarne",
-        "cta": "Go Ad-Tasuta",
-        "ctaPublic": "Get Plus – jätka et login",
-        "aria": "Uuenda Plusile"
+        "cta": "Mine reklaamivabaks",
+        "ctaPublic": "Hangi Plus – jätka sisselogimist",
+        "aria": "Uuenda Plus-versioonile"
       },
       "premiumMonthly": {
-        "title": "Premium (Kuu kaupa)",
-        "price": "$11.99",
-        "desc": "The full Chatforia experience: AI power tools, customization, ja prioriteetne tugi.",
+        "title": "Premium (kuupakett)",
+        "price": "$11,99",
+        "desc": "Täielik Chatforia-kogemus: AI-tööriistad, kohandamine ja prioriteetne tugi.",
         "features": {
-          "plusAll": "Everything sisse Plus",
-          "themes": "Unlock kõik premium color themes ja rakendus customizations",
-          "ai": "Premium-only AI power tools jaoks rewrites, nutikad vastused, ja summaries",
-          "support": "Priority tugi when sa need help most"
+          "plusAll": "Kõik, mis on Plus-versioonis",
+          "themes": "Ava kõik premium-värviteemad ja rakenduse kohandused",
+          "ai": "Ainult premium-versioonis olevad AI-tööriistad ümberkirjutamiseks, nutikateks vastusteks ja kokkuvõteteks",
+          "support": "Prioriteetne tugi, kui vajad abi kõige rohkem"
         },
-        "badge": "Soovitatud",
-        "cta": "Uuenda (Kuu kaupa)",
-        "ctaPublic": "Unlock Premium – jätka et login",
-        "aria": "Uuenda et Premium Kuu kaupa"
+        "badge": "Soovitatav",
+        "cta": "Uuenda (kuupakett)",
+        "ctaPublic": "Avage Premium – jätkake sisselogimist",
+        "aria": "Uuenda Premium-paketi kuumaksele"
       },
       "premiumAnnual": {
-        "title": "Premium (Aastane)",
-        "price": "$99",
-        "desc": "Salvesta rohkem when billed aastas — including extra color themes, AI tools, ja prioriteetne tugi.",
+        "title": "Premium (aastane)",
+        "price": "99 $",
+        "desc": "Säästa rohkem aastase arveldamisega – sealhulgas lisavärviteemad, AI-tööriistad ja prioriteetne tugi.",
         "features": {
-          "allPremium": "Everything sisse Premium Kuu kaupa — including extra color themes",
-          "annualBilling": "Arveldatakse kord aastas",
-          "save25": "Salvesta around 30% compared et paying kuu kaupa",
-          "bestFor": "Best jaoks power kasutajad, remote workers, ja heavy travelers"
+          "allPremium": "Kõik, mis on Premium-kuumakses – sealhulgas lisavärviteemad",
+          "annualBilling": "Arveldamine kord aastas",
+          "save25": "Säästa umbes 30% võrreldes igakuise maksmisega",
+          "bestFor": "Sobib kõige paremini aktiivsetele kasutajatele, kaugtöötajatele ja palju reisivatele inimestele"
         },
         "badge": "Säästa 30%",
-        "cta": "Uuenda (Aastane)",
-        "ctaPublic": "Salvesta 30% koos aastane – jätka et login",
-        "aria": "Uuenda et Premium Aastane",
-        "disclaimer": "Arveldatakse ette. Tühista igal ajal. Varjatud tasusid pole."
+        "cta": "Uuenda (aastane)",
+        "ctaPublic": "Säästa 30% aastase paketiga – logi sisse",
+        "aria": "Uuenda Premium-aastapaketiks",
+        "disclaimer": "Arveldamine ette. Tühista igal ajal. Puuduvad varjatud tasud."
       }
     },
     "marketing": {
       "freeTitle": "Tasuta",
-      "freeDesc": "Alusta messaging jaoks tasuta.",
+      "freeDesc": "Alusta tasuta sõnumite saatmist.",
       "plusTitle": "Plus",
       "plusBadge": "Populaarne",
-      "plusDesc": "Most affordable ad-tasuta experience.",
+      "plusDesc": "Kõige taskukohasem reklaamivaba kogemus.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Full features, ringtones, ja AI power tools.",
+      "premiumMonthlyDesc": "Kõik funktsioonid, helinad ja AI-tööriistad.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Salvesta rohkem when billed aastas.",
-      "annualDisclaimer": "Arveldatakse ette. Tühista igal ajal. Varjatud tasusid pole."
+      "premiumAnnualDesc": "Säästa rohkem, kui arve esitatakse kord aastas.",
+      "annualDisclaimer": "Arve esitatakse ette. Tühista igal ajal. Puuduvad varjatud tasud."
     },
     "mobile": {
-      "title": "Chatforia Mobiil (eSIM andmepaketts)",
-      "subtitle": "Lisa global data et keep Chatforia working even ilma Wi-Fi. Prices automatically adjust based on your riik ja currency.",
-      "subtitle.detail": "Pick  one-time global andmepakett so Chatforia keeps working when sa’re traveling või away alates Wi-Fi.",
+      "title": "Chatforia Mobile (eSIM andmepaketid)",
+      "subtitle": "Lisa globaalne andmeside, et Chatforia töötaks ka ilma Wi-Fi-ta. Hinnad kohanduvad automaatselt vastavalt sinu riigile ja valuutale.",
+      "\n \nsubtitle.detail": "Vali ühekordne ülemaailmne andmepakett, et Chatforia töötaks ka siis, kui oled reisil või Wi-Fi-ühenduseta.",
       "scope": {
         "local": "Kohalik",
         "europe": "Euroopa",
-        "global": "Globaalne"
+        "global": "Ülemaailmne"
       },
-      "note": "Me don’t sell andmepaketts under 3 GB.",
       "localEquals": "Kohalik = {{country}}",
-      "localEqualsFallback": "Kohalik = your current riik",
+      "localEqualsFallback": "Kohalik = teie praegune riik",
       "perPack": "/ pakett",
-      "cta": "Get this andmepakett",
-      "ctaPublic": "Get this andmepakett",
+      "cta": "Hangi see andmepakett",
+      "ctaPublic": "Hangi see andmepakett",
       "checkout": {
-        "redirecting": "Ümbersuunamine…"
+        "redirecting": "Suunatakse edasi…"
       },
       "unlimited": {
         "features": {
-          "heavyUse": "High-speed data jaoks heavy use",
-          "throttle": "Kiirus võib suure kasutuse järel aeglustuda",
+          "heavyUse": "Kiire andmeside intensiivseks kasutamiseks",
+          "throttle": "Kiire andmeside vastavalt õiglase kasutamise ja võrguhalduse eeskirjadele",
           "coverage": "Usaldusväärne leviala",
-          "instant": "Kohene eSIM activation",
-          "noContract": "Ühekordne pakett, lepinguta"
+          "instant": "eSIM-i kohene aktiveerimine",
+          "noContract": "Ühekordne pakett, ilma lepinguta"
         }
       },
       "disclaimer": {
-        "devices": "eSIM andmepaketts require  eSIM-compatible ja avatud device. Availability varies by phone model, carrier, ja riik. Coverage ja speeds vary by region."
+        "devices": "eSIM-andmepaketid nõuavad eSIM-iga ühilduvat ja lukustamata seadet. Kättesaadavus sõltub telefonimudelist, operaatorist ja riigist. Leviala ja kiirused varieeruvad piirkonniti."
       },
-      "small": {
-        "title": "Stardipakett",
-        "desc": "Includes 3 GB  high-speed data — ideal jaoks light messaging ja occasional kõned.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Short trips, light messaging, ja occasional kõned",
-        "aria": "Buy Starter eSIM andmepakett"
-      },
-      "medium": {
-        "title": "Reisipakett",
-        "desc": "Includes 5 GB  high-speed data jaoks trips, commuting, ja regular VoIP kõned.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Weekend trips, regular VoIP kõned, ja maps",
-        "aria": "Buy Traveler eSIM andmepakett"
-      },
-      "large": {
-        "title": "Võimsuspakett",
-        "desc": "Includes 10 GB  high-speed data jaoks heavy vestlus, kõned, ja video on  Chatforia network.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Heavy vestlus, kõned, video, ja hotspot use",
-        "aria": "Buy Power user eSIM andmepakett"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Piiramatu"
+        }
       },
       "compare": {
         "title": "Võrdle eSIM-andmepakette",
         "col": {
           "pack": "Pakett",
-          "data": "Sisaldab andmemahtu",
-          "bestFor": "Parim kasutuseks"
+          "data": "Kaasasolev andmemaht",
+          "bestFor": "Sobib kõige paremini"
         },
-        "disclaimer": "Actual data usage depends on how sa use Chatforia (hääl, video, meedia, ja other apps on your phone)."
+        "disclaimer": "Tegelik andmekasutus sõltub sellest, kuidas sa Chatforiat kasutad (kõned, videod, meedia ja muud rakendused su telefonis)."
       }
     },
     "family": {
-      "title": "Chatforia Pere (shared data)",
-      "subtitle": "Share  single data pool across your family. One bill, multiple Chatforia accounts, ülemaailmne katvus.",
-      "perPack": "/ pakett",
+      "title": "Chatforia Family (jagatud andmeside)",
+      "subtitle": " Jagage üht andmepaketti kogu perega. Üks arve, mitu Chatforia kontot, ülemaailmne katvus.",
+      "perPack": "/ pack",
       "small": {
-        "title": "Pere Väike",
-        "desc": "Includes 20 GB  shared high-speed data — great jaoks 2–3 light kasutajad.",
+        "title": "Family Small",
+        "desc": "Sisaldab 20 GB jagatud kiiret andmesidet — sobib suurepäraselt 2–3 vähese kasutajale.",
         "price": "$29.99",
-        "aria": "Buy Pere Väike pack"
+        "aria": "Osta Family Small pakett"
       },
       "medium": {
-        "title": "Pere Keskmine",
-        "desc": "Includes 40 GB  shared high-speed data — ideal jaoks 3–5 aktiivne members.",
-        "price": "$49.99",
-        "aria": "Buy Pere Keskmine pack"
+        "title": "Family Medium",
+        "desc": "Sisaldab 40 GB jagatud kiiret andmesidet — ideaalne 3–5 aktiivse liikme jaoks.",
+        "price": "$49,99",
+        "aria": "Osta Family Medium pakett"
       },
       "large": {
-        "title": "Pere Suur",
-        "desc": "Includes 80 GB  shared high-speed data — jaoks power families that on always online.",
-        "price": "$84.99",
-        "aria": "Buy Pere Suur pack"
+        "title": "Family Large",
+        "desc": "Sisaldab 80 GB jagatud kiiret andmesidet — aktiivsetele peredele, kes on alati võrgus.",
+        "price": "$84,99",
+        "aria": "Osta perekonna suur pakett"
       },
       "feature": {
-        "shared": "Shared data pool jaoks your family",
-        "members": "Kutsu up et 4 additional members",
-        "membersMore": "Great jaoks 3–5 aktiivne members",
-        "manage": "Halda limits jaoks each member",
-        "topUp": "Lisa rohkem packs anytime",
-        "bestValue": "Parim väärtus GB kohta",
-        "fairUse": "Subject et mõistliku kasutuse poliitika ja local limits"
+        "shared": "Jagatud andmeside maht teie perele",
+        "members": "Kutsu kuni 4 lisaliiget",
+        "membersMore": "Sobib suurepäraselt 3–5 aktiivse liikme jaoks",
+        "manage": "Haldage iga liikme piiranguid",
+        "topUp": "Lisage pakette igal ajal",
+        "bestValue": "Parim hinna-kvaliteedi suhe GB kohta",
+        "fairUse": "Kehtivad õiglase kasutamise eeskirjad ja kohalikud piirangud"
       },
-      "disclaimer": "Pere packs create või top up  jagatud andmemaht. Sina saab invite ja remove members anytime.",
-      "footnote": "Pere packs share  single data pool across linked Chatforia accounts. Availability ja limits depend on your riik ja kohalikud eeskirjad."
+      "disclaimer": "Perepaketid loovad või täiendavad ühist andmemahtu. Võid liikmeid igal ajal kutsuda ja eemaldada.",
+      "footnote": "Perepaketid jagavad üht andmepaketti seotud Chatforia kontode vahel. Kättesaadavus ja piirangud sõltuvad sinu riigist ja kohalikest eeskirjadest."
     },
     "why": {
-      "title": "Miks inimesed Chatforiasse üle lähevad",
-      "subtitle": "Chatforia gives sa  real telefoninumber, smart tõlge, ja  clear path et go ad-tasuta when sa’re ready.",
+      "title": "Miks inimesed vahetavad Chatforia vastu",
+      "subtitle": "Chatforia annab sulle päris telefoninumbri, nutika tõlke ja selge tee reklaamivabaks muutumiseks, kui oled valmis.",
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
-          "body": "Lighter ads on Tasuta,  simple Plus upgrade when sa’re ready, ja Premium tools TextNow doesn’t offer."
+          "body": "Kergemad reklaamid tasuta versioonis, lihtne Plus-versioonile üleminek, kui olete valmis, ja Premium-tööriistad, mida TextNow ei paku."
         },
         "voice": {
-          "title": "Chatforia vs Google Hääl",
-          "body": "Modern rakendus, global-first design, ja built-sisse tõlge instead  vana-school call forwarding."
+          "title": "Chatforia vs Google Voice",
+          "body": "Kaasaegne rakendus, globaalne -esmane disain ja sisseehitatud tõlkimine vanakooli kõne suunamise asemel."
         },
         "messengers": {
-          "title": "Chatforia vs vestlus apps",
-          "body": "Text real telefoninumbers — not just other rakendus kasutajad — koos AI ja status built sisse. Great if sa’re coming alates apps like TextFree või TextMe."
+          "title": "Chatforia vs vestlusrakendused",
+          "body": "Saada sõnumeid päris telefoninumbritele — mitte ainult teistele rakenduse kasutajatele — sisseehitatud AI ja staatusega. Suurepärane, kui tuled rakendustest nagu TextFree või TextMe."
         }
       },
-      "tableTitle": "Kuidas Chatforia võrdluses välja näeb",
+      "tableTitle": "Kuidas Chatforia võrdub",
       "col": {
         "feature": "Funktsioon"
       },
       "feature": {
         "freeNumber": "Tasuta telefoninumber",
-        "translation": "Built-sisse auto-tõlge",
-        "aiTools": "AI-tööriistad (ümberkirjutused, vastused, kokkuvõtted)",
-        "ads": "Reklaamivaba option",
-        "history": "Sõnum history"
+        "translation": "Sisseehitatud automaatne tõlge",
+        "aiTools": "AI-tööriistad (ümberkirjutamine, vastused, kokkuvõtted)",
+        "ads": "Reklaamivaba valik",
+        "history": "Sõnumiajalugu"
       },
       "yes": "Jah",
       "no": "Ei",
       "yesPremium": "Jah (Premium)",
-      "plusPremium": "Plus ja Premium",
+      "plusPremium": "Plus & Premium",
       "limited": "Piiratud",
-      "nA": "N/A",
+      "nA": "Ei kohaldata",
       "history": {
-        "chatforia": "Up et 12+ months",
-        "textnow": "Varies by konto",
-        "voice": "Limited / konto-based"
+        "chatforia": "Kuni 12+ kuud",
+        "textnow": "Sõltub kontost",
+        "voice": "Piiratud / kontopõhine"
       },
-      "disclaimer": "Comparison based on publicly saadaval information ja may change over time. Other tasuta-texting apps like TextFree või TextMe on generally similar et TextNow."
+      "disclaimer": "Võrdlus põhineb avalikult kättesaadaval teabel ja võib aja jooksul muutuda. Muud tasuta sõnumirakendused, nagu TextFree või TextMe, on üldiselt sarnased TextNow-ga."
     },
     "faq": {
-      "title": "Hindade ja pakettide KKK",
+      "title": "Hinnad ja paketid – KKK",
       "free": {
-        "q": "Is  Tasuta plan really tasuta?",
-        "a": "Jah. The Tasuta plan includes  Chatforia number, calling, ja messaging koos ads. Sina saab stay on Tasuta as long as sa like, või upgrade et remove ads ja ava rohkem features."
+        "q": "Kas tasuta pakett on tõesti tasuta?",
+        "a": "Jah. Tasuta pakett sisaldab Chatforia numbrit, helistamist ja sõnumite saatmist koos reklaamidega. Võite tasuta paketti kasutada nii kaua, kui soovite, või uuendada, et eemaldada reklaamid ja avada rohkem funktsioone."
       },
       "plusPremium": {
-        "q": "What’s  difference between Plus ja Premium?",
-        "a": "Plus removes ads ja extends your sõnumite ajalugu — perfect jaoks everyday use. Premium adds extra customization, AI tools jaoks rewrites ja replies, ja prioriteetne tugi jaoks heavy kasutajad."
+        "q": "Mis vahe on Plus- ja Premium-paketil?",
+        "a": " Plus eemaldab reklaamid ja laiendab teie sõnumiajalugu — ideaalne igapäevaseks kasutamiseks. Premium lisab täiendavaid kohandamisvõimalusi, AI-tööriistu ümberkirjutamiseks ja vastamiseks ning prioriteetse toe aktiivsetele kasutajatele."
       },
       "esim": {
-        "q": "Where do eSIM andmepaketts work?",
-        "a": "Chatforia Mobiil uses global eSIM coverage. Availability depends on your riik ja device. Sina’ll see supported options during activation inside  rakendus."
+        "q": "Kus eSIM-andmepaketid töötavad?",
+        "a": "Chatforia Mobile kasutab ülemaailmset eSIM-katvust. Kättesaadavus sõltub teie riigist ja seadmest. Rakenduse aktiveerimise käigus näete toetatud valikuid."
       },
       "cancel": {
-        "q": "Can I cancel või change plans anytime?",
-        "a": "Jah. Sina saab manage või cancel your subscription alates  billing page sisse  rakendus. Changes take effect at  end  your praegune arveldusperiood."
+        " q": "Kas ma saan pakette igal ajal tühistada või muuta?",
+        "a": "Jah. Saate oma tellimust hallata või tühistada rakenduse arvelduslehel. Muudatused jõustuvad teie praeguse arveldusperioodi lõpus. "
       },
       "family": {
-        "q": "How do Pere packs work?",
-        "a": "Pere packs create  jagatud andmemaht across multiple Chatforia accounts. One person pays  bill, ja sa saab invite või remove members ja set limits per person."
+        "q": "Kuidas perekonnapaketid töötavad?",
+        "a": "Perekonnapaketid loovad jagatud andmemahtu mitme Chatforia konto vahel. Üks inimene maksab arve ning saad kutsuda või eemaldada liikmeid ning määrata piiranguid iga inimese kohta."
       }
-    },
-    "gettingStarted": {
-      "title": "Alustamine",
-      "subtitle": "Uus et Chatforia? This quick start shows  essentials so sa saab be productive sisse minutes.",
-      "alert": {
-        "text": "This guide hakkab grow as me launch uus features. If something’s missing, let us know via",
-        "contactLink": "Võta meiega ühendust"
-      },
-      "section1": {
-        "title": "1) Loo your konto",
-        "signup": "Registreeru",
-        "or": "või",
-        "login": "log sisse",
-        "loginText": "koos your existing konto.",
-        "prefsStart": "Määra oma",
-        "prefsLink": "eelistused",
-        "prefsRest": "(keel, lugemiskinnitused, themes)."
-      },
-      "section2": {
-        "title": "2) Alusta messaging",
-        "item1": "Loo  DM või Group ja send your first message.",
-        "item2": "Use instant tõlge et vestlus across 100+ keeled.",
-        "item3": "Proovi kaduvad sõnumid ja lugemiskinnitused sisse Profiil → Privaatsus."
-      },
-      "section3": {
-        "title": "3) Mine edasi",
-        "item1": "Sina saab upgrade et  paid plan anytime inside  rakendus.",
-        "item2": "Once sa’re signed sisse, sa saab link additional devices ja set up encrypted backups alates Seaded sisse  rakendus."
-      },
-      "cta": {
-        "seePlans": "Vaata pakette",
-        "openSettings": "Ava seaded"
-      }
-    },
-    "helpCenter": {
-      "title": "Abikeskus",
-      "faq": {
-        "account": {
-          "q": "How do I create või recover my konto?",
-          "a": "Laadi alla  rakendus või use veeb, tap “Loo konto”, verify your email/phone. To recover, use “Forgot password”."
-        },
-        "privacy": {
-          "q": "Are sõnumid end-et-end encrypted?",
-          "a": "Jah. Sõnumid ja kõned on end-et-end encrypted by default. Only sa ja  recipient saab read them."
-        },
-        "translate": {
-          "q": "How does instant tõlge work?",
-          "a": "Luba “Automaatne tõlge” sisse Seaded → Appearance & Keel. Me translate on-device where supported, otherwise through secure APIs koos minimal metadata."
-        },
-        "contact": {
-          "q": "Kontakt tugi",
-          "a": "Reach us at support@chatforia.com. Include kuvatõmmised ja your rakendus versioon."
-        }
-      }
-    },
-    "contact": {
-      "title": "Võta meiega ühendust",
-      "successMsg": "Aitäh — meie tiim vastab e-postiga.",
-      "errorSend": "Ei saanud saata. Palun kirjuta aadressile support@chatforia.com.",
-      "form": {
-        "nameLabel": "Nimi",
-        "emailLabel": "E-post",
-        "messageLabel": "Sõnum",
-        "sendCta": "Saada"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Privaatsuspoliitika",
-      "lastUpdated": "Viimati uuendatud:",
-      "intro": {
-        "body": "This Privaatsus Poliitika explains how Chatforia (“me”, “us”) collects, uses, ja shares information when sa use our apps ja services. Me design Chatforia et minimize  data me saab access."
-      },
-      "infoWeCollect": {
-        "title": "Kogutav teave",
-        "account": "Konto info (e.g., email/phone) et create ja secure your konto.",
-        "encrypted": "Krüpteeritud content (sõnumid/calls) on end-et-end encrypted; me saab’t read it.",
-        "diagnostics": "Diagnostic/usage like crash logs, device kirjuta, või coarse analytics et improve performance."
-      },
-      "sms": {
-        "title": "Mobiil telefoninumbers ja SMS",
-        "body": "If sa vali et provide  mobile telefoninumber, me use it et luba features such as konto verification, login alerts, ja user-et-user messaging via SMS where supported. Me may send transactional SMS sõnumid related et your konto ja activity on Chatforia. Sina saab opt out  receiving SMS sõnumid at any time by replying koos  supported opt-out keyword (such as “STOP”) või by changing your notification eelistused sisse  rakendus. Me do not sell your telefoninumber või use it jaoks unrelated marketing.",
-        "newText": "Uus text",
-        "enterRecipient": "Sisesta nimi või number",
-        "typeMessage": "Kirjuta sõnum…",
-        "addRecipient": "Alustamiseks lisa ülal saaja…"
-      },
-      "howWeUse": {
-        "title": "Kuidas me teavet kasutame",
-        "provide": "Provide ja secure  teenus (auth, spam/abuse detection).",
-        "improve": "Improve features (tõlge quality, reliability).",
-        "legal": "Comply koos legal obligations."
-      },
-      "sharing": {
-        "title": "Jagamine",
-        "body": "Me don’t sell personal data. Me may share limited data koos processors (e.g., push notifications, analytics) under strict contracts."
-      },
-      "rights": {
-        "title": "Sinu õigused",
-        "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), sa may request access, correction, deletion, või opt-out  certain processing. Kontakt: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Andmete säilitamine ja turvalisus",
-        "body": "Me retain only what’s needed et operate  teenus ja apply industry-standard security. E2E content saab’t be decrypted by us."
-      },
-      "children": {
-        "title": "Lapsed",
-        "body": "Chatforia isn’t directed et children under 13 (või as nõutav by your local law)."
-      },
-      "changes": {
-        "title": "Muudatused",
-        "body": "Me’ll post updates here ja revise  “Last updated” date."
-      },
-      "contact": {
-        "title": "Kontakt",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Teenustingimused",
-      "lastUpdated": "Viimati uuendatud:",
-      "intro": {
-        "body": "By using Chatforia sa agree et these Tingimused. If sa do not agree, don’t use  teenus."
-      },
-      "accounts": {
-        "title": "Kontod",
-        "itemAccurateInfo": "Provide accurate info ja keep credentials secure.",
-        "itemResponsibility": "Sina’re responsible jaoks activity on your konto."
-      },
-      "acceptableUse": {
-        "title": "Lubatud kasutus",
-        "itemNoAbuse": "Ei illegal, abusive, või infringing content; no spam või automated abuse.",
-        "itemSuspend": "Me may suspend/terminate jaoks violations."
-      },
-      "sms": {
-        "title": "SMS-suhtlus",
-        "body": "If sa provide  mobile telefoninumber, sa agree that Chatforia may send sa SMS sõnumid related et your konto ja use   teenus, such as login alerts, security notifications, ja sõnumid related et conversations sa initiate või participate sisse. Me do not use SMS jaoks promotional või marketing sõnumid ilma your explicit consent. Standard message ja data rates may apply. Sina saab opt out  SMS sõnumid at any time by replying koos  supported opt-out keyword (jaoks example, “STOP”) või by updating your notification seaded sisse  rakendus."
-      },
-      "yourContent": {
-        "title": "Sinu content",
-        "body": "Sina retain rights et your content. Sina grant us necessary rights et operate  teenus (e.g., routing, storage, tõlge)."
-      },
-      "disclaimer": {
-        "title": "Lahtiütlused ja vastutus",
-        "body": "Service on provided “as on” ilma warranties. To  fullest extent permitted by law, Chatforia isn’t liable jaoks indirect või consequential damages."
-      },
-      "changes": {
-        "title": "Muudatused",
-        "body": "Me may update these terms; continued use after changes means acceptance."
-      },
-      "contact": {
-        "title": "Kontakt",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Do Not Sell või Share My Personal Information",
-      "body": "Chatforia does not sell personal information. California residents saab still submit requests under CPRA using  button below.",
-      "cta": "Esita  request"
-    },
-    "cookies": {
-      "title": "Cookie Seaded",
-      "body": "Chatforia uses minimal cookies (e.g., session, security). Me don’t use third-party ads cookies. Halda cookies via your brauser’s seaded."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Unable et laadi telefoninumber status.",
-      "lock": "Lukusta",
-      "noNumberAssigned": "Ei number määratud. Pick one by piirkond kood et start texting.",
-      "pickNumber": "Pick  number",
-      "phoneNumber": "Telefoninumber"
-    },
-    "startChatModal": {
-      "title": "Alusta  vestlus",
-      "quickPicker": "Kiirvalija",
-      "to": "Saajale",
-      "nameOrUsername": "Kirjuta  name, username",
-      "nameUsernamePhoneEmail": "Kirjuta  name, username, phone, või email…",
-      "startWithSelected": "Alusta vestlus koos selected",
-      "searchByUsernameOrPhone": "Otsi by username või phone",
-      "search": "Otsi",
-      "searchPrompt": "Kirjuta  username või phone ja press Otsi.",
-      "pickFromContacts": "Or pick alates kontaktid",
-      "addContact": "Lisa  Kontakt",
-      "show": "Näita",
-      "add": "Lisa",
-      "close": "Sulge",
-      "selectedCount": "{{count}} valitud",
-      "pickAtLeastOne": "Vali vähemalt üks saaja.",
-      "saveContactsHint": "Telefon/email entries hakkab be saadaval after sa save them as kontaktid.",
-      "failedBulkStart": "Ebaõnnestus et start vestlus koos selected recipients.",
-      "noResults": "Tulemusi pole",
-      "mode": "Režiim",
-      "group": "Grupp",
-      "broadcast": "Edastus",
-      "groupNameOptional": "Group name (valikuline)",
-      "firstMessageOptional": "First message (valikuline but recommended)",
-      "createGroup": "Loo grupp",
-      "sendBroadcast": "Saada broadcast"
-    },
-    "themes": {
-      "amoled": "AMOLED",
-      "aurora": "Virmalised",
-      "neon": "Neoon",
-      "sunset": "Päikeseloojang",
-      "solarized": "Solariseeritud",
-      "velvet": "Samet"
-    },
-    "sounds": {
-      "freeNotice": "Sina’re on Tasuta — premium tones on shown but lukustatud. Uuenda et ava kõik.",
-      "preview": "Eelvaade",
-      "resetToDefaults": "Reset et defaults",
-      "notificationSounds": "Teavitushelid",
-      "messageTone": "Sõnum tone",
-      "default": "Vaikimisi",
-      "vibrate": "Vibreeri",
-      "dreamer": "Unistaja",
-      "notify": "Teavita",
-      "pop": "Plõks",
-      "pulsatingSound": "Pulseeriv heli",
-      "textMessage": "Text Sõnum",
-      "xylophone": "Ksülofon",
-      "classic": "Klassikaline",
-      "urgency": "Pakilisus",
-      "bells": "Kellad",
-      "chimes": "Kellamäng",
-      "digitalPhone": "Digital Telefon",
-      "melodic": "Meloodiline",
-      "organNotes": "Orelinoodid",
-      "soundReality": "Helireaalsus",
-      "street": "Tänav",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "This feature requires  Premium plan."
-    },
-    "aiSettings": {
-      "title": "AI seaded",
-      "controlIntro": "Control tõlge, nutikad vastused, ja ForiaBot auto-responses.",
-      "save": "Salvesta AI seaded",
-      "autoTranslateIncoming": "Tõlgi sissetulevad sõnumid automaatselt",
-      "showOriginalAlongside": "Näita algteksti tõlke kõrval",
-      "enableSmartReplies": "Luba nutikad vastused",
-      "smartRepliesHint": "Saada  last few received sõnumid (sanitized) et AI et suggest quick replies.",
-      "maskProfanity": "Peida AI soovitustes roppused",
-      "maskProfanityHint": "If on, suggestions returned by AI hakkab have flagged words masked",
-      "foriaBot": "ForiaBoti automaatvastaja",
-      "enableAutoReply": "Luba automaatvastus, kui olen hõivatud",
-      "autoReplyMode": "Automaatvastuse režiim",
-      "cooldownSeconds": "Jahutusaeg (sekundites)",
-      "off": "Väljas",
-      "on": "Sees",
-      "signature": "Allkiri",
-      "autoReply": "Automaatvastus",
-      "activeUntilOptional": "Aktiivne kuni (valikuline)",
-      "saved": "AI eelistused salvestatud",
-      "saveFailed": "AI seadete salvestamine ebaõnnestus",
-      "translateOff": "Väljas",
-      "translateTagged": "Only when @translated või tagged",
-      "translateAll": "Tõlgi kõik sissetulevad sõnumid",
-      "modeDm": "Ainult 1:1 vestlused",
-      "modeMention": "Ainult siis, kui mind @mainitakse",
-      "modeAll": "Kõik sissetulevad sõnumid"
-    },
-    "accessibilitySettings": {
-      "title": "Ligipääsetavus ja märguanded",
-      "accessibility": "Ligipääsetavus",
-      "accessibilityDesc": "Options et make Chatforia easier et use ilma relying on sound.",
-      "interfaceFontSize": "Liidese fondisuurus",
-      "interfaceFontSizeHelp": "Starts at normal size. Increase if sa prefer larger text sisse accessibility seaded.",
-      "sm": "väike",
-      "md": "keskmine",
-      "lg": "suur",
-      "xl": "eriti suur",
-      "notifications": "Teavitused",
-      "notificationsDesc": "Visual alerts jaoks sõnumid & kõned\nNäita banners ja pealkiri blink so sa don’t miss activity.",
-      "vibrateOnNew": "Vibrate on uus sõnumid (when supported)\nTrigger device vibration koos notifications.",
-      "flashOnCall": "Flash screen on incoming call\nBrief bright flash when  call rings.",
-      "liveCaptions": "Live captions (kõned)",
-      "captionFontSize": "Subtiitrite fondisuurus",
-      "captionBackground": "Subtiitrite taust",
-      "light": "hele",
-      "dark": "tume",
-      "transparent": "läbipaistev",
-      "voiceNotes": "Häälsõnumid",
-      "autoTranscribeVoiceNotes": "Transkribeeri häälsõnumid automaatselt",
-      "autoTranscribeVoiceNotesDesc": "Attach  transcript et heli sõnumid sa receive.",
-      "changesSavedInstantly": "Muudatused salvestatakse kohe.",
-      "loadFailed": "Seadete laadimine ebaõnnestus",
-      "visualAlerts": "Visuaalsed märguanded sõnumite ja kõnede jaoks",
-      "visualAlertsDesc": "Näita banners ja pealkiri blink so sa don’t miss activity.",
-      "vibrateOnNewShort": "Vibrate on uus sõnumid (when supported)",
-      "vibrateOnNewDesc": "Trigger device vibration koos notifications.",
-      "flashOnCallShort": "Vilguta ekraani sissetuleva kõne korral",
-      "flashOnCallDesc": "Brief bright flash when  call rings."
-    },
-    "privacySection": {
-      "strictE2EE": "Range läbiv krüpteerimine",
-      "ciphertextOnlyNote": "Store only ciphertext on  server. Disables AI/Translate ja moderation previews."
-    },
-    "linkedDevicesPanel": {
-      "title": "Seotud Seadmed",
-      "noneFound": "Seotud seadmeid ei leitud.",
-      "refresh": "Värskenda"
-    },
-    "help": {
-      "title": "Abi",
-      "howCanWeHelp": "How saab me help?",
-      "helpCenter": "Abikeskus",
-      "contactUs": "Võta ühendust",
-      "quickTopics": "Kiirteemad",
-      "searchExamples": "Proovi searching jaoks “translate”, “backups”, või “privacy”.",
-      "cantLogin": "Can't log sisse",
-      "paymentsBilling": "Maksed / arveldus",
-      "reportAbuse": "Teata väärkasutusest",
-      "searchHelpArticles": "Otsi help articles",
-      "search": "Otsi"
-    },
-    "peoplePage": {
-      "people": "Inimesed",
-      "search": "Otsi",
-      "searchPlaceholder": "Otsi by alias, name, username, või phone",
-      "filterSaved": "Filter salvestatud kontaktid",
-      "noContactsFound": "Ei kontaktid leitud",
-      "quickStart": "Kiiralustus",
-      "quickStartDesc": "A few fast ways et get rolling.",
-      "importContacts": "Impordi oma kontaktid",
-      "add": "Lisa",
-      "focusSearch": "Focus Otsi",
-      "import": "Impordi",
-      "findOrAdd": "Find või add someone",
-      "searchByPhoneOrUsername": "Otsi by phone / username",
-      "inviteFriends": "Kutsu sõpru",
-      "inviteDesc": "Share your invite link et start chatting instantly.",
-      "getTheApp": "Hangi rakendus",
-      "getTheAppDesc": "Stay sisse touch on  go koos Chatforia jaoks iOS ja Android.",
-      "download": "Laadi alla",
-      "syncTip": "Tip: Sinu sõnumid stay synced across veeb ja mobile."
-    },
-    "randomChat": {
-      "title": "Juhuslik vestlus",
-      "description": "'Meet someone uus instantly'. 'Me’ll match sa ja open  temporary vestlus room.' 'Chat anonymously first. Lisa Friend later if it feels right.'",
-      "findMatch": "Leia mulle sobiv vestluskaaslane",
-      "chatWithForia": "Chat koos Foria",
-      "chatWithForiaBot": "Chat koos ForiaBot",
-      "cancel": "Tühista",
-      "close": "Sulge",
-      "searching": "Otsimine…",
-      "finding": "Otsimine…",
-      "looking": "Looking jaoks someone…",
-      "startingForia": "Starting  vestlus koos Foria…",
-      "partnerDisconnected": "Sinu partner disconnected.",
-      "noPartner": "Ei partner leitud right nüüd.",
-      "connectedTo": "Connected et {{name}}",
-      "connected": "Ühendatud",
-      "idle": "Ootel",
-      "partnerLeft": "Partner lahkus.",
-      "stopped": "Peatatud.",
-      "skip": "Jäta vahele",
-      "save": "Salvesta",
-      "saveGuard": "Only human-et-human chats saab be salvestatud",
-      "youAreChattingWith": "Sina’re chatting koos {{name}}",
-      "bot": "BOT",
-      "leave": "Lahku",
-      "sayHi": "Ütle tere 👋",
-      "you": "Sina",
-      "typeMessage": "Kirjuta  message",
-      "send": "Saada",
-      "partner": "Partner",
-      "withRia": "Riaga",
-      "chatWithRia": "Vestle Riaga",
-      "startingRia": "Starting  vestlus koos Ria…",
-      "ageDisclaimer": "Me only store  age range (not your exact date  birth). This on used et keep Random Chat pairings reasonable. To match koos people (not just RiaBot), set your age band sisse Seaded → Age & Random Chat.",
-      "ageBandRequired": "Set your age range sisse Profiil → Age & Random Chat et be matched koos people.",
-      "ageBandCallout": "To match koos people (not just RiaBot), set your age band sisse Seaded → Age & Random Chat.",
-      "subtitle": "Meet someone uus instantly, või vali et vestlus koos Ria.",
-      "start": "Alusta vestlust",
-      "matching": "Sobitamine…",
-      "setAge": "Set your age range sisse Profiil → Age & Random Chat et be matched koos people.",
-      "next": "Järgmine inimene",
-      "addFriend": "Lisa sõbraks",
-      "requested": "Taotletud",
-      "messageRia": "Kirjuta Riale…",
-      "messageMatch": "Kirjuta oma sobivusele…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "seal",
-      "intro": "Hei 👋 Mina olen Ria. Mis sul mõttes on?",
-      "greetings": {
-        "long1": "Hei {{name}} 👋 Olen siin. Mis sul mõttes on?",
-        "long2": "Hi {{name}} 😊 What would sa like et talk about today?",
-        "long3": "Hey {{name}}! I’m kõik ears — what’s up?",
-        "long4": "Nice et see sa, {{name}} 👋 What’s on your mind today?",
-        "long5": "Hey {{name}} 🙂 Want et vent, ask, või just vestlus?",
-        "long6": "Hi {{name}}! I’ve got time — what would sa like et talk about?",
-        "short1": "Hei {{name}}, olen ikka siin. Mis toimub?",
-        "short2": "Welcome back {{name}} 👋 Anything else sa wanted et add?",
-        "short3": "Back uuesti, {{name}}? 😊 Tell me what’s on your mind.",
-        "short4": "Hey {{name}} ✨ Ready et pick up where me left off?",
-        "short5": "Jah {{name}}? I’m listening 👂",
-        "short6": "Oh hey {{name}}! Got something uus on your mind?"
-      },
-      "header": {
-        "openNav": "Ava navigation menu",
-        "closeNav": "Sulge navigation menu",
-        "homeAria": "Chatforia Avaleht"
-      },
-      "login": {
-        "welcomeBack": "Tere tulemast tagasi",
-        "title": "Jätka et Chatforia",
-        "subtitleReturning": "Log sisse et your Chatforia konto",
-        "subtitle": "Log sisse et your Chatforia konto",
-        "google": "Jätka Google’iga",
-        "apple": "Jätka Apple’iga",
-        "googleUnavailable": "Google sign-sisse pole saadaval",
-        "appleUnavailable": "Apple sign-sisse pole saadaval",
-        "or": "või",
-        "email": "E-post",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Kasutajanimi",
-        "usernamePh": "Sinu username",
-        "passwordLabel": "Parool",
-        "passwordPh": "Sinu password",
-        "keepSignedIn": "Hoia mind sisselogituna",
-        "forgot": {
-          "title": "Forgot Parool",
-          "helper": "Sisesta  email sa used et create your Chatforia konto ja me'll send sa  secure link et reset your password.",
-          "emailInvalid": "Palun sisesta  valid email address.",
-          "genericError": "Unable et process request. Palun proovi uuesti sisse  moment.",
-          "sending": "Lähtestuslingi saatmine...",
-          "sendCta": "Saada Reset Link",
-          "sentLabel": "Saadetud!",
-          "sentHelper": "If  konto exists koos that email, me've saadetud  password reset link. It may take  few minutes et arrive. Be sure et kontrolli your spam või promotions folder.",
-          "previewDev": "Preview E-post (Dev)",
-          "backToLogin": "Back et Login"
-        },
-        "submit": "Logi sisse",
-        "loggingIn": "Logging sisse…",
-        "newHere": "Uus here? <link>Loo  konto</link>",
-        "ssoUnavailable": "Single-sign-on on currently pole saadaval. Use username & password instead.",
-        "error": {
-          "missing": "Palun sisesta your credentials.",
-          "invalid": "Invalid username või password",
-          "denied": "Ligipääs keelatud.",
-          "unprocessable": "Invalid request. Kontrolli your username/email ja password.",
-          "deviceLimit": "Seade limit reached jaoks  Tasuta plan. Log out on another device või upgrade et Premium et link rohkem devices.",
-          "premiumRequired": "This action requires  Premium plan."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Completing sign-sisse…"
-    },
-    "dialer": {
-      "title": "Kõned",
-      "subtitle": "Klahvistik ja hiljutised. (Kui sa PSTN-i ei kasuta, alusta kõnesid vestluse päisest.)",
-      "enterNumberPh": "Sisesta number",
-      "call": "Helista",
-      "backspace": "Tagasilüke",
-      "recents": "Hiljutised",
-      "recentsEmpty": "Hiljutisi kõnesid veel pole.",
-      "enterNumber": "Sisesta number",
-      "enterNumberAria": "Sisesta number",
-      "key": "Klahv {{d}}",
-      "noRecents": "Hiljutisi kõnesid veel pole."
-    },
-    "video": {
-      "title": "Video",
-      "chooseType": "Vali videotüüp.",
-      "directTitle": "Otsevideo",
-      "directDesc": "1:1 camera call koos another user.",
-      "directStart": "Alusta",
-      "roomsTitle": "Toad",
-      "roomsDesc": "Multi-party video using  shared room name.",
-      "roomsIntro": "Liitu või create  multi-party room.",
-      "roomNameLabel": "Toa nimi",
-      "roomNamePh": "e.g. tiim-standup",
-      "join": "Liitu",
-      "deeplinkTip": "Tip: sa saab deep link directly et <kood>/video?room=room-name</code>.",
-      "hub": {
-        "title": "Video",
-        "subtitle": "Vali videotüüp."
-      },
-      "direct": {
-        "title": "Otsevideo",
-        "subtitle": "Alusta  1:1 video call using  telefoninumber või Chatforia username.",
-        "desc": "1:1 camera call koos another user.",
-        "start": "Alusta",
-        "callBtn": "Helista",
-        "callByPhone": {
-          "title": "Kõne by phone"
-        },
-        "phone": {
-          "placeholder": "Sisesta phone (e.g., +1-555-123-4567)",
-          "aria": "Telefon et call"
-        },
-        "tipInvite": "Tip: Paste  number ja call ilma saving  kontakt. Me’ll invite non-kasutajad by link.",
-        "findUser": {
-          "title": "Find  user"
-        },
-        "search": {
-          "placeholder": "Otsi by name või username",
-          "aria": "Otsi by name või username",
-          "btn": "Otsi"
-        }
-      },
-      "rooms": {
-        "title": "Toad",
-        "subtitle": "Loo  room või join  existing one by typing  same name.",
-        "desc": "Multi-party video using  shared room name.",
-        "roomLabel": "Toa nimi",
-        "roomPlaceholder": "e.g. tiim-standup",
-        "roomAria": "Toa nimi",
-        "joinCreate": "Liitu / loo",
-        "tip": "Tip: share this name koos others, või deep link et <kood>/video?room=room-name</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Alusta  direct 1:1 video call.",
-      "findUserLabel": "Find  user",
-      "findUserPh": "Otsi by name või username",
-      "search": "Otsi",
-      "call": "Helista"
-    },
-    "phoneWarning": {
-      "title": "Sinu number on expiring varsti",
-      "body": "Sinu number {{number}} hakkab be vabastatud on {{date}} unless reactivated.",
-      "button": "Hoia minu number alles"
     }
+  },
+  "family": {
+    "title": "Perekond",
+    "loading": "Laadite perekonna andmeid…",
+    "error": {
+      "load": "Perekonna andmete laadimine ebaõnnestus.",
+      "invite": "Kutset ei õnnestunud luua. Veenduge, et olete perekonna omanik, ja proovige uuesti.",
+      "checkout": "Me ei saanud alustada perepaketi ostu. Palun proovige uuesti."
+    },
+    "billing": {
+      "myPlanTitle": "Minu pakett",
+      "myPlanError": "Sinu paketti ei õnnestunud laadida.",
+      "myPlanLoading": "Laadime sinu paketti…",
+      "currentPlan": "Praegune pakett",
+      "renewsAt": "Uuendatakse",
+      " freePlanCopy": "Sul on tasuta pakett. Uuenda, et avada rohkem funktsioone.",
+      "upgradeCta": "Uuenda paketti",
+      "changePlanCta": "Muuda paketti",
+      "manageBilling": "Haldus",
+      "portalError": "Hetkel ei ole võimalik avada arveldusportaali.",
+      "cancelNow": "Tühista kohe",
+      "cancelNowHelp": "Saad oma tellimust hallata või tühistada arveldusportaalis või tühistada kohe allpool.",
+      "cancelNowConfirm": "Kas oled kindel, et soovid oma plaani kohe tühistada? Seda ei saa tagasi võtta.",
+      "cancelNowError": "Hetkel ei ole võimalik teie plaani tühistada. Palun proovige uuesti või kasutage arvelduse haldamist."
+    },
+    "none": {
+      "title": "Perekonda pole veel loodud",
+      "body": "Chatforia perekonna ja jagatud andmebaasi loomiseks alustage perekonnapaketiga.",
+      "goUpgrade": "Alustage perekonnapaketiga",
+      "viewPlans": "Vaata kõiki pakette"
+    },
+    "group": {
+      "defaultName": "Minu Chatforia perekond",
+      "role": "Teie roll: {{role}}"
+    },
+    "role": {
+      "owner": "Omanik",
+      "member": "Liige"
+    },
+    "data": {
+      "heading": "Jagatud andmebaas",
+      "caption": "Kõik liikmed jagavad seda andmebaasi. Me hoiatame sind, kui lähened oma limiidile."
+    },
+    "members": {
+      "title": "Perekonnaliikmed",
+      "name": "Nimi",
+      "role": "Roll",
+      "usage": "Kasutamine",
+      "limit": "Piirang",
+      "unlimited": "Konkreetset piirangut pole",
+      "inviteCta": "Kutsu liige"
+    },
+    "invite": {
+      "title": "Kutsu uus liige",
+      "body": "Saada e-kiri või link, et kutsuda keegi oma jagatud perekonna andmebaasi.",
+      "emailLabel": "E-post (valikuline)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Loo kutse",
+      "linkLabel": "Kutselink",
+      "copyAria": "Kopeeri kutselink",
+      "expiryHint": "See link aegub mõne päeva pärast. Saad alati uue luua."
+    },
+    "join": {
+      "title": "Liitu perekonnaga",
+      "body": "Sind on kutsutud liituma Chatforia perekonnaga ja jagama nende andmebaasi.",
+      "cta": "Nõustu ja liitu perekonnaga",
+      "ctaLogin": "Logi sisse ja liitu perega",
+      "success": "Oled liitunud selle perega. Nüüd jagad nende andmebaasi.",
+      "goFamily": "Mine pere juhtpaneelile",
+      "error": "Me ei saanud sind sellesse perre lisada. Kutse võib olla kehtetu või aegunud."
+    }
+  },
+  "randomChat": {
+    "title": "Juhuslik vestlus",
+    "subtitle": "Kohtu kohe kellegagi uue või vali vestlus Ria-ga.",
+    "start": "Alusta vestlust",
+    "description": "Vestle esmalt anonüümselt. Lisa sõber hiljem, kui see tundub õige.",
+    "findMatch": "Leia mulle sobiv partner",
+    "chatWithRia": "Vestle Riaga",
+    "setAge": "Määra profiilis → Vanus ja juhuslik vestlus oma vanusevahemik, et leida sobivaid inimesi.",
+    "idle": "Ootel",
+    "matching": "Sobitamine…",
+    "searching": "Otsimine…",
+    "cancel": "Tühista",
+    "connectionProblem": "Ühendusprobleem",
+    "ai": "AI",
+    "anonymous": "Anonüümne",
+    "connectedAs": "Ühendatud kui",
+    "waitingAddFriend": "Ootan, kuni nad nõustuvad sõbra lisamisega…",
+    "hiddenUsernames": "Kasutajanimed jäävad varjatuks, kuni mõlemad inimesed valivad Sõbra lisamine.",
+    "\n \nriaSeparate": "Vestle Ria'ga igal ajal — eraldi juhuslikust inimeste sobitamisest.",
+    "sendMessage": "Saada sõnum",
+    "chatEnded": "Vestlus lõppes",
+    "conversationEnded": "See vestlus on lõppenud.",
+    "findAnotherMatch": "Leia teine sobitus",
+    "next": "Järgmine inimene",
+    "addFriend": "Lisa sõber",
+    "requested": "Taotletud",
+    "leave": "Lahku",
+    "messageRia": "Saada sõnum Riale…",
+    "messageMatch": "Saada sõnum oma paarile…",
+    "chatWithForia": "Vestle Foriaga",
+    "chatWithForiaBot": "Vestle ForiaBotiga",
+    "close": "Sulge",
+    "finding": "Otsin…",
+    "looking": "Otsin kedagi…",
+    "startingForia": "Alustan vestlust Foriaga…",
+    "partnerDisconnected": "Su partner katkestas ühenduse.",
+    "noPartner": "Hetkel pole partnerit leitud.",
+    "connectedTo": "Ühendatud {{name}}-ga",
+    "connected": "Ühendatud",
+    "partnerLeft": "Partner lahkus.",
+    "stopped": "Peatatud.",
+    "skip": "Vaheta",
+    "save": "Salvesta",
+    "saveGuard": "Salvestada saab ainult inimestevahelisi vestlusi",
+    "youAreChattingWith": "Sa vestled { {name}}",
+    "bot": "BOT",
+    "sayHi": "Tere 👋",
+    "you": "Sina",
+    "typeMessage": "Kirjuta sõnum",
+    "send": "Saada",
+    "partner": "Partner",
+    "withRia": "Ria-ga",
+    "startingRia": "Alustan vestlust Ria-ga…",
+    "ageDisclaimer": "Me salvestame ainult vanuserühma (mitte sinu täpset sünnikuupäeva). Seda kasutatakse, et hoida juhusliku vestluse paarid mõistlikud. Et sobitada inimesi (mitte ainult RiaBot), määra oma vanuserühm Seaded → Vanus ja juhuslik vestlus.",
+    "ageBandRequired": "Määra oma vanuserühm profiilis → Vanus ja juhuslik vestlus, et sobitada sind teiste inimestega.",
+    "ageBandCallout": "Et sobitada sind teiste inimestega (mitte ainult RiaBotiga), määra oma vanuserühm seadetes → Vanus ja juhuslik vestlus."
+  },
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Tere 👋 Ma olen Ria. Mis sul mõttes on?",
+    "greetings": {
+      "long1": "Tere {{name}} 👋 Ma olen siin. Mis sul mõttes on?",
+      "long2": "Tere {{name}} 😊 Millest soovid täna rääkida?",
+      "long3": "Tere {{name}}! Olen kogu tähelepanu sinu juures — mis toimub?",
+      "long4": "Tore sind näha, {{name}} 👋 Mis sul täna mõttes on?",
+      "long5": "Tere, {{name}} 🙂 Kas soovid end välja elada, midagi küsida või lihtsalt vestelda?",
+      "long6": "Tere,\n \n{{name}}! Mul on aega – millest soovid rääkida?",
+      "short1": "Tere {{name}}, ma olen ikka veel siin. Mis toimub?",
+      "short2": "Tere tulemast tagasi {{name}} 👋 Kas soovid veel midagi lisada?",
+      "short3": " Jälle tagasi, {{name}}? 😊 Räägi mulle, mis sul mõttes on.",
+      "short4": "Tere {{name}} ✨ Oled valmis jätkama sealt, kus pooleli jäime?",
+      "short5": "Jah {{name}}? Ma kuulan 👂",
+      "short6": "Oh tere {{name}}! Kas sul on midagi uut mõttes?"
+    },
+    "header": {
+      "openNav": "Ava navigeerimismenüü",
+      "closeNav": "Sulge navigeerimismenüü",
+      "homeAria": "Chatforia avaleht"
+    },
+    "login": {
+      "welcomeBack": "Tere tulemast tagasi",
+      "title": "Jätka Chatforias",
+      "subtitleReturning": "Logi sisse oma Chatforia kontole",
+      "google": "Jätka Google'iga",
+      "apple": "Jätka Apple'iga",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google'i sisselogimine pole saadaval",
+      "appleUnavailable": "Apple'i sisselogimine pole saadaval",
+      "ssoUnavailable": "Ühekordne sisselogimine pole hetkel saadaval. Kasuta selle asemel kasutajanime ja parooli.",
+      "or": "või",
+      "accountLabel": "Konto",
+      "identifierPh": "E-post või kasutajanimi",
+      "passwordLabel": "Parool",
+      "passwordPh": "Sinu parool",
+      "keepSignedIn": "Jäta mind sisse logitud",
+      "forgot": "Unustasid parooli?",
+      "resendVerification": "Saada kinnituskiri uuesti",
+      "submit": "Logi sisse",
+      "loggingIn": "Login sisse…",
+      "verification": {
+        "sent": "Kinnituskiri saadetud. Vaata oma postkasti.",
+        "failed": "Kinnituskirja uuesti saatmine ebaõnnestus."
+      },
+      "error": {
+        "missing": "Palun sisesta oma kasutajatunnus ja parool.",
+        "invalid": "Kehtetu kasutajanimi või parool",
+        "denied": "Juurdepääs keelatud.",
+        "unprocessable": "Kehtetu päring. Kontrolli oma kasutajanime/e-posti aadressi ja parooli.",
+        "deviceLimit": "Tasuta paketi seadmete piirang on täis. Logi välja teisel seadmel või uuenda Premium-paketiks, et lisada rohkem seadmeid.",
+        "premiumRequired": "Selle toimingu jaoks on vaja Premium-paketti."
+      },
+      "forgotPassword": {
+        "title": "Unustasid parooli?",
+        "helper": "Sisesta e-posti aadress, mida kasutasid Chatforia konto loomiseks, ja me saadame sulle turvalise lingi parooli taastamiseks.",
+        "emailLabel": "E-post",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Palun sisesta kehtiv e-posti aadress.",
+        "genericError": "Päringut ei õnnestunud töödelda. Palun proovi hetke pärast uuesti.",
+        "sending": "Saadan parooli taastamise linki...",
+        "sendCta": "Saada parooli taastamise link",
+        "sentLabel": "Saadetud!",
+        "sentHelper": "Kui selle e-posti aadressiga on olemas konto, oleme saatnud parooli taastamise lingi. Selle saabumine võib võtta mõne minuti. Kontrollige kindlasti oma rämpsposti või reklaamkausta.",
+        "previewDev": "E-kirja eelvaade (Dev)",
+        "backToLogin": "Tagasi sisselogimisele"
+      },
+      "resetPassword": {
+        "title": "Parooli taastamine",
+        "missingToken": "Parooli taastamise token on kehtetu või puudub.",
+        "missingTokenHelper": "Token on kehtetu või puudub. Palun taotlege uus parooli taastamise link.",
+        "passwordMismatch": "Paroolid ei ühti",
+        "success": "Teie parool on edukalt taastatud",
+        "genericError": "Viga: parooli ei ole võimalik taastada.",
+        "newPasswordLabel": "Uus parool",
+        "newPasswordPlaceholder": "Sisestage uus parool",
+        "confirmPasswordLabel": "Kinnitage uus parool",
+        "confirmPasswordPlaceholder": "Sisestage uus parool uuesti",
+        "resetting": "Taastamine...",
+        "submit": "Taasta parool",
+        "strongPasswordHint": "Vali tugev parool, mida sa mujal ei kasuta."
+      }
+    }
+  },
+  "oauth": {
+    "completing": " Sisselogimist lõpetatakse…"
   },
   "support": {
     "helpFab": "Abi",
     "openSupportAria": "Ava tugi",
     "badge": "Tugi",
-    "heading": "How saab me help?",
+    "heading": "Kuidas saame aidata?",
     "tabs": {
-      "help": "Abikeskus",
-      "contact": "Võta ühendust"
+      "help": "Abi keskus",
+      "contact": "Võta meiega ühendust"
     },
-    "searchPlaceholder": "Otsi help articles…",
+    "searchPlaceholder": "Otsi abiteemasid…",
     "searchAria": "Otsi abi",
     "searchBtn": "Otsi",
     "quickTopicsLabel": "Kiirteemad",
     "quickTopics": {
-      "login": "Can’t log sisse",
-      "billing": "Maksed / arveldus",
-      "abuse": "Teata väärkasutusest"
+      "login": "Ei saa sisse logida",
+      "billing": "Maksed / arveldamine",
+      "kuritarvitamine": "Teata kuritarvitamisest"
     },
-    "trySearching": "Proovi searching jaoks “translate”, “backups”, või “privacy”.",
-    "article": "Artikkel",
-    "openArticle": "Ava artikkel",
-    "contactIntro": "Me’ll proovi et resolve this instantly. If not, our tiim hakkab follow up.",
-    "topicAria": "Vali  topic",
+    "prooviOtsingut": "Proovi otsida sõnu \"tõlkimine\", \"varukoopiad\" või \"privaatsus\".",
+    "artikkel": "Artikkel",
+    "avaArtikkel": "Ava artikkel",
+    "kontaktIntro": "Püüame selle kohe lahendada. Kui see ei õnnestu, võtab meie meeskond sinuga ühendust.",
+    "teemaAria": "Vali teema",
     "messagePlaceholder": "Kirjuta oma sõnum…",
     "sendBtn": "Saada",
-    "sent": "Sõnum saadetud. Me’ll reply by email.",
-    "sendError": "Could not send. E-post support@chatforia.com instead.",
-    "actionCompleted": "Toiming lõpetatud.",
-    "actionFailed": "Could not complete that action. Palun proovi uuesti.",
-    "escalationMessage": "Me couldn’t resolve this automatically. Our tiim hakkab follow up.",
-    "genericError": "Midagi läks valesti. Palun proovi uuesti.",
-    "analyzing": "Sinu probleemi analüüsimine...",
-    "takeAction": "Tee soovitatud toiming",
-    "resolvedInstantly": "Probleem lahendati kohe — piletit pole vaja.",
-    "escalating": "Escalating et tugi..."
+    "sent": "Sõnum saadetud. Vastame e-kirja teel.",
+    "sendError": "Saata ei õnnestunud. Saada selle asemel e-kiri aadressile support@chatforia.com.",
+    "actionCompleted": "Tegevus lõpetatud.",
+    "actionFailed": "Seda tegevust ei õnnestunud lõpetada. Palun proovi uuesti.",
+    "ticketCreated": "Me ei suutnud seda automaatselt lahendada. Meie meeskond võtab sinuga ühendust.",
+    "escalationMessage": "Me ei suutnud seda automaatselt lahendada. Meie meeskond võtab sinuga ühendust.",
+    "genericError": "Midagi läks valesti. Palun proovige uuesti.",
+    "analyzing": "Analüüsime teie probleemi...",
+    "takeAction": "Võtke soovitatud meetmed",
+    "resolvedInstantly": "Probleem lahendati kohe — piletit ei ole vaja.",
+    "escalating": "Edastame toele..."
+  },
+  "help": {
+    "title": "Abi",
+    "howCanWeHelp": "Kuidas saame aidata?",
+    "helpCenter": "Abi keskus",
+    "contactUs": "Võta meiega ühendust",
+    "quickTopics": "Kiirteemad",
+    "searchExamples": "Proovi otsida sõnu \"tõlkimine\", \"varukoopiad\" või \"privaatsus\".",
+    "cantLogin": "Ei saa sisse logida",
+    "paymentsBilling": "Maksed/arveldamine",
+    "reportAbuse": "Teata kuritarvitamisest",
+    "searchHelpArticles": "Otsi abiteemasid",
+    "search": "Otsi"
   },
   "helpCenter": {
     "title": "Abikeskus",
     "faq": {
       "account": {
-        "q": "How do I create või recover my konto?",
-        "a": "Laadi alla  rakendus või use veeb, tap “Loo konto”, verify your email/phone. To recover, use “Forgot password”."
+        "q": "Kuidas luua või taastada oma konto?",
+        "a": "Lae alla rakendus või kasuta veebiversiooni, puuduta \"Loo konto\", kinnita oma e-post/telefon. Taastamiseks kasuta \"Unustasid parooli\"."
       },
       "privacy": {
-        "q": "Are sõnumid end-et-end encrypted?",
-        "a": "Jah. Sõnumid ja kõned on end-et-end encrypted by default. Only sa ja  recipient saab read them."
+        "q": "Kas sõnumid on otspunktist-otspunktini krüpteeritud?",
+        "a": "Jah. Sõnumid ja kõned on vaikimisi läbivalt krüpteeritud. Ainult sina ja saaja saate neid lugeda."
       },
       "translate": {
-        "q": "How does instant tõlge work?",
-        "a": "Luba “Automaatne tõlge” sisse Seaded → Appearance & Keel. Me translate on-device where supported, otherwise through secure APIs koos minimal metadata."
+        "q": "Kuidas töötab kiirtõlge?",
+        "a": "Luba \"Automaatne tõlkimine\" menüüs Seaded → Välimus ja keel. Tõlgime seadmes, kui see on toetatud, muidu turvaliste API-de kaudu minimaalsete metaandmetega."
       },
       "contact": {
-        "q": "Kontakt tugi",
-        "a": "Reach us at support@chatforia.com. Include kuvatõmmised ja your rakendus versioon."
+        "q": "Võta ühendust tugiteenistusega",
+        "a": "Kirjuta meile aadressil support@chatforia.com. Lisa ekraanipildid ja oma rakenduse versioon."
       }
     }
   },
-  "encryptionRecovery": {
-    "title": "Halda Krüpteerimine",
-    "description": "Back up, restore, ava, või reset your encryption key.",
+  "gettingStarted": {
+    "title": "Alustamine",
+    "subtitle": "Oled Chatforia uus kasutaja? See kiirjuhend tutvustab põhitõdesid, et saaksid minutitega tööle hakata.",
     "alert": {
-      "keyRequiredTitle": "Krüpteerimine key nõutav",
-      "keyRequiredBody": "This brauser cannot currently decrypt your encrypted sõnumid. Taasta, ava, või reset your key et jätka."
+      "text": "See juhend täieneb uute funktsioonide lisandumisel. Kui midagi puudub, andke meile teada",
+      "contactLink": "Võtke meiega ühendust"
     },
-    "sections": {
-      "createBackup": "Loo key backup",
-      "restoreFromBackup": "Taasta alates konto backup",
-      "resetEncryption": "Lähtesta krüpteerimine"
+    "section1": {
+      "title": "1) Loo oma konto",
+      "signup": "Registreeru",
+      "or": "või",
+      "login": "logi sisse",
+      "loginText": "oma olemasoleva kontoga.",
+      "prefsStart": "Ava rakenduses Seaded, et määrata oma eelistused",
+      "prefsLink": "eelistused",
+      "prefsRest": "(keel, lugemiskinnitused,\n \nteemad)."
     },
-    "fields": {
-      "unlockPasscode": {
-        "label": "Avamiskood (praegune seade)",
-        "description": "Used et decrypt your keys locally before exporting"
-      },
-      "backupPassword": {
-        "label": "Varukoopia password",
-        "description": "Used et encrypt  backup fail"
-      },
-      "restoreBackupPassword": {
-        "label": "Varukoopia password",
-        "description": "The password sa created when backing up your key on iPhone"
-      },
-      "newLocalPasscode": {
-        "label": "Uus local passcode",
-        "description": "Protect keys at rest on this brauser"
-      },
-      "resetLocalPasscode": {
-        "label": "Uus local passcode",
-        "description": "Nõutav before resetting so  uus key on kaitstud on this device"
-      }
+    "section2": {
+      "title": "2) Alusta sõnumite saatmist",
+      "item1": "Loo DM või grupp ja saada oma esimene sõnum.",
+      "item2": "Kasuta kiirtõlget, et vestelda enam kui 100 keeles.",
+      "item3": " Proovi kaduvaid sõnumeid ja lugemiskinnitusi menüüs Profiil → Privaatsus."
     },
-    "actions": {
-      "unlockKey": "Ava krüpteerimisvõti",
-      "restoreFromBackup": "Taasta alates konto backup",
-      "resetEncryption": "Reset Krüpteerimine"
+    "section3": {
+      "title": "3) Mine edasi",
+      "item1": "Rakenduses saad igal ajal uuendada tasulisele paketile.",
+      "item2": "Kui oled sisse logitud, saad rakenduse Seadete alt lisada täiendavaid seadmeid ja seadistada krüpteeritud varukoopiaid.",
+      "item2Part1": "Kui oled sisse logitud, saad rakenduse seadete alt lisada uusi seadmeid ja seadistada krüpteeritud varukoopiaid."
     },
-    "messages": {
-      "backupCreated": "Key backup created ja downloaded.",
-      "keyUnlocked": "Krüpteerimine key avatud.",
-      "keyRestored": "Key restored alates konto backup.",
-      "resetSuccess": "Krüpteerimine reset successfully."
-    },
-    "errors": {
-      "restoreIncomplete": "Key restore incomplete või incorrect jaoks this konto",
-      "noBackup": "Selle konto jaoks krüpteeritud varukoopiat ei ole",
-      "missingPublicKey": "Varukoopial puudub avalik võti",
-      "noServerPublicKey": "This konto does not currently expose  server public key",
-      "serverBackupMismatch": "Server backup does not match  current konto encryption key",
-      "incompleteMetadata": "Varukoopia metadata on incomplete",
-      "resetIncomplete": "Krüpteerimine reset did not complete correctly"
-    },
-    "confirm": {
-      "reset": "Reset encryption jaoks this konto?\n\nOlder encrypted sõnumid may become unreadable unless sa restore  original key later."
-    },
-    "resetDescription": "This generates  uus encryption key jaoks your konto. Older encrypted sõnumid may become unreadable unless sa restore  original key later."
+    "cta": {
+      "seePlans": "Vaata pakette ja hindu",
+      "openSettings": "Ava seaded",
+      "createAccount": " Loo konto"
+    }
   },
-  "footer": {
-    "plans": "Paketid & Hinnad",
-    "about": "About Chatforia",
-    "careers": "Karjäär",
-    "press": "Press",
-    "advertise": "Reklaami",
-    "contact": "Võta meiega ühendust",
-    "help": "Abikeskus",
-    "status": "Olek Page",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Privaatsuspoliitika",
-    "terms": "Teenustingimused",
-    "cookies": "Cookie Seaded",
-    "doNotSell": "Ära müü minu teavet",
-    "language": "Keel",
-    "contactShort": "Kontakt",
-    "aria": "Jalus",
-    "homeAria": "Chatforia home",
-    "section": {
-      "company": "ETTEVÕTE",
-      "support": "TUGI",
-      "downloads": "ALLALAADIMISED",
-      "legal": "ÕIGUSLIK"
+  "howItWorks": {
+    "title": "Kuidas Chatforia töötab",
+    "intro": "Chatforia on loodud suhtlemise lihtsaks, kiireks ja kättesaadavaks muutmiseks. Alustamine võtab vaid paar sammu.",
+    "step1Title": "1. Loo konto",
+    "step1Desc": "Registreeru oma e-posti või kasutajanime abil, et luua oma Chatforia konto.",
+    "step2Title": "2. Alusta vestlust",
+    "step2Desc": "Ühenda teistega, valides kontakte või alustades uusi vestlusi.",
+    "step3Title": "3. Reaalajas sõnumite saatmine",
+    "step3Desc": "Sõnumid edastatakse kiiresti, et pakkuda sujuvat suhtluskogemust.",
+    "step4Title": "4. Globaalne suhtlus",
+    "step4Desc": "Sisseehitatud tõlkimisfunktsioon aitab kasutajatel suhelda erinevates keeltes.",
+    "step5Title": "5. Säilita kontroll",
+    "step5Desc": "Haldage oma eelistusi, kontakte ja suhtlusseadeid."
+  },
+  "safety": {
+    "title": "Ohutus- ja kogukonna juhised",
+    "intro": "Chatforia on pühendunud turvalise ja austusväärse keskkonna säilitamisele kõigi kasutajate jaoks. Need juhised aitavad tagada positiivse kogemuse kõigile.",
+    "respectTitle": "Austav suhtlemine",
+    "respectDesc": "Kasutajatelt oodatakse austavat suhtlemist. Ahistamine, kuritarvitamine või kahjulik käitumine ei ole lubatud.",
+    "prohibitedTitle": "Keelatud sisu",
+    "prohibited": {
+      "illegal": "Ebaseaduslik tegevus",
+      "harassment": "Ahistamine või kiusamine",
+      "hate": "Vihkamine või diskrimineerimine",
+      "explicit": "Eksplitsiitne või kahjulik materjal",
+      "spam": "Spämm või petlikud tegevused"
     },
-    "links": {
-      "plans-pricing": "Paketid & Hinnad",
-      "about-chatforia": "About Chatforia",
-      "careers": "Karjäär",
-      "press": "Press",
-      "advertise": "Reklaami",
-      "getting-started": "Alustamine",
-      "help-center": "Abikeskus",
-      "contact-us": "Võta meiega ühendust",
-      "status-page": "Olek Page",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Privaatsuspoliitika",
-      "terms-of-service": "Teenustingimused",
-      "do-not-sell-my-info": "Ära müü minu teavet",
-      "cookie-settings": "Cookie Seaded"
+    "toolsTitle": "Kasutaja turvalisuse tööriistad",
+    "tools": {
+      "report": "Teata sobimatust käitumisest või sisust",
+      "block": "Blokeeri kasutajaid, et vältida edasist suhtlust",
+      "control": "Privaatsus- ja suhtlusseadete haldamine"
     },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
+    "enforcementTitle": "Jõustamine",
+    "enforcementDesc": "Võime võtta meetmeid nende juhiste rikkumise eest, sealhulgas hoiatused, piirangud või püsiv eemaldamine platvormilt."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Miks sõnumivahetusplatvormid on tähtsamad kui kunagi varem",
+      "intro": "Sõnumivahetusplatvormidest on saanud tänapäeva maailmas üks olulisemaid suhtlusvahendeid. Alates isiklikest vestlustest kuni ärialase suhtluseni võimaldavad sõnumirakendused inimestel püsida ühenduses koheselt ja tõhusalt.",
+      "everydayTitle": "Igapäevane suhtlus",
+      "everydayDesc": "Inimesed kasutavad sõnumivahetusrakendusi igapäevaseks suhtluseks sõprade, pere ja kolleegidega. Olgu tegemist kiire uudisega või pika vestlusega, pakub sõnumivahetus mugavat ja paindlikku viisi ühenduses olemiseks.",
+      "speedTitle": "Kiirus ja mugavus",
+      "speedDesc": "Sõnumivahetusplatvormide üks peamisi eeliseid on nende kiirus. Sõnumid jõuavad kohale koheselt, võimaldades kasutajatel suhelda reaalajas. Selline mugavus on muutnud sõnumivahetuse paljude inimeste eelistatud suhtlusviisiks.",
+      "globalTitle": "Globaalne ulatus",
+      "globalDesc": "Sõnumirakendused ühendavad inimesi üle kogu maailma. Internetiühenduse olemasolul saavad kasutajad suhelda asukohast sõltumata, mis lihtsustab suhete loomist ja rahvusvahelist koostööd.",
+      "privacyTitle": "Privaatsus ja kontroll",
+      " privacyDesc": "Kaasaegsed sõnumivahetusplatvormid keskenduvad sellele, et anda kasutajatele kontroll oma andmete ja vestluste üle. Sellised funktsioonid nagu krüpteerimine, privaatsusseaded ja sõnumite haldamine võimaldavad kasutajatel suhelda kindlustundega.",
+      "futureTitle": "Sõnumivahetuse tulevik",
+      "futureDesc": "Sõnumivahetus areneb jätkuvalt uute funktsioonidega, nagu AI-põhised vastused, tõlkimine ja multimeedia jagamine. Tehnoloogia arenedes muutuvad sõnumivahetusplatvormid veelgi võimsamaks ja mitmekülgsemaks.",
+      "outro": "Chatforia on loodud neid põhimõtteid silmas pidades, pakkudes kiiret, turvalist ja kasutajasõbraliku sõnumivahetuskogemuse ühendatud maailmas."
     },
-    "copyright": "© Chatforia",
-    "patentPending": "Patent menetluses",
-    "backToTop": "↑ Back et top"
+    "global": {
+      "title": "Globaalse suhtluse tulevik",
+      "intro": "Suhtlus on viimaste aastakümnete jooksul kiiresti arenenud. See, mis varem nõudis telefonikõnesid või isiklikke kohtumisi, saab nüüd teha kiiresti sõnumivahetusplatvormide kaudu. Tehnoloogia arenguga muutub globaalne suhtlus kiiremaks, kättesaadavamaks ja kaasavamaks.",
+      "barriersTitle": "Barjääride murdmine",
+      "barriersDesc": "Üks suurimaid muutusi suhtluses on geograafiliste barjääride vähenemine. Inimesed saavad nüüd suhelda teistega üle kogu maailma peaaegu reaalajas. Olgu tegemist isiklike vestluste, äri või koostööga, on sõnumivahetusplatvormid muutnud vahemaa palju vähem piiravaks .",
+      "translationTitle": "Tõlkethnoloogia roll",
+      "translationDesc": "Keel on traditsiooniliselt olnud üks suurimaid takistusi globaalses suhtluses. Tänapäeval aitavad sisseehitatud tõlketööriistad seda lõhet ületada. Sellised platvormid nagu Chatforia võimaldavad kasutajatel suhelda kergemini isegi siis, kui nad räägivad erinevaid keeli, luues uusi võimalusi suhtlemiseks ja üksteisemõistmiseks.",
+      "realtimeTitle": "Reaalajas ühenduvus",
+      "realtimeDesc": "Kiirus on tänapäeva suhtlust kujundav võtmetegur. Kasutajad ootavad, et sõnumid jõuaksid kohale kiiresti, ja tänapäevane infrastruktuur toetab seda ootust. Reaalajas sõnumivahetus võimaldab loomulikumat ja sujuvamat vestlust.",
+      "privacyTitle": "Privaatsus ja turvalisus",
+      "privacyDesc ": "Kuna suhtlus muutub üha digitaalsemaks, muutuvad privaatsus ja turvalisus üha olulisemaks. Kasutajad tahavad kindlustunnet, et nende vestlused on kaitstud. Sellised funktsioonid nagu krüpteerimine ja kasutaja poolt kontrollitavad seaded aitavad tagada turvalisema suhtluskogemuse.",
+      " futureTitle": "Mis tuleb järgmiseks",
+      "futureDesc": "Globaalse suhtluse tulevik hõlmab tõenäoliselt veelgi arenenumaid vahendeid, nagu AI-abistatud sõnumivahetus, täiustatud tõlkimine ja parandatud kasutajakogemus. Tehnoloogia arenedes muutub suhtlus üha intuitiivsemaks ja kättesaadavamaks.",
+      "outro": "Sellised platvormid nagu Chatforia on osa sellest muutusest, aidates inimestel keelte ja piiride üleselt kergemini ühendust luua."
+    },
+    "index": {
+      "title": "Chatforia blogi",
+      "intro": "Tutvuge teadmistega suhtluse, veebiturvalisuse ja selle kohta, kuidas sõnumitehnoloogia ühendab inimesi üle kogu maailma.",
+      "post1": "Kuidas veebis turvaliselt vestelda",
+      "post2": "Globaalse suhtluse tulevik",
+      "post3": "Miks sõnumivahetusplatvormid on olulised"
+    },
+    "chatSafely": {
+      "title": "Kuidas veebis turvaliselt vestelda",
+      "intro": "Veebisuhtlus on muutnud ühenduse loomise inimestega üle maailma lihtsamaks kui kunagi varem. Olgu tegemist sõpradega suhtlemise, uute inimeste tutvustamise või professionaalse koostööga, mängivad sõnumivahetusplatvormid igapäevaelus olulist rolli. Veebis turvalisuse tagamine on aga sama oluline kui ühenduses olemine.",
+      "personalInfo": {
+        "title": " Kaitse oma isikuandmeid",
+        "body": "Üks olulisemaid veebiturvalisuse reegleid on vältida tundlike isikuandmete jagamist. See hõlmab su kodust aadressi, finantsandmeid, paroole või mis tahes isikut tuvastavat teavet, mida võidakse kuritarvitada. Isegi igapäevastes vestlustes on parim olla tähelepanelik selle suhtes, mida ja kellega jagad."
+      },
+      "safetyFeatures": {
+        "title": "Kasutage sisseehitatud turvaomadusi",
+        "body": "Kaasaegsed sõnumivahetusplatvormid, nagu Chatforia, pakuvad vahendeid, mis aitavad kasutajatel turvalisust tagada. Sellised funktsioonid nagu blokeerimine, teatamine ja privaatsusseaded on loodud selleks, et anda kasutajatele kontroll oma kogemuse üle. Kui keegi käitub sobimatult või tekitab teile ebamugavust, peaksite neid vahendeid kohe kasutama."
+      },
+      "scams": {
+        "title": "Olge teadlik pettustest",
+        "body": "Petturid kasutavad sageli sõnumivahetusplatvorme, et meelitada kasutajaid jagama isiklikku teavet või saatma raha. Olge ettevaatlikud sõnumite suhtes, mis tunduvad liiga head, et olla tõsi, nagu ootamatud pakkumised, kiireloomulised palved või tundmatud lingid. Kontrollige alati suhtluspartneri identiteeti enne mis tahes tegevuse alustamist."
+      },
+      "vastutustundlikult": {
+        "pealkiri": "Suhtle vastutustundlikult",
+        "sisu": "Austav suhtlemine aitab luua kõigile turvalisema keskkonna. Väldi kahjulikke või solvavaid vestlusi ning ole teadlik sellest, kuidas su sõnad võivad teisi mõjutada. Positiivsed suhted aitavad kaasa parema kasutuskogemuse loomisele kõigile kasutajatele."
+      },
+      "miksTurvalisus": {
+        "pealkiri": "Miks on veebiturvalisus oluline",
+        "sisu": "Digitaalse suhtluse kasvades muutub turvalisuse ja usalduse säilitamine muutub üha olulisemaks. Järgides põhilisi turvalisuse tavasid ja kasutades kättesaadavaid vahendeid, saavad kasutajad nautida sõnumivahetuse eeliseid, minimeerides samal ajal riske."
+      },
+      "conclusion": "Turvalisuse tagamine veebis ei nõua kõrgetasemelisi tehnilisi teadmisi – piisab teadlikkusest, ettevaatusest ja heast otsustusvõimest. Õigete harjumustega saate suhelda enesekindlalt ja turvaliselt."
+    }
+  },
+  "about": {
+    "title": "Chatforia kohta",
+    "description": "Chatforia on turvaline, mitmekeelne sõnumirakendus, mis pakub otspunktidevahelist krüpteerimist, kohest tõlkimist ning hääl- ja videokõnesid. Meie missioon on lihtne: aidata inimestel ühendust luua – turvaliselt, privaatselt ja keelebarjääre ületades.",
+    "valuesTitle": "Mida me hindame",
+    "values": {
+      "privacy": "<b>Privaatsus esikohal:</b> vaikimisi E2E-krüpteering.",
+      "access": "<b>Juurdepääs kõigile:</b> automaatne tõlge enam kui 100 keelde.",
+      "control": "<b>Kontroll:</b> kaduvad sõnumid ja lugemiskinnitused on valikulised.",
+      "privacy_ aria": "Privaatsus esikohal: vaikimisi E2E-krüpteering.",
+      "access_aria": "Juurdepääs kõigile: automaatne tõlkimine enam kui 100 keelde.",
+      "control_aria": "Kontroll: kaduvad sõnumid ja lugemiskinnitused on valikulised."
+    },
+    "howTitle": "Kuidas Chatforia töötab",
+    " howDescription": "Sõnumid krüpteeritakse teie seadmes enne, kui need sealt lahkuvad. Tõlkimine, varukoopiad ja seadmete sünkroniseerimine on kavandatud nii, et meie serverid näeksid võimalikult vähe."
   },
   "press": {
     "title": "Press",
-    "contactLine": "For meedia inquiries, reach us at",
-    "boilerplateTitle": "Lühitutvustus",
-    "boilerplateBody": "Chatforia on  privacy-first messaging rakendus that makes cross-keel vestlus effortless. Sõnumid on end-et-end encrypted by default, ja built-sisse tõlge supports 100+ keeled sisse real time. Users saab luba kaduvad sõnumid, keep lugemiskinnitused valikuline, ja sync across devices. Saadaval on iOS, Android, ja  veeb.",
-    "assetsTitle": "Brändivarad",
-    "assetsSubtitle": "Logos, kuvatõmmised, ja product imagery.",
-    "downloadCta": "Laadi alla meedia kit",
-    "downloadTitle": "Hangi rakendus",
-    "scanTip": "Kasutad arvutit? Rakenduse saamiseks skanni telefoniga.",
-    "qrAria": "Ava Chatforia website",
-    "appStore": "Laadi alla App Store’ist",
-    "googlePlay": "Hangi Google Playst"
+    "contactLine": "Meediapäringute korral võtke meiega ühendust aadressil",
+    " boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia on privaatsust esikohale seadev sõnumirakendus, mis muudab keeltevahelise vestluse lihtsaks. Sõnumid on vaikimisi läbivalt krüpteeritud ja sisseehitatud tõlkimisfunktsioon toetab reaalajas üle 100 keele. Kasutajad saavad aktiveerida kaduvad sõnumid, jätta lugemiskinnitused valikuliseks ja sünkroniseerida seadmeid. Saadaval iOS-is, Androidis ja veebis.",
+    "assetsTitle": " Brändi materjalid",
+    "assetsSubtitle": "Logod, ekraanipildid ja tootepildid.",
+    "downloadCta": "Lae alla meediakomplekt",
+    "downloadTitle": "Lae alla rakendus",
+    "scanTip": "Kas kasutad arvutit? Skaneeri oma telefoniga, et rakendus alla laadida.",
+    "qrAria": "Ava Chatforia veebisait",
+    "appStore": "Lae alla App Store'ist",
+    "googlePlay": "Lae alla Google Playst"
   },
   "careers": {
     "title": "Karjäär",
-    "intro": "Me’re  small founding tiim building Chatforia —  private, global messenger launching on veeb, iOS, ja Android. If sa care about privacy, encryption, ja delightful user experiences, me’d love et hear alates sa.",
-    "openRoles": "<b>Ava founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobiil Engineer (iOS), Mobiil Engineer (Android), DevOps/SRE, Turvalisus &amp; Krüpteerimine Engineer, Telecom Engineer (Twilio + eSIM).",
-    "apply": "How et apply: Use  button below et email your resume ja links.",
-    "emailCta": "E-post your resume",
-    "whyNow": "Why join nüüd?",
-    "whyBullets": "• Abi build  foundation   uus global messenger.\n• Ship improvements used across veeb, iOS, ja Android.\n• Work directly koos  founder on architecture ja product direction.\n• Own high-impact areas   stack: messaging, hääl, video, encryption, telecom, AI.\n• Liitu at  beginning — before  user base scales."
-  },
-  "about": {
-    "title": "About Chatforia",
-    "description": "Chatforia on  secure, multilingual messenger koos läbiv krüpteerimine, instant tõlge, ja hääl/video calling. Our mission on simple: help people connect—safely, privately, ja across keeled.",
-    "valuesTitle": "What me value",
-    "values": {
-      "privacy": "<b>Privaatsuskeskne:</b> E2E encryption by default.",
-      "access": "<b>Access jaoks kõik:</b> Automaatne tõlge 100+ keeled.",
-      "control": "<b>Control:</b> Kaduvad sõnumid & lugemiskinnitused on valikuline.",
-      "privacy_aria": "Privaatsuskeskne: E2E encryption by default.",
-      "access_aria": "Access jaoks kõik: Automaatne tõlge 100+ keeled.",
-      "control_aria": "Control: Kaduvad sõnumid ja lugemiskinnitused on valikuline."
-    },
-    "howTitle": "How Chatforia works",
-    "howDescription": "Sõnumid on encrypted on your device before they leave it. Tõlge, backups, ja device sync on designed et minimize what our servers saab see."
+    "intro": "Oleme väike asutajate meeskond, kes arendab Chatforiat – privaatset, ülemaailmset sõnumirakendust, mis käivitatakse veebis, iOS-is ja Androidis. Kui hoolid privaatsusest, krüpteerimisest ja meeldivast kasutajakogemusest, ootame sinult meeleldi sõnumit.",
+    "openRoles": "<b>Avatud asutajate ametikohad:</b> juhtiv täisajaga insener, backend-insener (Node.js), frontend/ veebiarendaja (React), mobiilirakenduste arendaja (iOS), mobiilirakenduste arendaja (Android), DevOps/SRE, turvalisuse ja krüpteerimise insener, telekommunikatsiooni insener (Twilio + eSIM).",
+    "apply": "Kuidas kandideerida: Kasuta allolevat nuppu, et saata oma CV ja lingid e-postiga.",
+    "emailCta": "Saada oma CV e-postiga",
+    "whyNow": "Miks just nüüd liituda?",
+    "whyBullets": "• Aita luua uue ülemaailmse sõnumirakenduse alustala.\n• Viia ellu parandusi, mida kasutatakse veebis, iOS-is ja Androidis.\n• Töötada arhitektuuri ja toote suuna osas otse asutajaga.\n• Vastutada oluliste valdkondade eest: sõnumid, hääl, video, krüpteerimine, telekommunikatsioon, AI.\n• Liitu algusest peale — enne kasutajate arvu kasvu."
   },
   "advertise": {
-    "title": "Advertise koos Chatforia",
-    "description": "Reach engaged messaging kasutajad koos tasteful, brand-safe placements. Me offer banner inventory sisse high-visibility spots, sponsorships, ja house promos. Premium subscribers do not see ads.",
+    "title": "Reklaami Chatforias",
+    "description": "Jõua pühendunud sõnumivahetuse kasutajateni maitsekate ja brändile ohutute paigutustega. Pakume bännerikohti hästi nähtavates kohtades, sponsorlusi ja sisemisi reklaame. Premium-tellijad ei näe reklaame.",
     "adsense": {
-      "withPubIdShort": "Me also serve inventory via Google AdSense. Sina saab target Chatforia koos publisher ID {{pubId}}, või use  form below jaoks direct sponsorships.",
-      "noPubIdShort": "Me also serve some inventory via Google AdSense. Direct sponsorships on saadaval—use  form below."
+      "withPubIdShort": "Pakume reklaamipinda ka Google AdSense'i kaudu. Saad suunata reklaame Chatforiasse väljaandja ID-ga {{pub Id}} või kasutada allolevat vormi otsesponsorluste jaoks.",
+      "noPubIdShort": "Pakume reklaamipinda ka Google AdSense'i kaudu. Otsesponsorlused on saadaval – kasutage allolevat vormi."
     },
-    "inventoryHeader": "Inventar ja spetsifikatsioonid",
+    "inventoryHeader": "Reklaamipind ja spetsifikatsioonid",
     "placement": {
-      "displayBadge": "Kuvareklaam",
-      "acceptedSizes": "Aktsepteeritud suurused",
-      "adsenseSlot": "AdSense’i pesa:"
+      " displayBadge": "Näita",
+      "acceptedSizes": "Aktsepteeritavad suurused",
+      "adsenseSlot": "AdSense'i paigutus:"
     },
-    "noPlacementsPublic": "Me’re finalizing our ad inventory. Tell us about your campaign ja me’ll recommend placements.",
-    "whyHeader": "Why Chatforia?",
+    "noPlacementsPublic": "Me lõpetame oma reklaamivaru koostamist. Rääkige meile oma kampaaniast ja me soovitame paigutusi.",
+    "whyHeader": "Miks Chatforia?",
     "why": {
-      "highSession": "High session frequency ja dwell time sisse vestlus UI",
-      "brandSafe": "Bränditurvalised formaadid; mõistlik sageduse piiramine",
-      "sponsoredMoments": "Sponsored moments (e.g., “Alusta  Chat” modal) saadaval",
-      "deals": "Direct deals või programmatic via AdSense/Google Reklaamid"
+      "highSession": "Kõrge seansside sagedus ja viibimisaeg vestlusliideses",
+      "brandSafe": "Brändile ohutud formaadid; austusväärne sageduse piiramine",
+      "sponsoredMoments": "Saadaval sponsoreeritud hetked (nt \"Alusta vestlust\" modaal)",
+      "deals": "Otsetehingud või programmiline reklaam AdSense'i/Google Adsi kaudu"
     },
     "contactHeader": "Kontakt",
     "form": {
-      "submittedMsg": "Thanks! Sinu inquiry on on its way. Me’ll follow up shortly.",
-      "missingRequired": "Palun fill sisse name, email, ja message.",
-      "successToast": "Thanks! Me’ll be sisse touch varsti.",
-      "mailtoInfo": "Opening your email client et send  inquiry…",
-      "nameLabel": "Sinu name",
+      "submittedMsg": "Täname! Teie päring on teel. Võtame peagi ühendust.",
+      "missingRequired": "Palun täitke nimi, e-post ja sõnum.",
+      "successToast": "Täname! Võtame peagi ühendust.",
+      "mailtoInfo": "Avatakse teie e-posti klient päringu saatmiseks…",
+      "nameLabel": "Teie nimi",
       "namePlaceholder": "Jane Doe",
       "emailLabel": "E-post",
       "emailPlaceholder": "you@company.com",
       "companyLabel": "Ettevõte",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Kuu kaupa budget (valikuline)",
-      "budgetPlaceholder": "e.g. $1,000–$20,000+",
-      "messageLabel": "Räägi meile oma kampaaniast",
-      "messagePlaceholder": "Targeting, dates, KPIs, placement eelistused…",
-      "sendCta": "Saada inquiry"
+      " companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Kuu eelarve (valikuline)",
+      "budgetPlaceholder": "nt 1 000–20 000+ dollarit",
+      "messageLabel": "Rääkige meile oma kampaaniast",
+      "messagePlaceholder": "Sihtrühm, kuupäevad, KPI-d, paigutuse eelistused…",
+      "sendCta": "Saada päring"
     },
     "legal": {
-      "disclaimerStart": "By submitting, sa agree et our",
+      "disclaimerStart": "Saates selle vormi, nõustute meie",
       "terms": "Tingimused",
       "and": "ja",
       "privacy": "Privaatsuspoliitika"
     }
   },
-  "randomChat": {
-    "title": "Juhuslik vestlus",
-    "subtitle": "Meet someone uus instantly, või vali et vestlus koos Ria.",
-    "start": "Alusta vestlust",
-    "description": "Chat anonymously first. Lisa Friend later if it feels right.",
-    "findMatch": "Leia mulle sobiv vestluskaaslane",
-    "chatWithRia": "Vestle Riaga",
-    "setAge": "Set your age range sisse Profiil → Age & Random Chat et be matched koos people.",
-    "idle": "Ootel",
-    "matching": "Sobitamine…",
-    "searching": "Otsimine…",
-    "cancel": "Tühista",
-    "connectionProblem": "Ühenduse probleem",
-    "ai": "AI",
-    "anonymous": "Anonüümne",
-    "connectedAs": "Ühendatud nimega",
-    "waitingAddFriend": "Waiting jaoks them et accept Lisa Friend…",
-    "hiddenUsernames": "Usernames stay hidden until both people vali Lisa Friend.",
-    "riaSeparate": "Chat koos Ria anytime — separate alates random human matching.",
-    "sendMessage": "Saada sõnum",
-    "chatEnded": "Vestlus lõppes",
-    "conversationEnded": "See vestlus on lõppenud.",
-    "findAnotherMatch": "Leia uus sobivus",
-    "next": "Järgmine inimene",
-    "addFriend": "Lisa sõbraks",
-    "requested": "Taotletud",
-    "leave": "Lahku",
-    "messageRia": "Kirjuta Riale…",
-    "messageMatch": "Kirjuta oma sobivusele…"
-  },
-  "phoneNumberManager": {
-    "pickNumber": "Pick  number",
-    "phoneNumber": "Telefoninumber",
-    "availableNumber": "Saadaval number",
-    "premiumNumber": "Premium-number 🔒",
-    "freeNumberHint": "Tasuta number that may be recycled after inactivity.",
-    "premiumNumberHint": "Keep your number while your Premium subscription on aktiivne.",
-    "country": "Riik",
-    "areaCode": "Area kood",
-    "areaCodePlaceholder": "e.g., 415",
-    "capability": "Võimekus",
-    "search": "Otsi",
-    "lockThisNumber": "Lock this number (weekly add-on, coming varsti)",
-    "premiumProtectedHint": "Premium numbrid on kaitstud alates recycling while your Premium subscription on aktiivne.",
-    "availableNumbers": "Saadaval numbrid",
-    "searchHint": "Sisesta  3-digit piirkond kood (US/CA only), või leave blank, then search.",
-    "keep": "Hoia alles",
-    "select": "Vali",
-    "assignNumberFirst": "Assign  number first.",
-    "premiumKeepFeature": "Keeping your number on  Premium feature.",
-    "lockingPremiumFeature": "Locking numbrid on  Premium feature.",
-    "numberAssigned": "Number määratud.",
-    "numberProtectedNow": "Sinu number on nüüd kaitstud.",
-    "numberProtected": "Number kaitstud.",
-    "numberUnprotected": "Number pole enam kaitstud.",
-    "numberReleased": "Number vabastatud.",
-    "couldNotLoadNumbers": "Could not laadi numbrid.",
-    "couldNotAssign": "Could not määra that number. It may have just been taken—proovi another.",
-    "couldNotLease": "Could not rendi that number. It may have just been taken—proovi another.",
-    "couldNotProtectNow": "Could not protect your number right nüüd.",
-    "couldNotProtect": "Could not protect  number.",
-    "couldNotUnprotect": "Could not unprotect  number.",
-    "couldNotRelease": "Could not vabasta  number.",
-    "invalidAreaCode": "Palun sisesta  3-digit piirkond kood (e.g., 415) või leave blank.",
-    "noInventory": "Ei saadaval inventory right nüüd.",
-    "noFreeNumbers": "Ei tasuta numbrid on saadaval right nüüd.",
-    "noInventoryAreaCode": "Ei saadaval inventory jaoks that piirkond kood right nüüd.",
-    "noFreeNumbersAreaCode": "Ei tasuta numbrid sisse our pool jaoks that piirkond kood right nüüd.",
-    "releaseConfirm": "Release your current number? It may be määratud et someone else.",
-    "unprotect": "Eemalda kaitse",
-    "keepThisNumber": "Hoia see number alles",
-    "replace": "Asenda",
-    "release": "Vabasta",
-    "active": "Aktiivne",
-    "noNumber": "Ei number",
-    "premiumFeature": "Premium-funktsioon",
-    "protectYourNumber": "Kaitse oma number",
-    "protected": "Kaitstud",
-    "notProtected": "Not kaitstud",
-    "expiresInShort": "Expires sisse {{count}}d",
-    "expiresInDaysFull": "Expires sisse {{count}} day",
-    "expiringShort": "Aegub{{suffix}}",
-    "renewsOn": "Uueneb {{date}}",
-    "releaseWarning": "Sinu number may be vabastatud sisse {{count}} day. Uuenda et Premium et keep it kaitstud.",
-    "pickNumberHint": "Pick  Chatforia number et use jaoks messaging ja communication inside  rakendus."
-  },
-  "sounds": {
-    "notificationSounds": "Teavitushelid",
-    "resetToDefaults": "Reset et defaults",
-    "freeNoticeStart": "Sina’re on Tasuta — premium tones on shown but lukustatud. ",
-    "freeNoticeEnd": " et ava kõik.",
-    "messageTone": "Sõnum tone",
-    "ringtone": "Helin",
-    "preview": "Eelvaade",
-    "stop": "Peata",
-    "volume": "Helitugevus",
-    "messageToneFilesHint": "Put failid sisse /public/sounds/Message_Tones",
-    "ringtoneFilesHint": "Put failid sisse /public/sounds/Ringtones",
-    "premiumRequired": "Premium nõutav jaoks that selection.",
-    "saved": "Sound seaded salvestatud.",
-    "saveFailed": "Could not save sound seaded.",
-    "resetNotSaved": "Reset et defaults (not yet salvestatud).",
-    "premiumTone": "That’s  Premium tone.",
-    "premiumRingtone": "That’s  Premium ringtone.",
-    "customComingSoon": "Custom sound uploads coming varsti."
-  },
-  "aiSettings": {
-    "title": "AI seaded",
-    "controlIntro": "Control tõlge, nutikad vastused, ja ForiaBot auto-responses.",
-    "translation": "Tõlge",
-    "autoTranslateIncoming": "Tõlgi sissetulevad sõnumid automaatselt",
-    "showOriginalAlongside": "Näita algteksti tõlke kõrval",
-    "smartReplies": "Nutikad vastused",
-    "enableSmartReplies": "Luba nutikad vastused",
-    "smartRepliesHint": "Saada  last few received sõnumid (sanitized) et AI et suggest quick replies.",
-    "maskProfanity": "Peida AI soovitustes roppused",
-    "maskProfanityHint": "If on, suggestions returned by AI hakkab have flagged words masked",
-    "foriaBot": "ForiaBoti automaatvastaja",
-    "enableAutoReply": "Luba automaatvastus, kui olen hõivatud",
-    "autoReplyMode": "Automaatvastuse režiim",
-    "cooldownSeconds": "Jahutusaeg (sekundites)",
-    "signature": "Allkiri",
-    "autoReply": "🤖 Automaatvastus",
-    "activeUntilOptional": "Aktiivne kuni (valikuline)",
-    "save": "Salvesta AI seaded",
-    "saved": "AI eelistused salvestatud",
-    "saveFailed": "AI seadete salvestamine ebaõnnestus",
-    "translateOff": "Väljas",
-    "translateTagged": "Only when @translated või tagged",
-    "translateAll": "Tõlgi kõik sissetulevad sõnumid",
-    "modeDm": "Ainult 1:1 vestlused",
-    "modeMention": "Ainult siis, kui mind @mainitakse",
-    "modeAll": "Kõik sissetulevad sõnumid",
-    "off": "Väljas"
-  },
-  "accessibilitySettings": {
-    "title": "Ligipääsetavus ja märguanded",
-    "loadFailed": "Seadete laadimine ebaõnnestus",
-    "accessibilityDesc": "Options et make Chatforia easier et use ilma relying on sound.",
-    "interfaceFontSize": "Liidese fondisuurus",
-    "interfaceFontSizeHelp": "Starts at normal size. Increase if sa prefer larger text.",
-    "notifications": "Teavitused",
-    "visualAlerts": "Visuaalsed märguanded sõnumite ja kõnede jaoks",
-    "visualAlertsDesc": "Näita banners ja pealkiri blink so sa don’t miss activity.",
-    "vibrateOnNewShort": "Vibrate on uus sõnumid (when supported)",
-    "vibrateOnNewDesc": "Trigger device vibration koos notifications.",
-    "flashOnCallShort": "Vilguta ekraani sissetuleva kõne korral",
-    "flashOnCallDesc": "Brief bright flash when  call rings.",
-    "liveCaptionsTitle": "Live captions (kõned)",
-    "enableLiveCaptions": "Luba live captions during kõned (Premium)",
-    "liveCaptionsDesc": "Näita real-time captions alates  other participant’s heli.",
-    "captionFontSize": "Subtiitrite fondisuurus",
-    "captionBackground": "Subtiitrite taust",
-    "voiceNotes": "Häälsõnumid",
-    "autoTranscribeVoiceNotes": "Transkribeeri häälsõnumid automaatselt",
-    "autoTranscribeVoiceNotesDesc": "Attach  transcript et heli sõnumid sa receive.",
-    "changesSavedInstantly": "Muudatused salvestatakse kohe.",
-    "sm": "Väike",
-    "md": "Keskmine",
-    "lg": "Suur",
-    "xl": "Eriti suur",
-    "light": "Hele",
-    "dark": "Tume",
-    "transparent": "Läbipaistev"
-  },
-  "privacySection": {
-    "strictE2EE": "Range läbiv krüpteerimine",
-    "ciphertextOnlyNote": "Store only ciphertext on  server. Disables AI/Translate ja moderation previews.",
-    "strictE2EEEnabled": "Range E2EE on lubatud. AI/tõlge keelatakse.",
-    "strictE2EEDisabled": "Range E2EE on keelatud. AI/tõlge lubati uuesti."
-  },
-  "linkedDevicesPanel": {
-    "title": "Seotud seadmed",
-    "noneFound": "Seotud seadmeid ei leitud.",
-    "refresh": "Värskenda",
-    "unknown": "Tundmatu",
-    "loadFailed": "Seotud seadmete laadimine ebaõnnestus",
-    "loadFailedLog": "Seotud seadmete laadimine ebaõnnestus",
-    "renamePrompt": "Sisesta  uus name jaoks this device",
-    "renamed": "Seade nimetati ümber",
-    "renameFailed": "Seadet ei saanud ümber nimetada",
-    "revoked": "Seade tühistati",
-    "revokeFailed": "Seadet ei saanud tühistada",
-    "unnamedDevice": "Nimetu seade",
-    "primary": "Peamine",
-    "revokedStatus": "Tühistatud",
-    "addedLastSeen": "Lisatud {{created}} • Viimati nähtud {{lastSeen}}",
-    "renameDevice": "Nimeta seade ümber",
-    "revokeDevice": "Tühista seade"
-  },
-  "peoplePage": {
-    "people": "Inimesed",
-    "search": "Otsi",
-    "searchPlaceholder": "Otsi salvestatud kontaktid by alias, name, username, või phone",
-    "quickStart": "Kiiralustus",
-    "quickStartDesc": "Halda your kontaktid ja invite sõbrad.",
-    "importContacts": "Impordi oma kontaktid",
-    "import": "Impordi",
-    "addContact": "Lisa kontakt",
-    "add": "Lisa",
-    "inviteFriends": "Kutsu sõpru",
-    "inviteDesc": "Share your invite link et start chatting instantly.",
-    "getTheApp": "Hangi rakendus",
-    "getTheAppDesc": "Stay sisse touch on  go koos Chatforia jaoks iOS ja Android.",
-    "download": "Laadi alla",
-    "syncTip": "Tip: Sinu sõnumid stay synced across veeb ja mobile."
-  },
-  "dialer": {
-    "title": "Kõned",
-    "subtitle": "Klahvistik ja hiljutised. (Kui sa PSTN-i ei kasuta, alusta kõnesid vestluse päisest.)",
-    "enterNumber": "Sisesta number",
-    "enterNumberAria": "Sisesta number",
-    "resolving": "Kõne sihtmärgi tuvastamine…",
-    "call": "Helista",
-    "callBrowser": "Helista brauseri kaudu",
-    "backspace": "Tagasilüke",
-    "recents": "Hiljutised",
-    "noRecents": "Hiljutisi kõnesid veel pole.",
-    "resolveFailed": "Kõne sihtmärki ei saanud tuvastada.",
-    "callRequiredNumber": "Sina need  Chatforia number before placing phone kõned.",
-    "callFailed": "Kõnet ei saanud alustada.",
-    "deleteConfirm": "Kas kustutada see kõne hiljutistest?",
-    "deleteFailed": "Kõnet ei saanud kustutada.",
-    "deleteFailedLog": "Ebaõnnestus et delete call",
-    "outgoing": "Väljuv",
-    "incoming": "Sissetulev",
-    "missed": "Vastamata",
-    "declined": "Keeldutud",
-    "failed": "Ebaõnnestus",
-    "completed": "Lõpetatud",
-    "outgoingCall": "Väljuv kõne",
-    "incomingCall": "Sissetulev kõne",
-    "voicemail": "Kõnepost",
-    "callAria": "Kõne {{name}}",
-    "deleteAria": "Kustuta call koos {{name}}"
-  },
-  "callHistory": {
-    "title": "Kõned",
-    "subtitle": "Sinu recent incoming ja outgoing kõned.",
-    "loadFailed": "Could not laadi call history.",
-    "loadFailedTitle": "Couldn’t laadi call history",
-    "emptyTitle": "Ei kõned yet",
-    "emptySubtitle": "Sinu recent kõned hakkab näita up here.",
-    "outgoing": "Väljuv",
-    "incoming": "Sissetulev",
-    "missed": "Vastamata",
-    "declined": "Keeldutud",
-    "failed": "Ebaõnnestus",
-    "completed": "Lõpetatud",
-    "outgoingCall": "Väljuv kõne",
-    "incomingCall": "Sissetulev kõne",
-    "voicemail": "Kõnepost"
-  },
-  "video": {
-    "hub": {
-      "title": "Video",
-      "subtitle": "Vali videotüüp."
-    },
-    "direct": {
-      "title": "Otsevideo",
-      "subtitle": "Alusta teise kasutajaga 1:1 videokõnet.",
-      "desc": "1:1 camera call koos another user.",
-      "start": "Alusta"
-    },
-    "rooms": {
-      "title": "Toad",
-      "subtitle": "Loo  room või join  existing one by typing  same name.",
-      "desc": "Multi-party video using  shared room name.",
-      "roomLabel": "Toa nimi",
-      "roomPlaceholder": "e.g. tiim-standup",
-      "roomAria": "Toa nimi",
-      "joinCreate": "Liitu / loo",
-      "tip": "Nõuanne: jaga seda nime teistega või kasuta süvalinki"
+  "contact": {
+    "title": "Võta meiega ühendust",
+    "successMsg": "Täname – meie meeskond vastab teile e-kirja teel.",
+    "errorSend": "Saata ei õnnestunud. Palun saatke e-kiri aadressile support@chatforia.com.",
+    "form": {
+      "nameLabel": "Nimi",
+      "emailLabel": "E-post",
+      "messageLabel": "Sõnum",
+      "sendCta": "Saada"
     }
+  },
+  "privacyPolicy": {
+    "title": "Privaatsuspoliitika",
+    "lastUpdated": "Viimati uuendatud:",
+    "intro": {
+      "body": "Käesolevas privaatsuspoliitikas selgitatakse, kuidas Chatforia (\"meie\") kogub, kasutab ja jagab teavet, kui kasutate meie rakendusi ja teenuseid. Oleme loonud Chatforia nii, et vähendada andmete hulka, millele meil on juurdepääs."
+    },
+    "infoWeCollect": {
+      "title": "Teave, mida me kogume",
+      "account": "Kontoandmed (nt e-post/telefon), et luua ja turvata teie konto.",
+      "encrypted": "Krüpteeritud sisu (sõnumid/kõned) on krüpteeritud otsast otsani; me ei saa seda lugeda.",
+      "diagnostics": "Diagnostika/kasutamine, nagu krahhilogid, seadme tüüp, või üldine analüütika jõudluse parandamiseks."
+    },
+    "sms": {
+      "title": "Mobiiltelefoninumbrid ja SMS-id",
+      "body": "Kui otsustate anda meile oma mobiiltelefoninumbri, kasutame seda selliste funktsioonide võimaldamiseks nagu konto kinnitamine, sisselogimisteated ja kasutajatevaheline sõnumivahetus SMS-i teel, kui see on toetatud. Võime saata tehingutega seotud SMS-sõnumeid, mis on seotud teie kontoga ja tegevusega Chatforias. Võite loobuda SMS-sõnumite saamisest igal vastates toetatud loobumissõnaga (nt \"STOP\") või muutes rakenduses oma teavituseelistusi. Me ei müü teie telefoninumbrit ega kasuta seda muul turunduslikul eesmärgil.",
+      "newText": "Uus tekst",
+      "enterRecipient": "Sisestage nimi või number",
+      "typeMessage": "Sisestage sõnum…",
+      "addRecipient": "Lisage eespool saaja, et alustada…"
+    },
+    "howWeUse": {
+      "title": "Kuidas me teavet kasutame ",
+      "provide": "Teenuse pakkumine ja turvalisuse tagamine (autentimine, rämpsposti/kuritarvituste tuvastamine).",
+      "improve": "Funktsioonide parandamine (tõlke kvaliteet, usaldusväärsus).",
+      "legal": "Õiguslike kohustuste täitmine."
+    },
+    "sharing": {
+      "title": "Jagamine",
+      "body": "Me ei müü isikuandmeid. Võime jagada piiratud hulgal andmeid töötlejatega (nt push-teated, analüütika) rangete lepingute alusel."
+    },
+    "rights": {
+      "title": "Sinu õigused",
+      "body": "Sõltuvalt sinu piirkonnast (nt GDPR/UK GDPR/CPRA), võite taotleda juurdepääsu, parandamist, kustutamist või loobumist teatud töötlemisest. Kontakt: privacy@chatforia.com."
+    },
+    "retention ": {
+      "title": "Andmete säilitamine ja turvalisus",
+      "body": "Me säilitame ainult seda, mis on vajalik teenuse toimimiseks, ja rakendame tööstusharu standarditele vastavat turvalisust. Me ei saa E2E-sisu dešifreerida."
+    },
+    "children": {
+      "title": "Lapsed",
+      "body": "Chatforia ei ole suunatud alla 13-aastastele lastele (või vastavalt teie kohalikule seadusandlusele)."
+    },
+    "changes": {
+      "title": "Muudatused",
+      "body": "Me avaldame siin uuendused ja muudame \"Viimati uuendatud\" kuupäeva."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Kasutustingimused",
+    "lastUpdated": "Viimati uuendatud:",
+    "intro": {
+      " body": "Chatforia kasutamisega nõustute käesolevate tingimustega. Kui te nendega ei nõustu, ärge kasutage teenust."
+    },
+    "accounts": {
+      "title": "Kontod",
+      "itemAccurateInfo": " Esitage täpne teave ja hoidke oma kasutajatunnused turvaliselt.",
+      "itemResponsibility": "Te vastutate oma kontol toimuva tegevuse eest."
+    },
+    "acceptableUse": {
+      "title": "Lubatud kasutamine",
+      "itemNoAbuse": "Ei ebaseaduslikku, solvavat ega õigusi rikkuvat sisu; ei rämpsposti ega automatiseeritud kuritarvitamist.",
+      "itemSuspend": "Rikkumiste korral võime teie konto peatada või sulgeda."
+    },
+    "sms": {
+      "title": "SMS-sõnumid",
+      "body": "Kui annate oma mobiiltelefoninumbri, nõustute, et Chatforia võib teile saata teie kontoga ja teenuse kasutamisega seotud SMS-sõnumeid, nagu sisselogimisteated, turvateated ja sõnumid, mis on seotud vestlustega, mida te algatate või milles osalete. Me ei kasuta SMS-i reklaami- või turundussõnumite saatmiseks ilma teie selgesõnalise nõusolekuta. Võivad kehtida tavapärased sõnumi- ja andmeside tasud. Te võite SMS-sõnumite saamisest igal ajal, vastates toetatud loobumissõnaga (näiteks \"STOP\") või uuendades oma teavituste seadeid rakenduses."
+    },
+    "yourContent": {
+      "title": "Teie sisu",
+      "body": "Te säilitate õigused oma sisule. Te annate meile teenuse osutamiseks vajalikud õigused (nt suunamine, salvestamine, tõlkimine)."
+    },
+    "disclaimer": {
+      "title": "Vastutusest loobumine ja vastutus",
+      "body": "Teenust osutatakse \"nagu on\", ilma garantiideta. Seadusega lubatud ulatuses ei vastuta Chatforia kaudse või tagajärjelise kahju eest."
+    },
+    "changes": {
+      "title": "Muudatused",
+      " body": "Me võime neid tingimusi uuendada; teenuse kasutamise jätkamine pärast muudatuste tegemist tähendab nende aktsepteerimist."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Tagasimaksepoliitika",
+    "lastUpdated": "Viimati uuendatud:",
+    "intro": "Chatforias püüame pakkuda kõigile kasutajatele kvaliteetset teenust. Käesolev tagastamispoliitika kirjeldab, millal võib tagastusi teha.",
+    "subscriptions": {
+      "title": "Tellimused",
+      "body": "Tellimuste eest arveldatakse ette korduvalt. Saate tellimuse igal ajal tühistada oma konto seadetest või ostmiseks kasutatud platvormi kaudu."
+    },
+    "eligibility": {
+      "title": "Tagasimaksmise tingimused",
+      "body": "Tagasimakseid võib teha topeltmaksete, arveldusvigade või tehniliste probleemide korral, mis takistavad juurdepääsu tasulistele funktsioonidele. Kõiki taotlusi vaadatakse läbi üksikjuhtumite kaupa."
+    },
+    "nonRefundable": {
+      "title": "Tagasimaksmist ei toimu",
+      "body": "Üldjuhul ei tee me tagasimakseid kasutamata aja, osalise tellimusperioodi või uuendamise eelse tühistamise puudumise eest."
+    },
+    "thirdParty ": {
+      "title": "Kolmanda osapoole ostud",
+      "body": "Kui ost on sooritatud kolmanda osapoole platvormide kaudu, nagu Apple App Store, tuleb tagasimakseid taotleda otse nende platvormide kaudu."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Ära müü ega jaga minu isikuandmeid",
+    "body": "Chatforia ei müü isikuandmeid. California elanikud saavad siiski esitada taotlusi CPRA alusel, kasutades allolevat nuppu.",
+    "cta": "Esita taotlus"
+  },
+  "cookies": {
+    "title": "Küpsiste seaded",
+    "body": "Chatforia kasutab minimaalselt küpsiseid (nt seansiküpsised, turvaküpsised). Me ei kasuta kolmandate osapoolte reklaamküpsiseid. Küpsiseid saab hallata oma brauseri seadetest."
+  },
+  "premiumGuard": {
+    "requiresPremium": "See funktsioon nõuab Premium-paketti."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS-poliitika ja nõusolek",
+    "lastUpdated": "Viimati uuendatud:",
+    "whatWeSend": {
+      "title": "Mida me saadame",
+      "body": "Chatforia saadab ainult kontoga seotud ja vestlusega seotud SMS-e telefoninumbritele, mille kasutaja on selgesõnaliselt esitanud ja millega ta on nõustunud. Tüüpilised sõnumid hõlmavad sisselogimise/kinnituskoode, sõnumite kättetoimetamise teateid, turvateateid ja tehingute kontouuendusi."
+    },
+    "optIn": {
+      "title": "Kuidas kasutajad liituvad",
+      "body": "Kasutajad liituvad, sisestades registreerimisel oma telefoninumbri ja märkides registreerimislehel või spetsiaalsel",
+      "link": "liitumisvormil"
+    },
+    "optOut": {
+      "title": "Kuidas kasutajad loobuvad",
+      "stop": "Vastake STOP mis tahes Chatforia SMS-ile, et loobuda.",
+      "start": "Vastake START, et uuesti liituda.",
+      "contactPrefix": "Võtke ühendust klienditoega aadressil"
+    },
+    "help": {
+      "title": "Abi",
+      "bodyPrefix": "Vastake HELP, et saada abi, või saatke e-kiri"
+    },
+    "privacyTerms": {
+      "title": "Privaatsus ja tingimused",
+      "bodyStart": "SMS-ile nõustudes nõustuvad kasutajad ka meie",
+      "terms": "kasutustingimustega",
+      "and": "ja",
+      "privacy": "Privaatsuspoliitika"
+    },
+    "footer": "© 2026 Chatforia Inc."
   }
 }

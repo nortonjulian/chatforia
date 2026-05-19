@@ -1,412 +1,385 @@
 {
   "common": {
     "save": "Gorde",
-    "cancel": "Utzi",
-    "refresh": "Freskatu",
-    "noMatches": "Ez dago bat etortzerik",
-    "cancelAria": "Utzi",
+    "cancel": "Ezeztatu",
+    "refresh": "Berritu",
+    "noMatches": "Ez dago batere",
+    "cancelAria": "Ezeztatu",
     "copy": "Kopiatu",
     "copied": "Kopiatuta!",
-    "errorWithMessage": "Errorea: {{message}}"
+    "errorWithMessage": "Errorea: { {message}}",
+    "loading": "Kargatzen…",
+    "saveError": "Gorde huts egin du"
   },
   "a11y": {
-    "skipToMain": "Joan eduki nagusira"
+    "skipToMain": "Skip to main content"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Gakoaren babeskopia sortu eta deskargatu da ✓",
-    "restored": "Gakoaren babeskopia berreskuratu da ✓ Gakoak lokalean instalatu dira",
-    "noBackup": "Ez dago babeskopia zifraturik kontu honentzat",
-    "missingPublicKey": "Babeskopiak ez du gako publikorik"
+    "backupCreated": "Gakoen babeskopia sortu eta deskargatu da ✓",
+    "restored": "Gakoen babeskopia berreskuratu da ✓ Gakoak tokian bertan instalatu dira",
+    "noBackup": "Kontu honetarako ez dago enkriptatutako babeskopiarik",
+    "missingPublicKey": "Babeskopiak gako publikorik gabe"
   },
   "keySetup": {
-    "title": "Konfiguratu zure gailuko gakoak",
-    "description": "Gailu honek ez du zure gako pribaturik oraindik. Inportatu pasahitzez babestutako babeskopia bat, edo sortu gako-pare berri bat (aurrerantzean mezu berriak irakurri ahal izango dituzu).",
+    "title ": "Ezarri zure gailuaren giltzak",
+    "description": "Gailu honek oraindik ez du zure giltza pribatua. Inportatu pasahitzaz babestutako babeskopia bat, edo sortu giltza-bikote berri bat (orain aurrera mezu berriak irakur ditzakezu).",
     "chooseFile": "Aukeratu fitxategi bat eta sartu pasahitza.",
-    "imported": "Gako pribatua gailu honetara inportatu da. Orain mezu zaharrak irakurri ahal dituzu.",
-    "enterPassword": "Sartu zure kontuko pasahitza zure gakoak modu seguruan babestu ahal izateko."
+    "imported": "Pribatuko giltza gailu honetara inportatu da. Orain mezu zaharrak irakur ditzakezu.",
+    "enterPassword": "Sartu zure kontuaren pasahitza zure giltzak modu seguruan babeskopiatzeko."
   },
-  "auth": {
-    "headline": "Mezularitza segurua edonork, edonon",
-    "description": "Muturretik muturrera zifratzea, 100+ hizkuntzatara itzulpena, mezu desagertzaileak eta ahots/bideo-deiak.",
+  "encryptionRecovery": {
+    "title": "Zifratzea kudeatu",
+    "description": "Zifratze-giltza babeskopiatu, berreskuratu, desblokeatu edo berrezarri.",
+    " alert": {
+      "keyRequiredTitle": "Zifratze-gakoa beharrezkoa da",
+      "keyRequiredBody": "Oraindik ezin ditu zure nabigatzaileak zure mezu zifratuak deszifratu. Jarraitzeko, berreskuratu, desblokeatu edo berrezarri zure gakoa."
+    },
+    "sections": {
+      "createBackup": "Gakoaren babeskopia sortu",
+      "restoreFromBackup": "Kontuaren babeskopiatik berreskuratu",
+      "resetEncryption": "Zifratzea berrezarri"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Desblokeatzeko pasatxoa (gailu egungoan)",
+        "description": "Gakoak tokian bertan deszifratzeko erabiltzen da esportatu aurretik"
+      },
+      "backupPassword": {
+        "label": "Erreserba-pasahitza",
+        "description": "Erreserba-fitxategia zifratzeko erabiltzen da"
+      },
+      "restoreBackupPass word": {
+        "label": "Backingup-eko pasahitza",
+        "description": "iPhonean zure giltza babesteko sortu zenuen pasahitza"
+      },
+      "newLocalPasscode": {
+        "label": "Tokiko pasahitz berria",
+        "description": "Babestu giltzak atsedenaldian nabigatzaile honetan"
+      },
+      "resetLocalPasscode": {
+        "label": "Pasahitz lokal berria",
+        "description": "Berrezarri aurretik beharrezkoa da, gailu honetan giltza berria babestuta egon dadin"
+      }
+    },
+    "actions": {
+      "unlockKey": "Desblokeatu enkriptazio-giltza",
+      "restoreFromBackup": " Kontuaren babeskopiatik berreskuratu",
+      "zifratzea-berrezarri": "Zifratzea berrezarri"
+    },
+    "mezuak": {
+      "babeskopiaSortu": "Giltzaren babeskopia sortu eta deskargatu da.",
+      "giltzaDesblokeatu": "Zifratze-giltza desblokeatu da.",
+      "giltzaBerreskuratu": "Giltza kontuaren babeskopiatik berreskuratu da.",
+      "resetSuccess": "Zifratzea arrakastaz berrezarri da."
+    },
+    "errors": {
+      "restoreIncomplete": "Gakoaren berreskurapena osatu gabea edo okerra da kontu honetarako",
+      "noBackup": "Kontu honetarako ez dago enkriptatutako babeskopiarik",
+      "publicKeyMissing": "Babeskopiak gako publikorik falta du",
+      "noServerPublicKey": "Kontu honek ez du une honetan zerbitzariaren gako publikorik eskaintzen",
+      "serverBackupMismatch": "Zerbitzariaren babeskopia ez dator bat egungo kontuaren enkriptazio-gakoarekin",
+      "incompleteMetadata": "Babeskopiaren metadatuak osatu gabe daude",
+      "resetIncomplete": "Enkriptazioaren berrezarpena ez zen behar bezala osatu "
+    },
+    "confirm": {
+      "reset": "Kontu honen enkriptatzea berrezarri?\n\nEnkriptatutako mezu zaharragoak irakurgaitzak bihur daitezke, gako originala beranduago berreskuratu ezean."
+    },
+    "resetDescription": "Honek zure konturako enkriptatze-gako berri bat sortzen du. Enkriptatutako mezu zaharragoak irakurgaitzak bihur daitezke, gako originala beranduago berreskuratu ezean."
+  },
+  "smsConsent": {
+    "label": "{{companyName}}-etik SMS jakinarazpenak eta alerta jasotzea onartzen dut. Mezuen maiztasuna aldatu daiteke. Mezuen eta datuen tarifak aplikatu daitezke. Edozein unetan harpidetzatik baja emateko, erantzun <stop>STOP</stop>. Laguntza nahi izanez gero, erantzun <help>HELP</help>."
+  },
+  "phoneField": {
+    "label": "Telefonoa",
+    "inbalidoa": "Telefono zenbaki baliogabea",
+    "aholkua": "Behar izanez gero, herrialdeko kodea sartu (adibidez, +1 415…)"
+  },
+  "autentifikazioa": {
+    "headline": "Mezu seguruak edonorentzat, edonon",
+    "description": "Azkenera arteko enkriptazioa, 100 hizkuntza baino gehiagora itzulpena, mezu desagertzaileak eta ahots/bideo deiak.",
     "feature": {
-      "encryption": "Muturretik muturrera zifratzea lehenetsita",
-      "translation": "Mezuen itzulpen adimenduna eta integratua",
-      "disappearing": "Mezu desagertzaileak eta irakurritako agiriak",
+      "encryption": "Azkenera arteko enkriptazioa lehenetsita",
+      "translation": "Adimentsua, mezuetarako itzulpen integratua",
+      "disappearing": "Mezu desagertzaileak eta irakurketa-jasotzeak",
       "privacy": "Pribatutasuna lehenetsita. Zure datuak, zure kontrola.",
-      "translate": "Mezuen itzulpen adimenduna eta integratua",
+      "translate": "Mezuetarako itzulpen adimendun integratua",
       "disappear": "Mezu desagertzaileak",
-      "privacyAlt": "Pribatutasun-lehen diseinua",
-      "seePlans": "Ikusi planak eta prezioak"
+      "privacyAlt": "Pribatutasuna lehenetsitako diseinua",
+      "seePlans": "Planak eta prezioak ikusi"
     },
     "hero": {
-      "line1": "Mezularitza segurua edonork, edonon — ",
-      "em": "100+ hizkuntzatara itzulpenearekin",
-      "sub": "Lortu doako telefono-zenbaki seguru bat Wi-Fi edo datu bidez mundu osoan deitzeko eta testukatzeko. Gozatu muturretik muturrera zifratzeaz, mezu desagertzaileez eta HD ahots/bideo-deiez — mugak gainditzeko laguntza-tresna integratuekin.",
-      "freeNote": "Dei eta testu oinarrizkoak doakoak dira. AI aurreratua eta premium ezaugarriak bertsio-berritzea eskatzen dute."
+      "line1": "Mezu seguruak edonorentzat, edonon — erabiliz",
+      "em": "100 hizkuntza baino gehiagora itzultzea",
+      "sub": "Lortu doako telefono zenbaki seguru bat Wi-Fi edo datu bidez mundu osoan deitzeko eta mezuak bidaltzeko. Goza ezazu amaieratik amaierara enkriptazioa, desagertzen diren mezuak eta HD ahots/bideo deiak — mugak gainditzeko konektatuta egoten laguntzen duten barneko tresnekin.",
+      "freeNote": "Oinarrizko deiak eta mezuak doakoak dira. Adimen artifizial aurreratu eta funtzio premiumek hobekuntza bat eskatzen dute."
     },
     "feat": {
-      "encryption": "Muturretik muturrera zifratzea, beti aktibo",
-      "translate": "Hizkuntza-barerak haustea zure elkarrizketetan",
-      "disappear": "Mezu desagertzaileak eta irakurritako agiriak",
-      "privacy": "Pribatutasuna lehenetsita. Zure datuak, zure kontrola."
+      "encryption": "Amaieratik amaierara enkriptatzea, beti aktibatuta",
+      "translate": "Zure elkarrizketetan hizkuntza-mugak gainditu",
+      "disappear": "Mezu desagertzenak eta irakurketa-jasotzeak",
+      "privacy": "Pribatutasuna lehenetsita. Zure datuak, zure kontrola. "
     },
-    "continueGoogle": "Jarraitu Google-rekin",
-    "continueApple": "Jarraitu Apple-rekin",
+    "continueGoogle": "Google-rekin jarraitu",
+    "continueApple": "Apple-rekin jarraitu",
     "username": "Erabiltzaile-izena",
     "password": "Pasahitza",
-    "keepSignedIn": "Mantendu saioa hasita",
+    "keepSignedIn": "Saioa mantendu",
     "forgotPassword": "Pasahitza ahaztu duzu?",
-    "loginButton": "Hasi saioa",
-    "createAccount": "Sortu kontua",
-    "freeAccountButton": "Sortu doako kontua",
-    "newHere": "Berria hemen?",
-    "getApp": "Lortu aplikazioa",
-    "desktopTip": "Mahaigainean? Eskaneatu zure telefonoarekin aplikazioa lortzeko.",
-    "scanHelper": "Mahaigainean? Eskaneatu zure telefonoarekin aplikazioa lortzeko.",
-    "goHome": "Joan hasierara",
-    "home": "Hasiera",
+    "loginButton": "Sartu",
+    "sortuKontu": "Sortu kontu bat",
+    "doakoKontuBotoia": "Sortu doako kontu bat",
+    "berriaHemen": "Berri hemen?",
+    "getApp": "Aplikazioa lortu",
+    "desktopTip": "Mahaigainean zaude? Eskaneatu zure telefonoarekin aplikazioa lortzeko.",
+    "scanHelper": "Mahaigainean zaude? Eskaneatu zure telefonoarekin aplikazioa lortzeko.",
+    "goHome": "Etxera joan",
+    "home": "Etxea",
     "headlineAlt": {
-      "main": "Mezularitza segurua ",
+      "main": "Mezu-trukagailu segurua",
       "highlight": "zure hizkuntza hitz egiten duena"
     },
-    "subhead": "Mezularitza pribatua, zifratua eta itzulia — berehala.",
-    "upgrade": "Bertsio-berritu orain",
-    "tip": "Aholkua: Erabili kontu bera web eta mugikorrean. Zure mezuak sinkronizatuta geratzen dira.",
-    "openDownload": "Ireki deskarga-orria",
-    "qrAlt": "Chatforiaren QR kodea",
-    "scanHint": "Eskaneatu aplikazioa deskargatzeko edo nabigatzailean irekitzeko.",
-    "iosAria": "Deskargatu App Store-n",
-    "iosTitle": "Deskargatu App Store-n",
-    "iosBadgeAlt": "App Store txapa",
+    "subhead": "Pribatua, enkriptatua eta itzulitako mezularitza — berehala.",
+    "upgrade": "Eguneratu orain",
+    "tip": "Aholkua: Erabili kontu bera web eta mugikorrean. Zure mezuak sinkronizatuta egongo dira.",
+    "openDownload": "Irekitu deskarga-orria",
+    "qrAlt": "Chatforiarako QR kodea",
+    "scanHint": "Eskaneatu aplikazioa deskargatzeko edo zure nabigatzailean irekitzeko.",
+    "iosAria": "App Store-tik deskargatu",
+    "iosTitle": "App Store-tik deskargatu",
+    "iosBadgeAlt": "App Store-ko ikurra",
     "androidAria": "Lortu Google Play-n",
     "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play txapa",
-    "login": "Hasi saioa",
-    "signup": "Erregistratu",
+    "androidBadgeAlt": "Google Play ikonoa",
+    "login": "Sartu",
+    "signup": "Izena eman",
     "email": "Posta elektronikoa",
     "registration": {
       "passwordDescription": "Gutxienez 6 karaktere. Erabili pasahitz sendo eta bakarra.",
-      "smsConsent": "Kontua sortzean, onartzen duzu Chatforia jarduerarekin lotutako SMS jakinarazpenak jasotzea (beste erabiltzaileen mezuak barne). Mezu- eta datu-tasak aplika daitezke. Edozein unetan desaktibatu dezakezu Ezarpenetan.",
-      "termsLink": "Zerbitzuaren baldintzak",
-      "privacyLink": "Pribatutasun-politika"
+      " smsConsent": "Kontu bat sortuta, Chatforia-ko jarduerarekin lotutako SMS jakinarazpenak jasotzea onartzen duzu (adibidez, beste erabiltzaile batzuen mezuak). Mezuen eta datuen tarifak aplikatu daitezke. Edozein unetan har dezakezu parte Ezarpenetan.",
+      "termsLink": "Zerbitzuaren Baldintzak",
+      "privacyLink": "Pribatutasun Politika"
     },
-    "to": "Nori:",
-    "enterRecipient": "Sartu izena edo zenbakia",
-    "clearRecipients": "Garbitu hartzaileak",
+    "to": "To:",
+    "enterRecipient": "Sartu izen bat edo zenbaki bat",
+    "clearRecipients": "Hautatutako hartzaileak garbitu",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Idatzi mezu bat…",
-    "addRecipient": "Gehitu hartzaile bat goian hasteko…",
-    "oneRecipient": "Mesedez, sartu hartzaile bat oraingoz.",
-    "enterValidRecipient": "Sartu gordetako kontaktua edo telefono-zenbaki bat.",
-    "sendFailed": "Bidalketak huts egin du. Begiratu kontsola xehetasunetarako."
+    "typeMessage": "Mezu bat idatzi…",
+    "addRecipient": "Hautatutako hartzaile bat gehitu hasteko…",
+    "oneRecipient": "Mesedez, sartu oraingoz hartzaile bat.",
+    "enterValidRecipient": "Sartu gordetako kontaktu-izen bat edo telefono-zenbaki bat.",
+    "sendFailed": "Bidalketa huts egin du. Begiratu kontsola xehetasunetarako."
   },
   "home": {
-    "title": "Hasiera",
-    "header": "Zure mezuak",
-    "subheader": "Bidali mezu bat txata hasteko.",
+    " title": "Etxea",
+    "messagesTitle": "Zure mezuak",
+    "messagesSubtitle": "Sartu jasotzaile bat goian, eta bidali mezu bat elkarrizketa bat hasteko.",
+    "subheader": "Bidali mezu bat txat bat hasteko.",
     "sendButton": "Bidali mezua",
-    "gifPicker": "Ireki GIF hautatzailea",
-    "emoji": "Emojis",
-    "upload": "Igo argazkia edo bideoa",
-    "inputPlaceholder": "Idatzi mezu bat…",
-    "inputLabel": "Mezu-konposatzailea",
-    "sendTooltip": "Bidali",
-    "sendTooltipEmpty": "Idatzi mezu bat bidaltzeko",
-    "send": "Bidali",
+    "gifPicker": "Ireki GIF auketagailua",
+    "emoji": "Emoji",
+    "igo": "Igo argazki edo bideoa",
+    "sarrera-leku-markatzailea": "Mezu bat idatzi…",
+    "sarrera-etiketa": "Mezu-sortzailea",
+    "bidali-tresna-aholkularia": "Bidali",
+    "bidali-tresna-aholkularia-hutsa": "Idatzi bidaltzeko mezu bat",
+    "bidali": "Bidali",
+    "ongi-etorri-mezu": "Ongi etorri Chatforia-ra",
+    "getStarted": "Hasi",
+    "mixedRecipients": "Hartzaile nahasketak antzeman dira. Erabili telefono-zenbaki guztiak (SMS) edo erabiltzaile-izen guztiak (Chatforia).",
     "enterRecipient": "Sartu izen edo zenbaki bat",
-    "addRecipient": "Gehitu hartzaile bat goian hasteko…",
-    "welcomeMessage": "Ongi etorri Chatforiara",
-    "getStarted": "Hasi"
+    "addRecipient": "Hasierako hartzaile bat gehitu goian…",
+    "needNumber": "SMS bidali aurretik Chatforia zenbaki bat behar duzu.",
+    "chooseNumber": "Aukeratu zenbaki bat"
   },
-  "refund": {
-    "title": "Itzulketa Politika",
-    "lastUpdated": "Azken eguneraketa:",
-    "intro": "Chatforian, erabiltzaile guztiei kalitate handiko zerbitzua eskaintzea dugu helburu. Itzulketa politika honek noiz egin daitezkeen itzulketak azaltzen du.",
-    "subscriptions": {
-      "title": "Harpidetzak",
-      "body": "Harpidetzak aldez aurretik kobratzen dira, modu errepikakorrean. Edozein unetan bertan behera utz dezakezu zure kontuaren ezarpenetan edo erosketa egin zenuen plataforman."
-    },
-    "eligibility": {
-      "title": "Itzulketa Baldintzak",
-      "body": "Itzulketak eman daitezke karga bikoitzetan, fakturazio akatsetan edo ordainpeko funtzioetara sartzea eragozten duten arazo teknikoetan. Eskaera guztiak kasuz kasu aztertzen dira."
-    },
-    "nonRefundable": {
-      "title": "Ez-itzulgarriak",
-      "body": "Oro har, ez dugu itzulketarik egiten erabili gabeko denboragatik, harpidetza epe partzialengatik edo berritze aurretik bertan behera ez uzteagatik."
-    },
-    "thirdParty": {
-      "title": "Hirugarrenen bidezko erosketak",
-      "body": "Apple App Store bezalako hirugarrenen plataformen bidez erosi bada, itzulketak zuzenean plataforma horien bidez eskatu behar dira."
-    },
-    "contact": {
-      "title": "Harremana",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, AEB"
-    }
+  "sidebar": {
+    "randomChat": "Txata ausazkoa",
+    "callTextForwarding": "Deien eta testu mezuak birbideratzea ",
+    "elkarrizketak": "Elkarrizketak",
+    "bilaketaLehendabizikoa": "Bilatu txatak...",
+    "kargaErrorea": "Txatak kargatzeko huts egin da",
+    "hutsik": "Oraindik ez dago elkarrizketarik.",
+    "elkarrizketaHas": "Elkarrizketa bat hasi",
+    "pertsonak": "Pertsonaak",
+    "ezarpenak": "Ezarpenak",
+    "egoera": "Egoera",
+    "bideratzea": "Dei eta testu bideratzea",
+    "berritu": "Berritu",
+    "bilatu": "Bilatu elkarrizketak",
+    "saioaHasieratzekoEskaera": "Sartu zure ezarpenak editatzeko.",
+    "saioa": "Sartu",
+    "erregistratu": "Sortu kontu bat",
+    "chatrooms": "Txat gelak",
+    "logout": "Irten",
+    "startChatAlt": "Txat berri bat hasi",
+    "calls": "Deiak",
+    "video": "Bideoa",
+    "voicemail": "Ahots-mezuak"
   },
-  "blog": {
-    "whyMessaging": {
-      "title": "Zergatik diren mezularitza plataformak inoiz baino garrantzitsuagoak",
-      "intro": "Mezularitza plataformak gaur egungo munduan komunikaziorako tresnarik garrantzitsuenetakoak bihurtu dira...",
-      "everydayTitle": "Eguneroko komunikazioa",
-      "everydayDesc": "Jendeak egunero erabiltzen ditu mezularitza aplikazioak...",
-      "speedTitle": "Abiadura eta erosotasuna",
-      "speedDesc": "Mezuak berehala entregatzen dira...",
-      "globalTitle": "Irisgarritasun globala",
-      "globalDesc": "Plataformek mundu osoko jendea konektatzen dute...",
-      "privacyTitle": "Pribatutasuna eta kontrola",
-      "privacyDesc": "Plataforma modernoek erabiltzaileari kontrola ematea dute helburu...",
-      "futureTitle": "Mezularitzaren etorkizuna",
-      "futureDesc": "Mezularitza etengabe eboluzionatzen ari da funtzio berriekin...",
-      "outro": "Chatforia printzipio horietan oinarrituta eraiki da..."
-    },
-
-    "global": {
-      "title": "Komunikazio globalaren etorkizuna",
-      "intro": "Komunikazioa azkar eboluzionatu da...",
-      "barriersTitle": "Oztopoak gainditzea",
-      "barriersDesc": "Jendeak mundu osoan zehar konektatu dezake...",
-      "translationTitle": "Itzulpen teknologiaren rola",
-      "translationDesc": "Hizkuntza historikoki oztopo izan da...",
-      "realtimeTitle": "Denbora errealeko konektibitatea",
-      "realtimeDesc": "Abiadura funtsezko faktorea da...",
-      "privacyTitle": "Pribatutasuna eta segurtasuna",
-      "privacyDesc": "Erabiltzaileek beren elkarrizketak babestuta daudela jakin nahi dute...",
-      "futureTitle": "Zer dator ondoren",
-      "futureDesc": "Komunikazio globalaren etorkizunak funtzio berriak ekarriko ditu...",
-      "outro": "Chatforia bezalako plataformak aldaketa honen parte dira..."
-    },
-
-    "index": {
-      "title": "Chatforia Bloga",
-      "intro": "Komunikazioari buruzko ideiak arakatu...",
-      "post1": "Nola hitz egin segurtasunez linean",
-      "post2": "Komunikazio globalaren etorkizuna",
-      "post3": "Zergatik diren mezularitza plataformak garrantzitsuak"
-    }
+  "topbar": {
+    "newStatus": "New Status",
+    "logout": "Log Out",
+    "help": "Help",
+    "createStatusAria": "Create new Status"
   },
-
-  "howItWorks": {
-    "title": "Nola funtzionatzen du Chatforiak",
-    "intro": "Chatforia komunikazioa errazteko diseinatuta dago...",
-    "step1Title": "1. Sortu kontua",
-    "step1Desc": "Erregistratu zure email edo erabiltzaile izenarekin...",
-    "step2Title": "2. Hasi elkarrizketa",
-    "step2Desc": "Besteekin konektatu...",
-    "step3Title": "3. Denbora errealeko mezularitza",
-    "step3Desc": "Mezuak azkar bidaltzen dira...",
-    "step4Title": "4. Komunikazio globala",
-    "step4Desc": "Itzulpen integratuak erabiltzaileei laguntzen die...",
-    "step5Title": "5. Mantendu kontrola",
-    "step5Desc": "Kudeatu zure lehentasunak..."
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": " Lan aukerak",
+    "prentsa": "Prentsa",
+    "iragarkia": "Iragarkia",
+    "harremanetan": "Harremanetan jarri",
+    "laguntza": " Laguntza Zentroa",
+    "egoera": "Egoera Orria",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "pribatutasuna": "Pribatutasun Politika",
+    "baldintzak": "Zerbitzu Baldintzak",
+    "cookieak": "Cookie Ezarpenak",
+    "ezsaltzeko": "Ez Saldu Nire Informazioa",
+    "language": "Hizkuntza",
+    "contactShort": "Harremanetan",
+    "aria": "Oinarria",
+    "homeAria": "Chatforia etxea",
+    "section": {
+      "company": "ENPRESA",
+      "support": "LAGUNTZA ",
+      "deskargak": "DESKARGAK",
+      "legea": "LEGEA"
+    },
+    "estekak": {
+      "planak-eta-prezioak": "Planak eta Prezioak",
+      "chatforiaz": "Chatforiaz",
+      "karrerak": "Karrerak",
+      "prentsa": "Prentsa",
+      "iragarkia": "Iragarkia",
+      " getting-started": "Hasierako gida",
+      "help-center": "Laguntza Zentroa",
+      "contact-us": "Jarri gurekin harremanetan",
+      "status-page": "Egoera orria",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Pribatutasun Politika",
+      "terms-of -zerbitzu": "Zerbitzu Baldintzak",
+      "ez-saldu-nire-informazioa": "Ez saldu nire informazioa",
+      "cookie-ezarpenak": "Cookie Ezarpenak",
+      "nola-funtzionatzen-duen": "Nola funtzionatzen duen",
+      "blog": "Blog",
+      "itzulpen-politika": "Itzulketa Politika",
+      "sms-politika": "SMS Mezularitza Politika"
+    },
+    "soziala": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": " LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Goiko aldera itzuli"
   },
-
-  "safety": {
-    "title": "Segurtasuna eta komunitate arauak",
-    "intro": "Chatforiak ingurune segurua mantentzeko konpromisoa du...",
-    "respectTitle": "Errespetuzko komunikazioa",
-    "respectDesc": "Erabiltzaileek elkar errespetuz komunikatu behar dute...",
-    "prohibitedTitle": "Debekatutako edukia",
-    "prohibited": {
-      "illegal": "Legez kanpoko jarduerak",
-      "harassment": "Jazarpena edo bullying-a",
-      "hate": "Gorroto diskurtsoa edo diskriminazioa",
-      "explicit": "Eduki esplizitu edo kaltegarria",
-      "spam": "Spam edo iruzurrezko jarduerak"
-    },
-    "toolsTitle": "Erabiltzaileentzako segurtasun tresnak",
-    "tools": {
-      "report": "Salatu portaera desegokia",
-      "block": "Blokeatu erabiltzaileak",
-      "control": "Kudeatu pribatutasun ezarpenak"
-    },
-    "enforcementTitle": "Betearazpena",
-    "enforcementDesc": "Kontuen aurka neurriak har ditzakegu..."
-},
   "chat": {
     "selectPrompt": "Hautatu testu edo txat-gela bat txateatzen hasteko",
     "newMessages": "Mezu berriak",
-    "typing": "{{name}} idazten ari da...",
-    "emptyTitle": "Zure mezuak",
-    "emptySubtitle": "Bidali mezu bat txata hasteko.",
-    "startChatButton": "Bidali mezua",
-    "mediaAttachment": "Multimedia eranskina",
-    "thisUser": "erabiltzaile hau",
-    "blockConfirm": "Blokeatu {{name}}? Ez duzu mezu gehiago jasoko haiengandik.",
-    "blockedUser": "{{name}} blokeatuta.",
-    "blockError": "Ezin izan da blokeatzeko helburuko erabiltzailea zehaztu.",
-    "blockFailed": "Blokeoak huts egin du (backend-a ez dago konektatuta oraindik).",
-    "encryptedUnavailable": "Zifratutako mezua (gakoa ez dago eskuragarri)",
+    "typing": "{{name }} idazten ari da...",
+    "hutsikIzenburua": "Zure mezuak",
+    "hutsikAzpititulu": "Bidali mezu bat txata hasteko.",
+    "txataHasiBotoia": "Bidali mezua",
+    "mediaErantsia": "Media erantsia",
+    "erabiltzaileHau": "erabiltzaile hau",
+    "blokeatuBaldinBadaBerretsi": "Blokeatu {{name}}? Ez duzu haien mezuak jasoko.",
+    "blokeatutakoErabiltzailea": "Blokeatutako {{name}}.",
+    "blockError": "Ezinezkoa izan da blokeatzeko erabiltzaile helburu bat zehaztea.",
+    "blockFailed": "Blokeoa huts egin du (backend-a oraindik ez dago konektatuta).",
+    "encryptedUnavailable": "Zifratutako mezua (gakoa erabilgarri ez dago)",
     "unlockToView": "Desblokeatu zure gakoa mezu hau ikusteko"
   },
-  "messageInput": {
+  " messageInput": {
     "ttl": {
-      "off": "Desaktibatuta"
+      "off": "Itzalita"
     },
-    "freeLimit": "Doako planaren muga: auto-ezabatzea 1 egunera arte. 1 egunera mugatuta.",
-    "premiumLimit": "Premium-en auto-ezabatze maximoa 30 egun da. 30 egunera mugatuta.",
-    "nothingToSend": "Idatzi mezu bat edo erantsi fitxategi bat bidaltzeko.",
-    "encryptionFailed": "Zifratzeak huts egin du. Mezua ez da bidali.",
-    "sent": "Mezua bidalita.",
-    "placeholder": "Idatzi mezu bat…",
-    "autoDelete": "Auto-ezabatzea",
-    "voiceAdded": "Ahots-oharra gehitu da",
-    "attachmentAdded": "Eranskina gehitu da",
-    "typeToSend": "Idatzi mezu bat bidaltzeko",
+    "freeLimit": "Doako planaren muga: 1 egunera arte automatikoki ezabatuko da. 1 egunera mugatuta.",
+    "premiumLimit": "Premium-eko automatikoki ezabatzeko gehienezko epea 30 egunekoa da. 30 egunera mugatuta.",
+    " nothingToSend": "Mezu bat idatzi edo bidaltzeko fitxategi bat erantsi.",
+    "encryptionFailed": "Zifratzea huts egin du. Mezua ez da bidali.",
+    "sent": "Mezua bidali da.",
+    "placeholder": "Mezu bat idatzi… ",
+    "autoDelete": "Auto-ezabatu",
+    "typeToSend": "Bidaltzeko mezu bat idatzi",
     "send": "Bidali",
     "sendWithEnter": "Bidali (Enter)",
-    "attachment": "eranspena",
-    "caption": "Epigrafea (aukerakoa)",
+    "attachment": "eranskina",
+    "caption": "Azalpen-testua (aukerakoa)",
     "remove": "Kendu",
-    "clear": "Garbitu",
+    "clear": "Garbi",
     "gif": "GIF",
-    "sticker": "Eranskina",
-    "errors": {
-      "attachmentTooLarge": "Eranspena handiegia da. Saiatu fitxategi txikiago batekin.",
-      "unsupportedFile": "Onartzen ez den fitxategi mota.",
-      "rateLimit": "Mezuak azkarregi bidaltzen ari zara. Mesedez, moteldu.",
-      "validation": "Balidazio-errorea. Mesedez, egiaztatu zure mezua eta saiatu berriro.",
-      "failedToSend": "Bidalketak huts egin du. Hutsegindako burbuila berriro saiatu dezakezu."
+    "itsatsi": "Itsatsi",
+    "erroreak": {
+      "eranskinaHandiegia": "Eranskina handiegia. Saiatu fitxategi txikiago batekin.",
+      "ezOnartutakoFitxategia": "Ez onartutako fitxategi mota.",
+      "tasaMuga": "Mezuak azkarregi bidaltzen ari zara. Mesedez, moteldu.",
+      "baliozkotzea": "Baliozkotze-errorea. Mesedez, egiaztatu zure mezua eta saiatu berriro.",
+      "failedToSend": "Bidaltzeko huts egin da. Huts egindako burbuila berriro saiatu dezakezu."
     }
-  },
-  "contactList": {
-    "savedContacts": "Gordetako kontaktuak",
-    "refreshAria": "Freskatu kontaktuak",
-    "filterPlaceholder": "Iragazi gordetako kontaktuak…",
-    "filterAria": "Iragazi gordetako kontaktuak",
-    "noContactsFound": "Ez da kontakturik aurkitu.",
-    "externalContact": "Kanpoko kontaktua",
-    "notJoined": "Kontaktua ez da oraindik Chatforiara batu.",
-    "couldNotStart": "Ezin izan da txata hasi. Mesedez, saiatu berriro.",
-    "startFailed": "Txata hasteak huts egin du. Mesedez, saiatu berriro.",
-    "deleted": "Kontaktua ezabatuta.",
-    "deleteFailed": "Kontaktua ezabatzeak huts egin du. Mesedez, saiatu berriro.",
-    "aliasUpdated": "Alias-a eguneratuta.",
-    "updateAliasFailed": "Alias-a eguneratzeak huts egin du. Mesedez, saiatu berriro.",
-    "selectContact": "Hautatu {{name}}",
-    "alias": "Alias-a",
-    "startChat": "Hasi txata",
-    "message": "Mezua",
-    "delete": "Ezabatu",
-    "deleteContactAria": "Ezabatu kontaktua",
-    "loadFailed": "Kontaktua kargatzeak huts egin du. Mesedez, saiatu berriro.",
-    "loadMore": "Kargatu gehiago",
-    "call": "Deitu",
-    "callStarted": "Deitzen ari da Chatforia zenbakiaren bidez…",
-    "callFailed": "Deia hasteak huts egin du. Mesedez, saiatu berriro."
-  },
-  "startChatModal": {
-    "title": "Hasi elkarrizketa bat",
-    "searchPlaceholder": "Bilatu izena, erabiltzaile-izena edo telefono-zenbakia",
-    "messageThisPerson": "Mezua pertsona honi",
-    "contacts": "Kontaktuak",
-    "recentInteractions": "Azken interakzioak",
-    "noContactsMatch": "Ez dago kontakturik zure bilaketarekin bat etortzen denik.",
-    "noRecentInteractions": "Ez dago azken interakziorik oraindik.",
-    "unknown": "Ezezaguna",
-    "interactionType": {
-      "message": "Mezua",
-      "call": "Deia",
-      "video": "Bideoa"
-    }
-  },
-  "addContactModal": {
-    "title": "Gehitu kontaktua",
-    "phoneOrUsername": "Telefonoa edo erabiltzaile-izena",
-    "phoneOrUsernamePlaceholder": "adib. +13018019227 edo juliannorton",
-    "alias": "Alias-a (aukerakoa)",
-    "aliasPlaceholder": "adib. Lana, Ama, Mike – Europa",
-    "enterPhoneOrUsername": "Sartu telefono-zenbaki bat edo erabiltzaile-izena.",
-    "userLookupFailed": "Erabiltzaile-bilaketak huts egin du.",
-    "cannotAddSelf": "Ezin duzu zeure burua gehitu kontaktutzat.",
-    "failedToAdd": "Kontaktua gehitzeari huts egin dio.",
-    "add": "Gehitu"
-  },
-  "sidebar": {
-    "randomChat": "Txat ausazkoa",
-    "callTextForwarding": "Dei eta testu-birbidalketa",
-    "conversations": "Elkarrizketak",
-    "searchPlaceholder": "Bilatu elkarrizketak...",
-    "errorLoading": "Txatak kargatzeak huts egin du",
-    "empty": "Ez dago elkarrizketarik oraindik.",
-    "startChat": "Hasi txata",
-    "people": "Jendea",
-    "settings": "Ezarpenak",
-    "status": "Egoera",
-    "forwarding": "Dei eta testu-birbidalketa",
-    "refresh": "Freskatu",
-    "search": "Bilatu elkarrizketak",
-    "loginPrompt": "Hasi saioa zure ezarpenak editatzeko.",
-    "login": "Hasi saioa",
-    "register": "Sortu kontua",
-    "chatrooms": "Txat-gelak",
-    "logout": "Itxi saioa",
-    "startChatAlt": "Hasi txat berria",
-    "calls": "Deiak",
-    "video": "Bideoa",
-    "voicemail": "Ahots-mezua"
-  },
-  "topbar": {
-    "newStatus": "Egoera berria",
-    "logout": "Itxi saioa",
-    "help": "Laguntza",
-    "createStatusAria": "Sortu egoera berria"
   },
   "threadActions": {
-    "threadMenu": "Hariaren menua",
+    "threadMenu": "Harialdearen menu",
     "premium": "Premium",
-    "aiPower": "AI boterea",
-    "schedule": "Programatu",
-    "upgrade": "Bertsio-berritu",
-    "upgradeSuffix": "(Bertsio-berritu)",
+    "aiPower": "AI Power",
+    "schedule": "Ordutegia",
+    "upgrade": "Hobekuntza",
+    "upgradeSuffix": "(Hobekuntza)",
     "thread": "Haria",
-    "about": "Honi buruz",
-    "search": "Bilatu",
-    "media": "Multimedia",
-    "invitePeople": "Gonbidatu jendea",
-    "roomSettings": "Gelaren ezarpenak",
-    "clearConversation": "Garbitu elkarrizketa",
-    "clearConversationForMe": "Garbitu niretzat",
-    "clearConversationForEveryone": "Garbitu guztientzat",
-    "block": "Blokeatu"
+    "about": "Gaiari buruz",
+    "search": "Bilaketa",
+    "media": "Media",
+    "invitePeople": "Pertsonak gonbidatu",
+    "aretoEzarpenak": "Aretoaren ezarpenak",
+    "elkarrizketaGarbitu": "Elkarrizketa garbitu",
+    "blokeatu": "Blokeatu"
   },
-  "roomSearch": {
-    "title": "Bilatu gelan",
+  "aretoBilaketa": {
+    "izenburua": "Bilatu gelan",
     "ariaLabel": "Bilatu gelan",
     "search": "Bilatu",
     "searchMessages": "Bilatu mezuak",
-    "noText": "[Testurik ez]",
-    "noResults": "Ez dago emaitzarik"
+    "noText": "[Testurik gabe]",
+    "noResults": "Emaitzarik ez"
   },
   "roomSettings": {
     "roles": {
       "member": "Kidea",
-      "moderator": "Moderatzailea",
-      "admin": "Administratzailea"
+      "moderator": " Moderator",
+      "admin": "Admin"
     },
     "aiMode": {
-      "off": "Desaktibatuta",
-      "mention": "Soilik @ForiaBot edo /ask erabiltzean",
-      "always": "Erantzun proaktiboki"
+      "off": "Off",
+      "mention": "@ForiaBot-en edo /ask-en bakarrik",
+      "beti": "Erantzun proaktiboki"
     },
     "autoTranslateMode": {
-      "off": "Desaktibatuta",
-      "tagged": "Etiketatuak soilik (/tr …)",
-      "all": "Mezu guztiak"
+      "itxita": "Itxita",
+      "etiquetatuak": "Etiquetatutakoak bakarrik (/tr …)",
+      "denak": "Mezu guztiak"
     },
-    "updated": "Ezarpenak eguneratuta"
+    "eguneratua": "Ezarpenak eguneratu dira"
   },
-  "mediaGallery": {
-    "sharedMedia": "Partekatutako multimedia",
-    "noMediaCached": "Ez dago multimedia lokalki cacheatuta oraindik.",
+  "mediaGaleria": {
+    "sharedMedia": "Partekatutako media",
+    "noMediaCached": "Oraindik ez dago media lokalki gordeta.",
     "imageAlt": "irudia",
-    "openVideo": "Ireki bideoa",
-    "openVideoWithCaption": "Ireki bideoa: {{caption}}",
-    "preview": "Aurrebista",
-    "previewWithCaption": "Aurrebista: {{caption}}",
-    "previewKind": "Aurrebista {{kind}}",
+    "openVideo": "Bideoa ireki",
+    "openVideoWithCaption": "Bideoa ireki: {{caption}}",
+    "preview": "Aurreikuspena",
+    "previewWithCaption": "Aurreikuspena: {{caption}}",
+    "previewKind": "{{kind}} aurrebista",
     "download": "Deskargatu",
-    "downloadKind": "Deskargatu {{kind}}",
+    "downloadKind": "{{kind}} deskargatu",
     "file": "fitxategia",
     "kinds": {
       "image": "irudia",
@@ -417,1398 +390,1613 @@
   },
   "status": {
     "userNumber": "Erabiltzailea #{{id}}",
-    "posted": "Egoera argitaratuta",
-    "postFailed": "Egoera argitaratzeak huts egin du",
+    "posted": "Egoera argitaratua",
+    "postFailed": "Egoera argitaratzea huts egin du",
     "createTitle": "Sortu egoera bat",
     "modalAriaLabel": "Egoera berria",
     "captionLabel": "Zer duzu buruan?",
-    "captionPlaceholder": "Partekatu eguneraketa bat...",
-    "captionAria": "Egoera-mezua",
-    "audienceLabel": "Publikoa",
+    "captionPlaceholder": "Partekatu eguneratze bat.. .",
+    "captionAria": "Status mezua",
+    "audienceLabel": "Entzuleak",
     "audience": {
       "public": "Publikoa",
-      "followers": "Jarraitzaileak",
-      "contacts": "Kontaktuak",
-      "mutuals": "Elkarrekikoak",
+      "followers": "Jarraikitzaileak",
+      "contacts": "Harremanak",
+      "mutuals": "Elkarrekin jarraitzen dutenak",
       "custom": "Pertsonalizatua..."
     },
-    "expiresHoursLabel": "Iraungitzea (orduak)",
+    "expiresHoursLabel": "Iraungitze-denbora (ordu)",
     "maxTooltip": "Gehienez 7 egun",
-    "hoursAbbrev": "o",
+    "hoursAbbrev": "h",
     "maxShort": "max",
-    "expiresOn": "Iraungitzea:",
-    "chooseRecipients": "Aukeratu hartzaileak",
-    "selectContacts": "Hautatu kontaktuak",
-    "attachmentsLabel": "Eranspenak",
-    "attachmentsPlaceholder": "Gehitu irudiak/bideoak",
-    "filesNote": "Gehienez 5 fitxategi. 24 orduko iraungitzea lehenetsita.",
-    "postAria": "Argitaratu egoera",
-    "post": "Argitaratu"
+    "expiresOn": "Iraungitze data:",
+    "hautatuHartzaileak": "Hautatu hartzaileak",
+    "hautatuHarremanak": "Hautatu harremanak",
+    "eranskinenEtiketa": "Eranskinak",
+    "eranskinenOrrialde-leku": "Gehitu irudiak/bideoak",
+    "fitxategienOharra": "5 fitxategi arte. Lehenetsita 24 ordutan iraungitzen da.",
+    "postAria": "Post egoera",
+    "post": "Post"
   },
-  "voicemail": {
-    "pageTitle": "Ahots-mezua",
-    "from": "Nork",
-    "to": "Nori",
-    "unknownCaller": "Ezezaguna",
-    "yourNumber": "Zure Chatforia zenbakia",
-    "durationSeconds": "{{count}}s",
-    "audioAria": "Ahots-mezuaren audio-erreproduzitzailea",
+  "ahots-mezuak": {
+    "orrialde-izenburua": "Ahots-mezuak",
+    "jasotzailea": "Jaso",
+    "bidaltzailea": "Bidali",
+    "ezagutu gabeko deitzailea": "Ezezaguna",
+    "zure zenbakia": "Zure Chatforia zenbakia",
+    "iraupena-segundotan": " {{count}}s",
+    "audioAria": "Ahots-mezuen audio-jokalaria",
     "transcriptHeading": "Transkripzioa",
-    "transcriptPending": "Ahots-mezua transkribatzen…",
-    "transcriptFailed": "Transkripzioa ez dago eskuragarri.",
-    "loading": "Ahots-mezua kargatzen…",
-    "errorLoading": "Ahots-mezua kargatzeak huts egin du.",
-    "empty": "Ez dago ahots-mezurik oraindik.",
-    "deleteConfirm": "Ezabatu ahots-mezu hau?",
-    "deleteError": "Ahots-mezua ezabatzeak huts egin du.",
-    "markRead": "Markatu irakurrita",
+    "transcriptPending": "Ahots-mezuaren transkripzioa egiten…",
+    "transcriptFailed": "Transkripzioa ez dago erabilgarri.",
+    "loading": "Ahots-mezuaren karga…",
+    "errorLoading": "Ahots-mezuaren karga huts egin du.",
+    "hutsa": "Oraindik ez dago ahots-mezurik.",
+    "ezabatuBaldintza": "Ezabatu ahots-mezu hau?",
+    "ezabatuErrorea": "Ahots-mezu hau ezabatzea huts egin du.",
+    "irakurritzatJotzea": "Irakurritzat jo",
+    "ezabatu": "Ezabatu",
+    "irakurritzaPuntuAria": "Irakurritako ahots-mezuen adierazlea"
+  },
+  "contactList": {
+    "savedContacts": "Gordeak diren kontaktuak",
+    "refreshAria": "Kontaktuen eguneratzea",
+    "filterPlaceholder": "Gordeak diren kontaktuak iragazi…",
+    "filterAria": "Gordeak diren kontaktuak iragazi",
+    "noContactsFound": "Ez da kontakturik aurkitu.",
+    "externalContact": "Kanpoko kontaktua",
+    "notJoined": "Harreman horrek oraindik ez du Chatforian parte hartu.",
+    "couldNotStart": "Ezin izan da txata hasi. Mesedez, saiatu berriro.",
+    "startFailed": "Txata hasteko huts egin da. Mesedez, saiatu berriro. ",
+    "deleted": "Kontaktua ezabatu da.",
+    "deleteFailed": "Kontaktua ezabatzeko huts egin da. Mesedez, saiatu berriro.",
+    "aliasUpdated": "Alias eguneratu da.",
+    "updateAliasFailed": "Alias eguneratzeko huts egin da. Mesedez, saiatu berriro.",
+    "selectContact": "{{name}} hautatu",
+    "alias": "Alias",
+    "startChat": "Hasi txat-a",
+    "message": "Mezu",
     "delete": "Ezabatu",
-    "unreadDotAria": "Irakurri gabeko ahots-mezuaren adierazlea"
+    "deleteContactAria": "Ezabatu kontaktua",
+    "loadFailed": "Kontaktuak kargatzean huts egin da. Mesedez, saiatu berriro.",
+    "kargatuGehiago": "Kargatu gehiago",
+    "deitu": "Deitu",
+    "deiaHasita": "Zure Chatforia zenbakiaren bidez zenbaki honetara deitzen ari zara…",
+    "deiaHuts": "Deia hasteko huts egin da. Mesedez, saiatu berriro."
+  },
+  "harremanetarakoGehiatuModala": {
+    "izenburua": "Harremanetarako gehitu",
+    "phoneOrUsername": "Telefonoa edo erabiltzaile-izena",
+    "phoneOrUsernamePlaceholder": "adibidez +13018019227 edo juliannorton",
+    "alias": "Alias (aukerakoa)",
+    "aliasPlaceholder": "e. adibidez +13018019227 edo juliannorton",
+    "enterPhoneOrUsername": "Sartu telefono-zenbaki bat edo erabiltzaile-izena.",
+    "userLookupFailed": "Erabiltzailea bilatzeko saiakera huts egin du.",
+    "cannotAddSelf": "Ezin duzu zure burua kontaktu gisa gehitu.",
+    "failedToAdd": "Kontaktu bat gehitzeko saiakera huts egin du.",
+    "add": "Gehitu"
+  },
+  "startChatModal": {
+    "title": "Hasi elkarrizketa",
+    "searchPlaceholder": "Bilatu izena, erabiltzaile-izena edo telefono-zenbakia",
+    "messageThisPerson": "Bidali mezu bat pertsona honi",
+    "contacts": "Harremanak",
+    "recentInteractions": "Elkarrekintza berriak",
+    "noContactsMatch": "Ez dago zure bilaketarekin bat datorren harremanik.",
+    "noRecentInteractions": "Oraindik ez dago elkarreragin berririk.",
+    "ezagugabea": "Ezagugabea",
+    "elkarreraginMota": {
+      "mezu": "Mezu",
+      "deia": "Deia",
+      "bideoa": "Bideoa"
+    },
+    "azkarHautatzailea": "Azkar hautatzailea",
+    "helbidea": "Helbidea",
+    "izenaedoErabiltzaile-izena": "Sartu izen bat, erabiltzaile-izena",
+    "nameUsernamePhoneEmail": "Sartu izen bat, erabiltzaile-izena, telefonoa edo posta elektronikoa…",
+    "startWithSelected": "Hasi txat hautatutakoarekin",
+    "searchByUsernameOrPhone": "Bilatu erabiltzaile-izenez edo telefonoz",
+    "search": "Bilatu",
+    "searchPrompt": " Sartu erabiltzaile-izena edo telefonoa eta sakatu Bilatu.",
+    "hautatuKontaktuenArtikotik": "Edo hautatu kontaktuen artetik",
+    "gehituKontaktua": "Gehitu kontaktua",
+    "erakutsi": "Erakutsi",
+    "gehitu": "Gehitu",
+    "itxi": "Itxi",
+    "hautatutakoKopurua": "{{count}} hautatuta ",
+    "pickAtLeastOne": "Hautatu gutxienez jasotzaile bat.",
+    "saveContactsHint": "Telefono/posta elektroniko sarrerak kontaktu gisa gorde ondoren erabilgarri egongo dira.",
+    "failedBulkStart": "Hautatutako jasotzaileekin txata hastea huts egin du.",
+    "noResults": "Emaitzarik ez",
+    "mode": "Modua",
+    "group": "Taldea",
+    " broadcast": "Broadcast",
+    "groupNameOptional": "Taldearen izena (aukerakoa)",
+    "firstMessageOptional": "Lehen mezua (aukerakoa baina gomendagarria)",
+    "createGroup": "Sortu taldea",
+    "sendBroadcast": "Bidali zabalkundea"
+  },
+  "peoplePage": {
+    "people": "Pertsonak",
+    "search": "Bilatu",
+    "searchPlaceholder": "Bilatu gordetako kontaktuak ezizenez, izenez, erabiltzaile-izenez edo telefonoz",
+    "quickStart": "Azkar hasi",
+    "quickStartDesc": "Kudeatu zure kontaktuak eta gonbidatu lagunak.",
+    "importContacts": "Inportatu zure kontaktuak",
+    "import ": "Inportatu",
+    "addContact": "Gehitu kontaktu bat",
+    "add": "Gehitu",
+    "inviteFriends": "Gonbidatu lagunak",
+    "inviteDesc": "Partekatu gonbidapen-esteka elkarrizketa berehala hasteko.",
+    "getTheApp": "Jaso aplikazioa",
+    "getTheAppDesc": "Egon harremanetan mugikorrean iOS eta Android-eko Chatforia-rekin.",
+    "download": "Deskargatu",
+    "syncTip": "Aholkua: Zure mezuak web eta mugikorretan sinkronizatuta geratzen dira.",
+    "filterSaved": "Gorde diren kontaktuak iragazi",
+    "noContactsFound": "Konturik ez da aurkitu",
+    "focusSearch": "Bilaketa zentratua",
+    "findOrAdd": "Norbaitea aurkitu edo gehitu",
+    "searchByPhoneOrUsername": "Bilatu telefonoz edo erabiltzaile-izenez"
   },
   "profile": {
-    "title": "Erabiltzaile-profila",
-    "preferredLanguage": "Hobetsitako hizkuntza",
-    "chooseLanguage": "Aukeratu hizkuntza bat",
+    "title": "Erabiltzaile-profilua",
+    "preferredLanguage": "Hautatutako hizkuntza",
+    "chooseLanguage": "Hautatu hizkuntza bat",
     "mustLogin": "Saioa hasi behar duzu ezarpenak ikusteko.",
-    "autoTranslate": "Mezuak auto-itzuli",
-    "showOriginalWithTranslation": "Erakutsi jatorrizkoa eta itzulitako mezuak",
-    "showOriginalAndTranslation": "Erakutsi jatorrizkoa itzulpenaren ondoan",
-    "filterExplicit": "Iragazi eduki esplizitua",
-    "aiReply": "AI erantzuna",
-    "enableReadReceipts": "Gaitu irakurritako agiriak",
-    "allowExplicitContent": "Baimendu eduki esplizitua",
-    "disappearingMessages": "Gaitu mezu desagertzaileak",
-    "autoDeleteSeconds": "Auto-ezabatzeko segundoak",
-    "saveSuccess": "Ezarpenak gordeta!",
-    "saveError": "Errorea: Ezin izan dira ezarpenak gorde",
-    "avatarAlt": "Profil-irudia",
-    "uploadAvatar": "Igo avatar berria",
-    "avatarSuccess": "Avatarra igota!",
-    "avatarError": "Avatarra igotzeak huts egin du",
-    "avatarUpdated": "Avatarra eguneratuta!",
-    "uploadingAvatar": "Avatarra igotzen…",
-    "noPrivateKey": "Ez dago gako pribaturik gailu honetan esportatzeko.",
-    "setBackupPassword": "Ezarri pasahitza zure babeskopia zifratzeko:",
-    "backupDownloaded": "Babeskopia zifratua deskargatuta.",
-    "exportFailed": "Gako-esportazioak huts egin du",
-    "enterBackupPassword": "Sartu babeskopia honen pasahitza:",
-    "importSuccess": "Gako pribatua gailu honetara inportatuta.",
-    "importFailed": "Gakoa inportatzeak huts egin du (pasahitz okerra edo fitxategi hondatua).",
-    "keysRotated": "Gako-pare berria sortu eta gako publikoa igota.",
-    "rotateFailed": "Gakoak biratzeak huts egin du.",
+    "autoTranslate": "Mezuak automatikoki itzuli",
+    "showOriginalWithTrans lation": "Jatorrizko eta itzulitako mezuak erakutsi",
+    "showOriginalAndTranslation": "Jatorrizkoa itzulpenaren ondoan erakutsi",
+    "filterExplicit": "Edukia esplizituak iragazi",
+    "aiReply": "Adimen artifizialaren erantzuna",
+    "enableReadReceipts": "Irakurketa-jasotzeak aktibatu",
+    "allowExplicitContent": "Edukia esplizituak onartu",
+    "disappearingMessages": "Mezu desagertzaileak aktibatu",
+    "autoDeleteSeconds": "Segundoak auto-ezabatzeko",
+    "saveSuccess": "Ezarpenak gorde!",
+    "saveError": "Errorea: Ezarpenak ezin izan dira gorde",
+    "avatarAlt": "Profileko avatarra",
+    "avatar-igoera": "Avatar berria igo",
+    "avatar-arrakasta": "Avatarra igo da!",
+    "avatar-errorea": "Avatarra igotzea huts egin du",
+    "avatarUpdated": "Avatarra eguneratu da!",
+    "uploadingAvatar": "Avatarra igotzen...",
+    "noPrivateKey": "Ez dago gailu honetan esportatzeko gako pribatua.",
+    "setBackupPassword": "Zure babeskopia enkriptatzeko pasahitz bat ezarri:",
+    "backupDownloaded": "Enkriptatutako babeskopia deskargatu da.",
+    "exportFailed": "Giltzaren esportazioa huts egin du",
+    "enterBackupPassword": "Sartu babeskopia honetarako pasahitza:",
+    "importSuccess": "Giltza pribatua gailu honetan inportatu da.",
+    "importFailed": "Giltza inportatzea huts egin du (pasahitza okerra edo fitxategia hondatuta).",
+    "keysRotated": "Gako-bikote berri bat sortu da eta gako publikoa igo da.",
+    "rotateFailed": "Gakoak biratzeko huts egin da.",
     "security": "Segurtasuna",
-    "exportKey": "Babestu zifratze-gakoa",
-    "importKey": "Berreskuratu zifratze-gakoa",
-    "rotateKeys": "Biratu zifratze-gakoa",
-    "keyDisclaimer": "Zure gako pribatua ez da inoiz gailu honetatik irteten. Esportatu pasahitzez babestutako kopia bat beste gailu batean berreskuratzeko.",
-    "sectionProfile": "Profila",
-    "phoneNumber": "Telefono-zenbakia",
+    "exportKey": "Zifratze-gakoa esportatu",
+    "importKey": "Zifratze-gakoa berreskuratu",
+    "rotateKeys": "Zifratze-gakoa biratu",
+    "keyDisclaimer": "Zure gako pribatua ez da inoiz gailu honetatik irten. Babeskopia pasahitzaz babestuta esportatu beste gailu batean berreskuratzeko.",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Telefono zenbakia",
     "appearance": "Itxura",
     "soundSettings": "Soinuak",
-    "disappearing": "Mezu desagertzaileak",
-    "backupSync": "Zifratze-gakoaren babeskopia",
+    "disappearing": "Desagertzen ari diren mezuak",
+    "backupSync": "Babes-kopia eta sinkronizazioa",
     "ai": "AI",
-    "accessibility": "Erabilerraztasuna",
-    "privacy": "Pribatutasuna",
-    "devices": "Estekatutako gailuak",
-    "themeFreeNotice": "Doakoan zaude — erabili azpiko Sun/Moon aukera azkarrak. Bertsio-berritu gehiago desblokeatzeko.",
-    "sunTheme": "Erabili Egunsenti gaia",
-    "moonTheme": "Erabili Ilargi (Gauerdia) gaia",
+    "accessibility": " irisgarritasuna",
+    "privacy": " pribatutasuna",
+    "devices": " lotutako gailuak",
+    "themeFreeNotice": " Doako bertsioan zaude—erabili beheko Eguzki/Ilargi aukerak azkar. Hobetu gai gehiago desblokeatzeko.",
+    "sunTheme": "Erabili Dawn gaia",
+    "moonTheme": "Erabili Moon (Erdibete) gaia",
     "sun": "Eguzkia",
     "moon": "Ilargia",
-    "backupTitle": "Zifratutako babeskopiak eta gailu-sinkronizazioa",
-    "openBackupTools": "Ireki babeskopia-tresnak",
-    "backupDesc": "Babestu zure zifratze-gakoa beste gailu batean mezuak modu seguruan berreskuratzeko.",
-    "privacyBlurEnabled": "Lausotu mezuak lehenetsita",
-    "privacyBlurOnUnfocus": "Lausotu aplikazioa desbideratzean",
+    "backupTitle": "Zifratutako Babeskopiak & Gailuaren Sinkronizazioa",
+    "openBackupTools": " Ireki Babeskopia Tresnak",
+    "backupDesc": "Zifratze-gakoa babeskopiatu zure mezuak beste gailu batean modu seguruan berreskuratzeko. ",
+    "privacyBlurEnabled": "Mezuak lehenetsita lausotu",
+    "privacyBlurOnUnfocus": "Aplikazioa desfokuatuta dagoenean lausotu",
     "planSection": "Nire plana",
     "planLoading": "Zure plana kargatzen…",
-    "planLoadFailed": "Zure plana kargatzeak huts egin du.",
-    "currentPlan": "Uneko plana",
-    "planRenewsOn": "Berritzeko data",
-    "freePlanCopy": "Doako planean zaude. Bertsio-berritu babeskopiak, zenbaki gehigarriak eta pribatutasun-aukera aurreratuak desblokeatzeko.",
-    "upgradePlanCta": "Bertsio-berritu plana",
-    "changePlanCta": "Aldatu plana",
-    "manageBilling": "Kudeatu fakturazioa",
-    "portalOpenFailed": "Ezin izan da fakturazio-portala ireki. Mesedez, saiatu berriro.",
-    "holdToReveal": "Sakatu luze agertzeko",
-    "notifyOnCopy": "Jakinarazi mezua kopiatzen badute",
-    "loadFailed": "Profila kargatzeak huts egin du",
-    "followed": "Jarraituta",
-    "followFailed": "Jarraitzeak huts egin du",
-    "unfollowed": "Jarraitzea utzita",
-    "unfollowFailed": "Jarraitzea uzteak huts egin du",
-    "follow": "Jarraitu",
-    "unfollow": "Utzi jarraitzeari",
-    "followHint": "Haien istorioak zure Jarraitzaileen jarioan agertuko dira Jarraitzaileak (edo Publikoa) audientziarekin argitaratzen badute.",
-    "userNotFound": "Erabiltzailea ez da aurkitu",
-    "followsYou": "Jarraitzen zaitu",
-    "sectionCrashedTitle": "Atala kargatzeak huts egin du",
-    "sectionCrashedBody": "Zerbaitek huts egin du atal honetan.",
-    "forwarding": "Dei eta testu-birbidalketa",
-    "callTextForwardingSection": "Dei eta testu-birbidalketa",
-    "callTextForwardingTitle": "Dei eta/edo testu-birbidalketa",
-    "callTextForwardingDescription": "Birbidali sarrerako deiak eta testuak zure egiaztatutako telefonora edo posta elektronikora. Irteerako dei/testuek zure Chatforia zenbakia erakuts dezakete.",
-    "enableTextForwarding": "Gaitu testu-birbidalketa",
-    "forwardTextsToPhone": "Birbidali testuak telefonora",
-    "forwardTextsToEmail": "Birbidali testuak posta elektronikora",
-    "destinationPhone": "Helburuko telefonoa (E.164)",
-    "destinationEmail": "Helburuko posta elektronikoa",
-    "enableCallForwarding": "Gaitu dei-birbidalketa",
-    "destinationPhoneForCalls": "Helburua (E.164) deiak",
-    "aliasBridging": "Dei-birbidalketa (alias lotzea)",
-    "quietHoursOptional": "Ordu isilak (aukerakoa)",
+    "planLoadFailed": "Zure plana kargatzea huts egin du. ",
+    "egungoPlana": "Eguneko plana",
+    "planaBerritzenDa": "Berritzen da",
+    "doakoPlanaKopia": "Doako planan zaude. Hobetu funtzio gehiago desblokeatzeko, hala nola babeskopiak, zenbaki gehigarriak eta pribatutasun-aukera aurreratuak.",
+    "planaHobetzekoCTa": "Hobetu plana",
+    "planaAldatzekoCTa": "Aldatu plana",
+    "ordainketaKudeatu": "Ordainketa kudeatu",
+    "portalOpenFailed": "Ordainketa-portala ezin izan da ireki. Mesedez, saiatu berriro.",
+    "holdToReveal": "Eutsi erakusteko",
+    "notifyOnCopy": "Jakinarazi iezadazu nire mezua kopiatu bada",
+    "loadFailed": "Profila kargatzea huts egin du",
+    "followed": "Jarraitu duzu",
+    "followFailed": "Jarraitzeko saiakera huts egin du",
+    "unfollowed": "Jarraipena kendu zaizu",
+    "unfollowFailed": "Jarraitzeari utzita huts egin da",
+    "jarraitu": "Jarraitu",
+    "jarraitzeari utzi": "Jarraitzeari utzi",
+    "jarraitu-aholkua": "Haien istorioak zure Jarraitutakoen atalean agertuko dira, ikusle gisa 'Jarraiatzaileak' (edo Publikoa) aukeratzen badute.",
+    "erabiltzaileaEzdaAukeratu": "Erabiltzailea ez da aurkitu",
+    "zukjarraituta": "Zuk jarraituta",
+    "atalaren-izena-huts egin du": "Atala kargatzeko huts egin du",
+    "sectionCrashedBody": "Zerbait gaizki joan da atal honetan.",
+    "forwarding": "Deien eta testu-mezuak birbideratzea",
+    "callTextForwardingSection": "Deien eta testu-mezuak birbideratzea",
+    "callTextForwardingTitle": "Deien eta/edo testu-mezuak birbideratzea",
+    "callTextForwardingDescription": "Sarrerako deiak eta testu-mezuak zure egiaztatutako telefono edo posta elektronikora birbideratu. Irteerako dei/mezuak zure Chatforia zenbakia erakutsi dezakete.",
+    "enableTextForwarding": "Gaitu testu-mezuak bideratzea",
+    "forwardTextsToPhone": "Bidali testuak telefonora",
+    "forwardTextsToEmail": "Bidali testuak posta elektronikora",
+    "destinationPhone": "Telefono helmuga (E.164)",
+    "destinationEmail": "Posta elektroniko helmuga",
+    "enableCallForwarding": "Egin deiak bideratzea",
+    "destinationPhoneForCalls": "Deien helmuga (E.164)",
+    "aliasBridging": "Deien birbideratzea (alias lotura)",
+    "quietHoursOptional": "Isilune orduak (aukerakoa)",
     "startHour": "Hasiera-ordua (0–23)",
     "endHour": "Amaiera-ordua (0–23)",
     "reset": "Berrezarri",
     "saveBtn": "Gorde",
-    "saveProfile": "Gorde profila",
-    "saveForwarding": "Gorde birbidalketa",
-    "forwardSaved": "Birbidalketa-ezarpenak gordeta",
-    "forwardSaveFailed": "Ezarpenak gordetzeak huts egin du",
-    "errE164": "Sartu E.164 telefono baliozkoa (adib., +15551234567).",
-    "errEmail": "Sartu posta elektroniko baliozkoa.",
-    "errSmsDest": "Hautatu gutxienez helmuga bat (telefonoa edo posta elektronikoa).",
-    "errQuietHours": "Ordu isilak 0 eta 23 artean egon behar dira.",
-    "randomChat": "Txat ausazkoa",
+    "saveProfile ": "Profila gorde",
+    "saveForwarding": "Aurrerapenak gordetzeko",
+    "forwardSaved": "Aurrerapen-ezarpenak gorde dira",
+    "forwardSaveFailed": "Ezarpenak gordetzeko huts egin da",
+    "errE164": "Sartu baliozko E.164 telefonoa (adibidez, +15551234567).",
+    "errEmail": "Sartu baliozko posta elektroniko bat.",
+    "errSmsDest": "Aukeratu gutxienez helmuga bat (telefonoa edo posta elektronikoa).",
+    "errQuietHours": "Isiltasun orduak 0 eta 23 bitartekoak izan behar dira.",
+    "randomChat": "Txata ausazkoa",
     "ageBand": "Zure adin-tartea",
-    "ageBandPlaceholder": "Hautatu zure adin-tartea",
+    "ageBandPlaceholder": "Aukeratu zure adin-tartea",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Adin-tarte bat soilik gordetzen dugu (ez zure jaiotze-data zehatza). Txat ausazkoen parekatzeak arrazoizkoak izateko erabiltzen da.",
-    "wantsAgeFilter": "Erabili adin-oinarritutako parekatzea Txat ausazkoan",
-    "wantsAgeFilterDesc": "Aktibo dagoenean, adin-tarte bateragarriak dituzten pertsonekin parekatzen saiatzen gara.",
+    "ageBandHint": "Adin-tarte bat bakarrik gordetzen dugu (ez zure jaiotze-data zehatza). Hau Random Chat parekatzeak arrazoizkoak izan daitezen erabiltzen da.",
+    "wantsAgeFilter": "Erabili adinaren arabera parekatzea Random Chat-ean",
+    "wantsAgeFilterDesc": "Eginik dagoenean, adin-tarte egokiko pertsonekin parekatzeko saiatzen gara.",
     "partnerAgeBands": "Norekin pareka zaitezke?",
-    "partnerAgeBandsDesc": "Gazteak beti gazteekin parekatzen dira. Helduak ezin dira gazteekin parekatu.",
-    "teenMatchingNote": "Segurtasunagatik, 13–17 adin-tarteko kontuak soilik beste 13–17 adin-tarteko kontuekin pareka daitezke Txat ausazkoan.",
-    "foriaRemember": "Utzi Ria-k esaten dizkiozun gauzak gogoratzen",
-    "foriaRememberDesc": "Aktibo dagoenean, Foria-k zure Txat ausazko elkarrizketa zaharrak (zurekin soilik) erabil dezake elkarrizketa jarraitzeko. Edozein unetan desaktibatu dezakezu.",
-    "voicemailSection": "Ahots-mezua",
-    "voicemailEnabled": "Gaitu ahots-mezua",
-    "voicemailAutoDeleteDays": "Auto-ezabatu ahots-mezuak (egunak)",
-    "voicemailAutoDeletePlaceholder": "Hutsik utzi betirako mantentzeko",
-    "voicemailForwardEmail": "Birbidali ahots-mezua posta elektronikora",
-    "voicemailForwardEmailPlaceholder": "Ahots-mezuen jakinarazpenak bidaltzeko posta elektronikoa",
-    "voicemailGreetingText": "Testu-erreserba agurra",
-    "voicemailGreetingTextDesc": "Zure audio-agurra ez dagoenean erabiltzen da.",
-    "voicemailGreetingUpload": "Igo ahots-mezuaren agurra",
-    "voicemailPreviewGreeting": "Aurrebista agurra",
-    "voicemailGreetingUploaded": "Ahots-mezuaren agurra ongi igota",
-    "voicemailGreetingUploadError": "Ahots-mezuaren agurra igotzeak huts egin du",
-    "voicemailNote": "Zure Chatforia zenbakietatik datozen ahots-mezuak zure Ahots-mezuen sarreran gordetzen dira. Transkripzioa eta birbidalketa gaitu ditzakezu onartutako planetan.",
-    "portHint": "Zure uneko zenbakia mantendu nahi duzu? Chatforia Wireless-era portatu dezakezu.",
+    "partnerAgeBandsDesc": "Adingabeak beti besterik gabe beste adingabeekin parekatzen dira. Helduak ezin dira adingabeekin parekatu.",
+    "teenMatchingNote": "Segurtasunerako, 13–17 urte bitarteko kontuak soilik Random Chat-eko beste 13–17 urte bitarteko kontuekin pareka daitezke.",
+    "foriaRemember": "Utzi Riai esaten dizkiozun gauzak gogoratzen",
+    "foriaRememberDesc": "Honek piztuta dagoenean, Foriak zure aurreko Random Chat elkarrizketak (zurekin bakarrik) erabil ditzake elkarrizketa fluidean mantentzeko. Edozein unetan desaktiba dezakezu.",
+    "voicemailSection": "Ahots-mezuak",
+    "voicemailEnabled": "Aktibatu ahots-mezuak",
+    "voicemailAutoDeleteDays": "Ahots-mezuak automatikoki ezabatu (egun) igaro ondoren",
+    "voicemailAutoDeletePlaceholder": "Utzi hutsik betirako gordetzeko",
+    "voicemailForwardEmail": "Bidali ahots-mezuak posta elektronikora",
+    "voicemailForwardEmailPlaceholder": "Posta elektronikoa ahots-mezuak bidaltzeko icemail jakinarazpenak bidali",
+    "voicemailGreetingText": "Testu ordezko agurra",
+    "voicemailGreetingTextDesc": "Erabiltzen da zure audio-agurra erabilgarri ez dagoenean.",
+    "voicemailGreetingUpload": "Ahots-mezuaren agur-mezuaren igoera",
+    "voicemailPreviewGreeting": "Agur-mezuaren aurrebista",
+    "voicemailGreetingUploaded": "Ahots-mezuaren agur-mezuaren igoera arrakastaz egin da",
+    "voicemailGreetingUploadError": "Ahots-mezuaren agur-mezuaren igoera huts egin du",
+    "voicemailNote": "Zure Chatforia zenbakietatik jasotako ahots-mezuak zure Ahots-mezuaren sarrera-kutxan gordeko dira. Transkripzioa eta birbidalketa gaituta dituzun planetan aktiba ditzakezu.",
+    "portHint": "Zure egungo zenbakia gorde nahi duzu? Chatforia Wireless-era ekar dezakezu.",
     "wireless": {
       "manage": "Kudeatu haririk gabekoa"
     },
     "esim": {
       "title": "Chatforia eSIM",
-      "desc": "Lortu Chatforiako datu mugikorrak Wi-Fi-tik kanpo zaudenean.",
-      "cta": "Lortu eSIM / Erakutsi QR"
-    }
+      "desc": "Lortu Chatforia mugikorreko datuak Wi-Fitik kanpo zaudenean.",
+      "cta": "Lortu eSIM-a / Erakutsi QR-a"
+    },
+    "encryptedBackupsTitle": "Zifratze-gakoaren babeskopia"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "soinuak": {
+    "jakinarazpen-soinuak": "Jakinarazpen-soinuak",
+    "lehenetsietara berrezarri": "Lehenetsietara berrezarri",
+    "doako-ohar-hasiera": "Doako moduan zaude — premium tonuak erakusten dira baina blokeatuta daude. ",
+    "doako-ohar-amaiera": "dena desblokeatzeko.",
+    "messageTone": "Mezu-tonua",
+    "ringtone": "Ringtone",
+    "preview": "Aurreikuspena",
+    " stop": "Gelditu",
+    "volume": "Bolumena",
+    "messageToneFilesHint": "Jarri fitxategiak /public/sounds/Message_Tones karpetan",
+    "ringtoneFilesHint": "Jarri fitxategiak /public/sounds/Ringtones karpetan",
+    "premiumRequired": "Hautaketa horretarako Premium behar da.",
+    "gordea": "Soinu-ezarpenak gorde dira.",
+    "saveFailed": "Soinu-ezarpenak gorde ezin izan dira.",
+    "berrezarri ez da gordeta": "Berrezarri lehenetsietara (oraindik ez da gordeta).",
+    "premium tonua": "Hori Premium tonua da.",
+    "premium ringtone-a": "Hori Premium ringtone-a da.",
+    "neurrira ComingSoon": "Soinu pertsonalizatuak laster igotzeko aukera izango duzu.",
+    "freeNotice": "Doako moduan zaude — premium tonuak erakusten dira, baina blokeatuta daude. Hobe duzu hobetzea denak desblokeatzeko.",
+    "default": "Baldintza lehenetsia",
+    "vibrate": "Vibragailua",
+    "dreamer": "Amets-egile",
+    "notify": "Jakinarazi",
+    "pop": "Pop",
+    "pulsatingSound": "Pultsu-soinua",
+    "textMessage": "Testu-mezu",
+    "xilofonoa": "Xilofonoa",
+    "klasikoa": "Klasikoa",
+    "larrialdia": "Larrialdia",
+    "kanpaiak": "Kanpaiak",
+    "kanpai-hotsak": "Kanpai-hotsak",
+    "telefono digitala": "Telefono digitala",
+    "melodikoa": "Melodikoa",
+    "organo-oharrak": "Organo-oharrak",
+    "soundReality": "Soinu Errealitatea",
+    "street": "Kalea",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Ezarpenak",
+    "controlIntro": "Itzulpena, erantzun adimentsuak eta ForiaBot-en autoerantzunak kontrolatu.",
+    "translation": "Itzulpena",
+    "autoTranslateIncoming": "Sarrerako mezuak automatikoki itzuli",
+    "showOriginalAlongside": "Jatorrizko testua itzulpenaren ondoan erakutsi",
+    "smartReplies": "Erantzun adimentsuak ",
+    "enableSmartReplies": "Erantzun adimentsuak gaitzea",
+    "smartRepliesHint": "Azken jasotako mezu batzuk (garbituta) bidali AIari erantzun azkarrak iradokitzeko.",
+    "maskProfanity": "AIaren iradokizunetan hizkera zakarra maskratu",
+    "maskProfanityHint": "Egin ezkero, AIak itzulitako iradokizunek hitz markatuak maskratuta erakutsiko dituzte ",
+    "foriaBot": "ForiaBot Auto-Erantzulea",
+    "enableAutoReply": "Enable auto-reply when I'm busy",
+    "autoReplyMode": "Auto-erantzun modua",
+    "cooldownSeconds": "Itxaronaldia (segundotan)",
+    "sinadura": "Sinadura",
+    "auto-erantzuna": "🤖 Auto-erantzuna",
+    "aktiboHainDen arteaOptional": "Aktibo (aukerakoa) arte",
+    "gorde": "AI ezarpenak gorde",
+    "gordeta": "AI lehentasunak gordeta",
+    "gordetzekoHuts egin": " AI ezarpenak gordetzeko huts egin da",
+    "translateOff": "Itzalita",
+    "translateTagged": "@itzulita edo etiketatuta dagoenean soilik",
+    "translateAll": "Sartzen diren mezu guztiak itzuli ",
+    "modeDm": "1:1 elkarrizketak soilik",
+    "modeMention": "@aipatuta nagoenean soilik",
+    "modeAll": "Sarrerako mezu guztiak",
+    "off": "Itzalita",
+    "on": "Piztuta"
+  },
+  "erabilgarritasunEzarpenak": {
+    "izenburua": "Erabilgarritasuna & Oharak",
+    "kargatzeHutsa": "Ezarpenak kargatzean huts egin da",
+    "accessibilityDesc": "Soinuaren menpe egon gabe Chatforia errazago erabiltzeko aukerak.",
+    "interfaceFontSize": "Interfazearen letra-tamaina",
+    "interfaceFontSizeHelp": "Tamaina normalean hasten da. Handitu nahi baduzu testu handiagoa nahi baduzu.",
+    "notifications": "Jakinarazpenak",
+    "visualAlerts ": "Mezu eta deietarako alerta bisualak",
+    "visualAlertsDesc": "Iragarki-bannerak eta izenburua dirdiratu jarduera ez galtzeko.",
+    "vibrateOnNewShort": "Vibratu mezu berrietan (laguntzen denean)",
+    "vibrateOnNewDesc": "Gailuaren bibrazioa eragin jakinarazpenekin.",
+    "flashOnCallShort": "Pantaila dirdiratu deia jasotzean",
+    "flashOnCallDesc": "Deiak jotzen duenean flash labur distiratsua.",
+    "liveCaptionsTitle ": "Zuzeneko azpitituluak (deiak)",
+    "enableLiveCaptions": "Gaitu zuzeneko azpitituluak dei bitartean (Premium)",
+    "liveCaptionsDesc": "Beste parte-hartzailearen audioaren azpitituluak denbora errealean erakutsi.",
+    "captionFontSize": "Azpitituluen letra-tamaina",
+    "captionBackground": "Azpitituluen atzeko planoa",
+    "voiceNotes": "Ahots-oharrak",
+    "autoTranscribeVoice Notes": "Ahots-oharrak automatikoki transkribatu",
+    "autoTranscribeVoiceNotesDesc": "Jasotzen dituzun audio-mezuetan transkripzioa erantsi.",
+    "changesSavedInstantly": "Aldaketak berehala gordetzen dira.",
+    "sm": "Txikia",
+    "md": "Ertaina",
+    "lg": "Handia",
+    "xl": " Extra Handia",
+    "argia": "Argia",
+    "iluna": "Iluna",
+    "gardena": "Gardena",
+    "eskuragarritasuna": "Eskuragarritasuna",
+    "notificationsDesc": "Mezu eta deietarako alerta bisualak\nIkur-bannerak eta izenburua dirdiratu, jarduera ez galtzeko.",
+    "vibrateOnNew": "Mezu berrietan bibrazioa (baldin eta onartzen bada)\nGailuaren bibrazioa eragiten du jakinarazpenekin.",
+    "flashOnCall": "Sarrerako deiari pantaila-flash-a\nDeiak jotzen duenean flash distiratsu laburra.",
+    "liveCaptions": "Zuzeneko azpitituluak (deiak)"
+  },
+  "privacySection": {
+    "strictE2EE": "Amaieratik amaierara enkriptazio zorrotza",
+    "ciphertextOnlyNote": "Zifratutako testua soilik gorde zerbitzarian. AI/ desgaitzen du Itzulpen eta moderazio aurrebistak.",
+    "strictE2EEEnabled": "Strict E2EE gaituta. AI/Itzulpena desgaituko da.",
+    "strictE2EEDisabled": "Strict E2EE desgaituta. AI/Itzulpena berriro gaituko da."
+  },
+  "linkedDevicesPanel": {
+    "title": "Lotutako gailuak",
+    " nonefound": "Ez dago lotutako gailurik aurkitu.",
+    "refresh": "Berritu",
+    "unknown": "Ezezaguna",
+    "loadFailed": "Huts egin da lotutako gailuak kargatzerakoan",
+    "loadFailedLog": "Huts egin da lotutako gailuak kargatzerakoan",
+    "renamePrompt": "Sartu gailu honentzako izen berri bat",
+    "renamed": "Gailua izendatu da",
+    "renameFailed": " Gailua berrizendatu ezin izan da",
+    "kentua": "Gailua kendu da",
+    "kentzeko akatsa": "Gailua kendu ezin izan da",
+    "izenik gabeko gailua": "Izenik gabeko gailua",
+    "nagusia": "Nagusia",
+    "kentutako egoera": "Kendua",
+    "gehitu azken ikusitakoa": "Gehiatu {{created}} • Azken aldiz ikusi {{lastSeen}}",
+    " renameDevice": "Gailuaren izena aldatu",
+    "revokeDevice": "Gailua baliogabetu"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Kudeatu zure Chatforia mugikorreko plana, zenbakiak, birbidalketak eta zenbaki-portatzea.",
+    "description": "Kudeatu zure Chatforia mugikorreko plana, zenbakiak, bideratzea eta zenbakien portatzea.",
     "options": {
       "heading": "Aukeratu nola erabili nahi duzun Chatforia",
-      "subheading": "Chatforia zenbaki berri bat lortu dezakezu, edo zure uneko zenbakia beste operadore batetik ekarri.",
-      "newNumber": "Lortu Chatforia zenbaki berria",
-      "portNumber": "Portatu zure uneko zenbakia Chatforia Wireless-era"
+      "subheading": "Chatforia zenbaki berri bat lor dezakezu, edo zure egungo zenbakia beste operadore batetik ekarri.",
+      "newNumber": "Lortu Chatforia zenbaki berri bat",
+      "portNumber": "Porta ezazu zure egungo zenbakia Chatforia Wireless-era"
     },
     "port": {
-      "heading": "Portatu zure uneko zenbakia",
-      "subheading": "Mugitu zure uneko telefono-zenbakia zure operadore zaharretik Chatforiara. Ziurtatu xehetasunak zure operadorearen kontuarekin bat etortzen direla atzerapenak saihesteko.",
-      "phoneNumberLabel": "Portatzeko telefono-zenbakia",
+      "heading": "Porta ezazu zure egungo zenbakia",
+      "subheading": "Mugitu zure egungo telefono zenbakia zure egungo operadorearen kontutik Chatforia-ra. Ziurtatu xehetasunak zure operadorearen kontuarekin zehazki bat datozela atzerapenak saihesteko.",
+      "phoneNumberLabel": "Portatu beharreko telefono zenbakia",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "Uneko operadorea",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etab.",
-      "accountNumberLabel": "Kontu-zenbakia",
-      "pinLabel": "Portatze-PINa / pasahitza",
-      "fullNameLabel": "Kontuko izen osoa",
-      "address1Label": "Helbide-lerroa 1",
-      "address2Label": "Helbide-lerroa 2 (aukerakoa)",
+      "accountNumberLabel": "Kontu zenbakia",
+      "pinLabel": "Port-out PIN / pasahitza",
+      "fullNameLabel": "Kontuan agertuko den izen osoa",
+      "address1Label": "Helbide lerro 1",
+      "address2Label": "Helbide lerro 2 (aukerakoa)",
       "cityLabel": "Hiria",
-      "stateLabel": "Estatua / Probintzia",
+      "stateLabel ": "Estatua / Probintzia",
       "postalCodeLabel": "Posta-kodea",
       "countryLabel": "Herrialdea",
-      "submitButton": "Bidali portatze-eskaera",
-      "success": "Portatze-eskaera bidalita! Eguneratuta mantenduko zaitugu.",
-      "genericError": "Zerbaitek huts egin du."
+      "submitButton": "Portatze-eskaera bidali",
+      "success": "Portatze-eskaera bidali da! Eguneratuta mantenduko zaitugu.",
+      "genericError": "Zerbait gaizki joan da."
     },
     "status": {
-      "heading": "Portatze-egoera",
-      "subheading": "Jarraitu zure zenbaki-portatze eskaeren egoera.",
-      "loading": "Kargatzen…",
-      "loadError": "Portatze-eskaerak kargatzeak huts egin du.",
-      "none": "Ez dago portatze-jarduerarik oraindik.",
-      "pending": "Berrikuspena zain",
-      "submitted": "Operadoreari bidalita",
-      "inProgress": "Abian",
-      "completed": "Osatuta",
+      "heading": " Portatze-egoera",
+      "azpiburu": "Zure zenbakiaren portatze-eskaeren egoera jarraitu.",
+      "kargatzen": "Kargatzen…",
+      "karga-errorea": "Portatze-eskaerak kargatzean huts egin da.",
+      "inorik": "Oraindik ez dago portatze-jarduerarik.",
+      "itxaroten": "Azterketa itxaroten",
+      "aurkeztua": "Operadoreari aurkeztua",
+      "inProgress": "Prozesuan",
+      "completed": "Bukatu da",
       "failed": "Huts egin du",
-      "canceled": "Bertan behera utzita",
-      "created": "Sortuta:",
-      "scheduled": "Programatuta:",
-      "completedAt": "Osatuta:"
+      "canceled": "Ezeztatua",
+      "created": "Sortu da:",
+      "scheduled": "Eskuratuta:",
+      "osatuDenboran": "Osatu:"
     },
-    "dataLow": "Zure datuak gutxi geratzen dira.",
-    "topUp": "Gehitu orain",
-    "expiresIn": "{{days}} egunetan iraungiko da",
-    "exhausted": "Zure datuak agortu dira. Erosi pakete berri bat datu mugikorrak erabiltzen jarraitzeko.",
-    "buyPack": "Erosi datu-paketea",
-    "esimPackLabel": "eSIM paketea"
+    "datuGutxi": "Zure datuak agortzen ari dira.",
+    "kargatu": "Kargatu orain",
+    "iraungiIn": "Iraungi {{days}} egunetan",
+    "agortu": "Zure datuak agortu dira. Erosi pakete berri bat mugikorreko datuak erabiltzen jarraitzeko.",
+    "erosiPaketea": "Erosi datu-paketea",
+    "es imPackLabel": "eSIM paketea"
   },
-  "family": {
-    "title": "Familia",
-    "loading": "Zure familia-xehetasunak kargatzen…",
-    "error": {
-      "load": "Familia-xehetasunak kargatzeak huts egin du.",
-      "invite": "Ezin izan da gonbidapena sortu. Ziurtatu familia-jabea zarela eta saiatu berriro.",
-      "checkout": "Ezin izan da Familia planaren erosketa hasi. Mesedez, saiatu berriro."
+  "phoneNumberManager": {
+    "pickNumber": "Aukeratu zenbaki bat",
+    "phoneNumber": "Telefono zenbakia",
+    "availableNumber": "Eskuragarri dagoen zenbakia",
+    "premiumNumber": "Premium zenbakia 🔒",
+    "freeNumberHint": "Doako zenbaki bat, inaktibitatearen ondoren berrerabil daitekeena.",
+    "premiumNumberHint": "Zure Premium harpidetza aktibo dagoen bitartean, gorde zure zenbakia.",
+    "country": "Herrialdea",
+    "areaCode": "Eskualde-kodea",
+    "areaCodePlaceholder": "adibidez, 415",
+    "capability": "Gaitasuna",
+    "search": "Bilaketa",
+    "lockThisNumber": "Blokeatu zenbaki hau (asteko gehigarria, laster eskuragarri)",
+    "premiumProtectedHint": "Zure Premium harpidetza aktibo dagoen bitartean, Premium zenbakiak birziklatze-prozesutik babestuta daude.",
+    "availableNumbers": "Eskuragarri dauden zenbakiak",
+    "searchHint": "Sartu 3 zifrako eremu-kodea (AEB/Kanada soilik), edo utzi hutsik, eta bilatu.",
+    "keep": "Gorde",
+    "select": "Aukeratu",
+    "assignNumberFirst": "Lehenik zenbaki bat esleitu.",
+    "premiumKeepFeature": "Zure zenbakia gordetzea Premium funtzio bat da.",
+    "lockingPremiumFeature": "Zenbakiak blokeatzea Premium funtzio bat da.",
+    "numberAssigned": "Zenbaki esleituta. ",
+    "numberProtectedNow": "Zure zenbakia orain babestuta dago.",
+    "numberProtected": "Zenbakia babestuta dago.",
+    "numberUnprotected": "Zenbakia babesik gabe dago.",
+    "numberReleased": "Zenbakia askatu da.",
+    "couldNotLoadNumbers": "Ezin izan dira zenbakiak kargatu.",
+    "couldNotAssign": "Ezin izan da zenbaki hori esleitu. Agian oraintxe hartu dute—saiatu beste batekin.",
+    "couldNotLease": "Ezin izan da zenbaki hori alokatu. Agian oraintxe hartu dute—saiatu beste batekin.",
+    "couldNotProtectNow": " Ezin da zure zenbakia babestu orain.",
+    "couldNotProtect": "Ezin da zenbakia babestu.",
+    "couldNotUnprotect": "Ezin da zenbakia babesik kendu.",
+    "couldNotRelease": "Ezin da zenbakia askatu.",
+    "invalidAreaCode": "Mesedez, sartu hiru digitu dituen eremu-kodea (adibidez, 415) edo utzi hutsik.",
+    "noInventory": "Ez dago inbentario erabilgarririk une honetan.",
+    "noFreeNumbers": "Ez dago doako zenbakirik erabilgarri une honetan.",
+    "noInventoryAreaCode": "Ez dago inbentario erabilgarririk eremu-kode horretarako une honetan.",
+    "noFreeNumbersAreaCode": "Ez dago gure biltegiko doako zenbakirik horretarako eskualde-kodea une honetan.",
+    "askatuBaldintzaBerretsi": "Askatu zure egungo zenbakia? Beste bati esleitu dakioke.",
+    "desprotektatu": "Desprotektatu",
+    "zenbakiHauGorde": "Gorde zenbaki hau",
+    "aldatu": "Aldatu",
+    "askatu": "Askatu",
+    "aktibo": "Aktibo",
+    "zenbakirik": "Zenbakirik ez",
+    "premium-funtzioa": "Premium-funtzioa",
+    "babestuZureZenbakia": "Babestu zure zenbakia",
+    "protected": "Babestuta",
+    "notProtected": "Babesik gabe",
+    "expiresInShort": "Epe laburrean iraungitzen da {{count}}ean",
+    "egunetaniraungitzen": "{{count}} egunetan iraungitzen",
+    "iraungitzearlabur": "Iraungitze{{suffix}}",
+    "berritzen": "{{date}}an berritzen",
+    "askatzekoohartarazpena": "Zure zenbakia {{count}} egunetan askatu daiteke. Eguneratu Premium-era babestuta mantentzeko. ",
+    "pickNumberHint": "Aukeratu Chatforia zenbaki bat aplikazioaren barruko mezuak bidaltzeko eta komunikaziorako.",
+    "unableToLoadStatus": "Telefono-zenbakiaren egoera kargatu ezin da.",
+    "lock": "Blokeatu",
+    "noNumberAssigned": "Ez dago zenbakirik esleituta. Aukeratu bat eremu-kodea erabiliz testuak bidaltzen hasteko."
+  },
+  "dialer": {
+    "title": "Deiak",
+    "azpiziburua": "Teklatua eta azken deiak. (PSTN erabili ezean, deiak elkarrizketa-goiburukoetatik hasi.)",
+    "sartuZenbakia": "Sartu zenbakia",
+    "enterNumberAria": "Sartu zenbakia",
+    "resolving": "Deia helburua ebazten...",
+    "call": "Deitu",
+    "callBrowser": "Deitu nabigatzaile bidez",
+    "backspace": "Atzera",
+    "recents": "Azken deiak",
+    "noRecents": "Oraindik ez dago dei berririk.",
+    "resolveFailed": "Dei-helburua ezin izan da ebatzi.",
+    "callRequiredNumber": "Telefono-deiak egin aurretik Chatforia zenbaki bat behar duzu.",
+    "callFailed": "Deia ezin izan da egin.",
+    "deleteConfirm": "Ezabatu deia azken deietatik?",
+    "deleteFailed": "Deia ezin izan da ezabatu.",
+    "deleteFailedLog": "Deia ezabatzea huts egin du",
+    "outgoing": "Irteerakoa",
+    "incoming": "Sarrerakoa",
+    "missed": "Galdu den deia",
+    "declined": "Ukatu den deia",
+    "failed": "Huts egin du",
+    "bukatu": "Bukatu",
+    "irteerakoDeia": "Irteerako Deia",
+    "sarrerakoDeia": "Sarrerako Deia",
+    "ahotsposta": "Ahotsposta",
+    "{{name}}Deia": "{{name}} Deia",
+    "{{name}}DeiaEzabatu": "{{name}} deia ezabatu",
+    "sartuZenbakiPh": "Sartu zenbaki",
+    "azkenDeirikEz": "Oraindik ez dago azken deirik.",
+    "gakoa": "Gakoa {{d}}"
+  },
+  "deienHistoria": {
+    "izenburua": "Deiak",
+    "azpizenburua": "Zure azken iritsi eta irteneko deien zerrenda.",
+    "kargatzeHutsa": "Deien historia kargatu ezin izan da.",
+    "kargaHutsTitulua": "Deien historia kargatu ezin izan da",
+    "hutsTitulua": "Oraindik ez dago deiik",
+    "hutsAzpititulua": "Zure azken deiak hemen agertuko dira.",
+    "irteerak": "Irteerak",
+    "sarrerak": "Sarrerak",
+    "galduak": "Galduak",
+    "ezeztatuak": "Ezeztatuak",
+    "huts egin dutenak": "Huts egin dutenak",
+    "bukatuak": "Bukatuak",
+    "irteerako deiak": "Irteerako deiak",
+    "sarrerako deiak": "Sarrerako deiak",
+    "voicemail": "Ahots-mezua"
+  },
+  "video": {
+    "hub": {
+      "title": "Bideoa",
+      "subtitle": "Aukeratu bideo mota bat."
     },
-    "billing": {
-      "myPlanTitle": "Nire plana",
-      "myPlanError": "Ezin da zure plana kargatu.",
-      "myPlanLoading": "Zure plana kargatzen…",
-      "currentPlan": "Uneko plana",
-      "renewsAt": "Berritzeko data",
-      "freePlanCopy": "Doako planean zaude. Bertsio-berritu ezaugarri gehiago desblokeatzeko.",
-      "upgradeCta": "Bertsio-berritu plana",
-      "changePlanCta": "Aldatu plana",
-      "manageBilling": "Kudeatu fakturazioa",
-      "portalError": "Ezin da fakturazio-portala ireki une honetan.",
-      "cancelNow": "Bertan behera utzi orain",
-      "cancelNowHelp": "Zure harpidetza fakturazio-portalean kudeatu edo bertan behera utzi dezakezu, edo berehala bertan behera utzi azpian.",
-      "cancelNowConfirm": "Ziur zaude zure plana berehala bertan behera utzi nahi duzula? Hau ezin da desegin.",
-      "cancelNowError": "Ezin da zure plana bertan behera utzi une honetan. Mesedez, saiatu berriro edo erabili Kudeatu fakturazioa."
+    "direct": {
+      "title": "Bideo zuzena",
+      "subtitle": "Beste erabiltzaile batekin 1:1 bideo-dei bat hasi.",
+      "desc": "Beste erabiltzaile batekin 1:1 kamera-dei bat.",
+      "start": "Hasi",
+      "callBtn": "Deitu",
+      "callByPhone": {
+        "title": "Telefonoz deitu"
+      },
+      "phone": {
+        "placeholder": "Sartu telefonoa (adibidez, +1-555-123-4567)",
+        "aria": "Deitu nahi den telefonoa"
+      },
+      "tipInvite": "Aholkua: Zenbaki bat itsatsi eta deitu kontaktu bat gorde gabe. Erabiltzaile ez direnei esteka baten bidez gonbidatuko diegu.",
+      "findUser": {
+        "title": "Erabiltzaile bat bilatu"
+      },
+      "search": {
+        "placeholder": " Bilatu izen edo erabiltzaile-izenaren arabera",
+        "aria": "Bilatu izen edo erabiltzaile-izenaren arabera",
+        "btn": "Bilatu"
+      }
     },
-    "none": {
-      "title": "Ez dago familia konfiguraturik oraindik",
-      "body": "Chatforia Familia bat eta datu-bilkura partekatua sortzeko, hasi Familia plana.",
-      "goUpgrade": "Hasi Familia plana",
-      "viewPlans": "Ikusi plan guztiak"
+    "gelak": {
+      "izenburua": "Gelak",
+      "azpizenburua": "Sortu gela bat edo batu lehendik dagoen batean izen bera idatziz.",
+      "desc": "Partekatutako gela-izena erabiliz egindako bideo-deialdi anitza.",
+      "roomLabel": "Gela-izena",
+      " roomPlaceholder": "adibidez team-standup",
+      "roomAria": "Gelaren izena",
+      "joinCreate": "Batu / Sortu",
+      "tip": "Aholkua: partekatu izen hau besteekin, edo egin esteka sakona"
     },
-    "group": {
-      "defaultName": "Nire Chatforia Familia",
-      "role": "Zure rola: {{role}}"
-    },
-    "role": {
-      "owner": "Jabea",
-      "member": "Kidea"
-    },
-    "data": {
-      "heading": "Datu-bilkura partekatua",
-      "caption": "Kide guztiek bilkura hau partekatzen dute. Muga hurbiltzen ari zarenean ohartaraziko dizugu."
-    },
-    "members": {
-      "title": "Familia-kideak",
-      "name": "Izena",
-      "role": "Rola",
-      "usage": "Erabilera",
-      "limit": "Muga",
-      "unlimited": "Muga zehatzik ez",
-      "inviteCta": "Gonbidatu kidea"
-    },
-    "invite": {
-      "title": "Gonbidatu kide berria",
-      "body": "Bidali posta elektronikoa edo esteka bat norbait zure datu-bilkura partekatura gonbidatzeko.",
-      "emailLabel": "Posta elektronikoa (aukerakoa)",
-      "emailPlaceholder": "laguna@adibidea.com",
-      "create": "Sortu gonbidapena",
-      "linkLabel": "Gonbidapen-esteka",
-      "copyAria": "Kopiatu gonbidapen-esteka",
-      "expiryHint": "Esteka hau egun batzuk geroago iraungiko da. Beti sor dezakezu berria."
-    },
-    "join": {
-      "title": "Batu familiara",
-      "body": "Chatforia Familia batera batzeko gonbidatuta zaude eta haien datu-bilkura partekatzeko.",
-      "cta": "Onartu eta batu familiara",
-      "ctaLogin": "Hasi saioa eta batu familiara",
-      "success": "Familia honetara batu zara. Orain haien datu-bilkura partekatzen duzu.",
-      "goFamily": "Joan familiaren panelera",
-      "error": "Ezin izan zaitugu familia honetara gehitu. Gonbidapena baliogabea edo iraungita egon daiteke."
-    }
+    "title": "Bideoa",
+    "chooseType": "Bideo mota bat hautatu.",
+    "directTitle": "Bideo zuzena",
+    "directDesc": "Beste erabiltzaile batekin 1:1 kamera-deia.",
+    "directStart": "Hasi",
+    "roomsTitle": "Gelaak",
+    "roomsDesc": "Partekatutako gela-izen bat erabiliz bideo anitzeko dei bat.",
+    "roomsIntro": "Gela anitzeko bat batu edo sortu.",
+    "roomNameLabel": "Gela-izena",
+    "roomNamePh": "adibidez team-standup",
+    "join": "Batu",
+    "deeplinkTip": "Aholkua: zuzenean <code>/video?room=room-name</code> helbidera esteka sakon bat egin dezakezu."
+  },
+  "directVideo": {
+    "intro": "Zuzenean 1:1 bideo-deia hasi.",
+    "findUserLabel": "Erabiltzaile bat bilatu",
+    "findUserPh": "Bilatu izen edo erabiltzaile-izenaren arabera",
+    "search": "Bilatu",
+    "call": "Deitu"
+  },
+  "phoneWarning": {
+    "title": "Zure zenbakia laster iraungiko da",
+    "body": "Zure zenbakia {{number} } {{date}}-an iraungi egingo da, berraktibatu ezean.",
+    "button": "Nire zenbakia gorde"
   },
   "premium": {
-    "heading": "Joan Premium-era",
-    "description": "Desblokeatu ezaugarri indartsuak eta kendu iragarkiak.",
-    "cta": "Bertsio-berritu",
-    "upgrade": "Bertsio-berritu",
-    "upgradeAria": "Bertsio-berritu Chatforia Premium-era"
+    "heading": "Premium bihurtu",
+    "description": "Funtzio indartsuak desblokeatu eta iragarkiak kendu.",
+    "cta": "Hobetu",
+    "upgrade": "Hobetu",
+    "upgradeAria": "Hobetu Chatforia Premium-era"
   },
   "upgrade": {
-    "title": "Bertsio-berritu",
-    "titleLoggedIn": "Bertsio-berritu",
+    "title": "Hobetu",
+    "titleLoggedIn": "Hobetu",
     "titlePublic": "Prezioak",
-    "h1": "Chatforia prezioak eta planak",
-    "h1Subtitle": "Hasi gure doako, iragarkidun planarekin. Jo iragarkirik gabekoa Plus-ekin, edo desblokeatu ezaugarri indartsuak Premium-ekin.",
-    "subtitle": "Aukeratu aplikazio-plana, gehitu datu-paketeak zuretzat, edo partekatu datuak zure familiiarekin — guztia leku bakarrean.",
-    "subtitle.app": "Hasi gure doako, iragarkidun planarekin. Jo iragarkirik gabekoa Plus-ekin, edo desblokeatu ezaugarri indartsuak Premium-ekin.",
-    "subtitle.mobile": "Gehitu eSIM datu globalak Chatforia Wi-Fi-tik kanpo ere funtzionatzen jarrai dezan.",
-    "subtitle.family": "Sortu datu-bilkura partekatua zure familiarako eta kudeatu guztien erabilera leku bakarrean.",
-    "perMonth": "hile",
-    "perYear": "urte",
+    "h1": "Chatforia Prezioak eta Planak",
+    "h1Subtitle": "Hasi gure doako, iragarkidun planarekin. Plusekin iragarkirik gabe, edo Premiumekin gaitasun osoak desblokeatu.",
+    "subtitle": "Aplikazio-plan bat hautatu, datu-paketeak gehitu zuretzako, edo partekatu datuak zure familiarekin — dena leku berean.",
+    "subtitle.app": "Hasi gure doako, iragarkidun planarekin. Joan ad -Plusekin iragarkirik gabe, edo Premiumarekin funtzio guztiak desblokeatu.",
+    "subtitle.mobile": "Gehitu eSIM globaleko datuak, Chatforia funtzionatzen jarrai dezan Wi-Fi-tik kanpo zaudenean ere.",
+    "subtitle.family": "Sortu zure familiarentzako datu-pool partekatu bat eta kudeatu denon erabilera toki bakar batetik.",
+    "perMonth": "hilabeteko",
+    "perYear": "urteko",
     "goPremium": "Joan Premium-era",
-    "benefitsLine": "Desblokeatu ezaugarri indartsuak eta kendu iragarkiak.",
-    "ctaText": "Bertsio-berritu",
-    "aria": "Bertsio-berritu Chatforia Premium-era",
+    "benefitsLine": "Desblokeatu potentzia-funtzioak eta kendu iragarkiak.",
+    "ctaText": "Hobetu",
+    "aria": "Hobetu Chatforia Premium-era",
     "toggle": {
-      "monthly": "Hileko",
-      "annual": "Urteko (Aurrezte 30%)"
+      "monthly": "Hilabeteko",
+      "annual": "Urteko (%30 aurrez)"
     },
     "scheduleBanner": {
-      "title": "Harpidetza amaituko da",
-      "body": "Doakoan itzuliko zara",
-      "keepPlanCta": "Mantendu {{plan}}",
-      "manageBillingCta": "Kudeatu fakturazioa"
+      "title": "Harpidetzak amaiera izango du",
+      "body": "Doako modura itzuliko zara",
+      "keepPlanCta": "{{plan}} mantendu",
+      "manageBillingCta": "Ordainketak kudeatu"
     },
     "billing": {
       "opening": "Irekitzen…",
-      "manage": "Kudeatu fakturazioa"
+      "manage ": "Ordainketak kudeatu"
     },
     "checkout": {
-      "redirecting": "Berbideratzen…"
+      "redirecting": "Bideratzen…"
     },
     "auth": {
-      "continue": "Jarraitu saioa hasteko",
-      "createAccount": "Sortu kontua",
-      "signIn": "Hasi saioa"
+      "continue": "Sartu saioa jarraitzeko",
+      "createAccount": "Kontu bat sortu",
+      "signIn": " Sartu"
     },
     "cta": {
-      "aria": "Hautatu plana",
-      "getPlus": "Bertsio-berritu Plus-era",
-      "upgradeMonthly": "Bertsio-berritu hilekoan",
-      "upgradeAnnual": "Bertsio-berritu urtekoan"
+      "aria": "Plana hautatu",
+      "getPlus": "Plus-era igo",
+      "upgradeMonthly": "Hilabetekoz igo",
+      "upgradeAnnual": "Urtekoz igo"
     },
     "section": {
       "app": "Aplikazio-planak",
       "mobile": "Mugikorra (eSIM)",
       "family": "Familia-planak"
     },
-    "plans": {
-      "free": {
-        "title": "Doakoa",
-        "price": "$0",
-        "desc": "Hasi mezularitza doan. Ideala Chatforia probatzen ari bazara.",
-        "features": {
-          "chat": "Denbora errealeko 1:1 eta talde-txata, ahots- eta bideo-deiak barne",
-          "media": "Partekatu argazkiak, ahots-mezuak eta bideo laburrak",
-          "ai": "AI bidezko erantzun adimendunak eta berehalako itzulpena (erabilera zuzena)",
-          "disappearing": "Mezu desagertzaileak eta pribatutasun-kontrol oinarrizkoak",
-          "ads": "Doakoa betirako iragarkiekin aplikazioan"
+    "planak": {
+      "doako": {
+        "izena": "Doako",
+        "prezioa": "$0",
+        "deskribapena": "Doan mezuak bidaltzen hasi. Chatforia probatzen ari bazara, aproposa.",
+        "ezaugarriak": {
+          "txata": "Denbora errealean 1:1 eta talde txatak, baita ahots- eta bideo-deiak ere",
+          "media": "Argazkiak, ahots-mezuak eta bideo laburrak partekatu",
+          "ai": "AI bidezko erantzun adimentsuak eta itzulpen berehalakoa (erabilera bidezkoa)",
+          "desagertzen": "Desagertzen diren mezuak eta pribatutasun oinarrizko kontrolak",
+          "publizitateak": "Doan betirako aplikazioan publizitateekin "
         },
-        "ctaCurrent": "Uneko plana",
-        "ctaManage": "Kudeatu fakturazioan",
-        "ctaPublic": "Hasi — jarraitu saioa hasteko",
+        "ctaCurrent": "Egungo plana",
+        "ctaManage": "Ordainketetan kudeatu",
+        "ctaPublic": "Hasi – saioa hasi",
         "aria": "Doako plana"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Funtsezko guztia, iragarkirik gabe. Eguneko mezularitza eta deietarako aproposa.",
-        "features": {
-          "allFree": "Doakoan dagoen guztia, iragarkirik gabe",
-          "forwarding": "Birbidali deiak eta testuak zure benetako telefono-zenbakira",
-          "history": "Mezu-historia luzeagoa (gehienez 6 hilabete)",
-          "support": "Laguntza azkarragoa zerbait okertzen denean"
+        "desc": "Funtsezko guztiak, iragarkirik gabe. Eguneroko mezuak bidaltzeko eta deiak egiteko bikaina.",
+        "ezaugarriak": {
+          "allFree": "Doakoan dagoena guztia, iragarkirik gabe",
+          "forwarding": "Deiak eta testuak zure benetako telefono-zenbakira bideratu",
+          "history": "Mezu-historia luzeagoa (6 hilabetera arte)",
+          "support": "Arazo bat dagoenean laguntza azkarragoa"
         },
-        "badge": "Ezaguna",
-        "cta": "Jo iragarkirik gabekoa",
-        "ctaPublic": "Lortu Plus — jarraitu saioa hasteko",
-        "aria": "Bertsio-berritu Plus-era"
+        "badge": "Jendetsua",
+        "cta": "Publizitaterik gabe",
+        "ctaPublic": "Plus lortu – saioa hasi",
+        "aria": "Plus-era igo"
       },
       "premiumMonthly": {
-        "title": "Premium (hileko)",
+        "title": "Premium (Hilero)",
         "price": "$11.99",
-        "desc": "Chatforia esperientzia osoa: AI tresna indartsuak, pertsonalizazioa eta lehentasunezko laguntza.",
-        "features": {
-          "plusAll": "Plus-en dagoen guztia",
-          "themes": "Desblokeatu premium kolore-gai guztiak eta aplikazio-pertsonalizazioak",
-          "ai": "Premium-erako soilik AI tresna indartsuak berridazketetarako, erantzun adimendunetarako eta laburpenetarako",
-          "support": "Lehentasunezko laguntza gehien behar duzunean"
+        "desc": "Chatforia esperientzia osoa: adimen artifizialeko tresna indartsuak, pertsonalizazioa eta lehentasunezko laguntza.",
+        "ezaugarriak": {
+          "plusAll": "Plus-eko dena",
+          "gaiak": "Desblokeatu kolore premium gai eta aplikazio pertsonalizazio guztiak",
+          "ai": "Premium-erako soilik AI tresna boteretsuak berridazketetarako, erantzun adimentsuetarako eta laburpenetarako",
+          "laguntza": "Laguntza lehentasunezkoa behar duzunean gehien"
         },
-        "badge": "Gomendatua",
-        "cta": "Bertsio-berritu (hileko)",
-        "ctaPublic": "Desblokeatu Premium — jarraitu saioa hasteko",
-        "aria": "Bertsio-berritu Premium hilekoan"
+        "ikonoa": "Gomendatua",
+        "cta": "Hobetu (Hilero)",
+        "ctaPublic": "Desblokeatu Premium – saioa hasi",
+        "aria": "Hobetu Premium Hilabetekora"
       },
-      "premiumAnnual": {
-        "title": "Premium (urteko)",
+      "premiumUrtekaria": {
+        "title": "Premium (Urtekaria)",
         "price": "$99",
-        "desc": "Urteko fakturazioarekin gehiago aurreztu — kolore-gai gehigarriak, AI tresnak eta lehentasunezko laguntza barne.",
-        "features": {
-          "allPremium": "Premium hilekoan dagoen guztia — kolore-gai gehigarriak barne",
-          "annualBilling": "Urtean behin fakturatua",
-          "save25": "Hileko ordainketarekin alderatuta %30 inguru aurrezten du",
-          "bestFor": "Erabiltzaile indartsuentzat, urruneko langileentzat eta bidaiari astunentzat"
+        "desc": "Aurreztu gehiago urtean behin kobratuta — kolore-gaien gehigarriak, AI tresnak eta lehentasunezko laguntza barne.",
+        "ezaugarriak": {
+          "premiumHilabetekaria": "Premium Hilabetekariaren ezaugarri guztiak — kolore-gaien gai gehigarriak barne",
+          "urtekoOrdainketa": "Urtean behin kobratzen da",
+          "aurrez25": "Hilero ordaintzearekin alderatuta %30 inguru aurreztu",
+          "onenaDa": "Erabiltzaile aurreratuentzat, urruneko langileentzat eta bidaiari maizentzat onena"
         },
-        "badge": "Aurrezte 30%",
-        "cta": "Bertsio-berritu (urteko)",
-        "ctaPublic": "Aurrezte 30% urtekoarekin — jarraitu saioa hasteko",
-        "aria": "Bertsio-berritu Premium urtekoan",
-        "disclaimer": "Aurrerapen-fakturazioa. Edozein unetan utzi. Ez dago ezkutuko kuotarik."
+        "badge": "%30 aurreztu",
+        "cta": "Hobetu (Urteko)",
+        "ctaPublic": "Gorde %30 urtekoarekin – saioa hasi",
+        "aria": "Eguneratu Premium Urteko Planera",
+        "oharra": "Aurreordainketa. Edozein unetan bertan behera utzi dezakezu. Ez dago ezkutuko tasarik."
       }
     },
     "marketing": {
-      "freeTitle": "Doakoa",
-      "freeDesc": "Hasi mezularitza doan.",
+      "freeTitle": "Doan",
+      "freeDesc": "Doan mezuak bidaltzen hasi.",
       "plusTitle": "Plus",
-      "plusBadge": "Ezaguna",
-      "plusDesc": "Iragarkirik gabeko esperientzia merkeena.",
+      "plusBadge": "Popularra",
+      "plusDesc": "Publizitaterik gabeko esperientzia merkeena.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Ezaugarri osoak, tonuak eta AI tresna indartsuak.",
+      "premiumMonthlyDesc": "Ezaugarri guztiak, melodikak eta adimen artifizialeko tresna ahaltsuak.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Urteko fakturazioarekin gehiago aurreztu.",
-      "annualDisclaimer": "Aurrerapen-fakturazioa. Edozein unetan utzi. Ez dago ezkutuko kuotarik."
+      "premiumAnnualDesc": "Urtean fakturatuta gehiago aurrezten duzu.",
+      "annualDisclaimer": "Aurreordainketa. Edozein unetan bertan behera utzi dezakezu. Ez dago ezkutuko tasarik."
     },
     "mobile": {
-      "title": "Chatforia Mugikorra (eSIM datu-paketeak)",
-      "subtitle": "Gehitu datu globalak Chatforia Wi-Fi gabe ere funtzionatzen jarrai dezan. Prezioak zure herrialde eta moneta arabera egokitzen dira automatikoki.",
-      "subtitle.detail": "Aukeratu behin-behineko datu-pakete global bat Chatforia bidaiatzen edo Wi-Fi-tik kanpo zaudenean funtzionatzen jarrai dezan.",
+      "title": "Chatforia Mobile (eSIM datu-paketeak)",
+      "subtitle": "Gehitu datu globalak Chatforia Wi-Fi gabe ere funtzionatzen jarrai dezan. Prezioak automatikoki egokitzen dira zure herrialdearen eta moneta-aren arabera.",
+      " subtitle.detail": "Aukeratu behin bakarreko datu-pakete globala, Chatforia funtzionatzen jarrai dezan bidaiatzen duzunean edo Wi-Fi-tik urrun zaudenean.",
       "scope": {
         "local": "Tokikoa",
         "europe": "Europa",
-        "global": "Mundu osoa"
+        "global": "Globala"
       },
-      "note": "Ez ditugu saltzen 3 GB baino txikiagoak diren datu-paketeak.",
-      "localEquals": "Tokikoa = {{country}}",
-      "localEqualsFallback": "Tokikoa = zure uneko herrialdea",
-      "perPack": "/ pakete",
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = zure herrialde egungo",
+      "perPack": "/ pack",
       "cta": "Lortu datu-pakete hau",
       "ctaPublic": "Lortu datu-pakete hau",
       "checkout": {
-        "redirecting": "Berbideratzen…"
+        "redirecting": "Bideratzen…"
       },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Erabilera astunerako abiadura handiko datuak",
-          "throttle": "Abiadura moteldu daiteke erabilera handia eta gero",
-          "coverage": "Estaldura fidagarria",
-          "instant": "eSIM aktibazio berehalakoa",
-          "noContract": "Behin-behineko paketea, kontraturik gabe"
+      "mugagabea": {
+        "ezaugarriak": {
+          "erabilera-astuna": "Erabilera astunarako datu azkarra",
+          "mugaketa": "Datu azkarrak erabilera bidezkoaren eta sarearen kudeaketa politikaren menpe",
+          "estaldura": "Estaldura fidagarria",
+          "berehalakoa": "eSIM aktibazio berehalakoa",
+          "kontraturik-ez": "Behin bakarreko paketea, kontraturik gabe"
+        },
+        "oharra": {
+          "gailuak": "eSIM datu-paketeek eSIM bateragarria eta desblokeatutako gailu bat behar dute. Eskuragarritasuna telefono-ereduaren, operadorearen eta herrialdearen arabera aldatzen da. Estaldura eta abiadurak eskualdearen arabera aldatzen dira."
+        },
+        "paketeak": {
+          "3gb": {
+            "title": "{{scope}} 3 GB"
+          },
+          "5gb": {
+            "title": "{{scope}} 5 GB"
+          },
+          "10gb": {
+            "title": "{{scope}} 10 GB"
+          },
+          "20gb": {
+            "title": "{{scope}} 20 GB"
+          },
+          "unlimited": {
+            "title": "{{scope}} Mugagabea"
+          }
+        },
+        "compare": {
+          "title": "eSIM datu-paketeak alderatu",
+          "col": {
+            "pack": "Paketea",
+            "data": "Barne hartutako datuak",
+            "bestFor": "Onena"
+          },
+          "oharra": "Benetako datu-kontsumoa Chatforia nola erabiltzen duzunaren araberakoa da (ahotsa, bideoa, multimedia eta zure telefonoan dauden beste aplikazio batzuk)."
         }
       },
-      "disclaimer": {
-        "devices": "eSIM datu-paketeek eSIM bateragarria eta desblokeatutako gailua behar dute. Erabilgarritasuna telefono-modeloaren, operadorearen eta herrialdearen arabera aldatzen da. Estaldura eta abiadurak eskualdearen arabera aldatzen dira."
-      },
-      "small": {
-        "title": "Hasierako paketea",
-        "desc": "3 GB abiadura handiko datuak barne — mezularitza arina eta noizbehinkako deietarako aproposa.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Bidai laburrak, mezularitza arina eta noizbehinkako deiak",
-        "aria": "Erosi Hasierako eSIM datu-paketea"
-      },
-      "medium": {
-        "title": "Bidaiari-paketea",
-        "desc": "5 GB abiadura handiko datuak barne bidaiak, lanbide-bidaia eta VoIP dei erregularretarako.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Asteburuko bidaiak, VoIP dei erregularrak eta mapak",
-        "aria": "Erosi Bidaiari eSIM datu-paketea"
-      },
-      "large": {
-        "title": "Potentzia-paketea",
-        "desc": "10 GB abiadura handiko datuak barne txat astuna, deiak eta bideoak Chatforia sarean.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Txat astuna, deiak, bideoa eta hotspot erabilera",
-        "aria": "Erosi Erabiltzaile-potentzia eSIM datu-paketea"
-      },
-      "compare": {
-        "title": "Alderatu eSIM datu-paketeak",
-        "col": {
-          "pack": "Paketea",
-          "data": "Barne datuak",
-          "bestFor": "Zertarako aproposa"
+      "familia": {
+        "izenburua": "Chatforia Familia (datu partekatuak)",
+        "azpizenburua": " Partekatu datu-pool bakarra zure familiaren artean. Faktura bakarra, Chatforia kontu anitz, estaldura globala.",
+        "perPack": "/ paketea",
+        "small": {
+          "title": "Familia Txikia",
+          "desc": "20 GB-ko datu partekatu azkar barne hartzen ditu — 2–3 erabilera arinetarako egokia.",
+          "price": "$29.99",
+          "aria": "Erosi Familia Txiki paketea"
         },
-        "disclaimer": "Datu-erabilera benetakoa Chatforian (ahotsa, bideoa, multimedia eta beste telefono-aplikazioak) nola erabiltzen duzunaren araberakoa da."
+        "medium": {
+          "title": "Familia Ertaina",
+          "desc": "40 GB-ko datu partekatu eta abiadura handiko paketea barne hartzen du — 3–5 kide aktiborentzako egokia.",
+          "price": "$49.99",
+          "aria": "Erosi Familia Ertaina paketea"
+        },
+        "large": {
+          "title": "Familia Handia",
+          "desc": "80 GB-ko datu partekatu azkar — beti linean dauden familia indartsuentzat.",
+          "price": "$84.99",
+          "aria": "Erosi Familia Handia paketea"
+        },
+        "ezaugarri": {
+          "partekatu": "Zure familiarako datu-pool partekatua",
+          "kideak": "Gehitu gehienez 4 kide gehigarri",
+          "membersMore": "3–5 kide aktiborako egokia",
+          "manage": "Kide bakoitzarentzako mugak kudeatu",
+          "topUp": "Noiznahi gehitu pakete gehiago",
+          "bestValue": "GB bakoitzeko baliorik onena",
+          "fairUse": "Erabilera bidezkoaren politikaren eta tokiko mugaren menpe"
+        },
+        "disclaimer": "Familia-paketeek datu-pool partekatua sortzen edo osatzen dute. Edonoiz gonbidatu eta kendu ditzakezu kideak.",
+        "ohar-oinarria": "Familia-paketeek Chatforia kontu lotuen artean datu-biltegi bakarra partekatzen dute. Eskuragarritasuna eta mugak zure herrialdearen eta tokiko araudien araberakoak dira."
+      },
+      "zergatik": {
+        "izenburua": "Zergatik pasatzen diren pertsonak Chatforia-ra",
+        "azpizenburua": "Chatforia-k telefono-zenbaki erreal bat, itzulpen adimentsu bat eta bide argi bat eskaintzen dizu iragarkirik gabe egoteko, prest zaudenean.",
+        "card": {
+          "textnow": {
+            "title": "Chatforia vs TextNow",
+            "body": "Doakoan iragarki arinagoak, prest zaudenean Plus hobekuntza sinplea, eta TextNowk eskaintzen ez dituen Premium tresnak."
+          },
+          "voice": {
+            "title": "Chatforia vs Google Voice",
+            "body": "Aplikazio modernoak, global -lehen mailako diseinua, eta zaharkitutako dei-bideratze tradizionalaren ordez txertatutako itzulpena."
+          },
+          "messengers": {
+            "title": "Chatforia vs txat-aplikazioak",
+            "body": "Bidali testuak telefono-zenbaki errealetan —ez beste aplikazio-erabiltzaile batzuekin soilik— AI eta egoera-txertatzearekin. Bikaina TextFree edo TextMe bezalako aplikazioetatik bazara."
+          }
+        },
+        "tableTitle": "Nola konparatzen den Chatforia",
+        "col": {
+          "feature": "Ezaugarri"
+        },
+        "feature": {
+          "freeNumber": "Doako telefono-zenbaki",
+          "translation": "Barneko auto-itzulpen automatikoa",
+          "aiTools": "AI tresnak (berridazpenak, erantzunak, laburpenak)",
+          "ads": "Publizitate gabeko aukera",
+          "history": "Mezu-historia"
+        },
+        "bai": "Bai",
+        "ez": "Ez",
+        "baiPremium": "Bai (Premium)",
+        "plusPremium": "Plus & Premium",
+        "mugatua": "Mugatua",
+        "N/A": "N/A",
+        "historia": {
+          "chatforia": "12+ hilabetera arte",
+          "textnow": "Kontuaren arabera aldatzen da",
+          "voice": "Mugatua / kontu-oinarritua"
+        },
+        "ohartarazpena": "Konparaketa informazio publikoan oinarrituta dago eta denboran zehar alda daiteke. TextFree edo TextMe bezalako beste doako testu-aplikazioak oro har TextNow-rekin antzekoak dira."
+      },
+      "faq": {
+        "title": "Prezioak eta planak FAQ",
+        "free": {
+          "q": "Doako plana benetan doakoa al da?",
+          "a": "Bai. Doako planak Chatforia zenbaki bat, deiak eta mezuak barne hartzen ditu iragarkiekin. Doakoan nahi duzun bitartean egon zaitezke, edo iragarkiak kendu eta funtzionalitate gehiago desblokeatzeko hobetzeko aukera duzu."
+        },
+        "plusPremium": {
+          "q": "Zer alde dago Plus eta Premium artean?",
+          "a": " Plus-ek iragarkiak kentzen ditu eta zure mezu-historia luzatzen du — eguneroko erabilerarako ezin hobea. Premium-ek pertsonalizazio gehigarri, berridazketa eta erantzunetarako adimen artifizialeko tresnak, eta erabilera handiko erabiltzaileentzako lehentasunezko laguntza gehitzen ditu."
+        },
+        "esim": {
+          "q": "Non funtzionatzen dute eSIM datu-paketeek?",
+          "a": "Chatforia Mobile-k eSIM estaldura globala erabiltzen du. Eskuragarritasuna zure herrialdearen eta gailuaren araberakoa da. Aplikazioaren barruan aktibazioan onartutako aukerak ikusiko dituzu."
+        },
+        "cancel": {
+          " q": "Noiznahi dezaket planak bertan behera utzi edo aldatu?",
+          "a": "Bai. Aplikazioko fakturazio orritik zure harpidetza kudeatu edo bertan behera utz dezakezu. Aldaketak zure egungo fakturazio-epearen amaieran sartuko dira indarrean. "
+        },
+        "family": {
+          "q": "Nola funtzionatzen dute Familia paketeek?",
+          "a": "Familia paketeek Chatforia kontu anitzen artean datu-pool partekatu bat sortzen dute. Pertsona batek faktura ordaintzen du, eta kideak gonbidatu edo kendu ditzakezu, baita pertsona bakoitzeko muga ezarri ere."
+        }
       }
     },
     "family": {
-      "title": "Chatforia Familia (datu partekatuak)",
-      "subtitle": "Partekatu datu-bilkura bakar bat zure familiaren artean. Faktura bakarra, Chatforia kontu anitz, estaldura globala.",
-      "perPack": "/ pakete",
-      "small": {
-        "title": "Familia Txikia",
-        "desc": "20 GB datu abiadura handiko partekatuak barne — 2–3 erabiltzaile arinentzako aproposa.",
-        "price": "$29.99",
-        "aria": "Erosi Familia Txikia paketea"
+      "title": "Familia",
+      "loading": "Zure familiaren xehetasunak kargatzen...",
+      "error": {
+        "load": "Familia-xehetasunak kargatzeko huts egin da.",
+        "invite": "Gonbidapen bat ezin izan da sortu. Ziurtatu familia-jabea zarela eta saiatu berriro.",
+        "checkout": "Familia-plan baterako ordainketa ezin izan da hasi. Mesedez, saiatu berriro."
       },
-      "medium": {
-        "title": "Familia Ertaina",
-        "desc": "40 GB datu abiadura handiko partekatuak barne — 3–5 kide aktiborentzako aproposa.",
-        "price": "$49.99",
-        "aria": "Erosi Familia Ertaina paketea"
+      "billing": {
+        "myPlanTitle": "Nire plana",
+        "myPlanError": "Zure plana kargatu ezin da.",
+        "myPlanLoading": "Zure plana kargatzen…",
+        "currentPlan": "Egungo plana",
+        "renewsAt": "Berritzen da",
+        " freePlanCopy": "Doako planan zaude. Ezaugarri gehiago desblokeatzeko, egin hobekuntza.",
+        "upgradeCta": "Hobekuntza egin",
+        "changePlanCta": "Aldatu plana",
+        "manageBilling": "Ordainketak kudeatu",
+        "portalError": "Orain ezin da ordainketa-portalea ireki.",
+        "cancelNow": "Orain bertan bertan behera utzi",
+        "cancelNowHelp": "Ordainketa-portalean zure harpidetza kudeatu edo bertan behera utz dezakezu, edo behean bertan bertan behera utzi.",
+        "cancelNowConfirm": "Ziur zaude zure plana berehala bertan behera utzi nahi duzula? Ezinezkoa da atzera egitea.",
+        "cancelNowError": "Ezin da zure plana orain bertan bertan behera utzi. Mesedez, saiatu berriro edo erabili Fakturazioa kudeatu."
       },
-      "large": {
-        "title": "Familia Handia",
-        "desc": "80 GB datu abiadura handiko partekatuak barne — beti online dauden familia potenteentzako.",
-        "price": "$84.99",
-        "aria": "Erosi Familia Handia paketea"
+      "none": {
+        "title": "Oraindik ez dago familia-egiturarik",
+        "body": "Chatforia Familia bat eta datu partekatuetarako biltegi bat sortzeko, hasi Familia plana.",
+        "goUpgrade": "Hasi Familia plana",
+        "viewPlans": "Ikusi plan guztiak"
       },
-      "feature": {
-        "shared": "Zure familiaren datu-bilkura partekatua",
-        "members": "Gonbidatu gehienez 4 kide gehigarri",
-        "membersMore": "3–5 kide aktiborentzako aproposa",
-        "manage": "Kudeatu muga bakoitzeko",
-        "topUp": "Gehitu pakete gehiago edozein unetan",
-        "bestValue": "GB-ko balio onena",
-        "fairUse": "Erabilera zuzenaren politika eta tokiko mugak aplikatzen dira"
+      "group": {
+        "defaultName": "Nire Chatforia Familia",
+        "role": "Zure rola: {{role}}"
       },
-      "disclaimer": "Familia-paketeek datu-bilkura partekatua sortzen edo gehitzen dute. Edozein unetan gonbidatu eta kendu ditzakezu kideak.",
-      "footnote": "Familia-paketeek datu-bilkura bakar bat partekatzen dute estekatutako Chatforia kontuen artean. Erabilgarritasuna eta mugak zure herrialdearen eta tokiko araudien arabera daude."
-    },
-    "why": {
-      "title": "Zergatik aldatzen dute jendeak Chatforiara",
-      "subtitle": "Chatforiak telefono-zenbaki benetako bat, itzulpen adimenduna eta iragarkirik gabeko bidea eskaintzen dizu prest zaudenean.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Doakoan iragarki arinagoak, Plus bertsio-berritze sinplea prest zaudenean, eta TextNow-k ez dituen Premium tresnak."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "Aplikazio moderno, diseinu global-lehenetsia eta itzulpen integratua deien birbidalketa zaharkituaren ordez."
-        },
-        "messengers": {
-          "title": "Chatforia vs txat-aplikazioak",
-          "body": "Testu egiten duzu telefono-zenbaki benetakoekin — ez soilik beste aplikazio-erabiltzaileekin — AI eta egoera integratuekin. Bikaina TextFree edo TextMe bezalako aplikazioetatik etorriz gero."
-        }
+      "role": {
+        "owner": "Jabea",
+        "member": "Kidea"
       },
-      "tableTitle": "Nola alderatzen den Chatforia",
-      "col": {
-        "feature": "Ezaugarria"
+      "data": {
+        "heading": "Datu partekatuetarako biltegia",
+        "caption": "Kide guztiek partekatzen dute biltegi hau. Mugara hurbiltzen zarenean ohartaraziko zaitugu."
       },
-      "feature": {
-        "freeNumber": "Doako telefono-zenbakia",
-        "translation": "Auto-itzulpen integratua",
-        "aiTools": "AI tresnak (berridazketak, erantzunak, laburpenak)",
-        "ads": "Iragarkirik gabeko aukera",
-        "history": "Mezu-historia"
+      "members": {
+        "title": "Familia kideak",
+        "name": "Izena",
+        "role": "Rola",
+        "usage": "Erabilera",
+        "limit": "Muga",
+        "unlimited": "Ez dago muga zehatzik",
+        "inviteCta": "Kidea gonbidatu"
       },
-      "yes": "Bai",
-      "no": "Ez",
-      "yesPremium": "Bai (Premium)",
-      "plusPremium": "Plus eta Premium",
-      "limited": "Mugatua",
-      "nA": "E/E",
-      "history": {
-        "chatforia": "12+ hilabetera arte",
-        "textnow": "Kontuaren arabera aldatzen da",
-        "voice": "Mugatua / kontu-oinarritua"
+      "invite": {
+        "title": "Bazkide berri bat gonbidatu",
+        "body": "Zure partekatutako familia-datuen biltegira norbait gonbidatzeko, bidali mezu elektroniko bat edo esteka bat.",
+        "emailLabel": "Mezu elektronikoa (aukerakoa)",
+        "emailPlaceholder": "friend@example.com",
+        "create": "Sortu gonbidapena",
+        "linkLabel": "Gonbidapen esteka",
+        "copyAria": "Kopiatu gonbidapen esteka",
+        "expiryHint": "Esteka honek egun batzuen buruan iraungiko da. Beti sortu dezakezu berri bat."
       },
-      "disclaimer": "Alderaketa informazio publikoan oinarritzen da eta denborarekin alda daiteke. Testu-doako beste aplikazioak (TextFree edo TextMe) TextNow-rekin antzekoak dira oro har."
-    },
-    "faq": {
-      "title": "Prezioak eta planak FAQ",
-      "free": {
-        "q": "Doako plana benetan doakoa da?",
-        "a": "Bai. Doako planak Chatforia zenbaki bat, deiak eta mezularitza iragarkiekin barne hartzen ditu. Doakoan jarrai dezakezu nahi duzun denbora, edo bertsio-berritu iragarkiak kentzeko eta ezaugarri gehiago desblokeatzeko."
-      },
-      "plusPremium": {
-        "q": "Zein da Plus eta Premium arteko aldea?",
-        "a": "Plus-ek iragarkiak kentzen ditu eta zure mezu-historia luzatzen du — eguneroko erabilerarako aproposa. Premium-ek pertsonalizazio gehigarria, berridazketa eta erantzunetarako AI tresnak eta erabiltzaile astunentzako lehentasunezko laguntza gehitzen ditu."
-      },
-      "esim": {
-        "q": "Non funtzionatzen dute eSIM datu-paketeek?",
-        "a": "Chatforia Mugikorrak eSIM estaldura globala erabiltzen du. Erabilgarritasuna zure herrialdearen eta gailuaren arabera dago. Aplikazioan aktibazioan ikusiko dituzu aukera onartuak."
-      },
-      "cancel": {
-        "q": "Edozein unetan utzi edo alda dezaket planak?",
-        "a": "Bai. Zure harpidetza aplikazioaren fakturazio-orritik kudeatu edo utzi dezakezu. Aldaketak uneko fakturazio-aldiaren amaieran aplikatzen dira."
-      },
-      "family": {
-        "q": "Nola funtzionatzen dute Familia-paketeek?",
-        "a": "Familia-paketeek datu-bilkura partekatua sortzen dute Chatforia kontu anitzen artean. Pertsona batek ordaintzen du faktura, eta kideak gonbidatu edo kendu ditzakezu eta muga pertsonako ezarri."
+      "join": {
+        "title": "Familia batean batu",
+        "body": "Chatforia Familia batera gonbidatu zaituzte eta haien datu-biltegia partekatzera.",
+        "cta": "Onartu eta familiara batu",
+        "ctaLogin": "Sartu eta batu familia",
+        "success": "Familia honetan batu zara. Orain haien datu-biltegia partekatzen duzu.",
+        "goFamily": "Joan familiaren kontrol-panelera",
+        "error": "Ez gintezkeen familia honetan gehitu. Gonbidapena baliogabea edo iraungi daiteke."
       }
-    },
-    "gettingStarted": {
-      "title": "Hasteko gida",
-      "subtitle": "Chatforian berria? Gida azkar honek oinarrizkoak erakusten dizkizu minutu gutxitan produktibo izateko.",
-      "alert": {
-        "text": "Gida hau haziko da ezaugarri berriak abiarazten ditugunean. Zerbait falta bada, jakinarazi iezaguzu",
-        "contactLink": "Kontaktatu Gurekin"
-      },
-      "section1": {
-        "title": "1) Sortu zure kontua",
-        "signup": "Erregistratu",
-        "or": "edo",
-        "login": "hasi saioa",
-        "loginText": "zure kontuarekin.",
-        "prefsStart": "Ezarri zure",
-        "prefsLink": "hobespenak",
-        "prefsRest": "(hizkuntza, irakurritako agiriak, gaiak)."
-      },
-      "section2": {
-        "title": "2) Hasi mezularitza",
-        "item1": "Sortu DM edo Taldea eta bidali zure lehen mezua.",
-        "item2": "Erabili berehalako itzulpena 100+ hizkuntzatan txateatzeko.",
-        "item3": "Probatu mezu desagertzaileak eta irakurritako agiriak Profila → Pribatutasunean."
-      },
-      "section3": {
-        "title": "3) Joan urrunago",
-        "item1": "Edozein unetan bertsio-berritu dezakezu ordainduzko plana aplikazio barruan.",
-        "item2": "Behin saioa hasita, gailu gehigarriak esteka ditzakezu eta zifratutako babeskopiak konfiguratu aplikazioko Ezarpenetan."
-      },
-      "cta": {
-        "seePlans": "Ikusi planak",
-        "openSettings": "Ireki ezarpenak"
-      }
-    },
-    "helpCenter": {
-      "title": "Laguntza-zentroa",
-      "faq": {
-        "account": {
-          "q": "Nola sortu edo berreskuratu dezaket nire kontua?",
-          "a": "Deskargatu aplikazioa edo erabili web-a, sakatu “Sortu kontua”, egiaztatu zure posta/telefonoa. Berreskuratzeko, erabili “Pasahitza ahaztu duzu”."
-        },
-        "privacy": {
-          "q": "Mezuak muturretik muturrera zifratuta daude?",
-          "a": "Bai. Mezuak eta deiak muturretik muturrera zifratuta daude lehenetsita. Zuk eta hartzaileak soilik irakurri ditzakezue."
-        },
-        "translate": {
-          "q": "Nola funtzionatzen du berehalako itzulpenak?",
-          "a": "Gaitu “Auto-itzulpena” Ezarpenak → Itxura eta Hizkuntzan. Gure gailuan itzultzen dugu non onartzen den, bestela API seguruen bidez metadatu minimoarekin."
-        },
-        "contact": {
-          "q": "Kontaktatu laguntza",
-          "a": "Jar zaitez gurekin support@chatforia.com helbidean. Gehitu pantaila-argazkiak eta zure aplikazioaren bertsioa."
-        }
-      }
-    },
-    "contact": {
-      "title": "Kontaktatu Gurekin",
-      "successMsg": "Eskerrik asko — gure taldeak posta elektronikoz erantzungo dizu.",
-      "errorSend": "Ezin izan da bidali. Mesedez, bidali support@chatforia.com posta elektronikoz.",
-      "form": {
-        "nameLabel": "Izena",
-        "emailLabel": "Posta elektronikoa",
-        "messageLabel": "Mezua",
-        "sendCta": "Bidali"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Pribatutasun-politika",
-      "lastUpdated": "Azken eguneraketa:",
-      "intro": {
-        "body": "Pribatutasun-politika honek azaltzen du nola biltzen, erabiltzen eta partekatzen dituen Chatforia-k (“gu”, “guk”) informazioa gure aplikazioak eta zerbitzuak erabiltzen dituzunean. Chatforia diseinatzen dugu gure sarbidea minimizatzeko."
-      },
-      "infoWeCollect": {
-        "title": "Biltzen dugun informazioa",
-        "account": "Kontuaren informazioa (adib., posta/telefonoa) kontua sortu eta seguru mantentzeko.",
-        "encrypted": "Zifratutako edukia (mezuak/deiak) muturretik muturrera zifratuta dago; ezin dugu irakurri.",
-        "diagnostics": "Diagnostikoa/erabilera, hala nola kraskatze-erregistroak, gailu-mota edo analitika orokorra errendimendua hobetzeko."
-      },
-      "sms": {
-        "title": "Mugikorreko telefono-zenbakiak eta SMSak",
-        "body": "Mugikorreko telefono-zenbaki bat ematea aukeratzen baduzu, erabiltzen dugu kontu-egiaztapena, saio-hasiera alertak eta erabiltzaile arteko SMS mezularitza gaitzeko non onartzen den. Chatforia jarduerarekin lotutako SMS mezu transakzionalak bidal ditzakegu. Edozein unetan desaktibatu dezakezu SMS mezuak “STOP” bezalako hitz-gakoa erantzunez edo aplikazioko jakinarazpen-hobespenak aldatuz. Ez dugu saltzen zure telefono-zenbakia edo erabiltzen marketin helburuetarako.",
-        "newText": "Testu berria",
-        "enterRecipient": "Sartu izena edo zenbakia",
-        "typeMessage": "Idatzi mezu bat…",
-        "addRecipient": "Gehitu hartzaile bat goian hasteko…"
-      },
-      "howWeUse": {
-        "title": "Nola erabiltzen dugu informazioa",
-        "provide": "Zerbitzua eman eta seguru mantentzea (autentifikazioa, spam/abusuen detekzioa).",
-        "improve": "Ezaugarriak hobetzea (itzulpen-kalitatea, fidagarritasuna).",
-        "legal": "Legezko betebeharrak betetzea."
-      },
-      "sharing": {
-        "title": "Partekatzea",
-        "body": "Ez dugu saltzen datu pertsonalik. Prozesatzaileekin (adib., push jakinarazpenak, analitika) datu mugatuak parteka ditzakegu kontratu zorrotzen pean."
-      },
-      "rights": {
-        "title": "Zure eskubideak",
-        "body": "Zure eskualdearen arabera (adib., GDPR/UK GDPR/CPRA), sarbidea, zuzenketa, ezabapena edo prozesaketa batzuetatik opt-out eska dezakezu. Kontaktatu: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Datuen atxikitzea eta segurtasuna",
-        "body": "Zerbitzua funtzionatzeko beharrezkoa dena soilik gordetzen dugu eta industriako segurtasun-estandarretan oinarritzen gara. E2E edukia ezin dugu deszifratu."
-      },
-      "children": {
-        "title": "Haurrak",
-        "body": "Chatforia ez dago 13 urtetik beherako haurrentzako zuzenduta (edo zure tokiko legeak eskatzen duen bezala)."
-      },
-      "changes": {
-        "title": "Aldaketak",
-        "body": "Eguneraketak hemen argitaratuko ditugu eta “Azken eguneraketa” data berrikusiko dugu."
-      },
-      "contact": {
-        "title": "Kontaktua",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, AEB"
-      }
-    },
-    "terms": {
-      "title": "Zerbitzuaren baldintzak",
-      "lastUpdated": "Azken eguneraketa:",
-      "intro": {
-        "body": "Chatforia erabiltzean baldintza hauek onartzen dituzu. Ez badituzu onartzen, ez erabili zerbitzua."
-      },
-      "accounts": {
-        "title": "Kontuak",
-        "itemAccurateInfo": "Eman informazio zehatza eta mantendu kredentzialak seguru.",
-        "itemResponsibility": "Zure kontuko jardueraren erantzule zara."
-      },
-      "acceptableUse": {
-        "title": "Erabilera onargarria",
-        "itemNoAbuse": "Ez erabili eduki ilegala, abusiboa edo urratzailea; ez spam edo automatizazio-abusuak.",
-        "itemSuspend": "Urraketengatik kontua bertan behera utzi edo amaitu dezakegu."
-      },
-      "sms": {
-        "title": "SMS komunikazioak",
-        "body": "Mugikorreko telefono-zenbaki bat ematen baduzu, onartzen duzu Chatforia-k zure kontuarekin eta zerbitzuaren erabilerarekin lotutako SMS mezuak bidal ditzakeela, hala nola saio-hasiera alertak, segurtasun-jakinarazpenak eta zuk hasitako edo parte hartzen duzun elkarrizketekin lotutako mezuak. Ez dugu erabiltzen SMS promozional edo marketin-mezuetarako zure baimen esplizitu gabe. Mezu- eta datu-tasak aplika daitezke. Edozein unetan desaktibatu dezakezu SMS mezuak “STOP” bezalako hitz-gakoa erantzunez edo aplikazioko jakinarazpen-ezarpenak eguneratuz."
-      },
-      "yourContent": {
-        "title": "Zure edukia",
-        "body": "Zure edukiaren eskubideak mantentzen dituzu. Guri beharrezko eskubideak ematen dizkiguzu zerbitzua funtzionarazteko (adib., bideratzea, biltegiratzea, itzulpena)."
-      },
-      "disclaimer": {
-        "title": "Ezespenak eta erantzukizuna",
-        "body": "Zerbitzua “dagoen bezala” ematen da bermerik gabe. Legeak baimendutako neurrian, Chatforia ez da erantzule kalte zeharkako edo ondoriozkoengatik."
-      },
-      "changes": {
-        "title": "Aldaketak",
-        "body": "Baldintza hauek eguneratu ditzakegu; aldaketen ondoren erabiltzen jarraitzeak onarpena esan nahi du."
-      },
-      "contact": {
-        "title": "Kontaktua",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, AEB"
-      }
-    },
-    "doNotSell": {
-      "title": "Ez saldu edo partekatu nire informazio pertsonala",
-      "body": "Chatforia-k ez du saltzen informazio pertsonalik. Kaliforniako biztanleek CPRAren arabera eskaerak bidal ditzakete azpiko botoiarekin.",
-      "cta": "Bidali eskaera"
-    },
-    "cookies": {
-      "title": "Cookie-ezarpenak",
-      "body": "Chatforia-k cookie minimoak erabiltzen ditu (adib., saioa, segurtasuna). Ez ditugu erabiltzen hirugarrenen iragarki-cookieak. Kudeatu cookieak zure nabigatzailearen ezarpenen bidez."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Ezin da telefono-zenbakiaren egoera kargatu.",
-      "lock": "Blokeatu",
-      "noNumberAssigned": "Ez dago zenbakirik esleituta. Aukeratu area-kode bateko bat testukatzen hasteko.",
-      "pickNumber": "Aukeratu zenbakia",
-      "phoneNumber": "Telefono-zenbakia"
-    },
-    "startChatModal": {
-      "title": "Hasi txata",
-      "quickPicker": "Hautatzaile azkarra",
-      "to": "Nori",
-      "nameOrUsername": "Idatzi izena, erabiltzaile-izena",
-      "nameUsernamePhoneEmail": "Idatzi izena, erabiltzaile-izena, telefonoa edo posta elektronikoa…",
-      "startWithSelected": "Hasi txata hautatuekin",
-      "searchByUsernameOrPhone": "Bilatu erabiltzaile-izen edo telefonoaren arabera",
-      "search": "Bilatu",
-      "searchPrompt": "Idatzi erabiltzaile-izena edo telefonoa eta sakatu Bilatu.",
-      "pickFromContacts": "Edo hautatu kontaktuetatik",
-      "addContact": "Gehitu kontaktua",
-      "show": "Erakutsi",
-      "add": "Gehitu",
-      "close": "Itxi",
-      "selectedCount": "{{count}} hautatuta",
-      "pickAtLeastOne": "Hautatu gutxienez hartzaile bat.",
-      "saveContactsHint": "Telefonoa/posta elektronikoa sarrerak kontaktutzat gordetzen dituzunean eskuragarri egongo dira.",
-      "failedBulkStart": "Hautatutako hartzaileekin txata hasteak huts egin du.",
-      "noResults": "Ez dago emaitzarik",
-      "mode": "Modua",
-      "group": "Taldea",
-      "broadcast": "Hedapena",
-      "groupNameOptional": "Talde-izena (aukerakoa)",
-      "firstMessageOptional": "Lehen mezua (aukerakoa baina gomendatua)",
-      "createGroup": "Sortu taldea",
-      "sendBroadcast": "Bidali hedapena"
-    },
-    "themes": {
-      "amoled": "AMOLED",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Ilunabarra",
-      "solarized": "Solarizatua",
-      "velvet": "Belusezkoa"
-    },
-    "sounds": {
-      "freeNotice": "Doakoan zaude — premium tonuak erakusten dira baina blokeatuta daude. Bertsio-berritu guztiak desblokeatzeko.",
-      "preview": "Aurrebista",
-      "resetToDefaults": "Berrezarri lehenetsietara",
-      "notificationSounds": "Jakinarazpen-soinuak",
-      "messageTone": "Mezu-tonua",
-      "default": "Lehenetsia",
-      "vibrate": "Bibrazioa",
-      "dreamer": "Ametsa",
-      "notify": "Jakinarazi",
-      "pop": "Pop",
-      "pulsatingSound": "Pultsatzen den soinua",
-      "textMessage": "Testu-mezua",
-      "xylophone": "Xilofonoa",
-      "classic": "Klasikoa",
-      "urgency": "Larritasuna",
-      "bells": "Kanpaiak",
-      "chimes": "Txilinak",
-      "digitalPhone": "Telefono digitala",
-      "melodic": "Melodikoa",
-      "organNotes": "Organo-notak",
-      "soundReality": "Errealitate-soinua",
-      "street": "Kalea",
-      "universfield": "Unibertso-eremua"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Ezaugarri honek Premium plana eskatzen du."
-    },
-    "aiSettings": {
-      "title": "AI ezarpenak",
-      "controlIntro": "Kontrolatu itzulpena, erantzun adimendunak eta ForiaBot auto-erantzunak.",
-      "save": "Gorde AI ezarpenak",
-      "autoTranslateIncoming": "Auto-itzuli sarrerako mezuak",
-      "showOriginalAlongside": "Erakutsi jatorrizko testua itzulpenaren ondoan",
-      "enableSmartReplies": "Gaitu erantzun adimendunak",
-      "smartRepliesHint": "Bidali azken jasotako mezu gutxi batzuk (garbituta) AI-ra erantzun azkarrak iradokitzeko.",
-      "maskProfanity": "Maskaratu bira AI iradokizunetan",
-      "maskProfanityHint": "Aktibo dagoenean, AI-k itzulitako iradokizunek markatutako hitzak maskaratuta izango dituzte",
-      "foriaBot": "ForiaBot Auto-erantzuna",
-      "enableAutoReply": "Gaitu auto-erantzuna lanpetuta nagoenean",
-      "autoReplyMode": "Auto-erantzun modua",
-      "cooldownSeconds": "Itxaronaldia (segundoak)",
-      "off": "Desaktibatuta",
-      "on": "Aktibatuta",
-      "signature": "Sinadura",
-      "autoReply": "Auto-erantzuna",
-      "activeUntilOptional": "Aktibo egon arte (aukerakoa)",
-      "saved": "AI hobespenak gordeta",
-      "saveFailed": "AI ezarpenak gordetzeak huts egin du",
-      "translateOff": "Desaktibatuta",
-      "translateTagged": "Soilik @translated edo etiketatuta dagoenean",
-      "translateAll": "Itzuli sarrerako mezu guztiak",
-      "modeDm": "1:1 txatak soilik",
-      "modeMention": "Soilik @aipatzen naizenean",
-      "modeAll": "Sarrera-mezu guztiak"
-    },
-    "accessibilitySettings": {
-      "title": "Erabilerraztasuna eta alertak",
-      "accessibility": "Erabilerraztasuna",
-      "accessibilityDesc": "Soinurik gabe Chatforia errazago erabiltzeko aukerak.",
-      "interfaceFontSize": "Interfaze-letra-tamaina",
-      "interfaceFontSizeHelp": "Normaletik hasten da. Handitu testu handiagoa nahi baduzu erabilerraztasun-ezarpenetan.",
-      "sm": "tx",
-      "md": "me",
-      "lg": "ha",
-      "xl": "ha+",
-      "notifications": "Jakinarazpenak",
-      "notificationsDesc": "Mezuen eta deien alertak bisualak\nErakutsi banderak eta tituluaren keinuak jarduera ez galtzeko.",
-      "vibrateOnNew": "Bibrazioa mezu berrietan (onartzen denean)\nAktibatu gailuaren bibrazioa jakinarazpenekin.",
-      "flashOnCall": "Piztu pantaila sarrerako deian\nDeia jotzen denean distira labur argia.",
-      "liveCaptions": "Bideo-azpitituluak (deietan)",
-      "captionFontSize": "Azpitituluen letra-tamaina",
-      "captionBackground": "Azpitituluen atzeko planoa",
-      "light": "argi",
-      "dark": "ilun",
-      "transparent": "gardena",
-      "voiceNotes": "Ahots-oharrak",
-      "autoTranscribeVoiceNotes": "Auto-transkribatu ahots-oharrak",
-      "autoTranscribeVoiceNotesDesc": "Erantsi transkripzioa jasotako audio-mezuei.",
-      "changesSavedInstantly": "Aldaketak berehala gordetzen dira.",
-      "loadFailed": "Ezarpenak kargatzeak huts egin du",
-      "visualAlerts": "Mezuen eta deien alertak bisualak",
-      "visualAlertsDesc": "Erakutsi banderak eta tituluaren keinuak jarduera ez galtzeko.",
-      "vibrateOnNewShort": "Bibrazioa mezu berrietan (onartzen denean)",
-      "vibrateOnNewDesc": "Aktibatu gailuaren bibrazioa jakinarazpenekin.",
-      "flashOnCallShort": "Piztu pantaila sarrerako deian",
-      "flashOnCallDesc": "Deia jotzen denean distira labur argia."
-    },
-    "privacySection": {
-      "strictE2EE": "Muturretik muturrera zifratze zorrotza",
-      "ciphertextOnlyNote": "Gorde zifratutako testua soilik zerbitzarian. AI/Itzulpena eta moderazio-aurrebistak desgaitzen ditu."
-    },
-    "linkedDevicesPanel": {
-      "title": "Estekatutako gailuak",
-      "noneFound": "Ez da estekatutako gailurik aurkitu.",
-      "refresh": "Freskatu"
-    },
-    "help": {
-      "title": "Laguntza",
-      "howCanWeHelp": "Nola lagun dezakegu?",
-      "helpCenter": "Laguntza-zentroa",
-      "contactUs": "Kontaktatu gurekin",
-      "quickTopics": "Gai azkarrak",
-      "searchExamples": "Saiatu “itzulpena”, “babeskopiak” edo “pribatutasuna” bilatzen.",
-      "cantLogin": "Ezin dut saioa hasi",
-      "paymentsBilling": "Ordainketak/fakturazioa",
-      "reportAbuse": "Salatu abusua",
-      "searchHelpArticles": "Bilatu laguntza-artikuluak",
-      "search": "Bilatu"
-    },
-    "peoplePage": {
-      "people": "Jendea",
-      "search": "Bilatu",
-      "searchPlaceholder": "Bilatu alias, izen, erabiltzaile-izen edo telefonoaren arabera",
-      "filterSaved": "Iragazi gordetako kontaktuak",
-      "noContactsFound": "Ez da kontakturik aurkitu",
-      "quickStart": "Hasiera azkarra",
-      "quickStartDesc": "Hasi azkarra lortzeko modu azkar batzuk.",
-      "importContacts": "Inportatu zure kontaktuak",
-      "add": "Gehitu",
-      "focusSearch": "Fokatu bilaketa",
-      "import": "Inportatu",
-      "findOrAdd": "Bilatu edo gehitu norbait",
-      "searchByPhoneOrUsername": "Bilatu telefonoa / erabiltzaile-izenaren arabera",
-      "inviteFriends": "Gonbidatu lagunak",
-      "inviteDesc": "Partekatu zure gonbidapen-esteka berehala txateatzen hasteko.",
-      "getTheApp": "Lortu aplikazioa",
-      "getTheAppDesc": "Jarrai harremanetan mugikorrean Chatforiarekin iOS eta Android-erako.",
-      "download": "Deskargatu",
-      "syncTip": "Aholkua: Zure mezuak sinkronizatuta geratzen dira web eta mugikorrean."
     },
     "randomChat": {
       "title": "Txat ausazkoa",
-      "description": "Ezagutu norbait berria berehala. Zuk eta beste bat parekatuko ditugu eta txat-gela aldi baterakoa irekiko dugu. Lehenik anonimo txateatu. Gehitu laguna geroago ondo sentitzen bada.",
-      "findMatch": "Bilatu niretzat pare bat",
-      "chatWithForia": "Txateatu Foriarekin",
-      "chatWithForiaBot": "Txateatu ForiaBot-ekin",
-      "cancel": "Utzi",
-      "close": "Itxi",
+      "azpiziburua": "Ezagutu berehala norbait berria, edo hautatu Riarekin txateatzea.",
+      "hasi": "Hasi elkarrizketa",
+      "deskribapena": "Lehenik eta behin, txateatu anonimoki. Geroago gehitu lagun gisa, egokia iruditzen bazaizu.",
+      "aurkituKide": "Bilatu niri kide bat",
+      "txateatuRiarekin": "Riarekin txateatu",
+      "setAge": "Ezarri zure adin-tartea Profila → Adina & Txat Aleatorioa atalean, pertsonekin bat egiteko.",
+      "idle": "Hutsik",
+      "matching": "Bateratzen…",
       "searching": "Bilatzen…",
-      "finding": "Bilatzen…",
-      "looking": "Norbaitek bilatzen…",
-      "startingForia": "Foriarekin txata hasten…",
-      "partnerDisconnected": "Zure parek deskonektatu du.",
-      "noPartner": "Ez da pare bat aurkitu une honetan.",
-      "connectedTo": "{{name}}(r)ekin konektatuta",
-      "connected": "Konektatuta",
-      "idle": "Inaktibo",
-      "partnerLeft": "Pareak utzi du.",
-      "stopped": "Geldituta.",
-      "skip": "Saltatu",
-      "save": "Gorde",
-      "saveGuard": "Giza-gizakiko txatak soilik gorde daitezke",
-      "youAreChattingWith": "{{name}}(r)ekin txateatzen ari zara",
-      "bot": "BOT",
-      "leave": "Utzi",
-      "sayHi": "Esan kaixo 👋",
-      "you": "Zu",
-      "typeMessage": "Idatzi mezu bat",
-      "send": "Bidali",
-      "partner": "Pare",
-      "withRia": "Riarekin",
-      "chatWithRia": "Txateatu Riarekin",
-      "startingRia": "Riarekin txata hasten…",
-      "ageDisclaimer": "Adin-tarte bat soilik gordetzen dugu (ez zure jaiotze-data zehatza). Txat ausazkoen parekatzeak arrazoizkoak izateko erabiltzen da. Jendearekin parekatzeko (RiaBot-ekin soilik ez), ezarri zure adin-tartea Ezarpenak → Adina eta Txat ausazkoan.",
-      "ageBandRequired": "Ezarri zure adin-tartea Profila → Adina eta Txat ausazkoan jendearekin parekatzeko.",
-      "ageBandCallout": "Jendearekin parekatzeko (RiaBot-ekin soilik ez), ezarri zure adin-tartea Ezarpenak → Adina eta Txat ausazkoan.",
-      "subtitle": "Ezagutu norbait berria berehala, edo aukeratu Riarekin txateatzea.",
-      "start": "Hasi elkarrizketa bat",
-      "matching": "Parekatu…",
-      "setAge": "Ezarri zure adin-tartea Profila → Adina eta Txat ausazkoan jendearekin parekatzeko.",
+      "cancel": "Utzi",
+      "connectionProblem": "Konexio-arazo",
+      "ai": "AI",
+      "anonymous": "Anonimoa",
+      "connectedAs": "Honi moduan konektatuta",
+      "waitingAddFriend": "Adiskidetasuna onartzeko zain…",
+      "hiddenUsernames": "Erabiltzaile-izenak ezkutuan geratzen dira biak Adiskidetasuna onartzen duten arte.",
+      " riaSeparate": "Riarekin nahi duzun unetan txateatu — ausazko gizakien parekatzeetatik bereizita.",
+      "sendMessage": "Mezu bat bidali",
+      "chatEnded": "Txata amaitu da",
+      "conversationEnded": "Hitzaldi hori amaitu da.",
+      "findAnotherMatch": "Beste bat bilatu",
       "next": "Hurrengo pertsona",
-      "addFriend": "Gehitu laguna",
-      "requested": "Eskatuta",
-      "messageRia": "Mezua Ria-ri…",
-      "messageMatch": "Mezua zure pareari…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
+      "addFriend": "Lagun bat gehitu",
+      "requested": "Eskatu",
+      "Mezu Ria-ri": "Mezu bidali Ria-ri…",
+      "Mezu zure bikoteari": "Mezu bidali zure bikoteari…",
+      "Solasean Foria-rekin": "Solasean Foria-rekin",
+      "Solasean ForiaBot-ekin": "Solasean ForiaBot-ekin",
+      "close": "Itxi",
+      "searchingLabel": "Bilatzen…",
+      "bilatzen": "Norbait bilatzen…",
+      "Foria-rekin-hasi": "Foria-rekin txat bat hasten…",
+      "bazkidea-deskonektatu": "Zure bazkidea deskonektatu da.",
+      "ez-dago-bazkiderik": "Une honetan ez dago bazkiderik.",
+      "{{name}}-rekin-konektatuta": "{{name}}-rekin konektatuta",
+      "konektatuta": "Konektatuta",
+      "bazkidea-utzi": "Bazkidea utzi du.",
+      "stopped": "Gelditu da.",
+      "skip": "Salbatu",
+      "save": "Gorde",
+      "saveGuard": "Giza-gizako elkarrizketak soilik gorde daitezke",
+      "youAreChattingWith": "{name}-rekin ari zara txateatzen",
+      "bot": "BOT",
+      "sayHi": "Kaixo esan 👋",
+      "you": "Zu",
+      "typeMessage": "Mezu bat idatzi",
+      "send": "Bidali",
+      "partner": "Partner",
+      "withRia": "Riarekin",
+      "startingRia": "Riarekin txat bat hasiz…",
+      "ageDisclaimer": "Adin-tarte bat bakarrik gordetzen dugu (ez zure jaiotze-data zehatza). Hau Random Chat parekatzeak egokiak izan daitezen erabiltzen da. Pertsonekin parekatzeko (ez RiaBot-ekin bakarrik), ezarri zure adin-tartea Ezarpenak → Adina & Random Chat-en.",
+      "ageBandRequired": "Jarri zure adin-tartea Profil → Adina & Txat Aleatorioa atalean pertsonekin bat egiteko.",
+      "ageBandCallout": "Pertsonekin bat egiteko (ez bakarrik RiaBot-ekin), ezarri zure adin-tartea Ezarpenak → Adina & Txat Aleatorioa atalean."
     },
     "ria": {
       "fallbackName": "han",
       "intro": "Kaixo 👋 Ni Ria naiz. Zer duzu buruan?",
       "greetings": {
         "long1": "Kaixo {{name}} 👋 Hemen nago. Zer duzu buruan?",
-        "long2": "Kaixo {{name}} 😊 Zer nahi duzu gaur hitz egin?",
-        "long3": "Kaixo {{name}}!! Belarriak irekita dauzkat — zer dago?",
-        "long4": "Atsegin da ikustea, {{name}} 👋 Zer duzu buruan gaur?",
-        "long5": "Kaixo {{name}} 😊 Nahi duzu kexatu, galdetu edo soilik txateatu?",
-        "long6": "Kaixo {{name}}!! Denbora dut — zer nahi duzu hitz egin?",
-        "short1": "Kaixo {{name}}, oraindik hemen nago. Zer dago?",
-        "short2": "Ongi etorri berriro {{name}} 👋 Zerbait gehitu nahi duzu?",
-        "short3": "Berriro hemen, {{name}}? 😊 Esan zer duzun buruan.",
-        "short4": "Kaixo {{name}} 👋 Prest zaude utzitako tokian jarraitzeko?",
+        "long2": "Kaixo {{name}} 😊 Gaur zeraz hitz egin nahi duzu?",
+        "long3": "Kaixo {{name}}! Entzuteko prest nago — zer gertatzen da?",
+        "long4": "Pozten naiz zurekin berriro hitz egiteaz, {{name}} 👋 Gaur zer duzu buruan?",
+        "long5": "Hey {{name}} 🙂 Beldurrak atera, galdetu edo besterik gabe hitz egin nahi duzu?",
+        "long6": "Kaixo {{name}}! Denbora dut — zer hitz egin nahi duzu?",
+        "short1": "Hey {{name}}, hemen nago oraindik. Zer moduz?",
+        "short2": "Ongi etorri berriro, {{name}} 👋 Beste zerbait gehitu nahi al duzu?",
+        "short3": " Itzuli zara berriro, {{name}}? 😊 Kontatu zer duzun buruan.",
+        "short4": "Hey {{name}} ✨ Utzi genuen tokian berriro hasteko prest al zaude?",
         "short5": "Bai {{name}}? Entzuten ari naiz 👂",
-        "short6": "Oh kaixo {{name}}!! Zerbait berria duzu buruan?"
+        "short6": "Oi, hey {{name}}! Buruan zerbait berria duzu?"
       },
       "header": {
-        "openNav": "Ireki nabigazio-menua",
+        "openNav": "Irekitu nabigazio-menua",
         "closeNav": "Itxi nabigazio-menua",
-        "homeAria": "Chatforia Hasiera"
+        "homeAria": "Chatforia Home"
       },
       "login": {
         "welcomeBack": "Ongi etorri berriro",
-        "title": "Jarraitu Chatforiara",
-        "subtitleReturning": "Hasi saioa zure Chatforia kontuan",
-        "subtitle": "Hasi saioa zure Chatforia kontuan",
-        "google": "Jarraitu Google-rekin",
-        "apple": "Jarraitu Apple-rekin",
-        "googleUnavailable": "Google bidezko saio-hasiera ez dago erabilgarri",
-        "appleUnavailable": "Apple bidezko saio-hasiera ez dago erabilgarri",
-        "or": "edo",
-        "email": "Posta elektronikoa",
-        "emailPh": "zu@adibidea.com",
-        "usernameLabel": "Erabiltzaile-izena",
-        "usernamePh": "Zure erabiltzaile-izena",
+        "title": "Jarrai Chatforia-rekin",
+        "subtitleReturning": "Sartu zure Chatforia kontuan",
+        "google": "Jarrai Google-rekin",
+        "apple": "Apple-rekin jarraitu",
+        "googleShort": "Google",
+        "appleShort": "Apple",
+        "googleUnavailable": "Google saioa ez dago erabilgarri",
+        "appleUnavailable": "Apple saioa ez dago erabilgarri",
+        "ssoUnavailable": "Sarbide bakarra une honetan ez dago erabilgarri. Erabili izen-espazioa eta pasahitza horren ordez.",
+        "edo": "edo",
+        "accountLabel": "Kontua",
+        "identifierPh": "Posta elektronikoa edo erabiltzaile-izena",
         "passwordLabel": "Pasahitza",
         "passwordPh": "Zure pasahitza",
-        "keepSignedIn": "Mantendu saioa hasita",
-        "forgot": {
-          "title": "Pasahitza ahaztu duzu?",
-          "helper": "Sartu Chatforia kontua sortzeko erabili zenuen posta elektronikoa, eta pasahitza berrezartzeko esteka seguru bat bidaliko dizugu.",
-          "emailInvalid": "Sartu baliozko posta elektroniko bat.",
-          "genericError": "Ezin izan da eskaera prozesatu. Saiatu berriro une barru.",
-          "sending": "Berrezartzeko esteka bidaltzen…",
-          "sendCta": "Bidali berrezartzeko esteka",
-          "sentLabel": "Bidalita!",
-          "sentHelper": "Posta elektroniko horrekin kontu bat badago, pasahitza berrezartzeko esteka bidali dugu. Baliteke minutu batzuk behar izatea iristeko. Begiratu spam edo promozioen karpeta ere.",
-          "previewDev": "Posta elektronikoaren aurrebista (garapena)",
-          "backToLogin": "Itzuli saio-hasierara"
+        "keepSignedIn": "Nire saioa gorde",
+        "forgot": "Pasahitza ahaztu al duzu?",
+        "resendVerification": "Berreskuratu egiaztapen-posta elektronikoa",
+        "submit": "Sartu",
+        "loggingIn": "Sartzen ari…",
+        "verification": {
+          "bidalia": "Berezpen-mezu elektronikoa bidali da. Begiratu zure sarrera-postara.",
+          "huts egin": "Berezpen-mezu elektronikoa berriro bidaltzeko saiakera huts egin du."
         },
-        "submit": "Hasi saioa",
-        "loggingIn": "Saioa hasten…",
-        "newHere": "Berria zara hemen? <link>Sortu kontua</link>",
-        "ssoUnavailable": "Saio-hasiera bateratua ez dago erabilgarri une honetan. Erabili erabiltzaile-izena eta pasahitza.",
-        "error": {
-          "missing": "Sartu zure saio-hasierako datuak.",
-          "invalid": "Erabiltzaile-izena edo pasahitza ez da zuzena",
-          "denied": "Sarbidea ukatu da.",
-          "unprocessable": "Eskaera baliogabea da. Egiaztatu erabiltzaile-izena edo posta elektronikoa eta pasahitza.",
-          "deviceLimit": "Doako planaren gailu-mugara iritsi zara. Itxi saioa beste gailu batean edo bertsio-berritu Premium-era gailu gehiago estekatzeko.",
-          "premiumRequired": "Ekintza honek Premium plana behar du."
+        "errorea": {
+          "faltzen": "Mesedez, sartu zure sarbide-datuak.",
+          "baliozkoa": "Erabiltzaile-izena edo pasahitza baliogabea",
+          "ukatu": "Sarbidea ukatu da.",
+          "unprocessable": "Eskaera baliogabea. Begiratu zure erabiltzaile-izena/posta elektronikoa eta pasahitza.",
+          "deviceLimit": "Doako planerako gailu-muga gainditu da. Atera beste gailu batean edo berritu Premium-era gailu gehiago lotzeko.",
+          "premiumRequired": "Ekintza honek Premium plana eskatzen du."
+        },
+        "forgotPassword": {
+          "title": "Pasahitza ahaztu dut",
+          "helper": "Sartu zure Chatforia kontua sortzeko erabili zenuen helbide elektronikoa eta pasahitza berrezartzeko esteka segurua bidaliko dizugu.",
+          "emailLabel": "Helbide elektronikoa",
+          "emailPlaceholder": "you@example.com",
+          "emailInvalid": "Mesedez, sartu baliozko helbide elektroniko bat.",
+          "genericError": "Eskaria prozesatu ezin daiteke. Mesedez, saiatu berriro laster.",
+          "sending": "Berrespen esteka bidaltzen...",
+          "sendCta": "Bidali berrespen esteka",
+          "sentLabel": "Bidalia!",
+          "sentHelper": "Helbide elektroniko horrekin kontu bat badago, pasahitzaren berrezarpen esteka bidali dugu. Iristeko minutu batzuk behar izan ditzake. Ziurtatu zure spam edo promozio karpeta egiaztatzen duzula.",
+          "previewDev": "Posta elektronikoaren aurrebista (Dev)",
+          "backToLogin": "Sarrerara itzuli"
+        },
+        "resetPassword": {
+          "title": "Pasahitza berrezarri",
+          "missingToken": "Pasahitz berrespen token baliogabea edo falta den.",
+          "missingTokenHelper": "Token baliogabea edo falta den. Mesedez, eskatu pasahitz berrespen esteka berri bat.",
+          "passwordMismatch": "Pasahitzak ez datoz bat",
+          "success": "Zure pasahitza arrakastaz berrezarri da",
+          "genericError": "Erroa: Pasahitza ezin da berrezarri.",
+          "newPasswordLabel": "Pasahitz berria",
+          "newPasswordPlaceholder": "Sartu zure pasahitz berria",
+          "confirmPasswordLabel": "Berretsi pasahitz berria",
+          "confirmPasswordPlaceholder": "Sartu berriro zure pasahitz berria",
+          "berrezartzen": "Berrezartzen...",
+          "bidali": "Berrezarri pasahitza",
+          "pasahitz-indartsu-aholkua": "Aukeratu beste inon erabiltzen ez duzun pasahitz sendo bat."
         }
       }
     },
     "oauth": {
-      "completing": "Saio-hasiera osatzen…"
+      "osatzen": " Sarbidea osatzen..."
     },
-    "dialer": {
-      "title": "Deiak",
-      "subtitle": "Teklatua eta azkenak. (PSTN erabiltzen ez baduzu, hasi deiak elkarrizketa-goiburutik.)",
-      "enterNumberPh": "Sartu zenbakia",
-      "call": "Deitu",
-      "backspace": "Atzera ezabatu",
-      "recents": "Azkenak",
-      "recentsEmpty": "Ez dago azken deirik oraindik.",
-      "enterNumber": "Sartu zenbakia",
-      "enterNumberAria": "Sartu zenbakia",
-      "key": "Tekla {{d}}",
-      "noRecents": "Ez dago azken deirik oraindik."
-    },
-    "video": {
-      "title": "Bideoa",
-      "chooseType": "Aukeratu bideo-mota bat.",
-      "directTitle": "Bideo zuzena",
-      "directDesc": "1:1 kamera-deia beste erabiltzaile batekin.",
-      "directStart": "Hasi",
-      "roomsTitle": "Gelak",
-      "roomsDesc": "Alderdi-anitzeko bideoa izen partekatuarekin.",
-      "roomsIntro": "Batu edo sortu alderdi-anitzeko gela bat.",
-      "roomNameLabel": "Gela-izena",
-      "roomNamePh": "adib. talde-bilera",
-      "join": "Batu",
-      "deeplinkTip": "Aholkua: esteka sakona egin dezakezu zuzenean <code>/video?room=gelaren-izena</code>.",
-      "hub": {
-        "title": "Bideoa",
-        "subtitle": "Aukeratu bideo-mota bat."
+    "laguntza": {
+      "laguntzaFab": "Laguntza",
+      "laguntzaAriaIrekia": "Ireki laguntza",
+      "badge": "Laguntza",
+      "heading": "Nola lagun dezakegu?",
+      "tabs": {
+        "help": "Laguntza Zentroa",
+        "contact": "Jar zaitez gurekin harremanetan"
       },
-      "direct": {
-        "title": "Bideo zuzena",
-        "subtitle": "Hasi 1:1 bideo-deia telefono-zenbaki edo Chatforia erabiltzaile-izenarekin.",
-        "desc": "1:1 kamera-deia beste erabiltzaile batekin.",
-        "start": "Hasi",
-        "callBtn": "Deitu",
-        "callByPhone": {
-          "title": "Deitu telefonoz"
+      "searchPlaceholder": "Laguntza-artikuluak bilatu…",
+      "searchAria": "Laguntza bilatu",
+      "searchBtn": "Bilatu",
+      "quickTopicsLabel": "Gaien azkar-sarrera",
+      "quickTopics": {
+        "login": "Sartu ezin naiz",
+        "billing": "Ordainketak / billing",
+        "abuse": "Abusua jakinarazi"
+      },
+      "trySearching": "Saiatu \"translate\", \"backups\" edo \"privacy\" bilatzen.",
+      "article": "Artikulua",
+      "openArticle": "Artikulua ireki",
+      "contactIntro": "Berehala konpontzen saiatuko gara. Bestela, gure taldeak jarraipena egingo du.",
+      "topicAria": "Gaia hautatu",
+      "messagePlaceholder": "Zure mezua idatzi…",
+      "sendBtn": "Bidali",
+      "sent": "Mezua bidali da. Posta elektroniko bidez erantzungo dizugu.",
+      "sendError": "Ezinezkoa izan da bidaltzea. Idatzi mezu bat support@chatforia.com helbidera.",
+      "actionCompleted": "Ekintza burutu da.",
+      "actionFailed": "Ezinezkoa izan da ekintza hori burutzea. Saiatu berriro.",
+      "ticketCreated": "Ezin izan dugu hau automatikoki konpondu. Gure taldeak jarraipena egingo du.",
+      "escalationMessage": "Ezin izan dugu hau automatikoki konpondu. Gure taldeak jarraipena egingo du.",
+      "genericError": "Zerbait gaizki atera da. Mesedez, saiatu berriro.",
+      "analyzing": "Zure arazoa aztertzen...",
+      "takeAction": "Gomendatutako ekintza hartu",
+      "resolvedInstantly": "Arazoa berehala konpondu da — txartelik behar gabe.",
+      "escalating": "Laguntza-zerbitzuari pasatzen..."
+    },
+    "help": {
+      "title": "Laguntza",
+      "howCanWeHelp": "Nola lagun zaitzakegu?",
+      "helpCenter": "Laguntza Zentroa",
+      "contactUs": "Jar zaitez gurekin harremanetan",
+      "quickTopics": "Gaien azkarra",
+      "searchExamples": "Saiatu \"translate\", \"backups\" edo \"privacy\" bilatzen.",
+      "saioaEzin": "Saioa ezin da hasi",
+      "ordainketakFakturazioa": "Ordainketak/ fakturazioa",
+      "abusuarenErreportaketa": "Abusua jakinarazi",
+      "laguntzaArtikuluakBilatu": "Bilatu laguntza-artikuluak",
+      "bilatu": "Bilatu"
+    },
+    "laguntzaZentroa": {
+      "izena": "Laguntza Zentroa",
+      "maizErreparatuak": {
+        "kontua": {
+          "g": "Nola sortu edo berreskuratu dezaket nire kontua?",
+          "a": "Jaisi aplikazioa edo erabili webgunea, sakatu \"Sortu kontua\", egiaztatu zure posta elektronikoa/telefonoa. Berreskuratzeko, erabili \"Pasahitza ahaztu dut\"."
         },
-        "phone": {
-          "placeholder": "Sartu telefonoa (adib., +1-555-123-4567)",
-          "aria": "Deitzeko telefonoa"
+        "privacy": {
+          "q": "Mezuak amaieratik amaierara enkriptatuta daude?",
+          "a": "Bai. Mezuak eta deiak lehenetsita amaieratik amaierara enkriptatuta daude. Bakarrik zuk eta hartzaileak irakur ditzakezue."
         },
-        "tipInvite": "Aholkua: Itsatsi zenbaki bat eta deitu kontaktua gorde gabe. Erabiltzaile ez direnak estekaren bidez gonbidatuko ditugu.",
-        "findUser": {
-          "title": "Bilatu erabiltzailea"
+        "itzulpen": {
+          "q": "Nola funtzionatzen du itzulpen berehalakoak?",
+          "a": "Gaitu \"Auto-itzulpen\" Ezarpenak → Itxura eta Hizkuntza atalean. Gailuaren barruan itzultzen dugu, onartzen denean; bestela, API seguruak erabiliz, metadatu minimoekin."
         },
-        "search": {
-          "placeholder": "Bilatu izen edo erabiltzaile-izenaren arabera",
-          "aria": "Bilatu izen edo erabiltzaile-izenaren arabera",
-          "btn": "Bilatu"
+        "harremanetarako": {
+          "q": "Jarraitu laguntza",
+          "a": "Idatz iezaguzu support@chatforia.com helbidera. Erantsi pantaila-argazkiak eta zure aplikazioaren bertsioa."
+        }
+      }
+    },
+    "gettingStarted": {
+      "title": "Hasierako gida",
+      "subtitle": "Berri zara Chatforian? Hasierako gida honek oinarrizkoak erakusten dizkizu, minutu gutxitan produktiboa izan zaitezen.",
+      "alert": {
+        "text": "Gida hau handituko da ezaugarri berriak abiarazten ditugun heinean. Zerbait falta bada, jakinarazi iezaguzu bidez",
+        "contactLink": "Jarri gurekin harremanetan"
+      },
+      "section1": {
+        "title": "1) Sortu zure kontua",
+        "signup": "Izena eman",
+        "or": "edo",
+        "login": "saioa hasi",
+        "loginText": "zure kontu egungoarekin.",
+        "prefsStart": "Aplikazioan, ireki Ezarpenak zure lehentasunak ezartzeko",
+        "prefsLink": "lehentasunak",
+        "prefsRest": "(hizkuntza, irakurketa-jasotzeak, gaien)."
+      },
+      "section2": {
+        "title": "2) Mezularitza hasi",
+        "item1": "Sortu DM edo Talde bat eta bidali zure lehen mezua.",
+        "item2": "Erabili itzulpen berehalakoa 100 hizkuntza baino gehiagotan txateatzeko.",
+        "item3": " Proba ezazu mezu desagertzaileak eta irakurketa-jasotzeak Profil → Pribatutasunean."
+      },
+      "section3": {
+        "title": "3) Joan aurrera",
+        "item1": "Aplikazioan edozein unetan harpidetza ordainduari ekin diezaiokezu.",
+        "item2": "Sarbidea duzunean, gailu gehigarriak lotu eta aplikazioko Ezarpenetatik babeskopia enkriptatuak ezarri ditzakezu.",
+        "item2Part1": "Behin saioa hasi duzunean, gailu gehigarriak lotu eta aplikazioko Ezarpenetatik zifratutako babeskopiak ezarri ditzakezu."
+      },
+      "cta": {
+        "seePlans": "Ikusi planak eta prezioak",
+        "openSettings": "Ireki ezarpenak",
+        "createAccount": " Sortu kontu bat"
+      }
+    },
+    "howItWorks": {
+      "title": "Nola funtzionatzen duen Chatforia",
+      "intro": "Chatforia komunikazioa sinplea, azkarra eta irisgarria izan dadin diseinatuta dago. Hasierako pauso gutxi batzuk besterik ez dira behar.",
+      "step1Title": "1. Sortu kontu bat",
+      "step1Desc": "Izena eman zure posta elektronikoarekin edo erabiltzaile-izenarekin zure Chatforia kontua sortzeko.",
+      "step2Title": "2. Has ezazu elkarrizketa bat",
+      "step2Desc": "Besteekin konektatu harremanetarako kontaktuak hautatuz edo elkarrizketa berriak hasiz.",
+      "step3Title": "3. Denbora-errealeko mezularitza",
+      "step3Desc": "Mezuak azkar bidaltzen dira komunikazio-esperientzia leuna eskaintzeko.",
+      "step4Title": "4. Komunikazio Globala",
+      "step4Desc": "Barneko itzulpenak erabiltzaileei hizkuntza desberdinetan komunikatzen laguntzen die.",
+      "step5Title": "5. Kontrolpean egon",
+      "step5Desc": "Kudeatu zure lehentasunak, kontaktuak eta komunikazio-ezarpenak."
+    },
+    "segurtasuna": {
+      "izena": "Segurtasun eta Komunitate Gida",
+      "sarrera": "Chatforia konprometituta dago erabiltzaile guztientzat ingurune seguru eta errespetuzko bat mantentzeko. Gida hauek denontzat esperientzia positibo bat bermatzen laguntzen dute.",
+      "respectTitle": "Komunikazio Errespetuzkoa",
+      "respectDesc": "Erabiltzaileek errespetuz komunikatu behar dute. Jazarpen, tratu txar edo portaera kaltegarriak ez dira onartzen.",
+      "prohibitedTitle": "Debekatutako Edukiak",
+      "prohibited": {
+        "illegal": "Legez kanpoko jarduerak",
+        "jazarpen": "Jazarpen edo bullying-a",
+        "gorroto": "Gorroto-hizketa edo diskriminazioa",
+        "explicit": "Materiale esplizitu edo kaltegarriak",
+        "spam": "Spam edo praktika engainagarriak"
+      },
+      "tresnakIzenburua": "Erabiltzaileen Segurtasun Tresnak",
+      "tresnak": {
+        "jakinarazi": "Jakinarazi portaera edo eduki desegokiak",
+        "blokeatu": "Blokeatu erabiltzaileak elkarreragin gehiago saihesteko",
+        "kontrola": "Pribatutasun eta komunikazio-ezarpenak kudeatu"
+      },
+      "betearazpenarenIzena": "Betearazpena",
+      "betearazpenarenDeskribapena": "Gida hauek urratzen dituzten kontuen aurka ekintzak har ditzakegu, hala nola ohartarazpenak, murrizketak edo plataformatik behin betiko kentzea."
+    },
+    "blog": {
+      "whyMessaging": {
+        "title": "Zergatik mezu-plataformek inoiz baino garrantzi handiagoa duten",
+        "intro": "Mezu-plataformak gaur egungo munduan komunikaziorako tresna garrantzitsuenetako bat bihurtu dira. Elkarrizketa pertsonaletatik negozio-harremanetaraino, mezu-aplikazioek jendeari berehala eta modu eraginkorrean konektatuta egoteko aukera ematen diote.",
+        "eguneroTitle": "Eguneroko Komunikazioa",
+        "eguneroDesc": "Jendeak mezu-aplikazioetan oinarritzen da eguneroko komunikaziorako lagun, familia eta lankideekin. Eguneratze azkar bat edo elkarrizketa luze bat izan, mezuak modu eroso eta malgu batean harremanetan egoteko aukera ematen du.",
+        "speedTitle": "Abiadura eta Erosotasuna",
+        "speedDesc": "Mezu-plataformen abantaila nagusietako bat abiadura da. Mezuak berehala bidaltzen dira, erabiltzaileek denbora errealean komunikatzeko aukera emanez. Erosotasun maila honek mezularitza komunikaziorako modu nagusi bihurtu du jende askorentzat.",
+        "globalTitle": "Eragin Globala",
+        "globalDesc": "Mezu-plataformek mundu osoko pertsonak lotzen dituzte. Interneterako sarbidearekin, erabiltzaileek komunikatu dezakete kokapenaz harago, harremanak eraikitzea eta nazioartean lankidetzan aritzea errazago bihurtuz.",
+        "privacyTitle": "Pribatutasuna eta Kontrola",
+        " privacyDesc": "Mezu-plataforma modernoek erabiltzaileei beren datu eta elkarrizketen gaineko kontrola emateari ematen diote garrantzia. Zifratzea, pribatutasun-ezarpenak eta mezu-kontrolerako funtzionalitateek erabiltzaileei konfiantzaz komunikatzeko aukera ematen diete.",
+        "futureTitle": "Mezu-trukeen Etorkizuna",
+        "futureDesc": "Mezu-trukeek eboluzionatzen jarraitzen dute adimen artifizialeko erantzunak, itzulpena eta multimedia partekatzea bezalako funtzionalitate berriekin. Teknologia aurrera doan heinean, mezu-truke plataformak indartsuago eta anitzago bihurtuko dira.",
+        "outro": "Chatforia printzipio hauek kontuan hartuta eraikia dago, azkarra, segurua, eta erabiltzaileentzako mezu-truke esperientzia erraza eta atsegina mundu konektatu baterako."
+      },
+      "global": {
+        "title": "The Future of Global Communication",
+        "intro": "Communication has evolved rapidly over the past few decades. What once required phone calls or in -pertsonako bilerak orain mezu-plataformetan azkar egin daitezke. Teknologia aurrera doan heinean, komunikazio globala azkarragoa, irisgarriagoa eta inklusiboagoa bihurtzen ari da.",
+        "barriersTitle": "Oztopoak Apurtuz",
+        "barriersDesc": "Komunikazioan izandako aldaketa handienetako bat oztopo geografikoen murrizketa da. Jendeak orain mundu osokoekin ia denbora errealean konekta dezake. Elkarrizketa pertsonaletarako, negozioetarako edo lankidetzarako, mezu-plataformek distantzia askoz gutxiago mugatzen dute .",
+        "translationTitle": "Itzulpen Teknologiaren Papera",
+        "translationDesc": "Hizkuntza tradizionalki izan da mundu mailako komunikaziorako oztopo handienetako bat. Gaur egun, barnean dauden itzulpen-tresnek hutsune hori betetzeko laguntzen dute. Chatforia bezalako plataformek erabiltzaileei errazago komunikatzeko aukera ematen diete, nahiz eta hizkuntza desberdinak hitz egin, konexiorako eta ulermenarako aukera berriak sortuz.",
+        "realtimeTitle": "Denbora Errealeko Konektibitatea",
+        "realtimeDesc": "Abiadura faktore gako bat da komunikazio modernoaren egitura ematen duena. Erabiltzaileek espero dute mezuak azkar jasotzea, eta azpiegitura modernoek itxaropen hori betetzen dute. Denbora errealeko mezularitzak elkarrizketa naturalago eta fluidoagoak ahalbidetzen ditu.",
+        "privacyTitle": "Pribatutasuna eta Segurtasuna",
+        "privacyDesc ": "Komunikazioa gero eta digitalagoa bihurtzen den heinean, pribatutasuna eta segurtasuna gero eta garrantzitsuagoak dira. Erabiltzaileek konfiantza izan nahi dute beren elkarrizketak babestuta daudela. Zifratzea eta erabiltzaileek kontrolatutako ezarpenak bezalako ezaugarriak komunikazio esperientzia seguruagoa izaten laguntzen dute.",
+        " futureTitle": "Zer Datorkigu Hurrengoan",
+        "futureDesc": "Komunikazio globalaren etorkizunak, ziurrenik, tresna aurreratu gehiago barne hartuko ditu, hala nola adimen artifizialak lagundutako mezuak, hobetutako itzulpenak eta erabiltzaileentzako esperientzia aberatsagoak. Teknologia eboluzionatzen doan heinean, komunikazioa intuitiboagoa eta eskuragarriagoa bihurtzen jarraituko du.",
+        "outro": "Chatforia bezalako plataformek aldaketa honen parte dira, hizkuntza eta muga guztiak gaindituta jendea errazago konektatzen laguntzen baitute."
+      },
+      "index": {
+        "title": "Chatforia Blog",
+        "intro": "Aztertu komunikazioari, lineako segurtasunari eta mezu-teknologiak nola lotzen dituen mundu osoko pertsonak.",
+        "post1": "Nola txateatu modu seguruan linean",
+        "post2": "Munduko komunikazioaren etorkizuna",
+        "post3": "Zergatik diren garrantzitsuak mezu-plataformak"
+      },
+      "chatSafely": {
+        "title": "Nola txateatu modu seguruan linean",
+        "intro": "Komunikazio digitalak inoiz baino errazago bihurtu du mundu osoko pertsonekin konektatzea. Lagunekin mezuak bidaltzen ari zaren, jende berria ezagutzen ari zaren edo lan-arloko lankidetzan aritzen zaren, mezu-plataformek eguneroko bizitzan papera dute. Hala ere, linean seguru egotea konektatuta egotea bezain garrantzitsua da.",
+        "personalInfo": {
+          "title": " Babestu zure informazio pertsonala",
+          "body": "Chatforia bezalako mezu-trukerako plataforma modernoek tresnak eskaintzen dituzte erabiltzaileek seguru egon daitezen. Blokeatzea, salaketa egitea eta pribatutasun-kontrolak bezalako funtzioek erabiltzaileei beren esperientzia kontrolatzeko aukera ematen diete. Norbaitek modu desegokian jokatzen badu edo deseroso sentiarazten bazaitu, tresna hauek berehala erabili behar dituzu."
+        },
+        "iruzurrak": {
+          "izena": "Iruzurrak kontuan izan",
+          "gorputza": "Iruzurgileek maiz erabiltzen dituzte mezu-plataformak erabiltzaileak engainatzeko, informazio pertsonala partekatzera edo dirua bidaltzera bultzatzeko. Kontuz ibili egia izateko gehiegi diruditen mezuetan, hala nola espero gabeko eskaintzak, premiazko eskaerak edo ezezagun diren estekak. Beti egiaztatu komunikatzen ari zaren pertsonaren identitatea edozein ekintza egin aurretik."
+        },
+        "erantzukizunez": {
+          "title": "Komunikatu Erantzukizunez",
+          "body": "Errespetuzko komunikazioak denontzako ingurune seguruagoa sortzen laguntzen du. Saihestu kaltegarriak edo iraingarriak diren elkarrizketetan parte hartzea, eta kontuan izan zure hitzek besteengan nola eragin dezaketen. Elkarrekintza positiboek erabiltzaile guztientzako esperientzia hobea ekartzen dute."
+        },
+        "zergatikSegurtasuna": {
+          "title": "Zergatik den garrantzitsua lineako segurtasuna",
+          "body": "Komunikazio digitala hazten jarraitzen duen heinean, mantentzea segurtasuna eta konfiantza gero eta garrantzitsuagoak bihurtzen dira. Segurtasun oinarrizko praktikak jarraituz eta eskuragarri dauden tresnak erabiliz, erabiltzaileek mezuak bidaltzeak dakartzan onurez gozatu dezakete arriskuak minimizatuz."
+        },
+        "ondorioa": "Linean seguru egoteak ez du ezagutza tekniko aurreraturik eskatzen—kontzientzia, kontuz ibiltzea eta epai ona besterik ez. Ohitura egokiekin, konfiantzaz eta segurtasunez komunikatu zaitezke."
+      }
+    },
+    "about": {
+      "title": "Chatforia-ri buruz",
+      "description": "Chatforia amaieratik amaierara enkriptazioarekin, itzulpen berehalakoarekin eta ahots/bideo deiak egiteko gaitasunarekin hornitutako mezularitza-aplikazio seguru eta eleaniztuna da. Gure misioa sinplea da: jendea modu seguruan, pribatuki eta hizkuntza-muga gaindituz konektatzen laguntzea.",
+      "valuesTitle": "Balioesten duguna",
+      "values": {
+        "privacy": "<b>Pribatutasuna lehenik:</b> lehenetsita amaieratik amaierara enkriptatzea.",
+        "access": "<b>Sarbidea guztiontzat:</b> 100 hizkuntza baino gehiagotan automatikoki itzultzea.",
+        "control": "<b>Kontrola:</b> Desagertzen diren mezuak eta irakurketa-jasotzeak aukerakoak dira.",
+        "privacy_ aria": "Lehenik pribatutasuna: lehenetsita E2E enkriptatzea.",
+        "access_aria": "Denontzako sarbidea: 100 hizkuntza baino gehiago automatikoki itzultzea.",
+        "control_aria": "Kontrola: Desagertzen diren mezuak eta irakurketa-jasotzeak aukerakoak dira."
+      },
+      "howTitle": "Nola funtzionatzen duen Chatforia-k",
+      " howDescription": "Mezuak zure gailuan enkriptatzen dira gailutik irten aurretik. Itzulpenak, babeskopiak eta gailu-sinkronizazioa gure zerbitzariek ikus dezaketena minimizatzeko diseinatu dira."
+    },
+    "press": {
+      "title": "Prentsa",
+      "contactLine": "Komunikabideentzako kontsultetarako, jar zaitez gurekin harremanetan",
+      " boilerplateTitle": "Boilerplate",
+      "boilerplateBody": "Chatforia pribatutasuna lehenesten duen mezularitza-aplikazio bat da, hizkuntza anitzeko txatak errazten dituena. Mezuak lehenetsita amaieratik amaierara enkriptatuta daude, eta bertan integratutako itzulpenak 100 hizkuntza baino gehiago onartzen ditu denbora errealean. Erabiltzaileek mezu desagertzaileak aktiba ditzakete, irakurketa-jasotzeak aukerakoak izan daitezke, eta gailu guztietan sinkronizatu. iOS, Android eta web-ean eskuragarri.",
+      "assetsTitle": " Markako baliabideak",
+      "assetsSubtitle": "Logotipoak, pantaila-argazkiak eta produktuen irudiak.",
+      "downloadCta": "Deskargatu media kit-a",
+      "downloadTitle": "Lortu aplikazioa",
+      "scanTip": "Mahaigainean zaude? Aplikazioa lortzeko eskaneatu zure telefonoarekin.",
+      "qrAria": "Irekitu Chatforia webgunea",
+      "appStore": "Deskargatu App Store-n",
+      "googlePlay": "Lortu Google Play-n"
+    },
+    "karrerak": {
+      "title": "Karrerak",
+      "intro": "Chatforia eraikitzen ari den sortzaile-talde txiki bat gara — web, iOS eta Androiden abiaraziko den mezu pribatu global bat. Pribatutasuna, enkriptatzea eta erabiltzailearen esperientzia atseginak garrantzitsuak bazaizkizu, zurekin harremanetan jartzea gustatuko litzaiguke.",
+      "openRoles": "<b>Sortzaile-rol irekienak:</b> Full-stack Ingeniarien Burua, Backend Ingeniaritza (Node.js), Frontend/ Web Ingeniaria (React), Mugikorretarako Ingeniaria (iOS), Mugikorretarako Ingeniaria (Android), DevOps/SRE, Segurtasun eta Zifratze Ingeniaria, Telekomunikazio Ingeniaria (Twilio + eSIM).",
+      "apply": "Nola aurkeztu: Erabili beheko botoia zure CV-a eta estekak posta elektroniko bidez bidaltzeko.",
+      "emailCta": "Bidali zure CV-a posta elektroniko bidez",
+      "whyNow": "Zergatik batu orain?",
+      "whyBullets": "• Munduko mezularitza global berri baten oinarria eraikitzen lagundu.\n• Web, iOS eta Android guztietan erabiliko diren hobekuntzak bidali.\n• Arkitektura eta produktuen norabidean zuzenean lan egin sortzailearekin.\n• Stack-eko eremu eragin handikoen jabe izan: mezuak, ahotsa, bideoa, enkriptazioa, telekomunikazioak, adimen artifiziala.\n• Hasieran batu — erabiltzaile-basea handitu baino lehen.",
+      "advertise": {
+        "title": "Iragarkia egin Chatforia-rekin",
+        "description": "Iristeko mezu trukean parte hartzen duten erabiltzaileengana dotore eta marka-seguru diren kokapenetan. Banner-inbentarioa eskaintzen dugu ikusgarritasun handiko guneetan, babespenetan eta etxeko promozioetan. Premium harpidetuek ez dituzte iragarkiak ikusten.",
+        "adsense": {
+          "withPubIdShort": "Google AdSense bidez ere zerbitzatzen dugu inbentarioa. Chatforia hel dezakezu argitaratzailearen ID-arekin {{pub Id}}, edo erabili beheko inprimakia babespen zuzenetarako.",
+          "noPubIdShort": "Google AdSense bidez ere zerbitzatzen dugu inbentarioaren zati bat. Babespen zuzenak eskuragarri daude—erabili beheko inprimakia."
+        },
+        "inventoryHeader": "Inbentarioa & Ezaugarriak",
+        "placement": {
+          " displayBadge": "Display",
+          "acceptedSizes": "Onartutako tamainak",
+          "adsenseSlot": "AdSense slot:"
+        },
+        "noPlacementsPublic": "Gure iragarki-inbentarioa amaitzen ari gara. Zure kanpainari buruz kontatu iezaguzu eta kokapen egokiak gomendatuko dizkizugu.",
+        "whyHeader": "Zergatik Chatforia?",
+        "why": {
+          "highSession": "Chat UI-n saio-maiztasun handia eta egonaldiaren iraupena",
+          "brandSafe": "Marka-seguru formatuak; maiztasun-muga errespetuzkoa",
+          "sponsoredMoments": "Babestutako uneak (adibidez, \"Chat bat hasi\" modalitatea) eskuragarri",
+          "deals": "Akordio zuzenak edo programatikoak AdSense/Google Ads bidez"
+        },
+        "contactHeader": "Harremanetan jarri",
+        "form": {
+          "submittedMsg": "Eskerrik asko! Zure kontsulta bidean dago. Laster jarraituko dizugu.",
+          "missingRequired": "Mesedez, bete izena, posta elektronikoa eta mezua.",
+          "successToast": "Eskerrik asko! Laster jarriko gara zurekin harremanetan.",
+          "mailtoInfo": "Ikerketa bidaltzeko zure posta-klientea irekitzen…",
+          "nameLabel": "Zure izena",
+          "namePlaceholder": "Jane Doe",
+          "emailLabel": "Posta elektronikoa",
+          "emailPlaceholder": "you@company.com",
+          "companyLabel": "Enpresa",
+          " companyPlaceholder": "Acme Inc.",
+          "budgetLabel": "Hilabeteko aurrekontua (aukerakoa)",
+          "budgetPlaceholder": "adibidez $1.000–$20.000+",
+          "messageLabel": "Kontatu iezaguzu zure kanpainari buruz",
+          "messagePlaceholder": "Helegiteak, datak, KPIak, kokapen-lehentasunak…",
+          "sendCta": "Bidali kontsulta"
+        },
+        "legal": {
+          "disclaimerStart": "Bidaltzean, gurekin ados zaudela onartzen duzu",
+          "terms": "Baldintzak",
+          "and": "eta",
+          "privacy": "Pribatutasun Politika"
         }
       },
-      "rooms": {
-        "title": "Gelak",
-        "subtitle": "Sortu gela bat edo batu dagoen batera izen bera idatziz.",
-        "desc": "Alderdi-anitzeko bideoa izen partekatuarekin.",
-        "roomLabel": "Gela-izena",
-        "roomPlaceholder": "adib. talde-bilera",
-        "roomAria": "Gela-izena",
-        "joinCreate": "Batu / Sortu",
-        "tip": "Aholkua: partekatu izen hau besteekin, edo esteka sakona egin <code>/video?room=gelaren-izena</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Hasi 1:1 bideo-dei zuzena.",
-      "findUserLabel": "Bilatu erabiltzailea",
-      "findUserPh": "Bilatu izen edo erabiltzaile-izenaren arabera",
-      "search": "Bilatu",
-      "call": "Deitu"
-    },
-    "phoneWarning": {
-      "title": "Zure zenbakia laster iraungiko da",
-      "body": "Zure {{number}} zenbakia {{date}}n askatuko da beraktibatzen ez bada.",
-      "button": "Mantendu nire zenbakia"
-    }
-  },
-  "support": {
-    "helpFab": "Laguntza",
-    "openSupportAria": "Ireki laguntza",
-    "badge": "Laguntza",
-    "heading": "Nola lagun dezakegu?",
-    "tabs": {
-      "help": "Laguntza-zentroa",
-      "contact": "Kontaktatu gurekin"
-    },
-    "searchPlaceholder": "Bilatu laguntza-artikuluak…",
-    "searchAria": "Bilatu laguntza",
-    "searchBtn": "Bilatu",
-    "quickTopicsLabel": "Gai azkarrak",
-    "quickTopics": {
-      "login": "Ezin dut saioa hasi",
-      "billing": "Ordainketak / fakturazioa",
-      "abuse": "Salatu abusua"
-    },
-    "trySearching": "Saiatu “itzulpena”, “babeskopiak” edo “pribatutasuna” bilatzen.",
-    "article": "Artikulua",
-    "openArticle": "Ireki artikulua",
-    "contactIntro": "Posta elektronikoz erantzungo dizugu. Gehitu xehetasunak arazoa erreproduzitzeko laguntzeko.",
-    "topicAria": "Hautatu gaia",
-    "messagePlaceholder": "Idatzi zure mezua…",
-    "sendBtn": "Bidali",
-    "sent": "Mezua bidalita. Posta elektronikoz erantzungo dizugu.",
-    "sendError": "Ezin izan da bidali. Bidali support@chatforia.com posta elektronikoz."
-  },
-  "helpCenter": {
-    "title": "Laguntza-zentroa",
-    "faq": {
-      "account": {
-        "q": "Nola sortu edo berreskuratu dezaket nire kontua?",
-        "a": "Deskargatu aplikazioa edo erabili web-a, sakatu “Sortu kontua”, egiaztatu zure posta/telefonoa. Berreskuratzeko, erabili “Pasahitza ahaztu duzu”."
-      },
-      "privacy": {
-        "q": "Mezuak muturretik muturrera zifratuta daude?",
-        "a": "Bai. Mezuak eta deiak muturretik muturrera zifratuta daude lehenetsita. Zuk eta hartzaileak soilik irakurri ditzakezue."
-      },
-      "translate": {
-        "q": "Nola funtzionatzen du berehalako itzulpenak?",
-        "a": "Gaitu “Auto-itzulpena” Ezarpenak → Itxura eta Hizkuntzan. Gure gailuan itzultzen dugu non onartzen den, bestela API seguruen bidez metadatu minimoarekin."
-      },
       "contact": {
-        "q": "Kontaktatu laguntza",
-        "a": "Jar zaitez gurekin support@chatforia.com helbidean. Gehitu pantaila-argazkiak eta zure aplikazioaren bertsioa."
+        "title": "Jar zaitez gurekin harremanetan",
+        "successMsg": "Eskerrik asko—gure taldeak posta elektroniko bidez erantzungo dizu.",
+        "errorSend": "Ezinezkoa izan da bidaltzea. Mesedez, bidali mezu bat support@chatforia.com helbidera.",
+        "form": {
+          "nameLabel": "Izena",
+          "emailLabel": "Posta elektronikoa",
+          "messageLabel": "Mezu",
+          "sendCta": "Bidali"
+        }
+      },
+      "privacyPolicy": {
+        "title": "Pribatutasun Politika",
+        "lastUpdated": "Azken eguneratzea:",
+        "intro": {
+          "body": "Pribatutasun Politika honek azaltzen du nola Chatforia (\"guk\", \"guri\") informazioa biltzen, erabiltzen eta partekatzen du gure aplikazioak eta zerbitzuak erabiltzean. Chatforia diseinatzen dugu eskuratu dezakegun datuak ahalik eta gehien murrizteko."
+        },
+        "infoWeCollect": {
+          "title": "Bildu dugun informazioa",
+          "kontua": "Kontu-informazioa (adibidez, posta elektronikoa/telefonoa) zure kontua sortzeko eta segurtatzeko.",
+          "zifratua": "Zifratutako edukia (mezuak/deiak) amaieratik amaierara zifratuta dago; ezin dugu irakurri.",
+          "diagnostikoak": "Diagnostiko/erabilera-datuak, hala nola akats-erregistroak, gailu-mota, edo errendimendua hobetzeko analitika orokorrak."
+        },
+        "sms": {
+          "title": "Mugikorreko telefono-zenbakiak eta SMS",
+          "body": "Mugikorreko telefono-zenbaki bat ematea hautatzen baduzu, kontuaren egiaztapena, saio-hasierako alerta eta erabiltzaileen arteko mezuak bidaltzeko SMS bidezko funtzionalitateak ahalbidetzeko erabiltzen dugu, onartzen den lekuetan. Zure kontuari eta Chatforia-n egindako jarduerari lotutako SMS transakzionalak bidal ditzakegu. SMS mezuak jasotzeari uko egin diezaiokezu edozein denbora, onartutako baja-gako-hitz batekin (adibidez \"STOP\") erantzun edo aplikazioko jakinarazpen-aukerak aldatu ahal izango dituzu. Ez dugu zure telefono-zenbakia saltzen edo marketin-jardueretarako erabiltzen.",
+          "newText": "Testu berria",
+          "enterRecipient": "Sartu izen edo zenbaki bat",
+          "typeMessage": "Sortu mezu bat…",
+          "addRecipient": "Hasi baino lehen, gehitu goian jasotzaile bat…"
+        },
+        "howWeUse": {
+          "title": "Nola erabiltzen dugun informazioa ",
+          "eskaintzea": "Zerbitzua eskaintzea eta bermatzea (autentifikazioa, spam/abusuaren detekzioa).",
+          "hobekuntza": "Ezaugarriak hobetzea (itzulpenaren kalitatea, fidagarritasuna).",
+          "legal": "Betebehar legalak betetzea."
+        },
+        "partekaketa": {
+          "title": "Partekatzea",
+          "body": "Ez ditugu datu pertsonalak saltzen. Prozesadoreekin (adibidez, push jakinarazpenak, analitika) datu mugatuak parteka ditzakegu kontratu zorrotzen pean."
+        },
+        "eskubideak": {
+          "title": "Zure eskubideak",
+          "body": "Zure eskualdearen arabera (adibidez, GDPR/UK GDPR/CPRA), zure eskualdearen arabera, sarbidea, zuzenketa, ezabatzea edo tratamendu jakin batzuetatik baztertzea eskatu dezakezu. Harremanetarako: privacy@chatforia.com."
+        },
+        "gordetzea ": {
+          "title": "Datuak gordetzea eta segurtasuna",
+          "body": "Zerbitzua martxan jartzeko beharrezkoa dena bakarrik gordetzen dugu eta sektoreko estandarreko segurtasuna aplikatzen dugu. E2E edukia ezin da gure eskutik deszifratu."
+        },
+        "haurrak": {
+          "title": "Haurrak",
+          "body": "Chatforia ez dago zuzenduta 13 urtetik beherako haurrentzat (edo zure tokiko legeak hala eskatzen duen kasuetan)."
+        },
+        "aldaketak": {
+          "title": "Aldaketak",
+          "body": "Hemen argitaratuko ditugu eguneratzeak eta \"Azken eguneratzea\" data berrituko dugu."
+        },
+        "contact": {
+          "title": "Harremanetarako",
+          "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "terms": {
+        "title": "Zerbitzuaren Baldintzak",
+        "lastUpdated": "Azken eguneratzea:",
+        "intro": {
+          " body": "Chatforia erabiltzean, termino hauekin ados zaude. Ez baduzu ados, ez erabili zerbitzua."
+        },
+        "kontuak": {
+          "izenburua": "Kontuak",
+          "itemAccurateInfo": " Emaguzu informazio zehatza eta gorde zure sarbide-datuak seguru.",
+          "itemArdurapena": "Zure kontuaren jardueraren ardura zurea da."
+        },
+        "erabileraOnargarria": {
+          "izenburua": "Erabilera onargarria",
+          "itemEzAbusu": "Ez eduki ilegal, abusuzko edo eskubideak urratzen dituen edukirik; ez spamik edo automatizatutako abusurik.",
+          "itemEtetea": "Urzatzeak gertatuz gero, zerbitzua etetzea edo bertan behera uztea dezakegu."
+        },
+        "sms": {
+          "title": "SMS komunikazioak",
+          "body": "Mugikorreko telefono-zenbaki bat ematen baduzu, onartzen duzu Chatforia-k zure kontuari eta zerbitzuaren erabilerari buruzko SMS mezuak bidal diezazkizula, hala nola saio-hasierako alerta, segurtasun jakinarazpen eta zuk abiatutako edo parte hartzen duzun elkarrizketekin lotutako mezuak. Ez dugu SMS-a promozio edo marketin mezurako erabiltzen zure baimen espliziturik gabe. Mezuen eta datuen tarifak aplikagarriak izan daitezke. Horretatik irten zaitezke SMS mezuetatik nahi duzunean harpidetzeari uko egin dezakezu onartutako hitz gako bat erabiliz (adibidez, \"STOP\") edo aplikazioko jakinarazpen-ezarpenak eguneratuz."
+        },
+        "yourContent": {
+          "title": "Zure edukia",
+          "body": "Zure edukiaren gaineko eskubideak mantentzen dituzu. Zerbitzua martxan jartzeko beharrezko baimenak ematen dizkiguzu (adibidez, bideratzea, biltegiratzea, itzulpena)."
+        },
+        "disclaimer": {
+          "title": "Ukatzeak eta erantzukizuna",
+          "body": "Zerbitzua \"dagoen moduan\" ematen da, inolako bermerik gabe. Legeak baimentzen duen neurrian, Chatforia ez da erantzule kalte zeharkako edo ondoriozkoengatik."
+        },
+        "aldaketak": {
+          "title": "Aldaketak",
+          " body": "Termino hauek eguneratu ditzakegu; aldaketak egin ondoren erabilera jarraitzeak onarpena esan nahi du."
+        },
+        "contact": {
+          "title": "Harremanetarako",
+          "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "refund": {
+        "title": "Itzulketa Politika",
+        "azkenEguneratua": "Azken eguneratua:",
+        "sarrera": "Chatforian, erabiltzaile guztiei kalitate handiko zerbitzu bat eskaintzen saiatzen gara. Itzulketa-politika honek zehazten du noiz egin daitezkeen itzulketak.",
+        "harpidetzeak": {
+          "izenburua": "Harpidetzeak",
+          "gorputza": "Harpidetzeak aldez aurretik kobratzen dira, errepikakorrean. Edozein unetan bertan behera utz dezakezu zure kontuaren ezarpenen bidez edo erosketa egiteko erabili den plataformaren bidez."
+        },
+        "eskubidea": {
+          "title": "Itzulketarako Eskubidea",
+          "body": "Itzulketak onar daitezke kobrantza bikoiztuetan, fakturazio-erroreetan edo ordaindutako funtzionalitateetara sartzea eragozten duten arazo teknikoetan. Eskaera guztiak kasuz kasu aztertzen dira."
+        },
+        "ezItzulezina": {
+          "title": "Itzulezina",
+          "body": "Orokorrean ez ditugu itzulketak eskaintzen erabili gabeko denborarako, harpidetza partzialetarako edo berritze aurretik ezeztatu ez izateagatik.\"    ",
+          "hirugarren aldea ": {
+            "title": "Hirugarrenen Erosketak",
+            "body": "Apple App Store bezalako hirugarrenen plataformetan erositakoak badira, itzulpenak plataformetan bertan eskatu behar dira."
+          },
+          "contact": {
+            "title": "Harremanetarako",
+            "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, AEB"
+          }
+        },
+        "doNotSell": {
+          "title": "Ez saldu edo partekatu nire informazio pertsonala",
+          "body": "Chatforia-k ez du informazio pertsonala saltzen. Kaliforniako bizilagunek oraindik ere CPRAren arabera eskaerak aurkez ditzakete beheko botoia erabiliz.",
+          "cta": "Eskaera bat aurkeztu"
+        },
+        "cookies": {
+          "title": "Cookien ezarpenak",
+          "body": "Chatforia-k cookie minimoak erabiltzen ditu (adibidez, saio-cookieak, segurtasun-cookieak). Ez dugu hirugarrenen iragarki-cookieak erabiltzen. Kudeatu cookieak zure nabigatzailearen ezarpenen bidez."
+        },
+        "premiumGuard": {
+          "requiresPremium": "Ezaugarri honek Premium plana eskatzen du."
+        },
+        "smsPolicy": {
+          "title": "Chatforia — SMS Politika & Opt-in",
+          "lastUpdated": "Azken eguneratzea:",
+          "whatWeSend": {
+            "title": "Zer bidaltzen dugun",
+            "body": "Chatforia-k kontuarekin lotutako eta elkarrizketako SMS soilik bidaltzen ditu erabiltzaile batek argi eta garbi emandako eta onartutako telefono-zenbakietara. Ohiko mezuak honako hauek dira: saioa hasteko/egiaztatzeko kodeak, mezuak bidaltzeko jakinarazpenak, segurtasun-oharrak eta kontuaren transakzio-eguneratzeak."
+          },
+          "optIn": {
+            "title": "Nola ematen duten izena erabiltzaileek",
+            "body": "Erabiltzaileek izena ematen dute erregistroan beren telefono zenbakia sartuta eta SMS baimenaren laukia markatuta, bai erregistro-orrian edo horretarako prestaturiko",
+            "link": "opt-in form"
+          },
+          "optOut": {
+            "title": "Nola ematen duten izena-kenduta erabiltzaileek",
+            "stop": "Erantzun STOP edozein Chatforia SMSari baja emateko.",
+            "start": "Erantzun START berriro harpidetzeko.",
+            "contactPrefix": "Jar zaitez harremanetan laguntza-zerbitzuarekin"
+          },
+          "help": {
+            "title": "Laguntza",
+            "bodyPrefix": "Erantzun HELP laguntza lortzeko edo mezu elektroniko bat bidali"
+          },
+          "privacyTerms": {
+            "title": "Pribatutasuna eta Baldintzak",
+            "bodyStart": "SMSari baiezkoa emanez, erabiltzaileek gurekin ere ados daude",
+            "terms": "Zerbitzuaren Baldintzak",
+            "and": "and",
+            "privacy": "Pribatutasun Politika"
+          },
+          "footer": "© 2026 Chatforia Inc."
+        }
       }
-    }
-  },
-  "encryptionRecovery": {
-    "title": "Kudeatu zifratzea",
-    "description": "Babestu, berreskuratu, desblokeatu edo berrezarri zure zifratze-gakoa.",
-    "alert": {
-      "keyRequiredTitle": "Zifratze-gakoa beharrezkoa da",
-      "keyRequiredBody": "Nabigatzaile honek ezin ditu une honetan zure mezu zifratuak deszifratu. Berreskuratu, desblokeatu edo berrezarri zure gakoa jarraitzeko."
-    },
-    "sections": {
-      "createBackup": "Sortu gako-babeskopia",
-      "restoreFromBackup": "Berreskuratu kontuko babeskopiatik",
-      "resetEncryption": "Berrezarri zifratzea"
-    },
-    "fields": {
-      "unlockPasscode": {
-        "label": "Desblokeatu pasakodea (uneko gailua)",
-        "description": "Gakoak lokalean deszifratzeko erabiltzen da esportatu aurretik"
-      },
-      "backupPassword": {
-        "label": "Babeskopia-pasahitza",
-        "description": "Babeskopia-fitxategia zifratzeko erabiltzen da"
-      },
-      "restoreBackupPassword": {
-        "label": "Babeskopia-pasahitza",
-        "description": "iPhone-n zure gakoa babestu zenuenean sortu zenuen pasahitza"
-      },
-      "newLocalPasscode": {
-        "label": "Pasakode lokal berria",
-        "description": "Babestu gakoak atsedenean nabigatzaile honetan"
-      },
-      "resetLocalPasscode": {
-        "label": "Pasakode lokal berria",
-        "description": "Berrezarri aurretik beharrezkoa da gako berria gailu honetan babestuta egon dadin"
-      }
-    },
-    "actions": {
-      "unlockKey": "Desblokeatu zifratze-gakoa",
-      "restoreFromBackup": "Berreskuratu kontuko babeskopiatik",
-      "resetEncryption": "Berrezarri zifratzea"
-    },
-    "messages": {
-      "backupCreated": "Gako-babeskopia sortu eta deskargatuta.",
-      "keyUnlocked": "Zifratze-gakoa desblokeatuta.",
-      "keyRestored": "Gakoa kontuko babeskopiatik berreskuratuta.",
-      "resetSuccess": "Zifratzea ongi berrezarrita."
-    },
-    "errors": {
-      "restoreIncomplete": "Gako-berreskurapena osatu gabe edo kontu honentzat okerra",
-      "noBackup": "Ez dago babeskopia zifraturik kontu honentzat",
-      "missingPublicKey": "Babeskopiak ez du gako publikorik",
-      "noServerPublicKey": "Kontu honek ez du une honetan zerbitzariaren gako publikorik erakusten",
-      "serverBackupMismatch": "Zerbitzariaren babeskopia ez dator bat uneko kontuaren zifratze-gakoarekin",
-      "incompleteMetadata": "Babeskopiaren metadatuak osatu gabe daude",
-      "resetIncomplete": "Zifratze-berrezarpena ez da ondo osatu"
-    },
-    "confirm": {
-      "reset": "Berrezarri zifratzea kontu honentzat?\n\nMezu zifratu zaharrak irakurri ezin bihurtu daitezke jatorrizko gakoa berreskuratzen ez baduzu geroago."
-    },
-    "resetDescription": "Honek zure konturako zifratze-gako berria sortzen du. Mezu zifratu zaharrak irakurri ezin bihurtu daitezke jatorrizko gakoa berreskuratzen ez baduzu geroago."
-  },
-  "footer": {
-  "plans": "Planak eta prezioak",
-  "about": "Chatforiari buruz",
-  "careers": "Lanpostuak",
-  "press": "Prentsa",
-  "advertise": "Iragarkiak",
-  "contact": "Jarri gurekin harremanetan",
-  "help": "Laguntza-zentroa",
-  "status": "Egoera-orria",
-  "iosDownload": "iOS / App Store",
-  "androidDownload": "Android / Google Play",
-  "privacy": "Pribatutasun-politika",
-  "terms": "Zerbitzuaren baldintzak",
-  "cookies": "Cookie-ezarpenak",
-  "doNotSell": "Ez saldu nire informazioa",
-  "language": "Hizkuntza",
-  "contactShort": "Kontaktua",
-  "aria": "Orri-oina",
-  "homeAria": "Chatforia hasierara joan",
-
-  "section": {
-    "company": "ENPRESA",
-    "support": "LAGUNTZA",
-    "downloads": "DESKARGAK",
-    "legal": "LEGEA"
-  },
-
-  "links": {
-    "plans-pricing": "Planak eta prezioak",
-    "about-chatforia": "Chatforiari buruz",
-    "how-it-works": "Nola funtzionatzen duen",
-    "blog": "Bloga",
-    "careers": "Lanpostuak",
-    "press": "Prentsa",
-    "advertise": "Iragarkiak",
-    "getting-started": "Hasteko gida",
-    "help-center": "Laguntza-zentroa",
-    "safety": "Segurtasuna",
-    "contact-us": "Jarri gurekin harremanetan",
-    "status-page": "Egoera-orria",
-    "ios-app-store": "iOS / App Store",
-    "android-google-play": "Android / Google Play",
-    "privacy-policy": "Pribatutasun-politika",
-    "terms-of-service": "Zerbitzuaren baldintzak",
-    "refund-policy": "Itzulketa-politika",
-    "sms-messaging-policy": "SMS mezularitza-politika",
-    "do-not-sell-my-info": "Ez saldu nire informazioa",
-    "cookie-settings": "Cookie-ezarpenak"
-  },
-
-  "social": {
-    "tiktok": "TikTok",
-    "instagram": "Instagram",
-    "facebook": "Facebook",
-    "linkedin": "LinkedIn",
-    "x": "X"
-  },
-
-  "copyright": "© Chatforia",
-  "patentPending": "Patente-eskaera prozesuan",
-  "backToTop": "↑ Itzuli gora"
-},
-  "press": {
-    "title": "Prentsa",
-    "contactLine": "Komunikabideen kontsultetarako, jar zaitez gurekin",
-    "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia pribatutasun-lehenetsiko mezularitza-aplikazioa da, hizkuntza gurutzatuen txata erraza egiten duena. Mezuak muturretik muturrera zifratuta daude lehenetsita, eta itzulpen integratuak 100+ hizkuntza denbora errealean onartzen ditu. Erabiltzaileek mezu desagertzaileak gaitu ditzakete, irakurritako agiriak aukerakoak mantendu eta gailu artean sinkronizatu. iOS, Android eta web-ean eskuragarri.",
-    "assetsTitle": "Marka-baliabideak",
-    "assetsSubtitle": "Logoak, pantaila-argazkiak eta produktu-irudiak.",
-    "downloadCta": "Deskargatu komunikabide-kit-a",
-    "downloadTitle": "Lortu aplikazioa",
-    "scanTip": "Mahaigainean? Eskaneatu zure telefonoarekin aplikazioa lortzeko.",
-    "qrAria": "Ireki Chatforia webgunea",
-    "appStore": "Deskargatu App Store-n",
-    "googlePlay": "Lortu Google Play-n"
-  },
-  "careers": {
-    "title": "Lanak",
-    "intro": "Talde sortzaile txiki bat gara Chatforia eraikitzen — web, iOS eta Android-en abiarazten den mezularitza global pribatua. Pribatutasuna, zifratzea eta erabiltzaile-esperientzia atseginak axola bazaizkizu, pozik entzungo genituzke.",
-    "openRoles": "<b>Lan irekiak sortzaileak:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
-    "apply": "Nola eska dezakezu: Erabili azpiko botoia zure curriculuma eta estekak posta elektronikoz bidaltzeko.",
-    "emailCta": "Bidali zure curriculuma",
-    "whyNow": "Zergatik batu orain?",
-    "whyBullets": "• Lagundu mundu-mailako mezularitza berri baten oinarriak eraikitzen.\n• Bidali hobekuntzak web, iOS eta Android artean erabiltzen direnak.\n• Lan egin zuzenean sortzailearekin arkitektura eta produktu-norabidean.\n• Hartu pila eragin handiko arloak: mezularitza, ahotsa, bideoa, zifratzea, telekomunikazioak, AI.\n• Batu hasieran — erabiltzaile-basea eskalatu aurretik."
-  },
-  "about": {
-    "title": "Chatforiari buruz",
-    "description": "Chatforia mezularitza seguru eta eleaniztuna da, muturretik muturrera zifratzearekin, berehalako itzulpenarekin eta ahots/bideo-deiekin. Gure misioa sinplea da: lagundu jendea konektatzen — modu seguruan, pribatuan eta hizkuntzak gaindituz.",
-    "valuesTitle": "Zer baloratzen dugu",
-    "values": {
-      "privacy": "<b>Pribatutasuna lehenetsita:</b> E2E zifratzea lehenetsita.",
-      "access": "<b>Sarbidea guztiontzat:</b> Auto-itzulpena 100+ hizkuntzatan.",
-      "control": "<b>Kontrola:</b> Mezu desagertzaileak eta irakurritako agiriak aukerakoak.",
-      "privacy_aria": "Pribatutasuna lehenetsita: E2E zifratzea lehenetsita.",
-      "access_aria": "Sarbidea guztiontzat: Auto-itzulpena 100+ hizkuntzatan.",
-      "control_aria": "Kontrola: Mezu desagertzaileak eta irakurritako agiriak aukerakoak."
-    },
-    "howTitle": "Nola funtzionatzen du Chatforiak",
-    "howDescription": "Mezuak zure gailuan zifratzen dira irten aurretik. Itzulpena, babeskopiak eta gailu-sinkronizazioa diseinatuta daude gure zerbitzariek ikus dezaketen gutxieneko informazioa minimizatzeko."
-  },
-  "advertise": {
-    "title": "Publizitate egin Chatforiarekin",
-    "description": "Iris ezazu mezularitza-erabiltzaile konprometituekin kokapen gustagarri eta marka-seguruekin. Banner-inbentarioa eskaintzen dugu ikusgarritasun handiko lekuetan, babesleak eta etxeko promozioak. Premium harpidedunek ez dute iragarkirik ikusten.",
-    "adsense": {
-      "withPubIdShort": "Google AdSense bidez ere inbentarioa zerbitzatzen dugu. Chatforia helburu dezakezu {{pubId}} argitaratzaile-IDarekin, edo erabili azpiko formularioa babesle zuzenentzat.",
-      "noPubIdShort": "Google AdSense bidez inbentario batzuk zerbitzatzen ditugu. Babesle zuzenak eskuragarri daude — erabili azpiko formularioa."
-    },
-    "inventoryHeader": "Inbentarioa eta espezifikazioak",
-    "placement": {
-      "displayBadge": "Bistaratzea",
-      "acceptedSizes": "Onartutako tamainak",
-      "adsenseSlot": "AdSense slot-a:"
-    },
-    "noPlacementsPublic": "Gure iragarki-inbentarioa finalizatzen ari gara. Esan zure kanpainari buruz eta gomendatuko dizkizugu kokapenak.",
-    "whyHeader": "Zergatik Chatforia?",
-    "why": {
-      "highSession": "Saio-maiztasun eta denbora luzea txat-interfazean",
-      "brandSafe": "Marka-seguru formatuak; maiztasun-kapak errespetuzkoak",
-      "sponsoredMoments": "Babestutako uneak (adib., “Hasi txata” modala) eskuragarri",
-      "deals": "Akordio zuzenak edo programatikoak AdSense/Google Ads bidez"
-    },
-    "contactHeader": "Kontaktua",
-    "form": {
-      "submittedMsg": "Eskerrik asko! Zure kontsulta bidean dago. Laster jarriko gara zurekin harremanetan.",
-      "missingRequired": "Mesedez, bete izena, posta elektronikoa eta mezua.",
-      "successToast": "Eskerrik asko! Laster jarriko gara zurekin harremanetan.",
-      "mailtoInfo": "Zure posta-bezeroa irekitzen kontsulta bidaltzeko…",
-      "nameLabel": "Zure izena",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "Posta elektronikoa",
-      "emailPlaceholder": "zu@enpresa.com",
-      "companyLabel": "Enpresa",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Hileko aurrekontua (aukerakoa)",
-      "budgetPlaceholder": "adib. $1.000–$20.000+",
-      "messageLabel": "Esan iezaguzu zure kanpainari buruz",
-      "messagePlaceholder": "Helburuak, datak, KPIak, kokapen-hobespenak…",
-      "sendCta": "Bidali kontsulta"
-    },
-    "legal": {
-      "disclaimerStart": "Bidaltzean, gure",
-      "terms": "Baldintzak",
-      "and": "eta",
-      "privacy": "Pribatutasun-politika"
     }
   }
 }

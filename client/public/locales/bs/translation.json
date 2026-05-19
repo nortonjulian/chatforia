@@ -3,416 +3,376 @@
     "save": "Sačuvaj",
     "cancel": "Otkaži",
     "refresh": "Osvježi",
-    "noMatches": "Nema rezultata",
+    "noMatches": "Nema podudaranja",
     "cancelAria": "Otkaži",
     "copy": "Kopiraj",
     "copied": "Kopirano!",
-    "errorWithMessage": "Greška: {{message}}",
+    "errorWithMessage": "Greška: { {message}}",
     "loading": "Učitavanje…",
-    "saveError": "Spremanje nije uspjelo"
+    "saveError": "Neuspjelo spremanje"
   },
   "a11y": {
     "skipToMain": "Preskoči na glavni sadržaj"
   },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
+  },
   "keys": {
-  "backupCreated": "Sigurnosna kopija ključa je kreirana i preuzeta ✓",
-  "restored": "Sigurnosna kopija ključa je vraćena ✓ Ključevi su instalirani lokalno",
-  "noBackup": "Ne postoji šifrirana sigurnosna kopija za ovaj račun",
-  "missingPublicKey": "Sigurnosnoj kopiji nedostaje javni ključ"
-},
-
-"keySetup": {
-  "title": "Postavite ključeve uređaja",
-  "description": "Ovaj uređaj još nema vaš privatni ključ. Uvezite sigurnosnu kopiju zaštićenu lozinkom ili generišite novi par ključeva (moći ćete čitati nove poruke od sada nadalje).",
-  "chooseFile": "Odaberite datoteku i unesite lozinku.",
-  "imported": "Privatni ključ je uvezen na ovaj uređaj. Sada možete čitati stare poruke.",
-  "enterPassword": "Unesite lozinku svog računa kako bismo sigurno napravili sigurnosnu kopiju vaših ključeva."
-},
+    "backupCreated": "Ključni backup je kreiran i preuzet ✓",
+    "restored": "Ključni backup je vraćen ✓ Ključevi su lokalno instalirani",
+    "noBackup": "Ne postoji šifrirani backup za ovaj nalog",
+    "missingPublicKey": "Backupu nedostaje javni ključ"
+  },
+  "keySetup": {
+    "title ": "Postavite ključeve uređaja",
+    "description": "Ovaj uređaj još uvijek nema vaš privatni ključ. Uvezite sigurnosnu kopiju zaštićenu lozinkom ili generirajte novi par ključeva (od sada ćete moći čitati nove poruke).",
+    "chooseFile": "Odaberite datoteku i unesite lozinku.",
+    "imported": "Privatni ključ je importiran na ovaj uređaj. Sada možete čitati stare poruke.",
+    "enterPassword": "Unesite lozinku svog računa kako bismo sigurno napravili sigurnosnu kopiju vaših ključeva."
+  },
+  "encryptionRecovery": {
+    "title": "Upravljanje šifriranjem",
+    "description": "Napravite sigurnosnu kopiju, obnovite, otključajte ili resetirajte svoj ključ za šifriranje.",
+    " alert": {
+      "keyRequiredTitle": "Potreban je ključ za šifriranje",
+      "keyRequiredBody": "Ovaj preglednik trenutno ne može dešifrirati vaše šifrirane poruke. Obnovite, otključajte ili resetirajte svoj ključ da biste nastavili."
+    },
+    "sections": {
+      "createBackup": "Napravite rezervnu kopiju ključa",
+      "restoreFromBackup": "Obnovite iz rezervne kopije na računu",
+      "resetEncryption": "Resetirajte šifriranje"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Kod za otključavanje (trenutni uređaj)",
+        "description": "Koristi se za dešifriranje vaših ključeva lokalno prije izvoza"
+      },
+      "backupPassword": {
+        "label": "Loзинka za sigurnosnu kopiju",
+        "description": "Koristi se za šifriranje datoteke sigurnosne kopije"
+      },
+      "restoreBackupPass word": {
+        "label": "Lozinka za rezervnu kopiju",
+        "description": "Lozinka koju ste kreirali prilikom pravljenja rezervne kopije vašeg ključa na iPhoneu"
+      },
+      "newLocalPasscode": {
+        "label": "Nova lokalna lozinka",
+        "description": "Zaštitite ključeve pohranjenih na ovom pregledniku"
+      },
+      "resetLocalPasscode": {
+        "label": "Novi lokalni šifra",
+        "description": "Potrebno prije resetovanja kako bi novi ključ bio zaštićen na ovom uređaju"
+      }
+    },
+    "actions": {
+      "unlockKey": "Otključaj ključ za šifrovanje",
+      "restoreFromBackup": " Obnova iz sigurnosne kopije naloga",
+      "resetEncryption": "Resetiranje enkripcije"
+    },
+    "poruke": {
+      "backupCreated": "Sigurnosna kopija ključa je kreirana i preuzeta.",
+      "keyUnlocked": "Enkripcijski ključ je otključan.",
+      "keyRestored": "Ključ je obnovljen iz sigurnosne kopije naloga.",
+      "resetSuccess": "Šifriranje je uspješno resetirano."
+    },
+    "errors": {
+      "restoreIncomplete": "Obnova ključa je nepotpuna ili netačna za ovaj račun",
+      "noBackup": "Ne postoji šifrirani backup za ovaj račun",
+      "faliJavniKljuč": "Backupu nedostaje javni ključ",
+      "nemaServerJavnogKljuča": "Ovaj račun trenutno ne izlaže javni ključ servera",
+      "nepodudaranjeServerBackupa": "Server backup se ne podudara s trenutnim ključem za šifriranje računa",
+      "nedovršeniMetapodaci": "Metapodaci backupa su nepotpuni",
+      "nedovršenoResetiranje": "Resetiranje šifriranja nije uspješno dovršeno "
+    },
+    "confirm": {
+      "reset": "Resetiranje enkripcije za ovaj račun?\n\nStarije enkriptirane poruke mogu postati nečitljive ako ne vratite originalni ključ kasnije."
+    },
+    "resetDescription": "Ovo generiše novi ključ za enkripciju za vaš račun. Starije enkriptirane poruke mogu postati nečitljive ako ne vratite originalni ključ kasnije."
+  },
+  "smsConsent": {
+    "label": "Slažem se da primam SMS obavijesti i upozorenja od {{companyName}}. Frekvencija poruka može varirati. Mogu se primijeniti naknade za poruke i podatke. Odgovorite <stop>STOP</stop> da se u bilo kojem trenutku odjavite. Odgovorite <help>HELP</help> za pomoć."
+  },
+  "phoneField": {
+    "label": "Telefon",
+    "nevažeći": "Neispravan broj telefona",
+    "napomena": "Po potrebi uključite prefiks zemlje (npr. +1 415…)"
+  },
   "auth": {
-  "headline": "Sigurna razmjena poruka za svakoga, bilo gdje",
-  "description": "End-to-end enkripcija, prevod za više od 100 jezika, poruke koje nestaju i glasovni/video pozivi.",
-  "feature": {
-    "encryption": "End-to-end enkripcija po zadanim postavkama",
-    "translation": "Pametno ugrađeno prevođenje poruka",
-    "disappearing": "Poruke koje nestaju i potvrde čitanja",
-    "privacy": "Privatnost na prvom mjestu. Vaši podaci, vaša kontrola.",
-    "translate": "Pametno ugrađeno prevođenje poruka",
-    "disappear": "Poruke koje nestaju",
-    "privacyAlt": "Dizajn fokusiran na privatnost",
-    "seePlans": "Pogledaj planove i cijene"
+    "naslov": "Sigurna poruka za svakoga, bilo gdje",
+    "opis": "Šifriranje od kraja do kraja, prevođenje na više od 100 jezika, nestajuće poruke i glasovni/video pozivi.",
+    "funkcija": {
+      "šifriranje": "Šifriranje od kraja do kraja prema zadanim postavkama",
+      "prevođenje": "Pametno, ugrađeno prevođenje poruka",
+      "nestajuće": "Nestajuće poruke i potvrde o čitanju",
+      "privacy": "Privatnost na prvom mjestu. Vaši podaci, vaša kontrola.",
+      "translate": "Pametni, ugrađeni prevoditelj poruka",
+      "disappear": "Nestajuće poruke",
+      "privacyAlt": "Dizajn usmjeren na privatnost",
+      "seePlans": "Pogledajte planove i cijene"
+    },
+    "hero": {
+      "line1": "Sigurna razmjena poruka za svakoga, bilo gdje — s",
+      "em": "prevod na više od 100 jezika",
+      "sub": "Dobijte besplatan siguran telefonski broj za pozive i poruke širom svijeta putem Wi-Fi veze ili podataka. Uživajte u enkripciji od kraja do kraja, porukama koje nestaju i HD glasovnim/video pozivima — uz ugrađene alate koji vam pomažu da ostanete povezani preko granica.",
+      "freeNote": "Osnovni pozivi i slanje poruka su besplatni. Napredna AI i premium funkcije zahtijevaju nadogradnju."
+    },
+    "feat": {
+      "encryption": "Krajnje šifriranje, uvijek uključeno",
+      "translate": "Prebrodite jezičke barijere u svojim razgovorima",
+      "disappear": "Poruke koje nestaju i potvrde o čitanju",
+      "privacy": "Privatnost na prvom mjestu. Vaši podaci, vaša kontrola. "
+    },
+    "nastavi_s_googleom": "Nastavi s Googleom",
+    "nastavi_s_appleom": "Nastavi s Appleom",
+    "korisničko_ime": "Korisničko ime",
+    "lozinka": "Lozinka",
+    "ostani_prijavljen": "Ostanem prijavljen",
+    "zaboravio_lozinku": "Zaboravio/la lozinku?",
+    "prijavni_gumb": "Prijavi se",
+    "createAccount": "Kreira račun",
+    "freeAccountButton": "Kreira besplatan račun",
+    "newHere": "Novi ovdje?",
+    "getApp": "Preuzmi aplikaciju",
+    "desktopTip": "Na računaru? Skeniraj telefonom da preuzmeš aplikaciju.",
+    "scanHelper": "Na računaru? Skeniraj telefonom da preuzmeš aplikaciju.",
+    "goHome": "Idi na početnu",
+    "home": "Početna",
+    "headlineAlt": {
+      "main": "Sigurni messenger koji",
+      "highlight": "govori vašim jezikom"
+    },
+    "subhead": "Privatne, šifrirane i prevedene poruke — odmah.",
+    "upgrade": "Nadogradite sada",
+    "tip": "Savjet: Koristite isti račun na webu i mobilnom uređaju. Vaše poruke ostaju sinhronizirane.",
+    "openDownload": "Otvorite stranicu za preuzimanje",
+    "qrAlt": "QR kod za Chatforia",
+    "scanHint": "Skenirajte da preuzmete aplikaciju ili otvorite u svom pregledniku.",
+    "iosAria": "Preuzmite na App Storeu",
+    "iosTitle": "Preuzmite na App Storeu",
+    "iosBadgeAlt": "App Store bedž",
+    "androidAria": "Preuzmite na Google Playu",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play bedž",
+    "login": "Prijavite se",
+    "signup": "Registrujte se",
+    "email": "E-mail",
+    "registration": {
+      "passwordDescription": "Minimum 6 znakova. Koristite jaku, jedinstvenu lozinku.",
+      " smsConsent": "Kretanjem naloga pristajete da primate SMS obavještenja u vezi s vašom aktivnošću na Chatforia (kao što su poruke od drugih korisnika). Mogu se primjenjivati tarife za poruke i podatke. Možete se odjaviti u bilo kojem trenutku u postavkama.",
+      "termsLink": "Uslovi korištenja",
+      "privacyLink": "Pravila o privatnosti"
+    },
+    "to": "Za:",
+    "enterRecipient": "Unesite ime ili broj",
+    "clearRecipients": "Očistite primaoce",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Napišite poruku…",
+    "addRecipient": "Dodajte primaoca iznad da biste počeli…",
+    "oneRecipient": "Molimo unesite jednog primaoca za sada.",
+    "enterValidRecipient": "Unesite ime sačuvanog kontakta ili broj telefona.",
+    "sendFailed": "Slanje nije uspjelo. Provjerite konzolu za detalje."
   },
-  "hero": {
-    "line1": "Sigurna razmjena poruka za svakoga, bilo gdje — s",
-    "em": "prevodom za više od 100 jezika",
-    "sub": "Dobijte besplatan siguran telefonski broj za pozive i poruke širom svijeta putem Wi-Fi mreže ili mobilnih podataka. Uživajte u end-to-end enkripciji, porukama koje nestaju i HD glasovnim/video pozivima — uz ugrađene alate koji vam pomažu da ostanete povezani preko granica.",
-    "freeNote": "Osnovni pozivi i poruke su besplatni. Napredne AI i Premium funkcije zahtijevaju nadogradnju."
-  },
-  "feat": {
-    "encryption": "End-to-end enkripcija, uvijek uključena",
-    "translate": "Uklonite jezičke barijere u svojim razgovorima",
-    "disappear": "Poruke koje nestaju i potvrde čitanja",
-    "privacy": "Privatnost na prvom mjestu. Vaši podaci, vaša kontrola."
-  },
-  "continueGoogle": "Nastavi s Googleom",
-  "continueApple": "Nastavi s Appleom",
-  "username": "Korisničko ime",
-  "password": "Lozinka",
-  "keepSignedIn": "Ostavi me prijavljenim",
-  "forgotPassword": "Zaboravili ste lozinku?",
-  "loginButton": "Prijavi se",
-  "createAccount": "Kreiraj račun",
-  "freeAccountButton": "Kreiraj besplatan račun",
-  "newHere": "Novi ste ovdje?",
-  "getApp": "Preuzmi aplikaciju",
-  "desktopTip": "Na računaru? Skenirajte telefonom da preuzmete aplikaciju.",
-  "scanHelper": "Na računaru? Skenirajte telefonom da preuzmete aplikaciju.",
-  "goHome": "Idi na početnu",
-  "home": "Početna",
-  "headlineAlt": {
-    "main": "Sigurni messenger koji",
-    "highlight": "govori vaš jezik"
-  },
-  "subhead": "Privatna, šifrirana i prevedena razmjena poruka — trenutno.",
-  "upgrade": "Nadogradi sada",
-  "tip": "Savjet: Koristite isti račun na webu i mobilnom uređaju. Vaše poruke ostaju sinhronizovane.",
-  "openDownload": "Otvori stranicu za preuzimanje",
-  "qrAlt": "QR kod za Chatforia",
-  "scanHint": "Skenirajte da preuzmete aplikaciju ili je otvorite u pregledniku.",
-  "iosAria": "Preuzmi na App Storeu",
-  "iosTitle": "Preuzmi na App Storeu",
-  "iosBadgeAlt": "App Store oznaka",
-  "androidAria": "Preuzmi na Google Playu",
-  "androidTitle": "Google Play trgovina",
-  "androidBadgeAlt": "Google Play oznaka",
-  "login": "Prijavi se",
-  "signup": "Registracija",
-  "email": "Email",
-  "registration": {
-    "passwordDescription": "Minimalno 6 znakova. Koristite jaku i jedinstvenu lozinku.",
-    "smsConsent": "Kreiranjem računa pristajete na primanje SMS obavještenja vezanih za vašu Chatforia aktivnost (kao što su poruke drugih korisnika). Mogu se primjenjivati naknade za poruke i mobilne podatke. Možete se odjaviti u bilo kojem trenutku u Postavkama.",
-    "termsLink": "Uslovi korištenja",
-    "privacyLink": "Politika privatnosti"
-  },
-  "to": "Za:",
-  "enterRecipient": "Unesite ime ili broj",
-  "clearRecipients": "Obriši primaoce",
-  "sms": "SMS",
-  "chatforia": "Chatforia",
-  "typeMessage": "Upišite poruku…",
-  "addRecipient": "Dodajte primaoca iznad za početak…",
-  "oneRecipient": "Molimo unesite jednog primaoca za sada.",
-  "enterValidRecipient": "Unesite sačuvano ime kontakta ili telefonski broj.",
-  "sendFailed": "Slanje nije uspjelo. Provjerite konzolu za detalje."
-},
   "home": {
-  "title": "Početna",
-  "messagesTitle": "Vaše poruke",
-  "messagesSubtitle": "Unesite primaoca iznad, zatim pošaljite poruku da započnete razgovor.",
-  "subheader": "Pošaljite poruku da započnete chat.",
-  "sendButton": "Pošalji poruku",
-  "gifPicker": "Otvori GIF birač",
-  "emoji": "Emoji",
-  "upload": "Otpremi fotografiju ili video",
-  "inputPlaceholder": "Upišite poruku…",
-  "inputLabel": "Polje za unos poruke",
-  "sendTooltip": "Pošalji",
-  "sendTooltipEmpty": "Upišite poruku za slanje",
-  "send": "Pošalji",
-  "welcomeMessage": "Dobrodošli u Chatforiju",
-  "getStarted": "Započni",
-  "enterRecipient": "Unesite ime ili broj",
-  "addRecipient": "Dodajte primaoca iznad za početak…",
-  "mixedRecipients": "Otkriveni su miješani primaoci. Koristite ili sve telefonske brojeve (SMS) ili sva korisnička imena (Chatforia).",
-  "needNumber": "Potreban vam je Chatforia broj prije slanja SMS poruka.",
-  "chooseNumber": "Odaberite broj"
-},
-
-"refund": {
-  "title": "Politika povrata novca",
-  "lastUpdated": "Zadnje ažuriranje:",
-  "intro": "U Chatforiji nastojimo pružiti kvalitetnu uslugu svim korisnicima. Ova Politika povrata novca objašnjava kada povrat sredstava može biti odobren.",
-
-  "subscriptions": {
-    "title": "Pretplate",
-    "body": "Pretplate se naplaćuju unaprijed na ponavljajućoj osnovi. Možete ih otkazati u bilo kojem trenutku putem postavki računa ili platforme korištene za kupovinu."
-  },
-
-  "eligibility": {
-    "title": "Pravo na povrat novca",
-    "body": "Povrat novca može biti odobren za duple naplate, greške pri naplati ili tehničke probleme koji sprječavaju pristup plaćenim funkcijama. Svi zahtjevi se pregledaju pojedinačno."
-  },
-
-  "nonRefundable": {
-    "title": "Nepovratne stavke",
-    "body": "U pravilu ne odobravamo povrat novca za neiskorišteno vrijeme, djelimične periode pretplate ili neotkazivanje prije obnove pretplate."
-  },
-
-  "thirdParty": {
-    "title": "Kupovine putem trećih strana",
-    "body": "Ako je kupovina izvršena putem platforme treće strane kao što je Apple App Store, povrat novca mora se zatražiti direktno putem te platforme."
-  },
-
-  "contact": {
-    "title": "Kontakt",
-    "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-  }
-},
-  "blog": {
-  "whyMessaging": {
-    "title": "Zašto su platforme za razmjenu poruka važnije nego ikad",
-    "intro": "Platforme za razmjenu poruka postale su jedan od najvažnijih alata za komunikaciju u današnjem svijetu. Od privatnih razgovora do poslovnih interakcija, aplikacije za razmjenu poruka omogućavaju ljudima da ostanu povezani trenutno i efikasno.",
-    "everydayTitle": "Svakodnevna komunikacija",
-    "everydayDesc": "Ljudi se oslanjaju na aplikacije za razmjenu poruka za svakodnevnu komunikaciju s prijateljima, porodicom i kolegama. Bilo da se radi o brzom ažuriranju ili dugom razgovoru, razmjena poruka pruža praktičan i fleksibilan način da ostanete u kontaktu.",
-    "speedTitle": "Brzina i praktičnost",
-    "speedDesc": "Jedna od glavnih prednosti platformi za razmjenu poruka je njihova brzina. Poruke se isporučuju trenutno, omogućavajući korisnicima da komuniciraju u stvarnom vremenu. Ovaj nivo praktičnosti učinio je razmjenu poruka preferiranim načinom komunikacije za mnoge ljude.",
-    "globalTitle": "Globalni domet",
-    "globalDesc": "Platforme za razmjenu poruka povezuju ljude širom svijeta. Uz pristup internetu, korisnici mogu komunicirati bez obzira na lokaciju, što olakšava izgradnju odnosa i međunarodnu saradnju.",
-    "privacyTitle": "Privatnost i kontrola",
-    "privacyDesc": "Moderne platforme za razmjenu poruka fokusiraju se na pružanje kontrole korisnicima nad njihovim podacima i razgovorima. Funkcije poput enkripcije, postavki privatnosti i kontrola poruka omogućavaju korisnicima da komuniciraju s povjerenjem.",
-    "futureTitle": "Budućnost razmjene poruka",
-    "futureDesc": "Razmjena poruka nastavlja da se razvija uz nove funkcije poput AI odgovora, prevođenja i dijeljenja multimedije. Kako tehnologija napreduje, platforme za razmjenu poruka postajat će još moćnije i svestranije.",
-    "outro": "Chatforia je izgrađena s ovim principima na umu, nudeći brzo, sigurno i jednostavno iskustvo razmjene poruka za povezani svijet."
-  },
-  "global": {
-    "title": "Budućnost globalne komunikacije",
-    "intro": "Komunikacija se brzo razvijala tokom posljednjih nekoliko decenija. Ono što je nekada zahtijevalo telefonske pozive ili sastanke uživo sada se može obaviti brzo putem platformi za razmjenu poruka. Kako tehnologija nastavlja napredovati, globalna komunikacija postaje brža, pristupačnija i inkluzivnija.",
-    "barriersTitle": "Rušenje prepreka",
-    "barriersDesc": "Jedna od najvećih promjena u komunikaciji je smanjenje geografskih prepreka. Ljudi se sada mogu povezati s drugima širom svijeta gotovo u stvarnom vremenu. Bilo za privatne razgovore, posao ili saradnju, platforme za razmjenu poruka učinile su udaljenost mnogo manje ograničavajućom.",
-    "translationTitle": "Uloga tehnologije prevođenja",
-    "translationDesc": "Jezik je tradicionalno bio jedna od najvećih prepreka globalnoj komunikaciji. Danas ugrađeni alati za prevođenje pomažu premostiti taj jaz. Platforme poput Chatforije omogućavaju korisnicima da lakše komuniciraju čak i ako govore različite jezike, stvarajući nove prilike za povezivanje i razumijevanje.",
-    "realtimeTitle": "Povezivanje u stvarnom vremenu",
-    "realtimeDesc": "Brzina je ključni faktor koji oblikuje modernu komunikaciju. Korisnici očekuju da poruke budu dostavljene brzo, a moderna infrastruktura podržava ta očekivanja. Razmjena poruka u stvarnom vremenu omogućava prirodnije i tečnije razgovore.",
-    "privacyTitle": "Privatnost i sigurnost",
-    "privacyDesc": "Kako komunikacija postaje sve digitalnija, privatnost i sigurnost postaju sve važnije. Korisnici žele sigurnost da su njihovi razgovori zaštićeni. Funkcije poput enkripcije i korisnički kontrolisanih postavki pomažu pružiti sigurnije iskustvo komunikacije.",
-    "futureTitle": "Šta slijedi",
-    "futureDesc": "Budućnost globalne komunikacije vjerovatno će uključivati naprednije alate, poput AI podržane razmjene poruka, poboljšanog prevođenja i unaprijeđenih korisničkih iskustava. Kako se tehnologija razvija, komunikacija će postajati intuitivnija i pristupačnija.",
-    "outro": "Platforme poput Chatforije dio su ove promjene, pomažući ljudima da se lakše povežu preko jezika i granica."
-  },
-  "index": {
-    "title": "Chatforia blog",
-    "intro": "Istražite uvide o komunikaciji, online sigurnosti i tome kako tehnologija razmjene poruka povezuje ljude širom svijeta.",
-    "post1": "Kako sigurno razgovarati online",
-    "post2": "Budućnost globalne komunikacije",
-    "post3": "Zašto su platforme za razmjenu poruka važne"
-  }
-},
-  "howItWorks": {
-  "title": "Kako Chatforia funkcioniše",
-  "intro": "Chatforia je dizajnirana da komunikaciju učini jednostavnom, brzom i pristupačnom. Potrebno je samo nekoliko koraka da započnete.",
-  "step1Title": "1. Kreirajte račun",
-  "step1Desc": "Registrujte se koristeći svoj email ili korisničko ime kako biste kreirali Chatforia račun.",
-  "step2Title": "2. Započnite razgovor",
-  "step2Desc": "Povežite se s drugima odabirom kontakata ili pokretanjem novih chatova.",
-  "step3Title": "3. Razmjena poruka u stvarnom vremenu",
-  "step3Desc": "Poruke se dostavljaju brzo kako bi komunikacija bila jednostavna i glatka.",
-  "step4Title": "4. Globalna komunikacija",
-  "step4Desc": "Ugrađeni prevod pomaže korisnicima da komuniciraju na različitim jezicima.",
-  "step5Title": "5. Ostanite pod kontrolom",
-  "step5Desc": "Upravljajte svojim postavkama, kontaktima i preferencijama komunikacije."
-},
-
-"safety": {
-  "title": "Sigurnost i smjernice zajednice",
-  "intro": "Chatforia je posvećena održavanju sigurnog i prijateljskog okruženja za sve korisnike. Ove smjernice pomažu da iskustvo bude pozitivno za sve.",
-  "respectTitle": "Komunicirajte s poštovanjem",
-  "respectDesc": "Od korisnika se očekuje da komuniciraju s poštovanjem. Uznemiravanje, zloupotreba ili štetno ponašanje nisu dozvoljeni.",
-  "prohibitedTitle": "Zabranjeni sadržaj",
-  "prohibited": {
-    "illegal": "Nelegalne aktivnosti",
-    "harassment": "Uznemiravanje ili zlostavljanje",
-    "hate": "Govor mržnje ili diskriminacija",
-    "explicit": "Eksplicitan ili štetan sadržaj",
-    "spam": "Spam ili obmanjujuće aktivnosti"
-  },
-  "toolsTitle": "Alati za sigurnost korisnika",
-  "tools": {
-    "report": "Prijavite neprikladno ponašanje ili sadržaj",
-    "block": "Blokirajte korisnike kako biste spriječili dalju interakciju",
-    "control": "Upravljajte postavkama privatnosti i komunikacije"
-  },
-  "enforcementTitle": "Provođenje pravila",
-  "enforcementDesc": "Možemo poduzeti mjere protiv računa koji krše ove smjernice, uključujući upozorenja, ograničenja ili trajno uklanjanje s platforme."
-},
-
-"chat": {
-  "selectPrompt": "Odaberite razgovor ili chat prostor za početak razgovora",
-  "newMessages": "Nove poruke",
-  "typing": "{{name}} piše...",
-  "emptyTitle": "Vaše poruke",
-  "emptySubtitle": "Pošaljite poruku da započnete chat.",
-  "startChatButton": "Pošalji poruku",
-  "mediaAttachment": "Medijski prilog",
-  "thisUser": "ovaj korisnik",
-  "blockConfirm": "Blokirati {{name}}? Više nećete primati poruke od ove osobe.",
-  "blockedUser": "{{name}} je blokiran.",
-  "blockError": "Nije moguće odrediti korisnika za blokiranje.",
-  "blockFailed": "Blokiranje nije uspjelo (backend još nije povezan).",
-  "encryptedUnavailable": "Šifrirana poruka (ključ nije dostupan)",
-  "unlockToView": "Otključajte ključ da biste vidjeli ovu poruku"
-},
-
-"messageInput": {
-  "ttl": {
-    "off": "Isključeno"
-  },
-  "freeLimit": "Ograničenje besplatnog plana: automatsko brisanje do 1 dana.",
-  "premiumLimit": "Maksimalno automatsko brisanje za Premium plan je 30 dana.",
-  "nothingToSend": "Upišite poruku ili priložite datoteku za slanje.",
-  "encryptionFailed": "Enkripcija nije uspjela. Poruka nije poslana.",
-  "sent": "Poruka poslana.",
-  "placeholder": "Upišite poruku…",
-  "autoDelete": "Automatsko brisanje",
-  "voiceAdded": "Glasovna poruka dodana",
-  "attachmentAdded": "Prilog dodan",
-  "typeToSend": "Upišite poruku za slanje",
-  "send": "Pošalji",
-  "sendWithEnter": "Pošalji (Enter)",
-  "attachment": "Prilog",
-  "caption": "Opis (opcionalno)",
-  "remove": "Ukloni",
-  "clear": "Obriši",
-  "gif": "GIF",
-  "sticker": "Naljepnica",
-  "errors": {
-    "attachmentTooLarge": "Prilog je prevelik. Pokušajte s manjom datotekom.",
-    "unsupportedFile": "Nepodržana vrsta datoteke.",
-    "rateLimit": "Prebrzo šaljete poruke. Molimo usporite.",
-    "validation": "Greška pri provjeri. Provjerite poruku i pokušajte ponovo.",
-    "failedToSend": "Slanje nije uspjelo. Možete pokušati ponovo poslati poruku."
-  }
-},
-
-"contactList": {
-  "savedContacts": "Sačuvani kontakti",
-  "refreshAria": "Osvježi kontakte",
-  "filterPlaceholder": "Filtriraj sačuvane kontakte…",
-  "filterAria": "Filtriraj sačuvane kontakte",
-  "noContactsFound": "Nema pronađenih kontakata.",
-  "externalContact": "Vanjski kontakt",
-  "notJoined": "Ovaj kontakt se još nije pridružio Chatforiji.",
-  "couldNotStart": "Nije moguće započeti chat. Pokušajte ponovo.",
-  "startFailed": "Pokretanje chata nije uspjelo. Pokušajte ponovo.",
-  "deleted": "Kontakt je obrisan.",
-  "deleteFailed": "Brisanje kontakta nije uspjelo. Pokušajte ponovo.",
-  "aliasUpdated": "Alias je ažuriran.",
-  "updateAliasFailed": "Ažuriranje aliasa nije uspjelo. Pokušajte ponovo.",
-  "selectContact": "Odaberi {{name}}",
-  "alias": "Alias",
-  "startChat": "Započni chat",
-  "message": "Poruka",
-  "delete": "Obriši",
-  "deleteContactAria": "Obriši kontakt",
-  "loadFailed": "Učitavanje kontakata nije uspjelo. Pokušajte ponovo.",
-  "loadMore": "Učitaj više",
-  "call": "Poziv",
-  "callStarted": "Pozivanje ovog broja putem vašeg Chatforia broja…",
-  "callFailed": "Pokretanje poziva nije uspjelo. Pokušajte ponovo."
-},
-  "startChatModal": {
-  "title": "Započni razgovor",
-  "searchPlaceholder": "Pretraži ime, korisničko ime ili broj telefona",
-  "messageThisPerson": "Pošalji poruku ovoj osobi",
-  "contacts": "Kontakti",
-  "recentInteractions": "Nedavne interakcije",
-  "noContactsMatch": "Nijedan kontakt ne odgovara vašoj pretrazi.",
-  "noRecentInteractions": "Još nema nedavnih interakcija.",
-  "unknown": "Nepoznato",
-  "interactionType": {
-    "message": "Poruka",
-    "call": "Poziv",
-    "video": "Video"
-  }
-},
-  "addContactModal": {
-    "title": "Dodaj kontakt",
-    "phoneOrUsername": "Telefon ili korisničko ime",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 ili juliannorton",
-    "alias": "Alias (opcionalno)",
-    "aliasPlaceholder": "e.g. Radi, Mom, Mike – Europe",
-    "enterPhoneOrUsername": "Unesite jedan telefonski broj ili username.",
-    "userLookupFailed": "Korisnik lookup neuspjelo.",
-    "cannotAddSelf": "Ne možete dodati sebe kao kontakt.",
-    "failedToAdd": "Nije uspjelo dodaj kontakt.",
-    "add": "Dodaj"
+    " title": "Početna",
+    "messagesTitle": "Vaše poruke",
+    "messagesSubtitle": "Unesite primaoca iznad, a zatim pošaljite poruku da započnete razgovor.",
+    "subheader": "Pošaljite poruku da započnete chat.",
+    "sendButton": "Pošalji poruku",
+    "gifPicker": "Otvori izbornik GIF-ova",
+    "emoji": "Emoji",
+    "upload": "Otpremi fotografiju ili video",
+    "inputPlaceholder": "Upisi poruku…",
+    "inputLabel": "Kompozitor poruka",
+    "sendTooltip": "Pošalji",
+    "sendTooltipEmpty": "Upisi poruku za slanje",
+    "send": "Pošalji",
+    "welcomeMessage": "Dobrodošli u Chatforia",
+    "getStarted": "Započni",
+    "mixedRecipients": "Detektirani su miješani primaoci. Koristite ili sve telefonske brojeve (SMS) ili sva korisnička imena (Chatforia).",
+    "enterRecipient": "Unesite ime ili broj",
+    "addRecipient": "Dodajte primatelja iznad da biste počeli…",
+    "needNumber": "Potreban vam je Chatforia broj prije slanja SMS-a.",
+    "chooseNumber": "Odaberite broj"
   },
   "sidebar": {
-  "randomChat": "Nasumični chat",
-  "callTextForwarding": "Prosljeđivanje poziva i poruka",
-  "conversations": "Razgovori",
-  "searchPlaceholder": "Pretraži chatove...",
-  "errorLoading": "Učitavanje chatova nije uspjelo",
-  "empty": "Još nema razgovora.",
-  "startChat": "Započni chat",
-  "people": "Ljudi",
-  "settings": "Postavke",
-  "status": "Status",
-  "forwarding": "Prosljeđivanje poziva i poruka",
-  "refresh": "Osvježi",
-  "search": "Pretraži razgovore",
-  "loginPrompt": "Prijavite se da uredite svoje postavke.",
-  "login": "Prijavi se",
-  "register": "Kreiraj račun",
-  "chatrooms": "Chat sobe",
-  "logout": "Odjavi se",
-  "startChatAlt": "Započni novi chat",
-  "calls": "Pozivi",
-  "video": "Video",
-  "voicemail": "Govorna pošta"
-},
+    "randomChat": "Slučajan chat",
+    "callTextForwarding": "Prosljeđivanje poziva i poruka ",
+    "conversations": "Konverzacije",
+    "searchPlaceholder": "Pretraži razgovore...",
+    "errorLoading": "Neuspjelo učitavanje razgovora",
+    "empty": "Još nema razgovora.",
+    "startChat": "Pokreni chat",
+    "people": "Ljudi",
+    "settings": "Postavke",
+    "status": "Status",
+    "forwarding": "Usluga preusmjeravanja poziva i poruka",
+    "osvježi": "Osvježi",
+    "pretraga": "Pretraži razgovore",
+    "upitZaPrijavu": "Prijavi se da bi uredio svoje postavke.",
+    "prijava": "Prijavi se",
+    "registracija": "Kreira račun",
+    "chatrooms": "Chat sobe",
+    "logout": "Odjavi se",
+    "startChatAlt": "Pokreni novi chat",
+    "calls": "Pozivi",
+    "video": "Video",
+    "voicemail": "Glasovna pošta"
+  },
   "topbar": {
-    "newStatus": "Novo Status",
-    "logout": "Prijava Izvan",
+    "newStatus": "Novi status",
+    "logout": "Odjavi se",
     "help": "Pomoć",
-    "createStatusAria": "Kreiraj novo Status"
+    "createStatusAria": "Kreira novi status"
+  },
+  "footer": {
+    "plans": "Planovi i cijene",
+    "about": "O Chatforiji",
+    "careers": " Karijere",
+    "press": "Press",
+    "advertise": "Oglašavanje",
+    "contact": "Kontakt",
+    "help": " Centar za pomoć",
+    "status": "Stranica sa statusom",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Pravila o privatnosti",
+    "terms": "Uslovi korištenja",
+    "cookies": "Podešavanja kolačića",
+    "doNotSell": "Ne prodajte moje informacije",
+    "language": "Jezik",
+    "contactShort": "Kontakt",
+    "aria": "Podnožje",
+    "homeAria": "Početna stranica Chatforia",
+    "section": {
+      "company": "KOMPANIJA",
+      "support": "POMOĆ ",
+      "downloads": "PREUZIMANJA",
+      "legal": "PRAVNA PITANJA"
+    },
+    "linkovi": {
+      "plans-pricing": "Planovi i cijene",
+      "about-chatforia": "O kompaniji Chatforia",
+      "careers": "Kariere",
+      "press": "Press",
+      "advertise": "Oglašavanje",
+      " getting-started": "Početak",
+      "help-center": "Centar za pomoć",
+      "contact-us": "Kontaktirajte nas",
+      "status-page": "Stranica sa statusom",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Pravila o privatnosti",
+      "terms-of -service": "Uslovi korištenja",
+      "do-not-sell-my-info": "Ne prodajte moje informacije",
+      "cookie-settings": "Postavke kolačića",
+      "how-it-works": "Kako funkcioniše",
+      "blog": "Blog",
+      "refund-policy": "Pravila o povratu novca",
+      "sms-policy": "Pravila o SMS porukama"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": " LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent u postupku",
+    "backToTop": "↑ Nazad na vrh"
+  },
+  "chat": {
+    "selectPrompt": "Odaberite tekst ili chat sobu za početak razgovora",
+    "newMessages": "Nove poruke",
+    "typing": "{{name }} kuca...",
+    "emptyTitle": "Vaše poruke",
+    "prazanPodnaslov": "Pošaljite poruku da započnete chat.",
+    "gumbZaPokretanjeChata": "Pošalji poruku",
+    "prilozi": "Prilozi",
+    "ovajKorisnik": "ovaj korisnik",
+    "potvrdaBlokiranja": "Blokirajte {{name}}? Nećete primati poruke od njih.",
+    "blokiraniKorisnik": "Blokirani {{name}}.",
+    "blockError": "Nije moguće odrediti korisnika za blokiranje.",
+    "blockFailed": "Blokiranje nije uspjelo (backend još nije povezan).",
+    "encryptedUnavailable": "Šifrirana poruka (ključ nedostupan)",
+    "unlockToView": "Otključajte svoj ključ da biste vidjeli ovu poruku"
+  },
+  " messageInput": {
+    "ttl": {
+      "off": "Isključeno"
+    },
+    "freeLimit": "Ograničenje besplatnog plana: automatsko brisanje do 1 dana. Ograničeno na 1 dan.",
+    "premiumLimit": "Maksimalno automatsko brisanje za Premium je 30 dana. Ograničeno na 30 dana.",
+    " nothingToSend": "Unesite poruku ili priložite datoteku za slanje.",
+    "encryptionFailed": "Šifriranje je propalo. Poruka nije poslana.",
+    "sent": "Poruka je poslana.",
+    "placeholder": "Unesite poruku… ",
+    "autoDelete": "Automatsko brisanje",
+    "typeToSend": "Unesite poruku za slanje",
+    "send": "Pošalji",
+    "sendWithEnter": "Pošalji (Enter)",
+    "attachment": "Priložak",
+    "caption": "Opis (opcionalno)",
+    "remove": "Ukloni",
+    "clear": "Očisti",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Priložak je prevelik. Pokušajte s manjom datotekom.",
+      "unsupportedFile": "Ne podržani tip datoteke.",
+      "rateLimit": "Poruke šaljete prebrzo. Molimo usporite.",
+      "validation": "Greška u validaciji. Provjerite svoju poruku i pokušajte ponovo.",
+      "failedToSend": "Nije uspjelo slanje. Možete ponovo pokušati s neuspjelim balonom."
+    }
   },
   "threadActions": {
-    "threadMenu": "Meni razgovora",
+    "threadMenu": "Meni teme",
     "premium": "Premium",
-    "aiPower": "AI alati",
-    "schedule": "Raspored",
-    "upgrade": "Nadogradi",
-    "upgradeSuffix": "(Nadogradi)",
-    "thread": "Nit",
-    "about": "O aplikaciji",
-    "search": "Pretraga",
-    "media": "Mediji",
+    "aiPower": "AI Power",
+    "schedule": "Schedule",
+    "upgrade": "Upgrade",
+    "upgradeSuffix": "(Upgrade)",
+    "thread": "Thread",
+    "about": "About",
+    "search": "Search",
+    "media": "Media",
     "invitePeople": "Pozovi ljude",
-    "roomSettings": "Postavke sobe",
-    "clearConversation": "Obriši razgovor",
-    "clearConversationForMe": "Obriši za mene",
-    "clearConversationForEveryone": "Obriši za sve",
-    "block": "Blokiraj"
+    "postavkeSobe": "Postavke sobe",
+    "izbrišiRazgovor": "Izbriši razgovor",
+    "blokiraj": "Blokiraj"
   },
-  "roomSearch": {
-    "title": "Pretraga u sobi",
-    "ariaLabel": "Pretraga u sobi",
-    "search": "Pretraga",
+  "pretragaSobe": {
+    "naslov": "Pretraži sobu",
+    "ariaLabel": "Pretraži sobu",
+    "search": "Pretraži",
     "searchMessages": "Pretraži poruke",
-    "noText": "[Ne tekst]",
+    "noText": "[Nema teksta]",
     "noResults": "Nema rezultata"
   },
   "roomSettings": {
     "roles": {
       "member": "Član",
-      "moderator": "Moderator",
+      "moderator": " Moderator",
       "admin": "Admin"
     },
     "aiMode": {
-      "off": "Isključeno",
-      "mention": "Samo uključeno @ForiaBot ili /ask",
-      "always": "Odgovor proaktivno"
+      "off": "Off",
+      "mention": "Samo na @ForiaBot ili /ask",
+      "uvijek": "Odgovori proaktivno"
     },
     "autoTranslateMode": {
-      "off": "Isključeno",
-      "tagged": "Tagged samo (/tr …)",
-      "all": "Sve poruke"
+      "isključeno": "Isključeno",
+      "označeno": "Samo označeno (/tr …)",
+      "sve": "Sve poruke"
     },
-    "updated": "Postavke ažurirano"
+    "ažurirano": "Postavke ažurirane"
   },
-  "mediaGallery": {
-    "sharedMedia": "Dijeljeni mediji",
+  "medijskaGaleria": {
+    "sharedMedia": "Podijeljene medije",
     "noMediaCached": "Još nema lokalno keširanih medija.",
-    "imageAlt": "slika",
+    "imageAlt": "slike",
     "openVideo": "Otvori video",
     "openVideoWithCaption": "Otvori video: {{caption}}",
     "preview": "Pregled",
@@ -429,1201 +389,1616 @@
     }
   },
   "status": {
-  "userNumber": "Korisnik #{{id}}",
-  "posted": "Status je objavljen",
-  "postFailed": "Objavljivanje statusa nije uspjelo",
-  "createTitle": "Kreiraj status",
-  "modalAriaLabel": "Novi status",
-  "captionLabel": "Šta vam je na umu?",
-  "captionPlaceholder": "Podijelite novost...",
-  "captionAria": "Poruka statusa",
-  "audienceLabel": "Publika",
-  "audience": {
-    "public": "Javno",
-    "followers": "Pratioci",
+    "userNumber": "Korisnik br. {{id}}",
+    "posted": "Objavljeno",
+    "postFailed": "Neuspjelo objavljivanje statusa",
+    "createTitle": "Kreiraj status",
+    "modalAriaLabel": "Novi status",
+    "captionLabel": "Šta vam je na umu?",
+    "captionPlaceholder": "Podijelite ažuriranje.. .",
+    "captionAria": "Poruka statusa",
+    "audienceLabel": "Publika",
+    "audience": {
+      "public": "Javno",
+      "followers": "Pratitelji",
+      "contacts": "Kontakti",
+      "mutuals": "Zajednički kontakti",
+      "custom": "Prilagođeno..."
+    },
+    "etiketaxpireHours": "Ističe (sati)",
+    "maxTooltip": "Najviše 7 dana",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Ističe za:",
+    "izaberiPrimatelje": "Izaberi primatelje",
+    "izaberiKontakte": "Izaberi kontakte",
+    "oznakaPrilozi": "Prilozi",
+    "mjestoZaPrilozi": "Dodaj slike/videozapise",
+    "napomenaZaDatoteke": "Do 5 datoteka. Po zadanom ističe za 24 sata.",
+    "postAria": "Post status",
+    "post": "Post"
+  },
+  "voicemail": {
+    "pageTitle": "Glasovna poruka",
+    "from": "Od",
+    "to": "Za",
+    "unknownCaller": "Nepoznati",
+    "yourNumber": "Tvoj Chatforia broj",
+    "durationSeconds": " {{count}}-a",
+    "audioAria": "Plejer za glasovnu poruku",
+    "transcriptHeading": "Transkript",
+    "transcriptPending": "Transkripcija glasovne poruke…",
+    "transcriptFailed": "Transkript nije dostupan.",
+    "loading": "Učitavanje glasovne poruke…",
+    "errorLoading": "Nije uspjelo učitati glasovnu poruku.",
+    "prazno": "Još nema govornih poruka.",
+    "potvrda-brisanja": "Izbrisati ovu govornu poruku?",
+    "greška-pri-brisanju": "Nije moguće izbrisati govornu poruku.",
+    "označi-kao-pročitano": "Označi kao pročitano",
+    "izbriši": "Izbriši",
+    "indikator-nepročitano": "Indikator nepročitane govorne poruke"
+  },
+  "listaKontakata": {
+    "sačuvaniKontakti": "Sačuvani kontakti",
+    "osvježiAria": "Osvježi kontakte",
+    "filterPlaceholder": "Filtrirajte sačuvane kontakte…",
+    "filterAria": "Filtrirajte sačuvane kontakte",
+    "nemaPronađenihKontakata": "Nema pronađenih kontakata.",
+    "vanjskiKontakt": "Vanjski kontakt",
+    "notJoined": "Taj kontakt još nije pridružen Chatforiji.",
+    "couldNotStart": "Nije moguće pokrenuti chat. Molimo pokušajte ponovo.",
+    "startFailed": "Neuspjelo pokretanje chata. Molimo pokušajte ponovo. ",
+    "izbrisan": "Kontakt je izbrisan.",
+    "brisanjeNeuspjelo": "Neuspjelo brisanje kontakta. Molimo pokušajte ponovo.",
+    "aliasAžuriran": "Alias je ažuriran.",
+    "ažuriranjeAliasaNeuspjelo": "Neuspjelo ažuriranje aliasa. Molimo pokušajte ponovo.",
+    "izaberiKontakt": "Izaberi {{name}}",
+    "alias": "Alias",
+    "pokreniČet": "Pokreni čet",
+    "poruka": "Poruka",
+    "izbriši": "Izbriši",
+    "izbrišiKontaktAria": "Izbriši kontakt",
+    "neuspjeloUčitavanje": "Neuspjelo učitavanje kontakata. Molimo pokušaj ponovo.",
+    "učitajViše": "Učitaj više",
+    "povuci": "Povuci",
+    "povukli": "Povlačenje poziva na ovaj broj putem vašeg Chatforia broja…",
+    "povukliNeuspješno": "Neuspjelo pokretanje poziva. Molimo pokušajte ponovo."
+  },
+  "addContactModal": {
+    "naslov": "Dodaj kontakt",
+    "phoneOrUsername": "Telefon ili korisničko ime",
+    "phoneOrUsernamePlaceholder": "npr. +13018019227 ili juliannorton",
+    "alias": "Nadimak (opcionalno)",
+    "aliasPlaceholder": "npr. npr. Rad, Mama, Mike – Evropa",
+    "unesiTelefonIliKorisnickoIme": "Unesite broj telefona ili korisničko ime.",
+    "neuspjeloPronalazenjeKorisnika": "Neuspjelo pronalaženje korisnika.",
+    "ne možetedodatiSebe": "Ne možete dodati sebe kao kontakt.",
+    "neuspjeloDodavanje": "Neuspjelo dodavanje kontakta.",
+    "dodaj": "Dodaj"
+  },
+  "startChatModal": {
+    "title": "Pokreni razgovor",
+    "searchPlaceholder": "Potraži ime, korisničko ime ili broj telefona",
+    "messageThisPerson": "Pošalji poruku ovoj osobi",
     "contacts": "Kontakti",
-    "mutuals": "Uzajamni kontakti",
-    "custom": "Prilagođeno..."
-  },
-  "expiresHoursLabel": "Ističe za (sati)",
-  "maxTooltip": "Najviše 7 dana",
-  "hoursAbbrev": "h",
-  "maxShort": "maks.",
-  "expiresOn": "Ističe:",
-  "chooseRecipients": "Odaberite primaoce",
-  "selectContacts": "Odaberite kontakte",
-  "attachmentsLabel": "Prilozi",
-  "attachmentsPlaceholder": "Dodajte slike ili videozapise",
-  "filesNote": "Do 5 datoteka. Zadano ističe nakon 24 sata.",
-  "postAria": "Objavi status",
-  "post": "Objavi"
-},
-
-"voicemail": {
-  "pageTitle": "Govorna pošta",
-  "from": "Od",
-  "to": "Za",
-  "unknownCaller": "Nepoznato",
-  "yourNumber": "Vaš Chatforia broj",
-  "durationSeconds": "{{count}} s",
-  "audioAria": "Audio player za govornu poštu",
-  "transcriptHeading": "Transkript",
-  "transcriptPending": "Transkribovanje govorne pošte…",
-  "transcriptFailed": "Transkript nije dostupan.",
-  "loading": "Učitavanje govorne pošte…",
-  "errorLoading": "Učitavanje govorne pošte nije uspjelo.",
-  "empty": "Još nema govornih poruka.",
-  "deleteConfirm": "Obrisati ovu govornu poštu?",
-  "deleteError": "Brisanje govorne pošte nije uspjelo.",
-  "markRead": "Označi kao pročitano",
-  "delete": "Obriši",
-  "unreadDotAria": "Indikator nepročitane govorne pošte"
-},
-  "profile": {
-  "title": "Korisnički profil",
-  "preferredLanguage": "Preferirani jezik",
-  "chooseLanguage": "Odaberite jezik",
-  "mustLogin": "Morate se prijaviti da biste vidjeli postavke.",
-  "autoTranslate": "Automatski prevodi poruke",
-  "showOriginalWithTranslation": "Prikaži originalne i prevedene poruke",
-  "showOriginalAndTranslation": "Prikaži original i prevod",
-  "filterExplicit": "Filtriraj eksplicitan sadržaj",
-  "aiReply": "AI odgovori",
-  "enableReadReceipts": "Omogući potvrde čitanja",
-  "allowExplicitContent": "Dozvoli eksplicitan sadržaj",
-  "disappearingMessages": "Omogući poruke koje nestaju",
-  "autoDeleteSeconds": "Sekunde do automatskog brisanja",
-  "saveSuccess": "Postavke su sačuvane!",
-  "saveError": "Greška: Nije moguće sačuvati postavke",
-  "avatarAlt": "Profilna slika",
-  "uploadAvatar": "Otpremi novu profilnu sliku",
-  "avatarSuccess": "Profilna slika je otpremljena!",
-  "avatarError": "Nije uspjelo otpremanje profilne slike",
-  "avatarUpdated": "Profilna slika je ažurirana!",
-  "uploadingAvatar": "Otpremanje profilne slike…",
-  "noPrivateKey": "Na ovom uređaju nema privatnog ključa za izvoz.",
-  "setBackupPassword": "Postavite lozinku za šifrovanje sigurnosne kopije:",
-  "backupDownloaded": "Šifrovana sigurnosna kopija je preuzeta.",
-  "exportFailed": "Izvoz ključa nije uspio",
-  "enterBackupPassword": "Unesite lozinku za ovu sigurnosnu kopiju:",
-  "importSuccess": "Privatni ključ je uvezen na ovaj uređaj.",
-  "importFailed": "Uvoz ključa nije uspio (pogrešna lozinka ili oštećena datoteka).",
-  "keysRotated": "Novi par ključeva je generisan i javni ključ je otpremljen.",
-  "rotateFailed": "Rotiranje ključeva nije uspjelo.",
-  "security": "Sigurnost",
-  "exportKey": "Izvezi enkripcijski ključ",
-  "importKey": "Uvezi enkripcijski ključ",
-  "rotateKeys": "Rotiraj enkripcijske ključeve",
-  "keyDisclaimer": "Vaš privatni ključ nikada ne napušta ovaj uređaj. Izvezite šifrovanu kopiju kako biste vratili poruke na drugom uređaju.",
-  "sectionProfile": "Profil",
-  "phoneNumber": "Telefonski broj",
-  "appearance": "Izgled",
-  "soundSettings": "Zvukovi",
-  "disappearing": "Poruke koje nestaju",
-  "backupSync": "Sigurnosna kopija i sinhronizacija",
-  "ai": "AI",
-  "accessibility": "Pristupačnost",
-  "privacy": "Privatnost",
-  "devices": "Povezani uređaji",
-  "themeFreeNotice": "Koristite besplatni plan — isprobajte brze Sun/Moon teme ispod. Nadogradite za otključavanje više tema.",
-  "sunTheme": "Koristi Dawn temu",
-  "moonTheme": "Koristi Moon (Midnight) temu",
-  "sun": "Sun",
-  "moon": "Moon",
-  "backupTitle": "Šifrovane sigurnosne kopije i sinhronizacija uređaja",
-  "openBackupTools": "Otvori alate za sigurnosnu kopiju",
-  "backupDesc": "Napravite sigurnosnu kopiju svog enkripcijskog ključa kako biste sigurno vratili poruke na drugom uređaju.",
-  "privacyBlurEnabled": "Zamagli poruke po zadanom",
-  "privacyBlurOnUnfocus": "Zamagli kada aplikacija nije aktivna",
-  "planSection": "Moj plan",
-  "planLoading": "Učitavanje vašeg plana…",
-  "planLoadFailed": "Učitavanje vašeg plana nije uspjelo.",
-  "currentPlan": "Trenutni plan",
-  "planRenewsOn": "Obnavlja se",
-  "freePlanCopy": "Koristite besplatni plan. Nadogradite za otključavanje više funkcija poput sigurnosnih kopija, dodatnih brojeva i naprednih opcija privatnosti.",
-  "upgradePlanCta": "Nadogradi plan",
-  "changePlanCta": "Promijeni plan",
-  "manageBilling": "Upravljaj naplatom",
-  "portalOpenFailed": "Nije moguće otvoriti portal za naplatu. Pokušajte ponovo.",
-  "holdToReveal": "Držite za prikaz",
-  "notifyOnCopy": "Obavijesti me ako se moja poruka kopira",
-  "loadFailed": "Učitavanje profila nije uspjelo",
-  "followed": "Zapraćeno",
-  "followFailed": "Praćenje nije uspjelo",
-  "unfollowed": "Otpratili ste korisnika",
-  "unfollowFailed": "Otpratiti nije uspjelo",
-  "follow": "Prati",
-  "unfollow": "Otprati",
-  "followHint": "Njihove priče će se pojaviti u vašem feedu za praćenje ako objavljuju za Pratioce (ili Javno).",
-  "userNotFound": "Korisnik nije pronađen",
-  "followsYou": "Prati vas",
-  "sectionCrashedTitle": "Učitavanje sekcije nije uspjelo",
-  "sectionCrashedBody": "Nešto je pošlo po zlu u ovoj sekciji.",
-  "forwarding": "Prosljeđivanje poziva i poruka",
-  "callTextForwardingSection": "Prosljeđivanje poziva i poruka",
-  "callTextForwardingTitle": "Prosljeđivanje poziva i poruka",
-  "callTextForwardingDescription": "Proslijedite dolazne pozive i poruke na potvrđeni telefon ili email. Odlazni pozivi i poruke mogu prikazivati vaš Chatforia broj.",
-  "enableTextForwarding": "Omogući prosljeđivanje poruka",
-  "forwardTextsToPhone": "Proslijedi poruke na telefon",
-  "forwardTextsToEmail": "Proslijedi poruke na email",
-  "destinationPhone": "Odredišni telefon (E.164)",
-  "destinationEmail": "Odredišni email",
-  "enableCallForwarding": "Omogući prosljeđivanje poziva",
-  "destinationPhoneForCalls": "Odredišni broj za pozive (E.164)",
-  "aliasBridging": "Prosljeđivanje poziva (alias bridging)",
-  "quietHoursOptional": "Tihi sati (opcionalno)",
-  "startHour": "Početni sat (0–23)",
-  "endHour": "Krajnji sat (0–23)",
-  "reset": "Resetuj",
-  "saveBtn": "Sačuvaj",
-  "saveProfile": "Sačuvaj profil",
-  "saveForwarding": "Sačuvaj prosljeđivanje",
-  "forwardSaved": "Postavke prosljeđivanja su sačuvane",
-  "forwardSaveFailed": "Nije moguće sačuvati postavke",
-  "errE164": "Unesite važeći E.164 broj telefona (npr. +15551234567).",
-  "errEmail": "Unesite važeći email.",
-  "errSmsDest": "Odaberite barem jedno odredište (telefon ili email).",
-  "errQuietHours": "Tihi sati moraju biti između 0 i 23.",
-  "randomChat": "Nasumični chat",
-  "ageBand": "Vaša dobna grupa",
-  "ageBandPlaceholder": "Odaberite svoju dobnu grupu",
-  "ageTeen": "13–17",
-  "age18_24": "18–24",
-  "age25_34": "25–34",
-  "age35_49": "35–49",
-  "age50Plus": "50+",
-  "ageBandHint": "Pohranjujemo samo dobnu grupu (ne tačan datum rođenja). Ovo se koristi za prikladno uparivanje u Random Chatu.",
-  "wantsAgeFilter": "Koristi uparivanje po dobi u Random Chatu",
-  "wantsAgeFilterDesc": "Kada je uključeno, pokušat ćemo vas upariti s ljudima iz kompatibilnih dobnih grupa.",
-  "partnerAgeBands": "S kim možete biti upareni?",
-  "partnerAgeBandsDesc": "Tinejdžeri mogu biti upareni samo s drugim tinejdžerima. Odrasli ne mogu biti upareni s tinejdžerima.",
-  "teenMatchingNote": "Radi sigurnosti, računi u dobnoj grupi 13–17 mogu biti povezani samo s drugim korisnicima 13–17 u Random Chatu.",
-  "foriaRemember": "Dozvoli Riji da pamti stvari koje joj kažete",
-  "foriaRememberDesc": "Kada je ovo uključeno, Foria može koristiti vaše prethodne Random Chat razgovore (samo s vama) kako bi razgovor tekao prirodnije. Ovo možete isključiti u bilo kojem trenutku.",
-  "voicemailSection": "Govorna pošta",
-  "voicemailEnabled": "Omogući govornu poštu",
-  "voicemailAutoDeleteDays": "Automatski obriši govorne poruke nakon (dana)",
-  "voicemailAutoDeletePlaceholder": "Ostavite prazno za trajno čuvanje",
-  "voicemailForwardEmail": "Proslijedi govornu poštu na email",
-  "voicemailForwardEmailPlaceholder": "Email za slanje obavijesti govorne pošte",
-  "voicemailGreetingText": "Rezervni tekst pozdrava",
-  "voicemailGreetingTextDesc": "Koristi se kada audio pozdrav nije dostupan.",
-  "voicemailGreetingUpload": "Otpremi pozdrav za govornu poštu",
-  "voicemailPreviewGreeting": "Pregled pozdrava",
-  "voicemailGreetingUploaded": "Pozdrav govorne pošte je uspješno otpremljen",
-  "voicemailGreetingUploadError": "Otpremanje pozdrava govorne pošte nije uspjelo",
-  "voicemailNote": "Govorne poruke s vaših Chatforia brojeva bit će pohranjene u vaš inbox govorne pošte. Možete omogućiti transkripciju i prosljeđivanje na podržanim planovima.",
-  "portHint": "Želite zadržati svoj trenutni broj? Možete ga prenijeti u Chatforia Wireless.",
-  "wireless": {
-    "manage": "Upravljaj wireless uslugom"
-  },
-  "esim": {
-    "title": "Chatforia eSIM",
-    "desc": "Dobijte mobilne podatke za Chatforiju kada ste daleko od Wi-Fi mreže.",
-    "cta": "Preuzmi eSIM / Prikaži QR"
-  },
-  "encryptedBackupsTitle": "Sigurnosna kopija enkripcijskog ključa"
-},
-  "wireless": {
-  "title": "Chatforia Wireless",
-  "description": "Upravljajte svojim Chatforia mobilnim planom, brojevima, prosljeđivanjem i prijenosom broja.",
-  "options": {
-    "heading": "Odaberite kako želite koristiti Chatforiju",
-    "subheading": "Možete dobiti novi Chatforia broj ili prenijeti postojeći broj od drugog operatera.",
-    "newNumber": "Dobij novi Chatforia broj",
-    "portNumber": "Prenesi svoj trenutni broj u Chatforia Wireless"
-  },
-  "port": {
-    "heading": "Prenesite postojeći broj",
-    "subheading": "Premjestite svoj trenutni telefonski broj od postojećeg operatera u Chatforiju. Provjerite da li podaci tačno odgovaraju vašem računu kod operatera kako biste izbjegli kašnjenja.",
-    "phoneNumberLabel": "Telefonski broj za prijenos",
-    "phoneNumberPlaceholder": "+1 555 123 4567",
-    "carrierLabel": "Trenutni operater",
-    "carrierPlaceholder": "Verizon, AT&T, T-Mobile itd.",
-    "accountNumberLabel": "Broj računa",
-    "pinLabel": "PIN za prijenos / lozinka",
-    "fullNameLabel": "Puno ime na računu",
-    "address1Label": "Adresa 1",
-    "address2Label": "Adresa 2 (opcionalno)",
-    "cityLabel": "Grad",
-    "stateLabel": "Država / Pokrajina",
-    "postalCodeLabel": "Poštanski broj",
-    "countryLabel": "Država",
-    "submitButton": "Pošalji zahtjev za prijenos",
-    "success": "Zahtjev za prijenos je poslan! Obavještavat ćemo vas o statusu.",
-    "genericError": "Nešto je pošlo po zlu."
-  },
-  "status": {
-    "heading": "Status prijenosa broja",
-    "subheading": "Pratite status svojih zahtjeva za prijenos broja.",
-    "loading": "Učitavanje…",
-    "loadError": "Učitavanje zahtjeva za prijenos nije uspjelo.",
-    "none": "Još nema aktivnosti prijenosa.",
-    "pending": "Čeka pregled",
-    "submitted": "Poslano operateru",
-    "inProgress": "U toku",
-    "completed": "Završeno",
-    "failed": "Neuspješno",
-    "canceled": "Otkazano",
-    "created": "Kreirano:",
-    "scheduled": "Zakazano:",
-    "completedAt": "Završeno:"
-  },
-  "dataLow": "Vaši podaci su pri kraju.",
-  "topUp": "Dopuni sada",
-  "expiresIn": "Ističe za {{days}} dana",
-  "exhausted": "Vaši podaci su potrošeni. Kupite novi paket kako biste nastavili koristiti mobilne podatke.",
-  "buyPack": "Kupi paket podataka",
-  "esimPackLabel": "eSIM paket"
-},
-
-"family": {
-  "title": "Porodica",
-  "loading": "Učitavanje detalja porodice…",
-  "error": {
-    "load": "Učitavanje detalja porodice nije uspjelo.",
-    "invite": "Nije moguće kreirati pozivnicu. Provjerite jeste li vlasnik porodice i pokušajte ponovo.",
-    "checkout": "Nije moguće pokrenuti naplatu za porodični plan. Pokušajte ponovo."
-  },
-  "billing": {
-    "myPlanTitle": "Moj plan",
-    "myPlanError": "Nije moguće učitati vaš plan.",
-    "myPlanLoading": "Učitavanje vašeg plana…",
-    "currentPlan": "Trenutni plan",
-    "renewsAt": "Obnavlja se",
-    "freePlanCopy": "Trenutno koristite besplatni plan. Nadogradite kako biste otključali više funkcija.",
-    "upgradeCta": "Nadogradi plan",
-    "changePlanCta": "Promijeni plan",
-    "manageBilling": "Upravljaj naplatom",
-    "portalError": "Trenutno nije moguće otvoriti portal za naplatu.",
-    "cancelNow": "Otkaži odmah",
-    "cancelNowHelp": "Možete upravljati ili otkazati svoju pretplatu putem portala za naplatu ili je odmah otkazati ispod.",
-    "cancelNowConfirm": "Jeste li sigurni da želite odmah otkazati svoj plan? Ova radnja se ne može poništiti.",
-    "cancelNowError": "Trenutno nije moguće otkazati vaš plan. Pokušajte ponovo ili koristite Upravljaj naplatom."
-  },
-  "none": {
-    "title": "Porodica još nije postavljena",
-    "body": "Za kreiranje Chatforia porodice i zajedničkog paketa podataka, pokrenite porodični plan.",
-    "goUpgrade": "Pokreni porodični plan",
-    "viewPlans": "Prikaži sve planove"
-  },
-  "group": {
-    "defaultName": "Moja Chatforia porodica",
-    "role": "Vaša uloga: {{role}}"
-  },
-  "role": {
-    "owner": "Vlasnik",
-    "member": "Član"
-  },
-  "data": {
-    "heading": "Zajednički paket podataka",
-    "caption": "Svi članovi dijele ovaj paket. Upozorit ćemo vas kada se približite ograničenju."
-  },
-  "members": {
-    "title": "Članovi porodice",
-    "name": "Ime",
-    "role": "Uloga",
-    "usage": "Potrošnja",
-    "limit": "Ograničenje",
-    "unlimited": "Bez određenog ograničenja",
-    "inviteCta": "Pozovi člana"
-  },
-  "invite": {
-    "title": "Pozovi novog člana",
-    "body": "Pošaljite email ili link kako biste pozvali nekoga u svoj zajednički porodični paket podataka.",
-    "emailLabel": "Email (opcionalno)",
-    "emailPlaceholder": "friend@example.com",
-    "create": "Kreiraj pozivnicu",
-    "linkLabel": "Link pozivnice",
-    "copyAria": "Kopiraj link pozivnice",
-    "expiryHint": "Ovaj link ističe nakon nekoliko dana. Uvijek možete kreirati novi."
-  },
-  "join": {
-    "title": "Pridružite se porodici",
-    "body": "Pozvani ste da se pridružite Chatforia porodici i dijelite njihov paket podataka.",
-    "cta": "Prihvati i pridruži se porodici",
-    "ctaLogin": "Prijavi se i pridruži se porodici",
-    "success": "Uspješno ste se pridružili porodici. Sada dijelite njihov paket podataka.",
-    "goFamily": "Idi na porodičnu kontrolnu tablu",
-    "error": "Nije moguće dodati vas u ovu porodicu. Pozivnica je možda nevažeća ili je istekla."
-  }
-},
-  "premium": {
-    "heading": "Pređi na Premium",
-    "description": "Otključajte napredne funkcije i uklonite oglase.",
-    "cta": "Nadogradi",
-    "upgrade": "Nadogradi",
-    "upgradeAria": "Nadogradi za Chatforia Premium"
-  },
-  "upgrade": {
-  "title": "Nadogradi",
-  "titleLoggedIn": "Nadogradi",
-  "titlePublic": "Cijene",
-
-  "h1": "Chatforia cijene i planovi",
-
-  "h1Subtitle": "Počnite s našim besplatnim planom uz oglase. Pređite na Plus za iskustvo bez oglasa ili otključajte napredne funkcije uz Premium.",
-
-  "subtitle": "Odaberite plan aplikacije, dodajte paket podataka za sebe ili dijelite podatke s porodicom — sve na jednom mjestu.",
-
-  "subtitle.app": "Počnite s našim besplatnim planom uz oglase. Pređite na Plus za iskustvo bez oglasa ili otključajte napredne funkcije uz Premium.",
-
-  "subtitle.mobile": "Dodajte globalne eSIM podatke kako bi Chatforia radila čak i kada niste na Wi-Fi mreži.",
-
-  "subtitle.family": "Kreirajte zajednički paket podataka za porodicu i upravljajte potrošnjom svih članova s jednog mjesta.",
-
-  "perMonth": "mjesečno",
-  "perYear": "godišnje",
-
-  "goPremium": "Pređi na Premium",
-  "benefitsLine": "Otključajte napredne funkcije i uklonite oglase.",
-  "ctaText": "Nadogradi",
-  "aria": "Nadogradi na Chatforia Premium",
-
-  "toggle": {
-    "monthly": "Mjesečno",
-    "annual": "Godišnje (uštedite 30%)"
-  },
-
-  "scheduleBanner": {
-    "title": "Pretplata će završiti",
-    "body": "Vaš plan će se vratiti na besplatni plan.",
-    "keepPlanCta": "Zadrži {{plan}}",
-    "manageBillingCta": "Upravljaj naplatom"
-  },
-
-  "billing": {
-    "opening": "Otvaranje…",
-    "manage": "Upravljaj naplatom"
-  },
-
-  "checkout": {
-    "redirecting": "Preusmjeravanje…"
-  },
-
-  "auth": {
-    "continue": "Nastavi na prijavu",
-    "createAccount": "Kreiraj račun",
-    "signIn": "Prijavi se"
-  },
-
-  "cta": {
-    "aria": "Odaberi plan",
-    "getPlus": "Nadogradi na Plus",
-    "upgradeMonthly": "Nadogradi mjesečno",
-    "upgradeAnnual": "Nadogradi godišnje"
-  },
-
-  "section": {
-    "app": "Planovi aplikacije",
-    "mobile": "Mobilno (eSIM)",
-    "family": "Porodični planovi"
-  },
-
-  "plans": {
-    "free": {
-      "title": "Besplatno",
-      "price": "$0",
-      "desc": "Počnite slati poruke besplatno. Idealno ako tek isprobavate Chatforiju.",
-      "features": {
-        "chat": "Real-time 1:1 i grupni chat, uz glasovne i video pozive",
-        "media": "Dijelite fotografije, glasovne poruke i kratke videozapise",
-        "ai": "AI pametni odgovori i trenutni prevod poruka",
-        "disappearing": "Poruke koje nestaju i osnovne kontrole privatnosti",
-        "ads": "Besplatni plan uključuje oglase u aplikaciji"
-      },
-      "ctaCurrent": "Trenutni plan",
-      "ctaManage": "Upravljaj naplatom",
-      "ctaPublic": "Započni — nastavi na prijavu",
-      "aria": "Besplatni plan"
+    "recentInteractions": "Nedavne interakcije",
+    "noContactsMatch": "Nema kontakata koji odgovaraju vašoj pretrazi.",
+    "noRecentInteractions": "Još nema nedavnih interakcija.",
+    "nepoznato": "Nepoznato",
+    "vrstainterakcije": {
+      "poruka": "Poruka",
+      "poziv": "Poziv",
+      "video": "Video"
     },
-
-    "plus": {
-      "title": "Plus",
-      "price": "$6.99",
-      "desc": "Sve osnovne funkcije, bez oglasa. Odlično za svakodnevne poruke i pozive.",
-      "features": {
-        "allFree": "Sve iz besplatnog plana, bez oglasa",
-        "forwarding": "Prosljeđivanje poziva i poruka na vaš stvarni telefonski broj",
-        "history": "Duža historija poruka (do 6 mjeseci)",
-        "support": "Brža podrška kada nešto pođe po zlu"
-      },
-      "badge": "Popularno",
-      "cta": "Ukloni oglase",
-      "ctaPublic": "Uzmi Plus — nastavi na prijavu",
-      "aria": "Nadogradi na Plus"
-    },
-
-    "premiumMonthly": {
-      "title": "Premium (mjesečno)",
-      "price": "$11.99",
-      "desc": "Puno Chatforia iskustvo: AI alati, prilagodbe i prioritetna podrška.",
-      "features": {
-        "plusAll": "Sve iz Plus plana",
-        "themes": "Otključajte sve Premium teme boja i prilagodbe aplikacije",
-        "ai": "Premium AI alati za prepravljanje teksta, pametne odgovore i sažetke",
-        "support": "Prioritetna podrška kada vam je pomoć najpotrebnija"
-      },
-      "badge": "Preporučeno",
-      "cta": "Nadogradi mjesečno",
-      "ctaPublic": "Otključaj Premium — nastavi na prijavu",
-      "aria": "Nadogradi na Premium mjesečno"
-    },
-
-    "premiumAnnual": {
-      "title": "Premium (godišnje)",
-      "price": "$99",
-      "desc": "Uštedite više uz godišnju naplatu — uključuje dodatne teme boja, AI alate i prioritetnu podršku.",
-      "features": {
-        "allPremium": "Sve iz Premium mjesečnog plana — uključujući dodatne teme boja",
-        "annualBilling": "Naplaćuje se jednom godišnje",
-        "save25": "Uštedite oko 30% u odnosu na mjesečno plaćanje",
-        "bestFor": "Najbolje za napredne korisnike, radnike na daljinu i česte putnike"
-      },
-      "badge": "Uštedi 30%",
-      "cta": "Nadogradi godišnje",
-      "ctaPublic": "Uštedi 30% uz godišnji plan — nastavi na prijavu",
-      "aria": "Nadogradi na Premium godišnje",
-      "disclaimer": "Naplaćuje se unaprijed. Otkažite bilo kada. Bez skrivenih naknada."
-    }
-  },
-
-  "marketing": {
-    "freeTitle": "Besplatno",
-    "freeDesc": "Počnite slati poruke besplatno.",
-    "plusTitle": "Plus",
-    "plusBadge": "Popularno",
-    "plusDesc": "Najpovoljnije iskustvo bez oglasa.",
-    "premiumMonthlyTitle": "Premium",
-    "premiumMonthlyDesc": "Pune funkcije, zvukovi i AI alati.",
-    "premiumAnnualTitle": "Premium",
-    "premiumAnnualDesc": "Uštedite više uz godišnju naplatu.",
-    "annualDisclaimer": "Naplaćuje se unaprijed. Otkažite bilo kada. Bez skrivenih naknada."
-  },
-
-  "mobile": {
-    "title": "Chatforia Mobile (eSIM paketi podataka)",
-    "subtitle": "Dodajte globalne podatke kako bi Chatforia radila čak i bez Wi-Fi mreže. Cijene se automatski prilagođavaju vašoj državi i valuti.",
-    "subtitle.detail": "Odaberite jednokratni globalni paket podataka kako bi Chatforia radila tokom putovanja ili kada niste na Wi-Fi mreži.",
-
-    "scope": {
-      "local": "Lokalno",
-      "europe": "Evropa",
-      "global": "Globalno"
-    },
-
-    "note": "Ne prodajemo pakete podataka manje od 3 GB.",
-    "localEquals": "Lokalno = {{country}}",
-    "localEqualsFallback": "Lokalno = vaša trenutna država",
-    "perPack": "/ paket",
-    "cta": "Uzmi ovaj paket podataka",
-    "ctaPublic": "Uzmi ovaj paket podataka",
-
-    "checkout": {
-      "redirecting": "Preusmjeravanje…"
-    },
-
-    "unlimited": {
-      "features": {
-        "heavyUse": "Brzi podaci za intenzivnu upotrebu",
-        "throttle": "Brzina se može smanjiti nakon velike potrošnje",
-        "coverage": "Pouzdana pokrivenost",
-        "instant": "Trenutna eSIM aktivacija",
-        "noContract": "Jednokratni paket, bez ugovora"
-      }
-    },
-
-    "disclaimer": {
-      "devices": "eSIM paketi podataka zahtijevaju uređaj koji podržava eSIM i otključan telefon. Dostupnost zavisi od modela telefona, operatera i države. Pokrivenost i brzine mogu se razlikovati po regiji."
-    },
-
-    "small": {
-      "title": "Početni paket",
-      "desc": "Uključuje 3 GB brzih podataka — idealno za lagano dopisivanje i povremene pozive.",
-      "price": "$9.99",
-      "data": "3 GB",
-      "bestFor": "Kratka putovanja, lagano dopisivanje i povremeni pozivi",
-      "aria": "Kupi početni eSIM paket podataka"
-    },
-
-    "medium": {
-      "title": "Putnički paket",
-      "desc": "Uključuje 5 GB brzih podataka za putovanja, svakodnevno kretanje i redovne VoIP pozive.",
-      "price": "$14.99",
-      "data": "5 GB",
-      "bestFor": "Vikend putovanja, redovni VoIP pozivi i mape",
-      "aria": "Kupi putnički eSIM paket podataka"
-    },
-
-    "large": {
-      "title": "Paket za aktivne korisnike",
-      "desc": "Uključuje 10 GB brzih podataka za intenzivan chat, pozive i video na Chatforia mreži.",
-      "price": "$24.99",
-      "data": "10 GB",
-      "bestFor": "Intenzivan chat, pozivi, video i hotspot upotreba",
-      "aria": "Kupi eSIM paket za aktivne korisnike"
-    },
-
-    "compare": {
-      "title": "Uporedi eSIM pakete podataka",
-      "col": {
-        "pack": "Paket",
-        "data": "Uključeni podaci",
-        "bestFor": "Najbolje za"
-      },
-      "disclaimer": "Stvarna potrošnja podataka zavisi od toga kako koristite Chatforiju: glas, video, mediji i druge aplikacije na telefonu."
-    }
-  },
-
-  "family": {
-    "title": "Chatforia Porodica (dijeljeni podaci)",
-    "subtitle": "Dijelite jedan paket podataka s porodicom. Jedan račun, više Chatforia računa i globalna pokrivenost.",
-    "perPack": "/ paket",
-
-    "small": {
-      "title": "Porodica Mali",
-      "desc": "Uključuje 20 GB dijeljenih brzih podataka — odlično za 2–3 lagana korisnika.",
-      "price": "$29.99",
-      "aria": "Kupi Porodica Mali paket"
-    },
-
-    "medium": {
-      "title": "Porodica Srednji",
-      "desc": "Uključuje 40 GB dijeljenih brzih podataka — idealno za 3–5 aktivnih članova.",
-      "price": "$49.99",
-      "aria": "Kupi Porodica Srednji paket"
-    },
-
-    "large": {
-      "title": "Porodica Veliki",
-      "desc": "Uključuje 80 GB dijeljenih brzih podataka — za aktivne porodice koje su stalno online.",
-      "price": "$84.99",
-      "aria": "Kupi Porodica Veliki paket"
-    },
-
-    "feature": {
-      "shared": "Zajednički paket podataka za vašu porodicu",
-      "members": "Pozovite do 4 dodatna člana",
-      "membersMore": "Odlično za 3–5 aktivnih članova",
-      "manage": "Upravljajte limitima za svakog člana",
-      "topUp": "Dodajte još paketa bilo kada",
-      "bestValue": "Najbolja vrijednost po GB",
-      "fairUse": "Podliježe politici poštene upotrebe i lokalnim ograničenjima"
-    },
-
-    "disclaimer": "Porodični paketi kreiraju ili dopunjavaju zajednički paket podataka. Članove možete pozvati ili ukloniti bilo kada.",
-
-    "footnote": "Porodični paketi dijele jedan paket podataka između povezanih Chatforia računa. Dostupnost i ograničenja zavise od vaše države i lokalnih propisa."
-  },
-
-  "why": {
-    "title": "Zašto ljudi prelaze na Chatforiju",
-    "subtitle": "Chatforia vam daje stvarni telefonski broj, pametan prevod i jasan put do iskustva bez oglasa kada budete spremni.",
-
-    "card": {
-      "textnow": {
-        "title": "Chatforia vs TextNow",
-        "body": "Manje nametljivi oglasi na besplatnom planu, jednostavna Plus nadogradnja kada ste spremni i Premium alati koje TextNow ne nudi."
-      },
-      "voice": {
-        "title": "Chatforia vs Google Voice",
-        "body": "Moderna aplikacija, global-first dizajn i ugrađeni prevod umjesto zastarjelog prosljeđivanja poziva."
-      },
-      "messengers": {
-        "title": "Chatforia vs chat aplikacije",
-        "body": "Šaljite poruke stvarnim telefonskim brojevima — ne samo drugim korisnicima aplikacije — uz AI i statuse ugrađene u iskustvo."
-      }
-    },
-
-    "tableTitle": "Kako se Chatforia poredi",
-    "col": {
-      "feature": "Funkcija"
-    },
-
-    "feature": {
-      "freeNumber": "Besplatan telefonski broj",
-      "translation": "Ugrađeni automatski prevod",
-      "aiTools": "AI alati za prepravke, odgovore i sažetke",
-      "ads": "Opcija bez oglasa",
-      "history": "Historija poruka"
-    },
-
-    "yes": "Da",
-    "no": "Ne",
-    "yesPremium": "Da (Premium)",
-    "plusPremium": "Plus i Premium",
-    "limited": "Ograničeno",
-    "nA": "Nije dostupno",
-
-    "history": {
-      "chatforia": "Do 12+ mjeseci",
-      "textnow": "Zavisi od računa",
-      "voice": "Ograničeno / vezano za račun"
-    },
-
-    "disclaimer": "Poređenje se zasniva na javno dostupnim informacijama i može se promijeniti. Druge besplatne texting aplikacije kao TextFree ili TextMe uglavnom su slične TextNowu."
-  },
-
-  "faq": {
-    "title": "Česta pitanja o cijenama i planovima",
-
-    "free": {
-      "q": "Da li je besplatni plan stvarno besplatan?",
-      "a": "Da. Besplatni plan uključuje Chatforia broj, pozive i poruke uz oglase. Možete ostati na besplatnom planu koliko god želite ili nadograditi da uklonite oglase i otključate dodatne funkcije."
-    },
-
-    "plusPremium": {
-      "q": "Koja je razlika između Plus i Premium plana?",
-      "a": "Plus uklanja oglase i produžava historiju poruka — idealno za svakodnevnu upotrebu. Premium dodaje dodatne prilagodbe, AI alate za prepravke i odgovore te prioritetnu podršku."
-    },
-
-    "esim": {
-      "q": "Gdje rade eSIM paketi podataka?",
-      "a": "Chatforia Mobile koristi globalnu eSIM pokrivenost. Dostupnost zavisi od vaše države i uređaja. Podržane opcije vidjet ćete tokom aktivacije u aplikaciji."
-    },
-
-    "cancel": {
-      "q": "Mogu li otkazati ili promijeniti plan bilo kada?",
-      "a": "Da. Pretplatu možete upravljati ili otkazati na stranici za naplatu u aplikaciji. Promjene stupaju na snagu na kraju trenutnog obračunskog perioda."
-    },
-
-    "family": {
-      "q": "Kako rade porodični paketi?",
-      "a": "Porodični paketi kreiraju zajednički paket podataka za više Chatforia računa. Jedna osoba plaća račun, a članove možete pozivati, uklanjati i postavljati limite po osobi."
-    }
-  }
-},
-  "support": {
-  "helpFab": "Pomoć",
-  "openSupportAria": "Otvori podršku",
-  "badge": "Podrška",
-  "heading": "Kako vam možemo pomoći?",
-  "tabs": {
-    "help": "Centar za pomoć",
-    "contact": "Kontaktirajte nas"
-  },
-  "searchPlaceholder": "Pretražite članke pomoći…",
-  "searchAria": "Pretraga pomoći",
-  "searchBtn": "Pretraži",
-  "quickTopicsLabel": "Brze teme",
-  "quickTopics": {
-    "login": "Ne mogu se prijaviti",
-    "billing": "Plaćanja / naplata",
-    "abuse": "Prijavi zloupotrebu"
-  },
-  "trySearching": "Pokušajte pretražiti “prevod”, “sigurnosne kopije” ili “privatnost”.",
-  "article": "Članak",
-  "openArticle": "Otvori članak",
-  "contactIntro": "Pokušat ćemo odmah riješiti problem. Ako ne uspijemo, naš tim će vas kontaktirati.",
-  "topicAria": "Odaberite temu",
-  "messagePlaceholder": "Napišite svoju poruku…",
-  "sendBtn": "Pošalji",
-  "sent": "Poruka je poslana. Odgovorit ćemo vam putem emaila.",
-  "sendError": "Slanje nije uspjelo. Umjesto toga pošaljite email na support@chatforia.com.",
-  "actionCompleted": "Radnja je završena.",
-  "actionFailed": "Nije moguće završiti tu radnju. Pokušajte ponovo.",
-  "escalationMessage": "Nismo mogli automatski riješiti ovaj problem. Naš tim će vas kontaktirati.",
-  "genericError": "Nešto je pošlo po zlu. Pokušajte ponovo.",
-  "analyzing": "Analiziramo vaš problem…",
-  "takeAction": "Poduzmite preporučenu radnju",
-  "resolvedInstantly": "Problem je odmah riješen — tiket nije potreban.",
-  "escalating": "Prosljeđujemo podršci…"
-},
-"helpCenter": {
-  "title": "Centar za pomoć",
-  "faq": {
-    "account": {
-      "q": "Kako mogu kreirati ili oporaviti svoj račun?",
-      "a": "Preuzmite aplikaciju ili koristite web verziju, dodirnite “Kreiraj račun” i potvrdite svoj email ili telefon. Za oporavak računa koristite opciju “Zaboravljena lozinka”."
-    },
-    "privacy": {
-      "q": "Jesu li poruke end-to-end šifrirane?",
-      "a": "Da. Poruke i pozivi su end-to-end šifrirani po zadanim postavkama. Samo vi i primalac možete ih čitati."
-    },
-    "translate": {
-      "q": "Kako radi trenutni prevod?",
-      "a": "Uključite “Automatski prevod” u Postavkama → Izgled i jezik. Gdje je podržano, prevod se obavlja na uređaju; u drugim slučajevima koristimo sigurne API-je uz minimalne metapodatke."
-    },
-    "contact": {
-      "q": "Kontaktirajte podršku",
-      "a": "Kontaktirajte nas na support@chatforia.com. Uključite screenshotove i verziju aplikacije kako bismo vam brže pomogli."
-    }
-  }
-},
-"encryptionRecovery": {
-  "title": "Upravljanje enkripcijom",
-  "description": "Napravite sigurnosnu kopiju, vratite, otključajte ili resetujte svoj enkripcijski ključ.",
-  "alert": {
-    "keyRequiredTitle": "Potreban je enkripcijski ključ",
-    "keyRequiredBody": "Ovaj preglednik trenutno ne može dešifrovati vaše šifrirane poruke. Vratite, otključajte ili resetujte ključ da nastavite."
-  },
-  "sections": {
-    "createBackup": "Kreiraj sigurnosnu kopiju ključa",
-    "restoreFromBackup": "Vrati iz sigurnosne kopije računa",
-    "resetEncryption": "Resetuj enkripciju"
-  },
-  "fields": {
-    "unlockPasscode": {
-      "label": "Kod za otključavanje (trenutni uređaj)",
-      "description": "Koristi se za lokalno dešifrovanje ključeva prije izvoza."
-    },
-    "backupPassword": {
-      "label": "Lozinka za sigurnosnu kopiju",
-      "description": "Koristi se za šifrovanje datoteke sigurnosne kopije."
-    },
-    "restoreBackupPassword": {
-      "label": "Lozinka za sigurnosnu kopiju",
-      "description": "Lozinka koju ste kreirali prilikom sigurnosne kopije ključa."
-    },
-    "newLocalPasscode": {
-      "label": "Novi lokalni kod",
-      "description": "Štiti ključeve pohranjene u ovom pregledniku."
-    },
-    "resetLocalPasscode": {
-      "label": "Novi lokalni kod",
-      "description": "Potreban je prije resetovanja kako bi novi ključ bio zaštićen na ovom uređaju."
-    }
-  },
-  "actions": {
-    "unlockKey": "Otključaj enkripcijski ključ",
-    "restoreFromBackup": "Vrati iz sigurnosne kopije računa",
-    "resetEncryption": "Resetuj enkripciju"
-  },
-  "messages": {
-    "backupCreated": "Sigurnosna kopija ključa je kreirana i preuzeta.",
-    "keyUnlocked": "Enkripcijski ključ je otključan.",
-    "keyRestored": "Ključ je vraćen iz sigurnosne kopije računa.",
-    "resetSuccess": "Enkripcija je uspješno resetovana."
-  },
-  "errors": {
-    "restoreIncomplete": "Vraćanje ključa je nepotpuno ili ne odgovara ovom računu.",
-    "noBackup": "Za ovaj račun ne postoji šifrirana sigurnosna kopija.",
-    "missingPublicKey": "U sigurnosnoj kopiji nedostaje javni ključ.",
-    "noServerPublicKey": "Ovaj račun trenutno nema dostupan javni ključ na serveru.",
-    "serverBackupMismatch": "Sigurnosna kopija na serveru ne odgovara trenutnom enkripcijskom ključu računa.",
-    "incompleteMetadata": "Metapodaci sigurnosne kopije su nepotpuni.",
-    "resetIncomplete": "Resetovanje enkripcije nije pravilno završeno."
-  },
-  "confirm": {
-    "reset": "Resetovati enkripciju za ovaj račun?\n\nStarije šifrirane poruke mogu postati nečitljive ako kasnije ne vratite originalni ključ."
-  },
-  "resetDescription": "Ovo generiše novi enkripcijski ključ za vaš račun. Starije šifrirane poruke mogu postati nečitljive ako kasnije ne vratite originalni ključ."
-},
-  "footer": {
-  "plans": "Planovi i cijene",
-  "about": "O Chatforiji",
-  "careers": "Karijere",
-  "press": "Press",
-  "advertise": "Oglašavanje",
-  "contact": "Kontaktirajte nas",
-  "help": "Centar za pomoć",
-  "status": "Status stranica",
-  "iosDownload": "iOS / App Store",
-  "androidDownload": "Android / Google Play",
-  "privacy": "Politika privatnosti",
-  "terms": "Uslovi korištenja",
-  "cookies": "Postavke kolačića",
-  "doNotSell": "Ne prodaj moje informacije",
-  "language": "Jezik",
-  "contactShort": "Kontakt",
-  "aria": "Podnožje",
-  "homeAria": "Chatforia početna stranica",
-  "section": {
-    "company": "KOMPANIJA",
-    "support": "PODRŠKA",
-    "downloads": "PREUZIMANJA",
-    "legal": "PRAVNO"
-  },
-  "links": {
-    "plans-pricing": "Planovi i cijene",
-    "about-chatforia": "O Chatforiji",
-    "careers": "Karijere",
-    "press": "Press",
-    "advertise": "Oglašavanje",
-    "getting-started": "Početak",
-    "help-center": "Centar za pomoć",
-    "contact-us": "Kontaktirajte nas",
-    "status-page": "Status stranica",
-    "ios-app-store": "iOS / App Store",
-    "android-google-play": "Android / Google Play",
-    "privacy-policy": "Politika privatnosti",
-    "terms-of-service": "Uslovi korištenja",
-    "do-not-sell-my-info": "Ne prodaj moje informacije",
-    "cookie-settings": "Postavke kolačića"
-  },
-  "social": {
-    "tiktok": "TikTok",
-    "instagram": "Instagram",
-    "facebook": "Facebook",
-    "linkedin": "LinkedIn",
-    "x": "X"
-  },
-  "copyright": "© Chatforia",
-  "patentPending": "Patent na čekanju",
-  "backToTop": "↑ Nazad na vrh"
-},
-  "press": {
-    "title": "Press",
-    "contactLine": "Za mediji inquiries, reach us na",
-    "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia je jedan privacy-first razmjena poruka aplikacija that makes cross-language chat effortless. Poruke su end-to-end šifrirano po zadanom, i ugrađeno prevod supports 100+ jezici u stvarno vrijeme. Korisnici može omogući poruke koje nestaju, keep potvrde čitanja optional, i sinhronizacija across uređaji. Dostupno uključeno iOS, Android, i taj web.",
-    "assetsTitle": "Brand assets",
-    "assetsSubtitle": "Logos, screenshots, i product imagery.",
-    "downloadCta": "Preuzmi mediji kit",
-    "downloadTitle": "Preuzmi aplikaciju",
-    "scanTip": "Uključeno desktop? Skeniraj s vašim telefon za dobij taj aplikacija.",
-    "qrAria": "Otvori Chatforia website",
-    "appStore": "Preuzmi uključeno taj App Store",
-    "googlePlay": "Dobij it uključeno Google Play"
-  },
-  "careers": {
-    "title": "Careers",
-    "intro": "We’re jedan malo founding tim building Chatforia — jedan privatno, globalno messenger launching uključeno web, iOS, i Android. Ako vi care o privatnost, enkripcija, i delightful korisnik experiences, we’d love za hear od vi.",
-    "openRoles": "<b>Otvori founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobilno Engineer (iOS), Mobilno Engineer (Android), DevOps/SRE, Sigurnost &amp; Enkripcija Engineer, Telecom Engineer (Twilio + eSIM).",
-    "apply": "Kako za apply: Koristi taj dugme below za email vaš resume i linkovi.",
-    "emailCta": "Email vaš resume",
-    "whyNow": "Zašto pridruži se sada?",
-    "whyBullets": "• Pomoć build taj foundation od jedan novo globalno messenger.\n• Ship improvements korišteno across web, iOS, i Android.\n• Radi directly s taj founder uključeno architecture i product direction.\n• Vlastito high-impact areas od taj stack: razmjena poruka, glas, video, enkripcija, telecom, AI.\n• Pridruži se na taj beginning — prije taj korisnik base scales."
-  },
-  "about": {
-    "title": "O Chatforia",
-    "description": "Chatforia je jedan sigurno, multilingual messenger s end-to-end enkripcija, trenutno prevod, i glas/video pozivanje. Naš mission je jednostavno: pomoć ljudi connect—safely, privately, i across jezici.",
-    "valuesTitle": "What mi value",
-    "values": {
-      "privacy": "<b>Privacy-first:</b> E2E enkripcija po zadanom.",
-      "access": "<b>Pristup za sve:</b> Auto-translate 100+ jezici.",
-      "control": "<b>Kontrola:</b> Poruke koje nestaju & potvrde čitanja su optional.",
-      "privacy_aria": "Privacy-first: E2E enkripcija po zadanom.",
-      "access_aria": "Pristup za sve: Auto-translate 100+ jezici.",
-      "control_aria": "Kontrola: Poruke koje nestaju i potvrde čitanja su optional."
-    },
-    "howTitle": "Kako Chatforia radi",
-    "howDescription": "Poruke su šifrirano uključeno vaš uređaj prije oni napusti it. Prevod, sigurnosne kopije, i uređaj sinhronizacija su designed za minimize what naš servers može vidi."
-  },
-  "advertise": {
-    "title": "Advertise s Chatforia",
-    "description": "Reach engaged razmjena poruka korisnici s tasteful, brand-safe placements. Mi offer banner inventory u high-visibility spots, sponsorships, i house promos. Premium subscribers uradite ne vidi oglasi.",
-    "adsense": {
-      "withPubIdShort": "Mi also serve inventory putem Google AdSense. Vi može target Chatforia s publisher ID {{pubId}}, ili koristi taj form below za direktno sponsorships.",
-      "noPubIdShort": "Mi also serve some inventory putem Google AdSense. Direktno sponsorships su dostupno—koristi taj form below."
-    },
-    "inventoryHeader": "Inventory & Specs",
-    "placement": {
-      "displayBadge": "Display",
-      "acceptedSizes": "Accepted sizes",
-      "adsenseSlot": "AdSense slot:"
-    },
-    "noPlacementsPublic": "We’re finalizing naš ad inventory. Tell us o vaš campaign i we’ll recommend placements.",
-    "whyHeader": "Zašto Chatforia?",
-    "why": {
-      "highSession": "Visoko session frequency i dwell vrijeme u chat UI",
-      "brandSafe": "Brand-safe formats; respectful frequency capping",
-      "sponsoredMoments": "Sponsored moments (e.g., “Početak jedan Chat” modal) dostupno",
-      "deals": "Direktno deals ili programmatic putem AdSense/Google Oglasi"
-    },
-    "contactHeader": "Kontakt",
-    "form": {
-      "submittedMsg": "Thanks! Vaš inquiry je uključeno its way. We’ll prati gore shortly.",
-      "missingRequired": "Molimo fill u ime, email, i poruka.",
-      "successToast": "Thanks! We’ll biti u touch soon.",
-      "mailtoInfo": "Opening vaš email client za pošalji taj inquiry…",
-      "nameLabel": "Vaš ime",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "Email",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "Kompanija",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Mjesečno budget (optional)",
-      "budgetPlaceholder": "e.g. $1,000–$20,000+",
-      "messageLabel": "Tell us o vaš campaign",
-      "messagePlaceholder": "Targeting, dates, KPIs, placement preference…",
-      "sendCta": "Pošalji inquiry"
-    },
-    "legal": {
-      "disclaimerStart": "Od submitting, vi agree za naš",
-      "terms": "Terms",
-      "and": "i",
-      "privacy": "Politika privatnosti"
-    }
-  },
-  "randomChat": {
-    "title": "Nasumični chat",
-    "subtitle": "Meet neko novo trenutno, ili odaberite za chat s Ria.",
-    "start": "Započni razgovor",
-    "description": "Chat anonymously prvo. Dodaj Prijatelj kasnije ako it feels right.",
-    "findMatch": "Pronađi me jedan spoj",
-    "chatWithRia": "Chat s Ria",
-    "setAge": "Postavi vaš dob raspon u Profil → Dob & Random Chat za biti spojeno s ljudi.",
-    "idle": "Idle",
-    "matching": "Matching…",
-    "searching": "Searching…",
-    "cancel": "Otkaži",
-    "connectionProblem": "Veza problem",
-    "ai": "AI",
-    "anonymous": "Anonimno",
-    "connectedAs": "Povezano kao",
-    "waitingAddFriend": "Čekanje za njih za prihvati Dodaj Prijatelj…",
-    "hiddenUsernames": "Usernames ostani skriveno do both ljudi odaberite Dodaj Prijatelj.",
-    "riaSeparate": "Chat s Ria bilo kada — separate od random human matching.",
-    "sendMessage": "Pošalji poruku",
-    "chatEnded": "Chat ended",
-    "conversationEnded": "That razgovor ima ended.",
-    "findAnotherMatch": "Pronađi drugi spoj",
-    "next": "Sljedeće Osoba",
-    "addFriend": "Dodaj Prijatelj",
-    "requested": "Requested",
-    "leave": "Napusti",
-    "messageRia": "Poruka Ria…",
-    "messageMatch": "Poruka vaš spoj…"
-  },
-  "phoneNumberManager": {
-    "pickNumber": "Odaberi broj",
-    "phoneNumber": "Telefonski broj",
-    "availableNumber": "Dostupan broj",
-    "premiumNumber": "Premium broj 🔒",
-    "freeNumberHint": "Besplatno broj that može biti recycled nakon inactivity.",
-    "premiumNumberHint": "Keep vaš broj dok vaš Premium subscription je aktivno.",
-    "country": "Država",
-    "areaCode": "Pozivni broj područja",
-    "areaCodePlaceholder": "e.g., 415",
-    "capability": "Mogućnost",
-    "search": "Pretraga",
-    "lockThisNumber": "Zaključaj ovo broj (sedmično add-on, uskoro dolazi)",
-    "premiumProtectedHint": "Premium brojevi su zaštićeno od recycling dok vaš Premium subscription je aktivno.",
-    "availableNumbers": "Dostupni brojevi",
-    "searchHint": "Unesite jedan 3-digit area kod (US/CA samo), ili napusti blank, then pretraga.",
-    "keep": "Zadrži",
-    "select": "Odaberi",
-    "assignNumberFirst": "Assign jedan broj prvo.",
-    "premiumKeepFeature": "Keeping vaš broj je jedan Premium funkcija.",
-    "lockingPremiumFeature": "Locking brojevi je jedan Premium funkcija.",
-    "numberAssigned": "Broj dodijeljen.",
-    "numberProtectedNow": "Vaš broj je sada zaštićeno.",
-    "numberProtected": "Broj zaštićen.",
-    "numberUnprotected": "Broj nije zaštićeno.",
-    "numberReleased": "Broj oslobođen.",
-    "couldNotLoadNumbers": "Nije moguće učitaj brojevi.",
-    "couldNotAssign": "Nije moguće assign that broj. It može imaju samo been taken—pokušaj drugi.",
-    "couldNotLease": "Nije moguće lease that broj. It može imaju samo been taken—pokušaj drugi.",
-    "couldNotProtectNow": "Nije moguće protect vaš broj right sada.",
-    "couldNotProtect": "Nije moguće protect taj broj.",
-    "couldNotUnprotect": "Nije moguće ukloni zaštitu taj broj.",
-    "couldNotRelease": "Nije moguće release taj broj.",
-    "invalidAreaCode": "Molimo unesite jedan 3-digit area kod (e.g., 415) ili napusti blank.",
-    "noInventory": "Trenutno nema dostupnog inventara.",
-    "noFreeNumbers": "Ne besplatno brojevi su dostupno right sada.",
-    "noInventoryAreaCode": "Ne dostupno inventory za that area kod right sada.",
-    "noFreeNumbersAreaCode": "Ne besplatno brojevi u naš paket za that area kod right sada.",
-    "releaseConfirm": "Release vaš trenutni broj? It može biti assigned za neko else.",
-    "unprotect": "Ukloni zaštitu",
-    "keepThisNumber": "Keep ovo broj",
-    "replace": "Replace",
-    "release": "Oslobodi",
-    "active": "Aktivno",
-    "noNumber": "Nema broja",
-    "premiumFeature": "Premium funkcija",
-    "protectYourNumber": "Protect vaš broj",
-    "protected": "Zaštićeno",
-    "notProtected": "Nije zaštićeno",
-    "expiresInShort": "Ističe u {{count}}d",
-    "expiresInDaysFull": "Ističe u {{count}} dan",
-    "expiringShort": "Expiring{{suffix}}",
-    "renewsOn": "Renews {{date}}",
-    "releaseWarning": "Vaš broj može biti released u {{count}} dan. Nadogradi za Premium za keep it zaštićeno.",
-    "pickNumberHint": "Odaberi jedan Chatforia broj za koristi za razmjena poruka i komunikacija unutar taj aplikacija."
-  },
-  "sounds": {
-    "notificationSounds": "Zvukovi obavještenja",
-    "resetToDefaults": "Vrati na zadano",
-    "freeNoticeStart": "Vi ste uključeno Besplatno — Premium tones su shown but zaključano. ",
-    "freeNoticeEnd": " za otključaj sve.",
-    "messageTone": "Ton poruke",
-    "ringtone": "Melodija zvona",
-    "preview": "Pregled",
-    "stop": "Zaustavi",
-    "volume": "Jačina zvuka",
-    "messageToneFilesHint": "Put datoteke u /public/sounds/Message_Tones",
-    "ringtoneFilesHint": "Put datoteke u /public/sounds/Ringtones",
-    "premiumRequired": "Premium potrebno za that selection.",
-    "saved": "Postavke zvuka sačuvane.",
-    "saveFailed": "Nije moguće sačuvati postavke zvuka.",
-    "resetNotSaved": "Resetuj za defaults (ne još sačuvano).",
-    "premiumTone": "That’s jedan Premium ton.",
-    "premiumRingtone": "That’s jedan Premium melodija.",
-    "customComingSoon": "Otpremanje prilagođenih zvukova uskoro dolazi."
-  },
-  "aiSettings": {
-    "title": "AI postavke",
-    "controlIntro": "Kontrola prevod, pametno odgovori, i ForiaBot auto-responses.",
-    "translation": "Prevod",
-    "autoTranslateIncoming": "Auto-translate dolazno poruke",
-    "showOriginalAlongside": "Prikaži original tekst alongside prevod",
-    "smartReplies": "Pametni odgovori",
-    "enableSmartReplies": "Omogući pametne odgovore",
-    "smartRepliesHint": "Pošalji taj zadnje nekoliko primljeno poruke (sanitized) za AI za suggest brzo odgovori.",
-    "maskProfanity": "Maskiraj psovke u AI prijedlozima",
-    "maskProfanityHint": "Ako uključeno, suggestions returned od AI će imaju flagged words masked",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Omogući automatski odgovor kada I’m busy",
-    "autoReplyMode": "Način automatskog odgovora",
-    "cooldownSeconds": "Hlađenje (sekunde)",
-    "signature": "Potpis",
-    "autoReply": "🤖 Automatski odgovor",
-    "activeUntilOptional": "Aktivno do (optional)",
-    "save": "Sačuvaj AI postavke",
-    "saved": "AI preference sačuvane",
-    "saveFailed": "Spremanje AI postavki nije uspjelo",
-    "translateOff": "Isključeno",
-    "translateTagged": "Samo kada @prevedeno ili tagged",
-    "translateAll": "Prevedi sve dolazne poruke",
-    "modeDm": "1:1 chatovi samo",
-    "modeMention": "Samo kada I’m @mentioned",
-    "modeAll": "Sve inbound poruke",
-    "off": "Isključeno"
-  },
-  "accessibilitySettings": {
-    "title": "Pristupačnost i upozorenja",
-    "loadFailed": "Učitavanje postavki nije uspjelo",
-    "accessibilityDesc": "Opcije za make Chatforia lakše za koristi bez relying uključeno zvuk.",
-    "interfaceFontSize": "Veličina fonta sučelja",
-    "interfaceFontSizeHelp": "Starts na normalno size. Increase ako vi preferirati larger tekst.",
-    "notifications": "Obavještenja",
-    "visualAlerts": "Vizuelno alerts za poruke & pozivi",
-    "visualAlertsDesc": "Prikaži banners i naslov blink tako vi nemojte propusti aktivnost.",
-    "vibrateOnNewShort": "Vibrate uključeno novo poruke (kada podržano)",
-    "vibrateOnNewDesc": "Trigger uređaj vibration s obavještenja.",
-    "flashOnCallShort": "Bljesak ekran uključeno dolazni poziv",
-    "flashOnCallDesc": "Brief bright bljesak kada jedan poziv rings.",
-    "liveCaptionsTitle": "Uživo captions (pozivi)",
-    "enableLiveCaptions": "Omogući uživo captions tokom pozivi (Premium)",
-    "liveCaptionsDesc": "Prikaži real-time captions od taj drugi participant’s audio.",
-    "captionFontSize": "Opis font size",
-    "captionBackground": "Opis background",
-    "voiceNotes": "Glasovne bilješke",
-    "autoTranscribeVoiceNotes": "Auto-transcribe glasovne bilješke",
-    "autoTranscribeVoiceNotesDesc": "Priložite jedan transkript za audio poruke vi primaj.",
-    "changesSavedInstantly": "Promjene su sačuvano trenutno.",
-    "sm": "Malo",
-    "md": "Srednje",
-    "lg": "Veliko",
-    "xl": "Ekstra veliko",
-    "light": "Svijetlo",
-    "dark": "Tamno",
-    "transparent": "Prozirno"
-  },
-  "privacySection": {
-    "strictE2EE": "Stroga end-to-end enkripcija",
-    "ciphertextOnlyNote": "Pohrani samo ciphertext uključeno taj server. Disables AI/Translate i moderation previews.",
-    "strictE2EEEnabled": "Strogo E2EE omogućeno. AI/Translate će biti disabled.",
-    "strictE2EEDisabled": "Strogo E2EE disabled. AI/Translate re-enabled."
-  },
-  "linkedDevicesPanel": {
-    "title": "Povezani uređaji",
-    "noneFound": "Nema pronađenih povezanih uređaja.",
-    "refresh": "Osvježi",
-    "unknown": "Nepoznato",
-    "loadFailed": "Učitavanje nije uspjelo povezano uređaji",
-    "loadFailedLog": "Učitavanje nije uspjelo povezano uređaji",
-    "renamePrompt": "Unesite jedan novo ime za ovo uređaj",
-    "renamed": "Uređaj renamed",
-    "renameFailed": "Nije moguće rename uređaj",
-    "revoked": "Uređaj revoked",
-    "revokeFailed": "Nije moguće revoke uređaj",
-    "unnamedDevice": "Unnamed uređaj",
-    "primary": "Primarni",
-    "revokedStatus": "Opozvano",
-    "addedLastSeen": "Dodano {{created}} • Zadnje seen {{lastSeen}}",
-    "renameDevice": "Preimenuj uređaj",
-    "revokeDevice": "Opozovi uređaj"
+    "brzi izbor": "Brzi izbor",
+    "za": "Za",
+    "imeIliKorisničkoIme": "Unesite ime, korisničko ime",
+    "nameUsernamePhoneEmail": "Unesite ime, korisničko ime, telefon ili e-mail…",
+    "startWithSelected": "Pokrenite chat sa odabranim",
+    "searchByUsernameOrPhone": "Pretražite po korisničkom imenu ili telefonu",
+    "search": "Pretraži",
+    "searchPrompt": " Unesite korisničko ime ili broj telefona i pritisnite Pretraži.",
+    "izaberiIzKontaktneListe": "Ili izaberi iz kontaktne liste",
+    "dodajKontakt": "Dodaj kontakt",
+    "prikaži": "Prikaži",
+    "dodaj": "Dodaj",
+    "zatvori": "Zatvori",
+    "brojIzabranih": "{{count}} izabranih ",
+    "pickAtLeastOne": "Odaberite barem jednog primaoca.",
+    "saveContactsHint": "Brojevi telefona/e-mail adrese bit će dostupni nakon što ih sačuvate kao kontakte.",
+    "failedBulkStart": "Neuspjelo pokretanje chata sa odabranim primaocima.",
+    "noResults": "Nema rezultata",
+    "mode": "Način",
+    "group": "Grupa",
+    " broadcast": "Slanje objave",
+    "groupNameOptional": "Naziv grupe (opcionalno)",
+    "firstMessageOptional": "Prva poruka (opcionalno, ali se preporučuje)",
+    "createGroup": "Kreira grupu",
+    "sendBroadcast": "Pošalji objavu"
   },
   "peoplePage": {
     "people": "Ljudi",
     "search": "Pretraga",
-    "searchPlaceholder": "Pretraga sačuvano kontakti od alias, ime, username, ili telefon",
-    "quickStart": "Brzo početak",
-    "quickStartDesc": "Upravljaj vaš kontakti i pozovi prijatelji.",
-    "importContacts": "Uvoz vaš kontakti",
-    "import": "Uvoz",
-    "addContact": "Dodaj jedan kontakt",
-    "add": "Dodaj",
-    "inviteFriends": "Pozovi prijatelji",
-    "inviteDesc": "Podijeli vaš pozovi link za započnete chat trenutno.",
-    "getTheApp": "Preuzmi aplikaciju",
-    "getTheAppDesc": "Ostani u touch uključeno taj idi s Chatforia za iOS i Android.",
-    "download": "Preuzmi",
-    "syncTip": "Savjet: Vaše poruke ostani synced across web i mobilno."
+    "searchPlaceholder": "Pretraži sačuvane kontakte po nadimku, imenu, korisničkom imenu ili broju telefona",
+    "quickStart": "Brzi početak",
+    "quickStartDesc": "Upravljaj svojim kontaktima i pozovi prijatelje.",
+    "importContacts": "Uvezi svoje kontakte",
+    "import ": "Uvozi",
+    "dodajKontakt": "Dodaj kontakt",
+    "dodaj": "Dodaj",
+    "pozoviPrijatelje": "Pozovi prijatelje",
+    "pozoviOpis": "Podijeli svoj link za poziv da odmah počneš razgovarati.",
+    "preuzmiAplikaciju": "Preuzmi aplikaciju",
+    "preuzmiAplikacijuOpis": "Ostani u kontaktu u pokretu s Chatforijom za iOS i Android.",
+    "preuzmi": "Preuzmi",
+    "syncTip": "Savjet: Vaše poruke ostaju sinhronizirane na webu i mobilnim uređajima.",
+    "filterSaved": "Filtrirajte spremljene kontakte",
+    "noContactsFound": "Nisu pronađeni kontakti",
+    "focusSearch": "Fokus pretrage",
+    "findOrAdd": "Pronađite ili dodajte nekoga",
+    "searchByPhoneOrUsername": "Pretraži po telefonu / korisničkom imenu"
+  },
+  "profile": {
+    "title": "Profil korisnika",
+    "preferredLanguage": "Preferirani jezik",
+    "chooseLanguage": "Izaberi jezik",
+    "mustLogin": "Moraš se prijaviti da bi vidio postavke.",
+    "autoTranslate": "Automatski prevodi poruke",
+    "showOriginalWithTrans lation": "Prikaži originalne i prevedene poruke",
+    "showOriginalAndTranslation": "Prikaži original pored prijevoda",
+    "filterExplicit": "Filtriraj eksplicitan sadržaj",
+    "aiReply": "Odgovor AI-a",
+    "enableReadReceipts": "Omogući potvrde o čitanju",
+    "allowExplicitContent": "Dozvoli eksplicitan sadržaj",
+    "disappearingMessages": "Omogući poruke koje nestaju",
+    "autoDeleteSeconds": "Sekunde do automatskog brisanja",
+    "saveSuccess": "Postavke sačuvane!",
+    "saveError": "Greška: Nije moguće spremiti postavke",
+    "avatarAlt": "Profilna slika",
+    "uploadAvatar": "Otpremi novi avatar",
+    "avatarSuccess": "Avatar otpremljen!",
+    "avatarError": "Neuspjelo učitavanje avatara",
+    "avatarAžuriran": "Avatar je ažuriran!",
+    "učitavanjeAvatara": "Učitavanje avatara…",
+    "nemaPrivatnogKljuča": "Na ovom uređaju ne postoji privatni ključ za izvoz.",
+    "postaviLozinkuZaSigurnosnuKopiju": "Postavite lozinku za šifriranje vaše sigurnosne kopije:",
+    "preuzetaŠifriranaSigurnosnaKopija": "Preuzeta šifrirana sigurnosna kopija.",
+    "exportFailed": "Izvoz ključeva je neuspio",
+    "enterBackupPassword": "Unesite lozinku za ovu sigurnosnu kopiju:",
+    "importSuccess": "Privatni ključ je uvezen na ovaj uređaj.",
+    "importFailed": "Neuspio uvoz ključeva (pogrešna lozinka ili oštećena datoteka).",
+    "keysRotated": "Generisan je novi par ključeva i javni ključ je otpremljen.",
+    "rotateFailed": "Neuspjelo rotiranje ključeva.",
+    "security": "Sigurnost",
+    "exportKey": "Napravite sigurnosnu kopiju ključa za šifriranje",
+    "importKey": "Obnovite ključ za šifriranje",
+    "rotateKeys": "Rotirajte ključ za šifriranje",
+    "keyDisclaimer": "Vaš privatni ključ nikada ne napušta ovaj uređaj. Izvezite zaštićenu kopiju lozinkom kako biste je vratili na drugom uređaju.",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Broj telefona",
+    "appearance": "Izgled",
+    "soundSettings": "Zvukovi",
+    "disappearing": "Nestajuće poruke",
+    "backupSync": "Sigurnosno kopiranje i sinhronizacija",
+    "ai": "AI",
+    "accessibility": "Pristupačnost",
+    "privacy": "Privatnost",
+    "devices": "Povezani uređaji",
+    "themeFreeNotice": "Na besplatnoj verziji—koristite brze opcije Sunce/Mjesec ispod. Nadogradite da otključate više tema.",
+    "sunTheme": "Koristite temu Zora",
+    "moonTheme": "Koristite temu Mjesec (Ponoć)",
+    "sun": "Sunce",
+    "moon": "Mjesec",
+    "backupTitle": "Šifrirane sigurnosne kopije i sinhronizacija uređaja",
+    "openBackupTools": " Otvori alate za sigurnosno kopiranje",
+    "backupDesc": "Napravite sigurnosnu kopiju vašeg ključa za šifriranje kako biste sigurno vratili svoje poruke na drugom uređaju. ",
+    "privacyBlurEnabled": "Zamućivanje poruka prema zadanim postavkama",
+    "privacyBlurOnUnfocus": "Zamućivanje kada aplikacija nije u fokusu",
+    "planSection": "Moj plan",
+    "planLoading": "Učitavanje vašeg plana…",
+    "planLoadFailed": "Neuspjelo učitavanje vašeg plana. ",
+    "currentPlan": "Trenutni plan",
+    "planRenewsOn": "Obnavlja se",
+    "freePlanCopy": "Koristite besplatni plan. Nadogradite da biste otključali više funkcija kao što su sigurnosne kopije, dodatni brojevi i napredne opcije privatnosti.",
+    "upgradePlanCta": "Nadogradite plan",
+    "changePlanCta": "Promijenite plan",
+    "manageBilling": "Upravljaj naplatom",
+    "portalOpenFailed": "Nije moguće otvoriti portal za naplatu. Molimo pokušajte ponovo.",
+    "drzatiDaOtkrije": "Držati da otkrije",
+    "obavijestiPriKopiranju": "Obavijesti me ako se moja poruka kopira",
+    "neuspjeloUčitavanje": "Neuspjelo učitavanje profila",
+    "pratimo": "Pratimo",
+    "neuspjeloPratenje": "Neuspjelo praćenje",
+    "nepratimoViše": "Ne pratimo više",
+    "neuspjeloNepratjenje": "Nije moguće prestati pratiti",
+    "prati": "Pratiti",
+    "prestani pratiti": "Prestani pratiti",
+    "uputa za praćenje": "Njihove priče će se pojaviti u tvom feedu praćenja ako objave za publiku Pratilaca (ili Javno).",
+    "korisnik nije pronađen": "Korisnik nije pronađen",
+    "prati te": "Pratio te",
+    "naslov sekcije se srušio ": "Odjeljak se nije uspio učitati",
+    "sectionCrashedBody": "Nešto je pošlo po zlu u ovom odjeljku.",
+    "forwarding": "Usljeravanje poziva i poruka",
+    "callTextForwardingSection": "Usljeravanje poziva i poruka",
+    "callTextForwardingTitle": "Usljeravanje poziva i/ili poruka",
+    "callTextForwardingDescription": "Uslerite dolazne pozive i poruke na vaš provjereni telefon ili e-mail. Odlazni pozivi/poruke mogu prikazati vaš Chatforia broj.",
+    "enableTextForwarding": "Omogući prosljeđivanje tekstova",
+    "forwardTextsToPhone": "Prosljeđivanje poruka na telefon",
+    "forwardTextsToEmail": "Prosljeđivanje poruka na e-poštu",
+    "destinationPhone": "Odredišni telefon (E.164)",
+    "destinationEmail": "Odredišna e-pošta",
+    "enableCallForwarding": "Omogući prosljeđivanje poziva",
+    "destinationPhoneForCalls": "Odredište (E.164) za pozive",
+    "aliasBridging": "Prosljeđivanje poziva (alias bridging)",
+    "quietHoursOptional": "Tihi sati (opcionalno)",
+    "startHour": "Početno vrijeme (0–23)",
+    "endHour": "Krajnje vrijeme (0–23)",
+    "reset": "Resetiraj",
+    "saveBtn": "Sačuvaj",
+    "saveProfile ": "Sačuvaj profil",
+    "saveForwarding": "Sačuvaj preusmjeravanje",
+    "forwardSaved": "Postavke preusmjeravanja sačuvane",
+    "forwardSaveFailed": "Neuspjelo sačuvavanje postavki",
+    "errE164": "Unesite važeći E.164 broj telefona (npr. +15551234567).",
+    "errEmail": "Unesite važeću e-mail adresu.",
+    "errSmsDest": "Odaberite barem jednu destinaciju (telefon ili e-mail).",
+    "errQuietHours": "Sati za tišinu moraju biti između 0 i 23.",
+    "randomChat": "Slučajan chat",
+    "ageBand": "Vaš dobni raspon",
+    "ageBandPlaceholder": "Odaberite svoj dobni raspon",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Pohranjujemo samo dobni raspon (ne vaš tačan datum rođenja). Ovo se koristi kako bi parovi u Nasumičnom chatu bili razumni.",
+    "wantsAgeFilter": "Koristite podudaranje na osnovu dobi u Nasumičnom chatu",
+    "wantsAgeFilterDesc": "Kada je uključeno, pokušavamo vas upariti s ljudima u kompatibilnim dobnim rasponima.",
+    "partnerAgeBands": "S kim možete biti upareni?",
+    "partnerAgeBandsDesc": "Tinejdžeri se uvijek uparuju samo s drugim tinejdžerima. Odrasli se ne mogu upariti s tinejdžerima.",
+    "teenMatchingNote": "Radi sigurnosti, nalozi u dobi od 13 do 17 godina mogu se povezivati samo s drugim nalozima od 13 do 17 godina u Nasumičnom chatu.",
+    "foriaRemember": "Dopustite da se Ria sjeća stvari koje joj kažete",
+    "foriaRememberDesc": "Kada je ovo uključeno, Foria može koristiti vaše prethodne razgovore u Nasumičnom chatu (samo s vama) kako bi razgovor tekao lakše. Ovu opciju možete isključiti u bilo kojem trenutku.",
+    "voicemailSection": "Glasovna pošta",
+    "voicemailEnabled": "Omogući glasovnu poštu",
+    "voicemailAutoDeleteDays": "Automatsko brisanje glasovnih poruka nakon (dana)",
+    "voicemailAutoDeletePlaceholder": "Ostavite prazno da bi se sačuvale zauvijek",
+    "voicemailForwardEmail": "Proslijedi glasovnu poruku na e-mail",
+    "voicemailForwardEmailPlaceholder": "E-mail na koji se šalju glasovne poruke icemail obavijesti na",
+    "voicemailGreetingText": "Tekstualna zamjenska poruka",
+    "voicemailGreetingTextDesc": "Koristi se kada vaš audio pozdrav nije dostupan.",
+    "voicemailGreetingUpload": "Postavi pozdrav za govornu poštu",
+    "voicemailPreviewGreeting": "Pregled pozdrava",
+    "voicemailGreetingUploaded": "Pozdrav za govornu poštu uspješno postavljen",
+    "voicemailGreetingUploadError": "Neuspjelo postavljanje pozdrava za govornu poštu",
+    "voicemailNote": "Poruke govorne pošte s vaših Chatforia brojeva bit će pohranjene u vašem sandučiću govorne pošte. Možete omogućiti transkripciju i prosljeđivanje u podržanim planovima.",
+    "portHint": "Želite zadržati svoj trenutni broj? Možete ga prenijeti u Chatforia Wireless.",
+    "wireless": {
+      "manage": "Upravljanje bežičnom vezom"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Dobijte mobilne podatke za Chatforia kada niste na Wi-Fi mreži.",
+      "cta": "Dobijte eSIM / Prikaži QR"
+    },
+    "encryptedBackupsTitle": "Sigurnosna kopija ključa enkripcije"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Mako"
+  },
+  "zvukovi": {
+    "zvukovi obavijesti": "Zvukovi obavijesti",
+    "povratak na zadano": "Povratak na zadano",
+    "freeNoticeStart": "Na besplatnoj verziji — premium tonovi su prikazani, ali zaključani. ",
+    "freeNoticeEnd": " da otključate sve.",
+    "messageTone": "Ton poruke",
+    "ringtone": "Zvonjava",
+    "preview": "Pregled",
+    " stop": "Zaustavi",
+    "volume": "Jačina zvuka",
+    "messageToneFilesHint": "Stavite datoteke u /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Stavite datoteke u /public/sounds/Ringtones",
+    "premiumRequired": "Za taj izbor je potreban premium.",
+    "sačuvano": "Postavke zvuka su sačuvane.",
+    "neuspjeloSačuvavanje": "Nije moguće sačuvati postavke zvuka.",
+    "resetovanjeNijeSačuvano": "Resetujte na zadano (još nije sačuvano).",
+    "premiumTone": "To je premium ton.",
+    "premiumRingtone": "To je premium melodija.",
+    "prilagođeno Uskoro": "Uskoro dolaze prilagođeni zvukovi.",
+    "BesplatnoObavještenje": "Na besplatnom ste planu — premium tonovi su prikazani, ali zaključani. Nadogradite da biste otključali sve.",
+    "default": "Podrazumijevano",
+    "vibrate": "Vibracija",
+    "dreamer": "Sanjar",
+    "notify": "Obavijest",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsirajući zvuk",
+    "textMessage": "Tekstualna poruka",
+    "ksilofon": "Ksilofon",
+    "klasično": "Klasično",
+    "hitnost": "Hitnost",
+    "zvona": "Zvona",
+    "digitalniTelefon": "Digitalni telefon",
+    "melodično": "Melodično",
+    "organskeNote": "Note orgulja",
+    "soundReality": "Zvučna stvarnost",
+    "street": "Ulica",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "Postavke AI-ja",
+    "controlIntro": "Kontrolirajte prijevod, pametne odgovore i automatske odgovore ForiaBota.",
+    "translation": "Prijevod",
+    "autoTranslateIncoming": "Automatski prevodite dolazne poruke",
+    "showOriginalAlongside": "Prikažite originalni tekst uz prijevod",
+    "smartReplies": "Pametni odgovori ",
+    "enableSmartReplies": "Omogući pametne odgovore",
+    "smartRepliesHint": "Pošalji posljednjih nekoliko primljenih poruka (pročišćenih) AI-u kako bi predložio brze odgovore.",
+    "maskProfanity": "Maskiraj psovke u AI prijedlozima",
+    "maskProfanityHint": "Ako je uključeno, riječi označene u AI prijedlozima bit će maskirane ",
+    "foriaBot": "ForiaBot automatski odgovor",
+    "enableAutoReply": "Omogući automatski odgovor kada sam zauzet",
+    "autoReplyMode": "Način automatskog odgovora",
+    "cooldownSeconds": "Vrijeme čekanja (sekunde)",
+    "potpis": "Potpis",
+    "automatski odgovor": "🤖 Automatski odgovor",
+    "aktivnoDoOpcionalno": "Aktivno do (opcionalno)",
+    "sačuvaj": "Sačuvaj postavke AI-ja",
+    "sačuvano": "Postavke AI-ja sačuvane",
+    "sačuvajNeuspjelo": " Neuspjelo spremanje postavki AI-ja",
+    "translateOff": "Isključeno",
+    "translateTagged": "Samo kada sam @translated ili označen",
+    "translateAll": "Prevodi sve dolazne poruke ",
+    "modeDm": "Samo 1:1 chati",
+    "modeMention": "Samo kada sam @spomenut",
+    "modeAll": "Sve dolazne poruke",
+    "off": "Isključeno",
+    "on": "Uključeno"
+  },
+  "accessibilitySettings": {
+    "title": "Pristupačnost i obavijesti",
+    "loadFailed": "Neuspjelo učitavanje postavki",
+    "accessibilityDesc": "Opcije za lakše korištenje Chatforije bez oslanjanja na zvuk.",
+    "interfaceFontSize": "Veličina fonta interfejsa",
+    "interfaceFontSizeHelp": "Počinje od normalne veličine. Povećajte ako preferirate veći tekst.",
+    "notifications": "Obavijesti",
+    "visualAlerts ": "Vizualna obavještenja za poruke i pozive",
+    "visualAlertsDesc": "Prikaži banere i naslov koji trepću kako ne biste propustili aktivnost.",
+    "vibrateOnNewShort": "Vibracija na nove poruke (kada je podržano)",
+    "vibrateOnNewDesc": "Pokrenite vibraciju uređaja s obavještenjima.",
+    "flashOnCallShort": "Uključi zaslon na dolazni poziv",
+    "flashOnCallDesc": "Kratki jarki bljesak kada zvoni poziv.",
+    "liveCaptionsTitle ": "Prijemni titlovi (pozivi)",
+    "enableLiveCaptions": "Omogući prijemne titlove tokom poziva (Premium)",
+    "liveCaptionsDesc": "Prikaži prijemne titlove u stvarnom vremenu iz zvuka drugog sudionika.",
+    "captionFontSize": "Veličina fonta titlova",
+    "captionBackground": "Pozadina titlova",
+    "voiceNotes": "Glasovne bilješke",
+    "autoTranscribeVoice Notes": "Automatski transkribuj glasovne bilješke",
+    "autoTranscribeVoiceNotesDesc": "Priloži transkript audio porukama koje primate.",
+    "changesSavedInstantly": "Promjene se spremaju odmah.",
+    "sm": "Mali",
+    "md": "Srednji",
+    "lg": "Veliki",
+    "xl": " Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notifikacijeOpis": "Vizualni alati za poruke i pozive\nPrikaži banere i naslov koji trepću kako ne biste propustili aktivnost.",
+    "vibracijaZaNove": "Vibracija pri novim porukama (kada je podržano)\nPokrenite vibraciju uređaja uz obavijesti.",
+    "bljesakPriPozivu": "Pritisnite zaslon pri dolaznom pozivu\nKratak jak bljesak kada zvoni.",
+    "liveCaptions": "Titlovi uživo (pozivi)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strogo šifriranje od kraja do kraja",
+    "ciphertextOnlyNote": "Pohranjujte samo šifrirani tekst na serveru. Onemogućava AI/ Prijevodi i pregled moderacije.",
+    "strictE2EEEnabled": "Omogućen strogi E2EE. AI/Prijevod će biti onemogućen.",
+    "strictE2EEDisabled": "Strogi E2EE je onemogućen. AI/Prijevod je ponovo omogućen."
+  },
+  "linkedDevicesPanel": {
+    "title": "Povezani uređaji",
+    " nonefound": "Nijedan povezani uređaj nije pronađen.",
+    "refresh": "Osvježi",
+    "unknown": "Neidentifikovano",
+    "loadFailed": "Neuspjelo učitavanje povezanih uređaja",
+    "loadFailedLog": "Neuspjelo učitavanje povezanih uređaja",
+    "renamePrompt": "Unesite novo ime za ovaj uređaj",
+    "renamed": "Uređaj je preimenovan",
+    "renameFailed": " Nije moguće preimenovati uređaj",
+    "revoked": "Uređaj opozvan",
+    "revokeFailed": "Nije moguće opozvati uređaj",
+    "unnamedDevice": "Neimenovani uređaj",
+    "primary": "Primarni",
+    "revokedStatus": "Opozvano",
+    "addedLastSeen": "Dodano {{created}} • Posljednji put viđeno {{lastSeen}}",
+    " renameDevice": "Promijeni naziv uređaja",
+    "revokeDevice": "Oduzmi uređaj"
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "opis": "Upravljajte svojim Chatforia mobilnim planom, brojevima, prosljeđivanjem poziva i prenosom broja.",
+    "opcije": {
+      "naslov": "Odaberite kako želite koristiti Chatforia",
+      "podnaslov": "Možete dobiti novi Chatforia broj ili prenijeti svoj postojeći broj od drugog operatera.",
+      "noviBroj": "Dobijte novi Chatforia broj",
+      "portNumber": "Prenesite svoj trenutni broj u Chatforia Wireless"
+    },
+    "port": {
+      "heading": "Prenesite svoj postojeći broj",
+      "subheading": "Prebacite svoj trenutni broj telefona sa svog postojećeg operatera u Chatforia. Pobrinite se da podaci tačno odgovaraju vašem korisničkom računu kod operatera kako biste izbjegli kašnjenja.",
+      "phoneNumberLabel": "Broj telefona za prenos",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Trenutni operater",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, itd.",
+      "accountNumberLabel": "Broj računa",
+      "pinLabel": "PIN za prijenos / lozinka",
+      "fullNameLabel": "Puno ime i prezime na računu",
+      "address1Label": "Adresa 1",
+      "address2Label": "Adresa 2 (opcionalno)",
+      "cityLabel": "Grad",
+      "stateLabel ": "Država / Pokrajina",
+      "nazivPoštanskogBrojev": "Poštanski broj",
+      "nazivDržave": "Država",
+      "gumbZaSlanjanje": "Pošalji zahtjev za prenos",
+      "uspjeh": "Zahtjev za prenos je poslan! Obavještavat ćemo vas.",
+      "općaGreška": "Nešto je pošlo po zlu."
+    },
+    "status": {
+      "naslov": " Status prebacivanja",
+      "podnaslov": "Pratite status vaših zahtjeva za prebacivanje broja.",
+      "učitavanje": "Učitavanje…",
+      "greška pri učitavanju": "Nije uspjelo učitati zahtjeve za prebacivanje.",
+      "nema": "Još nema aktivnosti prebacivanja.",
+      "na čekanju": "Na čekanju na odobrenje",
+      "poslano": "Predato operatoru",
+      "uTekućem": "U toku",
+      "završeno": "Završeno:",
+      "neuspjelo": "Neuspjelo",
+      "otkazano": "Otkazano",
+      "kreirano": "Kreirano:",
+      "zakazano": "Zakazano:"
+    },
+    "malo podataka": "Vaši podaci su pri kraju.",
+    "doplata": "Dopunite sada",
+    "isteče za": "Ističe za {{days}} dana",
+    "iscrpljeno": "Vaši podaci su istekli. Kupite novi paket da biste nastavili koristiti mobilne podatke.",
+    "kupi paket": "Kupi paket podataka",
+    "es imPackLabel": "eSIM paket"
+  },
+  "phoneNumberManager": {
+    "izaberiBroj": "Izaberi broj",
+    "telefonBroj": "Telefonski broj",
+    "dostupanBroj": "Dostupan broj",
+    "premiumBroj": "Premium broj 🔒",
+    "naznakaBesplatnogBroj": "Besplatan broj koji se može reciklirati nakon neaktivnosti.",
+    "naznakaPremiumBroj": "Sačuvaj svoj broj dok je tvoja Premium pretplata aktivna.",
+    "zemlja": "Zemlja",
+    "areaCode": "Pozivni broj",
+    "areaCodePlaceholder": "npr., 415",
+    "capability": "Mogućnost",
+    "search": "Pretraga",
+    "lockThisNumber": "Zaključaj ovaj broj (sedmični dodatak, uskoro)",
+    "premiumProtectedHint": "Premium brojevi su zaštićeni od ponovnog korištenja dok je vaša Premium pretplata aktivna.",
+    "availableNumbers": "Dostupni brojevi",
+    "searchHint": "Unesite trocifreni pozivni broj (samo za SAD/Kanadu) ili ostavite prazno, a zatim pretražite.",
+    "keep": "Sačuvaj",
+    "select": "Odaberi",
+    "pridijeliBrojPrvo": "Pridijelite broj prvo.",
+    "premiumOdržavanjeBrojeva": "Održavanje vašeg broja je Premium funkcija.",
+    "zaključavanjeBrojeva": "Zaključavanje brojeva je Premium funkcija.",
+    "brojPridijeljen": "Broj pridijeljen. ",
+    "brojZaštićenSada": "Vaš broj je sada zaštićen.",
+    "brojZaštićen": "Broj zaštićen.",
+    "brojNezaštićen": "Broj nezaštićen.",
+    "brojOslobođen": "Broj oslobođen.",
+    "nijeMogaoUčitatiBrojeva": "Nije moguće učitati brojeve.",
+    "couldNotAssign": "Nije moguće dodijeliti taj broj. Možda je upravo zauzet—probajte drugi.",
+    "couldNotLease": "Nije moguće unajmiti taj broj. Možda je upravo zauzet—probajte drugi.",
+    "couldNotProtectNow": " Trenutno nije moguće zaštititi vaš broj.",
+    "couldNotProtect": "Nije moguće zaštititi broj.",
+    "couldNotUnprotect": "Nije moguće deaktivirati zaštitu broja.",
+    "couldNotRelease": "Nije moguće osloboditi broj.",
+    "invalidAreaCode": "Molimo unesite trocifreni pozivni broj (npr. 415) ili ostavite prazno.",
+    "nemaZaliha": "Trenutno nema dostupnih zaliha.",
+    "nemaSlobodnihBrojeva": "Trenutno nema dostupnih slobodnih brojeva.",
+    "nemaZalihaZaPozivniBroj": "Trenutno nema dostupnih zaliha za taj pozivni broj.",
+    "nemaSlobodnihBrojevaZaPozivniBroj": "U našem fondu nema slobodnih brojeva za taj poštanski broj trenutno.",
+    "releaseConfirm": "Oslobodite svoj trenutni broj? Može biti dodijeljen nekome drugom.",
+    "unprotect": "Ukloni zaštitu",
+    "keepThisNumber": "Sačuvaj ovaj broj",
+    "Zamijeni": "Zamijeni",
+    "Oslobodi": "Oslobodi",
+    "Aktivno": "Aktivno",
+    "Nema broja": "Nema broja",
+    "Premium funkcija": "Premium funkcija",
+    "Zaštiti svoj broj": "Zaštiti svoj broj",
+    "protected": "Zaštićeno",
+    "notProtected": "Nije zaštićeno",
+    "expiresInShort": "Ističe za {{count}}",
+    "expiresInDaysFull": "Ističe za {{count}} dana",
+    "expiringShort": "Ističe{{suffix}}",
+    "renewsOn": "Obnavlja se {{date}}",
+    "releaseWarning": "Vaš broj može biti oslobođen za {{count}} dana. Nadogradite na Premium da biste ga zaštitili. ",
+    "pickNumberHint": "Odaberite Chatforia broj koji ćete koristiti za slanje poruka i komunikaciju unutar aplikacije.",
+    "unableToLoadStatus": "Nije moguće učitati status telefonskog broja.",
+    "lock": "Zaključano",
+    "noNumberAssigned": "Nije dodijeljen broj. Odaberite jedan prema predbroju da biste počeli slati poruke."
   },
   "dialer": {
     "title": "Pozivi",
-    "subtitle": "Keypad & recents. (Ako vi nemojte koristi PSTN, početak pozivi od jedan razgovor header.)",
-    "enterNumber": "Unesite broj",
+    "podnaslov": "Tastatura i nedavni pozivi. (Ako ne koristite PSTN, započnite pozive iz zaglavlja razgovora.)",
+    "unesiBroj": "Unesite broj",
     "enterNumberAria": "Unesite broj",
-    "resolving": "Resolving poziv target…",
-    "call": "Poziv",
-    "callBrowser": "Poziv putem browser",
-    "backspace": "Backspace",
-    "recents": "Recents",
-    "noRecents": "Ne recent pozivi još.",
-    "resolveFailed": "Nije moguće riješi poziv target.",
-    "callRequiredNumber": "Vi potrebno jedan Chatforia broj prije placing telefon pozivi.",
-    "callFailed": "Nije moguće place poziv.",
-    "deleteConfirm": "Obriši ovo poziv od recents?",
-    "deleteFailed": "Nije moguće obriši poziv.",
-    "deleteFailedLog": "Nije uspjelo obriši poziv",
-    "outgoing": "Odlazno",
-    "incoming": "Dolazno",
-    "missed": "Propušteno",
-    "declined": "Declined",
+    "resolving": "Rješavanje odredišta poziva…",
+    "call": "Pozovite",
+    "callBrowser": "Pozovite putem preglednika",
+    "backspace": "Povratni razmak",
+    "recents": "Nedavni pozivi",
+    "noRecents": "Nema još nedavnih poziva.",
+    "resolveFailed": "Nije moguće riješiti odredište poziva.",
+    "callRequiredNumber": "Potreban vam je Chatforia broj prije upućivanja telefonskih poziva.",
+    "callFailed": "Nije moguće uputiti poziv.",
+    "deleteConfirm": "Obrišite li ovaj poziv iz nedavnih?",
+    "deleteFailed": "Nije moguće obrisati poziv.",
+    "deleteFailedLog": "Neuspjelo brisanje poziva",
+    "outgoing": "Odlazni",
+    "incoming": "Dolazni",
+    "missed": "Propušten",
+    "declined": "Odbijeno",
     "failed": "Neuspjelo",
-    "completed": "Završeno",
-    "outgoingCall": "Odlazni poziv",
-    "incomingCall": "Dolazni poziv",
-    "voicemail": "Govorna pošta",
-    "callAria": "Poziv {{name}}",
-    "deleteAria": "Obriši poziv s {{name}}"
+    "završen": "Završeno",
+    "odlazniPoziv": "Odlazni poziv",
+    "dolazniPoziv": "Dolazni poziv",
+    "glasovnaPošta": "Glasovna pošta",
+    "pozivAria": "Poziv {{name}}",
+    "izbrišiAria": "Izbriši poziv {{name}}",
+    "unesiBrojPh": "Unesi broj",
+    "nedavnihNema": "Nema nedavnih poziva.",
+    "ključ": "Ključ {{d}}"
   },
-  "callHistory": {
-    "title": "Pozivi",
-    "subtitle": "Vaš recent dolazno i odlazni pozivs.",
-    "loadFailed": "Nije moguće učitaj poziv historija.",
-    "loadFailedTitle": "Couldn’t učitaj poziv historija",
-    "emptyTitle": "Ne pozivi još",
-    "emptySubtitle": "Vaš recent pozivi će prikaži gore here.",
-    "outgoing": "Odlazno",
-    "incoming": "Dolazno",
-    "missed": "Propušteno",
-    "declined": "Declined",
-    "failed": "Neuspjelo",
-    "completed": "Završeno",
-    "outgoingCall": "Odlazni poziv",
-    "incomingCall": "Dolazni poziv",
-    "voicemail": "Govorna pošta"
+  "istorijaPoziva": {
+    "naslov": "Pozivi",
+    "podnaslov": "Vaši nedavni dolazni i odlazni pozivi.",
+    "pogreškaPriUčitavanju": "Nije moguće učitati historiju poziva.",
+    "loadFailedTitle": "Nije moguće učitati historiju poziva",
+    "emptyTitle": "Još nema poziva",
+    "emptySubtitle": "Vaši nedavni pozivi će se ovdje pojaviti.",
+    "odlazni": "Odlazni",
+    "dolazni": "Dolazni",
+    "propušteni": "Propušteni",
+    "odbijeni": "Odbijeni",
+    "neuspjeli": "Neuspjeli",
+    "završeni": "Završeni",
+    "odlazniPoziv": "Odlazni poziv",
+    "dolazniPoziv": "Dolazni poziv",
+    "glasovna pošta": "Glasovna pošta"
   },
   "video": {
     "hub": {
-      "title": "Video",
-      "subtitle": "Odaberite jedan video upišite."
+      "naslov": "Video",
+      "podnaslov": "Odaberite vrstu videa."
     },
     "direct": {
-      "title": "Direktno Video",
-      "subtitle": "Početak jedan 1:1 video poziv s drugi korisnik.",
-      "desc": "1:1 kamera poziv s drugi korisnik.",
-      "start": "Početak"
+      "naslov": "Direktan video",
+      "podnaslov": "Pokreni 1:1 video poziv s drugim korisnikom.",
+      "desc": "1:1 poziv kamerom s drugim korisnikom.",
+      "start": "Pokreni",
+      "callBtn": "Pozovi",
+      "callByPhone": {
+        "title": "Pozovi telefonom"
+      },
+      "phone": {
+        "placeholder": "Unesi broj telefona (npr., +1-555-123-4567)",
+        "aria": "Telefon za poziv"
+      },
+      "tipInvite": "Savjet: Zalijepite broj i nazovite bez spremanja kontakta. Pozvat ćemo nekorisnike putem linka.",
+      "findUser": {
+        "title": "Pronađi korisnika"
+      },
+      "search": {
+        "placeholder": " Pretraži po imenu ili korisničkom imenu",
+        "aria": "Pretraži po imenu ili korisničkom imenu",
+        "btn": "Pretraži"
+      }
     },
-    "rooms": {
-      "title": "Sobe",
-      "subtitle": "Kreiraj jedan soba ili pridruži se jedan existing jedan od typing taj isto ime.",
-      "desc": "Multi-party video koristeći jedan dijeljeno soba ime.",
-      "roomLabel": "Soba ime",
-      "roomPlaceholder": "e.g. team-standup",
-      "roomAria": "Soba ime",
+    "sobe": {
+      "naslov": "Sobe",
+      "podnaslov": "Kreiraj sobu ili se pridruži postojećoj tako što ćeš unijeti isto ime.",
+      "desc": "Višeosobni video koristeći zajedničko ime sobe.",
+      "roomLabel": "Ime sobe",
+      " roomPlaceholder": "npr. timski sastanak",
+      "roomAria": "Naziv sobe",
       "joinCreate": "Pridruži se / Kreiraj",
-      "tip": "Savjet: podijeli ovo ime s drugi, ili deep link za"
+      "tip": "Savjet: podijelite ovaj naziv s drugima ili napravite duboku poveznicu na"
+    },
+    "title": "Video",
+    "chooseType": "Odaberite vrstu videa.",
+    "directTitle": "Direktan video",
+    "directDesc": "1:1 poziv kamerom s drugim korisnikom.",
+    "directStart": "Počni",
+    "roomsTitle": "Sobe",
+    "roomsDesc": "Video poziv više strana koristeći zajedničko ime sobe.",
+    "roomsIntro": "Pridružite se ili kreirajte sobu za više strana.",
+    "roomNameLabel": "Ime sobe",
+    "roomNamePh": "npr. timski sastanak",
+    "join": "Pridruži se",
+    "deeplinkTip": "Savjet: možete direktno postaviti duboku poveznicu na <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Pokrenite direktni 1:1 video poziv.",
+    "findUserLabel": "Pronađi korisnika",
+    "findUserPh": "Pretraži po imenu ili korisničkom imenu",
+    "search": "Pretraži",
+    "call": "Nazovi"
+  },
+  "phoneWarning": {
+    "title": "Vaš broj uskoro ističe",
+    "body": "Vaš broj {{number} } će biti isključena na {{date}} ako se ne reaktivira.",
+    "button": "Sačuvaj moj broj"
+  },
+  "premium": {
+    "heading": "Prebacite se na Premium",
+    "description": "Otključajte napredne funkcije i uklonite oglase.",
+    "cta": "Nadogradnja",
+    "upgrade": "Nadogradnja",
+    "upgradeAria": "Nadogradnja na Chatforia Premium"
+  },
+  "upgrade": {
+    "title": "Nadogradnja",
+    "titleLoggedIn": "Nadogradnja",
+    "titlePublic": "Cijene",
+    "h1": "Cijene i planovi Chatforia",
+    "h1Subtitle": "Započnite s našim besplatnim planom s oglasima. Uklonite oglase s Plus planom ili otključajte sve napredne funkcije s Premium planom.",
+    "subtitle": "Odaberite plan aplikacije, dodajte pakete podataka za sebe ili dijelite podatke s porodicom — sve na jednom mjestu.",
+    "subtitle.app": "Počnite s našim besplatnim planom s oglasima. Pređite na Plus bez oglasa ili otključajte sve napredne funkcije s Premiumom.",
+    "subtitle.mobile": "Dodajte globalne eSIM podatke kako bi Chatforia radila i kada niste na Wi-Fi mreži.",
+    "subtitle.family": "Kreirajte zajednički paket podataka za svoju porodicu i upravljajte potrošnjom svih članova na jednom mjestu.",
+    "perMonth": "mj",
+    "perYear": "g",
+    "goPremium": "Prebacite se na Premium",
+    "benefitsLine": "Otključajte napredne funkcije i uklonite oglase.",
+    "ctaText": "Nadogradnja",
+    "aria": "Nadogradite na Chatforia Premium",
+    "toggle": {
+      "monthly": "Mjesečno",
+      "annual": "Godišnje (Uštedite 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Pretplata ističe",
+      "body": "Povratak na besplatnu verziju",
+      "keepPlanCta": "Zadrži {{plan}}",
+      "manageBillingCta": "Upravljanje naplatom"
+    },
+    "billing": {
+      "opening": "Otvaranje…",
+      "manage ": "Upravljanje naplatom"
+    },
+    "checkout": {
+      "preusmjeravanje": "Preusmjeravanje…"
+    },
+    "auth": {
+      "nastavi": "Nastavi s prijavom",
+      "kreirajNalog": "Kreiraj nalog",
+      "prijava": " Prijavite se"
+    },
+    "cta": {
+      "aria": "Odaberite plan",
+      "getPlus": "Nadogradite na Plus",
+      "upgradeMonthly": "Nadogradite mjesečno",
+      "upgradeAnnual": "Nadogradite godišnje"
+    },
+    "section": {
+      "app": "App planovi",
+      "mobile": "Mobilni (eSIM)",
+      "family": "Porodični planovi"
+    },
+    "planovi": {
+      "besplatan": {
+        "naslov": "Besplatan",
+        "cijena": "0 $",
+        "opis": "Počnite slati poruke besplatno. Idealno ako tek isprobavate Chatforia.",
+        "mogućnosti": {
+          "chat": "Chat 1:1 i grupni chat u stvarnom vremenu, plus glasovni i video pozivi",
+          "media": "Dijelite fotografije, glasovne poruke i kratke videozapise",
+          "ai": "Pametni odgovori pokretani umjetnom inteligencijom i trenutačni prijevod (poštena upotreba)",
+          "disappearing": "Nestajuće poruke i osnovne kontrole privatnosti",
+          "ads": "Besplatno zauvijek s oglasima u aplikaciji "
+        },
+        "ctaCurrent": "Trenutni plan",
+        "ctaManage": "Upravljanje u naplati",
+        "ctaPublic": "Započni – nastavi sa prijavom",
+        "aria": "Besplatni plan"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Sve što je bitno, bez oglasa. Odlično za svakodnevno slanje poruka i pozive.",
+        "features": {
+          "allFree": "Sve u besplatnoj verziji, bez oglasa",
+          "forwarding": "Prosljeđujte pozive i poruke na svoj stvarni broj telefona",
+          "history": "Duža historija poruka (do 6 mjeseci)",
+          "support": "Brža podrška kada nešto pođe po zlu"
+        },
+        "badge": "Popularno",
+        "cta": "Ukloni oglase",
+        "ctaPublic": "Pređi na Plus – prijavi se",
+        "aria": "Nadogradnja na Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (mjesečno)",
+        "price": "$11.99",
+        "desc": "Cjelokupno Chatforia iskustvo: AI moćni alati, prilagođavanje i prioritetna podrška.",
+        "features": {
+          "plusAll": "Sve u Plusu",
+          "themes": "Otključajte sve premium teme boja i prilagodbe aplikacije",
+          "ai": "Premium AI alati za prepravke, pametne odgovore i sažetke",
+          "support": "Prioritetna podrška kada vam je pomoć najpotrebnija"
+        },
+        "badge": "Preporučeno",
+        "cta": "Nadogradnja (mjesečno)",
+        "ctaPublic": "Otključajte Premium – nastavite s prijavom",
+        "aria": "Nadogradnja na Premium mjesečno"
+      },
+      "premiumGodišnje": {
+        "naslov": "Premium (Godišnje)",
+        "cijena": "$99",
+        "opis": "Uštedite više uz godišnju naplatu — uključujući dodatne teme boja, AI alate i prioritetnu podršku.",
+        "funkcije": {
+          "svePremium": "Sve u Premium mjesečno — uključujući dodatne teme boja",
+          "annualBilling": "Naplata jednom godišnje",
+          "save25": "Uštedite oko 30% u odnosu na mjesečno plaćanje",
+          "bestFor": "Najbolje za napredne korisnike, radnike na daljinu i one koji često putuju"
+        },
+        "badge": "Uštedite 30%",
+        "cta": "Nadogradnja (Godišnja)",
+        "ctaPublic": "Uštedite 30% uz godišnju pretplatu – nastavite sa prijavom",
+        "aria": "Nadogradite na Premium godišnju pretplatu",
+        "disclaimer": "Naplata se vrši unaprijed. Otkažite u bilo kojem trenutku. Nema skrivenih naknada."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Besplatno",
+      "freeDesc": "Počnite slati poruke besplatno.",
+      "plusTitle": "Plus",
+      "plusBadge": "Popularno",
+      "plusDesc": "Najpovoljnije iskustvo bez oglasa.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Pune funkcije, melodije zvona i AI moćni alati.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Uštedite više kada plaćate godišnje.",
+      "annualDisclaimer": "Naplata unaprijed. Otkažite u bilo kojem trenutku. Nema skrivenih naknada."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (eSIM paketi podataka)",
+      "subtitle": "Dodajte globalne podatke kako bi Chatforia radila čak i bez Wi-Fi-ja. Cijene se automatski prilagođavaju na osnovu vaše zemlje i valute.",
+      " subtitle.detail": "Odaberite jednokratni paket globalnih podataka kako bi Chatforia radila dok putujete ili ste bez Wi-Fi veze.",
+      "scope": {
+        "local": "Lokalno",
+        "europe": "Evropa",
+        "global": "Globalno"
+      },
+      "localEquals": "Lokalno = {{country}}",
+      "localEqualsFallback": "Lokalno = vaša trenutna zemlja",
+      "perPack": "/ paket",
+      "cta": "Nabavite ovaj paket podataka",
+      "ctaPublic": "Nabavite ovaj paket podataka",
+      "checkout": {
+        "redirecting": "Preusmjeravanje…\"      ",
+        "unlimited": "Neograničeno",
+        "features": {
+          "heavyUse": "Visokobrzinski podaci za intenzivnu upotrebu",
+          "throttle": "Visokobrzinski podaci podložni pravilima poštene upotrebe i upravljanja mrežom",
+          "coverage": "Pouzdani signal",
+          "instant": "Instant aktivacija eSIM-a",
+          "noContract": "Jednokratni paket, bez ugovora"
+        }
+      },
+      "odričanje": {
+        "uređaji": "eSIM podatkovni paketi zahtijevaju uređaj kompatibilan s eSIM-om i otključan. Dostupnost varira ovisno o modelu telefona, operateru i zemlji. Pokrivenost i brzine variraju ovisno o regiji."
+      },
+      "paketi": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "naslov": "{{scope}} 20 GB"
+        },
+        "neograničeno": {
+          "naslov": "{{scope}} Neograničeno"
+        }
+      },
+      "uporedi": {
+        "naslov": "Uporedi eSIM pakete podataka",
+        "col": {
+          "paket": "Paket",
+          "podaci": "Uključeni podaci",
+          "najboljeZa": "Najbolje za"
+        },
+        "odričnica": "Stvarna potrošnja podataka zavisi od načina na koji koristite Chatforia (glas, video, mediji i druge aplikacije na vašem telefonu)."
+      }
+    },
+    "porodica": {
+      "naslov": "Chatforia Porodica (zajednički podaci)",
+      "podnaslov": " Podijelite jedan paket podataka sa svojom porodicom. Jedan račun, više Chatforia naloga, globalno pokriće.",
+      "perPack": "/ paket",
+      "small": {
+        "title": "Porodični mali",
+        "desc": "Uključuje 20 GB zajedničkih podataka velike brzine — odlično za 2–3 povremena korisnika.",
+        "price": "$29.99",
+        "aria": "Kupi paket Family Small"
+      },
+      "medium": {
+        "title": "Family Medium",
+        "desc": "Uključuje 40 GB zajedničkih podataka visokog protoka — idealno za 3–5 aktivnih članova.",
+        "price": "$49.99",
+        "aria": "Kupi paket Porodično Srednje"
+      },
+      "large": {
+        "title": "Porodično Veliko",
+        "desc": "Uključuje 80 GB zajedničkih podataka velike brzine — za aktivne porodice koje su uvijek online.",
+        "price": "$84.99",
+        "aria": "Kupi Family Large paket"
+      },
+      "feature": {
+        "shared": "Zajednički fond podataka za vašu porodicu",
+        "members": "Pozovite do 4 dodatna člana",
+        "membersMore": "Odlično za 3–5 aktivnih članova",
+        "manage": "Upravljajte ograničenjima za svakog člana",
+        "topUp": "Dodajte više paketa u bilo kojem trenutku",
+        "najboljaVrijednost": "Najbolja vrijednost po GB",
+        "poštenaUpotreba": "Podliježe politici poštene upotrebe i lokalnim ograničenjima"
+      },
+      "odriCanjeodgovornosti": "Porodični paketi kreiraju ili dopunjuju zajednički fond podataka. Možete pozivati i uklanjati članove u bilo kojem trenutku.",
+      "footnote": "Porodični paketi dijele jedan zajednički fond podataka među povezanim Chatforia računima. Dostupnost i ograničenja ovise o vašoj zemlji i lokalnim propisima."
+    },
+    "why": {
+      "title": "Zašto ljudi prelaze na Chatforia",
+      "subtitle": "Chatforia vam daje stvarni broj telefona, pametni prijevod i jasan put da se riješite oglasa kada budete spremni.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Lakše oglase na besplatnoj verziji, jednostavno Plus nadogradnja kada budete spremni, i Premium alati koje TextNow ne nudi."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Moderna aplikacija, globalni -prvoklasni dizajn i ugrađeni prevoditelj umjesto staromodnog preusmjeravanja poziva."
+        },
+        "messengers": {
+          "title": "Chatforia vs chat aplikacije",
+          "body": "Šaljite poruke sa pravih telefonskih brojeva — ne samo s drugim korisnicima aplikacije — uz ugrađenu AI i statusnu funkciju. Odlično ako dolazite iz aplikacija kao što su TextFree ili TextMe."
+        }
+      },
+      "tableTitle": "Kako se Chatforia uspoređuje",
+      "col": {
+        "feature": "Značajka"
+      },
+      "feature": {
+        "freeNumber": "Besplatan broj telefona",
+        "translation": "Ugrađena automatska prevođenja",
+        "aiTools": "AI alati (prepisivanja, odgovori, sažeci)",
+        "ads": "Opcija bez oglasa",
+        "history": "Historija poruka"
+      },
+      "da": "Da",
+      "ne": "Ne",
+      "daPremium": "Da (Premium)",
+      "plusPremium": "Plus i Premium",
+      "ograničeno": "Ograničeno",
+      "nA": "N/A",
+      "istorija": {
+        "chatforia": "Do 12+ mjeseci",
+        "textnow": "Varira ovisno o računu",
+        "voice": "Ograničeno / ovisno o računu"
+      },
+      "disclaimer": "Usporedba se temelji na javno dostupnim informacijama i može se promijeniti s vremenom. Druge aplikacije za besplatno slanje poruka poput TextFree ili TextMe općenito su slične TextNowu."
+    },
+    "faq": {
+      "title": "Cijene i planovi – ČPP",
+      "free": {
+        "q": "Je li besplatni plan zaista besplatan?",
+        "a": "Da. Besplatni plan uključuje Chatforia broj, pozive i slanje poruka s oglasima. Možete ostati na besplatnom planu koliko god želite, ili nadograditi da uklonite oglase i otključate više funkcija."
+      },
+      "plusPremium": {
+        "q": "Koja je razlika između Plus i Premium plana?",
+        "a": " Plus uklanja oglase i produžuje historiju vaših poruka — savršeno za svakodnevnu upotrebu. Premium dodaje dodatnu personalizaciju, AI alate za preradu i odgovore, te prioritetnu podršku za aktivne korisnike."
+      },
+      "esim": {
+        "q": "Gdje rade eSIM paketi podataka?",
+        "a": "Chatforia Mobile koristi globalno eSIM pokriće. Dostupnost zavisi od vaše zemlje i uređaja. Podržane opcije vidjet ćete tokom aktivacije unutar aplikacije."
+      },
+      "otkaži": {
+        " q": "Mogu li otkazati ili promijeniti planove u bilo kojem trenutku?",
+        "a": "Da. Svoju pretplatu možete upravljati ili otkazati na stranici za naplatu u aplikaciji. Promjene stupaju na snagu na kraju vašeg trenutnog obračunskog razdoblja. "
+      },
+      "family": {
+        "q": "Kako funkcionišu porodični paketi?",
+        "a": "Porodični paketi kreiraju zajednički fond podataka između više Chatforia naloga. Jedna osoba plaća račun, a vi možete pozivati ili uklanjati članove i postavljati ograničenja po osobi."
+      }
     }
   },
-  "locale": {
-    "code": "bs",
-    "name": "Bosnian",
-    "nativeName": "Bosanski"
+  "family": {
+    "title": "Porodica",
+    "loading": "Učitavanje detalja vaše porodice…",
+    "error": {
+      "load": "Neuspjelo učitavanje detalja porodice.",
+      "invite": "Nije moguće kreirati poziv. Provjerite jeste li vlasnik porodice i pokušajte ponovo.",
+      "checkout": "Nismo mogli započeti naplatu za porodični plan. Molimo pokušajte ponovo."
+    },
+    "billing": {
+      "myPlanTitle": "Moj plan",
+      "myPlanError": "Nije moguće učitati vaš plan.",
+      "myPlanLoading": "Učitavanje vašeg plana…",
+      "currentPlan": "Trenutni plan",
+      "renewsAt": "Obnavlja se",
+      " freePlanCopy": "Koristite besplatni plan. Nadogradite da biste otključali više funkcija.",
+      "upgradeCta": "Nadogradite plan",
+      "changePlanCta": "Promijeni plan",
+      "upravljanjePlaćanjem": "Upravljanje plaćanjem",
+      "portalGreška": "Trenutno nije moguće otvoriti portal za naplatu.",
+      "otkažiSada": "Otkaži sada",
+      "otkažiSadaPomoć": "Svoju pretplatu možete upravljati ili otkazati u portalu za naplatu, ili je odmah otkazati ispod.",
+      "otkažiSadaPotvrda": "Jeste li sigurni da želite odmah otkazati svoj plan? To se ne može poništiti.",
+      "cancelNowError": "Nije moguće otkazati vaš plan trenutno. Molimo pokušajte ponovo ili koristite Upravljanje naplatom."
+    },
+    "none": {
+      "title": "Porodica još nije postavljena",
+      "body": "Da biste kreirali Chatforia porodicu i zajednički bazen podataka, pokrenite Porodični plan.",
+      "goUpgrade": "Pokrenite Porodični plan",
+      "viewPlans": "Pregledajte sve planove"
+    },
+    "group": {
+      "defaultName": "Moja Chatforia porodica",
+      "role": "Vaša uloga: {{role}}"
+    },
+    "role": {
+      "owner": "Vlasnik",
+      "member": "Član"
+    },
+    "data": {
+      "heading": "Zajednički bazen podataka",
+      "caption": "Svi članovi dijele ovaj bazen. Upozorit ćemo vas kada se približite svom ograničenju."
+    },
+    "members": {
+      "title": "Članovi porodice",
+      "name": "Ime",
+      "role": "Uloga",
+      "usage": "Upotreba",
+      "limit": "Ograničenje",
+      "unlimited": "Nema specifičnog ograničenja",
+      "inviteCta": "Pozovi člana"
+    },
+    "invite": {
+      "title": "Pozovi novog člana",
+      "body": "Pošalji e-mail ili poveznicu da pozoveš nekoga u svoj zajednički obiteljski bazen podataka.",
+      "emailLabel": "E-mail (opcionalno)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Kreiraj poziv",
+      "linkLabel": "Link za poziv",
+      "copyAria": "Kopiraj link za poziv",
+      "expiryHint": "Ovaj link ističe za nekoliko dana. Uvijek možete kreirati novi."
+    },
+    "join": {
+      "title": "Pridruži se porodici",
+      "body": "Pozvani ste da se pridružite porodici Chatforia i dijelite njihov bazen podataka.",
+      "cta": "Prihvati i pridruži se porodici",
+      "ctaLogin": "Prijavite se i pridružite porodici",
+      "success": "Pridružili ste se ovoj porodici. Sada dijelite njihov bazen podataka.",
+      "goFamily": "Idite na porodičnu kontrolnu tablu",
+      "error": "Nismo vas mogli dodati u ovu porodicu. Pozivnica je možda nevažeća ili je istekao rok."
+    }
+  },
+  "randomChat": {
+    "title": "Slučajni chat",
+    "podnaslov": "Upoznajte nekoga novog odmah, ili odaberite da razgovarate s Rijom.",
+    "start": "Započni razgovor",
+    "description": "Prvo razgovarajte anonimno. Dodajte prijatelja kasnije ako vam odgovara.",
+    "findMatch": "Pronađi mi partnera",
+    "chatWithRia": "Razgovaraj s Rijom",
+    "postaviDob": "Postavi svoj raspon godina u Profilu → Dob i nasumični chat kako bi bio uparivan s ljudima.",
+    "neaktivan": "Neaktivan",
+    "uparivanje": "Uparivanje…",
+    "pretraživanje": "Pretraživanje…",
+    "otkaži": "Otkaži",
+    "problemSveze": "Problem sa vezom",
+    "ai": "AI",
+    "anonimno": "Anonimno",
+    "povezanKao": "Povezan kao",
+    "čekaDodavanjePrijatelja": "Čeka da prihvate Dodaj prijatelja…",
+    "skriveniNalogi": "Nalozi ostaju skriveni dok obje osobe ne odaberu Dodaj prijatelja.",
+    " riaSeparate": "Razgovaraj s Rijom u bilo kojem trenutku — odvojeno od nasumičnog uparivanja s ljudima.",
+    "sendMessage": "Pošalji poruku",
+    "chatEnded": "Razgovor je završen",
+    "conversationEnded": "Taj razgovor je završen.",
+    "findAnotherMatch": "Pronađi drugog partnera",
+    "next": "Sljedeća osoba",
+    "addFriend": "Dodaj prijatelja",
+    "requested": "Zatraženo",
+    "napusti": "Napusti",
+    "pošaljiPorukuRiji": "Pošalji poruku Riji…",
+    "pošaljiPorukuPartneru": "Pošalji poruku svom partneru…",
+    "razgovarajSForijom": "Razgovaraj sa Forijom",
+    "razgovarajSaForiaBotom": "Razgovaraj sa ForiaBotom",
+    "zatvori": "Zatvori",
+    "traženje": "Traženje…",
+    "traga": "Traži nekoga…",
+    "pocinjeChatSaForijom": "Počinje chat sa Forijom…",
+    "partnerSeOdjavio": "Tvoj partner se odjavio.",
+    "nemaPartnera": "Trenutno nije pronađen partner.",
+    "povezanSa": "Povezan sa {{name}}",
+    "povezan": "Povezan",
+    "partnerOtišao": "Partner je otišao.",
+    "stopped": "Zaustavljeno.",
+    "skip": "Preskoči",
+    "save": "Sačuvaj",
+    "saveGuard": "Samo se razgovori između ljudi mogu sačuvati",
+    "youAreChattingWith": "Razgovaraš sa { {name}}",
+    "bot": "BOT",
+    "sayHi": "Pozdravi 👋",
+    "you": "Ti",
+    "typeMessage": "Upiši poruku",
+    "send": "Pošalji",
+    "partner": "Partner",
+    "withRia": "S Rijom",
+    "startingRia": "Pokreće se chat s Rijom…",
+    "ageDisclaimer": "Pohranjujemo samo dobni raspon (ne vaš tačan datum rođenja). Ovo se koristi kako bi parovi u Nasumičnom chatu bili razumni. Da biste se podudarali s ljudima (ne samo s RiaBotom), postavite svoj dobni raspon u Postavke → Dob i Nasumični chat.",
+    "ageBandRequired": "Postavite svoj raspon godina u Profilu → Dob i slučajni chat kako biste se podudarali s ljudima.",
+    "ageBandCallout": "Da biste se podudarali s ljudima (ne samo s RiaBotom), postavite svoj raspon godina u Postavkama → Dob i slučajni chat."
+  },
+  "ria": {
+    "fallbackName": "tamo",
+    "intro": "Hej 👋 Ja sam Ria. Šta ti je na umu?",
+    "greetings": {
+      "long1": "Hej {{name}} 👋 Ja sam ovdje. Šta ti je na umu?",
+      "long2": "Zdravo {{name}} 😊 O čemu danas želiš razgovarati?",
+      "long3": "Hej {{name}}! Sva sam uha — šta ima?",
+      "long4": "Drago mi je što te vidim, {{name}} 👋 O čemu danas razmišljaš?",
+      "long5": "Hej {{name}} 🙂 Želiš li da se iskaješ, pitaš ili samo ćaskamo?",
+      "long6": "Ćao {{name}}! Imam vremena — o čemu želiš da razgovaramo?",
+      "short1": "Hej {{name}}, još sam tu. Šta ima?",
+      "short2": "Dobrodošla nazad, {{name}} 👋 Imaš li još nešto što si željela dodati?",
+      "short3": " Ponovo tu, {{name}}? 😊 Reci mi šta ti je na umu.",
+      "short4": "Hej {{name}} ✨ Spremna da nastavimo gdje smo stali?",
+      "short5": "Da, {{name}}? Slušam te 👂",
+      "short6": "Oh hej {{name}}! Imaš li nešto novo na umu?"
+    },
+    "header": {
+      "openNav": "Otvori navigacijski meni",
+      "closeNav": "Zatvori navigacijsko izbornik",
+      "homeAria": "Chatforia Početna"
+    },
+    "login": {
+      "welcomeBack": "Dobrodošli nazad",
+      "title": "Nastavi na Chatforia",
+      "subtitleReturning": "Prijavite se na svoj Chatforia račun",
+      "google": "Nastavi s Googleom",
+      "apple": "Nastavi s Appleom",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Prijava putem Googlea nedostupna",
+      "appleUnavailable": "Prijava putem Applea nedostupna",
+      "ssoUnavailable": "Jedinstvena prijava trenutno nije dostupna. Umjesto toga upotrijebite korisničko ime i lozinku.",
+      "or": "ili",
+      "accountLabel": "Račun",
+      "identifierPh": "E-mail ili korisničko ime",
+      "passwordLabel": "Lozinka",
+      "passwordPh": "Vaša lozinka",
+      "keepSignedIn": "Ostanite prijavljeni",
+      "forgot": "Zaboravili ste lozinku?",
+      "resendVerification": "Ponovo pošaljite e-mail za verifikaciju",
+      "submit": "Prijava",
+      "loggingIn": "Prijavljivanje…",
+      "verification": {
+        "poslano": "Verifikacijski e-mail je poslan. Provjerite svoj inbox.",
+        "neuspjelo": "Neuspjelo je ponovno slanje verifikacijskog e-maila."
+      },
+      "greška": {
+        "nedostaje": "Molimo unesite svoje podatke za prijavu.",
+        "nevažeće": "Neispravno korisničko ime ili lozinka",
+        "odbijeno": "Pristup odbijen.",
+        "unprocessable": "Neispravan zahtjev. Provjerite korisničko ime/e-mail i lozinku.",
+        "deviceLimit": "Dostignuta je granica uređaja za besplatni plan. Odjavite se s drugog uređaja ili nadogradite na Premium plan kako biste povezali više uređaja.",
+        "premiumRequired": "Ova radnja zahtijeva Premium plan."
+      },
+      "forgotPassword": {
+        "naslov": "Zaboravili ste lozinku",
+        "uputstvo": "Unesite e-mail adresu koju ste koristili za kreiranje vašeg Chatforia naloga i poslat ćemo vam siguran link za resetovanje lozinke.",
+        "oznakaE-maila": "E-mail",
+        "mjestoZaE-mail": "you@example.com",
+        "emailInvalid": "Molimo unesite važeću e-mail adresu.",
+        "genericError": "Ne može se obraditi zahtjev. Molimo pokušajte ponovo za trenutak.",
+        "sending": "Pošalje se link za resetovanje...",
+        "sendCta": "Pošalji link za resetovanje",
+        "sentLabel": "Poslano!",
+        "sentHelper": "Ako postoji račun s tom e-mail adresom, poslali smo link za resetiranje lozinke. Možda će trebati nekoliko minuta da stigne. Obavezno provjerite mapu neželjene pošte ili mapu promocija.",
+        "previewDev": "Pregled e-pošte (Dev)",
+        "backToLogin": "Povratak na prijavu"
+      },
+      "resetPassword": {
+        "title": "Resetiraj lozinku",
+        "missingToken": "Neispravan ili nedostaje token za resetiranje lozinke.",
+        "missingTokenHelper": "Neispravan ili nedostaje token. Molimo zatražite novu poveznicu za resetiranje lozinke.",
+        "passwordMismatch": "Lozinke se ne podudaraju",
+        "uspjeh": "Vaša lozinka je uspješno resetovana",
+        "generičkaGreška": "Greška: Ne može se resetovati lozinka.",
+        "oznakaNoveLozinke": "Nova lozinka",
+        "mjestoZaNovuLozinku": "Unesite svoju novu lozinku",
+        "oznakaPotvrdeLozinke": "Potvrdite novu lozinku",
+        "mjestoZaPotvrduLozinke": "Ponovo unesite svoju novu lozinku",
+        "resetiranje": "Resetiranje...",
+        "pošalji": "Resetiraj lozinku",
+        "savjetZaSnažnuLozinku": "Odaberite snažnu lozinku koju ne koristite na drugim mjestima."
+      }
+    }
+  },
+  "oauth": {
+    "završavanje": " Završavanje prijave…"
+  },
+  "podrška": {
+    "helpFab": "Pomoć",
+    "openSupportAria": "Otvori podršku",
+    "badge": "Podrška",
+    "heading": "Kako vam možemo pomoći?",
+    "tabs": {
+      "help": "Centar za pomoć",
+      "contact": "Kontaktirajte nas"
+    },
+    "searchPlaceholder": "Potražite članke o pomoći…",
+    "searchAria": "Pretraži pomoć",
+    "searchBtn": "Pretraži",
+    "quickTopicsLabel": "Brze teme",
+    "quickTopics": {
+      "login": "Ne mogu se prijaviti",
+      "billing": "Plaćanja / naplata",
+      "zloupotreba": "Prijavite zloupotrebu"
+    },
+    "trySearching": "Pokušajte potražiti \"translate\", \"backups\" ili \"privacy\".",
+    "article": "Članak",
+    "openArticle": "Otvori članak",
+    "contactIntro": "Pokušat ćemo odmah riješiti ovaj problem. Ako ne, naš tim će vas kontaktirati.",
+    "topicAria": "Odaberite temu",
+    "messagePlaceholder": "Napišite svoju poruku…",
+    "sendBtn": "Pošalji",
+    "sent": "Poruka poslana. Odgovorit ćemo putem e-pošte.",
+    "sendError": "Pošiljanje nije uspjelo. Umjesto toga pošaljite e-mail na support@chatforia.com.",
+    "actionCompleted": "Radnja je završena.",
+    "actionFailed": "Nije moguće dovršiti tu radnju. Molimo pokušajte ponovo.",
+    "ticketCreated": "Nismo mogli riješiti ovo automatski. Naš tim će se javiti.",
+    "escalationMessage": "Nismo mogli riješiti ovo automatski. Naš tim će se javiti.",
+    "genericError": "Nastala je greška. Molimo pokušajte ponovo.",
+    "analyzing": "Analiziramo vaš problem...",
+    "takeAction": "Poduzmite preporučenu radnju",
+    "resolvedInstantly": "Problem je trenutno riješen — nije potreban tiket.",
+    "escalating": "Prosljeđuje se podršci..."
+  },
+  "help": {
+    "title": "Pomoć",
+    "howCanWeHelp": "Kako možemo pomoći?",
+    "helpCenter": "Centar za pomoć",
+    "contactUs": "Kontaktirajte nas",
+    "quickTopics": "Brze teme",
+    "searchExamples": "Pokušajte pretražiti \"translate\", \"backups\" ili \"privacy\".",
+    "ne mogu se prijaviti": "Ne mogu se prijaviti",
+    "plaćanja naplate": "Plaćanja/ naplate",
+    "prijaviZloupotrebu": "Prijavi zloupotrebu",
+    "pretragaPomoćnihČlanaka": "Pretraži članke pomoći",
+    "pretraga": "Pretraga"
+  },
+  "centarPomoći": {
+    "naslov": "Centar pomoći",
+    "faq": {
+      "račun": {
+        "p": "Kako da kreiram ili oporavim svoj račun?",
+        "Preuzmite aplikaciju ili koristite web, dodirnite \"Kreiraj račun\", provjerite svoju e-poštu/telefon. Za oporavak, koristite \"Zaboravio/la sam lozinku": ""
+      },
+      "privacy": {
+        "q": "Jesu li poruke šifrirane od kraja do kraja?",
+        "a": "Da. Poruke i pozivi su po zadanom krajnje šifrirani. Samo vi i primalac ih možete čitati."
+      },
+      "translate": {
+        "q": "Kako funkcioniše trenutni prevod?",
+        "a": "Omogućite \"Automatski prevod\" u Postavke → Izgled i jezik. Prevodimo na uređaju gdje je podržano, inače putem sigurnih API-ja sa minimalnim metapodacima."
+      },
+      "contact": {
+        "q": "Kontakt podrške",
+        "a": "Kontaktirajte nas na support@chatforia.com. Priložite snimke ekrana i verziju vaše aplikacije."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Početak rada",
+    "subtitle": "Novi ste na Chatforiji? Ovaj brzi vodič prikazuje osnove kako biste mogli biti produktivni za nekoliko minuta.",
+    "alert": {
+      "text": "Ovaj vodič će se širiti kako budemo pokretali nove funkcije. Ako nešto nedostaje, javite nam putem",
+      "contactLink": "Kontaktirajte nas"
+    },
+    "section1": {
+      "title": "1) Kreirajte svoj račun",
+      "signup": "Registrujte se",
+      "or": "or",
+      "login": "prijavite se",
+      "loginText": "sa svojim postojećim računom.",
+      "prefsStart": "U aplikaciji otvorite Postavke da biste postavili svoje preferencije",
+      "prefsLink": "preferencije",
+      "prefsRest": "(jezik, potvrde o čitanju, teme)."
+    },
+    "section2": {
+      "title": "2) Počnite slati poruke",
+      "item1": "Kreirajte DM ili grupu i pošaljite svoju prvu poruku.",
+      "item2": "Koristite trenutni prijevod za razgovor na više od 100 jezika.",
+      "item3": " Isprobajte poruke koje nestaju i potvrde čitanja u Profilu → Privatnost."
+    },
+    "section3": {
+      "title": "3) Idite dalje",
+      "item1": "Možete nadograditi na plaćeni plan u bilo kojem trenutku unutar aplikacije.",
+      "item2": "Kada se prijavite, možete povezati dodatne uređaje i postaviti šifrirane sigurnosne kopije u Postavkama aplikacije.",
+      "item2Part1": "Kada se prijavite, možete povezati dodatne uređaje i podesiti šifrirane sigurnosne kopije iz postavki u aplikaciji."
+    },
+    "cta": {
+      "seePlans": "Pogledajte planove i cijene",
+      "openSettings": "Otvorite postavke",
+      "createAccount": " Kreira račun"
+    }
+  },
+  "kakoFunkcionira": {
+    "naslov": "Kako Chatforia funkcioniše",
+    "uvod": "Chatforia je dizajnirana da komunikaciju učini jednostavnom, brzim i pristupačnom. Početak je potreban samo nekoliko koraka.",
+    "korak1Naslov": "1. Kreirajte račun",
+    "korak1Opis": "Prijavite se koristeći svoju e-mail adresu ili korisničko ime da kreirate svoj Chatforia račun.",
+    "step2Title": "2. Započnite razgovor",
+    "step2Desc": "Povežite se s drugima odabirom kontakata ili započinjanjem novih razgovora.",
+    "step3Title": "3. Poruke u stvarnom vremenu",
+    "step3Desc": "Poruke se brzo dostavljaju kako bi se osiguralo glatko iskustvo komunikacije.",
+    "step4Title": "4. Globalna komunikacija",
+    "step4Desc": "Ugrađeni prevoditelj pomaže korisnicima da komuniciraju na različitim jezicima.",
+    "step5Title": "5. Budite u kontroli",
+    "step5Desc": "Upravljajte svojim postavkama, kontaktima i postavkama komunikacije."
+  },
+  "sigurnost": {
+    "naslov": "Sigurnost i smjernice zajednice",
+    "uvod": "Chatforia je posvećena održavanju sigurnog i punog poštovanja okruženja za sve korisnike. Ove smjernice pomažu osigurati pozitivno iskustvo za sve.",
+    "respectTitle": "Poštovanje",
+    "respectDesc": "Od korisnika se očekuje da komuniciraju s poštovanjem. Uznemiravanje, zlostavljanje ili štetno ponašanje nisu dozvoljeni.",
+    "prohibitedTitle": "Zabranjeni sadržaj",
+    "prohibited": {
+      "illegal": "Illegal activities",
+      "harassment": "Harassment or bullying",
+      "hate": "Hate speech or discrimination",
+      "eksplicitno": "Eksplicitan ili štetan materijal",
+      "spam": "Spam ili obmanjujuće prakse"
+    },
+    "alatiNaslov": "Alati za sigurnost korisnika",
+    "alati": {
+      "prijavi": "Prijavite neprimjereno ponašanje ili sadržaj",
+      "blokiraj": "Blokirajte korisnike kako biste spriječili daljnju interakciju",
+      "kontroliraj": "Upravljanje postavkama privatnosti i komunikacije"
+    },
+    "enforcementTitle": "Provođenje",
+    "enforcementDesc": "Možemo poduzeti mjere protiv računa koji krše ove smjernice, uključujući upozorenja, ograničenja ili trajno uklanjanje s platforme."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Zašto su platforme za razmjenu poruka važnije nego ikad",
+      "intro": "Platforme za razmjenu poruka postale su jedan od najvažnijih alata za komunikaciju u današnjem svijetu. Od ličnih razgovora do poslovnih interakcija, aplikacije za razmjenu poruka omogućavaju ljudima da ostanu povezani odmah i efikasno.",
+      "svakodnevniNaslov": "Svakodnevna komunikacija",
+      "svakodnevniOpis": "Ljudi se oslanjaju na aplikacije za razmjenu poruka za svakodnevnu komunikaciju s prijateljima, porodicom i kolegama. Bilo da se radi o kratkom ažuriranju ili dugom razgovoru, razmjena poruka pruža praktičan i fleksibilan način da ostanu u kontaktu.",
+      "speedTitle": "Brzina i praktičnost",
+      "speedDesc": "Jedna od glavnih prednosti platformi za razmjenu poruka je njihova brzina. Poruke se dostavljaju trenutno, što korisnicima omogućava komunikaciju u stvarnom vremenu. Ovaj nivo praktičnosti učinio je razmjenu poruka preferiranim načinom komunikacije za mnoge ljude.",
+      "globalTitle": "Globalni doseg",
+      "globalDesc": "Platforme za razmjenu poruka povezuju ljude širom svijeta. Uz pristup internetu, korisnici mogu komunicirati bez obzira na lokaciju, što olakšava izgradnju odnosa i međunarodnu saradnju.",
+      "privacyTitle": "Privatnost i kontrola",
+      " privacyDesc": "Moderne platforme za razmjenu poruka fokusiraju se na to da korisnicima daju kontrolu nad njihovim podacima i razgovorima. Funkcije poput enkripcije, postavki privatnosti i kontrola poruka omogućavaju korisnicima da komuniciraju s povjerenjem.",
+      "futureTitle": "Budućnost poručivanja",
+      "futureDesc": "Poručivanje se nastavlja razvijati s novim funkcijama kao što su odgovori pokretani umjetnom inteligencijom, prevođenje i dijeljenje multimedije. Kako tehnologija napreduje, platforme za poručivanje postat će još moćnije i svestranije.",
+      "outro": "Chatforia je izgrađena imajući na umu ove principe, nudeći brzo, sigurno, i korisničko iskustvo slanja poruka prilagođeno korisniku za povezani svijet."
+    },
+    "global": {
+      "title": "Budućnost globalne komunikacije",
+      "intro": "Komunikacija se brzo razvijala tokom posljednjih nekoliko decenija. Ono što je nekada zahtijevalo telefonske pozive ili u -osobni sastanci sada se mogu brzo obaviti putem platformi za razmjenu poruka. Kako tehnologija nastavi napredovati, globalna komunikacija postaje brža, pristupačnija i uključivija.",
+      "nasloviOpreka": "Rušenje prepreka",
+      "opisiOpreka": "Jedna od najvećih promjena u komunikaciji je smanjenje geografskih prepreka. Ljudi se sada mogu povezati s drugima širom svijeta u gotovo stvarnom vremenu. Bilo da je riječ o ličnim razgovorima, poslu ili saradnji, platforme za razmjenu poruka učinile su da udaljenost bude mnogo manje ograničavajuća .",
+      "translationTitle": "Uloga tehnologije prevođenja",
+      "translationDesc": "Jezik je tradicionalno bio jedna od najvećih prepreka globalnoj komunikaciji. Danas ugrađeni alati za prevođenje pomažu premostiti taj jaz. Platforme poput Chatforia omogućavaju korisnicima lakšu komunikaciju čak i ako govore različite jezike, stvarajući nove prilike za povezivanje i razumijevanje.",
+      "realtimeTitle": "Povezanost u stvarnom vremenu",
+      "realtimeDesc": "Brzina je ključni faktor koji oblikuje modernu komunikaciju. Korisnici očekuju da se poruke brzo dostave, a moderna infrastruktura podržava to očekivanje. Poruke u stvarnom vremenu omogućavaju prirodnije i tečnije razgovore.",
+      "privacyTitle": "Privatnost i sigurnost",
+      "privacyDesc ": "Kako komunikacija postaje sve digitalnija, privatnost i sigurnost su sve važniji. Korisnici žele biti sigurni da su njihovi razgovori zaštićeni. Funkcije poput enkripcije i postavki kojima korisnik upravlja pomažu u osiguravanju sigurnijeg iskustva komunikacije.",
+      " futureTitle": "Šta slijedi",
+      "futureDesc": "Budućnost globalne komunikacije vjerovatno će uključivati naprednije alate, kao što su poruke uz pomoć AI-a, poboljšani prijevodi i poboljšana korisnička iskustva. Kako se tehnologija razvija, komunikacija će nastaviti postajati intuitivnija i pristupačnija.",
+      "outro": "Platforme poput Chatforije dio su ove promjene, pomažući ljudima da se lakše povezuju preko jezika i granica."
+    },
+    "index": {
+      "title": "Blog Chatforia",
+      "intro": "Istražite uvide o komunikaciji, online sigurnosti i kako tehnologija poruka povezuje ljude širom svijeta.",
+      "post1": "Kako sigurno komunicirati online",
+      "post2": "Budućnost globalne komunikacije",
+      "post3": "Zašto su platforme za poruke važne"
+    },
+    "chatSafely": {
+      "title": "Kako sigurno komunicirati online",
+      "intro": "Online komunikacija je učinila lakšim nego ikad povezivanje s ljudima širom svijeta. Bilo da šaljete poruke prijateljima, upoznajete nove ljude ili sarađujete profesionalno, platforme za razmjenu poruka igraju veliku ulogu u svakodnevnom životu. Međutim, ostati siguran online jednako je važno kao i ostati povezan.",
+      "personalInfo": {
+        "title": " Zaštitite svoje lične podatke",
+        "body": "Jedno od najvažnijih pravila online sigurnosti je da izbjegavate dijeljenje osjetljivih ličnih podataka. To uključuje vašu kućnu adresu, finansijske podatke, lozinke ili bilo koje identifikacione informacije koje bi se mogle zloupotrijebiti. Čak i u neformalnim razgovorima, najbolje je da budete oprezni u vezi s tim šta dijelite i s kim to dijelite.\"      ",
+        "sigurnosneKarakteristike": {
+          "naslov": "Koristite ugrađene sigurnosne funkcije",
+          "sadržaj": "Moderne platforme za razmjenu poruka poput Chatforia pružaju alate koji pomažu korisnicima da ostanu sigurni. Funkcije kao što su blokiranje, prijavljivanje i kontrole privatnosti osmišljene su da korisnicima daju kontrolu nad njihovim iskustvom. Ako se neko ponaša neprikladno ili vam stvara nelagodu, trebali biste odmah koristiti ove alate."
+        },
+        "prevare": {
+          "naslov": "Budite svjesni prevara",
+          "sadržaj": "Prevaranti često koriste platforme za poruke kako bi naveli korisnike da dijele lične podatke ili šalju novac. Budite oprezni s porukama koje se čine predobro da bi bile istinite, kao što su neočekivane ponude, hitni zahtjevi ili nepoznati linkovi. Uvijek provjerite identitet osobe s kojom komunicirate prije nego što poduzmete bilo kakvu radnju."
+        },
+        "odgovorno": {
+          "naslov": "Komunicirajte odgovorno",
+          "sadržaj": "Poštovanje u komunikaciji pomaže stvoriti sigurnije okruženje za sve. Izbjegavajte uključivanje u štetne ili zlostavljačke razgovore i budite svjesni kako vaše riječi mogu utjecati na druge. Pozitivne interakcije doprinose boljem iskustvu za sve korisnike."
+        },
+        "zaštoSigurnost": {
+          "naslov": "Zašto je online sigurnost važna",
+          "sadržaj": "Kako digitalna komunikacija nastavlja rasti, održavanje sigurnost i povjerenje postaju sve važniji. Slijedeći osnovne sigurnosne prakse i koristeći dostupne alate, korisnici mogu uživati u prednostima razmjene poruka uz minimiziranje rizika."
+        },
+        "zaključak": "Ostanak sigurnim na internetu ne zahtijeva napredno tehničko znanje—samo svijest, oprez i dobar sud. Uz prave navike, možete komunicirati samopouzdano i sigurno."
+      },
+      ",\n  \"o": {
+        "naslov": "O Chatforiji",
+        "opis": "Chatforia je siguran, višejezični messenger sa enkripcijom od kraja do kraja, trenutnim prevođenjem i pozivima glasom/videom. Naša misija je jednostavna: pomoći ljudima da se povežu—sigurno, privatno i preko jezika.",
+        "valuesTitle": "Ono što cijenimo",
+        "values": {
+          "privacy": "<b>Privatnost na prvom mjestu:</b> E2E enkripcija po zadanom.",
+          "access": "<b>Pristup za sve:</b> Automatski prijevod na više od 100 jezika.",
+          "control": "<b>Kontrola:</b> Nestajuće poruke i potvrde o čitanju su opcionalni.",
+          "privacy_ aria": "Privatnost na prvom mjestu: E2E enkripcija po zadanom.",
+          "access_aria": "Pristup za sve: Automatsko prevođenje 100+ jezika.",
+          "control_aria": "Kontrola: Nestajuće poruke i potvrde o čitanju su opcionalni."
+        },
+        "howTitle": "Kako Chatforia radi",
+        " kakoOpis": "Poruke su šifrirane na vašem uređaju prije nego što ga napuste. Prevod, sigurnosne kopije i sinhronizacija uređaja su osmišljeni da minimiziraju ono što naši serveri mogu vidjeti."
+      },
+      "press": {
+        "title": "Press",
+        "contactLine": "Za upite medija, kontaktirajte nas na",
+        " boilerplateTitle": "Standardni tekst",
+        "boilerplateBody": "Chatforia je aplikacija za poruke koja stavlja privatnost na prvo mjesto i čini međujezikne razgovore jednostavnim. Poruke su prema zadanim postavkama enkriptirane od kraja do kraja, a ugrađeni prevoditelj podržava više od 100 jezika u stvarnom vremenu. Korisnici mogu omogućiti poruke koje nestaju, držati potvrde o čitanju opcionalnim i sinkronizirati ih na različitim uređajima. Dostupno na iOS-u, Androidu i webu.",
+        "assetsTitle": " Brendirani materijali",
+        "assetsSubtitle": "Logotipi, snimci ekrana i slike proizvoda.",
+        "downloadCta": "Preuzmi medijski paket",
+        "downloadTitle": "Preuzmi aplikaciju",
+        "scanTip": "Na računaru? Skeniraj telefonom da preuzmeš aplikaciju.",
+        "qrAria": "Otvori web stranicu Chatforia",
+        "appStore": "Preuzmi na App Storeu",
+        "googlePlay": "Preuzmi na Google Playu"
+      },
+      "karijere": {
+        "title": "Kariere",
+        "intro": "Mi smo mali osnivački tim koji razvija Chatforia — privatni, globalni messenger koji se pokreće na webu, iOS-u i Androidu. Ako vam je stalo do privatnosti, enkripcije i ugodnih korisničkih iskustava, voljeli bismo vas čuti.",
+        "openRoles": "<b>Otvorene osnivačke uloge:</b> Voditelj Full-stack inženjera, Backend inženjer (Node.js), Frontend/ Web inženjer (React), mobilni inženjer (iOS), mobilni inženjer (Android), DevOps/SRE, inženjer za sigurnost i enkripciju, telekomunikacijski inženjer (Twilio + eSIM).",
+        "apply": "Kako se prijaviti: Koristite dugme ispod da pošaljete svoj CV i linkove putem e-maila.",
+        "emailCta": "Pošaljite svoj CV putem e-maila",
+        "whyNow": "Zašto se pridružiti sada?",
+        "whyBullets": "• Pomozite u izgradnji temelja novog globalnog messengera.\n• Uvedite poboljšanja koja se koriste na webu, iOS-u i Androidu.\n• Radite direktno s osnivačem na arhitekturi i smjeru proizvoda.\n• Budite zaduženi za ključna područja tehnološkog sloja: poruke, glas, video, enkripcija, telekomunikacije, AI.\n• Pridružite se na početku — prije nego što baza korisnika poraste.",
+        "advertise": {
+          "title": "Oglašavajte se na Chatforiji",
+          "description": "Dosezite angažirane korisnike poruka putem ukusnih, za brend siguranih pozicija. Nudimo banner oglasni prostor na vidljivim mjestima, sponzorstva i interne promocije. Premium pretplatnici ne vide oglase.",
+          "adsense": {
+            "withPubIdShort": "Također nudimo oglasni prostor putem Google AdSensea. Možete ciljati Chatforiju pomoću ID-a izdavača {{pub Id}}, ili koristite obrazac ispod za direktna sponzorstva.",
+            "noPubIdShort": "Također nudimo dio inventara putem Google AdSensea. Dostupna su direktna sponzorstva—koristite obrazac ispod."
+          },
+          "inventoryHeader": "Inventar i specifikacije",
+          "placement": {
+            " displayBadge": "Display",
+            "acceptedSizes": "Prihvaćene veličine",
+            "adsenseSlot": "AdSense slot:"
+          },
+          "noPlacementsPublic": "Finaliziramo naš inventar oglasa. Recite nam o svojoj kampanji i preporučit ćemo vam pozicije.",
+          "whyHeader": "Zašto Chatforia?",
+          "why": {
+            "highSession": "Visoka frekvencija sesija i vrijeme provedeno u chat UI",
+            "brandSafe": "Formatima sigurni za brend; poštovanje ograničenja frekvencije",
+            "sponsoredMoments": "Sponzorirani trenuci (npr. modalni prozor \"Pokreni chat\") dostupni",
+            "deals": "Direktni dogovori ili programatski putem AdSense/Google Ads"
+          },
+          "contactHeader": "Kontakt",
+          "form": {
+            "submittedMsg": "Hvala! Vaš upit je poslan. Javit ćemo vam se uskoro.",
+            "missingRequired": "Molimo ispunite ime, e-mail i poruku.",
+            "successToast": "Hvala! Javit ćemo vam se uskoro.",
+            "mailtoInfo": "Otvaramo vaš email klijent da pošaljemo upit…",
+            "nameLabel": "Vaše ime",
+            "namePlaceholder": "Jane Doe",
+            "emailLabel": "Email",
+            "emailPlaceholder": "you@company.com",
+            "companyLabel": "Kompanija",
+            " companyPlaceholder": "Acme Inc.",
+            "budgetLabel": "Mjesečni budžet (opcionalno)",
+            "budgetPlaceholder": "npr. 1.000 $–20.000+ $",
+            "messageLabel": "Recite nam o svojoj kampanji",
+            "messagePlaceholder": "Targetiranje, datumi, KPI-jevi, preferencije za postavljanje…",
+            "sendCta": "Pošalji upit"
+          },
+          "legal": {
+            "disclaimerStart": "Slanjem pristajete na naše",
+            "uslovi": "Uslovi",
+            "i": "i",
+            "privatnost": "Pravilnik o privatnosti"
+          }
+        },
+        "kontakt": {
+          "naslov": "Kontaktirajte nas",
+          "successMsg": "Hvala—naš tim će odgovoriti putem e-pošte.",
+          "errorSend": "Nije moguće poslati. Molimo pošaljite e-poštu na support@chatforia.com.",
+          "form": {
+            "nameLabel": "Ime",
+            "emailLabel": "E-pošta",
+            "messageLabel": "Poruka",
+            "sendCta": "Pošalji"
+          }
+        },
+        "privacyPolicy": {
+          "title": "Pravila o privatnosti",
+          "lastUpdated": "Posljednje ažurirano:",
+          "intro": {
+            "body": "Ova Pravila o privatnosti objašnjavaju kako Chatforia (\"mi\", \"nas\") prikuplja, koristi i dijeli informacije kada koristite naše aplikacije i usluge. Chatforia je dizajnirana tako da minimizira podatke kojima možemo pristupiti."
+          },
+          "infoWeCollect": {
+            "title": "Informacije koje prikupljamo",
+            "račun": "Informacije o računu (npr. e-pošta/telefon) za kreiranje i sigurnost vašeg računa.",
+            "šifrirano": "Šifrirani sadržaj (poruke/pozivi) je krajnje šifriran; ne možemo ga čitati.",
+            "dijagnostika": "Dijagnostički/upotrebni podaci kao što su dnevnici padova, tip uređaja, ili grube analitike za poboljšanje performansi."
+          },
+          "sms": {
+            "title": "Brojevi mobilnih telefona i SMS",
+            "body": "Ako odlučite da navedete broj mobilnog telefona, koristimo ga za omogućavanje funkcija kao što su verifikacija naloga, obavještenja o prijavi i slanje poruka od korisnika do korisnika putem SMS-a gdje je podržano. Možemo slati transakcijske SMS poruke u vezi s vašim nalogom i aktivnostima na Chatforiji. Možete se odjaviti od primanja SMS poruka u bilo kojem vremenskom odgovaranjem podržanom ključnom riječi za odjavu (kao što je \"STOP\") ili promjenom vaših postavki obavijesti u aplikaciji. Ne prodajemo vaš broj telefona niti ga koristimo za nepovezani marketing.",
+            "newText": "Novi tekst",
+            "enterRecipient": "Unesite ime ili broj",
+            "typeMessage": "Napišite poruku…",
+            "addRecipient": "Dodajte primaoca iznad da biste počeli…"
+          },
+          "kakoKoristimo": {
+            "title": "Kako koristimo informacije ",
+            "provide": "Obezbijediti i osigurati uslugu (autentifikacija, detekcija spama/zloupotrebe).",
+            "improve": "Poboljšati funkcije (kvalitet prevoda, pouzdanost).",
+            "legal": "Poštovati zakonske obaveze."
+          },
+          "sharing": {
+            "naslov": "Dijeljenje",
+            "sadržaj": "Ne prodajemo lične podatke. Možemo dijeliti ograničene podatke s obraditeljima (npr. push obavijesti, analitika) pod strogim ugovorima."
+          },
+          "prava": {
+            "naslov": "Vaša prava",
+            "sadržaj": "Ovisno o vašem regionu (npr., GDPR/UK GDPR/CPRA), možete zatražiti pristup, ispravku, brisanje ili odustajanje od određenih obrada. Kontakt: privacy@chatforia.com."
+          },
+          "čuvanje ": {
+            "naslov": "Čuvanje podataka i sigurnost",
+            "sadržaj": "Čuvamo samo ono što je potrebno za rad usluge i primjenjujemo sigurnosne standarde industrije. Sadržaj od kraja do kraja (E2E) ne možemo dešifrirati."
+          },
+          "djeca": {
+            "naslov": "Djeca",
+            "body": "Chatforia nije namijenjena djeci mlađoj od 13 godina (ili kako to zahtijeva vaš lokalni zakon)."
+          },
+          "promjene": {
+            "title": "Promjene",
+            "body": "Objavit ćemo ažuriranja ovdje i izmijeniti datum \"Posljednje ažuriranje\"."
+          },
+          "contact": {
+            "title": "Kontakt",
+            "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+          }
+        },
+        "terms": {
+          "title": "Uslovi korištenja",
+          "lastUpdated": "Posljednje ažurirano:",
+          "intro": {
+            " body": "Korištenjem Chatforia slažete se s ovim Uslovima. Ako se ne slažete, ne koristite uslugu."
+          },
+          "računi": {
+            "naslov": "Računi",
+            "itemPrecizneInformacije": " Pružite tačne informacije i zaštitite svoje podatke za prijavu.",
+            "itemOdgovornost": "Odgovorni ste za aktivnosti na svom računu."
+          },
+          "prihvatljivaUpotreba": {
+            "naslov": "Prihvatljiva upotreba",
+            "itemZabranaZloupotrebe": "Bez nezakonitog, uvredljivog ili povređujućeg sadržaja; bez spama ili automatizovane zloupotrebe.",
+            "itemOgraničenje": "Možemo suspendovati/prekinuti uslugu zbog kršenja pravila."
+          },
+          "sms": {
+            "title": "SMS komunikacije",
+            "body": "Ako navedete broj mobilnog telefona, slažete se da vam Chatforia može slati SMS poruke vezane za vaš račun i korištenje usluge, kao što su obavijesti o prijavi, sigurnosne obavijesti i poruke vezane za razgovore koje pokrećete ili u kojima učestvujete. Ne koristimo SMS za promotivne ili marketinške poruke bez vaše izričite saglasnosti. Mogu se primjenjivati standardne tarife za poruke i podatke. Možete se odjaviti od SMS poruka u bilo kojem trenutku tako što ćete odgovoriti podržanom ključnom riječi za odjavu (na primjer, \"STOP\") ili ažuriranjem vaših postavki obavijesti u aplikaciji."
+          },
+          "vašSadržaj": {
+            "naslov": "Vaš sadržaj",
+            "tijelo": "Zadržavate prava na svoj sadržaj. Dajete nam neophodna prava za rad usluge (npr. usmjeravanje, pohrana, prevođenje)."
+          },
+          "disclaimer": {
+            "title": "Odricanje od odgovornosti",
+            "body": "Usluga se pruža \"takva kakva jest\" bez garancija. U najvećoj mjeri koju dopušta zakon, Chatforia nije odgovorna za indirektnu ili posljedičnu štetu."
+          },
+          "changes": {
+            "title": "Promjene",
+            " body": "Možemo ažurirati ove uslove; nastavak korištenja nakon izmjena znači prihvatanje."
+          },
+          "contact": {
+            "title": "Kontakt",
+            "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+          }
+        },
+        "refund": {
+          "title": "Politika povrata novca",
+          "lastUpdated": "Posljednje ažurirano:",
+          "intro": "U Chatforiji nastojimo pružiti visokokvalitetnu uslugu svim korisnicima. Ova Politika povrata novca navodi kada se povrat novca može odobriti.",
+          "pretplate": {
+            "naslov": "Pretplate",
+            "sadržaj": "Pretplate se naplaćuju unaprijed na ponovljivoj osnovi. Možete otkazati u bilo kojem trenutku putem postavki vašeg računa ili platforme korištene za kupovinu."
+          },
+          "ispunjavanje uslova": {
+            "title": "Uslovi za povrat novca",
+            "body": "Povrat novca može biti odobren za duplu naplatu, greške u naplati ili tehničke probleme koji sprječavaju pristup plaćenim funkcijama. Svi zahtjevi se razmatraju pojedinačno."
+          },
+          "nonRefundable": {
+            "title": "Nepovratno",
+            "body": "Generalno ne vršimo povrat novca za neiskorišteno vrijeme, djelimične periode pretplate ili neuspjeh otkazivanja prije obnove.\"    ",
+            "thirdParty ": {
+              "title": "Kupovine trećih strana",
+              "body": "Ako je kupljeno putem platformi trećih strana kao što je Apple App Store, zahtjev za povrat novca mora se podnijeti direktno putem tih platformi."
+            },
+            "kontakt": {
+              "title": "Kontakt",
+              "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, SAD"
+            }
+          },
+          "doNotSell": {
+            "title": "Ne prodajte niti dijelite moje lične podatke",
+            "body": "Chatforia ne prodaje lične podatke. Stanovnici Kalifornije i dalje mogu podnijeti zahtjeve u skladu sa CPRA pomoću dugmeta ispod.",
+            "cta": "Pošalji zahtjev"
+          },
+          "cookies": {
+            "title": "Podešavanja kolačića",
+            "body": "Chatforia koristi minimalne kolačiće (npr. sesijske, sigurnosne). Ne koristimo kolačiće za oglase trećih strana. Upravljajte kolačićima putem postavki vašeg preglednika."
+          },
+          "premiumGuard": {
+            "requiresPremium": "Ova funkcija zahtijeva Premium plan."
+          },
+          "smsPolicy": {
+            "title": "Chatforia — SMS politika i Opt-in",
+            "lastUpdated": "Posljednje ažurirano:",
+            "whatWeSend": {
+              "title": "Šta šaljemo",
+              "body": "Chatforia šalje samo SMS poruke vezane za račun i razgovore na brojeve telefona koje je korisnik izričito naveo i na koje je dao saglasnost. Tipične poruke uključuju kodove za prijavu/verifikaciju, obavijesti o dostavi poruka, sigurnosne obavijesti i transakcijske ažuriranja računa."
+            },
+            "optIn": {
+              "title": "Kako se korisnici prijavljuju",
+              "body": "Korisnici se prijavljuju unosom svog broja telefona tokom registracije i potvrdom pristanka putem SMS-a na stranici za registraciju ili na namjenskom",
+              "link": "obrazac za prijavu"
+            },
+            "odjava": {
+              "title": "Kako se korisnici odjavljuju",
+              "stop": "Odgovorite STOP na bilo koji Chatforia SMS da biste se odjavili.",
+              "start": "Odgovorite START da biste se ponovo pretplatili.",
+              "contactPrefix": "Kontaktirajte podršku na"
+            },
+            "help": {
+              "title": "Pomoć",
+              "bodyPrefix": "Odgovorite HELP za pomoć ili pošaljite e-mail\"    ",
+              "privacyTerms": {
+                "title": "Privatnost i uslovi",
+                "bodyStart": "Slaganjem na SMS poruke, korisnici također pristaju na naše",
+                "terms": "Uslovi pružanja usluge",
+                "and": "and",
+                "privacy": "Pravila o privatnosti"
+              },
+              "footer": "© 2026 Chatforia Inc."
+            }
+          }
+        }
+      }
+    }
   }
 }
