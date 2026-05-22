@@ -9,7 +9,15 @@
     "copied": "Đã sao chép!",
     "errorWithMessage": "Lỗi: { {message}}",
     "loading": "Đang tải…",
-    "saveError": "Lỗi lưu"
+    "saveError": "Lỗi lưu",
+    "clear": "Xóa",
+    "error": "Lỗi",
+    "learnMore": "Tìm hiểu thêm",
+    "retry": "Thử lại",
+    "send": "Gửi",
+    "showOriginal": "Hiển thị bản gốc",
+    "showTranslation": "Hiển thị bản dịch",
+    "undo": "Hoàn tác"
   },
   "a11y": {
     "skipToMain": "Bỏ qua đến nội dung chính"
@@ -20,23 +28,25 @@
   },
   "keys": {
     "backupCreated": "Đã tạo và tải xuống bản sao lưu khóa ✓",
-    "restored": "Đã khôi phục bản sao lưu khóa ✓ Khóa đã được cài đặt cục bộ",
+    "restored": "Bản sao lưu khóa đã được khôi phục ✓ Các khóa đã được cài đặt cục bộ",
     "noBackup": "Không có bản sao lưu được mã hóa nào cho tài khoản này",
     "missingPublicKey": "Bản sao lưu thiếu khóa công khai"
   },
   "keySetup": {
-    "title ": "Thiết lập khóa thiết bị của bạn",
-    "description": "Thiết bị này chưa có khóa riêng tư của bạn. Nhập bản sao lưu được bảo vệ bằng mật khẩu hoặc tạo cặp khóa mới (bạn sẽ có thể đọc tin nhắn mới từ bây giờ).",
+    "title": "Thiết lập khóa thiết bị của bạn",
+    "description": "Thiết bị này chưa có khóa riêng tư của bạn. Hãy nhập bản sao lưu được bảo vệ bằng mật khẩu hoặc tạo cặp khóa mới (bạn sẽ có thể đọc tin nhắn mới từ bây giờ).",
     "chooseFile": "Chọn tệp và nhập mật khẩu.",
-    "imported": "Khóa riêng tư đã được nhập vào thiết bị này. Bạn có thể đọc các tin nhắn cũ ngay bây giờ.",
+    "imported": "Khóa riêng tư đã được nhập vào thiết bị này. Bạn có thể đọc các tin nhắn cũ từ bây giờ.",
     "enterPassword": "Nhập mật khẩu tài khoản của bạn để chúng tôi có thể sao lưu các khóa của bạn một cách an toàn."
   },
   "encryptionRecovery": {
     "title": "Quản lý mã hóa",
     "description": "Sao lưu, khôi phục, mở khóa hoặc đặt lại khóa mã hóa của bạn.",
-    " alert": {
+    "alert": {
       "keyRequiredTitle": "Yêu cầu khóa mã hóa",
-      "keyRequiredBody": "Trình duyệt này hiện không thể giải mã các tin nhắn đã mã hóa của bạn. Hãy khôi phục, mở khóa hoặc đặt lại khóa để tiếp tục."
+      "keyRequiredBody": "Trình duyệt này hiện không thể giải mã các tin nhắn đã mã hóa của bạn. Hãy khôi phục, mở khóa hoặc đặt lại khóa để tiếp tục.",
+      "lockedTitle": "Tin nhắn bị khóa",
+      "lockedBody": "Khôi phục hoặc mở khóa khóa mã hóa của bạn để đọc các tin nhắn được mã hóa trên thiết bị này."
     },
     "sections": {
       "createBackup": "Tạo bản sao lưu khóa",
@@ -46,52 +56,79 @@
     "fields": {
       "unlockPasscode": {
         "label": "Mật mã mở khóa (thiết bị hiện tại)",
-        "description": "Dùng để giải mã khóa của bạn cục bộ trước khi xuất"
+        "description": "Được sử dụng để giải mã khóa của bạn cục bộ trước khi xuất"
       },
       "backupPassword": {
         "label": "Mật khẩu sao lưu",
         "description": "Dùng để mã hóa tệp sao lưu"
       },
-      "restoreBackupPass word": {
+      "restoreBackupPassword": {
         "label": "Mật khẩu sao lưu",
         "description": "Mật khẩu bạn đã tạo khi sao lưu khóa trên iPhone"
       },
       "newLocalPasscode": {
         "label": "Mật khẩu cục bộ mới",
-        "description": "Bảo vệ các khóa khi lưu trữ trên trình duyệt này"
+        "description": "Bảo vệ khóa khi không sử dụng trên trình duyệt này"
       },
       "resetLocalPasscode": {
         "label": "Mật mã cục bộ mới",
-        "description": "Yêu cầu trước khi đặt lại để khóa mới được bảo vệ trên thiết bị này"
+        "description": "Yêu cầu trước khi đặt lại để khóa mới được bảo vệ trên thiết bị này "
+      },
+      "devicePasscode": {
+        "label": "Mật mã thiết bị",
+        "description": "Nhập mật mã được sử dụng để bảo vệ khóa trên thiết bị này."
+      },
+      "newDevicePasscode": {
+        "label": "Mật mã thiết bị mới",
+        "description": "Tạo mật mã để bảo vệ khóa trên thiết bị này."
+      },
+      "resetDevicePasscode": {
+        "label": "Mật mã thiết bị mới",
+        "description": "Tạo mật mã cho khóa mã hóa mới trên thiết bị này."
       }
     },
     "actions": {
       "unlockKey": "Mở khóa khóa mã hóa",
-      "restoreFromBackup": " Khôi phục từ bản sao lưu tài khoản",
-      "resetEncryption": "Đặt lại mã hóa"
+      "restoreFromBackup": "Khôi phục từ bản sao lưu tài khoản",
+      "resetEncryption": "Đặt lại mã hóa",
+      "advancedRecovery": "Khôi phục nâng cao",
+      "restoreChats": "Khôi phục cuộc trò chuyện",
+      "restoreEncryptedChats": "Khôi phục cuộc trò chuyện được mã hóa",
+      "startFreshEncryption": "Bắt đầu mã hóa mới",
+      "unlockMessages": "Mở khóa tin nhắn"
     },
     "messages": {
-      "backupCreated": "Bản sao lưu khóa đã được tạo và tải xuống.",
+      "backupCreated": "Đã tạo và tải xuống bản sao lưu khóa.",
       "keyUnlocked": "Khóa mã hóa đã được mở khóa.",
       "keyRestored": "Khóa đã được khôi phục từ bản sao lưu tài khoản.",
       "resetSuccess": "Đã đặt lại mã hóa thành công."
     },
     "errors": {
       "restoreIncomplete": "Việc khôi phục khóa chưa hoàn tất hoặc không chính xác đối với tài khoản này",
-      "noBackup": "Không có bản sao lưu mã hóa nào cho tài khoản này",
+      "noBackup": "Không có bản sao lưu được mã hóa nào cho tài khoản này",
       "missingPublicKey": "Bản sao lưu thiếu khóa công khai",
       "noServerPublicKey": "Tài khoản này hiện không công khai khóa công khai máy chủ",
       "serverBackupMismatch": "Bản sao lưu máy chủ không khớp với khóa mã hóa tài khoản hiện tại",
       "incompleteMetadata": "Siêu dữ liệu bản sao lưu không đầy đủ",
-      "resetIncomplete": "Việc đặt lại mã hóa không hoàn tất đúng cách "
+      "resetIncomplete": "Việc đặt lại mã hóa không hoàn tất đúng cách",
+      "resetFailed": "Không thể đặt lại mã hóa. Vui lòng thử lại.",
+      "restoreFailed": "Không thể khôi phục khóa mã hóa của bạn. Kiểm tra bản sao lưu và mật khẩu của bạn.",
+      "unlockFailed": "Không thể mở khóa khóa mã hóa của bạn. Kiểm tra mật mã của bạn và thử lại."
     },
     "confirm": {
       "reset": "Đặt lại mã hóa cho tài khoản này?\n\nCác tin nhắn được mã hóa cũ có thể không đọc được trừ khi bạn khôi phục khóa gốc sau này."
     },
-    "resetDescription": "Điều này sẽ tạo ra một khóa mã hóa mới cho tài khoản của bạn. Các tin nhắn được mã hóa cũ có thể không đọc được trừ khi bạn khôi phục khóa gốc sau này."
+    "resetDescription": "Điều này sẽ tạo ra một khóa mã hóa mới cho tài khoản của bạn. Các tin nhắn được mã hóa cũ có thể không đọc được trừ khi bạn khôi phục khóa gốc sau này.",
+    "danger": {
+      "title": "Bắt đầu mã hóa mới",
+      "body": "Điều này sẽ tạo ra một khóa mã hóa mới. Các tin nhắn được mã hóa cũ có thể không đọc được trừ khi bạn khôi phục khóa gốc sau này."
+    },
+    "simpleTitle": "Mở khóa tin nhắn được mã hóa",
+    "simpleDescription": "Sử dụng mã PIN thiết bị hoặc khôi phục bản sao lưu để mở khóa tin nhắn đã mã hóa.",
+    "restoreDescription": "Khôi phục khóa trò chuyện đã mã hóa từ bản sao lưu được bảo vệ bằng mật khẩu sao lưu của bạn."
   },
   "smsConsent": {
-    "label": "Tôi đồng ý nhận thông báo và cảnh báo qua SMS từ {{companyName}}. Tần suất tin nhắn có thể thay đổi. Có thể áp dụng cước tin nhắn và dữ liệu. Trả lời <stop>STOP</stop> để hủy đăng ký bất cứ lúc nào. Trả lời <help>HELP</help> để được hỗ trợ."
+    "label": "Tôi đồng ý nhận thông báo và cảnh báo qua SMS từ {{companyName}}. Tần suất tin nhắn có thể thay đổi. Phí tin nhắn và dữ liệu có thể áp dụng. Trả lời <stop>STOP</stop> để hủy đăng ký bất cứ lúc nào. Trả lời <help>HELP</help> để được hỗ trợ."
   },
   "phoneField": {
     "label": "Số điện thoại",
@@ -109,19 +146,19 @@
       "translate": "Dịch tin nhắn thông minh, tích hợp sẵn",
       "disappear": "Tin nhắn tự hủy",
       "privacyAlt": "Thiết kế ưu tiên quyền riêng tư",
-      "seePlans": "Xem các gói & giá cả"
+      "seePlans": "Xem các gói và giá cả"
     },
     "hero": {
       "line1": "Tin nhắn an toàn cho mọi người, mọi nơi — với",
       "em": "dịch sang hơn 100 ngôn ngữ",
-      "sub": "Nhận số điện thoại an toàn miễn phí để gọi và nhắn tin trên toàn thế giới qua Wi-Fi hoặc dữ liệu di động. Tận hưởng mã hóa đầu cuối, tin nhắn tự hủy và cuộc gọi thoại/video HD — với các công cụ tích hợp giúp bạn duy trì kết nối xuyên biên giới.",
+      "sub": "Nhận số điện thoại an toàn miễn phí để gọi và nhắn tin trên toàn thế giới qua Wi-Fi hoặc dữ liệu di động. Tận hưởng mã hóa đầu cuối, tin nhắn tự hủy và cuộc gọi thoại/video HD — cùng các công cụ tích hợp giúp bạn kết nối xuyên biên giới.",
       "freeNote": "Gọi và nhắn tin cơ bản miễn phí. Các tính năng AI nâng cao và cao cấp yêu cầu nâng cấp."
     },
     "feat": {
-      "encryption": "Mã hóa đầu cuối, luôn bật",
+      "encryption": "Mã hóa đầu cuối, luôn bật ",
       "translate": "Xóa bỏ rào cản ngôn ngữ trong các cuộc trò chuyện của bạn",
       "disappear": "Tin nhắn tự hủy & xác nhận đã đọc",
-      "privacy": "Ưu tiên quyền riêng tư. Dữ liệu của bạn, quyền kiểm soát của bạn."
+      "privacy": "Ưu tiên quyền riêng tư. Dữ liệu của bạn, quyền kiểm soát của bạn. "
     },
     "continueGoogle": "Tiếp tục với Google",
     "continueApple": "Tiếp tục với Apple",
@@ -129,7 +166,7 @@
     "password": "Mật khẩu",
     "keepSignedIn": "Giữ tôi đăng nhập",
     "forgotPassword": "Quên mật khẩu?",
-    "loginButton": "Đăng nhập",
+    "loginButton": " Đăng nhập",
     "createAccount": "Tạo tài khoản",
     "freeAccountButton": "Tạo tài khoản miễn phí",
     "newHere": "Lần đầu sử dụng?",
@@ -142,9 +179,9 @@
       "main": "Ứng dụng nhắn tin an toàn",
       "highlight": "nói ngôn ngữ của bạn"
     },
-    "subhead": "Tin nhắn riêng tư, được mã hóa và dịch thuật — ngay lập tức.",
+    "subhead": "Nhắn tin riêng tư, được mã hóa và dịch thuật — ngay lập tức. ",
     "upgrade": "Nâng cấp ngay",
-    "tip": "Mẹo: Sử dụng cùng một tài khoản trên web và di động. Tin nhắn của bạn sẽ được đồng bộ hóa.",
+    "tip": "Mẹo: Sử dụng cùng một tài khoản trên web và thiết bị di động. Tin nhắn của bạn sẽ được đồng bộ hóa.",
     "openDownload": "Mở trang tải xuống",
     "qrAlt": "Mã QR cho Chatforia",
     "scanHint": "Quét để tải xuống ứng dụng hoặc mở trong trình duyệt của bạn.",
@@ -158,24 +195,119 @@
     "signup": "Đăng ký",
     "email": "Email",
     "registration": {
-      "passwordDescription": "Tối thiểu 6 ký tự. Sử dụng mật khẩu mạnh và duy nhất.",
-      " smsConsent": "Bằng cách tạo tài khoản, bạn đồng ý nhận thông báo SMS liên quan đến hoạt động Chatforia của bạn (chẳng hạn như tin nhắn từ người dùng khác). Có thể áp dụng cước tin nhắn và dữ liệu. Bạn có thể hủy đăng ký bất cứ lúc nào trong Cài đặt.",
+      "passwordDescription": "Tối thiểu 6 ký tự. Hãy sử dụng mật khẩu mạnh và duy nhất.",
+      "smsConsent": "Bằng cách tạo tài khoản, bạn đồng ý nhận thông báo SMS liên quan đến hoạt động Chatforia của bạn (chẳng hạn như tin nhắn từ người dùng khác). Có thể áp dụng cước tin nhắn và dữ liệu. Bạn có thể hủy đăng ký bất cứ lúc nào trong Cài đặt.",
       "termsLink": "Điều khoản dịch vụ",
-      "privacyLink": "Chính sách bảo mật"
+      "privacyLink": "Chính sách bảo mật",
+      "already": "Bạn đã có tài khoản chưa?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Mật khẩu",
+      "passwordPlaceholder": "Tạo mật khẩu",
+      "phoneHelp": "Được sử dụng cho xác minh, bảo mật và các tính năng SMS (nếu được hỗ trợ).",
+      "phoneLabel": "Số điện thoại",
+      "submit": "Tạo tài khoản",
+      "submitAria": "Tạo tài khoản Chatforia của bạn",
+      "title": "Tạo tài khoản Chatforia của bạn",
+      "usernameLabel": "Tên người dùng",
+      "usernamePlaceholder": "Chọn tên người dùng"
     },
     "to": "Gửi đến:",
-    "enterRecipient": "Nhập tên hoặc số điện thoại",
+    "enterRecipient": "Nhập tên hoặc số",
     "clearRecipients": "Xóa người nhận",
     "sms": "SMS",
     "chatforia": "Chatforia",
     "typeMessage": "Nhập tin nhắn…",
     "addRecipient": "Thêm người nhận ở trên để bắt đầu…",
-    "oneRecipient": "Vui lòng nhập một người nhận trước.",
+    "oneRecipient": "Vui lòng nhập một người nhận trước mắt.",
     "enterValidRecipient": "Nhập tên liên hệ đã lưu hoặc số điện thoại.",
-    "sendFailed": "Gửi không thành công. Kiểm tra bảng điều khiển để biết chi tiết."
+    "sendFailed": "Gửi không thành công. Kiểm tra bảng điều khiển để biết chi tiết.",
+    "logIn": "Đăng nhập ",
+    "seePlans": "Xem các gói",
+    "errors": {
+      "emailTaken": "Địa chỉ email đó đã được sử dụng.",
+      "invalidEmail": "Nhập địa chỉ email hợp lệ.",
+      "invalidInput": "Vui lòng kiểm tra thông tin của bạn và thử lại.",
+      "invalidPhone": "Nhập số điện thoại hợp lệ.",
+      "invalidValue": "Một trong các giá trị không hợp lệ.",
+      "passwordLength": "Mật khẩu phải có ít nhất 6 ký tự.",
+      "passwordRequired": " Mật khẩu là bắt buộc.",
+      "registrationFailed": "Đăng ký không thành công. Vui lòng thử lại.",
+      "smsConsent": "Vui lòng chấp nhận điều khoản SMS để tiếp tục.",
+      "tooManyAttempts": "Quá nhiều lần thử. Vui lòng đợi và thử lại.",
+      "usernameOrEmailTaken": "Tên người dùng hoặc email đó đã được sử dụng.",
+      "usernameRequired": "Tên người dùng là bắt buộc.",
+      "usernameTaken": "Tên người dùng đó đã được sử dụng."
+    }
+  },
+  "login": {
+    "welcomeBack": "Chào mừng quay lại",
+    "title": "Tiếp tục đến Chatforia",
+    "subtitleReturning": "Đăng nhập vào tài khoản Chatforia của bạn",
+    "google": "Tiếp tục với Google",
+    "apple": " Tiếp tục với Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Không thể đăng nhập bằng Google",
+    "appleUnavailable": "Không thể đăng nhập bằng Apple",
+    "ssoUnavailable": "Đăng nhập một lần hiện không khả dụng. Vui lòng sử dụng tên người dùng và mật khẩu thay thế.",
+    "or": "hoặc",
+    "accountLabel": "Tài khoản",
+    "identifierPh": "Email hoặc tên người dùng",
+    "passwordLabel": "Mật khẩu",
+    "passwordPh": "Mật khẩu của bạn",
+    "keepSignedIn": "Giữ tôi đăng nhập",
+    "forgot": "Quên mật khẩu?",
+    "resendVerification": "Gửi lại email xác minh",
+    "submit": "Đăng nhập",
+    "loggingIn": "Đang đăng nhập…",
+    "verification": {
+      "sent": "Email xác minh đã được gửi. Vui lòng kiểm tra hộp thư đến của bạn.",
+      "failed": "Không thể gửi lại email xác minh."
+    },
+    "error": {
+      "missing": "Vui lòng nhập thông tin đăng nhập của bạn.",
+      "invalid": "Tên người dùng hoặc mật khẩu không hợp lệ",
+      "denied": "Bị từ chối truy cập.",
+      "unprocessable": "Yêu cầu không hợp lệ. Vui lòng kiểm tra tên người dùng/email và mật khẩu của bạn.",
+      "deviceLimit": " Đã đạt giới hạn thiết bị cho gói Miễn phí. Vui lòng đăng xuất trên thiết bị khác hoặc nâng cấp lên gói Premium để liên kết thêm thiết bị.",
+      "premiumRequired": "Hành động này yêu cầu gói Premium."
+    },
+    "forgotPassword": {
+      "title": "Quên mật khẩu",
+      "helper": "Vui lòng nhập địa chỉ email bạn đã sử dụng để tạo tài khoản Chatforia và chúng tôi sẽ gửi cho bạn một liên kết an toàn để đặt lại mật khẩu.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Vui lòng nhập địa chỉ email hợp lệ.",
+      "genericError": "Không thể xử lý yêu cầu. Vui lòng thử lại sau một lúc.",
+      "sending": "Đang gửi liên kết đặt lại...",
+      "sendCta": "Gửi liên kết đặt lại",
+      "sentLabel": "Đã gửi! ",
+      "sentHelper": "Nếu có tài khoản với địa chỉ email đó, chúng tôi đã gửi liên kết đặt lại mật khẩu. Có thể mất vài phút để nhận được. Hãy kiểm tra thư mục spam hoặc quảng cáo.",
+      "previewDev": "Xem trước email (Dev)",
+      "backToLogin": "Quay lại đăng nhập"
+    },
+    "resetPassword": {
+      "title": "Đặt lại mật khẩu",
+      "missingToken": "Mã thông báo đặt lại mật khẩu không hợp lệ hoặc bị thiếu.",
+      "missingTokenHelper": "Mã thông báo không hợp lệ hoặc bị thiếu. Vui lòng yêu cầu liên kết đặt lại mật khẩu mới.",
+      "passwordMismatch": "Mật khẩu không khớp",
+      "success": "Mật khẩu của bạn đã được đặt lại thành công",
+      "genericError": "Lỗi: Không thể đặt lại mật khẩu.",
+      "newPasswordLabel": "Mật khẩu mới",
+      "newPasswordPlaceholder": "Nhập mật khẩu mới của bạn",
+      "confirmPasswordLabel": "Xác nhận mật khẩu mới",
+      "confirmPasswordPlaceholder": "Nhập lại mật khẩu mới của bạn",
+      "resetting": "Đang đặt lại...",
+      "submit": "Đặt lại mật khẩu",
+      "strongPasswordHint": "Chọn một mật khẩu mạnh mà bạn không sử dụng ở nơi khác."
+    }
+  },
+  "oauth": {
+    "completing": "Đang hoàn tất đăng nhập…"
   },
   "home": {
-    "\n \ntitle": "Trang chủ",
+    "title": "Trang chủ",
     "messagesTitle": "Tin nhắn của bạn",
     "messagesSubtitle": "Nhập người nhận ở trên, sau đó gửi tin nhắn để bắt đầu cuộc trò chuyện.",
     "subheader": "Gửi tin nhắn để bắt đầu trò chuyện.",
@@ -184,7 +316,7 @@
     "emoji": "Biểu tượng cảm xúc",
     "upload": "Tải lên ảnh hoặc video",
     "inputPlaceholder": "Nhập tin nhắn…",
-    "inputLabel": "Trình soạn thảo tin nhắn",
+    "inputLabel": "Trình soạn tin nhắn",
     "sendTooltip": "Gửi",
     "sendTooltipEmpty": "Nhập tin nhắn để gửi",
     "send": "Gửi",
@@ -194,16 +326,34 @@
     "enterRecipient": "Nhập tên hoặc số điện thoại",
     "addRecipient": "Thêm người nhận ở trên để bắt đầu…",
     "needNumber": "Bạn cần có số Chatforia trước khi gửi SMS.",
-    "chooseNumber": "Chọn số"
+    "chooseNumber": "Chọn số",
+    "to": "Gửi đến",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Nhập tin nhắn…",
+    "clearRecipients": "Xóa người nhận",
+    "oneRecipient": "Vui lòng nhập một người nhận trước đã.",
+    "enterValidRecipient": "Nhập tên liên hệ đã lưu, tên người dùng hoặc số điện thoại.",
+    "sendFailed": "Gửi không thành công. Vui lòng thử lại."
+  },
+  "composer": {
+    "aria": "Trình soạn tin nhắn",
+    "emoji": "Biểu tượng cảm xúc",
+    "gifPicker": "Mở trình chọn GIF",
+    "placeholder": "Nhập tin nhắn…",
+    "send": "Gửi",
+    "sendDisabled": "Nhập tin nhắn hoặc đính kèm tệp để gửi.",
+    "upload": "Tải lên tệp đính kèm",
+    "voiceNote": "Ghi âm giọng nói"
   },
   "sidebar": {
     "randomChat": "Trò chuyện ngẫu nhiên",
-    "callTextForwarding": "Chuyển tiếp cuộc gọi & tin nhắn ",
+    "callTextForwarding": "Chuyển tiếp cuộc gọi & tin nhắn",
     "conversations": "Cuộc trò chuyện",
     "searchPlaceholder": "Tìm kiếm cuộc trò chuyện...",
-    "errorLoading": "Không thể tải cuộc trò chuyện",
+    "errorLoading": "Không tải được cuộc trò chuyện",
     "empty": "Chưa có cuộc trò chuyện nào.",
-    "startChat": "Bắt đầu cuộc trò chuyện",
+    "startChat": "Bắt đầu trò chuyện",
     "people": "Người dùng",
     "settings": "Cài đặt",
     "status": "Trạng thái",
@@ -218,7 +368,24 @@
     "startChatAlt": "Bắt đầu cuộc trò chuyện mới",
     "calls": "Cuộc gọi",
     "video": "Video",
-    "voicemail": "Thư thoại"
+    "voicemail": "Thư thoại",
+    "chats": "Cuộc trò chuyện",
+    "messages": "Tin nhắn",
+    "more": "Thêm",
+    "noResults": "Không có kết quả",
+    "refreshChats": "Làm mới cuộc trò chuyện",
+    "refreshTooltip": "Làm mới cuộc trò chuyện",
+    "searchAriaLabel": "Tìm kiếm cuộc trò chuyện",
+    "callHistory": "Lịch sử cuộc gọi",
+    "deleteConversation": "Xóa cuộc trò chuyện",
+    "deletedTitle": "Cuộc trò chuyện đã bị xóa",
+    "deletedMsg": "Cuộc trò chuyện đã bị xóa.",
+    "deleteFailedTitle": "Không thể xóa cuộc trò chuyện",
+    "deleteFailedMsg": "Vui lòng thử lại.",
+    "archivedTitle": "Cuộc trò chuyện đã được lưu trữ",
+    "archivedMsg": "Cuộc trò chuyện đã được lưu trữ.",
+    "archiveFailedTitle": "Không thể lưu trữ cuộc trò chuyện",
+    "archiveFailedMsg": "Vui lòng thử lại."
   },
   "topbar": {
     "newStatus": "Trạng thái mới",
@@ -229,11 +396,11 @@
   "footer": {
     "plans": "Gói dịch vụ & Giá cả",
     "about": "Giới thiệu về Chatforia",
-    "careers": " Tuyển dụng",
+    "careers": "Tuyển dụng",
     "press": "Báo chí",
     "advertise": "Quảng cáo",
-    "contact": "Liên hệ với chúng tôi",
-    "help": " Trung tâm trợ giúp",
+    "contact": "Liên hệ",
+    "help": "Trung tâm trợ giúp",
     "status": "Trang trạng thái",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
@@ -247,7 +414,7 @@
     "homeAria": "Trang chủ Chatforia",
     "section": {
       "company": "CÔNG TY",
-      "support": "HỖ TRỢ ",
+      "support": "HỖ TRỢ",
       "downloads": "TẢI XUỐNG",
       "legal": "PHÁP LÝ"
     },
@@ -255,38 +422,43 @@
       "plans-pricing": "Gói dịch vụ & Giá cả",
       "about-chatforia": "Giới thiệu về Chatforia",
       "careers": "Tuyển dụng",
-      "press": "Thông tin báo chí",
+      "press": "Báo chí",
       "advertise": "Quảng cáo",
-      " getting-started": "Bắt đầu",
+      "getting-started": "Bắt đầu",
       "help-center": "Trung tâm trợ giúp",
       "contact-us": "Liên hệ với chúng tôi",
       "status-page": "Trang trạng thái",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "Chính sách bảo mật",
-      "terms-of -service": "Điều khoản dịch vụ",
+      "privacy-policy": "Chính sách quyền riêng tư",
+      "terms-of-service": "Điều khoản dịch vụ",
       "do-not-sell-my-info": "Không bán thông tin của tôi",
       "cookie-settings": "Cài đặt cookie",
       "how-it-works": "Cách thức hoạt động",
       "blog": "Blog",
       "refund-policy": "Chính sách Hoàn tiền",
-      "sms-policy": "Chính sách Nhắn tin SMS"
+      "sms-policy": "Chính sách Tin nhắn SMS"
     },
     "social": {
       "tiktok": "TikTok",
       "instagram": "Instagram",
       "facebook": "Facebook",
-      "linkedin": " LinkedIn",
+      "linkedin": "LinkedIn",
       "x": "X"
     },
     "copyright": "© Chatforia",
     "patentPending": "Đang chờ cấp bằng sáng chế",
     "backToTop": "↑ Trở lại đầu trang"
   },
+  "header": {
+    "openNav": "Mở menu điều hướng",
+    "closeNav": "Đóng menu điều hướng",
+    "homeAria": "Trang chủ Chatforia"
+  },
   "chat": {
-    "selectPrompt": "Chọn một văn bản hoặc phòng chat để bắt đầu trò chuyện",
+    "selectPrompt": "Chọn văn bản hoặc phòng chat để bắt đầu trò chuyện",
     "newMessages": "Tin nhắn mới",
-    "typing": "{{name }} đang gõ...",
+    "typing": "{{name}} đang gõ...",
     "emptyTitle": "Tin nhắn của bạn",
     "emptySubtitle": "Gửi tin nhắn để bắt đầu trò chuyện.",
     "startChatButton": "Gửi tin nhắn",
@@ -297,44 +469,59 @@
     "blockError": "Không thể xác định người dùng mục tiêu để chặn.",
     "blockFailed": "Chặn thất bại (hệ thống phía máy chủ chưa được kết nối).",
     "encryptedUnavailable": "Tin nhắn được mã hóa (không có khóa)",
-    "unlockToView": "Mở khóa để xem tin nhắn này"
+    "unlockToView": "Mở khóa để xem tin nhắn này",
+    "clearConfirm": "Xóa cuộc trò chuyện này? Thao tác này không thể hoàn tác.",
+    "unknownThread": "Chuỗi tin nhắn không xác định"
   },
-  " messageInput": {
+  "messageInput": {
     "ttl": {
       "off": "Tắt"
     },
     "freeLimit": "Giới hạn gói miễn phí: tự động xóa tối đa 1 ngày. Giới hạn ở 1 ngày.",
-    "premiumLimit": "Thời gian tự động xóa tối đa cho gói Premium là 30 ngày. Giới hạn ở 30 ngày.",
-    "\n \nnothingToSend": "Nhập tin nhắn hoặc đính kèm tệp để gửi.",
+    "premiumLimit": "Thời gian xóa tự động tối đa cho gói Premium là 30 ngày. Giới hạn ở 30 ngày.",
+    "nothingToSend": "Nhập tin nhắn hoặc đính kèm tệp để gửi.",
     "encryptionFailed": "Mã hóa thất bại. Tin nhắn không được gửi.",
     "sent": "Tin nhắn đã được gửi.",
-    "placeholder": "Nhập tin nhắn… ",
+    "placeholder": "Nhập tin nhắn…",
     "autoDelete": "Tự động xóa",
     "typeToSend": "Nhập tin nhắn để gửi",
     "send": "Gửi",
     "sendWithEnter": "Gửi (Enter)",
     "attachment": "tệp đính kèm",
     "caption": "Chú thích (tùy chọn)",
-    "remove": "Xóa",
+    "remove": "Xóa ",
     "clear": "Xóa",
     "gif": "GIF",
-    "sticker": "Hình dán",
+    "sticker": "Sticker",
     "errors": {
       "attachmentTooLarge": "Tệp đính kèm quá lớn. Hãy thử tệp nhỏ hơn.",
       "unsupportedFile": "Loại tệp không được hỗ trợ.",
       "rateLimit": "Bạn đang gửi tin nhắn quá nhanh. Vui lòng gửi chậm lại.",
-      "validation": "Lỗi xác thực. Vui lòng kiểm tra lại tin nhắn và thử lại.",
-      "failedToSend": "Gửi không thành công. Bạn có thể thử lại bong bóng đã thất bại."
-    }
+      "validation": "Lỗi xác thực. Vui lòng kiểm tra tin nhắn của bạn và thử lại.",
+      "failedToSend": "Gửi không thành công. Bạn có thể thử lại bong bóng đã thất bại.",
+      "premiumRequired": "Tính năng này yêu cầu gói Premium.",
+      "upgradeRequired": "Cần nâng cấp để sử dụng tính năng này."
+    },
+    "emoji": "Biểu tượng cảm xúc",
+    "stickersGif": "Hình dán / GIF",
+    "voiceAdded": "Đã thêm ghi chú giọng nói."
+  },
+  "messages": {
+    "deletedPreview": "Tin nhắn này đã bị xóa.",
+    "mediaAudio": "Tin nhắn âm thanh",
+    "mediaCount": "{{count}} mục phương tiện",
+    "mediaFile": "Tệp đính kèm",
+    "mediaPhoto": "Ảnh",
+    "mediaVideo": "Video"
   },
   "threadActions": {
-    "threadMenu": "Menu chuỗi",
+    "threadMenu": "Menu chuỗi tin nhắn",
     "premium": "Premium",
     "aiPower": "AI Power",
-    "schedule": "Lịch trình",
+    "schedule": "Lên lịch",
     "upgrade": "Nâng cấp",
     "upgradeSuffix": "(Nâng cấp)",
-    "thread": "Chuỗi tin nhắn",
+    "thread": "Chuỗi",
     "about": "Giới thiệu",
     "search": "Tìm kiếm",
     "media": "Tệp đa phương tiện",
@@ -354,7 +541,7 @@
   "roomSettings": {
     "roles": {
       "member": "Thành viên",
-      "moderator": " Người điều hành",
+      "moderator": "Người điều hành",
       "admin": "Quản trị viên"
     },
     "aiMode": {
@@ -364,14 +551,25 @@
     },
     "autoTranslateMode": {
       "off": "Tắt",
-      "tagged": "Chỉ được gắn thẻ (/tr …)",
+      "tagged": "Chỉ khi được gắn thẻ (/tr …)",
       "all": "Tất cả tin nhắn"
     },
-    "updated": "Cài đặt đã được cập nhật"
+    "updated": "Cài đặt đã được cập nhật",
+    "title": "Cài đặt phòng",
+    "participants": "Thành viên",
+    "user": "Người dùng",
+    "role": "Vai trò",
+    "owner": "Chủ sở hữu",
+    "actions": "Hành động",
+    "remove": "Xóa",
+    "aiAssistant": "Trợ lý AI",
+    "allowBot": "Cho phép ForiaBot trong phòng này",
+    "autoTranslation": "Dịch tự động",
+    "saveAIMode": "Lưu chế độ AI"
   },
   "mediaGallery": {
     "sharedMedia": "Tệp đa phương tiện được chia sẻ",
-    "noMediaCached": "Chưa có tệp đa phương tiện nào được lưu trữ cục bộ.",
+    "noMediaCached": "Chưa có phương tiện nào được lưu trữ cục bộ.",
     "imageAlt": "hình ảnh",
     "openVideo": "Mở video",
     "openVideoWithCaption": "Mở video: {{caption}}",
@@ -391,18 +589,18 @@
   "status": {
     "userNumber": "Người dùng #{{id}}",
     "posted": "Đã đăng trạng thái",
-    "postFailed": "Không thể đăng trạng thái",
-    "createTitle": "Tạo trạng thái",
+    "postFailed": "Không đăng trạng thái được",
+    "createTitle": "Tạo trạng thái ",
     "modalAriaLabel": "Trạng thái mới",
     "captionLabel": "Bạn đang nghĩ gì?",
-    "captionPlaceholder": "Chia sẻ cập nhật.. .",
+    "captionPlaceholder": "Chia sẻ cập nhật...",
     "captionAria": "Thông điệp trạng thái",
     "audienceLabel": "Đối tượng",
     "audience": {
       "public": "Công khai",
       "followers": "Người theo dõi",
       "contacts": "Danh bạ",
-      "mutuals": "Người theo dõi lẫn nhau",
+      "mutuals": "Bạn chung",
       "custom": "Tùy chỉnh..."
     },
     "expiresHoursLabel": "Hết hạn (giờ)",
@@ -415,7 +613,7 @@
     "attachmentsLabel": "Tệp đính kèm",
     "attachmentsPlaceholder": "Thêm hình ảnh/video",
     "filesNote": "Tối đa 5 tệp. Hết hạn sau 24 giờ theo mặc định.",
-    "postAria": "Trạng thái bài đăng",
+    "postAria": "Đăng trạng thái",
     "post": "Đăng"
   },
   "voicemail": {
@@ -424,16 +622,16 @@
     "to": "Đến",
     "unknownCaller": "Không rõ",
     "yourNumber": "Số Chatforia của bạn",
-    "durationSeconds": " {{count}} giây",
+    "durationSeconds": "{{count}} giây",
     "audioAria": "Trình phát âm thanh thư thoại",
-    "transcriptHeading": "Bản ghi",
+    "transcriptHeading": "Bản ghi âm ",
     "transcriptPending": "Đang chuyển đổi thư thoại thành văn bản…",
-    "transcriptFailed": "Không có bản ghi.",
+    "transcriptFailed": "Không có bản ghi",
     "loading": "Đang tải thư thoại…",
     "errorLoading": "Không tải được thư thoại.",
-    "empty": "Chưa có tin nhắn thoại nào.",
-    "deleteConfirm": "Xóa tin nhắn thoại này?",
-    "deleteError": "Không thể xóa tin nhắn thoại.",
+    "empty": "Chưa có thư thoại nào.",
+    "deleteConfirm": "Xóa thư thoại này?",
+    "deleteError": "Không xóa được thư thoại.",
     "markRead": "Đánh dấu đã đọc",
     "delete": "Xóa",
     "unreadDotAria": "Chỉ báo tin nhắn thoại chưa đọc"
@@ -445,12 +643,12 @@
     "filterAria": "Lọc danh bạ đã lưu",
     "noContactsFound": "Không tìm thấy danh bạ nào.",
     "externalContact": "Danh bạ bên ngoài",
-    "notJoined": "Liên hệ đó chưa tham gia Chatforia.",
+    "notJoined": "Danh bạ đó chưa tham gia Chatforia.",
     "couldNotStart": "Không thể bắt đầu trò chuyện. Vui lòng thử lại.",
-    "startFailed": "Không thể bắt đầu trò chuyện. Vui lòng thử lại. ",
+    "startFailed": "Không thể bắt đầu trò chuyện. Vui lòng thử lại.",
     "deleted": "Đã xóa liên hệ.",
     "deleteFailed": "Không thể xóa liên hệ. Vui lòng thử lại.",
-    "aliasUpdated": "Biệt danh đã được cập nhật.",
+    "aliasUpdated": "Đã cập nhật biệt danh.",
     "updateAliasFailed": "Không thể cập nhật biệt danh. Vui lòng thử lại.",
     "selectContact": "Chọn {{name}}",
     "alias": "Biệt danh",
@@ -462,14 +660,18 @@
     "loadMore": "Tải thêm",
     "call": "Gọi",
     "callStarted": "Đang gọi số này qua số Chatforia của bạn…",
-    "callFailed": "Không thể bắt đầu cuộc gọi. Vui lòng thử lại."
+    "callFailed": "Không thể bắt đầu cuộc gọi. Vui lòng thử lại.",
+    "noRoute": "Không có tuyến đường nào khả dụng cho liên hệ này.",
+    "selectContactPrefix": "Chọn liên hệ",
+    "video": " Video",
+    "videoRequiresAccount": "Cuộc gọi video yêu cầu tài khoản Chatforia."
   },
   "addContactModal": {
     "title": "Thêm liên hệ",
     "phoneOrUsername": "Số điện thoại hoặc tên người dùng",
     "phoneOrUsernamePlaceholder": "ví dụ: +13018019227 hoặc juliannorton",
     "alias": "Biệt danh (tùy chọn)",
-    "aliasPlaceholder": "ví dụ: g. Công việc, Mẹ, Mike – Châu Âu",
+    "aliasPlaceholder": "ví dụ: Công việc, Mẹ, Mike – Châu Âu",
     "enterPhoneOrUsername": "Nhập số điện thoại hoặc tên người dùng.",
     "userLookupFailed": "Không tìm thấy người dùng.",
     "cannotAddSelf": "Bạn không thể thêm chính mình làm liên hệ.",
@@ -481,13 +683,13 @@
     "searchPlaceholder": "Tìm kiếm tên, tên người dùng hoặc số điện thoại",
     "messageThisPerson": "Gửi tin nhắn cho người này",
     "contacts": "Danh bạ",
-    "recentInteractions": "Các tương tác gần đây",
+    "recentInteractions": "Tương tác gần đây",
     "noContactsMatch": "Không có liên hệ nào khớp với tìm kiếm của bạn.",
     "noRecentInteractions": "Chưa có tương tác gần đây nào.",
     "unknown": "Không xác định",
     "interactionType": {
       "message": "Tin nhắn",
-      "call": "Cuộc gọi",
+      "call": "Gọi",
       "video": "Video"
     },
     "quickPicker": "Chọn nhanh",
@@ -497,7 +699,7 @@
     "startWithSelected": "Bắt đầu trò chuyện với người được chọn",
     "searchByUsernameOrPhone": "Tìm kiếm theo tên người dùng hoặc số điện thoại",
     "search": "Tìm kiếm",
-    "searchPrompt": " Nhập tên người dùng hoặc số điện thoại và nhấn Tìm kiếm.",
+    "searchPrompt": "Nhập tên người dùng hoặc số điện thoại và nhấn Tìm kiếm.",
     "pickFromContacts": "Hoặc chọn từ danh bạ",
     "addContact": "Thêm liên hệ",
     "show": "Hiển thị",
@@ -510,11 +712,11 @@
     "noResults": "Không có kết quả",
     "mode": "Chế độ",
     "group": "Nhóm",
-    " broadcast": "Phát sóng",
+    "broadcast": "Phát sóng",
     "groupNameOptional": "Tên nhóm (tùy chọn)",
     "firstMessageOptional": "Tin nhắn đầu tiên (tùy chọn nhưng được khuyến nghị)",
     "createGroup": "Tạo nhóm",
-    "sendBroadcast": "Gửi tin nhắn phát sóng"
+    "sendBroadcast": "Gửi phát sóng"
   },
   "peoplePage": {
     "people": "Người dùng",
@@ -523,28 +725,28 @@
     "quickStart": "Bắt đầu nhanh",
     "quickStartDesc": "Quản lý danh bạ và mời bạn bè.",
     "importContacts": "Nhập danh bạ",
-    "import ": "Nhập",
+    "import": "Nhập",
     "addContact": "Thêm liên hệ",
     "add": "Thêm",
     "inviteFriends": "Mời bạn bè",
     "inviteDesc": "Chia sẻ liên kết mời để bắt đầu trò chuyện ngay lập tức.",
-    "getTheApp": "Tải ứng dụng",
+    "getTheApp": "Tải ứng dụng ",
     "getTheAppDesc": "Giữ liên lạc mọi lúc mọi nơi với Chatforia cho iOS và Android.",
     "download": "Tải xuống",
     "syncTip": "Mẹo: Tin nhắn của bạn sẽ được đồng bộ hóa trên web và thiết bị di động.",
     "filterSaved": "Lọc danh bạ đã lưu",
     "noContactsFound": "Không tìm thấy danh bạ",
-    "focusSearch": "Tập trung tìm kiếm",
+    "focusSearch": "Tìm kiếm tập trung",
     "findOrAdd": "Tìm hoặc thêm người",
     "searchByPhoneOrUsername": "Tìm kiếm theo số điện thoại / tên người dùng"
   },
   "profile": {
-    "title": "Hồ sơ người dùng",
+    "title": "Hồ sơ người dùng ",
     "preferredLanguage": "Ngôn ngữ ưa thích",
     "chooseLanguage": "Chọn ngôn ngữ",
     "mustLogin": "Bạn phải đăng nhập để xem cài đặt.",
     "autoTranslate": "Tự động dịch tin nhắn",
-    "showOriginalWithTrans ": "Hiển thị tin nhắn gốc và bản dịch",
+    "showOriginalWithTranslation": "Hiển thị tin nhắn gốc và bản dịch",
     "showOriginalAndTranslation": "Hiển thị bản gốc cùng với bản dịch",
     "filterExplicit": "Lọc nội dung nhạy cảm",
     "aiReply": "Trả lời bằng AI",
@@ -560,9 +762,9 @@
     "avatarError": "Không tải lên được ảnh đại diện",
     "avatarUpdated": "Ảnh đại diện đã được cập nhật!",
     "uploadingAvatar": "Đang tải lên ảnh đại diện…",
-    "noPrivateKey": "Không có khóa riêng tư nào trên thiết bị này để xuất.",
+    "noPrivateKey": "Không có khóa riêng tư trên thiết bị này để xuất.",
     "setBackupPassword": "Đặt mật khẩu để mã hóa bản sao lưu của bạn:",
-    "backupDownloaded": "Bản sao lưu được mã hóa đã được tải xuống.",
+    "backupDownloaded": "Bản sao lưu đã được mã hóa đã được tải xuống.",
     "exportFailed": "Xuất khóa thất bại",
     "enterBackupPassword": "Nhập mật khẩu cho bản sao lưu này:",
     "importSuccess": "Khóa riêng tư đã được nhập vào thiết bị này.",
@@ -573,7 +775,7 @@
     "exportKey": "Sao lưu khóa mã hóa",
     "importKey": "Khôi phục khóa mã hóa",
     "rotateKeys": "Xoay vòng khóa mã hóa",
-    "keyDisclaimer": "Khóa riêng tư của bạn không bao giờ rời khỏi thiết bị này. Xuất bản sao được bảo vệ bằng mật khẩu để khôi phục trên thiết bị khác.",
+    "keyDisclaimer": "Khóa riêng tư của bạn không bao giờ rời khỏi thiết bị này. Hãy xuất một bản sao được bảo vệ bằng mật khẩu để khôi phục\n \ntrên thiết bị khác.",
     "sectionProfile": "Hồ sơ",
     "phoneNumber": "Số điện thoại",
     "appearance": "Giao diện",
@@ -582,66 +784,66 @@
     "backupSync": "Sao lưu & Đồng bộ",
     "ai": "AI",
     "accessibility": "Trợ năng",
-    "privacy": "Quyền riêng tư",
-    "devices": "Thiết bị được liên kết",
-    "themeFreeNotice": "Bạn đang dùng phiên bản Miễn phí — hãy sử dụng các tùy chọn Mặt trời/Mặt trăng nhanh bên dưới. Nâng cấp để mở khóa thêm chủ đề.",
+    "privacy": " Quyền riêng tư",
+    "devices": "Thiết bị đã liên kết",
+    "themeFreeNotice": "Bạn đang dùng phiên bản Miễn phí — hãy sử dụng các tùy chọn Mặt trời/Mặt trăng nhanh bên dưới. Nâng cấp để mở khóa thêm các chủ đề.",
     "sunTheme": "Sử dụng chủ đề Bình minh",
     "moonTheme": "Sử dụng chủ đề Mặt trăng (Nửa đêm)",
     "sun": "Mặt trời",
     "moon": "Mặt trăng",
     "backupTitle": "Sao lưu được mã hóa & Đồng bộ thiết bị",
-    "openBackupTools": " Mở Công cụ sao lưu",
+    "openBackupTools": "Mở Công cụ sao lưu",
     "backupDesc": "Sao lưu khóa mã hóa của bạn để khôi phục tin nhắn một cách an toàn trên thiết bị khác. ",
     "privacyBlurEnabled": "Làm mờ tin nhắn theo mặc định",
     "privacyBlurOnUnfocus": "Làm mờ khi ứng dụng không được tập trung",
     "planSection": "Gói của tôi",
     "planLoading": "Đang tải gói của bạn…",
-    "planLoadFailed": "Không tải được gói của bạn. ",
+    "planLoadFailed": "Không tải được gói của bạn.",
     "currentPlan": "Gói hiện tại",
-    "planRenewsOn": "Gia hạn vào",
-    "freePlanCopy": "Bạn đang sử dụng gói miễn phí. Nâng cấp để mở khóa thêm các tính năng như sao lưu, số điện thoại bổ sung và các tùy chọn bảo mật nâng cao.",
+    "planRenewsOn": "Tự động gia hạn vào",
+    "freePlanCopy": "Bạn đang dùng gói miễn phí. Nâng cấp để mở khóa thêm các tính năng như sao lưu, số điện thoại bổ sung và các tùy chọn bảo mật nâng cao.",
     "upgradePlanCta": "Nâng cấp gói",
     "changePlanCta": "Thay đổi gói",
     "manageBilling": "Quản lý thanh toán",
-    "portalOpenFailed": "Không thể mở cổng thanh toán. Vui lòng thử lại.",
+    "portalOpenFailed": "Không thể mở cổng thông tin thanh toán. Vui lòng thử lại.",
     "holdToReveal": "Giữ để hiển thị",
     "notifyOnCopy": "Thông báo cho tôi nếu tin nhắn của tôi bị sao chép",
-    "loadFailed": "Không thể tải hồ sơ",
+    "loadFailed": "Không tải được hồ sơ",
     "followed": "Đã theo dõi",
-    "followFailed": "Không thể theo dõi",
+    "followFailed": "Không theo dõi được",
     "unfollowed": "Đã hủy theo dõi",
-    "unfollowFailed": "Không thể hủy theo dõi",
+    "unfollowFailed": "Không hủy theo dõi được",
     "follow": "Theo dõi",
-    "unfollow": "Hủy theo dõi",
-    "followHint": "Các câu chuyện của họ sẽ xuất hiện trong nguồn cấp dữ liệu 'Đang theo dõi' của bạn nếu họ đăng với đối tượng là Người theo dõi (hoặc Công khai).",
+    "unfollow": "Bỏ theo dõi",
+    "followHint": "Các câu chuyện của họ sẽ xuất hiện trong nguồn tin 'Đang theo dõi' của bạn nếu họ đăng với đối tượng là Người theo dõi (hoặc Công khai).",
     "userNotFound": "Không tìm thấy người dùng",
     "followsYou": "Đang theo dõi bạn",
-    "sectionCrashedTitle ": "Không tải được phần",
-    "sectionCrashedBody": "Đã xảy ra sự cố trong phần này.",
+    "sectionCrashedTitle": "Không tải được phần này",
+    "sectionCrashedBody": "Đã xảy ra sự cố trong phần này. ",
     "forwarding": "Chuyển tiếp cuộc gọi & tin nhắn",
     "callTextForwardingSection": "Chuyển tiếp cuộc gọi & tin nhắn",
     "callTextForwardingTitle": "Chuyển tiếp cuộc gọi và/hoặc tin nhắn",
-    "callTextForwardingDescription": "Chuyển tiếp các cuộc gọi và tin nhắn đến đến số điện thoại hoặc email đã xác minh của bạn. và tin nhắn đi có thể hiển thị số Chatforia của bạn.",
+    "callTextForwardingDescription": "Chuyển tiếp cuộc gọi và tin nhắn đến số điện thoại hoặc email đã xác minh của bạn. Cuộc gọi/tin nhắn đi có thể hiển thị số Chatforia của bạn.",
     "enableTextForwarding": "Bật chuyển tiếp tin nhắn",
-    "forwardTextsToPhone": "Chuyển tiếp tin nhắn văn bản đến điện thoại",
-    "forwardTextsToEmail": "Chuyển tiếp tin nhắn văn bản đến email",
+    "forwardTextsToPhone": "Chuyển tiếp tin nhắn đến điện thoại",
+    "forwardTextsToEmail": "Chuyển tiếp tin nhắn đến email",
     "destinationPhone": "Số điện thoại đích (E.164)",
     "destinationEmail": "Email đích",
     "enableCallForwarding": "Bật chuyển tiếp cuộc gọi",
-    "destinationPhoneForCalls": "Điểm đến (E.164) cho cuộc gọi",
+    "destinationPhoneForCalls": "Số điện thoại đích (E.164) cho cuộc gọi",
     "aliasBridging": "Chuyển tiếp cuộc gọi (kết nối biệt danh)",
     "quietHoursOptional": "Giờ im lặng (tùy chọn)",
     "startHour": "Giờ bắt đầu (0–23)",
     "endHour": "Giờ kết thúc (0–23)",
     "reset": "Đặt lại",
     "saveBtn": "Lưu",
-    "saveProfile ": "Lưu hồ sơ",
+    "saveProfile": "Lưu cấu hình",
     "saveForwarding": "Lưu chuyển tiếp",
     "forwardSaved": "Cài đặt chuyển tiếp đã được lưu",
     "forwardSaveFailed": "Không thể lưu cài đặt",
     "errE164": "Nhập số điện thoại E.164 hợp lệ (ví dụ: +15551234567).",
-    "errEmail": "Nhập địa chỉ email hợp lệ.",
-    "errSmsDest": "Chọn ít nhất một điểm đến (số điện thoại hoặc email).",
+    "errEmail": " Nhập địa chỉ email hợp lệ.",
+    "errSmsDest": "Chọn ít nhất một điểm đến (điện thoại hoặc email).",
     "errQuietHours": "Giờ im lặng phải nằm trong khoảng từ 0 đến 23.",
     "randomChat": "Trò chuyện ngẫu nhiên",
     "ageBand": "Phạm vi độ tuổi của bạn",
@@ -651,55 +853,71 @@
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Chúng tôi chỉ lưu trữ khoảng tuổi (không phải ngày sinh chính xác của bạn). Điều này được sử dụng để đảm bảo các cặp ghép trong Trò chuyện ngẫu nhiên hợp lý.",
-    "wantsAgeFilter": "Sử dụng ghép đôi dựa trên độ tuổi trong Trò chuyện ngẫu nhiên",
-    "wantsAgeFilterDesc": "Khi bật tính năng này, chúng tôi sẽ cố gắng ghép đôi bạn với những người trong độ tuổi tương thích.",
+    "ageBandHint": "Chúng tôi chỉ lưu trữ khoảng tuổi (không phải ngày sinh chính xác của bạn) . Điều này được sử dụng để đảm bảo các cặp ghép trong Random Chat hợp lý.",
+    "wantsAgeFilter": "Sử dụng ghép đôi dựa trên độ tuổi trong Random Chat",
+    "wantsAgeFilterDesc": "Khi bật tính năng này, chúng tôi sẽ cố gắng ghép bạn với những người trong độ tuổi tương thích.",
     "partnerAgeBands": "Bạn có thể được ghép đôi với ai?",
-    "partnerAgeBandsDesc": "Thanh thiếu niên chỉ được ghép đôi với những thanh thiếu niên khác. Người lớn không thể được ghép đôi với thanh thiếu niên.",
+    "partnerAgeBandsDesc": "Thanh thiếu niên luôn chỉ được ghép đôi với những người cùng lứa tuổi. Người lớn không thể được ghép đôi với thanh thiếu niên.",
     "teenMatchingNote": "Vì lý do an toàn, các tài khoản trong độ tuổi 13–17 chỉ có thể được ghép đôi với các tài khoản khác trong độ tuổi 13–17 trong Chats ngẫu nhiên.",
     "foriaRemember": "Cho phép Ria ghi nhớ những điều bạn nói với nó",
-    "foriaRememberDesc": "Khi tính năng này được bật, Foria có thể sử dụng các cuộc trò chuyện Chats ngẫu nhiên trước đây của bạn (chỉ với bạn) để duy trì sự trôi chảy của cuộc trò chuyện. Bạn có thể tắt tính năng này bất cứ lúc nào.",
+    "foriaRememberDesc": "Khi tính năng này được bật, Foria có thể sử dụng các cuộc trò chuyện Chats ngẫu nhiên trước đây của bạn\n \n(chỉ với bạn) để duy trì cuộc trò chuyện. Bạn có thể tắt tính năng này bất cứ lúc nào.",
     "voicemailSection": "Thư thoại",
     "voicemailEnabled": "Bật thư thoại",
     "voicemailAutoDeleteDays": "Tự động xóa thư thoại sau (ngày)",
     "voicemailAutoDeletePlaceholder": "Để trống để lưu trữ vĩnh viễn",
     "voicemailForwardEmail": "Chuyển tiếp thư thoại qua email",
-    "voicemailForwardEmailPlaceholder": "Email để gửi thông báo thư thoại thông báo email",
+    "voicemailForwardEmailPlaceholder": "Email để gửi thông báo thư thoại",
     "voicemailGreetingText": "Lời chào dự phòng bằng văn bản",
     "voicemailGreetingTextDesc": "Được sử dụng khi lời chào bằng âm thanh của bạn không khả dụng.",
     "voicemailGreetingUpload": "Tải lên lời chào thư thoại",
     "voicemailPreviewGreeting": "Xem trước lời chào",
     "voicemailGreetingUploaded": "Đã tải lên lời chào thư thoại thành công",
-    "voicemailGreetingUploadError": "Không tải lên được lời chào thư thoại",
+    "voicemailGreetingUploadError": " Không tải lên được lời chào thư thoại",
     "voicemailNote": "Thư thoại từ các số Chatforia của bạn sẽ được lưu trữ trong hộp thư đến Thư thoại. Bạn có thể bật tính năng chuyển văn bản và chuyển tiếp trong các gói được hỗ trợ.",
     "portHint": "Muốn giữ số hiện tại của bạn? Bạn có thể chuyển số đó sang Chatforia Wireless.",
     "wireless": {
-      "manage": "Quản lý dịch vụ di động"
+      "manage": "Quản lý dịch vụ di động",
+      "portCta": "Chuyển số số"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Hồ sơ người dùng ",
       "desc": "Nhận dữ liệu di động cho Chatforia khi bạn không kết nối Wi-Fi.",
-      "cta": "Nhận eSIM / Hiển thị QR"
+      "cta": "Nhận eSIM / Hiển thị mã QR",
+      "ctaManage": "Quản lý eSIM",
+      "descActive": "eSIM của bạn đã hoạt động và sẵn sàng để quản lý."
     },
-    "encryptedBackupsTitle": "Sao lưu khóa mã hóa"
+    "encryptedBackupsTitle": "Sao lưu khóa mã hóa",
+    "accessibilityFailed": "Không thể lưu cài đặt trợ năng.",
+    "aiFailed": "Không thể lưu cài đặt AI.",
+    "avatarRemoveError": "Không thể xóa ảnh đại diện.",
+    "avatarRemoved": "Ảnh đại diện đã bị xóa.",
+    "disappearAfterSeconds": "Biến mất sau {{seconds}} giây",
+    "forwardingLoading": "Đang tải cài đặt chuyển tiếp…",
+    "presetSeconds": "{{seconds}} giây",
+    "removeAvatar": "Xóa ảnh đại diện",
+    "safetyAge": "An toàn & độ tuổi",
+    "typeOrPick": "Nhập hoặc chọn giá trị",
+    "userFallback": "Người dùng Chatforia",
+    "followers": "Người theo dõi",
+    "following": "Đang theo dõi"
   },
   "themes": {
     "amoled": "Amoled",
     "aurora": "Aurora",
     "neon": "Neon",
-    "sunset": "Sunset",
+    "sunset": "Hoàng hôn",
     "solarized": "Solarized",
     "velvet": "Velvet"
   },
   "sounds": {
     "notificationSounds": "Âm thanh thông báo",
     "resetToDefaults": "Đặt lại về mặc định",
-    "freeNoticeStart": "Bạn đang dùng phiên bản miễn phí — các âm thanh cao cấp được hiển thị nhưng bị khóa. ",
+    "freeNoticeStart": "Bạn đang dùng gói Miễn phí — các âm thanh cao cấp được hiển thị nhưng bị khóa. ",
     "freeNoticeEnd": " để mở khóa tất cả.",
-    "messageTone": "Âm báo tin nhắn",
-    "ringtone": "Âm báo cuộc gọi",
+    "messageTone": "Âm thanh tin nhắn",
+    "ringtone": "Âm thanh chuông",
     "preview": "Xem trước",
-    "\n \nstop": "Dừng",
+    "stop": "Dừng",
     "volume": "Âm lượng",
     "messageToneFilesHint": "Đặt tệp vào /public/sounds/Message_Tones",
     "ringtoneFilesHint": "Đặt tệp vào /public/sounds/Ringtones",
@@ -708,26 +926,26 @@
     "saveFailed": "Không thể lưu cài đặt âm thanh.",
     "resetNotSaved": "Đặt lại về mặc định (chưa được lưu).",
     "premiumTone": "Đó là âm báo Premium.",
-    "premiumRingtone": "Đó là nhạc chuông Premium.",
-    "custom ComingSoon": "Tính năng tải lên âm thanh tùy chỉnh sẽ sớm ra mắt.",
-    "freeNotice": "Bạn đang dùng gói Miễn phí — các âm báo Premium được hiển thị nhưng bị khóa. Nâng cấp để mở khóa tất cả.",
+    "premiumRingtone": "Đó là một nhạc chuông Premium.",
+    "customComingSoon": "Tính năng tải lên âm thanh tùy chỉnh sẽ sớm ra mắt.",
+    "freeNotice": "Bạn đang dùng gói Miễn phí — các âm thanh Premium được hiển thị nhưng bị khóa. Nâng cấp để mở khóa tất cả.",
     "default": "Mặc định",
     "vibrate": "Rung",
     "dreamer": "Dreamer",
     "notify": "Thông báo",
-    "pop": "Pop",
+    "pop": "Pop ",
     "pulsatingSound": "Âm thanh nhịp nhàng",
     "textMessage": "Tin nhắn văn bản",
     "xylophone": "Xylophone",
     "classic": "Cổ điển",
     "urgency": "Khẩn cấp",
     "bells": "Chuông",
-    "chimes": "Tiếng chuông",
-    "digitalPhone": "Điện thoại kỹ thuật số",
-    "melodic": "Giai điệu",
-    "organNotes": "Tiếng đàn organ",
-    "soundReality": "Thực tế âm thanh",
-    "street": "Đường phố",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Phố",
     "universfield": "Universfield"
   },
   "aiSettings": {
@@ -736,11 +954,11 @@
     "translation": "Dịch thuật",
     "autoTranslateIncoming": "Tự động dịch tin nhắn đến",
     "showOriginalAlongside": "Hiển thị văn bản gốc bên cạnh bản dịch",
-    "smartReplies": "Trả lời thông minh ",
+    "smartReplies": "Trả lời thông minh",
     "enableSmartReplies": "Bật Trả lời thông minh",
     "smartRepliesHint": "Gửi vài tin nhắn nhận được gần đây nhất (đã được làm sạch) cho AI để đề xuất các câu trả lời nhanh.",
-    "maskProfanity": "Che giấu từ ngữ thô tục trong các đề xuất của AI",
-    "maskProfanityHint": "Nếu bật, các đề xuất do AI trả về sẽ che giấu các từ bị đánh dấu ",
+    "maskProfanity": "Che giấu ngôn từ thô tục trong các đề xuất của AI",
+    "maskProfanityHint": "Nếu bật, các đề xuất do AI trả về sẽ che đi các từ bị đánh dấu",
     "foriaBot": "Trả lời tự động ForiaBot",
     "enableAutoReply": "Bật trả lời tự động khi tôi bận",
     "autoReplyMode": "Chế độ trả lời tự động",
@@ -749,11 +967,11 @@
     "autoReply": "🤖 Trả lời tự động",
     "activeUntilOptional": "Hoạt động đến (tùy chọn)",
     "save": "Lưu cài đặt AI",
-    "saved": "Tùy chọn AI đã được lưu",
-    "saveFailed": "\n \nKhông lưu được cài đặt AI",
+    "saved": "Đã lưu tùy chọn AI",
+    "saveFailed": "Không thể lưu cài đặt AI",
     "translateOff": "Tắt",
-    "translateTagged": "Chỉ khi @được dịch hoặc được gắn thẻ",
-    "translateAll": "Dịch tất cả tin nhắn đến ",
+    "translateTagged": "Chỉ khi @translated hoặc được gắn thẻ",
+    "translateAll": "Dịch tất cả tin nhắn đến",
     "modeDm": "Chỉ trò chuyện 1:1",
     "modeMention": "Chỉ khi tôi được @đề cập",
     "modeAll": "Tất cả tin nhắn đến",
@@ -763,61 +981,61 @@
   "accessibilitySettings": {
     "title": "Trợ năng & Cảnh báo",
     "loadFailed": "Không tải được cài đặt",
-    "accessibilityDesc": "Các tùy chọn giúp Chatforia dễ sử dụng hơn mà không cần dựa vào âm thanh.",
+    "accessibilityDesc": "Các tùy chọn giúp sử dụng Chatforia dễ dàng hơn mà không cần dựa vào âm thanh.",
     "interfaceFontSize": "Kích thước phông chữ giao diện",
-    "interfaceFontSizeHelp": "Mặc định là kích thước bình thường. Tăng lên nếu bạn thích chữ lớn hơn.",
+    "interfaceFontSizeHelp": "Bắt đầu ở kích thước bình thường. Tăng lên nếu bạn thích chữ lớn hơn.",
     "notifications": "Thông báo",
-    "visualAlerts ": "Cảnh báo trực quan cho tin nhắn & cuộc gọi",
+    "visualAlerts": "Cảnh báo trực quan cho tin nhắn & cuộc gọi",
     "visualAlertsDesc": "Hiển thị biểu ngữ và nhấp nháy tiêu đề để bạn không bỏ lỡ hoạt động nào.",
     "vibrateOnNewShort": "Rung khi có tin nhắn mới (nếu được hỗ trợ)",
     "vibrateOnNewDesc": "Kích hoạt rung thiết bị khi có thông báo.",
     "flashOnCallShort": "Làm sáng màn hình khi có cuộc gọi đến",
     "flashOnCallDesc": "Nhấp nháy sáng ngắn khi có cuộc gọi đến.",
-    "liveCaptionsTitle ": "Phụ đề trực tiếp (cuộc gọi)",
+    "liveCaptionsTitle": "Phụ đề trực tiếp (cuộc gọi)",
     "enableLiveCaptions": "Bật phụ đề trực tiếp trong cuộc gọi (Premium)",
     "liveCaptionsDesc": "Hiển thị phụ đề thời gian thực từ âm thanh của người tham gia khác.",
     "captionFontSize": "Kích thước phông chữ phụ đề",
     "captionBackground": "Nền phụ đề",
     "voiceNotes": "Ghi chú giọng nói",
-    "autoTranscribeVoice Notes": "Tự động chuyển ghi chú giọng nói thành văn bản",
-    "autoTranscribeVoiceNotesDesc": "Đính kèm bản ghi chép vào các tin nhắn âm thanh bạn nhận được.",
-    "changesSavedInstantly": "Các thay đổi được lưu ngay lập tức.",
+    "autoTranscribeVoiceNotes": "Tự động chuyển đổi ghi chú giọng nói thành văn bản",
+    "autoTranscribeVoiceNotesDesc": "Đính kèm bản ghi chép vào tin nhắn âm thanh bạn nhận được.",
+    "changesSavedInstantly": "Thay đổi được lưu ngay lập tức.",
     "sm": "Nhỏ",
     "md": "Trung bình",
     "lg": "Lớn",
-    "xl": " Cực lớn",
+    "xl": "Cực lớn",
     "light": "Sáng",
     "dark": "Tối",
     "transparent": "Trong suốt",
     "accessibility": "Trợ năng",
     "notificationsDesc": "Cảnh báo trực quan cho tin nhắn & cuộc gọi\nHiển thị biểu ngữ và nhấp nháy tiêu đề để bạn không bỏ lỡ hoạt động nào.",
-    "vibrateOnNew": "Rung khi có tin nhắn mới (nếu được hỗ trợ)\nKích hoạt rung thiết bị khi có thông báo.",
+    "vibrateOnNew": "Rung khi có tin nhắn mới (nếu được hỗ trợ)\nKích hoạt rung thiết bị khi có thông báo. ",
     "flashOnCall": "Nhấp nháy màn hình khi có cuộc gọi đến\nNhấp nháy sáng ngắn khi có cuộc gọi đến.",
     "liveCaptions": "Phụ đề trực tiếp (cuộc gọi)"
   },
   "privacySection": {
     "strictE2EE": "Mã hóa đầu cuối nghiêm ngặt",
-    "ciphertextOnlyNote": "Chỉ lưu trữ văn bản mã hóa trên máy chủ. Tắt AI/\n \nDịch và bản xem trước kiểm duyệt.",
+    "ciphertextOnlyNote": "Chỉ lưu trữ văn bản mã hóa trên máy chủ. Tắt AI/Dịch và bản xem trước kiểm duyệt.",
     "strictE2EEEnabled": "Đã bật mã hóa đầu cuối nghiêm ngặt. AI/Dịch sẽ bị tắt.",
-    "strictE2EEDisabled": "Đã tắt mã hóa đầu cuối nghiêm ngặt. AI/Dịch đã được bật lại."
+    "strictE2EEDisabled": " Đã tắt mã hóa đầu cuối nghiêm ngặt. Đã bật lại AI/Dịch."
   },
   "linkedDevicesPanel": {
-    "title": "Thiết bị đã liên kết",
-    " noneFound": "Không tìm thấy thiết bị được liên kết.",
+    "title": "Thiết bị được liên kết",
+    "noneFound": "Không tìm thấy thiết bị được liên kết.",
     "refresh": "Làm mới",
     "unknown": "Không xác định",
-    "loadFailed": "Không tải được thiết bị được liên kết",
-    "loadFailedLog": "Không tải được thiết bị được liên kết",
+    "loadFailed": "Không tải được các thiết bị được liên kết",
+    "loadFailedLog": "Không tải được các thiết bị được liên kết",
     "renamePrompt": "Nhập tên mới cho thiết bị này",
-    "renamed": "Đã đổi tên thiết bị",
-    "renameFailed": " Không thể đổi tên thiết bị",
+    "renamed": "Thiết bị đã được đổi tên",
+    "renameFailed": "Không thể đổi tên thiết bị",
     "revoked": "Thiết bị đã bị thu hồi",
     "revokeFailed": "Không thể thu hồi thiết bị",
-    "unnamedDevice": "Thiết bị chưa có tên",
+    "unnamedDevice": "Thiết bị chưa đặt tên",
     "primary": "Chính",
     "revokedStatus": "Đã thu hồi",
     "addedLastSeen": "Đã thêm {{created}} • Lần cuối thấy {{lastSeen}}",
-    " renameDevice": "Đổi tên thiết bị",
+    "renameDevice": "Đổi tên thiết bị",
     "revokeDevice": "Hủy kích hoạt thiết bị"
   },
   "wireless": {
@@ -825,90 +1043,148 @@
     "description": "Quản lý gói cước di động, số điện thoại, chuyển tiếp cuộc gọi và chuyển số của Chatforia.",
     "options": {
       "heading": "Chọn cách bạn muốn sử dụng Chatforia",
-      "subheading": "Bạn có thể nhận một số Chatforia mới hoặc chuyển số hiện tại từ nhà mạng khác.",
-      "newNumber": "Nhận số Chatforia mới",
+      "subheading": "Bạn có thể nhận một số Chatforia mới hoặc chuyển số hiện có từ nhà mạng khác.",
+      "newNumber": "Nhận số Chat ",
       "portNumber": "Chuyển số hiện tại của bạn sang Chatforia Wireless"
     },
     "port": {
       "heading": "Chuyển số hiện tại của bạn",
-      "subheading": "Chuyển số điện thoại hiện tại của bạn từ nhà mạng hiện tại sang Chatforia. Hãy đảm bảo các thông tin khớp chính xác với tài khoản nhà mạng của bạn để tránh chậm trễ.",
+      "subheading": "Chuyển số điện thoại hiện tại của bạn từ nhà mạng hiện tại sang Chatforia. Hãy đảm bảo các thông tin khớp chính xác với tài khoản nhà mạng của bạn để tránh sự chậm trễ.",
       "phoneNumberLabel": "Số điện thoại cần chuyển",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "Nhà mạng hiện tại",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile, v.v.",
       "accountNumberLabel": "Số tài khoản",
       "pinLabel": "Mã PIN / mật khẩu chuyển số",
-      "fullNameLabel": "Họ và tên trên tài khoản",
+      "fullNameLabel": "Họ tên trên tài khoản",
       "address1Label": "Dòng địa chỉ 1",
       "address2Label": "Dòng địa chỉ 2 (tùy chọn)",
       "cityLabel": "Thành phố",
-      "stateLabel ": "Tỉnh / Thành phố",
+      "stateLabel": "Tiểu bang / Tỉnh",
       "postalCodeLabel": "Mã bưu chính",
       "countryLabel": "Quốc gia",
       "submitButton": "Gửi yêu cầu chuyển số",
       "success": "Yêu cầu chuyển số đã được gửi! Chúng tôi sẽ cập nhật cho bạn.",
-      "genericError": "Đã xảy ra lỗi."
+      "genericError": "Đã xảy ra sự cố."
     },
     "status": {
-      "heading": " Trạng thái chuyển mạng",
+      "heading": "Trạng thái chuyển số",
       "subheading": "Theo dõi trạng thái các yêu cầu chuyển số của bạn.",
       "loading": "Đang tải…",
-      "loadError": "Không tải được các yêu cầu chuyển mạng.",
-      "none": "Chưa có hoạt động chuyển mạng nào.",
+      "loadError": "Không tải được các yêu cầu chuyển số.",
+      "none": "Chưa có hoạt động chuyển số nào.",
       "pending": "Đang chờ xem xét",
       "submitted": "Đã gửi đến nhà mạng",
-      "inProgress": "Đang xử lý",
-      "completed": "Đã hoàn tất",
+      "inProgress": "Đang tiến hành",
+      "completed": "Hoàn tất",
       "failed": "Thất bại",
       "canceled": "Đã hủy",
       "created": "Đã tạo:",
       "scheduled": "Đã lên lịch:",
-      "completedAt": "Hoàn thành:"
+      "completedAt": "Hoàn tất vào:"
     },
     "dataLow": "Dữ liệu của bạn sắp hết.",
     "topUp": "Nạp tiền ngay",
     "expiresIn": "Hết hạn sau {{days}} ngày",
     "exhausted": "Dữ liệu của bạn đã hết. Mua gói mới để tiếp tục sử dụng dữ liệu di động.",
     "buyPack": "Mua gói dữ liệu",
-    "es imPackLabel": "Gói eSIM"
+    "esimPackLabel": "Gói eSIM",
+    "dashboardIntro": "Quản lý dữ liệu di động, số điện thoại, cài đặt eSIM và trạng thái gói cước Chatforia của bạn.",
+    "loading": "Đang tải thông tin mạng di động…",
+    "phoneNumber": "Số điện thoại",
+    "viewPlans": "Xem các gói cước",
+    "error": {
+      "load": "Không tải được chi tiết mạng di động."
+    },
+    "data": {
+      "yourData": "Dữ liệu của bạn",
+      "caption": "Theo dõi mức sử dụng dữ liệu hiện tại và số dư còn lại.",
+      "familyLabel": "Dữ liệu gia đình",
+      "familyCaption": "Dữ liệu chia sẻ giữa các thành viên trong gia đình."
+    },
+    "plan": {
+      "title": "Gói cước",
+      "noneTitle": "Không có gói cước di động nào đang hoạt động",
+      "noneBody": "Chọn gói dữ liệu để kích hoạt Chatforia Mobile.",
+      "noneBodyReady": "Hãy thiết lập eSIM trước, sau đó chọn gói dữ liệu khi bạn sẵn sàng.",
+      "bodyActive": "Gói cước di động của bạn đang hoạt động.",
+      "familyLabel": "Gói cước gia đình",
+      "familyBody": "Gói cước này là một phần của gói dữ liệu chung cho gia đình.",
+      "manageCta": "Quản lý gói cước",
+      "setupFirstCta": "Thiết lập eSIM trước"
+    },
+    "esim": {
+      "title": "eSIM",
+      "heading": "Set up your eSIM",
+      "subheading": "Cài đặt eSIM để sử dụng dữ liệu di động Chatforia trên thiết bị này.",
+      "body": "Tạo hoặc mở mã QR eSIM của bạn và làm theo hướng dẫn kích hoạt trên điện thoại.",
+      "readyBody": "eSIM của bạn đã sẵn sàng. Bạn có thể mở mã QR hoặc tiếp tục quản lý gói cước di động.",
+      "setupCta": "Thiết lập eSIM",
+      "openCta": "Mở thiết lập eSIM"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Đang tải eSIM hiện có…",
+    "regionLabel": "Khu vực",
+    "ctaGenerate": "Tạo mã QR eSIM",
+    "ctaRegenerate": "Tạo lại mã QR",
+    "ctaReserving": "Đang đặt chỗ…",
+    "generatingQr": "Đang tạo mã QR…",
+    "errorReserve": "Không thể đặt chỗ eSIM. Vui lòng thử lại.",
+    "noQrAvailable": "Chưa có mã QR nào sẵn sàng.",
+    "downloadPng": "Tải xuống PNG",
+    "activationCode": "Mã kích hoạt",
+    "lpaUri": " URI LPA",
+    "smdp": "Địa chỉ SM-DP+",
+    "iccid": "ICCID",
+    "iccidHint": "ICCID xác định duy nhất hồ sơ eSIM này.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Trạng thái",
+    "secrecyNote": "Giữ mã QR này ở chế độ riêng tư. Bất kỳ ai có quyền truy cập đều có thể cài đặt eSIM.",
+    "instructions": {
+      "step1": "Mở cài đặt dữ liệu di động hoặc mạng di động trên điện thoại của bạn.",
+      "step2": "Chọn Thêm eSIM hoặc Quét mã QR.",
+      "step3": "Quét mã QR này và làm theo các bước trên màn hình để hoàn tất kích hoạt."
+    }
   },
   "phoneNumberManager": {
     "pickNumber": "Chọn số",
     "phoneNumber": "Số điện thoại",
     "availableNumber": "Số có sẵn",
     "premiumNumber": "Số cao cấp 🔒",
-    "freeNumberHint": "Số miễn phí có thể bị tái sử dụng sau khi không hoạt động.",
-    "premiumNumberHint": "Giữ số của bạn trong khi đăng ký Premium còn hiệu lực.",
+    "freeNumberHint": "Số miễn phí có thể được tái sử dụng sau khi không hoạt động.",
+    "premiumNumberHint": "Giữ số của bạn trong thời gian đăng ký Premium còn hiệu lực.",
     "country": "Quốc gia",
     "areaCode": "Mã vùng",
-    "areaCodePlaceholder": "ví dụ: 415",
+    "areaCodePlaceholder": "Ví dụ: 415",
     "capability": "Tính năng",
     "search": "Tìm kiếm",
     "lockThisNumber": "Khóa số này (tính năng bổ sung hàng tuần, sắp ra mắt)",
-    "premiumProtectedHint": "Các số Premium được bảo vệ khỏi việc tái sử dụng trong thời gian đăng ký Premium của bạn còn hiệu lực.",
+    "premiumProtectedHint": "Các số cao cấp được bảo vệ khỏi việc tái sử dụng trong thời gian đăng ký Premium của bạn còn hiệu lực.",
     "availableNumbers": "Các số có sẵn",
     "searchHint": "Nhập mã vùng 3 chữ số (chỉ áp dụng cho Mỹ/Canada) hoặc để trống, sau đó tìm kiếm.",
     "keep": "Giữ",
     "select": "Chọn",
     "assignNumberFirst": "Gán số trước.",
     "premiumKeepFeature": "Giữ số của bạn là tính năng Premium.",
-    "lockingPremiumFeature": "Khóa số là tính năng Premium.",
-    "numberAssigned": "Số đã được gán. ",
+    "lockingPremiumFeature": " Khóa số là tính năng Premium.",
+    "numberAssigned": "Số đã được gán.",
     "numberProtectedNow": "Số của bạn hiện đã được bảo vệ.",
     "numberProtected": "Số đã được bảo vệ.",
-    "numberUnprotected": "Số chưa được bảo vệ.",
+    "numberUnprotected": "Số chưa được bảo vệ. ",
     "numberReleased": "Số đã được giải phóng.",
     "couldNotLoadNumbers": "Không thể tải số.",
     "couldNotAssign": "Không thể gán số đó. Có thể số đó vừa bị chiếm dụng — hãy thử số khác.",
     "couldNotLease": "Không thể thuê số đó. Có thể số đó vừa bị chiếm dụng — hãy thử số khác.",
-    "couldNotProtectNow": " Không thể bảo vệ số của bạn ngay bây giờ.",
+    "couldNotProtectNow": "Không thể bảo vệ số của bạn ngay bây giờ.",
     "couldNotProtect": "Không thể bảo vệ số.",
-    "couldNotUnprotect": "Không thể bỏ bảo vệ số.",
-    "couldNotRelease": "Không thể giải phóng số.",
-    "invalidAreaCode": "Vui lòng nhập mã vùng gồm 3 chữ số (ví dụ: 415) hoặc để trống.",
-    "noInventory": "Hiện tại không có số nào sẵn có.",
-    "noFreeNumbers": "Hiện tại không có số trống nào sẵn có.",
-    "noInventoryAreaCode": "Hiện tại không có số nào sẵn có cho mã vùng đó.",
+    "couldNotUnprotect": "Không thể bỏ bảo vệ số. ",
+    "couldNotRelease": "Không thể giải phóng số đó.",
+    "invalidAreaCode": "Vui lòng nhập mã vùng 3 chữ số (ví dụ: 415) hoặc để trống.",
+    "noInventory": "Hiện tại không có số sẵn.",
+    "noFreeNumbers": "Hiện tại không có số trống nào.",
+    "noInventoryAreaCode": "Hiện tại không có số tồn kho cho mã vùng đó.",
     "noFreeNumbersAreaCode": "Hiện tại không có số trống nào trong kho của chúng tôi cho mã vùng đó.",
     "releaseConfirm": "Giải phóng số hiện tại của bạn? Số này có thể được gán cho người khác.",
     "unprotect": "Bỏ bảo vệ",
@@ -919,13 +1195,13 @@
     "noNumber": "Không có số",
     "premiumFeature": "Tính năng cao cấp",
     "protectYourNumber": "Bảo vệ số của bạn",
-    "protected": "Đã bảo vệ",
+    "protected": "Đã được bảo vệ",
     "notProtected": "Chưa được bảo vệ",
-    "expiresInShort": "Hết hạn trong {{count}} ngày",
-    "expiresInDaysFull": "Hết hạn trong {{count}} ngày",
-    "expiringShort": "Hết hạn vào ngày {{suffix}}",
+    "expiresInShort": "Hết hạn sau {{count}} ngày",
+    "expiresInDaysFull": "Hết hạn sau {{count}} ngày",
+    "expiringShort": "Hết hạn trong {{suffix}}",
     "renewsOn": "Tự động gia hạn vào ngày {{date}}",
-    "releaseWarning": "Số điện thoại của bạn có thể bị giải phóng sau {{count}} ngày. Nâng cấp lên gói Premium để tiếp tục bảo vệ số này. ",
+    "releaseWarning": "Số điện thoại của bạn có thể bị giải phóng sau {{count}} ngày. Nâng cấp lên gói Premium để tiếp tục bảo vệ số.",
     "pickNumberHint": "Chọn một số Chatforia để sử dụng cho nhắn tin và giao tiếp trong ứng dụng.",
     "unableToLoadStatus": "Không thể tải trạng thái số điện thoại.",
     "lock": "Khóa",
@@ -939,7 +1215,7 @@
     "resolving": "Đang xác định mục tiêu cuộc gọi…",
     "call": "Gọi",
     "callBrowser": "Gọi qua trình duyệt",
-    "backspace": "Phím lùi",
+    "backspace": "Phím backspace",
     "recents": "Cuộc gọi gần đây",
     "noRecents": "Chưa có cuộc gọi gần đây nào.",
     "resolveFailed": "Không thể xác định mục tiêu cuộc gọi.",
@@ -953,7 +1229,7 @@
     "missed": "Bỏ lỡ",
     "declined": "Từ chối",
     "failed": "Thất bại",
-    "completed": "Đã hoàn tất",
+    "completed": "Hoàn tất",
     "outgoingCall": "Cuộc gọi đi",
     "incomingCall": "Cuộc gọi đến",
     "voicemail": "Thư thoại",
@@ -970,20 +1246,20 @@
     "loadFailedTitle": "Không thể tải lịch sử cuộc gọi",
     "emptyTitle": "Chưa có cuộc gọi nào",
     "emptySubtitle": "Các cuộc gọi gần đây của bạn sẽ hiển thị tại đây.",
-    "outgoing": "Đi",
+    "outgoing": "Đang ",
     "incoming": "Đến",
     "missed": "Bỏ lỡ",
     "declined": "Từ chối",
     "failed": "Thất bại",
-    "completed": "Hoàn tất",
+    "completed": "Đã hoàn tất",
     "outgoingCall": "Cuộc gọi đi",
     "incomingCall": "Cuộc gọi đến",
-    "thư thoại": "Thư thoại"
+    "voicemail": "Thư thoại"
   },
   "video": {
     "hub": {
       "title": "Video",
-      "subtitle": "Chọn loại video."
+      "subtitle": "Choose a video type."
     },
     "direct": {
       "title": "Video trực tiếp",
@@ -998,22 +1274,22 @@
         "placeholder": "Nhập số điện thoại (ví dụ: +1-555-123-4567)",
         "aria": "Số điện thoại cần gọi"
       },
-      "tipInvite": "Mẹo: Dán số điện thoại và gọi mà không cần lưu liên hệ. Chúng tôi sẽ mời người không phải thành viên qua liên kết.",
+      "tipInvite": "Mẹo: Dán số điện thoại và gọi mà không cần lưu danh bạ. Chúng tôi sẽ mời những người dùng người dùng không phải thành viên qua liên kết.",
       "findUser": {
         "title": "Tìm người dùng"
       },
       "search": {
-        "placeholder": " Tìm kiếm theo tên hoặc tên người dùng",
+        "placeholder": "Tìm kiếm theo tên hoặc tên người dùng",
         "aria": "Tìm kiếm theo tên hoặc tên người dùng",
         "btn": "Tìm kiếm"
       }
     },
     "rooms": {
       "title": "Phòng",
-      "subtitle": "Tạo phòng hoặc tham gia phòng hiện có bằng cách nhập cùng tên.",
-      "desc": "Video nhiều người tham gia sử dụng tên phòng chung.",
+      "subtitle": "Tạo phòng hoặc tham gia phòng hiện có bằng cách nhập tên tương tự.",
+      "desc": "Cuộc gọi video nhiều người sử dụng tên phòng chung.",
       "roomLabel": "Tên phòng",
-      " roomPlaceholder": "ví dụ: team-standup",
+      "roomPlaceholder": "ví dụ: team-standup",
       "roomAria": "Tên phòng",
       "joinCreate": "Tham gia / Tạo",
       "tip": "Mẹo: chia sẻ tên này với người khác hoặc tạo liên kết sâu đến"
@@ -1021,15 +1297,15 @@
     "title": "Video",
     "chooseType": "Chọn loại video.",
     "directTitle": "Video trực tiếp",
-    "directDesc": "Cuộc gọi video 1:1 với người dùng khác.",
+    "directDesc": "Cuộc gọi camera 1:1 với người dùng khác.",
     "directStart": "Bắt đầu",
     "roomsTitle": "Phòng",
-    "roomsDesc": "Cuộc gọi video nhiều người sử dụng tên phòng chung.",
+    "roomsDesc": "Video nhiều người sử dụng tên phòng chung.",
     "roomsIntro": "Tham gia hoặc tạo phòng nhiều người.",
     "roomNameLabel": "Tên phòng",
     "roomNamePh": "ví dụ: team-standup",
     "join": "Tham gia",
-    "deeplinkTip": "Mẹo: bạn có thể liên kết sâu trực tiếp đến <code>/video?room=room-name</code>."
+    "deeplinkTip": "Mẹo: bạn có thể liên kết sâu trực tiếp đến <code>/video? room=room-name</code>."
   },
   "directVideo": {
     "intro": "Bắt đầu cuộc gọi video trực tiếp 1:1.",
@@ -1039,8 +1315,8 @@
     "call": "Gọi"
   },
   "phoneWarning": {
-    "title": "Số điện thoại của bạn sắp hết hạn",
-    "body": "Số điện thoại {{number} } sẽ bị hủy vào ngày {{date}} trừ khi được kích hoạt lại.",
+    "title": "Số điện thoại của bạn sẽ hết hạn sắp hết hạn",
+    "body": "Số điện thoại {{number}} sẽ bị hủy vào ngày {{date}} trừ khi được kích hoạt lại.",
     "button": "Giữ số của tôi"
   },
   "premium": {
@@ -1050,117 +1326,128 @@
     "upgrade": "Nâng cấp",
     "upgradeAria": "Nâng cấp lên Chatforia Premium"
   },
+  "premiumGuard": {
+    "requiresPremium": "Tính năng này yêu cầu gói Premium.",
+    "toUnlock": "Nâng cấp để mở khóa tính năng này."
+  },
   "upgrade": {
     "title": "Nâng cấp",
     "titleLoggedIn": "Nâng cấp",
     "titlePublic": "Giá cả",
-    "h1": "Giá cả & Gói cước Chatforia",
-    "h1Subtitle": "Bắt đầu với gói miễn phí có quảng cáo của chúng tôi. Loại bỏ quảng cáo với gói Plus, hoặc mở khóa các tính năng cao cấp với gói Premium.",
-    "subtitle": "Chọn gói ứng dụng, thêm gói dữ liệu cho bản thân hoặc chia sẻ dữ liệu với gia đình — tất cả chỉ từ một nơi.",
-    "subtitle.app": "Bắt đầu với gói miễn phí có quảng cáo của chúng tôi. Trải nghiệm không quảng cáo với gói Plus, hoặc mở khóa các tính năng mạnh mẽ nhất với gói Premium.",
-    "subtitle.mobile": "Thêm dữ liệu eSIM toàn cầu để Chatforia vẫn hoạt động ngay cả khi bạn không có Wi-Fi.",
-    "subtitle.family": "Tạo một gói dữ liệu chung cho gia đình và quản lý mức sử dụng của mọi người từ một nơi duy nhất.",
+    "h1": "Chatforia Pricing & Plans",
+    "h1Subtitle": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
+    "subtitle": "Choose an app plan, add data packs for yourself, or share data with your family — all from one place.",
+    "subtitle.app": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
+    "subtitle.mobile": "Add global eSIM data so Chatforia keeps working even when you’re away from Wi-Fi.",
+    "subtitle.family": "Create a shared data pool for your family and manage everyone’s usage from one place.",
     "perMonth": "tháng",
     "perYear": "năm",
-    "goPremium": "Nâng cấp lên Premium",
+    "goPremium": "Go Premium",
     "benefitsLine": "Mở khóa các tính năng mạnh mẽ & loại bỏ quảng cáo.",
     "ctaText": "Nâng cấp",
-    "aria": "Nâng cấp lên Chatforia Premium",
+    "aria": "Upgrade to Chatforia Premium",
     "toggle": {
       "monthly": "Hàng tháng",
       "annual": "Hàng năm (Tiết kiệm 30%)"
     },
     "scheduleBanner": {
       "title": "Gói đăng ký sẽ hết hạn",
-      "body": "Bạn sẽ quay lại gói Miễn phí vào",
-      "keepPlanCta": "Giữ gói {{plan}}",
-      "manageBillingCta": "Quản lý thanh toán"
+      "body": "You’ll revert to Free on",
+      "keepPlanCta": "Keep {{plan}}",
+      "manageBillingCta": "Manage billing"
     },
     "billing": {
       "opening": "Đang mở…",
-      "manage ": "Quản lý thanh toán"
+      "manage": "Manage Billing"
     },
     "checkout": {
-      "redirecting": "Đang chuyển hướng…"
+      "redirecting": "Redirecting…"
     },
     "auth": {
       "continue": "Tiếp tục đăng nhập",
       "createAccount": "Tạo tài khoản",
-      "signIn": " Đăng nhập"
+      "signIn": "Đăng nhập"
     },
     "cta": {
       "aria": "Chọn gói",
-      "getPlus": "Nâng cấp lên Plus",
+      "getPlus": "Upgrade to Plus",
       "upgradeMonthly": "Nâng cấp hàng tháng",
-      "upgradeAnnual": "Nâng cấp hàng năm"
+      "upgradeAnnual": "Nâng cấp hàng năm",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Tiết kiệm 30% với gói hàng năm – tiếp tục đăng nhập"
+      }
     },
     "section": {
       "app": "Gói ứng dụng",
-      "mobile": "Di động (eSIM)",
+      "mobile": "Mobile (eSIM)",
       "family": "Gói gia đình"
     },
-    "gói": {
-      "miễn phí": {
-        "tiêu đề": "Miễn phí",
-        "giá": "$0",
-        "mô tả": "Bắt đầu nhắn tin miễn phí. Lý tưởng nếu bạn chỉ đang thử Chatforia.",
-        "tính năng": {
-          "chat": "Trò chuyện 1:1 và nhóm thời gian thực, cùng với cuộc gọi thoại và video",
-          "media": "Chia sẻ ảnh, tin nhắn thoại và video ngắn",
-          "ai": "Trả lời thông minh dựa trên AI và dịch thuật tức thì (sử dụng hợp lý)",
-          "disappearing": "Tin nhắn tự động biến mất và các tính năng bảo mật cơ bản",
-          "ads": "Miễn phí vĩnh viễn với quảng cáo trong ứng dụng "
+    "plans": {
+      "free": {
+        "title": "Miễn phí",
+        "price": "$0",
+        "desc": "Start messaging for free. Ideal if you’re just trying Chatforia.",
+        "features": {
+          "chat": "Real-time 1:1 and group chat, plus voice and video calls",
+          "media": "Share photos, voice messages, and short videos",
+          "ai": "AI-powered smart replies and instant translation (fair use)",
+          "disappearing": "Tin nhắn tự hủy và các tính năng bảo mật cơ bản",
+          "ads": "Free forever with ads in the app"
         },
         "ctaCurrent": "Gói hiện tại",
-        "ctaManage": "Quản lý trong phần thanh toán",
+        "ctaManage": "Manage in billing",
         "ctaPublic": "Bắt đầu – tiếp tục đăng nhập",
         "aria": "Gói miễn phí"
       },
       "plus": {
         "title": "Plus",
-        "price": "$6.99",
+        "price": "$6,99",
         "desc": "Tất cả các tính năng cần thiết, không có quảng cáo. Tuyệt vời cho việc nhắn tin và gọi điện hàng ngày.",
         "features": {
-          "allFree": "Tất cả các tính năng trong gói Miễn phí, không có quảng cáo",
-          "forwarding": "Chuyển tiếp cuộc gọi và tin nhắn đến số điện thoại thực của bạn",
+          "allFree": "Tất cả tính năng của gói Miễn phí, không có quảng cáo",
+          "forwarding": "Forward calls and texts to your real phone number",
           "history": "Lịch sử tin nhắn dài hơn (lên đến 6 tháng)",
-          "support": "Hỗ trợ nhanh hơn khi có sự cố"
+          "support": "Faster support when something goes wrong"
         },
         "badge": "Phổ biến",
         "cta": "Loại bỏ quảng cáo",
-        "ctaPublic": "Mua gói Plus – tiếp tục đăng nhập",
-        "aria": "Nâng cấp lên Plus"
+        "ctaPublic": "Get Plus – continue to login",
+        "aria": "Upgrade to Plus"
       },
       "premiumMonthly": {
-        "title": "Premium (Hàng tháng)",
+        "title": "Premium (Monthly)",
         "price": "$11.99",
-        "desc": "Trải nghiệm Chatforia trọn vẹn: các công cụ hỗ trợ AI, tùy chỉnh và hỗ trợ ưu tiên.",
+        "desc": "The full Chatforia experience: AI power tools, customization, and priority support.",
         "features": {
-          "plusAll": "Tất cả tính năng trong gói Plus",
-          "themes": "Mở khóa tất cả chủ đề màu cao cấp và tùy chỉnh ứng dụng",
-          "ai": "Công cụ AI cao cấp dành riêng cho việc viết lại, trả lời thông minh và tóm tắt",
-          "support": "Hỗ trợ ưu tiên khi bạn cần giúp đỡ nhất"
+          "plusAll": "Everything in Plus",
+          "themes": "Mở khóa tất cả các chủ đề màu cao cấp và tùy chỉnh ứng dụng",
+          "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries",
+          "support": "Hỗ trợ ưu tiên khi bạn cần giúp đỡ nhất",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
-        "badge": "Được đề xuất",
+        "badge": "Recommended",
         "cta": "Nâng cấp (Hàng tháng)",
-        "ctaPublic": "Mở khóa Premium – tiếp tục đăng nhập",
-        "aria": "Nâng cấp lên Premium Hàng tháng"
+        "ctaPublic": "Unlock Premium – continue to login",
+        "aria": "Upgrade to Premium Monthly"
       },
       "premiumAnnual": {
-        "title": "Premium (Hàng năm)",
+        "title": "Premium (Annual)",
         "price": "$99",
-        "desc": "Tiết kiệm hơn khi thanh toán hàng năm — bao gồm các chủ đề màu bổ sung, công cụ AI và hỗ trợ ưu tiên.",
+        "desc": "Save more when billed yearly — including extra color themes, AI tools, and priority support.",
         "features": {
-          "allPremium": "Tất cả tính năng trong Premium Hàng tháng — bao gồm các chủ đề màu sắc bổ sung",
-          "annualBilling": "Thanh toán một lần mỗi năm",
-          "save25": "Tiết kiệm khoảng 30% so với thanh toán hàng tháng",
-          "bestFor": "Phù hợp nhất cho người dùng chuyên nghiệp, nhân viên làm việc từ xa và những người thường xuyên di chuyển"
+          "allPremium": "Everything in Premium Monthly — including extra color themes",
+          "annualBilling": "Billed once per year",
+          "save25": "Save around 30% compared to paying monthly",
+          "bestFor": "Best for power users, remote workers, and heavy travelers",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
         "badge": "Tiết kiệm 30%",
         "cta": "Nâng cấp (Hàng năm)",
         "ctaPublic": "Tiết kiệm 30% với gói hàng năm – tiếp tục đăng nhập",
-        "aria": "Nâng cấp lên Premium Hàng năm",
-        "disclaimer": "Thanh toán trước. Hủy bất cứ lúc nào. Không có phí ẩn."
+        "aria": "Upgrade to Premium Annual",
+        "disclaimer": "Billed upfront. Cancel anytime. No hidden fees."
       }
     },
     "marketing": {
@@ -1168,41 +1455,48 @@
       "freeDesc": "Bắt đầu nhắn tin miễn phí.",
       "plusTitle": "Plus",
       "plusBadge": "Phổ biến",
-      "plusDesc": "Trải nghiệm không quảng cáo với giá cả phải chăng nhất.",
+      "plusDesc": "Most affordable ad-free experience.",
       "premiumMonthlyTitle": "Premium",
       "premiumMonthlyDesc": "Tính năng đầy đủ, nhạc chuông và các công cụ AI mạnh mẽ.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Tiết kiệm hơn khi thanh toán hàng năm.",
-      "annualDisclaimer": "Thanh toán trước. Hủy bất cứ lúc nào. Không có phí ẩn."
+      "premiumAnnualDesc": "Save more when billed yearly.",
+      "annualDisclaimer": "Billed upfront. Cancel anytime. No hidden fees."
     },
     "mobile": {
-      "title": "Chatforia Mobile (gói dữ liệu eSIM)",
-      "subtitle": "Thêm dữ liệu toàn cầu để Chatforia vẫn hoạt động ngay cả khi không có Wi-Fi. Giá sẽ tự động điều chỉnh dựa trên quốc gia và đơn vị tiền tệ của bạn.",
-      "\n \nsubtitle.detail": "Chọn gói dữ liệu toàn cầu dùng một lần để Chatforia tiếp tục hoạt động khi bạn đi du lịch hoặc không có Wi-Fi.",
+      "title": "Chatforia Mobile (eSIM data packs)",
+      "subtitle": "Add global data to keep Chatforia working even without Wi-Fi. Prices automatically adjust based on your country and currency.",
+      "subtitle.detail": "Pick a one-time global data pack so Chatforia keeps working when you’re traveling or away from Wi-Fi.",
       "scope": {
         "local": "Địa phương",
         "europe": "Châu Âu",
-        "global": "Toàn cầu"
+        "global": "Toàn cầu",
+        "localTab": "Gói cước địa phương",
+        "europeTab": "Gói cước Châu Âu",
+        "globalTab": "Gói cước Toàn cầu"
       },
       "localEquals": "Local = {{country}}",
-      "localEqualsFallback": "Local = quốc gia hiện tại của bạn",
+      "localEqualsFallback": "Địa phương = quốc gia hiện tại của bạn",
       "perPack": "/ gói",
-      "cta": "Mua gói dữ liệu này",
-      "ctaPublic": "Mua gói dữ liệu này",
+      "cta": "Nhận gói dữ liệu này",
+      "ctaPublic": "Nhận gói dữ liệu này",
       "checkout": {
-        "redirecting": "Đang chuyển hướng…"
+        "redirecting": "Redirecting…"
       },
       "unlimited": {
         "features": {
-          "heavyUse": "Dữ liệu tốc độ cao cho sử dụng nặng",
-          "throttle": "Dữ liệu tốc độ cao tuân theo chính sách sử dụng hợp lý và quản lý mạng",
+          "heavyUse": "Dữ liệu tốc độ cao dành cho người dùng nhiều",
+          "throttle": "High-speed data subject to fair-use and network management policies",
           "coverage": "Phạm vi phủ sóng đáng tin cậy",
-          "instant": "Kích hoạt eSIM ngay lập tức",
+          "instant": "Instant eSIM activation",
           "noContract": "Gói một lần, không cần hợp đồng"
-        }
+        },
+        "title": "Gói không giới hạn",
+        "data": "Không giới hạn",
+        "bestFor": "Phù hợp nhất cho người dùng nặng ở những nơi được hỗ trợ."
       },
       "disclaimer": {
-        "devices": "Các gói dữ liệu eSIM yêu cầu thiết bị tương thích eSIM và đã mở khóa. Tính khả dụng thay đổi tùy theo mẫu điện thoại, nhà mạng và quốc gia. Phạm vi phủ sóng và tốc độ thay đổi tùy theo khu vực."
+        "devices": "eSIM data packs require an eSIM-compatible and unlocked device. Availability varies by phone model, carrier, and country. Coverage and speeds vary by region.",
+        "fairUse": "High-speed data may be subject to fair-use limits, local network conditions, and regional availability."
       },
       "packs": {
         "3gb": {
@@ -1218,124 +1512,268 @@
           "title": "{{scope}} 20 GB"
         },
         "unlimited": {
-          "title": "{{scope}} Không giới hạn"
+          "title": "{{scope}} Unlimited"
         }
       },
       "compare": {
-        "title": "So sánh gói dữ liệu eSIM",
+        "title": "Compare eSIM data packs",
         "col": {
           "pack": "Gói",
-          "data": "Dung lượng dữ liệu",
-          "bestFor": "Phù hợp nhất với"
+          "data": "Included data",
+          "bestFor": "Phù hợp nhất cho"
         },
-        "disclaimer": "Lượng dữ liệu thực tế sử dụng phụ thuộc vào cách bạn sử dụng Chatforia (gọi thoại, video, phương tiện truyền thông và các ứng dụng khác trên điện thoại của bạn)."
+        "disclaimer": "Actual data usage depends on how you use Chatforia (voice, video, media, and other apps on your phone)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Chọn gói dữ liệu",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Phổ biến",
+        "bestValue": "Giá trị tốt nhất"
+      },
+      "feature": {
+        "instant": "Instant eSIM activation",
+        "coverage": "Các tùy chọn phủ sóng toàn cầu",
+        "contracts": "Không có hợp đồng dài hạn"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "Gói dữ liệu dùng một lần với giá cả rõ ràng",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Địa phương",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Châu Âu",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Toàn cầu",
+        "globalSubtitle": "Tốt nhất cho du lịch quốc tế qua nhiều khu vực."
+      },
+      "small": {
+        "title": "Gói nhỏ",
+        "data": "3 GB",
+        "bestFor": "Best for short trips and light messaging."
+      },
+      "medium": {
+        "title": "Medium pack",
+        "data": "5 GB",
+        "bestFor": "Best for everyday messaging, maps, and light media."
+      },
+      "large": {
+        "title": "Gói lớn",
+        "data": "10 GB",
+        "bestFor": "Best for longer trips and heavier app use."
+      },
+      "xl": {
+        "title": "Gói XL",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
       }
     },
     "family": {
-      "title": "Chatforia Family (dữ liệu chia sẻ)",
-      "subtitle": " Chia sẻ một gói dữ liệu chung cho cả gia đình. Một hóa đơn, nhiều tài khoản Chatforia, phủ sóng toàn cầu.",
-      "perPack": "/ pack",
+      "title": "Chatforia Family (shared data)",
+      "subtitle": "Share a single data pool across your family. One bill, multiple Chatforia accounts, global coverage.",
+      "perPack": "/ gói",
       "small": {
-        "title": "Family Small",
-        "desc": "Bao gồm 20 GB dữ liệu tốc độ cao chia sẻ — lý tưởng cho 2–3 người dùng ít sử dụng.",
+        "title": "Gói Gia đình Nhỏ",
+        "desc": "Includes 20 GB of shared high-speed data — great for 2–3 light users.",
         "price": "$29.99",
         "aria": "Mua gói Gia đình Nhỏ"
       },
       "medium": {
-        "title": "Gia đình Trung bình",
-        "desc": "Bao gồm 40 GB dữ liệu tốc độ cao dùng chung — lý tưởng cho 3–5 thành viên năng động.",
+        "title": "Family Medium",
+        "desc": "Includes 40 GB of shared high-speed data — ideal for 3–5 active members.",
         "price": "$49.99",
-        "aria": "Mua gói Gia đình Trung bình"
+        "aria": "Buy Family Medium pack"
       },
       "large": {
         "title": "Gia đình Lớn",
-        "desc": "Bao gồm 80 GB dữ liệu tốc độ cao dùng chung — dành cho các gia đình năng động luôn trực tuyến.",
+        "desc": "Includes 80 GB of shared high-speed data — for power families that are always online.",
         "price": "$84.99",
         "aria": "Mua gói Gia đình Lớn"
       },
       "feature": {
-        "shared": "Dung lượng dữ liệu dùng chung cho gia đình bạn",
+        "shared": "Shared data pool for your family",
         "members": "Mời thêm tối đa 4 thành viên",
-        "membersMore": "Tuyệt vời cho 3–5 thành viên thường xuyên sử dụng",
+        "membersMore": "Rất phù hợp cho 3–5 thành viên năng động",
         "manage": "Quản lý giới hạn cho từng thành viên",
         "topUp": "Nạp thêm gói bất cứ lúc nào",
         "bestValue": "Giá trị tốt nhất trên mỗi GB",
-        "fairUse": "Tuân theo chính sách sử dụng hợp lý và các giới hạn địa phương"
+        "fairUse": "Tuân thủ chính sách sử dụng hợp lý và các giới hạn địa phương"
       },
-      "disclaimer": "Gói gia đình tạo hoặc nạp thêm vào kho dữ liệu chung. Bạn có thể mời và xóa thành viên bất cứ lúc nào.",
-      "footnote": "Gói gia đình chia sẻ một kho dữ liệu chung trên các tài khoản Chatforia được liên kết. Tính khả dụng và giới hạn phụ thuộc vào quốc gia và quy định địa phương của bạn."
+      "disclaimer": "Family packs create or top up a shared data pool. You can invite and remove members anytime.",
+      "footnote": "Family packs share a single data pool across linked Chatforia accounts. Availability and limits depend on your country and local regulations."
     },
     "why": {
-      "title": "Tại sao mọi người chuyển sang Chatforia",
-      "subtitle": "Chatforia cung cấp cho bạn số điện thoại thật, dịch thuật thông minh và một lộ trình rõ ràng để loại bỏ quảng cáo khi bạn sẵn sàng.",
+      "title": "Why people switch to Chatforia",
+      "subtitle": "Chatforia gives you a real phone number, smart translation, and a clear path to go ad-free when you’re ready.",
       "card": {
         "textnow": {
-          "title": "Chatforia so với TextNow",
-          "body": "Quảng cáo nhẹ hơn trên gói Miễn phí, nâng cấp lên gói Plus đơn giản khi bạn sẵn sàng, và các công cụ Premium mà TextNow không cung cấp."
+          "title": "Chatforia vs TextNow",
+          "body": "Lighter ads on Free, a simple Plus upgrade when you’re ready, and Premium tools TextNow doesn’t offer."
         },
         "voice": {
-          "title": "Chatforia so với Google Voice",
-          "body": "Ứng dụng hiện đại, thiết kế , và tính năng dịch tích hợp thay vì chuyển tiếp cuộc gọi kiểu cũ."
+          "title": "Chatforia vs Google Voice",
+          "body": "Modern app, global-first design, and built-in translation instead of old-school call forwarding."
         },
         "messengers": {
-          "title": "Chatforia so với các ứng dụng nhắn tin",
-          "body": "Nhắn tin đến số điện thoại thật — không chỉ người dùng ứng dụng khác — với AI và trạng thái tích hợp. Tuyệt vời nếu bạn đang chuyển từ các ứng dụng như TextFree hoặc TextMe."
+          "title": "Chatforia vs chat apps",
+          "body": "Text real phone numbers — not just other app users — with AI and status built in. Great if you’re coming from apps like TextFree or TextMe."
         }
       },
-      "tableTitle": "So sánh Chatforia",
+      "tableTitle": "How Chatforia compares",
       "col": {
-        "feature": "Tính năng"
+        "feature": "Tính năng",
+        "chatforia": "Chatforia",
+        "textnow": "TextNow",
+        "googleVoice": "Google Voice"
       },
       "feature": {
         "freeNumber": "Số điện thoại miễn phí",
-        "translation": "Tự động dịch tích hợp",
+        "translation": "Tính năng dịch tự động tích hợp",
         "aiTools": "Công cụ AI (viết lại, trả lời, tóm tắt)",
         "ads": "Tùy chọn không quảng cáo",
         "history": "Lịch sử tin nhắn"
       },
       "yes": "Có",
       "no": "Không",
-      "yesPremium": "Có (Premium)",
+      "yesPremium": "Yes (Premium)",
       "plusPremium": "Plus & Premium",
       "limited": "Giới hạn",
       "nA": "Không áp dụng",
       "history": {
         "chatforia": "Lên đến 12+ tháng",
         "textnow": "Tùy thuộc vào tài khoản",
-        "voice": "Giới hạn / dựa trên tài khoản"
+        "voice": "Hạn chế / dựa trên tài khoản"
       },
-      "disclaimer": "So sánh dựa trên thông tin công khai và có thể thay đổi theo thời gian. Các ứng dụng nhắn tin miễn phí khác như TextFree hoặc TextMe thường tương tự như TextNow."
+      "disclaimer": "Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow."
     },
     "faq": {
       "title": "Câu hỏi thường gặp về giá cả & gói cước",
       "free": {
         "q": "Gói Miễn phí có thực sự miễn phí không?",
-        "a": "Có. Gói Miễn phí bao gồm số Chatforia, gọi điện và nhắn tin kèm quảng cáo. Bạn có thể sử dụng gói Miễn phí bao lâu tùy thích, hoặc nâng cấp để loại bỏ quảng cáo và mở khóa thêm tính năng."
+        "a": "Yes. The Free plan includes a Chatforia number, calling, and messaging with ads. You can stay on Free as long as you like, or upgrade to remove ads and unlock more features."
       },
       "plusPremium": {
-        "q": "Sự khác biệt giữa Plus và Premium là gì?",
-        "a": " Gói Plus loại bỏ quảng cáo và mở rộng lịch sử tin nhắn — hoàn hảo cho việc sử dụng hàng ngày. Gói Premium bổ sung các tùy chỉnh thêm, công cụ AI để viết lại và trả lời tin nhắn, cùng với hỗ trợ ưu tiên cho người dùng thường xuyên."
+        "q": "What’s the difference between Plus and Premium?",
+        "a": "Plus removes ads and extends your message history — perfect for everyday use. Premium adds extra customization, AI tools for rewrites and replies, and priority support for heavy users."
       },
       "esim": {
-        "q": "Gói dữ liệu eSIM hoạt động ở đâu?",
-        "a": "Chatforia Mobile sử dụng mạng eSIM toàn cầu. Tính khả dụng phụ thuộc vào quốc gia và thiết bị của bạn. Bạn sẽ thấy các tùy chọn được hỗ trợ trong quá trình kích hoạt bên trong ứng dụng."
+        "q": "Where do eSIM data packs work?",
+        "a": "Chatforia Mobile uses global eSIM coverage. Availability depends on your country and device. You’ll see supported options during activation inside the app."
       },
       "cancel": {
-        " q": "Tôi có thể hủy hoặc thay đổi gói cước bất cứ lúc nào không?",
-        "a": "Có. Bạn có thể quản lý hoặc hủy đăng ký từ trang thanh toán trong ứng dụng. Các thay đổi sẽ có hiệu lực vào cuối kỳ thanh toán hiện tại. "
+        "q": "Can I cancel or change plans anytime?",
+        "a": "Yes. You can manage or cancel your subscription from the billing page in the app. Changes take effect at the end of your current billing period."
       },
       "family": {
-        "q": "Gói gia đình hoạt động như thế nào?",
-        "a": "Gói gia đình tạo ra một kho dữ liệu chung cho nhiều tài khoản Chatforia. Một người thanh toán hóa đơn, và bạn có thể mời hoặc loại bỏ thành viên cũng như đặt giới hạn cho từng người."
+        "q": "Gói Gia đình hoạt động như thế nào?",
+        "a": "Family packs create a shared data pool across multiple Chatforia accounts. One person pays the bill, and you can invite or remove members and set limits per person."
+      }
+    },
+    "h2": {
+      "app": "Gói ứng dụng"
+    },
+    "oneTime": "một lần",
+    "perMonthLong": "mỗi tháng",
+    "perYearLong": "mỗi năm",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "3 GB dữ liệu địa phương",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "5 GB dữ liệu địa phương",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "10 GB nội địa",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "20 GB dữ liệu địa phương",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Dữ liệu không giới hạn địa phương",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Châu Âu 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Châu Âu 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Châu Âu 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Châu Âu 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Châu Âu Không Giới Hạn",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Toàn cầu 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Toàn cầu 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Toàn cầu 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Toàn cầu 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Toàn cầu Không giới hạn",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
       }
     }
+  },
+  "billing": {
+    "myPlanTitle": "Gói của tôi",
+    "myPlanError": "Không thể tải gói của bạn.",
+    "myPlanLoading": "Đang tải gói của bạn…",
+    "currentPlan": "Gói hiện tại",
+    "renewsAt": "Tự động gia hạn vào",
+    "activeSubscription": "Đăng ký đang hoạt động",
+    "freePlanCopy": "Bạn đang sử dụng gói miễn phí. Nâng cấp để mở khóa thêm tính năng.",
+    "upgradeCta": "Nâng cấp gói",
+    "changePlanCta": "Thay đổi gói",
+    "manageBilling": "Quản lý thanh toán",
+    "portalError": "Không thể mở cổng thanh toán lúc này.",
+    "cancelNow": "Hủy ngay",
+    "cancelNowConfirm": "Bạn có chắc chắn muốn hủy gói ngay lập tức không? Thao tác này không thể hoàn tác. ",
+    "cancelNowError": "Không thể hủy gói của bạn ngay lúc này. Vui lòng thử lại hoặc sử dụng Quản lý thanh toán."
   },
   "family": {
     "title": "Gia đình",
     "loading": "Đang tải thông tin gia đình của bạn…",
     "error": {
       "load": "Không thể tải thông tin gia đình.",
-      "invite": "Không thể tạo lời mời. Hãy đảm bảo bạn là chủ tài khoản gia đình và thử lại.",
+      "invite": "Không thể tạo lời mời. Hãy đảm bảo bạn là chủ sở hữu gia đình và thử lại.",
       "checkout": "Chúng tôi không thể bắt đầu thanh toán cho gói Gia đình. Vui lòng thử lại."
     },
     "billing": {
@@ -1344,21 +1782,21 @@
       "myPlanLoading": "Đang tải gói của bạn…",
       "currentPlan": "Gói hiện tại",
       "renewsAt": "Tự động gia hạn vào",
-      " freePlanCopy": "Bạn đang sử dụng gói miễn phí. Nâng cấp để mở khóa thêm tính năng.",
+      "freePlanCopy": "Bạn đang sử dụng gói miễn phí. Nâng cấp để mở khóa thêm tính năng.",
       "upgradeCta": "Nâng cấp gói",
       "changePlanCta": "Thay đổi gói",
       "manageBilling": "Quản lý thanh toán",
-      "portalError": "Không thể mở cổng thông tin thanh toán lúc này.",
+      "portalError": "Không thể mở cổng thanh toán lúc này.",
       "cancelNow": "Hủy ngay",
-      "cancelNowHelp": "Bạn có thể quản lý hoặc hủy đăng ký trong cổng thông tin thanh toán, hoặc hủy ngay bên dưới.",
-      "cancelNowConfirm": "Bạn có chắc chắn muốn hủy gói ngay lập tức không? Thao tác này không thể hoàn tác.",
+      "cancelNowHelp": "Bạn có thể quản lý hoặc hủy đăng ký trong cổng thanh toán, hoặc hủy ngay bên dưới.",
+      "cancelNowConfirm": "Bạn có chắc chắn muốn hủy gói ngay lập tức không? Việc này không thể ",
       "cancelNowError": "Không thể hủy gói của bạn ngay bây giờ. Vui lòng thử lại hoặc sử dụng Quản lý thanh toán."
     },
     "none": {
       "title": "Chưa thiết lập gia đình",
-      "body": "Để tạo Gia đình Chatforia và kho dữ liệu chung, hãy bắt đầu gói Gia đình.",
+      "body": "Để tạo một Gia đình Chatforia và kho dữ liệu chung, hãy bắt đầu gói Gia đình.",
       "goUpgrade": "Bắt đầu gói Gia đình",
-      "viewPlans": "Xem tất cả các gói"
+      "viewPlans": "Xem tất cả các gói "
     },
     "group": {
       "defaultName": "Gia đình Chatforia của tôi",
@@ -1376,14 +1814,14 @@
       "title": "Thành viên gia đình",
       "name": "Tên",
       "role": "Vai trò",
-      "usage": "Mức sử dụng",
+      "usage": "Sử dụng",
       "limit": "Giới hạn",
       "unlimited": "Không có giới hạn cụ thể",
       "inviteCta": "Mời thành viên"
     },
     "invite": {
       "title": "Mời thành viên mới",
-      "body": "Gửi email hoặc liên kết để mời ai đó tham gia nhóm dữ liệu gia đình chung của bạn.",
+      "body": "Send an email or link to invite someone into your shared family data pool.",
       "emailLabel": "Email (tùy chọn)",
       "emailPlaceholder": "friend@example.com",
       "create": "Tạo lời mời",
@@ -1393,11 +1831,11 @@
     },
     "join": {
       "title": "Tham gia gia đình",
-      "body": "Bạn đã được mời tham gia Gia đình Chatforia và chia sẻ kho dữ liệu của họ.",
+      "body": "Bạn đã được mời tham gia một Gia đình Chatforia và chia sẻ kho dữ liệu của họ. ",
       "cta": "Chấp nhận và tham gia gia đình",
       "ctaLogin": "Đăng nhập và tham gia gia đình",
-      "success": "Bạn đã tham gia gia đình này. Bạn hiện đang chia sẻ kho dữ liệu của họ.",
-      "goFamily": "Đi đến bảng điều khiển gia đình",
+      "success": "Bạn đã tham gia gia đình này. Giờ đây, bạn chia sẻ kho dữ liệu của họ.",
+      "goFamily": "Truy cập bảng điều khiển gia đình",
       "error": "Chúng tôi không thể thêm bạn vào gia đình này. Lời mời có thể không hợp lệ hoặc đã hết hạn."
     }
   },
@@ -1408,7 +1846,7 @@
     "description": "Trò chuyện ẩn danh trước. Thêm bạn sau nếu cảm thấy phù hợp.",
     "findMatch": "Tìm đối tượng phù hợp cho tôi",
     "chatWithRia": "Trò chuyện với Ria",
-    "setAge": "Đặt khoảng tuổi của bạn trong Hồ sơ → Tuổi & Trò chuyện ngẫu nhiên để được ghép đôi với người khác.",
+    "setAge": "Đặt độ tuổi của bạn trong Hồ sơ → Tuổi & Trò chuyện ngẫu nhiên để được ghép đôi với người khác.",
     "idle": "Không hoạt động",
     "matching": "Đang ghép đôi…",
     "searching": "Đang tìm kiếm…",
@@ -1416,36 +1854,36 @@
     "connectionProblem": "Lỗi kết nối",
     "ai": "AI",
     "anonymous": "Ẩn danh",
-    "connectedAs": "Đã kết nối với tư cách",
-    "waitingAddFriend": "Đang chờ họ chấp nhận Yêu cầu kết bạn…",
-    "hiddenUsernames": "Tên người dùng sẽ được ẩn cho đến khi cả hai người chọn Yêu cầu kết bạn.",
-    "\n \nriaSeparate": "Trò chuyện với Ria bất cứ lúc nào — tách biệt với việc ghép đôi ngẫu nhiên với người thật.",
+    "connectedAs": "Đã kết nối với tư cách ",
+    "waitingAddFriend": "Đang chờ họ chấp nhận Thêm bạn bè…",
+    "hiddenUsernames": "Tên người dùng sẽ được ẩn cho đến khi cả hai người chọn Thêm bạn bè.",
+    "riaSeparate": "Trò chuyện với Ria bất cứ lúc nào — tách biệt với việc ghép đôi ngẫu nhiên với người thật.",
     "sendMessage": "Gửi tin nhắn",
-    "chatEnded": "Cuộc trò chuyện đã kết thúc",
+    "chatEnded": "Trò chuyện đã kết thúc",
     "conversationEnded": "Cuộc trò chuyện đó đã kết thúc.",
-    "findAnotherMatch": "Tìm đối tượng khác",
+    "findAnotherMatch": "Tìm người phù hợp khác",
     "next": "Người tiếp theo",
     "addFriend": "Thêm bạn",
     "requested": "Đã yêu cầu",
     "leave": "Rời khỏi",
     "messageRia": "Gửi tin nhắn cho Ria…",
-    "messageMatch": "Gửi tin nhắn cho đối tác của bạn…",
+    "messageMatch": "Gửi tin nhắn cho người phù hợp của bạn…",
     "chatWithForia": "Trò chuyện với Foria",
     "chatWithForiaBot": "Trò chuyện với ForiaBot",
     "close": "Đóng",
-    "finding": "Đang tìm kiếm…",
+    "finding": "Đang tìm…",
     "looking": "Đang tìm kiếm ai đó…",
-    "startingForia": "Đang bắt đầu trò chuyện với Foria…",
+    "startingForia": "Bắt đầu trò chuyện với Foria…",
     "partnerDisconnected": "Đối tác của bạn đã ngắt kết nối.",
-    "noPartner": "Hiện tại không tìm thấy đối tác nào.",
+    "noPartner": "Hiện tại không tìm thấy đối tác.",
     "connectedTo": "Đã kết nối với {{name}}",
     "connected": "Đã kết nối",
     "partnerLeft": "Đối tác đã rời đi.",
-    "stopped": "Đã dừng.",
+    "stopped": "Đã dừng. ",
     "skip": "Bỏ qua",
     "save": "Lưu",
     "saveGuard": "Chỉ các cuộc trò chuyện giữa người với người mới có thể được lưu",
-    "youAreChattingWith": "Bạn đang trò chuyện với { {name}}",
+    "youAreChattingWith": "Bạn đang trò chuyện với {{name}}",
     "bot": "BOT",
     "sayHi": "Chào 👋",
     "you": "Bạn",
@@ -1453,27 +1891,29 @@
     "send": "Gửi",
     "partner": "Đối tác",
     "withRia": "Với Ria",
-    "startingRia": "Đang bắt đầu cuộc trò chuyện với Ria…",
-    "ageDisclaimer": "Chúng tôi chỉ lưu trữ khoảng tuổi (không phải ngày sinh chính xác của bạn). Điều này được sử dụng để đảm bảo các cặp ghép trong Trò chuyện Ngẫu nhiên hợp lý. Để ghép đôi với người dùng (không chỉ RiaBot), hãy thiết lập khoảng tuổi của bạn trong Cài đặt → Tuổi & Trò chuyện Ngẫu nhiên.",
-    "ageBandRequired": "Đặt khoảng tuổi của bạn trong Hồ sơ → Tuổi & Trò chuyện ngẫu nhiên để được ghép đôi với người dùng.",
-    "ageBandCallout": "Để ghép đôi với người dùng (không chỉ RiaBot), hãy đặt khoảng tuổi của bạn trong Cài đặt → Tuổi & Trò chuyện ngẫu nhiên."
+    "startingRia": "Bắt đầu trò chuyện với Ria…",
+    "ageDisclaimer": "Chúng tôi chỉ lưu trữ khoảng tuổi (không phải ngày sinh chính xác của bạn). Điều này được sử dụng để giữ cho việc ghép đôi trong Trò chuyện Ngẫu nhiên hợp lý. Để ghép đôi với người dùng (không chỉ RiaBot), hãy thiết lập khoảng tuổi của bạn trong Cài đặt → Tuổi & Trò chuyện Ngẫu nhiên.",
+    "ageBandRequired": "Thiết lập khoảng tuổi của bạn trong Hồ sơ → Tuổi & Trò chuyện Ngẫu nhiên để được ghép đôi với người dùng.",
+    "ageBandCallout": "Để ghép đôi với người dùng (không chỉ RiaBot), hãy thiết lập khoảng tuổi của bạn trong Cài đặt → Tuổi & Trò chuyện ngẫu nhiên.",
+    "disconnected": "Đã ngắt kết nối.",
+    "left": "Bạn đã rời khỏi cuộc trò chuyện."
   },
   "ria": {
     "fallbackName": "there",
     "intro": "Xin chào 👋 Tôi là Ria. Bạn đang nghĩ gì vậy?",
     "greetings": {
-      "long1": "Xin chào {{name}} 👋 Tôi đây. Bạn đang nghĩ gì vậy?",
+      "long1": "Xin chào {{name}} 👋 Tôi ở đây. Bạn đang nghĩ gì vậy?",
       "long2": "Xin chào {{name}} 😊 Hôm nay bạn muốn nói về điều gì?",
       "long3": "Xin chào {{name}}! Tôi đang lắng nghe đây — có chuyện gì vậy?",
       "long4": "Rất vui được gặp bạn, {{name}} 👋 Hôm nay bạn đang nghĩ gì vậy?",
-      "long5": "Xin chào {{name}} 🙂 Bạn muốn trút bầu tâm sự, hỏi han hay chỉ đơn giản là trò chuyện?",
-      "long6": "Xin chào\n \n{{name}}! Tôi có thời gian — bạn muốn nói về điều gì?",
-      "short1": "Chào {{name}}, tôi vẫn ở đây. Có chuyện gì vậy?",
+      "long5": "Xin chào {{name}} 🙂 Bạn muốn trút bầu tâm sự, hỏi han hay chỉ đơn giản là trò chuyện?\n ",
+      "long6": "Xin chào {{name}}! Tôi có thời gian đây — bạn muốn nói về điều gì?",
+      "short1": "Này {{name}}, tôi vẫn ở đây. Có chuyện gì vậy?",
       "short2": "Chào mừng trở lại {{name}} 👋 Bạn có muốn thêm gì nữa không?",
-      "short3": " Quay lại rồi à, {{name}}? 😊 Hãy kể cho tôi nghe điều gì đang ở trong tâm trí bạn.",
+      "short3": "Quay lại rồi à, {{name}}? 😊 Hãy kể cho tôi nghe bạn đang nghĩ gì.",
       "short4": "Chào {{name}} ✨ Sẵn sàng tiếp tục từ nơi chúng ta đã dừng lại chưa?",
       "short5": "Vâng {{name}}? Tôi đang lắng nghe đây 👂",
-      "short6": "Ồ, chào {{name}}! Có điều gì mới trong tâm trí bạn không?"
+      "short6": "Ồ, chào {{name}}! Có điều gì mới trong đầu không?"
     },
     "header": {
       "openNav": "Mở menu điều hướng",
@@ -1482,7 +1922,7 @@
     },
     "login": {
       "welcomeBack": "Chào mừng quay lại",
-      "title": "Tiếp tục với Chatforia",
+      "title": "Tiếp tục vào Chatforia",
       "subtitleReturning": "Đăng nhập vào tài khoản Chatforia của bạn",
       "google": "Tiếp tục với Google",
       "apple": "Tiếp tục với Apple",
@@ -1515,22 +1955,22 @@
       },
       "forgotPassword": {
         "title": "Quên mật khẩu",
-        "helper": "Nhập địa chỉ email bạn đã dùng để tạo tài khoản Chatforia và chúng tôi sẽ gửi cho bạn một liên kết an toàn để đặt lại mật khẩu.",
+        "helper": "Vui lòng nhập địa chỉ email bạn đã sử dụng để tạo tài khoản Chatforia và chúng tôi sẽ gửi cho bạn một liên kết an toàn để đặt lại mật khẩu.",
         "emailLabel": "Email",
         "emailPlaceholder": "you@example.com",
         "emailInvalid": "Vui lòng nhập địa chỉ email hợp lệ.",
-        "genericError": "Không thể xử lý yêu cầu. Vui lòng thử lại sau một lát.",
+        "genericError": "Không thể xử lý yêu cầu. Vui lòng thử lại sau một lúc.",
         "sending": "Đang gửi liên kết đặt lại...",
         "sendCta": "Gửi liên kết đặt lại",
         "sentLabel": "Đã gửi!",
-        "sentHelper": "Nếu đã có tài khoản với địa chỉ email đó, chúng tôi đã gửi liên kết đặt lại mật khẩu. Có thể mất vài phút để nhận được. Hãy kiểm tra thư mục spam hoặc thư quảng cáo.",
+        "sentHelper": "Nếu có tài khoản với địa chỉ email đó, chúng tôi đã gửi liên kết đặt lại mật khẩu. Có thể mất vài phút để nhận được. Hãy kiểm tra thư mục spam hoặc thư quảng cáo của bạn.",
         "previewDev": "Xem trước email (Dev)",
-        "backToLogin": "Quay lại trang đăng nhập"
+        "backToLogin": "Quay lại Đăng nhập"
       },
       "resetPassword": {
         "title": "Đặt lại mật khẩu",
-        "missingToken": "Mã thông báo đặt lại mật khẩu không hợp lệ hoặc bị thiếu.",
-        "missingTokenHelper": "Mã thông báo không hợp lệ hoặc bị thiếu. Vui lòng yêu cầu liên kết đặt lại mật khẩu mới.",
+        "missingToken": " Mã thông báo đặt lại mật khẩu không hợp lệ hoặc thiếu.",
+        "missingTokenHelper": "Mã thông báo không hợp lệ hoặc thiếu. Vui lòng yêu cầu liên kết đặt lại mật khẩu mới.",
         "passwordMismatch": "Mật khẩu không khớp",
         "success": "Mật khẩu của bạn đã được đặt lại thành công",
         "genericError": "Lỗi: Không thể đặt lại mật khẩu.",
@@ -1543,9 +1983,6 @@
         "strongPasswordHint": "Chọn một mật khẩu mạnh mà bạn không sử dụng ở nơi khác."
       }
     }
-  },
-  "oauth": {
-    "completing": " Đang hoàn tất đăng nhập…"
   },
   "support": {
     "helpFab": "Trợ giúp",
@@ -1562,7 +1999,7 @@
     "quickTopicsLabel": "Chủ đề nhanh",
     "quickTopics": {
       "login": "Không thể đăng nhập",
-      "billing": "Thanh toán / thanh toán",
+      "billing": "Thanh toán / hóa đơn",
       "abuse": "Báo cáo lạm dụng"
     },
     "trySearching": "Hãy thử tìm kiếm “dịch”, “sao lưu” hoặc “quyền riêng tư”.",
@@ -1582,7 +2019,8 @@
     "analyzing": "Đang phân tích vấn đề của bạn...",
     "takeAction": "Thực hiện hành động được đề xuất",
     "resolvedInstantly": "Vấn đề đã được giải quyết ngay lập tức — không cần phiếu hỗ trợ.",
-    "escalating": "Đang chuyển lên bộ phận hỗ trợ..."
+    "escalating": "Đang chuyển lên bộ phận hỗ trợ...",
+    "takeRecommendedAction": "Thực hiện hành động được đề xuất"
   },
   "help": {
     "title": "Trợ giúp",
@@ -1602,7 +2040,7 @@
     "faq": {
       "account": {
         "q": "Làm thế nào để tạo hoặc khôi phục tài khoản của tôi?",
-        "a": "Tải ứng dụng hoặc truy cập trang web, nhấn “Tạo tài khoản”, xác minh email/số điện thoại. Để khôi phục, sử dụng “Quên mật khẩu”."
+        "a": "Tải xuống ứng dụng hoặc sử dụng web, nhấn vào “Tạo tài khoản”, xác minh email/số điện thoại của bạn. Để khôi phục, hãy sử dụng “Quên mật khẩu”."
       },
       "privacy": {
         "q": "Các tin nhắn có được mã hóa đầu cuối không?",
@@ -1610,7 +2048,7 @@
       },
       "translate": {
         "q": "Dịch tức thì hoạt động như thế nào?",
-        "a": "Bật “Tự động dịch” trong Cài đặt → Giao diện & Ngôn ngữ. Chúng tôi dịch trực tiếp trên thiết bị khi được hỗ trợ, nếu không sẽ thông qua các API an toàn với lượng metadata tối thiểu."
+        "a": "Bật “Dịch tự động” trong Cài đặt → Giao diện & Ngôn ngữ. Chúng tôi dịch trực tiếp trên thiết bị khi được hỗ trợ, nếu không sẽ thông qua các API an toàn với lượng metadata tối thiểu."
       },
       "contact": {
         "q": "Liên hệ hỗ trợ",
@@ -1620,26 +2058,26 @@
   },
   "gettingStarted": {
     "title": "Bắt đầu sử dụng",
-    "subtitle": "Lần đầu sử dụng Chatforia? Hướng dẫn nhanh này sẽ giới thiệu các tính năng cơ bản để bạn có thể làm việc hiệu quả chỉ trong vài phút.",
+    "subtitle": "Lần đầu sử dụng Chatforia? Hướng dẫn nhanh này sẽ giới thiệu những điều cơ bản để bạn có thể làm việc hiệu quả chỉ trong vài phút.",
     "alert": {
-      "text": "Hướng dẫn này sẽ được cập nhật khi chúng tôi ra mắt các tính năng mới. Nếu thiếu thông tin nào, vui lòng cho chúng tôi biết qua",
+      "text": "Hướng dẫn này sẽ được cập nhật khi chúng tôi ra mắt các tính năng mới. Nếu thiếu thông tin nào, hãy cho chúng tôi biết qua",
       "contactLink": "Liên hệ với chúng tôi"
     },
     "section1": {
       "title": "1) Tạo tài khoản của bạn",
       "signup": "Đăng ký",
-      "hoặc": "hoặc",
+      "or": "hoặc",
       "login": "đăng nhập",
       "loginText": "bằng tài khoản hiện có của bạn.",
       "prefsStart": "Trong ứng dụng, mở Cài đặt để thiết lập tùy chọn của bạn",
       "prefsLink": "tùy chọn",
-      "prefsRest": "(ngôn ngữ, xác nhận đã đọc,\n chủ đề)."
+      "prefsRest": "(ngôn ngữ, xác nhận đã đọc, chủ đề)."
     },
     "section2": {
       "title": "2) Bắt đầu nhắn tin",
-      "item1": "Tạo tin nhắn riêng tư hoặc nhóm và gửi tin nhắn đầu tiên của bạn.",
-      "item2": "Sử dụng dịch thuật tức thì để trò chuyện bằng hơn 100 ngôn ngữ.",
-      "item3": " Thử tính năng tin nhắn tự hủy và xác nhận đã đọc trong Hồ sơ → Quyền riêng tư."
+      "item1": "Tạo tin nhắn riêng tư hoặc Nhóm và gửi tin nhắn đầu tiên của bạn.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Thử tính năng tin nhắn tự hủy và xác nhận đã đọc trong Hồ sơ → Quyền riêng tư."
     },
     "section3": {
       "title": "3) Khám phá thêm",
@@ -1648,9 +2086,9 @@
       "item2Part1": "Sau khi đăng nhập, bạn có thể liên kết các thiết bị khác và thiết lập bản sao lưu được mã hóa từ mục Cài đặt trong ứng dụng."
     },
     "cta": {
-      "seePlans": "Xem các gói và giá cả",
+      "seePlans": " Xem các gói và giá cả",
       "openSettings": "Mở cài đặt",
-      "createAccount": " Tạo tài khoản"
+      "createAccount": "Tạo tài khoản"
     }
   },
   "howItWorks": {
@@ -1663,24 +2101,24 @@
     "step3Title": "3. Nhắn tin thời gian thực",
     "step3Desc": "Tin nhắn được gửi nhanh chóng để mang lại trải nghiệm giao tiếp mượt mà.",
     "step4Title": "4. Giao tiếp toàn cầu",
-    "step4Desc": "Tính năng dịch tích hợp giúp người dùng giao tiếp bằng nhiều ngôn ngữ khác nhau.",
-    "step5Title": "5. Kiểm soát",
+    "step4Desc": "Tính năng dịch tích hợp giúp người dùng giao tiếp qua các ngôn ngữ khác nhau.",
+    "step5Title": "5. Kiểm soát mọi thứ",
     "step5Desc": "Quản lý tùy chọn, danh bạ và cài đặt giao tiếp của bạn."
   },
   "safety": {
     "title": "Hướng dẫn về An toàn & Cộng đồng",
     "intro": "Chatforia cam kết duy trì một môi trường an toàn và tôn trọng cho tất cả người dùng. Những hướng dẫn này giúp đảm bảo trải nghiệm tích cực cho mọi người.",
     "respectTitle": "Giao tiếp tôn trọng",
-    "respectDesc": "Người dùng được kỳ vọng giao tiếp một cách tôn trọng. Không cho phép quấy rối, lạm dụng hoặc hành vi gây hại.",
+    "respectDesc": "Người dùng được kỳ vọng giao tiếp một cách tôn trọng. Hành vi quấy rối, lạm dụng hoặc gây hại không được phép.",
     "prohibitedTitle": "Nội dung bị cấm",
     "prohibited": {
       "illegal": "Hoạt động bất hợp pháp",
-      "quấy rối": "Quấy rối hoặc bắt nạt",
-      "kích động thù địch": "Lời nói kích động thù địch hoặc phân biệt đối xử",
+      "harassment": "Quấy rối hoặc bắt nạt",
+      "hate": "Lời nói kích động thù hận hoặc phân biệt đối xử",
       "explicit": "Nội dung khiêu dâm hoặc gây hại",
       "spam": "Spam hoặc các hành vi lừa đảo"
     },
-    "toolsTitle": "Công cụ bảo vệ người dùng",
+    "toolsTitle": "Công cụ an toàn cho người dùng",
     "tools": {
       "report": "Báo cáo hành vi hoặc nội dung không phù hợp",
       "block": "Chặn người dùng để ngăn chặn tương tác tiếp theo",
@@ -1691,89 +2129,95 @@
   },
   "blog": {
     "whyMessaging": {
-      "title": "Tại sao các nền tảng nhắn tin lại quan trọng hơn bao giờ hết",
-      "intro": "Các nền tảng nhắn tin đã trở thành một trong những công cụ giao tiếp quan trọng nhất trong thế giới hiện đại. Từ các cuộc trò chuyện cá nhân đến các tương tác kinh doanh, các ứng dụng nhắn tin cho phép mọi người kết nối với nhau một cách tức thì và hiệu quả.",
-      "everydayTitle": "Giao tiếp hàng ngày",
-      "everydayDesc": "Mọi người dựa vào các ứng dụng nhắn tin để giao tiếp hàng ngày với bạn bè, gia đình và đồng nghiệp. Dù là một cập nhật nhanh hay một cuộc trò chuyện dài, nhắn tin cung cấp một cách thuận tiện và linh hoạt để giữ liên lạc.",
+      "title": "Why Messaging Platforms Matter More Than Ever",
+      "intro": "Messaging platforms have become one of the most important tools for communication in today’s world. From personal conversations to business interactions, messaging apps allow people to stay connected instantly and efficiently.",
+      "everydayTitle": "Everyday Communication",
+      "everydayDesc": "People rely on messaging apps for daily communication with friends, family, and colleagues. Whether it's a quick update or a long conversation, messaging provides a convenient and flexible way to stay in touch.",
       "speedTitle": "Tốc độ và sự tiện lợi",
-      "speedDesc": "Một trong những ưu điểm chính của các nền tảng nhắn tin là tốc độ. Tin nhắn được gửi đi ngay lập tức, cho phép người dùng giao tiếp theo thời gian thực. Mức độ tiện lợi này đã khiến nhắn tin trở thành phương thức giao tiếp được nhiều người ưa chuộng.",
+      "speedDesc": "One of the main advantages of messaging platforms is their speed. Messages are delivered instantly, allowing users to communicate in real time. This level of convenience has made messaging the preferred method of communication for many people.",
       "globalTitle": "Phạm vi toàn cầu",
-      "globalDesc": "Các nền tảng nhắn tin kết nối mọi người trên toàn cầu. Với kết nối internet, người dùng có thể giao tiếp bất kể vị trí, giúp việc xây dựng mối quan hệ và hợp tác quốc tế trở nên dễ dàng hơn.",
-      "privacyTitle": "Quyền riêng tư và Kiểm soát",
-      " privacyDesc": "Các nền tảng nhắn tin hiện đại tập trung vào việc trao quyền kiểm soát dữ liệu và cuộc trò chuyện cho người dùng. Các tính năng như mã hóa, cài đặt quyền riêng tư và kiểm soát tin nhắn cho phép người dùng giao tiếp một cách tự tin.",
+      "globalDesc": "Messaging platforms connect people across the globe. With internet access, users can communicate regardless of location, making it easier to build relationships and collaborate internationally.",
+      "privacyTitle": "Quyền riêng tư và kiểm soát",
+      "privacyDesc": "Modern messaging platforms focus on giving users control over their data and conversations. Features like encryption, privacy settings, and message controls allow users to communicate with confidence.",
       "futureTitle": "Tương lai của nhắn tin",
-      "futureDesc": "Nhắn tin tiếp tục phát triển với các tính năng mới như phản hồi dựa trên AI, dịch thuật và chia sẻ đa phương tiện. Khi công nghệ tiến bộ, các nền tảng nhắn tin sẽ trở nên mạnh mẽ và linh hoạt hơn nữa.",
-      "outro": "Chatforia được xây dựng dựa trên những nguyên tắc này, mang đến trải nghiệm nhắn tin nhanh chóng, an toàn và thân thiện với người dùng cho một thế giới kết nối."
+      "futureDesc": "Messaging continues to evolve with new features such as AI-powered responses, translation, and multimedia sharing. As technology advances, messaging platforms will become even more powerful and versatile.",
+      "outro": "Chatforia is built with these principles in mind, offering a fast, secure, and user-friendly messaging experience for a connected world."
     },
     "global": {
-      "title": "Tương lai của giao tiếp toàn cầu",
-      "intro": "Giao tiếp đã phát triển nhanh chóng trong vài thập kỷ qua. Những gì trước đây cần phải gọi điện thoại hoặc gặp mặt trực tiếp nay có thể được thực hiện nhanh chóng thông qua các nền tảng nhắn tin. Khi công nghệ tiếp tục phát triển, giao tiếp toàn cầu đang trở nên nhanh hơn, dễ tiếp cận hơn và bao trùm hơn.",
+      "title": "The Future of Global Communication",
+      "intro": "Communication has evolved rapidly over the past few decades. What once required phone calls or in-person meetings can now be done quickly through messaging platforms. As technology continues to advance, global communication is becoming faster, more accessible, and more inclusive.",
       "barriersTitle": "Xóa bỏ rào cản",
-      "barriersDesc": "Một trong những thay đổi lớn nhất trong giao tiếp là việc giảm bớt rào cản địa lý. Mọi người nay có thể kết nối với nhau trên toàn thế giới gần như theo thời gian thực. Dù là cho các cuộc trò chuyện cá nhân, kinh doanh hay hợp tác, các nền tảng nhắn tin đã làm cho khoảng cách trở nên ít hạn chế hơn .",
+      "barriersDesc": "One of the biggest changes in communication is the reduction of geographic barriers. People can now connect with others across the world in near real time. Whether for personal conversations, business, or collaboration, messaging platforms have made distance far less limiting.",
       "translationTitle": "Vai trò của công nghệ dịch thuật",
-      "translationDesc": "Ngôn ngữ từ trước đến nay luôn là một trong những rào cản lớn nhất đối với giao tiếp toàn cầu. Ngày nay, các công cụ dịch thuật tích hợp giúp thu hẹp khoảng cách đó. Các nền tảng như Chatforia cho phép người dùng giao tiếp dễ dàng hơn ngay cả khi họ nói các ngôn ngữ khác nhau, tạo ra những cơ hội mới để kết nối và thấu hiểu.",
-      "realtimeTitle": "Kết nối thời gian thực",
-      "realtimeDesc": "Tốc độ là yếu tố then chốt định hình giao tiếp hiện đại. Người dùng mong đợi tin nhắn được gửi đi nhanh chóng, và hạ tầng hiện đại đáp ứng kỳ vọng đó. Nhắn tin thời gian thực cho phép các cuộc trò chuyện tự nhiên và mượt mà hơn.",
-      "privacyTitle": "Quyền riêng tư và Bảo mật",
-      "privacyDesc ": "Khi giao tiếp ngày càng trở nên kỹ thuật số, quyền riêng tư và bảo mật ngày càng trở nên quan trọng. Người dùng muốn có sự tin tưởng rằng các cuộc trò chuyện của họ được bảo vệ. Các tính năng như mã hóa và cài đặt do người dùng kiểm soát giúp hỗ trợ trải nghiệm giao tiếp an toàn hơn.",
-      " futureTitle": "Điều gì sẽ đến tiếp theo",
-      "futureDesc": "Tương lai của giao tiếp toàn cầu có thể sẽ bao gồm các công cụ tiên tiến hơn, như nhắn tin hỗ trợ bởi AI, dịch thuật được cải thiện và trải nghiệm người dùng được nâng cao. Khi công nghệ phát triển, giao tiếp sẽ tiếp tục trở nên trực quan và dễ tiếp cận hơn.",
-      "outro": "Các nền tảng như Chatforia là một phần của sự chuyển đổi này, giúp mọi người kết nối dễ dàng hơn qua các rào cản ngôn ngữ và biên giới."
+      "translationDesc": "Language has traditionally been one of the biggest obstacles to global communication. Today, built-in translation tools help bridge that gap. Platforms like Chatforia allow users to communicate more easily even if they speak different languages, creating new opportunities for connection and understanding.",
+      "realtimeTitle": "Real-Time Connectivity",
+      "realtimeDesc": "Speed is a key factor shaping modern communication. Users expect messages to be delivered quickly, and modern infrastructure supports that expectation. Real-time messaging enables more natural and fluid conversations.",
+      "privacyTitle": "Quyền riêng tư và bảo mật",
+      "privacyDesc": "As communication becomes more digital, privacy and security are increasingly important. Users want confidence that their conversations are protected. Features like encryption and user-controlled settings help support a more secure communication experience.",
+      "futureTitle": "What Comes Next",
+      "futureDesc": "The future of global communication will likely include more advanced tools, such as AI-assisted messaging, improved translation, and enhanced user experiences. As technology evolves, communication will continue to become more intuitive and accessible.",
+      "outro": "Platforms like Chatforia are part of this shift, helping people connect more easily across languages and borders."
     },
     "index": {
-      "title": "Blog Chatforia",
-      "intro": "Khám phá những thông tin sâu sắc về giao tiếp, an toàn trực tuyến và cách công nghệ nhắn tin đang kết nối mọi người trên toàn thế giới.",
-      "post1": "Cách trò chuyện an toàn trực tuyến",
-      "post2": "Tương lai của giao tiếp toàn cầu",
-      "post3": "Tại sao các nền tảng nhắn tin lại quan trọng"
+      "title": "Chatforia Blog",
+      "intro": "Explore insights on communication, online safety, and how messaging technology is connecting people around the world.",
+      "post1": "How to Chat Safely Online",
+      "post2": "The Future of Global Communication",
+      "post3": "Why Messaging Platforms Matter"
     },
     "chatSafely": {
-      "title": "Cách trò chuyện an toàn trực tuyến",
-      "intro": "Giao tiếp trực tuyến đã giúp việc kết nối với mọi người trên toàn thế giới trở nên dễ dàng hơn bao giờ hết. Dù bạn đang nhắn tin với bạn bè, làm quen với người mới hay hợp tác chuyên nghiệp, các nền tảng nhắn tin đều đóng vai trò quan trọng trong cuộc sống hàng ngày. Tuy nhiên, việc đảm bảo an toàn trực tuyến cũng quan trọng không kém việc duy trì kết nối.",
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
       "personalInfo": {
-        "title": " Bảo vệ thông tin cá nhân của bạn",
-        "body": "Một trong những quy tắc quan trọng nhất về an toàn trực tuyến là tránh chia sẻ thông tin cá nhân nhạy cảm. Điều này bao gồm địa chỉ nhà, thông tin tài chính, mật khẩu hoặc bất kỳ thông tin nhận dạng nào có thể bị lạm dụng. Ngay cả trong các cuộc trò chuyện bình thường, tốt nhất bạn cũng nên cẩn thận với những gì bạn chia sẻ và người bạn chia sẻ."
+        "title": "Bảo vệ thông tin cá nhân của bạn",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
       "safetyFeatures": {
         "title": "Sử dụng các tính năng an toàn tích hợp",
-        "body": "Các nền tảng nhắn tin hiện đại như Chatforia cung cấp các công cụ giúp người dùng duy trì an toàn. Các tính năng như chặn, báo cáo và kiểm soát quyền riêng tư được thiết kế để người dùng có thể kiểm soát trải nghiệm của mình. Nếu ai đó có hành vi không phù hợp hoặc khiến bạn cảm thấy không thoải mái, bạn nên sử dụng các công cụ này ngay lập tức."
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
       "scams": {
         "title": "Cảnh giác với các chiêu lừa đảo",
-        "body": "Kẻ lừa đảo thường sử dụng các nền tảng nhắn tin để dụ dỗ người dùng chia sẻ thông tin cá nhân hoặc chuyển tiền. Hãy cẩn trọng với các tin nhắn có vẻ quá tốt để là sự thật, chẳng hạn như các đề nghị bất ngờ, yêu cầu khẩn cấp hoặc các liên kết lạ. Luôn xác minh danh tính của người mà bạn đang giao tiếp trước khi thực hiện bất kỳ hành động nào."
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
       "responsibly": {
-        "title": "Giao tiếp có trách nhiệm",
-        "body": "Giao tiếp tôn trọng giúp tạo ra một môi trường an toàn hơn cho mọi người. Tránh tham gia vào các cuộc trò chuyện gây hại hoặc lạm dụng, và lưu ý cách lời nói của bạn có thể ảnh hưởng đến người khác. Các tương tác tích cực góp phần mang lại trải nghiệm tốt hơn cho tất cả người dùng."
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
       "whySafety": {
-        "title": "Tại sao an toàn trực tuyến lại quan trọng",
-        "body": "Khi giao tiếp kỹ thuật số tiếp tục phát triển, việc duy trì an toàn và niềm tin ngày càng trở nên quan trọng. Bằng cách tuân thủ các nguyên tắc an toàn cơ bản và sử dụng các công cụ sẵn có, người dùng có thể tận hưởng lợi ích của việc nhắn tin đồng thời giảm thiểu rủi ro."
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
       },
-      "conclusion": "Giữ an toàn trực tuyến không đòi hỏi kiến thức kỹ thuật cao cấp—chỉ cần nhận thức, thận trọng và phán đoán tốt. Với thói quen đúng đắn, bạn có thể giao tiếp một cách tự tin và an toàn."
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
     }
   },
   "about": {
     "title": "Giới thiệu về Chatforia",
     "description": "Chatforia là một ứng dụng nhắn tin đa ngôn ngữ an toàn với mã hóa đầu cuối, dịch thuật tức thì và gọi thoại/video. Sứ mệnh của chúng tôi rất đơn giản: giúp mọi người kết nối — một cách an toàn, riêng tư và vượt qua rào cản ngôn ngữ.",
-    "valuesTitle": "Những giá trị chúng tôi đề cao",
+    "valuesTitle": "Những giá trị chúng tôi đề cao ",
     "values": {
       "privacy": "<b>Ưu tiên quyền riêng tư:</b> Mã hóa đầu cuối (E2E) theo mặc định.",
       "access": "<b>Truy cập cho tất cả:</b> Dịch tự động hơn 100 ngôn ngữ.",
       "control": "<b>Kiểm soát:</b> Tin nhắn tự hủy và xác nhận đã đọc là tùy chọn.",
-      "privacy_ aria": "Ưu tiên quyền riêng tư: Mã hóa đầu cuối (E2E) theo mặc định.",
-      "access_aria": "Truy cập cho tất cả: Tự động dịch hơn 100 ngôn ngữ.",
+      "privacy_aria": "Ưu tiên quyền riêng tư: Mã hóa đầu cuối (E2E) theo mặc định.",
+      "access_aria": "Truy cập cho tất cả mọi người: Tự động dịch hơn 100 ngôn ngữ.",
       "control_aria": "Kiểm soát: Tin nhắn tự hủy và thông báo đã đọc là tùy chọn."
     },
     "howTitle": "Cách Chatforia hoạt động",
-    " howDescription": "Tin nhắn được mã hóa trên thiết bị của bạn trước khi được gửi đi. Chức năng dịch, sao lưu và đồng bộ hóa thiết bị được thiết kế để giảm thiểu những gì máy chủ của chúng tôi có thể xem."
+    "howDescription": "Tin nhắn được mã hóa trên thiết bị của bạn trước khi được gửi đi. Dịch thuật, sao lưu và đồng bộ hóa thiết bị được thiết kế để giảm thiểu những gì máy chủ của chúng tôi có thể xem.",
+    "privacyTitle": "Ưu tiên quyền riêng tư",
+    "privacyDesc": "Mã hóa đầu cuối và các tính năng kiểm soát quyền riêng tư được tích hợp sẵn trong Chatforia ngay từ đầu.",
+    "accessTitle": "Truy cập cho mọi người",
+    "accessDesc": "Chatforia giúp mọi người kết nối vượt qua rào cản ngôn ngữ, thiết bị và biên giới.",
+    "controlTitle": "Quyền kiểm soát của bạn",
+    "controlDesc": "Chọn cách hiển thị tin nhắn, thời điểm tin nhắn biến mất và cách bảo vệ tài khoản của bạn."
   },
   "press": {
     "title": "Báo chí",
-    "contactLine": "Đối với các câu hỏi từ giới truyền thông, vui lòng liên hệ với chúng tôi tại",
-    " boilerplateTitle": "Mô tả chung",
-    "boilerplateBody": "Chatforia là ứng dụng nhắn tin ưu tiên quyền riêng tư, giúp trò chuyện đa ngôn ngữ trở nên dễ dàng. Tin nhắn được mã hóa đầu cuối theo mặc định và tính năng dịch thuật tích hợp hỗ trợ hơn 100 ngôn ngữ theo thời gian thực. Người dùng có thể bật tính năng tin nhắn tự hủy, tùy chọn xác nhận đã đọc và đồng bộ hóa giữa các thiết bị. Có sẵn trên iOS, Android và web.",
-    "assetsTitle": " Tài nguyên thương hiệu",
+    "contactLine": "Để liên hệ với truyền thông, vui lòng liên hệ với chúng tôi tại",
+    "boilerplateTitle": "Thông tin cơ bản",
+    "boilerplateBody": "Chatforia là ứng dụng nhắn tin ưu tiên quyền riêng tư giúp trò chuyện đa ngôn ngữ trở nên dễ dàng. Tin nhắn được mã hóa đầu cuối theo mặc định, và tính năng dịch tích hợp hỗ trợ hơn 100 ngôn ngữ theo thời gian thực. Người dùng có thể bật tính năng tin nhắn tự động biến mất, tùy chọn hiển thị thông báo đã đọc và đồng bộ hóa giữa các thiết bị. Có sẵn trên iOS, Android và web.",
+    "assetsTitle": "Tài nguyên thương hiệu",
     "assetsSubtitle": "Logo, ảnh chụp màn hình và hình ảnh sản phẩm.",
     "downloadCta": "Tải xuống bộ tài liệu truyền thông",
     "downloadTitle": "Tải ứng dụng",
@@ -1783,38 +2227,39 @@
     "googlePlay": "Tải xuống trên Google Play"
   },
   "careers": {
-    "title": "Tuyển dụng",
+    "title": "Cơ hội nghề nghiệp",
     "intro": "Chúng tôi là một nhóm sáng lập nhỏ đang xây dựng Chatforia — một ứng dụng nhắn tin toàn cầu, bảo mật, sắp ra mắt trên web, iOS và Android. Nếu bạn quan tâm đến quyền riêng tư, mã hóa và trải nghiệm người dùng tuyệt vời, chúng tôi rất mong nhận được tin từ bạn.",
-    "openRoles": "<b>Các vị trí sáng lập đang tuyển dụng:</b> Kỹ sư Full-stack Trưởng nhóm, Kỹ sư Backend (Node.js), Kỹ sư Frontend/ Web (React), Kỹ sư Di động (iOS), Kỹ sư Di động (Android), DevOps/SRE, Kỹ sư Bảo mật & Mã hóa, Kỹ sư Viễn thông (Twilio + eSIM).",
+    "openRoles": "<b>Các vị trí sáng lập đang tuyển dụng:</b> Kỹ sư Full-stack chính, Kỹ sư Backend (Node.js), Kỹ sư Frontend/Web (React), Kỹ sư Di động (iOS), Kỹ sư Di động (Android), DevOps/SRE, Kỹ sư Bảo mật & Mã hóa, Kỹ sư Viễn thông (Twilio + eSIM).",
     "apply": "Cách ứng tuyển: Sử dụng nút bên dưới để gửi CV và các liên kết của bạn qua email.",
     "emailCta": "Gửi CV qua email",
-    "whyNow": "Tại sao nên gia nhập ngay?",
-    "whyBullets": "• Giúp xây dựng nền tảng cho một ứng dụng nhắn tin toàn cầu mới.\n• Triển khai các cải tiến trên web, iOS và Android.\n• Làm việc trực tiếp với người sáng lập về kiến trúc và định hướng sản phẩm.\n• Chịu trách nhiệm các lĩnh vực quan trọng của hệ thống: nhắn tin, thoại, video, mã hóa, viễn thông, AI.\n• Tham gia từ giai đoạn đầu — trước khi cơ sở người dùng mở rộng."
+    "whyNow": "Tại sao nên gia nhập ngay bây giờ?",
+    "whyBullets": "• Giúp xây dựng nền tảng cho một ứng dụng nhắn tin toàn cầu mới.\n• Triển khai các cải tiến được áp dụng trên web, iOS và Android.\n• Làm việc trực tiếp với người sáng lập về kiến trúc và định hướng sản phẩm.\n• Chịu trách nhiệm về các lĩnh vực có tác động lớn trong hệ thống: nhắn tin, thoại, video, mã hóa, viễn thông, AI.\\ n• Tham gia từ giai đoạn đầu — trước khi cơ sở người dùng mở rộng.",
+    "futureRoles": "Các vị trí trong tương lai"
   },
-  "quảng cáo": {
+  "advertise": {
     "title": "Quảng cáo với Chatforia",
-    "description": "Tiếp cận người dùng nhắn tin tích cực với các vị trí quảng cáo tinh tế và an toàn cho thương hiệu. Chúng tôi cung cấp không gian quảng cáo banner tại các vị trí nổi bật, chương trình tài trợ và khuyến mãi nội bộ. Người dùng gói Premium không nhìn thấy quảng cáo.",
+    "description": "Tiếp cận người dùng nhắn tin tích cực thông qua các vị trí quảng cáo tinh tế và an toàn cho thương hiệu. Chúng tôi cung cấp không gian quảng cáo banner tại các vị trí nổi bật, chương trình tài trợ, và các chương trình khuyến mãi nội bộ. Người dùng đăng ký gói Premium không nhìn thấy quảng cáo.",
     "adsense": {
-      "withPubIdShort": "Chúng tôi cũng phân phối không gian quảng cáo qua Google AdSense. Bạn có thể nhắm mục tiêu Chatforia bằng ID nhà xuất bản {{pub Id}}, hoặc sử dụng biểu mẫu bên dưới để tài trợ trực tiếp.",
-      "noPubIdShort": "Chúng tôi cũng phân phối một số vị trí quảng cáo qua Google AdSense. Dịch vụ tài trợ trực tiếp có sẵn — hãy sử dụng biểu mẫu bên dưới."
+      "withPubIdShort": "Chúng tôi cũng phân phối không gian quảng cáo qua Google AdSense. Bạn có thể nhắm mục tiêu Chatforia bằng ID nhà xuất bản {{pubId}}, hoặc sử dụng biểu mẫu bên dưới để tài trợ trực tiếp.",
+      "noPubIdShort": "Chúng tôi cũng phân phối một số không gian quảng cáo qua Google AdSense. Tài trợ trực tiếp có sẵn — hãy sử dụng biểu mẫu bên dưới."
     },
-    "inventoryHeader": "Vị trí quảng cáo & Thông số kỹ thuật",
+    "inventoryHeader": "Kho quảng cáo & Thông số kỹ thuật",
     "placement": {
-      " displayBadge": "Hiển thị",
+      "displayBadge": "Hiển thị",
       "acceptedSizes": "Kích thước được chấp nhận",
       "adsenseSlot": "Vị trí AdSense:"
     },
-    "noPlacementsPublic": "Chúng tôi đang hoàn thiện kho quảng cáo. Hãy cho chúng tôi biết về chiến dịch của bạn và chúng tôi sẽ đề xuất các vị trí quảng cáo.",
+    "noPlacementsPublic": " Chúng tôi đang hoàn thiện kho quảng cáo. Hãy cho chúng tôi biết về chiến dịch của bạn và chúng tôi sẽ đề xuất các vị trí quảng cáo.",
     "whyHeader": "Tại sao chọn Chatforia?",
     "why": {
-      "highSession": "Tần suất phiên cao và thời gian lưu lại trong giao diện trò chuyện",
+      "highSession": "Tần suất phiên cao và thời gian lưu lại lâu trong giao diện trò chuyện",
       "brandSafe": "Các định dạng an toàn cho thương hiệu; giới hạn tần suất hợp lý",
-      "sponsoredMoments": "Các khoảnh khắc được tài trợ (ví dụ: cửa sổ bật lên “Bắt đầu trò chuyện”) có sẵn",
-      "deals": "Giao dịch trực tiếp hoặc qua AdSense/Google Ads"
+      "sponsoredMoments": "Các khoảnh khắc được tài trợ (ví dụ: cửa sổ bật lên “Bắt đầu trò chuyện”)”",
+      "deals": "Giao dịch trực tiếp hoặc tự động qua AdSense/Google Ads"
     },
     "contactHeader": "Liên hệ",
     "form": {
-      "submittedMsg": "Cảm ơn! Yêu cầu của bạn đang được xử lý. Chúng tôi sẽ liên hệ lại sớm.",
+      "submittedMsg": "Cảm ơn! Yêu cầu của bạn đang được xử lý. Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất.",
       "missingRequired": "Vui lòng điền tên, email và nội dung tin nhắn.",
       "successToast": "Cảm ơn! Chúng tôi sẽ liên hệ lại sớm.",
       "mailtoInfo": "Đang mở ứng dụng email của bạn để gửi yêu cầu…",
@@ -1823,15 +2268,15 @@
       "emailLabel": "Email",
       "emailPlaceholder": "you@company.com",
       "companyLabel": "Công ty",
-      " companyPlaceholder": "Acme Inc.",
+      "companyPlaceholder": "Acme Inc.",
       "budgetLabel": "Ngân sách hàng tháng (tùy chọn)",
       "budgetPlaceholder": "ví dụ: $1.000–$20.000+",
       "messageLabel": "Hãy cho chúng tôi biết về chiến dịch của bạn",
-      "messagePlaceholder": "Đối tượng mục tiêu, ngày tháng, KPI, ưu tiên vị trí…",
+      "messagePlaceholder": "Đối tượng mục tiêu, ngày tháng, chỉ số KPI, sở thích vị trí quảng cáo…",
       "sendCta": "Gửi yêu cầu"
     },
     "legal": {
-      "disclaimerStart": "Bằng việc gửi, bạn đồng ý với",
+      "disclaimerStart": "Bằng cách gửi, bạn đồng ý với",
       "terms": "Điều khoản",
       "and": "và",
       "privacy": "Chính sách bảo mật"
@@ -1844,51 +2289,51 @@
     "form": {
       "nameLabel": "Tên",
       "emailLabel": "Email",
-      "messageLabel": "Thông điệp",
+      "messageLabel": "Tin nhắn",
       "sendCta": "Gửi"
     }
   },
   "privacyPolicy": {
-    "title": "Chính sách Bảo mật",
+    "title": "Chính sách bảo mật",
     "lastUpdated": "Cập nhật lần cuối:",
     "intro": {
-      "body": "Chính sách Bảo mật này giải thích cách Chatforia (“chúng tôi”) thu thập, sử dụng và chia sẻ thông tin khi bạn sử dụng các ứng dụng và dịch vụ của chúng tôi. Chúng tôi thiết kế Chatforia để giảm thiểu dữ liệu mà chúng tôi có thể truy cập."
+      "body": "Chính sách bảo mật này giải thích cách Chatforia (“chúng tôi”) thu thập, sử dụng và chia sẻ thông tin khi bạn sử dụng các ứng dụng và dịch vụ của chúng tôi. Chúng tôi thiết kế Chatforia để giảm thiểu dữ liệu mà chúng tôi có thể truy cập."
     },
     "infoWeCollect": {
       "title": "Thông tin chúng tôi thu thập",
       "account": "Thông tin tài khoản (ví dụ: email/số điện thoại) để tạo và bảo mật tài khoản của bạn.",
       "encrypted": "Nội dung được mã hóa (tin nhắn/cuộc gọi) được mã hóa đầu cuối; chúng tôi không thể đọc được.",
-      "diagnostics": "Dữ liệu chẩn đoán/sử dụng như nhật ký sự cố, loại thiết bị, hoặc phân tích tổng quát để cải thiện hiệu suất."
+      "diagnostics": "Thông tin chẩn đoán/sử dụng như nhật ký sự cố, loại thiết bị hoặc phân tích tổng quát để cải thiện hiệu suất."
     },
     "sms": {
       "title": "Số điện thoại di động và tin nhắn SMS",
-      "body": "Nếu bạn chọn cung cấp số điện thoại di động, chúng tôi sẽ sử dụng nó để kích hoạt các tính năng như xác minh tài khoản, thông báo đăng nhập và nhắn tin giữa người dùng qua SMS ở những nơi được hỗ trợ. Chúng tôi có thể gửi tin nhắn SMS giao dịch liên quan đến tài khoản và hoạt động của bạn trên Chatforia. Bạn có thể từ chối nhận tin nhắn SMS bất cứ lúc nào bất cứ lúc nào bằng cách trả lời với từ khóa hủy đăng ký được hỗ trợ (chẳng hạn như “STOP”) hoặc bằng cách thay đổi tùy chọn thông báo của bạn trong ứng dụng. Chúng tôi không bán số điện thoại của bạn hoặc sử dụng nó cho các hoạt động tiếp thị không liên quan.",
+      "body": "Nếu bạn chọn cung cấp số điện thoại di động, chúng tôi sẽ sử dụng nó để kích hoạt các tính năng như xác minh tài khoản, thông báo đăng nhập và nhắn tin giữa người dùng qua SMS ở những nơi được hỗ trợ. Chúng tôi có thể gửi tin nhắn SMS giao dịch liên quan đến tài khoản và hoạt động của bạn trên Chatforia. Bạn có thể từ chối nhận tin nhắn SMS bất cứ lúc nào bằng cách trả lời với từ khóa từ chối được hỗ trợ (chẳng hạn như “STOP”) hoặc bằng cách thay đổi tùy chọn thông báo trong ứng dụng. Chúng tôi không bán số điện thoại của bạn hoặc sử dụng nó cho mục đích tiếp thị không liên quan.",
       "newText": "Văn bản mới",
       "enterRecipient": "Nhập tên hoặc số điện thoại",
       "typeMessage": "Nhập tin nhắn…",
       "addRecipient": "Thêm người nhận ở trên để bắt đầu…"
     },
     "howWeUse": {
-      "title": "Cách chúng tôi sử dụng thông tin ",
+      "title": "Cách chúng tôi sử dụng thông tin",
       "provide": "Cung cấp và bảo mật dịch vụ (xác thực, phát hiện spam/lạm dụng).",
       "improve": "Cải thiện tính năng (chất lượng dịch, độ tin cậy).",
       "legal": "Tuân thủ các nghĩa vụ pháp lý."
     },
     "sharing": {
       "title": "Chia sẻ",
-      "body": "Chúng tôi không bán dữ liệu cá nhân. Chúng tôi có thể chia sẻ dữ liệu hạn chế với các bên xử lý (ví dụ: thông báo đẩy, phân tích) theo các hợp đồng nghiêm ngặt."
+      "body": "Chúng tôi không bán dữ liệu cá nhân. Chúng tôi có thể chia sẻ dữ liệu hạn chế với các đơn vị xử lý (ví dụ: thông báo đẩy, phân tích) theo các hợp đồng nghiêm ngặt."
     },
     "rights": {
       "title": "Quyền của bạn",
-      "body": "Tùy thuộc vào khu vực của bạn (ví dụ: GDPR/UK GDPR/CPRA), bạn có thể yêu cầu truy cập, chỉnh sửa, xóa hoặc từ chối một số hoạt động xử lý. Liên hệ: privacy@chatforia.com."
+      "body": "Tùy thuộc vào khu vực của bạn (ví dụ: GDPR/UK GDPR/CPRA), bạn có thể yêu cầu truy cập, chỉnh sửa, xóa hoặc từ chối một số hoạt động xử lý nhất định. Liên hệ: privacy@chatforia.com."
     },
-    "retention ": {
+    "retention": {
       "title": "Lưu trữ dữ liệu & bảo mật",
-      "body": "Chúng tôi chỉ lưu trữ những gì cần thiết để vận hành dịch vụ và áp dụng các tiêu chuẩn bảo mật của ngành. Nội dung E2E không thể được chúng tôi giải mã."
+      "body": "Chúng tôi chỉ lưu trữ những gì cần thiết để vận hành dịch vụ và áp dụng các biện pháp bảo mật tiêu chuẩn ngành. Nội dung E2E không thể được chúng tôi giải mã. "
     },
     "children": {
       "title": "Trẻ em",
-      "body": "Chatforia không dành cho trẻ em dưới 13 tuổi (hoặc theo quy định của luật pháp địa phương của bạn)."
+      "body": " Chatforia không dành cho trẻ em dưới 13 tuổi (hoặc theo quy định của luật pháp địa phương của bạn)."
     },
     "changes": {
       "title": "Thay đổi",
@@ -1896,28 +2341,28 @@
     },
     "contact": {
       "title": "Liên hệ",
-      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, Hoa Kỳ"
     }
   },
   "terms": {
     "title": "Điều khoản dịch vụ",
     "lastUpdated": "Cập nhật lần cuối:",
     "intro": {
-      " body": "Bằng cách sử dụng Chatforia, bạn đồng ý với các Điều khoản này. Nếu bạn không đồng ý, vui lòng không sử dụng dịch vụ."
+      "body": "Bằng cách sử dụng Chatforia, bạn đồng ý với các Điều khoản này. Nếu bạn không đồng ý, vui lòng không sử dụng dịch vụ."
     },
     "accounts": {
       "title": "Tài khoản",
-      "itemAccurateInfo": " Cung cấp thông tin chính xác và bảo mật thông tin đăng nhập.",
+      "itemAccurateInfo": "Cung cấp thông tin chính xác và bảo mật thông tin đăng nhập.",
       "itemResponsibility": "Bạn chịu trách nhiệm về các hoạt động trên tài khoản của mình."
     },
     "acceptableUse": {
       "title": "Sử dụng được chấp nhận",
-      "itemNoAbuse": "Không được đăng nội dung bất hợp pháp, lạm dụng hoặc vi phạm; không được gửi spam hoặc lạm dụng tự động.",
+      "itemNoAbuse": "Không được đăng nội dung bất hợp pháp, lạm dụng hoặc vi phạm; không spam hoặc lạm dụng tự động.",
       "itemSuspend": "Chúng tôi có thể tạm ngưng/chấm dứt tài khoản do vi phạm."
     },
     "sms": {
-      "title": "Thông tin liên lạc qua SMS",
-      "body": "Nếu bạn cung cấp số điện thoại di động, bạn đồng ý rằng Chatforia có thể gửi cho bạn các tin nhắn SMS liên quan đến tài khoản và việc sử dụng dịch vụ của bạn, chẳng hạn như cảnh báo đăng nhập, thông báo bảo mật và tin nhắn liên quan đến các cuộc trò chuyện mà bạn khởi tạo hoặc tham gia. Chúng tôi không sử dụng SMS cho các tin nhắn quảng cáo hoặc tiếp thị mà không có sự đồng ý rõ ràng của bạn. Các mức phí tin nhắn và dữ liệu tiêu chuẩn có thể áp dụng. Bạn có thể từ chối nhận tin nhắn SMS bất cứ lúc nào bằng cách trả lời với từ khóa hủy đăng ký được hỗ trợ (ví dụ: “STOP”) hoặc bằng cách cập nhật cài đặt thông báo trong ứng dụng."
+      "title": "Thông báo qua SMS",
+      "body": "Nếu bạn cung cấp số điện thoại di động, bạn đồng ý rằng Chatforia có thể gửi cho bạn tin nhắn SMS liên quan đến tài khoản và việc sử dụng dịch vụ của bạn, chẳng hạn như cảnh báo đăng nhập, thông báo bảo mật và tin nhắn liên quan đến các cuộc trò chuyện mà bạn khởi tạo hoặc tham gia. Chúng tôi không sử dụng SMS cho các tin nhắn quảng cáo hoặc tiếp thị mà không có sự đồng ý rõ ràng của bạn. Các mức phí tin nhắn và dữ liệu tiêu chuẩn có thể áp dụng. Bạn có thể từ chối nhận tin nhắn SMS bất cứ lúc nào bằng cách trả lời với từ khóa từ chối được hỗ trợ (ví dụ: “STOP”) hoặc bằng cách cập nhật cài đặt thông báo trong ứng dụng."
     },
     "yourContent": {
       "title": "Nội dung của bạn",
@@ -1929,7 +2374,7 @@
     },
     "changes": {
       "title": "Thay đổi",
-      " body": "Chúng tôi có thể cập nhật các điều khoản này; việc tiếp tục sử dụng sau khi có thay đổi đồng nghĩa với việc chấp nhận."
+      "body": "Chúng tôi có thể cập nhật các điều khoản này; việc tiếp tục sử dụng sau khi có thay đổi đồng nghĩa với việc chấp nhận."
     },
     "contact": {
       "title": "Liên hệ",
@@ -1942,48 +2387,45 @@
     "intro": "Tại Chatforia, chúng tôi nỗ lực cung cấp dịch vụ chất lượng cao cho tất cả người dùng. Chính sách hoàn tiền này nêu rõ các trường hợp có thể được hoàn tiền.",
     "subscriptions": {
       "title": "Đăng ký",
-      "body": "Các gói đăng ký được tính phí trước theo chu kỳ định kỳ. Bạn có thể hủy đăng ký bất cứ lúc nào thông qua cài đặt tài khoản hoặc nền tảng được sử dụng để mua."
+      "body": "Gói đăng ký được tính phí trước theo chu kỳ định kỳ. Bạn có thể hủy bất cứ lúc nào thông qua cài đặt tài khoản hoặc nền tảng được sử dụng để mua."
     },
     "eligibility": {
       "title": "Điều kiện hoàn tiền",
-      "body": "Hoàn tiền có thể được chấp nhận trong trường hợp tính phí trùng lặp, lỗi thanh toán hoặc các vấn đề kỹ thuật ngăn cản việc truy cập các tính năng trả phí. Tất cả các yêu cầu sẽ được xem xét từng trường hợp cụ thể."
+      "body": "Hoàn tiền có thể được chấp nhận trong trường hợp tính phí trùng lặp, lỗi thanh toán hoặc sự cố kỹ thuật ngăn cản việc truy cập các tính năng trả phí. Tất cả các yêu cầu sẽ được xem xét từng trường hợp cụ thể."
     },
     "nonRefundable": {
       "title": "Không hoàn tiền",
       "body": "Chúng tôi thường không hoàn tiền cho thời gian chưa sử dụng, các giai đoạn đăng ký một phần hoặc việc không hủy đăng ký trước khi gia hạn."
     },
-    "thirdParty ": {
+    "thirdParty": {
       "title": "Giao dịch qua bên thứ ba",
-      "body": "Nếu mua qua các nền tảng bên thứ ba như Apple App Store, yêu cầu hoàn tiền phải được thực hiện trực tiếp qua các nền tảng đó."
+      "body": "Nếu mua qua các như Apple App Store, việc yêu cầu hoàn tiền phải được thực hiện trực tiếp qua các nền tảng đó."
     },
     "contact": {
       "title": "Liên hệ",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
     }
   },
   "doNotSell": {
     "title": "Không bán hoặc chia sẻ thông tin cá nhân của tôi",
-    "body": "Chatforia không bán thông tin cá nhân. Người dân California vẫn có thể gửi yêu cầu theo CPRA bằng cách nhấp vào nút bên dưới.",
+    "body": "Chatforia không bán thông tin cá nhân. Cư dân California vẫn có thể gửi yêu cầu theo CPRA bằng cách sử dụng nút bên dưới.",
     "cta": "Gửi yêu cầu"
   },
   "cookies": {
     "title": "Cài đặt cookie",
     "body": "Chatforia sử dụng tối thiểu cookie (ví dụ: phiên làm việc, bảo mật). Chúng tôi không sử dụng cookie quảng cáo của bên thứ ba. Quản lý cookie qua cài đặt trình duyệt của bạn."
   },
-  "premiumGuard": {
-    "requiresPremium": "Tính năng này yêu cầu gói Premium."
-  },
   "smsPolicy": {
     "title": "Chatforia — Chính sách SMS & Đăng ký",
     "lastUpdated": "Cập nhật lần cuối:",
     "whatWeSend": {
       "title": "Những gì chúng tôi gửi",
-      "body": "Chatforia chỉ gửi tin nhắn SMS liên quan đến tài khoản và cuộc trò chuyện đến các số điện thoại mà người dùng đã cung cấp và đồng ý rõ ràng. Các tin nhắn điển hình bao gồm mã đăng nhập/xác minh, thông báo gửi tin nhắn, thông báo bảo mật và cập nhật giao dịch tài khoản."
+      "body": "Chatforia chỉ gửi SMS liên quan đến tài khoản và cuộc trò chuyện đến các số điện thoại mà người dùng đã cung cấp và đồng ý rõ ràng. Các tin nhắn điển hình bao gồm mã đăng nhập/xác minh, thông báo gửi tin nhắn, thông báo bảo mật và cập nhật giao dịch tài khoản."
     },
     "optIn": {
-      "title": "Cách người dùng đăng ký",
-      "body": "Người dùng đăng ký bằng cách nhập số điện thoại của họ trong quá trình đăng ký và đánh dấu vào ô đồng ý nhận tin nhắn SMS trên trang đăng ký hoặc trên",
-      "link": "biểu mẫu đăng ký"
+      "title": "Cách người dùng đồng ý",
+      "body": "Người dùng đồng ý bằng cách nhập số điện thoại của họ trong quá trình đăng ký và đánh dấu vào hộp kiểm đồng ý nhận SMS trên trang đăng ký hoặc tại",
+      "link": "biểu mẫu đăng ký nhận tin"
     },
     "optOut": {
       "title": "Cách người dùng hủy đăng ký",
@@ -1998,10 +2440,17 @@
     "privacyTerms": {
       "title": "Quyền riêng tư & Điều khoản",
       "bodyStart": "Bằng việc đồng ý nhận tin nhắn SMS, người dùng cũng đồng ý với",
-      "terms": "Điều khoản Dịch vụ",
+      "terms": "Điều khoản dịch vụ",
       "and": "và",
-      "privacy": "Chính sách bảo mật"
+      "privacy": "Chính sách Bảo mật"
     },
     "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "Tin nhắn mới",
+    "thread": "Chuỗi tin nhắn",
+    "enterRecipient": " Nhập tên hoặc số",
+    "typeMessage": "Nhập tin nhắn…",
+    "addRecipient": "Thêm người nhận ở trên để bắt đầu…"
   }
 }

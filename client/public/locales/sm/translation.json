@@ -7,10 +7,24 @@
     "cancelAria": "Fa'afiti",
     "copy": "Kopi",
     "copied": "Kopi!",
-    "errorWithMessage": "Sese: {{message}}"
+    "errorWithMessage": "Sese: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Alu i le mataupu autu"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Fa'asaoina le ki ma fa'ala'uina ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "Filifili se faila ma tu'u le upu fa'ailoa.",
     "imported": "Ua fa'aulu le ki fa'alilolilo i lenei masini. E mafai ona e faitauina fe'au tuai.",
     "enterPassword": "Tu'u lau upu fa'ailoa o le teuga ina ia mafai ona matou fa'asaoina au ki ma le saogalemu."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Fe'au saogalemu mo so'o se tasi, i so'o se mea",
@@ -88,7 +198,19 @@
       "passwordDescription": "Maualalo 6 mataitusi. Fa'aaoga se upu fa'ailoa malosi ma le tulaga ese.",
       "smsConsent": "I le faia o se teuga, e te malie e maua ni fa'asalalauga SMS e fa'atatau i lau galuega Chatforia (e pei o fe'au mai isi tagata fa'aoga). O le fe'au ma le tau o le data e ono fa'aoga. E mafai ona e fa'ate'aina i so'o se taimi i le Seti.",
       "termsLink": "Tulafono o le Au'aunaga",
-      "privacyLink": "Faiga Fa'alilo"
+      "privacyLink": "Faiga Fa'alilo",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "I:",
     "enterRecipient": "Tu'u se igoa po'o se numera",
@@ -99,11 +221,95 @@
     "addRecipient": "Fa'aopoopo se tagata e tali i luga e amata…",
     "oneRecipient": "Fa'amolemole tu'u se tagata e tasi mo le taimi nei.",
     "enterValidRecipient": "Tu'u se igoa fa'afeso'ota'i po'o se numera telefoni.",
-    "sendFailed": "Le mafai ona auina. Siaki le console mo fa'amatalaga."
+    "sendFailed": "Le mafai ona auina. Siaki le console mo fa'amatalaga.",
+    "logIn": "Saini",
+    "seePlans": "Va'ai i fuafuaga ma tau",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "I le faia o se teuga, e te malie e maua ni fa'asalalauga SMS e fa'atatau i lau galuega Chatforia (e pei o fe'au mai isi tagata fa'aoga). O le fe'au ma le tau o le data e ono fa'aoga. E mafai ona e fa'ate'aina i so'o se taimi i le Seti.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Aiga",
-    "header": "Au fe'au",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "Auina atu se fe'au e amata ai se talanoaga.",
     "sendButton": "Auina fe'au",
     "gifPicker": "Tatala le piki GIF",
@@ -114,226 +320,31 @@
     "sendTooltip": "Auina",
     "sendTooltipEmpty": "Tusi se fe'au e auina",
     "send": "Auina",
+    "welcomeMessage": "Malo mai i Chatforia",
+    "getStarted": "Amata",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "Ulufale se igoa poʻo se numera",
     "addRecipient": "Faʻaopoopo se tagata e mauaina i luga e amata ai…",
-    "welcomeMessage": "Malo mai i Chatforia",
-    "getStarted": "Amata"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Faiga Faʻafoʻi Tupe",
-    "lastUpdated": "Fa'afouga mulimuli:",
-    "intro": "I le Chatforia, matou te taumafai e tuʻuina atu se auaunaga maualuga mo tagata uma. O lenei faiga faʻafoʻi tupe e faʻamatalaina ai tulaga e mafai ai ona toe faʻafoʻi tupe.",
-    "subscriptions": {
-      "title": "Totogi Fa'aauau (Subscriptions)",
-      "body": "Totogi fa'aauau e totogi muamua ma fa'afou pea i taimi uma. E mafai ona e fa'aleaogaina i soo se taimi i totonu o au settings po'o le platform na e fa'aaogaina e fai ai le totogi."
-    },
-    "eligibility": {
-      "title": "Agavaa mo le Faʻafoʻi Tupe",
-      "body": "E mafai ona toe faʻafoʻi tupe pe a iai ni totogi fa'alua, mea sese i pili, po'o fa'afitauli fa'atekinolosi e taofia ai le avanoa i vaega totogi. O talosaga uma e iloilo ta'ito'atasi."
-    },
-    "nonRefundable": {
-      "title": "E Le Toe Faʻafoʻi",
-      "body": "E masani ona matou le toe faʻafoʻi tupe mo taimi e le'i fa'aogaina, vaega o le totogi ua mae'a, po'o le le fa'aleaogaina a'o le'i toe fa'afou."
-    },
-    "thirdParty": {
-      "title": "Fa'atauga mai Isi Platform",
-      "body": "Afai na fa'atau mai i isi platform e pei o le Apple App Store, e tatau ona e talosaga sa'o atu i lena platform mo le toe faʻafoʻi."
-    },
-    "contact": {
-      "title": "Fa'afeso'ota'i",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "E Uiga i le Chatforia",
-    "description": "Chatforia o se platform fe'au fou ua fuafuaina mo feso'ota'iga saogalemu ma gagana eseese...",
-    "valuesTitle": "O Mea Taua ia i Matou",
-    "privacyTitle": "Fa'amuamua le Puipuiga",
-    "privacyDesc": "Encryption malosi ma settings e pulea e le tagata fa'aoga",
-    "accessTitle": "Avanoa mo Tagata Uma",
-    "accessDesc": "Fa'aliliuga i gagana eseese",
-    "controlTitle": "Pulea",
-    "controlDesc": "Vaega e pei o fe'au e mou atu ma read receipts"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Aiseā e Tāua Ai Platforms Fe'au i Aso Nei",
-      "intro": "Ua avea platforms fe'au ma se tasi o meafaigaluega tāua mo feso'ota'iga i le lalolagi i aso nei...",
-      "everydayTitle": "Feso'ota'iga i Aso Ta'itasi",
-      "everydayDesc": "E fa'alagolago tagata i apps fe'au mo aso uma...",
-      "speedTitle": "Vave ma Faigofie",
-      "speedDesc": "E taunuu fe'au vave...",
-      "globalTitle": "Aapa i le Lalolagi",
-      "globalDesc": "E feso'ota'i tagata i le lalolagi atoa...",
-      "privacyTitle": "Puipuiga ma Pulea",
-      "privacyDesc": "Platforms fou e tuʻuina atu le pule i tagata...",
-      "futureTitle": "Le Lumana'i o Fe'au",
-      "futureDesc": "O lo'o fa'aauau pea ona suia fe'au...",
-      "outro": "Chatforia ua fausia i nei manatu..."
-    },
-
-    "global": {
-      "title": "Le Lumana'i o Feso'ota'iga i le Lalolagi",
-      "intro": "Ua vave suia feso'ota'iga...",
-      "barriersTitle": "Ave'esea o Pa puipui",
-      "barriersDesc": "Ua mafai nei e tagata ona feso'ota'i i le lalolagi atoa...",
-      "translationTitle": "Le Matafaioi o le Fa'aliliuga",
-      "translationDesc": "O le gagana sa avea ma pa puipui...",
-      "realtimeTitle": "Feso'ota'iga Taimi Moni",
-      "realtimeDesc": "E tāua tele le vave...",
-      "privacyTitle": "Puipuiga ma Saogalemu",
-      "privacyDesc": "E mana'o tagata e mautinoa le saogalemu o a latou fe'au...",
-      "futureTitle": "O Mea o le a Sosoo",
-      "futureDesc": "O le lumana'i o feso'ota'iga o le a aofia ai vaega fou...",
-      "outro": "Platforms e pei o Chatforia o lo'o aofia ai i lenei suiga..."
-    },
-
-    "index": {
-      "title": "Blog a Chatforia",
-      "intro": "Saili manatu e uiga i feso'ota'iga...",
-      "post1": "Auala e Feso'ota'i Saogalemu i luga o le Initaneti",
-      "post2": "Le Lumana'i o Feso'ota'iga i le Lalolagi",
-      "post3": "Aiseā e Tāua Ai Platforms Fe'au"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Auala e Galue ai Chatforia",
-    "intro": "Ua fuafuaina Chatforia ina ia faigofie ai feso'ota'iga...",
-    "step1Title": "1. Fausia se Account",
-    "step1Desc": "Lesitala i lau imeli po'o username...",
-    "step2Title": "2. Amata se Talanoaga",
-    "step2Desc": "Feso'ota'i ma isi...",
-    "step3Title": "3. Fe'au Taimi Moni",
-    "step3Desc": "E taunuu fe'au vave...",
-    "step4Title": "4. Feso'ota'iga i le Lalolagi",
-    "step4Desc": "Fa'aliliuga i totonu e fesoasoani...",
-    "step5Title": "5. Tumau i le Pulea",
-    "step5Desc": "Pulea au settings..."
-  },
-
-  "safety": {
-    "title": "Saogalemu & Tulafono a le Komiuniti",
-    "intro": "Ua tuuto Chatforia i le fausia o se siosiomaga saogalemu...",
-    "respectTitle": "Feso'ota'iga Fa'aaloalo",
-    "respectDesc": "E tatau i tagata ona fa'aaloalo le tasi i le isi...",
-    "prohibitedTitle": "Mea e Le Fa'atagaina",
-    "prohibited": {
-      "illegal": "Gaoioiga e le tusa ma le tulafono",
-      "harassment": "Sauaga po'o le taufa'amata'u",
-      "hate": "Upu inoino po'o le fa'ailoga tagata",
-      "explicit": "Mea mataga po'o mea leaga",
-      "spam": "Spam po'o amioga taufaasese"
-    },
-    "toolsTitle": "Meafaigaluega Saogalemu",
-    "tools": {
-      "report": "Lipoti amioga le talafeagai",
-      "block": "Poloka tagata",
-      "control": "Pulea settings o le puipuiga"
-    },
-    "enforcementTitle": "Fa'amalosiga",
-    "enforcementDesc": "E mafai ona matou faia ni gaioiga i accounts..."
-},
-  "chat": {
-    "selectPrompt": "Filifili se fe'au po'o se potu talanoaga e amata ai le talanoa",
-    "newMessages": "Fe'au fou",
-    "typing": "{{name}} o lo'o tusi…",
-    "emptyTitle": "Au fe'au",
-    "emptySubtitle": "Auina atu se fe'au e amata ai se talanoaga.",
-    "startChatButton": "Auina fe'au",
-    "mediaAttachment": "Faila fa'asalalau",
-    "thisUser": "lenei tagata fa'aoga",
-    "blockConfirm": "Fa'ate'aina {{name}}? E le toe maua fe'au mai ia te ia.",
-    "blockedUser": "Ua fa'ate'aina {{name}}.",
-    "blockError": "E le mafai ona iloa se tagata e fa'ate'aina.",
-    "blockFailed": "Le mafai ona fa'ate'aina (e le'i fa'apipi'i le backend).",
-    "encryptedUnavailable": "Fe'au fa'ailoa (leai se ki)",
-    "unlockToView": "Tatala lau ki e va'ai i lenei fe'au"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Tapuni"
-    },
-    "freeLimit": "Tapula'a o le fuafuaga e leai se totogi: fa'amuta otometi i le 1 aso. Fa'apipi'i i le 1d.",
-    "premiumLimit": "Maualuga fa'amuta otometi mo le Premium o le 30 aso. Fa'apipi'i i le 30d.",
-    "nothingToSend": "Tusi se fe'au po'o fa'apipi'i se faila e auina.",
-    "encryptionFailed": "Le mafai ona fa'ailoa. E le'i auina le fe'au.",
-    "sent": "Ua tu'uina le fe'au.",
-    "placeholder": "Tusi se fe'au…",
-    "voiceAdded": "Ua faaopoopo le leo",
-    "attachmentAdded": "Ua faaopoopo le faila",
-    "autoDelete": "Fa'amuta otometi",
-    "typeToSend": "Tusi se fe'au e auina",
-    "send": "Auina",
-    "sendWithEnter": "Auina (Enter)",
-    "attachment": "fa'apipi'i",
-    "caption": "Fa'amatalaga (fa'aopoopo)",
-    "remove": "Aveese",
-    "clear": "Fa'amama",
-    "gif": "GIF",
-    "sticker": "Sitika",
-    "errors": {
-      "attachmentTooLarge": "Fa'apipi'i e tele tele. Taumafai se faila la'ititi.",
-      "unsupportedFile": "Ituaiga faila e le lagolagoina.",
-      "rateLimit": "O lo'o e auina fe'au vave tele. Fa'amolemole fa'agesegese.",
-      "validation": "Sese o le fa'amaonia. Fa'amolemole siaki lau fe'au ma toe taumafai.",
-      "failedToSend": "Le mafai ona auina. E mafai ona toe taumafai le pusa ua le aoga."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Fa'afeso'ota'i fa'asaoina",
-    "refreshAria": "Fa'afou fa'afeso'ota'i",
-    "filterPlaceholder": "Fa'amama fa'afeso'ota'i fa'asaoina…",
-    "filterAria": "Fa'amama fa'afeso'ota'i fa'asaoina",
-    "noContactsFound": "Leai ni fa'afeso'ota'i na maua.",
-    "externalContact": "Fa'afeso'ota'i fafo",
-    "notJoined": "O lena fa'afeso'ota'i e le'i auai i Chatforia.",
-    "couldNotStart": "Le mafai ona amata talanoaga. Fa'amolemole toe taumafai.",
-    "startFailed": "Le mafai ona amata talanoaga. Fa'amolemole toe taumafai.",
-    "deleted": "Ua tape le fa'afeso'ota'i.",
-    "deleteFailed": "Le mafai ona tape le fa'afeso'ota'i. Fa'amolemole toe taumafai.",
-    "aliasUpdated": "Ua fa'afou le igoa fa'aopoopo.",
-    "updateAliasFailed": "Le mafai ona fa'afou le igoa fa'aopoopo. Fa'amolemole toe taumafai.",
-    "selectContact": "Filifili {{name}}",
-    "alias": "Igoa fa'aopoopo",
-    "startChat": "Amata talanoaga",
-    "message": "Fe'au",
-    "delete": "Tape",
-    "deleteContactAria": "Tape fa'afeso'ota'i",
-    "loadFailed": "Le mafai ona uta fa'afeso'ota'i. Fa'amolemole toe taumafai.",
-    "loadMore": "Uta atili",
-    "call": "Vala'au",
-    "callStarted": "O lo'o vala'au i lenei numera e ala i lau numera Chatforia…",
-    "callFailed": "Le mafai ona amata vala'au. Fa'amolemole toe taumafai."
-  },
-  "startChatModal": {
-    "title": "Amata se talanoaga",
-    "searchPlaceholder": "Saili igoa, igoa fa'aaoga, po'o numera telefoni",
-    "messageThisPerson": "Fe'au i lenei tagata",
-    "contacts": "Fa'afeso'ota'i",
-    "recentInteractions": "Fegalegaleaiga talu ai nei",
-    "noContactsMatch": "Leai ni fa'afeso'ota'i e tutusa ma lau saili.",
-    "noRecentInteractions": "Leai ni fegalegaleaiga talu ai nei.",
-    "unknown": "Le iloa",
-    "interactionType": {
-      "message": "Fe'au",
-      "call": "Vala'au",
-      "video": "Vitio"
-    }
-  },
-  "addContactModal": {
-    "title": "Fa'aopoopo fa'afeso'ota'i",
-    "phoneOrUsername": "Numera telefoni po'o igoa fa'aaoga",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 po'o juliannorton",
-    "alias": "Igoa fa'aopoopo (fa'aopoopo)",
-    "aliasPlaceholder": "e.g. Galuega, Tina, Mike – Europa",
-    "enterPhoneOrUsername": "Tu'u se numera telefoni po'o igoa fa'aaoga.",
-    "userLookupFailed": "Le mafai ona su'e le tagata fa'aoga.",
-    "cannotAddSelf": "E le mafai ona fa'aopoopo oe lava ia oe.",
-    "failedToAdd": "Le mafai ona fa'aopoopo fa'afeso'ota'i.",
-    "add": "Fa'aopoopo"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Talanoaga Fa'afuase'i",
@@ -357,13 +368,151 @@
     "startChatAlt": "Amata se talanoaga fou",
     "calls": "Vala'au",
     "video": "Vitio",
-    "voicemail": "Fe'au leo"
+    "voicemail": "Fe'au leo",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Tulaga Fou",
     "logout": "Saini Ese",
     "help": "Fesoasoani",
     "createStatusAria": "Fai se tulaga fou"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Filifili se fe'au po'o se potu talanoaga e amata ai le talanoa",
+    "newMessages": "Fe'au fou",
+    "typing": "{{name}} o lo'o tusi…",
+    "emptyTitle": "Au fe'au",
+    "emptySubtitle": "Auina atu se fe'au e amata ai se talanoaga.",
+    "startChatButton": "Auina fe'au",
+    "mediaAttachment": "Faila fa'asalalau",
+    "thisUser": "lenei tagata fa'aoga",
+    "blockConfirm": "Fa'ate'aina {{name}}? E le toe maua fe'au mai ia te ia.",
+    "blockedUser": "Ua fa'ate'aina {{name}}.",
+    "blockError": "E le mafai ona iloa se tagata e fa'ate'aina.",
+    "blockFailed": "Le mafai ona fa'ate'aina (e le'i fa'apipi'i le backend).",
+    "encryptedUnavailable": "Fe'au fa'ailoa (leai se ki)",
+    "unlockToView": "Tatala lau ki e va'ai i lenei fe'au",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Tapuni"
+    },
+    "freeLimit": "Tapula'a o le fuafuaga e leai se totogi: fa'amuta otometi i le 1 aso. Fa'apipi'i i le 1d.",
+    "premiumLimit": "Maualuga fa'amuta otometi mo le Premium o le 30 aso. Fa'apipi'i i le 30d.",
+    "nothingToSend": "Tusi se fe'au po'o fa'apipi'i se faila e auina.",
+    "encryptionFailed": "Le mafai ona fa'ailoa. E le'i auina le fe'au.",
+    "sent": "Ua tu'uina le fe'au.",
+    "placeholder": "Tusi se fe'au…",
+    "autoDelete": "Fa'amuta otometi",
+    "typeToSend": "Tusi se fe'au e auina",
+    "send": "Auina",
+    "sendWithEnter": "Auina (Enter)",
+    "attachment": "fa'apipi'i",
+    "caption": "Fa'amatalaga (fa'aopoopo)",
+    "remove": "Aveese",
+    "clear": "Fa'amama",
+    "gif": "GIF",
+    "sticker": "Sitika",
+    "errors": {
+      "attachmentTooLarge": "Fa'apipi'i e tele tele. Taumafai se faila la'ititi.",
+      "unsupportedFile": "Ituaiga faila e le lagolagoina.",
+      "rateLimit": "O lo'o e auina fe'au vave tele. Fa'amolemole fa'agesegese.",
+      "validation": "Sese o le fa'amaonia. Fa'amolemole siaki lau fe'au ma toe taumafai.",
+      "failedToSend": "Le mafai ona auina. E mafai ona toe taumafai le pusa ua le aoga.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Ua faaopoopo le leo"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Menu o le filo",
@@ -379,8 +528,6 @@
     "invitePeople": "Vala'au tagata",
     "roomSettings": "Seti o le potu",
     "clearConversation": "Fa'amama talanoaga",
-    "clearConversationForMe": "Fa'amama mo a'u",
-    "clearConversationForEveryone": "Fa'amama mo tagata uma",
     "block": "Poloka"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "Na'o fa'ailoga (/tr …)",
       "all": "Fe'au uma"
     },
-    "updated": "Ua fa'afou seti"
+    "updated": "Ua fa'afou seti",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Mea fa'asoa",
@@ -477,6 +635,110 @@
     "markRead": "Fa'ailoga ua faitau",
     "delete": "Tape",
     "unreadDotAria": "Fa'ailoga fe'au leo e le'i faitau"
+  },
+  "contactList": {
+    "savedContacts": "Fa'afeso'ota'i fa'asaoina",
+    "refreshAria": "Fa'afou fa'afeso'ota'i",
+    "filterPlaceholder": "Fa'amama fa'afeso'ota'i fa'asaoina…",
+    "filterAria": "Fa'amama fa'afeso'ota'i fa'asaoina",
+    "noContactsFound": "Leai ni fa'afeso'ota'i na maua.",
+    "externalContact": "Fa'afeso'ota'i fafo",
+    "notJoined": "O lena fa'afeso'ota'i e le'i auai i Chatforia.",
+    "couldNotStart": "Le mafai ona amata talanoaga. Fa'amolemole toe taumafai.",
+    "startFailed": "Le mafai ona amata talanoaga. Fa'amolemole toe taumafai.",
+    "deleted": "Ua tape le fa'afeso'ota'i.",
+    "deleteFailed": "Le mafai ona tape le fa'afeso'ota'i. Fa'amolemole toe taumafai.",
+    "aliasUpdated": "Ua fa'afou le igoa fa'aopoopo.",
+    "updateAliasFailed": "Le mafai ona fa'afou le igoa fa'aopoopo. Fa'amolemole toe taumafai.",
+    "selectContact": "Filifili {{name}}",
+    "alias": "Igoa fa'aopoopo",
+    "startChat": "Amata talanoaga",
+    "message": "Fe'au",
+    "delete": "Tape",
+    "deleteContactAria": "Tape fa'afeso'ota'i",
+    "loadFailed": "Le mafai ona uta fa'afeso'ota'i. Fa'amolemole toe taumafai.",
+    "loadMore": "Uta atili",
+    "call": "Vala'au",
+    "callStarted": "O lo'o vala'au i lenei numera e ala i lau numera Chatforia…",
+    "callFailed": "Le mafai ona amata vala'au. Fa'amolemole toe taumafai.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Fa'aopoopo fa'afeso'ota'i",
+    "phoneOrUsername": "Numera telefoni po'o igoa fa'aaoga",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 po'o juliannorton",
+    "alias": "Igoa fa'aopoopo (fa'aopoopo)",
+    "aliasPlaceholder": "e.g. Galuega, Tina, Mike – Europa",
+    "enterPhoneOrUsername": "Tu'u se numera telefoni po'o igoa fa'aaoga.",
+    "userLookupFailed": "Le mafai ona su'e le tagata fa'aoga.",
+    "cannotAddSelf": "E le mafai ona fa'aopoopo oe lava ia oe.",
+    "failedToAdd": "Le mafai ona fa'aopoopo fa'afeso'ota'i.",
+    "add": "Fa'aopoopo"
+  },
+  "startChatModal": {
+    "title": "Amata se talanoaga",
+    "searchPlaceholder": "Saili igoa, igoa fa'aaoga, po'o numera telefoni",
+    "messageThisPerson": "Fe'au i lenei tagata",
+    "contacts": "Fa'afeso'ota'i",
+    "recentInteractions": "Fegalegaleaiga talu ai nei",
+    "noContactsMatch": "Leai ni fa'afeso'ota'i e tutusa ma lau saili.",
+    "noRecentInteractions": "Leai ni fegalegaleaiga talu ai nei.",
+    "unknown": "Le iloa",
+    "interactionType": {
+      "message": "Fe'au",
+      "call": "Vala'au",
+      "video": "Vitio"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "Tulaga o le Tagata Fa'aoga",
@@ -614,13 +876,167 @@
     "voicemailNote": "O fe'au leo mai au numera Chatforia e sevia i lau pusa fe'au leo. E mafai ona fa'aaoga fa'aliliu ma fa'asalalau i fuafuaga e lagolagoina.",
     "portHint": "E te fia taofi lau numera? E mafai ona e fa'aulu i Chatforia Wireless.",
     "wireless": {
-      "manage": "Pulea uaealesi"
+      "manage": "Pulea uaealesi",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Tulaga o le Tagata Fa'aoga",
       "desc": "Maua data telefoni mo Chatforia pe a e mamao mai le Wi-Fi.",
-      "cta": "Maua eSIM / Fa'aali QR"
-    }
+      "cta": "Maua eSIM / Fa'aali QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -672,7 +1088,685 @@
     "expiresIn": "E muta i {{days}} aso",
     "exhausted": "Ua uma lau data. Fa'atau se pusa fou e fa'aauau ai le data telefoni.",
     "buyPack": "Fa'atau pusa data",
-    "esimPackLabel": "Pusa eSIM"
+    "esimPackLabel": "Pusa eSIM",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "O lo'o uta…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Alu i Premium",
+    "description": "Tatala meafaigaluega malosi ma aveese fa'asalalauga.",
+    "cta": "Fa'aleleia",
+    "upgrade": "Fa'aleleia",
+    "upgradeAria": "Fa'aleleia i Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "Fa'aleleia",
+    "titleLoggedIn": "Fa'aleleia",
+    "titlePublic": "Tau",
+    "h1": "Tau & Fuafuaga Chatforia",
+    "h1Subtitle": "Amata i la matou fuafuaga e leai se totogi ma fa'asalalauga. Alu e leai se fa'asalalauga ma Plus, pe tatala meafaigaluega malosi uma ma Premium.",
+    "subtitle": "Filifili se fuafuaga app, fa'aopoopo pusa data mo oe, pe fa'asoa data ma lau aiga — uma mai se nofoaga e tasi.",
+    "subtitle.app": "Amata i la matou fuafuaga e leai se totogi ma fa'asalalauga. Alu e leai se fa'asalalauga ma Plus, pe tatala meafaigaluega malosi uma ma Premium.",
+    "subtitle.mobile": "Fa'aopoopo data eSIM fa'alelalolagi ina ia fa'aauau Chatforia pe a e mamao mai le Wi-Fi.",
+    "subtitle.family": "Fai se pusa data fa'asoa mo lau aiga ma pulea fa'aaoga o tagata uma mai se nofoaga e tasi.",
+    "perMonth": "masina",
+    "perYear": "tausaga",
+    "goPremium": "Alu i Premium",
+    "benefitsLine": "Tatala meafaigaluega malosi ma aveese fa'asalalauga.",
+    "ctaText": "Fa'aleleia",
+    "aria": "Fa'aleleia i Chatforia Premium",
+    "toggle": {
+      "monthly": "Masina",
+      "annual": "Tausaga (Fa'asao 30%)"
+    },
+    "scheduleBanner": {
+      "title": "E muta le lesitala",
+      "body": "E toe foi i le Fuafuaga e leai se totogi i le",
+      "keepPlanCta": "Taofi {{plan}}",
+      "manageBillingCta": "Pulea pili"
+    },
+    "billing": {
+      "opening": "O lo'o tatala…",
+      "manage": "Pulea Pili"
+    },
+    "checkout": {
+      "redirecting": "O lo'o fa'asu'e…"
+    },
+    "auth": {
+      "continue": "Fa'aauau i le saini",
+      "createAccount": "Fai se teuga",
+      "signIn": "Saini"
+    },
+    "cta": {
+      "aria": "Filifili fuafuaga",
+      "getPlus": "Fa'aleleia i Plus",
+      "upgradeMonthly": "Fa'aleleia Masina",
+      "upgradeAnnual": "Fa'aleleia Tausaga",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "Fuafuaga app",
+      "mobile": "Telefoni (eSIM)",
+      "family": "Fuafuaga aiga"
+    },
+    "plans": {
+      "free": {
+        "title": "Leai se totogi",
+        "price": "$0",
+        "desc": "Amata fe'au e leai se totogi. Lelei pe afai o lo'o e taumafai Chatforia.",
+        "features": {
+          "chat": "Talanoaga 1:1 ma le vaega i le taimi tonu, fa'atasi ai ma vala'au leo ma vitio",
+          "media": "Fa'asoa ata, fe'au leo, ma vitio pupu'u",
+          "ai": "Tali atamai AI ma fa'aliliu vave (fa'aaoga talafeagai)",
+          "disappearing": "Fe'au e mou ma seti fa'alilo fa'avae",
+          "ads": "Leai se totogi mo taimi uma ma fa'asalalauga i le app"
+        },
+        "ctaCurrent": "Fuafuaga o lo'o i ai",
+        "ctaManage": "Pulea i pili",
+        "ctaPublic": "Amata — fa'aauau i le saini",
+        "aria": "Fuafuaga e leai se totogi"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Mea uma e mana'omia, e aunoa ma fa'asalalauga. Lelei mo fe'au ma vala'au i aso uma.",
+        "features": {
+          "allFree": "Mea uma i le Fuafuaga e leai se totogi, e aunoa ma fa'asalalauga",
+          "forwarding": "Fa'asalalau vala'au ma fe'au i lau numera telefoni moni",
+          "history": "Tala fe'au umi (e o'o i le 6 masina)",
+          "support": "Fesoasoani vave pe a tupu se sese"
+        },
+        "badge": "La'u tele",
+        "cta": "Alu e leai se Fa'asalalauga",
+        "ctaPublic": "Maua Plus — fa'aauau i le saini",
+        "aria": "Fa'aleleia i Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Masina)",
+        "price": "$11.99",
+        "desc": "O le aafiaga atoa o Chatforia: meafaigaluega AI, fa'apitoa, ma fesoasoani muamua.",
+        "features": {
+          "plusAll": "Mea uma i Plus",
+          "themes": "Tatala ata lanu premium uma ma fa'apitoa app",
+          "ai": "Meafaigaluega AI e na'o Premium mo toe tusitusi, tali atamai, ma aotelega",
+          "support": "Fesoasoani muamua pe a e mana'omia tele",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Fa'atonu",
+        "cta": "Fa'aleleia (Masina)",
+        "ctaPublic": "Tatala Premium — fa'aauau i le saini",
+        "aria": "Fa'aleleia i Premium Masina"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Tausaga)",
+        "price": "$99",
+        "desc": "Fa'asao atili pe a pili tausaga — fa'atasi ai ma isi ata lanu, meafaigaluega AI, ma fesoasoani muamua.",
+        "features": {
+          "allPremium": "Mea uma i Premium Masina — fa'atasi ai ma isi ata lanu",
+          "annualBilling": "Pili tasi i le tausaga",
+          "save25": "Fa'asao pe tusa ma le 30% pe a fa'atusatusa i le pili masina",
+          "bestFor": "Sili mo tagata fa'aoga malosi, tagata galulue mamao, ma tagata femalagaa'i mamafa",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Fa'asao 30%",
+        "cta": "Fa'aleleia (Tausaga)",
+        "ctaPublic": "Fa'asao 30% ma tausaga — fa'aauau i le saini",
+        "aria": "Fa'aleleia i Premium Tausaga",
+        "disclaimer": "Pili muamua. Fa'ate'aina i so'o se taimi. Leai ni pili natia."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Leai se totogi",
+      "freeDesc": "Amata fe'au e leai se totogi.",
+      "plusTitle": "Plus",
+      "plusBadge": "La'u tele",
+      "plusDesc": "Sili ona taugofie e leai se fa'asalalauga.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Meafaigaluega atoatoa, leo, ma meafaigaluega AI.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Fa'asao atili pe a pili tausaga.",
+      "annualDisclaimer": "Pili muamua. Fa'ate'aina i so'o se taimi. Leai ni pili natia."
+    },
+    "mobile": {
+      "title": "Chatforia Telefoni (pusa data eSIM)",
+      "subtitle": "Fa'aopoopo data fa'alelalolagi e fa'aauau Chatforia e aunoa ma le Wi-Fi. O tau e fetuutuunai otometi e fa'avae i lau atunu'u ma tupe.",
+      "subtitle.detail": "Filifili se pusa data fa'alelalolagi tasi e fa'aauau Chatforia pe a e femalagaa'i pe mamao mai le Wi-Fi.",
+      "scope": {
+        "local": "Lokal",
+        "europe": "Europa",
+        "global": "Fa'alelalolagi",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "Lokal = {{country}}",
+      "localEqualsFallback": "Lokal = lau atunu'u o lo'o i ai",
+      "perPack": "/ pusa",
+      "cta": "Maua lenei pusa data",
+      "ctaPublic": "Maua lenei pusa data",
+      "checkout": {
+        "redirecting": "O lo'o fa'asu'e…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Data vave mo fa'aaoga mamafa",
+          "throttle": "E mafai ona fa'agesegese pe a mae'a fa'aaoga tele",
+          "coverage": "Fa'asoa fa'atuatuaina",
+          "instant": "Fa'aaoga vave eSIM",
+          "noContract": "Pusa tasi, leai se konekarate"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "O pusa data eSIM e mana'omia se masini e lagolagoina eSIM ma le tatala. O le avanoa e fa'avae i le fa'ata'ita'iga telefoni, kamupani, ma le atunu'u. O le fa'asoa ma le vave e fa'avae i le itulagi.",
+        "fairUse": "Fa'avae i le fa'aaoga talafeagai ma tapula'a lokal"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "Fa'atusatusa pusa data eSIM",
+        "col": {
+          "pack": "Pusa",
+          "data": "Data fa'aaofia",
+          "bestFor": "Sili mo"
+        },
+        "disclaimer": "O le fa'aaoga data moni e fa'avae i pe fa'apefea ona e fa'aaoga Chatforia (leo, vitio, mea, ma isi app i lau telefoni)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Sili tau i le GB"
+      },
+      "feature": {
+        "instant": "Fa'aaoga vave eSIM",
+        "coverage": "Fa'asoa fa'atuatuaina",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Lokal",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Europa",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Fa'alelalolagi",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Pusa amata",
+        "data": "3 GB",
+        "bestFor": "Mala, fe'au mama, ma vala'au fa'ata'ita'i"
+      },
+      "medium": {
+        "title": "Pusa femalagaa'i",
+        "data": "5 GB",
+        "bestFor": "Mala fa'ata'ita'i, vala'au VoIP masani, ma fa'afanua"
+      },
+      "large": {
+        "title": "Pusa malosi",
+        "data": "10 GB",
+        "bestFor": "Talanoaga mamafa, vala'au, vitio, ma fa'aaoga hotspot"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Aiga Chatforia (data fa'asoa)",
+      "subtitle": "Fa'asoa se pusa data tasi i lau aiga. Pili tasi, teuga Chatforia e tele, fa'asoa fa'alelalolagi.",
+      "perPack": "/ pusa",
+      "small": {
+        "title": "Aiga La'ititi",
+        "desc": "Fa'aaofia le 20 GB data vave fa'asoa — lelei mo le 2–3 tagata fa'aoga mama.",
+        "price": "$29.99",
+        "aria": "Fa'atau pusa Aiga La'ititi"
+      },
+      "medium": {
+        "title": "Aiga Tele",
+        "desc": "Fa'aaofia le 40 GB data vave fa'asoa — lelei mo le 3–5 sui galue malosi.",
+        "price": "$49.99",
+        "aria": "Fa'atau pusa Aiga Tele"
+      },
+      "large": {
+        "title": "Aiga Tele",
+        "desc": "Fa'aaofia le 80 GB data vave fa'asoa — mo aiga malosi e tumau i luga.",
+        "price": "$84.99",
+        "aria": "Fa'atau pusa Aiga Tele"
+      },
+      "feature": {
+        "shared": "Pusa data fa'asoa mo lau aiga",
+        "members": "Vala'au e o'o i le 4 sui fa'aopoopo",
+        "membersMore": "Lelei mo le 3–5 sui galue malosi",
+        "manage": "Pulea tapula'a mo sui ta'itasi",
+        "topUp": "Fa'aopoopo pusa i so'o se taimi",
+        "bestValue": "Sili tau i le GB",
+        "fairUse": "Fa'avae i le fa'aaoga talafeagai ma tapula'a lokal"
+      },
+      "disclaimer": "O pusa aiga e fai pe fa'aopoopo se pusa data fa'asoa. E mafai ona e vala'au ma aveese sui i so'o se taimi.",
+      "footnote": "O pusa aiga e fa'asoa se pusa data tasi i teuga Chatforia fa'apipi'i. O le avanoa ma tapula'a e fa'avae i lau atunu'u ma tulafono lokal."
+    },
+    "why": {
+      "title": "Aisea e sui ai tagata i Chatforia",
+      "subtitle": "Chatforia e tu'uina atu se numera telefoni moni, fa'aliliu atamai, ma se ala manino e alu e leai se fa'asalalauga pe a e sauni.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Fa'asalalauga mama i le Fuafuaga e leai se totogi, se fa'aleleia Plus faigofie pe a e sauni, ma meafaigaluega Premium e le ofoina e TextNow."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App fa'aonaponei, fa'ata'ita'iga fa'alelalolagi muamua, ma fa'aliliu fa'apipi'i nai lo le fa'asalalau vala'au tuai."
+        },
+        "messengers": {
+          "title": "Chatforia vs app talanoaga",
+          "body": "Fe'au i numera telefoni moni — e le o isi tagata fa'aoga app — fa'atasi ai ma AI ma tulaga fa'apipi'i. Lelei pe afai o lo'o e sau mai app e pei o TextFree po'o TextMe."
+        }
+      },
+      "tableTitle": "Fa'atusatusaga Chatforia",
+      "col": {
+        "feature": "Meafaigaluega",
+        "chatforia": "E o'o i le 12+ masina",
+        "textnow": "Fa'avae i le teuga",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "Numera telefoni e leai se totogi",
+        "translation": "Fa'aliliu otometi fa'apipi'i",
+        "aiTools": "Meafaigaluega AI (toe tusitusi, tali, aotelega)",
+        "ads": "Filifiliga e leai se fa'asalalauga",
+        "history": "Tala fe'au"
+      },
+      "yes": "Ioe",
+      "no": "Leai",
+      "yesPremium": "Ioe (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Tapula'a",
+      "nA": "Leai",
+      "history": {
+        "chatforia": "E o'o i le 12+ masina",
+        "textnow": "Fa'avae i le teuga",
+        "voice": "Tapula'a / fa'avae i le teuga"
+      },
+      "disclaimer": "Fa'atusatusaga fa'avae i fa'amatalaga lautele ma e mafai ona suia i le taimi. O isi app fe'au e leai se totogi e pei o TextFree po'o TextMe e masani lava e tutusa ma TextNow."
+    },
+    "faq": {
+      "title": "Fesuia'iga & fuafuaga FAQ",
+      "free": {
+        "q": "E moni e leai se totogi le fuafuaga e leai se totogi?",
+        "a": "Ioe. O le fuafuaga e leai se totogi e aofia ai se numera Chatforia, vala'au, ma fe'au fa'atasi ai ma fa'asalalauga. E mafai ona e tumau i le Fuafuaga e leai se totogi pe a e mana'o, pe fa'aleleia e aveese fa'asalalauga ma tatala isi meafaigaluega."
+      },
+      "plusPremium": {
+        "q": "O le a le esesega i le va o Plus ma Premium?",
+        "a": "Plus e aveese fa'asalalauga ma fa'alautele lau tala fe'au — sili mo fa'aaoga i aso uma. Premium e fa'aopoopo fa'apitoa, meafaigaluega AI mo toe tusitusi ma tali, ma fesoasoani muamua mo tagata fa'aoga mamafa."
+      },
+      "esim": {
+        "q": "O fea e galue ai pusa data eSIM?",
+        "a": "O Chatforia Telefoni e fa'aaoga fa'asoa eSIM fa'alelalolagi. O le avanoa e fa'avae i lau atunu'u ma masini. E te va'ai filifiliga e lagolagoina pe a fa'aaoga i totonu o le app."
+      },
+      "cancel": {
+        "q": "E mafai ona ou fa'ate'aina pe sui fuafuaga i so'o se taimi?",
+        "a": "Ioe. E mafai ona e pulea pe fa'ate'aina lau lesitala mai le itulau pili i le app. O suiga e aoga i le fa'ai'uga o lou vaitaimi pili o lo'o i ai."
+      },
+      "family": {
+        "q": "O le a le auala e galue ai pusa aiga?",
+        "a": "O pusa aiga e fai se pusa data fa'asoa i teuga Chatforia e tele. O se tasi e totogi le pili, ma e mafai ona e vala'au pe aveese sui ma fa'atulaga tapula'a mo tagata ta'itasi."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "Aiga",
@@ -745,685 +1839,618 @@
       "error": "Le mafai ona fa'aopoopo oe i lenei aiga. O le vala'au e le talafeagai pe ua muta."
     }
   },
-  "premium": {
-    "heading": "Alu i Premium",
-    "description": "Tatala meafaigaluega malosi ma aveese fa'asalalauga.",
-    "cta": "Fa'aleleia",
-    "upgrade": "Fa'aleleia",
-    "upgradeAria": "Fa'aleleia i Chatforia Premium"
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "Fa'aleleia",
-    "titleLoggedIn": "Fa'aleleia",
-    "titlePublic": "Tau",
-    "h1": "Tau & Fuafuaga Chatforia",
-    "h1Subtitle": "Amata i la matou fuafuaga e leai se totogi ma fa'asalalauga. Alu e leai se fa'asalalauga ma Plus, pe tatala meafaigaluega malosi uma ma Premium.",
-    "subtitle": "Filifili se fuafuaga app, fa'aopoopo pusa data mo oe, pe fa'asoa data ma lau aiga — uma mai se nofoaga e tasi.",
-    "subtitle.app": "Amata i la matou fuafuaga e leai se totogi ma fa'asalalauga. Alu e leai se fa'asalalauga ma Plus, pe tatala meafaigaluega malosi uma ma Premium.",
-    "subtitle.mobile": "Fa'aopoopo data eSIM fa'alelalolagi ina ia fa'aauau Chatforia pe a e mamao mai le Wi-Fi.",
-    "subtitle.family": "Fai se pusa data fa'asoa mo lau aiga ma pulea fa'aaoga o tagata uma mai se nofoaga e tasi.",
-    "perMonth": "masina",
-    "perYear": "tausaga",
-    "goPremium": "Alu i Premium",
-    "benefitsLine": "Tatala meafaigaluega malosi ma aveese fa'asalalauga.",
-    "ctaText": "Fa'aleleia",
-    "aria": "Fa'aleleia i Chatforia Premium",
-    "toggle": {
-      "monthly": "Masina",
-      "annual": "Tausaga (Fa'asao 30%)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "E muta le lesitala",
-      "body": "E toe foi i le Fuafuaga e leai se totogi i le",
-      "keepPlanCta": "Taofi {{plan}}",
-      "manageBillingCta": "Pulea pili"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "O lo'o tatala…",
-      "manage": "Pulea Pili"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
     },
-    "checkout": {
-      "redirecting": "O lo'o fa'asu'e…"
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
     },
-    "auth": {
-      "continue": "Fa'aauau i le saini",
-      "createAccount": "Fai se teuga",
-      "signIn": "Saini"
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
     "cta": {
-      "aria": "Filifili fuafuaga",
-      "getPlus": "Fa'aleleia i Plus",
-      "upgradeMonthly": "Fa'aleleia Masina",
-      "upgradeAnnual": "Fa'aleleia Tausaga"
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Auala e Galue ai Chatforia",
+    "intro": "Ua fuafuaina Chatforia ina ia faigofie ai feso'ota'iga...",
+    "step1Title": "1. Fausia se Account",
+    "step1Desc": "Lesitala i lau imeli po'o username...",
+    "step2Title": "2. Amata se Talanoaga",
+    "step2Desc": "Feso'ota'i ma isi...",
+    "step3Title": "3. Fe'au Taimi Moni",
+    "step3Desc": "E taunuu fe'au vave...",
+    "step4Title": "4. Feso'ota'iga i le Lalolagi",
+    "step4Desc": "Fa'aliliuga i totonu e fesoasoani...",
+    "step5Title": "5. Tumau i le Pulea",
+    "step5Desc": "Pulea au settings..."
+  },
+  "safety": {
+    "title": "Saogalemu & Tulafono a le Komiuniti",
+    "intro": "Ua tuuto Chatforia i le fausia o se siosiomaga saogalemu...",
+    "respectTitle": "Feso'ota'iga Fa'aaloalo",
+    "respectDesc": "E tatau i tagata ona fa'aaloalo le tasi i le isi...",
+    "prohibitedTitle": "Mea e Le Fa'atagaina",
+    "prohibited": {
+      "illegal": "Gaoioiga e le tusa ma le tulafono",
+      "harassment": "Sauaga po'o le taufa'amata'u",
+      "hate": "Upu inoino po'o le fa'ailoga tagata",
+      "explicit": "Mea mataga po'o mea leaga",
+      "spam": "Spam po'o amioga taufaasese"
     },
-    "section": {
-      "app": "Fuafuaga app",
-      "mobile": "Telefoni (eSIM)",
-      "family": "Fuafuaga aiga"
+    "toolsTitle": "Meafaigaluega Saogalemu",
+    "tools": {
+      "report": "Lipoti amioga le talafeagai",
+      "block": "Poloka tagata",
+      "control": "Pulea settings o le puipuiga"
     },
-    "plans": {
-      "free": {
-        "title": "Leai se totogi",
-        "price": "$0",
-        "desc": "Amata fe'au e leai se totogi. Lelei pe afai o lo'o e taumafai Chatforia.",
-        "features": {
-          "chat": "Talanoaga 1:1 ma le vaega i le taimi tonu, fa'atasi ai ma vala'au leo ma vitio",
-          "media": "Fa'asoa ata, fe'au leo, ma vitio pupu'u",
-          "ai": "Tali atamai AI ma fa'aliliu vave (fa'aaoga talafeagai)",
-          "disappearing": "Fe'au e mou ma seti fa'alilo fa'avae",
-          "ads": "Leai se totogi mo taimi uma ma fa'asalalauga i le app"
-        },
-        "ctaCurrent": "Fuafuaga o lo'o i ai",
-        "ctaManage": "Pulea i pili",
-        "ctaPublic": "Amata — fa'aauau i le saini",
-        "aria": "Fuafuaga e leai se totogi"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Mea uma e mana'omia, e aunoa ma fa'asalalauga. Lelei mo fe'au ma vala'au i aso uma.",
-        "features": {
-          "allFree": "Mea uma i le Fuafuaga e leai se totogi, e aunoa ma fa'asalalauga",
-          "forwarding": "Fa'asalalau vala'au ma fe'au i lau numera telefoni moni",
-          "history": "Tala fe'au umi (e o'o i le 6 masina)",
-          "support": "Fesoasoani vave pe a tupu se sese"
-        },
-        "badge": "La'u tele",
-        "cta": "Alu e leai se Fa'asalalauga",
-        "ctaPublic": "Maua Plus — fa'aauau i le saini",
-        "aria": "Fa'aleleia i Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Masina)",
-        "price": "$11.99",
-        "desc": "O le aafiaga atoa o Chatforia: meafaigaluega AI, fa'apitoa, ma fesoasoani muamua.",
-        "features": {
-          "plusAll": "Mea uma i Plus",
-          "themes": "Tatala ata lanu premium uma ma fa'apitoa app",
-          "ai": "Meafaigaluega AI e na'o Premium mo toe tusitusi, tali atamai, ma aotelega",
-          "support": "Fesoasoani muamua pe a e mana'omia tele"
-        },
-        "badge": "Fa'atonu",
-        "cta": "Fa'aleleia (Masina)",
-        "ctaPublic": "Tatala Premium — fa'aauau i le saini",
-        "aria": "Fa'aleleia i Premium Masina"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Tausaga)",
-        "price": "$99",
-        "desc": "Fa'asao atili pe a pili tausaga — fa'atasi ai ma isi ata lanu, meafaigaluega AI, ma fesoasoani muamua.",
-        "features": {
-          "allPremium": "Mea uma i Premium Masina — fa'atasi ai ma isi ata lanu",
-          "annualBilling": "Pili tasi i le tausaga",
-          "save25": "Fa'asao pe tusa ma le 30% pe a fa'atusatusa i le pili masina",
-          "bestFor": "Sili mo tagata fa'aoga malosi, tagata galulue mamao, ma tagata femalagaa'i mamafa"
-        },
-        "badge": "Fa'asao 30%",
-        "cta": "Fa'aleleia (Tausaga)",
-        "ctaPublic": "Fa'asao 30% ma tausaga — fa'aauau i le saini",
-        "aria": "Fa'aleleia i Premium Tausaga",
-        "disclaimer": "Pili muamua. Fa'ate'aina i so'o se taimi. Leai ni pili natia."
-      }
+    "enforcementTitle": "Fa'amalosiga",
+    "enforcementDesc": "E mafai ona matou faia ni gaioiga i accounts..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Aiseā e Tāua Ai Platforms Fe'au i Aso Nei",
+      "intro": "Ua avea platforms fe'au ma se tasi o meafaigaluega tāua mo feso'ota'iga i le lalolagi i aso nei...",
+      "everydayTitle": "Feso'ota'iga i Aso Ta'itasi",
+      "everydayDesc": "E fa'alagolago tagata i apps fe'au mo aso uma...",
+      "speedTitle": "Vave ma Faigofie",
+      "speedDesc": "E taunuu fe'au vave...",
+      "globalTitle": "Aapa i le Lalolagi",
+      "globalDesc": "E feso'ota'i tagata i le lalolagi atoa...",
+      "privacyTitle": "Puipuiga ma Pulea",
+      "privacyDesc": "Platforms fou e tuʻuina atu le pule i tagata...",
+      "futureTitle": "Le Lumana'i o Fe'au",
+      "futureDesc": "O lo'o fa'aauau pea ona suia fe'au...",
+      "outro": "Chatforia ua fausia i nei manatu..."
     },
-    "marketing": {
-      "freeTitle": "Leai se totogi",
-      "freeDesc": "Amata fe'au e leai se totogi.",
-      "plusTitle": "Plus",
-      "plusBadge": "La'u tele",
-      "plusDesc": "Sili ona taugofie e leai se fa'asalalauga.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Meafaigaluega atoatoa, leo, ma meafaigaluega AI.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Fa'asao atili pe a pili tausaga.",
-      "annualDisclaimer": "Pili muamua. Fa'ate'aina i so'o se taimi. Leai ni pili natia."
+    "global": {
+      "title": "Le Lumana'i o Feso'ota'iga i le Lalolagi",
+      "intro": "Ua vave suia feso'ota'iga...",
+      "barriersTitle": "Ave'esea o Pa puipui",
+      "barriersDesc": "Ua mafai nei e tagata ona feso'ota'i i le lalolagi atoa...",
+      "translationTitle": "Le Matafaioi o le Fa'aliliuga",
+      "translationDesc": "O le gagana sa avea ma pa puipui...",
+      "realtimeTitle": "Feso'ota'iga Taimi Moni",
+      "realtimeDesc": "E tāua tele le vave...",
+      "privacyTitle": "Puipuiga ma Saogalemu",
+      "privacyDesc": "E mana'o tagata e mautinoa le saogalemu o a latou fe'au...",
+      "futureTitle": "O Mea o le a Sosoo",
+      "futureDesc": "O le lumana'i o feso'ota'iga o le a aofia ai vaega fou...",
+      "outro": "Platforms e pei o Chatforia o lo'o aofia ai i lenei suiga..."
     },
-    "mobile": {
-      "title": "Chatforia Telefoni (pusa data eSIM)",
-      "subtitle": "Fa'aopoopo data fa'alelalolagi e fa'aauau Chatforia e aunoa ma le Wi-Fi. O tau e fetuutuunai otometi e fa'avae i lau atunu'u ma tupe.",
-      "subtitle.detail": "Filifili se pusa data fa'alelalolagi tasi e fa'aauau Chatforia pe a e femalagaa'i pe mamao mai le Wi-Fi.",
-      "scope": {
-        "local": "Lokal",
-        "europe": "Europa",
-        "global": "Fa'alelalolagi"
-      },
-      "note": "Matou te le fa'atau pusa data i lalo o le 3 GB.",
-      "localEquals": "Lokal = {{country}}",
-      "localEqualsFallback": "Lokal = lau atunu'u o lo'o i ai",
-      "perPack": "/ pusa",
-      "cta": "Maua lenei pusa data",
-      "ctaPublic": "Maua lenei pusa data",
-      "checkout": {
-        "redirecting": "O lo'o fa'asu'e…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Data vave mo fa'aaoga mamafa",
-          "throttle": "E mafai ona fa'agesegese pe a mae'a fa'aaoga tele",
-          "coverage": "Fa'asoa fa'atuatuaina",
-          "instant": "Fa'aaoga vave eSIM",
-          "noContract": "Pusa tasi, leai se konekarate"
-        }
-      },
-      "disclaimer": {
-        "devices": "O pusa data eSIM e mana'omia se masini e lagolagoina eSIM ma le tatala. O le avanoa e fa'avae i le fa'ata'ita'iga telefoni, kamupani, ma le atunu'u. O le fa'asoa ma le vave e fa'avae i le itulagi."
-      },
-      "small": {
-        "title": "Pusa amata",
-        "desc": "Fa'aaofia le 3 GB data vave — lelei mo fe'au mama ma vala'au fa'ata'ita'i.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Mala, fe'au mama, ma vala'au fa'ata'ita'i",
-        "aria": "Fa'atau pusa data eSIM Amata"
-      },
-      "medium": {
-        "title": "Pusa femalagaa'i",
-        "desc": "Fa'aaofia le 5 GB data vave mo mala, femalagaa'i, ma vala'au VoIP masani.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Mala fa'ata'ita'i, vala'au VoIP masani, ma fa'afanua",
-        "aria": "Fa'atau pusa data eSIM Femalagaa'i"
-      },
-      "large": {
-        "title": "Pusa malosi",
-        "desc": "Fa'aaofia le 10 GB data vave mo talanoaga mamafa, vala'au, ma vitio i le feso'ota'iga Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Talanoaga mamafa, vala'au, vitio, ma fa'aaoga hotspot",
-        "aria": "Fa'atau pusa data eSIM Tagata fa'aoga malosi"
-      },
-      "compare": {
-        "title": "Fa'atusatusa pusa data eSIM",
-        "col": {
-          "pack": "Pusa",
-          "data": "Data fa'aaofia",
-          "bestFor": "Sili mo"
-        },
-        "disclaimer": "O le fa'aaoga data moni e fa'avae i pe fa'apefea ona e fa'aaoga Chatforia (leo, vitio, mea, ma isi app i lau telefoni)."
-      }
+    "index": {
+      "title": "Blog a Chatforia",
+      "intro": "Saili manatu e uiga i feso'ota'iga...",
+      "post1": "Auala e Feso'ota'i Saogalemu i luga o le Initaneti",
+      "post2": "Le Lumana'i o Feso'ota'iga i le Lalolagi",
+      "post3": "Aiseā e Tāua Ai Platforms Fe'au"
     },
-    "family": {
-      "title": "Aiga Chatforia (data fa'asoa)",
-      "subtitle": "Fa'asoa se pusa data tasi i lau aiga. Pili tasi, teuga Chatforia e tele, fa'asoa fa'alelalolagi.",
-      "perPack": "/ pusa",
-      "small": {
-        "title": "Aiga La'ititi",
-        "desc": "Fa'aaofia le 20 GB data vave fa'asoa — lelei mo le 2–3 tagata fa'aoga mama.",
-        "price": "$29.99",
-        "aria": "Fa'atau pusa Aiga La'ititi"
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
-      "medium": {
-        "title": "Aiga Tele",
-        "desc": "Fa'aaofia le 40 GB data vave fa'asoa — lelei mo le 3–5 sui galue malosi.",
-        "price": "$49.99",
-        "aria": "Fa'atau pusa Aiga Tele"
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
-      "large": {
-        "title": "Aiga Tele",
-        "desc": "Fa'aaofia le 80 GB data vave fa'asoa — mo aiga malosi e tumau i luga.",
-        "price": "$84.99",
-        "aria": "Fa'atau pusa Aiga Tele"
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
-      "feature": {
-        "shared": "Pusa data fa'asoa mo lau aiga",
-        "members": "Vala'au e o'o i le 4 sui fa'aopoopo",
-        "membersMore": "Lelei mo le 3–5 sui galue malosi",
-        "manage": "Pulea tapula'a mo sui ta'itasi",
-        "topUp": "Fa'aopoopo pusa i so'o se taimi",
-        "bestValue": "Sili tau i le GB",
-        "fairUse": "Fa'avae i le fa'aaoga talafeagai ma tapula'a lokal"
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
-      "disclaimer": "O pusa aiga e fai pe fa'aopoopo se pusa data fa'asoa. E mafai ona e vala'au ma aveese sui i so'o se taimi.",
-      "footnote": "O pusa aiga e fa'asoa se pusa data tasi i teuga Chatforia fa'apipi'i. O le avanoa ma tapula'a e fa'avae i lau atunu'u ma tulafono lokal."
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "E Uiga i le Chatforia",
+    "description": "Chatforia o se platform fe'au fou ua fuafuaina mo feso'ota'iga saogalemu ma gagana eseese...",
+    "valuesTitle": "O Mea Taua ia i Matou",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
     },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Fa'amuamua le Puipuiga",
+    "privacyDesc": "Encryption malosi ma settings e pulea e le tagata fa'aoga",
+    "accessTitle": "Avanoa mo Tagata Uma",
+    "accessDesc": "Fa'aliliuga i gagana eseese",
+    "controlTitle": "Pulea",
+    "controlDesc": "Vaega e pei o fe'au e mou atu ma read receipts"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
     "why": {
-      "title": "Aisea e sui ai tagata i Chatforia",
-      "subtitle": "Chatforia e tu'uina atu se numera telefoni moni, fa'aliliu atamai, ma se ala manino e alu e leai se fa'asalalauga pe a e sauni.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Fa'asalalauga mama i le Fuafuaga e leai se totogi, se fa'aleleia Plus faigofie pe a e sauni, ma meafaigaluega Premium e le ofoina e TextNow."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "App fa'aonaponei, fa'ata'ita'iga fa'alelalolagi muamua, ma fa'aliliu fa'apipi'i nai lo le fa'asalalau vala'au tuai."
-        },
-        "messengers": {
-          "title": "Chatforia vs app talanoaga",
-          "body": "Fe'au i numera telefoni moni — e le o isi tagata fa'aoga app — fa'atasi ai ma AI ma tulaga fa'apipi'i. Lelei pe afai o lo'o e sau mai app e pei o TextFree po'o TextMe."
-        }
-      },
-      "tableTitle": "Fa'atusatusaga Chatforia",
-      "col": {
-        "feature": "Meafaigaluega"
-      },
-      "feature": {
-        "freeNumber": "Numera telefoni e leai se totogi",
-        "translation": "Fa'aliliu otometi fa'apipi'i",
-        "aiTools": "Meafaigaluega AI (toe tusitusi, tali, aotelega)",
-        "ads": "Filifiliga e leai se fa'asalalauga",
-        "history": "Tala fe'au"
-      },
-      "yes": "Ioe",
-      "no": "Leai",
-      "yesPremium": "Ioe (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "Tapula'a",
-      "nA": "Leai",
-      "history": {
-        "chatforia": "E o'o i le 12+ masina",
-        "textnow": "Fa'avae i le teuga",
-        "voice": "Tapula'a / fa'avae i le teuga"
-      },
-      "disclaimer": "Fa'atusatusaga fa'avae i fa'amatalaga lautele ma e mafai ona suia i le taimi. O isi app fe'au e leai se totogi e pei o TextFree po'o TextMe e masani lava e tutusa ma TextNow."
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "faq": {
-      "title": "Fesuia'iga & fuafuaga FAQ",
-      "free": {
-        "q": "E moni e leai se totogi le fuafuaga e leai se totogi?",
-        "a": "Ioe. O le fuafuaga e leai se totogi e aofia ai se numera Chatforia, vala'au, ma fe'au fa'atasi ai ma fa'asalalauga. E mafai ona e tumau i le Fuafuaga e leai se totogi pe a e mana'o, pe fa'aleleia e aveese fa'asalalauga ma tatala isi meafaigaluega."
-      },
-      "plusPremium": {
-        "q": "O le a le esesega i le va o Plus ma Premium?",
-        "a": "Plus e aveese fa'asalalauga ma fa'alautele lau tala fe'au — sili mo fa'aaoga i aso uma. Premium e fa'aopoopo fa'apitoa, meafaigaluega AI mo toe tusitusi ma tali, ma fesoasoani muamua mo tagata fa'aoga mamafa."
-      },
-      "esim": {
-        "q": "O fea e galue ai pusa data eSIM?",
-        "a": "O Chatforia Telefoni e fa'aaoga fa'asoa eSIM fa'alelalolagi. O le avanoa e fa'avae i lau atunu'u ma masini. E te va'ai filifiliga e lagolagoina pe a fa'aaoga i totonu o le app."
-      },
-      "cancel": {
-        "q": "E mafai ona ou fa'ate'aina pe sui fuafuaga i so'o se taimi?",
-        "a": "Ioe. E mafai ona e pulea pe fa'ate'aina lau lesitala mai le itulau pili i le app. O suiga e aoga i le fa'ai'uga o lou vaitaimi pili o lo'o i ai."
-      },
-      "family": {
-        "q": "O le a le auala e galue ai pusa aiga?",
-        "a": "O pusa aiga e fai se pusa data fa'asoa i teuga Chatforia e tele. O se tasi e totogi le pili, ma e mafai ona e vala'au pe aveese sui ma fa'atulaga tapula'a mo tagata ta'itasi."
-      }
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
     },
-    "gettingStarted": {
-      "title": "Amata",
-      "subtitle": "Fou i Chatforia? O lenei ta'iala vave e fa'aali mea taua ina ia e mafai ona galue i ni minute.",
-      "alert": {
-        "text": "O lenei ta'iala e fa'alautele pe a matou fa'alauina meafaigaluega fou. Pe afai e misi se mea, fa'amolemole ta'u mai e ala i le",
-        "contactLink": "Fa'afeso'ota'i Matou"
-      },
-      "section1": {
-        "title": "1) Fai lau teuga",
-        "signup": "Lesitala",
-        "or": "pe",
-        "login": "saini",
-        "loginText": "ma lau teuga o lo'o i ai.",
-        "prefsStart": "Fa'atulaga au",
-        "prefsLink": "fa'atonu",
-        "prefsRest": "(gagana, fa'ailoga faitau, ata)."
-      },
-      "section2": {
-        "title": "2) Amata fe'au",
-        "item1": "Fai se DM po'o se Vaega ma auina lau fe'au muamua.",
-        "item2": "Fa'aaoga fa'aliliu vave e talanoa i le 100+ gagana.",
-        "item3": "Taumafai fe'au e mou ma fa'ailoga faitau i Tulaga → Fa'alilo."
-      },
-      "section3": {
-        "title": "3) Alu i luma",
-        "item1": "E mafai ona e fa'aleleia i se fuafuaga totogi i so'o se taimi i totonu o le app.",
-        "item2": "Pe a e saini, e mafai ona e fa'apipi'i masini fa'aopoopo ma fa'atulaga fa'asao fa'ailoa mai Seti i le app."
-      },
-      "cta": {
-        "seePlans": "Va'ai fuafuaga",
-        "openSettings": "Tatala seti"
-      }
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
     },
-    "helpCenter": {
-      "title": "Nofoaga Fesoasoani",
-      "faq": {
-        "account": {
-          "q": "O le a le auala e fai ai po'o toe maua la'u teuga?",
-          "a": "Fa'ala'u le app pe fa'aaoga le upega, tap “Fai se teuga”, fa'amaonia lau imeli/telefoni. E toe maua, fa'aaoga “Galo le upu fa'ailoa”."
-        },
-        "privacy": {
-          "q": "E fa'ailo fe'au i le pito-i-pito?",
-          "a": "Ioe. O fe'au ma vala'au e fa'ailo i le pito-i-pito e leai se totogi. Na'o oe ma le tagata e tali e mafai ona faitau."
-        },
-        "translate": {
-          "q": "O le a le auala e galue ai le fa'aliliu vave?",
-          "a": "Fa'aaoga “Fa'aliliu otometi” i Seti → Fa'aaliga & Gagana. Matou te fa'aliliu i le masini pe a lagolagoina, a leai e ala i API saogalemu ma fa'amatalaga la'ititi."
-        },
-        "contact": {
-          "q": "Fa'afeso'ota'i fesoasoani",
-          "a": "Fa'afeso'ota'i matou i support@chatforia.com. Aumai ni ata ma lau fa'ata'ita'iga app."
-        }
-      }
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "Fa'afeso'ota'i Matou",
-      "successMsg": "Fa'afetai—o le a tali la matou 'au i le imeli.",
-      "errorSend": "Le mafai ona auina. Fa'amolemole imeli support@chatforia.com.",
-      "form": {
-        "nameLabel": "Igoa",
-        "emailLabel": "Imeli",
-        "messageLabel": "Fe'au",
-        "sendCta": "Auina"
-      }
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
     },
-    "privacyPolicy": {
-      "title": "Faiga Fa'alilo",
-      "lastUpdated": "Fa'afouina talu ai:",
-      "intro": {
-        "body": "O lenei Faiga Fa'alilo e fa'amatala pe fa'apefea ona ao, fa'aaoga, ma fa'asoa fa'amatalaga pe a e fa'aaoga a matou app ma au'aunaga. Matou te fa'ata'ita'iga Chatforia e fa'aitiitia fa'amatalaga e mafai ona matou maua."
-      },
-      "infoWeCollect": {
-        "title": "Fa'amatalaga matou te ao",
-        "account": "Fa'amatalaga teuga (e.g., imeli/telefoni) e fai ma puipuia lau teuga.",
-        "encrypted": "Mata'upu fa'ailoa (fe'au/vala'au) e fa'ailo i le pito-i-pito; e le mafai ona matou faitau.",
-        "diagnostics": "Fa'amatalaga fa'amaonia/fa'aaoga e pei o logs sese, ituaiga masini, po'o fa'amaumauga lautele e fa'aleleia le fa'atinoga."
-      },
-      "sms": {
-        "title": "Numera telefoni feavea'i ma SMS",
-        "body": "Pe a e filifili e tu'u se numera telefoni feavea'i, matou te fa'aaoga e fa'aaoga meafaigaluega e pei o fa'amaonia teuga, fa'asalalauga saini, ma fe'au tagata-i-tagata e ala i SMS pe a lagolagoina. Matou te auina fe'au SMS fa'atino e fa'atatau i lau teuga ma galuega i Chatforia. E mafai ona e fa'ate'aina le maua o fe'au SMS i so'o se taimi e tali atu i se upu fa'ate'aina e lagolagoina (e pei o “STOP”) pe sui au fa'atonu fa'asalalauga i le app. Matou te le fa'atau lau numera telefoni pe fa'aaoga mo maketi e le fa'atatau.",
-        "newText": "Fe'au fou",
-        "enterRecipient": "Tu'u se igoa po'o se numera",
-        "typeMessage": "Tusi se fe'au…",
-        "addRecipient": "Fa'aopoopo se tagata e tali i luga e amata…"
-      },
-      "howWeUse": {
-        "title": "Fa'apefea ona matou fa'aaoga fa'amatalaga",
-        "provide": "Tu'u ma puipuia le au'aunaga (fa'amaonia, su'e spam/fa'aleaga).",
-        "improve": "Fa'aleleia meafaigaluega (lelei fa'aliliu, fa'atuatuaina).",
-        "legal": "Usita'ia noatia fa'aletulafono."
-      },
-      "sharing": {
-        "title": "Fa'asoa",
-        "body": "Matou te le fa'atau fa'amatalaga patino. E mafai ona matou fa'asoa fa'amatalaga la'ititi ma tagata e gaosi (e.g., fa'asalalauga push, fa'amaumauga) i lalo o konekarate fa'apuupuu."
-      },
-      "rights": {
-        "title": "Au aia tatau",
-        "body": "Fa'avae i lau itulagi (e.g., GDPR/UK GDPR/CPRA), e mafai ona e talosaga avanoa, fa'asa'o, tape, pe fa'ate'aina ni fa'agaioiga. Fa'afeso'ota'i: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Taofi fa'amatalaga & saogalemu",
-        "body": "Matou te taofi na'o mea e mana'omia e fa'agaioi le au'aunaga ma fa'aaoga saogalemu fa'apisinisi. O mata'upu E2E e le mafai ona fa'amavae e matou."
-      },
-      "children": {
-        "title": "Tamaiti",
-        "body": "Chatforia e le fa'ata'ita'ia mo tamaiti i lalo o le 13 (po'o pe a mana'omia e lau tulafono lokal)."
-      },
-      "changes": {
-        "title": "Sui",
-        "body": "Matou te lafo fa'afouga iinei ma toe teuteu le aso “Fa'afouina talu ai”."
-      },
-      "contact": {
-        "title": "Fa'afeso'ota'i",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
     },
-    "terms": {
-      "title": "Tulafono o le Au'aunaga",
-      "lastUpdated": "Fa'afouina talu ai:",
-      "intro": {
-        "body": "Pe a fa'aaoga Chatforia e te malie i nei Tulafono. Pe afai e te le malie, aua le fa'aaoga le au'aunaga."
-      },
-      "accounts": {
-        "title": "Teuga",
-        "itemAccurateInfo": "Tu'u fa'amatalaga sa'o ma taofi fa'amaumauga saogalemu.",
-        "itemResponsibility": "O oe e nafa ma galuega i lau teuga."
-      },
-      "acceptableUse": {
-        "title": "Fa'aaoga talafeagai",
-        "itemNoAbuse": "Leai ni mea e le talafeagai, fa'aleaga, po'o le soliga; leai ni spam po'o fa'aaoga otometi fa'aleaga.",
-        "itemSuspend": "E mafai ona matou fa'ata'otoga/fa'ate'aina mo soliga."
-      },
-      "sms": {
-        "title": "Fe'au SMS",
-        "body": "Pe a e tu'u se numera telefoni feavea'i, e te malie e mafai ona auina atu e Chatforia ni fe'au SMS e fa'atatau i lau teuga ma le fa'aaoga o le au'aunaga, e pei o fa'asalalauga saini, fa'asalalauga saogalemu, ma fe'au e fa'atatau i talanoaga e te amata pe auai. Matou te le fa'aaoga SMS mo fe'au fa'asalalauga po'o maketi e aunoa ma lou malie manino. O le tau o fe'au ma data e mafai ona fa'aoga. E mafai ona e fa'ate'aina fe'au SMS i so'o se taimi e tali atu i se upu fa'ate'aina e lagolagoina (mo se fa'ata'ita'iga, “STOP”) pe sui au fa'atonu fa'asalalauga i le app."
-      },
-      "yourContent": {
-        "title": "Au mata'upu",
-        "body": "E te taofi aia tatau i au mata'upu. E te tu'uina mai ia matou aia tatau e mana'omia e fa'agaioi le au'aunaga (e.g., ala, teu, fa'aliliu)."
-      },
-      "disclaimer": {
-        "title": "Fa'amaoniga & noatia",
-        "body": "O le au'aunaga e tu'uina atu “e pei ona i ai” e aunoa ma ni fa'amaoniga. I le tulaga atoa e fa'atagaina e le tulafono, Chatforia e le noatia mo mea e le tuusao po'o mea e mulimuli mai."
-      },
-      "changes": {
-        "title": "Sui",
-        "body": "E mafai ona matou fa'afou nei tulafono; o le fa'aauau fa'aaoga pe a mavae suiga o lona uiga o le malie."
-      },
-      "contact": {
-        "title": "Fa'afeso'ota'i",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
     },
-    "doNotSell": {
-      "title": "Aua le Fa'atau pe Fa'asoa Au Fa'amatalaga Patino",
-      "body": "Chatforia e le fa'atau fa'amatalaga patino. O tagata nofomau Kalefonia e mafai ona auina atu talosaga i lalo o le CPRA e fa'aaoga le fa'ailoga i lalo.",
-      "cta": "Auina atu se talosaga"
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
     },
-    "cookies": {
-      "title": "Seti Kuki",
-      "body": "Chatforia e fa'aaoga kuki la'ititi (e.g., vasega, saogalemu). Matou te le fa'aaoga kuki fa'asalalauga a isi vaega. Pulea kuki e ala i seti o lau komepiuta."
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Le mafai ona uta tulaga o le numera telefoni.",
-      "lock": "Loka",
-      "noNumberAssigned": "Leai se numera ua tofia. Filifili se tasi e ala i le vaega numera e amata fe'au.",
-      "pickNumber": "Filifili se numera",
-      "phoneNumber": "Numera telefoni"
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
     },
-    "startChatModal": {
-      "title": "Amata se talanoaga",
-      "quickPicker": "Piki vave",
-      "to": "I",
-      "nameOrUsername": "Tusi se igoa, igoa fa'aaoga",
-      "nameUsernamePhoneEmail": "Tusi se igoa, igoa fa'aaoga, numera telefoni, po'o imeli…",
-      "startWithSelected": "Amata talanoaga ma le filifilia",
-      "searchByUsernameOrPhone": "Saili e ala i igoa fa'aaoga po'o numera telefoni",
-      "search": "Saili",
-      "searchPrompt": "Tusi se igoa fa'aaoga po'o numera telefoni ma oomi Saili.",
-      "pickFromContacts": "Pe filifili mai fa'afeso'ota'i",
-      "addContact": "Fa'aopoopo Fa'afeso'ota'i",
-      "show": "Fa'aali",
-      "add": "Fa'aopoopo",
-      "close": "Tapuni",
-      "selectedCount": "{{count}} ua filifilia",
-      "pickAtLeastOne": "Filifili auala e tasi.",
-      "saveContactsHint": "O fa'amatalaga telefoni/imeli e avanoa pe a e sevia i ni fa'afeso'ota'i.",
-      "failedBulkStart": "Le mafai ona amata talanoaga ma tagata ua filifilia.",
-      "noResults": "Leai ni i'uga",
-      "mode": "Faiga",
-      "group": "Vaega",
-      "broadcast": "Fa'asalalau",
-      "groupNameOptional": "Igoa vaega (fa'aopoopo)",
-      "firstMessageOptional": "Fe'au muamua (fa'aopoopo ae fautuaina)",
-      "createGroup": "Fai vaega",
-      "sendBroadcast": "Auina fa'asalalau"
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Lanu o le la",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Faiga Faʻafoʻi Tupe",
+    "lastUpdated": "Fa'afouga mulimuli:",
+    "intro": "I le Chatforia, matou te taumafai e tuʻuina atu se auaunaga maualuga mo tagata uma. O lenei faiga faʻafoʻi tupe e faʻamatalaina ai tulaga e mafai ai ona toe faʻafoʻi tupe.",
+    "subscriptions": {
+      "title": "Totogi Fa'aauau (Subscriptions)",
+      "body": "Totogi fa'aauau e totogi muamua ma fa'afou pea i taimi uma. E mafai ona e fa'aleaogaina i soo se taimi i totonu o au settings po'o le platform na e fa'aaogaina e fai ai le totogi."
     },
-    "sounds": {
-      "freeNotice": "O lo'o e i le Fuafuaga e leai se totogi — o leo premium e fa'aali ae loka. Fa'aleleia e tatala uma.",
-      "preview": "Fa'aali",
-      "resetToDefaults": "Toe seti i le fa'avae",
-      "notificationSounds": "Leo fa'asalalauga",
-      "messageTone": "Leo fe'au",
-      "default": "Fa'avae",
-      "vibrate": "Vibrate",
-      "dreamer": "Miti",
-      "notify": "Fa'asalalauga",
-      "pop": "Pop",
-      "pulsatingSound": "Leo Pulsating",
-      "textMessage": "Fe'au tusitusiga",
-      "xylophone": "Xylophone",
-      "classic": "Tuai",
-      "urgency": "Fa'anatinati",
-      "bells": "Logo",
-      "chimes": "Chimes",
-      "digitalPhone": "Telefoni numera",
-      "melodic": "Melodic",
-      "organNotes": "Noto o le okana",
-      "soundReality": "Leo Moni",
-      "street": "Ala",
-      "universfield": "Universfield"
+    "eligibility": {
+      "title": "Agavaa mo le Faʻafoʻi Tupe",
+      "body": "E mafai ona toe faʻafoʻi tupe pe a iai ni totogi fa'alua, mea sese i pili, po'o fa'afitauli fa'atekinolosi e taofia ai le avanoa i vaega totogi. O talosaga uma e iloilo ta'ito'atasi."
     },
-    "premiumGuard": {
-      "requiresPremium": "O lenei meafaigaluega e mana'omia se fuafuaga Premium."
+    "nonRefundable": {
+      "title": "E Le Toe Faʻafoʻi",
+      "body": "E masani ona matou le toe faʻafoʻi tupe mo taimi e le'i fa'aogaina, vaega o le totogi ua mae'a, po'o le le fa'aleaogaina a'o le'i toe fa'afou."
     },
-    "aiSettings": {
-      "title": "Seti AI",
-      "controlIntro": "Pulea fa'aliliu, tali atamai, ma tali otometi a ForiaBot.",
-      "save": "Seva Seti AI",
-      "autoTranslateIncoming": "Fa'aliliu otometi fe'au e sau",
-      "showOriginalAlongside": "Fa'aali tusitusiga muamua fa'atasi ma fa'aliliu",
-      "enableSmartReplies": "Fa'aaoga Tali Atamai",
-      "smartRepliesHint": "Auina atu ni fe'au talu ai (fa'amama) i le AI e fautuaina tali vave.",
-      "maskProfanity": "Fa'apupuni upu le talafeagai i fautuaga AI",
-      "maskProfanityHint": "Pe a fa'aaoga, o fautuaga e toe fo'i mai e le AI e fa'apupuni upu ua fa'ailoa",
-      "foriaBot": "Tali Otometi a ForiaBot",
-      "enableAutoReply": "Fa'aaoga tali otometi pe a ou pisi",
-      "autoReplyMode": "Faiga tali otometi",
-      "cooldownSeconds": "Taimi malolo (sekone)",
-      "off": "Tapuni",
-      "on": "Fa'aaoga",
-      "signature": "Saini",
-      "autoReply": "Tali otometi",
-      "activeUntilOptional": "Galue se'ia (fa'aopoopo)",
-      "saved": "Ua sevia fa'atonu AI",
-      "saveFailed": "Le mafai ona sevia seti AI",
-      "translateOff": "Tapuni",
-      "translateTagged": "Na'o pe a @fa'aliliu pe fa'ailoga",
-      "translateAll": "Fa'aliliu fe'au uma e sau",
-      "modeDm": "Talanoaga 1:1 na'o",
-      "modeMention": "Na'o pe a @fa'ailoa ia te au",
-      "modeAll": "Fe'au uma e sau"
+    "thirdParty": {
+      "title": "Fa'atauga mai Isi Platform",
+      "body": "Afai na fa'atau mai i isi platform e pei o le Apple App Store, e tatau ona e talosaga sa'o atu i lena platform mo le toe faʻafoʻi."
     },
-    "accessibilitySettings": {
-      "title": "Fa'afaigofie & Fa'asalalauga",
-      "accessibility": "Fa'afaigofie",
-      "accessibilityDesc": "Filifiliga e fa'afaigofie ai le fa'aaoga o Chatforia e aunoa ma le fa'alagolago i le leo.",
-      "interfaceFontSize": "Tele o le mataitusi o le atina'e",
-      "interfaceFontSizeHelp": "Amata i le tele masani. Fa'atele pe afai e te fiafia i tusitusiga tele i seti fa'afaigofie.",
-      "sm": "la'ititi",
-      "md": "masani",
-      "lg": "tele",
-      "xl": "tele tele",
-      "notifications": "Fa'asalalauga",
-      "notificationsDesc": "Fa'asalalauga va'aia mo fe'au & vala'au\nFa'aali fa'asalalauga ma pupuni ulutala ina ia le misia galuega.",
-      "vibrateOnNew": "Vibrate pe a fe'au fou (pe a lagolagoina)\nFa'aola le vibration o le masini ma fa'asalalauga.",
-      "flashOnCall": "Pupuni le lau pe a sau vala'au\nPupuni pupula puupuu pe a tatagi se vala'au.",
-      "liveCaptions": "Fa'amatalaga ola (vala'au)",
-      "captionFontSize": "Tele o le mataitusi fa'amatalaga",
-      "captionBackground": "Fa'amatalaga fonua",
-      "light": "malamalama",
-      "dark": "pogisa",
-      "transparent": "manino",
-      "voiceNotes": "Noto leo",
-      "autoTranscribeVoiceNotes": "Fa'aliliu otometi noto leo",
-      "autoTranscribeVoiceNotesDesc": "Fa'apipi'i se fa'aliliu i fe'au leo e maua.",
-      "changesSavedInstantly": "O suiga e sevia vave.",
-      "loadFailed": "Le mafai ona uta seti",
-      "visualAlerts": "Fa'asalalauga va'aia mo fe'au & vala'au",
-      "visualAlertsDesc": "Fa'aali fa'asalalauga ma pupuni ulutala ina ia le misia galuega.",
-      "vibrateOnNewShort": "Vibrate pe a fe'au fou (pe a lagolagoina)",
-      "vibrateOnNewDesc": "Fa'aola le vibration o le masini ma fa'asalalauga.",
-      "flashOnCallShort": "Pupuni le lau pe a sau vala'au",
-      "flashOnCallDesc": "Pupuni pupula puupuu pe a tatagi se vala'au."
+    "contact": {
+      "title": "Fa'afeso'ota'i",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
     },
-    "privacySection": {
-      "strictE2EE": "Fa'ailoga pito-i-pito fa'apuupuu",
-      "ciphertextOnlyNote": "Sevia na'o ciphertext i le server. Fa'ate'aina AI/Fa'aliliu ma fa'aali fa'atonu."
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
     },
-    "linkedDevicesPanel": {
-      "title": "Masini fa'apipi'i",
-      "noneFound": "Leai ni masini fa'apipi'i na maua.",
-      "refresh": "Fa'afou"
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
     },
     "help": {
-      "title": "Fesoasoani",
-      "howCanWeHelp": "E mafai ona matou fesoasoani fa'apefea?",
-      "helpCenter": "Nofoaga Fesoasoani",
-      "contactUs": "Fa'afeso'ota'i matou",
-      "quickTopics": "Mataupu vave",
-      "searchExamples": "Taumafai saili mo “fa'aliliu”, “fa'asao”, po'o “fa'alilo”.",
-      "cantLogin": "Le mafai ona saini",
-      "paymentsBilling": "Pili/pili",
-      "reportAbuse": "Lipoti fa'aleaga",
-      "searchHelpArticles": "Saili tala fesoasoani",
-      "search": "Saili"
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
     },
-    "peoplePage": {
-      "people": "Tagata",
-      "search": "Saili",
-      "searchPlaceholder": "Saili e ala i igoa fa'aopoopo, igoa, igoa fa'aaoga, po'o numera telefoni",
-      "filterSaved": "Fa'amama fa'afeso'ota'i fa'asaoina",
-      "noContactsFound": "Leai ni fa'afeso'ota'i na maua",
-      "quickStart": "Amata vave",
-      "quickStartDesc": "Ni auala vave e amata ai.",
-      "importContacts": "Fa'aulu au fa'afeso'ota'i",
-      "add": "Fa'aopoopo",
-      "focusSearch": "Taulai Saili",
-      "import": "Fa'aulu",
-      "findOrAdd": "Saili pe fa'aopoopo se tasi",
-      "searchByPhoneOrUsername": "Saili e ala i telefoni / igoa fa'aaoga",
-      "inviteFriends": "Vala'au uo",
-      "inviteDesc": "Fa'asoa lau so'otaga vala'au e amata talanoa vave.",
-      "getTheApp": "Maua le app",
-      "getTheAppDesc": "Tumau feso'ota'i i le ala ma Chatforia mo iOS ma Android.",
-      "download": "Fa'ala'u",
-      "syncTip": "Fautuaga: O au fe'au e tumau fa'amaopoopo i le upega ma le telefoni."
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
     },
-    "randomChat": {
-      "title": "Talanoaga Fa'afuase'i",
-      "description": "Feiloa'i ma se tasi fou vave. Matou te fa'asoa ma tatala se potu talanoaga le tumau. Talanoa fa'alilo muamua. Fa'aopoopo Uo mulimuli ane pe a lelei.",
-      "findMatch": "Saili se fa'asoa mo a'u",
-      "chatWithForia": "Talanoa ma Foria",
-      "chatWithForiaBot": "Talanoa ma ForiaBot",
-      "cancel": "Fa'afiti",
-      "close": "Tapuni",
-      "searching": "O lo'o saili…",
-      "finding": "O lo'o saili…",
-      "looking": "O lo'o saili se tasi…",
-      "startingForia": "O lo'o amata talanoaga ma Foria…",
-      "partnerDisconnected": "Ua motu le pa'aga.",
-      "noPartner": "Leai se pa'aga na maua i le taimi nei.",
-      "connectedTo": "Ua feso'ota'i ma {{name}}",
-      "connected": "Ua feso'ota'i",
-      "idle": "Le galue",
-      "partnerLeft": "Ua tu'ua le pa'aga.",
-      "stopped": "Ua taofi.",
-      "skip": "Sopo",
-      "save": "Seva",
-      "saveGuard": "Na'o talanoaga tagata-i-tagata e mafai ona sevia",
-      "youAreChattingWith": "O lo'o e talanoa ma {{name}}",
-      "bot": "BOT",
-      "leave": "Tu'ua",
-      "sayHi": "Fai alofa 👋",
-      "you": "Oe",
-      "typeMessage": "Tusi se fe'au",
-      "send": "Auina",
-      "partner": "Pa'aga",
-      "withRia": "Ma Ria",
-      "chatWithRia": "Talanoa ma Ria",
-      "startingRia": "O lo'o amata talanoaga ma Ria…",
-      "ageDisclaimer": "Matou te sevia na'o se vaega o le matua (e le o lau aso fanau tonu). E fa'aaoga e fa'amaopoopo fa'asoa talanoaga fa'afuase'i. E fa'asoa ma tagata (e le o RiaBot), fa'atulaga lau vaega matua i Seti → Matua & Talanoaga Fa'afuase'i.",
-      "ageBandRequired": "Fa'atulaga lau vaega matua i Tulaga → Matua & Talanoaga Fa'afuase'i e fa'asoa ma tagata.",
-      "ageBandCallout": "E fa'asoa ma tagata (e le o RiaBot), fa'atulaga lau vaega matua i Seti → Matua & Talanoaga Fa'afuase'i.",
-      "subtitle": "Feiloa'i ma se tasi fou vave, pe filifili e talanoa ma Ria.",
-      "start": "Amata se talanoaga",
-      "matching": "O lo'o fa'asoa…",
-      "setAge": "Fa'atulaga lau vaega matua i Tulaga → Matua & Talanoaga Fa'afuase'i e fa'asoa ma tagata.",
-      "next": "Tagata Sosoo",
-      "addFriend": "Fa'aopoopo Uo",
-      "requested": "Ua talosaga",
-      "messageRia": "Fe'au Ria…",
-      "messageMatch": "Fe'au lau fa'asoa…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    }
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

@@ -1,15 +1,23 @@
 {
   "common": {
-     "save": "Ħlief",
+    "save": "Salva",
     "cancel": "Ikkanċella",
     "refresh": "Aġġorna",
-    "noMatches": "Ma nstabu ebda riżultati",
+    "noMatches": "Ebda riżultati",
     "cancelAria": "Ikkanċella",
-    "copy": "Kopja",
-    "copied": "Kopjat!",
-    "errorWithMessage": "Żball: {{message}}",
+    "copy": "Ikkopja",
+    "copied": "Kkopjat!",
+    "errorWithMessage": "Żball: { {message}}",
     "loading": "Qed tinħadem…",
-    "saveError": "Il-ħażna ma rnexxietx"
+    "saveError": "Il-ħażna ma rnexxietx",
+    "clear": "Ħassar",
+    "error": "Żball",
+    "learnMore": "Tgħallem aktar",
+    "retry": "Erġa' ipprova",
+    "send": "Ibgħat",
+    "showOriginal": "Uri l-oriġinali",
+    "showTranslation": "Uri t-traduzzjoni",
+    "undo": "Ħassar"
   },
   "a11y": {
     "skipToMain": "Mur għall-kontenut prinċipali"
@@ -19,76 +27,105 @@
     "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Il-backup tal-miftuħ ġie maħluq u mniżżel ✓",
-    "restored": "Il-backup tal-miftuħ ġie rkuprat ✓ Il-miftuħ installat lokalment",
+    "backupCreated": "Il-backup tal-miftuħa nħoloq u nniżżel ✓",
+    "restored": "Il-backup tal-muftieħ ġie rrestawrat ✓ Il-muftieħ installat lokalment",
     "noBackup": "M'hemm l-ebda backup kriptat għal dan il-kont",
     "missingPublicKey": "Il-backup qed jonqos miftuħ pubbliku"
   },
   "keySetup": {
-    "title ": "Ipprepara l-miftieħ tal-apparat tiegħek",
-    "description": "Dan l-apparat għadu m'għandux il-miftuħ privat tiegħek. Importa backup protett b'password, jew oħloq par ġdid ta' miftieħ (se tkun tista' taqra messaġġi ġodda minn issa 'l quddiem).",
+    "title": "Ipprepara l-muftieħ tal-apparat tiegħek",
+    "description": "Dan l-apparat għadu m'għandux il-miftuħ privat tiegħek. Importa backup protett b'password, jew ġenera par ġdid ta' miftieħ (se tkun tista' taqra messaġġi ġodda minn issa 'l quddiem).",
     "chooseFile": "Agħżel fajl u daħħal il-password.",
     "imported": "Il-miftuħa privata ġiet importata f'dan l-apparat. Issa tista' taqra messaġġi qodma.",
     "enterPassword": "Daħħal il-password tal-kont tiegħek sabiex inkunu nistgħu nagħmlu backup tal-miftuħa tiegħek b'mod sigur."
   },
   "encryptionRecovery": {
-    "title": "Immaniġġja l-Enkrizzjoni",
-    "description": "Agħmel backup, irrestawra, iftaħ, jew irrisetta l-miftuħa tal-enkrizzjoni tiegħek.",
-    " alert": {
-      "keyRequiredTitle": "Meħtieġ ċavetta ta' enkrizzjoni",
-      "keyRequiredBody": "Dan il-browser bħalissa ma jistax jiddekripta l-messaġġi enkriptati tiegħek. Irrestawra, iftaħ, jew irrisettja ċ-ċavetta tiegħek biex tkompli."
+    "title": "Immaniġġja l-Kriptazzjoni",
+    "description": "Agħmel backup, irrestawra, iftaħ, jew irrisettja l-miftuħa tal-kriptazzjoni tiegħek.",
+    "alert": {
+      "keyRequiredTitle": "Ċavetta ta' enkrizzjoni meħtieġa",
+      "keyRequiredBody": "Dan il-browser bħalissa ma jistax jiddekripta l-messaġġi enkriptati tiegħek. Irrestawra, iftaħ, jew irrisettja ċ-ċavetta tiegħek biex tkompli.",
+      "lockedTitle": "Il-messaġġi huma mblukkati",
+      "lockedBody": "Irrestawra jew iftaħ il-kodiċi tal-kriptazzjoni tiegħek biex taqra messaġġi kriptati fuq dan l-apparat."
     },
     "sections": {
-      "createBackup": "Oħloq backup taċ-ċavetta",
+      "createBackup": "Oħloq backup tal-kodiċi",
       "restoreFromBackup": "Irrestawra minn backup tal-kont",
-      "resetEncryption": "Irrisettja l-enkrizzjoni"
+      "resetEncryption": "Irrisettja l-kriptazzjoni"
     },
     "fields": {
       "unlockPasscode": {
-        "label": "Kodiċi ta' aċċess għall-ftuħ (apparat kurrenti)",
-        "description": "Użat biex tiddekripta ċ-ċwievet tiegħek lokalment qabel l-esportazzjoni"
+        "label": "Ħassar il-kodiċi ta' aċċess (apparat kurrenti)",
+        "description": "Użat biex tiddekripta l-muftieħ tiegħek lokalment qabel l-esportazzjoni"
       },
       "backupPassword": {
         "label": "Password tal-backup",
-        "description": "Użata biex tikkodifika l-fajl tal-backup"
+        "description": "Użata biex tiċċifra l-fajl tal-backup"
       },
-      "restoreBackupPass word": {
+      "restoreBackupPassword": {
         "label": "Password tal-backup",
-        "description": "Il-password li ħloqt meta għamilt backup tal-miftuħ tiegħek fuq l-iPhone"
+        "description": "Il-password li ħloqt meta għamilt backup tal-miftuħa tiegħek fuq l-iPhone"
       },
       "newLocalPasscode": {
         "label": "Passcode lokali ġdid",
-        "description": "Tipproteġi l-miftuħi meta jkunu f'mistrieħ f'dan il-browser"
+        "description": "Proteġi ċ-ċwievet fil-mistrieħ f'dan il-browser"
       },
       "resetLocalPasscode": {
         "label": "Passcode lokali ġdid",
-        "description": "Meħtieġ qabel ir-riżettjar sabiex iċ-ċavetta l-ġdida tkun protetta fuq dan l-apparat"
+        "description": "Meħtieġ qabel ir-riżettjar sabiex iċ-ċavetta l-ġdida tkun protetta f'dan l-apparat "
+      },
+      "devicePasscode": {
+        "label": "Passcode tal-apparat",
+        "description": "Daħħal il-passcode użat biex tipproteġi l-muftieħ fuq dan l-apparat."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Oħloq passcode biex tipproteġi l-imfutħiet fuq dan l-apparat."
+      },
+      "resetDevicePasscode": {
+        "label": "Passcode ġdid għall-apparat",
+        "description": "Oħloq passcode għall-imfuta ġdida tal-kriptazzjoni fuq dan l-apparat."
       }
     },
-    "azzjonijiet": {
-      "unlockKey": "Iftaħ iċ-ċavetta tal-kriptazzjoni",
-      "restoreFromBackup": " Irrestawra minn backup tal-kont",
-      "resetEncryption": "Irrisetta l-kriptazzjoni"
+    "actions": {
+      "unlockKey": "Iftaħ l-imfuta tal-kriptazzjoni",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Irrisettja l-kriptazzjoni",
+      "advancedRecovery": "Rkupru avvanzat",
+      "restoreChats": "Irrestawra l-konversazzjonijiet",
+      "restoreEncryptedChats": "Irrestawra l-konversazzjonijiet kriptati",
+      "startFreshEncryption": "Ibda enkrizzjoni ġdida",
+      "unlockMessages": "Unlock messages"
     },
     "messages": {
-      "backupCreated": "Inħoloq backup tal-miftuħ u nniżżel.",
-      "keyUnlocked": "Il-miftuħ tal-kriptazzjoni miftuħ.",
-      "keyRestored": "Il-miftuħ irrestawrat minn backup tal-kont.",
-      "resetSuccess": "Irrisettjar tal-kriptazzjoni rnexxa b'suċċess."
+      "backupCreated": "Il-backup tal-miftuħ inħoloq u nniżżel.",
+      "keyUnlocked": "Il-miftuħ tal-kriptazzjoni ġie miftuħ.",
+      "keyRestored": "Il-miftuħ ġie rkuprat mill-backup tal-kont.",
+      "resetSuccess": "Ir-riżettjar tal-kriptazzjoni rnexxa b'suċċess."
     },
     "errors": {
-      "restoreIncomplete": "Irkupru tal-miftuħ mhux komplut jew inkorrett għal dan il-kont",
-      "noBackup": "Ma teżistix backup kriptat għal dan il-kont",
-      "missingPublicKey": "Il-backup qed jonqos minn ċavetta pubblika",
+      "restoreIncomplete": "Ir-restawr tal-miftuħ mhux komplut jew inkorrett għal dan il-kont",
+      "noBackup": "M'hemm l-ebda backup kriptat għal dan il-kont",
+      "missingPublicKey": "Il-backup qed jonqos ċavetta pubblika",
       "noServerPublicKey": "Dan il-kont bħalissa ma jipprovdix ċavetta pubblika tas-server",
       "serverBackupMismatch": "Il-backup tas-server ma jaqbilx maċ-ċavetta ta' enkrizzjoni attwali tal-kont",
       "incompleteMetadata": "Il-metadata tal-backup mhix kompluta",
-      "resetIncomplete": "Ir-riżettar tal-enkrizzjoni ma tlestiex b'mod korrett "
+      "resetIncomplete": "Ir-reset tal-kriptazzjoni ma tlestiex b'mod korrett",
+      "resetFailed": "Ma setgħetx tirrisetta l-kriptazzjoni. Jekk jogħġbok ipprova mill-ġdid.",
+      "restoreFailed": "Ma setgħetx tirrestawra ċ-ċavetta tal-kriptazzjoni tiegħek. Iċċekkja l-backup u l-password tiegħek.",
+      "unlockFailed": "Ma setgħetx tiftaħ iċ-ċavetta tal-kriptazzjoni tiegħek. Iċċekkja l-kodiċi tal-pass u ipprova mill-ġdid."
     },
     "confirm": {
-      "reset": "Irrisettja l-kriptazzjoni għal dan il-kont?\n\nMessaġġi kriptati aktar antiki jistgħu jsiru mhux leġġibbli sakemm ma tirrestawrax iċ-ċavetta oriġinali aktar tard."
+      "reset": "Irrisettja l-kriptazzjoni għal dan il-kont?\n\nMessaġġi kriptati aktar antiki jistgħu jsiru mhux qabbib sakemm ma tirrestawrax iċ-ċavetta oriġinali aktar tard."
     },
-    "resetDescription": "Dan jiġġenera ċavetta ġdida ta' kriptazzjoni għall-kont tiegħek. Messaġġi kriptati aktar antiki jistgħu jsiru mhux leġġibbli sakemm ma tirrestawrax iċ-ċavetta oriġinali aktar tard."
+    "resetDescription": "Dan jiġġenera ċavetta ġdida ta' enkrizzjoni għall-kont tiegħek. Messaġġi enkriptati aktar antiki jistgħu jsiru mhux qabbli sakemm ma tirrestawrax iċ-ċavetta oriġinali aktar tard.",
+    "danger": {
+      "title": "Ibda enkrizzjoni ġdida",
+      "body": "Dan joħloq ċavetta ġdida ta' enkrizzjoni. Messaġġi enkriptati aktar antiki jistgħu jsiru mhux qabbli sakemm ma tirrestawrax iċ-ċavetta oriġinali aktar tard."
+    },
+    "simpleTitle": "Iftaħ messaġġi enkriptati",
+    "simpleDescription": "Uża l-kodiċi ta' aċċess tal-apparat tiegħek jew irrestawra backup biex tiftaħ il-messaġġi kriptati.",
+    "restoreDescription": "Irrestawra ċ-ċavetta tal-chat kriptat tiegħek minn backup protett bil-password tal-backup tiegħek."
   },
   "smsConsent": {
     "label": "Naqbel li nirċievi notifiki u twissijiet SMS minn {{companyName}}. Il-frekwenza tal-messaġġi tista' tvarja. Jistgħu japplikaw tarifi għall-messaġġi u d-dejta. Ibbotta <stop>STOP</stop> biex tneħħi l-abbonament fi kwalunkwe ħin. Ibbotta <help>HELP</help> għal għajnuna."
@@ -96,13 +133,13 @@
   "phoneField": {
     "label": "Telefon",
     "invalid": "Numru tat-telefon invalidu",
-    "hint": "Inkludi l-kodiċi tal-pajjiż jekk meħtieġ (eż., +1 415…)"
+    "hint": "Inkludi kodiċi tal-pajjiż jekk meħtieġ (eż., +1 415…)"
   },
   "auth": {
     "headline": "Messaġġi siguri għal kulħadd, kullimkien",
     "description": "Enkrizzjoni end-to-end, traduzzjoni għal aktar minn 100 lingwa, messaġġi li jisparixxu, u sejħiet bil-vuċi/vidjo.",
     "feature": {
-      "encryption": "Enkrizzjoni end-to-end b'mod awtomatiku",
+      "encryption": "Enkrizzjoni end-to-end b'mod default",
       "translation": "Traduzzjoni intelliġenti tal-messaġġi mibnija ġewwa",
       "disappearing": "Messaġġi li jisparixxu u riċevuti ta' qari",
       "privacy": "Privatezza l-ewwel. Id-dejta tiegħek, il-kontroll tiegħek.",
@@ -114,14 +151,14 @@
     "hero": {
       "line1": "Messaġġi siguri għal kulħadd, kullimkien — b'",
       "em": "traduzzjoni għal aktar minn 100 lingwa",
-      "sub": "Ikseb numru ta' telefon sigur b'xejn biex ċempel u tibgħat messaġġi madwar id-dinja fuq Wi-Fi jew data. Igawdi enkrizzjoni end-to-end, messaġġi li jisparixxu, u sejħiet ta' vuċi/vidjo HD — b'għodod integrati li jgħinuk tibqa' konness madwar il-fruntieri.",
-      "freeNote": "Is-sejħa u t-test bażiċi huma b'xejn. Karatteristiċi avvanzati tal-AI u premium jeħtieġu aġġornament."
+      "sub": "Ikseb numru ta' telefonija sigur b'xejn biex ċempel u tibgħat messaġġi madwar id-dinja fuq Wi-Fi jew data. Igawdi enkrizzjoni end-to-end, messaġġi li jisparixxu, u sejħiet ta' vuċi/vidjo HD — b'għodod integrati li jgħinuk tibqa' konness madwar il-fruntieri.",
+      "freeNote": "Iċ-ċempel u l-messaġġi bażiċi huma b'xejn. L-AI avvanzata u l-karatteristiċi premium jeħtieġu aġġornament."
     },
     "feat": {
-      "encryption": "Enkrizzjoni end-to-end, dejjem attiva",
+      "encryption": "Enkrizzjoni end-to-end, dejjem attiva ",
       "translate": "Inqata' l-barrieri lingwistiċi fil-konversazzjonijiet tiegħek",
       "disappear": "Messaġġi li jisparixxu u riċevuti ta' qari",
-      "privacy": "Privatezza l-ewwel. Id-dejta tiegħek, il-kontroll tiegħek. "
+      "privacy": "L-ewwel il-privatezza. Id-dejta tiegħek, il-kontroll tiegħek. "
     },
     "continueGoogle": "Kompli ma' Google",
     "continueApple": "Kompli ma' Apple",
@@ -129,39 +166,51 @@
     "password": "Password",
     "keepSignedIn": "Żommni mdaħħal",
     "forgotPassword": "Insejt il-password?",
-    "loginButton": "Idħol",
-    "oħloqKont": "Oħloq kont",
-    "buttunaKontB'xejn": "Oħloq kont b'xejn",
-    "hawnGħadniĠdid": "Ġdid hawn?",
-    "getApp": "Ikseb l-app",
-    "desktopTip": "Fuq id-desktop? Iskennja bil-mowbajl tiegħek biex tikseb l-app.",
-    "scanHelper": "Fuq id-desktop? Iskennja bil-mowbajl tiegħek biex tikseb l-app.",
+    "loginButton": " Idħol",
+    "createAccount": "Create an account",
+    "freeAccountButton": "Create free account",
+    "newHere": "New here?",
+    "getApp": "Get the app",
+    "desktopTip": "On desktop? Scan with your phone to get the app.",
+    "scanHelper": "Fuq id-desktop? Iskannja bil-mowbajl tiegħek biex tikseb l-app.",
     "goHome": "Mur fid-dar",
     "home": "Dar",
     "headlineAlt": {
       "main": "Il-messaġġier sigur li",
       "highlight": "jitkellem il-lingwa tiegħek"
     },
-    "subhead": "Messaġġi privati, kriptati u tradotti — immedjatament.",
+    "subhead": "Messaġġi privati, kriptati u tradotti — immedjatament. ",
     "upgrade": "Aġġorna issa",
-    "tip": "Parir: Uża l-istess kont fuq il-web u fuq il-mowbajl. Il-messaġġi tiegħek jibqgħu sinkronizzati.",
+    "tip": "Tip: Uża l-istess kont fuq il-web u fuq il-mobile. Il-messaġġi tiegħek jibqgħu sinkronizzati.",
     "openDownload": "Ftaħ il-paġna tat-tniżżil",
     "qrAlt": "Kodiċi QR għal Chatforia",
     "scanHint": "Iskennja biex tniżżel l-app jew tiftaħha fil-browser tiegħek.",
-    "iosAria": "Tniżżil fuq l-App Store",
-    "iosTitle": "Tniżżil fuq l-App Store",
+    "iosAria": "Niżżel fuq l-App Store",
+    "iosTitle": "Niżżel fuq l-App Store",
     "iosBadgeAlt": "Badge tal-App Store",
-    "androidAria": "Iksebha fuq Google Play",
+    "androidAria": "Ikseb fuq Google Play",
     "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Badge ta' Google Play",
     "login": "Idħol",
     "signup": "Irreġistra",
     "email": "Email",
     "registration": {
-      "passwordDescription": "Minimu ta' 6 karattri. Uża password b'saħħitha u unika.",
-      " smsConsent": "Billi toħloq kont, taqbel li tirċievi notifiki SMS relatati mal-attività tiegħek f'Chatforia (bħal messaġġi minn utenti oħra). Jistgħu japplikaw tarifi għall-messaġġi u d-dejta. Tista' tieqaf milli tirċievi dawn f'kull ħin fl-Issettjar.",
+      "passwordDescription": "Minimu 6 karattri. Uża password b'saħħitha u unika.",
+      "smsConsent": "Billi toħloq kont, taqbel li tirċievi notifiki SMS relatati mal-attività tiegħek f'Chatforia (bħal messaġġi minn utenti oħra). Jistgħu japplikaw tarifi għall-messaġġi u d-dejta. Tista' tneħħi l-kunsens tiegħek fi kwalunkwe ħin fl-Issettjar.",
       "termsLink": "Termini tas-Servizz",
-      "privacyLink": "Politika tal-Privatezza"
+      "privacyLink": "Politika tal-Privatezza",
+      "already": "Diġà għandek kont?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Oħloq password",
+      "phoneHelp": "Użat għall-verifika, is-sigurtà, u l-karatteristiċi tal-SMS fejn appoġġjati.",
+      "phoneLabel": "Numru tat-telefon",
+      "submit": "Oħloq kont",
+      "submitAria": "Oħloq il-kont Chatforia tiegħek",
+      "title": "Oħloq il-kont Chatforia tiegħek",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Agħżel username"
     },
     "to": "Għal:",
     "enterRecipient": "Daħħal isem jew numru",
@@ -172,53 +221,171 @@
     "addRecipient": "Żid riċevitur hawn fuq biex tibda…",
     "oneRecipient": "Jekk jogħġbok daħħal riċevitur wieħed għalissa.",
     "enterValidRecipient": "Daħħal isem ta' kuntatt salvat jew numru tat-telefon.",
-    "sendFailed": "It-tbaħħir ma rnexxiex. Iċċekkja l-konsola għad-dettalji."
+    "sendFailed": "It-tbaħħir ma rnexxiex. Iċċekkja l-konsola għad-dettalji.",
+    "logIn": "Idħol ",
+    "seePlans": "Ara l-pjanijiet u l-prezzijiet",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Jekk jogħġbok iċċekkja l-informazzjoni tiegħek u ipprova mill-ġdid.",
+      "invalidPhone": "Daħħal numru tat-telefon validu.",
+      "invalidValue": "Wieħed mill-valuri huwa invalidu.",
+      "passwordLength": "Il-password trid tkun mill-inqas 6 karattri.",
+      "passwordRequired": " Il-password hija meħtieġa.",
+      "registrationFailed": "Ir-reġistrazzjoni ma rnexxietx. Jekk jogħġbok ipprova mill-ġdid.",
+      "smsConsent": "Please accept SMS consent to continue.",
+      "tooManyAttempts": "Ħafna tentattivi. Jekk jogħġbok stenna u ipprova mill-ġdid.",
+      "usernameOrEmailTaken": "Dak l-isem tal-utent jew l-indirizz email diġà ġew użati.",
+      "usernameRequired": "L-isem tal-utent huwa meħtieġ.",
+      "usernameTaken": "Dak l-isem tal-utent diġà huwa meħud."
+    }
+  },
+  "login": {
+    "welcomeBack": "Merħba lura",
+    "title": "Kompli għal Chatforia",
+    "subtitleReturning": "Idħol fil-kont Chatforia tiegħek",
+    "google": "Kompli ma' Google",
+    "apple": " Kompli ma' Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Il-login ta' Google mhux disponibbli",
+    "appleUnavailable": "Il-login ta' Apple mhux disponibbli",
+    "ssoUnavailable": "Is-single-sign-on mhux disponibbli bħalissa. Uża l-isem tal-utent u l-password minflok.",
+    "or": "or",
+    "accountLabel": "Kont",
+    "identifierPh": "Email jew isem tal-utent",
+    "passwordLabel": "Password",
+    "passwordPh": "Il-password tiegħek",
+    "keepSignedIn": "Żommni mdaħħal",
+    "forgot": "Insejt il-password?",
+    "resendVerification": "Irrisendi l-email tal-verifika",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Isem tal-utent jew password invalidu",
+      "denied": "Aċċess miċħud.",
+      "unprocessable": "Talba mhux valida. Iċċekkja l-isem tal-utent/l-email u l-password tiegħek.",
+      "deviceLimit": " Intlaħaq il-limitu tad-dispożittivi għall-pjan b'xejn. Agħlaq is-sessjoni fuq dispożittiv ieħor jew agħmel aġġornament għal Premium biex tgħaqqad aktar dispożittivi.",
+      "premiumRequired": "Din l-azzjoni teħtieġ pjan Premium."
+    },
+    "forgotPassword": {
+      "title": "Insejt il-password",
+      "helper": "Iddaħħal l-email li użajt biex toħloq il-kont Chatforia tiegħek u nibgħatulek link sigur biex tirrisettja l-password tiegħek.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Jekk jogħġbok daħħal indirizz email validu.",
+      "genericError": "Ma jistax jiġi pproċessat it-talba. Jekk jogħġbok ipprova mill-ġdid f'ħin qasir.",
+      "sending": "Qed tibgħat il-link tar-riżettjar...",
+      "sendCta": "Ibgħat il-Link tar-Riżettjar",
+      "sentLabel": "Mibgħut! ",
+      "sentHelper": "Jekk teżisti kont b'dik l-indirizz email, bgħatna link tar-riżettjar tal-password. Jista' jieħu ftit minuti biex jasal. Kun żgur li tiċċekkja l-folder tal-ispam jew tal-promozzjonijiet tiegħek.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Lura għall-Login"
+    },
+    "resetPassword": {
+      "title": "Riżettja l-Password",
+      "missingToken": "Token ta' reset tal-password invalidu jew nieqes.",
+      "missingTokenHelper": "Token invalidu jew nieqes. Jekk jogħġbok, talab link ġdid ta' reset tal-password.",
+      "passwordMismatch": "Il-passwords ma jaqblux",
+      "success": "Il-password tiegħek ġie reset b'suċċess",
+      "genericError": "Żball: Ma jistax isir reset tal-password.",
+      "newPasswordLabel": "Password ġdida",
+      "newPasswordPlaceholder": "Daħħal il-password ġdida tiegħek",
+      "confirmPasswordLabel": "Ikkonferma l-password ġdida",
+      "confirmPasswordPlaceholder": "Erġa' daħħal il-password ġdida tiegħek",
+      "resetting": "Qed tirrisetta...",
+      "submit": "Irrisetta l-Password",
+      "strongPasswordHint": "Agħżel password b'saħħitha li ma tużax f'post ieħor."
+    }
+  },
+  "oauth": {
+    "completing": "Qed tlesti l-iffirmar…"
   },
   "home": {
-    " title": "Dar",
+    "title": "Dar",
     "messagesTitle": "Il-messaġġi tiegħek",
     "messagesSubtitle": "Daħħal riċevitur hawn fuq, imbagħad ibgħat messaġġ biex tibda konversazzjoni.",
     "subheader": "Ibgħat messaġġ biex tibda chat.",
     "sendButton": "Ibgħat messaġġ",
     "gifPicker": "Ftaħ il-picker tal-GIF",
     "emoji": "Emoji",
-    "upload": "Tella' ritratt jew vidjo",
+    "upload": "Itella' ritratt jew vidjo",
     "inputPlaceholder": "Ikteb messaġġ…",
     "inputLabel": "Kompożitur tal-messaġġ",
     "sendTooltip": "Ibgħat",
     "sendTooltipEmpty": "Ikteb messaġġ biex tibgħat",
-    "send": "Ibgħat",
-    "welcomeMessage": "Merħba f'Chatforia",
-    "ibda": "Ibda",
-    "riċevituri mħallta": "Ir-riċevituri mħallta ġew skoperti. Uża jew in-numri kollha tat-telefon (SMS) jew l-ismijiet tal-utent kollha (Chatforia).",
-    "daħħal riċevitur": "Daħħal isem jew numru",
+    "send": "Send",
+    "welcomeMessage": "Welcome to Chatforia",
+    "getStarted": "Get Started",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
+    "enterRecipient": "Enter a name or number",
     "addRecipient": "Żid riċevitur hawn fuq biex tibda…",
-    "needNumber": "Trid numru ta' Chatforia qabel tibgħat SMS.",
-    "chooseNumber": "Agħżel numru"
+    "needNumber": "Għandek bżonn numru ta' Chatforia qabel tibgħat SMS.",
+    "chooseNumber": "Agħżel numru",
+    "to": "Għal",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Ikteb messaġġ…",
+    "clearRecipients": "Ħassar ir-riċevituri",
+    "oneRecipient": "Jekk jogħġbok daħħal riċevitur wieħed għalissa.",
+    "enterValidRecipient": "Daħħal isem ta' kuntatt maħżun, isem tal-utent, jew numru tat-telefon.",
+    "sendFailed": "It-tbaħħir ma rnexxiex. Jekk jogħġbok ipprova mill-ġdid."
+  },
+  "composer": {
+    "aria": "Kompożitur tal-messaġġ",
+    "emoji": "Emoji",
+    "gifPicker": "Ftaħ il-picker tal-GIF",
+    "placeholder": "Ikteb messaġġ…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
-    "randomChat": "Chat każwali",
-    "callTextForwarding": "Ittella' u Test 'l quddiem ",
-    "konversazzjonijiet": "Konversazzjonijiet",
-    "post-sejbien": "Fittex il-chat...",
-    "żball fit-tagħbija": "Ma rnexxiex it-tagħbija tal-chat",
-    "vojt": "Għad m'hemm l-ebda konversazzjonijiet.",
-    "ibda-chat": "Ibda chat",
-    "nies": "Nies",
-    "issettjar": "Issettjar",
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Call & Text Forwarding",
+    "conversations": "Conversations",
+    "searchPlaceholder": "Search chats...",
+    "errorLoading": "Failed to load chats",
+    "empty": "No conversations yet.",
+    "startChat": "Start a chat",
+    "people": "People",
+    "settings": "Settings",
     "status": "Status",
-    "tpoġġija": "Imexxi sejħiet u messaġġi",
-    "aġġorna": "Aġġorna",
-    "tfittxija": "Fittex konversazzjonijiet",
-    "loginPrompt": "Idħol biex teditja l-issettjar tiegħek.",
-    "login": "Idħol",
-    "irreġistra": "Oħloq kont",
+    "forwarding": "Call & Text Forwarding",
+    "refresh": "Refresh",
+    "search": "Search conversations",
+    "loginPrompt": "Log in to edit your settings.",
+    "login": "Log in",
+    "register": "Create account",
     "chatrooms": "Chatrooms",
     "logout": "Log out",
-    "startChatAlt": "Ibda chat ġdid",
-    "calls": "Sejħiet",
+    "startChatAlt": "Start a new chat",
+    "calls": "Calls",
     "video": "Video",
-    "voicemail": "Voicemail"
+    "voicemail": "Voicemail",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Status Ġdid",
@@ -229,113 +396,142 @@
   "footer": {
     "plans": "Pjanijiet u Prezzijiet",
     "about": "Dwar Chatforia",
-    "careers": " Karrieri",
-    "Stampa\",\n    \"Irklama\",\n    \"Ikkuntattjana\",\n    \"Għajnuna": " Ċentru ta' Għajnuna",
-    "status": "Paġna tal-Istat",
+    "careers": "Karrieri",
+    "press": "Stampa",
+    "advertise": "Irklama",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Paġna tal-Status",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
     "privacy": "Politika tal-Privatezza",
     "terms": "Termini tas-Servizz",
     "cookies": "Issettjar tal-Cookies",
-    "doNotSell": "Ma tbigħx l-informazzjoni tiegħi",
-    "language": "Language",
-    "contactShort": "Contact",
+    "doNotSell": "Tbigħx l-Informazzjoni tiegħi",
+    "language": "Lingwa",
+    "contactShort": "Kuntatt",
     "aria": "Footer",
     "homeAria": "Chatforia home",
     "section": {
-      "company": "COMPANY",
-      "support": "SUPPORT ",
+      "company": "KOMPANIA",
+      "support": "SUPPORT",
       "downloads": "DOWNLOADS",
-      "legal": "LEGAL"
+      "legal": "LEGALI"
     },
     "links": {
-      "plans-pricing": "Plans & Pricing",
-      "about-chatforia": "About Chatforia",
-      "careers": "Careers",
-      "press": "Press",
-      "advertise": "Advertise",
-      " getting-started": "Biex Tibda",
+      "plans-pricing": "Pjanijiet u Prezzijiet",
+      "about-chatforia": "Dwar Chatforia",
+      "careers": "Karrieri",
+      "press": "Stampa",
+      "advertise": "Irklama",
+      "getting-started": "Biex Tibda",
       "help-center": "Ċentru ta' Għajnuna",
       "contact-us": "Ikkuntattjana",
       "status-page": "Paġna tal-Istat",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
       "privacy-policy": "Politika tal-Privatezza",
-      "terms-of -service": "Terms of Service",
-      "do-not-sell-my-info": "Do Not Sell My Info",
-      "cookie-settings": "Cookie Settings",
-      "how-it-works": "How It Works",
+      "terms-of-service": "Kundizzjonijiet tas-Servizz",
+      "do-not-sell-my-info": "La tbiegħx l-informazzjoni tiegħi",
+      "cookie-settings": "Issettjar tal-Cookies",
+      "how-it-works": "Kif Jaħdem",
       "blog": "Blog",
       "refund-policy": "Politika tar-Rimborż",
-      "politika-tas-sms": "Politika dwar il-Messaġġi SMS"
+      "sms-policy": "Politika dwar l-SMS"
     },
-    "soċjali": {
+    "social": {
       "tiktok": "TikTok",
       "instagram": "Instagram",
       "facebook": "Facebook",
-      "linkedin": " LinkedIn",
+      "linkedin": "LinkedIn",
       "x": "X"
     },
     "copyright": "© Chatforia",
-    "patentPending": "Patent pendenti",
-    "backToTop": "↑ Lura għat-toppa"
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Lura għat-top"
+  },
+  "header": {
+    "openNav": "Ftaħ il-menu tan-navigazzjoni",
+    "closeNav": "Agħlaq il-menu tan-navigazzjoni",
+    "homeAria": "Chatforia home"
   },
   "chat": {
     "selectPrompt": "Agħżel test jew kamra tal-chat biex tibda titkellem",
     "newMessages": "Messaġġi ġodda",
-    "typing": "{{name }} qed jikteb...",
+    "typing": "{{name}} qed jikteb...",
     "emptyTitle": "Il-messaġġi tiegħek",
     "emptySubtitle": "Ibgħat messaġġ biex tibda chat.",
     "startChatButton": "Ibgħat messaġġ",
-    "mediaAttachment": "Azzattament tal-midja",
+    "mediaAttachment": "Azzjoni tal-midja",
     "thisUser": "dan l-utent",
-    "blockConfirm": "Tibblokka lil {{name}}? Ma tirċevix messaġġi minnhom.",
-    "blockedUser": "{{name}} imblokka.",
+    "blockConfirm": "Blokka lil {{name}}? Ma tirċevix messaġġi minnhom.",
+    "blockedUser": "Blokkajt lil {{name}}.",
     "blockError": "Ma setax jiġi determinat utent fil-mira biex jiġi blokkat.",
     "blockFailed": "Il-blokka ma rnexxietx (il-backend għadu mhux konness).",
     "encryptedUnavailable": "Messaġġ kriptat (iċ-ċavetta mhix disponibbli)",
-    "unlockToView": "Ħalli ċ-ċavetta tiegħek biex tara dan il-messaġġ"
+    "unlockToView": "Iftaħ iċ-ċavetta tiegħek biex tara dan il-messaġġ",
+    "clearConfirm": "Tnaddaf din il-konversazzjoni? Dan ma jistax jiġi mħassar.",
+    "unknownThread": "Thread mhux magħruf"
   },
-  " messageInput": {
+  "messageInput": {
     "ttl": {
-      "off": "Off"
+      "off": "Mitfi"
     },
-    "freeLimit": "Limit tal-pjan b'xejn: tħassar awtomatikament sa 1 jum. Imblukkat għal 1 jum.",
-    "premiumLimit": "Il-limitu massimu tat-tħassir awtomatiku għall-Premium huwa 30 jum. Imblukkat għal 30 jum.",
-    " nothingToSend": "Ikteb messaġġ jew waħħal fajl biex tibgħat.",
+    "freeLimit": "Limit tal-pjan b'xejn: tħassar awtomatikament sa 1 jum. Imblukkat għal 1jum.",
+    "premiumLimit": "Il-limitu massimu tal-ħassira awtomatika għall-Premium huwa 30 jum. Imblukkat għal 30 jum.",
+    "nothingToSend": "Ikteb messaġġ jew waħħal fajl biex tibgħat.",
     "encryptionFailed": "L-kriptazzjoni ma rnexxietx. Il-messaġġ ma ġiex mibgħut.",
-    "sent": "Il-messaġġ ġie kkonsegwat.",
-    "placeholder": "Ikteb messaġġ… ",
+    "sent": "Il-messaġġ ġie mibgħut.",
+    "placeholder": "Ikteb messaġġ…",
     "autoDelete": "Tħassar awtomatikament",
     "typeToSend": "Ikteb messaġġ biex tibgħat",
     "send": "Ibgħat",
     "sendWithEnter": "Ibgħat (Enter)",
-    "attachment": "Anness",
+    "attachment": "attachment",
     "caption": "Kaption (mhux obbligatorju)",
-    "remove": "Neħħi",
+    "remove": "Neħħi ",
     "clear": "Ħassar",
     "gif": "GIF",
     "sticker": "Sticker",
     "errors": {
-      "attachmentTooLarge": "L-attachment huwa kbir wisq. Ipprova fajl iżgħar.",
+      "attachmentTooLarge": "L-anness huwa kbir wisq. Ippruva fajl iżgħar.",
       "unsupportedFile": "Tip ta' fajl mhux appoġġjat.",
       "rateLimit": "Qed tibgħat messaġġi b'mod wisq mgħaġġel. Jekk jogħġbok naqqas il-veloċità.",
-      "validation": "Żball ta' validazzjoni. Jekk jogħġbok iċċekkja l-messaġġ tiegħek u ipprova mill-ġdid.",
-      "failedToSend": "Ma rnexxiex tibgħat. Tista' terġa' tipprova l-bolla li ma rnexxiex."
-    }
+      "validation": "Validation error. Please check your message and try again.",
+      "failedToSend": "Failed to send. You can retry the failed bubble.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Nota tal-vuċi miżjuda."
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Menu tat-thread",
     "premium": "Premium",
     "aiPower": "Qawwa tal-AI",
-    "Skeda\",\n    \"Aġġornament\",\n    \"AġġornamentSuffiss": "(Aġġornament)",
-    "Fadla\",\n    \"Dwar\",\n    \"Tfittxija\",\n    \"Midja\",\n    \"StiedenIn-nies": "Stieden n-nies",
-    "issettjar tal-kamra": "Issettjar tal-kamra",
-    "naddaf il-konversazzjoni": "Naddaf il-konversazzjoni",
-    "ibblokka": "Ibblokka"
+    "schedule": "Ippjana",
+    "upgrade": "Aġġornament",
+    "upgradeSuffix": "(Aġġornament)",
+    "thread": "Thread",
+    "about": "Dwar",
+    "search": "Tfittxija",
+    "media": "Media",
+    "invitePeople": "Stieden n-nies",
+    "roomSettings": "Is-settings tal-kamra",
+    "clearConversation": "Ħassar il-konversazzjoni",
+    "block": "Blokka"
   },
-  "tfittxija fil-kamra": {
-    "titolu": "Fittex fil-kamra",
+  "roomSearch": {
+    "title": "Fittex fil-kamra",
     "ariaLabel": "Fittex fil-kamra",
     "search": "Fittex",
     "searchMessages": "Fittex messaġġi",
@@ -344,25 +540,36 @@
   },
   "roomSettings": {
     "roles": {
-      "member": "Membru",
-      "moderator": " Moderatur",
-      "amministratur": "Amministratur"
+      "member": "Member",
+      "moderator": "Moderator",
+      "admin": "Admin"
     },
     "aiMode": {
       "off": "Off",
-      "mention": "Biss fuq @ForiaBot jew /ask",
+      "mention": "Only on @ForiaBot or /ask",
       "always": "Irrispondi b'mod proattiv"
     },
     "autoTranslateMode": {
       "off": "Off",
-      "tagged": "Tagged biss (/tr …)",
+      "tagged": "Imtikkes biss (/tr …)",
       "all": "Il-messaġġi kollha"
     },
-    "updated": "Is-settings ġew aġġornati"
+    "updated": "Settings updated",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "Assistent AI",
+    "allowBot": "Ħalli ForiaBot f'din il-kamra",
+    "autoTranslation": "Traduzzjoni awtomatika",
+    "saveAIMode": "Salva l-modalità AI"
   },
   "mediaGallery": {
     "sharedMedia": "Midja kondiviża",
-    "noMediaCached": "Għad m'hemm l-ebda midja maħżuna lokalment.",
+    "noMediaCached": "Għad m'hemmx medja maħżuna lokalment.",
     "imageAlt": "immaġni",
     "openVideo": "Ftaħ vidjo",
     "openVideoWithCaption": "Ftaħ vidjo: {{caption}}",
@@ -381,33 +588,33 @@
   },
   "status": {
     "userNumber": "User #{{id}}",
-    "posted": "Status ippubblikat",
-    "postFailed": "Ma rnexxiex tippubblika l-istatus",
-    "createTitle": "Oħloq status",
+    "posted": "Status posted",
+    "postFailed": "Failed to post status",
+    "createTitle": "Create a status ",
     "modalAriaLabel": "Status ġdid",
     "captionLabel": "X'għandek f'moħħok?",
-    "captionPlaceholder": "Aqsam aġġornament.. .",
+    "captionPlaceholder": "Ikkondividi aġġornament...",
     "captionAria": "Messaġġ tal-istatus",
     "audienceLabel": "Udjenza",
     "audience": {
       "public": "Pubbliku",
-      "followers": "Segwaċi",
-      "contacts": "Kuntatti",
-      "mutuals": "Mutuali",
-      "custom": "Personalizzat..."
+      "followers": "Followers",
+      "contacts": "Contacts",
+      "mutuals": "Mutuals",
+      "custom": "Custom..."
     },
-    "expiresHoursLabel": "Jiskadi (siegħat)",
+    "expiresHoursLabel": "Expires (hours)",
     "maxTooltip": "Massimu 7 ijiem",
     "hoursAbbrev": "h",
     "maxShort": "max",
-    "expiresOn": "Jiskadi f':",
-    "agħżelir-riċevituri": "Agħżel ir-riċevituri",
-    "agħżel-kuntatti": "Agħżel il-kuntatti",
-    "etiketta-ta-l-annessi": "Annessi",
-    "post-ta-l-annessi": "Żid immaġini/vidjows",
-    "nota-ta-l-fajls": "Sa 5 fajls. Skadenza ta' 24 siegħa b'mod awtomatiku.",
-    "postAria": "Post status",
-    "post": "Post"
+    "expiresOn": "Jiskadi fis-:",
+    "chooseRecipients": "Agħżel ir-riċevituri",
+    "selectContacts": "Agħżel il-kuntatti",
+    "attachmentsLabel": "Annessi",
+    "attachmentsPlaceholder": "Żid immaġini/vidjows",
+    "filesNote": "Sa 5 fajls. Skadenza ta' 24 siegħa b'mod default.",
+    "postAria": "Ippubblika l-istatus",
+    "post": "Ippubblika"
   },
   "voicemail": {
     "pageTitle": "Voicemail",
@@ -415,136 +622,140 @@
     "to": "To",
     "unknownCaller": "Unknown",
     "yourNumber": "Your Chatforia number",
-    "durationSeconds": " {{count}}s",
-    "audioAria": "Plejer tal-awdjo tal-messaġġ voicemail",
-    "transcriptHeading": "Traskrizzjoni",
-    "transcriptPending": "Qed tittraskrivi l-messaġġ voicemail…",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Voicemail audio player",
+    "transcriptHeading": "Transcript ",
+    "transcriptPending": "Qed tittraskrivi l-messaġġ tal-vuċi…",
     "transcriptFailed": "It-traskrizzjoni mhix disponibbli.",
-    "loading": "Qed titniżżel il-messaġġ voicemail…",
-    "errorLoading": "Ma rnexxiex titniżżel il-messaġġ voicemail.",
-    "empty": "Għad m'hemm l-ebda messaġġi voicemail.",
+    "loading": "Qed titniżżel il-messaġġ tal-vuċi…",
+    "errorLoading": "Ma rnexxiex ittella' il-messaġġ voicemail.",
+    "empty": "Għad m'hemmx messaġġi voicemail.",
     "deleteConfirm": "Tħassar dan il-messaġġ voicemail?",
     "deleteError": "Ma rnexxiex tħassar il-messaġġ voicemail.",
     "markRead": "Immarka bħala mqraj",
-    "delete": "Tħassar",
-    "unreadDotAria": "Indikatur ta' messaġġ voicemail mhux mqraj"
+    "delete": "Ħassar",
+    "unreadDotAria": "Indikatur ta' messaġġ voicemail mhux imqraj"
   },
-  "lista ta' kuntatti": {
-    "kuntatti mħażna": "Kuntatti mħażna",
-    "aġġornaAria": "Aġġorna l-kuntatti",
-    "post tal-filtru": "Filtra l-kuntatti mħażna…",
-    "filtraAria": "Filtra l-kuntatti mħażna",
-    "ebda kuntatt ma nstab": "Ebda kuntatt ma nstab.",
-    "kuntatt estern": "Kuntatt estern",
-    "notJoined": "Dak il-kuntatt għadu ma ngħaqadx ma' Chatforia.",
-    "couldNotStart": "Ma setax jibda l-chat. Jekk jogħġbok ipprova mill-ġdid.",
-    "startFailed": "Falliet biex tibda l-chat. Jekk jogħġbok ipprova mill-ġdid. ",
-    "deleted": "Il-kuntatt tħassar.",
-    "deleteFailed": "Ma rnexxiex tħassar il-kuntatt. Ippruva mill-ġdid.",
-    "aliasUpdated": "L-alias ġie aġġornat.",
-    "updateAliasFailed": "Ma rnexxiex taġġorna l-alias. Ippruva mill-ġdid.",
-    "selectContact": "Agħżel {{name}}",
+  "contactList": {
+    "savedContacts": "Saved Contacts",
+    "refreshAria": "Refresh contacts",
+    "filterPlaceholder": "Filter saved contacts…",
+    "filterAria": "Filter saved contacts",
+    "noContactsFound": "No contacts found.",
+    "externalContact": "External contact",
+    "notJoined": "That contact hasn’t joined Chatforia yet.",
+    "couldNotStart": "Could not start chat. Please try again.",
+    "startFailed": "Failed to start chat. Please try again.",
+    "deleted": "Contact deleted.",
+    "deleteFailed": "Failed to delete contact. Please try again.",
+    "aliasUpdated": "Alias updated.",
+    "updateAliasFailed": "Failed to update alias. Please try again.",
+    "selectContact": "Select {{name}}",
     "alias": "Alias",
-    "startChat": "Ibda chat",
+    "startChat": "Start chat",
     "message": "Message",
     "delete": "Delete",
     "deleteContactAria": "Delete contact",
     "loadFailed": "Failed to load contacts. Please try again.",
-    "loadMore": "Tella' aktar",
-    "call": "Sejħa",
-    "callStarted": "Qed isejjaħ dan in-numru permezz tan-numru Chatforia tiegħek…",
-    "callFailed": "Ma rnexxiex tibda s-sejħa. Jekk jogħġbok ipprova mill-ġdid."
+    "loadMore": "Load more",
+    "call": "Call",
+    "callStarted": "Calling this number via your Chatforia number…",
+    "callFailed": "Failed to start call. Please try again.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
   },
   "addContactModal": {
     "title": "Żid kuntatt",
-    "phoneOrUsername": "Numru tat-telefon jew username",
+    "phoneOrUsername": "Telefon jew isem tal-utent",
     "phoneOrUsernamePlaceholder": "eż. +13018019227 jew juliannorton",
     "alias": "Alias (mhux obbligatorju)",
-    "aliasPlaceholder": "eż. eż. Xogħol, Omm, Mike – Ewropa",
-    "daħħalNumruTelefonJewUsername": "Daħħal numru tat-telefon jew username.",
-    "lookupTal-UtentFalliet": "Il-lookup tal-utent falliet.",
-    "maTistaxŻżidLilekNnifsek": "Ma tistax iżżid lilek innifsek bħala kuntatt.",
-    "fallietFil-Żieda": "Falliet iż-żieda tal-kuntatt.",
-    "żid": "Żid"
+    "aliasPlaceholder": "eż. Xogħol, Omm, Mike – Ewropa",
+    "enterPhoneOrUsername": "Daħħal numru tat-telefon jew username.",
+    "userLookupFailed": "It-tfittxija tal-utent ma rnexxietx.",
+    "cannotAddSelf": "Ma tistax iżżid lilek innifsek bħala kuntatt.",
+    "failedToAdd": "Ma rnexxiex iżżid il-kuntatt.",
+    "add": "Żid"
   },
   "startChatModal": {
     "title": "Ibda konversazzjoni",
     "searchPlaceholder": "Fittex isem, username, jew numru tat-telefon",
     "messageThisPerson": "Ibgħat messaġġ lil din il-persuna",
-    "contacts": "Kuntatti",
+    "contacts": "Kontatti",
     "recentInteractions": "Interazzjonijiet riċenti",
-    "noContactsMatch": "M'hemm l-ebda kuntatti li jaqblu mat-tfittxija tiegħek.",
-    "noRecentInteractions": "Għad m'hemmx interazzjonijiet reċenti.",
-    "mhux magħruf": "Mhux magħruf",
-    "tip ta' interazzjoni": {
-      "messaġġ": "Messaġġ",
-      "sejħa": "Sejħa",
-      "vidjo": "Vidjo"
+    "noContactsMatch": "M'hemm l-ebda kuntatt li jaqbel mat-tfittxija tiegħek.",
+    "noRecentInteractions": "Għad m'hemmx interazzjonijiet riċenti.",
+    "unknown": "Mhux magħruf",
+    "interactionType": {
+      "message": "Messaġġ",
+      "call": "Call",
+      "video": "Video"
     },
-    "għażla mgħaġġla": "Għażla mgħaġġla",
-    "għal": "Għal",
-    "isem jew username": "Ikteb isem, username",
-    "nameUsernamePhoneEmail": "Ikteb isem, username, telefon, jew email…",
-    "startWithSelected": "Ibda chat mal-għażla magħżula",
-    "searchByUsernameOrPhone": "Fittex bl-username jew bit-telefon",
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Ibda chat mal-magħżul",
+    "searchByUsernameOrPhone": "Fittex bl-isem tal-utent jew in-numru tat-telefon",
     "search": "Fittex",
-    "searchPrompt": " Ikteb username jew telefon u agħfas Fittex.",
-    "pickFromContacts": "Jew agħżel minn kuntatti",
-    "addContact": "Żid Kuntatt",
+    "searchPrompt": "Ikteb isem tal-utent jew numru tat-telefon u agħfas Fittex.",
+    "pickFromContacts": "Jew agħżel mill-kuntatti",
+    "addContact": "Żid kuntatt",
     "show": "Uri",
     "add": "Żid",
     "close": "Għalaq",
-    "selectedCount": "{{count}} magħżula ",
+    "selectedCount": "{{count}} magħżula",
     "pickAtLeastOne": "Agħżel mill-inqas riċevitur wieħed.",
-    "saveContactsHint": "L-entrati tat-telefon/email se jkunu disponibbli wara li tissejvjahom bħala kuntatti.",
+    "saveContactsHint": "L-inserzjonijiet tat-telefon/email se jkunu disponibbli wara li tissejvjahom bħala kuntatti.",
     "failedBulkStart": "Ma rnexxiex tibda l-chat mar-riċevituri magħżula.",
     "noResults": "L-ebda riżultati",
-    "mode": "Modalità",
-    "group": "Grupp",
-    " broadcast": "Broadcast",
-    "groupNameOptional": "Isem tal-grupp (mhux obbligatorju)",
-    "firstMessageOptional": "L-ewwel messaġġ (mhux obbligatorju iżda rakkomandat)",
-    "createGroup": "Oħloq grupp",
-    "sendBroadcast": "Ibgħat broadcast"
+    "mode": "Modu",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
   },
   "peoplePage": {
-    "people": "Nies",
-    "search": "Fittex",
-    "searchPlaceholder": "Fittex il-kuntatti salvati skont l-alias, l-isem, l-isem tal-utent, jew it-telefon",
-    "quickStart": "Bidu malajr",
-    "quickStartDesc": "Immaniġġja l-kuntatti tiegħek u stieden ħbieb.",
-    "importContacts": "Importa l-kuntatti tiegħek",
-    "import ": "Importa",
-    "addContact": "Żid kuntatt",
-    "add": "Żid",
-    "inviteFriends": "Stieden ħbieb",
-    "inviteDesc": "Aqsam il-link tal-istedina tiegħek biex tibda titkellem immedjatament.",
-    "getTheApp": "Ikseb l-app",
-    "getTheAppDesc": "Żomm kuntatt meta tkun fuq il-moviment ma' Chatforia għal iOS u Android.",
-    "download": "Niżżel",
-    "syncTip": "Parir: Il-messaġġi tiegħek jibqgħu sinkronizzati fuq il-web u fuq il-mowbajl.",
-    "filterSaved": "Filtra l-kuntatti salvati",
-    "noContactsFound": "Ma nstabux kuntatti",
-    "focusSearch": "Fokus fit-tfittxija",
-    "findOrAdd": "Sib jew żid xi ħadd",
-    "searchByPhoneOrUsername": "Fittex bil-mowbajl / isem tal-utent"
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
-    "title": "Profil tal-Utent",
-    "preferredLanguage": "Lingwa preferuta",
-    "chooseLanguage": "Agħżel lingwa",
-    "mustLogin": "Trid tidħol biex tara l-issettjar.",
-    "autoTranslate": "Traduci awtomatikament il-messaġġi",
-    "showOriginalWithTrans lation": "Uri l-messaġġi oriġinali u tradotti",
-    "showOriginalAndTranslation": "Uri l-oriġinali ħdejn it-traduzzjoni",
-    "filterExplicit": "Filtra l-kontenut esplicitu",
-    "aiReply": "Twieġba tal-AI",
+    "title": "Profil tal-Utent ",
+    "preferredLanguage": "Preferred language",
+    "chooseLanguage": "Choose a language",
+    "mustLogin": "You must sign in to view the settings.",
+    "autoTranslate": "Auto-translate messages",
+    "showOriginalWithTranslation": "Show original and translated messages",
+    "showOriginalAndTranslation": "Show original alongside translation",
+    "filterExplicit": "Filter explicit content",
+    "aiReply": "Twieġiba bl-AI",
     "enableReadReceipts": "Attiva r-riċevuti tal-qari",
-    "allowExplicitContent": "Permetti kontenut esplicitu",
-    "disappearingMessages": "Attiva messaġġi li jisparixxu",
-    "autoDeleteSeconds": "Sekondi sakemm jitħassar awtomatikament",
-    "saveSuccess": "Is-settings ġew salvati!",
-    "saveError": "Żball: Ma setgħetx tiġi salvata l-issettjar",
+    "allowExplicitContent": "Allow explicit content",
+    "disappearingMessages": "Enable disappearing messages",
+    "autoDeleteSeconds": "Seconds until auto-delete",
+    "saveSuccess": "Settings saved!",
+    "saveError": "Error: Could not save settings",
     "avatarAlt": "Avatar tal-profil",
     "uploadAvatar": "Itella' avatar ġdid",
     "avatarSuccess": "Avatar imtella'!",
@@ -558,13 +769,13 @@
     "enterBackupPassword": "Daħħal il-password għal dan il-backup:",
     "importSuccess": "Il-miftuħa privata ġiet importata f'dan l-apparat.",
     "importFailed": "Ma rnexxiex l-importazzjoni tal-miftuħa (password żbaljata jew fajl korrutt).",
-    "keysRotated": "Par ġdid ta' ċwievet ġie ġenerat u ċ-ċavetta pubblika ġiet imniżżla.",
+    "keysRotated": "Par ġdid ta' ċwievet ġie ġenerat u ċavetta pubblika ttella'.",
     "rotateFailed": "Ma rnexxiex li jinbiddlu ċ-ċwievet.",
     "security": "Sigurtà",
-    "exportKey": "Eksporta ċ-Ċavetta tal-Kifrit",
+    "exportKey": "Eżporta ċ-Ċavetta tal-Kifrit",
     "importKey": "Irrestawra ċ-Ċavetta tal-Kifrit",
     "rotateKeys": "Biddel iċ-Ċwievet tal-Kifrit",
-    "keyDisclaimer": "Iċ-ċavetta privata tiegħek qatt ma titlaq minn dan l-apparat. Esporta kopja protetta b'password biex tirrestawraha fuq apparat ieħor.",
+    "keyDisclaimer": "Iċ-ċavetta privata tiegħek qatt ma titlaq minn dan l-apparat. Eżporta kopja protetta b'password biex tirrestawra ha fuq apparat ieħor.",
     "sectionProfile": "Profil",
     "phoneNumber": "Numru tat-telefon",
     "appearance": "Dehra",
@@ -572,68 +783,68 @@
     "disappearing": "Messaġġi li jisparixxu",
     "backupSync": "Backup u Sinkronizzazzjoni",
     "ai": "AI",
-    "accessibility": "Aċċessibilità",
-    "privacy": "Privatezza",
-    "devices": "Apparati marbuta",
-    "themeFreeNotice": "Int fuq il-verżjoni b'xejn—uża l-għażliet mgħaġġla tax-Xemx/Qamar hawn taħt. Aġġorna biex tiftaħ aktar temi.",
-    "sunTheme": "Uża t-tema Dawn",
-    "moonTheme": "Uża t-tema Moon (Nofsillejl)",
+    "accessibility": "Aċċessibbiltà",
+    "privacy": " Privatezza",
+    "devices": "Linked devices",
+    "themeFreeNotice": "Int fuq il-verżjoni b'xejn—uża l-għażliet Rapidi tax-Xemx/Qamar hawn taħt. Iġġedded biex tiftaħ aktar temi.",
+    "sunTheme": "Uża t-tema Dawl tax-Xemx",
+    "moonTheme": "Uża t-tema Qamar (Nofsillejl)",
     "sun": "Xemx",
     "moon": "Qamar",
-    "backupTitle": "Backups Kriptati & Sinkronizzazzjoni mal-Apparat",
-    "openBackupTools": " Ftaħ l-Għodod tal-Backup",
-    "backupDesc": "Agħmel backup tal-miftuħ tal-kriptazzjoni tiegħek biex tirrestawra b'mod sigur il-messaġġi tiegħek fuq apparat ieħor. ",
+    "backupTitle": "Kopji ta' Riżerva Kriptati u Sinkronizzazzjoni mad-Dispositivi",
+    "openBackupTools": "Ftaħ l-Għodod tal-Kopja ta' Riżerva",
+    "backupDesc": "Agħmel kopja ta' riżerva tal-miftuħ tal-kriptazzjoni tiegħek biex tirrestawra b'mod sigur il-messaġġi tiegħek fuq apparat ieħor. ",
     "privacyBlurEnabled": "Imċajpar il-messaġġi b'mod awtomatiku",
     "privacyBlurOnUnfocus": "Imċajpar meta l-app mhix f'fokus",
     "planSection": "Il-pjan tiegħi",
-    "planLoading": "Qed tinħarga l-pjan tiegħek…",
-    "planLoadFailed": "Ma rnexxiex tinħarga l-pjan tiegħek. ",
-    "currentPlan": "Pjan kurrenti",
-    "planRenewsOn": "Jirriinnovaw fis-",
-    "freePlanCopy": "Int fuq il-pjan b'xejn. Agħmel aġġornament biex tiftaħ aktar karatteristiċi bħal backup, numri addizzjonali, u għażliet ta' privatezza avvanzati.",
+    "planLoading": "Qed nillgħab il-pjan tiegħek…",
+    "planLoadFailed": "Ma rnexxiex nilgħab il-pjan tiegħek.",
+    "currentPlan": "Il-pjan kurrenti",
+    "planRenewsOn": "Jirriġenera fis-",
+    "freePlanCopy": "Int fuq il-pjan b'xejn. Aġġorna biex tiftaħ aktar karatteristiċi bħal backup, numri żejda, u għażliet ta' privatezza avvanzati.",
     "upgradePlanCta": "Aġġorna l-pjan",
     "changePlanCta": "Biddel il-pjan",
     "manageBilling": "Immaniġġja l-fatturazzjoni",
-    "portalOpenFailed": "Ma setax jiftaħ il-portal tal-fatturazzjoni. Jekk jogħġbok ipprova mill-ġdid.",
-    "żommBiexTuri": "Żomm biex turi",
-    "avżaMetaJikkopja": "Avżani jekk il-messaġġ tiegħi jiġi kkopjat",
-    "maSetgħetxTella'": "Ma setgħetx tella' l-profil",
-    "segwajt": "Segwajt",
-    "segwituMaRnexxiex": "Ma rnexxiex issegwi",
-    "maSegwajtx": "Ma segwajtx",
-    "maRnexxiexMaSegwajtx": "Ma rnexxiex tieqaf issegwi",
-    "segwi": "Segwi",
-    "ieqaf issegwi": "Ieqaf issegwi",
-    "hint dwar is-segwitu": "L-istejjer tagħhom se jidhru fil-feed 'Dawk li qed isegwu' tiegħek jekk jippubblikaw b'udjenza Segwaċi (jew Pubbliku).",
-    "utent mhux misjub": "L-utent mhux misjub",
-    "segwik": "Qed isegwik",
-    "titolu tas-sezzjoni li waqfet": ": \"Is-sezzjoni ma rnexxiex titgħabba",
-    "sectionCrashedBody": "Xi ħaġa marret ħażin f'din is-sezzjoni.",
-    "forwarding": "Ittestjar u Test Forwarding",
-    "callTextForwardingSection": "Ittestjar u Test Forwarding",
-    "callTextForwardingTitle": "Ittestjar u/jew Test Forwarding",
-    "callTextForwardingDescription": "Ittestjar sejħiet u messaġġi li jaslu lejn it-telefon jew l-email ivverifikat tiegħek. Sejħiet li joħorġu sejħiet/messaġġi jistgħu juru n-numru Chatforia tiegħek.",
-    "enableTextForwarding": "Aqbad it-trasferiment tal-messaġġi",
-    "forwardTextsToPhone": "Ibgħat messaġġi lit-telefon",
-    "forwardTextsToEmail": "Ibgħat messaġġi lill-email",
+    "portalOpenFailed": "Ma setgħetx tiftaħ il-portal tal-fatturazzjoni. Jekk jogħġbok ipprova mill-ġdid.",
+    "holdToReveal": "Żomm biex turi",
+    "notifyOnCopy": "Informa lili jekk il-messaġġ tiegħi jiġi kkopjat",
+    "loadFailed": "Ma rnexxiex ittella' l-profil",
+    "followed": "Segwit",
+    "followFailed": "Ma rnexxiex issegwi",
+    "unfollowed": "Ma segwejtx aktar",
+    "unfollowFailed": "Ma rnexxiex tieqaf issegwi",
+    "follow": "Issegwi",
+    "unfollow": "Unfollow",
+    "followHint": "L-istejjer tagħhom se jidhru fil-feed 'Qed Issegwi' tiegħek jekk jippubblikaw b'udjenza Segwaċi (jew Pubbliku).",
+    "userNotFound": "L-utent ma nstabx",
+    "followsYou": "Qed issegwilik",
+    "sectionCrashedTitle": "Is-sezzjoni ma rnexxiex titgħabba",
+    "sectionCrashedBody": "Xi ħaġa marret ħażin f'din is-sezzjoni. ",
+    "forwarding": "Ittestjar ta' Sejħiet u Messaġġi",
+    "callTextForwardingSection": "Ittestjar ta' Sejħiet u Messaġġi",
+    "callTextForwardingTitle": "Ittestjar u/jew Ittrasmissjoni ta' Messaġġi",
+    "callTextForwardingDescription": "Ittrasmetti sejħiet u messaġġi li jaslu fuq it-telefon jew l-email ivverifikati tiegħek. Is-sejħiet/messaġġi li jitilqu jistgħu juru n-numru Chatforia tiegħek.",
+    "enableTextForwarding": "Akkattiva t-trasmissjoni ta' messaġġi",
+    "forwardTextsToPhone": "Ittrasmetti messaġġi lit-telefon",
+    "forwardTextsToEmail": "Ittrasmetti messaġġi lill-email",
     "destinationPhone": "Telefon tad-destinazzjoni (E.164)",
     "destinationEmail": "Email tad-destinazzjoni",
-    "enableCallForwarding": "Aqta' sejħiet għall-avvanzament",
+    "enableCallForwarding": "Attiva l-għaddija tas-sejħiet",
     "destinationPhoneForCalls": "Destinazzjoni (E.164) għas-sejħiet",
-    "aliasBridging": "Ittestjar ta' sejħiet (alias bridging)",
-    "quietHoursOptional": "Sigħat kwieti (għażla fakultattiva)",
+    "aliasBridging": "Għaddija tas-sejħiet (alias bridging)",
+    "quietHoursOptional": "Sigħat kwieti (optional)",
     "startHour": "Siegħa tal-bidu (0–23)",
     "endHour": "Siegħa tat-tmiem (0–23)",
     "reset": "Irrisettja",
-    "saveBtn": "Salva",
-    "saveProfile ": "Salva l-profil",
-    "saveForwarding": "Salva l-inoltru",
-    "forwardSaved": "Is-settings tal-inoltru ġew salvati",
+    "saveBtn": "Ħlief",
+    "saveProfile": "Salva l-profil",
+    "saveForwarding": "Salva t-tmexxija",
+    "forwardSaved": "Is-settings tat-tmexxija ġew salvati",
     "forwardSaveFailed": "Ma rnexxiex is-salvataġġ tas-settings",
     "errE164": "Daħħal numru tat-telefon E.164 validu (eż., +15551234567).",
-    "errEmail": "Daħħal indirizz email validu.",
+    "errEmail": " Daħħal indirizz email validu.",
     "errSmsDest": "Agħżel mill-inqas destinazzjoni waħda (telefon jew email).",
-    "errQuietHours": "L-ħinijiet kwieti jridu jkunu bejn 0 u 23.",
+    "errQuietHours": "Il-ħinijiet kwieti jridu jkunu bejn 0 u 23.",
     "randomChat": "Chat każwali",
     "ageBand": "Il-firxa ta' età tiegħek",
     "ageBandPlaceholder": "Agħżel il-firxa ta' età tiegħek",
@@ -642,37 +853,53 @@
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Aħna naħżnu biss firxa ta' età (mhux id-data eżatta tat-twelid tiegħek). Dan jintuża biex iżomm il-parijiet fil-Chat Aleatorju raġonevoli.",
+    "ageBandHint": "Aħna naħżnu biss firxa ta' età (mhux id-data eżatta tat-twelid tiegħek) . Dan jintuża biex iżomm il-parijiet fil-Chat Aleatorju raġonevoli.",
     "wantsAgeFilter": "Uża qabbil ibbażat fuq l-età fil-Chat Aleatorju",
-    "wantsAgeFilterDesc": "Meta jkun attivat, nippruvaw nipparawk ma' persuni f'firxiet ta' età kompatibbli.",
-    "partnerAgeBands": "Min jista' jitqabbel miegħek?",
-    "partnerAgeBandsDesc": "Adolesċenti dejjem jitqabblu biss ma' adoloxxenti oħra. L-adulti ma jistgħux jitqabblu ma' adoloxxenti.",
-    "teenMatchingNote": "Għas-sigurtà, kontijiet fl-età bejn 13 u 17-il sena jistgħu jiġu mqabbla biss ma' kontijiet oħra bejn 13 u 17-il sena f'Chattaġġ Aleatorju.",
+    "wantsAgeFilterDesc": "Meta jkun attiv, nipprovaw nqabbduk ma' nies f'firxiet ta' età kompatibbli.",
+    "partnerAgeBands": "Ma min tista' tiġi mqabbad?",
+    "partnerAgeBandsDesc": "L-adolexxenti dejjem jiġu mqabbla biss ma' adolexxenti oħra. L-adulti ma jistgħux jiġu mqabbla ma' adolexxenti.",
+    "teenMatchingNote": "Għas-sigurtà, kontijiet fil-firxa ta' età ta' 13–17 jistgħu jiġu mqabbla biss ma' kontijiet oħra ta' 13–17 fis-Sewħa Aleatorja.",
     "foriaRemember": "Ħalli lil Ria tiftakar affarijiet li tgħidilha",
-    "foriaRememberDesc": "Meta dan ikun attiv, Foria tista' tuża l-konversazzjonijiet preċedenti tiegħek f'Chattaġġ Aleatorju (miegħek biss) biex iżżomm il-konversazzjoni għaddejja. Tista' tiddiżattiva dan fi kwalunkwe ħin.",
+    "foriaRememberDesc": "Meta dan ikun mixgħul, Foria tista' tuża l-konversazzjonijiet tiegħek tas-Sewħa Aleatorja tal-passat (biss miegħek) biex il-konversazzjoni tibqa' għaddejja. Tista' tiddiżattiva dan fi kwalunkwe ħin.",
     "voicemailSection": "Voicemail",
-    "voicemailEnabled": "Attiva voicemail",
-    "voicemailAutoDeleteDays": "Tħassar awtomatikament messaġġi tal-vuċi wara (jiem)",
-    "voicemailAutoDeletePlaceholder": "Ħalli vojta biex iżżomm għal dejjem",
-    "voicemailForwardEmail": "Ibgħat voicemail lill-email",
-    "voicemailForwardEmailPlaceholder": "Email biex tibgħat vo icemail notifications to",
-    "voicemailGreetingText": "Test fallback greeting",
-    "voicemailGreetingTextDesc": "Used when your audio greeting is unavailable.",
-    "voicemailGreetingUpload": "Itella' l-messaġġ ta' merħba tal-posta tal-vuċi",
-    "voicemailPreviewGreeting": "Previżjoni tal-messaġġ ta' merħba",
-    "voicemailGreetingUploaded": "Il-messaġġ ta' merħba tal-posta tal-vuċi tlella' b'suċċess",
-    "voicemailGreetingUploadError": "Ma rnexxiex itella' l-messaġġ ta' merħba tal-posta tal-vuċi",
-    "voicemailNote": "Il-messaġġi tal-vuċi minn in-numri tiegħek ta' Chatforia se jinħażnu fil-kaxxa tal-posta tal-vuċi tiegħek. Tista' tattiva t-traskrizzjoni u t-tiġdid f'pjanijiet appoġġjati.",
+    "voicemailEnabled": "Attiva messaġġ voicemail",
+    "voicemailAutoDeleteDays": "Tħassar awtomatikament messaġġi voicemail wara (jiem)",
+    "voicemailAutoDeletePlaceholder": "Ħalli vojta biex iżżommhom għal dejjem",
+    "voicemailForwardEmail": "Ifforwardja messaġġ voicemail għal email",
+    "voicemailForwardEmailPlaceholder": "Email biex tibgħat notifiki tal-messaġġ tal-vuċi",
+    "voicemailGreetingText": "Test ta' messaġġ ta' merħba alternattiv",
+    "voicemailGreetingTextDesc": "Użat meta l-messaġġ tal-vuċi tiegħek ma jkunx disponibbli.",
+    "voicemailGreetingUpload": "Itella' merħba tal-messaġġ bil-vuċi",
+    "voicemailPreviewGreeting": "Preview tal-merħba",
+    "voicemailGreetingUploaded": "Merħba tal-messaġġ bil-vuċi tella' b'suċċess",
+    "voicemailGreetingUploadError": " Ma rnexxiex ittella' il-messaġġ ta' merħba tal-posta tal-vuċi",
+    "voicemailNote": "Il-messaġġi tal-vuċi minn in-numri Chatforia tiegħek se jinħażnu fil-kaxxa tal-posta tal-vuċi tiegħek. Tista' tattiva t-traskrizzjoni u t-trażmissjoni f'pjanijiet appoġġjati.",
     "portHint": "Trid iżżomm in-numru attwali tiegħek? Tista' tportah f'Chatforia Wireless.",
     "wireless": {
-      "manage": "Immaniġġja wireless"
+      "manage": "Immaniġġja wireless",
+      "portCta": "Porta l- numru"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Profil tal-Utent ",
       "desc": "Ikseb data mobbli għal Chatforia meta tkun 'il bogħod mill-Wi-Fi.",
-      "cta": "Ikseb eSIM / Uri QR"
+      "cta": "Ikseb eSIM / Uri QR",
+      "ctaManage": "Immaniġġja l-eSIM",
+      "descActive": "L-eSIM tiegħek hija attiva u lesta biex tiġi mmaniġġjata."
     },
-    "encryptedBackupsTitle": "Backup taċ-Ċavetta ta' Kriptaġġ"
+    "encryptedBackupsTitle": "Kopja ta' Ċavetta ta' Kriptazzjoni",
+    "accessibilityFailed": "Ma rnexxiex isalva l-issettjar tal-aċċessibbiltà.",
+    "aiFailed": "Ma rnexxiex isalva l-issettjar tal-AI.",
+    "avatarRemoveError": "Ma rnexxiex tneħħi l-avatar.",
+    "avatarRemoved": "L-avatar tneħħa.",
+    "disappearAfterSeconds": "Jisparixxi wara {{seconds}} sekondi",
+    "forwardingLoading": "Qed tinħadem l-issettjar tat-trażmissjoni…",
+    "presetSeconds": "{{seconds}} sekondi",
+    "removeAvatar": "Neħħi l-avatar",
+    "safetyAge": "Sigurtà u età",
+    "typeOrPick": "Ikteb jew agħżel valur",
+    "userFallback": "Utent ta' Chatforia",
+    "followers": "Segwaċi",
+    "following": "Qed issegwi"
   },
   "themes": {
     "amoled": "Amoled",
@@ -683,149 +910,149 @@
     "velvet": "Velvet"
   },
   "sounds": {
-    "notificationSounds": "Notifiki tal-ħsejjes",
+    "notificationSounds": "Sounds ta' notifiki",
     "resetToDefaults": "Irrisettja għall-issettjar default",
-    "freeNoticeStart": "Int fuq il-pjan b'xejn — it-tonijiet premium jidhru imma huma mblukkati. ",
+    "freeNoticeStart": "Int fuq il-Pjan B'xejn — it-tuni premium jidhru imma huma mblukkati. ",
     "freeNoticeEnd": " biex tiftaħ kollox.",
-    "messageTone": "Tona tal-messaġġ",
-    "ringtone": "Tona tar-ringback",
+    "messageTone": "Tun ta' messaġġ",
+    "ringtone": "Tun ta' ring",
     "preview": "Preview",
-    " waqqaf": "Waqqaf",
-    "volum": "Volum",
-    "hintFaħl-fajlsMessageTone": "Poġġi fajls f'/public/sounds/Message_Tones",
-    "hintFaħl-fajlsRingtone": "Poġġi fajls f'/public/sounds/Ringtones",
+    "stop": "Waqqaf",
+    "volume": "Volum",
+    "messageToneFilesHint": "Poġġi fajls f'/public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Poġġi fajls f'/public/sounds/Ringtones",
     "premiumRequired": "Premium meħtieġ għal dik l-għażla.",
-    "saved": "Is-settings tal-ħoss ġew salvati.",
-    "saveFailed": "Ma setgħetx tiġi salvata s-settings tal-ħoss.",
-    "resetNotSaved": "Irrisettja għall-valuri default (għadu mhux salvat).\"",
+    "saved": "L-issettjar tal-ħoss ġie salvat.",
+    "saveFailed": "Ma setgħetx tiġi salvata l-issettjar tal-ħoss.",
+    "resetNotSaved": "Irrisettja għall-issettjar default (għadu mhux salvat).",
     "premiumTone": "Dak huwa ton Premium.",
-    "premiumRingtone": "Dak huwa ringtone Premium.",
-    "custom ComingSoon": "It-tlugħ ta' fajls tal-ħoss personalizzati se jasal dalwaqt.",
-    "freeNotice": "Int fuq il-pjan b'xejn — it-tonijiet premium jidhru imma huma mblukkati. Agħmel aġġornament biex tiftaħhom kollha.",
+    "premiumRingtone": "Dak  huwa ringtone Premium.",
+    "customComingSoon": "It-tlugħ ta' fajls tal-ħoss personalizzati se jasal dalwaqt.",
+    "freeNotice": "Int fuq il-pjan b'xejn — it-toni Premium jidhru imma huma mblukkati. Agħmel aġġornament biex tiftaħhom kollha.",
     "default": "Default",
     "vibrate": "Vibrazzjoni",
-    "dreamer": "Ħolmatur",
-    "notify": "Notifika",
-    "pop": "Pop",
-    "pulsatingSound": "Ħoss pulsanti",
-    "textMessage": "Messaġġ testwali",
-    "xylophone": "Xilofon",
-    "classic": "Klassiku",
-    "urgency": "Urġenza",
-    "bells": "Qnieba",
-    "chimes": "Ċimi",
-    "digitalPhone": "Telefon Diġitali",
-    "melodic": "Melodiku",
-    "organNotes": "Noti tal-Organu",
+    "dreamer": "Ħolm",
+    "notify": "Informa",
+    "pop": "Pop ",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
     "soundReality": "Sound Reality",
     "street": "Street",
     "universfield": "Universfield"
   },
   "aiSettings": {
-    "title": "Settings tal-AI",
+    "title": "Issettjar tal-AI",
     "controlIntro": "Kontrolla t-traduzzjoni, ir-risposti intelliġenti, u r-risposti awtomatiċi ta' ForiaBot.",
     "translation": "Traduzzjoni",
-    "autoTranslateIncoming": "Traduci awtomatikament il-messaġġi li jaslu",
+    "autoTranslateIncoming": "Traduci awtomatikament messaġġi li jaslu",
     "showOriginalAlongside": "Uri t-test oriġinali ħdejn it-traduzzjoni",
-    "smartReplies": "Risposti Intelliġenti ",
-    "enableSmartReplies": "Attiva Risposti Intelliġenti",
-    "smartRepliesHint": "Ibgħat l-aħħar ftit messaġġi riċevuti (imnaddfin) lill-AI biex jissuġġerixxi tweġibiet malajr.",
-    "maskProfanity": "Aħbi kliem vulgari fis-suġġerimenti tal-AI",
-    "maskProfanityHint": "Jekk attivat, il-kliem immarkat fis-suġġerimenti tal-AI se jkun immaskjat ",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
     "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Attiva r-risposta awtomatika meta nkun impenjat",
+    "enableAutoReply": "Aħdem it-tweġiba awtomatika meta nkun impenjat",
     "autoReplyMode": "Modalità ta' risposta awtomatika",
     "cooldownSeconds": "Cooldown (sekondi)",
-    "firma": "Firma",
-    "risposta awtomatika": "🤖 Risposta awtomatika",
-    "attivFinoGħalObligatorju": "Attiv sa (obbligatorju)",
-    "salva": "Salva l-issettjar tal-AI",
-    "salvat": "Il-preferenzi tal-AI ġew salvati",
-    "salvazzjonifalluta": " Ma rnexxiex isalva l-issettjar tal-AI",
-    "translateOff": "Off",
-    "translateTagged": "Biss meta @translated jew tagged",
-    "translateAll": "Itraddu l-messaġġi kollha li jaslu ",
-    "modeDm": "Chats 1:1 biss",
-    "modeMention": "Biss meta nkun @msemmija",
-    "modeAll": "Kull messaġġ li jasal",
-    "off": "Mitfi",
-    "on": "Mixgħul"
+    "signature": "Firma",
+    "autoReply": "🤖 Risposta awtomatika",
+    "activeUntilOptional": "Attiv sa (optional)",
+    "save": "Salva l-Ispeċifikazzjonijiet tal-AI",
+    "saved": "Il-preferenzi tal-AI ġew salvati",
+    "saveFailed": "Ma rnexxiex isalva l-ispeċifikazzjonijiet tal-AI",
+    "translateOff": "Mitfi",
+    "translateTagged": "Biss meta @translated jew immarkat",
+    "translateAll": "Itraduci l-messaġġi kollha li jaslu",
+    "modeDm": "Biss chat 1:1",
+    "modeMention": "Biss meta jien 'jien @semmi",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
   },
   "accessibilitySettings": {
-    "title": "Aċċessibilità u Twissijiet",
-    "loadFailed": "Ma rnexxiex ittella' l-issettjar",
-    "accessibilityDesc": "Għażliet biex jagħmlu Chatforia aktar faċli biex tintuża mingħajr ma tiddependi fuq il-ħoss.",
-    "interfaceFontSize": "Daqs tal-font tal-interface",
-    "interfaceFontSizeHelp": "Jibda fid-daqs normali. Żid jekk tippreferi test akbar.",
-    "notifications": "Notifiki",
-    "visualAlerts ": "Twissijiet viżivi għal messaġġi u sejħiet",
-    "visualAlertsDesc": "Uri banners u blinkjar tat-titlu sabiex ma titlifx l-attività.",
-    "vibrateOnNewShort": "Vibrazzjoni fuq messaġġi ġodda (meta jkun appoġġjat)",
-    "vibrateOnNewDesc": "Iqajjem vibrazzjoni fid-dispożittiv b'notifiki.",
-    "flashOnCallShort": "Id-dawl tal-iskrin jixgħel fuq sejħa li qed tidħol",
-    "flashOnCallDesc": "Flash qasir u qawwi meta sejħa tkun qed tirringja.",
-    "liveCaptionsTitle ": "Sottotitolazzjoni f'ħin reali (sejħiet)",
-    "enableLiveCaptions": "Attiva s-sottotitolazzjoni f'ħin reali waqt sejħiet (Premium)",
-    "liveCaptionsDesc": "Uri sottotitolazzjoni f'ħin reali mill-awdjo tal-parteċipant l-ieħor.",
-    "captionFontSize": "Daqs tal-font tas-sottotitolazzjoni",
-    "captionBackground": "Sfond tas-sottotitolazzjoni",
-    "voiceNotes": "Notes tal-vuċi",
-    "autoTranscribeVoice Notes": "Awto-traskrivi noti tal-vuċi",
-    "autoTranscribeVoiceNotesDesc": "Aqbad traskrizzjoni ma' messaġġi awdjo li tirċievi.",
-    "changesSavedInstantly": "Il-bidliet jinħażnu immedjatament.",
-    "sm": "Żgħir",
-    "md": "Medju",
-    "lg": "Kbir",
-    "xl": " Extra Kbir",
-    "dawl": "Dawl",
-    "skur": "Skura",
-    "trasparenti": "Trasparenti",
-    "aċċessibilità": "Aċċessibilità",
-    "notificationsDesc": "Alerti viżivi għal messaġġi u sejħiet\nJuru banners u titlu li jdawlu sabiex ma titlifx l-attività.",
-    "vibrateOnNew": "Tivibra fuq messaġġi ġodda (meta jkun appoġġjat)\nTattiva l-vibrazzjoni tal-apparat bin-notifiki.",
-    "flashOnCall": "Dehsa tal-iskrin meta jkun hemm sejħa ġejja\nDehsa qasira u qawwija meta sejħa tkun qed tinqala'.",
-    "liveCaptions": "Sottotitolijiet f'ħin reali (sejħiet)"
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
   },
   "privacySection": {
-    "strictE2EE": "Enkrizzjoni stretta end-to-end",
-    "ciphertextOnlyNote": "Aħżen biss iċ-ċifrotest fuq is-server. Tiddiżattiva l-AI/ Previżjonijiet ta' traduzzjoni u moderazzjoni.",
-    "strictE2EEEnabled": "Strict E2EE attivat. AI/Traduzzjoni se jkunu diżattivati.",
-    "strictE2EEDisabled": "Strict E2EE diżattivat. AI/Traduzzjoni jerġgħu jkunu attivati."
+    "strictE2EE": "Enkrizzjoni end-to-end stretta",
+    "ciphertextOnlyNote": "Aħżen biss iċ-ċifrotest fuq is-server. Tiddiżattiva l-AI/Translate u l-previews tal-moderazzjoni.",
+    "strictE2EEEnabled": "E2EE strett attivat. L-AI/Translate se jkun diżattivat.",
+    "strictE2EEDisabled": " E2EE strett diżattivata. AI/Translate reġgħet ġiet attivata."
   },
   "linkedDevicesPanel": {
     "title": "Apparati marbuta",
-    " nonefound": "Ma nstabux apparati marbuta.",
+    "noneFound": "Ma nstabux apparati marbuta.",
     "refresh": "Aġġorna",
     "unknown": "Mhux magħruf",
-    "loadFailed": "Ma rnexxiex ittella' l-apparati marbuta",
-    "loadFailedLog": "Ma rnexxiex ittella' l-apparati marbuta",
-    "renamePrompt": "Daħħal isem ġdid għal dan l-apparat",
-    "renamed": "L-apparat inbidel l-isem",
-    "renameFailed": " Ma setax jinbidel l-isem tal-apparat",
-    "revoked": "L-apparat irrevokat",
-    "revokeFailed": "Ma setax jirrevoka l-apparat",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Ma setgħetx tirrevoka l-apparat",
     "unnamedDevice": "Apparat bla isem",
     "primary": "Primarju",
-    "revokedStatus": "Irrevokat",
+    "revokedStatus": "Revokat",
     "addedLastSeen": "Miżjud {{created}} • Deher l-aħħar darba {{lastSeen}}",
-    " renameDevice": "Biddel l-isem tal-apparat",
+    "renameDevice": "Biddel l-isem tal-apparat",
     "revokeDevice": "Irrevoka l-apparat"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Immaniġġja l-pjan mobbli ta' Chatforia tiegħek, in-numri, it-trażmissjoni u l-portar tan-numri.",
+    "description": "Immaniġġja l-pjan mobbli ta' Chatforia tiegħek, in-numri, it-tmexxija, u t-trasferiment tan-numru.",
     "options": {
       "heading": "Agħżel kif trid tuża Chatforia",
       "subheading": "Tista' tikseb numru ġdid ta' Chatforia, jew ġib in-numru eżistenti tiegħek minn operatur ieħor.",
       "newNumber": "Ikseb numru ġdid ta' Chatforia",
-      "portNumber": "Ipporta n-numru attwali tiegħek f'Chatforia Wireless"
+      "portNumber": "Porta n-numru attwali tiegħek f'Chatforia Wireless"
     },
     "port": {
-      "heading": "Ipporta n-numru eżistenti tiegħek",
+      "heading": "Port your existing number",
       "subheading": "Aġġorna n-numru tat-telefon attwali tiegħek mill-operatur eżistenti tiegħek f'Chatforia. Kun żgur li d-dettalji jaqblu eżattament mal-kont tal-operatur tiegħek biex tevita dewmien.",
-      "phoneNumberLabel": "Numru tat-telefon biex jiġi importat",
+      "phoneNumberLabel": "Numru tat-telefon biex jiġi portat",
       "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "L-operatur attwali",
+      "carrierLabel": "Operatur attwali",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile, eċċ.",
       "accountNumberLabel": "Numru tal-kont",
       "pinLabel": "PIN tal-port-out / password",
@@ -833,205 +1060,263 @@
       "address1Label": "Linja tal-indirizz 1",
       "address2Label": "Linja tal-indirizz 2 (mhux obbligatorju)",
       "cityLabel": "Belt",
-      "stateLabel ": "Stat / Provinċja",
+      "stateLabel": "Stat / Provinċja",
       "postalCodeLabel": "Kodiċi postali",
       "countryLabel": "Pajjiż",
-      "submitButton": "Ibgħat it-talba tal-port",
-      "success": "It-talba tal-port ġiet sottomessa! Se nibqgħu naġġornawk.",
+      "submitButton": "Ibgħat it-talba għall-port",
+      "success": "It-talba għall-port ġiet sottomessa! Se nibqgħu naġġornawk.",
       "genericError": "Xi ħaġa marret ħażin."
     },
     "status": {
-      "heading": " Status tal-porting",
+      "heading": "Status tal-port",
       "subheading": "Segwi l-istatus tat-talbiet tiegħek għall-porting tan-numru.",
       "loading": "Qed tinġabar…",
-      "loadError": "Ma rnexxiex tinġabar it-talbiet tal-porting.",
+      "loadError": "Ma rnexxiex tinġabar it-talbiet għall-porting.",
       "none": "Għad m'hemm l-ebda attività ta' porting.",
       "pending": "Qed tistenna reviżjoni",
-      "submitted": "Imressaq lill-operatur",
-      "inProgress": "Qed isir",
+      "submitted": "Sottomessa lill-operatur",
+      "inProgress": "Qed issir",
       "completed": "Kompletat",
-      "failed": "Fallut",
-      "canceled": "Ikkanċellat",
-      "created": "Maħluq:",
-      "scheduled": "Skedat:",
-      "tlesta": "Tlesta:"
+      "failed": "Failed",
+      "canceled": "Canceled",
+      "created": "Created:",
+      "scheduled": "Scheduled:",
+      "completedAt": "Completed:"
     },
-    "dataLow": "Id-data tiegħek qed tonqos.",
+    "dataLow": "Your data is running low.",
     "topUp": "Żid kreditu issa",
     "expiresIn": "Jiskadi fi {{days}} ijiem",
-    "exhausted": "Id-data tiegħek spiċċat. Ixtri pakkett ġdid biex tkompli tuża d-data mobbli.",
+    "exhausted": "Id-dejta tiegħek spiċċat. Ixtri pakkett ġdid biex tkompli tuża d-dejta mobbli.",
     "buyPack": "Ixtri pakkett tad-data",
-    "es imPackLabel": "eSIM pack"
+    "esimPackLabel": "pakkett eSIM",
+    "dashboardIntro": "Immaniġġja d-data mobbli ta' Chatforia tiegħek, in-numru tat-telefon, l-issettjar tal-eSIM, u l-istatus tal-pjan.",
+    "loading": "Qed tinġabar id-dettalji tal-konnessjoni mingħajr fili…",
+    "phoneNumber": "Numru tat-telefon",
+    "viewPlans": "Ara l-pjanijiet",
+    "error": {
+      "load": "Ma rnexxiex ittella' id-dettalji tal-wireless."
+    },
+    "data": {
+      "yourData": "Id-data tiegħek",
+      "caption": "Segwi l-użu attwali tad-data u l-bilanċ li fadal.",
+      "familyLabel": "Data tal-familja",
+      "familyCaption": "Data maqsuma mal-membri tal-familja tiegħek."
+    },
+    "plan": {
+      "title": "Pjan",
+      "noneTitle": "L-ebda pjan mobbli attiv",
+      "noneBody": "Agħżel pakkett tad-data biex tattiva Chatforia Mobile.",
+      "noneBodyReady": "L-ewwel issettja l-eSIM tiegħek, imbagħad agħżel pakkett tad-data meta tkun lest.",
+      "bodyActive": "Il-pjan mobbli tiegħek huwa attiv.",
+      "familyLabel": "Pjan tal-familja",
+      "familyBody": "Dan il-pjan huwa parti minn pool komuni tad-dejta tal-familja.",
+      "manageCta": "Immaniġġja l-pjan",
+      "setupFirstCta": "Ipprepara l-eSIM l-ewwel"
+    },
+    "esim": {
+      "title": "eSIM",
+      "heading": "Set up your eSIM",
+      "subheading": "Installa l-eSIM tiegħek biex tuża d-data ta' Chatforia Mobile fuq dan l-apparat.",
+      "body": "Ġenera jew iftaħ il-kodiċi QR tal-eSIM tiegħek u segwi l-istruzzjonijiet ta' attivazzjoni fuq it-telefon tiegħek.",
+      "readyBody": "L-eSIM tiegħek hija lesta. Tista' tiftaħ il-kodiċi QR jew tkompli timmaniġġja l-pjan mobbli tiegħek.",
+      "setupCta": "Ipprepara l-eSIM",
+      "openCta": "Ftaħ l-issettjar tal-eSIM"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Qed titniżżel l-eSIM eżistenti…",
+    "regionLabel": "Reġjun",
+    "ctaGenerate": "Ġenera kodiċi QR tal-eSIM",
+    "ctaRegenerate": "Irriġenera l-kodiċi QR",
+    "ctaReserving": "Qed tirriżerva…",
+    "generatingQr": "Qed jiġġenera kodiċi QR…",
+    "errorReserve": "Ma setgħetx tirriżerva eSIM. Jekk jogħġbok ipprova mill-ġdid.",
+    "noQrAvailable": "Għad m'hemm l-ebda kodiċi QR disponibbli.",
+    "downloadPng": "Niżżel PNG",
+    "activationCode": "Kodiċi ta' attivazzjoni",
+    "lpaUri": " LPA URI",
+    "smdp": "Indirizz SM-DP+",
+    "iccid": "ICCID",
+    "iccidHint": "L-ICCID jidentifika b'mod uniku dan il-profil eSIM.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Żomm dan il-kodiċi QR privat. Kull min ikollu aċċess jista' jkun kapaċi jinstalla l-eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
   },
   "phoneNumberManager": {
-    "pickNumber": "Agħżel numru",
+    "pickNumber": "Pick a number",
     "phoneNumber": "Numru tat-telefon",
     "availableNumber": "Numru disponibbli",
     "premiumNumber": "Numru premium 🔒",
     "freeNumberHint": "Numru b'xejn li jista' jiġi riċiklat wara inattività.",
     "premiumNumberHint": "Żomm in-numru tiegħek waqt li l-abbonament Premium tiegħek ikun attiv.",
     "country": "Pajjiż",
-    "kodiċiReġjonali": "Kodiċi reġjonali",
-    "postOkkupantKodiċiReġjonali": "eż., 415",
-    "kapaċità": "Kapaċità",
-    "tfittxija": "Tfittxija",
-    "iffissaDanIn-Numru": "Iffissa dan in-numru (żieda ta' kull ġimgħa, dalwaqt)",
+    "areaCode": "Kodiċi tal-area",
+    "areaCodePlaceholder": "eż., 415",
+    "capability": "Abiltà",
+    "search": "Fittex",
+    "lockThisNumber": "Iblokka dan in-numru (add-on kull ġimgħa, dalwaqt)",
     "premiumProtectedHint": "In-numri Premium huma protetti mir-riċiklaġġ sakemm l-abbonament Premium tiegħek ikun attiv.",
-    "availableNumbers": "In-numri disponibbli",
-    "searchHint": "Daħħal kodiċi ta' żona ta' 3 ċifri (US/CA biss), jew ħalli vojt, imbagħad ifittex.",
+    "availableNumbers": "Numri disponibbli",
+    "searchHint": "Daħħal kodiċi ta' żona ta' 3 ċifri (US/CA biss), jew ħalli vojta, imbagħad ifittex.",
     "keep": "Żomm",
     "select": "Agħżel",
     "assignNumberFirst": "Agħti numru l-ewwel.",
-    "premiumKeepFeature": "Il-ħarsien tan-numru tiegħek huwa karatteristika Premium.",
-    "lockingPremiumFeature": "Il-blokka tan-numri hija karatteristika Premium.",
-    "numberAssigned": "Numru assenjat. ",
-    "numruProtteġutIssa": "In-numru tiegħek issa huwa protett.",
-    "numruProtteġut": "Numru protett.",
-    "numruMhuxProtteġut": "Numru mhux protett.",
-    "numruRilaxxat": "Numru rilaxxat.",
-    "maSetaxJitgħabbewIn-numri": "Ma setax jitniżżlu n-numri.",
-    "couldNotAssign": "Ma setax jassenja dak in-numru. Jista' jkun ġie meħud issa—ipprova ieħor.",
-    "couldNotLease": "Ma setax jikri dak in-numru. Jista' jkun ġie meħud issa—ipprova ieħor.",
-    "couldNotProtectNow": " Ma setax jipproteġi n-numru tiegħek bħalissa.",
-    "couldNotProtect": "Ma setax jipproteġi n-numru.",
-    "couldNotUnprotect": "Ma setax ineħħi l-protezzjoni min-numru.",
-    "couldNotRelease": "Ma setax jirrilaxxa n-numru.",
-    "invalidAreaCode": "Jekk jogħġbok daħħal kodiċi ta' żona ta' 3 ċifri (eż., 415) jew ħalli vojt.",
+    "premiumKeepFeature": "Li żżomm in-numru tiegħek huwa karatteristika Premium.",
+    "lockingPremiumFeature": " Il-blokka tan-numri hija karatteristika Premium.",
+    "numberAssigned": "Numru assenjat.",
+    "numberProtectedNow": "In-numru tiegħek issa huwa protett.",
+    "numberProtected": "Numru protett.",
+    "numberUnprotected": "Numru mhux protett. ",
+    "numberReleased": "Numru rilaxxat.",
+    "couldNotLoadNumbers": "Ma setgħetx tniżżel in-numri.",
+    "couldNotAssign": "Ma setgħetx tassenja dak in-numru. Jista' jkun ġie meħud issa—ipprova ieħor.",
+    "couldNotLease": "Ma setgħetx tikri dak in-numru. Jista' jkun ġie meħud issa—ipprova ieħor.",
+    "couldNotProtectNow": "Ma setgħetx tipproteġi n-numru tiegħek bħalissa.",
+    "couldNotProtect": "Ma setgħetx tipproteġi n-numru.",
+    "couldNotUnprotect": "Ma setgħetx tneħħi l-protezzjoni min-numru. ",
+    "couldNotRelease": "Ma setgħetx tħalli n-numru.",
+    "invalidAreaCode": "Jekk jogħġbok daħħal kodiċi ta' żona ta' 3 ċifri (eż., 415) jew ħalli vojta.",
     "noInventory": "M'hemm l-ebda inventarju disponibbli bħalissa.",
-    "noFreeNumbers": "M'hemm l-ebda numri ħielsa disponibbli bħalissa.",
-    "noInventoryAreaCode": "M'hemm l-ebda inventarju disponibbli għal dak il-kodiċi ta' żona bħalissa.",
-    "noFreeNumbersAreaCode": "M'hemm l-ebda numri ħielsa fil-pool tagħna għal dak il- kodiċi taż-żona bħalissa.",
-    "releaseConfirm": "Tneħħi n-numru kurrenti tiegħek? Jista' jingħata lil xi ħadd ieħor.",
-    "unprotect": "Ħalli mingħajr protezzjoni",
+    "noFreeNumbers": "M'hemm l-ebda numri b'xejn disponibbli bħalissa.",
+    "noInventoryAreaCode": "M'hemm l-ebda inventarju disponibbli għal dak il-kodiċi taż-żona bħalissa.",
+    "noFreeNumbersAreaCode": "M'hemm l-ebda numri liberi fil-pool tagħna għal dak il-kodiċi taż-żona bħalissa.",
+    "releaseConfirm": "Tirrilaxxa n-numru kurrenti tiegħek? Jista' jingħata lil xi ħadd ieħor.",
+    "unprotect": "Unprotect",
     "keepThisNumber": "Żomm dan in-numru",
-    "issostitwixxi": "Issostitwixxi",
-    "rilaxxa": "Rilaxxa",
-    "attiv": "Attiv",
-    "ebda numru": "Ebda numru",
-    "karatteristika premium": "Karatteristika premium",
-    "ipproteġi n-numru tiegħek": "Ipproteġi n-numru tiegħek",
-    "protected": "Protett",
-    "notProtected": "Mhux protett",
-    "expiresInShort": "Jiskadi fi {{count}}",
-    "expiresInDaysFull": "Jiskadi fi {{count}} jum",
-    "expiringShort": "Qed jiskadi fi {{suffix}}",
-    "renewsOn": "Jirriinnovaw {{date}}",
-    "releaseWarning": "In-numru tiegħek jista' jiġi rilaxxat fi {{count}} jum. Agħmel aġġornament għal Premium biex iżżommuh protett. ",
-    "pickNumberHint": "Agħżel numru Chatforia biex tużah għall-messaġġi u l-komunikazzjoni ġewwa l-app.",
-    "unableToLoadStatus": "Ma jistax jitniżżel l-istatus tan-numru tat-telefon.",
+    "replace": "Biddel",
+    "release": "Rilaxxa",
+    "active": "Attiv",
+    "noNumber": "L-ebda numru",
+    "premiumFeature": "Karatteristika premium",
+    "protectYourNumber": "Ipproteġi n-numru tiegħek",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
     "lock": "Lock",
     "noNumberAssigned": "M'hemm l-ebda numru assenjat. Agħżel wieħed skont il-kodiċi tal-area biex tibda tibgħat messaġġi."
   },
   "dialer": {
     "title": "Sejħiet",
-    "subtitle": "Keypad & recents. (If you don't use PSTN, start calls from a conversation header.)",
+    "subtitle": "Tastiera & riċenti. (Jekk ma tużax il-PSTN, ibda s-sejħiet minn ras il-konversazzjoni.)",
     "enterNumber": "Daħħal in-numru",
     "enterNumberAria": "Daħħal in-numru",
     "resolving": "Qed isolvi l-mira tas-sejħa…",
     "call": "Sejħa",
     "callBrowser": "Sejħa permezz tal-browser",
     "backspace": "Backspace",
-    "recents": "Riċenti",
-    "noRecents": "Għad m'hemmx sejħiet riċenti.",
-    "resolveFailed": "Ma setgħetx tiġi riżolta l-mira tas-sejħa.",
-    "callRequiredNumber": "Trid numru ta' Chatforia qabel ma tagħmel sejħiet telefonici.",
-    "callFailed": "Ma setgħetx issir is-sejħa.",
+    "recents": "Ċiamijiet riċenti",
+    "noRecents": "Għad m'hemmx ċiamijiet riċenti.",
+    "resolveFailed": "Ma setgħetx tiġi riżolta l-mira tal-ċiam.",
+    "callRequiredNumber": "Trid numru ta' Chatforia qabel ma tagħmel ċiamijiet bil-telefon.",
+    "callFailed": "Ma setgħetx issir il-ċiam.",
     "deleteConfirm": "Tħassar din is-sejħa mill-aħħar sejħiet?",
     "deleteFailed": "Ma setgħetx tħassar is-sejħa.",
-    "deleteFailedLog": "Falliment fit-tħassir tas-sejħa",
+    "deleteFailedLog": "Ma rnexxiex tħassar is-sejħa",
     "outgoing": "Sejħa li qed titlaq",
     "incoming": "Sejħa li qed tidħol",
-    "missed": "Sejħa mitlufa",
-    "declined": "Irrifjutata",
-    "failed": "Falliment",
-    "completed": "Kompletat",
-    "outgoingCall": "Sejħa li qed titlaq",
-    "incomingCall": "Sejħa li qed tasal",
-    "voicemail": "Messaġġ tal-vuċi",
-    "callAria": "Sejħa {{name}}",
-    "deleteAria": "Ħassar is-sejħa {{name}}",
-    "daħħalNumruPh": "Daħħal in-numru",
-    "reċentiVoid": "Għad m'hemmx sejħiet reċenti.",
-    "buttuna": "Buttuna {{d}}"
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Ħassar is-sejħa ma' {{name}}",
+    "enterNumberPh": "Daħħal in-numru",
+    "recentsEmpty": "Għad m'hemmx sejħiet riċenti.",
+    "key": "Key {{d}}"
   },
-  "istorjaTas-Sejħiet": {
-    "titlu": "Sejħiet",
-    "sottotitlu": "Is-sejħiet reċenti tiegħek, kemm dawk li daħlu kif ukoll dawk li ħarġu.",
-    "maRnexxiexIt-tagħbija": "Ma setax jitniżżel l-istorja tas-sejħiet.",
-    "loadFailedTitle": "Ma setax jitniżżel l-istorja tas-sejħiet",
+  "callHistory": {
+    "title": "Sejħiet",
+    "subtitle": "Is-sejħiet riċenti tiegħek, kemm dawk li daħlu kif ukoll dawk li ħarġu.",
+    "loadFailed": "Ma setgħetx titniżżel l-istorja tas-sejħiet.",
+    "loadFailedTitle": "Ma setgħetx titniżżel l-istorja tas-sejħiet",
     "emptyTitle": "Għad m'hemmx sejħiet",
     "emptySubtitle": "Is-sejħiet riċenti tiegħek se jidhru hawn.",
-    "outgoing": "Ħarġu",
-    "incoming": "Daħlu",
-    "missed": "Mhux inqabdu",
-    "declined": "Irrifjutati",
-    "failed": "Falluti",
-    "completed": "Kompletati",
-    "outgoingCall": "Sejħa ħarġu",
-    "incomingCall": "Sejħa daħlet",
+    "outgoing": "Baraha going",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Kompletat",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
     "voicemail": "Voicemail"
   },
   "video": {
     "hub": {
       "title": "Video",
-      "subtitle": "Agħżel tip ta' vidjo."
+      "subtitle": "Choose a video type."
     },
     "direct": {
-      "title": "Vidjo Dirett",
-      "subtitle": "Ibda sejħa vidjo 1:1 ma' utent ieħor.",
-      "desc": "Sejħa bil-kamera 1:1 ma' utent ieħor.",
-      "start": "Ibda",
-      "callBtn": "Sejħa",
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
       "callByPhone": {
-        "title": "Sejħa bil-mowbajl"
+        "title": "Call by phone"
       },
       "phone": {
-        "placeholder": "Daħħal in-numru tat-telefon (eż., +1-555-123-4567)",
-        "aria": "Telefon biex ċempel"
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
       },
-      "tipInvite": "Suġġeriment: Ippasteja numru u ċempel mingħajr ma tiffranka kuntatt. Se nistednuhom permezz ta' link.",
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
       "findUser": {
-        "title": "Sib utent"
+        "title": "Find a user"
       },
       "search": {
-        "placeholder": " Fittex bl-isem jew bl-isem tal-utent",
-        "aria": "Fittex bl-isem jew bl-isem tal-utent",
-        "btn": "Fittex"
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
       }
     },
-    "kmamar": {
-      "titolu": "Kmamar",
-      "sottotitlu": "Oħloq kamra jew ingħaqad ma' waħda eżistenti billi tikteb l-istess isem.",
-      "desc": "Vidjokonferenza b'ħafna parteċipanti billi tuża l-isem tal-kamra komuni.",
-      "roomLabel": "Isem tal-kamra",
-      " roomPlaceholder": "eż. team-standup",
-      "roomAria": "Isem tal-kamra",
-      "joinCreate": "Ingħaqad / Oħloq",
-      "tip": "Parir: aqsam dan l-isem ma' ħaddieħor, jew agħmel link profond għal"
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
     },
-    "title": "Vidjo",
-    "chooseType": "Agħżel tip ta' vidjo.",
-    "directTitle": "Vidjo Dirett",
-    "directDesc": "Sejħa tal-kamera 1:1 ma' utent ieħor.",
-    "directStart": "Ibda",
-    "roomsTitle": "Kamra",
-    "roomsDesc": "Video b'ħafna parteċipanti billi tuża isem kamra kondiviż.",
-    "roomsIntro": "Ingħaqad jew oħloq kamra b'ħafna parteċipanti.",
-    "roomNameLabel": "Isem tal-kamra",
-    "roomNamePh": "eż. team-standup",
-    "join": "Ingħaqad",
-    "deeplinkTip": "Parir: tista' tagħmel deeplink direttament għal <code>/video?room=room-name</code>."
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
   },
   "directVideo": {
     "intro": "Ibda sejħa vidjo diretta 1:1.",
     "findUserLabel": "Sib utent",
-    "findUserPh": "Fittex skont isem jew username",
+    "findUserPh": "Fittex bl-isem jew bl-isem tal-utent",
     "search": "Fittex",
-    "call": "Ċempel"
+    "call": "Sejħa"
   },
   "phoneWarning": {
-    "title": "In-numru tiegħek se jiskadi dalwaqt",
-    "body": "In-numru tiegħek {{number} } se jintemm fi {{date}} sakemm ma jerġax jiġi rattivat.",
+    "title": "In-numru tiegħek qed jiskadi",
+    "body": "In-numru tiegħek {{number}} se jiġi rilaxxat fis-{{date}} sakemm ma jerġax jiġi rattivat.",
     "button": "Żomm In-Numru Tiegħi"
   },
   "premium": {
@@ -1041,159 +1326,177 @@
     "upgrade": "Aġġorna",
     "upgradeAria": "Aġġorna għal Chatforia Premium"
   },
+  "premiumGuard": {
+    "requiresPremium": "Din il-karatteristika teħtieġ pjan Premium.",
+    "toUnlock": "Aġġorna biex tiftaħ din il-karatteristika."
+  },
   "upgrade": {
-    "title": "Aġġorna",
-    "titleLoggedIn": "Aġġorna",
-    "titlePublic": "Prezzijiet",
-    "h1": "Prezzijiet u Pjanijiet ta' Chatforia",
-    "h1Subtitle": "Ibda bil-pjan b'xejn tagħna b'appoġġ ta' reklami. Mur mingħajr reklami bil-Plus, jew iftaħ il-karatteristiċi sħaħ bil-Premium.",
-    "subtitle": "Agħżel pjan tal-app, żid pakketti tad-data għalik innifsek, jew aqsam id-data mal-familja tiegħek — kollox minn post wieħed.",
-    "subtitle.app": "Ibda bil-pjan b'xejn tagħna, appoġġjat minn reklami. Mur ad -bla reklami bil-Plus, jew iftaħ il-karatteristiċi sħaħ bil-Premium.",
-    "subtitle.mobile": "Żid data globali eSIM sabiex Chatforia tibqa' taħdem anke meta tkun 'il bogħod mill-Wi-Fi.",
-    "subtitle.family": "Oħloq pool ta' data kondiviża għall-familja tiegħek u immaniġġja l-użu ta' kulħadd minn post wieħed.",
-    "perMonth": "xahar",
-    "perYear": "sena",
-    "goPremium": "Mur Premium",
-    "benefitsLine": "Aċċessa karatteristiċi qawwija u neħħi l-irklami.",
-    "ctaText": "Aġġorna",
-    "aria": "Aġġorna għal Chatforia Premium",
+    "title": "Upgrade",
+    "titleLoggedIn": "Upgrade",
+    "titlePublic": "Pricing",
+    "h1": "Chatforia Pricing & Plans",
+    "h1Subtitle": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
+    "subtitle": "Choose an app plan, add data packs for yourself, or share data with your family — all from one place.",
+    "subtitle.app": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
+    "subtitle.mobile": "Add global eSIM data so Chatforia keeps working even when you’re away from Wi-Fi.",
+    "subtitle.family": "Create a shared data pool for your family and manage everyone’s usage from one place.",
+    "perMonth": "mo",
+    "perYear": "year",
+    "goPremium": "Go Premium",
+    "benefitsLine": "Unlock power features & remove ads.",
+    "ctaText": "Upgrade",
+    "aria": "Upgrade to Chatforia Premium",
     "toggle": {
-      "monthly": "Kull xahar",
-      "annual": "Kull sena (Iffranka 30%)"
+      "monthly": "Monthly",
+      "annual": "Annual (Save 30%)"
     },
     "scheduleBanner": {
-      "title": "L-abbonament se jispiċċa",
-      "body": "Se terġa' lura għall-Pjan B'xejn fil-",
-      "keepPlanCta": "Żomm {{plan}}",
-      "manageBillingCta": "Immaniġġja l-fatturazzjoni"
+      "title": "Subscription will end",
+      "body": "You’ll revert to Free on",
+      "keepPlanCta": "Keep {{plan}}",
+      "manageBillingCta": "Manage billing"
     },
     "billing": {
-      "opening": "Qed tiftaħ…",
-      "manage ": "Immaniġġja l-fatturazzjoni"
+      "opening": "Opening…",
+      "manage": "Manage Billing"
     },
     "checkout": {
-      "redirecting": "Qed tirridirezzjona…"
+      "redirecting": "Redirecting…"
     },
     "auth": {
-      "continue": "Kompli bil-login",
-      "createAccount": "Oħloq kont",
-      "signIn": " Idħol"
+      "continue": "Continue to login",
+      "createAccount": "Create account",
+      "signIn": "Sign in"
     },
     "cta": {
-      "aria": "Agħżel pjan",
-      "getPlus": "Aġġorna għal Plus",
-      "upgradeMonthly": "Aġġorna Kull Xahar",
-      "upgradeAnnual": "Aġġorna Kull Sena"
+      "aria": "Select plan",
+      "getPlus": "Upgrade to Plus",
+      "upgradeMonthly": "Upgrade Monthly",
+      "upgradeAnnual": "Upgrade Annual",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
     },
     "section": {
-      "app": "Pjani tal-App",
-      "mobile": "Mobbli (eSIM)",
-      "family": "Pjanijiet tal-familja"
+      "app": "App plans",
+      "mobile": "Mobile (eSIM)",
+      "family": "Family plans"
     },
-    "pjanijiet": {
-      "b'xejn": {
-        "titolu": "B'xejn",
-        "prezz": "$0",
-        "deskrizzjoni": "Ibda tibgħat messaġġi b'xejn. Ideali jekk qed tipprova Chatforia biss.",
-        "karatteristiċi": {
-          "chat": "Chat 1:1 u ta' grupp f'ħin reali, u sejħiet bil-vuċi u bil-vidjo",
-          "media": "Iqassam ritratti, messaġġi bil-vuċi, u vidjows qosra",
-          "ai": "Risposti intelliġenti b'AI u traduzzjoni istantanja (użu ġust)",
-          "disappearing": "Messaġġi li jisparixxu u kontrolli bażiċi tal-privatezza",
-          "ads": "B'xejn għal dejjem b'reklami fl-app "
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "desc": "Start messaging for free. Ideal if you’re just trying Chatforia.",
+        "features": {
+          "chat": "Real-time 1:1 and group chat, plus voice and video calls",
+          "media": "Share photos, voice messages, and short videos",
+          "ai": "AI-powered smart replies and instant translation (fair use)",
+          "disappearing": "Disappearing messages and basic privacy controls",
+          "ads": "Free forever with ads in the app"
         },
-        "ctaCurrent": "Pjan kurrenti",
-        "ctaManage": "Immaniġġja fil-fatturazzjoni",
-        "ctaPublic": "Ibda – kompli bil-login",
-        "aria": "Pjan b'xejn"
+        "ctaCurrent": "Current plan",
+        "ctaManage": "Manage in billing",
+        "ctaPublic": "Get started – continue to login",
+        "aria": "Free plan"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Il-bżonnijiet kollha, mingħajr reklami. Perfetta għall-messaġġi u sejħiet ta' kuljum.",
+        "desc": "All the essentials, without ads. Great for everyday messaging and calling.",
         "features": {
-          "allFree": "Kollox fil-pjan b'xejn, mingħajr reklami",
-          "forwarding": "Ifforwardja sejħiet u messaġġi lejn in-numru tat-telefon reali tiegħek",
-          "istorja": "Istorja ta' messaġġi itwal (sa 6 xhur)",
-          "appoġġ": "Appoġġ aktar mgħaġġel meta xi ħaġa tmur ħażin"
+          "allFree": "Everything in Free, with no ads",
+          "forwarding": "Forward calls and texts to your real phone number",
+          "history": "Longer message history (up to 6 months)",
+          "support": "Faster support when something goes wrong"
         },
-        "badge": "Popolari",
-        "cta": "Mur Bla Reklammi",
-        "ctaPublic": "Ikseb Plus – kompli tidħol",
-        "aria": "Aġġorna għal Plus"
+        "badge": "Popular",
+        "cta": "Go Ad-Free",
+        "ctaPublic": "Get Plus – continue to login",
+        "aria": "Upgrade to Plus"
       },
       "premiumMonthly": {
-        "title": "Premium (Kull Xahar)",
+        "title": "Premium (Monthly)",
         "price": "$11.99",
-        "desc": "L-esperjenza sħiħa ta' Chatforia: għodod b'saħħithom tal-AI, personalizzazzjoni, u appoġġ prioritizzat.",
+        "desc": "The full Chatforia experience: AI power tools, customization, and priority support.",
         "features": {
-          "plusAll": "Kollox fil-Plus",
-          "themes": "Iftaħ it-temi kollha tal-kulur premium u l-personalizzazzjonijiet tal-app",
-          "ai": "Għodod b'saħħithom tal-AI biss għall-Premium għal kitba mill-ġdid, tweġibiet intelliġenti u sommarji",
-          "support": "Appoġġ prioritizzat meta jkollok l-aktar bżonn għajnuna"
+          "plusAll": "Everything in Plus",
+          "themes": "Unlock all premium color themes and app customizations",
+          "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries",
+          "support": "Priority support when you need help most",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
-        "badge": "Rrakkomandat",
-        "cta": "Aġġorna (Kull Xahar)",
-        "ctaPublic": "Ifftaħ il-Premium – kompli bil-login",
-        "aria": "Aġġorna għal Premium Kull Xahar"
+        "badge": "Recommended",
+        "cta": "Upgrade (Monthly)",
+        "ctaPublic": "Unlock Premium – continue to login",
+        "aria": "Upgrade to Premium Monthly"
       },
-      "premiumAnnwali": {
-        "titolu": "Premium (Annwali)",
-        "prezz": "$99",
-        "deskrizzjoni": "Iffranka aktar meta tħallas kull sena — inkluż temi ta' kuluri żejda, għodod tal-AI, u appoġġ prioritizzat.",
-        "karatteristiċi": {
-          "allPremium": "Kollox f'Premium Kull Xahar — inklużi temi ta' kuluri żejda",
-          "annualBilling": "Imħallas darba fis-sena",
-          "save25": "Iffranka madwar 30% meta mqabbel ma' ħlas kull xahar",
-          "bestFor": "L-aħjar għal utenti avvanzati, ħaddiema remoti, u vjaġġaturi frekwenti"
+      "premiumAnnual": {
+        "title": "Premium (Annual)",
+        "price": "$99",
+        "desc": "Save more when billed yearly — including extra color themes, AI tools, and priority support.",
+        "features": {
+          "allPremium": "Everything in Premium Monthly — including extra color themes",
+          "annualBilling": "Billed once per year",
+          "save25": "Save around 30% compared to paying monthly",
+          "bestFor": "Best for power users, remote workers, and heavy travelers",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
-        "badge": "Iffranka 30%",
-        "cta": "Aġġorna (Annwali)",
-        "ctaPublic": "Iffranka 30% bil-annwali – kompli tidħol",
-        "aria": "Aġġorna għal Premium Annwali",
-        "disclaimer": "Imħallas minn qabel. Ikkanċella fi kwalunkwe ħin. L-ebda ħlasijiet moħbija."
+        "badge": "Save 30%",
+        "cta": "Upgrade (Annual)",
+        "ctaPublic": "Save 30% with annual – continue to login",
+        "aria": "Upgrade to Premium Annual",
+        "disclaimer": "Billed upfront. Cancel anytime. No hidden fees."
       }
     },
     "marketing": {
-      "freeTitle": "B'xejn",
-      "freeDesc": "Ibda tibgħat messaġġi b'xejn.",
+      "freeTitle": "Free",
+      "freeDesc": "Start messaging for free.",
       "plusTitle": "Plus",
-      "plusBadge": "Popolari",
-      "plusDesc": "L-iktar esperjenza affordabbli mingħajr reklami.",
+      "plusBadge": "Popular",
+      "plusDesc": "Most affordable ad-free experience.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Karatteristiċi sħaħ, ringtones, u għodod qawwija tal-AI.",
+      "premiumMonthlyDesc": "Full features, ringtones, and AI power tools.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Iffranka aktar meta tħallas kull sena.",
-      "annualDisclaimer": "Tħallas minn qabel. Ikkanċella fi kwalunkwe ħin. Ebda ħlasijiet moħbija."
+      "premiumAnnualDesc": "Save more when billed yearly.",
+      "annualDisclaimer": "Billed upfront. Cancel anytime. No hidden fees."
     },
     "mobile": {
-      "title": "Chatforia Mobile (pakketti ta' data eSIM)",
-      "subtitle": "Żid data globali biex Chatforia tibqa' taħdem anke mingħajr Wi-Fi. Il-prezzijiet jaġġustaw awtomatikament skont il-pajjiż u l-munita tiegħek.",
-      " subtitle.detail": "Agħżel pakkett globali ta' data ta' darba biex Chatforia tibqa' taħdem meta tkun qed tivvjaġġa jew 'il bogħod mill-Wi-Fi.",
+      "title": "Chatforia Mobile (eSIM data packs)",
+      "subtitle": "Add global data to keep Chatforia working even without Wi-Fi. Prices automatically adjust based on your country and currency.",
+      "subtitle.detail": "Pick a one-time global data pack so Chatforia keeps working when you’re traveling or away from Wi-Fi.",
       "scope": {
-        "local": "Lokali",
-        "europe": "Ewropa",
-        "global": "Globali"
+        "local": "Local",
+        "europe": "Europe",
+        "global": "Global",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
       },
-      "localEquals": "Lokali = {{country}}",
-      "localEqualsFallback": "Lokali = il-pajjiż kurrenti tiegħek",
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = your current country",
       "perPack": "/ pack",
-      "cta": "Ikseb dan il-pakkett tad-dejta",
-      "ctaPublic": "Ikseb dan il-pakkett tad-dejta",
+      "cta": "Get this data pack",
+      "ctaPublic": "Get this data pack",
       "checkout": {
-        "redirecting": "Qed tirridirezzjona…"
+        "redirecting": "Redirecting…"
       },
       "unlimited": {
         "features": {
-          "heavyUse": "Data b'veloċità għolja għal użu intensiv",
-          "throttle": "Data b'veloċità għolja suġġetta għal politiki ta' użu ġust u ġestjoni tan-netwerk",
-          "coverage": "Kopertura affidabbli",
-          "instant": "Attivazzjoni istantanja tal-eSIM",
-          "noContract": "Pakku ta' darba, mingħajr kuntratt"
-        }
+          "heavyUse": "High-speed data for heavy use",
+          "throttle": "High-speed data subject to fair-use and network management policies",
+          "coverage": "Reliable coverage",
+          "instant": "Instant eSIM activation",
+          "noContract": "One-time pack, no contract"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
       },
       "disclaimer": {
-        "devices": "Il-pakketti tad-data eSIM jeħtieġu apparat kompatibbli ma' eSIM u miftuħ. L-għażla tvarja skont il-mudell tat-telefon, l-operatur, u l-pajjiż. Il-kopertura u l-veloċitajiet jvarjaw skont ir-reġjun."
+        "devices": "eSIM data packs require an eSIM-compatible and unlocked device. Availability varies by phone model, carrier, and country. Coverage and speeds vary by region.",
+        "fairUse": "High-speed data may be subject to fair-use limits, local network conditions, and regional availability."
       },
       "packs": {
         "3gb": {
@@ -1209,147 +1512,291 @@
           "title": "{{scope}} 20 GB"
         },
         "unlimited": {
-          "title": "{{scope}} Bla Limitu"
+          "title": "{{scope}} Unlimited"
         }
       },
       "compare": {
-        "title": "Ikkompara l-pakketti tad-data eSIM",
+        "title": "Compare eSIM data packs",
         "col": {
-          "pack": "Pakkett",
-          "data": "Data inkluża",
-          "bestFor": "L-aħjar għal"
+          "pack": "Pack",
+          "data": "Included data",
+          "bestFor": "Best for"
         },
-        "disclaimer": "L-użu reali tad-dejta jiddependi minn kif tuża Chatforia (vuċi, vidjo, midja, u applikazzjonijiet oħra fuq it-telefon tiegħek)."
+        "disclaimer": "Actual data usage depends on how you use Chatforia (voice, video, media, and other apps on your phone)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Best value"
+      },
+      "feature": {
+        "instant": "Instant eSIM activation",
+        "coverage": "Global coverage options",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Local",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Europe",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Global",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Small pack",
+        "data": "3 GB",
+        "bestFor": "Best for short trips and light messaging."
+      },
+      "medium": {
+        "title": "Medium pack",
+        "data": "5 GB",
+        "bestFor": "Best for everyday messaging, maps, and light media."
+      },
+      "large": {
+        "title": "Large pack",
+        "data": "10 GB",
+        "bestFor": "Best for longer trips and heavier app use."
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
       }
     },
     "family": {
-      "title": "Chatforia Family (dejta kondiviża)",
-      "subtitle": " Iqassam pool wieħed ta' data mal-familja tiegħek. Fattura waħda, diversi kontijiet ta' Chatforia, kopertura globali.",
+      "title": "Chatforia Family (shared data)",
+      "subtitle": "Share a single data pool across your family. One bill, multiple Chatforia accounts, global coverage.",
       "perPack": "/ pack",
       "small": {
-        "title": "Familja Żgħira",
-        "desc": "Jinkludi 20 GB ta' data kondiviża b'veloċità għolja — tajba għal 2–3 utenti ħfief.",
+        "title": "Family Small",
+        "desc": "Includes 20 GB of shared high-speed data — great for 2–3 light users.",
         "price": "$29.99",
-        "aria": "Ixtri l-pakkett Family Small"
+        "aria": "Buy Family Small pack"
       },
       "medium": {
         "title": "Family Medium",
-        "desc": "Jinkludi 40 GB ta' data kondiviża b'veloċità għolja — ideali għal 3–5 membri attivi.",
+        "desc": "Includes 40 GB of shared high-speed data — ideal for 3–5 active members.",
         "price": "$49.99",
-        "aria": "Ixtri l-pakkett Family Medium"
+        "aria": "Buy Family Medium pack"
       },
       "large": {
         "title": "Family Large",
-        "desc": "Jinkludi 80 GB ta' data kondiviża b'veloċità għolja — għal familji attivi li dejjem ikunu online.",
+        "desc": "Includes 80 GB of shared high-speed data — for power families that are always online.",
         "price": "$84.99",
-        "aria": "Ixtri l-pakkett Family Large"
+        "aria": "Buy Family Large pack"
       },
       "feature": {
-        "shared": "Poll ta' data kondiviża għall-familja tiegħek",
-        "members": "Stieden sa 4 membri addizzjonali",
-        "aktarmembri": "Ideali għal 3–5 membri attivi",
-        "immaniġġja": "Immaniġġja l-limiti għal kull membru",
-        "żidpakketti": "Żid aktar pakketti kull meta trid",
-        "bestValue": "L-aħjar valur għal kull GB",
-        "fairUse": "Soġġett għall-politika tal-użu ġust u limiti lokali"
+        "shared": "Shared data pool for your family",
+        "members": "Invite up to 4 additional members",
+        "membersMore": "Great for 3–5 active members",
+        "manage": "Manage limits for each member",
+        "topUp": "Add more packs anytime",
+        "bestValue": "Best value per GB",
+        "fairUse": "Subject to fair-use policy and local limits"
       },
-      "disclaimer": "Il-pakketti tal-familja joħolqu jew iżidu pool komuni tad-dejta. Tista' tistieden u tneħħi membri kull meta trid.",
-      "footnote": "Il-pakketti tal-familja jaqsmu pool wieħed ta' data bejn kontijiet Chatforia marbuta. L-għażla u l-limiti jiddependu fuq il-pajjiż tiegħek u r-regolamenti lokali."
+      "disclaimer": "Family packs create or top up a shared data pool. You can invite and remove members anytime.",
+      "footnote": "Family packs share a single data pool across linked Chatforia accounts. Availability and limits depend on your country and local regulations."
     },
     "why": {
-      "title": "Għaliex in-nies jibdlu għal Chatforia",
-      "subtitle": "Chatforia tagħtik numru tat-telefon reali, traduzzjoni intelliġenti, u triq ċara biex tneħħi r-reklami meta tkun lest.",
+      "title": "Why people switch to Chatforia",
+      "subtitle": "Chatforia gives you a real phone number, smart translation, and a clear path to go ad-free when you’re ready.",
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
-          "body": "Reklami iktar ħfief fuq il-verżjoni b'xejn, aġġornament sempliċi għall-Plus meta tkun lest, u għodod Premium li TextNow ma joffrix."
+          "body": "Lighter ads on Free, a simple Plus upgrade when you’re ready, and Premium tools TextNow doesn’t offer."
         },
         "voice": {
           "title": "Chatforia vs Google Voice",
-          "body": "App moderna, globali -disinn ċentrali fuq l-utent, u traduzzjoni integrata minflok il-forwarding ta' sejħiet tradizzjonali."
+          "body": "Modern app, global-first design, and built-in translation instead of old-school call forwarding."
         },
         "messengers": {
-          "title": "Chatforia vs applikazzjonijiet ta' chat",
-          "body": "Ibgħat messaġġi b'numri tat-telefon reali — mhux biss ma' utenti oħra tal-app — b'AI u status integrati. Eċċellenti jekk qed tiġi minn applikazzjonijiet bħal TextFree jew TextMe."
+          "title": "Chatforia vs chat apps",
+          "body": "Text real phone numbers — not just other app users — with AI and status built in. Great if you’re coming from apps like TextFree or TextMe."
         }
       },
-      "tableTitle": "Kif Chatforia tqabbel",
+      "tableTitle": "How Chatforia compares",
       "col": {
-        "feature": "Karatteristika"
+        "feature": "Feature",
+        "chatforia": "Chatforia",
+        "textnow": "TextNow",
+        "googleVoice": "Google Voice"
       },
       "feature": {
-        "freeNumber": "Numru tat-telefon b'xejn",
-        "translation": "Traduzzjoni awtomatika integrata",
-        "aiTools": "Għodod tal-AI (kitba mill-ġdid, tweġibiet, sommarji)",
-        "ads": "Għażla mingħajr reklami",
-        "history": "Storja tal-messaġġi"
+        "freeNumber": "Free phone number",
+        "translation": "Built-in auto-translation",
+        "aiTools": "AI tools (rewrites, replies, summaries)",
+        "ads": "Ad-free option",
+        "history": "Message history"
       },
-      "iva": "Iva",
-      "le": "Le",
-      "ivaPremium": "Iva (Premium)",
+      "yes": "Yes",
+      "no": "No",
+      "yesPremium": "Yes (Premium)",
       "plusPremium": "Plus & Premium",
-      "limitat": "Limitat",
+      "limited": "Limited",
       "nA": "N/A",
-      "istorja": {
-        "chatforia": "Sa 12+ xhur",
-        "textnow": "Jvarja skont il-kont",
-        "voice": "Limitata / ibbażata fuq il-kont"
+      "history": {
+        "chatforia": "Up to 12+ months",
+        "textnow": "Varies by account",
+        "voice": "Limited / account-based"
       },
-      "disclaimer": "Il-paragun huwa bbażat fuq informazzjoni disponibbli pubblikament u jista' jinbidel maż-żmien. Applikazzjonijiet oħra ta' messaġġi testwali b'xejn bħal TextFree jew TextMe huma ġeneralment simili għal TextNow."
+      "disclaimer": "Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow."
     },
     "faq": {
-      "title": "FAQ dwar il-prezzijiet u l-pjanijiet",
+      "title": "Pricing & plans FAQ",
       "free": {
-        "q": "Il-pjan b'xejn hu verament b'xejn?",
-        "a": "Iva. Il-pjan b'xejn jinkludi numru Chatforia, sejħiet, u messaġġi b'reklami. Tista' tibqa' fuq il-pjan b'xejn kemm trid, jew tagħmel aġġornament biex tneħħi r-reklami u tiftaħ aktar karatteristiċi."
+        "q": "Is the Free plan really free?",
+        "a": "Yes. The Free plan includes a Chatforia number, calling, and messaging with ads. You can stay on Free as long as you like, or upgrade to remove ads and unlock more features."
       },
       "plusPremium": {
-        "q": "X'inhi d-differenza bejn Plus u Premium?",
-        "a": " Plus ineħħi l-irklami u jestendi l-istorja tal-messaġġi tiegħek — perfett għall-użu ta' kuljum. Premium iżid personalizzazzjoni żejda, għodod tal-AI għar-riktib u r-risposti, u appoġġ prioritizzat għall-utenti intensivi."
+        "q": "What’s the difference between Plus and Premium?",
+        "a": "Plus removes ads and extends your message history — perfect for everyday use. Premium adds extra customization, AI tools for rewrites and replies, and priority support for heavy users."
       },
       "esim": {
-        "q": "Fejn jaħdmu l-pakketti tad-data eSIM?",
-        "a": "Chatforia Mobile juża kopertura globali eSIM. L-għażliet disponibbli jiddependu fuq il-pajjiż u l-apparat tiegħek. Se tara l-għażliet appoġġjati waqt l-attivazzjoni ġewwa l-app."
+        "q": "Where do eSIM data packs work?",
+        "a": "Chatforia Mobile uses global eSIM coverage. Availability depends on your country and device. You’ll see supported options during activation inside the app."
       },
       "cancel": {
-        " q": "Nista' nikkansella jew nbiddel il-pjanijiet fi kwalunkwe ħin?",
-        "a": "Iva. Tista' timmaniġġja jew tikkansella s-sottoskrizzjoni tiegħek mill-paġna tal-fatturazzjoni fl-app. Il-bidliet jidħlu fis-seħħ fl-aħħar tal-perjodu attwali tal-fatturazzjoni tiegħek. "
+        "q": "Can I cancel or change plans anytime?",
+        "a": "Yes. You can manage or cancel your subscription from the billing page in the app. Changes take effect at the end of your current billing period."
       },
       "family": {
-        "q": "Kif jaħdmu l-pakketti tal-Familja?",
-        "a": "Il-pakketti tal-Familja joħolqu pool komuni ta' data bejn diversi kontijiet ta' Chatforia. Persuna waħda tħallas il-kont, u tista' tistieden jew tneħħi membri u tissettja limiti għal kull persuna."
+        "q": "How do Family packs work?",
+        "a": "Family packs create a shared data pool across multiple Chatforia accounts. One person pays the bill, and you can invite or remove members and set limits per person."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
       }
     }
+  },
+  "billing": {
+    "myPlanTitle": "Il-pjan tiegħi",
+    "myPlanError": "Ma jistax jitniżżel il-pjan tiegħek.",
+    "myPlanLoading": "Qed jitniżżel il-pjan tiegħek…",
+    "currentPlan": "Il-pjan kurrenti",
+    "renewsAt": "Jirriinnovaw fis-",
+    "activeSubscription": "Abbonament attiv",
+    "freePlanCopy": "Int fuq il-pjan b'xejn. Agħmel aġġornament biex tiftaħ aktar karatteristiċi.",
+    "upgradeCta": "Aġġorna l-pjan",
+    "changePlanCta": "Biddel il-pjan",
+    "manageBilling": "Immaniġġja l-fatturazzjoni",
+    "portalError": "Ma jistax jinfetaħ il-portal tal-fatturazzjoni bħalissa.",
+    "cancelNow": "Ikkanċella issa",
+    "cancelNowConfirm": "Inti ċert li trid tikkanċella l-pjan tiegħek immedjatament? Dan ma jistax jiġi rtirat. ",
+    "cancelNowError": "Ma tistax tikkansella l-pjan tiegħek bħalissa. Jekk jogħġbok ipprova mill-ġdid jew uża Manage billing."
   },
   "family": {
     "title": "Familja",
     "loading": "Qed nillgħab id-dettalji tal-familja tiegħek…",
     "error": {
       "load": "Ma rnexxiex nilgħab id-dettalji tal-familja.",
-      "invite": "Ma setgħetx tinħoloq stedina. Kun żgur li int is-sid tal-familja u ipprova mill-ġdid.",
-      "checkout": "Ma stajniex nibdew il-ħlas għall-pjan tal-Familja. Jekk jogħġbok ipprova mill-ġdid."
+      "invite": "Ma setgħetx toħloq stedina. Kun żgur li int is-sid tal-familja u ipprova mill-ġdid.",
+      "checkout": "Ma stajniex nibdew il-checkout għal pjan tal-Familja. Jekk jogħġbok ipprova mill-ġdid."
     },
     "billing": {
       "myPlanTitle": "Il-pjan tiegħi",
       "myPlanError": "Ma jistax jitniżżel il-pjan tiegħek.",
       "myPlanLoading": "Qed jitniżżel il-pjan tiegħek…",
-      "currentPlan": "Il-pjan kurrenti",
+      "currentPlan": "Pjan kurrenti",
       "renewsAt": "Jirriġenera fis-",
-      " freePlanCopy": "Int fuq il-pjan b'xejn. Agħmel aġġornament biex tiftaħ aktar karatteristiċi.",
+      "freePlanCopy": "Int fuq il-pjan b'xejn. Agħmel aġġornament biex tiftaħ aktar karatteristiċi.",
       "upgradeCta": "Aġġorna l-pjan",
       "changePlanCta": "Biddel il-pjan",
       "manageBilling": "Immaniġġja l-fatturazzjoni",
-      "portalError": "Ma jistax jinfetaħ il-portal tal-fatturazzjoni bħalissa.",
+      "portalError": "Ma jistax jiftaħ il-portal tal-fatturazzjoni bħalissa.",
       "cancelNow": "Ikkanċella issa",
-      "cancelNowHelp": "Tista' timmaniġġja jew tikkansella l-abbonament tiegħek fil-portal tal-fatturazzjoni, jew tikkansella immedjatament hawn taħt.",
-      "cancelNowConfirm": "Inti ċert li trid tikkansella l-pjan tiegħek immedjatament? Dan ma jistax jiġi mħassar.",
-      "cancelNowError": "Ma tistax tikkansella l-pjan tiegħek bħalissa. Jekk jogħġbok ipprova mill-ġdid jew uża 'Immaniġġja l-fatturazzjoni'."
+      "cancelNowHelp": "Tista' timmaniġġja jew tikkanċella l-abbonament tiegħek fil-portal tal-fatturazzjoni, jew tikkanċella immedjatament hawn taħt.",
+      "cancelNowConfirm": "Inti ċert li trid tikkanċella l-pjan tiegħek immedjatament? Dan ma jistax jiġi wieħed.",
+      "cancelNowError": "Ma jistax jitħassar il-pjan tiegħek bħalissa. Jekk jogħġbok ipprova mill-ġdid jew uża Manage billing."
     },
     "none": {
       "title": "Għad m'hemmx familja stabbilita",
-      "body": "Biex toħloq Chatforia Family u pool ta' data kondiviża, ibda pjan tal-Familja.",
+      "body": "Biex toħloq Chatforia Family u pool tad-dejta kondiviża, ibda pjan tal-Familja.",
       "goUpgrade": "Ibda pjan tal-Familja",
-      "viewPlans": "Ara l-pjanijiet kollha"
+      "viewPlans": "Ara l-pjanijiet kollha "
     },
     "group": {
       "defaultName": "Il-Familja Chatforia tiegħi",
@@ -1361,20 +1808,20 @@
     },
     "data": {
       "heading": "Poll tal-data kondiviża",
-      "caption": "Il-membri kollha jaqsmu dan il-poll. Aħna ninfurmawk hekk kif tkun qed tilħaq il-limitu tiegħek."
+      "caption": "Il-membri kollha jaqsmu dan il-pool. Se ninfurmawk hekk kif tkun qed tilħaq il-limitu tiegħek."
     },
     "members": {
-      "title": "Membri tal-familja",
-      "isem": "Isem",
-      "ruwol": "Rwol",
-      "użu": "Użu",
-      "limitu": "Limitu",
-      "mingħajrlimitu": "L-ebda limitu speċifiku",
-      "sejħaGħalStieden": "Stieden membru"
+      "title": "Family members",
+      "name": "Isem",
+      "role": "Role",
+      "usage": "Użu",
+      "limit": "Limit",
+      "unlimited": "L-ebda limitu speċifiku",
+      "inviteCta": "Stieden membru"
     },
-    "stieden": {
-      "titlu": "Stieden membru ġdid",
-      "body": "Ibgħat email jew link biex tistieden lil xi ħadd fil-pool komuni tad-dejta tal-familja tiegħek.",
+    "invite": {
+      "title": "Stieden membru ġdid",
+      "body": "Send an email or link to invite someone into your shared family data pool.",
       "emailLabel": "Email (mhux obbligatorju)",
       "emailPlaceholder": "friend@example.com",
       "create": "Oħloq stedina",
@@ -1384,91 +1831,93 @@
     },
     "join": {
       "title": "Ingħaqad ma' familja",
-      "body": "Int ġejt mistieden biex tingħaqad ma' Familja Chatforia u taqsam il-pool tad-dejta tagħhom.",
+      "body": "Int ġejt mistieden biex tingħaqad ma' Familja Chatforia u taqsam il-pool tad-dejta tagħhom. ",
       "cta": "Aċċetta u ingħaqad mal-familja",
-      "ctaLogin": "Idħol u ngħaqad mal-familja",
-      "success": "Int ngħaqadt ma' din il-familja. Issa taqsam il-pool tad-dejta tagħhom.",
+      "ctaLogin": "Idħol u ingħaqad mal-familja",
+      "success": "Ingħaqadt ma' din il-familja. Issa taqsam il-pool tad-dejta tagħhom.",
       "goFamily": "Mur fid-dashboard tal-familja",
-      "error": "Ma stajniex inżidu lilek ma' din il-familja. L-istedina tista' tkun invalidu jew skaduta."
+      "error": "Ma stajniex inżiduk ma' din il-familja. L-istedina tista' tkun invalidu jew skaduta."
     }
   },
   "randomChat": {
     "title": "Chatta każwali",
-    "subtitle": "Laqgħa ma' xi ħadd ġdid immedjatament, jew agħżel li titkellem ma' Ria.",
+    "subtitle": "Iltaqa' ma' xi ħadd ġdid immedjatament, jew agħżel li titkellem ma' Ria.",
     "start": "Ibda konversazzjoni",
-    "description": "Tkellem b'anonimità l-ewwel. Żid ħabib aktar tard jekk tħossok komdu.",
+    "description": "Ibda tikkellim b'anonimità l-ewwel. Żid ħabib aktar tard jekk tħossok komdu.",
     "findMatch": "Sibli kompatibbli",
-    "chatWithRia": "Chat ma' Ria",
-    "issettjaEtà": "Issettja l-firxa ta' età tiegħek fil-Profil → Età & Chat Aleatorju biex tikkorrispondi ma' nies.",
-    "inattiv": "Inattiv",
-    "qed tikkorrispondi": "Qed tikkorrispondi…",
-    "qed tfittex": "Qed tfittex…",
-    "ikkanċella": "Ikkanċella",
-    "problema ta' konnessjoni": "Problema ta' konnessjoni",
-    "AI": "AI",
-    "anonimu": "Anonimu",
-    "konnessBħala": "Konness bħala",
-    "stennijaLiŻżidĦabib": "Qed tistenna li jaċċetta Żid Ħabib…",
-    "ismijietUtentmoħbija": "L-ismijiet tal-utent jibqgħu moħbija sakemm iż-żewġ persuni jagħżlu Żid Ħabib.",
-    " riaSeparate": "Chatta ma' Ria kull meta — separat minn qabbla każwali ma' bniedem.",
+    "chatWithRia": "Ikkellim ma' Ria",
+    "setAge": "Issettja l-firxa ta' età tiegħek fil-Profil → Età u Chat Aleatorju biex tikkorrispondi ma' nies.",
+    "idle": "Inattiv",
+    "matching": "Qed tikkorrispondi…",
+    "searching": "Qed tfittex…",
+    "cancel": "Ikkanċella",
+    "connectionProblem": "Problema ta' konnessjoni",
+    "ai": "AI",
+    "anonymous": "Anonimu",
+    "connectedAs": "Konness bħala ",
+    "waitingAddFriend": "Qed tistenna biex jaċċettaw 'Żid Ħabib'…",
+    "hiddenUsernames": "L-ismijiet tal-utent jibqgħu moħbija sakemm iż-żewġ persuni jagħżlu 'Żid Ħabib'.",
+    "riaSeparate": "Iċċattja ma' Ria fi kwalunkwe ħin — separat mill-qabbla każwali ma' bniedem.",
     "sendMessage": "Ibgħat messaġġ",
     "chatEnded": "Il-chat intemmet",
     "conversationEnded": "Dak il-konversazzjoni intemmet.",
-    "findAnotherMatch": "Sib qabbla oħra",
+    "findAnotherMatch": "Sib match ieħor",
     "next": "Persuna li jmiss",
     "addFriend": "Żid ħabib",
-    "requested": "Talab",
-    "ħalli": "Ħalli",
-    "ibgħatmessaġġlilRia": "Ibgħat messaġġ lil Ria…",
-    "ibgħatmessaġġlillmatch": "Ibgħat messaġġ lill-match tiegħek…",
-    "chatmaForia": "Chat ma' Foria",
-    "chatmaForiaBot": "Chat ma' ForiaBot",
-    "għalaq": "Għalaq",
-    "qedissib": "Qed issib…",
-    "qedTfittex": "Qed tfittex lil xi ħadd…",
-    "biduChatmaForia": "Qed tibda chat ma' Foria…",
-    "partnerQata'": "Il-partner tiegħek qata' l-konnessjoni.",
-    "ebdaPartner": "M'hemm l-ebda partner issa.",
-    "konnessMa": "Konness ma' {{name}}",
-    "konness": "Konness",
-    "partnerĦalla": "Il-partner ħalla.",
-    "waqaf": "Waqa'.",
-    "għaddi": "Għaddi",
-    "salva": "Salva",
-    "salvagwardja": "Biss il-chat bejn bniedem u bniedem jistgħu jiġu salvati",
-    "intqedTkellemMa": "Int qiegħed titkellem ma' { {name}}",
+    "requested": "Mitlub",
+    "leave": "Ħalli",
+    "messageRia": "Ibgħat messaġġ lil Ria…",
+    "messageMatch": "Ibgħat messaġġ lill-match tiegħek…",
+    "chatWithForia": "Chat ma' Foria",
+    "chatWithForiaBot": "Chat ma' ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Il-partner tiegħek waqaf.",
+    "noPartner": "M'hemmx partner issa.",
+    "connectedTo": "Konness ma' {{name}}",
+    "connected": "Konness",
+    "partnerLeft": "Il-partner ħalla.",
+    "stopped": "Waqqaf. ",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Biss il-chat bejn bniedem u bniedem jistgħu jiġu salvati",
+    "youAreChattingWith": "Qed titkellem ma' {{name}}",
     "bot": "BOT",
-    "sayHi": "Say hi 👋",
+    "sayHi": "Għid hi 👋",
     "you": "Int",
     "typeMessage": "Ikteb messaġġ",
     "send": "Ibgħat",
     "partner": "Partner",
     "withRia": "Ma' Ria",
     "startingRia": "Qed tibda chat ma' Ria…",
-    "ageDisclaimer": "Aħna naħżnu biss firxa ta' età (mhux id-data eżatta tat-twelid tiegħek). Dan jintuża biex iżomm il-parijiet tar-Random Chat raġonevoli. Biex taqbel ma' nies (mhux biss RiaBot), issettja l-firxa ta' età tiegħek f'Settings → Età & Random Chat.",
-    "ageBandRequired": "Issettja l-firxa ta' età tiegħek fil-Profil → Età & Chat Aleatorju biex tikkorrispondi ma' nies.",
-    "ageBandCallout": "Biex tikkorrispondi ma' nies (mhux biss RiaBot), issettja l-firxa ta' età tiegħek fis-Settings → Età & Chat Aleatorju."
+    "ageDisclaimer": "Aħna naħżnu biss firxa ta' età (mhux id-data eżatta tat-twelid tiegħek). Dan jintuża biex iżomm il-parijiet ta' Random Chat raġonevoli. Biex taqbel ma' nies (mhux biss RiaBot), issettja l-firxa ta' età tiegħek f'Settings → Età & Random Chat.",
+    "ageBandRequired": "Issettja l-firxa ta' età tiegħek f'Profil → Età & Random Chat biex taqbel ma' nies.",
+    "ageBandCallout": "Biex taqbel ma' nies (mhux biss RiaBot), issettja l-firxa ta' età tiegħek f'Settings → Età & Chatta Aleatorja.",
+    "disconnected": "Ma tkunx konness.",
+    "left": "Int ħallejt il-chat."
   },
   "ria": {
     "fallbackName": "hemm",
-    "intro": "Ħej 👋 Jien Ria. X'għandek f'moħħok?",
+    "intro": "Ħej hemm 👋 Jien Ria. X'għandek f'moħħok?",
     "greetings": {
-      "long1": "Ħej {{name}} 👋 Jien hawn. X'għandek f'moħħok?",
-      "long2": "Hi {{name}} 😊 X' tixtieq nitkellmu dwaru llum?",
-      "long3": "Hey {{name}}! Jien lesti nisimgħek — x' għandek fuq moħħok?",
+      "long1": "Hey {{name}} 👋 Jien hawn. X'għandek f'moħħok?",
+      "long2": "Hi {{name}} 😊 X' tixtieq titkellem dwaru llum?",
+      "long3": "Hey {{name}}! Jien lesta nisimgħek — x' għandek fuq moħħok?",
       "long4": "Pjaċir narak, {{name}} 👋 X' għandek fuq moħħok illum?",
-      "long5": "Hey {{name}} 🙂 Trid tħalli dak li għandek f'moħħok, tistaqsi, jew sempliċement titkellem?",
-      "long6": "Hi {{name}}! Għandi ħin — x' tixtieq nitkellmu dwaru?",
-      "short1": "Hey {{name}}, għadni hawn. X' għaddej?",
-      "short2": "Merħba lura {{name}} 👋 Hemm xi ħaġa oħra li kont trid iżżid?",
-      "short3": " Erġajt lura, {{name}}? 😊 Għidli x'għandek f'moħħok.",
+      "long5": "Hey {{name}} 🙂 Trid titkellem, tistaqsi, jew sempliċement tċatta? ",
+      "long6": "Ħej {{name}}! Għandi ħin — x'tħobb titkellem dwaru?",
+      "short1": "Ħej {{name}}, għadni hawn. X'ġara?",
+      "short2": "Merħba lura {{name}} 👋 Xi ħaġa oħra li kont trid iżżid?",
+      "short3": "Lura mill-ġdid, {{name}}? 😊 Għidli x'għandek f'moħħok.",
       "short4": "Hey {{name}} ✨ Lest biex nerġgħu nibdew minn fejn waqafna?",
       "short5": "Iva {{name}}? Qed nisma' 👂",
-      "short6": "Oh hey {{name}}! Għandek xi ħaġa ġdida f'moħħok?"
+      "short6": "Oh ħej {{name}}! Għandek xi ħaġa ġdida f'moħħok?"
     },
     "header": {
       "openNav": "Ftaħ il-menu tan-navigazzjoni",
-      "closeNav": "Agħlaq il-menu tan-navigazzjoni",
+      "closeNav": "Għalaq il-menu tan-navigazzjoni",
       "homeAria": "Dar ta' Chatforia"
     },
     "login": {
@@ -1481,7 +1930,7 @@
       "appleShort": "Apple",
       "googleUnavailable": "Il-login ta' Google mhux disponibbli",
       "appleUnavailable": "Il-login ta' Apple mhux disponibbli",
-      "ssoUnavailable": "Is-single-sign-on mhux disponibbli bħalissa. Uża l-isem tal-utent u l-password minflok.",
+      "ssoUnavailable": "Il-login wieħed mhux disponibbli bħalissa. Uża l-isem tal-utent u l-password minflok.",
       "or": "or",
       "accountLabel": "Kont",
       "identifierPh": "Email jew isem tal-utent",
@@ -1493,50 +1942,47 @@
       "submit": "Idħol",
       "loggingIn": "Qed tidħol…",
       "verification": {
-        "mibgħut": "L-email tal-verifika ġiet mibgħuta. Iċċekkja l-inbox tiegħek.",
-        "fallut": "Fallut li jerġa' jibgħat l-email tal-verifika."
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
       },
-      "żball": {
-        "nuqqas": "Jekk jogħġbok daħħal il-kredenzjali tiegħek.",
-        "invalid": "Isem tal-utent jew password invalidu",
-        "miċħud": "Aċċess miċħud.",
-        "unprocessable": "Talba mhux valida. Iċċekkja l-isem tal-utent/l-email u l-password tiegħek.",
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Username jew password invalidu",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
         "deviceLimit": "Intlaħaq il-limitu tad-dispożittivi għall-pjan b'xejn. Agħlaq is-sessjoni fuq dispożittiv ieħor jew agħmel aġġornament għal Premium biex tgħaqqad aktar dispożittivi.",
         "premiumRequired": "Din l-azzjoni teħtieġ pjan Premium."
       },
       "forgotPassword": {
         "title": "Insejt il-password",
-        "helper": "Idħol l-indirizz email li użajt biex toħloq il-kont Chatforia tiegħek u nibgħatulek link sigur biex tirrisetta l-password tiegħek.",
+        "helper": "Iddaħħal l-indirizz email li użajt biex toħloq il-kont Chatforia tiegħek u nibgħatulek link sigur biex tirrisettja l-password tiegħek.",
         "emailLabel": "Email",
         "emailPlaceholder": "you@example.com",
         "emailInvalid": "Jekk jogħġbok daħħal indirizz email validu.",
         "genericError": "Ma jistax jiġi pproċessat it-talba. Jekk jogħġbok ipprova mill-ġdid f'ħin qasir.",
-        "sending": "Qed tibgħat il-link tar-riżettjar...",
-        "sendCta": "Ibgħat il-Link tar-Riżettjar",
+        "sending": "Qed tibgħat il-link tar-riżettar...",
+        "sendCta": "Ibgħat il-Link tar-Reset",
         "sentLabel": "Mibgħut!",
-        "sentHelper": "Jekk teżisti kont b'dik l-indirizz email, bgħatna link tar-riżettjar tal-password. Jista' jieħu ftit minuti biex jasal. Kun żgur li tiċċekkja l-folder tal-ispam jew tal-promozzjonijiet tiegħek.",
-        "previewDev": "Preview tal-Email (Dev)",
+        "sentHelper": "Jekk teżisti kont b'dik l-indirizz email, bgħatna link tar-reset tal-password. Jista' jieħu ftit minuti biex jasal. Kun żgur li tiċċekkja l-folder tal-ispam jew tal-promozzjonijiet tiegħek.",
+        "previewDev": "Preview Email (Dev)",
         "backToLogin": "Lura għall-Login"
       },
       "resetPassword": {
         "title": "Irrisettja l-Password",
-        "missingToken": "Token ta' reset tal-password invalidu jew nieqes.",
+        "missingToken": " Token ta' reset tal-password invalidu jew nieqes.",
         "missingTokenHelper": "Token invalidu jew nieqes. Jekk jogħġbok, talab link ġdid ta' reset tal-password.",
         "passwordMismatch": "Il-passwords ma jaqblux",
-        "success": "Il-password tiegħek ġiet reset b'suċċess",
-        "genericError": "Żball: Ma jistax isir reset tal-password.",
+        "success": "Irnexxielna nirrisettaw il-password tiegħek b'suċċess",
+        "genericError": "Żball: Ma jistax jirrisetta l-password.",
         "newPasswordLabel": "Password ġdida",
-        "newPasswordPlaceholder": "Daħħal il-password ġdida tiegħek",
-        "confirmPasswordLabel": "Ikkonferma l-password ġdida",
-        "confirmPasswordPlaceholder": "Erġa' daħħal il-password ġdida tiegħek",
+        "newPasswordPlaceholder": "Daħħal il-password il-ġdid tiegħek",
+        "confirmPasswordLabel": "Ikkonferma l-password il-ġdid",
+        "confirmPasswordPlaceholder": "Re-daħħal il-password il-ġdid tiegħek",
         "resetting": "Qed tirrisetta...",
         "submit": "Irrisetta l-password",
         "strongPasswordHint": "Agħżel password b'saħħtu li ma tużax f'post ieħor."
       }
     }
-  },
-  "oauth": {
-    "completing": " Qed tlesti l-firma…"
   },
   "support": {
     "helpFab": "Għajnuna",
@@ -1544,46 +1990,47 @@
     "badge": "Appoġġ",
     "heading": "Kif nistgħu ngħinuk?",
     "tabs": {
-      "għajnuna": "Ċentru tal-Għajnuna",
-      "kuntatt": "Ikkuntattjana"
+      "help": "Ċentru tal-Għajnuna",
+      "contact": "Ikkuuntattjana"
     },
     "searchPlaceholder": "Fittex artikli ta' għajnuna…",
     "searchAria": "Fittex għajnuna",
-    "searchBtn": "Fittex",
-    "quickTopicsLabel": "Suġġetti Rapidi",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Suġġetti mgħaġġla",
     "quickTopics": {
       "login": "Ma nistax nidħol",
-      "billing": "Ħlasijiet / billing",
+      "billing": "Ħlasijiet / fatturazzjoni",
       "abuse": "Irrapporta abbuż"
     },
     "trySearching": "Ippruva tfittex \"translate\", \"backups\", jew \"privacy\".",
     "article": "Artiklu",
     "openArticle": "Ftaħ l-artiklu",
-    "contactIntro": "Se nippruvaw nirranġaw dan immedjatament. Jekk le, it-tim tagħna se jsegwi l-każ.",
+    "contactIntro": "Se nippruvaw nissolvuh dan immedjatament. Jekk le, it-tim tagħna se jsegwi l-każ.",
     "topicAria": "Agħżel suġġett",
     "messagePlaceholder": "Ikteb il-messaġġ tiegħek…",
     "sendBtn": "Ibgħat",
-    "sent": "Il-messaġġ mibgħut. Aħna nirrispondu bl-email.",
-    "sendError": "Ma setgħetx tintbagħat. Ibgħat email lil support@chatforia.com minflok.",
+    "sent": "Il-messaġġ mibgħut. Se nirrispondu bl-email.",
+    "sendError": "Ma setax jintbagħat. Ibgħat email lil support@chatforia.com minflok.",
     "actionCompleted": "L-azzjoni tlestiet.",
     "actionFailed": "Ma setgħetx titlesta l-azzjoni. Jekk jogħġbok ipprova mill-ġdid.",
-    "ticketCreated": "Ma stajniex nirranġaw dan awtomatikament. It-tim tagħna se jsegwi l-każ.",
-    "escalationMessage": "Ma stajniex nirranġaw dan awtomatikament. It-tim tagħna se jsegwi l-każ.",
+    "ticketCreated": "Ma stajniex nissolvuh dan awtomatikament. It-tim tagħna se jsegwi dan.",
+    "escalationMessage": "Ma stajniex nissolvuh dan awtomatikament. It-tim tagħna se jsegwi dan.",
     "genericError": "Xi ħaġa marret ħażin. Jekk jogħġbok ipprova mill-ġdid.",
     "analyzing": "Qed tanalizza l-kwistjoni tiegħek...",
     "takeAction": "Ħu l-azzjoni rakkomandata",
-    "resolvedInstantly": "Il-kwistjoni ġiet riżolta immedjatament — m'hemmx bżonn ta' ticket.",
-    "escalating": "Qed tiġi eskallata lis-support..."
+    "resolvedInstantly": "Il-kwistjoni ġiet solvuta immedjatament — m'hemmx bżonn ta' ticket.",
+    "escalating": "Qed tiġi eskaltata lis-support...",
+    "takeRecommendedAction": "Ħu l-azzjoni rakkomandata"
   },
   "help": {
     "title": "Għajnuna",
     "howCanWeHelp": "Kif nistgħu ngħinuk?",
-    "helpCenter": "Ċentru tal-Għajnuna",
+    "helpCenter": "Ċentru ta' Għajnuna",
     "contactUs": "Ikkuntattjana",
     "quickTopics": "Suġġetti Rapidi",
     "searchExamples": "Ippruva tfittex \"translate\", \"backups\", jew \"privacy\".",
-    "maTistaxTidħol": "Ma tistax tidħol",
-    "ħlasijietKontabilità": "Ħlasijiet/ kontabilità",
+    "cantLogin": "Ma tistax tidħol",
+    "paymentsBilling": "Ħlasijiet/ fatturazzjoni",
     "reportAbuse": "Irrapporta abbuż",
     "searchHelpArticles": "Fittex artikli ta' għajnuna",
     "search": "Fittex"
@@ -1592,25 +2039,26 @@
     "title": "Ċentru ta' Għajnuna",
     "faq": {
       "account": {
-        "q": "Kif noħloq jew nirkupera l-kont tiegħi?"
+        "q": "How do I create or recover my account?",
+        "a": "Niżżel l-app jew uża l-web, agħfas \"Oħloq kont\", ivverifika l-email/it-telefon tiegħek. Biex tirkupraha, uża \"Insejt il-password\"."
       },
-      "privatezza": {
+      "privacy": {
         "q": "Il-messaġġi huma kriptati end-to-end?",
-        "a": "Iva. Il-messaġġi u l-sejħiet huma kriptati end-to-end b'mod awtomatiku. Biss int u r-riċevitur tistgħu taqrawhom."
+        "a": "Iva. Il-messaġġi u s-sejħiet huma kriptati end-to-end b'mod awtomatiku. Biss int u r-riċevitur tistgħu taqrawhom."
       },
       "translate": {
         "q": "Kif taħdem it-traduzzjoni istantanja?",
-        "a": "Aħdem \"Auto-translate\" fis-Settings → Appearance & Language. Aħna ntraddu fuq it-tagħmir fejn hu appoġġjat, inkella permezz ta' API siguri b'metadata minima."
+        "a": "Aħdem \"Auto-translate\" fis-Settings → Dehra u Lingwa. Aħna ntraddu fuq l-apparat fejn ikun appoġġjat, inkella permezz ta' API siguri b'metadata minima."
       },
       "contact": {
-        "q": "Ikkuntattja l-appoġġ",
-        "a": "Ikkuntattjana fuq support@chatforia.com. Inkludi ritratti tal-iskrin u l-verżjoni tal-app tiegħek."
+        "q": "Ikkuuntattja l-appoġġ",
+        "a": "Ikkuuntattjana fuq support@chatforia.com. Inkludi ritratti tal-iskrin u l-app tiegħek verżjoni."
       }
     }
   },
   "gettingStarted": {
     "title": "Biex Tibda",
-    "subtitle": "Ġdid f'Chatforia? Din il-gwida rapida turi l-essenzjali sabiex tkun tista' tkun produttiv fi ftit minuti.",
+    "subtitle": "Ġdid f'Chatforia? Din il-gwida rapida turi l-essenzjali sabiex tkun produttiv fi ftit minuti.",
     "alert": {
       "text": "Din il-gwida se tikber hekk kif inħarġu karatteristiċi ġodda. Jekk xi ħaġa qed tonqos, għarrafna permezz ta'",
       "contactLink": "Ikkuntattjana"
@@ -1619,273 +2067,280 @@
       "title": "1) Oħloq il-kont tiegħek",
       "signup": "Irreġistra",
       "or": "or",
-      "login": "log in",
+      "login": "idħol",
       "loginText": "bil-kont eżistenti tiegħek.",
-      "prefsStart": "Fl-app, iftaħ l-Is-settings biex tissettja l-preferenzi tiegħek",
-      "prefsLink": "preferenzi",
+      "prefsStart": "Fl-app, iftaħ l-Issettjar biex tissettja l-preferenzi tiegħek",
+      "prefsLink": "preferences",
       "prefsRest": "(lingwa, riċevuti ta' qari, temi)."
     },
     "section2": {
       "title": "2) Ibda tibgħat messaġġi",
       "item1": "Oħloq DM jew Grupp u ibgħat l-ewwel messaġġ tiegħek.",
-      "item2": "Uża traduzzjoni istantanja biex titkellem f'aktar minn 100 lingwa.",
-      "item3": " Ippruva messaġġi li jisparixxu u riċevuti tal-qari fil-Profil → Privatezza."
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Ippruva messaġġi li jisparixxu u riċevuti ta' qari fil-Profil → Privatezza."
     },
     "section3": {
       "title": "3) Mur aktar 'il quddiem",
-      "item1": "Tista' tagħmel aġġornament għal pjan imħallas fi kwalunkwe ħin ġewwa l-app.",
+      "item1": "Tista' taġġorna għal pjan mħallas fi kwalunkwe ħin ġewwa l-app.",
       "item2": "Ladarba tkun iffirmat, tista' tgħaqqad apparati addizzjonali u tissettja backup kriptat mis-Settings fl-app.",
-      "item2Part1": "Ladarba tkun iffirmat, tista' tgħaqqad apparati addizzjonali u tissettja backup kriptat mill-Is-settings fl-app."
+      "item2Part1": "Ladarba tkun iffirmat, tista' tgħaqqad apparati addizzjonali u tissettja backup kriptat mis-Settings fl-app."
     },
     "cta": {
-      "seePlans": "Ara l-pjanijiet u l-prezzijiet",
+      "seePlans": " Ara l-pjanijiet u l-prezzijiet",
       "openSettings": "Ftaħ l-issettjar",
-      "createAccount": " Oħloq kont"
+      "createAccount": "Oħloq kont"
     }
   },
   "howItWorks": {
     "title": "Kif taħdem Chatforia",
-    "intro": "Chatforia ġie ddisinjat biex jagħmel il-komunikazzjoni sempliċi, mgħaġġla u aċċessibbli. Il-bidu jieħu biss ftit passi.",
-    "step1Title": "1. Oħloq Kont",
+    "intro": "Chatforia ġie ddisinjat biex jagħmel il-komunikazzjoni sempliċi, veloċi u aċċessibbli. Il-bidu jieħu biss ftit passi.",
+    "step1Title": "1. Oħloq kont",
     "step1Desc": "Irreġistra billi tuża l-email jew l-isem tal-utent tiegħek biex toħloq il-kont Chatforia tiegħek.",
     "step2Title": "2. Ibda Konversazzjoni",
     "step2Desc": "Ikkomunika ma' oħrajn billi tagħżel kuntatti jew tibda chat ġdid.",
     "step3Title": "3. Messaġġi f'Ħin Reali",
     "step3Desc": "Il-messaġġi jintbagħtu malajr biex jipprovdu esperjenza ta' komunikazzjoni bla xkiel.",
     "step4Title": "4. Komunikazzjoni Globali",
-    "step4Desc": "It-traduzzjoni integrata tgħin lill-utenti jikkomunikaw f'lingwi differenti.",
-    "step5Title": "5. Żomm il-Kontroll",
+    "step4Desc": "Traduzzjoni integrata tgħin lill-utenti jikkomunikaw f'lingwi differenti.",
+    "step5Title": "5. Ibqa' fil-Kontroll",
     "step5Desc": "Immaniġġja l-preferenzi, il-kuntatti u l-issettjar tal-komunikazzjoni tiegħek."
   },
-  "sigurtà": {
-    "titolu": "Gwidi dwar is-Sigurtà u l-Komunità",
-    "introduzzjoni": "Chatforia hija impenjata li żżomm ambjent sigur u rispettabbli għal kull utent. Dawn il-gwidi jgħinu biex jiżguraw esperjenza pożittiva għal kulħadd.",
-    "respectTitle": "Komunikazzjoni b'Rispett",
-    "respectDesc": "L-utenti huma mistenni jikkomunikaw b'rispett. L-intimidazzjoni, l-abbuż, jew imġiba ta' ħsara mhumiex permessi.",
-    "prohibitedTitle": "Kontenut Proibit",
+  "safety": {
+    "title": "Safety & Community Guidelines",
+    "intro": "Chatforia is committed to maintaining a safe and respectful environment for all users. These guidelines help ensure a positive experience for everyone.",
+    "respectTitle": "Respectful Communication",
+    "respectDesc": "Users are expected to communicate respectfully. Harassment, abuse, or harmful behavior is not permitted.",
+    "prohibitedTitle": "Prohibited Content",
     "prohibited": {
-      "illegal": "Attivitajiet illegali",
-      "molestja": "Molestja jew bullismu",
-      "mibegħda": "Diskors ta' mibegħda jew diskriminazzjoni",
-      "explicit": "Materjal espliċitu jew ta' ħsara",
-      "spam": "Spam jew prattiki ingannevoli"
+      "illegal": "Illegal activities",
+      "harassment": "Harassment or bullying",
+      "hate": "Hate speech or discrimination",
+      "explicit": "Explicit or harmful material",
+      "spam": "Spam or deceptive practices"
     },
-    "toolsTitle": "Għodod għas-Sigurtà tal-Utent",
+    "toolsTitle": "User Safety Tools",
     "tools": {
-      "report": "Irrapporta mġiba jew kontenut mhux xieraq",
-      "block": "Iblokka l-utenti biex tipprevjeni interazzjoni ulterjuri",
-      "control": "Immaniġġja l-issettjar tal-privatezza u tal-komunikazzjoni"
+      "report": "Report inappropriate behavior or content",
+      "block": "Block users to prevent further interaction",
+      "control": "Manage privacy and communication settings"
     },
-    "enforcementTitle": "Eżekuzzjoni",
-    "enforcementDesc": "Nistgħu nieħdu azzjoni kontra kontijiet li jiksru dawn il-linji gwida, inkluż twissijiet, restrizzjonijiet, jew tneħħija permanenti mill-pjattaforma."
+    "enforcementTitle": "Enforcement",
+    "enforcementDesc": "We may take action against accounts that violate these guidelines, including warnings, restrictions, or permanent removal from the platform."
   },
   "blog": {
     "whyMessaging": {
-      "title": "Għaliex il-Pjattaformi tal-Messaġġi huma Aktar Importanti Minn Qatt Qabel",
-      "intro": "Il-pjattaformi tal-messaġġi saru wieħed mill-aktar għodod importanti għall-komunikazzjoni fid-dinja tal-lum. Minn konversazzjonijiet personali sa interazzjonijiet tan-negozju, l-apps tal-messaġġi jippermettu lin-nies jibqgħu konnessi immedjatament u b'mod effiċjenti.",
-      "everydayTitle": "Komunikazzjoni ta' Kull Jum",
-      "everydayDesc": "In-nies jiddependu fuq l-apps tal-messaġġi għall-komunikazzjoni ta' kuljum ma' ħbieb, familja u kollegi. Kemm jekk huwa aġġornament rapidu jew konversazzjoni twila, il-messaġġi jipprovdu mod konvenjenti u flessibbli biex tibqa' f'kuntatt.",
-      "speedTitle": "Velocità u Konvenjenza",
-      "speedDesc": "Wieħed mill-vantaġġi ewlenin tal-pjattaformi tal-messaġġi huwa l-veloċità tagħhom. Il-messaġġi jintbagħtu immedjatament, u jippermettu lill-utenti jikkomunikaw f'ħin reali. Dan il-livell ta' konvenjenza għamel il-messaġġi l-metodu preferut ta' komunikazzjoni għal ħafna nies.",
-      "globalTitle": "Portata Globali",
-      "globalDesc": "Il-pjattaformi tal-messaġġi jgħaqqdu n-nies madwar id-dinja. Bil-aċċess għall-internet, l-utenti jistgħu jikkomunikaw irrispettivament mill-post, u jagħmluh aktar faċli biex jinbnew relazzjonijiet u jsir kollaborazzjoni internazzjonali.",
-      "privacyTitle": "Privatezza u Kontroll",
-      " privacyDesc": "Il-pjattaformi moderni tal-messaġġi jiffokaw fuq li jagħtu lill-utenti kontroll fuq id-dejta u l-konversazzjonijiet tagħhom. Karatteristiċi bħal enkrizzjoni, issettjar tal-privatezza, u kontrolli tal-messaġġ jippermettu lill-utenti jikkomunikaw b'kunfidenza.",
-      "futureTitle": "Il-Futur tal-Messaġġi",
-      "futureDesc": "Il-messaġġi jkomplu jevolvu b'karatteristiċi ġodda bħal tweġibiet imħaddma bl-AI, traduzzjoni, u qsim tal-multimedja. Hekk kif it-teknoloġija tiżdied, il-pjattaformi tal-messaġġi se jsiru saħansitra aktar qawwija u versatili.",
-      "outro": "Chatforia hija mibnija b'dawn il-prinċipji f'moħħha, toffri esperjenza mgħaġġla, sigura, u esperjenza ta' messaġġi faċli għall-utent għal dinja konnessa."
+      "title": "Why Messaging Platforms Matter More Than Ever",
+      "intro": "Messaging platforms have become one of the most important tools for communication in today’s world. From personal conversations to business interactions, messaging apps allow people to stay connected instantly and efficiently.",
+      "everydayTitle": "Everyday Communication",
+      "everydayDesc": "People rely on messaging apps for daily communication with friends, family, and colleagues. Whether it's a quick update or a long conversation, messaging provides a convenient and flexible way to stay in touch.",
+      "speedTitle": "Speed and Convenience",
+      "speedDesc": "One of the main advantages of messaging platforms is their speed. Messages are delivered instantly, allowing users to communicate in real time. This level of convenience has made messaging the preferred method of communication for many people.",
+      "globalTitle": "Global Reach",
+      "globalDesc": "Messaging platforms connect people across the globe. With internet access, users can communicate regardless of location, making it easier to build relationships and collaborate internationally.",
+      "privacyTitle": "Privacy and Control",
+      "privacyDesc": "Modern messaging platforms focus on giving users control over their data and conversations. Features like encryption, privacy settings, and message controls allow users to communicate with confidence.",
+      "futureTitle": "The Future of Messaging",
+      "futureDesc": "Messaging continues to evolve with new features such as AI-powered responses, translation, and multimedia sharing. As technology advances, messaging platforms will become even more powerful and versatile.",
+      "outro": "Chatforia is built with these principles in mind, offering a fast, secure, and user-friendly messaging experience for a connected world."
     },
     "global": {
-      "title": "Il-Futur tal-Komunikazzjoni Globali",
-      "intro": "Il-komunikazzjoni evolviet b'mod rapidu matul id-deċennji li għaddew. Dak li darba kien jeħtieġ sejħiet telefonici jew fi -laqgħat ta' persuna waħda issa jistgħu jsiru malajr permezz ta' pjattaformi ta' messaġġi. Hekk kif it-teknoloġija tkompli tiżviluppa, il-komunikazzjoni globali qed issir aktar mgħaġġla, aktar aċċessibbli, u aktar inklussiva.",
-      "barriersTitle": "Tkissir tal-Barrieri",
-      "barriersDesc": "Wieħed mill-akbar bidliet fil-komunikazzjoni huwa t-tnaqqis tal-barrieri ġeografiċi. In-nies issa jistgħu jikkonnettjaw ma' oħrajn madwar id-dinja kważi f'ħin reali. Kemm jekk għal konversazzjonijiet personali, negozju, jew kollaborazzjoni, il-pjattaformi ta' messaġġi għamlu d-distanza ferm inqas limitanti .",
-      "translationTitle": "Ir-Rwol tat-Teknoloġija tat-Traduzzjoni",
-      "translationDesc": "Il-lingwa tradizzjonalment kienet waħda mill-akbar ostakli għall-komunikazzjoni globali. Illum, għodod ta' traduzzjoni integrati jgħinu jimlew din il-fossa. Pjattaformi bħal Chatforia jippermettu lill-utenti jikkomunikaw aktar faċilment anke jekk jitkellmu lingwi differenti, u joħolqu opportunitajiet ġodda għall-konnessjoni u l-fehim.",
-      "realtimeTitle": "Konnessjoni f'Ħin Reali",
-      "realtimeDesc": "Il-veloċità hija fattur ewlieni li jifforma l-komunikazzjoni moderna. L-utenti jistennew li l-messaġġi jitwasslu malajr, u l-infrastruttura moderna tappoġġja din l-aspettattiva. Il-messaġġi f'ħin reali jippermettu konversazzjonijiet aktar naturali u fluwidi.",
-      "privacyTitle": "Privatezza u Sigurtà",
-      "privacyDesc ": "Hekk kif il-komunikazzjoni ssir aktar diġitali, il-privatezza u s-sigurtà qed isiru dejjem aktar importanti. L-utenti jridu kunfidenza li l-konversazzjonijiet tagħhom huma protetti. Karatteristiċi bħal enkrizzjoni u issettjar ikkontrollat mill-utent jgħinu jappoġġjaw esperjenza ta' komunikazzjoni aktar sigura.",
-      " futureTitle": "X'Jmiss",
-      "futureDesc": "Il-futur tal-komunikazzjoni globali x'aktarx se jinkludi għodod aktar avvanzati, bħal messaġġi b'għajnuna tal-AI, traduzzjoni mtejba, u esperjenzi ta' utent imtejba. Hekk kif it-teknoloġija tiżviluppa, il-komunikazzjoni se tkompli ssir aktar intuwittiva u aċċessibbli.",
-      "outro": "Pjattaformi bħal Chatforia huma parti minn din il-bidla, u jgħinu lin-nies jikkonnettjaw aktar faċilment madwar lingwi u fruntieri."
+      "title": "The Future of Global Communication",
+      "intro": "Communication has evolved rapidly over the past few decades. What once required phone calls or in-person meetings can now be done quickly through messaging platforms. As technology continues to advance, global communication is becoming faster, more accessible, and more inclusive.",
+      "barriersTitle": "Breaking Down Barriers",
+      "barriersDesc": "One of the biggest changes in communication is the reduction of geographic barriers. People can now connect with others across the world in near real time. Whether for personal conversations, business, or collaboration, messaging platforms have made distance far less limiting.",
+      "translationTitle": "The Role of Translation Technology",
+      "translationDesc": "Language has traditionally been one of the biggest obstacles to global communication. Today, built-in translation tools help bridge that gap. Platforms like Chatforia allow users to communicate more easily even if they speak different languages, creating new opportunities for connection and understanding.",
+      "realtimeTitle": "Real-Time Connectivity",
+      "realtimeDesc": "Speed is a key factor shaping modern communication. Users expect messages to be delivered quickly, and modern infrastructure supports that expectation. Real-time messaging enables more natural and fluid conversations.",
+      "privacyTitle": "Privacy and Security",
+      "privacyDesc": "As communication becomes more digital, privacy and security are increasingly important. Users want confidence that their conversations are protected. Features like encryption and user-controlled settings help support a more secure communication experience.",
+      "futureTitle": "What Comes Next",
+      "futureDesc": "The future of global communication will likely include more advanced tools, such as AI-assisted messaging, improved translation, and enhanced user experiences. As technology evolves, communication will continue to become more intuitive and accessible.",
+      "outro": "Platforms like Chatforia are part of this shift, helping people connect more easily across languages and borders."
     },
     "index": {
-      "title": "Blog ta' Chatforia",
-      "intro": "Esplora għarfien dwar il-komunikazzjoni, is-sigurtà online, u kif it-teknoloġija tal-messaġġi qed tgħaqqad in-nies madwar id-dinja.",
-      "post1": "Kif Tikkumunika b'Sigurtà Online",
-      "post2": "Il-Futur tal-Komunikazzjoni Globali",
-      "post3": "Għaliex il-Pjattaformi tal-Messaġġi Jimpurtaw"
+      "title": "Chatforia Blog",
+      "intro": "Explore insights on communication, online safety, and how messaging technology is connecting people around the world.",
+      "post1": "How to Chat Safely Online",
+      "post2": "The Future of Global Communication",
+      "post3": "Why Messaging Platforms Matter"
     },
     "chatSafely": {
-      "title": "Kif Tikkattja b'Mod Sikur Online",
-      "intro": "Il-komunikazzjoni online għamlet aktar faċli minn qatt qabel li tikkonnettja ma' nies madwar id-dinja. Kemm jekk qed tibgħat messaġġi lil ħbieb, tiltaqa' ma' nies ġodda, jew tikkolabora b'mod professjonali, il-pjattaformi tal-messaġġi għandhom rwol kbir fil-ħajja ta' kuljum. Madankollu, li tibqa' sikur online huwa daqshekk importanti daqs kemm tibqa' konness.",
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
       "personalInfo": {
-        "title": " Ħares l-Informazzjoni Personali Tiegħek",
-        "body": "Wieħed mir-regoli l-iktar importanti tas-sigurtà online huwa li tevita li taqsam informazzjoni personali sensittiva. Dan jinkludi l-indirizz tad-dar tiegħek, dettalji finanzjarji, passwords, jew kwalunkwe informazzjoni identifikabbli li tista' tintuża b'mod ħażin. Anke f'konversazzjonijiet informali, huwa aħjar li tkun konxju ta' dak li taqsam u ma min taqsamha."
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
       "safetyFeatures": {
-        "title": "Uża l-Karatteristiċi ta' Sigurtà Integrati",
-        "body": "Pjattaformi moderni ta' messaġġi bħal Chatforia jipprovdu għodod biex jgħinu lill-utenti jibqgħu sikuri. Karatteristiċi bħal blokkjar, rapportar, u kontrolli tal-privatezza huma mfassla biex jagħtu lill-utenti kontroll fuq l-esperjenza tagħhom. Jekk xi ħadd jġib ruħu b'mod mhux xieraq jew jagħmellek tħossok skomdu, għandek tuża dawn l-għodod immedjatament."
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
-      "qerq": {
-        "titolu": "Kun Konxju tal-Qerq",
-        "korp": "Il-qerqieqa spiss jużaw pjattaformi ta' messaġġi biex iqarrqu lill-utenti biex jaqsmu informazzjoni personali jew jibagħtu flus. Kun kawt ta' messaġġi li jidhru wisq sbieħ biex ikunu veru, bħal offerti mhux mistennija, talbiet urġenti, jew links mhux familjari. Dejjem ivverifika l-identità tal-persuna li qed tikkomunika magħha qabel ma tieħu kwalunkwe azzjoni."
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
       "responsibly": {
-        "title": "Ikkomunika b'mod Responsabbli",
-        "body": "Komunikazzjoni rispettabbli tgħin toħloq ambjent aktar sigur għal kulħadd. Evita li tieħu sehem f'konversazzjonijiet ta' ħsara jew abbużivi, u kun konxju ta' kif il-kliem tiegħek jista' jaffettwa lil ħaddieħor. Interazzjonijiet pożittivi jikkontribwixxu għal esperjenza aħjar għal kull utent."
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
       "whySafety": {
-        "title": "Għaliex is-Sigurtà Online hi Importanti",
-        "body": "Hekk kif il-komunikazzjoni diġitali tkompli tikber, iż-żamma ta' sigurtà u fiduċja isiru dejjem aktar importanti. Billi ssegwi prattiki bażiċi ta' sigurtà u tuża l-għodod disponibbli, l-utenti jistgħu jgawdu l-benefiċċji tal-messaġġi waqt li jnaqqsu r-riskji."
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
       },
-      "konklużjoni": "Li tibqa' sigur online ma jeħtieġx għarfien tekniku avvanzat—biss kuxjenza, kawtela, u ġudizzju tajjeb. Bil-vizzji t-tajbin, tista' tikkomunika b'kunfidenza u b'mod sigur."
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
     }
   },
   "about": {
     "title": "Dwar Chatforia",
-    "description": "Chatforia hija messenger sigur u multilingwi b'kriptografija end-to-end, traduzzjoni istantanja, u sejħiet bil-vuċi u bil-vidjo. Il-missjoni tagħna hija sempliċi: ngħinu lin-nies jikkonnettjaw—b'mod sigur, privat, u bejn lingwi differenti.",
-    "valuesTitle": "Dak li napprezzaw",
+    "description": "Chatforia huwa messenger sigur u multilingwi b'kriptografija end-to-end, traduzzjoni istantanja, u sejħiet bil-vuċi u bil-vidjo. Il-missjoni tagħna hija sempliċi: ngħinu lin-nies jikkonnettjaw—b'mod sigur, privat, u bejn lingwi differenti.",
+    "valuesTitle": "Dak li napprezzaw ",
     "values": {
       "privacy": "<b>Privatezza l-ewwel:</b> Kriptazzjoni E2E b'mod default.",
       "access": "<b>Aċċess għal kulħadd:</b> Traduzzjoni awtomatika ta' aktar minn 100 lingwa.",
       "control": "<b>Kontroll:</b> Messaġġi li jisparixxu u riċevuti ta' qari huma fakultattivi.",
-      "privacy_ aria": "L-ewwel il-privatezza: enkrizzjoni E2E b'mod default.",
+      "privacy_aria": "Privatezza l-ewwel: enkrizzjoni E2E b'mod default.",
       "access_aria": "Aċċess għal kulħadd: traduzzjoni awtomatika ta' aktar minn 100 lingwa.",
       "control_aria": "Kontroll: messaġġi li jisparixxu u riċevuti ta' qari huma fakultattivi."
     },
     "howTitle": "Kif taħdem Chatforia",
-    " howDescription": "Il-messaġġi jiġu kriptati fuq it-tagħmir tiegħek qabel ma jitilqu minnu. It-traduzzjoni, il-backups, u s-sinkronizzazzjoni tat-tagħmir huma mfassla biex inaqqsu dak li s-servers tagħna jistgħu jaraw."
+    "howDescription": "Il-messaġġi jiġu enkriptati fuq it-tagħmir tiegħek qabel ma jitilqu minnu. It-traduzzjoni, il-backups u s-sinkronizzazzjoni bejn apparati huma mfassla biex inaqqsu dak li s-servers tagħna jistgħu jaraw.",
+    "privacyTitle": "Privatezza l-ewwel",
+    "privacyDesc": "Enkrizzjoni end-to-end u kontrolli tal-privatezza huma mibnija f'Chatforia mill-bidu.",
+    "accessTitle": "Aċċess għal kulħadd",
+    "accessDesc": "Chatforia tgħin lin-nies jikkonnettjaw madwar lingwi, apparati u fruntieri.",
+    "controlTitle": "Il-kontroll tiegħek",
+    "controlDesc": "Agħżel kif jidhru l-messaġġi, meta jisparixxu, u kif il-kont tiegħek jibqa' protett."
   },
   "press": {
-    "title": "Press",
+    "title": "Stampa",
     "contactLine": "Għal mistoqsijiet mill-media, ikkuntattjana fuq",
-    " boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia hija app ta' messaġġi li tagħti prijorità lill-privatezza u tagħmel il-chat bejn lingwi differenti mingħajr sforz. Il-messaġġi huma kriptati end-to-end b'mod awtomatiku, u t-traduzzjoni integrata tappoġġja aktar minn 100 lingwa f'ħin reali. L-utenti jistgħu jattivaw messaġġi li jisparixxu, iżommu r-riċevuti tal-qari fakultattivi, u jsinkronizzaw bejn diversi apparati. Disponibbli fuq iOS, Android, u l-web.",
-    "assetsTitle": " Assets tal-marka",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia hija applikazzjoni għall-messaġġi li tagħti prijorità lill-privatezza u tagħmel il-chat bejn lingwi differenti mingħajr sforz. Il-messaġġi huma end-to -end encrypted by default, u traduzzjoni integrata tappoġġja aktar minn 100 lingwa f'ħin reali. L-utenti jistgħu jattivaw messaġġi li jisparixxu, iżommu r-riċevuti tal-qari fakultattivi, u jsinkronizzaw bejn diversi apparati. Disponibbli fuq iOS, Android, u l-web.",
+    "assetsTitle": "Assets tal-marka",
     "assetsSubtitle": "Logos, screenshots, u immaġini tal-prodott.",
     "downloadCta": "Niżżel il-kit tal-midja",
     "downloadTitle": "Ikseb l-app",
-    "scanTip": "Fuq id-desktop? Iskannja bil-mowbajl tiegħek biex tikseb l-app.",
+    "scanTip": "Fuq id-desktop? Iskennja bil-mowbajl tiegħek biex tikseb l-app.",
     "qrAria": "Ftaħ il-websajt ta' Chatforia",
     "appStore": "Niżżel mill-App Store",
     "googlePlay": "Iksebha fuq Google Play"
   },
   "careers": {
     "title": "Karrieri",
-    "intro": "Aħna tim żgħir ta' fundaturi li qed nibnu lil Chatforia — messenger privat globali li se jitnieda fuq web, iOS, u Android. Jekk tieħu ħsieb il-privatezza, l-kriptazzjoni, u l-esperjenzi tal-utent pjaċevoli, nixtiequ nisimgħu mingħandek.",
-    "openRoles": "<b>Rwoli miftuħa ta' fundaturi:</b> Inġinier Ewlieni Full-stack, Inġinier Backend (Node.js), Frontend/ Inġinier tal-Web (React), Inġinier tal-Mobile (iOS), Inġinier tal-Mobile (Android), DevOps/SRE, Inġinier tas-Sigurtà u l-Enkrizzjoni, Inġinier tat-Telekomunikazzjonijiet (Twilio + eSIM).",
-    "apply": "Kif tapplika: Uża l-buttuna hawn taħt biex tibgħat l-email tar-resume tiegħek u l-links.",
-    "emailCta": "Ibgħat l-email tar-resume tiegħek",
+    "intro": "Aħna tim żgħir ta' fundaturi li qed nibnu lil Chatforia — messenger privat globali li se jitnieda fuq web, iOS, u Android. Jekk tieħu ħsieb il-privatezza, l-kriptazzjoni, u l-esperjenzi tal-utent sbieħ, nixtiequ nisimgħu mingħandek.",
+    "openRoles": "<b>Rwoli miftuħa ta' fundaturi:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Inġinier tal-Frontend/Web (React), Inġinier tal-Mobile (iOS), Inġinier tal-Mobile (Android), DevOps/SRE, Inġinier tas-Sigurtà u l-Enkripzjoni, Inġinier tat-Telekomunikazzjonijiet (Twilio + eSIM).",
+    "apply": "Kif tapplika: Uża l-buttuna hawn taħt biex tibgħat email bir-CV tiegħek u l-links tiegħek.",
+    "emailCta": "Ibgħat email bir-CV tiegħek",
     "whyNow": "Għaliex tingħaqad issa?",
-    "whyBullets": "• Għin biex tibni l-fondazzjoni ta' messenger globali ġdid.\n• Ippubblika titjib li jintuża fuq il-web, iOS, u Android.\n• Ħadem direttament mal-fundatur fuq l-arkitettura u d-direzzjoni tal-prodott.\n• Kun responsabbli għal oqsma ta' impatt għoli fis-stack: messaġġi, voċa, vidjo, enkrizzjoni, telecom, AI.\n• Ingħaqad fil-bidu — qabel ma jikber il-bażi tal-utenti."
+    "whyBullets": "• Għin fil-bini tal-fondazzjoni ta' messenger globali ġdid.\n• Ippubblika titjibiet li jintużaw fuq il-web, iOS, u Android.\n• Ħdem direttament mal-fundatur fuq l-arkitettura u d-direzzjoni tal-prodott.\n• Kun responsabbli għal oqsma ta' impatt għoli fis-stack: messaġġi, voċa, vidjo, enkrizzjoni, telecom, AI.\n• Ingħaqad fil-bidu — qabel ma jikber il-bażi tal-utenti.",
+    "futureRoles": "Rwoli futuri"
   },
   "advertise": {
     "title": "Irklama ma' Chatforia",
-    "description": "Wasal għal utenti impenjati tal-messaġġi b'pożizzjonijiet eleganti u sikuri għall-marka. Noffru inventarju ta' banners f'postijiet b'viżibilità għolja, sponsorizzazzjonijiet, u promozzjonijiet interni. L-abbonati premium ma jarawx reklami.",
+    "description": "Wasal għal utenti impenjati tal-messaġġi b'pożizzjonijiet eleganti u sikuri għall-marka. Noffru inventarju ta' banners f'postijiet b'viżibilità għolja, sponsorizzazzjonijiet, u promos interni. L-abbonati premium ma jarawx reklami.",
     "adsense": {
-      "withPubIdShort": "Aħna nipprovdu wkoll inventarju permezz ta' Google AdSense. Tista' timmira lil Chatforia bl-ID tal-pubblikatur {{pub Id}}, jew uża l-formola hawn taħt għal sponsorizzazzjonijiet diretti.",
+      "withPubIdShort": "Aħna nipprovdu wkoll inventarju permezz ta' Google AdSense. Tista' timmira lil Chatforia bl-ID tal-pubblikatur {{pubId}}, jew tuża l-formola hawn taħt għal sponsorizzazzjonijiet diretti.",
       "noPubIdShort": "Aħna nipprovdu wkoll xi inventarju permezz ta' Google AdSense. Is-sponsorizzazzjonijiet diretti huma disponibbli—uża l-formola hawn taħt."
     },
     "inventoryHeader": "Inventarju & Speċifikazzjonijiet",
     "placement": {
-      " displayBadge": "Display",
+      "displayBadge": "Display",
       "acceptedSizes": "Daqsijiet aċċettati",
       "adsenseSlot": "Slot ta' AdSense:"
     },
-    "noPlacementsPublic": "Qed niffinalizzaw l-inventarju tar-reklami tagħna. Għidilna dwar il-kampanja tiegħek u nirrakkomandawlek il-postijiet.",
+    "noPlacementsPublic": " Qed nispiċċaw l-inventarju tar-reklami tagħna. Għidilna dwar il-kampanja tiegħek u aħna nirrakkomandaw il-postijiet.",
     "whyHeader": "Għaliex Chatforia?",
     "why": {
-      "highSession": "Frekwenza għolja ta' sessjonijiet u żmien twil fil-UI tal-chat",
+      "highSession": "Frekwenza għolja ta' sessjonijiet u żmien twil ta' waqfien fl-UI tal-chat",
       "brandSafe": "Formati sikuri għall-marka; limitazzjoni tar-frekwenza b'rispett",
-      "sponsoredMoments": "Mumenti sponsorizzati (eż., modal 'Ibda Chat') disponibbli",
-      "deals": "Ftehimiet diretti jew programmatiċi permezz ta' AdSense/Google Ads"
+      "sponsoredMoments": "Mumenti sponsorizzati (eż., modal \"Ibda Chat\") disponibbli",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "contactHeader": "Kuntatt",
+    "contactHeader": "Contact",
     "form": {
       "submittedMsg": "Grazzi! It-talba tiegħek qed tiġi pproċessata. Se nikkuntattjawk dalwaqt.",
-      "missingRequired": "Jekk jogħġbok, imla l-isem, l-indirizz email, u l-messaġġ.",
+      "missingRequired": "Jekk jogħġbok imla l-isem, l-indirizz email, u l-messaġġ.",
       "successToast": "Grazzi! Se nkunu f'kuntatt dalwaqt.",
       "mailtoInfo": "Qed tiftaħ il-klijent tal-email tiegħek biex tibgħat it-talba…",
-      "nameLabel": "Ismek",
+      "nameLabel": "L-isem tiegħek",
       "namePlaceholder": "Jane Doe",
       "emailLabel": "Email",
       "emailPlaceholder": "you@company.com",
-      "companyLabel": "Kumpanija",
-      " companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Baġit fix-xahar (mhux obbligatorju)",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Baġit xahar (mhux obbligatorju)",
       "budgetPlaceholder": "eż. $1,000–$20,000+",
       "messageLabel": "Għidilna dwar il-kampanja tiegħek",
       "messagePlaceholder": "Miri, dati, KPIs, preferenzi ta' pożizzjonament…",
-      "sendCta": "Ibgħat inkjesta"
+      "sendCta": "Send inquiry"
     },
     "legal": {
-      "disclaimerStart": "Bil-preżentazzjoni, taqbel mal-",
-      "termini": "Termini",
-      "u": "u",
-      "privatezza": "Politika tal-Privatezza"
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
     }
   },
-  "kuntatt": {
-    "titolu": "Ikkuntattjana",
+  "contact": {
+    "title": "Ikkuntattjana",
     "successMsg": "Grazzi—it-tim tagħna se jirrispondi bl-imejl.",
     "errorSend": "Ma setgħetx tintbagħat. Jekk jogħġbok ibgħat imejl lil support@chatforia.com.",
     "form": {
       "nameLabel": "Isem",
       "emailLabel": "Email",
-      "messageLabel": "Messaġġ",
-      "sendCta": "Ibgħat"
+      "messageLabel": "Message",
+      "sendCta": "Send"
     }
   },
   "privacyPolicy": {
     "title": "Politika tal-Privatezza",
     "lastUpdated": "Aġġornat l-aħħar:",
     "intro": {
-      "body": "Din il-Politika tal-Privatezza tispjega kif Chatforia (\"aħna\", \"lilna\") jiġbor, juża, u jaqsam informazzjoni meta tuża l-apps u s-servizzi tagħna. Aħna niddisinjaw lil Chatforia biex innaqqsu l-ammont ta' data li nistgħu naċċessaw."
+      "body": "Din il-Politika tal-Privatezza tispjega kif Chatforia (\"aħna\", \"lilna\") tiġbor, tuża u taqsam informazzjoni meta tuża l-apps u s-servizzi tagħna. Aħna niddisinjaw lil Chatforia biex innaqqsu l-minimu tad-dejta li nistgħu naċċessaw."
     },
     "infoWeCollect": {
       "title": "Informazzjoni li niġbru",
-      "account": "Informazzjoni tal-kont (eż., email/telefon) biex toħloq u tipproteġi l-kont tiegħek.",
+      "account": "Informazzjoni tal-kont (eż., email/telefon) biex noħolqu u nsaħħu l-kont tiegħek.",
       "encrypted": "Il-kontenut kriptat (messaġġi/sejħiet) huwa kriptat end-to-end; ma nistgħux naqrawh.",
-      "diagnostics": "Diagnostika/użu bħal logijiet ta' krasħ, tip ta' apparat, jew analiżi ġenerali biex intejbu l-prestazzjoni."
+      "diagnostics": "Dijanjosi/użu bħal logijiet ta' krasħi, tip ta' apparat, jew analiżi ġenerali biex intejbu l-prestazzjoni."
     },
     "sms": {
-      "title": "Numri tat-telefon ċellulari u SMS",
-      "body": "Jekk tagħżel li tipprovdi numru tat-telefon ċellulari, nużawh biex nattivaw karatteristiċi bħal verifika tal-kont, twissijiet tal-login, u messaġġi bejn utenti permezz ta' SMS fejn ikun appoġġjat. Nistgħu nibgħatu messaġġi SMS transazzjonali relatati mal-kont tiegħek u l-attività tiegħek fuq Chatforia. Tista' tieqaf milli tirċievi messaġġi SMS fi kwalunkwe ħin billi tirrispondi b'kelma ewlieni appoġġjata biex tieqaf (bħal \"STOP\") jew billi tbiddel il-preferenzi tan-notifiki tiegħek fl-app. Aħna ma nbiegħux in-numru tat-telefon tiegħek jew nużawh għal marketing mhux relatat.",
+      "title": "Numri tat-telefon mobbli u SMS",
+      "body": "Jekk tagħżel li tipprovdi numru tat-telefon ċellulari, nużawh biex nattivaw karatteristiċi bħal verifika tal-kont, twissijiet tal-login, u messaġġi bejn utenti permezz ta' SMS fejn appoġġjat. Nistgħu nibgħatu messaġġi SMS transazzjonali relatati mal-kont tiegħek u l-attività tiegħek fuq Chatforia. Tista' tieqaf tirċievi messaġġi SMS fi kwalunkwe ħin billi tirrispondi b'kelma ewlieni appoġġjata għall-waqfien (bħal \"STOP\") jew billi tbiddel il-preferenzi tan-notifiki fl-app. Aħna ma nbiegħu n-numru tat-telefon tiegħek jew nużawh għal marketing mhux relatat.",
       "newText": "Test ġdid",
       "enterRecipient": "Daħħal isem jew numru",
       "typeMessage": "Ikteb messaġġ…",
       "addRecipient": "Żid riċevitur hawn fuq biex tibda…"
     },
     "howWeUse": {
-      "title": "Kif nużaw l-informazzjoni ",
-      "provide": "Provdi u ssekjura s-servizz (awtentikazzjoni, skoperta ta' spam/abbuż).",
-      "improve": "Ittejjeb il-karatteristiċi (kwalità tat-traduzzjoni, affidabbiltà).",
-      "legal": "Konforma mal-obbligi legali."
+      "title": "Kif nużaw l-informazzjoni",
+      "provide": "Nipprovdu u nissiguraw is-servizz (awtentikazzjoni, skoperta ta' spam/abbuż).",
+      "improve": "Ntejbu l-karatteristiċi (kwalità tat-traduzzjoni, affidabbiltà).",
+      "legal": "Nissodisfaw l-obbligi legali."
     },
     "sharing": {
       "title": "Qsim",
-      "body": "Aħna ma nbiegħux data personali. Nistgħu naqsmu data limitata ma' proċessuri (eż., notifiki push, analiżi) taħt kuntratti stretti."
+      "body": "Aħna ma nbiegħux data personali. Nistgħu naqsmu data limitata ma' proċessuri (eż., notifiki push, analitiċi) taħt kuntratti stretti."
     },
-    "drittijiet": {
+    "rights": {
       "title": "Id-drittijiet tiegħek",
-      "body": "Skont ir-reġjun tiegħek (eż., GDPR/UK GDPR/CPRA), tista' titlob aċċess, korrezzjoni, tħassir, jew li tieqaf minn ċertu proċessar. Ikuntattjana: privacy@chatforia.com."
+      "body": "Skont ir-reġjun tiegħek (eż., GDPR/UK GDPR/CPRA), tista' titlob aċċess, korrezzjoni, tħassir, jew l-irtirar minn ċertu pproċessar. Ikkuntattjana: privacy@chatforia.com."
     },
-    "retention ": {
-      "title": "Żamma tad-data u sigurtà",
-      "body": "Aħna nżommu biss dak li hu meħtieġ biex inħaddmu s-servizz u napplikaw sigurtà skont l-istandard tal-industrija. Il-kontenut E2E ma jistax jiġi dekriptjat minna."
+    "retention": {
+      "title": "Żamma tad-dejta u sigurtà",
+      "body": "Aħna nżommu biss dak li hu meħtieġ biex noperaw is-servizz u napplikaw sigurtà skont l-istandard tal-industrija. Il-kontenut E2E ma jistax jiġi deċifrat minna. "
     },
     "children": {
       "title": "Tfal",
-      "body": "Chatforia mhix immirata lejn tfal taħt l-13-il sena (jew kif meħtieġ mill-liġi lokali tiegħek)."
+      "body": " Chatforia mhix immirata lejn tfal taħt l-13-il sena (jew kif meħtieġ mil-liġi lokali tiegħek)."
     },
     "changes": {
-      "title": "Bidliet",
-      "body": "Se nippubblikaw aġġornamenti hawn u nirrevedu d-data \"Aġġornata l-aħħar\"."
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "Kuntatt",
+      "title": "Contact",
       "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
     }
   },
@@ -1893,33 +2348,33 @@
     "title": "Termini tas-Servizz",
     "lastUpdated": "Aġġornat l-aħħar:",
     "intro": {
-      " body": "Bl-użu ta' Chatforia taqbel ma' dawn it-Termini. Jekk ma taqbilx, tistax tuża s-servizz."
+      "body": "Bl-użu ta' Chatforia taqbel ma' dawn it-Termini. Jekk ma taqbilx, tistax tuża s-servizz."
     },
-    "kontijiet": {
-      "titolu": "Kontijiet",
-      "itemAccurateInfo": " Ipprovdi informazzjoni preċiża u żomm il-kredenzjali sikuri.",
+    "accounts": {
+      "title": "Kontijiet",
+      "itemAccurateInfo": "Ipprovdi informazzjoni preċiża u żomm il-kredenzjali siguri.",
       "itemResponsibility": "Int responsabbli għall-attività fuq il-kont tiegħek."
     },
     "acceptableUse": {
       "title": "Użu aċċettabbli",
-      "itemNoAbuse": "L-ebda kontenut illegali, abbużiv, jew li jiksir drittijiet; l-ebda spam jew abbuż awtomatizzat.",
-      "itemSuspend": "Nistgħu nissospendu/nitterminaw għal ksur."
+      "itemNoAbuse": "L-ebda kontenut illegali, abbużiv, jew li jiksir id-drittijiet; l-ebda spam jew abbuż awtomatizzat.",
+      "itemSuspend": "Nistgħu nissospendu/niterminaw għal ksur."
     },
     "sms": {
       "title": "Komunikazzjonijiet SMS",
-      "body": "Jekk tipprovdi numru tat-telefon ċellulari, taqbel li Chatforia tista' tibgħatlek messaġġi SMS relatati mal-kont tiegħek u l-użu tas-servizz, bħal twissijiet tal-login, notifiki tas-sigurtà, u messaġġi relatati ma' konversazzjonijiet li inti tibda jew tipparteċipa fihom. Ma nużawx SMS għal messaġġi promozzjonali jew ta' marketing mingħajr il-kunsens esplicitu tiegħek. Jistgħu japplikaw tarifi standard għall-messaġġi u d-dejta. Tista' tneħħi l-abbonament mill-messaġġi SMS fi kwalunkwe ħin billi tirrispondi b'kelma ewlieni appoġġjata biex tieqaf (per eżempju, \"STOP\") jew billi taġġorna l-issettjar tan-notifiki tiegħek fl-app."
+      "body": "Jekk tipprovdi numru tat-telefon ċellulari, taqbel li Chatforia tista' tibgħatlek messaġġi SMS relatati ma' il-kont tiegħek u l-użu tas-servizz, bħal twissijiet dwar il-login, notifiki ta' sigurtà, u messaġġi relatati ma' konversazzjonijiet li inti tibda jew tipparteċipa fihom. Ma nużawx SMS għal messaġġi promozzjonali jew ta' marketing mingħajr il-kunsens esplicitu tiegħek. Jistgħu japplikaw tarifi standard għall-messaġġi u d-dejta. Tista' tieqaf tirċievi messaġġi SMS fi kwalunkwe ħin billi tirrispondi b'kelma ewlieni appoġġjata għall-waqfien (per eżempju, \"STOP\") jew billi taġġorna l-issettjar tan-notifiki fl-app."
     },
     "yourContent": {
       "title": "Il-kontenut tiegħek",
-      "body": "Int tibqa' żżomm id-drittijiet fuq il-kontenut tiegħek. Int tagħtina d-drittijiet meħtieġa biex noperaw is-servizz (eż., rototazzjoni, ħażna, traduzzjoni)."
+      "body": "Int tibqa' żżomm id-drittijiet fuq il-kontenut tiegħek. Int tagħtina d-drittijiet meħtieġa biex noperaw is-servizz (eż., rotot, ħażna, traduzzjoni)."
     },
     "disclaimer": {
-      "title": "Diżklaimer u responsabbiltà",
-      "body": "Is-servizz huwa pprovdut \"kif inhu\" mingħajr garanziji. Sa l-massimu permess mil-liġi, Chatforia mhix responsabbli għal ħsarat indiretti jew konsekuttivi."
+      "title": "Dikjarazzjonijiet ta' responsabbiltà u eżenzjoni",
+      "body": "Is-servizz huwa pprovdut \"kif inhu\" mingħajr garanziji. Sa l-massimu permess mil-liġi, Chatforia mhix responsabbli għal ħsarat indiretti jew konsekwenzjali."
     },
-    "bidliet": {
-      "title": "Bidliet",
-      " body": "Nistgħu naġġornaw dawn it-termini; l-użu kontinwu wara bidliet ifisser aċċettazzjoni."
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
     "contact": {
       "title": "Contact",
@@ -1929,69 +2384,73 @@
   "refund": {
     "title": "Politika tar-Rimborsi",
     "lastUpdated": "Aġġornat l-aħħar:",
-    "intro": "F'Chatforia, nistinkaw li nipprovdu servizz ta' kwalità għolja lill-utenti kollha. Din il-Politika tar-Rimborsi tispjega meta jista' jingħata rimborsi.",
+    "intro": "F'Chatforia, nistinkaw li nipprovdu servizz ta' kwalità għolja lill-utenti kollha. Din il-Politika tar-Rimborsi tiddeskrivi meta jista' jingħata rimbors.",
     "subscriptions": {
       "title": "Skoprijiet",
-      "body": "Is-skoprijiet jiġu fatturati minn qabel fuq bażi rikorrenti. Tista' tikkansella fi kwalunkwe ħin permezz tal-issettjar tal-kont tiegħek jew il-pjattaforma użata għall-xiri."
+      "body": "L-abbonamenti jiġu fatturati minn qabel b'mod rikorrenti. Tista' tikkansella fi kwalunkwe ħin permezz tas-settings tal-kont tiegħek jew fuq il-pjattaforma użata għall-xiri."
     },
     "eligibility": {
-      "title": "Eligibbiltà għar-Rimbors",
-      "body": "Ir-rimborsi jistgħu jingħataw għal ħlasijiet duplikati, żbalji fil-fatturazzjoni, jew problemi tekniċi li jipprevjenu l-aċċess għal karatteristiċi mħallsa. It-talbiet kollha jiġu eżaminati każ b'każ."
+      "title": "Eligibilità għar-Rimbors",
+      "body": "Ir-rimborsi jistgħu jingħataw għal ċarġijiet duplikati, żbalji fil-fatturazzjoni, jew problemi tekniċi li jipprevjenu l-aċċess għal karatteristiċi mħallsa. Kull talba tiġi eżaminata każ b'każ."
     },
     "nonRefundable": {
-      "title": "Li ma jistax jiġi rimborsat",
-      "body": "B'mod ġenerali, ma nipprovdux rimborsi għal żmien mhux użat, perjodi parzjali ta' abbonament, jew nuqqas ta' kanċellazzjoni qabel ir-rinnovazzjoni.\"    ",
-      "thirdParty ": {
-        "title": "Xiri minn Parti Terza",
-        "body": "Jekk xtrat permezz ta' pjattaformi ta' partijiet terzi bħall-Apple App Store, ir-rifużjonijiet iridu jintalbu direttament permezz ta' dawk il-pjattaformi."
-      },
-      "contact": {
-        "title": "Kuntatt",
-        "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
-      }
+      "title": "Li ma jirrimborsax",
+      "body": "B'mod ġenerali ma nipprovdux rifużjonijiet għal żmien mhux użat, perjodi parzjali ta' abbonament, jew nuqqas li tikkansella qabel ir-rinnovazzjoni."
     },
-    "doNotSell": {
-      "title": "Ma Tbigħx jew Taqsamx l-Informazzjoni Personali Tiegħi",
-      "body": "Chatforia ma tbiegħx informazzjoni personali. Ir-residenti tal-Kalifornja għadhom jistgħu jissottomettu talbiet taħt il-CPRA billi jużaw il-buttuna hawn taħt.",
-      "cta": "Issottometti talba"
+    "thirdParty": {
+      "title": "Xiri minn Parti Terza",
+      "body": "Jekk mixtri permezz ta' terz -party platforms such as the Apple App Store, refunds must be requested directly through those platforms."
     },
-    "cookies": {
-      "title": "Issettjar tal-Cookies",
-      "body": "Chatforia juża biss cookies minimi (eż., ta' sessjoni, ta' sigurtà). Ma nużawx cookies ta' reklami minn terzi. Immaniġġja l-cookies permezz tal-issettjar tal-browser tiegħek."
-    },
-    "premiumGuard": {
-      "requiresPremium": "Din il-karatteristika teħtieġ pjan Premium."
-    },
-    "smsPolicy": {
-      "title": "Chatforia — Politika tal-SMS & Opt-in",
-      "lastUpdated": "Aġġornat l-aħħar:",
-      "whatWeSend": {
-        "title": "X' nibgħatu",
-        "body": "Chatforia tibgħat biss SMS relatati mal-kont u konversazzjonali lejn numri tat-telefon li l-utent ipprovda u ta' kunsens għalihom b'mod esplicitu. Messaġġi tipċi jinkludu kodiċijiet tal-login/verifika, twissijiet dwar il-kunsinna tal-messaġġ, avviżi ta' sigurtà, u aġġornamenti transazzjonali tal-kont."
-      },
-      "optIn": {
-        "title": "Kif l-utenti jagħżlu li jirċievu messaġġi",
-        "body": "L-utenti jagħżlu li jirċievu messaġġi billi jidħlu n-numru tat-telefon tagħhom waqt ir-reġistrazzjoni u jikkontrollaw il-kaxxa tal-kunsens għall-SMS fuq il-paġna tar-reġistrazzjoni jew id-dedikata",
-        "link": "formola tal-kunsens"
-      },
-      "optOut": {
-        "title": "Kif l-utenti jieqfu jirċievu messaġġi",
-        "stop": "Irrispondi STOP għal kwalunkwe SMS ta' Chatforia biex tieqaf.",
-        "start": "Irrispondi START biex tirreġistra mill-ġdid.",
-        "contactPrefix": "Ikkuntattja l-appoġġ fuq"
-      },
-      "help": {
-        "title": "Għajnuna",
-        "bodyPrefix": "Irrispondi HELP għal assistenza jew ibgħat email"
-      },
-      "privacyTerms": {
-        "title": "Privatezza u Termini",
-        "bodyStart": "Bil-kunsens għall-SMS, l-utenti jaqblu wkoll mat-termini tagħna",
-        "terms": "Termini tas-Servizz",
-        "and": "and",
-        "privacy": "Politika tal-Privatezza"
-      },
-      "footer": "© 2026 Chatforia Inc."
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
     }
+  },
+  "doNotSell": {
+    "title": "Ma tbigħx jew taqsamx l-Informazzjoni Personali Tiegħi",
+    "body": "Chatforia ma tbigħx informazzjoni personali. Ir-residenti tal-Kalifornja għadhom jistgħu jissottomettu talbiet taħt il-CPRA billi jużaw il-buttuna hawn taħt.",
+    "cta": "Ibgħat talba"
+  },
+  "cookies": {
+    "title": "Issettjar tal-cookies",
+    "body": "Chatforia tuża biss cookies minimiċi (eż., sessjoni, sigurtà). Ma nużawx cookies ta' reklami minn terzi. Immaniġġja l-cookies permezz tal-issettjar tal-browser tiegħek."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — Politika tal-SMS & Opt-in",
+    "lastUpdated": "Aġġornat l-aħħar:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia tibgħat biss SMS relatati mal-kont u konversazzjonali lejn numri tat-telefon li l-utent ipprovda b'mod esplicitu u ta' kunsens għalihom. Messaġġi tipici jinkludu kodiċijiet tal-login/verifika, twissijiet dwar il-kunsinna tal-messaġġ, avviżi ta' sigurtà, u aġġornamenti transazzjonali tal-kont."
+    },
+    "optIn": {
+      "title": "Kif l-utenti jagħmlu l-opt-in",
+      "body": "L-utenti jagħmlu l-opt-in billi jidħlu n-numru tat-telefon tagħhom waqt ir-reġistrazzjoni u billi jikkontrollaw il- kaxxa ta' kunsens għall-SMS fuq il-paġna tar-reġistrazzjoni jew id-dedikata",
+      "link": "formola ta' abbonament"
+    },
+    "optOut": {
+      "title": "Kif l-utenti joħorġu",
+      "stop": "Irrispondi STOP għal kwalunkwe SMS ta' Chatforia biex toħroġ.",
+      "start": "Irrispondi START biex tirreġistra mill-ġdid.",
+      "contactPrefix": "Ikkuntattja l-appoġġ fuq"
+    },
+    "help": {
+      "title": "Għajnuna",
+      "bodyPrefix": "Ibgħat HELP għal assistenza jew email"
+    },
+    "privacyTerms": {
+      "title": "Privatezza u Termini",
+      "bodyStart": "Billi jaqblu ma' SMS, l-utenti jaqblu wkoll mat-termini tagħna",
+      "terms": "Kundizzjonijiet tas-Servizz",
+      "and": "and",
+      "privacy": "Politika tal-Privatezza"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "Test ġdid",
+    "thread": "Konversazzjoni",
+    "enterRecipient": " Idħol isem jew numru",
+    "typeMessage": "Ikteb messaġġ…",
+    "addRecipient": "Żid riċevitur hawn fuq biex tibda…"
   }
 }

@@ -7,10 +7,24 @@
     "cancelAria": "Kanzura",
     "copy": "Kopa",
     "copied": "Yakopwa!",
-    "errorWithMessage": "Chikanganiso: {{message}}"
+    "errorWithMessage": "Chikanganiso: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Enda kune zviri mukati"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Kiyibheki yakagadzirwa uye yakadhodha ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "Sarudza faira uye pinda password.",
     "imported": "Kiyi yakavanzika yakaiswa mumudziyo uyu. Unogona kuverenga mameseji ekare zvino.",
     "enterPassword": "Pinda password yeakaunti yako kuti tigone kuchengetedza makiyi ako zvakachengeteka."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Kutumira mameseji kwakachengeteka kune chero munhu, chero kupi",
@@ -88,7 +198,19 @@
       "passwordDescription": "Minimum mabhii 6. Shandisa password yakasimba, yakasiyana.",
       "smsConsent": "Nekugadzira akaunti, unobvumirana kugamuchira SMS yeziviso dzine chekuita neChiitiko chako cheChatforia (semameseji kubva kune vamwe vashandisi). Mitengo yemessage & data inogona kushanda. Unogona kudzima chero nguva muSettings.",
       "termsLink": "Mitemo yeSevhisi",
-      "privacyLink": "Policy yekuvanzika"
+      "privacyLink": "Policy yekuvanzika",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "Kune:",
     "enterRecipient": "Pinda zita kana nhamba",
@@ -99,11 +221,95 @@
     "addRecipient": "Wedzera munhu anogamuchira pamusoro kuti utange…",
     "oneRecipient": "Ndapota pinda munhu mumwe chete parizvino.",
     "enterValidRecipient": "Pinda zita rekontakti rakachengetwa kana nhamba yefoni.",
-    "sendFailed": "Kutumira kwakakona. Tarisa console kuti uwane ruzivo."
+    "sendFailed": "Kutumira kwakakona. Tarisa console kuti uwane ruzivo.",
+    "logIn": "Pinda",
+    "seePlans": "Ona mapurani & mitengo",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "Nekugadzira akaunti, unobvumirana kugamuchira SMS yeziviso dzine chekuita neChiitiko chako cheChatforia (semameseji kubva kune vamwe vashandisi). Mitengo yemessage & data inogona kushanda. Unogona kudzima chero nguva muSettings.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Imba",
-    "header": "Mameseji ako",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "Tumira message kuti utange chat.",
     "sendButton": "Tumira message",
     "gifPicker": "Vhura GIF picker",
@@ -114,226 +320,31 @@
     "sendTooltip": "Tumira",
     "sendTooltipEmpty": "Nyora message kuti utumire",
     "send": "Tumira",
+    "welcomeMessage": "Mauya kuChatforia",
+    "getStarted": "Tanga",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "Isa zita kana nhamba",
     "addRecipient": "Wedzera anogamuchira pamusoro kuti utange…",
-    "welcomeMessage": "Mauya kuChatforia",
-    "getStarted": "Tanga"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Mutemo weKudzorera Mari",
-    "lastUpdated": "Yakagadziridzwa musi:",
-    "intro": "PaChatforia, tinoedza kupa sevhisi yemhando yepamusoro kune vese vashandisi. Mutemo uyu unotsanangura mamiriro anogona kuitwa kudzorwa kwemari.",
-    "subscriptions": {
-      "title": "MaSubscription",
-      "body": "Ma subscription anobhadharwa pamberi uye anoenderera nguva nenguva. Unogona kukanzura chero nguva kuburikidza neaccount yako kana papuratifomu yawakatenga."
-    },
-    "eligibility": {
-      "title": "Kukodzera Kudzorerwa Mari",
-      "body": "Mari inogona kudzorerwa kana paine kubhadharwa kaviri, kukanganisa mubhadharo, kana matambudziko ehunyanzvi anokutadzisa kushandisa zvinhu zvakabhadharwa. Zvese zvikumbiro zvinotariswa zvakasiyana."
-    },
-    "nonRefundable": {
-      "title": "Zvisingadzorerwi",
-      "body": "Kazhinji hatidzorere mari yenguva isina kushandiswa, chikamu che subscription, kana kusakanzura nguva isati yasvika."
-    },
-    "thirdParty": {
-      "title": "Kutenga Kuburikidza neVamwe",
-      "body": "Kana wakatenga kuburikidza nemapuratifomu akaita seApple App Store, unofanirwa kukumbira kudzorerwa mari ikoko."
-    },
-    "contact": {
-      "title": "Taura Nesu",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Nezve Chatforia",
-    "description": "Chatforia ipuratifomu yemazuva ano yekutaurirana yakagadzirwa kuti ive yakachengeteka uye inotsigira mitauro yakawanda...",
-    "valuesTitle": "Zvatinokoshesa",
-    "privacyTitle": "Kuchengetedzwa Kutanga",
-    "privacyDesc": "Encryption yakasimba uye marongero ekuchengetedza anodzorwa nemushandisi",
-    "accessTitle": "Kuwanika kune Vese",
-    "accessDesc": "Kududzira kwakavakirwa mukati kwemutauro yakawanda",
-    "controlTitle": "Kudzora",
-    "controlDesc": "Zvinhu zvakaita semameseji anonyangarika uye read receipts"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Sei Mapuratifomu eMessaging Achikosha Zvikuru",
-      "intro": "Mapuratifomu ekutumirana mameseji ave akakosha zvikuru mukutaurirana munyika yemazuva ano...",
-      "everydayTitle": "Kutaurirana Kwezuva neZuva",
-      "everydayDesc": "Vanhu vanoshandisa maapps aya zuva nezuva...",
-      "speedTitle": "Kukurumidza uye Kunaka",
-      "speedDesc": "Mameseji anosvika pakarepo...",
-      "globalTitle": "Kubatanidza Nyika",
-      "globalDesc": "Mapuratifomu aya anobatanidza vanhu pasi rose...",
-      "privacyTitle": "Kuvanzika uye Kudzora",
-      "privacyDesc": "Mapuratifomu emazuva ano anopa vashandisi kudzora...",
-      "futureTitle": "Ramangwana reMessaging",
-      "futureDesc": "Messaging iri kuramba ichichinja...",
-      "outro": "Chatforia yakavakwa pamusoro pemisimboti iyi..."
-    },
-
-    "global": {
-      "title": "Ramangwana Rekutaurirana Pasi Rose",
-      "intro": "Kutaurirana kwachinja nekukurumidza...",
-      "barriersTitle": "Kubvisa Zvipingamupinyi",
-      "barriersDesc": "Vanhu vave kukwanisa kubatana pasi rose...",
-      "translationTitle": "Basa reDudziro",
-      "translationDesc": "Mutauro waive chipingamupinyi kare...",
-      "realtimeTitle": "Kutaurirana Mune Nguva Chaiyo",
-      "realtimeDesc": "Kukurumidza kwakakosha...",
-      "privacyTitle": "Kuchengetedzwa",
-      "privacyDesc": "Vanhu vanoda kuti hurukuro dzavo dzichengetedzwe...",
-      "futureTitle": "Chii Chinotevera",
-      "futureDesc": "Ramangwana richauya nezvinhu zvitsva...",
-      "outro": "Mapuratifomu akaita seChatforia ari chikamu cheizvi..."
-    },
-
-    "index": {
-      "title": "Blog reChatforia",
-      "intro": "Ongorora pfungwa pamusoro pekutaurirana...",
-      "post1": "Maitiro Ekutaura Wakachengeteka paInternet",
-      "post2": "Ramangwana Rekutaurirana Pasi Rose",
-      "post3": "Sei Messaging Ichikosha"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Mashandiro eChatforia",
-    "intro": "Chatforia yakagadzirwa kuita kuti kutaurirana kuve nyore...",
-    "step1Title": "1. Gadzira Account",
-    "step1Desc": "Nyoresa uchishandisa email kana username...",
-    "step2Title": "2. Tanga Hurukuro",
-    "step2Desc": "Batanidza nevamwe...",
-    "step3Title": "3. Mameseji Mune Nguva Chaiyo",
-    "step3Desc": "Mameseji anosvika nekukurumidza...",
-    "step4Title": "4. Kutaurirana Pasi Rose",
-    "step4Desc": "Dudziro inobatsira vashandisi...",
-    "step5Title": "5. Gara Uchidzora",
-    "step5Desc": "Tonga marongero ako..."
-  },
-
-  "safety": {
-    "title": "Kuchengetedzwa & Mitemo Yenharaunda",
-    "intro": "Chatforia yakazvipira kuchengetedza nharaunda yakachengeteka...",
-    "respectTitle": "Kutaurirana Neruremekedzo",
-    "respectDesc": "Vashandisi vanotarisirwa kuremekedzana...",
-    "prohibitedTitle": "Zvinorambidzwa",
-    "prohibited": {
-      "illegal": "Zviitiko zvisiri pamutemo",
-      "harassment": "Kushungurudza kana bullying",
-      "hate": "Ruvengo kana kusarura",
-      "explicit": "Zvinonyadzisa kana zvinokuvadza",
-      "spam": "Spam kana kunyengera"
-    },
-    "toolsTitle": "Zvishandiso Zvekuchengetedza",
-    "tools": {
-      "report": "Taura zvakaipa",
-      "block": "Vhara mushandisi",
-      "control": "Tonga marongero ekuchengetedza"
-    },
-    "enforcementTitle": "Kutevedzera",
-    "enforcementDesc": "Tinogona kutora matanho kumaaccounts..."
-},
-  "chat": {
-    "selectPrompt": "Sarudza text kana chat room kuti utange kutaura",
-    "newMessages": "Mameseji matsva",
-    "typing": "{{name}} ari kunyora...",
-    "emptyTitle": "Mameseji ako",
-    "emptySubtitle": "Tumira message kuti utange chat.",
-    "startChatButton": "Tumira message",
-    "mediaAttachment": "Chabatanidzwa chemidhiya",
-    "thisUser": "munhu uyu",
-    "blockConfirm": "Vhara {{name}}? Haungagamuchire mameseji kubva kwavari.",
-    "blockedUser": "Yakavharwa {{name}}.",
-    "blockError": "Yatadza kuziva munhu anovharwa.",
-    "blockFailed": "Kuvhara kwakakona (backend haisati yakabatana).",
-    "encryptedUnavailable": "Message yakavharidzwa (kiyi isipo)",
-    "unlockToView": "Vhura kiyi yako kuti uone message iyi"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Off"
-    },
-    "freeLimit": "Muganhu wepurani yemahara: auto-delete kusvika zuva rimwe. Yakamisikidzwa ku1d.",
-    "premiumLimit": "Max auto-delete yePremium ndi30 mazuva. Yakamisikidzwa ku30d.",
-    "nothingToSend": "Nyora message kana kubatanidza faira kuti utumire.",
-    "encryptionFailed": "Kuvharidzira kwakakona. Message haina kutumirwa.",
-    "sent": "Message yakasvika.",
-    "placeholder": "Nyora message…",
-    "voiceAdded": "Voice note yawedzerwa",
-    "attachmentAdded": "Chabatanidzwa chawedzerwa",
-    "autoDelete": "Auto-delete",
-    "typeToSend": "Nyora message kuti utumire",
-    "send": "Tumira",
-    "sendWithEnter": "Tumira (Enter)",
-    "attachment": "chakabatanidzwa",
-    "caption": "Caption (zvisina basa)",
-    "remove": "Bvisa",
-    "clear": "Bvisa",
-    "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Chakabatanidzwa chakakura zvakanyanya. Edza faira diki.",
-      "unsupportedFile": "Mhando yefaira isingatsigirwi.",
-      "rateLimit": "Uri kutumira mameseji nekukurumidza. Ndapota dzikamisa.",
-      "validation": "Chikanganiso chekusimbisa. Ndapota tarisa message yako uye edza zvakare.",
-      "failedToSend": "Yatadza kutumira. Unogona kuedza zvakare bhabhu yakakona."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Makontakti Akachengetwa",
-    "refreshAria": "Vandudza makontakti",
-    "filterPlaceholder": "Sefa makontakti akachengetwa…",
-    "filterAria": "Sefa makontakti akachengetwa",
-    "noContactsFound": "Hapana makontakti akawanikwa.",
-    "externalContact": "Kontakti yekunze",
-    "notJoined": "Kontakti iyo haina kujoinha Chatforia parizvino.",
-    "couldNotStart": "Yatadza kutanga chat. Ndapota edza zvakare.",
-    "startFailed": "Yatadza kutanga chat. Ndapota edza zvakare.",
-    "deleted": "Kontakti yakabviswa.",
-    "deleteFailed": "Yatadza kubvisa kontakti. Ndapota edza zvakare.",
-    "aliasUpdated": "Alias yakavandudzwa.",
-    "updateAliasFailed": "Yatadza kuvandudza alias. Ndapota edza zvakare.",
-    "selectContact": "Sarudza {{name}}",
-    "alias": "Alias",
-    "startChat": "Tanga chat",
-    "message": "Message",
-    "delete": "Bvisa",
-    "deleteContactAria": "Bvisa kontakti",
-    "loadFailed": "Yatadza kutakura makontakti. Ndapota edza zvakare.",
-    "loadMore": "Tora zvimwe",
-    "call": "Fona",
-    "callStarted": "Kufona nhamba iyi kuburikidza nenhamba yako yeChatforia…",
-    "callFailed": "Yatadza kutanga kufona. Ndapota edza zvakare."
-  },
-  "startChatModal": {
-    "title": "Tanga hurukuro",
-    "searchPlaceholder": "Tsvaga zita, zita remushandisi, kana nhamba yefoni",
-    "messageThisPerson": "Tumira message kumunhu uyu",
-    "contacts": "Makontakti",
-    "recentInteractions": "Kubata kwakaitwa nguva pfupi yapfuura",
-    "noContactsMatch": "Hapana makontakti anoenderana netsvaga yako.",
-    "noRecentInteractions": "Hapana kubata kwakaitwa nguva pfupi yapfuura parizvino.",
-    "unknown": "Kusaziva",
-    "interactionType": {
-      "message": "Message",
-      "call": "Fona",
-      "video": "Vhidhiyo"
-    }
-  },
-  "addContactModal": {
-    "title": "Wedzera kontakti",
-    "phoneOrUsername": "Foni kana zita remushandisi",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 kana juliannorton",
-    "alias": "Alias (zvisina basa)",
-    "aliasPlaceholder": "e.g. Basa, Amai, Mike – Europe",
-    "enterPhoneOrUsername": "Pinda nhamba yefoni kana zita remushandisi.",
-    "userLookupFailed": "Kutsvaga mushandisi kwakakona.",
-    "cannotAddSelf": "Haungawedzere iwe pachako semukontakti.",
-    "failedToAdd": "Yatadza kuwedzera kontakti.",
-    "add": "Wedzera"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Random Chat",
@@ -357,13 +368,151 @@
     "startChatAlt": "Tanga chat itsva",
     "calls": "Mafoni",
     "video": "Vhidhiyo",
-    "voicemail": "Voicemail"
+    "voicemail": "Voicemail",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Status Itsva",
     "logout": "Buda",
     "help": "Rubatsiro",
     "createStatusAria": "Gadzira status itsva"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Sarudza text kana chat room kuti utange kutaura",
+    "newMessages": "Mameseji matsva",
+    "typing": "{{name}} ari kunyora...",
+    "emptyTitle": "Mameseji ako",
+    "emptySubtitle": "Tumira message kuti utange chat.",
+    "startChatButton": "Tumira message",
+    "mediaAttachment": "Chabatanidzwa chemidhiya",
+    "thisUser": "munhu uyu",
+    "blockConfirm": "Vhara {{name}}? Haungagamuchire mameseji kubva kwavari.",
+    "blockedUser": "Yakavharwa {{name}}.",
+    "blockError": "Yatadza kuziva munhu anovharwa.",
+    "blockFailed": "Kuvhara kwakakona (backend haisati yakabatana).",
+    "encryptedUnavailable": "Message yakavharidzwa (kiyi isipo)",
+    "unlockToView": "Vhura kiyi yako kuti uone message iyi",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Off"
+    },
+    "freeLimit": "Muganhu wepurani yemahara: auto-delete kusvika zuva rimwe. Yakamisikidzwa ku1d.",
+    "premiumLimit": "Max auto-delete yePremium ndi30 mazuva. Yakamisikidzwa ku30d.",
+    "nothingToSend": "Nyora message kana kubatanidza faira kuti utumire.",
+    "encryptionFailed": "Kuvharidzira kwakakona. Message haina kutumirwa.",
+    "sent": "Message yakasvika.",
+    "placeholder": "Nyora message…",
+    "autoDelete": "Auto-delete",
+    "typeToSend": "Nyora message kuti utumire",
+    "send": "Tumira",
+    "sendWithEnter": "Tumira (Enter)",
+    "attachment": "chakabatanidzwa",
+    "caption": "Caption (zvisina basa)",
+    "remove": "Bvisa",
+    "clear": "Bvisa",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Chakabatanidzwa chakakura zvakanyanya. Edza faira diki.",
+      "unsupportedFile": "Mhando yefaira isingatsigirwi.",
+      "rateLimit": "Uri kutumira mameseji nekukurumidza. Ndapota dzikamisa.",
+      "validation": "Chikanganiso chekusimbisa. Ndapota tarisa message yako uye edza zvakare.",
+      "failedToSend": "Yatadza kutumira. Unogona kuedza zvakare bhabhu yakakona.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Voice note yawedzerwa"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Menyu yetambo",
@@ -379,8 +528,6 @@
     "invitePeople": "Koka vanhu",
     "roomSettings": "Settings dzeimba",
     "clearConversation": "Bvisa hurukuro",
-    "clearConversationForMe": "Ndibvisire ini",
-    "clearConversationForEveryone": "Bvisira munhu wese",
     "block": "Vhara"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "Chete yakatarwa (/tr …)",
       "all": "Mameseji ese"
     },
-    "updated": "Settings dzakavandudzwa"
+    "updated": "Settings dzakavandudzwa",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Media yakagoverwa",
@@ -477,6 +635,110 @@
     "markRead": "Cherechedza sekuverengwa",
     "delete": "Bvisa",
     "unreadDotAria": "Chiratidzo chevoicemail chisina kuverengwa"
+  },
+  "contactList": {
+    "savedContacts": "Makontakti Akachengetwa",
+    "refreshAria": "Vandudza makontakti",
+    "filterPlaceholder": "Sefa makontakti akachengetwa…",
+    "filterAria": "Sefa makontakti akachengetwa",
+    "noContactsFound": "Hapana makontakti akawanikwa.",
+    "externalContact": "Kontakti yekunze",
+    "notJoined": "Kontakti iyo haina kujoinha Chatforia parizvino.",
+    "couldNotStart": "Yatadza kutanga chat. Ndapota edza zvakare.",
+    "startFailed": "Yatadza kutanga chat. Ndapota edza zvakare.",
+    "deleted": "Kontakti yakabviswa.",
+    "deleteFailed": "Yatadza kubvisa kontakti. Ndapota edza zvakare.",
+    "aliasUpdated": "Alias yakavandudzwa.",
+    "updateAliasFailed": "Yatadza kuvandudza alias. Ndapota edza zvakare.",
+    "selectContact": "Sarudza {{name}}",
+    "alias": "Alias",
+    "startChat": "Tanga chat",
+    "message": "Message",
+    "delete": "Bvisa",
+    "deleteContactAria": "Bvisa kontakti",
+    "loadFailed": "Yatadza kutakura makontakti. Ndapota edza zvakare.",
+    "loadMore": "Tora zvimwe",
+    "call": "Fona",
+    "callStarted": "Kufona nhamba iyi kuburikidza nenhamba yako yeChatforia…",
+    "callFailed": "Yatadza kutanga kufona. Ndapota edza zvakare.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Wedzera kontakti",
+    "phoneOrUsername": "Foni kana zita remushandisi",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 kana juliannorton",
+    "alias": "Alias (zvisina basa)",
+    "aliasPlaceholder": "e.g. Basa, Amai, Mike – Europe",
+    "enterPhoneOrUsername": "Pinda nhamba yefoni kana zita remushandisi.",
+    "userLookupFailed": "Kutsvaga mushandisi kwakakona.",
+    "cannotAddSelf": "Haungawedzere iwe pachako semukontakti.",
+    "failedToAdd": "Yatadza kuwedzera kontakti.",
+    "add": "Wedzera"
+  },
+  "startChatModal": {
+    "title": "Tanga hurukuro",
+    "searchPlaceholder": "Tsvaga zita, zita remushandisi, kana nhamba yefoni",
+    "messageThisPerson": "Tumira message kumunhu uyu",
+    "contacts": "Makontakti",
+    "recentInteractions": "Kubata kwakaitwa nguva pfupi yapfuura",
+    "noContactsMatch": "Hapana makontakti anoenderana netsvaga yako.",
+    "noRecentInteractions": "Hapana kubata kwakaitwa nguva pfupi yapfuura parizvino.",
+    "unknown": "Kusaziva",
+    "interactionType": {
+      "message": "Message",
+      "call": "Fona",
+      "video": "Vhidhiyo"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "Profile yeMushandisi",
@@ -614,13 +876,167 @@
     "voicemailNote": "Maivoicemails kubva kunhamba dzako dzeChatforia anochengetwa muInbox yako yeVoicemail. Unogona kubatsira transcription uye kutumira mupurani dzinotsigirwa.",
     "portHint": "Unoda kuchengeta nhamba yako yazvino? Unogona kuipota muChatforia Wireless.",
     "wireless": {
-      "manage": "Tonga wireless"
+      "manage": "Tonga wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Profile yeMushandisi",
       "desc": "Tora data yenharembozha yeChatforia kana uri kure neWi-Fi.",
-      "cta": "Tora eSIM / Ratidza QR"
-    }
+      "cta": "Tora eSIM / Ratidza QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -672,7 +1088,685 @@
     "expiresIn": "Inopera mumazuva {{days}}",
     "exhausted": "Data yako yapera. Tenga pack itsva kuti urambe uchishandisa data yenharembozha.",
     "buyPack": "Tenga data pack",
-    "esimPackLabel": "eSIM pack"
+    "esimPackLabel": "eSIM pack",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "Kutakura…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Enda Premium",
+    "description": "Vhura zvinhu zvine simba & bvisa ads.",
+    "cta": "Simudza",
+    "upgrade": "Simudza",
+    "upgradeAria": "Simudza kuChatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "Simudza",
+    "titleLoggedIn": "Simudza",
+    "titlePublic": "Mitengo",
+    "h1": "Mitengo & Mapurani eChatforia",
+    "h1Subtitle": "Tanga nepurani yedu yemahara ine ads. Enda pasina ads nePlus, kana kuvhura zvinhu zvine simba zvizere nePremium.",
+    "subtitle": "Sarudza purani yeapp, wedzera data packs kune iwe, kana kugoverana data nemhuri yako — zvese kubva panzvimbo imwe.",
+    "subtitle.app": "Tanga nepurani yedu yemahara ine ads. Enda pasina ads nePlus, kana kuvhura zvinhu zvine simba zvizere nePremium.",
+    "subtitle.mobile": "Wedzera data ye eSIM yepasi rose kuti Chatforia irambe ichishanda kunyange kana uri kure neWi-Fi.",
+    "subtitle.family": "Gadzira data pool yakagoverwa yemhuri yako uye tonga kushandiswa kwevose kubva panzvimbo imwe.",
+    "perMonth": "mo",
+    "perYear": "year",
+    "goPremium": "Enda Premium",
+    "benefitsLine": "Vhura zvinhu zvine simba & bvisa ads.",
+    "ctaText": "Simudza",
+    "aria": "Simudza kuChatforia Premium",
+    "toggle": {
+      "monthly": "Mwedzi mumwe",
+      "annual": "Gore (Chengeta 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Subscription ichapera",
+      "body": "Uchadzokera kuFree pa",
+      "keepPlanCta": "Chengeta {{plan}}",
+      "manageBillingCta": "Tonga billing"
+    },
+    "billing": {
+      "opening": "Kuvhura…",
+      "manage": "Tonga Billing"
+    },
+    "checkout": {
+      "redirecting": "Kutungamira…"
+    },
+    "auth": {
+      "continue": "Endera mberi nekupinda",
+      "createAccount": "Gadzira akaunti",
+      "signIn": "Saina"
+    },
+    "cta": {
+      "aria": "Sarudza purani",
+      "getPlus": "Simudza kuPlus",
+      "upgradeMonthly": "Simudza Mwedzi Mumwe",
+      "upgradeAnnual": "Simudza Gore",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "Mapurani eApp",
+      "mobile": "Nharembozha (eSIM)",
+      "family": "Mapurani eMhuri"
+    },
+    "plans": {
+      "free": {
+        "title": "Mahara",
+        "price": "$0",
+        "desc": "Tanga kutumira mameseji nemahara. Yakanakira kana uri kungoyedza Chatforia.",
+        "features": {
+          "chat": "Chat chaiyo-yechokwadi 1:1 uye boka, pamwe nemafoni eizwi uye vhidhiyo",
+          "media": "Govera mifananidzo, mameseji eizwi, uye mavhidhiyo mapfupi",
+          "ai": "AI-yakavakirwa mapinduro akachenjera uye kuturikira kwechokwadi (kushandiswa kwakanaka)",
+          "disappearing": "Mameseji anonyangarika uye kutonga kwekuvanzika kwebasic",
+          "ads": "Mahara nokusingaperi neads muapp"
+        },
+        "ctaCurrent": "Purani yazvino",
+        "ctaManage": "Tonga mubilling",
+        "ctaPublic": "Tanga – endera mberi nekupinda",
+        "aria": "Purani yemahara"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Zvinhu zvese zvakakosha, pasina ads. Yakanakira kutumira mameseji uye kufona zuva nezuva.",
+        "features": {
+          "allFree": "Zvinhu zvese muMahara, pasina ads",
+          "forwarding": "Tumira mafoni uye mameseji kune nhamba yako chaiyo yefoni",
+          "history": "Nhoroondo yemameseji yakareba (kusvika mwedzi 6)",
+          "support": "Rubatsiro rwokukurumidza kana chimwe chinhu chakaipa"
+        },
+        "badge": "Yakakurumbira",
+        "cta": "Enda pasina Ads",
+        "ctaPublic": "Tora Plus – endera mberi nekupinda",
+        "aria": "Simudza kuPlus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Mwedzi Mumwe)",
+        "price": "$11.99",
+        "desc": "Chiitiko chizere cheChatforia: zviridzwa zveAI, kugadzirisa, uye rubatsiro rwokutanga.",
+        "features": {
+          "plusAll": "Zvinhu zvese muPlus",
+          "themes": "Vhura ma themes ese e premium mavara uye kugadzirisa app",
+          "ai": "Zviridzwa zveAI zvakangopihwa Premium zvekunyora zvakare, mapinduro akachenjera, uye summaries",
+          "support": "Rubatsiro rwokutanga paunenge uchida rubatsiro rwakanyanya",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Yakakurudzirwa",
+        "cta": "Simudza (Mwedzi Mumwe)",
+        "ctaPublic": "Vhura Premium – endera mberi nekupinda",
+        "aria": "Simudza kuPremium Mwedzi Mumwe"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Gore)",
+        "price": "$99",
+        "desc": "Chengeta zvakawanda kana uchibhadharwa gore rimwe — kusanganisira ma themes e extra mavara, zviridzwa zveAI, uye rubatsiro rwokutanga.",
+        "features": {
+          "allPremium": "Zvinhu zvese muPremium Mwedzi Mumwe — kusanganisira ma themes e extra mavara",
+          "annualBilling": "Inobhadharwa kamwe pagore",
+          "save25": "Chengeta zvingaita 30% kana uchibhadhara mwedzi mumwe",
+          "bestFor": "Yakanakira vashandisi vane simba, vashandi vepasi rose, uye vafambi vakanyanya",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Chengeta 30%",
+        "cta": "Simudza (Gore)",
+        "ctaPublic": "Chengeta 30% negore – endera mberi nekupinda",
+        "aria": "Simudza kuPremium Gore",
+        "disclaimer": "Inobhadharwa pamberi. Kanzura chero nguva. Hapana mari dzakavanzika."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Mahara",
+      "freeDesc": "Tanga kutumira mameseji nemahara.",
+      "plusTitle": "Plus",
+      "plusBadge": "Yakakurumbira",
+      "plusDesc": "Yakanyanya kufanira pasina ads.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Zvinhu zvizere, maringi tones, uye zviridzwa zveAI zvine simba.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Chengeta zvakawanda kana uchibhadharwa gore rimwe.",
+      "annualDisclaimer": "Inobhadharwa pamberi. Kanzura chero nguva. Hapana mari dzakavanzika."
+    },
+    "mobile": {
+      "title": "Chatforia Nharembozha (eSIM data packs)",
+      "subtitle": "Wedzera data yepasi rose kuti Chatforia irambe ichishanda kunyange pasina Wi-Fi. Mitengo inogadziriswa otomatiki zvichienderana nenyika yako uye mari.",
+      "subtitle.detail": "Sarudza data pack yepasi rose kamwe chete kuti Chatforia irambe ichishanda paunenge uchifamba kana kure neWi-Fi.",
+      "scope": {
+        "local": "Munzvimbo",
+        "europe": "Europe",
+        "global": "Pasi rose",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "Munzvimbo = {{country}}",
+      "localEqualsFallback": "Munzvimbo = nyika yako yazvino",
+      "perPack": "/ pack",
+      "cta": "Tora data pack iyi",
+      "ctaPublic": "Tora data pack iyi",
+      "checkout": {
+        "redirecting": "Kutungamira…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Data inokurumidza yekushandiswa kwakanyanya",
+          "throttle": "Kumhanya kunogona kudzika mushure mekushandiswa kwakanyanya",
+          "coverage": "Kuvharika kwakavimbika",
+          "instant": "Kuvhurwa kwe eSIM kwechokwadi",
+          "noContract": "Pack kamwe chete, hapana chibvumirano"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "eSIM data packs inoda mudziyo unotsigira eSIM uye wakavhurika. Kuwanikwa kunoenderana nemhando yefoni, mutakuri, uye nyika. Kuvharika uye kumhanya kunosiyana nenzvimbo.",
+        "fairUse": "Inotevera fair-use policy uye miganhu yenzvimbo"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "Enzanisa eSIM data packs",
+        "col": {
+          "pack": "Pack",
+          "data": "Data yakaiswa",
+          "bestFor": "Yakanakira"
+        },
+        "disclaimer": "Kushandiswa chaiko kwe data kunoenderana nekuti unoshandisa Chatforia sei (izwi, vhidhiyo, media, uye mamwe maapp pafoni yako)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Yakanakira kukosha paGB"
+      },
+      "feature": {
+        "instant": "Kuvhurwa kwe eSIM kwechokwadi",
+        "coverage": "Kuvharika kwakavimbika",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Munzvimbo",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Europe",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Pasi rose",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Starter pack",
+        "data": "3 GB",
+        "bestFor": "Nzendo dhipfupi, kutumira mameseji kwepfupi, uye mafoni apo neapo"
+      },
+      "medium": {
+        "title": "Traveler pack",
+        "data": "5 GB",
+        "bestFor": "Nzendo dzevhiki, mafoni eVoIP anogara aripo, uye mepu"
+      },
+      "large": {
+        "title": "Power pack",
+        "data": "10 GB",
+        "bestFor": "Kutaura kwakanyanya, mafoni, vhidhiyo, uye kushandisa hotspot"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Chatforia Mhuri (data yakagoverwa)",
+      "subtitle": "Goverana data pool imwe chete nemhuri yako. Bhiri rimwe, maakaunti akawanda eChatforia, kuvharika kwepasi rose.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Family Small",
+        "desc": "Inosanganisira 20 GB yedata inokurumidza yakagoverwa — yakanakira vashandisi 2–3 vepfupi.",
+        "price": "$29.99",
+        "aria": "Tenga Family Small pack"
+      },
+      "medium": {
+        "title": "Family Medium",
+        "desc": "Inosanganisira 40 GB yedata inokurumidza yakagoverwa — yakanakira nhengo 3–5 dzinoshanda.",
+        "price": "$49.99",
+        "aria": "Tenga Family Medium pack"
+      },
+      "large": {
+        "title": "Family Large",
+        "desc": "Inosanganisira 80 GB yedata inokurumidza yakagoverwa — yemhuri dzine simba dzinogara dziri online.",
+        "price": "$84.99",
+        "aria": "Tenga Family Large pack"
+      },
+      "feature": {
+        "shared": "Data pool yakagoverwa yemhuri yako",
+        "members": "Koka kusvika kune 4 mamwe nhengo",
+        "membersMore": "Yakanakira nhengo 3–5 dzinoshanda",
+        "manage": "Tonga miganhu yenhengo imwe neimwe",
+        "topUp": "Wedzera mapack zvimwe nguva dzose",
+        "bestValue": "Yakanakira kukosha paGB",
+        "fairUse": "Inotevera fair-use policy uye miganhu yenzvimbo"
+      },
+      "disclaimer": "Mapack eMhuri anogadzira kana kuwedzera data pool yakagoverwa. Unogona kukoka uye kubvisa nhengo chero nguva.",
+      "footnote": "Mapack eMhuri anogoverana data pool imwe chete kune maakaunti eChatforia akabatana. Kuwanikwa uye miganhu kunoenderana nenyika yako uye mitemo yenzvimbo."
+    },
+    "why": {
+      "title": "Nei vanhu vachichinja kuChatforia",
+      "subtitle": "Chatforia inokupa nhamba chaiyo yefoni, kuturikira kwakachenjera, uye nzira yakajeka yekuenda pasina ads kana uchinge wagadzirira.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Ads akareruka paFree, kusimudzira kwePlus kwakareruka kana uchinge wagadzirira, uye zviridzwa zvePremium zvisipo muTextNow."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App yemazuva ano, kugadzirwa kwepasi rose kutanga, uye kuturikira kwakavakwa mukati panzvimbo pekuendesa mafoni ekare."
+        },
+        "messengers": {
+          "title": "Chatforia vs maapp ekutumira mameseji",
+          "body": "Tumira nhamba chaiyo dzefoni — kwete chete vashandisi vemamwe maapp — neAI uye status yakavakwa mukati. Yakanakira kana uri kuuya kubva kumaapp seTextFree kana TextMe."
+        }
+      },
+      "tableTitle": "Maitiro eChatforia anoenzanisa",
+      "col": {
+        "feature": "Chinhu",
+        "chatforia": "Kusvika mwedzi 12+",
+        "textnow": "Inosiyana neakaunti",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "Nhamba yefoni yemahara",
+        "translation": "Kuturikira otomatiki kwakavakwa mukati",
+        "aiTools": "Zviridzwa zveAI (kunyora zvakare, mapinduro, summaries)",
+        "ads": "Sarudzo pasina ads",
+        "history": "Nhoroondo yemameseji"
+      },
+      "yes": "Hongu",
+      "no": "Kwete",
+      "yesPremium": "Hongu (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Yakaganhurirwa",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Kusvika mwedzi 12+",
+        "textnow": "Inosiyana neakaunti",
+        "voice": "Yakaganhurirwa / yakavakirwa paakaunti"
+      },
+      "disclaimer": "Kuzenzanisa kunobva paruzivo rwunowanikwa pachena uye kunogona kuchinja nekufamba kwenguva. Mamwe maapp ekutumira mameseji emahara seTextFree kana TextMe anowanzo fanana neTextNow."
+    },
+    "faq": {
+      "title": "FAQ yemitengo & mapurani",
+      "free": {
+        "q": "Purani yeMahara iri yemahara chaizvo here?",
+        "a": "Hongu. Purani yeMahara inosanganisira nhamba yeChatforia, kufona, uye kutumira mameseji ine ads. Unogona kugara paFree kwenguva dzose, kana kusimudza kuti ubvise ads uye uvhure zvinhu zvakawanda."
+      },
+      "plusPremium": {
+        "q": "Musi mutsauko uripo pakati pePlus nePremium?",
+        "a": "Plus inobvisa ads uye inowedzera nhoroondo yemameseji yako — yakanakira kushandiswa zuva nezuva. Premium inowedzera kugadzirisa kwakawanda, zviridzwa zveAI zvekunyora zvakare uye mapinduro, uye rubatsiro rwokutanga kuvashandisi vane simba."
+      },
+      "esim": {
+        "q": "eSIM data packs inoshanda kupi?",
+        "a": "Chatforia Nharembozha inoshandisa kuvharika kwe eSIM yepasi rose. Kuwanikwa kunoenderana nenyika yako uye mudziyo. Uchaona sarudzo dzinotsigirwa panguva yekuvhurwa mukati meapp."
+      },
+      "cancel": {
+        "q": "Ndingakwanisa kanzura kana chinja mapurani chero nguva here?",
+        "a": "Hongu. Unogona kutonga kana kanzura subscription yako kubva peji yebilling muapp. Shanduko dzinoita kushanda pakupera kwenguva yako yazvino yekubhadhara."
+      },
+      "family": {
+        "q": "Mapack eMhuri anoshanda sei?",
+        "a": "Mapack eMhuri anogadzira data pool yakagoverwa kune maakaunti akawanda eChatforia. Munhu mumwe anobhadhara bhiri, uye unogona kukoka kana kubvisa nhengo uye kuseta miganhu pamunhu."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "Mhuri",
@@ -745,1053 +1839,618 @@
       "error": "Yatadza kuwedzera iwe kumhuri iyi. Kukoka kunogona kunge kusina kufanira kana kwapera."
     }
   },
-  "premium": {
-    "heading": "Enda Premium",
-    "description": "Vhura zvinhu zvine simba & bvisa ads.",
-    "cta": "Simudza",
-    "upgrade": "Simudza",
-    "upgradeAria": "Simudza kuChatforia Premium"
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "Simudza",
-    "titleLoggedIn": "Simudza",
-    "titlePublic": "Mitengo",
-    "h1": "Mitengo & Mapurani eChatforia",
-    "h1Subtitle": "Tanga nepurani yedu yemahara ine ads. Enda pasina ads nePlus, kana kuvhura zvinhu zvine simba zvizere nePremium.",
-    "subtitle": "Sarudza purani yeapp, wedzera data packs kune iwe, kana kugoverana data nemhuri yako — zvese kubva panzvimbo imwe.",
-    "subtitle.app": "Tanga nepurani yedu yemahara ine ads. Enda pasina ads nePlus, kana kuvhura zvinhu zvine simba zvizere nePremium.",
-    "subtitle.mobile": "Wedzera data ye eSIM yepasi rose kuti Chatforia irambe ichishanda kunyange kana uri kure neWi-Fi.",
-    "subtitle.family": "Gadzira data pool yakagoverwa yemhuri yako uye tonga kushandiswa kwevose kubva panzvimbo imwe.",
-    "perMonth": "mo",
-    "perYear": "year",
-    "goPremium": "Enda Premium",
-    "benefitsLine": "Vhura zvinhu zvine simba & bvisa ads.",
-    "ctaText": "Simudza",
-    "aria": "Simudza kuChatforia Premium",
-    "toggle": {
-      "monthly": "Mwedzi mumwe",
-      "annual": "Gore (Chengeta 30%)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "Subscription ichapera",
-      "body": "Uchadzokera kuFree pa",
-      "keepPlanCta": "Chengeta {{plan}}",
-      "manageBillingCta": "Tonga billing"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "Kuvhura…",
-      "manage": "Tonga Billing"
-    },
-    "checkout": {
-      "redirecting": "Kutungamira…"
-    },
-    "auth": {
-      "continue": "Endera mberi nekupinda",
-      "createAccount": "Gadzira akaunti",
-      "signIn": "Saina"
-    },
-    "cta": {
-      "aria": "Sarudza purani",
-      "getPlus": "Simudza kuPlus",
-      "upgradeMonthly": "Simudza Mwedzi Mumwe",
-      "upgradeAnnual": "Simudza Gore"
-    },
-    "section": {
-      "app": "Mapurani eApp",
-      "mobile": "Nharembozha (eSIM)",
-      "family": "Mapurani eMhuri"
-    },
-    "plans": {
-      "free": {
-        "title": "Mahara",
-        "price": "$0",
-        "desc": "Tanga kutumira mameseji nemahara. Yakanakira kana uri kungoyedza Chatforia.",
-        "features": {
-          "chat": "Chat chaiyo-yechokwadi 1:1 uye boka, pamwe nemafoni eizwi uye vhidhiyo",
-          "media": "Govera mifananidzo, mameseji eizwi, uye mavhidhiyo mapfupi",
-          "ai": "AI-yakavakirwa mapinduro akachenjera uye kuturikira kwechokwadi (kushandiswa kwakanaka)",
-          "disappearing": "Mameseji anonyangarika uye kutonga kwekuvanzika kwebasic",
-          "ads": "Mahara nokusingaperi neads muapp"
-        },
-        "ctaCurrent": "Purani yazvino",
-        "ctaManage": "Tonga mubilling",
-        "ctaPublic": "Tanga – endera mberi nekupinda",
-        "aria": "Purani yemahara"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
       },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Zvinhu zvese zvakakosha, pasina ads. Yakanakira kutumira mameseji uye kufona zuva nezuva.",
-        "features": {
-          "allFree": "Zvinhu zvese muMahara, pasina ads",
-          "forwarding": "Tumira mafoni uye mameseji kune nhamba yako chaiyo yefoni",
-          "history": "Nhoroondo yemameseji yakareba (kusvika mwedzi 6)",
-          "support": "Rubatsiro rwokukurumidza kana chimwe chinhu chakaipa"
-        },
-        "badge": "Yakakurumbira",
-        "cta": "Enda pasina Ads",
-        "ctaPublic": "Tora Plus – endera mberi nekupinda",
-        "aria": "Simudza kuPlus"
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
       },
-      "premiumMonthly": {
-        "title": "Premium (Mwedzi Mumwe)",
-        "price": "$11.99",
-        "desc": "Chiitiko chizere cheChatforia: zviridzwa zveAI, kugadzirisa, uye rubatsiro rwokutanga.",
-        "features": {
-          "plusAll": "Zvinhu zvese muPlus",
-          "themes": "Vhura ma themes ese e premium mavara uye kugadzirisa app",
-          "ai": "Zviridzwa zveAI zvakangopihwa Premium zvekunyora zvakare, mapinduro akachenjera, uye summaries",
-          "support": "Rubatsiro rwokutanga paunenge uchida rubatsiro rwakanyanya"
-        },
-        "badge": "Yakakurudzirwa",
-        "cta": "Simudza (Mwedzi Mumwe)",
-        "ctaPublic": "Vhura Premium – endera mberi nekupinda",
-        "aria": "Simudza kuPremium Mwedzi Mumwe"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Gore)",
-        "price": "$99",
-        "desc": "Chengeta zvakawanda kana uchibhadharwa gore rimwe — kusanganisira ma themes e extra mavara, zviridzwa zveAI, uye rubatsiro rwokutanga.",
-        "features": {
-          "allPremium": "Zvinhu zvese muPremium Mwedzi Mumwe — kusanganisira ma themes e extra mavara",
-          "annualBilling": "Inobhadharwa kamwe pagore",
-          "save25": "Chengeta zvingaita 30% kana uchibhadhara mwedzi mumwe",
-          "bestFor": "Yakanakira vashandisi vane simba, vashandi vepasi rose, uye vafambi vakanyanya"
-        },
-        "badge": "Chengeta 30%",
-        "cta": "Simudza (Gore)",
-        "ctaPublic": "Chengeta 30% negore – endera mberi nekupinda",
-        "aria": "Simudza kuPremium Gore",
-        "disclaimer": "Inobhadharwa pamberi. Kanzura chero nguva. Hapana mari dzakavanzika."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Mahara",
-      "freeDesc": "Tanga kutumira mameseji nemahara.",
-      "plusTitle": "Plus",
-      "plusBadge": "Yakakurumbira",
-      "plusDesc": "Yakanyanya kufanira pasina ads.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Zvinhu zvizere, maringi tones, uye zviridzwa zveAI zvine simba.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Chengeta zvakawanda kana uchibhadharwa gore rimwe.",
-      "annualDisclaimer": "Inobhadharwa pamberi. Kanzura chero nguva. Hapana mari dzakavanzika."
-    },
-    "mobile": {
-      "title": "Chatforia Nharembozha (eSIM data packs)",
-      "subtitle": "Wedzera data yepasi rose kuti Chatforia irambe ichishanda kunyange pasina Wi-Fi. Mitengo inogadziriswa otomatiki zvichienderana nenyika yako uye mari.",
-      "subtitle.detail": "Sarudza data pack yepasi rose kamwe chete kuti Chatforia irambe ichishanda paunenge uchifamba kana kure neWi-Fi.",
-      "scope": {
-        "local": "Munzvimbo",
-        "europe": "Europe",
-        "global": "Pasi rose"
-      },
-      "note": "Hatitengesi data packs pasi pe3 GB.",
-      "localEquals": "Munzvimbo = {{country}}",
-      "localEqualsFallback": "Munzvimbo = nyika yako yazvino",
-      "perPack": "/ pack",
-      "cta": "Tora data pack iyi",
-      "ctaPublic": "Tora data pack iyi",
-      "checkout": {
-        "redirecting": "Kutungamira…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Data inokurumidza yekushandiswa kwakanyanya",
-          "throttle": "Kumhanya kunogona kudzika mushure mekushandiswa kwakanyanya",
-          "coverage": "Kuvharika kwakavimbika",
-          "instant": "Kuvhurwa kwe eSIM kwechokwadi",
-          "noContract": "Pack kamwe chete, hapana chibvumirano"
-        }
-      },
-      "disclaimer": {
-        "devices": "eSIM data packs inoda mudziyo unotsigira eSIM uye wakavhurika. Kuwanikwa kunoenderana nemhando yefoni, mutakuri, uye nyika. Kuvharika uye kumhanya kunosiyana nenzvimbo."
-      },
-      "small": {
-        "title": "Starter pack",
-        "desc": "Inosanganisira 3 GB yedata inokurumidza — yakanakira kutumira mameseji kwepfupi uye mafoni apo neapo.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Nzendo dhipfupi, kutumira mameseji kwepfupi, uye mafoni apo neapo",
-        "aria": "Tenga Starter eSIM data pack"
-      },
-      "medium": {
-        "title": "Traveler pack",
-        "desc": "Inosanganisira 5 GB yedata inokurumidza yenzendo, kufamba, uye mafoni eVoIP anogara aripo.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Nzendo dzevhiki, mafoni eVoIP anogara aripo, uye mepu",
-        "aria": "Tenga Traveler eSIM data pack"
-      },
-      "large": {
-        "title": "Power pack",
-        "desc": "Inosanganisira 10 GB yedata inokurumidza yekutaura kwakanyanya, mafoni, uye vhidhiyo panetiweki yeChatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Kutaura kwakanyanya, mafoni, vhidhiyo, uye kushandisa hotspot",
-        "aria": "Tenga Power user eSIM data pack"
-      },
-      "compare": {
-        "title": "Enzanisa eSIM data packs",
-        "col": {
-          "pack": "Pack",
-          "data": "Data yakaiswa",
-          "bestFor": "Yakanakira"
-        },
-        "disclaimer": "Kushandiswa chaiko kwe data kunoenderana nekuti unoshandisa Chatforia sei (izwi, vhidhiyo, media, uye mamwe maapp pafoni yako)."
-      }
-    },
-    "family": {
-      "title": "Chatforia Mhuri (data yakagoverwa)",
-      "subtitle": "Goverana data pool imwe chete nemhuri yako. Bhiri rimwe, maakaunti akawanda eChatforia, kuvharika kwepasi rose.",
-      "perPack": "/ pack",
-      "small": {
-        "title": "Family Small",
-        "desc": "Inosanganisira 20 GB yedata inokurumidza yakagoverwa — yakanakira vashandisi 2–3 vepfupi.",
-        "price": "$29.99",
-        "aria": "Tenga Family Small pack"
-      },
-      "medium": {
-        "title": "Family Medium",
-        "desc": "Inosanganisira 40 GB yedata inokurumidza yakagoverwa — yakanakira nhengo 3–5 dzinoshanda.",
-        "price": "$49.99",
-        "aria": "Tenga Family Medium pack"
-      },
-      "large": {
-        "title": "Family Large",
-        "desc": "Inosanganisira 80 GB yedata inokurumidza yakagoverwa — yemhuri dzine simba dzinogara dziri online.",
-        "price": "$84.99",
-        "aria": "Tenga Family Large pack"
-      },
-      "feature": {
-        "shared": "Data pool yakagoverwa yemhuri yako",
-        "members": "Koka kusvika kune 4 mamwe nhengo",
-        "membersMore": "Yakanakira nhengo 3–5 dzinoshanda",
-        "manage": "Tonga miganhu yenhengo imwe neimwe",
-        "topUp": "Wedzera mapack zvimwe nguva dzose",
-        "bestValue": "Yakanakira kukosha paGB",
-        "fairUse": "Inotevera fair-use policy uye miganhu yenzvimbo"
-      },
-      "disclaimer": "Mapack eMhuri anogadzira kana kuwedzera data pool yakagoverwa. Unogona kukoka uye kubvisa nhengo chero nguva.",
-      "footnote": "Mapack eMhuri anogoverana data pool imwe chete kune maakaunti eChatforia akabatana. Kuwanikwa uye miganhu kunoenderana nenyika yako uye mitemo yenzvimbo."
-    },
-    "why": {
-      "title": "Nei vanhu vachichinja kuChatforia",
-      "subtitle": "Chatforia inokupa nhamba chaiyo yefoni, kuturikira kwakachenjera, uye nzira yakajeka yekuenda pasina ads kana uchinge wagadzirira.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Ads akareruka paFree, kusimudzira kwePlus kwakareruka kana uchinge wagadzirira, uye zviridzwa zvePremium zvisipo muTextNow."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "App yemazuva ano, kugadzirwa kwepasi rose kutanga, uye kuturikira kwakavakwa mukati panzvimbo pekuendesa mafoni ekare."
-        },
-        "messengers": {
-          "title": "Chatforia vs maapp ekutumira mameseji",
-          "body": "Tumira nhamba chaiyo dzefoni — kwete chete vashandisi vemamwe maapp — neAI uye status yakavakwa mukati. Yakanakira kana uri kuuya kubva kumaapp seTextFree kana TextMe."
-        }
-      },
-      "tableTitle": "Maitiro eChatforia anoenzanisa",
-      "col": {
-        "feature": "Chinhu"
-      },
-      "feature": {
-        "freeNumber": "Nhamba yefoni yemahara",
-        "translation": "Kuturikira otomatiki kwakavakwa mukati",
-        "aiTools": "Zviridzwa zveAI (kunyora zvakare, mapinduro, summaries)",
-        "ads": "Sarudzo pasina ads",
-        "history": "Nhoroondo yemameseji"
-      },
-      "yes": "Hongu",
-      "no": "Kwete",
-      "yesPremium": "Hongu (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "Yakaganhurirwa",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "Kusvika mwedzi 12+",
-        "textnow": "Inosiyana neakaunti",
-        "voice": "Yakaganhurirwa / yakavakirwa paakaunti"
-      },
-      "disclaimer": "Kuzenzanisa kunobva paruzivo rwunowanikwa pachena uye kunogona kuchinja nekufamba kwenguva. Mamwe maapp ekutumira mameseji emahara seTextFree kana TextMe anowanzo fanana neTextNow."
-    },
-    "faq": {
-      "title": "FAQ yemitengo & mapurani",
-      "free": {
-        "q": "Purani yeMahara iri yemahara chaizvo here?",
-        "a": "Hongu. Purani yeMahara inosanganisira nhamba yeChatforia, kufona, uye kutumira mameseji ine ads. Unogona kugara paFree kwenguva dzose, kana kusimudza kuti ubvise ads uye uvhure zvinhu zvakawanda."
-      },
-      "plusPremium": {
-        "q": "Musi mutsauko uripo pakati pePlus nePremium?",
-        "a": "Plus inobvisa ads uye inowedzera nhoroondo yemameseji yako — yakanakira kushandiswa zuva nezuva. Premium inowedzera kugadzirisa kwakawanda, zviridzwa zveAI zvekunyora zvakare uye mapinduro, uye rubatsiro rwokutanga kuvashandisi vane simba."
-      },
-      "esim": {
-        "q": "eSIM data packs inoshanda kupi?",
-        "a": "Chatforia Nharembozha inoshandisa kuvharika kwe eSIM yepasi rose. Kuwanikwa kunoenderana nenyika yako uye mudziyo. Uchaona sarudzo dzinotsigirwa panguva yekuvhurwa mukati meapp."
-      },
-      "cancel": {
-        "q": "Ndingakwanisa kanzura kana chinja mapurani chero nguva here?",
-        "a": "Hongu. Unogona kutonga kana kanzura subscription yako kubva peji yebilling muapp. Shanduko dzinoita kushanda pakupera kwenguva yako yazvino yekubhadhara."
-      },
-      "family": {
-        "q": "Mapack eMhuri anoshanda sei?",
-        "a": "Mapack eMhuri anogadzira data pool yakagoverwa kune maakaunti akawanda eChatforia. Munhu mumwe anobhadhara bhiri, uye unogona kukoka kana kubvisa nhengo uye kuseta miganhu pamunhu."
-      }
-    },
-    "gettingStarted": {
-      "title": "Kutanga",
-      "subtitle": "Mutsva kuChatforia? Iyi nzira yekutanga inoratidza zvakakosha kuti ugone kushanda mumaminitsi mashoma.",
-      "alert": {
-        "text": "Iyi gwara richakura sezvo tichivhura zvinhu zvitsva. Kana chimwe chinhu chichishaikwa, tiudze kuburikidza ne",
-        "contactLink": "Tibatei"
-      },
-      "section1": {
-        "title": "1) Gadzira akaunti yako",
-        "signup": "Nyoresa",
-        "or": "kana",
-        "login": "pinda",
-        "loginText": "neakaunti yako iripo.",
-        "prefsStart": "Seta",
-        "prefsLink": "zvaunoda",
-        "prefsRest": "(mutauro, zviratidzo zvekuverengwa, ma themes)."
-      },
-      "section2": {
-        "title": "2) Tanga kutumira mameseji",
-        "item1": "Gadzira DM kana Boka uye tumira message yako yekutanga.",
-        "item2": "Shandisa kuturikira kwechokwadi kuti utaure mumitauro inodarika 100.",
-        "item3": "Edza mameseji anonyangarika uye zviratidzo zvekuverengwa muProfile → Kuvanzika."
-      },
-      "section3": {
-        "title": "3) Enda mberi",
-        "item1": "Unogona kusimudza purani yakabhadharwa chero nguva mukati meapp.",
-        "item2": "Kana uchinge wasaina, unogona kubatanidza mamwe madhizaini uye kuseta kiyibheki dzakavharidzwa kubva kuSettings muapp."
-      },
-      "cta": {
-        "seePlans": "Ona mapurani",
-        "openSettings": "Vhura settings"
-      }
-    },
-    "helpCenter": {
-      "title": "Nzvimbo yekubatsira",
-      "faq": {
-        "account": {
-          "q": "Ndingagadzira kana kudzorera sei akaunti yangu?",
-          "a": "Dhodha app kana shandisa webhu, baya “Gadzira akaunti”, simbisa email/foni yako. Kuti udzorerazve, shandisa “Wakakangwa password”."
-        },
-        "privacy": {
-          "q": "Mameseji anovharidzwa kubva kumagumo kusvika kumagumo here?",
-          "a": "Hongu. Mameseji nemafoni anovharidzwa kubva kumagumo kusvika kumagumo nekukurumidza. Iwe nemunhu anogamuchira chete munogona kuverenga."
-        },
-        "translate": {
-          "q": "Kuturikira kwechokwadi kunoshanda sei?",
-          "a": "Batsira “Auto-turikira” muSettings → Kutaridzika & Mutauro. Tinoturikira pamudziyo panotsigirwa, kana zvisina kuita kuburikidza nemaAPI akachengeteka ane metadata shoma."
-        },
-        "contact": {
-          "q": "Tibatei rubatsiro",
-          "a": "Tibate pa support@chatforia.com. Sanganisira screenshots uye vhezheni yeapp yako."
-        }
-      }
-    },
-    "contact": {
-      "title": "Tibatei",
-      "successMsg": "Ndatenda—chikwata chedu chichapindura ne email.",
-      "errorSend": "Yatadza kutumira. Ndapota tumira email ku support@chatforia.com.",
-      "form": {
-        "nameLabel": "Zita",
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
         "emailLabel": "Email",
-        "messageLabel": "Message",
-        "sendCta": "Tumira"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Policy yekuvanzika",
-      "lastUpdated": "Yakavandudzwa kupedzisira:",
-      "intro": {
-        "body": "Iyi Policy yekuvanzika inotsanangura kuti Chatforia (“isu”, “tiri”) inounganidza, inoshandisa, uye inogovera ruzivo sei paunenge uchishandisa maapp edu nemasevhisi. Tinogadzira Chatforia kuti tidzikise data ratinogona kuwana."
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
       },
-      "infoWeCollect": {
-        "title": "Ruzivo rwatino unganaidza",
-        "account": "Ruzivo rweakaunti (e.g., email/foni) kugadzira uye kuchengetedza akaunti yako.",
-        "encrypted": "Zviri mukati zvakavharidzwa (mameseji/mafononi) zvakavharidzwa kubva kumagumo kusvika kumagumo; hatigone kumuverenga.",
-        "diagnostics": "Diagnostic/kushandiswa sekumap log ekuparara, mhando yemudziyo, kana analytics yakajairika kuti tivandudze kushanda."
-      },
-      "sms": {
-        "title": "Nhamba dzefoni dzenharembozha neSMS",
-        "body": "Kana ukasarudza kupa nhamba yefoni yenharembozha, tinoishandisa kuti tibatsire zvinhu sekusimbisa akaunti, ziviso dzekupinda, uye kutumira mameseji kubva kumushandisi kune mumwe mushandisi kuburikidza neSMS panotsigirwa. Tinogona kutumira mameseji eSMS ane chekuita neakaunti yako uye chiitiko paChatforia. Unogona kudzima kugamuchira mameseji eSMS chero nguva nekupindura nekeyword yekudzima inotsigirwa (se “STOP”) kana kushandura zvaunoda munotifika muapp. Hatitengesi nhamba yako yefoni kana kuishandisa kushambadzira kusingaenderane.",
-        "newText": "Text itsva",
-        "enterRecipient": "Pinda zita kana nhamba",
-        "typeMessage": "Nyora message…",
-        "addRecipient": "Wedzera munhu anogamuchira pamusoro kuti utange…"
-      },
-      "howWeUse": {
-        "title": "Tinoshandisa ruzivo sei",
-        "provide": "Kupa uye kuchengetedza sevhisi (auth, kuzivisa spam/abuse).",
-        "improve": "Vandudza zvinhu (mhando yekuturikira, kuvimbika).",
-        "legal": "Kutevedzera zvisungo zvemutemo."
-      },
-      "sharing": {
-        "title": "Kugovera",
-        "body": "Hatitengesi data yemunhu. Tinogona kugovera data shoma nevashandisi (e.g., ziviso dzekupusha, analytics) pasi pemakondirakiti akasimba."
-      },
-      "rights": {
-        "title": "Kodzero dzako",
-        "body": "Zvichienderana nenzvimbo yako (e.g., GDPR/UK GDPR/CPRA), unogona kukumbira kuwana, kugadzirisa, kubvisa, kana kudzima kushandiswa kwezvimwe zvinogadziriswa. Bata: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Kuchengetwa kwedata & kuchengetedza",
-        "body": "Tinongochengeta zvinodiwa kuti tishande sevhisi uye tishandise kuchengetedza kwemazuva ano. Zviri mukati zveE2E hazvigone kudekriptwa nesu."
-      },
-      "children": {
-        "title": "Vana",
-        "body": "Chatforia haina kunangwa kuvana vari pasi pegore gumi nematatu (kana sezvinodiwa nemutemo wenzvimbo yako)."
-      },
-      "changes": {
-        "title": "Shanduko",
-        "body": "Tichatumira ziviso pano uye tinovandudza zuva re “Yakavandudzwa kupedzisira”."
-      },
-      "contact": {
-        "title": "Tibatei",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Mitemo yeSevhisi",
-      "lastUpdated": "Yakavandudzwa kupedzisira:",
-      "intro": {
-        "body": "Nekushandisa Chatforia unobvumirana nemitemo iyi. Kana usingabvumirani, usashandise sevhisi."
-      },
-      "accounts": {
-        "title": "Maakaunti",
-        "itemAccurateInfo": "Paunopa ruzivo rwakarurama uye uchengete zvitupa zvakachengeteka.",
-        "itemResponsibility": "Iwe unotarisira chiitiko paakaunti yako."
-      },
-      "acceptableUse": {
-        "title": "Kushandiswa kunobvumirwa",
-        "itemNoAbuse": "Hapana zviri zvisiri pamutemo, zvinotambudza, kana zvinotyora; hapana spam kana abuse yotomatiki.",
-        "itemSuspend": "Tinogona kumisa/termina nekutyora."
-      },
-      "sms": {
-        "title": "Kutaurirana neSMS",
-        "body": "Kana ukapa nhamba yefoni yenharembozha, unobvumirana kuti Chatforia inogona kutumira mameseji eSMS ane chekuita neakaunti yako uye kushandiswa kwesevhisi, sekuziviso dzekupinda, ziviso dzekuchengetedza, uye mameseji ane chekuita nehurukuro dzaunotanga kana kupinda. Hatishandisi SMS kushambadzira kana kushambadzira pasina mvumo yako yakajeka. Mitengo yemessage ne data inogona kushanda. Unogona kudzima mameseji eSMS chero nguva nekupindura nekeyword yekudzima inotsigirwa (semuenzaniso, “STOP”) kana kuvandudza zvaunoda munotifika muapp."
-      },
-      "yourContent": {
-        "title": "Zviri mukati zvako",
-        "body": "Unoramba kodzero dzezviri mukati zvako. Unotipa kodzero dzinodiwa kuti tishande sevhisi (e.g., kutumira, kuchengeta, kuturikira)."
-      },
-      "disclaimer": {
-        "title": "Zvisingabvumirwe & mutoro",
-        "body": "Sevhisi inopihwa “sezvazviri” pasina zvivimbiso. Kusvika pakukwana kwese kunobvumirwa nemutemo, Chatforia haina mutoro wekukuvadza kwakadzikisira kana kwekukuvadza kunotevera."
-      },
-      "changes": {
-        "title": "Shanduko",
-        "body": "Tinogona kuvandudza mitemo iyi; kuramba uchishandisa mushure mesh anduko kunoreva kubvumirana."
-      },
-      "contact": {
-        "title": "Tibatei",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Usatengese kana Govera Ruzivo Rwangu Rwemunhu",
-      "body": "Chatforia haitengesi ruzivo rwemunhu. Vagari veCalifornia vanogona kuramba vachitumira zvikumbiro pasi peCPRA vachishandisa bhatani riri pasi.",
-      "cta": "Tumira chikumbiro"
-    },
-    "cookies": {
-      "title": "Settings dzeCookie",
-      "body": "Chatforia inoshandisa macookie mashoma (e.g., session, kuchengetedza). Hatishandisi macookie eads yechitatu. Tonga macookie kuburikidza nemasetting ebhurawuza rako."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Yatadza kutakura status yenhamba yefoni.",
-      "lock": "Vhara",
-      "noNumberAssigned": "Hapana nhamba yakapihwa. Sarudza imwe ne area code kuti utange kutumira mameseji.",
-      "pickNumber": "Sarudza nhamba",
-      "phoneNumber": "Nhamba yefoni"
-    },
-    "startChatModal": {
-      "title": "Tanga chat",
-      "quickPicker": "Quick picker",
-      "to": "Kune",
-      "nameOrUsername": "Nyora zita, zita remushandisi",
-      "nameUsernamePhoneEmail": "Nyora zita, zita remushandisi, foni, kana email…",
-      "startWithSelected": "Tanga chat nevakasarudzwa",
-      "searchByUsernameOrPhone": "Tsvaga ne zita remushandisi kana foni",
-      "search": "Tsvaga",
-      "searchPrompt": "Nyora zita remushandisi kana foni uye baya Tsvaga.",
-      "pickFromContacts": "Kana sarudza kubva kumakontakti",
-      "addContact": "Wedzera Kontakti",
-      "show": "Ratidza",
-      "add": "Wedzera",
-      "close": "Vhara",
-      "selectedCount": "{{count}} yakasarudzwa",
-      "pickAtLeastOne": "Sarudza kanenge kamwe munhu anogamuchira.",
-      "saveContactsHint": "Zvipikiro zvefoni/email zvichawanikwa mushure mekuzvichengeta semakontakti.",
-      "failedBulkStart": "Yatadza kutanga chat nevakasarudzwa.",
-      "noResults": "Hapana mibairo",
-      "mode": "Modi",
-      "group": "Boka",
-      "broadcast": "Kuparidza",
-      "groupNameOptional": "Zita reboka (zvisina basa)",
-      "firstMessageOptional": "Message yekutanga (zvisina basa asi yakakurudzirwa)",
-      "createGroup": "Gadzira boka",
-      "sendBroadcast": "Tumira kuparidza"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
-    },
-    "sounds": {
-      "freeNotice": "Uri paFree — ma tones e premium anoratidzwa asi akavharwa. Simudza kuti uvhure ese.",
-      "preview": "Preview",
-      "resetToDefaults": "Dzorerazve kune zvakasarudzika",
-      "notificationSounds": "Manzwi eNotifika",
-      "messageTone": "Tone yemessage",
-      "default": "Yakasarudzika",
-      "vibrate": "Vibrate",
-      "dreamer": "Dreamer",
-      "notify": "Zivisa",
-      "pop": "Pop",
-      "pulsatingSound": "Manzwi Anopfura",
-      "textMessage": "Message yeText",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Mabhero",
-      "chimes": "Chimes",
-      "digitalPhone": "Foni yeDigital",
-      "melodic": "Melodic",
-      "organNotes": "Manotsi eOrgan",
-      "soundReality": "Manzwi eReality",
-      "street": "Mugwagwa",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Chinhu ichi chinoda purani yePremium."
-    },
-    "aiSettings": {
-      "title": "Settings dzeAI",
-      "controlIntro": "Tonga kuturikira, mapinduro akachenjera, uye otomatiki mapinduro eForiaBot.",
-      "save": "Chengeta Settings dzeAI",
-      "autoTranslateIncoming": "Auto-turikira mameseji anouya",
-      "showOriginalAlongside": "Ratidza text yekutanga pamwe chete nekuturikira",
-      "enableSmartReplies": "Batsira Smart Replies",
-      "smartRepliesHint": "Tumira mameseji akapfupi akagamuchirwa (akachengetedzwa) kuAI kuti upe mapinduro anokurumidza.",
-      "maskProfanity": "Vhara mabara muAI mazano",
-      "maskProfanityHint": "Kana yakavhurwa, mazano anodzorerwa neAI achava nemashoko akatarwa akavharwa",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "Batsira auto-reply kana ndiri mubasa",
-      "autoReplyMode": "Modi yeauto-reply",
-      "cooldownSeconds": "Cooldown (masekondi)",
-      "off": "Off",
-      "on": "On",
-      "signature": "Signature",
-      "autoReply": "Auto-reply",
-      "activeUntilOptional": "Inoshanda kusvika (zvisina basa)",
-      "saved": "Zvaunoda zveAI zvakachengetwa",
-      "saveFailed": "Yatadza kuchengeta settings dzeAI",
-      "translateOff": "Off",
-      "translateTagged": "Chete kana @translated kana yakatarwa",
-      "translateAll": "Turikira mameseji ese anouya",
-      "modeDm": "1:1 maChats chete",
-      "modeMention": "Chete kana ndiri @mentioned",
-      "modeAll": "Mameseji ese anouya"
-    },
-    "accessibilitySettings": {
-      "title": "Kuwanikwa & Ziviso",
-      "accessibility": "Kuwanikwa",
-      "accessibilityDesc": "Sarudzo dzekuita Chatforia nyore kushandisa pasina kuvimba neruzha.",
-      "interfaceFontSize": "Saizi yefonti yemukati",
-      "interfaceFontSizeHelp": "Inotanga pane saizi yakajairika. Wedzera kana uchida text yakakura mumasetting ekuwanikwa.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Ziviso",
-      "notificationsDesc": "Ziviso zvinoonekwa dzemameseji & mafoni\nRatidza banners uye kuti musoro ubvumire kuti usapotsa chiitiko.",
-      "vibrateOnNew": "Vibrate pamameseji matsva (kana akatsigirwa)\nKonzera vibration yemudziyo neziviso.",
-      "flashOnCall": "Flash skrini pafoni inouya\nKupenya kwakajeka kwenguva pfupi kana foni ichirira.",
-      "liveCaptions": "Live captions (mafononi)",
-      "captionFontSize": "Saizi yefonti yecaption",
-      "captionBackground": "Background yecaption",
-      "light": "light",
-      "dark": "dark",
-      "transparent": "transparent",
-      "voiceNotes": "Manotsi eizwi",
-      "autoTranscribeVoiceNotes": "Auto-transcribe manotsi eizwi",
-      "autoTranscribeVoiceNotesDesc": "Batanidza transcript kune mameseji eaudio aunogamuchira.",
-      "changesSavedInstantly": "Shanduko dzinochengetwa nekukurumidza.",
-      "loadFailed": "Yatadza kutakura settings",
-      "visualAlerts": "Ziviso zvinoonekwa dzemameseji & mafoni",
-      "visualAlertsDesc": "Ratidza banners uye kuti musoro ubvumire kuti usapotsa chiitiko.",
-      "vibrateOnNewShort": "Vibrate pamameseji matsva (kana akatsigirwa)",
-      "vibrateOnNewDesc": "Konzera vibration yemudziyo neziviso.",
-      "flashOnCallShort": "Flash skrini pafoni inouya",
-      "flashOnCallDesc": "Kupenya kwakajeka kwenguva pfupi kana foni ichirira."
-    },
-    "privacySection": {
-      "strictE2EE": "Kuvharidzira kwakasimba kubva kumagumo kusvika kumagumo",
-      "ciphertextOnlyNote": "Chengeta chete ciphertext pamusoro. Inodzima AI/Turikira uye previews yekumodereta."
-    },
-    "linkedDevicesPanel": {
-      "title": "Mudziyo dzakabatana",
-      "noneFound": "Hapana mudziyo dzakabatana dzakawanikwa.",
-      "refresh": "Vandudza"
-    },
-    "help": {
-      "title": "Rubatsiro",
-      "howCanWeHelp": "Tingakubatsira sei?",
-      "helpCenter": "Nzvimbo yekubatsira",
-      "contactUs": "Tibatei",
-      "quickTopics": "Misoro inokurumidza",
-      "searchExamples": "Edza kutsvaga “turikira”, “kiyibheki”, kana “kuvanzika”.",
-      "cantLogin": "Haugone kupinda",
-      "paymentsBilling": "Kubhadhara/billing",
-      "reportAbuse": "Mhan’ara abuse",
-      "searchHelpArticles": "Tsvaga zvinyorwa zvekubatsira",
-      "search": "Tsvaga"
-    },
-    "peoplePage": {
-      "people": "Vanhu",
-      "search": "Tsvaga",
-      "searchPlaceholder": "Tsvaga ne alias, zita, zita remushandisi, kana foni",
-      "filterSaved": "Sefa makontakti akachengetwa",
-      "noContactsFound": "Hapana makontakti akawanikwa",
-      "quickStart": "Kutanga nokukurumidza",
-      "quickStartDesc": "Nzira shoma dzinokurumidza dzekutanga.",
-      "importContacts": "Tumira makontakti ako",
-      "add": "Wedzera",
-      "focusSearch": "Tarisisa Tsvaga",
-      "import": "Tumira",
-      "findOrAdd": "Tsvaga kana wedzera mumwe",
-      "searchByPhoneOrUsername": "Tsvaga nefoni / zita remushandisi",
-      "inviteFriends": "Koka shamwari",
-      "inviteDesc": "Goverana link yako yekukoka kuti utange kutaura nekukurumidza.",
-      "getTheApp": "Tora app",
-      "getTheAppDesc": "Rambe wakabatana paunenge uchifamba neChatforia yeiOS neAndroid.",
-      "download": "Dhodha",
-      "syncTip": "Zano: Mameseji ako anoramba akabatana pawebhu uye nharembozha."
-    },
-    "randomChat": {
-      "title": "Random Chat",
-      "description": "Sangana nemumwe munhu mutsva nekukurumidza. Tichakubatanidza uye tivhure imba yekutaura yenguva pfupi. Tanga kutaura zvisingazivikanwe. Wedzera Shamwari gare gare kana zvakanaka.",
-      "findMatch": "Nditsvagire match",
-      "chatWithForia": "Taura neForia",
-      "chatWithForiaBot": "Taura neForiaBot",
-      "cancel": "Kanzura",
-      "close": "Vhara",
-      "searching": "Kutsvaga...",
-      "finding": "Kutsvaga...",
-      "looking": "Kutsvaga mumwe munhu...",
-      "startingForia": "Kutanga chat neForia...",
-      "partnerDisconnected": "Munhu wako akabvisa.",
-      "noPartner": "Hapana munhu akawanikwa parizvino.",
-      "connectedTo": "Yakabatana ne {{name}}",
-      "connected": "Yakabatana",
-      "idle": "Idle",
-      "partnerLeft": "Munhu akasiya.",
-      "stopped": "Yakamiswa.",
-      "skip": "Skip",
-      "save": "Chengeta",
-      "saveGuard": "MaChats evanhu chete anogona kuchengetwa",
-      "youAreChattingWith": "Uri kutaura ne {{name}}",
-      "bot": "BOT",
-      "leave": "Siya",
-      "sayHi": "Tiudze hi 👋",
-      "you": "Iwe",
-      "typeMessage": "Nyora message",
-      "send": "Tumira",
-      "partner": "Munhu",
-      "withRia": "Ne Ria",
-      "chatWithRia": "Taura ne Ria",
-      "startingRia": "Kutanga chat ne Ria...",
-      "ageDisclaimer": "Tinongochengeta chikamu chemakore (kwete zuva chairo rekuzvarwa). Izvi zvinoshandiswa kuchengeta pairings dzeRandom Chat dzakakodzera. Kuti ubatanidzwe nevanhu (kwete chete RiaBot), seta chikamu chako chemakore muSettings → Makore & Random Chat.",
-      "ageBandRequired": "Seta chikamu chako chemakore muProfile → Makore & Random Chat kuti ubatanidzwe nevanhu.",
-      "ageBandCallout": "Kuti ubatanidzwe nevanhu (kwete chete RiaBot), seta chikamu chako chemakore muSettings → Makore & Random Chat.",
-      "subtitle": "Sangana nemumwe munhu mutsva nekukurumidza, kana sarudza kutaura ne Ria.",
-      "start": "Tanga hurukuro",
-      "matching": "Kubatanidza...",
-      "setAge": "Seta chikamu chako chemakore muProfile → Makore & Random Chat kuti ubatanidzwe nevanhu.",
-      "next": "Munhu Anotevera",
-      "addFriend": "Wedzera Shamwari",
-      "requested": "Yakakumbirwa",
-      "messageRia": "Tumira message kuna Ria...",
-      "messageMatch": "Tumira message kumatch yako..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "ipo",
-      "intro": "Hei ipo 👋 Ndiri Ria. Chii chiri mupfungwa dzako?",
-      "greetings": {
-        "long1": "Hei {{name}} 👋 Ndiri pano. Chii chiri mupfungwa dzako?",
-        "long2": "Hi {{name}} 😊 Chii chaungade kutaura nezvacho nhasi?",
-        "long3": "Hei {{name}}!! Ndiri kuteerera — chii chiri kumusoro?",
-        "long4": "Zvinonakidza kukuona, {{name}} 👋 Chii chiri mupfungwa dzako nhasi?",
-        "long5": "Hei {{name}} 😊 Unoda kutaura, kubvunza, kana kungotaura chete?",
-        "long6": "Hi {{name}}!! Ndine nguva — chii chaungade kutaura nezvacho?",
-        "short1": "Hei {{name}}, ndichiri pano. Chii chiri kumusoro?",
-        "short2": "Mauya zvakare {{name}} 👋 Chii chimwe chaungade kuwedzera?",
-        "short3": "Wadzoka zvakare, {{name}}? 😊 Ndiudze chii chiri mupfungwa dzako.",
-        "short4": "Hei {{name}} 👋 Wakagadzirira kutora kwatakamira?",
-        "short5": "Hongu {{name}}? Ndiri kuteerera 👂",
-        "short6": "Oh hei {{name}}!! Une chimwe chitsva chiri mupfungwa dzako?"
-      },
-      "header": {
-        "openNav": "Vhura menyu yekufambisa",
-        "closeNav": "Vhara menyu yekufambisa",
-        "homeAria": "Chatforia Imba"
-      },
-      "login": {
-        "welcomeBack": "Mauya zvakare",
-        "title": "Endera mberi kuChatforia",
-        "subtitleReturning": "Pinda muakaunti yako yeChatforia",
-        "subtitle": "Pinda muakaunti yako yeChatforia",
-        "google": "Endera mberi neGoogle",
-        "apple": "Endera mberi neApple",
-        "googleUnavailable": "Kupinda neGoogle hakuwanikwi",
-        "appleUnavailable": "Kupinda neApple hakuwanikwi",
-        "or": "kana",
-        "email": "Email",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Zita remushandisi",
-        "usernamePh": "Zita rako remushandisi",
-        "passwordLabel": "Password",
-        "passwordPh": "Password yako",
-        "keepSignedIn": "Ndiise mukati nguva dzose",
-        "forgot": {
-          "title": "Wakakangwa Password",
-          "helper": "Pinda email yakashandiswa kugadzira akaunti yako yeChatforia uye tichakutumira link yakachengeteka yekudzorerazve password yako.",
-          "emailInvalid": "Ndapota pinda email yakakodzera.",
-          "genericError": "Yatadza kugadzirisa chikumbiro. Ndapota edza zvakare mumaminitsi.",
-          "sending": "Kutumira link yekudzorerazve...",
-          "sendCta": "Tumira Reset Link",
-          "sentLabel": "Yatumirwa!",
-          "sentHelper": "Kana akaunti iripo neemail iyo, takatumira link yekudzorerazve password. Inogona kutora maminitsi mashoma kuti isvike. Ita kuti utarise spam kana promotions folder.",
-          "previewDev": "Preview Email (Dev)",
-          "backToLogin": "Dzokera kuLogin"
-        },
-        "submit": "Pinda",
-        "loggingIn": "Kupinda…",
-        "newHere": "Mutsva pano? <link>Gadzira akaunti</link>",
-        "ssoUnavailable": "Single-sign-on haisi kuwanikwa parizvino. Shandisa zita remushandisi & password panzvimbo.",
-        "error": {
-          "missing": "Ndapota pinda zvitupa zvako.",
-          "invalid": "Zita remushandisi kana password isina kufanira",
-          "denied": "Kuwana kwakarambwa.",
-          "unprocessable": "Chikumbiro chisina kufanira. Tarisa zita rako remushandisi/email ne password.",
-          "deviceLimit": "Muganhu wemudziyo wasvika papurani yeMahara. Buda pane mumwe mudziyo kana simudza kuPremium kuti ubatanidze mamwe madhizaini.",
-          "premiumRequired": "Chiitiko ichi chinoda purani yePremium."
-        }
-      },
-      "oauth": {
-        "completing": "Kupedzisa kupinda…"
-      },
-      "dialer": {
-        "title": "Mafoni",
-        "subtitle": "Keypad & zvakaitika. (Kana usingashandise PSTN, tanga mafoni kubva kumusoro wehurukuro.)",
-        "enterNumberPh": "Pinda nhamba",
-        "call": "Fona",
-        "backspace": "Backspace",
-        "recents": "Zvakaitika",
-        "recentsEmpty": "Hapana mafoni akaitika parizvino.",
-        "enterNumber": "Pinda nhamba",
-        "enterNumberAria": "Pinda nhamba",
-        "key": "Kiyi {{d}}",
-        "noRecents": "Hapana mafoni akaitika parizvino."
-      },
-      "video": {
-        "title": "Vhidhiyo",
-        "chooseType": "Sarudza mhando yevhidhiyo.",
-        "directTitle": "Vhidhiyo Yakananga",
-        "directDesc": "Kufona kwevhidhiyo 1:1 nemumwe mushandisi.",
-        "directStart": "Tanga",
-        "roomsTitle": "Imba",
-        "roomsDesc": "Vhidhiyo yevanhu vazhinji uchishandisa zita rakagoverwa remba.",
-        "roomsIntro": "Joinha kana gadzira imba yevanhu vazhinji.",
-        "roomNameLabel": "Zita remba",
-        "roomNamePh": "e.g. team-standup",
-        "join": "Joinha",
-        "deeplinkTip": "Zano: unogona kuita deep link yakananga ku <code>/video?room=room-name</code>.",
-        "hub": {
-          "title": "Vhidhiyo",
-          "subtitle": "Sarudza mhando yevhidhiyo."
-        },
-        "direct": {
-          "title": "Vhidhiyo Yakananga",
-          "subtitle": "Tanga kufona kwevhidhiyo 1:1 uchishandisa nhamba yefoni kana zita remushandisi reChatforia.",
-          "desc": "Kufona kwevhidhiyo 1:1 nemumwe mushandisi.",
-          "start": "Tanga",
-          "callBtn": "Fona",
-          "callByPhone": {
-            "title": "Fona nefoni"
-          },
-          "phone": {
-            "placeholder": "Pinda foni (e.g., +1-555-123-4567)",
-            "aria": "Foni yekufonera"
-          },
-          "tipInvite": "Zano: Namira nhamba uye fona pasina kuchengeta kontakti. Tichakoka vashandisi vasiri vashandisi ne link.",
-          "findUser": {
-            "title": "Tsvaga mushandisi"
-          },
-          "search": {
-            "placeholder": "Tsvaga nezita kana zita remushandisi",
-            "aria": "Tsvaga nezita kana zita remushandisi",
-            "btn": "Tsvaga"
-          }
-        },
-        "rooms": {
-          "title": "Imba",
-          "subtitle": "Gadzira imba kana joinha imwe iripo nekunyora zita rimwe chete.",
-          "desc": "Vhidhiyo yevanhu vazhinji uchishandisa zita rakagoverwa remba.",
-          "roomLabel": "Zita remba",
-          "roomPlaceholder": "e.g. team-standup",
-          "roomAria": "Zita remba",
-          "joinCreate": "Joinha / Gadzira",
-          "tip": "Zano: goverana zita iri nevamwe, kana deep link ku <code>/video?room=room-name</code>."
-        }
-      },
-      "directVideo": {
-        "intro": "Tanga kufona kwevhidhiyo yakananga 1:1.",
-        "findUserLabel": "Tsvaga mushandisi",
-        "findUserPh": "Tsvaga nezita kana zita remushandisi",
-        "search": "Tsvaga",
-        "call": "Fona"
-      },
-      "phoneWarning": {
-        "title": "Nhamba yako iri kupera nokukurumidza",
-        "body": "Nhamba yako {{number}} ichaburitswa pa {{date}} kunze kwekunge yavhurwazve.",
-        "button": "Chengeta Nhamba Yangu"
-      }
-    },
-    "support": {
-      "helpFab": "Rubatsiro",
-      "openSupportAria": "Vhura rubatsiro",
-      "badge": "Rubatsiro",
-      "heading": "Tingakubatsira sei?",
-      "tabs": {
-        "help": "Nzvimbo yekubatsira",
-        "contact": "Tibatei"
-      },
-      "searchPlaceholder": "Tsvaga zvinyorwa zvekubatsira…",
-      "searchAria": "Tsvaga rubatsiro",
-      "searchBtn": "Tsvaga",
-      "quickTopicsLabel": "Misoro inokurumidza",
-      "quickTopics": {
-        "login": "Haugone kupinda",
-        "billing": "Kubhadhara / billing",
-        "abuse": "Mhan’ara abuse"
-      },
-      "trySearching": "Edza kutsvaga “turikira”, “kiyibheki”, kana “kuvanzika”.",
-      "article": "Chinyorwa",
-      "openArticle": "Vhura chinyorwa",
-      "contactIntro": "Tichakutumira email mhinduro. Sanganisira ruzivo kuti utibatsire kubereka dambudziko.",
-      "topicAria": "Sarudza musoro",
-      "messagePlaceholder": "Nyora message yako…",
-      "sendBtn": "Tumira",
-      "sent": "Message yakatumirwa. Tichapindura ne email.",
-      "sendError": "Yatadza kutumira. Tumira email ku support@chatforia.com panzvimbo."
-    },
-    "encryptionRecovery": {
-      "title": "Tonga Kuvharidzira",
-      "description": "Chengeta, dzorerazve, vhura, kana dzorerazve kiyi yako yekuvharidzira.",
-      "alert": {
-        "keyRequiredTitle": "Kiyi yekuvharidzira inodiwa",
-        "keyRequiredBody": "Bhurawuza iyi haigone kudekripta mameseji ako akavharidzwa parizvino. Dzorerazve, vhura, kana dzorerazve kiyi yako kuti uenderere mberi."
-      },
-      "sections": {
-        "createBackup": "Gadzira kiyibheki",
-        "restoreFromBackup": "Dzorerazve kubva kukiyibheki yeakaunti",
-        "resetEncryption": "Dzorerazve kuvharidzira"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Unlock passcode (mudziyo wazvino)",
-          "description": "Inoshandiswa kudekripta makiyi ako mumudziyo usati watumira"
-        },
-        "backupPassword": {
-          "label": "Password yekiyibheki",
-          "description": "Inoshandiswa kuvharidza faira rekiyibheki"
-        },
-        "restoreBackupPassword": {
-          "label": "Password yekiyibheki",
-          "description": "Password yakagadzirwa paunenge uchichengeta kiyi yako pa iPhone"
-        },
-        "newLocalPasscode": {
-          "label": "Passcode yemuno itsva",
-          "description": "Chengetedza makiyi akazorora pamubhurawuza uyu"
-        },
-        "resetLocalPasscode": {
-          "label": "Passcode yemuno itsva",
-          "description": "Inodiwa usati wadzorerazve kuti kiyi itsva ichengetedzwe pamudziyo uyu"
-        }
-      },
-      "actions": {
-        "unlockKey": "Vhura kiyi yekuvharidzira",
-        "restoreFromBackup": "Dzorerazve kubva kukiyibheki yeakaunti",
-        "resetEncryption": "Dzorerazve Kuvharidzira"
-      },
-      "messages": {
-        "backupCreated": "Kiyibheki yakagadzirwa uye yakadhodhwa.",
-        "keyUnlocked": "Kiyi yekuvharidzira yakavhurwa.",
-        "keyRestored": "Kiyi yakadzorerwa kubva kukiyibheki yeakaunti.",
-        "resetSuccess": "Kuvharidzira kwakadzorerwa zvakabudirira."
-      },
-      "errors": {
-        "restoreIncomplete": "Kudzorerazve kiyi kwakakanganiswa kana kusina kufanira kune akaunti iyi",
-        "noBackup": "Hapana kiyibheki yakavharidzwa iripo yeakaunti iyi",
-        "missingPublicKey": "Kiyibheki inoshaya kiyipabhuriki",
-        "noServerPublicKey": "Akaunti iyi haina kufumura kiyipabhuriki yesevha parizvino",
-        "serverBackupMismatch": "Kiyibheki yesevha haina kufanana ne kiyi yekuvharidzira yeakaunti yazvino",
-        "incompleteMetadata": "Metadata yekiyibheki haina kukwana",
-        "resetIncomplete": "Kudzorerazve kuvharidzira hakuna kupedzwa nemazvo"
-      },
-      "confirm": {
-        "reset": "Dzorerazve kuvharidzira kune akaunti iyi?\n\nMameseji ekare akavharidzwa anogona kusazoverengwa kunze kwekunge wadzorerazve kiyi yekutanga gare gare."
-      },
-      "resetDescription": "Izvi zvinogadzira kiyi yekuvharidzira itsva yeakaunti yako. Mameseji ekare akavharidzwa anogona kusazoverengwa kunze kwekunge wadzorerazve kiyi yekutanga gare gare."
-    },
-    "footer": {
-      "plans": "Mapurani & Mitengo",
-      "about": "Nezve Chatforia",
-      "careers": "Mabasa",
-      "press": "Press",
-      "advertise": "Shambadza",
-      "contact": "Tibatei",
-      "help": "Nzvimbo yekubatsira",
-      "status": "Peji yeStatus",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Policy yekuvanzika",
-      "terms": "Mitemo yeSevhisi",
-      "cookies": "Settings dzeCookie",
-      "doNotSell": "Usatengese Ruzivo Rwangu",
-      "language": "Mutauro",
-      "contactShort": "Tibatei",
-      "aria": "Footer",
-      "homeAria": "Chatforia imba",
-      "section": {
-        "company": "KAMBANI",
-        "support": "RUBATSIRO",
-        "downloads": "KUDHODHA",
-        "legal": "ZVEMUTEMO"
-      },
-      "links": {
-        "plans-pricing": "Mapurani & Mitengo",
-        "about-chatforia": "Nezve Chatforia",
-        "careers": "Mabasa",
-        "press": "Press",
-        "advertise": "Shambadza",
-        "getting-started": "Kutanga",
-        "help-center": "Nzvimbo yekubatsira",
-        "contact-us": "Tibatei",
-        "status-page": "Peji yeStatus",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Policy yekuvanzika",
-        "terms-of-service": "Mitemo yeSevhisi",
-        "do-not-sell-my-info": "Usatengese Ruzivo Rwangu",
-        "cookie-settings": "Settings dzeCookie"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Patent iri kuenderera",
-      "backToTop": "↑ Dzokera kumusoro"
-    },
-    "press": {
-      "title": "Press",
-      "contactLine": "Kune zvikumbiro zvemedia, tibate pa",
-      "boilerplateTitle": "Boilerplate",
-      "boilerplateBody": "Chatforia iapp yekutumira mameseji inotanga nekuvanzika inoita kuti kutaurirana kwemitauro kwive nyore. Mameseji anovharidzwa kubva kumagumo kusvika kumagumo nekukurumidza, uye kuturikira kwakavakwa mukati kunotsigira mitauro inodarika 100 munguva chaiyo. Vashandisi vanogona kubatsira mameseji anonyangarika, chengeta zviratidzo zvekuverengwa zvisina basa, uye sync pamadhisaini. Inowanikwa paiOS, Android, uye webhu.",
-      "assetsTitle": "Zvinhu zvemhando",
-      "assetsSubtitle": "Logos, screenshots, uye mifananidzo yechigadzirwa.",
-      "downloadCta": "Dhodha media kit",
-      "downloadTitle": "Tora app",
-      "scanTip": "Uri padhesiki? Vhura nefonhi yako kuti utore app.",
-      "qrAria": "Vhura saiti yeChatforia",
-      "appStore": "Dhodha paApp Store",
-      "googlePlay": "Tora paGoogle Play"
-    },
-    "careers": {
-      "title": "Mabasa",
-      "intro": "Tiri timu diki yekutanga inovaka Chatforia — nhume yakavanzika, yepasi rose inotanga pawebhu, iOS, uye Android. Kana uchida kuvanzika, kuvharidzira, uye zviitiko zvinofadza zvevashandisi, tinoda kukunzwa.",
-      "openRoles": "<b>Mabasa akavhurika ekutanga:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
-      "apply": "Maitiro ekushandisa: Shandisa bhatani riri pasi kutumira resume yako nemalink.",
-      "emailCta": "Tumira resume yako ne email",
-      "whyNow": "Nei uchijoinha zvino?",
-      "whyBullets": "• Batsira kuvaka hwaro hwenhume itsva yepasi rose.\n• Tumira kuvandudzwa kunoshandiswa pawebhu, iOS, uye Android.\n• Shanda zvakananga nemuvambi pane zvirongwa uye kutungamira kwechigadzirwa.\n• Zvitora nzvimbo dzine simba dze stack: kutumira mameseji, izwi, vhidhiyo, kuvharidzira, telecom, AI.\n• Joinha pakutanga — usati vashandisi vazhinji vawedzera."
-    },
-    "about": {
-      "title": "Nezve Chatforia",
-      "description": "Chatforia inhume yakachengeteka, ine mitauro yakawanda ine kuvharidzira kubva kumagumo kusvika kumagumo, kuturikira kwechokwadi, uye kufona kweizwi/vhidhiyo. Mishoni yedu iri nyore: batsira vanhu kubatanidza—zvakachengeteka, zvakavanzika, uye mumitauro yakasiyana.",
-      "valuesTitle": "Zvatino koshesa",
-      "values": {
-        "privacy": "<b>Kutanga nekuvanzika:</b> Kuvharidzira kubva kumagumo kusvika kumagumo nekukurumidza.",
-        "access": "<b>Kuwanikwa kune vose:</b> Auto-turikira mitauro inodarika 100.",
-        "control": "<b>Kutonga:</b> Mameseji anonyangarika & zviratidzo zvekuverengwa zvisina basa.",
-        "privacy_aria": "Kutanga nekuvanzika: Kuvharidzira kubva kumagumo kusvika kumagumo nekukurumidza.",
-        "access_aria": "Kuwanikwa kune vose: Auto-turikira mitauro inodarika 100.",
-        "control_aria": "Kutonga: Mameseji anonyangarika uye zviratidzo zvekuverengwa zvisina basa."
-      },
-      "howTitle": "Chatforia inoshanda sei",
-      "howDescription": "Mameseji anovharidzwa pamudziyo wako usati waenda. Kuturikira, kiyibheki, uye sync yemudziyo zvakagadzirirwa kudzikisa izvo masevha edu anogona kuona."
-    },
-    "advertise": {
-      "title": "Shambadza neChatforia",
-      "description": "Svika kuvashandisi vanobatanidzwa nekutumira mameseji nekuisa kwakaringana, kwakachengeteka kune mhando. Tinopa inventory yebanner munzvimbo dzinoonekwa zvakanyanya, sponsorships, uye promos dzemumba. Vanyoreri vePremium havavoni ads.",
-      "adsense": {
-        "withPubIdShort": "Tinoshandawo inventory kuburikidza neGoogle AdSense. Unogona kunanga Chatforia nemupublisher ID {{pubId}}, kana shandisa fomu riri pasi kune sponsorships dzakananga.",
-        "noPubIdShort": "Tinoshandawo inventory shoma kuburikidza neGoogle AdSense. Sponsorships dzakananga dziripo—shandisa fomu riri pasi."
-      },
-      "inventoryHeader": "Inventory & Specs",
-      "placement": {
-        "displayBadge": "Ratidza",
-        "acceptedSizes": "Saizi dzinobvumirwa",
-        "adsenseSlot": "AdSense slot:"
-      },
-      "noPlacementsPublic": "Tiri kupedzisa inventory yedu yezvishambadziro. Tiudze nezvekampeni yako uye tichakurudzira nzvimbo.",
-      "whyHeader": "Nei Chatforia?",
-      "why": {
-        "highSession": "Kuwanda kwakanyanya kwesevhisi uye nguva yekugara mui UI yekutaura",
-        "brandSafe": "Mafomu akachengeteka kune mhando; kuganhurirwa kwe frequency kunoremekedzwa",
-        "sponsoredMoments": "Nguva dzakapihwa sponsorship (e.g., “Tanga Chat” modal) dziripo",
-        "deals": "Deals dzakananga kana programmatic kuburikidza neAdSense/Google Ads"
-      },
-      "contactHeader": "Tibatei",
-      "form": {
-        "submittedMsg": "Ndatenda! Chikumbiro chako chiri kunzira. Tichakurumidza kukutevera.",
-        "missingRequired": "Ndapota zadza zita, email, uye message.",
-        "successToast": "Ndatenda! Tichakurumidza kukubata.",
-        "mailtoInfo": "Kuvhura email client yako kutumira chikumbiro…",
-        "nameLabel": "Zita rako",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "Email",
-        "emailPlaceholder": "you@company.com",
-        "companyLabel": "Kambani",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Mari yemwedzi (zvisina basa)",
-        "budgetPlaceholder": "e.g. $1,000–$20,000+",
-        "messageLabel": "Tiudze nezvekampeni yako",
-        "messagePlaceholder": "Kunanga, mazuva, KPIs, zvaunoda pakuisa…",
-        "sendCta": "Tumira chikumbiro"
-      },
-      "legal": {
-        "disclaimerStart": "Nekutumira, unobvumirana ne",
-        "terms": "Mitemo",
-        "and": "uye",
-        "privacy": "Policy yekuvanzika"
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
       }
     }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
+    },
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
+    },
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
+    },
+    "cta": {
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Mashandiro eChatforia",
+    "intro": "Chatforia yakagadzirwa kuita kuti kutaurirana kuve nyore...",
+    "step1Title": "1. Gadzira Account",
+    "step1Desc": "Nyoresa uchishandisa email kana username...",
+    "step2Title": "2. Tanga Hurukuro",
+    "step2Desc": "Batanidza nevamwe...",
+    "step3Title": "3. Mameseji Mune Nguva Chaiyo",
+    "step3Desc": "Mameseji anosvika nekukurumidza...",
+    "step4Title": "4. Kutaurirana Pasi Rose",
+    "step4Desc": "Dudziro inobatsira vashandisi...",
+    "step5Title": "5. Gara Uchidzora",
+    "step5Desc": "Tonga marongero ako..."
+  },
+  "safety": {
+    "title": "Kuchengetedzwa & Mitemo Yenharaunda",
+    "intro": "Chatforia yakazvipira kuchengetedza nharaunda yakachengeteka...",
+    "respectTitle": "Kutaurirana Neruremekedzo",
+    "respectDesc": "Vashandisi vanotarisirwa kuremekedzana...",
+    "prohibitedTitle": "Zvinorambidzwa",
+    "prohibited": {
+      "illegal": "Zviitiko zvisiri pamutemo",
+      "harassment": "Kushungurudza kana bullying",
+      "hate": "Ruvengo kana kusarura",
+      "explicit": "Zvinonyadzisa kana zvinokuvadza",
+      "spam": "Spam kana kunyengera"
+    },
+    "toolsTitle": "Zvishandiso Zvekuchengetedza",
+    "tools": {
+      "report": "Taura zvakaipa",
+      "block": "Vhara mushandisi",
+      "control": "Tonga marongero ekuchengetedza"
+    },
+    "enforcementTitle": "Kutevedzera",
+    "enforcementDesc": "Tinogona kutora matanho kumaaccounts..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Sei Mapuratifomu eMessaging Achikosha Zvikuru",
+      "intro": "Mapuratifomu ekutumirana mameseji ave akakosha zvikuru mukutaurirana munyika yemazuva ano...",
+      "everydayTitle": "Kutaurirana Kwezuva neZuva",
+      "everydayDesc": "Vanhu vanoshandisa maapps aya zuva nezuva...",
+      "speedTitle": "Kukurumidza uye Kunaka",
+      "speedDesc": "Mameseji anosvika pakarepo...",
+      "globalTitle": "Kubatanidza Nyika",
+      "globalDesc": "Mapuratifomu aya anobatanidza vanhu pasi rose...",
+      "privacyTitle": "Kuvanzika uye Kudzora",
+      "privacyDesc": "Mapuratifomu emazuva ano anopa vashandisi kudzora...",
+      "futureTitle": "Ramangwana reMessaging",
+      "futureDesc": "Messaging iri kuramba ichichinja...",
+      "outro": "Chatforia yakavakwa pamusoro pemisimboti iyi..."
+    },
+    "global": {
+      "title": "Ramangwana Rekutaurirana Pasi Rose",
+      "intro": "Kutaurirana kwachinja nekukurumidza...",
+      "barriersTitle": "Kubvisa Zvipingamupinyi",
+      "barriersDesc": "Vanhu vave kukwanisa kubatana pasi rose...",
+      "translationTitle": "Basa reDudziro",
+      "translationDesc": "Mutauro waive chipingamupinyi kare...",
+      "realtimeTitle": "Kutaurirana Mune Nguva Chaiyo",
+      "realtimeDesc": "Kukurumidza kwakakosha...",
+      "privacyTitle": "Kuchengetedzwa",
+      "privacyDesc": "Vanhu vanoda kuti hurukuro dzavo dzichengetedzwe...",
+      "futureTitle": "Chii Chinotevera",
+      "futureDesc": "Ramangwana richauya nezvinhu zvitsva...",
+      "outro": "Mapuratifomu akaita seChatforia ari chikamu cheizvi..."
+    },
+    "index": {
+      "title": "Blog reChatforia",
+      "intro": "Ongorora pfungwa pamusoro pekutaurirana...",
+      "post1": "Maitiro Ekutaura Wakachengeteka paInternet",
+      "post2": "Ramangwana Rekutaurirana Pasi Rose",
+      "post3": "Sei Messaging Ichikosha"
+    },
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
+      },
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
+      },
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
+      },
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
+      },
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Nezve Chatforia",
+    "description": "Chatforia ipuratifomu yemazuva ano yekutaurirana yakagadzirwa kuti ive yakachengeteka uye inotsigira mitauro yakawanda...",
+    "valuesTitle": "Zvatinokoshesa",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
+    },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Kuchengetedzwa Kutanga",
+    "privacyDesc": "Encryption yakasimba uye marongero ekuchengetedza anodzorwa nemushandisi",
+    "accessTitle": "Kuwanika kune Vese",
+    "accessDesc": "Kududzira kwakavakirwa mukati kwemutauro yakawanda",
+    "controlTitle": "Kudzora",
+    "controlDesc": "Zvinhu zvakaita semameseji anonyangarika uye read receipts"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
+    "why": {
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
+    },
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
+    },
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+    },
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
+    },
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
+    },
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
+    },
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+    },
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Mutemo weKudzorera Mari",
+    "lastUpdated": "Yakagadziridzwa musi:",
+    "intro": "PaChatforia, tinoedza kupa sevhisi yemhando yepamusoro kune vese vashandisi. Mutemo uyu unotsanangura mamiriro anogona kuitwa kudzorwa kwemari.",
+    "subscriptions": {
+      "title": "MaSubscription",
+      "body": "Ma subscription anobhadharwa pamberi uye anoenderera nguva nenguva. Unogona kukanzura chero nguva kuburikidza neaccount yako kana papuratifomu yawakatenga."
+    },
+    "eligibility": {
+      "title": "Kukodzera Kudzorerwa Mari",
+      "body": "Mari inogona kudzorerwa kana paine kubhadharwa kaviri, kukanganisa mubhadharo, kana matambudziko ehunyanzvi anokutadzisa kushandisa zvinhu zvakabhadharwa. Zvese zvikumbiro zvinotariswa zvakasiyana."
+    },
+    "nonRefundable": {
+      "title": "Zvisingadzorerwi",
+      "body": "Kazhinji hatidzorere mari yenguva isina kushandiswa, chikamu che subscription, kana kusakanzura nguva isati yasvika."
+    },
+    "thirdParty": {
+      "title": "Kutenga Kuburikidza neVamwe",
+      "body": "Kana wakatenga kuburikidza nemapuratifomu akaita seApple App Store, unofanirwa kukumbira kudzorerwa mari ikoko."
+    },
+    "contact": {
+      "title": "Taura Nesu",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
+    },
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
+    },
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
+    },
+    "help": {
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
+    },
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

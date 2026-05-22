@@ -1,363 +1,391 @@
 {
   "common": {
-    "save": "Сакла",
-    "cancel": "Баш тарту",
+    "save": "Саклау",
+    "cancel": "Бөтерү",
     "refresh": "Яңарту",
-    "noMatches": "Тапкыч юк",
-    "cancelAria": "Баш тарту",
-    "copy": "Күчермә",
-    "copied": "Күчермәләнде!",
-    "errorWithMessage": "Хата: {{message}}"
+    "noMatches": "Туры килүчеләр юк",
+    "cancelAria": "Бөтерү",
+    "copy": "Күчерү",
+    "copied": "Күчерелде!",
+    "errorWithMessage": "Хата: { {message}}",
+    "loading": "Yөкләнә…",
+    "saveError": "Саклау уңышсыз булды",
+    "clear": "Тазарту",
+    "error": "Хата",
+    "learnMore": "Тулырак белергә",
+    "retry": "Кабатларга",
+    "send": "Җибәрергә",
+    "showOriginal": "Оригиналны күрсәтергә",
+    "showTranslation": "Тәрҗемәне күрсәтергә",
+    "undo": "Кире кайтарырга"
   },
   "a11y": {
-    "skipToMain": "Төп эчтәлеккә күчү"
+    "skipToMain": "Төп эчтәлеккә күчәргә"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Ачкычның резерв күчермәсе ясалды һәм йөкләнде ✓",
-    "restored": "Ачкычның резерв күчермәсе торгызылды ✓ Ачкычлар җиһазда урнаштырылды",
-    "noBackup": "Бу аккаунт өчен шифрланган резерв күчермә юк",
-    "missingPublicKey": "Резерв күчермәдә ачык ачкыч юк"
+    "backupCreated": "Ключ резервы ясалды һәм йөкләнде ✓",
+    "restored": "Key backup restored ✓ Keys installed locally",
+    "noBackup": "No encrypted backup exists for this account",
+    "missingPublicKey": "Backup is missing a public key"
   },
   "keySetup": {
-    "title": "Җиһаз ачкычларыгызны көйләгез",
-    "description": "Бу җиһазда әле сезнең шәхси ачкычыгыз юк. Серсүз белән сакланган резерв күчермәне йөкләгез яки яңа ачкычлар парын ясагыз (сез хәзер яңа хәбәрләрне укый алырсыз).",
-    "chooseFile": "Файлны сайлагыз һәм серсүзне кертегез.",
-    "imported": "Шәхси ачкыч бу җиһазга йөкләнде. Сез иске хәбәрләрне хәзер укый алырсыз.",
-    "enterPassword": "Ачкычларыгызны имин саклау өчен аккаунт серсүзегезне кертегез."
+    "title": "Җайланма ачкычларын көйләү",
+    "description": "Бу җайланмада әле сезнең шәхси ачкычыгыз юк. Пароль белән сакланган резерв күчермәне импортлагыз яки яңа ачкыч парын булдырыгыз (хәзер сез яңа хәбәрләрне укый алачаксыз).",
+    "chooseFile": "Файлны сайлагыз һәм парольне языгыз.",
+    "imported": "Private key imported to this device. You can read old messages now.",
+    "enterPassword": "Enter your account password so we can back up your keys securely."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "Мин {{companyName}}-тан SMS хәбәрләр һәм кисәтүләр алуга ризалык бирәм. Хәбәрләр ешлыгы төрлечә булырга мөмкин. Хәбәрләр җибәрү һәм мәгълүмат өчен түләү алынырга мөмкин. Теләсә кайсы вакытта язылудан туктату өчен <stop>STOP</stop> дип җавап бирегез. Ярдәм өчен <help>HELP</help> дип җавап бирегез."
+  },
+  "phoneField": {
+    "label": "Телефон",
+    "invalid": "Дөрес булмаган телефон номеры",
+    "hint": "Керетегез ил коды кирәк булса (мәсәлән, +1 415…)"
   },
   "auth": {
-    "headline": "Һәр кем өчен, һәр җирдә имин хәбәрләшү",
-    "description": "Ахырына кадәр шифрлау, 100+ телгә тәрҗемә, юкка чыгучы хәбәрләр һәм тавыш/видео чакырулар.",
+    "headline": "Һәркем өчен, теләсә кайда куркынычсыз хәбәрләшү",
+    "description": "Баштан ахыргача шифрлау, 100+ телгә тәрҗемә, югала торган хәбәрләр һәм тавыш/видео шалтыратулар.",
     "feature": {
-      "encryption": "Көйләүдә ахырына кадәр шифрлау",
-      "translation": "Акыллы, эчендә төзелгән хәбәр тәрҗемәсе",
-      "disappearing": "Юкка чыгучы хәбәрләр һәм укылганлык белдерүләре",
-      "privacy": "Шәхсилек өстенлек итә. Сезнең мәгълүмат — сезнең контролегездә.",
-      "translate": "Акыллы, эчендә төзелгән хәбәр тәрҗемәсе",
-      "disappear": "Юкка чыгучы хәбәрләр",
-      "privacyAlt": "Шәхсилек өстенлек иткән дизайн",
-      "seePlans": "Планнар һәм бәяләрне карау"
+      "encryption": "Стандарт рәвештә баштан ахыргача шифрлау",
+      "translation": "Акыллы, урнаштырылган хәбәр тәрҗемәсе",
+      "disappearing": "Югала торган хәбәрләр һәм укылу раслаулары",
+      "privacy": "Шәхси тормыш өстенлекле. Сезнең мәгълүмат, сезнең контроль.",
+      "translate": "Акыллы, урнаштырылган хәбәр тәрҗемәсе",
+      "disappear": "Югала торган хәбәрләр",
+      "privacyAlt": "Шәхси тормыш өстенлекле дизайн",
+      "seePlans": "Планнарны һәм бәяләрне карагыз"
     },
     "hero": {
-      "line1": "Һәр кем өчен, һәр җирдә имин хәбәрләшү — ",
-      "em": "100+ телгә тәрҗемә белән",
-      "sub": "Бушлай имин телефон номеры алыгыз һәм Wi-Fi яки мобиль интернет аша дөнья буенча шалтыратыгыз һәм SMS җибәрегез. Ахырына кадәр шифрлау, юкка чыгучы хәбәрләр һәм югары сыйфатлы тавыш/видео чакырулардан файдаланыгыз — чикләр аша элемтәдә калу өчен төзелгән кораллар белән.",
-      "freeNote": "Гади чакыру һәм SMS бушлай. Алга киткән AI һәм премиум үзенчәлекләр өчен яңарту кирәк."
+      "line1": "Һәркем өчен, теләсә кайда куркынычсыз хәбәрләшү — белән",
+      "em": "100+ телгә тәрҗемә",
+      "sub": "Wi-Fi яки мобиль интернет аша бөтендөньяга шалтырату һәм текст җибәрү өчен бушлай ышанычлы телефон номеры алыгыз. Баштан ахыргача шифрлау, югала торган хәбәрләр һәм HD тавыш/видео шалтыратулар белән ләззәтләнегез — чикләрне узып элемтәдә булырга ярдәм итүче урнаштырылган кораллар ярдәмендә.",
+      "freeNote": "Шалтырату һәм текст җибәрүнең төп функцияләре бушлай. Алгарышлы AI һәм премиум мөмкинлекләр өчен яңарту кирәк."
     },
     "feat": {
-      "encryption": "Ахырына кадәр шифрлау, һәрвакыт эшли",
-      "translate": "Сөйләшүләрегездә тел киртәләрен җимерегез",
-      "disappear": "Юкка чыгучы хәбәрләр һәм укылганлык белдерүләре",
-      "privacy": "Шәхсилек өстенлек итә. Сезнең мәгълүмат — сезнең контролегездә."
+      "encryption": "Баштан ахыргача шифрлау, һәрвакыт актив ",
+      "translate": "Сөйләшүләрегездә тел киртәләрен җиңегез",
+      "disappear": "Югала торган хәбәрләр һәм укылу раслаулары",
+      "privacy": "Шәхси мәгълүмат өстенлеге. Сезнең мәгълүмат, сезнең контроль. "
     },
-    "continueGoogle": "Google белән дәвам итү",
-    "continueApple": "Apple белән дәвам итү",
+    "continueGoogle": "Google белән дәвам ит",
+    "continueApple": "Apple белән дәвам ит",
     "username": "Кулланучы исеме",
-    "password": "Серсүз",
-    "keepSignedIn": "Мине кереп торырга",
-    "forgotPassword": "Серсүзне оныттыгызмы?",
-    "loginButton": "Керү",
-    "createAccount": "Аккаунт булдыру",
-    "freeAccountButton": "Бушлай аккаунт булдыру",
-    "newHere": "Яңа килдегезме?",
-    "getApp": "Кушымтаны алу",
-    "desktopTip": "Компьютердамы? Телефоныгыз белән сканерлап кушымтаны алыгыз.",
-    "scanHelper": "Компьютердамы? Телефоныгыз белән сканерлап кушымтаны алыгыз.",
-    "goHome": "Баш биткә",
-    "home": "Баш бит",
+    "password": "Пароль",
+    "keepSignedIn": "Мине кергән килеш калдыру",
+    "forgotPassword": "Парольне оныттыгызмы?",
+    "loginButton": " Керү",
+    "createAccount": "Create an account",
+    "freeAccountButton": "Create free account",
+    "newHere": "New here?",
+    "getApp": "Get the app",
+    "desktopTip": "On desktop? Scan with your phone to get the app.",
+    "scanHelper": "Компьютердамы? Кушымтаны алу өчен телефоның белән сканерла.",
+    "goHome": "Өйгә кайтырга",
+    "home": "Өй",
     "headlineAlt": {
-      "main": "Сезнең телне сөйләшүче имин хәбәрләшүче",
-      "highlight": "сөйләшә"
+      "main": "Ышанычлы мессенджер ул",
+      "highlight": "синең телдә сөйләшә"
     },
-    "subhead": "Шәхси, шифрланган һәм тәрҗемә ителгән хәбәрләшү — шунда ук.",
-    "upgrade": "Хәзер яңарту",
-    "tip": "Киңәш: Веб һәм мобильдә бер үк аккаунт кулланыгыз. Хәбәрләрегез синхронлаштырыла.",
+    "subhead": "Шәхси, шифрланган һәм тәрҗемә ителгән хәбәрләр — шунда ук. ",
+    "upgrade": "Хәзер үк яңартыгыз",
+    "tip": "Киңәш: вебта да, мобилда да бер үк аккаунтны кулланыгыз. Хәбәрләрегез синхрон булып кала.",
     "openDownload": "Йөкләү битен ачу",
     "qrAlt": "Chatforia өчен QR-код",
     "scanHint": "Кушымтаны йөкләү яки браузерда ачу өчен сканерлагыз.",
-    "iosAria": "App Store'да йөкләү",
-    "iosTitle": "App Store'да йөкләү",
-    "iosBadgeAlt": "App Store тамгасы",
-    "androidAria": "Google Play'дә алу",
+    "iosAria": "App Store-дан йөкләү",
+    "iosTitle": "App Store-дан йөкләү",
+    "iosBadgeAlt": "App Store значогы",
+    "androidAria": "Аны алу Google Play",
     "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play тамгасы",
+    "androidBadgeAlt": "Google Play badge",
     "login": "Керү",
     "signup": "Теркәлү",
-    "email": "Электрон почта",
+    "email": "Email",
     "registration": {
-      "passwordDescription": "Минимум 6 символ. Көчле һәм уникаль серсүз кулланыгыз.",
-      "smsConsent": "Аккаунт булдыру белән сез Chatforia эшчәнлеге белән бәйле SMS хәбәрләрен кабул итәргә риза буласыз (мәсәлән, башка кулланучылардан хәбәрләр). Хәбәр һәм мәгълүмат тарифлары кулланылырга мөмкин. Сез көйләүләрдә теләсә кайсы вакытта чыга аласыз.",
+      "passwordDescription": "Минimum 6 символ. Көчле, уникаль пароль кулланыгыз.",
+      "smsConsent": "Хисап язмасы булдырганда, сез Chatforia эшчәнлеге белән бәйле SMS хәбәрләр (мәсәлән, башка кулланучылардан) алырга ризалашасыз. Хәбәрләр җибәрү һәм мәгълүмат өчен түләүләр алынырга мөмкин. Сез теләсә кайсы вакытта Параметрларда язылудан туктый аласыз.",
       "termsLink": "Хезмәт күрсәтү шартлары",
-      "privacyLink": "Шәхсилек сәясәте"
+      "privacyLink": "Шәхси мәгълүматлар турында сәясәт",
+      "already": "Сездә инде аккаунт бармы?",
+      "emailLabel": "Электрон почта",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Пароль",
+      "passwordPlaceholder": "Пароль булдыру",
+      "phoneHelp": "Раслау, куркынычсызлык һәм SMS мөмкинлекләре өчен кулланыла.",
+      "phoneLabel": "Телефон номеры",
+      "submit": "Хисап язмасы булдыру",
+      "submitAria": "Chatforia хисап язмасы булдыру",
+      "title": "Chatforia аккаунтыгызны булдырыгыз",
+      "usernameLabel": "Кулланучы исеме",
+      "usernamePlaceholder": "Кулланучы исеме сайлагыз"
     },
     "to": "Кемгә:",
-    "enterRecipient": "Исем яки номер кертегез",
-    "clearRecipients": "Алучыларны чистарту",
+    "enterRecipient": "Исемне яки номерны языгыз",
+    "clearRecipients": "Алучыларны бетерү",
     "sms": "SMS",
     "chatforia": "Chatforia",
     "typeMessage": "Хәбәр языгыз…",
-    "addRecipient": "Өстәгә алучы өстәгез һәм башлагыз…",
-    "oneRecipient": "Хәзер бер алучы кертегез.",
-    "enterValidRecipient": "Сакланган контакт исеме яки телефон номеры кертегез.",
-    "sendFailed": "Җибәрү уңышсыз. Консольны тикшерегез."
+    "addRecipient": "Башлау өчен югарыдагы кабул итүчене өстәгез…",
+    "oneRecipient": "Хәзерге вакытта бер кабул итүчене кертегез.",
+    "enterValidRecipient": "Сакланган контакт исемен яки телефон номерын кертегез.",
+    "sendFailed": "Җибәрү уңышсыз булды. Тулырак мәгълүмат өчен консольне тикшерегез.",
+    "logIn": "Керергә ",
+    "seePlans": "Планнарны карагыз",
+    "errors": {
+      "emailTaken": "Бу электрон почта адресы инде кулланыла.",
+      "invalidEmail": "Дөрес электрон почта адресын языгыз.",
+      "invalidInput": "Зинһар, мәгълүматыгызны тикшереп, яңадан гына карагыз.",
+      "invalidPhone": "Дөрес телефон номерын языгыз.",
+      "invalidValue": "Бер кыйммәт дөрес түгел.",
+      "passwordLength": "Пароль ким дигәндә 6 символ булырга тиеш.",
+      "passwordRequired": " Пароль кирәк.",
+      "registrationFailed": "Теркәлү уңышсыз булды. Зинһар, яңадан тырышыгыз.",
+      "smsConsent": "Дәвам итү өчен SMS ризалыгын кабул итегез.",
+      "tooManyAttempts": "Күп тырышулар булды. Зинһар, көтеп торыгыз да яңадан тырышыгыз.",
+      "usernameOrEmailTaken": "Бу кулланучы исеме яки электрон почта адресы инде алынган.",
+      "usernameRequired": "Кулланучы исеме кирәк.",
+      "usernameTaken": "Бу кулланучы исеме инде алынган."
+    }
+  },
+  "login": {
+    "welcomeBack": "Кабат рәхим итегез",
+    "title": "Chatforiaга дәвам итү",
+    "subtitleReturning": "Chatforia аккаунтыгызга керегез",
+    "google": "Google белән дәвам итү",
+    "apple": " Apple белән дәвам ит",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google белән керү мөмкин түгел",
+    "appleUnavailable": "Apple белән керү мөмкин түгел",
+    "ssoUnavailable": "Бер тапкыр керү хәзерге вакытта мөмкин түгел. Аның урынына кулланучы исеме һәм пароль кулланыгыз.",
+    "or": "яки",
+    "accountLabel": "Хисап язмасы",
+    "identifierPh": "Электрон почта яки логин",
+    "passwordLabel": "Параметр",
+    "passwordPh": "Сезнең параметрыгыз",
+    "keepSignedIn": "Мине кергән килеш калдыру",
+    "forgot": "Параметрны оныттыгызмы?",
+    "resendVerification": "Раслау электрон почтасын яңадан җибәрү",
+    "submit": "Керү",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Керү рөхсәт ителмәде.",
+      "unprocessable": "Дөрес булмаган сорау. Фойдаланучы исемегезне/электрон почтагызны һәм паролегезне тикшерегез.",
+      "deviceLimit": " Бушлай план өчен җайланмалар чиге тулды. Башка җайланмада чыгып китегез яки күбрәк җайланманы тоташтыру өчен Premium-планга күчегез.",
+      "premiumRequired": "Бу гамәл өчен Premium-план кирәк."
+    },
+    "forgotPassword": {
+      "title": "Сүзне оныттыгызмы?",
+      "helper": "Chatforia аккаунтын булдыру өчен кулланган электрон почтагызны языгыз, һәм без сезгә парольне яңарту өчен имин сылтама җибәрербез.",
+      "emailLabel": "Электрон почта",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Зинһар, дөрес электрон почта адресын языгыз.",
+      "genericError": "Сорауны эшкәртү мөмкин түгел. Зинһар, берничә мизгелдан соң яңадан тырышыгыз.",
+      "sending": "Яңадан торгызу сылтамасын җибәрә...",
+      "sendCta": "Яңадан торгызу сылтамасын җибәрү",
+      "sentLabel": "Җибәрелде! ",
+      "sentHelper": "Әгәр бу электрон почта адресы буенча аккаунт булса, без парольне яңарту сылтамасын җибәрдек. Аның килеп җитүе берничә минут алырга мөмкин. Спам яки акцияләр папкасын тикшерергә онытмагыз.",
+      "previewDev": "Электрон почтаны карау (Dev)",
+      "backToLogin": "Керүгә кире кайту"
+    },
+    "resetPassword": {
+      "title": "Парольне яңарту",
+      "missingToken": "Яшерен сүзне яңарту токены дөрес түгел яки юк.",
+      "missingTokenHelper": "Токен дөрес түгел яки юк. Зинһар, яңа яшерен сүзне яңарту сылтамасын сорагыз.",
+      "passwordMismatch": "Яшерен сүзләр туры килми",
+      "success": "Яшерен сүзегез уңышлы яңартылды",
+      "genericError": "Хата: Яшерен сүзне яңартып булмый.",
+      "newPasswordLabel": "Яңа пароль",
+      "newPasswordPlaceholder": "Яңа паролегезне языгыз",
+      "confirmPasswordLabel": "Яңа парольне раслагыз",
+      "confirmPasswordPlaceholder": "Яңа паролегезне кабат языгыз",
+      "resetting": "Яңарту бара...",
+      "submit": "Парольне яңарту",
+      "strongPasswordHint": "Башка җирдә кулланмаган нык пароль сайлагыз."
+    }
+  },
+  "oauth": {
+    "completing": "Керүне тәмамлый…"
   },
   "home": {
     "title": "Баш бит",
-    "header": "Сезнең хәбәрләр",
+    "messagesTitle": "Сезнең хәбәрләр",
+    "messagesSubtitle": "Алучыны югарыда языгыз, аннары сөйләшүне башлау өчен хәбәр җибәрегез.",
     "subheader": "Чат башлау өчен хәбәр җибәрегез.",
     "sendButton": "Хәбәр җибәрү",
-    "gifPicker": "GIF сайлагычны ачу",
+    "gifPicker": "GIF сайлаучыны ачу",
     "emoji": "Эмодзи",
     "upload": "Фото яки видео йөкләү",
     "inputPlaceholder": "Хәбәр языгыз…",
-    "inputLabel": "Хәбәр язу өлеше",
+    "inputLabel": "Хәбәр төзүче",
     "sendTooltip": "Җибәрү",
-    "sendTooltipEmpty": "Хәбәр җибәрү өчен языгыз",
+    "sendTooltipEmpty": "Җибәрү өчен хәбәр языгыз",
     "send": "Җибәрү",
-    "enterRecipient": "Исем яки номер кертегез",
-    "addRecipient": "Башлау өчен өстә алучы өстәгез…",
     "welcomeMessage": "Chatforia'га рәхим итегез",
-    "getStarted": "Башларга"
+    "getStarted": "Башларга",
+    "mixedRecipients": "Катнаш алуучылар ачыкланды. Барлык телефон номерларын (SMS) яки барлык кулланучы исемнәрен (Chatforia) кулланыгыз.",
+    "enterRecipient": "Исемне яки номерны языгыз",
+    "addRecipient": "Башлау өчен югарыда кабул итүче өстәгез…",
+    "needNumber": "SMS җибәрү алдыннан сезгә Chatforia номеры кирәк.",
+    "chooseNumber": "Номер сайлагыз",
+    "to": "Кемгә",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Хәбәр языгыз…",
+    "clearRecipients": "Алучыларны бетерү",
+    "oneRecipient": "Хәзерге вакытта бер генә алучы кертегез.",
+    "enterValidRecipient": "Сакланган контакт исемен, кулланучы исемен яки телефон номерын языгыз.",
+    "sendFailed": "Җибәрү уңышсыз булды. Зинһар, яңадан тырышыгыз."
   },
-  "refund": {
-    "title": "Кире кайтару сәясәте",
-    "lastUpdated": "Соңгы яңарту:",
-    "intro": "Chatforia’да без барлык кулланучыларга югары сыйфатлы хезмәт күрсәтергә тырышабыз. Бу кире кайтару сәясәте кайсы очракларда акча кире кайтарылырга мөмкин икәнен аңлата.",
-    "subscriptions": {
-      "title": "Язылулар",
-      "body": "Язылулар алдан түләнә һәм даими нигездә яңартыла. Сез теләсә кайсы вакытта үз аккаунтыгыз көйләүләре аша яки сатып алган платформа аша язылуны туктата аласыз."
-    },
-    "eligibility": {
-      "title": "Кире кайтаруга хокук",
-      "body": "Акча кире кайтару кабат түләүләр, түләү хаталары яки түләүле функцияләргә керүне мөмкин итмәгән техник проблемалар булган очракта мөмкин. Барлык гаризалар да аерым карала."
-    },
-    "nonRefundable": {
-      "title": "Кире кайтарылмый",
-      "body": "Гадәттә без кулланылмаган вакыт, язылуның өлешчә периоды яки яңарту алдыннан язылуны туктатмау очракларында акча кире кайтармыйбыз."
-    },
-    "thirdParty": {
-      "title": "Өченче як аша сатып алулар",
-      "body": "Әгәр сатып алу Apple App Store кебек өченче як платформалары аша башкарылган булса, акчаны кире кайтару өчен турыдан-туры шул платформаларга мөрәҗәгать итәргә кирәк."
-    },
-    "contact": {
-      "title": "Элемтә",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Chatforia турында",
-    "description": "Chatforia — куркынычсыз һәм күптелле аралашу өчен эшләнгән заманча хәбәрләшү платформасы...",
-    "valuesTitle": "Безнең кыйммәтләр",
-    "privacyTitle": "Хосусыйлык беренче урында",
-    "privacyDesc": "Көчле шифрлау һәм кулланучы идарә иткән хосусыйлык көйләүләре",
-    "accessTitle": "Барысы өчен дә ачык",
-    "accessDesc": "Берничә телдә урнаштырылган тәрҗемә",
-    "controlTitle": "Контроль",
-    "controlDesc": "Юкка чыга торган хәбәрләр һәм уку раслары кебек функцияләр"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Ни өчен хәбәрләшү платформалары бүген аеруча мөһим",
-      "intro": "Бүгенге дөньяда хәбәрләшү платформалары аралашу өчен иң мөһим коралларның берсенә әйләнде...",
-      "everydayTitle": "Көндәлек аралашу",
-      "everydayDesc": "Кешеләр көндәлек аралашу өчен мессенджерлар куллана...",
-      "speedTitle": "Тизлек һәм уңайлык",
-      "speedDesc": "Хәбәрләр шунда ук җиткерелә...",
-      "globalTitle": "Глобаль колач",
-      "globalDesc": "Бу платформалар кешеләрне бөтен дөнья буенча берләштерә...",
-      "privacyTitle": "Хосусыйлык һәм контроль",
-      "privacyDesc": "Заманча платформалар кулланучыга күбрәк контроль бирә...",
-      "futureTitle": "Хәбәрләшүнең киләчәге",
-      "futureDesc": "Хәбәрләшү яңа функцияләр белән үсешен дәвам итә...",
-      "outro": "Chatforia шул принципларга нигезләнеп төзелгән..."
-    },
-
-    "global": {
-      "title": "Глобаль аралашуның киләчәге",
-      "intro": "Аралашу бик тиз үзгәрә...",
-      "barriersTitle": "Каршылыкларны бетерү",
-      "barriersDesc": "Кешеләр хәзер бөтен дөнья буйлап тоташа ала...",
-      "translationTitle": "Тәрҗемә технологиясенең роле",
-      "translationDesc": "Тел һәрвакыт киртә булып торды...",
-      "realtimeTitle": "Реаль вакытта элемтә",
-      "realtimeDesc": "Тизлек — төп фактор...",
-      "privacyTitle": "Хосусыйлык һәм куркынычсызлык",
-      "privacyDesc": "Кулланучылар сөйләшүләренең саклануына ышанырга тели...",
-      "futureTitle": "Алга таба нәрсә",
-      "futureDesc": "Киләчәктә аралашу яңа мөмкинлекләр алачак...",
-      "outro": "Chatforia кебек платформалар бу үзгәрешнең өлеше..."
-    },
-
-    "index": {
-      "title": "Chatforia блогы",
-      "intro": "Аралашу турында фикерләрне өйрәнегез...",
-      "post1": "Интернетта куркынычсыз аралашу",
-      "post2": "Глобаль аралашуның киләчәге",
-      "post3": "Ни өчен хәбәрләшү платформалары мөһим"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Chatforia ничек эшли",
-    "intro": "Chatforia аралашуны гади итү өчен эшләнгән...",
-    "step1Title": "1. Аккаунт булдыру",
-    "step1Desc": "Email яки кулланучы исеме белән теркәлегез...",
-    "step2Title": "2. Сөйләшү башлау",
-    "step2Desc": "Башкалар белән тоташыгыз...",
-    "step3Title": "3. Реаль вакытта хәбәрләшү",
-    "step3Desc": "Хәбәрләр тиз китерелә...",
-    "step4Title": "4. Глобаль аралашу",
-    "step4Desc": "Тәрҗемә функциясе кулланучыларга ярдәм итә...",
-    "step5Title": "5. Контрольдә тоту",
-    "step5Desc": "Көйләүләрегезне идарә итегез..."
-  },
-
-  "safety": {
-    "title": "Куркынычсызлык һәм җәмгыять кагыйдәләре",
-    "intro": "Chatforia куркынычсыз мохит булдыруга омтыла...",
-    "respectTitle": "Ихтирамлы аралашу",
-    "respectDesc": "Кулланучылар бер-берсенә ихтирам белән карарга тиеш...",
-    "prohibitedTitle": "Тыйлган контент",
-    "prohibited": {
-      "illegal": "Законга каршы гамәлләр",
-      "harassment": "Кыерсыту яки мыскыллау",
-      "hate": "Нәфрәт яки дискриминация",
-      "explicit": "Ярамый торган контент",
-      "spam": "Спам яки ялган гамәлләр"
-    },
-    "toolsTitle": "Кулланучы куркынычсызлыгы кораллары",
-    "tools": {
-      "report": "Шикаять җибәрү",
-      "block": "Кулланучыны блоклау",
-      "control": "Хосусыйлык көйләүләре белән идарә итү"
-    },
-    "enforcementTitle": "Кагыйдәләрне үтәү",
-    "enforcementDesc": "Без аккаунтларга каршы чаралар күрә алабыз..."
-},
-  "chat": {
-    "selectPrompt": "Сөйләшү башлау өчен текст яки чат бүлмәсен сайлагыз",
-    "newMessages": "Яңа хәбәрләр",
-    "typing": "{{name}} яза...",
-    "emptyTitle": "Сезнең хәбәрләр",
-    "emptySubtitle": "Чат башлау өчен хәбәр җибәрегез.",
-    "startChatButton": "Хәбәр җибәрү",
-    "mediaAttachment": "Медиа беркетмәсе",
-    "thisUser": "бу кулланучы",
-    "blockConfirm": "{{name}} блокларга? Алардан хәбәрләр килмәячәк.",
-    "blockedUser": "{{name}} блокланды.",
-    "blockError": "Блоклау өчен максатлы кулланучыны билгеләп булмады.",
-    "blockFailed": "Блоклау уңышсыз (арткы як әле тоташтырылмаган).",
-    "encryptedUnavailable": "Шифрланган хәбәр (ачкыч юк)",
-    "unlockToView": "Бу хәбәрне күрер өчен ачкычыгызны ачыгыз"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Сүнгән"
-    },
-    "freeLimit": "Бушлай план чикләве: 1 көнгә кадәр үзеннән-үзе бетү. 1к көнгә кадәр кысылды.",
-    "premiumLimit": "Премиум өчен максималь үзеннән-үзе бетү — 30 көн. 30к көнгә кадәр кысылды.",
-    "nothingToSend": "Хәбәр языгыз яки файл өстәгез.",
-    "encryptionFailed": "Шифрлау уңышсыз. Хәбәр җибәрелмәде.",
-    "sent": "Хәбәр тапшырылды.",
+  "composer": {
+    "aria": "Хәбәр төзүче",
+    "emoji": "Emoji",
+    "gifPicker": "GIF сайлаучыны ачу",
     "placeholder": "Хәбәр языгыз…",
-    "voiceAdded": "Тавыш язмасы өстәлде",
-    "attachmentAdded": "Беркетмә өстәлде",
-    "autoDelete": "Үзеннән-үзе бетү",
-    "typeToSend": "Хәбәр җибәрү өчен языгыз",
-    "send": "Җибәрү",
-    "sendWithEnter": "Җибәрү (Enter)",
-    "attachment": "өстәмә",
-    "caption": "Аңлатма (теләк буенча)",
-    "remove": "Бетерү",
-    "clear": "Чистарту",
-    "gif": "GIF",
-    "sticker": "Стикер",
-    "errors": {
-      "attachmentTooLarge": "Өстәмә файлы артык зур. Кечерәк файлны сынап карагыз.",
-      "unsupportedFile": "Ярдәм ителмәгән файл төре.",
-      "rateLimit": "Сез хәбәрләрне артык тиз җибәрәсез. Зинһар, акрырак.",
-      "validation": "Тикшерү хатасы. Хәбәрегезне тикшерегез һәм кабатлап карагыз.",
-      "failedToSend": "Җибәрү уңышсыз. Уңышсыз бублны кабатлап карагыз."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Сакланган контактлар",
-    "refreshAria": "Контактларны яңарту",
-    "filterPlaceholder": "Сакланган контактларны фильтрлау…",
-    "filterAria": "Сакланган контактларны фильтрлау",
-    "noContactsFound": "Контактлар табылмады.",
-    "externalContact": "Тышкы контакт",
-    "notJoined": "Бу контакт әле Chatforia'га кушылмаган.",
-    "couldNotStart": "Чат башлап булмады. Зинһар, кабатлап карагыз.",
-    "startFailed": "Чат башлау уңышсыз. Зинһар, кабатлап карагыз.",
-    "deleted": "Контакт бетерелде.",
-    "deleteFailed": "Контактны бетерү уңышсыз. Зинһар, кабатлап карагыз.",
-    "aliasUpdated": "Псевдоним яңартылды.",
-    "updateAliasFailed": "Псевдонимны яңарту уңышсыз. Зинһар, кабатлап карагыз.",
-    "selectContact": "{{name}} сайлагыз",
-    "alias": "Псевдоним",
-    "startChat": "Чат башлау",
-    "message": "Хәбәр",
-    "delete": "Бетерү",
-    "deleteContactAria": "Контактны бетерү",
-    "loadFailed": "Контактларны йөкләү уңышсыз. Зинһар, кабатлап карагыз.",
-    "loadMore": "Күбрәк йөкләү",
-    "call": "Шалтырату",
-    "callStarted": "Chatforia номерыгыз аша бу номерга шалтырату...",
-    "callFailed": "Шалтыратуны башлау уңышсыз. Зинһар, кабатлап карагыз."
-  },
-  "startChatModal": {
-    "title": "Сөйләшү башлау",
-    "searchPlaceholder": "Исем, кулланучы исеме яки телефон номеры буенча эзләү",
-    "messageThisPerson": "Бу кешегә хәбәр җибәрү",
-    "contacts": "Контактлар",
-    "recentInteractions": "Соңгы элемтәләр",
-    "noContactsMatch": "Эзләүегезгә туры килгән контакт юк.",
-    "noRecentInteractions": "Әле соңгы элемтәләр юк.",
-    "unknown": "Билгесез",
-    "interactionType": {
-      "message": "Хәбәр",
-      "call": "Шалтырату",
-      "video": "Видео"
-    }
-  },
-  "addContactModal": {
-    "title": "Контакт өстәү",
-    "phoneOrUsername": "Телефон яки кулланучы исеме",
-    "phoneOrUsernamePlaceholder": "мәс. +13018019227 яки juliannorton",
-    "alias": "Псевдоним (теләк буенча)",
-    "aliasPlaceholder": "мәс. Эш, Әни, Майк — Европа",
-    "enterPhoneOrUsername": "Телефон номеры яки кулланучы исеме кертегез.",
-    "userLookupFailed": "Кулланучыны эзләү уңышсыз.",
-    "cannotAddSelf": "Үзегезне контакт итеп өстәп булмый.",
-    "failedToAdd": "Контакт өстәү уңышсыз.",
-    "add": "Өстәү"
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
-    "randomChat": "Рандом чат",
-    "callTextForwarding": "Шалтырату һәм SMS йөртү",
-    "conversations": "Сөйләшүләр",
-    "searchPlaceholder": "Сөйләшүләрне эзләү...",
-    "errorLoading": "Чатларны йөкләү уңышсыз",
-    "empty": "Әле сөйләшүләр юк.",
-    "startChat": "Чат башлау",
-    "people": "Кешеләр",
-    "settings": "Көйләүләр",
-    "status": "Статус",
-    "forwarding": "Шалтырату һәм SMS йөртү",
-    "refresh": "Яңарту",
-    "search": "Сөйләшүләрне эзләү",
-    "loginPrompt": "Көйләүләрегезне үзгәртү өчен керегез.",
-    "login": "Керү",
-    "register": "Аккаунт булдыру",
-    "chatrooms": "Чат бүлмәләре",
-    "logout": "Чыгу",
-    "startChatAlt": "Яңа чат башлау",
-    "calls": "Шалтыратулар",
-    "video": "Видео",
-    "voicemail": "Тавышлы почта"
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Call & Text Forwarding",
+    "conversations": "Conversations",
+    "searchPlaceholder": "Search chats...",
+    "errorLoading": "Failed to load chats",
+    "empty": "No conversations yet.",
+    "startChat": "Start a chat",
+    "people": "People",
+    "settings": "Settings",
+    "status": "Status",
+    "forwarding": "Call & Text Forwarding",
+    "refresh": "Refresh",
+    "search": "Search conversations",
+    "loginPrompt": "Log in to edit your settings.",
+    "login": "Log in",
+    "register": "Create account",
+    "chatrooms": "Chatrooms",
+    "logout": "Log out",
+    "startChatAlt": "Start a new chat",
+    "calls": "Calls",
+    "video": "Video",
+    "voicemail": "Voicemail",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Яңа статус",
@@ -365,22 +393,141 @@
     "help": "Ярдәм",
     "createStatusAria": "Яңа статус булдыру"
   },
+  "footer": {
+    "plans": "Планнар һәм бәяләр",
+    "about": "Chatforia турында",
+    "careers": "Карьера",
+    "press": "Матбугат",
+    "advertise": "Реклама",
+    "contact": "Безгә языгыз",
+    "help": "Ярдәм үзәге",
+    "status": "Статус бите",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Шәхси мәгълүматлар турында сәясәт",
+    "terms": "Хезмәт күрсәтү шартлары",
+    "cookies": "Cookie көйләүләре",
+    "doNotSell": "Минем мәгълүматларымны сатмагыз",
+    "language": "Тел",
+    "contactShort": "Контакт",
+    "aria": "Түбәнге бүлек",
+    "homeAria": "Chatforia төп бите",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Планнар һәм бәяләр",
+      "about-chatforia": "Chatforia турында",
+      "careers": "Карьера",
+      "press": "Матбугат",
+      "advertise": "Реклама",
+      "getting-started": "Башлап эшләү",
+      "help-center": "Ярдәм үзәге",
+      "contact-us": "Безнең белән элемтә",
+      "status-page": "Статус бите",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Шәхси мәгълүматларны яклау сәясәте",
+      "terms-of-service": "Хезмәт күрсәтү шартлары",
+      "do-not-sell-my-info": "Минем мәгълүматларымны сатмагыз",
+      "cookie-settings": "Cookie-файллар көйләүләре",
+      "how-it-works": "Ничек эшли",
+      "blog": "Блог",
+      "refund-policy": "Акчаны кире кайтару сәясәте",
+      "sms-policy": "SMS хәбәрләшү сәясәте"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Патент каралуда",
+    "backToTop": "↑ Өскә кире"
+  },
+  "header": {
+    "openNav": "Навигация менюсын ачу",
+    "closeNav": "Навигация менюсын ябу",
+    "homeAria": "Chatforia төп бите"
+  },
+  "chat": {
+    "selectPrompt": "Сөйләшүне башлау өчен текстны яки чат бүлмәсен сайлагыз",
+    "newMessages": "Яңа хәбәрләр",
+    "typing": "{{name}} яза...",
+    "emptyTitle": "Сезнең хәбәрләр",
+    "emptySubtitle": "Чатны башлау өчен хәбәр җибәрегез.",
+    "startChatButton": "Хәбәр җибәрү",
+    "mediaAttachment": "Медиа өстәмә",
+    "thisUser": "бу кулланучы",
+    "blockConfirm": "{{name}}ны блокларгамы? Алардан хәбәрләр алмаячаксыз.",
+    "blockedUser": "Блокланган {{name}}.",
+    "blockError": "Блоклау өчен максатлы кулланучыны билгеләп булмады.",
+    "blockFailed": "Блоклау уңышсыз булды (backend әле тоташтырылмаган).",
+    "encryptedUnavailable": "Шифрланган хәбәр (ачкыч юк)",
+    "unlockToView": "Бу хәбәрне карау өчен ачкычыгызны ачыгыз",
+    "clearConfirm": "Бу сөйләшүне бетерергәме? Бу гамәл кире кайтарылмый.",
+    "unknownThread": "Билгесез җеп"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Сүндерелгән"
+    },
+    "freeLimit": "Бушлай план чикләве: автоутильләү 1 көнгә кадәр. 1 көнгә кадәр чикләнгән.",
+    "premiumLimit": "Premium өчен автоматик бетерүнең максималь вакыты – 30 көн. 30 көнгә кадәр чикләнгән.",
+    "nothingToSend": "Җибәрү өчен хәбәр языгыз яки файл өстәгез.",
+    "encryptionFailed": "Шифрлау уңышсыз булды. Хәбәр җибәрелмәде.",
+    "sent": "Хәбәр җибәрелде.",
+    "placeholder": "Хәбәр языгыз…",
+    "autoDelete": "Автоматик бетерү",
+    "typeToSend": "Җибәрү өчен хәбәр языгыз",
+    "send": "Җибәрү",
+    "sendWithEnter": "Җибәрү (Enter)",
+    "attachment": "кушымта",
+    "caption": "Язу (ихтыяри)",
+    "remove": "Бетерү ",
+    "clear": "Чистартырга",
+    "gif": "GIF",
+    "sticker": "Стикер",
+    "errors": {
+      "attachmentTooLarge": "Кушымта бик зур. Кечкенәрәк файл сайлагыз.",
+      "unsupportedFile": "Файл төре хупланмый.",
+      "rateLimit": "Сез хәбәрләрне бик тиз җибәрәсез. Зинһар, акрыная төш.",
+      "validation": "Validation error. Please check your message and try again.",
+      "failedToSend": "Failed to send. You can retry the failed bubble.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Эмодзи",
+    "stickersGif": "Стикерлар / GIF",
+    "voiceAdded": "Тавыш язмасы өстәлде."
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
+  },
   "threadActions": {
-    "threadMenu": "Сөйләшү менюсы",
+    "threadMenu": "Тема менюсы",
     "premium": "Премиум",
     "aiPower": "AI көче",
-    "schedule": "Планлаштыру",
+    "schedule": "График",
     "upgrade": "Яңарту",
     "upgradeSuffix": "(Яңарту)",
-    "thread": "Сөйләшү",
+    "thread": "Тема",
     "about": "Турында",
     "search": "Эзләү",
     "media": "Медиа",
     "invitePeople": "Кешеләрне чакыру",
     "roomSettings": "Бүлмә көйләүләре",
-    "clearConversation": "Сөйләшүне чистарту",
-    "clearConversationForMe": "Минем өчен чистарту",
-    "clearConversationForEveryone": "Барысы өчен чистарту",
+    "clearConversation": "Сөйләшүне бетерү",
     "block": "Блоклау"
   },
   "roomSearch": {
@@ -389,7 +536,7 @@
     "search": "Эзләү",
     "searchMessages": "Хәбәрләрне эзләү",
     "noText": "[Текст юк]",
-    "noResults": "Нәтиҗә юк"
+    "noResults": "Нәтиҗәләр юк"
   },
   "roomSettings": {
     "roles": {
@@ -398,192 +545,307 @@
       "admin": "Админ"
     },
     "aiMode": {
-      "off": "Сүнгән",
+      "off": "Сүндерелгән",
       "mention": "Бары тик @ForiaBot яки /ask өчен",
-      "always": "Проактив җавап бирү"
+      "always": "Алдан җавап бирү"
     },
     "autoTranslateMode": {
-      "off": "Сүнгән",
-      "tagged": "Бары тик тегланган (/tr …)",
+      "off": "Сүндерелгән",
+      "tagged": "Бары тик билгеләнгәннәр (/tr …)",
       "all": "Барлык хәбәрләр"
     },
-    "updated": "Көйләүләр яңартылды"
+    "updated": "Көйләүләр яңартылды",
+    "title": "Бүлмә көйләүләре",
+    "participants": "Катнашучылар",
+    "user": "Кулланучы",
+    "role": "Роль",
+    "owner": "Иясе",
+    "actions": "Хәрәкәтләр",
+    "remove": "Алып ташлау",
+    "aiAssistant": "AI ярдәмчесе",
+    "allowBot": "Бу бүлмәдә ForiaBot-ны рөхсәт итү",
+    "autoTranslation": "Автоматик тәрҗемә",
+    "saveAIMode": "AI режимын саклау"
   },
   "mediaGallery": {
     "sharedMedia": "Уртак медиа",
-    "noMediaCached": "Әле җиһазда кэшланган медиа юк.",
-    "imageAlt": "рәсем",
+    "noMediaCached": "Әле җирле саклагычта медиа юк.",
+    "imageAlt": "image",
     "openVideo": "Видеоны ачу",
-    "openVideoWithCaption": "Видео ачу: {{caption}}",
-    "preview": "Алдан карау",
-    "previewWithCaption": "Алдан карау: {{caption}}",
+    "openVideoWithCaption": "Видеоны ачу: {{caption}}",
+    "preview": "Карап чыгу",
+    "previewWithCaption": "Карап чыгу: {{caption}}",
     "previewKind": "{{kind}} алдан карау",
-    "download": "Йөкләү",
-    "downloadKind": "{{kind}} йөкләү",
-    "file": "файл",
+    "download": "Download",
+    "downloadKind": "Download {{kind}}",
+    "file": "file",
     "kinds": {
-      "image": "рәсем",
-      "video": "видео",
-      "audio": "аудио",
-      "file": "файл"
+      "image": "image",
+      "video": "video",
+      "audio": "audio",
+      "file": "file"
     }
   },
   "status": {
-    "userNumber": "Кулланучы #{{id}}",
+    "userNumber": "Кулланучы №{{id}}",
     "posted": "Статус урнаштырылды",
-    "postFailed": "Статус урнаштыру уңышсыз",
-    "createTitle": "Статус булдыру",
+    "postFailed": "Статус урнаштыру уңышсыз булды",
+    "createTitle": "Статус булдыру ",
     "modalAriaLabel": "Яңа статус",
-    "captionLabel": "Нәрсә уйлыйсыз?",
-    "captionPlaceholder": "Яңарту урнаштырыгыз...",
+    "captionLabel": "Сезнең уйларыгыз нәрсәдә?",
+    "captionPlaceholder": "Яңарту уртаклашыгыз...",
     "captionAria": "Статус хәбәре",
     "audienceLabel": "Аудитория",
     "audience": {
-      "public": "Ачык",
-      "followers": "Язылучылар",
-      "contacts": "Контактлар",
-      "mutuals": "Үзара",
-      "custom": "Кулайлаштырылган..."
+      "public": "Җәмәгать",
+      "followers": "Followers",
+      "contacts": "Contacts",
+      "mutuals": "Mutuals",
+      "custom": "Custom..."
     },
-    "expiresHoursLabel": "Бетү вакыты (сәгать)",
+    "expiresHoursLabel": "Вакыты чыга (сәгать)",
     "maxTooltip": "Максимум 7 көн",
-    "hoursAbbrev": "с",
-    "maxShort": "макс",
-    "expiresOn": "Бетә:",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Тәмамлану вакыты:",
     "chooseRecipients": "Алучыларны сайлагыз",
-    "selectContacts": "Контактларны сайлагыз",
-    "attachmentsLabel": "Өстәмәләр",
-    "attachmentsPlaceholder": "Рәсемнәр/видеолар өстәү",
-    "filesNote": "5 файлга кадәр. Көйләүдә 24 сәгать бетү.",
-    "postAria": "Статус урнаштыру",
-    "post": "Урнаштыру"
+    "selectContacts": "Select contacts",
+    "attachmentsLabel": "Attachments",
+    "attachmentsPlaceholder": "Add images/videos",
+    "filesNote": "Up to 5 files. 24h expiry by default.",
+    "postAria": "Post status",
+    "post": "Post"
   },
   "voicemail": {
-    "pageTitle": "Тавышлы почта",
-    "from": "Кемнән",
-    "to": "Кемгә",
-    "unknownCaller": "Билгесез",
-    "yourNumber": "Сезнең Chatforia номерыгыз",
-    "durationSeconds": "{{count}}с",
-    "audioAria": "Тавышлы почта аудио уйнагычы",
-    "transcriptHeading": "Транскрипция",
-    "transcriptPending": "Тавышлы почта транскрипцияләнә…",
-    "transcriptFailed": "Транскрипция юк.",
-    "loading": "Тавышлы почта йөкләнә…",
-    "errorLoading": "Тавышлы почтаны йөкләү уңышсыз.",
-    "empty": "Әле тавышлы почталар юк.",
-    "deleteConfirm": "Бу тавышлы почтаны бетерергәме?",
-    "deleteError": "Тавышлы почтаны бетерү уңышсыз.",
-    "markRead": "Укылган итеп билгеләү",
+    "pageTitle": "Voicemail",
+    "from": "From",
+    "to": "To",
+    "unknownCaller": "Unknown",
+    "yourNumber": "Your Chatforia number",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Voicemail audio player",
+    "transcriptHeading": "Transcript",
+    "transcriptPending": "Transcribing voicemail…",
+    "transcriptFailed": "Transcript unavailable.",
+    "loading": "Loading voicemail…",
+    "errorLoading": "Failed to load voicemail.",
+    "empty": "No voicemails yet.",
+    "deleteConfirm": "Delete this voicemail?",
+    "deleteError": "Failed to delete voicemail.",
+    "markRead": "Mark as read",
+    "delete": "Delete",
+    "unreadDotAria": "Unread voicemail indicator"
+  },
+  "contactList": {
+    "savedContacts": "Сакланган контактлар",
+    "refreshAria": "Контактларны яңарту",
+    "filterPlaceholder": "Сакланган контактларны фильтрлау…",
+    "filterAria": "Сакланган контактларны фильтрлау",
+    "noContactsFound": "Контактлар табылмады.",
+    "externalContact": "Тышкы контакт",
+    "notJoined": "Әлеге контакт әле Chatforiaга кушылмаган.",
+    "couldNotStart": "Чатны башлап булмый. Зинһар, яңадан тырышыгыз.",
+    "startFailed": "Чатны башлап булмый. Зинһар, яңадан тырышыгыз.",
+    "deleted": "Контакт бетерелде.",
+    "deleteFailed": "Контактны бетереп булмый. Зинһар, яңадан тырышыгыз.",
+    "aliasUpdated": "Алиас яңартылды.",
+    "updateAliasFailed": "Алиасны яңартып булмый. Зинһар, яңадан тырышыгыз.",
+    "selectContact": "{{name}}ны сайлагыз",
+    "alias": "Алияс",
+    "startChat": "Сөйләшүне башлау",
+    "message": "Хәбәр",
     "delete": "Бетерү",
-    "unreadDotAria": "Укылмаган тавышлы почта күрсәткече"
+    "deleteContactAria": "Контактны бетерү",
+    "loadFailed": "Контактларны йөкләү уңышсыз булды. Зинһар, яңадан тырышыгыз.",
+    "loadMore": "Тагын йөкләү",
+    "call": "Шалтырату",
+    "callStarted": "Сез бу номерга Chatforia номерыгыз аша шалтыратасыз…",
+    "callFailed": "Шалтыратуны башлау уңышсыз булды. Зинһар, яңадан тырышыгыз.",
+    "noRoute": "Бу контакт өчен маршрут юк.",
+    "selectContactPrefix": "Контактны сайлагыз",
+    "video": " Видео",
+    "videoRequiresAccount": "Видеошалтыратулар өчен Chatforia аккаунты кирәк."
+  },
+  "addContactModal": {
+    "title": "Контакт өстәргә",
+    "phoneOrUsername": "Телефон яки кулланучы исеме",
+    "phoneOrUsernamePlaceholder": "Мәсәлән +13018019227 яки juliannorton",
+    "alias": "Алиас (ихтыяри)",
+    "aliasPlaceholder": "мәсәлән: Эш, Әни, Майк – Европа",
+    "enterPhoneOrUsername": "Телефон номерын яки кулланучы исемен языгыз.",
+    "userLookupFailed": "Кулланучыны табу уңышсыз булды.",
+    "cannotAddSelf": "Үзегезне контакт итеп өстәп булмый.",
+    "failedToAdd": "Контакт өстәү уңышсыз булды.",
+    "add": "Өстәргә"
+  },
+  "startChatModal": {
+    "title": "Сөйләшүне башлап җибәрү",
+    "searchPlaceholder": "Исем, кулланучы исеме яки телефон номеры буенча эзләгез",
+    "messageThisPerson": "Бу кешегә хәбәр җибәрегез",
+    "contacts": "Контактлар",
+    "recentInteractions": "Соңгы аралашулар",
+    "noContactsMatch": "Эзләвегезгә туры килгән контактлар юк.",
+    "noRecentInteractions": "Әлегә соңгы аралашулар юк.",
+    "unknown": "Билгесез",
+    "interactionType": {
+      "message": "Хәбәр",
+      "call": "Call",
+      "video": "Video"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Сайланганнар белән чатны башлау",
+    "searchByUsernameOrPhone": "Кулланучы исеме яки телефон буенча эзләү",
+    "search": "Эзләү",
+    "searchPrompt": "Кулланучы исемен яки телефонны язып, Эзләү төймәсенә басыгыз.",
+    "pickFromContacts": "Яки контактлар арасыннан сайлау",
+    "addContact": "Контакт өстәргә",
+    "show": "Күрсәтергә",
+    "add": "Өстәргә",
+    "close": "Ябарга",
+    "selectedCount": "{{count}} сайланган",
+    "pickAtLeastOne": "Ким дигәндә бер кабул итүче сайлагыз.",
+    "saveContactsHint": "Телефон/электрон почта язмалары аларны контактлар исемлегенә өстәгәннән соң күренәчәк.",
+    "failedBulkStart": "Сайланган кабул итүчеләр белән чатны башлап булмый.",
+    "noResults": "Нәтиҗәләр юк",
+    "mode": "Режим",
+    "group": "Төркем",
+    "broadcast": "Рассылка",
+    "groupNameOptional": "Төркем исеме (ихтыяри)",
+    "firstMessageOptional": "Беренче хәбәр (ихтыяри, ләкин киңәш ителә)",
+    "createGroup": "Төркем булдыру",
+    "sendBroadcast": "Рассылка җибәрү"
+  },
+  "peoplePage": {
+    "people": "Кешеләр",
+    "search": "Эзләү",
+    "searchPlaceholder": "Сакланган контактларны лакап исеме, исеме, кулланучы исеме яки телефон буенча эзләү",
+    "quickStart": "Тиз башлау",
+    "quickStartDesc": "Контактларыгызны идарә итегез һәм дусларны чакырыгыз.",
+    "importContacts": "Контактларыгызны импортлагыз",
+    "import": "Импорт",
+    "addContact": "Контакт өстәргә",
+    "add": "Өстәргә",
+    "inviteFriends": "Дусларны чакырырга",
+    "inviteDesc": "Чакыру сылтамагызны уртаклашыгыз һәм шунда ук аралаша башлагыз.",
+    "getTheApp": "Кушымтаны алырга ",
+    "getTheAppDesc": "iOS һәм Android өчен Chatforia кушымтасы белән юлда да элемтәдә торыгыз.",
+    "download": "Йөкләү",
+    "syncTip": "Киңәш: Хәбәрләрегез веб һәм мобиль җайланмаларда синхронлаштырыла.",
+    "filterSaved": "Сакланган контактларны фильтрлау",
+    "noContactsFound": "Контактлар табылмады",
+    "focusSearch": "Эзләүгә игътибар",
+    "findOrAdd": "Кемнедер табыгыз яки өстәгез",
+    "searchByPhoneOrUsername": "Телефон яки кулланучы исеме буенча эзләү"
   },
   "profile": {
-    "title": "Кулланучы профиле",
-    "preferredLanguage": "Өстенлек бирелгән тел",
+    "title": "Кулланучы профиле ",
+    "preferredLanguage": "Өстен тел",
     "chooseLanguage": "Тел сайлагыз",
-    "mustLogin": "Көйләүләрне күрер өчен керегез.",
-    "autoTranslate": "Хәбәрләрне үзеннән-үзе тәрҗемә итү",
-    "showOriginalWithTranslation": "Оригинал һәм тәрҗемәне күрсәтү",
+    "mustLogin": "Көйләүләрне карау өчен сезгә керергә кирәк.",
+    "autoTranslate": "Хәбәрләрне автомат тәрҗемә итү",
+    "showOriginalWithTranslation": "Оригинал һәм тәрҗемә ителгән хәбәрләрне күрсәтү",
     "showOriginalAndTranslation": "Оригиналны тәрҗемә янында күрсәтү",
-    "filterExplicit": "Явык эчтәлекне фильтрлау",
-    "aiReply": "AI җавабы",
-    "enableReadReceipts": "Укылганлык белдерүләрен кабызыгыз",
-    "allowExplicitContent": "Явык эчтәлеккә рөхсәт",
-    "disappearingMessages": "Юкка чыгучы хәбәрләрне кабызыгыз",
-    "autoDeleteSeconds": "Үзеннән-үзе бетүгә кадәр секундлар",
-    "saveSuccess": "Көйләүләр сакланды!",
-    "saveError": "Хата: Көйләүләрне саклап булмады",
-    "avatarAlt": "Профиль аватары",
+    "filterExplicit": "Фил тер эксклюзив контент",
+    "aiReply": "AI җавап",
+    "enableReadReceipts": "Уку раслауларын активлаштыру",
+    "allowExplicitContent": "Allow explicit content",
+    "disappearingMessages": "Enable disappearing messages",
+    "autoDeleteSeconds": "Seconds until auto-delete",
+    "saveSuccess": "Settings saved!",
+    "saveError": "Error: Could not save settings",
+    "avatarAlt": "Профиль аватар",
     "uploadAvatar": "Яңа аватар йөкләү",
     "avatarSuccess": "Аватар йөкләнде!",
-    "avatarError": "Аватар йөкләү уңышсыз",
+    "avatarError": "Аватарны йөкләү уңышсыз булды",
     "avatarUpdated": "Аватар яңартылды!",
-    "uploadingAvatar": "Аватар йөкләнә…",
-    "noPrivateKey": "Экспорт өчен бу җиһазда шәхси ачкыч юк.",
-    "setBackupPassword": "Резерв күчермәгезне шифрлау өчен серсүз куегыз:",
+    "uploadingAvatar": "Аватарны йөкләү бара…",
+    "noPrivateKey": "Бу җайланмада экспортлау өчен шәхси ачкыч юк.",
+    "setBackupPassword": "Резерв күчермәгезне шифрлау өчен пароль куегыз:",
     "backupDownloaded": "Шифрланган резерв күчермә йөкләнде.",
-    "exportFailed": "Ачкыч экспорты уңышсыз",
-    "enterBackupPassword": "Бу резерв күчермә өчен серсүзне кертегез:",
-    "importSuccess": "Шәхси ачкыч бу җиһазга йөкләнде.",
-    "importFailed": "Ачкычны йөкләү уңышсыз (хаталы серсүз яки бозылган файл).",
-    "keysRotated": "Яңа ачкычлар пары ясалды һәм ачык ачкыч йөкләнде.",
-    "rotateFailed": "Ачкычларны әйләндерү уңышсыз.",
-    "security": "Куркынычсызлык",
-    "exportKey": "Шифрлау ачкычының резерв күчермәсен ясагыз",
-    "importKey": "Шифрлау ачкычын торгызыгыз",
+    "exportFailed": "Ачкычны экспортлау уңышсыз булды",
+    "enterBackupPassword": "Бу резерв күчермә өчен парольне языгыз:",
+    "importSuccess": "Шәхси ачкыч бу җайланмага импортланды.",
+    "importFailed": "Ачкычны импортлау уңышсыз булды (пароль дөрес түгел яки файл бозылган).",
+    "keysRotated": "Яңа ачкычлар паресы булдырылды һәм җәмәгать ачкычы йөкләнде.",
+    "rotateFailed": "Ачкычларны әйләндерү уңышсыз булды.",
+    "security": "Иминлек",
+    "exportKey": "Шифрлау ачкычын саклау",
+    "importKey": "Шифрлау ачкычын торгызу",
     "rotateKeys": "Шифрлау ачкычын әйләндерү",
-    "keyDisclaimer": "Сезнең шәхси ачкычыгыз беркайчан да бу җиһаздан чыкмый. Башка җиһазга торгызу өчен серсүз белән сакланган күчермә экспорт итегез.",
+    "keyDisclaimer": "Сезнең шәхси ачкычыгыз бу җайланмадан беркайчан да чыкмый. Төзәтү өчен пароль белән сакланган күчермәсен экспортлагыз аны башка җайланмада торгызу өчен.",
     "sectionProfile": "Профиль",
     "phoneNumber": "Телефон номеры",
     "appearance": "Күренеш",
     "soundSettings": "Тавышлар",
-    "disappearing": "Юкка чыгучы хәбәрләр",
-    "backupSync": "Шифрлау ачкычының резерв күчермәсе",
-    "ai": "AI",
-    "accessibility": "Уңайлылык",
-    "privacy": "Шәхсилек",
-    "devices": "Бәйләнгән җиһазлар",
-    "themeFreeNotice": "Сез бушлай планда — астагы тиз Кояш/Ай вариантларын кулланыгыз. Күбрәк темаларны ачу өчен яңартыгыз.",
-    "sunTheme": "Таң темасын куллану",
-    "moonTheme": "Ай (Төн уртасы) темасын куллану",
+    "disappearing": "Югала торган хәбәрләр",
+    "backupSync": "Резерв күчермә һәм синхронизация",
+    "ai": "ИИ",
+    "accessibility": "Кулланыш мөмкинлеге",
+    "privacy": " Шәхси мәгълүмат",
+    "devices": "Linked devices",
+    "themeFreeNotice": "Сез бушлай темада — түбәндәге тиз Кояш/Ай вариантларын кулланыгыз. Күбрәк темаларны ачу өчен яңартыгыз.",
+    "sunTheme": "Таң темасын кулланыгыз",
+    "moonTheme": "Ай (Төн уртасы) темасын кулланыгыз",
     "sun": "Кояш",
     "moon": "Ай",
-    "backupTitle": "Шифрланган резерв күчермәләр һәм җиһаз синхронизациясе",
-    "openBackupTools": "Резерв күчермә коралларын ачу",
-    "backupDesc": "Башка җиһазда хәбәрләрегезне имин торгызу өчен шифрлау ачкычыгызның резерв күчермәсен ясагыз.",
-    "privacyBlurEnabled": "Көйләүдә хәбәрләрне томалау",
-    "privacyBlurOnUnfocus": "Кушымта фокуссыз булганда томалау",
+    "backupTitle": "Шифрланган резерв күчермәләр һәм җайланма синхронизациясе",
+    "openBackupTools": "Резерв коралларны ачу",
+    "backupDesc": "Шифрлау ачкычыгызның резерв күчермәсен ясап куегыз, хәбәрләрегезне башка җайланмада ышанычлы рәвештә торгызу өчен. ",
+    "privacyBlurEnabled": "Хәбәрләрне стандарт рәвештә томалау",
+    "privacyBlurOnUnfocus": "Кушымта фонында томалау",
     "planSection": "Минем план",
-    "planLoading": "Планыгыз йөкләнә…",
-    "planLoadFailed": "Планыгызны йөкләү уңышсыз.",
+    "planLoading": "Планыгызны йөкләү…",
+    "planLoadFailed": "Планыгызны йөкләү уңышсыз булды.",
     "currentPlan": "Хәзерге план",
-    "planRenewsOn": "Яңартылу:",
-    "freePlanCopy": "Сез бушлай планда. Күбрәк үзенчәлекләрне (резерв күчермәләр, өстәмә номерлар, алга киткән шәхсилек көйләүләре) ачу өчен яңартыгыз.",
+    "planRenewsOn": "Яңартыла",
+    "freePlanCopy": "Сез бушлай планда. Күбрәк мөмкинлекләрне, мәсәлән, резерв күчермәләрне ачу өчен яңартыгыз, өстәмә номерлар һәм алгарышлы шәхси мәгълүмат саклау параметрлары.",
     "upgradePlanCta": "Планны яңарту",
     "changePlanCta": "Планны үзгәртү",
     "manageBilling": "Түләүләрне идарә итү",
-    "portalOpenFailed": "Түләү порталы ачылмады. Зинһар, кабатлап карагыз.",
-    "holdToReveal": "Күрсәтү өчен тотыгыз",
-    "notifyOnCopy": "Хәбәрем күчермәләнгән булса миңа белдер",
-    "loadFailed": "Профильне йөкләү уңышсыз",
-    "followed": "Язылды",
-    "followFailed": "Язылу уңышсыз",
-    "unfollowed": "Язылу туктатылды",
-    "unfollowFailed": "Язылуны туктату уңышсыз",
-    "follow": "Язылу",
-    "unfollow": "Язылуны туктату",
-    "followHint": "Аларның хикәяләре Сезнең Язылучылар тукланмасында күренәчәк, әгәр алар Язылучылар (яки Ачык) аудиториясе белән урнаштырсалар.",
+    "portalOpenFailed": "Түләүләр порталын ача алмады. Зинһар, кабат тырыгыз.",
+    "holdToReveal": "Күрергә тотып торыгыз",
+    "notifyOnCopy": "Хәбәрем күчерелсә, хәбәр ит",
+    "loadFailed": "Профильне йөкләү уңышсыз булды",
+    "followed": "Яздылар",
+    "followFailed": "Язу уңышсыз булды",
+    "unfollowed": "Язылудан тукталдылар",
+    "unfollowFailed": "Язылудан тукталу уңышсыз булды",
+    "follow": "Язу",
+    "unfollow": "Язылудан туктау",
+    "followHint": "Әгәр алар үз язмаларын 'Язылучылар' (яки 'Җәмәгать') режимында урнаштырсалар, аларның сторилары 'Сез язылучылар' тасмасында күренәчәк.",
     "userNotFound": "Кулланучы табылмады",
     "followsYou": "Сезгә язылган",
-    "sectionCrashedTitle": "Бүлек йөкләнмәде",
-    "sectionCrashedBody": "Бу бүлектә нәрсәдер хата китте.",
-    "forwarding": "Шалтырату һәм SMS йөртү",
-    "callTextForwardingSection": "Шалтырату һәм SMS йөртү",
-    "callTextForwardingTitle": "Шалтырату һәм/яки SMS йөртү",
-    "callTextForwardingDescription": "Килгән шалтыратулар һәм SMS'ларны раслаган телефоныгызга яки электрон почтагызга йөртегез. Чыгучы шалтыратулар/SMS'лар Chatforia номерыгызны күрсәтә ала.",
-    "enableTextForwarding": "SMS йөртүне кабызыгыз",
-    "forwardTextsToPhone": "SMS'ларны телефонга йөртү",
-    "forwardTextsToEmail": "SMS'ларны электрон почтага йөртү",
-    "destinationPhone": "Максатлы телефон (E.164)",
-    "destinationEmail": "Максатлы электрон почта",
-    "enableCallForwarding": "Шалтырату йөртүне кабызыгыз",
-    "destinationPhoneForCalls": "Шалтыратулар өчен максатлы (E.164)",
-    "aliasBridging": "Шалтырату йөртү (псевдоним бәйләнеше)",
-    "quietHoursOptional": "Тынлык сәгатьләре (теләк буенча)",
-    "startHour": "Башлау сәгате (0–23)",
-    "endHour": "Бетү сәгате (0–23)",
-    "reset": "Ташлау",
+    "sectionCrashedTitle": "Бүлек йөкләнүдән баш тартты",
+    "sectionCrashedBody": "Бу бүлектә хата килеп чыкты. ",
+    "forwarding": "Шалтыратулар һәм текстларны юллау",
+    "callTextForwardingSection": "Шалтыратулар һәм текстларны юллау",
+    "callTextForwardingTitle": "Шалтырату һәм/яки текстларны юллау",
+    "callTextForwardingDescription": "Керүче шалтыратуларны һәм текстларны расланган телефоныгызга яки электрон почтагызга юллагыз. Чыгучы шалтыратулар/текстлар Chatforia номерыгызны күрсәтә ала.",
+    "enableTextForwarding": "Текстларны юллауны активлаштыру",
+    "forwardTextsToPhone": "Текстларны телефонга юллау",
+    "forwardTextsToEmail": "Текстларны электрон почтага юллау",
+    "destinationPhone": "Чыгу урыны телефон (E.164)",
+    "destinationEmail": "Чыгу урыны электрон почта",
+    "enableCallForwarding": "Шалтыратуларны күчерүне активлаштыру",
+    "destinationPhoneForCalls": "Шалтыратулар өчен максат телефоны (E.164)",
+    "aliasBridging": "Шалтыратуларны күчерү (alias bridging)",
+    "quietHoursOptional": "Тынычлык сәгатьләре (ихтыяри)",
+    "startHour": "Башлану сәгате (0–23)",
+    "endHour": "Тәмамлану сәгате (0–23)",
+    "reset": "Яңадан көйләү",
     "saveBtn": "Саклау",
     "saveProfile": "Профильне саклау",
-    "saveForwarding": "Йөртүне саклау",
-    "forwardSaved": "Йөртү көйләүләре сакланды",
-    "forwardSaveFailed": "Көйләүләрне саклау уңышсыз",
-    "errE164": "Дөрес E.164 телефон номеры кертегез (мәс., +15551234567).",
-    "errEmail": "Дөрес электрон почта кертегез.",
-    "errSmsDest": "Кимендә бер максат (телефон яки почта) сайлагыз.",
-    "errQuietHours": "Тынлык сәгатьләре 0 белән 23 арасында булырга тиеш.",
-    "randomChat": "Рандом чат",
+    "saveForwarding": "Save forwarding",
+    "forwardSaved": "Форвардлау көйләүләре сакланды",
+    "forwardSaveFailed": "Көйләүләрне саклау уңышсыз булды",
+    "errE164": "Дөрес E.164 форматындагы телефон номерын языгыз (мәсәлән, +15551234567).",
+    "errEmail": " Дөрес электрон почта адресын языгыз.",
+    "errSmsDest": "Ким дигәндә бер адрес сайлагыз (телефон яки электрон почта).",
+    "errQuietHours": "Тынычлык сәгатьләре 0-дән 23-кә кадәр булырга тиеш.",
+    "randomChat": "Очраклы чат",
     "ageBand": "Сезнең яшь диапазоныгыз",
     "ageBandPlaceholder": "Яшь диапазоныгызны сайлагыз",
     "ageTeen": "13–17",
@@ -591,191 +853,507 @@
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Без бары тик яшь диапазонын саклыйбыз (туган көнегезнең төгәл датасы түгел). Бу Рандом чаттагы парлыкларны акыллы итү өчен кулланыла.",
-    "wantsAgeFilter": "Рандом чатта яшь буенча парлык куллану",
-    "wantsAgeFilterDesc": "Кабызганда без сезне туры килгән яшь диапазоннарындагы кешеләр белән парлаштырырга тырышабыз.",
-    "partnerAgeBands": "Кемнәр белән парлаштырылырга мөмкин?",
-    "partnerAgeBandsDesc": "Үсмерләр һәрвакыт бары үсмерләр белән генә парлаштырыла. Өлкәннәр үсмерләр белән парлаштырылмый.",
-    "teenMatchingNote": "Иминлек өчен 13–17 яшь диапазонындагы аккаунтлар Рандом чатта бары 13–17 яшьтәге башка аккаунтлар белән генә парлаштырыла.",
-    "foriaRemember": "Рияга сез әйткәннәрне истә калдырырга рөхсәт итегез",
-    "foriaRememberDesc": "Кабызганда Foria сезнең Рандом чат сөйләшүләрегезне (бары сез белән) истә тотып, сөйләшүне дәвам иттерә ала. Теләсә кайсы вакытта сүндерергә мөмкин.",
-    "voicemailSection": "Тавышлы почта",
-    "voicemailEnabled": "Тавышлы почтаны кабызыгыз",
-    "voicemailAutoDeleteDays": "Тавышлы почталарны (көннән соң) үзеннән-үзе бетерү",
-    "voicemailAutoDeletePlaceholder": "Мәңгегә саклау өчен буш калдырыгыз",
-    "voicemailForwardEmail": "Тавышлы почтаны электрон почтага йөртү",
-    "voicemailForwardEmailPlaceholder": "Тавышлы почта белдерүләрен җибәрү өчен электрон почта",
-    "voicemailGreetingText": "Текст резерв сәламләү",
-    "voicemailGreetingTextDesc": "Аудио сәламләүегез булмаганда кулланыла.",
-    "voicemailGreetingUpload": "Тавышлы почта сәламләвен йөкләү",
-    "voicemailPreviewGreeting": "Сәламләүне алдан карау",
-    "voicemailGreetingUploaded": "Тавышлы почта сәламләве уңышлы йөкләнде",
-    "voicemailGreetingUploadError": "Тавышлы почта сәламләвен йөкләү уңышсыз",
-    "voicemailNote": "Chatforia номерларыгыздан килгән тавышлы почталар Тавышлы почта почтаңызда саклана. Транскрипция һәм йөртүне ярдәм ителгән планнарда кабызырга мөмкин.",
-    "portHint": "Хәзерге номерыгызны сакларга телисезме? Аны Chatforia Wireless'ка күчереп алырга мөмкин.",
+    "ageBandHint": "Без бары тик яшь диапазонын гына саклыйбыз (сезнең төгәл туган көнегезне түгел) . Бу очраклы чат парлаштыруларын акылга ярашлы итү өчен кулланыла.",
+    "wantsAgeFilter": "Очраклы чатта яшь буенча туры китерүне кулланырга",
+    "wantsAgeFilterDesc": "Кушылганда без сезне ярашлы яшь диапазонындагы кешеләр белән парлаштырырга тырышабыз.",
+    "partnerAgeBands": "Сез кем белән парлаштырыла аласыз?",
+    "partnerAgeBandsDesc": "Яшүсмерләр һәрвакыт тик яшүсмерләр белән генә парлаштырыла. Өлкәннәр яшүсмерләр белән парлаштырыла алмый.",
+    "teenMatchingNote": "Иминлек өчен, 13–17 яшьлек аккаунтлар Random Chat-та тик башка 13–17 яшьлек аккаунтлар белән генә парлаштырыла ала.",
+    "foriaRemember": "Ria-га сез әйткәннәрне истә калдырырга рөхсәт итегез",
+    "foriaRememberDesc": "Бу функция кабызылганда, Foria сезнең элекке Random Chat сөйләшүләрегезне куллана ала (тик синең белән генә) сөйләшүне өзлексез дәвам итү өчен. Син теләсә кайсы вакытта моны сүндерә аласың.",
+    "voicemailSection": "Тавышлы хәбәрләр",
+    "voicemailEnabled": "Тавышлы хәбәрләрне активлаштыру",
+    "voicemailAutoDeleteDays": "Тавышлы хәбәрләрне (көннән) соң автомат рәвештә бетерү",
+    "voicemailAutoDeletePlaceholder": "Буш калдыру – мәңге саклау өчен",
+    "voicemailForwardEmail": "Тавышлы хәбәрләрне электрон почтага юллау",
+    "voicemailForwardEmailPlaceholder": "Тавышлы хәбәрләр турында хәбәр итүләрне җибәрү өчен электрон почта адресы",
+    "voicemailGreetingText": "Текст рәвешендәге запас сәламләү",
+    "voicemailGreetingTextDesc": "Сезнең аудио сәламләвегез булмаган очракта кулланыла.",
+    "voicemailGreetingUpload": "Тавышлы сәламләүне йөкләү",
+    "voicemailPreviewGreeting": "Сәламләүне карау",
+    "voicemailGreetingUploaded": "Тавышлы сәламләү уңышлы йөкләнде",
+    "voicemailGreetingUploadError": " Тавышлы сәламне йөкләү уңышсыз булды",
+    "voicemailNote": "Сезнең Chatforia номерларыгыздан килгән тавышлы хәбәрләр тавышлы хәбәрләр тартмасында сакланачак. Ярдәм ителгән планнарда транскрипцияне һәм юллауны активлаштыра аласыз.",
+    "portHint": "Хәзерге номерыгызны саклап калырга телисезме? Аны Chatforia Wireless-ка күчерә аласыз.",
     "wireless": {
-      "manage": "Сымсызны идарә итү"
+      "manage": "Симсызны идарә итү",
+      "portCta": "Номерыгызны күчерегез номер"
     },
     "esim": {
-      "title": "Chatforia eSIM",
-      "desc": "Wi-Fi'дан еракта булганда Chatforia өчен мобиль интернет алыгыз.",
-      "cta": "eSIM алу / QR күрсәтү"
-    }
+      "title": "Кулланучы профиле ",
+      "desc": "Wi-Fiдан читтә булганда Chatforia өчен мобиль интернет алыгыз.",
+      "cta": "eSIM алырга / QR күрсәтергә",
+      "ctaManage": "eSIM белән идарә итү",
+      "descActive": "Сезнең eSIM актив һәм идарә итәргә әзер."
+    },
+    "encryptedBackupsTitle": "Шифрлау ачкычы резервы",
+    "accessibilityFailed": "Керешү мөмкинлеге көйләүләрен саклау уңышсыз булды.",
+    "aiFailed": "AI көйләүләрен саклау уңышсыз булды.",
+    "avatarRemoveError": "Аватарны бетерү уңышсыз булды.",
+    "avatarRemoved": "Аватар бетерелде.",
+    "disappearAfterSeconds": "{{seconds}} секундтан соң югалачак",
+    "forwardingLoading": "Форвард көйләүләрен йөкләү…",
+    "presetSeconds": "{{seconds}} секунд",
+    "removeAvatar": "Аватарны бетерү",
+    "safetyAge": "Иминлек һәм яшь",
+    "typeOrPick": "Кимәлне языгыз яки сайлагыз",
+    "userFallback": "Chatforia кулланучысы",
+    "followers": "Яздыручылар",
+    "following": "Артабан бара"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Хәбәрләр тавышлары",
+    "resetToDefaults": "Стандартка кайтарырга",
+    "freeNoticeStart": "Сез бушлай режимда — премиум тоналар күрсәтелә, ләкин бикләнгән. ",
+    "freeNoticeEnd": "барысын да ачу өчен.",
+    "messageTone": "Хәбәр тоны",
+    "ringtone": "Рингтон",
+    "preview": "Алдын-ала карау",
+    "stop": "Туктату",
+    "volume": "Тавыш дәрәҗәсе",
+    "messageToneFilesHint": "Файлларны /public/sounds/Message_Tones папкасына куегыз",
+    "ringtoneFilesHint": "Файлларны /public/sounds/Ringtones папкасына куегыз",
+    "premiumRequired": "Бу сайлау өчен премиум кирәк.",
+    "saved": "Тавыш көйләүләре сакланды.",
+    "saveFailed": "Тавыш көйләүләрен саклап булмады.",
+    "resetNotSaved": "Башлангыч көйләүләргә кайтарыгыз (һаман сакланмаган).",
+    "premiumTone": "Бу Premium тон.",
+    "premiumRingtone": "Бу  — бу Премиум рингтон.",
+    "customComingSoon": "Үзгәртелгән тавышларны йөкләү тиздән булачак.",
+    "freeNotice": "Сез бушлай режимда — премиум тоналар күрсәтелә, ләкин бикләнгән. Барысын да ачу өчен яңартыгыз.",
+    "default": "Стандарт",
+    "vibrate": "Вibrate",
+    "dreamer": "Хыялый",
+    "notify": "Хәбәр итү",
+    "pop": "Pop ",
+    "pulsatingSound": "Пулсацияләүче тавыш",
+    "textMessage": "Текстлы хәбәр",
+    "xylophone": "Ксилофон",
+    "classic": "Классик",
+    "urgency": "Ашыгычлык",
+    "bells": "Кыңгыраулар",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI көйләүләре",
+    "controlIntro": "Тәрҗемәне, акыллы җавапларны һәм ForiaBot автоҗавапларын контрольдә тотыгыз.",
+    "translation": "Тәрҗемә",
+    "autoTranslateIncoming": "Керүче хәбәрләрне автомат рәвештә тәрҗемә итү",
+    "showOriginalAlongside": "Тәрҗемә янында оригиналь текстны күрсәтү",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot автоҗавап бирүче",
+    "enableAutoReply": "Мин мәшгуль булганда автоҗавап бирүне кабызырга",
+    "autoReplyMode": "Автоҗавап режимы",
+    "cooldownSeconds": "Тоткарлау вакыты (секунд)",
+    "signature": "Имза",
+    "autoReply": "🤖 Автоҗавап",
+    "activeUntilOptional": "Керешкәнче актив (ихтыяри)",
+    "save": "AI көйләүләрен саклау",
+    "saved": "AI өстенлекләре сакланды",
+    "saveFailed": "AI көйләүләрен саклау уңышсыз булды",
+    "translateOff": "Сүндерелгән",
+    "translateTagged": "Бары тик @translated яки билгеләнгән очракта гына",
+    "translateAll": "Барлык керүче хәбәрләрне тәрҗемә итү",
+    "modeDm": "Бары тик 1:1 чатларда гына",
+    "modeMention": "Бары тик мин 'm @mentioned",
+    "modeAll": "Барлык керүче хәбәрләр",
+    "off": "Сүндерелгән",
+    "on": "Күчкән"
+  },
+  "accessibilitySettings": {
+    "title": "Кулланыш мөмкинлекләре һәм кисәтүләр",
+    "loadFailed": "Көйләүләрне йөкләү уңышсыз булды",
+    "accessibilityDesc": "Тавышка таянмыйча Chatforia белән эшләүне җиңеләйтү өчен параметрлар.",
+    "interfaceFontSize": "Интерфейс шрифт зурлыгы",
+    "interfaceFontSizeHelp": "Гадәти зурлыктан башлана. Зуррак текстны өстен күрсәгез, арттырыгыз.",
+    "notifications": "Notifications",
+    "visualAlerts": "Хәбәрләр өчен визуаль кисәтүләр & шалтыратулар",
+    "visualAlertsDesc": "Баннерларны һәм исемне ялтыратып күрсәтә, шуның белән активлыкны калдырмыйсыз.",
+    "vibrateOnNewShort": "Яңа хәбәрләр килгәндә җайланманы селкетү (хупланса)",
+    "vibrateOnNewDesc": "Хәбәрләр килгәндә җайланманы селкетү.",
+    "flashOnCallShort": "Кергән шалтыратуда экранны ялтырату",
+    "flashOnCallDesc": "Шалтырату чакыруы яңгыраганда кыска якты флеш.",
+    "liveCaptionsTitle": "Туры эфир язулары (шалтыратулар)",
+    "enableLiveCaptions": "Шалтыратулар вакытында туры эфир язуларын кабызу (Premium)",
+    "liveCaptionsDesc": "Икенче катнашучының аудиосыннан реаль вакытта язулар күрсәтү.",
+    "captionFontSize": "Язу шрифты зурлыгы",
+    "captionBackground": "Язу фоны",
+    "voiceNotes": "Тавыш язмалары",
+    "autoTranscribeVoiceNotes": "Тавыш язмаларын автомат транскрипцияләү",
+    "autoTranscribeVoiceNotesDesc": "Алган аудио хәбәрләргә транскрипт өстәү.",
+    "changesSavedInstantly": "Үзгәрешләр шунда ук саклана.",
+    "sm": "Кечкенә",
+    "md": "Уртача",
+    "lg": "Зур",
+    "xl": "Өстәмә зур",
+    "light": "Җиңел",
+    "dark": "Төтенке",
+    "transparent": "Шәфәф",
+    "accessibility": "Керешү мөмкинлеге",
+    "notificationsDesc": "Хәбәрләр һәм шалтыратулар өчен визуаль кисәтүләр\nБаннерлар һәм исем ялтырап тора, шуның белән сез бернәрсә дә калдырмыйсыз.",
+    "vibrateOnNew": "Яңа хәбәрләр килгәндә селкенү (ярдәм иткәндә)\nХәбәрләр килгәндә җайланманы селкендерү. ",
+    "flashOnCall": "Керүче шалтыратуда экранны ялкынландыру\nШалтырату яңгыраганда кыска һәм якты ялкын.",
+    "liveCaptions": "Туры эфир субтитрлары (шалтыратулар)"
+  },
+  "privacySection": {
+    "strictE2EE": "Каты ахырдан-ахыргача шифрлау",
+    "ciphertextOnlyNote": "Серверда бары тик шифртекстны гына саклау. AI/Translate һәм модерация алдан карауларын сүндереп куя.",
+    "strictE2EEEnabled": "Каты E2EE эшләтеп куелган. AI/Translate сүндерәчәк.",
+    "strictE2EEDisabled": " Каты E2EE сүндерелде. AI/Translate яңадан кабызылды."
+  },
+  "linkedDevicesPanel": {
+    "title": "Бәйләнгән җайланмалар",
+    "noneFound": "Бәйләнгән җайланмалар табылмады.",
+    "refresh": "Яңарту",
+    "unknown": "Билгесез",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Җайланманы кире алу мөмкин түгел",
+    "unnamedDevice": "Исемсез җайланма",
+    "primary": "Төп",
+    "revokedStatus": "Кире алынган",
+    "addedLastSeen": "Өстәлде {{created}} • Соңгы тапкыр күренде {{lastSeen}}",
+    "renameDevice": "Җайланманы яңадан атау",
+    "revokeDevice": "Җайланманы кире алу"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Chatforia мобиль планнарыгызны, номерларыгызны, йөртүне һәм номер күчерүне идарә итегез.",
+    "description": "Chatforia мобиль планыгызны, номерларыгызны, юллауны һәм номер күчерүне идарә итегез.",
     "options": {
-      "heading": "Chatforia'ны ничек кулланырга телисез",
-      "subheading": "Яңа Chatforia номеры алырга яки бүтән оператордан хәзерге номерыгызны күчереп алырга мөмкин.",
-      "newNumber": "Яңа Chatforia номеры алу",
-      "portNumber": "Хәзерге номерыгызны Chatforia Wireless'ка күчереп алу"
+      "heading": "Chatforia-ны ничек кулланырга сайлагыз",
+      "subheading": "Сез яңа Chatforia номеры ала аласыз яки башка оператордан булган номерыгызны күчерә аласыз.",
+      "newNumber": "Яңа Chatforia номеры алыгыз\" foria номеры",
+      "portNumber": "Хәзерге номерыгызны Chatforia Wireless'ка күчерегез"
     },
     "port": {
-      "heading": "Хәзерге номерыгызны күчереп алу",
-      "subheading": "Хәзерге телефон номерыгызны бүтән оператордан Chatforia'га күчерегез. Тоткарлыклар булмасын өчен мәгълүматларыгыз оператор аккаунтыгыз белән туры килергә тиеш.",
-      "phoneNumberLabel": "Күчереләсе телефон номеры",
+      "heading": "Хәзерге номерыгызны күчерегез",
+      "subheading": "Хәзерге оператордан телефон номерыгызны Chatforia'га күчерегез. Кичектерүләр булмасын өчен барлык мәгълүмат оператор аккаунтыгыз белән төгәл туры килүен тикшерегез.»",
+      "phoneNumberLabel": "Күчерелә торган телефон номеры",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "Хәзерге оператор",
-      "carrierPlaceholder": "Verizon, AT&T, T-Mobile һ.б.",
-      "accountNumberLabel": "Аккаунт номеры",
-      "pinLabel": "Күчерү PIN / серсүз",
-      "fullNameLabel": "Аккаунттагы тулы исем",
-      "address1Label": "Адрес 1-нче юл",
-      "address2Label": "Адрес 2-нче юл (теләк буенча)",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
+      "accountNumberLabel": "Хисап номеры",
+      "pinLabel": "Чыгару PIN-коды / пароле",
+      "fullNameLabel": "Хисаптагы тулы исем",
+      "address1Label": "Адрес юлы 1",
+      "address2Label": "Адрес юлы 2 (ихтыяри)",
       "cityLabel": "Шәһәр",
-      "stateLabel": "Штат / Өлкә",
+      "stateLabel": "Штат / өлкә",
       "postalCodeLabel": "Почта индексы",
       "countryLabel": "Ил",
-      "submitButton": "Күчерү соравын җибәрү",
-      "success": "Күчерү соравы җибәрелде! Без сезгә яңартып торырбыз.",
-      "genericError": "Нәрсәдер хата китте."
+      "submitButton": "Порт соравын җибәрү",
+      "success": "Порт соравы җибәрелде! Без сезне яңалыклар белән таныштырып торачакбыз.",
+      "genericError": "Ниндидер хата килеп чыкты."
     },
     "status": {
-      "heading": "Күчерү статусы",
-      "subheading": "Номер күчерү сорауларыгызның статусын күзәтегез.",
+      "heading": "Портлау статусы",
+      "subheading": "Сезнең номерны күчерү сорауларының статусын күзәтегез.",
       "loading": "Йөкләнә…",
-      "loadError": "Күчерү сорауларын йөкләү уңышсыз.",
-      "none": "Әле күчерү эшчәнлеге юк.",
-      "pending": "Тикшерү көтүдә",
-      "submitted": "Операторга җибәрелде",
+      "loadError": "Порт сорауларын йөкләү уңышсыз булды.",
+      "none": "Портлау эшчәнлеге әле юк.",
+      "pending": "Карау көтелә",
+      "submitted": "Операторга тапшырылды",
       "inProgress": "Башкарыла",
-      "completed": "Тамамланды",
-      "failed": "Уңышсыз",
-      "canceled": "Баш тартылды",
-      "created": "Ясалды:",
-      "scheduled": "Планлаштырылды:",
-      "completedAt": "Тамамланды:"
+      "completed": "Тәмамланган",
+      "failed": "Failed",
+      "canceled": "Canceled",
+      "created": "Created:",
+      "scheduled": "Scheduled:",
+      "completedAt": "Completed:"
     },
-    "dataLow": "Мәгълүматыгыз аз кала.",
-    "topUp": "Хәзер тулырту",
-    "expiresIn": "{{days}} көннән бетә",
-    "exhausted": "Мәгълүматыгыз бетте. Дәвамында куллану өчен яңа пакет сатып алыгыз.",
-    "buyPack": "Мәгълүмат пакеты сатып алу",
-    "esimPackLabel": "eSIM пакеты"
-  },
-  "family": {
-    "title": "Гаилә",
-    "loading": "Гаилә мәгълүматларыгыз йөкләнә…",
+    "dataLow": "Your data is running low.",
+    "topUp": "Top up now",
+    "expiresIn": "{{days}} көннән соң вакыты чыга",
+    "exhausted": "Сезнең трафик бетте. Мобиль интернетны куллануны дәвам итү өчен яңа пакет сатып алыгыз.",
+    "buyPack": "Мәгълүмат пакеты сатып алыгыз",
+    "esimPackLabel": "eSIM пакеты",
+    "dashboardIntro": "Chatforia мобиль мәгълүматыгызны, телефон номерыгызны, eSIM көйләүләрегезне һәм план статусыгызны идарә итегез.",
+    "loading": "Сымсыз мәгълүматларны йөкләү...",
+    "phoneNumber": "Телефон номеры",
+    "viewPlans": "Планнарны карагыз",
     "error": {
-      "load": "Гаилә мәгълүматларын йөкләү уңышсыз.",
-      "invite": "Чакыру булдырып булмады. Сез гаилә хуҗасы икәнегезне тикшерегез һәм кабатлап карагыз.",
-      "checkout": "Гаилә планы өчен түләү башлап булмады. Зинһар, кабатлап карагыз."
-    },
-    "billing": {
-      "myPlanTitle": "Минем план",
-      "myPlanError": "Планыгызны йөкләп булмады.",
-      "myPlanLoading": "Планыгыз йөкләнә…",
-      "currentPlan": "Хәзерге план",
-      "renewsAt": "Яңартылу:",
-      "freePlanCopy": "Сез бушлай планда. Күбрәк үзенчәлекләрне ачу өчен яңартыгыз.",
-      "upgradeCta": "Планны яңарту",
-      "changePlanCta": "Планны үзгәртү",
-      "manageBilling": "Түләүләрне идарә итү",
-      "portalError": "Түләү порталы хәзер ачылмый.",
-      "cancelNow": "Хәзер туктату",
-      "cancelNowHelp": "Сез аккаунт порталыңда язылуны идарә итә яки туктата аласыз, яки астагы туктатуны кулланыгыз.",
-      "cancelNowConfirm": "Планыгызны шунда ук туктатырга телисезме? Бу кире кайтарылмый.",
-      "cancelNowError": "Планыгызны хәзер туктатып булмады. Зинһар, кабатлап карагыз яки Түләүләрне идарә итүне кулланыгыз."
-    },
-    "none": {
-      "title": "Әле гаилә көйләнмәгән",
-      "body": "Chatforia Гаиләсе һәм уртак мәгълүмат пулы булдыру өчен Гаилә планы башлагыз.",
-      "goUpgrade": "Гаилә планы башлау",
-      "viewPlans": "Барлык планнарны карау"
-    },
-    "group": {
-      "defaultName": "Минем Chatforia Гаиләм",
-      "role": "Ролегез: {{role}}"
-    },
-    "role": {
-      "owner": "Хуҗа",
-      "member": "Әгъза"
+      "load": "Сымсыз мәгълүматларны йөкләү уңышсыз булды."
     },
     "data": {
-      "heading": "Уртак мәгълүмат пулы",
-      "caption": "Барлык әгъзалар бу пулны уртаклаша. Чиккә якынлашканда без сезгә кисәтәчәкбез."
+      "yourData": "Сезнең мәгълүмат",
+      "caption": "Хәзерге мәгълүмат кулланылышыгызны һәм калган балансны күзәтегез.",
+      "familyLabel": "Гаилә мәгълүматы",
+      "familyCaption": "Гаилә әгъзаларыгыз арасында уртак кулланылган трафик."
     },
-    "members": {
-      "title": "Гаилә әгъзалары",
-      "name": "Исем",
-      "role": "Роль",
-      "usage": "Куллану",
-      "limit": "Чик",
-      "unlimited": "Махсус чик юк",
-      "inviteCta": "Әгъза чакыру"
+    "plan": {
+      "title": "План",
+      "noneTitle": "Актив мобиль план юк",
+      "noneBody": "Chatforia Mobile-ны активлаштыру өчен трафик пакеты сайлагыз.",
+      "noneBodyReady": "Башта eSIM-ны көйләгез, аннары әзер булгач трафик пакеты сайлагыз.",
+      "bodyActive": "Сезнең мобиль план актив.",
+      "familyLabel": "Гаилә планы",
+      "familyBody": "Бу план уртак гаилә трафик пулының бер өлеше.",
+      "manageCta": "Планны идарә итү",
+      "setupFirstCta": "Башта eSIMны көйләгез"
     },
-    "invite": {
-      "title": "Яңа әгъза чакыру",
-      "body": "Электрон почта яки сылтама җибәреп уртак гаилә мәгълүмат пулына кешеләрне чакырыгыз.",
-      "emailLabel": "Электрон почта (теләк буенча)",
-      "emailPlaceholder": "friend@example.com",
-      "create": "Чакыру булдыру",
-      "linkLabel": "Чакыру сылтамасы",
-      "copyAria": "Чакыру сылтамасын күчермәләү",
-      "expiryHint": "Бу сылтама берничә көннән бетә. Һәрвакыт яңасын булдыра аласыз."
-    },
-    "join": {
-      "title": "Гаиләгә кушылу",
-      "body": "Сез Chatforia Гаиләсенә һәм аларның мәгълүмат пулына кушылу өчен чакыру алдыгыз.",
-      "cta": "Кабул итү һәм гаиләгә кушылу",
-      "ctaLogin": "Кереп гаиләгә кушылу",
-      "success": "Сез бу гаиләгә кушылдыгыз. Хәзер сез аларның мәгълүмат пулының уртаклашасыз.",
-      "goFamily": "Гаилә панеленә күчү",
-      "error": "Сезне бу гаиләгә өстәп булмады. Чакыру яраксыз яки вакыты чыккан булырга мөмкин."
+    "esim": {
+      "title": "eSIM",
+      "heading": "eSIMны көйләгез",
+      "subheading": "Бу җайланмада Chatforia Mobile мәгълүматын куллану өчен eSIMны урнаштырыгыз.",
+      "body": "eSIM QR-кодын булдырыгыз яки ачыгыз һәм телефоныгызда активлаштыру күрсәтмәләрен үтәгез.",
+      "readyBody": "eSIM әзер. QR-кодны ача аласыз яки мобиль планыгызны идарә итүне дәвам итә аласыз.",
+      "setupCta": "eSIMны көйләү",
+      "openCta": "eSIM көйләүне ачу"
     }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Бар булган eSIMны йөкләү…",
+    "regionLabel": "Төбәк",
+    "ctaGenerate": "eSIM QR кодын булдыру",
+    "ctaRegenerate": "QR кодын яңадан булдыру",
+    "ctaReserving": "Резервлау...",
+    "generatingQr": "QR кодны булдыру...",
+    "errorReserve": "eSIMны резервлау мөмкин булмады. Зинһар, яңадан тырыгыз.",
+    "noQrAvailable": "QR код әле әзер түгел.",
+    "downloadPng": "PNG-ны йөкләү",
+    "activationCode": "Активация коды",
+    "lpaUri": " LPA URI",
+    "smdp": "SM-DP+ адресы",
+    "iccid": "ICCID",
+    "iccidHint": "ICCID бу eSIM профилен уникаль рәвештә билгели.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Хәл",
+    "secrecyNote": "Бу QR-кодны сер итеп саклагыз. Аңа керү мөмкинлеге булган һәркем eSIM урнаштыра ала.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Шалтыратулар",
+    "subtitle": "Клавиатура һәм соңгы шалтыратулар. (Әгәр сез PSTN челтәрен кулланмасагыз, шалтыратуларны сөйләшү башлыгы аша башлагыз.)",
+    "enterNumber": "Саннарны кертегез",
+    "enterNumberAria": "Саннарны кертегез",
+    "resolving": "Шалтырату максатын хәл итә…",
+    "call": "Шалтырату",
+    "callBrowser": "Браузер аша шалтырату",
+    "backspace": "Кире кайтару",
+    "recents": "Соңгы шалтыратулар",
+    "noRecents": "Соңгы шалтыратулар әле юк.",
+    "resolveFailed": "Шалтырату максатын хәл итә алмады.",
+    "callRequiredNumber": "Телефоннан шалтыратулар ясау өчен Chatforia номеры кирәк.",
+    "callFailed": "Шалтыратуны урнаштыра алмады.",
+    "deleteConfirm": "Бу шалтыратуны соңгы шалтыратулар исемлегеннән бетерергәме?",
+    "deleteFailed": "Шалтыратуны бетереп булмады.",
+    "deleteFailedLog": "Шалтыратуны бетерү уңышсыз булды",
+    "outgoing": "Чыгучы",
+    "incoming": "Керүче",
+    "missed": "Калдырылган",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "{{name}} белән шалтыратуны бетерү",
+    "enterNumberPh": "Нөмерне кертегез",
+    "recentsEmpty": "Әле яңа шалтыратулар юк.",
+    "key": "Ачкыч {{d}}"
+  },
+  "callHistory": {
+    "title": "Видео",
+    "subtitle": "Сезнең соңгы кергән һәм чыккан шалтыратуларыгыз.",
+    "loadFailed": "Шалтыратулар тарихын йөкли алмады.",
+    "loadFailedTitle": "Шалтыратулар тарихын йөкли алмады",
+    "emptyTitle": "Шалтыратулар әле юк",
+    "emptySubtitle": "Сезнең соңгы шалтыратуларыгыз монда күренәчәк.",
+    "outgoing": "Чыгучы",
+    "incoming": "Керүче",
+    "missed": "Калдырылган",
+    "declined": "Кире кагылган",
+    "failed": "Уңышсыз булган",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Турыдан-туры 1:1 видеошалтырату башларга.",
+    "findUserLabel": "Кулланучыны табарга",
+    "findUserPh": "Исем буенча яки кулланучы исеме буенча эзләргә",
+    "search": "Эзләү",
+    "call": "Шалтырату"
+  },
+  "phoneWarning": {
+    "title": "Сезнең номерыгыз тиздән эксп ың тиздән ябылачак",
+    "body": "Сезнең номерыгыз {{number}} яңадан активлаштырылмаса, {{date}} көнендә ябылачак.",
+    "button": "Санны саклап калу"
   },
   "premium": {
     "heading": "Премиумга күчү",
-    "description": "Көчле үзенчәлекләрне ачыгыз һәм рекламаларны бетерегез.",
+    "description": "Көчле функцияләрне ачу һәм рекламаны бетерү.",
     "cta": "Яңарту",
     "upgrade": "Яңарту",
-    "upgradeAria": "Chatforia Премиумына яңарту"
+    "upgradeAria": "Chatforia Premiumга күчү"
+  },
+  "premiumGuard": {
+    "requiresPremium": "Бу функция өчен Premium планы кирәк.",
+    "toUnlock": "Бу функцияне ачу өчен яңартыгыз."
   },
   "upgrade": {
     "title": "Яңарту",
     "titleLoggedIn": "Яңарту",
     "titlePublic": "Бәяләр",
     "h1": "Chatforia бәяләре һәм планнары",
-    "h1Subtitle": "Бушлай, рекламалы планнан башлагыз. Плюс белән рекламасыз булыгыз яки Премиум белән тулы көчле үзенчәлекләрне ачыгыз.",
-    "subtitle": "Кушымта планын сайлагыз, үзегез өчен мәгълүмат пакетларын өстәгез яки гаиләгез белән уртак мәгълүмат бүлешегез — барысы бер урында.",
-    "subtitle.app": "Бушлай, рекламалы планнан башлагыз. Плюс белән рекламасыз булыгыз яки Премиум белән тулы көчле үзенчәлекләрне ачыгыз.",
-    "subtitle.mobile": "Wi-Fi'дан еракта да Chatforia эшләсен өчен глобаль eSIM мәгълүматын өстәгез.",
-    "subtitle.family": "Гаиләгез өчен уртак мәгълүмат пулы булдырыгыз һәм барлык кулланучыларның куллануын бер урыннан идарә итегез.",
+    "h1Subtitle": "Безнең бушлай, рекламалы план белән башлагыз. Plus белән рекламасыз кулланыгыз, яки Premium белән тулы көчле функцияләрне ачыгыз.",
+    "subtitle": "Кушымта планын сайлагыз, үз өчен мәгълүмат пакетлары өстәгез, яки мәгълүматны гаиләгез белән бүлешегез — барысын да бер урында.",
+    "subtitle.app": "Безнең бушлай, рекламалы план белән башлагыз. Plus белән рекламасыз кулланыгыз, яки Premium белән тулы көчле функцияләрне ачыгыз Premium белән.",
+    "subtitle.mobile": "Дөньякүләм eSIM трафигын өстәгез, шул рәвешле Chatforia Wi-Fiсыз да эшли торачак.",
+    "subtitle.family": "Гаиләгез өчен уртак трафик пулын булдырыгыз һәм һәркемнең кулланышын бер урыннан идарә итегез.",
     "perMonth": "ай",
     "perYear": "ел",
-    "goPremium": "Премиумга күчү",
-    "benefitsLine": "Көчле үзенчәлекләрне ачыгыз һәм рекламаларны бетерегез.",
+    "goPremium": "Premiumга күчегез",
+    "benefitsLine": "Көчле функцияләрне ачыгыз һәм рекламаны бетерегез.",
     "ctaText": "Яңарту",
-    "aria": "Chatforia Премиумына яңарту",
+    "aria": "Chatforia Premiumга яңарту",
     "toggle": {
       "monthly": "Айлык",
-      "annual": "Еллык (30% өнәм)"
+      "annual": "Еллык (30% экономияләгез)"
     },
     "scheduleBanner": {
-      "title": "Язылу туктый",
-      "body": "Сез Бушлай планга кире кайтасыз",
-      "keepPlanCta": "{{plan}} саклау",
+      "title": "Язылу тәмамланачак",
+      "body": "Сез {{freeDate}}да бушлай версиягә кайтачаксыз",
+      "keepPlanCta": "{{plan}}ны саклап калу",
       "manageBillingCta": "Түләүләрне идарә итү"
     },
     "billing": {
@@ -783,21 +1361,26 @@
       "manage": "Түләүләрне идарә итү"
     },
     "checkout": {
-      "redirecting": "Юнәлтү…"
+      "redirecting": "Юнәлтеп җибәрү…"
     },
     "auth": {
-      "continue": "Керүгә дәвам итү",
-      "createAccount": "Аккаунт булдыру",
-      "signIn": "Керү"
+      "continue": "Керүне дәвам итү",
+      "createAccount": "Хисап язмасы булдыру",
+      "signIn": "Sign in"
     },
     "cta": {
-      "aria": "План сайлау",
-      "getPlus": "Плюска яңарту",
-      "upgradeMonthly": "Айлык яңарту",
-      "upgradeAnnual": "Еллык яңарту"
+      "aria": "План сайлагыз",
+      "getPlus": "Upgrade to Plus",
+      "upgradeMonthly": "Upgrade Monthly",
+      "upgradeAnnual": "Upgrade Annual",
+      "public": {
+        "plus": "Plusка күчү – керергә дәвам итү",
+        "premiumMonthly": "Премиумны ачу – керүне дәвам итү",
+        "premiumAnnual": "Еллык язылу белән 30% экономияләгез – керүне дәвам итү"
+      }
     },
     "section": {
-      "app": "Кушымта планнары",
+      "app": " Кушымта планнары",
       "mobile": "Мобиль (eSIM)",
       "family": "Гаилә планнары"
     },
@@ -805,993 +1388,1069 @@
       "free": {
         "title": "Бушлай",
         "price": "$0",
-        "desc": "Бушлай хәбәрләшү башлагыз. Chatforia'ны сынап карарга гына теләсәгез идеаль.",
+        "desc": " Хәбәрләшүне бушлай башлагыз. Chatforia-ны гына сынап карарга теләсәгез, идеаль.",
         "features": {
-          "chat": "Реаль вакытта 1:1 һәм төркем чатлары, тавыш һәм видео чакырулар",
-          "media": "Фото, тавышлы хәбәрләр һәм кыска видеолар уртаклашу",
-          "ai": "AI көчле акыллы җаваплар һәм шунда ук тәрҗемә (чамалап куллану)",
-          "disappearing": "Юкка чыгучы хәбәрләр һәм гадәти шәхсилек көйләүләре",
-          "ads": "Кушымтада рекламалар белән мәңгегә бушлай"
+          "chat": "Real-time 1:1 and group chat, plus voice and video calls",
+          "media": "Share photos, voice messages, and short videos",
+          "ai": "AI-powered smart replies and instant translation (fair use)",
+          "disappearing": "Югала торган хәбәрләр һәм төп шәхси мәгълүматны яклау көйләүләре",
+          "ads": "Free forever with ads in the app"
         },
         "ctaCurrent": "Хәзерге план",
-        "ctaManage": "Түләүләрдә идарә итү",
-        "ctaPublic": "Башларга — керүгә дәвам итү",
+        "ctaManage": "Түләүләрне идарә итү",
+        "ctaPublic": "Башларга – керергә дәвам итү",
         "aria": "Бушлай план"
       },
       "plus": {
-        "title": "Плюс",
+        "title": "Plus",
         "price": "$6.99",
-        "desc": "Барлык кирәкле нәрсәләр, рекламасыз. Көн саен хәбәрләшү һәм шалтырату өчен бик уңайлы.",
+        "desc": "Барлык кирәкле мөмкинлекләр, рекламасыз. Көндәлек хәбәрләшү һәм шалтырату өчен бик уңайлы.",
         "features": {
-          "allFree": "Бушлай пландагы барысы да, рекламасыз",
-          "forwarding": "Шалтыратулар һәм SMS'ларны чын телефон номерыгызга йөртү",
-          "history": "Озынрак хәбәр тарихы (6 айга кадәр)",
-          "support": "Нәрсәдер хата киткәндә тизрәк ярдәм"
+          "allFree": "Рекламасыз бушлай версиядәге барлык мөмкинлекләр",
+          "forwarding": "Шалтыратуларны һәм текстларны чын телефон номерыгызга юллау",
+          "history": "Озынрак хәбәрләр тарихы (6 айга кадәр)",
+          "support": "Нинди дә булса проблема килеп чыкса, тизрәк ярдәм"
         },
         "badge": "Популяр",
-        "cta": "Рекламасызга күчү",
-        "ctaPublic": "Плюс алу — керүгә дәвам итү",
-        "aria": "Плюска яңарту"
+        "cta": "Рекламасыз куллану",
+        "ctaPublic": "Plusка язылыгыз – керүне дәвам итегез",
+        "aria": "Plus'ка яңарту"
       },
       "premiumMonthly": {
-        "title": "Премиум (Айлык)",
+        "title": "Премиум (ай саен)",
         "price": "$11.99",
-        "desc": "Тулы Chatforia тәҗрибәсе: AI көчле кораллар, күренешне үзгәртү һәм өстенлекле ярдәм.",
+        "desc": "Тулы Chatforia тәҗрибәсе: AI көч кораллары, көйләү мөмкинлекләре һәм өстенлекле ярдәм.",
         "features": {
-          "plusAll": "Плюстагы барысы да",
-          "themes": "Барлык премиум төсләр һәм кушымта күренешләрен ачу",
-          "ai": "Яңадан язу, акыллы җаваплар һәм кыскача мәгълүматлар өчен Премиум гына AI көчле кораллары",
-          "support": "Иң кирәк вакытта өстенлекле ярдәм"
+          "plusAll": "Plusтагы барлык мөмкинлекләр",
+          "themes": "Барлык премиум төс темаларын һәм кушымта көйләүләрен ачу",
+          "ai": "Премиум - тексттаны яңадан язу, акыллы җаваплар һәм кыскача йомгаклау өчен генә AI көч коралларын",
+          "support": "Нинди дә булса проблема килеп чыкса, тизрәк ярдәм",
+          "number": "План актив булганда Chatforia номерыгызны саклагыз"
         },
-        "badge": "Тәкъдим ителә",
+        "badge": "Recommended",
         "cta": "Яңарту (Айлык)",
-        "ctaPublic": "Премиумны ачу — керүгә дәвам итү",
-        "aria": "Айлык Премиумга яңарту"
+        "ctaPublic": "Премиумны ачу – керүне дәвам итү",
+        "aria": "Премиум айлыкка яңарту"
       },
       "premiumAnnual": {
-        "title": "Премиум (Еллык)",
+        "title": " Премиум (Еллык)",
         "price": "$99",
-        "desc": "Еллык түләү белән күбрәк өнәм — өстәмә төсләр, AI кораллары һәм өстенлекле ярдәм.",
+        "desc": "Ел саен түләгәндә күбрәк экономияләгез — өстәмә төс темалары, AI кораллары һәм өстенлекле ярдәм керә.",
         "features": {
-          "allPremium": "Айлык Премиумдагы барысы да — өстәмә төсләр дә",
-          "annualBilling": "Елга бер тапкыр түләү",
-          "save25": "Айлык түләүгә караганда якынча 30% өнәм",
-          "bestFor": "Көчле кулланучылар, еракта эшләүчеләр һәм күп сәяхәт итүчеләр өчен иң яхшысы"
+          "allPremium": "Премиум айлык планында булган барлык мөмкинлекләр — өстәмә төс темалары да керә",
+          "annualBilling": "Елга бер тапкыр түләнә",
+          "save25": "Якынча 30% экономияләгез ай саен түләү белән чагыштырганда",
+          "bestFor": "Көчле кулланучылар, ерак эшләүчеләр һәм еш сәяхәт итүчеләр өчен иң яхшысы",
+          "number": "План актив булганда Chatforia номерыгызны саклагыз"
         },
-        "badge": "30% өнәм",
+        "badge": "30% экономияләгез",
         "cta": "Яңарту (Еллык)",
-        "ctaPublic": "Еллык белән 30% өнәм — керүгә дәвам итү",
-        "aria": "Еллык Премиумга яңарту",
-        "disclaimer": "Алдан түләү. Теләсә кайсы вакытта туктатырга мөмкин. Яшерен түләүләр юк."
+        "ctaPublic": "Еллык язылу белән 30% экономияләгез – керүне дәвам итегез",
+        "aria": "Премиум еллык язылуга күчү",
+        "disclaimer": "Алдан түләнә. Теләсә кайсы вакытта туктата аласыз. Яшерен түләүләр юк."
       }
     },
     "marketing": {
       "freeTitle": "Бушлай",
-      "freeDesc": "Бушлай хәбәрләшү башлагыз.",
+      "freeDesc": "Хәбәрләшүне бушлай башлагыз.",
       "plusTitle": "Плюс",
       "plusBadge": "Популяр",
-      "plusDesc": "Иң арзанлы рекламасыз тәҗрибә.",
+      "plusDesc": "Иң арзан рекламасыз тәҗрибә.",
       "premiumMonthlyTitle": "Премиум",
-      "premiumMonthlyDesc": "Тулы үзенчәлекләр, рингтоннар һәм AI көчле кораллары.",
+      "premiumMonthlyDesc": " Тулы мөмкинлекләр, рингтоннар һәм ясалма интеллект көч кораллары.",
       "premiumAnnualTitle": "Премиум",
-      "premiumAnnualDesc": "Еллык түләү белән күбрәк өнәм.",
-      "annualDisclaimer": "Алдан түләү. Теләсә кайсы вакытта туктатырга мөмкин. Яшерен түләүләр юк."
+      "premiumAnnualDesc": "Ел саен түләгәндә күбрәк экономияләгез.",
+      "annualDisclaimer": "Алдан түләнә. Теләсә кайсы вакытта туктатырга мөмкин. Яшерен түләүләр юк."
     },
     "mobile": {
-      "title": "Chatforia Мобиль (eSIM мәгълүмат пакетлары)",
-      "subtitle": "Wi-Fi'сыз да Chatforia эшләсен өчен глобаль мәгълүмат өстәгез. Бәяләр сезнең ил һәм валютага карап үзгәрә.",
-      "subtitle.detail": "Сәяхәттә яки Wi-Fi'дан еракта булганда Chatforia эшләсен өчен бер тапкыр глобаль мәгълүмат пакеты сайлагыз.",
+      "title": "Chatforia Mobile (eSIM мәгълүмат пакетлары)",
+      "subtitle": "Дөньякүләм мәгълүмат өстәгез, Wi-Fi булмаганда да Chatforia эшли торсын. Бәяләр илегезгә һәм валютагызга карап автоматик рәвештә көйләнә.",
+      "subtitle.detail": "Берсен сайлагыз -вакытлы глобаль трафик пакетын сайлагыз, шуның белән Chatforia сәяхәт иткәндә яки Wi-Fi булмаган урыннарда да эшли торачак.",
       "scope": {
         "local": "Җирле",
         "europe": "Европа",
-        "global": "Глобаль"
+        "global": " Global",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
       },
-      "note": "Без 3 ГБ астындагы мәгълүмат пакетларын сатмыйбыз.",
-      "localEquals": "Җирле = {{country}}",
-      "localEqualsFallback": "Җирле = сезнең хәзерге илегез",
-      "perPack": "/ пакет",
-      "cta": "Бу мәгълүмат пакетын алу",
-      "ctaPublic": "Бу мәгълүмат пакетын алу",
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = your current country",
+      "perPack": "/ pack",
+      "cta": "Get this data pack",
+      "ctaPublic": "Get this data pack",
       "checkout": {
-        "redirecting": "Юнәлтү…"
+        "redirecting": "Күчерә…"
       },
       "unlimited": {
         "features": {
-          "heavyUse": "Күп куллану өчен югары тизлекле мәгълүмат",
-          "throttle": "Күп кулланудан соң тизлек кимиргә мөмкин",
+          "heavyUse": "Күп куллану өчен югары тизлекле трафик",
+          "throttle": "Югары тизлекле трафик гадел куллану һәм челтәрне идарә итү кагыйдәләренә буйсына",
           "coverage": "Ышанычлы каплау",
           "instant": "Шунда ук eSIM активлаштыру",
-          "noContract": "Бер тапкыр пакет, килешү юк"
-        }
+          "noContract": "Бер тапкырлы пакет, килешү юк"
+        },
+        "title": "Чиксез пакет",
+        "data": "Чиксез",
+        "bestFor": "Кулланылган урыннарда күп куллану өчен иң яхшысы."
       },
       "disclaimer": {
-        "devices": "eSIM мәгълүмат пакетлары eSIM ярдәм ителгән һәм ачык җиһаз таләп итә. Мобиль модель, оператор һәм илгә карап булуы төрлечә."
+        "devices": "eSIM мәгълүмат пакетлары eSIM-га туры килгән һәм блокланмаган җайланма таләп итә. Бар булуы телефон моделе, оператор һәм ил буенча төрлечә. Күләм һәм тизлекләр төбәк буенча төрлечә.",
+        "fairUse": "Югары тизлекле мәгълүмат гадел куллану чикләүләренә, җирле челтәр шартларына һәм төбәк буенча бар булуга буйсынырга мөмкин."
       },
-      "small": {
-        "title": "Башлау пакеты",
-        "desc": "3 ГБ югары тизлекле мәгълүмат — җиңел хәбәрләшү һәм вакыт-вакыт шалтыратулар өчен идеаль.",
-        "price": "$9.99",
-        "data": "3 ГБ",
-        "bestFor": "Кыска сәяхәтләр, җиңел хәбәрләшү һәм вакыт-вакыт шалтыратулар",
-        "aria": "Башлау eSIM мәгълүмат пакетын сатып алу"
-      },
-      "medium": {
-        "title": "Сәяхәтче пакеты",
-        "desc": "5 ГБ югары тизлекле мәгълүмат — сәяхәтләр, эшкә йөрү һәм даими VoIP шалтыратулары өчен.",
-        "price": "$14.99",
-        "data": "5 ГБ",
-        "bestFor": "Шимбә сәяхәтләре, даими VoIP шалтыратулары һәм карталар",
-        "aria": "Сәяхәтче eSIM мәгълүмат пакетын сатып алу"
-      },
-      "large": {
-        "title": "Көчле кулланучы пакеты",
-        "desc": "10 ГБ югары тизлекле мәгълүмат — Chatforia челтәрендә авыр чат, шалтыратулар һәм видео өчен.",
-        "price": "$24.99",
-        "data": "10 ГБ",
-        "bestFor": "Авыр чат, шалтыратулар, видео һәм хот-спот куллану",
-        "aria": "Көчле кулланучы eSIM мәгълүмат пакетын сатып алу"
+      "packs": {
+        "3gb": {
+          "title": "{ {scope}} 3 ГБ"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 ГБ"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 ГБ"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 ГБ"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
       },
       "compare": {
-        "title": "eSIM мәгълүмат пакетларын чагыштыру",
+        "title": "Compare eSIM data packs",
         "col": {
           "pack": "Пакет",
-          "data": "Кертелгән мәгълүмат",
-          "bestFor": "Кем өчен яхшы"
+          "data": "Included data",
+          "bestFor": "Best for"
         },
-        "disclaimer": "Чын мәгълүмат куллануы Chatforia'ны ничек куллануыгызга (тавыш, видео, медиа һәм телефоныгыздагы башка кушымталар) бәйле."
+        "disclaimer": "Actual data usage depends on how you use Chatforia (voice, video, media, and other apps on your phone)."
+      },
+      "aria": "Chatforia Mobile eSIM мәгълүмат планнары",
+      "hero": {
+        "aria": "Chatforia Mobile герой рәсеме",
+        "subcopy": "Сәяхәт, запас элемтә һәм Wi-Fi-сыз да элемтәдә калу өчен мизгеллек eSIM мәгълүматы. "
+      },
+      "choosePack": "Мәгълүмат пакетын сайлагыз",
+      "choosePackSubtitle": "Сәяхәтегезгә яки көндәлек запас элемтә ихтыяҗларыгызга туры килгән зонаны һәм мәгълүмат күләмен сайлагыз.",
+      "badge": {
+        "popular": "Популяр",
+        "bestValue": "Иң отышлы"
+      },
+      "feature": {
+        "instant": "Шунда ук eSIM активлаштыру",
+        "coverage": "Глобаль каплау вариантлары",
+        "contracts": "Озак вакытлы килешүләр юк"
+      },
+      "card": {
+        "feature": {
+          "1": "eSIM белән туры килгән, блокланмаган җайланмаларда эшли",
+          "2": "Ачык бәяле бер тапкыр кулланыла торган трафик пакетлары",
+          "3": "Wi-Fi булмаган очракта Chatforia кулланыгыз"
+        }
+      },
+      "region": {
+        "local": "Җирле",
+        "localSubtitle": "Бер илдә элемтәдә калу өчен иң яхшысы.",
+        "europe": "Европа",
+        "europeSubtitle": "Ярдәм ителгән Европа илләре буйлап сәяхәтләр өчен менә дигән.",
+        "global": " Global",
+        "globalSubtitle": "Берничә төбәк буйлап халыкара сәяхәт өчен иң яхшысы."
+      },
+      "small": {
+        "title": "Кечкенә пакет",
+        "data": "3 GB",
+        "bestFor": "Кыска сәяхәтләр һәм җиңел хәбәрләшү өчен иң яхшысы."
+      },
+      "medium": {
+        "title": "Уртача пакет",
+        "data": "5 GB",
+        "bestFor": " Көндәлек хәбәрләшү, карталар һәм җиңел медиа өчен иң яхшысы."
+      },
+      "large": {
+        "title": "Зур пакет",
+        "data": "10 GB",
+        "bestFor": "Озын сәяхәтләр һәм авыррак кушымталар куллану өчен иң яхшысы."
+      },
+      "xl": {
+        "title": "XL пакет",
+        "data": "20 ГБ",
+        "bestFor": "Озак сәяхәтләр һәм еш видео яки медиа куллану өчен иң яхшысы."
       }
     },
     "family": {
-      "title": "Chatforia Гаиләсе (уртак мәгълүмат)",
-      "subtitle": "Гаиләгез аша бер мәгълүмат пулы бүлешегез. Бер счет, берничә Chatforia аккаунты, глобаль каплау.",
-      "perPack": "/ пакет",
+      "title": "Chatforia гаиләсе (уртак трафик)",
+      "subtitle": "Гаиләгез белән бер уртак трафик пулын бүлешегез  Бер счёт, берничә Chatforia аккаунты, бөтендөнья каплау.",
+      "perPack": "/ pack",
       "small": {
-        "title": "Гаилә Башлау",
-        "desc": "20 ГБ уртак югары тизлекле мәгълүмат — 2–3 җиңел кулланучы өчен яхшы.",
+        "title": "Family Small",
+        "desc": "20 ГБ уртак югары тизлекле трафикны үз эченә ала — 2–3 җиңел кулланучы өчен бик туры килә.",
         "price": "$29.99",
-        "aria": "Гаилә Башлау пакетын сатып алу"
+        "aria": "Family Small пакетын сатып алыгыз"
       },
       "medium": {
-        "title": "Гаилә Уртача",
-        "desc": "40 ГБ уртак югары тизлекле мәгълүмат — 3–5 актив әгъза өчен идеаль.",
+        "title": "Family Medium",
+        "desc": "40 ГБ уртак югары тизлекле мәгълүматны үз эченә ала — 3–5 актив әгъза өчен идеаль.",
         "price": "$49.99",
-        "aria": "Гаилә Уртача пакетын сатып алу"
+        "aria": "Family Medium пакетын сатып алыгыз"
       },
       "large": {
-        "title": "Гаилә Зур",
-        "desc": "80 ГБ уртак югары тизлекле мәгълүмат — һәрвакыт онлайн булган көчле гаиләләр өчен.",
+        "title": "Family Large",
+        "desc": "80 ГБ уртак югары тизлекле трафикны үз эченә ала — һәрвакыт онлайнда булган актив гаиләләр өчен.",
         "price": "$84.99",
-        "aria": "Гаилә Зур пакетын сатып алу"
+        "aria": "Гаилә зур пакетын сатып алыгыз"
       },
       "feature": {
-        "shared": "Гаиләгез өчен уртак мәгълүмат пулы",
-        "members": "4 өстәмә әгъзага кадәр чакырыгыз",
-        "membersMore": "3–5 актив әгъза өчен яхшы",
-        "manage": "Һәр әгъза өчен чикләрне идарә итү",
-        "topUp": "Теләсә кайсы вакытта күбрәк пакет өстәгез",
-        "bestValue": "ГБ өчен иң яхшы бәя",
-        "fairUse": "Чамалап куллану сәясәте һәм җирле чикләргә бәйле"
+        "shared": "Shared data pool for your family",
+        "members": "Invite up to 4 additional members",
+        "membersMore": "Great for 3–5 active members",
+        "manage": "Manage limits for each member",
+        "topUp": "Теләсә кайсы вакытта өстәмә пакетлар өстәргә",
+        "bestValue": "Best value per GB",
+        "fairUse": "Subject to fair-use policy and local limits"
       },
-      "disclaimer": "Гаилә пакетлары уртак мәгълүмат пулы булдыра яки тулырта. Сез әгъзаларны теләсә кайсы вакытта чакыра һәм бетерә аласыз.",
-      "footnote": "Гаилә пакетлары бәйләнгән Chatforia аккаунтлары аша бер мәгълүмат пулы бүлешә. Булуы һәм чикләре сезнең ил һәм җирле кагыйдәләргә бәйле."
+      "disclaimer": "Гаилә пакетлары уртак мәгълүмат пулын булдыра яки тулыландыра. Әгъзаларны теләсә кайсы вакытта чакыра һәм бетерә аласыз.",
+      "footnote": "Гаилә пакетлары бәйләнгән Chatforia аккаунтлары арасында бер уртак трафик пулын бүлешә. Күбрәк пакетларның булуы һәм чикләүләре сезнең илгә һәм җирле кагыйдәләргә бәйле."
     },
     "why": {
-      "title": "Кешеләр ни өчен Chatforia'га күчә",
-      "subtitle": "Chatforia сезгә чын телефон номеры, акыллы тәрҗемә һәм рекламасызга күчү өчен ачык юл бирә.",
+      "title": "Why people switch to Chatforia",
+      "subtitle": "Chatforia gives you a real phone number, smart translation, and a clear path to go ad-free when you’re ready.",
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
-          "body": "Бушлай планда җиңелрәк рекламалар, кирәк булгач гади Плюс яңартуы һәм TextNow тәкъдим итмәгән Премиум кораллары."
+          "body": "Lighter ads on Free, a simple Plus upgrade when you’re ready, and Premium tools TextNow doesn’t offer."
         },
         "voice": {
           "title": "Chatforia vs Google Voice",
-          "body": "Заманча кушымта, глобаль беренче дизайн һәм иске чакыру йөртү урынына эчендә төзелгән тәрҗемә."
+          "body": "Modern app, global-first design, and built-in translation instead of old-school call forwarding."
         },
         "messengers": {
-          "title": "Chatforia vs чат кушымталары",
-          "body": "Башка кушымта кулланучылары гына түгел — чын телефон номерларына SMS җибәрегез, AI һәм статус белән. TextFree яки TextMe кебек кушымталардан килсәгез бик яхшы."
+          "title": "Chatforia vs chat apps",
+          "body": "Text real phone numbers — not just other app users — with AI and status built in. Great if you’re coming from apps like TextFree or TextMe."
         }
       },
       "tableTitle": "Chatforia ничек чагыштырыла",
       "col": {
-        "feature": "Үзенчәлек"
+        "feature": "Үзенчәлек",
+        "chatforia": "12+ айга кадәр",
+        "textnow": "Хисап язмасына карап төрлечә",
+        "googleVoice": "Google Voice"
       },
       "feature": {
         "freeNumber": "Бушлай телефон номеры",
-        "translation": "Эчендә төзелгән үзеннән-үзе тәрҗемә",
-        "aiTools": "AI кораллары (яңадан язу, җаваплар, кыскача мәгълүматлар)",
-        "ads": "Рекламасыз вариант",
-        "history": "Хәбәр тарихы"
+        "translation": "Кертелгән автомат тәрҗемә",
+        "aiTools": "AI кораллары (кабат язулар, җаваплар, кыскача йомгаклар)",
+        "ads": "Ad-free option",
+        "history": "Message history"
       },
       "yes": "Әйе",
       "no": "Юк",
       "yesPremium": "Әйе (Премиум)",
       "plusPremium": "Плюс һәм Премиум",
       "limited": "Чикләнгән",
-      "nA": "Н/А",
+      "nA": "Күздә тотылмый",
       "history": {
-        "chatforia": "12+ айга кадәр",
-        "textnow": "Аккаунтка карап төрлечә",
-        "voice": "Чикләнгән / аккаунтка бәйле"
+        "chatforia": "Up to 12+ months",
+        "textnow": "Varies by account",
+        "voice": "Чикләнгән / исәп-хисапка нигезләнгән"
       },
-      "disclaimer": "Чагыштыру ачык мәгълүматларга нигезләнгән һәм вакыт үткән саен үзгәрергә мөмкин. Башка бушлай SMS кушымталары (TextFree яки TextMe) гадәттә TextNow'га охшаш."
+      "disclaimer": "Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow."
     },
     "faq": {
-      "title": "Бәяләр һәм планнар буенча сорау-җаваплар",
+      "title": "Бәяләр һәм планнар буенча еш бирелә торган сораулар",
       "free": {
-        "q": "Бушлай план чыннан да бушлаймы?",
-        "a": "Әйе. Бушлай план Chatforia номеры, шалтырату һәм рекламалар белән хәбәрләшүне үз эченә ала. Сез бушлай планда теләсә ничә озак кала аласыз яки рекламаларны бетереп күбрәк үзенчәлекләрне ачу өчен яңарта аласыз."
+        "q": "Бушлай план чынлап та бушлаймы?",
+        "a": "Әйе. Бушлай план Chatforia номерын, шалтыратуларны һәм хәбәрләрне реклама белән үз эченә ала. Сез теләсәгезчә Бушлай планда кала аласыз, яки рекламаны бетерү һәм өстәмә мөмкинлекләр ачу өчен яңарта аласыз."
       },
       "plusPremium": {
-        "q": "Плюс белән Премиум арасында нинди аермалар бар?",
-        "a": "Плюс рекламаларны бетерә һәм хәбәр тарихыгызны озайта — көн саен куллану өчен идеаль. Премиум өстәмә күренешне үзгәртү, яңадан язу һәм җаваплар өчен AI кораллары һәм авыр кулланучылар өчен өстенлекле ярдәм өсти."
+        "q": "Plus һәм Premium арасында нинди аерма бар?",
+        "a": "Plus рекламаны бетерә һәм хәбәрләр тарихын озайта — көндәлек куллану өчен идеаль. Premium өстәмә көйләү мөмкинлекләре, яңадан язу һәм җавап бирү өчен AI кораллары, шулай ук актив кулланучыларга өстенлекле ярдәм тәкъдим итә."
       },
       "esim": {
         "q": "eSIM мәгълүмат пакетлары кайда эшли?",
-        "a": "Chatforia Мобиль глобаль eSIM каплавын куллана. Булуы сезнең ил һәм җиһазга бәйле. Кушымта эчендә активлаштыру вакытында ярдәм ителгән вариантларны күрәчәксез."
+        "a": " Chatforia Mobile глобаль eSIM каплавын куллана. Бар булуы сезнең илгә һәм җайланмага бәйле. Кушымта эчендә активлаштыру вакытында хупланган вариантларны күрерсез."
       },
       "cancel": {
         "q": "Планнарны теләсә кайсы вакытта туктата яки үзгәртә аламмы?",
-        "a": "Әйе. Кушымтадагы түләү битендә язылуыгызны идарә итә яки туктата аласыз. Үзгәрешләр хәзерге түләү чоры ахырында гамәлгә кертелә."
+        "a": "Әйе. Сез язылуыгызны кушымтадагы түләүләр битеннән идарә итә яки туктата аласыз. Үзгәрешләр хәзерге түләү чоры тәмамлангач көченә керә."
       },
       "family": {
         "q": "Гаилә пакетлары ничек эшли?",
-        "a": "Гаилә пакетлары берничә Chatforia аккаунты арасында уртак мәгълүмат пулы булдыра. Бер кеше счетны түли, сез әгъзаларны чакыра/бетерә һәм һәр кеше өчен чикләр куя аласыз."
+        "a": "Гаилә пакетлары берничә Chatforia исәп язмасы арасында уртак трафик пулын булдыра. Бер кеше счетны түли , һәм сез әгъзаларны чакыра яки бетерә, шулай ук һәр кешегә чикләүләр куя аласыз."
       }
     },
-    "gettingStarted": {
-      "title": "Башларга",
-      "subtitle": "Chatforia'да яңамы? Бу тиз башлау сезгә минутлар эчендә эшләү өчен кирәкле нәрсәләрне күрсәтә.",
-      "alert": {
-        "text": "Бу белешмә яңа үзенчәлекләр чыккан саен үсәчәк. Нәрсәдер җитмәсә, ",
-        "contactLink": "Безгә языгыз"
-      },
-      "section1": {
-        "title": "1) Аккаунт булдырыгыз",
-        "signup": "Теркәлү",
-        "or": "яки",
-        "login": "керегез",
-        "loginText": "хәзерге аккаунтыгыз белән.",
-        "prefsStart": "Көйләүләрегезне куегыз",
-        "prefsLink": "көйләүләр",
-        "prefsRest": "(тел, укылганлык белдерүләре, темалар)."
-      },
-      "section2": {
-        "title": "2) Хәбәрләшү башлагыз",
-        "item1": "Шәхси яки төркем чат булдырыгыз һәм беренче хәбәрегезне җибәрегез.",
-        "item2": "100+ тел арасында сөйләшү өчен шунда ук тәрҗемәне кулланыгыз.",
-        "item3": "Профиль → Шәхсилек бүлегендә юкка чыгучы хәбәрләр һәм укылганлык белдерүләрен сынап карагыз."
-      },
-      "section3": {
-        "title": "3) Алга бару",
-        "item1": "Кушымта эчендә теләсә кайсы вакытта түләүле планга яңарта аласыз.",
-        "item2": "Кергәннән соң сез өстәмә җиһазларны бәйли һәм кушымтадагы Көйләүләрдән шифрланган резерв күчермәләр көйли аласыз."
-      },
-      "cta": {
-        "seePlans": "Планнарны карау",
-        "openSettings": "Көйләүләрне ачу"
-      }
+    "h2": {
+      "app": "Кушымта планнары"
     },
-    "helpCenter": {
-      "title": "Ярдәм үзәге",
-      "faq": {
-        "account": {
-          "q": "Аккаунтны ничек булдырырга яки торгызырга?",
-          "a": "Кушымтаны йөкләгез яки вебны кулланыгыз, “Аккаунт булдыру” басыгыз, электрон почта/телефонны раслагыз. Торгызу өчен “Серсүзне оныттым”ны кулланыгыз."
+    "oneTime": "бер тапкыр",
+    "perMonthLong": "ай саен",
+    "perYearLong": "ел саен",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "Сез сайлаган илдә Chatforia куллану өчен бер тапкыр бирелә торган 3 ГБ eSIM трафигы."
         },
-        "privacy": {
-          "q": "Хәбәрләр ахырына кадәр шифрланганмы?",
-          "a": "Әйе. Хәбәрләр һәм чакырулар көйләүдә ахырына кадәр шифрлана. Аларны бары сез һәм алучы гына укый ала."
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "Сез сайлаган илдә Chatforia куллану өчен бер тапкыр бирелә торган 5 ГБ eSIM трафигы."
         },
-        "translate": {
-          "q": "Шунда ук тәрҗемә ничек эшли?",
-          "a": "Көйләүләр → Күренеш һәм Тел бүлегендә “Үзеннән-үзе тәрҗемә”не кабызыгыз. Ярдәм ителгән җиһазларда без җиһазда тәрҗемәлибез, югыйсә минималь метадата белән имин API'лар аша."
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB бер тапкыр бирелә торган eSIM трафигы Chatforia куллану өчен сайланган иле буенча."
         },
-        "contact": {
-          "q": "Ярдәм белән элемтә",
-          "a": "support@chatforia.com адресына языгыз. Скриншотлар һәм кушымта версиясе күрсәтегез."
-        }
-      }
-    },
-    "contact": {
-      "title": "Безгә языгыз",
-      "successMsg": "Рәхмәт — безнең команда электрон почта белән җавап бирәчәк.",
-      "errorSend": "Җибәреп булмады. Зинһар, support@chatforia.com адресына языгыз.",
-      "form": {
-        "nameLabel": "Исем",
-        "emailLabel": "Электрон почта",
-        "messageLabel": "Хәбәр",
-        "sendCta": "Җибәрү"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Шәхсилек сәясәте",
-      "lastUpdated": "Соңгы яңартылу:",
-      "intro": {
-        "body": "Бу Шәхсилек сәясәте Chatforia (“без”, “безгә”) сезнең кушымталар һәм хезмәтләрне кулланганда мәгълүматны ничек җыю, куллану һәм бүлешүне аңлата. Без Chatforia'ны безгә ачык булган мәгълүматны минимальләштерү өчен төзибез."
-      },
-      "infoWeCollect": {
-        "title": "Без җыя торган мәгълүмат",
-        "account": "Аккаунт мәгълүматы (мәс., электрон почта/телефон) аккаунт булдыру һәм иминлек өчен.",
-        "encrypted": "Шифрланган эчтәлек (хәбәрләр/чакырулар) ахырына кадәр шифрлана; без аны укый алмыйбыз.",
-        "diagnostics": "Диагностика/куллану мәгълүматы (мәс., краш логлары, җиһаз төре яки төгәл булмаган аналитика) эшчәнлекне яхшырту өчен."
-      },
-      "sms": {
-        "title": "Мобиль телефон номерлары һәм SMS",
-        "body": "Әгәр сез мобиль телефон номеры бирсәгез, без аны аккаунт раслау, керү белдерүләре һәм Chatforia'да ярдәм ителгән очракта кулланучылар арасында SMS хәбәрләшү өчен кулланабыз. Без сезнең аккаунт һәм Chatforia эшчәнлеге белән бәйле транзакцион SMS хәбәрләрен җибәрә алабыз. Сез теләсә кайсы вакытта “STOP” кебек сүз җибәреп яки кушымтадагы белдерү көйләүләрен үзгәртеп SMS хәбәрләреннән чыга аласыз. Без сезнең телефон номерыгызны сатмыйбыз яки бүтән маркетинг өчен кулланмыйбыз.",
-        "newText": "Яңа текст",
-        "enterRecipient": "Исем яки номер кертегез",
-        "typeMessage": "Хәбәр языгыз…",
-        "addRecipient": "Өстәгә алучы өстәгез һәм башлагыз…"
-      },
-      "howWeUse": {
-        "title": "Мәгълүматны ничек кулланабыз",
-        "provide": "Хезмәтне тәэмин итү һәм иминлек (авторизация, спам/явызлыкны ачыклау).",
-        "improve": "Үзенчәлекләрне яхшырту (тәрҗемә сыйфаты, ышанычлылык).",
-        "legal": "Хокукый таләпләргә туры килү."
-      },
-      "sharing": {
-        "title": "Бүлешү",
-        "body": "Без шәхси мәгълүмат сатмыйбыз. Без каты килешүләр астында процессорлар белән чикләнгән мәгълүмат бүлешә алабыз (мәс., белдерүләр, аналитика)."
-      },
-      "rights": {
-        "title": "Сезнең хокукларыгыз",
-        "body": "Регионыгызга карап (мәс., GDPR/UK GDPR/CPRA) сез мәгълүматка керү, төзәтү, бетерү яки кайбер эшкәртүләрдән баш тарту сорарга мөмкин. privacy@chatforia.com адресына языгыз."
-      },
-      "retention": {
-        "title": "Мәгълүмат саклау һәм куркынычсызлык",
-        "body": "Без хезмәтне эшләтү өчен кирәкле генә мәгълүмат саклыйбыз һәм стандарт куркынычсызлык чараларын кулланабыз. E2E эчтәлекне без шифрсызландыра алмыйбыз."
-      },
-      "children": {
-        "title": "Балалар",
-        "body": "Chatforia 13 яшьтән (яки җирле закон таләп иткәнчә) кечерәк балаларга юнәлдерелмәгән."
-      },
-      "changes": {
-        "title": "Үзгәрешләр",
-        "body": "Без яңартуларны монда урнаштырачакбыз һәм “Соңгы яңартылу” датасын үзгәртәчәкбез."
-      },
-      "contact": {
-        "title": "Элемтә",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Хезмәт күрсәтү шартлары",
-      "lastUpdated": "Соңгы яңартылу:",
-      "intro": {
-        "body": "Chatforia'ны куллану белән сез бу Шартларга риза буласыз. Риза булмасагыз хезмәтне кулланмагыз."
-      },
-      "accounts": {
-        "title": "Аккаунтлар",
-        "itemAccurateInfo": "Дөрес мәгълүмат бирегез һәм логин мәгълүматларыгызны имин саклагыз.",
-        "itemResponsibility": "Аккаунтыгыздагы эшчәнлек өчен сез җаваплы."
-      },
-      "acceptableUse": {
-        "title": "Рөхсәт ителгән куллану",
-        "itemNoAbuse": "Законсыз, явызлыклы яки хокук бозучы эчтәлек юк; спам яки автоматлаштырылган явызлык юк.",
-        "itemSuspend": "Без кагыйдә бозу өчен аккаунтны туктата яки бетерә алабыз."
-      },
-      "sms": {
-        "title": "SMS элемтәләре",
-        "body": "Әгәр сез мобиль телефон номеры бирсәгез, сез Chatforia сезнең аккаунт һәм хезмәт куллануы белән бәйле SMS хәбәрләрен (мәс., керү белдерүләре, куркынычсызлык белдерүләре һәм сез башлаган яки катнашкан сөйләшүләргә бәйле хәбәрләр) җибәрә ала дип риза буласыз. Без SMS'ны промоциональ яки маркетинг хәбәрләре өчен сезнең ачык ризалыгыгыз булмыйча кулланмыйбыз. Стандарт хәбәр һәм мәгълүмат тарифлары кулланылырга мөмкин. Сез “STOP” кебек сүз җибәреп яки кушымтадагы белдерү көйләүләрен үзгәртеп теләсә кайсы вакытта SMS'тан чыга аласыз."
-      },
-      "yourContent": {
-        "title": "Сезнең эчтәлек",
-        "body": "Сез эчтәлегегезгә хокукларны саклыйсыз. Без хезмәтне эшләтү өчен кирәкле хокукларны алабыз (мәс., юнәлтү, саклау, тәрҗемә)."
-      },
-      "disclaimer": {
-        "title": "Кире кагулар һәм җаваплылык",
-        "body": "Хезмәт “ничек бар” шартта, гарантияләрсез бирелә. Закон рөхсәт иткәнчә тулысынча Chatforia кыйммәтсез зыян өчен җаваплы түгел."
-      },
-      "changes": {
-        "title": "Үзгәрешләр",
-        "body": "Без бу шартларны яңарта алабыз; үзгәрешләрдән соң куллануны дәвам итү ризалык дигән сүз."
-      },
-      "contact": {
-        "title": "Элемтә",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Шәхси мәгълүматымны сату яки бүлешүне тый",
-      "body": "Chatforia шәхси мәгълүмат сатмый. Калифорния резидентлары CPRA буенча сорау җибәрә ала, астагы төймәне кулланып.",
-      "cta": "Сорау җибәрү"
-    },
-    "cookies": {
-      "title": "Куки көйләүләре",
-      "body": "Chatforia минималь кукилар куллана (мәс., сессия, куркынычсызлык). Без өченче як реклам кукиларын кулланмыйбыз. Кукиларны браузерыгыз көйләүләре аша идарә итегез."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Телефон номеры статусын йөкләп булмады.",
-      "lock": "Блоклау",
-      "noNumberAssigned": "Номер билгеләнмәгән. SMS башлау өчен өлкә коды буенча номер сайлагыз.",
-      "pickNumber": "Номер сайлагыз",
-      "phoneNumber": "Телефон номеры"
-    },
-    "startChatModal": {
-      "title": "Чат башлау",
-      "quickPicker": "Тиз сайлагыч",
-      "to": "Кемгә",
-      "nameOrUsername": "Исем, кулланучы исеме языгыз",
-      "nameUsernamePhoneEmail": "Исем, кулланучы исеме, телефон яки электрон почта языгыз…",
-      "startWithSelected": "Сайланганнар белән чат башлау",
-      "searchByUsernameOrPhone": "Кулланучы исеме яки телефон буенча эзләү",
-      "search": "Эзләү",
-      "searchPrompt": "Кулланучы исеме яки телефон языгыз һәм Эзләү басыгыз.",
-      "pickFromContacts": "Яки контактлардан сайлагыз",
-      "addContact": "Контакт өстәү",
-      "show": "Күрсәтү",
-      "add": "Өстәү",
-      "close": "Ябу",
-      "selectedCount": "{{count}} сайланган",
-      "pickAtLeastOne": "Кимендә бер алучы сайлагыз.",
-      "saveContactsHint": "Телефон/электрон почта язмалары аларны контакт итеп саклаганнан соң булыр.",
-      "failedBulkStart": "Сайланган алучылар белән чат башлау уңышсыз.",
-      "noResults": "Нәтиҗә юк",
-      "mode": "Режим",
-      "group": "Төркем",
-      "broadcast": "Тапшыру",
-      "groupNameOptional": "Төркем исеме (теләк буенча)",
-      "firstMessageOptional": "Беренче хәбәр (теләк буенча тәкъдим ителә)",
-      "createGroup": "Төркем булдыру",
-      "sendBroadcast": "Тапшыру җибәрү"
-    },
-    "themes": {
-      "amoled": "AMOLED",
-      "aurora": "Аврора",
-      "neon": "Неон",
-      "sunset": "Кояш баю",
-      "solarized": "Соларизация",
-      "velvet": "Бархат"
-    },
-    "sounds": {
-      "freeNotice": "Сез бушлай планда — премиум тавышлар күрсәтелә, әмма бикләнгән. Барысын ачу өчен яңартыгыз.",
-      "preview": "Алдан тыңлау",
-      "resetToDefaults": "Көйләүләргә кире кайту",
-      "notificationSounds": "Белдерү тавышлары",
-      "messageTone": "Хәбәр тавышы",
-      "default": "Көйләүдәге",
-      "vibrate": "Тетрәтү",
-      "dreamer": "Хыялчы",
-      "notify": "Белдерү",
-      "pop": "Поп",
-      "pulsatingSound": "Пульсация тавышы",
-      "textMessage": "Текст хәбәре",
-      "xylophone": "Ксилофон",
-      "classic": "Классик",
-      "urgency": "Ашыгычлык",
-      "bells": "Кыңгыраулар",
-      "chimes": "Чим",
-      "digitalPhone": "Цифрлы телефон",
-      "melodic": "Мелодик",
-      "organNotes": "Орган ноталары",
-      "soundReality": "Тавыш чынбарлыгы",
-      "street": "Урам",
-      "universfield": "Универсфилд"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Бу үзенчәлек Премиум план таләп итә."
-    },
-    "aiSettings": {
-      "title": "AI көйләүләре",
-      "controlIntro": "Тәрҗемә, акыллы җаваплар һәм ForiaBot үзеннән-үзе җавап бирүне идарә итегез.",
-      "save": "AI көйләүләрен саклау",
-      "autoTranslateIncoming": "Килгән хәбәрләрне үзеннән-үзе тәрҗемә итү",
-      "showOriginalAlongside": "Оригинал текстны тәрҗемә янында күрсәтү",
-      "enableSmartReplies": "Акыллы җавапларны кабызыгыз",
-      "smartRepliesHint": "Акыллы җаваплар тәкъдим итү өчен соңгы кабул ителгән хәбәрләрне (чистартылган) AI'га җибәрегез.",
-      "maskProfanity": "AI тәкъдимнәрендә явыз сүзләрне томалау",
-      "maskProfanityHint": "Кабызганда AI кайтарган тәкъдимнәрдә билгеләнгән сүзләр томаланачак",
-      "foriaBot": "ForiaBot үзеннән-үзе җавап бирүче",
-      "enableAutoReply": "Эшләп торганда үзеннән-үзе җавап бирүне кабызыгыз",
-      "autoReplyMode": "Үзеннән-үзе җавап режимы",
-      "cooldownSeconds": "Салкын вакыт (секунд)",
-      "off": "Сүнгән",
-      "on": "Кабызган",
-      "signature": "Имза",
-      "autoReply": "Үзеннән-үзе җавап",
-      "activeUntilOptional": "Активлык вакыты (теләк буенча)",
-      "saved": "AI көйләүләре сакланды",
-      "saveFailed": "AI көйләүләрен саклау уңышсыз",
-      "translateOff": "Сүнгән",
-      "translateTagged": "Бары тик @translated яки тегланганда",
-      "translateAll": "Барлык килгән хәбәрләрне тәрҗемә итү",
-      "modeDm": "Бары 1:1 чатлар",
-      "modeMention": "Бары тик @мин теләнгәндә",
-      "modeAll": "Барлык килгән хәбәрләр"
-    },
-    "accessibilitySettings": {
-      "title": "Уңайлылык һәм белдерүләр",
-      "accessibility": "Уңайлылык",
-      "accessibilityDesc": "Тавышка таянмыйча Chatforia'ны куллануны җиңеләйтү көйләүләре.",
-      "interfaceFontSize": "Интерфейс шрифт зурлыгы",
-      "interfaceFontSizeHelp": "Гадәти зурлыктан башлый. Зуррак текст өстенлек итсәгез арттырыгыз.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Белдерүләр",
-      "notificationsDesc": "Хәбәрләр һәм чакырулар өчен визуаль белдерүләр\nБаннерлар һәм исем яртысы җемелдәсен, эшчәнлекне калдырмас өчен.",
-      "vibrateOnNew": "Яңа хәбәрләрдә тетрәтү (ярдәм ителгәндә)\nБелдерүләр белән җиһаз тетрәтүен кабызыгыз.",
-      "flashOnCall": "Килгән чакыруда экранны яктырту\nЧакыру шалтыраганда кыска яктылык.",
-      "liveCaptions": "Реаль вакытта субтитрлар (чакырулар)",
-      "captionFontSize": "Субтитр шрифт зурлыгы",
-      "captionBackground": "Субтитр фоны",
-      "light": "якты",
-      "dark": "караңгы",
-      "transparent": "үтә күренмәле",
-      "voiceNotes": "Тавышлы язмалар",
-      "autoTranscribeVoiceNotes": "Тавышлы язмаларны үзеннән-үзе транскрипцияләү",
-      "autoTranscribeVoiceNotesDesc": "Кабул иткән аудио хәбәрләргә транскрипция өстәү.",
-      "changesSavedInstantly": "Үзгәрешләр шунда ук саклана.",
-      "loadFailed": "Көйләүләрне йөкләү уңышсыз",
-      "visualAlerts": "Хәбәрләр һәм чакырулар өчен визуаль белдерүләр",
-      "visualAlertsDesc": "Баннерлар һәм исем яртысы җемелдәсен, эшчәнлекне калдырмас өчен.",
-      "vibrateOnNewShort": "Яңа хәбәрләрдә тетрәтү (ярдәм ителгәндә)",
-      "vibrateOnNewDesc": "Белдерүләр белән җиһаз тетрәтүен кабызыгыз.",
-      "flashOnCallShort": "Килгән чакыруда экранны яктырту",
-      "flashOnCallDesc": "Чакыру шалтыраганда кыска яктылык."
-    },
-    "privacySection": {
-      "strictE2EE": "Каты ахырына кадәр шифрлау",
-      "ciphertextOnlyNote": "Серверда бары шифрланган текстны саклау. AI/Тәрҗемә һәм модерация алдан каравын сүндере."
-    },
-    "linkedDevicesPanel": {
-      "title": "Бәйләнгән җиһазлар",
-      "noneFound": "Бәйләнгән җиһазлар табылмады.",
-      "refresh": "Яңарту"
-    },
-    "help": {
-      "title": "Ярдәм",
-      "howCanWeHelp": "Без ничек ярдәм итә алабыз?",
-      "helpCenter": "Ярдәм үзәге",
-      "contactUs": "Безгә языгыз",
-      "quickTopics": "Тиз темалар",
-      "searchExamples": "“тәрҗемә”, “резерв күчермәләр” яки “шәхсилек” дип эзләп карагыз.",
-      "cantLogin": "Керә алмыйм",
-      "paymentsBilling": "Түләүләр/биллинг",
-      "reportAbuse": "Явызлык турында хәбәр итү",
-      "searchHelpArticles": "Ярдәм мәкаләләрен эзләү",
-      "search": "Эзләү"
-    },
-    "peoplePage": {
-      "people": "Кешеләр",
-      "search": "Эзләү",
-      "searchPlaceholder": "Псевдоним, исем, кулланучы исеме яки телефон буенча эзләү",
-      "filterSaved": "Сакланган контактларны фильтрлау",
-      "noContactsFound": "Контактлар табылмады",
-      "quickStart": "Тиз башлау",
-      "quickStartDesc": "Берничә тиз ысул белән эшне башлагыз.",
-      "importContacts": "Контактларыгызны импортлау",
-      "add": "Өстәү",
-      "focusSearch": "Эзләүгә күчү",
-      "import": "Импортлау",
-      "findOrAdd": "Кемне дә булса табу яки өстәү",
-      "searchByPhoneOrUsername": "Телефон / кулланучы исеме буенча эзләү",
-      "inviteFriends": "Дусларны чакыру",
-      "inviteDesc": "Шунда ук сөйләшү башлау өчен чакыру сылтамасыгызны бүлешегез.",
-      "getTheApp": "Кушымтаны алу",
-      "getTheAppDesc": "Юлда элемтәдә калу өчен iOS һәм Android өчен Chatforia.",
-      "download": "Йөкләү",
-      "syncTip": "Киңәш: Хәбәрләрегез веб һәм мобиль арасында синхронлаша."
-    },
-    "randomChat": {
-      "title": "Рандом чат",
-      "description": "Шунда ук яңа кеше белән танышыгыз. Без сезне парлаштырып вакытлы чат бүлмәсе ачабыз. Башта аноним сөйләшегез. Кирәк булса дус итеп өстәгез.",
-      "findMatch": "Миңа пар тап",
-      "chatWithForia": "Foria белән сөйләшү",
-      "chatWithForiaBot": "ForiaBot белән сөйләшү",
-      "cancel": "Баш тарту",
-      "close": "Ябу",
-      "searching": "Эзләнә...",
-      "finding": "Табу...",
-      "looking": "Кемне дә булса эзлим...",
-      "startingForia": "Foria белән чат башлана...",
-      "partnerDisconnected": "Партнёрыгыз аерылып китте.",
-      "noPartner": "Хәзер партнер табылмады.",
-      "connectedTo": "{{name}} белән бәйләнгән",
-      "connected": "Бәйләнгән",
-      "idle": "Көтү",
-      "partnerLeft": "Партнёр китте.",
-      "stopped": "Туктатылды.",
-      "skip": "Сикерү",
-      "save": "Саклау",
-      "saveGuard": "Бары кеше-кеше арасындагы чатларны сакларга мөмкин",
-      "youAreChattingWith": "Сез {{name}} белән сөйләшәсез",
-      "bot": "БОТ",
-      "leave": "Чыгу",
-      "sayHi": "Сәлам әйтегез 👋",
-      "you": "Сез",
-      "typeMessage": "Хәбәр языгыз",
-      "send": "Җибәрү",
-      "partner": "Партнёр",
-      "withRia": "Рия белән",
-      "chatWithRia": "Рия белән сөйләшү",
-      "startingRia": "Рия белән чат башлана...",
-      "ageDisclaimer": "Без бары тик яшь диапазонын саклыйбыз (туган көнегезнең төгәл датасы түгел). Бу Рандом чаттагы парлыкларны акыллы итү өчен кулланыла. Кешеләр белән (бары RiaBot түгел) парлашу өчен Көйләүләр → Яшь һәм Рандом чат бүлегендә яшь диапазоныгызны куегыз.",
-      "ageBandRequired": "Кешеләр белән парлашу өчен Профиль → Яшь һәм Рандом чат бүлегендә яшь диапазоныгызны куегыз.",
-      "ageBandCallout": "Кешеләр белән (бары RiaBot түгел) парлашу өчен Көйләүләр → Яшь һәм Рандом чат бүлегендә яшь диапазоныгызны куегыз.",
-      "subtitle": "Шунда ук яңа кеше белән танышыгыз яки Рия белән сөйләшегез.",
-      "start": "Сөйләшү башлау",
-      "matching": "Парлашу...",
-      "setAge": "Кешеләр белән парлашу өчен Профиль → Яшь һәм Рандом чат бүлегендә яшь диапазоныгызны куегыз.",
-      "next": "Киләсе кеше",
-      "addFriend": "Дус итеп өстәү",
-      "requested": "Соралды",
-      "messageRia": "Рияга хәбәр...",
-      "messageMatch": "Парныгызга хәбәр..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Рия"
-    },
-    "ria": {
-      "fallbackName": "анда",
-      "intro": "Сәлам 👋 Мин Рия. Нәрсә уйлыйсыз?",
-      "greetings": {
-        "long1": "Сәлам {{name}} 👋 Мин монда. Нәрсә уйлыйсыз?",
-        "long2": "Сәлам {{name}} 😊 Бүген нәрсә турында сөйләшергә телисез?",
-        "long3": "Сәлам {{name}}!! Мин тыңлыйм — нәрсә бар?",
-        "long4": "Сезне күргәнгә шатмын, {{name}} 👋 Бүген нәрсә уйлыйсыз?",
-        "long5": "Сәлам {{name}} 😊 Сөйләргә, сорарга яки гына сөйләшергә телисезме?",
-        "long6": "Сәлам {{name}}!! Вакытым бар — нәрсә турында сөйләшергә телисез?",
-        "short1": "Сәлам {{name}}, мин әле монда. Нәрсә бар?",
-        "short2": "Кабат рәхим итегез {{name}} 👋 Тагын нәрсә өстәргә тели идегез?",
-        "short3": "Кабат килдегезме, {{name}}? 😊 Нәрсә уйлыйсыз, сөйләгез.",
-        "short4": "Сәлам {{name}} 👋 Калдырылган җирдән дәвам итәргә әзерме?",
-        "short5": "Әйе {{name}}? Мин тыңлыйм 👂",
-        "short6": "Ой сәлам {{name}}!! Яңа нәрсә уйлыйсызмы?"
-      },
-      "header": {
-        "openNav": "Навигация менюсын ачу",
-        "closeNav": "Навигация менюсын ябу",
-        "homeAria": "Chatforia баш бите"
-      },
-      "login": {
-        "welcomeBack": "Кабат рәхим итегез",
-        "title": "Chatforia'га дәвам итү",
-        "subtitleReturning": "Chatforia аккаунтыгызга керегез",
-        "subtitle": "Chatforia аккаунтыгызга керегез",
-        "google": "Google белән дәвам итү",
-        "apple": "Apple белән дәвам итү",
-        "googleUnavailable": "Google белән керү ярдәм ителми",
-        "appleUnavailable": "Apple белән керү ярдәм ителми",
-        "or": "яки",
-        "email": "Электрон почта",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Кулланучы исеме",
-        "usernamePh": "Кулланучы исемегез",
-        "passwordLabel": "Серсүз",
-        "passwordPh": "Серсүзегез",
-        "keepSignedIn": "Мине кереп торырга",
-        "forgot": {
-          "title": "Серсүзне оныттым",
-          "helper": "Chatforia аккаунтыгызны булдыру өчен кулланган электрон почтаны кертегез, без сезгә серсүзне торгызу өчен имин сылтама җибәрәбез.",
-          "emailInvalid": "Зинһар, дөрес электрон почта адресы кертегез.",
-          "genericError": "Сорауны эшкәртеп булмады. Берничә минуттан кабатлап карагыз.",
-          "sending": "Торгызу сылтамасы җибәрелә...",
-          "sendCta": "Торгызу сылтамасын җибәрү",
-          "sentLabel": "Җибәрелде!",
-          "sentHelper": "Әгәр шундый электрон почта белән аккаунт бар икән, без серсүз торгызу сылтамасы җибәрдек. Берничә минуттан килеп җитәргә мөмкин. Спам яки промо папкаларны тикшерегез.",
-          "previewDev": "Электрон почтаны алдан карау (Dev)",
-          "backToLogin": "Керүгә кире кайту"
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "Сез сайлаган илдә Chatforia куллану өчен бер тапкыр бирелә торган 20 ГБ eSIM трафигы."
         },
-        "submit": "Керү",
-        "loggingIn": "Керү...",
-        "newHere": "Яңамы? <link>Аккаунт булдырыгыз</link>",
-        "ssoUnavailable": "Бер тапкыр керү хәзер ярдәм ителми. Кулланучы исеме һәм серсүз кулланыгыз.",
-        "error": {
-          "missing": "Зинһар, логин мәгълүматларыгызны кертегез.",
-          "invalid": "Хаталы кулланучы исеме яки серсүз",
-          "denied": "Керү тыелды.",
-          "unprocessable": "Хаталы сорау. Кулланучы исеме/электрон почта һәм серсүзне тикшерегез.",
-          "deviceLimit": "Бушлай план өчен җиһаз чикләве тулды. Башка җиһазда чыгыгыз яки күбрәк җиһаз бәйләү өчен Премиумга яңартыгыз.",
-          "premiumRequired": "Бу гамәл Премиум план таләп итә."
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Сез сайлаган илдә Chatforiaны интенсив куллану өчен чиксез трафик, гадел куллану кагыйдәләренә һәм җирле челтәр мөмкинлекләренә туры килә."
         }
       },
-      "oauth": {
-        "completing": "Керү тәмамлана…"
-      },
-      "dialer": {
-        "title": "Шалтыратулар",
-        "subtitle": "Клавиатура һәм соңгылар. (PSTN кулланмасагыз, сөйләшү башындагы чакыру башлагыз.)",
-        "enterNumberPh": "Номер кертегез",
-        "call": "Шалтырату",
-        "backspace": "Бер символ бетерү",
-        "recents": "Соңгылар",
-        "recentsEmpty": "Әле соңгы шалтыратулар юк.",
-        "enterNumber": "Номер кертегез",
-        "enterNumberAria": "Номер кертегез",
-        "key": "Төймә {{d}}",
-        "noRecents": "Әле соңгы шалтыратулар юк."
-      },
-      "video": {
-        "title": "Видео",
-        "chooseType": "Видео төрен сайлагыз.",
-        "directTitle": "Туры видео",
-        "directDesc": "Башка кулланучы белән 1:1 камера чакыруы.",
-        "directStart": "Башлау",
-        "roomsTitle": "Бүлмәләр",
-        "roomsDesc": "Уртак бүлмә исеме белән күп кеше видео.",
-        "roomsIntro": "Күп кеше бүлмәсенә кушылыгыз яки булдырыгыз.",
-        "roomNameLabel": "Бүлмә исеме",
-        "roomNamePh": "мәс. team-standup",
-        "join": "Кушылу",
-        "deeplinkTip": "Киңәш: туры <code>/video?room=room-name</code> сылтамасы белән керә аласыз.",
-        "hub": {
-          "title": "Видео",
-          "subtitle": "Видео төрен сайлагыз."
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB бер тапкыр кулланыла торган eSIM трафигы Chatforia куллану өчен хупланган Европа илләрендә."
         },
-        "direct": {
-          "title": "Туры видео",
-          "subtitle": "Телефон номеры яки Chatforia кулланучы исеме белән 1:1 видео чакыру башлагыз.",
-          "desc": "Башка кулланучы белән 1:1 камера чакыруы.",
-          "start": "Башлау",
-          "callBtn": "Шалтырату",
-          "callByPhone": {
-            "title": "Телефоннан шалтырату"
-          },
-          "phone": {
-            "placeholder": "Телефон кертегез (мәс., +1-555-123-4567)",
-            "aria": "Шалтыратасы телефон"
-          },
-          "tipInvite": "Киңәш: номерны күчермәләп сакламыйча шалтыратыгыз. Без кулланучы булмаганнарны сылтама белән чакырабыз.",
-          "findUser": {
-            "title": "Кулланучы табу"
-          },
-          "search": {
-            "placeholder": "Исем яки кулланучы исеме буенча эзләү",
-            "aria": "Исем яки кулланучы исеме буенча эзләү",
-            "btn": "Эзләү"
-          }
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB бер тапкыр кулланыла торган eSIM трафигы Chatforia куллану өчен хупланган Европа илләрендә."
         },
-        "rooms": {
-          "title": "Бүлмәләр",
-          "subtitle": "Бүлмә булдырыгыз яки шул ук исемне язып хәзерге бүлмәгә кушылыгыз.",
-          "desc": "Уртак бүлмә исеме белән күп кеше видео.",
-          "roomLabel": "Бүлмә исеме",
-          "roomPlaceholder": "мәс. team-standup",
-          "roomAria": "Бүлмә исеме",
-          "joinCreate": "Кушылу / Булдыру",
-          "tip": "Киңәш: бу исемне башкалар белән бүлешегез яки <code>/video?room=room-name</code> сылтамасы белән кертегез."
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 ГБ бер тапкыр кулланыла торган eSIM трафигы Chatforia куллану өчен хупланган Европа илләрендә."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 ГБ бер тапкыр кулланыла торган eSIM трафигы Chatforia куллану өчен хупланган Европа илләрендә."
+        },
+        "unlimited": {
+          "title": "Европа Чиксез",
+          "desc": "Ярдәм ителгән Европа илләрендә Chatforiaны актив куллану өчен чиксез трафик, гадел куллану кагыйдәләре һәм җирле челтәр мөмкинлекләре чикләүләренә буйсынган."
         }
       },
-      "directVideo": {
-        "intro": "Туры 1:1 видео чакыру башлагыз.",
-        "findUserLabel": "Кулланучы табу",
-        "findUserPh": "Исем яки кулланучы исеме буенча эзләү",
-        "search": "Эзләү",
-        "call": "Шалтырату"
-      },
-      "phoneWarning": {
-        "title": "Номерыгыз тиздән бетә",
-        "body": "Сезнең {{number}} номерыгыз {{date}} көнне чыгарылачак, әгәр активлаштырылмаса.",
-        "button": "Номерыма саклау"
-      }
-    },
-    "support": {
-      "helpFab": "Ярдәм",
-      "openSupportAria": "Ярдәмне ачу",
-      "badge": "Ярдәм",
-      "heading": "Без ничек ярдәм итә алабыз?",
-      "tabs": {
-        "help": "Ярдәм үзәге",
-        "contact": "Безгә языгыз"
-      },
-      "searchPlaceholder": "Ярдәм мәкаләләрен эзләү…",
-      "searchAria": "Ярдәмне эзләү",
-      "searchBtn": "Эзләү",
-      "quickTopicsLabel": "Тиз темалар",
-      "quickTopics": {
-        "login": "Керә алмыйм",
-        "billing": "Түләүләр / биллинг",
-        "abuse": "Явызлык турында хәбәр итү"
-      },
-      "trySearching": "“тәрҗемә”, “резерв күчермәләр” яки “шәхсилек” дип эзләп карагыз.",
-      "article": "Мәкалә",
-      "openArticle": "Мәкаләне ачу",
-      "contactIntro": "Без сезгә электрон почта белән җавап бирәбез. Мәсьәләне кабатлау өчен детальләр күрсәтегез.",
-      "topicAria": "Тема сайлагыз",
-      "messagePlaceholder": "Хәбәрегезне языгыз…",
-      "sendBtn": "Җибәрү",
-      "sent": "Хәбәр җибәрелде. Без электрон почта белән җавап бирәбез.",
-      "sendError": "Җибәреп булмады. Аның урынына support@chatforia.com адресына языгыз."
-    },
-    "encryptionRecovery": {
-      "title": "Шифрлауны идарә итү",
-      "description": "Шифрлау ачкычыгызның резерв күчермәсен ясагыз, торгызыгыз, ачыгыз яки яңадан куегыз.",
-      "alert": {
-        "keyRequiredTitle": "Шифрлау ачкычы кирәк",
-        "keyRequiredBody": "Бу браузер хәзер сезнең шифрланган хәбәрләрегезне шифрсызландыра алмый. Дәвамында эшләү өчен ачкычыгызны торгызыгыз, ачыгыз яки яңадан куегыз."
-      },
-      "sections": {
-        "createBackup": "Ачкыч резерв күчермәсен булдыру",
-        "restoreFromBackup": "Аккаунт резерв күчермәсеннән торгызу",
-        "resetEncryption": "Шифрлауны ташлау"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Ачу коды (хәзерге җиһаз)",
-          "description": "Экспорт алдыннан ачкычларыгызны җиһазда шифрсызландыру өчен кулланыла"
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 ГБ бер тапкыр кулланыла торган eSIM трафигы Chatforia куллану өчен хупланган бөтендөнья юнәлешләрендә."
         },
-        "backupPassword": {
-          "label": "Резерв күчермә серсүзе",
-          "description": "Резерв күчермә файлын шифрлау өчен кулланыла"
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 ГБ бер тапкыр кулланыла торган eSIM трафигы Chatforia куллану өчен хупланган бөтендөнья юнәлешләрендә."
         },
-        "restoreBackupPassword": {
-          "label": "Резерв күчермә серсүзе",
-          "description": "iPhone'да ачкычыгызның резерв күчермәсен ясаганда куйган серсүзегез"
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 ГБ бер тапкыр кулланыла торган eSIM трафигы Chatforia өчен хупланган бөтендөнья юнәлешләрендә куллану."
         },
-        "newLocalPasscode": {
-          "label": "Яңа җиһаз коды",
-          "description": "Бу браузерда сакланган ачкычларны саклау"
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 ГБ бер тапкыр бирелә торган eSIM трафигы Chatforia куллану өчен хупланган бөтендөнья юнәлешләрендә."
         },
-        "resetLocalPasscode": {
-          "label": "Яңа җиһаз коды",
-          "description": "Яңа ачкычны бу җиһазда саклау өчен ташлау алдыннан кирәк"
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Чиксез трафик Chatforia актив кулланучылар өчен хупланган бөтендөнья юнәлешләрендә, гадел куллану кагыйдәләре һәм җирле челтәр мөмкинлекләре чикләрендә."
         }
-      },
-      "actions": {
-        "unlockKey": "Шифрлау ачкычын ачу",
-        "restoreFromBackup": "Аккаунт резерв күчермәсеннән торгызу",
-        "resetEncryption": "Шифрлауны ташлау"
-      },
-      "messages": {
-        "backupCreated": "Ачкыч резерв күчермәсе ясалды һәм йөкләнде.",
-        "keyUnlocked": "Шифрлау ачкычы ачылды.",
-        "keyRestored": "Ачкыч аккаунт резерв күчермәсеннән торгызылды.",
-        "resetSuccess": "Шифрлау уңышлы ташланды."
-      },
-      "errors": {
-        "restoreIncomplete": "Ачкыч торгызу тулы түгел яки бу аккаунт өчен хаталы",
-        "noBackup": "Бу аккаунт өчен шифрланган резерв күчермә юк",
-        "missingPublicKey": "Резерв күчермәдә ачык ачкыч юк",
-        "noServerPublicKey": "Бу аккаунт хәзер сервер ачык ачкычын ачык күрсәтми",
-        "serverBackupMismatch": "Сервер резерв күчермәсе хәзерге аккаунт шифрлау ачкычына туры килми",
-        "incompleteMetadata": "Резерв күчермә метадатасы тулы түгел",
-        "resetIncomplete": "Шифрлау ташлау дөрес тәмамланмады"
-      },
-      "confirm": {
-        "reset": "Бу аккаунт өчен шифрлауны ташларгамы?\n\nИске шифрланган хәбәрләр, әгәр сез соңрак оригиналь ачкычны торгызмасагыз, укылмаска мөмкин."
-      },
-      "resetDescription": "Бу сезнең аккаунт өчен яңа шифрлау ачкычы ясый. Иске шифрланган хәбәрләр, әгәр сез соңрак оригиналь ачкычны торгызмасагыз, укылмаска мөмкин."
-    },
-    "footer": {
-      "plans": "Планнар һәм бәяләр",
-      "about": "Chatforia турында",
-      "careers": "Эш урыннары",
-      "press": "Матбугат",
-      "advertise": "Реклама",
-      "contact": "Безгә языгыз",
-      "help": "Ярдәм үзәге",
-      "status": "Статус бите",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Шәхсилек сәясәте",
-      "terms": "Хезмәт күрсәтү шартлары",
-      "cookies": "Куки көйләүләре",
-      "doNotSell": "Мәгълүматымны сатма",
-      "language": "Тел",
-      "contactShort": "Элемтә",
-      "aria": "Аскагы өлеш",
-      "homeAria": "Chatforia баш бите",
-      "section": {
-        "company": "КОМПАНИЯ",
-        "support": "ЯРДӘМ",
-        "downloads": "ЙӨКЛӘҮ",
-        "legal": "ХОКУК"
-      },
-      "links": {
-        "plans-pricing": "Планнар һәм бәяләр",
-        "about-chatforia": "Chatforia турында",
-        "careers": "Эш урыннары",
-        "press": "Матбугат",
-        "advertise": "Реклама",
-        "getting-started": "Башларга",
-        "help-center": "Ярдәм үзәге",
-        "contact-us": "Безгә языгыз",
-        "status-page": "Статус бите",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Шәхсилек сәясәте",
-        "terms-of-service": "Хезмәт күрсәтү шартлары",
-        "do-not-sell-my-info": "Мәгълүматымны сатма",
-        "cookie-settings": "Куки көйләүләре"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Патент көтүдә",
-      "backToTop": "↑ Өскә"
-    },
-    "press": {
-      "title": "Матбугат",
-      "contactLine": "Матбугат сораулары өчен безгә языгыз",
-      "boilerplateTitle": "Стандарт мәгълүмат",
-      "boilerplateBody": "Chatforia — чикләнгән телләр арасында хәбәрләшүне җиңеләйткән шәхсилек өстенлек иткән хәбәрләшү кушымтасы. Хәбәрләр көйләүдә ахырына кадәр шифрлана, эчендә төзелгән тәрҗемә 100+ телне реаль вакытта ярдәм итә. Кулланучылар юкка чыгучы хәбәрләрне кабыза, укылганлык белдерүләрен сайлый һәм җиһазлар арасында синхронлаша ала. iOS, Android һәм вебта бар.",
-      "assetsTitle": "Бренд активлары",
-      "assetsSubtitle": "Логотиплар, скриншотлар һәм продукт рәсемнәре.",
-      "downloadCta": "Медиа китапчыгын йөкләү",
-      "downloadTitle": "Кушымтаны алу",
-      "scanTip": "Компьютердамы? Телефоныгыз белән сканерлап кушымтаны алыгыз.",
-      "qrAria": "Chatforia вебсайтын ачу",
-      "appStore": "App Store'да йөкләү",
-      "googlePlay": "Google Play'дә алу"
-    },
-    "careers": {
-      "title": "Эш урыннары",
-      "intro": "Без Chatforia — веб, iOS һәм Android'та чыгучы шәхси глобаль хәбәрләшүче төзүче кечкенә нигезләүче команда. Әгәр сез шәхсилек, шифрлау һәм рәхәт кулланучы тәҗрибәләренә кайгыртсагыз, сезнең белән сөйләшергә шат булыр идек.",
-      "openRoles": "<b>Ачык нигезләүче урыннар:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
-      "apply": "Ничек гариза бирергә: Астагы төймә белән резюмегезне һәм сылтамаларны электрон почтага җибәрегез.",
-      "emailCta": "Резюмегезне җибәрегез",
-      "whyNow": "Ни өчен хәзер кушылырга?",
-      "whyBullets": "• Яңа глобаль хәбәрләшүченең нигезен төзүдә ярдәм итегез.\n• Веб, iOS һәм Android аша кулланылучы яңартуларны чыгарыгыз.\n• Архитектура һәм продукт юнәлеше буенча нигезләүче белән туры эшләгез.\n• Стекның югары тәэсирле өлкәләрен үз кулларыгызга алыгыз: хәбәрләшү, тавыш, видео, шифрлау, телеком, AI.\n• Башта кушылыгыз — кулланучылар саны үскәнче."
-    },
-    "about": {
-      "title": "Chatforia турында",
-      "description": "Chatforia — ахырына кадәр шифрлау, шунда ук тәрҗемә һәм тавыш/видео чакырулар белән имин, күптелле хәбәрләшүче. Безнең миссия гади: кешеләрне имин, шәхси һәм телләр аша элемтәдә тотарга ярдәм итү.",
-      "valuesTitle": "Без нәрсәгә кайгыртабыз",
-      "values": {
-        "privacy": "<b>Шәхсилек өстенлек итә:</b> Көйләүдә E2E шифрлау.",
-        "access": "<b>Барысы өчен дә керү:</b> 100+ телгә үзеннән-үзе тәрҗемә.",
-        "control": "<b>Контроль:</b> Юкка чыгучы хәбәрләр һәм укылганлык белдерүләре теләк буенча.",
-        "privacy_aria": "Шәхсилек өстенлек итә: Көйләүдә E2E шифрлау.",
-        "access_aria": "Барысы өчен дә керү: 100+ телгә үзеннән-үзе тәрҗемә.",
-        "control_aria": "Контроль: Юкка чыгучы хәбәрләр һәм укылганлык белдерүләре теләк буенча."
-      },
-      "howTitle": "Chatforia ничек эшли",
-      "howDescription": "Хәбәрләр сезнең җиһазыгызда чыкканчы шифрлана. Тәрҗемә, резерв күчермәләр һәм җиһаз синхронизациясе серверларыбызның күрә ала торганын минимальләштерү өчен төзелгән."
-    },
-    "advertise": {
-      "title": "Chatforia белән реклама",
-      "description": "Тәмле, бренд өчен куркынычсыз урыннарда актив хәбәрләшүчеләрне җәлеп итегез. Без югары күренешле урыннарда баннер инвентары, спонсорлык һәм эчке промолар тәкъдим итәбез. Премиум язылучылар рекламаларны күрми.",
-      "adsense": {
-        "withPubIdShort": "Без Google AdSense аша да инвентар тәкъдим итәбез. Сез {{pubId}} нәшрият ID белән Chatforia'ны максатлаштыра аласыз яки астагы форма белән туры спонсорлык сорагыз.",
-        "noPubIdShort": "Без Google AdSense аша кайбер инвентар тәкъдим итәбез. Туры спонсорлык бар — астагы форма белән сорагыз."
-      },
-      "inventoryHeader": "Инвентар һәм үлчәмнәр",
-      "placement": {
-        "displayBadge": "Күрсәтү",
-        "acceptedSizes": "Кабул ителгән үлчәмнәр",
-        "adsenseSlot": "AdSense урыны:"
-      },
-      "noPlacementsPublic": "Без реклам инвентарыбызны тәмамлыйбыз. Кампаниягез турында сөйләгез, без сезгә урыннар тәкъдим итәбез.",
-      "whyHeader": "Chatforia ни өчен?",
-      "why": {
-        "highSession": "Чат интерфейсында югары сессия ешлыгы һәм озак вакыт",
-        "brandSafe": "Бренд өчен куркынычсыз форматлар; ихтирамлы ешлык чикләве",
-        "sponsoredMoments": "Спонсорлы моментлар (мәс., “Чат башлау” модалы) бар",
-        "deals": "Туры килешүләр яки AdSense/Google Ads аша программалы"
-      },
-      "contactHeader": "Элемтә",
-      "form": {
-        "submittedMsg": "Рәхмәт! Сорауыңыз юнәлде. Без тиздән җавап бирәбез.",
-        "missingRequired": "Зинһар, исем, электрон почта һәм хәбәрне тутырыгыз.",
-        "successToast": "Рәхмәт! Без тиздән сез белән элемтәгә чыгачакбыз.",
-        "mailtoInfo": "Сорауны җибәрү өчен электрон почта клиентыгыз ачыла…",
-        "nameLabel": "Сезнең исемегез",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "Электрон почта",
-        "emailPlaceholder": "you@company.com",
-        "companyLabel": "Компания",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Айлык бюджет (теләк буенча)",
-        "budgetPlaceholder": "мәс. $1,000–$20,000+",
-        "messageLabel": "Кампаниягез турында сөйләгез",
-        "messagePlaceholder": "Максат, даталар, KPI'лар, урыннар өстенлекләре…",
-        "sendCta": "Сорау җибәрү"
-      },
-      "legal": {
-        "disclaimerStart": "Җибәрү белән сез безнең",
-        "terms": "Шартлар",
-        "and": "һәм",
-        "privacy": "Шәхсилек сәясәтенә риза буласыз"
       }
     }
+  },
+  "billing": {
+    "myPlanTitle": "Минем план",
+    "myPlanError": "Планыгызны йөкләү мөмкин түгел.",
+    "myPlanLoading": "Планыгызны йөкли…",
+    "currentPlan": "Хәзерге план",
+    "renewsAt": "Яңартыла",
+    "activeSubscription": "Актив язылу",
+    "freePlanCopy": "Сез бушлай план буенча эшлисез. Күбрәк мөмкинлекләр ачу өчен яңартыгыз.",
+    "upgradeCta": "Планны яңарту",
+    "changePlanCta": "Планны үзгәртү",
+    "manageBilling": "Түләүләрне идарә итү",
+    "portalError": "Түләүләр порталын хәзер ача алмыйбыз.",
+    "cancelNow": "Хәзер туктату",
+    "cancelNowConfirm": "Планны шунда ук туктатырга чынлап та телисезме? Бу карар кире кайтарылмый. ",
+    "cancelNowError": "Сезнең планны хәзер туктатып булмый. Зинһар, яңадан тырышыгыз яки «Түләүләрне идарә итү»не кулланыгыз."
+  },
+  "family": {
+    "title": "Гаилә",
+    "loading": "Гаилә мәгълүматларын йөкләү…",
+    "error": {
+      "load": "Гаилә мәгълүматларын йөкләү уңышсыз булды.",
+      "invite": "Чакыру булдыра алмадык. Сез гаилә хуҗасы икәнегезгә инаныгыз һәм яңадан тырышыгыз кабат.",
+      "checkout": "Гаилә планы өчен түләүне башлап булмый. Зинһар, яңадан тырыгыз."
+    },
+    "billing": {
+      "myPlanTitle": "Минем план",
+      "myPlanError": "Планны йөкләү мөмкин түгел.",
+      "myPlanLoading": "Планны йөкләү…",
+      "currentPlan": "Хәзерге план",
+      "renewsAt": "Яңарту вакыты",
+      "freePlanCopy": "Сез бушлай планда. Күбрәк мөмкинлекләр өчен яңартыгыз.",
+      "upgradeCta": "Планны яңарту",
+      "changePlanCta": "Планны үзгәртергә",
+      "manageBilling": "Manage billing",
+      "portalError": "Түләүләр порталын хәзер ача алмыйбыз.",
+      "cancelNow": "Cancel now",
+      "cancelNowHelp": "You can manage or cancel your subscription in the billing portal, or cancel immediately below.",
+      "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+      "cancelNowError": "Хәзерге вакытта сезнең планны бетереп булмый. Зинһар, яңадан тырышыгыз яки түләүләрне идарә итүне кулланыгыз."
+    },
+    "none": {
+      "title": "Гаилә әле төзелмәгән",
+      "body": "Chatforia гаиләсен һәм уртак мәгълүмат пулын булдыру өчен, Гаилә планын башлап җибәрегез.",
+      "goUpgrade": "Гаилә планын башлап җибәрү",
+      "viewPlans": "Барлык планнарны карау "
+    },
+    "group": {
+      "defaultName": "Минем Chatforia гаиләм",
+      "role": "Сезнең роль: {{role}}"
+    },
+    "role": {
+      "owner": "Иясе",
+      "member": "Әгъза"
+    },
+    "data": {
+      "heading": "Уртак мәгълүмат пулы",
+      "caption": "Барлык әгъзалар бу пулны уртак куллана. Чиккә якынлашканда без сезне кисәтәчәкбез."
+    },
+    "members": {
+      "title": "Family members",
+      "name": "Исем",
+      "role": "Role",
+      "usage": "Куллану",
+      "limit": "Чикләү",
+      "unlimited": "Махсус чикләү юк",
+      "inviteCta": "Әгъзаны чакыру"
+    },
+    "invite": {
+      "title": "Яңа әгъзаны чакыру",
+      "body": "Уртак гаилә мәгълүмат базасына кемнедер чакыру өчен электрон почта яки сылтама җибәрегез.",
+      "emailLabel": "Электрон почта (ихтыяри)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Чакыру булдыру",
+      "linkLabel": "Чакыру сылтамасы",
+      "copyAria": "Чакыру сылтамасын күчерү",
+      "expiryHint": "Бу сылтама берничә көннән соң гамәлдән чыга. Сез һәрвакыт яңасын булдыра аласыз."
+    },
+    "join": {
+      "title": "Гаиләгә кушылу",
+      "body": "Сезне Chatforia гаиләсенә кушылып, аларның мәгълүмат пулын уртаклашырга чакырдылар. ",
+      "cta": "Чакыруны кабул итеп, гаиләгә кушылыгыз",
+      "ctaLogin": "Кереп, гаиләгә кушылыгыз",
+      "success": "Сез бу гаиләгә кушылдыгыз. Хәзер сез аларның мәгълүмат пулын уртаклашасыз.",
+      "goFamily": "Гаиләнең дашбордına күчү",
+      "error": "Сезне бу гаиләгә өстәп булмады. Чакыру дөрес булмаска яки вакыты чыккан булырга мөмкин."
+    }
+  },
+  "randomChat": {
+    "title": "Очраклы Сөйләшү",
+    "subtitle": "Яңа кеше белән шунда ук танышыгыз, яки Риа белән сөйләшергә сайлагыз.",
+    "start": "Сөйләшүне башлагыз",
+    "description": "Башта аноним рәвештә сөйләшегез. Кирәк булса, соңрак дус өстәгез.",
+    "findMatch": "Миңа туры килгән кешене тап",
+    "chatWithRia": "Риа белән сөйләш",
+    "setAge": "Профиль → Яшь һәм очраклы чат бүлегендә үз яшь диапазоныңны билгелә, кешеләр белән туры килү өчен.",
+    "idle": "Эшсез",
+    "matching": "Туры килдерү…",
+    "searching": "Эзләү…",
+    "cancel": "Туктатырга",
+    "connectionProblem": "Тоташу проблемасы",
+    "ai": "AI",
+    "anonymous": "Аноним",
+    "connectedAs": "Шулай итеп тоташтырылган ",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Кулланучы исемнәре ике як та дуслыкка өстәүне сайлаганчы яшерен кала.",
+    "riaSeparate": "Ria белән теләсә кайсы вакытта сөйләшегез — очраклы кешеләр белән туры килүдән аерым.",
+    "sendMessage": "Хәбәр җибәрү",
+    "chatEnded": "Сөйләшү тәмамланды",
+    "conversationEnded": "Әлеге сөйләшү тәмамланды.",
+    "findAnotherMatch": "Тагын бер туры килүче табу",
+    "next": "Киләсе кеше",
+    "addFriend": "Дуска өстәргә",
+    "requested": "Соралды",
+    "leave": "Чыгу",
+    "messageRia": "Riaга хәбәр җибәрү…",
+    "messageMatch": "Үз парңа хәбәр җибәрү…",
+    "chatWithForia": "Фория белән аралашу",
+    "chatWithForiaBot": "ForiaBot белән аралашу",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Фория белән чат башлау…",
+    "partnerDisconnected": "Сезнең партнер тоташуны өзде.",
+    "noPartner": "Хәзерге вакытта партнер табылмады.",
+    "connectedTo": "{{name}} белән тоташты.",
+    "connected": "Тоташты.",
+    "partnerLeft": "Партнер китте.",
+    "stopped": "Туктады. ",
+    "skip": "Скач",
+    "save": "Сакла",
+    "saveGuard": "Тик кеше-кеше аралашулары гына саклана ала",
+    "youAreChattingWith": "Син {{name}} белән аралашасың",
+    "bot": "БОТ",
+    "sayHi": "Сәлам әйт 👋",
+    "you": "Син",
+    "typeMessage": "Хәбәр языгыз",
+    "send": "Җибәр",
+    "partner": "Партнёр",
+    "withRia": "Ria белән",
+    "startingRia": "Ria белән чат башлана…",
+    "ageDisclaimer": "Без бары тик яшь диапазонын гына саклыйбыз (сезнең төгәл туган көнегез түгел). Бу Random Chat парлаштыруларын акыллы итү өчен кулланыла. Кешеләр белән (фәкать RiaBot кына түгел) туры килү өчен Профиль → Яшь һәм Random Chat бүлегендә яшь диапазоныгызны билгеләгез.",
+    "ageBandRequired": "Кешеләр белән (фәкать RiaBot кына түгел) туры килү өчен Профиль → Яшь һәм Random Chat бүлегендә яшь диапазоныгызны билгеләгез.",
+    "ageBandCallout": "Кешеләр белән (фәкать RiaBot кына түгел) туры килү өчен Профиль → Яшь һәм Random Chat.",
+    "disconnected": "Тоташу өзелде.",
+    "left": "Сез чаттан чыктыгыз."
+  },
+  "ria": {
+    "fallbackName": "бар",
+    "intro": "Сәлам 👋 Мин Риа. Сезнең нинди уйларыгыз бар?",
+    "greetings": {
+      "long1": "Сәлам {{name}} 👋 Мин монда. Син нәрсә турында уйлыйсың?",
+      "long2": "Сәлам {{name}} 😊 Бүген нәрсә турында сөйләшәсең килә?",
+      "long3": "Эй {{name}}! Мин бөтен колагым белән тыңлыйм — ни булды?",
+      "long4": "Күрешүебезгә шатмын, {{name}} 👋 Бүген ни уйлыйсың?",
+      "long5": "Эй {{name}} 🙂 Серләшәсеңме, сорауларың бармы, әллә гади генә сөйләшәсең киләме? ",
+      "long6": "Сәлам {{name}}! Минем вакытым бар — нәрсә турында сөйләшәсең килә?",
+      "short1": "Эй {{name}}, мин әле монда. Нәрсә бар?",
+      "short2": "Кабат кайтуың белән, {{name}} 👋 Башка нәрсә өстәргә телисеңме?",
+      "short3": "Тагын килдеңме, {{name}}? 😊 Акылыңда нәрсә бар, сөйлә.",
+      "short4": "Эй {{name}} ✨ Без туктаган җирдән дәвам итәргә әзерме?",
+      "short5": "Әйе {{name}}? Мин тыңлыйм 👂",
+      "short6": "О, сәлам {{name}}! Башыңда яңа нәрсә бармы?"
+    },
+    "header": {
+      "openNav": "Навигация менюсын ачу",
+      "closeNav": "Навигация менюсын ябу",
+      "homeAria": "Chatforia баш бите"
+    },
+    "login": {
+      "welcomeBack": "Кабат рәхим ит",
+      "title": "Chatforiaга дәвам итү",
+      "subtitleReturning": "Chatforia аккаунтына керегез",
+      "google": "Google белән дәвам ит",
+      "apple": "Apple белән дәвам ит",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google белән керү мөмкин түгел",
+      "appleUnavailable": "Apple белән керү мөмкин түгел",
+      "ssoUnavailable": "Бер тапкыр керү хәзер мөмкин түгел. Аның урынына кулланучы исеме һәм пароль кулланыгыз.",
+      "or": "яки",
+      "accountLabel": "Хисап язмасы",
+      "identifierPh": "Электрон почта яки кулланучы исеме",
+      "passwordLabel": "Параметр",
+      "passwordPh": "Сезнең параметрыгыз",
+      "keepSignedIn": "Мине кергән килеш калдыру",
+      "forgot": "Параметрны оныттыгызмы?",
+      "resendVerification": "Раслау электрон почтасын яңадан җибәрү",
+      "submit": "Керү",
+      "loggingIn": "Керү бара...",
+      "verification": {
+        "sent": "Раслау электрон почтасы җибәрелде. Кирмә тартмагызны тикшерегез.",
+        "failed": "Раслау электрон почтасын яңадан җибәрү уңышсыз булды."
+      },
+      "error": {
+        "missing": "Зинһар, логин һәм паролегезне языгыз.",
+        "invalid": "Логин яки пароль дөрес түгел",
+        "denied": "Керү рөхсәт ителмәде.",
+        "unprocessable": "Дөрес булмаган сорау. Файдаланучы исемегезне/электрон почтагызны һәм паролегезне тикшерегез.",
+        "deviceLimit": "Бушлай план өчен җайланма чикләве тулган. Башка җайланмада чыгып китегез яки күбрәк җайланма тоташтыру өчен Premium-планга күчегез.",
+        "premiumRequired": "Бу гамәл өчен Premium-план кирәк."
+      },
+      "forgotPassword": {
+        "title": "Парольне оныттыгызмы?",
+        "helper": "Chatforia аккаунтын булдыру өчен кулланган электрон почтагызны языгыз, һәм без сезгә парольне яңарту өчен имин сылтама җибәрербез.",
+        "emailLabel": "Электрон почта",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Зинһар, дөрес электрон почта адресын языгыз.",
+        "genericError": "Сорауны эшкәртү мөмкин түгел. Зинһар, берничә минуттан соң яңадан тырышыгыз.",
+        "sending": "Яңадан кодалау сылтамасын җибәрә...",
+        "sendCta": "Яңарту сылтамасын җибәрү",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Керүгә кире кайту"
+      },
+      "resetPassword": {
+        "title": "Параметрны яңарту",
+        "missingToken": " Ярамаган яки юк парольне яңарту токены.",
+        "missingTokenHelper": "Ярамаган яки юк токен. Зинһар, яңа парольне яңарту сылтамасын сорагыз.",
+        "passwordMismatch": "Парольләр туры килми",
+        "success": "Сезнең пароль уңышлы яңартылды",
+        "genericError": "Хата: Парольне яңартып булмый.",
+        "newPasswordLabel": "Яңа пароль",
+        "newPasswordPlaceholder": "Яңа паролегезне языгыз",
+        "confirmPasswordLabel": "Яңа парольне раслагыз",
+        "confirmPasswordPlaceholder": "Яңа паролегезне кабат языгыз",
+        "resetting": "Яңарту...",
+        "submit": "Парольне яңарту",
+        "strongPasswordHint": "Башка җирдә кулланмаган ныклы пароль сайлагыз."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Ярдәм",
+    "openSupportAria": "Ярдәмне ачу",
+    "badge": "Ярдәм",
+    "heading": "Ничек ярдәм итә алабыз?",
+    "tabs": {
+      "help": "Ярдәм үзәге",
+      "contact": "Безгә языгыз"
+    },
+    "searchPlaceholder": "Ярдәм мәкаләләрен эзләү…",
+    "searchAria": "Ярдәмне эзләү",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Тиз темалар",
+    "quickTopics": {
+      "login": "Кереп булмый",
+      "billing": "Түләүләр / исәп-хисап",
+      "abuse": "Бозуларны хәбәр итү"
+    },
+    "trySearching": "«translate», «backups» яки «privacy» сүзләрен эзләп карагыз.",
+    "article": "Мәкалә",
+    "openArticle": "Мәкаләне ачу",
+    "contactIntro": "Без моны шунда ук хәл итәргә тырышачакбыз. Әгәр бу мөмкин булмаса, безнең команда эшегезне дәвам итәчәк.",
+    "topicAria": "Теманы сайлагыз",
+    "messagePlaceholder": "Үз хәбәрегезне языгыз…",
+    "sendBtn": "Җибәрү",
+    "sent": "Хәбәр җибәрелде. Без электрон почта аша җавап бирәчәкбез.",
+    "sendError": "Җибәрә алмадык. Аның урынына support@chatforia.com адресына электрон хат җибәрегез.",
+    "actionCompleted": "Эш башкарылды.",
+    "actionFailed": "Әлеге эшне башкарып булмый. Зинһар, яңадан тырышыгыз.",
+    "ticketCreated": "Без моны автомат рәвештә хәл итә алмадык. Безнең команда сезнең мөрәҗәгатегезгә кире кайтачак.",
+    "escalationMessage": "Без моны автомат рәвештә хәл итә алмадык. Безнең команда сезнең мөрәҗәгатегезгә кире кайтачак.",
+    "genericError": "Ниндидер хата килеп чыкты. Зинһар, яңадан гына карагыз.",
+    "analyzing": "Сезнең проблеманы тикшерәбез...",
+    "takeAction": "Киңәш ителгән гамәлне башкарыгыз",
+    "resolvedInstantly": "Мәсьәлә шунда ук хәл ителде — билет кирәкми.",
+    "escalating": "Ярдәмгә күчерәбез...",
+    "takeRecommendedAction": "Киңәш ителгән гамәлне башкарыгыз"
+  },
+  "help": {
+    "title": "Ярдәм",
+    "howCanWeHelp": "Без сезгә ничек ярдәм итә алабыз?",
+    "helpCenter": "Ярдәм үзәге",
+    "contactUs": "Безнең белән элемтәгә керегез",
+    "quickTopics": "Тиз темалар",
+    "searchExamples": "Сынап карагыз: \"translate\", \"backups\" яки \"privacy\" сүзләрен эзләгез.",
+    "cantLogin": "Кереп булмый",
+    "paymentsBilling": "Түләүләр/хисап-хисап",
+    "reportAbuse": "Злоупотребление турында хәбәр итү",
+    "searchHelpArticles": "Ярдәм мәкаләләрен эзләү",
+    "search": "Эзләү"
+  },
+  "helpCenter": {
+    "title": "Ярдәм үзәге",
+    "faq": {
+      "account": {
+        "q": "Ничек аккаунтымны булдыру яки торгызу?",
+        "a": "Кушымтаны йөкләгез яки веб-версияне кулланыгыз, \"Аккаунт булдыру\" төймәсенә басыгыз, электрон почтагызны/телефоныгызны раслагыз. Сез парольне оныттыгызмы? – \"Парольне оныттым\" функциясен кулланыгыз."
+      },
+      "privacy": {
+        "q": "Хәбәрләр баштан-ахыргача шифрланамы?",
+        "a": "Әйе. Хәбәрләр һәм шалтыратулар стандарт рәвештә баштан-ахыргача шифрлана. Аларны бары тик сез һәм кабул итүче укый ала."
+      },
+      "translate": {
+        "q": "Тиз тәрҗемә ничек эшли?",
+        "a": "Көйләүләр → Күренеш һәм Тел бүлегендә «Авто-тәрҗемә»не кабызыгыз. Без мөмкин булган җайланмада тәрҗемә итәбез, юк икән — минималь метаданны кулланып, куркынычсыз APIлар аша башкарабыз."
+      },
+      "contact": {
+        "q": "Ярдәмгә мөрәҗәгать итү",
+        "a": "Безгә support@chatforia.com адресына языгыз. Скриншотларны һәм кушымтагызны версия."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Башлап эшләү",
+    "subtitle": "Chatforia белән яңа танышасызмы? Бу тиз башлангыч төп нечкәлекләрне күрсәтә, шуның белән сез берничә минут эчендә нәтиҗәле эшләячәксез.",
+    "alert": {
+      "text": "Бу кулланма без яңа функцияләр керткән саен үсәчәк. Әгәр дә нәрсәдер җитми икән, безгә хәбәр итегез",
+      "contactLink": "Безнең белән элемтәгә керегез"
+    },
+    "section1": {
+      "title": "1) Үз исәп язмагызны булдырыгыз",
+      "signup": "Теркәлегез",
+      "or": "яки",
+      "login": "Керегез",
+      "loginText": "бар булган исәп язмагыз белән.",
+      "prefsStart": "Кушымтада өстенлекләрегезне көйләү өчен Көйләүләрне ачыгыз",
+      "prefsLink": "preferences",
+      "prefsRest": "(тел, укылу раслаулары, темалар)."
+    },
+    "section2": {
+      "title": "2) Хәбәрләшүне башлап җибәрү",
+      "item1": "Шәхси хәбәр (DM) яки төркем булдырыгыз һәм беренче хәбәрегезне җибәрегез.",
+      "item2": "100+ телдә аралашу өчен тиз тәрҗемә функциясен кулланыгыз.",
+      "item3": "Профиль → Шәхси мәгълүмат бүлегендә югала торган хәбәрләрне һәм укылу раслауларын сынап карагыз."
+    },
+    "section3": {
+      "title": "3) Тагын да алга",
+      "item1": "Кушымта эчендә теләсә кайсы вакытта түләүле планга күчә аласыз.",
+      "item2": "Кергәннән соң, өстәмә җайланмаларны тоташтыра һәм кушымтаның Параметрлары бүлегеннән шифрланган резерв күчермәләрне көйли аласыз.",
+      "item2Part1": "Кергәннән соң, өстәмә җайланмаларны тоташтыра һәм кушымтаның Параметрлары бүлегеннән шифрланган резерв күчермәләрне көйли аласыз."
+    },
+    "cta": {
+      "seePlans": " Планнар һәм бәяләрне карагыз",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "How Chatforia Works",
+    "intro": "Chatforia is designed to make communication simple, fast, and accessible. Getting started takes just a few steps.",
+    "step1Title": "1. Create an Account",
+    "step1Desc": "Sign up using your email or username to create your Chatforia account.",
+    "step2Title": "2. Start a Conversation",
+    "step2Desc": "Connect with others by selecting contacts or starting new chats.",
+    "step3Title": "3. Real-Time Messaging",
+    "step3Desc": "Messages are delivered quickly to provide a smooth communication experience.",
+    "step4Title": "4. Global Communication",
+    "step4Desc": "Built-in translation helps users communicate across different languages.",
+    "step5Title": "5. Stay in Control",
+    "step5Desc": "Manage your preferences, contacts, and communication settings."
+  },
+  "safety": {
+    "title": "Safety & Community Guidelines",
+    "intro": "Chatforia is committed to maintaining a safe and respectful environment for all users. These guidelines help ensure a positive experience for everyone.",
+    "respectTitle": "Respectful Communication",
+    "respectDesc": "Users are expected to communicate respectfully. Harassment, abuse, or harmful behavior is not permitted.",
+    "prohibitedTitle": "Prohibited Content",
+    "prohibited": {
+      "illegal": "Illegal activities",
+      "harassment": "Harassment or bullying",
+      "hate": "Hate speech or discrimination",
+      "explicit": "Explicit or harmful material",
+      "spam": "Spam or deceptive practices"
+    },
+    "toolsTitle": "User Safety Tools",
+    "tools": {
+      "report": "Report inappropriate behavior or content",
+      "block": "Block users to prevent further interaction",
+      "control": "Manage privacy and communication settings"
+    },
+    "enforcementTitle": "Enforcement",
+    "enforcementDesc": "We may take action against accounts that violate these guidelines, including warnings, restrictions, or permanent removal from the platform."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Нигә хәбәрләшү платформалары элеккегә караганда да әһәмиятлерәк",
+      "intro": "Хәбәрләшү платформалары бүгенге дөньяда аралашу өчен иң мөһим коралларның берсенә әйләнде. Шәхси сөйләшүләрдән алып эшлекле элемтәләргә кадәр, хәбәрләшү кушымталары кешеләргә шунда ук һәм нәтиҗәле рәвештә элемтәдә булырга мөмкинлек бирә.",
+      "everydayTitle": "Көндәлек аралашу",
+      "everydayDesc": "\n Кешеләр дуслар, гаилә һәм хезмәттәшләр белән көндәлек аралашу өчен хәбәрләшү кушымталарына таяна. Кыска хәбәр булсынмы, озын сөйләшү булсынмы, хәбәрләшү элемтәдә тору өчен уңайлы һәм сыгылмалы ысул булып тора.",
+      "speedTitle": "Скорость һәм уңайлылык",
+      "speedDesc": "Хәбәрләшү платформаларының төп өстенлекләренең берсе – аларның тизлеге. Хәбәрләр шунда ук җибәрелә, бу кулланучыларга реаль вакытта аралашырга мөмкинлек бирә. Бу дәрәҗәдәге уңайлылык хәбәрләшүне күпләр өчен өстен ысулга әйләндерде.",
+      "globalTitle": "Глобаль ирешү",
+      "globalDesc": "Хәбәрләшү платформалары бөтен дөнья буйлап кешеләрне тоташтыра. Интернетка тоташу мөмкинлеге булганда, кулланучылар урыннарыннан бәйсез рәвештә аралаша алалар, бу мөнәсәбәтләр коруны һәм халыкара хезмәттәшлекне җиңеләйтә.",
+      "privacyTitle": "Шәхси тормыш һәм контроль ",
+      "privacyDesc": "Заманча хәбәрләшү платформалары кулланучыларга үз мәгълүматлары һәм сөйләшүләре өстеннән контроль бирүгә юнәлтелгән. Шифрлау, шәхси көйләүләр һәм хәбәрләрне идарә итү кебек функцияләр кулланучыларга ышаныч белән аралашырга мөмкинлек бирә.",
+      "futureTitle": "Хәбәрләшүнең киләчәге",
+      "futureDesc": "Хәбәрләшү ясалма интеллект нигезендәге җаваплар, тәрҗемә һәм мультимедиа уртаклашу кебек яңа функцияләр белән үсүен дәвам итә. Технологияләр үскән саен, хәбәрләшү платформалары тагын да көчлерәк һәм күпкырлы булачак.",
+      "outro": "Chatforia шушы принципларны истә тотып төзелгән, тоташкан дөнья өчен тиз, куркынычсыз һәм кулланучыга уңайлы хәбәрләшү тәҗрибәсе тәкъдим итә."
+    },
+    "global": {
+      "title": "Глобаль аралашуның киләчәге",
+      "intro": "Соңгы берничә дистә елда аралашу тиз үсеш алды. Элек телефон шалтыратулар яки шәхси очрашулар таләп ителгән эшләр хәзер хәбәрләшү платформалары аша тиз генә башкарыла ала. Технологияләр үсеш алган саен глобаль аралашу тизрәк, җиңелрәк һәм киңрәк була бара.",
+      "barriersTitle": "Киртәләрне җимерү",
+      "barriersDesc": "Элемтәдә иң зур үзгәрешләрнең берсе – географик киртәләрнең кимүе. Хәзер кешеләр бөтен дөнья буйлап диярлек чын вакытта элемтәгә керә ала. Шәхси сөйләшүләр, бизнес яки хезмәттәшлек өчен булсынмы, хәбәрләшү платформалары ераклыкны күпкә чикләми.",
+      "translationTitle": "Тәрҗемә технологиясенең роле",
+      "translationDesc": "Тел традицион рәвештә глобаль аралашуда иң зур киртәләрнең берсе булды. Бүгенге көндә урнаштырылган тәрҗемә кораллары бу аерманы бетерергә ярдәм итә. Chatforia кебек платформалар кулланучыларга төрле телләрдә сөйләшсәләр дә җиңелрәк аралашырга мөмкинлек бирә, бу элемтә һәм аңлау өчен яңа мөмкинлекләр тудыра.",
+      "realtimeTitle": "Чын вакытта тоташу",
+      "realtimeDesc": "Скорость заманча аралашуны формалаштыручы төп фактор. Кулланучылар хәбәрләрнең тиз килеп ирешүен көтә, һәм заманча инфраструктура бу өметне канәгатьләндерә. Чын вакытта хәбәрләшү табигый һәм агымлырак сөйләшүләрне мөмкин итә.",
+      "privacyTitle": "Шәхси мәгълүматны саклау һәм куркынычсызлык",
+      "privacyDesc": "Хәбәрләшү күбрәк санлы форматка күчкән саен шәхси мәгълүматны саклау һәм куркынычсызлык әһәмиятле була бара. Кулланучылар сөйләшүләренең саклануына ышанырга тели. Шифрлау һәм кулланучы контролендәге көйләүләр кебек функцияләр куркынычсызрак аралашу тәҗрибәсен тәэмин итәргә ярдәм итә.",
+      "futureTitle": "Киләсе нәрсә",
+      "futureDesc": "Глобаль аралашуның киләчәге, мөгаен, AI ярдәмендә хәбәрләшү, камилләштерелгән тәрҗемә һәм яхшыртылган кулланучы тәҗрибәләре кебек тагын да алгарышлы коралларга ия булачак. Технология үскән саен аралашу тагын да интуитиврак һәм җиңелрәк булачак.",
+      "outro": "Chatforia кебек платформалар бу үзгәрешнең бер өлеше булып тора, кешеләргә телләр һәм чикләр аша җиңелрәк элемтәгә керергә ярдәм итә."
+    },
+    "index": {
+      "title": "Chatforia блогы",
+      "intro": "Элемтә, онлайн куркынычсызлык һәм хәбәрләшү технологияләре дөнья буйлап кешеләрне ничек тоташтыра икәнлеге турында мәгълүмат белән танышыгыз.",
+      "post1": "Интернетта куркынычсыз ничек аралашырга",
+      "post2": "\n Глобаль аралашуның киләчәге",
+      "post3": "Нигә хәбәрләшү платформалары мөһим"
+    },
+    "chatSafely": {
+      "title": "Интернетта хәвефсез ничек аралашырга",
+      "intro": "Онлайн аралашу дөнья буйлап кешеләр белән элемтәгә керүне элеккегә караганда күпкә җиңеләйтте. Дуслар белән хәбәрләшү, яңа кешеләр белән танышу яки һөнәри хезмәттәшлек итү — хәбәрләшү платформалары көндәлек тормышта зур роль уйный. Ләкин элемтәдә калу кебек үк, интернетта хәвефсезлек тә мөһим.",
+      "personalInfo": {
+        "title": "Шәхси мәгълүматыгызны саклагыз",
+        "body": "Онлайн куркынычсызлыкның иң мөһим кагыйдәләренең берсе — сизгер шәхси мәгълүматны уртаклашмау. Бу өй адресыгызны, финанс мәгълүматларыгызны, парольләрегезне яки ялгыш кулланылырга мөмкин булган башка шәхси мәгълүматны үз эченә ала. Гади аралашуларда да нәрсәне һәм кем белән уртаклашачагыгызны истә тоту яхшы."
+      },
+      "safetyFeatures": {
+        "title": "Кертелгән куркынычсызлык функцияләрен кулланыгыз",
+        "body": "Chatforia кебек заманча хәбәрләшү платформалары кулланучыларга куркынычсыз булырга ярдәм итүче кораллар тәкъдим итә. Блоклау, хәбәр итү һәм шәхси мәгълүматны яшерү көйләүләре кебек функцияләр кулланучыларга үз тәҗрибәләрен контрольдә тотарга мөмкинлек бирү өчен эшләнгән. Әгәр дә кемдер ярамаганча тотына яки сезне уңайсыз хәлдә калдыра икән, бу коралларны шунда ук кулланырга кирәк."
+      },
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
+      },
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
+      },
+      "whySafety": {
+        "title": "Нигә онлайн куркынычсызлык мөһим",
+        "body": "Цифрлы элемтә үсә барган саен куркынычсызлыкны һәм ышанычны саклау тагын да әһәмиятлерәк була. Төп куркынычсызлык кагыйдәләрен үтәп һәм бар булган коралларны кулланып, кулланучылар хәбәрләшүнең өстенлекләреннән файдалана алалар һәм куркынычларны киметә алалар."
+      },
+      "conclusion": "Онлайнда куркынычсыз булу өчен катлаулы техник белемнәр кирәкми — бары тик хәбәрдарлык, саклык һәм дөрес фикерләү сәләте. Дөрес гадәтләр белән сез ышанычлы итеп аралаша аласыз һәм имин рәвештә."
+    }
+  },
+  "about": {
+    "title": "About Chatforia",
+    "description": "Chatforia is a secure, multilingual messenger with end-to-end encryption, instant translation, and voice/video calling. Our mission is simple: help people connect—safely, privately, and across languages.",
+    "valuesTitle": "What we value",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
+    },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Privacy-first",
+    "privacyDesc": "End-to-end encryption and privacy controls are built into Chatforia from the start.",
+    "accessTitle": "Access for everyone",
+    "accessDesc": "Chatforia helps people connect across languages, devices, and borders.",
+    "controlTitle": "Your control",
+    "controlDesc": "Choose how messages appear, when they disappear, and how your account stays protected."
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
+    "why": {
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
+    },
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
+    },
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+    },
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
+    },
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
+    },
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
+    },
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+    },
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Refund Policy",
+    "lastUpdated": "Last updated:",
+    "intro": "At Chatforia, we strive to provide a high-quality service to all users. This Refund Policy outlines when refunds may be issued.",
+    "subscriptions": {
+      "title": "Subscriptions",
+      "body": "Subscriptions are billed in advance on a recurring basis. You may cancel at any time through your account settings or the platform used to purchase."
+    },
+    "eligibility": {
+      "title": "Refund Eligibility",
+      "body": "Refunds may be granted for duplicate charges, billing errors, or technical issues preventing access to paid features. All requests are reviewed case-by-case."
+    },
+    "nonRefundable": {
+      "title": "Non-Refundable",
+      "body": "We generally do not provide refunds for unused time, partial subscription periods, or failure to cancel before renewal."
+    },
+    "thirdParty": {
+      "title": "Third-Party Purchases",
+      "body": "If purchased through third-party platforms such as the Apple App Store, refunds must be requested directly through those platforms."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
+    },
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
+    },
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
+    },
+    "help": {
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
+    },
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

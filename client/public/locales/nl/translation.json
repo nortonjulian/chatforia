@@ -9,7 +9,15 @@
     "copied": "Gekopieerd!",
     "errorWithMessage": "Fout: { {message}}",
     "loading": "Bezig met laden…",
-    "saveError": "Opslaan mislukt"
+    "saveError": "Opslaan mislukt",
+    "clear": "Wissen",
+    "error": "Fout",
+    "learnMore": "Meer informatie",
+    "retry": "Opnieuw proberen",
+    "send": "Verzenden",
+    "showOriginal": "Origineel weergeven",
+    "showTranslation": "Vertaling weergeven",
+    "undo": "Ongedaan maken"
   },
   "a11y": {
     "skipToMain": "Ga naar hoofdinhoud"
@@ -19,14 +27,14 @@
     "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Sleutelback-up aangemaakt en gedownload ✓",
-    "restored": "Sleutelback-up hersteld ✓ Sleutels lokaal geïnstalleerd",
+    "backupCreated": "Back-up van sleutels gemaakt en gedownload ✓",
+    "restored": "Back-up van sleutel hersteld ✓ Sleutels lokaal geïnstalleerd",
     "noBackup": "Er bestaat geen versleutelde back-up voor dit account",
     "missingPublicKey": "Er ontbreekt een openbare sleutel in de back-up"
   },
   "keySetup": {
-    "title ": "Stel de sleutels van je apparaat in",
-    "description": "Dit apparaat heeft je privésleutel nog niet. Importeer een met een wachtwoord beveiligde back-up of genereer een nieuw sleutelpaar (je kunt vanaf nu nieuwe berichten lezen).",
+    "title": "Stel de sleutels van uw apparaat in",
+    "description": "Dit apparaat heeft uw privésleutel nog niet. Importeer een met een wachtwoord beveiligde back-up of genereer een nieuw sleutelpaar (u kunt vanaf nu nieuwe berichten lezen).",
     "chooseFile": "Kies een bestand en voer het wachtwoord in.",
     "imported": "Privésleutel geïmporteerd naar dit apparaat. U kunt nu oude berichten lezen.",
     "enterPassword": "Voer het wachtwoord van uw account in, zodat we een veilige back-up van uw sleutels kunnen maken."
@@ -34,9 +42,11 @@
   "encryptionRecovery": {
     "title": "Versleuteling beheren",
     "description": "Maak een back-up van uw versleutelingssleutel, herstel deze, ontgrendel deze of reset deze.",
-    " alert": {
+    "alert": {
       "keyRequiredTitle": "Versleutelingssleutel vereist",
-      "keyRequiredBody": "Deze browser kan je versleutelde berichten momenteel niet ontsleutelen. Herstel, ontgrendel of reset je sleutel om door te gaan."
+      "keyRequiredBody": "Deze browser kan je versleutelde berichten momenteel niet ontsleutelen. Herstel, ontgrendel of reset je sleutel om door te gaan.",
+      "lockedTitle": "Berichten zijn vergrendeld",
+      "lockedBody": "Herstel of ontgrendel uw versleutelingssleutel om versleutelde berichten op dit apparaat te lezen."
     },
     "sections": {
       "createBackup": "Maak een back-up van de sleutel",
@@ -52,51 +62,78 @@
         "label": "Back-upwachtwoord",
         "description": "Wordt gebruikt om het back-upbestand te versleutelen"
       },
-      "restoreBackupPass word": {
+      "restoreBackupPassword": {
         "label": "Back-upwachtwoord",
         "description": "Het wachtwoord dat u hebt aangemaakt bij het maken van een back-up van uw sleutel op de iPhone"
       },
       "newLocalPasscode": {
         "label": "Nieuwe lokale toegangscode",
-        "description": "Bescherm sleutels in rust in deze browser"
+        "description": "Beveilig sleutels in rust op deze browser"
       },
       "resetLocalPasscode": {
         "label": "Nieuwe lokale toegangscode",
-        "description": "Vereist vóór het resetten, zodat de nieuwe sleutel op dit apparaat wordt beschermd"
+        "description": "Vereist vóór het resetten, zodat de nieuwe sleutel op dit apparaat wordt beveiligd "
+      },
+      "devicePasscode": {
+        "label": "Apparaatwachtwoord",
+        "description": "Voer het wachtwoord in dat wordt gebruikt om sleutels op dit apparaat te beveiligen."
+      },
+      "newDevicePasscode": {
+        "label": "Nieuwe apparaatcode",
+        "description": "Maak een code aan om sleutels op dit apparaat te beveiligen."
+      },
+      "resetDevicePasscode": {
+        "label": "Nieuwe apparaatcode",
+        "description": "Maak een code aan voor de nieuwe versleutelingssleutel op dit apparaat."
       }
     },
     "actions": {
       "unlockKey": "Versleutelingssleutel ontgrendelen",
-      "restoreFromBackup": " Herstel vanuit accountback-up",
-      "resetEncryption": "Versleuteling resetten"
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Versleuteling resetten",
+      "advancedRecovery": "Geavanceerd herstel",
+      "restoreChats": "Chats herstellen",
+      "restoreEncryptedChats": "Versleutelde chats herstellen",
+      "startFreshEncryption": "Nieuwe versleuteling starten",
+      "unlockMessages": "Berichten ontgrendelen"
     },
     "messages": {
-      "backupCreated": "Back-up van sleutel gemaakt en gedownload.",
+      "backupCreated": "Sleutelback-up aangemaakt en gedownload.",
       "keyUnlocked": "Versleutelingssleutel ontgrendeld.",
       "keyRestored": "Sleutel hersteld vanuit accountback-up.",
       "resetSuccess": "Versleuteling succesvol gereset."
     },
     "errors": {
-      "restoreIncomplete": "Herstel van sleutel onvolledig of onjuist voor dit account",
+      "restoreIncomplete": "Sleutelherstel onvolledig of onjuist voor dit account",
       "noBackup": "Er bestaat geen versleutelde back-up voor dit account",
       "missingPublicKey": "Er ontbreekt een openbare sleutel in de back-up",
       "noServerPublicKey": "Dit account geeft momenteel geen openbare serversleutel vrij",
       "serverBackupMismatch": "De serverback-up komt niet overeen met de huidige versleutelingssleutel van het account",
-      "incompleteMetadata": "De metagegevens van de back-up zijn onvolledig",
-      "resetIncomplete": "Het resetten van de versleuteling is niet correct voltooid "
+      "incompleteMetadata": "Metadata van back-up is onvolledig",
+      "resetIncomplete": "Het resetten van de versleuteling is niet correct voltooid",
+      "resetFailed": "Versleuteling kon niet worden gereset. Probeer het opnieuw.",
+      "restoreFailed": "Uw versleutelingssleutel kon niet worden hersteld. Controleer uw back-up en wachtwoord.",
+      "unlockFailed": "Uw versleutelingssleutel kon niet worden ontgrendeld. Controleer uw toegangscode en probeer het opnieuw."
     },
     "confirm": {
       "reset": "Versleuteling voor dit account resetten?\n\nOudere versleutelde berichten kunnen onleesbaar worden, tenzij u de oorspronkelijke sleutel later herstelt."
     },
-    "resetDescription": "Hiermee wordt een nieuwe versleutelingssleutel voor uw account gegenereerd. Oudere versleutelde berichten kunnen onleesbaar worden, tenzij u de oorspronkelijke sleutel later herstelt."
+    "resetDescription": "Hiermee wordt een nieuwe versleutelingssleutel voor uw account gegenereerd. Oudere versleutelde berichten kunnen onleesbaar worden, tenzij u de oorspronkelijke sleutel later herstelt.",
+    "danger": {
+      "title": "Nieuwe versleuteling starten",
+      "body": "Hiermee wordt een nieuwe versleutelingssleutel aangemaakt. Oudere versleutelde berichten kunnen onleesbaar worden, tenzij u de oorspronkelijke sleutel later herstelt."
+    },
+    "simpleTitle": "Versleutelde berichten ontgrendelen",
+    "simpleDescription": "Gebruik de toegangscode van uw apparaat of herstel een back-up om versleutelde berichten te ontgrendelen.",
+    "restoreDescription": "Herstel uw versleutelde chatsleutel vanuit een back-up die beveiligd is met uw back-upwachtwoord."
   },
   "smsConsent": {
-    "label": "Ik geef toestemming om sms-meldingen en waarschuwingen te ontvangen van {{companyName}}. De frequentie van de berichten kan variëren. Er kunnen sms- en datakosten van toepassing zijn. Antwoord <stop>STOP</stop> om je op elk moment af te melden. Antwoord <help>HELP</help> voor hulp."
+    "label": "Ik ga akkoord met het ontvangen van sms-meldingen en waarschuwingen van {{companyName}}. De frequentie van de berichten kan variëren. Er kunnen sms- en datakosten van toepassing zijn. Antwoord <stop>STOP</stop> om je op elk moment af te melden. Antwoord <help>HELP</help> voor hulp."
   },
   "phoneField": {
     "label": "Telefoon",
     "invalid": "Ongeldig telefoonnummer",
-    "hint": "Voeg indien nodig de landcode toe (bijv. +1 415…)"
+    "hint": "Voeg landcode indien nodig (bijv. +1 415…)"
   },
   "auth": {
     "headline": "Veilige berichten voor iedereen, overal",
@@ -109,16 +146,16 @@
       "translate": "Slimme, ingebouwde berichtvertaling",
       "disappear": "Verdwijnende berichten",
       "privacyAlt": "Privacy-first ontwerp",
-      "seePlans": "Bekijk abonnementen & prijzen"
+      "seePlans": "Bekijk abonnementen en prijzen"
     },
     "hero": {
       "line1": "Veilige berichten voor iedereen, overal — met",
       "em": "vertaling naar meer dan 100 talen",
-      "sub": "Ontvang een gratis beveiligd telefoonnummer om wereldwijd te bellen en sms'en via wifi of mobiele data. Geniet van end-to-end-versleuteling, verdwijnende berichten en HD-spraak- en videogesprekken — met ingebouwde tools die je helpen om over de grenzen heen verbonden te blijven.",
-      "freeNote": "Basis bellen en sms'en is gratis. Geavanceerde AI en premiumfuncties vereisen een upgrade."
+      "sub": "Ontvang een gratis beveiligd telefoonnummer om wereldwijd te bellen en sms'en via wifi of mobiele data. Profiteer van end-to-end-versleuteling, verdwijnende berichten en HD-spraak- en videogesprekken — met ingebouwde tools die je helpen om over de grenzen heen verbonden te blijven.",
+      "freeNote": "Basisbellen en sms'en zijn gratis. Voor geavanceerde AI en premiumfuncties is een upgrade vereist."
     },
     "feat": {
-      "encryption": "End-to-end-versleuteling, altijd ingeschakeld",
+      "encryption": "End-to-end-versleuteling, altijd ingeschakeld ",
       "translate": "Doorbreek taalbarrières in je gesprekken",
       "disappear": "Verdwijnende berichten & leesbevestigingen",
       "privacy": "Privacy voorop. Jouw gegevens, jouw controle. "
@@ -129,22 +166,22 @@
     "password": "Wachtwoord",
     "keepSignedIn": "Blijf ingelogd",
     "forgotPassword": "Wachtwoord vergeten?",
-    "loginButton": "Inloggen",
-    "accountaanmaken": "Maak een account aan",
-    "gratisAccountKnop": "Maak een gratis account aan",
-    "nieuwHier": "Nieuw hier?",
-    "getApp": "Download de app",
+    "loginButton": " Inloggen",
+    "createAccount": "Create an account",
+    "freeAccountButton": "Create free account",
+    "newHere": "New here?",
+    "getApp": "Get the app",
     "desktopTip": "Op desktop? Scan met je telefoon om de app te downloaden.",
     "scanHelper": "Op desktop? Scan met je telefoon om de app te downloaden.",
     "goHome": "Ga naar startpagina",
-    "home": "Home",
+    "home": "Startpagina",
     "headlineAlt": {
       "main": "De veilige messenger die",
       "highlight": "je taal spreekt"
     },
-    "subhead": "Privé, versleutelde en vertaalde berichten — direct.",
+    "subhead": "Privé, versleutelde en vertaalde berichten — direct. ",
     "upgrade": "Upgrade nu",
-    "tip": "Tip: Gebruik hetzelfde account op de web en mobiel. Je berichten blijven gesynchroniseerd.",
+    "tip": "Tip: Gebruik hetzelfde account op het web en op je mobiel. Je berichten blijven gesynchroniseerd.",
     "openDownload": "Open downloadpagina",
     "qrAlt": "QR-code voor Chatforia",
     "scanHint": "Scan om de app te downloaden of open in je browser.",
@@ -159,9 +196,21 @@
     "email": "E-mail",
     "registration": {
       "passwordDescription": "Minimaal 6 tekens. Gebruik een sterk, uniek wachtwoord.",
-      " smsConsent": "Door een account aan te maken, ga je akkoord met het ontvangen van sms-meldingen met betrekking tot je Chatforia-activiteit (zoals berichten van andere gebruikers). Er kunnen kosten voor berichten en data van toepassing zijn. Je kunt je op elk moment afmelden in Instellingen.",
+      "smsConsent": "Door een account aan te maken, ga je akkoord met het ontvangen van sms-meldingen met betrekking tot je Chatforia-activiteit (zoals berichten van andere gebruikers). Er kunnen kosten voor berichten en data van toepassing zijn. Je kunt je op elk moment afmelden in Instellingen.",
       "termsLink": "Servicevoorwaarden",
-      "privacyLink": "Privacybeleid"
+      "privacyLink": "Privacybeleid",
+      "already": "Already have an account?",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Wachtwoord",
+      "passwordPlaceholder": "Maak een wachtwoord aan",
+      "phoneHelp": "Wordt gebruikt voor verificatie, beveiliging en sms-functies waar ondersteund.",
+      "phoneLabel": "Telefoonnummer",
+      "submit": "Account aanmaken",
+      "submitAria": "Maak je Chatforia-account aan",
+      "title": "Maak je Chatforia-account aan",
+      "usernameLabel": "Gebruikersnaam",
+      "usernamePlaceholder": "Kies een gebruikersnaam"
     },
     "to": "Aan:",
     "enterRecipient": "Voer een naam of nummer in",
@@ -172,14 +221,97 @@
     "addRecipient": "Voeg hierboven een ontvanger toe om te beginnen…",
     "oneRecipient": "Voer voorlopig één ontvanger in.",
     "enterValidRecipient": "Voer een opgeslagen contactnaam of een telefoonnummer in.",
-    "sendFailed": "Verzenden mislukt. Controleer de console voor details."
+    "sendFailed": "Verzenden mislukt. Controleer de console voor details.",
+    "logIn": "Inloggen ",
+    "seePlans": "Bekijk abonnementen",
+    "errors": {
+      "emailTaken": "Dat e-mailadres is al in gebruik.",
+      "invalidEmail": "Voer een geldig e-mailadres in.",
+      "invalidInput": "Controleer je gegevens en probeer het opnieuw.",
+      "invalidPhone": "Voer een geldig telefoonnummer in.",
+      "invalidValue": "Een van de waarden is ongeldig.",
+      "passwordLength": "Het wachtwoord moet minimaal 6 tekens lang zijn.",
+      "passwordRequired": " Wachtwoord is verplicht.",
+      "registrationFailed": "Registratie is mislukt. Probeer het opnieuw.",
+      "smsConsent": "Accepteer de sms-toestemming om door te gaan.",
+      "tooManyAttempts": "Te veel pogingen. Wacht even en probeer het opnieuw.",
+      "usernameOrEmailTaken": "Die gebruikersnaam of e-mail is al in gebruik.",
+      "usernameRequired": "Gebruikersnaam is verplicht.",
+      "usernameTaken": "Die gebruikersnaam is al in gebruik."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welkom terug",
+    "title": "Ga verder naar Chatforia",
+    "subtitleReturning": "Log in op je Chatforia-account",
+    "google": "Ga verder met Google",
+    "apple": " Doorgaan met Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Inloggen via Google is niet beschikbaar",
+    "appleUnavailable": "Inloggen via Apple is niet beschikbaar",
+    "ssoUnavailable": "Single-sign-on is momenteel niet beschikbaar. Gebruik in plaats daarvan gebruikersnaam en wachtwoord.",
+    "or": "of",
+    "accountLabel": "Account",
+    "identifierPh": "E-mailadres of gebruikersnaam",
+    "passwordLabel": "Wachtwoord",
+    "passwordPh": "Uw wachtwoord",
+    "keepSignedIn": "Blijf ingelogd",
+    "forgot": "Wachtwoord vergeten?",
+    "resendVerification": "Verificatie-e-mail opnieuw verzenden",
+    "submit": "Inloggen",
+    "loggingIn": "Aan het inloggen…",
+    "verification": {
+      "sent": "Verificatie-e-mail verzonden. Controleer je inbox.",
+      "failed": "Het opnieuw verzenden van de verificatie-e-mail is mislukt."
+    },
+    "error": {
+      "missing": "Voer je inloggegevens in.",
+      "invalid": "Ongeldige gebruikersnaam of wachtwoord",
+      "denied": "Toegang geweigerd.",
+      "unprocessable": "Ongeldig verzoek. Controleer je gebruikersnaam/e-mailadres en wachtwoord.",
+      "deviceLimit": " Apparaatlimiet bereikt voor het gratis abonnement. Log uit op een ander apparaat of upgrade naar Premium om meer apparaten te koppelen.",
+      "premiumRequired": "Voor deze actie is een Premium-abonnement vereist."
+    },
+    "forgotPassword": {
+      "title": "Wachtwoord vergeten",
+      "helper": "Voer het e-mailadres in dat u hebt gebruikt om uw Chatforia-account aan te maken en wij sturen u een beveiligde link om uw wachtwoord opnieuw in te stellen.",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Voer een geldig e-mailadres in.",
+      "genericError": "Kan verzoek niet verwerken. Probeer het straks nog eens.",
+      "sending": "Verzenden van resetlink...",
+      "sendCta": "Resetlink verzenden",
+      "sentLabel": "Verzonden! ",
+      "sentHelper": "Als er een account bestaat met dat e-mailadres, hebben we een link voor het opnieuw instellen van het wachtwoord verzonden. Het kan enkele minuten duren voordat deze aankomt. Controleer ook uw spam- of promotiemap.",
+      "previewDev": "E-mail bekijken (Dev)",
+      "backToLogin": "Terug naar inloggen"
+    },
+    "resetPassword": {
+      "title": "Wachtwoord opnieuw instellen",
+      "missingToken": "Ongeldig of ontbrekend token voor het opnieuw instellen van het wachtwoord.",
+      "missingTokenHelper": "Ongeldig of ontbrekend token. Vraag een nieuwe link voor het opnieuw instellen van het wachtwoord aan.",
+      "passwordMismatch": "Wachtwoorden komen niet overeen",
+      "success": "Uw wachtwoord is succesvol opnieuw ingesteld",
+      "genericError": "Fout: Kan wachtwoord niet opnieuw instellen.",
+      "newPasswordLabel": "Nieuw wachtwoord",
+      "newPasswordPlaceholder": "Voer uw nieuwe wachtwoord in",
+      "confirmPasswordLabel": "Bevestig nieuw wachtwoord",
+      "confirmPasswordPlaceholder": "Voer uw nieuwe wachtwoord nogmaals in",
+      "resetting": "Bezig met resetten...",
+      "submit": "Wachtwoord resetten",
+      "strongPasswordHint": "Kies een sterk wachtwoord dat u nergens anders gebruikt."
+    }
+  },
+  "oauth": {
+    "completing": "Aanmelding voltooien…"
   },
   "home": {
-    "\n \ntitle": "Home",
-    "messagesTitle": "Je berichten",
+    "title": "Home",
+    "messagesTitle": "Uw berichten",
     "messagesSubtitle": "Voer hierboven een ontvanger in en verstuur vervolgens een bericht om een gesprek te starten.",
-    "subheader": "Verstuur een bericht om een chat te starten.",
-    "sendButton": "Bericht versturen",
+    "subheader": "Stuur een bericht om een chat te starten.",
+    "sendButton": "Bericht verzenden",
     "gifPicker": "GIF-kiezer openen",
     "emoji": "Emoji",
     "upload": "Foto of video uploaden",
@@ -193,12 +325,30 @@
     "mixedRecipients": "Gemengde ontvangers gedetecteerd. Gebruik ofwel alle telefoonnummers (SMS) of alle gebruikersnamen (Chatforia).",
     "enterRecipient": "Voer een naam of nummer in",
     "addRecipient": "Voeg hierboven een ontvanger toe om te beginnen…",
-    "needNumber": "Je hebt een Chatforia-nummer nodig om een sms te versturen.",
-    "chooseNumber": "Kies een nummer"
+    "needNumber": "Je hebt een Chatforia-nummer nodig om een SMS te versturen.",
+    "chooseNumber": "Kies een nummer",
+    "to": "Aan",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Typ een bericht…",
+    "clearRecipients": "Ontvangers wissen",
+    "oneRecipient": "Voer voorlopig één ontvanger in.",
+    "enterValidRecipient": "Voer een opgeslagen contactnaam, gebruikersnaam of telefoonnummer in.",
+    "sendFailed": "Verzenden mislukt. Probeer het opnieuw."
+  },
+  "composer": {
+    "aria": "Bericht opstellen",
+    "emoji": "Emoji",
+    "gifPicker": "GIF-kiezer openen",
+    "placeholder": "Typ een bericht…",
+    "send": "Verzenden",
+    "sendDisabled": "Typ een bericht of voeg een bestand toe om te verzenden.",
+    "upload": "Bijlage uploaden",
+    "voiceNote": "Spraakmemo"
   },
   "sidebar": {
     "randomChat": "Willekeurige chat",
-    "callTextForwarding": "Doorschakelen van oproepen en sms'jes ",
+    "callTextForwarding": "Doorschakelen van oproepen en sms'jes",
     "conversations": "Gesprekken",
     "searchPlaceholder": "Zoek in chats...",
     "errorLoading": "Kan chats niet laden",
@@ -218,7 +368,24 @@
     "startChatAlt": "Start een nieuwe chat",
     "calls": "Gesprekken",
     "video": "Video",
-    "voicemail": "Voicemail"
+    "voicemail": "Voicemail",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Gesprekken vernieuwen",
+    "searchAriaLabel": "Gesprekken zoeken",
+    "callHistory": "Gespreksgeschiedenis",
+    "deleteConversation": "Gesprek verwijderen",
+    "deletedTitle": "Gesprek verwijderd",
+    "deletedMsg": "Het gesprek is verwijderd.",
+    "deleteFailedTitle": "Gesprek kon niet worden verwijderd",
+    "deleteFailedMsg": "Probeer het opnieuw.",
+    "archivedTitle": "Gesprek gearchiveerd",
+    "archivedMsg": "Het gesprek is gearchiveerd.",
+    "archiveFailedTitle": "Gesprek kon niet worden gearchiveerd",
+    "archiveFailedMsg": "Probeer het opnieuw."
   },
   "topbar": {
     "newStatus": "Nieuwe status",
@@ -229,11 +396,11 @@
   "footer": {
     "plans": "Abonnementen & prijzen",
     "about": "Over Chatforia",
-    "careers": " Carrières",
-    "pers": "Pers",
-    "adverteren": "Adverteren",
+    "careers": "Carrières",
+    "press": "Pers",
+    "advertise": "Adverteren",
     "contact": "Neem contact met ons op",
-    "help": " Helpcentrum",
+    "help": "Helpcentrum",
     "status": "Statuspagina",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
@@ -247,7 +414,7 @@
     "homeAria": "Chatforia-startpagina",
     "section": {
       "company": "BEDRIJF",
-      "support": "ONDERSTEUNING ",
+      "support": "ONDERSTEUNING",
       "downloads": "DOWNLOADS",
       "legal": "JURIDISCH"
     },
@@ -257,36 +424,41 @@
       "careers": "Carrières",
       "press": "Pers",
       "advertise": "Adverteren",
-      " aan-de-start": "Aan de start",
+      "getting-started": "Aan de slag",
       "help-center": "Helpcentrum",
       "contact-us": "Neem contact met ons op",
       "status-page": "Statuspagina",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "Privacybeleid",
-      "terms-of -service": "Servicevoorwaarden",
-      "do-not-sell-my-info": "Verkoop mijn gegevens niet",
-      "cookie-settings": "Cookie-instellingen",
-      "how-it-works": "Hoe het werkt",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
       "blog": "Blog",
       "refund-policy": "Restitutiebeleid",
-      "sms-beleid": "Beleid inzake sms-berichten"
+      "sms-policy": "Beleid inzake sms-berichten"
     },
     "social": {
       "tiktok": "TikTok",
       "instagram": "Instagram",
       "facebook": "Facebook",
-      "linkedin": " LinkedIn",
+      "linkedin": "LinkedIn",
       "x": "X"
     },
     "copyright": "© Chatforia",
     "patentPending": "Patent aangevraagd",
     "backToTop": "↑ Terug naar boven"
   },
+  "header": {
+    "openNav": "Navigatiemenu openen",
+    "closeNav": "Navigatiemenu sluiten",
+    "homeAria": "Chatforia-startpagina"
+  },
   "chat": {
     "selectPrompt": "Selecteer een tekst of chatroom om te beginnen met chatten",
     "newMessages": "Nieuwe berichten",
-    "typing": "{{name }} is aan het typen...",
+    "typing": "{{name}} is aan het typen...",
     "emptyTitle": "Uw berichten",
     "emptySubtitle": "Stuur een bericht om een chat te starten.",
     "startChatButton": "Bericht verzenden",
@@ -294,28 +466,30 @@
     "thisUser": "deze gebruiker",
     "blockConfirm": "{{name}} blokkeren? Je ontvangt dan geen berichten meer van hem/haar.",
     "blockedUser": "{{name}} geblokkeerd.",
-    "blockError": "Kan geen gebruiker vinden om te blokkeren.",
+    "blockError": "Kon geen doelgebruiker vinden om te blokkeren.",
     "blockFailed": "Blokkeren mislukt (backend nog niet gekoppeld).",
     "encryptedUnavailable": "Versleuteld bericht (sleutel niet beschikbaar)",
-    "unlockToView": "Ontgrendel je sleutel om dit bericht te bekijken"
+    "unlockToView": "Ontgrendel je sleutel om dit bericht te bekijken",
+    "clearConfirm": "Dit gesprek wissen? Dit kan niet ongedaan worden gemaakt.",
+    "unknownThread": "Onbekende thread"
   },
-  " messageInput": {
+  "messageInput": {
     "ttl": {
       "off": "Uit"
     },
     "freeLimit": "Limiet gratis abonnement: automatisch verwijderen tot 1 dag. Beperkt tot 1 dag.",
-    "premiumLimit": "Maximale automatische verwijdering voor Premium is 30 dagen. Beperkt tot 30 dagen.",
-    " nothingToSend": "Typ een bericht of voeg een bestand toe om te verzenden.",
+    "premiumLimit": "Max. automatische verwijdering voor Premium is 30 dagen. Beperkt tot 30 dagen.",
+    "nothingToSend": "Typ een bericht of voeg een bestand toe om te verzenden.",
     "encryptionFailed": "Versleuteling mislukt. Bericht niet verzonden.",
     "sent": "Bericht verzonden.",
-    "placeholder": "Typ een bericht… ",
+    "placeholder": "Typ een bericht…",
     "autoDelete": "Automatisch verwijderen",
     "typeToSend": "Typ een bericht om te verzenden",
     "send": "Verzenden",
     "sendWithEnter": "Verzenden (Enter)",
     "attachment": "bijlage",
     "caption": "Bijschrift (optioneel)",
-    "remove": "Verwijderen",
+    "remove": "Verwijderen ",
     "clear": "Wissen",
     "gif": "GIF",
     "sticker": "Sticker",
@@ -324,15 +498,28 @@
       "unsupportedFile": "Bestandstype wordt niet ondersteund.",
       "rateLimit": "Je verstuurt berichten te snel. Doe het rustiger aan.",
       "validation": "Validatiefout. Controleer je bericht en probeer het opnieuw.",
-      "failedToSend": "Verzenden mislukt. Je kunt de mislukte bubble opnieuw proberen."
-    }
+      "failedToSend": "Verzenden mislukt. Je kunt het mislukte bericht opnieuw verzenden.",
+      "premiumRequired": "Voor deze functie is Premium vereist.",
+      "upgradeRequired": "Upgrade vereist om deze functie te gebruiken."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Spraakbericht toegevoegd."
+  },
+  "messages": {
+    "deletedPreview": "Dit bericht is verwijderd.",
+    "mediaAudio": "Audiobericht",
+    "mediaCount": "{{count}} media-items",
+    "mediaFile": "Bestandsbijlage",
+    "mediaPhoto": "Foto",
+    "mediaVideo": "Video"
   },
   "threadActions": {
-    "threadMenu": "Threadmenu",
+    "threadMenu": "Discussiemenu",
     "premium": "Premium",
     "aiPower": "AI Power",
-    "schedule": "Planning",
-    "upgrade": "Upgrade",
+    "schedule": "Plannen",
+    "upgrade": "Upgraden",
     "upgradeSuffix": "(Upgrade)",
     "thread": "Discussie",
     "about": "Over",
@@ -354,24 +541,35 @@
   "roomSettings": {
     "roles": {
       "member": "Lid",
-      "moderator": " Moderator",
+      "moderator": "Moderator",
       "admin": "Beheerder"
     },
     "aiMode": {
       "off": "Uit",
       "mention": "Alleen op @ForiaBot of /ask",
-      "always": "Proactief antwoorden"
+      "always": "Proactief beantwoorden"
     },
     "autoTranslateMode": {
       "off": "Uit",
       "tagged": "Alleen getagd (/tr …)",
       "all": "Alle berichten"
     },
-    "updated": "Instellingen bijgewerkt"
+    "updated": "Instellingen bijgewerkt",
+    "title": "Kamerinstellingen",
+    "participants": "Deelnemers",
+    "user": "Gebruiker",
+    "role": "Rol",
+    "owner": "Eigenaar",
+    "actions": "Acties",
+    "remove": "Verwijderen",
+    "aiAssistant": "AI-assistent",
+    "allowBot": "ForiaBot toestaan in deze kamer",
+    "autoTranslation": "Automatische vertaling",
+    "saveAIMode": "AI-modus opslaan"
   },
   "mediaGallery": {
     "sharedMedia": "Gedeelde media",
-    "noMediaCached": "Nog geen media lokaal opgeslagen.",
+    "noMediaCached": "Er is nog geen media lokaal in de cache opgeslagen.",
     "imageAlt": "afbeelding",
     "openVideo": "Video openen",
     "openVideoWithCaption": "Video openen: {{caption}}",
@@ -379,7 +577,7 @@
     "previewWithCaption": "Voorbeeld: {{caption}}",
     "previewKind": "Voorbeeld {{kind}}",
     "download": "Downloaden",
-    "downloadKind": "Download {{kind}}",
+    "downloadKind": "{{kind}} downloaden",
     "file": "bestand",
     "kinds": {
       "image": "afbeelding",
@@ -392,10 +590,10 @@
     "userNumber": "Gebruiker #{{id}}",
     "posted": "Status geplaatst",
     "postFailed": "Kan status niet plaatsen",
-    "createTitle": "Maak een status aan",
+    "createTitle": "Maak een status aan ",
     "modalAriaLabel": "Nieuwe status",
     "captionLabel": "Wat gaat er door je hoofd?",
-    "captionPlaceholder": "Deel een update.. .",
+    "captionPlaceholder": "Deel een update...",
     "captionAria": "Statusbericht",
     "audienceLabel": "Doelgroep",
     "audience": {
@@ -409,14 +607,14 @@
     "maxTooltip": "Maximaal 7 dagen",
     "hoursAbbrev": "u",
     "maxShort": "max",
-    "expiresOn": "Vervalt op:",
+    "expiresOn": "Verloopt op:",
     "chooseRecipients": "Ontvangers kiezen",
     "selectContacts": "Contacten selecteren",
     "attachmentsLabel": "Bijlagen",
     "attachmentsPlaceholder": "Afbeeldingen/video's toevoegen",
     "filesNote": "Maximaal 5 bestanden. Standaard 24 uur geldig.",
-    "postAria": "Status van bericht",
-    "post": "Bericht plaatsen"
+    "postAria": "Status plaatsen",
+    "post": "Plaatsen"
   },
   "voicemail": {
     "pageTitle": "Voicemail",
@@ -424,9 +622,9 @@
     "to": "Aan",
     "unknownCaller": "Onbekend",
     "yourNumber": "Uw Chatforia-nummer",
-    "durationSeconds": " {{count}}s",
+    "durationSeconds": "{{count}}s",
     "audioAria": "Voicemail-audiospeler",
-    "transcriptHeading": "Transcript",
+    "transcriptHeading": "Transcript ",
     "transcriptPending": "Voicemail wordt getranscribeerd…",
     "transcriptFailed": "Transcript niet beschikbaar.",
     "loading": "Voicemail wordt geladen…",
@@ -446,10 +644,10 @@
     "noContactsFound": "Geen contacten gevonden.",
     "externalContact": "Extern contact",
     "notJoined": "Dat contact is nog niet lid van Chatforia.",
-    "couldNotStart": "Kan chat niet starten. Probeer het opnieuw.",
-    "startFailed": "Kan chat niet starten. Probeer het opnieuw. ",
+    "couldNotStart": "Kan chat niet starten. Probeer het nog eens.",
+    "startFailed": "Kan chat niet starten. Probeer het nog eens.",
     "deleted": "Contact verwijderd.",
-    "deleteFailed": "Kan contact niet verwijderen. Probeer het opnieuw.",
+    "deleteFailed": "Kan contact niet verwijderen. Probeer het nog eens.",
     "aliasUpdated": "Alias bijgewerkt.",
     "updateAliasFailed": "Kan alias niet bijwerken. Probeer het opnieuw.",
     "selectContact": "Selecteer {{name}}",
@@ -461,19 +659,23 @@
     "loadFailed": "Kan contacten niet laden. Probeer het opnieuw.",
     "loadMore": "Meer laden",
     "call": "Bellen",
-    "callStarted": "Dit nummer bellen via uw Chatforia-nummer…",
-    "callFailed": "Kan het gesprek niet starten. Probeer het opnieuw."
+    "callStarted": "Dit nummer wordt gebeld via uw Chatforia-nummer…",
+    "callFailed": "Kan het gesprek niet starten. Probeer het opnieuw.",
+    "noRoute": "Geen route beschikbaar voor dit contact.",
+    "selectContactPrefix": "Selecteer contact",
+    "video": " Video",
+    "videoRequiresAccount": "Voor videogesprekken is een Chatforia-account vereist."
   },
   "addContactModal": {
-    "title": "Contact toevoegen",
+    "title": "Contactpersoon toevoegen",
     "phoneOrUsername": "Telefoonnummer of gebruikersnaam",
     "phoneOrUsernamePlaceholder": "bijv. +13018019227 of juliannorton",
     "alias": "Alias (optioneel)",
-    "aliasPlaceholder": "bijv. bijv. Werk, Mam, Mike – Europa",
+    "aliasPlaceholder": "bijv. Werk, Mam, Mike – Europa",
     "enterPhoneOrUsername": "Voer een telefoonnummer of gebruikersnaam in.",
-    "userLookupFailed": "Zoeken naar gebruiker is mislukt.",
+    "userLookupFailed": "Zoeken naar gebruiker mislukt.",
     "cannotAddSelf": "Je kunt jezelf niet als contactpersoon toevoegen.",
-    "failedToAdd": "Het toevoegen van de contactpersoon is mislukt.",
+    "failedToAdd": "Kan contactpersoon niet toevoegen.",
     "add": "Toevoegen"
   },
   "startChatModal": {
@@ -492,25 +694,25 @@
     },
     "quickPicker": "Snelle selectie",
     "to": "Aan",
-    "nameOrUsername": "Typ een naam, gebruikersnaam",
+    "nameOrUsername": "Typ een naam of gebruikersnaam",
     "nameUsernamePhoneEmail": "Typ een naam, gebruikersnaam, telefoonnummer of e-mailadres…",
     "startWithSelected": "Start chat met geselecteerde",
     "searchByUsernameOrPhone": "Zoeken op gebruikersnaam of telefoonnummer",
     "search": "Zoeken",
-    "searchPrompt": " Typ een gebruikersnaam of telefoonnummer en druk op Zoeken.",
+    "searchPrompt": "Typ een gebruikersnaam of telefoonnummer en druk op Zoeken.",
     "pickFromContacts": "Of kies uit contacten",
     "addContact": "Een contactpersoon toevoegen",
     "show": "Weergeven",
     "add": "Toevoegen",
     "close": "Sluiten",
-    "selectedCount": "{{count}} geselecteerd\n ",
+    "selectedCount": "{{count}} geselecteerd",
     "pickAtLeastOne": "Kies ten minste één ontvanger.",
     "saveContactsHint": "Telefoonnummers/e-mailadressen zijn beschikbaar nadat u ze als contacten hebt opgeslagen.",
-    "failedBulkStart": "Kan geen chat starten met geselecteerde ontvangers.",
+    "failedBulkStart": "Kan chat met geselecteerde ontvangers niet starten.",
     "noResults": "Geen resultaten",
     "mode": "Modus",
     "group": "Groep",
-    " broadcast": "Uitzending",
+    "broadcast": "Uitzending",
     "groupNameOptional": "Groepsnaam (optioneel)",
     "firstMessageOptional": "Eerste bericht (optioneel maar aanbevolen)",
     "createGroup": "Groep aanmaken",
@@ -523,37 +725,37 @@
     "quickStart": "Snel aan de slag",
     "quickStartDesc": "Beheer je contacten en nodig vrienden uit.",
     "importContacts": "Importeer je contacten",
-    "import ": "Importeren",
-    "addContact": "Een contactpersoon toevoegen",
+    "import": "Importeren",
+    "addContact": "Contact toevoegen",
     "add": "Toevoegen",
     "inviteFriends": "Vrienden uitnodigen",
     "inviteDesc": "Deel je uitnodigingslink om direct te beginnen met chatten.",
-    "getTheApp": "Download de app",
+    "getTheApp": "Download de app ",
     "getTheAppDesc": "Blijf onderweg in contact met Chatforia voor iOS en Android.",
-    "download": "Downloaden",
+    "download": "Download",
     "syncTip": "Tip: Je berichten blijven gesynchroniseerd tussen web en mobiel.",
-    "filterSaved": "Opgeslagen contacten filteren",
+    "filterSaved": "Filter opgeslagen contacten",
     "noContactsFound": "Geen contacten gevonden",
     "focusSearch": "Gerichte zoekopdracht",
-    "findOrAdd": "Iemand zoeken of toevoegen",
+    "findOrAdd": "Zoek of voeg iemand toe",
     "searchByPhoneOrUsername": "Zoeken op telefoonnummer / gebruikersnaam"
   },
   "profile": {
-    "title": "Gebruikersprofiel",
+    "title": "Gebruikersprofiel ",
     "preferredLanguage": "Voorkeurstaal",
     "chooseLanguage": "Kies een taal",
     "mustLogin": "Je moet inloggen om de instellingen te bekijken.",
     "autoTranslate": "Berichten automatisch vertalen",
-    "showOriginalWithTrans lation": "Originele en vertaalde berichten weergeven",
+    "showOriginalWithTranslation": "Originele en vertaalde berichten weergeven",
     "showOriginalAndTranslation": "Origineel naast vertaling weergeven",
-    "filterExplicit": "Expliciete inhoud filteren",
+    "filterExplicit": "Expliciete inhoud expliciete inhoud",
     "aiReply": "AI-antwoord",
     "enableReadReceipts": "Leesbevestigingen inschakelen",
     "allowExplicitContent": "Expliciete inhoud toestaan",
     "disappearingMessages": "Verdwijnende berichten inschakelen",
     "autoDeleteSeconds": "Seconden tot automatisch verwijderen",
     "saveSuccess": "Instellingen opgeslagen!",
-    "saveError": "Fout: instellingen konden niet worden opgeslagen",
+    "saveError": "Fout: kon instellingen niet opslaan",
     "avatarAlt": "Profielavatar",
     "uploadAvatar": "Nieuwe avatar uploaden",
     "avatarSuccess": "Avatar geüpload!",
@@ -570,10 +772,10 @@
     "keysRotated": "Nieuw sleutelpaar gegenereerd en openbare sleutel geüpload.",
     "rotateFailed": "Het roteren van sleutels is mislukt.",
     "security": "Beveiliging",
-    "exportKey": "Back-up van versleutelingssleutel maken",
+    "exportKey": "Back-up van versleutelingssleutel",
     "importKey": "Versleutelingssleutel herstellen",
     "rotateKeys": "Versleutelingssleutel roteren",
-    "keyDisclaimer": "Uw privésleutel verlaat dit apparaat nooit. Exporteer een met een wachtwoord beveiligde kopie om deze op een ander apparaat te herstellen.",
+    "keyDisclaimer": "Uw privésleutel verlaat dit apparaat nooit. Exporteer een met een wachtwoord beveiligde kopie om\n \nop een ander apparaat.",
     "sectionProfile": "Profiel",
     "phoneNumber": "Telefoonnummer",
     "appearance": "Uiterlijk",
@@ -582,27 +784,27 @@
     "backupSync": "Back-up en synchronisatie",
     "ai": "AI",
     "accessibility": "Toegankelijkheid",
-    "privacy": "Privacy",
+    "privacy": " Privacy",
     "devices": "Gekoppelde apparaten",
-    "themeFreeNotice": "Je hebt de gratis versie – gebruik de snelle Zon/Maan-opties hieronder. Upgrade om meer thema's te ontgrendelen.",
+    "themeFreeNotice": "Je hebt de gratis versie—gebruik de snelle Zon/Maan-opties hieronder. Upgrade om meer thema's te ontgrendelen.",
     "sunTheme": "Gebruik het Dawn-thema",
     "moonTheme": "Gebruik het Moon (Midnight)-thema",
     "sun": "Zon",
     "moon": "Maan",
     "backupTitle": "Versleutelde back-ups & apparaatsynchronisatie",
-    "openBackupTools": " Back-uptools openen",
+    "openBackupTools": "Open back-uptools",
     "backupDesc": "Maak een back-up van je versleutelingssleutel om je berichten veilig op een ander apparaat te herstellen. ",
-    "privacyBlurEnabled": "Verberg berichten standaard",
-    "privacyBlurOnUnfocus": "Verberg wanneer de app niet actief is",
+    "privacyBlurEnabled": "Verblur berichten standaard",
+    "privacyBlurOnUnfocus": "Verblur wanneer app niet actief is",
     "planSection": "Mijn abonnement",
     "planLoading": "Je abonnement wordt geladen…",
-    "planLoadFailed": "Je abonnement kon niet worden geladen. ",
+    "planLoadFailed": "Je abonnement kon niet worden geladen.",
     "currentPlan": "Huidig abonnement",
     "planRenewsOn": "Wordt verlengd op",
     "freePlanCopy": "Je hebt het gratis abonnement. Upgrade om meer functies te ontgrendelen, zoals back-ups, extra nummers en geavanceerde privacyopties.",
-    "upgradePlanCta": "Abonnement upgraden",
-    "changePlanCta": "Abonnement wijzigen",
-    "manageBilling": "Facturering beheren",
+    "upgradePlanCta": "Upgrade abonnement",
+    "changePlanCta": "Wijzig abonnement",
+    "manageBilling": "Beheer facturering",
     "portalOpenFailed": "Kan factureringsportaal niet openen. Probeer het opnieuw.",
     "holdToReveal": "Houd vast om te onthullen",
     "notifyOnCopy": "Laat me weten als mijn bericht wordt gekopieerd",
@@ -613,34 +815,34 @@
     "unfollowFailed": "Kan niet ontvolgen",
     "follow": "Volgen",
     "unfollow": "Ontvolgen",
-    "followHint": "Hun verhalen verschijnen in je feed \"Volgt\" als ze posten met het publiek \"Volgers\" (of \"Openbaar\").",
+    "followHint": "Hun verhalen verschijnen in je feed \"Volgt\" als ze posten met het publiek \"Volgers\" (of \"Openbaar\")",
     "userNotFound": "Gebruiker niet gevonden",
-    "followsYou": "Volgt jou",
-    "sectionCrashedTitle ": "Sectie kon niet worden geladen",
-    "sectionCrashedBody": "Er is iets misgegaan in deze sectie.",
+    "followsYou": "Volgt je",
+    "sectionCrashedTitle": "Sectie kon niet worden geladen",
+    "sectionCrashedBody": "Er is iets misgegaan in deze sectie. ",
     "forwarding": "Doorschakelen van oproepen en sms'jes",
     "callTextForwardingSection": "Doorschakelen van oproepen en sms'jes",
     "callTextForwardingTitle": "Doorschakelen van oproepen en/of sms'jes",
-    "callTextForwardingDescription": "Schakel inkomende oproepen en sms'jes door naar je geverifieerde telefoonnummer of e-mailadres. Uitgaande oproepen/sms-berichten kunnen uw Chatforia-nummer weergeven.",
+    "callTextForwardingDescription": "Schakel inkomende oproepen en sms'jes door naar je geverifieerde telefoonnummer of e-mailadres. Uitgaande oproepen/sms'jes kunnen je Chatforia-nummer weergeven.",
     "enableTextForwarding": "Sms-doorschakeling inschakelen",
-    "forwardTextsToPhone": "Sms-berichten doorsturen naar telefoon",
-    "forwardTextsToEmail": "Sms-berichten doorsturen naar e-mail",
-    "destinationPhone": "Doel-telefoonnummer (E.164)",
-    "destinationEmail": "Doel-e-mailadres",
-    "enableCallForwarding": "Doorschakelen van oproepen inschakelen",
-    "destinationPhoneForCalls": "Bestemming (E.164) voor oproepen",
-    "aliasBridging": "Oproepdoorschakeling (alias bridging)",
-    "quietHoursOptional": "Rustige uren (optioneel)",
+    "forwardTextsToPhone": "Sms'jes doorsturen naar telefoon",
+    "forwardTextsToEmail": "Sms'jes doorsturen naar e-mail",
+    "destinationPhone": "Doeltelefoon (E.164)",
+    "destinationEmail": "Doel-e-mail",
+    "enableCallForwarding": "Oproepdoorschakeling inschakelen",
+    "destinationPhoneForCalls": "Bestemmingsnummer (E.164) voor oproepen",
+    "aliasBridging": "Oproepdoorschakeling (alias-bridging)",
+    "quietHoursOptional": "Stille uren (optioneel)",
     "startHour": "Startuur (0–23)",
     "endHour": "Einduur (0–23)",
     "reset": "Resetten",
     "saveBtn": "Opslaan",
-    "saveProfile ": "Profiel opslaan",
+    "saveProfile": "Profiel opslaan",
     "saveForwarding": "Doorschakeling opslaan",
     "forwardSaved": "Doorschakelingsinstellingen opgeslagen",
     "forwardSaveFailed": "Kan instellingen niet opslaan",
     "errE164": "Voer een geldig E.164-telefoonnummer in (bijv. +15551234567).",
-    "errEmail": "Voer een geldig e-mailadres in.",
+    "errEmail": " Voer een geldig e-mailadres in.",
     "errSmsDest": "Kies ten minste één bestemming (telefoon of e-mail).",
     "errQuietHours": "Stille uren moeten tussen 0 en 23 liggen.",
     "randomChat": "Willekeurige chat",
@@ -651,111 +853,127 @@
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "We slaan alleen een leeftijdsgroep op (niet je exacte geboortedatum). Dit wordt gebruikt om de koppelingen in Random Chat redelijk te houden.",
+    "ageBandHint": "We slaan alleen een leeftijdsgroep op (niet je exacte geboortedatum) . Dit wordt gebruikt om de koppelingen in Random Chat redelijk te houden.",
     "wantsAgeFilter": "Gebruik op leeftijd gebaseerde matching in Random Chat",
     "wantsAgeFilterDesc": "Als deze optie is ingeschakeld, proberen we je te koppelen aan mensen in compatibele leeftijdsgroepen.",
     "partnerAgeBands": "Met wie kun je worden gekoppeld?",
     "partnerAgeBandsDesc": "Tieners worden altijd alleen gekoppeld aan andere tieners. Volwassenen kunnen niet worden gekoppeld aan tieners.",
-    "teenMatchingNote": "Om veiligheidsredenen kunnen accounts in de leeftijdsgroep van 13–17 jaar alleen worden gekoppeld aan andere accounts van 13–17 jaar in Random Chat.",
+    "teenMatchingNote": "Om veiligheidsredenen kunnen accounts in de leeftijdsgroep van 13–17 jaar alleen worden gekoppeld aan andere 13–17-accounts in Random Chat.",
     "foriaRemember": "Laat Ria dingen onthouden die je haar vertelt",
-    "foriaRememberDesc": "Als dit is ingeschakeld, kan Foria je eerdere Random Chat-gesprekken (alleen met jou) gebruiken om het gesprek vloeiend te houden. Je kunt dit op elk moment uitschakelen.",
+    "foriaRememberDesc": "Als dit is ingeschakeld, kan Foria je eerdere Random Chat-gesprekken gebruiken\n \n(alleen met jou) gebruiken om het gesprek gaande te houden. Je kunt dit op elk moment uitschakelen.",
     "voicemailSection": "Voicemail",
     "voicemailEnabled": "Voicemail inschakelen",
     "voicemailAutoDeleteDays": "Voicemails automatisch verwijderen na (dagen)",
-    "voicemailAutoDeletePlaceholder": "Leeg laten om voor altijd te bewaren",
+    "voicemailAutoDeletePlaceholder": "Laat leeg om voor altijd te bewaren",
     "voicemailForwardEmail": "Voicemail doorsturen naar e-mail",
-    "voicemailForwardEmailPlaceholder": "E-mailadres om vo ",
+    "voicemailForwardEmailPlaceholder": "E-mailadres waarnaar voicemailmeldingen moeten worden verzonden",
     "voicemailGreetingText": "Tekst voor standaardbegroeting",
     "voicemailGreetingTextDesc": "Wordt gebruikt wanneer uw audiobegroeting niet beschikbaar is.",
     "voicemailGreetingUpload": "Voicemailbegroeting uploaden",
-    "voicemailPreviewGreeting": "Voorbeeldbegroeting",
+    "voicemailPreviewGreeting": "Voorbeeld van begroeting",
     "voicemailGreetingUploaded": "Voicemailbegroeting succesvol geüpload",
-    "voicemailGreetingUploadError": "Kan voicemailbegroeting niet uploaden",
+    "voicemailGreetingUploadError": " Uploaden van voicemailbegroeting mislukt",
     "voicemailNote": "Voicemails van uw Chatforia-nummers worden opgeslagen in uw voicemail-inbox. U kunt transcriptie en doorsturen inschakelen in ondersteunde abonnementen.",
     "portHint": "Wilt u uw huidige nummer behouden? U kunt het overzetten naar Chatforia Wireless.",
     "wireless": {
-      "manage": "Beheer mobiele diensten"
+      "manage": "Beheer mobiel",
+      "portCta": "Zet uw nummer"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Gebruikersprofiel ",
       "desc": "Krijg mobiele data voor Chatforia wanneer u geen wifi hebt.",
-      "cta": "eSIM aanvragen / QR weergeven"
+      "cta": "eSIM aanschaffen / QR weergeven",
+      "ctaManage": "eSIM beheren",
+      "descActive": "Uw eSIM is actief en klaar om te beheren."
     },
-    "encryptedBackupsTitle": "Back-up van versleutelingssleutel"
+    "encryptedBackupsTitle": "Back-up van versleutelingssleutel",
+    "accessibilityFailed": "Kan toegankelijkheidsinstellingen niet opslaan.",
+    "aiFailed": "Kan AI-instellingen niet opslaan.",
+    "avatarRemoveError": "Kan avatar niet verwijderen.",
+    "avatarRemoved": "Avatar verwijderd.",
+    "disappearAfterSeconds": "Verdwijnt na {{seconds}} seconden",
+    "forwardingLoading": "Doorstuurinstellingen worden geladen…",
+    "presetSeconds": "{{seconds}} seconden",
+    "removeAvatar": "Avatar verwijderen",
+    "safetyAge": "Veiligheid & leeftijd",
+    "typeOrPick": "Typ of kies een waarde",
+    "userFallback": "Chatforia-gebruiker",
+    "followers": "Volgers",
+    "following": "Volgt"
   },
   "themes": {
     "amoled": "Amoled",
     "aurora": "Aurora",
     "neon": "Neon",
-    "sunset": "Sunset",
+    "sunset": "Zonsondergang",
     "solarized": "Solarized",
     "velvet": "Velvet"
   },
   "sounds": {
     "notificationSounds": "Meldingsgeluiden",
     "resetToDefaults": "Terugzetten naar standaardinstellingen",
-    "freeNoticeStart": "Je hebt een gratis account — premium geluiden worden weergegeven maar zijn vergrendeld. ",
+    "freeNoticeStart": "Je hebt een gratis account — premiumtonen worden weergegeven maar zijn vergrendeld. ",
     "freeNoticeEnd": " om alles te ontgrendelen.",
     "messageTone": "Berichttoon",
     "ringtone": "Beltoon",
     "preview": "Voorbeeld",
-    "\n \nstop": "Stoppen",
+    "stop": "Stoppen",
     "volume": "Volume",
     "messageToneFilesHint": "Plaats bestanden in /public/sounds/Message_Tones",
     "ringtoneFilesHint": "Plaats bestanden in /public/sounds/Ringtones",
     "premiumRequired": "Premium vereist voor die selectie.",
     "saved": "Geluidsinstellingen opgeslagen.",
-    "saveFailed": "Geluidsinstellingen konden niet worden opgeslagen.",
+    "saveFailed": "Kon geluidsinstellingen niet opslaan.",
     "resetNotSaved": "Terugzetten naar standaardinstellingen (nog niet opgeslagen).",
     "premiumTone": "Dat is een Premium-toon.",
     "premiumRingtone": "Dat is een Premium-beltoon.",
-    "custom ComingSoon": "Het uploaden van aangepaste geluiden komt binnenkort.",
-    "freeNotice": "Je hebt de gratis versie — premiumtonen worden weergegeven maar zijn vergrendeld. Upgrade om alles te ontgrendelen.",
+    "customComingSoon": "Het uploaden van aangepaste geluiden komt binnenkort.",
+    "freeNotice": "Je hebt de gratis versie — Premium-tonen worden getoond maar zijn vergrendeld. Upgrade om alles te ontgrendelen.",
     "default": "Standaard",
     "vibrate": "Trillen",
     "dreamer": "Dromer",
     "notify": "Melding",
-    "pop": "Pop",
+    "pop": "Pop ",
     "pulsatingSound": "Pulserend geluid",
     "textMessage": "Sms-bericht",
     "xylophone": "Xylofoon",
     "classic": "Klassiek",
     "urgency": "Dringend",
     "bells": "Klokken",
-    "chimes": "Klokkenspel",
-    "digitalPhone": "Digitale telefoon",
-    "melodic": "Melodisch",
-    "organNotes": "Orgelnoten",
-    "geluidsrealiteit": "Geluidsrealiteit",
-    "straat": "Straat",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
     "universfield": "Universfield"
   },
-  "ai-instellingen": {
-    "titel": "AI-instellingen",
+  "aiSettings": {
+    "title": "AI-instellingen",
     "controlIntro": "Beheer vertalingen, slimme antwoorden en automatische reacties van ForiaBot.",
     "translation": "Vertaling",
     "autoTranslateIncoming": "Inkomende berichten automatisch vertalen",
-    "showOriginalAlongside": "Originele tekst naast vertaling weergeven",
-    "smartReplies": "Slimme antwoorden ",
+    "showOriginalAlongside": "Toon originele tekst naast vertaling",
+    "smartReplies": "Slimme antwoorden",
     "enableSmartReplies": "Slimme antwoorden inschakelen",
-    "smartRepliesHint": "De laatste paar ontvangen berichten (opgeschoond) naar de AI sturen om snelle antwoorden voor te stellen.",
-    "maskProfanity": "Grof taalgebruik in AI-suggesties maskeren",
-    "maskProfanityHint": "Indien ingeschakeld, worden in de door de AI geretourneerde suggesties gemarkeerde woorden gemaskeerd ",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Schakel automatisch antwoord in als ik bezig ben",
+    "smartRepliesHint": "Stuur de laatste paar ontvangen berichten (opgeschoond) naar AI om snelle antwoorden voor te stellen.",
+    "maskProfanity": "Vulgaire taal maskeren in AI-suggesties",
+    "maskProfanityHint": "Indien ingeschakeld, worden gemarkeerde woorden in suggesties van de AI gemaskeerd",
+    "foriaBot": "ForiaBot automatische beantwoorder",
+    "enableAutoReply": "Schakel automatisch beantwoorden in wanneer ik bezet ben",
     "autoReplyMode": "Modus voor automatisch antwoord",
-    "cooldownSeconds": "Wachttijd (seconden)",
+    "cooldownSeconds": "Afkoelperiode (seconden)",
     "signature": "Handtekening",
     "autoReply": "🤖 Automatisch antwoord",
     "activeUntilOptional": "Actief tot (optioneel)",
     "save": "AI-instellingen opslaan",
     "saved": "AI-voorkeuren opgeslagen",
-    "saveFailed": "\n \nKan AI-instellingen niet opslaan",
+    "saveFailed": "Kan AI-instellingen niet opslaan",
     "translateOff": "Uit",
     "translateTagged": "Alleen wanneer @vertaald of getagd",
-    "translateAll": "Alle inkomende berichten vertalen ",
+    "translateAll": "Alle inkomende berichten vertalen",
     "modeDm": "Alleen 1:1-chats",
-    "modeMention": "Alleen wanneer ik @vermeld word",
+    "modeMention": "Alleen wanneer ik 'm @vermeld",
     "modeAll": "Alle inkomende berichten",
     "off": "Uit",
     "on": "Aan"
@@ -763,75 +981,75 @@
   "accessibilitySettings": {
     "title": "Toegankelijkheid & meldingen",
     "loadFailed": "Kan instellingen niet laden",
-    "accessibilityDesc": "Opties om Chatforia gebruiksvriendelijker te maken zonder afhankelijk te zijn van geluid.",
-    "interfaceFontSize": "Lettergrootte van de interface",
+    "accessibilityDesc": "Opties om Chatforia gebruiksvriendelijker te maken zonder gebruik te maken van geluid.",
+    "interfaceFontSize": "Lettergrootte interface",
     "interfaceFontSizeHelp": "Begint op normale grootte. Verhoog deze als je de voorkeur geeft aan grotere tekst.",
     "notifications": "Meldingen",
-    "visualAlerts ": "Visuele meldingen voor berichten en oproepen",
-    "visualAlertsDesc": "Toon banners en knipperende titels zodat u geen activiteit mist.",
+    "visualAlerts": "Visuele meldingen voor berichten & oproepen",
+    "visualAlertsDesc": "Toon banners en knipperende titels zodat je geen activiteit mist.",
     "vibrateOnNewShort": "Trillen bij nieuwe berichten (indien ondersteund)",
     "vibrateOnNewDesc": "Activeer apparaattrilling bij meldingen.",
     "flashOnCallShort": "Scherm laten knipperen bij inkomende oproep",
     "flashOnCallDesc": "Korte felle flits wanneer een oproep binnenkomt.",
-    "liveCaptionsTitle ": "Live ondertiteling (gesprekken)",
-    "enableLiveCaptions": "Schakel live ondertiteling in tijdens gesprekken (Premium)",
-    "liveCaptionsDesc": "Toon realtime ondertiteling van de audio van de andere deelnemer.",
+    "liveCaptionsTitle": "Live ondertitels (oproepen)",
+    "enableLiveCaptions": "Live ondertitels inschakelen tijdens oproepen (Premium)",
+    "liveCaptionsDesc": "Toon realtime ondertitels van de audio van de andere deelnemer.",
     "captionFontSize": "Lettergrootte ondertiteling",
     "captionBackground": "Achtergrond ondertiteling",
     "voiceNotes": "Spraaknotities",
-    "autoTranscribeVoice Notes": "Spraaknotities automatisch transcriberen",
-    "autoTranscribeVoiceNotesDesc": "Voeg een transcript toe aan audioberichten die je ontvangt.",
+    "autoTranscribeVoiceNotes": "Spraaknotities automatisch transcriberen",
+    "autoTranscribeVoiceNotesDesc": "Voeg een transcript toe aan ontvangen audioberichten.",
     "changesSavedInstantly": "Wijzigingen worden direct opgeslagen.",
     "sm": "Klein",
-    "md": "Medium",
+    "md": "Gemiddeld",
     "lg": "Groot",
-    "xl": " Extra groot",
+    "xl": "Extra groot",
     "light": "Licht",
     "dark": "Donker",
     "transparent": "Transparant",
     "accessibility": "Toegankelijkheid",
     "notificationsDesc": "Visuele meldingen voor berichten en oproepen\nToon banners en knipperende titels zodat je geen activiteit mist.",
-    "vibrateOnNew": "Trillen bij nieuwe berichten (indien ondersteund)\nActiveer apparaattrilling bij meldingen.",
+    "vibrateOnNew": "Trillen bij nieuwe berichten (indien ondersteund)\nActiveer apparaattrilling bij meldingen. ",
     "flashOnCall": "Scherm laten knipperen bij inkomend gesprek\nKorte felle flits wanneer er wordt gebeld.",
     "liveCaptions": "Live ondertiteling (gesprekken)"
   },
   "privacySection": {
     "strictE2EE": "Strikte end-to-end-versleuteling",
-    "ciphertextOnlyNote": "Sla alleen versleutelde tekst op de server op. Schakelt AI/\n \nVertaal- en moderatievoorbeelden.",
-    "strictE2EEEnabled": "Strikte E2EE ingeschakeld. AI/Vertaal wordt uitgeschakeld.",
-    "strictE2EEDisabled": "Strikte E2EE uitgeschakeld. AI/Vertaal opnieuw ingeschakeld."
+    "ciphertextOnlyNote": "Sla alleen gecodeerde tekst op de server op. Schakelt AI/Vertalen en moderatievoorbeelden uit.",
+    "strictE2EEEnabled": "Strikte E2EE ingeschakeld. AI/Vertalen wordt uitgeschakeld.",
+    "strictE2EEDisabled": " Strikte E2EE uitgeschakeld. AI/Translate opnieuw ingeschakeld."
   },
   "linkedDevicesPanel": {
     "title": "Gekoppelde apparaten",
-    " noneFound": "Geen gekoppelde apparaten gevonden.",
+    "noneFound": "Geen gekoppelde apparaten gevonden.",
     "refresh": "Vernieuwen",
     "unknown": "Onbekend",
     "loadFailed": "Kan gekoppelde apparaten niet laden",
     "loadFailedLog": "Kan gekoppelde apparaten niet laden",
     "renamePrompt": "Voer een nieuwe naam in voor dit apparaat",
     "renamed": "Apparaat hernoemd",
-    "renameFailed": " Apparaat kon niet worden hernoemd",
+    "renameFailed": "Kon apparaat niet hernoemen",
     "revoked": "Apparaat ingetrokken",
     "revokeFailed": "Apparaat kon niet worden ingetrokken",
     "unnamedDevice": "Apparaat zonder naam",
     "primary": "Primair",
     "revokedStatus": "Ingetrokken",
     "addedLastSeen": "Toegevoegd op {{created}} • Laatst gezien op {{lastSeen}}",
-    " renameDevice": "Apparaat hernoemen",
+    "renameDevice": "Apparaat hernoemen",
     "revokeDevice": "Apparaat intrekken"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Beheer je Chatforia-mobiele abonnement, nummers, doorschakeling en nummeroverdracht.",
+    "description": "Beheer je Chatforia mobiele abonnement, nummers, doorschakeling en nummeroverdracht.",
     "options": {
       "heading": "Kies hoe je Chatforia wilt gebruiken",
       "subheading": "Je kunt een nieuw Chatforia-nummer krijgen of je bestaande nummer van een andere provider meenemen.",
-      "newNumber": "Krijg een nieuw Chatforia-nummer",
+      "newNumber": "Krijg een nieuw Chat foria-nummer",
       "portNumber": "Zet uw huidige nummer over naar Chatforia Wireless"
     },
     "port": {
       "heading": "Zet uw bestaande nummer over",
-      "subheading": "Zet uw huidige telefoonnummer van uw huidige provider over naar Chatforia. Zorg ervoor dat de gegevens exact overeenkomen met uw provideraccount om vertragingen te voorkomen.",
+      "subheading": "Verplaats uw huidige telefoonnummer van uw bestaande provider naar Chatforia. Zorg ervoor dat de gegevens exact overeenkomen met uw provideraccount om vertragingen te voorkomen.",
       "phoneNumberLabel": "Telefoonnummer om over te zetten",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "Huidige provider",
@@ -842,7 +1060,7 @@
       "address1Label": "Adresregel 1",
       "address2Label": "Adresregel 2 (optioneel)",
       "cityLabel": "Plaats",
-      "stateLabel ": "Staat / Provincie",
+      "stateLabel": "Staat / Provincie",
       "postalCodeLabel": "Postcode",
       "countryLabel": "Land",
       "submitButton": "Verzoek tot nummeroverdracht indienen",
@@ -850,14 +1068,14 @@
       "genericError": "Er is iets misgegaan."
     },
     "status": {
-      "heading": " Overdrachtsstatus",
+      "heading": "Status nummeroverdracht",
       "subheading": "Volg de status van uw nummeroverdrachtsverzoeken.",
       "loading": "Bezig met laden…",
       "loadError": "Kan overdrachtsverzoeken niet laden.",
       "none": "Nog geen overdrachtsactiviteit.",
       "pending": "In afwachting van beoordeling",
       "submitted": "Ingediend bij provider",
-      "inProgress": "Bezig",
+      "inProgress": "In behandeling",
       "completed": "Voltooid",
       "failed": "Mislukt",
       "canceled": "Geannuleerd",
@@ -865,12 +1083,70 @@
       "scheduled": "Gepland:",
       "completedAt": "Voltooid:"
     },
-    "dataLow": "Je data raakt op.",
+    "dataLow": "Uw data raakt op.",
     "topUp": "Nu opwaarderen",
     "expiresIn": "Verloopt over {{days}} dagen",
     "exhausted": "Je data is op. Koop een nieuw pakket om mobiele data te blijven gebruiken.",
     "buyPack": "Datapakket kopen",
-    "es imPackLabel": "eSIM-pakket"
+    "esimPackLabel": "eSIM-pakket",
+    "dashboardIntro": "Beheer je Chatforia mobiele data, telefoonnummer, eSIM-instellingen en abonnementsstatus.",
+    "loading": "Bezig met laden van mobiele gegevens…",
+    "phoneNumber": "Telefoonnummer",
+    "viewPlans": "Bekijk abonnementen",
+    "error": {
+      "load": "Kan mobiele gegevens niet laden."
+    },
+    "data": {
+      "yourData": "Uw data",
+      "caption": "Houd uw huidige dataverbruik en resterende saldo bij.",
+      "familyLabel": "Gezinsdata",
+      "familyCaption": "Gedeelde data voor uw gezinsleden."
+    },
+    "plan": {
+      "title": "Abonnement",
+      "noneTitle": "Geen actief mobiel abonnement",
+      "noneBody": "Kies een datapakket om Chatforia Mobile te activeren.",
+      "noneBodyReady": "Stel eerst uw eSIM in en kies vervolgens een datapakket wanneer u klaar bent.",
+      "bodyActive": "Uw mobiele abonnement is actief.",
+      "familyLabel": "Gezinsabonnement",
+      "familyBody": "Dit abonnement maakt deel uit van een gedeelde gezinsdatapool.",
+      "manageCta": "Beheer abonnement",
+      "setupFirstCta": "Stel eerst de eSIM in"
+    },
+    "esim": {
+      "title": "eSIM",
+      "heading": "Stel je eSIM in",
+      "subheading": "Installeer je eSIM om Chatforia Mobile-data op dit apparaat te gebruiken.",
+      "body": "Genereer of open je eSIM-QR-code en volg de activeringsinstructies op je telefoon.",
+      "readyBody": "Je eSIM is klaar. Je kunt de QR-code openen of doorgaan met het beheren van je mobiel abonnement.",
+      "setupCta": "Stel eSIM in",
+      "openCta": "Open eSIM-installatie"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Bestaande eSIM wordt geladen…",
+    "regionLabel": "Regio",
+    "ctaGenerate": "eSIM-QR-code genereren",
+    "ctaRegenerate": "QR-code opnieuw genereren",
+    "ctaReserving": "Reserveren…",
+    "generatingQr": "QR-code genereren…",
+    "errorReserve": "Kan geen eSIM reserveren. Probeer het opnieuw.",
+    "noQrAvailable": "Er is nog geen QR-code beschikbaar.",
+    "downloadPng": "PNG downloaden",
+    "activationCode": "Activeringscode",
+    "lpaUri": " LPA URI",
+    "smdp": "SM-DP+ adres",
+    "iccid": "ICCID",
+    "iccidHint": "De ICCID identificeert dit eSIM-profiel op unieke wijze.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Houd deze QR-code privé. Iedereen met toegang kan de eSIM mogelijk installeren.",
+    "instructions": {
+      "step1": "Open de instellingen voor mobiele data op je telefoon.",
+      "step2": "Kies eSIM toevoegen of QR-code scannen.",
+      "step3": "Scan deze QR-code en volg de stappen op het scherm om de activering te voltooien."
+    }
   },
   "phoneNumberManager": {
     "pickNumber": "Kies een nummer",
@@ -885,26 +1161,26 @@
     "capability": "Functie",
     "search": "Zoeken",
     "lockThisNumber": "Dit nummer vergrendelen (wekelijkse add-on, binnenkort beschikbaar)",
-    "premiumProtectedHint": "Premium-nummers worden beschermd tegen hergebruik zolang uw Premium-abonnement actief is.",
+    "premiumProtectedHint": "Premiumnummers worden beschermd tegen hergebruik zolang uw Premium-abonnement actief is.",
     "availableNumbers": "Beschikbare nummers",
     "searchHint": "Voer een 3-cijferig netnummer in (alleen VS/CA), of laat het veld leeg, en zoek vervolgens.",
     "keep": "Behouden",
     "select": "Selecteren",
     "assignNumberFirst": "Wijs eerst een nummer toe.",
     "premiumKeepFeature": "Het behouden van uw nummer is een Premium-functie.",
-    "lockingPremiumFeature": "Het vergrendelen van nummers is een Premium-functie.",
-    "numberAssigned": "Nummer toegewezen. ",
-    "numberProtectedNow": "Uw nummer is nu beschermd.",
-    "numberProtected": "Nummer beschermd.",
-    "numberUnprotected": "Nummer niet beschermd.",
+    "lockingPremiumFeature": " Nummers vergrendelen is een Premium-functie.",
+    "numberAssigned": "Nummer toegewezen.",
+    "numberProtectedNow": "Uw nummer is nu beveiligd.",
+    "numberProtected": "Nummer beveiligd.",
+    "numberUnprotected": "Nummer niet beveiligd. ",
     "numberReleased": "Nummer vrijgegeven.",
     "couldNotLoadNumbers": "Nummers konden niet worden geladen.",
     "couldNotAssign": "Dat nummer kon niet worden toegewezen. Het is mogelijk net bezet – probeer een ander.",
     "couldNotLease": "Dat nummer kon niet worden gehuurd. Het is mogelijk net bezet – probeer een ander.",
-    "couldNotProtectNow": " Kon uw nummer op dit moment niet beveiligen.",
+    "couldNotProtectNow": "Kon uw nummer op dit moment niet beveiligen.",
     "couldNotProtect": "Kon het nummer niet beveiligen.",
-    "couldNotUnprotect": "Kon de beveiliging van het nummer niet opheffen.",
-    "couldNotRelease": "Kon het nummer niet vrijgeven.",
+    "couldNotUnprotect": "Kon de beveiliging van het nummer niet opheffen. ",
+    "couldNotRelease": "Het nummer kon niet worden vrijgegeven.",
     "invalidAreaCode": "Voer een 3-cijferig netnummer in (bijv. 415) of laat het veld leeg.",
     "noInventory": "Er is momenteel geen voorraad beschikbaar.",
     "noFreeNumbers": "Er zijn momenteel geen vrije nummers beschikbaar.",
@@ -918,24 +1194,24 @@
     "active": "Actief",
     "noNumber": "Geen nummer",
     "premiumFeature": "Premiumfunctie",
-    "protectYourNumber": "Uw nummer beschermen",
-    "protected": "Beveiligd",
-    "notProtected": "Niet beveiligd",
-    "expiresInShort": "Verloopt over {{count}} dagen",
+    "protectYourNumber": "Bescherm je nummer",
+    "protected": "Beschermd",
+    "notProtected": "Niet beschermd",
+    "expiresInShort": "Verloopt over {{count}}d",
     "expiresInDaysFull": "Verloopt over {{count}} dagen",
     "expiringShort": "Verloopt over {{suffix}}",
     "renewsOn": "Wordt verlengd op {{date}}",
-    "releaseWarning": "Uw nummer wordt mogelijk vrijgegeven over {{count}} dagen. Upgrade naar Premium om het beschermd te houden. ",
+    "releaseWarning": "Uw nummer wordt mogelijk vrijgegeven over {{count}} dagen. Upgrade naar Premium om het beschermd te houden.",
     "pickNumberHint": "Kies een Chatforia-nummer om te gebruiken voor berichten en communicatie binnen de app.",
     "unableToLoadStatus": "Kan de status van het telefoonnummer niet laden.",
     "lock": "Vergrendelen",
     "noNumberAssigned": "Geen nummer toegewezen. Kies er een op basis van netnummer om te beginnen met sms'en."
   },
   "dialer": {
-    "title": "Gesprekken",
+    "title": "Oproepen",
     "subtitle": "Toetsenblok & recente gesprekken. (Als je geen PSTN gebruikt, start je gesprekken vanuit een gesprekskop.)",
-    "enterNumber": "Nummer invoeren",
-    "enterNumberAria": "Nummer invoeren",
+    "enterNumber": "Voer nummer in",
+    "enterNumberAria": "Voer nummer in",
     "resolving": "Doel van de oproep wordt bepaald…",
     "call": "Bellen",
     "callBrowser": "Bellen via browser",
@@ -966,14 +1242,14 @@
   "callHistory": {
     "title": "Gesprekken",
     "subtitle": "Uw recente inkomende en uitgaande gesprekken.",
-    "loadFailed": "Kan gespreksgeschiedenis niet laden.",
-    "loadFailedTitle": "Kan gespreksgeschiedenis niet laden",
+    "loadFailed": "Gespreksgeschiedenis kan niet worden geladen.",
+    "loadFailedTitle": "Gespreksgeschiedenis kan niet worden geladen",
     "emptyTitle": "Nog geen gesprekken",
     "emptySubtitle": "Uw recente gesprekken worden hier weergegeven.",
-    "outgoing": "Uitgaand",
+    "outgoing": "Uitgaand ",
     "incoming": "Inkomend",
     "missed": "Gemist",
-    "declined": "Afgewezen",
+    "declined": "Geweigerd",
     "failed": "Mislukt",
     "completed": "Voltooid",
     "outgoingCall": "Uitgaand gesprek",
@@ -987,8 +1263,8 @@
     },
     "direct": {
       "title": "Directe video",
-      "subtitle": "Start een 1:1-videogesprek met een andere gebruiker.",
-      "desc": "1:1-cameragesprek met een andere gebruiker.",
+      "subtitle": "Start een 1-op-1-videogesprek met een andere gebruiker.",
+      "desc": "1-op-1-cameragesprek met een andere gebruiker.",
       "start": "Start",
       "callBtn": "Bellen",
       "callByPhone": {
@@ -998,22 +1274,22 @@
         "placeholder": "Voer telefoonnummer in (bijv. +1-555-123-4567)",
         "aria": "Telefoonnummer om te bellen"
       },
-      "tipInvite": "Tip: Plak een nummer en bel zonder een contactpersoon op te slaan. We nodigen niet-gebruikers uit via een link.",
+      "tipInvite": "Tip: Plak een nummer en bel zonder een contactpersoon op te slaan. We nodigen niet- -gebruikers via een link.",
       "findUser": {
         "title": "Zoek een gebruiker"
       },
       "search": {
-        "placeholder": " Zoeken op naam of gebruikersnaam",
-        "aria": "Zoeken op naam of gebruikersnaam",
+        "placeholder": "Zoek op naam of gebruikersnaam",
+        "aria": "Zoek op naam of gebruikersnaam",
         "btn": "Zoeken"
       }
     },
     "rooms": {
       "title": "Kamers",
-      "subtitle": "Maak een kamer aan of sluit je aan bij een bestaande kamer door dezelfde naam in te voeren.",
-      "desc": "Videogesprek met meerdere deelnemers via een gedeelde kamernaam.",
-      "roomLabel": "Kamernaam",
-      " roomPlaceholder": "bijv. team-standup",
+      "subtitle": "Maak een ruimte aan of sluit je aan bij een bestaande ruimte door dezelfde naam in te voeren.",
+      "desc": "Videogesprek met meerdere deelnemers met behulp van een gedeelde ruimtenaam.",
+      "roomLabel": "Ruimtenaam",
+      "roomPlaceholder": "bijv. team-standup",
       "roomAria": "Kamernaam",
       "joinCreate": "Deelnemen / Aanmaken",
       "tip": "Tip: deel deze naam met anderen, of maak een deep link naar"
@@ -1021,34 +1297,38 @@
     "title": "Video",
     "chooseType": "Kies een videotype.",
     "directTitle": "Directe video",
-    "directDesc": "1:1-videogesprek met een andere gebruiker.",
+    "directDesc": "1-op-1 videogesprek met een andere gebruiker.",
     "directStart": "Starten",
     "roomsTitle": "Kamers",
-    "roomsDesc": "Videogesprek met meerdere deelnemers via een gedeelde kamernaam.",
-    "roomsIntro": "Deelnemen aan of een kamer voor meerdere deelnemers aanmaken.",
+    "roomsDesc": "Videogesprek met meerdere deelnemers met een gedeelde kamernaam.",
+    "roomsIntro": "Word lid van of maak een kamer voor meerdere deelnemers aan.",
     "roomNameLabel": "Kamernaam",
     "roomNamePh": "bijv. team-standup",
     "join": "Deelnemen",
-    "deeplinkTip": "Tip: je kunt rechtstreeks een deep link maken naar <code>/video?room=room-name</code>."
+    "deeplinkTip": "Tip: je kunt een deep link maken naar <code>/video? room=room-name</code>."
   },
   "directVideo": {
-    "intro": "Start een direct 1-op-1 videogesprek.",
+    "intro": "Start een direct 1-op-1-videogesprek.",
     "findUserLabel": "Zoek een gebruiker",
     "findUserPh": "Zoek op naam of gebruikersnaam",
     "search": "Zoeken",
     "call": "Bellen"
   },
   "phoneWarning": {
-    "title": "Je nummer verloopt binnenkort",
-    "body": "Je nummer {{number} } wordt op {{date}} vrijgegeven, tenzij het opnieuw wordt geactiveerd.",
-    "button": "Mijn nummer behouden"
+    "title": "Uw nummer verloopt ",
+    "body": "Uw nummer {{number}} wordt op {{date}} vrijgegeven, tenzij het opnieuw wordt geactiveerd.",
+    "button": "Behoud mijn nummer"
   },
   "premium": {
     "heading": "Ga voor Premium",
     "description": "Ontgrendel krachtige functies en verwijder advertenties.",
-    "cta": "Upgraden",
-    "upgrade": "Upgraden",
+    "cta": "Upgrade",
+    "upgrade": "Upgrade",
     "upgradeAria": "Upgrade naar Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "Voor deze functie is een Premium-abonnement vereist.",
+    "toUnlock": "Upgrade om deze functie te ontgrendelen."
   },
   "upgrade": {
     "title": "Upgrade",
@@ -1057,28 +1337,28 @@
     "h1": "Chatforia-prijzen en -abonnementen",
     "h1Subtitle": "Begin met ons gratis, door advertenties ondersteunde abonnement. Ga advertentievrij met Plus, of ontgrendel alle krachtige functies met Premium.",
     "subtitle": "Kies een app-abonnement, voeg datapakketten voor jezelf toe of deel data met je gezin — allemaal vanaf één plek.",
-    "subtitle.app": "Begin met ons gratis, door advertenties ondersteunde abonnement. Ga advertentie -vrij met Plus, of ontgrendel alle krachtige functies met Premium.",
+    "subtitle.app": "Begin met ons gratis, door advertenties ondersteunde abonnement. Ga advertentievrij met Plus, of ontgrendel alle krachtige functies met Premium.",
     "subtitle.mobile": "Voeg wereldwijde eSIM-data toe zodat Chatforia blijft werken, zelfs als je geen wifi hebt.",
     "subtitle.family": "Maak een gedeelde datapool voor je gezin en beheer ieders verbruik vanaf één plek.",
-    "perMonth": "maand",
-    "perYear": "jaar",
+    "perMonth": "mo",
+    "perYear": "year",
     "goPremium": "Ga voor Premium",
     "benefitsLine": "Ontgrendel krachtige functies en verwijder advertenties.",
     "ctaText": "Upgrade",
     "aria": "Upgrade naar Chatforia Premium",
     "toggle": {
       "monthly": "Maandelijks",
-      "annual": "Jaarlijks (bespaar 30%)"
+      "annual": "Jaarlijks (Bespaar 30%)"
     },
     "scheduleBanner": {
       "title": "Abonnement loopt af",
       "body": "Je keert terug naar de gratis versie op",
       "keepPlanCta": "Houd {{plan}}",
-      "manageBillingCta": "Facturering beheren"
+      "manageBillingCta": "Beheer facturering"
     },
     "billing": {
       "opening": "Openen…",
-      "manage ": "Facturering beheren"
+      "manage": "Facturering beheren"
     },
     "checkout": {
       "redirecting": "Doorverwijzen…"
@@ -1086,30 +1366,35 @@
     "auth": {
       "continue": "Doorgaan naar inloggen",
       "createAccount": "Account aanmaken",
-      "signIn": " Inloggen"
+      "signIn": "Inloggen"
     },
     "cta": {
       "aria": "Selecteer abonnement",
       "getPlus": "Upgrade naar Plus",
       "upgradeMonthly": "Maandelijkse upgrade",
-      "upgradeAnnual": "Jaarlijkse upgrade"
+      "upgradeAnnual": "Jaarlijkse upgrade",
+      "public": {
+        "plus": "Kies Plus – ga verder met inloggen",
+        "premiumMonthly": "Ontgrendel Premium – doorgaan met inloggen",
+        "premiumAnnual": "Bespaar 30% met jaarabonnement – doorgaan met inloggen"
+      }
     },
     "section": {
-      "app": "App-abonnementen",
+      "app": " App-abonnementen",
       "mobile": "Mobiel (eSIM)",
       "family": "Gezinsabonnementen"
     },
-    "abonnementen": {
-      "gratis": {
-        "titel": "Gratis",
-        "prijs": "$0",
-        "beschrijving": "Begin gratis met chatten. Ideaal als je Chatforia net uitprobeert.",
-        "functies": {
+    "plans": {
+      "free": {
+        "title": "Gratis",
+        "price": "$0",
+        "desc": " Begin gratis met chatten. Ideaal als je Chatforia net uitprobeert.",
+        "features": {
           "chat": "Realtime 1-op-1- en groepschat, plus spraak- en videogesprekken",
           "media": "Deel foto's, spraakberichten en korte video's",
           "ai": "Door AI aangestuurde slimme antwoorden en directe vertaling (redelijk gebruik)",
-          "disappearing": "Verdwijnende berichten en basisprivacyinstellingen",
-          "ads": "Voor altijd gratis met advertenties in de app "
+          "disappearing": "Verdwijnende berichten en basisprivacy-instellingen",
+          "ads": "Voor altijd gratis met advertenties in de app"
         },
         "ctaCurrent": "Huidig abonnement",
         "ctaManage": "Beheer in facturering",
@@ -1122,13 +1407,13 @@
         "desc": "Alle essentiële functies, zonder advertenties. Ideaal voor dagelijks berichten versturen en bellen.",
         "features": {
           "allFree": "Alles uit het gratis abonnement, zonder advertenties",
-          "forwarding": "Stuur oproepen en sms'jes door naar je echte telefoonnummer",
+          "forwarding": "Doorschakelen van oproepen en sms'jes naar je echte telefoonnummer",
           "history": "Langere berichtengeschiedenis (tot 6 maanden)",
           "support": "Snellere ondersteuning als er iets misgaat"
         },
         "badge": "Populair",
-        "cta": "Ga advertentievrij",
-        "ctaPublic": "Neem Plus – log in om door te gaan",
+        "cta": "Ga reclamevrij",
+        "ctaPublic": "Neem Plus – ga door met inloggen",
         "aria": "Upgrade naar Plus"
       },
       "premiumMonthly": {
@@ -1138,8 +1423,9 @@
         "features": {
           "plusAll": "Alles in Plus",
           "themes": "Ontgrendel alle premium kleurenthema's en app-aanpassingen",
-          "ai": "Alleen voor Premium: krachtige AI-tools voor herschrijven, slimme antwoorden en samenvattingen",
-          "support": "Prioritaire ondersteuning wanneer je hulp het hardst nodig hebt"
+          "ai": "Premium -only AI-tools voor herschrijven, slimme antwoorden en samenvattingen",
+          "support": "Prioritaire ondersteuning wanneer u hulp het hardst nodig hebt",
+          "number": "Houd uw Chatforia-nummer beschermd zolang uw abonnement actief is"
         },
         "badge": "Aanbevolen",
         "cta": "Upgrade (maandelijks)",
@@ -1147,19 +1433,20 @@
         "aria": "Upgrade naar Premium Maandelijks"
       },
       "premiumAnnual": {
-        "title": "Premium (Jaarlijks)",
+        "title": " Premium (Jaarlijks)",
         "price": "$99",
         "desc": "Bespaar meer bij jaarlijkse facturering — inclusief extra kleurenthema's, AI-tools en prioritaire ondersteuning.",
         "features": {
           "allPremium": "Alles in Premium Maandelijks — inclusief extra kleurenthema's",
           "annualBilling": "Wordt één keer per jaar gefactureerd",
           "save25": "Bespaar ongeveer 30% in vergelijking met maandelijkse betaling",
-          "bestFor": "Het meest geschikt voor intensieve gebruikers, telewerkers en frequente reizigers"
+          "bestFor": "Het meest geschikt voor intensieve gebruikers, telewerkers en frequente reizigers",
+          "number": "Houd uw Chatforia-nummer beschermd zolang uw abonnement actief is"
         },
         "badge": "Bespaar 30%",
         "cta": "Upgrade (Jaarlijks)",
         "ctaPublic": "Bespaar 30% met jaarabonnement – blijf ingelogd",
-        "aria": "Upgrade naar Premium Jaarlijks",
+        "aria": "Upgrade naar Premium Jaarabonnement",
         "disclaimer": "Wordt vooraf gefactureerd. Op elk moment opzegbaar. Geen verborgen kosten."
       }
     },
@@ -1168,21 +1455,24 @@
       "freeDesc": "Begin gratis met berichten versturen.",
       "plusTitle": "Plus",
       "plusBadge": "Populair",
-      "plusDesc": "Meest betaalbare advertentievrije ervaring.",
+      "plusDesc": "De meest betaalbare advertentievrije ervaring.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Volledige functies, beltonen en krachtige AI-tools.",
+      "premiumMonthlyDesc": "\n \nVolledige functies, ringtones en krachtige AI-tools.",
       "premiumAnnualTitle": "Premium",
       "premiumAnnualDesc": "Bespaar meer bij jaarlijkse facturering.",
-      "annualDisclaimer": "Wordt vooraf gefactureerd. Op elk moment opzegbaar. Geen verborgen kosten."
+      "annualDisclaimer": "Vooraf gefactureerd. Op elk moment opzeggen. Geen verborgen kosten."
     },
     "mobile": {
       "title": "Chatforia Mobile (eSIM-datapakketten)",
       "subtitle": "Voeg wereldwijde data toe zodat Chatforia ook zonder wifi blijft werken. Prijzen worden automatisch aangepast op basis van je land en valuta.",
-      "\n \nsubtitle.detail": "Kies een eenmalig wereldwijd datapakket zodat Chatforia blijft werken wanneer u op reis bent of geen wifi hebt.",
+      "subtitle.detail": "Kies een malig wereldwijd datapakket zodat Chatforia blijft werken wanneer je op reis bent of geen wifi hebt.",
       "scope": {
         "local": "Lokaal",
         "europe": "Europa",
-        "global": "Wereldwijd"
+        "global": "Wereldwijd",
+        "localTab": "Lokale abonnementen",
+        "europeTab": "Europese abonnementen",
+        "globalTab": "Wereldwijde abonnementen"
       },
       "localEquals": "Lokaal = {{country}}",
       "localEqualsFallback": "Lokaal = je huidige land",
@@ -1194,19 +1484,23 @@
       },
       "unlimited": {
         "features": {
-          "heavyUse": "Snelle data voor intensief gebruik",
-          "throttle": "Snelle data onderworpen aan beleid voor redelijk gebruik en netwerkbeheer",
+          "heavyUse": "Hoge snelheid data voor intensief gebruik",
+          "throttle": "Hoge snelheid data onderworpen aan beleid voor redelijk gebruik en netwerkbeheer",
           "coverage": "Betrouwbare dekking",
           "instant": "Directe eSIM-activering",
           "noContract": "Eenmalig pakket, geen contract"
-        }
+        },
+        "title": "Onbeperkt pakket",
+        "data": "Onbeperkt",
+        "bestFor": "Het meest geschikt voor intensief gebruik waar dit wordt ondersteund."
       },
       "disclaimer": {
-        "devices": "eSIM-datapakketten vereisen een eSIM-compatibel en ontgrendeld apparaat. Beschikbaarheid varieert per telefoonmodel, provider en land. Dekking en snelheden variëren per regio."
+        "devices": "Voor eSIM-datapakketten is een eSIM-compatibel en ontgrendeld apparaat vereist. Beschikbaarheid varieert per telefoonmodel, provider en land. Dekking en snelheden variëren per regio.",
+        "fairUse": "Hogesnelheidsdata kan onderhevig zijn aan fair-use-limieten, lokale netwerkomstandigheden en regionale beschikbaarheid."
       },
       "packs": {
         "3gb": {
-          "title": "{{scope}} 3 GB"
+          "title": "{ {scope}} 3 GB"
         },
         "5gb": {
           "title": "{{scope}} 5 GB"
@@ -1229,12 +1523,63 @@
           "bestFor": "Het meest geschikt voor"
         },
         "disclaimer": "Het daadwerkelijke dataverbruik hangt af van hoe u Chatforia gebruikt (spraak, video, media en andere apps op uw telefoon)."
+      },
+      "aria": "Chatforia Mobile eSIM-databundels",
+      "hero": {
+        "aria": "Chatforia Mobile hero-afbeelding",
+        "subcopy": "Directe eSIM-data voor reizen, back-upconnectiviteit en bereikbaar blijven buiten het bereik van wifi."
+      },
+      "choosePack": "Kies een datapakket",
+      "choosePackSubtitle": "Kies de dekkingszone en de hoeveelheid data die past bij uw reis of dagelijkse back-upbehoeften.",
+      "badge": {
+        "popular": "Populair",
+        "bestValue": "Beste prijs-kwaliteitverhouding"
+      },
+      "feature": {
+        "instant": "Directe eSIM-activering",
+        "coverage": "Wereldwijde dekkingsopties",
+        "contracts": "Geen langetermijncontracten"
+      },
+      "card": {
+        "feature": {
+          "1": "Werkt op eSIM-compatibele, simlockvrije apparaten",
+          "2": "Eenmalige datapakketten met duidelijke prijzen",
+          "3": "Gebruik Chatforia wanneer er geen wifi beschikbaar is"
+        }
+      },
+      "region": {
+        "local": "Lokaal",
+        "localSubtitle": "Het beste om verbonden te blijven in één land.",
+        "europe": "Europa",
+        "europeSubtitle": "Geweldig voor reizen door ondersteunde Europese landen.",
+        "global": " Wereldwijd",
+        "globalSubtitle": "Het beste voor internationale reizen door meerdere regio's."
+      },
+      "small": {
+        "title": "Klein pakket",
+        "data": "3 GB",
+        "bestFor": "Het beste voor korte reizen en licht gebruik van berichten."
+      },
+      "medium": {
+        "title": "Middelgroot pakket",
+        "data": "5 GB",
+        "bestFor": " Het meest geschikt voor dagelijkse berichten, kaarten en licht mediagebruik."
+      },
+      "large": {
+        "title": "Groot pakket",
+        "data": "10 GB",
+        "bestFor": "Het meest geschikt voor langere reizen en intensiever app-gebruik."
+      },
+      "xl": {
+        "title": "XL-pakket",
+        "data": "20 GB",
+        "bestFor": "Het meest geschikt voor langere reizen en veelvuldig gebruik van video of media."
       }
     },
     "family": {
       "title": "Chatforia Family (gedeelde data)",
-      "subtitle": " Deel één datapool met je hele gezin. Eén factuur, meerdere Chatforia-accounts, wereldwijde dekking.",
-      "perPack": "/ pack",
+      "subtitle": "Deel één datapool met je hele gezin . Eén factuur, meerdere Chatforia-accounts, wereldwijde dekking.",
+      "perPack": "/ pakket",
       "small": {
         "title": "Family Small",
         "desc": "Bevat 20 GB gedeelde hogesnelheidsdata — ideaal voor 2–3 lichte gebruikers.",
@@ -1262,7 +1607,7 @@
         "bestValue": "Beste prijs per GB",
         "fairUse": "Onderworpen aan het beleid voor redelijk gebruik en lokale limieten"
       },
-      "disclaimer": "Familiepakketten creëren of vullen een gedeelde datapool aan. U kunt op elk moment leden uitnodigen en verwijderen.",
+      "disclaimer": "Gezinspakketten creëren of vullen een gedeelde datapool aan. U kunt op elk moment leden uitnodigen en verwijderen.",
       "footnote": "Familiepakketten delen één datapool tussen gekoppelde Chatforia-accounts. Beschikbaarheid en limieten zijn afhankelijk van uw land en lokale regelgeving."
     },
     "why": {
@@ -1271,11 +1616,11 @@
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
-          "body": "Minder opdringerige advertenties in de gratis versie, een eenvoudige upgrade naar Plus wanneer je er klaar voor bent, en Premium-tools die TextNow niet biedt."
+          "body": "Minder opdringerige advertenties in de gratis versie, een eenvoudige Plus-upgrade wanneer je er klaar voor bent, en Premium-tools die TextNow niet biedt."
         },
         "voice": {
           "title": "Chatforia vs Google Voice",
-          "body": "Moderne app, wereldwijd -first ontwerp en ingebouwde vertaling in plaats van ouderwetse doorschakeling."
+          "body": "Moderne app, wereldwijd toonaangevend ontwerp en ingebouwde vertaling in plaats van ouderwetse doorschakeling."
         },
         "messengers": {
           "title": "Chatforia vs chat-apps",
@@ -1284,7 +1629,10 @@
       },
       "tableTitle": "Hoe Chatforia zich verhoudt",
       "col": {
-        "feature": "Functie"
+        "feature": "Functie",
+        "chatforia": "Tot 12+ maanden",
+        "textnow": "Verschilt per account",
+        "googleVoice": "Google Voice"
       },
       "feature": {
         "freeNumber": "Gratis telefoonnummer",
@@ -1314,54 +1662,144 @@
       },
       "plusPremium": {
         "q": "Wat is het verschil tussen Plus en Premium?",
-        "a": " Plus verwijdert advertenties en breidt je berichtengeschiedenis uit — perfect voor dagelijks gebruik. Premium voegt extra aanpassingsmogelijkheden toe, AI-tools voor herschrijven en antwoorden, en prioritaire ondersteuning voor intensieve gebruikers."
+        "a": "Plus verwijdert advertenties en breidt je berichtengeschiedenis uit — perfect voor dagelijks gebruik. Premium voegt extra aanpassingsmogelijkheden toe, AI-tools voor herschrijven en antwoorden, en prioritaire ondersteuning voor intensieve gebruikers."
       },
       "esim": {
         "q": "Waar werken eSIM-datapakketten?",
-        "a": "Chatforia Mobile maakt gebruik van wereldwijde eSIM-dekking. De beschikbaarheid hangt af van je land en apparaat. Je ziet de ondersteunde opties tijdens de activering in de app."
+        "a": " Chatforia Mobile maakt gebruik van wereldwijde eSIM-dekking. De beschikbaarheid is afhankelijk van je land en apparaat. Je ziet de ondersteunde opties tijdens de activering in de app."
       },
       "cancel": {
-        " q": "Kan ik mijn abonnement op elk moment opzeggen of wijzigen?",
-        "a": "Ja. Je kunt je abonnement beheren of opzeggen via de factureringspagina in de app. Wijzigingen worden van kracht aan het einde van je huidige factureringsperiode. "
+        "q": "Kan ik mijn abonnement op elk moment opzeggen of wijzigen?",
+        "a": "Ja. Je kunt je abonnement beheren of opzeggen via de factureringspagina in de app. Wijzigingen worden van kracht aan het einde van je huidige factureringsperiode."
       },
       "family": {
-        "q": "Hoe werken gezinspakketten?",
-        "a": "Gezinspakketten creëren een gedeelde datapool voor meerdere Chatforia-accounts. Eén persoon betaalt de rekening en je kunt leden uitnodigen of verwijderen en limieten per persoon instellen."
+        "q": "Hoe werken Family-pakketten?",
+        "a": "Family-pakketten creëren een gedeelde datapool voor meerdere Chatforia-accounts. Eén persoon betaalt de rekening , en u kunt leden uitnodigen of verwijderen en limieten per persoon instellen."
+      }
+    },
+    "h2": {
+      "app": "App-abonnementen"
+    },
+    "oneTime": "eenmalig",
+    "perMonthLong": "per maand",
+    "perYearLong": "per jaar",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Lokaal 3 GB",
+          "desc": "3 GB eenmalige eSIM-data voor Chatforia-gebruik in het door u geselecteerde land."
+        },
+        "5": {
+          "title": "Lokaal 5 GB",
+          "desc": "5 GB eenmalige eSIM-data voor Chatforia-gebruik in het door u geselecteerde land."
+        },
+        "10": {
+          "title": "Lokaal 10 GB",
+          "desc": "10 GB eenmalige eSIM-data voor gebruik met Chatforia in het door u geselecteerde land."
+        },
+        "20": {
+          "title": "Lokaal 20 GB",
+          "desc": "20 GB eenmalige eSIM-data voor gebruik van Chatforia in het door u geselecteerde land."
+        },
+        "unlimited": {
+          "title": "Lokaal onbeperkt",
+          "desc": "Onbeperkte data voor intensief gebruik van Chatforia in het door u geselecteerde land, onder voorbehoud van redelijk gebruik en lokale netwerkbeschikbaarheid."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB eenmalige eSIM-data voor gebruik van Chatforia in ondersteunde Europese landen."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB eenmalige eSIM-data voor gebruik van Chatforia in ondersteunde Europese landen."
+        },
+        "10": {
+          "title": "Europa 10 GB",
+          "desc": "10 GB eenmalige eSIM-data voor gebruik van Chatforia in ondersteunde Europese landen."
+        },
+        "20": {
+          "title": "Europa 20 GB",
+          "desc": "20 GB eenmalige eSIM-data voor gebruik van Chatforia in ondersteunde Europese landen."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Onbeperkte data voor intensief gebruik van Chatforia in ondersteunde Europese landen, onder voorbehoud van redelijk gebruik en lokale netwerkbeschikbaarheid."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB eenmalige eSIM-data voor gebruik van Chatforia in ondersteunde wereldwijde bestemmingen."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB eenmalige eSIM-data voor gebruik van Chatforia in ondersteunde wereldwijde bestemmingen."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB eenmalige eSIM-data voor gebruik van Chatforia op ondersteunde wereldwijde bestemmingen."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB eenmalige eSIM-data voor gebruik van Chatforia op ondersteunde wereldwijde bestemmingen."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Onbeperkte data voor intensief gebruik van Chatforia op ondersteunde wereldwijde bestemmingen, onder voorbehoud van redelijk gebruik en lokale netwerkbeschikbaarheid."
+        }
       }
     }
   },
+  "billing": {
+    "myPlanTitle": "Mijn abonnement",
+    "myPlanError": "Kan uw abonnement niet laden.",
+    "myPlanLoading": "Uw abonnement wordt geladen…",
+    "currentPlan": "Huidig abonnement",
+    "renewsAt": "Wordt verlengd op",
+    "activeSubscription": "Actief abonnement",
+    "freePlanCopy": "U hebt het gratis abonnement. Upgrade om meer functies te ontgrendelen.",
+    "upgradeCta": "Abonnement upgraden",
+    "changePlanCta": "Abonnement wijzigen",
+    "manageBilling": "Facturering beheren",
+    "portalError": "Het factureringsportaal kan momenteel niet worden geopend.",
+    "cancelNow": "Nu opzeggen",
+    "cancelNowConfirm": "Weet u zeker dat u uw abonnement onmiddellijk wilt opzeggen? Dit kan niet ongedaan worden gemaakt. ",
+    "cancelNowError": "Uw abonnement kan op dit moment niet worden geannuleerd. Probeer het opnieuw of gebruik Facturering beheren."
+  },
   "family": {
-    "title": "Gezin",
+    "title": "Familie",
     "loading": "Uw gezinsgegevens worden geladen…",
     "error": {
-      "load": "Het laden van de gezinsgegevens is mislukt.",
-      "invite": "Er kon geen uitnodiging worden aangemaakt. Zorg ervoor dat u de gezinsbeheerder bent en probeer het opnieuw.",
-      "checkout": "We konden de afrekening voor een gezinsabonnement niet starten. Probeer het opnieuw."
+      "load": "Het laden van gezinsgegevens is mislukt.",
+      "invite": "Er kon geen uitnodiging worden aangemaakt. Zorg ervoor dat u de gezinsbeheerder bent en probeer opnieuw.",
+      "checkout": "We konden het afrekenen voor een Gezinsabonnement niet starten. Probeer het opnieuw."
     },
     "billing": {
       "myPlanTitle": "Mijn abonnement",
-      "myPlanError": "Kan je abonnement niet laden.",
-      "myPlanLoading": "Je abonnement wordt geladen…",
+      "myPlanError": "Kan uw abonnement niet laden.",
+      "myPlanLoading": "Uw abonnement wordt geladen…",
       "currentPlan": "Huidig abonnement",
       "renewsAt": "Wordt verlengd op",
-      " freePlanCopy": "U hebt het gratis abonnement. Upgrade om meer functies te ontgrendelen.",
+      "freePlanCopy": "U hebt het gratis abonnement. Upgrade om meer functies te ontgrendelen.",
       "upgradeCta": "Abonnement upgraden",
       "changePlanCta": "Abonnement wijzigen",
       "manageBilling": "Facturering beheren",
       "portalError": "Het factureringsportaal kan momenteel niet worden geopend.",
       "cancelNow": "Nu opzeggen",
       "cancelNowHelp": "U kunt uw abonnement beheren of opzeggen in het factureringsportaal, of hieronder direct opzeggen.",
-      "cancelNowConfirm": "Weet u zeker dat u uw abonnement direct wilt opzeggen? Dit kan niet ongedaan worden gemaakt.",
-      "cancelNowError": "Uw abonnement kan op dit moment niet worden opgezegd. Probeer het opnieuw of gebruik Facturering beheren."
+      "cancelNowConfirm": "Weet u zeker dat u uw abonnement direct wilt opzeggen? Dit kan niet ongedaan .",
+      "cancelNowError": "Uw abonnement kan momenteel niet worden opgezegd. Probeer het opnieuw of gebruik Facturering beheren."
     },
     "none": {
-      "title": "Nog geen gezin aangemaakt",
-      "body": "Start een gezinsabonnement om een Chatforia-gezin en een gedeelde gegevenspool aan te maken.",
+      "title": "Nog geen familie aangemaakt",
+      "body": "Start een gezinsabonnement om een Chatforia-familie en een gedeelde datapool aan te maken.",
       "goUpgrade": "Start een gezinsabonnement",
-      "viewPlans": "Bekijk alle abonnementen"
+      "viewPlans": "Bekijk alle abonnementen "
     },
     "group": {
-      "defaultName": "Mijn Chatforia-gezin",
+      "defaultName": "Mijn Chatforia-familie",
       "role": "Uw rol: {{role}}"
     },
     "role": {
@@ -1369,7 +1807,7 @@
       "member": "Lid"
     },
     "data": {
-      "heading": "Gedeelde gegevenspool",
+      "heading": "Gedeelde datapool",
       "caption": "Alle leden delen deze pool. We waarschuwen je als je je limiet nadert."
     },
     "members": {
@@ -1382,18 +1820,18 @@
       "inviteCta": "Lid uitnodigen"
     },
     "invite": {
-      "title": "Nieuwe lid uitnodigen",
+      "title": "Een nieuw lid uitnodigen",
       "body": "Stuur een e-mail of link om iemand uit te nodigen voor je gedeelde gezinsdatapool.",
       "emailLabel": "E-mail (optioneel)",
       "emailPlaceholder": "friend@example.com",
       "create": "Uitnodiging aanmaken",
       "linkLabel": "Uitnodigingslink",
-      "copyAria": "Uitnodigingslink kopiëren",
+      "copyAria": "Kopieer uitnodigingslink",
       "expiryHint": "Deze link verloopt na een paar dagen. Je kunt altijd een nieuwe aanmaken."
     },
     "join": {
       "title": "Word lid van een familie",
-      "body": "Je bent uitgenodigd om lid te worden van een Chatforia-familie en hun gegevenspool te delen.",
+      "body": "Je bent uitgenodigd om lid te worden van een Chatforia-familie en hun gegevenspool te delen. ",
       "cta": "Accepteer en word lid van de familie",
       "ctaLogin": "Log in en word lid van de familie",
       "success": "Je bent lid geworden van deze familie. Je deelt nu hun gegevenspool.",
@@ -1408,7 +1846,7 @@
     "description": "Chat eerst anoniem. Voeg later een vriend toe als het goed voelt.",
     "findMatch": "Zoek een match voor mij",
     "chatWithRia": "Chat met Ria",
-    "setAge": "Stel je leeftijdsgroep in onder Profiel → Leeftijd & Willekeurige Chat om met mensen te worden gematcht.",
+    "setAge": "Stel je leeftijdsgroep in onder Profiel → Leeftijd & Willekeurige Chat om met mensen gematcht te worden.",
     "idle": "Inactief",
     "matching": "Aan het matchen…",
     "searching": "Aan het zoeken…",
@@ -1416,10 +1854,10 @@
     "connectionProblem": "Verbindingsprobleem",
     "ai": "AI",
     "anonymous": "Anoniem",
-    "connectedAs": "Verbonden als",
+    "connectedAs": "Verbonden als ",
     "waitingAddFriend": "Wachten tot ze \"Vriend toevoegen\" accepteren…",
     "hiddenUsernames": "Gebruikersnamen blijven verborgen totdat beide personen \"Vriend toevoegen\" kiezen.",
-    "\n riaSeparate": "Chat op elk moment met Ria — los van willekeurige menselijke matching.",
+    "riaSeparate": "Chat op elk moment met Ria — los van willekeurige menselijke matching.",
     "sendMessage": "Bericht verzenden",
     "chatEnded": "Chat beëindigd",
     "conversationEnded": "Dat gesprek is beëindigd.",
@@ -1435,17 +1873,17 @@
     "close": "Sluiten",
     "finding": "Zoeken…",
     "looking": "Op zoek naar iemand…",
-    "startingForia": "Een chat starten met Foria…",
+    "startingForia": "Start een chat met Foria…",
     "partnerDisconnected": "Je partner heeft de verbinding verbroken.",
     "noPartner": "Er is momenteel geen partner gevonden.",
     "connectedTo": "Verbonden met {{name}}",
     "connected": "Verbonden",
     "partnerLeft": "Partner is vertrokken.",
-    "stopped": "Gestopt.",
+    "stopped": "Gestopt. ",
     "skip": "Overslaan",
     "save": "Opslaan",
     "saveGuard": "Alleen chats tussen mensen kunnen worden opgeslagen",
-    "youAreChattingWith": "Je chat met { {name}}",
+    "youAreChattingWith": "Je chat met {{name}}",
     "bot": "BOT",
     "sayHi": "Zeg hallo 👋",
     "you": "Jij",
@@ -1454,26 +1892,28 @@
     "partner": "Partner",
     "withRia": "Met Ria",
     "startingRia": "Een chat met Ria starten…",
-    "ageDisclaimer": "We slaan alleen een leeftijdsgroep op (niet je exacte geboortedatum). Dit wordt gebruikt om de koppelingen in de willekeurige chat redelijk te houden. Om met mensen (niet alleen RiaBot) gekoppeld te worden, stel je je leeftijdsgroep in via Instellingen → Leeftijd & Willekeurige Chat.",
-    "ageBandRequired": "Stel je leeftijdsgroep in onder Profiel → Leeftijd & Random Chat om met mensen te worden gekoppeld.",
-    "ageBandCallout": "Om met mensen (en niet alleen met RiaBot) te worden gekoppeld, stel je je leeftijdsgroep in onder Instellingen → Leeftijd & Random Chat."
+    "ageDisclaimer": "We slaan alleen een leeftijdsgroep op (niet je exacte geboortedatum). Dit wordt gebruikt om de koppelingen in de willekeurige chat redelijk te houden. Om met mensen (en niet alleen met RiaBot) gekoppeld te worden, stel je je leeftijdsgroep in via Instellingen → Leeftijd & Willekeurige Chat.",
+    "ageBandRequired": "Stel je leeftijdsgroep in via Profiel → Leeftijd & Willekeurige Chat om met mensen gekoppeld te worden.",
+    "ageBandCallout": "Om met mensen (en niet alleen met RiaBot) gekoppeld te worden, stel je je leeftijdsgroep in via Instellingen → Leeftijd & Random Chat.",
+    "disconnected": "Verbinding verbroken.",
+    "left": "Je hebt de chat verlaten."
   },
   "ria": {
     "fallbackName": "there",
     "intro": "Hoi daar 👋 Ik ben Ria. Waar zit je mee?",
     "greetings": {
-      "long1": "Hoi {{name}} 👋 Ik ben er. Waar zit je mee?",
+      "long1": "Hé {{name}} 👋 Ik ben er. Waar zit je mee?",
       "long2": "Hoi {{name}} 😊 Waar wil je het vandaag over hebben?",
       "long3": "Hé {{name}}! Ik luister — hoe gaat het?",
       "long4": "Leuk je te zien, {{name}} 👋 Waar zit je vandaag mee?",
-      "long5": "Hé {{name}} 🙂 Wil je je hart luchten, iets vragen of gewoon even kletsen?",
-      "long6": "Hoi\n {{name}}! Ik heb tijd — waar wil je het over hebben?",
+      "long5": "Hé {{name}} 🙂 Wil je je hart luchten, iets vragen of gewoon kletsen? ",
+      "long6": "Hoi {{name}}! Ik heb tijd — waar wil je het over hebben?",
       "short1": "Hé {{name}}, ik ben er nog steeds. Hoe gaat het?",
       "short2": "Welkom terug {{name}} 👋 Wil je nog iets toevoegen?",
-      "short3": " Ben je er weer, {{name}}? 😊 Vertel me wat je bezighoudt.",
+      "short3": "Ben je er weer, {{name}}? 😊 Vertel me wat er in je omgaat.",
       "short4": "Hé {{name}} ✨ Klaar om verder te gaan waar we gebleven waren?",
       "short5": "Ja {{name}}? Ik luister 👂",
-      "short6": "Oh hé {{name}}! Heb je iets nieuws aan je hoofd?"
+      "short6": "Oh hey {{name}}! Heb je iets nieuws aan je hoofd?"
     },
     "header": {
       "openNav": "Navigatiemenu openen",
@@ -1482,7 +1922,7 @@
     },
     "login": {
       "welcomeBack": "Welkom terug",
-      "title": "Doorgaan naar Chatforia",
+      "title": "Ga verder naar Chatforia",
       "subtitleReturning": "Log in op je Chatforia-account",
       "google": "Doorgaan met Google",
       "apple": "Doorgaan met Apple",
@@ -1493,14 +1933,14 @@
       "ssoUnavailable": "Single-sign-on is momenteel niet beschikbaar. Gebruik in plaats daarvan gebruikersnaam en wachtwoord.",
       "or": "of",
       "accountLabel": "Account",
-      "identifierPh": "E-mail of gebruikersnaam",
+      "identifierPh": "E-mailadres of gebruikersnaam",
       "passwordLabel": "Wachtwoord",
       "passwordPh": "Uw wachtwoord",
       "keepSignedIn": "Blijf ingelogd",
       "forgot": "Wachtwoord vergeten?",
       "resendVerification": "Verificatie-e-mail opnieuw verzenden",
       "submit": "Inloggen",
-      "loggingIn": "Inloggen…",
+      "loggingIn": "Aan het inloggen…",
       "verification": {
         "sent": "Verificatie-e-mail verzonden. Controleer je inbox.",
         "failed": "Het opnieuw verzenden van de verificatie-e-mail is mislukt."
@@ -1515,7 +1955,7 @@
       },
       "forgotPassword": {
         "title": "Wachtwoord vergeten",
-        "helper": "Voer het e-mailadres in dat je hebt gebruikt om je Chatforia-account aan te maken en we sturen je een beveiligde link om je wachtwoord te resetten.",
+        "helper": "Voer het e-mailadres in dat u hebt gebruikt om uw Chatforia-account aan te maken en wij sturen u een beveiligde link om uw wachtwoord opnieuw in te stellen.",
         "emailLabel": "E-mail",
         "emailPlaceholder": "you@example.com",
         "emailInvalid": "Voer een geldig e-mailadres in.",
@@ -1523,29 +1963,26 @@
         "sending": "Verzenden van resetlink...",
         "sendCta": "Resetlink verzenden",
         "sentLabel": "Verzonden!",
-        "sentHelper": "Als er een account bestaat met dat e-mailadres, hebben we een link voor het resetten van het wachtwoord verzonden. Het kan enkele minuten duren voordat deze aankomt. Controleer ook uw map met ongewenste e-mail of promoties.",
+        "sentHelper": "Als er een account bestaat met dat e-mailadres, hebben we een link voor het resetten van het wachtwoord verzonden. Het kan enkele minuten duren voordat deze aankomt. Controleer ook uw spam- of promotiemap.",
         "previewDev": "E-mail bekijken (Dev)",
         "backToLogin": "Terug naar inloggen"
       },
       "resetPassword": {
         "title": "Wachtwoord opnieuw instellen",
-        "missingToken": "Ongeldig of ontbrekend token voor het opnieuw instellen van het wachtwoord.",
+        "missingToken": " Ongeldig of ontbrekend token voor het opnieuw instellen van het wachtwoord.",
         "missingTokenHelper": "Ongeldig of ontbrekend token. Vraag een nieuwe link voor het opnieuw instellen van het wachtwoord aan.",
         "passwordMismatch": "Wachtwoorden komen niet overeen",
-        "success": "Uw wachtwoord is succesvol gereset",
-        "genericError": "Fout: Kan wachtwoord niet resetten.",
+        "success": "Uw wachtwoord is succesvol opnieuw ingesteld",
+        "genericError": "Fout: Kan wachtwoord niet opnieuw instellen.",
         "newPasswordLabel": "Nieuw wachtwoord",
         "newPasswordPlaceholder": "Voer uw nieuwe wachtwoord in",
         "confirmPasswordLabel": "Bevestig nieuw wachtwoord",
         "confirmPasswordPlaceholder": "Voer uw nieuwe wachtwoord nogmaals in",
-        "resetting": "Bezig met resetten...",
+        "resetting": "Aan het resetten...",
         "submit": "Wachtwoord resetten",
         "strongPasswordHint": "Kies een sterk wachtwoord dat u nergens anders gebruikt."
       }
     }
-  },
-  "oauth": {
-    "completing": " Aanmelding voltooien…"
   },
   "support": {
     "helpFab": "Help",
@@ -1563,26 +2000,27 @@
     "quickTopics": {
       "login": "Kan niet inloggen",
       "billing": "Betalingen / facturering",
-      "misbruik": "Misbruik melden"
+      "abuse": "Misbruik melden"
     },
     "trySearching": "Probeer te zoeken op \"vertalen\", \"back-ups\" of \"privacy\".",
     "article": "Artikel",
     "openArticle": "Artikel openen",
-    "contactIntro": "We proberen dit direct op te lossen. Zo niet, dan neemt ons team contact met u op.",
+    "contactIntro": "We proberen dit direct op te lossen. Zo niet, dan neemt ons team contact met je op.",
     "topicAria": "Selecteer een onderwerp",
     "messagePlaceholder": "Schrijf je bericht…",
     "sendBtn": "Verzenden",
-    "sent": "Bericht verzonden. We zullen per e-mail antwoorden.",
+    "sent": "Bericht verzonden. We antwoorden via e-mail.",
     "sendError": "Kon niet verzenden. Stuur in plaats daarvan een e-mail naar support@chatforia.com.",
     "actionCompleted": "Actie voltooid.",
     "actionFailed": "Die actie kon niet worden voltooid. Probeer het opnieuw.",
     "ticketCreated": "We konden dit niet automatisch oplossen. Ons team neemt contact met je op.",
     "escalationMessage": "We konden dit niet automatisch oplossen. Ons team neemt contact met je op.",
     "genericError": "Er is iets misgegaan. Probeer het opnieuw.",
-    "analyzing": "Uw probleem wordt geanalyseerd...",
+    "analyzing": "Je probleem wordt geanalyseerd...",
     "takeAction": "Voer de aanbevolen actie uit",
     "resolvedInstantly": "Probleem direct opgelost — geen ticket nodig.",
-    "escalating": "Wordt doorgestuurd naar ondersteuning..."
+    "escalating": "Wordt doorgestuurd naar ondersteuning...",
+    "takeRecommendedAction": "Voer de aanbevolen actie uit"
   },
   "help": {
     "title": "Help",
@@ -1590,7 +2028,7 @@
     "helpCenter": "Helpcentrum",
     "contactUs": "Neem contact met ons op",
     "quickTopics": "Snelle onderwerpen",
-    "searchExamples": "Probeer te zoeken op \"vertalen\", \"back-ups\" of \"privacy\".",
+    "searchExamples": "Zoek eens op \"vertalen\", \"back-ups\" of \"privacy\".",
     "cantLogin": "Kan niet inloggen",
     "paymentsBilling": "Betalingen/facturering",
     "reportAbuse": "Misbruik melden",
@@ -1602,7 +2040,7 @@
     "faq": {
       "account": {
         "q": "Hoe maak ik een account aan of herstel ik mijn account?",
-        "a": "Download de app of gebruik de website, tik op \"Account aanmaken\" en verifieer je e-mailadres of telefoonnummer. Gebruik \"Wachtwoord vergeten\" om je account te herstellen."
+        "a": "Download de app of gebruik de webversie, tik op \"Account aanmaken\" en verifieer je e-mailadres of telefoonnummer. Gebruik \"Wachtwoord vergeten\" om je account te herstellen."
       },
       "privacy": {
         "q": "Zijn berichten end-to-end versleuteld?",
@@ -1610,25 +2048,25 @@
       },
       "translate": {
         "q": "Hoe werkt directe vertaling?",
-        "a": "Schakel \"Automatisch vertalen\" in via Instellingen → Weergave en taal. We vertalen op het apparaat waar dit wordt ondersteund, anders via beveiligde API's met minimale metadata."
+        "a": "Schakel \"Automatisch vertalen\" in via Instellingen → Weergave & Taal. We vertalen op het apparaat waar dit wordt ondersteund, anders via beveiligde API's met minimale metadata."
       },
       "contact": {
         "q": "Neem contact op met de ondersteuning",
-        "a": "Neem contact met ons op via support@chatforia.com. Voeg screenshots en je app-versie toe."
+        "a": "Neem contact met ons op via support@chatforia.com. Voeg screenshots en je app-versie toe versie."
       }
     }
   },
   "gettingStarted": {
     "title": "Aan de slag",
-    "subtitle": "Nieuw bij Chatforia? Deze snelstartgids toont de basiszaken, zodat je binnen enkele minuten productief aan de slag kunt.",
+    "subtitle": "Nieuw bij Chatforia? Deze snelstartgids toont de basiszaken, zodat u binnen enkele minuten productief aan de slag kunt.",
     "alert": {
-      "text": "Deze handleiding wordt uitgebreid naarmate we nieuwe functies lanceren. Als er iets ontbreekt, laat het ons dan weten via",
+      "text": "Deze gids wordt uitgebreid naarmate we nieuwe functies lanceren. Als er iets ontbreekt, laat het ons dan weten via",
       "contactLink": "Neem contact met ons op"
     },
     "section1": {
-      "title": "1) Maak uw account aan",
+      "title": "1) Maak je account aan",
       "signup": "Aanmelden",
-      "of": "of",
+      "or": "of",
       "login": "inloggen",
       "loginText": "met je bestaande account.",
       "prefsStart": "Open in de app Instellingen om je voorkeuren in te stellen",
@@ -1638,19 +2076,19 @@
     "section2": {
       "title": "2) Begin met berichten sturen",
       "item1": "Maak een DM of groep aan en stuur je eerste bericht.",
-      "item2": "Gebruik directe vertaling om in meer dan 100 talen te chatten.",
-      "item3": " Probeer verdwijnende berichten en leesbevestigingen in Profiel → Privacy."
+      "item2": "Gebruik directe vertaling om te chatten in meer dan 100 talen.",
+      "item3": "Probeer verdwijnende berichten en leesbevestigingen in Profiel → Privacy."
     },
     "section3": {
       "title": "3) Ga verder",
-      "item1": "Je kunt op elk moment in de app upgraden naar een betaald abonnement.",
+      "item1": "Je kunt op elk moment binnen de app upgraden naar een betaald abonnement.",
       "item2": "Zodra je bent ingelogd, kun je extra apparaten koppelen en versleutelde back-ups instellen via Instellingen in de app.",
       "item2Part1": "Zodra je bent ingelogd, kun je extra apparaten koppelen en versleutelde back-ups instellen via Instellingen in de app."
     },
     "cta": {
-      "seePlans": "Bekijk abonnementen en prijzen",
+      "seePlans": " Bekijk abonnementen en prijzen",
       "openSettings": "Open instellingen",
-      "createAccount": " Maak een account aan"
+      "createAccount": "Maak een account aan"
     }
   },
   "howItWorks": {
@@ -1694,90 +2132,96 @@
       "title": "Waarom berichtenplatforms belangrijker zijn dan ooit",
       "intro": "Berichtenplatforms zijn in de wereld van vandaag een van de belangrijkste communicatiemiddelen geworden. Van persoonlijke gesprekken tot zakelijke interacties: met berichtenapps kunnen mensen direct en efficiënt contact houden.",
       "everydayTitle": "Dagelijkse communicatie",
-      "everydayDesc": "Mensen vertrouwen op berichtenapps voor dagelijkse communicatie met vrienden, familie en collega's. Of het nu gaat om een korte update of een lang gesprek, berichten bieden een handige en flexibele manier om contact te houden.",
+      "everydayDesc": "\n Mensen vertrouwen op berichtenapps voor dagelijkse communicatie met vrienden, familie en collega's. Of het nu gaat om een korte update of een lang gesprek, berichten bieden een handige en flexibele manier om contact te houden.",
       "speedTitle": "Snelheid en gemak",
       "speedDesc": "Een van de belangrijkste voordelen van berichtenplatforms is hun snelheid. Berichten worden direct bezorgd, waardoor gebruikers in realtime kunnen communiceren. Dit gemak heeft berichten voor veel mensen tot de favoriete communicatiemethode gemaakt.",
       "globalTitle": "Wereldwijd bereik",
       "globalDesc": "Berichtenplatforms verbinden mensen over de hele wereld. Met internettoegang kunnen gebruikers communiceren ongeacht hun locatie, waardoor het gemakkelijker wordt om relaties op te bouwen en internationaal samen te werken.",
-      "privacyTitle": "Privacy en controle",
-      " privacyDesc": "Moderne berichtenplatforms richten zich op het geven van controle aan gebruikers over hun gegevens en gesprekken. Functies zoals versleuteling, privacy-instellingen en berichtbeheer stellen gebruikers in staat om met vertrouwen te communiceren.",
+      "privacyTitle": "Privacy en controle ",
+      "privacyDesc": "Moderne berichtenplatforms richten zich op het geven van controle aan gebruikers over hun gegevens en gesprekken. Functies zoals versleuteling, privacy-instellingen en berichtbeheer stellen gebruikers in staat om met vertrouwen te communiceren.",
       "futureTitle": "De toekomst van berichtenverkeer",
-      "futureDesc": "Berichtenverkeer blijft zich ontwikkelen met nieuwe functies zoals AI-gestuurde reacties, vertalingen en het delen van multimedia. Naarmate de technologie vordert, zullen berichtenplatforms nog krachtiger en veelzijdiger worden.",
+      "futureDesc": "Berichtenverkeer blijft zich ontwikkelen met nieuwe functies zoals AI-aangedreven reacties, vertaling en het delen van multimedia. Naarmate de technologie vordert, zullen berichtenplatforms nog krachtiger en veelzijdiger worden.",
       "outro": "Chatforia is gebouwd met deze principes in gedachten en biedt een snelle, veilige en gebruiksvriendelijke berichtenervaring voor een verbonden wereld."
     },
     "global": {
       "title": "De toekomst van wereldwijde communicatie",
-      "intro": "Communicatie heeft zich de afgelopen decennia snel ontwikkeld. Wat vroeger telefoongesprekken of persoonlijke ontmoetingen, kan nu snel worden afgehandeld via berichtenplatforms. Naarmate de technologie zich verder ontwikkelt, wordt wereldwijde communicatie sneller, toegankelijker en inclusiever.",
+      "intro": "Communicatie heeft zich de afgelopen decennia snel ontwikkeld. Wat vroeger telefoongesprekken of persoonlijke ontmoetingen vereiste, kan nu snel worden afgehandeld via berichtenplatforms. Naarmate de technologie zich verder ontwikkelt, wordt wereldwijde communicatie sneller, toegankelijker en inclusiever.",
       "barriersTitle": "Barrières doorbreken",
-      "barriersDesc": "Een van de grootste veranderingen in communicatie is het verminderen van geografische barrières. Mensen kunnen nu vrijwel in realtime contact maken met anderen over de hele wereld. Of het nu gaat om persoonlijke gesprekken, zaken of samenwerking, berichtenplatforms hebben ervoor gezorgd dat afstand veel minder beperkend is .",
+      "barriersDesc": "Een van de grootste veranderingen in communicatie is het wegnemen van geografische barrières. Mensen kunnen nu bijna in realtime contact maken met anderen over de hele wereld. Of het nu gaat om persoonlijke gesprekken, zaken of samenwerking, berichtenplatforms hebben afstand veel minder beperkend gemaakt.",
       "translationTitle": "De rol van vertaaltechnologie",
       "translationDesc": "Taal is van oudsher een van de grootste obstakels voor wereldwijde communicatie geweest. Tegenwoordig helpen ingebouwde vertaaltools die kloof te overbruggen. Platforms zoals Chatforia stellen gebruikers in staat om gemakkelijker te communiceren, zelfs als ze verschillende talen spreken, waardoor nieuwe mogelijkheden voor verbinding en begrip ontstaan.",
-      "realtimeTitle": "Realtime connectiviteit",
-      "realtimeDesc": "Snelheid is een sleutelfactor in moderne communicatie. Gebruikers verwachten dat berichten snel worden afgeleverd, en moderne infrastructuur ondersteunt die verwachting. Realtime berichtenverkeer maakt natuurlijkere en vloeiendere gesprekken mogelijk.",
+      "realtimeTitle": "Real-time connectiviteit",
+      "realtimeDesc": "Snelheid is een sleutelfactor die de moderne communicatie bepaalt. Gebruikers verwachten dat berichten snel worden afgeleverd, en de moderne infrastructuur ondersteunt die verwachting. Real-time berichtenverkeer maakt natuurlijkere en vloeiendere gesprekken mogelijk.",
       "privacyTitle": "Privacy en beveiliging",
-      "privacyDesc ": "Naarmate communicatie steeds digitaler wordt, worden privacy en beveiliging steeds belangrijker. Gebruikers willen de zekerheid dat hun gesprekken worden beschermd. Functies zoals versleuteling en door de gebruiker beheerde instellingen dragen bij aan een veiligere communicatie-ervaring.",
-      " futureTitle": "Wat komt erna",
-      "futureDesc": "De toekomst van wereldwijde communicatie zal waarschijnlijk geavanceerdere tools omvatten, zoals AI-ondersteunde berichtenuitwisseling, verbeterde vertalingen en een betere gebruikerservaring. Naarmate de technologie evolueert, zal communicatie steeds intuïtiever en toegankelijker worden.",
+      "privacyDesc": "Naarmate communicatie steeds digitaler wordt, worden privacy en beveiliging steeds belangrijker. Gebruikers willen de zekerheid dat hun gesprekken worden beschermd. Functies zoals versleuteling en door de gebruiker beheerde instellingen dragen bij aan een veiligere communicatie-ervaring.",
+      "futureTitle": "Wat komt erna",
+      "futureDesc": "De toekomst van wereldwijde communicatie zal waarschijnlijk geavanceerdere tools omvatten, zoals AI-ondersteunde berichtenuitwisseling, verbeterde vertalingen en een betere gebruikerservaring. Naarmate de technologie zich ontwikkelt, zal communicatie steeds intuïtiever en toegankelijker worden.",
       "outro": "Platforms zoals Chatforia maken deel uit van deze verschuiving en helpen mensen gemakkelijker contact te leggen over talen en grenzen heen."
     },
     "index": {
       "title": "Chatforia Blog",
       "intro": "Ontdek inzichten over communicatie, online veiligheid en hoe berichtentechnologie mensen over de hele wereld met elkaar verbindt.",
       "post1": "Hoe u veilig online kunt chatten",
-      "post2": "De toekomst van wereldwijde communicatie",
+      "post2": " De toekomst van wereldwijde communicatie",
       "post3": "Waarom berichtenplatforms belangrijk zijn"
     },
     "chatSafely": {
       "title": "Hoe u veilig online kunt chatten",
       "intro": "Online communicatie heeft het gemakkelijker dan ooit gemaakt om contact te leggen met mensen over de hele wereld. Of u nu berichten stuurt naar vrienden, nieuwe mensen ontmoet of professioneel samenwerkt, berichtenplatforms spelen een belangrijke rol in het dagelijks leven. Veilig online blijven is echter net zo belangrijk als verbonden blijven.",
       "personalInfo": {
-        "title": " Bescherm je persoonlijke gegevens",
-        "body": "Een van de belangrijkste regels voor online veiligheid is het vermijden van het delen van gevoelige persoonlijke informatie. Dit omvat je huisadres, financiële gegevens, wachtwoorden of andere identificerende informatie die misbruikt zou kunnen worden. Zelfs in informele gesprekken kun je het beste bewust zijn van wat je deelt en met wie je het deelt."
+        "title": "Bescherm je persoonlijke gegevens",
+        "body": "Een van de belangrijkste regels voor online veiligheid is het vermijden van het delen van gevoelige persoonlijke gegevens. Dit omvat je huisadres, financiële gegevens, wachtwoorden of andere identificerende informatie die misbruikt zou kunnen worden. Zelfs in informele gesprekken is het het beste om bewust te zijn van wat je deelt en met wie je het deelt."
       },
       "safetyFeatures": {
         "title": "Gebruik ingebouwde veiligheidsfuncties",
-        "body": "Moderne berichtenplatforms zoals Chatforia bieden tools om gebruikers te helpen veilig te blijven. Functies zoals blokkeren, melden en privacyinstellingen zijn ontworpen om gebruikers controle te geven over hun ervaring. Als iemand zich ongepast gedraagt of je een ongemakkelijk gevoel geeft, moet je deze tools onmiddellijk gebruiken."
+        "body": "Moderne berichtenplatforms zoals Chatforia bieden tools om gebruikers te helpen veilig te blijven. Functies zoals blokkeren, melden en privacy-instellingen zijn ontworpen om gebruikers controle te geven over hun ervaring. Als iemand zich ongepast gedraagt of je een ongemakkelijk gevoel geeft, moet je deze tools onmiddellijk gebruiken."
       },
       "scams": {
         "title": "Wees je bewust van oplichting",
         "body": "Oplichters gebruiken vaak berichtenplatforms om gebruikers te misleiden en persoonlijke informatie te delen of geld over te maken. Wees voorzichtig met berichten die te mooi lijken om waar te zijn, zoals onverwachte aanbiedingen, dringende verzoeken of onbekende links. Controleer altijd de identiteit van de persoon met wie je communiceert voordat je actie onderneemt."
       },
       "responsibly": {
-        "title": "Communiceer verantwoord",
+        "title": "Communiceer op een verantwoorde manier ",
         "body": "Respectvolle communicatie helpt een veiligere omgeving voor iedereen te creëren. Vermijd schadelijke of beledigende gesprekken en houd rekening met hoe uw woorden anderen kunnen beïnvloeden. Positieve interacties dragen bij aan een betere ervaring voor alle gebruikers."
       },
       "whySafety": {
         "title": "Waarom online veiligheid belangrijk is",
-        "body": "Naarmate digitale communicatie blijft groeien, wordt het handhaven van veiligheid en vertrouwen steeds belangrijker. Door basisveiligheidsmaatregelen te volgen en beschikbare tools te gebruiken, kunnen gebruikers genieten van de voordelen van berichtenverkeer terwijl ze de risico's minimaliseren."
+        "body": "Naarmate digitale communicatie blijft groeien, wordt het handhaven van veiligheid en vertrouwen steeds belangrijker. Door basisveiligheidsmaatregelen te volgen en beschikbare tools te gebruiken, kunnen gebruikers genieten van de voordelen van berichtenverkeer terwijl ze risico's minimaliseren."
       },
-      "conclusion": "Online veilig blijven vereist geen geavanceerde technische kennis—alleen bewustzijn, voorzichtigheid en gezond verstand. Met de juiste gewoontes kun je zelfverzekerd en veilig communiceren."
+      "conclusion": "Veilig online blijven vereist geen geavanceerde technische kennis—alleen bewustzijn, voorzichtigheid en gezond verstand. Met de juiste gewoontes kun je vol vertrouwen en veilig communiceren."
     }
   },
   "about": {
     "title": "Over Chatforia",
     "description": "Chatforia is een veilige, meertalige messenger met end-to-end-versleuteling, directe vertaling en spraak- en videogesprekken. Onze missie is simpel: mensen helpen contact te maken – veilig, privé en over taalgrenzen heen.",
-    "valuesTitle": "Waar we waarde aan hechten",
+    "valuesTitle": "Waar we voor staan ",
     "values": {
       "privacy": "<b>Privacy voorop:</b> Standaard E2E-versleuteling.",
       "access": "<b>Toegang voor iedereen:</b> Automatische vertaling van meer dan 100 talen.",
       "control": "<b>Controle:</b> Verdwijnende berichten en leesbevestigingen zijn optioneel.",
-      "privacy_ aria": "Privacy voorop: standaard E2E-versleuteling.",
+      "privacy_aria": "Privacy voorop: standaard E2E-versleuteling.",
       "access_aria": "Toegang voor iedereen: automatische vertaling van meer dan 100 talen.",
       "control_aria": "Controle: verdwijnende berichten en leesbevestigingen zijn optioneel."
     },
     "howTitle": "Hoe Chatforia werkt",
-    " howDescription": "Berichten worden op je apparaat versleuteld voordat ze het verlaten. Vertaling, back-ups en apparaatsynchronisatie zijn zo ontworpen dat onze servers zo min mogelijk kunnen zien."
+    "howDescription": "Berichten worden op je apparaat versleuteld voordat ze het verlaten. Vertaling, back-ups en apparaatsynchronisatie zijn ontworpen om te minimaliseren wat onze servers kunnen zien.",
+    "privacyTitle": "Privacy voorop",
+    "privacyDesc": "End-to-end-versleuteling en privacyinstellingen zijn vanaf het begin in Chatforia ingebouwd.",
+    "accessTitle": "Toegang voor iedereen",
+    "accessDesc": "Chatforia helpt mensen contact te maken over talen, apparaten en grenzen heen.",
+    "controlTitle": "Jouw controle",
+    "controlDesc": "Kies hoe berichten worden weergegeven, wanneer ze verdwijnen en hoe je account beschermd blijft."
   },
   "press": {
     "title": "Pers",
-    "contactLine": "Neem voor mediavragen contact met ons op via",
-    " boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia is een privacygerichte berichten-app die chatten in verschillende talen moeiteloos maakt. Berichten zijn standaard end-to-end versleuteld en de ingebouwde vertaling ondersteunt meer dan 100 talen in realtime. Gebruikers kunnen verdwijnende berichten inschakelen, leesbevestigingen optioneel houden en apparaten synchroniseren. Beschikbaar op iOS, Android en het web.",
-    "assetsTitle": " Merkmateriaal",
+    "contactLine": "Voor mediavragen kun je contact met ons opnemen via",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is een privacy-first berichtenapp die chatten in verschillende talen moeiteloos maakt. Berichten zijn standaard end-to- -end versleuteld en de ingebouwde vertaling ondersteunt meer dan 100 talen in realtime. Gebruikers kunnen verdwijnende berichten inschakelen, leesbevestigingen optioneel houden en synchroniseren tussen apparaten. Beschikbaar op iOS, Android en het web.",
+    "assetsTitle": "Merkassets",
     "assetsSubtitle": "Logo's, screenshots en productafbeeldingen.",
     "downloadCta": "Download mediakit",
     "downloadTitle": "Download de app",
-    "scanTip": "Op je computer? Scan met je telefoon om de app te downloaden.",
+    "scanTip": "Op je desktop? Scan met je telefoon om de app te downloaden.",
     "qrAria": "Open de Chatforia-website",
     "appStore": "Download in de App Store",
     "googlePlay": "Download in Google Play"
@@ -1785,26 +2229,27 @@
   "careers": {
     "title": "Carrières",
     "intro": "Wij zijn een klein oprichtersteam dat Chatforia bouwt — een privé, wereldwijde messenger die wordt gelanceerd op het web, iOS en Android. Als je geeft om privacy, versleuteling en een geweldige gebruikerservaring, horen we graag van je.",
-    "openRoles": "<b>Openstaande functies bij de oprichters:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/ Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "openRoles": "<b>Open vacatures voor het oprichtersteam:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
     "apply": "Hoe solliciteren: Gebruik de onderstaande knop om je cv en links te e-mailen.",
     "emailCta": "E-mail je cv",
     "whyNow": "Waarom nu meedoen?",
-    "whyBullets": "• Help mee de basis te leggen voor een nieuwe wereldwijde messenger.\n• Implementeer verbeteringen voor web, iOS en Android.\n• Werk rechtstreeks samen met de oprichter aan de architectuur en productrichting.\n• Neem de leiding over belangrijke onderdelen van de stack: berichten, spraak, video, versleuteling, telecom, AI.\n• Kom erbij vanaf het begin — voordat het gebruikersbestand groeit."
+    "whyBullets": "• Help mee de basis te leggen voor een nieuwe wereldwijde messenger.\n• Implementeer verbeteringen die worden gebruikt op het web, iOS en Android.\n• Werk rechtstreeks samen met de oprichter aan de architectuur en productrichting.\n• Neem de leiding over belangrijke onderdelen van de stack: berichten, spraak, video, versleuteling, telecom, AI.\\ n• Kom erbij vanaf het begin — voordat het gebruikersbestand groeit.",
+    "futureRoles": "Toekomstige functies"
   },
   "advertise": {
     "title": "Adverteer met Chatforia",
-    "description": "Bereik betrokken messaging-gebruikers met smaakvolle, merkveilige plaatsingen. We bieden bannerruimte op goed zichtbare plekken, sponsorschappen en interne promoties. Premium-abonnees zien geen advertenties.",
+    "description": "Bereik betrokken messaging-gebruikers met smaakvolle, merkveilige plaatsingen. We bieden bannerruimte op goed zichtbare plekken, sponsoring, en interne promoties. Premium-abonnees zien geen advertenties.",
     "adsense": {
-      "withPubIdShort": "We bieden ook advertentieruimte aan via Google AdSense. Je kunt Chatforia targeten met publisher-ID {{pub Id}}, of gebruik het onderstaande formulier voor directe sponsoring.",
-      "noPubIdShort": "We bieden ook advertentieruimte aan via Google AdSense. Directe sponsoring is mogelijk — gebruik het onderstaande formulier."
+      "withPubIdShort": "We bieden ook advertentieruimte aan via Google AdSense. U kunt Chatforia targeten met uitgevers-ID {{pubId}}, of het onderstaande formulier gebruiken voor directe sponsoring.",
+      "noPubIdShort": "We bieden ook wat advertentieruimte aan via Google AdSense. Directe sponsoring is beschikbaar — gebruik het onderstaande formulier."
     },
     "inventoryHeader": "Advertentieruimte & specificaties",
     "placement": {
-      " displayBadge": "Weergave",
+      "displayBadge": "Display",
       "acceptedSizes": "Toegestane formaten",
       "adsenseSlot": "AdSense-slot:"
     },
-    "noPlacementsPublic": "We zijn bezig met het afronden van onze advertentie-inventaris. Vertel ons over uw campagne en wij zullen plaatsingen aanbevelen.",
+    "noPlacementsPublic": " We zijn bezig met het afronden van onze advertentie-inventaris. Vertel ons over uw campagne en wij zullen plaatsingen aanbevelen.",
     "whyHeader": "Waarom Chatforia?",
     "why": {
       "highSession": "Hoge sessiefrequentie en verblijftijd in de chat-UI",
@@ -1814,8 +2259,8 @@
     },
     "contactHeader": "Contact",
     "form": {
-      "submittedMsg": "Bedankt! Uw aanvraag is verzonden. We nemen zo snel mogelijk contact met u op.",
-      "missingRequired": "Vul uw naam, e-mailadres en bericht in.",
+      "submittedMsg": "Bedankt! Uw aanvraag is verzonden. We nemen binnenkort contact met u op.",
+      "missingRequired": "Vul alstublieft naam, e-mailadres en bericht in.",
       "successToast": "Bedankt! We nemen binnenkort contact met je op.",
       "mailtoInfo": "Je e-mailprogramma wordt geopend om de aanvraag te verzenden…",
       "nameLabel": "Je naam",
@@ -1823,7 +2268,7 @@
       "emailLabel": "E-mail",
       "emailPlaceholder": "you@company.com",
       "companyLabel": "Bedrijf",
-      " companyPlaceholder": "Acme Inc.",
+      "companyPlaceholder": "Acme Inc.",
       "budgetLabel": "Maandelijks budget (optioneel)",
       "budgetPlaceholder": "bijv. $1.000–$20.000+",
       "messageLabel": "Vertel ons over uw campagne",
@@ -1831,7 +2276,7 @@
       "sendCta": "Verzoek verzenden"
     },
     "legal": {
-      "disclaimerStart": "Door dit in te dienen, gaat u akkoord met onze",
+      "disclaimerStart": "Door dit formulier in te dienen, gaat u akkoord met onze",
       "terms": "Voorwaarden",
       "and": "en",
       "privacy": "Privacybeleid"
@@ -1852,25 +2297,25 @@
     "title": "Privacybeleid",
     "lastUpdated": "Laatst bijgewerkt:",
     "intro": {
-      "body": "In dit privacybeleid wordt uitgelegd hoe Chatforia (\"wij\", \"ons\") informatie verzamelt, gebruikt en deelt wanneer u onze apps en diensten gebruikt. We ontwerpen Chatforia om de gegevens waartoe we toegang hebben tot een minimum te beperken."
+      "body": "In dit privacybeleid wordt uitgelegd hoe Chatforia (\"wij\", \"ons\") informatie verzamelt, gebruikt en deelt wanneer u onze apps en diensten gebruikt. We ontwerpen Chatforia zo dat we zo min mogelijk toegang hebben tot gegevens."
     },
     "infoWeCollect": {
       "title": "Informatie die we verzamelen",
       "account": "Accountgegevens (bijv. e-mail/telefoonnummer) om uw account aan te maken en te beveiligen.",
       "encrypted": "Versleutelde inhoud (berichten/gesprekken) is end-to-end versleuteld; wij kunnen deze niet lezen.",
-      "diagnostics": "Diagnostische/gebruiksgegevens zoals crashlogs, apparaattype, of grove analyses om de prestaties te verbeteren."
+      "diagnostics": "Diagnostische/gebruiksgegevens zoals crashlogs, apparaattype of grove analyses om de prestaties te verbeteren."
     },
     "sms": {
       "title": "Mobiele telefoonnummers en sms",
-      "body": "Als u ervoor kiest om een mobiel telefoonnummer op te geven, gebruiken we dit om functies in te schakelen zoals accountverificatie, inlogmeldingen en berichtenuitwisseling tussen gebruikers via sms, waar dit wordt ondersteund. We kunnen transactionele sms-berichten sturen met betrekking tot uw account en activiteit op Chatforia. U kunt zich op elk moment afmelden voor het ontvangen van sms-berichten door te reageren met een ondersteund afmeldingswoord (zoals \"STOP\") of door uw meldingsvoorkeuren in de app te wijzigen. Wij verkopen uw telefoonnummer niet en gebruiken het niet voor niet-gerelateerde marketing.",
+      "body": "Als u ervoor kiest een mobiel telefoonnummer op te geven, gebruiken we dit om functies in te schakelen zoals accountverificatie, inlogmeldingen en berichtenuitwisseling tussen gebruikers via sms, waar dit wordt ondersteund. We kunnen transactionele sms-berichten sturen met betrekking tot uw account en activiteiten op Chatforia. U kunt zich op elk moment afmelden voor het ontvangen van sms-berichten door te antwoorden met een ondersteund afmeldingswoord (zoals \"STOP\") of door uw meldingsvoorkeuren in de app te wijzigen. We uw telefoonnummer niet verkopen of gebruiken voor niet-gerelateerde marketing.",
       "newText": "Nieuwe tekst",
       "enterRecipient": "Voer een naam of nummer in",
       "typeMessage": "Typ een bericht…",
       "addRecipient": "Voeg hierboven een ontvanger toe om te beginnen…"
     },
     "howWeUse": {
-      "title": "Hoe we informatie gebruiken ",
-      "provide": "De dienst leveren en beveiligen (authenticatie, detectie van spam/misbruik).",
+      "title": "Hoe we informatie gebruiken",
+      "provide": "De dienst leveren en beveiligen (authenticatie, spam-/misbruikdetectie).",
       "improve": "Functies verbeteren (vertaalkwaliteit, betrouwbaarheid).",
       "legal": "Voldoen aan wettelijke verplichtingen."
     },
@@ -1880,15 +2325,15 @@
     },
     "rights": {
       "title": "Uw rechten",
-      "body": "Afhankelijk van uw regio (bijv. AVG/UK AVG/CPRA), kunt u toegang, correctie, verwijdering of opt-out van bepaalde verwerking aanvragen. Contact: privacy@chatforia.com."
+      "body": "Afhankelijk van uw regio (bijv. AVG/UK AVG/CPRA) kunt u verzoeken om inzage, correctie, verwijdering of afmelding voor bepaalde verwerkingen. Contact: privacy@chatforia.com."
     },
-    "bewaring ": {
-      "title": "Gegevensbewaring & beveiliging",
-      "body": "We bewaren alleen wat nodig is om de dienst te exploiteren en passen beveiliging volgens de industriestandaard toe. E2E-inhoud kan niet door ons worden gedecodeerd."
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
     },
     "children": {
       "title": "Kinderen",
-      "body": "Chatforia is niet gericht op kinderen jonger dan 13 jaar (of zoals vereist door uw lokale wetgeving)."
+      "body": "\n Chatforia is niet gericht op kinderen jonger dan 13 jaar (of zoals vereist door uw lokale wetgeving)."
     },
     "changes": {
       "title": "Wijzigingen",
@@ -1903,11 +2348,11 @@
     "title": "Servicevoorwaarden",
     "lastUpdated": "Laatst bijgewerkt:",
     "intro": {
-      " body": "Door Chatforia te gebruiken, gaat u akkoord met deze voorwaarden. Als u hiermee niet akkoord gaat, maak dan geen gebruik van de dienst."
+      "body": "Door Chatforia te gebruiken, gaat u akkoord met deze voorwaarden. Als u hier niet mee akkoord gaat, maak dan geen gebruik van de dienst."
     },
     "accounts": {
       "title": "Accounts",
-      "itemAccurateInfo": " Geef accurate informatie en bewaar uw inloggegevens veilig.",
+      "itemAccurateInfo": "Geef accurate informatie en bewaar uw inloggegevens veilig.",
       "itemResponsibility": "U bent verantwoordelijk voor de activiteiten op uw account."
     },
     "acceptableUse": {
@@ -1917,7 +2362,7 @@
     },
     "sms": {
       "title": "SMS-berichten",
-      "body": "Als u een mobiel telefoonnummer opgeeft, gaat u ermee akkoord dat Chatforia u SMS-berichten mag sturen met betrekking tot uw account en het gebruik van de dienst, zoals inlogmeldingen, beveiligingsmeldingen en berichten met betrekking tot gesprekken die u start of waaraan u deelneemt. We gebruiken SMS niet voor promotionele of marketingberichten zonder uw uitdrukkelijke toestemming. Standaard tarieven voor berichten en data kunnen van toepassing zijn. U kunt zich u zich op elk moment afmelden voor sms-berichten door te reageren met een ondersteund afmeldingswoord (bijvoorbeeld \"STOP\") of door uw meldingsinstellingen in de app bij te werken."
+      "body": "Als u een mobiel telefoonnummer opgeeft, gaat u ermee akkoord dat Chatforia u SMS-berichten kan sturen met betrekking tot uw account en het gebruik van de dienst, zoals inlogmeldingen, beveiligingsmeldingen en berichten met betrekking tot gesprekken die u start of waaraan u deelneemt. Wij gebruiken sms niet voor promotionele of marketingberichten zonder uw uitdrukkelijke toestemming. Standaard tarieven voor berichten en data kunnen van toepassing zijn. U kunt zich op elk moment afmelden voor sms-berichten door te reageren met een ondersteund afmeldingswoord (bijvoorbeeld \"STOP\") of door uw meldingsinstellingen in de app bij te werken."
     },
     "yourContent": {
       "title": "Uw inhoud",
@@ -1929,7 +2374,7 @@
     },
     "changes": {
       "title": "Wijzigingen",
-      " body": "We kunnen deze voorwaarden bijwerken; voortgezet gebruik na wijzigingen betekent aanvaarding."
+      "body": "Wij kunnen deze voorwaarden bijwerken; voortgezet gebruik na wijzigingen houdt in dat u deze accepteert."
     },
     "contact": {
       "title": "Contact",
@@ -1945,50 +2390,47 @@
       "body": "Abonnementen worden vooraf gefactureerd op terugkerende basis. U kunt op elk moment opzeggen via uw accountinstellingen of het platform dat u hebt gebruikt om de aankoop te doen."
     },
     "eligibility": {
-      "title": "Recht op terugbetaling",
-      "body": "Terugbetalingen kunnen worden toegekend voor dubbele afschrijvingen, factureringsfouten of technische problemen die de toegang tot betaalde functies verhinderen. Alle verzoeken worden per geval beoordeeld."
+      "title": "Recht op restitutie",
+      "body": "Restituties kunnen worden toegekend bij dubbele afschrijvingen, factureringsfouten of technische problemen die de toegang tot betaalde functies verhinderen. Alle verzoeken worden per geval beoordeeld."
     },
     "nonRefundable": {
-      "title": "Niet-restitueerbaar",
-      "body": "Over het algemeen bieden we geen terugbetalingen voor ongebruikte tijd, gedeeltelijke abonnementsperiodes of het niet opzeggen vóór verlenging."
+      "title": "Niet restitueerbaar",
+      "body": "Over het algemeen verlenen wij geen restituties voor ongebruikte tijd, gedeeltelijke abonnementsperiodes of het niet opzeggen vóór verlenging."
     },
-    "thirdParty ": {
+    "thirdParty": {
       "title": "Aankopen via derden",
-      "body": "Als de aankoop is gedaan via platforms van derden, zoals de Apple App Store, moeten restituties rechtstreeks via die platforms worden aangevraagd."
+      "body": "Indien aangeschaft via -partijplatforms zoals de Apple App Store, moeten restituties rechtstreeks via die platforms worden aangevraagd."
     },
     "contact": {
       "title": "Contact",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, VS"
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, VS"
     }
   },
   "doNotSell": {
     "title": "Verkoop of deel mijn persoonlijke gegevens niet",
     "body": "Chatforia verkoopt geen persoonlijke gegevens. Inwoners van Californië kunnen nog steeds verzoeken indienen onder de CPRA via de onderstaande knop.",
-    "cta": "Dien een verzoek in"
+    "cta": "Een verzoek indienen"
   },
   "cookies": {
     "title": "Cookie-instellingen",
-    "body": "Chatforia gebruikt een minimum aan cookies (bijv. sessie-, beveiligingscookies). We gebruiken geen advertentiecookies van derden. Beheer cookies via de instellingen van uw browser."
-  },
-  "premiumGuard": {
-    "requiresPremium": "Voor deze functie is een Premium-abonnement vereist."
+    "body": "Chatforia gebruikt een minimum aan cookies (bijv. sessie, beveiliging). We gebruiken geen advertentiecookies van derden. Beheer cookies via de instellingen van je browser."
   },
   "smsPolicy": {
-    "title": "Chatforia — SMS-beleid & Opt-in",
+    "title": "Chatforia — SMS-beleid & opt-in",
     "lastUpdated": "Laatst bijgewerkt:",
     "whatWeSend": {
       "title": "Wat we versturen",
-      "body": "Chatforia verstuurt alleen accountgerelateerde en conversatiegerelateerde sms-berichten naar telefoonnummers die een gebruiker expliciet heeft opgegeven en waarvoor hij toestemming heeft gegeven. Typische berichten zijn onder andere inlog-/verificatiecodes, meldingen over de bezorging van berichten, beveiligingsmeldingen en transactionele accountupdates."
+      "body": "Chatforia verstuurt alleen accountgerelateerde en conversatiegerelateerde sms-berichten naar telefoonnummers die een gebruiker expliciet heeft opgegeven en waarvoor hij toestemming heeft gegeven. Typische berichten zijn onder meer inlog-/verificatiecodes, meldingen over de bezorging van berichten, beveiligingsmeldingen en transactionele accountupdates."
     },
     "optIn": {
       "title": "Hoe gebruikers zich aanmelden",
-      "body": "Gebruikers melden zich aan door hun telefoonnummer in te voeren tijdens de registratie en het selectievakje voor SMS-toestemming aan te vinken op de registratiepagina of het speciale",
+      "body": "Gebruikers melden zich aan door hun telefoonnummer in te voeren tijdens de registratie en het selectievakje voor sms-toestemming op de registratiepagina of de speciale",
       "link": "aanmeldingsformulier"
     },
     "optOut": {
       "title": "Hoe gebruikers zich afmelden",
-      "stop": "Beantwoord STOP op elk Chatforia-sms-bericht om zich af te melden.",
-      "start": "Beantwoord START om zich opnieuw aan te melden.",
+      "stop": "Beantwoord STOP op elk Chatforia-sms-bericht om je af te melden.",
+      "start": "Beantwoord START om je opnieuw aan te melden.",
       "contactPrefix": "Neem contact op met de ondersteuning via"
     },
     "help": {
@@ -1998,10 +2440,17 @@
     "privacyTerms": {
       "title": "Privacy & Voorwaarden",
       "bodyStart": "Door in te stemmen met sms, gaan gebruikers ook akkoord met onze",
-      "terms": "Servicevoorwaarden",
-      "and": "en",
+      "terms": "Terms of Service",
+      "and": "and",
       "privacy": "Privacybeleid"
     },
     "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "Nieuwe tekst",
+    "thread": "Discussie",
+    "enterRecipient": " Voer een naam of nummer in",
+    "typeMessage": "Typ een bericht…",
+    "addRecipient": "Voeg hierboven een ontvanger toe om te beginnen…"
   }
 }

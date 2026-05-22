@@ -7,10 +7,24 @@
     "cancelAria": "Sser",
     "copy": "Nɣel",
     "copied": "Nɣel!",
-    "errorWithMessage": "Tella-d tuccḍa: {{message}}"
+    "errorWithMessage": "Tella-d tuccḍa: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Zzi ɣer tuggut tagejdant"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Aḥraz n tsarut yernan yekkes-d ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "Fren afaylu yerna sekcem ufrar.",
     "imported": "Tasarut tabaɣant ttekka-d ɣer uselkim-a. Tzemreḍ ad tɣeṛḍ izen n zik-a.",
     "enterPassword": "Sekcem ufrar n umiḍan-ik iwakken ad nḥrez tisurutin-ik s tɣellist."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Tamsenɣurt tabaɣant i kra n yiwen, anda ma tebɣiḍ",
@@ -88,7 +198,19 @@
       "passwordDescription": "Minimum 6 isekkilen. Seqdec ufrar yellan d amellal, yellan d uslig.",
       "smsConsent": "S tɣuri n umiḍan, teqneḍ ad tawiḍ tilɣa n SMS yellan d tamsenɣurt ɣer tɣawsa n Chatforia (am izen seg yimdanen nniḍen). Taggayt n tiliɣri d data tzemreḍ ad tili. Tzemreḍ ad tsefkṛeḍ melmi ma tebɣiḍ deg yifecka.",
       "termsLink": "Tiwaliwin n useqdec",
-      "privacyLink": "Tabaɣant"
+      "privacyLink": "Tabaɣant",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "I:",
     "enterRecipient": "Sekcem isem neɣ uḍḍun",
@@ -99,43 +221,93 @@
     "addRecipient": "Rnu amerra ukessar iwakken ad tebduḍ…",
     "oneRecipient": "Sekcem yiwen amerra i tura-a.",
     "enterValidRecipient": "Sekcem isem n unermid yekksen neɣ uḍḍun n tiliɣri.",
-    "sendFailed": "Tuccḍa deg tuzna. Wali console iwakken ad tẓerḍ tafat."
+    "sendFailed": "Tuccḍa deg tuzna. Wali console iwakken ad tẓerḍ tafat.",
+    "logIn": "Kcem",
+    "seePlans": "Wali iɣewwaṛen d tɣuri",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "S tɣuri n umiḍan, teqneḍ ad tawiḍ tilɣa n SMS yellan d tamsenɣurt ɣer tɣawsa n Chatforia (am izen seg yimdanen nniḍen). Taggayt n tiliɣri d data tzemreḍ ad tili. Tzemreḍ ad tsefkṛeḍ melmi ma tebɣiḍ deg yifecka.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
   },
-  "footer": {
-  "aria": "Footer",
-  "homeAria": "Chatforia taggara",
-  "section": {
-    "company": "TAKEBBANIT",
-    "support": "TALLELT",
-    "downloads": "ISADAREN",
-    "legal": "ILUGAN"
+  "login": {
+    "welcomeBack": "Brrak tɣlid",
+    "title": "Kemmel ɣer Chatforia",
+    "subtitleReturning": "Kcem ɣer umiḍan Chatforia-ik",
+    "google": "Kemmel s Google",
+    "apple": "Kemmel s Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Anekcum s Google ur yewjid ara",
+    "appleUnavailable": "Anekcum s Apple ur yewjid ara",
+    "ssoUnavailable": "Anekcum s yiwen ur yewjid ara tura. Seqdec username d password.",
+    "or": "neɣ",
+    "accountLabel": "Amiḍan",
+    "identifierPh": "Imayl neɣ username",
+    "passwordLabel": "Ufrar",
+    "passwordPh": "Ufrar-ik",
+    "keepSignedIn": "Eǧǧ-iyi qqimeɣ kcemɣ",
+    "forgot": "Tettuḍ ufrar?",
+    "resendVerification": "Ales tuzna n imayl n usenqed",
+    "submit": "Kcem",
+    "loggingIn": "Anekcum…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Kemmel ɣer Chatforia",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Kemmel ɣer Chatforia",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Kcem",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
   },
-  "links": {
-    "plans-pricing": "Iɣewwaṛen d tɣuri",
-    "about-chatforia": "Ɣef Chatforia",
-    "how-it-works": "Amek iteddu",
-    "blog": "Blog",
-    "careers": "Ixeddimen",
-    "press": "Press",
-    "advertise": "Dellel",
-    "getting-started": "Bdu tura",
-    "help-center": "Amas n tallelt",
-    "safety": "Tɣellist",
-    "contact-us": "Nermes-aɣ",
-    "status-page": "Asebter n waddad",
-    "ios-app-store": "iOS / App Store",
-    "android-google-play": "Android / Google Play",
-    "privacy-policy": "Tasertit n tbaḍnit",
-    "terms-of-service": "Tiwtilin n useqdec",
-    "refund-policy": "Tasertit n usefru",
-    "sms-messaging-policy": "Tasertit n izen SMS",
-    "do-not-sell-my-info": "Ur zzenz ara talɣut-inu",
-    "cookie-settings": "Iɣewwaṛen n cookies"
-  }
-},
+  "oauth": {
+    "completing": "Completing sign-in…"
+  },
   "home": {
     "title": "Taggara",
-    "header": "Izen-ik",
     "messagesTitle": "Izen-ik",
     "messagesSubtitle": "Sekcem amerra ukessar, sakin azen izen iwakken ad tebduḍ tccerḍit.",
     "subheader": "Azen izen iwakken ad tebduḍ tccerḍit.",
@@ -148,248 +320,31 @@
     "sendTooltip": "Azen",
     "sendTooltipEmpty": "Aru izen iwakken ad tazenḍ",
     "send": "Azen",
+    "welcomeMessage": "Ansuf ɣer Chatforia",
+    "getStarted": "Bdu tura",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "Sekcem isem neɣ uṭṭun",
     "addRecipient": "Rnu amsawaḍ s ufella i wakken ad tebdu…",
-    "welcomeMessage": "Ansuf ɣer Chatforia",
-    "getStarted": "Bdu tura"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Tasertit n usefru n udrim",
-    "lastUpdated": "Akken iṛẓem:",
-    "intro": "Deg Chatforia, nɛeddu ad nfk axeddim n lqaɛda i yal amdan. Tasertit-agi n usefru n udrim tessekna melmi ara yettwafk usefru.",
-    "subscriptions": {
-      "title": "Ijerden (Subscriptions)",
-      "body": "Ijerden ttusran sdat u ttɣellin s usekles amur n wakud. Tzemreḍ ad tesseḥbes deg yal wakud seg iɣewwaren n umiḍan inek neɣ seg platform iɣef t-tzraḍ."
-    },
-    "eligibility": {
-      "title": "Tiwtilin n usefru",
-      "body": "Usefru yezmer ad yettwafk ma yella llan tuccḍiwin am udrim i ttusran sin, tuccḍa deg ubill, neɣ ugur n teknikt i yettḥebsen anekcum ɣer imahilen yettwafkan s udrim. Yal asuter yettwasekcem s tḥeqqiq."
-    },
-    "nonRefundable": {
-      "title": "Ur yettusefru ara",
-      "body": "S umata, ur nettak ara usefru i wakud ur nettwasexdem ara, iḥricen n ijerden, neɣ ma ur tettseḥbseḍ ara uqbel n usemmed."
-    },
-    "thirdParty": {
-      "title": "Tiɣawsiwin n wis kraḍ",
-      "body": "Ma t-tzraḍ seg platformen n wis kraḍ am Apple App Store, ilaq ad tessutreḍ usefru ɣer-sen srid."
-    },
-    "contact": {
-      "title": "Nermes-aɣ",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "login": {
-  "welcomeBack": "Brrak tɣlid",
-  "title": "Kemmel ɣer Chatforia",
-  "subtitleReturning": "Kcem ɣer umiḍan Chatforia-ik",
-  "google": "Kemmel s Google",
-  "apple": "Kemmel s Apple",
-  "googleShort": "Google",
-  "appleShort": "Apple",
-  "googleUnavailable": "Anekcum s Google ur yewjid ara",
-  "appleUnavailable": "Anekcum s Apple ur yewjid ara",
-  "ssoUnavailable": "Anekcum s yiwen ur yewjid ara tura. Seqdec username d password.",
-  "or": "neɣ",
-  "accountLabel": "Amiḍan",
-  "identifierPh": "Imayl neɣ username",
-  "passwordLabel": "Ufrar",
-  "passwordPh": "Ufrar-ik",
-  "keepSignedIn": "Eǧǧ-iyi qqimeɣ kcemɣ",
-  "forgot": "Tettuḍ ufrar?",
-  "resendVerification": "Ales tuzna n imayl n usenqed",
-  "submit": "Kcem",
-  "loggingIn": "Anekcum…"
-},
-  "about": {
-    "title": "ɣef Chatforia",
-    "description": "Chatforia d platform n tmeslayt amaynut yettwabna i tmeslayt taɣellist u s tutlayin yemgaraden...",
-    "valuesTitle": "Ayen nɛeddu fell-as",
-    "privacyTitle": "Tazmert n tbaḍnit",
-    "privacyDesc": "Asenked aɣellist d iɣewwaren n tbaḍnit yettwasenfelen sɣur useqdac",
-    "accessTitle": "Anekcum i yal yiwen",
-    "accessDesc": "Tasnalest n tutlayin deg waṭas n tutlayin",
-    "controlTitle": "Asenfar",
-    "controlDesc": "Imahilen am iznan i yettṛuḥun u read receipts"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Acuɣer tesɛa tmeslayt azal meqqren tura",
-      "intro": "Platformen n tmeslayt tuɣalin d yiwet seg ifecka iḥerzen deg tudert n wass-a...",
-      "everydayTitle": "Tmeslayt n yal ass",
-      "everydayDesc": "Medden seqdacen apps n tmeslayt yal ass...",
-      "speedTitle": "Aẓrag d tissas",
-      "speedDesc": "Iznan ttawin s tɣawla...",
-      "globalTitle": "Aẓeṭṭa ameḍlan",
-      "globalDesc": "Platformen-agi ttaǧǧan medden ad msettafen deg umaḍal...",
-      "privacyTitle": "Tbaḍnit d usenfar",
-      "privacyDesc": "Platformen amaynutin ttaǧǧan asenfar i useqdac...",
-      "futureTitle": "Imal n tmeslayt",
-      "futureDesc": "Tmeslayt tettnerni s imahilen imaynuten...",
-      "outro": "Chatforia yettwabna ɣef yiselken-agi..."
-    },
-
-    "global": {
-      "title": "Imal n tmeslayt tameḍlant",
-      "intro": "Tmeslayt tettbeddel s tɣawla...",
-      "barriersTitle": "Asesfuɣ n iḥerzen",
-      "barriersDesc": "Medden zemren ad msettafen deg umaḍal...",
-      "translationTitle": "Tawuri n tsnalest",
-      "translationDesc": "Tutlayt tettili d aḥerzen zik...",
-      "realtimeTitle": "Tmeslayt deg wakud n tura",
-      "realtimeDesc": "Aẓrag yesɛa azal meqqren...",
-      "privacyTitle": "Tbaḍnit d tɣellist",
-      "privacyDesc": "Iseqdacen bɣan tɣellist i tmeslayin-nsen...",
-      "futureTitle": "Ayen ara d-yeqqimen",
-      "futureDesc": "Imal ad yesɛu imahilen imaynuten...",
-      "outro": "Platformen am Chatforia d aḥric seg usnifel-agi..."
-    },
-
-    "index": {
-      "title": "Blog n Chatforia",
-      "intro": "Wali tiktiwin ɣef tmeslayt...",
-      "post1": "Amek ad tmeslayeḍ s tɣellist deg internet",
-      "post2": "Imal n tmeslayt tameḍlant",
-      "post3": "Acuɣer tesɛa tmeslayt azal"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Amek iteddu Chatforia",
-    "intro": "Chatforia yettwabna akken ad yesshel tmeslayt...",
-    "step1Title": "1. Snulfu-d amiḍan",
-    "step1Desc": "Sekcem s email neɣ username...",
-    "step2Title": "2. Bdu tameslayt",
-    "step2Desc": "Msettafeḍ d wiyaḍ...",
-    "step3Title": "3. Iznan s tɣawla",
-    "step3Desc": "Iznan ttawin s tɣawla...",
-    "step4Title": "4. Tmeslayt tameḍlant",
-    "step4Desc": "Tasnalest tettɛawen iseqdacen...",
-    "step5Title": "5. Ḥrez asenfar",
-    "step5Desc": "Sefrek iɣewwaren inek..."
-  },
-
-  "safety": {
-    "title": "Tɣellist d yilugan n tmezdagnut",
-    "intro": "Chatforia ibɣa ad yefk amkan aɣellist...",
-    "respectTitle": "Tmeslayt s usqerdec",
-    "respectDesc": "Ilaq iseqdacen ad mmeslayen s leqder...",
-    "prohibitedTitle": "Ayen ur yettwasireggen ara",
-    "prohibited": {
-      "illegal": "Ifecka ur nelli ara d ileɣal",
-      "harassment": "Aḥercas neɣ bullying",
-      "hate": "Aɣilif neɣ discrimination",
-      "explicit": "Ifecka ixessaren",
-      "spam": "Spam neɣ tiddas n wawal"
-    },
-    "toolsTitle": "Ifecka n tɣellist",
-    "tools": {
-      "report": "Azen asuter",
-      "block": "Sewḥel iseqdacen",
-      "control": "Sefrek iɣewwaren n tbaḍnit"
-    },
-    "enforcementTitle": "Aselkem n yilugan",
-    "enforcementDesc": "Nezmer ad nɛeddi tigawin ɣef imiḍanen..."
-},
-  "chat": {
-    "selectPrompt": "Fren aḍris neɣ taxxamt n tccerḍit iwakken ad tebduḍ ad teccerḍit",
-    "newMessages": "Izen imaynuten",
-    "typing": "{{name}} yella yura…",
-    "emptyTitle": "Izen-ik",
-    "emptySubtitle": "Azen izen iwakken ad tebduḍ ad teccerḍit.",
-    "startChatButton": "Azen izen",
-    "mediaAttachment": "Afaylu amidyazan",
-    "thisUser": "aseqdac-a",
-    "blockConfirm": "Tsewḥel {{name}}? Ur tzemreḍ ara ad tawiḍ izen seg-s.",
-    "blockedUser": "Tsewḥel {{name}}.",
-    "blockError": "Ur nezmir ara ad nẓer anwa asebqaḍ iwakken ad tsewḥel.",
-    "blockFailed": "Tsewḥel teccuḍ (backend ur yekkes ara yettawi).",
-    "encryptedUnavailable": "Izen yekkesen (tasarut ur tewjed ara)",
-    "unlockToView": "Kkes tasarut-ik iwakken ad tẓerḍ izen-a"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Yekkes"
-    },
-    "freeLimit": "Talast n uɣawas ilelliyen: tuzɣi awtmat ɣer 1 n wass. Tteddu ɣer 1d.",
-    "premiumLimit": "Talast tafellayt i Premium d 30 n wussan. Tteddu ɣer 30d.",
-    "nothingToSend": "Aru izen neɣ seddu afaylu iwakken ad tazenḍ.",
-    "encryptionFailed": "Tasekkirt teccuḍ. Izen ur yuzin ara.",
-    "sent": "Izen yekka-d.",
-    "placeholder": "Aru izen…",
-    "voiceAdded": "Ttwarnu uzan ameslaw",
-    "attachmentAdded": "Ttwarnu ufaylu",
-    "autoDelete": "Tuzɣi tawurmit",
-    "typeToSend": "Aru izen iwakken ad tazenḍ",
-    "send": "Azen",
-    "sendWithEnter": "Azen (Enter)",
-    "attachment": "tawlaft",
-    "caption": "Tira (d ilelliyen)",
-    "remove": "Kkes",
-    "clear": "Sfeḍ",
-    "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Tawlaft tmeqqer aṭas. Ɛreḍ afaylu amecṭuḥ.",
-      "unsupportedFile": "Anaw n ufaylu ur yekkes ara.",
-      "rateLimit": "Tuzna n izen tetteddu s tɣuri tamellalt. Ṛẓem.",
-      "validation": "Tuccḍa n usenqed. Wali izen-ik yerna ɛreḍ tikkelt-nniḍen.",
-      "failedToSend": "Tuccḍa deg tuzna. Tzemreḍ ad talseḍ tuzna n tqerrabt i teccuḍ."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Inermiden yekksen",
-    "refreshAria": "Ssemḥi inermiden",
-    "filterPlaceholder": "Sizdeg inermiden yekksen…",
-    "filterAria": "Sizdeg inermiden yekksen",
-    "noContactsFound": "Ur yella ara inermiden.",
-    "externalContact": "Anermid n yeɣer",
-    "notJoined": "Anermid-a ur yekkes ara ɣer Chatforia.",
-    "couldNotStart": "Ur nezmir ara ad nebdu tccerḍit. Ɛreḍ tikkelt-nniḍen.",
-    "startFailed": "Tuccḍa deg ubdu n tccerḍit. Ɛreḍ tikkelt-nniḍen.",
-    "deleted": "Anermid yekkes.",
-    "deleteFailed": "Tuccḍa deg tukksa n unermid. Ɛreḍ tikkelt-nniḍen.",
-    "aliasUpdated": "Alias yemtawi.",
-    "updateAliasFailed": "Tuccḍa deg usali n alias. Ɛreḍ tikkelt-nniḍen.",
-    "selectContact": "Fren {{name}}",
-    "alias": "Alias",
-    "startChat": "Bdu tccerḍit",
-    "message": "Izen",
-    "delete": "Kkes",
-    "deleteContactAria": "Kkes anermid",
-    "loadFailed": "Tuccḍa deg usali n inermiden. Ɛreḍ tikkelt-nniḍen.",
-    "loadMore": "Sali-d ugar",
-    "call": "Siwel",
-    "callStarted": "Asiwel ɣer uḍḍun-a s uḍḍun n Chatforia-ik…",
-    "callFailed": "Tuccḍa deg ubdu n usiwel. Ɛreḍ tikkelt-nniḍen."
-  },
-  "startChatModal": {
-    "title": "Bdu tccerḍit",
-    "searchPlaceholder": "Nadi isem, isem n useqdac, neɣ uḍḍun n tiliɣri",
-    "messageThisPerson": "Azen i wemdan-a",
-    "contacts": "Inermiden",
-    "recentInteractions": "Tamsenɣurin timiranin",
-    "noContactsMatch": "Ur yella ara inermiden yemtawanen d unadi-ik.",
-    "noRecentInteractions": "Ur yella ara tamsenɣurin timiranin.",
-    "unknown": "Arussin",
-    "interactionType": {
-      "message": "Izen",
-      "call": "Asiwel",
-      "video": "Tamuɣli"
-    }
-  },
-  "addContactModal": {
-    "title": "Rnu anermid",
-    "phoneOrUsername": "Uḍḍun n tiliɣri neɣ isem n useqdac",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 neɣ juliannorton",
-    "alias": "Alias (d ilelliyen)",
-    "aliasPlaceholder": "e.g. Axdam, Yemma, Mike – Tura",
-    "enterPhoneOrUsername": "Sekcem uḍḍun n tiliɣri neɣ isem n useqdac.",
-    "userLookupFailed": "Tuccḍa deg unadi n useqdac.",
-    "cannotAddSelf": "Ur tezmireḍ ara ad ternuḍ iman-ik d anermid.",
-    "failedToAdd": "Tuccḍa deg terna n unermid.",
-    "add": "Rnu"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Tccerḍit tamaynut",
@@ -413,13 +368,151 @@
     "startChatAlt": "Bdu tccerḍit tamaynut",
     "calls": "Isiwlen",
     "video": "Tamuɣli",
-    "voicemail": "Tamsenɣurt n uɣewwaṛ"
+    "voicemail": "Tamsenɣurt n uɣewwaṛ",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Addad amaynu",
     "logout": "Ffeɣ",
     "help": "Tallelt",
     "createStatusAria": "Rnu addad amaynu"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Ixeddimen",
+    "press": "Press",
+    "advertise": "Dellel",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia taggara",
+    "section": {
+      "company": "TAKEBBANIT",
+      "support": "TALLELT",
+      "downloads": "ISADAREN",
+      "legal": "ILUGAN"
+    },
+    "links": {
+      "plans-pricing": "Iɣewwaṛen d tɣuri",
+      "about-chatforia": "Ɣef Chatforia",
+      "careers": "Ixeddimen",
+      "press": "Press",
+      "advertise": "Dellel",
+      "getting-started": "Bdu tura",
+      "help-center": "Amas n tallelt",
+      "contact-us": "Nermes-aɣ",
+      "status-page": "Asebter n waddad",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Tasertit n tbaḍnit",
+      "terms-of-service": "Tiwtilin n useqdec",
+      "do-not-sell-my-info": "Ur zzenz ara talɣut-inu",
+      "cookie-settings": "Iɣewwaṛen n cookies",
+      "how-it-works": "Amek iteddu",
+      "blog": "Blog",
+      "refund-policy": "Tasertit n usefru",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Fren aḍris neɣ taxxamt n tccerḍit iwakken ad tebduḍ ad teccerḍit",
+    "newMessages": "Izen imaynuten",
+    "typing": "{{name}} yella yura…",
+    "emptyTitle": "Izen-ik",
+    "emptySubtitle": "Azen izen iwakken ad tebduḍ ad teccerḍit.",
+    "startChatButton": "Azen izen",
+    "mediaAttachment": "Afaylu amidyazan",
+    "thisUser": "aseqdac-a",
+    "blockConfirm": "Tsewḥel {{name}}? Ur tzemreḍ ara ad tawiḍ izen seg-s.",
+    "blockedUser": "Tsewḥel {{name}}.",
+    "blockError": "Ur nezmir ara ad nẓer anwa asebqaḍ iwakken ad tsewḥel.",
+    "blockFailed": "Tsewḥel teccuḍ (backend ur yekkes ara yettawi).",
+    "encryptedUnavailable": "Izen yekkesen (tasarut ur tewjed ara)",
+    "unlockToView": "Kkes tasarut-ik iwakken ad tẓerḍ izen-a",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Yekkes"
+    },
+    "freeLimit": "Talast n uɣawas ilelliyen: tuzɣi awtmat ɣer 1 n wass. Tteddu ɣer 1d.",
+    "premiumLimit": "Talast tafellayt i Premium d 30 n wussan. Tteddu ɣer 30d.",
+    "nothingToSend": "Aru izen neɣ seddu afaylu iwakken ad tazenḍ.",
+    "encryptionFailed": "Tasekkirt teccuḍ. Izen ur yuzin ara.",
+    "sent": "Izen yekka-d.",
+    "placeholder": "Aru izen…",
+    "autoDelete": "Tuzɣi tawurmit",
+    "typeToSend": "Aru izen iwakken ad tazenḍ",
+    "send": "Azen",
+    "sendWithEnter": "Azen (Enter)",
+    "attachment": "tawlaft",
+    "caption": "Tira (d ilelliyen)",
+    "remove": "Kkes",
+    "clear": "Sfeḍ",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Tawlaft tmeqqer aṭas. Ɛreḍ afaylu amecṭuḥ.",
+      "unsupportedFile": "Anaw n ufaylu ur yekkes ara.",
+      "rateLimit": "Tuzna n izen tetteddu s tɣuri tamellalt. Ṛẓem.",
+      "validation": "Tuccḍa n usenqed. Wali izen-ik yerna ɛreḍ tikkelt-nniḍen.",
+      "failedToSend": "Tuccḍa deg tuzna. Tzemreḍ ad talseḍ tuzna n tqerrabt i teccuḍ.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Ttwarnu uzan ameslaw"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Umuɣ n tccerḍit",
@@ -435,8 +528,6 @@
     "invitePeople": "Rnu imdanen",
     "roomSettings": "Iɣewwaṛen n texxamt",
     "clearConversation": "Sfeḍ ameslay",
-    "clearConversationForMe": "Sfeḍ i nekki",
-    "clearConversationForEveryone": "Sfeḍ i yal yiwen",
     "block": "Seḥbes"
   },
   "roomSearch": {
@@ -463,7 +554,18 @@
       "tagged": "Ala i yellan s (/tr …)",
       "all": "Akk izen"
     },
-    "updated": "Iɣewwaṛen yemtawanen"
+    "updated": "Iɣewwaṛen yemtawanen",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Tamedyazt yemtawanen",
@@ -534,32 +636,110 @@
     "delete": "Kkes",
     "unreadDotAria": "Tamerkast n tamsenɣurt n uɣewwaṛ ur tɣuri ara"
   },
-  "randomChat": {
-  "title": "Tccerḍit tarumit",
-  "subtitle": "Mmeslay d yiwen amaynu s tɣawla, neɣ fren ad tmeslayeḍ d Ria.",
-  "start": "Bdu tameslayt",
-  "description": "Mmeslay s wudem arussin di tazwara. Rnu Friend mbaɛd ma yella yelha.",
-  "findMatch": "Af-d yiwen i d-yemtawanen",
-  "chatWithRia": "Mmeslay d Ria",
-  "setAge": "Sbadu tazwara n leɛmer-ik deg Profile → Age & Random Chat iwakken ad tiliḍ yemtawan d yimdanen.",
-  "idle": "Yessusem",
-  "matching": "Anadi ɣef match…",
-  "searching": "Anadi…",
-  "cancel": "Sser",
-  "connectionProblem": "Wenneɣ deg tuqqna",
-  "ai": "AI",
-  "anonymous": "Arussin",
-  "connectedAs": "Teqqneḍ am",
-  "chatEnded": "Tameslayt tfuk",
-  "conversationEnded": "Tameslayt-nni tfuk.",
-  "findAnotherMatch": "Af-d match nniḍen",
-  "next": "Wayeḍ",
-  "addFriend": "Rnu Friend",
-  "leave": "Ffeɣ",
-  "send": "Azen",
-  "partner": "Amdan nniḍen",
-  "you": "Kečč"
-},
+  "contactList": {
+    "savedContacts": "Inermiden yekksen",
+    "refreshAria": "Ssemḥi inermiden",
+    "filterPlaceholder": "Sizdeg inermiden yekksen…",
+    "filterAria": "Sizdeg inermiden yekksen",
+    "noContactsFound": "Ur yella ara inermiden.",
+    "externalContact": "Anermid n yeɣer",
+    "notJoined": "Anermid-a ur yekkes ara ɣer Chatforia.",
+    "couldNotStart": "Ur nezmir ara ad nebdu tccerḍit. Ɛreḍ tikkelt-nniḍen.",
+    "startFailed": "Tuccḍa deg ubdu n tccerḍit. Ɛreḍ tikkelt-nniḍen.",
+    "deleted": "Anermid yekkes.",
+    "deleteFailed": "Tuccḍa deg tukksa n unermid. Ɛreḍ tikkelt-nniḍen.",
+    "aliasUpdated": "Alias yemtawi.",
+    "updateAliasFailed": "Tuccḍa deg usali n alias. Ɛreḍ tikkelt-nniḍen.",
+    "selectContact": "Fren {{name}}",
+    "alias": "Alias",
+    "startChat": "Bdu tccerḍit",
+    "message": "Izen",
+    "delete": "Kkes",
+    "deleteContactAria": "Kkes anermid",
+    "loadFailed": "Tuccḍa deg usali n inermiden. Ɛreḍ tikkelt-nniḍen.",
+    "loadMore": "Sali-d ugar",
+    "call": "Siwel",
+    "callStarted": "Asiwel ɣer uḍḍun-a s uḍḍun n Chatforia-ik…",
+    "callFailed": "Tuccḍa deg ubdu n usiwel. Ɛreḍ tikkelt-nniḍen.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Rnu anermid",
+    "phoneOrUsername": "Uḍḍun n tiliɣri neɣ isem n useqdac",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 neɣ juliannorton",
+    "alias": "Alias (d ilelliyen)",
+    "aliasPlaceholder": "e.g. Axdam, Yemma, Mike – Tura",
+    "enterPhoneOrUsername": "Sekcem uḍḍun n tiliɣri neɣ isem n useqdac.",
+    "userLookupFailed": "Tuccḍa deg unadi n useqdac.",
+    "cannotAddSelf": "Ur tezmireḍ ara ad ternuḍ iman-ik d anermid.",
+    "failedToAdd": "Tuccḍa deg terna n unermid.",
+    "add": "Rnu"
+  },
+  "startChatModal": {
+    "title": "Bdu tccerḍit",
+    "searchPlaceholder": "Nadi isem, isem n useqdac, neɣ uḍḍun n tiliɣri",
+    "messageThisPerson": "Azen i wemdan-a",
+    "contacts": "Inermiden",
+    "recentInteractions": "Tamsenɣurin timiranin",
+    "noContactsMatch": "Ur yella ara inermiden yemtawanen d unadi-ik.",
+    "noRecentInteractions": "Ur yella ara tamsenɣurin timiranin.",
+    "unknown": "Arussin",
+    "interactionType": {
+      "message": "Izen",
+      "call": "Asiwel",
+      "video": "Tamuɣli"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
+  },
   "profile": {
     "title": "Amaɣnu n useqdac",
     "preferredLanguage": "Tutlayt i tebɣiḍ",
@@ -696,13 +876,167 @@
     "voicemailNote": "Tamsenɣurin n uɣewwaṛ seg uḍḍunen n Chatforia-ik ad qqimen deg taggayt n Tamsenɣurt n uɣewwaṛ. Tzemreḍ ad tremdeḍ tasuqilt d tuzna deg iɣewwaṛen yellan.",
     "portHint": "Tebɣiḍ ad tekkes uḍḍun-ik amiran? Tzemreḍ ad tseklesḍ ɣer Chatforia Wireless.",
     "wireless": {
-      "manage": "Sefrek wireless"
+      "manage": "Sefrek wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Amaɣnu n useqdac",
       "desc": "Awi-d data n tiliɣri i Chatforia mi ara tekkes seg Wi-Fi.",
-      "cta": "Awi-d eSIM / Sken QR"
-    }
+      "cta": "Awi-d eSIM / Sken QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -754,7 +1088,685 @@
     "expiresIn": "Ad yekkes deg {{days}} n wussan",
     "exhausted": "Data-ik yekkes. Awi-d akemmus amaynu iwakken ad tkemmleḍ useqdec n data n tiliɣri.",
     "buyPack": "Awi-d akemmus n data",
-    "esimPackLabel": "Akemmus n eSIM"
+    "esimPackLabel": "Akemmus n eSIM",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "Asali…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Zzi ɣer Premium",
+    "description": "Ldi iɣewwaṛen n tɣuri d tukksa n udellel.",
+    "cta": "Sali-d",
+    "upgrade": "Sali-d",
+    "upgradeAria": "Sali-d ɣer Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "Sali-d",
+    "titleLoggedIn": "Sali-d",
+    "titlePublic": "Tɣuri",
+    "h1": "Tɣuri d iɣewwaṛen n Chatforia",
+    "h1Subtitle": "Bdu s uɣawas ilelliyen s udellel. Zzi ɣer adellel ilelliyen s Plus, neɣ ldi akk iɣewwaṛen n tɣuri s Premium.",
+    "subtitle": "Fren aɣawas n usenfar, rnu akemmus n data i tman-ik, neɣ bḍu data d twacult-ik — meṛṛa seg yiwen n wemḍiq.",
+    "subtitle.app": "Bdu s uɣawas ilelliyen s udellel. Zzi ɣer adellel ilelliyen s Plus, neɣ ldi akk iɣewwaṛen n tɣuri s Premium.",
+    "subtitle.mobile": "Rnu data n tiliɣri tamensayt iwakken Chatforia ad yekkes mi ara tekkes seg Wi-Fi.",
+    "subtitle.family": "Rnu tɣawsa n data yemtawanen i twacult-ik yerna sefrek useqdec n yiwen.",
+    "perMonth": "ayyur",
+    "perYear": "aseggas",
+    "goPremium": "Zzi ɣer Premium",
+    "benefitsLine": "Ldi iɣewwaṛen n tɣuri d tukksa n udellel.",
+    "ctaText": "Sali-d",
+    "aria": "Sali-d ɣer Chatforia Premium",
+    "toggle": {
+      "monthly": "S ayyur",
+      "annual": "S aseggas (Ḥrez 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Amulteɣ ad yekkes",
+      "body": "Ad tuɣaleḍ ɣer Ilelliyen ɣef",
+      "keepPlanCta": "Ḥrez {{plan}}",
+      "manageBillingCta": "Sefrek tɣuri"
+    },
+    "billing": {
+      "opening": "Alday…",
+      "manage": "Sefrek tɣuri"
+    },
+    "checkout": {
+      "redirecting": "Azen ɣer…"
+    },
+    "auth": {
+      "continue": "Kemmel ɣer unekcum",
+      "createAccount": "Rnu amiḍan",
+      "signIn": "Kcem"
+    },
+    "cta": {
+      "aria": "Fren aɣawas",
+      "getPlus": "Sali-d ɣer Plus",
+      "upgradeMonthly": "Sali-d s ayyur",
+      "upgradeAnnual": "Sali-d s aseggas",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "Iɣewwaṛen n usenfar",
+      "mobile": "Tiliɣri (eSIM)",
+      "family": "Iɣewwaṛen n twacult"
+    },
+    "plans": {
+      "free": {
+        "title": "Ilelliyen",
+        "price": "$0",
+        "desc": "Bdu tamsenɣurt s ilelliyen. Yellan d amellal ma telliḍ kan tɛreḍ Chatforia.",
+        "features": {
+          "chat": "Tccerḍit tamaynut 1:1 d tgrawt, akked isiwlen s uɣni d tamuɣli",
+          "media": "Bḍu tawlafin, izen n uslu, d timuɣliwin imecṭuḥen",
+          "ai": "Err n AI d tasuqilt tamaynut (useqdec amellal)",
+          "disappearing": "Izen n tura d yifecka n tabaɣant n tizwirt",
+          "ads": "Ilelliyen yid-s s udellel deg usenfar"
+        },
+        "ctaCurrent": "Aɣawas amiran",
+        "ctaManage": "Sefrek deg tɣuri",
+        "ctaPublic": "Bdu — kemmel ɣer unekcum",
+        "aria": "Aɣawas ilelliyen"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Akk iɣewwaṛen n tizwirt, war udellel. Yellan d amellal i tamsenɣurt n yal ass d usiwel.",
+        "features": {
+          "allFree": "Akk wayen yellan deg Ilelliyen, war udellel",
+          "forwarding": "Azen isiwlen d tuzna n tiliɣri ɣer uḍḍun-ik amiran",
+          "history": "Tamsenɣurt n izen ɣer 6 n wagguren",
+          "support": "Tallelt tamellalt mi ara yekkes wenneɣ"
+        },
+        "badge": "Yellan d amellal",
+        "cta": "Zzi ɣer adellel ilelliyen",
+        "ctaPublic": "Awi Plus — kemmel ɣer unekcum",
+        "aria": "Sali-d ɣer Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (s ayyur)",
+        "price": "$11.99",
+        "desc": "Tamsenɣurt n Chatforia meṛṛa: yifecka n AI, tawlaft, d tallelt tamellalt.",
+        "features": {
+          "plusAll": "Akk wayen yellan deg Plus",
+          "themes": "Ldi akk tawlafin n yinit n Premium d yifecka n usenfar",
+          "ai": "Yifecka n AI n Premium kan i usali, err n tizwirt, d tizwalin",
+          "support": "Tallelt tamellalt mi ara tebɣiḍ tallelt",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Yellan d amellal",
+        "cta": "Sali-d (s ayyur)",
+        "ctaPublic": "Ldi Premium — kemmel ɣer unekcum",
+        "aria": "Sali-d ɣer Premium s ayyur"
+      },
+      "premiumAnnual": {
+        "title": "Premium (s aseggas)",
+        "price": "$99",
+        "desc": "Ḥrez ugar mi ara tiliḍ s aseggas — akked yifecka n yinit nniḍen, yifecka n AI, d tallelt tamellalt.",
+        "features": {
+          "allPremium": "Akk wayen yellan deg Premium s ayyur — akked yifecka n yinit nniḍen",
+          "annualBilling": "Yekka-d s yiwen n wass n useggwas",
+          "save25": "Ḥrez azal n 30% ɣef tɣuri s ayyur",
+          "bestFor": "Yellan d amellal i yimdanen n tɣuri, imdanen n tɣawsa n yeɣer, d imdanen n tiliɣri",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Ḥrez 30%",
+        "cta": "Sali-d (s aseggas)",
+        "ctaPublic": "Ḥrez 30% s aseggas — kemmel ɣer unekcum",
+        "aria": "Sali-d ɣer Premium s aseggas",
+        "disclaimer": "Yekka-d s tazwara. Tzemreḍ ad tkekseḍ melmi ma tebɣiḍ. Ur yella ara aḥraz nniḍen."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Ilelliyen",
+      "freeDesc": "Bdu tamsenɣurt s ilelliyen.",
+      "plusTitle": "Plus",
+      "plusBadge": "Yellan d amellal",
+      "plusDesc": "Tamsenɣurt ilelliyen s tɣuri tamellalt.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Akk iɣewwaṛen, islan, d yifecka n AI.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Ḥrez ugar s aseggas.",
+      "annualDisclaimer": "Yekka-d s tazwara. Tzemreḍ ad tkekseḍ melmi ma tebɣiḍ. Ur yella ara aḥraz nniḍen."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (akemmus n data n eSIM)",
+      "subtitle": "Rnu data tamensayt iwakken Chatforia ad yekkes war Wi-Fi. Tɣuri ad temtawi s tamurt-ik d yidrimen.",
+      "subtitle.detail": "Fren akemmus n data tamensayt yiwen n tikkelt iwakken Chatforia ad yekkes mi ara telliḍ deg tiliɣri.",
+      "scope": {
+        "local": "Tamurt",
+        "europe": "Turuft",
+        "global": "Umaḍal",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "Tamurt = {{country}}",
+      "localEqualsFallback": "Tamurt = tamurt-ik tamirant",
+      "perPack": "/ akemmus",
+      "cta": "Awi akemmus n data-a",
+      "ctaPublic": "Awi akemmus n data-a",
+      "checkout": {
+        "redirecting": "Azen ɣer…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Data n tɣuri tafellayt i useqdec ameqqran",
+          "throttle": "Tɣuri ad tessusem mi ara tili tɣuri tafellayt",
+          "coverage": "Tɣuri tamellalt",
+          "instant": "Tazwara n eSIM s tɣuri tamaynut",
+          "noContract": "Akemmus yiwen n tikkelt, war amulteɣ"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "Akemmus n data n eSIM yesra ibenk yellan d eSIM d ilelliyen. Tella-d s yibenkan, uɣawas, d tamurt. Tɣuri d tɣuri ad temtawi s tɣawsa.",
+        "fairUse": "Yellan s tɣuri n useqdec amellal d talast n tmurt"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "Smenyif akemmus n data n eSIM",
+        "col": {
+          "pack": "Akemmus",
+          "data": "Data yellan",
+          "bestFor": "Yellan d amellal i"
+        },
+        "disclaimer": "Taggayt n data tettemtawi s wamek ara tesseqdceḍ Chatforia (asiwel, tamuɣli, tamedyazt, d yisensan nniḍen ɣef tiliɣri-ik)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Tɣuri tamellalt ɣef GB"
+      },
+      "feature": {
+        "instant": "Tazwara n eSIM s tɣuri tamaynut",
+        "coverage": "Tɣuri tamellalt",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Tamurt",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Turuft",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Umaḍal",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Akemmus n tizwirt",
+        "data": "3 GB",
+        "bestFor": "Tura imecṭuḥen, tamsenɣurt tamellalt, d yisiwlen n tikkelt"
+      },
+      "medium": {
+        "title": "Akemmus n umussu",
+        "data": "5 GB",
+        "bestFor": "Tura n taggayt, isiwlen n VoIP, d yikaramen"
+      },
+      "large": {
+        "title": "Akemmus n tɣuri",
+        "data": "10 GB",
+        "bestFor": "Tccerḍit tafellayt, isiwlen, tamuɣli, d useqdec n hotspot"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Tawacult n Chatforia (data yemtawanen)",
+      "subtitle": "Bḍu yiwen n ukemmus n data ɣef twacult-ik. Yiwen n ufelluq, ugar n yimiḍanen n Chatforia, tɣuri tamensayt.",
+      "perPack": "/ akemmus",
+      "small": {
+        "title": "Tawacult tamecṭuḥt",
+        "desc": "Yesɛi 20 GB n data yemtawanen — yellan d amellal i 2–3 n yimdanen n tizwirt.",
+        "price": "$29.99",
+        "aria": "Awi akemmus n Tawacult tamecṭuḥt"
+      },
+      "medium": {
+        "title": "Tawacult tammidant",
+        "desc": "Yesɛi 40 GB n data yemtawanen — yellan d amellal i 3–5 n yimɣanen n tɣuri.",
+        "price": "$49.99",
+        "aria": "Awi akemmus n Tawacult tammidant"
+      },
+      "large": {
+        "title": "Tawacult tameqqrant",
+        "desc": "Yesɛi 80 GB n data yemtawanen — i twacultin i yellan yid-sen yal ass.",
+        "price": "$84.99",
+        "aria": "Awi akemmus n Tawacult tameqqrant"
+      },
+      "feature": {
+        "shared": "Tɣawsa n data yemtawanen i twacult-ik",
+        "members": "Rnu ar 4 n yimɣanen nniḍen",
+        "membersMore": "Yellan d amellal i 3–5 n yimɣanen n tɣuri",
+        "manage": "Sefrek talast i yal aɣerbaz",
+        "topUp": "Rnu akemmus nniḍen melmi ma tebɣiḍ",
+        "bestValue": "Tɣuri tamellalt ɣef GB",
+        "fairUse": "Yellan s tɣuri n useqdec amellal d talast n tmurt"
+      },
+      "disclaimer": "Akemmus n twacult ad yernu neɣ ad yali tɣawsa n data yemtawanen. Tzemreḍ ad ternuḍ neɣ ad tkekseḍ imɣanen melmi ma tebɣiḍ.",
+      "footnote": "Akemmus n twacult yebḍa yiwen n ukemmus n data ɣef imiḍanen n Chatforia yemtawanen. Tella-d s tamurt-ik d tɣuri n tmurt."
+    },
+    "why": {
+      "title": "Acuɣer imdanen ttbeddilen ɣer Chatforia",
+      "subtitle": "Chatforia yekka-d s uḍḍun ameɣtu n tiliɣri, tasuqilt tamaynut, d ubrid amellal iwakken ad tiliḍ war udellel.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Udellel amecṭuḥ ɣef Ilelliyen, asali amellal ɣer Plus, d yifecka n Premium ur yellan ara deg TextNow."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Asenfar amaynu, tɣawsa tamensayt, d tasuqilt yellan deg usenfar deg uɣewwaṛ n usiwel n zik."
+        },
+        "messengers": {
+          "title": "Chatforia vs tamsenɣurin n tccerḍit",
+          "body": "Azen ɣer uḍḍunen n tiliɣri amiran — mačči kan ɣer yimdanen n usenfar — s AI d waddad yellan. Yellan d amellal ma tebɣiḍ ad tkecmeḍ seg TextFree neɣ TextMe."
+        }
+      },
+      "tableTitle": "Amek ara yemtawi Chatforia",
+      "col": {
+        "feature": "Tɣawsa",
+        "chatforia": "Ar 12+ n wagguren",
+        "textnow": "Yemtawi s umiḍan",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "Uḍḍun n tiliɣri ilelliyen",
+        "translation": "Tasuqilt tawurmit",
+        "aiTools": "Yifecka n AI (usali, err, tizwalin)",
+        "ads": "Adellel ilelliyen",
+        "history": "Tamsenɣurt n izen"
+      },
+      "yes": "Ih",
+      "no": "Ala",
+      "yesPremium": "Ih (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Yellan s talast",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Ar 12+ n wagguren",
+        "textnow": "Yemtawi s umiḍan",
+        "voice": "Yellan s talast / s umiḍan"
+      },
+      "disclaimer": "Tamsenɣurt tettusbadu ɣef talɣa n tɣawsa yellan d tuzmint yerna tzemreḍ ad temtawi. Tamsenɣurin nniḍen n tuzna n tiliɣri am TextFree neɣ TextMe ttbanen am TextNow."
+    },
+    "faq": {
+      "title": "FAQ n tɣuri d iɣewwaṛen",
+      "free": {
+        "q": "Aɣawas Ilelliyen yellan d ilelliyen s tidett?",
+        "a": "Ih. Aɣawas Ilelliyen yesɛi uḍḍun n Chatforia, usiwel d tamsenɣurt s udellel. Tzemreḍ ad teqqimeḍ ɣef Ilelliyen akk melmi ma tebɣiḍ, neɣ sali-d iwakken ad tkekseḍ udellel d tɣuri nniḍen."
+      },
+      "plusPremium": {
+        "q": "Acuɣer yemtawi Plus d Premium?",
+        "a": "Plus yekkes udellel yerna yesɛi tamsenɣurt n izen ɣer ugar — yellan d amellal i tamsenɣurt n yal ass. Premium yerna tawlaft, yifecka n AI i usali d err, d tallelt tamellalt i yimdanen n tɣuri tafellayt."
+      },
+      "esim": {
+        "q": "Anda ara yekkes akemmus n data n eSIM?",
+        "a": "Chatforia Mobile yesseqdac tɣuri tamensayt n eSIM. Tella-d s tamurt-ik d ibenk-ik. Ad tẓerḍ iɣewwaṛen yellan deg tazwara deg usenfar."
+      },
+      "cancel": {
+        "q": "Tzemreɣ ad kkesɣ neɣ ad beddleɣ iɣewwaṛen melmi ma tebɣiɣ?",
+        "a": "Ih. Tzemreḍ ad tsefrekeḍ neɣ ad tkekseḍ amulteɣ-ik seg asebter n tɣuri deg usenfar. Ibeddilen ad qqimen ɣef taggara n taggayt n tɣuri tamirant."
+      },
+      "family": {
+        "q": "Amek ara yekkes akemmus n Twacult?",
+        "a": "Akemmus n Twacult ad yernu tɣawsa n data yemtawanen ɣef ugar n yimiḍanen n Chatforia. Yiwen n umdan ad yefk tafelluqt, yerna tzemreḍ ad ternuḍ neɣ ad tkekseḍ imɣanen d talast i yal aɣerbaz."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "Tawacult",
@@ -827,686 +1839,618 @@
       "error": "Ur nezmir ara ad k-nernu ɣer twacult-a. Annerna yekkes neɣ yekkes."
     }
   },
-  "premium": {
-    "heading": "Zzi ɣer Premium",
-    "description": "Ldi iɣewwaṛen n tɣuri d tukksa n udellel.",
-    "cta": "Sali-d",
-    "upgrade": "Sali-d",
-    "upgradeAria": "Sali-d ɣer Chatforia Premium"
+  "randomChat": {
+    "title": "Tccerḍit tarumit",
+    "subtitle": "Mmeslay d yiwen amaynu s tɣawla, neɣ fren ad tmeslayeḍ d Ria.",
+    "start": "Bdu tameslayt",
+    "description": "Mmeslay s wudem arussin di tazwara. Rnu Friend mbaɛd ma yella yelha.",
+    "findMatch": "Af-d yiwen i d-yemtawanen",
+    "chatWithRia": "Mmeslay d Ria",
+    "setAge": "Sbadu tazwara n leɛmer-ik deg Profile → Age & Random Chat iwakken ad tiliḍ yemtawan d yimdanen.",
+    "idle": "Yessusem",
+    "matching": "Anadi ɣef match…",
+    "searching": "Anadi…",
+    "cancel": "Sser",
+    "connectionProblem": "Wenneɣ deg tuqqna",
+    "ai": "AI",
+    "anonymous": "Arussin",
+    "connectedAs": "Teqqneḍ am",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Tameslayt tfuk",
+    "conversationEnded": "Tameslayt-nni tfuk.",
+    "findAnotherMatch": "Af-d match nniḍen",
+    "next": "Wayeḍ",
+    "addFriend": "Rnu Friend",
+    "requested": "Requested",
+    "leave": "Ffeɣ",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "Kečč",
+    "typeMessage": "Type a message",
+    "send": "Azen",
+    "partner": "Amdan nniḍen",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "Sali-d",
-    "titleLoggedIn": "Sali-d",
-    "titlePublic": "Tɣuri",
-    "h1": "Tɣuri d iɣewwaṛen n Chatforia",
-    "h1Subtitle": "Bdu s uɣawas ilelliyen s udellel. Zzi ɣer adellel ilelliyen s Plus, neɣ ldi akk iɣewwaṛen n tɣuri s Premium.",
-    "subtitle": "Fren aɣawas n usenfar, rnu akemmus n data i tman-ik, neɣ bḍu data d twacult-ik — meṛṛa seg yiwen n wemḍiq.",
-    "subtitle.app": "Bdu s uɣawas ilelliyen s udellel. Zzi ɣer adellel ilelliyen s Plus, neɣ ldi akk iɣewwaṛen n tɣuri s Premium.",
-    "subtitle.mobile": "Rnu data n tiliɣri tamensayt iwakken Chatforia ad yekkes mi ara tekkes seg Wi-Fi.",
-    "subtitle.family": "Rnu tɣawsa n data yemtawanen i twacult-ik yerna sefrek useqdec n yiwen.",
-    "perMonth": "ayyur",
-    "perYear": "aseggas",
-    "goPremium": "Zzi ɣer Premium",
-    "benefitsLine": "Ldi iɣewwaṛen n tɣuri d tukksa n udellel.",
-    "ctaText": "Sali-d",
-    "aria": "Sali-d ɣer Chatforia Premium",
-    "toggle": {
-      "monthly": "S ayyur",
-      "annual": "S aseggas (Ḥrez 30%)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "Amulteɣ ad yekkes",
-      "body": "Ad tuɣaleḍ ɣer Ilelliyen ɣef",
-      "keepPlanCta": "Ḥrez {{plan}}",
-      "manageBillingCta": "Sefrek tɣuri"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "Alday…",
-      "manage": "Sefrek tɣuri"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
     },
-    "checkout": {
-      "redirecting": "Azen ɣer…"
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
     },
-    "auth": {
-      "continue": "Kemmel ɣer unekcum",
-      "createAccount": "Rnu amiḍan",
-      "signIn": "Kcem"
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
     "cta": {
-      "aria": "Fren aɣawas",
-      "getPlus": "Sali-d ɣer Plus",
-      "upgradeMonthly": "Sali-d s ayyur",
-      "upgradeAnnual": "Sali-d s aseggas"
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Amek iteddu Chatforia",
+    "intro": "Chatforia yettwabna akken ad yesshel tmeslayt...",
+    "step1Title": "1. Snulfu-d amiḍan",
+    "step1Desc": "Sekcem s email neɣ username...",
+    "step2Title": "2. Bdu tameslayt",
+    "step2Desc": "Msettafeḍ d wiyaḍ...",
+    "step3Title": "3. Iznan s tɣawla",
+    "step3Desc": "Iznan ttawin s tɣawla...",
+    "step4Title": "4. Tmeslayt tameḍlant",
+    "step4Desc": "Tasnalest tettɛawen iseqdacen...",
+    "step5Title": "5. Ḥrez asenfar",
+    "step5Desc": "Sefrek iɣewwaren inek..."
+  },
+  "safety": {
+    "title": "Tɣellist d yilugan n tmezdagnut",
+    "intro": "Chatforia ibɣa ad yefk amkan aɣellist...",
+    "respectTitle": "Tmeslayt s usqerdec",
+    "respectDesc": "Ilaq iseqdacen ad mmeslayen s leqder...",
+    "prohibitedTitle": "Ayen ur yettwasireggen ara",
+    "prohibited": {
+      "illegal": "Ifecka ur nelli ara d ileɣal",
+      "harassment": "Aḥercas neɣ bullying",
+      "hate": "Aɣilif neɣ discrimination",
+      "explicit": "Ifecka ixessaren",
+      "spam": "Spam neɣ tiddas n wawal"
     },
-    "section": {
-      "app": "Iɣewwaṛen n usenfar",
-      "mobile": "Tiliɣri (eSIM)",
-      "family": "Iɣewwaṛen n twacult"
+    "toolsTitle": "Ifecka n tɣellist",
+    "tools": {
+      "report": "Azen asuter",
+      "block": "Sewḥel iseqdacen",
+      "control": "Sefrek iɣewwaren n tbaḍnit"
     },
-    "plans": {
-      "free": {
-        "title": "Ilelliyen",
-        "price": "$0",
-        "desc": "Bdu tamsenɣurt s ilelliyen. Yellan d amellal ma telliḍ kan tɛreḍ Chatforia.",
-        "features": {
-          "chat": "Tccerḍit tamaynut 1:1 d tgrawt, akked isiwlen s uɣni d tamuɣli",
-          "media": "Bḍu tawlafin, izen n uslu, d timuɣliwin imecṭuḥen",
-          "ai": "Err n AI d tasuqilt tamaynut (useqdec amellal)",
-          "disappearing": "Izen n tura d yifecka n tabaɣant n tizwirt",
-          "ads": "Ilelliyen yid-s s udellel deg usenfar"
-        },
-        "ctaCurrent": "Aɣawas amiran",
-        "ctaManage": "Sefrek deg tɣuri",
-        "ctaPublic": "Bdu — kemmel ɣer unekcum",
-        "aria": "Aɣawas ilelliyen"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Akk iɣewwaṛen n tizwirt, war udellel. Yellan d amellal i tamsenɣurt n yal ass d usiwel.",
-        "features": {
-          "allFree": "Akk wayen yellan deg Ilelliyen, war udellel",
-          "forwarding": "Azen isiwlen d tuzna n tiliɣri ɣer uḍḍun-ik amiran",
-          "history": "Tamsenɣurt n izen ɣer 6 n wagguren",
-          "support": "Tallelt tamellalt mi ara yekkes wenneɣ"
-        },
-        "badge": "Yellan d amellal",
-        "cta": "Zzi ɣer adellel ilelliyen",
-        "ctaPublic": "Awi Plus — kemmel ɣer unekcum",
-        "aria": "Sali-d ɣer Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (s ayyur)",
-        "price": "$11.99",
-        "desc": "Tamsenɣurt n Chatforia meṛṛa: yifecka n AI, tawlaft, d tallelt tamellalt.",
-        "features": {
-          "plusAll": "Akk wayen yellan deg Plus",
-          "themes": "Ldi akk tawlafin n yinit n Premium d yifecka n usenfar",
-          "ai": "Yifecka n AI n Premium kan i usali, err n tizwirt, d tizwalin",
-          "support": "Tallelt tamellalt mi ara tebɣiḍ tallelt"
-        },
-        "badge": "Yellan d amellal",
-        "cta": "Sali-d (s ayyur)",
-        "ctaPublic": "Ldi Premium — kemmel ɣer unekcum",
-        "aria": "Sali-d ɣer Premium s ayyur"
-      },
-      "premiumAnnual": {
-        "title": "Premium (s aseggas)",
-        "price": "$99",
-        "desc": "Ḥrez ugar mi ara tiliḍ s aseggas — akked yifecka n yinit nniḍen, yifecka n AI, d tallelt tamellalt.",
-        "features": {
-          "allPremium": "Akk wayen yellan deg Premium s ayyur — akked yifecka n yinit nniḍen",
-          "annualBilling": "Yekka-d s yiwen n wass n useggwas",
-          "save25": "Ḥrez azal n 30% ɣef tɣuri s ayyur",
-          "bestFor": "Yellan d amellal i yimdanen n tɣuri, imdanen n tɣawsa n yeɣer, d imdanen n tiliɣri"
-        },
-        "badge": "Ḥrez 30%",
-        "cta": "Sali-d (s aseggas)",
-        "ctaPublic": "Ḥrez 30% s aseggas — kemmel ɣer unekcum",
-        "aria": "Sali-d ɣer Premium s aseggas",
-        "disclaimer": "Yekka-d s tazwara. Tzemreḍ ad tkekseḍ melmi ma tebɣiḍ. Ur yella ara aḥraz nniḍen."
-      }
+    "enforcementTitle": "Aselkem n yilugan",
+    "enforcementDesc": "Nezmer ad nɛeddi tigawin ɣef imiḍanen..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Acuɣer tesɛa tmeslayt azal meqqren tura",
+      "intro": "Platformen n tmeslayt tuɣalin d yiwet seg ifecka iḥerzen deg tudert n wass-a...",
+      "everydayTitle": "Tmeslayt n yal ass",
+      "everydayDesc": "Medden seqdacen apps n tmeslayt yal ass...",
+      "speedTitle": "Aẓrag d tissas",
+      "speedDesc": "Iznan ttawin s tɣawla...",
+      "globalTitle": "Aẓeṭṭa ameḍlan",
+      "globalDesc": "Platformen-agi ttaǧǧan medden ad msettafen deg umaḍal...",
+      "privacyTitle": "Tbaḍnit d usenfar",
+      "privacyDesc": "Platformen amaynutin ttaǧǧan asenfar i useqdac...",
+      "futureTitle": "Imal n tmeslayt",
+      "futureDesc": "Tmeslayt tettnerni s imahilen imaynuten...",
+      "outro": "Chatforia yettwabna ɣef yiselken-agi..."
     },
-    "marketing": {
-      "freeTitle": "Ilelliyen",
-      "freeDesc": "Bdu tamsenɣurt s ilelliyen.",
-      "plusTitle": "Plus",
-      "plusBadge": "Yellan d amellal",
-      "plusDesc": "Tamsenɣurt ilelliyen s tɣuri tamellalt.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Akk iɣewwaṛen, islan, d yifecka n AI.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Ḥrez ugar s aseggas.",
-      "annualDisclaimer": "Yekka-d s tazwara. Tzemreḍ ad tkekseḍ melmi ma tebɣiḍ. Ur yella ara aḥraz nniḍen."
+    "global": {
+      "title": "Imal n tmeslayt tameḍlant",
+      "intro": "Tmeslayt tettbeddel s tɣawla...",
+      "barriersTitle": "Asesfuɣ n iḥerzen",
+      "barriersDesc": "Medden zemren ad msettafen deg umaḍal...",
+      "translationTitle": "Tawuri n tsnalest",
+      "translationDesc": "Tutlayt tettili d aḥerzen zik...",
+      "realtimeTitle": "Tmeslayt deg wakud n tura",
+      "realtimeDesc": "Aẓrag yesɛa azal meqqren...",
+      "privacyTitle": "Tbaḍnit d tɣellist",
+      "privacyDesc": "Iseqdacen bɣan tɣellist i tmeslayin-nsen...",
+      "futureTitle": "Ayen ara d-yeqqimen",
+      "futureDesc": "Imal ad yesɛu imahilen imaynuten...",
+      "outro": "Platformen am Chatforia d aḥric seg usnifel-agi..."
     },
-    "mobile": {
-      "title": "Chatforia Mobile (akemmus n data n eSIM)",
-      "subtitle": "Rnu data tamensayt iwakken Chatforia ad yekkes war Wi-Fi. Tɣuri ad temtawi s tamurt-ik d yidrimen.",
-      "subtitle.detail": "Fren akemmus n data tamensayt yiwen n tikkelt iwakken Chatforia ad yekkes mi ara telliḍ deg tiliɣri.",
-      "scope": {
-        "local": "Tamurt",
-        "europe": "Turuft",
-        "global": "Umaḍal"
-      },
-      "note": "Ur nezzenz ara akemmus n data ddaw 3 GB.",
-      "localEquals": "Tamurt = {{country}}",
-      "localEqualsFallback": "Tamurt = tamurt-ik tamirant",
-      "perPack": "/ akemmus",
-      "cta": "Awi akemmus n data-a",
-      "ctaPublic": "Awi akemmus n data-a",
-      "checkout": {
-        "redirecting": "Azen ɣer…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Data n tɣuri tafellayt i useqdec ameqqran",
-          "throttle": "Tɣuri ad tessusem mi ara tili tɣuri tafellayt",
-          "coverage": "Tɣuri tamellalt",
-          "instant": "Tazwara n eSIM s tɣuri tamaynut",
-          "noContract": "Akemmus yiwen n tikkelt, war amulteɣ"
-        }
-      },
-      "disclaimer": {
-        "devices": "Akemmus n data n eSIM yesra ibenk yellan d eSIM d ilelliyen. Tella-d s yibenkan, uɣawas, d tamurt. Tɣuri d tɣuri ad temtawi s tɣawsa."
-      },
-      "small": {
-        "title": "Akemmus n tizwirt",
-        "desc": "Yesɛi 3 GB n data n tɣuri tafellayt — yellan d amellal i tamsenɣurt tamellalt d yisiwlen n tikkelt.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Tura imecṭuḥen, tamsenɣurt tamellalt, d yisiwlen n tikkelt",
-        "aria": "Awi akemmus n eSIM n tizwirt"
-      },
-      "medium": {
-        "title": "Akemmus n umussu",
-        "desc": "Yesɛi 5 GB n data n tɣuri tafellayt i tura, tamsenɣurt n yal ass, d yisiwlen n VoIP.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Tura n taggayt, isiwlen n VoIP, d yikaramen",
-        "aria": "Awi akemmus n eSIM n umussu"
-      },
-      "large": {
-        "title": "Akemmus n tɣuri",
-        "desc": "Yesɛi 10 GB n data n tɣuri tafellayt i tccerḍit tafellayt, isiwlen, d tamuɣli ɣef uɣewwaṛ n Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Tccerḍit tafellayt, isiwlen, tamuɣli, d useqdec n hotspot",
-        "aria": "Awi akemmus n eSIM n useqdac n tɣuri"
-      },
-      "compare": {
-        "title": "Smenyif akemmus n data n eSIM",
-        "col": {
-          "pack": "Akemmus",
-          "data": "Data yellan",
-          "bestFor": "Yellan d amellal i"
-        },
-        "disclaimer": "Taggayt n data tettemtawi s wamek ara tesseqdceḍ Chatforia (asiwel, tamuɣli, tamedyazt, d yisensan nniḍen ɣef tiliɣri-ik)."
-      }
+    "index": {
+      "title": "Blog n Chatforia",
+      "intro": "Wali tiktiwin ɣef tmeslayt...",
+      "post1": "Amek ad tmeslayeḍ s tɣellist deg internet",
+      "post2": "Imal n tmeslayt tameḍlant",
+      "post3": "Acuɣer tesɛa tmeslayt azal"
     },
-    "family": {
-      "title": "Tawacult n Chatforia (data yemtawanen)",
-      "subtitle": "Bḍu yiwen n ukemmus n data ɣef twacult-ik. Yiwen n ufelluq, ugar n yimiḍanen n Chatforia, tɣuri tamensayt.",
-      "perPack": "/ akemmus",
-      "small": {
-        "title": "Tawacult tamecṭuḥt",
-        "desc": "Yesɛi 20 GB n data yemtawanen — yellan d amellal i 2–3 n yimdanen n tizwirt.",
-        "price": "$29.99",
-        "aria": "Awi akemmus n Tawacult tamecṭuḥt"
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
-      "medium": {
-        "title": "Tawacult tammidant",
-        "desc": "Yesɛi 40 GB n data yemtawanen — yellan d amellal i 3–5 n yimɣanen n tɣuri.",
-        "price": "$49.99",
-        "aria": "Awi akemmus n Tawacult tammidant"
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
-      "large": {
-        "title": "Tawacult tameqqrant",
-        "desc": "Yesɛi 80 GB n data yemtawanen — i twacultin i yellan yid-sen yal ass.",
-        "price": "$84.99",
-        "aria": "Awi akemmus n Tawacult tameqqrant"
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
-      "feature": {
-        "shared": "Tɣawsa n data yemtawanen i twacult-ik",
-        "members": "Rnu ar 4 n yimɣanen nniḍen",
-        "membersMore": "Yellan d amellal i 3–5 n yimɣanen n tɣuri",
-        "manage": "Sefrek talast i yal aɣerbaz",
-        "topUp": "Rnu akemmus nniḍen melmi ma tebɣiḍ",
-        "bestValue": "Tɣuri tamellalt ɣef GB",
-        "fairUse": "Yellan s tɣuri n useqdec amellal d talast n tmurt"
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
-      "disclaimer": "Akemmus n twacult ad yernu neɣ ad yali tɣawsa n data yemtawanen. Tzemreḍ ad ternuḍ neɣ ad tkekseḍ imɣanen melmi ma tebɣiḍ.",
-      "footnote": "Akemmus n twacult yebḍa yiwen n ukemmus n data ɣef imiḍanen n Chatforia yemtawanen. Tella-d s tamurt-ik d tɣuri n tmurt."
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "ɣef Chatforia",
+    "description": "Chatforia d platform n tmeslayt amaynut yettwabna i tmeslayt taɣellist u s tutlayin yemgaraden...",
+    "valuesTitle": "Ayen nɛeddu fell-as",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
     },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Tazmert n tbaḍnit",
+    "privacyDesc": "Asenked aɣellist d iɣewwaren n tbaḍnit yettwasenfelen sɣur useqdac",
+    "accessTitle": "Anekcum i yal yiwen",
+    "accessDesc": "Tasnalest n tutlayin deg waṭas n tutlayin",
+    "controlTitle": "Asenfar",
+    "controlDesc": "Imahilen am iznan i yettṛuḥun u read receipts"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
     "why": {
-      "title": "Acuɣer imdanen ttbeddilen ɣer Chatforia",
-      "subtitle": "Chatforia yekka-d s uḍḍun ameɣtu n tiliɣri, tasuqilt tamaynut, d ubrid amellal iwakken ad tiliḍ war udellel.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Udellel amecṭuḥ ɣef Ilelliyen, asali amellal ɣer Plus, d yifecka n Premium ur yellan ara deg TextNow."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "Asenfar amaynu, tɣawsa tamensayt, d tasuqilt yellan deg usenfar deg uɣewwaṛ n usiwel n zik."
-        },
-        "messengers": {
-          "title": "Chatforia vs tamsenɣurin n tccerḍit",
-          "body": "Azen ɣer uḍḍunen n tiliɣri amiran — mačči kan ɣer yimdanen n usenfar — s AI d waddad yellan. Yellan d amellal ma tebɣiḍ ad tkecmeḍ seg TextFree neɣ TextMe."
-        }
-      },
-      "tableTitle": "Amek ara yemtawi Chatforia",
-      "col": {
-        "feature": "Tɣawsa"
-      },
-      "feature": {
-        "freeNumber": "Uḍḍun n tiliɣri ilelliyen",
-        "translation": "Tasuqilt tawurmit",
-        "aiTools": "Yifecka n AI (usali, err, tizwalin)",
-        "ads": "Adellel ilelliyen",
-        "history": "Tamsenɣurt n izen"
-      },
-      "yes": "Ih",
-      "no": "Ala",
-      "yesPremium": "Ih (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "Yellan s talast",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "Ar 12+ n wagguren",
-        "textnow": "Yemtawi s umiḍan",
-        "voice": "Yellan s talast / s umiḍan"
-      },
-      "disclaimer": "Tamsenɣurt tettusbadu ɣef talɣa n tɣawsa yellan d tuzmint yerna tzemreḍ ad temtawi. Tamsenɣurin nniḍen n tuzna n tiliɣri am TextFree neɣ TextMe ttbanen am TextNow."
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "faq": {
-      "title": "FAQ n tɣuri d iɣewwaṛen",
-      "free": {
-        "q": "Aɣawas Ilelliyen yellan d ilelliyen s tidett?",
-        "a": "Ih. Aɣawas Ilelliyen yesɛi uḍḍun n Chatforia, usiwel d tamsenɣurt s udellel. Tzemreḍ ad teqqimeḍ ɣef Ilelliyen akk melmi ma tebɣiḍ, neɣ sali-d iwakken ad tkekseḍ udellel d tɣuri nniḍen."
-      },
-      "plusPremium": {
-        "q": "Acuɣer yemtawi Plus d Premium?",
-        "a": "Plus yekkes udellel yerna yesɛi tamsenɣurt n izen ɣer ugar — yellan d amellal i tamsenɣurt n yal ass. Premium yerna tawlaft, yifecka n AI i usali d err, d tallelt tamellalt i yimdanen n tɣuri tafellayt."
-      },
-      "esim": {
-        "q": "Anda ara yekkes akemmus n data n eSIM?",
-        "a": "Chatforia Mobile yesseqdac tɣuri tamensayt n eSIM. Tella-d s tamurt-ik d ibenk-ik. Ad tẓerḍ iɣewwaṛen yellan deg tazwara deg usenfar."
-      },
-      "cancel": {
-        "q": "Tzemreɣ ad kkesɣ neɣ ad beddleɣ iɣewwaṛen melmi ma tebɣiɣ?",
-        "a": "Ih. Tzemreḍ ad tsefrekeḍ neɣ ad tkekseḍ amulteɣ-ik seg asebter n tɣuri deg usenfar. Ibeddilen ad qqimen ɣef taggara n taggayt n tɣuri tamirant."
-      },
-      "family": {
-        "q": "Amek ara yekkes akemmus n Twacult?",
-        "a": "Akemmus n Twacult ad yernu tɣawsa n data yemtawanen ɣef ugar n yimiḍanen n Chatforia. Yiwen n umdan ad yefk tafelluqt, yerna tzemreḍ ad ternuḍ neɣ ad tkekseḍ imɣanen d talast i yal aɣerbaz."
-      }
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
     },
-    "gettingStarted": {
-      "title": "Bdu tura",
-      "subtitle": "D amaynu ɣer Chatforia? Tamsenɣurt-a tamellalt ad k-ɣer-d akk wayen ilaqen iwakken ad tiliḍ d amellal s kra n tikkelt.",
-      "alert": {
-        "text": "Tamsenɣurt-a ad tili d tafellayt mi ara nelhu yifecka imaynuten. Ma yella kra yekkes, aɣ-d tamawt seg",
-        "contactLink": "Tawila ɣer-neɣ"
-      },
-      "section1": {
-        "title": "1) Rnu amiḍan-ik",
-        "signup": "Rnu",
-        "or": "neɣ",
-        "login": "kcem",
-        "loginText": "s umiḍan-ik yellan.",
-        "prefsStart": "Sbadu",
-        "prefsLink": "iɣewwaṛen-ik",
-        "prefsRest": "(tutlayt, takka n tɣuri, tawlafin)."
-      },
-      "section2": {
-        "title": "2) Bdu tamsenɣurt",
-        "item1": "Rnu DM neɣ Taggayt yerna azen izen-ik amezwaru.",
-        "item2": "Seqdec tasuqilt tamaynut iwakken ad teccerḍeḍ ɣef 100+ tutlayin.",
-        "item3": "Ɛreḍ izen n tura d takka n tɣuri deg Amaɣnu → Tabaɣant."
-      },
-      "section3": {
-        "title": "3) Kemmel ɣer ugar",
-        "item1": "Tzemreḍ ad tsaliḍ ɣer aɣawas yellan s tefneft melmi ma tebɣiḍ deg usenfar.",
-        "item2": "Mi ara tkecmeḍ, tzemreḍ ad tsekelseḍ ibenk nniḍen d aḥraz n tsekkirt seg Iɣewwaṛen deg usenfar."
-      },
-      "cta": {
-        "seePlans": "Wali iɣewwaṛen",
-        "openSettings": "Ldi iɣewwaṛen"
-      }
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
     },
-    "helpCenter": {
-      "title": "Tanebdurt n tallelt",
-      "faq": {
-        "account": {
-          "q": "Amek ara rnuɣ neɣ ad rekreɣ amiḍan-iw?",
-          "a": "Sader asenfar neɣ seqdec web, sit ɣef “Rnu amiḍan”, rmed imayl/tiliɣri. Iwakken ad tsekelseḍ, seqdec “Tettuḍ ufrar”."
-        },
-        "privacy": {
-          "q": "Izen yellan s tasekkirt seg taggara ɣer taggara?",
-          "a": "Ih. Izen d isiwlen ttwasekkren seg taggara ɣer taggara s wudem amezwaru. Ala kečč d unermid i tzemreḍ ad tɣeṛḍ."
-        },
-        "translate": {
-          "q": "Amek ara yekkes tasuqilt tamaynut?",
-          "a": "Rmed “Tasuqilt tawurmit” deg Iɣewwaṛen → Tawlaft d Tutlayt. Nesquṭṭu ɣef uselkim mi ara yekkes, neɣ s tɣawsa n API s tɣellist."
-        },
-        "contact": {
-          "q": "Tawila ɣer tallelt",
-          "a": "Awi-aɣ-d ɣer support@chatforia.com. Seddu tamuɣli d lqem n usenfar-ik."
-        }
-      }
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "Tawila ɣer-neɣ",
-      "successMsg": "Tanemmirt — tarawt-nneɣ ad k-err s imayl.",
-      "errorSend": "Ur nezmir ara ad nuzen. Azen s imayl ɣer support@chatforia.com.",
-      "form": {
-        "nameLabel": "Isem",
-        "emailLabel": "Imayl",
-        "messageLabel": "Izen",
-        "sendCta": "Azen"
-      }
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
     },
-    "privacyPolicy": {
-      "title": "Tabaɣant",
-      "lastUpdated": "Tikkelt taneggarut:",
-      "intro": {
-        "body": "Tabaɣant-a tessufeɣ-d amek ara yekkes Chatforia (“neɣ”, “nekkni”) ad yekkes, ad yesseqdec, d ad yebḍu talɣut mi ara tesseqdceḍ asenfar d tɣawsiwin-nneɣ. Nsbadu Chatforia iwakken ad nesḥel talɣut i nezmer ad t-nawi."
-      },
-      "infoWeCollect": {
-        "title": "Talɣut i nekksen",
-        "account": "Talɣut n umiḍan (e.g., imayl/tiliɣri) iwakken ad nernu d ad nḥerzen amiḍan-ik.",
-        "encrypted": "Izen yekkesen (izen/isiwlen) yellan s tasekkirt seg taggara ɣer taggara; ur nezmir ara ad t-nɣer.",
-        "diagnostics": "Talɣut n tɣawsa / useqdec am tizwalin n tuccḍa, anaw n yibenk, neɣ talɣut tamellalt iwakken ad nesnerni tɣuri."
-      },
-      "sms": {
-        "title": "Uḍḍunen n tiliɣri d SMS",
-        "body": "Ma yella ternaḍ uḍḍun n tiliɣri, nesqedcen-t iwakken ad nermed yifecka am usenqed n umiḍan, tilɣa n unekcum, d tuzna n tiliɣri seg useqdac ɣer wayeḍ mi ara yekkes. Nezmer ad nuzen SMS n tɣawsiwin n umiḍan d tɣawsa ɣef Chatforia. Tzemreḍ ad tsefkṛeḍ tilɣa n SMS melmi ma tebɣiḍ s tiririt s ufrar am “STOP” neɣ s ubeddel n yifecka n tilɣa deg usenfar. Ur nezzenz ara uḍḍun-ik neɣ ad t-neseqdec i tɣawsiwin nniḍen n udellel.",
-        "newText": "Izen amaynu",
-        "enterRecipient": "Sekcem isem neɣ uḍḍun",
-        "typeMessage": "Aru izen…",
-        "addRecipient": "Rnu amerra ukessar iwakken ad tebduḍ…"
-      },
-      "howWeUse": {
-        "title": "Amek ara neseqdec talɣut",
-        "provide": "Sireg d ad nḥerzen tɣawsa (anekcum, asenqed n spam/abuse).",
-        "improve": "Nerner yifecka (tɣuri n tasuqilt, tɣuri).",
-        "legal": "Ad nili d amellal s tɣuri n tɣawsiwin n tɣellist."
-      },
-      "sharing": {
-        "title": "Abḍu",
-        "body": "Ur nezzenz ara talɣut n tɣawsiwin. Nezmer ad nebḍu talɣut tamellalt s yimdanen n tɣawsa (e.g., tilɣa n push, analytics) s teqdiṛin n tɣellist."
-      },
-      "rights": {
-        "title": "Izerfan-ik",
-        "body": "S tama n tamurt-ik (e.g., GDPR/UK GDPR/CPRA), tzemreḍ ad tessutreḍ ad tẓerḍ, ad tbeddleḍ, ad tkekseḍ, neɣ ad tsefkṛeḍ kra n useqdec. Tawila ɣer: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Aḥraz n talɣut d tɣellist",
-        "body": "Neḥrez kan wayen ilaqen iwakken ad tili tɣawsa yerna nesqeddec tɣellist n usenfar. Izen n E2E ur yezmir ara ad yekkes seg-neɣ."
-      },
-      "children": {
-        "title": "Imsaganen",
-        "body": "Chatforia ur yellan ara i imsaganen ddaw 13 n taseggit (neɣ amek ara yili s tɣuri n tmurt-ik)."
-      },
-      "changes": {
-        "title": "Ibeddilen",
-        "body": "Ad nsekles tibeddilen da yerna ad nbeddel azemz n “Tikkelt taneggarut”."
-      },
-      "contact": {
-        "title": "Tawila",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
     },
-    "terms": {
-      "title": "Tiwaliwin n useqdec",
-      "lastUpdated": "Tikkelt taneggarut:",
-      "intro": {
-        "body": "S useqdec n Chatforia teqneḍ ɣer tiwaliwin-a. Ma yella ur teqneḍ ara, ur tesseqdceḍ ara tɣawsa."
-      },
-      "accounts": {
-        "title": "Imiḍanen",
-        "itemAccurateInfo": "Sekcem talɣut amellal yerna ḥrez tisurutin-ik.",
-        "itemResponsibility": "Telliḍ d amasay ɣef tɣawsiwin ɣef umiḍan-ik."
-      },
-      "acceptableUse": {
-        "title": "Useqdec amellal",
-        "itemNoAbuse": "Ur yella ara agdud n tɣawsiwin n tɣellist, abuse, neɣ yellan s uḥerri; ur yella ara spam neɣ useqdec n tɣawsiwin n tɣellist.",
-        "itemSuspend": "Nezmer ad nsewḥel neɣ ad nkekes amiḍan-ik ma yekka-d s teɣzi."
-      },
-      "sms": {
-        "title": "Tuzna n SMS",
-        "body": "Ma yella ternaḍ uḍḍun n tiliɣri, teqneḍ ad tawiḍ SMS n tɣawsiwin n umiḍan d tɣawsa ɣef tɣawsa, am tilɣa n unekcum, tilɣa n tɣellist, d izen yellan d tamsenɣurin i tebduḍ neɣ i tekkiḍ. Ur neseqdec ara SMS i udellel war teqdiṛ-ik. Taggayt n tiliɣri d data tzemreḍ ad tili. Tzemreḍ ad tsefkṛeḍ SMS melmi ma tebɣiḍ s tiririt s ufrar am “STOP” neɣ s ubeddel n yifecka n tilɣa deg usenfar."
-      },
-      "yourContent": {
-        "title": "Talɣut-ik",
-        "body": "Telliḍ d bab n talɣut-ik. Ternaḍ-d ɣer-neɣ iẓerf iwakken ad tili tɣawsa (e.g., asali, aḥraz, tasuqilt)."
-      },
-      "disclaimer": {
-        "title": "Tiwaliwin d tɣellist",
-        "body": "Tɣawsa tettunefk “am tella” war teɣzi. S tama n tɣellist n tɣuri, Chatforia ur yellan ara d amasay ɣef tuccḍa nniḍen neɣ tuccḍa n taggara."
-      },
-      "changes": {
-        "title": "Ibeddilen",
-        "body": "Nezmer ad nbeddel tiwaliwin-a; useqdec n tɣawsa sdeffir ibeddilen yekka-d s teqdiṛ."
-      },
-      "contact": {
-        "title": "Tawila",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
     },
-    "doNotSell": {
-      "title": "Ur yella ara ad nzzenz neɣ ad nebḍu talɣut-iw n tɣawsiwin",
-      "body": "Chatforia ur yezzenz ara talɣut n tɣawsiwin. Imdanen n California zemren ad ssutren s tɣawsa n CPRA s taggalt ukessar.",
-      "cta": "Azen asuter"
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
     },
-    "cookies": {
-      "title": "Iɣewwaṛen n yikukiyen",
-      "body": "Chatforia yesseqdec ikukiyen imecṭuḥen (e.g., taggayt, tɣellist). Ur neseqdec ara ikukiyen n udellel nniḍen. Sefrek ikukiyen seg yiminig-ik."
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Ur nezmir ara ad nsali addad n uḍḍun n tiliɣri.",
-      "lock": "Ḥrez",
-      "noNumberAssigned": "Ur yella ara uḍḍun yellan. Fren yiwen s tɣawsa n tɣuri iwakken ad tebduḍ tuzna n tiliɣri.",
-      "pickNumber": "Fren uḍḍun",
-      "phoneNumber": "Uḍḍun n tiliɣri"
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
     },
-    "startChatModal": {
-      "title": "Bdu tccerḍit",
-      "quickPicker": "Aḥraz tamellalt",
-      "to": "I",
-      "nameOrUsername": "Aru isem, isem n useqdac",
-      "nameUsernamePhoneEmail": "Aru isem, isem n useqdac, uḍḍun n tiliɣri, neɣ imayl…",
-      "startWithSelected": "Bdu tccerḍit s yellan",
-      "searchByUsernameOrPhone": "Nadi s isem n useqdac neɣ uḍḍun n tiliɣri",
-      "search": "Nadi",
-      "searchPrompt": "Aru isem n useqdac neɣ uḍḍun n tiliɣri yerna sit ɣef Nadi.",
-      "pickFromContacts": "Neɣ fren seg inermiden",
-      "addContact": "Rnu anermid",
-      "show": "Sken",
-      "add": "Rnu",
-      "close": "Sser",
-      "selectedCount": "{{count}} yellan",
-      "pickAtLeastOne": "Fren yiwen neɣ ugar n yimerra.",
-      "saveContactsHint": "Inekcam n uḍḍun/imayl ad qqimen melmi ma ternuḍ-ten d inermiden.",
-      "failedBulkStart": "Tuccḍa deg ubdu n tccerḍit s yimerra yellan.",
-      "noResults": "Ur yella ara igmaḍ",
-      "mode": "Askar",
-      "group": "Taggayt",
-      "broadcast": "Tuzna i meṛṛa",
-      "groupNameOptional": "Isem n taggayt (d ilelliyen)",
-      "firstMessageOptional": "Izen amezwaru (d ilelliyen maca yellan d amellal)",
-      "createGroup": "Rnu taggayt",
-      "sendBroadcast": "Azen tuzna i meṛṛa"
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Tafukt n taggara",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Tasertit n usefru n udrim",
+    "lastUpdated": "Akken iṛẓem:",
+    "intro": "Deg Chatforia, nɛeddu ad nfk axeddim n lqaɛda i yal amdan. Tasertit-agi n usefru n udrim tessekna melmi ara yettwafk usefru.",
+    "subscriptions": {
+      "title": "Ijerden (Subscriptions)",
+      "body": "Ijerden ttusran sdat u ttɣellin s usekles amur n wakud. Tzemreḍ ad tesseḥbes deg yal wakud seg iɣewwaren n umiḍan inek neɣ seg platform iɣef t-tzraḍ."
     },
-    "sounds": {
-      "freeNotice": "Telliḍ deg Ilelliyen — islan n Premium banen maca ttwaḥerzen. Sali-d iwakken ad teldiḍ akk.",
-      "preview": "Tazwart",
-      "resetToDefaults": "Ssemḥi ɣer tizwirt",
-      "notificationSounds": "Islan n tilɣa",
-      "messageTone": "Aslu n izen",
-      "default": "Tizwirt",
-      "vibrate": "Tuzzya",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Aslu n tuzzya",
-      "textMessage": "Izen n tiliɣri",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Tiliɣri tamensayt",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
+    "eligibility": {
+      "title": "Tiwtilin n usefru",
+      "body": "Usefru yezmer ad yettwafk ma yella llan tuccḍiwin am udrim i ttusran sin, tuccḍa deg ubill, neɣ ugur n teknikt i yettḥebsen anekcum ɣer imahilen yettwafkan s udrim. Yal asuter yettwasekcem s tḥeqqiq."
     },
-    "premiumGuard": {
-      "requiresPremium": "Tɣawsa-a tesra aɣawas n Premium."
+    "nonRefundable": {
+      "title": "Ur yettusefru ara",
+      "body": "S umata, ur nettak ara usefru i wakud ur nettwasexdem ara, iḥricen n ijerden, neɣ ma ur tettseḥbseḍ ara uqbel n usemmed."
     },
-    "aiSettings": {
-      "title": "Iɣewwaṛen n AI",
-      "controlIntro": "Sefrek tasuqilt, err n tizwirt, d tiriritn n ForiaBot.",
-      "save": "Ḥrez iɣewwaṛen n AI",
-      "autoTranslateIncoming": "Tasuqilt tawurmit n izen yekkan-d",
-      "showOriginalAlongside": "Sken aḍris amezwaru s tama n tasuqilt",
-      "enableSmartReplies": "Rmed err n tizwirt",
-      "smartRepliesHint": "Azen kra n izen yekkan-d (yellan s tɣellist) ɣer AI iwakken ad d-ibeggen tiriritn tamellalt.",
-      "maskProfanity": "Sfeḍ agdud n tɣuri deg tiriritn n AI",
-      "maskProfanityHint": "Mi ara yekkes, tiriritn n AI ad sbanen awalen yellan s teɣzi",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "Rmed tiririt tawurmit mi ara yiliɣ d ameɣlal",
-      "autoReplyMode": "Askar n tiririt tawurmit",
-      "cooldownSeconds": "Taggayt n tɣuri (sayeḍ)",
-      "off": "Yekkes",
-      "on": "Yekkes",
-      "signature": "Tira n taggara",
-      "autoReply": "Tiririt tawurmit",
-      "activeUntilOptional": "Yekka-d ar (d ilelliyen)",
-      "saved": "Iɣewwaṛen n AI yekksen",
-      "saveFailed": "Tuccḍa deg uḥraz n yifecka n AI",
-      "translateOff": "Yekkes",
-      "translateTagged": "Ala mi ara yili @translated neɣ yellan s",
-      "translateAll": "Suqel akk izen yekkan-d",
-      "modeDm": "Tccerḍitin 1:1 kan",
-      "modeMention": "Ala mi ara yili @mentioned",
-      "modeAll": "Akk izen yekkan-d"
+    "thirdParty": {
+      "title": "Tiɣawsiwin n wis kraḍ",
+      "body": "Ma t-tzraḍ seg platformen n wis kraḍ am Apple App Store, ilaq ad tessutreḍ usefru ɣer-sen srid."
     },
-    "accessibilitySettings": {
-      "title": "Tallelt n useqdac d tilɣa",
-      "accessibility": "Tallelt n useqdac",
-      "accessibilityDesc": "Iɣewwaṛen iwakken ad tesseqdceḍ Chatforia s wudem amellal war aslu.",
-      "interfaceFontSize": "Tiddi n tsefsit n usenfar",
-      "interfaceFontSizeHelp": "Tbedda-d s tiddi tamellalt. Sali-d ma tebɣiḍ aḍris ameqqran deg iɣewwaṛen n tallelt n useqdac.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Tilɣa",
-      "notificationsDesc": "Tilɣa n tɣuri i yizen d yisiwlen\nSken banners d tɣuri n uzwel iwakken ur tettuḍ ara armud.",
-      "vibrateOnNew": "Tuzzya ɣef izen imaynuten (mi ara yekkes)\nSireg tuzzya n yibenk s tilɣa.",
-      "flashOnCall": "Tafat n ugdil ɣef usiwel yekkan-d\nTafat tamellalt s kra n tikkelt mi ara yekka usiwel.",
-      "liveCaptions": "Tira n tɣuri tamaynut (isiwlen)",
-      "captionFontSize": "Tiddi n tsefsit n tira n tɣuri",
-      "captionBackground": "Tawlaft n tira n tɣuri",
-      "light": "tafukt",
-      "dark": "taggara",
-      "transparent": "ilelliyen",
-      "voiceNotes": "Izen n uslu",
-      "autoTranscribeVoiceNotes": "Tira tawurmit n izen n uslu",
-      "autoTranscribeVoiceNotesDesc": "Seddu tira ɣer izen n uslu i tawiḍ.",
-      "changesSavedInstantly": "Ibeddilen ttwḥerzen s tɣuri tamaynut.",
-      "loadFailed": "Tuccḍa deg usali n yifecka",
-      "visualAlerts": "Tilɣa n tɣuri i yizen d yisiwlen",
-      "visualAlertsDesc": "Sken banners d tɣuri n uzwel iwakken ur tettuḍ ara armud.",
-      "vibrateOnNewShort": "Tuzzya ɣef izen imaynuten (mi ara yekkes)",
-      "vibrateOnNewDesc": "Sireg tuzzya n yibenk s tilɣa.",
-      "flashOnCallShort": "Tafat n ugdil ɣef usiwel yekkan-d",
-      "flashOnCallDesc": "Tafat tamellalt s kra n tikkelt mi ara yekka usiwel."
+    "contact": {
+      "title": "Nermes-aɣ",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
     },
-    "privacySection": {
-      "strictE2EE": "Tasekkirt n E2EE tafellayt",
-      "ciphertextOnlyNote": "Ḥrez kan ciphertext ɣef uqeddac. Yekkes AI/Tasuqilt d tazwart n usenqed."
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
     },
-    "linkedDevicesPanel": {
-      "title": "Ibenk yemtawanen",
-      "noneFound": "Ur yella ara ibenk yemtawanen.",
-      "refresh": "Ssemḥi"
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
     },
     "help": {
-      "title": "Tallelt",
-      "howCanWeHelp": "Amek ara k-nefke tallelt?",
-      "helpCenter": "Tanebdurt n tallelt",
-      "contactUs": "Tawila ɣer-neɣ",
-      "quickTopics": "Tiyarin timellalin",
-      "searchExamples": "Ɛreḍ anadi ɣef “tasuqilt”, “aḥraz”, neɣ “tabaɣant”.",
-      "cantLogin": "Ur nezmir ara ad nekcem",
-      "paymentsBilling": "Tɣuri / tɣuri",
-      "reportAbuse": "Sken-d abuse",
-      "searchHelpArticles": "Nadi deg yimagraden n tallelt",
-      "search": "Nadi"
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
     },
-    "peoplePage": {
-      "people": "Imdanen",
-      "search": "Nadi",
-      "searchPlaceholder": "Nadi s alias, isem, isem n useqdac, neɣ uḍḍun n tiliɣri",
-      "filterSaved": "Sizdeg inermiden yekksen",
-      "noContactsFound": "Ur yella ara inermiden",
-      "quickStart": "Bdu tamellalt",
-      "quickStartDesc": "Kra n tura tamellalt iwakken ad tebduḍ.",
-      "importContacts": "Kkes-d inermiden-ik",
-      "add": "Rnu",
-      "addContact": "Rnu anermid",
-      "focusSearch": "Focus Nadi",
-      "import": "Kkes-d",
-      "findOrAdd": "Nadi neɣ rnu yiwen",
-      "searchByPhoneOrUsername": "Nadi s uḍḍun n tiliɣri / isem n useqdac",
-      "inviteFriends": "Rnu imrigen",
-      "inviteDesc": "Bḍu aserɣal-ik n unnerna iwakken ad tebduḍ tccerḍit s tɣuri tamaynut.",
-      "getTheApp": "Awi-d asenfar",
-      "getTheAppDesc": "Qqim teqqneḍ deg tiliɣri s Chatforia i iOS d Android.",
-      "download": "Sader",
-      "syncTip": "Tamawt: Izen-ik ad qqimen yemtawanen gar web d tiliɣri."
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
     },
-    "randomChat": {
-      "title": "Tccerḍit tamaynut",
-      "description": "Mli ɣer yiwen amaynu s tɣuri tamaynut. Ad k-nɣer yerna ad neldi taxxamt n tccerḍit tamensayt. Tccerḍit s tɣellist amezwaru. Rnu d aɣerbaz melmi ma tella tɣawsa amellal.",
-      "findMatch": "Nadi-d amtawi",
-      "chatWithForia": "Tccerḍit s Foria",
-      "chatWithForiaBot": "Tccerḍit s ForiaBot",
-      "cancel": "Sser",
-      "close": "Sser",
-      "searching": "Nadi…",
-      "finding": "Nadi…",
-      "looking": "Nadi-d yiwen…",
-      "startingForia": "Bdu tccerḍit s Foria…",
-      "partnerDisconnected": "Anermid-ik yekkes.",
-      "noPartner": "Ur yella ara anermid tura.",
-      "connectedTo": "Yemtawi d {{name}}",
-      "connected": "Yemtawi",
-      "idle": "Yellan d ameɣlal",
-      "partnerLeft": "Anermid yekkes.",
-      "stopped": "Yekkes.",
-      "skip": "Zzi",
-      "save": "Ḥrez",
-      "saveGuard": "Ala tccerḍitin gar imdanen i zemren ad ttwḥerzen",
-      "youAreChattingWith": "Tellaḍ tccerḍeḍ d {{name}}",
-      "bot": "BOT",
-      "leave": "Ffeɣ",
-      "sayHi": "Ini ansuf 👋",
-      "you": "Kečč",
-      "typeMessage": "Aru izen",
-      "send": "Azen",
-      "partner": "Anermid",
-      "withRia": "S Ria",
-      "chatWithRia": "Tccerḍit s Ria",
-      "startingRia": "Bdu tccerḍit s Ria…",
-      "ageDisclaimer": "Neḥrez kan tazwara n taseggit (ur d ara azemz n tlalit-ik). Yettwaseqdec iwakken ad yili usemtawi n Tccerḍit tamaynut amellal. Iwakken ad tesmtawiḍ d yimdanen (mačči kan RiaBot), sbadu tazwara n taseggit-ik deg Iɣewwaṛen → Taseggit d Tccerḍit tamaynut.",
-      "ageBandRequired": "Sbadu tazwara n taseggit-ik deg Amaɣnu → Taseggit d Tccerḍit tamaynut iwakken ad tesmtawiḍ d yimdanen.",
-      "ageBandCallout": "Iwakken ad tesmtawiḍ d yimdanen (mačči kan RiaBot), sbadu tazwara n taseggit-ik deg Iɣewwaṛen → Taseggit d Tccerḍit tamaynut.",
-      "subtitle": "Mli ɣer yiwen amaynu s tɣuri tamaynut, neɣ fren ad teccerḍeḍ s Ria.",
-      "start": "Bdu tccerḍit",
-      "matching": "Nadi…",
-      "setAge": "Sbadu tazwara n taseggit-ik deg Amaɣnu → Taseggit d Tccerḍit tamaynut iwakken ad tesmtawiḍ d yimdanen.",
-      "next": "Anermid nniḍen",
-      "addFriend": "Rnu d aɣerbaz",
-      "requested": "Yettwasuter",
-      "messageRia": "Azen i Ria…",
-      "messageMatch": "Azen i umtawi-ik…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    }
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

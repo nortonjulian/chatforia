@@ -7,10 +7,24 @@
     "cancelAria": "ರದ್ದುಮಾಡು",
     "copy": "ನಕಲು ಮಾಡು",
     "copied": "ನಕಲು ಮಾಡಲಾಗಿದೆ!",
-    "errorWithMessage": "ದೋಷ: {{message}}"
+    "errorWithMessage": "ದೋಷ: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "ಮುಖ್ಯ ವಿಷಯಕ್ಕೆ ಸ್ಕಿಪ್ ಮಾಡು"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "ಕೀ ಬ್ಯಾಕಪ್ ರಚಿಸಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗಿದೆ ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "ಫೈಲ್ ಆಯ್ಕೆಮಾಡಿ ಮತ್ತು ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ.",
     "imported": "ಖಾಸಗಿ ಕೀ ಈ ಸಾಧನಕ್ಕೆ ಆಮದು ಮಾಡಲಾಗಿದೆ. ನೀವು ಈಗ ಹಳೆಯ ಸಂದೇಶಗಳನ್ನು ಓದಬಹುದು.",
     "enterPassword": "ನಿಮ್ಮ ಖಾತೆ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ ಇದರಿಂದ ನಾವು ನಿಮ್ಮ ಕೀಗಳನ್ನು ಸುರಕ್ಷಿತವಾಗಿ ಬ್ಯಾಕಪ್ ಮಾಡಬಹುದು."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "ಯಾರಿಗೂ, ಎಲ್ಲಿಗೂ ಸುರಕ್ಷಿತ ಸಂದೇಶ ವ್ಯವಸ್ಥೆ",
@@ -88,7 +198,19 @@
       "passwordDescription": "ಕನಿಷ್ಠ 6 ಅಕ್ಷರಗಳು. ಬಲವಾದ, ವಿಶಿಷ್ಟ ಪಾಸ್‌ವರ್ಡ್ ಬಳಸಿ.",
       "smsConsent": "ಖಾತೆ ರಚಿಸುವ ಮೂಲಕ, ನಿಮ್ಮ Chatforia ಚಟುವಟಿಕೆಗೆ ಸಂಬಂಧಿಸಿದ SMS ಸೂಚನೆಗಳನ್ನು ಸ್ವೀಕರಿಸಲು ನೀವು ಒಪ್ಪಿಗೆ ನೀಡುತ್ತೀರಿ (ಇತರ ಬಳಕೆದಾರರಿಂದ ಸಂದೇಶಗಳು ಸೇರಿದಂತೆ). ಸಂದೇಶ ಮತ್ತು ಡೇಟಾ ದರಗಳು ಅನ್ವಯವಾಗಬಹುದು. ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಆಪ್ಟ್ ಔಟ್ ಮಾಡಬಹುದು.",
       "termsLink": "ಸೇವಾ ನಿಯಮಗಳು",
-      "privacyLink": "ಗೌಪ್ಯತಾ ನೀತಿ"
+      "privacyLink": "ಗೌಪ್ಯತಾ ನೀತಿ",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "ಗೆ:",
     "enterRecipient": "ಹೆಸರು ಅಥವಾ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ",
@@ -99,11 +221,95 @@
     "addRecipient": "ಪ್ರಾರಂಭಿಸಲು ಮೇಲೆ ಸ್ವೀಕರಿಸುವವರನ್ನು ಸೇರಿಸಿ…",
     "oneRecipient": "ಈಗ ಒಂದು ಸ್ವೀಕರಿಸುವವರನ್ನು ನಮೂದಿಸಿ.",
     "enterValidRecipient": "ಉಳಿಸಿದ ಸಂಪರ್ಕ ಹೆಸರು ಅಥವಾ ಫೋನ್ ನಂಬರ್ ನಮೂದಿಸಿ.",
-    "sendFailed": "ಕಳುಹಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ವಿವರಗಳಿಗೆ ಕನ್ಸೋಲ್ ಪರಿಶೀಲಿಸಿ."
+    "sendFailed": "ಕಳುಹಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ವಿವರಗಳಿಗೆ ಕನ್ಸೋಲ್ ಪರಿಶೀಲಿಸಿ.",
+    "logIn": "ಲಾಗ್ ಇನ್",
+    "seePlans": "ಯೋಜನೆಗಳು & ಬೆಲೆ ನೋಡಿ",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "ಖಾತೆ ರಚಿಸುವ ಮೂಲಕ, ನಿಮ್ಮ Chatforia ಚಟುವಟಿಕೆಗೆ ಸಂಬಂಧಿಸಿದ SMS ಸೂಚನೆಗಳನ್ನು ಸ್ವೀಕರಿಸಲು ನೀವು ಒಪ್ಪಿಗೆ ನೀಡುತ್ತೀರಿ (ಇತರ ಬಳಕೆದಾರರಿಂದ ಸಂದೇಶಗಳು ಸೇರಿದಂತೆ). ಸಂದೇಶ ಮತ್ತು ಡೇಟಾ ದರಗಳು ಅನ್ವಯವಾಗಬಹುದು. ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಆಪ್ಟ್ ಔಟ್ ಮಾಡಬಹುದು.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "ಮುಖಪುಟ",
-    "header": "ನಿಮ್ಮ ಸಂದೇಶಗಳು",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸಲು ಸಂದೇಶ ಕಳುಹಿಸಿ.",
     "sendButton": "ಸಂದೇಶ ಕಳುಹಿಸಿ",
     "gifPicker": "GIF ಪಿಕರ್ ತೆರೆಯಿರಿ",
@@ -114,226 +320,31 @@
     "sendTooltip": "ಕಳುಹಿಸು",
     "sendTooltipEmpty": "ಕಳುಹಿಸಲು ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ",
     "send": "ಕಳುಹಿಸು",
+    "welcomeMessage": "Chatforia ಗೆ ಸುಸ್ವಾಗತ",
+    "getStarted": "ಪ್ರಾರಂಭಿಸಿ",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "ಹೆಸರು ಅಥವಾ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
     "addRecipient": "ಪ್ರಾರಂಭಿಸಲು ಮೇಲ್ಭಾಗದಲ್ಲಿ ಸ್ವೀಕರಿಸುವವರನ್ನು ಸೇರಿಸಿ…",
-    "welcomeMessage": "Chatforia ಗೆ ಸುಸ್ವಾಗತ",
-    "getStarted": "ಪ್ರಾರಂಭಿಸಿ"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "ರಿಫಂಡ್ ನೀತಿ",
-    "lastUpdated": "ಕೊನೆಯ ನವೀಕರಣ:",
-    "intro": "Chatforia ನಲ್ಲಿ, ನಾವು ಎಲ್ಲಾ ಬಳಕೆದಾರರಿಗೆ ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಸೇವೆಯನ್ನು ನೀಡಲು ಪ್ರಯತ್ನಿಸುತ್ತೇವೆ. ಈ ರಿಫಂಡ್ ನೀತಿ ಯಾವ ಸಂದರ್ಭಗಳಲ್ಲಿ ಹಣವನ್ನು ಹಿಂತಿರುಗಿಸಲಾಗುತ್ತದೆ ಎಂಬುದನ್ನು ವಿವರಿಸುತ್ತದೆ.",
-    "subscriptions": {
-      "title": "ಚಂದಾದಾರಿಕೆಗಳು",
-      "body": "ಚಂದಾದಾರಿಕೆಗಳಿಗೆ ಮುಂಗಡವಾಗಿ ಮರುಕಳಿಸುವ ಆಧಾರದ ಮೇಲೆ ಬಿಲ್ಲಿಂಗ್ ಮಾಡಲಾಗುತ್ತದೆ. ನೀವು ಯಾವಾಗ ಬೇಕಾದರೂ ನಿಮ್ಮ ಖಾತೆ ಸೆಟ್ಟಿಂಗ್ಗಳಲ್ಲಿ ಅಥವಾ ಖರೀದಿಸಿದ ವೇದಿಕೆಯ ಮೂಲಕ ರದ್ದು ಮಾಡಬಹುದು."
-    },
-    "eligibility": {
-      "title": "ರಿಫಂಡ್ ಅರ್ಹತೆ",
-      "body": "ದ್ವಂದ್ವ ಶುಲ್ಕ, ಬಿಲ್ಲಿಂಗ್ ದೋಷಗಳು ಅಥವಾ ಪಾವತಿಸಿದ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಬಳಸಲು ಅಸಾಧ್ಯವಾಗುವ ತಾಂತ್ರಿಕ ಸಮಸ್ಯೆಗಳಿದ್ದಲ್ಲಿ ರಿಫಂಡ್ ನೀಡಬಹುದು. ಎಲ್ಲಾ ವಿನಂತಿಗಳನ್ನು ಪ್ರತಿ ಪ್ರಕರಣದ ಆಧಾರದ ಮೇಲೆ ಪರಿಶೀಲಿಸಲಾಗುತ್ತದೆ."
-    },
-    "nonRefundable": {
-      "title": "ರಿಫಂಡ್ ನೀಡಲಾಗದವು",
-      "body": "ಬಳಸದ ಸಮಯ, ಭಾಗಶಃ ಚಂದಾದಾರಿಕೆ ಅವಧಿಗಳು ಅಥವಾ ನವೀಕರಣಕ್ಕೂ ಮುನ್ನ ರದ್ದುಪಡಿಸಲು ವಿಫಲವಾದ ಸಂದರ್ಭಗಳಲ್ಲಿ ಸಾಮಾನ್ಯವಾಗಿ ರಿಫಂಡ್ ನೀಡುವುದಿಲ್ಲ."
-    },
-    "thirdParty": {
-      "title": "ಮೂರನೇ ವ್ಯಕ್ತಿಯ ಖರೀದಿಗಳು",
-      "body": "Apple App Store ಮುಂತಾದ ಮೂರನೇ ವ್ಯಕ್ತಿ ವೇದಿಕೆಗಳ ಮೂಲಕ ಖರೀದಿಸಿದರೆ, ರಿಫಂಡ್ ಅನ್ನು ಆ ವೇದಿಕೆಗಳ ಮೂಲಕವೇ ವಿನಂತಿಸಬೇಕು."
-    },
-    "contact": {
-      "title": "ಸಂಪರ್ಕ",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Chatforia ಬಗ್ಗೆ",
-    "description": "Chatforia ಒಂದು ಆಧುನಿಕ ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆ ಆಗಿದ್ದು, ಸುರಕ್ಷಿತ ಮತ್ತು ಬಹುಭಾಷಾ ಸಂವಹನಕ್ಕಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ...",
-    "valuesTitle": "ನಾವು ಮೌಲ್ಯೀಕರಿಸುವುದು",
-    "privacyTitle": "ಗೌಪ್ಯತೆ ಮೊದಲು",
-    "privacyDesc": "ಬಲವಾದ ಎನ್‌ಕ್ರಿಪ್ಷನ್ ಮತ್ತು ಬಳಕೆದಾರ ನಿಯಂತ್ರಿತ ಗೌಪ್ಯತಾ ಸೆಟ್ಟಿಂಗ್ಗಳು",
-    "accessTitle": "ಎಲ್ಲರಿಗೂ ಪ್ರವೇಶ",
-    "accessDesc": "ಬಹುಭಾಷೆಗಳ ಅಂತರ್ನಿರ್ಮಿತ ಅನುವಾದ",
-    "controlTitle": "ನಿಯಂತ್ರಣ",
-    "controlDesc": "ಅಳಿದುಹೋಗುವ ಸಂದೇಶಗಳು ಮತ್ತು ಓದಿದ ದೃಢೀಕರಣಗಳಂತಹ ವೈಶಿಷ್ಟ್ಯಗಳು"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳು ಏಕೆ ಹೆಚ್ಚು ಮುಖ್ಯವಾಗಿವೆ",
-      "intro": "ಇಂದಿನ ಜಗತ್ತಿನಲ್ಲಿ ಸಂವಹನಕ್ಕಾಗಿ ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳು ಅತ್ಯಂತ ಮುಖ್ಯವಾದ ಸಾಧನಗಳಾಗಿ ಮಾರ್ಪಟ್ಟಿವೆ...",
-      "everydayTitle": "ದೈನಂದಿನ ಸಂವಹನ",
-      "everydayDesc": "ಜನರು ದಿನನಿತ್ಯದ ಸಂವಹನಕ್ಕಾಗಿ ಮೆಸೇಜಿಂಗ್ ಆಪ್‌ಗಳನ್ನು ಬಳಸುತ್ತಾರೆ...",
-      "speedTitle": "ವೇಗ ಮತ್ತು ಅನುಕೂಲತೆ",
-      "speedDesc": "ಸಂದೇಶಗಳು ತಕ್ಷಣ ತಲುಪುತ್ತವೆ...",
-      "globalTitle": "ಜಾಗತಿಕ ವ್ಯಾಪ್ತಿ",
-      "globalDesc": "ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳು ವಿಶ್ವದಾದ್ಯಂತ ಜನರನ್ನು ಸಂಪರ್ಕಿಸುತ್ತವೆ...",
-      "privacyTitle": "ಗೌಪ್ಯತೆ ಮತ್ತು ನಿಯಂತ್ರಣ",
-      "privacyDesc": "ಆಧುನಿಕ ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳು ಬಳಕೆದಾರರಿಗೆ ನಿಯಂತ್ರಣ ನೀಡುವುದರಲ್ಲಿ ಕೇಂದ್ರೀಕರಿಸುತ್ತವೆ...",
-      "futureTitle": "ಮೆಸೇಜಿಂಗ್‌ನ ಭವಿಷ್ಯ",
-      "futureDesc": "ಹೊಸ ವೈಶಿಷ್ಟ್ಯಗಳೊಂದಿಗೆ ಮೆಸೇಜಿಂಗ್ ಮುಂದುವರಿಯುತ್ತಿದೆ...",
-      "outro": "Chatforia ಈ ತತ್ವಗಳನ್ನು ಆಧರಿಸಿದೆ..."
-    },
-
-    "global": {
-      "title": "ಜಾಗತಿಕ ಸಂವಹನದ ಭವಿಷ್ಯ",
-      "intro": "ಸಂವಹನವು ವೇಗವಾಗಿ ಅಭಿವೃದ್ಧಿಯಾಗಿದೆ...",
-      "barriersTitle": "ತಡೆಗಳನ್ನು ನಿವಾರಿಸುವುದು",
-      "barriersDesc": "ಜನರು ಈಗ ವಿಶ್ವದಾದ್ಯಂತ ಸಂಪರ್ಕಿಸಬಹುದು...",
-      "translationTitle": "ಅನುವಾದ ತಂತ್ರಜ್ಞಾನದ ಪಾತ್ರ",
-      "translationDesc": "ಭಾಷೆ ಪರಂಪರೆಯಿಂದಲೇ ಒಂದು ತಡೆ ಆಗಿದೆ...",
-      "realtimeTitle": "ತಕ್ಷಣದ ಸಂಪರ್ಕ",
-      "realtimeDesc": "ವೇಗ ಒಂದು ಪ್ರಮುಖ ಅಂಶವಾಗಿದೆ...",
-      "privacyTitle": "ಗೌಪ್ಯತೆ ಮತ್ತು ಭದ್ರತೆ",
-      "privacyDesc": "ಬಳಕೆದಾರರು ತಮ್ಮ ಸಂಭಾಷಣೆಗಳು ಸುರಕ್ಷಿತವಾಗಿವೆ ಎಂಬ ವಿಶ್ವಾಸವನ್ನು ಬಯಸುತ್ತಾರೆ...",
-      "futureTitle": "ಮುಂದೇನು",
-      "futureDesc": "ಜಾಗತಿಕ ಸಂವಹನದ ಭವಿಷ್ಯದಲ್ಲಿ ಇನ್ನಷ್ಟು ವೈಶಿಷ್ಟ್ಯಗಳು ಸೇರಲಿವೆ...",
-      "outro": "Chatforia ಮುಂತಾದ ವೇದಿಕೆಗಳು ಈ ಬದಲಾವಣೆಯ ಭಾಗವಾಗಿವೆ..."
-    },
-
-    "index": {
-      "title": "Chatforia ಬ್ಲಾಗ್",
-      "intro": "ಸಂವಹನದ ಬಗ್ಗೆ ಒಳನೋಟಗಳನ್ನು ಅನ್ವೇಷಿಸಿ...",
-      "post1": "ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಸುರಕ್ಷಿತವಾಗಿ ಚಾಟ್ ಮಾಡುವುದು ಹೇಗೆ",
-      "post2": "ಜಾಗತಿಕ ಸಂವಹನದ ಭವಿಷ್ಯ",
-      "post3": "ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳ ಮಹತ್ವ"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Chatforia ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ",
-    "intro": "Chatforia ಸಂವಹನವನ್ನು ಸರಳಗೊಳಿಸಲು ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ...",
-    "step1Title": "1. ಖಾತೆ ರಚಿಸಿ",
-    "step1Desc": "ನಿಮ್ಮ ಇಮೇಲ್ ಅಥವಾ ಬಳಕೆದಾರಹೆಸರನ್ನು ಬಳಸಿಕೊಂಡು ನೋಂದಣಿ ಮಾಡಿ...",
-    "step2Title": "2. ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭಿಸಿ",
-    "step2Desc": "ಇತರರೊಂದಿಗೆ ಸಂಪರ್ಕಿಸಿ...",
-    "step3Title": "3. ತಕ್ಷಣದ ಸಂದೇಶ ವಿನಿಮಯ",
-    "step3Desc": "ಸಂದೇಶಗಳು ವೇಗವಾಗಿ ತಲುಪುತ್ತವೆ...",
-    "step4Title": "4. ಜಾಗತಿಕ ಸಂವಹನ",
-    "step4Desc": "ಅಂತರ್ನಿರ್ಮಿತ ಅನುವಾದ ಬಳಕೆದಾರರಿಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ...",
-    "step5Title": "5. ನಿಯಂತ್ರಣದಲ್ಲಿ ಇರಿ",
-    "step5Desc": "ನಿಮ್ಮ ಆದ್ಯತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ..."
-  },
-
-  "safety": {
-    "title": "ಸುರಕ್ಷತೆ ಮತ್ತು ಸಮುದಾಯ ಮಾರ್ಗಸೂಚಿಗಳು",
-    "intro": "Chatforia ಸುರಕ್ಷಿತ ವಾತಾವರಣವನ್ನು ಕಾಪಾಡಲು ಬದ್ಧವಾಗಿದೆ...",
-    "respectTitle": "ಗೌರವಪೂರ್ಣ ಸಂವಹನ",
-    "respectDesc": "ಬಳಕೆದಾರರು ಪರಸ್ಪರ ಗೌರವದಿಂದ ಸಂವಹನ ನಡೆಸಬೇಕು...",
-    "prohibitedTitle": "ನಿಷೇಧಿತ ವಿಷಯ",
-    "prohibited": {
-      "illegal": "ಅಕ್ರಮ ಚಟುವಟಿಕೆಗಳು",
-      "harassment": "ಹಿಂಸೆ ಅಥವಾ ಕಿರುಕುಳ",
-      "hate": "ದ್ವೇಷ ಭಾಷಣ ಅಥವಾ ಭೇದಭಾವ",
-      "explicit": "ಅಸಭ್ಯ ಅಥವಾ ಹಾನಿಕಾರಕ ವಿಷಯ",
-      "spam": "ಸ್ಪ್ಯಾಮ್ ಅಥವಾ ಮೋಸಕಾರಿ ಕ್ರಮಗಳು"
-    },
-    "toolsTitle": "ಬಳಕೆದಾರರ ಸುರಕ್ಷತಾ ಸಾಧನಗಳು",
-    "tools": {
-      "report": "ಅನನುಕೂಲ ವರ್ತನೆ ವರದಿ ಮಾಡಿ",
-      "block": "ಬಳಕೆದಾರರನ್ನು ತಡೆಹಿಡಿಯಿರಿ",
-      "control": "ಗೌಪ್ಯತಾ ಸೆಟ್ಟಿಂಗ್ಗಳನ್ನು ನಿರ್ವಹಿಸಿ"
-    },
-    "enforcementTitle": "ಜಾರಿಗೆ",
-    "enforcementDesc": "ನಾವು ಖಾತೆಗಳ ವಿರುದ್ಧ ಕ್ರಮ ಕೈಗೊಳ್ಳಬಹುದು..."
-},
-  "chat": {
-    "selectPrompt": "ಚಾಟ್ ಮಾಡಲು ಟೆಕ್ಸ್ಟ್ ಅಥವಾ ಚಾಟ್ ರೂಮ್ ಆಯ್ಕೆಮಾಡಿ",
-    "newMessages": "ಹೊಸ ಸಂದೇಶಗಳು",
-    "typing": "{{name}} ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ...",
-    "emptyTitle": "ನಿಮ್ಮ ಸಂದೇಶಗಳು",
-    "emptySubtitle": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸಲು ಸಂದೇಶ ಕಳುಹಿಸಿ.",
-    "startChatButton": "ಸಂದೇಶ ಕಳುಹಿಸಿ",
-    "mediaAttachment": "ಮೀಡಿಯಾ ಲಗತ್ತು",
-    "thisUser": "ಈ ಬಳಕೆದಾರ",
-    "blockConfirm": "{{name}} ಅನ್ನು ಬ್ಲಾಕ್ ಮಾಡುವುದೇ? ಅವರಿಂದ ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ.",
-    "blockedUser": "{{name}} ಅನ್ನು ಬ್ಲಾಕ್ ಮಾಡಲಾಗಿದೆ.",
-    "blockError": "ಬ್ಲಾಕ್ ಮಾಡಲು ಗುರಿ ಬಳಕೆದಾರರನ್ನು ನಿರ್ಧರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.",
-    "blockFailed": "ಬ್ಲಾಕ್ ವಿಫಲವಾಗಿದೆ (ಬ್ಯಾಕೆಂಡ್ ಇನ್ನೂ ಸಂಪರ್ಕಿಸಲಾಗಿಲ್ಲ).",
-    "encryptedUnavailable": "ಎನ್‌ಕ್ರಿಪ್ಟೆಡ್ ಸಂದೇಶ (ಕೀ ಲಭ್ಯವಿಲ್ಲ)",
-    "unlockToView": "ಈ ಸಂದೇಶವನ್ನು ವೀಕ್ಷಿಸಲು ನಿಮ್ಮ ಕೀ ಅನ್‌ಲಾಕ್ ಮಾಡಿ"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "ಆಫ್"
-    },
-    "freeLimit": "ಉಚಿತ ಯೋಜನೆ ಮಿತಿ: 1 ದಿನದವರೆಗೆ ಸ್ವಯಂ-ಅಳಿಸುವಿಕೆ. 1d ಗೆ ಕ್ಲ್ಯಾಂಪ್ ಮಾಡಲಾಗಿದೆ.",
-    "premiumLimit": "ಪ್ರೀಮಿಯಂಗೆ ಗರಿಷ್ಠ ಸ್ವಯಂ-ಅಳಿಸುವಿಕೆ 30 ದಿನಗಳು. 30d ಗೆ ಕ್ಲ್ಯಾಂಪ್ ಮಾಡಲಾಗಿದೆ.",
-    "nothingToSend": "ಕಳುಹಿಸಲು ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ ಅಥವಾ ಫೈಲ್ ಲಗತ್ತು ಮಾಡಿ.",
-    "encryptionFailed": "ಎನ್‌ಕ್ರಿಪ್ಷನ್ ವಿಫಲವಾಗಿದೆ. ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿಲ್ಲ.",
-    "sent": "ಸಂದೇಶ ತಲುಪಿದೆ.",
-    "placeholder": "ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ…",
-    "voiceAdded": "ಧ್ವನಿ ಟಿಪ್ಪಣಿ ಸೇರಿಸಲಾಗಿದೆ",
-    "attachmentAdded": "ಲಗತ್ತನ್ನು ಸೇರಿಸಲಾಗಿದೆ",
-    "autoDelete": "ಸ್ವಯಂ-ಅಳಿಸು",
-    "typeToSend": "ಕಳುಹಿಸಲು ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ",
-    "send": "ಕಳುಹಿಸು",
-    "sendWithEnter": "ಕಳುಹಿಸು (Enter)",
-    "attachment": "ಲಗತ್ತು",
-    "caption": "ಕ್ಯಾಪ್ಷನ್ (ಐಚ್ಛಿಕ)",
-    "remove": "ತೆಗೆದುಹಾಕು",
-    "clear": "ತೆರವುಗೊಳಿಸು",
-    "gif": "GIF",
-    "sticker": "ಸ್ಟಿಕ್ಕರ್",
-    "errors": {
-      "attachmentTooLarge": "ಲಗತ್ತು ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ. ಸಣ್ಣ ಫೈಲ್ ಪ್ರಯತ್ನಿಸಿ.",
-      "unsupportedFile": "ಬೆಂಬಲವಿಲ್ಲದ ಫೈಲ್ ಪ್ರಕಾರ.",
-      "rateLimit": "ನೀವು ತುಂಬಾ ತ್ವರಿತವಾಗಿ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುತ್ತಿದ್ದೀರಿ. ದಯವಿಟ್ಟು ನಿಧಾನಿಸಿ.",
-      "validation": "ಮೌಲ್ಯೀಕರಣ ದೋಷ. ನಿಮ್ಮ ಸಂದೇಶ ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-      "failedToSend": "ಕಳುಹಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ವಿಫಲ ಬಬಲ್ ಅನ್ನು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
-    }
-  },
-  "contactList": {
-    "savedContacts": "ಉಳಿಸಿದ ಸಂಪರ್ಕಗಳು",
-    "refreshAria": "ಸಂಪರ್ಕಗಳನ್ನು ಪುನಃ ಲೋಡ್ ಮಾಡು",
-    "filterPlaceholder": "ಉಳಿಸಿದ ಸಂಪರ್ಕಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಿ…",
-    "filterAria": "ಉಳಿಸಿದ ಸಂಪರ್ಕಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಿ",
-    "noContactsFound": "ಯಾವುದೇ ಸಂಪರ್ಕಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
-    "externalContact": "ಬಾಹ್ಯ ಸಂಪರ್ಕ",
-    "notJoined": "ಆ ಸಂಪರ್ಕ ಇನ್ನೂ Chatforia ಗೆ ಸೇರಿಲ್ಲ.",
-    "couldNotStart": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    "startFailed": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    "deleted": "ಸಂಪರ್ಕ ಅಳಿಸಲಾಗಿದೆ.",
-    "deleteFailed": "ಸಂಪರ್ಕ ಅಳಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    "aliasUpdated": "ಅಲಿಯಾಸ್ ನವೀಕರಿಸಲಾಗಿದೆ.",
-    "updateAliasFailed": "ಅಲಿಯಾಸ್ ನವೀಕರಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    "selectContact": "{{name}} ಆಯ್ಕೆಮಾಡಿ",
-    "alias": "ಅಲಿಯಾಸ್",
-    "startChat": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸಿ",
-    "message": "ಸಂದೇಶ",
-    "delete": "ಅಳಿಸು",
-    "deleteContactAria": "ಸಂಪರ್ಕ ಅಳಿಸು",
-    "loadFailed": "ಸಂಪರ್ಕಗಳನ್ನು ಲೋಡ್ ಮಾಡುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    "loadMore": "ಹೆಚ್ಚು ಲೋಡ್ ಮಾಡಿ",
-    "call": "ಕರೆ",
-    "callStarted": "ನಿಮ್ಮ Chatforia ನಂಬರ್ ಮೂಲಕ ಈ ನಂಬರ್‌ಗೆ ಕರೆ ಮಾಡುತ್ತಿದೆ…",
-    "callFailed": "ಕರೆ ಪ್ರಾರಂಭಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
-  },
-  "startChatModal": {
-    "title": "ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭಿಸಿ",
-    "searchPlaceholder": "ಹೆಸರು, ಬಳಕೆದಾರ ಹೆಸರು ಅಥವಾ ಫೋನ್ ನಂಬರ್ ಹುಡುಕಿ",
-    "messageThisPerson": "ಈ ವ್ಯಕ್ತಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ",
-    "contacts": "ಸಂಪರ್ಕಗಳು",
-    "recentInteractions": "ಇತ್ತೀಚಿನ ಸಂವಾದಗಳು",
-    "noContactsMatch": "ನಿಮ್ಮ ಹುಡುಕಾಟಕ್ಕೆ ಯಾವುದೇ ಸಂಪರ್ಕಗಳು ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ.",
-    "noRecentInteractions": "ಇನ್ನೂ ಯಾವುದೇ ಇತ್ತೀಚಿನ ಸಂವಾದಗಳಿಲ್ಲ.",
-    "unknown": "ಅಪರಿಚಿತ",
-    "interactionType": {
-      "message": "ಸಂದೇಶ",
-      "call": "ಕರೆ",
-      "video": "ವೀಡಿಯೊ"
-    }
-  },
-  "addContactModal": {
-    "title": "ಸಂಪರ್ಕ ಸೇರಿಸಿ",
-    "phoneOrUsername": "ಫೋನ್ ಅಥವಾ ಬಳಕೆದಾರ ಹೆಸರು",
-    "phoneOrUsernamePlaceholder": "ಉದಾ. +13018019227 ಅಥವಾ juliannorton",
-    "alias": "ಅಲಿಯಾಸ್ (ಐಚ್ಛಿಕ)",
-    "aliasPlaceholder": "ಉದಾ. ಕೆಲಸ, ಅಮ್ಮ, ಮೈಕ್ – ಯುರೋಪ್",
-    "enterPhoneOrUsername": "ಫೋನ್ ನಂಬರ್ ಅಥವಾ ಬಳಕೆದಾರ ಹೆಸರು ನಮೂದಿಸಿ.",
-    "userLookupFailed": "ಬಳಕೆದಾರ ಹುಡುಕಾಟ ವಿಫಲವಾಗಿದೆ.",
-    "cannotAddSelf": "ನೀವು ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕವಾಗಿ ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.",
-    "failedToAdd": "ಸಂಪರ್ಕ ಸೇರಿಸುವುದು ವಿಫಲವಾಗಿದೆ.",
-    "add": "ಸೇರಿಸು"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "ಯಾದೃಚ್ಛಿಕ ಚಾಟ್",
@@ -357,13 +368,151 @@
     "startChatAlt": "ಹೊಸ ಚಾಟ್ ಪ್ರಾರಂಭಿಸಿ",
     "calls": "ಕರೆಗಳು",
     "video": "ವೀಡಿಯೊ",
-    "voicemail": "ವಾಯ್ಸ್‌ಮೇಲ್"
+    "voicemail": "ವಾಯ್ಸ್‌ಮೇಲ್",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "ಹೊಸ ಸ್ಥಿತಿ",
     "logout": "ಲಾಗ್ ಔಟ್",
     "help": "ಸಹಾಯ",
     "createStatusAria": "ಹೊಸ ಸ್ಥಿತಿ ರಚಿಸಿ"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "ಚಾಟ್ ಮಾಡಲು ಟೆಕ್ಸ್ಟ್ ಅಥವಾ ಚಾಟ್ ರೂಮ್ ಆಯ್ಕೆಮಾಡಿ",
+    "newMessages": "ಹೊಸ ಸಂದೇಶಗಳು",
+    "typing": "{{name}} ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ...",
+    "emptyTitle": "ನಿಮ್ಮ ಸಂದೇಶಗಳು",
+    "emptySubtitle": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸಲು ಸಂದೇಶ ಕಳುಹಿಸಿ.",
+    "startChatButton": "ಸಂದೇಶ ಕಳುಹಿಸಿ",
+    "mediaAttachment": "ಮೀಡಿಯಾ ಲಗತ್ತು",
+    "thisUser": "ಈ ಬಳಕೆದಾರ",
+    "blockConfirm": "{{name}} ಅನ್ನು ಬ್ಲಾಕ್ ಮಾಡುವುದೇ? ಅವರಿಂದ ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ.",
+    "blockedUser": "{{name}} ಅನ್ನು ಬ್ಲಾಕ್ ಮಾಡಲಾಗಿದೆ.",
+    "blockError": "ಬ್ಲಾಕ್ ಮಾಡಲು ಗುರಿ ಬಳಕೆದಾರರನ್ನು ನಿರ್ಧರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.",
+    "blockFailed": "ಬ್ಲಾಕ್ ವಿಫಲವಾಗಿದೆ (ಬ್ಯಾಕೆಂಡ್ ಇನ್ನೂ ಸಂಪರ್ಕಿಸಲಾಗಿಲ್ಲ).",
+    "encryptedUnavailable": "ಎನ್‌ಕ್ರಿಪ್ಟೆಡ್ ಸಂದೇಶ (ಕೀ ಲಭ್ಯವಿಲ್ಲ)",
+    "unlockToView": "ಈ ಸಂದೇಶವನ್ನು ವೀಕ್ಷಿಸಲು ನಿಮ್ಮ ಕೀ ಅನ್‌ಲಾಕ್ ಮಾಡಿ",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "ಆಫ್"
+    },
+    "freeLimit": "ಉಚಿತ ಯೋಜನೆ ಮಿತಿ: 1 ದಿನದವರೆಗೆ ಸ್ವಯಂ-ಅಳಿಸುವಿಕೆ. 1d ಗೆ ಕ್ಲ್ಯಾಂಪ್ ಮಾಡಲಾಗಿದೆ.",
+    "premiumLimit": "ಪ್ರೀಮಿಯಂಗೆ ಗರಿಷ್ಠ ಸ್ವಯಂ-ಅಳಿಸುವಿಕೆ 30 ದಿನಗಳು. 30d ಗೆ ಕ್ಲ್ಯಾಂಪ್ ಮಾಡಲಾಗಿದೆ.",
+    "nothingToSend": "ಕಳುಹಿಸಲು ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ ಅಥವಾ ಫೈಲ್ ಲಗತ್ತು ಮಾಡಿ.",
+    "encryptionFailed": "ಎನ್‌ಕ್ರಿಪ್ಷನ್ ವಿಫಲವಾಗಿದೆ. ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿಲ್ಲ.",
+    "sent": "ಸಂದೇಶ ತಲುಪಿದೆ.",
+    "placeholder": "ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ…",
+    "autoDelete": "ಸ್ವಯಂ-ಅಳಿಸು",
+    "typeToSend": "ಕಳುಹಿಸಲು ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ",
+    "send": "ಕಳುಹಿಸು",
+    "sendWithEnter": "ಕಳುಹಿಸು (Enter)",
+    "attachment": "ಲಗತ್ತು",
+    "caption": "ಕ್ಯಾಪ್ಷನ್ (ಐಚ್ಛಿಕ)",
+    "remove": "ತೆಗೆದುಹಾಕು",
+    "clear": "ತೆರವುಗೊಳಿಸು",
+    "gif": "GIF",
+    "sticker": "ಸ್ಟಿಕ್ಕರ್",
+    "errors": {
+      "attachmentTooLarge": "ಲಗತ್ತು ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ. ಸಣ್ಣ ಫೈಲ್ ಪ್ರಯತ್ನಿಸಿ.",
+      "unsupportedFile": "ಬೆಂಬಲವಿಲ್ಲದ ಫೈಲ್ ಪ್ರಕಾರ.",
+      "rateLimit": "ನೀವು ತುಂಬಾ ತ್ವರಿತವಾಗಿ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುತ್ತಿದ್ದೀರಿ. ದಯವಿಟ್ಟು ನಿಧಾನಿಸಿ.",
+      "validation": "ಮೌಲ್ಯೀಕರಣ ದೋಷ. ನಿಮ್ಮ ಸಂದೇಶ ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+      "failedToSend": "ಕಳುಹಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ವಿಫಲ ಬಬಲ್ ಅನ್ನು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "ಧ್ವನಿ ಟಿಪ್ಪಣಿ ಸೇರಿಸಲಾಗಿದೆ"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "ಥ್ರೆಡ್ ಮೆನು",
@@ -379,8 +528,6 @@
     "invitePeople": "ಜನರನ್ನು ಆಹ್ವಾನಿಸಿ",
     "roomSettings": "ರೂಮ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
     "clearConversation": "ಸಂಭಾಷಣೆಯನ್ನು ತೆರವುಗೊಳಿಸಿ",
-    "clearConversationForMe": "ನನಗಾಗಿ ತೆರವುಗೊಳಿಸಿ",
-    "clearConversationForEveryone": "ಎಲ್ಲರಿಗೂ ತೆರವುಗೊಳಿಸಿ",
     "block": "ನಿರ್ಬಂಧಿಸಿ"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "ಟ್ಯಾಗ್ ಮಾಡಿದ್ದು ಮಾತ್ರ (/tr …)",
       "all": "ಎಲ್ಲಾ ಸಂದೇಶಗಳು"
     },
-    "updated": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು ನವೀಕರಿಸಲಾಗಿದೆ"
+    "updated": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು ನವೀಕರಿಸಲಾಗಿದೆ",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "ಹಂಚಿದ ಮೀಡಿಯಾ",
@@ -477,6 +635,110 @@
     "markRead": "ಓದಿದಂತೆ ಗುರುತಿಸು",
     "delete": "ಅಳಿಸು",
     "unreadDotAria": "ಓದದ ವಾಯ್ಸ್‌ಮೇಲ್ ಸೂಚಕ"
+  },
+  "contactList": {
+    "savedContacts": "ಉಳಿಸಿದ ಸಂಪರ್ಕಗಳು",
+    "refreshAria": "ಸಂಪರ್ಕಗಳನ್ನು ಪುನಃ ಲೋಡ್ ಮಾಡು",
+    "filterPlaceholder": "ಉಳಿಸಿದ ಸಂಪರ್ಕಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಿ…",
+    "filterAria": "ಉಳಿಸಿದ ಸಂಪರ್ಕಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಿ",
+    "noContactsFound": "ಯಾವುದೇ ಸಂಪರ್ಕಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
+    "externalContact": "ಬಾಹ್ಯ ಸಂಪರ್ಕ",
+    "notJoined": "ಆ ಸಂಪರ್ಕ ಇನ್ನೂ Chatforia ಗೆ ಸೇರಿಲ್ಲ.",
+    "couldNotStart": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "startFailed": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "deleted": "ಸಂಪರ್ಕ ಅಳಿಸಲಾಗಿದೆ.",
+    "deleteFailed": "ಸಂಪರ್ಕ ಅಳಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "aliasUpdated": "ಅಲಿಯಾಸ್ ನವೀಕರಿಸಲಾಗಿದೆ.",
+    "updateAliasFailed": "ಅಲಿಯಾಸ್ ನವೀಕರಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "selectContact": "{{name}} ಆಯ್ಕೆಮಾಡಿ",
+    "alias": "ಅಲಿಯಾಸ್",
+    "startChat": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸಿ",
+    "message": "ಸಂದೇಶ",
+    "delete": "ಅಳಿಸು",
+    "deleteContactAria": "ಸಂಪರ್ಕ ಅಳಿಸು",
+    "loadFailed": "ಸಂಪರ್ಕಗಳನ್ನು ಲೋಡ್ ಮಾಡುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "loadMore": "ಹೆಚ್ಚು ಲೋಡ್ ಮಾಡಿ",
+    "call": "ಕರೆ",
+    "callStarted": "ನಿಮ್ಮ Chatforia ನಂಬರ್ ಮೂಲಕ ಈ ನಂಬರ್‌ಗೆ ಕರೆ ಮಾಡುತ್ತಿದೆ…",
+    "callFailed": "ಕರೆ ಪ್ರಾರಂಭಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "ಸಂಪರ್ಕ ಸೇರಿಸಿ",
+    "phoneOrUsername": "ಫೋನ್ ಅಥವಾ ಬಳಕೆದಾರ ಹೆಸರು",
+    "phoneOrUsernamePlaceholder": "ಉದಾ. +13018019227 ಅಥವಾ juliannorton",
+    "alias": "ಅಲಿಯಾಸ್ (ಐಚ್ಛಿಕ)",
+    "aliasPlaceholder": "ಉದಾ. ಕೆಲಸ, ಅಮ್ಮ, ಮೈಕ್ – ಯುರೋಪ್",
+    "enterPhoneOrUsername": "ಫೋನ್ ನಂಬರ್ ಅಥವಾ ಬಳಕೆದಾರ ಹೆಸರು ನಮೂದಿಸಿ.",
+    "userLookupFailed": "ಬಳಕೆದಾರ ಹುಡುಕಾಟ ವಿಫಲವಾಗಿದೆ.",
+    "cannotAddSelf": "ನೀವು ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕವಾಗಿ ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.",
+    "failedToAdd": "ಸಂಪರ್ಕ ಸೇರಿಸುವುದು ವಿಫಲವಾಗಿದೆ.",
+    "add": "ಸೇರಿಸು"
+  },
+  "startChatModal": {
+    "title": "ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭಿಸಿ",
+    "searchPlaceholder": "ಹೆಸರು, ಬಳಕೆದಾರ ಹೆಸರು ಅಥವಾ ಫೋನ್ ನಂಬರ್ ಹುಡುಕಿ",
+    "messageThisPerson": "ಈ ವ್ಯಕ್ತಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ",
+    "contacts": "ಸಂಪರ್ಕಗಳು",
+    "recentInteractions": "ಇತ್ತೀಚಿನ ಸಂವಾದಗಳು",
+    "noContactsMatch": "ನಿಮ್ಮ ಹುಡುಕಾಟಕ್ಕೆ ಯಾವುದೇ ಸಂಪರ್ಕಗಳು ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ.",
+    "noRecentInteractions": "ಇನ್ನೂ ಯಾವುದೇ ಇತ್ತೀಚಿನ ಸಂವಾದಗಳಿಲ್ಲ.",
+    "unknown": "ಅಪರಿಚಿತ",
+    "interactionType": {
+      "message": "ಸಂದೇಶ",
+      "call": "ಕರೆ",
+      "video": "ವೀಡಿಯೊ"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "ಬಳಕೆದಾರ ಪ್ರೊಫೈಲ್",
@@ -614,13 +876,167 @@
     "voicemailNote": "ನಿಮ್ಮ Chatforia ನಂಬರ್‌ಗಳಿಂದ ವಾಯ್ಸ್‌ಮೇಲ್‌ಗಳು ನಿಮ್ಮ ವಾಯ್ಸ್‌ಮೇಲ್ ಇನ್‌ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಸಂಗ್ರಹವಾಗುತ್ತವೆ. ಬೆಂಬಲಿತ ಯೋಜನೆಗಳಲ್ಲಿ ಟ್ರಾನ್ಸ್‌ಕ್ರಿಪ್ಷನ್ ಮತ್ತು ಫಾರ್ವರ್ಡಿಂಗ್ ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.",
     "portHint": "ನಿಮ್ಮ ಪ್ರಸ್ತುತ ನಂಬರ್ ಇರಿಸಲು ಬಯಸುವಿರಾ? ಅದನ್ನು Chatforia ವೈರ್‌ಲೆಸ್‌ಗೆ ಪೋರ್ಟ್ ಮಾಡಬಹುದು.",
     "wireless": {
-      "manage": "ವೈರ್‌ಲೆಸ್ ನಿರ್ವಹಿಸಿ"
+      "manage": "ವೈರ್‌ಲೆಸ್ ನಿರ್ವಹಿಸಿ",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "ಬಳಕೆದಾರ ಪ್ರೊಫೈಲ್",
       "desc": "Wi-Fi ಇಲ್ಲದಿದ್ದಾಗ Chatforia ಗೆ ಮೊಬೈಲ್ ಡೇಟಾ ಪಡೆಯಿರಿ.",
-      "cta": "eSIM ಪಡೆಯಿರಿ / QR ತೋರಿಸಿ"
-    }
+      "cta": "eSIM ಪಡೆಯಿರಿ / QR ತೋರಿಸಿ",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia ವೈರ್‌ಲೆಸ್",
@@ -672,7 +1088,685 @@
     "expiresIn": "{{days}} ದಿನಗಳಲ್ಲಿ ಮುಕ್ತಾಯ",
     "exhausted": "ನಿಮ್ಮ ಡೇಟಾ ಮುಗಿದಿದೆ. ಮೊಬೈಲ್ ಡೇಟಾ ಮುಂದುವರಿಸಲು ಹೊಸ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ.",
     "buyPack": "ಡೇಟಾ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ",
-    "esimPackLabel": "eSIM ಪ್ಯಾಕ್"
+    "esimPackLabel": "eSIM ಪ್ಯಾಕ್",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia ವೈರ್‌ಲೆಸ್",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia ವೈರ್‌ಲೆಸ್",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "ಪ್ರೀಮಿಯಂಗೆ ಹೋಗಿ",
+    "description": "ಪವರ್ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ ಮತ್ತು ಜಾಹೀರಾತುಗಳನ್ನು ತೆಗೆದುಹಾಕಿ.",
+    "cta": "ಅಪ್‌ಗ್ರೇಡ್",
+    "upgrade": "ಅಪ್‌ಗ್ರೇಡ್",
+    "upgradeAria": "Chatforia ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "ಅಪ್‌ಗ್ರೇಡ್",
+    "titleLoggedIn": "ಅಪ್‌ಗ್ರೇಡ್",
+    "titlePublic": "ಬೆಲೆ",
+    "h1": "Chatforia ಬೆಲೆ & ಯೋಜನೆಗಳು",
+    "h1Subtitle": "ನಮ್ಮ ಉಚಿತ, ಜಾಹೀರಾತು ಬೆಂಬಲಿತ ಯೋಜನೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿ. ಪ್ಲಸ್‌ನೊಂದಿಗೆ ಜಾಹೀರಾತು-ಮುಕ್ತವಾಗಿ ಹೋಗಿ ಅಥವಾ ಪ್ರೀಮಿಯಂನೊಂದಿಗೆ ಪೂರ್ಣ ಪವರ್ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ.",
+    "subtitle": "ಆಪ್ ಯೋಜನೆ ಆಯ್ಕೆಮಾಡಿ, ನಿಮಗಾಗಿ ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳನ್ನು ಸೇರಿಸಿ ಅಥವಾ ನಿಮ್ಮ ಕುಟುಂಬದೊಂದಿಗೆ ಡೇಟಾ ಹಂಚಿಕೊಳ್ಳಿ — ಎಲ್ಲವೂ ಒಂದೇ ಸ್ಥಳದಿಂದ.",
+    "subtitle.app": "ನಮ್ಮ ಉಚಿತ, ಜಾಹೀರಾತು ಬೆಂಬಲಿತ ಯೋಜನೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿ. ಪ್ಲಸ್‌ನೊಂದಿಗೆ ಜಾಹೀರಾತು-ಮುಕ್ತವಾಗಿ ಹೋಗಿ ಅಥವಾ ಪ್ರೀಮಿಯಂನೊಂದಿಗೆ ಪೂರ್ಣ ಪವರ್ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ.",
+    "subtitle.mobile": "Wi-Fi ಇಲ್ಲದಿದ್ದಾಗ Chatforia ಕೆಲಸ ಮಾಡುವಂತೆ ಜಾಗತಿಕ eSIM ಡೇಟಾ ಸೇರಿಸಿ.",
+    "subtitle.family": "ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಹಂಚಿದ ಡೇಟಾ ಪೂಲ್ ರಚಿಸಿ ಮತ್ತು ಎಲ್ಲರ ಬಳಕೆಯನ್ನು ಒಂದೇ ಸ್ಥಳದಿಂದ ನಿರ್ವಹಿಸಿ.",
+    "perMonth": "ತಿಂಗಳು",
+    "perYear": "ವರ್ಷ",
+    "goPremium": "ಪ್ರೀಮಿಯಂಗೆ ಹೋಗಿ",
+    "benefitsLine": "ಪವರ್ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ ಮತ್ತು ಜಾಹೀರಾತುಗಳನ್ನು ತೆಗೆದುಹಾಕಿ.",
+    "ctaText": "ಅಪ್‌ಗ್ರೇಡ್",
+    "aria": "Chatforia ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
+    "toggle": {
+      "monthly": "ತಿಂಗಳು",
+      "annual": "ವಾರ್ಷಿಕ (30% ಉಳಿಸಿ)"
+    },
+    "scheduleBanner": {
+      "title": "ಸಬ್‌ಸ್ಕ್ರಿಪ್ಷನ್ ಮುಕ್ತಾಯವಾಗುತ್ತದೆ",
+      "body": "ನೀವು ಉಚಿತಕ್ಕೆ ಹಿಂತಿರುಗುತ್ತೀರಿ",
+      "keepPlanCta": "{{plan}} ಇರಿಸಿಕೊಳ್ಳಿ",
+      "manageBillingCta": "ಬಿಲ್ಲಿಂಗ್ ನಿರ್ವಹಿಸಿ"
+    },
+    "billing": {
+      "opening": "ತೆರೆಯುತ್ತಿದೆ…",
+      "manage": "ಬಿಲ್ಲಿಂಗ್ ನಿರ್ವಹಿಸಿ"
+    },
+    "checkout": {
+      "redirecting": "ರಿಡೈರೆಕ್ಟ್ ಆಗುತ್ತಿದೆ…"
+    },
+    "auth": {
+      "continue": "ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
+      "createAccount": "ಖಾತೆ ರಚಿಸಿ",
+      "signIn": "ಸೈನ್ ಇನ್"
+    },
+    "cta": {
+      "aria": "ಯೋಜನೆ ಆಯ್ಕೆಮಾಡಿ",
+      "getPlus": "ಪ್ಲಸ್‌ಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
+      "upgradeMonthly": "ತಿಂಗಳಿಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
+      "upgradeAnnual": "ವಾರ್ಷಿಕಕ್ಕೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "ಆಪ್ ಯೋಜನೆಗಳು",
+      "mobile": "ಮೊಬೈಲ್ (eSIM)",
+      "family": "ಕುಟುಂಬ ಯೋಜನೆಗಳು"
+    },
+    "plans": {
+      "free": {
+        "title": "ಉಚಿತ",
+        "price": "$0",
+        "desc": "ಉಚಿತವಾಗಿ ಸಂದೇಶ ಕಳುಹಿಸಲು ಪ್ರಾರಂಭಿಸಿ. ನೀವು Chatforia ಅನ್ನು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದರೆ ಸೂಕ್ತ.",
+        "features": {
+          "chat": "ರಿಯಲ್-ಟೈಮ್ 1:1 ಮತ್ತು ಗುಂಪು ಚಾಟ್, ಜೊತೆಗೆ ಧ್ವನಿ ಮತ್ತು ವೀಡಿಯೊ ಕರೆಗಳು",
+          "media": "ಫೋಟೋಗಳು, ಧ್ವನಿ ಸಂದೇಶಗಳು ಮತ್ತು ಚಿಕ್ಕ ವೀಡಿಯೊಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ",
+          "ai": "AI ಆಧಾರಿತ ಸ್ಮಾರ್ಟ್ ಪ್ರತಿಕ್ರಿಯೆಗಳು ಮತ್ತು ತ್ವರಿತ ಅನುವಾದ (ನ್ಯಾಯಯುತ ಬಳಕೆ)",
+          "disappearing": "ಅದೃಶ್ಯ ಸಂದೇಶಗಳು ಮತ್ತು ಮೂಲ ಗೌಪ್ಯತಾ ನಿಯಂತ್ರಣಗಳು",
+          "ads": "ಆಪ್‌ನಲ್ಲಿ ಜಾಹೀರಾತುಗಳೊಂದಿಗೆ ಉಚಿತವಾಗಿ ಶಾಶ್ವತ"
+        },
+        "ctaCurrent": "ಪ್ರಸ್ತುತ ಯೋಜನೆ",
+        "ctaManage": "ಬಿಲ್ಲಿಂಗ್‌ನಲ್ಲಿ ನಿರ್ವಹಿಸಿ",
+        "ctaPublic": "ಪ್ರಾರಂಭಿಸಿ – ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
+        "aria": "ಉಚಿತ ಯೋಜನೆ"
+      },
+      "plus": {
+        "title": "ಪ್ಲಸ್",
+        "price": "$6.99",
+        "desc": "ಜಾಹೀರಾತುಗಳಿಲ್ಲದ ಎಲ್ಲಾ ಅಗತ್ಯಗಳು. ದೈನಂದಿನ ಸಂದೇಶ ಮತ್ತು ಕರೆಗಳಿಗೆ ಸೂಕ್ತ.",
+        "features": {
+          "allFree": "ಉಚಿತದಲ್ಲಿರುವ ಎಲ್ಲವೂ, ಜಾಹೀರಾತುಗಳಿಲ್ಲ",
+          "forwarding": "ನಿಮ್ಮ ನಿಜವಾದ ಫೋನ್ ನಂಬರ್‌ಗೆ ಕರೆಗಳು ಮತ್ತು ಟೆಕ್ಸ್ಟ್‌ಗಳನ್ನು ಫಾರ್ವರ್ಡ್ ಮಾಡಿ",
+          "history": "ದೀರ್ಘ ಸಂದೇಶ ಇತಿಹಾಸ (6 ತಿಂಗಳವರೆಗೆ)",
+          "support": "ಏನಾದರೂ ತಪ್ಪಾದರೆ ವೇಗದ ಬೆಂಬಲ"
+        },
+        "badge": "ಜನಪ್ರಿಯ",
+        "cta": "ಜಾಹೀರಾತು-ಮುಕ್ತವಾಗಿ ಹೋಗಿ",
+        "ctaPublic": "ಪ್ಲಸ್ ಪಡೆಯಿರಿ – ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
+        "aria": "ಪ್ಲಸ್‌ಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ"
+      },
+      "premiumMonthly": {
+        "title": "ಪ್ರೀಮಿಯಂ (ತಿಂಗಳು)",
+        "price": "$11.99",
+        "desc": "ಪೂರ್ಣ Chatforia ಅನುಭವ: AI ಪವರ್ ಟೂಲ್‌ಗಳು, ಕಸ್ಟಮೈಸೇಶನ್ ಮತ್ತು ಆದ್ಯತಾ ಬೆಂಬಲ.",
+        "features": {
+          "plusAll": "ಪ್ಲಸ್‌ನಲ್ಲಿರುವ ಎಲ್ಲವೂ",
+          "themes": "ಎಲ್ಲಾ ಪ್ರೀಮಿಯಂ ಬಣ್ಣ ಥೀಮ್‌ಗಳು ಮತ್ತು ಆಪ್ ಕಸ್ಟಮೈಸೇಶನ್‌ಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ",
+          "ai": "ರಿರೈಟ್‌ಗಳು, ಸ್ಮಾರ್ಟ್ ಪ್ರತಿಕ್ರಿಯೆಗಳು ಮತ್ತು ಸಾರಾಂಶಗಳಿಗೆ ಪ್ರೀಮಿಯಂ-ಮಾತ್ರ AI ಪವರ್ ಟೂಲ್‌ಗಳು",
+          "support": "ನಿಮಗೆ ಅತ್ಯಂತ ಅಗತ್ಯವಿರುವಾಗ ಆದ್ಯತಾ ಬೆಂಬಲ",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ",
+        "cta": "ಅಪ್‌ಗ್ರೇಡ್ (ತಿಂಗಳು)",
+        "ctaPublic": "ಪ್ರೀಮಿಯಂ ಅನ್‌ಲಾಕ್ ಮಾಡಿ – ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
+        "aria": "ತಿಂಗಳ ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ"
+      },
+      "premiumAnnual": {
+        "title": "ಪ್ರೀಮಿಯಂ (ವಾರ್ಷಿಕ)",
+        "price": "$99",
+        "desc": "ವಾರ್ಷಿಕ ಬಿಲ್ ಮಾಡಿದಾಗ ಹೆಚ್ಚು ಉಳಿಸಿ — ಹೆಚ್ಚುವರಿ ಬಣ್ಣ ಥೀಮ್‌ಗಳು, AI ಟೂಲ್‌ಗಳು ಮತ್ತು ಆದ್ಯತಾ ಬೆಂಬಲ ಸೇರಿದಂತೆ.",
+        "features": {
+          "allPremium": "ತಿಂಗಳ ಪ್ರೀಮಿಯಂನಲ್ಲಿರುವ ಎಲ್ಲವೂ — ಹೆಚ್ಚುವರಿ ಬಣ್ಣ ಥೀಮ್‌ಗಳು ಸೇರಿದಂತೆ",
+          "annualBilling": "ವರ್ಷಕ್ಕೊಮ್ಮೆ ಬಿಲ್ ಮಾಡಲಾಗುತ್ತದೆ",
+          "save25": "ತಿಂಗಳಿಗೆ ಪಾವತಿಸುವುದಕ್ಕಿಂತ ಸುಮಾರು 30% ಉಳಿಸಿ",
+          "bestFor": "ಪವರ್ ಬಳಕೆದಾರರು, ರಿಮೋಟ್ ಕೆಲಸಗಾರರು ಮತ್ತು ಭಾರೀ ಪ್ರಯಾಣಿಕರಿಗೆ ಉತ್ತಮ",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "30% ಉಳಿಸಿ",
+        "cta": "ಅಪ್‌ಗ್ರೇಡ್ (ವಾರ್ಷಿಕ)",
+        "ctaPublic": "ವಾರ್ಷಿಕದೊಂದಿಗೆ 30% ಉಳಿಸಿ – ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
+        "aria": "ವಾರ್ಷಿಕ ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
+        "disclaimer": "ಮುಂಚಿತವಾಗಿ ಬಿಲ್ ಮಾಡಲಾಗುತ್ತದೆ. ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ರದ್ದುಮಾಡಿ. ಯಾವುದೇ ಗುಪ್ತ ಶುಲ್ಕಗಳಿಲ್ಲ."
+      }
+    },
+    "marketing": {
+      "freeTitle": "ಉಚಿತ",
+      "freeDesc": "ಉಚಿತವಾಗಿ ಸಂದೇಶ ಕಳುಹಿಸಲು ಪ್ರಾರಂಭಿಸಿ.",
+      "plusTitle": "ಪ್ಲಸ್",
+      "plusBadge": "ಜನಪ್ರಿಯ",
+      "plusDesc": "ಅತ್ಯಂತ ಕೈಗೆಟುಕುವ ಜಾಹೀರಾತು-ಮುಕ್ತ ಅನುಭವ.",
+      "premiumMonthlyTitle": "ಪ್ರೀಮಿಯಂ",
+      "premiumMonthlyDesc": "ಪೂರ್ಣ ವೈಶಿಷ್ಟ್ಯಗಳು, ರಿಂಗ್‌ಟೋನ್‌ಗಳು ಮತ್ತು AI ಪವರ್ ಟೂಲ್‌ಗಳು.",
+      "premiumAnnualTitle": "ಪ್ರೀಮಿಯಂ",
+      "premiumAnnualDesc": "ವಾರ್ಷಿಕ ಬಿಲ್ ಮಾಡಿದಾಗ ಹೆಚ್ಚು ಉಳಿಸಿ.",
+      "annualDisclaimer": "ಮುಂಚಿತವಾಗಿ ಬಿಲ್ ಮಾಡಲಾಗುತ್ತದೆ. ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ರದ್ದುಮಾಡಿ. ಯಾವುದೇ ಗುಪ್ತ ಶುಲ್ಕಗಳಿಲ್ಲ."
+    },
+    "mobile": {
+      "title": "Chatforia ಮೊಬೈಲ್ (eSIM ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳು)",
+      "subtitle": "Wi-Fi ಇಲ್ಲದಿದ್ದಾಗ Chatforia ಕೆಲಸ ಮಾಡುವಂತೆ ಜಾಗತಿಕ ಡೇಟಾ ಸೇರಿಸಿ. ಬೆಲೆಗಳು ನಿಮ್ಮ ದೇಶ ಮತ್ತು ಕರೆನ್ಸಿಯ ಪ್ರಕಾರ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಹೊಂದಿಕೊಳ್ಳುತ್ತವೆ.",
+      "subtitle.detail": "ಪ್ರಯಾಣ ಅಥವಾ Wi-Fi ಇಲ್ಲದಿದ್ದಾಗ Chatforia ಕೆಲಸ ಮಾಡುವಂತೆ ಒಂದು ಬಾರಿ ಜಾಗತಿಕ ಡೇಟಾ ಪ್ಯಾಕ್ ಆಯ್ಕೆಮಾಡಿ.",
+      "scope": {
+        "local": "ಸ್ಥಳೀಯ",
+        "europe": "ಯುರೋಪ್",
+        "global": "ಜಾಗತಿಕ",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "ಸ್ಥಳೀಯ = {{country}}",
+      "localEqualsFallback": "ಸ್ಥಳೀಯ = ನಿಮ್ಮ ಪ್ರಸ್ತುತ ದೇಶ",
+      "perPack": "/ ಪ್ಯಾಕ್",
+      "cta": "ಈ ಡೇಟಾ ಪ್ಯಾಕ್ ಪಡೆಯಿರಿ",
+      "ctaPublic": "ಈ ಡೇಟಾ ಪ್ಯಾಕ್ ಪಡೆಯಿರಿ",
+      "checkout": {
+        "redirecting": "ರಿಡೈರೆಕ್ಟ್ ಆಗುತ್ತಿದೆ…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "ಭಾರೀ ಬಳಕೆಗೆ ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ",
+          "throttle": "ಭಾರೀ ಬಳಕೆಯ ನಂತರ ವೇಗ ಕಡಿಮೆಯಾಗಬಹುದು",
+          "coverage": "ವಿಶ್ವಾಸಾರ್ಹ ಕವರೇಜ್",
+          "instant": "ತ್ವರಿತ eSIM ಸಕ್ರಿಯಗೊಳಿಸುವಿಕೆ",
+          "noContract": "ಒಂದು ಬಾರಿ ಪ್ಯಾಕ್, ಯಾವುದೇ ಒಪ್ಪಂದವಿಲ್ಲ"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "eSIM ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳಿಗೆ eSIM-ಸಹಾಯಕ ಮತ್ತು ಅನ್‌ಲಾಕ್ ಮಾಡಿದ ಸಾಧನ ಅಗತ್ಯ. ಫೋನ್ ಮಾಡೆಲ್, ಕ್ಯಾರಿಯರ್ ಮತ್ತು ದೇಶದ ಪ್ರಕಾರ ಲಭ್ಯತೆ ಬದಲಾಗುತ್ತದೆ. ಕವರೇಜ್ ಮತ್ತು ವೇಗಗಳು ಪ್ರದೇಶದ ಪ್ರಕಾರ ಬದಲಾಗುತ್ತವೆ.",
+        "fairUse": "ನ್ಯಾಯಯುತ ಬಳಕೆ ನೀತಿ ಮತ್ತು ಸ್ಥಳೀಯ ಮಿತಿಗಳಿಗೆ ಒಳಪಟ್ಟಿರುತ್ತದೆ"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "eSIM ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡಿ",
+        "col": {
+          "pack": "ಪ್ಯಾಕ್",
+          "data": "ಒಳಗೊಂಡಿರುವ ಡೇಟಾ",
+          "bestFor": "ಉತ್ತಮವಾಗಿ ಸೂಕ್ತ"
+        },
+        "disclaimer": "ನಿಜವಾದ ಡೇಟಾ ಬಳಕೆ ನೀವು Chatforia ಅನ್ನು ಹೇಗೆ ಬಳಸುತ್ತೀರಿ ಎಂಬುದರ ಮೇಲೆ ಅವಲಂಬಿತವಾಗಿರುತ್ತದೆ (ಧ್ವನಿ, ವೀಡಿಯೊ, ಮೀಡಿಯಾ ಮತ್ತು ಫೋನ್‌ನ ಇತರ ಆಪ್‌ಗಳು)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "ಪ್ರತಿ GB ಗೆ ಉತ್ತಮ ಮೌಲ್ಯ"
+      },
+      "feature": {
+        "instant": "ತ್ವರಿತ eSIM ಸಕ್ರಿಯಗೊಳಿಸುವಿಕೆ",
+        "coverage": "ವಿಶ್ವಾಸಾರ್ಹ ಕವರೇಜ್",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "ಸ್ಥಳೀಯ",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "ಯುರೋಪ್",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "ಜಾಗತಿಕ",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "ಸ್ಟಾರ್ಟರ್ ಪ್ಯಾಕ್",
+        "data": "3 GB",
+        "bestFor": "ಚಿಕ್ಕ ಪ್ರಯಾಣಗಳು, ಸಣ್ಣ ಸಂದೇಶ ಮತ್ತು ಆಗಾಗ ಕರೆಗಳು"
+      },
+      "medium": {
+        "title": "ಟ್ರಾವೆಲರ್ ಪ್ಯಾಕ್",
+        "data": "5 GB",
+        "bestFor": "ವೀಕೆಂಡ್ ಪ್ರಯಾಣಗಳು, ನಿಯಮಿತ VoIP ಕರೆಗಳು ಮತ್ತು ಮ್ಯಾಪ್‌ಗಳು"
+      },
+      "large": {
+        "title": "ಪವರ್ ಪ್ಯಾಕ್",
+        "data": "10 GB",
+        "bestFor": "ಭಾರೀ ಚಾಟ್, ಕರೆಗಳು, ವೀಡಿಯೊ ಮತ್ತು ಹಾಟ್‌ಸ್ಪಾಟ್ ಬಳಕೆ"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Chatforia ಕುಟುಂಬ (ಹಂಚಿದ ಡೇಟಾ)",
+      "subtitle": "ನಿಮ್ಮ ಕುಟುಂಬದಲ್ಲಿ ಒಂದೇ ಡೇಟಾ ಪೂಲ್ ಹಂಚಿಕೊಳ್ಳಿ. ಒಂದು ಬಿಲ್, ಹಲವು Chatforia ಖಾತೆಗಳು, ಜಾಗತಿಕ ಕವರೇಜ್.",
+      "perPack": "/ ಪ್ಯಾಕ್",
+      "small": {
+        "title": "ಕುಟುಂಬ ಸ್ಮಾಲ್",
+        "desc": "20 GB ಹಂಚಿದ ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ ಒಳಗೊಂಡಿದೆ — 2–3 ಸಣ್ಣ ಬಳಕೆದಾರರಿಗೆ ಸೂಕ್ತ.",
+        "price": "$29.99",
+        "aria": "ಕುಟುಂಬ ಸ್ಮಾಲ್ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ"
+      },
+      "medium": {
+        "title": "ಕುಟುಂಬ ಮೀಡಿಯಂ",
+        "desc": "40 GB ಹಂಚಿದ ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ ಒಳಗೊಂಡಿದೆ — 3–5 ಸಕ್ರಿಯ ಸದಸ್ಯರಿಗೆ ಸೂಕ್ತ.",
+        "price": "$49.99",
+        "aria": "ಕುಟುಂಬ ಮೀಡಿಯಂ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ"
+      },
+      "large": {
+        "title": "ಕುಟುಂಬ ಲಾರ್ಜ್",
+        "desc": "80 GB ಹಂಚಿದ ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ ಒಳಗೊಂಡಿದೆ — ಯಾವಾಗಲೂ ಆನ್‌ಲೈನ್ ಆಗಿರುವ ಪವರ್ ಕುಟುಂಬಗಳಿಗೆ.",
+        "price": "$84.99",
+        "aria": "ಕುಟುಂಬ ಲಾರ್ಜ್ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ"
+      },
+      "feature": {
+        "shared": "ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಹಂಚಿದ ಡೇಟಾ ಪೂಲ್",
+        "members": "ಗರಿಷ್ಠ 4 ಹೆಚ್ಚುವರಿ ಸದಸ್ಯರನ್ನು ಆಹ್ವಾನಿಸಿ",
+        "membersMore": "3–5 ಸಕ್ರಿಯ ಸದಸ್ಯರಿಗೆ ಸೂಕ್ತ",
+        "manage": "ಪ್ರತಿ ಸದಸ್ಯರಿಗೆ ಮಿತಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
+        "topUp": "ಎಲ್ಲಾ ಸಮಯದಲ್ಲೂ ಹೆಚ್ಚು ಪ್ಯಾಕ್‌ಗಳನ್ನು ಸೇರಿಸಿ",
+        "bestValue": "ಪ್ರತಿ GB ಗೆ ಉತ್ತಮ ಮೌಲ್ಯ",
+        "fairUse": "ನ್ಯಾಯಯುತ ಬಳಕೆ ನೀತಿ ಮತ್ತು ಸ್ಥಳೀಯ ಮಿತಿಗಳಿಗೆ ಒಳಪಟ್ಟಿರುತ್ತದೆ"
+      },
+      "disclaimer": "ಕುಟುಂಬ ಪ್ಯಾಕ್‌ಗಳು ಹಂಚಿದ ಡೇಟಾ ಪೂಲ್ ರಚಿಸುತ್ತವೆ ಅಥವಾ ಟಾಪ್ ಅಪ್ ಮಾಡುತ್ತವೆ. ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಸದಸ್ಯರನ್ನು ಆಹ್ವಾನಿಸಿ ಅಥವಾ ತೆಗೆದುಹಾಕಬಹುದು.",
+      "footnote": "ಕುಟುಂಬ ಪ್ಯಾಕ್‌ಗಳು ಲಿಂಕ್ ಮಾಡಿದ Chatforia ಖಾತೆಗಳಲ್ಲಿ ಒಂದೇ ಡೇಟಾ ಪೂಲ್ ಹಂಚುತ್ತವೆ. ಲಭ್ಯತೆ ಮತ್ತು ಮಿತಿಗಳು ನಿಮ್ಮ ದೇಶ ಮತ್ತು ಸ್ಥಳೀಯ ನಿಯಮಗಳನ್ನು ಅವಲಂಬಿಸಿರುತ್ತವೆ."
+    },
+    "why": {
+      "title": "ಜನರು Chatforia ಗೆ ಏಕೆ ಬದಲಾಗುತ್ತಾರೆ",
+      "subtitle": "Chatforia ನಿಮಗೆ ನಿಜವಾದ ಫೋನ್ ನಂಬರ್, ಸ್ಮಾರ್ಟ್ ಅನುವಾದ ಮತ್ತು ಜಾಹೀರಾತು-ಮುಕ್ತವಾಗಲು ಸ್ಪಷ್ಟ ಮಾರ್ಗವನ್ನು ನೀಡುತ್ತದೆ.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "ಉಚಿತದಲ್ಲಿ ಹಗುರ ಜಾಹೀರಾತುಗಳು, ನೀವು ಸಿದ್ಧವಾದಾಗ ಸರಳ ಪ್ಲಸ್ ಅಪ್‌ಗ್ರೇಡ್ ಮತ್ತು TextNow ನೀಡದ ಪ್ರೀಮಿಯಂ ಟೂಲ್‌ಗಳು."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "ಆಧುನಿಕ ಆಪ್, ಜಾಗತಿಕ-ಮೊದಲು ವಿನ್ಯಾಸ ಮತ್ತು ಹಳೆಯ ಶೈಲಿಯ ಕರೆ ಫಾರ್ವರ್ಡಿಂಗ್ ಬದಲಿಗೆ ಒಳಗೊಂಡಿರುವ ಅನುವಾದ."
+        },
+        "messengers": {
+          "title": "Chatforia vs ಚಾಟ್ ಆಪ್‌ಗಳು",
+          "body": "ಇತರ ಆಪ್ ಬಳಕೆದಾರರಿಗೆ ಮಾತ್ರವಲ್ಲ — ನಿಜವಾದ ಫೋನ್ ನಂಬರ್‌ಗಳಿಗೆ ಟೆಕ್ಸ್ಟ್ ಮಾಡಿ — AI ಮತ್ತು ಸ್ಥಿತಿ ಒಳಗೊಂಡಿದೆ. TextFree ಅಥವಾ TextMe ನಂತಹ ಆಪ್‌ಗಳಿಂದ ಬರುತ್ತಿದ್ದರೆ ಉತ್ತಮ."
+        }
+      },
+      "tableTitle": "Chatforia ಹೇಗೆ ಹೋಲಿಕೆಯಾಗುತ್ತದೆ",
+      "col": {
+        "feature": "ವೈಶಿಷ್ಟ್ಯ",
+        "chatforia": "12+ ತಿಂಗಳವರೆಗೆ",
+        "textnow": "ಖಾತೆಯ ಪ್ರಕಾರ ಬದಲಾಗುತ್ತದೆ",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "ಉಚಿತ ಫೋನ್ ನಂಬರ್",
+        "translation": "ಒಳಗೊಂಡಿರುವ ಸ್ವಯಂ-ಅನುವಾದ",
+        "aiTools": "AI ಟೂಲ್‌ಗಳು (ರಿರೈಟ್‌ಗಳು, ಪ್ರತಿಕ್ರಿಯೆಗಳು, ಸಾರಾಂಶಗಳು)",
+        "ads": "ಜಾಹೀರಾತು-ಮುಕ್ತ ಆಯ್ಕೆ",
+        "history": "ಸಂದೇಶ ಇತಿಹಾಸ"
+      },
+      "yes": "ಹೌದು",
+      "no": "ಇಲ್ಲ",
+      "yesPremium": "ಹೌದು (ಪ್ರೀಮಿಯಂ)",
+      "plusPremium": "ಪ್ಲಸ್ & ಪ್ರೀಮಿಯಂ",
+      "limited": "ಮಿತಿಯುಳ್ಳ",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "12+ ತಿಂಗಳವರೆಗೆ",
+        "textnow": "ಖಾತೆಯ ಪ್ರಕಾರ ಬದಲಾಗುತ್ತದೆ",
+        "voice": "ಮಿತಿಯುಳ್ಳ / ಖಾತೆ ಆಧಾರಿತ"
+      },
+      "disclaimer": "ಹೋಲಿಕೆ ಸಾರ್ವಜನಿಕವಾಗಿ ಲಭ್ಯವಿರುವ ಮಾಹಿತಿಯ ಆಧಾರದ ಮೇಲೆ ಮತ್ತು ಸಮಯದೊಂದಿಗೆ ಬದಲಾಗಬಹುದು. ಇತರ ಉಚಿತ ಟೆಕ್ಸ್ಟಿಂಗ್ ಆಪ್‌ಗಳು TextFree ಅಥವಾ TextMe ಸಾಮಾನ್ಯವಾಗಿ TextNow ಗೆ ಹೋಲುತ್ತವೆ."
+    },
+    "faq": {
+      "title": "ಬೆಲೆ & ಯೋಜನೆಗಳ FAQ",
+      "free": {
+        "q": "ಉಚಿತ ಯೋಜನೆ ನಿಜವಾಗಿಯೂ ಉಚಿತವೇ?",
+        "a": "ಹೌದು. ಉಚಿತ ಯೋಜನೆಯಲ್ಲಿ Chatforia ನಂಬರ್, ಕರೆ ಮತ್ತು ಜಾಹೀರಾತುಗಳೊಂದಿಗೆ ಸಂದೇಶಗಳು ಒಳಗೊಂಡಿವೆ. ನೀವು ಇಷ್ಟವಾದಷ್ಟು ಕಾಲ ಉಚಿತದಲ್ಲಿಯೇ ಇರಬಹುದು ಅಥವಾ ಜಾಹೀರಾತುಗಳನ್ನು ತೆಗೆದುಹಾಕಲು ಮತ್ತು ಹೆಚ್ಚಿನ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಲು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ."
+      },
+      "plusPremium": {
+        "q": "ಪ್ಲಸ್ ಮತ್ತು ಪ್ರೀಮಿಯಂ ನಡುವಿನ ವ್ಯತ್ಯಾಸ ಏನು?",
+        "a": "ಪ್ಲಸ್ ಜಾಹೀರಾತುಗಳನ್ನು ತೆಗೆದುಹಾಕುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವಿಸ್ತರಿಸುತ್ತದೆ — ದೈನಂದಿನ ಬಳಕೆಗೆ ಸೂಕ್ತ. ಪ್ರೀಮಿಯಂ ಹೆಚ್ಚುವರಿ ಕಸ್ಟಮೈಸೇಶನ್, ರಿರೈಟ್ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆಗಳಿಗೆ AI ಟೂಲ್‌ಗಳು ಮತ್ತು ಭಾರೀ ಬಳಕೆದಾರರಿಗೆ ಆದ್ಯತಾ ಬೆಂಬಲವನ್ನು ಸೇರಿಸುತ್ತದೆ."
+      },
+      "esim": {
+        "q": "eSIM ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳು ಎಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತವೆ?",
+        "a": "Chatforia ಮೊಬೈಲ್ ಜಾಗತಿಕ eSIM ಕವರೇಜ್ ಬಳಸುತ್ತದೆ. ಲಭ್ಯತೆ ನಿಮ್ಮ ದೇಶ ಮತ್ತು ಸಾಧನವನ್ನು ಅವಲಂಬಿಸಿರುತ್ತದೆ. ಆಪ್‌ನಲ್ಲಿ ಸಕ್ರಿಯಗೊಳಿಸುವಾಗ ಬೆಂಬಲಿತ ಆಯ್ಕೆಗಳನ್ನು ನೀವು ನೋಡುತ್ತೀರಿ."
+      },
+      "cancel": {
+        "q": "ನಾನು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಯೋಜನೆಗಳನ್ನು ರದ್ದುಮಾಡಬಹುದೇ ಅಥವಾ ಬದಲಾಯಿಸಬಹುದೇ?",
+        "a": "ಹೌದು. ಆಪ್‌ನಲ್ಲಿ ಬಿಲ್ಲಿಂಗ್ ಪುಟದಿಂದ ನಿಮ್ಮ ಸಬ್‌ಸ್ಕ್ರಿಪ್ಷನ್ ನಿರ್ವಹಿಸಿ ಅಥವಾ ರದ್ದುಮಾಡಿ. ಬದಲಾವಣೆಗಳು ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಬಿಲ್ಲಿಂಗ್ ಅವಧಿಯ ಅಂತ್ಯದಲ್ಲಿ ಪ್ರಭಾವ ಬೀರುತ್ತವೆ."
+      },
+      "family": {
+        "q": "ಕುಟುಂಬ ಪ್ಯಾಕ್‌ಗಳು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತವೆ?",
+        "a": "ಕುಟುಂಬ ಪ್ಯಾಕ್‌ಗಳು ಹಲವು Chatforia ಖಾತೆಗಳಲ್ಲಿ ಹಂಚಿದ ಡೇಟಾ ಪೂಲ್ ರಚಿಸುತ್ತವೆ. ಒಬ್ಬರು ಬಿಲ್ ಪಾವತಿಸುತ್ತಾರೆ ಮತ್ತು ನೀವು ಸದಸ್ಯರನ್ನು ಆಹ್ವಾನಿಸಿ ಅಥವಾ ತೆಗೆದುಹಾಕಬಹುದು ಮತ್ತು ಪ್ರತಿ ವ್ಯಕ್ತಿಗೆ ಮಿತಿಗಳನ್ನು ಹೊಂದಿಸಬಹುದು."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "ಕುಟುಂಬ",
@@ -745,685 +1839,618 @@
       "error": "ನಿಮ್ಮನ್ನು ಈ ಕುಟುಂಬಕ್ಕೆ ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಆಹ್ವಾನ ಅಮಾನ್ಯ ಅಥವಾ ಅವಧಿ ಮುಗಿದಿರಬಹುದು."
     }
   },
-  "premium": {
-    "heading": "ಪ್ರೀಮಿಯಂಗೆ ಹೋಗಿ",
-    "description": "ಪವರ್ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ ಮತ್ತು ಜಾಹೀರಾತುಗಳನ್ನು ತೆಗೆದುಹಾಕಿ.",
-    "cta": "ಅಪ್‌ಗ್ರೇಡ್",
-    "upgrade": "ಅಪ್‌ಗ್ರೇಡ್",
-    "upgradeAria": "Chatforia ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ"
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "ಅಪ್‌ಗ್ರೇಡ್",
-    "titleLoggedIn": "ಅಪ್‌ಗ್ರೇಡ್",
-    "titlePublic": "ಬೆಲೆ",
-    "h1": "Chatforia ಬೆಲೆ & ಯೋಜನೆಗಳು",
-    "h1Subtitle": "ನಮ್ಮ ಉಚಿತ, ಜಾಹೀರಾತು ಬೆಂಬಲಿತ ಯೋಜನೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿ. ಪ್ಲಸ್‌ನೊಂದಿಗೆ ಜಾಹೀರಾತು-ಮುಕ್ತವಾಗಿ ಹೋಗಿ ಅಥವಾ ಪ್ರೀಮಿಯಂನೊಂದಿಗೆ ಪೂರ್ಣ ಪವರ್ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ.",
-    "subtitle": "ಆಪ್ ಯೋಜನೆ ಆಯ್ಕೆಮಾಡಿ, ನಿಮಗಾಗಿ ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳನ್ನು ಸೇರಿಸಿ ಅಥವಾ ನಿಮ್ಮ ಕುಟುಂಬದೊಂದಿಗೆ ಡೇಟಾ ಹಂಚಿಕೊಳ್ಳಿ — ಎಲ್ಲವೂ ಒಂದೇ ಸ್ಥಳದಿಂದ.",
-    "subtitle.app": "ನಮ್ಮ ಉಚಿತ, ಜಾಹೀರಾತು ಬೆಂಬಲಿತ ಯೋಜನೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿ. ಪ್ಲಸ್‌ನೊಂದಿಗೆ ಜಾಹೀರಾತು-ಮುಕ್ತವಾಗಿ ಹೋಗಿ ಅಥವಾ ಪ್ರೀಮಿಯಂನೊಂದಿಗೆ ಪೂರ್ಣ ಪವರ್ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ.",
-    "subtitle.mobile": "Wi-Fi ಇಲ್ಲದಿದ್ದಾಗ Chatforia ಕೆಲಸ ಮಾಡುವಂತೆ ಜಾಗತಿಕ eSIM ಡೇಟಾ ಸೇರಿಸಿ.",
-    "subtitle.family": "ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಹಂಚಿದ ಡೇಟಾ ಪೂಲ್ ರಚಿಸಿ ಮತ್ತು ಎಲ್ಲರ ಬಳಕೆಯನ್ನು ಒಂದೇ ಸ್ಥಳದಿಂದ ನಿರ್ವಹಿಸಿ.",
-    "perMonth": "ತಿಂಗಳು",
-    "perYear": "ವರ್ಷ",
-    "goPremium": "ಪ್ರೀಮಿಯಂಗೆ ಹೋಗಿ",
-    "benefitsLine": "ಪವರ್ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ ಮತ್ತು ಜಾಹೀರಾತುಗಳನ್ನು ತೆಗೆದುಹಾಕಿ.",
-    "ctaText": "ಅಪ್‌ಗ್ರೇಡ್",
-    "aria": "Chatforia ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
-    "toggle": {
-      "monthly": "ತಿಂಗಳು",
-      "annual": "ವಾರ್ಷಿಕ (30% ಉಳಿಸಿ)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "ಸಬ್‌ಸ್ಕ್ರಿಪ್ಷನ್ ಮುಕ್ತಾಯವಾಗುತ್ತದೆ",
-      "body": "ನೀವು ಉಚಿತಕ್ಕೆ ಹಿಂತಿರುಗುತ್ತೀರಿ",
-      "keepPlanCta": "{{plan}} ಇರಿಸಿಕೊಳ್ಳಿ",
-      "manageBillingCta": "ಬಿಲ್ಲಿಂಗ್ ನಿರ್ವಹಿಸಿ"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "ತೆರೆಯುತ್ತಿದೆ…",
-      "manage": "ಬಿಲ್ಲಿಂಗ್ ನಿರ್ವಹಿಸಿ"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
     },
-    "checkout": {
-      "redirecting": "ರಿಡೈರೆಕ್ಟ್ ಆಗುತ್ತಿದೆ…"
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
     },
-    "auth": {
-      "continue": "ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
-      "createAccount": "ಖಾತೆ ರಚಿಸಿ",
-      "signIn": "ಸೈನ್ ಇನ್"
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
     "cta": {
-      "aria": "ಯೋಜನೆ ಆಯ್ಕೆಮಾಡಿ",
-      "getPlus": "ಪ್ಲಸ್‌ಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
-      "upgradeMonthly": "ತಿಂಗಳಿಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
-      "upgradeAnnual": "ವಾರ್ಷಿಕಕ್ಕೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ"
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Chatforia ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ",
+    "intro": "Chatforia ಸಂವಹನವನ್ನು ಸರಳಗೊಳಿಸಲು ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ...",
+    "step1Title": "1. ಖಾತೆ ರಚಿಸಿ",
+    "step1Desc": "ನಿಮ್ಮ ಇಮೇಲ್ ಅಥವಾ ಬಳಕೆದಾರಹೆಸರನ್ನು ಬಳಸಿಕೊಂಡು ನೋಂದಣಿ ಮಾಡಿ...",
+    "step2Title": "2. ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭಿಸಿ",
+    "step2Desc": "ಇತರರೊಂದಿಗೆ ಸಂಪರ್ಕಿಸಿ...",
+    "step3Title": "3. ತಕ್ಷಣದ ಸಂದೇಶ ವಿನಿಮಯ",
+    "step3Desc": "ಸಂದೇಶಗಳು ವೇಗವಾಗಿ ತಲುಪುತ್ತವೆ...",
+    "step4Title": "4. ಜಾಗತಿಕ ಸಂವಹನ",
+    "step4Desc": "ಅಂತರ್ನಿರ್ಮಿತ ಅನುವಾದ ಬಳಕೆದಾರರಿಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ...",
+    "step5Title": "5. ನಿಯಂತ್ರಣದಲ್ಲಿ ಇರಿ",
+    "step5Desc": "ನಿಮ್ಮ ಆದ್ಯತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ..."
+  },
+  "safety": {
+    "title": "ಸುರಕ್ಷತೆ ಮತ್ತು ಸಮುದಾಯ ಮಾರ್ಗಸೂಚಿಗಳು",
+    "intro": "Chatforia ಸುರಕ್ಷಿತ ವಾತಾವರಣವನ್ನು ಕಾಪಾಡಲು ಬದ್ಧವಾಗಿದೆ...",
+    "respectTitle": "ಗೌರವಪೂರ್ಣ ಸಂವಹನ",
+    "respectDesc": "ಬಳಕೆದಾರರು ಪರಸ್ಪರ ಗೌರವದಿಂದ ಸಂವಹನ ನಡೆಸಬೇಕು...",
+    "prohibitedTitle": "ನಿಷೇಧಿತ ವಿಷಯ",
+    "prohibited": {
+      "illegal": "ಅಕ್ರಮ ಚಟುವಟಿಕೆಗಳು",
+      "harassment": "ಹಿಂಸೆ ಅಥವಾ ಕಿರುಕುಳ",
+      "hate": "ದ್ವೇಷ ಭಾಷಣ ಅಥವಾ ಭೇದಭಾವ",
+      "explicit": "ಅಸಭ್ಯ ಅಥವಾ ಹಾನಿಕಾರಕ ವಿಷಯ",
+      "spam": "ಸ್ಪ್ಯಾಮ್ ಅಥವಾ ಮೋಸಕಾರಿ ಕ್ರಮಗಳು"
     },
-    "section": {
-      "app": "ಆಪ್ ಯೋಜನೆಗಳು",
-      "mobile": "ಮೊಬೈಲ್ (eSIM)",
-      "family": "ಕುಟುಂಬ ಯೋಜನೆಗಳು"
+    "toolsTitle": "ಬಳಕೆದಾರರ ಸುರಕ್ಷತಾ ಸಾಧನಗಳು",
+    "tools": {
+      "report": "ಅನನುಕೂಲ ವರ್ತನೆ ವರದಿ ಮಾಡಿ",
+      "block": "ಬಳಕೆದಾರರನ್ನು ತಡೆಹಿಡಿಯಿರಿ",
+      "control": "ಗೌಪ್ಯತಾ ಸೆಟ್ಟಿಂಗ್ಗಳನ್ನು ನಿರ್ವಹಿಸಿ"
     },
-    "plans": {
-      "free": {
-        "title": "ಉಚಿತ",
-        "price": "$0",
-        "desc": "ಉಚಿತವಾಗಿ ಸಂದೇಶ ಕಳುಹಿಸಲು ಪ್ರಾರಂಭಿಸಿ. ನೀವು Chatforia ಅನ್ನು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದರೆ ಸೂಕ್ತ.",
-        "features": {
-          "chat": "ರಿಯಲ್-ಟೈಮ್ 1:1 ಮತ್ತು ಗುಂಪು ಚಾಟ್, ಜೊತೆಗೆ ಧ್ವನಿ ಮತ್ತು ವೀಡಿಯೊ ಕರೆಗಳು",
-          "media": "ಫೋಟೋಗಳು, ಧ್ವನಿ ಸಂದೇಶಗಳು ಮತ್ತು ಚಿಕ್ಕ ವೀಡಿಯೊಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ",
-          "ai": "AI ಆಧಾರಿತ ಸ್ಮಾರ್ಟ್ ಪ್ರತಿಕ್ರಿಯೆಗಳು ಮತ್ತು ತ್ವರಿತ ಅನುವಾದ (ನ್ಯಾಯಯುತ ಬಳಕೆ)",
-          "disappearing": "ಅದೃಶ್ಯ ಸಂದೇಶಗಳು ಮತ್ತು ಮೂಲ ಗೌಪ್ಯತಾ ನಿಯಂತ್ರಣಗಳು",
-          "ads": "ಆಪ್‌ನಲ್ಲಿ ಜಾಹೀರಾತುಗಳೊಂದಿಗೆ ಉಚಿತವಾಗಿ ಶಾಶ್ವತ"
-        },
-        "ctaCurrent": "ಪ್ರಸ್ತುತ ಯೋಜನೆ",
-        "ctaManage": "ಬಿಲ್ಲಿಂಗ್‌ನಲ್ಲಿ ನಿರ್ವಹಿಸಿ",
-        "ctaPublic": "ಪ್ರಾರಂಭಿಸಿ – ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
-        "aria": "ಉಚಿತ ಯೋಜನೆ"
-      },
-      "plus": {
-        "title": "ಪ್ಲಸ್",
-        "price": "$6.99",
-        "desc": "ಜಾಹೀರಾತುಗಳಿಲ್ಲದ ಎಲ್ಲಾ ಅಗತ್ಯಗಳು. ದೈನಂದಿನ ಸಂದೇಶ ಮತ್ತು ಕರೆಗಳಿಗೆ ಸೂಕ್ತ.",
-        "features": {
-          "allFree": "ಉಚಿತದಲ್ಲಿರುವ ಎಲ್ಲವೂ, ಜಾಹೀರಾತುಗಳಿಲ್ಲ",
-          "forwarding": "ನಿಮ್ಮ ನಿಜವಾದ ಫೋನ್ ನಂಬರ್‌ಗೆ ಕರೆಗಳು ಮತ್ತು ಟೆಕ್ಸ್ಟ್‌ಗಳನ್ನು ಫಾರ್ವರ್ಡ್ ಮಾಡಿ",
-          "history": "ದೀರ್ಘ ಸಂದೇಶ ಇತಿಹಾಸ (6 ತಿಂಗಳವರೆಗೆ)",
-          "support": "ಏನಾದರೂ ತಪ್ಪಾದರೆ ವೇಗದ ಬೆಂಬಲ"
-        },
-        "badge": "ಜನಪ್ರಿಯ",
-        "cta": "ಜಾಹೀರಾತು-ಮುಕ್ತವಾಗಿ ಹೋಗಿ",
-        "ctaPublic": "ಪ್ಲಸ್ ಪಡೆಯಿರಿ – ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
-        "aria": "ಪ್ಲಸ್‌ಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ"
-      },
-      "premiumMonthly": {
-        "title": "ಪ್ರೀಮಿಯಂ (ತಿಂಗಳು)",
-        "price": "$11.99",
-        "desc": "ಪೂರ್ಣ Chatforia ಅನುಭವ: AI ಪವರ್ ಟೂಲ್‌ಗಳು, ಕಸ್ಟಮೈಸೇಶನ್ ಮತ್ತು ಆದ್ಯತಾ ಬೆಂಬಲ.",
-        "features": {
-          "plusAll": "ಪ್ಲಸ್‌ನಲ್ಲಿರುವ ಎಲ್ಲವೂ",
-          "themes": "ಎಲ್ಲಾ ಪ್ರೀಮಿಯಂ ಬಣ್ಣ ಥೀಮ್‌ಗಳು ಮತ್ತು ಆಪ್ ಕಸ್ಟಮೈಸೇಶನ್‌ಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ",
-          "ai": "ರಿರೈಟ್‌ಗಳು, ಸ್ಮಾರ್ಟ್ ಪ್ರತಿಕ್ರಿಯೆಗಳು ಮತ್ತು ಸಾರಾಂಶಗಳಿಗೆ ಪ್ರೀಮಿಯಂ-ಮಾತ್ರ AI ಪವರ್ ಟೂಲ್‌ಗಳು",
-          "support": "ನಿಮಗೆ ಅತ್ಯಂತ ಅಗತ್ಯವಿರುವಾಗ ಆದ್ಯತಾ ಬೆಂಬಲ"
-        },
-        "badge": "ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ",
-        "cta": "ಅಪ್‌ಗ್ರೇಡ್ (ತಿಂಗಳು)",
-        "ctaPublic": "ಪ್ರೀಮಿಯಂ ಅನ್‌ಲಾಕ್ ಮಾಡಿ – ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
-        "aria": "ತಿಂಗಳ ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ"
-      },
-      "premiumAnnual": {
-        "title": "ಪ್ರೀಮಿಯಂ (ವಾರ್ಷಿಕ)",
-        "price": "$99",
-        "desc": "ವಾರ್ಷಿಕ ಬಿಲ್ ಮಾಡಿದಾಗ ಹೆಚ್ಚು ಉಳಿಸಿ — ಹೆಚ್ಚುವರಿ ಬಣ್ಣ ಥೀಮ್‌ಗಳು, AI ಟೂಲ್‌ಗಳು ಮತ್ತು ಆದ್ಯತಾ ಬೆಂಬಲ ಸೇರಿದಂತೆ.",
-        "features": {
-          "allPremium": "ತಿಂಗಳ ಪ್ರೀಮಿಯಂನಲ್ಲಿರುವ ಎಲ್ಲವೂ — ಹೆಚ್ಚುವರಿ ಬಣ್ಣ ಥೀಮ್‌ಗಳು ಸೇರಿದಂತೆ",
-          "annualBilling": "ವರ್ಷಕ್ಕೊಮ್ಮೆ ಬಿಲ್ ಮಾಡಲಾಗುತ್ತದೆ",
-          "save25": "ತಿಂಗಳಿಗೆ ಪಾವತಿಸುವುದಕ್ಕಿಂತ ಸುಮಾರು 30% ಉಳಿಸಿ",
-          "bestFor": "ಪವರ್ ಬಳಕೆದಾರರು, ರಿಮೋಟ್ ಕೆಲಸಗಾರರು ಮತ್ತು ಭಾರೀ ಪ್ರಯಾಣಿಕರಿಗೆ ಉತ್ತಮ"
-        },
-        "badge": "30% ಉಳಿಸಿ",
-        "cta": "ಅಪ್‌ಗ್ರೇಡ್ (ವಾರ್ಷಿಕ)",
-        "ctaPublic": "ವಾರ್ಷಿಕದೊಂದಿಗೆ 30% ಉಳಿಸಿ – ಲಾಗಿನ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ",
-        "aria": "ವಾರ್ಷಿಕ ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
-        "disclaimer": "ಮುಂಚಿತವಾಗಿ ಬಿಲ್ ಮಾಡಲಾಗುತ್ತದೆ. ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ರದ್ದುಮಾಡಿ. ಯಾವುದೇ ಗುಪ್ತ ಶುಲ್ಕಗಳಿಲ್ಲ."
-      }
+    "enforcementTitle": "ಜಾರಿಗೆ",
+    "enforcementDesc": "ನಾವು ಖಾತೆಗಳ ವಿರುದ್ಧ ಕ್ರಮ ಕೈಗೊಳ್ಳಬಹುದು..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳು ಏಕೆ ಹೆಚ್ಚು ಮುಖ್ಯವಾಗಿವೆ",
+      "intro": "ಇಂದಿನ ಜಗತ್ತಿನಲ್ಲಿ ಸಂವಹನಕ್ಕಾಗಿ ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳು ಅತ್ಯಂತ ಮುಖ್ಯವಾದ ಸಾಧನಗಳಾಗಿ ಮಾರ್ಪಟ್ಟಿವೆ...",
+      "everydayTitle": "ದೈನಂದಿನ ಸಂವಹನ",
+      "everydayDesc": "ಜನರು ದಿನನಿತ್ಯದ ಸಂವಹನಕ್ಕಾಗಿ ಮೆಸೇಜಿಂಗ್ ಆಪ್‌ಗಳನ್ನು ಬಳಸುತ್ತಾರೆ...",
+      "speedTitle": "ವೇಗ ಮತ್ತು ಅನುಕೂಲತೆ",
+      "speedDesc": "ಸಂದೇಶಗಳು ತಕ್ಷಣ ತಲುಪುತ್ತವೆ...",
+      "globalTitle": "ಜಾಗತಿಕ ವ್ಯಾಪ್ತಿ",
+      "globalDesc": "ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳು ವಿಶ್ವದಾದ್ಯಂತ ಜನರನ್ನು ಸಂಪರ್ಕಿಸುತ್ತವೆ...",
+      "privacyTitle": "ಗೌಪ್ಯತೆ ಮತ್ತು ನಿಯಂತ್ರಣ",
+      "privacyDesc": "ಆಧುನಿಕ ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳು ಬಳಕೆದಾರರಿಗೆ ನಿಯಂತ್ರಣ ನೀಡುವುದರಲ್ಲಿ ಕೇಂದ್ರೀಕರಿಸುತ್ತವೆ...",
+      "futureTitle": "ಮೆಸೇಜಿಂಗ್‌ನ ಭವಿಷ್ಯ",
+      "futureDesc": "ಹೊಸ ವೈಶಿಷ್ಟ್ಯಗಳೊಂದಿಗೆ ಮೆಸೇಜಿಂಗ್ ಮುಂದುವರಿಯುತ್ತಿದೆ...",
+      "outro": "Chatforia ಈ ತತ್ವಗಳನ್ನು ಆಧರಿಸಿದೆ..."
     },
-    "marketing": {
-      "freeTitle": "ಉಚಿತ",
-      "freeDesc": "ಉಚಿತವಾಗಿ ಸಂದೇಶ ಕಳುಹಿಸಲು ಪ್ರಾರಂಭಿಸಿ.",
-      "plusTitle": "ಪ್ಲಸ್",
-      "plusBadge": "ಜನಪ್ರಿಯ",
-      "plusDesc": "ಅತ್ಯಂತ ಕೈಗೆಟುಕುವ ಜಾಹೀರಾತು-ಮುಕ್ತ ಅನುಭವ.",
-      "premiumMonthlyTitle": "ಪ್ರೀಮಿಯಂ",
-      "premiumMonthlyDesc": "ಪೂರ್ಣ ವೈಶಿಷ್ಟ್ಯಗಳು, ರಿಂಗ್‌ಟೋನ್‌ಗಳು ಮತ್ತು AI ಪವರ್ ಟೂಲ್‌ಗಳು.",
-      "premiumAnnualTitle": "ಪ್ರೀಮಿಯಂ",
-      "premiumAnnualDesc": "ವಾರ್ಷಿಕ ಬಿಲ್ ಮಾಡಿದಾಗ ಹೆಚ್ಚು ಉಳಿಸಿ.",
-      "annualDisclaimer": "ಮುಂಚಿತವಾಗಿ ಬಿಲ್ ಮಾಡಲಾಗುತ್ತದೆ. ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ರದ್ದುಮಾಡಿ. ಯಾವುದೇ ಗುಪ್ತ ಶುಲ್ಕಗಳಿಲ್ಲ."
+    "global": {
+      "title": "ಜಾಗತಿಕ ಸಂವಹನದ ಭವಿಷ್ಯ",
+      "intro": "ಸಂವಹನವು ವೇಗವಾಗಿ ಅಭಿವೃದ್ಧಿಯಾಗಿದೆ...",
+      "barriersTitle": "ತಡೆಗಳನ್ನು ನಿವಾರಿಸುವುದು",
+      "barriersDesc": "ಜನರು ಈಗ ವಿಶ್ವದಾದ್ಯಂತ ಸಂಪರ್ಕಿಸಬಹುದು...",
+      "translationTitle": "ಅನುವಾದ ತಂತ್ರಜ್ಞಾನದ ಪಾತ್ರ",
+      "translationDesc": "ಭಾಷೆ ಪರಂಪರೆಯಿಂದಲೇ ಒಂದು ತಡೆ ಆಗಿದೆ...",
+      "realtimeTitle": "ತಕ್ಷಣದ ಸಂಪರ್ಕ",
+      "realtimeDesc": "ವೇಗ ಒಂದು ಪ್ರಮುಖ ಅಂಶವಾಗಿದೆ...",
+      "privacyTitle": "ಗೌಪ್ಯತೆ ಮತ್ತು ಭದ್ರತೆ",
+      "privacyDesc": "ಬಳಕೆದಾರರು ತಮ್ಮ ಸಂಭಾಷಣೆಗಳು ಸುರಕ್ಷಿತವಾಗಿವೆ ಎಂಬ ವಿಶ್ವಾಸವನ್ನು ಬಯಸುತ್ತಾರೆ...",
+      "futureTitle": "ಮುಂದೇನು",
+      "futureDesc": "ಜಾಗತಿಕ ಸಂವಹನದ ಭವಿಷ್ಯದಲ್ಲಿ ಇನ್ನಷ್ಟು ವೈಶಿಷ್ಟ್ಯಗಳು ಸೇರಲಿವೆ...",
+      "outro": "Chatforia ಮುಂತಾದ ವೇದಿಕೆಗಳು ಈ ಬದಲಾವಣೆಯ ಭಾಗವಾಗಿವೆ..."
     },
-    "mobile": {
-      "title": "Chatforia ಮೊಬೈಲ್ (eSIM ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳು)",
-      "subtitle": "Wi-Fi ಇಲ್ಲದಿದ್ದಾಗ Chatforia ಕೆಲಸ ಮಾಡುವಂತೆ ಜಾಗತಿಕ ಡೇಟಾ ಸೇರಿಸಿ. ಬೆಲೆಗಳು ನಿಮ್ಮ ದೇಶ ಮತ್ತು ಕರೆನ್ಸಿಯ ಪ್ರಕಾರ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಹೊಂದಿಕೊಳ್ಳುತ್ತವೆ.",
-      "subtitle.detail": "ಪ್ರಯಾಣ ಅಥವಾ Wi-Fi ಇಲ್ಲದಿದ್ದಾಗ Chatforia ಕೆಲಸ ಮಾಡುವಂತೆ ಒಂದು ಬಾರಿ ಜಾಗತಿಕ ಡೇಟಾ ಪ್ಯಾಕ್ ಆಯ್ಕೆಮಾಡಿ.",
-      "scope": {
-        "local": "ಸ್ಥಳೀಯ",
-        "europe": "ಯುರೋಪ್",
-        "global": "ಜಾಗತಿಕ"
-      },
-      "note": "ನಾವು 3 GB ಕ್ಕಿಂತ ಕಡಿಮೆ ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳನ್ನು ಮಾರಾಟ ಮಾಡುವುದಿಲ್ಲ.",
-      "localEquals": "ಸ್ಥಳೀಯ = {{country}}",
-      "localEqualsFallback": "ಸ್ಥಳೀಯ = ನಿಮ್ಮ ಪ್ರಸ್ತುತ ದೇಶ",
-      "perPack": "/ ಪ್ಯಾಕ್",
-      "cta": "ಈ ಡೇಟಾ ಪ್ಯಾಕ್ ಪಡೆಯಿರಿ",
-      "ctaPublic": "ಈ ಡೇಟಾ ಪ್ಯಾಕ್ ಪಡೆಯಿರಿ",
-      "checkout": {
-        "redirecting": "ರಿಡೈರೆಕ್ಟ್ ಆಗುತ್ತಿದೆ…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "ಭಾರೀ ಬಳಕೆಗೆ ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ",
-          "throttle": "ಭಾರೀ ಬಳಕೆಯ ನಂತರ ವೇಗ ಕಡಿಮೆಯಾಗಬಹುದು",
-          "coverage": "ವಿಶ್ವಾಸಾರ್ಹ ಕವರೇಜ್",
-          "instant": "ತ್ವರಿತ eSIM ಸಕ್ರಿಯಗೊಳಿಸುವಿಕೆ",
-          "noContract": "ಒಂದು ಬಾರಿ ಪ್ಯಾಕ್, ಯಾವುದೇ ಒಪ್ಪಂದವಿಲ್ಲ"
-        }
-      },
-      "disclaimer": {
-        "devices": "eSIM ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳಿಗೆ eSIM-ಸಹಾಯಕ ಮತ್ತು ಅನ್‌ಲಾಕ್ ಮಾಡಿದ ಸಾಧನ ಅಗತ್ಯ. ಫೋನ್ ಮಾಡೆಲ್, ಕ್ಯಾರಿಯರ್ ಮತ್ತು ದೇಶದ ಪ್ರಕಾರ ಲಭ್ಯತೆ ಬದಲಾಗುತ್ತದೆ. ಕವರೇಜ್ ಮತ್ತು ವೇಗಗಳು ಪ್ರದೇಶದ ಪ್ರಕಾರ ಬದಲಾಗುತ್ತವೆ."
-      },
-      "small": {
-        "title": "ಸ್ಟಾರ್ಟರ್ ಪ್ಯಾಕ್",
-        "desc": "3 GB ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ ಒಳಗೊಂಡಿದೆ — ಸಣ್ಣ ಸಂದೇಶ ಮತ್ತು ಆಗಾಗ ಕರೆಗಳಿಗೆ ಸೂಕ್ತ.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "ಚಿಕ್ಕ ಪ್ರಯಾಣಗಳು, ಸಣ್ಣ ಸಂದೇಶ ಮತ್ತು ಆಗಾಗ ಕರೆಗಳು",
-        "aria": "ಸ್ಟಾರ್ಟರ್ eSIM ಡೇಟಾ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ"
-      },
-      "medium": {
-        "title": "ಟ್ರಾವೆಲರ್ ಪ್ಯಾಕ್",
-        "desc": "5 GB ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ ಒಳಗೊಂಡಿದೆ — ಪ್ರಯಾಣ, ಕಮ್ಯೂಟಿಂಗ್ ಮತ್ತು ನಿಯಮಿತ VoIP ಕರೆಗಳಿಗೆ ಸೂಕ್ತ.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "ವೀಕೆಂಡ್ ಪ್ರಯಾಣಗಳು, ನಿಯಮಿತ VoIP ಕರೆಗಳು ಮತ್ತು ಮ್ಯಾಪ್‌ಗಳು",
-        "aria": "ಟ್ರಾವೆಲರ್ eSIM ಡೇಟಾ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ"
-      },
-      "large": {
-        "title": "ಪವರ್ ಪ್ಯಾಕ್",
-        "desc": "10 GB ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ ಒಳಗೊಂಡಿದೆ — Chatforia ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿ ಭಾರೀ ಚಾಟ್, ಕರೆಗಳು ಮತ್ತು ವೀಡಿಯೊಗೆ ಸೂಕ್ತ.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "ಭಾರೀ ಚಾಟ್, ಕರೆಗಳು, ವೀಡಿಯೊ ಮತ್ತು ಹಾಟ್‌ಸ್ಪಾಟ್ ಬಳಕೆ",
-        "aria": "ಪವರ್ ಬಳಕೆದಾರ eSIM ಡೇಟಾ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ"
-      },
-      "compare": {
-        "title": "eSIM ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡಿ",
-        "col": {
-          "pack": "ಪ್ಯಾಕ್",
-          "data": "ಒಳಗೊಂಡಿರುವ ಡೇಟಾ",
-          "bestFor": "ಉತ್ತಮವಾಗಿ ಸೂಕ್ತ"
-        },
-        "disclaimer": "ನಿಜವಾದ ಡೇಟಾ ಬಳಕೆ ನೀವು Chatforia ಅನ್ನು ಹೇಗೆ ಬಳಸುತ್ತೀರಿ ಎಂಬುದರ ಮೇಲೆ ಅವಲಂಬಿತವಾಗಿರುತ್ತದೆ (ಧ್ವನಿ, ವೀಡಿಯೊ, ಮೀಡಿಯಾ ಮತ್ತು ಫೋನ್‌ನ ಇತರ ಆಪ್‌ಗಳು)."
-      }
+    "index": {
+      "title": "Chatforia ಬ್ಲಾಗ್",
+      "intro": "ಸಂವಹನದ ಬಗ್ಗೆ ಒಳನೋಟಗಳನ್ನು ಅನ್ವೇಷಿಸಿ...",
+      "post1": "ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಸುರಕ್ಷಿತವಾಗಿ ಚಾಟ್ ಮಾಡುವುದು ಹೇಗೆ",
+      "post2": "ಜಾಗತಿಕ ಸಂವಹನದ ಭವಿಷ್ಯ",
+      "post3": "ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆಗಳ ಮಹತ್ವ"
     },
-    "family": {
-      "title": "Chatforia ಕುಟುಂಬ (ಹಂಚಿದ ಡೇಟಾ)",
-      "subtitle": "ನಿಮ್ಮ ಕುಟುಂಬದಲ್ಲಿ ಒಂದೇ ಡೇಟಾ ಪೂಲ್ ಹಂಚಿಕೊಳ್ಳಿ. ಒಂದು ಬಿಲ್, ಹಲವು Chatforia ಖಾತೆಗಳು, ಜಾಗತಿಕ ಕವರೇಜ್.",
-      "perPack": "/ ಪ್ಯಾಕ್",
-      "small": {
-        "title": "ಕುಟುಂಬ ಸ್ಮಾಲ್",
-        "desc": "20 GB ಹಂಚಿದ ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ ಒಳಗೊಂಡಿದೆ — 2–3 ಸಣ್ಣ ಬಳಕೆದಾರರಿಗೆ ಸೂಕ್ತ.",
-        "price": "$29.99",
-        "aria": "ಕುಟುಂಬ ಸ್ಮಾಲ್ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ"
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
-      "medium": {
-        "title": "ಕುಟುಂಬ ಮೀಡಿಯಂ",
-        "desc": "40 GB ಹಂಚಿದ ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ ಒಳಗೊಂಡಿದೆ — 3–5 ಸಕ್ರಿಯ ಸದಸ್ಯರಿಗೆ ಸೂಕ್ತ.",
-        "price": "$49.99",
-        "aria": "ಕುಟುಂಬ ಮೀಡಿಯಂ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ"
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
-      "large": {
-        "title": "ಕುಟುಂಬ ಲಾರ್ಜ್",
-        "desc": "80 GB ಹಂಚಿದ ಹೈ-ಸ್ಪೀಡ್ ಡೇಟಾ ಒಳಗೊಂಡಿದೆ — ಯಾವಾಗಲೂ ಆನ್‌ಲೈನ್ ಆಗಿರುವ ಪವರ್ ಕುಟುಂಬಗಳಿಗೆ.",
-        "price": "$84.99",
-        "aria": "ಕುಟುಂಬ ಲಾರ್ಜ್ ಪ್ಯಾಕ್ ಖರೀದಿಸಿ"
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
-      "feature": {
-        "shared": "ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಹಂಚಿದ ಡೇಟಾ ಪೂಲ್",
-        "members": "ಗರಿಷ್ಠ 4 ಹೆಚ್ಚುವರಿ ಸದಸ್ಯರನ್ನು ಆಹ್ವಾನಿಸಿ",
-        "membersMore": "3–5 ಸಕ್ರಿಯ ಸದಸ್ಯರಿಗೆ ಸೂಕ್ತ",
-        "manage": "ಪ್ರತಿ ಸದಸ್ಯರಿಗೆ ಮಿತಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
-        "topUp": "ಎಲ್ಲಾ ಸಮಯದಲ್ಲೂ ಹೆಚ್ಚು ಪ್ಯಾಕ್‌ಗಳನ್ನು ಸೇರಿಸಿ",
-        "bestValue": "ಪ್ರತಿ GB ಗೆ ಉತ್ತಮ ಮೌಲ್ಯ",
-        "fairUse": "ನ್ಯಾಯಯುತ ಬಳಕೆ ನೀತಿ ಮತ್ತು ಸ್ಥಳೀಯ ಮಿತಿಗಳಿಗೆ ಒಳಪಟ್ಟಿರುತ್ತದೆ"
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
-      "disclaimer": "ಕುಟುಂಬ ಪ್ಯಾಕ್‌ಗಳು ಹಂಚಿದ ಡೇಟಾ ಪೂಲ್ ರಚಿಸುತ್ತವೆ ಅಥವಾ ಟಾಪ್ ಅಪ್ ಮಾಡುತ್ತವೆ. ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಸದಸ್ಯರನ್ನು ಆಹ್ವಾನಿಸಿ ಅಥವಾ ತೆಗೆದುಹಾಕಬಹುದು.",
-      "footnote": "ಕುಟುಂಬ ಪ್ಯಾಕ್‌ಗಳು ಲಿಂಕ್ ಮಾಡಿದ Chatforia ಖಾತೆಗಳಲ್ಲಿ ಒಂದೇ ಡೇಟಾ ಪೂಲ್ ಹಂಚುತ್ತವೆ. ಲಭ್ಯತೆ ಮತ್ತು ಮಿತಿಗಳು ನಿಮ್ಮ ದೇಶ ಮತ್ತು ಸ್ಥಳೀಯ ನಿಯಮಗಳನ್ನು ಅವಲಂಬಿಸಿರುತ್ತವೆ."
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Chatforia ಬಗ್ಗೆ",
+    "description": "Chatforia ಒಂದು ಆಧುನಿಕ ಮೆಸೇಜಿಂಗ್ ವೇದಿಕೆ ಆಗಿದ್ದು, ಸುರಕ್ಷಿತ ಮತ್ತು ಬಹುಭಾಷಾ ಸಂವಹನಕ್ಕಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ...",
+    "valuesTitle": "ನಾವು ಮೌಲ್ಯೀಕರಿಸುವುದು",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
     },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "ಗೌಪ್ಯತೆ ಮೊದಲು",
+    "privacyDesc": "ಬಲವಾದ ಎನ್‌ಕ್ರಿಪ್ಷನ್ ಮತ್ತು ಬಳಕೆದಾರ ನಿಯಂತ್ರಿತ ಗೌಪ್ಯತಾ ಸೆಟ್ಟಿಂಗ್ಗಳು",
+    "accessTitle": "ಎಲ್ಲರಿಗೂ ಪ್ರವೇಶ",
+    "accessDesc": "ಬಹುಭಾಷೆಗಳ ಅಂತರ್ನಿರ್ಮಿತ ಅನುವಾದ",
+    "controlTitle": "ನಿಯಂತ್ರಣ",
+    "controlDesc": "ಅಳಿದುಹೋಗುವ ಸಂದೇಶಗಳು ಮತ್ತು ಓದಿದ ದೃಢೀಕರಣಗಳಂತಹ ವೈಶಿಷ್ಟ್ಯಗಳು"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
     "why": {
-      "title": "ಜನರು Chatforia ಗೆ ಏಕೆ ಬದಲಾಗುತ್ತಾರೆ",
-      "subtitle": "Chatforia ನಿಮಗೆ ನಿಜವಾದ ಫೋನ್ ನಂಬರ್, ಸ್ಮಾರ್ಟ್ ಅನುವಾದ ಮತ್ತು ಜಾಹೀರಾತು-ಮುಕ್ತವಾಗಲು ಸ್ಪಷ್ಟ ಮಾರ್ಗವನ್ನು ನೀಡುತ್ತದೆ.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "ಉಚಿತದಲ್ಲಿ ಹಗುರ ಜಾಹೀರಾತುಗಳು, ನೀವು ಸಿದ್ಧವಾದಾಗ ಸರಳ ಪ್ಲಸ್ ಅಪ್‌ಗ್ರೇಡ್ ಮತ್ತು TextNow ನೀಡದ ಪ್ರೀಮಿಯಂ ಟೂಲ್‌ಗಳು."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "ಆಧುನಿಕ ಆಪ್, ಜಾಗತಿಕ-ಮೊದಲು ವಿನ್ಯಾಸ ಮತ್ತು ಹಳೆಯ ಶೈಲಿಯ ಕರೆ ಫಾರ್ವರ್ಡಿಂಗ್ ಬದಲಿಗೆ ಒಳಗೊಂಡಿರುವ ಅನುವಾದ."
-        },
-        "messengers": {
-          "title": "Chatforia vs ಚಾಟ್ ಆಪ್‌ಗಳು",
-          "body": "ಇತರ ಆಪ್ ಬಳಕೆದಾರರಿಗೆ ಮಾತ್ರವಲ್ಲ — ನಿಜವಾದ ಫೋನ್ ನಂಬರ್‌ಗಳಿಗೆ ಟೆಕ್ಸ್ಟ್ ಮಾಡಿ — AI ಮತ್ತು ಸ್ಥಿತಿ ಒಳಗೊಂಡಿದೆ. TextFree ಅಥವಾ TextMe ನಂತಹ ಆಪ್‌ಗಳಿಂದ ಬರುತ್ತಿದ್ದರೆ ಉತ್ತಮ."
-        }
-      },
-      "tableTitle": "Chatforia ಹೇಗೆ ಹೋಲಿಕೆಯಾಗುತ್ತದೆ",
-      "col": {
-        "feature": "ವೈಶಿಷ್ಟ್ಯ"
-      },
-      "feature": {
-        "freeNumber": "ಉಚಿತ ಫೋನ್ ನಂಬರ್",
-        "translation": "ಒಳಗೊಂಡಿರುವ ಸ್ವಯಂ-ಅನುವಾದ",
-        "aiTools": "AI ಟೂಲ್‌ಗಳು (ರಿರೈಟ್‌ಗಳು, ಪ್ರತಿಕ್ರಿಯೆಗಳು, ಸಾರಾಂಶಗಳು)",
-        "ads": "ಜಾಹೀರಾತು-ಮುಕ್ತ ಆಯ್ಕೆ",
-        "history": "ಸಂದೇಶ ಇತಿಹಾಸ"
-      },
-      "yes": "ಹೌದು",
-      "no": "ಇಲ್ಲ",
-      "yesPremium": "ಹೌದು (ಪ್ರೀಮಿಯಂ)",
-      "plusPremium": "ಪ್ಲಸ್ & ಪ್ರೀಮಿಯಂ",
-      "limited": "ಮಿತಿಯುಳ್ಳ",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "12+ ತಿಂಗಳವರೆಗೆ",
-        "textnow": "ಖಾತೆಯ ಪ್ರಕಾರ ಬದಲಾಗುತ್ತದೆ",
-        "voice": "ಮಿತಿಯುಳ್ಳ / ಖಾತೆ ಆಧಾರಿತ"
-      },
-      "disclaimer": "ಹೋಲಿಕೆ ಸಾರ್ವಜನಿಕವಾಗಿ ಲಭ್ಯವಿರುವ ಮಾಹಿತಿಯ ಆಧಾರದ ಮೇಲೆ ಮತ್ತು ಸಮಯದೊಂದಿಗೆ ಬದಲಾಗಬಹುದು. ಇತರ ಉಚಿತ ಟೆಕ್ಸ್ಟಿಂಗ್ ಆಪ್‌ಗಳು TextFree ಅಥವಾ TextMe ಸಾಮಾನ್ಯವಾಗಿ TextNow ಗೆ ಹೋಲುತ್ತವೆ."
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "faq": {
-      "title": "ಬೆಲೆ & ಯೋಜನೆಗಳ FAQ",
-      "free": {
-        "q": "ಉಚಿತ ಯೋಜನೆ ನಿಜವಾಗಿಯೂ ಉಚಿತವೇ?",
-        "a": "ಹೌದು. ಉಚಿತ ಯೋಜನೆಯಲ್ಲಿ Chatforia ನಂಬರ್, ಕರೆ ಮತ್ತು ಜಾಹೀರಾತುಗಳೊಂದಿಗೆ ಸಂದೇಶಗಳು ಒಳಗೊಂಡಿವೆ. ನೀವು ಇಷ್ಟವಾದಷ್ಟು ಕಾಲ ಉಚಿತದಲ್ಲಿಯೇ ಇರಬಹುದು ಅಥವಾ ಜಾಹೀರಾತುಗಳನ್ನು ತೆಗೆದುಹಾಕಲು ಮತ್ತು ಹೆಚ್ಚಿನ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಲು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ."
-      },
-      "plusPremium": {
-        "q": "ಪ್ಲಸ್ ಮತ್ತು ಪ್ರೀಮಿಯಂ ನಡುವಿನ ವ್ಯತ್ಯಾಸ ಏನು?",
-        "a": "ಪ್ಲಸ್ ಜಾಹೀರಾತುಗಳನ್ನು ತೆಗೆದುಹಾಕುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವಿಸ್ತರಿಸುತ್ತದೆ — ದೈನಂದಿನ ಬಳಕೆಗೆ ಸೂಕ್ತ. ಪ್ರೀಮಿಯಂ ಹೆಚ್ಚುವರಿ ಕಸ್ಟಮೈಸೇಶನ್, ರಿರೈಟ್ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆಗಳಿಗೆ AI ಟೂಲ್‌ಗಳು ಮತ್ತು ಭಾರೀ ಬಳಕೆದಾರರಿಗೆ ಆದ್ಯತಾ ಬೆಂಬಲವನ್ನು ಸೇರಿಸುತ್ತದೆ."
-      },
-      "esim": {
-        "q": "eSIM ಡೇಟಾ ಪ್ಯಾಕ್‌ಗಳು ಎಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತವೆ?",
-        "a": "Chatforia ಮೊಬೈಲ್ ಜಾಗತಿಕ eSIM ಕವರೇಜ್ ಬಳಸುತ್ತದೆ. ಲಭ್ಯತೆ ನಿಮ್ಮ ದೇಶ ಮತ್ತು ಸಾಧನವನ್ನು ಅವಲಂಬಿಸಿರುತ್ತದೆ. ಆಪ್‌ನಲ್ಲಿ ಸಕ್ರಿಯಗೊಳಿಸುವಾಗ ಬೆಂಬಲಿತ ಆಯ್ಕೆಗಳನ್ನು ನೀವು ನೋಡುತ್ತೀರಿ."
-      },
-      "cancel": {
-        "q": "ನಾನು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಯೋಜನೆಗಳನ್ನು ರದ್ದುಮಾಡಬಹುದೇ ಅಥವಾ ಬದಲಾಯಿಸಬಹುದೇ?",
-        "a": "ಹೌದು. ಆಪ್‌ನಲ್ಲಿ ಬಿಲ್ಲಿಂಗ್ ಪುಟದಿಂದ ನಿಮ್ಮ ಸಬ್‌ಸ್ಕ್ರಿಪ್ಷನ್ ನಿರ್ವಹಿಸಿ ಅಥವಾ ರದ್ದುಮಾಡಿ. ಬದಲಾವಣೆಗಳು ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಬಿಲ್ಲಿಂಗ್ ಅವಧಿಯ ಅಂತ್ಯದಲ್ಲಿ ಪ್ರಭಾವ ಬೀರುತ್ತವೆ."
-      },
-      "family": {
-        "q": "ಕುಟುಂಬ ಪ್ಯಾಕ್‌ಗಳು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತವೆ?",
-        "a": "ಕುಟುಂಬ ಪ್ಯಾಕ್‌ಗಳು ಹಲವು Chatforia ಖಾತೆಗಳಲ್ಲಿ ಹಂಚಿದ ಡೇಟಾ ಪೂಲ್ ರಚಿಸುತ್ತವೆ. ಒಬ್ಬರು ಬಿಲ್ ಪಾವತಿಸುತ್ತಾರೆ ಮತ್ತು ನೀವು ಸದಸ್ಯರನ್ನು ಆಹ್ವಾನಿಸಿ ಅಥವಾ ತೆಗೆದುಹಾಕಬಹುದು ಮತ್ತು ಪ್ರತಿ ವ್ಯಕ್ತಿಗೆ ಮಿತಿಗಳನ್ನು ಹೊಂದಿಸಬಹುದು."
-      }
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
     },
-    "gettingStarted": {
-      "title": "ಪ್ರಾರಂಭಿಸುವುದು ಹೇಗೆ",
-      "subtitle": "Chatforia ಗೆ ಹೊಸಬರಾ? ಈ ತ್ವರಿತ ಪ್ರಾರಂಭ ನಿಮಗೆ ನಿಮಿಷಗಳಲ್ಲಿ ಉತ್ಪಾದಕರಾಗಲು ಅಗತ್ಯ ವಿಷಯಗಳನ್ನು ತೋರಿಸುತ್ತದೆ.",
-      "alert": {
-        "text": "ಹೊಸ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಲಾಂಚ್ ಮಾಡುವಂತೆ ಈ ಮಾರ್ಗದರ್ಶಿ ಬೆಳೆಯುತ್ತದೆ. ಏನಾದರೂ ಕಾಣೆಯಾದರೆ, ನಮಗೆ ತಿಳಿಸಿ",
-        "contactLink": "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ"
-      },
-      "section1": {
-        "title": "1) ನಿಮ್ಮ ಖಾತೆ ರಚಿಸಿ",
-        "signup": "ಸೈನ್ ಅಪ್",
-        "or": "ಅಥವಾ",
-        "login": "ಲಾಗ್ ಇನ್",
-        "loginText": "ನಿಮ್ಮ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಖಾತೆಯೊಂದಿಗೆ.",
-        "prefsStart": "ನಿಮ್ಮ",
-        "prefsLink": "ಆದ್ಯತೆಗಳನ್ನು",
-        "prefsRest": "ಸೆಟ್ ಮಾಡಿ (ಭಾಷೆ, ಓದಿದ ರಸೀದಿಗಳು, ಥೀಮ್‌ಗಳು)."
-      },
-      "section2": {
-        "title": "2) ಸಂದೇಶ ಕಳುಹಿಸಲು ಪ್ರಾರಂಭಿಸಿ",
-        "item1": "DM ಅಥವಾ ಗುಂಪು ರಚಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಮೊದಲ ಸಂದೇಶ ಕಳುಹಿಸಿ.",
-        "item2": "100+ ಭಾಷೆಗಳಾಚೆ ಚಾಟ್ ಮಾಡಲು ತ್ವರಿತ ಅನುವಾದ ಬಳಸಿ.",
-        "item3": "ಪ್ರೊಫೈಲ್ → ಗೌಪ್ಯತೆಯಲ್ಲಿ ಅದೃಶ್ಯ ಸಂದೇಶಗಳು ಮತ್ತು ಓದಿದ ರಸೀದಿಗಳನ್ನು ಪ್ರಯತ್ನಿಸಿ."
-      },
-      "section3": {
-        "title": "3) ಹೆಚ್ಚು ಮುಂದುವರಿಯಿರಿ",
-        "item1": "ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಆಪ್‌ನಲ್ಲಿ ಪಾವತಿಸುವ ಯೋಜನೆಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಬಹುದು.",
-        "item2": "ನೀವು ಸೈನ್ ಇನ್ ಆದ ನಂತರ, ಹೆಚ್ಚುವರಿ ಸಾಧನಗಳನ್ನು ಲಿಂಕ್ ಮಾಡಿ ಮತ್ತು ಆಪ್‌ನಲ್ಲಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಎನ್‌ಕ್ರಿಪ್ಟೆಡ್ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಸೆಟಪ್ ಮಾಡಿ."
-      },
-      "cta": {
-        "seePlans": "ಯೋಜನೆಗಳನ್ನು ನೋಡಿ",
-        "openSettings": "ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ"
-      }
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
     },
-    "helpCenter": {
-      "title": "ಸಹಾಯ ಕೇಂದ್ರ",
-      "faq": {
-        "account": {
-          "q": "ನಾನು ಖಾತೆ ಹೇಗೆ ರಚಿಸುವುದು ಅಥವಾ ಮರುಪಡೆಯುವುದು?",
-          "a": "ಆಪ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ ಅಥವಾ ವೆಬ್ ಬಳಸಿ, “ಖಾತೆ ರಚಿಸಿ” ಟ್ಯಾಪ್ ಮಾಡಿ, ನಿಮ್ಮ ಇಮೇಲ್/ಫೋನ್ ಪರಿಶೀಲಿಸಿ. ಮರುಪಡೆಯಲು “ಪಾಸ್‌ವರ್ಡ್ ಮರೆತಿರಾ” ಬಳಸಿ."
-        },
-        "privacy": {
-          "q": "ಸಂದೇಶಗಳು ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಟೆಡ್ ಆಗಿವೆಯೇ?",
-          "a": "ಹೌದು. ಸಂದೇಶಗಳು ಮತ್ತು ಕರೆಗಳು ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಟೆಡ್ ಆಗಿವೆ. ನೀವು ಮತ್ತು ಸ್ವೀಕರಿಸುವವರು ಮಾತ್ರ ಅವುಗಳನ್ನು ಓದಬಹುದು."
-        },
-        "translate": {
-          "q": "ತ್ವರಿತ ಅನುವಾದ ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ?",
-          "a": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು → ಗೋಚರತೆ & ಭಾಷೆಯಲ್ಲಿ “ಸ್ವಯಂ-ಅನುವಾದ” ಸಕ್ರಿಯಗೊಳಿಸಿ. ನಾವು ಬೆಂಬಲಿತ ಸ್ಥಳಗಳಲ್ಲಿ ಡಿವೈಸ್ ಮೇಲೆ ಅನುವಾದಿಸುತ್ತೇವೆ, ಇಲ್ಲವಾದರೆ ಕನಿಷ್ಠ ಮೆಟಾಡೇಟಾದೊಂದಿಗೆ ಸುರಕ್ಷಿತ API ಗಳ ಮೂಲಕ."
-        },
-        "contact": {
-          "q": "ಸಪೋರ್ಟ್ ಸಂಪರ್ಕಿಸಿ",
-          "a": "support@chatforia.com ಗೆ ಸಂಪರ್ಕಿಸಿ. ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ಗಳು ಮತ್ತು ನಿಮ್ಮ ಆಪ್ ಆವೃತ್ತಿಯನ್ನು ಸೇರಿಸಿ."
-        }
-      }
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
-      "successMsg": "ಧನ್ಯವಾದಗಳು—ನಮ್ಮ ತಂಡ ಇಮೇಲ್ ಮೂಲಕ ಉತ್ತರಿಸುತ್ತದೆ.",
-      "errorSend": "ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. support@chatforia.com ಗೆ ಇಮೇಲ್ ಮಾಡಿ.",
-      "form": {
-        "nameLabel": "ಹೆಸರು",
-        "emailLabel": "ಇಮೇಲ್",
-        "messageLabel": "ಸಂದೇಶ",
-        "sendCta": "ಕಳುಹಿಸು"
-      }
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
     },
-    "privacyPolicy": {
-      "title": "ಗೌಪ್ಯತಾ ನೀತಿ",
-      "lastUpdated": "ಕೊನೆಯ ನವೀಕರಣ:",
-      "intro": {
-        "body": "ಈ ಗೌಪ್ಯತಾ ನೀತಿ ನೀವು ನಮ್ಮ ಆಪ್‌ಗಳು ಮತ್ತು ಸೇವೆಗಳನ್ನು ಬಳಸುವಾಗ Chatforia (“ನಾವು”, “ನಮ್ಮ”) ಮಾಹಿತಿಯನ್ನು ಹೇಗೆ ಸಂಗ್ರಹಿಸುತ್ತದೆ, ಬಳಸುತ್ತದೆ ಮತ್ತು ಹಂಚುತ್ತದೆ ಎಂಬುದನ್ನು ವಿವರಿಸುತ್ತದೆ. ನಾವು Chatforia ಅನ್ನು ನಾವು ಪ್ರವೇಶಿಸಬಹುದಾದ ಡೇಟಾವನ್ನು ಕನಿಷ್ಠಗೊಳಿಸುವಂತೆ ವಿನ್ಯಾಸಗೊಳಿಸಿದ್ದೇವೆ."
-      },
-      "infoWeCollect": {
-        "title": "ನಾವು ಸಂಗ್ರಹಿಸುವ ಮಾಹಿತಿ",
-        "account": "ಖಾತೆ ಮಾಹಿತಿ (ಉದಾ., ಇಮೇಲ್/ಫೋನ್) ಖಾತೆ ರಚಿಸಲು ಮತ್ತು ಸುರಕ್ಷಿತಗೊಳಿಸಲು.",
-        "encrypted": "ಎನ್‌ಕ್ರಿಪ್ಟೆಡ್ ವಿಷಯ (ಸಂದೇಶಗಳು/ಕರೆಗಳು) ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಟೆಡ್ ಆಗಿದೆ; ನಾವು ಅವುಗಳನ್ನು ಓದಲು ಸಾಧ್ಯವಿಲ್ಲ.",
-        "diagnostics": "ಡಯಾಗ್ನೋಸ್ಟಿಕ್/ಬಳಕೆಯಂತಹ ಕ್ರ್ಯಾಶ್ ಲಾಗ್‌ಗಳು, ಸಾಧನ ಪ್ರಕಾರ ಅಥವಾ ಸ್ಥೂಲ ವಿಶ್ಲೇಷಣೆಗಳು ಪ್ರದರ್ಶನ ಸುಧಾರಿಸಲು."
-      },
-      "sms": {
-        "title": "ಮೊಬೈಲ್ ಫೋನ್ ನಂಬರ್‌ಗಳು ಮತ್ತು SMS",
-        "body": "ನೀವು ಮೊಬೈಲ್ ಫೋನ್ ನಂಬರ್ ನೀಡಲು ಆಯ್ಕೆಮಾಡಿದರೆ, ನಾವು ಅದನ್ನು ಖಾತೆ ಪರಿಶೀಲನೆ, ಲಾಗಿನ್ ಎಚ್ಚರಿಕೆಗಳು ಮತ್ತು ಬೆಂಬಲಿತ ಸ್ಥಳಗಳಲ್ಲಿ ಬಳಕೆದಾರ-ಬಳಕೆದಾರ SMS ಸಂದೇಶಗಳಿಗೆ ಬಳಸುತ್ತೇವೆ. ನಾವು ನಿಮ್ಮ ಖಾತೆ ಮತ್ತು Chatforia ಚಟುವಟಿಕೆಗೆ ಸಂಬಂಧಿಸಿದ ಟ್ರಾನ್ಸಾಕ್ಷನಲ್ SMS ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಬಹುದು. ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ನೋಟಿಫಿಕೇಶನ್ ಆದ್ಯತೆಗಳನ್ನು ಬದಲಾಯಿಸುವ ಮೂಲಕ ಅಥವಾ ಬೆಂಬಲಿತ ಆಪ್ಟ್-ಔಟ್ ಕೀವರ್ಡ್ (ಉದಾ. “STOP”) ಗೆ ಉತ್ತರಿಸುವ ಮೂಲಕ SMS ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದನ್ನು ಆಪ್ಟ್ ಔಟ್ ಮಾಡಬಹುದು. ನಾವು ನಿಮ್ಮ ಫೋನ್ ನಂಬರ್ ಅನ್ನು ಮಾರಾಟ ಮಾಡುವುದಿಲ್ಲ ಅಥವಾ ಅನ್ವಯವಲ್ಲದ ಮಾರ್ಕೆಟಿಂಗ್‌ಗೆ ಬಳಸುವುದಿಲ್ಲ.",
-        "newText": "ಹೊಸ ಟೆಕ್ಸ್ಟ್",
-        "enterRecipient": "ಹೆಸರು ಅಥವಾ ನಂಬರ್ ನಮೂದಿಸಿ",
-        "typeMessage": "ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ…",
-        "addRecipient": "ಪ್ರಾರಂಭಿಸಲು ಮೇಲೆ ಸ್ವೀಕರಿಸುವವರನ್ನು ಸೇರಿಸಿ…"
-      },
-      "howWeUse": {
-        "title": "ಮಾಹಿತಿಯನ್ನು ನಾವು ಹೇಗೆ ಬಳಸುತ್ತೇವೆ",
-        "provide": "ಸೇವೆಯನ್ನು ಒದಗಿಸಿ ಮತ್ತು ಸುರಕ್ಷಿತಗೊಳಿಸಿ (ಅಥೆಂಟಿಕೇಶನ್, ಸ್ಪ್ಯಾಮ್/ದುರ್ಬಳಕೆ ಪತ್ತೆ).",
-        "improve": "ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಸುಧಾರಿಸಿ (ಅನುವಾದ ಗುಣಮಟ್ಟ, ವಿಶ್ವಾಸಾರ್ಹತೆ).",
-        "legal": "ಕಾನೂನು ಬಾಧ್ಯತೆಗಳನ್ನು ಪಾಲಿಸಿ."
-      },
-      "sharing": {
-        "title": "ಹಂಚುವಿಕೆ",
-        "body": "ನಾವು ವೈಯಕ್ತಿಕ ಡೇಟಾ ಮಾರಾಟ ಮಾಡುವುದಿಲ್ಲ. ನಾವು ಕಟ್ಟುನಿಟ್ಟಾದ ಒಪ್ಪಂದಗಳ ಅಡಿಯಲ್ಲಿ ಪ್ರೊಸೆಸರ್‌ಗಳೊಂದಿಗೆ ಮಿತಿಯುಳ್ಳ ಡೇಟಾ ಹಂಚಿಕೊಳ್ಳಬಹುದು (ಉದಾ., ಪುಶ್ ನೋಟಿಫಿಕೇಶನ್‌ಗಳು, ವಿಶ್ಲೇಷಣೆಗಳು)."
-      },
-      "rights": {
-        "title": "ನಿಮ್ಮ ಹಕ್ಕುಗಳು",
-        "body": "ನಿಮ್ಮ ಪ್ರದೇಶದ ಪ್ರಕಾರ (ಉದಾ., GDPR/UK GDPR/CPRA), ನೀವು ಪ್ರವೇಶ, ತಿದ್ದುಪಡಿ, ಅಳಿಸುವಿಕೆ ಅಥವಾ ನಿರ್ದಿಷ್ಟ ಪ್ರಕ್ರಿಯೆಯಿಂದ ಆಪ್ಟ್ ಔಟ್ ಮಾಡಲು ವಿನಂತಿಸಬಹುದು. ಸಂಪರ್ಕ: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "ಡೇಟಾ ನಿರ್ವಹಣೆ & ಸುರಕ್ಷತೆ",
-        "body": "ನಾವು ಸೇವೆಯನ್ನು ನಡೆಸಲು ಅಗತ್ಯವಿರುವುದನ್ನು ಮಾತ್ರ ನಿರ್ವಹಿಸುತ್ತೇವೆ ಮತ್ತು ಉದ್ಯಮ-ಪ್ರಮಾಣಿತ ಸುರಕ್ಷತೆಯನ್ನು ಅನ್ವಯಿಸುತ್ತೇವೆ. E2E ವಿಷಯವನ್ನು ನಾವು ಡಿಕ್ರಿಪ್ಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
-      },
-      "children": {
-        "title": "ಮಕ್ಕಳು",
-        "body": "Chatforia 13 ವಯಸ್ಸಿನ ಕೆಳಗಿನ ಮಕ್ಕಳಿಗೆ (ಅಥವಾ ನಿಮ್ಮ ಸ್ಥಳೀಯ ಕಾನೂನು ಅಗತ್ಯವಿರುವಂತೆ) ನಿರ್ದೇಶಿತವಾಗಿಲ್ಲ."
-      },
-      "changes": {
-        "title": "ಬದಲಾವಣೆಗಳು",
-        "body": "ನಾವು ಇಲ್ಲಿ ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಪೋಸ್ಟ್ ಮಾಡುತ್ತೇವೆ ಮತ್ತು “ಕೊನೆಯ ನವೀಕರಣ” ದಿನಾಂಕವನ್ನು ಪರಿಷ್ಕರಿಸುತ್ತೇವೆ."
-      },
-      "contact": {
-        "title": "ಸಂಪರ್ಕ",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
     },
-    "terms": {
-      "title": "ಸೇವಾ ನಿಯಮಗಳು",
-      "lastUpdated": "ಕೊನೆಯ ನವೀಕರಣ:",
-      "intro": {
-        "body": "Chatforia ಅನ್ನು ಬಳಸುವ ಮೂಲಕ ನೀವು ಈ ನಿಯಮಗಳಿಗೆ ಒಪ್ಪಿಗೆ ನೀಡುತ್ತೀರಿ. ನೀವು ಒಪ್ಪದಿದ್ದರೆ ಸೇವೆಯನ್ನು ಬಳಸಬೇಡಿ."
-      },
-      "accounts": {
-        "title": "ಖಾತೆಗಳು",
-        "itemAccurateInfo": "ನಿಖರ ಮಾಹಿತಿ ಒದಗಿಸಿ ಮತ್ತು ರುಜುವಾತುಗಳನ್ನು ಸುರಕ್ಷಿತವಾಗಿರಿಸಿ.",
-        "itemResponsibility": "ನಿಮ್ಮ ಖಾತೆಯಲ್ಲಿ ಚಟುವಟಿಕೆಗೆ ನೀವು ಜವಾಬ್ದಾರರಾಗಿರುತ್ತೀರಿ."
-      },
-      "acceptableUse": {
-        "title": "ಸ್ವೀಕಾರಾರ್ಹ ಬಳಕೆ",
-        "itemNoAbuse": "ಅಕ್ರಮ, ದುರ್ಬಳಕೆ ಅಥವಾ ಹಕ್ಕು ಉಲ್ಲಂಘನೆ ವಿಷಯವಿಲ್ಲ; ಸ್ಪ್ಯಾಮ್ ಅಥವಾ ಸ್ವಯಂಚಾಲಿತ ದುರ್ಬಳಕೆಯಿಲ್ಲ.",
-        "itemSuspend": "ಉಲ್ಲಂಘನೆಗಳಿಗೆ ನಾವು ಸಸ್ಪೆಂಡ್/ಟರ್ಮಿನೇಟ್ ಮಾಡಬಹುದು."
-      },
-      "sms": {
-        "title": "SMS ಸಂವಹನಗಳು",
-        "body": "ನೀವು ಮೊಬೈಲ್ ಫೋನ್ ನಂಬರ್ ಒದಗಿಸಿದರೆ, ನಿಮ್ಮ ಖಾತೆ ಮತ್ತು ಸೇವೆಯ ಬಳಕೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ Chatforia ನಿಮಗೆ SMS ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಬಹುದು ಎಂದು ನೀವು ಒಪ್ಪುತ್ತೀರಿ, ಉದಾ. ಲಾಗಿನ್ ಎಚ್ಚರಿಕೆಗಳು, ಸುರಕ್ಷತಾ ಸೂಚನೆಗಳು ಮತ್ತು ನೀವು ಪ್ರಾರಂಭಿಸಿದ ಅಥವಾ ಭಾಗವಹಿಸಿದ ಸಂಭಾಷಣೆಗಳಿಗೆ ಸಂಬಂಧಿಸಿದ ಸಂದೇಶಗಳು. ನಾವು ನಿಮ್ಮ ಸ್ಪಷ್ಟ ಒಪ್ಪಿಗೆ ಇಲ್ಲದೆ ಪ್ರಚಾರ ಅಥವಾ ಮಾರ್ಕೆಟಿಂಗ್ ಸಂದೇಶಗಳಿಗೆ SMS ಬಳಸುವುದಿಲ್ಲ. ಪ್ರಮಾಣಿತ ಸಂದೇಶ ಮತ್ತು ಡೇಟಾ ದರಗಳು ಅನ್ವಯವಾಗಬಹುದು. ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಬೆಂಬಲಿತ ಆಪ್ಟ್-ಔಟ್ ಕೀವರ್ಡ್ (ಉದಾ. “STOP”) ಗೆ ಉತ್ತರಿಸುವ ಮೂಲಕ ಅಥವಾ ಆಪ್‌ನಲ್ಲಿ ನಿಮ್ಮ ನೋಟಿಫಿಕೇಶನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನವೀಕರಿಸುವ ಮೂಲಕ SMS ಸಂದೇಶಗಳನ್ನು ಆಪ್ಟ್ ಔಟ್ ಮಾಡಬಹುದು."
-      },
-      "yourContent": {
-        "title": "ನಿಮ್ಮ ವಿಷಯ",
-        "body": "ನಿಮ್ಮ ವಿಷಯಕ್ಕೆ ನೀವು ಹಕ್ಕುಗಳನ್ನು ಉಳಿಸಿಕೊಳ್ಳುತ್ತೀರಿ. ಸೇವೆಯನ್ನು ನಡೆಸಲು ಅಗತ್ಯ ಹಕ್ಕುಗಳನ್ನು ನೀವು ನಮಗೆ ನೀಡುತ್ತೀರಿ (ಉದಾ., ರೂಟಿಂಗ್, ಸಂಗ್ರಹ, ಅನುವಾದ)."
-      },
-      "disclaimer": {
-        "title": "ತ್ಯಜಿಸುವಿಕೆಗಳು & ಜವಾಬ್ದಾರಿ",
-        "body": "ಸೇವೆಯನ್ನು “ಇರುವಂತೆ” ಯಾವುದೇ ಖಾತರಿಗಳಿಲ್ಲದೆ ಒದಗಿಸಲಾಗಿದೆ. ಕಾನೂನು ಅನುಮತಿಸುವ ಪೂರ್ಣ ಮಟ್ಟದಲ್ಲಿ, Chatforia ಪರೋಕ್ಷ ಅಥವಾ ಪರಿಣಾಮಕಾರಿ ಹಾನಿಗಳಿಗೆ ಜವಾಬ್ದಾರನಲ್ಲ."
-      },
-      "changes": {
-        "title": "ಬದಲಾವಣೆಗಳು",
-        "body": "ನಾವು ಈ ನಿಯಮಗಳನ್ನು ನವೀಕರಿಸಬಹುದು; ಬದಲಾವಣೆಗಳ ನಂತರ ಮುಂದುವರಿದ ಬಳಕೆಯು ಒಪ್ಪಿಗೆಯನ್ನು ಸೂಚಿಸುತ್ತದೆ."
-      },
-      "contact": {
-        "title": "ಸಂಪರ್ಕ",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
     },
-    "doNotSell": {
-      "title": "ನನ್ನ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಮಾರಾಟ ಅಥವಾ ಹಂಚುವುದಿಲ್ಲ",
-      "body": "Chatforia ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಮಾರಾಟ ಮಾಡುವುದಿಲ್ಲ. ಕ್ಯಾಲಿಫೋರ್ನಿಯಾ ನಿವಾಸಿಗಳು ಕೆಳಗಿನ ಬಟನ್ ಬಳಸಿ CPRA ಅಡಿಯಲ್ಲಿ ವಿನಂತಿಗಳನ್ನು ಸಲ್ಲಿಸಬಹುದು.",
-      "cta": "ವಿನಂತಿ ಸಲ್ಲಿಸಿ"
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
     },
-    "cookies": {
-      "title": "ಕುಕೀ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
-      "body": "Chatforia ಕನಿಷ್ಠ ಕುಕೀಗಳನ್ನು ಬಳಸುತ್ತದೆ (ಉದಾ., ಸೆಷನ್, ಸುರಕ್ಷತೆ). ನಾವು ಥರ್ಡ್-ಪಾರ್ಟಿ ಜಾಹೀರಾತು ಕುಕೀಗಳನ್ನು ಬಳಸುವುದಿಲ್ಲ. ನಿಮ್ಮ ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಮೂಲಕ ಕುಕೀಗಳನ್ನು ನಿರ್ವಹಿಸಿ."
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "ಫೋನ್ ನಂಬರ್ ಸ್ಥಿತಿ ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.",
-      "lock": "ಲಾಕ್",
-      "noNumberAssigned": "ಯಾವುದೇ ನಂಬರ್ ನಿಯೋಜಿಸಲಾಗಿಲ್ಲ. ಟೆಕ್ಸ್ಟಿಂಗ್ ಪ್ರಾರಂಭಿಸಲು ಏರಿಯಾ ಕೋಡ್ ಪ್ರಕಾರ ಒಂದನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
-      "pickNumber": "ನಂಬರ್ ಆಯ್ಕೆಮಾಡಿ",
-      "phoneNumber": "ಫೋನ್ ನಂಬರ್"
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
     },
-    "startChatModal": {
-      "title": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸಿ",
-      "quickPicker": "ತ್ವರಿತ ಪಿಕರ್",
-      "to": "ಗೆ",
-      "nameOrUsername": "ಹೆಸರು, ಬಳಕೆದಾರ ಹೆಸರು ಟೈಪ್ ಮಾಡಿ",
-      "nameUsernamePhoneEmail": "ಹೆಸರು, ಬಳಕೆದಾರ ಹೆಸರು, ಫೋನ್ ಅಥವಾ ಇಮೇಲ್ ಟೈಪ್ ಮಾಡಿ…",
-      "startWithSelected": "ಆಯ್ಕೆಮಾಡಿದ್ದರೊಂದಿಗೆ ಚಾಟ್ ಪ್ರಾರಂಭಿಸಿ",
-      "searchByUsernameOrPhone": "ಬಳಕೆದಾರ ಹೆಸರು ಅಥವಾ ಫೋನ್ ಮೂಲಕ ಹುಡುಕಿ",
-      "search": "ಹುಡುಕು",
-      "searchPrompt": "ಬಳಕೆದಾರ ಹೆಸರು ಅಥವಾ ಫೋನ್ ಟೈಪ್ ಮಾಡಿ ಮತ್ತು ಹುಡುಕು ಒತ್ತಿ.",
-      "pickFromContacts": "ಅಥವಾ ಸಂಪರ್ಕಗಳಿಂದ ಆಯ್ಕೆಮಾಡಿ",
-      "addContact": "ಸಂಪರ್ಕ ಸೇರಿಸಿ",
-      "show": "ತೋರಿಸು",
-      "add": "ಸೇರಿಸು",
-      "close": "ಮುಚ್ಚು",
-      "selectedCount": "{{count}} ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ",
-      "pickAtLeastOne": "ಕನಿಷ್ಠ ಒಂದು ಸ್ವೀಕರಿಸುವವರನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
-      "saveContactsHint": "ಫೋನ್/ಇಮೇಲ್ ನಮೂದುಗಳು ಅವುಗಳನ್ನು ಸಂಪರ್ಕಗಳಾಗಿ ಉಳಿಸಿದ ನಂತರ ಲಭ್ಯವಿರುತ್ತವೆ.",
-      "failedBulkStart": "ಆಯ್ಕೆಮಾಡಿದ ಸ್ವೀಕರಿಸುವವರೊಂದಿಗೆ ಚಾಟ್ ಪ್ರಾರಂಭಿಸುವುದು ವಿಫಲವಾಗಿದೆ.",
-      "noResults": "ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ",
-      "mode": "ಮೋಡ್",
-      "group": "ಗುಂಪು",
-      "broadcast": "ಬ್ರಾಡ್‌ಕಾಸ್ಟ್",
-      "groupNameOptional": "ಗುಂಪು ಹೆಸರು (ಐಚ್ಛಿಕ)",
-      "firstMessageOptional": "ಮೊದಲ ಸಂದೇಶ (ಐಚ್ಛಿಕ ಆದರೆ ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ)",
-      "createGroup": "ಗುಂಪು ರಚಿಸಿ",
-      "sendBroadcast": "ಬ್ರಾಡ್‌ಕಾಸ್ಟ್ ಕಳುಹಿಸು"
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
-    "themes": {
-      "amoled": "ಅಮೋಲೆಡ್",
-      "aurora": "ಔರೋರಾ",
-      "neon": "ನಿಯಾನ್",
-      "sunset": "ಸನ್‌ಸೆಟ್",
-      "solarized": "ಸೋಲರೈಸ್ಡ್",
-      "velvet": "ವೆಲ್ವೆಟ್"
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "ರಿಫಂಡ್ ನೀತಿ",
+    "lastUpdated": "ಕೊನೆಯ ನವೀಕರಣ:",
+    "intro": "Chatforia ನಲ್ಲಿ, ನಾವು ಎಲ್ಲಾ ಬಳಕೆದಾರರಿಗೆ ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಸೇವೆಯನ್ನು ನೀಡಲು ಪ್ರಯತ್ನಿಸುತ್ತೇವೆ. ಈ ರಿಫಂಡ್ ನೀತಿ ಯಾವ ಸಂದರ್ಭಗಳಲ್ಲಿ ಹಣವನ್ನು ಹಿಂತಿರುಗಿಸಲಾಗುತ್ತದೆ ಎಂಬುದನ್ನು ವಿವರಿಸುತ್ತದೆ.",
+    "subscriptions": {
+      "title": "ಚಂದಾದಾರಿಕೆಗಳು",
+      "body": "ಚಂದಾದಾರಿಕೆಗಳಿಗೆ ಮುಂಗಡವಾಗಿ ಮರುಕಳಿಸುವ ಆಧಾರದ ಮೇಲೆ ಬಿಲ್ಲಿಂಗ್ ಮಾಡಲಾಗುತ್ತದೆ. ನೀವು ಯಾವಾಗ ಬೇಕಾದರೂ ನಿಮ್ಮ ಖಾತೆ ಸೆಟ್ಟಿಂಗ್ಗಳಲ್ಲಿ ಅಥವಾ ಖರೀದಿಸಿದ ವೇದಿಕೆಯ ಮೂಲಕ ರದ್ದು ಮಾಡಬಹುದು."
     },
-    "sounds": {
-      "freeNotice": "ನೀವು ಉಚಿತದಲ್ಲಿದ್ದೀರಿ — ಪ್ರೀಮಿಯಂ ಟೋನ್‌ಗಳು ತೋರಿಸಲಾಗಿದೆ ಆದರೆ ಲಾಕ್ ಆಗಿವೆ. ಎಲ್ಲವನ್ನೂ ಅನ್‌ಲಾಕ್ ಮಾಡಲು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ.",
-      "preview": "ಪ್ರಿವ್ಯೂ",
-      "resetToDefaults": "ಪೂರ್ವನಿಯೋಜಿತಗಳಿಗೆ ರೀಸೆಟ್",
-      "notificationSounds": "ನೋಟಿಫಿಕೇಶನ್ ಧ್ವನಿಗಳು",
-      "messageTone": "ಸಂದೇಶ ಟೋನ್",
-      "default": "ಪೂರ್ವನಿಯೋಜಿತ",
-      "vibrate": "ವೈಬ್ರೇಟ್",
-      "dreamer": "ಡ್ರೀಮರ್",
-      "notify": "ನೋಟಿಫೈ",
-      "pop": "ಪಾಪ್",
-      "pulsatingSound": "ಪಲ್ಸೇಟಿಂಗ್ ಸೌಂಡ್",
-      "textMessage": "ಟೆಕ್ಸ್ಟ್ ಮೆಸೇಜ್",
-      "xylophone": "ಝೈಲೋಫೋನ್",
-      "classic": "ಕ್ಲಾಸಿಕ್",
-      "urgency": "ಅರ್ಜೆಂಟ್",
-      "bells": "ಬೆಲ್ಸ್",
-      "chimes": "ಚೈಮ್ಸ್",
-      "digitalPhone": "ಡಿಜಿಟಲ್ ಫೋನ್",
-      "melodic": "ಮೆಲೋಡಿಕ್",
-      "organNotes": "ಆರ್ಗನ್ ನೋಟ್ಸ್",
-      "soundReality": "ಸೌಂಡ್ ರಿಯಾಲಿಟಿ",
-      "street": "ಸ್ಟ್ರೀಟ್",
-      "universfield": "ಯುನಿವರ್ಸ್‌ಫೀಲ್ಡ್"
+    "eligibility": {
+      "title": "ರಿಫಂಡ್ ಅರ್ಹತೆ",
+      "body": "ದ್ವಂದ್ವ ಶುಲ್ಕ, ಬಿಲ್ಲಿಂಗ್ ದೋಷಗಳು ಅಥವಾ ಪಾವತಿಸಿದ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಬಳಸಲು ಅಸಾಧ್ಯವಾಗುವ ತಾಂತ್ರಿಕ ಸಮಸ್ಯೆಗಳಿದ್ದಲ್ಲಿ ರಿಫಂಡ್ ನೀಡಬಹುದು. ಎಲ್ಲಾ ವಿನಂತಿಗಳನ್ನು ಪ್ರತಿ ಪ್ರಕರಣದ ಆಧಾರದ ಮೇಲೆ ಪರಿಶೀಲಿಸಲಾಗುತ್ತದೆ."
     },
-    "premiumGuard": {
-      "requiresPremium": "ಈ ವೈಶಿಷ್ಟ್ಯಕ್ಕೆ ಪ್ರೀಮಿಯಂ ಯೋಜನೆ ಅಗತ್ಯ."
+    "nonRefundable": {
+      "title": "ರಿಫಂಡ್ ನೀಡಲಾಗದವು",
+      "body": "ಬಳಸದ ಸಮಯ, ಭಾಗಶಃ ಚಂದಾದಾರಿಕೆ ಅವಧಿಗಳು ಅಥವಾ ನವೀಕರಣಕ್ಕೂ ಮುನ್ನ ರದ್ದುಪಡಿಸಲು ವಿಫಲವಾದ ಸಂದರ್ಭಗಳಲ್ಲಿ ಸಾಮಾನ್ಯವಾಗಿ ರಿಫಂಡ್ ನೀಡುವುದಿಲ್ಲ."
     },
-    "aiSettings": {
-      "title": "AI ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
-      "controlIntro": "ಅನುವಾದ, ಸ್ಮಾರ್ಟ್ ಪ್ರತಿಕ್ರಿಯೆಗಳು ಮತ್ತು ForiaBot ಸ್ವಯಂ-ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ನಿಯಂತ್ರಿಸಿ.",
-      "save": "AI ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸು",
-      "autoTranslateIncoming": "ಒಳಬರುವ ಸಂದೇಶಗಳನ್ನು ಸ್ವಯಂ-ಅನುವಾದಿಸು",
-      "showOriginalAlongside": "ಅನುವಾದದ ಜೊತೆಗೆ ಮೂಲ ಟೆಕ್ಸ್ಟ್ ತೋರಿಸು",
-      "enableSmartReplies": "ಸ್ಮಾರ್ಟ್ ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸು",
-      "smartRepliesHint": "AI ಗೆ ಸಲಹೆಗಳನ್ನು ನೀಡಲು ಕಳೆದ ಕೆಲವು ಸ್ವೀಕೃತ ಸಂದೇಶಗಳನ್ನು (ಸ್ಯಾನಿಟೈಸ್ಡ್) ಕಳುಹಿಸಿ.",
-      "maskProfanity": "AI ಸಲಹೆಗಳಲ್ಲಿ ಅಪಶಬ್ದವನ್ನು ಮುಸುಕು",
-      "maskProfanityHint": "ಆನ್ ಆದಾಗ, AI ನೀಡುವ ಸಲಹೆಗಳಲ್ಲಿ ಫ್ಲ್ಯಾಗ್ ಮಾಡಿದ ಪದಗಳನ್ನು ಮುಸುಕು ಹಾಕಲಾಗುತ್ತದೆ",
-      "foriaBot": "ForiaBot ಸ್ವಯಂ-ಪ್ರತಿಕ್ರಿಯೆಕಾರ",
-      "enableAutoReply": "ನಾನು ಬ್ಯುಸಿ ಆಗಿದ್ದಾಗ ಸ್ವಯಂ-ಪ್ರತಿಕ್ರಿಯೆ ಸಕ್ರಿಯಗೊಳಿಸು",
-      "autoReplyMode": "ಸ್ವಯಂ-ಪ್ರತಿಕ್ರಿಯೆ ಮೋಡ್",
-      "cooldownSeconds": "ಕೂಲ್‌ಡೌನ್ (ಸೆಕೆಂಡುಗಳು)",
-      "off": "ಆಫ್",
-      "on": "ಆನ್",
-      "signature": "ಸಹಿ",
-      "autoReply": "ಸ್ವಯಂ-ಪ್ರತಿಕ್ರಿಯೆ",
-      "activeUntilOptional": "ಸಕ್ರಿಯವಾಗಿರುವುದು (ಐಚ್ಛಿಕ)",
-      "saved": "AI ಆದ್ಯತೆಗಳು ಉಳಿಸಲಾಗಿದೆ",
-      "saveFailed": "AI ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸುವುದು ವಿಫಲವಾಗಿದೆ",
-      "translateOff": "ಆಫ್",
-      "translateTagged": "@translated ಅಥವಾ ಟ್ಯಾಗ್ ಮಾಡಿದ್ದು ಮಾತ್ರ",
-      "translateAll": "ಎಲ್ಲಾ ಒಳಬರುವ ಸಂದೇಶಗಳನ್ನು ಅನುವಾದಿಸು",
-      "modeDm": "1:1 ಚಾಟ್‌ಗಳು ಮಾತ್ರ",
-      "modeMention": "ನಾನು @mentioned ಆದಾಗ ಮಾತ್ರ",
-      "modeAll": "ಎಲ್ಲಾ ಒಳಬರುವ ಸಂದೇಶಗಳು"
+    "thirdParty": {
+      "title": "ಮೂರನೇ ವ್ಯಕ್ತಿಯ ಖರೀದಿಗಳು",
+      "body": "Apple App Store ಮುಂತಾದ ಮೂರನೇ ವ್ಯಕ್ತಿ ವೇದಿಕೆಗಳ ಮೂಲಕ ಖರೀದಿಸಿದರೆ, ರಿಫಂಡ್ ಅನ್ನು ಆ ವೇದಿಕೆಗಳ ಮೂಲಕವೇ ವಿನಂತಿಸಬೇಕು."
     },
-    "accessibilitySettings": {
-      "title": "ಪ್ರವೇಶಿಸುವಿಕೆ & ಎಚ್ಚರಿಕೆಗಳು",
-      "accessibility": "ಪ್ರವೇಶಿಸುವಿಕೆ",
-      "accessibilityDesc": "ಧ್ವನಿಯನ್ನು ಅವಲಂಬಿಸದೆ Chatforia ಅನ್ನು ಬಳಸಲು ಸುಲಭಗೊಳಿಸುವ ಆಯ್ಕೆಗಳು.",
-      "interfaceFontSize": "ಇಂಟರ್‌ಫೇಸ್ ಫಾಂಟ್ ಗಾತ್ರ",
-      "interfaceFontSizeHelp": "ಸಾಮಾನ್ಯ ಗಾತ್ರದಿಂದ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ. ಪ್ರವೇಶಿಸುವಿಕೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ದೊಡ್ಡ ಟೆಕ್ಸ್ಟ್ ಬಯಸಿದರೆ ಹೆಚ್ಚಿಸಿ.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "ನೋಟಿಫಿಕೇಶನ್‌ಗಳು",
-      "notificationsDesc": "ಸಂದೇಶಗಳು & ಕರೆಗಳಿಗೆ ದೃಶ್ಯ ಎಚ್ಚರಿಕೆಗಳು\nಬ್ಯಾನರ್‌ಗಳು ಮತ್ತು ಟೈಟಲ್ ಬ್ಲಿಂಕ್ ತೋರಿಸಿ ಚಟುವಟಿಕೆ ಕಳೆದುಹೋಗದಂತೆ.",
-      "vibrateOnNew": "ಹೊಸ ಸಂದೇಶಗಳಲ್ಲಿ ವೈಬ್ರೇಟ್ (ಬೆಂಬಲಿತವಾಗಿದ್ದರೆ)\nನೋಟಿಫಿಕೇಶನ್‌ಗಳೊಂದಿಗೆ ಸಾಧನ ವೈಬ್ರೇಷನ್ ಟ್ರಿಗರ್ ಮಾಡಿ.",
-      "flashOnCall": "ಒಳಬರುವ ಕರೆಯಲ್ಲಿ ಸ್ಕ್ರೀನ್ ಫ್ಲ್ಯಾಶ್\nಕರೆ ರಿಂಗ್ ಆದಾಗ ಸಣ್ಣ ಉಜ್ವಲ ಫ್ಲ್ಯಾಶ್.",
-      "liveCaptions": "ಲೈವ್ ಕ್ಯಾಪ್ಷನ್‌ಗಳು (ಕರೆಗಳು)",
-      "captionFontSize": "ಕ್ಯಾಪ್ಷನ್ ಫಾಂಟ್ ಗಾತ್ರ",
-      "captionBackground": "ಕ್ಯಾಪ್ಷನ್ ಬ್ಯಾಕ್‌ಗ್ರೌಂಡ್",
-      "light": "ಲೈಟ್",
-      "dark": "ಡಾರ್ಕ್",
-      "transparent": "ಟ್ರಾನ್ಸ್‌ಪರೆಂಟ್",
-      "voiceNotes": "ಧ್ವನಿ ನೋಟ್‌ಗಳು",
-      "autoTranscribeVoiceNotes": "ಧ್ವನಿ ನೋಟ್‌ಗಳನ್ನು ಸ್ವಯಂ-ಟ್ರಾನ್ಸ್‌ಕ್ರೈಬ್ ಮಾಡು",
-      "autoTranscribeVoiceNotesDesc": "ನೀವು ಸ್ವೀಕರಿಸುವ ಆಡಿಯೊ ಸಂದೇಶಗಳಿಗೆ ಟ್ರಾನ್ಸ್‌ಕ್ರಿಪ್ಟ್ ಲಗತ್ತು ಮಾಡಿ.",
-      "changesSavedInstantly": "ಬದಲಾವಣೆಗಳು ತಕ್ಷಣ ಉಳಿಸಲಾಗುತ್ತವೆ.",
-      "loadFailed": "ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಲೋಡ್ ಮಾಡುವುದು ವಿಫಲವಾಗಿದೆ",
-      "visualAlerts": "ಸಂದೇಶಗಳು & ಕರೆಗಳಿಗೆ ದೃಶ್ಯ ಎಚ್ಚರಿಕೆಗಳು",
-      "visualAlertsDesc": "ಬ್ಯಾನರ್‌ಗಳು ಮತ್ತು ಟೈಟಲ್ ಬ್ಲಿಂಕ್ ತೋರಿಸಿ ಚಟುವಟಿಕೆ ಕಳೆದುಹೋಗದಂತೆ.",
-      "vibrateOnNewShort": "ಹೊಸ ಸಂದೇಶಗಳಲ್ಲಿ ವೈಬ್ರೇಟ್ (ಬೆಂಬಲಿತವಾಗಿದ್ದರೆ)",
-      "vibrateOnNewDesc": "ನೋಟಿಫಿಕೇಶನ್‌ಗಳೊಂದಿಗೆ ಸಾಧನ ವೈಬ್ರೇಷನ್ ಟ್ರಿಗರ್ ಮಾಡಿ.",
-      "flashOnCallShort": "ಒಳಬರುವ ಕರೆಯಲ್ಲಿ ಸ್ಕ್ರೀನ್ ಫ್ಲ್ಯಾಶ್",
-      "flashOnCallDesc": "ಕರೆ ರಿಂಗ್ ಆದಾಗ ಸಣ್ಣ ಉಜ್ವಲ ಫ್ಲ್ಯಾಶ್."
+    "contact": {
+      "title": "ಸಂಪರ್ಕ",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
     },
-    "privacySection": {
-      "strictE2EE": "ಕಟ್ಟುನಿಟ್ಟಾದ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಷನ್",
-      "ciphertextOnlyNote": "ಸರ್ವರ್‌ನಲ್ಲಿ ಕೇವಲ ಸೈಫರ್‌ಟೆಕ್ಸ್ಟ್ ಸಂಗ್ರಹಿಸಿ. AI/ಅನುವಾದ ಮತ್ತು ಮಾಡರೇಶನ್ ಪ್ರಿವ್ಯೂಗಳನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ."
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
     },
-    "linkedDevicesPanel": {
-      "title": "ಲಿಂಕ್ ಮಾಡಿದ ಸಾಧನಗಳು",
-      "noneFound": "ಯಾವುದೇ ಲಿಂಕ್ ಮಾಡಿದ ಸಾಧನಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
-      "refresh": "ಪುನಃ ಲೋಡ್ ಮಾಡು"
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
     },
     "help": {
-      "title": "ಸಹಾಯ",
-      "howCanWeHelp": "ನಾವು ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?",
-      "helpCenter": "ಸಹಾಯ ಕೇಂದ್ರ",
-      "contactUs": "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
-      "quickTopics": "ತ್ವರಿತ ವಿಷಯಗಳು",
-      "searchExamples": "“ಅನುವಾದ”, “ಬ್ಯಾಕಪ್‌ಗಳು” ಅಥವಾ “ಗೌಪ್ಯತೆ” ಗಾಗಿ ಹುಡುಕಿ ಪ್ರಯತ್ನಿಸಿ.",
-      "cantLogin": "ಲಾಗ್ ಇನ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ",
-      "paymentsBilling": "ಪಾವತಿಗಳು/ಬಿಲ್ಲಿಂಗ್",
-      "reportAbuse": "ದುರ್ಬಳಕೆ ವರದಿ ಮಾಡಿ",
-      "searchHelpArticles": "ಸಹಾಯ ಲೇಖನಗಳನ್ನು ಹುಡುಕಿ",
-      "search": "ಹುಡುಕು"
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
     },
-    "peoplePage": {
-      "people": "ಜನರು",
-      "search": "ಹುಡುಕು",
-      "searchPlaceholder": "ಅಲಿಯಾಸ್, ಹೆಸರು, ಬಳಕೆದಾರ ಹೆಸರು ಅಥವಾ ಫೋನ್ ಮೂಲಕ ಹುಡುಕಿ",
-      "filterSaved": "ಉಳಿಸಿದ ಸಂಪರ್ಕಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಿ",
-      "noContactsFound": "ಯಾವುದೇ ಸಂಪರ್ಕಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
-      "quickStart": "ತ್ವರಿತ ಪ್ರಾರಂಭ",
-      "quickStartDesc": "ಪ್ರಾರಂಭಿಸಲು ಕೆಲವು ತ್ವರಿತ ಮಾರ್ಗಗಳು.",
-      "importContacts": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳನ್ನು ಆಮದು ಮಾಡಿ",
-      "add": "ಸೇರಿಸು",
-      "focusSearch": "ಹುಡುಕು ಫೋಕಸ್",
-      "import": "ಆಮದು",
-      "findOrAdd": "ಯಾರನ್ನಾದರೂ ಹುಡುಕಿ ಅಥವಾ ಸೇರಿಸಿ",
-      "searchByPhoneOrUsername": "ಫೋನ್ / ಬಳಕೆದಾರ ಹೆಸರು ಮೂಲಕ ಹುಡುಕಿ",
-      "inviteFriends": "ಸ್ನೇಹಿತರನ್ನು ಆಹ್ವಾನಿಸಿ",
-      "inviteDesc": "ತಕ್ಷಣ ಚಾಟ್ ಪ್ರಾರಂಭಿಸಲು ನಿಮ್ಮ ಆಹ್ವಾನ ಲಿಂಕ್ ಹಂಚಿಕೊಳ್ಳಿ.",
-      "getTheApp": "ಆಪ್ ಪಡೆಯಿರಿ",
-      "getTheAppDesc": "iOS ಮತ್ತು Android ಗಾಗಿ Chatforia ಜೊತೆಗೆ ಚಲಿಸುತ್ತಾ ಸಂಪರ್ಕದಲ್ಲಿರಿ.",
-      "download": "ಡೌನ್‌ಲೋಡ್",
-      "syncTip": "ಸಲಹೆ: ನಿಮ್ಮ ಸಂದೇಶಗಳು ವೆಬ್ ಮತ್ತು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಸಿಂಕ್ ಆಗಿರುತ್ತವೆ."
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
     },
-    "randomChat": {
-      "title": "ಯಾದೃಚ್ಛಿಕ ಚಾಟ್",
-      "description": "ತಕ್ಷಣ ಹೊಸ ವ್ಯಕ್ತಿಯನ್ನು ಭೇಟಿಯಾಗಿ. ನಾವು ನಿಮ್ಮನ್ನು ಹೊಂದಿಸುತ್ತೇವೆ ಮತ್ತು ತಾತ್ಕಾಲಿಕ ಚಾಟ್ ರೂಮ್ ತೆರೆಯುತ್ತೇವೆ. ಮೊದಲು ಅನಾಮಧೇಯವಾಗಿ ಚಾಟ್ ಮಾಡಿ. ಸರಿಯಾಗಿದ್ದರೆ ನಂತರ ಸ್ನೇಹಿತ ಸೇರಿಸಿ.",
-      "findMatch": "ನನಗೆ ಹೊಂದಾಣಿಕೆ ಹುಡುಕಿ",
-      "chatWithForia": "Foria ಜೊತೆ ಚಾಟ್ ಮಾಡಿ",
-      "chatWithForiaBot": "ForiaBot ಜೊತೆ ಚಾಟ್ ಮಾಡಿ",
-      "cancel": "ರದ್ದುಮಾಡು",
-      "close": "ಮುಚ್ಚು",
-      "searching": "ಹುಡುಕುತ್ತಿದೆ...",
-      "finding": "ಹುಡುಕುತ್ತಿದೆ...",
-      "looking": "ಯಾರನ್ನಾದರೂ ಹುಡುಕುತ್ತಿದೆ...",
-      "startingForia": "Foria ಜೊತೆ ಚಾಟ್ ಪ್ರಾರಂಭಿಸುತ್ತಿದೆ...",
-      "partnerDisconnected": "ನಿಮ್ಮ ಪಾಲುದಾರರು ಡಿಸ್‌ಕನೆಕ್ಟ್ ಆಗಿದ್ದಾರೆ.",
-      "noPartner": "ಈಗ ಯಾವುದೇ ಪಾಲುದಾರ ಕಂಡುಬಂದಿಲ್ಲ.",
-      "connectedTo": "{{name}} ಜೊತೆ ಸಂಪರ್ಕಿಸಲಾಗಿದೆ",
-      "connected": "ಸಂಪರ್ಕಿಸಲಾಗಿದೆ",
-      "idle": "ಐಡಲ್",
-      "partnerLeft": "ಪಾಲುದಾರರು ಬಿಟ್ಟುಹೋದರು.",
-      "stopped": "ನಿಲ್ಲಿಸಲಾಗಿದೆ.",
-      "skip": "ಸ್ಕಿಪ್",
-      "save": "ಉಳಿಸು",
-      "saveGuard": "ಮಾನವ-ಮಾನವ ಚಾಟ್‌ಗಳನ್ನು ಮಾತ್ರ ಉಳಿಸಬಹುದು",
-      "youAreChattingWith": "ನೀವು {{name}} ಜೊತೆ ಚಾಟ್ ಮಾಡುತ್ತಿದ್ದೀರಿ",
-      "bot": "ಬಾಟ್",
-      "leave": "ಬಿಡಿ",
-      "sayHi": "ಹಾಯ್ ಹೇಳಿ 👋",
-      "you": "ನೀವು",
-      "typeMessage": "ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ",
-      "send": "ಕಳುಹಿಸು",
-      "partner": "ಪಾಲುದಾರ",
-      "withRia": "Ria ಜೊತೆ",
-      "chatWithRia": "Ria ಜೊತೆ ಚಾಟ್ ಮಾಡಿ",
-      "startingRia": "Ria ಜೊತೆ ಚಾಟ್ ಪ್ರಾರಂಭಿಸುತ್ತಿದೆ...",
-      "ageDisclaimer": "ನಾವು ಕೇವಲ ವಯಸ್ಸು ಶ್ರೇಣಿ ಸಂಗ್ರಹಿಸುತ್ತೇವೆ (ನಿಮ್ಮ ನಿಖರ ಜನ್ಮ ದಿನಾಂಕವಲ್ಲ). ಇದನ್ನು ಯಾದೃಚ್ಛಿಕ ಚಾಟ್ ಜೋಡಣೆಗಳನ್ನು ಸಮಂಜಸವಾಗಿರಿಸಲು ಬಳಸಲಾಗುತ್ತದೆ. ಜನರೊಂದಿಗೆ ಹೊಂದಾಣಿಕೆಯಾಗಲು (RiaBot ಮಾತ್ರವಲ್ಲ), ಪ್ರೊಫೈಲ್ → ವಯಸ್ಸು & ಯಾದೃಚ್ಛಿಕ ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮ ವಯಸ್ಸು ಬ್ಯಾಂಡ್ ಸೆಟ್ ಮಾಡಿ.",
-      "ageBandRequired": "ಜನರೊಂದಿಗೆ ಹೊಂದಾಣಿಕೆಯಾಗಲು ಪ್ರೊಫೈಲ್ → ವಯಸ್ಸು & ಯಾದೃಚ್ಛಿಕ ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮ ವಯಸ್ಸು ಶ್ರೇಣಿ ಸೆಟ್ ಮಾಡಿ.",
-      "ageBandCallout": "ಜನರೊಂದಿಗೆ ಹೊಂದಾಣಿಕೆಯಾಗಲು (RiaBot ಮಾತ್ರವಲ್ಲ), ಸೆಟ್ಟಿಂಗ್‌ಗಳು → ವಯಸ್ಸು & ಯಾದೃಚ್ಛಿಕ ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮ ವಯಸ್ಸು ಬ್ಯಾಂಡ್ ಸೆಟ್ ಮಾಡಿ.",
-      "subtitle": "ತಕ್ಷಣ ಹೊಸ ವ್ಯಕ್ತಿಯನ್ನು ಭೇಟಿಯಾಗಿ ಅಥವಾ Ria ಜೊತೆ ಚಾಟ್ ಮಾಡಲು ಆಯ್ಕೆಮಾಡಿ.",
-      "start": "ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭಿಸಿ",
-      "matching": "ಹೊಂದಾಣಿಕೆಯಾಗುತ್ತಿದೆ...",
-      "setAge": "ಜನರೊಂದಿಗೆ ಹೊಂದಾಣಿಕೆಯಾಗಲು ಪ್ರೊಫೈಲ್ → ವಯಸ್ಸು & ಯಾದೃಚ್ಛಿಕ ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮ ವಯಸ್ಸು ಶ್ರೇಣಿ ಸೆಟ್ ಮಾಡಿ.",
-      "next": "ಮುಂದಿನ ವ್ಯಕ್ತಿ",
-      "addFriend": "ಸ್ನೇಹಿತ ಸೇರಿಸಿ",
-      "requested": "ವಿನಂತಿಸಲಾಗಿದೆ",
-      "messageRia": "Ria ಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ...",
-      "messageMatch": "ನಿಮ್ಮ ಹೊಂದಾಣಿಕೆಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    }
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

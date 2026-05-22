@@ -7,10 +7,24 @@
     "cancelAria": "Kansel",
     "copy": "Kopi",
     "copied": "Kopi pinis!",
-    "errorWithMessage": "Rong: {{message}}"
+    "errorWithMessage": "Rong: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Go stret long as bilong samting"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Key backup i kamap pinis na i daunloud ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "Lusim fail na givim password.",
     "imported": "Praivet key i go insait long dispela divais. Yu inap ridim olpela mesej nau.",
     "enterPassword": "Givim password bilong akant bilong yu bai mipela ken mekim sekur backup bilong key."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Sekur mesej bilong eni man, long eni hap",
@@ -88,7 +198,19 @@
       "passwordDescription": "Minimam 6 leta. Yusim strong na wanpela paswod.",
       "smsConsent": "Taim yu mekim nupela akant, yu orait long kisim SMS notis bilong Chatforia akant bilong yu (olsem mesej long ol narapela yusa). Mesenj na data ret i inap kamap. Yu inap stopim eni taim long Setings.",
       "termsLink": "Toms bilong Sevis",
-      "privacyLink": "Praivesi Polisi"
+      "privacyLink": "Praivesi Polisi",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "Long:",
     "enterRecipient": "Givim nem o namba",
@@ -99,11 +221,95 @@
     "addRecipient": "Putim wanpela risipent antap bilong stat…",
     "oneRecipient": "Plis givim wanpela risipent tasol nau.",
     "enterValidRecipient": "Givim nem bilong seved kontak o fon namba.",
-    "sendFailed": "Send i no go. Lukim konsol bilong detels."
+    "sendFailed": "Send i no go. Lukim konsol bilong detels.",
+    "logIn": "Log In",
+    "seePlans": "Lukim plan na pris",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "Taim yu mekim nupela akant, yu orait long kisim SMS notis bilong Chatforia akant bilong yu (olsem mesej long ol narapela yusa). Mesenj na data ret i inap kamap. Yu inap stopim eni taim long Setings.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Hom",
-    "header": "Mesej bilong yu",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "Sendim mesej bilong statim toktok.",
     "sendButton": "Sendim mesej",
     "gifPicker": "Opim GIF piksa",
@@ -114,226 +320,31 @@
     "sendTooltip": "Send",
     "sendTooltipEmpty": "Raitim mesej bilong sendim",
     "send": "Send",
+    "welcomeMessage": "Welkam long Chatforia",
+    "getStarted": "Statim nau",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "Putim nem o namba",
     "addRecipient": "Putim wanpela man kisim antap bilong stat…",
-    "welcomeMessage": "Welkam long Chatforia",
-    "getStarted": "Statim nau"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Polisi bilong Bekim Mani",
-    "lastUpdated": "Las apdet:",
-    "intro": "Long Chatforia, mipela wok long givim gutpela sevis long olgeta yusa. Dispela polisi i tok klia long wanem taim yumi inap bekim mani.",
-    "subscriptions": {
-      "title": "Sabsripson",
-      "body": "Ol sabsripson i save kisim pe long pas taim na i go het oltaim. Yu inap stopim en long wanem taim yu laik long account settings o long platform yu bin baim long en."
-    },
-    "eligibility": {
-      "title": "Ol Rul bilong Bekim Mani",
-      "body": "Mipela inap bekim mani sapos i gat tupela pe nating, rong long pe, o sapos i gat teknikal hevi i stopim yu long yusim ol peid fisa. Mipela save lukluk long olgeta askim wanwan."
-    },
-    "nonRefundable": {
-      "title": "Ol Samting Mipela No Save Bekim",
-      "body": "Planti taim mipela no save bekim mani long taim yu no yusim, hap sabsripson, o sapos yu no stopim bipo taim bilong nupela pe i kamap."
-    },
-    "thirdParty": {
-      "title": "Baia Long Narapela Platform",
-      "body": "Sapos yu bin baim long ol narapela platform olsem Apple App Store, yu mas askim bekim mani stret long ol yet."
-    },
-    "contact": {
-      "title": "Kontak",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Long Chatforia",
-    "description": "Chatforia em wanpela nupela messaging platform bilong mekim toktok i stap seif na long planti tokples...",
-    "valuesTitle": "Ol Samting Mipela Bilip Long En",
-    "privacyTitle": "Praivesi Pastaim",
-    "privacyDesc": "Strongpela encryption na ol praivesi settings yu inap kontrolim",
-    "accessTitle": "Sevis Bilong Olgeta",
-    "accessDesc": "Translation i stap bilong planti tokples",
-    "controlTitle": "Kontrol",
-    "controlDesc": "Ol fisa olsem ol message i lus bihain na read receipts"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Bilong Wanem Messaging Platforms i Bikpela Samting Nau",
-      "intro": "Messaging platforms i kamap wanpela bikpela samting tru long pasin bilong toktok long nau...",
-      "everydayTitle": "Taim Taim Toktok",
-      "everydayDesc": "Ol manmeri i yusim messaging apps olgeta dei...",
-      "speedTitle": "Hariap na Isi",
-      "speedDesc": "Ol message i go kwiktaim...",
-      "globalTitle": "Olgeta Hap bilong Graun",
-      "globalDesc": "Ol dispela platform i bungim ol manmeri long olgeta hap bilong graun...",
-      "privacyTitle": "Praivesi na Kontrol",
-      "privacyDesc": "Ol nupela messaging platform i givim kontrol long yusa...",
-      "futureTitle": "Bihain Taim bilong Messaging",
-      "futureDesc": "Messaging i go het long senis wantaim ol nupela fisa...",
-      "outro": "Chatforia i wokim dispela ol tingting..."
-    },
-
-    "global": {
-      "title": "Bihain Taim bilong Global Toktok",
-      "intro": "Toktok i senis hariap tumas...",
-      "barriersTitle": "Rausim Ol Hevi",
-      "barriersDesc": "Nau ol manmeri inap bung wantaim long olgeta hap bilong graun...",
-      "translationTitle": "Wok bilong Translation Teknoloji",
-      "translationDesc": "Tokples i bin stap olsem hevi bipo...",
-      "realtimeTitle": "Toktok Long Wankain Taim",
-      "realtimeDesc": "Hariap em i wanpela bikpela samting...",
-      "privacyTitle": "Praivesi na Sefti",
-      "privacyDesc": "Ol yusa i laik save ol toktok bilong ol i stap seif...",
-      "futureTitle": "Wanem Bai Kamap Bihain",
-      "futureDesc": "Bihain taim bilong toktok bai gat moa nupela fisa...",
-      "outro": "Ol platform olsem Chatforia i stap insait long dispela senis..."
-    },
-
-    "index": {
-      "title": "Chatforia Blog",
-      "intro": "Lukim ol save long toktok...",
-      "post1": "Olsem Wanem long Toktok Seif Long Intanet",
-      "post2": "Bihain Taim bilong Global Toktok",
-      "post3": "Bilong Wanem Messaging Platforms i Bikpela Samting"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Olsem Wanem Chatforia i Wok",
-    "intro": "Chatforia i wokim bilong mekim toktok i kamap isi...",
-    "step1Title": "1. Mekim Account",
-    "step1Desc": "Sainap wantaim email o username...",
-    "step2Title": "2. Statim Toktok",
-    "step2Desc": "Bung wantaim ol arapela...",
-    "step3Title": "3. Hariap Toktok",
-    "step3Desc": "Ol message i go kwiktaim...",
-    "step4Title": "4. Global Toktok",
-    "step4Desc": "Translation i helpim ol yusa...",
-    "step5Title": "5. Stap Long Kontrol",
-    "step5Desc": "Lukautim ol settings bilong yu..."
-  },
-
-  "safety": {
-    "title": "Sefti na Komyuniti Rul",
-    "intro": "Chatforia i laik mekim wanpela ples we olgeta i stap seif...",
-    "respectTitle": "Gutpela Pasin long Toktok",
-    "respectDesc": "Ol yusa i mas toktok wantaim rispek...",
-    "prohibitedTitle": "Ol Samting i Tambu",
-    "prohibited": {
-      "illegal": "Ol samting i brukim lo",
-      "harassment": "Hewi o bullying",
-      "hate": "Tok nogut o diskriminisen",
-      "explicit": "Nogut o bagarapim konten",
-      "spam": "Spam o trik pasin"
-    },
-    "toolsTitle": "Sefti Tul",
-    "tools": {
-      "report": "Ripotim nogut pasin",
-      "block": "Blokim ol yusa",
-      "control": "Kontrolim praivesi settings"
-    },
-    "enforcementTitle": "Lo Bai Wok",
-    "enforcementDesc": "Mipela inap mekim aksen long ol account..."
-},
-  "chat": {
-    "selectPrompt": "Lusim wanpela tekst o chat rum bilong statim toktok",
-    "newMessages": "Nupela mesej",
-    "typing": "{{name}} i raitim…",
-    "emptyTitle": "Mesej bilong yu",
-    "emptySubtitle": "Sendim mesej bilong statim toktok.",
-    "startChatButton": "Sendim mesej",
-    "mediaAttachment": "Media samting i pas wantaim",
-    "thisUser": "dispela yusa",
-    "blockConfirm": "Blokim {{name}}? Yu no inap kisim mesej long em.",
-    "blockedUser": "Blokim {{name}} pinis.",
-    "blockError": "I no inap painim yusa bilong blokim.",
-    "blockFailed": "Blok i no go (bekend i no redi yet).",
-    "encryptedUnavailable": "Enkripted mesej (key i no stap)",
-    "unlockToView": "Opim key bilong yu bilong lukim dispela mesej"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Of"
-    },
-    "freeLimit": "Fri plan limit: auto-dilit i go inap 1 dei. I stap long 1d.",
-    "premiumLimit": "Maks auto-dilit bilong Premium i 30 dei. I stap long 30d.",
-    "nothingToSend": "Raitim mesej o atachim fail bilong sendim.",
-    "encryptionFailed": "Enkripsen i no go. Mesej i no send.",
-    "sent": "Mesej i go pinis.",
-    "placeholder": "Raitim mesej…",
-    "voiceAdded": "Voes not i go insait",
-    "attachmentAdded": "Samting i pas wantaim i go insait",
-    "autoDelete": "Auto-dilit",
-    "typeToSend": "Raitim mesej bilong sendim",
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
     "send": "Send",
-    "sendWithEnter": "Send (Enter)",
-    "attachment": "atachment",
-    "caption": "Kepsan (opsen)",
-    "remove": "Rausim",
-    "clear": "Klia",
-    "gif": "GIF",
-    "sticker": "Stika",
-    "errors": {
-      "attachmentTooLarge": "Atachment i bikpela tumas. Traim smol fail.",
-      "unsupportedFile": "Fail kain i no inap.",
-      "rateLimit": "Yu sendim mesej hariap tumas. Plis go slou.",
-      "validation": "Rong. Plis lukim mesej bilong yu na traim gen.",
-      "failedToSend": "Send i no go. Yu inap traim gen long dispela bol."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Seved Kontaks",
-    "refreshAria": "Rifres kontaks",
-    "filterPlaceholder": "Filta seved kontaks…",
-    "filterAria": "Filta seved kontaks",
-    "noContactsFound": "Nogat kontak i painim.",
-    "externalContact": "Ekstanal kontak",
-    "notJoined": "Dispela kontak i no joinim Chatforia yet.",
-    "couldNotStart": "I no inap statim toktok. Plis traim gen.",
-    "startFailed": "Statim toktok i no go. Plis traim gen.",
-    "deleted": "Kontak i raus pinis.",
-    "deleteFailed": "Rausim kontak i no go. Plis traim gen.",
-    "aliasUpdated": "Alias i apdet pinis.",
-    "updateAliasFailed": "Apdet alias i no go. Plis traim gen.",
-    "selectContact": "Lusim {{name}}",
-    "alias": "Alias",
-    "startChat": "Statim toktok",
-    "message": "Mesej",
-    "delete": "Rausim",
-    "deleteContactAria": "Rausim kontak",
-    "loadFailed": "I no inap lodim kontaks. Plis traim gen.",
-    "loadMore": "Lodim moa",
-    "call": "Kol",
-    "callStarted": "Kolim dispela namba long Chatforia namba bilong yu…",
-    "callFailed": "Statim kol i no go. Plis traim gen."
-  },
-  "startChatModal": {
-    "title": "Statim toktok",
-    "searchPlaceholder": "Lukim nem, yusaneim, o fon namba",
-    "messageThisPerson": "Mesejim dispela manmeri",
-    "contacts": "Kontaks",
-    "recentInteractions": "Nupela toktok",
-    "noContactsMatch": "Nogat kontak i matim lukim bilong yu.",
-    "noRecentInteractions": "Nogat nupela toktok yet.",
-    "unknown": "Nogat nem",
-    "interactionType": {
-      "message": "Mesej",
-      "call": "Kol",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Putim kontak",
-    "phoneOrUsername": "Fon o yusaneim",
-    "phoneOrUsernamePlaceholder": "olsem +13018019227 o juliannorton",
-    "alias": "Alias (opsen)",
-    "aliasPlaceholder": "olsem Wok, Mama, Mike – Europe",
-    "enterPhoneOrUsername": "Givim fon namba o yusaneim.",
-    "userLookupFailed": "Lukim yusa i no go.",
-    "cannotAddSelf": "Yu no inap putim yu yet olsem kontak.",
-    "failedToAdd": "Putim kontak i no go.",
-    "add": "Putim"
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Random Toktok",
@@ -357,13 +368,151 @@
     "startChatAlt": "Statim nupela toktok",
     "calls": "Kol",
     "video": "Video",
-    "voicemail": "Voismeil"
+    "voicemail": "Voismeil",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Nupela Stetus",
     "logout": "Log Aut",
     "help": "Help",
     "createStatusAria": "Mekim nupela Stetus"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Lusim wanpela tekst o chat rum bilong statim toktok",
+    "newMessages": "Nupela mesej",
+    "typing": "{{name}} i raitim…",
+    "emptyTitle": "Mesej bilong yu",
+    "emptySubtitle": "Sendim mesej bilong statim toktok.",
+    "startChatButton": "Sendim mesej",
+    "mediaAttachment": "Media samting i pas wantaim",
+    "thisUser": "dispela yusa",
+    "blockConfirm": "Blokim {{name}}? Yu no inap kisim mesej long em.",
+    "blockedUser": "Blokim {{name}} pinis.",
+    "blockError": "I no inap painim yusa bilong blokim.",
+    "blockFailed": "Blok i no go (bekend i no redi yet).",
+    "encryptedUnavailable": "Enkripted mesej (key i no stap)",
+    "unlockToView": "Opim key bilong yu bilong lukim dispela mesej",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Of"
+    },
+    "freeLimit": "Fri plan limit: auto-dilit i go inap 1 dei. I stap long 1d.",
+    "premiumLimit": "Maks auto-dilit bilong Premium i 30 dei. I stap long 30d.",
+    "nothingToSend": "Raitim mesej o atachim fail bilong sendim.",
+    "encryptionFailed": "Enkripsen i no go. Mesej i no send.",
+    "sent": "Mesej i go pinis.",
+    "placeholder": "Raitim mesej…",
+    "autoDelete": "Auto-dilit",
+    "typeToSend": "Raitim mesej bilong sendim",
+    "send": "Send",
+    "sendWithEnter": "Send (Enter)",
+    "attachment": "atachment",
+    "caption": "Kepsan (opsen)",
+    "remove": "Rausim",
+    "clear": "Klia",
+    "gif": "GIF",
+    "sticker": "Stika",
+    "errors": {
+      "attachmentTooLarge": "Atachment i bikpela tumas. Traim smol fail.",
+      "unsupportedFile": "Fail kain i no inap.",
+      "rateLimit": "Yu sendim mesej hariap tumas. Plis go slou.",
+      "validation": "Rong. Plis lukim mesej bilong yu na traim gen.",
+      "failedToSend": "Send i no go. Yu inap traim gen long dispela bol.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Voes not i go insait"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Toktok menu",
@@ -378,9 +527,7 @@
     "media": "Media",
     "invitePeople": "Invaitim ol manmeri",
     "roomSettings": "Rum setings",
-     "clearConversation": "Klinim toktok",
-    "clearConversationForMe": "Klinim bilong mi",
-    "clearConversationForEveryone": "Klinim bilong olgeta",
+    "clearConversation": "Klinim toktok",
     "block": "Pasim"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "Tasol long /tr …",
       "all": "Olgeta mesej"
     },
-    "updated": "Setings i apdet pinis"
+    "updated": "Setings i apdet pinis",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Sered media",
@@ -477,6 +635,110 @@
     "markRead": "Makim olsem rid pinis",
     "delete": "Rausim",
     "unreadDotAria": "Nogat rid voismeil mak"
+  },
+  "contactList": {
+    "savedContacts": "Seved Kontaks",
+    "refreshAria": "Rifres kontaks",
+    "filterPlaceholder": "Filta seved kontaks…",
+    "filterAria": "Filta seved kontaks",
+    "noContactsFound": "Nogat kontak i painim.",
+    "externalContact": "Ekstanal kontak",
+    "notJoined": "Dispela kontak i no joinim Chatforia yet.",
+    "couldNotStart": "I no inap statim toktok. Plis traim gen.",
+    "startFailed": "Statim toktok i no go. Plis traim gen.",
+    "deleted": "Kontak i raus pinis.",
+    "deleteFailed": "Rausim kontak i no go. Plis traim gen.",
+    "aliasUpdated": "Alias i apdet pinis.",
+    "updateAliasFailed": "Apdet alias i no go. Plis traim gen.",
+    "selectContact": "Lusim {{name}}",
+    "alias": "Alias",
+    "startChat": "Statim toktok",
+    "message": "Mesej",
+    "delete": "Rausim",
+    "deleteContactAria": "Rausim kontak",
+    "loadFailed": "I no inap lodim kontaks. Plis traim gen.",
+    "loadMore": "Lodim moa",
+    "call": "Kol",
+    "callStarted": "Kolim dispela namba long Chatforia namba bilong yu…",
+    "callFailed": "Statim kol i no go. Plis traim gen.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Putim kontak",
+    "phoneOrUsername": "Fon o yusaneim",
+    "phoneOrUsernamePlaceholder": "olsem +13018019227 o juliannorton",
+    "alias": "Alias (opsen)",
+    "aliasPlaceholder": "olsem Wok, Mama, Mike – Europe",
+    "enterPhoneOrUsername": "Givim fon namba o yusaneim.",
+    "userLookupFailed": "Lukim yusa i no go.",
+    "cannotAddSelf": "Yu no inap putim yu yet olsem kontak.",
+    "failedToAdd": "Putim kontak i no go.",
+    "add": "Putim"
+  },
+  "startChatModal": {
+    "title": "Statim toktok",
+    "searchPlaceholder": "Lukim nem, yusaneim, o fon namba",
+    "messageThisPerson": "Mesejim dispela manmeri",
+    "contacts": "Kontaks",
+    "recentInteractions": "Nupela toktok",
+    "noContactsMatch": "Nogat kontak i matim lukim bilong yu.",
+    "noRecentInteractions": "Nogat nupela toktok yet.",
+    "unknown": "Nogat nem",
+    "interactionType": {
+      "message": "Mesej",
+      "call": "Kol",
+      "video": "Video"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "Yusa Profil",
@@ -614,13 +876,167 @@
     "voicemailNote": "Voismeil long Chatforia namba bilong yu i stap long Voismeil inboks bilong yu. Yu inap wokim transkrip na forwarding long plan i inap.",
     "portHint": "Yu laik kipim namba bilong yu? Yu inap potim em i go insait long Chatforia Wireless.",
     "wireless": {
-      "manage": "Managim wireless"
+      "manage": "Managim wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Yusa Profil",
       "desc": "Kisim mobail data bilong Chatforia taim yu stap longwe long Wi-Fi.",
-      "cta": "Kisim eSIM / Sopim QR"
-    }
+      "cta": "Kisim eSIM / Sopim QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -672,7 +1088,685 @@
     "expiresIn": "I stap inap {{days}} dei",
     "exhausted": "Data bilong yu i pinis. Baim nupela pak bilong yusim mobail data.",
     "buyPack": "Baim data pak",
-    "esimPackLabel": "eSIM pak"
+    "esimPackLabel": "eSIM pak",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "Lodim…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Go Premium",
+    "description": "Kisim strong fita & rausim ads.",
+    "cta": "Apgreid",
+    "upgrade": "Apgreid",
+    "upgradeAria": "Apgreid long Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "Apgreid",
+    "titleLoggedIn": "Apgreid",
+    "titlePublic": "Pris",
+    "h1": "Chatforia Pris & Plan",
+    "h1Subtitle": "Stat wantaim fri plan i gat ads. Go nogat ads wantaim Plus, o kisim ful powa fita wantaim Premium.",
+    "subtitle": "Lusim wanpela app plan, putim data pak bilong yu, o sered data wantaim famili — olgeta long wanpela ples.",
+    "subtitle.app": "Stat wantaim fri plan i gat ads. Go nogat ads wantaim Plus, o kisim ful powa fita wantaim Premium.",
+    "subtitle.mobile": "Putim global eSIM data bai Chatforia i wok yet taim yu stap longwe long Wi-Fi.",
+    "subtitle.family": "Mekim sered data pul bilong famili na managim yusim bilong olgeta long wanpela ples.",
+    "perMonth": "mun",
+    "perYear": "yia",
+    "goPremium": "Go Premium",
+    "benefitsLine": "Kisim strong fita & rausim ads.",
+    "ctaText": "Apgreid",
+    "aria": "Apgreid long Chatforia Premium",
+    "toggle": {
+      "monthly": "Munli",
+      "annual": "Yia (Sevim 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Sabskripsen i pinis",
+      "body": "Bai yu go bek long Fri long",
+      "keepPlanCta": "Kipim {{plan}}",
+      "manageBillingCta": "Managim bilim"
+    },
+    "billing": {
+      "opening": "Opim…",
+      "manage": "Managim Bilim"
+    },
+    "checkout": {
+      "redirecting": "Goi…"
+    },
+    "auth": {
+      "continue": "Go long log in",
+      "createAccount": "Mekim nupela akant",
+      "signIn": "Sain in"
+    },
+    "cta": {
+      "aria": "Lusim plan",
+      "getPlus": "Apgreid long Plus",
+      "upgradeMonthly": "Apgreid Munli",
+      "upgradeAnnual": "Apgreid Yia",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "App plan",
+      "mobile": "Mobail (eSIM)",
+      "family": "Famili plan"
+    },
+    "plans": {
+      "free": {
+        "title": "Fri",
+        "price": "$0",
+        "desc": "Statim mesej fri. Gutpela sapos yu laik traiim Chatforia tasol.",
+        "features": {
+          "chat": "Real-taim 1:1 na grup toktok, plus voes na video kol",
+          "media": "Serim piksa, voes mesej, na sot video",
+          "ai": "AI smat rispong na kwik tanim tok (fair yus)",
+          "disappearing": "Mesej i stap liklik taim na besik praivesi kontrol",
+          "ads": "Fri oltaim wantaim ads insait long app"
+        },
+        "ctaCurrent": "Plan nau",
+        "ctaManage": "Managim long bilim",
+        "ctaPublic": "Statim — go long log in",
+        "aria": "Fri plan"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Olgeta besik, nogat ads. Gutpela bilong de-de mesej na kol.",
+        "features": {
+          "allFree": "Olgeta long Fri, nogat ads",
+          "forwarding": "Forwardim kol na rait long tru fon namba bilong yu",
+          "history": "Longpela mesej histori (i go inap 6 mun)",
+          "support": "Kwiksopta taim samting i bagarap"
+        },
+        "badge": "Popula",
+        "cta": "Go Nogat Ads",
+        "ctaPublic": "Kisim Plus — go long log in",
+        "aria": "Apgreid long Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Munli)",
+        "price": "$11.99",
+        "desc": "Ful Chatforia: AI strong tul, kastom, na prioreti sopta.",
+        "features": {
+          "plusAll": "Olgeta long Plus",
+          "themes": "Kisim ol premium kala tema na app kastom",
+          "ai": "Premium tasol AI powa tul bilong rait gen, smat rispong, na samari",
+          "support": "Prioreti sopta taim yu nidim tru",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Rekomend",
+        "cta": "Apgreid (Munli)",
+        "ctaPublic": "Kisim Premium — go long log in",
+        "aria": "Apgreid long Premium Munli"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Yia)",
+        "price": "$99",
+        "desc": "Sevim moa taim i bilim yia — wantaim ekstra kala tema, AI tul, na prioreti sopta.",
+        "features": {
+          "allPremium": "Olgeta long Premium Munli — wantaim ekstra kala tema",
+          "annualBilling": "Bilim wanpela taim long yia",
+          "save25": "Sevim inap 30% long munli",
+          "bestFor": "Gutpela bilong strong yusa, wok longwe, na hevi travel",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Sevim 30%",
+        "cta": "Apgreid (Yia)",
+        "ctaPublic": "Sevim 30% wantaim yia — go long log in",
+        "aria": "Apgreid long Premium Yia",
+        "disclaimer": "Bilim stret. Kansel eni taim. Nogat hait fii."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Fri",
+      "freeDesc": "Statim mesej fri.",
+      "plusTitle": "Plus",
+      "plusBadge": "Popula",
+      "plusDesc": "Namba wan pris bilong nogat ads.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Ful fita, ringtone, na AI strong tul.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Sevim moa taim i bilim yia.",
+      "annualDisclaimer": "Bilim stret. Kansel eni taim. Nogat hait fii."
+    },
+    "mobile": {
+      "title": "Chatforia Mobail (eSIM data pak)",
+      "subtitle": "Putim global data bilong Chatforia i wok yet taim yu stap longwe long Wi-Fi. Pris i senisim wantaim kantri na kareni bilong yu.",
+      "subtitle.detail": "Lusim wanpela global data pak bai Chatforia i wok yet taim yu travel o stap longwe long Wi-Fi.",
+      "scope": {
+        "local": "Lokal",
+        "europe": "Yurop",
+        "global": "Global",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "Lokal = {{country}}",
+      "localEqualsFallback": "Lokal = kantri bilong yu nau",
+      "perPack": "/ pak",
+      "cta": "Kisim dispela data pak",
+      "ctaPublic": "Kisim dispela data pak",
+      "checkout": {
+        "redirecting": "Goi…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Hait-spid data bilong hevi yus",
+          "throttle": "Spid inap go slou bihain long hevi yus",
+          "coverage": "Gutpela kova",
+          "instant": "Kwik eSIM stat",
+          "noContract": "Wanpela pak, nogat kontract"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "eSIM data pak i nidim eSIM-kompatibol na op divais. I stap wantaim fon model, karia, na kantri. Kova na spid i senisim wantaim ples.",
+        "fairUse": "I stap long fair-yus polisi na lokal limit"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "Kompa eSIM data pak",
+        "col": {
+          "pack": "Pak",
+          "data": "Data i stap insait",
+          "bestFor": "Gutpela bilong"
+        },
+        "disclaimer": "Tru data yus i depend long hau yu yusim Chatforia (voes, video, media, na narapela app long fon bilong yu)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Namba wan pris long GB"
+      },
+      "feature": {
+        "instant": "Kwik eSIM stat",
+        "coverage": "Gutpela kova",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Lokal",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Yurop",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Global",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Stat pak",
+        "data": "3 GB",
+        "bestFor": "Sot trip, liklik mesej, na liklik kol"
+      },
+      "medium": {
+        "title": "Travel pak",
+        "data": "5 GB",
+        "bestFor": "Wikend trip, regul VoIP kol, na map"
+      },
+      "large": {
+        "title": "Powa pak",
+        "data": "10 GB",
+        "bestFor": "Hevi toktok, kol, video, na hotspot yus"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Chatforia Famili (sered data)",
+      "subtitle": "Sered wanpela data pul long famili bilong yu. Wanpela bilim, planti Chatforia akant, global kova.",
+      "perPack": "/ pak",
+      "small": {
+        "title": "Famili Smol",
+        "desc": "I gat 20 GB sered hait-spid data — gutpela bilong 2–3 liklik yusa.",
+        "price": "$29.99",
+        "aria": "Baim Famili Smol pak"
+      },
+      "medium": {
+        "title": "Famili Midium",
+        "desc": "I gat 40 GB sered hait-spid data — gutpela bilong 3–5 aktiv memba.",
+        "price": "$49.99",
+        "aria": "Baim Famili Midium pak"
+      },
+      "large": {
+        "title": "Famili Bikpela",
+        "desc": "I gat 80 GB sered hait-spid data — bilong strong famili we i stap oltaim online.",
+        "price": "$84.99",
+        "aria": "Baim Famili Bikpela pak"
+      },
+      "feature": {
+        "shared": "Sered data pul bilong famili bilong yu",
+        "members": "Invaitim inap 4 narapela memba",
+        "membersMore": "Gutpela bilong 3–5 aktiv memba",
+        "manage": "Managim limit bilong wanwan memba",
+        "topUp": "Putim moa pak eni taim",
+        "bestValue": "Namba wan pris long GB",
+        "fairUse": "I stap long fair-yus polisi na lokal limit"
+      },
+      "disclaimer": "Famili pak i mekim o top ap sered data pul. Yu inap invaitim o rausim memba eni taim.",
+      "footnote": "Famili pak i sered wanpela data pul long link Chatforia akant. I stap wantaim kantri na lokal lo."
+    },
+    "why": {
+      "title": "Wai ol man i senisim i go long Chatforia",
+      "subtitle": "Chatforia i givim tru fon namba, smat tanim tok, na kwik rot bilong go nogat ads taim yu redi.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Liklik ads long Fri, simpol Plus apgreid taim yu redi, na Premium tul TextNow i no gat."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Moden app, global-fos design, na tanim tok insait long app — nogat olpela kol forwarding."
+        },
+        "messengers": {
+          "title": "Chatforia vs chat app",
+          "body": "Rait tru fon namba — nogat tasol app yusa — wantaim AI na stetus. Gutpela sapos yu kam long app olsem TextFree o TextMe."
+        }
+      },
+      "tableTitle": "Hau Chatforia i kompa",
+      "col": {
+        "feature": "Fita",
+        "chatforia": "I go inap 12+ mun",
+        "textnow": "I senisim wantaim akant",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "Fri fon namba",
+        "translation": "Tanim tok insait long app",
+        "aiTools": "AI tul (rait gen, rispong, samari)",
+        "ads": "Nogat ads opsen",
+        "history": "Mesej histori"
+      },
+      "yes": "Yes",
+      "no": "Nogat",
+      "yesPremium": "Yes (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "I stap liklik",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "I go inap 12+ mun",
+        "textnow": "I senisim wantaim akant",
+        "voice": "I stap liklik / akant bes"
+      },
+      "disclaimer": "Kompa i bes long pablik infomesen na inap senisim. Narapela fri rait app olsem TextFree o TextMe i olsem TextNow tasol."
+    },
+    "faq": {
+      "title": "Pris & plan FAQ",
+      "free": {
+        "q": "Fri plan i tru fri?",
+        "a": "Yes. Fri plan i gat Chatforia namba, kol, na mesej wantaim ads. Yu inap stap long Fri longtaim, o apgreid bilong rausim ads na kisim moa fita."
+      },
+      "plusPremium": {
+        "q": "Wanem i diferens namel long Plus na Premium?",
+        "a": "Plus i rausim ads na mekim mesej histori i longpela — gutpela bilong de-de yus. Premium i putim ekstra kastom, AI tul bilong rait gen na rispong, na prioreti sopta bilong hevi yusa."
+      },
+      "esim": {
+        "q": "Wanem hap eSIM data pak i wok?",
+        "a": "Chatforia Mobail i yusim global eSIM kova. I stap wantaim kantri na divais bilong yu. Yu inap lukim ol opsen taim yu statim insait long app."
+      },
+      "cancel": {
+        "q": "Inap mi kansel o senisim plan eni taim?",
+        "a": "Yes. Yu inap managim o kansel sabskripsen long bilim pej insait long app. Senis i kamap long pinis bilong bilim taim bilong yu nau."
+      },
+      "family": {
+        "q": "Hau Famili pak i wok?",
+        "a": "Famili pak i mekim wanpela sered data pul long planti Chatforia akant. Wanpela man i peim bilim, na yu inap invaitim o rausim memba na setim limit bilong wanwan."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "Famili",
@@ -745,1053 +1839,618 @@
       "error": "I no inap putim yu insait long famili. Invait i no stret o i pinis."
     }
   },
-  "premium": {
-    "heading": "Go Premium",
-    "description": "Kisim strong fita & rausim ads.",
-    "cta": "Apgreid",
-    "upgrade": "Apgreid",
-    "upgradeAria": "Apgreid long Chatforia Premium"
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "Apgreid",
-    "titleLoggedIn": "Apgreid",
-    "titlePublic": "Pris",
-    "h1": "Chatforia Pris & Plan",
-    "h1Subtitle": "Stat wantaim fri plan i gat ads. Go nogat ads wantaim Plus, o kisim ful powa fita wantaim Premium.",
-    "subtitle": "Lusim wanpela app plan, putim data pak bilong yu, o sered data wantaim famili — olgeta long wanpela ples.",
-    "subtitle.app": "Stat wantaim fri plan i gat ads. Go nogat ads wantaim Plus, o kisim ful powa fita wantaim Premium.",
-    "subtitle.mobile": "Putim global eSIM data bai Chatforia i wok yet taim yu stap longwe long Wi-Fi.",
-    "subtitle.family": "Mekim sered data pul bilong famili na managim yusim bilong olgeta long wanpela ples.",
-    "perMonth": "mun",
-    "perYear": "yia",
-    "goPremium": "Go Premium",
-    "benefitsLine": "Kisim strong fita & rausim ads.",
-    "ctaText": "Apgreid",
-    "aria": "Apgreid long Chatforia Premium",
-    "toggle": {
-      "monthly": "Munli",
-      "annual": "Yia (Sevim 30%)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "Sabskripsen i pinis",
-      "body": "Bai yu go bek long Fri long",
-      "keepPlanCta": "Kipim {{plan}}",
-      "manageBillingCta": "Managim bilim"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "Opim…",
-      "manage": "Managim Bilim"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
     },
-    "checkout": {
-      "redirecting": "Goi…"
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
     },
-    "auth": {
-      "continue": "Go long log in",
-      "createAccount": "Mekim nupela akant",
-      "signIn": "Sain in"
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
     "cta": {
-      "aria": "Lusim plan",
-      "getPlus": "Apgreid long Plus",
-      "upgradeMonthly": "Apgreid Munli",
-      "upgradeAnnual": "Apgreid Yia"
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Olsem Wanem Chatforia i Wok",
+    "intro": "Chatforia i wokim bilong mekim toktok i kamap isi...",
+    "step1Title": "1. Mekim Account",
+    "step1Desc": "Sainap wantaim email o username...",
+    "step2Title": "2. Statim Toktok",
+    "step2Desc": "Bung wantaim ol arapela...",
+    "step3Title": "3. Hariap Toktok",
+    "step3Desc": "Ol message i go kwiktaim...",
+    "step4Title": "4. Global Toktok",
+    "step4Desc": "Translation i helpim ol yusa...",
+    "step5Title": "5. Stap Long Kontrol",
+    "step5Desc": "Lukautim ol settings bilong yu..."
+  },
+  "safety": {
+    "title": "Sefti na Komyuniti Rul",
+    "intro": "Chatforia i laik mekim wanpela ples we olgeta i stap seif...",
+    "respectTitle": "Gutpela Pasin long Toktok",
+    "respectDesc": "Ol yusa i mas toktok wantaim rispek...",
+    "prohibitedTitle": "Ol Samting i Tambu",
+    "prohibited": {
+      "illegal": "Ol samting i brukim lo",
+      "harassment": "Hewi o bullying",
+      "hate": "Tok nogut o diskriminisen",
+      "explicit": "Nogut o bagarapim konten",
+      "spam": "Spam o trik pasin"
     },
-    "section": {
-      "app": "App plan",
-      "mobile": "Mobail (eSIM)",
-      "family": "Famili plan"
+    "toolsTitle": "Sefti Tul",
+    "tools": {
+      "report": "Ripotim nogut pasin",
+      "block": "Blokim ol yusa",
+      "control": "Kontrolim praivesi settings"
     },
-    "plans": {
-      "free": {
-        "title": "Fri",
-        "price": "$0",
-        "desc": "Statim mesej fri. Gutpela sapos yu laik traiim Chatforia tasol.",
-        "features": {
-          "chat": "Real-taim 1:1 na grup toktok, plus voes na video kol",
-          "media": "Serim piksa, voes mesej, na sot video",
-          "ai": "AI smat rispong na kwik tanim tok (fair yus)",
-          "disappearing": "Mesej i stap liklik taim na besik praivesi kontrol",
-          "ads": "Fri oltaim wantaim ads insait long app"
-        },
-        "ctaCurrent": "Plan nau",
-        "ctaManage": "Managim long bilim",
-        "ctaPublic": "Statim — go long log in",
-        "aria": "Fri plan"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Olgeta besik, nogat ads. Gutpela bilong de-de mesej na kol.",
-        "features": {
-          "allFree": "Olgeta long Fri, nogat ads",
-          "forwarding": "Forwardim kol na rait long tru fon namba bilong yu",
-          "history": "Longpela mesej histori (i go inap 6 mun)",
-          "support": "Kwiksopta taim samting i bagarap"
-        },
-        "badge": "Popula",
-        "cta": "Go Nogat Ads",
-        "ctaPublic": "Kisim Plus — go long log in",
-        "aria": "Apgreid long Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Munli)",
-        "price": "$11.99",
-        "desc": "Ful Chatforia: AI strong tul, kastom, na prioreti sopta.",
-        "features": {
-          "plusAll": "Olgeta long Plus",
-          "themes": "Kisim ol premium kala tema na app kastom",
-          "ai": "Premium tasol AI powa tul bilong rait gen, smat rispong, na samari",
-          "support": "Prioreti sopta taim yu nidim tru"
-        },
-        "badge": "Rekomend",
-        "cta": "Apgreid (Munli)",
-        "ctaPublic": "Kisim Premium — go long log in",
-        "aria": "Apgreid long Premium Munli"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Yia)",
-        "price": "$99",
-        "desc": "Sevim moa taim i bilim yia — wantaim ekstra kala tema, AI tul, na prioreti sopta.",
-        "features": {
-          "allPremium": "Olgeta long Premium Munli — wantaim ekstra kala tema",
-          "annualBilling": "Bilim wanpela taim long yia",
-          "save25": "Sevim inap 30% long munli",
-          "bestFor": "Gutpela bilong strong yusa, wok longwe, na hevi travel"
-        },
-        "badge": "Sevim 30%",
-        "cta": "Apgreid (Yia)",
-        "ctaPublic": "Sevim 30% wantaim yia — go long log in",
-        "aria": "Apgreid long Premium Yia",
-        "disclaimer": "Bilim stret. Kansel eni taim. Nogat hait fii."
-      }
+    "enforcementTitle": "Lo Bai Wok",
+    "enforcementDesc": "Mipela inap mekim aksen long ol account..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Bilong Wanem Messaging Platforms i Bikpela Samting Nau",
+      "intro": "Messaging platforms i kamap wanpela bikpela samting tru long pasin bilong toktok long nau...",
+      "everydayTitle": "Taim Taim Toktok",
+      "everydayDesc": "Ol manmeri i yusim messaging apps olgeta dei...",
+      "speedTitle": "Hariap na Isi",
+      "speedDesc": "Ol message i go kwiktaim...",
+      "globalTitle": "Olgeta Hap bilong Graun",
+      "globalDesc": "Ol dispela platform i bungim ol manmeri long olgeta hap bilong graun...",
+      "privacyTitle": "Praivesi na Kontrol",
+      "privacyDesc": "Ol nupela messaging platform i givim kontrol long yusa...",
+      "futureTitle": "Bihain Taim bilong Messaging",
+      "futureDesc": "Messaging i go het long senis wantaim ol nupela fisa...",
+      "outro": "Chatforia i wokim dispela ol tingting..."
     },
-    "marketing": {
-      "freeTitle": "Fri",
-      "freeDesc": "Statim mesej fri.",
-      "plusTitle": "Plus",
-      "plusBadge": "Popula",
-      "plusDesc": "Namba wan pris bilong nogat ads.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Ful fita, ringtone, na AI strong tul.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Sevim moa taim i bilim yia.",
-      "annualDisclaimer": "Bilim stret. Kansel eni taim. Nogat hait fii."
+    "global": {
+      "title": "Bihain Taim bilong Global Toktok",
+      "intro": "Toktok i senis hariap tumas...",
+      "barriersTitle": "Rausim Ol Hevi",
+      "barriersDesc": "Nau ol manmeri inap bung wantaim long olgeta hap bilong graun...",
+      "translationTitle": "Wok bilong Translation Teknoloji",
+      "translationDesc": "Tokples i bin stap olsem hevi bipo...",
+      "realtimeTitle": "Toktok Long Wankain Taim",
+      "realtimeDesc": "Hariap em i wanpela bikpela samting...",
+      "privacyTitle": "Praivesi na Sefti",
+      "privacyDesc": "Ol yusa i laik save ol toktok bilong ol i stap seif...",
+      "futureTitle": "Wanem Bai Kamap Bihain",
+      "futureDesc": "Bihain taim bilong toktok bai gat moa nupela fisa...",
+      "outro": "Ol platform olsem Chatforia i stap insait long dispela senis..."
     },
-    "mobile": {
-      "title": "Chatforia Mobail (eSIM data pak)",
-      "subtitle": "Putim global data bilong Chatforia i wok yet taim yu stap longwe long Wi-Fi. Pris i senisim wantaim kantri na kareni bilong yu.",
-      "subtitle.detail": "Lusim wanpela global data pak bai Chatforia i wok yet taim yu travel o stap longwe long Wi-Fi.",
-      "scope": {
-        "local": "Lokal",
-        "europe": "Yurop",
-        "global": "Global"
-      },
-      "note": "Mipela i no selim data pak i stap andanit long 3 GB.",
-      "localEquals": "Lokal = {{country}}",
-      "localEqualsFallback": "Lokal = kantri bilong yu nau",
-      "perPack": "/ pak",
-      "cta": "Kisim dispela data pak",
-      "ctaPublic": "Kisim dispela data pak",
-      "checkout": {
-        "redirecting": "Goi…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Hait-spid data bilong hevi yus",
-          "throttle": "Spid inap go slou bihain long hevi yus",
-          "coverage": "Gutpela kova",
-          "instant": "Kwik eSIM stat",
-          "noContract": "Wanpela pak, nogat kontract"
-        }
-      },
-      "disclaimer": {
-        "devices": "eSIM data pak i nidim eSIM-kompatibol na op divais. I stap wantaim fon model, karia, na kantri. Kova na spid i senisim wantaim ples."
-      },
-      "small": {
-        "title": "Stat pak",
-        "desc": "I gat 3 GB hait-spid data — gutpela bilong liklik mesej na liklik kol.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Sot trip, liklik mesej, na liklik kol",
-        "aria": "Baim Stat eSIM data pak"
-      },
-      "medium": {
-        "title": "Travel pak",
-        "desc": "I gat 5 GB hait-spid data bilong trip, wokabaut, na regul VoIP kol.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Wikend trip, regul VoIP kol, na map",
-        "aria": "Baim Travel eSIM data pak"
-      },
-      "large": {
-        "title": "Powa pak",
-        "desc": "I gat 10 GB hait-spid data bilong hevi toktok, kol, na video long Chatforia netwok.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Hevi toktok, kol, video, na hotspot yus",
-        "aria": "Baim Powa yusa eSIM data pak"
-      },
-      "compare": {
-        "title": "Kompa eSIM data pak",
-        "col": {
-          "pack": "Pak",
-          "data": "Data i stap insait",
-          "bestFor": "Gutpela bilong"
-        },
-        "disclaimer": "Tru data yus i depend long hau yu yusim Chatforia (voes, video, media, na narapela app long fon bilong yu)."
-      }
+    "index": {
+      "title": "Chatforia Blog",
+      "intro": "Lukim ol save long toktok...",
+      "post1": "Olsem Wanem long Toktok Seif Long Intanet",
+      "post2": "Bihain Taim bilong Global Toktok",
+      "post3": "Bilong Wanem Messaging Platforms i Bikpela Samting"
     },
-    "family": {
-      "title": "Chatforia Famili (sered data)",
-      "subtitle": "Sered wanpela data pul long famili bilong yu. Wanpela bilim, planti Chatforia akant, global kova.",
-      "perPack": "/ pak",
-      "small": {
-        "title": "Famili Smol",
-        "desc": "I gat 20 GB sered hait-spid data — gutpela bilong 2–3 liklik yusa.",
-        "price": "$29.99",
-        "aria": "Baim Famili Smol pak"
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
-      "medium": {
-        "title": "Famili Midium",
-        "desc": "I gat 40 GB sered hait-spid data — gutpela bilong 3–5 aktiv memba.",
-        "price": "$49.99",
-        "aria": "Baim Famili Midium pak"
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
-      "large": {
-        "title": "Famili Bikpela",
-        "desc": "I gat 80 GB sered hait-spid data — bilong strong famili we i stap oltaim online.",
-        "price": "$84.99",
-        "aria": "Baim Famili Bikpela pak"
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
-      "feature": {
-        "shared": "Sered data pul bilong famili bilong yu",
-        "members": "Invaitim inap 4 narapela memba",
-        "membersMore": "Gutpela bilong 3–5 aktiv memba",
-        "manage": "Managim limit bilong wanwan memba",
-        "topUp": "Putim moa pak eni taim",
-        "bestValue": "Namba wan pris long GB",
-        "fairUse": "I stap long fair-yus polisi na lokal limit"
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
-      "disclaimer": "Famili pak i mekim o top ap sered data pul. Yu inap invaitim o rausim memba eni taim.",
-      "footnote": "Famili pak i sered wanpela data pul long link Chatforia akant. I stap wantaim kantri na lokal lo."
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Long Chatforia",
+    "description": "Chatforia em wanpela nupela messaging platform bilong mekim toktok i stap seif na long planti tokples...",
+    "valuesTitle": "Ol Samting Mipela Bilip Long En",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
     },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Praivesi Pastaim",
+    "privacyDesc": "Strongpela encryption na ol praivesi settings yu inap kontrolim",
+    "accessTitle": "Sevis Bilong Olgeta",
+    "accessDesc": "Translation i stap bilong planti tokples",
+    "controlTitle": "Kontrol",
+    "controlDesc": "Ol fisa olsem ol message i lus bihain na read receipts"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
     "why": {
-      "title": "Wai ol man i senisim i go long Chatforia",
-      "subtitle": "Chatforia i givim tru fon namba, smat tanim tok, na kwik rot bilong go nogat ads taim yu redi.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Liklik ads long Fri, simpol Plus apgreid taim yu redi, na Premium tul TextNow i no gat."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "Moden app, global-fos design, na tanim tok insait long app — nogat olpela kol forwarding."
-        },
-        "messengers": {
-          "title": "Chatforia vs chat app",
-          "body": "Rait tru fon namba — nogat tasol app yusa — wantaim AI na stetus. Gutpela sapos yu kam long app olsem TextFree o TextMe."
-        }
-      },
-      "tableTitle": "Hau Chatforia i kompa",
-      "col": {
-        "feature": "Fita"
-      },
-      "feature": {
-        "freeNumber": "Fri fon namba",
-        "translation": "Tanim tok insait long app",
-        "aiTools": "AI tul (rait gen, rispong, samari)",
-        "ads": "Nogat ads opsen",
-        "history": "Mesej histori"
-      },
-      "yes": "Yes",
-      "no": "Nogat",
-      "yesPremium": "Yes (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "I stap liklik",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "I go inap 12+ mun",
-        "textnow": "I senisim wantaim akant",
-        "voice": "I stap liklik / akant bes"
-      },
-      "disclaimer": "Kompa i bes long pablik infomesen na inap senisim. Narapela fri rait app olsem TextFree o TextMe i olsem TextNow tasol."
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "faq": {
-      "title": "Pris & plan FAQ",
-      "free": {
-        "q": "Fri plan i tru fri?",
-        "a": "Yes. Fri plan i gat Chatforia namba, kol, na mesej wantaim ads. Yu inap stap long Fri longtaim, o apgreid bilong rausim ads na kisim moa fita."
-      },
-      "plusPremium": {
-        "q": "Wanem i diferens namel long Plus na Premium?",
-        "a": "Plus i rausim ads na mekim mesej histori i longpela — gutpela bilong de-de yus. Premium i putim ekstra kastom, AI tul bilong rait gen na rispong, na prioreti sopta bilong hevi yusa."
-      },
-      "esim": {
-        "q": "Wanem hap eSIM data pak i wok?",
-        "a": "Chatforia Mobail i yusim global eSIM kova. I stap wantaim kantri na divais bilong yu. Yu inap lukim ol opsen taim yu statim insait long app."
-      },
-      "cancel": {
-        "q": "Inap mi kansel o senisim plan eni taim?",
-        "a": "Yes. Yu inap managim o kansel sabskripsen long bilim pej insait long app. Senis i kamap long pinis bilong bilim taim bilong yu nau."
-      },
-      "family": {
-        "q": "Hau Famili pak i wok?",
-        "a": "Famili pak i mekim wanpela sered data pul long planti Chatforia akant. Wanpela man i peim bilim, na yu inap invaitim o rausim memba na setim limit bilong wanwan."
-      }
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
     },
-    "gettingStarted": {
-      "title": "Statim",
-      "subtitle": "Nupela long Chatforia? Dispela kwik stat i sopim ol besik samting bai yu inap wok gut kwik taim.",
-      "alert": {
-        "text": "Dispela gaide bai kamap bikpela taim mipela i lusim nupela fita. Sapos samting i missin, tokim mipela long",
-        "contactLink": "Kontakt Mipela"
-      },
-      "section1": {
-        "title": "1) Mekim akant bilong yu",
-        "signup": "Sain ap",
-        "or": "o",
-        "login": "log in",
-        "loginText": "wantaim akant bilong yu.",
-        "prefsStart": "Setim",
-        "prefsLink": "prefarens bilong yu",
-        "prefsRest": "(tokples, rid risit, tema)."
-      },
-      "section2": {
-        "title": "2) Statim mesej",
-        "item1": "Mekim DM o Grup na sendim nambawan mesej bilong yu.",
-        "item2": "Yusim kwik tanim tok bilong toktok long 100+ tokples.",
-        "item3": "Traim mesej i stap liklik taim na rid risit long Profil → Praivesi."
-      },
-      "section3": {
-        "title": "3) Go moa",
-        "item1": "Yu inap apgreid long peim plan eni taim insait long app.",
-        "item2": "Taim yu sain in pinis, yu inap linkim moa divais na setap enkripted bekaps long Setings insait long app."
-      },
-      "cta": {
-        "seePlans": "Lukim plan",
-        "openSettings": "Opim setings"
-      }
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
     },
-    "helpCenter": {
-      "title": "Help Senta",
-      "faq": {
-        "account": {
-          "q": "Hau mi mekim o kisim bek akant bilong mi?",
-          "a": "Daunloud app o yusim web, klik “Mekim nupela akant”, verifaim imel/fon. Bilong kisim bek, yusim “Yupela lusim paswod”."
-        },
-        "privacy": {
-          "q": "Mesej i end-to-end enkripted?",
-          "a": "Yes. Mesej na kol i end-to-end enkripted olsem default. Yu tasol na risipent inap ridim."
-        },
-        "translate": {
-          "q": "Hau kwik tanim tok i wok?",
-          "a": "Wokim “Auto-tanim” long Setings → Lukluk & Tokples. Mipela i tanim long divais taim i inap, o long sekur API wantaim liklik metadata."
-        },
-        "contact": {
-          "q": "Kontakt sopta",
-          "a": "Tokim mipela long support@chatforia.com. Putim skrinshot na vesin bilong app bilong yu."
-        }
-      }
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "Kontakt Mipela",
-      "successMsg": "Tenkyu — tim bilong mipela bai raitim bek long imel.",
-      "errorSend": "I no inap sendim. Plis imel support@chatforia.com.",
-      "form": {
-        "nameLabel": "Nem",
-        "emailLabel": "Imel",
-        "messageLabel": "Mesej",
-        "sendCta": "Sendim"
-      }
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
     },
-    "privacyPolicy": {
-      "title": "Praivesi Polisi",
-      "lastUpdated": "Las apdet:",
-      "intro": {
-        "body": "Dispela Praivesi Polisi i tokim hau Chatforia (“mipela”) i kisim, yusim, na sered infomesen taim yu yusim app na sevis bilong mipela. Mipela i mekim Chatforia bilong minimam data mipela inap lukim."
-      },
-      "infoWeCollect": {
-        "title": "Infomesen mipela i kisim",
-        "account": "Akant infomesen (olsem imel/fon) bilong mekim na sekurim akant bilong yu.",
-        "encrypted": "Enkripted tok (mesej/kol) i end-to-end enkripted; mipela i no inap ridim.",
-        "diagnostics": "Diagnostik/yusim olsem krash log, kain divais, o liklik analitik bilong mekim app i betta."
-      },
-      "sms": {
-        "title": "Mobail fon namba na SMS",
-        "body": "Sapos yu givim mobail fon namba, mipela i yusim bilong wokim fita olsem verifai akant, log in alat, na yusa long yusa mesej long SMS taim i inap. Mipela inap sendim transaksen SMS bilong akant na aktiviti long Chatforia. Yu inap stopim SMS eni taim long raitim “STOP” o senisim notis setings long app. Mipela i no selim fon namba bilong yu o yusim bilong narapela maketing.",
-        "newText": "Nupela rait",
-        "enterRecipient": "Givim nem o namba",
-        "typeMessage": "Raitim mesej…",
-        "addRecipient": "Putim risipent antap bilong stat…"
-      },
-      "howWeUse": {
-        "title": "Hau mipela i yusim infomesen",
-        "provide": "Givim na sekurim sevis (aut, spam/abius deteksen).",
-        "improve": "Mekim fita i betta (tanim tok kwoliti, strong).",
-        "legal": "Bihainim lo."
-      },
-      "sharing": {
-        "title": "Sered",
-        "body": "Mipela i no selim pesonal data. Mipela inap sered liklik data wantaim prosesa (olsem pus notis, analitik) long stret kontrak."
-      },
-      "rights": {
-        "title": "Rait bilong yu",
-        "body": "Depend long ples bilong yu (olsem GDPR/UK GDPR/CPRA), yu inap askim akses, korrekten, rausim, o stopim sam processing. Kontakt: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Data i stap longtaim & sekuriti",
-        "body": "Mipela i kipim tasol samting mipela nidim bilong ronim sevis na yusim strong sekuriti. E2E tok i no inap opim long mipela."
-      },
-      "children": {
-        "title": "Pikinini",
-        "body": "Chatforia i no bilong pikinini andanit long 13 (o olsem lo bilong kantri bilong yu i tok)."
-      },
-      "changes": {
-        "title": "Senis",
-        "body": "Mipela bai putim nupela hia na senisim “Las apdet” de."
-      },
-      "contact": {
-        "title": "Kontakt",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
     },
-    "terms": {
-      "title": "Toms bilong Sevis",
-      "lastUpdated": "Las apdet:",
-      "intro": {
-        "body": "Taim yu yusim Chatforia yu orait long dispela Toms. Sapos yu no orait, no yusim sevis."
-      },
-      "accounts": {
-        "title": "Akant",
-        "itemAccurateInfo": "Givim stret infomesen na kipim paswod sekur.",
-        "itemResponsibility": "Yu yet i responsibol long ol samting long akant bilong yu."
-      },
-      "acceptableUse": {
-        "title": "Gutpela yus",
-        "itemNoAbuse": "Nogat rong, abius, o brukim lo; nogat spam o otomatik abius.",
-        "itemSuspend": "Mipela inap stopim o rausim akant bilong brukim lo."
-      },
-      "sms": {
-        "title": "SMS tok",
-        "body": "Sapos yu givim mobail fon namba, yu orait long Chatforia i sendim SMS bilong akant na yusim sevis, olsem log in alat, sekuriti notis, na mesej bilong toktok yu statim o joinim. Mipela i no yusim SMS bilong maketing sapos yu no givim orait stret. Nomal mesenj na data ret inap kamap. Yu inap stopim SMS eni taim long raitim “STOP” o senisim notis setings long app."
-      },
-      "yourContent": {
-        "title": "Tok bilong yu",
-        "body": "Yu yet i gat rait long tok bilong yu. Yu givim mipela rait mipela nidim bilong ronim sevis (olsem ronim, stapim, tanim tok)."
-      },
-      "disclaimer": {
-        "title": "Disclaimer & liability",
-        "body": "Sevis i stap olsem “olsem i stap” nogat garanti. Long ful strong bilong lo, Chatforia i no responsibol long indirekt o narapela rong."
-      },
-      "changes": {
-        "title": "Senis",
-        "body": "Mipela inap apdetim toms; sapos yu yusim bihain long senis, yu orait."
-      },
-      "contact": {
-        "title": "Kontakt",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
     },
-    "doNotSell": {
-      "title": "Nogat Selim o Sered Pesonal Infomesen bilong mi",
-      "body": "Chatforia i no selim pesonal infomesen. Ol California manmeri inap putim rikwest long CPRA long baten daunbilo.",
-      "cta": "Putim rikwest"
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
     },
-    "cookies": {
-      "title": "Kuki Setings",
-      "body": "Chatforia i yusim liklik kuki (olsem sesen, sekuriti). Mipela i no yusim thad pati ads kuki. Managim kuki long brawsa setings bilong yu."
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "I no inap lodim fon namba stetus.",
-      "lock": "Lokim",
-      "noNumberAssigned": "Nogat namba i givim. Lusim wanpela long eria kod bilong statim rait.",
-      "pickNumber": "Lusim wanpela namba",
-      "phoneNumber": "Fon namba"
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
     },
-    "startChatModal": {
-      "title": "Statim toktok",
-      "quickPicker": "Kwik piksa",
-      "to": "Long",
-      "nameOrUsername": "Raitim nem, yusaneim",
-      "nameUsernamePhoneEmail": "Raitim nem, yusaneim, fon, o imel…",
-      "startWithSelected": "Statim toktok wantaim lusim",
-      "searchByUsernameOrPhone": "Lukim long yusaneim o fon",
-      "search": "Lukim",
-      "searchPrompt": "Raitim yusaneim o fon na klik Lukim.",
-      "pickFromContacts": "O lusim long kontaks",
-      "addContact": "Putim Kontak",
-      "show": "Sopim",
-      "add": "Putim",
-      "close": "Klos",
-      "selectedCount": "{{count}} i lusim pinis",
-      "pickAtLeastOne": "Lusim wanpela risipent tasol.",
-      "saveContactsHint": "Fon/imel i stap bihain yu sevim olsem kontak.",
-      "failedBulkStart": "I no inap statim toktok wantaim ol lusim.",
-      "noResults": "Nogat risalt",
-      "mode": "Mod",
-      "group": "Grup",
-      "broadcast": "Brotkas",
-      "groupNameOptional": "Grup nem (opsen)",
-      "firstMessageOptional": "Nambawan mesej (opsen tasol gutpela)",
-      "createGroup": "Mekim grup",
-      "sendBroadcast": "Sendim brotkas"
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Nion",
-      "sunset": "San set",
-      "solarized": "Solarais",
-      "velvet": "Velvet"
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Polisi bilong Bekim Mani",
+    "lastUpdated": "Las apdet:",
+    "intro": "Long Chatforia, mipela wok long givim gutpela sevis long olgeta yusa. Dispela polisi i tok klia long wanem taim yumi inap bekim mani.",
+    "subscriptions": {
+      "title": "Sabsripson",
+      "body": "Ol sabsripson i save kisim pe long pas taim na i go het oltaim. Yu inap stopim en long wanem taim yu laik long account settings o long platform yu bin baim long en."
     },
-    "sounds": {
-      "freeNotice": "Yu stap long Fri — premium saun i sopim tasol i lok. Apgreid bilong kisim olgeta.",
-      "preview": "Lukluk",
-      "resetToDefaults": "Riset long default",
-      "notificationSounds": "Notis Saun",
-      "messageTone": "Mesej saun",
-      "default": "Default",
-      "vibrate": "Vibreit",
-      "dreamer": "Drima",
-      "notify": "Notifai",
-      "pop": "Pop",
-      "pulsatingSound": "Palsating Saun",
-      "textMessage": "Tekst Mesej",
-      "xylophone": "Zailofon",
-      "classic": "Klasik",
-      "urgency": "Urjensi",
-      "bells": "Bels",
-      "chimes": "Saims",
-      "digitalPhone": "Dijital Fon",
-      "melodic": "Melodik",
-      "organNotes": "Ogan Not",
-      "soundReality": "Saun Rialiti",
-      "street": "Stret",
-      "universfield": "Yunivesfild"
+    "eligibility": {
+      "title": "Ol Rul bilong Bekim Mani",
+      "body": "Mipela inap bekim mani sapos i gat tupela pe nating, rong long pe, o sapos i gat teknikal hevi i stopim yu long yusim ol peid fisa. Mipela save lukluk long olgeta askim wanwan."
     },
-    "premiumGuard": {
-      "requiresPremium": "Dispela fita i nidim Premium plan."
+    "nonRefundable": {
+      "title": "Ol Samting Mipela No Save Bekim",
+      "body": "Planti taim mipela no save bekim mani long taim yu no yusim, hap sabsripson, o sapos yu no stopim bipo taim bilong nupela pe i kamap."
     },
-    "aiSettings": {
-      "title": "AI Setings",
-      "controlIntro": "Kontrolim tanim tok, smat rispong, na ForiaBot auto-rispong.",
-      "save": "Sev AI Setings",
-      "autoTranslateIncoming": "Auto-tanim kam mesej",
-      "showOriginalAlongside": "Sopim orijinal tok wantaim tanim",
-      "enableSmartReplies": "Wokim Smat Rispong",
-      "smartRepliesHint": "Sendim las liklik mesej (klinim) long AI bilong givim kwik rispong.",
-      "maskProfanity": "Maskim strong tok long AI toksave",
-      "maskProfanityHint": "Taim i on, AI rispong bai maskim strong tok",
-      "foriaBot": "ForiaBot Auto-Rispong",
-      "enableAutoReply": "Wokim auto-rispong taim mi bisy",
-      "autoReplyMode": "Auto-rispong mod",
-      "cooldownSeconds": "Kuldoun (sekon)",
-      "off": "Of",
-      "on": "On",
-      "signature": "Sainesa",
-      "autoReply": "Auto-rispong",
-      "activeUntilOptional": "Aktiv inap (opsen)",
-      "saved": "AI prefarens i sev pinis",
-      "saveFailed": "I no inap sev AI setings",
-      "translateOff": "Of",
-      "translateTagged": "Tasol taim @tanim o tagim",
-      "translateAll": "Tanim olgeta kam mesej",
-      "modeDm": "1:1 toktok tasol",
-      "modeMention": "Tasol taim mi @nemim",
-      "modeAll": "Olgeta kam mesej"
+    "thirdParty": {
+      "title": "Baia Long Narapela Platform",
+      "body": "Sapos yu bin baim long ol narapela platform olsem Apple App Store, yu mas askim bekim mani stret long ol yet."
     },
-    "accessibilitySettings": {
-      "title": "Istap bilong helpim & Alat",
-      "accessibility": "Istap bilong helpim",
-      "accessibilityDesc": "Opsen bilong mekim Chatforia i isi yusim nogat saun.",
-      "interfaceFontSize": "Font sais bilong intafes",
-      "interfaceFontSizeHelp": "Stat long normal sais. Mekim bikpela sapos yu laikim bikpela leta long istap setings.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Notis",
-      "notificationsDesc": "Visual alat bilong mesej & kol\nSopim baner na titel blaink bai yu no missim samting.",
-      "vibrateOnNew": "Vibreit long nupela mesej (taim i inap)\nMekim divais i vibreit wantaim notis.",
-      "flashOnCall": "Flash skrin long kam kol\nLiklik strong lait taim kol i ring.",
-      "liveCaptions": "Laif kapsan (kol)",
-      "captionFontSize": "Kapsan font sais",
-      "captionBackground": "Kapsan bakgraun",
-      "light": "lait",
-      "dark": "dak",
-      "transparent": "transparent",
-      "voiceNotes": "Voes not",
-      "autoTranscribeVoiceNotes": "Auto-transkrip voes not",
-      "autoTranscribeVoiceNotesDesc": "Putim transkrip long audio mesej yu kisim.",
-      "changesSavedInstantly": "Senis i sev kwik taim.",
-      "loadFailed": "I no inap lodim setings",
-      "visualAlerts": "Visual alat bilong mesej & kol",
-      "visualAlertsDesc": "Sopim baner na titel blaink bai yu no missim samting.",
-      "vibrateOnNewShort": "Vibreit long nupela mesej (taim i inap)",
-      "vibrateOnNewDesc": "Mekim divais i vibreit wantaim notis.",
-      "flashOnCallShort": "Flash skrin long kam kol",
-      "flashOnCallDesc": "Liklik strong lait taim kol i ring."
+    "contact": {
+      "title": "Kontak",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
     },
-    "privacySection": {
-      "strictE2EE": "Strong end-to-end enkripsen",
-      "ciphertextOnlyNote": "Stapim tasol saifa tekst long seva. I stopim AI/Tanim tok na moderesen lukluk."
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
     },
-    "linkedDevicesPanel": {
-      "title": "Divais i link pinis",
-      "noneFound": "Nogat divais i link pinis.",
-      "refresh": "Rifres"
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
     },
     "help": {
       "title": "Help",
-      "howCanWeHelp": "Hau mipela inap helpim yu?",
-      "helpCenter": "Help Senta",
-      "contactUs": "Kontakt mipela",
-      "quickTopics": "Kwik tok",
-      "searchExamples": "Traim lukim “tanim tok”, “bekaps”, o “praivesi”.",
-      "cantLogin": "I no inap log in",
-      "paymentsBilling": "Peim / bilim",
-      "reportAbuse": "Ripot abius",
-      "searchHelpArticles": "Lukim help atikel",
-      "search": "Lukim"
+      "bodyPrefix": "Reply HELP for assistance or email"
     },
-    "peoplePage": {
-      "people": "Ol manmeri",
-      "search": "Lukim",
-      "searchPlaceholder": "Lukim long alias, nem, yusaneim, o fon",
-      "filterSaved": "Filta seved kontaks",
-      "noContactsFound": "Nogat kontak i painim",
-      "quickStart": "Kwik stat",
-      "quickStartDesc": "Liklik rot kwik bilong statim.",
-      "importContacts": "Impot kontaks bilong yu",
-      "add": "Putim",
-      "focusSearch": "Lukim stret",
-      "import": "Impot",
-      "findOrAdd": "Painim o putim wanpela",
-      "searchByPhoneOrUsername": "Lukim long fon / yusaneim",
-      "inviteFriends": "Invaitim frens",
-      "inviteDesc": "Serim invait link bilong statim toktok kwik.",
-      "getTheApp": "Kisim app",
-      "getTheAppDesc": "Stap sindaun wantaim long go wantaim Chatforia bilong iOS na Android.",
-      "download": "Daunloud",
-      "syncTip": "Tip: Mesej bilong yu i sinkronais long web na mobail."
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
     },
-    "randomChat": {
-      "title": "Random Toktok",
-      "description": "Painim nupela manmeri kwik taim. Mipela bai matsim yu na opim temp toktok rum. Toktok nating pastaim. Putim fren bihain sapos yu laikim.",
-      "findMatch": "Painim mat bilong mi",
-      "chatWithForia": "Toktok wantaim Foria",
-      "chatWithForiaBot": "Toktok wantaim ForiaBot",
-      "cancel": "Kansel",
-      "close": "Klos",
-      "searching": "Lukim…",
-      "finding": "Painim…",
-      "looking": "Painim wanpela manmeri…",
-      "startingForia": "Statim toktok wantaim Foria…",
-      "partnerDisconnected": "Pata i go pinis.",
-      "noPartner": "Nogat pata i painim nau.",
-      "connectedTo": "I stap wantaim {{name}}",
-      "connected": "I stap wantaim",
-      "idle": "I stap",
-      "partnerLeft": "Pata i go pinis.",
-      "stopped": "I stop pinis.",
-      "skip": "Skip",
-      "save": "Sev",
-      "saveGuard": "Tasol man-meri toktok inap sev",
-      "youAreChattingWith": "Yu toktok wantaim {{name}}",
-      "bot": "BOT",
-      "leave": "Lusim",
-      "sayHi": "Tok hai 👋",
-      "you": "Yu",
-      "typeMessage": "Raitim mesej",
-      "send": "Send",
-      "partner": "Pata",
-      "withRia": "Wantaim Ria",
-      "chatWithRia": "Toktok wantaim Ria",
-      "startingRia": "Statim toktok wantaim Ria…",
-      "ageDisclaimer": "Mipela i stapim tasol age rang (nogat stret de bilong bon). Dispela i yusim bilong mekim Random Toktok i stret. Bilong matsim wantaim manmeri (nogat tasol RiaBot), setim age rang long Setings → Age & Random Toktok.",
-      "ageBandRequired": "Setim age rang bilong yu long Profil → Age & Random Toktok bilong matsim wantaim manmeri.",
-      "ageBandCallout": "Bilong matsim wantaim manmeri (nogat tasol RiaBot), setim age rang long Setings → Age & Random Toktok.",
-      "subtitle": "Painim nupela manmeri kwik taim, o lusim bilong toktok wantaim Ria.",
-      "start": "Statim toktok",
-      "matching": "Matim…",
-      "setAge": "Setim age rang bilong yu long Profil → Age & Random Toktok bilong matsim wantaim manmeri.",
-      "next": "Neks Pata",
-      "addFriend": "Putim Fren",
-      "requested": "Rikwest pinis",
-      "messageRia": "Mesejim Ria…",
-      "messageMatch": "Mesejim mata bilong yu…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "dispela",
-      "intro": "Hai 👋 Mi Ria. Wanem i stap long het bilong yu?",
-      "greetings": {
-        "long1": "Hai {{name}} 👋 Mi stap. Wanem i stap long het bilong yu?",
-        "long2": "Hai {{name}} 😊 Wanem yu laik toktok long em nau?",
-        "long3": "Hai {{name}}!! Mi harim — wanem i stap?",
-        "long4": "Gutpela lukim yu, {{name}} 👋 Wanem i stap long het bilong yu nau?",
-        "long5": "Hai {{name}} 😊 Yu laik tokaut, askim, o toktok tasol?",
-        "long6": "Hai {{name}}!! Mi gat taim — wanem yu laik toktok long em?",
-        "short1": "Hai {{name}}, mi stap yet. Wanem i stap?",
-        "short2": "Welkam bek {{name}} 👋 Yu laik putim moa samting?",
-        "short3": "Yu kam bek gen, {{name}}? 😊 Tokim mi wanem i stap long het bilong yu.",
-        "short4": "Hai {{name}} 👋 Yu redi bilong statim we mipela i lusim?",
-        "short5": "Yes {{name}}? Mi harim 👂",
-        "short6": "Oh hai {{name}}!! Yu gat nupela samting long het?"
-      },
-      "header": {
-        "openNav": "Opim navigesen menu",
-        "closeNav": "Klos navigesen menu",
-        "homeAria": "Chatforia Hom"
-      },
-      "login": {
-        "welcomeBack": "Welkam bek",
-        "title": "Go long Chatforia",
-        "subtitleReturning": "Log in long Chatforia akant bilong yu",
-        "subtitle": "Log in long Chatforia akant bilong yu",
-        "google": "Go wantaim Google",
-        "apple": "Go wantaim Apple",
-        "googleUnavailable": "Google sain in i no stap",
-        "appleUnavailable": "Apple sain in i no stap",
-        "or": "o",
-        "email": "Imel",
-        "emailPh": "yu@example.com",
-        "usernameLabel": "Yusaneim",
-        "usernamePh": "Yusaneim bilong yu",
-        "passwordLabel": "Paswod",
-        "passwordPh": "Paswod bilong yu",
-        "keepSignedIn": "Kipim mi sain in",
-        "forgot": {
-          "title": "Yupela lusim paswod",
-          "helper": "Givim imel yu yusim bilong mekim Chatforia akant bai mipela sendim sekur link bilong riset paswod.",
-          "emailInvalid": "Plis givim stret imel adres.",
-          "genericError": "I no inap wokim rikwest. Plis traim gen liklik taim.",
-          "sending": "Sendim riset link…",
-          "sendCta": "Sendim Riset Link",
-          "sentLabel": "Sendim pinis!",
-          "sentHelper": "Sapos akant i stap wantaim dispela imel, mipela i sendim paswod riset link. I inap kisim liklik taim. Plis lukim spam o promosen folda.",
-          "previewDev": "Lukluk Imel (Dev)",
-          "backToLogin": "Go bek long Log In"
-        },
-        "submit": "Log In",
-        "loggingIn": "Log in…",
-        "newHere": "Nupela long hia? <link>Mekim nupela akant</link>",
-        "ssoUnavailable": "Single-sain-on i no stap nau. Yusim yusaneim & paswod tasol.",
-        "error": {
-          "missing": "Plis givim kredensel bilong yu.",
-          "invalid": "Yusaneim o paswod i rong",
-          "denied": "Akses i no orait.",
-          "unprocessable": "Rikwest i rong. Lukim yusaneim/imel na paswod bilong yu.",
-          "deviceLimit": "Divais limit i kamap long Fri plan. Log aut long narapela divais o apgreid long Premium bilong linkim moa divais.",
-          "premiumRequired": "Dispela samting i nidim Premium plan."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Pinisim sain in…"
-    },
-    "dialer": {
-      "title": "Kol",
-      "subtitle": "Kipad & nupela. (Sapos yu no yusim PSTN, statim kol long toktok heda.)",
-      "enterNumberPh": "Givim namba",
-      "call": "Kol",
-      "backspace": "Bekspes",
-      "recents": "Nupela kol",
-      "recentsEmpty": "Nogat nupela kol yet.",
-      "enterNumber": "Givim namba",
-      "enterNumberAria": "Givim namba",
-      "key": "Key {{d}}",
-      "noRecents": "Nogat nupela kol yet."
-    },
-    "video": {
-      "title": "Video",
-      "chooseType": "Lusim kain video.",
-      "directTitle": "Direkt Video",
-      "directDesc": "1:1 kamera kol wantaim narapela yusa.",
-      "directStart": "Statim",
-      "roomsTitle": "Rum",
-      "roomsDesc": "Plantiman video yusim sered rum nem.",
-      "roomsIntro": "Join o mekim plantiman rum.",
-      "roomNameLabel": "Rum nem",
-      "roomNamePh": "olsem tim-standap",
-      "join": "Join",
-      "deeplinkTip": "Tip: yu inap dip link stret long <code>/video?room=rum-nem</code>.",
-      "hub": {
-        "title": "Video",
-        "subtitle": "Lusim kain video."
-      },
-      "direct": {
-        "title": "Direkt Video",
-        "subtitle": "Statim 1:1 video kol yusim fon namba o Chatforia yusaneim.",
-        "desc": "1:1 kamera kol wantaim narapela yusa.",
-        "start": "Statim",
-        "callBtn": "Kol",
-        "callByPhone": {
-          "title": "Kol long fon"
-        },
-        "phone": {
-          "placeholder": "Givim fon (olsem +1-555-123-4567)",
-          "aria": "Fon bilong kolim"
-        },
-        "tipInvite": "Tip: Putim namba na kol nogat putim kontak. Mipela bai invaitim ol nogat yusa long link.",
-        "findUser": {
-          "title": "Painim yusa"
-        },
-        "search": {
-          "placeholder": "Lukim long nem o yusaneim",
-          "aria": "Lukim long nem o yusaneim",
-          "btn": "Lukim"
-        }
-      },
-      "rooms": {
-        "title": "Rum",
-        "subtitle": "Mekim rum o joinim wanpela i stap long raitim sem nem.",
-        "desc": "Plantiman video yusim sered rum nem.",
-        "roomLabel": "Rum nem",
-        "roomPlaceholder": "olsem tim-standap",
-        "roomAria": "Rum nem",
-        "joinCreate": "Join / Mekim",
-        "tip": "Tip: serim dispela nem long ol narapela, o dip link long <code>/video?room=rum-nem</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Statim direkt 1:1 video kol.",
-      "findUserLabel": "Painim yusa",
-      "findUserPh": "Lukim long nem o yusaneim",
-      "search": "Lukim",
-      "call": "Kol"
-    },
-    "phoneWarning": {
-      "title": "Namba bilong yu i klos liklik taim",
-      "body": "Namba bilong yu {{number}} bai lusim long {{date}} sapos yu no mekim gen.",
-      "button": "Kipim Namba bilong mi"
-    },
-    "support": {
-      "helpFab": "Help",
-      "openSupportAria": "Opim sopta",
-      "badge": "Sopta",
-      "heading": "Hau mipela inap helpim yu?",
-      "tabs": {
-        "help": "Help Senta",
-        "contact": "Kontakt mipela"
-      },
-      "searchPlaceholder": "Lukim help atikel…",
-      "searchAria": "Lukim help",
-      "searchBtn": "Lukim",
-      "quickTopicsLabel": "Kwik tok",
-      "quickTopics": {
-        "login": "I no inap log in",
-        "billing": "Peim / bilim",
-        "abuse": "Ripot abius"
-      },
-      "trySearching": "Traim lukim “tanim tok”, “bekaps”, o “praivesi”.",
-      "article": "Atikel",
-      "openArticle": "Opim atikel",
-      "contactIntro": "Mipela bai imelim yu. Putim detels bilong helpim mipela painim rong.",
-      "topicAria": "Lusim wanpela tok",
-      "messagePlaceholder": "Raitim mesej bilong yu…",
-      "sendBtn": "Sendim",
-      "sent": "Mesej i go pinis. Mipela bai raitim bek long imel.",
-      "sendError": "I no inap sendim. Imel support@chatforia.com tasol."
-    },
-    "encryptionRecovery": {
-      "title": "Managim Enkripsen",
-      "description": "Mekim bekap, kisim bek, opim, o riset enkripsen key bilong yu.",
-      "alert": {
-        "keyRequiredTitle": "Enkripsen key i nidim",
-        "keyRequiredBody": "Dispela brawsa i no inap opim enkripted mesej bilong yu nau. Kisim bek, opim, o riset key bilong yu bilong gohet."
-      },
-      "sections": {
-        "createBackup": "Mekim key bekap",
-        "restoreFromBackup": "Kisim bek long akant bekap",
-        "resetEncryption": "Riset enkripsen"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Opim paswod (divais nau)",
-          "description": "Yusim bilong opim key bilong yu long divais pastaim ekspot"
-        },
-        "backupPassword": {
-          "label": "Bekap paswod",
-          "description": "Yusim bilong enkriptim bekap fail"
-        },
-        "restoreBackupPassword": {
-          "label": "Bekap paswod",
-          "description": "Paswod yu mekim taim yu mekim bekap key long iPhone"
-        },
-        "newLocalPasscode": {
-          "label": "Nupela lokal paswod",
-          "description": "Protekim key long dispela brawsa"
-        },
-        "resetLocalPasscode": {
-          "label": "Nupela lokal paswod",
-          "description": "Nidim pastaim riset bai nupela key i protekt long dispela divais"
-        }
-      },
-      "actions": {
-        "unlockKey": "Opim enkripsen key",
-        "restoreFromBackup": "Kisim bek long akant bekap",
-        "resetEncryption": "Riset Enkripsen"
-      },
-      "messages": {
-        "backupCreated": "Key bekap i mekim pinis na daunloud.",
-        "keyUnlocked": "Enkripsen key i opim pinis.",
-        "keyRestored": "Key i kam bek long akant bekap.",
-        "resetSuccess": "Enkripsen i riset gut pinis."
-      },
-      "errors": {
-        "restoreIncomplete": "Key kisim bek i no pinis o rong bilong dispela akant",
-        "noBackup": "Nogat enkripted bekap i stap bilong dispela akant",
-        "missingPublicKey": "Bekap i no gat pablik key",
-        "noServerPublicKey": "Dispela akant i no sopim seva pablik key nau",
-        "serverBackupMismatch": "Seva bekap i no matim enkripsen key bilong akant nau",
-        "incompleteMetadata": "Bekap metadata i no pinis",
-        "resetIncomplete": "Enkripsen riset i no pinis stret"
-      },
-      "confirm": {
-        "reset": "Riset enkripsen bilong dispela akant?\n\nOlpela enkripted mesej inap no inap ridim sapos yu no kisim bek orijinal key bihain."
-      },
-      "resetDescription": "Dispela i mekim nupela enkripsen key bilong akant bilong yu. Olpela enkripted mesej inap no inap ridim sapos yu no kisim bek orijinal key bihain."
-    },
-    "footer": {
-      "plans": "Plan & Pris",
-      "about": "Abaot Chatforia",
-      "careers": "Wok",
-      "press": "Pres",
-      "advertise": "Advertis",
-      "contact": "Kontakt Mipela",
-      "help": "Help Senta",
-      "status": "Stetus Pej",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Praivesi Polisi",
-      "terms": "Toms bilong Sevis",
-      "cookies": "Kuki Setings",
-      "doNotSell": "Nogat Selim Infomesen bilong mi",
-      "language": "Tokples",
-      "contactShort": "Kontakt",
-      "aria": "Futa",
-      "homeAria": "Chatforia hom",
-      "section": {
-        "company": "KAMPANI",
-        "support": "SOPTA",
-        "downloads": "DAUNLOUD",
-        "legal": "LO"
-      },
-      "links": {
-        "plans-pricing": "Plan & Pris",
-        "about-chatforia": "Abaot Chatforia",
-        "careers": "Wok",
-        "press": "Pres",
-        "advertise": "Advertis",
-        "getting-started": "Statim",
-        "help-center": "Help Senta",
-        "contact-us": "Kontakt Mipela",
-        "status-page": "Stetus Pej",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Praivesi Polisi",
-        "terms-of-service": "Toms bilong Sevis",
-        "do-not-sell-my-info": "Nogat Selim Infomesen bilong mi",
-        "cookie-settings": "Kuki Setings"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Patent i stap yet",
-      "backToTop": "↑ Go antap"
-    },
-    "press": {
-      "title": "Pres",
-      "contactLine": "Bilong media rikwest, tokim mipela long",
-      "boilerplateTitle": "Boilapleta",
-      "boilerplateBody": "Chatforia i sekur mesenja we i mekim tanim tok kwik. Mesej i end-to-end enkripted olsem default, na tanim tok insait long app i inap long 100+ tokples kwik taim. Yusa inap wokim mesej i stap liklik taim, rid risit i opsen, na sinkronais long divais. I stap long iOS, Android, na web.",
-      "assetsTitle": "Brand samting",
-      "assetsSubtitle": "Logo, skrinshot, na piksa bilong produk.",
-      "downloadCta": "Daunloud media kit",
-      "downloadTitle": "Kisim app",
-      "scanTip": "Yu stap long desktop? Skan wantaim fon bilong yu ken kisim app.",
-      "qrAria": "Opim Chatforia wesait",
-      "appStore": "Daunloud long App Store",
-      "googlePlay": "Kisim long Google Play"
-    },
-    "careers": {
-      "title": "Wok",
-      "intro": "Mipela i liklik tim bilong mekim Chatforia — sekur, global mesenja i kamap long web, iOS, na Android. Sapos yu laik praivesi, enkripsen, na gutpela yusa lukluk, mipela laik harim long yu.",
-      "openRoles": "<b>Op wok bilong statim:</b> Lid Ful-stak Enjinia, Bekend Enjinia (Node.js), Fronten/Web Enjinia (React), Mobail Enjinia (iOS), Mobail Enjinia (Android), DevOps/SRE, Sekuriti & Enkripsen Enjinia, Telekom Enjinia (Twilio + eSIM).",
-      "apply": "Hau bilong putim: Yusim baten daunbilo bilong imel risume na link bilong yu.",
-      "emailCta": "Imel risume bilong yu",
-      "whyNow": "Wai join nau?",
-      "whyBullets": "• Helpim mekim bes bilong nupela global mesenja.\n• Sendim nupela samting long web, iOS, na Android.\n• Wok stret wantaim ona long desain na produk.\n• Lukautim bikpela pat bilong app: mesej, voes, video, enkripsen, telekom, AI.\n• Join long stat — pastaim planti yusa i kamap."
-    },
-    "about": {
-      "title": "Abaot Chatforia",
-      "description": "Chatforia i sekur, planti tokples mesenja wantaim end-to-end enkripsen, kwik tanim tok, na voes/video kol. Mision bilong mipela i simpol: helpim ol man i stap wantaim — sekur, praivet, na long planti tokples.",
-      "valuesTitle": "Wanem mipela i laikim",
-      "values": {
-        "privacy": "<b>Praives fos:</b> E2E enkripsen olsem default.",
-        "access": "<b>Akses bilong olgeta:</b> Auto-tanim 100+ tokples.",
-        "control": "<b>Kontrol:</b> Mesej i stap liklik taim & rid risit i opsen.",
-        "privacy_aria": "Praives fos: E2E enkripsen olsem default.",
-        "access_aria": "Akses bilong olgeta: Auto-tanim 100+ tokples.",
-        "control_aria": "Kontrol: Mesej i stap liklik taim na rid risit i opsen."
-      },
-      "howTitle": "Hau Chatforia i wok",
-      "howDescription": "Mesej i enkript long divais bilong yu pastaim i go aut. Tanim tok, bekaps, na divais sink i mekim bilong minimam wanem seva inap lukim."
-    },
-    "advertise": {
-      "title": "Advertis wantaim Chatforia",
-      "description": "Painim ol yusa we i toktok planti wantaim gutpela, sekur ples. Mipela i givim baner long gutpela ples, sponsor, na haus promo. Premium yusa i no lukim ads.",
-      "adsense": {
-        "withPubIdShort": "Mipela i givim tu long Google AdSense. Yu inap target Chatforia wantaim pablihsa ID {{pubId}}, o yusim form daunbilo bilong direkt sponsor.",
-        "noPubIdShort": "Mipela i givim liklik long Google AdSense. Direkt sponsor i stap — yusim form daunbilo."
-      },
-      "inventoryHeader": "Stok & spes",
-      "placement": {
-        "displayBadge": "Dispela",
-        "acceptedSizes": "Sais i orait",
-        "adsenseSlot": "AdSense slot:"
-      },
-      "noPlacementsPublic": "Mipela i pinisim ad stok nau. Tokim mipela long kampen bilong yu bai mipela givim gutpela ples.",
-      "whyHeader": "Wai Chatforia?",
-      "why": {
-        "highSession": "Plantit taim i stap long toktok UI",
-        "brandSafe": "Gutpela ples; no planti taim",
-        "sponsoredMoments": "Sponsor momant (olsem “Statim Toktok” modal) i stap",
-        "deals": "Direkt o program long AdSense/Google Ads"
-      },
-      "contactHeader": "Kontakt",
-      "form": {
-        "submittedMsg": "Tenkyu! Rikwest bilong yu i go pinis. Mipela bai tokim yu kwik taim.",
-        "missingRequired": "Plis pulim nem, imel, na mesej.",
-        "successToast": "Tenkyu! Mipela bai tokim yu kwik taim.",
-        "mailtoInfo": "Opim imel bilong yu bilong sendim rikwest…",
-        "nameLabel": "Nem bilong yu",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "Imel",
-        "emailPlaceholder": "yu@kampani.com",
-        "companyLabel": "Kampani",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Munli baje (opsen)",
-        "budgetPlaceholder": "olsem $1,000–$20,000+",
-        "messageLabel": "Tokim mipela long kampen bilong yu",
-        "messagePlaceholder": "Target, de, KPI, ples yu laikim…",
-        "sendCta": "Sendim rikwest"
-      },
-      "legal": {
-        "disclaimerStart": "Taim yu sendim, yu orait long",
-        "terms": "Toms",
-        "and": "na",
-        "privacy": "Praivesi Polisi"
-      }
-    }
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

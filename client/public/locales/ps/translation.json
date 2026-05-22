@@ -3,603 +3,903 @@
     "save": "خوندي کول",
     "cancel": "لغول",
     "refresh": "تازه کول",
-    "noMatches": "هیڅ سیال نشته",
+    "noMatches": "هیڅ پایلې نشته",
     "cancelAria": "لغول",
-    "copy": "کاپي کول",
-    "copied": "کاپي شول!",
-    "errorWithMessage": "تېروتنه: { {پیغام}}",
-    "بارول": "بارول…",
-    "د خوندي کولو تېروتنه": "د خوندي کولو په کار کې پاتې راغله"
+    "copy": "کاپي",
+    "copied": "Copied!",
+    "errorWithMessage": "Error: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
-    "اصلي منځپانګې ته تېر شئ": "اصلي منځپانګې ته تېر شئ"
+    "skipToMain": "اصلي منځپانګې ته ځئ"
   },
-  "برانډ": {
-    "نوم": "Chatforia",
+  "brand": {
+    "name": "Chatforia",
     "ria": "Ria"
   },
-  "کلیدونه": {
-    "backupCreated": "د کیلي بک اپ جوړ او ډاونلوډ شو ✓",
-    "restored": "د کیلي بک اپ بیرته راوړل شو ✓ کیلي ګانې په سیمه ییزه توګه نصب شوې",
-    "noBackup": "د دې حساب لپاره هیڅ کوډ شوی بک اپ شتون نلري",
-    "missingPublicKey": "بک اپ د عامه کیلي پرته دی"
+  "keys": {
+    "backupCreated": "د کیلي بیک اپ جوړ او ډاونلوډ شو ✓ ",
+    "restored": "Key backup restored ✓ Keys installed locally",
+    "noBackup": "No encrypted backup exists for this account",
+    "missingPublicKey": "Backup is missing a public key"
   },
   "keySetup": {
-    "title ": "د خپلې وسیلې کیلي ګانې تنظیم کړئ",
-    "تشریح": "دا وسیله لا ستاسو شخصي کیلي نه لري. یو پټنوم-ساتل شوی بیک اپ وارد کړئ, یا د کیلي یوه نوې جوړه جوړه کړئ (تاسو به اوس له وروسته نوي پیغامونه لوستلی شئ).",
-    "فایل وټاکئ": "یو فایل وټاکئ او پټنوم دننه کړئ.",
-    "imported": "شخصي کیلي دې وسیلې ته وارد شوه. تاسو اوس کولی شئ پخواني پیغامونه ولولئ.",
-    "enterPassword": "د خپل حساب پټنوم ولیکئ ترڅو موږ وکولی شو ستاسو کیلي په خوندي توګه بیک اپ کړو."
+    "title": "Set up your device keys",
+    "description": "This device doesn’t have your private key yet. Import a password-protected backup, or generate a new keypair (you’ll be able to read new messages from now on).",
+    "chooseFile": "Choose a file and enter the password.",
+    "imported": "Private key imported to this device. You can read old messages now.",
+    "enterPassword": "Enter your account password so we can back up your keys securely."
   },
   "encryptionRecovery": {
-    "title": "د کوډ کولو بیا رغونه",
-    "description": "د خپل کوډ کولو کیلي بیک اپ, بیا رغونه, خلاصوله, یا ری سیټ کړئ.",
-    " alert": {
-      "keyRequiredTitle": "د انکرپشن کی ته اړتیا ده",
-      "keyRequiredBody": "دا براوزر اوس مهال ستاسو کوډ شوي پیغامونه نشي خلاصولی. د دوام لپاره خپل کی بیرته راوړئ, خلاصه کړئ, یا ری سیټ کړئ."
+    "title": "د انکرپشن اداره کول",
+    "description": "د خپل انکرپشن کیلي بیک اپ, بیا رغونه, خلاصول, یا ری سیټ کړئ.",
+    "alert": {
+      "keyRequiredTitle": "د انکرپشن کیلي اړینه ده",
+      "keyRequiredBody": "دا براوزر اوس مهال ستاسو کوډ شوي پیغامونه نشي خلاصولی. د دوام لپاره خپل کیلي بیرته راوړئ, خلاصه کړئ, یا بیا تنظیم کړئ.",
+      "lockedTitle": "پیغامونه قلف شوي دي",
+      "lockedBody": "په دې وسیله کې د کوډ شویو پیغامونو لوستلو لپاره خپله د کوډ کولو کیلي بیرته راوړئ یا خلاصه کړئ."
     },
     "sections": {
-      "createBackup": "د کی بیک اپ جوړول",
-      "restoreFromBackup": "د اکاونټ بیک اپ څخه بیرته راوړل",
-      "resetEncryption": "انکرپشن ری سیټ کول",
-      "\n    \"fields": {
-        "unlockPasscode": {
-          "label": "د خلاصون پاسکوډ (اوسنی وسیله)",
-          "description": "ستاسو د کیلي ګانو د صادرولو دمخه په سیمه ییزه توګه د ډیکرپټ کولو لپاره کارول کیږي"
-        },
-        "backupPassword": {
-          "label": "د بیک اپ پاسورډ",
-          "description": "د بیک اپ فایل د انکرپټ کولو لپاره کارول کیږي"
-        },
-        "restoreBackupPass word": {
-          "label": "د بیک اپ پاسورډ",
-          "description": "هغه پاسورډ چې تاسو د آیفون په وسیله د خپل کیلي د بیک اپ کولو پر مهال جوړ کړی و"
-        },
-        "newLocalPasscode": {
-          "label": "نوی محلي پاسورډ",
-          "description": "په دې براوزر کې د استراحت پر مهال کیلي ګانې خوندي کړئ"
-        },
-        "resetLocalPasscode": {
-          "label": "نوی محلي پاسکوډ",
-          "description": "د ری سیټ کولو دمخه اړین دی ترڅو نوی کیلي په دې وسیله کې خوندي شي"
-        }
+      "createBackup": "د کیلي بیک اپ جوړ کړئ",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "انکرپشن ری سیټ کړئ"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "د خلاصون پاس کوډ (اوسنی وسیله)",
+        "description": "Used to decrypt your keys locally before exporting"
       },
-      "actions": {
-        "unlockKey": "د انکرپشن کیلي خلاصه کړئ",
-        "restoreFromBackup": " له اکاونټ بیک اپ څخه بیا رغونه",
-        "resetEncryption": "انکرپشن ری سیټ کړئ"
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
       },
-      "پیغامونه": {
-        "backupCreated": "د کیلي بیک اپ جوړ او ډاونلوډ شو.",
-        "keyUnlocked": "انکرپشن کیلي خلاصه شوه.",
-        "keyRestored": "کیلي د اکاونټ بیک اپ څخه بیا رغول شوه.",
-        "resetSuccess": "انکرپشن په بریالیتوب سره ری سیټ شو."
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
       },
-      "errors": {
-        "restoreIncomplete": "د دې حساب لپاره د کیلي بیا رغونه نیمګړې یا ناسمه ده",
-        "noBackup": "د دې حساب لپاره کوم خوندي شوی شفر شتون نلري",
-        "د عامه کیلي نشتوالی": "په بک اپ کې عامه کیلي نشته",
-        "د سرور عامه کیلي نشته": "دا حساب اوس مهال د سرور عامه کیلي نه ښیي",
-        "د سرور بک اپ سره سمون نه خوري": "د سرور بک اپ د حساب د اوسني شفر کیلي سره سمون نه خوري",
-        "نا بشپړ میټاډاټا": "د بک اپ میټاډاټا نا بشپړه ده",
-        "بیا تنظیمول بشپړ شوي نه دي": "د شفر بیا تنظیمول په سمه توګه بشپړ شوي نه دي "
+      "newLocalPasscode": {
+        "label": "نوی محلي پاسورډ",
+        "description": "په دې براوزر کې د استراحت پر مهال کیلي ګانې خوندي کړئ"
       },
-      "confirm": {
-        "reset": "د دې حساب لپاره انکرپشن ری سیټ کړئ؟\n\nپخواني انکرپټ شوي پیغامونه ممکن د نه لوستلو وړ شي, مګر دا چې تاسو وروسته اصلي کیلي بیرته راوګرځوئ."
+      "resetLocalPasscode": {
+        "label": "نوی محلي پاسورډ ",
+        "description": "Required before resetting so the new key is protected on this device"
       },
-      "resetDescription": "دا ستاسو د حساب لپاره یوه نوې انکرپشن کیلي جوړوي. پخواني انکرپټ شوي پیغامونه ممکن د نه لوستلو وړ شي, مګر دا چې تاسو وروسته اصلي کیلي بیرته راوګرځوئ."
-    }
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "د وسیلې نوی پاسکوډ",
+        "description": "په دې وسیله کې د نوي انکرپشن کیلي لپاره یو پاسکوډ جوړ کړئ."
+      }
+    },
+    "actions": {
+      "unlockKey": "د انکرپشن کیلي خلاصول",
+      "restoreFromBackup": "د حساب له بیک اپ څخه بیا رغونه",
+      "resetEncryption": "د انکرپشن بیا تنظیمول",
+      "advancedRecovery": "پرمختللې بیا رغونه",
+      "restoreChats": "د چیټونو بیا رغونه",
+      "restoreEncryptedChats": "د انکرپټ شویو چیټونو بیا رغونه",
+      "startFreshEncryption": "د نوي انکرپشن پیل",
+      "unlockMessages": "د پیغامونو خلاصول"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "د دې حساب لپاره د کیلي بیا رغونه نیمګړې یا ناسمه ده",
+      "noBackup": "د دې حساب لپاره هیڅ کوډ شوی بیک اپ شتون نلري",
+      "missingPublicKey": "په بیک اپ کې عامه کیلي نشته",
+      "noServerPublicKey": "دا حساب اوس مهال د سرور عامه کیلي نه ښکاره کوي",
+      "serverBackupMismatch": "د سرور بیک اپ د حساب د اوسنۍ کوډ کولو کیلي سره سمون نه خوري",
+      "incompleteMetadata": "د بک اپ میټاډاټا نیمګړې ده",
+      "resetIncomplete": "د انکرپشن ری سیټ په سمه توګه بشپړ نه شو",
+      "resetFailed": "انکرپشن ری سیټ نشو کیدای. مهرباني وکړئ بیا هڅه وکړئ.",
+      "restoreFailed": "ستاسو د انکرپشن کیلي بېرته نه شوه راګرځول کیدای. خپل بک اپ او پټ نوم (پاسورډ) وګورئ.",
+      "unlockFailed": "ستاسو د انکرپشن کیلي نشوه خلاصول کېدای. خپل پاسکوډ وګورئ او بیا یې وازمایئ."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "دا ستاسو د حساب لپاره یو نوی د کوډ کولو کیلي جوړوي. پخواني کوډ شوي پیغامونه ممکن د نه لوستلو وړ شي, مګر دا چې تاسو وروسته اصلي کیلي بیرته راوړئ.",
+    "danger": {
+      "title": "نوی کوډ کول پیل کړئ",
+      "body": "دا یوه نوې د کوډ کولو کیلي جوړوي. پخواني کوډ شوي پیغامونه ممکن د نه لوستلو وړ شي, مګر دا چې تاسو وروسته اصلي کیلي بیرته راوړئ."
+    },
+    "simpleTitle": "لاک شوي پیغامونه خلاص کړئ",
+    "simpleDescription": "د خپلو لاک شویو پیغامونو د خلاصولو لپاره د خپل وسیلې پاسکوډ وکاروئ یا بیک اپ بیرته راوړئ.",
+    "restoreDescription": "خپل د خوندي شوي چټ کیلي له هغه بیک اپ څخه بیرته راوړئ چې ستاسو د بیک اپ پاسورډ لخوا خوندي شوې ده."
   },
   "smsConsent": {
-    "label": "زه د {{companyName}} څخه د SMS خبرتیاوو او خبرتیتونو ترلاسه کولو سره موافقه کوم. د پیغامونو تعدد ممکن توپیر ولري. د پیغام او ډیټا نرخونه ممکن پلي شي. هر وخت د ګډون ختمولو لپاره <stop>STOP</stop> ته ځواب ورکړئ. د مرستې لپاره <help>HELP</help> ته ځواب ورکړئ."
+    "label": "زه د {{companyName}} څخه د SMS خبرتیاوو او الर्टونو ترلاسه کولو سره موافقه کوم. د پیغامونو تعدد ممکن توپیر ولري. د پیغام او ډیټا نرخونه ممکن پلي شي. په هر وخت کې د ګډون ختمولو لپاره <stop>STOP</stop> ته ځواب ورکړئ. د مرستې لپاره <help>HELP</help> ته ځواب ورکړئ."
   },
   "phoneField": {
-    "label": "ټیلیفون",
-    "غیر معتبر": "غیر معتبر ټیلیفون شمیره",
-    "اشاره": "د اړتیا په صورت کې د هیواد کوډ هم شامل کړئ (د بېلګې په توګه, +1 415…)"
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
-  "تصدیق": {
-    "سرلیک": "د هر چا لپاره, هر ځای کې خوندي پیغام رسونه",
-    "تشریح": "له سره تر پایه کوډ کول, ۱۰۰+ ژبو ته ژباړه, ورکېدونکي پیغامونه, او غږیز/ویډیویي زنګونه.",
-    "ځانګړتیا": {
-      "کوډ کول": "په ډیفالټ ډول له سره تر پایه کوډ کول",
-      "ژباړه": "هوښیاره, په پټه کې جوړه شوې د پیغام ژباړه",
-      "ورکېدونکی": "وځونکي پیغامونه او د لوستلو رسیدونه",
-      "privacy": "لومړیتوب محرمیت. ستاسو معلومات, ستاسو کنټرول.",
-      "تردید": "تردیدیدونکي پیغامونه",
-      "د محرمیت بدیل": "د محرمیت لومړیتوب ډیزاین",
-      "د پلانونو لیدل": "د پلانونو او قیمتونو لیدل"
+  "auth": {
+    "headline": "د هر چا لپاره, هر ځای کې خوندي پیغام رسونه",
+    "description": "له سر - تر پایه کوډ کول, ۱۰۰+ ژبو ته ژباړه, ورکېدونکي پیغامونه, او غږیز/ویډیویي زنګونه.",
+    "feature": {
+      "encryption": "له سرچینې څخه تر پای ته انکرپشن, تل فعال",
+      "translation": "Smart, built-in message translation",
+      "disappearing": "Disappearing messages & read receipts",
+      "privacy": "مخکې محرمیت. ستاسو ډیټا, ستاسو کنټرول.",
+      "translate": "Smart, built-in message translation",
+      "disappear": "Disappearing messages",
+      "privacyAlt": "د محرمیت لومړیتوب لرونکی ډیزاین",
+      "seePlans": "پلانونه او بیې وګورئ"
     },
-    "اتل": {
-      "کرښه۱": "د هرچا لپاره, هرچېرته خوندي پیغام رسونه — سره",
-      "em": "تر ۱۰۰+ ژبو ژباړه",
-      "sub": "د Wi-Fi یا ډیټا له لارې په ټوله نړۍ کې د زنګ وهلو او پیغام لیږلو لپاره یوه وړیا خوندي تلیفوني شمیره ترلاسه کړئ. د پای څخه تر پای پورې له کوډ کولو, ورکېدونکو پیغامونو, او HD غږیز/ویډیویي زنګونو څخه خوند واخلئ — د هغو جوړ شویو وسیلو سره چې تاسو سره مرسته کوي ترڅو له پولو هاخوا وصل پاتې شئ.",
-      "freeNote": "بنسټیز زنګ وهل او پیغام لیکل وړیا دي. پرمختللي AI او ځانګړي فیچرونه لوړولو ته اړتیا لري."
+    "hero": {
+      "line1": "د هرچا, هرچیرې لپاره خوندي پیغام رسونه — سره",
+      "em": "تر ۱۰۰ ډېرو ژبو ته ژباړه ",
+      "sub": "د وای فای یا ډیټا له لارې په ټوله نړۍ کې د زنګ وهلو او پیغام لیږلو لپاره یوه وړیا خوندي تلیفوني شمیره ترلاسه کړئ. د سرپڅه څخه تر پای پورې له کوډ کولو, ورکېدونکو پیغامونو, او د لوړ کیفیت غږیز/ویډیویي زنګونو څخه خوند واخلئ — د جوړ شويو وسیلو سره چې تاسو سره مرسته کوي چې له پولو هاخوا وصل پاتې شئ.",
+      "freeNote": "بنسټیز زنګونه او پیغامونه وړیا دي. پرمختللي AI او ځانګړي فیچرونه لوړولو ته اړتیا لري."
     },
     "feat": {
-      "encryption": "له سره تر سره انکرپشن, تل فعال",
+      "encryption": "له سرچینې څخه تر پای ته انکرپشن, تل فعال",
       "translate": "په خپلو خبرو اترو کې د ژبو خنډونه مات کړئ",
-      "disappear": "وړانګوونکي پیغامونه او د لوستلو رسیدونه",
-      "privacy": "محرمیت لومړیتوب لري. ستاسو ډیټا, ستاسو کنټرول. "
+      "disappear": "ورکېدونکي پیغامونه او د لوستلو رسیدونه",
+      "privacy": "مخکې محرمیت. ستاسو ډیټا, ستاسو کنټرول."
     },
-    "continueGoogle": "د ګوګل سره دوام ورکړئ",
-    "continueApple": "د اپل سره دوام ورکړئ",
+    "continueGoogle": "له ګوګل سره دوام ورکړئ",
+    "continueApple": "له ایپل سره دوام ورکړئ",
     "username": "کارن نوم",
     "password": "پټ نوم",
     "keepSignedIn": "ما ننوتلی وساتئ",
     "forgotPassword": "پټ نوم مو هېر شوی؟",
     "loginButton": "ننوتل",
-    "حساب جوړ کړئ": "یو حساب جوړ کړئ",
-    "وړیا حساب تڼۍ": "وړیا حساب جوړ کړئ",
-    "دلته نوی یاست": "دلته نوی یاست؟",
-    "app ترلاسه کړئ": "اپ ترلاسه کړئ",
-    "د ډیسکټاپ لارښوونه": "په ډیسکټاپ یاست؟ د اپ ترلاسه کولو لپاره په خپل تلیفون سکین وکړئ.",
-    "د سکین مرسته کوونکی": "په ډیسکټاپ یاست؟ د اپ ترلاسه کولو لپاره په خپل تلیفون سکین وکړئ.",
-    "کور ته لاړ شئ": "کور ته لاړ شئ",
-    "کور": "کور",
+    "createAccount": "Create an account",
+    "freeAccountButton": "Create free account",
+    "newHere": "New here?",
+    "getApp": "Get the app",
+    "desktopTip": "On desktop? Scan with your phone to get the app.",
+    "scanHelper": "په ډیسکټاپ کې یاست؟ د اپلیکیشن ترلاسه کولو لپاره په خپل تلیفون کې سکین وکړئ.",
+    "goHome": "کور ته لاړ شئ",
+    "home": "کور",
     "headlineAlt": {
-      "main": "هغه خوندي پیغام رسونکی چې",
+      "main": "هغه خوندي میسنجر چې",
       "highlight": "ستاسو په ژبه خبرې کوي"
     },
     "subhead": "خصوصي, کوډ شوي, او ژباړل شوي پیغامونه — په سمدستي توګه.",
-    "upgrade": "همدا اوس اپګریډ وکړئ",
+    "upgrade": "همدا اوس اپګریډ کړئ",
     "tip": "لارښوونه: په ویب او موبایل دواړو کې ورته اکاونټ وکاروئ. ستاسو پیغامونه همغږي پاتې کیږي.",
-    "openDownload": "د ډاونلوډ پاڼه خلاصه کړئ",
+    "openDownload": "د ډاونلوډ پاڼه پرانیزئ",
     "qrAlt": "د چیټفوریا لپاره QR کوډ",
-    "scanHint": "د اپلیکیشن ډاونلوډ کولو یا په خپل براوزر کې د خلاصولو لپاره سکین کړئ.",
+    "scanHint": "د اپلیکیشن ډاونلوډ کولو یا په خپل براوزر کې د پرانیستلو لپاره سکین کړئ.",
     "iosAria": "په اپ سټور کې یې ډاونلوډ کړئ",
-    "iosTitle": "په اپ سټور کې یې ډاونلوډ کړئ",
-    "iosBadgeAlt": "د اپ سټور نښان",
-    "androidAria": "دا له ګوګل پلې څخه ترلاسه کړئ",
+    "iosTitle": "له اپ سټور څخه ډاونلوډ کړئ",
+    "iosBadgeAlt": "د اپ سټور بیج",
+    "androidAria": "له ګوګل پلې څخه یې ترلاسه کړئ",
     "androidTitle": "ګوګل پلې سټور",
-    "androidBadgeAlt": "د ګوګل پلې نښان",
+    "androidBadgeAlt": "د ګوګل پلې بیج",
     "login": "ننوتل",
     "signup": "نوم لیکنه",
-    "email": "بریښنالیک",
+    "email": "برېښنالیک",
     "registration": {
-      "passwordDescription": "لږ تر لږه ۶ تورې. یو پیاوړی او ځانګړی پاسورډ وکاروئ.",
-      " smsConsent": "د حساب جوړولو سره, تاسو د خپل Chatforia فعالیت پورې اړوند د SMS خبرتیاوو (لکه د نورو کاروونکو پیغامونه) ترلاسه کولو سره موافقه کوئ. د پیغام او ډیټا نرخونه ممکن پلي شي. تاسو کولی شئ هر وخت په ترتیباتو کې له دې څخه ځان وباسئ.",
-      "termsLink": "د خدماتو شرایط",
-      "privacyLink": "د محرمیت تګلاره"
+      "passwordDescription": "لږ تر لږه ۶ تورې. یو قوي او ځانګړی پټنوم وکاروئ.",
+      "smsConsent": "د حساب جوړولو سره, تاسو د خپل Chatforia فعالیت اړوند SMS خبرتیاوو (لکه د نورو کاروونکو پیغامونه) ترلاسه کولو سره موافقه کوئ. د پیغام او ډیټا نرخونه ممکن پلي شي. تاسو کولی شئ هر وخت په ترتیباتو کې له دې څخه ځان وباسئ.",
+      "termsLink": "د خدماتو شرایط ",
+      "privacyLink": "د محرمیت تګلاره",
+      "already": "له وړاندې حساب لرئ؟",
+      "emailLabel": "بریښنالیک",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "پټنوم",
+      "passwordPlaceholder": "یوه پټنوم جوړ کړئ",
+      "phoneHelp": "د تایید, امنیت, او د SMS ځانګړتیاوو لپاره کارول کیږي چیرې چې ملاتړ کیږي.",
+      "phoneLabel": "د تلیفون شمیره",
+      "submit": "حساب جوړ کړئ",
+      "submitAria": "خپل Chatforia حساب جوړ کړئ",
+      "title": "خپل Chatforia حساب جوړ کړئ",
+      "usernameLabel": "کارن نوم",
+      "usernamePlaceholder": "یو کارن نوم وټاکئ"
     },
     "to": "To:",
-    "enterRecipient": "یو نوم یا شمیره ولیکئ",
-    "clearRecipients": "د ترلاسه کوونکو پاکول",
+    "enterRecipient": "Enter a name or number",
+    "clearRecipients": "Clear recipients",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "د خوندي شوي اړیکې نوم یا د ټیلیفون شمیره دننه کړئ.",
+    "sendFailed": "لیږل ناکام شول. د جزیاتو لپاره کنسول وګورئ.",
+    "logIn": "ننوتل",
+    "seePlans": "پلانونه او بیې وګورئ",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "یو معتبر تلیفون شمېره ولیکئ.",
+      "invalidValue": "یوه ارزښت ناسم دی.",
+      "passwordLength": "پټنوم باید لږ تر لږه ۶ تورې ولري.",
+      "passwordRequired": "پټنوم اړین دی.",
+      "registrationFailed": "نوم لیکنه ناکامه شوه. مهرباني وکړئ بیا هڅه وکړئ.",
+      "smsConsent": "Please accept SMS consent to continue.",
+      "tooManyAttempts": "ډېرې هڅې وشوې. مهرباني وکړئ انتظار وکړئ او بیا هڅه وکړئ.",
+      "usernameOrEmailTaken": "هغه کارن نوم یا بریښنالیک لا دمخه نیول شوی.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "د ننوتلو بشپړول..."
+  },
+  "home": {
+    "title": "کور",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
+    "subheader": "Send a message to start a chat.",
+    "sendButton": "Send message",
+    "gifPicker": "Open GIF picker",
+    "emoji": "Emoji",
+    "upload": "Upload photo or video",
+    "inputPlaceholder": "Type a message…",
+    "inputLabel": "Message composer",
+    "sendTooltip": "Send",
+    "sendTooltipEmpty": "Type a message to send",
+    "send": "Send",
+    "welcomeMessage": "Welcome to Chatforia",
+    "getStarted": "Get Started",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
+    "enterRecipient": "Enter a name or number",
+    "addRecipient": "د پیل کولو لپاره پورته یو ترلاسه کوونکی اضافه کړئ…",
+    "needNumber": "د SMS لیږلو دمخه تاسو یو Chatforia شمیره ته اړتیا لرئ.",
+    "chooseNumber": "یوه شمیره وټاکئ",
+    "to": "To",
     "sms": "SMS",
     "chatforia": "Chatforia",
     "typeMessage": "یو پیغام ولیکئ…",
-    "addRecipient": "د پیل کولو لپاره یو ترلاسه کوونکی پورته اضافه کړئ…",
-    "oneRecipient": "مهرباني وکړئ د اوس لپاره یو ترلاسه کوونکی دننه کړئ.",
-    "enterValidRecipient": "د خوندي شوي اړیکې نوم یا د تلیفون شمیره دننه کړئ.",
-    "sendFailed": "لیږل ناکام شول. د جزیاتو لپاره کنسول وګورئ."
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "home": {
-    " سرلیک": "کور",
-    "ستاسو پیغامونه\",\n    \"د خبرو پیل لپاره پورته یو ترلاسه کوونکی ولیکئ, بیا پیغام واستوئ.\",\n    \"د خبرو پیل لپاره یو پیغام واستوئ.\",\n    \"پیغام واستوئ\",\n    \"د جي آی ایف غوره کوونکی": "د جي آی ایف غوره کوونکی خلاص کړئ",
-    "emoji": "ایموجي",
-    "upload": "عکس یا ویډیو اپلوډ کړئ",
-    "inputPlaceholder": "پیغام ولیکئ…",
-    "inputLabel": "د پیغام جوړولو ځای",
-    "sendTooltip": "ولیږئ",
-    "sendTooltipEmpty": "د لیږلو لپاره پیغام ولیکئ",
-    "send": "ولیږئ",
-    "welcomeMessage": "چټفوریا ته ښه راغلاست",
-    "پیل وکړئ": "پیل وکړئ",
-    "ګډو ترلاسه کوونکو": "ګډ ترلاسه کوونکي موندل شوي دي. یا د ټولو ټیلیفون شمېرو (SMS) یا د ټولو کارن نومونو (Chatforia) څخه کار واخلئ.",
-    "ترلاسه کوونکی داخل کړئ": "یو نوم یا شمېره داخل کړئ",
-    "addRecipient": "د پیل کولو لپاره پورته یو ترلاسه کوونکی اضافه کړئ…",
-    "needNumber": "د SMS لیږلو دمخه تاسو یو Chatforia شمیره ته اړتیا لرئ.",
-    "chooseNumber": "یوه شمیره وټاکئ"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "تصادفي خبرې اترې",
-    "callTextForwarding": "د زنګ او متن لېږدول ",
-    "خبرې اترې": "خبرې اترې",
-    "د لټون ځای": "چټونه ولټوئ...",
-    "د بارولو تېروتنه": "د چټونو بارول ناکام شول",
-    "خالي": "تر اوسه خبرې اترې نشته.",
-    "چټ پیل کړئ": "چټ پیل کړئ",
-    "خلک": "خلک",
-    "تنظیمات": "تنظیمات",
-    "حالت": "حالت",
-    "لېږدول": "د کال او متن لېږد",
-    "تازه کول": "تازه کول",
-    "لټون": "د خبرو اترو لټون",
-    "د ننوتلو غوښتنه": "د خپلو ترتیباتو د سمون لپاره ننوځئ.",
-    "ننوتل": "ننوتل",
-    "راجستر": "حساب جوړ کړئ",
-    "chatrooms": "چټ رومونه",
-    "logout": "له ننوتلو ووځئ",
-    "startChatAlt": "نوی چټ پیل کړئ",
-    "calls": "تلیفونونه",
-    "video": "ویډیو",
-    "voicemail": "غږیز پیغام"
+    "callTextForwarding": "د زنګ او متن لېږد",
+    "conversations": "خبرې اترې",
+    "searchPlaceholder": "د خبرو اترو لټون...",
+    "errorLoading": "د خبرو اترو په بارولو کې پاتې راغی",
+    "empty": "تر اوسه خبرې اترې نشته.",
+    "startChat": "یوه خبره اتره پیل کړئ",
+    "people": "خلک",
+    "settings": "تنظیمات",
+    "status": "حالت",
+    "forwarding": "د زنګ او متن لېږد",
+    "refresh": "تازه کول",
+    "search": "Search conversations",
+    "loginPrompt": "Log in to edit your settings.",
+    "login": "Log in",
+    "register": "Create account",
+    "chatrooms": "Chatrooms",
+    "logout": "Log out",
+    "startChatAlt": "Start a new chat",
+    "calls": "Calls",
+    "video": "Video",
+    "voicemail": "Voicemail",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "خبرې اترې تازه کړئ",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "مهرباني وکړئ بیا هڅه وکړئ.",
+    "archivedTitle": "مکالمه آرشیف شوه",
+    "archivedMsg": "مکالمه آرشیف شوه.",
+    "archiveFailedTitle": "مکالمه نشوه آرشیف کېدای",
+    "archiveFailedMsg": "مهرباني وکړئ بیا هڅه وکړئ."
   },
   "topbar": {
     "newStatus": "نوی حالت",
-    "logout": "بهر وتل",
+    "logout": "له سیسټم څخه وتل",
     "help": "مرسته",
     "createStatusAria": "نوی حالت جوړ کړئ"
   },
   "footer": {
     "plans": "پلانونه او بیې",
-    "about": "د چیټفوریا په اړه",
-    "careers": " دندې",
-    "مطبوعات": "مطبوعات",
-    "اعلانات": "اعلانات",
-    "اړیکه": "له موږ سره اړیکه",
-    "مرسته": " د مرستې مرکز",
+    "about": "د چټفوریا په اړه",
+    "careers": "دندې",
+    "press": "کلیک کړئ",
+    "advertise": "اعلان وکړئ",
+    "contact": "له موږ سره اړیکه ونیسئ",
+    "help": "د مرستې مرکز",
     "status": "د حالت پاڼه",
     "iosDownload": "iOS / اپ سټور",
     "androidDownload": "انډرایډ / ګوګل پلې",
     "privacy": "د محرمیت تګلاره",
     "terms": "د خدمت شرایط",
-    "cookies": "د کوکی ترتیبات",
-    "doNotSell": "زما معلومات مه پلورئ",
-    "language": "ژبه",
-    "contactShort": "اړیکه",
-    "aria": "پای پاڼه",
-    "homeAria": "د چاټفوریا کورپاڼه",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
     "section": {
-      "company": "شرکت",
-      "support": "ملاتړ ",
-      "ډاونلوډونه": "ډاونلوډونه",
-      "قانوني": "قانوني"
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
     },
-    "لینکونه": {
-      "پلانونه-او-قیمتونه": "پلانونه او قیمتونه",
-      "د چټفوریا په اړه": "د چټفوریا په اړه",
-      "دندې": "دندې",
-      "مطبوعات": "مطبوعات",
-      "اعلانات": "اعلانات",
-      " پیل کول": "پیل کول",
-      "د مرستې مرکز": "د مرستې مرکز",
-      "له موږ سره اړیکه": "له موږ سره اړیکه",
-      "د وضعیت پاڼه": "د وضعیت پاڼه",
-      "آی او ایس / اپ سټور": "iOS / اپ سټور",
-      "انډرایډ / ګوګل پلې": "Android / ګوګل پلې",
-      "د محرمیت تګلاره": "د محرمیت تګلاره",
-      "د شرایطو -service": "د خدمت شرایط",
-      "do-not-sell-my-info": "زما معلومات مه پلورئ",
-      "cookie-settings": "د کوکی ترتیبات",
-      "how-it-works": "دا څنګه کار کوي",
-      "blog": "بلاګ",
-      "refund-policy": "د پیسو د بیرته ورکولو تګلاره",
-      "د اېس اېم اېس پالیسي": "د اېس اېم اېس پیغام رسونې پالیسي"
+    "links": {
+      "plans-pricing": "پلانونه او قیمتونه",
+      "about-chatforia": "د چټفوریا په اړه",
+      "careers": "دندې",
+      "press": "کلیک کړئ",
+      "advertise": "اعلان وکړئ",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
     },
-    "ټولنیز": {
-      "ټیک ټاک": "ټیک ټاک",
-      "انسټاګرام": "انسټاګرام",
-      "فیسبوک": "فیسبوک",
-      "لینکډین": " LinkedIn",
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
       "x": "X"
     },
-    "\n    \"copyright": "© Chatforia",
+    "copyright": "© Chatforia",
     "patentPending": "د پیټینټ غوښتنه روانه ده",
-    "backToTop": "↑ پورته بېرته"
+    "backToTop": "↑ پورته بیرته"
+  },
+  "header": {
+    "openNav": "د ناویګیشن مینو خلاص کړئ",
+    "closeNav": "د ناویګیشن مینو وتړئ",
+    "homeAria": "د چاټفوریا کور"
   },
   "chat": {
     "selectPrompt": "د خبرو پیل کولو لپاره یو متن یا د خبرو کوټه وټاکئ",
     "newMessages": "نوي پیغامونه",
-    "typing": "{{name }} لیکي...",
+    "typing": "{{name}} لیکي...",
     "emptyTitle": "ستاسو پیغامونه",
     "emptySubtitle": "د خبرو پیلولو لپاره پیغام واستوئ.",
     "startChatButton": "پیغام واستوئ",
-    "mediaAttachment": "ملاتړی میډیا",
+    "mediaAttachment": "ملاتړي رسنۍ",
     "thisUser": "دا کاروونکی",
     "blockConfirm": "{{name}} بند کړئ؟ تاسو به له هغوی څخه پیغامونه ترلاسه نه کړئ.",
-    "blockedUser": "بند شوی {{name}}.",
-    "blockError": "د بلاک کولو لپاره د هدف کارونکي معلومول ممکن نه وو.",
-    "blockFailed": "بلاک کول ناکام شول (بېک انډ لاګو شوی نه دی).",
+    "blockedUser": "منعه شوی {{name}}.",
+    "blockError": "د منع کولو لپاره د هدف کارونکي معلومول ممکن نه وو.",
+    "blockFailed": "منع کول ناکام شول (بېک اینډ لا تر اوسه فعال نه دی).",
     "encryptedUnavailable": "کوډ شوی پیغام (کیلي شتون نلري)",
-    "unlockToView": "د دې پیغام لیدو لپاره خپله کیلي خلاصه کړئ"
+    "unlockToView": "د دې پیغام لیدو لپاره خپله کیلي خلاصه کړئ",
+    "clearConfirm": "دا خبرې اترې پاکې کړئ؟ دا بېرته نه شي کېدای.",
+    "unknownThread": "Unknown thread"
   },
-  " messageInput": {
+  "messageInput": {
     "ttl": {
-      "off": "بند"
+      "off": "Off"
     },
-    "freeLimit": "د وړیا پلان محدودیت: تر ۱ ورځې پورې په اتوماتيک ډول ړنګیږي. په ۱ ورځ پورې محدود شوی.",
-    "premiumLimit": "د پریمیم لپاره د اتومات ړنګیدو اعظمي موده ۳۰ ورځې ده. په ۳۰ ورځو پورې محدود شوی.",
-    " nothingToSend": "د لیږلو لپاره یو پیغام ولیکئ یا فایل ضمیمه کړئ.",
-    "encryptionFailed": "انکرپشن ناکام شو. پیغام نه دی لیږل شوی.",
-    "sent": "پیغام ورسول شو.",
-    "placeholder": "پیغام ولیکئ… ",
-    "autoDelete": "په اتوماتيک ډول ړنګول",
-    "typeToSend": "د لیږلو لپاره یو پیغام ولیکئ",
-    "send": "لیږل",
-    "sendWithEnter": "لیږل (Enter)",
-    "attachment": "ضمیمه",
-    "caption": "سرلیک (اختیاري)",
-    "remove": "لرې کول",
-    "clear": "صاف کړئ",
-    "جي آی ایف": "جي آی ایف",
-    "سټیکر": "سټیکر",
+    "freeLimit": "Free plan limit: auto-delete up to 1 day. Clamped to 1d.",
+    "premiumLimit": "Max auto-delete for Premium is 30 days. Clamped to 30d.",
+    "nothingToSend": "Type a message or attach a file to send.",
+    "encryptionFailed": "Encryption failed. Message not sent.",
+    "sent": "Message delivered.",
+    "placeholder": "Type a message…",
+    "autoDelete": "Auto-delete",
+    "typeToSend": "Type a message to send",
+    "send": "Send",
+    "sendWithEnter": "Send (Enter)",
+    "attachment": "attachment",
+    "caption": "Caption (optional)",
+    "remove": "Remove",
+    "clear": "Clear",
+    "gif": "GIF",
+    "sticker": "Sticker",
     "errors": {
-      "attachmentTooLarge": "ملحق ډېر لوی دی. یو کوچنی فایل وازمایئ.",
-      "unsupportedFile": "د فایل ډول ملاتړ نه کیږي.",
-      "rateLimit": "تاسو پیغامونه ډېر ژر لیږئ. مهرباني وکړئ ورو یې کړئ.",
-      "validation": "د تایید تېروتنه. مهرباني وکړئ خپل پیغام وګورئ او بیا یې وازمایئ.",
-      "failedToSend": "لېږل کې نه توانېدل شئ. تاسو کولی شئ ناکام شوی ببل بیا وازمایئ."
-    }
+      "attachmentTooLarge": "Attachment too large. Try a smaller file.",
+      "unsupportedFile": "Unsupported file type.",
+      "rateLimit": "You’re sending messages too quickly. Please slow down.",
+      "validation": "Validation error. Please check your message and try again.",
+      "failedToSend": "Failed to send. You can retry the failed bubble.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Voice note added."
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
-    "threadMenu": "د ټریډ مینو",
+    "threadMenu": "د بحث مینو",
     "premium": "پریمیم",
-    "aiPower": "د مصنوعي ځيرکتيا ځواک",
-    "مهالوېش": "مهالوېش",
-    "تکميل": "تکميل",
-    "د تکميل وروسته اضافه": "(تکميل)",
-    "سيله": "سيله",
-    "په اړه": "په اړه",
-    "لټون": "لټون",
-    "رسنۍ": "رسنۍ",
-    "خلکو ته بلنه": "خلکو ته بلنه ورکړئ",
-    "د کوټې ترتیبات": "د کوټې ترتیبات",
-    "خبرې اترې پاکول": "خبرې اترې پاکول",
-    "بندول": "بندول"
+    "aiPower": "د مصنوعي ځیرکتیا ځواک",
+    "schedule": "مهالوېش",
+    "upgrade": "تکمیل/لوړول",
+    "upgradeSuffix": "(تکمیل/لوړول)",
+    "thread": "بحث",
+    "about": "About",
+    "search": "Search",
+    "media": "Media",
+    "invitePeople": "Invite people",
+    "roomSettings": "Room settings",
+    "clearConversation": " سپکې خبرې",
+    "block": "Block"
   },
-  "د کوټې لټون": {
-    "سرلیک": "په کوټه کې لټون",
-    "ariaLabel": "په کوټه کې لټون",
-    "search": "لټون",
-    "searchMessages": "پیغامونه ولټوئ",
-    "noText": "[بې متن]",
-    "noResults": "هیڅ پایلې نشته"
+  "roomSearch": {
+    "title": "Search in room",
+    "ariaLabel": "Search in room",
+    "search": "Search",
+    "searchMessages": "Search messages",
+    "noText": "[No text]",
+    "noResults": "No results"
   },
   "roomSettings": {
     "roles": {
       "member": "غړی",
-      "moderator": "مخکښ\": \"یوازې په @ForiaBot یا /ask باندې",
+      "moderator": "مشر",
+      "admin": "مدیر"
+    },
+    "aiMode": {
+      "off": "بند",
+      "mention": "یوازې په @ForiaBot یا /ask باندې",
       "always": "په فعاله توګه ځواب ورکړئ"
     },
     "autoTranslateMode": {
-      "بند": "بند",
-      "ټګ شوي": "یوازې ټګ شوي (/tr …)",
-      "ټول": "ټول پیغامونه"
+      "off": "بند",
+      "tagged": "یوازې نښه شوي (/tr …)",
+      "all": "ټول پیغامونه"
     },
-    "تازه شوی": "تنظیمات تازه شول"
+    "updated": "تنظیمات تازه شوي",
+    "title": "د کوټې تنظیمات",
+    "participants": "ګډونوال",
+    "user": "کاروونکی",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "شریک شوي میډیا",
-    "noMediaCached": "تر اوسه په سیمه ییزه توګه هیڅ میډیا ذخیره شوې نه ده.",
+    "noMediaCached": "تر اوسه هیڅ میډیا په سیمه ییزه توګه ذخیره شوې نه ده.",
     "imageAlt": "انځور",
     "openVideo": "ویډیو خلاص کړئ",
     "openVideoWithCaption": "ویډیو خلاص کړئ: {{caption}}",
     "preview": "مخکتنه",
     "previewWithCaption": "مخکتنه: {{caption}}",
-    "previewKind": "Preview {{kind}}",
-    "download": "ډاونلوډ",
-    "downloadKind": "ډاونلوډ {{kind}}",
-    "file": "فایل",
+    "previewKind": "مخکتنه {{kind}}",
+    "download": "Download",
+    "downloadKind": "Download {{kind}}",
+    "file": "file",
     "kinds": {
-      "image": "انځور",
-      "video": "ویډیو",
-      "audio": "آډیو",
-      "file": "فایل"
+      "image": "image",
+      "video": "video",
+      "audio": "audio",
+      "file": "file"
     }
   },
-  "غږیز پیغام": {
-    "pageTitle": "غږیز پیغام",
-    "from": "له",
-    "to": "ته",
-    "unknownCaller": "نامعلوم",
-    "yourNumber": "ستاسو چاټفوریا شمیره",
-    "durationSeconds": " {{count}}s",
-    "audioAria": "د غږیز پیغام غږیز پلیر",
-    "transcriptHeading": "لیکلی متن",
-    "transcriptPending": "د غږیز پیغام لیکل کیږي...",
-    "transcriptFailed": "لیکلی متن شتون نلري.",
-    "loading": "د غږیز پیغام بارول...",
-    "errorLoading": "د غږیز پیغام بارولو کې پاتې راغی.",
-    "خالي": "تر اوسه غږیز پیغام نشته.",
-    "د حذف تایید": "دا غږیز پیغام حذف کړئ؟",
-    "د حذف تېروتنه": "د غږیز پیغام په حذف کولو کې پاتې راغلو.",
-    "د لوستلو نښه کول": "د لوستل شوي په توګه یې نښه کړئ",
-    "حذف": "حذف کړئ",
-    "د نالوستلي ټکي نښه": "د نالوستلي غږیز پیغام نښه"
+  "status": {
+    "userNumber": "User #{{id}}",
+    "posted": "Status posted",
+    "postFailed": "Failed to post status",
+    "createTitle": "Create a status",
+    "modalAriaLabel": "New status",
+    "captionLabel": "What's on your mind?",
+    "captionPlaceholder": "Share an update...",
+    "captionAria": "Status message",
+    "audienceLabel": "Audience",
+    "audience": {
+      "public": "Public",
+      "followers": "Followers",
+      "contacts": "Contacts",
+      "mutuals": "Mutuals",
+      "custom": "Custom..."
+    },
+    "expiresHoursLabel": "Expires (hours)",
+    "maxTooltip": "Maximum 7 days",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Expires on:",
+    "chooseRecipients": "Choose recipients",
+    "selectContacts": "Select contacts",
+    "attachmentsLabel": "Attachments",
+    "attachmentsPlaceholder": "Add images/videos",
+    "filesNote": "Up to 5 files. 24h expiry by default.",
+    "postAria": "Post status",
+    "post": "Post"
   },
-  "د اړیکو لیست": {
-    "ساتل شوې اړیکې": "ساتل شوې اړیکې",
-    "تازه کول": "اړیکې تازه کړئ",
-    "د فلټر ځای ناستی": "ساتل شوې اړیکې فلټر کړئ...",
-    "فلټر": "ساتل شوې اړیکې فلټر کړئ",
-    "اړیکې نه موندل شوې": "هیڅ اړیکې نه موندل شوې.",
-    "بهرنۍ اړیکه": "بهرنۍ اړیکه",
-    "notJoined": "هغه اړیکه لا تر اوسه چټفوریا سره نه ده یوځای شوې.",
-    "couldNotStart": "خبرې اترې پیل نشوې. مهرباني وکړئ بیا هڅه وکړئ.",
-    "startFailed": "د خبرو اترو په پیل کې پاتې راغلی. مهرباني وکړئ بیا هڅه وکړئ. ",
-    "حذف شو": "اړیکه حذف شوه.",
-    "د حذف کولو ناکامي": "د اړیکې په حذف کولو کې ناکامي وشوه. مهرباني وکړئ بیا هڅه وکړئ.",
-    "تخلص تازه شو": "تخلص تازه شو.",
-    "د تخلص په تازه کولو کې ناکامي": "د تخلص په تازه کولو کې ناکامي وشوه. مهرباني وکړئ بیا هڅه وکړئ.",
-    "اړیکه وټاکئ": "{{name}} وټاکئ",
-    "تخلص": "تخلص",
-    "خبرې پیل کړئ": "خبرې پیل کړئ",
-    "پیغام": "پیغام",
-    "تصفیه": "تصفیه کړئ",
-    "د اړیکو تصفیه کولو ساحه": "اړیکه تصفیه کړئ",
-    "د بارولو ناکامي": "د اړیکو په بارولو کې ناکامي وشوه. مهرباني وکړئ بیا هڅه وکړئ.",
-    "نوربارول": "نور بار کړئ",
-    "اړیکه": "اړیکه ونیسئ",
-    "اړیکه پیل شوه": "د خپل چاټفوریا شمېرې له لارې دې شمېرې ته زنګ وهي...",
-    "د اړیکې نیولو ناکامي": "د اړیکې نیولو په پیل کې ناکامي وشوه. مهرباني وکړئ بیا هڅه وکړئ."
+  "voicemail": {
+    "pageTitle": "Voicemail",
+    "from": "From",
+    "to": "To",
+    "unknownCaller": "Unknown",
+    "yourNumber": "Your Chatforia number",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Voicemail audio player",
+    "transcriptHeading": "Transcript",
+    "transcriptPending": "Transcribing voicemail…",
+    "transcriptFailed": "Transcript unavailable.",
+    "loading": "Loading voicemail…",
+    "errorLoading": "Failed to load voicemail.",
+    "empty": "No voicemails yet.",
+    "deleteConfirm": "Delete this voicemail?",
+    "deleteError": "Failed to delete voicemail.",
+    "markRead": "Mark as read",
+    "delete": "Delete",
+    "unreadDotAria": "Unread voicemail indicator"
   },
-  "د اړیکې اضافه کولو موډل": {
-    "سرلیک": "اړیکه اضافه کړئ",
+  "contactList": {
+    "savedContacts": "Saved Contacts",
+    "refreshAria": "Refresh contacts",
+    "filterPlaceholder": "Filter saved contacts…",
+    "filterAria": "Filter saved contacts",
+    "noContactsFound": "No contacts found.",
+    "externalContact": "External contact",
+    "notJoined": "That contact hasn’t joined Chatforia yet.",
+    "couldNotStart": "Could not start chat. Please try again.",
+    "startFailed": "Failed to start chat. Please try again.",
+    "deleted": "Contact deleted.",
+    "deleteFailed": "Failed to delete contact. Please try again.",
+    "aliasUpdated": "Alias updated.",
+    "updateAliasFailed": "Failed to update alias. Please try again.",
+    "selectContact": "Select {{name}}",
+    "alias": "Alias",
+    "startChat": "Start chat",
+    "message": "Message",
+    "delete": "Delete",
+    "deleteContactAria": "Delete contact",
+    "loadFailed": "Failed to load contacts. Please try again.",
+    "loadMore": "Load more",
+    "call": "Call",
+    "callStarted": "Calling this number via your Chatforia number…",
+    "callFailed": "Failed to start call. Please try again.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "اړیکه اضافه کړئ",
     "phoneOrUsername": "تلیفون یا کارن نوم",
     "phoneOrUsernamePlaceholder": "د بېلګې په توګه +13018019227 یا juliannorton",
-    "alias": "لقب (اختیاري)",
-    "aliasPlaceholder": "د بېلګې په توګه د. کار, مور, مایک – اروپا",
-    "د تلیفون یا کارن نوم داخل کړئ": "د تلیفون شمیره یا کارن نوم داخل کړئ.",
-    "د کارن لټون ناکام شو": "د کارن لټون ناکام شو.",
-    "خپل ځان نشئ اضافه کولی": "تاسو نشئ کولی خپل ځان د اړیکې په توګه اضافه کړئ.",
-    "د اړیکې اضافه کول ناکام شول": "د اړیکې اضافه کول ناکام شول.",
-    "اضافه کړئ": "اضافه کړئ"
+    "alias": "متل (اختیاري)",
+    "aliasPlaceholder": "د بېلګې په توګه کار, مور, مایک – اروپا",
+    "enterPhoneOrUsername": "د تلیفون شمېره یا کارن نوم ولیکئ. ",
+    "userLookupFailed": "User lookup failed.",
+    "cannotAddSelf": "You cannot add yourself as a contact.",
+    "failedToAdd": "Failed to add contact.",
+    "add": "Add"
   },
-  "د خلکو پاڼه": {
-    "خلک": "خلک",
-    "لټون": "لټون",
-    "searchPlaceholder": "په مستعار نوم, نوم, کارن نوم, یا تلیفون کې خوندي شوي اړیکې وپلټئ",
-    "quickStart": "ګړندی پیل",
-    "quickStartDesc": "خپلې اړیکې اداره کړئ او ملګري راوبلئ.",
-    "importContacts": "خپلې اړیکې وارد کړئ",
-    "import ": "واردول",
-    "د اړیکې اضافه کول": "د اړیکې اضافه کول",
-    "اضافه کول": "اضافه کول",
-    "د ملګرو بلول": "ملګري راوبلئ",
-    "د بلنې توضیحات": "د سمدستي خبرو پیل کولو لپاره خپل د بلنې لینک شریک کړئ.",
-    "اپلیکېشن ترلاسه کړئ": "اپلیکېشن ترلاسه کړئ",
-    "د اپلیکېشن ترلاسه کولو توضیحات": "د iOS او Android لپاره د Chatforia سره هر ځای او هر وخت په اړیکه کې پاتې شئ.",
-    "ډاونلوډ": "ډاونلوډ",
-    "syncTip": "لارښوونه: ستاسو پیغامونه په ویب او موبایل دواړو کې همغږي پاتې کیږي.",
-    "filterSaved": "ژغورل شوي اړیکې فلټر کړئ",
-    "noContactsFound": "اړیکې مو ونه موندل شوې",
-    "focusSearch": "تلاشۍ باندې تمرکز وکړئ",
-    "findOrAdd": "یو څوک ومومئ یا اضافه کړئ",
-    "د تلیفون یا کارن-نوم له مخې لټون": "د تلیفون / کارن-نوم له مخې لټون وکړئ"
+  "startChatModal": {
+    "title": "خبرې اترې پیل کړئ",
+    "searchPlaceholder": "نوم, کارن نوم, یا د تلیفون شمیره وپلټئ",
+    "messageThisPerson": "دې کس ته پیغام واستوئ",
+    "contacts": "اړیکې",
+    "recentInteractions": "تېرې اړیکې",
+    "noContactsMatch": "هیڅ اړیکې ستاسو له لټون سره سمون نه خوري.",
+    "noRecentInteractions": "تر اوسه کومې نوې اړیکې نشته.",
+    "unknown": "نامعلوم",
+    "interactionType": {
+      "message": "پیغام",
+      "call": "ټیلیفون",
+      "video": "ویډیو"
+    },
+    "quickPicker": "ګړندی غوره کوونکی",
+    "to": "To",
+    "nameOrUsername": "یو نوم یا کارن نوم ولیکئ",
+    "nameUsernamePhoneEmail": "یو نوم, کارن نوم, تلیفون, یا بریښنالیک ولیکئ...",
+    "startWithSelected": "له ټاکل شوي سره خبرې پیل کړئ",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "د ټاکل شویو ترلاسه کوونکو سره د خبرو پیل کولو کې پاتې راغی.",
+    "noResults": "هیڅ پایلې نشته",
+    "mode": "موده",
+    "group": "ډله",
+    "broadcast": "خپرونه",
+    "groupNameOptional": "د ډلې نوم (اختیاري)",
+    "firstMessageOptional": "لومړی پیغام (اختیاري خو سپارښتنه کیږي)",
+    "createGroup": "ډله جوړه کړئ",
+    "sendBroadcast": "خپرونه واستوئ"
   },
-  "پروفایل": {
-    "سرلیک": "د کارونکي پروفایل",
-    "غوره ژبه": "غوره ژبه",
-    "ژبه وټاکئ": "یوه ژبه وټاکئ",
-    "باید ننوتل شوي اوسئ": "د ترتیباتو لیدو لپاره باید ننوتل شوي اوسئ.",
-    "اتومات ژباړه": "پیغامونه په اتوماتيک ډول وژباړئ",
-    "اصلي متن د ژباړې سره وښایئ lation": "اصلي او ژباړل شوي پیغامونه وښایاست",
-    "showOriginalAndTranslation": "اصلي او ژباړه یوځای وښایاست",
-    "filterExplicit": "غیر مناسب منځپانګه فلټر کړئ",
-    "aiReply": "د مصنوعي ځيرکتيا ځواب",
-    "enableReadReceipts": "د لوستلو رسيدونه فعال کړئ",
-    "allowExplicitContent": "واضح منځپانګه اجازه ورکړئ",
-    "disappearingMessages": "د ورکېدونکو پيغامونو فعالول",
-    "autoDeleteSeconds": "د اتوماتيک حذف لپاره ثانيې",
-    "saveSuccess": "تنظیمات خوندي شول!",
-    "saveError": "تېروتنه: ترتیبات خوندي نشول کېدای",
-    "avatarAlt": "د پروفایل عکس",
-    "uploadAvatar": "نوی عکس پورته کړئ",
-    "avatarSuccess": "عکس پورته شو!",
-    "avatarError": "د اوتار اپلوډ کولو کې پاتې راغی",
-    "avatarUpdated": "اوتار تازه شو!",
-    "uploadingAvatar": "د اوتار اپلوډ کول...",
-    "noPrivateKey": "په دې وسیله کې د صادرولو لپاره کومه شخصي کیلي نشته.",
-    "setBackupPassword": "د خپل بیک اپ د کوډ کولو لپاره یوه پټه نوم وټاکئ:",
-    "backupDownloaded": "کوډ شوی بیک اپ ډاونلوډ شو.",
-    "exportFailed": "د کیلي صادرول ناکام شول",
-    "enterBackupPassword": "د دې بیک اپ لپاره پټنوم داخل کړئ:",
-    "importSuccess": "شخصي کیلي دې وسیلې ته وارد شوه.",
-    "importFailed": "د کیلي واردول ناکام شول (ناسم پټنوم یا خراب فایل).",
-    "keysRotated": "د کیلي نوې جوړه جوړه شوه او عامه کیلي پورته شوه.",
-    "د کیلي په بدلولو کې پاتې راغی.\",\n    \"امنیت\",\n    \"د کیلي صادرول": "د کوډ لیکلو کیلي بیک اپ",
-    "د کیلي واردول": "د کوډ لیکلو کیلي بیرته راوړل",
-    "د کیلي ګرځول": "د کوډ لیکلو کیلي ګرځول",
-    "د کیلي د نه کارولو خبرتیا": "ستاسو شخصي کیلي هیڅکله له دې وسیلې څخه نه وځي. د پټنوم په واسطه خوندي شوی کاپي صادر کړئ ترڅو په بل وسیله یې بیرته راوګرځوئ.",
-    "sectionProfile": "پروفایل",
-    "phoneNumber": "د تلیفون شمیره",
-    "appearance": "بڼه",
-    "soundSettings": "غږونه",
-    "disappearing": "ورکېدونکي پیغامونه",
-    "backupSync": "بک اپ او همغږي",
+  "peoplePage": {
+    "people": "خلک",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
+  },
+  "profile": {
+    "title": "User Profile",
+    "preferredLanguage": "Preferred language",
+    "chooseLanguage": "Choose a language",
+    "mustLogin": "You must sign in to view the settings.",
+    "autoTranslate": "Auto-translate messages",
+    "showOriginalWithTranslation": "Show original and translated messages",
+    "showOriginalAndTranslation": "Show original alongside translation",
+    "filterExplicit": "Filter explicit content",
+    "aiReply": "AI reply",
+    "enableReadReceipts": "Enable read receipts",
+    "allowExplicitContent": "Allow explicit content",
+    "disappearingMessages": "Enable disappearing messages",
+    "autoDeleteSeconds": "Seconds until auto-delete",
+    "saveSuccess": "Settings saved!",
+    "saveError": "Error: Could not save settings",
+    "avatarAlt": "Profile avatar",
+    "uploadAvatar": "Upload new avatar",
+    "avatarSuccess": "Avatar uploaded!",
+    "avatarError": "Failed to upload avatar",
+    "avatarUpdated": "Avatar updated!",
+    "uploadingAvatar": "Uploading avatar…",
+    "noPrivateKey": "There is no private key on this device to export.",
+    "setBackupPassword": "Set a password to encrypt your backup:",
+    "backupDownloaded": "Encrypted backup downloaded.",
+    "exportFailed": "Key export failed",
+    "enterBackupPassword": "Enter the password for this backup:",
+    "importSuccess": "Private key imported to this device.",
+    "importFailed": "Failed to import key (incorrect password or corrupt file).",
+    "keysRotated": "New key pair generated and public key uploaded.",
+    "rotateFailed": "Failed to rotate keys.",
+    "security": "Security",
+    "exportKey": "Back Up Encryption Key",
+    "importKey": "Restore Encryption Key",
+    "rotateKeys": "Rotate Encryption Key",
+    "keyDisclaimer": "Your private key never leaves this device. Export a password-protected copy to restore it on another device.",
+    "sectionProfile": "Profile",
+    "phoneNumber": "Phone number",
+    "appearance": "Appearance",
+    "soundSettings": "Sounds",
+    "disappearing": "Disappearing messages",
+    "backupSync": "Backup & Sync",
     "ai": "AI",
-    "accessibility": "د لاسرسي اسانتیا",
-    "privacy": "محرمیت",
-    "devices": "تړل شوي وسایل",
-    "themeFreeNotice": "تاسو په وړیا حالت کې یاست—لاندې د لمر/میاشتې چټک انتخابونه وکاروئ. د نورو ټیمونو د خلاصولو لپاره اپګریډ وکړئ.",
-    "sunTheme": "د سپیده چمن ټیم وکاروئ",
-    "moonTheme": "د سپوږمۍ (نیمه شپه) ټیم وکاروئ",
-    "sun": "لمر",
-    "moon": "سپوږمۍ",
-    "backupTitle": "کوډ شوي بیک اپونه او د وسیلې همغږي",
-    "openBackupTools": " د بیک اپ وسیلې خلاص کړئ",
-    "backupDesc": "د خپلو پیغامونو په بل وسیله کې په خوندي توګه د بیا رغولو لپاره خپل د انکرپشن کیلي بیک اپ کړئ. ",
-    "privacyBlurEnabled": "په ډیفالټ ډول پیغامونه ګډوډ کړئ",
-    "privacyBlurOnUnfocus": "کله چې اپلیکیشن غیر فعال وي ګډوډ یې کړئ",
-    "planSection": "زما پلان",
-    "planLoading": "ستاسو پلان بارېږي...",
-    "planLoadFailed": "ستاسو پلان په بارولو کې پاتې راغی. ",
-    "اوسنی پلان": "اوسنی پلان",
-    "د نوي کېدو نېټه": "په ... نوي کېږي",
-    "وړیا پلان کاپي": "تاسو په وړیا پلان کې یاست. د نورو ځانګړتیاوو لکه بیک اپ, اضافي شمېرو, او پرمختللو محرمیت اختیارونو د خلاصولو لپاره اپګریډ وکړئ.",
-    "د پلان اپګریډ CTA": "پلان اپګریډ کړئ",
-    "د پلان بدلولو CTA": "پلان بدل کړئ",
-    "د بلینګ مدیریت": "بلینګ مدیریت کړئ",
-    "portalOpenFailed": "د بلینګ پورټل خلاصیدل ممکن نه وو. مهرباني وکړئ بیا هڅه وکړئ.",
-    "د ښکاره کولو لپاره یې ونیسئ": "د ښکاره کولو لپاره یې ونیسئ",
-    "د کاپي کولو پر مهال خبر راکړه": "که زما پیغام کاپي شي, ما ته خبر راکړه",
-    "په لوډولو کې پاتې راغی": "د پروفایل په لوډولو کې پاتې راغی",
-    "تعقیب شوی": "تعقیب شوی",
-    "په تعقیبولو کې پاتې راغی": "په تعقیبولو کې پاتې راغی",
-    "تعقیب ختم شوی": "تعقیب ختم شوی",
-    "په نه تعقیبولو کې پاتې راغی": "له فالو کولو وتل ناکام شول",
-    "فالو": "فالو کړئ",
-    "انفالو": "انفالو کړئ",
-    "د فالو کولو اشاره": "د دوی کیسې به ستاسو د فالو کړو فیډ کې ښکاره شي که دوی خپل پوسټ د تعقیب کونکو (یا عامه) لپاره خپور کړي.",
-    "کارونکی موندل شوی نه دی": "کارونکی موندل شوی نه دی",
-    "تاسو یې فالو کړي": "تاسو یې فالو کړي یاست",
-    "د برخې د کرېش سرلیک ": "د برخې په لوډولو کې پاتې راغی",
-    "sectionCrashedBody": "په دې برخه کې یو څه سم نه شول.",
-    "forwarding": "د زنګ او پیغام مخکې کول",
-    "callTextForwardingSection": "د زنګ او پیغام مخکې کول",
-    "callTextForwardingTitle": "د زنګ او/یا پیغام مخکې کول",
-    "callTextForwardingDescription": "راتلونکي زنګونه او پیغامونه خپل تایید شوي تلیفون یا بریښنالیک ته مخکې کړئ. وتونکي تلیفونونه/پیغامونه کولی شي ستاسو د Chatforia شمیره وښیې.",
-    "enableTextForwarding": "د متن پیغامونو لیږد فعال کړئ",
-    "forwardTextsToPhone": "پیغامونه تلیفون ته واستوئ",
-    "forwardTextsToEmail": "پیغامونه بریښنالیک ته واستوئ",
-    "destinationPhone": "د تلیفون منزل (E.164)",
-    "destinationEmail": "د بریښنالیک منزل",
-    "enableCallForwarding": "د تلیفون استول فعال کړئ",
-    "destinationPhoneForCalls": "د زنګونو لپاره منزل (E.164)",
-    "aliasBridging": "د زنګ لېږد (د مستعار نومونو نښلول)",
-    "quietHoursOptional": "د ارامۍ ساعتونه (اختیاري)",
-    "startHour": "د پیل ساعت (۰-۲۳)",
-    "endHour": "د پای ساعت (۰-۲۳)",
-    "reset": "بیا تنظیم کړئ",
-    "saveBtn": "خوندي کړئ",
-    "saveProfile ": "پروفایل خوندي کړئ",
-    "saveForwarding": "د فوروارډینګ خوندي کول",
-    "forwardSaved": "د فوروارډینګ ترتیبات خوندي شول",
-    "forwardSaveFailed": "د ترتیباتو په خوندي کولو کې پاتې راغی",
-    "errE164": "یو معتبر E.164 تلیفون شمېره ولیکئ (د بېلګې په توګه, +15551234567).",
-    "errEmail": "یو معتبر بریښنالیک داخل کړئ.",
-    "errSmsDest": "لږ تر لږه یو ځای (تلیفون یا بریښنالیک) وټاکئ.",
-    "errQuietHours": "د ارام ساعتونه باید له ۰ څخه تر ۲۳ پورې وي.",
-    "randomChat": "تصادفي خبرې اترې",
-    "ageBand": "ستاسو د عمر محدوده",
-    "ageBandPlaceholder": "خپله د عمر محدوده وټاکئ",
+    "accessibility": "Accessibility",
+    "privacy": "Privacy",
+    "devices": "Linked devices",
+    "themeFreeNotice": "You’re on Free—use the quick Sun/Moon options below. Upgrade to unlock more themes.",
+    "sunTheme": "Use Dawn theme",
+    "moonTheme": "Use Moon (Midnight) theme",
+    "sun": "Sun",
+    "moon": "Moon",
+    "backupTitle": "Encrypted Backups & Device Sync",
+    "openBackupTools": "Open Backup Tools",
+    "backupDesc": "Back up your encryption key to securely restore your messages on another device.",
+    "privacyBlurEnabled": "Blur messages by default",
+    "privacyBlurOnUnfocus": "Blur when app is unfocused",
+    "planSection": "My plan",
+    "planLoading": "Loading your plan…",
+    "planLoadFailed": "Failed to load your plan.",
+    "currentPlan": "Current plan",
+    "planRenewsOn": "Renews on",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features like backups, extra numbers, and advanced privacy options.",
+    "upgradePlanCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalOpenFailed": "Could not open billing portal. Please try again.",
+    "holdToReveal": "Hold to reveal",
+    "notifyOnCopy": "Notify me if my message is copied",
+    "loadFailed": "Failed to load profile",
+    "followed": "Followed",
+    "followFailed": "Failed to follow",
+    "unfollowed": "Unfollowed",
+    "unfollowFailed": "Failed to unfollow",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followHint": "Their stories will appear in your Following feed if they post with audience Followers (or Public).",
+    "userNotFound": "User not found",
+    "followsYou": "Follows you",
+    "sectionCrashedTitle": "Section failed to load",
+    "sectionCrashedBody": "Something went wrong in this section.",
+    "forwarding": "Call & Text Forwarding",
+    "callTextForwardingSection": "Call & Text Forwarding",
+    "callTextForwardingTitle": "Call and/or Text Forwarding",
+    "callTextForwardingDescription": "Forward incoming calls and texts to your verified phone or email. Outgoing calls/texts can show your Chatforia number.",
+    "enableTextForwarding": "Enable text forwarding",
+    "forwardTextsToPhone": "Forward texts to phone",
+    "forwardTextsToEmail": "Forward texts to email",
+    "destinationPhone": "Destination phone (E.164)",
+    "destinationEmail": "Destination email",
+    "enableCallForwarding": "Enable call forwarding",
+    "destinationPhoneForCalls": "Destination (E.164) for calls",
+    "aliasBridging": "Call Forwarding (alias bridging)",
+    "quietHoursOptional": "Quiet Hours (optional)",
+    "startHour": "Start hour (0–23)",
+    "endHour": "End hour (0–23)",
+    "reset": "Reset",
+    "saveBtn": "Save",
+    "saveProfile": "Save profile",
+    "saveForwarding": "Save forwarding",
+    "forwardSaved": "Forwarding settings saved",
+    "forwardSaveFailed": "Failed to save settings",
+    "errE164": "Enter a valid E.164 phone (e.g., +15551234567).",
+    "errEmail": "Enter a valid email.",
+    "errSmsDest": "Choose at least one destination (phone or email).",
+    "errQuietHours": "Quiet hours must be between 0 and 23.",
+    "randomChat": "Random Chat",
+    "ageBand": "Your age range",
+    "ageBandPlaceholder": "Select your age range",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "موږ یوازې د عمر محدوده ذخیره کوو (ستاسو د زیږون دقیقه نیټه نه). دا د دې لپاره کارول کیږي چې په تصادفي خبرو اترو کې جوړې مناسبې وساتي.",
-    "wantsAgeFilter": "په تصادفي خبرو اترو کې د عمر پر بنسټ جوړه کول غواړئ",
-    "wantsAgeFilterDesc": "کله چې فعال وي, موږ هڅه کوو تاسو د ورته عمر لرونکو خلکو سره جوړه کړو.",
-    "د ملګرتیا د عمرې کټګورۍ": "تاسو د چا سره جوړه کېدای شئ؟",
-    "د ملګرتیا د عمرې کټګوریو توضیحات": "ځوانان تل یوازې د نورو ځوانانو سره جوړه کیږي. لویان د ځوانانو سره جوړه نشي کیدای.",
-    "د ځوانانو د جوړې کولو یادښت": "د خوندیتوب لپاره, د ۱۳-۱۷ کلنۍ عمر لرونکي اکاونټونه په تصادفي چیټ کې یوازې د نورو ۱۳-۱۷ کلنو اکاونټونو سره جوړېدلی شي.",
-    "foriaRemember": "ریا ته اجازه ورکړئ هغه شیان یاد وساتي چې تاسو ورته وایئ",
-    "foriaRememberDesc": "کله چې دا فعال وي, فوریا کولی شي ستاسو د پخوانیو تصادفي چیټ خبرو اترو (یوازې ستاسو سره) څخه کار واخلي ترڅو خبرې روانې وساتي. تاسو هر وخت کولی شئ دا بند کړئ.",
-    "voicemailSection": "غږیز پیغام",
-    "voicemailEnabled": "غږیز پیغام فعال کړئ",
-    "voicemailAutoDeleteDays": "غږیز پیغامونه له (ورځو) وروسته په اتوماتيک ډول حذف کړئ",
-    "voicemailAutoDeletePlaceholder": "د تل لپاره ساتلو لپاره تش پرېږدئ",
-    "voicemailForwardEmail": "غږیز پیغام بریښنالیک ته واستوئ",
-    "voicemailForwardEmailPlaceholder": "بریښنالیک چې غږیز پیغام ورته واستو icemail notifications to",
+    "ageBandHint": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable.",
+    "wantsAgeFilter": "Use age-based matching in Random Chat",
+    "wantsAgeFilterDesc": "When on, we try to pair you with people in compatible age ranges.",
+    "partnerAgeBands": "Who can you be matched with?",
+    "partnerAgeBandsDesc": "Teens are always matched only with other teens. Adults cannot be matched with teens.",
+    "teenMatchingNote": "For safety, accounts in the 13–17 age range can only be matched with other 13–17 accounts in Random Chat.",
+    "foriaRemember": "Let Ria remember things you tell it",
+    "foriaRememberDesc": "When this is on, Foria can use your past Random Chat conversations (just with you) to keep the conversation flowing. You can turn this off any time.",
+    "voicemailSection": "Voicemail",
+    "voicemailEnabled": "Enable voicemail",
+    "voicemailAutoDeleteDays": "Auto-delete voicemails after (days)",
+    "voicemailAutoDeletePlaceholder": "Leave empty to keep forever",
+    "voicemailForwardEmail": "Forward voicemail to email",
+    "voicemailForwardEmailPlaceholder": "Email to send voicemail notifications to",
     "voicemailGreetingText": "Text fallback greeting",
     "voicemailGreetingTextDesc": "Used when your audio greeting is unavailable.",
-    "voicemailGreetingUpload": "د غږیز پیغام د هرکلي اپلوډ کول",
-    "voicemailPreviewGreeting": "د هرکلي مخکتنه",
-    "voicemailGreetingUploaded": "د غږیز پیغام هرکلی په بریالیتوب سره اپلوډ شو",
-    "voicemailGreetingUploadError": "د غږیز پیغام د هرکلي په اپلوډ کولو کې پاتې راغلو",
-    "voicemailNote": "ستاسو د Chatforia شمېرو څخه غږیز پیغامونه به ستاسو د غږیز پیغام انباکس کې ذخیره شي. تاسو کولی شئ په ملاتړ شوي پلانونو کې د متن لیکل او لیږد فعال کړئ.",
-    "portHint": "غواړئ خپل اوسنی شمیره وساتئ؟ تاسو کولی شئ دا چټفوریا وایرلیس ته پورټ کړئ.",
+    "voicemailGreetingUpload": "Upload voicemail greeting",
+    "voicemailPreviewGreeting": "Preview greeting",
+    "voicemailGreetingUploaded": "Voicemail greeting uploaded successfully",
+    "voicemailGreetingUploadError": "Failed to upload voicemail greeting",
+    "voicemailNote": "Voicemails from your Chatforia numbers will be stored in your Voicemail inbox. You can enable transcription and forwarding in supported plans.",
+    "portHint": "Want to keep your current number? You can port it into Chatforia Wireless.",
     "wireless": {
-      "manage": "وایرلیس اداره کړئ"
+      "manage": "Manage wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "چېټفوریا ای سِم",
-      "desc": "کله چې له وای فای څخه لرې یاست, د چېټفوریا لپاره موبایل ډیټا ترلاسه کړئ.",
-      "cta": "ای سِم ترلاسه کړئ / QR وښایاست"
+      "title": "Chatforia eSIM",
+      "desc": "Get mobile data for Chatforia when you’re away from Wi-Fi.",
+      "cta": "Get eSIM / Show QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
     },
-    "encryptedBackupsTitle": "د انکرپشن کیلي بیک اپ"
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
   },
   "themes": {
     "amoled": "Amoled",
@@ -607,381 +907,443 @@
     "neon": "Neon",
     "sunset": "Sunset",
     "solarized": "Solarized",
-    "velvet": "مخمل"
+    "velvet": "Velvet"
   },
-  "غږونه": {
-    "د خبرتیا غږونه": "د خبرتیا غږونه",
-    "په ډیفالټ باندې بیا تنظیمول": "په ډیفالټ باندې بیا تنظیمول",
-    "وړیا خبرتیا پیل": "تاسو په وړیا حالت کې یاست — پریمیم غږونه ښودل کیږي مګر قلف شوي دي. ",
-    "وړیا خبرتیا پای": " د ټولو خلاصولو لپاره.",
-    "messageTone": "د پیغام ټون",
-    "ringtone": "رنګټون",
-    "preview": "مخکتنه",
-    " stop": "درول",
-    "volume": "غږ",
-    "messageToneFilesHint": "فایلونه په /public/sounds/Message_Tones کې کېږدئ",
-    "ringtoneFilesHint": "فایلونه په /public/sounds/Ringtones کې کېږدئ",
-    "premiumRequired": "د دې انتخاب لپاره پریمیم اړین دی.",
-    "saved": "د غږ تنظیمات خوندي شول.",
-    "saveFailed": "د غږ تنظیمات خوندي نشول.",
-    "resetNotSaved": "اصلي حالت ته یې بیا تنظیم کړئ (لا خوندي شوي نه دي).",
-    "premiumTone": "دا یو پریمیم غږ دی.",
-    "premiumRingtone": "دا یو پریمیم زنګ دی.",
-    "custom ComingSoon": "دودیز غږونه ژر راځي.",
-    "freeNotice": "تاسو په وړیا حالت کې یاست — پریمیم غږونه ښودل کیږي خو قلف شوي دي. د ټولو خلاصولو لپاره اپګریډ وکړئ.",
-    "default": "ډیفالټ",
-    "vibrate": "لړزه",
-    "dreamer": "خيال",
-    "notify": "خبرتیا",
-    "pop": "پاپ",
-    "pulsatingSound": "ځلیدونکی غږ",
-    "textMessage": "متنی پیغام",
-    "xylophone": "زایلوفون",
-    "classic": "کلاسیک",
-    "urgency": "بېړنۍ",
-    "bells": "ګنډۍ",
-    "chimes": "چایمز",
-    "digitalPhone": "ډیجیټل تلیفون",
-    "melodic": "موزیقي",
-    "organNotes": "د آرگن نوټونه",
-    "soundReality": "غږیز حقیقت",
-    "street": "کوڅه",
-    "universfield": "نړیوال میدان"
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
   },
   "aiSettings": {
-    "title": "د AI ترتیبات",
-    "controlIntro": "د ژباړې, هوښیار ځوابونو, او د ForiaBot اتومات ځوابونو کنټرول.",
-    "translation": "ژباړه",
-    "autoTranslateIncoming": "راتلونکي پیغامونه په اتوماتيک ډول وژباړئ",
-    "showOriginalAlongside": "اصلي متن د ژباړې ترڅنګ وښایاست",
-    "smartReplies": "هوښیار ځوابونه ",
-    "enableSmartReplies": "هوښیار ځوابونه فعال کړئ",
-    "smartRepliesHint": "د چټکو ځوابونو وړاندیز لپاره, وروستي څو ترلاسه شوي پیغامونه (پاک شوي) AI ته واستوئ.",
-    "maskProfanity": "د AI په وړاندیزونو کې د بې ادبۍ کلمې پټې کړئ",
-    "maskProfanityHint": "که فعال وي, د AI لخوا راګرځول شوي وړاندیزونه به نښه شوي کلمې ولري چې پټې شوي دي ",
-    "foriaBot": "فوریا بوټ اتومات ځواب ورکوونکی",
-    "enableAutoReply": "کله چې زه بوخت یم, اتومات ځواب ورکول فعال کړئ",
-    "autoReplyMode": "د اتومات ځواب ورکولو حالت",
-    "cooldownSeconds": "د انتظار موده (ثانیې)",
-    "امضا": "امضا",
-    "خودکار ځواب": "🤖 خودکار ځواب",
-    "د فعاليت تر (اختیاري) پورې": "د فعاليت تر (اختیاري) پورې",
-    "خوندي کول": "د AI ترتیبات خوندي کړئ",
-    "خوندي شول": "د AI ترجیحات خوندي شول",
-    "د خوندي کولو ناکامي": " د AI ترتیباتو خوندي کول ناکام شول",
-    "ژباړه بند": "بند",
-    "ژباړه نښه شوي": "یوازې کله چې @ژباړل شوي یا نښه شوي",
-    "ژباړه ټول": "ټول راتلونکي پیغامونه وژباړئ ",
-    "modeDm": "یوازې ۱:۱ خبرې اترې",
-    "modeMention": "یوازې کله چې زه @ذکر شوی یم",
-    "modeAll": "ټول راتلونکي پیغامونه",
-    "off": "بند",
-    "on": "روښانه"
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
   },
   "accessibilitySettings": {
-    "title": "د لاسرسي اسانتیاوې او خبرتیاوې",
-    "loadFailed": "د ترتیباتو په بارولو کې پاتې راغی",
-    "accessibilityDesc": "هغه اختیارونه چې چټفوریا د غږ پر ځای د لید له لارې د کارولو لپاره اسانه کوي.",
-    "interfaceFontSize": "د انټرفیس د فونټ اندازه",
-    "interfaceFontSizeHelp": "له عادي اندازې څخه پیل کیږي. که تاسو غټ متن غوره کوئ نو زیات یې کړئ.",
-    "notifications": "خبرتیاوې",
-    "visualAlerts ": "د پیغامونو او زنګونو لپاره بصري خبرتیاوې",
-    "visualAlertsDesc": "د بنرونو او سرلیک ځلېدل وښایاست ترڅو تاسو کومه فعالیت له لاسه ورنکړئ.",
-    "vibrateOnNewShort": "د نویو پیغامونو پر مهال لړزه (کله چې ملاتړ یې وي)",
-    "vibrateOnNewDesc": "د خبرتیاوو سره د وسیلې لړزه فعاله کړئ.",
-    "flashOnCallShort": "د راتلونکي زنګ پر مهال سکرین فلش کړئ",
-    "flashOnCallDesc": "کله چې زنګ راشي, لنډ روښانه فلش.",
-    "liveCaptionsTitle ": "ژوندۍ سرلیکونه (اړیکې)",
-    "enableLiveCaptions": "د اړیکو پرمهال ژوندي سرلیکونه فعال کړئ (پریمیم)",
-    "liveCaptionsDesc": "د بل ګډونوال له غږیزو څخه په ریښتیني وخت کې سرلیکونه وښایاست.",
-    "captionFontSize": "د سرلیک د فونټ اندازه",
-    "captionBackground": "د سرلیک شالید",
-    "voiceNotes": "غږیز یادښتونه",
-    "autoTranscribeVoice یادښتونه": "غږیزو یادښتونو ته اتوماتیک لیکل",
-    "autoTranscribeVoiceNotesDesc": "هغو غږیزو پیغامونو ته چې تاسو یې ترلاسه کوئ, متن ور وصل کړئ.",
-    "changesSavedInstantly": "بدلونونه سمدستي خوندي کیږي.",
-    "sm": "کوچنی",
-    "md": "منځنی",
-    "lg": "لوی",
-    "xl": " ډېر لوی",
-    "روښانه": "روښانه",
-    "تېاره": "تېاره",
-    "شفاف": "شفاف",
-    "لرلید": "لرلید",
-    "notificationsDesc": "د پیغامونو او زنګونو لپاره بصري خبرتیاوې\nبنرونه او سرلیک ځلوي ترڅو تاسو کومه فعالیت له لاسه ورنکړئ.",
-    "vibrateOnNew": "د نویو پیغامونو لپاره وایبریټ کول (کله چې ملاتړ یې وشي)\nد خبرتیاوو سره د وسیلې وایبریشن فعالول.",
-    "flashOnCall": "د راتلونکي زنګ پر مهال د سکرین فلش\nکله چې زنګ راشي, یو لنډ روښانه فلش ښکاره کوي.",
-    "ژوندي سرلیکونه": "ژوندي سرلیکونه (زنګونه)"
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
   },
-  "د محرمیت برخه": {
-    "سخت E2EE": "سخت له سره تر پای پورې کوډ کول",
-    "یوازې د کوډ شوي متن یادښت": "پر سرور یوازې کوډ شوی متن ذخیره کړئ. د مصنوعي ځیرکتیا/ ژباړې او د تعدیل مخکتنې.",
-    "strictE2EEEnabled": "سخت E2EE فعال دی. AI/ژباړه به غیر فعاله شي.",
+  "privacySection": {
+    "strictE2EE": "سخت له سره تر سره کوډ کول",
+    "ciphertextOnlyNote": "په سرور کې یوازې کوډ شوی متن ذخیره کړئ. د مصنوعي ځیرکتیا/ژباړې او د منځګړیتوب مخکتنې غیر فعالوي.",
+    "strictE2EEEnabled": "سخت E2EE فعال دی. مصنوعي ځیرکتیا/ژباړه به غیر فعاله شي.",
     "strictE2EEDisabled": "سخت E2EE غیر فعال دی. AI/ژباړه بیا فعاله شوې."
   },
   "linkedDevicesPanel": {
-    "title": "تړل شوي وسایل",
-    " nonefound": "هیڅ تړل شوي وسایل وموندل شول.",
+    "title": "نښلول شوي وسایل",
+    "noneFound": "هیڅ نښلول شوي وسایل نه دي موندل شوي.",
     "refresh": "تازه کول",
     "unknown": "نامعلوم",
-    "loadFailed": "د تړلو وسایلو په بارولو کې پاتې راغی",
-    "loadFailedLog": "د تړلو وسایلو په بارولو کې پاتې راغی",
-    "renamePrompt": "د دې وسیلې لپاره نوی نوم ولیکئ",
+    "loadFailed": "د وصل شویو وسیلو بارولو کې پاتې راغی",
+    "loadFailedLog": "د وصل شویو وسیلو بارولو کې پاتې راغی",
+    "renamePrompt": "د دې وسیلې لپاره نوی نوم داخل کړئ",
     "renamed": "وسیله نومول شوه",
-    "renameFailed": " د وسیلې نوم بدلول ممکن نه وو",
+    "renameFailed": "د وسیلې نوم بدلول ممکن نه وو",
     "revoked": "وسیله لغوه شوه",
     "revokeFailed": "د وسیلې لغوه کول ممکن نه وو",
     "unnamedDevice": "بې نومه وسیله",
     "primary": "لومړنۍ",
-    "revokedStatus": "لغوه شوی",
-    "addedLastSeen": "په {{created}} اضافه شوه • وروستی ځل په {{lastSeen}} لیدل شوې",
-    " renameDevice": "وسیله نومول",
+    "revokedStatus": " بېرته اخیستل شوی",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
     "revokeDevice": "وسیله لغوه کړئ"
   },
   "wireless": {
-    "title": "چاټفوریا وایرلیس",
-    "تشریح": "ستاسو د چاتفوریا موبایل پلان, شمیرې, فوروارډینګ, او د شمیرې پورټینګ اداره کړئ.",
-    "اختیارات": {
-      "سرلیک": "وټاکئ چې تاسو څنګه غواړئ چاتفوریا وکاروئ",
-      "فرعي سرلیک": "تاسو کولی شئ یوه نوې چاتفوریا شمیره ترلاسه کړئ, یا خپله موجوده شمیره له بل شرکت څخه راوړئ.",
-      "نوې شمیره": "یوه نوې چاتفوریا شمیره ترلاسه کړئ",
-      "portNumber": "خپل اوسنی نمبر چټفوریا وایرلیس ته پورټ کړئ"
+    "title": "چېټفوریا وایرلیس",
+    "description": "خپل د چېټفوریا موبایل پلان, شمیرې, فوروارډینګ, او د شمیرې پورټینګ اداره کړئ.",
+    "options": {
+      "heading": "ټاکئ چې غواړئ چېټفوریا څنګه وکاروئ",
+      "subheading": " تاسو کولی شئ یو نوی چاټفوریا شمیره ترلاسه کړئ, یا خپله اوسنۍ شمیره له بل شرکت څخه راوړئ.",
+      "newNumber": "یو نوی چاټفوریا شمیره ترلاسه کړئ",
+      "portNumber": "خپل اوسنی شمیره چټفوریا وایرلیس ته انتقال کړئ"
     },
     "port": {
-      "heading": "خپل اوسنی نمبر پورټ کړئ",
-      "subheading": "خپل اوسنی تلیفون نمبر له خپل اوسني شرکت څخه چټفوریا ته انتقال کړئ. ډاډ ترلاسه کړئ چې توضیحات ستاسو د شرکت له حساب سره بالکل سم دي ترڅو د ځنډ مخه ونیول شي.",
-      "phoneNumberLabel": "هغه تلیفون شمیره چې پورټ کیږي",
+      "heading": "خپل موجوده شمیره انتقال کړئ",
+      "subheading": "خپل اوسنی تلیفون شمیره له خپل اوسني شرکت څخه چټفوریا ته انتقال کړئ. ډاډ ترلاسه کړئ چې توضیحات ستاسو د شرکت له حساب سره بالکل سم دي ترڅو د ځنډ مخه ونیول شي.",
+      "phoneNumberLabel": "هغه شمیره چې انتقالیږي",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "اوسنی شرکت",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
-      "accountNumberLabel": "د حساب شمیره",
+      "accountNumberLabel": "حساب شمېره",
       "pinLabel": "د پورټ کولو پین / پټنوم",
       "fullNameLabel": "په حساب کې بشپړ نوم",
       "address1Label": "لومړۍ پته",
-      "address2Label": "دوهمه پته (اختیاري)",
-      "cityLabel": "ښار",
-      "stateLabel ": "ایالت / ولایت",
-      "د پوستي کوډ لیبل": "پوستی کوډ",
-      "د هیواد لیبل": "هیواد",
-      "د سپارلو تڼۍ": "د پورټ غوښتنلیک وسپارئ",
-      "بریالیتوب": "د پورټ غوښتنلیک وسپارل شو! موږ به تاسو خبر ساتو.",
-      "عمومي تېروتنه": "یوه ستونزه رامنځته شوه."
+      "address2Label": "د پتې دوهمه کرښه (اختیاري)",
+      "cityLabel": "City",
+      "stateLabel": "State / Province",
+      "postalCodeLabel": "Postal code",
+      "countryLabel": "Country",
+      "submitButton": "Submit port request",
+      "success": "Port request submitted! We’ll keep you updated.",
+      "genericError": "یو څه سم نه شول."
     },
-    "حالت": {
-      "سرلیک": " د پورټ کولو حالت",
-      "فرعي سرلیک": "ستاسو د شمیرې د پورټ کولو غوښتنو حالت تعقیب کړئ.",
-      "بارول": "بارول...",
-      "د بارولو تېروتنه": "د پورټ کولو غوښتنو بارول ناکام شول.",
-      "هیڅ": "تر اوسه د پورټ کولو هیڅ فعالیت نشته.",
-      "پending": "د بیاکتنې په تمه",
-      "سپارل شوی": "آپریټر ته سپارل شوی",
-      "په جریان کې": "په جریان کې",
-      "بشپړ شوی": "بشپړ شوی",
-      "ناکام": "ناکام شوی",
-      "لغول شوی": "لغول شوی",
-      "جوړ شوی": "جوړ شوی:",
-      "مهالویش شوی": "مهالوېش شوی:",
-      "د بشپړېدو وخت": "بشپړ شوی:"
+    "status": {
+      "heading": "د پورټ کولو حالت",
+      "subheading": "ستاسو د شمېرې د پورټ کولو د غوښتنو حالت تعقیب کړئ.",
+      "loading": "Loading…",
+      "loadError": "Failed to load port requests.",
+      "none": "No porting activity yet.",
+      "pending": "Pending review",
+      "submitted": "Submitted to carrier",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "failed": "Failed",
+      "canceled": "Canceled",
+      "created": "Created:",
+      "scheduled": "Scheduled:",
+      "completedAt": "Completed:"
     },
-    "ډیټا کمه": "ستاسو ډیټا کمه شوې ده.",
-    "ډیټا اضافه کړئ": "همدا اوس ډیټا اضافه کړئ",
-    "د پای نیټه": "په {{days}} ورځو کې پای ته رسېږي",
-    "ډیټا خلاصه": "ستاسو ډیټا خلاصه شوې ده. د موبایل ډیټا کارولو ته د دوام لپاره یو نوی پکیټ واخلئ.",
-    "پکیټ واخلئ": "د ډیټا پکیټ واخلئ",
-    "e imPackLabel": "اي سِم پيک"
+    "dataLow": "Your data is running low.",
+    "topUp": "همدا اوس ټاپ اپ وکړئ",
+    "expiresIn": "په {{days}} ورځو کې پای ته رسېږي",
+    "exhausted": "ستاسو ډیټا خلاصه شوې ده. د موبایل ډیټا کارولو ته دوام ورکولو لپاره نوی پک واخلئ.",
+    "buyPack": "د ډیټا پک واخلئ",
+    "esimPackLabel": "eSIM پک",
+    "dashboardIntro": "ستاسو د Chatforia موبایل ډیټا, د تلیفون شمیره, د eSIM تنظیم, او د پلان حالت اداره کړئ.",
+    "loading": "Loading wireless details…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "کورنۍ ډیټا",
+      "familyCaption": "ستاسو د کورنۍ غړو ترمنځ شریکه شوې ډیټا."
+    },
+    "plan": {
+      "title": "چېټفوریا وایرلیس",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "کورنۍ ډیټا",
+      "familyBody": "دا پلان د شریک کورني ډیټا پول یوه برخه ده.",
+      "manageCta": "د پلان مدیریت",
+      "setupFirstCta": "لومړی ای سیم تنظیم کړئ"
+    },
+    "esim": {
+      "title": "چېټفوریا وایرلیس",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "خپل eSIM QR کوډ جوړ یا خلاص کړئ او په خپل تلیفون کې د فعالولو لارښوونو ته پام وکړئ.",
+      "readyBody": "ستاسو ای سِم چمتو دی. تاسو کولی شئ QR کوډ خلاص کړئ یا د خپل موبایل پلان مدیریت ته دوام ورکړئ.",
+      "setupCta": "ای سِم تنظیم کړئ",
+      "openCta": "د ای سِم تنظیمات خلاص کړئ"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
   },
   "phoneNumberManager": {
-    "pickNumber": "یوه شمېره وټاکئ",
+    "pickNumber": "یو شمېره وټاکئ",
     "phoneNumber": "د تلیفون شمېره",
     "availableNumber": "موجوده شمېره",
     "premiumNumber": "پریمیم شمېره 🔒",
     "freeNumberHint": "وړیا شمېره چې ممکن د غیر فعالیت وروسته بیا وکارول شي.",
-    "premiumNumberHint": "خپله شمېره وساتئ پداسې حال کې چې ستاسو پریمیم ګډون فعال وي.",
-    "country": "هیواد",
+    "premiumNumberHint": "خپل شمېره وساتئ پداسې حال کې چې ستاسو پریمیم ګډون فعال وي.",
+    "country": "هېواد",
     "areaCode": "سیمه ییز کوډ",
-    "areaCodePlaceholder": "د بېلګې په توګه, ۴۱۵",
+    "areaCodePlaceholder": "د بېلګې په توګه, 415",
     "capability": "وړتیا",
-    "search": "لټون",
-    "lockThisNumber": "دا شمېره قلف کړئ (هفتنۍ اضافي ځانګړتیا, ډېر ژر راځي)",
-    "premiumProtectedHint": "پریمیئم شمیرې د بیا کارونې څخه خوندي دي پداسې حال کې چې ستاسو د پریمیئم ګډون فعال وي.",
-    "availableNumbers": "موجودې شمیرې",
-    "searchHint": "یو ۳-رقمی سیمه ییز کوډ ولیکئ (یوازې د متحده ایالاتو/کاناډا لپاره), یا یې تش پریږدئ, بیا لټون وکړئ.",
-    "keep": "ساتل",
-    "select": "ټاکل",
-    "لومړی شمېره وټاکئ": "لومړی یوه شمېره وټاکئ.",
-    "د پریمیم ساتنې ځانګړتیا": "ستاسو د شمېرې ساتل د پریمیم ځانګړتیا ده.",
-    "د پریمیم قلف کولو ځانګړتیا": "د شمېرو قلف کول د پریمیم ځانګړتیا ده.",
-    "شمېره وټاکل شوه": "شمېره وټاکل شوه. ",
-    "numberProtectedNow": "ستاسو شمیره اوس خوندي ده.",
-    "numberProtected": "شمیره خوندي شوه.",
-    "numberUnprotected": "شمیره غیر خوندي شوه.",
-    "numberReleased": "شمیره خوشې شوه.",
-    "couldNotLoadNumbers": "نومرې نه شو لوډ کولی.",
-    "couldNotAssign": "هغه شمېره نه شو ټاکلای. کېدای شي همدا اوس اخیستل شوې وي—بله وازمایئ.",
-    "couldNotLease": "هغه شمېره نه شو په اجاره نیولی. کېدای شي همدا اوس اخیستل شوې وي—بله وازمایئ.",
-    "couldNotProtectNow": " همدا اوس ستاسو شمیره نشو ساتل کیدای.",
-    "couldNotProtect": "شمیره نشوه ساتل کیدای.",
-    "couldNotUnprotect": "شمیره نشوه بې خوندیته کیدای.",
-    "couldNotRelease": "شمیره نشوه خوشې کیدای.",
-    "invalidAreaCode": "مهرباني وکړئ د ۳-رقمي سیمې کوډ داخل کړئ (د بېلګې په توګه, ۴۱۵) یا یې تش پرېږدئ.",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "د سیمې ۳ عددي کوډ ولیکئ (یوازې د متحده ایالاتو/کاناډا لپاره), یا یې تش پریږدئ, بیا لټون وکړئ.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "د هغه شمېرې اجاره نشوه کېدای. کېدای شي همدا اوس نیول شوې وي—بله وازمایئ.",
+    "couldNotProtectNow": "ستاسو شمېره همدا اوس نشوه ساتل کېدای.",
+    "couldNotProtect": "شمېره نشوه ساتل کېدای.",
+    "couldNotUnprotect": "شمېره نشوه بې خوندیته کېدای.",
+    "couldNotRelease": "شمېره نشوه خوشې کېدای.",
+    "invalidAreaCode": "مهرباني وکړئ د ۳-رقمي سیمې کوډ داخل کړئ (د بېلګې په توګه, ۴۱۵) یا یې تش پریږدئ.",
     "noInventory": "همدا اوس هیڅ شتون نلري.",
-    "noFreeNumbers": "همدا اوس هیڅ وړیا شمیرې شتون نلري.",
-    "noInventoryAreaCode": "همدا اوس د دې سیمې کوډ لپاره هیڅ شتون نلري.",
-    "noFreeNumbersAreaCode": "د دې لپاره زموږ په پول کې هیڅ وړیا شمیرې نشته د سیمې کوډ همدا اوس شتون نلري.",
-    "releaseConfirm": "خپل اوسنی نمبر خوشې کړئ؟ ممکن بل چا ته ورکړل شي.",
-    "unprotect": "بې خوندیتوب کړئ",
+    "noFreeNumbers": "همدا اوس هېڅ وړیا شمیرې شتون نلري.",
+    "noInventoryAreaCode": "همدا اوس د دې سیمې کوډ لپاره شتون نلري.",
+    "noFreeNumbersAreaCode": "همدا اوس د دې سیمې کوډ لپاره زموږ په ذخیره کې هېڅ وړیا شمیرې نشته.",
+    "releaseConfirm": "خپله اوسنۍ شمیره خوشې کړئ؟ ممکن چا ته بله ورکړل شي.",
+    "unprotect": "بې خوندي کړئ",
     "keepThisNumber": "دا شمېره وساتئ",
-    "بدله کړئ": "بدله کړئ",
-    "خلاص کړئ": "خلاص کړئ",
-    "فعال": "فعال",
-    "شمېره نشته": "شمېره نشته",
-    "ځانګړی خدمت": "ځانګړی خدمت",
-    "خپله شمېره وساتئ": "خپله شمېره وساتئ",
-    "محفوظ": "محفوظ",
-    "غیر محفوظ": "غیر محفوظ",
-    "په لنډ وخت کې پای ته رسېږي": "په لنډ وخت کې پای ته رسېږي {{count}} شوی",
-    "په ورځو کې پای ته رسېدونکی": "په {{count}} ورځو کې پای ته رسېږي",
-    "په لنډه موده کې پای ته رسېدونکی": "په لنډه موده کې پای ته رسېدونکی{{suffix}}",
-    "په {{date}} نوي کېږي": "په {{date}} نوي کېږي",
-    "د خوشې کېدو خبرداری": "ستاسو شمېره ممکن په {{count}} ورځو کې خوشې شي. د خوندي ساتلو لپاره پریمیم ته لوړ شئ. ",
-    "pickNumberHint": "د اپلیکېشن دننه د پیغام رسونې او اړیکو لپاره د چټفوریا یو نمبر وټاکئ.",
-    "unableToLoadStatus": "د تلیفون نمبر حالت لوډول ناممکن دي.",
-    "lock": "لاک",
-    "noNumberAssigned": "هیڅ نمبر ندی ټاکل شوی. د متن پیغام لیکلو پیل کولو لپاره د سیمې کوډ له مخې یو نمبر وټاکئ."
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "په {{count}} ورځو کې پای ته رسېږي",
+    "expiringShort": "پای ته رسېدونکی{{suffix}}",
+    "renewsOn": "په {{date}} نوي کېږي",
+    "releaseWarning": "ستاسو شمېره ممکن په {{count}} ورځو کې خوشې شي. د خوندي ساتلو لپاره پریمیم ته لوړ شئ.",
+    "pickNumberHint": "د پیغام رسونې او اړیکو لپاره د کارولو لپاره د چاټفوریا یوه شمېره وټاکئ د اپلیکیشن دننه.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
   },
   "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
     "title": "کالونه",
-    "subtitle": "کی پیډ او وروستي. (که تاسو PSTN نه کاروئ, نو اړیکې د خبرو اترو له سرلیک څخه پیل کړئ.)",
-    "enterNumber": "شماره داخل کړئ",
-    "enterNumberAria": "شماره داخل کړئ",
-    "resolving": "د کال هدف حل کیږي...",
-    "call": "کال",
-    "callBrowser": "د براوزر له لارې کال",
-    "backspace": "بېرته تګ",
-    "recents": "تېر کالونه",
-    "noRecents": "تر اوسه کومې وروستۍ اړیکې نشته.",
-    "حل کول پاتې راغلي": "د اړیکې هدف نشو حل کولی.",
-    "اړین شمیره": "تلیفون زنګ وهلو دمخه تاسو یو Chatforia شمیره ته اړتیا لرئ.",
-    "اړیکه پاتې راغله": "اړیکه ونه شوه وهل کیدای.",
-    "د حذف تایید": "دا اړیکه له وروستیو اړیکو څخه حذف کړئ؟",
-    "حذف ناکام شو": "د اړیکې حذف کول ممکن نه وو.",
-    "د حذف ناکامۍ ثبت": "د اړیکې حذف کول ناکام شول",
-    "وتونکې": "وتونکې",
-    "راتلونکې": "راتلونکې",
-    "تېره شوې": "تېره شوې",
-    "رد شوې": "رد شوې",
-    "ناکامه": "ناکامه",
-    "تکمیل شوی": "تکمیل شوی",
-    "تګونکی زنګ": "تګونکی زنګ",
-    "راتلونکی زنګ": "راتلونکی زنګ",
-    "غږیز پیغام": "غږیز پیغام",
-    "د زنګ ساحه": "زنګ {{name}}",
-    "د ړنګولو ساحه": "د {{name}} سره زنګ ړنګ کړئ",
-    "د شمېرې داخلول": "شماره داخل کړئ",
-    "تېرې اړیکې تشې": "تر اوسه تېرې اړیکې نشته.",
-    "کیلي": "کیلي {{d}}"
+    "subtitle": "ستاسو وروستي راتلونکي او وتونکي زنګونه.",
+    "loadFailed": "د زنګونو تاریخچه نه شوه بار کېدای.",
+    "loadFailedTitle": "د زنګونو تاریخچه بار نه شوه کېدای",
+    "emptyTitle": "تر اوسه زنګونه نشته",
+    "emptySubtitle": "ستاسو وروستي زنګونه به دلته ښکاره شي.",
+    "outgoing": "وتونکي",
+    "incoming": "راغلي",
+    "missed": "نه ځواب شوي",
+    "declined": "رد شوي",
+    "failed": "ناکام شوي",
+    "completed": "بريالي شوي",
+    "outgoingCall": "وتونکی زنګ",
+    "incomingCall": "راغونکی زنګ",
+    "voicemail": "غږیز پیغام"
   },
-  "د اړیکو تاریخچه": {
-    "سرلیک": "اړیکې",
-    "فرعي سرلیک": "ستاسو وروستۍ راتلونکې او وتونکې اړیکې.",
-    "د بارولو ناکامي": "د اړیکو تاریخچه نه لودېږي.",
-    "loadFailedTitle": "د اړیکو تاریخچه ولوډ نه شوه",
-    "emptyTitle": "تر اوسه اړیکې نشته",
-    "emptySubtitle": "ستاسو وروستۍ اړیکې به دلته ښکاره شي.",
-    "وتونکي": "وتونکي",
-    "راغونکي": "راغونکي",
-    "پاتې شوي": "پاتې شوي",
-    "رد شوي": "رد شوي",
-    "ناکام": "ناکام",
-    "بريالي شوي": "بريالي شوي",
-    "وتونکی زنګ": "وتونکی زنګ",
-    "راغونکی زنګ": "راغونکی زنګ",
-    "غږیز پیغام": "غږیز پیغام"
-  },
-  "ویډیو": {
-    "مرکزي": {
-      "سرلیک": "ویډیو",
-      "فرعي سرلیک": "د ویډیو یو ډول وټاکئ."
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
     },
-    "مستقیم": {
-      "سرلیک": "مستقیمه ویډیو",
-      "فرعي سرلیک": "له بل کارونکي سره ۱:۱ ویډیويي اړیکه پیل کړئ.",
-      "desc": "له بل کارونکي سره ۱:۱ کیمرې اړیکه.",
-      "start": "پیل",
-      "callBtn": "اړیکه",
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
       "callByPhone": {
-        "title": "د تلیفون له لارې اړیکه"
+        "title": "Call by phone"
       },
       "phone": {
-        "placeholder": "تلیفون ولیکئ (د بېلګې په توګه, +1-555-123-4567)",
-        "aria": "د زنګ وهلو لپاره تلیفون"
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
       },
-      "tipInvite": "لارښوونه: یو نمبر ولیکئ او له ساتلو پرته زنګ ووهئ. موږ به غیر کاروونکي د لینک له لارې راوبلو.",
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
       "findUser": {
-        "title": "یو کاروونکی ومومئ"
+        "title": "Find a user"
       },
       "search": {
-        "placeholder": " د نوم یا کارن نوم له مخې لټون وکړئ",
-        "aria": "د نوم یا کارن نوم له مخې لټون وکړئ",
-        "btn": "لټون"
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
       }
     },
-    "خونې": {
-      "سرلیک": "خونې",
-      "فرعي سرلیک": "د ورته نوم په ټایپ کولو سره یوه نوې خونه جوړه کړئ یا له شته خونې سره یوځای شئ.",
-      "desc": "د ګډ شوي کوټې نوم په کارولو سره څو اړخیزه ویډیو.",
-      "roomLabel": "د کوټې نوم",
-      " roomPlaceholder": "د بېلګې په توګه ټیم-سټنډ اپ",
-      "roomAria": "د کوټې نوم",
-      "joinCreate": "ګډون / جوړول",
-      "tip": "لارښوونه: دا نوم له نورو سره شریک کړئ, یا ورته ډیپ لینک جوړ کړئ"
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
     },
-    "title": "ویډیو",
-    "chooseType": "د ویډیو ډول وټاکئ.",
-    "directTitle": "مستقیمه ویډیو",
-    "directDesc": "له بل کارونکي سره د کیمرې ۱:۱ اړیکه.",
-    "directStart": "پیل",
-    "roomsTitle": "خونې",
-    "roomsDesc": "د ګډې کوټې په کارولو سره څو اړخیزه ویډیو.",
-    "roomsIntro": "په څو اړخیزه کوټه کې ګډون وکړئ یا یې جوړه کړئ.",
-    "roomNameLabel": "د کوټې نوم",
-    "roomNamePh": "د بېلګې په توګه ټیم-سټنډ اپ",
-    "join": "ګډون",
-    "deeplinkTip": "لارښوونه: تاسو کولی شئ مستقیم ډیپ لینک ګرانډ ځای ګرځوئ <code>/video?room=room-name</code> ته."
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
   },
   "directVideo": {
-    "intro": "یو مستقیم ۱:۱ ویډیويي زنګ پیل کړئ.",
+    "intro": "Start a direct 1:1 video call.",
     "findUserLabel": "یو کارونکی ومومئ",
-    "findUserPh": "د نوم یا کارن-نوم له مخې ولټوئ",
-    "search": "لټون",
-    "call": "اړیکه"
+    "findUserPh": "د نوم یا کارن نوم له مخې لټون وکړئ",
+    "search": "Search",
+    "call": "کال"
   },
   "phoneWarning": {
-    "title": "ستاسو شمیره ډیر ژر پای ته رسیږي",
-    "body": "ستاسو شمیره {{number}  به د {{date}} په {{number}2} به ختم شي, مګر دا چې بیا فعال شي.",
+    "title": "ستاسو شمیره ډېر ژر پای ته رسېږي",
+    "body": "ستاسو شمیره {{number}} به د {{date}} په {{date}} نیټه خلاصه شي, مګر دا چې بیا فعاله شي.",
     "button": "زما شمیره وساتئ"
   },
   "premium": {
     "heading": "پریمیم ته لاړ شئ",
-    "description": "ځانګړي فیچرونه خلاص کړئ او اعلانونه لرې کړئ.",
+    "description": "ځواکمنې ځانګړتیاوې خلاصې کړئ او اعلانونه لرې کړئ.",
     "cta": "تکمیل کړئ",
-    "upgrade": "تکمیل کړئ",
-    "upgradeAria": "چېتفوریا پریمیم ته تکمیل کړئ"
+    "upgrade": "Upgrade",
+    "upgradeAria": "چټفوریا پریمیم ته لوړول"
   },
-  "اپګریډ": {
-    "سرلیک": "اپګریډ",
-    "سرلیکLoggedIn": "اپګریډ",
-    "سرلیکPublic": "قیمتونه",
+  "premiumGuard": {
+    "requiresPremium": "دا ځانګړتیا پریمیم پلان ته اړتیا لري.",
+    "toUnlock": "د دې ځانګړتیا د خلاصولو لپاره لوړول."
+  },
+  "upgrade": {
+    "title": "لوړول",
+    "titleLoggedIn": "لوړول",
+    "titlePublic": "نرخونه",
     "h1": "د چټفوریا بیې او پلانونه",
-    "h1Subtitle": "زموږ وړیا, د اعلاناتو ملاتړ شوي پلان سره پیل وکړئ. د پلس سره له اعلاناتو پرته شئ, یا د پریمیم سره بشپړ ځواکمنې ځانګړتیاوې خلاصې کړئ.",
-    "subtitle": "د اپلیکیشن یو پلان وټاکئ, د ځان لپاره د ډیټا پیښل اضافه کړئ, یا د خپلې کورنۍ سره ډیټا شریکه کړئ — دا ټول له یو ځای څخه.",
-    "subtitle.app": "",
-    "subtitle.mobile": "د نړیوال eSIM ډیټا اضافه کړئ ترڅو چټفوریا کار کولو ته دوام ورکړي حتی کله چې تاسو له وای فای څخه لرې یاست.",
-    "subtitle.family": "د خپلې کورنۍ لپاره د شریکې ډیټا پول جوړ کړئ او د هرچا کارول له یو ځای څخه اداره کړئ.",
+    "h1Subtitle": "زموږ له وړیا, اعلاناتو لرونکي پلان سره پیل وکړئ. د پلس سره له اعلانونو پرته شئ, یا د پریمیم سره بشپړ ځواکمنې ځانګړتیاوې خلاصې کړئ.",
+    "subtitle": "د اپلیکیشن یو پلان وټاکئ, د ځان لپاره د ډیټا پیکه اضافه کړئ, یا له خپلې کورنۍ سره ډیټا شریکه کړئ — دا ټول له یو ځای څخه.",
+    "subtitle.app": "زموږ له وړیا, اعلاناتو لري د پلان سره پیل وکړئ. د پلس سره له اعلانونو څخه ازاد شئ, یا د پریمیم سره بشپړ ځواکمنې ځانګړتیاوې فعالې کړئ.",
+    "subtitle.mobile": "د نړیوال eSIM ډیټا اضافه کړئ ترڅو چاتفوریا کار ته دوام ورکړي حتی کله چې تاسو له وای فای څخه لرې یاست.",
+    "subtitle.family": "د خپلې کورنۍ لپاره د ډیټا شریک حوض جوړ کړئ او د هرچا کارول له یو ځای څخه اداره کړئ.",
     "perMonth": "mo",
-    "perYear": "year",
+    "perYear": "کال",
     "goPremium": "پریمیئم ته لاړ شئ",
-    "benefitsLine": "پیاوړي فیچرونه خلاص کړئ او اعلانونه لرې کړئ.",
+    "benefitsLine": "ځواکمنې ځانګړتیاوې خلاصې کړئ او اعلانونه لرې کړئ.",
     "ctaText": "تکمیل کړئ",
     "aria": "چټفوریا پریمیئم ته لوړ شئ",
     "toggle": {
@@ -990,137 +1352,151 @@
     },
     "scheduleBanner": {
       "title": "ګډون به پای ته ورسیږي",
-      "body": "تاسو به په {{date}} بېرته وړیا حالت ته لاړ شئ",
-      "keepPlanCta": "{{plan}} وساتئ",
-      "manageBillingCta": "د بلینګ مدیریت"
+      "body": "تاسو به په {{freeDate}} بېرته وړیا حالت ته لاړ شئ,",
+      "keepPlanCta": "{{پلان}} وساتئ",
+      "manageBillingCta": "بېلینګ اداره کړئ"
     },
     "billing": {
-      "opening": "پرانیستل…",
-      "manage ": "د بلینګ مدیریت"
+      "opening": "پرانیستل...",
+      "manage": "بېلینګ اداره کړئ"
     },
-    "تکمیل": {
-      "بیا لارښودنه": "بیا لارښودنه..."
+    "checkout": {
+      "redirecting": "بیا لارښودنه..."
     },
-    "تصدیق": {
-      "دوام": "د ننوتلو لپاره دوام ورکړئ",
-      "حساب جوړول": "حساب جوړ کړئ",
-      "ننوتل": " ننوتل"
+    "auth": {
+      "continue": "ننوتلو ته دوام ورکړئ",
+      "createAccount": "Create account",
+      "signIn": "Sign in"
     },
     "cta": {
       "aria": "پلان وټاکئ",
-      "getPlus": "پلس ته لوړول",
-      "upgradeMonthly": "میاشتنۍ لوړول",
-      "upgradeAnnual": "کلنۍ لوړول"
+      "getPlus": "Upgrade to Plus",
+      "upgradeMonthly": "Upgrade Monthly",
+      "upgradeAnnual": "Upgrade Annual",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
     },
     "section": {
-      "app": "د اپلیکیشن پلانونه",
-      "mobile": "موبایل (eSIM)",
-      "family": "کورنۍ پلانونه"
+      "app": "زموږ له وړیا, اعلاناتو لري د پلان سره پیل وکړئ. د پلس سره له اعلانونو څخه ازاد شئ, یا د پریمیم سره بشپړ ځواکمنې ځانګړتیاوې فعالې کړئ.",
+      "mobile": "د نړیوال eSIM ډیټا اضافه کړئ ترڅو چاتفوریا کار ته دوام ورکړي حتی کله چې تاسو له وای فای څخه لرې یاست.",
+      "family": "د خپلې کورنۍ لپاره د ډیټا شریک حوض جوړ کړئ او د هرچا کارول له یو ځای څخه اداره کړئ."
     },
-    "پلانونه": {
-      "وړیا": {
-        "سرلیک": "وړیا",
-        "بیه": "$0",
-        "تفصیل": "وړیا پیغام رسونه پیل کړئ. دا غوره ده که تاسو یوازې چاټفوریا ازمایئ.",
-        "ځانګړتیاوې": {
-          "چټ": "په ریښتیني وخت کې ۱:۱ او ګروپ چټ, او همدارنګه غږیز او ویډیويي زنګونه",
-          "media": "د عکسونو, غږیزو پیغامونو, او لنډو ویډیوګانو شریکول",
-          "ai": "د مصنوعي ځیرکتیا پر بنسټ هوښیار ځوابونه او فوري ژباړه (د عادلانه کارونې تګلاره)",
-          "disappearing": "وځنکی پیغامونه او د محرمیت بنسټیز کنټرولونه",
-          "ads": "د اعلاناتو سره د تل لپاره وړیا "
-        },
-        "ctaCurrent": "اوسنی پلان",
-        "ctaManage": "په بلینګ کې مدیریت وکړئ",
-        "ctaPublic": "پیل وکړئ – ننوتلو ته دوام ورکړئ",
-        "aria": "وړیا پلان"
-      },
-      "پلس": {
-        "title": "پلس",
-        "price": "$6.99",
-        "desc": "ټول اړین شیان, له اعلانونو پرته. د ورځني پیغام رسولو او زنګ وهلو لپاره غوره.",
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "desc": "Start messaging for free. Ideal if you’re just trying Chatforia.",
         "features": {
-          "allFree": "هر هغه څه چې په وړیا کې دي, له اعلانونو پرته",
-          "forwarding": "زنګونه او پیغامونه خپل اصلي ټیلیفون شمیرې ته واستوئ",
-          "تاریخچه": "د پیغام اوږده تاریخچه (تر ۶ میاشتو پورې)",
-          "ملاتړ": "کله چې کومه ستونزه رامنځته شي, ګړندی ملاتړ"
+          "chat": "Real-time 1:1 and group chat, plus voice and video calls",
+          "media": "Share photos, voice messages, and short videos",
+          "ai": "AI-powered smart replies and instant translation (fair use)",
+          "disappearing": "Disappearing messages and basic privacy controls",
+          "ads": "Free forever with ads in the app"
         },
-        "بېج": "مشهور",
-        "cta": "له اعلانونو پرته شئ",
-        "ctaPublic": "پلس ترلاسه کړئ – ننوتلو ته دوام ورکړئ",
-        "aria": "پلس ته لوړ شئ"
+        "ctaCurrent": "Current plan",
+        "ctaManage": "Manage in billing",
+        "ctaPublic": "Get started – continue to login",
+        "aria": "Free plan"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "All the essentials, without ads. Great for everyday messaging and calling.",
+        "features": {
+          "allFree": "Everything in Free, with no ads",
+          "forwarding": "Forward calls and texts to your real phone number",
+          "history": "Longer message history (up to 6 months)",
+          "support": "Faster support when something goes wrong"
+        },
+        "badge": "Popular",
+        "cta": "Go Ad-Free",
+        "ctaPublic": "Get Plus – continue to login",
+        "aria": "Upgrade to Plus"
       },
       "premiumMonthly": {
-        "title": "پریمیم (میاشتنی)",
+        "title": "Premium (Monthly)",
         "price": "$11.99",
-        "desc": "د چټفوریا بشپړه تجربه: د مصنوعي ځیرکتیا ځواکمن وسایل, د خپلې خوښې سمون, او لومړیتوب لرونکې مرسته.",
-        "ځانګړتیاوې": {
-          "پلس ټول": "په پلس کې هرڅه",
-          "تیمونه": "ټول پریمیم رنګه تیمونه او د اپلیکیشن دودیز کول خلاص کړئ",
-          "اي آی": "د بیا لیکلو, هوښیار ځوابونو, او لنډیزونو لپاره یوازې د پریمیم لپاره د مصنوعي ځیرکتیا ځواکمن وسایل",
-          "ملاتړ": "کله چې تاسو مرستې ته تر ټولو ډېره اړتیا لرئ, د لومړیتوب ملاتړ"
+        "desc": "The full Chatforia experience: AI power tools, customization, and priority support.",
+        "features": {
+          "plusAll": "Everything in Plus",
+          "themes": "Unlock all premium color themes and app customizations",
+          "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries",
+          "support": "Priority support when you need help most",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
-        "بېج": "وړاندیز شوی",
-        "سي ټي اې": "اپګریډ (میاشتنی)",
-        "ctaPublic": "پریمیم خلاص کړئ – ننوتلو ته دوام ورکړئ",
-        "aria": "پریمیئم میاشتنۍ ته لوړول"
+        "badge": "Recommended",
+        "cta": "Upgrade (Monthly)",
+        "ctaPublic": "Unlock Premium – continue to login",
+        "aria": "Upgrade to Premium Monthly"
       },
       "premiumAnnual": {
-        "title": "پریمیئم (کلنی)",
+        "title": "Premium (Annual)",
         "price": "$99",
-        "desc": "کله چې هر کال پیسې ورکوئ نو ډیرې پیسې سپما کړئ — د اضافي رنګونو موضوعاتو, د مصنوعي ځیرکتیا وسیلو, او لومړیتوب لرونکي ملاتړ په ګډون.",
+        "desc": "Save more when billed yearly — including extra color themes, AI tools, and priority support.",
         "features": {
-          "allPremium": "هر هغه څه چې په پریمیئم میاشتنۍ کې دي — د اضافي رنګونو موضوعاتو په شمول",
-          "کلنۍ بیلینګ": "په کال کې یو ځل بیل کیږي",
-          "۲۵٪ سپما": "د میاشتنۍ تادیې په پرتله شاوخوا ۳۰۰٪ سپما وکړئ",
-          "د څوک لپاره غوره": "د پرمختللو کاروونکو, له لرې کارکوونکو, او ډیرو سفر کوونکو لپاره غوره"
+          "allPremium": "Everything in Premium Monthly — including extra color themes",
+          "annualBilling": "Billed once per year",
+          "save25": "Save around 30% compared to paying monthly",
+          "bestFor": "Best for power users, remote workers, and heavy travelers",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
-        "بېج": "۳۰۰٪ سپما وکړئ",
-        "سي ټي اې": "اپګریډ (کلنی)",
-        "ctaPublic": "د کلنۍ ګډون سره ۳۰٪ سپما وکړئ – د ننوتلو دوام ورکړئ",
-        "aria": "پرمختللي کلني ګډون ته لوړ شئ",
-        "disclaimer": "په پیل کې پیسې اخیستل کیږي. هر وخت یې لغوه کړئ. پټ لګښتونه نشته."
+        "badge": "Save 30%",
+        "cta": "Upgrade (Annual)",
+        "ctaPublic": "Save 30% with annual – continue to login",
+        "aria": "Upgrade to Premium Annual",
+        "disclaimer": "Billed upfront. Cancel anytime. No hidden fees."
       }
     },
     "marketing": {
-      "freeTitle": "وړیا",
-      "freeDesc": "وړیا پیغام رسونه پیل کړئ.",
-      "plusTitle": "پلس",
-      "plusBadge": "مشهور",
-      "plusDesc": "تر ټولو ارزانه له اعلانونو پرته تجربه.",
-      "premiumMonthlyTitle": "پریمیم",
-      "premiumMonthlyDesc": "بشپړې ځانګړتیاوې, رنګټونونه, او د مصنوعي ځیرکتیا (AI) ځواکمن وسایل.",
-      "premiumAnnualTitle": "پریمیم",
-      "premiumAnnualDesc": "کله چې کلنۍ پیسې ورکوئ, ډېرې پیسې سپما کړئ.",
-      "annualDisclaimer": "په پیل کې پیسې اخیستل کیږي. هر وخت یې لغوه کړئ. هیڅ پټ لګښت نشته."
+      "freeTitle": "Free",
+      "freeDesc": "Start messaging for free.",
+      "plusTitle": "Plus",
+      "plusBadge": "Popular",
+      "plusDesc": "Most affordable ad-free experience.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Full features, ringtones, and AI power tools.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Save more when billed yearly.",
+      "annualDisclaimer": "Billed upfront. Cancel anytime. No hidden fees."
     },
     "mobile": {
-      "title": "چېټفوریا موبایل (د eSIM ډیټا پېکونه)",
-      "subtitle": "چېټفوریا د وای فای پرته هم فعال وساتلو لپاره نړیوال ډیټا اضافه کړئ. بیې ستاسو د هیواد او اسعارو پر بنسټ په اتوماتيک ډول تنظیمیږي.",
-      " subtitle.detail": "یو ځل کارېدونکی نړیوال ډیټا پیک غوره کړئ ترڅو چټفوریا ستاسو د سفر پرمهال یا له وای فای څخه لرې هم کار ته دوام ورکړي.",
+      "title": "Chatforia Mobile (eSIM data packs)",
+      "subtitle": "د اپلیکیشن یو پلان وټاکئ, د ځان لپاره د ډیټا پیکه اضافه کړئ, یا له خپلې کورنۍ سره ډیټا شریکه کړئ — دا ټول له یو ځای څخه.",
+      "subtitle.detail": "Pick a one-time global data pack so Chatforia keeps working when you’re traveling or away from Wi-Fi.",
       "scope": {
-        "local": "سیمه ییز",
-        "europe": "اروپا",
-        "global": "نړیوال"
+        "local": "Local",
+        "europe": "Europe",
+        "global": "Global",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
       },
-      "localEquals": "سیمه ییز = {{country}}",
-      "localEqualsFallback": "سیمه ییز = ستاسو اوسنی هیواد",
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = your current country",
       "perPack": "/ pack",
-      "cta": "دا ډیټا پیک ترلاسه کړئ",
-      "ctaPublic": "دا ډیټا پیک ترلاسه کړئ",
+      "cta": "Get this data pack",
+      "ctaPublic": "Get this data pack",
       "checkout": {
-        "redirecting": "بله پاڼې ته ستاسو پاملرنه اړول کیږي…"
+        "redirecting": "بیا لارښودنه..."
       },
-      "لامحدود": {
-        "ځانګړتیاوې": {
-          "سخت استعمال": "د سخت استعمال لپاره تیز رفتار ډیټا",
-          "کنټرول": "تیز رفتار ډیټا د عادلانه استعمال او شبکې مدیریت پالیسیو تابع ده",
-          "پوښښ": "باوري پوښښ",
-          "فوري": "د eSIM فوري فعالول",
-          "بې قراردادۍ": "یو ځلۍ پکیټ, پرته له قرارداد"
-        }
+      "unlimited": {
+        "features": {
+          "heavyUse": "High-speed data for heavy use",
+          "throttle": "High-speed data subject to fair-use and network management policies",
+          "coverage": "Reliable coverage",
+          "instant": "Instant eSIM activation",
+          "noContract": "One-time pack, no contract"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
       },
       "disclaimer": {
-        "devices": "د eSIM ډیټا پکیټونو لپاره یو eSIM-مناسب او خلاص شوي (unlocked) وسیله اړینه ده. شتون د تلیفون ماډل, چمتو کوونکي (carrier), او هیواد سره سم توپیر لري. پوښښ او سرعت د سیمې سره سم توپیر لري."
+        "devices": "eSIM data packs require an eSIM-compatible and unlocked device. Availability varies by phone model, carrier, and country. Coverage and speeds vary by region.",
+        "fairUse": "High-speed data may be subject to fair-use limits, local network conditions, and regional availability."
       },
       "packs": {
         "3gb": {
@@ -1133,148 +1509,292 @@
           "title": "{{scope}} 10 GB"
         },
         "20gb": {
-          "سرلیک": "{{scope}} ۲۰ جي بي"
+          "title": "{{scope}} 20 GB"
         },
-        "لامحدود": {
-          "سرلیک": "{{scope}} لامحدود"
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
         }
       },
-      "مقایسه": {
-        "سرلیک": "د eSIM ډیټا پیکس پرتله کړئ",
+      "compare": {
+        "title": "Compare eSIM data packs",
         "col": {
-          "pack": "پیک",
-          "data": "شامله ډیټا",
-          "bestFor": "د غوره لپاره"
+          "pack": "Pack",
+          "data": "Included data",
+          "bestFor": "Best for"
         },
-        "سپیناوی": "د ډیټا اصلي کارول په دې پورې اړه لري چې تاسو چټفوریا څنګه کاروئ (په خپل تلیفون کې غږ, ویډیو, میډیا, او نور اپلیکیشنونه)."
-      }
-    },
-    "کورنۍ": {
-      "سرلیک": "چټفوریا کورنۍ (ګډه ډیټا)",
-      "فرعي سرلیک": " په خپل کورنۍ کې د ډیټا یو واحد پول شریک کړئ. یو بل, ډیری چټفوریا اکاونټونه, نړیوال پوښښ.",
-      "perPack": "/ pack",
+        "disclaimer": "Actual data usage depends on how you use Chatforia (voice, video, media, and other apps on your phone)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Best value"
+      },
+      "feature": {
+        "instant": "Instant eSIM activation",
+        "coverage": "Global coverage options",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Local",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Europe",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Global",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
       "small": {
-        "title": "کورنۍ کوچنۍ",
-        "desc": "پکې ۲۰ جي بي شریکه لوړ سرعته ډیټا شامله ده — د ۲-۳ کم مصرفو کاروونکو لپاره غوره ده.",
-        "price": "$29.99",
-        "aria": "د کورنۍ کوچنی پېک واخلئ"
+        "title": "Small pack",
+        "data": "3 GB",
+        "bestFor": "Best for short trips and light messaging."
       },
       "medium": {
-        "title": "د کورنۍ منځنی",
-        "desc": "پکې ۴۰ جي بي ګډ تېز سرعته ډېټا شامل دي — د ۳-۵ فعالو غړو لپاره غوره دي.",
-        "price": "$49.99",
-        "aria": "د کورنۍ منځنۍ پيک واخلئ"
+        "title": "Medium pack",
+        "data": "5 GB",
+        "bestFor": "Best for everyday messaging, maps, and light media."
       },
       "large": {
-        "title": "د کورنۍ لوی",
-        "desc": "په کې ۸۰ جي بي ګډ تېز سرعته ډېټا شامله ده — د هغو فعالو کورنیو لپاره چې تل آنلاین وي.",
+        "title": "Large pack",
+        "data": "10 GB",
+        "bestFor": "Best for longer trips and heavier app use."
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Chatforia Family (shared data)",
+      "subtitle": "د اپلیکیشن یو پلان وټاکئ, د ځان لپاره د ډیټا پیکه اضافه کړئ, یا له خپلې کورنۍ سره ډیټا شریکه کړئ — دا ټول له یو ځای څخه.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Family Small",
+        "desc": "Includes 20 GB of shared high-speed data — great for 2–3 light users.",
+        "price": "$29.99",
+        "aria": "Buy Family Small pack"
+      },
+      "medium": {
+        "title": "Family Medium",
+        "desc": "Includes 40 GB of shared high-speed data — ideal for 3–5 active members.",
+        "price": "$49.99",
+        "aria": "Buy Family Medium pack"
+      },
+      "large": {
+        "title": "Family Large",
+        "desc": "Includes 80 GB of shared high-speed data — for power families that are always online.",
         "price": "$84.99",
-        "aria": "د کورنۍ لوی پېک واخلئ"
+        "aria": "Buy Family Large pack"
       },
       "feature": {
-        "shared": "ستاسو د کورنۍ لپاره ګډ ډېټا پول",
-        "members": "تر ۴ نورو غړو پورې راوبولئ",
-        "membersMore": "د ۳-۵ فعالو غړو لپاره غوره",
-        "manage": "د هر غړي لپاره محدودیتونه اداره کړئ",
-        "topUp": "هر وخت نورې کڅوړې اضافه کړئ",
-        "ترټولو غوره بیه": "د هر ګیګابایټ لپاره غوره بیه",
-        "منصفانه کارول": "د منصفانه کارونې پالیسۍ او محلي محدودیتونو تابع دی"
+        "shared": "Shared data pool for your family",
+        "members": "Invite up to 4 additional members",
+        "membersMore": "Great for 3–5 active members",
+        "manage": "بېلینګ اداره کړئ",
+        "topUp": "Add more packs anytime",
+        "bestValue": "Best value per GB",
+        "fairUse": "Subject to fair-use policy and local limits"
       },
-      "سپیناوی": "د کورنۍ پیکونه یو ګډ ډیټا پول جوړوي یا یې ډیټا زیاتوي. تاسو کولی شئ هر وخت غړي راوبولئ او لرې یې کړئ.",
-      "پایلیکنه": "فامیلي پیکونه د تړلو Chatforia اکاونټونو ترمنځ د ډیټا یو واحد پول شریکوي. شتون او محدودیتونه ستاسو په هیواد او ځایی مقرراتو پورې اړه لري."
+      "disclaimer": "Family packs create or top up a shared data pool. You can invite and remove members anytime.",
+      "footnote": "Family packs share a single data pool across linked Chatforia accounts. Availability and limits depend on your country and local regulations."
     },
-    "ولې": {
-      "سرلیک": "ولې خلک Chatforia ته اوړي",
-      "فرعي سرلیک": "Chatforia تاسو ته یو ریښتینی تلیفون نمبر, هوښیار ژباړه, او یو روښانه لار درکوي چې کله چمتو شئ له اعلانونو څخه پاک شئ.",
+    "why": {
+      "title": "Why people switch to Chatforia",
+      "subtitle": "د اپلیکیشن یو پلان وټاکئ, د ځان لپاره د ډیټا پیکه اضافه کړئ, یا له خپلې کورنۍ سره ډیټا شریکه کړئ — دا ټول له یو ځای څخه.",
       "card": {
         "textnow": {
-          "title": "چېتفوریا د ټیکسټ ناو په وړاندې",
-          "body": "په وړیا کې سپک اعلانونه, کله چې چمتو شئ یو ساده پلس اپګریډ, او د پریمیم وسیلې چې ټیکسټ ناو یې وړاندې نه کوي."
+          "title": "Chatforia vs TextNow",
+          "body": "تاسو به په {{freeDate}} بېرته وړیا حالت ته لاړ شئ,"
         },
         "voice": {
-          "title": "چېتفوریا د ګوګل وایس په وړاندې",
-          "body": "عصري اپلیکیشن, نړیوال -لومړی ډیزاین, او د پخواني کال فارورډینګ پر ځای په کې جوړ شوی ژباړه."
+          "title": "Chatforia vs Google Voice",
+          "body": "تاسو به په {{freeDate}} بېرته وړیا حالت ته لاړ شئ,"
         },
-        "پیغام رسونکي": {
-          "سرلیک": "چټفوریا د چټ اپلیکیشنونو په وړاندې",
-          "متن": "د AI او په کې جوړ شوي سټیټس سره د اصلي تلیفون شمیرو پیغامونه واستوئ — نه یوازې د نورو اپلیکیشن کاروونکو سره —. دا خورا ښه ده که تاسو د TextFree یا TextMe په څیر اپلیکیشنونو څخه راځئ."
+        "messengers": {
+          "title": "Chatforia vs chat apps",
+          "body": "تاسو به په {{freeDate}} بېرته وړیا حالت ته لاړ شئ,"
         }
       },
-      "د جدول سرلیک": "چټفوریا څنګه پرتله کیږي",
+      "tableTitle": "How Chatforia compares",
       "col": {
-        "feature": "ځانګړتیا"
+        "feature": "Feature",
+        "chatforia": "Chatforia",
+        "textnow": "TextNow",
+        "googleVoice": "Google Voice"
       },
       "feature": {
-        "freeNumber": "وړیا ټیلیفون شمیره",
-        "translation": "په ځان کې جوړ شوی اتومات ژباړه",
-        "aiTools": "د مصنوعي ځیرکتیا وسیلې (بیا لیکل, ځوابونه, لنډیزونه)",
-        "ads": "له اعلانونو څخه پاک انتخاب",
-        "history": "د پیغامونو تاریخچه"
+        "freeNumber": "Free phone number",
+        "translation": "Built-in auto-translation",
+        "aiTools": "AI tools (rewrites, replies, summaries)",
+        "ads": "Ad-free option",
+        "history": "Message history"
       },
-      "هو": "هو",
-      "نه": "نه",
-      "هو پریمیم": "هو (پریمیم)",
-      "پلس پریمیم": "پلس او پریمیم",
-      "محدود": "محدود",
+      "yes": "Yes",
+      "no": "No",
+      "yesPremium": "Yes (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Limited",
       "nA": "N/A",
-      "تاریخچه": {
-        "چټفوریا": "تر ۱۲+ میاشتو پورې",
-        "textnow": "د حساب له مخې توپیر لري",
-        "voice": "محدود / د حساب پر بنسټ"
+      "history": {
+        "chatforia": "Up to 12+ months",
+        "textnow": "Varies by account",
+        "voice": "Limited / account-based"
       },
-      "disclaimer": "مقایسه د عامه معلوماتو پر بنسټ ده او ممکن د وخت په تېرېدو سره بدله شي. نور وړیا د متن لیږلو اپلیکیشنونه لکه TextFree یا TextMe عموماً د TextNow په څېر دي."
+      "disclaimer": "Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow."
     },
     "faq": {
-      "title": "د نرخونو او پلانونو په اړه ډېرې پوښتل شوې پوښتنې",
+      "title": "Pricing & plans FAQ",
       "free": {
-        "q": "ایا وړیا پلان واقعاً وړیا دی؟",
-        "ځ": "هو. په وړیا پلان کې د چټفوریا شمیره, زنګ وهل, او د اعلانونو سره پیغام رسونه شامله ده. تاسو کولی شئ د خپلې خوښې سره سم په وړیا پلان کې پاتې شئ, یا د اعلانونو لرې کولو او نورو ځانګړتیاوو خلاصولو لپاره اپګریډ وکړئ."
+        "q": "Is the Free plan really free?",
+        "a": "Yes. The Free plan includes a Chatforia number, calling, and messaging with ads. You can stay on Free as long as you like, or upgrade to remove ads and unlock more features."
       },
-      "پلس پریمیم": {
-        "پ": "د پلس او پریمیم ترمنځ څه توپیر دی؟",
-        "ځ": " پلس اعلانونه لرې کوي او ستاسو د پیغامونو تاریخچه غځوي — د ورځني کارونې لپاره غوره دی. پریمیم اضافي تنظیم, د بیا لیکلو او ځوابونو لپاره د مصنوعي ځیرکتیا (AI) وسیلې, او د ډیرو کاروونکو لپاره لومړیتوب لرونکی ملاتړ اضافه کوي."
+      "plusPremium": {
+        "q": "What’s the difference between Plus and Premium?",
+        "a": "Plus removes ads and extends your message history — perfect for everyday use. Premium adds extra customization, AI tools for rewrites and replies, and priority support for heavy users."
       },
       "esim": {
-        "q": "ایسِم ډیټا پیکونه چېرته کار کوي؟",
-        "a": "چټفوریا موبایل د نړیوال ایسِم پوښښ کاروي. شتون یې ستاسو په هیواد او وسیله پورې اړه لري. تاسو به د اپلیکیشن دننه د فعالولو پرمهال ملاتړ شوي انتخابونه وګورئ."
+        "q": "Where do eSIM data packs work?",
+        "a": "Chatforia Mobile uses global eSIM coverage. Availability depends on your country and device. You’ll see supported options during activation inside the app."
       },
-      "kansel": {
-        " q": "ایا زه هر وخت پلانونه لغوه یا بدلولی شم؟",
-        "a": "هو. تاسو کولی شئ په اپلیکیشن کې د بلینګ له پاڼې څخه خپل ګډون اداره یا لغوه کړئ. بدلونونه ستاسو د اوسني بلینګ دورې په پای کې پلي کیږي. "
+      "cancel": {
+        "q": "Can I cancel or change plans anytime?",
+        "a": "Yes. You can manage or cancel your subscription from the billing page in the app. Changes take effect at the end of your current billing period."
       },
       "family": {
-        "q": "د کورنۍ پيکې څنګه کار کوي؟",
-        "a": "د کورنۍ پيکې د څو چيټفوریا اکاونټونو ترمنځ د ډیټا یو ګډ پول جوړوي. یو کس بېل ورکوي, او تاسو کولی شئ غړي راوبلئ یا لرې کړئ او د هر شخص لپاره محدودیتونه وټاکئ."
+        "q": "How do Family packs work?",
+        "a": "Family packs create a shared data pool across multiple Chatforia accounts. One person pays the bill, and you can invite or remove members and set limits per person."
+      }
+    },
+    "h2": {
+      "app": "زموږ له وړیا, اعلاناتو لري د پلان سره پیل وکړئ. د پلس سره له اعلانونو څخه ازاد شئ, یا د پریمیم سره بشپړ ځواکمنې ځانګړتیاوې فعالې کړئ."
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
       }
     }
   },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
+  },
   "family": {
     "title": "کورنۍ",
-    "loading": "ستاسو د کورنۍ توضیحات باروي…",
-    "تېروتنه": {
-      "بارول": "د کورنۍ توضیحات په بارولو کې پاتې راغلي.",
-      "بلل": "د بل جوړولو کې ستونزه شوه. ډاډ ترلاسه کړئ چې تاسو د کورنۍ مالک یاست او بیا هڅه وکړئ.",
-      "تادیه": "موږ د کورنۍ پلان لپاره تادیه نشو پیلولی. مهرباني وکړئ بیا هڅه وکړئ."
+    "loading": "ستاسو د کورنۍ توضیحات باروي...",
+    "error": {
+      "load": "د کورنۍ توضیحات په بارولو کې پاتې راغی.",
+      "invite": " د بلنې جوړول ممکن نه دي. ډاډ ترلاسه کړئ چې تاسو د کورنۍ مالک یاست او بیا هڅه وکړئ.",
+      "checkout": "We could not start checkout for a Family plan. Please try again."
     },
-    "بېل": {
+    "billing": {
       "myPlanTitle": "زما پلان",
-      "myPlanError": "ستاسو پلان نشي لوډ کېدای.",
+      "myPlanError": "ستاسو د پلان لوډول ناممکن دي.",
       "myPlanLoading": "ستاسو پلان لوډیږي...",
       "currentPlan": "اوسنی پلان",
       "renewsAt": "په ... نوي کیږي",
-      " freePlanCopy": "تاسو په وړیا پلان کې یاست. د نورو ځانګړتیاوو د خلاصولو لپاره اپګریډ وکړئ.",
+      "freePlanCopy": "تاسو په وړیا پلان کې یاست. د نورو ځانګړتیاوو د خلاصولو لپاره اپګریډ وکړئ.",
       "upgradeCta": "پلان اپګریډ کړئ",
       "changePlanCta": "پلان بدل کړئ",
-      "manageBilling": "د بلینګ مدیریت وکړئ",
-      "portalError": "د بلینګ پورټل همدا اوس نشي خلاصېدلی.",
-      "cancelNow": "همدا اوس لغوه کړئ",
-      "cancelNowHelp": "تاسو کولی شئ خپل ګډون د بلینګ په پورټل کې مدیریت یا لغوه کړئ, یا یې لاندې سمدستي لغوه کړئ.",
+      "manageBilling": "بیلینګ اداره کړئ",
+      "portalError": "همدا اوس د بیلینګ پورټل خلاصولو ممکنه نه ده.",
+      "cancelNow": " اوس لغوه کړئ",
+      "cancelNowHelp": "تاسو کولی شئ خپل ګډون د بلینګ پورټل کې اداره یا لغوه کړئ, یا یې سمدستي لاندې لغوه کړئ.",
       "cancelNowConfirm": "ایا تاسو ډاډه یاست چې غواړئ خپل پلان سمدستي لغوه کړئ؟ دا کار بېرته نه شي کیدای.",
       "cancelNowError": "ستاسو پلان همدا اوس نه شي لغوه کېدای. مهرباني وکړئ بیا هڅه وکړئ یا د بلینګ مدیریت (Manage billing) وکاروئ."
     },
     "none": {
       "title": "تر اوسه کورنۍ نه ده جوړه شوې",
-      "body": "د چټفوریا کورنۍ او د شریکو ډیټا پول جوړولو لپاره, د کورنۍ پلان پیل کړئ.",
+      "body": "د چټفوریا کورنۍ او ګډ ډیټا پول جوړولو لپاره, د کورنۍ پلان پیل کړئ.",
       "goUpgrade": "د کورنۍ پلان پیل کړئ",
       "viewPlans": "ټول پلانونه وګورئ"
     },
@@ -1283,224 +1803,224 @@
       "role": "ستاسو رول: {{role}}"
     },
     "role": {
-      "مالک": "مالک",
-      "غړی": "غړی"
+      "owner": "Owner",
+      "member": "Member"
     },
-    "ډیټا": {
-      "سرلیک": "ګډ د ډیټا پول",
-      "لاندېنۍ لیکنه": "ټول غړي دا پول شریکوي. کله چې تاسو خپل حد ته نږدې شئ, موږ به تاسو ته خبرداری درکړو."
+    "data": {
+      "heading": "Shared data pool",
+      "caption": "All members share this pool. We’ll warn you as you approach your limit."
     },
-    "غړي": {
-      "سرلیک": "د کورنۍ غړي",
-      "نوم": "نوم",
-      "رول": "رول",
-      "کارونه": "کارونه",
-      "حده": "حده",
-      "نامحدود": "هیڅ ځانګړې حده نشته",
-      "د بلنې CTA": "د غړي بلنه"
+    "members": {
+      "title": "Family members",
+      "name": "Name",
+      "role": "ستاسو رول: {{role}}",
+      "usage": "Usage",
+      "limit": "Limit",
+      "unlimited": "No specific limit",
+      "inviteCta": "غړي ته بلنه ورکړئ"
     },
-    "بلنه": {
-      "سرلیک": "یو نوی غړی راوبولئ",
-      "body": "د خپل شریک کورني ډیټا پول ته د چا د رابللو لپاره یو بریښنالیک یا لینک واستوئ.",
+    "invite": {
+      "title": "Invite a new member",
+      "body": "Send an email or link to invite someone into your shared family data pool.",
       "emailLabel": "بریښنالیک (اختیاري)",
       "emailPlaceholder": "friend@example.com",
-      "create": "د بلنې جوړول",
+      "create": "بلنه جوړه کړئ",
       "linkLabel": "د بلنې لینک",
-      "copyAria": "د بلنې لینک کاپي کول",
+      "copyAria": "د بلنې لینک کاپي کړئ",
       "expiryHint": "دا لینک له څو ورځو وروسته پای ته رسېږي. تاسو تل کولی شئ یو نوی جوړ کړئ."
     },
     "join": {
       "title": "له کورنۍ سره یوځای شئ",
-      "body": "تاسو ته د Chatforia کورنۍ سره د یوځای کېدو او د هغوی د ډیټا پول شریکولو لپاره بلنه درکړل شوې ده.",
-      "cta": "قبول کړئ او له کورنۍ سره یوځای شئ",
-      "ctaLogin": "ننوځئ او له کورنۍ سره یوځای شئ",
-      "success": "تاسو له دې کورنۍ سره یوځای شوئ. تاسو اوس د دوی د ډیټا پول شریکوئ.",
-      "goFamily": "د کورنۍ ډشبورډ ته لاړ شئ",
-      "error": "موږ ونه شوای کړای تاسو له دې کورنۍ سره اضافه کړو. بلنه ممکن ناسم وي یا یې موده تېره شوې وي."
+      "body": "You have been invited to join a Chatforia Family and share their data pool.",
+      "cta": "قبول کړئ او کورنۍ سره یوځای شئ",
+      "ctaLogin": "ننوځئ او کورنۍ سره یوځای شئ",
+      "success": "تاسو له دې کورنۍ سره یوځای شوئ. تاسو اوس د هغوی د ډیټا پول شریکوئ.",
+      "goFamily": "کورنۍ ډشبورډ ته لاړ شئ",
+      "error": "We could not add you to this family. The invite may be invalid or expired."
     }
   },
   "randomChat": {
-    "title": "تصادفي خبرې اترې",
-    "فرعي سرلیک": "سمدستي له کوم نوي کس سره ووینئ, یا له ریا سره د خبرو کولو انتخاب وکړئ.",
-    "پیل": "خبرې اترې پیل کړئ",
-    "تفصیل": "لومړی په پټه توګه خبرې وکړئ. که مناسب وبرېښي, وروسته یې د ملګري په توګه اضافه کړئ.",
-    "مناسب کس پیدا کړئ": "ماته یو مناسب کس پیدا کړئ",
-    "له ریا سره خبرې وکړئ": "له ریا سره خبرې وکړئ",
-    "عمر وټاکئ": "په پروفایل کې خپل د عمر حد وټاکئ → عمر او تصادفي خبرې ترڅو له خلکو سره سمون ولرئ.",
-    "بې کاره": "بې کاره",
-    "سمون": "سمون...",
-    "لټون": "لټون...",
-    "لغوه": "لغوه",
-    "د اتصال ستونزه": "د اتصال ستونزه",
-    "اي": "AI",
-    "نامعلوم": "نامعلوم",
-    "په توګه وصل": "د ... په توګه وصل",
-    "د ملګرتیا غوښتنې ته په تمه": "د دې لپاره په تمه چې دوی د ملګرتیا غوښتنه ومني…",
-    "پټ کارن نومونه": "کارن نومونه تر هغه وخته پټ پاتې کیږي ترڅو چې دواړه د ملګرتیا غوښتنه ونه مني.",
-    " riaSeparate": "هر وخت له ریا سره خبرې وکړئ — له تصادفي انساني جوړې جوړولو څخه جلا.",
-    "sendMessage": "پیغام واستوئ",
-    "chatEnded": "خبرې پای ته ورسېدې",
-    "conversationEnded": "هغه خبرې پای ته رسېدلې دي.",
-    "findAnotherMatch": "بل ملګری ومومئ",
-    "next": "بل کس",
-    "addFriend": "د ملګرتیا غوښتنه وکړئ",
-    "requested": "غوښتنه شوې",
-    "وتل": "وتل",
-    "ریا ته پیغام": "ریا ته پیغام…",
-    "خپل جوړه ته پیغام": "خپل جوړه ته پیغام…",
-    "له فوریاه سره خبرې": "له فوریاه سره خبرې",
-    "له فوریابوټ سره خبرې": "له فوریابوټ سره خبرې",
-    "بندول": "بندول",
-    "په لټه کې": "په لټه کې…",
-    "د چا په لټه کې": "د چا په لټه کې...",
-    "له فوریا سره خبرې پیل": "له فوریا سره خبرې پیل کول...",
-    "ستاسو ملګری پرې شو": "ستاسو ملګری پرې شو.",
-    "اوس مهال ملګری نشته": "اوس مهال ملګری نشته.",
-    "له {{name}} سره وصل": "له {{name}} سره وصل",
-    "وصل": "وصل",
-    "ملګری وتلی": "ملګری وتلی.",
-    "stopped": "درېدلی.",
-    "skip": "تېر کړه",
-    "save": "خوندي کړه",
-    "saveGuard": "یوازې انسان-له-انسان خبرو اترو خوندي کېدای شي",
-    "youAreChattingWith": "تاسو له { {name}}",
-    "بټ": "بټ",
-    "سلام": "سلام وکړئ 👋",
-    "تاسو": "تاسو",
-    "پیغام ولیکئ": "پیغام ولیکئ",
-    "ولیږئ": "ولیږئ",
-    "partner": "شریک",
-    "withRia": "له ریا سره",
-    "startingRia": "له ریا سره خبرې پیل کول...",
-    "ageDisclaimer": "موږ یوازې د عمر حدود ذخیره کوو (ستاسو د زیږون دقیقې نېټې نه). دا د تصادفي خبرو د جوړو مناسب ساتلو لپاره کارول کیږي. د خلکو سره د سمون لپاره (یوازې د ریا بوټ نه), خپل د عمر حد په ترتیباتو → عمر او تصادفي خبرې کې تنظیم کړئ.",
-    "ageBandRequired": "د خلکو سره د جوړې کېدو لپاره خپل د عمر محدوده په پروفایل → عمر او تصادفي خبرې اترې کې وټاکئ.",
-    "ageBandCallout": "د خلکو سره د جوړې کېدو لپاره (یوازې د RiaBot نه), خپل د عمر محدوده په ترتیباتو → عمر او تصادفي خبرې اترې کې وټاکئ."
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
   "ria": {
     "fallbackName": "هلته",
-    "intro": "سلام 👋 زه ریا یم. په ذهن کې دې څه دي؟",
+    "intro": "سلام 👋 زه ریا یم. په ذهن کې څه لرئ؟",
     "greetings": {
-      "long1": "سلام {{name}} 👋 زه دلته یم. په ذهن کې دې څه دي؟",
+      "long1": "سلام {{name}} 👋 زه دلته یم. ستا په ذهن کې څه دي؟",
       "long2": "سلام {{name}} 😊 نن د څه په اړه خبرې کول غواړې؟",
       "long3": "سلام {{name}}! زه پوره غوږ یم — څه خبره ده؟",
-      "long4": "خوښ شوم چې ولیدلې, {{name}} 👋 نن ستا په ذهن کې څه دي؟",
-      "long5": "سلام {{name}} 🙂 غواړې خپل زړه تش کړې, پوښتنه وکړې, او که یوازې خبرې وکړو؟",
+      "long4": "خوښ شوم چې ولیدلم, {{name}} 👋 نن ستا په ذهن کې څه دي؟",
+      "long5": "سلام {{name}} 🙂 غواړې خپل زړه تش کړې, پوښتنه وکړې, او که یوازې خبرې وکړې؟",
       "long6": "سلام {{name}}! زه وخت لرم — نن د څه په اړه خبرې کول غواړې؟",
       "short1": "سلام {{name}}, زه لا هم دلته یم. څه خبره ده؟",
-      "short2": "بېرته ښه راغلسې {{name}} 👋 کوم بل څه وو چې غوښتل دې اضافه کړې؟",
-      "short3": " بیا راغلی یې, {{name}}؟ 😊 راته ووایه چې په ذهن کې دې څه دي.",
-      "short4": "هې {{name}} ✨ چمتو یې چې له هماغه ځایه خبره پیل کړو چېرې مو پرېښوده؟",
-      "short5": "هو {{name}}؟ غوږ مې درسره دی 👂",
-      "short6": "اوه هې {{name}}! په ذهن کې دې کوم نوی شی شته؟"
+      "short2": "بېرته ښه راغلاست {{name}} 👋 کوم بل څه شته چې غواړې اضافه کړې؟",
+      "short3": "بېرته راغله, {{name}}؟ 😊 راته ووایه چې په زړه کې څه لرې.",
+      "short4": "سلام {{name}} ✨ چمتو یې چې له هماغه ځایه پیل وکړو چېرې مو پرېښودل؟",
+      "short5": "هو {{name}}؟ زه اورم 👂",
+      "short6": "اوه سلام {{name}}! په ذهن کې دې کوم نوی شی دی؟"
     },
-    "سرلیک": {
-      "ناویګیشن خلاصول": "ناویګیشن مینو خلاص کړئ",
-      "closeNav": "د نیویګیشن مینو وتړئ",
+    "header": {
+      "openNav": "د ناویګیشن مینو خلاص کړئ",
+      "closeNav": "د ناویګیشن مینو وتړئ",
       "homeAria": "چېټفوریا کور"
     },
     "login": {
-      "welcomeBack": "بیا ښه راغلاست",
+      "welcomeBack": "بېرته ښه راغلاست",
       "title": "چېټفوریا ته دوام ورکړئ",
       "subtitleReturning": "خپل چېټفوریا حساب ته ننوځئ",
       "google": "د ګوګل سره دوام ورکړئ",
-      "apple": "له اپل سره دوام ورکړئ",
+      "apple": "د اپل سره دوام ورکړئ",
       "googleShort": "ګوګل",
       "appleShort": "اپل",
       "googleUnavailable": "د ګوګل ننوتل شتون نلري",
       "appleUnavailable": "د اپل ننوتل شتون نلري",
-      "ssoUnavailable": "سګل-ساین-آن (Single-sign-on) اوسمهال شتون نلري. د دې پر ځای د کارن نوم او پټنوم وکاروئ.",
+      "ssoUnavailable": "سګل-ساین-آن (Single-sign-on) اوسمهال شتون نلري. د دې پر ځای کارن نوم او پټنوم وکاروئ.",
       "or": "یا",
       "accountLabel": "حساب",
       "identifierPh": "بریښنالیک یا کارن نوم",
-      "د پاسورډ لیبل": "پاسورډ",
-      "د پاسورډ فیلډ": "ستاسو پاسورډ",
-      "په ننوتلو پاتې شئ": "په ننوتلو کې ما وساتئ",
-      "هیر شوی": "پاسورډ مو هیر شوی؟",
-      "د تایید بریښنالیک بیا لیږل": "د تایید بریښنالیک بیا ولیږئ",
-      "سپارل": "ننوتل",
-      "ننوتل...": "ننوتل...",
-      "تایید": {
-        "لېږل شوی": "د تایید بریښنالیک ولېږل شو. خپل انباکس وګورئ.",
-        "ناکام": "د تایید بریښنالیک بیا لېږل ناکام شول."
+      "passwordLabel": "پټنوم",
+      "passwordPh": "ستاسو پټنوم",
+      "keepSignedIn": "ما ننوتلی وساتئ",
+      "forgot": "پټنوم مو هېر شوی؟",
+      "resendVerification": "د تایید بریښنالیک بیا واستوئ",
+      "submit": "ننوتل",
+      "loggingIn": "ننوتل...",
+      "verification": {
+        "sent": "د تایید بریښنالیک واستول شو. خپل انباکس.",
+        "failed": "Failed to resend verification email."
       },
-      "تېروتنه": {
-        "کم": "مهرباني وکړئ خپل معلومات داخل کړئ.",
-        "غلط": "غلط کارن نوم یا پټنوم",
-        "رد شوی": "لرېوالتیا رد شوه.",
-        "unprocessable": "غلطه غوښتنه. خپل کارن نوم/بریښنالیک او پټنوم وګورئ.",
-        "deviceLimit": "د وړیا پلان لپاره د وسیلو حد رسیږي. په بله وسیله له حساب څخه ووځئ یا د نورو وسیلو نښلولو لپاره پریمیئم ته لوړ شئ.",
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
         "premiumRequired": "دا عمل پریمیئم پلان ته اړتیا لري."
       },
       "forgotPassword": {
-        "سرلیک": "پټنوم مو هېر شوی",
-        "مرسته کوونکی": "هغه بریښنالیک ولیکئ چې تاسو د خپل Chatforia حساب جوړولو لپاره کارولی دی او موږ به تاسو ته ستاسو د پټنوم بیا تنظیمولو لپاره یو خوندي لینک درولیږو.",
-        "د بریښنالیک نښان": "بریښنالیک",
-        "د بریښنالیک ځای ناستی": "you@example.com",
+        "title": "پټ نوم مو هېر شوی",
+        "helper": "هغه بریښنالیک ولیکئ چې تاسو د خپل Chatforia حساب جوړولو لپاره کارولی دی او موږ به تاسو ته ستاسو د پټ نوم بیا تنظیمولو لپاره یو خوندي لینک درولیږو.",
+        "emailLabel": "بریښنالیک",
+        "emailPlaceholder": "you@example.com",
         "emailInvalid": "مهرباني وکړئ یو معتبر بریښنالیک پته ولیکئ.",
-        "genericError": "د غوښتنې پروسس کول ناممکن دي. مهرباني وکړئ یو څه وروسته بیا هڅه وکړئ.",
+        "genericError": " د غوښتنې پروسس کولو ممکنه نه ده. مهرباني وکړئ په یو څه وخت کې بیا هڅه وکړئ.",
         "sending": "د بیا تنظیمولو لینک لیږل کیږي...",
         "sendCta": "د بیا تنظیمولو لینک لیږل",
-        "sentLabel": "ولېږل شو!",
-        "sentHelper": "که د هغې بریښنالیک سره کوم اکاونټ شتون ولري, موږ د پټنوم بیا تنظیمولو لینک لېږلی دی. کېدای شي د رارسېدو لپاره څو دقیقې وخت ونیسي. ډاډ ترلاسه کړئ چې خپل سپم یا د ترویج فولډر وګورئ.",
-        "previewDev": "بریښنالیک مخکتنه (ډیو)",
+        "sentLabel": "ولیږل شو!",
+        "sentHelper": "که د هغه بریښنالیک سره یو اکاونټ شتون ولري, موږ د پټنوم بیا تنظیمولو لینک درولیږلی دی. ممکن د رارسیدو لپاره یې څو دقیقې وخت ونیسي. ډاډ ترلاسه کړئ چې خپل سپم یا د ترویج فولډر وګورئ.",
+        "previewDev": "د بریښنالیک مخکتنه (ډیو)",
         "backToLogin": "بېرته ننوتلو ته"
       },
       "resetPassword": {
         "title": "پټنوم بیا تنظیمول",
-        "missingToken": "غلط یا ورک شوی د پاسورډ بیا تنظیمولو ټوکن.",
-        "missingTokenHelper": "ټوکن غلط یا ورک دی. مهرباني وکړئ د پاسورډ بیا تنظیمولو لپاره نوی لینک وغواړئ.",
-        "passwordMismatch": "پاسورډونه سره سمون نه خوري",
-        "success": "ستاسو پټنوم په بریالیتوب سره بیا تنظیم شو",
-        "genericError": "تېروتنه: د پټنوم بیا تنظیمول ممکن نه دي.",
-        "newPasswordLabel": "نوی پټنوم",
-        "newPasswordPlaceholder": "خپل نوی پټنوم ولیکئ",
-        "confirmPasswordLabel": "نوی پټنوم تایید کړئ",
-        "confirmPasswordPlaceholder": "خپل نوی پټنوم بیا ولیکئ",
-        "resetting": "بیا تنظیمول...",
+        "missingToken": "غیر معتبر یا ورک شوی د پټنوم بیا تنظیمولو ټوکن.",
+        "missingTokenHelper": "غیر معتبر یا ورک شوی ټوکن. مهرباني وکړئ د پټنوم بیا تنظیمولو لپاره نوی لینک وغواړئ.",
+        "passwordMismatch": "پټنومونه  سره سمون نه خوري",
+        "success": "Your password has been reset successfully",
+        "genericError": " د غوښتنې پروسس کولو ممکنه نه ده. مهرباني وکړئ په یو څه وخت کې بیا هڅه وکړئ.",
+        "newPasswordLabel": "نوی پاسورډ",
+        "newPasswordPlaceholder": "خپل نوی پاسورډ ولیکئ",
+        "confirmPasswordLabel": "نوی پاسورډ تایید کړئ",
+        "confirmPasswordPlaceholder": "خپل نوی پاسورډ بیا ولیکئ",
+        "resetting": "په بیا تنظیمولو...",
         "submit": "پاسورډ بیا تنظیم کړئ",
-        "strongPasswordHint": "یو قوي پاسورډ غوره کړئ چې تاسو یې په بل ځای کې نه کاروئ."
+        "strongPasswordHint": "یو قوي پټنوم وټاکئ چې تاسو یې بل ځای نه کاروئ."
       }
     }
   },
-  "oauth": {
-    "completing": " د ننوتلو بشپړول..."
-  },
-  "ملاتړ": {
-    "helpFab": "مرسته",
-    "openSupportAria": "د ملاتړ خلاصول",
-    "badge": "ملاتړ",
-    "heading": "څنګه مرسته کولی شو؟",
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
     "tabs": {
-      "help": "د مرستې مرکز",
-      "contact": "له موږ سره اړیکه"
+      "help": "Help Center",
+      "contact": "Contact us"
     },
-    "searchPlaceholder": "د مرستې مقالې ولټوئ…",
-    "searchAria": "د مرستې لټون",
-    "searchBtn": "لټون",
-    "quickTopicsLabel": "چټک موضوعات",
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
     "quickTopics": {
-      "login": "نشي کولی چې ننوځم",
-      "billing": "تادیات / بېلینګ",
-      "سرغړونه": "د سرغړونې راپور ورکړئ"
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
     },
-    "هڅه_کړئ_لټون": "د \"ژباړه\", \"بیک اپونه\", یا \"محرمیت\" لپاره لټون وکړئ.",
-    "مقاله": "مقاله",
-    "مقاله_پرانیزئ": "مقاله پرانیزئ",
-    "د_اړیکې_پیل": "موږ به هڅه وکړو چې دا سمدستي حل کړو. که نه, زموږ ټیم به یې تعقیب کړي.",
-    "موضوع_آریا": "یوه موضوع وټاکئ",
-    "messagePlaceholder": "خپل پیغام ولیکئ…",
-    "sendBtn": "لیږل",
-    "sent": "پیغام واستول شو. موږ به د بریښنالیک له لارې ځواب درکړو.",
-    "sendError": "لیږل نه شول. د بدیل په توګه support@chatforia.com ته بریښنالیک واستوئ.",
-    "actionCompleted": "عمل بشپړ شو.",
-    "actionFailed": "دا عمل نه شو بشپړ کیدای. مهرباني وکړئ بیا هڅه وکړئ.",
-    "ticketCreated": "موږ دا په اتوماتيک ډول حل نه کړای شو. زموږ ټیم به یې تعقیب کړي.",
-    "escalationMessage": "موږ دا په اتوماتيک ډول حل نه کړای شو. زموږ ټیم به یې تعقیب کړي.",
-    "genericError": "یو څه سم نه شول. مهرباني وکړئ بیا هڅه وکړئ.",
-    "analyzing": "ستاسو ستونزه تحلیلوي...",
-    "takeAction": "وړاندیز شوې اقدام وکړئ",
-    "resolvedInstantly": "ستونزه سمدستي حل شوه — ټکټ ته اړتیا نشته.",
-    "escalating": "مربوطه څانګې ته یې سپارو..."
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
   },
   "help": {
     "title": "مرسته",
@@ -1508,31 +2028,31 @@
     "helpCenter": "د مرستې مرکز",
     "contactUs": "له موږ سره اړیکه ونیسئ",
     "quickTopics": "ګړندۍ موضوعات",
-    "searchExamples": "د \"ژباړه\", \"بېک اپونه\", یا \"محرمیت\" لټون هڅه وکړئ.",
-    "دلاسه نشي": "دلاسه نشي",
-    "تادیات/بېل": "تادیات/ بېل",
-    "reportAbuse": "سرغړونې راپور کړئ",
+    "searchExamples": "د \"ژباړه\", \"بیک اپونه\", یا \"محرمیت\" لټون هڅه وکړئ.",
+    "cantLogin": "نشي کولی ننوځئ",
+    "paymentsBilling": "تادیات/ بلینګ",
+    "reportAbuse": "ناوړه ګټه اخیستنې راپور کړئ",
     "searchHelpArticles": "د مرستې مقالې وپلټئ",
-    "search": "پلټنه"
+    "search": "Search"
   },
   "helpCenter": {
-    "title": "د مرستې مرکز",
+    "title": "Help Center",
     "faq": {
       "account": {
-        "q": "زه څنګه خپل اکاونټ جوړولی یا بیرته ترلاسه کولی شم؟",
-        "ځواب": "اپلیکېشن ډاونلوډ کړئ یا ویب وکاروئ, د \"حساب جوړول\" (Create account) تڼۍ وټکوئ, خپل بریښنالیک/تلیفون تایید کړئ. د بیا ترلاسه کولو لپاره, د \"پټنوم مې هېر شوی\" (Forgot password) څخه کار واخلئ."
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
       },
-      "محرمیت": {
-        "پوښتنه": "ایا پیغامونه له سرچینې څخه تر پای پورې کوډ شوي دي؟",
-        "a": "هو. پیغامونه او زنګونه په ډیفالټ ډول له سره تر پایه پورې کوډ شوي دي. یوازې تاسو او پیغام اخیستونکی یې لوستلی شئ."
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
       },
-      "ژباړه": {
-        "q": "فوري ژباړه څنګه کار کوي؟",
-        "a": "په ترتیباتو → بڼه او ژبه کې \"خودکاره ژباړه\" فعال کړئ. موږ په هغه ځای کې چې ملاتړ کیږي, ژباړه په وسیله کې دننه کوو, که نه نو د خوندي API's له لارې د لږ تر لږه میټاډیټا سره."
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
       },
-      "اړیکه": {
-        "q": "له ملاتړ سره اړیکه ونیسئ",
-        "a": "له موږ سره په support@chatforia.com اړیکه ونیسئ. سکرین شاټونه او ستاسو د اپلیکیشن نسخه پکې شامل کړئ."
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
       }
     }
   },
@@ -1547,348 +2067,390 @@
       "title": "۱) خپل اکاونټ جوړ کړئ",
       "signup": "نوم لیکنه وکړئ",
       "or": "or",
-      "login": "ننوتل",
-      "loginText": "د خپل موجوده حساب سره.",
-      "prefsStart": "په اپلیکیشن کې, د خپلو غوره توبونو د تنظیمولو لپاره ترتیبات خلاص کړئ",
+      "login": "log in",
+      "loginText": "د خپل اوسني اکاونټ سره.",
+      "prefsStart": "په اپلیکیشن کې, د خپلو غوره توبونو د تنظیمولو لپاره ترتیبات (Settings) خلاص کړئ",
       "prefsLink": "غوره توبونه",
-      "prefsRest": "(ژبه, د لوستلو رسیدونه, تیمونه)."
+      "prefsRest": "(ژبه, د لوستلو رسیدونه, موضوعات)."
     },
     "section2": {
       "title": "۲) پیغام لیکل پیل کړئ",
-      "item1": "یو ځانګړی پیغام (DM) یا ګروپ جوړ کړئ او خپل لومړی پیغام واستوئ.",
+      "item1": "یو شخصي پیغام (DM) یا ګروپ جوړ کړئ او خپل لومړی پیغام واستوئ.",
       "item2": "د ۱۰۰+ ژبو ترمنځ د خبرو کولو لپاره له فوري ژباړې څخه کار واخلئ.",
-      "item3": " په پروفایل → محرمیت کې د ورکېدونکو پیغامونو او د لوستلو رسیدونو ازموینه وکړئ."
+      "item3": "په پروفایل → محرمیت کې د ورکېدونکو پیغامونو او د لوستلو رسیدونو ازموینه وکړئ."
     },
     "section3": {
       "title": "۳) نور هم پرمخ لاړ شئ",
-      "item1": "تاسو کولی شئ هر وخت د اپلیکیشن دننه یوې تادیه شوې پلان ته لوړ شئ.",
-      "item2": "کله چې تاسو ننوځئ, تاسو کولی شئ اضافي وسیلې وصل کړئ او د اپلیکیشن په ترتیباتو کې خوندي کاپي (بېک اپ) تنظیم کړئ.",
-      "item2Part1": "کله چې تاسو ننوتل شئ, تاسو کولی شئ اضافي وسیلې وصل کړئ او د اپلیکیشن په ترتیباتو کې خوندي بک اپونه تنظیم کړئ."
+      "item1": "تاسو کولی شئ هر وخت د اپلیکیشن دننه یوې پولي پلان ته لوړ شئ.",
+      "item2": "کله چې تاسو ننوځئ, تاسو کولی شئ اضافي وسیلې وصل کړئ او د ترتیباتو څخه خوندي شوي بک اپونه تنظیم کړئ په اپلیکیشن کې.",
+      "item2Part1": "کله چې تاسو ننوتئ, تاسو کولی شئ اضافي وسیلې وصل کړئ او د ترتیباتو څخه په اپلیکیشن کې خوندي شوي بیک اپونه تنظیم کړئ."
     },
     "cta": {
       "seePlans": "پلانونه او قیمتونه وګورئ",
       "openSettings": "ترتیبات خلاص کړئ",
-      "createAccount": " حساب جوړ کړئ"
+      "createAccount": "حساب جوړ کړئ"
     }
   },
   "howItWorks": {
     "title": "چټفوریا څنګه کار کوي",
-    "intro": "چټفوریا د دې لپاره ډیزاین شوې چې اړیکې ساده, ګړندۍ او د لاسرسي وړ کړي. پیل کول یوازې څو ګامونه نیسي.",
-    "step1Title": "۱. حساب جوړ کړئ",
-    "step1Desc": "د خپل چټفوریا حساب جوړولو لپاره د خپل بریښنالیک یا کارن نوم په کارولو سره نوم لیکنه وکړئ.",
+    "intro": "چټفوریا د دې لپاره ډیزاین شوې چې اړیکې ساده, ګړندۍ او د لاسرسي وړ کړي. پیل کول یې یوازې څو ګامونه نیسي.",
+    "step1Title": "۱. یو اکاونټ جوړ کړئ",
+    "step1Desc": "د خپل چټفوریا اکاونټ جوړولو لپاره د خپل بریښنالیک یا کارن نوم په کارولو سره نوم لیکنه وکړئ.",
     "step2Title": "۲. خبرې اترې پیل کړئ",
-    "step2Desc": "د اړیکو په ټاکلو یا د نویو خبرو په پیلولو سره له نورو سره وصل شئ.",
-    "step3Title": "۳. په ژوندۍ بڼه پیغام رسونه",
+    "step2Desc": "د اړیکو په ټاکلو یا د نویو خبرو اترو په پیلولو سره له نورو سره وصل شئ.",
+    "step3Title": "۳. په ریښتیني وخت کې پیغام رسونه",
     "step3Desc": "پیغامونه په چټکۍ سره رسول کیږي ترڅو د اړیکو یوه اسانه تجربه چمتو کړي.",
     "step4Title": "۴. نړیواله اړیکه",
-    "step4Desc": "داخلي ژباړه له کاروونکو سره مرسته کوي چې په مختلفو ژبو اړیکه ونیسي.",
-    "step5Title": "۵. کنټرول په خپل لاس کې وساتئ",
-    "step5Desc": "خپلې غوره توبونو, اړیکو, او د اړیکو ترتیبات اداره کړئ."
+    "step4Desc": "داخلي ژباړه له کاروونکو سره مرسته کوي چې په مختلفو ژبو کې اړیکه ونیسي.",
+    "step5Title": "۵. کنټرول په لاس کې وساتئ",
+    "step5Desc": "خپل غوره توبونه, اړیکې, او د اړیکو ترتیبات اداره کړئ."
   },
-  "خوندیتوب": {
-    "سرلیک": "د خوندیتوب او ټولنې لارښوونې",
-    "پیل": "چېټفوریا د ټولو کاروونکو لپاره د یو خوندي او باعزته چاپیریال ساتلو ته ژمن دی. دا لارښوونې د هرچا لپاره د یوې مثبتې تجربې په تضمین کې مرسته کوي.",
-    "respectTitle": "با احترامه اړيکه",
-    "respectDesc": "له کاروونکو تمه کیږي چې په با احترامه توګه اړيکه ونیسي. ځورونه, ناوړه چلند, یا زیان رسوونکی چلند اجازه نلري.",
-    "prohibitedTitle": "ممنوعه محتوا",
+  "safety": {
+    "title": "د خوندیتوب او ټولنې لارښوونې",
+    "intro": "چاټفوریا د ټولو کاروونکو لپاره د یو خوندي او باعزته چاپیریال ساتلو ته ژمن دی. دا لارښوونې د هرچا لپاره د یوې مثبتې تجربې په تضمین کې مرسته کوي.",
+    "respectTitle": "با احترامه اړیکه ",
+    "respectDesc": "له کاروونکو تمه کیږي چې په درنښت سره اړیکه ونیسي. ځورونه, ناوړه چلند, یا زیان رسوونکی چلند اجازه نلري.",
+    "prohibitedTitle": "ممنوع مواد",
     "prohibited": {
       "illegal": "غیرقانوني فعالیتونه",
-      "ځورونه": "ځورونه یا ځورول",
-      "نفرت": "نفرت ډکې خبرې یا تبعیض",
+      "harassment": "ځورونه یا ځورول",
+      "hate": "نفرت څرګندونې یا تبعیض",
       "explicit": "واضح یا زیان رسوونکي مواد",
       "spam": "سپم یا غولونکي کړنې"
     },
     "toolsTitle": "د کارونکي د خوندیتوب وسیلې",
     "tools": {
-      "report": "نامناسب چلند یا محتوا راپور کړئ",
-      "block": "د نورو تعاملاتو د مخنیوي لپاره کاروونکي بند کړئ",
-      "control": "د محرمیت او اړیکو ترتیبات مدیریت کړئ"
+      "report": "نامناسب چلند یا منځپانګه راپور کړئ",
+      "block": "کاروونکي وروځئ ترڅو د نورو تعاملاتو مخه ونیول شي",
+      "control": "Manage privacy and communication settings"
     },
-    "enforcementTitle": "اجرا",
-    "enforcementDesc": "موږ ممکن د هغو حسابونو پر وړاندې اقدام وکړو چې دا لارښوونې سرغړونه کوي, په شمول د خبرداري, محدودیتونو, یا له پلیټ فارم څخه د دایمي لرې کولو."
+    "enforcementTitle": "Enforcement",
+    "enforcementDesc": "We may take action against accounts that violate these guidelines, including warnings, restrictions, or permanent removal from the platform."
   },
   "blog": {
     "whyMessaging": {
-      "title": "ولې د پیغام رسولو پلیټ فارمونه تر بل هر وخت ډېر مهم دي",
-      "intro": "د پیغام رسولو پلیټ فارمونه د نن ورځې په نړۍ کې د اړیکو لپاره یو له خورا مهمو وسیلو څخه ګرځېدلي دي. له شخصي خبرو اترو څخه نیولې تر سوداګریزو تعاملاتو پورې, د پیغام رسولو اپلیکیشنونه خلکو ته اجازه ورکوي چې په سمدستي او اغېزمنه توګه سره وصل پاتې شي.",
-      "everydayTitle": "ورځنۍ اړيکه",
-      "everydayDesc": "خلک د ملګرو, کورنۍ او همکارانو سره د ورځنيو اړیکو لپاره د پيغام رسونې اپليکېشنونو باندې تکیه کوي. که دا يوه چټکه خبره وي يا اوږده خبرې اترې, پيغام رسونه د اړيکې ساتلو لپاره يوه اسانه او انعطاف منونکې لاره ده.",
-      "speedTitle": "چټکتیا او اسانتیا",
-      "speedDesc": "د پیغام رسولو پلیټ فارمونو یوه له اصلي ګټو څخه د هغوی چټکتیا ده. پیغامونه سمدستي رسول کیږي, چې کاروونکو ته اجازه ورکوي په ریښتیني وخت کې اړیکه ونیسي. د اسانتیا دې کچې پیغام رسونه د ډیری خلکو لپاره د اړیکو غوره طریقه ګرځولې ده.",
-      "globalTitle": "نړیوال لاسرسی",
-      "globalDesc": "د پیغام رسولو پلیټ فارمونه په ټوله نړۍ کې خلک سره نښلوي. د انټرنیټ لاسرسي سره, کاروونکي کولی شي د موقعیت په پام کې نیولو پرته اړیکه ونیسي, چې دا په نړیواله کچه د اړیکو جوړولو او همکارۍ لپاره اسانتیا رامنځته کوي.",
-      "privacyTitle": "محرمیت او کنټرول",
-      " privacyDesc": "نوي پیغام رسولو پلیټ فارمونه کاروونکو ته د خپلو معلوماتو او خبرو اترو باندې د کنټرول ورکولو باندې تمرکز کوي. د انکرپشن (مخفی کولو), د محرمیت ترتیباتو, او د پیغام کنټرولونو په څیر ځانګړتیاوې کاروونکو ته اجازه ورکوي چې په ډاډ سره اړیکه ونیسي.",
-      "futureTitle": "د پیغام رسونې راتلونکی",
-      "futureDesc": "پیغام رسونه د نویو ځانګړتیاوو لکه د مصنوعي ځیرکتیا پر بنسټ ځوابونو, ژباړې, او د ملټي میډیا شریکولو سره وده کوي. لکه څنګه چې ټیکنالوژي پرمختګ کوي, د پیغام رسونې پلیټ فارمونه به نور هم ډیر ځواکمن او هر اړخیز شي.",
-      "outro": "چاټفوریا د دې اصولو په پام کې نیولو سره جوړه شوې, چې یو ګړندی, خوندي, او د یوې وصلې نړۍ لپاره د کاروونکي-دوست پیغام رسونې تجربه وړاندې کوي."
+      "title": "Why Messaging Platforms Matter More Than Ever",
+      "intro": "Messaging platforms have become one of the most important tools for communication in today’s world. From personal conversations to business interactions, messaging apps allow people to stay connected instantly and efficiently.",
+      "everydayTitle": "Everyday Communication",
+      "everydayDesc": "People rely on messaging apps for daily communication with friends, family, and colleagues. Whether it's a quick update or a long conversation, messaging provides a convenient and flexible way to stay in touch.",
+      "speedTitle": "Speed and Convenience",
+      "speedDesc": "One of the main advantages of messaging platforms is their speed. Messages are delivered instantly, allowing users to communicate in real time. This level of convenience has made messaging the preferred method of communication for many people.",
+      "globalTitle": "Global Reach",
+      "globalDesc": "Messaging platforms connect people across the globe. With internet access, users can communicate regardless of location, making it easier to build relationships and collaborate internationally.",
+      "privacyTitle": "Privacy and Control",
+      "privacyDesc": "Modern messaging platforms focus on giving users control over their data and conversations. Features like encryption, privacy settings, and message controls allow users to communicate with confidence.",
+      "futureTitle": "The Future of Messaging",
+      "futureDesc": "Messaging continues to evolve with new features such as AI-powered responses, translation, and multimedia sharing. As technology advances, messaging platforms will become even more powerful and versatile.",
+      "outro": "Chatforia is built with these principles in mind, offering a fast, secure, and user-friendly messaging experience for a connected world."
     },
     "global": {
-      "title": "د نړیوالو اړیکو راتلونکی",
-      "intro": "اړیکې په تیرو څو لسیزو کې په چټکۍ سره وده کړې ده. هغه څه چې یو وخت د ټیلیفون زنګونو یا په -کسانه غونډې اوس د پیغام رسولو پلیټ فارمونو له لارې په چټکۍ سره ترسره کیدی شي. لکه څنګه چې ټیکنالوژي پرمختګ کوي, نړیوالې اړیکې ګړندۍ, ډیرې لاسرسي وړ, او ډیرې ټولشموله کیږي.",
-      "د خنډونو سرلیک": "د خنډونو ماتول",
-      "د خنډونو توضیحات": "په اړیکو کې یو له سترو بدلونونو څخه د جغرافیایي خنډونو کمښت دی. خلک اوس کولی شي د نړۍ له نورو سره په نږدې ریښتیني وخت کې وصل شي. که د شخصي خبرو اترو, سوداګرۍ, یا همکارۍ لپاره وي, د پیغام رسولو پلیټ فارمونو واټن خورا کم محدود کړی دی .",
-      "translationTitle": "د ژباړې ټیکنالوژۍ رول",
-      "translationDesc": "ژبه په دودیز ډول له نړیوالو اړیکو سره یو له سترو خنډونو څخه وه. نن ورځ, په ځان کې جوړ شوي د ژباړې وسایل د دې واټن په ډکولو کې مرسته کوي. د Chatforia په څیر پلیټ فارمونه کاروونکو ته اجازه ورکوي چې حتی که دوی مختلفې ژبې وايي هم په اسانۍ سره اړیکه ونیسي, چې د نښلون او پوهاوي لپاره نوي فرصتونه رامینځته کوي.",
-      "realtimeTitle": ": \"په ریښتیني وخت کې وصلتیا",
-      "realtimeDesc": "تېزوالی د عصري اړیکو په بڼه ورکولو کې یو کلیدي فکتور دی. کاروونکي تمه لري چې پیغامونه ژر ورسول شي, او عصري زیربنا د دې تمې ملاتړ کوي. په ریښتیني وخت کې پیغام رسونه ډېرې طبیعي او روانې خبرې اترې ممکنوي.",
-      "privacyTitle": "محرمیت او امنیت",
-      "privacyDesc ": "څومره چې اړیکې ډیجیټل کیږي, محرمیت او امنیت په زیاتیدونکي توګه مهم دي. کاروونکي غواړي ډاډه وي چې د دوی خبرې اترې خوندي دي. د انکرپشن (kriptografۍ) او د کاروونکي لخوا کنټرول شوي ترتیباتو په څیر ځانګړتیاوې د لا خوندي اړیکو تجربې سره مرسته کوي.",
-      " futureTitle": "ورپسې څه راځي",
-      "futureDesc": "د نړیوالو اړیکو راتلونکی به احتمالاً ډیر پرمختللي وسایل ولري, لکه د مصنوعي ځیرکتیا (AI) په مرسته پیغام رسونه, ښه شوی ژباړه, او د کاروونکو غوره تجربې. لکه څنګه چې ټیکنالوژي وده کوي, اړیکې به نورې هم طبیعي او د لاسرسي وړ شي.",
-      "outro": "د چټفوریا په څیر پلیټ فارمونه د دې بدلون یوه برخه ده, چې له خلکو سره مرسته کوي ترڅو د ژبو او پولو ترمنځ په اسانۍ سره وصل شي."
+      "title": "The Future of Global Communication",
+      "intro": "Communication has evolved rapidly over the past few decades. What once required phone calls or in-person meetings can now be done quickly through messaging platforms. As technology continues to advance, global communication is becoming faster, more accessible, and more inclusive.",
+      "barriersTitle": "Breaking Down Barriers",
+      "barriersDesc": "One of the biggest changes in communication is the reduction of geographic barriers. People can now connect with others across the world in near real time. Whether for personal conversations, business, or collaboration, messaging platforms have made distance far less limiting.",
+      "translationTitle": "The Role of Translation Technology",
+      "translationDesc": "Language has traditionally been one of the biggest obstacles to global communication. Today, built-in translation tools help bridge that gap. Platforms like Chatforia allow users to communicate more easily even if they speak different languages, creating new opportunities for connection and understanding.",
+      "realtimeTitle": "Real-Time Connectivity",
+      "realtimeDesc": "Speed is a key factor shaping modern communication. Users expect messages to be delivered quickly, and modern infrastructure supports that expectation. Real-time messaging enables more natural and fluid conversations.",
+      "privacyTitle": "Privacy and Security",
+      "privacyDesc": "As communication becomes more digital, privacy and security are increasingly important. Users want confidence that their conversations are protected. Features like encryption and user-controlled settings help support a more secure communication experience.",
+      "futureTitle": "What Comes Next",
+      "futureDesc": "The future of global communication will likely include more advanced tools, such as AI-assisted messaging, improved translation, and enhanced user experiences. As technology evolves, communication will continue to become more intuitive and accessible.",
+      "outro": "Platforms like Chatforia are part of this shift, helping people connect more easily across languages and borders."
     },
     "index": {
-      "title": "د چټفوریا بلاګ",
-      "intro": "د اړیکو, آنلاین خوندیتوب, او دې په اړه لیدلوري وپلټئ چې څنګه د پیغام رسونې ټیکنالوژي په ټوله نړۍ کې خلک سره نښلوي.",
-      "post1": "څنګه په آنلاین ډول په خوندي توګه خبرې وکړو",
-      "post2": "د نړیوالو اړیکو راتلونکی",
-      "post3": "ولې د پیغام رسونې پلیټ فارمونه مهم دي"
+      "title": "Chatforia Blog",
+      "intro": "Explore insights on communication, online safety, and how messaging technology is connecting people around the world.",
+      "post1": "How to Chat Safely Online",
+      "post2": "The Future of Global Communication",
+      "post3": "Why Messaging Platforms Matter"
     },
     "chatSafely": {
-      "title": "څنګه په انلاین ډول په خوندي توګه خبرې وکړو",
-      "intro": "انلاین اړیکو د نړۍ له ګوټ ګوټ سره د خلکو سره د نښلیدو کار تر بل هر وخت ډېر اسانه کړی دی. که تاسو ملګرو ته پیغام استوئ, نوي خلک وینئ, یا په مسلکي توګه همکاري کوئ, د پیغام رسولو پلیټ فارمونه په ورځني ژوند کې لوی رول لوبوي. خو, په انلاین ډول خوندي پاتې کیدل هم د نښلیدو په څیر مهم دي.",
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
       "personalInfo": {
-        "title": " خپل شخصي معلومات خوندي کړئ",
-        "body": "د آنلاین خوندیتوب یو له خورا مهمو اصولو څخه د حساسو شخصي معلوماتو له شریکولو څخه ډډه کول دي. په دې کې ستاسو د کور پته, مالي توضیحات, پاسورډونه, یا هر ډول پېژندونکي معلومات شامل دي چې ممکن ناوړه کارول شي. حتی په عادي خبرو اترو کې, دا غوره ده چې د هغه څه په اړه محتاط اوسئ چې تاسو یې شریکوئ او له چا سره یې شریکوئ."
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
-      "د خونديتوب ځانګړتياوې": {
-        "سرليک": "له جوړ شويو خونديتوب ځانګړتياوو څخه کار واخلئ",
-        "منځپانګه": "د Chatforia په څېر عصري پيغام رسونې پلیټ فارمونه داسې وسیلې وړاندې کوي چې له کاروونکو سره د خوندي پاتې کېدو کې مرسته کوي. د بلاک کولو, راپور ورکولو, او د محرميت کنټرول په څېر ځانګړتياوې د دې لپاره ډیزاین شوي چې کاروونکو ته د خپلې تجربې باندې کنټرول ورکړي. که څوک نامناسب چلند کوي یا تاسو ناراحته کوي, نو تاسو باید دا وسیلې سمدستي وکاروئ."
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
-      "درغلي": {
-        "سرلیک": "له درغلیو خبر اوسئ",
-        "منځپانګه": "درغلی وهونکي اکثرا د پیغام رسولو پلیټ فارمونه کاروي ترڅو کاروونکي وغولوي او دوی دې ته اړ کړي چې شخصي معلومات شریک کړي یا پیسې واستوي. له هغو پیغامونو څخه محتاط اوسئ چې د باور وړ ښکاره کیږي, لکه ناڅاپي وړاندیزونه, بیړنۍ غوښتنې, یا ناپېژندل شوي لینکونه. مخکې له دې چې کوم اقدام وکړئ, تل د هغه کس هویت تایید کړئ چې تاسو ورسره اړیکه نیسئ."
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
-      "مسؤلیت": {
-        "سرلیک": "مسؤلانه اړیکه ونیسئ",
-        "منځپانګه": "درنښت لرونکې اړیکه د هرچا لپاره د خوندي چاپیریال په رامینځته کولو کې مرسته کوي. له زیان رسونکو یا ناوړه خبرو اترو څخه ډډه وکړئ, او په یاد ولرئ چې ستاسو خبرې په نورو څنګه اغیزه کولی شي. مثبت تعاملات د ټولو کاروونکو لپاره د غوره تجربې په جوړولو کې مرسته کوي."
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
-      "ولې خوندیتوب": {
-        "سرلیک": "ولې آنلاین خوندیتوب مهم دی",
-        "منځپانګه": "لکه څنګه چې ډیجیټل اړیکې وده کوي, د ساتلو خوندیتوب او باور په زیاتیدونکي توګه مهم کیږي. د خوندیتوب د اساسي اصولو په تعقیب او د شته وسیلو په کارولو سره, کاروونکي کولی شي د پیغام رسونې له ګټو څخه خوند واخلي پداسې حال کې چې خطرونه کموي."
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
       },
-      "پایله": "په انلاین ډول خوندي پاتې کیدل پرمختللې تخنیکي پوهې ته اړتیا نلري—یوازې پوهاوی, احتیاط, او ښه قضاوت ته اړتیا لري. د سمو عادتونو سره, تاسو کولی شئ په ډاډ او خوندي توګه اړیکه ونیسئ."
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
     }
   },
   "about": {
     "title": "د چیټفوریا په اړه",
-    "description": "چیټفوریا یو خوندي, څو ژبیز میسنجر دی چې له سره تر پښته ځوړند کوډ (end-to-end encryption), فوري ژباړه, او غږیز/ویډیویي زنګونه لري. زموږ ماموریت ساده دی: له خلکو سره د خوندي, محرم, او د ژبو ترمنځ د اړیکو په جوړولو کې مرسته کول.",
+    "description": "چیټفوریا یو خوندي, څو ژبیز میسنجر دی چې له سره تر پښته انکرپشن, فوري ژباړه, او غږیز/ویډیویي زنګونه لري. زموږ ماموریت ساده دی: له خلکو سره د نښلیدو په برخه کې مرسته کول—په خوندي, محرمه, او د ژبو تر منځ.",
     "valuesTitle": "هغه څه چې موږ یې ارزښتمن ګڼو",
     "values": {
-      "privacy": "<b>لومړیتوب محرمیت ته:</b> په ډیفالټ سره له سره تر پایه انکرپشن.",
-      "access": "<b>د ټولو لپاره لاسرسی:</b> له ۱۰۰ څخه ډیرو ژبو اتومات ژباړه.",
+      "privacy": "<b>لومړیتوب محرمیت ته:</b> د E2E انکرپشن په ډیفالټ سره.",
+      "access": "<b>د ټولو لپاره لاسرسی:</b> له ۱۰۰ څخه زیاتو ژبو ته اتومات ژباړه.",
       "control": "<b>کنټرول:</b> ورکېدونکي پیغامونه او د لوستلو رسیدونه اختیاري دي.",
-      "privacy_ aria": "لومړیتوب محرمیت ته: په ډیفالټ ډول E2E انکرپشن.",
-      "access_aria": "ټولو ته لاسرسی: له ۱۰۰ څخه ډیرو ژبو اتومات ژباړه.",
-      "control_aria": "کنټرول: ورکیدونکي پیغامونه او د لوستلو رسیدونه اختیاري دي."
+      "privacy_aria": "لومړیتوب محرمیت ته: په ډیفالټ سره له سره تر پایه انکرپشن.",
+      "access_aria": "د ټولو لپاره لاسرسی: له ۱۰۰ څخه زیاتو ژبو ته اتوماتیک ژباړه.",
+      "control_aria": "کنټرول: ورکېدونکي پیغامونه او د لوستلو رسیدونه اختیاري دي."
     },
     "howTitle": "چټفوریا څنګه کار کوي",
-    " howDescription": "پیغامونه ستاسو له وسیلې څخه د وتلو دمخه کوډیږي. ژباړه, بیک اپونه, او د وسیلې همغږي د دې لپاره ډیزاین شوي چې زموږ سرورونه لږ څه وویني."
+    "howDescription": "پیغامونه ستاسو په وسیله کې له ختلو مخکې کوډ کیږي. ژباړه, بیک اپونه, او د وسیلې همغږي د دې لپاره ډیزاین شوي چې زموږ سرورونه لږ څه وویني.",
+    "privacyTitle": "لومړیتوب محرمیت ته",
+    "privacyDesc": "له پیل څخه په چاټفوریا کې د پای تر پای کوډ کول او د محرمیت کنټرولونه شامل دي.",
+    "accessTitle": "د هرچا لپاره لاسرسی",
+    "accessDesc": "چاټفوریا له خلکو سره مرسته کوي چې د ژبو, وسیلو او پولو ترمنځ وصل شي.",
+    "controlTitle": "ستاسو کنټرول",
+    "controlDesc": "ټاکئ چې پیغامونه څنګه ښکاري, کله ورکېږي, او ستاسو حساب څنګه خوندي پاتې کیږي."
   },
   "press": {
     "title": "پریس",
     "contactLine": "د رسنیو د پوښتنو لپاره, له موږ سره اړیکه ونیسئ په",
-    " boilerplateTitle": "بویلرپلیټ",
-    "boilerplateBody": "چاټفوریا د محرمیت-لومړیتوب پیغام رسولو اپلیکیشن دی چې د مختلفو ژبو ترمنځ خبرې اترې اسانه کوي. پیغامونه په ډیفالټ ډول له سره تر پایه کوډ شوي دي, او په کې جوړ شوی ژباړه په ریښتیني وخت کې له ۱۰۰ څخه ډیرو ژبو ملاتړ کوي. کاروونکي کولی شي ورکیدونکي پیغامونه فعال کړي, د لوستلو رسیدونه اختیاري وساتي, او د وسیلو ترمنځ همغږي وکړي. په iOS, انډرایډ, او ویب کې شتون لري.",
-    "assetsTitle": " د برانډ شتمنۍ",
+    "boilerplateTitle": "بویلرپلیټ",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
     "assetsSubtitle": "لوګوګانې, سکرین شاټونه, او د محصول انځورونه.",
     "downloadCta": "د میډیا کټ ډاونلوډ کړئ",
     "downloadTitle": "اپلیکېشن ترلاسه کړئ",
     "scanTip": "په ډیسکټاپ یاست؟ د اپلیکېشن ترلاسه کولو لپاره یې په خپل تلیفون سکین کړئ.",
-    "qrAria": "د چاتفوریا ویب پاڼه خلاصه کړئ",
-    "appStore": "له اپ سټور څخه یې ډاونلوډ کړئ",
+    "qrAria": "د چاټفوریا ویب پاڼه پرانیزئ",
+    "appStore": "په اپ سټور کې یې ډاونلوډ کړئ",
     "googlePlay": "له ګوګل پلې څخه یې ترلاسه کړئ"
   },
   "careers": {
     "title": "دندې",
-    "intro": "موږ د چاتفوریا جوړولو یو کوچنی بنسټ ایښودونکی ټیم یو — یو شخصي, نړیوال میسنجر چې په ویب, iOS, او انډرایډ کې پیل کیږي. که تاسو د محرمیت, انکرپشن, او د کاروونکو د خوندورو تجربو په اړه فکر کوئ, موږ به خوښ شو چې ستاسو څخه واورو.",
-    "openRoles": "<b>د بنسټ ایښودونکو لپاره خلاصې دندې:</b> مخکښ فول-سټیک انجنیر, بیک-اینډ انجنیر (Node.js), فرنټ-اینډ/ ویب انجنیر (ری ایکټ), موبایل انجنیر (آی او ایس), موبایل انجنیر (انډرایډ), ډیواپس/SRE, د امنیت او انکرپشن انجنیر, د مخابراتو انجنیر (ټویلو + ای سِم).",
-    "apply": "څنګه غوښتنه وکړئ: د خپلې CV او لینکونو د ایمیل کولو لپاره لاندې تڼۍ وکاروئ.",
-    "emailCta": "خپله CV ایمیل کړئ",
-    "whyNow": "ولې اوس یوځای شئ؟",
-    "whyBullets": "• د یو نوي نړیوال میسنجر په جوړولو کې مرسته وکړئ.\n• په وېب, iOS, او انډرایډ کې د کارول کېدونکو پرمختګونو خپرول.\n• د جوړښت او محصول لوري په اړه له بنسټګر سره مستقیم کار کول.\n• د سټیک په لوړ اغېز لرونکو برخو کې مالکیت: پیغام رسونه, غږ, ویډیو, انکرپشن, مخابرات, مصنوعي ځیرکتیا.\n• په پیل کې یوځای شئ — مخکې له دې چې د کاروونکو اساس پراخ شي."
+    "intro": "موږ یوه کوچنۍ بنسټ ایښودونکې ډله یو چې چاتفوریا جوړوو — یو خصوصي, نړیوال میسنجر چې په ویب, iOS, او انډرایډ کې پیل کیږي. که تاسو د محرمیت, انکرپشن, او د کاروونکو په زړه پورې تجربو, موږ به خوښ شو چې له تاسو څخه واورو.",
+    "openRoles": "<b>د بنسټ اچوونکو لپاره خلاصې دندې:</b> مشر فول-سټیک انجنیر, بیک-اینډ انجنیر (Node.js), فرنټ-اینډ/ویب انجنیر (React), موبایل انجنیر (iOS), موبایل انجنیر (Android), DevOps/SRE, د امنیت او انکرپشن انجنیر, د ټیلیکام انجنیر (Twilio + eSIM).",
+    "apply": "څنګه غوښتنه وکړو : د خپل سي وي او لینکونو د ایمیل کولو لپاره لاندې تڼۍ وکاروئ.",
+    "emailCta": "خپل سي وي ایمیل کړئ",
+    "whyNow": "ولې همدا اوس یوځای شئ؟",
+    "whyBullets": "• د نوي نړیوال میسنجر د بنسټ په جوړولو کې مرسته وکړئ.\n• هغه پرمختګونه خپاره کړئ چې په وېب, iOS, او انډرایډ کې کارول کیږي.\n• د جوړښت او محصول لوري په اړه مستقیم د بنسټ ایښودونکي سره کار وکړئ.\n• د سټیک د لوړ اغیز لرونکو برخو مالکیت ولرئ: پیغام رسونه, غږ, ویډیو, انکرپشن, مخابرات, مصنوعي ځیرکتیا.\n• په پیل کې — مخکې له دې چې د کاروونکو اساس پراخ شي, یوځای شئ.",
+    "futureRoles": "راتلونکي رولونه"
   },
   "advertise": {
-    "سرلیک": "له چاټفوریا سره اعلان وکړئ",
-    "تشریح": "د پوهه لرونکو پیغام رسونې کاروونکو ته په زړه پورې او د برانډ لپاره خوندي ځایونو کې ورسیږئ. موږ په ډیرو لیدل کېدونکو ځایونو کې د بینر اعلاناتو ځایونه, سپانسرشپونه, او د شرکت داخلي ترویجونه وړاندې کوو. پریمیم ګډونوال اعلانات نه ویني.",
+    "title": "له چټفوریا سره اعلان وکړئ",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
     "adsense": {
-      "withPubIdShort": "موږ د ګوګل ایډسینس له لارې هم اعلانات وړاندې کوو. تاسو کولی شئ د خپروونکي ID {{pub Id}}, یا د مستقیمو سپانسرشپونو لپاره لاندې فورمه وکاروئ.",
-      "noPubIdShort": "موږ د ګوګل ایډسینس له لارې هم ځینې انوینټري وړاندې کوو. مستقیم سپانسرشپونه شتون لري—لاندې فورمه وکاروئ."
+      "withPubIdShort": "موږ د ګوګل ایډسینس له لارې هم اعلانات وړاندې کوو. تاسو کولی شئ د خپروونکي ID {{pubId}} په کارولو سره چټفوریا په نښه کړئ, یا لاندې فورمه وکاروئ د مستقیمو سپانسرشپونو لپاره لاندې وګورئ.",
+      "noPubIdShort": "موږ د ګوګل ایډسینس (Google AdSense) له لارې هم ځینې اعلاناتي ځایونه وړاندې کوو. مستقیم سپانسرشپونه شتون لري—لاندې فورمه وکاروئ."
     },
-    "inventoryHeader": "انوینټري او مشخصات",
+    "inventoryHeader": "اشتهاراتي ځایونه او مشخصات",
     "placement": {
-      " displayBadge": "نندارې",
-      "acceptedSizes": "منل شوي اندازې",
-      "adsenseSlot": "د اډسینس ځای:"
+      "displayBadge": "نندارې ته وړاندې کول",
+      "acceptedSizes": "منل شوي سایزونه",
+      "adsenseSlot": "د AdSense سلاټ:"
     },
-    "noPlacementsPublic": "موږ خپل د اعلاناتو ذخیره بشپړوو. موږ ته د خپل کمپاین په اړه ووایاست او موږ به تاسو ته د ځایونو وړاندیز وکړو.",
-    "whyHeader": "ولې چاتفوریا؟",
+    "noPlacementsPublic": "موږ خپل د اعلاناتو ذخیره بشپړوو. موږ ته د خپل کمپاین په اړه ووایاست او موږ به تاسو ته د ځای پرځای کولو وړاندیز وکړو.",
+    "whyHeader": "ولې Chatforia؟",
     "why": {
-      "highSession": "په چټ UI کې د لوړ سیشن تعدد او د پاتې کیدو وخت",
-      "brandSafe": "د برانډ لپاره خوندي فارمیټونه؛ د تعدد درناوي وړ محدودول",
-      "sponsoredMoments": "سپانسر شوي شیبې (د بیلګې په توګه, \"چټ پیل کړئ\" موډل) شتون لري",
-      "deals": "مستقیم معاملې یا د AdSense/Google Ads له لارې پروګرامیک"
+      "highSession": "په چټ UI کې د لوړ سیشن تکرار او د پاتې کیدو وخت",
+      "brandSafe": "د برانډ لپاره خوندي فارمټونه؛ د تکرار د درناوي وړ محدودول",
+      "sponsoredMoments": "تمویل شوي شیبې (د بېلګې په توګه, \"چټ پیل کړئ\" موډل) شتون لري",
+      "deals": "مستقیم معاملې یا د AdSense/Google Ads له لارې پروګراميک"
     },
-    "د اړیکو سرلیک": "اړیکه",
-    "فورمه": {
-      "لیږل شوی پیغام": "مننه! ستاسو پوښتنه په لاره ده. موږ به ژر تر ژره تعقیب کړو.",
-      "اړین معلومات نشته": "مهرباني وکړئ نوم, بریښنالیک, او پیغام ډک کړئ.",
+    "contactHeader": "اړیکه",
+    "form": {
+      "submittedMsg": "مننه! ستاسو پوښتنه په لاره ده. موږ به ژر اړیکه ونیسو.",
+      "missingRequired": "مهرباني وکړئ نوم, بریښنالیک, او پیغام ډک کړئ.",
       "successToast": "مننه! موږ به ژر له تاسو سره اړیکه ونیسو.",
-      "mailtoInfo": "د پوښتنې لیږلو لپاره خپل بریښنالیک کلاینټ خلاصوئ…",
+      "mailtoInfo": "د پوښتنې لیږلو لپاره ستاسو د بریښنالیک کلاینټ خلاصیږي...",
       "nameLabel": "ستاسو نوم",
       "namePlaceholder": "Jane Doe",
       "emailLabel": "بریښنالیک",
       "emailPlaceholder": "you@company.com",
       "companyLabel": "شرکت",
-      " companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "میاشتنی بودیجه (اختیاري)",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "میاشتنۍ بودیجه (اختیاري)",
       "budgetPlaceholder": "د بېلګې په توګه $1,000–$20,000+",
-      "messageLabel": "د خپل کمپاین په اړه موږ ته ووایاست",
-      "messagePlaceholder": "هدف ګیري, نېټې, KPIs, د ځای پرځای کولو غوره توبونه...",
+      "messageLabel": "موږ ته د خپل کمپاین په اړه ووایاست",
+      "messagePlaceholder": "هدف ګرځول, نېټې, KPIs, د ځای پرځای کولو غوره توبونه...",
       "sendCta": "پوښتنه واستوئ"
     },
     "legal": {
       "disclaimerStart": "د سپارلو سره, تاسو زموږ سره موافقه کوئ",
-      "شرطونه": "شرطونه",
-      "او": "او",
-      "محرمیت": "د محرمیت تګلاره"
+      "terms": "شرطونه",
+      "and": "and",
+      "privacy": "Privacy Policy"
     }
   },
-  "اړیکه": {
-    "سرلیک": "له موږ سره اړیکه",
-    "successMsg": "مننه—زموږ ټیم به د بریښنالیک له لارې ځواب درکړي.",
-    "errorSend": "لیږل شونې نه دي. مهرباني وکړئ support@chatforia.com ته بریښنالیک واستوئ.",
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
     "form": {
-      "nameLabel": "نوم",
-      "emailLabel": "بریښنالیک",
-      "messageLabel": "پیغام",
-      "sendCta": "لیږل"
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
     }
   },
   "privacyPolicy": {
-    "title": "د محرمیت تګلاره",
-    "lastUpdated": "وروستی ځل تازه شوی:",
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
     "intro": {
-      "body": "دا د محرمیت تګلاره تشریح کوي چې چټفوریا څنګه (\"موږ\") معلومات راټولوي, کاروي, او شریکوي کله چې تاسو زموږ اپلیکیشنونه او خدمات کاروئ. موږ چاټفوریا داسې ډیزاین کړې چې هغه ډیټا کمه کړي چې موږ ورته لاسرسی لرو."
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
     },
-    "هغهمعلوماتچېموږیېراټولوو": {
-      "سرلیک": "هغه معلومات چې موږ یې راټولوو",
-      "حساب": "د حساب معلومات (د بېلګې په توګه, بریښنالیک/تلیفون) ستاسو د حساب جوړولو او خوندي کولو لپاره.",
-      "کوډ شوی": "کوډ شوی محتوا (پیغامونه/اړیکې) له سره تر پښته کوډ شوي دي؛ موږ یې نشو لوستلی.",
-      "تشخیص": "تشخیص/کارول لکه د کرېش لاګونه, د وسیلې ډول, یا د فعالیت د ښه کولو لپاره خام تحلیلونه."
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
     },
     "sms": {
-      "title": "د موبایل تلیفون شمیرې او SMS",
-      "body": "که تاسو د موبایل تلیفون شمیرې ورکولو انتخاب وکړئ, موږ دا د داسې ځانګړتیاوو فعالولو لپاره کاروو لکه د حساب تایید, د ننوتلو خبرتیاوې, او د SMS له لارې د کارونکي څخه کارونکي ته پیغامونه چیرته چې ملاتړ کیږي. موږ ممکن ستاسو د حساب او په Chatforia کې ستاسو د فعالیت اړوند معاملاتي SMS پیغامونه واستوو. تاسو کولی شئ په هر وخت کې د SMS پیغامونو له ترلاسه کولو څخه ځان وباسئ وخت کې د یوې ملاتړ شوې د وتلو کلیدي (لکه \"STOP\") په ځوابولو یا په اپلیکیشن کې ستاسو د خبرتیا ترجیحاتو په بدلولو سره. موږ ستاسو د تلیفون شمیره نه پلورو یا یې د غیر اړوند بازارموندنې لپاره نه کاروو.",
-      "newText": "نوی متن",
-      "enterRecipient": "یو نوم یا شمیره ولیکئ",
-      "typeMessage": "پیغام ولیکئ…",
-      "addRecipient": "د پیل کولو لپاره پورته یو ترلاسه کوونکی اضافه کړئ…"
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
     },
     "howWeUse": {
-      "title": "څنګه موږ معلومات کاروو ",
-      "چمتو کول": "د خدمت چمتو کول او خوندي کول (تصدیق, د سپم/ناوړه کارونې کشف).",
-      "ښه والی": "د ځانګړتیاوو ښه والی (د ژباړې کیفیت, اعتبار).",
-      "قانوني": "د قانوني مکلفیتونو پوره کول."
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
     },
-    "شریکول": {
-      "سرلیک": "شریکول",
-      "منځپانګه": "موږ شخصي معلومات نه پلورو. موږ ممکن د سختو قراردادونو له مخې له پروسس کونکو سره محدود معلومات شریک کړو (د بېلګې په توګه"
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
     },
-    "حقوق": {
-      "سرلیک": "ستاسو حقوق",
-      "منځپانګه": "ستاسو د سیمې پورې اړه لري (د بېلګې په توګه, GDPR/UK GDPR/CPRA), تاسو کولی شئ د لاسرسي, سمونې, حذف کولو, یا د ځینو پروسس کولو څخه د وتلو غوښتنه وکړئ. اړیکه: privacy@chatforia.com."
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
     },
-    "ساتنه ": {
-      "سرلیک": "د معلوماتو ساتنه او امنیت",
-      "منځپانګه": "موږ یوازې هغه معلومات ساتو چې د خدمت چلولو لپاره اړین دي او د صنعت معیاري امنیت پلي کوو. د E2E محتوا زموږ لخوا نه شي کدیډ کیدلی."
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
     },
-    "ماشومان": {
-      "سرلیک": "ماشومان",
-      "body": "چټفوریا د ۱۳ کلونو څخه کم عمره ماشومانو ته نه ده ځانګړې شوې (یا لکه څنګه چې ستاسو د سیمه ییز قانون له مخې اړینه وي)."
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
     },
-    "بدلونونه": {
-      "title": "بدلونونه",
-      "body": "موږ به دلته تازه معلومات خپاره کړو او د \"وروستی ځل تازه شوی\" نېټه به بیا کړو."
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
-    "اړیکه": {
-      "سرلیک": "اړیکه",
-      "منځپانګه": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
     }
   },
-  "اصطلاحات": {
-    "سرلیک": "د خدمت شرایط",
-    "وروستی ځل تازه شوی": "وروستی ځل تازه شوی:",
-    "پیل": {
-      " body": "د چټفوریا په کارولو سره تاسو له دې شرایطو سره موافقه کوئ. که تاسو موافق نه یاست, نو دا خدمت مه کاروئ."
+  "terms": {
+    "title": "د خدمت شرایط",
+    "lastUpdated": "وروستی ځل تازه شوی:",
+    "intro": {
+      "body": "د چاټفوریا په کارولو سره تاسو له دې شرایطو سره موافقه کوئ. که تاسو موافق نه یاست, نو دا خدمت مه کاروئ."
     },
-    "حسابونه": {
-      "سرلیک": "حسابونه",
-      "itemAccurateInfo": " دقیق معلومات ورکړئ او خپل اعتبارلیکونه (credentials) خوندي وساتئ.",
+    "accounts": {
+      "title": "حسابونه",
+      "itemAccurateInfo": "دقیق معلومات ورکړئ او خپل احرازات خوندي وساتئ.",
       "itemResponsibility": "تاسو په خپل اکاونټ کې د فعالیتونو مسؤل یاست."
     },
     "acceptableUse": {
-      "title": "د منلو وړ کارول",
-      "itemNoAbuse": "هیڅ غیرقانوني, ناوړه, یا سرغړونکي محتوا؛ هیڅ سپیم یا اتوماتیک ناوړه کارول نشته.",
-      "itemSuspend": "موږ ممکن د سرغړونو له امله اکاونټ مو وځنډوو/بند کړو."
+      "title": "د منلو وړ کارونه",
+      "itemNoAbuse": "هیڅ غیرقانوني, ناوړه, یا سرغړونکې محتوا؛ هیڅ سپیم یا اتوماتیک ناوړه کارونه نشته.",
+      "itemSuspend": "موږ ممکن د سرغړونو له امله اکاونټ وځنډوو/بند کړو."
     },
     "sms": {
       "title": "د SMS اړیکې",
-      "body": "که تاسو د موبایل تلیفون شمیره چمتو کړئ, نو تاسو موافقه کوئ چې Chatforia ممکن تاسو ته ستاسو د حساب او د خدمت کارولو اړوند د SMS پیغامونه واستوي, لکه د ننوتلو خبرتیاوې, امنیتي خبرتیاوې, او هغه پیغامونه چې ستاسو د پیل شویو یا ګډون شویو خبرو اترو اړوند دي. موږ ستاسو له څرګندې رضایت پرته د تبلیغاتي یا بازارموندنې پیغامونو لپاره SMS نه کاروو. د معیاري پیغام او ډیټا نرخونه ممکن پلي شي. تاسو کولی شئ ځان وباسئ هر وخت د یو ملاتړ شوي لغوه کولو کلیدي (د مثال په توګه, \"STOP\") په ځواب ورکولو یا په اپلیکیشن کې ستاسو د خبرتیا ترتیباتو په نوي کولو سره د SMS پیغامونو له ترلاسه کولو څخه ځان ایستلی شئ."
+      "body": "که تاسو د موبایل تلیفون شمیره چمتو کړئ, نو تاسو موافقه کوئ چې Chatforia ممکن تاسو ته ستاسو د حساب او د خدمت کارولو پورې اړوند د SMS پیغامونه واستوي, لکه د ننوتلو خبرتیاوې, امنیتي خبرتیاوې, او هغه پیغامونه چې تاسو یې پیل کوئ یا پکې برخه اخلئ. موږ ستاسو له څرګندې رضایت پرته د تبلیغاتي یا بازارموندنې پیغامونو لپاره SMS نه کاروو. د معیاري پیغام او ډیټا نرخونه ممکن پلي شي. تاسو کولی شئ هر وخت د SMS پیغامونو څخه ځان وباسئ وخت کې د یو ملاتړ شوي لغوه کولو کلیدي (د مثال په توګه, \"STOP\") په ځواب کې ورکولو یا په اپلیکیشن کې ستاسو د خبرتیا ترتیباتو په نوي کولو سره."
     },
-    "ستاسو منځپانګه": {
-      "سرلیک": "ستاسو منځپانګه",
-      "متن": "تاسو د خپلې منځپانګې حقونه ساتئ. تاسو موږ ته د خدمت چلولو لپاره اړین حقونه راکوئ (د بېلګې په توګه, لارښودنه, ذخیره کول, ژباړه)."
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
     },
     "disclaimer": {
-      "title": "رد ادعاوې او مسؤلیت",
-      "body": "خدمت \"لکه څنګه چې دی\" پرته له تضمینونو وړاندې کیږي. تر هغه حده چې د قانون له مخې اجازه ورکړل شوې, چاتفوریا د غیر مستقیمو یا پایلو زیانونو لپاره مسؤل نه دی."
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
     },
-    "بدلونونه": {
-      "title": "بدلونونه",
-      " body": "موږ ممکن دا شرایط نوي کړو؛ له بدلونونو وروسته یې دوامداره کارول د منلو په مانا دي."
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
     "contact": {
-      "title": "اړیکه",
+      "title": "Contact",
       "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
     }
   },
   "refund": {
-    "title": "د پیسو بېرته ورکولو پالیسي",
+    "title": "د پیسو د بیرته ورکړې پالیسي",
     "lastUpdated": "وروستی ځل تازه شوی:",
-    "intro": "په چاتفوریا کې, موږ هڅه کوو چې ټولو کاروونکو ته لوړ کیفیت لرونکې خدمتونه وړاندې کړو. د پیسو بېرته ورکولو دا پالیسي په ګوته کوي چې کله پیسې بېرته ورکول کېدای شي.",
-    "ګډونونه": {
-      "سرلیک": "ګډونونه",
-      "منځپانګه": "د ګډونونو پیسې په مخکېني ډول او په تکراري توګه اخیستل کیږي. تاسو کولی شئ هر وخت د خپل حساب ترتیباتو یا هغه پلیټ فارم له لارې چې د پیرودلو لپاره کارول شوی, خپل ګډون لغوه کړئ."
+    "intro": "At Chatforia, we strive to provide a high-quality service to all users. This Refund Policy outlines when refunds may be issued.",
+    "subscriptions": {
+      "title": "Subscriptions",
+      "body": "Subscriptions are billed in advance on a recurring basis. You may cancel at any time through your account settings or the platform used to purchase."
     },
-    "وړتیا": {
-      "سرلیک": "د پیسو بېرته ورکولو وړتیا",
-      "متن": "د پیسو بېرته ورکول ممکن د دوه ځله تادیاتو, د بېلینګ تېروتنو, یا تخنیکي ستونزو له امله چې د پیسو ورکړل شویو ځانګړتیاوو ته لاسرسی منع کوي, ورکړل شي. ټول غوښتنې په جلا توګه ګوري."
+    "eligibility": {
+      "title": "Refund Eligibility",
+      "body": "Refunds may be granted for duplicate charges, billing errors, or technical issues preventing access to paid features. All requests are reviewed case-by-case."
     },
-    "نه-بېرته-ورکېدونکي": {
-      "سرلیک": "نه بېرته ورکېدونکي",
-      "متن": "موږ عموما د نه کارول شوي وخت, د ګډون د جزوي مودو, یا له نوي کولو مخکې د لغوه کولو په پاتې کېدو لپاره پیسې بېرته نه ورکوو.\"    ",
-      "thirdParty ": {
-        "title": "د دریمې ډلې پیرودونه",
-        "body": "که د دریمې ډلې پلیټ فارمونو لکه د اپل اپ سټور له لارې پیرودل شوي وي, نو د پیسو بېرته ورکولو غوښتنه باید په مستقیم ډول د هغو پلیټ فارمونو له لارې وشي."
-      },
-      "contact": {
-        "title": "اړیکه",
-        "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
-      }
+    "nonRefundable": {
+      "title": "Non-Refundable",
+      "body": "We generally do not provide refunds for unused time, partial subscription periods, or failure to cancel before renewal."
+    },
+    "thirdParty": {
+      "title": "د دریمې ډلې پیرودونه",
+      "body": "که د دریمې ډلې پلیټ فارمونو لکه د اپل اپ سټور له لارې پیرودل شوي وي, نو د پیسو بېرته ورکولو غوښتنه باید په مستقیم ډول د هغو پلیټ فارمونو له لارې وشي."
+    },
+    "contact": {
+      "title": "اړیکه",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, شېریډن, وای ۸۲۸۰۱, متحده ایالات"
     }
   },
   "doNotSell": {
     "title": "زما شخصي معلومات مه پلورئ یا شریکوئ",
-    "body": "چټفوریا شخصي معلومات نه پلوري. د کالیفورنیا اوسیدونکي کولی شي لاهم د لاندې تڼۍ په کارولو سره د CPRA لاندې غوښتنې وسپاري.",
+    "body": "چېټفوریا شخصي معلومات نه پلوري. د کالیفورنیا اوسیدونکي کولی شي لاهم د لاندې تڼۍ په کارولو سره د CPRA لاندې غوښتنې وسپاري.",
     "cta": "غوښتنه وسپارئ"
   },
   "cookies": {
-    "سرلیک": "د کوکی ترتیبات",
-    "متن": "چېټفوریا لږ تر لږه کوکیز کاروي (د بېلګې په توګه, سیشن, امنیت). موږ د دریمې ډلې اعلاناتو کوکیز نه کاروو. د خپل براوزر د ترتیباتو له لارې کوکیز اداره کړئ."
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
   },
-  "premiumGuard": {
-    "requiresPremium": "دا ځانګړتیا د پریمیم پلان ته اړتیا لري."
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "چټفوریا یوازې د حساب اړوند او خبرو اترو SMS هغو ټیلیفون شمیرو ته لیږي چې کارونکي په ښکاره توګه چمتو کړي او رضایت ورکړی وي. په عادي پیغامونو کې د ننوتلو/تصدیق کوډونه, د پیغام رسولو خبرتیاوې, امنیتي خبرتیاوې, او د معاملې حساب تازه معلومات شامل دي."
+    },
+    "optIn": {
+      "title": "کاروونکي څنګه ګډون کوي",
+      "body": "کاروونکي د نوم لیکنې پرمهال د خپل تلیفون شمېرې په داخلولو او د نوم لیکنې په پاڼه یا ځانګړي فورم کې د SMS رضایت چیک باکس په نښه کولو سره ګډون کوي",
+      "link": "د ګډون فورمه"
+    },
+    "optOut": {
+      "title": "کاروونکي څنګه وتلی شي",
+      "stop": "د وتلو لپاره, د Chatforia هر SMS ته STOP ځواب ورکړئ.",
+      "start": "د بیا ګډون لپاره START ځواب ورکړئ.",
+      "contactPrefix": "له ملاتړ سره اړیکه ونیسئ په"
+    },
+    "help": {
+      "title": "مرسته",
+      "bodyPrefix": "د مرستې لپاره HELP ځواب ورکړئ یا بریښنالیک"
+    },
+    "privacyTerms": {
+      "title": "محرمیت او شرایط",
+      "bodyStart": "د SMS سره په رضایت سره, کاروونکي زموږ سره هم موافقه کوي",
+      "terms": "د خدمت شرایط",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "یو پیغام ولیکئ…",
+    "addRecipient": "د پیل کولو لپاره پورته یو ترلاسه کوونکی اضافه کړئ…"
   }
 }

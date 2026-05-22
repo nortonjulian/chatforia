@@ -7,10 +7,24 @@
     "cancelAria": "Khansela",
     "copy": "Kopiša",
     "copied": "Kopilwe!",
-    "errorWithMessage": "Phošo: {{message}}"
+    "errorWithMessage": "Phošo: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Tlola go ya ka go kgolo ya diteng"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Kopi ya senotlolo e bopilwe gomme e laetšwe ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "Kgetha faele gomme o tsenye phasewete.",
     "imported": "Senotlolo sa poraebete se tsenišwe mo sešomišing. O ka bala melaetša ya kgale bjale.",
     "enterPassword": "Tsenya phasewete ya akhaonte ya gago gore re kgone go boloka dinotlolo tša gago ka polokego."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Melaetša ye e šireletšego bakeng sa mang kapa mang, kae kapa kae",
@@ -88,7 +198,19 @@
       "passwordDescription": "Bonyane ditlhaka tše 6. Šomiša phasewete ye e matla, ye e ikhethang.",
       "smsConsent": "Ka go bopa akhaonte, o dumela go amogela ditšhupetšo tša SMS tše di amanago le tiragalo ya gago ya Chatforia (tše di kang melaetša go tšwa go bašomiši ba bangwe). Ditlala tša melaetša & datha di ka šoma. O ka tlogela nako efe kapa efe mo Dipeeleng.",
       "termsLink": "Melao ya Tšhomišo",
-      "privacyLink": "Pholisi ya Polokego"
+      "privacyLink": "Pholisi ya Polokego",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "Go:",
     "enterRecipient": "Tsenya leina goba nomoro",
@@ -99,11 +221,95 @@
     "addRecipient": "Tsenya moamogedi ka godimo gore o thome…",
     "oneRecipient": "Ka kgopelo tsenya moamogedi a le mongwe gona bjale.",
     "enterValidRecipient": "Tsenya leina la kgokagano le e šireletšego goba nomoro ya mohala.",
-    "sendFailed": "Go romela go paletšwe. Lekola konsole bakeng sa dintlha."
+    "sendFailed": "Go romela go paletšwe. Lekola konsole bakeng sa dintlha.",
+    "logIn": "Ngena",
+    "seePlans": "Bona merero le ditheko",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "Ka go bopa akhaonte, o dumela go amogela ditšhupetšo tša SMS tše di amanago le tiragalo ya gago ya Chatforia (tše di kang melaetša go tšwa go bašomiši ba bangwe). Ditlala tša melaetša & datha di ka šoma. O ka tlogela nako efe kapa efe mo Dipeeleng.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Gae",
-    "header": "Melaetša ya gago",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "Romela molaetša gore o thome poledišano.",
     "sendButton": "Romela molaetša",
     "gifPicker": "Bula mokgethi wa GIF",
@@ -114,226 +320,31 @@
     "sendTooltip": "Romela",
     "sendTooltipEmpty": "Tsenya molaetša gore o romele",
     "send": "Romela",
+    "welcomeMessage": "O amogetšwe go Chatforia",
+    "getStarted": "Thoma",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "Tsenya leina goba nomoro",
     "addRecipient": "Oketša moamogedi ka godimo gore o thome…",
-    "welcomeMessage": "O amogetšwe go Chatforia",
-    "getStarted": "Thoma"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Pholisi ya Pusetšo ya Tšhelete",
-    "lastUpdated": "E mpshafaditšwe la:",
-    "intro": "Go Chatforia, re leka go fana ka tirelo ya maemo a godimo go badiriši ka moka. Pholisi ye e hlalosa maemo ao pusetšo ya tšhelete e ka newago.",
-    "subscriptions": {
-      "title": "Dingwadišo (Subscriptions)",
-      "body": "Dingwadišo di lefišwa pele gomme di tšwela pele ka nako ye e itšego. O ka di khansela nako efe goba efe ka di-setting tša account ya gago goba platform ye o rekilego ka yona."
-    },
-    "eligibility": {
-      "title": "Maleba a Pusetšo",
-      "body": "Pusetšo ya tšhelete e ka fiwa ge go na le ditefelo tše pedi, diphošo tša tefelo, goba mathata a thekniki ao a thibelago phihlelelo ya ditshebeletšo tše di lefelwago. Dikgopelo ka moka di lekolwa ka bonngwe."
-    },
-    "nonRefundable": {
-      "title": "Tše di sa Busetšwego",
-      "body": "Ka kakaretšo, ga re bušetše tšhelete bakeng sa nako ye e sa dirišwago, dikarolo tša dingwadišo, goba ge o sa khansela pele ga nako ya go mpshafatša."
-    },
-    "thirdParty": {
-      "title": "Ditšhebeletšo tša Batho ba Boraro",
-      "body": "Ge o rekile ka platform ya motho wa boraro bjalo ka Apple App Store, o swanetše go kgopela pusetšo ka kotlološo go bona."
-    },
-    "contact": {
-      "title": "Ikgokaganye le Rena",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Ka ga Chatforia",
-    "description": "Chatforia ke sethala sa melaetša sa sebjalebjale se se diretšwego kgokagano e šireletšegilego ya maleme a mantši...",
-    "valuesTitle": "Dilo tše re di tšeago bohlokwa",
-    "privacyTitle": "Sephiri pele",
-    "privacyDesc": "Encryption e matla le di-setting tša sephiri tše di laolwago ke modiriši",
-    "accessTitle": "Phihlelelo ya bohle",
-    "accessDesc": "Phetolelo e akaretšago maleme a mantši",
-    "controlTitle": "Taolo",
-    "controlDesc": "Dikarolo tša go swana le melaetša e timelelago le di-read receipts"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Lebaka leo ka lona di-platform tša melaetša di le bohlokwa kudu",
-      "intro": "Di-platform tša melaetša di fetogile didirišwa tše bohlokwa kudu tša kgokagano lehono...",
-      "everydayTitle": "Kgokagano ya Letšatši le Letšatši",
-      "everydayDesc": "Batho ba ithekga ka di-app tša melaetša bakeng sa kgokagano ya letšatši le letšatši...",
-      "speedTitle": "Lebelo le Boiketlo",
-      "speedDesc": "Melaetša e romelwa ka pela...",
-      "globalTitle": "Phihlelelo ya Lefase ka Bophara",
-      "globalDesc": "Di-platform tše di kgokaganya batho lefaseng ka bophara...",
-      "privacyTitle": "Sephiri le Taolo",
-      "privacyDesc": "Di-platform tša sebjalebjale di fa badiriši taolo...",
-      "futureTitle": "Bokamoso bja Melaetša",
-      "futureDesc": "Melaetša e tšwela pele go fetoga ka dikarolo tše mpsha...",
-      "outro": "Chatforia e agilwe godimo ga melao ye..."
-    },
-
-    "global": {
-      "title": "Bokamoso bja Kgokagano ya Lefase",
-      "intro": "Kgokagano e fetogile ka lebelo...",
-      "barriersTitle": "Go Fediša Dithibelo",
-      "barriersDesc": "Batho ba ka kgokagana lefaseng ka bophara...",
-      "translationTitle": "Karolo ya Theknolotši ya Phetolelo",
-      "translationDesc": "Maleme e bile tšhitišo ka nako ye telele...",
-      "realtimeTitle": "Kgokagano ya Nako ya Nnete",
-      "realtimeDesc": "Lebelo le bohlokwa kudu...",
-      "privacyTitle": "Sephiri le Tšhireletšo",
-      "privacyDesc": "Badiriši ba nyaka kgodišo ya tšhireletšo...",
-      "futureTitle": "Se se Tla Latelago",
-      "futureDesc": "Bokamoso bja kgokagano bo tla akaretša...",
-      "outro": "Di-platform tša go swana le Chatforia ke karolo ya phetoho ye..."
-    },
-
-    "index": {
-      "title": "Blog ya Chatforia",
-      "intro": "Hlahloba dikgopolo tša kgokagano...",
-      "post1": "Mokgwa wa go Bolela ka Polokego Inthaneteng",
-      "post2": "Bokamoso bja Kgokagano ya Lefase",
-      "post3": "Lebaka leo di-platform tša melaetša di le bohlokwa"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Kamoo Chatforia e Šomago ka gona",
-    "intro": "Chatforia e diretšwe go dira kgokagano e be bonolo...",
-    "step1Title": "1. Hlama Account",
-    "step1Desc": "Ngwadiša ka email goba username...",
-    "step2Title": "2. Thoma Poledišano",
-    "step2Desc": "Kgokagana le ba bangwe...",
-    "step3Title": "3. Melaetša ya Nako ya Nnete",
-    "step3Desc": "Melaetša e fihla ka pela...",
-    "step4Title": "4. Kgokagano ya Lefase",
-    "step4Desc": "Phetolelo e thuša badiriši...",
-    "step5Title": "5. Dula o Laola",
-    "step5Desc": "Laola dikgetho tša gago..."
-  },
-
-  "safety": {
-    "title": "Polokego le Melao ya Setšhaba",
-    "intro": "Chatforia e ikgafile go boloka tikologo e šireletšegilego...",
-    "respectTitle": "Poledišano ka Tlhompho",
-    "respectDesc": "Badiriši ba letetšwe go bolela ka tlhompho...",
-    "prohibitedTitle": "Dikagare tše di Thibetšwego",
-    "prohibited": {
-      "illegal": "Mediro ya go se be molaong",
-      "harassment": "Go hloriša goba go tshwenya",
-      "hate": "Polelo ya lehloyo goba kgethollo",
-      "explicit": "Dikagare tše di sa lokago",
-      "spam": "Spam goba mekgwa ya go foroga"
-    },
-    "toolsTitle": "Didirišwa tša Polokego ya Modiriši",
-    "tools": {
-      "report": "Begela maitshwaro a sa lokago",
-      "block": "Thibela badiriši",
-      "control": "Laola di-setting tša sephiri"
-    },
-    "enforcementTitle": "Tirišo ya Melao",
-    "enforcementDesc": "Re ka tšea magato kgahlanong le di-account..."
-},
-  "chat": {
-    "selectPrompt": "Kgetha sengwalo goba phapoši ya poledišano gore o thome go bolela",
-    "newMessages": "Melaetša e mpsha",
-    "typing": "{{name}} o a ngwala...",
-    "emptyTitle": "Melaetša ya gago",
-    "emptySubtitle": "Romela molaetša gore o thome poledišano.",
-    "startChatButton": "Romela molaetša",
-    "mediaAttachment": "Sešomišwa sa media",
-    "thisUser": "mošomiši yo",
-    "blockConfirm": "Thibela {{name}}? O ka se sa amogela melaetša go tšwa go bona.",
-    "blockedUser": "Thibile {{name}}.",
-    "blockError": "Ga re kgone go kgetha mošomiši yo o tla thibelwa.",
-    "blockFailed": "Go thibela go paletšwe (backend ga se e šomago gona bjale).",
-    "encryptedUnavailable": "Molaetša o šireletšego (senotlolo ga se gona)",
-    "unlockToView": "Ntlha senotlolo sa gago gore o bale molaetša wo"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Tima"
-    },
-    "freeLimit": "Motheo wa polane ya mahala: itšhireletša go fihla ka letsatsi le le lengwe. E thibile go 1d.",
-    "premiumLimit": "Max ya go itšhireletša ka Premium ke matšatši a 30. E thibile go 30d.",
-    "nothingToSend": "Tsenya molaetša goba laetša faele gore o romele.",
-    "encryptionFailed": "Go šireletša go paletšwe. Molaetša ga o rometšwa.",
-    "sent": "Molaetša o fihlile.",
-    "placeholder": "Tsenya molaetša…",
-    "voiceAdded": "Noute ya lentšu e okeditšwe",
-    "attachmentAdded": "Sekgomaretši se okeditšwe",
-    "autoDelete": "Itšhireletša",
-    "typeToSend": "Tsenya molaetša gore o romele",
-    "send": "Romela",
-    "sendWithEnter": "Romela (Enter)",
-    "attachment": "sešomišwa",
-    "caption": "Tlhaloso (ka boikhethelo)",
-    "remove": "Tloša",
-    "clear": "Phumola",
-    "gif": "GIF",
-    "sticker": "Setikara",
-    "errors": {
-      "attachmentTooLarge": "Sešomišwa se se kgolo kudu. Leka faele e nyenyane.",
-      "unsupportedFile": "Mofuta wa faele ga o thekge.",
-      "rateLimit": "O romela melaetša ka lebelo kudu. Ka kgopelo fokotsa lebelo.",
-      "validation": "Phošo ya go netefatša. Ka kgopelo lekola molaetša wa gago gomme o leke gape.",
-      "failedToSend": "Go romela go paletšwe. O ka leka gape mofuta o o paletšwego."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Dikgokagano tše di bolokilwego",
-    "refreshAria": "Thaodiša dikgokagano",
-    "filterPlaceholder": "Filtara dikgokagano tše di bolokilwego…",
-    "filterAria": "Filtara dikgokagano tše di bolokilwego",
-    "noContactsFound": "Ga go na dikgokagano tše di hwetšwego.",
-    "externalContact": "Kgokagano ya ka ntle",
-    "notJoined": "Kgokagano ye ga e so kene Chatforia.",
-    "couldNotStart": "Ga re kgone go thoma poledišano. Ka kgopelo leka gape.",
-    "startFailed": "Go thoma poledišano go paletšwe. Ka kgopelo leka gape.",
-    "deleted": "Kgokagano e phumotšwe.",
-    "deleteFailed": "Go phumola kgokagano go paletšwe. Ka kgopelo leka gape.",
-    "aliasUpdated": "Alias e ntšhafaditšwe.",
-    "updateAliasFailed": "Go ntšhafatša alias go paletšwe. Ka kgopelo leka gape.",
-    "selectContact": "Kgetha {{name}}",
-    "alias": "Alias",
-    "startChat": "Thoma poledišano",
-    "message": "Molaetša",
-    "delete": "Phumola",
-    "deleteContactAria": "Phumola kgokagano",
-    "loadFailed": "Go laetša dikgokagano go paletšwe. Ka kgopelo leka gape.",
-    "loadMore": "Laetša tše dingwe",
-    "call": "Letsetša",
-    "callStarted": "O letsetša nomoro ye ka nomoro ya gago ya Chatforia…",
-    "callFailed": "Go thoma letsetša go paletšwe. Ka kgopelo leka gape."
-  },
-  "startChatModal": {
-    "title": "Thoma poledišano",
-    "searchPlaceholder": "Nyaka leina, username, goba nomoro ya mohala",
-    "messageThisPerson": "Romela molaetša mošomišing yo",
-    "contacts": "Dikgokagano",
-    "recentInteractions": "Ditiro tša kgale",
-    "noContactsMatch": "Ga go na dikgokagano tše di tshwanetšego le nyako ya gago.",
-    "noRecentInteractions": "Ga go na ditiro tša kgale gona bjale.",
-    "unknown": "Ga e tsebe",
-    "interactionType": {
-      "message": "Molaetša",
-      "call": "Letsetša",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Tsenya kgokagano",
-    "phoneOrUsername": "Nomoro ya mohala goba username",
-    "phoneOrUsernamePlaceholder": "mohl. +13018019227 goba juliannorton",
-    "alias": "Alias (ka boikhethelo)",
-    "aliasPlaceholder": "mohl. Mošomo, Mma, Mike – Yuropa",
-    "enterPhoneOrUsername": "Tsenya nomoro ya mohala goba username.",
-    "userLookupFailed": "Go nyaka mošomiši go paletšwe.",
-    "cannotAddSelf": "O ka se tsenye wena ka wena e le kgokagano.",
-    "failedToAdd": "Go tsenya kgokagano go paletšwe.",
-    "add": "Tsenya"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Poledišano ya ka nako efe kapa efe",
@@ -357,13 +368,151 @@
     "startChatAlt": "Thoma poledišano e ncha",
     "calls": "Di-letsetša",
     "video": "Video",
-    "voicemail": "Molaetša wa lentši"
+    "voicemail": "Molaetša wa lentši",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Boemo bjo bopšha",
     "logout": "Tšwela",
     "help": "Thušo",
     "createStatusAria": "Bopa boemo bjo bopšha"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Kgetha sengwalo goba phapoši ya poledišano gore o thome go bolela",
+    "newMessages": "Melaetša e mpsha",
+    "typing": "{{name}} o a ngwala...",
+    "emptyTitle": "Melaetša ya gago",
+    "emptySubtitle": "Romela molaetša gore o thome poledišano.",
+    "startChatButton": "Romela molaetša",
+    "mediaAttachment": "Sešomišwa sa media",
+    "thisUser": "mošomiši yo",
+    "blockConfirm": "Thibela {{name}}? O ka se sa amogela melaetša go tšwa go bona.",
+    "blockedUser": "Thibile {{name}}.",
+    "blockError": "Ga re kgone go kgetha mošomiši yo o tla thibelwa.",
+    "blockFailed": "Go thibela go paletšwe (backend ga se e šomago gona bjale).",
+    "encryptedUnavailable": "Molaetša o šireletšego (senotlolo ga se gona)",
+    "unlockToView": "Ntlha senotlolo sa gago gore o bale molaetša wo",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Tima"
+    },
+    "freeLimit": "Motheo wa polane ya mahala: itšhireletša go fihla ka letsatsi le le lengwe. E thibile go 1d.",
+    "premiumLimit": "Max ya go itšhireletša ka Premium ke matšatši a 30. E thibile go 30d.",
+    "nothingToSend": "Tsenya molaetša goba laetša faele gore o romele.",
+    "encryptionFailed": "Go šireletša go paletšwe. Molaetša ga o rometšwa.",
+    "sent": "Molaetša o fihlile.",
+    "placeholder": "Tsenya molaetša…",
+    "autoDelete": "Itšhireletša",
+    "typeToSend": "Tsenya molaetša gore o romele",
+    "send": "Romela",
+    "sendWithEnter": "Romela (Enter)",
+    "attachment": "sešomišwa",
+    "caption": "Tlhaloso (ka boikhethelo)",
+    "remove": "Tloša",
+    "clear": "Phumola",
+    "gif": "GIF",
+    "sticker": "Setikara",
+    "errors": {
+      "attachmentTooLarge": "Sešomišwa se se kgolo kudu. Leka faele e nyenyane.",
+      "unsupportedFile": "Mofuta wa faele ga o thekge.",
+      "rateLimit": "O romela melaetša ka lebelo kudu. Ka kgopelo fokotsa lebelo.",
+      "validation": "Phošo ya go netefatša. Ka kgopelo lekola molaetša wa gago gomme o leke gape.",
+      "failedToSend": "Go romela go paletšwe. O ka leka gape mofuta o o paletšwego.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Noute ya lentšu e okeditšwe"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Menu ya poledišano",
@@ -379,8 +528,6 @@
     "invitePeople": "Mema batho",
     "roomSettings": "Dipeelo tša phapoši",
     "clearConversation": "Phumola poledišano",
-    "clearConversationForMe": "Phumola go nna",
-    "clearConversationForEveryone": "Phumola go bohle",
     "block": "Thibela"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "Fela ge e tshwayilwe (/tr …)",
       "all": "Melaetša ka moka"
     },
-    "updated": "Dipeelo di ntšhafaditšwe"
+    "updated": "Dipeelo di ntšhafaditšwe",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Media ye e arolelanwego",
@@ -477,6 +635,110 @@
     "markRead": "Tshwaya e le e balilwego",
     "delete": "Phumola",
     "unreadDotAria": "Letšoao la molaetša wa lentši wo o sa balwago"
+  },
+  "contactList": {
+    "savedContacts": "Dikgokagano tše di bolokilwego",
+    "refreshAria": "Thaodiša dikgokagano",
+    "filterPlaceholder": "Filtara dikgokagano tše di bolokilwego…",
+    "filterAria": "Filtara dikgokagano tše di bolokilwego",
+    "noContactsFound": "Ga go na dikgokagano tše di hwetšwego.",
+    "externalContact": "Kgokagano ya ka ntle",
+    "notJoined": "Kgokagano ye ga e so kene Chatforia.",
+    "couldNotStart": "Ga re kgone go thoma poledišano. Ka kgopelo leka gape.",
+    "startFailed": "Go thoma poledišano go paletšwe. Ka kgopelo leka gape.",
+    "deleted": "Kgokagano e phumotšwe.",
+    "deleteFailed": "Go phumola kgokagano go paletšwe. Ka kgopelo leka gape.",
+    "aliasUpdated": "Alias e ntšhafaditšwe.",
+    "updateAliasFailed": "Go ntšhafatša alias go paletšwe. Ka kgopelo leka gape.",
+    "selectContact": "Kgetha {{name}}",
+    "alias": "Alias",
+    "startChat": "Thoma poledišano",
+    "message": "Molaetša",
+    "delete": "Phumola",
+    "deleteContactAria": "Phumola kgokagano",
+    "loadFailed": "Go laetša dikgokagano go paletšwe. Ka kgopelo leka gape.",
+    "loadMore": "Laetša tše dingwe",
+    "call": "Letsetša",
+    "callStarted": "O letsetša nomoro ye ka nomoro ya gago ya Chatforia…",
+    "callFailed": "Go thoma letsetša go paletšwe. Ka kgopelo leka gape.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Tsenya kgokagano",
+    "phoneOrUsername": "Nomoro ya mohala goba username",
+    "phoneOrUsernamePlaceholder": "mohl. +13018019227 goba juliannorton",
+    "alias": "Alias (ka boikhethelo)",
+    "aliasPlaceholder": "mohl. Mošomo, Mma, Mike – Yuropa",
+    "enterPhoneOrUsername": "Tsenya nomoro ya mohala goba username.",
+    "userLookupFailed": "Go nyaka mošomiši go paletšwe.",
+    "cannotAddSelf": "O ka se tsenye wena ka wena e le kgokagano.",
+    "failedToAdd": "Go tsenya kgokagano go paletšwe.",
+    "add": "Tsenya"
+  },
+  "startChatModal": {
+    "title": "Thoma poledišano",
+    "searchPlaceholder": "Nyaka leina, username, goba nomoro ya mohala",
+    "messageThisPerson": "Romela molaetša mošomišing yo",
+    "contacts": "Dikgokagano",
+    "recentInteractions": "Ditiro tša kgale",
+    "noContactsMatch": "Ga go na dikgokagano tše di tshwanetšego le nyako ya gago.",
+    "noRecentInteractions": "Ga go na ditiro tša kgale gona bjale.",
+    "unknown": "Ga e tsebe",
+    "interactionType": {
+      "message": "Molaetša",
+      "call": "Letsetša",
+      "video": "Video"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "Profaele ya mošomiši",
@@ -614,13 +876,167 @@
     "voicemailNote": "Melaetša ya lentši go tšwa go dinomoro tša gago tša Chatforia di tla bolokwa mo inbox ya gago ya Molaetša wa lentši. O ka thaolela tlhaloso le go fetišetša mo mererong e e thekgego.",
     "portHint": "O batla go boloka nomoro ya gago ya gona bjale? O ka e tsenya mo Chatforia Wireless.",
     "wireless": {
-      "manage": "Laola wireless"
+      "manage": "Laola wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Profaele ya mošomiši",
       "desc": "Hwetša datha ya mohala bakeng sa Chatforia ge o le kgole le Wi-Fi.",
-      "cta": "Hwetša eSIM / Bontšha QR"
-    }
+      "cta": "Hwetša eSIM / Bontšha QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -672,7 +1088,685 @@
     "expiresIn": "E fela ka morago ga matšatši a {{days}}",
     "exhausted": "Datha ya gago e fedile. Reka pakete e ncha gore o tšwele pele go šomiša datha ya mohala.",
     "buyPack": "Reka pakete ya datha",
-    "esimPackLabel": "Pakete ya eSIM"
+    "esimPackLabel": "Pakete ya eSIM",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "Go laetša…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Eya Premium",
+    "description": "Bula ditshepedišo tša matla & tloša dipapatšo.",
+    "cta": "Ntšhafatša",
+    "upgrade": "Ntšhafatša",
+    "upgradeAria": "Ntšhafatša go Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "Ntšhafatša",
+    "titleLoggedIn": "Ntšhafatša",
+    "titlePublic": "Ditheko",
+    "h1": "Ditheko le Merero ya Chatforia",
+    "h1Subtitle": "Thoma ka polane ya rona ya mahala ye e thekgego ka dipapatšo. Eya go ad-free ka Plus, goba bule ditshepedišo tša matla ka moka ka Premium.",
+    "subtitle": "Kgetha polane ya app, tsenya dipakete tša datha bakeng sa wena, goba arolelana datha le lapa la gago — ka moka mo lefelong le le tee.",
+    "subtitle.app": "Thoma ka polane ya rona ya mahala ye e thekgego ka dipapatšo. Eya go ad-free ka Plus, goba bule ditshepedišo tša matla ka moka ka Premium.",
+    "subtitle.mobile": "Tsenya datha ya eSIM ya lefase gore Chatforia e tšwele pele le ge o le kgole le Wi-Fi.",
+    "subtitle.family": "Bopa datha ye e arolelanwego bakeng sa lapa la gago gomme o laole tšhomišo ya motho e mong le e mong mo lefelong le le tee.",
+    "perMonth": "mo",
+    "perYear": "ngwaga",
+    "goPremium": "Eya Premium",
+    "benefitsLine": "Bula ditshepedišo tša matla & tloša dipapatšo.",
+    "ctaText": "Ntšhafatša",
+    "aria": "Ntšhafatša go Chatforia Premium",
+    "toggle": {
+      "monthly": "Ka kgwedi",
+      "annual": "Ka ngwaga (Boloka 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Polane e tla fela",
+      "body": "O tla boela go Free ka",
+      "keepPlanCta": "Boloka {{plan}}",
+      "manageBillingCta": "Laola tefo"
+    },
+    "billing": {
+      "opening": "Go bula…",
+      "manage": "Laola tefo"
+    },
+    "checkout": {
+      "redirecting": "Go leba gape…"
+    },
+    "auth": {
+      "continue": "Tšwela pele go ngena",
+      "createAccount": "Bopa akhaonte",
+      "signIn": "Ngena"
+    },
+    "cta": {
+      "aria": "Kgetha polane",
+      "getPlus": "Ntšhafatša go Plus",
+      "upgradeMonthly": "Ntšhafatša ka kgwedi",
+      "upgradeAnnual": "Ntšhafatša ka ngwaga",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "Merero ya app",
+      "mobile": "Mohala (eSIM)",
+      "family": "Merero ya lapa"
+    },
+    "plans": {
+      "free": {
+        "title": "Mahala",
+        "price": "$0",
+        "desc": "Thoma go romela melaetša ka mahala. E loketše ge o sa le o leka Chatforia.",
+        "features": {
+          "chat": "Poledišano ya nako e tee le sehlopha, gotee le di-letsetša ka lentši le video",
+          "media": "Arolelana disenepe, melaetša ya lentši, le video tše di khutšo",
+          "ai": "Dikarabo tše di bohlale tša AI le phetolelo ya yona nako (tšhomišo e e nepahego)",
+          "disappearing": "Melaetša e nyamelago le ditaolo tša polokego tša motheo",
+          "ads": "Mahala ka mehla ka dipapatšo mo app"
+        },
+        "ctaCurrent": "Polane ya gona bjale",
+        "ctaManage": "Laola mo tefong",
+        "ctaPublic": "Thoma — tšwela pele go ngena",
+        "aria": "Polane ya mahala"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Dilo ka moka tše di bohlokwa, ntle le dipapatšo. E loketše bakeng sa poledišano le go letsetša ka mehla.",
+        "features": {
+          "allFree": "Dilo ka moka tše di lego Free, ntle le dipapatšo",
+          "forwarding": "Fetišetša di-letsetša le melaetša go nomoro ya gago ya mohala ya nnete",
+          "history": "Histori ya melaetša e telele (go fihla ka dikgwedi tše 6)",
+          "support": "Thušo e potlako ge go na le phošo"
+        },
+        "badge": "E tumile",
+        "cta": "Eya Ad-Free",
+        "ctaPublic": "Hwetša Plus — tšwela pele go ngena",
+        "aria": "Ntšhafatša go Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Ka kgwedi)",
+        "price": "$11.99",
+        "desc": "Boiphihlelo bjo bo feletšego bja Chatforia: dithulusi tša matla tša AI, go dira ka gago, le thušo ya pele.",
+        "features": {
+          "plusAll": "Dilo ka moka tše di lego Plus",
+          "themes": "Bula dithemo ka moka tša mebala tša premium le go dira app ka gago",
+          "ai": "Dithulusi tša matla tša AI tša Premium fela bakeng sa go ngwala gape, dikarabo tše di bohlale, le kakaretšo",
+          "support": "Thušo ya pele ge o hloka thušo kudu",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "E kgothaletšwa",
+        "cta": "Ntšhafatša (Ka kgwedi)",
+        "ctaPublic": "Bula Premium — tšwela pele go ngena",
+        "aria": "Ntšhafatša go Premium ka kgwedi"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Ka ngwaga)",
+        "price": "$99",
+        "desc": "Boloka mo go ntšhafatšwago ka ngwaga — go akaretsa dithemo tše dingwe tša mebala, dithulusi tša AI, le thušo ya pele.",
+        "features": {
+          "allPremium": "Dilo ka moka tše di lego Premium ka kgwedi — go akaretsa dithemo tše dingwe tša mebala",
+          "annualBilling": "E lefšwa ga tee ka ngwaga",
+          "save25": "Boloka mo go 30% ge o bapetša le go lefa ka kgwedi",
+          "bestFor": "E loketše bakeng sa bašomiši ba matla, bašomiši ba kgole, le baeti ba kudu",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Boloka 30%",
+        "cta": "Ntšhafatša (Ka ngwaga)",
+        "ctaPublic": "Boloka 30% ka ngwaga — tšwela pele go ngena",
+        "aria": "Ntšhafatša go Premium ka ngwaga",
+        "disclaimer": "E lefšwa pele. Khansela nako efe kapa efe. Ga go na ditefiso tše di utilwego."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Mahala",
+      "freeDesc": "Thoma go romela melaetša ka mahala.",
+      "plusTitle": "Plus",
+      "plusBadge": "E tumile",
+      "plusDesc": "Boiphihlelo bjo bo theko e tlaase bjo bo se nang dipapatšo.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Ditshepedišo ka moka, melodi, le dithulusi tša matla tša AI.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Boloka mo go ntšhafatšwago ka ngwaga.",
+      "annualDisclaimer": "E lefšwa pele. Khansela nako efe kapa efe. Ga go na ditefiso tše di utilwego."
+    },
+    "mobile": {
+      "title": "Chatforia Mohala (dipakete tša datha tša eSIM)",
+      "subtitle": "Tsenya datha ya lefase gore Chatforia e tšwele pele le ge o se na Wi-Fi. Ditheko di fetoga ka mo go nepahego go ya ka naga le chelete ya gago.",
+      "subtitle.detail": "Kgetha pakete e le nngwe ya datha ya lefase gore Chatforia e tšwele pele ge o le moetong goba o le kgole le Wi-Fi.",
+      "scope": {
+        "local": "Ya lehae",
+        "europe": "Yuropa",
+        "global": "Lefase ka bophara",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "Ya lehae = {{country}}",
+      "localEqualsFallback": "Ya lehae = naga ya gago ya gona bjale",
+      "perPack": "/ pakete",
+      "cta": "Hwetša pakete ye ya datha",
+      "ctaPublic": "Hwetša pakete ye ya datha",
+      "checkout": {
+        "redirecting": "Go leba gape…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Datha ya lebelo le le phahameng bakeng sa tšhomišo e kudu",
+          "throttle": "Lebelo le ka fokotsega ka morago ga tšhomišo e kudu",
+          "coverage": "Go phihlelela mo go botegilego",
+          "instant": "Go thoma eSIM ka yona nako",
+          "noContract": "Pakete e le nngwe, ga go na konteraka"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "Dipakete tša datha tša eSIM di hloka sešomiši se se thekgego sa eSIM le se sa thibelwago. Go ba gona go fapana ka mofuta wa mohala, carrier, le naga. Go phihlelela le lebelo di fapana ka tikologo.",
+        "fairUse": "Go ya ka pholisi ya tšhomišo e e nepahego le meeli ya lehae"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "Bapetša dipakete tša datha tša eSIM",
+        "col": {
+          "pack": "Pakete",
+          "data": "Datha ye e akaretšego",
+          "bestFor": "E loketše bakeng sa"
+        },
+        "disclaimer": "Tšhomišo ya datha ya nnete e ithekgile ka mokgwa wo o šomišago Chatforia (lentši, video, media, le ditirišo tše dingwe mo mohaleng wa gago)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Boleng bjo bo botse ka GB"
+      },
+      "feature": {
+        "instant": "Go thoma eSIM ka yona nako",
+        "coverage": "Go phihlelela mo go botegilego",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Ya lehae",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Yuropa",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Lefase ka bophara",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Pakete ya go thoma",
+        "data": "3 GB",
+        "bestFor": "Maeto a magotlana, melaetša e nyenyane, le di-letsetša tše di sa kgafaletšego"
+      },
+      "medium": {
+        "title": "Pakete ya moeti",
+        "data": "5 GB",
+        "bestFor": "Maeto a mafelo a beke, di-letsetša tša VoIP tše di tlwaelegilego, le mepapa"
+      },
+      "large": {
+        "title": "Pakete ya matla",
+        "data": "10 GB",
+        "bestFor": "Poledišano e kudu, di-letsetša, video, le go šomiša hotspot"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Lapa la Chatforia (datha ye e arolelanwego)",
+      "subtitle": "Arolelana datha e le nngwe mo lapeng la gago. Tefo e le nngwe, di-akhaonte tše dintši tša Chatforia, go phihlelela lefase ka bophara.",
+      "perPack": "/ pakete",
+      "small": {
+        "title": "Lapa Small",
+        "desc": "E akaretsa 20 GB ya datha ya lebelo le le phahameng ye e arolelanwego — e loketše bakeng sa bašomiši ba 2–3 ba bobebe.",
+        "price": "$29.99",
+        "aria": "Reka pakete ya Lapa Small"
+      },
+      "medium": {
+        "title": "Lapa Medium",
+        "desc": "E akaretsa 40 GB ya datha ya lebelo le le phahameng ye e arolelanwego — e loketše bakeng sa ditho tše 3–5 tše di šomago.",
+        "price": "$49.99",
+        "aria": "Reka pakete ya Lapa Medium"
+      },
+      "large": {
+        "title": "Lapa Large",
+        "desc": "E akaretsa 80 GB ya datha ya lebelo le le phahameng ye e arolelanwego — bakeng sa malapa a matla a ka mehla a le inthaneteng.",
+        "price": "$84.99",
+        "aria": "Reka pakete ya Lapa Large"
+      },
+      "feature": {
+        "shared": "Datha ye e arolelanwego bakeng sa lapa la gago",
+        "members": "Mema ditho tše di tlaleletšego tše 4",
+        "membersMore": "E loketše bakeng sa ditho tše 3–5 tše di šomago",
+        "manage": "Laola meeli bakeng sa motho e mong le e mong",
+        "topUp": "Tlatša dipakete tše dingwe nako efe kapa efe",
+        "bestValue": "Boleng bjo bo botse ka GB",
+        "fairUse": "Go ya ka pholisi ya tšhomišo e e nepahego le meeli ya lehae"
+      },
+      "disclaimer": "Dipakete tša lapa di bopa goba di tlatša datha ye e arolelanwego. O ka mema le go tloša ditho nako efe kapa efe.",
+      "footnote": "Dipakete tša lapa di arolelana datha e le nngwe mo di-akhaonteng tše di kgokagantšwego tša Chatforia. Go ba gona le meeli di ithekgile ka naga le melao ya lehae."
+    },
+    "why": {
+      "title": "Ke ka lebaka lang batho ba fetela Chatforia",
+      "subtitle": "Chatforia e go fa nomoro ya mohala ya nnete, phetolelo e bohlale, le tsela e e bonagalago ya go ya ad-free ge o se o lebeletše.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Dipapatšo tše di bobebe mo Free, ntšhafatšo e bonolo ya Plus ge o se o lebeletše, le dithulusi tša Premium tše TextNow e se nago tšona."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App ya sebjalebjale, mošomo wa lefase ka pele, le phetolelo ye e šomago ka go rona go fapana le go fetišetša letsetša la kgale."
+        },
+        "messengers": {
+          "title": "Chatforia vs di-app tša poledišano",
+          "body": "Romela dinomoro tša mohala tša nnete — e seng fela bašomiši ba app e nngwe — ka AI le boemo bjo bo šomago ka go rona. E loketše ge o tšwa go di-app tše di kang TextFree goba TextMe."
+        }
+      },
+      "tableTitle": "Kamoo Chatforia e bapetšanago",
+      "col": {
+        "feature": "Tšhepedišo",
+        "chatforia": "Go fihla ka dikgwedi tše 12+",
+        "textnow": "E fapana ka akhaonte",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "Nomoro ya mohala ya mahala",
+        "translation": "Phetolelo e šomago ka go rona ka mo go itirilelang",
+        "aiTools": "Dithulusi tša AI (go ngwala gape, dikarabo, kakaretšo)",
+        "ads": "Kgetho ya ad-free",
+        "history": "Histori ya melaetša"
+      },
+      "yes": "Ee",
+      "no": "Aowa",
+      "yesPremium": "Ee (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "E lekanyeditšwe",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Go fihla ka dikgwedi tše 12+",
+        "textnow": "E fapana ka akhaonte",
+        "voice": "E lekanyeditšwe / go ya ka akhaonte"
+      },
+      "disclaimer": "Go bapetša go theilwe mo tshedimošong ye e bonagala phatlalala gomme e ka fetoga ka nako. Di-app tše dingwe tša go romela melaetša tša mahala tše di kang TextFree goba TextMe di tlwaelegile go swana le TextNow."
+    },
+    "faq": {
+      "title": "FAQ ya ditheko le merero",
+      "free": {
+        "q": "Na polane ya Mahala e hlile e mahala?",
+        "a": "Ee. Polane ya Mahala e akaretsa nomoro ya Chatforia, go letsetša, le go romela melaetša ka dipapatšo. O ka dula mo Free ka nako e telele, goba ntšhafatša gore o tloše dipapatšo le go bule ditshepedišo tše dingwe."
+      },
+      "plusPremium": {
+        "q": "Phapano ke efe magareng ga Plus le Premium?",
+        "a": "Plus e tloša dipapatšo le go lelefatsa histori ya melaetša — e loketše bakeng sa tšhomišo ya ka mehla. Premium e tsenya go dira ka gago, dithulusi tša AI bakeng sa go ngwala gape le dikarabo, le thušo ya pele bakeng sa bašomiši ba kudu."
+      },
+      "esim": {
+        "q": "Dipakete tša datha tša eSIM di šoma kae?",
+        "a": "Chatforia Mohala e šomiša go phihlelela ga eSIM ya lefase ka bophara. Go ba gona go ithekgile ka naga le sešomiši sa gago. O tla bona dikgetho tše di thekgego ge o thoma mo app."
+      },
+      "cancel": {
+        "q": "Na nka khansela goba fetola merero nako efe kapa efe?",
+        "a": "Ee. O ka laola goba khansela polane ya gago mo letlakaleng la tefo mo app. Diphetogo di šoma qetellong ya nako ya tefo ya gago ya gona bjale."
+      },
+      "family": {
+        "q": "Dipakete tša Lapa di šoma bjang?",
+        "a": "Dipakete tša Lapa di bopa datha e le nngwe ye e arolelanwego mo di-akhaonteng tše dintši tša Chatforia. Motho a le mongwe o lefa tefo, gomme o ka mema goba tloša ditho le go bea meeli mo mothong e mong le e mong."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "Lapa",
@@ -745,1050 +1839,618 @@
       "error": "Ga re kgone go o tsenya mo lapeng le. Memo e ka ba e fosahetšego goba e feditšwe."
     }
   },
-  "premium": {
-    "heading": "Eya Premium",
-    "description": "Bula ditshepedišo tša matla & tloša dipapatšo.",
-    "cta": "Ntšhafatša",
-    "upgrade": "Ntšhafatša",
-    "upgradeAria": "Ntšhafatša go Chatforia Premium"
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "Ntšhafatša",
-    "titleLoggedIn": "Ntšhafatša",
-    "titlePublic": "Ditheko",
-    "h1": "Ditheko le Merero ya Chatforia",
-    "h1Subtitle": "Thoma ka polane ya rona ya mahala ye e thekgego ka dipapatšo. Eya go ad-free ka Plus, goba bule ditshepedišo tša matla ka moka ka Premium.",
-    "subtitle": "Kgetha polane ya app, tsenya dipakete tša datha bakeng sa wena, goba arolelana datha le lapa la gago — ka moka mo lefelong le le tee.",
-    "subtitle.app": "Thoma ka polane ya rona ya mahala ye e thekgego ka dipapatšo. Eya go ad-free ka Plus, goba bule ditshepedišo tša matla ka moka ka Premium.",
-    "subtitle.mobile": "Tsenya datha ya eSIM ya lefase gore Chatforia e tšwele pele le ge o le kgole le Wi-Fi.",
-    "subtitle.family": "Bopa datha ye e arolelanwego bakeng sa lapa la gago gomme o laole tšhomišo ya motho e mong le e mong mo lefelong le le tee.",
-    "perMonth": "mo",
-    "perYear": "ngwaga",
-    "goPremium": "Eya Premium",
-    "benefitsLine": "Bula ditshepedišo tša matla & tloša dipapatšo.",
-    "ctaText": "Ntšhafatša",
-    "aria": "Ntšhafatša go Chatforia Premium",
-    "toggle": {
-      "monthly": "Ka kgwedi",
-      "annual": "Ka ngwaga (Boloka 30%)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "Polane e tla fela",
-      "body": "O tla boela go Free ka",
-      "keepPlanCta": "Boloka {{plan}}",
-      "manageBillingCta": "Laola tefo"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "Go bula…",
-      "manage": "Laola tefo"
-    },
-    "checkout": {
-      "redirecting": "Go leba gape…"
-    },
-    "auth": {
-      "continue": "Tšwela pele go ngena",
-      "createAccount": "Bopa akhaonte",
-      "signIn": "Ngena"
-    },
-    "cta": {
-      "aria": "Kgetha polane",
-      "getPlus": "Ntšhafatša go Plus",
-      "upgradeMonthly": "Ntšhafatša ka kgwedi",
-      "upgradeAnnual": "Ntšhafatša ka ngwaga"
-    },
-    "section": {
-      "app": "Merero ya app",
-      "mobile": "Mohala (eSIM)",
-      "family": "Merero ya lapa"
-    },
-    "plans": {
-      "free": {
-        "title": "Mahala",
-        "price": "$0",
-        "desc": "Thoma go romela melaetša ka mahala. E loketše ge o sa le o leka Chatforia.",
-        "features": {
-          "chat": "Poledišano ya nako e tee le sehlopha, gotee le di-letsetša ka lentši le video",
-          "media": "Arolelana disenepe, melaetša ya lentši, le video tše di khutšo",
-          "ai": "Dikarabo tše di bohlale tša AI le phetolelo ya yona nako (tšhomišo e e nepahego)",
-          "disappearing": "Melaetša e nyamelago le ditaolo tša polokego tša motheo",
-          "ads": "Mahala ka mehla ka dipapatšo mo app"
-        },
-        "ctaCurrent": "Polane ya gona bjale",
-        "ctaManage": "Laola mo tefong",
-        "ctaPublic": "Thoma — tšwela pele go ngena",
-        "aria": "Polane ya mahala"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Dilo ka moka tše di bohlokwa, ntle le dipapatšo. E loketše bakeng sa poledišano le go letsetša ka mehla.",
-        "features": {
-          "allFree": "Dilo ka moka tše di lego Free, ntle le dipapatšo",
-          "forwarding": "Fetišetša di-letsetša le melaetša go nomoro ya gago ya mohala ya nnete",
-          "history": "Histori ya melaetša e telele (go fihla ka dikgwedi tše 6)",
-          "support": "Thušo e potlako ge go na le phošo"
-        },
-        "badge": "E tumile",
-        "cta": "Eya Ad-Free",
-        "ctaPublic": "Hwetša Plus — tšwela pele go ngena",
-        "aria": "Ntšhafatša go Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Ka kgwedi)",
-        "price": "$11.99",
-        "desc": "Boiphihlelo bjo bo feletšego bja Chatforia: dithulusi tša matla tša AI, go dira ka gago, le thušo ya pele.",
-        "features": {
-          "plusAll": "Dilo ka moka tše di lego Plus",
-          "themes": "Bula dithemo ka moka tša mebala tša premium le go dira app ka gago",
-          "ai": "Dithulusi tša matla tša AI tša Premium fela bakeng sa go ngwala gape, dikarabo tše di bohlale, le kakaretšo",
-          "support": "Thušo ya pele ge o hloka thušo kudu"
-        },
-        "badge": "E kgothaletšwa",
-        "cta": "Ntšhafatša (Ka kgwedi)",
-        "ctaPublic": "Bula Premium — tšwela pele go ngena",
-        "aria": "Ntšhafatša go Premium ka kgwedi"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Ka ngwaga)",
-        "price": "$99",
-        "desc": "Boloka mo go ntšhafatšwago ka ngwaga — go akaretsa dithemo tše dingwe tša mebala, dithulusi tša AI, le thušo ya pele.",
-        "features": {
-          "allPremium": "Dilo ka moka tše di lego Premium ka kgwedi — go akaretsa dithemo tše dingwe tša mebala",
-          "annualBilling": "E lefšwa ga tee ka ngwaga",
-          "save25": "Boloka mo go 30% ge o bapetša le go lefa ka kgwedi",
-          "bestFor": "E loketše bakeng sa bašomiši ba matla, bašomiši ba kgole, le baeti ba kudu"
-        },
-        "badge": "Boloka 30%",
-        "cta": "Ntšhafatša (Ka ngwaga)",
-        "ctaPublic": "Boloka 30% ka ngwaga — tšwela pele go ngena",
-        "aria": "Ntšhafatša go Premium ka ngwaga",
-        "disclaimer": "E lefšwa pele. Khansela nako efe kapa efe. Ga go na ditefiso tše di utilwego."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Mahala",
-      "freeDesc": "Thoma go romela melaetša ka mahala.",
-      "plusTitle": "Plus",
-      "plusBadge": "E tumile",
-      "plusDesc": "Boiphihlelo bjo bo theko e tlaase bjo bo se nang dipapatšo.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Ditshepedišo ka moka, melodi, le dithulusi tša matla tša AI.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Boloka mo go ntšhafatšwago ka ngwaga.",
-      "annualDisclaimer": "E lefšwa pele. Khansela nako efe kapa efe. Ga go na ditefiso tše di utilwego."
-    },
-    "mobile": {
-      "title": "Chatforia Mohala (dipakete tša datha tša eSIM)",
-      "subtitle": "Tsenya datha ya lefase gore Chatforia e tšwele pele le ge o se na Wi-Fi. Ditheko di fetoga ka mo go nepahego go ya ka naga le chelete ya gago.",
-      "subtitle.detail": "Kgetha pakete e le nngwe ya datha ya lefase gore Chatforia e tšwele pele ge o le moetong goba o le kgole le Wi-Fi.",
-      "scope": {
-        "local": "Ya lehae",
-        "europe": "Yuropa",
-        "global": "Lefase ka bophara"
-      },
-      "note": "Re ka se reke dipakete tša datha tše di ka tlase ga 3 GB.",
-      "localEquals": "Ya lehae = {{country}}",
-      "localEqualsFallback": "Ya lehae = naga ya gago ya gona bjale",
-      "perPack": "/ pakete",
-      "cta": "Hwetša pakete ye ya datha",
-      "ctaPublic": "Hwetša pakete ye ya datha",
-      "checkout": {
-        "redirecting": "Go leba gape…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Datha ya lebelo le le phahameng bakeng sa tšhomišo e kudu",
-          "throttle": "Lebelo le ka fokotsega ka morago ga tšhomišo e kudu",
-          "coverage": "Go phihlelela mo go botegilego",
-          "instant": "Go thoma eSIM ka yona nako",
-          "noContract": "Pakete e le nngwe, ga go na konteraka"
-        }
-      },
-      "disclaimer": {
-        "devices": "Dipakete tša datha tša eSIM di hloka sešomiši se se thekgego sa eSIM le se sa thibelwago. Go ba gona go fapana ka mofuta wa mohala, carrier, le naga. Go phihlelela le lebelo di fapana ka tikologo."
-      },
-      "small": {
-        "title": "Pakete ya go thoma",
-        "desc": "E akaretsa 3 GB ya datha ya lebelo le le phahameng — e loketše bakeng sa melaetša e nyenyane le di-letsetša tše di sa kgafaletšego.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Maeto a magotlana, melaetša e nyenyane, le di-letsetša tše di sa kgafaletšego",
-        "aria": "Reka pakete ya Starter eSIM datha"
-      },
-      "medium": {
-        "title": "Pakete ya moeti",
-        "desc": "E akaretsa 5 GB ya datha ya lebelo le le phahameng bakeng sa maeto, go tsamaya, le di-letsetša tša VoIP tše di tlwaelegilego.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Maeto a mafelo a beke, di-letsetša tša VoIP tše di tlwaelegilego, le mepapa",
-        "aria": "Reka pakete ya Traveler eSIM datha"
-      },
-      "large": {
-        "title": "Pakete ya matla",
-        "desc": "E akaretsa 10 GB ya datha ya lebelo le le phahameng bakeng sa poledišano e kudu, di-letsetša, le video mo netweorkeng ya Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Poledišano e kudu, di-letsetša, video, le go šomiša hotspot",
-        "aria": "Reka pakete ya Power user eSIM datha"
-      },
-      "compare": {
-        "title": "Bapetša dipakete tša datha tša eSIM",
-        "col": {
-          "pack": "Pakete",
-          "data": "Datha ye e akaretšego",
-          "bestFor": "E loketše bakeng sa"
-        },
-        "disclaimer": "Tšhomišo ya datha ya nnete e ithekgile ka mokgwa wo o šomišago Chatforia (lentši, video, media, le ditirišo tše dingwe mo mohaleng wa gago)."
-      }
-    },
-    "family": {
-      "title": "Lapa la Chatforia (datha ye e arolelanwego)",
-      "subtitle": "Arolelana datha e le nngwe mo lapeng la gago. Tefo e le nngwe, di-akhaonte tše dintši tša Chatforia, go phihlelela lefase ka bophara.",
-      "perPack": "/ pakete",
-      "small": {
-        "title": "Lapa Small",
-        "desc": "E akaretsa 20 GB ya datha ya lebelo le le phahameng ye e arolelanwego — e loketše bakeng sa bašomiši ba 2–3 ba bobebe.",
-        "price": "$29.99",
-        "aria": "Reka pakete ya Lapa Small"
-      },
-      "medium": {
-        "title": "Lapa Medium",
-        "desc": "E akaretsa 40 GB ya datha ya lebelo le le phahameng ye e arolelanwego — e loketše bakeng sa ditho tše 3–5 tše di šomago.",
-        "price": "$49.99",
-        "aria": "Reka pakete ya Lapa Medium"
-      },
-      "large": {
-        "title": "Lapa Large",
-        "desc": "E akaretsa 80 GB ya datha ya lebelo le le phahameng ye e arolelanwego — bakeng sa malapa a matla a ka mehla a le inthaneteng.",
-        "price": "$84.99",
-        "aria": "Reka pakete ya Lapa Large"
-      },
-      "feature": {
-        "shared": "Datha ye e arolelanwego bakeng sa lapa la gago",
-        "members": "Mema ditho tše di tlaleletšego tše 4",
-        "membersMore": "E loketše bakeng sa ditho tše 3–5 tše di šomago",
-        "manage": "Laola meeli bakeng sa motho e mong le e mong",
-        "topUp": "Tlatša dipakete tše dingwe nako efe kapa efe",
-        "bestValue": "Boleng bjo bo botse ka GB",
-        "fairUse": "Go ya ka pholisi ya tšhomišo e e nepahego le meeli ya lehae"
-      },
-      "disclaimer": "Dipakete tša lapa di bopa goba di tlatša datha ye e arolelanwego. O ka mema le go tloša ditho nako efe kapa efe.",
-      "footnote": "Dipakete tša lapa di arolelana datha e le nngwe mo di-akhaonteng tše di kgokagantšwego tša Chatforia. Go ba gona le meeli di ithekgile ka naga le melao ya lehae."
-    },
-    "why": {
-      "title": "Ke ka lebaka lang batho ba fetela Chatforia",
-      "subtitle": "Chatforia e go fa nomoro ya mohala ya nnete, phetolelo e bohlale, le tsela e e bonagalago ya go ya ad-free ge o se o lebeletše.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Dipapatšo tše di bobebe mo Free, ntšhafatšo e bonolo ya Plus ge o se o lebeletše, le dithulusi tša Premium tše TextNow e se nago tšona."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "App ya sebjalebjale, mošomo wa lefase ka pele, le phetolelo ye e šomago ka go rona go fapana le go fetišetša letsetša la kgale."
-        },
-        "messengers": {
-          "title": "Chatforia vs di-app tša poledišano",
-          "body": "Romela dinomoro tša mohala tša nnete — e seng fela bašomiši ba app e nngwe — ka AI le boemo bjo bo šomago ka go rona. E loketše ge o tšwa go di-app tše di kang TextFree goba TextMe."
-        }
-      },
-      "tableTitle": "Kamoo Chatforia e bapetšanago",
-      "col": {
-        "feature": "Tšhepedišo"
-      },
-      "feature": {
-        "freeNumber": "Nomoro ya mohala ya mahala",
-        "translation": "Phetolelo e šomago ka go rona ka mo go itirilelang",
-        "aiTools": "Dithulusi tša AI (go ngwala gape, dikarabo, kakaretšo)",
-        "ads": "Kgetho ya ad-free",
-        "history": "Histori ya melaetša"
-      },
-      "yes": "Ee",
-      "no": "Aowa",
-      "yesPremium": "Ee (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "E lekanyeditšwe",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "Go fihla ka dikgwedi tše 12+",
-        "textnow": "E fapana ka akhaonte",
-        "voice": "E lekanyeditšwe / go ya ka akhaonte"
-      },
-      "disclaimer": "Go bapetša go theilwe mo tshedimošong ye e bonagala phatlalala gomme e ka fetoga ka nako. Di-app tše dingwe tša go romela melaetša tša mahala tše di kang TextFree goba TextMe di tlwaelegile go swana le TextNow."
-    },
-    "faq": {
-      "title": "FAQ ya ditheko le merero",
-      "free": {
-        "q": "Na polane ya Mahala e hlile e mahala?",
-        "a": "Ee. Polane ya Mahala e akaretsa nomoro ya Chatforia, go letsetša, le go romela melaetša ka dipapatšo. O ka dula mo Free ka nako e telele, goba ntšhafatša gore o tloše dipapatšo le go bule ditshepedišo tše dingwe."
-      },
-      "plusPremium": {
-        "q": "Phapano ke efe magareng ga Plus le Premium?",
-        "a": "Plus e tloša dipapatšo le go lelefatsa histori ya melaetša — e loketše bakeng sa tšhomišo ya ka mehla. Premium e tsenya go dira ka gago, dithulusi tša AI bakeng sa go ngwala gape le dikarabo, le thušo ya pele bakeng sa bašomiši ba kudu."
-      },
-      "esim": {
-        "q": "Dipakete tša datha tša eSIM di šoma kae?",
-        "a": "Chatforia Mohala e šomiša go phihlelela ga eSIM ya lefase ka bophara. Go ba gona go ithekgile ka naga le sešomiši sa gago. O tla bona dikgetho tše di thekgego ge o thoma mo app."
-      },
-      "cancel": {
-        "q": "Na nka khansela goba fetola merero nako efe kapa efe?",
-        "a": "Ee. O ka laola goba khansela polane ya gago mo letlakaleng la tefo mo app. Diphetogo di šoma qetellong ya nako ya tefo ya gago ya gona bjale."
-      },
-      "family": {
-        "q": "Dipakete tša Lapa di šoma bjang?",
-        "a": "Dipakete tša Lapa di bopa datha e le nngwe ye e arolelanwego mo di-akhaonteng tše dintši tša Chatforia. Motho a le mongwe o lefa tefo, gomme o ka mema goba tloša ditho le go bea meeli mo mothong e mong le e mong."
-      }
-    },
-    "gettingStarted": {
-      "title": "Thoma",
-      "subtitle": "O mpsha go Chatforia? Thuto ye e bonolo e bontšha dilo tše bohlokwa gore o kgone go šoma ka metsotso e mmalwa.",
-      "alert": {
-        "text": "Thuto ye e tla hola ge re thoma ditshepedišo tše pšha. Ge go na le se se sa kgonego, re tsebiše ka",
-        "contactLink": "Ikopanye le Rona"
-      },
-      "section1": {
-        "title": "1) Bopa akhaonte ya gago",
-        "signup": "Ngwadiša",
-        "or": "goba",
-        "login": "ngena",
-        "loginText": "ka akhaonte ya gago ya gona bjale.",
-        "prefsStart": "Bea",
-        "prefsLink": "dikgetho tša gago",
-        "prefsRest": "(leleme, ditšhupetšo tša go bala, dithemo)."
-      },
-      "section2": {
-        "title": "2) Thoma go romela melaetša",
-        "item1": "Bopa DM goba Sehlopha gomme o romele molaetša wa gago wa pele.",
-        "item2": "Šomiša phetolelo ya yona nako gore o bolele mo malemeng a 100+.",
-        "item3": "Leka melaetša e nyamelago le ditšhupetšo tša go bala mo Profaele → Polokego."
-      },
-      "section3": {
-        "title": "3) Eya pele",
-        "item1": "O ka ntšhafatša go polane e lefilwego nako efe kapa efe mo app.",
-        "item2": "Ge o se o ngenile, o ka kgokaganya disešomiši tše dingwe le go bea dikopi tše di šireletšego mo Dipeeleng tša app."
-      },
-      "cta": {
-        "seePlans": "Bona merero",
-        "openSettings": "Bula dipeelo"
-      }
-    },
-    "helpCenter": {
-      "title": "Setsi sa Thušo",
-      "faq": {
-        "account": {
-          "q": "Nka bopa goba buseletša akhaonte ya gago bjang?",
-          "a": "Laetša app goba šomiša web, tobetsa “Bopa akhaonte”, netefatša imeile/mohala. Gore o buseletše, šomiša “Lebetše phasewete”."
-        },
-        "privacy": {
-          "q": "Na melaetša e šireletšegile ka mokgwa wa go fela go fela?",
-          "a": "Ee. Melaetša le di-letsetša di šireletšegile ka mokgwa wa go fela go fela ka tlwaelo. Ke wena le moamogedi fela ba ka di bala."
-        },
-        "translate": {
-          "q": "Phetolelo ya yona nako e šoma bjang?",
-          "a": "Thaolela “Phetolelo ka mo go itirilelang” mo Dipeeleng → Ponagalo & Leleme. Re fetolela mo sešomišing ge e thekge, goba ka APIs tše di šireletšego ka metadata e nyenyane."
-        },
-        "contact": {
-          "q": "Ikopanye le thušo",
-          "a": "Fihlela rona mo support@chatforia.com. Akaretsa diskrini le phetošo ya app ya gago."
-        }
-      }
-    },
-    "contact": {
-      "title": "Ikopanye le Rona",
-      "successMsg": "Ke a leboga—sehlopha sa rona se tla araba ka imeile.",
-      "errorSend": "Ga re kgone go romela. Ka kgopelo romele imeile support@chatforia.com.",
-      "form": {
-        "nameLabel": "Leina",
-        "emailLabel": "Imeile",
-        "messageLabel": "Molaetša",
-        "sendCta": "Romela"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Pholisi ya Polokego",
-      "lastUpdated": "E ntšhafaditšwe la:",
-      "intro": {
-        "body": "Pholisi ye ya Polokego e hlalosa kamoo Chatforia (“rona”, “re”) e bokellago, e šomišago, le e arolelanago tshedimošo ge o šomiša di-app le ditshepedišo tša rona. Re bopa Chatforia gore e fokotse datha ye re ka e bona."
-      },
-      "infoWeCollect": {
-        "title": "Tshedimošo ye re e bokellago",
-        "account": "Tshedimošo ya akhaonte (mohl., imeile/mohala) gore re bope le go šireletša akhaonte ya gago.",
-        "encrypted": "Diteng tše di šireletšego (melaetša/di-letsetša) di šireletšegile ka mokgwa wa go fela go fela; re ka se di bale.",
-        "diagnostics": "Tshedimošo ya go hlahloba/tšhomišo ye e kang di-log tša go senya, mofuta wa sešomiši, goba analytics e nyenyane gore re ntšhafatše mošomo."
-      },
-      "sms": {
-        "title": "Dinomoro tša mohala le SMS",
-        "body": "Ge o kgetha go fana ka nomoro ya mohala, re e šomiša gore re thaolele ditshepedišo tše di kang go netefatša akhaonte, ditšhupetšo tša go ngena, le melaetša ya mošomiši go mošomiši ge e thekge. Re ka romela melaetša ya SMS ye e amanago le akhaonte le tiragalo ya gago mo Chatforia. O ka tlogela go amogela melaetša ya SMS nako efe kapa efe ka go araba ka lentšu le le thekgego la go tlogela (mohl. “STOP”) goba ka go fetola dikgetho tša tšhupetšo mo app. Re ka se reke nomoro ya gago goba re e šomiše bakeng sa papatšo ye e sa amanegego.",
-        "newText": "Molaetša o mpsha",
-        "enterRecipient": "Tsenya leina goba nomoro",
-        "typeMessage": "Tsenya molaetša…",
-        "addRecipient": "Tsenya moamogedi ka godimo gore o thome…"
-      },
-      "howWeUse": {
-        "title": "Kamoo re šomišago tshedimošo",
-        "provide": "Fana le go šireletša tšebeletšo (auth, go lemoga spam/abuse).",
-        "improve": "Ntšhafatša ditshepedišo (boleng bja phetolelo, go botega).",
-        "legal": "Lekana le ditlhokegelo tša molao."
-      },
-      "sharing": {
-        "title": "Go arolelana",
-        "body": "Re ka se reke datha ya botho. Re ka arolelana datha e nyenyane le bašomiši (mohl., tšhupetšo tša go phahla, analytics) ka konteraka e thata."
-      },
-      "rights": {
-        "title": "Ditokelo tša gago",
-        "body": "Go ya ka tikologo ya gago (mohl., GDPR/UK GDPR/CPRA), o ka kgopela go fihlelela, go lokisa, go phumola, goba go tlogela tšhomišo e itseng. Ikopanye: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Go boloka datha & polokego",
-        "body": "Re boloka fela se se hlokegago gore re šomise tšebeletšo le go šomiša polokego ya indasteri. Diteng tša E2E di ka se ka tša bušwa ke rona."
-      },
-      "children": {
-        "title": "Bana",
-        "body": "Chatforia ga e lebale bana ba ka tlase ga 13 (goba ka moo molao wa gago o hlokago)."
-      },
-      "changes": {
-        "title": "Diphetogo",
-        "body": "Re tla romela ntšhafatšo mo le go fetola letsatsi la “E ntšhafaditšwe”."
-      },
-      "contact": {
-        "title": "Ikopanye",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Melao ya Tšhomišo",
-      "lastUpdated": "E ntšhafaditšwe la:",
-      "intro": {
-        "body": "Ka go šomiša Chatforia o dumela melao ye. Ge o sa dumele, o se ke wa šomiša tšebeletšo."
-      },
-      "accounts": {
-        "title": "Di-akhaonte",
-        "itemAccurateInfo": "Fana ka tshedimošo e e nepahego gomme o boloke dintlha tša gago ka polokego.",
-        "itemResponsibility": "O ikarabella bakeng sa tiragalo mo akhaonteng ya gago."
-      },
-      "acceptableUse": {
-        "title": "Tšhomišo e e amogelegago",
-        "itemNoAbuse": "Ga go na diteng tše di sa laolegego, tše di hlabago, goba tše di tsenago mo go mengwalo; ga go na spam goba abuse e e itirilelang.",
-        "itemSuspend": "Re ka thibela/goba fela akhaonte bakeng sa go tlola."
-      },
-      "sms": {
-        "title": "Go romela melaetša ya SMS",
-        "body": "Ge o fana ka nomoro ya mohala, o dumela gore Chatforia e ka romela melaetša ya SMS ye e amanago le akhaonte le tšhomišo ya tšebeletšo, ye e kang ditšhupetšo tša go ngena, tšhupetšo tša polokego, le melaetša ye e amanago le dipoledišano tše o di thomago goba o tšea karolo. Re ka se šomiše SMS bakeng sa papatšo goba papatšo ntle le tumello ya gago e e feletšego. Ditlala tša melaetša le datha di ka šoma. O ka tlogela melaetša ya SMS nako efe kapa efe ka go araba ka lentšu le le thekgego la go tlogela (mohl. “STOP”) goba ka go ntšhafatša dikgetho tša tšhupetšo mo app."
-      },
-      "yourContent": {
-        "title": "Diteng tša gago",
-        "body": "O boloka ditokelo tša diteng tša gago. O re fa ditokelo tše di hlokegago gore re šomise tšebeletšo (mohl., go ruta, go boloka, phetolelo)."
-      },
-      "disclaimer": {
-        "title": "Ditaelo & boikarabelo",
-        "body": "Tšebeletšo e fanoa “ka mo e lego” ntle le ditšepiso. Ka mokgwa wo o feletšego wo molao o dumelelago, Chatforia ga e ikarabelle bakeng sa tšenyo e e sa lebalegego goba e e latelago."
-      },
-      "changes": {
-        "title": "Diphetogo",
-        "body": "Re ka ntšhafatša melao ye; go tšwela pele go šomiša ka morago ga diphetogo go bolela gore o dumele."
-      },
-      "contact": {
-        "title": "Ikopanye",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Se ke wa reka goba arolelana tshedimošo ya gago ya botho",
-      "body": "Chatforia ga e reke tshedimošo ya botho. Baagi ba California ba ka romela dikgopelo ka tlase ga CPRA ka tobetsa ka tlase.",
-      "cta": "Romela kgopelo"
-    },
-    "cookies": {
-      "title": "Dipeelo tša Cookie",
-      "body": "Chatforia e šomiša di-cookie tše nyenyane (mohl., session, polokego). Re ka se šomiše di-cookie tša papatšo tša batho ba bangwe. Laola di-cookie ka dipeelo tša braosara ya gago."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Ga re kgone go laetša boemo bja nomoro ya mohala.",
-      "lock": "Thibela",
-      "noNumberAssigned": "Ga go na nomoro ye e abetšwego. Kgetha e nngwe ka area code gore o thome go romela melaetša.",
-      "pickNumber": "Kgetha nomoro",
-      "phoneNumber": "Nomoro ya mohala"
-    },
-    "startChatModal": {
-      "title": "Thoma poledišano",
-      "quickPicker": "Mokgethi o bonolo",
-      "to": "Go",
-      "nameOrUsername": "Tsenya leina, username",
-      "nameUsernamePhoneEmail": "Tsenya leina, username, nomoro ya mohala, goba imeile…",
-      "startWithSelected": "Thoma poledišano le ba kgethilwego",
-      "searchByUsernameOrPhone": "Nyaka ka username goba nomoro ya mohala",
-      "search": "Nyaka",
-      "searchPrompt": "Tsenya username goba nomoro ya mohala gomme o tobetše Nyaka.",
-      "pickFromContacts": "Goba kgetha go tšwa dikgokagano",
-      "addContact": "Tsenya kgokagano",
-      "show": "Bontšha",
-      "add": "Tsenya",
-      "close": "Tswala",
-      "selectedCount": "{{count}} e kgethilwe",
-      "pickAtLeastOne": "Kgetha bonyane moamogedi a le mongwe.",
-      "saveContactsHint": "Dintlha tša mohala/imeile di tla ba gona ka morago ga gore o di boloke e le dikgokagano.",
-      "failedBulkStart": "Go thoma poledišano le baamogedi ba kgethilwego go paletšwe.",
-      "noResults": "Ga go na dipoelo",
-      "mode": "Mokgwa",
-      "group": "Sehlopha",
-      "broadcast": "Phatlalatša",
-      "groupNameOptional": "Leina la sehlopha (ka boikhethelo)",
-      "firstMessageOptional": "Molaetša wa pele (ka boikhethelo eupša o kgothaletšwa)",
-      "createGroup": "Bopa sehlopha",
-      "sendBroadcast": "Romela phatlalatšo"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
-    },
-    "sounds": {
-      "freeNotice": "O le go Free — melodi ya premium e bontšhitšwe eupša e thibile. Ntšhafatša gore o bule ka moka.",
-      "preview": "Ponagalo",
-      "resetToDefaults": "Busetša go tše di tlwaelegilego",
-      "notificationSounds": "Melodi ya tšhupetšo",
-      "messageTone": "Melodi ya molaetša",
-      "default": "Ya tlwaelo",
-      "vibrate": "Thuthumela",
-      "dreamer": "Dreamer",
-      "notify": "Tšhupetša",
-      "pop": "Pop",
-      "pulsatingSound": "Melodi e e pulsa",
-      "textMessage": "Molaetša wa sengwalo",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Mohala wa digital",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Tšhepedišo ye e hloka polane ya Premium."
-    },
-    "aiSettings": {
-      "title": "Dipeelo tša AI",
-      "controlIntro": "Laola phetolelo, dikarabo tše di bohlale, le dikarabo tša itirilelang tša ForiaBot.",
-      "save": "Boloka dipeelo tša AI",
-      "autoTranslateIncoming": "Phetolelo ya melaetša e tsenago ka mo go itirilelang",
-      "showOriginalAlongside": "Bontšha sengwalo sa kgale gotee le phetolelo",
-      "enableSmartReplies": "Thaolela dikarabo tše di bohlale",
-      "smartRepliesHint": "Romela melaetša e mmalwa ya kgale ye e amogetšwego (e hlwekile) go AI gore e sisinye dikarabo tše di bonolo.",
-      "maskProfanity": "Fifala mantšu a sa swanegego mo dikarabo tša AI",
-      "maskProfanityHint": "Ge e le on, dikarabo tše di bušeditšwego ke AI di tla ba le mantšu a tshwayilwego a fifaditšwe",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "Thaolela karabo e itirilelang ge ke le maphatšong",
-      "autoReplyMode": "Mokgwa wa karabo e itirilelang",
-      "cooldownSeconds": "Nako ya go thoma gape (metsotso)",
-      "off": "Tima",
-      "on": "On",
-      "signature": "Signature",
-      "autoReply": "Karabo e itirilelang",
-      "activeUntilOptional": "E šoma go fihla (ka boikhethelo)",
-      "saved": "Dikgetho tša AI di bolokilwe",
-      "saveFailed": "Go boloka dipeelo tša AI go paletšwe",
-      "translateOff": "Tima",
-      "translateTagged": "Fela ge @translated goba e tshwayilwe",
-      "translateAll": "Phetolela melaetša ka moka e tsenago",
-      "modeDm": "Dipoledišano tša 1:1 fela",
-      "modeMention": "Fela ge ke @mentioned",
-      "modeAll": "Melaetša ka moka e tsenago"
-    },
-    "accessibilitySettings": {
-      "title": "Go fihlelela & Ditšhupetšo",
-      "accessibility": "Go fihlelela",
-      "accessibilityDesc": "Dikgetho gore Chatforia e be bonolo go šomiša ntle le go thea mo melodini.",
-      "interfaceFontSize": "Bogolo bja fonte ya interface",
-      "interfaceFontSizeHelp": "E thoma ka bogolo bjo tlwaelegilego. Oketša ge o rata sengwalo se segolo mo dipeeleng tša go fihlelela.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Ditšhupetšo",
-      "notificationsDesc": "Ditšhupetšo tša pono bakeng sa melaetša & di-letsetša\nBontšha banners le go blink ka sehlogo gore o se ke wa fosa tiragalo.",
-      "vibrateOnNew": "Thuthumela mo melaetšeng e mpsha (ge e thekge)\nThaolela thuthumelo ya sešomiši ka ditšhupetšo.",
-      "flashOnCall": "Phatsima skrine mo letsetšeng le tsenago\nPhatsima e kgutšo e e kganya ge letsetša le lla.",
-      "liveCaptions": "Ditlhaloso tša nako e tee (di-letsetša)",
-      "captionFontSize": "Bogolo bja fonte ya tlhaloso",
-      "captionBackground": "Background ya tlhaloso",
-      "light": "kganya",
-      "dark": "ntsho",
-      "transparent": "e bonagalago",
-      "voiceNotes": "Melaetša ya lentši",
-      "autoTranscribeVoiceNotes": "Ngwala melaetša ya lentši ka mo go itirilelang",
-      "autoTranscribeVoiceNotesDesc": "Tsenya tlhaloso go melaetša ya lentši ye o e amogetšego.",
-      "changesSavedInstantly": "Diphetogo di bolokwa ka yona nako.",
-      "loadFailed": "Go laetša dipeelo go paletšwe",
-      "visualAlerts": "Ditšhupetšo tša pono bakeng sa melaetša & di-letsetša",
-      "visualAlertsDesc": "Bontšha banners le go blink ka sehlogo gore o se ke wa fosa tiragalo.",
-      "vibrateOnNewShort": "Thuthumela mo melaetšeng e mpsha (ge e thekge)",
-      "vibrateOnNewDesc": "Thaolela thuthumelo ya sešomiši ka ditšhupetšo.",
-      "flashOnCallShort": "Phatsima skrine mo letsetšeng le tsenago",
-      "flashOnCallDesc": "Phatsima e kgutšo e e kganya ge letsetša le lla."
-    },
-    "privacySection": {
-      "strictE2EE": "Go šireletša ka mokgwa wa go fela go fela o thata",
-      "ciphertextOnlyNote": "Boloka fela ciphertext mo seva. E tima AI/Phetolelo le ponagalo ya go laola."
-    },
-    "linkedDevicesPanel": {
-      "title": "Disešomiši tše di kgokagantšwego",
-      "noneFound": "Ga go na disešomiši tše di kgokagantšwego tše di hwetšwego.",
-      "refresh": "Thaodiša"
-    },
-    "help": {
-      "title": "Thušo",
-      "howCanWeHelp": "Re ka go thusa bjang?",
-      "helpCenter": "Setsi sa Thušo",
-      "contactUs": "Ikopanye le rona",
-      "quickTopics": "Dihlogotaba tše di bonolo",
-      "searchExamples": "Leka go nyaka “phetolelo”, “dikopi”, goba “polokego”.",
-      "cantLogin": "Ga nkgone go ngena",
-      "paymentsBilling": "Tefo/tefo",
-      "reportAbuse": "Pego ya abuse",
-      "searchHelpArticles": "Nyaka di-athikili tša thušo",
-      "search": "Nyaka"
-    },
-    "peoplePage": {
-      "people": "Batho",
-      "search": "Nyaka",
-      "searchPlaceholder": "Nyaka ka alias, leina, username, goba nomoro ya mohala",
-      "filterSaved": "Filtara dikgokagano tše di bolokilwego",
-      "noContactsFound": "Ga go na dikgokagano tše di hwetšwego",
-      "quickStart": "Thomo e bonolo",
-      "quickStartDesc": "Ditsela tše mmalwa tše di potlako tša go thoma.",
-      "importContacts": "Tsenya dikgokagano tša gago",
-      "add": "Tsenya",
-      "focusSearch": "Tsepamiša nyako",
-      "import": "Tsenya",
-      "findOrAdd": "Hwetša goba tsenya motho",
-      "searchByPhoneOrUsername": "Nyaka ka nomoro ya mohala / username",
-      "inviteFriends": "Mema metswalle",
-      "inviteDesc": "Arolelana link ya gago ya memo gore o thome go bolela ka yona nako.",
-      "getTheApp": "Hwetša app",
-      "getTheAppDesc": "Dula o kgokagane mo tseleng ka Chatforia bakeng sa iOS le Android.",
-      "download": "Laetša",
-      "syncTip": "Keletšo: Melaetša ya gago e dula e synched mo web le mohala."
-    },
-    "randomChat": {
-      "title": "Poledišano ya ka nako efe kapa efe",
-      "description": "Hwetša motho e mpsha ka yona nako. Re tla go para gomme re bule phapoši ya poledišano ya nakoana. Bolela ka go se tsebe pele. Tsenya Kgokagano ka morago ge e utlwahala e lokile.",
-      "findMatch": "Hwetša para bakeng sa gago",
-      "chatWithForia": "Bolela le Foria",
-      "chatWithForiaBot": "Bolela le ForiaBot",
-      "cancel": "Khansela",
-      "close": "Tswala",
-      "searching": "Go nyaka...",
-      "finding": "Go hwetša...",
-      "looking": "Go nyaka motho...",
-      "startingForia": "Go thoma poledišano le Foria...",
-      "partnerDisconnected": "Motho yo o kgokagantšwego o tlogile.",
-      "noPartner": "Ga go na para ye e hwetšwego gona bjale.",
-      "connectedTo": "Kgokagantšwe le {{name}}",
-      "connected": "Kgokagantšwe",
-      "idle": "Idle",
-      "partnerLeft": "Motho yo o kgokagantšwego o tlogile.",
-      "stopped": "E emisitšwe.",
-      "skip": "Tlola",
-      "save": "Boloka",
-      "saveGuard": "Dipoledišano tša motho go motho fela tše di ka bolokwago",
-      "youAreChattingWith": "O a bolela le {{name}}",
-      "bot": "BOT",
-      "leave": "Tlogela",
-      "sayHi": "Re a leboga 👋",
-      "you": "Wena",
-      "typeMessage": "Tsenya molaetša",
-      "send": "Romela",
-      "partner": "Motho yo o kgokagantšwego",
-      "withRia": "Le Ria",
-      "chatWithRia": "Bolela le Ria",
-      "startingRia": "Go thoma poledišano le Ria...",
-      "ageDisclaimer": "Re boloka fela nako ya mengwaga (e seng letsatsi la tsoalo la gago ka botlalo). Se se šomišwa gore re boloke dipara tša Poledišano ya ka nako efe kapa efe di leka-lekane. Gore o bapantšwe le batho (e seng fela RiaBot), bea nako ya gago ya mengwaga mo Dipeeleng → Nako ya mengwaga & Poledišano ya ka nako efe kapa efe.",
-      "ageBandRequired": "Bea nako ya gago ya mengwaga mo Profaele → Nako ya mengwaga & Poledišano ya ka nako efe kapa efe gore o bapantšwe le batho.",
-      "ageBandCallout": "Gore o bapantšwe le batho (e seng fela RiaBot), bea nako ya gago ya mengwaga mo Dipeeleng → Nako ya mengwaga & Poledišano ya ka nako efe kapa efe.",
-      "subtitle": "Hwetša motho e mpsha ka yona nako, goba kgetha go bolela le Ria.",
-      "start": "Thoma poledišano",
-      "matching": "Go bapanya...",
-      "setAge": "Bea nako ya gago ya mengwaga mo Profaele → Nako ya mengwaga & Poledišano ya ka nako efe kapa efe gore o bapantšwe le batho.",
-      "next": "Motho yo o latelago",
-      "addFriend": "Tsenya Kgokagano",
-      "requested": "Kgopetšwe",
-      "messageRia": "Romela molaetša go Ria...",
-      "messageMatch": "Romela molaetša go para ya gago..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "gona",
-      "intro": "Hey gona 👋 Ke Ria. Ke eng mo mogopolong wa gago?",
-      "greetings": {
-        "long1": "Hey {{name}} 👋 Ke gona. Ke eng mo mogopolong wa gago?",
-        "long2": "Hi {{name}} 😊 O batla go bolela ka eng lehono?",
-        "long3": "Hey {{name}}!! Ke mamele ka moka — ke eng?",
-        "long4": "Ke thabile go go bona, {{name}} 👋 Ke eng mo mogopolong wa gago lehono?",
-        "long5": "Hey {{name}} 😊 O batla go tšhološa, go botsa, goba go bolela fela?",
-        "long6": "Hi {{name}}!! Ke na le nako — o batla go bolela ka eng?",
-        "short1": "Hey {{name}}, ke sa le gona. Ke eng?",
-        "short2": "O boetše {{name}} 👋 Na go na le se sengwe se o batlago go se tsenya?",
-        "short3": "O boetše gape, {{name}}? 😊 Mpolele ke eng mo mogopolong wa gago.",
-        "short4": "Hey {{name}} 👋 O ikemiselitse go tšwela pele moo re tlogetšego?",
-        "short5": "Ee {{name}}? Ke a mamele 👂",
-        "short6": "Oh hey {{name}}!! O na le se sengwe se se pšha mo mogopolong wa gago?"
-      },
-      "header": {
-        "openNav": "Bula menu ya go tsamaya",
-        "closeNav": "Tswala menu ya go tsamaya",
-        "homeAria": "Gae ya Chatforia"
-      },
-      "login": {
-        "welcomeBack": "O amogetšwe gape",
-        "title": "Tšwela pele go Chatforia",
-        "subtitleReturning": "Ngena mo akhaonteng ya gago ya Chatforia",
-        "subtitle": "Ngena mo akhaonteng ya gago ya Chatforia",
-        "google": "Tšwela pele ka Google",
-        "apple": "Tšwela pele ka Apple",
-        "googleUnavailable": "Go ngena ka Google ga go gona",
-        "appleUnavailable": "Go ngena ka Apple ga go gona",
-        "or": "goba",
-        "email": "Imeile",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Username",
-        "usernamePh": "Username ya gago",
-        "passwordLabel": "Phasewete",
-        "passwordPh": "Phasewete ya gago",
-        "keepSignedIn": "Ntšhafatša go saena",
-        "forgot": {
-          "title": "Lebetše Phasewete",
-          "helper": "Tsenya imeile ye o e šomišitšego gore o bope akhaonte ya gago ya Chatforia gomme re tla go romela link e šireletšego gore o buseletše phasewete.",
-          "emailInvalid": "Ka kgopelo tsenya aterese ya imeile e e nepahego.",
-          "genericError": "Ga re kgone go šomiša kgopelo. Ka kgopelo leka gape ka morago ga motsotso.",
-          "sending": "Go romela link ya go buseletša…",
-          "sendCta": "Romela Link ya go Buseletša",
-          "sentLabel": "Romilwe!"
-        },
-        "submit": "Ngena",
-        "loggingIn": "Go ngena…",
-        "newHere": "O mpsha mo? <link>Bopa akhaonte</link>",
-        "ssoUnavailable": "Go ngena ka single-sign-on ga go gona gona bjale. Šomiša username & phasewete go fapana.",
-        "error": {
-          "missing": "Ka kgopelo tsenya dintlha tša gago.",
-          "invalid": "Username goba phasewete e fosahetšego",
-          "denied": "Go gana go fihlela.",
-          "unprocessable": "Kgopelo e fosahetšego. Lekola username/imeile le phasewete ya gago.",
-          "deviceLimit": "Molelo wa disešomiši o fihlile mo polaneng ya Mahala. Tšwela mo sešomišing se sengwe goba ntšhafatša go Premium gore o kgokaganye disešomiši tše dingwe.",
-          "premiumRequired": "Tiragalo ye e hloka polane ya Premium."
-        }
-      },
-      "oauth": {
-        "completing": "Go fetsa go ngena…"
-      },
-      "dialer": {
-        "title": "Di-letsetša",
-        "subtitle": "Keypad & tše di kgale. (Ge o sa šomiše PSTN, thoma di-letsetša go tšwa go sehlogo sa poledišano.)",
-        "enterNumberPh": "Tsenya nomoro",
-        "call": "Letsetša",
-        "backspace": "Backspace",
-        "recents": "Tše di kgale",
-        "recentsEmpty": "Ga go na di-letsetša tše di kgale gona bjale.",
-        "enterNumber": "Tsenya nomoro",
-        "enterNumberAria": "Tsenya nomoro",
-        "key": "Key {{d}}",
-        "noRecents": "Ga go na di-letsetša tše di kgale gona bjale."
-      },
-      "video": {
-        "title": "Video",
-        "chooseType": "Kgetha mofuta wa video.",
-        "directTitle": "Video e e tobileng",
-        "directDesc": "Letsetša la kamera 1:1 le mošomiši yo mongwe.",
-        "directStart": "Thoma",
-        "roomsTitle": "Phapoši",
-        "roomsDesc": "Video ya batho ba bantši ka go šomiša leina la phapoši ye e arolelanwego.",
-        "roomsIntro": "Kena goba bopa phapoši ya batho ba bantši.",
-        "roomNameLabel": "Leina la phapoši",
-        "roomNamePh": "mohl. team-standup",
-        "join": "Kena",
-        "deeplinkTip": "Keletšo: o ka deep link ka totilo go <code>/video?room=room-name</code>.",
-        "hub": {
-          "title": "Video",
-          "subtitle": "Kgetha mofuta wa video."
-        },
-        "direct": {
-          "title": "Video e e tobileng",
-          "subtitle": "Thoma letsetša la video 1:1 ka go šomiša nomoro ya mohala goba username ya Chatforia.",
-          "desc": "Letsetša la kamera 1:1 le mošomiši yo mongwe.",
-          "start": "Thoma",
-          "callBtn": "Letsetša",
-          "callByPhone": {
-            "title": "Letsetša ka mohala"
-          },
-          "phone": {
-            "placeholder": "Tsenya nomoro ya mohala (mohl., +1-555-123-4567)",
-            "aria": "Nomoro ya mohala ye o tla letsetšang"
-          },
-          "tipInvite": "Keletšo: Ngwadiša nomoro gomme o letsetše ntle le go boloka kgokagano. Re tla mema bašomiši ba sa kego ba mema ka link.",
-          "findUser": {
-            "title": "Hwetša mošomiši"
-          },
-          "search": {
-            "placeholder": "Nyaka ka leina goba username",
-            "aria": "Nyaka ka leina goba username",
-            "btn": "Nyaka"
-          }
-        },
-        "rooms": {
-          "title": "Phapoši",
-          "subtitle": "Bopa phapoši goba kena mo e šomago ka go tlanya leina le le swanago.",
-          "desc": "Video ya batho ba bantši ka go šomiša leina la phapoši ye e arolelanwego.",
-          "roomLabel": "Leina la phapoši",
-          "roomPlaceholder": "mohl. team-standup",
-          "roomAria": "Leina la phapoši",
-          "joinCreate": "Kena / Bopa",
-          "tip": "Keletšo: arolelana leina le le bathong ba bangwe, goba deep link go <code>/video?room=room-name</code>."
-        }
-      },
-      "directVideo": {
-        "intro": "Thoma letsetša la video e e tobileng 1:1.",
-        "findUserLabel": "Hwetša mošomiši",
-        "findUserPh": "Nyaka ka leina goba username",
-        "search": "Nyaka",
-        "call": "Letsetša"
-      },
-      "phoneWarning": {
-        "title": "Nomoro ya gago e tla fela ka morago ga nako e khutšo",
-        "body": "Nomoro ya gago {{number}} e tla lokollwa ka {{date}} ntle le ge e tsosolositšwe.",
-        "button": "Boloka Nomoro ya Gago"
-      }
-    },
-    "support": {
-      "helpFab": "Thušo",
-      "openSupportAria": "Bula thušo",
-      "badge": "Thušo",
-      "heading": "Re ka go thusa bjang?",
-      "tabs": {
-        "help": "Setsi sa Thušo",
-        "contact": "Ikopanye le rona"
-      },
-      "searchPlaceholder": "Nyaka di-athikili tša thušo…",
-      "searchAria": "Nyaka thušo",
-      "searchBtn": "Nyaka",
-      "quickTopicsLabel": "Dihlogotaba tše di bonolo",
-      "quickTopics": {
-        "login": "Ga nkgone go ngena",
-        "billing": "Tefo / tefo",
-        "abuse": "Pego ya abuse"
-      },
-      "trySearching": "Leka go nyaka “phetolelo”, “dikopi”, goba “polokego”.",
-      "article": "Athikili",
-      "openArticle": "Bula athikili",
-      "contactIntro": "Re tla go romela karabo ka imeile. Akaretsa dintlha gore re kgone go tšweletša bothata.",
-      "topicAria": "Kgetha hlogotaba",
-      "messagePlaceholder": "Ngwala molaetša wa gago…",
-      "sendBtn": "Romela",
-      "sent": "Molaetša o rometšwe. Re tla araba ka imeile.",
-      "sendError": "Ga re kgone go romela. Ka kgopelo romele support@chatforia.com go fapana."
-    },
-    "encryptionRecovery": {
-      "title": "Laola go šireletša",
-      "description": "Boloka, buseletša, ntlha, goba busetša senotlolo sa gago sa go šireletša.",
-      "alert": {
-        "keyRequiredTitle": "Senotlolo sa go šireletša se a hlokega",
-        "keyRequiredBody": "Braosara ye ga e kgone go buša melaetša ya gago ye e šireletšego gona bjale. Buseletša, ntlha, goba busetša senotlolo sa gago gore o tšwele pele."
-      },
-      "sections": {
-        "createBackup": "Bopa kopi ya senotlolo",
-        "restoreFromBackup": "Buseletša go tšwa kopi ya akhaonte",
-        "resetEncryption": "Busetša go šireletša"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Ntlha passcode (sešomiši sa gona bjale)",
-          "description": "E šomišwa gore e buše dinotlolo tša gago mo lefelong la gago pele o laetša"
-        },
-        "backupPassword": {
-          "label": "Phasewete ya kopi",
-          "description": "E šomišwa gore e šireletše faele ya kopi"
-        },
-        "restoreBackupPassword": {
-          "label": "Phasewete ya kopi",
-          "description": "Phasewete ye o e bopile ge o boloka senotlolo sa gago mo iPhone"
-        },
-        "newLocalPasscode": {
-          "label": "Passcode e ncha ya mo lefelong",
-          "description": "Šireletša dinotlolo tše di phomotšego mo braosareng ye"
-        },
-        "resetLocalPasscode": {
-          "label": "Passcode e ncha ya mo lefelong",
-          "description": "E hlokega pele o busetša gore senotlolo se se pšha se šireletšegile mo sešomišing se"
-        }
-      },
-      "actions": {
-        "unlockKey": "Ntlha senotlolo sa go šireletša",
-        "restoreFromBackup": "Buseletša go tšwa kopi ya akhaonte",
-        "resetEncryption": "Busetša go šireletša"
-      },
-      "messages": {
-        "backupCreated": "Kopi ya senotlolo e bopilwe gomme e laetšwe.",
-        "keyUnlocked": "Senotlolo sa go šireletša se ntšhitšwe.",
-        "keyRestored": "Senotlolo se buseditšwe go tšwa kopi ya akhaonte.",
-        "resetSuccess": "Go šireletša go buseditšwe ka katlego."
-      },
-      "errors": {
-        "restoreIncomplete": "Go buseletša senotlolo ga se a fela goba ga se nepahego bakeng sa akhaonte ye",
-        "noBackup": "Ga go na kopi ye e šireletšego ye e šomago bakeng sa akhaonte ye",
-        "missingPublicKey": "Kopi e hlokile senotlolo sa phatlalala",
-        "noServerPublicKey": "Akhaonte ye ga e bontšhe senotlolo sa seva sa phatlalala gona bjale",
-        "serverBackupMismatch": "Kopi ya seva ga e swane le senotlolo sa go šireletša sa akhaonte ya gona bjale",
-        "incompleteMetadata": "Metadata ya kopi ga e a fela",
-        "resetIncomplete": "Go busetša go šireletša ga se a fela ka mokgwa o nepahego"
-      },
-      "confirm": {
-        "reset": "Busetša go šireletša bakeng sa akhaonte ye?\n\nMelaetša e šireletšego ya kgale e ka ba e sa balege ntle le ge o buseletša senotlolo sa kgale ka morago."
-      },
-      "resetDescription": "Se se bopa senotlolo se se pšha sa go šireletša bakeng sa akhaonte ya gago. Melaetša e šireletšego ya kgale e ka ba e sa balege ntle le ge o buseletša senotlolo sa kgale ka morago."
-    },
-    "footer": {
-      "plans": "Merero & Ditheko",
-      "about": "Ka ga Chatforia",
-      "careers": "Mesebetsi",
-      "press": "Press",
-      "advertise": "Bapatša",
-      "contact": "Ikopanye le Rona",
-      "help": "Setsi sa Thušo",
-      "status": "Letlakala la Boemo",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Pholisi ya Polokego",
-      "terms": "Melao ya Tšhomišo",
-      "cookies": "Dipeelo tša Cookie",
-      "doNotSell": "Se ke wa reka Tshedimošo ya Gago",
-      "language": "Leleme",
-      "contactShort": "Ikopanye",
-      "aria": "Footer",
-      "homeAria": "Gae ya Chatforia",
-      "section": {
-        "company": "KHAMPANI",
-        "support": "THUŠO",
-        "downloads": "GO LAETŠA",
-        "legal": "MOLAO"
-      },
-      "links": {
-        "plans-pricing": "Merero & Ditheko",
-        "about-chatforia": "Ka ga Chatforia",
-        "careers": "Mesebetsi",
-        "press": "Press",
-        "advertise": "Bapatša",
-        "getting-started": "Thoma",
-        "help-center": "Setsi sa Thušo",
-        "contact-us": "Ikopanye le Rona",
-        "status-page": "Letlakala la Boemo",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Pholisi ya Polokego",
-        "terms-of-service": "Melao ya Tšhomišo",
-        "do-not-sell-my-info": "Se ke wa reka Tshedimošo ya Gago",
-        "cookie-settings": "Dipeelo tša Cookie"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Patent e letile",
-      "backToTop": "↑ Eya godimo"
-    },
-    "press": {
-      "title": "Press",
-      "contactLine": "Bakeng sa dikgopelo tša media, fihlela rona mo",
-      "boilerplateTitle": "Boilerplate",
-      "boilerplateBody": "Chatforia ke app ya melaetša ya polokego ya pele ye e dirago gore poledišano ya maleme a fapanego e be bonolo. Melaetša e šireletšegile ka mokgwa wa go fela go fela ka tlwaelo, le phetolelo ye e šomago ka go rona e thekga maleme a 100+ ka nako e tee. Bašomiši ba ka thaolela melaetša e nyamelago, boloka ditšhupetšo tša go bala e le ka boikhethelo, le syncha mo disešomišing. E gona mo iOS, Android, le web.",
-      "assetsTitle": "Dithoto tša brand",
-      "assetsSubtitle": "Di-logo, diskrini, le disenepe tša prodakte.",
-      "downloadCta": "Laetša media kit",
-      "downloadTitle": "Hwetša app",
-      "scanTip": "O le go desktop? Skena ka mohala wa gago gore o hwetše app.",
-      "qrAria": "Bula wepe saete ya Chatforia",
-      "appStore": "Laetša mo App Store",
-      "googlePlay": "Hwetša mo Google Play"
-    },
-    "careers": {
-      "title": "Mesebetsi",
-      "intro": "Re sehlopha se senyenyane sa go thoma se a bopa Chatforia — mošomiši wa melaetša wa poraebete, wa lefase ka bophara yo o thomago mo web, iOS, le Android. Ge o hlokomela polokego, go šireletša, le boiphihlelo bjo bo monate bja mošomiši, re tla thabela go go utlwa.",
-      "openRoles": "<b>Mesebetsi e bulegilego ya go thoma:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
-      "apply": "Kamoo o ka dirago kgopelo: Šomiša tobetsa ka tlase gore o romele CV ya gago le di-link.",
-      "emailCta": "Romela CV ya gago ka imeile",
-      "whyNow": "Ke ka lebaka lang o tla šomiša gona bjale?",
-      "whyBullets": "• Thusa go bopa motheo wa mošomiši o mpsha wa lefase ka bophara.\n• Romela ntšhafatšo tše di šomišwago mo web, iOS, le Android.\n• Šoma ka totilo le motheo mo go arola le go lebisa prodakte.\n• Laola dikarolo tša bohlokwa tša stack: melaetša, lentši, video, go šireletša, telecom, AI.\n• Kena qalong — pele palo ya bašomiši e hola."
-    },
-    "about": {
-      "title": "Ka ga Chatforia",
-      "description": "Chatforia ke mošomiši wa melaetša o šireletšego, o bua maleme a fapanego ka go šireletša ka mokgwa wa go fela go fela, phetolelo ya yona nako, le go letsetša ka lentši/video. Morero wa rona o bonolo: thusa batho gore ba kgokagane—ka polokego, ka poraebete, le mo malemeng a fapanego.",
-      "valuesTitle": "Se re se ratago",
-      "values": {
-        "privacy": "<b>Polokego ya pele:</b> Go šireletša ka mokgwa wa go fela go fela ka tlwaelo.",
-        "access": "<b>Go fihlelela bakeng sa bohle:</b> Phetolelo e šomago ka mo go itirilelang maleme a 100+.",
-        "control": "<b>Taolo:</b> Melaetša e nyamelago & ditšhupetšo tša go bala ke ka boikhethelo.",
-        "privacy_aria": "Polokego ya pele: Go šireletša ka mokgwa wa go fela go fela ka tlwaelo.",
-        "access_aria": "Go fihlelela bakeng sa bohle: Phetolelo e šomago ka mo go itirilelang maleme a 100+.",
-        "control_aria": "Taolo: Melaetša e nyamelago le ditšhupetšo tša go bala ke ka boikhethelo."
-      },
-      "howTitle": "Chatforia e šoma bjang",
-      "howDescription": "Melaetša e šireletšegile mo sešomišing sa gago pele e tloga. Phetolelo, dikopi, le go syncha disešomiši di bopilwe gore di fokotse se seva sa rona se ka se bonang."
-    },
-    "advertise": {
-      "title": "Bapatša ka Chatforia",
-      "description": "Fihlela bašomiši ba poledišano ba šomago ka go bea ka mokgwa o monate, o šireletšego bakeng sa brand. Re fana ka inventory ya banner mo mafelong a bonagalago kudu, sponsorships, le promos tša ka ntle. Bašomiši ba premium ga ba bone dipapatšo.",
-      "adsense": {
-        "withPubIdShort": "Re boetše re fana ka inventory ka Google AdSense. O ka lebisa Chatforia ka ID ya publisher {{pubId}}, goba šomiša foromo ka tlase bakeng sa sponsorships tša totilo.",
-        "noPubIdShort": "Re boetše re fana ka inventory e itseng ka Google AdSense. Sponsorships tša totilo di gona—šomiša foromo ka tlase."
-      },
-      "inventoryHeader": "Inventory & Dintlha",
-      "placement": {
-        "displayBadge": "Bontšha",
-        "acceptedSizes": "Bogolo bjo amogetšwego",
-        "adsenseSlot": "Slot ya AdSense:"
-      },
-      "noPlacementsPublic": "Re a fetsa inventory ya rona ya papatšo. Re tsebiše ka campaign ya gago gomme re tla go sisinya mafelo.",
-      "whyHeader": "Ke ka lebaka lang Chatforia?",
-      "why": {
-        "highSession": "Nako e telele ya session le go dula nako e telele mo UI ya poledišano",
-        "brandSafe": "Mafelo a šireletšego bakeng sa brand; go fokotsa lebelo ka mokgwa o hlomphegago",
-        "sponsoredMoments": "Metsotso e e sponsorego (mohl. “Thoma Poledišano” modal) e gona",
-        "deals": "Ditlase tša totilo goba programmatic ka AdSense/Google Ads"
-      },
-      "contactHeader": "Ikopanye",
-      "form": {
-        "submittedMsg": "Ke a leboga! Kgopelo ya gago e e tseleng. Re tla go araba ka morago ga nako e khutšo.",
-        "missingRequired": "Ka kgopelo tlatša leina, imeile, le molaetša.",
-        "successToast": "Ke a leboga! Re tla ikopanya le wena ka morago ga nako e khutšo.",
-        "mailtoInfo": "Go bula email client ya gago gore o romele kgopelo…",
-        "nameLabel": "Leina la gago",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "Imeile",
-        "emailPlaceholder": "you@company.com",
-        "companyLabel": "Khampani",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Tekanyetšo ya kgwedi (ka boikhethelo)",
-        "budgetPlaceholder": "mohl. $1,000–$20,000+",
-        "messageLabel": "Mpolele ka campaign ya gago",
-        "messagePlaceholder": "Go lebisa, matšatši, KPI, dikgetho tša go bea…",
-        "sendCta": "Romela kgopelo"
-      },
-      "legal": {
-        "disclaimerStart": "Ka go romela, o dumela",
-        "terms": "Melao",
-        "and": "le",
-        "privacy": "Pholisi ya Polokego"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
       }
     }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
+    },
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
+    },
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
+    },
+    "cta": {
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Kamoo Chatforia e Šomago ka gona",
+    "intro": "Chatforia e diretšwe go dira kgokagano e be bonolo...",
+    "step1Title": "1. Hlama Account",
+    "step1Desc": "Ngwadiša ka email goba username...",
+    "step2Title": "2. Thoma Poledišano",
+    "step2Desc": "Kgokagana le ba bangwe...",
+    "step3Title": "3. Melaetša ya Nako ya Nnete",
+    "step3Desc": "Melaetša e fihla ka pela...",
+    "step4Title": "4. Kgokagano ya Lefase",
+    "step4Desc": "Phetolelo e thuša badiriši...",
+    "step5Title": "5. Dula o Laola",
+    "step5Desc": "Laola dikgetho tša gago..."
+  },
+  "safety": {
+    "title": "Polokego le Melao ya Setšhaba",
+    "intro": "Chatforia e ikgafile go boloka tikologo e šireletšegilego...",
+    "respectTitle": "Poledišano ka Tlhompho",
+    "respectDesc": "Badiriši ba letetšwe go bolela ka tlhompho...",
+    "prohibitedTitle": "Dikagare tše di Thibetšwego",
+    "prohibited": {
+      "illegal": "Mediro ya go se be molaong",
+      "harassment": "Go hloriša goba go tshwenya",
+      "hate": "Polelo ya lehloyo goba kgethollo",
+      "explicit": "Dikagare tše di sa lokago",
+      "spam": "Spam goba mekgwa ya go foroga"
+    },
+    "toolsTitle": "Didirišwa tša Polokego ya Modiriši",
+    "tools": {
+      "report": "Begela maitshwaro a sa lokago",
+      "block": "Thibela badiriši",
+      "control": "Laola di-setting tša sephiri"
+    },
+    "enforcementTitle": "Tirišo ya Melao",
+    "enforcementDesc": "Re ka tšea magato kgahlanong le di-account..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Lebaka leo ka lona di-platform tša melaetša di le bohlokwa kudu",
+      "intro": "Di-platform tša melaetša di fetogile didirišwa tše bohlokwa kudu tša kgokagano lehono...",
+      "everydayTitle": "Kgokagano ya Letšatši le Letšatši",
+      "everydayDesc": "Batho ba ithekga ka di-app tša melaetša bakeng sa kgokagano ya letšatši le letšatši...",
+      "speedTitle": "Lebelo le Boiketlo",
+      "speedDesc": "Melaetša e romelwa ka pela...",
+      "globalTitle": "Phihlelelo ya Lefase ka Bophara",
+      "globalDesc": "Di-platform tše di kgokaganya batho lefaseng ka bophara...",
+      "privacyTitle": "Sephiri le Taolo",
+      "privacyDesc": "Di-platform tša sebjalebjale di fa badiriši taolo...",
+      "futureTitle": "Bokamoso bja Melaetša",
+      "futureDesc": "Melaetša e tšwela pele go fetoga ka dikarolo tše mpsha...",
+      "outro": "Chatforia e agilwe godimo ga melao ye..."
+    },
+    "global": {
+      "title": "Bokamoso bja Kgokagano ya Lefase",
+      "intro": "Kgokagano e fetogile ka lebelo...",
+      "barriersTitle": "Go Fediša Dithibelo",
+      "barriersDesc": "Batho ba ka kgokagana lefaseng ka bophara...",
+      "translationTitle": "Karolo ya Theknolotši ya Phetolelo",
+      "translationDesc": "Maleme e bile tšhitišo ka nako ye telele...",
+      "realtimeTitle": "Kgokagano ya Nako ya Nnete",
+      "realtimeDesc": "Lebelo le bohlokwa kudu...",
+      "privacyTitle": "Sephiri le Tšhireletšo",
+      "privacyDesc": "Badiriši ba nyaka kgodišo ya tšhireletšo...",
+      "futureTitle": "Se se Tla Latelago",
+      "futureDesc": "Bokamoso bja kgokagano bo tla akaretša...",
+      "outro": "Di-platform tša go swana le Chatforia ke karolo ya phetoho ye..."
+    },
+    "index": {
+      "title": "Blog ya Chatforia",
+      "intro": "Hlahloba dikgopolo tša kgokagano...",
+      "post1": "Mokgwa wa go Bolela ka Polokego Inthaneteng",
+      "post2": "Bokamoso bja Kgokagano ya Lefase",
+      "post3": "Lebaka leo di-platform tša melaetša di le bohlokwa"
+    },
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
+      },
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
+      },
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
+      },
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
+      },
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Ka ga Chatforia",
+    "description": "Chatforia ke sethala sa melaetša sa sebjalebjale se se diretšwego kgokagano e šireletšegilego ya maleme a mantši...",
+    "valuesTitle": "Dilo tše re di tšeago bohlokwa",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
+    },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Sephiri pele",
+    "privacyDesc": "Encryption e matla le di-setting tša sephiri tše di laolwago ke modiriši",
+    "accessTitle": "Phihlelelo ya bohle",
+    "accessDesc": "Phetolelo e akaretšago maleme a mantši",
+    "controlTitle": "Taolo",
+    "controlDesc": "Dikarolo tša go swana le melaetša e timelelago le di-read receipts"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
+    "why": {
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
+    },
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
+    },
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+    },
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
+    },
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
+    },
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
+    },
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+    },
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Pholisi ya Pusetšo ya Tšhelete",
+    "lastUpdated": "E mpshafaditšwe la:",
+    "intro": "Go Chatforia, re leka go fana ka tirelo ya maemo a godimo go badiriši ka moka. Pholisi ye e hlalosa maemo ao pusetšo ya tšhelete e ka newago.",
+    "subscriptions": {
+      "title": "Dingwadišo (Subscriptions)",
+      "body": "Dingwadišo di lefišwa pele gomme di tšwela pele ka nako ye e itšego. O ka di khansela nako efe goba efe ka di-setting tša account ya gago goba platform ye o rekilego ka yona."
+    },
+    "eligibility": {
+      "title": "Maleba a Pusetšo",
+      "body": "Pusetšo ya tšhelete e ka fiwa ge go na le ditefelo tše pedi, diphošo tša tefelo, goba mathata a thekniki ao a thibelago phihlelelo ya ditshebeletšo tše di lefelwago. Dikgopelo ka moka di lekolwa ka bonngwe."
+    },
+    "nonRefundable": {
+      "title": "Tše di sa Busetšwego",
+      "body": "Ka kakaretšo, ga re bušetše tšhelete bakeng sa nako ye e sa dirišwago, dikarolo tša dingwadišo, goba ge o sa khansela pele ga nako ya go mpshafatša."
+    },
+    "thirdParty": {
+      "title": "Ditšhebeletšo tša Batho ba Boraro",
+      "body": "Ge o rekile ka platform ya motho wa boraro bjalo ka Apple App Store, o swanetše go kgopela pusetšo ka kotlološo go bona."
+    },
+    "contact": {
+      "title": "Ikgokaganye le Rena",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
+    },
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
+    },
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
+    },
+    "help": {
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
+    },
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

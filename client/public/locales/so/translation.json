@@ -7,10 +7,24 @@
     "cancelAria": "Jooji",
     "copy": "Koobi",
     "copied": "La koobiyey!",
-    "errorWithMessage": "Qalad: {{message}}"
+    "errorWithMessage": "Qalad: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "U gudub qaybta ugu muhiimsan"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Keydka furaha la sameeyey oo la soo dejiyey ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "Dooro fayl oo geli erayga sirta ah.",
     "imported": "Furaha gaarka ah waxaa loo soo dejiyey qalabkan. Hadda waad akhriyi kartaa fariimaha hore.",
     "enterPassword": "Geli erayga sirta ah ee akoontigaaga si aan u keydinno furayaashaaga si ammaan ah."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Farriimaha ammaanka ah ee qof kasta, meel kasta",
@@ -88,7 +198,19 @@
       "passwordDescription": "Ugu yaraan 6 xaraf. Isticmaal eray sir ah oo xoog badan oo gaar ah.",
       "smsConsent": "Markaad samayso akoon, waxaad ogolaatay inaad hesho ogeysiisyo SMS ah oo la xidhiidha hawshaada Chatforia (sida farriimaha uga yimaada isticmaalayaasha kale). Qiimaha farriinta & xogta ayaa laga yaabaa inay khusayso. Waad joojin kartaa wakhti kasta Settings.",
       "termsLink": "Shuruucda Adeegga",
-      "privacyLink": "Siyaasadda Asturnaanta"
+      "privacyLink": "Siyaasadda Asturnaanta",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "Ku:",
     "enterRecipient": "Geli magac ama lambar",
@@ -99,11 +221,95 @@
     "addRecipient": "Ku dar qof la xidhiidhinayo kor si aad u bilowdo…",
     "oneRecipient": "Fadlan geli hal qof la xidhiidhinayo hadda.",
     "enterValidRecipient": "Geli magac xidhiidh la xidhiidha ama lambar taleefan.",
-    "sendFailed": "Diriddu way fashilantay. Hubi console si aad u aragto faahfaahin."
+    "sendFailed": "Diriddu way fashilantay. Hubi console si aad u aragto faahfaahin.",
+    "logIn": "Gal",
+    "seePlans": "Eeg qorshayaasha & qiimaha",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "Markaad samayso akoon, waxaad ogolaatay inaad hesho ogeysiisyo SMS ah oo la xidhiidha hawshaada Chatforia (sida farriimaha uga yimaada isticmaalayaasha kale). Qiimaha farriinta & xogta ayaa laga yaabaa inay khusayso. Waad joojin kartaa wakhti kasta Settings.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Guriga",
-    "header": "Farriimahaaga",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "Dir farriin si aad u bilowdo sheekaysi.",
     "sendButton": "Dir farriin",
     "gifPicker": "Fur GIF picker",
@@ -114,226 +320,31 @@
     "sendTooltip": "Dir",
     "sendTooltipEmpty": "Qor farriin si aad u dirto",
     "send": "Dir",
+    "welcomeMessage": "Soo dhowow Chatforia",
+    "getStarted": "Bilow",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "Geli magac ama lambar",
     "addRecipient": "Ku dar qof qaataha ah korka si aad u bilowdo…",
-    "welcomeMessage": "Soo dhowow Chatforia",
-    "getStarted": "Bilow"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Siyaasadda Lacag Celinta",
-    "lastUpdated": "La cusboonaysiiyay:",
-    "intro": "Chatforia waxaan ku dadaaleynaa inaan bixino adeeg tayo sare leh dhammaan isticmaaleyaasha. Siyaasaddan lacag celinta waxay qeexaysaa xaaladaha lacag celin la bixin karo.",
-    "subscriptions": {
-      "title": "Isdiiwaangelinta",
-      "body": "Isdiiwaangelinta waxaa lagu dallacaa horay oo si joogto ah. Waxaad joojin kartaa wakhti kasta adiga oo isticmaalaya dejimaha akoonkaaga ama madasha aad ka iibsatay."
-    },
-    "eligibility": {
-      "title": "U-qalmitaanka Lacag Celinta",
-      "body": "Lacag celin waa la bixin karaa haddii ay jiraan lacag-bixinno labanlaab ah, khaladaad biil, ama dhibaatooyin farsamo oo kaa hor istaaga isticmaalka adeegyada lacagta leh. Codsi kasta si gaar ah ayaa loo qiimeeyaa."
-    },
-    "nonRefundable": {
-      "title": "Aan Lacag Loo Celin Karin",
-      "body": "Caadiyan ma bixino lacag celin waqtiga aan la isticmaalin, muddada qayb ka mid ah ee isdiiwaangelinta, ama haddii aan la joojin ka hor cusboonaysiinta."
-    },
-    "thirdParty": {
-      "title": "Iibsiyada Qolo Saddexaad",
-      "body": "Haddii aad ka iibsatay madal saddexaad sida Apple App Store, lacag celinta waa in si toos ah looga codsadaa madashaas."
-    },
-    "contact": {
-      "title": "La Xiriir",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Ku Saabsan Chatforia",
-    "description": "Chatforia waa madal fariin casri ah oo loogu talagalay isgaarsiin ammaan ah oo luqado badan leh...",
-    "valuesTitle": "Waxa aan qiimeyno",
-    "privacyTitle": "Asturnaanta Marka Hore",
-    "privacyDesc": "Sir adag iyo dejimo asturnaan oo uu isticmaalehu xakameeyo",
-    "accessTitle": "Helitaan Qof Walba",
-    "accessDesc": "Turjumaad ku dhex jirta luqado badan",
-    "controlTitle": "Xakamayn",
-    "controlDesc": "Astaamo sida fariimo baaba’a iyo ogeysiisyada akhriska"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Sababta Madalaha Fariimaha ay Muhiim u Yihiin",
-      "intro": "Madalaha fariimaha ayaa noqday aaladaha ugu muhiimsan ee isgaarsiinta maanta...",
-      "everydayTitle": "Isgaarsiinta Maalinlaha",
-      "everydayDesc": "Dadku waxay ku tiirsan yihiin apps fariimo maalin kasta...",
-      "speedTitle": "Xawaare iyo Fududeyn",
-      "speedDesc": "Fariimaha si degdeg ah ayaa loo gudbiyaa...",
-      "globalTitle": "Gaaritaan Caalami ah",
-      "globalDesc": "Madalaha fariimaha waxay isku xiraan dadka caalamka oo dhan...",
-      "privacyTitle": "Asturnaanta iyo Xakamaynta",
-      "privacyDesc": "Madalaha casriga ah waxay siiyaan isticmaaleyaasha xakamayn...",
-      "futureTitle": "Mustaqbalka Fariimaha",
-      "futureDesc": "Fariimuhu waxay sii wadaan inay horumaraan...",
-      "outro": "Chatforia waxaa lagu dhisay mabda’adan..."
-    },
-
-    "global": {
-      "title": "Mustaqbalka Isgaarsiinta Caalamiga ah",
-      "intro": "Isgaarsiintu si degdeg ah ayay u horumartay...",
-      "barriersTitle": "Ka Gudbidda Caqabadaha",
-      "barriersDesc": "Dadku hadda way isku xiri karaan meel kasta...",
-      "translationTitle": "Doorka Turjumaadda",
-      "translationDesc": "Luqaddu waxay ahayd caqabad hore...",
-      "realtimeTitle": "Xiriir Wakhti Dhab ah",
-      "realtimeDesc": "Xawaaruhu waa arrin muhiim ah...",
-      "privacyTitle": "Asturnaanta iyo Amniga",
-      "privacyDesc": "Isticmaaleyaashu waxay rabaan kalsooni...",
-      "futureTitle": "Maxaa Xiga",
-      "futureDesc": "Mustaqbalka isgaarsiinta waxaa ku jiri doona...",
-      "outro": "Madalaha sida Chatforia waa qayb ka mid ah isbeddelkan..."
-    },
-
-    "index": {
-      "title": "Blog-ga Chatforia",
-      "intro": "Soo ogow fikrado ku saabsan isgaarsiinta...",
-      "post1": "Sida Loogu Sheekeysto Si Ammaan ah",
-      "post2": "Mustaqbalka Isgaarsiinta Caalamiga ah",
-      "post3": "Sababta Madalaha Fariimaha ay Muhiim u Yihiin"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Sida Chatforia u Shaqeyso",
-    "intro": "Chatforia waxaa loo qaabeeyay inay ka dhigto isgaarsiinta mid fudud...",
-    "step1Title": "1. Samee Akoon",
-    "step1Desc": "Isdiiwaangeli adiga oo isticmaalaya email ama username...",
-    "step2Title": "2. Bilow Wadahadal",
-    "step2Desc": "La xiriir dadka kale...",
-    "step3Title": "3. Fariimo Degdeg ah",
-    "step3Desc": "Fariimaha si dhaqso leh ayaa loo diraa...",
-    "step4Title": "4. Isgaarsiin Caalami ah",
-    "step4Desc": "Turjumaaddu waxay caawisaa isticmaaleyaasha...",
-    "step5Title": "5. Xakamee Doorashadaada",
-    "step5Desc": "Maamul dejimahaaga..."
-  },
-
-  "safety": {
-    "title": "Badbaado & Xeerarka Bulshada",
-    "intro": "Chatforia waxay ka go’an tahay inay ilaaliso deegaan ammaan ah...",
-    "respectTitle": "Isgaarsiin Ixtiraam leh",
-    "respectDesc": "Isticmaaleyaasha waxaa laga filayaa inay si ixtiraam leh ula xiriiraan...",
-    "prohibitedTitle": "Waxyaabaha Mamnuuca ah",
-    "prohibited": {
-      "illegal": "Falal sharci darro ah",
-      "harassment": "Dhibaateyn ama cagajugleyn",
-      "hate": "Nacayb ama takoor",
-      "explicit": "Waxyaabo aan habboonayn ama waxyeello leh",
-      "spam": "Spam ama khiyaano"
-    },
-    "toolsTitle": "Qalabka Badbaadada",
-    "tools": {
-      "report": "Soo sheeg dhaqan aan habboonayn",
-      "block": "Xannib isticmaaleyaasha",
-      "control": "Maamul dejimaha asturnaanta"
-    },
-    "enforcementTitle": "Fulinta",
-    "enforcementDesc": "Waxaan qaadi karnaa tallaabo ka dhan ah akoonnada..."
-},
-  "chat": {
-    "selectPrompt": "Dooro qoraal ama qol sheekaysi si aad u bilowdo sheekaysi",
-    "newMessages": "Farriimo cusub",
-    "typing": "{{name}} ayaa qoraya...",
-    "emptyTitle": "Farriimahaaga",
-    "emptySubtitle": "Dir farriin si aad u bilowdo sheekaysi.",
-    "startChatButton": "Dir farriin",
-    "mediaAttachment": "Lifaaq warbaahin",
-    "thisUser": "isticmaalahan",
-    "blockConfirm": "Xannib {{name}}? Ma heli doontid farriimo iyaga ka yimaada.",
-    "blockedUser": "La xannibay {{name}}.",
-    "blockError": "Lama go'aamin karin isticmaale la xannibo.",
-    "blockFailed": "Xannibidu way fashilantay (backend lama xidhin weli).",
-    "encryptedUnavailable": "Farriin qarsoon (furaha lama heli karo)",
-    "unlockToView": "Fur furahaaga si aad u aragto farriintan"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Dami"
-    },
-    "freeLimit": "Xadka qorshaha bilaashka ah: si otomaatig ah u tirtir ilaa 1 maalin. La xidhay 1d.",
-    "premiumLimit": "Ugu badnaan tirtir otomaatig ah ee Premium waa 30 maalmood. La xidhay 30d.",
-    "nothingToSend": "Qor farriin ama ku lifaaq fayl si aad u dirto.",
-    "encryptionFailed": "Qarsoodintu way fashilantay. Farriinta lama dirin.",
-    "sent": "Farriinta la gaadhsiiyey.",
-    "placeholder": "Qor farriin…",
-    "voiceAdded": "Fariin cod ah ayaa lagu daray",
-    "attachmentAdded": "Lifaaq ayaa lagu daray",
-    "autoDelete": "Si otomaatig ah u tirtir",
-    "typeToSend": "Qor farriin si aad u dirto",
-    "send": "Dir",
-    "sendWithEnter": "Dir (Enter)",
-    "attachment": "lifaaq",
-    "caption": "Qoraal sharrax ah (ikhtiyaari)",
-    "remove": "Ka saar",
-    "clear": "Nadiifi",
-    "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Lifaaqu aad buu u weyn yahay. Isku day fayl yar.",
-      "unsupportedFile": "Nooca faylka lama taageero.",
-      "rateLimit": "Aad baad u diraysaa farriimo si degdeg ah. Fadlan yara gaabis.",
-      "validation": "Qalad xaqiijin. Fadlan hubi farriintaada oo isku day mar kale.",
-      "failedToSend": "Diriddu way fashilantay. Waad isku dayi kartaa xumbada fashilantay."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Xidhiidhada la keydiyey",
-    "refreshAria": "Cusboonaysii xidhiidhada",
-    "filterPlaceholder": "Filter xidhiidhada la keydiyey…",
-    "filterAria": "Filter xidhiidhada la keydiyey",
-    "noContactsFound": "Xidhiidho lama helin.",
-    "externalContact": "Xidhiidh dibadda ah",
-    "notJoined": "Xidhiidhkaas weli kuma biirin Chatforia.",
-    "couldNotStart": "Lama bilaabi karin sheekaysiga. Fadlan isku day mar kale.",
-    "startFailed": "Bilaabidda sheekaysigu way fashilantay. Fadlan isku day mar kale.",
-    "deleted": "Xidhiidhka la tirtiray.",
-    "deleteFailed": "Tirtiridda xidhiidhku way fashilantay. Fadlan isku day mar kale.",
-    "aliasUpdated": "Alias la cusboonaysiiyey.",
-    "updateAliasFailed": "Cusboonaysiinta alias way fashilantay. Fadlan isku day mar kale.",
-    "selectContact": "Dooro {{name}}",
-    "alias": "Alias",
-    "startChat": "Bilow sheekaysi",
-    "message": "Farriin",
-    "delete": "Tirtir",
-    "deleteContactAria": "Tirtir xidhiidhka",
-    "loadFailed": "Ku guuldareystay in la soo raro xidhiidhada. Fadlan isku day mar kale.",
-    "loadMore": "Soo rar wax badan",
-    "call": "Wac",
-    "callStarted": "Loo wacayo lambarkan iyadoo la adeegsanayo lambarkaaga Chatforia…",
-    "callFailed": "Wicitaanku way fashilantay. Fadlan isku day mar kale."
-  },
-  "startChatModal": {
-    "title": "Bilow sheekaysi",
-    "searchPlaceholder": "Raadi magac, magaca isticmaalaha, ama lambar taleefan",
-    "messageThisPerson": "U dir farriin qofkan",
-    "contacts": "Xidhiidhada",
-    "recentInteractions": "Is dhexgalka dhowaan",
-    "noContactsMatch": "Xidhiidho kuma habboona raadintaada.",
-    "noRecentInteractions": "Weli ma jiraan is dhexgal dhowaan ah.",
-    "unknown": "Lama yaqaan",
-    "interactionType": {
-      "message": "Farriin",
-      "call": "Wicitaan",
-      "video": "Muuqaal"
-    }
-  },
-  "addContactModal": {
-    "title": "Ku dar xidhiidh",
-    "phoneOrUsername": "Taleefan ama magaca isticmaalaha",
-    "phoneOrUsernamePlaceholder": "tusaale +13018019227 ama juliannorton",
-    "alias": "Alias (ikhtiyaari)",
-    "aliasPlaceholder": "tusaale Shaqo, Hooyo, Mike – Europe",
-    "enterPhoneOrUsername": "Geli lambar taleefan ama magaca isticmaalaha.",
-    "userLookupFailed": "Raadinta isticmaaluhu way fashilantay.",
-    "cannotAddSelf": "Ma ku dari kartid naftaada xidhiidh ahaan.",
-    "failedToAdd": "Ku daridda xidhiidhku way fashilantay.",
-    "add": "Ku dar"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Sheekaysi Random",
@@ -357,13 +368,151 @@
     "startChatAlt": "Bilow sheekaysi cusub",
     "calls": "Wicitaano",
     "video": "Muuqaal",
-    "voicemail": "Voicemail"
+    "voicemail": "Voicemail",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Xaalad cusub",
     "logout": "Ka bax",
     "help": "Caawimo",
     "createStatusAria": "Samee xaalad cusub"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Dooro qoraal ama qol sheekaysi si aad u bilowdo sheekaysi",
+    "newMessages": "Farriimo cusub",
+    "typing": "{{name}} ayaa qoraya...",
+    "emptyTitle": "Farriimahaaga",
+    "emptySubtitle": "Dir farriin si aad u bilowdo sheekaysi.",
+    "startChatButton": "Dir farriin",
+    "mediaAttachment": "Lifaaq warbaahin",
+    "thisUser": "isticmaalahan",
+    "blockConfirm": "Xannib {{name}}? Ma heli doontid farriimo iyaga ka yimaada.",
+    "blockedUser": "La xannibay {{name}}.",
+    "blockError": "Lama go'aamin karin isticmaale la xannibo.",
+    "blockFailed": "Xannibidu way fashilantay (backend lama xidhin weli).",
+    "encryptedUnavailable": "Farriin qarsoon (furaha lama heli karo)",
+    "unlockToView": "Fur furahaaga si aad u aragto farriintan",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Dami"
+    },
+    "freeLimit": "Xadka qorshaha bilaashka ah: si otomaatig ah u tirtir ilaa 1 maalin. La xidhay 1d.",
+    "premiumLimit": "Ugu badnaan tirtir otomaatig ah ee Premium waa 30 maalmood. La xidhay 30d.",
+    "nothingToSend": "Qor farriin ama ku lifaaq fayl si aad u dirto.",
+    "encryptionFailed": "Qarsoodintu way fashilantay. Farriinta lama dirin.",
+    "sent": "Farriinta la gaadhsiiyey.",
+    "placeholder": "Qor farriin…",
+    "autoDelete": "Si otomaatig ah u tirtir",
+    "typeToSend": "Qor farriin si aad u dirto",
+    "send": "Dir",
+    "sendWithEnter": "Dir (Enter)",
+    "attachment": "lifaaq",
+    "caption": "Qoraal sharrax ah (ikhtiyaari)",
+    "remove": "Ka saar",
+    "clear": "Nadiifi",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Lifaaqu aad buu u weyn yahay. Isku day fayl yar.",
+      "unsupportedFile": "Nooca faylka lama taageero.",
+      "rateLimit": "Aad baad u diraysaa farriimo si degdeg ah. Fadlan yara gaabis.",
+      "validation": "Qalad xaqiijin. Fadlan hubi farriintaada oo isku day mar kale.",
+      "failedToSend": "Diriddu way fashilantay. Waad isku dayi kartaa xumbada fashilantay.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Fariin cod ah ayaa lagu daray"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Menu sheekaysiga",
@@ -379,8 +528,6 @@
     "invitePeople": "Ku martiqaad dadka",
     "roomSettings": "Dejinta qolka",
     "clearConversation": "Nadiifi wada sheekaysiga",
-    "clearConversationForMe": "Aniga ii nadiifi",
-    "clearConversationForEveryone": "Qof walba u nadiifi",
     "block": "Xannib"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "Kaliya calaamadeeyey (/tr …)",
       "all": "Dhammaan farriimaha"
     },
-    "updated": "Dejinta la cusboonaysiiyey"
+    "updated": "Dejinta la cusboonaysiiyey",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Warbaahin la wadaagay",
@@ -477,6 +635,110 @@
     "markRead": "Calaamee in la akhriyey",
     "delete": "Tirtir",
     "unreadDotAria": "Tilmaame voicemail aan la akhriyin"
+  },
+  "contactList": {
+    "savedContacts": "Xidhiidhada la keydiyey",
+    "refreshAria": "Cusboonaysii xidhiidhada",
+    "filterPlaceholder": "Filter xidhiidhada la keydiyey…",
+    "filterAria": "Filter xidhiidhada la keydiyey",
+    "noContactsFound": "Xidhiidho lama helin.",
+    "externalContact": "Xidhiidh dibadda ah",
+    "notJoined": "Xidhiidhkaas weli kuma biirin Chatforia.",
+    "couldNotStart": "Lama bilaabi karin sheekaysiga. Fadlan isku day mar kale.",
+    "startFailed": "Bilaabidda sheekaysigu way fashilantay. Fadlan isku day mar kale.",
+    "deleted": "Xidhiidhka la tirtiray.",
+    "deleteFailed": "Tirtiridda xidhiidhku way fashilantay. Fadlan isku day mar kale.",
+    "aliasUpdated": "Alias la cusboonaysiiyey.",
+    "updateAliasFailed": "Cusboonaysiinta alias way fashilantay. Fadlan isku day mar kale.",
+    "selectContact": "Dooro {{name}}",
+    "alias": "Alias",
+    "startChat": "Bilow sheekaysi",
+    "message": "Farriin",
+    "delete": "Tirtir",
+    "deleteContactAria": "Tirtir xidhiidhka",
+    "loadFailed": "Ku guuldareystay in la soo raro xidhiidhada. Fadlan isku day mar kale.",
+    "loadMore": "Soo rar wax badan",
+    "call": "Wac",
+    "callStarted": "Loo wacayo lambarkan iyadoo la adeegsanayo lambarkaaga Chatforia…",
+    "callFailed": "Wicitaanku way fashilantay. Fadlan isku day mar kale.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Ku dar xidhiidh",
+    "phoneOrUsername": "Taleefan ama magaca isticmaalaha",
+    "phoneOrUsernamePlaceholder": "tusaale +13018019227 ama juliannorton",
+    "alias": "Alias (ikhtiyaari)",
+    "aliasPlaceholder": "tusaale Shaqo, Hooyo, Mike – Europe",
+    "enterPhoneOrUsername": "Geli lambar taleefan ama magaca isticmaalaha.",
+    "userLookupFailed": "Raadinta isticmaaluhu way fashilantay.",
+    "cannotAddSelf": "Ma ku dari kartid naftaada xidhiidh ahaan.",
+    "failedToAdd": "Ku daridda xidhiidhku way fashilantay.",
+    "add": "Ku dar"
+  },
+  "startChatModal": {
+    "title": "Bilow sheekaysi",
+    "searchPlaceholder": "Raadi magac, magaca isticmaalaha, ama lambar taleefan",
+    "messageThisPerson": "U dir farriin qofkan",
+    "contacts": "Xidhiidhada",
+    "recentInteractions": "Is dhexgalka dhowaan",
+    "noContactsMatch": "Xidhiidho kuma habboona raadintaada.",
+    "noRecentInteractions": "Weli ma jiraan is dhexgal dhowaan ah.",
+    "unknown": "Lama yaqaan",
+    "interactionType": {
+      "message": "Farriin",
+      "call": "Wicitaan",
+      "video": "Muuqaal"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "Profile Isticmaale",
@@ -614,13 +876,167 @@
     "voicemailNote": "Voicemail-ka lambarradaada Chatforia waxaa lagu kaydin doonaa sanduuqaaga Voicemail. Waad daarikartaa qoraal iyo forwarding qorshayaasha la taageero.",
     "portHint": "Ma doonaysaa inaad haysto lambarkaaga hadda? Waad u gudbin kartaa Chatforia Wireless.",
     "wireless": {
-      "manage": "Maamul wireless"
+      "manage": "Maamul wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Profile Isticmaale",
       "desc": "Hel xog mobile ah Chatforia markaad ka maqn tahay Wi-Fi.",
-      "cta": "Hel eSIM / Muuji QR"
-    }
+      "cta": "Hel eSIM / Muuji QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -672,7 +1088,685 @@
     "expiresIn": "Dhammaato {{days}} maalmood gudahood",
     "exhausted": "Xogtaadu way dhammaatay. Iibso xirmo cusub si aad u sii waddo isticmaalka xogta mobile.",
     "buyPack": "Iibso xirmo xog ah",
-    "esimPackLabel": "xirmo eSIM"
+    "esimPackLabel": "xirmo eSIM",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "Loo rarayo…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Ku bax Premium",
+    "description": "Fur astaamo awood leh & ka saar xayeysiisyada.",
+    "cta": "Casriyeen",
+    "upgrade": "Casriyeen",
+    "upgradeAria": "Casriyeen Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "Casriyeen",
+    "titleLoggedIn": "Casriyeen",
+    "titlePublic": "Qiimaha",
+    "h1": "Qiimaha & Qorshayaasha Chatforia",
+    "h1Subtitle": "Ku bilow qorshahaaga bilaashka ah ee xayeysiiska leh. Noqo xayeysiis la'aan Plus, ama fur astaamo awood buuxa leh Premium.",
+    "subtitle": "Dooro qorshe app, ku dar xirmooyin xog ah naftaada, ama la wadaag xogta qoyskaaga — dhammaan hal meel.",
+    "subtitle.app": "Ku bilow qorshahaaga bilaashka ah ee xayeysiiska leh. Noqo xayeysiis la'aan Plus, ama fur astaamo awood buuxa leh Premium.",
+    "subtitle.mobile": "Ku dar xog eSIM caalami ah si Chatforia u sii shaqeyso xitaa markaad ka maqn tahay Wi-Fi.",
+    "subtitle.family": "Samee barkad xog la wadaagto qoyskaaga oo maamul isticmaalka qof walba hal meel.",
+    "perMonth": "bil",
+    "perYear": "sannad",
+    "goPremium": "Ku bax Premium",
+    "benefitsLine": "Fur astaamo awood leh & ka saar xayeysiisyada.",
+    "ctaText": "Casriyeen",
+    "aria": "Casriyeen Chatforia Premium",
+    "toggle": {
+      "monthly": "Bishii",
+      "annual": "Sannadle (Keydso 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Rukunka wuxuu dhammaanayaa",
+      "body": "Waxaad ku noqon doontaa Bilaash",
+      "keepPlanCta": "Hayso {{plan}}",
+      "manageBillingCta": "Maamul lacag-bixinta"
+    },
+    "billing": {
+      "opening": "Loo furayo…",
+      "manage": "Maamul Lacag-bixinta"
+    },
+    "checkout": {
+      "redirecting": "loo wareejinayo…"
+    },
+    "auth": {
+      "continue": "Sii wad galitaanka",
+      "createAccount": "Samee akoon",
+      "signIn": "Gal"
+    },
+    "cta": {
+      "aria": "Dooro qorshe",
+      "getPlus": "Casriyeen Plus",
+      "upgradeMonthly": "Casriyeen Bishii",
+      "upgradeAnnual": "Casriyeen Sannadle",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "Qorshayaasha app",
+      "mobile": "Ku dar xog eSIM caalami ah si Chatforia u sii shaqeyso xitaa markaad ka maqn tahay Wi-Fi.",
+      "family": "Qorshayaasha qoyska"
+    },
+    "plans": {
+      "free": {
+        "title": "Bilaash",
+        "price": "$0",
+        "desc": "Ku bilow farriimaha bilaash. Ku habboon haddii aad kaliya tijaabinayso Chatforia.",
+        "features": {
+          "chat": "Sheekaysi 1:1 iyo koox waqti-dhab ah, oo ay ku jiraan wicitaano cod iyo muuqaal",
+          "media": "La wadaag sawirro, farriimo cod, iyo muuqaallo gaagaaban",
+          "ai": "Jawaabo smart oo AI ku shaqeeya iyo tarjumaad degdeg ah (isticmaal macquul ah)",
+          "disappearing": "Fariimo baaba’aya iyo xakamaynta asturnaanta aasaasiga ah",
+          "ads": "Bilaash weligeed oo leh xayeysiisyo app-ka dhexdiisa"
+        },
+        "ctaCurrent": "Qorshaha hadda",
+        "ctaManage": "Maamul lacag-bixinta",
+        "ctaPublic": "Bilow – sii wad galitaanka",
+        "aria": "Qorshaha bilaashka ah"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Dhammaan muhiimka ah, xayeysiis la'aan. Ku habboon farriimaha iyo wicitaannada maalinlaha ah.",
+        "features": {
+          "allFree": "Wax kasta oo Bilaash ah, xayeysiis la'aan",
+          "forwarding": "U gudbi wicitaannada iyo farriimaha lambarkaaga taleefan dhab ah",
+          "history": "Taariikh farriin dheer (ilaa 6 bilood)",
+          "support": "Taageero degdeg ah marka wax khaldan yihiin"
+        },
+        "badge": "Caanka ah",
+        "cta": "Noqo Xayeysiis La'aan",
+        "ctaPublic": "Hel Plus – sii wad galitaanka",
+        "aria": "Casriyeen Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Bishii)",
+        "price": "$11.99",
+        "desc": "Khibradda Chatforia buuxda: Qalabyada AI, habaynta, iyo taageero mudnaan leh.",
+        "features": {
+          "plusAll": "Wax kasta oo Plus ah",
+          "themes": "Fur dhammaan mawduucyada midabka premium iyo habaynta app",
+          "ai": "Qalabyada AI ee Premium-kaliya ee dib-u-qorista, jawaabaha smart, iyo koobitaannada",
+          "support": "Taageero mudnaan leh marka aad u baahan tahay caawimo ugu badan",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "La talinayaa",
+        "cta": "Casriyeen (Bishii)",
+        "ctaPublic": "Fur Premium – sii wad galitaanka",
+        "aria": "Casriyeen Premium Bishii"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Sannadle)",
+        "price": "$99",
+        "desc": "Keydso in badan marka la bixiyo sannadkii — oo ay ku jiraan mawduucyo midab dheeraad ah, qalabyada AI, iyo taageero mudnaan leh.",
+        "features": {
+          "allPremium": "Wax kasta oo Premium Bishii ah — oo ay ku jiraan mawduucyo midab dheeraad ah",
+          "annualBilling": "Hal mar sannadkii la bixiyaa",
+          "save25": "Keydso qiyaastii 30% marka loo eego bixinta bishii",
+          "bestFor": "Ku habboon isticmaalayaasha xoogga leh, shaqaalaha fog, iyo socdaalayaasha culus",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Keydso 30%",
+        "cta": "Casriyeen (Sannadle)",
+        "ctaPublic": "Keydso 30% sannadle – sii wad galitaanka",
+        "aria": "Casriyeen Premium Sannadle",
+        "disclaimer": "Hal mar la bixiyaa. Jooji wakhti kasta. Ma jiraan khidado qarsoon."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Bilaash",
+      "freeDesc": "Ku bilow farriimaha bilaash.",
+      "plusTitle": "Plus",
+      "plusBadge": "Caanka ah",
+      "plusDesc": "Khibradda xayeysiis-la'aanta ah ee ugu jaban.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Astaamo buuxa, dhawaaqyo, iyo qalabyada AI.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Keydso in badan marka la bixiyo sannadkii.",
+      "annualDisclaimer": "Hal mar la bixiyaa. Jooji wakhti kasta. Ma jiraan khidado qarsoon."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (xirmooyinka xogta eSIM)",
+      "subtitle": "Ku dar xog caalami ah si Chatforia u sii shaqeyso xitaa iyadoo aan Wi-Fi lahayn. Qiimaha si otomaatig ah ayuu u isbeddelaa iyadoo lagu saleynayo waddankaaga iyo lacagtaada.",
+      "subtitle.detail": "Dooro xirmo xog caalami ah oo hal mar ah si Chatforia u sii shaqeyso markaad socoto ama ka maqan tahay Wi-Fi.",
+      "scope": {
+        "local": "Maxalli",
+        "europe": "Europe",
+        "global": "Caalami",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "Maxalli = {{country}}",
+      "localEqualsFallback": "Maxalli = waddankaaga hadda",
+      "perPack": "/ xirmo",
+      "cta": "Hel xirmadan xogta",
+      "ctaPublic": "Hel xirmadan xogta",
+      "checkout": {
+        "redirecting": "loo wareejinayo…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Xog xawaare sare leh oo loogu talagalay isticmaalka culus",
+          "throttle": "Xawaaruhu wuu yara dhimi karaa ka dib isticmaalka sare",
+          "coverage": "Daboolid la isku halleyn karo",
+          "instant": "Dhaqaajin eSIM degdeg ah",
+          "noContract": "Xirmo hal mar ah, qandaraas la'aan"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "Xirmooyinka xogta eSIM waxay u baahan yihiin qalab eSIM-ku-habboon oo la furay. Helitaanku wuxuu ku kala duwan yahay nooca taleefanka, shirkadda, iyo waddanka. Daboolidda iyo xawaaruhu way ku kala duwan yihiin gobolka.",
+        "fairUse": "Ku xidhan siyaasadda isticmaalka macquulka ah iyo xadka maxalliga ah"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "Is barbar dhig xirmooyinka xogta eSIM",
+        "col": {
+          "pack": "Xirmo",
+          "data": "Xogta ku jirta",
+          "bestFor": "Ku habboon"
+        },
+        "disclaimer": "Isticmaalka xogta dhabta ah waxay ku xidhan tahay sida aad u isticmaasho Chatforia (cod, muuqaal, warbaahin, iyo app-yada kale ee taleefankaaga)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Qiimaha ugu fiican GB kasta"
+      },
+      "feature": {
+        "instant": "Dhaqaajin eSIM degdeg ah",
+        "coverage": "Daboolid la isku halleyn karo",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Maxalli",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Europe",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Caalami",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Xirmo bilow ah",
+        "data": "3 GB",
+        "bestFor": "Safarro gaagaaban, farriimo fudud, iyo wicitaanno marmar ah"
+      },
+      "medium": {
+        "title": "Xirmo socdaale",
+        "data": "5 GB",
+        "bestFor": "Safarro dhammaadka toddobaadka, wicitaanno VoIP caadi ah, iyo khariidado"
+      },
+      "large": {
+        "title": "Xirmo awood leh",
+        "data": "10 GB",
+        "bestFor": "Sheekaysi culus, wicitaanno, muuqaal, iyo isticmaalka hotspot"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Qoyska Chatforia (xog la wadaagto)",
+      "subtitle": "La wadaag barkad xog hal ah qoyskaaga. Hal biil, akoonno Chatforia badan, daboolid caalami ah.",
+      "perPack": "/ xirmo",
+      "small": {
+        "title": "Qoyska Yaryar",
+        "desc": "Waxaa ku jira 20 GB xog xawaare sare leh oo la wadaago — ku habboon 2–3 isticmaaleyaal fudud.",
+        "price": "$29.99",
+        "aria": "Iibso xirmo Qoyska Yaryar"
+      },
+      "medium": {
+        "title": "Qoyska Dhexdhexaad",
+        "desc": "Waxaa ku jira 40 GB xog xawaare sare leh oo la wadaago — ku habboon 3–5 xubnood firfircoon.",
+        "price": "$49.99",
+        "aria": "Iibso xirmo Qoyska Dhexdhexaad"
+      },
+      "large": {
+        "title": "Qoyska Weyn",
+        "desc": "Waxaa ku jira 80 GB xog xawaare sare leh oo la wadaago — loogu talagalay qoysaska awoodda leh ee had iyo jeer online ah.",
+        "price": "$84.99",
+        "aria": "Iibso xirmo Qoyska Weyn"
+      },
+      "feature": {
+        "shared": "Barkadda xogta la wadaagto ee qoyskaaga",
+        "members": "Ku martiqaad ilaa 4 xubnood oo dheeraad ah",
+        "membersMore": "Ku habboon 3–5 xubnood firfircoon",
+        "manage": "Maamul xadka xubin kasta",
+        "topUp": "Ku dar xirmooyin dheeraad ah wakhti kasta",
+        "bestValue": "Qiimaha ugu fiican GB kasta",
+        "fairUse": "Ku xidhan siyaasadda isticmaalka macquulka ah iyo xadka maxalliga ah"
+      },
+      "disclaimer": "Xirmooyinka qoyska waxay abuuraan ama buuxiyaan barkad xog la wadaagto. Waad martiqaadi kartaa oo ka saari kartaa xubnaha wakhti kasta.",
+      "footnote": "Xirmooyinka qoyska waxay la wadaagaan barkad xog hal ah akoonnada Chatforia ee xidhan. Helitaanka iyo xadku waxay ku xidhan yihiin waddankaaga iyo xeerarka maxalliga ah."
+    },
+    "why": {
+      "title": "Sababta dadku u beddelaan Chatforia",
+      "subtitle": "Chatforia waxay ku siinaysaa lambar taleefan dhab ah, tarjumaad smart, iyo waddo cad oo aad u noqonayso xayeysiis la'aan markaad diyaar tahay.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Xayeysiisyo fudud oo Bilaash ah, casriyeyn Plus fudud markaad diyaar tahay, iyo qalabyo Premium oo TextNow aan bixin."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App casri ah, naqshad caalami-koowaad, iyo tarjumaad ku dhex jirta halkii loo gudbin lahaa wicitaannada duugoobay."
+        },
+        "messengers": {
+          "title": "Chatforia vs app-yada sheekaysiga",
+          "body": "Farriimo lambarro taleefan dhab ah — ma aha kaliya isticmaalayaasha app-yada kale — oo leh AI iyo xaalad ku dhex jirta. Ku habboon haddii aad ka imanayso app-yada sida TextFree ama TextMe."
+        }
+      },
+      "tableTitle": "Sida Chatforia u barbar dhigto",
+      "col": {
+        "feature": "Astaamo",
+        "chatforia": "Ilaa 12+ bilood",
+        "textnow": "Ku xidhan akoontiga",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "Lambar taleefan bilaash ah",
+        "translation": "Tarjumaad otomaatig ah oo ku dhex jirta",
+        "aiTools": "Qalabyada AI (dib-u-qorista, jawaabaha, koobitaannada)",
+        "ads": "Xulasho xayeysiis la'aan",
+        "history": "Taariikhda farriimaha"
+      },
+      "yes": "Haa",
+      "no": "Maya",
+      "yesPremium": "Haa (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Xaddidan",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Ilaa 12+ bilood",
+        "textnow": "Ku xidhan akoontiga",
+        "voice": "Xaddidan / ku xidhan akoontiga"
+      },
+      "disclaimer": "Is barbar dhigga waxaa ku salaysan xogta si cad loo heli karo waxaana laga yaabaa inay isbeddesho waqti ka dib. App-yada kale ee farriimaha bilaashka ah sida TextFree ama TextMe guud ahaan waxay la mid yihiin TextNow."
+    },
+    "faq": {
+      "title": "Su'aalaha la is weydiiyo ee Qiimaha & qorshayaasha",
+      "free": {
+        "q": "Ma runtii bilaash baa qorshaha Bilaashka ah?",
+        "a": "Haa. Qorshaha Bilaashka ah waxaa ku jira lambar Chatforia, wicitaanno, iyo farriimo oo leh xayeysiisyo. Waad sii joogi kartaa Bilaash intaad doonayso, ama casriyeen si aad u ka saarto xayeysiisyada oo aad u furto astaamo badan."
+      },
+      "plusPremium": {
+        "q": "Maxaa farqi ah oo u dhexeeya Plus iyo Premium?",
+        "a": "Plus waxay ka saartaa xayeysiisyada waxayna kordhisaa taariikhda farriimahaada — ku habboon isticmaalka maalinlaha ah. Premium waxay ku daraysaa habayn dheeraad ah, qalabyada AI ee dib-u-qorista iyo jawaabaha, iyo taageero mudnaan leh isticmaalayaasha culus."
+      },
+      "esim": {
+        "q": "Xagee ayay ka shaqeeyaan xirmooyinka xogta eSIM?",
+        "a": "Chatforia Mobile waxay isticmaashaa daboolid eSIM caalami ah. Helitaanku wuxuu ku xidhan yahay waddankaaga iyo qalabkaaga. Waxaad arki doontaa xulashooyinka la taageero inta lagu jiro dhaqaajinta app-ka dhexdiisa."
+      },
+      "cancel": {
+        "q": "Ma joojin karaa ama beddeli karaa qorshayaasha wakhti kasta?",
+        "a": "Haa. Waad maamuli kartaa ama joojin kartaa rukunkaaga bogga lacag-bixinta ee app-ka dhexdiisa. Isbeddelladu waxay dhaqan gelayaan dhammaadka xilliga lacag-bixinta hadda."
+      },
+      "family": {
+        "q": "Sidee ayay u shaqeeyaan xirmooyinka Qoyska?",
+        "a": "Xirmooyinka Qoyska waxay abuuraan barkad xog la wadaagto akoonno Chatforia badan. Hal qof ayaa bixiya biilka, waxaadna martiqaadi kartaa ama ka saari kartaa xubnaha oo aad dejin kartaa xad qof kasta."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "Qoyska",
@@ -745,685 +1839,618 @@
       "error": "Lama kugu darin karin qoyskan. Martiqaadku wuxuu noqon karaa mid aan sax ahayn ama dhacay."
     }
   },
-  "premium": {
-    "heading": "Ku bax Premium",
-    "description": "Fur astaamo awood leh & ka saar xayeysiisyada.",
-    "cta": "Casriyeen",
-    "upgrade": "Casriyeen",
-    "upgradeAria": "Casriyeen Chatforia Premium"
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "Casriyeen",
-    "titleLoggedIn": "Casriyeen",
-    "titlePublic": "Qiimaha",
-    "h1": "Qiimaha & Qorshayaasha Chatforia",
-    "h1Subtitle": "Ku bilow qorshahaaga bilaashka ah ee xayeysiiska leh. Noqo xayeysiis la'aan Plus, ama fur astaamo awood buuxa leh Premium.",
-    "subtitle": "Dooro qorshe app, ku dar xirmooyin xog ah naftaada, ama la wadaag xogta qoyskaaga — dhammaan hal meel.",
-    "subtitle.app": "Ku bilow qorshahaaga bilaashka ah ee xayeysiiska leh. Noqo xayeysiis la'aan Plus, ama fur astaamo awood buuxa leh Premium.",
-    "subtitle.mobile": "Ku dar xog eSIM caalami ah si Chatforia u sii shaqeyso xitaa markaad ka maqn tahay Wi-Fi.",
-    "subtitle.family": "Samee barkad xog la wadaagto qoyskaaga oo maamul isticmaalka qof walba hal meel.",
-    "perMonth": "bil",
-    "perYear": "sannad",
-    "goPremium": "Ku bax Premium",
-    "benefitsLine": "Fur astaamo awood leh & ka saar xayeysiisyada.",
-    "ctaText": "Casriyeen",
-    "aria": "Casriyeen Chatforia Premium",
-    "toggle": {
-      "monthly": "Bishii",
-      "annual": "Sannadle (Keydso 30%)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "Rukunka wuxuu dhammaanayaa",
-      "body": "Waxaad ku noqon doontaa Bilaash",
-      "keepPlanCta": "Hayso {{plan}}",
-      "manageBillingCta": "Maamul lacag-bixinta"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "Loo furayo…",
-      "manage": "Maamul Lacag-bixinta"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
     },
-    "checkout": {
-      "redirecting": "loo wareejinayo…"
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
     },
-    "auth": {
-      "continue": "Sii wad galitaanka",
-      "createAccount": "Samee akoon",
-      "signIn": "Gal"
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
     "cta": {
-      "aria": "Dooro qorshe",
-      "getPlus": "Casriyeen Plus",
-      "upgradeMonthly": "Casriyeen Bishii",
-      "upgradeAnnual": "Casriyeen Sannadle"
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Sida Chatforia u Shaqeyso",
+    "intro": "Chatforia waxaa loo qaabeeyay inay ka dhigto isgaarsiinta mid fudud...",
+    "step1Title": "1. Samee Akoon",
+    "step1Desc": "Isdiiwaangeli adiga oo isticmaalaya email ama username...",
+    "step2Title": "2. Bilow Wadahadal",
+    "step2Desc": "La xiriir dadka kale...",
+    "step3Title": "3. Fariimo Degdeg ah",
+    "step3Desc": "Fariimaha si dhaqso leh ayaa loo diraa...",
+    "step4Title": "4. Isgaarsiin Caalami ah",
+    "step4Desc": "Turjumaaddu waxay caawisaa isticmaaleyaasha...",
+    "step5Title": "5. Xakamee Doorashadaada",
+    "step5Desc": "Maamul dejimahaaga..."
+  },
+  "safety": {
+    "title": "Badbaado & Xeerarka Bulshada",
+    "intro": "Chatforia waxay ka go’an tahay inay ilaaliso deegaan ammaan ah...",
+    "respectTitle": "Isgaarsiin Ixtiraam leh",
+    "respectDesc": "Isticmaaleyaasha waxaa laga filayaa inay si ixtiraam leh ula xiriiraan...",
+    "prohibitedTitle": "Waxyaabaha Mamnuuca ah",
+    "prohibited": {
+      "illegal": "Falal sharci darro ah",
+      "harassment": "Dhibaateyn ama cagajugleyn",
+      "hate": "Nacayb ama takoor",
+      "explicit": "Waxyaabo aan habboonayn ama waxyeello leh",
+      "spam": "Spam ama khiyaano"
     },
-    "section": {
-      "app": "Qorshayaasha app",
-      "mobile": "Mobile (eSIM)",
-      "family": "Qorshayaasha qoyska"
+    "toolsTitle": "Qalabka Badbaadada",
+    "tools": {
+      "report": "Soo sheeg dhaqan aan habboonayn",
+      "block": "Xannib isticmaaleyaasha",
+      "control": "Maamul dejimaha asturnaanta"
     },
-    "plans": {
-      "free": {
-        "title": "Bilaash",
-        "price": "$0",
-        "desc": "Ku bilow farriimaha bilaash. Ku habboon haddii aad kaliya tijaabinayso Chatforia.",
-        "features": {
-          "chat": "Sheekaysi 1:1 iyo koox waqti-dhab ah, oo ay ku jiraan wicitaano cod iyo muuqaal",
-          "media": "La wadaag sawirro, farriimo cod, iyo muuqaallo gaagaaban",
-          "ai": "Jawaabo smart oo AI ku shaqeeya iyo tarjumaad degdeg ah (isticmaal macquul ah)",
-          "disappearing": "Fariimo baaba’aya iyo xakamaynta asturnaanta aasaasiga ah",
-          "ads": "Bilaash weligeed oo leh xayeysiisyo app-ka dhexdiisa"
-        },
-        "ctaCurrent": "Qorshaha hadda",
-        "ctaManage": "Maamul lacag-bixinta",
-        "ctaPublic": "Bilow – sii wad galitaanka",
-        "aria": "Qorshaha bilaashka ah"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Dhammaan muhiimka ah, xayeysiis la'aan. Ku habboon farriimaha iyo wicitaannada maalinlaha ah.",
-        "features": {
-          "allFree": "Wax kasta oo Bilaash ah, xayeysiis la'aan",
-          "forwarding": "U gudbi wicitaannada iyo farriimaha lambarkaaga taleefan dhab ah",
-          "history": "Taariikh farriin dheer (ilaa 6 bilood)",
-          "support": "Taageero degdeg ah marka wax khaldan yihiin"
-        },
-        "badge": "Caanka ah",
-        "cta": "Noqo Xayeysiis La'aan",
-        "ctaPublic": "Hel Plus – sii wad galitaanka",
-        "aria": "Casriyeen Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Bishii)",
-        "price": "$11.99",
-        "desc": "Khibradda Chatforia buuxda: Qalabyada AI, habaynta, iyo taageero mudnaan leh.",
-        "features": {
-          "plusAll": "Wax kasta oo Plus ah",
-          "themes": "Fur dhammaan mawduucyada midabka premium iyo habaynta app",
-          "ai": "Qalabyada AI ee Premium-kaliya ee dib-u-qorista, jawaabaha smart, iyo koobitaannada",
-          "support": "Taageero mudnaan leh marka aad u baahan tahay caawimo ugu badan"
-        },
-        "badge": "La talinayaa",
-        "cta": "Casriyeen (Bishii)",
-        "ctaPublic": "Fur Premium – sii wad galitaanka",
-        "aria": "Casriyeen Premium Bishii"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Sannadle)",
-        "price": "$99",
-        "desc": "Keydso in badan marka la bixiyo sannadkii — oo ay ku jiraan mawduucyo midab dheeraad ah, qalabyada AI, iyo taageero mudnaan leh.",
-        "features": {
-          "allPremium": "Wax kasta oo Premium Bishii ah — oo ay ku jiraan mawduucyo midab dheeraad ah",
-          "annualBilling": "Hal mar sannadkii la bixiyaa",
-          "save25": "Keydso qiyaastii 30% marka loo eego bixinta bishii",
-          "bestFor": "Ku habboon isticmaalayaasha xoogga leh, shaqaalaha fog, iyo socdaalayaasha culus"
-        },
-        "badge": "Keydso 30%",
-        "cta": "Casriyeen (Sannadle)",
-        "ctaPublic": "Keydso 30% sannadle – sii wad galitaanka",
-        "aria": "Casriyeen Premium Sannadle",
-        "disclaimer": "Hal mar la bixiyaa. Jooji wakhti kasta. Ma jiraan khidado qarsoon."
-      }
+    "enforcementTitle": "Fulinta",
+    "enforcementDesc": "Waxaan qaadi karnaa tallaabo ka dhan ah akoonnada..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Sababta Madalaha Fariimaha ay Muhiim u Yihiin",
+      "intro": "Madalaha fariimaha ayaa noqday aaladaha ugu muhiimsan ee isgaarsiinta maanta...",
+      "everydayTitle": "Isgaarsiinta Maalinlaha",
+      "everydayDesc": "Dadku waxay ku tiirsan yihiin apps fariimo maalin kasta...",
+      "speedTitle": "Xawaare iyo Fududeyn",
+      "speedDesc": "Fariimaha si degdeg ah ayaa loo gudbiyaa...",
+      "globalTitle": "Gaaritaan Caalami ah",
+      "globalDesc": "Madalaha fariimaha waxay isku xiraan dadka caalamka oo dhan...",
+      "privacyTitle": "Asturnaanta iyo Xakamaynta",
+      "privacyDesc": "Madalaha casriga ah waxay siiyaan isticmaaleyaasha xakamayn...",
+      "futureTitle": "Mustaqbalka Fariimaha",
+      "futureDesc": "Fariimuhu waxay sii wadaan inay horumaraan...",
+      "outro": "Chatforia waxaa lagu dhisay mabda’adan..."
     },
-    "marketing": {
-      "freeTitle": "Bilaash",
-      "freeDesc": "Ku bilow farriimaha bilaash.",
-      "plusTitle": "Plus",
-      "plusBadge": "Caanka ah",
-      "plusDesc": "Khibradda xayeysiis-la'aanta ah ee ugu jaban.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Astaamo buuxa, dhawaaqyo, iyo qalabyada AI.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Keydso in badan marka la bixiyo sannadkii.",
-      "annualDisclaimer": "Hal mar la bixiyaa. Jooji wakhti kasta. Ma jiraan khidado qarsoon."
+    "global": {
+      "title": "Mustaqbalka Isgaarsiinta Caalamiga ah",
+      "intro": "Isgaarsiintu si degdeg ah ayay u horumartay...",
+      "barriersTitle": "Ka Gudbidda Caqabadaha",
+      "barriersDesc": "Dadku hadda way isku xiri karaan meel kasta...",
+      "translationTitle": "Doorka Turjumaadda",
+      "translationDesc": "Luqaddu waxay ahayd caqabad hore...",
+      "realtimeTitle": "Xiriir Wakhti Dhab ah",
+      "realtimeDesc": "Xawaaruhu waa arrin muhiim ah...",
+      "privacyTitle": "Asturnaanta iyo Amniga",
+      "privacyDesc": "Isticmaaleyaashu waxay rabaan kalsooni...",
+      "futureTitle": "Maxaa Xiga",
+      "futureDesc": "Mustaqbalka isgaarsiinta waxaa ku jiri doona...",
+      "outro": "Madalaha sida Chatforia waa qayb ka mid ah isbeddelkan..."
     },
-    "mobile": {
-      "title": "Chatforia Mobile (xirmooyinka xogta eSIM)",
-      "subtitle": "Ku dar xog caalami ah si Chatforia u sii shaqeyso xitaa iyadoo aan Wi-Fi lahayn. Qiimaha si otomaatig ah ayuu u isbeddelaa iyadoo lagu saleynayo waddankaaga iyo lacagtaada.",
-      "subtitle.detail": "Dooro xirmo xog caalami ah oo hal mar ah si Chatforia u sii shaqeyso markaad socoto ama ka maqan tahay Wi-Fi.",
-      "scope": {
-        "local": "Maxalli",
-        "europe": "Europe",
-        "global": "Caalami"
-      },
-      "note": "Ma iibinno xirmooyin xog ah oo ka yar 3 GB.",
-      "localEquals": "Maxalli = {{country}}",
-      "localEqualsFallback": "Maxalli = waddankaaga hadda",
-      "perPack": "/ xirmo",
-      "cta": "Hel xirmadan xogta",
-      "ctaPublic": "Hel xirmadan xogta",
-      "checkout": {
-        "redirecting": "loo wareejinayo…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Xog xawaare sare leh oo loogu talagalay isticmaalka culus",
-          "throttle": "Xawaaruhu wuu yara dhimi karaa ka dib isticmaalka sare",
-          "coverage": "Daboolid la isku halleyn karo",
-          "instant": "Dhaqaajin eSIM degdeg ah",
-          "noContract": "Xirmo hal mar ah, qandaraas la'aan"
-        }
-      },
-      "disclaimer": {
-        "devices": "Xirmooyinka xogta eSIM waxay u baahan yihiin qalab eSIM-ku-habboon oo la furay. Helitaanku wuxuu ku kala duwan yahay nooca taleefanka, shirkadda, iyo waddanka. Daboolidda iyo xawaaruhu way ku kala duwan yihiin gobolka."
-      },
-      "small": {
-        "title": "Xirmo bilow ah",
-        "desc": "Waxaa ku jira 3 GB xog xawaare sare leh — ku habboon farriimaha fudud iyo wicitaanno marmar ah.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Safarro gaagaaban, farriimo fudud, iyo wicitaanno marmar ah",
-        "aria": "Iibso xirmo xog eSIM bilow ah"
-      },
-      "medium": {
-        "title": "Xirmo socdaale",
-        "desc": "Waxaa ku jira 5 GB xog xawaare sare leh safarro, socdaal, iyo wicitaanno VoIP caadi ah.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Safarro dhammaadka toddobaadka, wicitaanno VoIP caadi ah, iyo khariidado",
-        "aria": "Iibso xirmo xog eSIM socdaale"
-      },
-      "large": {
-        "title": "Xirmo awood leh",
-        "desc": "Waxaa ku jira 10 GB xog xawaare sare leh sheekaysi culus, wicitaanno, iyo muuqaal shabakadda Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Sheekaysi culus, wicitaanno, muuqaal, iyo isticmaalka hotspot",
-        "aria": "Iibso xirmo xog eSIM isticmaale awood leh"
-      },
-      "compare": {
-        "title": "Is barbar dhig xirmooyinka xogta eSIM",
-        "col": {
-          "pack": "Xirmo",
-          "data": "Xogta ku jirta",
-          "bestFor": "Ku habboon"
-        },
-        "disclaimer": "Isticmaalka xogta dhabta ah waxay ku xidhan tahay sida aad u isticmaasho Chatforia (cod, muuqaal, warbaahin, iyo app-yada kale ee taleefankaaga)."
-      }
+    "index": {
+      "title": "Blog-ga Chatforia",
+      "intro": "Soo ogow fikrado ku saabsan isgaarsiinta...",
+      "post1": "Sida Loogu Sheekeysto Si Ammaan ah",
+      "post2": "Mustaqbalka Isgaarsiinta Caalamiga ah",
+      "post3": "Sababta Madalaha Fariimaha ay Muhiim u Yihiin"
     },
-    "family": {
-      "title": "Qoyska Chatforia (xog la wadaagto)",
-      "subtitle": "La wadaag barkad xog hal ah qoyskaaga. Hal biil, akoonno Chatforia badan, daboolid caalami ah.",
-      "perPack": "/ xirmo",
-      "small": {
-        "title": "Qoyska Yaryar",
-        "desc": "Waxaa ku jira 20 GB xog xawaare sare leh oo la wadaago — ku habboon 2–3 isticmaaleyaal fudud.",
-        "price": "$29.99",
-        "aria": "Iibso xirmo Qoyska Yaryar"
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
-      "medium": {
-        "title": "Qoyska Dhexdhexaad",
-        "desc": "Waxaa ku jira 40 GB xog xawaare sare leh oo la wadaago — ku habboon 3–5 xubnood firfircoon.",
-        "price": "$49.99",
-        "aria": "Iibso xirmo Qoyska Dhexdhexaad"
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
-      "large": {
-        "title": "Qoyska Weyn",
-        "desc": "Waxaa ku jira 80 GB xog xawaare sare leh oo la wadaago — loogu talagalay qoysaska awoodda leh ee had iyo jeer online ah.",
-        "price": "$84.99",
-        "aria": "Iibso xirmo Qoyska Weyn"
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
-      "feature": {
-        "shared": "Barkadda xogta la wadaagto ee qoyskaaga",
-        "members": "Ku martiqaad ilaa 4 xubnood oo dheeraad ah",
-        "membersMore": "Ku habboon 3–5 xubnood firfircoon",
-        "manage": "Maamul xadka xubin kasta",
-        "topUp": "Ku dar xirmooyin dheeraad ah wakhti kasta",
-        "bestValue": "Qiimaha ugu fiican GB kasta",
-        "fairUse": "Ku xidhan siyaasadda isticmaalka macquulka ah iyo xadka maxalliga ah"
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
-      "disclaimer": "Xirmooyinka qoyska waxay abuuraan ama buuxiyaan barkad xog la wadaagto. Waad martiqaadi kartaa oo ka saari kartaa xubnaha wakhti kasta.",
-      "footnote": "Xirmooyinka qoyska waxay la wadaagaan barkad xog hal ah akoonnada Chatforia ee xidhan. Helitaanka iyo xadku waxay ku xidhan yihiin waddankaaga iyo xeerarka maxalliga ah."
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Ku Saabsan Chatforia",
+    "description": "Chatforia waa madal fariin casri ah oo loogu talagalay isgaarsiin ammaan ah oo luqado badan leh...",
+    "valuesTitle": "Waxa aan qiimeyno",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
     },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Asturnaanta Marka Hore",
+    "privacyDesc": "Sir adag iyo dejimo asturnaan oo uu isticmaalehu xakameeyo",
+    "accessTitle": "Helitaan Qof Walba",
+    "accessDesc": "Turjumaad ku dhex jirta luqado badan",
+    "controlTitle": "Xakamayn",
+    "controlDesc": "Astaamo sida fariimo baaba’a iyo ogeysiisyada akhriska"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
     "why": {
-      "title": "Sababta dadku u beddelaan Chatforia",
-      "subtitle": "Chatforia waxay ku siinaysaa lambar taleefan dhab ah, tarjumaad smart, iyo waddo cad oo aad u noqonayso xayeysiis la'aan markaad diyaar tahay.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Xayeysiisyo fudud oo Bilaash ah, casriyeyn Plus fudud markaad diyaar tahay, iyo qalabyo Premium oo TextNow aan bixin."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "App casri ah, naqshad caalami-koowaad, iyo tarjumaad ku dhex jirta halkii loo gudbin lahaa wicitaannada duugoobay."
-        },
-        "messengers": {
-          "title": "Chatforia vs app-yada sheekaysiga",
-          "body": "Farriimo lambarro taleefan dhab ah — ma aha kaliya isticmaalayaasha app-yada kale — oo leh AI iyo xaalad ku dhex jirta. Ku habboon haddii aad ka imanayso app-yada sida TextFree ama TextMe."
-        }
-      },
-      "tableTitle": "Sida Chatforia u barbar dhigto",
-      "col": {
-        "feature": "Astaamo"
-      },
-      "feature": {
-        "freeNumber": "Lambar taleefan bilaash ah",
-        "translation": "Tarjumaad otomaatig ah oo ku dhex jirta",
-        "aiTools": "Qalabyada AI (dib-u-qorista, jawaabaha, koobitaannada)",
-        "ads": "Xulasho xayeysiis la'aan",
-        "history": "Taariikhda farriimaha"
-      },
-      "yes": "Haa",
-      "no": "Maya",
-      "yesPremium": "Haa (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "Xaddidan",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "Ilaa 12+ bilood",
-        "textnow": "Ku xidhan akoontiga",
-        "voice": "Xaddidan / ku xidhan akoontiga"
-      },
-      "disclaimer": "Is barbar dhigga waxaa ku salaysan xogta si cad loo heli karo waxaana laga yaabaa inay isbeddesho waqti ka dib. App-yada kale ee farriimaha bilaashka ah sida TextFree ama TextMe guud ahaan waxay la mid yihiin TextNow."
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "faq": {
-      "title": "Su'aalaha la is weydiiyo ee Qiimaha & qorshayaasha",
-      "free": {
-        "q": "Ma runtii bilaash baa qorshaha Bilaashka ah?",
-        "a": "Haa. Qorshaha Bilaashka ah waxaa ku jira lambar Chatforia, wicitaanno, iyo farriimo oo leh xayeysiisyo. Waad sii joogi kartaa Bilaash intaad doonayso, ama casriyeen si aad u ka saarto xayeysiisyada oo aad u furto astaamo badan."
-      },
-      "plusPremium": {
-        "q": "Maxaa farqi ah oo u dhexeeya Plus iyo Premium?",
-        "a": "Plus waxay ka saartaa xayeysiisyada waxayna kordhisaa taariikhda farriimahaada — ku habboon isticmaalka maalinlaha ah. Premium waxay ku daraysaa habayn dheeraad ah, qalabyada AI ee dib-u-qorista iyo jawaabaha, iyo taageero mudnaan leh isticmaalayaasha culus."
-      },
-      "esim": {
-        "q": "Xagee ayay ka shaqeeyaan xirmooyinka xogta eSIM?",
-        "a": "Chatforia Mobile waxay isticmaashaa daboolid eSIM caalami ah. Helitaanku wuxuu ku xidhan yahay waddankaaga iyo qalabkaaga. Waxaad arki doontaa xulashooyinka la taageero inta lagu jiro dhaqaajinta app-ka dhexdiisa."
-      },
-      "cancel": {
-        "q": "Ma joojin karaa ama beddeli karaa qorshayaasha wakhti kasta?",
-        "a": "Haa. Waad maamuli kartaa ama joojin kartaa rukunkaaga bogga lacag-bixinta ee app-ka dhexdiisa. Isbeddelladu waxay dhaqan gelayaan dhammaadka xilliga lacag-bixinta hadda."
-      },
-      "family": {
-        "q": "Sidee ayay u shaqeeyaan xirmooyinka Qoyska?",
-        "a": "Xirmooyinka Qoyska waxay abuuraan barkad xog la wadaagto akoonno Chatforia badan. Hal qof ayaa bixiya biilka, waxaadna martiqaadi kartaa ama ka saari kartaa xubnaha oo aad dejin kartaa xad qof kasta."
-      }
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
     },
-    "gettingStarted": {
-      "title": "Sida loo bilaabo",
-      "subtitle": "Ma cusub tahay Chatforia? Tilmaantan degdegga ah waxay muujinaysaa muhiimada si aad u noqoto mid wax soo saar leh daqiiqado gudahood.",
-      "alert": {
-        "text": "Tilmaantan waxay kori doontaa markaan bilowno astaamo cusub. Haddii wax ka maqan yahay, noo sheeg",
-        "contactLink": "Nala xidhiidh"
-      },
-      "section1": {
-        "title": "1) Samee akoontaaga",
-        "signup": "Diiwaangeli",
-        "or": "ama",
-        "login": "gal",
-        "loginText": "akoontaada hadda jirta.",
-        "prefsStart": "Deji",
-        "prefsLink": "doorashooyinkaaga",
-        "prefsRest": "(luqad, warbixinta akhriska, mawduucyada)."
-      },
-      "section2": {
-        "title": "2) Bilow farriimaha",
-        "item1": "Samee DM ama Koox oo dir farriintaada ugu horreysa.",
-        "item2": "Isticmaal tarjumaad degdeg ah si aad u sheekaysato 100+ luqadood.",
-        "item3": "Isku day fariimo baaba’aya iyo warbixinta akhriska Profile → Asturnaanta."
-      },
-      "section3": {
-        "title": "3) Horay u soco",
-        "item1": "Waad casriyeen kartaa qorshe lacag leh wakhti kasta app-ka dhexdiisa.",
-        "item2": "Markaad saxiixato, waad xidhi karin kartaa qalabyo dheeraad ah oo aad dejin kartaa keydad qarsoon Settings app-ka dhexdiisa."
-      },
-      "cta": {
-        "seePlans": "Eeg qorshayaasha",
-        "openSettings": "Fur dejinta"
-      }
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
     },
-    "helpCenter": {
-      "title": "Xarunta Caawinta",
-      "faq": {
-        "account": {
-          "q": "Sidee aan u sameeyaa ama u soo ceshadaa akoontayga?",
-          "a": "Soo deji app-ka ama isticmaal web, taabo “Samee akoon”, xaqiiji emailkaaga/taleefankaaga. Si aad u soo ceshato, isticmaal “Ma ilowday erayga sirta ah”."
-        },
-        "privacy": {
-          "q": "Farriimuhu ma qarsoon yihiin dhammaad-ilaa-dhammaad?",
-          "a": "Haa. Farriimaha iyo wicitaannadu waa qarsoon yihiin dhammaad-ilaa-dhammaad caadi ahaan. Adiga iyo qaataha kaliya ayaa akhriyi kara."
-        },
-        "translate": {
-          "q": "Sidee ayay u shaqeysaa tarjumaadda degdegga ah?",
-          "a": "Daar “Tarjumaad otomaatig ah” Settings → Muuqaalka & Luqadda. Waxaan ku turjunaa qalabka dhexdiisa meesha la taageero, haddii kale API-yo ammaan ah oo leh xog yar."
-        },
-        "contact": {
-          "q": "La xidhiidh taageerada",
-          "a": "Nala xidhiidh support@chatforia.com. Ku dar sawirro iyo nooca app-kaaga."
-        }
-      }
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "Nala xidhiidh",
-      "successMsg": "Mahadsanid — kooxdayadu waxay kugu soo jawaabi doontaa email.",
-      "errorSend": "Lama diri karin. Fadlan email u dir support@chatforia.com.",
-      "form": {
-        "nameLabel": "Magac",
-        "emailLabel": "Email",
-        "messageLabel": "Farriin",
-        "sendCta": "Dir"
-      }
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
     },
-    "privacyPolicy": {
-      "title": "Siyaasadda Asturnaanta",
-      "lastUpdated": "Markii ugu dambeysay la cusboonaysiiyey:",
-      "intro": {
-        "body": "Siyaasaddan Asturnaanta waxay sharxaysaa sida Chatforia (“annaga”, “annaga”) u ururiso, u isticmaasho, oo u wadaagto xogta marka aad isticmaasho app-yada iyo adeegyada. Waxaan u qaabeynaa Chatforia si aan u yarayno xogta aan heli karno."
-      },
-      "infoWeCollect": {
-        "title": "Xogta aan ururinno",
-        "account": "Xog akoon (tusaale email/taleefan) si loo sameeyo oo loo sugo akoontaada.",
-        "encrypted": "Nuxurka qarsoon (farriimaha/wicitaannada) waa qarsoon dhammaad-ilaa-dhammaad; ma akhriyi karno.",
-        "diagnostics": "Qaladaadka/isticmaalka sida logs-ka burburka, nooca qalabka, ama falanqaynta guud si loo wanaajiyo waxqabadka."
-      },
-      "sms": {
-        "title": "Lambarrada taleefanka mobile iyo SMS",
-        "body": "Haddii aad doorato inaad bixiso lambar taleefan mobile, waxaan u isticmaalnaa si aan u furo astaamo sida xaqiijinta akoonta, ogeysiisyada galitaanka, iyo farriimaha isticmaale-ilaa-isticmaale iyada oo loo marayo SMS meesha la taageero. Waxaan u diri karnaa farriimo SMS ah oo la xidhiidha akoontaada iyo hawsha Chatforia. Waad joojin kartaa helitaanka farriimaha SMS wakhti kasta adiga oo ku jawaabaya eray joojin ah oo la taageero (sida “STOP”) ama adiga oo beddelaya doorashooyinka ogeysiiskaaga app-ka dhexdiisa. Ma iibinno lambarkaaga taleefan mana u isticmaalno suuq-geyn aan la xidhiidhin.",
-        "newText": "Farriin cusub",
-        "enterRecipient": "Geli magac ama lambar",
-        "typeMessage": "Qor farriin…",
-        "addRecipient": "Ku dar qof la xidhiidhinayo kor si aad u bilowdo…"
-      },
-      "howWeUse": {
-        "title": "Sida aan u isticmaalno xogta",
-        "provide": "Bixi oo sugo adeegga (xaqiijin, ogaanshaha spam/dhibka).",
-        "improve": "Wanaaji astaamaha (tayada tarjumaadda, kalsoonida).",
-        "legal": "U hoggaansan waajibaadka sharciga."
-      },
-      "sharing": {
-        "title": "Wadaagista",
-        "body": "Ma iibinno xog shakhsi ah. Waxaan la wadaagi karnaa xog xaddidan processors (tusaale ogeysiisyada push, falanqaynta) iyada oo la raacayo heshiisyo adag."
-      },
-      "rights": {
-        "title": "Xuquuqdaada",
-        "body": "Iyadoo ku xidhan gobolkaaga (tusaale GDPR/UK GDPR/CPRA), waxaad codsan kartaa helitaan, sixid, tirtirid, ama joojin habayn gaar ah. La xidhiidh: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Haynta xogta & amniga",
-        "body": "Waxaan haynaa oo keliya waxa loo baahan yahay si loo maamulo adeegga oo aan u adeegno amniga heerka warshadaha. Nuxurka E2E lama furin karo annaga."
-      },
-      "children": {
-        "title": "Carruurta",
-        "body": "Chatforia looguma talogelin carruurta ka yar 13 (ama sida looga baahan yahay sharcigaaga maxalliga ah)."
-      },
-      "changes": {
-        "title": "Isbeddellada",
-        "body": "Waxaan halkan ku dhejin doonnaa cusboonaysiin waxaana dib u eegayn doonnaa taariikhda “Markii ugu dambeysay la cusboonaysiiyey”."
-      },
-      "contact": {
-        "title": "La xidhiidh",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
     },
-    "terms": {
-      "title": "Shuruucda Adeegga",
-      "lastUpdated": "Markii ugu dambeysay la cusboonaysiiyey:",
-      "intro": {
-        "body": "Markaad isticmaasho Chatforia waxaad ogolaatay shuruucdan. Haddii aadan ogolayn, ha isticmaalin adeegga."
-      },
-      "accounts": {
-        "title": "Akoonnada",
-        "itemAccurateInfo": "Bixi xog sax ah oo ilaali aqoonsiyadaada ammaan.",
-        "itemResponsibility": "Adiga ayaa mas'uul ka ah hawsha akoontaaga."
-      },
-      "acceptableUse": {
-        "title": "Isticmaalka la aqbali karo",
-        "itemNoAbuse": "Ma jiro nuxur sharci darro ah, dhib ah, ama ku xadgudbaya; ma jiro spam ama dhib otomaatig ah.",
-        "itemSuspend": "Waxaan laga yaabaa inaan hakino/joojino xadgudubyada."
-      },
-      "sms": {
-        "title": "Isgaarsiinta SMS",
-        "body": "Haddii aad bixiso lambar taleefan mobile, waxaad ogolaatay in Chatforia kuu soo dirto farriimo SMS ah oo la xidhiidha akoontaada iyo isticmaalka adeegga, sida ogeysiisyada galitaanka, ogeysiisyada amniga, iyo farriimaha la xidhiidha sheekaysiyada aad bilowdo ama ka qayb qaadatid. Ma isticmaalno SMS suuq-geyn ama xayeysiin iyada oo aan ogolaansho gaar ah lahayn. Qiimaha farriinta caadiga ah iyo xogta ayaa laga yaabaa inay khusayso. Waad joojin kartaa farriimaha SMS wakhti kasta adiga oo ku jawaabaya eray joojin ah oo la taageero (tusaale “STOP”) ama adiga oo cusboonaysiinaya dejinta ogeysiiskaaga app-ka dhexdiisa."
-      },
-      "yourContent": {
-        "title": "Nuxurkaaga",
-        "body": "Waxaad haysataa xuquuqda nuxurkaaga. Waxaad noo siinaysaa xuquuqda lagama maarmaanka ah si aan u maamulno adeegga (tusaale routing, kaydinta, tarjumaadda)."
-      },
-      "disclaimer": {
-        "title": "Diidmo & mas'uuliyad",
-        "body": "Adeegga waxaa loo bixiyaa “sida uu yahay” iyada oo aan dammaanad lahayn. Inta ugu badan ee sharciga loo oggol yahay, Chatforia ma mas'uul ka ahaan doonto khasaarooyinka dadka kale ama natiijada."
-      },
-      "changes": {
-        "title": "Isbeddellada",
-        "body": "Waxaan laga yaabaa inaan cusboonaysiino shuruucdan; sii wad isticmaalka ka dib isbeddellada macnaheedu waa aad ogolaatay."
-      },
-      "contact": {
-        "title": "La xidhiidh",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
     },
-    "doNotSell": {
-      "title": "Ha Iibin ama La Wadaagin Xogta Shakhsi ahaaneed",
-      "body": "Chatforia ma iibiso xog shakhsi ah. Dadka deggan California waxay weli soo gudbin karaan codsiyo CPRA iyaga oo isticmaalaya badhanka hoose.",
-      "cta": "Gudbi codsi"
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
     },
-    "cookies": {
-      "title": "Dejinta Cookie",
-      "body": "Chatforia waxay isticmaashaa cookie-yo yar (tusaale kalfadhiga, amniga). Ma isticmaalno cookie-yo xayeysiis saddexaad. Maamul cookie-yada adiga oo isticmaalaya dejinta browser-kaaga."
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Lama soo rari karin xaaladda lambarka taleefanka.",
-      "lock": "Xir",
-      "noNumberAssigned": "Lambar lama qoondeeyey. Dooro lambar ayaa code ahaan si aad u bilowdo farriimaha.",
-      "pickNumber": "Dooro lambar",
-      "phoneNumber": "Lambarka taleefanka"
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
     },
-    "startChatModal": {
-      "title": "Bilow sheekaysi",
-      "quickPicker": "Dooraha degdegga ah",
-      "to": "Ku",
-      "nameOrUsername": "Qor magac, magaca isticmaalaha",
-      "nameUsernamePhoneEmail": "Qor magac, magaca isticmaalaha, lambar taleefan, ama email…",
-      "startWithSelected": "Bilow sheekaysi kuwa la doortay",
-      "searchByUsernameOrPhone": "Raadi magaca isticmaalaha ama lambarka taleefanka",
-      "search": "Raadi",
-      "searchPrompt": "Qor magaca isticmaalaha ama lambarka taleefanka oo riix Raadi.",
-      "pickFromContacts": "Ama ka dooro xidhiidhada",
-      "addContact": "Ku dar Xidhiidh",
-      "show": "Muuji",
-      "add": "Ku dar",
-      "close": "Xir",
-      "selectedCount": "{{count}} la doortay",
-      "pickAtLeastOne": "Dooro ugu yaraan hal qof la xidhiidhinayo.",
-      "saveContactsHint": "Gelinta taleefan/email waxay diyaar noqon doontaa ka dib markaad u keydiso xidhiidh ahaan.",
-      "failedBulkStart": "Ku guuldareystay in la bilaabo sheekaysi dadka la doortay.",
-      "noResults": "Natiijo ma jiraan",
-      "mode": "Qaab",
-      "group": "Koox",
-      "broadcast": "Baahinta",
-      "groupNameOptional": "Magaca kooxda (ikhtiyaari)",
-      "firstMessageOptional": "Farriinta ugu horreysa (ikhtiyaari laakiin lagu taliyey)",
-      "createGroup": "Samee koox",
-      "sendBroadcast": "Dir baahinta"
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Qorrax dhac",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Siyaasadda Lacag Celinta",
+    "lastUpdated": "La cusboonaysiiyay:",
+    "intro": "Chatforia waxaan ku dadaaleynaa inaan bixino adeeg tayo sare leh dhammaan isticmaaleyaasha. Siyaasaddan lacag celinta waxay qeexaysaa xaaladaha lacag celin la bixin karo.",
+    "subscriptions": {
+      "title": "Isdiiwaangelinta",
+      "body": "Isdiiwaangelinta waxaa lagu dallacaa horay oo si joogto ah. Waxaad joojin kartaa wakhti kasta adiga oo isticmaalaya dejimaha akoonkaaga ama madasha aad ka iibsatay."
     },
-    "sounds": {
-      "freeNotice": "Waxaad ku jirtaa Bilaash — dhawaaqyada premium waa la muujiyey laakiin la xidhay. Casriyeen si aad u furto dhammaan.",
-      "preview": "Horudhac",
-      "resetToDefaults": "Dib u dejin caadi ah",
-      "notificationSounds": "Codadka Ogeysiiska",
-      "messageTone": "Codka farriinta",
-      "default": "Caadi",
-      "vibrate": "Gariir",
-      "dreamer": "Dreamer",
-      "notify": "Ogeysii",
-      "pop": "Pop",
-      "pulsatingSound": "Cod gariiraya",
-      "textMessage": "Farriin qoraal",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Degdeg",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Taleefan Dijital ah",
-      "melodic": "Melodic",
-      "organNotes": "Qoraallo Organ",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
+    "eligibility": {
+      "title": "U-qalmitaanka Lacag Celinta",
+      "body": "Lacag celin waa la bixin karaa haddii ay jiraan lacag-bixinno labanlaab ah, khaladaad biil, ama dhibaatooyin farsamo oo kaa hor istaaga isticmaalka adeegyada lacagta leh. Codsi kasta si gaar ah ayaa loo qiimeeyaa."
     },
-    "premiumGuard": {
-      "requiresPremium": "Astaamadan waxay u baahan tahay qorshe Premium."
+    "nonRefundable": {
+      "title": "Aan Lacag Loo Celin Karin",
+      "body": "Caadiyan ma bixino lacag celin waqtiga aan la isticmaalin, muddada qayb ka mid ah ee isdiiwaangelinta, ama haddii aan la joojin ka hor cusboonaysiinta."
     },
-    "aiSettings": {
-      "title": "Dejinta AI",
-      "controlIntro": "Xakamee tarjumaadda, jawaabaha smart, iyo jawaabaha otomaatig ah ee ForiaBot.",
-      "save": "Keydso Dejinta AI",
-      "autoTranslateIncoming": "Si otomaatig ah u turjun farriimaha soo galaya",
-      "showOriginalAlongside": "Muuji qoraalka asalka ah oo ay la socoto tarjumaadda",
-      "enableSmartReplies": "Daar Jawaabaha Smart",
-      "smartRepliesHint": "Dir farriimaha la helay ee ugu dambeeyey (la nadiifiyey) AI si ay u soo jeediso jawaabo degdeg ah.",
-      "maskProfanity": "Mask profanity-ga ee soojeedinta AI",
-      "maskProfanityHint": "Haddii on, soojeedinta ay soo celiso AI waxay leedahay ereyo calaamadeeyey oo la daboolay",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "Daar jawaab otomaatig ah markaan mashquul ahay",
-      "autoReplyMode": "Qaabka jawaab otomaatig ah",
-      "cooldownSeconds": "Qaboojin (ilbiriqsi)",
-      "off": "Dami",
-      "on": "On",
-      "signature": "Saxiix",
-      "autoReply": "Jawaab otomaatig ah",
-      "activeUntilOptional": "Firfircoon ilaa (ikhtiyaari)",
-      "saved": "Doorashooyinka AI la keydiyey",
-      "saveFailed": "Ku guuldareystay in la keydiyo dejinta AI",
-      "translateOff": "Dami",
-      "translateTagged": "Kaliya marka @translated ama la calaamadeeyey",
-      "translateAll": "Turjun dhammaan farriimaha soo galaya",
-      "modeDm": "Sheekaysiyo 1:1 kaliya",
-      "modeMention": "Kaliya marka la i @sheego",
-      "modeAll": "Dhammaan farriimaha soo galaya"
+    "thirdParty": {
+      "title": "Iibsiyada Qolo Saddexaad",
+      "body": "Haddii aad ka iibsatay madal saddexaad sida Apple App Store, lacag celinta waa in si toos ah looga codsadaa madashaas."
     },
-    "accessibilitySettings": {
-      "title": "Helitaanka & Ogeysiisyada",
-      "accessibility": "Helitaanka",
-      "accessibilityDesc": "Xulashooyinka si loo fududeeyo isticmaalka Chatforia iyada oo aan lagu tiirsanayn codka.",
-      "interfaceFontSize": "Cabbirka font interface",
-      "interfaceFontSizeHelp": "Waxay ka bilaabataa cabbir caadi ah. Kordhi haddii aad doorbidayso qoraal weyn dejinta helitaanka.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Ogeysiisyada",
-      "notificationsDesc": "Ogeysiisyo muuqaal ah farriimaha & wicitaannada\nMuuji banners iyo dhalaal cinwaan si aad u daawan weydo hawsha.",
-      "vibrateOnNew": "Gariir farriimo cusub (marka la taageero)\nKici gariirka qalabka ogeysiisyada.",
-      "flashOnCall": "Dhalaal shaashadda wicitaan soo galaya\nDhalaal dhalaal ah oo gaaban marka wicitaan la garaaco.",
-      "liveCaptions": "Qoraallo toos ah (wicitaanno)",
-      "captionFontSize": "Cabbirka font qoraalka",
-      "captionBackground": "Asalka qoraalka",
-      "light": "iftiin",
-      "dark": "madow",
-      "transparent": "hufan",
-      "voiceNotes": "Qoraallo cod",
-      "autoTranscribeVoiceNotes": "Si otomaatig ah u qor qoraallo cod",
-      "autoTranscribeVoiceNotesDesc": "Ku lifaaq qoraal farriimaha codka aad hesho.",
-      "changesSavedInstantly": "Isbeddelladu markiiba waa la keydiyey.",
-      "loadFailed": "Ku guuldareystay in la soo raro dejinta",
-      "visualAlerts": "Ogeysiisyo muuqaal ah farriimaha & wicitaannada",
-      "visualAlertsDesc": "Muuji banners iyo dhalaal cinwaan si aad u daawan weydo hawsha.",
-      "vibrateOnNewShort": "Gariir farriimo cusub (marka la taageero)",
-      "vibrateOnNewDesc": "Kici gariirka qalabka ogeysiisyada.",
-      "flashOnCallShort": "Dhalaal shaashadda wicitaan soo galaya",
-      "flashOnCallDesc": "Dhalaal dhalaal ah oo gaaban marka wicitaan la garaaco."
+    "contact": {
+      "title": "La Xiriir",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
     },
-    "privacySection": {
-      "strictE2EE": "Qarsoodi dhammaad-ilaa-dhammaad ah oo adag",
-      "ciphertextOnlyNote": "Keydso oo keliya ciphertext server-ka. Waxay damisaa AI/Tarjumaad iyo horudhacyada dhexdhexaadinta."
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
     },
-    "linkedDevicesPanel": {
-      "title": "Qalabyada Xidhan",
-      "noneFound": "Qalab xidhan lama helin.",
-      "refresh": "Cusboonaysii"
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
     },
     "help": {
-      "title": "Caawimo",
-      "howCanWeHelp": "Sidee aan ku caawin karnaa?",
-      "helpCenter": "Xarunta Caawinta",
-      "contactUs": "Nala xidhiidh",
-      "quickTopics": "Mawduucyo degdeg ah",
-      "searchExamples": "Isku day inaad raadsato “tarjum”, “keydad”, ama “asturnaanta”.",
-      "cantLogin": "Lama gali karo",
-      "paymentsBilling": "Lacag-bixin/lacag-bixinta",
-      "reportAbuse": "Soo sheeg xadgudub",
-      "searchHelpArticles": "Raadi maqaallada caawinta",
-      "search": "Raadi"
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
     },
-    "peoplePage": {
-      "people": "Dadka",
-      "search": "Raadi",
-      "searchPlaceholder": "Raadi alias, magac, magaca isticmaalaha, ama lambar taleefan",
-      "filterSaved": "Filter xidhiidhada la keydiyey",
-      "noContactsFound": "Xidhiidho lama helin",
-      "quickStart": "Bilow degdeg ah",
-      "quickStartDesc": "Dhowr siyaabood oo degdeg ah oo lagu bilaabo.",
-      "importContacts": "Soo deji xidhiidhadaada",
-      "add": "Ku dar",
-      "focusSearch": "Diiradda saar Raadi",
-      "import": "Soo deji",
-      "findOrAdd": "Hel ama ku dar qof",
-      "searchByPhoneOrUsername": "Raadi taleefan / magaca isticmaalaha",
-      "inviteFriends": "Ku martiqaad saaxiibada",
-      "inviteDesc": "La wadaag xiriirkaaga martiqaad si aad si degdeg ah u bilowdo sheekaysiga.",
-      "getTheApp": "Hel app-ka",
-      "getTheAppDesc": "La xidhiidh intaad socoto oo leh Chatforia iOS iyo Android.",
-      "download": "Soo deji",
-      "syncTip": "Talo: Farriimahaagu way isku xidhan yihiin web iyo mobile."
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
     },
-    "randomChat": {
-      "title": "Sheekaysi Random",
-      "description": "La kulan qof cusub markiiba. Waxaan ku xidhi doonnaa oo furin doonnaa qol sheekaysi ku meel gaar ah. Marka hore si qarsoodi ah u sheekayso. Ku dar saaxiib haddii ay sax tahay.",
-      "findMatch": "Ii hel xidhiidh",
-      "chatWithForia": "Sheekayso Foria",
-      "chatWithForiaBot": "Sheekayso ForiaBot",
-      "cancel": "Jooji",
-      "close": "Xir",
-      "searching": "Raadinaya...",
-      "finding": "Helaya...",
-      "looking": "Raadinaya qof...",
-      "startingForia": "Bilaabaya sheekaysi Foria...",
-      "partnerDisconnected": "Qofkaaga wada sheekaysiga ayaa ka baxay.",
-      "noPartner": "Qof lama helin hadda.",
-      "connectedTo": "Ku xidhan {{name}}",
-      "connected": "Ku xidhan",
-      "idle": "Nasasho",
-      "partnerLeft": "Qofka wada sheekaysiga ayaa ka tagay.",
-      "stopped": "La joojiyey.",
-      "skip": "Ka bood",
-      "save": "Keydso",
-      "saveGuard": "Kaliya sheekaysiyo qof-ilaa-qof ayaa la keydin karaa",
-      "youAreChattingWith": "Waxaad la sheekaysanaysaa {{name}}",
-      "bot": "BOT",
-      "leave": "Ka bax",
-      "sayHi": "Ku dheh hi 👋",
-      "you": "Adiga",
-      "typeMessage": "Qor farriin",
-      "send": "Dir",
-      "partner": "Qofka wada sheekaysiga",
-      "withRia": "Ria la",
-      "chatWithRia": "Sheekayso Ria",
-      "startingRia": "Bilaabaya sheekaysi Ria...",
-      "ageDisclaimer": "Waxaan kaydsanaynaa oo keliya xad da'deed (ma aha taariikhda dhalashadaada saxda ah). Tani waxaa loo isticmaalaa in lagu ilaaliyo isku xidhka Sheekaysi Random macquul ah. Si aad ula xidhiidho dadka (ma aha kaliya RiaBot), deji xadka da'daada Settings → Da'da & Sheekaysi Random.",
-      "ageBandRequired": "Deji xadka da'daada Profile → Da'da & Sheekaysi Random si lagugu xidho dadka.",
-      "ageBandCallout": "Si aad ula xidhiidho dadka (ma aha kaliya RiaBot), deji xadka da'daada Settings → Da'da & Sheekaysi Random.",
-      "subtitle": "La kulan qof cusub markiiba, ama dooro inaad la sheekaysato Ria.",
-      "start": "Bilow sheekaysi",
-      "matching": "Isku xidhaya...",
-      "setAge": "Deji xadka da'daada Profile → Da'da & Sheekaysi Random si lagugu xidho dadka.",
-      "next": "Qofka xiga",
-      "addFriend": "Ku dar saaxiib",
-      "requested": "La codsaday",
-      "messageRia": "U dir farriin Ria...",
-      "messageMatch": "U dir farriin xidhiidhkaaga..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    }
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

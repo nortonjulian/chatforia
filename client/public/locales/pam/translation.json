@@ -7,10 +7,24 @@
     "cancelAria": "I-cancel",
     "copy": "I-kopya",
     "copied": "Mi-kopya na!",
-    "errorWithMessage": "Kamalian: {{message}}"
+    "errorWithMessage": "Kamalian: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Lumpat king pun a laman"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Mi-gawa at mi-download ing key backup ✓",
@@ -28,26 +42,105 @@
   "encryptionRecovery": {
     "title": "Pangangasiwa king Encryption",
     "description": "I-back up, i-restore, i-unlock, o i-reset ing encryption key mu.",
-
-    "actions": {
-      "unlockKey": "I-unlock ing encryption key",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
       "restoreFromBackup": "I-restore manibat king account backup",
       "resetEncryption": "I-reset ing Encryption"
     },
-
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "I-back up, i-restore, i-unlock, o i-reset ing encryption key mu."
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "I-back up, i-restore, i-unlock, o i-reset ing encryption key mu."
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "I-back up, i-restore, i-unlock, o i-reset ing encryption key mu."
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "I-back up, i-restore, i-unlock, o i-reset ing encryption key mu."
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "I-back up, i-restore, i-unlock, o i-reset ing encryption key mu."
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "I-back up, i-restore, i-unlock, o i-reset ing encryption key mu."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "I-back up, i-restore, i-unlock, o i-reset ing encryption key mu."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "I-back up, i-restore, i-unlock, o i-reset ing encryption key mu."
+      }
+    },
+    "actions": {
+      "unlockKey": "I-unlock ing encryption key",
+      "restoreFromBackup": "I-restore manibat king account backup",
+      "resetEncryption": "I-reset ing Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
     "messages": {
       "backupCreated": "Mi-gawa at mi-download ing key backup.",
       "keyUnlocked": "Mi-unlock ing encryption key.",
       "keyRestored": "Mi-restore ing key manibat king account backup.",
       "resetSuccess": "Matagumpay a mi-reset ing encryption."
-    }
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Pangangasiwa king Encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Ligtas a pagmemensahe para kaninu man, nun kayas man",
     "description": "End-to-end encryption, translation king 100+ languages, disappearing messages, at voice/video calling.",
     "feature": {
       "encryption": "End-to-end a encryption bilang default",
-       "translation": "Mabilis a built-in a translation ning mensahe",
+      "translation": "Mabilis a built-in a translation ning mensahe",
       "disappearing": "Mawawalang messages at read receipts",
       "privacy": "Privacy muna. Kekang data, kekang kontrol.",
       "translate": "Matuling a built-in message translation",
@@ -105,7 +198,19 @@
       "passwordDescription": "Minimum 6 characters. Gamit kang malakas at unique a password.",
       "smsConsent": "King paggawa mu king account, ma-agree ka na tumanggap kang SMS notifications tungkol king kekang Chatforia activity (a anti maging message manibat king aliwang user). Maaaring mag-apply ing message & data rates. Maliari mung i-opt out kapan man king Settings.",
       "termsLink": "Terms ning Service",
-      "privacyLink": "Patakaran king Privacy"
+      "privacyLink": "Patakaran king Privacy",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "Para kang:",
     "enterRecipient": "Ilagay ing name o number",
@@ -116,11 +221,95 @@
     "addRecipient": "Magdagdag kang recipient king babo ba magsimula…",
     "oneRecipient": "Paki lagay ing metung a recipient para ngeni.",
     "enterValidRecipient": "Ilagay ing naka-save a contact name o phone number.",
-    "sendFailed": "Mali ing pagpapadala. I-check ing console para king details."
+    "sendFailed": "Mali ing pagpapadala. I-check ing console para king details.",
+    "logIn": "Mag-log In",
+    "seePlans": "Luwan ing plans & pricing",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "King paggawa mu king account, ma-agree ka na tumanggap kang SMS notifications tungkol king kekang Chatforia activity (a anti maging message manibat king aliwang user). Maaaring mag-apply ing message & data rates. Maliari mung i-opt out kapan man king Settings.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Mikatuki kang pasibayu",
+    "title": "Tuloy ka king Chatforia",
+    "subtitleReturning": "Mag-login ka king Chatforia account mu",
+    "google": "Tuloy gamit ing Google",
+    "apple": "Tuloy gamit ing Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "o",
+    "accountLabel": "Account",
+    "identifierPh": "Email o username",
+    "passwordLabel": "Password",
+    "passwordPh": "Ing password mu",
+    "keepSignedIn": "Manatili kung naka-login",
+    "forgot": "Makalingwan ing password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Mag-login",
+    "loggingIn": "Mag-login la…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Tuloy ka king Chatforia",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Tuloy ka king Chatforia",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Mag-login",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Home",
-    "header": "Ing kekang messages",
+    "messagesTitle": "Deng messages mu",
+    "messagesSubtitle": "Maglagay kang recipient babo, tapus magpadala kang message para mag-umpisa ing conversation.",
     "subheader": "Magpadala kang message ba magsimula kang chat.",
     "sendButton": "I-send ing message",
     "gifPicker": "Luwan ing GIF picker",
@@ -131,243 +320,31 @@
     "sendTooltip": "I-send",
     "sendTooltipEmpty": "I-type ing message ba i-send",
     "send": "I-send",
-    "enterRecipient": "Ilagay ing lagyu o numero",
-    "addRecipient": "Magdagdag kang recipient king babo ba magsimula…",
     "welcomeMessage": "Maligayang datang king Chatforia",
     "getStarted": "Magsimula na",
-    "messagesTitle": "Deng messages mu",
-    "messagesSubtitle": "Maglagay kang recipient babo, tapus magpadala kang message para mag-umpisa ing conversation."
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
+    "enterRecipient": "Ilagay ing lagyu o numero",
+    "addRecipient": "Magdagdag kang recipient king babo ba magsimula…",
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Patakaran king Refund",
-    "lastUpdated": "May-update king:",
-    "intro": "King Chatforia, magsikap kami para magbigay mataas a kalidad a serbisyo kareng gagamit. Iting Patakaran king Refund magpaliwanag nung makananu ya ibalik ing bayad.",
-    "subscriptions": {
-      "title": "Subscriptions",
-      "body": "Ing subscriptions babayaran ya mu muna at aulit-ulit. Malyari kang mag-cancel anumang oras king iyong account settings o king platform a ginamit mu."
-    },
-    "eligibility": {
-      "title": "Karapatan king Refund",
-      "body": "Malyari kang makasaup refund para kareng dobleng bayad, maling billing, o problema teknikal a e makagamit kareng paid features. Lahat a request susuriang mabuti."
-    },
-    "nonRefundable": {
-      "title": "E Refundable",
-      "body": "Karaniwan, e kami magbibigay refund para kareng oras a e nagamit, parte mu lang a subscription, o nung e ka nag-cancel bago mag-renew."
-    },
-    "thirdParty": {
-      "title": "Kareng Third-Party a Bili",
-      "body": "Nung binili mu king third-party a platform a kaparehu ning Apple App Store, kailangan mung mag-request refund king karela."
-    },
-    "contact": {
-      "title": "Makipag-ugnayan",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Tungkol king Chatforia",
-    "description": "Ing Chatforia metung yang modernong messaging platform a ginawa para king secure at multilingual a komunikasyon...",
-    "valuesTitle": "Ing aming pinahahalagahan",
-    "privacyTitle": "Privacy muna",
-    "privacyDesc": "Matibay a encryption at kontrolado ning user a privacy settings",
-    "accessTitle": "Para king lahat",
-    "accessDesc": "May built-in translation kareng aliwang salita",
-    "controlTitle": "Kontrol",
-    "controlDesc": "Features a kaparehu ning disappearing messages at read receipts"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Bakit importante la reng Messaging Platforms ngeni",
-      "intro": "Reng messaging platforms maging metung la kareng pinakaimportante a gamit para king komunikasyon king mundo ngeni...",
-      "everydayTitle": "Aldo-aldong Komunikasyon",
-      "everydayDesc": "Reng tau gagamit la messaging apps para king aldo-aldong pakikipag-usap...",
-      "speedTitle": "Bilís at Kaginhawaan",
-      "speedDesc": "Reng mensahe agad la dumarating...",
-      "globalTitle": "Global a Saklaw",
-      "globalDesc": "Reng platforms magdurugtong la kareng tau king buong mundo...",
-      "privacyTitle": "Privacy at Kontrol",
-      "privacyDesc": "Reng modernong messaging platforms magbigay kontrol kareng user...",
-      "futureTitle": "Ing Future ning Messaging",
-      "futureDesc": "Ing messaging tuloy-tuloy yang umunlad...",
-      "outro": "Ing Chatforia ginawa yang naka-base kareng prinsipyung ini..."
-    },
-
-    "global": {
-      "title": "Ing Future ning Global a Komunikasyon",
-      "intro": "Ing komunikasyon mabilis yang nagbago...",
-      "barriersTitle": "Pagtanggal kareng Hadlang",
-      "barriersDesc": "Reng tau malyari lang makipag-ugnayan king buong mundo...",
-      "translationTitle": "Ing Papel ning Translation Technology",
-      "translationDesc": "Ing salita dati yang hadlang...",
-      "realtimeTitle": "Real-Time a Koneksyon",
-      "realtimeDesc": "Importante ya ing bilís...",
-      "privacyTitle": "Privacy at Seguridad",
-      "privacyDesc": "Reng user buri dang siguradung protektado la reng usapan da...",
-      "futureTitle": "Nanu ing susunud",
-      "futureDesc": "Ing future ning komunikasyon may lalabas pang aliwang features...",
-      "outro": "Reng platform a kaparehu ning Chatforia kabahagi la keni..."
-    },
-
-    "index": {
-      "title": "Chatforia Blog",
-      "intro": "Suriang mabuti reng ideya tungkul king komunikasyon...",
-      "post1": "Paanu makipag-chat nang ligtas online",
-      "post2": "Ing Future ning Global a Komunikasyon",
-      "post3": "Bakit importante la reng Messaging Platforms"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Paanu gagana ing Chatforia",
-    "intro": "Ing Chatforia ginawa yang simple ing komunikasyon...",
-    "step1Title": "1. Gumawa kang Account",
-    "step1Desc": "Mag-sign up gamit ing email o username mu...",
-    "step2Title": "2. Magsimula kang Usapan",
-    "step2Desc": "Makipag-ugnayan kareng aliwa...",
-    "step3Title": "3. Real-Time Messaging",
-    "step3Desc": "Reng mensahe mabilis la dumarating...",
-    "step4Title": "4. Global a Komunikasyon",
-    "step4Desc": "Ing built-in translation tutulung kareng user...",
-    "step5Title": "5. Manatiling may Kontrol",
-    "step5Desc": "Kontrolan mu reng preferences mu..."
-  },
-
-  "safety": {
-    "title": "Kaligtasan at Community Guidelines",
-    "intro": "Ing Chatforia committed yang panatilihin ing ligtas a kapaligiran...",
-    "respectTitle": "Magalang a Komunikasyon",
-    "respectDesc": "Reng user dapat mag-usap la nang may galang...",
-    "prohibitedTitle": "Bawal a Nilalaman",
-    "prohibited": {
-      "illegal": "Ilegal a gawain",
-      "harassment": "Pang-aapi o bullying",
-      "hate": "Poot o diskriminasyon",
-      "explicit": "Malaswang o mapanganib a materyal",
-      "spam": "Spam o mapanlinlang a gawain"
-    },
-    "toolsTitle": "Reng Tool para king Kaligtasan",
-    "tools": {
-      "report": "I-report ing di angkop a asal",
-      "block": "I-block reng user",
-      "control": "Kontrolan reng privacy settings"
-    },
-    "enforcementTitle": "Pagpapatupad",
-    "enforcementDesc": "Malyari kaming kumilos laban kareng account..."
-},
-  "chat": {
-    "selectPrompt": "Pili kang text o chat room ba magsimula kang mag-chat",
-    "newMessages": "Bayung messages",
-    "typing": "Mag-type ya ing {{name}}...",
-    "emptyTitle": "Ing kekang messages",
-    "emptySubtitle": "Magpadala kang message ba magsimula kang chat.",
-    "startChatButton": "I-send ing message",
-    "mediaAttachment": "Media attachment",
-    "thisUser": "ini nga user",
-    "blockConfirm": "I-block ing {{name}}? E na ka tumanggap message manibat kaya.",
-    "blockedUser": "Mi-block ing {{name}}.",
-    "blockError": "E mi me-detect ing user a i-block.",
-    "blockFailed": "Mali ing pag-block (alang pa ing backend).",
-    "encryptedUnavailable": "Encrypted message (alang key)",
-    "unlockToView": "I-unlock ing key mu ba makita ini nga message"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Patay"
-    },
-    "freeLimit": "Limit ning Free plan: auto-delete anggang 1 day. Mi-clamp king 1d.",
-    "premiumLimit": "Max auto-delete para king Premium iyan 30 days. Mi-clamp king 30d.",
-    "nothingToSend": "I-type ing message o i-attach kang file ba i-send.",
-    "encryptionFailed": "Mali ing encryption. E mi-send ing message.",
-    "sent": "Mi-deliver ing message.",
-    "placeholder": "Magtype kang mensahe…",
-    "voiceAdded": "Mekadagdag yang voice note",
-    "attachmentAdded": "Mekadagdag yang attachment",
-    "send": "Ipadala",
-    "autoDelete": "Automatic a delete",
-    "typeToSend": "I-type ing message ba i-send",
-    "sendWithEnter": "I-send (Enter)",
-    "attachment": "attachment",
-    "caption": "Caption (opsyonal)",
-    "remove": "I-remove",
-    "clear": "I-clear",
-    "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Masyadu yang maragul ing attachment. Subukan mung mas maliit a file.",
-      "unsupportedFile": "E maliari ing file type a ini.",
-      "rateLimit": "Masyadu kang mabilis magpadala message. Paki hinay-hinay.",
-      "validation": "May mali sa validation. I-check ing message mu at subukan mung pasibayu.",
-      "failedToSend": "Mali ing pag-send. Maliari mung i-retry ing failed bubble."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Naka-save a Contacts",
-    "refreshAria": "I-refresh ing contacts",
-    "people": "Tau",
-    "filterPlaceholder": "I-filter ing naka-save a contacts…",
-    "filterAria": "I-filter ing naka-save a contacts",
-    "noContactsFound": "Alang mitagpo a contacts.",
-    "externalContact": "External a contact",
-    "quickStart": "Mabilis a pagsimula",
-    "notJoined": "E pa me-join ing contact a ini king Chatforia.",
-    "couldNotStart": "E maliari magsimula ing chat. Subukan mung pasibayu.",
-    "startFailed": "Mali ing pagsimula chat. Subukan mung pasibayu.",
-    "deleted": "Mi-delete ing contact.",
-    "deleteFailed": "Mali ing pag-delete contact. Subukan mung pasibayu.",
-    "aliasUpdated": "Mi-update ing alias.",
-    "updateAliasFailed": "Mali ing pag-update alias. Subukan mung pasibayu.",
-    "selectContact": "Pili ing {{name}}",
-    "alias": "Alias",
-    "inviteFriends": "Mag-imbita friends",
-    "startChat": "Magsimula chat",
-    "message": "Message",
-    "delete": "I-delete",
-    "deleteContactAria": "I-delete ing contact",
-    "loadFailed": "Mali ing pag-load contacts. Subukan mung pasibayu.",
-    "loadMore": "Load pa",
-    "call": "Tawag",
-    "callStarted": "Tawag ya ini nga number gamit ing Chatforia number mu…",
-    "callFailed": "Mali ing pagsimula tawag. Subukan mung pasibayu.",
-    "searchContactsPlaceholder": "Mag-search kareng naka-save a contacts gamit alias, lagyu, username, o telepono",
-    "search": "Hanap",
-    "quickStartDescription": "Pamahalan deng contacts mu at mag-imbita friends.",
-    "importYourContacts": "I-import deng contacts mu",
-    "import": "Import",
-    "addAContact": "Magdagdag contact",
-    "add": "Idagdag",
-    "inviteFriendsDescription": "I-share ing invite link mu para magsimula lang chatting instantly.",
-    "getTheApp": "Kunin ing app",
-    "getTheAppDescription": "Manatiling connected king biyahe gamit ing Chatforia para king iOS at Android.",
-    "download": "I-download",
-    "messagesSyncedTip": "Tip: Deng mensahe mu mananatiling synced kareng web at mobile."
-  },
-  "startChatModal": {
-    "title": "Magsimula conversation",
-    "searchPlaceholder": "Hanap name, username, o phone number",
-    "messageThisPerson": "I-message ini nga tau",
-    "contacts": "Contacts",
-    "recentInteractions": "Recent interactions",
-    "noContactsMatch": "Alang mitagpo a contacts king kekang search.",
-    "noRecentInteractions": "Alang pa recent interactions.",
-    "unknown": "E kilala",
-    "interactionType": {
-      "message": "Message",
-      "call": "Tawag",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Magdagdag contact",
-    "phoneOrUsername": "Phone o username",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 o juliannorton",
-    "alias": "Alias (opsyonal)",
-    "aliasPlaceholder": "e.g. Trabaho, Nanay, Mike – Europa",
-    "enterPhoneOrUsername": "Ilagay ing phone number o username.",
-    "userLookupFailed": "Mali ing paghanap user.",
-    "cannotAddSelf": "E maliari mung idagdag ing sarili mu bilang contact.",
-    "failedToAdd": "Mali ing pagdagdag contact.",
-    "add": "Idagdag"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Random Chat",
@@ -391,13 +368,151 @@
     "startChatAlt": "Magsimula bayung chat",
     "calls": "Tawag",
     "video": "Video",
-    "voicemail": "Voicemail"
+    "voicemail": "Voicemail",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Bayung Status",
     "logout": "Mag-Log Out",
     "help": "Tulong",
     "createStatusAria": "Mag-gawa bayung Status"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Trabahu",
+    "press": "Press",
+    "advertise": "Mag-advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "KOMPANYA",
+      "support": "SUPORTA",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans at Presyu",
+      "about-chatforia": "Tungkul king Chatforia",
+      "careers": "Trabahu",
+      "press": "Press",
+      "advertise": "Mag-advertise",
+      "getting-started": "Magsimula",
+      "help-center": "Help Center",
+      "contact-us": "Kontakin Daka",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "E ya ibenta ing info ku",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "Makananu ya gumana",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Pili kang text o chat room ba magsimula kang mag-chat",
+    "newMessages": "Bayung messages",
+    "typing": "Mag-type ya ing {{name}}...",
+    "emptyTitle": "Ing kekang messages",
+    "emptySubtitle": "Magpadala kang message ba magsimula kang chat.",
+    "startChatButton": "I-send ing message",
+    "mediaAttachment": "Media attachment",
+    "thisUser": "ini nga user",
+    "blockConfirm": "I-block ing {{name}}? E na ka tumanggap message manibat kaya.",
+    "blockedUser": "Mi-block ing {{name}}.",
+    "blockError": "E mi me-detect ing user a i-block.",
+    "blockFailed": "Mali ing pag-block (alang pa ing backend).",
+    "encryptedUnavailable": "Encrypted message (alang key)",
+    "unlockToView": "I-unlock ing key mu ba makita ini nga message",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Patay"
+    },
+    "freeLimit": "Limit ning Free plan: auto-delete anggang 1 day. Mi-clamp king 1d.",
+    "premiumLimit": "Max auto-delete para king Premium iyan 30 days. Mi-clamp king 30d.",
+    "nothingToSend": "I-type ing message o i-attach kang file ba i-send.",
+    "encryptionFailed": "Mali ing encryption. E mi-send ing message.",
+    "sent": "Mi-deliver ing message.",
+    "placeholder": "Magtype kang mensahe…",
+    "autoDelete": "Automatic a delete",
+    "typeToSend": "I-type ing message ba i-send",
+    "send": "Ipadala",
+    "sendWithEnter": "I-send (Enter)",
+    "attachment": "attachment",
+    "caption": "Caption (opsyonal)",
+    "remove": "I-remove",
+    "clear": "I-clear",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Masyadu yang maragul ing attachment. Subukan mung mas maliit a file.",
+      "unsupportedFile": "E maliari ing file type a ini.",
+      "rateLimit": "Masyadu kang mabilis magpadala message. Paki hinay-hinay.",
+      "validation": "May mali sa validation. I-check ing message mu at subukan mung pasibayu.",
+      "failedToSend": "Mali ing pag-send. Maliari mung i-retry ing failed bubble.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Mekadagdag yang voice note"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Thread menu",
@@ -423,24 +538,6 @@
     "noText": "[Alang text]",
     "noResults": "Alang resulta"
   },
-  "login": {
-  "welcomeBack": "Mikatuki kang pasibayu",
-  "title": "Tuloy ka king Chatforia",
-  "subtitleReturning": "Mag-login ka king Chatforia account mu",
-  "google": "Tuloy gamit ing Google",
-  "apple": "Tuloy gamit ing Apple",
-  "googleShort": "Google",
-  "appleShort": "Apple",
-  "or": "o",
-  "accountLabel": "Account",
-  "identifierPh": "Email o username",
-  "passwordLabel": "Password",
-  "passwordPh": "Ing password mu",
-  "keepSignedIn": "Manatili kung naka-login",
-  "forgot": "Makalingwan ing password?",
-  "submit": "Mag-login",
-  "loggingIn": "Mag-login la…"
-},
   "roomSettings": {
     "roles": {
       "member": "Miyembro",
@@ -457,7 +554,18 @@
       "tagged": "Lang tagged (/tr …)",
       "all": "Amin a messages"
     },
-    "updated": "Mi-update ing settings"
+    "updated": "Mi-update ing settings",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Shared media",
@@ -490,6 +598,7 @@
     "audienceLabel": "Audience",
     "audience": {
       "public": "Public",
+      "followers": "Followers",
       "contacts": "Contacts",
       "mutuals": "Mutuals",
       "custom": "Custom..."
@@ -527,8 +636,112 @@
     "delete": "I-delete",
     "unreadDotAria": "Unread voicemail indicator"
   },
+  "contactList": {
+    "savedContacts": "Naka-save a Contacts",
+    "refreshAria": "I-refresh ing contacts",
+    "filterPlaceholder": "I-filter ing naka-save a contacts…",
+    "filterAria": "I-filter ing naka-save a contacts",
+    "noContactsFound": "Alang mitagpo a contacts.",
+    "externalContact": "External a contact",
+    "notJoined": "E pa me-join ing contact a ini king Chatforia.",
+    "couldNotStart": "E maliari magsimula ing chat. Subukan mung pasibayu.",
+    "startFailed": "Mali ing pagsimula chat. Subukan mung pasibayu.",
+    "deleted": "Mi-delete ing contact.",
+    "deleteFailed": "Mali ing pag-delete contact. Subukan mung pasibayu.",
+    "aliasUpdated": "Mi-update ing alias.",
+    "updateAliasFailed": "Mali ing pag-update alias. Subukan mung pasibayu.",
+    "selectContact": "Pili ing {{name}}",
+    "alias": "Alias",
+    "startChat": "Magsimula chat",
+    "message": "Message",
+    "delete": "I-delete",
+    "deleteContactAria": "I-delete ing contact",
+    "loadFailed": "Mali ing pag-load contacts. Subukan mung pasibayu.",
+    "loadMore": "Load pa",
+    "call": "Tawag",
+    "callStarted": "Tawag ya ini nga number gamit ing Chatforia number mu…",
+    "callFailed": "Mali ing pagsimula tawag. Subukan mung pasibayu.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Magdagdag contact",
+    "phoneOrUsername": "Phone o username",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 o juliannorton",
+    "alias": "Alias (opsyonal)",
+    "aliasPlaceholder": "e.g. Trabaho, Nanay, Mike – Europa",
+    "enterPhoneOrUsername": "Ilagay ing phone number o username.",
+    "userLookupFailed": "Mali ing paghanap user.",
+    "cannotAddSelf": "E maliari mung idagdag ing sarili mu bilang contact.",
+    "failedToAdd": "Mali ing pagdagdag contact.",
+    "add": "Idagdag"
+  },
+  "startChatModal": {
+    "title": "Magsimula conversation",
+    "searchPlaceholder": "Hanap name, username, o phone number",
+    "messageThisPerson": "I-message ini nga tau",
+    "contacts": "Contacts",
+    "recentInteractions": "Recent interactions",
+    "noContactsMatch": "Alang mitagpo a contacts king kekang search.",
+    "noRecentInteractions": "Alang pa recent interactions.",
+    "unknown": "E kilala",
+    "interactionType": {
+      "message": "Message",
+      "call": "Tawag",
+      "video": "Video"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
+  },
   "profile": {
-    "title": "User Profile",
+    "title": "Chatforia eSIM",
     "preferredLanguage": "Preferred language",
     "chooseLanguage": "Pili kang language",
     "mustLogin": "Kailangan kang mag-sign in ba makita ing settings.",
@@ -663,13 +876,167 @@
     "voicemailNote": "Ing voicemails manibat king kekang Chatforia numbers mi-store la king Voicemail inbox mu. Maliari mung i-enable ing transcription at forwarding king supported plans.",
     "portHint": "Buri mung panatili ing kekang current number? Maliari mung i-port king Chatforia Wireless.",
     "wireless": {
-      "manage": "Manage wireless"
+      "manage": "Manage wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "User Profile",
       "desc": "Magkuha kang mobile data para king Chatforia nung alayu ka king Wi-Fi.",
-      "cta": "Kuhaan eSIM / Ipakita ing QR"
-    }
+      "cta": "Kuhaan eSIM / Ipakita ing QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -721,78 +1088,236 @@
     "expiresIn": "Mag-expire pagkatapos {{days}} araw",
     "exhausted": "Mi-ubos na ing data mu. Mag-bili kang bayung pack ba magamit pa ing mobile data.",
     "buyPack": "I-bili data pack",
-    "esimPackLabel": "eSIM pack"
-  },
-  "family": {
-    "title": "Family",
-    "loading": "Maglo-load la reng family details mu…",
+    "esimPackLabel": "eSIM pack",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "Maglo-load…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
     "error": {
-      "load": "Mali ing pag-load family details.",
-      "invite": "E maliari mag-gawa invite. Siguradu kang family owner ka at subukan mung pasibayu.",
-      "checkout": "E mi me-start ing checkout para king Family plan. Subukan mung pasibayu."
-    },
-    "billing": {
-      "myPlanTitle": "Ing plan ku",
-      "myPlanError": "E maliari i-load ing plan mu.",
-      "myPlanLoading": "Maglo-load ya ing plan mu…",
-      "currentPlan": "Current plan",
-      "renewsAt": "Mag-renew king",
-      "freePlanCopy": "Free plan ka pa. I-upgrade ba luwan ing features.",
-      "upgradeCta": "I-upgrade plan",
-      "changePlanCta": "I-change plan",
-      "manageBilling": "Manage billing",
-      "portalError": "E maliari i-open ing billing portal ngeni.",
-      "cancelNow": "I-cancel ngeni",
-      "cancelNowHelp": "Maliari mung i-manage o i-cancel ing subscription mu king billing portal, o i-cancel ngeni king babo.",
-      "cancelNowConfirm": "Siguradu kang buri mung i-cancel ing plan mu ngeni? E na maliaring i-undo ini.",
-      "cancelNowError": "E maliari i-cancel ing plan mu ngeni. Subukan mung pasibayu o gamitan ing Manage billing."
-    },
-    "none": {
-      "title": "Alang pa family a mi-set up",
-      "body": "Ba mag-gawa Chatforia Family at shared data pool, magsimula kang Family plan.",
-      "goUpgrade": "Magsimula Family plan",
-      "viewPlans": "Luwan ing amin a plans"
-    },
-    "group": {
-      "defaultName": "Ing kekang Chatforia Family",
-      "role": "Ing role mu: {{role}}"
-    },
-    "role": {
-      "owner": "Owner",
-      "member": "Miyembro"
+      "load": "Failed to load wireless details."
     },
     "data": {
-      "heading": "Shared data pool",
-      "caption": "Amin a members mi-share ini nga pool. I-warn da ka nung malapit na ing limit mu."
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
     },
-    "members": {
-      "title": "Family members",
-      "name": "Name",
-      "role": "Role",
-      "usage": "Usage",
-      "limit": "Limit",
-      "unlimited": "Alang specific limit",
-      "inviteCta": "Mag-invite miyembro"
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
     },
-    "invite": {
-      "title": "I-invite bayung member",
-      "body": "Magpadala kang email o link ba i-invite ing tau king kekang shared family data pool.",
-      "emailLabel": "Email (opsyonal)",
-      "emailPlaceholder": "friend@example.com",
-      "create": "Mag-gawa invite",
-      "linkLabel": "Invite link",
-      "copyAria": "I-kopya ing invite link",
-      "expiryHint": "Mag-expire ini nga link pagkatapos ding metung a pilan araw. Maliari mung mag-gawa bayu kapan man."
-    },
-    "join": {
-      "title": "Maki-join king family",
-      "body": "Mi-invite ka na ba maki-join king Chatforia Family at mi-share king data pool da.",
-      "cta": "I-accept at maki-join family",
-      "ctaLogin": "Mag-sign in at maki-join family",
-      "success": "Mi-join ka na king family a ini. Mi-share na mu ing data pool da.",
-      "goFamily": "Munta king family dashboard",
-      "error": "E mi me-add keka king family a ini. Maliari ta nang expired o invalid ing invite."
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
     }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
   },
   "premium": {
     "heading": "Munta Premium",
@@ -801,43 +1326,10 @@
     "upgrade": "I-upgrade",
     "upgradeAria": "I-upgrade king Chatforia Premium"
   },
-  "footer": {
-  "aria": "Footer",
-  "homeAria": "Chatforia home",
-
-  "section": {
-    "company": "KOMPANYA",
-    "support": "SUPORTA",
-    "downloads": "DOWNLOADS",
-    "legal": "LEGAL"
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
   },
-
-  "links": {
-    "plans-pricing": "Plans at Presyu",
-    "about-chatforia": "Tungkul king Chatforia",
-    "how-it-works": "Makananu ya gumana",
-    "blog": "Blog",
-    "careers": "Trabahu",
-    "press": "Press",
-    "advertise": "Mag-advertise",
-
-    "getting-started": "Magsimula",
-    "help-center": "Help Center",
-    "safety": "Kaligtasan",
-    "contact-us": "Kontakin Daka",
-    "status-page": "Status Page",
-
-    "ios-app-store": "iOS / App Store",
-    "android-google-play": "Android / Google Play",
-
-    "privacy-policy": "Privacy Policy",
-    "terms-of-service": "Terms of Service",
-    "refund-policy": "Refund Policy",
-    "sms-messaging-policy": "SMS Messaging Policy",
-    "do-not-sell-my-info": "E ya ibenta ing info ku",
-    "cookie-settings": "Cookie Settings"
-  }
-},
   "upgrade": {
     "title": "I-upgrade",
     "titleLoggedIn": "I-upgrade",
@@ -866,7 +1358,7 @@
     },
     "billing": {
       "opening": "Luwan…",
-      "manage": "Manage Billing"
+      "manage": "I-manage ing limit para king balang member"
     },
     "checkout": {
       "redirecting": "Redirecting…"
@@ -880,14 +1372,18 @@
       "aria": "Pili plan",
       "getPlus": "I-upgrade king Plus",
       "upgradeMonthly": "I-upgrade Monthly",
-      "upgradeAnnual": "I-upgrade Annual"
+      "upgradeAnnual": "I-upgrade Annual",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
     },
     "section": {
-      "app": "App plans",
-      "mobile": "Mobile (eSIM)",
-      "family": "Family plans"
+      "app": "Magsimula king libre at ad-supported plan. Munta ad-free gamit ing Plus, o luwan ing full power features gamit ing Premium.",
+      "mobile": "Magdagdag global eSIM data ba magpatuloy ing Chatforia nung alayu ka king Wi-Fi.",
+      "family": "Mag-gawa shared data pool para king family mu at i-manage ing usage ning balang metung."
     },
-    "plansHeading": "Free, Plus, at Premium plans",
     "plans": {
       "free": {
         "title": "Free",
@@ -928,7 +1424,8 @@
           "plusAll": "Amin a atiu king Plus",
           "themes": "Luwan ing amin a premium color themes at app customizations",
           "ai": "Premium-only AI power tools para rewrites, smart replies, at summaries",
-          "support": "Priority support nung kailangan mu talaga"
+          "support": "Priority support nung kailangan mu talaga",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
         "badge": "Recommended",
         "cta": "I-upgrade (Monthly)",
@@ -943,7 +1440,8 @@
           "allPremium": "Amin a atiu king Premium Monthly — atiu la ing extra color themes",
           "annualBilling": "Bayad metung a beses king banwa",
           "save25": "Mag-save ~30% kaysa monthly",
-          "bestFor": "Mabuti para king power users, remote workers, at mabibigat a travelers"
+          "bestFor": "Mabuti para king power users, remote workers, at mabibigat a travelers",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
         "badge": "Save 30%",
         "cta": "I-upgrade (Annual)",
@@ -971,9 +1469,11 @@
       "scope": {
         "local": "Local",
         "europe": "Europa",
-        "global": "Global"
+        "global": "Global",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
       },
-      "note": "E mi bebenta data packs king babo ning 3 GB.",
       "localEquals": "Local = {{country}}",
       "localEqualsFallback": "Local = kekang bansa ngeni",
       "perPack": "/ pack",
@@ -989,34 +1489,31 @@
           "coverage": "Maayos a coverage",
           "instant": "Instant eSIM activation",
           "noContract": "One-time pack, alang kontrata"
-        }
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
       },
       "disclaimer": {
-        "devices": "Ing eSIM data packs kailangan eSIM-compatible at unlocked a device. Ing availability miiba ayon king phone model, carrier, at bansa. Ing coverage at bilis miiba ayon king rehiyon."
+        "devices": "Ing eSIM data packs kailangan eSIM-compatible at unlocked a device. Ing availability miiba ayon king phone model, carrier, at bansa. Ing coverage at bilis miiba ayon king rehiyon.",
+        "fairUse": "Subject king fair-use policy at local limits"
       },
-      "small": {
-        "title": "Starter pack",
-        "desc": "Atiu 3 GB high-speed data — mabuti para king magaan a pagmemensahe at pana-panahong calls.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Short trips, magaan a pagmemensahe, at pana-panahong calls",
-        "aria": "Bili Starter eSIM data pack"
-      },
-      "medium": {
-        "title": "Traveler pack",
-        "desc": "Atiu 5 GB high-speed data para king trips, commuting, at regular VoIP calls.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Weekend trips, regular VoIP calls, at maps",
-        "aria": "Bili Traveler eSIM data pack"
-      },
-      "large": {
-        "title": "Power pack",
-        "desc": "Atiu 10 GB high-speed data para king mabigat a chat, calls, at video king Chatforia network.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Mabigat a chat, calls, video, at hotspot use",
-        "aria": "Bili Power user eSIM data pack"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
       },
       "compare": {
         "title": "I-compare ing eSIM data packs",
@@ -1026,6 +1523,57 @@
           "bestFor": "Mabuti para"
         },
         "disclaimer": "Ing tunay a data usage miiba ayon nung nanu ing gamit mu king Chatforia (voice, video, media, at aliwang apps king phone mu)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Pinakamagandang halaga kada GB"
+      },
+      "feature": {
+        "instant": "Instant eSIM activation",
+        "coverage": "Maayos a coverage",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Local",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Europa",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Global",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Starter pack",
+        "data": "3 GB",
+        "bestFor": "Short trips, magaan a pagmemensahe, at pana-panahong calls"
+      },
+      "medium": {
+        "title": "Traveler pack",
+        "data": "5 GB",
+        "bestFor": "Weekend trips, regular VoIP calls, at maps"
+      },
+      "large": {
+        "title": "Power pack",
+        "data": "10 GB",
+        "bestFor": "Mabigat a chat, calls, video, at hotspot use"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
       }
     },
     "family": {
@@ -1081,14 +1629,17 @@
       },
       "tableTitle": "Nanu ing kaibahan ning Chatforia",
       "col": {
-        "feature": "Feature"
+        "feature": "Feature",
+        "chatforia": "Anggang 12+ months",
+        "textnow": "Miiba ayon king account",
+        "googleVoice": "Google Voice"
       },
       "feature": {
         "freeNumber": "Libre phone number",
         "translation": "Built-in auto-translation",
         "aiTools": "AI tools (rewrites, replies, summaries)",
-        "ads": "Ad-free option",
-        "history": "Message history"
+        "ads": "Libre forever at atiu la ing ads king app",
+        "history": "Mas makaba a message history (anggan 6 months)"
       },
       "yes": "Wa",
       "no": "Ali",
@@ -1126,396 +1677,780 @@
         "a": "Ing family packs mag-gawa shared data pool king maragul a Chatforia accounts. Metung a tau ing magbayad, at maliari mung i-invite o i-remove members at i-set limit kada tau."
       }
     },
-    "gettingStarted": {
-      "title": "Magsimula",
-      "subtitle": "Bayu ka pa king Chatforia? Ini ing mabilis a gabay ba maging produktibo ka king pilan a minuto.",
-      "alert": {
-        "text": "Tutubu ini nga gabay nung mag-launch kami bayung features. Nung alang nanu, paki sabi mi king",
-        "keyRequiredTitle": "Kailangan ing encryption key",
-        "keyRequiredBody": "E maliaring i-decrypt ning browser a ini reng encrypted messages mu ngeni. I-restore, i-unlock, o i-reset ing key mu ba makapagpatuloy.",
-        "contactLink": "Contact Us"
-      },
-      "section1": {
-        "title": "1) Mag-gawa kang account",
-        "signup": "Mag-sign up",
-        "or": "o",
-        "login": "mag-log in",
-        "loginText": "gamit ing kekang existing account.",
-        "prefsStart": "I-set ing kekang",
-        "prefsLink": "preferences",
-        "prefsRest": "(language, read receipts, themes).",
-        "createBackup": "Mag-gawa key backup",
-        "restoreFromBackup": "I-restore manibat king account backup",
-        "resetEncryption": "I-reset ing encryption"
-      },
-      "section2": {
-        "title": "2) Magsimula mag-mensahe",
-        "item1": "Mag-gawa DM o Group at i-send ing kekang mumunang message.",
-        "item2": "Gamitan ing instant translation ba mag-chat king 100+ languages.",
-        "item3": "Subukan ing disappearing messages at read receipts king Profile → Privacy."
-      },
-      "section3": {
-        "title": "3) Munta pa",
-        "item1": "Maliari kang i-upgrade king paid plan kapan man king app.",
-        "item2": "Nung naka-sign in ka na, maliari mung i-link aliwang devices at i-set up encrypted backups manibat king Settings king app."
-      },
-      "cta": {
-        "seePlans": "Luwan ing plans",
-        "openSettings": "Luwan ing settings"
-      }
+    "h2": {
+      "app": "Magsimula king libre at ad-supported plan. Munta ad-free gamit ing Plus, o luwan ing full power features gamit ing Premium."
     },
-    "helpCenter": {
-      "title": "Help Center",
-      "faq": {
-        "account": {
-          "q": "Nanu ing dapat kung gawan ba mag-gawa o mag-recover account?",
-          "a": "I-download ing app o gamitan ing web, pindutin “Create account”, i-verify ing email/phone. Ba mag-recover, gamitan “Forgot password”."
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
         },
-        "privacy": {
-          "q": "End-to-end encrypted la reng messages?",
-          "a": "Wa. Ing messages at calls end-to-end encrypted by default. Ikaw at ing recipient lang maliaring magbasa."
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
         },
-        "translate": {
-          "q": "Nanu ing gamit ning instant translation?",
-          "a": "I-enable ing “Auto-translate” king Settings → Appearance & Language. Mi-translate kami on-device nung supported, nung ali king secure APIs at minimal metadata."
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
         },
-        "contact": {
-          "q": "Contact support",
-          "a": "I-contact mi king support@chatforia.com. I-lagay ing screenshots at kekang app version."
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
         }
       }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
+  },
+  "family": {
+    "title": "Family",
+    "loading": "Maglo-load la reng family details mu…",
+    "error": {
+      "load": "Mali ing pag-load family details.",
+      "invite": "E maliari mag-gawa invite. Siguradu kang family owner ka at subukan mung pasibayu.",
+      "checkout": "E mi me-start ing checkout para king Family plan. Subukan mung pasibayu."
+    },
+    "billing": {
+      "myPlanTitle": "Ing plan ku",
+      "myPlanError": "E maliari i-load ing plan mu.",
+      "myPlanLoading": "Maglo-load ya ing plan mu…",
+      "currentPlan": "Current plan",
+      "renewsAt": "Mag-renew king",
+      "freePlanCopy": "Free plan ka pa. I-upgrade ba luwan ing features.",
+      "upgradeCta": "I-upgrade plan",
+      "changePlanCta": "I-change plan",
+      "manageBilling": "Manage billing",
+      "portalError": "E maliari i-open ing billing portal ngeni.",
+      "cancelNow": "I-cancel ngeni",
+      "cancelNowHelp": "Maliari mung i-manage o i-cancel ing subscription mu king billing portal, o i-cancel ngeni king babo.",
+      "cancelNowConfirm": "Siguradu kang buri mung i-cancel ing plan mu ngeni? E na maliaring i-undo ini.",
+      "cancelNowError": "E maliari i-cancel ing plan mu ngeni. Subukan mung pasibayu o gamitan ing Manage billing."
+    },
+    "none": {
+      "title": "Alang pa family a mi-set up",
+      "body": "Ba mag-gawa Chatforia Family at shared data pool, magsimula kang Family plan.",
+      "goUpgrade": "Magsimula Family plan",
+      "viewPlans": "Luwan ing amin a plans"
+    },
+    "group": {
+      "defaultName": "Ing kekang Chatforia Family",
+      "role": "Ing role mu: {{role}}"
+    },
+    "role": {
+      "owner": "Owner",
+      "member": "Miyembro"
+    },
+    "data": {
+      "heading": "Shared data pool",
+      "caption": "Amin a members mi-share ini nga pool. I-warn da ka nung malapit na ing limit mu."
+    },
+    "members": {
+      "title": "Family members",
+      "name": "Name",
+      "role": "Ing role mu: {{role}}",
+      "usage": "Usage",
+      "limit": "Limit",
+      "unlimited": "Alang specific limit",
+      "inviteCta": "Mag-invite miyembro"
+    },
+    "invite": {
+      "title": "I-invite bayung member",
+      "body": "Magpadala kang email o link ba i-invite ing tau king kekang shared family data pool.",
+      "emailLabel": "Email (opsyonal)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Mag-gawa invite",
+      "linkLabel": "Invite link",
+      "copyAria": "I-kopya ing invite link",
+      "expiryHint": "Mag-expire ini nga link pagkatapos ding metung a pilan araw. Maliari mung mag-gawa bayu kapan man."
+    },
+    "join": {
+      "title": "Maki-join king family",
+      "body": "Mi-invite ka na ba maki-join king Chatforia Family at mi-share king data pool da.",
+      "cta": "I-accept at maki-join family",
+      "ctaLogin": "Mag-sign in at maki-join family",
+      "success": "Mi-join ka na king family a ini. Mi-share na mu ing data pool da.",
+      "goFamily": "Munta king family dashboard",
+      "error": "E mi me-add keka king family a ini. Maliari ta nang expired o invalid ing invite."
+    }
+  },
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
+  },
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
+    },
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
+    },
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
+    },
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
+    },
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
+    },
+    "cta": {
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Paanu gagana ing Chatforia",
+    "intro": "Ing Chatforia ginawa yang simple ing komunikasyon...",
+    "step1Title": "1. Gumawa kang Account",
+    "step1Desc": "Mag-sign up gamit ing email o username mu...",
+    "step2Title": "2. Magsimula kang Usapan",
+    "step2Desc": "Makipag-ugnayan kareng aliwa...",
+    "step3Title": "3. Real-Time Messaging",
+    "step3Desc": "Reng mensahe mabilis la dumarating...",
+    "step4Title": "4. Global a Komunikasyon",
+    "step4Desc": "Ing built-in translation tutulung kareng user...",
+    "step5Title": "5. Manatiling may Kontrol",
+    "step5Desc": "Kontrolan mu reng preferences mu..."
+  },
+  "safety": {
+    "title": "Kaligtasan at Community Guidelines",
+    "intro": "Ing Chatforia committed yang panatilihin ing ligtas a kapaligiran...",
+    "respectTitle": "Magalang a Komunikasyon",
+    "respectDesc": "Reng user dapat mag-usap la nang may galang...",
+    "prohibitedTitle": "Bawal a Nilalaman",
+    "prohibited": {
+      "illegal": "Ilegal a gawain",
+      "harassment": "Pang-aapi o bullying",
+      "hate": "Poot o diskriminasyon",
+      "explicit": "Malaswang o mapanganib a materyal",
+      "spam": "Spam o mapanlinlang a gawain"
+    },
+    "toolsTitle": "Reng Tool para king Kaligtasan",
+    "tools": {
+      "report": "I-report ing di angkop a asal",
+      "block": "I-block reng user",
+      "control": "Kontrolan reng privacy settings"
+    },
+    "enforcementTitle": "Pagpapatupad",
+    "enforcementDesc": "Malyari kaming kumilos laban kareng account..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Bakit importante la reng Messaging Platforms ngeni",
+      "intro": "Reng messaging platforms maging metung la kareng pinakaimportante a gamit para king komunikasyon king mundo ngeni...",
+      "everydayTitle": "Aldo-aldong Komunikasyon",
+      "everydayDesc": "Reng tau gagamit la messaging apps para king aldo-aldong pakikipag-usap...",
+      "speedTitle": "Bilís at Kaginhawaan",
+      "speedDesc": "Reng mensahe agad la dumarating...",
+      "globalTitle": "Global a Saklaw",
+      "globalDesc": "Reng platforms magdurugtong la kareng tau king buong mundo...",
+      "privacyTitle": "Privacy at Kontrol",
+      "privacyDesc": "Reng modernong messaging platforms magbigay kontrol kareng user...",
+      "futureTitle": "Ing Future ning Messaging",
+      "futureDesc": "Ing messaging tuloy-tuloy yang umunlad...",
+      "outro": "Ing Chatforia ginawa yang naka-base kareng prinsipyung ini..."
+    },
+    "global": {
+      "title": "Ing Future ning Global a Komunikasyon",
+      "intro": "Ing komunikasyon mabilis yang nagbago...",
+      "barriersTitle": "Pagtanggal kareng Hadlang",
+      "barriersDesc": "Reng tau malyari lang makipag-ugnayan king buong mundo...",
+      "translationTitle": "Ing Papel ning Translation Technology",
+      "translationDesc": "Ing salita dati yang hadlang...",
+      "realtimeTitle": "Real-Time a Koneksyon",
+      "realtimeDesc": "Importante ya ing bilís...",
+      "privacyTitle": "Privacy at Seguridad",
+      "privacyDesc": "Reng user buri dang siguradung protektado la reng usapan da...",
+      "futureTitle": "Nanu ing susunud",
+      "futureDesc": "Ing future ning komunikasyon may lalabas pang aliwang features...",
+      "outro": "Reng platform a kaparehu ning Chatforia kabahagi la keni..."
+    },
+    "index": {
+      "title": "Chatforia Blog",
+      "intro": "Suriang mabuti reng ideya tungkul king komunikasyon...",
+      "post1": "Paanu makipag-chat nang ligtas online",
+      "post2": "Ing Future ning Global a Komunikasyon",
+      "post3": "Bakit importante la reng Messaging Platforms"
+    },
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
+      },
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
+      },
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
+      },
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
+      },
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Tungkol king Chatforia",
+    "description": "Ing Chatforia metung yang modernong messaging platform a ginawa para king secure at multilingual a komunikasyon...",
+    "valuesTitle": "Ing aming pinahahalagahan",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
+    },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Privacy muna",
+    "privacyDesc": "Matibay a encryption at kontrolado ning user a privacy settings",
+    "accessTitle": "Para king lahat",
+    "accessDesc": "May built-in translation kareng aliwang salita",
+    "controlTitle": "Kontrol",
+    "controlDesc": "Features a kaparehu ning disappearing messages at read receipts"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
+    "why": {
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
+    },
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
+    },
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+    },
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "Contact Us",
-      "successMsg": "Salamat—sasagutin da ka king email.",
-      "errorSend": "E mi mepadala. Paki email support@chatforia.com.",
-      "form": {
-        "nameLabel": "Name",
-        "emailLabel": "Email",
-        "messageLabel": "Message",
-        "sendCta": "I-send"
-      }
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
     },
-    "privacyPolicy": {
-      "title": "Privacy Policy",
-      "lastUpdated": "Last updated:",
-      "intro": {
-        "body": "Ini nga Privacy Policy i-explain nung nanu ing gamit ning Chatforia (“we”, “us”) king pangolekta, gamit, at pag-share information nung gagamitan mu ing kekami apps at services. I-design mi ing Chatforia ba mababa ing data a mi-akses."
-      },
-      "infoWeCollect": {
-        "title": "Information a mi-kolekta",
-        "account": "Account info (e.g., email/phone) ba mag-gawa at ligtas ing account mu.",
-        "encrypted": "Encrypted content (messages/calls) end-to-end encrypted; e mi maliaring basain.",
-        "diagnostics": "Diagnostic/usage anti crash logs, device type, o coarse analytics ba i-improve ing performance."
-      },
-      "sms": {
-        "title": "Mobile phone numbers at SMS",
-        "body": "Nung buri mung ibie ing mobile phone number, gamitan mi ini ba i-enable features anti account verification, login alerts, at user-to-user messaging via SMS nung supported. Maaaring magpadala kami transactional SMS messages tungkol king kekang account at activity king Chatforia. Maliari mung i-opt out kapan man king pagtanggap SMS nung mag-reply ka king supported opt-out keyword (anti “STOP”) o nung i-change ing notification preferences mu king app. E mi bebenta ing phone number mu o gagamitan king aliwang marketing.",
-        "newText": "Bayung text",
-        "enterRecipient": "Ilagay ing name o number",
-        "typeMessage": "I-type ing message…",
-        "addRecipient": "Magdagdag kang recipient king babo ba magsimula…"
-      },
-      "howWeUse": {
-        "title": "Nanu ing gamit ning information",
-        "provide": "Ibigay at ligtas ing service (auth, spam/abuse detection).",
-        "improve": "I-improve ing features (translation quality, reliability).",
-        "legal": "Sumunod king legal obligations."
-      },
-      "sharing": {
-        "title": "Pag-share",
-        "body": "E mi bebenta personal data. Maaaring mi-share limited data king processors (e.g., push notifications, analytics) king ilalim ning strict contracts."
-      },
-      "rights": {
-        "title": "Ing kekang karapatan",
-        "body": "Ayon king kekang rehiyon (e.g., GDPR/UK GDPR/CPRA), maliari kang mag-request access, correction, deletion, o opt-out king aliwang processing. Contact: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Data retention & security",
-        "body": "Ing mi-store lang kailangan ba ma-operahan ing service at gamitan industry-standard security. Ing E2E content e maliaring i-decrypt ning mi."
-      },
-      "children": {
-        "title": "Anak",
-        "body": "Ing Chatforia ali ya para king anak king babo ning 13 (o ayon king kekang local law)."
-      },
-      "changes": {
-        "title": "Changes",
-        "body": "I-post mi ing updates keni at i-revise ing “Last updated” date."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
     },
-    "terms": {
-      "title": "Terms of Service",
-      "lastUpdated": "Last updated:",
-      "intro": {
-        "body": "Nung gagamitan mu ing Chatforia ma-agree ka king Terms a ini. Nung ali ka ma-agree, alang gamitan ing service."
-      },
-      "accounts": {
-        "title": "Accounts",
-        "itemAccurateInfo": "Ibigay ing accurate info at panatili ligtas ing credentials mu.",
-        "itemResponsibility": "Ikaw ing responsable king activity king kekang account."
-      },
-      "acceptableUse": {
-        "title": "Acceptable use",
-        "itemNoAbuse": "Alang illegal, abusive, o infringing content; alang spam o automated abuse.",
-        "itemSuspend": "Maliari ming i-suspend/terminate nung may violation."
-      },
-      "sms": {
-        "title": "SMS communications",
-        "body": "Nung bibie ka mobile phone number, ma-agree ka na magpadala kami SMS messages tungkol king kekang account at gamit ning service, anti login alerts, security notifications, at messages tungkol king conversations a i-simula o i-participate mu. E mi gagamitan SMS para promotional o marketing messages nung alang explicit consent mu. Maaaring mag-apply ing standard message at data rates. Maliari mung i-opt out king SMS kapan man nung mag-reply ka king supported opt-out keyword (e.g., “STOP”) o nung i-update ing notification settings mu king app."
-      },
-      "yourContent": {
-        "title": "Ing kekang content",
-        "body": "Panatili mu ing karapatan king kekang content. Ibigay mu kekami ing kailangan a karapatan ba ma-operahan ing service (e.g., routing, storage, translation)."
-      },
-      "disclaimer": {
-        "title": "Disclaimers & liability",
-        "body": "Ing service “as is” at alang warranties. King pinakamalawak a law, ing Chatforia ali liable king indirect o consequential damages."
-      },
-      "changes": {
-        "title": "Changes",
-        "body": "Maaaring i-update mi ing terms; nung gagamitan mu pa pagkatapos ning changes ma-agree ka na."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
     },
-    "doNotSell": {
-      "title": "Do Not Sell or Share My Personal Information",
-      "body": "Ing Chatforia e bebenta personal information. Ing California residents maliari pa ring mag-submit request king ilalim ning CPRA gamit ing button king babo.",
-      "cta": "I-submit request"
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
     },
-    "cookies": {
-      "title": "Cookie Settings",
-      "body": "Ing Chatforia gagamit minimal cookies (e.g., session, security). E mi gagamitan third-party ads cookies. I-manage ing cookies gamit ing browser settings mu."
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "E maliari i-load ing phone number status.",
-      "lock": "I-lock",
-      "noNumberAssigned": "Alang number a naka-assign. Pili kang metung ayon area code ba magsimula mag-text.",
-      "pickNumber": "Pili kang number",
-      "phoneNumber": "Phone number"
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
     },
-    "startChatModal": {
-      "title": "Magsimula chat",
-      "quickPicker": "Quick picker",
-      "to": "Para kang",
-      "nameOrUsername": "I-type ing name, username",
-      "nameUsernamePhoneEmail": "I-type ing name, username, phone, o email…",
-      "startWithSelected": "Magsimula chat king selected",
-      "searchByUsernameOrPhone": "Hanap ayon username o phone",
-      "search": "Hanap",
-      "searchPrompt": "I-type ing username o phone at pindutin Search.",
-      "pickFromContacts": "O pili manibat king contacts",
-      "addContact": "Magdagdag Contact",
-      "show": "Ipakita",
-      "add": "Idagdag",
-      "close": "I-close",
-      "selectedCount": "{{count}} selected",
-      "pickAtLeastOne": "Pili kang metung a recipient.",
-      "saveContactsHint": "Ing phone/email entries maliari lang magamit pagkatapos mung i-save la bilang contacts.",
-      "failedBulkStart": "Mali ing pagsimula chat king selected recipients.",
-      "noResults": "Alang resulta",
-      "mode": "Mode",
-      "group": "Group",
-      "broadcast": "Broadcast",
-      "groupNameOptional": "Group name (opsyonal)",
-      "firstMessageOptional": "Mumunang message (opsyonal pero recommended)",
-      "createGroup": "Mag-gawa group",
-      "sendBroadcast": "I-send broadcast"
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Patakaran king Refund",
+    "lastUpdated": "May-update king:",
+    "intro": "King Chatforia, magsikap kami para magbigay mataas a kalidad a serbisyo kareng gagamit. Iting Patakaran king Refund magpaliwanag nung makananu ya ibalik ing bayad.",
+    "subscriptions": {
+      "title": "Subscriptions",
+      "body": "Ing subscriptions babayaran ya mu muna at aulit-ulit. Malyari kang mag-cancel anumang oras king iyong account settings o king platform a ginamit mu."
     },
-    "sounds": {
-      "freeNotice": "Free plan ka pa — ing premium tones ipakita la pero locked. I-upgrade ba luwan ing amin.",
-      "preview": "Preview",
-      "resetToDefaults": "I-reset king defaults",
-      "notificationSounds": "Notification Sounds",
-      "messageTone": "Message tone",
-      "default": "Default",
-      "vibrate": "Vibrate",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Pulsating Sound",
-      "textMessage": "Text Message",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Digital Phone",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
+    "eligibility": {
+      "title": "Karapatan king Refund",
+      "body": "Malyari kang makasaup refund para kareng dobleng bayad, maling billing, o problema teknikal a e makagamit kareng paid features. Lahat a request susuriang mabuti."
     },
-    "premiumGuard": {
-      "requiresPremium": "Kailangan Premium plan ini nga feature."
+    "nonRefundable": {
+      "title": "E Refundable",
+      "body": "Karaniwan, e kami magbibigay refund para kareng oras a e nagamit, parte mu lang a subscription, o nung e ka nag-cancel bago mag-renew."
     },
-    "aiSettings": {
-      "title": "AI Settings",
-      "controlIntro": "Control translation, smart replies, at ForiaBot auto-responses.",
-      "save": "I-save AI Settings",
-      "autoTranslateIncoming": "Auto-translate incoming messages",
-      "showOriginalAlongside": "Ipakita ing original text at translation a magkatabi",
-      "enableSmartReplies": "I-enable Smart Replies",
-      "smartRepliesHint": "I-send ing daan a received messages (sanitized) king AI ba mag-suggest mabilis a replies.",
-      "maskProfanity": "I-mask profanity king AI suggestions",
-      "maskProfanityHint": "Nung on, ing suggestions a mi-return ning AI mi-mask la ing flagged words",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "I-enable auto-reply nung busy ku",
-      "autoReplyMode": "Auto-reply mode",
-      "cooldownSeconds": "Cooldown (segundu)",
-      "off": "Off",
-      "on": "On",
-      "signature": "Signature",
-      "autoReply": "Auto-reply",
-      "activeUntilOptional": "Active anggang (opsyonal)",
-      "saved": "Mi-save ing AI preferences",
-      "saveFailed": "Mali ing pag-save AI settings",
-      "translateOff": "Off",
-      "translateTagged": "Lang nung @translated o tagged",
-      "translateAll": "I-translate amin a incoming messages",
-      "modeDm": "1:1 chats lang",
-      "modeMention": "Lang nung @mentioned ku",
-      "modeAll": "Amin a inbound messages"
+    "thirdParty": {
+      "title": "Kareng Third-Party a Bili",
+      "body": "Nung binili mu king third-party a platform a kaparehu ning Apple App Store, kailangan mung mag-request refund king karela."
     },
-    "accessibilitySettings": {
-      "title": "Accessibility & Alerts",
-      "accessibility": "Accessibility",
-      "accessibilityDesc": "Options ba maging mas madali ing Chatforia nung alang tunog.",
-      "interfaceFontSize": "Interface font size",
-      "interfaceFontSizeHelp": "Magsimula king normal size. Dagdag nung buri mung mas malaki ing text king accessibility settings.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Notifications",
-      "notificationsDesc": "Visual alerts para king messages & calls\nIpakita banners at title blink ba e mu me-miss ing activity.",
-      "vibrateOnNew": "Vibrate nung bayung messages (nung supported)\nI-trigger ing device vibration ati la ing notifications.",
-      "flashOnCall": "Flash screen nung may incoming call\nMabilis a malino a flash nung may tumatawag.",
-      "liveCaptions": "Live captions (calls)",
-      "captionFontSize": "Caption font size",
-      "captionBackground": "Caption background",
-      "light": "light",
-      "dark": "dark",
-      "transparent": "transparent",
-      "voiceNotes": "Voice notes",
-      "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
-      "autoTranscribeVoiceNotesDesc": "I-attach transcript king audio messages a tatanggap ka.",
-      "changesSavedInstantly": "Mi-save agad ing changes.",
-      "loadFailed": "Mali ing pag-load settings",
-      "visualAlerts": "Visual alerts para king messages & calls",
-      "visualAlertsDesc": "Ipakita banners at title blink ba e mu me-miss ing activity.",
-      "vibrateOnNewShort": "Vibrate nung bayung messages (nung supported)",
-      "vibrateOnNewDesc": "I-trigger ing device vibration ati la ing notifications.",
-      "flashOnCallShort": "Flash screen nung may incoming call",
-      "flashOnCallDesc": "Mabilis a malino a flash nung may tumatawag."
+    "contact": {
+      "title": "Makipag-ugnayan",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
     },
-    "privacySection": {
-      "strictE2EE": "Strict end-to-end encryption",
-      "ciphertextOnlyNote": "I-store ciphertext lang king server. I-disable ing AI/Translate at moderation previews."
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
     },
-    "linkedDevicesPanel": {
-      "title": "Linked Devices",
-      "noneFound": "Alang mitagpo a linked devices.",
-      "refresh": "I-refresh"
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
     },
     "help": {
-      "title": "Tulong",
-      "howCanWeHelp": "Nanu ing maliari ming tulungan?",
-      "helpCenter": "Help Center",
-      "contactUs": "Contact us",
-      "quickTopics": "Mabilis a topics",
-      "searchExamples": "Subukan mung hanap “translate”, “backups”, o “privacy”.",
-      "cantLogin": "E maliaring mag-log in",
-      "paymentsBilling": "Payments/billing",
-      "reportAbuse": "I-report abuse",
-      "searchHelpArticles": "Hanap help articles",
-      "search": "Hanap"
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
     },
-    "peoplePage": {
-      "people": "Tau",
-      "search": "Hanap",
-      "searchPlaceholder": "Hanap ayon alias, name, username, o phone",
-      "filterSaved": "I-filter ing naka-save a contacts",
-      "noContactsFound": "Alang mitagpo a contacts",
-      "quickStart": "Mabilis a simula",
-      "quickStartDesc": "Pilan a mabilis a paraan ba magsimula.",
-      "importContacts": "I-import ing kekang contacts",
-      "add": "Idagdag",
-      "focusSearch": "Focus Search",
-      "import": "I-import",
-      "findOrAdd": "Hanap o idagdag ing tau",
-      "searchByPhoneOrUsername": "Hanap ayon phone / username",
-      "inviteFriends": "I-invite ing friends",
-      "inviteDesc": "I-share ing invite link mu ba magsimula agad mag-chat.",
-      "getTheApp": "Kuhaan ing app",
-      "getTheAppDesc": "Manatiling konektadu king dalan gamit ing Chatforia para iOS at Android.",
-      "download": "I-download",
-      "syncTip": "Tip: Manatiling synced ing kekang messages king web at mobile."
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
     },
-    "randomChat": {
-      "title": "Random Chat",
-      "description": "Mag-meet kang bayung tau agad-agad. Mi-match da ka at luwan ming temporary chat room. Mag-chat anonymous muna. Idagdag bilang Friend nung buri mu.",
-      "findMatch": "Hanapan ku metung a match",
-      "chatWithForia": "Mag-chat kang Foria",
-      "chatWithForiaBot": "Mag-chat kang ForiaBot",
-      "cancel": "I-cancel",
-      "close": "I-close",
-      "searching": "Hanap…",
-      "finding": "Hanap…",
-      "looking": "Hanap tau…",
-      "startingForia": "Magsimula chat kang Foria…",
-      "partnerDisconnected": "Ing partner mu mi-disconnect.",
-      "noPartner": "Alang mitagpo a partner ngeni.",
-      "connectedTo": "Mi-connect kang {{name}}",
-      "connected": "Mi-connect",
-      "idle": "Idle",
-      "partnerLeft": "Ing partner mi-alis.",
-      "stopped": "Mi-stop.",
-      "skip": "I-skip",
-      "save": "I-save",
-      "saveGuard": "Ing human-to-human chats lang maliaring i-save",
-      "youAreChattingWith": "Mag-chat ka kang {{name}}",
-      "bot": "BOT",
-      "leave": "Iwan",
-      "sayHi": "Sabian “hi” 👋",
-      "you": "Ika",
-      "typeMessage": "I-type ing message",
-      "send": "I-send",
-      "partner": "Partner",
-      "withRia": "Kang Ria",
-      "chatWithRia": "Mag-chat kang Ria",
-      "startingRia": "Magsimula chat kang Ria…",
-      "ageDisclaimer": "Ing age range lang mi-store (e ali ing exact date of birth). Gamitan ini ba maging reasonable ing Random Chat pairings. Ba mag-match kang tau (ali lang RiaBot), i-set ing age band mu king Settings → Age & Random Chat.",
-      "ageBandRequired": "I-set ing age range mu king Profile → Age & Random Chat ba mag-match kang tau.",
-      "ageBandCallout": "Ba mag-match kang tau (ali lang RiaBot), i-set ing age band mu king Settings → Age & Random Chat.",
-      "subtitle": "Mag-meet kang bayung tau agad-agad, o pili kang mag-chat kang Ria.",
-      "start": "Magsimula conversation",
-      "matching": "Matching…",
-      "setAge": "I-set ing age range mu king Profile → Age & Random Chat ba mag-match kang tau.",
-      "next": "Aliwang Tau",
-      "addFriend": "Idagdag Friend",
-      "requested": "Mi-request",
-      "messageRia": "I-message ing Ria…",
-      "messageMatch": "I-message ing kekang match…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    }
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

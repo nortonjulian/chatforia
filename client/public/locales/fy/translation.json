@@ -9,10 +9,22 @@
     "copied": "Kopiearre!",
     "errorWithMessage": "Flater: {{message}}",
     "loading": "Laden…",
-    "saveError": "Bewarjen mislearre"
+    "saveError": "Bewarjen mislearre",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Gean nei de haadynhâld"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Kaai reservekopy created en downloaded ✓",
@@ -26,6 +38,102 @@
     "chooseFile": "Kies a bêsteân en ynfiere the password.",
     "imported": "Privee kaai imported nei dit device. Do kin read âld berjochten no.",
     "enterPassword": "Fier yn dyn account wachtwurd so wy kin back up dyn kaaien securely."
+  },
+  "encryptionRecovery": {
+    "title": "Beheare Fersifering",
+    "description": "Back up, weromsette, unlock, of reset dyn fersifering key.",
+    "alert": {
+      "keyRequiredTitle": "Fersifering kaai fereaske",
+      "keyRequiredBody": "Dit browser kin net currently decrypt dyn fersifere messages. Weromsette, unlock, of reset dyn kaai nei continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create kaai reservekopy",
+      "restoreFromBackup": "Weromsette fan account reservekopy",
+      "resetEncryption": "Reset fersifering"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (hjoeddeistich apparaat)",
+        "description": "Brûkd nei decrypt dyn kaaien locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Reservekopy wachtwurd",
+        "description": "Brûkd nei encrypt the reservekopy bêsteân"
+      },
+      "restoreBackupPassword": {
+        "label": "Reservekopy wachtwurd",
+        "description": "The wachtwurd do created wannear backing up dyn kaai op iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Nij lokaal passcode",
+        "description": "Protect kaaien at rest op dit browser"
+      },
+      "resetLocalPasscode": {
+        "label": "Nij lokaal passcode",
+        "description": "Fereaske before resetting so the nij kaai is protected op dit apparaat"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock fersifering kaai",
+      "restoreFromBackup": "Weromsette fan account reservekopy",
+      "resetEncryption": "Reset Fersifering",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Kaai reservekopy created en downloaded.",
+      "keyUnlocked": "Fersifering kaai unlocked.",
+      "keyRestored": "Kaai restored fan account backup.",
+      "resetSuccess": "Fersifering reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Kaai weromsette incomplete of incorrect foar dit account",
+      "noBackup": "Gjin fersifere reservekopy exists foar dit account",
+      "missingPublicKey": "Reservekopy is missing a iepenbier kaai",
+      "noServerPublicKey": "Dit account docht net currently expose a server iepenbier kaai",
+      "serverBackupMismatch": "Server reservekopy docht net match the hjoeddeistich account fersifering kaai",
+      "incompleteMetadata": "Reservekopy metadata is incomplete",
+      "resetIncomplete": "Fersifering reset did net complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset fersifering foar dit account?\n\nOlder fersifere berjochten mei become unreadable unminder do weromsette the original kaai later."
+    },
+    "resetDescription": "Dit generates a nij fersifering kaai foar dyn account. Older fersifere berjochten mei become unreadable unminder do weromsette the original kaai later.",
+    "danger": {
+      "title": "Beheare Fersifering",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Feilich messaging foar anyone, oeral",
@@ -90,7 +198,19 @@
       "passwordDescription": "Minimum 6 characters. Brûk a strong, unique password.",
       "smsConsent": "By creating an account, do agree nei receive SMS notifikaasjes related nei dyn Chatforia activity (such as berjochten fan other gebrûkrs). Berjocht & data rates mei apply. Do kin opt out at any time yn Ynstellings.",
       "termsLink": "Tsjinstbetingsten",
-      "privacyLink": "Privacybelied"
+      "privacyLink": "Privacybelied",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "To:",
     "enterRecipient": "Fier yn a namme of nûmer",
@@ -101,7 +221,90 @@
     "addRecipient": "Tafoegje a recipient hjirboppe nei begjin…",
     "oneRecipient": "Graach ynfiere one recipient foar no.",
     "enterValidRecipient": "Fier yn a saved kontakt namme of a telefoannûmer.",
-    "sendFailed": "Ferstjoere failed. Check console foar details."
+    "sendFailed": "Ferstjoere failed. Check console foar details.",
+    "logIn": "Oanmelde",
+    "seePlans": "See plannen & prizen",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "By creating an account, do agree nei receive SMS notifikaasjes related nei dyn Chatforia activity (such as berjochten fan other gebrûkrs). Berjocht & data rates mei apply. Do kin opt out at any time yn Ynstellings.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Thús",
@@ -119,210 +322,29 @@
     "send": "Ferstjoere",
     "welcomeMessage": "Welcome nei Chatforia",
     "getStarted": "Begjinne",
+    "mixedRecipients": "Mixed recipients detected. Brûk either alle telefoannûmers (SMS) of alle gebrûkrnames (Chatforia).",
     "enterRecipient": "Fier in namme of nûmer yn",
     "addRecipient": "Foegje hjirboppe in ûntfanger ta om te begjinnen…",
-    "mixedRecipients": "Mixed recipients detected. Brûk either alle telefoannûmers (SMS) of alle gebrûkrnames (Chatforia).",
     "needNumber": "Do need a Chatforia-nûmer before sending SMS.",
-    "chooseNumber": "Kies a nûmer"
+    "chooseNumber": "Kies a nûmer",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Werombetellingsbelied",
-    "lastUpdated": "Lêst bywurke:",
-    "intro": "At Chatforia, wy strive nei provide a high-quality service nei alle gebrûkrs. Dit Werombetellingsbelied outlines wannear refunds mei wêze issued.",
-    "subscriptions": {
-      "title": "Abonneminten",
-      "body": "Abonneminten binne billed yn advance op a recurring basis. Do mei annulearje at any time through dyn accountynstellingen of the platform gebrûkd nei purchase."
-    },
-    "eligibility": {
-      "title": "Refund Eligibility",
-      "body": "Refunds mei wêze granted foar duplicate charges, fakturearring errors, of technical issues preventing access nei betelle features. Alle requests binne reviewed case-by-case."
-    },
-    "nonRefundable": {
-      "title": "Non-Refundable",
-      "body": "Wy generally doch net provide refunds foar ungebrûkd time, partial abonnemint periods, of failure nei annulearje before renewal."
-    },
-    "thirdParty": {
-      "title": "Third-Party Purchases",
-      "body": "If purchased through third-party platforms such as the Apple App Store, refunds moat wêze requested directly through dy platforms."
-    },
-    "contact": {
-      "title": "Kontakt",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-  "blog": {
-    "whyMessaging": {
-      "title": "Why Messaging Platforms Matter More Than Ever",
-      "intro": "Messaging platforms hawwe become one fan the most important tools foar communication yn today’s world. From personal conversations nei business interactions, messaging apps tastean people nei stay connected instantly en efficiently.",
-      "everydayTitle": "Everyday Communication",
-      "everydayDesc": "People rely op messaging apps foar daily communication mei friends, famylje, en colleagues. Whether it's a quick update of a long conversation, messaging provides a convenient en flexible way nei stay yn touch.",
-      "speedTitle": "Speed en Convenience",
-      "speedDesc": "One fan the main advantages fan messaging platforms is their speed. Berjochten binne delivered instantly, allowing gebrûkrs nei communicate yn real time. Dit level fan convenience hat made messaging the preferred method fan communication foar many people.",
-      "globalTitle": "Wrâldwiid Reach",
-      "globalDesc": "Messaging platforms connect people across the globe. With internet access, gebrûkrs kin communicate regardminder fan location, making it easier nei build relationships en collaborate internationally.",
-      "privacyTitle": "Privacy en Control",
-      "privacyDesc": "Modern messaging platforms focus op giving gebrûkrs control over their data en conversations. Funksjes like fersifering, privacyynstellingen, en berjocht controls tastean gebrûkrs nei communicate mei confidence.",
-      "futureTitle": "The Future fan Messaging",
-      "futureDesc": "Messaging continues nei evolve mei nij funksjes such as AI-oandreaune responses, oersetting, en multimedia sharing. As technology advances, messaging platforms sil become even mear powerful en versatile.",
-      "outro": "Chatforia is built mei dizze principles yn mind, offering a fluch, feilich, en gebrûkr-friendly messaging experience foar a connected world."
-    },
-    "global": {
-      "title": "The Future fan Wrâldwiid Communication",
-      "intro": "Communication hat evolved rapidly over the past few decades. What once fereaske telefoan oproppen of in-person meetings kin no wêze done quickly through messaging platforms. As technology continues nei advance, wrâldwide kommunikaasje is becoming flucher, mear accessible, en mear inclusive.",
-      "barriersTitle": "Breaking Down Barriers",
-      "barriersDesc": "One fan the biggest changes yn communication is the reduction fan geographic barriers. People kin no connect mei others across the world yn near real time. Whether foar personal conversations, business, of collaboration, messaging platforms hawwe made distance far minder limiting.",
-      "translationTitle": "The Role fan Oersetting Technology",
-      "translationDesc": "Taal hat traditionally west one fan the biggest obstacles nei wrâldwide kommunikaasje. Hjoed, built-in oersetting tools help bridge dat gap. Platforms like Chatforia tastean gebrûkrs nei communicate mear easily even as sy speak different languages, creating nij opportunities foar connection en understanding.",
-      "realtimeTitle": "Realtime Connectivity",
-      "realtimeDesc": "Speed is a kaai factor shaping modern communication. Brûkrs expect berjochten nei wêze delivered quickly, en modern infrastructure supports dat expectation. Real-time messaging enables mear natural en fluid conversations.",
-      "privacyTitle": "Privacy en feiligens",
-      "privacyDesc": "As communication becomes mear digital, privacy en feiligens binne increasingly important. Brûkrs want confidence dat their conversations binne protected. Funksjes like fersifering en gebrûkr-controlled ynstellingen help stipe a mear feilich communication experience.",
-      "futureTitle": "What Comes Next",
-      "futureDesc": "The future fan wrâldwide kommunikaasje sil likely include mear avansearre tools, such as AI-assisted messaging, improved oersetting, en enhanced gebrûkr experiences. As technology evolves, communication sil continue nei become mear intuitive en accessible.",
-      "outro": "Platforms like Chatforia binne part fan dit shift, helping people connect mear easily across languages en borders."
-    },
-    "index": {
-      "title": "Chatforia-blog",
-      "intro": "Explore insights op communication, online safety, en hoe messaging technology is connecting people around the world.",
-      "post1": "How nei Petear Safely Online",
-      "post2": "The Future fan Wrâldwiid Communication",
-      "post3": "Why Messaging Platforms Matter"
-    }
-  },
-  "howItWorks": {
-    "title": "Hoe Chatforia wurket",
-    "intro": "Chatforia is designed nei make communication simple, fluch, en accessible. Getting started takes just a few steps.",
-    "step1Title": "1. Create an Account",
-    "step1Desc": "Sign up brûken dyn e-mail of brûkersnamme nei create dyn Chatforia account.",
-    "step2Title": "2. Begjin a Conversation",
-    "step2Desc": "Connect mei others troch selecting kontakten of starting nij chats.",
-    "step3Title": "3. Realtime Messaging",
-    "step3Desc": "Berjochten binne delivered quickly nei provide a smooth communication experience.",
-    "step4Title": "4. Wrâldwiid Communication",
-    "step4Desc": "Built-in oersetting helps gebrûkrs communicate across different languages.",
-    "step5Title": "5. Stay yn Control",
-    "step5Desc": "Beheare dyn preferences, kontakten, en communication settings."
-  },
-  "safety": {
-    "title": "Feiligens- en mienskipsrjochtlinen",
-    "intro": "Chatforia is committed nei maintaining a feilich en respectful environment foar alle gebrûkrs. Dizze guidelines help ensure a positive experience foar elkenien.",
-    "respectTitle": "Respectful Communication",
-    "respectDesc": "Brûkrs binne expected nei communicate respectfully. Harassment, abgebrûk, of harmful behavior is net permitted.",
-    "prohibitedTitle": "Prohibited Content",
-    "prohibited": {
-      "illegal": "Illegal activities",
-      "harassment": "Harassment of bullying",
-      "hate": "Hate speech of discrimination",
-      "explicit": "Explicit of harmful material",
-      "spam": "Spam of deceptive practices"
-    },
-    "toolsTitle": "Feiligensark foar brûkers",
-    "tools": {
-      "report": "Report inappropriate behavior of content",
-      "block": "Block gebrûkrs nei prevent further interaction",
-      "control": "Beheare privacy en communication ynstellingen"
-    },
-    "enforcementTitle": "Enforcement",
-    "enforcementDesc": "Wy mei take action nochrisst accounts dat violate dizze guidelines, ynklusyf warnings, restrictions, of permanent removal fan the platform."
-  },
-  "chat": {
-    "selectPrompt": "Selektearje a text of petear keamer nei begjin chatting",
-    "newMessages": "Nij berjochten",
-    "typing": "{{name}} is typing...",
-    "emptyTitle": "Dyn berjochten",
-    "emptySubtitle": "Ferstjoere a berjocht nei begjin a chat.",
-    "startChatButton": "Berjocht ferstjoere",
-    "mediaAttachment": "Media-bylage",
-    "thisUser": "dit gebrûkr",
-    "blockConfirm": "Block {{name}}? Do won't receive berjochten fan them.",
-    "blockedUser": "Blocked {{name}}.",
-    "blockError": "Koe net determine a target gebrûkr nei block.",
-    "blockFailed": "Block mislearre (backend net wired yet).",
-    "encryptedUnavailable": "Fersifere berjocht (kaai net beskikber)",
-    "unlockToView": "Unlock dyn kaai nei view dit berjocht"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Ut"
-    },
-    "freeLimit": "Fergees plan limit: auto-delete up nei 1 day. Clamped nei 1d.",
-    "premiumLimit": "Max auto-delete foar Premium is 30 days. Clamped nei 30d.",
-    "nothingToSend": "Typ a berjocht of attach a bêsteân nei send.",
-    "encryptionFailed": "Fersifering failed. Berjocht net sent.",
-    "sent": "Berjocht delivered.",
-    "placeholder": "Typ a berjocht…",
-    "voiceAdded": "Spraakberjocht tafoege",
-    "attachmentAdded": "Bylage tafoege",
-    "autoDelete": "Auto-delete",
-    "typeToSend": "Typ a berjocht nei ferstjoere",
-    "send": "Ferstjoere",
-    "sendWithEnter": "Ferstjoere (Fier yn)",
-    "attachment": "attachment",
-    "caption": "Caption (opsjoneel)",
-    "remove": "Fuortsmite",
-    "clear": "Clear",
-    "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Attachment too large. Besykje a smaller file.",
-      "unsupportedFile": "Unsupported bêsteân type.",
-      "rateLimit": "You’re sending berjochten too quickly. Graach slow down.",
-      "validation": "Validation error. Graach check dyn berjocht en besykje it nochris.",
-      "failedToSend": "Mislearre nei send. Do kin rebesykje the mislearre bubble."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Bewarre kontakten",
-    "refreshAria": "Refresh kontakten",
-    "filterPlaceholder": "Filterje bewarre kontakten…",
-    "filterAria": "Filter saved kontakten",
-    "noContactsFound": "Gjin kontakten fûn.",
-    "externalContact": "Ekstern kontakt",
-    "notJoined": "Dat kontakt hasn’t joined Chatforia yet.",
-    "couldNotStart": "Koe net begjin chat. Besykje it nochris.",
-    "startFailed": "Mislearre nei begjin chat. Besykje it nochris.",
-    "deleted": "Kontakt deleted.",
-    "deleteFailed": "Mislearre nei wiskje contact. Besykje it nochris.",
-    "aliasUpdated": "Alias updated.",
-    "updateAliasFailed": "Mislearre nei update alias. Besykje it nochris.",
-    "selectContact": "Selektearje {{name}}",
-    "alias": "Alias",
-    "startChat": "Petear begjinne",
-    "message": "Berjocht",
-    "delete": "Wiskje",
-    "deleteContactAria": "Kontakt wiskje",
-    "loadFailed": "Laden mislearre contacts. Besykje it nochris.",
-    "loadMore": "Mear lade",
-    "call": "Belje",
-    "callStarted": "Calling dit nûmer via dyn Chatforia-nûmer…",
-    "callFailed": "Mislearre nei begjin call. Besykje it nochris."
-  },
-  "startChatModal": {
-    "title": "Begjin in petear",
-    "searchPlaceholder": "Sykje namme, brûkersnamme, of telefoannûmer",
-    "messageThisPerson": "Berjocht dit person",
-    "contacts": "Kontakten",
-    "recentInteractions": "Recent interactions",
-    "noContactsMatch": "Gjin kontakten match dyn search.",
-    "noRecentInteractions": "Gjin recent interactions yet.",
-    "unknown": "Ûnbekend",
-    "interactionType": {
-      "message": "Berjocht",
-      "call": "Belje",
-      "video": "Fideo"
-    }
-  },
-  "addContactModal": {
-    "title": "Tafoegje kontakt",
-    "phoneOrUsername": "Telefoan of brûkersnamme",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 of juliannorton",
-    "alias": "Alias (opsjoneel)",
-    "aliasPlaceholder": "e.g. Work, Mom, Mike – Europe",
-    "enterPhoneOrUsername": "Fier yn a telefoannûmer of gebrûkrname.",
-    "userLookupFailed": "Brûkr lookup failed.",
-    "cannotAddSelf": "Do kin net tafoegje yourself as a contact.",
-    "failedToAdd": "Mislearre nei tafoegje contact.",
-    "add": "Tafoegje"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Willekeurich petear",
@@ -346,13 +368,151 @@
     "startChatAlt": "Begjin a nij petear",
     "calls": "Oproppen",
     "video": "Fideo",
-    "voicemail": "Stimpost"
+    "voicemail": "Stimpost",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Nije status",
     "logout": "Ofmelde",
     "help": "Help",
     "createStatusAria": "Nije status meitsje"
+  },
+  "footer": {
+    "plans": "Plannen & Prizen",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Nim kontakt mei ús op",
+    "help": "Helpsintrum",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacybelied",
+    "terms": "Tsjinstbetingsten",
+    "cookies": "Cookie Ynstellings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Taal",
+    "contactShort": "Kontakt",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plannen & Prizen",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Begjinne",
+      "help-center": "Helpsintrum",
+      "contact-us": "Nim kontakt mei ús op",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacybelied",
+      "terms-of-service": "Tsjinstbetingsten",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Ynstellings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back nei top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Selektearje a text of petear keamer nei begjin chatting",
+    "newMessages": "Nij berjochten",
+    "typing": "{{name}} is typing...",
+    "emptyTitle": "Dyn berjochten",
+    "emptySubtitle": "Ferstjoere a berjocht nei begjin a chat.",
+    "startChatButton": "Berjocht ferstjoere",
+    "mediaAttachment": "Media-bylage",
+    "thisUser": "dit gebrûkr",
+    "blockConfirm": "Block {{name}}? Do won't receive berjochten fan them.",
+    "blockedUser": "Blocked {{name}}.",
+    "blockError": "Koe net determine a target gebrûkr nei block.",
+    "blockFailed": "Block mislearre (backend net wired yet).",
+    "encryptedUnavailable": "Fersifere berjocht (kaai net beskikber)",
+    "unlockToView": "Unlock dyn kaai nei view dit berjocht",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Ut"
+    },
+    "freeLimit": "Fergees plan limit: auto-delete up nei 1 day. Clamped nei 1d.",
+    "premiumLimit": "Max auto-delete foar Premium is 30 days. Clamped nei 30d.",
+    "nothingToSend": "Typ a berjocht of attach a bêsteân nei send.",
+    "encryptionFailed": "Fersifering failed. Berjocht net sent.",
+    "sent": "Berjocht delivered.",
+    "placeholder": "Typ a berjocht…",
+    "autoDelete": "Auto-delete",
+    "typeToSend": "Typ a berjocht nei ferstjoere",
+    "send": "Ferstjoere",
+    "sendWithEnter": "Ferstjoere (Fier yn)",
+    "attachment": "attachment",
+    "caption": "Caption (opsjoneel)",
+    "remove": "Fuortsmite",
+    "clear": "Clear",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Attachment too large. Besykje a smaller file.",
+      "unsupportedFile": "Unsupported bêsteân type.",
+      "rateLimit": "You’re sending berjochten too quickly. Graach slow down.",
+      "validation": "Validation error. Graach check dyn berjocht en besykje it nochris.",
+      "failedToSend": "Mislearre nei send. Do kin rebesykje the mislearre bubble.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Spraakberjocht tafoege"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Petearmenu",
@@ -368,8 +528,6 @@
     "invitePeople": "Útnoegje people",
     "roomSettings": "Keamer ynstellingen",
     "clearConversation": "Petear wiskje",
-    "clearConversationForMe": "Foar my wiskje",
-    "clearConversationForEveryone": "Foar elkenien wiskje",
     "block": "Blokkearje"
   },
   "roomSearch": {
@@ -396,7 +554,18 @@
       "tagged": "Tagged only (/tr …)",
       "all": "Alle berjochten"
     },
-    "updated": "Ynstellings updated"
+    "updated": "Ynstellings updated",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Dielde media",
@@ -466,6 +635,110 @@
     "markRead": "Markearje as lêzen",
     "delete": "Wiskje",
     "unreadDotAria": "Unread voicemail indicator"
+  },
+  "contactList": {
+    "savedContacts": "Bewarre kontakten",
+    "refreshAria": "Refresh kontakten",
+    "filterPlaceholder": "Filterje bewarre kontakten…",
+    "filterAria": "Filter saved kontakten",
+    "noContactsFound": "Gjin kontakten fûn.",
+    "externalContact": "Ekstern kontakt",
+    "notJoined": "Dat kontakt hasn’t joined Chatforia yet.",
+    "couldNotStart": "Koe net begjin chat. Besykje it nochris.",
+    "startFailed": "Mislearre nei begjin chat. Besykje it nochris.",
+    "deleted": "Kontakt deleted.",
+    "deleteFailed": "Mislearre nei wiskje contact. Besykje it nochris.",
+    "aliasUpdated": "Alias updated.",
+    "updateAliasFailed": "Mislearre nei update alias. Besykje it nochris.",
+    "selectContact": "Selektearje {{name}}",
+    "alias": "Alias",
+    "startChat": "Petear begjinne",
+    "message": "Berjocht",
+    "delete": "Wiskje",
+    "deleteContactAria": "Kontakt wiskje",
+    "loadFailed": "Laden mislearre contacts. Besykje it nochris.",
+    "loadMore": "Mear lade",
+    "call": "Belje",
+    "callStarted": "Calling dit nûmer via dyn Chatforia-nûmer…",
+    "callFailed": "Mislearre nei begjin call. Besykje it nochris.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Tafoegje kontakt",
+    "phoneOrUsername": "Telefoan of brûkersnamme",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 of juliannorton",
+    "alias": "Alias (opsjoneel)",
+    "aliasPlaceholder": "e.g. Work, Mom, Mike – Europe",
+    "enterPhoneOrUsername": "Fier yn a telefoannûmer of gebrûkrname.",
+    "userLookupFailed": "Brûkr lookup failed.",
+    "cannotAddSelf": "Do kin net tafoegje yourself as a contact.",
+    "failedToAdd": "Mislearre nei tafoegje contact.",
+    "add": "Tafoegje"
+  },
+  "startChatModal": {
+    "title": "Begjin in petear",
+    "searchPlaceholder": "Sykje namme, brûkersnamme, of telefoannûmer",
+    "messageThisPerson": "Berjocht dit person",
+    "contacts": "Kontakten",
+    "recentInteractions": "Recent interactions",
+    "noContactsMatch": "Gjin kontakten match dyn search.",
+    "noRecentInteractions": "Gjin recent interactions yet.",
+    "unknown": "Ûnbekend",
+    "interactionType": {
+      "message": "Berjocht",
+      "call": "Belje",
+      "video": "Fideo"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "Minsken",
+    "search": "Sykje",
+    "searchPlaceholder": "Sykje saved kontakten troch alias, namme, brûkersnamme, of telefoan",
+    "quickStart": "Quick begjin",
+    "quickStartDesc": "Beheare dyn kontakten en útnoegje friends.",
+    "importContacts": "Ymportearje dyn kontakten",
+    "import": "Ymportearje",
+    "addContact": "Tafoegje a kontakt",
+    "add": "Tafoegje",
+    "inviteFriends": "Útnoegje friends",
+    "inviteDesc": "Share dyn útnoegje keppeling nei begjin chatting instantly.",
+    "getTheApp": "Krij de app",
+    "getTheAppDesc": "Stay yn touch op the go mei Chatforia foar iOS en Android.",
+    "download": "Download",
+    "syncTip": "Tip: Dyn berjochten stay synced across web en mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "Brûkersprofyl",
@@ -603,14 +876,167 @@
     "voicemailNote": "Voicemails fan dyn Chatforia-nûmers sil wêze stored yn dyn Voicemail inbox. Do kin ynskeakelje transcription en forwarding yn supported plans.",
     "portHint": "Want nei keep dyn hjoeddeistich nûmer? Do kin port it into Chatforia Wireminder.",
     "wireless": {
-      "manage": "Beheare wireminder"
+      "manage": "Beheare wireminder",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Brûkersprofyl",
       "desc": "Get mobyle data foar Chatforia wannear you’re away fan Wi-Fi.",
-      "cta": "Get eSIM / Toane QR"
+      "cta": "Get eSIM / Toane QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
     },
-    "encryptedBackupsTitle": "Fersifering Kaai Reservekopy"
+    "encryptedBackupsTitle": "Fersifering Kaai Reservekopy",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notifikaasje Lûden",
+    "resetToDefaults": "Reset nei defaults",
+    "freeNoticeStart": "You’re op Fergees — premium tones binne shown but locked. ",
+    "freeNoticeEnd": " nei unlock all.",
+    "messageTone": "Berjocht tone",
+    "ringtone": "Ringtone",
+    "preview": "Foarbyld",
+    "stop": "Stopje",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put bêsteannen yn /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put bêsteannen yn /public/sounds/Ringtones",
+    "premiumRequired": "Premium fereaske foar dat selection.",
+    "saved": "Lûd ynstellingen saved.",
+    "saveFailed": "Koe net bewarje lûd settings.",
+    "resetNotSaved": "Reset nei defaults (net yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Oanpast lûd uploads komt gau.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Ynstellings",
+    "controlIntro": "Control oersetting, tûke antwurden, en ForiaBot auto-responses.",
+    "translation": "Oersetting",
+    "autoTranslateIncoming": "Automatysk oersette incoming berjochten",
+    "showOriginalAlongside": "Toane original text alongside oersetting",
+    "smartReplies": "Tûke antwurden",
+    "enableSmartReplies": "Ynskeakelje Tûke antwurden",
+    "smartRepliesHint": "Ferstjoere the last few received berjochten (sanitized) nei AI nei suggest quick replies.",
+    "maskProfanity": "Mask profanity yn AI suggestions",
+    "maskProfanityHint": "If op, suggestions returned troch AI sil hawwe flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Ynskeakelje auto-reply wannear I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (sekonden)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (opsjoneel)",
+    "save": "Bewarje AI Ynstellings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Bewarjen mislearre AI ynstellingen",
+    "translateOff": "Ut",
+    "translateTagged": "Only wannear @translated of tagged",
+    "translateAll": "Oersette alle incoming berjochten",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only wannear I’m @mentioned",
+    "modeAll": "Alle inbound berjochten",
+    "off": "Ut",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Laden mislearre ynstellingen",
+    "accessibilityDesc": "Options nei make Chatforia easier nei gebrûk sûnder relying op sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normaal size. Increase as do prefer larger text.",
+    "notifications": "Notifikaasjes",
+    "visualAlerts": "Visual alerts foar berjochten & oproppen",
+    "visualAlertsDesc": "Toane banners en titel blink so do net miss activity.",
+    "vibrateOnNewShort": "Vibrate op nij berjochten (wannear supported)",
+    "vibrateOnNewDesc": "Trigger apparaat vibration mei notifications.",
+    "flashOnCallShort": "Flash screen op incoming oprop",
+    "flashOnCallDesc": "Brief bright flash wannear a oprop rings.",
+    "liveCaptionsTitle": "Live captions (oproppen)",
+    "enableLiveCaptions": "Ynskeakelje live captions during oproppen (Premium)",
+    "liveCaptionsDesc": "Toane realtime captions fan the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript nei audio berjochten do receive.",
+    "changesSavedInstantly": "Changes binne saved instantly.",
+    "sm": "Lyts",
+    "md": "Middelgrut",
+    "lg": "Grut",
+    "xl": "Ekstra grut",
+    "light": "Ljocht",
+    "dark": "Tsjuster",
+    "transparent": "Transparant",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict ein-oan-ein fersifering",
+    "ciphertextOnlyNote": "Store only ciphertext op the server. Disables AI/Translate en moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate sil wêze disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Keppele apparaten",
+    "noneFound": "Gjin linked apparaten found.",
+    "refresh": "Ferfarskje",
+    "unknown": "Ûnbekend",
+    "loadFailed": "Laden mislearre linked apparaten",
+    "loadFailedLog": "Laden mislearre linked apparaten",
+    "renamePrompt": "Fier yn a nij namme foar dit apparaat",
+    "renamed": "Apparaat renamed",
+    "renameFailed": "Koe net rename apparaat",
+    "revoked": "Apparaat revoked",
+    "revokeFailed": "Koe net revoke apparaat",
+    "unnamedDevice": "Unnamed apparaat",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename apparaat",
+    "revokeDevice": "Revoke apparaat"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -662,7 +1088,685 @@
     "expiresIn": "Expires yn {{days}} dagen",
     "exhausted": "Dyn data hat run out. Buy a nij pack nei continue brûken mobyle data.",
     "buyPack": "Buy datapakket",
-    "esimPackLabel": "eSIM pack"
+    "esimPackLabel": "eSIM pack",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "Laden…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a nûmer",
+    "phoneNumber": "Telefoannûmer",
+    "availableNumber": "Beskikber nûmer",
+    "premiumNumber": "Premium nûmer 🔒",
+    "freeNumberHint": "Fergees nûmer dat mei wêze recycled after inactivity.",
+    "premiumNumberHint": "Keep dyn nûmer while dyn Premium abonnemint is active.",
+    "country": "Lân",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Sykje",
+    "lockThisNumber": "Lock dit nûmer (weekly add-on, komt gau)",
+    "premiumProtectedHint": "Premium numbers binne protected fan recycling while dyn Premium abonnemint is active.",
+    "availableNumbers": "Beskikber numbers",
+    "searchHint": "Fier yn a 3-digit area code (US/CA only), of leave blank, then search.",
+    "keep": "Keep",
+    "select": "Selektearje",
+    "assignNumberFirst": "Assign a nûmer first.",
+    "premiumKeepFeature": "Keeping dyn nûmer is a Premiumfunksje.",
+    "lockingPremiumFeature": "Locking numbers is a Premiumfunksje.",
+    "numberAssigned": "Nûmer assigned.",
+    "numberProtectedNow": "Dyn nûmer is no protected.",
+    "numberProtected": "Nûmer protected.",
+    "numberUnprotected": "Nûmer unprotected.",
+    "numberReleased": "Nûmer released.",
+    "couldNotLoadNumbers": "Koe net lade numbers.",
+    "couldNotAssign": "Koe net assign dat number. It mei hawwe just west taken—besykje another.",
+    "couldNotLease": "Koe net lease dat number. It mei hawwe just west taken—besykje another.",
+    "couldNotProtectNow": "Koe net protect dyn nûmer no.",
+    "couldNotProtect": "Koe net protect the number.",
+    "couldNotUnprotect": "Koe net unprotect the number.",
+    "couldNotRelease": "Koe net release the number.",
+    "invalidAreaCode": "Graach ynfiere a 3-digit area code (e.g., 415) of leave blank.",
+    "noInventory": "Gjin beskikber inventory no.",
+    "noFreeNumbers": "Gjin fergees numbers binne beskikber no.",
+    "noInventoryAreaCode": "Gjin beskikber inventory foar dat area code no.",
+    "noFreeNumbersAreaCode": "Gjin fergees numbers yn our pool foar dat area code no.",
+    "releaseConfirm": "Release dyn hjoeddeistich nûmer? It mei wêze assigned nei immen else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep dit nûmer",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "Gjin nûmer",
+    "premiumFeature": "Premiumfunksje",
+    "protectYourNumber": "Protect dyn nûmer",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires yn {{count}}d",
+    "expiresInDaysFull": "Expires yn {{count}} dei",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Dyn nûmer mei wêze released yn {{count}} day. Opwurdearje nei Premium nei keep it protected.",
+    "pickNumberHint": "Pick a Chatforia-nûmer nei gebrûk foar messaging en communication binnen the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Oproppen",
+    "subtitle": "Keypad & recents. (If do net gebrûk PSTN, begjin oproppen fan a conversation header.)",
+    "enterNumber": "Fier nûmer yn",
+    "enterNumberAria": "Fier nûmer yn",
+    "resolving": "Resolving oprop target…",
+    "call": "Belje",
+    "callBrowser": "Belje via browser",
+    "backspace": "Wiskje",
+    "recents": "Resint",
+    "noRecents": "Noch gjin resinte oproppen.",
+    "resolveFailed": "Koe net resolve oprop target.",
+    "callRequiredNumber": "Do need a Chatforia-nûmer before placing telefoan calls.",
+    "callFailed": "Koe net place call.",
+    "deleteConfirm": "Wiskje dit oprop fan recents?",
+    "deleteFailed": "Koe net wiskje call.",
+    "deleteFailedLog": "Mislearre nei wiskje oprop",
+    "outgoing": "Utgeand",
+    "incoming": "Ynkommend",
+    "missed": "Miste",
+    "declined": "Wegere",
+    "failed": "Mislearre",
+    "completed": "Foltôge",
+    "outgoingCall": "Utgeande oprop",
+    "incomingCall": "Ynkommende oprop",
+    "voicemail": "Stimpost",
+    "callAria": "Belje {{name}}",
+    "deleteAria": "Wiskje oprop mei {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Oproppen",
+    "subtitle": "Dyn recent incoming en outgoing calls.",
+    "loadFailed": "Koe net lade oprop history.",
+    "loadFailedTitle": "Couldn’t load oprop skiednis",
+    "emptyTitle": "Gjin oproppen yet",
+    "emptySubtitle": "Dyn recent oproppen sil toane up here.",
+    "outgoing": "Utgeand",
+    "incoming": "Ynkommend",
+    "missed": "Miste",
+    "declined": "Wegere",
+    "failed": "Mislearre",
+    "completed": "Foltôge",
+    "outgoingCall": "Utgeande oprop",
+    "incomingCall": "Ynkommende oprop",
+    "voicemail": "Stimpost"
+  },
+  "video": {
+    "hub": {
+      "title": "Fideo",
+      "subtitle": "Kies a fideo type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Begjin a 1:1 fideo oprop mei another gebrûkr.",
+      "desc": "1:1 camera oprop mei another gebrûkr.",
+      "start": "Begjin",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a keamer of join an existing one troch typing the deselde name.",
+      "desc": "Multi-party fideo brûken a shared keamer name.",
+      "roomLabel": "Keamer namme",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Keamer namme",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share dit namme mei others, of deep keppeling nei"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Gean Premium",
+    "description": "Unlock power funksjes & fuortsmite ads.",
+    "cta": "Opwurdearje",
+    "upgrade": "Opwurdearje",
+    "upgradeAria": "Opwurdearje nei Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "Opwurdearje",
+    "titleLoggedIn": "Opwurdearje",
+    "titlePublic": "Prizen",
+    "h1": "Chatforia Prizen & Plannen",
+    "h1Subtitle": "Begjin mei our fergees, ad-supported plan. Go ad-free mei Plus, of unlock full power funksjes mei Premium.",
+    "subtitle": "Kies an app plan, tafoegje datapakketten foar yourself, of share data mei dyn famylje — alle fan one place.",
+    "subtitle.app": "Begjin mei our fergees, ad-supported plan. Go ad-free mei Plus, of unlock full power funksjes mei Premium.",
+    "subtitle.mobile": "Tafoegje wrâldwiid eSIM data so Chatforia keeps working even wannear you’re away fan Wi-Fi.",
+    "subtitle.family": "Create a dielde datapool foar dyn famylje en beheare elkenien’s usage fan one place.",
+    "perMonth": "mo",
+    "perYear": "jier",
+    "goPremium": "Gean Premium",
+    "benefitsLine": "Unlock power funksjes & fuortsmite ads.",
+    "ctaText": "Opwurdearje",
+    "aria": "Opwurdearje nei Chatforia Premium",
+    "toggle": {
+      "monthly": "Moanliks",
+      "annual": "Jierliks (Besparje 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Abonnemint sil end",
+      "body": "You’ll revert nei Fergees op",
+      "keepPlanCta": "Keep {{plan}}",
+      "manageBillingCta": "Fakturearring beheare"
+    },
+    "billing": {
+      "opening": "Iepenjen…",
+      "manage": "Beheare Fakturearring"
+    },
+    "checkout": {
+      "redirecting": "Trochferwize…"
+    },
+    "auth": {
+      "continue": "Trochgean nei oanmelden",
+      "createAccount": "Account oanmeitsje",
+      "signIn": "Oanmelde"
+    },
+    "cta": {
+      "aria": "Plan selektearje",
+      "getPlus": "Opwurdearje nei Plus",
+      "upgradeMonthly": "Opwurdearje Monthly",
+      "upgradeAnnual": "Opwurdearje Annual",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "App-plannen",
+      "mobile": "Tafoegje wrâldwiid eSIM data so Chatforia keeps working even wannear you’re away fan Wi-Fi.",
+      "family": "Famyljeplannen"
+    },
+    "plans": {
+      "free": {
+        "title": "Fergees",
+        "price": "$0",
+        "desc": "Begjin messaging foar free. Ideal as you’re just besykjeing Chatforia.",
+        "features": {
+          "chat": "Real-time 1:1 en group petear, plus voice en fideoproppen",
+          "media": "Share foto’s, stim-berjochten, en koart fideo’s",
+          "ai": "AI-oandreaune tûke antwurden en direkt oersetting (fair gebrûk)",
+          "disappearing": "Ferdwynende berjochten en basis privacy controls",
+          "ads": "Fergees forever mei advertinsjes yn the app"
+        },
+        "ctaCurrent": "Hjoeddeistich plan",
+        "ctaManage": "Beheare yn fakturearring",
+        "ctaPublic": "Get started – continue nei oanmelde",
+        "aria": "Fergees plan"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Alle the essentials, sûnder ads. Great foar everyday messaging en calling.",
+        "features": {
+          "allFree": "Alles yn Fergees, sûnder advertinsjes",
+          "forwarding": "Forward oproppen en texts nei dyn real telefoannûmer",
+          "history": "Longer berjochtskiednis (up nei 6 months)",
+          "support": "Faster stipe wannear wat goes wrong"
+        },
+        "badge": "Populêr",
+        "cta": "Go Ad-Free",
+        "ctaPublic": "Get Plus – continue nei oanmelde",
+        "aria": "Opwurdearje nei Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Monthly)",
+        "price": "$11.99",
+        "desc": "The full Chatforia experience: AI power tools, customization, en priority support.",
+        "features": {
+          "plusAll": "Alles yn Plus",
+          "themes": "Unlock alle premium color tema’s en app customizations",
+          "ai": "Premium-only AI power tools foar rewrites, tûke antwurden, en summaries",
+          "support": "Priority stipe wannear do need help most",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Oanrikkemandearre",
+        "cta": "Opwurdearje (Monthly)",
+        "ctaPublic": "Unlock Premium – continue nei oanmelde",
+        "aria": "Opwurdearje nei Premium Monthly"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Annual)",
+        "price": "$99",
+        "desc": "Bewarje mear wannear billed yearly — ynklusyf extra color tema’s, AI tools, en priority support.",
+        "features": {
+          "allPremium": "Everything yn Premium Monthly — ynklusyf extra color tema’s",
+          "annualBilling": "Ien kear yn it jier fakturearre",
+          "save25": "Bewarje around 30% compared nei paying monthly",
+          "bestFor": "Bêste foar power gebrûkrs, remote workers, en swier travelers",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Besparje 30%",
+        "cta": "Opwurdearje (Annual)",
+        "ctaPublic": "Bewarje 30% mei annual – continue nei oanmelde",
+        "aria": "Opwurdearje nei Premium Annual",
+        "disclaimer": "Foarôf fakturearre. Op elk momint annulearje. Gjin ferburgen kosten."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Fergees",
+      "freeDesc": "Begjin messaging foar free.",
+      "plusTitle": "Plus",
+      "plusBadge": "Populêr",
+      "plusDesc": "Most affordable ad-free experience.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Full funksjes, ringtones, en AI power tools.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Bewarje mear wannear billed yearly.",
+      "annualDisclaimer": "Foarôf fakturearre. Op elk momint annulearje. Gjin ferburgen kosten."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (eSIM datapakketten)",
+      "subtitle": "Tafoegje wrâldwiid data nei keep Chatforia working even sûnder Wi-Fi. Prices automatically adjust based op dyn lân en currency.",
+      "subtitle.detail": "Pick a one-time wrâldwiid datapakket so Chatforia keeps working wannear you’re traveling of away fan Wi-Fi.",
+      "scope": {
+        "local": "Lokaal",
+        "europe": "Europa",
+        "global": "Globaal",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "Lokaal = {{country}}",
+      "localEqualsFallback": "Lokaal = dyn hjoeddeistich lân",
+      "perPack": "/ pack",
+      "cta": "Get dit datapakket",
+      "ctaPublic": "Get dit datapakket",
+      "checkout": {
+        "redirecting": "Trochferwize…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Hege-snelheid data foar swier gebrûk",
+          "throttle": "Speeds mei slow after high usage",
+          "coverage": "Betroubere dekking",
+          "instant": "Direkt eSIM activation",
+          "noContract": "One-time pack, gjin contract"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "eSIM datapakketten require an eSIM-kompatibel en ûntskoattele apparaat. Availability varies troch telefoan model, carrier, en counbesykje. Dekking en speeds vary troch region.",
+        "fairUse": "Subject nei fair-gebrûk policy en lokaal limits"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "Ferlykje eSIM-datapakketten",
+        "col": {
+          "pack": "Pack",
+          "data": "Ynbegrepen data",
+          "bestFor": "Bêst foar"
+        },
+        "disclaimer": "Actual data usage depends op hoe do gebrûk Chatforia (voice, fideo, media, en other apps op dyn telefoan)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Bêste value per GB"
+      },
+      "feature": {
+        "instant": "Direkt eSIM activation",
+        "coverage": "Betroubere dekking",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Lokaal",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Europa",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Globaal",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Startpakket",
+        "data": "3 GB",
+        "bestFor": "Short trips, ljocht messaging, en occasional oproppen"
+      },
+      "medium": {
+        "title": "Reispakket",
+        "data": "5 GB",
+        "bestFor": "Weekend trips, regelmjittich VoIP oproppen, en maps"
+      },
+      "large": {
+        "title": "Krêftpakket",
+        "data": "10 GB",
+        "bestFor": "Heavy petear, oproppen, fideo, en hotspot gebrûk"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Chatforia Famylje (shared data)",
+      "subtitle": "Share a single data pool across dyn family. One bill, multiple Chatforia accounts, wrâldwiid coverage.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Famylje Small",
+        "desc": "Omfettet 20 GB fan shared hege-snelheid data — great foar 2–3 ljocht gebrûkrs.",
+        "price": "$29.99",
+        "aria": "Buy Famylje Small pack"
+      },
+      "medium": {
+        "title": "Famylje Medium",
+        "desc": "Omfettet 40 GB fan shared hege-snelheid data — ideal foar 3–5 active members.",
+        "price": "$49.99",
+        "aria": "Buy Famylje Medium pack"
+      },
+      "large": {
+        "title": "Famylje Large",
+        "desc": "Omfettet 80 GB fan shared hege-snelheid data — foar power families dat binne always online.",
+        "price": "$84.99",
+        "aria": "Buy Famylje Large pack"
+      },
+      "feature": {
+        "shared": "Shared data pool foar dyn famylje",
+        "members": "Útnoegje up nei 4 additional leden",
+        "membersMore": "Great foar 3–5 active leden",
+        "manage": "Beheare limits foar each lid",
+        "topUp": "Tafoegje mear packs op elk momint",
+        "bestValue": "Bêste value per GB",
+        "fairUse": "Subject nei fair-gebrûk policy en lokaal limits"
+      },
+      "disclaimer": "Famylje packs create of top up a dielde datapool. Do kin útnoegje en fuortsmite leden op elk momint.",
+      "footnote": "Famylje packs share a single data pool across linked Chatforia accounts. Availability en limits depend op dyn lân en lokaal regulations."
+    },
+    "why": {
+      "title": "Why people switch nei Chatforia",
+      "subtitle": "Chatforia gives do a real telefoannûmer, smart oersetting, en a clear path nei go ad-free wannear you’re ready.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Lighter advertinsjes op Fergees, a simple Plus opwurdearje wannear you’re ready, en Premium tools TextNow doesn’t offer."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Modern app, global-first design, en built-in oersetting instead fan old-school oprop trochstjoere."
+        },
+        "messengers": {
+          "title": "Chatforia vs petear apps",
+          "body": "Text real telefoannûmers — net just other app gebrûkrs — mei AI en status built in. Great as you’re coming fan apps like TextFree of TextMe."
+        }
+      },
+      "tableTitle": "How Chatforia compares",
+      "col": {
+        "feature": "Funksje",
+        "chatforia": "Up nei 12+ months",
+        "textnow": "Varies troch account",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "Fergees telefoannûmer",
+        "translation": "Built-in auto-translation",
+        "aiTools": "AI tools (rewrites, replies, summaries)",
+        "ads": "Fergees forever mei advertinsjes yn the app",
+        "history": "Berjocht skiednis"
+      },
+      "yes": "Ja",
+      "no": "Nee",
+      "yesPremium": "Ja (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Beheind",
+      "nA": "N/F",
+      "history": {
+        "chatforia": "Up nei 12+ months",
+        "textnow": "Varies troch account",
+        "voice": "Limited / account-based"
+      },
+      "disclaimer": "Comparison based op publicly beskikber information en mei feroarje over time. Other free-texting apps like TextFree of TextMe binne generally similar nei TextNow."
+    },
+    "faq": {
+      "title": "FAQ oer prizen en plannen",
+      "free": {
+        "q": "Is it Fergees-plan echt fergees?",
+        "a": "Yes. The Fergees plan omfettet a Chatforia-nûmer, calling, en messaging mei ads. Do kin stay op Fergees as long as do like, of opwurdearje nei fuortsmite advertinsjes en unlock mear features."
+      },
+      "plusPremium": {
+        "q": "What’s the difference between Plus en Premium?",
+        "a": "Plus removes advertinsjes en extends dyn berjochtskiednis — perfect foar everyday gebrûk. Premium adds extra customization, AI tools foar rewrites en replies, en priority stipe foar swier gebrûkrs."
+      },
+      "esim": {
+        "q": "Where doch eSIM datapakketten work?",
+        "a": "Chatforia Mobile gebrûks wrâldwiid eSIM coverage. Availability depends op dyn lân en device. You’ll see supported options during activation binnen the app."
+      },
+      "cancel": {
+        "q": "Kin ik op elk momint annulearje of fan plan feroarje?",
+        "a": "Yes. Do kin beheare of annulearje dyn abonnemint fan the fakturearring page yn the app. Changes take effect at the end fan dyn hjoeddeistich fakturearring period."
+      },
+      "family": {
+        "q": "Hoe wurkje famyljepakketten?",
+        "a": "Famylje packs create a dielde datapool across multiple Chatforia accounts. One person pays the bill, en do kin útnoegje of fuortsmite leden en set limits per person."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "Famylje",
@@ -735,829 +1839,149 @@
       "error": "Wy koe net tafoegje do nei dit family. The útnoegje mei wêze ûnjildich of expired."
     }
   },
-  "premium": {
-    "heading": "Gean Premium",
-    "description": "Unlock power funksjes & fuortsmite ads.",
-    "cta": "Opwurdearje",
-    "upgrade": "Opwurdearje",
-    "upgradeAria": "Opwurdearje nei Chatforia Premium"
+  "randomChat": {
+    "title": "Willekeurich petear",
+    "subtitle": "Meet immen nij instantly, of kieze nei petear mei Ria.",
+    "start": "Begjin in petear",
+    "description": "Petear anonymously first. Tafoegje Friend later as it feels right.",
+    "findMatch": "Fyn in match foar my",
+    "chatWithRia": "Petearje mei Ria",
+    "setAge": "Set dyn age range yn Profyl → Age & Random Petear nei wêze matched mei people.",
+    "idle": "Yn rêst",
+    "matching": "Matchen…",
+    "searching": "Sykjen…",
+    "cancel": "Annulearje",
+    "connectionProblem": "Ferbiningsprobleem",
+    "ai": "AI",
+    "anonymous": "Anonym",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting foar them nei accept Tafoegje Friend…",
+    "hiddenUsernames": "Brûkrnames stay hidden until both people kieze Tafoegje Friend.",
+    "riaSeparate": "Petear mei Ria op elk momint — separate fan random human matching.",
+    "sendMessage": "Berjocht ferstjoere",
+    "chatEnded": "Petear beëinige",
+    "conversationEnded": "Dat conversation hat ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Folgjende persoan",
+    "addFriend": "Freon tafoegje",
+    "requested": "Oanfrege",
+    "leave": "Fuortgean",
+    "messageRia": "Berjocht Ria…",
+    "messageMatch": "Berjocht dyn match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "Opwurdearje",
-    "titleLoggedIn": "Opwurdearje",
-    "titlePublic": "Prizen",
-    "h1": "Chatforia Prizen & Plannen",
-    "h1Subtitle": "Begjin mei our fergees, ad-supported plan. Go ad-free mei Plus, of unlock full power funksjes mei Premium.",
-    "subtitle": "Kies an app plan, tafoegje datapakketten foar yourself, of share data mei dyn famylje — alle fan one place.",
-    "subtitle.app": "Begjin mei our fergees, ad-supported plan. Go ad-free mei Plus, of unlock full power funksjes mei Premium.",
-    "subtitle.mobile": "Tafoegje wrâldwiid eSIM data so Chatforia keeps working even wannear you’re away fan Wi-Fi.",
-    "subtitle.family": "Create a dielde datapool foar dyn famylje en beheare elkenien’s usage fan one place.",
-    "perMonth": "mo",
-    "perYear": "jier",
-    "goPremium": "Gean Premium",
-    "benefitsLine": "Unlock power funksjes & fuortsmite ads.",
-    "ctaText": "Opwurdearje",
-    "aria": "Opwurdearje nei Chatforia Premium",
-    "toggle": {
-      "monthly": "Moanliks",
-      "annual": "Jierliks (Besparje 30%)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "Abonnemint sil end",
-      "body": "You’ll revert nei Fergees op",
-      "keepPlanCta": "Keep {{plan}}",
-      "manageBillingCta": "Fakturearring beheare"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "Iepenjen…",
-      "manage": "Beheare Fakturearring"
-    },
-    "checkout": {
-      "redirecting": "Trochferwize…"
-    },
-    "auth": {
-      "continue": "Trochgean nei oanmelden",
-      "createAccount": "Account oanmeitsje",
-      "signIn": "Oanmelde"
-    },
-    "cta": {
-      "aria": "Plan selektearje",
-      "getPlus": "Opwurdearje nei Plus",
-      "upgradeMonthly": "Opwurdearje Monthly",
-      "upgradeAnnual": "Opwurdearje Annual"
-    },
-    "section": {
-      "app": "App-plannen",
-      "mobile": "Mobile (eSIM)",
-      "family": "Famyljeplannen"
-    },
-    "plans": {
-      "free": {
-        "title": "Fergees",
-        "price": "$0",
-        "desc": "Begjin messaging foar free. Ideal as you’re just besykjeing Chatforia.",
-        "features": {
-          "chat": "Real-time 1:1 en group petear, plus voice en fideoproppen",
-          "media": "Share foto’s, stim-berjochten, en koart fideo’s",
-          "ai": "AI-oandreaune tûke antwurden en direkt oersetting (fair gebrûk)",
-          "disappearing": "Ferdwynende berjochten en basis privacy controls",
-          "ads": "Fergees forever mei advertinsjes yn the app"
-        },
-        "ctaCurrent": "Hjoeddeistich plan",
-        "ctaManage": "Beheare yn fakturearring",
-        "ctaPublic": "Get started – continue nei oanmelde",
-        "aria": "Fergees plan"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
       },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Alle the essentials, sûnder ads. Great foar everyday messaging en calling.",
-        "features": {
-          "allFree": "Alles yn Fergees, sûnder advertinsjes",
-          "forwarding": "Forward oproppen en texts nei dyn real telefoannûmer",
-          "history": "Longer berjochtskiednis (up nei 6 months)",
-          "support": "Faster stipe wannear wat goes wrong"
-        },
-        "badge": "Populêr",
-        "cta": "Go Ad-Free",
-        "ctaPublic": "Get Plus – continue nei oanmelde",
-        "aria": "Opwurdearje nei Plus"
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
       },
-      "premiumMonthly": {
-        "title": "Premium (Monthly)",
-        "price": "$11.99",
-        "desc": "The full Chatforia experience: AI power tools, customization, en priority support.",
-        "features": {
-          "plusAll": "Alles yn Plus",
-          "themes": "Unlock alle premium color tema’s en app customizations",
-          "ai": "Premium-only AI power tools foar rewrites, tûke antwurden, en summaries",
-          "support": "Priority stipe wannear do need help most"
-        },
-        "badge": "Oanrikkemandearre",
-        "cta": "Opwurdearje (Monthly)",
-        "ctaPublic": "Unlock Premium – continue nei oanmelde",
-        "aria": "Opwurdearje nei Premium Monthly"
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
       },
-      "premiumAnnual": {
-        "title": "Premium (Annual)",
-        "price": "$99",
-        "desc": "Bewarje mear wannear billed yearly — ynklusyf extra color tema’s, AI tools, en priority support.",
-        "features": {
-          "allPremium": "Everything yn Premium Monthly — ynklusyf extra color tema’s",
-          "annualBilling": "Ien kear yn it jier fakturearre",
-          "save25": "Bewarje around 30% compared nei paying monthly",
-          "bestFor": "Bêste foar power gebrûkrs, remote workers, en swier travelers"
-        },
-        "badge": "Besparje 30%",
-        "cta": "Opwurdearje (Annual)",
-        "ctaPublic": "Bewarje 30% mei annual – continue nei oanmelde",
-        "aria": "Opwurdearje nei Premium Annual",
-        "disclaimer": "Foarôf fakturearre. Op elk momint annulearje. Gjin ferburgen kosten."
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
       }
-    },
-    "marketing": {
-      "freeTitle": "Fergees",
-      "freeDesc": "Begjin messaging foar free.",
-      "plusTitle": "Plus",
-      "plusBadge": "Populêr",
-      "plusDesc": "Most affordable ad-free experience.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Full funksjes, ringtones, en AI power tools.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Bewarje mear wannear billed yearly.",
-      "annualDisclaimer": "Foarôf fakturearre. Op elk momint annulearje. Gjin ferburgen kosten."
-    },
-    "mobile": {
-      "title": "Chatforia Mobile (eSIM datapakketten)",
-      "subtitle": "Tafoegje wrâldwiid data nei keep Chatforia working even sûnder Wi-Fi. Prices automatically adjust based op dyn lân en currency.",
-      "subtitle.detail": "Pick a one-time wrâldwiid datapakket so Chatforia keeps working wannear you’re traveling of away fan Wi-Fi.",
-      "scope": {
-        "local": "Lokaal",
-        "europe": "Europa",
-        "global": "Globaal"
-      },
-      "note": "Wy net sell datapakketten under 3 GB.",
-      "localEquals": "Lokaal = {{country}}",
-      "localEqualsFallback": "Lokaal = dyn hjoeddeistich lân",
-      "perPack": "/ pack",
-      "cta": "Get dit datapakket",
-      "ctaPublic": "Get dit datapakket",
-      "checkout": {
-        "redirecting": "Trochferwize…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Hege-snelheid data foar swier gebrûk",
-          "throttle": "Speeds mei slow after high usage",
-          "coverage": "Betroubere dekking",
-          "instant": "Direkt eSIM activation",
-          "noContract": "One-time pack, gjin contract"
-        }
-      },
-      "disclaimer": {
-        "devices": "eSIM datapakketten require an eSIM-kompatibel en ûntskoattele apparaat. Availability varies troch telefoan model, carrier, en counbesykje. Dekking en speeds vary troch region."
-      },
-      "small": {
-        "title": "Startpakket",
-        "desc": "Omfettet 3 GB fan hege-snelheid data — ideal foar ljocht messaging en occasional calls.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Short trips, ljocht messaging, en occasional oproppen",
-        "aria": "Buy Starter eSIM datapakket"
-      },
-      "medium": {
-        "title": "Reispakket",
-        "desc": "Omfettet 5 GB fan hege-snelheid data foar trips, commuting, en regelmjittich VoIP calls.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Weekend trips, regelmjittich VoIP oproppen, en maps",
-        "aria": "Buy Traveler eSIM datapakket"
-      },
-      "large": {
-        "title": "Krêftpakket",
-        "desc": "Omfettet 10 GB fan hege-snelheid data foar swier petear, oproppen, en fideo op the Chatforia network.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Heavy petear, oproppen, fideo, en hotspot gebrûk",
-        "aria": "Buy Power gebrûkr eSIM datapakket"
-      },
-      "compare": {
-        "title": "Ferlykje eSIM-datapakketten",
-        "col": {
-          "pack": "Pack",
-          "data": "Ynbegrepen data",
-          "bestFor": "Bêst foar"
-        },
-        "disclaimer": "Actual data usage depends op hoe do gebrûk Chatforia (voice, fideo, media, en other apps op dyn telefoan)."
-      }
-    },
-    "family": {
-      "title": "Chatforia Famylje (shared data)",
-      "subtitle": "Share a single data pool across dyn family. One bill, multiple Chatforia accounts, wrâldwiid coverage.",
-      "perPack": "/ pack",
-      "small": {
-        "title": "Famylje Small",
-        "desc": "Omfettet 20 GB fan shared hege-snelheid data — great foar 2–3 ljocht gebrûkrs.",
-        "price": "$29.99",
-        "aria": "Buy Famylje Small pack"
-      },
-      "medium": {
-        "title": "Famylje Medium",
-        "desc": "Omfettet 40 GB fan shared hege-snelheid data — ideal foar 3–5 active members.",
-        "price": "$49.99",
-        "aria": "Buy Famylje Medium pack"
-      },
-      "large": {
-        "title": "Famylje Large",
-        "desc": "Omfettet 80 GB fan shared hege-snelheid data — foar power families dat binne always online.",
-        "price": "$84.99",
-        "aria": "Buy Famylje Large pack"
-      },
-      "feature": {
-        "shared": "Shared data pool foar dyn famylje",
-        "members": "Útnoegje up nei 4 additional leden",
-        "membersMore": "Great foar 3–5 active leden",
-        "manage": "Beheare limits foar each lid",
-        "topUp": "Tafoegje mear packs op elk momint",
-        "bestValue": "Bêste value per GB",
-        "fairUse": "Subject nei fair-gebrûk policy en lokaal limits"
-      },
-      "disclaimer": "Famylje packs create of top up a dielde datapool. Do kin útnoegje en fuortsmite leden op elk momint.",
-      "footnote": "Famylje packs share a single data pool across linked Chatforia accounts. Availability en limits depend op dyn lân en lokaal regulations."
-    },
-    "why": {
-      "title": "Why people switch nei Chatforia",
-      "subtitle": "Chatforia gives do a real telefoannûmer, smart oersetting, en a clear path nei go ad-free wannear you’re ready.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Lighter advertinsjes op Fergees, a simple Plus opwurdearje wannear you’re ready, en Premium tools TextNow doesn’t offer."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "Modern app, global-first design, en built-in oersetting instead fan old-school oprop trochstjoere."
-        },
-        "messengers": {
-          "title": "Chatforia vs petear apps",
-          "body": "Text real telefoannûmers — net just other app gebrûkrs — mei AI en status built in. Great as you’re coming fan apps like TextFree of TextMe."
-        }
-      },
-      "tableTitle": "How Chatforia compares",
-      "col": {
-        "feature": "Funksje"
-      },
-      "feature": {
-        "freeNumber": "Fergees telefoannûmer",
-        "translation": "Built-in auto-translation",
-        "aiTools": "AI tools (rewrites, replies, summaries)",
-        "ads": "Ad-free option",
-        "history": "Berjocht skiednis"
-      },
-      "yes": "Ja",
-      "no": "Nee",
-      "yesPremium": "Ja (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "Beheind",
-      "nA": "N/F",
-      "history": {
-        "chatforia": "Up nei 12+ months",
-        "textnow": "Varies troch account",
-        "voice": "Limited / account-based"
-      },
-      "disclaimer": "Comparison based op publicly beskikber information en mei feroarje over time. Other free-texting apps like TextFree of TextMe binne generally similar nei TextNow."
-    },
-    "faq": {
-      "title": "FAQ oer prizen en plannen",
-      "free": {
-        "q": "Is it Fergees-plan echt fergees?",
-        "a": "Yes. The Fergees plan omfettet a Chatforia-nûmer, calling, en messaging mei ads. Do kin stay op Fergees as long as do like, of opwurdearje nei fuortsmite advertinsjes en unlock mear features."
-      },
-      "plusPremium": {
-        "q": "What’s the difference between Plus en Premium?",
-        "a": "Plus removes advertinsjes en extends dyn berjochtskiednis — perfect foar everyday gebrûk. Premium adds extra customization, AI tools foar rewrites en replies, en priority stipe foar swier gebrûkrs."
-      },
-      "esim": {
-        "q": "Where doch eSIM datapakketten work?",
-        "a": "Chatforia Mobile gebrûks wrâldwiid eSIM coverage. Availability depends op dyn lân en device. You’ll see supported options during activation binnen the app."
-      },
-      "cancel": {
-        "q": "Kin ik op elk momint annulearje of fan plan feroarje?",
-        "a": "Yes. Do kin beheare of annulearje dyn abonnemint fan the fakturearring page yn the app. Changes take effect at the end fan dyn hjoeddeistich fakturearring period."
-      },
-      "family": {
-        "q": "Hoe wurkje famyljepakketten?",
-        "a": "Famylje packs create a dielde datapool across multiple Chatforia accounts. One person pays the bill, en do kin útnoegje of fuortsmite leden en set limits per person."
-      }
-    },
-    "gettingStarted": {
-      "title": "Begjinne",
-      "subtitle": "Nij nei Chatforia? Dit quick begjin shows the essentials so do kin wêze productive yn minutes.",
-      "alert": {
-        "text": "Dit guide sil grow as wy launch nij features. If wat’s missing, let us kno via",
-        "contactLink": "Nim kontakt mei ús op"
-      },
-      "section1": {
-        "title": "1) Create dyn account",
-        "signup": "Sign up",
-        "or": "of",
-        "login": "log yn",
-        "loginText": "mei dyn existing account.",
-        "prefsStart": "Set dyn",
-        "prefsLink": "preferences",
-        "prefsRest": "(taal, lêsbefêstigingen, tema’s)."
-      },
-      "section2": {
-        "title": "2) Begjin messaging",
-        "item1": "Create a DM of Group en ferstjoere dyn first message.",
-        "item2": "Brûk direkt oersetting nei petear across 100+ languages.",
-        "item3": "Besykje ferdwynende berjochten en lêsbefêstigingen yn Profyl → Privacy."
-      },
-      "section3": {
-        "title": "3) Go further",
-        "item1": "Do kin opwurdearje nei a betelle plan op elk momint binnen the app.",
-        "item2": "Once you’re signed yn, do kin keppeling additional apparaten en set up fersifere backups fan Ynstellings yn the app."
-      },
-      "cta": {
-        "seePlans": "See plannen",
-        "openSettings": "Iepenje ynstellingen"
-      }
-    },
-    "helpCenter": {
-      "title": "Helpsintrum",
-      "faq": {
-        "account": {
-          "q": "Hoe meitsje ik myn account oan of herstel ik it?",
-          "a": "Download the app of gebrûk web, tap “Account oanmeitsje”, verify dyn e-mail/phone. To recover, gebrûk “Wachtwurd fergetten”."
-        },
-        "privacy": {
-          "q": "Binne berjochten ein-oan-ein fersifere?",
-          "a": "Yes. Berjochten en oproppen binne ein-oan-ein fersifere troch default. Only do en the recipient kin read them."
-        },
-        "translate": {
-          "q": "Hoe wurket direkte oersetting?",
-          "a": "Ynskeakelje “Automatysk oersette” yn Ynstellings → Uterlik en taal. Wy oersette on-device wêr supported, otherwise through feilige API’s mei minimale metadata."
-        },
-        "contact": {
-          "q": "Nim kontakt op mei stipe",
-          "a": "Reach us at support@chatforia.com. Include screenshots en dyn app version."
-        }
-      }
-    },
-    "contact": {
-      "title": "Nim kontakt mei ús op",
-      "successMsg": "Thanks—our team sil reply troch email.",
-      "errorSend": "Koe net send. Graach e-mail support@chatforia.com.",
-      "form": {
-        "nameLabel": "Namme",
-        "emailLabel": "E-mail",
-        "messageLabel": "Berjocht",
-        "sendCta": "Ferstjoere"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Privacybelied",
-      "lastUpdated": "Lêst bywurke:",
-      "intro": {
-        "body": "Dit Privacybelied explains hoe Chatforia (“wy”, “us”) collects, gebrûks, en shares information wannear do gebrûk our apps en services. Wy design Chatforia nei minimize the data wy kin access."
-      },
-      "infoWeCollect": {
-        "title": "Information wy collect",
-        "account": "Account info (e.g., e-mail/phone) nei create en feilich dyn account.",
-        "encrypted": "Fersifere content (berjochten/calls) is ein-oan-ein fersifere; wy can’t read it.",
-        "diagnostics": "Diagnostic/usage like crash logs, apparaat typ, of coarse analytics nei improve performance."
-      },
-      "sms": {
-        "title": "Mobile telefoannûmers en SMS",
-        "body": "If do kieze nei provide a mobile telefoannûmer, wy gebrûk it nei ynskeakelje funksjes such as account verification, oanmelde alerts, en gebrûkr-to-gebrûkr messaging via SMS wêr supported. Wy mei ferstjoere transactional SMS berjochten related nei dyn account en activity op Chatforia. Do kin opt out fan receiving SMS berjochten at any time troch replying mei a supported opt-out keyword (such as “STOP”) of troch changing dyn notifikaasje preferences yn the app. Wy doch net sell dyn telefoannûmer of gebrûk it foar unrelated marketing.",
-        "newText": "Nij text",
-        "enterRecipient": "Fier yn a namme of nûmer",
-        "typeMessage": "Typ a berjocht…",
-        "addRecipient": "Tafoegje a recipient hjirboppe nei begjin…"
-      },
-      "howWeUse": {
-        "title": "How wy gebrûk information",
-        "provide": "Provide en feilich the service (auth, spam/abuse detection).",
-        "improve": "Improve funksjes (oersetting quality, reliability).",
-        "legal": "Comply mei legal obligations."
-      },
-      "sharing": {
-        "title": "Sharing",
-        "body": "Wy net sell personal data. Wy mei share limited data mei processors (e.g., push notifikaasjes, analytics) under strict contracts."
-      },
-      "rights": {
-        "title": "Dyn rights",
-        "body": "Depending op dyn region (e.g., GDPR/UK GDPR/CPRA), do mei request access, correction, deletion, of opt-out fan certain processing. Kontakt: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Data retention & feiligens",
-        "body": "Wy retain only what’s needed nei operate the service en apply indusbesykje-standard security. E2E content can’t wêze decrypted troch us."
-      },
-      "children": {
-        "title": "Children",
-        "body": "Chatforia isn’t directed nei children under 13 (of as fereaske troch dyn lokaal law)."
-      },
-      "changes": {
-        "title": "Changes",
-        "body": "We’ll post updates here en revise the “Lêst bywurke” date."
-      },
-      "contact": {
-        "title": "Kontakt",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Tsjinstbetingsten",
-      "lastUpdated": "Lêst bywurke:",
-      "intro": {
-        "body": "By brûken Chatforia do agree nei dizze Terms. If do doch net agree, net gebrûk the service."
-      },
-      "accounts": {
-        "title": "Accounts",
-        "itemAccurateInfo": "Provide accurate info en keep credentials secure.",
-        "itemResponsibility": "You’re responsible foar activity op dyn account."
-      },
-      "acceptableUse": {
-        "title": "Akseptabel gebrûk",
-        "itemNoAbuse": "Gjin illegal, abusive, of infringing content; gjin spam of automated abgebrûk.",
-        "itemSuspend": "Wy mei suspend/terminate foar violations."
-      },
-      "sms": {
-        "title": "SMS-kommunikaasje",
-        "body": "If do provide a mobile telefoannûmer, do agree dat Chatforia mei ferstjoere do SMS berjochten related nei dyn account en gebrûk fan the service, such as oanmelde alerts, feiligens notifikaasjes, en berjochten related nei conversations do initiate of participate in. Wy doch net gebrûk SMS foar promotional of marketing berjochten sûnder dyn explicit consent. Standard berjocht en data rates mei apply. Do kin opt out fan SMS berjochten at any time troch replying mei a supported opt-out keyword (foar example, “STOP”) of troch updating dyn notifikaasje ynstellingen yn the app."
-      },
-      "yourContent": {
-        "title": "Dyn content",
-        "body": "Do retain rights nei dyn content. Do grant us necessary rights nei operate the service (e.g., routing, storage, oersetting)."
-      },
-      "disclaimer": {
-        "title": "Disclaimers & liability",
-        "body": "Service is provided “as is” sûnder warranties. To the fullest extent permitted troch law, Chatforia isn’t liable foar indirect of consequential damages."
-      },
-      "changes": {
-        "title": "Changes",
-        "body": "Wy mei update dizze terms; continued gebrûk after changes means acceptance."
-      },
-      "contact": {
-        "title": "Kontakt",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Do Not Sell of Share My Personal Information",
-      "body": "Chatforia docht net sell personal information. California residents kin still submit requests under CPRA brûken the button hjirûnder.",
-      "cta": "Submit a request"
-    },
-    "cookies": {
-      "title": "Cookie Ynstellings",
-      "body": "Chatforia gebrûks minimal cookies (e.g., session, feiligens). Wy net gebrûk third-party advertinsjes cookies. Beheare cookies via dyn browser’s settings."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Unable nei load telefoannûmer status.",
-      "lock": "Lock",
-      "noNumberAssigned": "Gjin nûmer assigned. Pick one troch area code nei begjin texting.",
-      "pickNumber": "Pick a nûmer",
-      "phoneNumber": "Telefoannûmer"
-    },
-    "startChatModal": {
-      "title": "Begjin in petear",
-      "quickPicker": "Quick picker",
-      "to": "Oan",
-      "nameOrUsername": "Typ a namme, brûkersnamme",
-      "nameUsernamePhoneEmail": "Typ a namme, brûkersnamme, telefoan, of e-mail…",
-      "startWithSelected": "Begjin petear mei selected",
-      "searchByUsernameOrPhone": "Sykje troch brûkersnamme of telefoan",
-      "search": "Sykje",
-      "searchPrompt": "Typ a brûkersnamme of telefoan en press Search.",
-      "pickFromContacts": "Or pick fan kontakten",
-      "addContact": "Tafoegje a Kontakt",
-      "show": "Toane",
-      "add": "Tafoegje",
-      "close": "Slute",
-      "selectedCount": "{{count}} selected",
-      "pickAtLeastOne": "Pick at least one recipient.",
-      "saveContactsHint": "Telefoan/email entries sil wêze beskikber after do bewarje them as contacts.",
-      "failedBulkStart": "Mislearre nei begjin petear mei selected recipients.",
-      "noResults": "Gjin resultaten",
-      "mode": "Mode",
-      "group": "Group",
-      "broadcast": "Broadcast",
-      "groupNameOptional": "Group namme (opsjoneel)",
-      "firstMessageOptional": "First berjocht (opsjoneel but recommended)",
-      "createGroup": "Create group",
-      "sendBroadcast": "Ferstjoere broadcast"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
-    },
-    "sounds": {
-      "freeNotice": "You’re op Fergees — premium tones binne shown but locked. Opwurdearje nei unlock all.",
-      "preview": "Foarbyld",
-      "resetToDefaults": "Reset nei defaults",
-      "notificationSounds": "Notifikaasje Lûden",
-      "messageTone": "Berjocht tone",
-      "default": "Standert",
-      "vibrate": "Vibrate",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Pulsating Lûd",
-      "textMessage": "Text Berjocht",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Digital Telefoan",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Lûd Reality",
-      "street": "Street",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Dit funksje requires a Premium plan."
-    },
-    "aiSettings": {
-      "title": "AI Ynstellings",
-      "controlIntro": "Control oersetting, tûke antwurden, en ForiaBot auto-responses.",
-      "save": "Bewarje AI Ynstellings",
-      "autoTranslateIncoming": "Automatysk oersette incoming berjochten",
-      "showOriginalAlongside": "Toane original text alongside oersetting",
-      "enableSmartReplies": "Ynskeakelje Tûke antwurden",
-      "smartRepliesHint": "Ferstjoere the last few received berjochten (sanitized) nei AI nei suggest quick replies.",
-      "maskProfanity": "Mask profanity yn AI suggestions",
-      "maskProfanityHint": "If op, suggestions returned troch AI sil hawwe flagged words masked",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "Ynskeakelje auto-reply wannear I’m busy",
-      "autoReplyMode": "Auto-reply mode",
-      "cooldownSeconds": "Cooldown (sekonden)",
-      "off": "Ut",
-      "on": "Oan",
-      "signature": "Signature",
-      "autoReply": "Auto-reply",
-      "activeUntilOptional": "Active until (opsjoneel)",
-      "saved": "AI preferences saved",
-      "saveFailed": "Bewarjen mislearre AI ynstellingen",
-      "translateOff": "Ut",
-      "translateTagged": "Only wannear @translated of tagged",
-      "translateAll": "Oersette alle incoming berjochten",
-      "modeDm": "1:1 chats only",
-      "modeMention": "Only wannear I’m @mentioned",
-      "modeAll": "Alle inbound berjochten"
-    },
-    "accessibilitySettings": {
-      "title": "Accessibility & Alerts",
-      "accessibility": "Tagonklikens",
-      "accessibilityDesc": "Options nei make Chatforia easier nei gebrûk sûnder relying op sound.",
-      "interfaceFontSize": "Interface font size",
-      "interfaceFontSizeHelp": "Starts at normaal size. Increase as do prefer larger text yn accessibility settings.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Notifikaasjes",
-      "notificationsDesc": "Visual alerts foar berjochten & oproppen\nToane banners en titel blink so do net miss activity.",
-      "vibrateOnNew": "Vibrate op nij berjochten (wannear supported)\nTrigger apparaat vibration mei notifications.",
-      "flashOnCall": "Flash screen op incoming oprop\nBrief bright flash wannear a oprop rings.",
-      "liveCaptions": "Live captions (oproppen)",
-      "captionFontSize": "Caption font size",
-      "captionBackground": "Caption background",
-      "light": "ljocht",
-      "dark": "dark",
-      "transparent": "transparent",
-      "voiceNotes": "Voice notes",
-      "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
-      "autoTranscribeVoiceNotesDesc": "Attach a transcript nei audio berjochten do receive.",
-      "changesSavedInstantly": "Changes binne saved instantly.",
-      "loadFailed": "Laden mislearre ynstellingen",
-      "visualAlerts": "Visual alerts foar berjochten & oproppen",
-      "visualAlertsDesc": "Toane banners en titel blink so do net miss activity.",
-      "vibrateOnNewShort": "Vibrate op nij berjochten (wannear supported)",
-      "vibrateOnNewDesc": "Trigger apparaat vibration mei notifications.",
-      "flashOnCallShort": "Flash screen op incoming oprop",
-      "flashOnCallDesc": "Brief bright flash wannear a oprop rings."
-    },
-    "privacySection": {
-      "strictE2EE": "Strict ein-oan-ein fersifering",
-      "ciphertextOnlyNote": "Store only ciphertext op the server. Disables AI/Translate en moderation previews."
-    },
-    "linkedDevicesPanel": {
-      "title": "Linked Apparaten",
-      "noneFound": "Gjin linked apparaten found.",
-      "refresh": "Ferfarskje"
-    },
-    "help": {
-      "title": "Help",
-      "howCanWeHelp": "How kin wy help?",
-      "helpCenter": "Helpsintrum",
-      "contactUs": "Nim kontakt mei ús op",
-      "quickTopics": "Flugge ûnderwerpen",
-      "searchExamples": "Besykje searching foar “oersette”, “backups”, of “privacy”.",
-      "cantLogin": "Can't log yn",
-      "paymentsBilling": "Payments/ fakturearring",
-      "reportAbuse": "Report abgebrûk",
-      "searchHelpArticles": "Sykje help articles",
-      "search": "Sykje"
-    },
-    "peoplePage": {
-      "people": "Minsken",
-      "search": "Sykje",
-      "searchPlaceholder": "Sykje troch alias, namme, brûkersnamme, of telefoan",
-      "filterSaved": "Filter saved kontakten",
-      "noContactsFound": "Gjin kontakten found",
-      "quickStart": "Quick begjin",
-      "quickStartDesc": "A few fluch ways nei get rolling.",
-      "importContacts": "Ymportearje dyn kontakten",
-      "add": "Tafoegje",
-      "focusSearch": "Focus Sykje",
-      "import": "Ymportearje",
-      "findOrAdd": "Find of tafoegje immen",
-      "searchByPhoneOrUsername": "Sykje troch telefoan / brûkersnamme",
-      "inviteFriends": "Útnoegje friends",
-      "inviteDesc": "Share dyn útnoegje keppeling nei begjin chatting instantly.",
-      "getTheApp": "Krij de app",
-      "getTheAppDesc": "Stay yn touch op the go mei Chatforia foar iOS en Android.",
-      "download": "Download",
-      "syncTip": "Tip: Dyn berjochten stay synced across web en mobile."
-    },
-    "randomChat": {
-      "title": "Willekeurich petear",
-      "description": "'Meet immen nij instantly'. 'We’ll match do en iepenje a temporary petear room.' 'Petear anonymously first. Tafoegje Friend later as it feels right.'",
-      "findMatch": "Fyn in match foar my",
-      "chatWithForia": "Petear mei Foria",
-      "chatWithForiaBot": "Petear mei ForiaBot",
-      "cancel": "Annulearje",
-      "close": "Slute",
-      "searching": "Sykjen…",
-      "finding": "Finding…",
-      "looking": "Looking foar immen…",
-      "startingForia": "Starting a petear mei Foria…",
-      "partnerDisconnected": "Dyn partner disconnected.",
-      "noPartner": "Gjin partner found no.",
-      "connectedTo": "Connected nei {{name}}",
-      "connected": "Connected",
-      "idle": "Yn rêst",
-      "partnerLeft": "Partner left.",
-      "stopped": "Stopped.",
-      "skip": "Skip",
-      "save": "Bewarje",
-      "saveGuard": "Only human-to-human chats kin wêze saved",
-      "youAreChattingWith": "You’re chatting mei {{name}}",
-      "bot": "BOT",
-      "leave": "Fuortgean",
-      "sayHi": "Say hi 👋",
-      "you": "Do",
-      "typeMessage": "Typ a berjocht",
-      "send": "Ferstjoere",
-      "partner": "Partner",
-      "withRia": "With Ria",
-      "chatWithRia": "Petearje mei Ria",
-      "startingRia": "Starting a petear mei Ria…",
-      "ageDisclaimer": "Wy only store an age range (net dyn exact date fan birth). Dit is gebrûkd nei keep Random Petear pairings reasonable. To match mei people (net just RiaBot), set dyn age band yn Ynstellings → Age & Random Chat.",
-      "ageBandRequired": "Set dyn age range yn Profyl → Age & Random Petear nei wêze matched mei people.",
-      "ageBandCallout": "To match mei people (net just RiaBot), set dyn age band yn Ynstellings → Age & Random Chat.",
-      "subtitle": "Meet immen nij instantly, of kieze nei petear mei Ria.",
-      "start": "Begjin in petear",
-      "matching": "Matchen…",
-      "setAge": "Set dyn age range yn Profyl → Age & Random Petear nei wêze matched mei people.",
-      "next": "Folgjende persoan",
-      "addFriend": "Freon tafoegje",
-      "requested": "Oanfrege",
-      "messageRia": "Berjocht Ria…",
-      "messageMatch": "Berjocht dyn match…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "there",
-      "intro": "Hey there 👋 I’m Ria. What’s op dyn mind?",
-      "greetings": {
-        "long1": "Hey {{name}} 👋 I’m here. What’s op dyn mind?",
-        "long2": "Hi {{name}} 😊 What would do like nei talk about hjoed?",
-        "long3": "Hey {{name}}! I’m alle ears — what’s up?",
-        "long4": "Nice nei see do, {{name}} 👋 What’s op dyn mind hjoed?",
-        "long5": "Hey {{name}} 🙂 Want nei vent, ask, of just petear?",
-        "long6": "Hi {{name}}! I’ve got time — wat would do like nei talk about?",
-        "short1": "Hey {{name}}, I’m still here. What’s up?",
-        "short2": "Welcome back {{name}} 👋 Anything else do wanted nei tafoegje?",
-        "short3": "Back nochris, {{name}}? 😊 Tell me what’s op dyn mind.",
-        "short4": "Hey {{name}} ✨ Ready nei pick up wêr wy left off?",
-        "short5": "Ja {{name}}? I’m listening 👂",
-        "short6": "Oh hey {{name}}! Got wat nij op dyn mind?"
-      },
-      "header": {
-        "openNav": "Iepenje navigation menu",
-        "closeNav": "Slute navigation menu",
-        "homeAria": "Chatforia Home"
-      },
-      "login": {
-        "welcomeBack": "Welcome back",
-        "title": "Continue nei Chatforia",
-        "subtitleReturning": "Log yn nei dyn Chatforia account",
-        "subtitle": "Log yn nei dyn Chatforia account",
-        "google": "Trochgean mei Google",
-        "apple": "Trochgean mei Apple",
-        "googleUnavailable": "Google sign-in net beskikber",
-        "appleUnavailable": "Apple sign-in net beskikber",
-        "or": "of",
-        "email": "E-mail",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Brûkersnamme",
-        "usernamePh": "Dyn brûkersnamme",
-        "passwordLabel": "Wachtwurd",
-        "passwordPh": "Dyn wachtwurd",
-        "keepSignedIn": "Hâld my oanmeld",
-        "forgot": {
-          "title": "Forgot Wachtwurd",
-          "helper": "Fier yn the e-mail do gebrûkd nei create dyn Chatforia account en we'll ferstjoere do a feilich keppeling nei reset dyn password.",
-          "emailInvalid": "Graach ynfiere a jildich e-mail address.",
-          "genericError": "Unable nei process request. Besykje it nochris yn a moment.",
-          "sending": "Sending reset link...",
-          "sendCta": "Ferstjoere Reset Keppeling",
-          "sentLabel": "Sent!",
-          "sentHelper": "If an account exists mei dat e-mail, we've sent a wachtwurd reset link. It mei take a few minuten nei arrive. Be sure nei check dyn spam of promotions folder.",
-          "previewDev": "Preview E-mail (Dev)",
-          "backToLogin": "Back nei Oanmelde"
-        },
-        "submit": "Oanmelde",
-        "loggingIn": "Logging yn…",
-        "newHere": "Nij here? <keppeling>Create an account</link>",
-        "ssoUnavailable": "Single-sign-on is currently unavailable. Brûk brûkersnamme & wachtwurd instead.",
-        "error": {
-          "missing": "Graach ynfiere dyn credentials.",
-          "invalid": "Ûnjildich brûkersnamme of wachtwurd",
-          "denied": "Access denied.",
-          "unprocessable": "Ûnjildich request. Check dyn brûkersnamme/email en password.",
-          "deviceLimit": "Apparaat limit reached foar the Fergees plan. Log out op another apparaat of opwurdearje nei Premium nei keppeling mear devices.",
-          "premiumRequired": "Dit action requires a Premium plan."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Completing sign-in…"
-    },
-    "dialer": {
-      "title": "Oproppen",
-      "subtitle": "Keypad & recents. (If do net gebrûk PSTN, begjin oproppen fan a conversation header.)",
-      "enterNumberPh": "Fier nûmer yn",
-      "call": "Belje",
-      "backspace": "Wiskje",
-      "recents": "Resint",
-      "recentsEmpty": "Noch gjin resinte oproppen.",
-      "enterNumber": "Fier nûmer yn",
-      "enterNumberAria": "Fier nûmer yn",
-      "key": "Kaai {{d}}",
-      "noRecents": "Noch gjin resinte oproppen."
-    },
-    "video": {
-      "title": "Fideo",
-      "chooseType": "Kies a fideo type.",
-      "directTitle": "Direct Video",
-      "directDesc": "1:1 camera oprop mei another gebrûkr.",
-      "directStart": "Begjin",
-      "roomsTitle": "Rooms",
-      "roomsDesc": "Multi-party fideo brûken a shared keamer name.",
-      "roomsIntro": "Join of create a multi-party room.",
-      "roomNameLabel": "Keamer namme",
-      "roomNamePh": "e.g. team-standup",
-      "join": "Join",
-      "deeplinkTip": "Tip: do kin deep keppeling directly nei <code>/video?keamer=room-name</code>.",
-      "hub": {
-        "title": "Fideo",
-        "subtitle": "Kies a fideo type."
-      },
-      "direct": {
-        "title": "Direct Video",
-        "subtitle": "Begjin a 1:1 fideo oprop brûken a telefoannûmer of Chatforia gebrûkrname.",
-        "desc": "1:1 camera oprop mei another gebrûkr.",
-        "start": "Begjin",
-        "callBtn": "Belje",
-        "callByPhone": {
-          "title": "Belje troch telefoan"
-        },
-        "phone": {
-          "placeholder": "Fier yn telefoan (e.g., +1-555-123-4567)",
-          "aria": "Telefoan nei oprop"
-        },
-        "tipInvite": "Tip: Paste a nûmer en oprop sûnder saving a contact. We’ll útnoegje non-gebrûkrs troch link.",
-        "findUser": {
-          "title": "Find a gebrûkr"
-        },
-        "search": {
-          "placeholder": "Sykje troch namme of brûkersnamme",
-          "aria": "Sykje troch namme of brûkersnamme",
-          "btn": "Sykje"
-        }
-      },
-      "rooms": {
-        "title": "Rooms",
-        "subtitle": "Create a keamer of join an existing one troch typing the deselde name.",
-        "desc": "Multi-party fideo brûken a shared keamer name.",
-        "roomLabel": "Keamer namme",
-        "roomPlaceholder": "e.g. team-standup",
-        "roomAria": "Keamer namme",
-        "joinCreate": "Join / Create",
-        "tip": "Tip: share dit namme mei others, of deep keppeling nei <code>/video?keamer=room-name</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Begjin a direct 1:1 fideo call.",
-      "findUserLabel": "Find a gebrûkr",
-      "findUserPh": "Sykje troch namme of brûkersnamme",
-      "search": "Sykje",
-      "call": "Belje"
-    },
-    "phoneWarning": {
-      "title": "Dyn nûmer is expiring soon",
-      "body": "Dyn nûmer {{number}} sil wêze released op {{date}} unminder reactivated.",
-      "button": "Keep My Nûmer"
     }
   },
   "support": {
@@ -1589,12 +2013,27 @@
     "sendError": "Koe net send. E-mail support@chatforia.com instead.",
     "actionCompleted": "Aksje foltôge.",
     "actionFailed": "Koe net complete dat action. Besykje it nochris.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
     "escalationMessage": "Wy couldn’t resolve dit automatically. Our team sil follow up.",
     "genericError": "Der gie wat mis. Besykje it nochris.",
     "analyzing": "Dyn probleem wurdt analysearre...",
     "takeAction": "Nim de oanrikkemandearre aksje",
     "resolvedInstantly": "Issue resolved instantly — gjin ticket needed.",
-    "escalating": "Trochstjoere nei stipe..."
+    "escalating": "Trochstjoere nei stipe...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
   },
   "helpCenter": {
     "title": "Helpsintrum",
@@ -1617,117 +2056,161 @@
       }
     }
   },
-  "encryptionRecovery": {
-    "title": "Beheare Fersifering",
-    "description": "Back up, weromsette, unlock, of reset dyn fersifering key.",
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
     "alert": {
-      "keyRequiredTitle": "Fersifering kaai fereaske",
-      "keyRequiredBody": "Dit browser kin net currently decrypt dyn fersifere messages. Weromsette, unlock, of reset dyn kaai nei continue."
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
     },
-    "sections": {
-      "createBackup": "Create kaai reservekopy",
-      "restoreFromBackup": "Weromsette fan account reservekopy",
-      "resetEncryption": "Reset fersifering"
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
     },
-    "fields": {
-      "unlockPasscode": {
-        "label": "Unlock passcode (hjoeddeistich apparaat)",
-        "description": "Brûkd nei decrypt dyn kaaien locally before exporting"
-      },
-      "backupPassword": {
-        "label": "Reservekopy wachtwurd",
-        "description": "Brûkd nei encrypt the reservekopy bêsteân"
-      },
-      "restoreBackupPassword": {
-        "label": "Reservekopy wachtwurd",
-        "description": "The wachtwurd do created wannear backing up dyn kaai op iPhone"
-      },
-      "newLocalPasscode": {
-        "label": "Nij lokaal passcode",
-        "description": "Protect kaaien at rest op dit browser"
-      },
-      "resetLocalPasscode": {
-        "label": "Nij lokaal passcode",
-        "description": "Fereaske before resetting so the nij kaai is protected op dit apparaat"
-      }
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
     },
-    "actions": {
-      "unlockKey": "Unlock fersifering kaai",
-      "restoreFromBackup": "Weromsette fan account reservekopy",
-      "resetEncryption": "Reset Fersifering"
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
-    "messages": {
-      "backupCreated": "Kaai reservekopy created en downloaded.",
-      "keyUnlocked": "Fersifering kaai unlocked.",
-      "keyRestored": "Kaai restored fan account backup.",
-      "resetSuccess": "Fersifering reset successfully."
-    },
-    "errors": {
-      "restoreIncomplete": "Kaai weromsette incomplete of incorrect foar dit account",
-      "noBackup": "Gjin fersifere reservekopy exists foar dit account",
-      "missingPublicKey": "Reservekopy is missing a iepenbier kaai",
-      "noServerPublicKey": "Dit account docht net currently expose a server iepenbier kaai",
-      "serverBackupMismatch": "Server reservekopy docht net match the hjoeddeistich account fersifering kaai",
-      "incompleteMetadata": "Reservekopy metadata is incomplete",
-      "resetIncomplete": "Fersifering reset did net complete correctly"
-    },
-    "confirm": {
-      "reset": "Reset fersifering foar dit account?\n\nOlder fersifere berjochten mei become unreadable unminder do weromsette the original kaai later."
-    },
-    "resetDescription": "Dit generates a nij fersifering kaai foar dyn account. Older fersifere berjochten mei become unreadable unminder do weromsette the original kaai later."
+    "cta": {
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
   },
-  "footer": {
-    "plans": "Plannen & Prizen",
-    "about": "About Chatforia",
-    "careers": "Careers",
-    "press": "Press",
-    "advertise": "Advertise",
-    "contact": "Nim kontakt mei ús op",
-    "help": "Helpsintrum",
-    "status": "Status Page",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Privacybelied",
-    "terms": "Tsjinstbetingsten",
-    "cookies": "Cookie Ynstellings",
-    "doNotSell": "Do Not Sell My Info",
-    "language": "Taal",
-    "contactShort": "Kontakt",
-    "aria": "Footer",
-    "homeAria": "Chatforia home",
-    "section": {
-      "company": "COMPANY",
-      "support": "SUPPORT",
-      "downloads": "DOWNLOADS",
-      "legal": "LEGAL"
+  "howItWorks": {
+    "title": "Hoe Chatforia wurket",
+    "intro": "Chatforia is designed nei make communication simple, fluch, en accessible. Getting started takes just a few steps.",
+    "step1Title": "1. Create an Account",
+    "step1Desc": "Sign up brûken dyn e-mail of brûkersnamme nei create dyn Chatforia account.",
+    "step2Title": "2. Begjin a Conversation",
+    "step2Desc": "Connect mei others troch selecting kontakten of starting nij chats.",
+    "step3Title": "3. Realtime Messaging",
+    "step3Desc": "Berjochten binne delivered quickly nei provide a smooth communication experience.",
+    "step4Title": "4. Wrâldwiid Communication",
+    "step4Desc": "Built-in oersetting helps gebrûkrs communicate across different languages.",
+    "step5Title": "5. Stay yn Control",
+    "step5Desc": "Beheare dyn preferences, kontakten, en communication settings."
+  },
+  "safety": {
+    "title": "Feiligens- en mienskipsrjochtlinen",
+    "intro": "Chatforia is committed nei maintaining a feilich en respectful environment foar alle gebrûkrs. Dizze guidelines help ensure a positive experience foar elkenien.",
+    "respectTitle": "Respectful Communication",
+    "respectDesc": "Brûkrs binne expected nei communicate respectfully. Harassment, abgebrûk, of harmful behavior is net permitted.",
+    "prohibitedTitle": "Prohibited Content",
+    "prohibited": {
+      "illegal": "Illegal activities",
+      "harassment": "Harassment of bullying",
+      "hate": "Hate speech of discrimination",
+      "explicit": "Explicit of harmful material",
+      "spam": "Spam of deceptive practices"
     },
-    "links": {
-      "plans-pricing": "Plannen & Prizen",
-      "about-chatforia": "About Chatforia",
-      "careers": "Careers",
-      "press": "Press",
-      "advertise": "Advertise",
-      "getting-started": "Begjinne",
-      "help-center": "Helpsintrum",
-      "contact-us": "Nim kontakt mei ús op",
-      "status-page": "Status Page",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Privacybelied",
-      "terms-of-service": "Tsjinstbetingsten",
-      "do-not-sell-my-info": "Do Not Sell My Info",
-      "cookie-settings": "Cookie Ynstellings"
+    "toolsTitle": "Feiligensark foar brûkers",
+    "tools": {
+      "report": "Report inappropriate behavior of content",
+      "block": "Block gebrûkrs nei prevent further interaction",
+      "control": "Beheare privacy en communication ynstellingen"
     },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
+    "enforcementTitle": "Enforcement",
+    "enforcementDesc": "Wy mei take action nochrisst accounts dat violate dizze guidelines, ynklusyf warnings, restrictions, of permanent removal fan the platform."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Why Messaging Platforms Matter More Than Ever",
+      "intro": "Messaging platforms hawwe become one fan the most important tools foar communication yn today’s world. From personal conversations nei business interactions, messaging apps tastean people nei stay connected instantly en efficiently.",
+      "everydayTitle": "Everyday Communication",
+      "everydayDesc": "People rely op messaging apps foar daily communication mei friends, famylje, en colleagues. Whether it's a quick update of a long conversation, messaging provides a convenient en flexible way nei stay yn touch.",
+      "speedTitle": "Speed en Convenience",
+      "speedDesc": "One fan the main advantages fan messaging platforms is their speed. Berjochten binne delivered instantly, allowing gebrûkrs nei communicate yn real time. Dit level fan convenience hat made messaging the preferred method fan communication foar many people.",
+      "globalTitle": "Wrâldwiid Reach",
+      "globalDesc": "Messaging platforms connect people across the globe. With internet access, gebrûkrs kin communicate regardminder fan location, making it easier nei build relationships en collaborate internationally.",
+      "privacyTitle": "Privacy en Control",
+      "privacyDesc": "Modern messaging platforms focus op giving gebrûkrs control over their data en conversations. Funksjes like fersifering, privacyynstellingen, en berjocht controls tastean gebrûkrs nei communicate mei confidence.",
+      "futureTitle": "The Future fan Messaging",
+      "futureDesc": "Messaging continues nei evolve mei nij funksjes such as AI-oandreaune responses, oersetting, en multimedia sharing. As technology advances, messaging platforms sil become even mear powerful en versatile.",
+      "outro": "Chatforia is built mei dizze principles yn mind, offering a fluch, feilich, en gebrûkr-friendly messaging experience foar a connected world."
     },
-    "copyright": "© Chatforia",
-    "patentPending": "Patent pending",
-    "backToTop": "↑ Back nei top"
+    "global": {
+      "title": "The Future fan Wrâldwiid Communication",
+      "intro": "Communication hat evolved rapidly over the past few decades. What once fereaske telefoan oproppen of in-person meetings kin no wêze done quickly through messaging platforms. As technology continues nei advance, wrâldwide kommunikaasje is becoming flucher, mear accessible, en mear inclusive.",
+      "barriersTitle": "Breaking Down Barriers",
+      "barriersDesc": "One fan the biggest changes yn communication is the reduction fan geographic barriers. People kin no connect mei others across the world yn near real time. Whether foar personal conversations, business, of collaboration, messaging platforms hawwe made distance far minder limiting.",
+      "translationTitle": "The Role fan Oersetting Technology",
+      "translationDesc": "Taal hat traditionally west one fan the biggest obstacles nei wrâldwide kommunikaasje. Hjoed, built-in oersetting tools help bridge dat gap. Platforms like Chatforia tastean gebrûkrs nei communicate mear easily even as sy speak different languages, creating nij opportunities foar connection en understanding.",
+      "realtimeTitle": "Realtime Connectivity",
+      "realtimeDesc": "Speed is a kaai factor shaping modern communication. Brûkrs expect berjochten nei wêze delivered quickly, en modern infrastructure supports dat expectation. Real-time messaging enables mear natural en fluid conversations.",
+      "privacyTitle": "Privacy en feiligens",
+      "privacyDesc": "As communication becomes mear digital, privacy en feiligens binne increasingly important. Brûkrs want confidence dat their conversations binne protected. Funksjes like fersifering en gebrûkr-controlled ynstellingen help stipe a mear feilich communication experience.",
+      "futureTitle": "The Future fan Messaging",
+      "futureDesc": "The future fan wrâldwide kommunikaasje sil likely include mear avansearre tools, such as AI-assisted messaging, improved oersetting, en enhanced gebrûkr experiences. As technology evolves, communication sil continue nei become mear intuitive en accessible.",
+      "outro": "Platforms like Chatforia binne part fan dit shift, helping people connect mear easily across languages en borders."
+    },
+    "index": {
+      "title": "Chatforia-blog",
+      "intro": "Explore insights op communication, online safety, en hoe messaging technology is connecting people around the world.",
+      "post1": "How nei Petear Safely Online",
+      "post2": "The Future fan Wrâldwiid Communication",
+      "post3": "Why Messaging Platforms Matter"
+    },
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
+      },
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
+      },
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
+      },
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
+      },
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "About Chatforia",
+    "description": "Chatforia is a feilich, multilingual messenger mei ein-oan-ein fersifering, direkt oersetting, en voice/video calling. Our mission is simple: help people connect—safely, privately, en across languages.",
+    "valuesTitle": "What wy value",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E fersifering troch default.",
+      "access": "<b>Access foar alle:</b> Automatysk oersette 100+ languages.",
+      "control": "<b>Control:</b> Ferdwynende berjochten & lêsbefêstigingen binne optional.",
+      "privacy_aria": "Privacy-first: E2E fersifering troch default.",
+      "access_aria": "Access foar alle: Automatysk oersette 100+ languages.",
+      "control_aria": "Control: Ferdwynende berjochten en lêsbefêstigingen binne optional."
+    },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Berjochten binne fersifere op dyn apparaat before sy leave it. Oersetting, backups, en apparaat sync binne designed nei minimize wat our servers kin see.",
+    "privacyTitle": "Privacy-first",
+    "privacyDesc": "End-to-end encryption and privacy controls are built into Chatforia from the start.",
+    "accessTitle": "Access for everyone",
+    "accessDesc": "Chatforia helps people connect across languages, devices, and borders.",
+    "controlTitle": "Your control",
+    "controlDesc": "Choose how messages appear, when they disappear, and how your account stays protected."
   },
   "press": {
     "title": "Press",
@@ -1750,22 +2233,8 @@
     "apply": "How nei apply: Brûk the button hjirûnder nei e-mail dyn resume en links.",
     "emailCta": "E-mail dyn resume",
     "whyNow": "Why join no?",
-    "whyBullets": "• Help build the foundation fan a nij wrâldwiid messenger.\n• Ship improvements gebrûkd across web, iOS, en Android.\n• Work directly mei the founder op architecture en product direction.\n• Own high-impact areas fan the stack: messaging, voice, fideo, fersifering, telecom, AI.\n• Join at the beginning — before the gebrûkr base scales."
-  },
-  "about": {
-    "title": "About Chatforia",
-    "description": "Chatforia is a feilich, multilingual messenger mei ein-oan-ein fersifering, direkt oersetting, en voice/video calling. Our mission is simple: help people connect—safely, privately, en across languages.",
-    "valuesTitle": "What wy value",
-    "values": {
-      "privacy": "<b>Privacy-first:</b> E2E fersifering troch default.",
-      "access": "<b>Access foar alle:</b> Automatysk oersette 100+ languages.",
-      "control": "<b>Control:</b> Ferdwynende berjochten & lêsbefêstigingen binne optional.",
-      "privacy_aria": "Privacy-first: E2E fersifering troch default.",
-      "access_aria": "Access foar alle: Automatysk oersette 100+ languages.",
-      "control_aria": "Control: Ferdwynende berjochten en lêsbefêstigingen binne optional."
-    },
-    "howTitle": "How Chatforia works",
-    "howDescription": "Berjochten binne fersifere op dyn apparaat before sy leave it. Oersetting, backups, en apparaat sync binne designed nei minimize wat our servers kin see."
+    "whyBullets": "• Help build the foundation fan a nij wrâldwiid messenger.\n• Ship improvements gebrûkd across web, iOS, en Android.\n• Work directly mei the founder op architecture en product direction.\n• Own high-impact areas fan the stack: messaging, voice, fideo, fersifering, telecom, AI.\n• Join at the beginning — before the gebrûkr base scales.",
+    "futureRoles": "Future roles"
   },
   "advertise": {
     "title": "Advertise mei Chatforia",
@@ -1813,283 +2282,175 @@
       "privacy": "Privacybelied"
     }
   },
-  "randomChat": {
-    "title": "Willekeurich petear",
-    "subtitle": "Meet immen nij instantly, of kieze nei petear mei Ria.",
-    "start": "Begjin in petear",
-    "description": "Petear anonymously first. Tafoegje Friend later as it feels right.",
-    "findMatch": "Fyn in match foar my",
-    "chatWithRia": "Petearje mei Ria",
-    "setAge": "Set dyn age range yn Profyl → Age & Random Petear nei wêze matched mei people.",
-    "idle": "Yn rêst",
-    "matching": "Matchen…",
-    "searching": "Sykjen…",
-    "cancel": "Annulearje",
-    "connectionProblem": "Ferbiningsprobleem",
-    "ai": "AI",
-    "anonymous": "Anonym",
-    "connectedAs": "Connected as",
-    "waitingAddFriend": "Waiting foar them nei accept Tafoegje Friend…",
-    "hiddenUsernames": "Brûkrnames stay hidden until both people kieze Tafoegje Friend.",
-    "riaSeparate": "Petear mei Ria op elk momint — separate fan random human matching.",
-    "sendMessage": "Berjocht ferstjoere",
-    "chatEnded": "Petear beëinige",
-    "conversationEnded": "Dat conversation hat ended.",
-    "findAnotherMatch": "Find another match",
-    "next": "Folgjende persoan",
-    "addFriend": "Freon tafoegje",
-    "requested": "Oanfrege",
-    "leave": "Fuortgean",
-    "messageRia": "Berjocht Ria…",
-    "messageMatch": "Berjocht dyn match…"
-  },
-  "phoneNumberManager": {
-    "pickNumber": "Pick a nûmer",
-    "phoneNumber": "Telefoannûmer",
-    "availableNumber": "Beskikber nûmer",
-    "premiumNumber": "Premium nûmer 🔒",
-    "freeNumberHint": "Fergees nûmer dat mei wêze recycled after inactivity.",
-    "premiumNumberHint": "Keep dyn nûmer while dyn Premium abonnemint is active.",
-    "country": "Lân",
-    "areaCode": "Area code",
-    "areaCodePlaceholder": "e.g., 415",
-    "capability": "Capability",
-    "search": "Sykje",
-    "lockThisNumber": "Lock dit nûmer (weekly add-on, komt gau)",
-    "premiumProtectedHint": "Premium numbers binne protected fan recycling while dyn Premium abonnemint is active.",
-    "availableNumbers": "Beskikber numbers",
-    "searchHint": "Fier yn a 3-digit area code (US/CA only), of leave blank, then search.",
-    "keep": "Keep",
-    "select": "Selektearje",
-    "assignNumberFirst": "Assign a nûmer first.",
-    "premiumKeepFeature": "Keeping dyn nûmer is a Premiumfunksje.",
-    "lockingPremiumFeature": "Locking numbers is a Premiumfunksje.",
-    "numberAssigned": "Nûmer assigned.",
-    "numberProtectedNow": "Dyn nûmer is no protected.",
-    "numberProtected": "Nûmer protected.",
-    "numberUnprotected": "Nûmer unprotected.",
-    "numberReleased": "Nûmer released.",
-    "couldNotLoadNumbers": "Koe net lade numbers.",
-    "couldNotAssign": "Koe net assign dat number. It mei hawwe just west taken—besykje another.",
-    "couldNotLease": "Koe net lease dat number. It mei hawwe just west taken—besykje another.",
-    "couldNotProtectNow": "Koe net protect dyn nûmer no.",
-    "couldNotProtect": "Koe net protect the number.",
-    "couldNotUnprotect": "Koe net unprotect the number.",
-    "couldNotRelease": "Koe net release the number.",
-    "invalidAreaCode": "Graach ynfiere a 3-digit area code (e.g., 415) of leave blank.",
-    "noInventory": "Gjin beskikber inventory no.",
-    "noFreeNumbers": "Gjin fergees numbers binne beskikber no.",
-    "noInventoryAreaCode": "Gjin beskikber inventory foar dat area code no.",
-    "noFreeNumbersAreaCode": "Gjin fergees numbers yn our pool foar dat area code no.",
-    "releaseConfirm": "Release dyn hjoeddeistich nûmer? It mei wêze assigned nei immen else.",
-    "unprotect": "Unprotect",
-    "keepThisNumber": "Keep dit nûmer",
-    "replace": "Replace",
-    "release": "Release",
-    "active": "Active",
-    "noNumber": "Gjin nûmer",
-    "premiumFeature": "Premiumfunksje",
-    "protectYourNumber": "Protect dyn nûmer",
-    "protected": "Protected",
-    "notProtected": "Not protected",
-    "expiresInShort": "Expires yn {{count}}d",
-    "expiresInDaysFull": "Expires yn {{count}} dei",
-    "expiringShort": "Expiring{{suffix}}",
-    "renewsOn": "Renews {{date}}",
-    "releaseWarning": "Dyn nûmer mei wêze released yn {{count}} day. Opwurdearje nei Premium nei keep it protected.",
-    "pickNumberHint": "Pick a Chatforia-nûmer nei gebrûk foar messaging en communication binnen the app."
-  },
-  "sounds": {
-    "notificationSounds": "Notifikaasje Lûden",
-    "resetToDefaults": "Reset nei defaults",
-    "freeNoticeStart": "You’re op Fergees — premium tones binne shown but locked. ",
-    "freeNoticeEnd": " nei unlock all.",
-    "messageTone": "Berjocht tone",
-    "ringtone": "Ringtone",
-    "preview": "Foarbyld",
-    "stop": "Stopje",
-    "volume": "Volume",
-    "messageToneFilesHint": "Put bêsteannen yn /public/sounds/Message_Tones",
-    "ringtoneFilesHint": "Put bêsteannen yn /public/sounds/Ringtones",
-    "premiumRequired": "Premium fereaske foar dat selection.",
-    "saved": "Lûd ynstellingen saved.",
-    "saveFailed": "Koe net bewarje lûd settings.",
-    "resetNotSaved": "Reset nei defaults (net yet saved).",
-    "premiumTone": "That’s a Premium tone.",
-    "premiumRingtone": "That’s a Premium ringtone.",
-    "customComingSoon": "Oanpast lûd uploads komt gau."
-  },
-  "aiSettings": {
-    "title": "AI Ynstellings",
-    "controlIntro": "Control oersetting, tûke antwurden, en ForiaBot auto-responses.",
-    "translation": "Oersetting",
-    "autoTranslateIncoming": "Automatysk oersette incoming berjochten",
-    "showOriginalAlongside": "Toane original text alongside oersetting",
-    "smartReplies": "Tûke antwurden",
-    "enableSmartReplies": "Ynskeakelje Tûke antwurden",
-    "smartRepliesHint": "Ferstjoere the last few received berjochten (sanitized) nei AI nei suggest quick replies.",
-    "maskProfanity": "Mask profanity yn AI suggestions",
-    "maskProfanityHint": "If op, suggestions returned troch AI sil hawwe flagged words masked",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Ynskeakelje auto-reply wannear I’m busy",
-    "autoReplyMode": "Auto-reply mode",
-    "cooldownSeconds": "Cooldown (sekonden)",
-    "signature": "Signature",
-    "autoReply": "🤖 Auto-reply",
-    "activeUntilOptional": "Active until (opsjoneel)",
-    "save": "Bewarje AI Ynstellings",
-    "saved": "AI preferences saved",
-    "saveFailed": "Bewarjen mislearre AI ynstellingen",
-    "translateOff": "Ut",
-    "translateTagged": "Only wannear @translated of tagged",
-    "translateAll": "Oersette alle incoming berjochten",
-    "modeDm": "1:1 chats only",
-    "modeMention": "Only wannear I’m @mentioned",
-    "modeAll": "Alle inbound berjochten",
-    "off": "Ut"
-  },
-  "accessibilitySettings": {
-    "title": "Accessibility & Alerts",
-    "loadFailed": "Laden mislearre ynstellingen",
-    "accessibilityDesc": "Options nei make Chatforia easier nei gebrûk sûnder relying op sound.",
-    "interfaceFontSize": "Interface font size",
-    "interfaceFontSizeHelp": "Starts at normaal size. Increase as do prefer larger text.",
-    "notifications": "Notifikaasjes",
-    "visualAlerts": "Visual alerts foar berjochten & oproppen",
-    "visualAlertsDesc": "Toane banners en titel blink so do net miss activity.",
-    "vibrateOnNewShort": "Vibrate op nij berjochten (wannear supported)",
-    "vibrateOnNewDesc": "Trigger apparaat vibration mei notifications.",
-    "flashOnCallShort": "Flash screen op incoming oprop",
-    "flashOnCallDesc": "Brief bright flash wannear a oprop rings.",
-    "liveCaptionsTitle": "Live captions (oproppen)",
-    "enableLiveCaptions": "Ynskeakelje live captions during oproppen (Premium)",
-    "liveCaptionsDesc": "Toane realtime captions fan the other participant’s audio.",
-    "captionFontSize": "Caption font size",
-    "captionBackground": "Caption background",
-    "voiceNotes": "Voice notes",
-    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
-    "autoTranscribeVoiceNotesDesc": "Attach a transcript nei audio berjochten do receive.",
-    "changesSavedInstantly": "Changes binne saved instantly.",
-    "sm": "Lyts",
-    "md": "Middelgrut",
-    "lg": "Grut",
-    "xl": "Ekstra grut",
-    "light": "Ljocht",
-    "dark": "Tsjuster",
-    "transparent": "Transparant"
-  },
-  "privacySection": {
-    "strictE2EE": "Strict ein-oan-ein fersifering",
-    "ciphertextOnlyNote": "Store only ciphertext op the server. Disables AI/Translate en moderation previews.",
-    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate sil wêze disabled.",
-    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
-  },
-  "linkedDevicesPanel": {
-    "title": "Keppele apparaten",
-    "noneFound": "Gjin linked apparaten found.",
-    "refresh": "Ferfarskje",
-    "unknown": "Ûnbekend",
-    "loadFailed": "Laden mislearre linked apparaten",
-    "loadFailedLog": "Laden mislearre linked apparaten",
-    "renamePrompt": "Fier yn a nij namme foar dit apparaat",
-    "renamed": "Apparaat renamed",
-    "renameFailed": "Koe net rename apparaat",
-    "revoked": "Apparaat revoked",
-    "revokeFailed": "Koe net revoke apparaat",
-    "unnamedDevice": "Unnamed apparaat",
-    "primary": "Primary",
-    "revokedStatus": "Revoked",
-    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
-    "renameDevice": "Rename apparaat",
-    "revokeDevice": "Revoke apparaat"
-  },
-  "peoplePage": {
-    "people": "Minsken",
-    "search": "Sykje",
-    "searchPlaceholder": "Sykje saved kontakten troch alias, namme, brûkersnamme, of telefoan",
-    "quickStart": "Quick begjin",
-    "quickStartDesc": "Beheare dyn kontakten en útnoegje friends.",
-    "importContacts": "Ymportearje dyn kontakten",
-    "import": "Ymportearje",
-    "addContact": "Tafoegje a kontakt",
-    "add": "Tafoegje",
-    "inviteFriends": "Útnoegje friends",
-    "inviteDesc": "Share dyn útnoegje keppeling nei begjin chatting instantly.",
-    "getTheApp": "Krij de app",
-    "getTheAppDesc": "Stay yn touch op the go mei Chatforia foar iOS en Android.",
-    "download": "Download",
-    "syncTip": "Tip: Dyn berjochten stay synced across web en mobile."
-  },
-  "dialer": {
-    "title": "Oproppen",
-    "subtitle": "Keypad & recents. (If do net gebrûk PSTN, begjin oproppen fan a conversation header.)",
-    "enterNumber": "Fier nûmer yn",
-    "enterNumberAria": "Fier nûmer yn",
-    "resolving": "Resolving oprop target…",
-    "call": "Belje",
-    "callBrowser": "Belje via browser",
-    "backspace": "Wiskje",
-    "recents": "Resint",
-    "noRecents": "Noch gjin resinte oproppen.",
-    "resolveFailed": "Koe net resolve oprop target.",
-    "callRequiredNumber": "Do need a Chatforia-nûmer before placing telefoan calls.",
-    "callFailed": "Koe net place call.",
-    "deleteConfirm": "Wiskje dit oprop fan recents?",
-    "deleteFailed": "Koe net wiskje call.",
-    "deleteFailedLog": "Mislearre nei wiskje oprop",
-    "outgoing": "Utgeand",
-    "incoming": "Ynkommend",
-    "missed": "Miste",
-    "declined": "Wegere",
-    "failed": "Mislearre",
-    "completed": "Foltôge",
-    "outgoingCall": "Utgeande oprop",
-    "incomingCall": "Ynkommende oprop",
-    "voicemail": "Stimpost",
-    "callAria": "Belje {{name}}",
-    "deleteAria": "Wiskje oprop mei {{name}}"
-  },
-  "callHistory": {
-    "title": "Oproppen",
-    "subtitle": "Dyn recent incoming en outgoing calls.",
-    "loadFailed": "Koe net lade oprop history.",
-    "loadFailedTitle": "Couldn’t load oprop skiednis",
-    "emptyTitle": "Gjin oproppen yet",
-    "emptySubtitle": "Dyn recent oproppen sil toane up here.",
-    "outgoing": "Utgeand",
-    "incoming": "Ynkommend",
-    "missed": "Miste",
-    "declined": "Wegere",
-    "failed": "Mislearre",
-    "completed": "Foltôge",
-    "outgoingCall": "Utgeande oprop",
-    "incomingCall": "Ynkommende oprop",
-    "voicemail": "Stimpost"
-  },
-  "video": {
-    "hub": {
-      "title": "Fideo",
-      "subtitle": "Kies a fideo type."
-    },
-    "direct": {
-      "title": "Direct Video",
-      "subtitle": "Begjin a 1:1 fideo oprop mei another gebrûkr.",
-      "desc": "1:1 camera oprop mei another gebrûkr.",
-      "start": "Begjin"
-    },
-    "rooms": {
-      "title": "Rooms",
-      "subtitle": "Create a keamer of join an existing one troch typing the deselde name.",
-      "desc": "Multi-party fideo brûken a shared keamer name.",
-      "roomLabel": "Keamer namme",
-      "roomPlaceholder": "e.g. team-standup",
-      "roomAria": "Keamer namme",
-      "joinCreate": "Join / Create",
-      "tip": "Tip: share dit namme mei others, of deep keppeling nei"
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
     }
   },
-  "locale": {
-    "code": "fy",
-    "name": "Frisian"
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+    },
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
+    },
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
+    },
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
+    },
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+    },
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Werombetellingsbelied",
+    "lastUpdated": "Lêst bywurke:",
+    "intro": "At Chatforia, wy strive nei provide a high-quality service nei alle gebrûkrs. Dit Werombetellingsbelied outlines wannear refunds mei wêze issued.",
+    "subscriptions": {
+      "title": "Abonneminten",
+      "body": "Abonneminten binne billed yn advance op a recurring basis. Do mei annulearje at any time through dyn accountynstellingen of the platform gebrûkd nei purchase."
+    },
+    "eligibility": {
+      "title": "Refund Eligibility",
+      "body": "Refunds mei wêze granted foar duplicate charges, fakturearring errors, of technical issues preventing access nei betelle features. Alle requests binne reviewed case-by-case."
+    },
+    "nonRefundable": {
+      "title": "Non-Refundable",
+      "body": "Wy generally doch net provide refunds foar ungebrûkd time, partial abonnemint periods, of failure nei annulearje before renewal."
+    },
+    "thirdParty": {
+      "title": "Third-Party Purchases",
+      "body": "If purchased through third-party platforms such as the Apple App Store, refunds moat wêze requested directly through dy platforms."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
+    },
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
+    },
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
+    },
+    "help": {
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
+    },
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

@@ -7,10 +7,24 @@
     "cancelAria": "Ikuna",
     "copy": "Langa",
     "copied": "Langa ʻosi!",
-    "errorWithMessage": "Hala: {{message}}"
+    "errorWithMessage": "Hala: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Hiki ki he meʻa fakamuimui"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Kī fakamolemole ʻosi fakakau mo fakalahi ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "Fili ha faili pea fakahu hoʻo password.",
     "imported": "Kī fakatautaha ʻosi fakakau ki he meʻa ko ʻeni. Te ke lava ʻo lau ha fakamolemole motuʻa he taimi ko ʻeni.",
     "enterPassword": "Fakahu hoʻo password tohi fakamolemole ke mau fakamolemole hoʻo kī fakapuliki."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Fakamolemole fakamālie ki he taha kotoa, ki he feituʻu kotoa",
@@ -88,7 +198,19 @@
       "passwordDescription": "Minimum 6 mata. Fakaʻata ha password malohi, taʻe tatau.",
       "smsConsent": "ʻI he fakatupu ha tohi fakamolemole, ʻoku ke tali ki he fakamālie SMS ʻoku fekauʻaki mo hoʻo Chatforia (hangē ko e fakamolemole mei he kau fakamolemole). ʻOku lava ʻo fie totongi ha meʻa & data. Te ke lava ʻo fakatau ʻi he taimi kotoa ʻi he Settings.",
       "termsLink": "Terms of Service",
-      "privacyLink": "Privacy Policy"
+      "privacyLink": "Privacy Policy",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "Ki he:",
     "enterRecipient": "Fakahu ha hingoa pe fika",
@@ -99,11 +221,95 @@
     "addRecipient": "Fakahu ha fakamolemole ʻi olunga ke kamata…",
     "oneRecipient": "Fakahu ha fakamolemole taha pe he taimi ko ʻeni.",
     "enterValidRecipient": "Fakahu ha hingoa fakamolemole fakamālie pe ha fika telefoni.",
-    "sendFailed": "Fakamolemole hala. Vakai ha console ki he fakamālie."
+    "sendFailed": "Fakamolemole hala. Vakai ha console ki he fakamālie.",
+    "logIn": "Fakamālie",
+    "seePlans": "Fakaʻata ha fakatau & fakamolemole",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "ʻI he fakatupu ha tohi fakamolemole, ʻoku ke tali ki he fakamālie SMS ʻoku fekauʻaki mo hoʻo Chatforia (hangē ko e fakamolemole mei he kau fakamolemole). ʻOku lava ʻo fie totongi ha meʻa & data. Te ke lava ʻo fakatau ʻi he taimi kotoa ʻi he Settings.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Fale",
-    "header": "Hoʻo fakamolemole",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "Fakamolemole ha fakamolemole ke kamata ha fakamolemole.",
     "sendButton": "Fakamolemole fakamolemole",
     "gifPicker": "Fakaava ha GIF picker",
@@ -114,226 +320,31 @@
     "sendTooltip": "Fakamolemole",
     "sendTooltipEmpty": "Tā ha fakamolemole ke fakamolemole",
     "send": "Fakamolemole",
+    "welcomeMessage": "Mālō ʻi he Chatforia",
+    "getStarted": "Kamata",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "Fakahu ha hingoa pe fika",
     "addRecipient": "Tanaki ha tokotaha maʻu ʻi ʻolunga ke kamata…",
-    "welcomeMessage": "Mālō ʻi he Chatforia",
-    "getStarted": "Kamata"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Tuʻutuʻuni Fakafoki Paʻanga",
-    "lastUpdated": "Fakatonutonu fakamuimui:",
-    "intro": "ʻI Chatforia, ʻoku mau feinga ke ʻatu ha ngāue lelei ki he kau fakaʻaongaʻi kotoa. ʻOku fakamatalaʻi ʻe he tuʻutuʻuni ni ʻa e taimi ʻe lava ai ke fakafoki paʻanga.",
-    "subscriptions": {
-      "title": "Ngaahi Totongi ʻOku Hokohoko Atu",
-      "body": "ʻOku totongi ʻa e ngaahi koloa ni ki muʻa pea hokohoko atu ʻi ha taimi pau. ʻE lava ke ke fakangata ʻi ha taimi pē ʻi hoʻo ngaahi setting pe ʻi he platform naʻa ke fakatau ai."
-    },
-    "eligibility": {
-      "title": "Tuʻunga ke Fakafoki Paʻanga",
-      "body": "ʻE lava ke fakafoki paʻanga kapau ʻoku ʻi ai ha totongi tuʻo ua, fehalaaki ʻi he totongi, pe ko ha palopalema fakatekinikale ʻoku ʻikai lava ai ke ke ngāue ʻi he ngaahi feature totongi. ʻOku siofi ʻa e kole kotoa pē ʻi ha founga fakafoʻituitui."
-    },
-    "nonRefundable": {
-      "title": "ʻIkai Fakafoki",
-      "body": "ʻI he lahi taha, ʻoku ʻikai ke mau fakafoki paʻanga ki he taimi ʻoku ʻikai ngāueʻaki, konga ʻi he taimi totongi, pe ʻikai fakangata ki muʻa ʻi he toe fakafou."
-    },
-    "thirdParty": {
-      "title": "Ngaahi Fakatau ʻi he Fika Tolu",
-      "body": "Kapau naʻe fakatau ʻi he ngaahi platform hange ko e Apple App Store, ʻoku totonu ke ke kole fakafoki paʻanga ʻi ai tonu."
-    },
-    "contact": {
-      "title": "Fetuʻutaki",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Fekauʻaki mo Chatforia",
-    "description": "Ko Chatforia ha platform talanoa fakaonopooni kuo fokotuʻu ke malu pea lava ke fetuʻutaki ʻi he ngaahi lea kehekehe...",
-    "valuesTitle": "Ngaahi meʻa ʻoku mau mahuʻingaʻia ai",
-    "privacyTitle": "Fakamaluhia Muʻomuʻa",
-    "privacyDesc": "Encryption mālohi mo e ngaahi setting ʻoku puleʻi ʻe he fakaʻaongaʻi",
-    "accessTitle": "Avanoa ki he Kotoa",
-    "accessDesc": "Fakaʻuhinga lea ʻoku fakakau ʻi loto",
-    "controlTitle": "Pule",
-    "controlDesc": "Ngaahi meʻa hange ko e ngaahi message ʻoku mole mo e fakahaaʻi kuo lau"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "ʻUhinga ʻOku Mahuʻinga Ai ʻa e Ngaahi Platform Talanoa",
-      "intro": "Kuo hoko ʻa e ngaahi platform talanoa ko e taha ʻo e ngaahi meʻa mahuʻinga taha ʻi he fetuʻutaki ʻi he māmani ʻi he ʻaho ni...",
-      "everydayTitle": "Fetuʻutaki ʻi he ʻAho Kotoa",
-      "everydayDesc": "ʻOku falala ʻa e kakai ki he ngaahi app talanoa ʻi he ʻaho kotoa...",
-      "speedTitle": "Vave mo Faingofua",
-      "speedDesc": "ʻOku tuku atu ʻa e ngaahi message ʻi he vave...",
-      "globalTitle": "Aʻu ki he Māmani Kotoa",
-      "globalDesc": "ʻOku fakahoko ʻe he ngaahi platform ni ʻa e kakai ʻi he māmani kotoa...",
-      "privacyTitle": "Fakamaluhia mo Pule",
-      "privacyDesc": "ʻOku tokanga ʻa e ngaahi platform ki he pule ʻa e fakaʻaongaʻi...",
-      "futureTitle": "Kahaʻu ʻo e Talanoa",
-      "futureDesc": "ʻOku kei liliu pea tupu ʻa e talanoa...",
-      "outro": "ʻOku fokotuʻu ʻa Chatforia ʻi he ngaahi tefitoʻi manatu ni..."
-    },
-
-    "global": {
-      "title": "Kahaʻu ʻo e Fetuʻutaki Fakavahaʻapuleʻanga",
-      "intro": "Kuo vave ʻaupito ʻa e liliu ʻo e fetuʻutaki...",
-      "barriersTitle": "Toʻo ʻa e Ngaahi ʻĀrai",
-      "barriersDesc": "ʻOku lava ʻe he kakai ke fetuʻutaki ʻi he māmani kotoa...",
-      "translationTitle": "Ngāue ʻa e Fakaʻuhinga Lea",
-      "translationDesc": "Kuo hoko ʻa e lea ko e ʻārai ʻi he kuohili...",
-      "realtimeTitle": "Fetuʻutaki ʻi he Taimi Moʻoni",
-      "realtimeDesc": "ʻOku mahuʻinga ʻa e vave...",
-      "privacyTitle": "Fakamaluhia mo Malu",
-      "privacyDesc": "ʻOku fie maʻu ʻe he kakai ke malu ʻa ʻenau talanoa...",
-      "futureTitle": "Meʻa ʻe hoko mai",
-      "futureDesc": "ʻE fakakau mai ʻe he kahaʻu ha ngaahi meʻa foʻou...",
-      "outro": "ʻOku kau ʻa Chatforia ʻi he liliu ni..."
-    },
-
-    "index": {
-      "title": "Blog ʻa Chatforia",
-      "intro": "Sivisiviʻi ʻa e ngaahi fakakaukau fekauʻaki mo e fetuʻutaki...",
-      "post1": "Founga ke Talanoa Malu ʻi he ʻInitaneti",
-      "post2": "Kahaʻu ʻo e Fetuʻutaki Fakavahaʻapuleʻanga",
-      "post3": "ʻUhinga ʻOku Mahuʻinga Ai ʻa e Ngaahi Platform Talanoa"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Founga ʻOku Ngāue Ai ʻa Chatforia",
-    "intro": "ʻOku fakataumuʻa ʻa Chatforia ke faingofua ʻa e fetuʻutaki...",
-    "step1Title": "1. Fakatupu ha Account",
-    "step1Desc": "Saini hake ʻaki hoʻo ʻimeili pe username...",
-    "step2Title": "2. Kamata ha Talanoa",
-    "step2Desc": "Fetuʻutaki mo e niʻihi kehe...",
-    "step3Title": "3. Talanoa ʻi he Taimi Moʻoni",
-    "step3Desc": "ʻOku vave ʻa e tuku atu ʻo e ngaahi message...",
-    "step4Title": "4. Fetuʻutaki Fakavahaʻapuleʻanga",
-    "step4Desc": "ʻOku tokoni ʻa e fakaʻuhinga lea ki he kau fakaʻaongaʻi...",
-    "step5Title": "5. Nofo ʻi he Pule",
-    "step5Desc": "Puleʻi hoʻo ngaahi setting..."
-  },
-
-  "safety": {
-    "title": "Fakamaluhia mo e Ngaahi Tuʻutuʻuni ʻa e Komiuniti",
-    "intro": "ʻOku tukupā ʻa Chatforia ke tauhi ha ʻātakai malu...",
-    "respectTitle": "Fetuʻutaki Fakaʻapaʻapa",
-    "respectDesc": "ʻOku totonu ke fakaʻapaʻapa ʻa e kau fakaʻaongaʻi...",
-    "prohibitedTitle": "Meʻa ʻOku Tapui",
-    "prohibited": {
-      "illegal": "Ngaahi ngāue ʻoku ʻikai fakalao",
-      "harassment": "Fakahohaʻasi pe fakasesele",
-      "hate": "Lea ʻita pe fakafaikehekehe",
-      "explicit": "Meʻa ʻoku ʻikai totonu",
-      "spam": "Spam pe ngaahi founga loi"
-    },
-    "toolsTitle": "Ngaahi Meʻangāue Fakamaluhia",
-    "tools": {
-      "report": "Lipooti ʻa e ʻulungaanga ʻoku ʻikai totonu",
-      "block": "Poloka ʻa e kau fakaʻaongaʻi",
-      "control": "Puleʻi ʻa e ngaahi setting fakamaluhia"
-    },
-    "enforcementTitle": "Fakatinoga",
-    "enforcementDesc": "ʻE lava ke mau fai ha ngāue ki he ngaahi account..."
-},
-  "chat": {
-    "selectPrompt": "Fili ha tohi pe fale fakamolemole ke kamata ʻo fakamolemole",
-    "newMessages": "Fakamolemole foʻou",
-    "typing": "{{name}} ʻoku tā…",
-    "emptyTitle": "Hoʻo fakamolemole",
-    "emptySubtitle": "Fakamolemole ha fakamolemole ke kamata ha fakamolemole.",
-    "startChatButton": "Fakamolemole fakamolemole",
-    "mediaAttachment": "Fakapipiki mitia",
-    "thisUser": "ko e fakamolemole ko ʻeni",
-    "blockConfirm": "Fakapuliki {{name}}? Te ke ʻikai lava ʻo maʻu ha fakamolemole mei ai.",
-    "blockedUser": "Fakapuliki {{name}}.",
-    "blockError": "ʻIkai lava ʻo fakatonu ha fakamolemole fakapuliki.",
-    "blockFailed": "Fakapuliki hala (backend ʻoku ʻikai ke fakalelei).",
-    "encryptedUnavailable": "Fakamolemole fakapuliki (kī ʻoku ʻikai ke maʻu)",
-    "unlockToView": "Fakamālie hoʻo kī ke vakai ko e fakamolemole ko ʻeni"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "ʻOff"
-    },
-    "freeLimit": "Fakamolemole fakatau taʻe totongi: fakamotuʻa ki he 1 ʻaho. Fakapuliki ki he 1d.",
-    "premiumLimit": "Max fakamotuʻa ki he Premium ko e 30 ʻaho. Fakapuliki ki he 30d.",
-    "nothingToSend": "Tā ha fakamolemole pe fakakau ha faili ke fakamolemole.",
-    "encryptionFailed": "Fakapuliki hala. Fakamolemole ʻikai ke fakamolemole.",
-    "sent": "Fakamolemole ʻosi fakamālie.",
-    "placeholder": "Tā ha fakamolemole…",
-    "voiceAdded": "Kuo tānaki ʻa e lekooti leʻo",
-    "attachmentAdded": "Kuo tānaki ʻa e fakapipiki",
-    "autoDelete": "Fakamotuʻa fakatonu",
-    "typeToSend": "Tā ha fakamolemole ke fakamolemole",
-    "send": "Fakamolemole",
-    "sendWithEnter": "Fakamolemole (Enter)",
-    "attachment": "fakakau",
-    "caption": "Fakamālie (fakatonu)",
-    "remove": "Toʻo",
-    "clear": "Fakamālie",
-    "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Fakakau lahi. Fai ha faili siʻi ange.",
-      "unsupportedFile": "Fai faili ʻoku ʻikai ke fakalelei.",
-      "rateLimit": "ʻOku ke fakamolemole vave. Fakamolemole fakamālie.",
-      "validation": "Hala fakatonu. Vakai hoʻo fakamolemole pea fakafoki.",
-      "failedToSend": "Hala ke fakamolemole. Te ke lava ʻo fakafoki ha fakamolemole hala."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Kau fakamolemole fakamālie",
-    "refreshAria": "Fakafou kau fakamolemole",
-    "filterPlaceholder": "Fakatonu kau fakamolemole fakamālie…",
-    "filterAria": "Fakatonu kau fakamolemole fakamālie",
-    "noContactsFound": "ʻIkai ha kau fakamolemole naʻe maʻu.",
-    "externalContact": "Fakamolemole fakahō",
-    "notJoined": "Ko e fakamolemole ko ʻeni ʻoku ʻikai ke ne fakakau Chatforia.",
-    "couldNotStart": "ʻIkai lava ʻo kamata ha fakamolemole. Fakafoki.",
-    "startFailed": "Hala ke kamata ha fakamolemole. Fakafoki.",
-    "deleted": "Fakamolemole ʻosi toʻo.",
-    "deleteFailed": "Hala ke toʻo ha fakamolemole. Fakafoki.",
-    "aliasUpdated": "Alias ʻosi fakafou.",
-    "updateAliasFailed": "Hala ke fakafou alias. Fakafoki.",
-    "selectContact": "Fili {{name}}",
-    "alias": "Alias",
-    "startChat": "Kamata fakamolemole",
-    "message": "Fakamolemole",
-    "delete": "Toʻo",
-    "deleteContactAria": "Toʻo fakamolemole",
-    "loadFailed": "Hala ke fakalahi kau fakamolemole. Fakafoki.",
-    "loadMore": "Fakalahi ange",
-    "call": "Lea",
-    "callStarted": "Lea ki he fika ko ʻeni ʻi hoʻo fika Chatforia…",
-    "callFailed": "Hala ke kamata ha lea. Fakafoki."
-  },
-  "startChatModal": {
-    "title": "Kamata ha fakamolemole",
-    "searchPlaceholder": "Fakatonu hingoa, hingoa fakamolemole, pe fika telefoni",
-    "messageThisPerson": "Fakamolemole ki he tangata ko ʻeni",
-    "contacts": "Kau fakamolemole",
-    "recentInteractions": "Fakamolemole fakamuimui",
-    "noContactsMatch": "ʻIkai ha kau fakamolemole naʻe tau mo hoʻo fakatonu.",
-    "noRecentInteractions": "ʻIkai ha fakamolemole fakamuimui he taimi ko ʻeni.",
-    "unknown": "ʻIkai ʻilo",
-    "interactionType": {
-      "message": "Fakamolemole",
-      "call": "Lea",
-      "video": "Vitio"
-    }
-  },
-  "addContactModal": {
-    "title": "Fakakau fakamolemole",
-    "phoneOrUsername": "Fika telefoni pe hingoa fakamolemole",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 pe juliannorton",
-    "alias": "Alias (fakatonu)",
-    "aliasPlaceholder": "e.g. Ngāue, Mā, Mike – ʻEulope",
-    "enterPhoneOrUsername": "Fakahu ha fika telefoni pe hingoa fakamolemole.",
-    "userLookupFailed": "Fakatonu fakamolemole hala.",
-    "cannotAddSelf": "ʻIkai ke lava ʻo fakakau koe ko ha fakamolemole.",
-    "failedToAdd": "Hala ke fakakau fakamolemole.",
-    "add": "Fakakau"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Fakamolemole fakatonu",
@@ -357,13 +368,151 @@
     "startChatAlt": "Kamata ha fakamolemole foʻou",
     "calls": "Lea",
     "video": "Vitio",
-    "voicemail": "Voicemail"
+    "voicemail": "Voicemail",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Status foʻou",
     "logout": "Fakamālie",
     "help": "Tokoni",
     "createStatusAria": "Fakatupu status foʻou"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Fili ha tohi pe fale fakamolemole ke kamata ʻo fakamolemole",
+    "newMessages": "Fakamolemole foʻou",
+    "typing": "{{name}} ʻoku tā…",
+    "emptyTitle": "Hoʻo fakamolemole",
+    "emptySubtitle": "Fakamolemole ha fakamolemole ke kamata ha fakamolemole.",
+    "startChatButton": "Fakamolemole fakamolemole",
+    "mediaAttachment": "Fakapipiki mitia",
+    "thisUser": "ko e fakamolemole ko ʻeni",
+    "blockConfirm": "Fakapuliki {{name}}? Te ke ʻikai lava ʻo maʻu ha fakamolemole mei ai.",
+    "blockedUser": "Fakapuliki {{name}}.",
+    "blockError": "ʻIkai lava ʻo fakatonu ha fakamolemole fakapuliki.",
+    "blockFailed": "Fakapuliki hala (backend ʻoku ʻikai ke fakalelei).",
+    "encryptedUnavailable": "Fakamolemole fakapuliki (kī ʻoku ʻikai ke maʻu)",
+    "unlockToView": "Fakamālie hoʻo kī ke vakai ko e fakamolemole ko ʻeni",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "ʻOff"
+    },
+    "freeLimit": "Fakamolemole fakatau taʻe totongi: fakamotuʻa ki he 1 ʻaho. Fakapuliki ki he 1d.",
+    "premiumLimit": "Max fakamotuʻa ki he Premium ko e 30 ʻaho. Fakapuliki ki he 30d.",
+    "nothingToSend": "Tā ha fakamolemole pe fakakau ha faili ke fakamolemole.",
+    "encryptionFailed": "Fakapuliki hala. Fakamolemole ʻikai ke fakamolemole.",
+    "sent": "Fakamolemole ʻosi fakamālie.",
+    "placeholder": "Tā ha fakamolemole…",
+    "autoDelete": "Fakamotuʻa fakatonu",
+    "typeToSend": "Tā ha fakamolemole ke fakamolemole",
+    "send": "Fakamolemole",
+    "sendWithEnter": "Fakamolemole (Enter)",
+    "attachment": "fakakau",
+    "caption": "Fakamālie (fakatonu)",
+    "remove": "Toʻo",
+    "clear": "Fakamālie",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Fakakau lahi. Fai ha faili siʻi ange.",
+      "unsupportedFile": "Fai faili ʻoku ʻikai ke fakalelei.",
+      "rateLimit": "ʻOku ke fakamolemole vave. Fakamolemole fakamālie.",
+      "validation": "Hala fakatonu. Vakai hoʻo fakamolemole pea fakafoki.",
+      "failedToSend": "Hala ke fakamolemole. Te ke lava ʻo fakafoki ha fakamolemole hala.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Kuo tānaki ʻa e lekooti leʻo"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Menu fakamolemole",
@@ -379,8 +528,6 @@
     "invitePeople": "Fakaafe kau tangata",
     "roomSettings": "Settings fale",
     "clearConversation": "Toʻo ʻa e talanoa",
-    "clearConversationForMe": "Toʻo maʻa au",
-    "clearConversationForEveryone": "Toʻo maʻa e tokotaha kotoa",
     "block": "Taʻofi"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "Pea ʻi he tagged pe (/tr …)",
       "all": "Fakamolemole kotoa"
     },
-    "updated": "Settings ʻosi fakafou"
+    "updated": "Settings ʻosi fakafou",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Meʻa fakakau",
@@ -477,6 +635,110 @@
     "markRead": "Fakamālie kuo lau",
     "delete": "Toʻo",
     "unreadDotAria": "Fakamālie voicemail ʻoku ʻikai ke lau"
+  },
+  "contactList": {
+    "savedContacts": "Kau fakamolemole fakamālie",
+    "refreshAria": "Fakafou kau fakamolemole",
+    "filterPlaceholder": "Fakatonu kau fakamolemole fakamālie…",
+    "filterAria": "Fakatonu kau fakamolemole fakamālie",
+    "noContactsFound": "ʻIkai ha kau fakamolemole naʻe maʻu.",
+    "externalContact": "Fakamolemole fakahō",
+    "notJoined": "Ko e fakamolemole ko ʻeni ʻoku ʻikai ke ne fakakau Chatforia.",
+    "couldNotStart": "ʻIkai lava ʻo kamata ha fakamolemole. Fakafoki.",
+    "startFailed": "Hala ke kamata ha fakamolemole. Fakafoki.",
+    "deleted": "Fakamolemole ʻosi toʻo.",
+    "deleteFailed": "Hala ke toʻo ha fakamolemole. Fakafoki.",
+    "aliasUpdated": "Alias ʻosi fakafou.",
+    "updateAliasFailed": "Hala ke fakafou alias. Fakafoki.",
+    "selectContact": "Fili {{name}}",
+    "alias": "Alias",
+    "startChat": "Kamata fakamolemole",
+    "message": "Fakamolemole",
+    "delete": "Toʻo",
+    "deleteContactAria": "Toʻo fakamolemole",
+    "loadFailed": "Hala ke fakalahi kau fakamolemole. Fakafoki.",
+    "loadMore": "Fakalahi ange",
+    "call": "Lea",
+    "callStarted": "Lea ki he fika ko ʻeni ʻi hoʻo fika Chatforia…",
+    "callFailed": "Hala ke kamata ha lea. Fakafoki.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Fakakau fakamolemole",
+    "phoneOrUsername": "Fika telefoni pe hingoa fakamolemole",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 pe juliannorton",
+    "alias": "Alias (fakatonu)",
+    "aliasPlaceholder": "e.g. Ngāue, Mā, Mike – ʻEulope",
+    "enterPhoneOrUsername": "Fakahu ha fika telefoni pe hingoa fakamolemole.",
+    "userLookupFailed": "Fakatonu fakamolemole hala.",
+    "cannotAddSelf": "ʻIkai ke lava ʻo fakakau koe ko ha fakamolemole.",
+    "failedToAdd": "Hala ke fakakau fakamolemole.",
+    "add": "Fakakau"
+  },
+  "startChatModal": {
+    "title": "Kamata ha fakamolemole",
+    "searchPlaceholder": "Fakatonu hingoa, hingoa fakamolemole, pe fika telefoni",
+    "messageThisPerson": "Fakamolemole ki he tangata ko ʻeni",
+    "contacts": "Kau fakamolemole",
+    "recentInteractions": "Fakamolemole fakamuimui",
+    "noContactsMatch": "ʻIkai ha kau fakamolemole naʻe tau mo hoʻo fakatonu.",
+    "noRecentInteractions": "ʻIkai ha fakamolemole fakamuimui he taimi ko ʻeni.",
+    "unknown": "ʻIkai ʻilo",
+    "interactionType": {
+      "message": "Fakamolemole",
+      "call": "Lea",
+      "video": "Vitio"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "Fakamolemole fakamolemole",
@@ -614,13 +876,167 @@
     "voicemailNote": "Voicemail mei hoʻo fika Chatforia ʻoku fakamālie ʻi hoʻo fakamolemole Voicemail. Te ke lava ʻo fakalelei fakatonu mo fakafolosi ʻi he fakatau fakalelei.",
     "portHint": "Fie fakamālie hoʻo fika fakamolemole? Te ke lava ʻo port ia ki he Chatforia Wireless.",
     "wireless": {
-      "manage": "Pule wireless"
+      "manage": "Pule wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Fakamolemole fakamolemole",
       "desc": "Maʻu data telefoni ki he Chatforia kapau ʻoku ke ʻikai ʻi he Wi-Fi.",
-      "cta": "Maʻu eSIM / Fakaava QR"
-    }
+      "cta": "Maʻu eSIM / Fakaava QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -672,78 +1088,236 @@
     "expiresIn": "Fakamotuʻa ʻi he {{days}} ʻaho",
     "exhausted": "Hoʻo data ʻosi. Fai ha pack foʻou ke fakamālie data telefoni.",
     "buyPack": "Fai data pack",
-    "esimPackLabel": "eSIM pack"
-  },
-  "family": {
-    "title": "Fāmili",
-    "loading": "Fakalahi hoʻo fāmili fakamolemole…",
+    "esimPackLabel": "eSIM pack",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "Fakalahi…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
     "error": {
-      "load": "Hala ke fakalahi fāmili fakamolemole.",
-      "invite": "ʻIkai lava ʻo fakatupu ha fakaafe. Vakai ko koe pule fāmili pea fakafoki.",
-      "checkout": "ʻIkai lava ʻo kamata checkout ki he fakatau Fāmili. Fakafoki."
-    },
-    "billing": {
-      "myPlanTitle": "Ko hoku fakatau",
-      "myPlanError": "ʻIkai lava ʻo fakalahi hoʻo fakatau.",
-      "myPlanLoading": "Fakalahi hoʻo fakatau…",
-      "currentPlan": "Fakatau ʻi he taimi ko ʻeni",
-      "renewsAt": "Fakafou ʻi he",
-      "freePlanCopy": "ʻOku ke ʻi he fakatau taʻe totongi. Fakalakalaka ke fakalelei ha meʻa kehe.",
-      "upgradeCta": "Fakalakalaka fakatau",
-      "changePlanCta": "Fakafoki fakatau",
-      "manageBilling": "Pule billing",
-      "portalError": "ʻIkai lava ʻo fakaava billing portal he taimi ko ʻeni.",
-      "cancelNow": "Ikuna he taimi ko ʻeni",
-      "cancelNowHelp": "Te ke lava ʻo pule pe ikuna hoʻo fakatau ʻi he billing portal, pe ikuna vave ʻi olunga.",
-      "cancelNowConfirm": "ʻOku ke fakatonu ke ikuna hoʻo fakatau vave? ʻIkai ke lava ʻo fakafoki.",
-      "cancelNowError": "ʻIkai lava ʻo ikuna hoʻo fakatau he taimi ko ʻeni. Fakafoki pe fakaʻata Manage billing."
-    },
-    "none": {
-      "title": "ʻIkai ha fāmili ʻi he taimi ko ʻeni",
-      "body": "Ke fakatupu ha Chatforia Fāmili mo e data pool fakakau, kamata ha fakatau Fāmili.",
-      "goUpgrade": "Kamata ha fakatau Fāmili",
-      "viewPlans": "Vakai ha fakatau kotoa"
-    },
-    "group": {
-      "defaultName": "Ko hoku Chatforia Fāmili",
-      "role": "Ko hoʻo role: {{role}}"
-    },
-    "role": {
-      "owner": "Pule",
-      "member": "Fakamolemole"
+      "load": "Failed to load wireless details."
     },
     "data": {
-      "heading": "Data pool fakakau",
-      "caption": "Kau fāmili kotoa ʻoku fakakau e data pool ko ʻeni. Mau fakamālie koe kapau ʻoku ke fie lahi."
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
     },
-    "members": {
-      "title": "Kau fāmili",
-      "name": "Hingoa",
-      "role": "Role",
-      "usage": "Ngāue",
-      "limit": "Limit",
-      "unlimited": "ʻIkai ha limit fakatonu",
-      "inviteCta": "Fakaafe fakamolemole"
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
     },
-    "invite": {
-      "title": "Fakaafe ha fakamolemole foʻou",
-      "body": "Fakamolemole ha email pe link ke fakaafe ha taha ki hoʻo fāmili data pool fakakau.",
-      "emailLabel": "Email (fakatonu)",
-      "emailPlaceholder": "friend@example.com",
-      "create": "Fakatupu fakaafe",
-      "linkLabel": "Link fakaafe",
-      "copyAria": "Langa link fakaafe",
-      "expiryHint": "Ko e link ko ʻeni ʻoku fakamotuʻa ʻi he ʻaho siʻi. Te ke lava ʻo fakatupu ha foʻou."
-    },
-    "join": {
-      "title": "Fakakau ha fāmili",
-      "body": "Kuo fakaafe koe ke fakakau ha Chatforia Fāmili mo fakakau honau data pool.",
-      "cta": "Tali pea fakakau fāmili",
-      "ctaLogin": "Fakamālie pea fakakau fāmili",
-      "success": "Kuo ke fakakau e fāmili ko ʻeni. Te ke fakakau honau data pool he taimi ko ʻeni.",
-      "goFamily": "Foki ki he fāmili dashboard",
-      "error": "ʻIkai lava ʻo fakakau koe ki he fāmili ko ʻeni. Ko e fakaafe ʻoku hala pe fakamotuʻa."
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
     }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
   },
   "premium": {
     "heading": "Foki ki he Premium",
@@ -751,6 +1325,10 @@
     "cta": "Fakalakalaka",
     "upgrade": "Fakalakalaka",
     "upgradeAria": "Fakalakalaka ki he Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
   },
   "upgrade": {
     "title": "Fakalakalaka",
@@ -794,7 +1372,12 @@
       "aria": "Fili fakatau",
       "getPlus": "Fakalakalaka ki he Plus",
       "upgradeMonthly": "Fakalakalaka Mā",
-      "upgradeAnnual": "Fakalakalaka Taʻu"
+      "upgradeAnnual": "Fakalakalaka Taʻu",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
     },
     "section": {
       "app": "Fakatau app",
@@ -841,7 +1424,8 @@
           "plusAll": "Kotoa ha meʻa ʻi he Plus",
           "themes": "Fakalelei theme fakamolemole kotoa mo e fakatonu app",
           "ai": "AI pāoa fakamolemole pe ki he Premium ki he fakafoki, fakamālie vave, mo e fakamālie",
-          "support": "Tokoni fakamuʻomuʻa kapau ʻoku fie tokoni"
+          "support": "Tokoni fakamuʻomuʻa kapau ʻoku fie tokoni",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
         "badge": "Fakatonu",
         "cta": "Fakalakalaka (Mā)",
@@ -856,7 +1440,8 @@
           "allPremium": "Kotoa ha meʻa ʻi he Premium Mā — mo e theme fakamolemole kehe",
           "annualBilling": "Fakamolemole taha ʻi he taʻu",
           "save25": "Fakasi 30% kapau ʻoku fakamolemole mā",
-          "bestFor": "Fakatonu ki he kau pāoa, kau ngāue fakahō, mo e kau telefoni lahi"
+          "bestFor": "Fakatonu ki he kau pāoa, kau ngāue fakahō, mo e kau telefoni lahi",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
         "badge": "Fakasi 30%",
         "cta": "Fakalakalaka (Taʻu)",
@@ -884,9 +1469,11 @@
       "scope": {
         "local": "Fonua",
         "europe": "ʻEulope",
-        "global": "Māmani"
+        "global": "Māmani",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
       },
-      "note": "ʻIkai mau fakatau data pack ʻi lalo 3 GB.",
       "localEquals": "Fonua = {{country}}",
       "localEqualsFallback": "Fonua = hoʻo fonua ʻi he taimi ko ʻeni",
       "perPack": "/ pack",
@@ -902,34 +1489,31 @@
           "coverage": "Fakamālie fakamālie",
           "instant": "Fakalelei eSIM vave",
           "noContract": "Pack taha, ʻikai ha fakatau"
-        }
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
       },
       "disclaimer": {
-        "devices": "eSIM data packs ʻoku fie maʻu ha meʻa fakalelei eSIM mo taʻe fakapuliki. ʻOku kehe ʻi he telefoni, carrier, mo e fonua. Fakamālie mo e vave ʻoku kehe ʻi he fonua."
+        "devices": "eSIM data packs ʻoku fie maʻu ha meʻa fakalelei eSIM mo taʻe fakapuliki. ʻOku kehe ʻi he telefoni, carrier, mo e fonua. Fakamālie mo e vave ʻoku kehe ʻi he fonua.",
+        "fairUse": "Fakatonu ki he fakatonu fair-use mo e limit fonua"
       },
-      "small": {
-        "title": "Starter pack",
-        "desc": "Fakakau 3 GB data vave — fakatonu ki he fakamolemole siʻi mo e lea siʻi.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Telefoni siʻi, fakamolemole siʻi, mo e lea siʻi",
-        "aria": "Fai Starter eSIM data pack"
-      },
-      "medium": {
-        "title": "Traveler pack",
-        "desc": "Fakakau 5 GB data vave ki he telefoni, commuting, mo e lea VoIP fakatonu.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Telefoni fakamotuʻa, lea VoIP fakatonu, mo e maps",
-        "aria": "Fai Traveler eSIM data pack"
-      },
-      "large": {
-        "title": "Power pack",
-        "desc": "Fakakau 10 GB data vave ki he fakamolemole lahi, lea, mo e vitio ʻi he Chatforia network.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Fakamolemole lahi, lea, vitio, mo e hotspot",
-        "aria": "Fai Power user eSIM data pack"
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
       },
       "compare": {
         "title": "Fakatau eSIM data packs",
@@ -939,6 +1523,57 @@
           "bestFor": "Fakatonu ki he"
         },
         "disclaimer": "Ko e ngāue data ʻoku fakatonu ʻi he founga ʻoku ke fakaʻata Chatforia (lea, vitio, meʻa, mo e app kehe ʻi hoʻo telefoni)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Fakatonu fakamālie ʻi he GB"
+      },
+      "feature": {
+        "instant": "Fakalelei eSIM vave",
+        "coverage": "Fakamālie fakamālie",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Fonua",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "ʻEulope",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Māmani",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Starter pack",
+        "data": "3 GB",
+        "bestFor": "Telefoni siʻi, fakamolemole siʻi, mo e lea siʻi"
+      },
+      "medium": {
+        "title": "Traveler pack",
+        "data": "5 GB",
+        "bestFor": "Telefoni fakamotuʻa, lea VoIP fakatonu, mo e maps"
+      },
+      "large": {
+        "title": "Power pack",
+        "data": "10 GB",
+        "bestFor": "Fakamolemole lahi, lea, vitio, mo e hotspot"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
       }
     },
     "family": {
@@ -994,7 +1629,10 @@
       },
       "tableTitle": "Fakatau Chatforia",
       "col": {
-        "feature": "Meʻa"
+        "feature": "Meʻa",
+        "chatforia": "Ki he 12+ māhina",
+        "textnow": "Fakatonu ʻi he tohi fakamolemole",
+        "googleVoice": "Google Voice"
       },
       "feature": {
         "freeNumber": "Fika telefoni taʻe totongi",
@@ -1039,759 +1677,780 @@
         "a": "Fakatau Fāmili fakatupu ha data pool fakakau ʻi he kau Chatforia fakakau. Ko e taha ʻoku totongi e fika, pea te ke lava ʻo fakaafe pe toʻo fakamolemole mo fokotuʻu limit ki he taha."
       }
     },
-    "gettingStarted": {
-      "title": "Kamata",
-      "subtitle": "Foʻou ki he Chatforia? Ko e fakatonu vave ko ʻeni ʻoku fakaʻata ha meʻa fakamuʻomuʻa ke ke lava ʻo ngāue ʻi he miniti siʻi.",
-      "alert": {
-        "text": "Ko e fakatonu ko ʻeni ʻe fakalahi kapau ʻoku mau fakalelei meʻa foʻou. Kapau ʻoku ʻikai ha meʻa, fakamālie mau mei he",
-        "contactLink": "Fakamālie mau"
-      },
-      "section1": {
-        "title": "1) Fakatupu hoʻo tohi fakamolemole",
-        "signup": "Fakafonu",
-        "or": "pe",
-        "login": "fakamālie",
-        "loginText": "mo hoʻo tohi fakamolemole fakamolemole.",
-        "prefsStart": "Fokotuʻu hoʻo",
-        "prefsLink": "fakatonu",
-        "prefsRest": "(lea, fakamālie ʻo lau, theme)."
-      },
-      "section2": {
-        "title": "2) Kamata fakamolemole",
-        "item1": "Fakatupu ha DM pe Group pea fakamolemole hoʻo fakamolemole fakamuimui.",
-        "item2": "Fakaʻata fakaliliu vave ke fakamolemole ʻi he lea 100+.",
-        "item3": "Fakaʻata fakamolemole fakamotuʻa mo e fakamālie ʻo lau ʻi he Profile → Fakamālie."
-      },
-      "section3": {
-        "title": "3) Foki ange",
-        "item1": "Te ke lava ʻo fakalakalaka ki ha fakatau totongi ʻi he taimi kotoa ʻi he app.",
-        "item2": "Kapau ʻoku ke fakamālie, te ke lava ʻo fakakau meʻa kehe mo fokotuʻu fakamolemole fakapuliki mei he Settings ʻi he app."
-      },
-      "cta": {
-        "seePlans": "Vakai ha fakatau",
-        "openSettings": "Fakaava settings"
-      }
+    "h2": {
+      "app": "App plans"
     },
-    "helpCenter": {
-      "title": "Fale tokoni",
-      "faq": {
-        "account": {
-          "q": "Ko e hā hoku founga ke fakatupu pe fakafoki hoku tohi fakamolemole?",
-          "a": "Fakalahi e app pe fakaʻata web, tā “Fakatupu tohi fakamolemole”, fakamālie hoʻo email/telefoni. Ke fakafoki, fakaʻata “Ngaohi password”."
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
         },
-        "privacy": {
-          "q": "ʻOku fakapuliki fakatautaha ha fakamolemole mo e lea?",
-          "a": "ʻIo. Fakamolemole mo e lea ʻoku fakapuliki fakatautaha fakatonu. Ko koe mo e fakamolemole pe te nau lava ʻo lau ia."
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
         },
-        "translate": {
-          "q": "Ko e hā ʻoku ngāue ai e fakaliliu vave?",
-          "a": "Fakalelei “Fakaliliu fakatonu” ʻi he Settings → Fakaata & Lea. Mau fakaliliu ʻi he meʻa kapau ʻoku fakalelei, pe ʻi he API fakamālie mo e metadata siʻi."
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
         },
-        "contact": {
-          "q": "Fakamālie tokoni",
-          "a": "Fakamālie mau ʻi he support@chatforia.com. Fakakau screenshots mo hoʻo app version."
-        }
-      }
-    },
-    "contact": {
-      "title": "Fakamālie mau",
-      "successMsg": "Mālō—ʻe fakamālie homau kau ʻi he email.",
-      "errorSend": "ʻIkai lava ʻo fakamolemole. Fakamālie support@chatforia.com.",
-      "form": {
-        "nameLabel": "Hingoa",
-        "emailLabel": "Email",
-        "messageLabel": "Fakamolemole",
-        "sendCta": "Fakamolemole"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Fakatonu Fakamālie",
-      "lastUpdated": "Fakafou fakamuimui:",
-      "intro": {
-        "body": "Ko e Fakatonu Fakamālie ko ʻeni ʻoku fakaʻata pe ʻoku fakakau, fakaʻata, mo fakakau fakamolemole ʻi he taimi ʻoku ke fakaʻata homau app mo e tokoni. Mau fokotuʻu Chatforia ke fakasi ha fakamālie ʻoku mau lava ʻo maʻu."
-      },
-      "infoWeCollect": {
-        "title": "Fakamālie ʻoku mau fakakau",
-        "account": "Fakamālie tohi fakamolemole (e.g., email/telefoni) ke fakatupu mo fakamālie hoʻo tohi fakamolemole.",
-        "encrypted": "Fakamolemole fakapuliki (fakamolemole/lea) ʻoku fakapuliki fakatautaha; ʻikai ke mau lava ʻo lau ia.",
-        "diagnostics": "Fakamālie fakatonu/hala hangē ko e crash logs, fakatonu meʻa, pe fakatonu fakatonu ke fakalakalaka."
-      },
-      "sms": {
-        "title": "Fika telefoni mo e SMS",
-        "body": "Kapau ʻoku ke fili ʻo fakakau ha fika telefoni, mau fakaʻata ia ke fakalelei meʻa hangē ko e fakamālie tohi fakamolemole, fakamālie fakamālie, mo e fakamolemole fakamolemole ʻi he SMS kapau ʻoku fakalelei. Mau lava ʻo fakamolemole SMS fakatonu fekauʻaki mo hoʻo tohi fakamolemole mo e ngāue ʻi he Chatforia. Te ke lava ʻo fakatau ʻo maʻu ha SMS ʻi he taimi kotoa ʻi he fakamālie “STOP” pe fakafoki hoʻo fakamālie fakamālie ʻi he app. ʻIkai mau fakatau hoʻo fika telefoni pe fakaʻata ia ki he fakamālie fakatonu.",
-        "newText": "Fakamolemole foʻou",
-        "enterRecipient": "Fakahu ha hingoa pe fika",
-        "typeMessage": "Tā ha fakamolemole…",
-        "addRecipient": "Fakahu ha fakamolemole ʻi olunga ke kamata…"
-      },
-      "howWeUse": {
-        "title": "Pe ʻoku mau fakaʻata fakamālie",
-        "provide": "Fakakau mo fakamālie e tokoni (fakamālie, fakatonu spam/abuse).",
-        "improve": "Fakalakalaka meʻa (fakaliliu fakatonu, fakamālie).",
-        "legal": "Fakatonu ki he fakatonu fakatonu."
-      },
-      "sharing": {
-        "title": "Fakakau",
-        "body": "ʻIkai mau fakatau fakamālie fakatonu. Mau lava ʻo fakakau fakamālie fakatonu mo e kau tokoni (e.g., fakamālie fakamālie, fakatonu) ʻi he fakatonu fakatonu."
-      },
-      "rights": {
-        "title": "Hoʻo totonu",
-        "body": "Fakatonu ʻi hoʻo fonua (e.g., GDPR/UK GDPR/CPRA), te ke lava ʻo fie maʻu fakamālie, fakatonu, toʻo, pe fakatau ha tokoni fakatonu. Fakamālie: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Fakamālie fakamālie & fakamālie",
-        "body": "Mau fakamālie pe ha meʻa ʻoku fie maʻu ke ngāue e tokoni mo fakaʻata fakamālie fakatonu. Fakamolemole fakapuliki fakatautaha ʻoku ʻikai ke lava ʻo fakatonu ʻe mau."
-      },
-      "children": {
-        "title": "Fānau",
-        "body": "Chatforia ʻoku ʻikai ke ne fakaʻata ki he fānau ʻi lalo 13 (pe hangē ko e fakatonu ʻi hoʻo fonua)."
-      },
-      "changes": {
-        "title": "Liliu",
-        "body": "Mau fakamolemole fakafou ʻi heni mo fakafou e “Fakafou fakamuimui”."
-      },
-      "contact": {
-        "title": "Fakamālie",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Fakatonu Tokoni",
-      "lastUpdated": "Fakafou fakamuimui:",
-      "intro": {
-        "body": "ʻI he fakaʻata Chatforia ʻoku ke tali ki he Fakatonu ko ʻeni. Kapau ʻoku ʻikai ke ke tali, ʻoua ke fakaʻata e tokoni."
-      },
-      "accounts": {
-        "title": "Tohi fakamolemole",
-        "itemAccurateInfo": "Fakakau fakamālie fakatonu pea fakamālie hoʻo fakamālie fakamālie.",
-        "itemResponsibility": "Ko koe pule ki he ngāue ʻi hoʻo tohi fakamolemole."
-      },
-      "acceptableUse": {
-        "title": "Fakaʻata fakatonu",
-        "itemNoAbuse": "ʻIkai ha meʻa fakatonu, fakamālie, pe fakatonu; ʻikai ha spam pe fakatonu fakatonu.",
-        "itemSuspend": "Mau lava ʻo fakamotuʻa/ikuna ki he fakatonu."
-      },
-      "sms": {
-        "title": "Fakamolemole SMS",
-        "body": "Kapau ʻoku ke fakakau ha fika telefoni, ʻoku ke tali ke Chatforia fakamolemole SMS fekauʻaki mo hoʻo tohi fakamolemole mo e ngāue ʻo e tokoni, hangē ko e fakamālie fakamālie, fakamālie fakamālie, mo e fakamolemole fekauʻaki mo e fakamolemole ʻoku ke kamata pe kau. ʻIkai mau fakaʻata SMS ki he fakamālie fakatonu taʻe tali. ʻOku lava ʻo fie totongi ha meʻa & data. Te ke lava ʻo fakatau SMS ʻi he taimi kotoa ʻi he fakamālie “STOP” pe fakafoki hoʻo fakamālie fakamālie ʻi he app."
-      },
-      "yourContent": {
-        "title": "Hoʻo meʻa",
-        "body": "ʻOku ke maʻu hoʻo totonu ki hoʻo meʻa. ʻOku ke foaki mau totonu fie maʻu ke ngāue e tokoni (e.g., fakafolosi, fakamālie, fakaliliu)."
-      },
-      "disclaimer": {
-        "title": "Fakatonu & fakatonu",
-        "body": "Tokoni ʻoku foaki “hangē ko e” taʻe fakatonu. Ki he fakatonu kotoa ʻoku fakatonu ʻe he fakatonu, Chatforia ʻoku ʻikai ke ne fakatonu ki he hala fakatonu pe fakatonu fakatonu."
-      },
-      "changes": {
-        "title": "Liliu",
-        "body": "Mau lava ʻo fakafou e fakatonu; fakaʻata fakamolemole ʻi he liliu ʻoku fakatonu."
-      },
-      "contact": {
-        "title": "Fakamālie",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "ʻIkai fakatau pe fakakau hoku fakamālie fakatonu",
-      "body": "Chatforia ʻoku ʻikai ke ne fakatau fakamālie fakatonu. Kau California te nau lava ʻo fakamolemole request ʻi he CPRA ʻi he button ʻi olunga.",
-      "cta": "Fakamolemole request"
-    },
-    "cookies": {
-      "title": "Settings Cookie",
-      "body": "Chatforia ʻoku ne fakaʻata cookie siʻi (e.g., fakamālie, fakamālie). ʻIkai mau fakaʻata ads cookie fakahō. Pule cookie ʻi hoʻo browser settings."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "ʻIkai lava ʻo fakalahi status fika telefoni.",
-      "lock": "Fakapuliki",
-      "noNumberAssigned": "ʻIkai ha fika ʻosi fokotuʻu. Fili ha fika ʻi he area code ke kamata fakamolemole.",
-      "pickNumber": "Fili ha fika",
-      "phoneNumber": "Fika telefoni"
-    },
-    "startChatModal": {
-      "title": "Kamata ha fakamolemole",
-      "quickPicker": "Quick picker",
-      "to": "Ki he",
-      "nameOrUsername": "Tā ha hingoa, hingoa fakamolemole",
-      "nameUsernamePhoneEmail": "Tā ha hingoa, hingoa fakamolemole, fika telefoni, pe email…",
-      "startWithSelected": "Kamata fakamolemole mo e kau fili",
-      "searchByUsernameOrPhone": "Fakatonu ʻi he hingoa fakamolemole pe fika telefoni",
-      "search": "Fakatonu",
-      "searchPrompt": "Tā ha hingoa fakamolemole pe fika telefoni pea tā Fakatonu.",
-      "pickFromContacts": "Pe fili mei he kau fakamolemole",
-      "addContact": "Fakakau ha Fakamolemole",
-      "show": "Fakaava",
-      "add": "Fakakau",
-      "close": "Ikuna",
-      "selectedCount": "{{count}} fili",
-      "pickAtLeastOne": "Fili ha fakamolemole taha pe.",
-      "saveContactsHint": "Fika/email ʻe lava ʻo maʻu kapau ʻoku ke fakamolemole ia ko ha kau fakamolemole.",
-      "failedBulkStart": "Hala ke kamata fakamolemole mo e kau fili.",
-      "noResults": "ʻIkai ha ola",
-      "mode": "Founga",
-      "group": "Fakamolemole fakakau",
-      "broadcast": "Fakamolemole fakafolosi",
-      "groupNameOptional": "Hingoa fakamolemole fakakau (fakatonu)",
-      "firstMessageOptional": "Fakamolemole fakamuimui (fakatonu ka fakatonu)",
-      "createGroup": "Fakatupu fakamolemole fakakau",
-      "sendBroadcast": "Fakamolemole fakafolosi"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
-    },
-    "sounds": {
-      "freeNotice": "ʻOku ke ʻi he Free — premium tones ʻoku fakaava ka fakapuliki. Fakalakalaka ke fakalelei kotoa.",
-      "preview": "Fakaata",
-      "resetToDefaults": "Fakafoki ki he fakatonu",
-      "notificationSounds": "Lea fakamālie",
-      "messageTone": "Lea fakamolemole",
-      "default": "Fakatonu",
-      "vibrate": "Vibrate",
-      "dreamer": "Dreamer",
-      "notify": "Fakamālie",
-      "pop": "Pop",
-      "pulsatingSound": "Lea fakapuliki",
-      "textMessage": "Fakamolemole",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Digital Phone",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Ko e meʻa ko ʻeni ʻoku fie maʻu ha fakatau Premium."
-    },
-    "aiSettings": {
-      "title": "AI Settings",
-      "controlIntro": "Pule fakaliliu, fakamālie fakamālie, mo e ForiaBot fakamālie fakatonu.",
-      "save": "Fakamolemole AI Settings",
-      "autoTranslateIncoming": "Fakaliliu fakatonu fakamolemole fakahō",
-      "showOriginalAlongside": "Fakaava tohi motuʻa ʻi he tafaʻaki fakaliliu",
-      "enableSmartReplies": "Fakalelei Fakamālie Fakamālie",
-      "smartRepliesHint": "Fakamolemole ha fakamolemole fakamuimui siʻi (fakatonu) ki he AI ke fakatonu fakamālie vave.",
-      "maskProfanity": "Fakapuliki profanity ʻi he AI fakatonu",
-      "maskProfanityHint": "Kapau ʻoku ʻon, ko e fakatonu ʻoku fakafoki ʻe AI ʻe fakapuliki ha lea fakatonu",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "Fakalelei fakamālie fakatonu kapau ʻoku ke fie ngāue",
-      "autoReplyMode": "Founga fakamālie fakatonu",
-      "cooldownSeconds": "Fakamālie (sekoni)",
-      "off": "ʻOff",
-      "on": "ʻOn",
-      "signature": "Signature",
-      "autoReply": "Fakamālie fakatonu",
-      "activeUntilOptional": "Fakatonu ki he (fakatonu)",
-      "saved": "AI fakatonu ʻosi fakamolemole",
-      "saveFailed": "Hala ke fakamolemole AI settings",
-      "translateOff": "ʻOff",
-      "translateTagged": "Pea ʻi he @translated pe tagged",
-      "translateAll": "Fakaliliu fakamolemole fakahō kotoa",
-      "modeDm": "Fakamolemole 1:1 pe",
-      "modeMention": "Pea ʻi he taimi ʻoku @mentioned au",
-      "modeAll": "Fakamolemole fakahō kotoa"
-    },
-    "accessibilitySettings": {
-      "title": "Fakalelei & Fakamālie",
-      "accessibility": "Fakalelei",
-      "accessibilityDesc": "Fakatonu ke fakalelei Chatforia taʻe fie maʻu lea.",
-      "interfaceFontSize": "Font size fakatonu",
-      "interfaceFontSizeHelp": "Kamata ʻi he fakatonu. Fakalahi kapau ʻoku ke fie lahi ange tohi ʻi he fakalelei settings.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Fakamālie",
-      "notificationsDesc": "Fakamālie fakatonu ki he fakamolemole & lea\nFakaava banner mo e fakatonu title ke ʻoua te ke miss ha ngāue.",
-      "vibrateOnNew": "Vibrate ʻi he fakamolemole foʻou (kapau ʻoku fakalelei)\nFakatonu vibration meʻa mo e fakamālie.",
-      "flashOnCall": "Flash screen ʻi he lea fakahō\nFlash vave fakatonu kapau ʻoku lea ha lea.",
-      "liveCaptions": "Live captions (lea)",
-      "captionFontSize": "Caption font size",
-      "captionBackground": "Caption background",
-      "light": "mā",
-      "dark": "pō",
-      "transparent": "transparent",
-      "voiceNotes": "Lea fakamolemole",
-      "autoTranscribeVoiceNotes": "Fakatonu fakatonu lea fakamolemole",
-      "autoTranscribeVoiceNotesDesc": "Fakakau ha transcript ki he lea fakamolemole ʻoku ke maʻu.",
-      "changesSavedInstantly": "Liliu ʻoku fakamolemole vave.",
-      "loadFailed": "Hala ke fakalahi settings",
-      "visualAlerts": "Fakamālie fakatonu ki he fakamolemole & lea",
-      "visualAlertsDesc": "Fakaava banner mo e fakatonu title ke ʻoua te ke miss ha ngāue.",
-      "vibrateOnNewShort": "Vibrate ʻi he fakamolemole foʻou (kapau ʻoku fakalelei)",
-      "vibrateOnNewDesc": "Fakatonu vibration meʻa mo e fakamālie.",
-      "flashOnCallShort": "Flash screen ʻi he lea fakahō",
-      "flashOnCallDesc": "Flash vave fakatonu kapau ʻoku lea ha lea."
-    },
-    "privacySection": {
-      "strictE2EE": "Fakapuliki fakatautaha fakatonu",
-      "ciphertextOnlyNote": "Fakamālie ciphertext pe ʻi he server. Fakatau AI/Fakaliliu mo e fakatonu fakatonu."
-    },
-    "linkedDevicesPanel": {
-      "title": "Meʻa fakakau",
-      "noneFound": "ʻIkai ha meʻa fakakau naʻe maʻu.",
-      "refresh": "Fakafou"
-    },
-    "help": {
-      "title": "Tokoni",
-      "howCanWeHelp": "Ko e hā ʻe lava ʻe mau ke tokoni?",
-      "helpCenter": "Fale tokoni",
-      "contactUs": "Fakamālie mau",
-      "quickTopics": "Fakatonu vave",
-      "searchExamples": "Fakaʻata fakatonu ki he “fakaliliu”, “fakamolemole”, pe “fakamālie”.",
-      "cantLogin": "ʻIkai lava ʻo fakamālie",
-      "paymentsBilling": "Totongi/billing",
-      "reportAbuse": "Fakamālie abuse",
-      "searchHelpArticles": "Fakatonu ha tokoni fakatonu",
-      "search": "Fakatonu"
-    },
-    "peoplePage": {
-      "people": "Kau tangata",
-      "search": "Fakatonu",
-      "searchPlaceholder": "Fakatonu ʻi he alias, hingoa, hingoa fakamolemole, pe fika telefoni",
-      "filterSaved": "Fakatonu kau fakamolemole fakamālie",
-      "noContactsFound": "ʻIkai ha kau fakamolemole naʻe maʻu",
-      "quickStart": "Kamata vave",
-      "quickStartDesc": "Ha founga vave siʻi ke kamata.",
-      "importContacts": "Fakakau hoʻo kau fakamolemole",
-      "add": "Fakakau",
-      "focusSearch": "Fakatonu Fakatonu",
-      "import": "Fakakau",
-      "findOrAdd": "Fakatonu pe fakakau ha taha",
-      "searchByPhoneOrUsername": "Fakatonu ʻi he fika telefoni / hingoa fakamolemole",
-      "inviteFriends": "Fakaafe kaumeʻa",
-      "inviteDesc": "Fakakau hoʻo link fakaafe ke kamata fakamolemole vave.",
-      "getTheApp": "Maʻu e app",
-      "getTheAppDesc": "Fakamālie ʻi he telefoni mo e Chatforia ki he iOS mo Android.",
-      "download": "Fakalahi",
-      "syncTip": "Tip: Hoʻo fakamolemole ʻoku fakamālie ʻi he web mo e telefoni."
-    },
-    "randomChat": {
-      "title": "Fakamolemole fakatonu",
-      "description": "Fakatau ha taha foʻou vave. Mau fakatau koe mo fakaava ha fale fakamolemole fakatonu. Fakamolemole fakapuliki fakamuimui. Fakakau kaumeʻa kapau ʻoku tau.",
-      "findMatch": "Fakatonu ha fakatau",
-      "chatWithForia": "Fakamolemole mo Foria",
-      "chatWithForiaBot": "Fakamolemole mo ForiaBot",
-      "cancel": "Ikuna",
-      "close": "Ikuna",
-      "searching": "Fakatonu…",
-      "finding": "Fakatonu…",
-      "looking": "Fakatonu ha taha…",
-      "startingForia": "Kamata fakamolemole mo Foria…",
-      "partnerDisconnected": "Hoʻo fakatau ʻosi fakamotuʻa.",
-      "noPartner": "ʻIkai ha fakatau he taimi ko ʻeni.",
-      "connectedTo": "Fakakau ki he {{name}}",
-      "connected": "Fakakau",
-      "idle": "Idle",
-      "partnerLeft": "Fakatau ʻosi hiki.",
-      "stopped": "Ikuna.",
-      "skip": "Skip",
-      "save": "Fakamolemole",
-      "saveGuard": "Fakamolemole fakatautaha-pe fakatautaha pe te ke lava ʻo fakamolemole",
-      "youAreChattingWith": "ʻOku ke fakamolemole mo {{name}}",
-      "bot": "BOT",
-      "leave": "Hiki",
-      "sayHi": "Lea mālō 👋",
-      "you": "Koe",
-      "typeMessage": "Tā ha fakamolemole",
-      "send": "Fakamolemole",
-      "partner": "Fakatau",
-      "withRia": "Mo Ria",
-      "chatWithRia": "Fakamolemole mo Ria",
-      "startingRia": "Kamata fakamolemole mo Ria…",
-      "ageDisclaimer": "ʻOku mau fakamālie ha taʻu pe (ʻikai hoʻo ʻaho fā). ʻOku fakaʻata ke fakamālie ha fakamolemole fakatonu fakatonu. Ke fakatau mo e kau tangata (ʻikai ko RiaBot pe), fokotuʻu hoʻo taʻu ʻi he Settings → Taʻu & Fakamolemole fakatonu.",
-      "ageBandRequired": "Fokotuʻu hoʻo taʻu ʻi he Profile → Taʻu & Fakamolemole fakatonu ke fakatau mo e kau tangata.",
-      "ageBandCallout": "Ke fakatau mo e kau tangata (ʻikai ko RiaBot pe), fokotuʻu hoʻo taʻu ʻi he Settings → Taʻu & Fakamolemole fakatonu.",
-      "subtitle": "Fakatau ha taha foʻou vave, pe fili ke fakamolemole mo Ria.",
-      "start": "Kamata ha fakamolemole",
-      "matching": "Fakatau…",
-      "setAge": "Fokotuʻu hoʻo taʻu ʻi he Profile → Taʻu & Fakamolemole fakatonu ke fakatau mo e kau tangata.",
-      "next": "Fakatau hoko",
-      "addFriend": "Fakakau kaumeʻa",
-      "requested": "Fakatonu",
-      "messageRia": "Fakamolemole Ria…",
-      "messageMatch": "Fakamolemole hoʻo fakatau…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "ko ia",
-      "intro": "Mālō 👋 Ko au Ria. Ko e hā ʻoku ʻi hoʻo loto?",
-      "greetings": {
-        "long1": "Mālō {{name}} 👋 ʻOku ou ʻi heni. Ko e hā ʻoku ʻi hoʻo loto?",
-        "long2": "Mālō {{name}} 😊 Ko e hā ʻoku ke fie lea ai he ʻaho ni?",
-        "long3": "Mālō {{name}}!! ʻOku ou fanongo kotoa — ko e hā ʻoku ʻi ai?",
-        "long4": "Mālō ke vakai koe, {{name}} 👋 Ko e hā ʻoku ʻi hoʻo loto he ʻaho ni?",
-        "long5": "Mālō {{name}} 😊 Fie vent, fie fehuʻi, pe fakamolemole pe?",
-        "long6": "Mālō {{name}}!! ʻOku ou maʻu taimi — ko e hā ʻoku ke fie lea ai?",
-        "short1": "Mālō {{name}}, ʻoku ou ʻi heni pe. Ko e hā ʻoku ʻi ai?",
-        "short2": "Mālō mai {{name}} 👋 Ko e hā kehe ʻoku ke fie fakakau?",
-        "short3": "Mai ange, {{name}}? 😊 Tala mai ko e hā ʻoku ʻi hoʻo loto.",
-        "short4": "Mālō {{name}} 👋 Fakatonu ke fakamālie ʻi he feituʻu naʻe hiki?",
-        "short5": "ʻIo {{name}}? ʻOku ou fanongo 👂",
-        "short6": "ʻO mālō {{name}}!! ʻOku ke maʻu ha meʻa foʻou ʻi hoʻo loto?"
-      },
-      "header": {
-        "openNav": "Fakaava menu fakatonu",
-        "closeNav": "Ikuna menu fakatonu",
-        "homeAria": "Chatforia Fale"
-      },
-      "login": {
-        "welcomeBack": "Mālō mai",
-        "title": "Fakamālie ki he Chatforia",
-        "subtitleReturning": "Fakamālie ki hoʻo tohi fakamolemole Chatforia",
-        "subtitle": "Fakamālie ki hoʻo tohi fakamolemole Chatforia",
-        "google": "Fakamālie mo Google",
-        "apple": "Fakamālie mo Apple",
-        "googleUnavailable": "Fakamālie Google ʻoku ʻikai ke maʻu",
-        "appleUnavailable": "Fakamālie Apple ʻoku ʻikai ke maʻu",
-        "or": "pe",
-        "email": "Email",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Hingoa fakamolemole",
-        "usernamePh": "Hoʻo hingoa fakamolemole",
-        "passwordLabel": "Password",
-        "passwordPh": "Hoʻo password",
-        "keepSignedIn": "Fakamālie au ʻi he meʻa",
-        "forgot": {
-          "title": "Ngaohi Password",
-          "helper": "Fakahu e email naʻa ke fakaʻata ai hoʻo tohi fakamolemole Chatforia pea mau fakamolemole ha link fakamālie ke fakafoki hoʻo password.",
-          "emailInvalid": "Fakahu ha email fakatonu.",
-          "genericError": "ʻIkai lava ʻo tokoni. Fakafoki ʻi he taimi siʻi.",
-          "sending": "Fakamolemole link fakafoki…",
-          "sendCta": "Fakamolemole Link Fakafoki",
-          "sentLabel": "Fakamolemole!",
-          "sentHelper": "Kapau ʻoku maʻu ha tohi fakamolemole mo e email ko ʻeni, kuo mau fakamolemole ha link fakafoki password. ʻE lava ʻo fie taimi siʻi ke maʻu. Vakai hoʻo spam pe promotions folder.",
-          "previewDev": "Fakaata Email (Dev)",
-          "backToLogin": "Foki ki he Fakamālie"
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
         },
-        "submit": "Fakamālie",
-        "loggingIn": "Fakamālie…",
-        "newHere": "Foʻou heni? <link>Fakatupu ha tohi fakamolemole</link>",
-        "ssoUnavailable": "Single-sign-on ʻoku ʻikai ke maʻu he taimi ko ʻeni. Fakaʻata hingoa fakamolemole & password.",
-        "error": {
-          "missing": "Fakahu hoʻo fakamālie.",
-          "invalid": "Hingoa fakamolemole pe password hala",
-          "denied": "Fakamālie ʻoku ʻikai ke tali.",
-          "unprocessable": "Fakatonu hala. Vakai hoʻo hingoa fakamolemole/email mo e password.",
-          "deviceLimit": "Fakatonu meʻa ʻosi maʻu ʻi he fakatau Free. Fakamālie ʻi ha meʻa kehe pe fakalakalaka ki he Premium ke fakakau meʻa kehe.",
-          "premiumRequired": "Ko e ngāue ko ʻeni ʻoku fie maʻu ha fakatau Premium."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Fakakakā fakamālie…"
-    },
-    "dialer": {
-      "title": "Lea",
-      "subtitle": "Keypad & fakamolemole fakamuimui. (Kapau ʻoku ʻikai ke ke fakaʻata PSTN, kamata lea mei he fakamolemole header.)",
-      "enterNumberPh": "Fakahu fika",
-      "call": "Lea",
-      "backspace": "Backspace",
-      "recents": "Fakamolemole fakamuimui",
-      "recentsEmpty": "ʻIkai ha lea fakamuimui he taimi ko ʻeni.",
-      "enterNumber": "Fakahu fika",
-      "enterNumberAria": "Fakahu fika",
-      "key": "Kī {{d}}",
-      "noRecents": "ʻIkai ha lea fakamuimui he taimi ko ʻeni."
-    },
-    "video": {
-      "title": "Vitio",
-      "chooseType": "Fili ha founga vitio.",
-      "directTitle": "Vitio fakatonu",
-      "directDesc": "Lea vitio 1:1 mo ha fakamolemole kehe.",
-      "directStart": "Kamata",
-      "roomsTitle": "Fale",
-      "roomsDesc": "Vitio fakakau lahi ʻi he hingoa fale fakakau.",
-      "roomsIntro": "Fakakau pe fakatupu ha fale fakakau lahi.",
-      "roomNameLabel": "Hingoa fale",
-      "roomNamePh": "e.g. team-standup",
-      "join": "Fakakau",
-      "deeplinkTip": "Tip: te ke lava ʻo deep link vave ki he <code>/video?room=room-name</code>.",
-      "hub": {
-        "title": "Vitio",
-        "subtitle": "Fili ha founga vitio."
-      },
-      "direct": {
-        "title": "Vitio fakatonu",
-        "subtitle": "Kamata ha lea vitio 1:1 ʻi he fika telefoni pe hingoa fakamolemole Chatforia.",
-        "desc": "Lea vitio 1:1 mo ha fakamolemole kehe.",
-        "start": "Kamata",
-        "callBtn": "Lea",
-        "callByPhone": {
-          "title": "Lea ʻi he telefoni"
-        },
-        "phone": {
-          "placeholder": "Fakahu telefoni (e.g., +1-555-123-4567)",
-          "aria": "Telefoni ke lea"
-        },
-        "tipInvite": "Tip: Langa ha fika pea lea taʻe fakamolemole ha fakamolemole. Mau fakaafe kau taʻe fakamolemole ʻi he link.",
-        "findUser": {
-          "title": "Fakatonu ha fakamolemole"
-        },
-        "search": {
-          "placeholder": "Fakatonu ʻi he hingoa pe hingoa fakamolemole",
-          "aria": "Fakatonu ʻi he hingoa pe hingoa fakamolemole",
-          "btn": "Fakatonu"
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
         }
       },
-      "rooms": {
-        "title": "Fale",
-        "subtitle": "Fakatupu ha fale pe fakakau ha fale ʻoku maʻu ʻi he tā ʻo e hingoa tatau.",
-        "desc": "Vitio fakakau lahi ʻi he hingoa fale fakakau.",
-        "roomLabel": "Hingoa fale",
-        "roomPlaceholder": "e.g. team-standup",
-        "roomAria": "Hingoa fale",
-        "joinCreate": "Fakakau / Fakatupu",
-        "tip": "Tip: fakakau e hingoa ko ʻeni ki he kau kehe, pe deep link ki he <code>/video?room=room-name</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Kamata ha lea vitio fakatonu 1:1.",
-      "findUserLabel": "Fakatonu ha fakamolemole",
-      "findUserPh": "Fakatonu ʻi he hingoa pe hingoa fakamolemole",
-      "search": "Fakatonu",
-      "call": "Lea"
-    },
-    "phoneWarning": {
-      "title": "Hoʻo fika ʻoku fie fakamotuʻa vave",
-      "body": "Hoʻo fika {{number}} ʻe ikuna ʻi he {{date}} kapau ʻoku ʻikai ke fakafoki.",
-      "button": "Fakamālie hoku fika"
-    },
-    "support": {
-      "helpFab": "Tokoni",
-      "openSupportAria": "Fakaava tokoni",
-      "badge": "Tokoni",
-      "heading": "Ko e hā ʻe lava ʻe mau ke tokoni?",
-      "tabs": {
-        "help": "Fale tokoni",
-        "contact": "Fakamālie mau"
-      },
-      "searchPlaceholder": "Fakatonu ha tokoni fakatonu…",
-      "searchAria": "Fakatonu tokoni",
-      "searchBtn": "Fakatonu",
-      "quickTopicsLabel": "Fakatonu vave",
-      "quickTopics": {
-        "login": "ʻIkai lava ʻo fakamālie",
-        "billing": "Totongi / billing",
-        "abuse": "Fakamālie abuse"
-      },
-      "trySearching": "Fakaʻata fakatonu ki he “fakaliliu”, “fakamolemole”, pe “fakamālie”.",
-      "article": "Tokoni",
-      "openArticle": "Fakaava tokoni",
-      "contactIntro": "Mau fakamolemole ha fakamālie ʻi he email. Fakakau fakamālie ke tokoni ki he fakatonu.",
-      "topicAria": "Fili ha topiki",
-      "messagePlaceholder": "Tā hoʻo fakamolemole…",
-      "sendBtn": "Fakamolemole",
-      "sent": "Fakamolemole ʻosi fakamolemole. ʻE fakamālie ʻe mau ʻi he email.",
-      "sendError": "ʻIkai lava ʻo fakamolemole. Fakamālie support@chatforia.com."
-    },
-    "encryptionRecovery": {
-      "title": "Pule Fakapuliki",
-      "description": "Fakamolemole, fakafoki, fakamālie, pe fakafoki hoʻo kī fakapuliki.",
-      "alert": {
-        "keyRequiredTitle": "Kī fakapuliki fie maʻu",
-        "keyRequiredBody": "Ko e browser ko ʻeni ʻoku ʻikai ke ne lava ʻo fakatonu hoʻo fakamolemole fakapuliki he taimi ko ʻeni. Fakafoki, fakamālie, pe fakafoki hoʻo kī ke fakamālie."
-      },
-      "sections": {
-        "createBackup": "Fakatupu fakamolemole kī",
-        "restoreFromBackup": "Fakafoki mei he fakamolemole tohi fakamolemole",
-        "resetEncryption": "Fakafoki fakapuliki"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Unlock passcode (meʻa fakalotofonua)",
-          "description": "Fakaʻata ke fakatonu hoʻo kī fakalotofonua ʻi muʻa ke fakalahi"
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
         },
-        "backupPassword": {
-          "label": "Password fakamolemole",
-          "description": "Fakaʻata ke fakapuliki e faili fakamolemole"
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
         },
-        "restoreBackupPassword": {
-          "label": "Password fakamolemole",
-          "description": "Ko e password naʻa ke fakatupu ʻi he taimi naʻa ke fakamolemole hoʻo kī ʻi he iPhone"
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
         },
-        "newLocalPasscode": {
-          "label": "Passcode fakalotofonua foʻou",
-          "description": "Fakamālie kī ʻi he fakamotuʻa ʻi he browser ko ʻeni"
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
         },
-        "resetLocalPasscode": {
-          "label": "Passcode fakalotofonua foʻou",
-          "description": "Fie maʻu ʻi muʻa ke fakafoki ke fakamālie e kī foʻou ʻi he meʻa ko ʻeni"
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
         }
       },
-      "actions": {
-        "unlockKey": "Fakamālie kī fakapuliki",
-        "restoreFromBackup": "Fakafoki mei he fakamolemole tohi fakamolemole",
-        "resetEncryption": "Fakafoki Fakapuliki"
-      },
-      "messages": {
-        "backupCreated": "Fakamolemole kī ʻosi fakatupu mo fakalahi.",
-        "keyUnlocked": "Kī fakapuliki ʻosi fakamālie.",
-        "keyRestored": "Kī ʻosi fakafoki mei he fakamolemole tohi fakamolemole.",
-        "resetSuccess": "Fakapuliki ʻosi fakafoki fakalelei."
-      },
-      "errors": {
-        "restoreIncomplete": "Fakafoki kī ʻoku ʻikai ke fakakakā pe hala ki he tohi fakamolemole ko ʻeni",
-        "noBackup": "ʻIkai ha fakamolemole fakapuliki ʻi he tohi fakamolemole ko ʻeni",
-        "missingPublicKey": "Fakamolemole ʻoku ʻikai ha kī fakapuliki",
-        "noServerPublicKey": "Ko e tohi fakamolemole ko ʻeni ʻoku ʻikai ke ne fakaava ha kī fakapuliki server",
-        "serverBackupMismatch": "Fakamolemole server ʻoku ʻikai ke tau mo e kī fakapuliki tohi fakamolemole ʻi he taimi ko ʻeni",
-        "incompleteMetadata": "Fakamolemole metadata ʻoku ʻikai ke fakakakā",
-        "resetIncomplete": "Fakafoki fakapuliki ʻoku ʻikai ke fakakakā fakatonu"
-      },
-      "confirm": {
-        "reset": "Fakafoki fakapuliki ki he tohi fakamolemole ko ʻeni?\n\nFakamolemole fakapuliki motuʻa ʻe lava ʻo ʻikai ke lava ʻo lau kapau ʻoku ʻikai ke ke fakafoki e kī motuʻa hili."
-      },
-      "resetDescription": "Ko e ngāue ko ʻeni ʻoku fakatupu ha kī fakapuliki foʻou ki hoʻo tohi fakamolemole. Fakamolemole fakapuliki motuʻa ʻe lava ʻo ʻikai ke lava ʻo lau kapau ʻoku ʻikai ke ke fakafoki e kī motuʻa hili."
-    },
-    "footer": {
-      "plans": "Fakatau & Fakamolemole",
-      "about": "Fekauʻaki mo Chatforia",
-      "careers": "Ngāue",
-      "press": "Press",
-      "advertise": "Fakamālie",
-      "contact": "Fakamālie mau",
-      "help": "Fale tokoni",
-      "status": "Peisi Status",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Fakatonu Fakamālie",
-      "terms": "Fakatonu Tokoni",
-      "cookies": "Settings Cookie",
-      "doNotSell": "ʻIkai fakatau hoku fakamālie",
-      "language": "Lea",
-      "contactShort": "Fakamālie",
-      "aria": "Footer",
-      "homeAria": "Chatforia fale",
-      "section": {
-        "company": "KĀINGA",
-        "support": "TOKONI",
-        "downloads": "FAKALAHI",
-        "legal": "FAKATONU"
-      },
-      "links": {
-        "plans-pricing": "Fakatau & Fakamolemole",
-        "about-chatforia": "Fekauʻaki mo Chatforia",
-        "careers": "Ngāue",
-        "press": "Press",
-        "advertise": "Fakamālie",
-        "getting-started": "Kamata",
-        "help-center": "Fale tokoni",
-        "contact-us": "Fakamālie mau",
-        "status-page": "Peisi Status",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Fakatonu Fakamālie",
-        "terms-of-service": "Fakatonu Tokoni",
-        "do-not-sell-my-info": "ʻIkai fakatau hoku fakamālie",
-        "cookie-settings": "Settings Cookie"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Patent ʻi he taimi ko ʻeni",
-      "backToTop": "↑ Foki ki olunga"
-    },
-    "press": {
-      "title": "Press",
-      "contactLine": "Ki he fakamālie media, fakamālie mau ʻi he",
-      "boilerplateTitle": "Boilerplate",
-      "boilerplateBody": "Chatforia ko ha app fakamolemole fakamālie fakamuʻomuʻa ʻoku ne fakalelei fakamolemole lea kehe. Fakamolemole ʻoku fakapuliki fakatautaha fakatonu, mo e fakaliliu ʻi loto ʻoku fakalelei lea 100+ ʻi he taimi tonu. Kau fakamolemole te nau lava ʻo fakalelei fakamolemole fakamotuʻa, fakamālie ʻo lau fakatonu, mo fakamālie ʻi he meʻa. Maʻu ʻi he iOS, Android, mo e web.",
-      "assetsTitle": "Meʻa brand",
-      "assetsSubtitle": "Logos, screenshots, mo e fakaata meʻa.",
-      "downloadCta": "Fakalahi media kit",
-      "downloadTitle": "Maʻu e app",
-      "scanTip": "ʻI he desktop? Fakaʻata mo hoʻo telefoni ke maʻu e app.",
-      "qrAria": "Fakaava peisi Chatforia",
-      "appStore": "Fakalahi ʻi he App Store",
-      "googlePlay": "Maʻu ia ʻi he Google Play"
-    },
-    "careers": {
-      "title": "Ngāue",
-      "intro": "ʻOku mau siʻi kau fakatupu ʻoku mau langa Chatforia — ha fakamolemole fakamāmani fakamālie fakatonu ʻi he web, iOS, mo Android. Kapau ʻoku ke fie maʻu fakamālie, fakapuliki, mo e fakamolemole fakatonu fakamālie, ʻoku mau fie fanongo meiate koe.",
-      "openRoles": "<b>Fakatonu ngāue fakatupu:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
-      "apply": "Pe ʻoku ke fakatonu: Fakaʻata e button ʻi olunga ke fakamolemole hoʻo resume mo e link.",
-      "emailCta": "Fakamolemole hoʻo resume",
-      "whyNow": "Ko e hā ʻoku fie kau ai he taimi ko ʻeni?",
-      "whyBullets": "• Tokoni ki he fakatupu fakamolemole fakamāmani foʻou.\n• Fakalahi fakalakalaka ʻoku ngāue ʻi he web, iOS, mo Android.\n• Ngāue vave mo e fakatupu ʻi he architecture mo e fakatonu meʻa.\n• Pule ha konga pāoa ʻi he stack: fakamolemole, lea, vitio, fakapuliki, telefoni, AI.\n• Kau ʻi he kamata — ʻi muʻa he kau fakamolemole ʻe fakalahi."
-    },
-    "about": {
-      "title": "Fekauʻaki mo Chatforia",
-      "description": "Chatforia ko ha fakamolemole fakamālie fakalelei lea mo e fakapuliki fakatautaha, fakaliliu vave, mo e lea/vitio. Ko homau fakatonu ko e fakatonu: tokoni ki he kau tangata ke fakatau—fakamālie, fakamālie, mo e lea kehe.",
-      "valuesTitle": "Ko e hā ʻoku mau fie maʻu",
-      "values": {
-        "privacy": "<b>Fakamālie fakamuʻomuʻa:</b> Fakapuliki fakatautaha fakatonu.",
-        "access": "<b>Fakamālie ki he taha kotoa:</b> Fakaliliu fakatonu lea 100+.",
-        "control": "<b>Pule:</b> Fakamolemole fakamotuʻa & fakamālie ʻo lau ʻoku fakatonu.",
-        "privacy_aria": "Fakamālie fakamuʻomuʻa: Fakapuliki fakatautaha fakatonu.",
-        "access_aria": "Fakamālie ki he taha kotoa: Fakaliliu fakatonu lea 100+.",
-        "control_aria": "Pule: Fakamolemole fakamotuʻa mo e fakamālie ʻo lau ʻoku fakatonu."
-      },
-      "howTitle": "Pe ʻoku ngāue ai Chatforia",
-      "howDescription": "Fakamolemole ʻoku fakapuliki ʻi hoʻo meʻa ʻi muʻa ke hiki. Fakaliliu, fakamolemole, mo fakamālie meʻa ʻoku fokotuʻu ke fakasi ha meʻa ʻoku mau lava ʻo vakai ʻi he server."
-    },
-    "advertise": {
-      "title": "Fakamālie mo Chatforia",
-      "description": "Fakamālie kau fakamolemole fakatonu mo e fakatonu fakamālie fakatonu. Mau foaki banner ʻi he feituʻu fakamālie, fakamālie, mo e fakamālie fale. Kau Premium ʻoku ʻikai ke nau vakai ads.",
-      "adsense": {
-        "withPubIdShort": "Mau fakaʻata inventory ʻi he Google AdSense. Te ke lava ʻo fakatonu Chatforia mo e publisher ID {{pubId}}, pe fakaʻata e form ʻi olunga ki he fakamālie fakatonu.",
-        "noPubIdShort": "Mau fakaʻata ha inventory siʻi ʻi he Google AdSense. Fakamālie fakatonu ʻoku maʻu—fakaʻata e form ʻi olunga."
-      },
-      "inventoryHeader": "Inventory & Specs",
-      "placement": {
-        "displayBadge": "Fakaava",
-        "acceptedSizes": "Fakatonu size",
-        "adsenseSlot": "AdSense slot:"
-      },
-      "noPlacementsPublic": "Mau fakakakā homau ad inventory. Tala mai hoʻo fakamālie pea mau fakatonu ha placement.",
-      "whyHeader": "Ko e hā Chatforia?",
-      "why": {
-        "highSession": "Fakamolemole lahi mo e taimi lahi ʻi he fakamolemole UI",
-        "brandSafe": "Fakatonu fakamālie; fakatonu fakamālie fakatonu",
-        "sponsoredMoments": "Fakamālie fakatonu (e.g., “Kamata ha Fakamolemole” modal) maʻu",
-        "deals": "Fakamālie fakatonu pe fakatonu ʻi he AdSense/Google Ads"
-      },
-      "contactHeader": "Fakamālie",
-      "form": {
-        "submittedMsg": "Mālō! Hoʻo fakamālie ʻoku ʻi he hala. Mau fakamālie koe vave.",
-        "missingRequired": "Fakahu hingoa, email, mo e fakamolemole.",
-        "successToast": "Mālō! Mau fakamālie koe vave.",
-        "mailtoInfo": "Fakaava hoʻo email client ke fakamolemole e fakamālie…",
-        "nameLabel": "Hoʻo hingoa",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "Email",
-        "emailPlaceholder": "you@company.com",
-        "companyLabel": "Kāingá",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Fakamolemole mā (fakatonu)",
-        "budgetPlaceholder": "e.g. $1,000–$20,000+",
-        "messageLabel": "Tala mai hoʻo fakamālie",
-        "messagePlaceholder": "Fakatonu, ʻaho, KPI, fakatonu placement…",
-        "sendCta": "Fakamolemole fakamālie"
-      },
-      "legal": {
-        "disclaimerStart": "ʻI he fakamolemole, ʻoku ke tali ki homau",
-        "terms": "Fakatonu",
-        "and": "mo",
-        "privacy": "Fakatonu Fakamālie"
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
       }
     }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
+  },
+  "family": {
+    "title": "Fāmili",
+    "loading": "Fakalahi hoʻo fāmili fakamolemole…",
+    "error": {
+      "load": "Hala ke fakalahi fāmili fakamolemole.",
+      "invite": "ʻIkai lava ʻo fakatupu ha fakaafe. Vakai ko koe pule fāmili pea fakafoki.",
+      "checkout": "ʻIkai lava ʻo kamata checkout ki he fakatau Fāmili. Fakafoki."
+    },
+    "billing": {
+      "myPlanTitle": "Ko hoku fakatau",
+      "myPlanError": "ʻIkai lava ʻo fakalahi hoʻo fakatau.",
+      "myPlanLoading": "Fakalahi hoʻo fakatau…",
+      "currentPlan": "Fakatau ʻi he taimi ko ʻeni",
+      "renewsAt": "Fakafou ʻi he",
+      "freePlanCopy": "ʻOku ke ʻi he fakatau taʻe totongi. Fakalakalaka ke fakalelei ha meʻa kehe.",
+      "upgradeCta": "Fakalakalaka fakatau",
+      "changePlanCta": "Fakafoki fakatau",
+      "manageBilling": "Pule billing",
+      "portalError": "ʻIkai lava ʻo fakaava billing portal he taimi ko ʻeni.",
+      "cancelNow": "Ikuna he taimi ko ʻeni",
+      "cancelNowHelp": "Te ke lava ʻo pule pe ikuna hoʻo fakatau ʻi he billing portal, pe ikuna vave ʻi olunga.",
+      "cancelNowConfirm": "ʻOku ke fakatonu ke ikuna hoʻo fakatau vave? ʻIkai ke lava ʻo fakafoki.",
+      "cancelNowError": "ʻIkai lava ʻo ikuna hoʻo fakatau he taimi ko ʻeni. Fakafoki pe fakaʻata Manage billing."
+    },
+    "none": {
+      "title": "ʻIkai ha fāmili ʻi he taimi ko ʻeni",
+      "body": "Ke fakatupu ha Chatforia Fāmili mo e data pool fakakau, kamata ha fakatau Fāmili.",
+      "goUpgrade": "Kamata ha fakatau Fāmili",
+      "viewPlans": "Vakai ha fakatau kotoa"
+    },
+    "group": {
+      "defaultName": "Ko hoku Chatforia Fāmili",
+      "role": "Ko hoʻo role: {{role}}"
+    },
+    "role": {
+      "owner": "Pule",
+      "member": "Fakamolemole"
+    },
+    "data": {
+      "heading": "Data pool fakakau",
+      "caption": "Kau fāmili kotoa ʻoku fakakau e data pool ko ʻeni. Mau fakamālie koe kapau ʻoku ke fie lahi."
+    },
+    "members": {
+      "title": "Kau fāmili",
+      "name": "Hingoa",
+      "role": "Ko hoʻo role: {{role}}",
+      "usage": "Ngāue",
+      "limit": "Limit",
+      "unlimited": "ʻIkai ha limit fakatonu",
+      "inviteCta": "Fakaafe fakamolemole"
+    },
+    "invite": {
+      "title": "Fakaafe ha fakamolemole foʻou",
+      "body": "Fakamolemole ha email pe link ke fakaafe ha taha ki hoʻo fāmili data pool fakakau.",
+      "emailLabel": "Email (fakatonu)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Fakatupu fakaafe",
+      "linkLabel": "Link fakaafe",
+      "copyAria": "Langa link fakaafe",
+      "expiryHint": "Ko e link ko ʻeni ʻoku fakamotuʻa ʻi he ʻaho siʻi. Te ke lava ʻo fakatupu ha foʻou."
+    },
+    "join": {
+      "title": "Fakakau ha fāmili",
+      "body": "Kuo fakaafe koe ke fakakau ha Chatforia Fāmili mo fakakau honau data pool.",
+      "cta": "Tali pea fakakau fāmili",
+      "ctaLogin": "Fakamālie pea fakakau fāmili",
+      "success": "Kuo ke fakakau e fāmili ko ʻeni. Te ke fakakau honau data pool he taimi ko ʻeni.",
+      "goFamily": "Foki ki he fāmili dashboard",
+      "error": "ʻIkai lava ʻo fakakau koe ki he fāmili ko ʻeni. Ko e fakaafe ʻoku hala pe fakamotuʻa."
+    }
+  },
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
+  },
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
+    },
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
+    },
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
+    },
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
+    },
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
+    },
+    "cta": {
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Founga ʻOku Ngāue Ai ʻa Chatforia",
+    "intro": "ʻOku fakataumuʻa ʻa Chatforia ke faingofua ʻa e fetuʻutaki...",
+    "step1Title": "1. Fakatupu ha Account",
+    "step1Desc": "Saini hake ʻaki hoʻo ʻimeili pe username...",
+    "step2Title": "2. Kamata ha Talanoa",
+    "step2Desc": "Fetuʻutaki mo e niʻihi kehe...",
+    "step3Title": "3. Talanoa ʻi he Taimi Moʻoni",
+    "step3Desc": "ʻOku vave ʻa e tuku atu ʻo e ngaahi message...",
+    "step4Title": "4. Fetuʻutaki Fakavahaʻapuleʻanga",
+    "step4Desc": "ʻOku tokoni ʻa e fakaʻuhinga lea ki he kau fakaʻaongaʻi...",
+    "step5Title": "5. Nofo ʻi he Pule",
+    "step5Desc": "Puleʻi hoʻo ngaahi setting..."
+  },
+  "safety": {
+    "title": "Fakamaluhia mo e Ngaahi Tuʻutuʻuni ʻa e Komiuniti",
+    "intro": "ʻOku tukupā ʻa Chatforia ke tauhi ha ʻātakai malu...",
+    "respectTitle": "Fetuʻutaki Fakaʻapaʻapa",
+    "respectDesc": "ʻOku totonu ke fakaʻapaʻapa ʻa e kau fakaʻaongaʻi...",
+    "prohibitedTitle": "Meʻa ʻOku Tapui",
+    "prohibited": {
+      "illegal": "Ngaahi ngāue ʻoku ʻikai fakalao",
+      "harassment": "Fakahohaʻasi pe fakasesele",
+      "hate": "Lea ʻita pe fakafaikehekehe",
+      "explicit": "Meʻa ʻoku ʻikai totonu",
+      "spam": "Spam pe ngaahi founga loi"
+    },
+    "toolsTitle": "Ngaahi Meʻangāue Fakamaluhia",
+    "tools": {
+      "report": "Lipooti ʻa e ʻulungaanga ʻoku ʻikai totonu",
+      "block": "Poloka ʻa e kau fakaʻaongaʻi",
+      "control": "Puleʻi ʻa e ngaahi setting fakamaluhia"
+    },
+    "enforcementTitle": "Fakatinoga",
+    "enforcementDesc": "ʻE lava ke mau fai ha ngāue ki he ngaahi account..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "ʻUhinga ʻOku Mahuʻinga Ai ʻa e Ngaahi Platform Talanoa",
+      "intro": "Kuo hoko ʻa e ngaahi platform talanoa ko e taha ʻo e ngaahi meʻa mahuʻinga taha ʻi he fetuʻutaki ʻi he māmani ʻi he ʻaho ni...",
+      "everydayTitle": "Fetuʻutaki ʻi he ʻAho Kotoa",
+      "everydayDesc": "ʻOku falala ʻa e kakai ki he ngaahi app talanoa ʻi he ʻaho kotoa...",
+      "speedTitle": "Vave mo Faingofua",
+      "speedDesc": "ʻOku tuku atu ʻa e ngaahi message ʻi he vave...",
+      "globalTitle": "Aʻu ki he Māmani Kotoa",
+      "globalDesc": "ʻOku fakahoko ʻe he ngaahi platform ni ʻa e kakai ʻi he māmani kotoa...",
+      "privacyTitle": "Fakamaluhia mo Pule",
+      "privacyDesc": "ʻOku tokanga ʻa e ngaahi platform ki he pule ʻa e fakaʻaongaʻi...",
+      "futureTitle": "Kahaʻu ʻo e Talanoa",
+      "futureDesc": "ʻOku kei liliu pea tupu ʻa e talanoa...",
+      "outro": "ʻOku fokotuʻu ʻa Chatforia ʻi he ngaahi tefitoʻi manatu ni..."
+    },
+    "global": {
+      "title": "Kahaʻu ʻo e Fetuʻutaki Fakavahaʻapuleʻanga",
+      "intro": "Kuo vave ʻaupito ʻa e liliu ʻo e fetuʻutaki...",
+      "barriersTitle": "Toʻo ʻa e Ngaahi ʻĀrai",
+      "barriersDesc": "ʻOku lava ʻe he kakai ke fetuʻutaki ʻi he māmani kotoa...",
+      "translationTitle": "Ngāue ʻa e Fakaʻuhinga Lea",
+      "translationDesc": "Kuo hoko ʻa e lea ko e ʻārai ʻi he kuohili...",
+      "realtimeTitle": "Fetuʻutaki ʻi he Taimi Moʻoni",
+      "realtimeDesc": "ʻOku mahuʻinga ʻa e vave...",
+      "privacyTitle": "Fakamaluhia mo Malu",
+      "privacyDesc": "ʻOku fie maʻu ʻe he kakai ke malu ʻa ʻenau talanoa...",
+      "futureTitle": "Meʻa ʻe hoko mai",
+      "futureDesc": "ʻE fakakau mai ʻe he kahaʻu ha ngaahi meʻa foʻou...",
+      "outro": "ʻOku kau ʻa Chatforia ʻi he liliu ni..."
+    },
+    "index": {
+      "title": "Blog ʻa Chatforia",
+      "intro": "Sivisiviʻi ʻa e ngaahi fakakaukau fekauʻaki mo e fetuʻutaki...",
+      "post1": "Founga ke Talanoa Malu ʻi he ʻInitaneti",
+      "post2": "Kahaʻu ʻo e Fetuʻutaki Fakavahaʻapuleʻanga",
+      "post3": "ʻUhinga ʻOku Mahuʻinga Ai ʻa e Ngaahi Platform Talanoa"
+    },
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
+      },
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
+      },
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
+      },
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
+      },
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Fekauʻaki mo Chatforia",
+    "description": "Ko Chatforia ha platform talanoa fakaonopooni kuo fokotuʻu ke malu pea lava ke fetuʻutaki ʻi he ngaahi lea kehekehe...",
+    "valuesTitle": "Ngaahi meʻa ʻoku mau mahuʻingaʻia ai",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
+    },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Fakamaluhia Muʻomuʻa",
+    "privacyDesc": "Encryption mālohi mo e ngaahi setting ʻoku puleʻi ʻe he fakaʻaongaʻi",
+    "accessTitle": "Avanoa ki he Kotoa",
+    "accessDesc": "Fakaʻuhinga lea ʻoku fakakau ʻi loto",
+    "controlTitle": "Pule",
+    "controlDesc": "Ngaahi meʻa hange ko e ngaahi message ʻoku mole mo e fakahaaʻi kuo lau"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
+    "why": {
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
+    },
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
+    },
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+    },
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
+    },
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
+    },
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
+    },
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+    },
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Tuʻutuʻuni Fakafoki Paʻanga",
+    "lastUpdated": "Fakatonutonu fakamuimui:",
+    "intro": "ʻI Chatforia, ʻoku mau feinga ke ʻatu ha ngāue lelei ki he kau fakaʻaongaʻi kotoa. ʻOku fakamatalaʻi ʻe he tuʻutuʻuni ni ʻa e taimi ʻe lava ai ke fakafoki paʻanga.",
+    "subscriptions": {
+      "title": "Ngaahi Totongi ʻOku Hokohoko Atu",
+      "body": "ʻOku totongi ʻa e ngaahi koloa ni ki muʻa pea hokohoko atu ʻi ha taimi pau. ʻE lava ke ke fakangata ʻi ha taimi pē ʻi hoʻo ngaahi setting pe ʻi he platform naʻa ke fakatau ai."
+    },
+    "eligibility": {
+      "title": "Tuʻunga ke Fakafoki Paʻanga",
+      "body": "ʻE lava ke fakafoki paʻanga kapau ʻoku ʻi ai ha totongi tuʻo ua, fehalaaki ʻi he totongi, pe ko ha palopalema fakatekinikale ʻoku ʻikai lava ai ke ke ngāue ʻi he ngaahi feature totongi. ʻOku siofi ʻa e kole kotoa pē ʻi ha founga fakafoʻituitui."
+    },
+    "nonRefundable": {
+      "title": "ʻIkai Fakafoki",
+      "body": "ʻI he lahi taha, ʻoku ʻikai ke mau fakafoki paʻanga ki he taimi ʻoku ʻikai ngāueʻaki, konga ʻi he taimi totongi, pe ʻikai fakangata ki muʻa ʻi he toe fakafou."
+    },
+    "thirdParty": {
+      "title": "Ngaahi Fakatau ʻi he Fika Tolu",
+      "body": "Kapau naʻe fakatau ʻi he ngaahi platform hange ko e Apple App Store, ʻoku totonu ke ke kole fakafoki paʻanga ʻi ai tonu."
+    },
+    "contact": {
+      "title": "Fetuʻutaki",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
+    },
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
+    },
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
+    },
+    "help": {
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
+    },
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

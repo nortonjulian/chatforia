@@ -7,10 +7,24 @@
     "cancelAria": "منسوخ ڪريو",
     "copy": "ڪاپي ڪريو",
     "copied": "ڪاپي ٿيو!",
-    "errorWithMessage": "غلطي: {{message}}"
+    "errorWithMessage": "غلطي: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "مکيه مواد ڏانھن وڃو"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "ڪي بيڪ اپ ٺاھيو ۽ ڊائون لوڊ ڪيو ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "ھڪ فائل منتخب ڪريو ۽ پاس ورڊ داخل ڪريو.",
     "imported": "پرائيويٽ ڪي ھن ڊوائيس تي درآمد ڪئي. اوھان ھاڻي پراڻا پيغام پڙھي سگھو ٿا.",
     "enterPassword": "پنھنجو اڪائونٽ پاس ورڊ داخل ڪريو ته اسان اوھان جي ڪيز کي محفوظ طور تي بيڪ اپ ڪري سگھون."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "ھر ڪنھن لاءِ، ھر جاءِ تي محفوظ پيغام رسائي",
@@ -88,7 +198,19 @@
       "passwordDescription": "گھٽ ۾ گھٽ 6 اکر. مضبوط، منفرد پاس ورڊ استعمال ڪريو.",
       "smsConsent": "اکائونٽ ٺاھڻ سان اوھان Chatforia جي سرگرمي سان لاڳاپيل SMS نوٽيفڪيشن حاصل ڪرڻ لاءِ متفق آھيو (مثلاً ٻين صارفين کان پيغام). پيغام ۽ ڊيٽا ريٽ لاڳو ٿي سگھن ٿا. اوھان سيٽنگز ۾ ڪنھن به وقت آپٽ آئوٽ ڪري سگھو ٿا.",
       "termsLink": "سروس جي شرائط",
-      "privacyLink": "پرائيويسي پاليسي"
+      "privacyLink": "پرائيويسي پاليسي",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "ڏانھن:",
     "enterRecipient": "نالو يا نمبر داخل ڪريو",
@@ -99,11 +221,95 @@
     "addRecipient": "شروع ڪرڻ لاءِ مٿي وصول ڪندڙ شامل ڪريو…",
     "oneRecipient": "مھرباني ڪري ھاڻي ھڪ وصول ڪندڙ داخل ڪريو.",
     "enterValidRecipient": "محفوظ ڪيل رابطي جو نالو يا فون نمبر داخل ڪريو.",
-    "sendFailed": "موڪلڻ ناڪام. تفصيل لاءِ ڪنسول چيڪ ڪريو."
+    "sendFailed": "موڪلڻ ناڪام. تفصيل لاءِ ڪنسول چيڪ ڪريو.",
+    "logIn": "لاگ ان ڪريو",
+    "seePlans": "پلان ۽ قيمت ڏسو",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "اکائونٽ ٺاھڻ سان اوھان Chatforia جي سرگرمي سان لاڳاپيل SMS نوٽيفڪيشن حاصل ڪرڻ لاءِ متفق آھيو (مثلاً ٻين صارفين کان پيغام). پيغام ۽ ڊيٽا ريٽ لاڳو ٿي سگھن ٿا. اوھان سيٽنگز ۾ ڪنھن به وقت آپٽ آئوٽ ڪري سگھو ٿا.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "ھوم",
-    "header": "اوھان جا پيغام",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "چيٽ شروع ڪرڻ لاءِ پيغام موڪليو.",
     "sendButton": "پيغام موڪليو",
     "gifPicker": "GIF پڪر کوليو",
@@ -115,225 +321,30 @@
     "sendTooltipEmpty": "موڪلڻ لاءِ پيغام ٽائيپ ڪريو",
     "send": "موڪليو",
     "welcomeMessage": "Chatforia ۾ خوش آمدید",
+    "getStarted": "شروع ڪريو",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "نالو يا نمبر داخل ڪريو",
     "addRecipient": "شروع ڪرڻ لاءِ مٿي هڪ وصول ڪندڙ شامل ڪريو…",
-    "getStarted": "شروع ڪريو"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "واپسي پاليسي",
-    "lastUpdated": "آخري ڀيرو اپڊيٽ ڪيو ويو:",
-    "intro": "Chatforia ۾، اسان ڪوشش ڪندا آهيون ته سڀني استعمال ڪندڙن کي اعليٰ معيار جي خدمت فراهم ڪريون. هي واپسي پاليسي بيان ڪري ٿي ته ڪڏهن واپسي جاري ٿي سگهي ٿي.",
-    "subscriptions": {
-      "title": "سبسڪرپشنون",
-      "body": "سبسڪرپشنون اڳواٽ ۽ بار بار بنياد تي بل ڪيون وڃن ٿيون. توهان پنهنجي اڪائونٽ سيٽنگن يا خريداري لاءِ استعمال ٿيل پليٽفارم ذريعي ڪنهن به وقت منسوخ ڪري سگهو ٿا."
-    },
-    "eligibility": {
-      "title": "واپسي لاءِ اهل هجڻ",
-      "body": "واپسي ڊپليڪيٽ چارجز، بلنگ ۾ غلطيون، يا اهڙن ٽيڪنيڪل مسئلن لاءِ ڏني وڃي سگهي ٿي جيڪي ادائيگي ٿيل فيچرز تائين رسائي کي روڪين ٿا. سڀ درخواستون ڪيس جي بنياد تي جائزو ورتيون وڃن ٿيون."
-    },
-    "nonRefundable": {
-      "title": "غير واپسي لائق",
-      "body": "عام طور تي، اسان غير استعمال ٿيل وقت، جزوي سبسڪرپشن مدتن، يا نئين تجديد کان اڳ منسوخ نه ڪرڻ جي صورت ۾ واپسي فراهم نٿا ڪريون."
-    },
-    "thirdParty": {
-      "title": "ٽئين ڌر جون خريداريون",
-      "body": "جيڪڏهن خريداري ٽئين ڌر جي پليٽفارمز جهڙوڪ Apple App Store ذريعي ڪئي وئي آهي، ته واپسي سڌو انهن پليٽفارمز کان درخواست ڪرڻي پوندي."
-    },
-    "contact": {
-      "title": "رابطو",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Chatforia بابت",
-    "description": "Chatforia هڪ جديد ميسيجنگ پليٽفارم آهي جيڪو محفوظ، گهڻ ٻوليائي رابطي لاءِ تيار ڪيو ويو آهي...",
-    "valuesTitle": "اسان جون قدرون",
-    "privacyTitle": "پرائيويسي پهرين",
-    "privacyDesc": "مضبوط انڪرپشن ۽ استعمال ڪندڙ جي ڪنٽرول هيٺ پرائيويسي سيٽنگون",
-    "accessTitle": "سڀني لاءِ رسائي",
-    "accessDesc": "گهڻين ٻولين ۾ تعمير ٿيل ترجمو",
-    "controlTitle": "ڪنٽرول",
-    "controlDesc": "فيچرز جهڙوڪ غائب ٿيندڙ پيغام ۽ پڙهڻ جون رسيدون"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "ميسيجنگ پليٽفارمز اڄ وڌيڪ اهم ڇو آهن",
-      "intro": "ميسيجنگ پليٽفارمز اڄ جي دنيا ۾ رابطي لاءِ سڀ کان اهم اوزارن مان هڪ بڻجي ويا آهن...",
-      "everydayTitle": "روزمره رابطي",
-      "everydayDesc": "ماڻهو روزاني رابطي لاءِ ميسيجنگ ايپس تي ڀاڙين ٿا...",
-      "speedTitle": "رفتار ۽ سهولت",
-      "speedDesc": "پيغام فوري طور تي پهچن ٿا...",
-      "globalTitle": "عالمي رسائي",
-      "globalDesc": "ميسيجنگ پليٽفارمز ماڻهن کي سڄي دنيا ۾ ڳنڍين ٿا...",
-      "privacyTitle": "پرائيويسي ۽ ڪنٽرول",
-      "privacyDesc": "جديد ميسيجنگ پليٽفارمز استعمال ڪندڙن کي ڪنٽرول ڏيڻ تي ڌيان ڏين ٿا...",
-      "futureTitle": "ميسيجنگ جو مستقبل",
-      "futureDesc": "ميسيجنگ نون فيچرز سان مسلسل ترقي ڪري رهي آهي...",
-      "outro": "Chatforia انهن اصولن کي ذهن ۾ رکي ٺاهي وئي آهي..."
-    },
-
-    "global": {
-      "title": "عالمي رابطي جو مستقبل",
-      "intro": "رابطو تيزيءَ سان ترقي ڪري چڪو آهي...",
-      "barriersTitle": "رڪاوٽن کي ختم ڪرڻ",
-      "barriersDesc": "هاڻي ماڻهو سڄي دنيا ۾ هڪ ٻئي سان ڳنڍجي سگهن ٿا...",
-      "translationTitle": "ترجمي ٽيڪنالاجي جو ڪردار",
-      "translationDesc": "ٻولي روايتي طور تي هڪ رڪاوٽ رهي آهي...",
-      "realtimeTitle": "حقيقي وقت جو رابطو",
-      "realtimeDesc": "رفتار هڪ اهم عنصر آهي...",
-      "privacyTitle": "پرائيويسي ۽ سيڪيورٽي",
-      "privacyDesc": "استعمال ڪندڙ چاهين ٿا ته سندن ڳالهيون محفوظ هجن...",
-      "futureTitle": "اڳتي ڇا آهي",
-      "futureDesc": "عالمي رابطي جو مستقبل نون فيچرز سان گڏ هوندو...",
-      "outro": "Chatforia جهڙيون پليٽفارمز هن تبديلي جو حصو آهن..."
-    },
-
-    "index": {
-      "title": "Chatforia بلاگ",
-      "intro": "رابطي بابت ڄاڻ ڳوليو...",
-      "post1": "آن لائن محفوظ طريقي سان ڪيئن ڳالهايو",
-      "post2": "عالمي رابطي جو مستقبل",
-      "post3": "ميسيجنگ پليٽفارمز ڇو اهم آهن"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Chatforia ڪيئن ڪم ڪري ٿي",
-    "intro": "Chatforia رابطي کي سادو بڻائڻ لاءِ ٺاهي وئي آهي...",
-    "step1Title": "1. اڪائونٽ ٺاهيو",
-    "step1Desc": "پنهنجي اي ميل يا يوزرنيم سان سائن اپ ڪريو...",
-    "step2Title": "2. ڳالهه ٻولهه شروع ڪريو",
-    "step2Desc": "ٻين سان ڳنڍيو...",
-    "step3Title": "3. حقيقي وقت ميسيجنگ",
-    "step3Desc": "پيغام جلدي پهچن ٿا...",
-    "step4Title": "4. عالمي رابطو",
-    "step4Desc": "تعمير ٿيل ترجمو استعمال ڪندڙن جي مدد ڪري ٿو...",
-    "step5Title": "5. ڪنٽرول ۾ رهو",
-    "step5Desc": "پنهنجون سيٽنگون منظم ڪريو..."
-  },
-
-  "safety": {
-    "title": "حفاظت ۽ ڪميونٽي هدايتون",
-    "intro": "Chatforia محفوظ ماحول برقرار رکڻ لاءِ پرعزم آهي...",
-    "respectTitle": "احترام سان رابطو",
-    "respectDesc": "استعمال ڪندڙن کان توقع ڪئي وڃي ٿي ته هو احترام سان ڳالهائين...",
-    "prohibitedTitle": "ممنوع مواد",
-    "prohibited": {
-      "illegal": "غير قانوني سرگرميون",
-      "harassment": "هراسان ڪرڻ يا بُلنگ",
-      "hate": "نفرت انگيز تقرير يا امتياز",
-      "explicit": "فحش يا نقصانڪار مواد",
-      "spam": "اسپام يا فريب ڏيڻ واريون عملون"
-    },
-    "toolsTitle": "استعمال ڪندڙ حفاظت جا اوزار",
-    "tools": {
-      "report": "نامناسب رويو رپورٽ ڪريو",
-      "block": "استعمال ڪندڙن کي بلاڪ ڪريو",
-      "control": "پرائيويسي سيٽنگون منظم ڪريو"
-    },
-    "enforcementTitle": "نفاذ",
-    "enforcementDesc": "اسان اڪائونٽن خلاف ڪارروائي ڪري سگهون ٿا..."
-},
-  "chat": {
-    "selectPrompt": "چيٽ ڪرڻ شروع ڪرڻ لاءِ ٽيڪسٽ يا چيٽ روم منتخب ڪريو",
-    "newMessages": "نئون پيغام",
-    "typing": "{{name}} ٽائيپ ڪري رھيو آھي…",
-    "emptyTitle": "اوھان جا پيغام",
-    "emptySubtitle": "چيٽ شروع ڪرڻ لاءِ پيغام موڪليو.",
-    "startChatButton": "پيغام موڪليو",
-    "mediaAttachment": "ميڊيا اٽيچمينٽ",
-    "thisUser": "ھي صارف",
-    "blockConfirm": "{{name}} کي بلاک ڪريو؟ اوھان کي سندن پيغام نه ملندا.",
-    "blockedUser": "{{name}} کي بلاک ڪيو.",
-    "blockError": "بلاک ڪرڻ لاءِ ٽارگيٽ صارف جو تعين نه ڪري سگھيو.",
-    "blockFailed": "بلاک ناڪام (بيڪ اينڊ اڃا نه جوڙيو ويو).",
-    "encryptedUnavailable": "انڪرپٽ ٿيل پيغام (ڪي دستياب نه)",
-    "unlockToView": "ھن پيغام کي ڏسڻ لاءِ پنھنجي ڪي کوليو"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "آف"
-    },
-    "freeLimit": "مفت پلان حد: 1 ڏينھن تائين آٽو ڊليٽ. 1d تائين محدود.",
-    "premiumLimit": "پريميم لاءِ وڌ ۾ وڌ آٽو ڊليٽ 30 ڏينھن آھي. 30d تائين محدود.",
-    "nothingToSend": "موڪلڻ لاءِ پيغام ٽائيپ ڪريو يا فائل اٽيچ ڪريو.",
-    "encryptionFailed": "انڪرپشن ناڪام. پيغام نه موڪليو ويو.",
-    "sent": "پيغام پهچايو ويو.",
-    "placeholder": "پيغام ٽائيپ ڪريو…",
-    "voiceAdded": "وائس نوٽ شامل ڪيو ويو",
-    "attachmentAdded": "منسلڪ شامل ڪيو ويو",
-    "autoDelete": "آٽو ڊليٽ",
-    "typeToSend": "موڪلڻ لاءِ پيغام ٽائيپ ڪريو",
-    "send": "موڪليو",
-    "sendWithEnter": "موڪليو (Enter)",
-    "attachment": "اٽيچمينٽ",
-    "caption": "ڪيپشن (اختياري)",
-    "remove": "ھٽايو",
-    "clear": "صاف ڪريو",
-    "gif": "GIF",
-    "sticker": "اسٽڪر",
-    "errors": {
-      "attachmentTooLarge": "اٽيچمينٽ تمام وڏي. ننڍي فائل سان ڪوشش ڪريو.",
-      "unsupportedFile": "غير سپورٽ ٿيل فائل قسم.",
-      "rateLimit": "اوھان تمام تيزيءَ سان پيغام موڪلي رھيا آھيو. مھرباني ڪري سست ڪريو.",
-      "validation": "تصديق جي غلطي. مھرباني ڪري پنھنجو پيغام چيڪ ڪريو ۽ ٻيھر ڪوشش ڪريو.",
-      "failedToSend": "موڪلڻ ناڪام. اوھان ناڪام ببل کي ٻيھر ڪوشش ڪري سگھو ٿا."
-    }
-  },
-  "contactList": {
-    "savedContacts": "محفوظ ڪيل رابطا",
-    "refreshAria": "رابطا تازو ڪريو",
-    "filterPlaceholder": "محفوظ ڪيل رابطا فلٽر ڪريو…",
-    "filterAria": "محفوظ ڪيل رابطا فلٽر ڪريو",
-    "noContactsFound": "ڪوبه رابطو نه مليو.",
-    "externalContact": "خارجي رابطو",
-    "notJoined": "اھو رابطو اڃا Chatforia ۾ شامل نه ٿيو آھي.",
-    "couldNotStart": "چيٽ شروع نه ڪري سگھيو. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
-    "startFailed": "چيٽ شروع ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
-    "deleted": "رابطو حذف ڪيو ويو.",
-    "deleteFailed": "رابطو حذف ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
-    "aliasUpdated": "عرف اپ ڊيٽ ڪيو ويو.",
-    "updateAliasFailed": "عرف اپ ڊيٽ ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
-    "selectContact": "{{name}} منتخب ڪريو",
-    "alias": "عرف",
-    "startChat": "چيٽ شروع ڪريو",
-    "message": "پيغام",
-    "delete": "حذف ڪريو",
-    "deleteContactAria": "رابطو حذف ڪريو",
-    "loadFailed": "رابطا لوڊ ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
-    "loadMore": "وڌيڪ لوڊ ڪريو",
-    "call": "ڪال",
-    "callStarted": "Chatforia نمبر ذريعي ھن نمبر کي ڪال ڪري رھيو آھي…",
-    "callFailed": "ڪال شروع ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو."
-  },
-  "startChatModal": {
-    "title": "گفتگو شروع ڪريو",
-    "searchPlaceholder": "نالو، صارف جو نالو، يا فون نمبر ڳوليو",
-    "messageThisPerson": "ھن شخص کي پيغام ڪريو",
-    "contacts": "رابطا",
-    "recentInteractions": "تازيون انٽريڪشنز",
-    "noContactsMatch": "اوھان جي ڳولا سان ڪوبه رابطو نه ميلاپ ڪري ٿو.",
-    "noRecentInteractions": "اڃا ڪوبه تازي انٽريڪشن نه.",
-    "unknown": "نامعلوم",
-    "interactionType": {
-      "message": "پيغام",
-      "call": "ڪال",
-      "video": "ويڊيو"
-    }
-  },
-  "addContactModal": {
-    "title": "رابطو شامل ڪريو",
-    "phoneOrUsername": "فون يا صارف جو نالو",
-    "phoneOrUsernamePlaceholder": "مثلاً +13018019227 يا juliannorton",
-    "alias": "عرف (اختياري)",
-    "aliasPlaceholder": "مثلاً ڪم، ماءُ، مائيڪ – يورپ",
-    "enterPhoneOrUsername": "فون نمبر يا صارف جو نالو داخل ڪريو.",
-    "userLookupFailed": "صارف ڳولڻ ناڪام.",
-    "cannotAddSelf": "اوھان پنھنجي کي رابطي طور شامل نه ڪري سگھو ٿا.",
-    "failedToAdd": "رابطو شامل ڪرڻ ناڪام.",
-    "add": "شامل ڪريو"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "بے ترتيب چيٽ",
@@ -357,13 +368,151 @@
     "startChatAlt": "نئين چيٽ شروع ڪريو",
     "calls": "ڪالز",
     "video": "ويڊيو",
-    "voicemail": "وائيس ميل"
+    "voicemail": "وائيس ميل",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "نئون اسٽيٽس",
     "logout": "لاگ آئوٽ",
     "help": "مدد",
     "createStatusAria": "نئون اسٽيٽس ٺاھيو"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "چيٽ ڪرڻ شروع ڪرڻ لاءِ ٽيڪسٽ يا چيٽ روم منتخب ڪريو",
+    "newMessages": "نئون پيغام",
+    "typing": "{{name}} ٽائيپ ڪري رھيو آھي…",
+    "emptyTitle": "اوھان جا پيغام",
+    "emptySubtitle": "چيٽ شروع ڪرڻ لاءِ پيغام موڪليو.",
+    "startChatButton": "پيغام موڪليو",
+    "mediaAttachment": "ميڊيا اٽيچمينٽ",
+    "thisUser": "ھي صارف",
+    "blockConfirm": "{{name}} کي بلاک ڪريو؟ اوھان کي سندن پيغام نه ملندا.",
+    "blockedUser": "{{name}} کي بلاک ڪيو.",
+    "blockError": "بلاک ڪرڻ لاءِ ٽارگيٽ صارف جو تعين نه ڪري سگھيو.",
+    "blockFailed": "بلاک ناڪام (بيڪ اينڊ اڃا نه جوڙيو ويو).",
+    "encryptedUnavailable": "انڪرپٽ ٿيل پيغام (ڪي دستياب نه)",
+    "unlockToView": "ھن پيغام کي ڏسڻ لاءِ پنھنجي ڪي کوليو",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "آف"
+    },
+    "freeLimit": "مفت پلان حد: 1 ڏينھن تائين آٽو ڊليٽ. 1d تائين محدود.",
+    "premiumLimit": "پريميم لاءِ وڌ ۾ وڌ آٽو ڊليٽ 30 ڏينھن آھي. 30d تائين محدود.",
+    "nothingToSend": "موڪلڻ لاءِ پيغام ٽائيپ ڪريو يا فائل اٽيچ ڪريو.",
+    "encryptionFailed": "انڪرپشن ناڪام. پيغام نه موڪليو ويو.",
+    "sent": "پيغام پهچايو ويو.",
+    "placeholder": "پيغام ٽائيپ ڪريو…",
+    "autoDelete": "آٽو ڊليٽ",
+    "typeToSend": "موڪلڻ لاءِ پيغام ٽائيپ ڪريو",
+    "send": "موڪليو",
+    "sendWithEnter": "موڪليو (Enter)",
+    "attachment": "اٽيچمينٽ",
+    "caption": "ڪيپشن (اختياري)",
+    "remove": "ھٽايو",
+    "clear": "صاف ڪريو",
+    "gif": "GIF",
+    "sticker": "اسٽڪر",
+    "errors": {
+      "attachmentTooLarge": "اٽيچمينٽ تمام وڏي. ننڍي فائل سان ڪوشش ڪريو.",
+      "unsupportedFile": "غير سپورٽ ٿيل فائل قسم.",
+      "rateLimit": "اوھان تمام تيزيءَ سان پيغام موڪلي رھيا آھيو. مھرباني ڪري سست ڪريو.",
+      "validation": "تصديق جي غلطي. مھرباني ڪري پنھنجو پيغام چيڪ ڪريو ۽ ٻيھر ڪوشش ڪريو.",
+      "failedToSend": "موڪلڻ ناڪام. اوھان ناڪام ببل کي ٻيھر ڪوشش ڪري سگھو ٿا.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "وائس نوٽ شامل ڪيو ويو"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "ٿريڊ مينيو",
@@ -379,8 +528,6 @@
     "invitePeople": "ماڻھو دعوت ڏيو",
     "roomSettings": "روم سيٽنگز",
     "clearConversation": "ڳالهه ٻولهه صاف ڪريو",
-    "clearConversationForMe": "منهنجي لاءِ صاف ڪريو",
-    "clearConversationForEveryone": "سڀني لاءِ صاف ڪريو",
     "block": "بلاک"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "صرف ٽيگ ڪيل (/tr …)",
       "all": "سڀئي پيغام"
     },
-    "updated": "سيٽنگز اپ ڊيٽ ڪئي وئي"
+    "updated": "سيٽنگز اپ ڊيٽ ڪئي وئي",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "شيئر ڪيل ميڊيا",
@@ -477,6 +635,110 @@
     "markRead": "پڙھيل نشان لڳايو",
     "delete": "حذف ڪريو",
     "unreadDotAria": "نہ پڙھيل وائيس ميل انڊيڪيٽر"
+  },
+  "contactList": {
+    "savedContacts": "محفوظ ڪيل رابطا",
+    "refreshAria": "رابطا تازو ڪريو",
+    "filterPlaceholder": "محفوظ ڪيل رابطا فلٽر ڪريو…",
+    "filterAria": "محفوظ ڪيل رابطا فلٽر ڪريو",
+    "noContactsFound": "ڪوبه رابطو نه مليو.",
+    "externalContact": "خارجي رابطو",
+    "notJoined": "اھو رابطو اڃا Chatforia ۾ شامل نه ٿيو آھي.",
+    "couldNotStart": "چيٽ شروع نه ڪري سگھيو. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
+    "startFailed": "چيٽ شروع ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
+    "deleted": "رابطو حذف ڪيو ويو.",
+    "deleteFailed": "رابطو حذف ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
+    "aliasUpdated": "عرف اپ ڊيٽ ڪيو ويو.",
+    "updateAliasFailed": "عرف اپ ڊيٽ ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
+    "selectContact": "{{name}} منتخب ڪريو",
+    "alias": "عرف",
+    "startChat": "چيٽ شروع ڪريو",
+    "message": "پيغام",
+    "delete": "حذف ڪريو",
+    "deleteContactAria": "رابطو حذف ڪريو",
+    "loadFailed": "رابطا لوڊ ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
+    "loadMore": "وڌيڪ لوڊ ڪريو",
+    "call": "ڪال",
+    "callStarted": "Chatforia نمبر ذريعي ھن نمبر کي ڪال ڪري رھيو آھي…",
+    "callFailed": "ڪال شروع ڪرڻ ناڪام. مھرباني ڪري ٻيھر ڪوشش ڪريو.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "رابطو شامل ڪريو",
+    "phoneOrUsername": "فون يا صارف جو نالو",
+    "phoneOrUsernamePlaceholder": "مثلاً +13018019227 يا juliannorton",
+    "alias": "عرف (اختياري)",
+    "aliasPlaceholder": "مثلاً ڪم، ماءُ، مائيڪ – يورپ",
+    "enterPhoneOrUsername": "فون نمبر يا صارف جو نالو داخل ڪريو.",
+    "userLookupFailed": "صارف ڳولڻ ناڪام.",
+    "cannotAddSelf": "اوھان پنھنجي کي رابطي طور شامل نه ڪري سگھو ٿا.",
+    "failedToAdd": "رابطو شامل ڪرڻ ناڪام.",
+    "add": "شامل ڪريو"
+  },
+  "startChatModal": {
+    "title": "گفتگو شروع ڪريو",
+    "searchPlaceholder": "نالو، صارف جو نالو، يا فون نمبر ڳوليو",
+    "messageThisPerson": "ھن شخص کي پيغام ڪريو",
+    "contacts": "رابطا",
+    "recentInteractions": "تازيون انٽريڪشنز",
+    "noContactsMatch": "اوھان جي ڳولا سان ڪوبه رابطو نه ميلاپ ڪري ٿو.",
+    "noRecentInteractions": "اڃا ڪوبه تازي انٽريڪشن نه.",
+    "unknown": "نامعلوم",
+    "interactionType": {
+      "message": "پيغام",
+      "call": "ڪال",
+      "video": "ويڊيو"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "صارف پروفائل",
@@ -614,13 +876,167 @@
     "voicemailNote": "اوھان جي Chatforia نمبرن کان وائيس ميلز اوھان جي وائيس ميل ان باڪس ۾ محفوظ ڪيا ويندا. اوھان سپورٽ ٿيل پلانز ۾ ٽرانسڪرپشن ۽ فارورڊنگ فعال ڪري سگھو ٿا.",
     "portHint": "اوھان جو موجودھ نمبر رکڻ چاھيو ٿا؟ اوھان کي Chatforia Wireless ۾ پورٽ ڪري سگھو ٿا.",
     "wireless": {
-      "manage": "وائرليس منظم ڪريو"
+      "manage": "وائرليس منظم ڪريو",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "صارف پروفائل",
       "desc": "جب اوھان وائي فائي کان پري ھجو ته Chatforia لاءِ موبائيل ڊيٽا حاصل ڪريو.",
-      "cta": "eSIM حاصل ڪريو / QR ڏيکاريو"
-    }
+      "cta": "eSIM حاصل ڪريو / QR ڏيکاريو",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -672,7 +1088,685 @@
     "expiresIn": "{{days}} ڏينھن ۾ ختم ٿيڻ",
     "exhausted": "اوھان جو ڊيٽا ختم ٿيو. جاري رکڻ لاءِ نئون پيڪ خريد ڪريو.",
     "buyPack": "ڊيٽا پيڪ خريد ڪريو",
-    "esimPackLabel": "eSIM پيڪ"
+    "esimPackLabel": "eSIM پيڪ",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "لوڊ ڪري رھيو آھي…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "پريميم ڏانھن وڃو",
+    "description": "پاور فيچرز کوليو ۽ اشتھار ھٽايو.",
+    "cta": "اپ گريڊ",
+    "upgrade": "اپ گريڊ",
+    "upgradeAria": "Chatforia پريميم ڏانھن اپ گريڊ ڪريو"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "اپ گريڊ",
+    "titleLoggedIn": "اپ گريڊ",
+    "titlePublic": "قيمت",
+    "h1": "Chatforia قيمت ۽ پلانز",
+    "h1Subtitle": "اسان جي مفت، اشتھار سپورٽ ٿيل پلان سان شروع ڪريو. Plus سان اشتھار کان آزاد ٿيو، يا پريميم سان مڪمل پاور فيچرز کوليو.",
+    "subtitle": "ھڪ جاءِ تان ايپ پلان منتخب ڪريو، پنھنجي لاءِ ڊيٽا پيڪ شامل ڪريو، يا پنھنجي فيملي سان ڊيٽا شيئر ڪريو.",
+    "subtitle.app": "اسان جي مفت، اشتھار سپورٽ ٿيل پلان سان شروع ڪريو. Plus سان اشتھار کان آزاد ٿيو، يا پريميم سان مڪمل پاور فيچرز کوليو.",
+    "subtitle.mobile": "گلوبل eSIM ڊيٽا شامل ڪريو ته Chatforia وائي فائي کان پري به ڪم ڪري.",
+    "subtitle.family": "پنھنجي فيملي لاءِ شيئر ڊيٽا پول ٺاھيو ۽ ھر ھڪ جي استعمال کي ھڪ جاءِ تان منظم ڪريو.",
+    "perMonth": "mo",
+    "perYear": "year",
+    "goPremium": "پريميم ڏانھن وڃو",
+    "benefitsLine": "پاور فيچرز کوليو ۽ اشتھار ھٽايو.",
+    "ctaText": "اپ گريڊ",
+    "aria": "Chatforia پريميم ڏانھن اپ گريڊ ڪريو",
+    "toggle": {
+      "monthly": "ماھوار",
+      "annual": "سالياني (30% بچايو)"
+    },
+    "scheduleBanner": {
+      "title": "سبسڪرپشن ختم ٿيڻ",
+      "body": "اوھان مفت تي واپس ايندا",
+      "keepPlanCta": "{{plan}} رکو",
+      "manageBillingCta": "بلنگ منظم ڪريو"
+    },
+    "billing": {
+      "opening": "کولي رھيو آھي…",
+      "manage": "بلنگ منظم ڪريو"
+    },
+    "checkout": {
+      "redirecting": "ري ڊائريڪٽ ڪري رھيو آھي…"
+    },
+    "auth": {
+      "continue": "لاگ ان ڏانھن جاري رکو",
+      "createAccount": "اکائونٽ ٺاھيو",
+      "signIn": "سائن ان ڪريو"
+    },
+    "cta": {
+      "aria": "پلان منتخب ڪريو",
+      "getPlus": "Plus ڏانھن اپ گريڊ ڪريو",
+      "upgradeMonthly": "ماھوار اپ گريڊ ڪريو",
+      "upgradeAnnual": "سالياني اپ گريڊ ڪريو",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "ايپ پلانز",
+      "mobile": "موبائيل (eSIM)",
+      "family": "فيملي پلانز"
+    },
+    "plans": {
+      "free": {
+        "title": "مفت",
+        "price": "$0",
+        "desc": "مفت پيغام رسائي شروع ڪريو. جيڪڏھن اوھان Chatforia کي صرف آزمائڻ چاھيو ٿا ته مثالي.",
+        "features": {
+          "chat": "ريئل ٽائم 1:1 ۽ گروپ چيٽ، آواز ۽ ويڊيو ڪالز سان",
+          "media": "فوٽوز، آواز پيغام، ۽ ننڍيون ويڊيوز شيئر ڪريو",
+          "ai": "AI پاورڊ سمارٽ جواب ۽ فوري ترجمو (مناسب استعمال)",
+          "disappearing": "غائب ٿيندڙ پيغام ۽ بنيادي پرائيويسي ڪنٽرولز",
+          "ads": "ايپ ۾ اشتھار سان مفت ھميشه"
+        },
+        "ctaCurrent": "موجودھ پلان",
+        "ctaManage": "بلنگ ۾ منظم ڪريو",
+        "ctaPublic": "شروع ڪريو – لاگ ان ڏانھن جاري رکو",
+        "aria": "مفت پلان"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "سڀئي ضروري، اشتھار کان سواءِ. روزانھ پيغام رسائي ۽ ڪالنگ لاءِ زبردست.",
+        "features": {
+          "allFree": "مفت ۾ ھر شيءِ، بغير اشتھار",
+          "forwarding": "اوھان جي حقيقي فون نمبر ڏانھن ڪالز ۽ ٽيڪسٽ فارورڊ ڪريو",
+          "history": "ڊگھي پيغام تاريخ (6 مھينن تائين)",
+          "support": "جب ڪجھ غلط ٿئي ته تيز سپورٽ"
+        },
+        "badge": "مقبول",
+        "cta": "اشتھار کان آزاد ٿيو",
+        "ctaPublic": "Plus حاصل ڪريو – لاگ ان ڏانھن جاري رکو",
+        "aria": "Plus ڏانھن اپ گريڊ ڪريو"
+      },
+      "premiumMonthly": {
+        "title": "پريميم (ماھوار)",
+        "price": "$11.99",
+        "desc": "مڪمل Chatforia تجربو: AI پاور ٽولز، حسب ضرورت، ۽ ترجيحي سپورٽ.",
+        "features": {
+          "plusAll": "Plus ۾ ھر شيءِ",
+          "themes": "سڀ پريميم رنگ ٿيم ۽ ايپ حسب ضرورت کوليو",
+          "ai": "ري رائيٽس، سمارٽ جواب، ۽ سميري لاءِ پريميم صرف AI پاور ٽولز",
+          "support": "جب اوھان کي سب کان وڌيڪ مدد گھربل ھجي ته ترجيحي سپورٽ",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "تجویز ڪيل",
+        "cta": "اپ گريڊ (ماھوار)",
+        "ctaPublic": "پريميم کوليو – لاگ ان ڏانھن جاري رکو",
+        "aria": "پريميم ماھوار ڏانھن اپ گريڊ ڪريو"
+      },
+      "premiumAnnual": {
+        "title": "پريميم (سالياني)",
+        "price": "$99",
+        "desc": "سالياني بلنگ سان وڌيڪ بچايو — اضافي رنگ ٿيم، AI ٽولز، ۽ ترجيحي سپورٽ سان.",
+        "features": {
+          "allPremium": "پريميم ماھوار ۾ ھر شيءِ — اضافي رنگ ٿيم سان",
+          "annualBilling": "ھڪ ڀيري سال ۾ بل ڪيو",
+          "save25": "ماھوار ادائيگي کان تقريباً 30% بچايو",
+          "bestFor": "پاور صارفين، ريموٽ ورڪرز، ۽ ڳري سفر ڪندڙن لاءِ بھترين",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "30% بچايو",
+        "cta": "اپ گريڊ (سالياني)",
+        "ctaPublic": "سالياني سان 30% بچايو – لاگ ان ڏانھن جاري رکو",
+        "aria": "پريميم سالياني ڏانھن اپ گريڊ ڪريو",
+        "disclaimer": "اڳ ۾ بل ڪيو. ڪنھن به وقت منسوخ ڪريو. ڪوبه لڪيل فيس نه."
+      }
+    },
+    "marketing": {
+      "freeTitle": "مفت",
+      "freeDesc": "مفت پيغام رسائي شروع ڪريو.",
+      "plusTitle": "Plus",
+      "plusBadge": "مقبول",
+      "plusDesc": "سب کان سستو اشتھار کان آزاد تجربو.",
+      "premiumMonthlyTitle": "پريميم",
+      "premiumMonthlyDesc": "مڪمل فيچرز، رنٽون، ۽ AI پاور ٽولز.",
+      "premiumAnnualTitle": "پريميم",
+      "premiumAnnualDesc": "سالياني بلنگ سان وڌيڪ بچايو.",
+      "annualDisclaimer": "اڳ ۾ بل ڪيو. ڪنھن به وقت منسوخ ڪريو. ڪوبه لڪيل فيس نه."
+    },
+    "mobile": {
+      "title": "Chatforia موبائيل (eSIM ڊيٽا پيڪ)",
+      "subtitle": "وائي فائي کان سواءِ Chatforia کي ڪم ڪرڻ لاءِ گلوبل ڊيٽا شامل ڪريو. قيمتون اوھان جي ملک ۽ کرنسي تي خود بخود ايڊجسٽ ٿينديون.",
+      "subtitle.detail": "ھڪ وقتي گلوبل ڊيٽا پيڪ منتخب ڪريو ته Chatforia سفر يا وائي فائي کان پري ھجڻ تي به ڪم ڪري.",
+      "scope": {
+        "local": "لوڪل",
+        "europe": "يورپ",
+        "global": "گلوبل",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "لوڪل = {{country}}",
+      "localEqualsFallback": "لوڪل = اوھان جو موجودھ ملک",
+      "perPack": "/ پيڪ",
+      "cta": "ھي ڊيٽا پيڪ حاصل ڪريو",
+      "ctaPublic": "ھي ڊيٽا پيڪ حاصل ڪريو",
+      "checkout": {
+        "redirecting": "ري ڊائريڪٽ ڪري رھيو آھي…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "ڳري استعمال لاءِ ھائي اسپيڊ ڊيٽا",
+          "throttle": "ڳري استعمال کان پوءِ رفتار گھٽ ٿي سگھي ٿي",
+          "coverage": "قابل اعتماد کوريج",
+          "instant": "فوري eSIM ایکٽيويشن",
+          "noContract": "ھڪ وقتي پيڪ، ڪوبه قرارداد نه"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "eSIM ڊيٽا پيڪ لاءِ eSIM سپورٽ ٿيل ۽ ان لاڪ ڊوائيس گھربل آھي. دستيابي فون ماڊل، ڪيريئر، ۽ ملک تي منحصر آھي. کوريج ۽ رفتار علائقي تي مختلف آھي.",
+        "fairUse": "مناسب استعمال پاليسي ۽ لوڪل حد تي مشروط"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "eSIM ڊيٽا پيڪ جو مقايسو ڪريو",
+        "col": {
+          "pack": "پيڪ",
+          "data": "شامل ڊيٽا",
+          "bestFor": "بھترين لاءِ"
+        },
+        "disclaimer": "اصل ڊيٽا استعمال اوھان جي Chatforia استعمال (آواز، ويڊيو، ميڊيا، ۽ فون تي ٻيا ايپس) تي منحصر آھي."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "ھر GB لاءِ بھترين قدر"
+      },
+      "feature": {
+        "instant": "فوري eSIM ایکٽيويشن",
+        "coverage": "قابل اعتماد کوريج",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "لوڪل",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "يورپ",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "گلوبل",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "اسٽارٽر پيڪ",
+        "data": "3 GB",
+        "bestFor": "ننڍي سفر، ھلڪي پيغام رسائي، ۽ موقعي ڪالز"
+      },
+      "medium": {
+        "title": "ٽريولر پيڪ",
+        "data": "5 GB",
+        "bestFor": "ويڪ اينڊ سفر، باقاعده VoIP ڪالز، ۽ نقشا"
+      },
+      "large": {
+        "title": "پاور پيڪ",
+        "data": "10 GB",
+        "bestFor": "ڳري چيٽ، ڪالز، ويڊيو، ۽ ھاٽ سپاٽ استعمال"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Chatforia فيملي (شيئر ڊيٽا)",
+      "subtitle": "اوھان جي فيملي ۾ ھڪ سنگل ڊيٽا پول شيئر ڪريو. ھڪ بل، ڪيترائي Chatforia اکائونٽس، گلوبل کوريج.",
+      "perPack": "/ پيڪ",
+      "small": {
+        "title": "فيملي اسمال",
+        "desc": "20 GB شيئر ھائي اسپيڊ ڊيٽا شامل — 2–3 ھلڪي صارفين لاءِ زبردست.",
+        "price": "$29.99",
+        "aria": "فيملي اسمال پيڪ خريد ڪريو"
+      },
+      "medium": {
+        "title": "فيملي ميڊيم",
+        "desc": "40 GB شيئر ھائي اسپيڊ ڊيٽا شامل — 3–5 فعال ممبرن لاءِ مثالي.",
+        "price": "$49.99",
+        "aria": "فيملي ميڊيم پيڪ خريد ڪريو"
+      },
+      "large": {
+        "title": "فيملي لارج",
+        "desc": "80 GB شيئر ھائي اسپيڊ ڊيٽا شامل — ھميشه آن لائن رھندڙ پاور فيمليز لاءِ.",
+        "price": "$84.99",
+        "aria": "فيملي لارج پيڪ خريد ڪريو"
+      },
+      "feature": {
+        "shared": "اوھان جي فيملي لاءِ شيئر ڊيٽا پول",
+        "members": "4 اضافي ممبرن تائين دعوت ڏيو",
+        "membersMore": "3–5 فعال ممبرن لاءِ زبردست",
+        "manage": "ھر ممبر لاءِ حد منظم ڪريو",
+        "topUp": "ڪنھن به وقت وڌيڪ پيڪ شامل ڪريو",
+        "bestValue": "ھر GB لاءِ بھترين قدر",
+        "fairUse": "مناسب استعمال پاليسي ۽ لوڪل حد تي مشروط"
+      },
+      "disclaimer": "فيملي پيڪ شيئر ڊيٽا پول ٺاھي ٿا يا ٽاپ اپ ڪري ٿا. اوھان کي ممبرن کي ڪنھن به وقت دعوت ڏيڻ يا ھٽائڻ جو حق آھي.",
+      "footnote": "فيملي پيڪ لنڪ ٿيل Chatforia اکائونٽس ۾ ھڪ سنگل ڊيٽا پول شيئر ڪن ٿا. دستيابي ۽ حد اوھان جي ملک ۽ لوڪل ضابطن تي منحصر آھي."
+    },
+    "why": {
+      "title": "ماڻھو Chatforia ڏانھن ڇو تبديل ٿيندا آھن",
+      "subtitle": "Chatforia اوھان کي حقيقي فون نمبر، سمارٽ ترجمو، ۽ جڏھن اوھان تيار ھجو ته اشتھار کان آزاد ٿيڻ جو واضح رستو ڏئي ٿو.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia بمقابلہ TextNow",
+          "body": "مفت ۾ ھلڪا اشتھار، جڏھن تيار ھجو ته سادو Plus اپ گريڊ، ۽ TextNow کي پيش نه ڪيل پريميم ٽولز."
+        },
+        "voice": {
+          "title": "Chatforia بمقابلہ Google Voice",
+          "body": "جديد ايپ، گلوبل فرسٽ ڊيزائن، ۽ بلٽ ان ترجمو پراڻي ڪال فارورڊنگ جي بدران."
+        },
+        "messengers": {
+          "title": "Chatforia بمقابلہ چيٽ ايپس",
+          "body": "حقيقي فون نمبر تي ٽيڪسٽ ڪريو — صرف ٻئي ايپ صارفين نه — AI ۽ اسٽيٽس سان بلٽ ان. اگر اوھان TextFree يا TextMe جهڙي ايپس کان اچي رھيا آھيو ته زبردست."
+        }
+      },
+      "tableTitle": "Chatforia جو مقايسو ڪيئن ڪجي",
+      "col": {
+        "feature": "فيچر",
+        "chatforia": "12+ مھينن تائين",
+        "textnow": "اکائونٽ تي منحصر",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "مفت فون نمبر",
+        "translation": "بلٽ ان آٽو ترجمو",
+        "aiTools": "AI ٽولز (ري رائيٽس، جواب، سميري)",
+        "ads": "اشتھار کان آزاد آپشن",
+        "history": "پيغام تاريخ"
+      },
+      "yes": "ھا",
+      "no": "نه",
+      "yesPremium": "ھا (پريميم)",
+      "plusPremium": "Plus ۽ پريميم",
+      "limited": "محدود",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "12+ مھينن تائين",
+        "textnow": "اکائونٽ تي منحصر",
+        "voice": "محدود / اکائونٽ بنياد"
+      },
+      "disclaimer": "مقايسو عوامي طور دستياب معلومات تي مبني آھي ۽ وقت سان تبديل ٿي سگھي ٿو. ٻيون مفت ٽيڪسٽ ايپس جهڙوڪ TextFree يا TextMe عام طور تي TextNow سان ملندڙ آھن."
+    },
+    "faq": {
+      "title": "قيمت ۽ پلانز FAQ",
+      "free": {
+        "q": "ڇا مفت پلان واقعي مفت آھي؟",
+        "a": "ھا. مفت پلان ۾ Chatforia نمبر، ڪالنگ، ۽ اشتھار سان پيغام رسائي شامل آھي. اوھان جيترو چاھيو مفت تي رھي سگھو ٿا، يا اشتھار ھٽائڻ ۽ وڌيڪ فيچرز کولڻ لاءِ اپ گريڊ ڪريو."
+      },
+      "plusPremium": {
+        "q": "Plus ۽ پريميم ۾ ڇا فرق آھي؟",
+        "a": "Plus اشتھار ھٽائي ٿو ۽ اوھان جي پيغام تاريخ کي وڌائي ٿو — روزانھ استعمال لاءِ مثالي. پريميم اضافي حسب ضرورت، ري رائيٽس ۽ جواب لاءِ AI ٽولز، ۽ ڳري صارفين لاءِ ترجيحي سپورٽ شامل ڪري ٿو."
+      },
+      "esim": {
+        "q": "eSIM ڊيٽا پيڪ ڪٿي ڪم ڪن ٿا؟",
+        "a": "Chatforia موبائيل گلوبل eSIM کوريج استعمال ڪري ٿو. دستيابي اوھان جي ملک ۽ ڊوائيس تي منحصر آھي. ايپ اندر ایکٽيويشن دوران اوھان کي سپورٽ ٿيل آپشن ڏيکاريا ويندا."
+      },
+      "cancel": {
+        "q": "ڇا مان ڪنھن به وقت پلان منسوخ يا تبديل ڪري سگھان ٿو؟",
+        "a": "ھا. اوھان ايپ ۾ بلنگ پيج مان پنھنجي سبسڪرپشن منظم يا منسوخ ڪري سگھو ٿا. تبديليون اوھان جي موجودھ بلنگ عرصي جي آخر ۾ اثر انداز ٿينديون."
+      },
+      "family": {
+        "q": "فيملي پيڪ ڪيئن ڪم ڪن ٿا؟",
+        "a": "فيملي پيڪ ڪيترن ئي Chatforia اکائونٽس ۾ شيئر ڊيٽا پول ٺاھي ٿا. ھڪ شخص بل ادا ڪري ٿو، ۽ اوھان ممبرن کي دعوت ڏئي يا ھٽائي سگھو ٿا ۽ ھر شخص لاءِ حد مقرر ڪري سگھو ٿا."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "فيملي",
@@ -745,685 +1839,618 @@
       "error": "اسان اوھان کي ھن فيملي ۾ شامل نه ڪري سگھيو. دعوت نامناسب يا ختم ٿيل ٿي سگھي ٿي."
     }
   },
-  "premium": {
-    "heading": "پريميم ڏانھن وڃو",
-    "description": "پاور فيچرز کوليو ۽ اشتھار ھٽايو.",
-    "cta": "اپ گريڊ",
-    "upgrade": "اپ گريڊ",
-    "upgradeAria": "Chatforia پريميم ڏانھن اپ گريڊ ڪريو"
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "اپ گريڊ",
-    "titleLoggedIn": "اپ گريڊ",
-    "titlePublic": "قيمت",
-    "h1": "Chatforia قيمت ۽ پلانز",
-    "h1Subtitle": "اسان جي مفت، اشتھار سپورٽ ٿيل پلان سان شروع ڪريو. Plus سان اشتھار کان آزاد ٿيو، يا پريميم سان مڪمل پاور فيچرز کوليو.",
-    "subtitle": "ھڪ جاءِ تان ايپ پلان منتخب ڪريو، پنھنجي لاءِ ڊيٽا پيڪ شامل ڪريو، يا پنھنجي فيملي سان ڊيٽا شيئر ڪريو.",
-    "subtitle.app": "اسان جي مفت، اشتھار سپورٽ ٿيل پلان سان شروع ڪريو. Plus سان اشتھار کان آزاد ٿيو، يا پريميم سان مڪمل پاور فيچرز کوليو.",
-    "subtitle.mobile": "گلوبل eSIM ڊيٽا شامل ڪريو ته Chatforia وائي فائي کان پري به ڪم ڪري.",
-    "subtitle.family": "پنھنجي فيملي لاءِ شيئر ڊيٽا پول ٺاھيو ۽ ھر ھڪ جي استعمال کي ھڪ جاءِ تان منظم ڪريو.",
-    "perMonth": "mo",
-    "perYear": "year",
-    "goPremium": "پريميم ڏانھن وڃو",
-    "benefitsLine": "پاور فيچرز کوليو ۽ اشتھار ھٽايو.",
-    "ctaText": "اپ گريڊ",
-    "aria": "Chatforia پريميم ڏانھن اپ گريڊ ڪريو",
-    "toggle": {
-      "monthly": "ماھوار",
-      "annual": "سالياني (30% بچايو)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "سبسڪرپشن ختم ٿيڻ",
-      "body": "اوھان مفت تي واپس ايندا",
-      "keepPlanCta": "{{plan}} رکو",
-      "manageBillingCta": "بلنگ منظم ڪريو"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "کولي رھيو آھي…",
-      "manage": "بلنگ منظم ڪريو"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
     },
-    "checkout": {
-      "redirecting": "ري ڊائريڪٽ ڪري رھيو آھي…"
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
     },
-    "auth": {
-      "continue": "لاگ ان ڏانھن جاري رکو",
-      "createAccount": "اکائونٽ ٺاھيو",
-      "signIn": "سائن ان ڪريو"
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
     "cta": {
-      "aria": "پلان منتخب ڪريو",
-      "getPlus": "Plus ڏانھن اپ گريڊ ڪريو",
-      "upgradeMonthly": "ماھوار اپ گريڊ ڪريو",
-      "upgradeAnnual": "سالياني اپ گريڊ ڪريو"
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Chatforia ڪيئن ڪم ڪري ٿي",
+    "intro": "Chatforia رابطي کي سادو بڻائڻ لاءِ ٺاهي وئي آهي...",
+    "step1Title": "1. اڪائونٽ ٺاهيو",
+    "step1Desc": "پنهنجي اي ميل يا يوزرنيم سان سائن اپ ڪريو...",
+    "step2Title": "2. ڳالهه ٻولهه شروع ڪريو",
+    "step2Desc": "ٻين سان ڳنڍيو...",
+    "step3Title": "3. حقيقي وقت ميسيجنگ",
+    "step3Desc": "پيغام جلدي پهچن ٿا...",
+    "step4Title": "4. عالمي رابطو",
+    "step4Desc": "تعمير ٿيل ترجمو استعمال ڪندڙن جي مدد ڪري ٿو...",
+    "step5Title": "5. ڪنٽرول ۾ رهو",
+    "step5Desc": "پنهنجون سيٽنگون منظم ڪريو..."
+  },
+  "safety": {
+    "title": "حفاظت ۽ ڪميونٽي هدايتون",
+    "intro": "Chatforia محفوظ ماحول برقرار رکڻ لاءِ پرعزم آهي...",
+    "respectTitle": "احترام سان رابطو",
+    "respectDesc": "استعمال ڪندڙن کان توقع ڪئي وڃي ٿي ته هو احترام سان ڳالهائين...",
+    "prohibitedTitle": "ممنوع مواد",
+    "prohibited": {
+      "illegal": "غير قانوني سرگرميون",
+      "harassment": "هراسان ڪرڻ يا بُلنگ",
+      "hate": "نفرت انگيز تقرير يا امتياز",
+      "explicit": "فحش يا نقصانڪار مواد",
+      "spam": "اسپام يا فريب ڏيڻ واريون عملون"
     },
-    "section": {
-      "app": "ايپ پلانز",
-      "mobile": "موبائيل (eSIM)",
-      "family": "فيملي پلانز"
+    "toolsTitle": "استعمال ڪندڙ حفاظت جا اوزار",
+    "tools": {
+      "report": "نامناسب رويو رپورٽ ڪريو",
+      "block": "استعمال ڪندڙن کي بلاڪ ڪريو",
+      "control": "پرائيويسي سيٽنگون منظم ڪريو"
     },
-    "plans": {
-      "free": {
-        "title": "مفت",
-        "price": "$0",
-        "desc": "مفت پيغام رسائي شروع ڪريو. جيڪڏھن اوھان Chatforia کي صرف آزمائڻ چاھيو ٿا ته مثالي.",
-        "features": {
-          "chat": "ريئل ٽائم 1:1 ۽ گروپ چيٽ، آواز ۽ ويڊيو ڪالز سان",
-          "media": "فوٽوز، آواز پيغام، ۽ ننڍيون ويڊيوز شيئر ڪريو",
-          "ai": "AI پاورڊ سمارٽ جواب ۽ فوري ترجمو (مناسب استعمال)",
-          "disappearing": "غائب ٿيندڙ پيغام ۽ بنيادي پرائيويسي ڪنٽرولز",
-          "ads": "ايپ ۾ اشتھار سان مفت ھميشه"
-        },
-        "ctaCurrent": "موجودھ پلان",
-        "ctaManage": "بلنگ ۾ منظم ڪريو",
-        "ctaPublic": "شروع ڪريو – لاگ ان ڏانھن جاري رکو",
-        "aria": "مفت پلان"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "سڀئي ضروري، اشتھار کان سواءِ. روزانھ پيغام رسائي ۽ ڪالنگ لاءِ زبردست.",
-        "features": {
-          "allFree": "مفت ۾ ھر شيءِ، بغير اشتھار",
-          "forwarding": "اوھان جي حقيقي فون نمبر ڏانھن ڪالز ۽ ٽيڪسٽ فارورڊ ڪريو",
-          "history": "ڊگھي پيغام تاريخ (6 مھينن تائين)",
-          "support": "جب ڪجھ غلط ٿئي ته تيز سپورٽ"
-        },
-        "badge": "مقبول",
-        "cta": "اشتھار کان آزاد ٿيو",
-        "ctaPublic": "Plus حاصل ڪريو – لاگ ان ڏانھن جاري رکو",
-        "aria": "Plus ڏانھن اپ گريڊ ڪريو"
-      },
-      "premiumMonthly": {
-        "title": "پريميم (ماھوار)",
-        "price": "$11.99",
-        "desc": "مڪمل Chatforia تجربو: AI پاور ٽولز، حسب ضرورت، ۽ ترجيحي سپورٽ.",
-        "features": {
-          "plusAll": "Plus ۾ ھر شيءِ",
-          "themes": "سڀ پريميم رنگ ٿيم ۽ ايپ حسب ضرورت کوليو",
-          "ai": "ري رائيٽس، سمارٽ جواب، ۽ سميري لاءِ پريميم صرف AI پاور ٽولز",
-          "support": "جب اوھان کي سب کان وڌيڪ مدد گھربل ھجي ته ترجيحي سپورٽ"
-        },
-        "badge": "تجویز ڪيل",
-        "cta": "اپ گريڊ (ماھوار)",
-        "ctaPublic": "پريميم کوليو – لاگ ان ڏانھن جاري رکو",
-        "aria": "پريميم ماھوار ڏانھن اپ گريڊ ڪريو"
-      },
-      "premiumAnnual": {
-        "title": "پريميم (سالياني)",
-        "price": "$99",
-        "desc": "سالياني بلنگ سان وڌيڪ بچايو — اضافي رنگ ٿيم، AI ٽولز، ۽ ترجيحي سپورٽ سان.",
-        "features": {
-          "allPremium": "پريميم ماھوار ۾ ھر شيءِ — اضافي رنگ ٿيم سان",
-          "annualBilling": "ھڪ ڀيري سال ۾ بل ڪيو",
-          "save25": "ماھوار ادائيگي کان تقريباً 30% بچايو",
-          "bestFor": "پاور صارفين، ريموٽ ورڪرز، ۽ ڳري سفر ڪندڙن لاءِ بھترين"
-        },
-        "badge": "30% بچايو",
-        "cta": "اپ گريڊ (سالياني)",
-        "ctaPublic": "سالياني سان 30% بچايو – لاگ ان ڏانھن جاري رکو",
-        "aria": "پريميم سالياني ڏانھن اپ گريڊ ڪريو",
-        "disclaimer": "اڳ ۾ بل ڪيو. ڪنھن به وقت منسوخ ڪريو. ڪوبه لڪيل فيس نه."
-      }
+    "enforcementTitle": "نفاذ",
+    "enforcementDesc": "اسان اڪائونٽن خلاف ڪارروائي ڪري سگهون ٿا..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "ميسيجنگ پليٽفارمز اڄ وڌيڪ اهم ڇو آهن",
+      "intro": "ميسيجنگ پليٽفارمز اڄ جي دنيا ۾ رابطي لاءِ سڀ کان اهم اوزارن مان هڪ بڻجي ويا آهن...",
+      "everydayTitle": "روزمره رابطي",
+      "everydayDesc": "ماڻهو روزاني رابطي لاءِ ميسيجنگ ايپس تي ڀاڙين ٿا...",
+      "speedTitle": "رفتار ۽ سهولت",
+      "speedDesc": "پيغام فوري طور تي پهچن ٿا...",
+      "globalTitle": "عالمي رسائي",
+      "globalDesc": "ميسيجنگ پليٽفارمز ماڻهن کي سڄي دنيا ۾ ڳنڍين ٿا...",
+      "privacyTitle": "پرائيويسي ۽ ڪنٽرول",
+      "privacyDesc": "جديد ميسيجنگ پليٽفارمز استعمال ڪندڙن کي ڪنٽرول ڏيڻ تي ڌيان ڏين ٿا...",
+      "futureTitle": "ميسيجنگ جو مستقبل",
+      "futureDesc": "ميسيجنگ نون فيچرز سان مسلسل ترقي ڪري رهي آهي...",
+      "outro": "Chatforia انهن اصولن کي ذهن ۾ رکي ٺاهي وئي آهي..."
     },
-    "marketing": {
-      "freeTitle": "مفت",
-      "freeDesc": "مفت پيغام رسائي شروع ڪريو.",
-      "plusTitle": "Plus",
-      "plusBadge": "مقبول",
-      "plusDesc": "سب کان سستو اشتھار کان آزاد تجربو.",
-      "premiumMonthlyTitle": "پريميم",
-      "premiumMonthlyDesc": "مڪمل فيچرز، رنٽون، ۽ AI پاور ٽولز.",
-      "premiumAnnualTitle": "پريميم",
-      "premiumAnnualDesc": "سالياني بلنگ سان وڌيڪ بچايو.",
-      "annualDisclaimer": "اڳ ۾ بل ڪيو. ڪنھن به وقت منسوخ ڪريو. ڪوبه لڪيل فيس نه."
+    "global": {
+      "title": "عالمي رابطي جو مستقبل",
+      "intro": "رابطو تيزيءَ سان ترقي ڪري چڪو آهي...",
+      "barriersTitle": "رڪاوٽن کي ختم ڪرڻ",
+      "barriersDesc": "هاڻي ماڻهو سڄي دنيا ۾ هڪ ٻئي سان ڳنڍجي سگهن ٿا...",
+      "translationTitle": "ترجمي ٽيڪنالاجي جو ڪردار",
+      "translationDesc": "ٻولي روايتي طور تي هڪ رڪاوٽ رهي آهي...",
+      "realtimeTitle": "حقيقي وقت جو رابطو",
+      "realtimeDesc": "رفتار هڪ اهم عنصر آهي...",
+      "privacyTitle": "پرائيويسي ۽ سيڪيورٽي",
+      "privacyDesc": "استعمال ڪندڙ چاهين ٿا ته سندن ڳالهيون محفوظ هجن...",
+      "futureTitle": "اڳتي ڇا آهي",
+      "futureDesc": "عالمي رابطي جو مستقبل نون فيچرز سان گڏ هوندو...",
+      "outro": "Chatforia جهڙيون پليٽفارمز هن تبديلي جو حصو آهن..."
     },
-    "mobile": {
-      "title": "Chatforia موبائيل (eSIM ڊيٽا پيڪ)",
-      "subtitle": "وائي فائي کان سواءِ Chatforia کي ڪم ڪرڻ لاءِ گلوبل ڊيٽا شامل ڪريو. قيمتون اوھان جي ملک ۽ کرنسي تي خود بخود ايڊجسٽ ٿينديون.",
-      "subtitle.detail": "ھڪ وقتي گلوبل ڊيٽا پيڪ منتخب ڪريو ته Chatforia سفر يا وائي فائي کان پري ھجڻ تي به ڪم ڪري.",
-      "scope": {
-        "local": "لوڪل",
-        "europe": "يورپ",
-        "global": "گلوبل"
-      },
-      "note": "اسان 3 GB کان ھيٺ ڊيٽا پيڪ نه وڪرو ڪريون ٿا.",
-      "localEquals": "لوڪل = {{country}}",
-      "localEqualsFallback": "لوڪل = اوھان جو موجودھ ملک",
-      "perPack": "/ پيڪ",
-      "cta": "ھي ڊيٽا پيڪ حاصل ڪريو",
-      "ctaPublic": "ھي ڊيٽا پيڪ حاصل ڪريو",
-      "checkout": {
-        "redirecting": "ري ڊائريڪٽ ڪري رھيو آھي…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "ڳري استعمال لاءِ ھائي اسپيڊ ڊيٽا",
-          "throttle": "ڳري استعمال کان پوءِ رفتار گھٽ ٿي سگھي ٿي",
-          "coverage": "قابل اعتماد کوريج",
-          "instant": "فوري eSIM ایکٽيويشن",
-          "noContract": "ھڪ وقتي پيڪ، ڪوبه قرارداد نه"
-        }
-      },
-      "disclaimer": {
-        "devices": "eSIM ڊيٽا پيڪ لاءِ eSIM سپورٽ ٿيل ۽ ان لاڪ ڊوائيس گھربل آھي. دستيابي فون ماڊل، ڪيريئر، ۽ ملک تي منحصر آھي. کوريج ۽ رفتار علائقي تي مختلف آھي."
-      },
-      "small": {
-        "title": "اسٽارٽر پيڪ",
-        "desc": "3 GB ھائي اسپيڊ ڊيٽا شامل — ھلڪي پيغام رسائي ۽ موقعي ڪالز لاءِ مثالي.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "ننڍي سفر، ھلڪي پيغام رسائي، ۽ موقعي ڪالز",
-        "aria": "اسٽارٽر eSIM ڊيٽا پيڪ خريد ڪريو"
-      },
-      "medium": {
-        "title": "ٽريولر پيڪ",
-        "desc": "5 GB ھائي اسپيڊ ڊيٽا شامل — سفر، ڪميوٽنگ، ۽ باقاعده VoIP ڪالز لاءِ.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "ويڪ اينڊ سفر، باقاعده VoIP ڪالز، ۽ نقشا",
-        "aria": "ٽريولر eSIM ڊيٽا پيڪ خريد ڪريو"
-      },
-      "large": {
-        "title": "پاور پيڪ",
-        "desc": "10 GB ھائي اسپيڊ ڊيٽا شامل — Chatforia نيٽ ورڪ تي ڳري چيٽ، ڪالز، ۽ ويڊيو لاءِ.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "ڳري چيٽ، ڪالز، ويڊيو، ۽ ھاٽ سپاٽ استعمال",
-        "aria": "پاور صارف eSIM ڊيٽا پيڪ خريد ڪريو"
-      },
-      "compare": {
-        "title": "eSIM ڊيٽا پيڪ جو مقايسو ڪريو",
-        "col": {
-          "pack": "پيڪ",
-          "data": "شامل ڊيٽا",
-          "bestFor": "بھترين لاءِ"
-        },
-        "disclaimer": "اصل ڊيٽا استعمال اوھان جي Chatforia استعمال (آواز، ويڊيو، ميڊيا، ۽ فون تي ٻيا ايپس) تي منحصر آھي."
-      }
+    "index": {
+      "title": "Chatforia بلاگ",
+      "intro": "رابطي بابت ڄاڻ ڳوليو...",
+      "post1": "آن لائن محفوظ طريقي سان ڪيئن ڳالهايو",
+      "post2": "عالمي رابطي جو مستقبل",
+      "post3": "ميسيجنگ پليٽفارمز ڇو اهم آهن"
     },
-    "family": {
-      "title": "Chatforia فيملي (شيئر ڊيٽا)",
-      "subtitle": "اوھان جي فيملي ۾ ھڪ سنگل ڊيٽا پول شيئر ڪريو. ھڪ بل، ڪيترائي Chatforia اکائونٽس، گلوبل کوريج.",
-      "perPack": "/ پيڪ",
-      "small": {
-        "title": "فيملي اسمال",
-        "desc": "20 GB شيئر ھائي اسپيڊ ڊيٽا شامل — 2–3 ھلڪي صارفين لاءِ زبردست.",
-        "price": "$29.99",
-        "aria": "فيملي اسمال پيڪ خريد ڪريو"
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
-      "medium": {
-        "title": "فيملي ميڊيم",
-        "desc": "40 GB شيئر ھائي اسپيڊ ڊيٽا شامل — 3–5 فعال ممبرن لاءِ مثالي.",
-        "price": "$49.99",
-        "aria": "فيملي ميڊيم پيڪ خريد ڪريو"
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
-      "large": {
-        "title": "فيملي لارج",
-        "desc": "80 GB شيئر ھائي اسپيڊ ڊيٽا شامل — ھميشه آن لائن رھندڙ پاور فيمليز لاءِ.",
-        "price": "$84.99",
-        "aria": "فيملي لارج پيڪ خريد ڪريو"
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
-      "feature": {
-        "shared": "اوھان جي فيملي لاءِ شيئر ڊيٽا پول",
-        "members": "4 اضافي ممبرن تائين دعوت ڏيو",
-        "membersMore": "3–5 فعال ممبرن لاءِ زبردست",
-        "manage": "ھر ممبر لاءِ حد منظم ڪريو",
-        "topUp": "ڪنھن به وقت وڌيڪ پيڪ شامل ڪريو",
-        "bestValue": "ھر GB لاءِ بھترين قدر",
-        "fairUse": "مناسب استعمال پاليسي ۽ لوڪل حد تي مشروط"
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
-      "disclaimer": "فيملي پيڪ شيئر ڊيٽا پول ٺاھي ٿا يا ٽاپ اپ ڪري ٿا. اوھان کي ممبرن کي ڪنھن به وقت دعوت ڏيڻ يا ھٽائڻ جو حق آھي.",
-      "footnote": "فيملي پيڪ لنڪ ٿيل Chatforia اکائونٽس ۾ ھڪ سنگل ڊيٽا پول شيئر ڪن ٿا. دستيابي ۽ حد اوھان جي ملک ۽ لوڪل ضابطن تي منحصر آھي."
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Chatforia بابت",
+    "description": "Chatforia هڪ جديد ميسيجنگ پليٽفارم آهي جيڪو محفوظ، گهڻ ٻوليائي رابطي لاءِ تيار ڪيو ويو آهي...",
+    "valuesTitle": "اسان جون قدرون",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
     },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "پرائيويسي پهرين",
+    "privacyDesc": "مضبوط انڪرپشن ۽ استعمال ڪندڙ جي ڪنٽرول هيٺ پرائيويسي سيٽنگون",
+    "accessTitle": "سڀني لاءِ رسائي",
+    "accessDesc": "گهڻين ٻولين ۾ تعمير ٿيل ترجمو",
+    "controlTitle": "ڪنٽرول",
+    "controlDesc": "فيچرز جهڙوڪ غائب ٿيندڙ پيغام ۽ پڙهڻ جون رسيدون"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
     "why": {
-      "title": "ماڻھو Chatforia ڏانھن ڇو تبديل ٿيندا آھن",
-      "subtitle": "Chatforia اوھان کي حقيقي فون نمبر، سمارٽ ترجمو، ۽ جڏھن اوھان تيار ھجو ته اشتھار کان آزاد ٿيڻ جو واضح رستو ڏئي ٿو.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia بمقابلہ TextNow",
-          "body": "مفت ۾ ھلڪا اشتھار، جڏھن تيار ھجو ته سادو Plus اپ گريڊ، ۽ TextNow کي پيش نه ڪيل پريميم ٽولز."
-        },
-        "voice": {
-          "title": "Chatforia بمقابلہ Google Voice",
-          "body": "جديد ايپ، گلوبل فرسٽ ڊيزائن، ۽ بلٽ ان ترجمو پراڻي ڪال فارورڊنگ جي بدران."
-        },
-        "messengers": {
-          "title": "Chatforia بمقابلہ چيٽ ايپس",
-          "body": "حقيقي فون نمبر تي ٽيڪسٽ ڪريو — صرف ٻئي ايپ صارفين نه — AI ۽ اسٽيٽس سان بلٽ ان. اگر اوھان TextFree يا TextMe جهڙي ايپس کان اچي رھيا آھيو ته زبردست."
-        }
-      },
-      "tableTitle": "Chatforia جو مقايسو ڪيئن ڪجي",
-      "col": {
-        "feature": "فيچر"
-      },
-      "feature": {
-        "freeNumber": "مفت فون نمبر",
-        "translation": "بلٽ ان آٽو ترجمو",
-        "aiTools": "AI ٽولز (ري رائيٽس، جواب، سميري)",
-        "ads": "اشتھار کان آزاد آپشن",
-        "history": "پيغام تاريخ"
-      },
-      "yes": "ھا",
-      "no": "نه",
-      "yesPremium": "ھا (پريميم)",
-      "plusPremium": "Plus ۽ پريميم",
-      "limited": "محدود",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "12+ مھينن تائين",
-        "textnow": "اکائونٽ تي منحصر",
-        "voice": "محدود / اکائونٽ بنياد"
-      },
-      "disclaimer": "مقايسو عوامي طور دستياب معلومات تي مبني آھي ۽ وقت سان تبديل ٿي سگھي ٿو. ٻيون مفت ٽيڪسٽ ايپس جهڙوڪ TextFree يا TextMe عام طور تي TextNow سان ملندڙ آھن."
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "faq": {
-      "title": "قيمت ۽ پلانز FAQ",
-      "free": {
-        "q": "ڇا مفت پلان واقعي مفت آھي؟",
-        "a": "ھا. مفت پلان ۾ Chatforia نمبر، ڪالنگ، ۽ اشتھار سان پيغام رسائي شامل آھي. اوھان جيترو چاھيو مفت تي رھي سگھو ٿا، يا اشتھار ھٽائڻ ۽ وڌيڪ فيچرز کولڻ لاءِ اپ گريڊ ڪريو."
-      },
-      "plusPremium": {
-        "q": "Plus ۽ پريميم ۾ ڇا فرق آھي؟",
-        "a": "Plus اشتھار ھٽائي ٿو ۽ اوھان جي پيغام تاريخ کي وڌائي ٿو — روزانھ استعمال لاءِ مثالي. پريميم اضافي حسب ضرورت، ري رائيٽس ۽ جواب لاءِ AI ٽولز، ۽ ڳري صارفين لاءِ ترجيحي سپورٽ شامل ڪري ٿو."
-      },
-      "esim": {
-        "q": "eSIM ڊيٽا پيڪ ڪٿي ڪم ڪن ٿا؟",
-        "a": "Chatforia موبائيل گلوبل eSIM کوريج استعمال ڪري ٿو. دستيابي اوھان جي ملک ۽ ڊوائيس تي منحصر آھي. ايپ اندر ایکٽيويشن دوران اوھان کي سپورٽ ٿيل آپشن ڏيکاريا ويندا."
-      },
-      "cancel": {
-        "q": "ڇا مان ڪنھن به وقت پلان منسوخ يا تبديل ڪري سگھان ٿو؟",
-        "a": "ھا. اوھان ايپ ۾ بلنگ پيج مان پنھنجي سبسڪرپشن منظم يا منسوخ ڪري سگھو ٿا. تبديليون اوھان جي موجودھ بلنگ عرصي جي آخر ۾ اثر انداز ٿينديون."
-      },
-      "family": {
-        "q": "فيملي پيڪ ڪيئن ڪم ڪن ٿا؟",
-        "a": "فيملي پيڪ ڪيترن ئي Chatforia اکائونٽس ۾ شيئر ڊيٽا پول ٺاھي ٿا. ھڪ شخص بل ادا ڪري ٿو، ۽ اوھان ممبرن کي دعوت ڏئي يا ھٽائي سگھو ٿا ۽ ھر شخص لاءِ حد مقرر ڪري سگھو ٿا."
-      }
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
     },
-    "gettingStarted": {
-      "title": "شروعات",
-      "subtitle": "Chatforia ۾ نئون؟ ھي تيز شروعات اوھان کي منٽن ۾ پيداواري بڻائي ٿي.",
-      "alert": {
-        "text": "ھن ھدايت ۾ نئين فيچرز لانچ ٿيڻ سان وڌندي. اگر ڪجھ غائب آھي ته مھرباني ڪري",
-        "contactLink": "اسان سان رابطو ڪريو"
-      },
-      "section1": {
-        "title": "1) پنھنجو اکائونٽ ٺاھيو",
-        "signup": "سائن اپ ڪريو",
-        "or": "يا",
-        "login": "لاگ ان ڪريو",
-        "loginText": "پنھنجي موجودھ اکائونٽ سان.",
-        "prefsStart": "پنھنجي",
-        "prefsLink": "ترجيحات",
-        "prefsRest": "سيٽ ڪريو (ٻولي، پڙھڻ جي رسيد، ٿيم)."
-      },
-      "section2": {
-        "title": "2) پيغام رسائي شروع ڪريو",
-        "item1": "DM يا گروپ ٺاھيو ۽ پنھنجو پھريون پيغام موڪليو.",
-        "item2": "100+ ٻولين ۾ فوري ترجمو استعمال ڪريو.",
-        "item3": "پروفائل → پرائيويسي ۾ غائب ٿيندڙ پيغام ۽ پڙھڻ جي رسيد آزمايو."
-      },
-      "section3": {
-        "title": "3) اڳتي وڌو",
-        "item1": "اوھان ايپ اندر ڪنھن به وقت ادا ڪيل پلان ڏانھن اپ گريڊ ڪري سگھو ٿا.",
-        "item2": "ھڪ ڀيري سائن ان ٿيڻ کان پوءِ اوھان اضافي ڊوائيسز لنڪ ڪري سگھو ٿا ۽ ايپ ۾ سيٽنگز مان انڪرپٽ ٿيل بيڪ اپ سيٽ ڪري سگھو ٿا."
-      },
-      "cta": {
-        "seePlans": "پلان ڏسو",
-        "openSettings": "سيٽنگز کوليو"
-      }
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
     },
-    "helpCenter": {
-      "title": "مدد سينٽر",
-      "faq": {
-        "account": {
-          "q": "مان پنھنجو اکائونٽ ڪيئن ٺاھي يا بحال ڪريان؟",
-          "a": "ايپ ڊائون لوڊ ڪريو يا ويب استعمال ڪريو، “اکائونٽ ٺاھيو” تي ٽيپ ڪريو، پنھنجو اي ميل/فون تصديق ڪريو. بحال ڪرڻ لاءِ “پاس ورڊ وساريو” استعمال ڪريو."
-        },
-        "privacy": {
-          "q": "ڇا پيغام پھر کان آخر تائين انڪرپٽ ٿيل آھن؟",
-          "a": "ھا. پيغام ۽ ڪالز ڊفالٽ طور پھر کان آخر تائين انڪرپٽ ٿيل آھن. صرف اوھان ۽ وصول ڪندڙ کي پڙھي سگھندا."
-        },
-        "translate": {
-          "q": "فوري ترجمو ڪيئن ڪم ڪري ٿو؟",
-          "a": "سيٽنگز → ظاھري ۽ ٻولي ۾ “آٽو ترجمو” فعال ڪريو. جتي سپورٽ ٿيل ھجي اسان ڊوائيس تي ترجمو ڪريون ٿا، ٻي صورت ۾ محفوظ APIs ذريعي گھٽ ميٽا ڊيٽا سان."
-        },
-        "contact": {
-          "q": "سپورٽ سان رابطو ڪريو",
-          "a": "support@chatforia.com تي اسان سان رابطو ڪريو. اسڪرين شاٽ ۽ اوھان جي ايپ ورزن شامل ڪريو."
-        }
-      }
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "اسان سان رابطو ڪريو",
-      "successMsg": "شڪريه — اسان جو ٽيم اي ميل ذريعي جواب ڏيندو.",
-      "errorSend": "موڪلڻ نه ڪري سگھيو. مھرباني ڪري support@chatforia.com تي اي ميل ڪريو.",
-      "form": {
-        "nameLabel": "نالو",
-        "emailLabel": "اي ميل",
-        "messageLabel": "پيغام",
-        "sendCta": "موڪليو"
-      }
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
     },
-    "privacyPolicy": {
-      "title": "پرائيويسي پاليسي",
-      "lastUpdated": "آخري اپ ڊيٽ:",
-      "intro": {
-        "body": "ھن پرائيويسي پاليسي ۾ وضاحت ڪئي وئي آھي ته Chatforia (“اسان”) اوھان جي ايپس ۽ سروسز استعمال ڪرڻ تي ڪيئن معلومات جمع، استعمال ۽ شيئر ڪري ٿو. اسان Chatforia کي ان طرح ڊيزائن ڪيو آھي ته اسان کي دستياب ڊيٽا کي گھٽ ۾ گھٽ رکون."
-      },
-      "infoWeCollect": {
-        "title": "اسان کي جمع ڪيل معلومات",
-        "account": "اکائونٽ معلومات (مثلاً اي ميل/فون) اکائونٽ ٺاھڻ ۽ محفوظ ڪرڻ لاءِ.",
-        "encrypted": "انڪرپٽ ٿيل مواد (پيغام/ڪالز) پھر کان آخر تائين انڪرپٽ ٿيل آھي؛ اسان کي پڙھي نه سگھندا.",
-        "diagnostics": "تشخيصي/استعمال جهڙوڪ ڪريش لاگ، ڊوائيس قسم، يا موڙي اينالٽڪس ته ڪارڪردگي بهتر ڪجي."
-      },
-      "sms": {
-        "title": "موبائيل فون نمبر ۽ SMS",
-        "body": "اگر اوھان موبائيل فون نمبر فراهم ڪريو ته اسان کي اکائونٽ تصديق، لاگ ان الرٽس، ۽ جتي سپورٽ ٿيل ھجي SMS ذريعي صارف کان صارف پيغام رسائي لاءِ استعمال ڪريون ٿا. اسان اوھان جي Chatforia تي سرگرمي سان لاڳاپيل ٽرانزيڪشنل SMS پيغام موڪلي سگھون ٿا. اوھان “STOP” جهڙي سپورٽ ٿيل آپٽ آئوٽ لفظ سان يا ايپ ۾ نوٽيفڪيشن ترجيحات تبديل ڪري ڪنھن به وقت SMS حاصل ڪرڻ کان آپٽ آئوٽ ڪري سگھو ٿا. اسان اوھان جو فون نمبر نه وڪرو ڪريون ٿا ۽ نه ئي غير متعلق مارڪيٽنگ لاءِ استعمال ڪريون ٿا.",
-        "newText": "نئون ٽيڪسٽ",
-        "enterRecipient": "نالو يا نمبر داخل ڪريو",
-        "typeMessage": "پيغام ٽائيپ ڪريو…",
-        "addRecipient": "شروع ڪرڻ لاءِ مٿي وصول ڪندڙ شامل ڪريو…"
-      },
-      "howWeUse": {
-        "title": "اسان معلومات کي ڪيئن استعمال ڪريون ٿا",
-        "provide": "سروس فراهم ۽ محفوظ ڪريو (auth، اسپام/بدعنواني پتہ لڳائڻ).",
-        "improve": "فيچرز بهتر ڪريو (ترجمي جو معيار، اعتبار).",
-        "legal": "قانوني ذميواريون پوري ڪريو."
-      },
-      "sharing": {
-        "title": "شيئرنگ",
-        "body": "اسان ذاتي ڊيٽا نه وڪرو ڪريون ٿا. اسان سخت قراردادن تحت پروسيسرز (مثلاً پش نوٽيفڪيشن، اينالٽڪس) سان محدود ڊيٽا شيئر ڪري سگھون ٿا."
-      },
-      "rights": {
-        "title": "اوھان جا حق",
-        "body": "اوھان جي علائقي (مثلاً GDPR/UK GDPR/CPRA) تي منحصر، اوھان کي رسائي، درستگي، حذف، يا ڪنھن خاص پروسيسنگ کان آپٽ آئوٽ جو مطالبو ڪري سگھو ٿا. رابطو: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "ڊيٽا برقرار رکڻ ۽ سيڪيورٽي",
-        "body": "اسان صرف سروس هلائڻ لاءِ ضروري ڊيٽا برقرار رکون ٿا ۽ صنعت معياري سيڪيورٽي لاڳو ڪريون ٿا. E2E مواد اسان کي ڊيڪرپٽ نه ڪري سگھجي ٿو."
-      },
-      "children": {
-        "title": "ٻار",
-        "body": "Chatforia 13 سال کان ھيٺ (يا اوھان جي لوڪل قانون مطابق) ٻارن ڏانھن ھدايت نه ڪئي وئي آھي."
-      },
-      "changes": {
-        "title": "تبديليون",
-        "body": "اسان ھتي اپ ڊيٽ پوسٽ ڪنداسون ۽ “آخري اپ ڊيٽ” تاريخ تبديل ڪنداسون."
-      },
-      "contact": {
-        "title": "رابطو",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
     },
-    "terms": {
-      "title": "سروس جي شرائط",
-      "lastUpdated": "آخري اپ ڊيٽ:",
-      "intro": {
-        "body": "Chatforia استعمال ڪرڻ سان اوھان ھن شرائط سان متفق آھيو. اگر متفق نه آھيو ته سروس استعمال نه ڪريو."
-      },
-      "accounts": {
-        "title": "اکائونٽس",
-        "itemAccurateInfo": "درست معلومات فراهم ڪريو ۽ سندن کي محفوظ رکو.",
-        "itemResponsibility": "اوھان پنھنجي اکائونٽ تي سرگرميءَ جا ذميوار آھيو."
-      },
-      "acceptableUse": {
-        "title": "قابل قبول استعمال",
-        "itemNoAbuse": "غير قانوني، بدعنواني، يا خلاف ورزي مواد نه؛ اسپام يا خودڪار بدعنواني نه.",
-        "itemSuspend": "خلاف ورزيءَ لاءِ اسان معطل/ختم ڪري سگھون ٿا."
-      },
-      "sms": {
-        "title": "SMS رابطي",
-        "body": "اگر اوھان موبائيل فون نمبر فراهم ڪريو ته اوھان متفق آھيو ته Chatforia اوھان کي اکائونٽ ۽ سروس استعمال سان لاڳاپيل SMS پيغام موڪلي سگھي ٿو، جهڙوڪ لاگ ان الرٽس، سيڪيورٽي نوٽيفڪيشن، ۽ اوھان جي شروع ڪيل يا حصو ورتل گفتگو سان لاڳاپيل پيغام. اسان پروموشنل يا مارڪيٽنگ پيغامن لاءِ SMS استعمال نه ڪريون ٿا بغير اوھان جي واضح رضامنديءَ. معياري پيغام ۽ ڊيٽا ريٽ لاڳو ٿي سگھن ٿا. اوھان “STOP” جهڙي سپورٽ ٿيل آپٽ آئوٽ لفظ سان يا ايپ ۾ نوٽيفڪيشن سيٽنگز اپ ڊيٽ ڪري ڪنھن به وقت SMS مان آپٽ آئوٽ ڪري سگھو ٿا."
-      },
-      "yourContent": {
-        "title": "اوھان جو مواد",
-        "body": "اوھان پنھنجي مواد جا حق برقرار رکندا آھيو. اسان کي سروس ھلائڻ لاءِ ضروري حق ڏيو (مثلاً روٽنگ، اسٽوريج، ترجمو)."
-      },
-      "disclaimer": {
-        "title": "ڊس ڪليمر ۽ ذميواري",
-        "body": "سروس “جيئن آھي” وارنٽي کان سواءِ فراهم ڪئي وئي آھي. قانون اجازت ڏيڻ واري مڪمل حد تائين، Chatforia بالواسطہ يا نتيجي واري نقصان لاءِ ذميوار نه آھي."
-      },
-      "changes": {
-        "title": "تبديليون",
-        "body": "اسان ھن شرائط کي اپ ڊيٽ ڪري سگھون ٿا؛ تبديليءَ کان پوءِ جاري استعمال قبوليت جو مطلب آھي."
-      },
-      "contact": {
-        "title": "رابطو",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
     },
-    "doNotSell": {
-      "title": "منھنجي ذاتي معلومات کي وڪرو يا شيئر نه ڪريو",
-      "body": "Chatforia ذاتي معلومات نه وڪرو ڪري ٿو. ڪيليفورنيا رھائشي CPRA تحت درخواست جمع ڪري سگھن ٿا ھيٺ ڏنل بٽڻ سان.",
-      "cta": "درخواست جمع ڪريو"
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
     },
-    "cookies": {
-      "title": "ڪوڪي سيٽنگز",
-      "body": "Chatforia گھٽ ۾ گھٽ ڪوڪيز استعمال ڪري ٿو (مثلاً سيشن، سيڪيورٽي). اسان ٽئين پارٽي اشتھار ڪوڪيز استعمال نه ڪريون ٿا. اوھان جي برائوزر سيٽنگز ذريعي ڪوڪيز منظم ڪريو."
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "فون نمبر اسٽيٽس لوڊ ڪرڻ ناممڪن.",
-      "lock": "لاڪ",
-      "noNumberAssigned": "ڪوبه نمبر تفويض نه ڪيو. ٽيڪسٽنگ شروع ڪرڻ لاءِ علائقي ڪوڊ سان ھڪ نمبر منتخب ڪريو.",
-      "pickNumber": "نمبر منتخب ڪريو",
-      "phoneNumber": "فون نمبر"
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
     },
-    "startChatModal": {
-      "title": "چيٽ شروع ڪريو",
-      "quickPicker": "فوري پڪر",
-      "to": "ڏانھن",
-      "nameOrUsername": "نالو، صارف جو نالو ٽائيپ ڪريو",
-      "nameUsernamePhoneEmail": "نالو، صارف جو نالو، فون، يا اي ميل ٽائيپ ڪريو…",
-      "startWithSelected": "منتخب سان چيٽ شروع ڪريو",
-      "searchByUsernameOrPhone": "صارف جو نالو يا فون سان ڳوليو",
-      "search": "ڳوليو",
-      "searchPrompt": "صارف جو نالو يا فون ٽائيپ ڪريو ۽ ڳوليو دٻايو.",
-      "pickFromContacts": "يا رابطن مان منتخب ڪريو",
-      "addContact": "رابطو شامل ڪريو",
-      "show": "ڏيکاريو",
-      "add": "شامل ڪريو",
-      "close": "بند ڪريو",
-      "selectedCount": "{{count}} منتخب",
-      "pickAtLeastOne": "گھٽ ۾ گھٽ ھڪ وصول ڪندڙ منتخب ڪريو.",
-      "saveContactsHint": "فون/اي ميل انٽريون کي رابطي طور محفوظ ڪرڻ کان پوءِ دستياب ھونديون.",
-      "failedBulkStart": "منتخب وصول ڪندڙن سان چيٽ شروع ڪرڻ ناڪام.",
-      "noResults": "ڪوبه نتيجو نه",
-      "mode": "موڊ",
-      "group": "گروپ",
-      "broadcast": "براڊ ڪاسٽ",
-      "groupNameOptional": "گروپ نالو (اختياري)",
-      "firstMessageOptional": "پھريون پيغام (اختياري پر تجویز ڪيل)",
-      "createGroup": "گروپ ٺاھيو",
-      "sendBroadcast": "براڊ ڪاسٽ موڪليو"
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "واپسي پاليسي",
+    "lastUpdated": "آخري ڀيرو اپڊيٽ ڪيو ويو:",
+    "intro": "Chatforia ۾، اسان ڪوشش ڪندا آهيون ته سڀني استعمال ڪندڙن کي اعليٰ معيار جي خدمت فراهم ڪريون. هي واپسي پاليسي بيان ڪري ٿي ته ڪڏهن واپسي جاري ٿي سگهي ٿي.",
+    "subscriptions": {
+      "title": "سبسڪرپشنون",
+      "body": "سبسڪرپشنون اڳواٽ ۽ بار بار بنياد تي بل ڪيون وڃن ٿيون. توهان پنهنجي اڪائونٽ سيٽنگن يا خريداري لاءِ استعمال ٿيل پليٽفارم ذريعي ڪنهن به وقت منسوخ ڪري سگهو ٿا."
     },
-    "sounds": {
-      "freeNotice": "اوھان مفت تي آھيو — پريميم ٽون ڏيکاريا ويا آھن پر لاڪ آھن. سڀ کولڻ لاءِ اپ گريڊ ڪريو.",
-      "preview": "پيش منظر",
-      "resetToDefaults": "ڊفالٽ تي ري سيٽ ڪريو",
-      "notificationSounds": "نوٽيفڪيشن آواز",
-      "messageTone": "پيغام ٽون",
-      "default": "ڊفالٽ",
-      "vibrate": "وائبريٽ",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Pulsating Sound",
-      "textMessage": "Text Message",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Digital Phone",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
+    "eligibility": {
+      "title": "واپسي لاءِ اهل هجڻ",
+      "body": "واپسي ڊپليڪيٽ چارجز، بلنگ ۾ غلطيون، يا اهڙن ٽيڪنيڪل مسئلن لاءِ ڏني وڃي سگهي ٿي جيڪي ادائيگي ٿيل فيچرز تائين رسائي کي روڪين ٿا. سڀ درخواستون ڪيس جي بنياد تي جائزو ورتيون وڃن ٿيون."
     },
-    "premiumGuard": {
-      "requiresPremium": "ھن فيچر لاءِ پريميم پلان گھربل آھي."
+    "nonRefundable": {
+      "title": "غير واپسي لائق",
+      "body": "عام طور تي، اسان غير استعمال ٿيل وقت، جزوي سبسڪرپشن مدتن، يا نئين تجديد کان اڳ منسوخ نه ڪرڻ جي صورت ۾ واپسي فراهم نٿا ڪريون."
     },
-    "aiSettings": {
-      "title": "AI سيٽنگز",
-      "controlIntro": "ترجمو، سمارٽ جواب، ۽ ForiaBot آٽو جواب تي ڪنٽرول ڪريو.",
-      "save": "AI سيٽنگز محفوظ ڪريو",
-      "autoTranslateIncoming": "ايندڙ پيغام آٽو ترجمو ڪريو",
-      "showOriginalAlongside": "ترجمي سان گڏ اصل ٽيڪسٽ ڏيکاريو",
-      "enableSmartReplies": "سمارٽ جواب فعال ڪريو",
-      "smartRepliesHint": "AI کي تيز جواب تجویز ڪرڻ لاءِ آخري ڪجھ وصول ڪيل پيغام (صاف ڪيل) موڪليو.",
-      "maskProfanity": "AI تجویزن ۾ بد کلامي ماسڪ ڪريو",
-      "maskProfanityHint": "اگر آن ھجي ته AI طرفان واپس ڪيل تجویزن ۾ نشان لڳايل لفظ ماسڪ ڪيا ويندا",
-      "foriaBot": "ForiaBot آٽو جواب ڏيندڙ",
-      "enableAutoReply": "جب مصروف ھجان ته آٽو جواب فعال ڪريو",
-      "autoReplyMode": "آٽو جواب موڊ",
-      "cooldownSeconds": "کول ڊائون (سيڪنڊ)",
-      "off": "آف",
-      "on": "آن",
-      "signature": "دستخط",
-      "autoReply": "آٽو جواب",
-      "activeUntilOptional": "فعال تائين (اختياري)",
-      "saved": "AI ترجيحات محفوظ ٿيون",
-      "saveFailed": "AI سيٽنگز محفوظ ڪرڻ ناڪام",
-      "translateOff": "آف",
-      "translateTagged": "صرف @translated يا ٽيگ ٿيل تي",
-      "translateAll": "سڀئي ايندڙ پيغام ترجمو ڪريو",
-      "modeDm": "صرف 1:1 چيٽس",
-      "modeMention": "صرف جڏھن مون کي @mentioned ڪيو وڃي",
-      "modeAll": "سڀئي ان بائونڊ پيغام"
+    "thirdParty": {
+      "title": "ٽئين ڌر جون خريداريون",
+      "body": "جيڪڏهن خريداري ٽئين ڌر جي پليٽفارمز جهڙوڪ Apple App Store ذريعي ڪئي وئي آهي، ته واپسي سڌو انهن پليٽفارمز کان درخواست ڪرڻي پوندي."
     },
-    "accessibilitySettings": {
-      "title": "رسائي ۽ الرٽس",
-      "accessibility": "رسائي",
-      "accessibilityDesc": "آواز تي انحصار ڪرڻ کان سواءِ Chatforia کي استعمال ڪرڻ آسان ڪرڻ لاءِ آپشن.",
-      "interfaceFontSize": "انٽرفيس فونٽ سائز",
-      "interfaceFontSizeHelp": "نارمل سائز کان شروع ٿئي ٿو. اگر اوھان کي وڏي ٽيڪسٽ پسند آھي ته رسائي سيٽنگز ۾ وڌايو.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "نوٽيفڪيشن",
-      "notificationsDesc": "پيغام ۽ ڪالز لاءِ بصري الرٽ\nبينر ۽ ٽائيٽل بلنک ڏيکاريو ته اوھان سرگرمي نه وڃايو.",
-      "vibrateOnNew": "نئي پيغام تي وائبريٽ (جب سپورٽ ٿيل ھجي)\nنوٽيفڪيشن سان ڊوائيس وائبريشن ٽرگر ڪريو.",
-      "flashOnCall": "ايندڙ ڪال تي اسڪرين فليش\nڪال رنڪ ڪرڻ تي مختصر روشن فليش.",
-      "liveCaptions": "لائيو ڪيپشن (ڪالز)",
-      "captionFontSize": "ڪيپشن فونٽ سائز",
-      "captionBackground": "ڪيپشن پس منظر",
-      "light": "روشن",
-      "dark": "اونداھو",
-      "transparent": "شفاف",
-      "voiceNotes": "آواز نوٽس",
-      "autoTranscribeVoiceNotes": "آواز نوٽس آٽو ٽرانسڪرائب ڪريو",
-      "autoTranscribeVoiceNotesDesc": "اوھان کي وصول ڪيل آڊيو پيغام سان ٽرانسڪرپٽ اٽيچ ڪريو.",
-      "changesSavedInstantly": "تبديليون فوري طور محفوظ ٿينديون.",
-      "loadFailed": "سيٽنگز لوڊ ڪرڻ ناڪام",
-      "visualAlerts": "پيغام ۽ ڪالز لاءِ بصري الرٽ",
-      "visualAlertsDesc": "بينر ۽ ٽائيٽل بلنک ڏيکاريو ته اوھان سرگرمي نه وڃايو.",
-      "vibrateOnNewShort": "نئي پيغام تي وائبريٽ (جب سپورٽ ٿيل)",
-      "vibrateOnNewDesc": "نوٽيفڪيشن سان ڊوائيس وائبريشن ٽرگر ڪريو.",
-      "flashOnCallShort": "ايندڙ ڪال تي اسڪرين فليش",
-      "flashOnCallDesc": "ڪال رنڪ ڪرڻ تي مختصر روشن فليش."
+    "contact": {
+      "title": "رابطو",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
     },
-    "privacySection": {
-      "strictE2EE": "سخت پھر کان آخر تائين انڪرپشن",
-      "ciphertextOnlyNote": "سرور تي صرف سائفر ٽيڪسٽ اسٽور ڪريو. AI/ترجمو ۽ موڊريشن پيش منظر غير فعال ڪريو."
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
     },
-    "linkedDevicesPanel": {
-      "title": "لنڪ ٿيل ڊوائيسز",
-      "noneFound": "ڪوبه لنڪ ٿيل ڊوائيس نه مليو.",
-      "refresh": "تازو ڪريو"
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
     },
     "help": {
-      "title": "مدد",
-      "howCanWeHelp": "اسان اوھان کي ڪيئن مدد ڪري سگھون ٿا؟",
-      "helpCenter": "مدد سينٽر",
-      "contactUs": "اسان سان رابطو ڪريو",
-      "quickTopics": "فوري موضوع",
-      "searchExamples": "“ترجمو”، “بيڪ اپ”، يا “پرائيويسي” ڳولڻ جي ڪوشش ڪريو.",
-      "cantLogin": "لاگ ان نه ڪري سگھان ٿو",
-      "paymentsBilling": "ادائگي/بلنگ",
-      "reportAbuse": "بدعنواني رپورٽ ڪريو",
-      "searchHelpArticles": "مدد آرٽيڪلز ڳوليو",
-      "search": "ڳوليو"
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
     },
-    "peoplePage": {
-      "people": "ماڻھو",
-      "search": "ڳوليو",
-      "searchPlaceholder": "عرف، نالو، صارف جو نالو، يا فون سان ڳوليو",
-      "filterSaved": "محفوظ ڪيل رابطا فلٽر ڪريو",
-      "noContactsFound": "ڪوبه رابطو نه مليو",
-      "quickStart": "فوري شروعات",
-      "quickStartDesc": "ڪجھ تيز طريقا ته جلدي شروع ڪريو.",
-      "importContacts": "پنھنجا رابطا درآمد ڪريو",
-      "add": "شامل ڪريو",
-      "focusSearch": "ڳولا تي فوڪس",
-      "import": "درآمد",
-      "findOrAdd": "ڪنھن کي ڳوليو يا شامل ڪريو",
-      "searchByPhoneOrUsername": "فون / صارف جو نالو سان ڳوليو",
-      "inviteFriends": "دوستن کي دعوت ڏيو",
-      "inviteDesc": "فوري چيٽ شروع ڪرڻ لاءِ پنھنجو دعوت لنڪ شيئر ڪريو.",
-      "getTheApp": "ايپ حاصل ڪريو",
-      "getTheAppDesc": "Chatforia iOS ۽ Android سان ھلندڙ رھو.",
-      "download": "ڊائون لوڊ",
-      "syncTip": "ٽپ: اوھان جا پيغام ويب ۽ موبائيل ۾ سنڪ رھن ٿا."
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
     },
-    "randomChat": {
-      "title": "بے ترتيب چيٽ",
-      "description": "فوري طور تي ڪنھن سان مليو. اسان اوھان کي ميچ ڪنداسون ۽ عارضي چيٽ روم کولينداسون. پھريون گمنام چيٽ ڪريو. اگر مناسب لڳي ته پوءِ دوست شامل ڪريو.",
-      "findMatch": "مون کي ميچ ڳولي ڏيو",
-      "chatWithForia": "Foria سان چيٽ ڪريو",
-      "chatWithForiaBot": "ForiaBot سان چيٽ ڪريو",
-      "cancel": "منسوخ ڪريو",
-      "close": "بند ڪريو",
-      "searching": "ڳولي رھيو آھي…",
-      "finding": "ڳولي رھيو آھي…",
-      "looking": "ڪنھن کي ڳولي رھيو آھي…",
-      "startingForia": "Foria سان چيٽ شروع ڪري رھيو آھي…",
-      "partnerDisconnected": "اوھان جو پارٽنر ڊسڪنيڪٽ ٿيو.",
-      "noPartner": "ھاڻي ڪوبه پارٽنر نه مليو.",
-      "connectedTo": "{{name}} سان ڳنڍيل",
-      "connected": "ڳنڍيل",
-      "idle": "بيڪار",
-      "partnerLeft": "پارٽنر ڇڏي ويو.",
-      "stopped": "روڪيو.",
-      "skip": "اسڪپ",
-      "save": "محفوظ ڪريو",
-      "saveGuard": "صرف انسان کان انسان چيٽس محفوظ ڪري سگھجن ٿيون",
-      "youAreChattingWith": "اوھان {{name}} سان چيٽ ڪري رھيا آھيو",
-      "bot": "BOT",
-      "leave": "ڇڏي ڏيو",
-      "sayHi": "ھلو چئو 👋",
-      "you": "اوھان",
-      "typeMessage": "پيغام ٽائيپ ڪريو",
-      "send": "موڪليو",
-      "partner": "پارٽنر",
-      "withRia": "Ria سان",
-      "chatWithRia": "Ria سان چيٽ ڪريو",
-      "startingRia": "Ria سان چيٽ شروع ڪري رھيو آھي…",
-      "ageDisclaimer": "اسان صرف عمر رينج اسٽور ڪريون ٿا (اوھان جي درست تاريخ تولد نه). ھي بے ترتيب چيٽ پيئرنگ کي مناسب رکڻ لاءِ استعمال ٿئي ٿو. ماڻھن سان ميچ ڪرڻ لاءِ (صرف RiaBot نه) سيٽنگز → عمر ۽ بے ترتيب چيٽ ۾ پنھنجو عمر بينڊ سيٽ ڪريو.",
-      "ageBandRequired": "ماڻھن سان ميچ ڪرڻ لاءِ پروفائل → عمر ۽ بے ترتيب چيٽ ۾ پنھنجو عمر رينج سيٽ ڪريو.",
-      "ageBandCallout": "ماڻھن سان ميچ ڪرڻ لاءِ (صرف RiaBot نه) سيٽنگز → عمر ۽ بے ترتيب چيٽ ۾ پنھنجو عمر بينڊ سيٽ ڪريو.",
-      "subtitle": "فوري طور تي ڪنھن سان مليو، يا Ria سان چيٽ ڪرڻ جو انتخاب ڪريو.",
-      "start": "گفتگو شروع ڪريو",
-      "matching": "ميچنگ ڪري رھيو آھي…",
-      "setAge": "ماڻھن سان ميچ ڪرڻ لاءِ پروفائل → عمر ۽ بے ترتيب چيٽ ۾ پنھنجو عمر رينج سيٽ ڪريو.",
-      "next": "اگلي شخص",
-      "addFriend": "دوست شامل ڪريو",
-      "requested": "درخواست ڪئي",
-      "messageRia": "Ria کي پيغام…",
-      "messageMatch": "اوھان جي ميچ کي پيغام…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    }
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

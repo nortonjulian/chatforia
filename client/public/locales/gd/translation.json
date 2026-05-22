@@ -9,10 +9,22 @@
     "copied": "Air a lethbhreacadh!",
     "errorWithMessage": "Mearachd: {{message}}",
     "loading": "A’ luchdadh…",
-    "saveError": "Sàbhail dh’fhàillig"
+    "saveError": "Sàbhail dh’fhàillig",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Leum dhan phrìomh shusbaint"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Chaidh cùl-taic nan iuchraichean a chruthachadh is a luchdadh a-nuas ✓",
@@ -26,6 +38,102 @@
     "chooseFile": "Tagh faidhle agus cuir a-steach am facal-faire.",
     "imported": "Chaidh an iuchair phrìobhaideach a thoirt a-steach dhan uidheam seo. Faodaidh tu seann theachdaireachdan a leughadh a-nis.",
     "enterPassword": "Cuir a-steach facal-faire a’ chunntais agad gus an urrainn dhuinn na h-iuchraichean agad a chùl-taiceadh gu tèarainte."
+  },
+  "encryptionRecovery": {
+    "title": "Stiùirich Encryption",
+    "description": "Back up, restore, unlock, no reset agad encryption iuchair.",
+    "alert": {
+      "keyRequiredTitle": "Encryption iuchair riatanach",
+      "keyRequiredBody": "This browser cannot currently decrypt agad crioptaichte teachdaireachdan. Restore, unlock, no reset agad iuchair gu lean air adhart.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Cruthaich iuchair cùl-taic",
+      "restoreFromBackup": "Restore bho cunntas cùl-taic",
+      "resetEncryption": "Ath-shuidhich crioptachadh"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (làithreach uidheam)",
+        "description": "Used gu decrypt agad iuchraichean locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Cùl-taic facal-faire",
+        "description": "Used gu encrypt an cùl-taic faidhle"
+      },
+      "restoreBackupPassword": {
+        "label": "Cùl-taic facal-faire",
+        "description": "An facal-faire thu created when backing up agad iuchair air iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Ùr ionadail passcode",
+        "description": "Protect iuchraichean at rest air this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "Ùr ionadail passcode",
+        "description": "Riatanach before resetting so an ùr iuchair tha protected air this uidheam"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption iuchair",
+      "restoreFromBackup": "Restore bho cunntas cùl-taic",
+      "resetEncryption": "Ath-shuidhich crioptachadh",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Iuchair cùl-taic created agus downloaded.",
+      "keyUnlocked": "Encryption iuchair unlocked.",
+      "keyRestored": "Iuchair restored bho cunntas cùl-taic.",
+      "resetSuccess": "Chaidh crioptachadh ath-shuidheachadh gu soirbheachail."
+    },
+    "errors": {
+      "restoreIncomplete": "Iuchair restore incomplete no incorrect airson this cunntas",
+      "noBackup": "Chan eil cùl-taic crioptaichte ann airson a’ chunntais seo",
+      "missingPublicKey": "Tha iuchair phoblach a dhìth air a’ chùl-taic",
+      "noServerPublicKey": "This cunntas does chan eil currently expose a server poblach iuchair",
+      "serverBackupMismatch": "Server cùl-taic does chan eil maids an làithreach cunntas encryption iuchair",
+      "incompleteMetadata": "Cùl-taic metadata tha incomplete",
+      "resetIncomplete": "Encryption reset did chan eil complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption airson this cunntas?\n\nOlder crioptaichte teachdaireachdan may become unreadable unless thu restore an original iuchair later."
+    },
+    "resetDescription": "This generates a ùr encryption iuchair airson agad cunntas. Older crioptaichte teachdaireachdan may become unreadable unless thu restore an original iuchair later.",
+    "danger": {
+      "title": "Stiùirich Encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Teachdaireachdan tèarainte do dhuine sam bith, àite sam bith",
@@ -90,7 +198,19 @@
       "passwordDescription": "Minimum 6 characters. Use a strong, unique facal-faire.",
       "smsConsent": "Le creating an cunntas, thu agree gu faigh SMS brathan related gu agad Chatforia activity (such as teachdaireachdan bho other cleachdaichean). Teachdaireachd & dàta rates may apply. Thu faodaidh opt out at uair sam bith ann an Roghainnean.",
       "termsLink": "Teirmean Seirbheis",
-      "privacyLink": "Poileasaidh Prìobhaideachd"
+      "privacyLink": "Poileasaidh Prìobhaideachd",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "Gu:",
     "enterRecipient": "Cuir a-steach ainm no àireamh",
@@ -101,7 +221,90 @@
     "addRecipient": "Cuir neach-faighinn gu h-àrd gus tòiseachadh…",
     "oneRecipient": "Cuir a-steach aon neach-faighinn an-dràsta.",
     "enterValidRecipient": "Cuir a-steach ainm neach-conaltraidh sàbhailte no àireamh fòn.",
-    "sendFailed": "Dh’fhàillig an cur. Thoir sùil air a’ chonsól airson mion-fhiosrachaidh."
+    "sendFailed": "Dh’fhàillig an cur. Thoir sùil air a’ chonsól airson mion-fhiosrachaidh.",
+    "logIn": "Log a-steach",
+    "seePlans": "Faic planaichean is prìsean",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "Le creating an cunntas, thu agree gu faigh SMS brathan related gu agad Chatforia activity (such as teachdaireachdan bho other cleachdaichean). Teachdaireachd & dàta rates may apply. Thu faodaidh opt out at uair sam bith ann an Roghainnean.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Dachaigh",
@@ -119,210 +322,29 @@
     "send": "Cuir",
     "welcomeMessage": "Fàilte gu Chatforia",
     "getStarted": "Tòisich",
+    "mixedRecipients": "Mixed recipients detected. Use either uile àireamh fòns (SMS) no uile usernames (Chatforia).",
     "enterRecipient": "Cuir a-steach ainm no àireamh",
     "addRecipient": "Cuir neach-faighinn ris gu h-àrd gus tòiseachadh…",
-    "mixedRecipients": "Mixed recipients detected. Use either uile àireamh fòns (SMS) no uile usernames (Chatforia).",
     "needNumber": "Thu need a Chatforia àireamh before sending SMS.",
-    "chooseNumber": "Tagh a àireamh"
+    "chooseNumber": "Tagh a àireamh",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Poileasaidh Ais-phàighidh",
-    "lastUpdated": "Air ùrachadh mu dheireadh:",
-    "intro": "At Chatforia, sinn strive gu provide a high-quality service gu uile cleachdaichean. This Ais-phàigheadh Poileasaidh outlines when refunds may be issued.",
-    "subscriptions": {
-      "title": "Fo-sgrìobhaidhean",
-      "body": "Fo-sgrìobhaidhean tha billed ann an advance air a recurring basis. Thu may sguir dheth at uair sam bith through agad roghainnean cunntais no an platform used gu purchase."
-    },
-    "eligibility": {
-      "title": "Ion-roghnachd airson ais-phàigheadh",
-      "body": "Refunds may be granted airson duplicate charges, bileachadh errors, no technical issues preventing access gu paid features. Uile requests tha reviewed case-le-case."
-    },
-    "nonRefundable": {
-      "title": "Neo-ais-phàighte",
-      "body": "Sinn generally do chan eil provide refunds airson unused time, partial fo-sgrìobhadh periods, no failure gu sguir dheth before renewal."
-    },
-    "thirdParty": {
-      "title": "Ceannach treas-phàrtaidh",
-      "body": "If purchased through third-party platforms such as an Apple App Store, refunds must be requested directly through those platforms."
-    },
-    "contact": {
-      "title": "Cuir fios",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-  "blog": {
-    "whyMessaging": {
-      "title": "Why Messaging Platforms Matter Barrachd Than Ever",
-      "intro": "Messaging platforms have become one de an most important tools airson communication ann an today’s world. Bho personal còmhraidhean gu business interactions, messaging apps allow people gu stay connected instantly agus efficiently.",
-      "everydayTitle": "Conaltradh làitheil",
-      "everydayDesc": "People rely air messaging apps airson daily communication le caraidean, teaghlach, agus colleagues. Whether it's a quick update no a long còmhradh, messaging provides a convenient agus flexible way gu stay ann an touch.",
-      "speedTitle": "Speed agus Convenience",
-      "speedDesc": "One de an main advantages de messaging platforms tha their speed. Teachdaireachdan tha delivered instantly, allowing cleachdaichean gu communicate ann an real time. This level de convenience has made messaging an preferred method de communication airson many people.",
-      "globalTitle": "Cruinneil Reach",
-      "globalDesc": "Messaging platforms connect people across an globe. Le internet access, cleachdaichean faodaidh communicate regardless de location, making it easier gu build relationships agus collaborate internationally.",
-      "privacyTitle": "Prìobhaideachd agus Control",
-      "privacyDesc": "Modern messaging platforms focus air giving cleachdaichean control over their dàta agus còmhraidhean. Features like encryption, prìobhaideachd roghainnean, agus teachdaireachd controls allow cleachdaichean gu communicate le confidence.",
-      "futureTitle": "An Future de Messaging",
-      "futureDesc": "Messaging continues gu evolve le ùr features such as AI-powered responses, eadar-theangachadh, agus multimedia sharing. As technology advances, messaging platforms bidh become even barrachd powerful agus versatile.",
-      "outro": "Chatforia tha togte le these principles ann an mind, offering a fast, tèarainte, agus user-friendly messaging experience airson a connected world."
-    },
-    "global": {
-      "title": "An Future de Cruinneil Communication",
-      "intro": "Communication has evolved rapidly over an past few decades. What once riatanach fòn gairmean no ann an-person meetings faodaidh a-nis be done quickly through messaging platforms. As technology continues gu advance, cruinneil communication tha becoming faster, barrachd accessible, agus barrachd inclusive.",
-      "barriersTitle": "A’ briseadh sìos bhacaidhean",
-      "barriersDesc": "One de an biggest changes ann an communication tha an reduction de geographic barriers. People faodaidh a-nis connect le others across an world ann an near real time. Whether airson personal còmhraidhean, business, no collaboration, messaging platforms have made distance far nas lugha limiting.",
-      "translationTitle": "An Role de Eadar-theangachadh Technology",
-      "translationDesc": "Cànan has traditionally been one de an biggest obstacles gu cruinneil communication. Today, togte-ann an eadar-theangachadh tools cuideachadh bridge that gap. Platforms like Chatforia allow cleachdaichean gu communicate barrachd easily even if they speak different languages, creating ùr opportunities airson connection agus understanding.",
-      "realtimeTitle": "Ceangailteachd fìor-ùine",
-      "realtimeDesc": "Speed tha a iuchair factor shaping modern communication. Cleachdaichean expect teachdaireachdan gu be delivered quickly, agus modern infrastructure supports that expectation. Real-time messaging enables barrachd natural agus fluid còmhraidhean.",
-      "privacyTitle": "Prìobhaideachd agus Tèarainteachd",
-      "privacyDesc": "As communication becomes barrachd digital, prìobhaideachd agus tèarainteachd tha increasingly important. Cleachdaichean want confidence that their còmhraidhean tha protected. Features like encryption agus user-controlled roghainnean cuideachadh taic a barrachd tèarainte communication experience.",
-      "futureTitle": "Dè thig an ath rud",
-      "futureDesc": "An future de cruinneil communication bidh likely include barrachd advanced tools, such as AI-assisted messaging, improved eadar-theangachadh, agus enhanced cleachdaiche experiences. As technology evolves, communication bidh lean air adhart gu become barrachd intuitive agus accessible.",
-      "outro": "Platforms like Chatforia tha part de this shift, helping people connect barrachd easily across languages agus borders."
-    },
-    "index": {
-      "title": "Blog Chatforia",
-      "intro": "Explore insights air communication, online safety, agus how messaging technology tha connecting people around an world.",
-      "post1": "How gu Còmhradh Safely Online",
-      "post2": "An Future de Cruinneil Communication",
-      "post3": "Carson a tha àrd-ùrlaran teachdaireachd cudromach"
-    }
-  },
-  "howItWorks": {
-    "title": "Mar a dh’obraicheas Chatforia",
-    "intro": "Chatforia tha designed gu make communication simple, fast, agus accessible. Getting started takes just a few steps.",
-    "step1Title": "1. Cruthaich an Cunntas",
-    "step1Desc": "Clàraich up using agad post-d no ainm-cleachdaiche gu cruthaich agad Chatforia cunntas.",
-    "step2Title": "2. Tòisich a Còmhradh",
-    "step2Desc": "Connect le others le selecting luchd-conaltraidh no starting ùr chats.",
-    "step3Title": "3. Teachdaireachdan fìor-ùine",
-    "step3Desc": "Teachdaireachdan tha delivered quickly gu provide a smooth communication experience.",
-    "step4Title": "4. Cruinneil Communication",
-    "step4Desc": "Built-ann an eadar-theangachadh helps cleachdaichean communicate across different languages.",
-    "step5Title": "5. Stay ann an Control",
-    "step5Desc": "Stiùirich agad preferences, luchd-conaltraidh, agus communication roghainnean."
-  },
-  "safety": {
-    "title": "Sàbhailteachd & Stiùireadh na Coimhearsnachd",
-    "intro": "Chatforia tha committed gu maintaining a safe agus respectful environment airson uile cleachdaichean. These guidelines cuideachadh ensure a positive experience airson everyone.",
-    "respectTitle": "Conaltradh le spèis",
-    "respectDesc": "Cleachdaichean tha expected gu communicate respectfully. Harassment, abuse, no harmful behavior tha chan eil permitted.",
-    "prohibitedTitle": "Susbaint toirmisgte",
-    "prohibited": {
-      "illegal": "Gnìomhan mì-laghail",
-      "harassment": "Sàrachadh no burraidheachd",
-      "hate": "Cànan fuatha no leth-bhreith",
-      "explicit": "Stuth follaiseach no cronail",
-      "spam": "Spama no cleachdaidhean meallta"
-    },
-    "toolsTitle": "Cleachdaiche Safety Tools",
-    "tools": {
-      "report": "Report inappropriate behavior no content",
-      "block": "Block cleachdaichean gu prevent further interaction",
-      "control": "Stiùirich prìobhaideachd agus communication roghainnean"
-    },
-    "enforcementTitle": "Cur an gnìomh",
-    "enforcementDesc": "Sinn may take action against cunntasan that violate these guidelines, including warnings, restrictions, no permanent removal bho an platform."
-  },
-  "chat": {
-    "selectPrompt": "Tagh teacsa no seòmar-còmhraidh gus tòiseachadh air cabadaich",
-    "newMessages": "Teachdaireachdan ùra",
-    "typing": "Tha {{name}} a’ sgrìobhadh...",
-    "emptyTitle": "Na teachdaireachdan agad",
-    "emptySubtitle": "Cuir teachdaireachd gus còmhradh a thòiseachadh.",
-    "startChatButton": "Cuir teachdaireachd",
-    "mediaAttachment": "Ceanglachan meadhanan",
-    "thisUser": "an cleachdaiche seo",
-    "blockConfirm": "Block {{name}}? Thu won't faigh teachdaireachdan bho them.",
-    "blockedUser": "Chaidh {{name}} a bhacadh.",
-    "blockError": "Cha b’ urrainn dhuinn determine a target cleachdaiche gu block.",
-    "blockFailed": "Block dh’fhàillig (backend chan eil wired yet).",
-    "encryptedUnavailable": "Teachdaireachd chrioptaichte (iuchair gun fhaighinn)",
-    "unlockToView": "Fosgail an iuchair agad gus an teachdaireachd seo fhaicinn"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Dheth"
-    },
-    "freeLimit": "plana saor limit: auto-delete up gu 1 latha. Clamped gu 1d.",
-    "premiumLimit": "Max auto-delete airson Premium tha 30 làithean. Clamped gu 30d.",
-    "nothingToSend": "Sgrìobh teachdaireachd no ceangail faidhle airson a chur.",
-    "encryptionFailed": "Dh’fhàillig crioptachadh. Cha deach an teachdaireachd a chur.",
-    "sent": "Chaidh an teachdaireachd a lìbhrigeadh.",
-    "placeholder": "Sgrìobh teachdaireachd…",
-    "voiceAdded": "Nota-gutha air a chur ris",
-    "attachmentAdded": "Ceanglachan air a chur ris",
-    "autoDelete": "Fèin-sguabadh às",
-    "typeToSend": "Type a teachdaireachd gu cuir",
-    "send": "Cuir",
-    "sendWithEnter": "Cuir (Enter)",
-    "attachment": "ceangal",
-    "caption": "Fo-thiotal (roghainneil)",
-    "remove": "Thoir air falbh",
-    "clear": "Glan",
-    "gif": "GIF",
-    "sticker": "Stiogair",
-    "errors": {
-      "attachmentTooLarge": "Attachment too mòr. Feuch a smaller faidhle.",
-      "unsupportedFile": "Unsupported faidhle type.",
-      "rateLimit": "Thu’re sending teachdaireachdan too quickly. Feuch slow down.",
-      "validation": "Validation mearachd. Feuch check agad teachdaireachd agus feuch ris a-rithist.",
-      "failedToSend": "Dh’fhàillig cuir. Thu faodaidh retry an dh’fhàillig bubble."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Luchd-conaltraidh sàbhailte",
-    "refreshAria": "Ùraich luchd-conaltraidh",
-    "filterPlaceholder": "Criathraich luchd-conaltraidh sàbhailte…",
-    "filterAria": "Filter air a shàbhaladh luchd-conaltraidh",
-    "noContactsFound": "Cha deach neach-conaltraidh a lorg.",
-    "externalContact": "Neach-conaltraidh taobh a-muigh",
-    "notJoined": "That neach-conaltraidh hasn’t joined Chatforia yet.",
-    "couldNotStart": "Cha b’ urrainn dhuinn tòisich còmhradh. Feuch feuch ris a-rithist.",
-    "startFailed": "Dh’fhàillig tòisich còmhradh. Feuch feuch ris a-rithist.",
-    "deleted": "Neach-conaltraidh air a sguabadh às.",
-    "deleteFailed": "Dh’fhàillig sguab às neach-conaltraidh. Feuch feuch ris a-rithist.",
-    "aliasUpdated": "Chaidh am far-ainm ùrachadh.",
-    "updateAliasFailed": "Dh’fhàillig update alias. Feuch feuch ris a-rithist.",
-    "selectContact": "Tagh {{name}}",
-    "alias": "Far-ainm",
-    "startChat": "Tòisich còmhradh",
-    "message": "Teachdaireachd",
-    "delete": "Sguab às",
-    "deleteContactAria": "Sguab às neach-conaltraidh",
-    "loadFailed": "Dh’fhàillig luchdaich luchd-conaltraidh. Feuch feuch ris a-rithist.",
-    "loadMore": "Luchdaich barrachd",
-    "call": "Gairm",
-    "callStarted": "Calling this àireamh via agad Chatforia àireamh…",
-    "callFailed": "Dh’fhàillig tòisich gairm. Feuch feuch ris a-rithist."
-  },
-  "startChatModal": {
-    "title": "Tòisich còmhradh",
-    "searchPlaceholder": "Lorg name, ainm-cleachdaiche, no àireamh fòn",
-    "messageThisPerson": "Teachdaireachd this person",
-    "contacts": "Luchd-conaltraidh",
-    "recentInteractions": "Eadar-obrachaidhean o chionn ghoirid",
-    "noContactsMatch": "Chan eil luchd-conaltraidh maids agad lorg.",
-    "noRecentInteractions": "Chan eil recent interactions yet.",
-    "unknown": "Neo-aithnichte",
-    "interactionType": {
-      "message": "Teachdaireachd",
-      "call": "Gairm",
-      "video": "Bhideo"
-    }
-  },
-  "addContactModal": {
-    "title": "Cuir neach-conaltraidh ris",
-    "phoneOrUsername": "Fòn no ainm-cleachdaiche",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 no juliannorton",
-    "alias": "Far-ainm (roghainneil)",
-    "aliasPlaceholder": "m.e. Obair, Mamaidh, Mike – An Roinn Eòrpa",
-    "enterPhoneOrUsername": "Enter a àireamh fòn no ainm-cleachdaiche.",
-    "userLookupFailed": "Cleachdaiche lookup dh’fhàillig.",
-    "cannotAddSelf": "Thu cannot add yourself as a neach-conaltraidh.",
-    "failedToAdd": "Dh’fhàillig add neach-conaltraidh.",
-    "add": "Cuir ris"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Còmhradh air thuaiream",
@@ -346,13 +368,151 @@
     "startChatAlt": "Tòisich a ùr còmhradh",
     "calls": "Gairmean",
     "video": "Bhideo",
-    "voicemail": "Post-gutha"
+    "voicemail": "Post-gutha",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Inbhe ùr",
     "logout": "Log a-mach",
     "help": "Cuideachadh",
     "createStatusAria": "Cruthaich ùr Inbhe"
+  },
+  "footer": {
+    "plans": "Planaichean & Prìsean",
+    "about": "Mu Chatforia",
+    "careers": "Dreuchdan",
+    "press": "Na meadhanan",
+    "advertise": "Sanasachd",
+    "contact": "Cuir fios thugainn",
+    "help": "Ionad-cuideachaidh",
+    "status": "Inbhe Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Poileasaidh Prìobhaideachd",
+    "terms": "Teirmean Seirbheis",
+    "cookies": "Cookie Roghainnean",
+    "doNotSell": "Do Chan eil Sell Mo Info",
+    "language": "Cànan",
+    "contactShort": "Cuir fios",
+    "aria": "Bonn-duilleige",
+    "homeAria": "Chatforia dachaigh",
+    "section": {
+      "company": "COMPANAIDH",
+      "support": "TAIC",
+      "downloads": "LUCHDADHAN A-NUAS",
+      "legal": "LAGHAIL"
+    },
+    "links": {
+      "plans-pricing": "Planaichean & Prìsean",
+      "about-chatforia": "Mu Chatforia",
+      "careers": "Dreuchdan",
+      "press": "Na meadhanan",
+      "advertise": "Sanasachd",
+      "getting-started": "A’ tòiseachadh",
+      "help-center": "Ionad-cuideachaidh",
+      "contact-us": "Cuir fios thugainn",
+      "status-page": "Inbhe Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Poileasaidh Prìobhaideachd",
+      "terms-of-service": "Teirmean Seirbheis",
+      "do-not-sell-my-info": "Do Chan eil Sell Mo Info",
+      "cookie-settings": "Cookie Roghainnean",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Peutant ri thighinn",
+    "backToTop": "↑ Back gu top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Tagh teacsa no seòmar-còmhraidh gus tòiseachadh air cabadaich",
+    "newMessages": "Teachdaireachdan ùra",
+    "typing": "Tha {{name}} a’ sgrìobhadh...",
+    "emptyTitle": "Na teachdaireachdan agad",
+    "emptySubtitle": "Cuir teachdaireachd gus còmhradh a thòiseachadh.",
+    "startChatButton": "Cuir teachdaireachd",
+    "mediaAttachment": "Ceanglachan meadhanan",
+    "thisUser": "an cleachdaiche seo",
+    "blockConfirm": "Block {{name}}? Thu won't faigh teachdaireachdan bho them.",
+    "blockedUser": "Chaidh {{name}} a bhacadh.",
+    "blockError": "Cha b’ urrainn dhuinn determine a target cleachdaiche gu block.",
+    "blockFailed": "Block dh’fhàillig (backend chan eil wired yet).",
+    "encryptedUnavailable": "Teachdaireachd chrioptaichte (iuchair gun fhaighinn)",
+    "unlockToView": "Fosgail an iuchair agad gus an teachdaireachd seo fhaicinn",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Dheth"
+    },
+    "freeLimit": "plana saor limit: auto-delete up gu 1 latha. Clamped gu 1d.",
+    "premiumLimit": "Max auto-delete airson Premium tha 30 làithean. Clamped gu 30d.",
+    "nothingToSend": "Sgrìobh teachdaireachd no ceangail faidhle airson a chur.",
+    "encryptionFailed": "Dh’fhàillig crioptachadh. Cha deach an teachdaireachd a chur.",
+    "sent": "Chaidh an teachdaireachd a lìbhrigeadh.",
+    "placeholder": "Sgrìobh teachdaireachd…",
+    "autoDelete": "Fèin-sguabadh às",
+    "typeToSend": "Type a teachdaireachd gu cuir",
+    "send": "Cuir",
+    "sendWithEnter": "Cuir (Enter)",
+    "attachment": "ceangal",
+    "caption": "Fo-thiotal (roghainneil)",
+    "remove": "Thoir air falbh",
+    "clear": "Glan",
+    "gif": "GIF",
+    "sticker": "Stiogair",
+    "errors": {
+      "attachmentTooLarge": "Attachment too mòr. Feuch a smaller faidhle.",
+      "unsupportedFile": "Unsupported faidhle type.",
+      "rateLimit": "Thu’re sending teachdaireachdan too quickly. Feuch slow down.",
+      "validation": "Validation mearachd. Feuch check agad teachdaireachd agus feuch ris a-rithist.",
+      "failedToSend": "Dh’fhàillig cuir. Thu faodaidh retry an dh’fhàillig bubble.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Nota-gutha air a chur ris"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Clàr-taice snàithlein",
@@ -368,8 +528,6 @@
     "invitePeople": "Thoir cuireadh do dhaoine",
     "roomSettings": "Roghainnean an t-seòmair",
     "clearConversation": "Glan an còmhradh",
-    "clearConversationForMe": "Glan dhòmhsa",
-    "clearConversationForEveryone": "Glan dhan a h-uile duine",
     "block": "Bac"
   },
   "roomSearch": {
@@ -396,7 +554,18 @@
       "tagged": "Air a tagadh a-mhàin (/tr …)",
       "all": "Uile teachdaireachdan"
     },
-    "updated": "Chaidh na roghainnean ùrachadh"
+    "updated": "Chaidh na roghainnean ùrachadh",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Meadhanan co-roinnte",
@@ -466,6 +635,110 @@
     "markRead": "Comharraich mar leughte",
     "delete": "Sguab às",
     "unreadDotAria": "Comharra post-gutha gun leughadh"
+  },
+  "contactList": {
+    "savedContacts": "Luchd-conaltraidh sàbhailte",
+    "refreshAria": "Ùraich luchd-conaltraidh",
+    "filterPlaceholder": "Criathraich luchd-conaltraidh sàbhailte…",
+    "filterAria": "Filter air a shàbhaladh luchd-conaltraidh",
+    "noContactsFound": "Cha deach neach-conaltraidh a lorg.",
+    "externalContact": "Neach-conaltraidh taobh a-muigh",
+    "notJoined": "That neach-conaltraidh hasn’t joined Chatforia yet.",
+    "couldNotStart": "Cha b’ urrainn dhuinn tòisich còmhradh. Feuch feuch ris a-rithist.",
+    "startFailed": "Dh’fhàillig tòisich còmhradh. Feuch feuch ris a-rithist.",
+    "deleted": "Neach-conaltraidh air a sguabadh às.",
+    "deleteFailed": "Dh’fhàillig sguab às neach-conaltraidh. Feuch feuch ris a-rithist.",
+    "aliasUpdated": "Chaidh am far-ainm ùrachadh.",
+    "updateAliasFailed": "Dh’fhàillig update alias. Feuch feuch ris a-rithist.",
+    "selectContact": "Tagh {{name}}",
+    "alias": "Far-ainm",
+    "startChat": "Tòisich còmhradh",
+    "message": "Teachdaireachd",
+    "delete": "Sguab às",
+    "deleteContactAria": "Sguab às neach-conaltraidh",
+    "loadFailed": "Dh’fhàillig luchdaich luchd-conaltraidh. Feuch feuch ris a-rithist.",
+    "loadMore": "Luchdaich barrachd",
+    "call": "Gairm",
+    "callStarted": "Calling this àireamh via agad Chatforia àireamh…",
+    "callFailed": "Dh’fhàillig tòisich gairm. Feuch feuch ris a-rithist.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Cuir neach-conaltraidh ris",
+    "phoneOrUsername": "Fòn no ainm-cleachdaiche",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 no juliannorton",
+    "alias": "Far-ainm (roghainneil)",
+    "aliasPlaceholder": "m.e. Obair, Mamaidh, Mike – An Roinn Eòrpa",
+    "enterPhoneOrUsername": "Enter a àireamh fòn no ainm-cleachdaiche.",
+    "userLookupFailed": "Cleachdaiche lookup dh’fhàillig.",
+    "cannotAddSelf": "Thu cannot add yourself as a neach-conaltraidh.",
+    "failedToAdd": "Dh’fhàillig add neach-conaltraidh.",
+    "add": "Cuir ris"
+  },
+  "startChatModal": {
+    "title": "Tòisich còmhradh",
+    "searchPlaceholder": "Lorg name, ainm-cleachdaiche, no àireamh fòn",
+    "messageThisPerson": "Teachdaireachd this person",
+    "contacts": "Luchd-conaltraidh",
+    "recentInteractions": "Eadar-obrachaidhean o chionn ghoirid",
+    "noContactsMatch": "Chan eil luchd-conaltraidh maids agad lorg.",
+    "noRecentInteractions": "Chan eil recent interactions yet.",
+    "unknown": "Neo-aithnichte",
+    "interactionType": {
+      "message": "Teachdaireachd",
+      "call": "Gairm",
+      "video": "Bhideo"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "Daoine",
+    "search": "Lorg",
+    "searchPlaceholder": "Lorg air a shàbhaladh luchd-conaltraidh le alias, name, ainm-cleachdaiche, no fòn",
+    "quickStart": "Quick tòisich",
+    "quickStartDesc": "Stiùirich agad luchd-conaltraidh agus thoir cuireadh caraidean.",
+    "importContacts": "Import agad luchd-conaltraidh",
+    "import": "Ion-phortaich",
+    "addContact": "Add a neach-conaltraidh",
+    "add": "Cuir ris",
+    "inviteFriends": "Thoir cuireadh caraidean",
+    "inviteDesc": "Share agad thoir cuireadh link gu tòisich chatting instantly.",
+    "getTheApp": "Faigh an aplacaid",
+    "getTheAppDesc": "Stay ann an touch air an go le Chatforia airson iOS agus Android.",
+    "download": "Luchdaich a-nuas",
+    "syncTip": "Tip: Do teachdaireachdan stay synced across web agus gluasadach.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "Pròifil cleachdaiche",
@@ -603,14 +876,167 @@
     "voicemailNote": "Voicemails bho agad Chatforia àireamhan bidh be stored ann an agad Post-gutha inbox. Thu faodaidh cuir an comas transcription agus cur air adhart ann an supported planaichean.",
     "portHint": "Want gu keep agad làithreach àireamh? Thu faodaidh gluais it into Chatforia Wireless.",
     "wireless": {
-      "manage": "Stiùirich wireless"
+      "manage": "Stiùirich wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Pròifil cleachdaiche",
       "desc": "Get dàta gluasadach airson Chatforia when thu’re away bho Wi-Fi.",
-      "cta": "Faigh eSIM / Seall QR"
+      "cta": "Faigh eSIM / Seall QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
     },
-    "encryptedBackupsTitle": "Cùl-taic iuchair chrioptachaidh"
+    "encryptedBackupsTitle": "Cùl-taic iuchair chrioptachaidh",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Fuaimean bratha",
+    "resetToDefaults": "Reset gu defaults",
+    "freeNoticeStart": "Thu’re air Saor — premium tones tha shown but locked. ",
+    "freeNoticeEnd": " gu unlock uile.",
+    "messageTone": "Teachdaireachd tone",
+    "ringtone": "Tòn-gairme",
+    "preview": "Ro-shealladh",
+    "stop": "Stad",
+    "volume": "Tomhas-fuaime",
+    "messageToneFilesHint": "Put files ann an /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files ann an /public/sounds/Ringtones",
+    "premiumRequired": "Premium riatanach airson that selection.",
+    "saved": "Sound roghainnean air a shàbhaladh.",
+    "saveFailed": "Cha b’ urrainn dhuinn sàbhail sound roghainnean.",
+    "resetNotSaved": "Reset gu defaults (chan eil yet air a shàbhaladh).",
+    "premiumTone": "’S e tòn Premium a tha sin.",
+    "premiumRingtone": "’S e tòn-gairme Premium a tha sin.",
+    "customComingSoon": "Custom sound uploads a’ tighinn a dh’aithghearr.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Roghainnean",
+    "controlIntro": "Control eadar-theangachadh, glic replies, agus ForiaBot auto-responses.",
+    "translation": "Eadar-theangachadh",
+    "autoTranslateIncoming": "Auto-translate incoming teachdaireachdan",
+    "showOriginalAlongside": "Show original teacsa alongside eadar-theangachadh",
+    "smartReplies": "Glic Replies",
+    "enableSmartReplies": "Cuir an comas Glic Replies",
+    "smartRepliesHint": "Cuir an last few air fhaighinn teachdaireachdan (sanitized) gu AI gu suggest quick replies.",
+    "maskProfanity": "Mask profanity ann an AI suggestions",
+    "maskProfanityHint": "If air, suggestions returned le AI bidh have flagged words masked",
+    "foriaBot": "Fèin-fhreagairt ForiaBot",
+    "enableAutoReply": "Cuir an comas auto-reply when I’m busy",
+    "autoReplyMode": "Modh fèin-fhreagairt",
+    "cooldownSeconds": "Ùine fuarachaidh (diogan)",
+    "signature": "Ainm-sgrìobhte",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (roghainneil)",
+    "save": "Sàbhail AI Roghainnean",
+    "saved": "AI preferences air a shàbhaladh",
+    "saveFailed": "Dh’fhàillig sàbhail AI roghainnean",
+    "translateOff": "Dheth",
+    "translateTagged": "Only when @translated no tagged",
+    "translateAll": "Eadar-theangaich uile incoming teachdaireachdan",
+    "modeDm": "Còmhraidhean 1:1 a-mhàin",
+    "modeMention": "A-mhàin nuair a tha @iomradh orm",
+    "modeAll": "Uile inbound teachdaireachdan",
+    "off": "Dheth",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Rabhaidhean",
+    "loadFailed": "Dh’fhàillig luchdaich roghainnean",
+    "accessibilityDesc": "Options gu make Chatforia easier gu use without relying air sound.",
+    "interfaceFontSize": "Meud cruth-clò an eadar-aghaidh",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if thu prefer larger teacsa.",
+    "notifications": "Brathan",
+    "visualAlerts": "Visual rabhaidhean airson teachdaireachdan & gairmean",
+    "visualAlertsDesc": "Show banners agus title blink so thu don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate air ùr teachdaireachdan (when supported)",
+    "vibrateOnNewDesc": "Trigger uidheam vibration le brathan.",
+    "flashOnCallShort": "Flash screen air incoming gairm",
+    "flashOnCallDesc": "Brief bright flash when a gairm rings.",
+    "liveCaptionsTitle": "Live captions (gairmean)",
+    "enableLiveCaptions": "Cuir an comas live captions during gairmean (Premium)",
+    "liveCaptionsDesc": "Show real-time captions bho an other participant’s claisneachd.",
+    "captionFontSize": "Fo-thiotal font size",
+    "captionBackground": "Fo-thiotal background",
+    "voiceNotes": "Notaichean gutha",
+    "autoTranscribeVoiceNotes": "Tar-sgrìobh notaichean gutha gu fèin-obrachail",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript gu claisneachd teachdaireachdan thu faigh.",
+    "changesSavedInstantly": "Changes tha air a shàbhaladh instantly.",
+    "sm": "Beag",
+    "md": "Meadhanach",
+    "lg": "Mòr",
+    "xl": "Extra Mòr",
+    "light": "Aotrom",
+    "dark": "Dorcha",
+    "transparent": "Follaiseach",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict crioptachadh ceann-gu-ceann",
+    "ciphertextOnlyNote": "Store only ciphertext air an server. Disables AI/Translate agus moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE air a chomasachadh. AI/Translate bidh be à comas.",
+    "strictE2EEDisabled": "Strict E2EE à comas. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Uidheaman ceangailte",
+    "noneFound": "Chan eil linked uidheaman found.",
+    "refresh": "Ùraich",
+    "unknown": "Neo-aithnichte",
+    "loadFailed": "Dh’fhàillig luchdaich linked uidheaman",
+    "loadFailedLog": "Dh’fhàillig luchdaich linked uidheaman",
+    "renamePrompt": "Enter a ùr name airson this uidheam",
+    "renamed": "Uidheam renamed",
+    "renameFailed": "Cha b’ urrainn dhuinn rename uidheam",
+    "revoked": "Uidheam revoked",
+    "revokeFailed": "Cha b’ urrainn dhuinn revoke uidheam",
+    "unnamedDevice": "Unnamed uidheam",
+    "primary": "Prìomh",
+    "revokedStatus": "Air a chùl-ghairm",
+    "addedLastSeen": "Air a chur ris {{created}} • Air fhaicinn mu dheireadh {{lastSeen}}",
+    "renameDevice": "Rename uidheam",
+    "revokeDevice": "Revoke uidheam"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -662,7 +1088,685 @@
     "expiresIn": "Falbhaidh ann an {{days}} làithean",
     "exhausted": "Tha an dàta agad air ruith a-mach. Ceannaich pasgan ùr gus cumail ort a’ cleachdadh dàta gluasadach.",
     "buyPack": "Ceannaich pasgan dàta",
-    "esimPackLabel": "Pasgan eSIM"
+    "esimPackLabel": "Pasgan eSIM",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "A’ luchdadh…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a àireamh",
+    "phoneNumber": "Àireamh fòn",
+    "availableNumber": "Ri fhaighinn àireamh",
+    "premiumNumber": "Premium àireamh 🔒",
+    "freeNumberHint": "Saor àireamh that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep agad àireamh while agad Premium fo-sgrìobhadh tha active.",
+    "country": "Dùthaich",
+    "areaCode": "Còd sgìre",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Comas",
+    "search": "Lorg",
+    "lockThisNumber": "Lock this àireamh (weekly add-on, a’ tighinn a dh’aithghearr)",
+    "premiumProtectedHint": "Premium àireamhan tha protected bho recycling while agad Premium fo-sgrìobhadh tha active.",
+    "availableNumbers": "Ri fhaighinn àireamhan",
+    "searchHint": "Enter a 3-digit area code (US/CA only), no leave blank, then lorg.",
+    "keep": "Cùm",
+    "select": "Tagh",
+    "assignNumberFirst": "Assign a àireamh first.",
+    "premiumKeepFeature": "Keeping agad àireamh tha a Premium feature.",
+    "lockingPremiumFeature": "Locking àireamhan tha a Premium feature.",
+    "numberAssigned": "Àireamh assigned.",
+    "numberProtectedNow": "Do àireamh tha a-nis protected.",
+    "numberProtected": "Àireamh protected.",
+    "numberUnprotected": "Àireamh unprotected.",
+    "numberReleased": "Àireamh released.",
+    "couldNotLoadNumbers": "Cha b’ urrainn dhuinn luchdaich àireamhan.",
+    "couldNotAssign": "Cha b’ urrainn dhuinn assign that àireamh. It may have just been taken—feuch another.",
+    "couldNotLease": "Cha b’ urrainn dhuinn lease that àireamh. It may have just been taken—feuch another.",
+    "couldNotProtectNow": "Cha b’ urrainn dhuinn protect agad àireamh an-dràsta.",
+    "couldNotProtect": "Cha b’ urrainn dhuinn protect an àireamh.",
+    "couldNotUnprotect": "Cha b’ urrainn dhuinn unprotect an àireamh.",
+    "couldNotRelease": "Cha b’ urrainn dhuinn release an àireamh.",
+    "invalidAreaCode": "Feuch enter a 3-digit area code (e.g., 415) no leave blank.",
+    "noInventory": "Chan eil ri fhaighinn inventory an-dràsta.",
+    "noFreeNumbers": "Chan eil saor àireamhan tha ri fhaighinn an-dràsta.",
+    "noInventoryAreaCode": "Chan eil ri fhaighinn inventory airson that area code an-dràsta.",
+    "noFreeNumbersAreaCode": "Chan eil saor àireamhan ann an againn pool airson that area code an-dràsta.",
+    "releaseConfirm": "Release agad làithreach àireamh? It may be assigned gu someone else.",
+    "unprotect": "Thoir dìon air falbh",
+    "keepThisNumber": "Keep this àireamh",
+    "replace": "Cuir na àite",
+    "release": "Leig ma sgaoil",
+    "active": "Gnìomhach",
+    "noNumber": "Chan eil àireamh",
+    "premiumFeature": "Feart Premium",
+    "protectYourNumber": "Protect agad àireamh",
+    "protected": "Dìonta",
+    "notProtected": "Chan eil protected",
+    "expiresInShort": "Expires ann an {{count}}d",
+    "expiresInDaysFull": "Expires ann an {{count}} latha",
+    "expiringShort": "A’ tighinn gu crìch{{suffix}}",
+    "renewsOn": "Ath-nuadhaichear {{date}}",
+    "releaseWarning": "Do àireamh may be released ann an {{count}} latha. Àrdaich gu Premium gu keep it protected.",
+    "pickNumberHint": "Pick a Chatforia àireamh gu use airson messaging agus communication inside an app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Gairmean",
+    "subtitle": "Keypad & recents. (If thu don’t use PSTN, tòisich gairmean bho a còmhradh header.)",
+    "enterNumber": "Enter àireamh",
+    "enterNumberAria": "Enter àireamh",
+    "resolving": "Resolving gairm target…",
+    "call": "Gairm",
+    "callBrowser": "Gairm via browser",
+    "backspace": "Sguab air ais",
+    "recents": "O chionn ghoirid",
+    "noRecents": "Chan eil recent gairmean yet.",
+    "resolveFailed": "Cha b’ urrainn dhuinn resolve gairm target.",
+    "callRequiredNumber": "Thu need a Chatforia àireamh before placing fòn gairmean.",
+    "callFailed": "Cha b’ urrainn dhuinn place gairm.",
+    "deleteConfirm": "Sguab às this gairm bho recents?",
+    "deleteFailed": "Cha b’ urrainn dhuinn sguab às gairm.",
+    "deleteFailedLog": "Dh’fhàillig sguab às gairm",
+    "outgoing": "A-mach",
+    "incoming": "A-steach",
+    "missed": "Air chall",
+    "declined": "Air a dhiùltadh",
+    "failed": "Dh’fhàillig",
+    "completed": "Crìochnaichte",
+    "outgoingCall": "Outgoing Gairm",
+    "incomingCall": "Incoming Gairm",
+    "voicemail": "Post-gutha",
+    "callAria": "Gairm {{name}}",
+    "deleteAria": "Sguab às gairm le {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Gairmean",
+    "subtitle": "Do recent incoming agus outgoing gairmean.",
+    "loadFailed": "Cha b’ urrainn dhuinn luchdaich gairm history.",
+    "loadFailedTitle": "Couldn’t luchdaich gairm history",
+    "emptyTitle": "Chan eil gairmean yet",
+    "emptySubtitle": "Do recent gairmean bidh show up here.",
+    "outgoing": "A-mach",
+    "incoming": "A-steach",
+    "missed": "Air chall",
+    "declined": "Air a dhiùltadh",
+    "failed": "Dh’fhàillig",
+    "completed": "Crìochnaichte",
+    "outgoingCall": "Outgoing Gairm",
+    "incomingCall": "Incoming Gairm",
+    "voicemail": "Post-gutha"
+  },
+  "video": {
+    "hub": {
+      "title": "Bhideo",
+      "subtitle": "Tagh a bhideo type."
+    },
+    "direct": {
+      "title": "Direct Bhideo",
+      "subtitle": "Tòisich a 1:1 bhideo gairm le another cleachdaiche.",
+      "desc": "1:1 camera gairm le another cleachdaiche.",
+      "start": "Tòisich",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Seòmraichean",
+      "subtitle": "Cruthaich a seòmar no join an existing one le typing an same name.",
+      "desc": "Multi-party bhideo using a co-roinnte seòmar name.",
+      "roomLabel": "Seòmar name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Seòmar name",
+      "joinCreate": "Join / Cruthaich",
+      "tip": "Tip: share this name le others, no deep link gu"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Rach Premium",
+    "description": "Fosgail feartan cumhachdach agus thoir sanasan air falbh.",
+    "cta": "Àrdaich",
+    "upgrade": "Àrdaich",
+    "upgradeAria": "Àrdaich gu Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "Àrdaich",
+    "titleLoggedIn": "Àrdaich",
+    "titlePublic": "Prìsean",
+    "h1": "Prìsean & Planaichean Chatforia",
+    "h1Subtitle": "Tòisich leis a’ phlana shaor againn le taic shanasan. Rach gun shanasan le Plus, no fosgail na feartan slàn le Premium.",
+    "subtitle": "Tagh an app plana, add pasgan dàtas airson yourself, no share dàta le agad teaghlach — uile bho one place.",
+    "subtitle.app": "Tòisich leis a’ phlana shaor againn le taic shanasan. Rach gun shanasan le Plus, no fosgail na feartan slàn le Premium.",
+    "subtitle.mobile": "Add cruinneil eSIM dàta so Chatforia keeps working even when thu’re away bho Wi-Fi.",
+    "subtitle.family": "Cruthaich a amar dàta co-roinnte airson agad teaghlach agus stiùirich everyone’s usage bho one place.",
+    "perMonth": "mo",
+    "perYear": "bliadhna",
+    "goPremium": "Rach Premium",
+    "benefitsLine": "Fosgail feartan cumhachdach agus thoir sanasan air falbh.",
+    "ctaText": "Àrdaich",
+    "aria": "Àrdaich gu Chatforia Premium",
+    "toggle": {
+      "monthly": "Mìosail",
+      "annual": "Bliadhnail (Sàbhail 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Thig an fho-sgrìobhadh gu crìch",
+      "body": "Thu’ll revert gu Saor air",
+      "keepPlanCta": "Cùm {{plan}}",
+      "manageBillingCta": "Stiùirich bileachadh"
+    },
+    "billing": {
+      "opening": "A’ fosgladh…",
+      "manage": "Stiùirich bileachadh"
+    },
+    "checkout": {
+      "redirecting": "Gad ath-stiùireadh…"
+    },
+    "auth": {
+      "continue": "Lean air adhart gu logadh a-steach",
+      "createAccount": "Cruthaich cunntas",
+      "signIn": "Clàraich ann an"
+    },
+    "cta": {
+      "aria": "Tagh plana",
+      "getPlus": "Àrdaich gu Plus",
+      "upgradeMonthly": "Àrdaich gu mìosail",
+      "upgradeAnnual": "Àrdaich gu bliadhnail",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "Planaichean aplacaid",
+      "mobile": "Gluasadach (eSIM)",
+      "family": "Planaichean teaghlaich"
+    },
+    "plans": {
+      "free": {
+        "title": "Saor",
+        "price": "$0",
+        "desc": "Tòisich messaging airson saor. Ideal if thu’re just trying Chatforia.",
+        "features": {
+          "chat": "Real-time 1:1 agus group còmhradh, plus gairmean gutha tha bhideo",
+          "media": "Share photos, voice teachdaireachdan, agus short videos",
+          "ai": "AI-powered glic replies agus sa bhad eadar-theangachadh (fair use)",
+          "disappearing": "Teachdaireachdan a thèid à sealladh agus basic prìobhaideachd controls",
+          "ads": "Saor forever le sanasan ann an an app"
+        },
+        "ctaCurrent": "Plana làithreach",
+        "ctaManage": "Stiùirich ann an bileachadh",
+        "ctaPublic": "Get started – lean air adhart gu logadh a-steach",
+        "aria": "plana saor"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Uile an essentials, without sanasan. Great airson everyday messaging agus calling.",
+        "features": {
+          "allFree": "Everything ann an Saor, le chan eil sanasan",
+          "forwarding": "Cuir air adhart gairmean agus teacsaichean gu agad real àireamh fòn",
+          "history": "Longer teachdaireachd history (up gu 6 months)",
+          "support": "Faster taic when something goes wrong"
+        },
+        "badge": "Mòr-chòrdte",
+        "cta": "Rach gun shanasan",
+        "ctaPublic": "Get Plus – lean air adhart gu logadh a-steach",
+        "aria": "Àrdaich gu Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Mìosail)",
+        "price": "$11.99",
+        "desc": "An full Chatforia experience: AI power tools, customization, agus priority taic.",
+        "features": {
+          "plusAll": "Everything ann an Plus",
+          "themes": "Unlock uile premium color themes agus app customizations",
+          "ai": "Premium-only AI power tools airson rewrites, glic replies, agus summaries",
+          "support": "Priority taic when thu need cuideachadh most",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Air a mholadh",
+        "cta": "Àrdaich (Mìosail)",
+        "ctaPublic": "Unlock Premium – lean air adhart gu logadh a-steach",
+        "aria": "Àrdaich gu Premium Mìosail"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Bliadhnail)",
+        "price": "$99",
+        "desc": "Sàbhail barrachd when billed yearly — including extra color themes, AI tools, agus priority taic.",
+        "features": {
+          "allPremium": "Everything ann an Premium Mìosail — including extra color themes",
+          "annualBilling": "Billed once per bliadhna",
+          "save25": "Sàbhail around 30% compared gu paying mìosail",
+          "bestFor": "As fheàrr airson power cleachdaichean, remote workers, agus heavy travelers",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Sàbhail 30%",
+        "cta": "Àrdaich (Bliadhnail)",
+        "ctaPublic": "Sàbhail 30% le bliadhnail – lean air adhart gu logadh a-steach",
+        "aria": "Àrdaich gu Premium Bliadhnail",
+        "disclaimer": "Billed upfront. Sguir dheth uair sam bith. Chan eil hidden fees."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Saor",
+      "freeDesc": "Tòisich messaging airson saor.",
+      "plusTitle": "Plus",
+      "plusBadge": "Mòr-chòrdte",
+      "plusDesc": "An t-eòlas gun shanasan as saoire.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Full features, ringtones, agus AI power tools.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Sàbhail barrachd when billed yearly.",
+      "annualDisclaimer": "Billed upfront. Sguir dheth uair sam bith. Chan eil hidden fees."
+    },
+    "mobile": {
+      "title": "Chatforia Gluasadach (eSIM pasgan dàtas)",
+      "subtitle": "Add cruinneil dàta gu keep Chatforia working even without Wi-Fi. Prices automatically adjust based air agad dùthaich agus currency.",
+      "subtitle.detail": "Pick a one-time cruinneil pasgan dàta so Chatforia keeps working when thu’re traveling no away bho Wi-Fi.",
+      "scope": {
+        "local": "Ionadail",
+        "europe": "An Roinn Eòrpa",
+        "global": "Cruinneil",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "Ionadail = {{country}}",
+      "localEqualsFallback": "Ionadail = agad làithreach dùthaich",
+      "perPack": "/ pasgan",
+      "cta": "Get this pasgan dàta",
+      "ctaPublic": "Get this pasgan dàta",
+      "checkout": {
+        "redirecting": "Gad ath-stiùireadh…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "High-speed dàta airson heavy use",
+          "throttle": "Dh’fhaodadh astaran fàs nas slaodaiche às dèidh cleachdadh àrd",
+          "coverage": "Còmhdach earbsach",
+          "instant": "Sa bhad eSIM activation",
+          "noContract": "One-time pasgan, chan eil contract"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "eSIM pasgan dàtas require an eSIM-compatible agus unlocked uidheam. Availability varies le fòn model, giùlanair, agus dùthaich. Coverage agus speeds vary le region.",
+        "fairUse": "Subject gu fair-use poileasaidh agus ionadail limits"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "Compare eSIM pasgan dàtas",
+        "col": {
+          "pack": "Pasgan",
+          "data": "Included dàta",
+          "bestFor": "As fheàrr airson"
+        },
+        "disclaimer": "Actual dàta usage depends air how thu use Chatforia (voice, bhideo, media, agus other apps air agad fòn)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "As fheàrr value per GB"
+      },
+      "feature": {
+        "instant": "Sa bhad eSIM activation",
+        "coverage": "Còmhdach earbsach",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Ionadail",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "An Roinn Eòrpa",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Cruinneil",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Starter pasgan",
+        "data": "3 GB",
+        "bestFor": "Short trips, aotrom messaging, agus occasional gairmean"
+      },
+      "medium": {
+        "title": "Traveler pasgan",
+        "data": "5 GB",
+        "bestFor": "Weekend trips, regular VoIP gairmean, agus maps"
+      },
+      "large": {
+        "title": "Power pasgan",
+        "data": "10 GB",
+        "bestFor": "Heavy còmhradh, gairmean, bhideo, agus hotspot use"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Chatforia Teaghlach (co-roinnte dàta)",
+      "subtitle": "Share a single dàta pool across agad teaghlach. One bill, multiple Chatforia cunntasan, cruinneil coverage.",
+      "perPack": "/ pasgan",
+      "small": {
+        "title": "Teaghlach Beag",
+        "desc": "Includes 20 GB de co-roinnte high-speed dàta — great airson 2–3 aotrom cleachdaichean.",
+        "price": "$29.99",
+        "aria": "Buy Teaghlach Beag pasgan"
+      },
+      "medium": {
+        "title": "Teaghlach Meadhanach",
+        "desc": "Includes 40 GB de co-roinnte high-speed dàta — ideal airson 3–5 active buill.",
+        "price": "$49.99",
+        "aria": "Buy Teaghlach Meadhanach pasgan"
+      },
+      "large": {
+        "title": "Teaghlach Mòr",
+        "desc": "Includes 80 GB de co-roinnte high-speed dàta — airson power families that tha always online.",
+        "price": "$84.99",
+        "aria": "Buy Teaghlach Mòr pasgan"
+      },
+      "feature": {
+        "shared": "Co-roinnte dàta pool airson agad teaghlach",
+        "members": "Thoir cuireadh up gu 4 additional buill",
+        "membersMore": "Great airson 3–5 active buill",
+        "manage": "Stiùirich limits airson each ball",
+        "topUp": "Add barrachd pasganan uair sam bith",
+        "bestValue": "As fheàrr value per GB",
+        "fairUse": "Subject gu fair-use poileasaidh agus ionadail limits"
+      },
+      "disclaimer": "Teaghlach pasganan cruthaich no top up a amar dàta co-roinnte. Thu faodaidh thoir cuireadh agus remove buill uair sam bith.",
+      "footnote": "Teaghlach pasganan share a single dàta pool across linked Chatforia cunntasan. Availability agus limits depend air agad dùthaich agus ionadail regulations."
+    },
+    "why": {
+      "title": "Why people switch gu Chatforia",
+      "subtitle": "Chatforia gives thu a real àireamh fòn, glic eadar-theangachadh, agus a clear path gu go ad-free when thu’re ready.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Lighter sanasan air Saor, a simple Plus àrdaich when thu’re ready, agus Premium tools TextNow doesn’t offer."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Modern app, cruinneil-first design, agus togte-ann an eadar-theangachadh instead de seann-school gairm cur air adhart."
+        },
+        "messengers": {
+          "title": "Chatforia vs còmhradh apps",
+          "body": "Teacsa real àireamh fòns — chan eil just other app cleachdaichean — le AI agus inbhe togte ann an. Great if thu’re coming bho apps like TextFree no TextMe."
+        }
+      },
+      "tableTitle": "Mar a tha Chatforia a’ dèanamh coimeas",
+      "col": {
+        "feature": "Feart",
+        "chatforia": "Up gu 12+ months",
+        "textnow": "Varies le cunntas",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "Saor àireamh fòn",
+        "translation": "Built-ann an auto-translation",
+        "aiTools": "Innealan AI (ath-sgrìobhadh, freagairtean, geàrr-chunntasan)",
+        "ads": "Roghainn gun shanasan",
+        "history": "Eachdraidh theachdaireachdan"
+      },
+      "yes": "Tha",
+      "no": "Chan eil",
+      "yesPremium": "Tha (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Cuibhrichte",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Up gu 12+ months",
+        "textnow": "Varies le cunntas",
+        "voice": "Cuibhrichte / stèidhichte air cunntas"
+      },
+      "disclaimer": "Comparison based air publicly ri fhaighinn information agus may atharraich over time. Other free-texting apps like TextFree no TextMe tha generally similar gu TextNow."
+    },
+    "faq": {
+      "title": "Prìsean & planaichean FAQ",
+      "free": {
+        "q": "A bheil an plana saor really saor?",
+        "a": "Tha. An plana saor includes a Chatforia àireamh, calling, agus messaging le sanasan. Thu faodaidh stay air Saor as long as thu like, no àrdaich gu remove sanasan agus unlock barrachd features."
+      },
+      "plusPremium": {
+        "q": "What’s an difference between Plus agus Premium?",
+        "a": "Plus removes sanasan agus extends agad teachdaireachd history — perfect airson everyday use. Premium adds extra customization, AI tools airson rewrites agus replies, agus priority taic airson heavy cleachdaichean."
+      },
+      "esim": {
+        "q": "Where do eSIM pasgan dàtas work?",
+        "a": "Chatforia Gluasadach uses cruinneil eSIM coverage. Availability depends air agad dùthaich agus uidheam. Thu’ll see supported options during activation inside an app."
+      },
+      "cancel": {
+        "q": "Faodaidh I sguir dheth no atharraich planaichean uair sam bith?",
+        "a": "Tha. Thu faodaidh stiùirich no sguir dheth agad fo-sgrìobhadh bho an bileachadh page ann an an app. Changes take effect at an end de agad ùine bileachaidh làithreach."
+      },
+      "family": {
+        "q": "How do Teaghlach pasganan work?",
+        "a": "Teaghlach pasganan cruthaich a amar dàta co-roinnte across multiple Chatforia cunntasan. One person pays an bill, agus thu faodaidh thoir cuireadh no remove buill agus set limits per person."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "Teaghlach",
@@ -735,829 +1839,149 @@
       "error": "Sinn cha b’ urrainn dhuinn add thu gu this teaghlach. An thoir cuireadh may be invalid no expired."
     }
   },
-  "premium": {
-    "heading": "Rach Premium",
-    "description": "Fosgail feartan cumhachdach agus thoir sanasan air falbh.",
-    "cta": "Àrdaich",
-    "upgrade": "Àrdaich",
-    "upgradeAria": "Àrdaich gu Chatforia Premium"
+  "randomChat": {
+    "title": "Còmhradh air thuaiream",
+    "subtitle": "Meet someone ùr instantly, no tagh gu còmhradh le Ria.",
+    "start": "Tòisich còmhradh",
+    "description": "Còmhradh anonymously first. Add Caraid later if it feels right.",
+    "findMatch": "Find me a maids",
+    "chatWithRia": "Còmhradh le Ria",
+    "setAge": "Set agad age range ann an Pròifil → Age & Air thuaiream Còmhradh gu be matched le people.",
+    "idle": "Na thàmh",
+    "matching": "A’ maidseadh…",
+    "searching": "A’ lorg…",
+    "cancel": "Sguir dheth",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting airson them gu accept Add Caraid…",
+    "hiddenUsernames": "Usernames stay hidden until both people tagh Add Caraid.",
+    "riaSeparate": "Còmhradh le Ria uair sam bith — separate bho air thuaiream human a’ maidseadh.",
+    "sendMessage": "Cuir teachdaireachd",
+    "chatEnded": "Còmhradh ended",
+    "conversationEnded": "That còmhradh has ended.",
+    "findAnotherMatch": "Find another maids",
+    "next": "An ath neach",
+    "addFriend": "Add Caraid",
+    "requested": "Air iarraidh",
+    "leave": "Fàg",
+    "messageRia": "Teachdaireachd Ria…",
+    "messageMatch": "Teachdaireachd agad maids…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "Àrdaich",
-    "titleLoggedIn": "Àrdaich",
-    "titlePublic": "Prìsean",
-    "h1": "Prìsean & Planaichean Chatforia",
-    "h1Subtitle": "Tòisich leis a’ phlana shaor againn le taic shanasan. Rach gun shanasan le Plus, no fosgail na feartan slàn le Premium.",
-    "subtitle": "Tagh an app plana, add pasgan dàtas airson yourself, no share dàta le agad teaghlach — uile bho one place.",
-    "subtitle.app": "Tòisich leis a’ phlana shaor againn le taic shanasan. Rach gun shanasan le Plus, no fosgail na feartan slàn le Premium.",
-    "subtitle.mobile": "Add cruinneil eSIM dàta so Chatforia keeps working even when thu’re away bho Wi-Fi.",
-    "subtitle.family": "Cruthaich a amar dàta co-roinnte airson agad teaghlach agus stiùirich everyone’s usage bho one place.",
-    "perMonth": "mo",
-    "perYear": "bliadhna",
-    "goPremium": "Rach Premium",
-    "benefitsLine": "Fosgail feartan cumhachdach agus thoir sanasan air falbh.",
-    "ctaText": "Àrdaich",
-    "aria": "Àrdaich gu Chatforia Premium",
-    "toggle": {
-      "monthly": "Mìosail",
-      "annual": "Bliadhnail (Sàbhail 30%)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "Thig an fho-sgrìobhadh gu crìch",
-      "body": "Thu’ll revert gu Saor air",
-      "keepPlanCta": "Cùm {{plan}}",
-      "manageBillingCta": "Stiùirich bileachadh"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "A’ fosgladh…",
-      "manage": "Stiùirich bileachadh"
-    },
-    "checkout": {
-      "redirecting": "Gad ath-stiùireadh…"
-    },
-    "auth": {
-      "continue": "Lean air adhart gu logadh a-steach",
-      "createAccount": "Cruthaich cunntas",
-      "signIn": "Clàraich ann an"
-    },
-    "cta": {
-      "aria": "Tagh plana",
-      "getPlus": "Àrdaich gu Plus",
-      "upgradeMonthly": "Àrdaich gu mìosail",
-      "upgradeAnnual": "Àrdaich gu bliadhnail"
-    },
-    "section": {
-      "app": "Planaichean aplacaid",
-      "mobile": "Gluasadach (eSIM)",
-      "family": "Planaichean teaghlaich"
-    },
-    "plans": {
-      "free": {
-        "title": "Saor",
-        "price": "$0",
-        "desc": "Tòisich messaging airson saor. Ideal if thu’re just trying Chatforia.",
-        "features": {
-          "chat": "Real-time 1:1 agus group còmhradh, plus gairmean gutha tha bhideo",
-          "media": "Share photos, voice teachdaireachdan, agus short videos",
-          "ai": "AI-powered glic replies agus sa bhad eadar-theangachadh (fair use)",
-          "disappearing": "Teachdaireachdan a thèid à sealladh agus basic prìobhaideachd controls",
-          "ads": "Saor forever le sanasan ann an an app"
-        },
-        "ctaCurrent": "Plana làithreach",
-        "ctaManage": "Stiùirich ann an bileachadh",
-        "ctaPublic": "Get started – lean air adhart gu logadh a-steach",
-        "aria": "plana saor"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
       },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Uile an essentials, without sanasan. Great airson everyday messaging agus calling.",
-        "features": {
-          "allFree": "Everything ann an Saor, le chan eil sanasan",
-          "forwarding": "Cuir air adhart gairmean agus teacsaichean gu agad real àireamh fòn",
-          "history": "Longer teachdaireachd history (up gu 6 months)",
-          "support": "Faster taic when something goes wrong"
-        },
-        "badge": "Mòr-chòrdte",
-        "cta": "Rach gun shanasan",
-        "ctaPublic": "Get Plus – lean air adhart gu logadh a-steach",
-        "aria": "Àrdaich gu Plus"
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
       },
-      "premiumMonthly": {
-        "title": "Premium (Mìosail)",
-        "price": "$11.99",
-        "desc": "An full Chatforia experience: AI power tools, customization, agus priority taic.",
-        "features": {
-          "plusAll": "Everything ann an Plus",
-          "themes": "Unlock uile premium color themes agus app customizations",
-          "ai": "Premium-only AI power tools airson rewrites, glic replies, agus summaries",
-          "support": "Priority taic when thu need cuideachadh most"
-        },
-        "badge": "Air a mholadh",
-        "cta": "Àrdaich (Mìosail)",
-        "ctaPublic": "Unlock Premium – lean air adhart gu logadh a-steach",
-        "aria": "Àrdaich gu Premium Mìosail"
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
       },
-      "premiumAnnual": {
-        "title": "Premium (Bliadhnail)",
-        "price": "$99",
-        "desc": "Sàbhail barrachd when billed yearly — including extra color themes, AI tools, agus priority taic.",
-        "features": {
-          "allPremium": "Everything ann an Premium Mìosail — including extra color themes",
-          "annualBilling": "Billed once per bliadhna",
-          "save25": "Sàbhail around 30% compared gu paying mìosail",
-          "bestFor": "As fheàrr airson power cleachdaichean, remote workers, agus heavy travelers"
-        },
-        "badge": "Sàbhail 30%",
-        "cta": "Àrdaich (Bliadhnail)",
-        "ctaPublic": "Sàbhail 30% le bliadhnail – lean air adhart gu logadh a-steach",
-        "aria": "Àrdaich gu Premium Bliadhnail",
-        "disclaimer": "Billed upfront. Sguir dheth uair sam bith. Chan eil hidden fees."
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
       }
-    },
-    "marketing": {
-      "freeTitle": "Saor",
-      "freeDesc": "Tòisich messaging airson saor.",
-      "plusTitle": "Plus",
-      "plusBadge": "Mòr-chòrdte",
-      "plusDesc": "An t-eòlas gun shanasan as saoire.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Full features, ringtones, agus AI power tools.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Sàbhail barrachd when billed yearly.",
-      "annualDisclaimer": "Billed upfront. Sguir dheth uair sam bith. Chan eil hidden fees."
-    },
-    "mobile": {
-      "title": "Chatforia Gluasadach (eSIM pasgan dàtas)",
-      "subtitle": "Add cruinneil dàta gu keep Chatforia working even without Wi-Fi. Prices automatically adjust based air agad dùthaich agus currency.",
-      "subtitle.detail": "Pick a one-time cruinneil pasgan dàta so Chatforia keeps working when thu’re traveling no away bho Wi-Fi.",
-      "scope": {
-        "local": "Ionadail",
-        "europe": "An Roinn Eòrpa",
-        "global": "Cruinneil"
-      },
-      "note": "Sinn don’t sell pasgan dàtas under 3 GB.",
-      "localEquals": "Ionadail = {{country}}",
-      "localEqualsFallback": "Ionadail = agad làithreach dùthaich",
-      "perPack": "/ pasgan",
-      "cta": "Get this pasgan dàta",
-      "ctaPublic": "Get this pasgan dàta",
-      "checkout": {
-        "redirecting": "Gad ath-stiùireadh…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "High-speed dàta airson heavy use",
-          "throttle": "Dh’fhaodadh astaran fàs nas slaodaiche às dèidh cleachdadh àrd",
-          "coverage": "Còmhdach earbsach",
-          "instant": "Sa bhad eSIM activation",
-          "noContract": "One-time pasgan, chan eil contract"
-        }
-      },
-      "disclaimer": {
-        "devices": "eSIM pasgan dàtas require an eSIM-compatible agus unlocked uidheam. Availability varies le fòn model, giùlanair, agus dùthaich. Coverage agus speeds vary le region."
-      },
-      "small": {
-        "title": "Starter pasgan",
-        "desc": "Includes 3 GB de high-speed dàta — ideal airson aotrom messaging agus occasional gairmean.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Short trips, aotrom messaging, agus occasional gairmean",
-        "aria": "Buy Starter eSIM pasgan dàta"
-      },
-      "medium": {
-        "title": "Traveler pasgan",
-        "desc": "Includes 5 GB de high-speed dàta airson trips, commuting, agus regular VoIP gairmean.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Weekend trips, regular VoIP gairmean, agus maps",
-        "aria": "Buy Traveler eSIM pasgan dàta"
-      },
-      "large": {
-        "title": "Power pasgan",
-        "desc": "Includes 10 GB de high-speed dàta airson heavy còmhradh, gairmean, agus bhideo air an Chatforia network.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Heavy còmhradh, gairmean, bhideo, agus hotspot use",
-        "aria": "Buy Power cleachdaiche eSIM pasgan dàta"
-      },
-      "compare": {
-        "title": "Compare eSIM pasgan dàtas",
-        "col": {
-          "pack": "Pasgan",
-          "data": "Included dàta",
-          "bestFor": "As fheàrr airson"
-        },
-        "disclaimer": "Actual dàta usage depends air how thu use Chatforia (voice, bhideo, media, agus other apps air agad fòn)."
-      }
-    },
-    "family": {
-      "title": "Chatforia Teaghlach (co-roinnte dàta)",
-      "subtitle": "Share a single dàta pool across agad teaghlach. One bill, multiple Chatforia cunntasan, cruinneil coverage.",
-      "perPack": "/ pasgan",
-      "small": {
-        "title": "Teaghlach Beag",
-        "desc": "Includes 20 GB de co-roinnte high-speed dàta — great airson 2–3 aotrom cleachdaichean.",
-        "price": "$29.99",
-        "aria": "Buy Teaghlach Beag pasgan"
-      },
-      "medium": {
-        "title": "Teaghlach Meadhanach",
-        "desc": "Includes 40 GB de co-roinnte high-speed dàta — ideal airson 3–5 active buill.",
-        "price": "$49.99",
-        "aria": "Buy Teaghlach Meadhanach pasgan"
-      },
-      "large": {
-        "title": "Teaghlach Mòr",
-        "desc": "Includes 80 GB de co-roinnte high-speed dàta — airson power families that tha always online.",
-        "price": "$84.99",
-        "aria": "Buy Teaghlach Mòr pasgan"
-      },
-      "feature": {
-        "shared": "Co-roinnte dàta pool airson agad teaghlach",
-        "members": "Thoir cuireadh up gu 4 additional buill",
-        "membersMore": "Great airson 3–5 active buill",
-        "manage": "Stiùirich limits airson each ball",
-        "topUp": "Add barrachd pasganan uair sam bith",
-        "bestValue": "As fheàrr value per GB",
-        "fairUse": "Subject gu fair-use poileasaidh agus ionadail limits"
-      },
-      "disclaimer": "Teaghlach pasganan cruthaich no top up a amar dàta co-roinnte. Thu faodaidh thoir cuireadh agus remove buill uair sam bith.",
-      "footnote": "Teaghlach pasganan share a single dàta pool across linked Chatforia cunntasan. Availability agus limits depend air agad dùthaich agus ionadail regulations."
-    },
-    "why": {
-      "title": "Why people switch gu Chatforia",
-      "subtitle": "Chatforia gives thu a real àireamh fòn, glic eadar-theangachadh, agus a clear path gu go ad-free when thu’re ready.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Lighter sanasan air Saor, a simple Plus àrdaich when thu’re ready, agus Premium tools TextNow doesn’t offer."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "Modern app, cruinneil-first design, agus togte-ann an eadar-theangachadh instead de seann-school gairm cur air adhart."
-        },
-        "messengers": {
-          "title": "Chatforia vs còmhradh apps",
-          "body": "Teacsa real àireamh fòns — chan eil just other app cleachdaichean — le AI agus inbhe togte ann an. Great if thu’re coming bho apps like TextFree no TextMe."
-        }
-      },
-      "tableTitle": "Mar a tha Chatforia a’ dèanamh coimeas",
-      "col": {
-        "feature": "Feart"
-      },
-      "feature": {
-        "freeNumber": "Saor àireamh fòn",
-        "translation": "Built-ann an auto-translation",
-        "aiTools": "Innealan AI (ath-sgrìobhadh, freagairtean, geàrr-chunntasan)",
-        "ads": "Roghainn gun shanasan",
-        "history": "Eachdraidh theachdaireachdan"
-      },
-      "yes": "Tha",
-      "no": "Chan eil",
-      "yesPremium": "Tha (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "Cuibhrichte",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "Up gu 12+ months",
-        "textnow": "Varies le cunntas",
-        "voice": "Cuibhrichte / stèidhichte air cunntas"
-      },
-      "disclaimer": "Comparison based air publicly ri fhaighinn information agus may atharraich over time. Other free-texting apps like TextFree no TextMe tha generally similar gu TextNow."
-    },
-    "faq": {
-      "title": "Prìsean & planaichean FAQ",
-      "free": {
-        "q": "A bheil an plana saor really saor?",
-        "a": "Tha. An plana saor includes a Chatforia àireamh, calling, agus messaging le sanasan. Thu faodaidh stay air Saor as long as thu like, no àrdaich gu remove sanasan agus unlock barrachd features."
-      },
-      "plusPremium": {
-        "q": "What’s an difference between Plus agus Premium?",
-        "a": "Plus removes sanasan agus extends agad teachdaireachd history — perfect airson everyday use. Premium adds extra customization, AI tools airson rewrites agus replies, agus priority taic airson heavy cleachdaichean."
-      },
-      "esim": {
-        "q": "Where do eSIM pasgan dàtas work?",
-        "a": "Chatforia Gluasadach uses cruinneil eSIM coverage. Availability depends air agad dùthaich agus uidheam. Thu’ll see supported options during activation inside an app."
-      },
-      "cancel": {
-        "q": "Faodaidh I sguir dheth no atharraich planaichean uair sam bith?",
-        "a": "Tha. Thu faodaidh stiùirich no sguir dheth agad fo-sgrìobhadh bho an bileachadh page ann an an app. Changes take effect at an end de agad ùine bileachaidh làithreach."
-      },
-      "family": {
-        "q": "How do Teaghlach pasganan work?",
-        "a": "Teaghlach pasganan cruthaich a amar dàta co-roinnte across multiple Chatforia cunntasan. One person pays an bill, agus thu faodaidh thoir cuireadh no remove buill agus set limits per person."
-      }
-    },
-    "gettingStarted": {
-      "title": "A’ tòiseachadh",
-      "subtitle": "Ùr gu Chatforia? This quick tòisich shows an essentials so thu faodaidh be productive ann an minutes.",
-      "alert": {
-        "text": "This guide bidh grow as sinn launch ùr features. If something’s missing, let us know via",
-        "contactLink": "Cuir fios thugainn"
-      },
-      "section1": {
-        "title": "1) Cruthaich agad cunntas",
-        "signup": "Clàraich up",
-        "or": "no",
-        "login": "log ann an",
-        "loginText": "le agad existing cunntas.",
-        "prefsStart": "Set agad",
-        "prefsLink": "roghainnean",
-        "prefsRest": "(cànan, dearbhaidhean leughaidh, themes)."
-      },
-      "section2": {
-        "title": "2) Tòisich messaging",
-        "item1": "Cruthaich a DM no Group agus cuir agad first teachdaireachd.",
-        "item2": "Use sa bhad eadar-theangachadh gu còmhradh across 100+ languages.",
-        "item3": "Feuch teachdaireachdan a thèid à sealladh agus dearbhaidhean leughaidh ann an Pròifil → Prìobhaideachd."
-      },
-      "section3": {
-        "title": "3) Rach nas fhaide",
-        "item1": "Thu faodaidh àrdaich gu a paid plana uair sam bith inside an app.",
-        "item2": "Once thu’re signed ann an, thu faodaidh link additional uidheaman agus set up crioptaichte backups bho Roghainnean ann an an app."
-      },
-      "cta": {
-        "seePlans": "See planaichean",
-        "openSettings": "Fosgail roghainnean"
-      }
-    },
-    "helpCenter": {
-      "title": "Ionad-cuideachaidh",
-      "faq": {
-        "account": {
-          "q": "Ciamar a chruthaicheas no a gheibh mi air ais mo chunntas?",
-          "a": "Luchdaich a-nuas an app no use web, tap “Cruthaich cunntas”, verify agad post-d/phone. Gu recover, use “Forgot facal-faire”."
-        },
-        "privacy": {
-          "q": "A bheil teachdaireachdan air an crioptachadh ceann-gu-ceann?",
-          "a": "Tha. Teachdaireachdan agus gairmean tha end-gu-end crioptaichte le default. Only thu agus an recipient faodaidh leugh them."
-        },
-        "translate": {
-          "q": "Ciamar a dh’obraicheas eadar-theangachadh sa bhad?",
-          "a": "Cuir an comas “Auto-translate” ann an Roghainnean → Appearance & Cànan. Sinn eadar-theangaich on-device where supported, otherwise through tèarainte APIs le minimal metadata."
-        },
-        "contact": {
-          "q": "Cuir fios gu taic",
-          "a": "Reach us at support@chatforia.com. Include screenshots agus agad app version."
-        }
-      }
-    },
-    "contact": {
-      "title": "Cuir fios thugainn",
-      "successMsg": "Thanks—againn team bidh reply le post-d.",
-      "errorSend": "Cha b’ urrainn dhuinn cuir. Feuch post-d support@chatforia.com.",
-      "form": {
-        "nameLabel": "Ainm",
-        "emailLabel": "Post-d",
-        "messageLabel": "Teachdaireachd",
-        "sendCta": "Cuir"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Poileasaidh Prìobhaideachd",
-      "lastUpdated": "Air ùrachadh mu dheireadh:",
-      "intro": {
-        "body": "This Prìobhaideachd Poileasaidh explains how Chatforia (“sinn”, “us”) collects, uses, agus shares information when thu use againn apps agus services. Sinn design Chatforia gu minimize an dàta sinn faodaidh access."
-      },
-      "infoWeCollect": {
-        "title": "Information sinn collect",
-        "account": "Cunntas info (e.g., post-d/phone) gu cruthaich agus tèarainte agad cunntas.",
-        "encrypted": "Crioptaichte content (teachdaireachdan/calls) tha end-gu-end crioptaichte; sinn faodaidh’t leugh it.",
-        "diagnostics": "Diagnostic/usage like crash logs, uidheam type, no coarse analytics gu improve performance."
-      },
-      "sms": {
-        "title": "Gluasadach àireamh fòns agus SMS",
-        "body": "If thu tagh gu provide a gluasadach àireamh fòn, sinn use it gu cuir an comas features such as cunntas verification, logadh a-steach rabhaidhean, agus user-gu-user messaging via SMS where supported. Sinn may cuir transactional SMS teachdaireachdan related gu agad cunntas agus activity air Chatforia. Thu faodaidh opt out de receiving SMS teachdaireachdan at uair sam bith le replying le a supported opt-out keyword (such as “STOP”) no le changing agad notification preferences ann an an app. Sinn do chan eil sell agad àireamh fòn no use it airson unrelated marketing.",
-        "newText": "Ùr teacsa",
-        "enterRecipient": "Cuir a-steach ainm no àireamh",
-        "typeMessage": "Sgrìobh teachdaireachd…",
-        "addRecipient": "Cuir neach-faighinn gu h-àrd gus tòiseachadh…"
-      },
-      "howWeUse": {
-        "title": "How sinn use information",
-        "provide": "Provide agus tèarainte an service (auth, spam/abuse detection).",
-        "improve": "Improve features (eadar-theangachadh quality, reliability).",
-        "legal": "Comply le legal obligations."
-      },
-      "sharing": {
-        "title": "Co-roinneadh",
-        "body": "Sinn don’t sell personal dàta. Sinn may share limited dàta le processors (e.g., push brathan, analytics) under strict contracts."
-      },
-      "rights": {
-        "title": "Do rights",
-        "body": "Depending air agad region (e.g., GDPR/UK GDPR/CPRA), thu may request access, correction, deletion, no opt-out de certain processing. Neach-conaltraidh: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Dàta retention & tèarainteachd",
-        "body": "Sinn retain only what’s needed gu operate an service agus apply industry-standard tèarainteachd. E2E content faodaidh’t be decrypted le us."
-      },
-      "children": {
-        "title": "Clann",
-        "body": "Chatforia isn’t directed gu children under 13 (no as riatanach le agad ionadail law)."
-      },
-      "changes": {
-        "title": "Atharrachaidhean",
-        "body": "Sinn’ll post updates here agus revise an “Last updated” date."
-      },
-      "contact": {
-        "title": "Cuir fios",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Teirmean Seirbheis",
-      "lastUpdated": "Air ùrachadh mu dheireadh:",
-      "intro": {
-        "body": "Le using Chatforia thu agree gu these Teirmean. If thu do chan eil agree, don’t use an service."
-      },
-      "accounts": {
-        "title": "Cunntasan",
-        "itemAccurateInfo": "Provide accurate info agus keep credentials tèarainte.",
-        "itemResponsibility": "Thu’re responsible airson activity air agad cunntas."
-      },
-      "acceptableUse": {
-        "title": "Cleachdadh iomchaidh",
-        "itemNoAbuse": "Chan eil illegal, abusive, no infringing content; chan eil spam no automated abuse.",
-        "itemSuspend": "Sinn may suspend/terminate airson violations."
-      },
-      "sms": {
-        "title": "Conaltradh SMS",
-        "body": "If thu provide a gluasadach àireamh fòn, thu agree that Chatforia may cuir thu SMS teachdaireachdan related gu agad cunntas agus use de an service, such as logadh a-steach rabhaidhean, tèarainteachd brathan, agus teachdaireachdan related gu còmhraidhean thu initiate no participate ann an. Sinn do chan eil use SMS airson promotional no marketing teachdaireachdan without agad explicit consent. Standard teachdaireachd agus dàta rates may apply. Thu faodaidh opt out de SMS teachdaireachdan at uair sam bith le replying le a supported opt-out keyword (airson example, “STOP”) no le updating agad notification roghainnean ann an an app."
-      },
-      "yourContent": {
-        "title": "Do content",
-        "body": "Thu retain rights gu agad content. Thu grant us necessary rights gu operate an service (e.g., routing, storage, eadar-theangachadh)."
-      },
-      "disclaimer": {
-        "title": "Àicheadh-dleastanais & buailteachd",
-        "body": "Service tha provided “as tha” without warranties. Gu an fullest extent permitted le law, Chatforia isn’t liable airson indirect no consequential damages."
-      },
-      "changes": {
-        "title": "Atharrachaidhean",
-        "body": "Sinn may update these teirmean; continued use after changes means acceptance."
-      },
-      "contact": {
-        "title": "Cuir fios",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Do Chan eil Sell no Share Mo Personal Information",
-      "body": "Chatforia does chan eil sell personal information. California residents faodaidh still submit requests under CPRA using an button below.",
-      "cta": "Cuir a-steach iarrtas"
-    },
-    "cookies": {
-      "title": "Cookie Roghainnean",
-      "body": "Chatforia uses minimal cookies (e.g., session, tèarainteachd). Sinn don’t use third-party sanasan cookies. Stiùirich cookies via agad browser’s roghainnean."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Unable gu luchdaich àireamh fòn inbhe.",
-      "lock": "Glais",
-      "noNumberAssigned": "Chan eil àireamh assigned. Pick one le area code gu tòisich texting.",
-      "pickNumber": "Pick a àireamh",
-      "phoneNumber": "Àireamh fòn"
-    },
-    "startChatModal": {
-      "title": "Tòisich còmhradh",
-      "quickPicker": "Taghadh luath",
-      "to": "Gu",
-      "nameOrUsername": "Type a name, ainm-cleachdaiche",
-      "nameUsernamePhoneEmail": "Type a name, ainm-cleachdaiche, fòn, no post-d…",
-      "startWithSelected": "Tòisich còmhradh le selected",
-      "searchByUsernameOrPhone": "Lorg le ainm-cleachdaiche no fòn",
-      "search": "Lorg",
-      "searchPrompt": "Type a ainm-cleachdaiche no fòn agus press Lorg.",
-      "pickFromContacts": "No pick bho luchd-conaltraidh",
-      "addContact": "Add a Neach-conaltraidh",
-      "show": "Seall",
-      "add": "Cuir ris",
-      "close": "Dùin",
-      "selectedCount": "{{count}} air an taghadh",
-      "pickAtLeastOne": "Tagh co-dhiù aon neach-faighinn.",
-      "saveContactsHint": "Fòn/email entries bidh be ri fhaighinn after thu sàbhail them as luchd-conaltraidh.",
-      "failedBulkStart": "Dh’fhàillig tòisich còmhradh le selected recipients.",
-      "noResults": "Gun toraidhean",
-      "mode": "Modh",
-      "group": "Buidheann",
-      "broadcast": "Craoladh",
-      "groupNameOptional": "Group name (roghainneil)",
-      "firstMessageOptional": "First teachdaireachd (roghainneil but recommended)",
-      "createGroup": "Cruthaich group",
-      "sendBroadcast": "Cuir broadcast"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
-    },
-    "sounds": {
-      "freeNotice": "Thu’re air Saor — premium tones tha shown but locked. Àrdaich gu unlock uile.",
-      "preview": "Ro-shealladh",
-      "resetToDefaults": "Reset gu defaults",
-      "notificationSounds": "Fuaimean bratha",
-      "messageTone": "Teachdaireachd tone",
-      "default": "Bun-roghainn",
-      "vibrate": "Crith",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Fuaim phulsach",
-      "textMessage": "Teacsa Teachdaireachd",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Èiginn",
-      "bells": "Clagan",
-      "chimes": "Clagan-ciùil",
-      "digitalPhone": "Digital Fòn",
-      "melodic": "Ceòlmhor",
-      "organNotes": "Notaichean organ",
-      "soundReality": "Fìrinn fuaime",
-      "street": "Sràid",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "This feature requires a Premium plana."
-    },
-    "aiSettings": {
-      "title": "AI Roghainnean",
-      "controlIntro": "Control eadar-theangachadh, glic replies, agus ForiaBot auto-responses.",
-      "save": "Sàbhail AI Roghainnean",
-      "autoTranslateIncoming": "Auto-translate incoming teachdaireachdan",
-      "showOriginalAlongside": "Show original teacsa alongside eadar-theangachadh",
-      "enableSmartReplies": "Cuir an comas Glic Replies",
-      "smartRepliesHint": "Cuir an last few air fhaighinn teachdaireachdan (sanitized) gu AI gu suggest quick replies.",
-      "maskProfanity": "Mask profanity ann an AI suggestions",
-      "maskProfanityHint": "If air, suggestions returned le AI bidh have flagged words masked",
-      "foriaBot": "Fèin-fhreagairt ForiaBot",
-      "enableAutoReply": "Cuir an comas auto-reply when I’m busy",
-      "autoReplyMode": "Modh fèin-fhreagairt",
-      "cooldownSeconds": "Ùine fuarachaidh (diogan)",
-      "off": "Dheth",
-      "on": "Air",
-      "signature": "Ainm-sgrìobhte",
-      "autoReply": "Fèin-fhreagairt",
-      "activeUntilOptional": "Active until (roghainneil)",
-      "saved": "AI preferences air a shàbhaladh",
-      "saveFailed": "Dh’fhàillig sàbhail AI roghainnean",
-      "translateOff": "Dheth",
-      "translateTagged": "Only when @translated no tagged",
-      "translateAll": "Eadar-theangaich uile incoming teachdaireachdan",
-      "modeDm": "Còmhraidhean 1:1 a-mhàin",
-      "modeMention": "A-mhàin nuair a tha @iomradh orm",
-      "modeAll": "Uile inbound teachdaireachdan"
-    },
-    "accessibilitySettings": {
-      "title": "Accessibility & Rabhaidhean",
-      "accessibility": "Ruigsinneachd",
-      "accessibilityDesc": "Options gu make Chatforia easier gu use without relying air sound.",
-      "interfaceFontSize": "Meud cruth-clò an eadar-aghaidh",
-      "interfaceFontSizeHelp": "Starts at normal size. Increase if thu prefer larger teacsa ann an accessibility roghainnean.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Brathan",
-      "notificationsDesc": "Visual rabhaidhean airson teachdaireachdan & gairmean\nShow banners agus title blink so thu don’t miss activity.",
-      "vibrateOnNew": "Vibrate air ùr teachdaireachdan (when supported)\nTrigger uidheam vibration le brathan.",
-      "flashOnCall": "Flash screen air incoming gairm\nBrief bright flash when a gairm rings.",
-      "liveCaptions": "Live captions (gairmean)",
-      "captionFontSize": "Fo-thiotal font size",
-      "captionBackground": "Fo-thiotal background",
-      "light": "aotrom",
-      "dark": "dorcha",
-      "transparent": "follaiseach",
-      "voiceNotes": "Notaichean gutha",
-      "autoTranscribeVoiceNotes": "Tar-sgrìobh notaichean gutha gu fèin-obrachail",
-      "autoTranscribeVoiceNotesDesc": "Attach a transcript gu claisneachd teachdaireachdan thu faigh.",
-      "changesSavedInstantly": "Changes tha air a shàbhaladh instantly.",
-      "loadFailed": "Dh’fhàillig luchdaich roghainnean",
-      "visualAlerts": "Visual rabhaidhean airson teachdaireachdan & gairmean",
-      "visualAlertsDesc": "Show banners agus title blink so thu don’t miss activity.",
-      "vibrateOnNewShort": "Vibrate air ùr teachdaireachdan (when supported)",
-      "vibrateOnNewDesc": "Trigger uidheam vibration le brathan.",
-      "flashOnCallShort": "Flash screen air incoming gairm",
-      "flashOnCallDesc": "Brief bright flash when a gairm rings."
-    },
-    "privacySection": {
-      "strictE2EE": "Strict crioptachadh ceann-gu-ceann",
-      "ciphertextOnlyNote": "Store only ciphertext air an server. Disables AI/Translate agus moderation previews."
-    },
-    "linkedDevicesPanel": {
-      "title": "Linked Uidheaman",
-      "noneFound": "Chan eil linked uidheaman found.",
-      "refresh": "Ùraich"
-    },
-    "help": {
-      "title": "Cuideachadh",
-      "howCanWeHelp": "How faodaidh sinn cuideachadh?",
-      "helpCenter": "Ionad-cuideachaidh",
-      "contactUs": "Neach-conaltraidh us",
-      "quickTopics": "Cuspairean luatha",
-      "searchExamples": "Feuch searching airson “eadar-theangaich”, “backups”, no “prìobhaideachd”.",
-      "cantLogin": "Faodaidh't log ann an",
-      "paymentsBilling": "Payments/ bileachadh",
-      "reportAbuse": "Dèan aithris air mì-ghnàthachadh",
-      "searchHelpArticles": "Lorg cuideachadh articles",
-      "search": "Lorg"
-    },
-    "peoplePage": {
-      "people": "Daoine",
-      "search": "Lorg",
-      "searchPlaceholder": "Lorg le alias, name, ainm-cleachdaiche, no fòn",
-      "filterSaved": "Filter air a shàbhaladh luchd-conaltraidh",
-      "noContactsFound": "Chan eil luchd-conaltraidh found",
-      "quickStart": "Quick tòisich",
-      "quickStartDesc": "A few fast ways gu get rolling.",
-      "importContacts": "Import agad luchd-conaltraidh",
-      "add": "Cuir ris",
-      "focusSearch": "Focus Lorg",
-      "import": "Ion-phortaich",
-      "findOrAdd": "Find no add someone",
-      "searchByPhoneOrUsername": "Lorg le fòn / ainm-cleachdaiche",
-      "inviteFriends": "Thoir cuireadh caraidean",
-      "inviteDesc": "Share agad thoir cuireadh link gu tòisich chatting instantly.",
-      "getTheApp": "Faigh an aplacaid",
-      "getTheAppDesc": "Stay ann an touch air an go le Chatforia airson iOS agus Android.",
-      "download": "Luchdaich a-nuas",
-      "syncTip": "Tip: Do teachdaireachdan stay synced across web agus gluasadach."
-    },
-    "randomChat": {
-      "title": "Còmhradh air thuaiream",
-      "description": "'Meet someone ùr instantly'. 'Sinn’ll maids thu agus fosgail a temporary còmhradh seòmar.' 'Còmhradh anonymously first. Add Caraid later if it feels right.'",
-      "findMatch": "Find me a maids",
-      "chatWithForia": "Còmhradh le Foria",
-      "chatWithForiaBot": "Còmhradh le ForiaBot",
-      "cancel": "Sguir dheth",
-      "close": "Dùin",
-      "searching": "A’ lorg…",
-      "finding": "A’ lorg…",
-      "looking": "Looking airson someone…",
-      "startingForia": "Starting a còmhradh le Foria…",
-      "partnerDisconnected": "Do partner disconnected.",
-      "noPartner": "Chan eil partner found an-dràsta.",
-      "connectedTo": "Connected gu {{name}}",
-      "connected": "Ceangailte",
-      "idle": "Na thàmh",
-      "partnerLeft": "Dh’fhalbh an com-pàirtiche.",
-      "stopped": "Air stad.",
-      "skip": "Leum seachad",
-      "save": "Sàbhail",
-      "saveGuard": "Only human-gu-human chats faodaidh be air a shàbhaladh",
-      "youAreChattingWith": "Thu’re chatting le {{name}}",
-      "bot": "BOT",
-      "leave": "Fàg",
-      "sayHi": "Abair halò 👋",
-      "you": "Thu",
-      "typeMessage": "Type a teachdaireachd",
-      "send": "Cuir",
-      "partner": "Com-pàirtiche",
-      "withRia": "Le Ria",
-      "chatWithRia": "Còmhradh le Ria",
-      "startingRia": "Starting a còmhradh le Ria…",
-      "ageDisclaimer": "Sinn only store an age range (chan eil agad exact date de birth). This tha used gu keep Air thuaiream Còmhradh pairings reasonable. Gu maids le people (chan eil just RiaBot), set agad age band ann an Roghainnean → Age & Air thuaiream Còmhradh.",
-      "ageBandRequired": "Set agad age range ann an Pròifil → Age & Air thuaiream Còmhradh gu be matched le people.",
-      "ageBandCallout": "Gu maids le people (chan eil just RiaBot), set agad age band ann an Roghainnean → Age & Air thuaiream Còmhradh.",
-      "subtitle": "Meet someone ùr instantly, no tagh gu còmhradh le Ria.",
-      "start": "Tòisich còmhradh",
-      "matching": "A’ maidseadh…",
-      "setAge": "Set agad age range ann an Pròifil → Age & Air thuaiream Còmhradh gu be matched le people.",
-      "next": "An ath neach",
-      "addFriend": "Add Caraid",
-      "requested": "Air iarraidh",
-      "messageRia": "Teachdaireachd Ria…",
-      "messageMatch": "Teachdaireachd agad maids…"
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "an sin",
-      "intro": "Hey there 👋 I’m Ria. What’s air agad mind?",
-      "greetings": {
-        "long1": "Hey {{name}} 👋 I’m here. What’s air agad mind?",
-        "long2": "Hi {{name}} 😊 What would thu like gu talk mu dheidhinn today?",
-        "long3": "Hey {{name}}! I’m uile ears — what’s up?",
-        "long4": "Nice gu see thu, {{name}} 👋 What’s air agad mind today?",
-        "long5": "Hey {{name}} 🙂 Want gu vent, ask, no just còmhradh?",
-        "long6": "Hi {{name}}! I’ve got time — what would thu like gu talk mu dheidhinn?",
-        "short1": "Hey {{name}}, I’m still here. What’s up?",
-        "short2": "Welcome back {{name}} 👋 Anything else thu wanted gu add?",
-        "short3": "Back a-rithist, {{name}}? 😊 Tell me what’s air agad mind.",
-        "short4": "Hey {{name}} ✨ Ready gu pick up where sinn left dheth?",
-        "short5": "Tha {{name}}? I’m listening 👂",
-        "short6": "Oh hey {{name}}! Got something ùr air agad mind?"
-      },
-      "header": {
-        "openNav": "Fosgail navigation menu",
-        "closeNav": "Dùin navigation menu",
-        "homeAria": "Chatforia Dachaigh"
-      },
-      "login": {
-        "welcomeBack": "Fàilte air ais",
-        "title": "Lean air adhart gu Chatforia",
-        "subtitleReturning": "Log ann an gu agad Chatforia cunntas",
-        "subtitle": "Log ann an gu agad Chatforia cunntas",
-        "google": "Lean air adhart le Google",
-        "apple": "Lean air adhart le Apple",
-        "googleUnavailable": "Google sign-ann an gun fhaighinn",
-        "appleUnavailable": "Apple sign-ann an gun fhaighinn",
-        "or": "no",
-        "email": "Post-d",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Ainm-cleachdaiche",
-        "usernamePh": "Do ainm-cleachdaiche",
-        "passwordLabel": "Facal-faire",
-        "passwordPh": "Do facal-faire",
-        "keepSignedIn": "Cum mi air mo chlàradh a-steach",
-        "forgot": {
-          "title": "Forgot Facal-faire",
-          "helper": "Enter an post-d thu used gu cruthaich agad Chatforia cunntas agus we'll cuir thu a tèarainte link gu reset agad facal-faire.",
-          "emailInvalid": "Feuch enter a valid post-d seòladh.",
-          "genericError": "Unable gu process request. Feuch feuch ris a-rithist ann an a moment.",
-          "sending": "A’ cur ceangal ath-shuidheachaidh...",
-          "sendCta": "Cuir Reset Link",
-          "sentLabel": "Air a chur!",
-          "sentHelper": "If an cunntas exists le that post-d, we've air a chur a facal-faire reset link. It may take a few minutes gu arrive. Be sure gu check agad spam no promotions folder.",
-          "previewDev": "Ro-shealladh Post-d (Dev)",
-          "backToLogin": "Back gu Logadh a-steach"
-        },
-        "submit": "Log a-steach",
-        "loggingIn": "Logging ann an…",
-        "newHere": "Ùr here? <link>Cruthaich an cunntas</link>",
-        "ssoUnavailable": "Single-sign-on tha currently gun fhaighinn. Use ainm-cleachdaiche & facal-faire instead.",
-        "error": {
-          "missing": "Feuch enter agad credentials.",
-          "invalid": "Invalid ainm-cleachdaiche no facal-faire",
-          "denied": "Chaidh ruigsinneachd a dhiùltadh.",
-          "unprocessable": "Invalid request. Check agad ainm-cleachdaiche/email agus facal-faire.",
-          "deviceLimit": "Uidheam limit reached airson an plana saor. Log out air another uidheam no àrdaich gu Premium gu link barrachd uidheaman.",
-          "premiumRequired": "This action requires a Premium plana."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Completing sign-ann an…"
-    },
-    "dialer": {
-      "title": "Gairmean",
-      "subtitle": "Keypad & recents. (If thu don’t use PSTN, tòisich gairmean bho a còmhradh header.)",
-      "enterNumberPh": "Enter àireamh",
-      "call": "Gairm",
-      "backspace": "Sguab air ais",
-      "recents": "O chionn ghoirid",
-      "recentsEmpty": "Chan eil recent gairmean yet.",
-      "enterNumber": "Enter àireamh",
-      "enterNumberAria": "Enter àireamh",
-      "key": "Iuchair {{d}}",
-      "noRecents": "Chan eil recent gairmean yet."
-    },
-    "video": {
-      "title": "Bhideo",
-      "chooseType": "Tagh a bhideo type.",
-      "directTitle": "Direct Bhideo",
-      "directDesc": "1:1 camera gairm le another cleachdaiche.",
-      "directStart": "Tòisich",
-      "roomsTitle": "Seòmraichean",
-      "roomsDesc": "Multi-party bhideo using a co-roinnte seòmar name.",
-      "roomsIntro": "Join no cruthaich a multi-party seòmar.",
-      "roomNameLabel": "Seòmar name",
-      "roomNamePh": "e.g. team-standup",
-      "join": "Thig a-steach",
-      "deeplinkTip": "Tip: thu faodaidh deep link directly gu <code>/video?seòmar=room-name</code>.",
-      "hub": {
-        "title": "Bhideo",
-        "subtitle": "Tagh a bhideo type."
-      },
-      "direct": {
-        "title": "Direct Bhideo",
-        "subtitle": "Tòisich a 1:1 bhideo gairm using a àireamh fòn no Chatforia ainm-cleachdaiche.",
-        "desc": "1:1 camera gairm le another cleachdaiche.",
-        "start": "Tòisich",
-        "callBtn": "Gairm",
-        "callByPhone": {
-          "title": "Gairm le fòn"
-        },
-        "phone": {
-          "placeholder": "Enter fòn (e.g., +1-555-123-4567)",
-          "aria": "Fòn gu gairm"
-        },
-        "tipInvite": "Tip: Paste a àireamh agus gairm without saving a neach-conaltraidh. Sinn’ll thoir cuireadh non-users le link.",
-        "findUser": {
-          "title": "Find a cleachdaiche"
-        },
-        "search": {
-          "placeholder": "Lorg le name no ainm-cleachdaiche",
-          "aria": "Lorg le name no ainm-cleachdaiche",
-          "btn": "Lorg"
-        }
-      },
-      "rooms": {
-        "title": "Seòmraichean",
-        "subtitle": "Cruthaich a seòmar no join an existing one le typing an same name.",
-        "desc": "Multi-party bhideo using a co-roinnte seòmar name.",
-        "roomLabel": "Seòmar name",
-        "roomPlaceholder": "e.g. team-standup",
-        "roomAria": "Seòmar name",
-        "joinCreate": "Join / Cruthaich",
-        "tip": "Tip: share this name le others, no deep link gu <code>/video?seòmar=room-name</code>."
-      }
-    },
-    "directVideo": {
-      "intro": "Tòisich a direct 1:1 bhideo gairm.",
-      "findUserLabel": "Find a cleachdaiche",
-      "findUserPh": "Lorg le name no ainm-cleachdaiche",
-      "search": "Lorg",
-      "call": "Gairm"
-    },
-    "phoneWarning": {
-      "title": "Do àireamh tha expiring soon",
-      "body": "Do àireamh {{number}} bidh be released air {{date}} unless reactivated.",
-      "button": "Keep Mo Àireamh"
     }
   },
   "support": {
@@ -1589,12 +2013,27 @@
     "sendError": "Cha b’ urrainn dhuinn cuir. Post-d support@chatforia.com instead.",
     "actionCompleted": "Chaidh an gnìomh a chrìochnachadh.",
     "actionFailed": "Cha b’ urrainn dhuinn sin a chrìochnachadh that action. Feuch feuch ris a-rithist.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
     "escalationMessage": "Sinn couldn’t resolve this automatically. Ar team bidh follow up.",
     "genericError": "Something went wrong. Feuch feuch ris a-rithist.",
     "analyzing": "Analyzing agad issue...",
     "takeAction": "Gabh an gnìomh a thathar a’ moladh",
     "resolvedInstantly": "Issue resolved instantly — chan eil ticket needed.",
-    "escalating": "Escalating gu taic..."
+    "escalating": "Escalating gu taic...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
   },
   "helpCenter": {
     "title": "Ionad-cuideachaidh",
@@ -1617,117 +2056,161 @@
       }
     }
   },
-  "encryptionRecovery": {
-    "title": "Stiùirich Encryption",
-    "description": "Back up, restore, unlock, no reset agad encryption iuchair.",
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
     "alert": {
-      "keyRequiredTitle": "Encryption iuchair riatanach",
-      "keyRequiredBody": "This browser cannot currently decrypt agad crioptaichte teachdaireachdan. Restore, unlock, no reset agad iuchair gu lean air adhart."
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
     },
-    "sections": {
-      "createBackup": "Cruthaich iuchair cùl-taic",
-      "restoreFromBackup": "Restore bho cunntas cùl-taic",
-      "resetEncryption": "Ath-shuidhich crioptachadh"
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
     },
-    "fields": {
-      "unlockPasscode": {
-        "label": "Unlock passcode (làithreach uidheam)",
-        "description": "Used gu decrypt agad iuchraichean locally before exporting"
-      },
-      "backupPassword": {
-        "label": "Cùl-taic facal-faire",
-        "description": "Used gu encrypt an cùl-taic faidhle"
-      },
-      "restoreBackupPassword": {
-        "label": "Cùl-taic facal-faire",
-        "description": "An facal-faire thu created when backing up agad iuchair air iPhone"
-      },
-      "newLocalPasscode": {
-        "label": "Ùr ionadail passcode",
-        "description": "Protect iuchraichean at rest air this browser"
-      },
-      "resetLocalPasscode": {
-        "label": "Ùr ionadail passcode",
-        "description": "Riatanach before resetting so an ùr iuchair tha protected air this uidheam"
-      }
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
     },
-    "actions": {
-      "unlockKey": "Unlock encryption iuchair",
-      "restoreFromBackup": "Restore bho cunntas cùl-taic",
-      "resetEncryption": "Ath-shuidhich crioptachadh"
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
-    "messages": {
-      "backupCreated": "Iuchair cùl-taic created agus downloaded.",
-      "keyUnlocked": "Encryption iuchair unlocked.",
-      "keyRestored": "Iuchair restored bho cunntas cùl-taic.",
-      "resetSuccess": "Chaidh crioptachadh ath-shuidheachadh gu soirbheachail."
-    },
-    "errors": {
-      "restoreIncomplete": "Iuchair restore incomplete no incorrect airson this cunntas",
-      "noBackup": "Chan eil cùl-taic crioptaichte ann airson a’ chunntais seo",
-      "missingPublicKey": "Tha iuchair phoblach a dhìth air a’ chùl-taic",
-      "noServerPublicKey": "This cunntas does chan eil currently expose a server poblach iuchair",
-      "serverBackupMismatch": "Server cùl-taic does chan eil maids an làithreach cunntas encryption iuchair",
-      "incompleteMetadata": "Cùl-taic metadata tha incomplete",
-      "resetIncomplete": "Encryption reset did chan eil complete correctly"
-    },
-    "confirm": {
-      "reset": "Reset encryption airson this cunntas?\n\nOlder crioptaichte teachdaireachdan may become unreadable unless thu restore an original iuchair later."
-    },
-    "resetDescription": "This generates a ùr encryption iuchair airson agad cunntas. Older crioptaichte teachdaireachdan may become unreadable unless thu restore an original iuchair later."
+    "cta": {
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
   },
-  "footer": {
-    "plans": "Planaichean & Prìsean",
-    "about": "Mu Chatforia",
-    "careers": "Dreuchdan",
-    "press": "Na meadhanan",
-    "advertise": "Sanasachd",
-    "contact": "Cuir fios thugainn",
-    "help": "Ionad-cuideachaidh",
-    "status": "Inbhe Page",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Poileasaidh Prìobhaideachd",
-    "terms": "Teirmean Seirbheis",
-    "cookies": "Cookie Roghainnean",
-    "doNotSell": "Do Chan eil Sell Mo Info",
-    "language": "Cànan",
-    "contactShort": "Cuir fios",
-    "aria": "Bonn-duilleige",
-    "homeAria": "Chatforia dachaigh",
-    "section": {
-      "company": "COMPANAIDH",
-      "support": "TAIC",
-      "downloads": "LUCHDADHAN A-NUAS",
-      "legal": "LAGHAIL"
+  "howItWorks": {
+    "title": "Mar a dh’obraicheas Chatforia",
+    "intro": "Chatforia tha designed gu make communication simple, fast, agus accessible. Getting started takes just a few steps.",
+    "step1Title": "1. Cruthaich an Cunntas",
+    "step1Desc": "Clàraich up using agad post-d no ainm-cleachdaiche gu cruthaich agad Chatforia cunntas.",
+    "step2Title": "2. Tòisich a Còmhradh",
+    "step2Desc": "Connect le others le selecting luchd-conaltraidh no starting ùr chats.",
+    "step3Title": "3. Teachdaireachdan fìor-ùine",
+    "step3Desc": "Teachdaireachdan tha delivered quickly gu provide a smooth communication experience.",
+    "step4Title": "4. Cruinneil Communication",
+    "step4Desc": "Built-ann an eadar-theangachadh helps cleachdaichean communicate across different languages.",
+    "step5Title": "5. Stay ann an Control",
+    "step5Desc": "Stiùirich agad preferences, luchd-conaltraidh, agus communication roghainnean."
+  },
+  "safety": {
+    "title": "Sàbhailteachd & Stiùireadh na Coimhearsnachd",
+    "intro": "Chatforia tha committed gu maintaining a safe agus respectful environment airson uile cleachdaichean. These guidelines cuideachadh ensure a positive experience airson everyone.",
+    "respectTitle": "Conaltradh le spèis",
+    "respectDesc": "Cleachdaichean tha expected gu communicate respectfully. Harassment, abuse, no harmful behavior tha chan eil permitted.",
+    "prohibitedTitle": "Susbaint toirmisgte",
+    "prohibited": {
+      "illegal": "Gnìomhan mì-laghail",
+      "harassment": "Sàrachadh no burraidheachd",
+      "hate": "Cànan fuatha no leth-bhreith",
+      "explicit": "Stuth follaiseach no cronail",
+      "spam": "Spama no cleachdaidhean meallta"
     },
-    "links": {
-      "plans-pricing": "Planaichean & Prìsean",
-      "about-chatforia": "Mu Chatforia",
-      "careers": "Dreuchdan",
-      "press": "Na meadhanan",
-      "advertise": "Sanasachd",
-      "getting-started": "A’ tòiseachadh",
-      "help-center": "Ionad-cuideachaidh",
-      "contact-us": "Cuir fios thugainn",
-      "status-page": "Inbhe Page",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Poileasaidh Prìobhaideachd",
-      "terms-of-service": "Teirmean Seirbheis",
-      "do-not-sell-my-info": "Do Chan eil Sell Mo Info",
-      "cookie-settings": "Cookie Roghainnean"
+    "toolsTitle": "Cleachdaiche Safety Tools",
+    "tools": {
+      "report": "Report inappropriate behavior no content",
+      "block": "Block cleachdaichean gu prevent further interaction",
+      "control": "Stiùirich prìobhaideachd agus communication roghainnean"
     },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
+    "enforcementTitle": "Cur an gnìomh",
+    "enforcementDesc": "Sinn may take action against cunntasan that violate these guidelines, including warnings, restrictions, no permanent removal bho an platform."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Why Messaging Platforms Matter Barrachd Than Ever",
+      "intro": "Messaging platforms have become one de an most important tools airson communication ann an today’s world. Bho personal còmhraidhean gu business interactions, messaging apps allow people gu stay connected instantly agus efficiently.",
+      "everydayTitle": "Conaltradh làitheil",
+      "everydayDesc": "People rely air messaging apps airson daily communication le caraidean, teaghlach, agus colleagues. Whether it's a quick update no a long còmhradh, messaging provides a convenient agus flexible way gu stay ann an touch.",
+      "speedTitle": "Speed agus Convenience",
+      "speedDesc": "One de an main advantages de messaging platforms tha their speed. Teachdaireachdan tha delivered instantly, allowing cleachdaichean gu communicate ann an real time. This level de convenience has made messaging an preferred method de communication airson many people.",
+      "globalTitle": "Cruinneil Reach",
+      "globalDesc": "Messaging platforms connect people across an globe. Le internet access, cleachdaichean faodaidh communicate regardless de location, making it easier gu build relationships agus collaborate internationally.",
+      "privacyTitle": "Prìobhaideachd agus Control",
+      "privacyDesc": "Modern messaging platforms focus air giving cleachdaichean control over their dàta agus còmhraidhean. Features like encryption, prìobhaideachd roghainnean, agus teachdaireachd controls allow cleachdaichean gu communicate le confidence.",
+      "futureTitle": "An Future de Messaging",
+      "futureDesc": "Messaging continues gu evolve le ùr features such as AI-powered responses, eadar-theangachadh, agus multimedia sharing. As technology advances, messaging platforms bidh become even barrachd powerful agus versatile.",
+      "outro": "Chatforia tha togte le these principles ann an mind, offering a fast, tèarainte, agus user-friendly messaging experience airson a connected world."
     },
-    "copyright": "© Chatforia",
-    "patentPending": "Peutant ri thighinn",
-    "backToTop": "↑ Back gu top"
+    "global": {
+      "title": "An Future de Cruinneil Communication",
+      "intro": "Communication has evolved rapidly over an past few decades. What once riatanach fòn gairmean no ann an-person meetings faodaidh a-nis be done quickly through messaging platforms. As technology continues gu advance, cruinneil communication tha becoming faster, barrachd accessible, agus barrachd inclusive.",
+      "barriersTitle": "A’ briseadh sìos bhacaidhean",
+      "barriersDesc": "One de an biggest changes ann an communication tha an reduction de geographic barriers. People faodaidh a-nis connect le others across an world ann an near real time. Whether airson personal còmhraidhean, business, no collaboration, messaging platforms have made distance far nas lugha limiting.",
+      "translationTitle": "An Role de Eadar-theangachadh Technology",
+      "translationDesc": "Cànan has traditionally been one de an biggest obstacles gu cruinneil communication. Today, togte-ann an eadar-theangachadh tools cuideachadh bridge that gap. Platforms like Chatforia allow cleachdaichean gu communicate barrachd easily even if they speak different languages, creating ùr opportunities airson connection agus understanding.",
+      "realtimeTitle": "Ceangailteachd fìor-ùine",
+      "realtimeDesc": "Speed tha a iuchair factor shaping modern communication. Cleachdaichean expect teachdaireachdan gu be delivered quickly, agus modern infrastructure supports that expectation. Real-time messaging enables barrachd natural agus fluid còmhraidhean.",
+      "privacyTitle": "Prìobhaideachd agus Tèarainteachd",
+      "privacyDesc": "As communication becomes barrachd digital, prìobhaideachd agus tèarainteachd tha increasingly important. Cleachdaichean want confidence that their còmhraidhean tha protected. Features like encryption agus user-controlled roghainnean cuideachadh taic a barrachd tèarainte communication experience.",
+      "futureTitle": "Dè thig an ath rud",
+      "futureDesc": "An future de cruinneil communication bidh likely include barrachd advanced tools, such as AI-assisted messaging, improved eadar-theangachadh, agus enhanced cleachdaiche experiences. As technology evolves, communication bidh lean air adhart gu become barrachd intuitive agus accessible.",
+      "outro": "Platforms like Chatforia tha part de this shift, helping people connect barrachd easily across languages agus borders."
+    },
+    "index": {
+      "title": "Blog Chatforia",
+      "intro": "Explore insights air communication, online safety, agus how messaging technology tha connecting people around an world.",
+      "post1": "How gu Còmhradh Safely Online",
+      "post2": "An Future de Cruinneil Communication",
+      "post3": "Carson a tha àrd-ùrlaran teachdaireachd cudromach"
+    },
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
+      },
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
+      },
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
+      },
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
+      },
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Mu Chatforia",
+    "description": "Chatforia tha a tèarainte, multilingual messenger le crioptachadh ceann-gu-ceann, sa bhad eadar-theangachadh, agus voice/video calling. Ar mission tha simple: cuideachadh people connect—safely, privately, agus across languages.",
+    "valuesTitle": "What sinn value",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption le default.",
+      "access": "<b>Access airson uile:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Teachdaireachdan a thèid à sealladh & dearbhaidhean leughaidh tha roghainneil.",
+      "privacy_aria": "Privacy-first: E2E encryption le default.",
+      "access_aria": "Access airson uile: Auto-translate 100+ languages.",
+      "control_aria": "Control: Teachdaireachdan a thèid à sealladh agus dearbhaidhean leughaidh tha roghainneil."
+    },
+    "howTitle": "Mar a dh’obraicheas Chatforia",
+    "howDescription": "Teachdaireachdan tha crioptaichte air agad uidheam before they leave it. Eadar-theangachadh, backups, agus uidheam sync tha designed gu minimize what againn servers faodaidh see.",
+    "privacyTitle": "Privacy-first",
+    "privacyDesc": "End-to-end encryption and privacy controls are built into Chatforia from the start.",
+    "accessTitle": "Access for everyone",
+    "accessDesc": "Chatforia helps people connect across languages, devices, and borders.",
+    "controlTitle": "Your control",
+    "controlDesc": "Choose how messages appear, when they disappear, and how your account stays protected."
   },
   "press": {
     "title": "Na meadhanan",
@@ -1750,22 +2233,8 @@
     "apply": "How gu apply: Use an button below gu post-d agad resume agus links.",
     "emailCta": "Post-d agad resume",
     "whyNow": "Why join a-nis?",
-    "whyBullets": "• Cuideachadh build an foundation de a ùr cruinneil messenger.\n• Ship improvements used across web, iOS, agus Android.\n• Work directly le an founder air architecture agus product direction.\n• Own high-impact areas de an stack: messaging, voice, bhideo, encryption, telecom, AI.\n• Join at an beginning — before an cleachdaiche base scales."
-  },
-  "about": {
-    "title": "Mu Chatforia",
-    "description": "Chatforia tha a tèarainte, multilingual messenger le crioptachadh ceann-gu-ceann, sa bhad eadar-theangachadh, agus voice/video calling. Ar mission tha simple: cuideachadh people connect—safely, privately, agus across languages.",
-    "valuesTitle": "What sinn value",
-    "values": {
-      "privacy": "<b>Privacy-first:</b> E2E encryption le default.",
-      "access": "<b>Access airson uile:</b> Auto-translate 100+ languages.",
-      "control": "<b>Control:</b> Teachdaireachdan a thèid à sealladh & dearbhaidhean leughaidh tha roghainneil.",
-      "privacy_aria": "Privacy-first: E2E encryption le default.",
-      "access_aria": "Access airson uile: Auto-translate 100+ languages.",
-      "control_aria": "Control: Teachdaireachdan a thèid à sealladh agus dearbhaidhean leughaidh tha roghainneil."
-    },
-    "howTitle": "Mar a dh’obraicheas Chatforia",
-    "howDescription": "Teachdaireachdan tha crioptaichte air agad uidheam before they leave it. Eadar-theangachadh, backups, agus uidheam sync tha designed gu minimize what againn servers faodaidh see."
+    "whyBullets": "• Cuideachadh build an foundation de a ùr cruinneil messenger.\n• Ship improvements used across web, iOS, agus Android.\n• Work directly le an founder air architecture agus product direction.\n• Own high-impact areas de an stack: messaging, voice, bhideo, encryption, telecom, AI.\n• Join at an beginning — before an cleachdaiche base scales.",
+    "futureRoles": "Future roles"
   },
   "advertise": {
     "title": "Advertise le Chatforia",
@@ -1813,279 +2282,175 @@
       "privacy": "Poileasaidh Prìobhaideachd"
     }
   },
-  "randomChat": {
-    "title": "Còmhradh air thuaiream",
-    "subtitle": "Meet someone ùr instantly, no tagh gu còmhradh le Ria.",
-    "start": "Tòisich còmhradh",
-    "description": "Còmhradh anonymously first. Add Caraid later if it feels right.",
-    "findMatch": "Find me a maids",
-    "chatWithRia": "Còmhradh le Ria",
-    "setAge": "Set agad age range ann an Pròifil → Age & Air thuaiream Còmhradh gu be matched le people.",
-    "idle": "Na thàmh",
-    "matching": "A’ maidseadh…",
-    "searching": "A’ lorg…",
-    "cancel": "Sguir dheth",
-    "connectionProblem": "Connection problem",
-    "ai": "AI",
-    "anonymous": "Anonymous",
-    "connectedAs": "Connected as",
-    "waitingAddFriend": "Waiting airson them gu accept Add Caraid…",
-    "hiddenUsernames": "Usernames stay hidden until both people tagh Add Caraid.",
-    "riaSeparate": "Còmhradh le Ria uair sam bith — separate bho air thuaiream human a’ maidseadh.",
-    "sendMessage": "Cuir teachdaireachd",
-    "chatEnded": "Còmhradh ended",
-    "conversationEnded": "That còmhradh has ended.",
-    "findAnotherMatch": "Find another maids",
-    "next": "An ath neach",
-    "addFriend": "Add Caraid",
-    "requested": "Air iarraidh",
-    "leave": "Fàg",
-    "messageRia": "Teachdaireachd Ria…",
-    "messageMatch": "Teachdaireachd agad maids…"
-  },
-  "phoneNumberManager": {
-    "pickNumber": "Pick a àireamh",
-    "phoneNumber": "Àireamh fòn",
-    "availableNumber": "Ri fhaighinn àireamh",
-    "premiumNumber": "Premium àireamh 🔒",
-    "freeNumberHint": "Saor àireamh that may be recycled after inactivity.",
-    "premiumNumberHint": "Keep agad àireamh while agad Premium fo-sgrìobhadh tha active.",
-    "country": "Dùthaich",
-    "areaCode": "Còd sgìre",
-    "areaCodePlaceholder": "e.g., 415",
-    "capability": "Comas",
-    "search": "Lorg",
-    "lockThisNumber": "Lock this àireamh (weekly add-on, a’ tighinn a dh’aithghearr)",
-    "premiumProtectedHint": "Premium àireamhan tha protected bho recycling while agad Premium fo-sgrìobhadh tha active.",
-    "availableNumbers": "Ri fhaighinn àireamhan",
-    "searchHint": "Enter a 3-digit area code (US/CA only), no leave blank, then lorg.",
-    "keep": "Cùm",
-    "select": "Tagh",
-    "assignNumberFirst": "Assign a àireamh first.",
-    "premiumKeepFeature": "Keeping agad àireamh tha a Premium feature.",
-    "lockingPremiumFeature": "Locking àireamhan tha a Premium feature.",
-    "numberAssigned": "Àireamh assigned.",
-    "numberProtectedNow": "Do àireamh tha a-nis protected.",
-    "numberProtected": "Àireamh protected.",
-    "numberUnprotected": "Àireamh unprotected.",
-    "numberReleased": "Àireamh released.",
-    "couldNotLoadNumbers": "Cha b’ urrainn dhuinn luchdaich àireamhan.",
-    "couldNotAssign": "Cha b’ urrainn dhuinn assign that àireamh. It may have just been taken—feuch another.",
-    "couldNotLease": "Cha b’ urrainn dhuinn lease that àireamh. It may have just been taken—feuch another.",
-    "couldNotProtectNow": "Cha b’ urrainn dhuinn protect agad àireamh an-dràsta.",
-    "couldNotProtect": "Cha b’ urrainn dhuinn protect an àireamh.",
-    "couldNotUnprotect": "Cha b’ urrainn dhuinn unprotect an àireamh.",
-    "couldNotRelease": "Cha b’ urrainn dhuinn release an àireamh.",
-    "invalidAreaCode": "Feuch enter a 3-digit area code (e.g., 415) no leave blank.",
-    "noInventory": "Chan eil ri fhaighinn inventory an-dràsta.",
-    "noFreeNumbers": "Chan eil saor àireamhan tha ri fhaighinn an-dràsta.",
-    "noInventoryAreaCode": "Chan eil ri fhaighinn inventory airson that area code an-dràsta.",
-    "noFreeNumbersAreaCode": "Chan eil saor àireamhan ann an againn pool airson that area code an-dràsta.",
-    "releaseConfirm": "Release agad làithreach àireamh? It may be assigned gu someone else.",
-    "unprotect": "Thoir dìon air falbh",
-    "keepThisNumber": "Keep this àireamh",
-    "replace": "Cuir na àite",
-    "release": "Leig ma sgaoil",
-    "active": "Gnìomhach",
-    "noNumber": "Chan eil àireamh",
-    "premiumFeature": "Feart Premium",
-    "protectYourNumber": "Protect agad àireamh",
-    "protected": "Dìonta",
-    "notProtected": "Chan eil protected",
-    "expiresInShort": "Expires ann an {{count}}d",
-    "expiresInDaysFull": "Expires ann an {{count}} latha",
-    "expiringShort": "A’ tighinn gu crìch{{suffix}}",
-    "renewsOn": "Ath-nuadhaichear {{date}}",
-    "releaseWarning": "Do àireamh may be released ann an {{count}} latha. Àrdaich gu Premium gu keep it protected.",
-    "pickNumberHint": "Pick a Chatforia àireamh gu use airson messaging agus communication inside an app."
-  },
-  "sounds": {
-    "notificationSounds": "Fuaimean bratha",
-    "resetToDefaults": "Reset gu defaults",
-    "freeNoticeStart": "Thu’re air Saor — premium tones tha shown but locked. ",
-    "freeNoticeEnd": " gu unlock uile.",
-    "messageTone": "Teachdaireachd tone",
-    "ringtone": "Tòn-gairme",
-    "preview": "Ro-shealladh",
-    "stop": "Stad",
-    "volume": "Tomhas-fuaime",
-    "messageToneFilesHint": "Put files ann an /public/sounds/Message_Tones",
-    "ringtoneFilesHint": "Put files ann an /public/sounds/Ringtones",
-    "premiumRequired": "Premium riatanach airson that selection.",
-    "saved": "Sound roghainnean air a shàbhaladh.",
-    "saveFailed": "Cha b’ urrainn dhuinn sàbhail sound roghainnean.",
-    "resetNotSaved": "Reset gu defaults (chan eil yet air a shàbhaladh).",
-    "premiumTone": "’S e tòn Premium a tha sin.",
-    "premiumRingtone": "’S e tòn-gairme Premium a tha sin.",
-    "customComingSoon": "Custom sound uploads a’ tighinn a dh’aithghearr."
-  },
-  "aiSettings": {
-    "title": "AI Roghainnean",
-    "controlIntro": "Control eadar-theangachadh, glic replies, agus ForiaBot auto-responses.",
-    "translation": "Eadar-theangachadh",
-    "autoTranslateIncoming": "Auto-translate incoming teachdaireachdan",
-    "showOriginalAlongside": "Show original teacsa alongside eadar-theangachadh",
-    "smartReplies": "Glic Replies",
-    "enableSmartReplies": "Cuir an comas Glic Replies",
-    "smartRepliesHint": "Cuir an last few air fhaighinn teachdaireachdan (sanitized) gu AI gu suggest quick replies.",
-    "maskProfanity": "Mask profanity ann an AI suggestions",
-    "maskProfanityHint": "If air, suggestions returned le AI bidh have flagged words masked",
-    "foriaBot": "Fèin-fhreagairt ForiaBot",
-    "enableAutoReply": "Cuir an comas auto-reply when I’m busy",
-    "autoReplyMode": "Modh fèin-fhreagairt",
-    "cooldownSeconds": "Ùine fuarachaidh (diogan)",
-    "signature": "Ainm-sgrìobhte",
-    "autoReply": "🤖 Auto-reply",
-    "activeUntilOptional": "Active until (roghainneil)",
-    "save": "Sàbhail AI Roghainnean",
-    "saved": "AI preferences air a shàbhaladh",
-    "saveFailed": "Dh’fhàillig sàbhail AI roghainnean",
-    "translateOff": "Dheth",
-    "translateTagged": "Only when @translated no tagged",
-    "translateAll": "Eadar-theangaich uile incoming teachdaireachdan",
-    "modeDm": "Còmhraidhean 1:1 a-mhàin",
-    "modeMention": "A-mhàin nuair a tha @iomradh orm",
-    "modeAll": "Uile inbound teachdaireachdan",
-    "off": "Dheth"
-  },
-  "accessibilitySettings": {
-    "title": "Accessibility & Rabhaidhean",
-    "loadFailed": "Dh’fhàillig luchdaich roghainnean",
-    "accessibilityDesc": "Options gu make Chatforia easier gu use without relying air sound.",
-    "interfaceFontSize": "Meud cruth-clò an eadar-aghaidh",
-    "interfaceFontSizeHelp": "Starts at normal size. Increase if thu prefer larger teacsa.",
-    "notifications": "Brathan",
-    "visualAlerts": "Visual rabhaidhean airson teachdaireachdan & gairmean",
-    "visualAlertsDesc": "Show banners agus title blink so thu don’t miss activity.",
-    "vibrateOnNewShort": "Vibrate air ùr teachdaireachdan (when supported)",
-    "vibrateOnNewDesc": "Trigger uidheam vibration le brathan.",
-    "flashOnCallShort": "Flash screen air incoming gairm",
-    "flashOnCallDesc": "Brief bright flash when a gairm rings.",
-    "liveCaptionsTitle": "Live captions (gairmean)",
-    "enableLiveCaptions": "Cuir an comas live captions during gairmean (Premium)",
-    "liveCaptionsDesc": "Show real-time captions bho an other participant’s claisneachd.",
-    "captionFontSize": "Fo-thiotal font size",
-    "captionBackground": "Fo-thiotal background",
-    "voiceNotes": "Notaichean gutha",
-    "autoTranscribeVoiceNotes": "Tar-sgrìobh notaichean gutha gu fèin-obrachail",
-    "autoTranscribeVoiceNotesDesc": "Attach a transcript gu claisneachd teachdaireachdan thu faigh.",
-    "changesSavedInstantly": "Changes tha air a shàbhaladh instantly.",
-    "sm": "Beag",
-    "md": "Meadhanach",
-    "lg": "Mòr",
-    "xl": "Extra Mòr",
-    "light": "Aotrom",
-    "dark": "Dorcha",
-    "transparent": "Follaiseach"
-  },
-  "privacySection": {
-    "strictE2EE": "Strict crioptachadh ceann-gu-ceann",
-    "ciphertextOnlyNote": "Store only ciphertext air an server. Disables AI/Translate agus moderation previews.",
-    "strictE2EEEnabled": "Strict E2EE air a chomasachadh. AI/Translate bidh be à comas.",
-    "strictE2EEDisabled": "Strict E2EE à comas. AI/Translate re-enabled."
-  },
-  "linkedDevicesPanel": {
-    "title": "Uidheaman ceangailte",
-    "noneFound": "Chan eil linked uidheaman found.",
-    "refresh": "Ùraich",
-    "unknown": "Neo-aithnichte",
-    "loadFailed": "Dh’fhàillig luchdaich linked uidheaman",
-    "loadFailedLog": "Dh’fhàillig luchdaich linked uidheaman",
-    "renamePrompt": "Enter a ùr name airson this uidheam",
-    "renamed": "Uidheam renamed",
-    "renameFailed": "Cha b’ urrainn dhuinn rename uidheam",
-    "revoked": "Uidheam revoked",
-    "revokeFailed": "Cha b’ urrainn dhuinn revoke uidheam",
-    "unnamedDevice": "Unnamed uidheam",
-    "primary": "Prìomh",
-    "revokedStatus": "Air a chùl-ghairm",
-    "addedLastSeen": "Air a chur ris {{created}} • Air fhaicinn mu dheireadh {{lastSeen}}",
-    "renameDevice": "Rename uidheam",
-    "revokeDevice": "Revoke uidheam"
-  },
-  "peoplePage": {
-    "people": "Daoine",
-    "search": "Lorg",
-    "searchPlaceholder": "Lorg air a shàbhaladh luchd-conaltraidh le alias, name, ainm-cleachdaiche, no fòn",
-    "quickStart": "Quick tòisich",
-    "quickStartDesc": "Stiùirich agad luchd-conaltraidh agus thoir cuireadh caraidean.",
-    "importContacts": "Import agad luchd-conaltraidh",
-    "import": "Ion-phortaich",
-    "addContact": "Add a neach-conaltraidh",
-    "add": "Cuir ris",
-    "inviteFriends": "Thoir cuireadh caraidean",
-    "inviteDesc": "Share agad thoir cuireadh link gu tòisich chatting instantly.",
-    "getTheApp": "Faigh an aplacaid",
-    "getTheAppDesc": "Stay ann an touch air an go le Chatforia airson iOS agus Android.",
-    "download": "Luchdaich a-nuas",
-    "syncTip": "Tip: Do teachdaireachdan stay synced across web agus gluasadach."
-  },
-  "dialer": {
-    "title": "Gairmean",
-    "subtitle": "Keypad & recents. (If thu don’t use PSTN, tòisich gairmean bho a còmhradh header.)",
-    "enterNumber": "Enter àireamh",
-    "enterNumberAria": "Enter àireamh",
-    "resolving": "Resolving gairm target…",
-    "call": "Gairm",
-    "callBrowser": "Gairm via browser",
-    "backspace": "Sguab air ais",
-    "recents": "O chionn ghoirid",
-    "noRecents": "Chan eil recent gairmean yet.",
-    "resolveFailed": "Cha b’ urrainn dhuinn resolve gairm target.",
-    "callRequiredNumber": "Thu need a Chatforia àireamh before placing fòn gairmean.",
-    "callFailed": "Cha b’ urrainn dhuinn place gairm.",
-    "deleteConfirm": "Sguab às this gairm bho recents?",
-    "deleteFailed": "Cha b’ urrainn dhuinn sguab às gairm.",
-    "deleteFailedLog": "Dh’fhàillig sguab às gairm",
-    "outgoing": "A-mach",
-    "incoming": "A-steach",
-    "missed": "Air chall",
-    "declined": "Air a dhiùltadh",
-    "failed": "Dh’fhàillig",
-    "completed": "Crìochnaichte",
-    "outgoingCall": "Outgoing Gairm",
-    "incomingCall": "Incoming Gairm",
-    "voicemail": "Post-gutha",
-    "callAria": "Gairm {{name}}",
-    "deleteAria": "Sguab às gairm le {{name}}"
-  },
-  "callHistory": {
-    "title": "Gairmean",
-    "subtitle": "Do recent incoming agus outgoing gairmean.",
-    "loadFailed": "Cha b’ urrainn dhuinn luchdaich gairm history.",
-    "loadFailedTitle": "Couldn’t luchdaich gairm history",
-    "emptyTitle": "Chan eil gairmean yet",
-    "emptySubtitle": "Do recent gairmean bidh show up here.",
-    "outgoing": "A-mach",
-    "incoming": "A-steach",
-    "missed": "Air chall",
-    "declined": "Air a dhiùltadh",
-    "failed": "Dh’fhàillig",
-    "completed": "Crìochnaichte",
-    "outgoingCall": "Outgoing Gairm",
-    "incomingCall": "Incoming Gairm",
-    "voicemail": "Post-gutha"
-  },
-  "video": {
-    "hub": {
-      "title": "Bhideo",
-      "subtitle": "Tagh a bhideo type."
-    },
-    "direct": {
-      "title": "Direct Bhideo",
-      "subtitle": "Tòisich a 1:1 bhideo gairm le another cleachdaiche.",
-      "desc": "1:1 camera gairm le another cleachdaiche.",
-      "start": "Tòisich"
-    },
-    "rooms": {
-      "title": "Seòmraichean",
-      "subtitle": "Cruthaich a seòmar no join an existing one le typing an same name.",
-      "desc": "Multi-party bhideo using a co-roinnte seòmar name.",
-      "roomLabel": "Seòmar name",
-      "roomPlaceholder": "e.g. team-standup",
-      "roomAria": "Seòmar name",
-      "joinCreate": "Join / Cruthaich",
-      "tip": "Tip: share this name le others, no deep link gu"
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
     }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+    },
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
+    },
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
+    },
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
+    },
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+    },
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Poileasaidh Ais-phàighidh",
+    "lastUpdated": "Air ùrachadh mu dheireadh:",
+    "intro": "At Chatforia, sinn strive gu provide a high-quality service gu uile cleachdaichean. This Ais-phàigheadh Poileasaidh outlines when refunds may be issued.",
+    "subscriptions": {
+      "title": "Fo-sgrìobhaidhean",
+      "body": "Fo-sgrìobhaidhean tha billed ann an advance air a recurring basis. Thu may sguir dheth at uair sam bith through agad roghainnean cunntais no an platform used gu purchase."
+    },
+    "eligibility": {
+      "title": "Ion-roghnachd airson ais-phàigheadh",
+      "body": "Refunds may be granted airson duplicate charges, bileachadh errors, no technical issues preventing access gu paid features. Uile requests tha reviewed case-le-case."
+    },
+    "nonRefundable": {
+      "title": "Neo-ais-phàighte",
+      "body": "Sinn generally do chan eil provide refunds airson unused time, partial fo-sgrìobhadh periods, no failure gu sguir dheth before renewal."
+    },
+    "thirdParty": {
+      "title": "Ceannach treas-phàrtaidh",
+      "body": "If purchased through third-party platforms such as an Apple App Store, refunds must be requested directly through those platforms."
+    },
+    "contact": {
+      "title": "Cuir fios",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
+    },
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
+    },
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
+    },
+    "help": {
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
+    },
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

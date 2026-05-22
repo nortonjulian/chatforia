@@ -7,10 +7,24 @@
     "cancelAria": "Kanselá",
     "copy": "Kopia",
     "copied": "Kopia!",
-    "errorWithMessage": "Error: {{message}}"
+    "errorWithMessage": "Error: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "Bai direktamente na contenido principal"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "Backup di clave krea y descarga ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "Skohe un archivo y entra e password.",
     "imported": "Clave privado importa pa e aparato aki. Bo por lesa mensahe antigo awor.",
     "enterPassword": "Entra bo password di cuenta pa nos por warda bo claves sigur."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "Mensajería sigur pa tur hende, na tur lugá",
@@ -88,7 +198,19 @@
       "passwordDescription": "Mínimo 6 karakter. Usa un password fuerte y único.",
       "smsConsent": "Dor di krea un cuenta, bo ta acepta di ricibi notifikashonnan SMS relacioná ku bo actividad den Chatforia (como mensahe di otro usuario). Mensaje y tasa di data por aplica. Bo por opta out na tur momento den Settings.",
       "termsLink": "Terminan di Servisio",
-      "privacyLink": "Política di Privacidad"
+      "privacyLink": "Política di Privacidad",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "Pa:",
     "enterRecipient": "Entra un nòmber o número",
@@ -99,11 +221,95 @@
     "addRecipient": "Agrega un destinatario ariba pa kuminsá…",
     "oneRecipient": "Por fabor entra un solo destinatario pa awor.",
     "enterValidRecipient": "Entra un kontakto guardá o un número di teléfono.",
-    "sendFailed": "Manda fracasá. Cheka console pa detaya."
+    "sendFailed": "Manda fracasá. Cheka console pa detaya.",
+    "logIn": "Log In",
+    "seePlans": "Mira plan y preis",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "Dor di krea un cuenta, bo ta acepta di ricibi notifikashonnan SMS relacioná ku bo actividad den Chatforia (como mensahe di otro usuario). Mensaje y tasa di data por aplica. Bo por opta out na tur momento den Settings.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "Home",
-    "header": "Bo mensahe",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "Manda un mensahe pa kuminsá un chat.",
     "sendButton": "Manda mensahe",
     "gifPicker": "Habri GIF picker",
@@ -114,226 +320,31 @@
     "sendTooltip": "Manda",
     "sendTooltipEmpty": "Skirbi un mensahe pa manda",
     "send": "Manda",
+    "welcomeMessage": "Bon bini na Chatforia",
+    "getStarted": "Kuminsá",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "Entra un nòmber o número",
     "addRecipient": "Agrega un destinatario ariba pa kuminsá…",
-    "welcomeMessage": "Bon bini na Chatforia",
-    "getStarted": "Kuminsá"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "Polítika di Reembolso",
-    "lastUpdated": "Último actualisashon:",
-    "intro": "Na Chatforia, nos ta trata pa duna un servisio di haltu kalidat na tur usuario. E polítika aki ta splika ora ku reembolso por wordu duna.",
-    "subscriptions": {
-      "title": "Subscripshon",
-      "body": "Subscripshon ta wordu kobra adelantá riba un base repetitivo. Bo por kanselá na kualkier momento den bo account settings òf via e plataforma kaminda bo a kumpra."
-    },
-    "eligibility": {
-      "title": "Kualifikashon pa Reembolso",
-      "body": "Reembolso por wordu duna pa kobransa dupliká, error di fakturashon, òf problema tékniko ku ta stroba akseso na feature pagá. Tur petishon ta wordu revisá kaso pa kaso."
-    },
-    "nonRefundable": {
-      "title": "No Reembolsabel",
-      "body": "Generalmente, nos no ta duna reembolso pa tempu no usá, parti di periodo di subscripshon, òf si no a kanselá promé ku renobashon."
-    },
-    "thirdParty": {
-      "title": "Kompra di Tersero",
-      "body": "Si a kumpra via plataforma di tersero manera Apple App Store, reembolso mester wordu pidí direktamente na nan."
-    },
-    "contact": {
-      "title": "Kontakto",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-
-  "about": {
-    "title": "Tokante Chatforia",
-    "description": "Chatforia ta un plataforma di mensahe moderno diseñá pa komunikashon sigur i multilingue...",
-    "valuesTitle": "Nos balornan",
-    "privacyTitle": "Privasidat Promé",
-    "privacyDesc": "Enkripshon fuerte i kontrol di privasidat pa usuario",
-    "accessTitle": "Akseso pa Tur",
-    "accessDesc": "Tradukshon integrá den diferente idioma",
-    "controlTitle": "Kontrol",
-    "controlDesc": "Feature manera mensahe ku ta desaparesé i read receipts"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Dikon Plataformanan di Mensahe Ta Mas Importante Ku Nunka",
-      "intro": "Plataformanan di mensahe a bira un di e medionan di komunikashon mas importante den mundu di awe...",
-      "everydayTitle": "Komunikashon Diariamente",
-      "everydayDesc": "Hende ta dependé riba apps di mensahe pa komunikashon diario...",
-      "speedTitle": "Velosidat i Konveniensia",
-      "speedDesc": "Mensahe ta yega instantáneamente...",
-      "globalTitle": "Alkans Global",
-      "globalDesc": "Plataformanan di mensahe ta konektá hende rond mundu...",
-      "privacyTitle": "Privasidat i Kontrol",
-      "privacyDesc": "Plataformanan moderno ta pone enfoke riba kontrol di usuario...",
-      "futureTitle": "Futuro di Mensahe",
-      "futureDesc": "Mensahe ta sigui evolushoná ku feature nobo...",
-      "outro": "Chatforia ta konstruí riba e prinsipionan aki..."
-    },
-
-    "global": {
-      "title": "Futuro di Komunikashon Global",
-      "intro": "Komunikashon a evolushoná rápido...",
-      "barriersTitle": "Kibra Bareranan",
-      "barriersDesc": "Hende por konektá rond mundu...",
-      "translationTitle": "Rol di Teknologia di Tradukshon",
-      "translationDesc": "Idioma tabata un barera tradicional...",
-      "realtimeTitle": "Konektivitat na Momento Mes",
-      "realtimeDesc": "Velosidat ta un faktor importante...",
-      "privacyTitle": "Privasidat i Siguridat",
-      "privacyDesc": "Usuario kier siguridat ku nan konversashon ta protehá...",
-      "futureTitle": "Loke Ta Bin",
-      "futureDesc": "Futuro di komunikashon global lo inkluí mas inovashon...",
-      "outro": "Plataformanan manera Chatforia ta parti di e kambionan..."
-    },
-
-    "index": {
-      "title": "Blog di Chatforia",
-      "intro": "Eksplorá insight riba komunikashon...",
-      "post1": "Kon Pa Chatea Sigur Online",
-      "post2": "Futuro di Komunikashon Global",
-      "post3": "Dikon Plataformanan di Mensahe Ta Importante"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Kon Chatforia Ta Traha",
-    "intro": "Chatforia ta diseñá pa hasi komunikashon simpel...",
-    "step1Title": "1. Krea un Account",
-    "step1Desc": "Registrá ku bo email òf username...",
-    "step2Title": "2. Kuminsá un Konversashon",
-    "step2Desc": "Konektá ku otro hende...",
-    "step3Title": "3. Mensahe na Momento",
-    "step3Desc": "Mensahe ta yega lihé...",
-    "step4Title": "4. Komunikashon Global",
-    "step4Desc": "Tradukshon integrá ta yuda usuario...",
-    "step5Title": "5. Keda na Kontrol",
-    "step5Desc": "Manehá bo preferensianan..."
-  },
-
-  "safety": {
-    "title": "Siguridat i Guia di Komunidat",
-    "intro": "Chatforia ta komprometé pa mantene un ambiente sigur...",
-    "respectTitle": "Komunikashon Respetuoso",
-    "respectDesc": "Usuario mester komuniká ku respeto...",
-    "prohibitedTitle": "Kontenido Prohibí",
-    "prohibited": {
-      "illegal": "Aktividat ilegal",
-      "harassment": "Harrasment òf bullying",
-      "hate": "Diskurso di odio òf diskriminashon",
-      "explicit": "Material explícito òf dañino",
-      "spam": "Spam òf praktikanan engañoso"
-    },
-    "toolsTitle": "Heramientanan di Siguridat",
-    "tools": {
-      "report": "Reportá komportashon inapropiá",
-      "block": "Blokea usuario",
-      "control": "Manehá configurashon di privasidat"
-    },
-    "enforcementTitle": "Aplikashon",
-    "enforcementDesc": "Nos por tuma akshon kontra accountnan..."
-},
-  "chat": {
-    "selectPrompt": "Skohe un teksto o chat room pa kuminsá papia",
-    "newMessages": "Mensahe nobo",
-    "typing": "{{name}} ta skirbiendo...",
-    "emptyTitle": "Bo mensahe",
-    "emptySubtitle": "Manda un mensahe pa kuminsá un chat.",
-    "startChatButton": "Manda mensahe",
-    "mediaAttachment": "Anèks di media",
-    "thisUser": "e usuario aki",
-    "blockConfirm": "Blok {{name}}? Bo no ta ricibi mensahe di nan mas.",
-    "blockedUser": "Blok {{name}}.",
-    "blockError": "No por determina un usuario pa blok.",
-    "blockFailed": "Blok fracasá (backend aún no conectá).",
-    "encryptedUnavailable": "Mensahe encriptá (clave no disponibel)",
-    "unlockToView": "Desblokea bo clave pa mira e mensahe aki"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "Apagá"
-    },
-    "freeLimit": "Límite di plan gratis: auto-borra te 1 día. Clampé na 1d.",
-    "premiumLimit": "Máximo auto-borra pa Premium ta 30 día. Clampé na 30d.",
-    "nothingToSend": "Skirbi un mensahe o agrega un archivo pa manda.",
-    "encryptionFailed": "Encriptashon fracasá. Mensahe no manda.",
-    "sent": "Mensahe entrega.",
-    "placeholder": "Skirbi un mensahe…",
-    "voiceAdded": "Nota di bos a wordu agregá",
-    "attachmentAdded": "Anèks a wordu agregá",
-    "autoDelete": "Auto-borra",
-    "typeToSend": "Skirbi un mensahe pa manda",
-    "send": "Manda",
-    "sendWithEnter": "Manda (Enter)",
-    "attachment": "attachment",
-    "caption": "Caption (opcional)",
-    "remove": "Quita",
-    "clear": "Limpia",
-    "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Attachment demasiado grandi. Prueba un archivo mas chikito.",
-      "unsupportedFile": "Tipo di archivo no soportá.",
-      "rateLimit": "Bo ta manda mensahe demasiado rapido. Por fabor calma.",
-      "validation": "Error di validashon. Cheka bo mensahe y prueba di nobo.",
-      "failedToSend": "No por manda. Bo por reintenta e burbuja ku fracasá."
-    }
-  },
-  "contactList": {
-    "savedContacts": "Kontakto Guardá",
-    "refreshAria": "Atualisa kontakto",
-    "filterPlaceholder": "Filter kontakto guardá…",
-    "filterAria": "Filter kontakto guardá",
-    "noContactsFound": "No tin kontakto",
-    "externalContact": "Kontakto externo",
-    "notJoined": "E kontakto aki aún no ta den Chatforia.",
-    "couldNotStart": "No por kuminsá chat. Por fabor prueba di nobo.",
-    "startFailed": "Kuminsá chat fracasá. Por fabor prueba di nobo.",
-    "deleted": "Kontakto borrá.",
-    "deleteFailed": "No por borra kontakto. Por fabor prueba di nobo.",
-    "aliasUpdated": "Alias aktualizá.",
-    "updateAliasFailed": "No por aktualiza alias. Por fabor prueba di nobo.",
-    "selectContact": "Skohe {{name}}",
-    "alias": "Alias",
-    "startChat": "Kuminsá chat",
-    "message": "Mensahe",
-    "delete": "Borra",
-    "deleteContactAria": "Borra kontakto",
-    "loadFailed": "No por carga kontakto. Por fabor prueba di nobo.",
-    "loadMore": "Carga mas",
-    "call": "Yama",
-    "callStarted": "Yamando e número aki via bo número di Chatforia…",
-    "callFailed": "No por kuminsá yamada. Por fabor prueba di nobo."
-  },
-  "startChatModal": {
-    "title": "Kuminsá un konversashon",
-    "searchPlaceholder": "Busca nòmber, username, o número di teléfono",
-    "messageThisPerson": "Manda mensahe na e persona aki",
-    "contacts": "Kontakto",
-    "recentInteractions": "Interakshonnan reciente",
-    "noContactsMatch": "Ningun kontakto ta match ku bo búsqueda.",
-    "noRecentInteractions": "Aún no tin interakshonnan reciente.",
-    "unknown": "Deskonosí",
-    "interactionType": {
-      "message": "Mensahe",
-      "call": "Yama",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Agrega kontakto",
-    "phoneOrUsername": "Teléfono o username",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 o juliannorton",
-    "alias": "Alias (opcional)",
-    "aliasPlaceholder": "e.g. Trabajo, Mama, Mike – Europa",
-    "enterPhoneOrUsername": "Entra un número di teléfono o username.",
-    "userLookupFailed": "Búsqueda di usuario fracasá.",
-    "cannotAddSelf": "Bo no por agrega bo mes como kontakto.",
-    "failedToAdd": "No por agrega kontakto.",
-    "add": "Agrega"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "Chat Aleatorio",
@@ -357,13 +368,151 @@
     "startChatAlt": "Kuminsá un chat nobo",
     "calls": "Yamadanan",
     "video": "Video",
-    "voicemail": "Mensahe di voz"
+    "voicemail": "Mensahe di voz",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Status Nobo",
     "logout": "Sali",
     "help": "Ayuda",
     "createStatusAria": "Krea status nobo"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "Skohe un teksto o chat room pa kuminsá papia",
+    "newMessages": "Mensahe nobo",
+    "typing": "{{name}} ta skirbiendo...",
+    "emptyTitle": "Bo mensahe",
+    "emptySubtitle": "Manda un mensahe pa kuminsá un chat.",
+    "startChatButton": "Manda mensahe",
+    "mediaAttachment": "Anèks di media",
+    "thisUser": "e usuario aki",
+    "blockConfirm": "Blok {{name}}? Bo no ta ricibi mensahe di nan mas.",
+    "blockedUser": "Blok {{name}}.",
+    "blockError": "No por determina un usuario pa blok.",
+    "blockFailed": "Blok fracasá (backend aún no conectá).",
+    "encryptedUnavailable": "Mensahe encriptá (clave no disponibel)",
+    "unlockToView": "Desblokea bo clave pa mira e mensahe aki",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Apagá"
+    },
+    "freeLimit": "Límite di plan gratis: auto-borra te 1 día. Clampé na 1d.",
+    "premiumLimit": "Máximo auto-borra pa Premium ta 30 día. Clampé na 30d.",
+    "nothingToSend": "Skirbi un mensahe o agrega un archivo pa manda.",
+    "encryptionFailed": "Encriptashon fracasá. Mensahe no manda.",
+    "sent": "Mensahe entrega.",
+    "placeholder": "Skirbi un mensahe…",
+    "autoDelete": "Auto-borra",
+    "typeToSend": "Skirbi un mensahe pa manda",
+    "send": "Manda",
+    "sendWithEnter": "Manda (Enter)",
+    "attachment": "attachment",
+    "caption": "Caption (opcional)",
+    "remove": "Quita",
+    "clear": "Limpia",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Attachment demasiado grandi. Prueba un archivo mas chikito.",
+      "unsupportedFile": "Tipo di archivo no soportá.",
+      "rateLimit": "Bo ta manda mensahe demasiado rapido. Por fabor calma.",
+      "validation": "Error di validashon. Cheka bo mensahe y prueba di nobo.",
+      "failedToSend": "No por manda. Bo por reintenta e burbuja ku fracasá.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Nota di bos a wordu agregá"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "Menú di thread",
@@ -379,8 +528,6 @@
     "invitePeople": "Invita hende",
     "roomSettings": "Settings di room",
     "clearConversation": "Limpia konbersashon",
-    "clearConversationForMe": "Limpia pa mi",
-    "clearConversationForEveryone": "Limpia pa tur hende",
     "block": "Blok"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "Sólo tag (/tr …)",
       "all": "Tur mensahe"
     },
-    "updated": "Settings aktualizá"
+    "updated": "Settings aktualizá",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "Media compartí",
@@ -477,6 +635,110 @@
     "markRead": "Marca como lesá",
     "delete": "Borra",
     "unreadDotAria": "Indicador di voicemail no lesá"
+  },
+  "contactList": {
+    "savedContacts": "Kontakto Guardá",
+    "refreshAria": "Atualisa kontakto",
+    "filterPlaceholder": "Filter kontakto guardá…",
+    "filterAria": "Filter kontakto guardá",
+    "noContactsFound": "No tin kontakto",
+    "externalContact": "Kontakto externo",
+    "notJoined": "E kontakto aki aún no ta den Chatforia.",
+    "couldNotStart": "No por kuminsá chat. Por fabor prueba di nobo.",
+    "startFailed": "Kuminsá chat fracasá. Por fabor prueba di nobo.",
+    "deleted": "Kontakto borrá.",
+    "deleteFailed": "No por borra kontakto. Por fabor prueba di nobo.",
+    "aliasUpdated": "Alias aktualizá.",
+    "updateAliasFailed": "No por aktualiza alias. Por fabor prueba di nobo.",
+    "selectContact": "Skohe {{name}}",
+    "alias": "Alias",
+    "startChat": "Kuminsá chat",
+    "message": "Mensahe",
+    "delete": "Borra",
+    "deleteContactAria": "Borra kontakto",
+    "loadFailed": "No por carga kontakto. Por fabor prueba di nobo.",
+    "loadMore": "Carga mas",
+    "call": "Yama",
+    "callStarted": "Yamando e número aki via bo número di Chatforia…",
+    "callFailed": "No por kuminsá yamada. Por fabor prueba di nobo.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "Agrega kontakto",
+    "phoneOrUsername": "Teléfono o username",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 o juliannorton",
+    "alias": "Alias (opcional)",
+    "aliasPlaceholder": "e.g. Trabajo, Mama, Mike – Europa",
+    "enterPhoneOrUsername": "Entra un número di teléfono o username.",
+    "userLookupFailed": "Búsqueda di usuario fracasá.",
+    "cannotAddSelf": "Bo no por agrega bo mes como kontakto.",
+    "failedToAdd": "No por agrega kontakto.",
+    "add": "Agrega"
+  },
+  "startChatModal": {
+    "title": "Kuminsá un konversashon",
+    "searchPlaceholder": "Busca nòmber, username, o número di teléfono",
+    "messageThisPerson": "Manda mensahe na e persona aki",
+    "contacts": "Kontakto",
+    "recentInteractions": "Interakshonnan reciente",
+    "noContactsMatch": "Ningun kontakto ta match ku bo búsqueda.",
+    "noRecentInteractions": "Aún no tin interakshonnan reciente.",
+    "unknown": "Deskonosí",
+    "interactionType": {
+      "message": "Mensahe",
+      "call": "Yama",
+      "video": "Video"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "Perfil di Usuario",
@@ -614,13 +876,167 @@
     "voicemailNote": "Voicemail di bo número di Chatforia lo ta almacená den bo inbox di Voicemail. Bo por aktiva transkripshon y forwarding den plan soportá.",
     "portHint": "Ki bo ke mantene bo número aktual? Bo por port e den Chatforia Wireless.",
     "wireless": {
-      "manage": "Maneha wireless"
+      "manage": "Maneha wireless",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "Perfil di Usuario",
       "desc": "Obtene data móvil pa Chatforia ora bo ta lew di Wi-Fi.",
-      "cta": "Obtene eSIM / Mustra QR"
-    }
+      "cta": "Obtene eSIM / Mustra QR",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -672,7 +1088,685 @@
     "expiresIn": "Expira den {{days}} día",
     "exhausted": "Bo data a kaba. Kumpra un pack nobo pa continua usa data móvil.",
     "buyPack": "Kumpra pack di data",
-    "esimPackLabel": "Pack di eSIM"
+    "esimPackLabel": "Pack di eSIM",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "Cargando…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Bai Premium",
+    "description": "Habri funshonnan poderoso & kita anuncio.",
+    "cta": "Upgrade",
+    "upgrade": "Upgrade",
+    "upgradeAria": "Upgrade pa Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "Upgrade",
+    "titleLoggedIn": "Upgrade",
+    "titlePublic": "Preis",
+    "h1": "Preis y Plan di Chatforia",
+    "h1Subtitle": "Kuminsá ku nos plan gratis sostené pa anuncio. Bai sin anuncio ku Plus, o habri tur funshonnan poderoso ku Premium.",
+    "subtitle": "Skohe un plan di app, agrega pack di data pa bo mes, o compartí data ku bo familia — tur di un lugá.",
+    "subtitle.app": "Kuminsá ku nos plan gratis sostené pa anuncio. Bai sin anuncio ku Plus, o habri tur funshonnan poderoso ku Premium.",
+    "subtitle.mobile": "Agrega data eSIM global pa Chatforia keda traha asta ora bo ta lew di Wi-Fi.",
+    "subtitle.family": "Krea un pool di data compartí pa bo familia y maneha uso di tur hende di un lugá.",
+    "perMonth": "mo",
+    "perYear": "año",
+    "goPremium": "Bai Premium",
+    "benefitsLine": "Habri funshonnan poderoso & kita anuncio.",
+    "ctaText": "Upgrade",
+    "aria": "Upgrade pa Chatforia Premium",
+    "toggle": {
+      "monthly": "Mensual",
+      "annual": "Anual (Ahorra 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Subskripshon ta final",
+      "body": "Bo ta bolbe pa Free na",
+      "keepPlanCta": "Mantene {{plan}}",
+      "manageBillingCta": "Maneha billing"
+    },
+    "billing": {
+      "opening": "Habriendo…",
+      "manage": "Maneha Billing"
+    },
+    "checkout": {
+      "redirecting": "Redirectando…"
+    },
+    "auth": {
+      "continue": "Continua pa login",
+      "createAccount": "Krea cuenta",
+      "signIn": "Log in"
+    },
+    "cta": {
+      "aria": "Skohe plan",
+      "getPlus": "Upgrade pa Plus",
+      "upgradeMonthly": "Upgrade Mensual",
+      "upgradeAnnual": "Upgrade Anual",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "Plan di app",
+      "mobile": "Móvil (eSIM)",
+      "family": "Plan di Familia"
+    },
+    "plans": {
+      "free": {
+        "title": "Gratis",
+        "price": "$0",
+        "desc": "Kuminsá mensajería gratis. Ideal si bo ta purba Chatforia.",
+        "features": {
+          "chat": "Chat real-time 1:1 y grupo, yamada di voz y video",
+          "media": "Compartí foto, mensahe di voz, y video corto",
+          "ai": "AI-powered smart replies y tradukshon instantáneo (fair use)",
+          "disappearing": "Mensahe ku ta desaparece y kontrol di privacidad básico",
+          "ads": "Gratis pa semper ku anuncio den e app"
+        },
+        "ctaCurrent": "Plan aktivo",
+        "ctaManage": "Maneha den billing",
+        "ctaPublic": "Kuminsá – continua pa login",
+        "aria": "Plan gratis"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Tur e esencial, sin anuncio. Great pa mensajería y yamada di tur día.",
+        "features": {
+          "allFree": "Tur den Gratis, sin anuncio",
+          "forwarding": "Manda yamada y mensahe pa bo número di teléfono real",
+          "history": "Historia di mensahe mas largo (te 6 luna)",
+          "support": "Soporte mas rapido ora algo ta bai malo"
+        },
+        "badge": "Popular",
+        "cta": "Bai Sin Anuncio",
+        "ctaPublic": "Obtene Plus – continua pa login",
+        "aria": "Upgrade pa Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Mensual)",
+        "price": "$11.99",
+        "desc": "E eksperiensia completo di Chatforia: AI power tools, customisashon, y soporte prioridat.",
+        "features": {
+          "plusAll": "Tur den Plus",
+          "themes": "Habri tur tema di kolor premium y customisashon di app",
+          "ai": "AI power tools sólo pa Premium pa rewrites, smart replies, y resumen",
+          "support": "Soporte prioridat ora bo mester di ayudo mas",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Recomendá",
+        "cta": "Upgrade (Mensual)",
+        "ctaPublic": "Habri Premium – continua pa login",
+        "aria": "Upgrade pa Premium Mensual"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Anual)",
+        "price": "$99",
+        "desc": "Ahorra mas ora ta paga anual — inkluyendo tema di kolor ekstra, AI tools, y soporte prioridat.",
+        "features": {
+          "allPremium": "Tur den Premium Mensual — inkluyendo tema di kolor ekstra",
+          "annualBilling": "Paga un biaha pa año",
+          "save25": "Ahorra alrededor di 30% compará ku paga mensual",
+          "bestFor": "Mehor pa power users, trahador remoto, y viajero pesado",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "Ahorra 30%",
+        "cta": "Upgrade (Anual)",
+        "ctaPublic": "Ahorra 30% ku anual – continua pa login",
+        "aria": "Upgrade pa Premium Anual",
+        "disclaimer": "Paga por adelantado. Kanselá na tur momento. No tin tarifa oculto."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Gratis",
+      "freeDesc": "Kuminsá mensajería gratis.",
+      "plusTitle": "Plus",
+      "plusBadge": "Popular",
+      "plusDesc": "E eksperiensia mas barata sin anuncio.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Tur funshonnan, ringtone, y AI power tools.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Ahorra mas ora ta paga anual.",
+      "annualDisclaimer": "Paga por adelantado. Kanselá na tur momento. No tin tarifa oculto."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (pack di data eSIM)",
+      "subtitle": "Agrega data global pa Chatforia keda traha asta sin Wi-Fi. Preisen ta ajusta automaticamente segun bo pais y moneda.",
+      "subtitle.detail": "Skohe un pack di data global un biaha pa Chatforia keda traha ora bo ta viaja o lew di Wi-Fi.",
+      "scope": {
+        "local": "Local",
+        "europe": "Europa",
+        "global": "Global",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = bo pais aktual",
+      "perPack": "/ pack",
+      "cta": "Obtene e pack di data aki",
+      "ctaPublic": "Obtene e pack di data aki",
+      "checkout": {
+        "redirecting": "Redirectando…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Data di alta velocidad pa uso pesado",
+          "throttle": "Velocidat por baha despues di uso alto",
+          "coverage": "Cobertura confiabel",
+          "instant": "Aktivashon instant di eSIM",
+          "noContract": "Pack un biaha, sin kontrato"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "Pack di data eSIM ta requeri un aparato ku ta sostené eSIM y ta desbloké. Disponibilidat ta varia segun modelo di teléfono, carrier, y pais. Cobertura y velocidat ta varia segun region.",
+        "fairUse": "Sujeto na política di fair-use y límite lokal"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "Kompara pack di data eSIM",
+        "col": {
+          "pack": "Pack",
+          "data": "Data inkluí",
+          "bestFor": "Mehor pa"
+        },
+        "disclaimer": "Uso di data aktual ta depende di kon bo ta usa Chatforia (voz, video, media, y otro app den bo teléfono)."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "Mehor valor pa GB"
+      },
+      "feature": {
+        "instant": "Aktivashon instant di eSIM",
+        "coverage": "Cobertura confiabel",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "Local",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Europa",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Global",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "Pack Starter",
+        "data": "3 GB",
+        "bestFor": "Viahe corto, mensajería ligero, y yamada ocasional"
+      },
+      "medium": {
+        "title": "Pack Traveler",
+        "data": "5 GB",
+        "bestFor": "Viahe di fin di semana, yamada VoIP regular, y mapa"
+      },
+      "large": {
+        "title": "Pack Power",
+        "data": "10 GB",
+        "bestFor": "Chat pesado, yamada, video, y uso di hotspot"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Chatforia Family (data compartí)",
+      "subtitle": "Compartí un solo pool di data entre bo familia. Un solo faktura, múltiple cuenta di Chatforia, cobertura global.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Family Small",
+        "desc": "Inkluye 20 GB di data compartí di alta velocidad — great pa 2–3 usuario ligero.",
+        "price": "$29.99",
+        "aria": "Kumpra pack Family Small"
+      },
+      "medium": {
+        "title": "Family Medium",
+        "desc": "Inkluye 40 GB di data compartí di alta velocidad — ideal pa 3–5 miembro aktivo.",
+        "price": "$49.99",
+        "aria": "Kumpra pack Family Medium"
+      },
+      "large": {
+        "title": "Family Large",
+        "desc": "Inkluye 80 GB di data compartí di alta velocidad — pa familia poderoso ku semper ta online.",
+        "price": "$84.99",
+        "aria": "Kumpra pack Family Large"
+      },
+      "feature": {
+        "shared": "Pool di data compartí pa bo familia",
+        "members": "Invita te 4 miembro adicional",
+        "membersMore": "Great pa 3–5 miembro aktivo",
+        "manage": "Maneha límite pa kada miembro",
+        "topUp": "Agrega mas pack na tur momento",
+        "bestValue": "Mehor valor pa GB",
+        "fairUse": "Sujeto na política di fair-use y límite lokal"
+      },
+      "disclaimer": "Pack di Familia ta krea o top up un pool di data compartí. Bo por invita y retira miembro na tur momento.",
+      "footnote": "Pack di Familia ta compartí un solo pool di data entre cuenta di Chatforia conectá. Disponibilidat y límite ta depende di bo pais y regulashonnan lokal."
+    },
+    "why": {
+      "title": "Pakiko hende ta cambia pa Chatforia",
+      "subtitle": "Chatforia ta ofrece bo un número di teléfono real, tradukshon inteligente, y un kamino klaro pa bai sin anuncio ora bo ta listo.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Anuncio mas ligero na Gratis, un upgrade simpel na Plus ora bo ta listo, y herramienta Premium ku TextNow no tin."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App moderno, disén global promé, y tradukshon integrá en lugá di forwarding di yamada antiguo."
+        },
+        "messengers": {
+          "title": "Chatforia vs app di chat",
+          "body": "Manda mensahe na número di teléfono real — no sólo otro usuario di app — ku AI y status integrá. Great si bo ta bin di app como TextFree o TextMe."
+        }
+      },
+      "tableTitle": "Kon Chatforia ta compara",
+      "col": {
+        "feature": "Funshon",
+        "chatforia": "Te 12+ luna",
+        "textnow": "Ta varia segun cuenta",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "Número di teléfono gratis",
+        "translation": "Auto-tradukshon integrá",
+        "aiTools": "AI tools (rewrites, replies, resumen)",
+        "ads": "Opshon sin anuncio",
+        "history": "Historia di mensahe"
+      },
+      "yes": "Si",
+      "no": "No",
+      "yesPremium": "Si (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Limitá",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Te 12+ luna",
+        "textnow": "Ta varia segun cuenta",
+        "voice": "Limitá / basá na cuenta"
+      },
+      "disclaimer": "Komparashon basá na informashon públiko y por cambia den tempo. Otro app di teksto gratis como TextFree o TextMe ta generalmente similar na TextNow."
+    },
+    "faq": {
+      "title": "Pregunta frequente di Preis & Plan",
+      "free": {
+        "q": "E plan Gratis ta realmente gratis?",
+        "a": "Si. E plan Gratis ta inkluí un número di Chatforia, yamada, y mensajería ku anuncio. Bo por keda na Gratis tanto como bo ke, o upgrade pa kita anuncio y habri mas funshonnan."
+      },
+      "plusPremium": {
+        "q": "Kiko ta e diferensia entre Plus y Premium?",
+        "a": "Plus ta kita anuncio y ta extende bo historia di mensahe — perfekto pa uso di tur día. Premium ta agrega customisashon ekstra, AI tools pa rewrites y replies, y soporte prioridat pa usuario pesado."
+      },
+      "esim": {
+        "q": "Unda pack di data eSIM ta traha?",
+        "a": "Chatforia Mobile ta usa cobertura global di eSIM. Disponibilidat ta depende di bo pais y aparato. Bo ta mira opshon soportá durante aktivashon den e app."
+      },
+      "cancel": {
+        "q": "Mi por kanselá o cambia plan na tur momento?",
+        "a": "Si. Bo por maneha o kanselá bo subskripshon for di e página di billing den e app. Cambionan ta tuma efecto na fin di bo período di billing aktual."
+      },
+      "family": {
+        "q": "Kon pack di Familia ta traha?",
+        "a": "Pack di Familia ta krea un pool di data compartí entre múltiple cuenta di Chatforia. Un persona ta paga e faktura, y bo por invita o retira miembro y pone límite pa kada persona."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "Familia",
@@ -745,1053 +1839,618 @@
       "error": "No por agrega bo na e familia aki. E invita por ta inválido o expirá."
     }
   },
-  "premium": {
-    "heading": "Bai Premium",
-    "description": "Habri funshonnan poderoso & kita anuncio.",
-    "cta": "Upgrade",
-    "upgrade": "Upgrade",
-    "upgradeAria": "Upgrade pa Chatforia Premium"
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "Upgrade",
-    "titleLoggedIn": "Upgrade",
-    "titlePublic": "Preis",
-    "h1": "Preis y Plan di Chatforia",
-    "h1Subtitle": "Kuminsá ku nos plan gratis sostené pa anuncio. Bai sin anuncio ku Plus, o habri tur funshonnan poderoso ku Premium.",
-    "subtitle": "Skohe un plan di app, agrega pack di data pa bo mes, o compartí data ku bo familia — tur di un lugá.",
-    "subtitle.app": "Kuminsá ku nos plan gratis sostené pa anuncio. Bai sin anuncio ku Plus, o habri tur funshonnan poderoso ku Premium.",
-    "subtitle.mobile": "Agrega data eSIM global pa Chatforia keda traha asta ora bo ta lew di Wi-Fi.",
-    "subtitle.family": "Krea un pool di data compartí pa bo familia y maneha uso di tur hende di un lugá.",
-    "perMonth": "mo",
-    "perYear": "año",
-    "goPremium": "Bai Premium",
-    "benefitsLine": "Habri funshonnan poderoso & kita anuncio.",
-    "ctaText": "Upgrade",
-    "aria": "Upgrade pa Chatforia Premium",
-    "toggle": {
-      "monthly": "Mensual",
-      "annual": "Anual (Ahorra 30%)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "Subskripshon ta final",
-      "body": "Bo ta bolbe pa Free na",
-      "keepPlanCta": "Mantene {{plan}}",
-      "manageBillingCta": "Maneha billing"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "Habriendo…",
-      "manage": "Maneha Billing"
-    },
-    "checkout": {
-      "redirecting": "Redirectando…"
-    },
-    "auth": {
-      "continue": "Continua pa login",
-      "createAccount": "Krea cuenta",
-      "signIn": "Log in"
-    },
-    "cta": {
-      "aria": "Skohe plan",
-      "getPlus": "Upgrade pa Plus",
-      "upgradeMonthly": "Upgrade Mensual",
-      "upgradeAnnual": "Upgrade Anual"
-    },
-    "section": {
-      "app": "Plan di app",
-      "mobile": "Móvil (eSIM)",
-      "family": "Plan di Familia"
-    },
-    "plans": {
-      "free": {
-        "title": "Gratis",
-        "price": "$0",
-        "desc": "Kuminsá mensajería gratis. Ideal si bo ta purba Chatforia.",
-        "features": {
-          "chat": "Chat real-time 1:1 y grupo, yamada di voz y video",
-          "media": "Compartí foto, mensahe di voz, y video corto",
-          "ai": "AI-powered smart replies y tradukshon instantáneo (fair use)",
-          "disappearing": "Mensahe ku ta desaparece y kontrol di privacidad básico",
-          "ads": "Gratis pa semper ku anuncio den e app"
-        },
-        "ctaCurrent": "Plan aktivo",
-        "ctaManage": "Maneha den billing",
-        "ctaPublic": "Kuminsá – continua pa login",
-        "aria": "Plan gratis"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
       },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "Tur e esencial, sin anuncio. Great pa mensajería y yamada di tur día.",
-        "features": {
-          "allFree": "Tur den Gratis, sin anuncio",
-          "forwarding": "Manda yamada y mensahe pa bo número di teléfono real",
-          "history": "Historia di mensahe mas largo (te 6 luna)",
-          "support": "Soporte mas rapido ora algo ta bai malo"
-        },
-        "badge": "Popular",
-        "cta": "Bai Sin Anuncio",
-        "ctaPublic": "Obtene Plus – continua pa login",
-        "aria": "Upgrade pa Plus"
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
       },
-      "premiumMonthly": {
-        "title": "Premium (Mensual)",
-        "price": "$11.99",
-        "desc": "E eksperiensia completo di Chatforia: AI power tools, customisashon, y soporte prioridat.",
-        "features": {
-          "plusAll": "Tur den Plus",
-          "themes": "Habri tur tema di kolor premium y customisashon di app",
-          "ai": "AI power tools sólo pa Premium pa rewrites, smart replies, y resumen",
-          "support": "Soporte prioridat ora bo mester di ayudo mas"
-        },
-        "badge": "Recomendá",
-        "cta": "Upgrade (Mensual)",
-        "ctaPublic": "Habri Premium – continua pa login",
-        "aria": "Upgrade pa Premium Mensual"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Anual)",
-        "price": "$99",
-        "desc": "Ahorra mas ora ta paga anual — inkluyendo tema di kolor ekstra, AI tools, y soporte prioridat.",
-        "features": {
-          "allPremium": "Tur den Premium Mensual — inkluyendo tema di kolor ekstra",
-          "annualBilling": "Paga un biaha pa año",
-          "save25": "Ahorra alrededor di 30% compará ku paga mensual",
-          "bestFor": "Mehor pa power users, trahador remoto, y viajero pesado"
-        },
-        "badge": "Ahorra 30%",
-        "cta": "Upgrade (Anual)",
-        "ctaPublic": "Ahorra 30% ku anual – continua pa login",
-        "aria": "Upgrade pa Premium Anual",
-        "disclaimer": "Paga por adelantado. Kanselá na tur momento. No tin tarifa oculto."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Gratis",
-      "freeDesc": "Kuminsá mensajería gratis.",
-      "plusTitle": "Plus",
-      "plusBadge": "Popular",
-      "plusDesc": "E eksperiensia mas barata sin anuncio.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Tur funshonnan, ringtone, y AI power tools.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Ahorra mas ora ta paga anual.",
-      "annualDisclaimer": "Paga por adelantado. Kanselá na tur momento. No tin tarifa oculto."
-    },
-    "mobile": {
-      "title": "Chatforia Mobile (pack di data eSIM)",
-      "subtitle": "Agrega data global pa Chatforia keda traha asta sin Wi-Fi. Preisen ta ajusta automaticamente segun bo pais y moneda.",
-      "subtitle.detail": "Skohe un pack di data global un biaha pa Chatforia keda traha ora bo ta viaja o lew di Wi-Fi.",
-      "scope": {
-        "local": "Local",
-        "europe": "Europa",
-        "global": "Global"
-      },
-      "note": "Nos no ta bende pack di data menor di 3 GB.",
-      "localEquals": "Local = {{country}}",
-      "localEqualsFallback": "Local = bo pais aktual",
-      "perPack": "/ pack",
-      "cta": "Obtene e pack di data aki",
-      "ctaPublic": "Obtene e pack di data aki",
-      "checkout": {
-        "redirecting": "Redirectando…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Data di alta velocidad pa uso pesado",
-          "throttle": "Velocidat por baha despues di uso alto",
-          "coverage": "Cobertura confiabel",
-          "instant": "Aktivashon instant di eSIM",
-          "noContract": "Pack un biaha, sin kontrato"
-        }
-      },
-      "disclaimer": {
-        "devices": "Pack di data eSIM ta requeri un aparato ku ta sostené eSIM y ta desbloké. Disponibilidat ta varia segun modelo di teléfono, carrier, y pais. Cobertura y velocidat ta varia segun region."
-      },
-      "small": {
-        "title": "Pack Starter",
-        "desc": "Inkluye 3 GB di data di alta velocidad — ideal pa mensajería ligero y yamada ocasional.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Viahe corto, mensajería ligero, y yamada ocasional",
-        "aria": "Kumpra pack di data eSIM Starter"
-      },
-      "medium": {
-        "title": "Pack Traveler",
-        "desc": "Inkluye 5 GB di data di alta velocidad pa viahe, commuting, y yamada VoIP regular.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Viahe di fin di semana, yamada VoIP regular, y mapa",
-        "aria": "Kumpra pack di data eSIM Traveler"
-      },
-      "large": {
-        "title": "Pack Power",
-        "desc": "Inkluye 10 GB di data di alta velocidad pa chat pesado, yamada, y video den e red di Chatforia.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Chat pesado, yamada, video, y uso di hotspot",
-        "aria": "Kumpra pack di data eSIM Power user"
-      },
-      "compare": {
-        "title": "Kompara pack di data eSIM",
-        "col": {
-          "pack": "Pack",
-          "data": "Data inkluí",
-          "bestFor": "Mehor pa"
-        },
-        "disclaimer": "Uso di data aktual ta depende di kon bo ta usa Chatforia (voz, video, media, y otro app den bo teléfono)."
-      }
-    },
-    "family": {
-      "title": "Chatforia Family (data compartí)",
-      "subtitle": "Compartí un solo pool di data entre bo familia. Un solo faktura, múltiple cuenta di Chatforia, cobertura global.",
-      "perPack": "/ pack",
-      "small": {
-        "title": "Family Small",
-        "desc": "Inkluye 20 GB di data compartí di alta velocidad — great pa 2–3 usuario ligero.",
-        "price": "$29.99",
-        "aria": "Kumpra pack Family Small"
-      },
-      "medium": {
-        "title": "Family Medium",
-        "desc": "Inkluye 40 GB di data compartí di alta velocidad — ideal pa 3–5 miembro aktivo.",
-        "price": "$49.99",
-        "aria": "Kumpra pack Family Medium"
-      },
-      "large": {
-        "title": "Family Large",
-        "desc": "Inkluye 80 GB di data compartí di alta velocidad — pa familia poderoso ku semper ta online.",
-        "price": "$84.99",
-        "aria": "Kumpra pack Family Large"
-      },
-      "feature": {
-        "shared": "Pool di data compartí pa bo familia",
-        "members": "Invita te 4 miembro adicional",
-        "membersMore": "Great pa 3–5 miembro aktivo",
-        "manage": "Maneha límite pa kada miembro",
-        "topUp": "Agrega mas pack na tur momento",
-        "bestValue": "Mehor valor pa GB",
-        "fairUse": "Sujeto na política di fair-use y límite lokal"
-      },
-      "disclaimer": "Pack di Familia ta krea o top up un pool di data compartí. Bo por invita y retira miembro na tur momento.",
-      "footnote": "Pack di Familia ta compartí un solo pool di data entre cuenta di Chatforia conectá. Disponibilidat y límite ta depende di bo pais y regulashonnan lokal."
-    },
-    "why": {
-      "title": "Pakiko hende ta cambia pa Chatforia",
-      "subtitle": "Chatforia ta ofrece bo un número di teléfono real, tradukshon inteligente, y un kamino klaro pa bai sin anuncio ora bo ta listo.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Anuncio mas ligero na Gratis, un upgrade simpel na Plus ora bo ta listo, y herramienta Premium ku TextNow no tin."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "App moderno, disén global promé, y tradukshon integrá en lugá di forwarding di yamada antiguo."
-        },
-        "messengers": {
-          "title": "Chatforia vs app di chat",
-          "body": "Manda mensahe na número di teléfono real — no sólo otro usuario di app — ku AI y status integrá. Great si bo ta bin di app como TextFree o TextMe."
-        }
-      },
-      "tableTitle": "Kon Chatforia ta compara",
-      "col": {
-        "feature": "Funshon"
-      },
-      "feature": {
-        "freeNumber": "Número di teléfono gratis",
-        "translation": "Auto-tradukshon integrá",
-        "aiTools": "AI tools (rewrites, replies, resumen)",
-        "ads": "Opshon sin anuncio",
-        "history": "Historia di mensahe"
-      },
-      "yes": "Si",
-      "no": "No",
-      "yesPremium": "Si (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "Limitá",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "Te 12+ luna",
-        "textnow": "Ta varia segun cuenta",
-        "voice": "Limitá / basá na cuenta"
-      },
-      "disclaimer": "Komparashon basá na informashon públiko y por cambia den tempo. Otro app di teksto gratis como TextFree o TextMe ta generalmente similar na TextNow."
-    },
-    "faq": {
-      "title": "Pregunta frequente di Preis & Plan",
-      "free": {
-        "q": "E plan Gratis ta realmente gratis?",
-        "a": "Si. E plan Gratis ta inkluí un número di Chatforia, yamada, y mensajería ku anuncio. Bo por keda na Gratis tanto como bo ke, o upgrade pa kita anuncio y habri mas funshonnan."
-      },
-      "plusPremium": {
-        "q": "Kiko ta e diferensia entre Plus y Premium?",
-        "a": "Plus ta kita anuncio y ta extende bo historia di mensahe — perfekto pa uso di tur día. Premium ta agrega customisashon ekstra, AI tools pa rewrites y replies, y soporte prioridat pa usuario pesado."
-      },
-      "esim": {
-        "q": "Unda pack di data eSIM ta traha?",
-        "a": "Chatforia Mobile ta usa cobertura global di eSIM. Disponibilidat ta depende di bo pais y aparato. Bo ta mira opshon soportá durante aktivashon den e app."
-      },
-      "cancel": {
-        "q": "Mi por kanselá o cambia plan na tur momento?",
-        "a": "Si. Bo por maneha o kanselá bo subskripshon for di e página di billing den e app. Cambionan ta tuma efecto na fin di bo período di billing aktual."
-      },
-      "family": {
-        "q": "Kon pack di Familia ta traha?",
-        "a": "Pack di Familia ta krea un pool di data compartí entre múltiple cuenta di Chatforia. Un persona ta paga e faktura, y bo por invita o retira miembro y pone límite pa kada persona."
-      }
-    },
-    "gettingStarted": {
-      "title": "Kuminsá",
-      "subtitle": "Nobo na Chatforia? E guía rapido aki ta mustra e esencial pa bo por ta produktivo den minuto.",
-      "alert": {
-        "text": "E guía aki lo krese mientras nos ta lansa funshonnan nobo. Si algo ta falta, haci nos sa via",
-        "contactLink": "Contact Us"
-      },
-      "section1": {
-        "title": "1) Krea bo cuenta",
-        "signup": "Sign up",
-        "or": "o",
-        "login": "log in",
-        "loginText": "ku bo cuenta eksistente.",
-        "prefsStart": "Pone bo",
-        "prefsLink": "preferenshanan",
-        "prefsRest": "(idioma, resibo di lesa, tema)."
-      },
-      "section2": {
-        "title": "2) Kuminsá mensajería",
-        "item1": "Krea un DM o Grupo y manda bo promé mensahe.",
-        "item2": "Usa tradukshon instantáneo pa papia na mas di 100 idioma.",
-        "item3": "Prueba mensahe ku ta desaparece y resibo di lesa den Perfil → Privacidad."
-      },
-      "section3": {
-        "title": "3) Bai mas lew",
-        "item1": "Bo por upgrade pa un plan pagá na tur momento den e app.",
-        "item2": "Ora bo ta logeá, bo por conectá aparato adicional y configura backup encriptá for di Settings den e app."
-      },
-      "cta": {
-        "seePlans": "Mira plan",
-        "openSettings": "Habri settings"
-      }
-    },
-    "helpCenter": {
-      "title": "Centro di Ayuda",
-      "faq": {
-        "account": {
-          "q": "Kon mi por krea o recupera mi cuenta?",
-          "a": "Descarga e app o usa web, tapa “Krea cuenta”, verifica bo email/teléfono. Pa recupera, usa “Lubida password”."
-        },
-        "privacy": {
-          "q": "Mensahe ta encriptá end-to-end?",
-          "a": "Si. Mensahe y yamada ta encriptá end-to-end por default. Sólo bo y e destinatario por lesa nan."
-        },
-        "translate": {
-          "q": "Kon tradukshon instantáneo ta traha?",
-          "a": "Aktiva “Auto-tradukshon” den Settings → Apariencia & Idioma. Nos ta tradukshon na aparato unda ta soportá, di otro manera via API sigur ku metadata mínimo."
-        },
-        "contact": {
-          "q": "Kontakta soporte",
-          "a": "Yega nos na support@chatforia.com. Inklui screenshot y bo versión di app."
-        }
-      }
-    },
-    "contact": {
-      "title": "Contact Us",
-      "successMsg": "Masha danki—nos team lo responde via email.",
-      "errorSend": "No por manda. Por fabor email support@chatforia.com.",
-      "form": {
-        "nameLabel": "Nòmber",
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
         "emailLabel": "Email",
-        "messageLabel": "Mensahe",
-        "sendCta": "Manda"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Política di Privacidad",
-      "lastUpdated": "Último aktualizá:",
-      "intro": {
-        "body": "E Política di Privacidad aki ta explica kon Chatforia (“nos”) ta kolekta, usa, y compartí informashon ora bo usa nos app y servisionan. Nos ta diséña Chatforia pa minimisa e data ku nos por asekura."
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
       },
-      "infoWeCollect": {
-        "title": "Informashon ku nos ta kolekta",
-        "account": "Informashon di cuenta (e.g., email/teléfono) pa krea y sigur bo cuenta.",
-        "encrypted": "Kontenido encriptá (mensahe/yamada) ta encriptá end-to-end; nos no por lesa e.",
-        "diagnostics": "Diagnóstiko/uso como crash logs, tipo di aparato, o analitika basiko pa mehora performansa."
-      },
-      "sms": {
-        "title": "Número di teléfono móvil y SMS",
-        "body": "Si bo skohe di proporciona un número di teléfono móvil, nos ta usa esaki pa aktiva funshonnan como verifikashon di cuenta, alerta di login, y mensahe usuario-pa-usuario via SMS unda ta soportá. Nos por manda mensahe transakshonal SMS relacioná ku bo cuenta y aktividat den Chatforia. Bo por opta out di ricibi mensahe SMS na tur momento dor di responde ku un palabra di opt-out soportá (como “STOP”) o dor di cambia bo preferensha di notifikashon den e app. Nos no ta bende bo número di teléfono ni usa e pa marketing no relacioná.",
-        "newText": "Teksto nobo",
-        "enterRecipient": "Entra un nòmber o número",
-        "typeMessage": "Skirbi un mensahe…",
-        "addRecipient": "Agrega un destinatario ariba pa kuminsá…"
-      },
-      "howWeUse": {
-        "title": "Kon nos ta usa informashon",
-        "provide": "Proporciona y sigur e servisio (auth, detekshon di spam/abuso).",
-        "improve": "Mehora funshonnan (kalidat di tradukshon, fiabilidad).",
-        "legal": "Kumpli ku obligashonnan legal."
-      },
-      "sharing": {
-        "title": "Compartí",
-        "body": "Nos no ta bende data personal. Nos por compartí data limitá ku procesador (e.g., notifikashonnan push, analitika) bou di kontratonan estrikto."
-      },
-      "rights": {
-        "title": "Bo derecho",
-        "body": "Dependiendo di bo region (e.g., GDPR/UK GDPR/CPRA), bo por pidi akseso, koreksion, borra, o opt-out di sierto prosesamento. Contact: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Retenshon di data & siguridad",
-        "body": "Nos ta warda sólo loke ta nesesario pa opera e servisio y aplika siguridad di industria estándar. Kontenido E2E no por ta des-enkriptá dor di nos."
-      },
-      "children": {
-        "title": "Yunan",
-        "body": "Chatforia no ta dirigi na yunan menor di 13 (o segun ta requeri dor di bo ley lokal)."
-      },
-      "changes": {
-        "title": "Cambionan",
-        "body": "Nos ta posta aktualisashonnan aki y ta revisa e fecha di “Último aktualizá”."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Terminan di Servisio",
-      "lastUpdated": "Último aktualizá:",
-      "intro": {
-        "body": "Dor di usa Chatforia bo ta acepta e Terminan aki. Si bo no ta acepta, no usa e servisio."
-      },
-      "accounts": {
-        "title": "Cuentanan",
-        "itemAccurateInfo": "Proporciona informashon korrekto y mantene bo kredenshal sigur.",
-        "itemResponsibility": "Bo ta responsabel pa aktividat den bo cuenta."
-      },
-      "acceptableUse": {
-        "title": "Uso akseptabel",
-        "itemNoAbuse": "No tin kontenido ilegal, abusivo, o infraktor; no spam o abuso automatiko.",
-        "itemSuspend": "Nos por suspendé/termina pa violashonnan."
-      },
-      "sms": {
-        "title": "Komunikashonnan SMS",
-        "body": "Si bo proporciona un número di teléfono móvil, bo ta acepta ku Chatforia por manda bo mensahe SMS relacioná ku bo cuenta y uso di e servisio, como alerta di login, notifikashonnan di siguridad, y mensahe relacioná ku konversashonnan ku bo kuminsá o participa. Nos no ta usa SMS pa mensahe promocional o marketing sin bo consentimiento eksplíkito. Tasa di mensahe y data standar por aplica. Bo por opta out di mensahe SMS na tur momento dor di responde ku un palabra di opt-out soportá (por ehempel, “STOP”) o dor di aktualiza bo settings di notifikashon den e app."
-      },
-      "yourContent": {
-        "title": "Bo kontenido",
-        "body": "Bo ta mantene derecho di bo kontenido. Bo ta otorga nos e derechonan nesesario pa opera e servisio (e.g., routing, almacenamento, tradukshon)."
-      },
-      "disclaimer": {
-        "title": "Aviso & responsablidat",
-        "body": "E servisio ta proporciona “komo ta” sin garantia. Na e grado mas kompleto permití dor di ley, Chatforia no ta responsabel pa daño indirekto o konsekutivo."
-      },
-      "changes": {
-        "title": "Cambionan",
-        "body": "Nos por aktualiza e terminen aki; uso kontinuo despues di cambionan ta nifica aseptashon."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "No Bende o Compartí Mi Informashon Personal",
-      "body": "Chatforia no ta bende informashon personal. Residènt di California por ainda submite petishonnan bou di CPRA usando e botón abou.",
-      "cta": "Manda un petición"
-    },
-    "cookies": {
-      "title": "Settings di Cookie",
-      "body": "Chatforia ta usa cookie mínimo (e.g., seshon, siguridad). Nos no ta usa cookie di anuncio di tercer parti. Maneha cookie via bo browser settings."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "No por carga status di número di teléfono.",
-      "lock": "Blok",
-      "noNumberAssigned": "No tin número asigná. Skohe un pa area code pa kuminsá manda mensahe.",
-      "pickNumber": "Skohe un número",
-      "phoneNumber": "Número di teléfono"
-    },
-    "startChatModal": {
-      "title": "Kuminsá un chat",
-      "quickPicker": "Quick picker",
-      "to": "Pa",
-      "nameOrUsername": "Skirbi un nòmber, username",
-      "nameUsernamePhoneEmail": "Skirbi un nòmber, username, teléfono, o email…",
-      "startWithSelected": "Kuminsá chat ku e skohe",
-      "searchByUsernameOrPhone": "Busca dor di username o teléfono",
-      "search": "Busca",
-      "searchPrompt": "Skirbi un username o teléfono y prenta Busca.",
-      "pickFromContacts": "O skohe for di kontakto",
-      "addContact": "Agrega un Kontakto",
-      "show": "Mustra",
-      "add": "Agrega",
-      "close": "Kierra",
-      "selectedCount": "{{count}} skohe",
-      "pickAtLeastOne": "Skohe al menos un destinatario.",
-      "saveContactsHint": "Entrada di teléfono/email lo ta disponibel despues ku bo salba nan como kontakto.",
-      "failedBulkStart": "No por kuminsá chat ku e destinatario skohe.",
-      "noResults": "No tin resultado",
-      "mode": "Modo",
-      "group": "Grupo",
-      "broadcast": "Broadcast",
-      "groupNameOptional": "Nòmber di grupo (opcional)",
-      "firstMessageOptional": "Promé mensahe (opcional pero rekomendá)",
-      "createGroup": "Krea grupo",
-      "sendBroadcast": "Manda broadcast"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
-    },
-    "sounds": {
-      "freeNotice": "Bo ta na Free — tono premium ta mustra pero bloka. Upgrade pa habri tur.",
-      "preview": "Vista previo",
-      "resetToDefaults": "Reset pa default",
-      "notificationSounds": "Sonido di Notifikashon",
-      "messageTone": "Tono di mensahe",
-      "default": "Default",
-      "vibrate": "Vibra",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Sonido Pulsante",
-      "textMessage": "Mensahe di Teksto",
-      "xylophone": "Xilófono",
-      "classic": "Klasiko",
-      "urgency": "Urgensia",
-      "bells": "Kampana",
-      "chimes": "Chimes",
-      "digitalPhone": "Teléfono Digital",
-      "melodic": "Melodiko",
-      "organNotes": "Nota di Organo",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "E funshon aki ta requeri un plan Premium."
-    },
-    "aiSettings": {
-      "title": "Settings di AI",
-      "controlIntro": "Kontrola tradukshon, smart replies, y auto-respuesta di ForiaBot.",
-      "save": "Salba Settings di AI",
-      "autoTranslateIncoming": "Auto-tradukshon di mensahe entrante",
-      "showOriginalAlongside": "Mustra teksto original al lado di tradukshon",
-      "enableSmartReplies": "Aktiva Smart Replies",
-      "smartRepliesHint": "Manda e último algun mensahe ricibi (sanitizá) pa AI pa sugerí respuesta rapido.",
-      "maskProfanity": "Mask profanity den sugerenshanan di AI",
-      "maskProfanityHint": "Si ta aktivo, sugerenshanan di AI lo tin palabra marká maská",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "Aktiva auto-reply ora mi ta ocupado",
-      "autoReplyMode": "Modo di auto-reply",
-      "cooldownSeconds": "Cooldown (segundo)",
-      "off": "Apagá",
-      "on": "Prendé",
-      "signature": "Signature",
-      "autoReply": "Auto-reply",
-      "activeUntilOptional": "Aktivo te (opcional)",
-      "saved": "Preferenshanan di AI salbá",
-      "saveFailed": "No por salba settings di AI",
-      "translateOff": "Off",
-      "translateTagged": "Sólo ora @translated o tag",
-      "translateAll": "Tradukshon tur mensahe entrante",
-      "modeDm": "Sólo chat 1:1",
-      "modeMention": "Sólo ora mi ta @mentioned",
-      "modeAll": "Tur mensahe entrante"
-    },
-    "accessibilitySettings": {
-      "title": "Aksesibilidat & Alerta",
-      "accessibility": "Aksesibilidat",
-      "accessibilityDesc": "Opshon pa haci Chatforia mas facil di usa sin depende di sonido.",
-      "interfaceFontSize": "Tamaño di fuente di interface",
-      "interfaceFontSizeHelp": "Kuminsá na tamaño normal. Aumenta si bo prefiere teksto mas grandi den settings di aksesibilidat.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Notifikashonnan",
-      "notificationsDesc": "Alerta visual pa mensahe & yamada\nMustra banner y blink di title pa bo no falta aktividat.",
-      "vibrateOnNew": "Vibra na mensahe nobo (ora ta soportá)\nAktiva vibrashon di aparato ku notifikashonnan.",
-      "flashOnCall": "Flash di pantalla na yamada entrante\nFlash brillante korto ora un yamada ta ring.",
-      "liveCaptions": "Live captions (yamada)",
-      "captionFontSize": "Tamaño di fuente di caption",
-      "captionBackground": "Fondo di caption",
-      "light": "klaro",
-      "dark": "skuridad",
-      "transparent": "transparente",
-      "voiceNotes": "Nota di voz",
-      "autoTranscribeVoiceNotes": "Auto-transkribi nota di voz",
-      "autoTranscribeVoiceNotesDesc": "Agrega un transkripshon na mensahe di audio ku bo ricibi.",
-      "changesSavedInstantly": "Cambionan ta salbá al instante.",
-      "loadFailed": "No por carga settings",
-      "visualAlerts": "Alerta visual pa mensahe & yamada",
-      "visualAlertsDesc": "Mustra banner y blink di title pa bo no falta aktividat.",
-      "vibrateOnNewShort": "Vibra na mensahe nobo (ora ta soportá)",
-      "vibrateOnNewDesc": "Aktiva vibrashon di aparato ku notifikashonnan.",
-      "flashOnCallShort": "Flash di pantalla na yamada entrante",
-      "flashOnCallDesc": "Flash brillante korto ora un yamada ta ring."
-    },
-    "privacySection": {
-      "strictE2EE": "Encriptashon end-to-end estrikto",
-      "ciphertextOnlyNote": "Almacena sólo ciphertext na e server. Desaktiva AI/Tradukshon y preview di moderashon."
-    },
-    "linkedDevicesPanel": {
-      "title": "Aparato Conectá",
-      "noneFound": "No tin aparato conectá.",
-      "refresh": "Atualisa"
-    },
-    "help": {
-      "title": "Ayuda",
-      "howCanWeHelp": "Kon nos por yuda?",
-      "helpCenter": "Centro di Ayuda",
-      "contactUs": "Contacta nos",
-      "quickTopics": "Topiko rapido",
-      "searchExamples": "Prueba busca “tradukshon”, “backup”, o “privacidad”.",
-      "cantLogin": "No por log in",
-      "paymentsBilling": "Pago / billing",
-      "reportAbuse": "Reporta abuso",
-      "searchHelpArticles": "Busca artikulo di ayuda",
-      "search": "Busca"
-    },
-    "peoplePage": {
-      "people": "Hende",
-      "search": "Busca",
-      "searchPlaceholder": "Busca dor di alias, nòmber, username, o teléfono",
-      "filterSaved": "Filter kontakto guardá",
-      "noContactsFound": "No tin kontakto",
-      "quickStart": "Kuminsá rapido",
-      "quickStartDesc": "Algun manera rapido pa kuminsá.",
-      "importContacts": "Importa bo kontakto",
-      "add": "Agrega",
-      "focusSearch": "Fokus Busca",
-      "import": "Importa",
-      "findOrAdd": "Busca o agrega un hende",
-      "searchByPhoneOrUsername": "Busca dor di teléfono / username",
-      "inviteFriends": "Invita amigonan",
-      "inviteDesc": "Compartí bo link di invita pa kuminsá papia al instante.",
-      "getTheApp": "Obtene e app",
-      "getTheAppDesc": "Keda den kontakto na e caminda ku Chatforia pa iOS y Android.",
-      "download": "Descarga",
-      "syncTip": "Tip: Bo mensahe ta keda sincronizá entre web y móvil."
-    },
-    "randomChat": {
-      "title": "Chat Aleatorio",
-      "description": "Mira un hende nobo al instante. Nos ta pareá bo y habri un chat room temporal. Papia anonimo promé. Agrega Amigo despues si ta sinti bon.",
-      "findMatch": "Busca un match pa mi",
-      "chatWithForia": "Papia ku Foria",
-      "chatWithForiaBot": "Papia ku ForiaBot",
-      "cancel": "Kanselá",
-      "close": "Kierra",
-      "searching": "Buscando...",
-      "finding": "Buscando...",
-      "looking": "Buscando un hende...",
-      "startingForia": "Kuminsando un chat ku Foria...",
-      "partnerDisconnected": "Bo partner a diskonecta.",
-      "noPartner": "No tin partner disponibel awor.",
-      "connectedTo": "Konektá ku {{name}}",
-      "connected": "Konektá",
-      "idle": "Idle",
-      "partnerLeft": "Partner a bai.",
-      "stopped": "Para.",
-      "skip": "Skip",
-      "save": "Salba",
-      "saveGuard": "Sólo chat humano-pa-humano por ta salbá",
-      "youAreChattingWith": "Bo ta papia ku {{name}}",
-      "bot": "BOT",
-      "leave": "Bai",
-      "sayHi": "Saluda 👋",
-      "you": "Bo",
-      "typeMessage": "Skirbi un mensahe",
-      "send": "Manda",
-      "partner": "Partner",
-      "withRia": "Ku Ria",
-      "chatWithRia": "Papia ku Ria",
-      "startingRia": "Kuminsando un chat ku Ria...",
-      "ageDisclaimer": "Nos ta warda sólo un rango di edad (no bo fecha di nacemento eksakto). Esaki ta usa pa mantene pareo di Random Chat razonabel. Pa pareá ku hende (no sólo RiaBot), pone bo rango di edad den Settings → Edad & Random Chat.",
-      "ageBandRequired": "Pone bo rango di edad den Perfil → Edad & Random Chat pa pareá ku hende.",
-      "ageBandCallout": "Pa pareá ku hende (no sólo RiaBot), pone bo rango di edad den Settings → Edad & Random Chat.",
-      "subtitle": "Mira un hende nobo al instante, o skohe pa papia ku Ria.",
-      "start": "Kuminsá un konversashon",
-      "matching": "Matching...",
-      "setAge": "Pone bo rango di edad den Perfil → Edad & Random Chat pa pareá ku hende.",
-      "next": "Persona Sigiente",
-      "addFriend": "Agrega Amigo",
-      "requested": "Pidi",
-      "messageRia": "Manda mensahe na Ria...",
-      "messageMatch": "Manda mensahe na bo match..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "e",
-      "intro": "Hey e 👋 Mi ta Ria. Kiko ta den bo mente?",
-      "greetings": {
-        "long1": "Hey {{name}} 👋 Mi ta aki. Kiko ta den bo mente?",
-        "long2": "Hi {{name}} 😊 Kiko bo ke papia awa?",
-        "long3": "Hey {{name}}!! Mi ta tur orea — kiko ta pasa?",
-        "long4": "Bon mira bo, {{name}} 👋 Kiko ta den bo mente awe?",
-        "long5": "Hey {{name}} 😊 Bo ke desahoga, puntra, o simplemente papia?",
-        "long6": "Hi {{name}}!! Mi tin tempo — kiko bo ke papia?",
-        "short1": "Hey {{name}}, mi ta aún aki. Kiko ta pasa?",
-        "short2": "Bon bini bek {{name}} 👋 Algun kos mas ku bo ke agrega?",
-        "short3": "Bek di nobo, {{name}}? 😊 Cuenta mi kiko ta den bo mente.",
-        "short4": "Hey {{name}} 👋 Listo pa sigui unda nos a stop?",
-        "short5": "Si {{name}}? Mi ta scucha 👂",
-        "short6": "Oh hey {{name}}!! Tin algo nobo den bo mente?"
-      },
-      "header": {
-        "openNav": "Habri menú di navigashon",
-        "closeNav": "Kierra menú di navigashon",
-        "homeAria": "Chatforia Home"
-      },
-      "login": {
-        "welcomeBack": "Bon bini bek",
-        "title": "Continua pa Chatforia",
-        "subtitleReturning": "Log in na bo cuenta di Chatforia",
-        "subtitle": "Log in na bo cuenta di Chatforia",
-        "google": "Continua ku Google",
-        "apple": "Continua ku Apple",
-        "googleUnavailable": "Sign-in ku Google no disponibel",
-        "appleUnavailable": "Sign-in ku Apple no disponibel",
-        "or": "o",
-        "email": "Email",
-        "emailPh": "bo@ejemplo.com",
-        "usernameLabel": "Username",
-        "usernamePh": "Bo username",
-        "passwordLabel": "Password",
-        "passwordPh": "Bo password",
-        "keepSignedIn": "Mantene mi logeá",
-        "forgot": {
-          "title": "Lubida Password",
-          "helper": "Entra e email ku bo a usa pa krea bo cuenta di Chatforia y nos ta manda bo un link sigur pa reset bo password.",
-          "emailInvalid": "Por fabor entra un dirección di email válido.",
-          "genericError": "No por procesa e petición. Por fabor prueba di nobo den un momento.",
-          "sending": "Mandando link di reset...",
-          "sendCta": "Manda Link di Reset",
-          "sentLabel": "Manda!",
-          "sentHelper": "Si un cuenta ta eksistí ku e email aki, nos a manda un link di reset di password. Por tuma algun minuto pa yega. Cheka bo carpeta di spam o promocion.",
-          "previewDev": "Preview Email (Dev)",
-          "backToLogin": "Bek pa Login"
-        },
-        "submit": "Log In",
-        "loggingIn": "Logeando…",
-        "newHere": "Nobo aki? <link>Krea un cuenta</link>",
-        "ssoUnavailable": "Single-sign-on ta actualmente no disponibel. Usa username & password en su lugá.",
-        "error": {
-          "missing": "Por fabor entra bo kredenshal.",
-          "invalid": "Username o password inválido",
-          "denied": "Akseso denegá.",
-          "unprocessable": "Petición inválido. Cheka bo username/email y password.",
-          "deviceLimit": "Límite di aparato yega pa plan Gratis. Log out na otro aparato o upgrade pa Premium pa conectá mas aparato.",
-          "premiumRequired": "E aksion aki ta requeri un plan Premium."
-        }
-      },
-      "oauth": {
-        "completing": "Kompletando log-in…"
-      },
-      "dialer": {
-        "title": "Yamadanan",
-        "subtitle": "Keypad & reciente. (Si bo no ta usa PSTN, kuminsá yamada for di header di konversashon.)",
-        "enterNumberPh": "Entra número",
-        "call": "Yama",
-        "backspace": "Backspace",
-        "recents": "Reciente",
-        "recentsEmpty": "Aún no tin yamada reciente.",
-        "enterNumber": "Entra número",
-        "enterNumberAria": "Entra número",
-        "key": "Tecla {{d}}",
-        "noRecents": "Aún no tin yamada reciente."
-      },
-      "video": {
-        "title": "Video",
-        "chooseType": "Skohe un tipo di video.",
-        "directTitle": "Video Direkto",
-        "directDesc": "Yama di kamera 1:1 ku otro usuario.",
-        "directStart": "Kuminsá",
-        "roomsTitle": "Rooms",
-        "roomsDesc": "Video multi-partido usando un nòmber di room compartí.",
-        "roomsIntro": "Uni o krea un room multi-partido.",
-        "roomNameLabel": "Nòmber di room",
-        "roomNamePh": "e.g. team-standup",
-        "join": "Uni",
-        "deeplinkTip": "Tip: bo por deep link direktamente na <code>/video?room=room-name</code>.",
-        "hub": {
-          "title": "Video",
-          "subtitle": "Skohe un tipo di video."
-        },
-        "direct": {
-          "title": "Video Direkto",
-          "subtitle": "Kuminsá un yamada di video 1:1 usando un número di teléfono o username di Chatforia.",
-          "desc": "Yama di kamera 1:1 ku otro usuario.",
-          "start": "Kuminsá",
-          "callBtn": "Yama",
-          "callByPhone": {
-            "title": "Yama dor di teléfono"
-          },
-          "phone": {
-            "placeholder": "Entra teléfono (e.g., +1-555-123-4567)",
-            "aria": "Teléfono pa yama"
-          },
-          "tipInvite": "Tip: Pega un número y yama sin salba un kontakto. Nos ta invita usuario no-registrá dor di link.",
-          "findUser": {
-            "title": "Busca un usuario"
-          },
-          "search": {
-            "placeholder": "Busca dor di nòmber o username",
-            "aria": "Busca dor di nòmber o username",
-            "btn": "Busca"
-          }
-        },
-        "rooms": {
-          "title": "Rooms",
-          "subtitle": "Krea un room o uni na un eksistente dor di skirbi e mesun nòmber.",
-          "desc": "Video multi-partido usando un nòmber di room compartí.",
-          "roomLabel": "Nòmber di room",
-          "roomPlaceholder": "e.g. team-standup",
-          "roomAria": "Nòmber di room",
-          "joinCreate": "Uni / Krea",
-          "tip": "Tip: compartí e nòmber aki ku otro, o deep link na <code>/video?room=room-name</code>."
-        }
-      },
-      "directVideo": {
-        "intro": "Kuminsá un yamada di video direkto 1:1.",
-        "findUserLabel": "Busca un usuario",
-        "findUserPh": "Busca dor di nòmber o username",
-        "search": "Busca",
-        "call": "Yama"
-      },
-      "phoneWarning": {
-        "title": "Bo número ta expira pronto",
-        "body": "Bo número {{number}} lo ta libera na {{date}} si no ta reactiva.",
-        "button": "Mantene Mi Número"
-      }
-    },
-    "support": {
-      "helpFab": "Ayuda",
-      "openSupportAria": "Habri support",
-      "badge": "Support",
-      "heading": "Kon nos por yuda?",
-      "tabs": {
-        "help": "Centro di Ayuda",
-        "contact": "Contacta nos"
-      },
-      "searchPlaceholder": "Busca artikulo di ayuda…",
-      "searchAria": "Busca ayuda",
-      "searchBtn": "Busca",
-      "quickTopicsLabel": "Topiko rapido",
-      "quickTopics": {
-        "login": "No por log in",
-        "billing": "Pago / billing",
-        "abuse": "Reporta abuso"
-      },
-      "trySearching": "Prueba busca “tradukshon”, “backup”, o “privacidad”.",
-      "article": "Artikulo",
-      "openArticle": "Habri artikulo",
-      "contactIntro": "Nos ta manda bo un respuesta via email. Inklui detaya pa yuda nos reproduci e problema.",
-      "topicAria": "Skohe un topiko",
-      "messagePlaceholder": "Skirbi bo mensahe…",
-      "sendBtn": "Manda",
-      "sent": "Mensahe manda. Nos ta responde via email.",
-      "sendError": "No por manda. Email support@chatforia.com en su lugá."
-    },
-    "encryptionRecovery": {
-      "title": "Maneha Encriptashon",
-      "description": "Warda, restaura, desblokea, o reset bo clave di encriptashon.",
-      "alert": {
-        "keyRequiredTitle": "Clave di encriptashon ta requeri",
-        "keyRequiredBody": "E browser aki actualmente no por des-enkripta bo mensahe encriptá. Restaura, desblokea, o reset bo clave pa continua."
-      },
-      "sections": {
-        "createBackup": "Krea backup di clave",
-        "restoreFromBackup": "Restaura for di backup di cuenta",
-        "resetEncryption": "Reset encriptashon"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Unlock passcode (aparato aktual)",
-          "description": "Usa pa des-enkripta bo claves lokalmente promé di exporta"
-        },
-        "backupPassword": {
-          "label": "Password di backup",
-          "description": "Usa pa encripta e archivo di backup"
-        },
-        "restoreBackupPassword": {
-          "label": "Password di backup",
-          "description": "E password ku bo a krea ora bo a warda bo clave na iPhone"
-        },
-        "newLocalPasscode": {
-          "label": "Passcode lokal nobo",
-          "description": "Protehé claves na rest den e browser aki"
-        },
-        "resetLocalPasscode": {
-          "label": "Passcode lokal nobo",
-          "description": "Requerí promé di reset pa e clave nobo ta protehá na e aparato aki"
-        }
-      },
-      "actions": {
-        "unlockKey": "Desblokea clave di encriptashon",
-        "restoreFromBackup": "Restaura for di backup di cuenta",
-        "resetEncryption": "Reset Encriptashon"
-      },
-      "messages": {
-        "backupCreated": "Backup di clave krea y descarga.",
-        "keyUnlocked": "Clave di encriptashon desblokeá.",
-        "keyRestored": "Clave restaura for di backup di cuenta.",
-        "resetSuccess": "Encriptashon reset exitosamente."
-      },
-      "errors": {
-        "restoreIncomplete": "Restaura di clave incompleto o incorrecto pa e cuenta aki",
-        "noBackup": "No tin backup encriptá pa e cuenta aki",
-        "missingPublicKey": "Backup falta un clave público",
-        "noServerPublicKey": "E cuenta aki actualmente no ta ekspone un clave público di server",
-        "serverBackupMismatch": "Backup di server no ta match ku e clave di encriptashon di cuenta aktual",
-        "incompleteMetadata": "Metadata di backup ta incompleto",
-        "resetIncomplete": "Reset di encriptashon no a kompletá korrektamente"
-      },
-      "confirm": {
-        "reset": "Reset encriptashon pa e cuenta aki?\n\nMensahe encriptá antiguo por bira no lesá si bo no restaura e clave original despues."
-      },
-      "resetDescription": "Esaki ta genera un clave di encriptashon nobo pa bo cuenta. Mensahe encriptá antiguo por bira no lesá si bo no restaura e clave original despues."
-    },
-    "footer": {
-      "plans": "Plan & Preis",
-      "about": "Sobre Chatforia",
-      "careers": "Trabou",
-      "press": "Prensa",
-      "advertise": "Publika",
-      "contact": "Contacta Nos",
-      "help": "Centro di Ayuda",
-      "status": "Página di Status",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Política di Privacidad",
-      "terms": "Terminan di Servisio",
-      "cookies": "Settings di Cookie",
-      "doNotSell": "No Bende Mi Info",
-      "language": "Idioma",
-      "contactShort": "Contact",
-      "aria": "Footer",
-      "homeAria": "Chatforia home",
-      "section": {
-        "company": "KOMPANIA",
-        "support": "SOPORTE",
-        "downloads": "DESCARGANAN",
-        "legal": "LEGAL"
-      },
-      "links": {
-        "plans-pricing": "Plan & Preis",
-        "about-chatforia": "Sobre Chatforia",
-        "careers": "Trabou",
-        "press": "Prensa",
-        "advertise": "Publika",
-        "getting-started": "Kuminsá",
-        "help-center": "Centro di Ayuda",
-        "contact-us": "Contacta Nos",
-        "status-page": "Página di Status",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Política di Privacidad",
-        "terms-of-service": "Terminan di Servisio",
-        "do-not-sell-my-info": "No Bende Mi Info",
-        "cookie-settings": "Settings di Cookie"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Patente pendiente",
-      "backToTop": "↑ Bek pa ariba"
-    },
-    "press": {
-      "title": "Prensa",
-      "contactLine": "Pa pregunta di media, yega nos na",
-      "boilerplateTitle": "Boilerplate",
-      "boilerplateBody": "Chatforia ta un app di mensajería enfoká riba privacidad ku ta haci chat multi-idioma facil. Mensahe ta encriptá end-to-end por default, y tradukshon integrá ta sostené 100+ idioma na real time. Usuario por aktiva mensahe ku ta desaparece, mantene resibo di lesa opcional, y sincronisa entre aparato. Disponibel na iOS, Android, y web.",
-      "assetsTitle": "Asset di brand",
-      "assetsSubtitle": "Logo, screenshot, y imágen di produkto.",
-      "downloadCta": "Descarga media kit",
-      "downloadTitle": "Obtene e app",
-      "scanTip": "Na desktop? Skanea ku bo teléfono pa obtene e app.",
-      "qrAria": "Habri website di Chatforia",
-      "appStore": "Descarga na App Store",
-      "googlePlay": "Obtene na Google Play"
-    },
-    "careers": {
-      "title": "Trabou",
-      "intro": "Nos ta un team chikito di fundador construyendo Chatforia — un mensajero global privá ku ta lansa na web, iOS, y Android. Si bo ta preocupa pa privacidad, encriptashon, y eksperiensia di usuario delisioso, nos ta encanta scucha bo.",
-      "openRoles": "<b>Rol di fundador abierto:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encriptashon Engineer, Telecom Engineer (Twilio + eSIM).",
-      "apply": "Kon pa aplica: Usa e botón abou pa manda bo resume y link via email.",
-      "emailCta": "Manda bo resume via email",
-      "whyNow": "Pakiko uni awor?",
-      "whyBullets": "• Yuda construi e fundashon di un mensajero global nobo.\n• Ship mehorashonnan usa den web, iOS, y Android.\n• Traha direktamente ku e fundador riba arkitektura y direkshon di produkto.\n• Posesiona área di impacto alto den e stack: mensajería, voz, video, encriptashon, telecom, AI.\n• Uni na kuminsamento — promé ku e base di usuario ta escala."
-    },
-    "about": {
-      "title": "Sobre Chatforia",
-      "description": "Chatforia ta un mensajero sigur, multi-idioma ku encriptashon end-to-end, tradukshon instantáneo, y yamada di voz/video. Nos misión ta simpel: yuda hende konektá — sigur, privá, y den diferente idioma.",
-      "valuesTitle": "Kiko nos ta balora",
-      "values": {
-        "privacy": "<b>Privacy promé:</b> Encriptashon E2E por default.",
-        "access": "<b>Akseso pa tur:</b> Auto-tradukshon 100+ idioma.",
-        "control": "<b>Kontrol:</b> Mensahe ku ta desaparece & resibo di lesa ta opcional.",
-        "privacy_aria": "Privacy promé: Encriptashon E2E por default.",
-        "access_aria": "Akseso pa tur: Auto-tradukshon 100+ idioma.",
-        "control_aria": "Kontrol: Mensahe ku ta desaparece y resibo di lesa ta opcional."
-      },
-      "howTitle": "Kon Chatforia ta traha",
-      "howDescription": "Mensahe ta encriptá na bo aparato promé ku nan sali. Tradukshon, backup, y sincronisashon di aparato ta diséña pa minimisa loke nos server por mira."
-    },
-    "advertise": {
-      "title": "Publika ku Chatforia",
-      "description": "Yega usuario di mensajería enganchá ku plazamentu di bon gusto y sigur pa brand. Nos ta ofrece inventario di banner na lugá di visibilidad alto, sponsorship, y promoshonnan di casa. Suskribinor premium no ta mira anuncio.",
-      "adsense": {
-        "withPubIdShort": "Nos tambe ta sirbi inventario via Google AdSense. Bo por target Chatforia ku publisher ID {{pubId}}, o usa e formulario abou pa sponsorship direkto.",
-        "noPubIdShort": "Nos tambe ta sirbi algun inventario via Google AdSense. Sponsorship direkto ta disponibel — usa e formulario abou."
-      },
-      "inventoryHeader": "Inventario & Espek",
-      "placement": {
-        "displayBadge": "Display",
-        "acceptedSizes": "Tamaño aseptá",
-        "adsenseSlot": "Slot di AdSense:"
-      },
-      "noPlacementsPublic": "Nos ta finalisando nos inventario di anuncio. Cuenta nos sobre bo kampaña y nos ta rekomenda plazamentu.",
-      "whyHeader": "Pakiko Chatforia?",
-      "why": {
-        "highSession": "Frekuensia di seshon alto y tempo di permanencia den UI di chat",
-        "brandSafe": "Formatu sigur pa brand; frequency capping respetuoso",
-        "sponsoredMoments": "Momento di sponsorship (e.g., modal di “Kuminsá un Chat”) disponibel",
-        "deals": "Dealonan direkto o programático via AdSense/Google Ads"
-      },
-      "contactHeader": "Contact",
-      "form": {
-        "submittedMsg": "Masha danki! Bo pregunta ta na caminda. Nos ta sigui kontakta bo pronto.",
-        "missingRequired": "Por fabor yena nòmber, email, y mensahe.",
-        "successToast": "Masha danki! Nos ta den kontakto pronto.",
-        "mailtoInfo": "Habriendo bo cliente di email pa manda e pregunta…",
-        "nameLabel": "Bo nòmber",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "Email",
-        "emailPlaceholder": "bo@kompania.com",
-        "companyLabel": "Kompania",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Presupuesto mensual (opcional)",
-        "budgetPlaceholder": "e.g. $1,000–$20,000+",
-        "messageLabel": "Cuenta nos sobre bo kampaña",
-        "messagePlaceholder": "Target, fecha, KPI, preferensha di plazamentu…",
-        "sendCta": "Manda pregunta"
-      },
-      "legal": {
-        "disclaimerStart": "Dor di submite, bo ta acepta nos",
-        "terms": "Terminan",
-        "and": "y",
-        "privacy": "Política di Privacidad"
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
       }
     }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
+    },
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
+    },
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
+    },
+    "cta": {
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Kon Chatforia Ta Traha",
+    "intro": "Chatforia ta diseñá pa hasi komunikashon simpel...",
+    "step1Title": "1. Krea un Account",
+    "step1Desc": "Registrá ku bo email òf username...",
+    "step2Title": "2. Kuminsá un Konversashon",
+    "step2Desc": "Konektá ku otro hende...",
+    "step3Title": "3. Mensahe na Momento",
+    "step3Desc": "Mensahe ta yega lihé...",
+    "step4Title": "4. Komunikashon Global",
+    "step4Desc": "Tradukshon integrá ta yuda usuario...",
+    "step5Title": "5. Keda na Kontrol",
+    "step5Desc": "Manehá bo preferensianan..."
+  },
+  "safety": {
+    "title": "Siguridat i Guia di Komunidat",
+    "intro": "Chatforia ta komprometé pa mantene un ambiente sigur...",
+    "respectTitle": "Komunikashon Respetuoso",
+    "respectDesc": "Usuario mester komuniká ku respeto...",
+    "prohibitedTitle": "Kontenido Prohibí",
+    "prohibited": {
+      "illegal": "Aktividat ilegal",
+      "harassment": "Harrasment òf bullying",
+      "hate": "Diskurso di odio òf diskriminashon",
+      "explicit": "Material explícito òf dañino",
+      "spam": "Spam òf praktikanan engañoso"
+    },
+    "toolsTitle": "Heramientanan di Siguridat",
+    "tools": {
+      "report": "Reportá komportashon inapropiá",
+      "block": "Blokea usuario",
+      "control": "Manehá configurashon di privasidat"
+    },
+    "enforcementTitle": "Aplikashon",
+    "enforcementDesc": "Nos por tuma akshon kontra accountnan..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Dikon Plataformanan di Mensahe Ta Mas Importante Ku Nunka",
+      "intro": "Plataformanan di mensahe a bira un di e medionan di komunikashon mas importante den mundu di awe...",
+      "everydayTitle": "Komunikashon Diariamente",
+      "everydayDesc": "Hende ta dependé riba apps di mensahe pa komunikashon diario...",
+      "speedTitle": "Velosidat i Konveniensia",
+      "speedDesc": "Mensahe ta yega instantáneamente...",
+      "globalTitle": "Alkans Global",
+      "globalDesc": "Plataformanan di mensahe ta konektá hende rond mundu...",
+      "privacyTitle": "Privasidat i Kontrol",
+      "privacyDesc": "Plataformanan moderno ta pone enfoke riba kontrol di usuario...",
+      "futureTitle": "Futuro di Mensahe",
+      "futureDesc": "Mensahe ta sigui evolushoná ku feature nobo...",
+      "outro": "Chatforia ta konstruí riba e prinsipionan aki..."
+    },
+    "global": {
+      "title": "Futuro di Komunikashon Global",
+      "intro": "Komunikashon a evolushoná rápido...",
+      "barriersTitle": "Kibra Bareranan",
+      "barriersDesc": "Hende por konektá rond mundu...",
+      "translationTitle": "Rol di Teknologia di Tradukshon",
+      "translationDesc": "Idioma tabata un barera tradicional...",
+      "realtimeTitle": "Konektivitat na Momento Mes",
+      "realtimeDesc": "Velosidat ta un faktor importante...",
+      "privacyTitle": "Privasidat i Siguridat",
+      "privacyDesc": "Usuario kier siguridat ku nan konversashon ta protehá...",
+      "futureTitle": "Loke Ta Bin",
+      "futureDesc": "Futuro di komunikashon global lo inkluí mas inovashon...",
+      "outro": "Plataformanan manera Chatforia ta parti di e kambionan..."
+    },
+    "index": {
+      "title": "Blog di Chatforia",
+      "intro": "Eksplorá insight riba komunikashon...",
+      "post1": "Kon Pa Chatea Sigur Online",
+      "post2": "Futuro di Komunikashon Global",
+      "post3": "Dikon Plataformanan di Mensahe Ta Importante"
+    },
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
+      },
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
+      },
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
+      },
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
+      },
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Tokante Chatforia",
+    "description": "Chatforia ta un plataforma di mensahe moderno diseñá pa komunikashon sigur i multilingue...",
+    "valuesTitle": "Nos balornan",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
+    },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Privasidat Promé",
+    "privacyDesc": "Enkripshon fuerte i kontrol di privasidat pa usuario",
+    "accessTitle": "Akseso pa Tur",
+    "accessDesc": "Tradukshon integrá den diferente idioma",
+    "controlTitle": "Kontrol",
+    "controlDesc": "Feature manera mensahe ku ta desaparesé i read receipts"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
+    "why": {
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
+    },
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
+    },
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+    },
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
+    },
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
+    },
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
+    },
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+    },
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "Polítika di Reembolso",
+    "lastUpdated": "Último actualisashon:",
+    "intro": "Na Chatforia, nos ta trata pa duna un servisio di haltu kalidat na tur usuario. E polítika aki ta splika ora ku reembolso por wordu duna.",
+    "subscriptions": {
+      "title": "Subscripshon",
+      "body": "Subscripshon ta wordu kobra adelantá riba un base repetitivo. Bo por kanselá na kualkier momento den bo account settings òf via e plataforma kaminda bo a kumpra."
+    },
+    "eligibility": {
+      "title": "Kualifikashon pa Reembolso",
+      "body": "Reembolso por wordu duna pa kobransa dupliká, error di fakturashon, òf problema tékniko ku ta stroba akseso na feature pagá. Tur petishon ta wordu revisá kaso pa kaso."
+    },
+    "nonRefundable": {
+      "title": "No Reembolsabel",
+      "body": "Generalmente, nos no ta duna reembolso pa tempu no usá, parti di periodo di subscripshon, òf si no a kanselá promé ku renobashon."
+    },
+    "thirdParty": {
+      "title": "Kompra di Tersero",
+      "body": "Si a kumpra via plataforma di tersero manera Apple App Store, reembolso mester wordu pidí direktamente na nan."
+    },
+    "contact": {
+      "title": "Kontakto",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
+    },
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
+    },
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
+    },
+    "help": {
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
+    },
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

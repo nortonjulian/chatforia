@@ -8,8 +8,16 @@
     "copy": "Copia",
     "copied": "Copiau!",
     "errorWithMessage": "Errore: { {message}}",
-    "loading": "Si sta caricannu…",
-    "saveError": "Fallimentu di salvataggiu"
+    "loading": "In carricamentu…",
+    "saveError": "Salvataggiu fallutu",
+    "clear": "Cancella",
+    "error": "Errore",
+    "learnMore": "Sapi cchiù",
+    "retry": "Riprova",
+    "send": "Manna",
+    "showOriginal": "Mustrà l'uriginali",
+    "showTranslation": "Mustrà a traduzzioni",
+    "undo": "Annulla"
   },
   "a11y": {
     "skipToMain": "Salta a lu cuntenutu principali"
@@ -19,108 +27,137 @@
     "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Backup di chiavi criatu e scaricatu ✓",
-    "restored": "Backup di chiavi risturatu ✓ Chiavi installati lucalmenti",
-    "noBackup": "Nun esisti nuddu backup criptatu pi stu cuntu",
-    "missingPublicKey": "Manca na chiavi pubblica ntô backup"
+    "backupCreated": "Copia di riserva di chiavi criata e scaricata ✓",
+    "restored": "Key backup restored ✓ Keys installed locally",
+    "noBackup": "No encrypted backup exists for this account",
+    "missingPublicKey": "Backup is missing a public key"
   },
   "keySetup": {
-    "title": "Confìgura li chiavi dû tò dispusitivu",
+    "title": "Configurari i chiavi dû dispusitivu",
     "description": "Stu dispusitivu ancora nun havi la tò chiavi privata. Importa un backup prutettu cu password, o ginera na nova coppia di chiavi (accussì poi lèggiri novi missaggi di ora 'n poi).",
     "chooseFile": "Scegghi un file e nserisci la password.",
-    "importata": "Chiavi privata importata 'n stu dispusitivu. Ora poi lèggiri li vecchi missaggi.",
-    "inserisciPassword": "Inserisci la password dû tò cuntu accussì putemu fari un backup sicuru di li tò chiavi."
+    "imported": "Chiavi privata importata 'n stu dispusitivu. Ora poi lèggiri li vecchi missaggi.",
+    "enterPassword": "Nserisci la password dû tò cuntu accussì putemu fari un backup sicuru dê tò chiavi."
   },
-  "ricanuscenzaCifratu": {
-    "titulu": "Gestisci lu Cifratu",
-    "descrizzioni": "Fai un backup, ristura, sblocca o resetta la tò chiavi di cifratu.",
+  "encryptionRecovery": {
+    "title": "Gestisci la Criptazzioni",
+    "description": "Fai un backup, ristura, disblocca o resetta la tò chiavi di criptazzioni.",
     "alert": {
       "keyRequiredTitle": "Chiavi di criptazzioni nicissaria",
-      "keyRequiredBody": "Stu navigaturi nun pò decriptari ora i toi missaggi criptati. Ripristina, sblocca o resetta la tò chiavi pi cuntinuari."
+      "keyRequiredBody": "Stu navigaturi nun pò attualmenti decriptari i toi missaggi criptati. Ripristina, sblocca o resetta la tò chiavi pi cuntinuari.",
+      "lockedTitle": "Missaggi chiusi a chiavi",
+      "lockedBody": "Ripristina o sblocca la tò chiavi di crittografia pi lèggiri li missaggi criptati supra stu dispusitivu."
     },
     "sections": {
-      "createBackup": "Crea na copia di riserva dâ chiavi",
-      "restoreFromBackup": "Ripristina dâ copia di riserva dû cuntu",
-      "resetEncryption": "Resetta la criptazzioni"
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Ripristina di riserva dû cuntu",
+      "resetEncryption": "Ripristina criptazzioni"
     },
     "fields": {
       "unlockPasscode": {
-        "label": "Passcode pi sbloccari (dispositivu attuali)",
-        "description": "Usatu pi decriptari li toi chiavi lucalmenti prima di esportari"
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
       },
       "backupPassword": {
-        "label": "Password di backup",
-        "description": "Usata pi criptari lu file di backup"
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
       },
       "restoreBackupPassword": {
-        "label": "Password di backup",
-        "description": "La password ca hai criatu quannu hai fattu u backup di la tò chiavi supra l'iPhone"
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
       },
       "newLocalPasscode": {
-        "label": "Novu passcode lucali",
-        "description": "Pruteggi li chiavi quannu su' archiviati supra stu navigaturi"
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
       },
       "resetLocalPasscode": {
-        "label": "Novu passcode lucali",
-        "description": "Necessariu prima di resettari accussì la nova chiavi è prutetta supra stu dispusitivu"
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
       }
     },
     "actions": {
-      "unlockKey": "Sbloccari la chiavi di crittografia",
-      "restoreFromBackup": " Ripristina dû backup dû cuntu",
-      "resetEncryption": "Ripristina la crittografia"
+      "unlockKey": "Sblocca la chiavi di criptazzioni",
+      "restoreFromBackup": "Ripristina di riserva dû cuntu",
+      "resetEncryption": "Ripristina criptazzioni",
+      "advancedRecovery": "Recuperu avanzatu",
+      "restoreChats": "Ripristina chat",
+      "restoreEncryptedChats": "Ripristina chat criptati",
+      "startFreshEncryption": "Accuminciari na nova crittografia",
+      "unlockMessages": "Unlock messages"
     },
     "messages": {
-      "backupCreated": "Backup dâ chiavi criatu e scaricatu.",
-      "keyUnlocked": "Chiavi di crittografia sbloccata.",
-      "keyRestored": "Chiavi ristabbiluta dû backup dû cuntu.",
-      "resetSuccess": "Ristabbilimentu di criptazzioni riesciutu."
+      "backupCreated": "U backup dâ chiavi è statu criatu e scaricatu.",
+      "keyUnlocked": "A chiavi di criptazzioni è stata sbloccata.",
+      "keyRestored": "A chiavi è stata risturata dû backup dû cuntu.",
+      "resetSuccess": "U reset dâ criptazzioni è riesciutu cu successu."
     },
     "errors": {
-      "restoreIncomplete": "Ristabbilimentu dâ chiavi incompletu o sbagghiatu pi stu cuntu",
-      "noBackup": "Nun esisti nuddu backup criptatu pi stu cuntu",
-      "chiaviPubblicaMancanti": "U backup manca na chiavi pubblica",
-      "nentiChiaviPubblicaServer": "Stu cuntu nun espone attualmenti na chiavi pubblica di server",
-      "mismatchBackupServer": "U backup dû server nun currispondi â chiavi di criptazzioni dû cuntu attuali",
-      "metadatiIncompleti": "I metadati dû backup sunnu incompleti",
-      "resetIncompleto": "U reset dâ criptazzioni nun si è cumplitatu currettamenti "
+      "restoreIncomplete": "U risturamentu dâ chiavi è incompletu o sbagghiatu pi stu cuntu",
+      "noBackup": "Nun c'è nisciunu backup criptatu pi stu cuntu",
+      "missingPublicKey": "Lu backup manca na chiavi pubblica",
+      "noServerPublicKey": "Stu cuntu nun espone attualmenti na chiavi pubblica dû server",
+      "serverBackupMismatch": "Lu backup dû server nun currispondi â chiavi di criptatura attuali dû cuntu",
+      "incompleteMetadata": "Li metadati dû backup sunnu incompleti",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Nun si putìa risturari la tò chiavi di criptazzioni. Cuntròlla lu tò backup e la password.",
+      "unlockFailed": "Nun si putìa sbloccari la tò chiavi di criptazzioni. Cuntròlla lu tò passcode e pruva n'autra vota."
     },
     "confirm": {
-      "reset": "Ripristina la crittografia pi stu cuntu?\n\nI missaggi crittografati cchiù vecchi ponnu addivintari illeggìbbili a menu ca ristabilisci la chiavi urigginali cchiù tardu."
+      "reset": "Resettari la criptazzioni pi stu cuntu?\n\nLi missaggi criptati cchiù vecchi ponnu addivintari illeggìbbili a menu ca risturi la chiavi urigginali cchiù tardu."
     },
-    "resetDescription": "Chistu ginera na nova chiavi di crittografia pi lu tò cuntu. I missaggi crittografati cchiù vecchi ponnu addivintari illeggìbbili a menu ca ristabilisci la chiavi urigginali cchiù tardu."
+    "resetDescription": "Chistu ginera na nova chiavi di criptazzioni pi lu tò cuntu. Li missaggi criptati cchiù vecchi ponnu addivintari illeggìbbili a menu ca risturassi la chiavi urigginali cchiù tardu.",
+    "danger": {
+      "title": "Accuminza na criptazzioni nova",
+      "body": "Chistu cria na nova chiavi di criptazzioni. Li missaggi criptati cchiù vecchi ponnu addivintari illeggìbbili a menu ca risturassi la chiavi urigginali cchiù tardu."
+    },
+    "simpleTitle": "Sblocca li missaggi criptati",
+    "simpleDescription": "Usa u còdici di sbloccu dû tò dispusitivu o risturà un backup pi sbloccari i missaggi criptati.",
+    "restoreDescription": "Ristura la tò chiavi di chat criptata di un backup prutettu dâ tò password di backup."
   },
   "smsConsent": {
-    "label": "Accunsentu a riciviri notifiche e avvisi SMS di {{companyName}}. La frequenza di li missaggi pò variari. Pò applicàrisi tariffi pi missaggi e dati. Rispunni <stop>STOP</stop> pi annullari l'abbonamentu quannu voi. Rispunni <help>HELP</help> pi aiutu."
+    "label": "Accunsentu di riciviri nutificazzioni e avvisi SMS di {{companyName}}. La frequenza di li missaggi pò variari. Pò essiri applicatu tariffi pi missaggi e dati. Rispunni <stop>STOP</stop> pi disiscriviri in ogni mumentu. Rispunni <help>HELP</help> pi aiutu."
   },
   "phoneField": {
     "label": "Telefunu",
-    "invalid": "Numaru di telefunu invalidu",
-    "hint": "Includi lu còdici dû paisi si nicissariu (p.es., +1 415…)"
+    "invalid": "Nummaru di telefunu invalidu",
+    "hint": "Includi còdici di paisi si nicissariu (p.es., +1 415…)"
   },
   "auth": {
-    "headline": "Messaggistica sicura pi cuunque, unniunque",
-    "description": "Cifratu di fini a fini, traduzzioni in cchiù di 100 lingui, missaggi ca sparisciunu, e chiamati vocali/video.",
+    "headline": "Messaggeria sicura pi cuqualsiasi, unniunqui",
+    "description": "Cifratu di fini a fini, traduzzioni in cchiù di 100 lingui, missaggi ca sparisciunu, e chiamati di vuci/video.",
     "feature": {
       "encryption": "Cifratu di fini a fini di difettu",
-      "translation": "Traduzzioni intelligenti integrata di missaggi",
-      "disappearing": "Missaggi ca sparisciunu & ricevuti di lettura",
+      "translation": "Smart, built-in message translation",
+      "disappearing": "Disappearing messages & read receipts",
       "privacy": "Privacy prima di tuttu. I toi dati, u to cuntrollu.",
-      "translate": "Traduzzioni intelligenti di missaggi integrati",
-      "disappear": "Missaggi ca sparisciunu",
+      "translate": "Supera li barriere linguistiche nti li tò cunversazioni",
+      "disappear": "Messaggi ca sparisciunu e ricevuti di lettura",
       "privacyAlt": "Disignu a priorità di privacy",
       "seePlans": "Vidi piani e prezzi"
     },
     "hero": {
-      "line1": "Messaggistica sicura pi cuunque, unniunque — cu",
-      "em": "traduzzioni 'n cchiù di 100 lingui",
-      "sub": "Pigliati un numaru di telefonu sicuru e gratuitu pi chiamari e scriviri 'n tuttu u munnu supra Wi-Fi o dati. Gòditi la crittografia di testa a coda, i missaggi ca sparisciunu, e li chiamati vocali/video HD — cu strumenti 'nclusi ca t'aiutanu a ristari cunnessu attraversu li cunfini.",
-      "freeNote": "Li chiamati e li missaggi di basa sunnu gratuiti. L'AI avanzatu e li funzioni premium richiedunu n'aggiornamentu."
+      "line1": "Messaggeria sicura pi cuunque, unniunque — cu",
+      "em": "traduzzioni in cchiù di 100 lingui",
+      "sub": "Piglia un nummaru di telefonu sicuru gratis pi chiamari e scriviri in tuttu u munnu supra Wi-Fi o dati. Gòditi la crittografia di testa a coda, i missaggi ca sparisciunu e i chiamati vocali/video in HD — cu strumenti integrati ca t'aiutanu a ristari cunnessu attraversu i cunfini.",
+      "freeNote": "Li chiamati e li missaggi di basa sunnu gratis. L'IA avanzata e li funzioni premium richiedunu un abbonamentu."
     },
     "feat": {
-      "encryption": "Cifratu di fini a fini, sempri attivu",
+      "encryption": "Crittografia di testa a coda, sempri attiva ",
       "translate": "Supera li barriere linguistiche nti li tò cunversazioni",
-      "disappear": "Missaggi ca sparisciunu e ricevuti di lettura",
+      "disappear": "Messaggi ca sparisciunu e ricevuti di lettura",
       "privacy": "Prima la privacy. I tò dati, u tò cuntrollu. "
     },
     "continueGoogle": "Continua cu Google",
@@ -129,50 +166,145 @@
     "password": "Password",
     "keepSignedIn": "Mantènimi cunnessu",
     "forgotPassword": "Hai scurdatu la password?",
-    "loginButton": "Accedi",
-    "createAccount": "Crea un cuntu",
-    "freeAccountButton": "Crea cuntu gratuitu",
-    "newHere": "Novu ccà?",
-    "getApp": "Pigghia l'app",
-    "desktopTip": "Ntô desktop? Scannau cu lu tò telefonu pi pigghiari l'app.",
-    "scanHelper": "Ntô desktop? Scannau cu lu tò telefonu pi pigghiari l'app.",
-    "goHome": "Va a casa",
-    "home": "Home",
+    "loginButton": " Accedi",
+    "createAccount": "Create an account",
+    "freeAccountButton": "Create free account",
+    "newHere": "New here?",
+    "getApp": "Get the app",
+    "desktopTip": "On desktop? Scan with your phone to get the app.",
+    "scanHelper": "Ntô desktop? Scannà cu lu tò telefonu pi pigghiari l'app.",
+    "goHome": "Jiri a casa",
+    "home": "Casa",
     "headlineAlt": {
-      "main": "U messenger sicuru ca",
-      "highlight": "parra a tò lingua"
+      "main": "Lu messenger sicuru ca",
+      "highlight": "parra la tò lingua"
     },
-    "subhead": "Messaggistica privata, criptata e tradotta — subitu.",
+    "subhead": "Messaggi privati, criptati e tradotti — subitu. ",
     "upgrade": "Aggiorna ora",
-    "tip": "Consigghiu: Usa lu stissu account supra web e mobile. I toi missaggi ristanu sincronizzati.",
+    "tip": "Consigghiu: Usa lu stissu cuntu supra web e mobile. I toi missaggi ristanu sincronizzati.",
     "openDownload": "Apri la pàggina di scaricamentu",
     "qrAlt": "Còdici QR pi Chatforia",
-    "scanHint": "Scannà pi scaricari l'app o apririla ntô tò navigaturi.",
+    "scanHint": "Scanna pi scaricari l'app o pi apririla ntô tò navigaturi.",
     "iosAria": "Scarica di l'App Store",
     "iosTitle": "Scarica di l'App Store",
     "iosBadgeAlt": "Badge di l'App Store",
-    "androidAria": "Pigghiàtila di Google Play",
+    "androidAria": "Pigghialu supra Google Play",
     "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Badge di Google Play",
     "login": "Accedi",
-    "signup": "Iscriviti",
+    "signup": "Registrati",
     "email": "Email",
     "registration": {
       "passwordDescription": "Minimu 6 caràttiri. Usa na password forti e unica.",
-      "smsConsent": "Criannu un cuntu, accunsenti di riciviri nutificazzioni SMS ligati â tò attività di Chatforia (comu missaggi di àutri utenti). Pò essiri ca si applicanu tariffi pi missaggi e dati. Pò disiscriviti quannu voi nti Impostazzioni.",
-      "termsLink": "Cundizzioni dû Serviziu",
-      "privacyLink": "Pulìtica di Privacy"
+      "smsConsent": "Criannu nu cuntu, accunsenti di riciviri notifiche SMS ligati â tò attività di Chatforia (comu missaggi di àutri utenti). Pò essiri ca si applicanu tariffi pi missaggi e dati. Pò disattivari sta opzioni quannu voi nti Impostazzioni.",
+      "termsLink": "Cundizioni dû Serviziu",
+      "privacyLink": "Pulìtica di Privacy",
+      "already": "Hai già nu cuntu?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Crea na password",
+      "phoneHelp": "Usatu pi virificazzioni, sigurtà e funzioni SMS unni sunnu supportati.",
+      "phoneLabel": "Numaru di telefonu",
+      "submit": "Crea cuntu",
+      "submitAria": "Crea u tò cuntu Chatforia",
+      "title": "Crea u tò cuntu Chatforia",
+      "usernameLabel": "Nome utente",
+      "usernamePlaceholder": "Scegli un nome utente"
     },
-    "a": "A:",
-    "inserisciDestinatariu": "Inserisci un nomu o un numaru",
-    "cancellaDestinatari": "Cancella destinatari",
+    "to": "To:",
+    "enterRecipient": "Mèttici un nomu o un numaru",
+    "clearRecipients": "Cancella i destinatari",
     "sms": "SMS",
     "chatforia": "Chatforia",
-    "scriviMessaggiu": "Scrivi un missaggiu…",
-    "aggiunciDestinatariu": "Aggiunci un destinatariu supra pi accuminciari…",
+    "typeMessage": "Scrivi un missaggiu…",
+    "addRecipient": "Aggiunci un destinatariu supra pi accuminciari…",
     "oneRecipient": "Pi favuri, nserisci ora sulu un destinatariu.",
     "enterValidRecipient": "Nserisci u nomu di un cuntattu sarvatu o un numaru di telefonu.",
-    "sendFailed": "Mandari fallutu. Cuntrulla a cunsola pi li dittagli."
+    "sendFailed": "Mandatu fallutu. Cuntrulla a cunsola pi li dittagli.",
+    "logIn": "Accedi ",
+    "seePlans": "Vidi li piani",
+    "errors": {
+      "emailTaken": "Chista email è già in usu.",
+      "invalidEmail": "Mèttici un indirizzu email validu.",
+      "invalidInput": "Pi favuri cuntrulla li tò nfurmazzioni e pruva n'autra vota.",
+      "invalidPhone": "Mèttici un numaru di telefonu validu.",
+      "invalidValue": "Unu di li valori è invalidu.",
+      "passwordLength": "La password avi a èssiri almancu 6 caràttiri.",
+      "passwordRequired": " A password è nicissaria.",
+      "registrationFailed": "A registrazzioni ha fallutu. Pruvati n'autra vota.",
+      "smsConsent": "Accetta u cunsensu pi SMS pi cuntinuari.",
+      "tooManyAttempts": "Tropi tentativi. Aspetta e pruvati n'autra vota.",
+      "usernameOrEmailTaken": "Chiddu username o email è già pigghiatu.",
+      "usernameRequired": "U username è nicissariu.",
+      "usernameTaken": "Chissu nomu d'utenti è già pigghiatu."
+    }
+  },
+  "login": {
+    "welcomeBack": "Benvinutu arreri",
+    "title": "Continua a Chatforia",
+    "subtitleReturning": "Accedi a lu tò cuntu Chatforia",
+    "google": "Continua cu Google",
+    "apple": " Continua cu Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Lu sign-in cu Google nun è dispunìbbili",
+    "appleUnavailable": "Lu sign-in cu Apple nun è dispunìbbili",
+    "ssoUnavailable": "Lu sign-on unicu nun è dispunìbbili pi ora. Usa lu nomu utente e la password 'nveci.",
+    "or": "or",
+    "accountLabel": "Cuntu",
+    "identifierPh": "Email o nomu d'utenti",
+    "passwordLabel": "Password",
+    "passwordPh": "A tò password",
+    "keepSignedIn": "Mantènimi cunnessu",
+    "forgot": "Hai scurdatu a password?",
+    "resendVerification": "Rimanna l'email di virificazzioni",
+    "submit": "Accedi",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Accessu negatu.",
+      "unprocessable": "Richiesta invalida. Verifica u tò nomu utente/email e password.",
+      "deviceLimit": " Limu di dispusitivi raggiuntu pi lu pianu Gratìs. Accedi di n'autru dispusitivu o passa a Premium pi ligari cchiù dispusitivi.",
+      "premiumRequired": "Sta azzioni richiedi un pianu Premium."
+    },
+    "forgotPassword": {
+      "title": "Dimenticatu password",
+      "helper": "Mèttici l'email ca hai usatu pi criari lu tò cuntu Chatforia e ti mannaremu un link sicuru pi resettari la tò password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Pi favuri, nserisci n'indirizzu email validu.",
+      "genericError": "Nun si pò prucessari la richiesta. Pruva n'autra vota tra pocu.",
+      "sending": "Si sta mannannu lu link di reset...",
+      "sendCta": "Manna lu Link di Reset",
+      "sentLabel": "Mmannatu! ",
+      "sentHelper": "Si esisti un cuntu cu chidda email, avemu mannatu un link pi ristabbiliri la password. Pò vuliri quarchi minutu pi arrivari. Assicurati di taliari la cartella spam o prumuzzioni.",
+      "previewDev": "Previsualizza Email (Dev)",
+      "backToLogin": "Torna a l'Accessu"
+    },
+    "resetPassword": {
+      "title": "Ristabbilisci Password",
+      "missingToken": "Token di ristabbilimentu password invalidu o mancanti.",
+      "missingTokenHelper": "Token invalidu o mancanti. Pi favuri, richiedi un novu link di ristabbilimentu password.",
+      "passwordMismatch": "Li password nun currisponnunu",
+      "success": "La tò password è stata ristabbiluta cu successu",
+      "genericError": "Errore: Nun si pò ristabbiliri la password.",
+      "newPasswordLabel": "Password nova",
+      "newPasswordPlaceholder": "Mèttici la tò password nova",
+      "confirmPasswordLabel": "Cunfirma la password nova",
+      "confirmPasswordPlaceholder": "Rimèttici la tò password nova",
+      "resetting": "A ristabbiliri...",
+      "submit": "Ristabbilisci Password",
+      "strongPasswordHint": "Scegghi na password forti ca nun usi n'àutru locu."
+    }
+  },
+  "oauth": {
+    "completing": "Completannu l'accessu…"
   },
   "home": {
     "title": "Home",
@@ -182,7 +314,7 @@
     "sendButton": "Manna missaggiu",
     "gifPicker": "Apri u seletturi di GIF",
     "emoji": "Emoji",
-    "upload": "Carica na foto o video",
+    "upload": "Carica na foto o nu video",
     "inputPlaceholder": "Scrivi un missaggiu…",
     "inputLabel": "Composituri di missaggiu",
     "sendTooltip": "Manna",
@@ -190,161 +322,216 @@
     "send": "Manna",
     "welcomeMessage": "Benvinutu a Chatforia",
     "getStarted": "Accuminza",
-    "mixedRecipients": "Ricevituri mischiati rilevati. Usa o tutti li numeri di telefonu (SMS) o tutti li nomi utente (Chatforia).",
-    "enterRecipient": "Mèttici un nomu o un numaru",
+    "mixedRecipients": "Ricevituri mischiati rilevati. Usa o tutti li numeri di telefonu (SMS) o tutti li nomi utenti (Chatforia).",
+    "enterRecipient": "Metti un nomu o un numaru",
     "addRecipient": "Aggiungi nu destinatariu supra pi accuminciari…",
     "needNumber": "Ti servi nu numaru di Chatforia prima di mannari SMS.",
-    "chooseNumber": "Scegghi nu numaru"
+    "chooseNumber": "Scegli nu numaru",
+    "to": "A",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Scrivi nu missaggiu…",
+    "clearRecipients": "Cancella li destinatari",
+    "oneRecipient": "Pi favuri, nserisci un destinatariu pi ora.",
+    "enterValidRecipient": "Nserisci un nomu di cuntattu sarvatu, nomu utente, o numaru di telefonu.",
+    "sendFailed": "Mandamentu fallutu. Pruva n'autra vota."
+  },
+  "composer": {
+    "aria": "Composituri di missaggiu",
+    "emoji": "Emoji",
+    "gifPicker": "Apri u seletturi di GIF",
+    "placeholder": "Scrivi un missaggiu…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
-    "randomChat": "Chat a casu",
-    "callTextForwarding": "Invirti chiamati e missaggi ",
-    "conversazioni": "Conversazioni",
-    "searchPlaceholder": "Circa chat...",
-    "errorLoading": "Fallutu a carricari li chat",
-    "empty": "Ancora nudda cunversazioni.",
-    "startChat": "Accumincia na chat",
-    "people": "Pirsuni",
-    "settings": "Impostazzioni",
-    "status": "Statu",
-    "forwarding": "Inviu di Chiamati e SMS",
-    "rinfresca": "Rinfresca",
-    "ricerca": "Circa cunversazioni",
-    "richiesta_login": "Accedi pi mudificari i toi impostazzioni.",
-    "accedi": "Accedi",
-    "registrati": "Crea cuntu",
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Call & Text Forwarding",
+    "conversations": "Conversations",
+    "searchPlaceholder": "Search chats...",
+    "errorLoading": "Failed to load chats",
+    "empty": "No conversations yet.",
+    "startChat": "Start a chat",
+    "people": "People",
+    "settings": "Settings",
+    "status": "Status",
+    "forwarding": "Call & Text Forwarding",
+    "refresh": "Refresh",
+    "search": "Search conversations",
+    "loginPrompt": "Log in to edit your settings.",
+    "login": "Log in",
+    "register": "Create account",
     "chatrooms": "Chatrooms",
     "logout": "Log out",
-    "startChatAlt": "Accuminza na nova chat",
+    "startChatAlt": "Start a new chat",
     "calls": "Calls",
     "video": "Video",
-    "voicemail": "Voicemail"
+    "voicemail": "Voicemail",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "Statu novu",
     "logout": "Esci",
     "help": "Aiutu",
-    "createStatusAria": "Crea nu novu Statu"
+    "createStatusAria": "Crea novu statu"
   },
   "footer": {
     "plans": "Piani e Prezzi",
     "about": "A propositu di Chatforia",
-    "careers": " Carrieri",
-    "Stampa": "Stampa",
-    "Pubblicità": "Pubblicità",
-    "Cuntattu": "Cuntattaci",
-    "Aiutu": " Centru d'Aiutu",
-    "status": "Pàggina dî Status",
+    "careers": "Carrieri",
+    "press": "Stampa",
+    "advertise": "Pubblicità",
+    "contact": "Cuntattaci",
+    "help": "Centru d'Aiutu",
+    "status": "Pàggina dû Status",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
-    "privacy": "Pulìtica di Privacy",
-    "terms": "Cundizioni dû Serviziu",
-    "cookies": "Impostazzioni dî Cookie",
-    "doNotSell": "Nun vinniri i mè nfurmazzioni",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Nun vinniri i mei nfurmazzioni",
     "language": "Lingua",
     "contactShort": "Cuntattu",
     "aria": "Piedi di pàggina",
     "homeAria": "Pàggina iniziali di Chatforia",
     "section": {
-      "company": "COMPAGNIA",
-      "support": "SUPPORTU ",
-      "scaricamenti": "SCARICAMENTI",
-      "legali": "LEGALI"
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
     },
-    "link": {
-      "piani-e-prezzi": "Piani e Prezzi",
-      "chi-è-chatforia": "Chi è Chatforia",
-      "carrieri": "Carrieri",
-      "stampa": "Stampa",
-      "pubblicità": "Pubblicità",
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Carrieri",
+      "press": "Stampa",
+      "advertise": "Pubblicità",
       "getting-started": "Pi accuminciari",
-      "help-center": "Centru d'Aiutu",
+      "help-center": "Centru d'aiutu",
       "contact-us": "Cuntattaci",
-      "status-page": "Pàggina di Status",
+      "status-page": "Pàggina di statu",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "Pulìtica di Privacy",
-      "terms-of-service": "Termini di Serviziu",
-      "do-not-sell-my-info": "Nun Vènniri i Mè Nfurmazzioni",
-      "cookie-settings": "Impostazzioni di Cookie",
-      "how-it-works": "Comu Funziona",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Nun vinniri i mei nfurmazzioni",
+      "cookie-settings": "Impostazzioni di cookie",
+      "how-it-works": "Comu funziuna",
       "blog": "Blog",
       "refund-policy": "Politica di Rimborzu",
-      "politica-sms": "Politica di SMS"
+      "sms-policy": "Politica di SMS"
     },
     "social": {
       "tiktok": "TikTok",
       "instagram": "Instagram",
       "facebook": "Facebook",
-      "linkedin": " LinkedIn",
+      "linkedin": "LinkedIn",
       "x": "X"
     },
     "copyright": "© Chatforia",
     "patentPending": "Brevetu in attisa",
     "backToTop": "↑ Arri a supra"
   },
+  "header": {
+    "openNav": "Apri u menù di navigazzioni",
+    "closeNav": "Chiudi u menù di navigazzioni",
+    "homeAria": "Pàggina principali di Chatforia"
+  },
   "chat": {
-    "selectPrompt": "Scegghi un testu o na stanza di chat pi accuminciari a chiacchierari",
-    "newMessages": "Messiaggi novi",
-    "typing": "{{name }} sta scrivennu...",
-    "emptyTitle": "I toi missaggi",
+    "selectPrompt": "Scegli un testu o na stanza di chat pi accuminciari a chiacchierari",
+    "newMessages": "Mèssaggi novi",
+    "typing": "{{name}} sta scrivennu...",
+    "emptyTitle": "I toi mèssaggi",
     "emptySubtitle": "Manna un missaggiu pi accuminciari na chat.",
     "startChatButton": "Manna missaggiu",
     "mediaAttachment": "Allegatu multimediali",
     "thisUser": "stu utente",
-    "blockConfirm": "Bloccari {{name}}? Nun ricivirai missaggi di iddu.",
+    "blockConfirm": "Bloccari {{name}}? Nun ricivirai cchiù missaggi di iddu.",
     "blockedUser": "{{name}} bloccatu.",
     "blockError": "Nun si putìa determinari un utente di bloccari.",
-    "blockFailed": "Bloccu fallutu (backend ancora nun è cunnessu).",
+    "blockFailed": "Bloccaggiu fallutu (backend ancora nun è cunnessu).",
     "encryptedUnavailable": "Messaggiu criptatu (chiavi nun dispunìbbili)",
-    "unlockToView": "Sblocca la tò chiavi pi vidiri stu missaggiu"
+    "unlockToView": "Sblocca la tò chiavi pi vidiri stu missaggiu",
+    "clearConfirm": "Cancillari sta cunversazioni? Nun si pò annullari.",
+    "unknownThread": "Unknown thread"
   },
   "messageInput": {
     "ttl": {
-      "off": "Spintu"
+      "off": "Off"
     },
-    "freeLimit": "Limu di pianu gratuitu: cancellazzioni automatica finu a 1 jornu. Bloccatu a 1 jornu.",
-    "premiumLimit": "Lu massimu di cancellazzioni automatica pi lu Premium è 30 jorna. Bloccatu a 30 jorna.",
-    "nothingToSend": "Scrivi un missaggiu o allega un file pi mannari.",
-    "encryptionFailed": "Cifratu fallutu. Missaggiu nun mannatu.",
-    "sent": "Missaggiu consegnatu.",
-    "placeholder": "Scrivi un missaggiu… ",
-    "autoDelete": "Auto-eliminazzioni",
-    "typeToSend": "Scrivi un missaggiu pi mannari",
-    "send": "Manna",
-    "sendWithEnter": "Manna (Invio)",
-    "attachment": "allegatu",
-    "caption": "Didizzioni (opzziunali)",
-    "remove": "Elimina",
-    "clear": "Cancella",
+    "freeLimit": "Free plan limit: auto-delete up to 1 day. Clamped to 1d.",
+    "premiumLimit": "Max auto-delete for Premium is 30 days. Clamped to 30d.",
+    "nothingToSend": "Type a message or attach a file to send.",
+    "encryptionFailed": "Encryption failed. Message not sent.",
+    "sent": "Message delivered.",
+    "placeholder": "Type a message…",
+    "autoDelete": "Auto-delete",
+    "typeToSend": "Type a message to send",
+    "send": "Send",
+    "sendWithEnter": "Send (Enter)",
+    "attachment": "attachment",
+    "caption": "Caption (optional)",
+    "remove": "Remove",
+    "clear": "Clear",
     "gif": "GIF",
     "sticker": "Sticker",
     "errors": {
-      "attachmentTooLarge": "L'allegatu è troppu granni. Pruva cu nu file cchiù nicu.",
-      "unsupportedFile": "Tipu di file nun supportatu.",
-      "rateLimit": "Stai mannannu missaggi troppu prestu. Ppi favuri, rallenta.",
-      "validation": "Errore di validazzioni. Ppi favuri, cuntrulla u tò missaggiu e pruva n'autra vota.",
-      "failedToSend": "Falliutu a mannari. Pò riprovà cu la bolla ca nun si nni jiu."
-    }
+      "attachmentTooLarge": "Attachment too large. Try a smaller file.",
+      "unsupportedFile": "Unsupported file type.",
+      "rateLimit": "You’re sending messages too quickly. Please slow down.",
+      "validation": "Validation error. Please check your message and try again.",
+      "failedToSend": "Failed to send. You can retry the failed bubble.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "Voice note added."
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
-    "threadMenu": "Menu dâ filera",
+    "threadMenu": "Thread menu",
     "premium": "Premium",
-    "aiPower": "Putenza AI",
-    "prugrammazzioni": "Prugrammazzioni",
-    "aggiornamentu": "Aggiornamentu",
-    "suffissuAggiornamentu": "(Aggiornamentu)",
-    "filu": "Filu",
-    "nfurmazzioni": "Nfurmazzioni",
-    "ricerca": "Ricerca",
+    "aiPower": "AI Power",
+    "schedule": "Schedule",
+    "upgrade": "Upgrade",
+    "upgradeSuffix": "(Upgrade)",
+    "thread": "Thread",
+    "about": "About",
+    "search": "Search",
     "media": "Media",
-    "invitaPirsuni": "Invita pirsuni",
-    "impostazzioni dâ stanza": "Impostazzioni dâ stanza",
-    "pulizziari cunversazioni": "Pulizziari cunversazioni",
-    "bloccari": "Bloccari"
+    "invitePeople": "Invite people",
+    "roomSettings": "Room settings",
+    "clearConversation": "Cancella cunversazioni",
+    "block": "Blocca"
   },
-  "ricerca dâ stanza": {
-    "titulu": "Circari ntâ stanza",
+  "roomSearch": {
+    "title": "Circari ntâ stanza",
     "ariaLabel": "Circari ntâ stanza",
     "search": "Circari",
     "searchMessages": "Circari missaggi",
@@ -353,23 +540,34 @@
   },
   "roomSettings": {
     "roles": {
-      "member": "Membro",
-      "moderator": " Moderaturi",
-      "admin": "Amministraturi"
+      "member": "Member",
+      "moderator": "Moderator",
+      "admin": "Admin"
     },
     "aiMode": {
-      "off": "Spintu",
-      "mention": "Sulu supra @ForiaBot o /ask",
-      "semperi": "Rispunni proattivamenti"
+      "off": "Disattivatu",
+      "mention": "Sulu pi @ForiaBot o /ask",
+      "always": "Rispunni proattivamenti"
     },
-    "modalitàAututraduce": {
-      "spenti": "Spenti",
-      "taggati": "Sulu taggati (/tr …)",
-      "tutti": "Tutti i missaggi"
+    "autoTranslateMode": {
+      "off": "Disattivatu",
+      "tagged": "Tagged only (/tr …)",
+      "all": "Tutti i missaggi"
     },
-    "aggiornatu": "Impostazzioni aggiornati"
+    "updated": "Settings updated",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "Assistenti AI",
+    "allowBot": "Permetti ForiaBot 'nta sta stanza",
+    "autoTranslation": "Traduzzioni automatica",
+    "saveAIMode": "Salva modu AI"
   },
-  "galleriaMedia": {
+  "mediaGallery": {
     "sharedMedia": "Media spartuti",
     "noMediaCached": "Ancora nuddu media è statu archiviatu lucalmenti.",
     "imageAlt": "immàggini",
@@ -377,7 +575,7 @@
     "openVideoWithCaption": "Apri video: {{caption}}",
     "preview": "Anteprima",
     "previewWithCaption": "Anteprima: {{caption}}",
-    "previewKind": "Preview {{kind}}",
+    "previewKind": "Anteprima {{kind}}",
     "download": "Download",
     "downloadKind": "Download {{kind}}",
     "file": "file",
@@ -392,296 +590,316 @@
     "userNumber": "Utenti n. {{id}}",
     "posted": "Statu pubblicatu",
     "postFailed": "Fallutu a pubblicari lu statu",
-    "createTitle": "Crea nu statu",
+    "createTitle": "Crea nu statu ",
     "modalAriaLabel": "Statu novu",
     "captionLabel": "Chi hai 'n menti?",
-    "captionPlaceholder": "Cundividi n'aggiornamentu.. .",
-    "captionAria": "Messaggiu di statu",
+    "captionPlaceholder": "Cundividi n'aggiornamentu...",
+    "captionAria": "Missaggiu di statu",
     "audienceLabel": "Audienza",
     "audience": {
       "public": "Pubbricu",
-      "followers": "Seguaci",
-      "contacts": "Cuntatti",
-      "mutuals": "Mutuali",
-      "custom": "Personalizzatu..."
+      "followers": "Followers",
+      "contacts": "Contacts",
+      "mutuals": "Mutuals",
+      "custom": "Custom..."
     },
-    "etichettaScadenzaOri": "Scadenza (uri)",
+    "expiresHoursLabel": "Expires (hours)",
     "maxTooltip": "Massimu 7 jorna",
-    "abbreviazioniUri": "h",
+    "hoursAbbrev": "h",
     "maxShort": "max",
-    "scadeU": "Scadenza:",
-    "scegghi ricevituri": "Scegghi ricevituri",
-    "scegghi cuntatti": "Scegghi cuntatti",
-    "etichetta allegati": "Allegati",
-    "campu di riserva pi l'allegati": "Aggiunci mmàggini/video",
-    "nòta supra i file": "Finu a 5 file. Scadenza di 24 uri di difettu.",
-    "postAria": "Statu dû post",
-    "post": "Post"
+    "expiresOn": "Scadenza lu:",
+    "chooseRecipients": "Scegli destinatari",
+    "selectContacts": "Scegli cuntatti",
+    "attachmentsLabel": "Allegati",
+    "attachmentsPlaceholder": "Aggiungi mmàggini/video",
+    "filesNote": "Fino a 5 file. Scadenza di 24 uri di difettu.",
+    "postAria": "Pubblica statu",
+    "post": "Pubblica"
   },
   "voicemail": {
     "pageTitle": "Voicemail",
-    "from": "Di",
-    "to": "A",
-    "unknownCaller": "Sconusciutu",
-    "yourNumber": "U tò numaru Chatforia",
-    "durationSeconds": " {{count}}s",
-    "audioAria": "Player audio di segreteria",
-    "transcriptHeading": "Trascrizzioni",
-    "transcriptPending": "In cursu di trascrizzioni di segreteria…",
+    "from": "From",
+    "to": "To",
+    "unknownCaller": "Unknown",
+    "yourNumber": "Your Chatforia number",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Voicemail audio player",
+    "transcriptHeading": "Transcript ",
+    "transcriptPending": "Sta trascrivennu u missaggiu vuci…",
     "transcriptFailed": "Trascrizzioni nun dispunìbbili.",
-    "loading": "In cursu di caricamentu di segreteria…",
-    "errorLoading": "Fallutu a carricari la segreteria.",
-    "empty": "Ancora nudda missiva vuci.",
-    "deleteConfirm": "Cancellari sta missiva vuci?",
-    "deleteError": "Fallutu a cancellari la missiva vuci.",
+    "loading": "Sta caricannu u missaggiu vuci…",
+    "errorLoading": "Fallutu a carricari u missaggiu vuciari.",
+    "empty": "Ancora nuddu missaggiu vuciari.",
+    "deleteConfirm": "Cancellari stu missaggiu vuciari?",
+    "deleteError": "Fallutu a cancellari u missaggiu vuciari.",
     "markRead": "Marcari comu lettu",
-    "delete": "Cancellari",
-    "unreadDotAria": "Indicaturi di missiva vuci nun letta"
+    "delete": "Cancella",
+    "unreadDotAria": "Indicaturi di missaggi vocali nun letti"
   },
   "contactList": {
     "savedContacts": "Cuntatti sarvati",
-    "refreshAria": "Rinfresca i cuntatti",
+    "refreshAria": "Aggiorna i cuntatti",
     "filterPlaceholder": "Filtra i cuntatti sarvati…",
-    "filterAria": "Filtra i cuntatti sarvati",
+    "filterAria": "Filtra li cuntatti sarvati",
     "noContactsFound": "Nenti cuntatti truvati.",
     "externalContact": "Cuntattu esternu",
-    "notJoined": "Chissu cuntattu nun si n'ha ancora unutu a Chatforia.",
-    "couldNotStart": "Nun si putìa accuminciari la chat. Pruva n'autra vota.",
-    "startFailed": "Fallutu a accuminciari la chat. Pruva n'autra vota. ",
-    "eliminatu": "Cuntattu eliminatu.",
-    "eliminazzioniFalluta": "Fallutu a eliminari u cuntattu. Pruva n'autra vota.",
-    "aliasAggiornatu": "Alias aggiornatu.",
-    "aggiornamentuAliasFallutu": "Fallutu a aggiornari l'alias. Pruva n'autra vota.",
-    "selezionaCuntattu": "Seleziona {{name}}",
+    "notJoined": "Chissu cuntattu nun si nni ha ancora unutu a Chatforia.",
+    "couldNotStart": "Nun si putìa accuminciari la chat. Pi favuri pruva n'autra vota.",
+    "startFailed": "Fallutu a cuminciari la chat. Pi favuri pruva n'autra vota.",
+    "deleted": "Cuntattu cancellatu.",
+    "deleteFailed": "Fallutu a cancellari lu cuntattu. Pi favuri pruva n'autra vota.",
+    "aliasUpdated": "Alias aggiornatu.",
+    "updateAliasFailed": "Fallutu a aghjurnari l'alias. Pruva n'autra vota.",
+    "selectContact": "Scegghi {{name}}",
     "alias": "Alias",
-    "iniziaChat": "Inizia chat",
+    "startChat": "Accuminza chat",
     "message": "Messaggiu",
     "delete": "Cancella",
-    "deleteContactAria": "Cancella u cuntattu",
-    "loadFailed": "Fallutu a carricari i cuntatti. Pruva n'autra vota.",
-    "caricaAutri": "Carica autri",
-    "chiamata": "Chiamata",
-    "chiamataAccuminciata": "Si sta chiamannu stu numaru attraversu u tò numaru Chatforia…",
-    "chiamataFalluta": "Fallutu a cuminciari a chiamata. Pruva n'autra vota."
+    "deleteContactAria": "Cancella cuntuattu",
+    "loadFailed": "Fallutu a carricari i cuntuatti. Pruva n'autra vota.",
+    "loadMore": "Carica cchiù",
+    "call": "Chiama",
+    "callStarted": "Chiamannu stu numaru cu lu tò numaru Chatforia…",
+    "callFailed": "Falliutu a principiari la chiamata. Pruva n'autra vota.",
+    "noRoute": "Nisciuna rota dispunìbbili pi stu cuntattu.",
+    "selectContactPrefix": "Scegli lu cuntattu",
+    "video": " Video",
+    "videoRequiresAccount": "Li chiamati video richiedunu un cuntu Chatforia."
   },
-  "modalAggiunciCuntattu": {
-    "titulu": "Aggiunci cuntattu",
-    "phoneOrUsername": "Numaru di telefonu o nomu d'utenti",
+  "addContactModal": {
+    "title": "Aggiungi cuntattu",
+    "phoneOrUsername": "Telefunu o nomu utente",
     "phoneOrUsernamePlaceholder": "p.es. +13018019227 o juliannorton",
     "alias": "Alias (opzziunali)",
-    "aliasPlaceholder": "e. es. Travagghiu, Mamma, Mike – Europa",
-    "inserisciNumaruTelefunuOUsername": "Inserisci un numaru di telefunu o un username.",
-    "ricercaUtentiFallita": "La ricerca di l'utente è falluta.",
-    "nunSiPoAggiungiri": "Nun ti poi aggiunciri comu cuntattu.",
-    "fallutuNtall'Aggiunta": "Fallutu ntall'aggiunta dû cuntattu.",
-    "aggiunci": "Aggiunci"
+    "aliasPlaceholder": "p.es. Travagghiu, Mamma, Mike – Europa",
+    "enterPhoneOrUsername": "Mèttici un numaru di telefonu o un nomu utente.",
+    "userLookupFailed": "Circata di l'utenti falluta.",
+    "cannotAddSelf": "Nun ti poi aggiunciri comu cuntattu.",
+    "failedToAdd": "Fallutu a aghiunciri u cuntattu.",
+    "add": "Aggiunci"
   },
   "startChatModal": {
-    "title": "Accuminza na cunversazioni",
+    "title": "Accumincia na cunversazioni",
     "searchPlaceholder": "Circà nomu, nomu utente o numaru di telefonu",
     "messageThisPerson": "Manna un missaggiu a sta pirsuna",
     "contacts": "Cuntatti",
     "recentInteractions": "Interazzioni ricenti",
-    "noContactsMatch": "Nisunu cuntattu currispondi â tò ricerca.",
+    "noContactsMatch": "Nisunu cuntattu currispunni â tò ricerca.",
     "noRecentInteractions": "Ancora nudda interazzioni ricenti.",
-    "sconusciutu": "Sconusciutu",
-    "tipuInterazzioni": {
-      "missaggiu": "Missaggiu",
-      "chiamata": "Chiamata",
+    "unknown": "Sconnisciutu",
+    "interactionType": {
+      "message": "Messaggiu",
+      "call": "Call",
       "video": "Video"
     },
-    "scelta rapida": "Scelta rapida",
-    "a": "A",
-    "nomuOusuernamu": "Scrivi un nomu, nomu utente",
-    "nomuNomuUtenteTelefunuEmail": "Scrivi un nomu, nomu utente, telefunu o email…",
-    "accuminzaCuSceglutu": "Accuminza chat cu chiddu sceltu",
-    "ricercaPiNomuUtenteOPhone": "Ricerca pi nomu utente o telefunu",
-    "ricerca": "Ricerca",
-    "promptRicerca": " Scrivi un nomu utente o un numaru di telefonu e strincia Cerca.",
-    "scegghi di cuntatti": "O scegghi di cuntatti",
-    "aggiunci cuntattu": "Aggiunci un cuntattu",
-    "mustrà": "Mustrà",
-    "aggiunci": "Aggiunci",
-    "chiudi": "Chiudi",
-    "numaru di scigghiuti": "{{count}} scigghiuti ",
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Accuminza a chat cu chiddi scigghiuti",
+    "searchByUsernameOrPhone": "Circari pi nomu utente o pi telefonu",
+    "search": "Circari",
+    "searchPrompt": "Scrivi un nomu utente o un telefonu e strincia Circari.",
+    "pickFromContacts": "O scigghi di cuntatti",
+    "addContact": "Aggiungi un cuntattu",
+    "show": "Mustrà",
+    "add": "Aggiungi",
+    "close": "Chiudi",
+    "selectedCount": "{{count}} scigghiuti",
     "pickAtLeastOne": "Scegghi almancu un destinatariu.",
     "saveContactsHint": "Li nserimenti di telefunu/email sarannu dispunìbbili doppu ca li salvi comu cuntatti.",
     "failedBulkStart": "Fallutu a principiari la chat cu li destinatariu scigghiuti.",
     "noResults": "Nenti risultati",
     "mode": "Modu",
-    "group": "Gruppu",
+    "group": "Group",
     "broadcast": "Broadcast",
-    "groupNameOptional": "Nomu dû gruppu (opzziunali)",
-    "firstMessageOptional": "Primu missaggiu (opzziunali ma cunsigghiatu)",
-    "createGroup": "Crea gruppu",
-    "sendBroadcast": "Manna broadcast"
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
   },
   "peoplePage": {
-    "people": "Pirsuni",
-    "search": "Circa",
-    "searchPlaceholder": "Circari i cuntatti sarvati pi alias, nomu, username, o telefonu",
-    "quickStart": "Avviu rapidu",
-    "quickStartDesc": "Gestisci i toi cuntatti e invita l'amici.",
-    "importContacts": "Importa i toi cuntatti",
-    "import": "Importa",
-    "aggiunciContactu": "Aggiunci un contactu",
-    "aggiunci": "Aggiunci",
-    "invitaAmici": "Invita amici",
-    "invitaDesc": "Cundividi u tò link d'invitu pi accuminciari a chiacchierari subitu.",
-    "pigghiaL'App": "Pigghia l'app",
-    "pigghiaL'AppDesc": "Resta in cuntattu mentri si muovi cu Chatforia pi iOS e Android.",
-    "scarica": "Scarica",
-    "syncTip": "Consigghiu: I tò missaggi ristanu sincronizzati tra web e mobile.",
-    "filterSaved": "Filtra i cuntatti sarvati",
-    "noContactsFound": "Nenti cuntatti truvati",
-    "focusSearch": "Cerca cu focus",
-    "findOrAdd": "Truva o aggiunci quarcunu",
-    "ricercaPiTelefonoOUsername": "Ricerca pi telefunu / nomu utente"
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
-  "prufilu": {
-    "titulu": "Prufilu Utente",
-    "linguaPrifiruta": "Lingua prifiruta",
-    "scegghiLingua": "Scegghi na lingua",
-    "bisognaAccediri": "Bisogna ca accedi pi vidiri li impostazzioni.",
-    "autuTraduci": "Autu-traduci li missaggi",
-    "mustrariL'UriginaliCuTraduz lation": "Mustrà li missaggi originali e tradotti",
-    "showOriginalAndTranslation": "Mustrà l'uriginali nzèmmula â traduzzioni",
-    "filterExplicit": "Filtra lu cuntenutu esplicitu",
+  "profile": {
+    "title": "Profilu Utenti ",
+    "preferredLanguage": "Preferred language",
+    "chooseLanguage": "Choose a language",
+    "mustLogin": "You must sign in to view the settings.",
+    "autoTranslate": "Auto-translate messages",
+    "showOriginalWithTranslation": "Show original and translated messages",
+    "showOriginalAndTranslation": "Show original alongside translation",
+    "filterExplicit": "Filter explicit content",
     "aiReply": "Risposta AI",
     "enableReadReceipts": "Abilitari i ricevuti di lettura",
-    "allowExplicitContent": "Permetti cuntenutu esplicitu",
-    "disappearingMessages": "Abilitari missaggi ca sparisciunu",
-    "autoDeleteSeconds": "Sicunni prima di cancellazzioni automatica",
-    "saveSuccess": "Impostazzioni sarvati!",
-    "saveError": "Error: Nun si puteru sarvari li impostazzioni",
+    "allowExplicitContent": "Allow explicit content",
+    "disappearingMessages": "Enable disappearing messages",
+    "autoDeleteSeconds": "Seconds until auto-delete",
+    "saveSuccess": "Settings saved!",
+    "saveError": "Error: Could not save settings",
     "avatarAlt": "Avatar dû prufilu",
-    "uploadAvatar": "Carica un novu avatar",
+    "uploadAvatar": "Carica un avatar novu",
     "avatarSuccess": "Avatar carricatu!",
     "avatarError": "Fallutu a carricari l'avatar",
     "avatarUpdated": "Avatar aggiornatu!",
     "uploadingAvatar": "Si sta carricannu l'avatar…",
     "noPrivateKey": "Nun c'è chiavi privata supra stu dispusitivu pi esportari.",
-    "setBackupPassword": "Imposta na password pi criptari u tò backup:",
+    "setBackupPassword": "Mèttici na password pi criptari u tò backup:",
     "backupDownloaded": "Backup criptatu scaricatu.",
-    "exportFailed": "L'esportazzioni dâ chiavi ha fallutu",
+    "exportFailed": "Esportazzioni dâ chiavi falluta",
     "enterBackupPassword": "Mèttici la password pi stu backup:",
-    "importSuccess": "La chiavi privata è stata importata 'n stu dispusitivu.",
+    "importSuccess": "Chiavi privata importata 'n stu dispusitivu.",
     "importFailed": "Fallutu n'importari la chiavi (password sbagghiata o file curruttu).",
     "keysRotated": "Nuova coppia di chiavi generata e la chiave pubblica caricata.",
     "rotateFailed": "Fallutu a ruotari li chiavi.",
     "security": "Sicurezza",
-    "exportKey": "Copia di riserva di la Chiave di Cifratura",
-    "importKey": "Ripristina la Chiave di Cifratura",
-    "rotateKeys": "Ruota la Chiave di Cifratura",
-    "keyDisclaimer": "La tò chiave privata nun abbanduna mai stu dispusitivu. Esporta na copia prutetta cu password pi risturalla supra n'autru dispusitivu.",
+    "exportKey": "Chiavi di crittografia di riserva",
+    "importKey": "Ripristina la Chiavi di Crittografia",
+    "rotateKeys": "Ruota la Chiavi di Crittografia",
+    "keyDisclaimer": "La tò chiavi privata nun abbanduna mai stu dispusitivu. Esporta na copia prutetta cu password pi risturari rinstallarlu supra n'autru dispusitivu.",
     "sectionProfile": "Profilu",
     "phoneNumber": "Numaru di telefonu",
     "appearance": "Aspettu",
-    "soundSettings": "Sonori",
-    "disappearing": "Messaggi ca sparisciunu",
-    "backupSync": "Copia di Sicurezza e Sincronizzazzioni",
+    "soundSettings": "Soniti",
+    "disappearing": "Misiaggi ca sparisciunu",
+    "backupSync": "Copia di riserva e sincronizzazzioni",
     "ai": "IA",
     "accessibility": "Accessibilità",
-    "privacy": "Privacy",
+    "privacy": " Privacy",
     "devices": "Dispositivi cunnessi",
-    "themeFreeNotice": "Si 'n versione gratuita—usa li opzioni veloci Suli/Luna ccà sutta. Aggiorna pi sbloccari cchiù temi.",
-    "sunTheme": "Usa u tema Alba",
-    "moonTheme": "Usa u tema Luna (Mizzanotti)",
+    "themeFreeNotice": "Si 'n modu Gratìs—usa li opzioni veloci di Suli/Luna ccà sutta. Aggiurnati pi sbloccari cchiù temi.",
+    "sunTheme": "Usa lu tema Aurora",
+    "moonTheme": "Usa lu tema Luna (Mizzanotti)",
     "sun": "Suli",
     "moon": "Luna",
-    "backupTitle": "Còpii di Sicurezza Criptati & Sincronizzazzioni tra Dispositivi",
-    "openBackupTools": " Apri Strumenti di Backup",
-    "backupDesc": "Fai un backup dâ tò chiavi di criptazzioni pi risturari in modu sicuru i tò missaggi supra n'autru dispusitivu. ",
+    "backupTitle": "Còpii di Sicurezza Criptati & Sincronizzazzioni cu Dispositivi",
+    "openBackupTools": "Apri l'Arnesi di Còpii di Sicurezza",
+    "backupDesc": "Fai na còpia di riserva di la tò chiavi di criptazzioni pi risturari in modu sicuru li tò missaggi supra n'autru dispusitivu. ",
     "privacyBlurEnabled": "Sfuma i missaggi di difettu",
     "privacyBlurOnUnfocus": "Sfuma quannu l'app è sfucata",
     "planSection": "U me pianu",
-    "planLoading": "Carica u to pianu…",
-    "planLoadFailed": "Fallutu a carricari u to pianu. ",
+    "planLoading": "Stannu caricannu u tò pianu…",
+    "planLoadFailed": "N'ha fallutu carricari u tò pianu.",
     "currentPlan": "Pianu attuali",
     "planRenewsOn": "Si rinnova lu",
-    "freePlanCopy": "Si 'n pianu gratuitu. Passa a unu a pagamentu pi sbloccari cchiù funzioni comu còpi di riserva, numeri 'n più e opzioni di privacy avanzati.",
+    "freePlanCopy": "Si 'n pianu gratuitu. Passa a un pianu cchiù avanzatu pi sbloccari cchiù funzioni comu i backup, numeri extra, e opzioni avanzati di privacy.",
     "upgradePlanCta": "Aggiorna pianu",
     "changePlanCta": "Cancia pianu",
     "manageBilling": "Gestisci la fatturazzioni",
-    "portalOpenFailed": "Nun si potti apriri u portali di fatturazzioni. Pruvaci n'autra vota.",
-    "tieniPiRivilari": "Tieni pi rivilari",
-    "nficariQuannuCopia": "Nficami si u me missaggiu veni copiatu",
-    "caricamentuFallutu": "Fallutu a carricari u prufilu",
-    "seguitu": "Seguutu",
-    "fallutuASeguiri": "Fallutu a siguiri",
-    "disseguitu": "Disseguitu",
-    "fallutuADisseguiri": "Nun si potti smittiri u seguitu",
-    "segui": "Segui",
-    "smetti": "Smetti",
-    "avvisuSeguitu": "I so storii apparirannu ntô tò flussu di Seguitu si pubbricunu cu pubblicu Seguituri (o Pubbricu).",
-    "utentiNunTruvatu": "Utenti nun truvatu",
-    "tiSegui": "Ti segui",
-    "tituluSezzioniCrashata": "Sezzioni nun si carricau",
-    "sectionCrashedBody": "C'è statu un prublema 'nta sta sezzioni.",
-    "forwarding": "Inviu di chiamati e missaggi",
-    "callTextForwardingSection": "Inviu di chiamati e missaggi",
-    "callTextForwardingTitle": "Inviu di chiamati e/o missaggi",
-    "callTextForwardingDescription": "Invia chiamati e missaggi in entrata ô tò telefunu verificatu o email. Chiamati e missaggi in uscita chiamati/missaggi ponnu mustrari u tò numaru Chatforia.",
-    "attivaAvanzamentuMissaggi": "Attiva l'avanzamentu di missaggi",
-    "forwardTextsToPhone": "Invia li missaggi ô telefunu",
-    "forwardTextsToEmail": "Invia li missaggi a l'email",
+    "portalOpenFailed": "Nun si potti apriri u portali di fatturazzioni. Pruva n'autra vota.",
+    "holdToReveal": "Teni pi rivelari",
+    "notifyOnCopy": "Nficàrimi si la me missiva veni copiata",
+    "loadFailed": "Failed to load profile",
+    "followed": "Followed",
+    "followFailed": "Failed to follow",
+    "unfollowed": "Unfollowed",
+    "unfollowFailed": "Failed to unfollow",
+    "follow": "Follow",
+    "unfollow": "Ssegui no",
+    "followHint": "Li so storii apparirannu ntô tò feed di Seguitati si pubbricanu cu pubblicu Seguitori (o Pubbricu).",
+    "userNotFound": "Utenti nun truvatu",
+    "followsYou": "Ti segui",
+    "sectionCrashedTitle": "Sezzioni falluta a caricari",
+    "sectionCrashedBody": "C'è statu quarchi prublema nta sta sezzioni. ",
+    "forwarding": "Inviu di chiamati e SMS",
+    "callTextForwardingSection": "Inviu di chiamati e SMS",
+    "callTextForwardingTitle": "Inviu di Chiamati e/o SMS",
+    "callTextForwardingDescription": "Invia li chiamati e li SMS in entrata ô tò telefunu o email verificati. Li chiamati/SMS in uscita ponnu mustrari lu tò numaru Chatforia.",
+    "enableTextForwarding": "Abilitari l'inviu di SMS",
+    "forwardTextsToPhone": "Invia li SMS ô telefunu",
+    "forwardTextsToEmail": "Invia li SMS all'email",
     "destinationPhone": "Telefunu di destinazzioni (E.164)",
     "destinationEmail": "Email di destinazzioni",
-    "enableCallForwarding": "Abilitari lu rinviu di chiamati",
+    "enableCallForwarding": "Abilita lu rinviu di chiamati",
     "destinationPhoneForCalls": "Distinazzioni (E.164) pi li chiamati",
-    "aliasBridging": "Inviu di Chiamati (alias bridging)",
-    "quietHoursOptional": "Ori di Silenzziu (opzziunali)",
+    "aliasBridging": "Rinviu di chiamati (alias bridging)",
+    "quietHoursOptional": "Ori silenziusi (opzziunali)",
     "startHour": "Ora di principiu (0–23)",
     "endHour": "Ora di fini (0–23)",
     "reset": "Ripristina",
     "saveBtn": "Salva",
-    "saveProfile": "Sarva prufilu",
-    "saveForwarding": "Sarva l'inoltru",
-    "forwardSaved": "Impostazzioni di inoltru sarvati",
-    "forwardSaveFailed": "Fallutu a sarvari l'impostazzioni",
-    "errE164": "Mèttici un nùmmaru di telefunu E.164 validu (p.es., +15551234567).",
-    "errEmail": "Mèttici un indirizzu email validu.",
-    "errSmsDest": "Scegghi almenu na destinazzioni (telefonu o email).",
+    "saveProfile": "Salva prufilu",
+    "saveForwarding": "Save forwarding",
+    "forwardSaved": "Forwarding settings saved",
+    "forwardSaveFailed": "Failed to save settings",
+    "errE164": "Enter a valid E.164 phone (e.g., +15551234567).",
+    "errEmail": "Enter a valid email.",
+    "errSmsDest": "Scegghi almancu na destinazzioni (telefonu o email).",
     "errQuietHours": "L'uri di silenziu hannu a èssiri tra 0 e 23.",
     "randomChat": "Chat a casu",
-    "ageBand": "U tò intervallu d'età",
-    "ageBandPlaceholder": "Scegghi u tò intervallu d'età",
+    "ageBand": "A tò fascia d'età",
+    "ageBandPlaceholder": "Scegghi la tò fascia d'età",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Nni sarvamu sulu na fascia d'età (nun la tò data di nascita esatta). Chistu servi pi mantèniri li abbinamenti di Chat a casu ragiunevuli.",
-    "wantsAgeFilter": "Usa l'abbinamentu basatu supra l'età nta Chat a casu",
-    "wantsAgeFilterDesc": "Quannu è attivatu, pruvamu a abbinariti cu pirsuni nta fasce d'età cumpatìbbili.",
+    "ageBandHint": "Nni sarvamu sulu na fascia d'età (nun la tò data di nascita esatta) . Chistu veni usatu pi mantèniri li abbinamenti di Random Chat ragiunevuli.",
+    "wantsAgeFilter": "Usa abbinamentu basatu supra l'età ntô Random Chat",
+    "wantsAgeFilterDesc": "Quannu attivatu, pruvamu a abbinari a tia cu pirsuni nti fasce d'età cumpatìbbili.",
     "partnerAgeBands": "Cu poi essiri abbinatu?",
-    "partnerAgeBandsDesc": "Li adulescenti sunnu sempri abbinati sulu cu àutri adulescenti. Li adulti nun ponnu essiri abbinati cu adulescenti.",
-    "teenMatchingNote": "Pi la sicurezza, li cunti di età 13–17 ponnu èssiri abbinati sulu cu àutri cunti di 13–17 anni nta Chat a casu.",
-    "foriaRemember": "Fa ricurdari a Ria li cosi ca ci dici",
-    "foriaRememberDesc": "Quannu chistu è attivatu, Foria pò usari li toi cunversazioni passati di Chat a casu (sulu cu tia) pi mantèniri lu flussu di la cunversazioni. Pò disattivari chistu quannu voi.",
+    "partnerAgeBandsDesc": "Li adulescenti vennu sempri abbinati sulu cu àutri adulescenti. L'adulti nun ponnu èssiri abbinati cu adulescenti.",
+    "teenMatchingNote": "For safety, accounts in the 13–17 age range can only be matched with other 13–17 accounts in Random Chat.",
+    "foriaRemember": "Let Ria remember things you tell it",
+    "foriaRememberDesc": "When this is on, Foria can use your past Random Chat conversations (just with you) to keep the conversation flowing. You can turn this off any time.",
     "voicemailSection": "Messaggi vocali",
-    "voicemailEnabled": "Abilitari li messaggi vocali",
-    "voicemailAutoDeleteDays": "Cancellari automaticamenti li messaggi vocali dopu (jorna)",
+    "voicemailEnabled": "Abilitari u segreteria vocali",
+    "voicemailAutoDeleteDays": "Cancellari automaticamenti i segreterii vocali dopu (jornata)",
     "voicemailAutoDeletePlaceholder": "Lassari vacanti pi tinirili pi sempri",
-    "voicemailForwardEmail": "Inviari li messaggi vocali a email",
-    "voicemailForwardEmailPlaceholder": "Email pi mannari li mess icemail notifications to",
+    "voicemailForwardEmail": "Inviari u segreteria vocali a email",
+    "voicemailForwardEmailPlaceholder": "Email pi mannari li nutificazzioni di segreteria",
     "voicemailGreetingText": "Testu di salutu di riserva",
-    "voicemailGreetingTextDesc": "Usatu quannu u tò salutu audio nun è dispunìbbili.",
-    "voicemailGreetingUpload": "Carica u salutu di segreteria",
-    "voicemailPreviewGreeting": "Anteprima dû salutu",
-    "voicemailGreetingUploaded": "Salutu di segreteria carricatu cu successu",
-    "voicemailGreetingUploadError": "Fallutu a carricari u salutu di segreteria",
-    "voicemailNote": "I missaggi vocali dê toi numeri Chatforia sarannu archiviati ntô to inbox di segreteria. Pô attivari a trascrizzioni e u rinviu nti li piani supportati.",
-    "portHint": "Vò teniri u tò numeru attuali? Pò purtallu 'n Chatforia Wireless.",
+    "voicemailGreetingTextDesc": "Usatu quannu lu tò salutu audio nun è dispunìbbili.",
+    "voicemailGreetingUpload": "Carica lu salutamu di segreteria",
+    "voicemailPreviewGreeting": "Anteprima dû salutamu",
+    "voicemailGreetingUploaded": "Salutamu di segreteria carricatu cu successu",
+    "voicemailGreetingUploadError": " Caricamentu di salutu di segreteria vocali fallutu",
+    "voicemailNote": "I segreterii vocali di li toi numeri Chatforia sarannu archiviati ntô to caseddu di segreteria vocali. Pô attivari la trascrizzioni e lu rinvìu nti li piani supportati.",
+    "portHint": "Vò teniri lu to numeru attuali? Pô portallu nta Chatforia Wireless.",
     "wireless": {
-      "manage": "Gestisci wireless"
+      "manage": "Gestisci wireless",
+      "portCta": "Porta lu to nummaru"
     },
     "esim": {
-      "title": "Chatforia eSIM",
-      "desc": "Pigliati dati mobili pi Chatforia quannu si luntanu dû Wi-Fi.",
-      "cta": "Pigliati eSIM / Mustrati QR"
+      "title": "Profilu Utenti ",
+      "desc": "Pigghia dati mobili pi Chatforia quannu si luntanu dû Wi-Fi.",
+      "cta": "Piglià eSIM / Mustrà QR",
+      "ctaManage": "Gestisci eSIM",
+      "descActive": "La tò eSIM è attiva e pronta pi èssiri gestuta."
     },
-    "encryptedBackupsTitle": "Còpia di Sicurezza di Chiavi di Criptazzioni"
+    "encryptedBackupsTitle": "Copia di Sicurezza di Chiavi di Cifratura",
+    "accessibilityFailed": "Fallutu a sarvari li paràmitri di accessibilità.",
+    "aiFailed": "N'ha fallutu sarvari li paràmitri di l'IA.",
+    "avatarRemoveError": "N'ha fallutu livari l'avatar.",
+    "avatarRemoved": "Avatar livatu.",
+    "disappearAfterSeconds": "Sparisci dopu {{seconds}} sicunni",
+    "forwardingLoading": "Si sta caricannu li paràmitri di inoltru…",
+    "presetSeconds": "{{seconds}} sicunni",
+    "removeAvatar": "Rimuovi avatar",
+    "safetyAge": "Sicurezza e età",
+    "typeOrPick": "Scrivi o scegli un valuri",
+    "userFallback": "Utenti Chatforia",
+    "followers": "Seguaci",
+    "following": "Seguennu"
   },
   "themes": {
     "amoled": "Amoled",
@@ -689,153 +907,153 @@
     "neon": "Neon",
     "sunset": "Sunset",
     "solarized": "Solarized",
-    "velvet": "Vellutu"
+    "velvet": "Velvet"
   },
-  "sunuti": {
-    "sunuti di nutìfica": "Sunuti di nutìfica",
-    "ripristina a difault": "Ripristina a difault",
-    "avvisu gratuitu principiu": "Si 'n modu gratuitu — i toni premium sunnu mustrati ma chiusi. ",
-    "avvisu gratuitu fini": " pi sbloccari tuttu.",
-    "messageTone": "Tunu di missaggiu",
-    "ringtone": "Tunu di squillu",
+  "sounds": {
+    "notificationSounds": "Sunuti di nutìfica",
+    "resetToDefaults": "Ripristina a li difettu",
+    "freeNoticeStart": "Si 'n modu gratuitu — i toni premium sunnu mustrati ma chiusi. ",
+    "freeNoticeEnd": " pi sbloccari tutti.",
+    "messageTone": "Tonu di missaggiu",
+    "ringtone": "Tonu di squillu",
     "preview": "Anteprima",
-    "fermari": "Fermari",
-    "volumu": "Volumu",
-    "avvisu_file_tuni_missaggi": "Mèttici i file 'n /public/sounds/Message_Tones",
-    "avvisu_file_tuni_sonerìa": "Mèttici i file 'n /public/sounds/Ringtones",
-    "richièstu_premium": "Pi chista scelta servi lu Premium.",
-    "salvatu": "Impostazzioni dû sonu salvati.",
-    "salvatuzzioni falluta": "Nun si puteru sarvari l'impostazzioni dû sonu.",
-    "resetta nun salvata": "Resetta a li valori di difettu (ancora nun salvati).",
-    "tonu premium": "Chissu è un tonu Premium.",
-    "sonu di squillu premium": "Chissu è un sonu di squillu Premium.",
-    "personalizzatuComingSoon": "L'upload di soni persunalizzati arriva prestu.",
-    "freeNotice": "Si 'n modu Gratuitu — i toni premium si vidinu ma sunnu bloccati. Abbonati pi sbloccari tuttu.",
-    "default": "Default",
-    "vibrate": "Vibrate",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
-    "xilòfonu": "Xilòfonu",
-    "clàssicu": "Clàssicu",
-    "urgenza": "Urgenza",
-    "campani": "Campani",
-    "soni tintinnianti": "Soni tintinnianti",
-    "tèlefunu digitali": "Tèlefunu digitali",
-    "melòdicu": "Melòdicu",
-    "nòti d'urganu": "Nòti d'urganu",
+    "stop": "Fermati",
+    "volume": "Volumu",
+    "messageToneFilesHint": "Mèttici i file 'n /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Mèttici i file 'n /public/sounds/Ringtones",
+    "premiumRequired": "Serve un abbonamentu Premium pi chista scelta.",
+    "saved": "I paràmitri dû sonu sunnu sarvati.",
+    "saveFailed": "Nun si puteru sarvari li paràmitri dû sonu.",
+    "resetNotSaved": "Ripristina a li paràmitri di difettu (ancora nun sarvatu).",
+    "premiumTone": "Chissu è un tonu Premium.",
+    "premiumRingtone": "Chissu è un squillu Premium.",
+    "customComingSoon": "L'upload di soni persunalizzati arriva prestu.",
+    "freeNotice": "Si 'n modu Gratìtu — i toni Premium si vidinu ma su' serrati. Fai l'upgrade pi sbloccari tuttu.",
+    "default": "Predefinitu",
+    "vibrate": "Vibrazioni",
+    "dreamer": "Sognaturi",
+    "notify": "Nòtifica",
+    "pop": "Pop ",
+    "pulsatingSound": "Sonu pulsanti",
+    "textMessage": "Missaggiu testuali",
+    "xylophone": "Xilòfonu",
+    "classic": "Classicu",
+    "urgency": "Urgenza",
+    "bells": "Campaneddi",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
     "soundReality": "Sound Reality",
     "street": "Street",
     "universfield": "Universfield"
   },
   "aiSettings": {
     "title": "Impostazzioni AI",
-    "controlIntro": "Cuntròlla a traduzzioni, i risposti intelliggenti e l'auturisposti di ForiaBot.",
+    "controlIntro": "Cuntrolla a traduzzioni, i risposti intelliggenti e l'auturisposti di ForiaBot.",
     "translation": "Traduzzioni",
     "autoTranslateIncoming": "Traduci automaticamenti i missaggi in arrivu",
-    "showOriginalAlongside": "Mustrà u testu urigginali accantu a traduzzioni",
-    "smartReplies": "Risposti intelliggenti ",
-    "enableSmartReplies": "Abilitari li Risposti Intilligenti",
-    "smartRepliesHint": "Manna l'ùrtimi missaggi ricivuti (puliti) a l'IA pi suggeriri risposti veloci.",
-    "maskProfanity": "Maschera li paroli volgari nti li suggerimenti di l'IA",
-    "maskProfanityHint": "Si attivatu, li suggerimenti ca l'IA torna avrannu li paroli segnati mascherati ",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Abilitari l'auto-risposta quannu sugnu occupatu",
-    "autoReplyMode": "Modalità di auto-risposta",
+    "showOriginalAlongside": "Mustrà u testu urigginali accantu â traduzzioni",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "Risposta Automàtica di ForiaBot",
+    "enableAutoReply": "Attiva la risposta automàtica quannu sugnu occupatu",
+    "autoReplyMode": "Modu di risposta automatica",
     "cooldownSeconds": "Tempu di raffreddamentu (secondi)",
-    "firma": "Firma",
-    "risposta automatica": "🤖 Risposta automatica",
-    "attivuFinoAOpzziunali": "Attivu finu a (opzziunali)",
-    "salva": "Salva li Impostazzioni AI",
-    "salvatu": "Li preferenzi AI sunnu salvati",
-    "salvatùrafalluta": " Fallutu a sarvari li impostazzioni di l'AI",
+    "signature": "Firma",
+    "autoReply": "🤖 Risposta automatica",
+    "activeUntilOptional": "Attivu finu a (opzziunali)",
+    "save": "Sarva Impostazzioni AI",
+    "saved": "Preferenzi AI sarvati",
+    "saveFailed": "Fallutu a sarvari l'impostazzioni AI",
     "translateOff": "Spintu",
-    "translateTagged": "Sulu quannu su @translated o taggati",
-    "translateAll": "Traduci tutti li missaggi in arrivo ",
+    "translateTagged": "Sulu quannu @translated o tagghiatu",
+    "translateAll": "Traduci tutti li missaggi in entrata",
     "modeDm": "Sulu chat 1:1",
-    "modeMention": "Sulu quannu sugnu @menzionatu",
-    "modeAll": "Tutti i missaggi in entrata",
-    "off": "Spintu",
-    "on": "Accisu"
+    "modeMention": "Sulu quannu i sugnu @menzionatu",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
   },
   "accessibilitySettings": {
-    "title": "Accessibilità & Avvisi",
-    "loadFailed": "Fallutu a carricari l'impostazzioni",
-    "accessibilityDesc": "Opzioni pi fari Chatforia cchiù facili a usari senza dipinniri dû sonu.",
-    "interfaceFontSize": "Dimensioni dû font di l'interfaccia",
-    "interfaceFontSizeHelp": "Accuminza a na tagghia normali. Aumenta si preferisci un testu cchiù granni.",
-    "notifications": "Notificazioni",
-    "visualAlerts": "Avvisi visuali pi missaggi e chiamati",
-    "visualAlertsDesc": "Mustrà banner e fari lampeggiari u titulu accussì nun perdi attività.",
-    "vibrateOnNewShort": "Vibrazioni pi novi missaggi (quannu supportatu)",
-    "vibrateOnNewDesc": "Scatena a vibrazioni dû dispusitivu cu li nutificazioni.",
-    "flashOnCallShort": "Fari lampeggiari u schermu quannu arriva na chiamata",
-    "flashOnCallDesc": "Brevi flash luminosu quannu sona na chiamata.",
-    "liveCaptionsTitle": "Sottutitoli in direttu (chiamati)",
-    "enableLiveCaptions": "Abilitari i sottutitoli in direttu duranti i chiamati (Premium)",
-    "liveCaptionsDesc": "Mustrari sottutitoli in tempu rialì di l'audio di l'autru participanti.",
-    "captionFontSize": "Dimensioni dû caratteri di li sottutitoli",
-    "captionBackground": "Sfunu di li sottutitoli",
-    "voiceNotes": "Note vocali",
-    "autoTranscribeVoiceNotes": "Trascrivi automaticamenti li nuti vuciari",
-    "autoTranscribeVoiceNotesDesc": "Attaccari na trascrizzioni a li missaggi audio ca ricevi.",
-    "changesSavedInstantly": "Li canciamenti si sarvanu subitu.",
-    "sm": "Picculu",
-    "md": "Mediu",
-    "lg": "Granni",
-    "xl": " Extra Granni",
-    "chiaru": "Chiaru",
-    "scuru": "Scuru",
-    "trasparenti": "Trasparenti",
-    "accessibilità": "Accessibilità",
-    "notificazzioniDesc": "Avvisi visuali pi missaggi e chiamati\nFà compariri banner e titulu ca lampeggianu accussì nun perdi attività.",
-    "vibrareQuannuCiSunnuNovità": "Vibrazioni quannu ci sunnu novi missaggi (quannu supportatu)\nScatena la vibrazioni dû dispusitivu cu li notificazzioni.",
-    "flashQuannuChiami": "Schermu flash quannu arriva na chiamata\nFlash curticeddu e vivu quannu sona na chiamata.",
-    "sottutitoliInDiretta": "Sottutitoli in diretta (chiamati)"
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
   },
-  "sezzioniPrivacy": {
+  "privacySection": {
     "strictE2EE": "Cifratu end-to-end strittu",
-    "notaCiphertextOnly": "Arricogghiri sulu lu testu cifratu supra lu server. Disattiva l'AI/ Previsualizzazzioni di traduzzioni e moderazzioni.",
-    "strictE2EEEnabled": "Strict E2EE attivatu. AI/Traduzzioni sarà disattivatu.",
-    "strictE2EEDisabled": "Strict E2EE disattivatu. AI/Traduzzioni riattivatu."
+    "ciphertextOnlyNote": "Arricogghiri sulu lu testu cifratu ntô server. Disattiva AI/Traduci e li anteprime di moderazzioni.",
+    "strictE2EEEnabled": "E2EE strittu attivatu. AI/Traduci sarà disattivatu.",
+    "strictE2EEDisabled": " E2EE Strittu disattivatu. AI/Translate riattivatu."
   },
   "linkedDevicesPanel": {
     "title": "Dispositivi ligati",
-    "nonefound": "Nenti dispusitivi cunnessi truvati.",
+    "noneFound": "Nuddu dispositivu ligatu truvatu.",
     "refresh": "Rinfresca",
     "unknown": "Sconnisciutu",
-    "loadFailed": "Fallutu a carricari i dispusitivi cunnessi",
-    "loadFailedLog": "Fallutu a carricari i dispusitivi cunnessi",
-    "renamePrompt": "Mèttici un nomu novu pi stu dispusitivu",
-    "renamed": "Dispusitivu rinuminatu",
-    "renameFailed": " Nun si putìa rinominari lu dispusitivu",
-    "revucatu": "Dispusitivu revucatu",
-    "revucatuFallutu": "Nun si putìa revucari lu dispusitivu",
-    "dispusitivuSenzaNomu": "Dispusitivu senza nomu",
-    "primariu": "Primariu",
-    "statusRevucatu": "Revucatu",
-    "aggiuntuUltimaVvista": "Aggiuntu {{created}} • Ultima vista {{lastSeen}}",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Nun si potti revocari u dispositivu",
+    "unnamedDevice": "Dispositivu senza nomu",
+    "primary": "Primariu",
+    "revokedStatus": "Revocatu",
+    "addedLastSeen": "Aggiuntu {{created}} • Ultimu vistu {{lastSeen}}",
     "renameDevice": "Cambia nomu dû dispusitivu",
     "revokeDevice": "Ritira u dispusitivu"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Gestisci u tò pianu mobile di Chatforia, i numeri, l'inoltru e u porting di numeri.",
+    "description": "Gestisci u tò pianu mobile Chatforia, i numeri, u rinviu e u portu di numeru.",
     "options": {
       "heading": "Scegli comu voi usari Chatforia",
-      "subheading": "Pò pigghiari un numaru novu di Chatforia, o purtari u tò numaru attuali di n'autru gesturi.",
-      "newNumber": "Pigghia un numaru novu di Chatforia",
-      "portNumber": "Trasferisci u tò numaru attuali nta Chatforia Wireless"
+      "subheading": "Pò pigghiari un numaru novu di Chatforia, o purtari u tò numaru attuali di n'autru operaturi.",
+      "newNumber": "Pigghia un numaru novu di Chatforia\" foria number",
+      "portNumber": "Porta u tò numaru attuali nta Chatforia Wireless"
     },
     "port": {
-      "heading": "Trasferisci u tò numaru esistenti",
-      "subheading": "Sposta u tò numaru di telefonu attuali dû tò gesturi attuali nta Chatforia. Assicurati ca i dittagli currisponnunu precisamenti ô tò cuntu cu lu gesturi pi evitari ritardi.",
-      "phoneNumberLabel": "Numaru di telefonu di trasferiri",
+      "heading": "Porta u tò numaru esistenti",
+      "subheading": "Trasferisci u tò numaru di telefonu attuali dû tò operaturi attuali a Chatforia. Assicurati ca i dittagli currisponnunu precisamenti a l'account dû tò operaturi pi evitari ritardi.",
+      "phoneNumberLabel": "Numaru di telefonu pi portari",
       "phoneNumberPlaceholder": "+1 555 123 4567",
       "carrierLabel": "Operaturi attuali",
-      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, ecc.",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
       "accountNumberLabel": "Numaru di cuntu",
       "pinLabel": "PIN pi lu portu / password",
       "fullNameLabel": "Nomu cumpletu ntô cuntu",
@@ -843,203 +1061,262 @@
       "address2Label": "Lìnia d'indirizzu 2 (opzziunali)",
       "cityLabel": "Cità",
       "stateLabel": "Statu / Pruvincia",
-      "codicePostaliLabel": "Codice postali",
-      "paeseLabel": "Paese",
-      "bottoneInvia": "Invia richiesta di portabilità",
-      "success": "Richiesta di portabilità inviata! Ti tinemu aggiornatu.",
-      "erroreGenericu": "C'è statu un errore."
+      "postalCodeLabel": "Codice postali",
+      "countryLabel": "Paìsi",
+      "submitButton": "Suttametti la richiesta di portabilità",
+      "success": "Richiesta di portabilità suttamessa! Ti tinemu aggiornatu.",
+      "genericError": "È succidutu quarchi cosa di sbagghiatu."
     },
     "status": {
-      "intestazioni": " Statu di portabilità",
-      "suttatìtulu": "Traccia lu statu di li toi richiesti di portabilità dû nùmmaru.",
-      "caricamentu": "Si sta caricannu…",
-      "errore di caricamentu": "Fallutu a carricari li richiesti di portabilità.",
-      "nenti": "Ancora nenti attività di portabilità.",
-      "in attisa": "In attisa di revisione",
-      "suttamissu": "Inviatu a l'operaturi",
-      "inProgress": "In cursu",
-      "completed": "Completatu",
-      "failed": "Fallutu",
-      "canceled": "Cancellatu",
-      "created": "Creatu:",
-      "scheduled": "Programmatu:",
-      "completatuA": "Completatu:"
+      "heading": "Statu di portabilità",
+      "subheading": "Track the status of your number port requests.",
+      "loading": "Si sta caricannu li dittagli wireless…",
+      "loadError": "Failed to load port requests.",
+      "none": "No porting activity yet.",
+      "pending": "Pending review",
+      "submitted": "Submitted to carrier",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "failed": "Failed",
+      "canceled": "Canceled",
+      "created": "Created:",
+      "scheduled": "Scheduled:",
+      "completedAt": "Completed:"
     },
-    "datiBassi": "I toi dati stannu finennu.",
-    "Ricarica": "Ricarica ora",
-    "scadeIn": "Scade tra {{days}} jorna",
-    "esaurutu": "I toi dati su' finuti. Accatta nu pacchettu novu pi cuntinuari a usari i dati mobili.",
-    "AccattaPacchettu": "Accatta pacchettu dati",
-    "esimPackLabel": "eSIM pack"
+    "dataLow": "Your data is running low.",
+    "topUp": "Top up now",
+    "expiresIn": "Expires in {{days}} days",
+    "exhausted": "Your data has run out. Buy a new pack to continue using mobile data.",
+    "buyPack": "Accatta un pacchettu di dati",
+    "esimPackLabel": "Pacchettu eSIM",
+    "dashboardIntro": "Gestisci i toi dati mobili Chatforia, u numaru di telefonu, la cunfigurazzioni eSIM e lu statu dû pianu.",
+    "loading": "Si sta caricannu li dittagli wireless…",
+    "phoneNumber": "Numaru di telefonu",
+    "viewPlans": "Vidi li piani",
+    "error": {
+      "load": "Fallutu a carricari i dittagli wireless."
+    },
+    "data": {
+      "yourData": "I toi dati",
+      "caption": "Teni traccia dû tò usu attuali di dati e dû saldu rimanenti.",
+      "familyLabel": "Dati di famigghia",
+      "familyCaption": "Dati spartuti tra li membri dâ tò famigghia."
+    },
+    "plan": {
+      "title": "Planu",
+      "noneTitle": "Nenti planu mobile attivu",
+      "noneBody": "Scegghi un pacchettu dati pi attivari Chatforia Mobile.",
+      "noneBodyReady": "Prima attiva la tò eSIM, poi scegghi un pacchettu dati quannu si prontu.",
+      "bodyActive": "U tò pianu mobili è attivu.",
+      "familyLabel": "Pianu di famigghia",
+      "familyBody": "Stu pianu fa parti di na riserva cummuna di dati di famigghia.",
+      "manageCta": "Gestisci u pianu",
+      "setupFirstCta": "Prima attiva l'eSIM"
+    },
+    "esim": {
+      "title": "eSIM",
+      "heading": "Configura la tò eSIM",
+      "subheading": "Installa la tò eSIM pi usari li dati mobili di Chatforia supra stu dispusitivu.",
+      "body": "Genera o apri lu tò QR code di l'eSIM e segui l'istruzzioni pi l'attivazzioni supra lu tò telefunu.",
+      "readyBody": "La tò eSIM è pronta. Pò apriri lu QR code o cuntinuari a gestiri lu tò pianu mobili.",
+      "setupCta": "Configura l'eSIM",
+      "openCta": "Apri la cunfigurazzioni di eSIM"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Caricamentu di eSIM esistenti…",
+    "regionLabel": "Regioni",
+    "ctaGenerate": "Genera u còdici QR di eSIM",
+    "ctaRegenerate": "Rigenera u còdici QR",
+    "ctaReserving": "In risirva…",
+    "generatingQr": "Generannu u còdici QR…",
+    "errorReserve": "Nun si putìa risirvari n'eSIM. Pì favuri pruva n'autra vota.",
+    "noQrAvailable": "Ancora nun c'è nuddu còdici QR dispunìbbili.",
+    "downloadPng": "Scarica PNG",
+    "activationCode": "Còdici d'attivazzioni",
+    "lpaUri": " LPA URI",
+    "smdp": "Indirizzu SM-DP+",
+    "iccid": "ICCID",
+    "iccidHint": "L'ICCID identifica univocamenti stu prufilu eSIM.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Statu",
+    "secrecyNote": "Teni stu QR code privatu. Cuunque ci havi accessu pò installari l'eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
   },
   "phoneNumberManager": {
-    "scegghiNumaru": "Scegghi un numaru",
-    "numaruDiTelefunu": "Numaru di telefunu",
-    "numaruDisponìbbili": "Numaru dispunìbbili",
-    "numaruPremium": "Numaru premium 🔒",
-    "suggerimentuNumaruGratis": "Numaru gratis ca pò èssiri riciclatu doppu inattività.",
-    "suggerimentuNumaruPremium": "Teni u tò numaru mentri u tò abbunamentu Premium è attivu.",
-    "paese": "Paese",
-    "codiceArea": "Codice d'area",
-    "placeholderCodiceArea": "p.es., 415",
-    "capacità": "Capacità",
-    "ricerca": "Ricerca",
-    "bloccaStuNumaru": "Blocca stu numaru (serviziu aggiuntivu settimanali, prestu dispunìbbili)",
-    "premiumProtectedHint": "I numeri Premium sunnu prutetti dû riciclaggiu mentri la tò abbunanza Premium è attiva.",
-    "availableNumbers": "Numeri dispunìbbili",
-    "searchHint": "Mèttici un còdici d'area di 3 cifri (sulu pi US/CA), o lassa vacanti, poi circà.",
-    "keep": "Teni",
-    "select": "Scegghi",
-    "assignNumberFirst": "Assigna prima un numaru.",
-    "premiumKeepFeature": "Tiniri u tò numaru è na funzioni Premium.",
-    "lockingPremiumFeature": "Serrari i numari è na funzioni Premium.",
-    "numberAssigned": "Numaru assignatu. ",
-    "numberProtectedNow": "U tò numaru ora è prutettu.",
-    "numberProtected": "Numaru prutettu.",
-    "numberUnprotected": "Numaru nun prutettu.",
-    "numberReleased": "Numaru rilasciatu.",
-    "couldNotLoadNumbers": "Nun si ponnu carricari li numeri.",
-    "couldNotAssign": "Nun si pò assignari chiddu numaru. Pò essiri ca è appena statu pigghiatu—pruva n'autru.",
-    "couldNotLease": "Nun si pò affittari chiddu numaru. Pò essiri ca è appena statu pigghiatu—pruva n'autru.",
-    "couldNotProtectNow": " Nun si putìa pruteggiri u tò numaru ora.",
-    "couldNotProtect": "Nun si putìa pruteggiri u numaru.",
-    "couldNotUnprotect": "Nun si putìa s-pruteggiri u numaru.",
-    "couldNotRelease": "Nun si putìa libbirari u numaru.",
-    "invalidAreaCode": "Pi favuri, nserisci un còdici d'area a tri cifri (p.es., 415) o lassa vacanti.",
-    "noInventory": "Nenti inventariu dispunìbbili ora.",
-    "noFreeNumbers": "Nun ci sunnu numeri libbiri dispunìbbili ora.",
-    "noInventoryAreaCode": "Nenti inventariu dispunìbbili pi chiddu còdici d'area ora.",
-    "noFreeNumbersAreaCode": "Nun ci sunnu numeri libbiri ntô nostru pool pi chiddu codici d'area ora.",
-    "releaseConfirm": "Liberari u tò numaru attuali? Pò èssiri assignatu a n'autru.",
-    "unprotect": "Sproteggiri",
-    "keepThisNumber": "Teni stu numaru",
-    "sustituisci": "Sustituisci",
-    "libera": "Libera",
-    "attivatu": "Attivatu",
-    "nenti numaru": "Nenti numaru",
-    "funzionalità premium": "Funzionalità premium",
-    "pruteggi u tò numaru": "Pruteggi u tò numaru",
-    "protected": "Prutettu",
-    "notProtected": "Micca prutettu",
-    "expiresInShort": "Scadenza tra {{count}}atu",
-    "scadiInGiorniCumpletu": "Scadi tra {{count}} jorna",
-    "scadennuBrevi": "Scadennu{{suffix}}",
-    "si rinnova lu": "Si rinnova lu {{date}}",
-    "avvirtimentuRilascu": "Lu tò numaru pò èssiri rilascatu tra {{count}} jorna. Passa a Premium pi mantèniri prutettu. ",
-    "pickNumberHint": "Scegghi un nummaru di Chatforia pi usari pi missaggi e cumunicazzioni intra l'app.",
-    "unableToLoadStatus": "Impussìbbili carricari lu statu dû nummaru di telefonu.",
-    "lock": "Serratura",
-    "noNumberAssigned": "Nuddu nummaru assignatu. Scegghi unu pi codici di zona pi accuminciari a mannari missaggi."
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
   },
   "dialer": {
     "title": "Chiamati",
-    "suttutitulu": "Tastieru & chjami cchiù recenti. (Si nun usi u PSTN, accuminza li chiamati di la barra dâ cunversazioni.)",
-    "inserisciNumaru": "Inserisci numaru",
-    "enterNumberAria": "Inserisci nummaru",
+    "subtitle": "Tastierinu & recenti. (Si nun usi u PSTN, accumincia i chiamati di na testata di cunversazioni.)",
+    "enterNumber": "Inserisci numaru",
+    "enterNumberAria": "Inserisci numaru",
     "resolving": "Sta risolvènnu lu destinatariu dâ chiamata…",
     "call": "Chiamata",
-    "callBrowser": "Chiamata via browser",
-    "backspace": "Indietro",
-    "recents": "Ultimi chiamati",
-    "noRecents": "Ancora nun ci sunnu chiamati recenti.",
-    "risolviFallutu": "Nun si putìa risòlviri lu destinatariu dâ chiamata.",
-    "numaruRichiistuPiChiamata": "Ti servi un numaru di Chatforia prima di fari chiamati.",
-    "chiamataFalluta": "Nun si putìa fari la chiamata.",
-    "deleteConfirm": "Cancella sta chiamata dî cchiù recenti?",
+    "callBrowser": "Chiamata via navigaturi",
+    "backspace": "Indrì",
+    "recents": "Chiamati recenti",
+    "noRecents": "Ancora nudda chiamata recente.",
+    "resolveFailed": "Nun si putìa risòlviri lu destinatariu dâ chiamata.",
+    "callRequiredNumber": "Ti servi un numaru di Chatforia prima di fari chiamati.",
+    "callFailed": "Nun si putìa fari la chiamata.",
+    "deleteConfirm": "Elimina sta chiamata dî cchiù ricenti?",
     "deleteFailed": "Nun si putìa cancellari la chiamata.",
     "deleteFailedLog": "Fallutu a cancellari la chiamata",
     "outgoing": "In uscita",
     "incoming": "In arrivo",
-    "missed": "Persa",
-    "declined": "Rigettata",
-    "failed": "Falluta",
-    "completed": "Completatu",
-    "outgoingCall": "Chiamata in uscita",
-    "incomingCall": "Chiamata in entrata",
-    "voicemail": "Segreteria telefonica",
-    "callAria": "Chiamata {{name}}",
+    "missed": "Perduta",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
     "deleteAria": "Cancella la chiamata cu {{name}}",
-    "senzaChiamati": "Ancora nudda chiamata.",
-    "chiavi": "Chiavi {{d}}"
+    "enterNumberPh": "Mèttici lu numaru",
+    "recentsEmpty": "Ancora nudda chiamata ricenti.",
+    "key": "Chiavi {{d}}"
   },
-  "storiaDiChiamati": {
-    "titulu": "Chiamati",
-    "suttitulu": "I toi chjamati ricenti, intraenti e uscienti.",
-    "caricamentuFallutu": "Nun si putìa carricari la storia di chiamati.",
-    "tituluDiErroreCaricamentu": "Nun si putìa carricari la storia di chiamati",
-    "tituluVacanti": "Ancora nudda chiamata",
-    "suttituluVacanti": "Li toi chiamati recenti si mustranu ccà.",
-    "in partenza": "In partenza",
-    "in arrivo": "In arrivo",
-    "persi": "Persi",
-    "rifiutati": "Rifiutati",
-    "falluti": "Falluti",
-    "completati": "Completati",
-    "chiamata in partenza": "Chiamata in partenza",
-    "chiamata in arrivo": "Chiamata in arrivo",
-    "voicemail": "Messaggi vocali"
+  "callHistory": {
+    "title": "Storicu dî chiamati",
+    "subtitle": "Li toi chiamati ricenti, sia intraenti ca uscienti.",
+    "loadFailed": "Nun si putìa carricari lu storicu dî chiamati.",
+    "loadFailedTitle": "Nun si putìa carricari lu storicu dî chiamati",
+    "emptyTitle": "Ancora nudda chiamata",
+    "emptySubtitle": "Li toi chiamati ricenti si mustranu ccà.",
+    "outgoing": "Fuori going",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completatu",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
   },
   "video": {
     "hub": {
       "title": "Video",
-      "subtitle": "Scegli un tipu di video."
+      "subtitle": "Scegghi un tipu di video."
     },
     "direct": {
-      "title": "Video direttu",
-      "subtitle": "Accumincia na chiamata video 1:1 cu n'autru utente.",
-      "desc": "Chiamata 1:1 cu la camera cu n'autru utente.",
-      "start": "Accumincia",
-      "callBtn": "Chiamata",
+      "title": "Video Direttu",
+      "subtitle": "Accuminza na chiamata video 1:1 cu n'autru utente.",
+      "desc": "Chiamata video 1:1 cu n'autru utente.",
+      "start": "Accuminza",
+      "callBtn": "Chiama",
       "callByPhone": {
-        "title": "Chiamata pi telefunu"
+        "title": "Chiama pi telefonu"
       },
       "phone": {
-        "placeholder": "Mèttici lu telefunu (p.es., +1-555-123-4567)",
+        "placeholder": "Inserisci u telefunu (p.es., +1-555-123-4567)",
         "aria": "Telefunu pi chiamari"
       },
-      "tipInvite": "Suggerimentu: Incolla un numaru e chiama senza sarvari un cuntattu. Invitaremu li non-utenti cu un link.",
+      "tipInvite": "Suggerimentu: Incolla un numaru e chiama senza sarvari un cuntattu. Inviteremu non -utenti cu link.",
       "findUser": {
         "title": "Truva un utente"
       },
       "search": {
-        "placeholder": " Circà pi nomu o nomu d'utenti",
-        "aria": "Circà pi nomu o nomu d'utenti",
+        "placeholder": "Circà pi nomu o username",
+        "aria": "Circà pi nomu o username",
         "btn": "Circà"
       }
     },
     "rooms": {
       "title": "Stanzi",
-      "subtitle": "Crea na stanza o junci a na già esistenti scrivennu lu stissu nomu.",
-      "desc": "Video multi-partitu usannu nu nomu di stanza spartutu.",
+      "subtitle": "Crea na stanza o unisciti a na già esistenti scrivennu lu stissu nomu.",
+      "desc": "Video multi-parti ca usa nu nomu di stanza spartutu.",
       "roomLabel": "Nomu di stanza",
       "roomPlaceholder": "p.es. team-standup",
       "roomAria": "Nomu dâ stanza",
       "joinCreate": "Junci / Cria",
-      "tip": "Consigghiu: spartisci stu nomu cu l'àutri, o usa un link direttu pi"
+      "tip": "Suggerimentu: spartisci stu nomu cu l'àutri, o usa un link direttu a"
     },
     "title": "Video",
     "chooseType": "Scegghi un tipu di video.",
     "directTitle": "Video Direttu",
-    "directDesc": "Ciamata video 1:1 cu n'autru utente.",
+    "directDesc": "Chiamata 1:1 cu camera cu n'autru utente.",
     "directStart": "Accuminza",
     "roomsTitle": "Stanzi",
-    "roomsDesc": "Video cu cchiù pirsuni usannu nu nomu di stanza spartutu.",
+    "roomsDesc": "Video cu cchiù pirsuni ca usanu nu nomu di stanza spartutu.",
     "roomsIntro": "Junci o cria na stanza cu cchiù pirsuni.",
     "roomNameLabel": "Nomu di stanza",
     "roomNamePh": "p.es. team-standup",
-    "join": "Junci",
-    "deeplinkTip": "Consigghiu: poi fari un link direttu a <code>/video?room=room-name</code>."
+    "join": "Giunci",
+    "deeplinkTip": "Suggerimentu: poi fari un deep link direttamenti a <code>/video? room=room-name\".\""
   },
   "directVideo": {
-    "intro": "Accuminza na chiamata video diretta 1:1.",
+    "intro": "Accuminza na videochiamata diretta 1:1.",
     "findUserLabel": "Truva n'utenti",
-    "findUserPh": "Circà pi nomu o username",
-    "search": "Circà",
+    "findUserPh": "Circata pi nomu o nomu d'utenti",
+    "search": "Circata",
     "call": "Chiamata"
   },
   "phoneWarning": {
-    "title": "U tò numaru sta pi scadiri prestu",
-    "body": "U tò numaru {{number} } sarà disattivatu lu {{date}} a menu ca nun veni riattivatu.",
+    "title": "U tò numaru è exp iring soon",
+    "body": "U tò numaru {{number}} sarà disattivatu lu {{date}} a menu ca nun veni riattivatu.",
     "button": "Teni lu me nùmmaru"
   },
   "premium": {
@@ -1047,19 +1324,23 @@
     "description": "Sblocca funzioni avanzati e leva li pubblicità.",
     "cta": "Aggiorna",
     "upgrade": "Aggiorna",
-    "upgradeAria": "Aggiorna a Chatforia Premium"
+    "upgradeAria": "Passari a Chatforia Premium"
+  },
+  "premiumGuard": {
+    "requiresPremium": "Sta funzione richiedi un pianu Premium.",
+    "toUnlock": "Passari pi sbloccari sta funzione."
   },
   "upgrade": {
     "title": "Upgrade",
     "titleLoggedIn": "Upgrade",
     "titlePublic": "Pricing",
-    "h1": "Tariffi e Piani di Chatforia",
-    "h1Subtitle": "Accuminza cu u nostru pianu gratuitu cu pubblicità. Elimina a pubblicità cu Plus, o sblocca tutti i funziunalità avanzati cu Premium.",
-    "subtitle": "Scegghi un pianu pi l'app, aggiunci pacchetti di dati pi tia, o spartisci i dati cu a tò famigghia — tuttu di un locu sulu.",
-    "subtitle.app": "Accuminza cu u nostru pianu gratuitu cu pubblicità. Va ad -libberu cu Plus, o sblocca tutti li funzioni avanzati cu Premium.",
-    "subtitle.mobile": "Aggiungi dati eSIM globali accussì Chatforia cuntinua a funziunari puru quannu si fora di Wi-Fi.",
+    "h1": "Prezzi e piani di Chatforia",
+    "h1Subtitle": "Accuminza cu u nostru pianu gratuitu cu pubblicità. Va senza pubblicità cu Plus, o sblocca tutti i funziunalità avanzati cu Premium.",
+    "subtitle": "Scegghi un pianu pi l'app, aggiunci pacchetti di dati pi tia, o spartisci i dati cu a to famigghia — tuttu di un locu sulu.",
+    "subtitle.app": "Accuminza cu u nostru pianu gratuitu cu pubblicità. Va senza pubblicità cu Plus, o sblocca tutti i funziunalità avanzati cu Premium.",
+    "subtitle.mobile": "Aggiungi dati eSIM globali accussì Chatforia cuntinua a funziunari puru quannu si luntanu dû Wi-Fi.",
     "subtitle.family": "Crea na riserva di dati spartuta pi la tò famigghia e gestisci l'usu di tutti di un locu sulu.",
-    "perMonth": "me",
+    "perMonth": "u",
     "perYear": "annu",
     "goPremium": "Va Premium",
     "benefitsLine": "Sblocca funzioni avanzati e leva li pubblicità.",
@@ -1077,68 +1358,74 @@
     },
     "billing": {
       "opening": "Apertura…",
-      "manage": "Gestisci la fatturazzioni"
+      "manage": "Gestisci li limiti pi ogni membru"
     },
     "checkout": {
-      "redirecting": "Stai redirectannu…"
+      "redirecting": "Stai essennu ridirizzatu…"
     },
     "auth": {
-      "continue": "Continua pi fari l'accessu",
-      "createAccount": "Crea un cuntu",
-      "signIn": " Accedi"
+      "continue": "Continue to login",
+      "createAccount": "Create account",
+      "signIn": "Sign in"
     },
     "cta": {
       "aria": "Scegli un pianu",
-      "getPlus": "Abbonati a Plus",
-      "upgradeMonthly": "Abbonati ogni misi",
-      "upgradeAnnual": "Abbonati ogni annu"
+      "getPlus": "Upgrade to Plus",
+      "upgradeMonthly": "Upgrade Monthly",
+      "upgradeAnnual": "Upgrade Annual",
+      "public": {
+        "plus": "Pigliati Plus – cuntìnua a l'accessu",
+        "premiumMonthly": "Sblocca Premium – cuntìnua a trasiri",
+        "premiumAnnual": "Risparmia 30% cu l'annu – cuntìnua a trasiri"
+      }
     },
-    "sezzioni": {
-      "app": "Piani pi l'app",
-      "mobile": "Mobile (eSIM)",
-      "family": "Piani di famigghia"
+    "section": {
+      "app": "App plans",
+      "mobile": "Aggiungi dati eSIM globali accussì Chatforia cuntinua a funziunari puru quannu si luntanu dû Wi-Fi.",
+      "family": "Family plans"
     },
-    "piani": {
-      "gratuitu": {
-        "titulu": "Gratuitu",
-        "prezzu": "$0",
-        "desc": "Accuminza a mannari missaggi gratis. Ideali si stai sulu pruvannu Chatforia.",
-        "funzionalità": {
-          "chat": "Chat in tempu rialì 1:1 e di gruppu, cchiù chiamati vocali e video",
-          "media": "Spàrti fotu, missaggi vuci e video curti",
-          "ai": "Risposti intelligenti cu AI e traduzzioni istantànea (usu giustu)",
-          "sparenti": "Missaggi ca sparisciunu e cuntrolli di privacy di basa",
-          "ads": "Gratis pi sempri cu pubblicità ntâ app "
+    "plans": {
+      "free": {
+        "title": "Gratis",
+        "price": "$0",
+        "desc": " Accuminza a mannari missaggi gratis. Ideali si stai sulu pruvannu Chatforia.",
+        "features": {
+          "chat": "Chat in tempu rialì 1:1 e di gruppu, cchiù chiamati vocali e videochiamati",
+          "media": "Spàrti foti, missaggi vocali e video curti",
+          "ai": "AI-powered smart replies and instant translation (fair use)",
+          "disappearing": "Messaggi ca spariscono e cuntrolli di privacy di basa",
+          "ads": "Gratis pi sempri cu pubblicità nta l'app"
         },
         "ctaCurrent": "Pianu attuali",
-        "ctaManage": "Gestisci ntâ fatturazzioni",
+        "ctaManage": "Gestisci nta la fatturazzioni",
         "ctaPublic": "Accuminza – cuntinua a fari l'accessu",
         "aria": "Pianu gratuitu"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Tutti l'essenziali, senza pubblicità. Perfettu pi missaggi e chiamati di ogni jornu.",
+        "desc": "Tutti l'essenziali, senza pubblicità. Perfettu pi li missaggi e li chiamati di ogni jornu.",
         "features": {
-          "allFree": "Tuttu chiddu ca c'è ntô pianu Gratu, senza pubblicità",
+          "allFree": "Tuttu chiddu ca c'è ntô Pianu Gratu, senza pubblicità",
           "forwarding": "Invia chiamati e missaggi ô tò veru nummaru di telefonu",
-          "storia": "Storia di missaggi cchiù longa (fino a 6 misi)",
-          "supportu": "Supportu cchiù veloci quannu c'è quarchi prublema"
+          "history": "Storia di missaggi cchiù longa (fino a 6 misi)",
+          "support": "Supportu cchiù veloci quannu c'è quarchi prublema"
         },
         "badge": "Populari",
-        "cta": "Va Senza Pubblicità",
+        "cta": "Va senza pubblicità",
         "ctaPublic": "Pigliati Plus – cuntìnua a trasiri",
         "aria": "Aggiorna a Plus"
       },
       "premiumMonthly": {
         "title": "Premium (Mensili)",
         "price": "$11.99",
-        "desc": "L'esperienza cumpleta di Chatforia: strumenti putenti di IA, personalizzazzioni e supportu prioritariu.",
+        "desc": "L'esperienza cumpleta di Chatforia: strumenti putenti di IA, personalizzazioni e supportu prioritariu.",
         "features": {
-          "plusAll": "Tuttu chiddu ca c'è nto Plus",
+          "plusAll": "Tuttu chiddu ca c'è in Plus",
           "themes": "Sblocca tutti i temi premium di culuri e i personalizzazzioni di l'app",
-          "ai": "Strumenti di putenza AI sulu pi Premium pi riscriviri, risposti intelliggenti e riassunti",
-          "support": "Supportu prioritariu quannu hai cchiu bisognu d'aiutu"
+          "ai": "Premium -sulu arnesi putenti di IA pi riscrittura, risposti intelligenti e riassunti",
+          "support": "Supportu cchiù veloci quannu c'è quarchi prublema",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
         "badge": "Raccomandatu",
         "cta": "Aggiorna (Mensili)",
@@ -1146,20 +1433,21 @@
         "aria": "Aggiorna a Premium Mensili"
       },
       "premiumAnnual": {
-        "title": "Premium (Annuali)",
+        "title": " Premium (Annuali)",
         "price": "$99",
-        "desc": "Risparmia cchiù quannu si paga ogni annu — cumpresi temi di culuri extra, strumenti IA, e supportu prioritariu.",
+        "desc": "Risparmia cchiù quannu si fattura ogni annu — cumpresi temi di culuri extra, strumenti IA, e supportu prioritariu.",
         "features": {
-          "allPremium": "Tuttu chiddu ca c'è nto Premium Mensili — cumpresi temi di culuri extra",
-          "annualBilling": "Fatturata na vota all'annu",
+          "allPremium": "Tuttu chiddu ca c'è ntô Premium Mensili — cumpresi temi di culuri extra",
+          "annualBilling": "Fatturatu na vota all'annu",
           "save25": "Risparmia circa 30% rispettu a pagari ogni misi",
-          "bestFor": "Megghiu pi l'utenti avanzati, travagghiaturi a distanza e viaggiaturi frequenti"
+          "bestFor": "Best for power users, remote workers, and heavy travelers",
+          "number": "Keep your Chatforia number protected while your plan is active"
         },
         "badge": "Risparmia 30%",
         "cta": "Aggiorna (Annuali)",
-        "ctaPublic": "Risparmia 30% cu l'annuali – cuntìnua a fari l'accessu",
+        "ctaPublic": "Risparmia 30% cu l'annu – cuntìnua a trasiri",
         "aria": "Aggiorna a Premium Annuali",
-        "disclaimer": "Fatturata in anticipu. Annulla quannu voi. Nenti spisi nascosti."
+        "disclaimer": "Addebitatu in anticipu. Annulla quannu voi. Nenti spisi nascosti."
       }
     },
     "marketing": {
@@ -1169,43 +1457,50 @@
       "plusBadge": "Populari",
       "plusDesc": "L'esperienza senza pubblicità cchiù economica.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Tutti li funzioni, li suonerie e li strumenti AI putenti.",
+      "premiumMonthlyDesc": " Funzionalità cumpleti, squillanti e strumenti putenti di IA.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Risparmia cchiù quannu paghi ogni annu.",
-      "annualDisclaimer": "Addebitatu in anticipu. Annulla quannu voi. Nenti spisi nascosti."
+      "premiumAnnualDesc": "Risparmia cchiù quannu si paga ogni annu.",
+      "annualDisclaimer": "Si paga in anticipu. Annulla quannu voi. Nenti spisi nascosti."
     },
     "mobile": {
       "title": "Chatforia Mobile (pacchetti dati eSIM)",
       "subtitle": "Aggiungi dati globali pi fari funziunari Chatforia puru senza Wi-Fi. I prezzi si aggiustanu automaticamenti secunnu u tò paisi e a tò munita.",
-      "subtitle.detail": "Scegghi un paccu di dati globali unicu accussì Chatforia cuntinua a funziunari quannu viaggi o si luntanu dû Wi-Fi.",
+      "subtitle.detail": "Scegghi unu -tempu pacchettu dati glubbali accussì Chatforia cuntinua a funziunari quannu viaggi o si luntanu dû Wi-Fi.",
       "scope": {
         "local": "Locali",
         "europe": "Europa",
-        "global": "Globali"
+        "global": "Glubbali",
+        "localTab": "Piani lucali",
+        "europeTab": "Piani europei",
+        "globalTab": "Piani glubbali"
       },
       "localEquals": "Locali = {{country}}",
       "localEqualsFallback": "Locali = u tò paisi attuali",
       "perPack": "/ pacchettu",
-      "cta": "Pigliati stu pacchettu dati",
-      "ctaPublic": "Pigliati stu pacchettu dati",
+      "cta": "Pigliati stu pacchettu di dati",
+      "ctaPublic": "Pigliati stu pacchettu di dati",
       "checkout": {
-        "redirecting": "Stai redirectannu…"
+        "redirecting": "Stai essennu ridirizzatu…"
       },
       "unlimited": {
         "features": {
-          "heavyUse": "Dati ad àuta vilucitati pi usu intensivu",
-          "throttle": "Dati ad àuta vilucitati sottumessi a pulìtichi di usu giustu e gestioni di reta",
+          "heavyUse": "Dati ad àuta vilucità pi usu intensivu",
+          "throttle": "Dati ad àuta vilucità sottumessi a pulìtichi di usu giustu e gestioni di reta",
           "coverage": "Copertura affidàbbili",
-          "instant": "Attivazioni istantànea di eSIM",
+          "instant": "Attivazzioni istantànea di eSIM",
           "noContract": "Pacchettu unicu, senza cuntrattu"
-        }
+        },
+        "title": "Pacchettu illimitatu",
+        "data": "Illimitatu",
+        "bestFor": "U megghiu pi usu intensivu unni supportatu."
       },
       "disclaimer": {
-        "devices": "I pacchetti dati eSIM richiedunu nu dispusitivu cumpatìbbili cu l'eSIM e sbloccatu. La dispunibilità varia secunnu lu mudellu di telefonu, l'operaturi e lu paisi. Copertura e velocità varianu a secunna di la riggiuni."
+        "devices": "I pacchetti dati eSIM richiedunu nu dispositivu cumpatìbbili cu l'eSIM e sbloccatu. La disponibilità varia secunnu lu mudellu di telefonu, l'operaturi e lu paisi. Copertura e velocità varianu a secunna di la riggiuni.",
+        "fairUse": "I dati ad alta velocità ponnu essiri sottumessi a limiti d'usu giustu, cundizioni di reta lucali e disponibilità riggiunali."
       },
       "packs": {
         "3gb": {
-          "title": "{{scope}} 3 GB"
+          "title": "{ {scope}} 3 GB"
         },
         "5gb": {
           "title": "{{scope}} 5 GB"
@@ -1214,150 +1509,294 @@
           "title": "{{scope}} 10 GB"
         },
         "20gb": {
-          "titulu": "{{scope}} 20 GB"
+          "title": "{{scope}} 20 GB"
         },
-        "illimitatu": {
-          "titulu": "{{scope}} Illimitatu"
+        "unlimited": {
+          "title": "{{scope}} Illimitatu"
         }
       },
-      "cumpara": {
-        "titulu": "Cumpara i pacchetti dati eSIM",
+      "compare": {
+        "title": "Cumpara i pacchetti dati eSIM",
         "col": {
-          "pack": "Pack",
+          "pack": "Pacchettu",
           "data": "Dati inclusi",
           "bestFor": "Megghiu pi"
         },
-        "avvirtenza": "L'usu reali di dati dipenni di comu usi Chatforia (vuci, video, media e àutri app ntô tò telefunu)."
-      }
-    },
-    "famigghia": {
-      "titulu": "Chatforia Famigghia (dati spartuti)",
-      "suttitulu": " Cundividi un unicu bacinu di dati cu tutta a to famigghia. Unica fattura, cchiù account Chatforia, cupertura glubbali.",
-      "perPack": "/ pack",
-      "small": {
-        "title": "Family Small",
-        "desc": "Includi 20 GB di dati spartuti ad alta vilucità — perfettu pi 2–3 utenti liggiri.",
-        "price": "$29.99",
-        "aria": "Accatta u pacchettu Famigghia Picciula"
+        "disclaimer": "L'usu reali di dati dipenni di comu usi Chatforia (vuci, video, media, e àutri app ntô tò telefunu)."
       },
-      "mediu": {
-        "titulu": "Famigghia Mediu",
-        "desc": "Inclùdi 40 GB di dati spartuti ad àuta vilucità — ideali pi 3–5 membri attivi.",
-        "price": "$49.99",
-        "aria": "Accatta lu pacchettu Famigghia Media"
+      "aria": "Piani dati eSIM Chatforia Mobile",
+      "hero": {
+        "aria": "Immàggini eroica Chatforia Mobile",
+        "subcopy": "Dati eSIM istantanei pi viaggi, cunnittività di riserva, e pi ristari raggiungìbbili quannu sì luntanu dû Wi‑Fi. "
       },
-      "large": {
-        "title": "Famigghia Granni",
-        "desc": "Inclùdi 80 GB di dati spartuti ad àuta vilucità — pi famigghi attivi ca sunnu sempri online.",
-        "price": "$84.99",
-        "aria": "Accatta u pacchettu Family Large"
+      "choosePack": "Scegghi un pacchettu dati",
+      "choosePackSubtitle": "Scegghi la zona di cupertura e la quantità di dati ca s'adatta a lu tò viaggiu o a li bisogni di backup di ogni jornu.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "U megghiu valuri pi GB"
       },
       "feature": {
-        "shared": "Piscina di dati spartuta pi la tò famigghia",
-        "members": "Invita finu a 4 membri aggiuntivi",
-        "membersMore": "Perfettu pi 3–5 membri attivi",
-        "manage": "Gestisci li limiti pi ogni membru",
-        "topUp": "Aggiungi cchiù pacchetti quannu voi",
-        "bestValue": "U megghiu valuri pi GB",
-        "fairUse": "Suttumissu a na pulìtica di usu giustu e limiti lucali"
+        "instant": "Attivazzioni eSIM istantanea",
+        "coverage": "Opzioni di cupertura globali",
+        "contracts": "Nenti cuntratti a longu termini"
       },
-      "disclaimer": "I pacchetti di famigghia crìanu o ricarìcanu un pool di dati spartutu. Pò invitari e livari membri quannu voi.",
-      "nota a piè di pagina": "I pacchetti famigghiari spartunu un sulu pool di dati tra cunti Chatforia ligati. Disponibilità e limiti dipènnunu dû tò paisi e dî rigulamenti lucali."
+      "card": {
+        "feature": {
+          "1": "Funziona supra dispusitivi sbloccati e cumpatìbbili cu l'eSIM",
+          "2": "Pacchetti di dati unichi cu prezzi chiari",
+          "3": "Usa Chatforia quannu u Wi-Fi nun è dispunìbbili"
+        }
+      },
+      "region": {
+        "local": "Locali",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "Europa",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "Glubbali",
+        "globalSubtitle": "U megghiu pi viaggi internazziunali 'n diversi riggiuni."
+      },
+      "small": {
+        "title": "Pacchettu nicu",
+        "data": "3 GB",
+        "bestFor": "U megghiu pi viaggi curti e pi missaggi liggiri."
+      },
+      "medium": {
+        "title": "Pacchettu mediu",
+        "data": "5 GB",
+        "bestFor": " Megghiu pi missaggi di ogni jornu, mappe e media liggiri."
+      },
+      "large": {
+        "title": "Pacchettu granni",
+        "data": "10 GB",
+        "bestFor": "Megghiu pi viaggi cchiù longhi e usu cchiù pisanti di app."
+      },
+      "xl": {
+        "title": "Pacchettu XL",
+        "data": "20 GB",
+        "bestFor": "Megghiu pi viaggi estisi e usu frequenti di video o media."
+      }
     },
-    "picchì": {
-      "titulu": "Picchì a genti passa a Chatforia",
-      "suttitulu": "Chatforia ti duna un numeru di telefonu veru, na traduzzioni intelligenti, e na strata chiara pi passari senza pubblicità quannu sì prontu.",
+    "family": {
+      "title": "Chatforia Family (dati spartuti)",
+      "subtitle": "Sparti un unicu pool di dati tra la tò famigghia . Unu fattura, cchiù account Chatforia, cupertura glubbali.",
+      "perPack": "/ pacchettu",
+      "small": {
+        "title": "Famigghia Picciula",
+        "desc": "Includi 20 GB di dati spartuti ad alta vilucità — perfettu pi 2–3 utenti liggiri.",
+        "price": "$29.99",
+        "aria": "Accatta u pacchettu Piccola Famigghia"
+      },
+      "medium": {
+        "title": "Family Medium",
+        "desc": "Includes 40 GB of shared high-speed data — ideal for 3–5 active members.",
+        "price": "$49.99",
+        "aria": "Buy Family Medium pack"
+      },
+      "large": {
+        "title": "Family Large",
+        "desc": "Includes 80 GB of shared high-speed data — for power families that are always online.",
+        "price": "$84.99",
+        "aria": "Buy Family Large pack"
+      },
+      "feature": {
+        "shared": "Shared data pool for your family",
+        "members": "Invite up to 4 additional members",
+        "membersMore": "Great for 3–5 active members",
+        "manage": "Gestisci li limiti pi ogni membru",
+        "topUp": "Aggiungi àutri pacchetti quannu voi",
+        "bestValue": "Best value per GB",
+        "fairUse": "Subject to fair-use policy and local limits"
+      },
+      "disclaimer": "Li pacchetti famigghiari crìanu o ricanùscinu un bacinu di dati spartutu. Pò invitari e livari membri quannu voi.",
+      "footnote": "I pacchetti famigghiari spartunu un'unica riserva di dati tra cunti Chatforia ligati. Disponibilità e limiti dipènninu dû tò paisi e dî règuli lucali."
+    },
+    "why": {
+      "title": "Why people switch to Chatforia",
+      "subtitle": "Chatforia gives you a real phone number, smart translation, and a clear path to go ad-free when you’re ready.",
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
-          "body": "Pubblicità cchiù liggiri ntô Gratìsi, un semplici aggiornamentu Plus quannu si prontu, e strumenti Premium ca TextNow nun offri."
+          "body": "Lighter ads on Free, a simple Plus upgrade when you’re ready, and Premium tools TextNow doesn’t offer."
         },
         "voice": {
           "title": "Chatforia vs Google Voice",
-          "body": "App muderna, globale -disegnu di prima scelta, e traduzzioni integrata inveci di lu vecchiu inoltru di chiamati."
+          "body": "Modern app, global-first design, and built-in translation instead of old-school call forwarding."
         },
         "messengers": {
-          "title": "Chatforia vs app di chat",
-          "body": "Manna numeri di telefonu veri — nun sulu l'utenti di l'app — cu AI e statu integrati. Perfettu si vieni di app comu TextFree o TextMe."
+          "title": "Chatforia vs chat apps",
+          "body": "Text real phone numbers — not just other app users — with AI and status built in. Great if you’re coming from apps like TextFree or TextMe."
         }
       },
-      "tableTitle": "Comu Chatforia si paraguna",
+      "tableTitle": "Comu si paraguna Chatforia",
       "col": {
-        "feature": "Funzionalità"
+        "feature": "Funzionalità",
+        "chatforia": "Finu a 12+ misi",
+        "textnow": "Varia secunnu l'account",
+        "googleVoice": "Google Voice"
       },
       "feature": {
-        "freeNumber": "Numaru di telefonu gratuitu",
-        "translation": "Traduzzioni automatica integrata",
-        "aiTools": "Strumenti di IA (riscrizzioni, risposti, riassunti)",
-        "ads": "Opzioni senza pubblicità",
-        "history": "Storicu di missaggi"
+        "freeNumber": "Free phone number",
+        "translation": "Built-in auto-translation",
+        "aiTools": "AI tools (rewrites, replies, summaries)",
+        "ads": "Gratis pi sempri cu pubblicità nta l'app",
+        "history": "Storia di missaggi cchiù longa (fino a 6 misi)"
       },
-      "iè": "Iè",
+      "yes": "Yes",
       "no": "No",
-      "ièPremium": "Iè (Premium)",
+      "yesPremium": "Sì (Premium)",
       "plusPremium": "Plus & Premium",
-      "limitatu": "Limitatu",
+      "limited": "Limitatu",
       "nA": "N/A",
-      "storicu": {
-        "chatforia": "Finu a 12+ misi",
-        "textnow": "Variàbbili secunnu l'account",
-        "voice": "Limitatu / basatu supra l'account"
+      "history": {
+        "chatforia": "Up to 12+ months",
+        "textnow": "Varies by account",
+        "voice": "Limitatu / basatu supra lu cuntu"
       },
-      "disclaimer": "Cumpirazioni basata supra nfurmazzioni pubbrichi dispunìbbili e pò canciari cu lu tempu. Autri app pi mannari missaggi gratis comu TextFree o TextMe sunnu giniralmenti simili a TextNow."
+      "disclaimer": "Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow."
     },
     "faq": {
       "title": "Pricing & plans FAQ",
       "free": {
-        "q": "U pianu Gratìtu è veramenti gratìtu?",
-        "r": "Sì. U pianu Gratìtu include un numaru Chatforia, chiamati e missaggi cu pubblicità. Pò ristari ntô Gratìtu quantu voi, o fari l'upgrade pi livari a pubblicità e sbloccari cchiù funzioni."
+        "q": "Is the Free plan really free?",
+        "a": "Yes. The Free plan includes a Chatforia number, calling, and messaging with ads. You can stay on Free as long as you like, or upgrade to remove ads and unlock more features."
       },
       "plusPremium": {
         "q": "Chi diffirenza c'è tra Plus e Premium?",
-        "r": " Plus leva li pubblicità e allunga la storia di li tò missaggi — perfettu pi l'usu di ogni jornu. Premium aggiunci cchiù personalizzazioni, strumenti di IA pi riscriviri e rispunni, e supportu prioritariu pi l'utenti cchiù attivi."
+        "a": "Plus leva li pubblicità e allunga la storia di li tò missaggi — perfettu pi l'usu di ogni jornu. Premium aggiunci cchiù personalizzazzioni, strumenti di IA pi riscriviri e rispunni, e supportu prioritariu pi l'utenti ca usanu assai."
       },
       "esim": {
-        "q": "Unni funzionanu i pacchetti dati eSIM?",
-        "a": "Chatforia Mobile usa na cupertura eSIM globali. A dispunibilità dipenni dû tò paisi e dû tò dispusitivu. Vidirai l'opzioni supportati duranti l'attivazioni dintra l'app."
+        "q": "Unni funzionanu li pacchetti dati eSIM?",
+        "a": " Chatforia Mobile usa na cupertura eSIM globali. La dispunibilità dipenni dû tò paisi e dû tò dispusitivu. Vidirai l'opzioni supportati duranti l'attivazzioni dintra l'app."
       },
-      "annulla": {
-        "q": "Pò cancellari o canciari i piani quannu voi?",
-        "a": "Sì. Pò gestiri o cancellari u tò abbonamentu dâ pàggina di fatturazzioni ntâ app. I canciamenti entranu in viguri a fini dû periudu di fatturazzioni attuali. "
+      "cancel": {
+        "q": "Pozzu annullari o canciari li piani quannu vogghiu?",
+        "a": "Sì. Pò gestiri o annullari lu tò abbonamentu dâ pàggina di fatturazzioni nta l'app. Li canciamenti vannu n viguri a fini dû tò periodu di fatturazzioni attuali."
       },
       "family": {
-        "q": "Comu funzionanu i pacchetti di Famigghia?",
-        "a": "I pacchetti di Famigghia crìanu na riserva di dati spartuta tra cchiù account Chatforia. Na pirsuna paga la bolletta, e poi pò invitari o livari membri e stabbiliri limiti pi ogni pirsuna."
+        "q": "Comu funziunanu li pacchetti Famigghia?",
+        "a": "Li pacchetti Famigghia crìanu na riserva di dati spartuta tra cchiù cunti Chatforia. Na pirsuna paga la fattura , e poi invitari o livari membri e stabiliri limiti pi persona."
+      }
+    },
+    "h2": {
+      "app": "Piani app"
+    },
+    "oneTime": "una vota",
+    "perMonthLong": "pi misi",
+    "perYearLong": "pi annu",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Locali 3 GB",
+          "desc": "3 GB di dati eSIM una tantum pi l'usu di Chatforia nta lu paisi sceltu."
+        },
+        "5": {
+          "title": "Locali 5 GB",
+          "desc": "5 GB di dati eSIM una tantum pi l'usu di Chatforia nta lu paisi sceltu."
+        },
+        "10": {
+          "title": "Locali 10 GB",
+          "desc": "10 GB di dati eSIM usa e getta pi Chatforia pi usari ntô paisi scigghiutu."
+        },
+        "20": {
+          "title": "Locali 20 GB",
+          "desc": "20 GB di dati eSIM usa-una-volta pi Chatforia pi usari ntô paisi sceltu."
+        },
+        "unlimited": {
+          "title": "Locali Senza Limiti",
+          "desc": "Dati senza limiti pi usu intensivu di Chatforia ntô paisi sceltu, sottumissu a l'usu giustu e a dispunibilità dâ reta lucali."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europa 3 GB",
+          "desc": "3 GB di dati eSIM una tantum pi l'usu di Chatforia nta li paisi europei supportati."
+        },
+        "5": {
+          "title": "Europa 5 GB",
+          "desc": "5 GB di dati eSIM una tantum pi l'usu di Chatforia nta li paisi europei supportati."
+        },
+        "10": {
+          "title": "Europa 10 GB",
+          "desc": "10 GB di dati eSIM usa e getta pi Chatforia pi usari nti li paisi europei supportati."
+        },
+        "20": {
+          "title": "Europa 20 GB",
+          "desc": "20 GB di dati eSIM usa e getta pi Chatforia pi usari nti li paisi europei supportati."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Globali 3 GB",
+          "desc": "3 GB di dati eSIM una tantum pi l'usu di Chatforia nta li destinazzioni glubbali supportati."
+        },
+        "5": {
+          "title": "Globali 5 GB",
+          "desc": "5 GB di dati eSIM una tantum pi l'usu di Chatforia nta li destinazzioni glubbali supportati."
+        },
+        "10": {
+          "title": "Globali 10 GB",
+          "desc": "10 GB di dati eSIM usa e getta pi Chatforia pi usari nta li destinazzioni globali supportati."
+        },
+        "20": {
+          "title": "Globali 20 GB",
+          "desc": "20 GB di dati eSIM una tantum pi l'usu di Chatforia nta li destinazzioni glubbali supportati."
+        },
+        "unlimited": {
+          "title": "Glubbali Senza Limiti",
+          "desc": "Dati senza limiti pi un usu intensivu di Chatforia nta li destinazzioni glubbali supportati, sottumessi a l'usu equu e a la disponibilità dâ reta lucali."
+        }
       }
     }
   },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "Si ntô pianu gratuitu. Passa a unu a pagamentu pi sbloccari cchiù funzioni.",
+    "upgradeCta": "Aggiorna u pianu",
+    "changePlanCta": "Cancia u pianu",
+    "manageBilling": "Gestisci la fatturazzioni",
+    "portalError": "Nun si po' apriri u portali di fatturazzioni ora.",
+    "cancelNow": "Annulla ora",
+    "cancelNowConfirm": "Si sicuru ca voi annullari u tò pianu subitu? Chistu nun si po' annullari. ",
+    "cancelNowError": "Nun si po' annullari u tò pianu ora. Pruva n'autra vota o usa Gestisci fatturazzioni."
+  },
   "family": {
     "title": "Famigghia",
-    "loading": "Si caricanu i dittagli dâ tò famigghia…",
+    "loading": "Stannu caricannu i dittagli dâ tò famigghia…",
     "error": {
       "load": "Fallutu a carricari i dittagli dâ famigghia.",
-      "invite": "Nun si putìa criari n'invitu. Accertati d'essiri u patruni dâ famigghia e pruva n'autra vota.",
+      "invite": "Nun si putìa criari n'invitu. Accertati d'essiri u patruni dâ famigghia e pruva ancora.",
       "checkout": "Nun putemu iniziari u checkout pi nu pianu Famigghia. Pruva n'autra vota."
     },
     "billing": {
       "myPlanTitle": "U me pianu",
-      "myPlanError": "Nun si po' carricari u to pianu.",
-      "myPlanLoading": "Si sta caricannu u to pianu…",
+      "myPlanError": "Nun si pò carricari u tò pianu.",
+      "myPlanLoading": "Caricannu u tò pianu…",
       "currentPlan": "Pianu attuali",
       "renewsAt": "Si rinnova lu",
-      "freePlanCopy": "Si ntô pianu gratuitu. Passa a unu a pagamentu pi sbloccari cchiù funzioni.",
-      "upgradeCta": "Aggiorna u pianu",
-      "changePlanCta": "Cancia u pianu",
-      "gestisciAbbonamentu": "Gestisci l'abbonamentu",
-      "errorePortali": "Nun si po' apriri u portali di fatturazzioni ora.",
-      "annullaOra": "Annulla ora",
-      "annullaOraAiutu": "Pò gestiri o annullari u tò abbonamentu ntô portali di fatturazzioni, o annullari subitu sutta.",
-      "annullaOraCunfirma": "Si sicuru ca voi annullari u tò pianu subitu? Chistu nun si po' annullari.",
-      "cancelNowError": "Nun si pò annullari u pianu ora. Pì favuri pruva n'autra vota o usa Gestisci fatturazzioni."
+      "freePlanCopy": "Si 'ntra lu pianu gratuitu. Passa a unu a pagamentu pi sbloccari cchiù funzioni.",
+      "upgradeCta": "Aggiorna pianu",
+      "changePlanCta": "Cancia pianu",
+      "manageBilling": "Manage billing",
+      "portalError": "Unable to open the billing portal right now.",
+      "cancelNow": "Cancel now",
+      "cancelNowHelp": "You can manage or cancel your subscription in the billing portal, or cancel immediately below.",
+      "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+      "cancelNowError": "Nun si po' annullari u to' pianu ora. Pruova n'autra vota o usa Gestisci fatturazzioni."
     },
     "none": {
-      "title": "Ancora nun c'è famigghia",
+      "title": "Ancora nenti famigghia",
       "body": "Pi criari na Famigghia Chatforia e nu pool di dati spartutu, accuminza nu pianu Famigghia.",
       "goUpgrade": "Accuminza nu pianu Famigghia",
-      "viewPlans": "Vidi tutti i piani"
+      "viewPlans": "Vidi tutti i piani "
     },
     "group": {
       "defaultName": "A me Famigghia Chatforia",
@@ -1368,110 +1807,112 @@
       "member": "Membro"
     },
     "data": {
-      "heading": "Piscina di dati condivisa",
-      "caption": "Tutti i membri spartunu sta piscina. Ti avvirtiremu quannu ti avvicini a lu tò limitu."
+      "heading": "Piscina di dati spartuta",
+      "caption": "Tutti i membri spartunu stu pool. Ti n'avviseremu quannu t'avvicini ô tò limitu."
     },
     "members": {
-      "title": "Membri dâ famigghia",
-      "name": "Nome",
-      "role": "Rolu",
+      "title": "Family members",
+      "name": "Nomu",
+      "role": "Role",
       "usage": "Usu",
-      "limit": "Limu",
-      "unlimited": "Nuddu limitu specificu",
-      "inviteCta": "Invita membru"
+      "limit": "Lìmmiti",
+      "unlimited": "Nenti lìmmiti specificu",
+      "inviteCta": "Invita un mèmbru"
     },
     "invite": {
-      "title": "Invita un novu membru",
-      "body": "Manna n'email o un link pi invitari quarcunu ntô vostru pool di dati di famigghia spartutu.",
+      "title": "Invita un novu mèmbru",
+      "body": "Manna n'email o n'link pi invitari quarcunu ntô vostru bacinu di dati di famigghia spartutu.",
       "emailLabel": "Email (opzziunali)",
       "emailPlaceholder": "friend@example.com",
-      "create": "Crea nvitu",
-      "linkLabel": "Link pi nvitari",
-      "copyAria": "Copia lu link pi nvitari",
-      "expiryHint": "Stu link scadi dopu quarchi jornu. Pò sempri criari unu novu."
+      "create": "Crea nvitazioni",
+      "linkLabel": "Invite link",
+      "copyAria": "Copy invite link",
+      "expiryHint": "This link expires after a few days. You can always create a new one."
     },
     "join": {
-      "title": "Unisciti a na famigghia",
-      "body": "Fusti invitatu a junciri a na Famigghia Chatforia e a spartiri u so bacinu di dati.",
-      "cta": "Accetta e junci a famigghia",
-      "ctaLogin": "Fai l'accessu e unisciti â famigghia",
-      "success": "T'hai unutu a sta famigghia. Ora spartisci u so bacinu di dati.",
-      "goFamily": "Va ô cruscottu dâ famigghia",
-      "error": "Nun t'avemu pututu aghiunciri a sta famigghia. L'invitu pò essiri invalidu o scadutu."
+      "title": "Join a family",
+      "body": "You have been invited to join a Chatforia Family and share their data pool.",
+      "cta": "Accetta e junci a la famigghia",
+      "ctaLogin": "Accedi e junci a la famigghia",
+      "success": "T'hai juntu a sta famigghia. Ora spartisci u so bacinu di dati.",
+      "goFamily": "Va ô cruscottu di la famigghia",
+      "error": "Nun putemu aggiunciri a sta famigghia. L'invitu pò essiri invalidu o scadutu."
     }
   },
   "randomChat": {
     "title": "Chat a casu",
-    "suttatìtulu": "Incontra subitu quarcunu novu, o scegli di chiacchierari cu Ria.",
-    "accuminza": "Accuminza na cunversazioni",
-    "discritti": "Chiacchiera anonimamente prima. Aggiungi comu amicu dopu, si ti pari giustu.",
-    "tròvaCorrispondenza": "Tròvami un currispondenti",
-    "chiacchieraCuRia": "Chatta cu Ria",
+    "subtitle": "Incontra subitu quarcunu novu, o scegli di chiacchierari cu Ria.",
+    "start": "Accumincia na cunversazioni",
+    "description": "Chiacchiera anonimu prima. Aggiungi comu amicu dopu, si ti pari giustu.",
+    "findMatch": "Truvami un abbinamentu",
+    "chatWithRia": "Chiacchiera cu Ria",
     "setAge": "Imposta la tò fascia d'età in Profilu → Età & Chat a casu pi abbinariti cu pirsuni.",
-    "idle": "Inattivu",
-    "matching": "In cursu di abbinamentu…",
-    "searching": "In cerca…",
-    "cancel": "Annulla",
-    "connectionProblem": "Prublema di cunnissioni",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
     "ai": "AI",
-    "anonimu": "Anonimu",
-    "cunnittutuComu": "Cunnittutu comu",
-    "aspittannuPiAggiungiriAmicu": "Aspittannu ca iddi accittanu l'aggiunta di amicu…",
-    "nomiUtentiScunuti": "I nomi di l'utenti ristanu scunuti finu a quannu tutti e ddoi scegghinu 'Aggiungi Amicu'.",
-    "riaSeparate": "Chatta cu Ria quannu voi — separatu di l'accoppiamentu casuali cu l'umani.",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Aspetta ca accèttanu l'amicizia…",
+    "hiddenUsernames": "I nomi d'utenti ristanu nascosti finu a quannu tutti e ddoi scegghinu 'Aggiungi Amicu'.",
+    "riaSeparate": "Chatta cu Ria quannu voi — separatu di l'abbinamentu casuali cu l'umani.",
     "sendMessage": "Manna un missaggiu",
-    "chatEnded": "A chat è finuta",
+    "chatEnded": "Chat finuta",
     "conversationEnded": "Chissa cunversazioni è finuta.",
     "findAnotherMatch": "Truva n'autru abbinamentu",
     "next": "Prossima pirsuna",
     "addFriend": "Aggiungi amicu",
     "requested": "Richiestu",
-    "Lassari": "Lassari",
-    "MandarMessaggiuA'Ria": "Mandar messaggiu a Ria…",
-    "MandarMessaggiuA'Corrispondenza": "Mandar messaggiu a la tò currispondenza…",
-    "ChatCuForia": "Chat cu Foria",
-    "ChatCuForiaBot": "Chat cu ForiaBot",
-    "Chiù": "Chiù",
-    "Circannu": "Circannu…",
-    "looking": "Circannu quarcunu…",
-    "startingForia": "Accuminci na chat cu Foria…",
+    "leave": "Lassa",
+    "messageRia": "Manna un missaggiu a Ria…",
+    "messageMatch": "Manna un missaggiu a tò abbinamentu…",
+    "chatWithForia": "Chat cu Foria",
+    "chatWithForiaBot": "Chat cu ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
     "partnerDisconnected": "U tò cumpagnu si disconnettìu.",
     "noPartner": "Ora nun si trova nuddu cumpagnu.",
     "connectedTo": "Cunnittutu a {{name}}",
     "connected": "Cunnittutu",
     "partnerLeft": "U cumpagnu nni jiu.",
-    "stopped": "Si firmau.",
+    "stopped": "Fermatu. ",
     "skip": "Salta",
     "save": "Sarva",
     "saveGuard": "Sulu li chat tra umani ponnu èssiri sarvati",
-    "youAreChattingWith": "Stai chiacchierannu cu { {name}}",
+    "youAreChattingWith": "Stai chiacchierannu cu {{name}}",
     "bot": "BOT",
     "sayHi": "Dici ciau 👋",
     "you": "Tu",
     "typeMessage": "Scrivi un missaggiu",
     "send": "Manna",
-    "partner": "Partner",
+    "partner": "Cumpagnu",
     "withRia": "Cu Ria",
     "startingRia": "Accuminci na chat cu Ria…",
-    "ageDisclaimer": "Nni sarvamu sulu na fascia d'età (nun la tò data di nascita esatta). Chistu veni usatu pi mantèniri ragiunevuli l'accuppiamenti di Chat a Casu. Pi abbinariti cu àutri pirsuni (nun sulu RiaBot), imposta la tò fascia d'età in Impostazzioni → Età & Chat a Casu.",
-    "ageBandRequired": "Imposta la tò fascia d'età in Profilu → Età & Chat a casu pi abbinariti cu pirsuni.",
-    "ageBandCallout": "Pi abbinariti cu pirsuni (nun sulu cu RiaBot), imposta la tò fascia d'età in Impostazzioni → Età & Chat a casu."
+    "ageDisclaimer": "Nni sarvamu sulu na fascia d'età (nun a tò data di nascita precisa). Chistu veni usatu pi mantèniri li abbinamenti di Random Chat ragiunevuli. Pi abbinarisi cu pirsuni (nun sulu cu RiaBot), imposta la tò fascia d'età in Impostazzioni → Età & Random Chat.",
+    "ageBandRequired": "Imposta la tò fascia d'età in Profilu → Età & Random Chat pi abbinarisi cu pirsuni.",
+    "ageBandCallout": "Pi abbinarisi cu pirsuni (nun sulu cu RiaBot), imposta la tò fascia d'età in Impostazzioni → Età & Chat a casu.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
   "ria": {
-    "fallbackName": "cci",
+    "fallbackName": "c'è",
     "intro": "Ciau 👋 Sugnu Ria. Chi hai 'n menti?",
     "greetings": {
-      "long1": "Ciau {{name}} 👋 Sugnu ccà. Chi hai 'n menti?",
+      "long1": "Hey {{name}} 👋 Sugnu ccà. Chi hai 'n menti?",
       "long2": "Ciau {{name}} 😊 Di chi ti piaci parrari oggi?",
       "long3": "Ehi {{name}}! Sugnu tuttu orecchi — chi succedi?",
       "long4": "Beddru vidiriti, {{name}} 👋 Chi hai 'n menti oggi?",
-      "long5": "Hey {{name}} 🙂 Vò sfogari, dumannari, o sulu chiacchierari?",
+      "long5": "Ehi {{name}} 🙂 Voi sfogari, dumannari o sulu chiacchierari? ",
       "long6": "Ciau {{name}}! Hai tempu — di chi voi parrari?",
       "short1": "Ehi {{name}}, sugnu ancora ccà. Chi succedi?",
-      "short2": "Ben tornata {{name}} 👋 C'è quarchi àutra cosa ca voi aghiunciri?",
-      "short3": " Turnasti n'autra vota, {{name}}? 😊 Dimmillu chiddu ca hai 'n menti.",
+      "short2": "Ben tornata {{name}} 👋 C'è n'autra cosa ca vulevi aghiunciri?",
+      "short3": "Torna ancora, {{name}}? 😊 Dimmi chiddu ca hai 'n menti.",
       "short4": "Hey {{name}} ✨ Prontu pi ripigliari unni avemu lassatu?",
-      "short5": "Sì {{name}}? Staju ascultannu 👂",
+      "short5": "Sì {{name}}? Sugnu ccà pi sintiri 👂",
       "short6": "Oh ciau {{name}}! Hai quarchi cosa nova 'n menti?"
     },
     "header": {
@@ -1480,17 +1921,17 @@
       "homeAria": "Chatforia Home"
     },
     "login": {
-      "welcomeBack": "Benvinutu arreri",
-      "title": "Continua cu Chatforia",
-      "subtitleReturning": "Fai l'accessu a u tò cuntu Chatforia",
+      "welcomeBack": "Benritornu",
+      "title": "Continua a Chatforia",
+      "subtitleReturning": "Accedi ô tò cuntu Chatforia",
       "google": "Continua cu Google",
       "apple": "Continua cu Apple",
       "googleShort": "Google",
       "appleShort": "Apple",
       "googleUnavailable": "L'accessu cu Google nun è dispunìbbili",
       "appleUnavailable": "L'accessu cu Apple nun è dispunìbbili",
-      "ssoUnavailable": "Lu login unicu nun è dispunìbbili pi ora. Usa lu nomu utente e la password.",
-      "or": "o",
+      "ssoUnavailable": "Lu single-sign-on ora nun è dispunìbbili. Usa lu nomu utente e la password 'nveci.",
+      "or": "or",
       "accountLabel": "Cuntu",
       "identifierPh": "Email o nomu utente",
       "passwordLabel": "Password",
@@ -1499,55 +1940,52 @@
       "forgot": "Hai scurdatu a password?",
       "resendVerification": "Rimanna l'email di virificazzioni",
       "submit": "Accedi",
-      "loggingIn": "Stai accedennu…",
+      "loggingIn": "Stai trasennu…",
       "verification": {
-        "manda": "Email di virificazzioni mannata. Cuntrulla la tò casella di posta.",
-        "fallutu": "Fallutu a rimannari l'email di virificazzioni."
+        "sent": "Email di virificazzioni mannata. Cuntròlla la tò casella d'arrivu.",
+        "failed": "Fallutu a rimannari l'email di virificazzioni."
       },
-      "errore": {
-        "mancanti": "Pi favuri, nserisci i tò credenziali.",
-        "invalid": "Nomu utenti o password invalidu",
-        "negatu": "Accessu negatu.",
+      "error": {
+        "missing": "Pi favuri, nserisci li tò credenziali.",
+        "invalid": "Nomu utente o password sbagghiati",
+        "denied": "Accessu negatu.",
         "unprocessable": "Richiesta invalida. Verifica u tò nomu utente/email e password.",
-        "deviceLimit": "Limite di dispusitivi raggiuntu pi lu pianu Gratuitu. Disconnettiti di n'autru dispusitivu o passa a Premium pi ligari cchiù dispusitivi.",
+        "deviceLimit": "Lu limitu di dispusitivi pi lu pianu Gratìsi è statu raggiuntu. Accedi di n'autru dispusitivu o passa a Premium pi ligari cchiù dispusitivi.",
         "premiumRequired": "Sta azzioni richiedi un pianu Premium."
       },
       "forgotPassword": {
-        "titulu": "Password scurdata",
-        "aiutu": "Mèttici l'indirizzu email ca usasti pi criari u tò cuntu Chatforia e ti manneremu un link sicuru pi ristabbiliri a tò password.",
-        "etichettaEmail": "Email",
-        "campuEmail": "you@example.com",
+        "title": "Password scurdata",
+        "helper": "Inserisci l'email ca hai usatu pi criari lu tò cuntu Chatforia e ti mannaremu un link sicuru pi resettari la tò password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
         "emailInvalid": "Pi favuri, nserisci n'indirizzu email validu.",
         "genericError": "Nun si pò prucessari la richiesta. Pruva n'autra vota tra pocu.",
-        "sending": "Si sta mannannu lu link di ristabbilimentu...",
-        "sendCta": "Manna lu Link di Ristabbilimentu",
-        "sentLabel": "Manniatu!",
-        "sentHelper": "Si già esisti un cuntu cu chidda email, t'avemu mannatu un link pi resettari la password. Pò vuliri quarchi minutu pi arrivari. Assicurati di taliari ntô carteddu spam o promozioni.",
-        "previewDev": "Previsualizza Email (Dev)",
-        "backToLogin": "Torna ô Login"
+        "sending": "Stannu mannannu lu link di reset...",
+        "sendCta": "Manna u Link di Ripristinu",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Tornari a l'accessu"
       },
       "resetPassword": {
-        "title": "Ripristina Password",
-        "missingToken": "Token di ristabbilimentu password invalidu o mancanti.",
+        "title": "Ripristina password",
+        "missingToken": " Token di ristabbilimentu password invalidu o mancanti.",
         "missingTokenHelper": "Token invalidu o mancanti. Pi favuri, richiedi un novu link di ristabbilimentu password.",
         "passwordMismatch": "Li password nun currisponnunu",
-        "success": "A tò password è stata resettata cu successu",
-        "genericError": "Errore: Nun si pò resettari a password.",
-        "newPasswordLabel": "Password nova",
-        "newPasswordPlaceholder": "Mèttici a tò password nova",
-        "confirmPasswordLabel": "Cunfirma a password nova",
-        "confirmPasswordPlaceholder": "Rimèttici a tò password nova",
-        "resetting": "Sta resettannu...",
-        "submit": "Ripristina password",
+        "success": "La tò password è stata ristabbiluta cu successu",
+        "genericError": "Erroru: Nun si pò ristabbiliri la password.",
+        "newPasswordLabel": "Nuova password",
+        "newPasswordPlaceholder": "Mèttici la tò nova password",
+        "confirmPasswordLabel": "Cunfirma la nova password",
+        "confirmPasswordPlaceholder": "Rimèttici la tò nova password",
+        "resetting": "Sta risettannu...",
+        "submit": "Risetta la password",
         "strongPasswordHint": "Scegli na password forti ca nun usi n'autri parti."
       }
     }
   },
-  "oauth": {
-    "completing": " Completannu l'accessu…"
-  },
   "support": {
-    "helpFab": "Ajutu",
+    "helpFab": "Aiutu",
     "openSupportAria": "Apri supportu",
     "badge": "Supportu",
     "heading": "Comu putemu aiutari?",
@@ -1555,246 +1993,255 @@
       "help": "Centru d'Aiutu",
       "contact": "Cuntattaci"
     },
-    "searchPlaceholder": "Circari articuli d'aiutu…",
-    "searchAria": "Circari aiutu",
-    "searchBtn": "Circari",
+    "searchPlaceholder": "Circà l'artìculi d'aiutu…",
+    "searchAria": "Circà aiutu",
+    "searchBtn": "Search",
     "quickTopicsLabel": "Temi rapidi",
     "quickTopics": {
       "login": "Nun pozzu trasiri",
       "billing": "Pagamenti / fatturazzioni",
-      "abusu": "Signala abusu"
+      "abuse": "Signala abusu"
     },
-    "pruvaCircari": "Pruva a circari \"traduci\", \"còpii di riserva\", o \"privacy\".",
-    "artìculu": "Artìculu",
-    "apriArtìculu": "Apre l'artìculu",
-    "contattuIntroduzzioni": "Pruvamu a risòlviri chistu subitu. Si no, a nostra squadra si n'occùpira.",
-    "ariaArgumentu": "Scegli un argumentu",
+    "trySearching": "Pruva a circari \"translate\", \"backups\", o \"privacy\".",
+    "article": "Artìculu",
+    "openArticle": "Apri l'artìculu",
+    "contactIntro": "Pruveremu a risòlviri chistu subitu. Si no, a nostra squadra si n'occùpira.",
+    "topicAria": "Scegghi un argumentu",
     "messagePlaceholder": "Scrivi u tò missaggiu…",
     "sendBtn": "Manna",
-    "sent": "Missaggiu mannatu. Ti rispunneremu pi email.",
-    "sendError": "Nun si putìa mannari. Manna n'email a support@chatforia.com inveci.",
+    "sent": "Missaggiu mannatu. Ti rispunniamu pi email.",
+    "sendError": "Nun si putìa mannari. Scrivi a support@chatforia.com inveci.",
     "actionCompleted": "Azzioni cumplita.",
-    "actionFailed": "Nun si putìa cumplitari l'azzioni. Pruva n'autra vota.",
-    "ticketCreated": "Nun avemu pututu risòlviri chistu automaticamenti. A nostra squadra si n'occùpira.",
-    "escalationMessage": "Nun avemu pututu risòlviri chistu automaticamenti. A nostra squadra si n'occùpira.",
-    "genericError": "C'è statu un errore. Pruva n'autra vota.",
-    "analyzing": "Stamu analizzannu u tò prubblema...",
-    "takeAction": "Fai l'azzioni cunsigliata",
-    "resolvedInstantly": "Prubblema risoltu subitu — nun servi un ticket.",
-    "escalating": "Stamu scalisannu a supportu..."
+    "actionFailed": "Nun si putìa cumplitari l'azzioni. Pruova n'autra vota.",
+    "ticketCreated": "Nun putemu risòlviri chistu automaticamenti. A nostra squadra si n'occùpira.",
+    "escalationMessage": "Nun putemu risòlviri chistu automaticamenti. A nostra squadra si n'occùpira.",
+    "genericError": "C'è statu un prublema. Pruva n'autra vota.",
+    "analyzing": "Stamu analizzannu u tò prublema...",
+    "takeAction": "Pigghia l'azzioni ricumandata",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
   },
   "help": {
-    "title": "Ajutu",
-    "howCanWeHelp": "Comu putemu aiutari?",
-    "helpCenter": "Centru d'Ajutu",
-    "contactUs": "Cuntattaci",
-    "quickTopics": "Argomenti rapidi",
-    "searchExamples": "Pruva a circari \"traduci\", \"còpi di riserva\" o \"privacy\".",
-    "nunPozzuAccèdiri": "Nun pozzu accèdiri",
-    "pagamentiFatturazzioni": "Pagamenti/ fatturazzioni",
-    "reportAbuse": "Signala abusu",
-    "searchHelpArticles": "Circà articuli d'aiutu",
-    "search": "Circà"
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
   },
   "helpCenter": {
     "title": "Centru d'Aiutu",
     "faq": {
       "account": {
-        "q": "Comu fazzu a criari o ricuperari u me cuntu?"
+        "q": "Comu fazzu pi criari o ricuperari u me cuntu?",
+        "a": "Scarrica l'app o usa u web, tòcca \"Crea cuntu\", verifica u tò email/telefonu. Pi ricuperari, usa \"Hai scurdatu password\"."
       },
       "privacy": {
         "q": "I missaggi sunnu criptati end-to-end?",
-        "a": "Sì. I missaggi e i chiamati sunnu criptati di testa a coda di difettu. Sulu tu e u destinatariu li putiti lèggiri."
+        "a": "Sì. I missaggi e i chiamati sunnu criptati end-to-end di difettu. Sulu tu e u destinatariu putiti leggiri."
       },
       "translate": {
         "q": "Comu funziona a traduzzioni istantànea?",
-        "a": "Abilitari \"Auto-traduci\" nta Impostazzioni → Aspettu e Lingua. Traducemu supra u dispusitivu quannu è supportatu, sinnò attraversu API sicuri cu metadati minimi."
+        "a": "Abilitari \"Auto-traduci\" nta Impostazzioni → Aspettu e Lingua. Traducemu supra u dispusitivu quannu è supportatu, sinnò attraversu API sicuri cu dati minimi."
       },
       "contact": {
         "q": "Cuntatta u supportu",
-        "a": "Scrivici a support@chatforia.com. Mettici screenshot e a tò virsioni di l'app."
+        "a": "Scrivici a support@chatforia.com. Includi screenshot e a tò app virsioni."
       }
     }
   },
   "gettingStarted": {
-    "title": "Pi Accuminciari",
-    "subtitle": "Novu a Chatforia? Stu quick start mostra l'essenziali accussì poi essiri produttivu 'n pochi minuti.",
+    "title": "Pi cuminciari",
+    "subtitle": "Novu a Chatforia? Stu cuminciamentu rapidu mostra l'essenziali accussì poi essiri produttivu 'n pochi minuti.",
     "alert": {
-      "text": "Sta guida criscerà mentri lanciamu novi funzioni. Si quarchi cosa manca, fammulu sapiri via",
+      "text": "Sta guida criscerà mentri lanciamu novi funzioni. Si manca quarchi cosa, fammulu sapiri attraversu",
       "contactLink": "Contact Us"
     },
     "section1": {
-      "title": "1) Cria u tò cuntu",
-      "signup": "Sign up",
+      "title": "1) Crea u tò cuntu",
+      "signup": "Iscriviti",
       "or": "or",
-      "login": "log in",
-      "loginText": "cu lu tò cuntu già esistenti.",
-      "prefsStart": "Ntâ l'app, apri Impostazzioni pi impostari li tò preferenzi",
+      "login": "Accedi",
+      "loginText": "cu u tò cuntu esistenti.",
+      "prefsStart": "Ntâ l'app, apri Impostazzioni pi impostari i tò preferenzi",
       "prefsLink": "preferenzi",
       "prefsRest": "(lingua, ricevuti di lettura, temi)."
     },
     "section2": {
-      "title": "2) Accuminza a mandari missaggi",
+      "title": "2) Accuminza a mannari missaggi",
       "item1": "Crea un DM o un Gruppu e manda u tò primu missaggiu.",
-      "item2": "Usa a traduzzioni istantanea pi chiacchierari in cchiù di 100 lingui.",
-      "item3": " Pruva li missaggi ca sparisciunu e li ricevuti di lettura in Profilu → Privacy."
+      "item2": "Usa la traduzzioni istantànea pi chatta' in cchiù di 100 lingui.",
+      "item3": "Pruva li missaggi ca sparisciunu e li ricevuti di lettura in Profilu → Privacy."
     },
     "section3": {
       "title": "3) Va cchiù luntanu",
-      "item1": "Pò passari a un pianu a pagamentu quannu voi dintra l'app.",
-      "item2": "Quannu sì cunnessu, poi ligari àutri dispusitivi e attivari còpi di sicurizza criptati di li Impostazzioni nta l'app.",
-      "item2Part1": "Quannu si cunnessu, poi ligari àutri dispusitivi e attivari còpi di sicurizza criptati di li Impostazzioni ntâ app."
+      "item1": "Pò passari a nu pianu a pagamentu quannu voi dintra l'app.",
+      "item2": "Quannu sì cunnessu, poi ligari àutri dispusitivi e attivari còpi di sicurizza criptati di li Impostazzioni di l'app.",
+      "item2Part1": "Quannu sì cunnessu, poi ligari àutri dispusitivi e attivari còpi di sicurizza criptati di li Impostazzioni di l'app."
     },
     "cta": {
-      "seePlans": "Vidi piani e prezzi",
-      "openSettings": "Apri Impostazzioni",
-      "createAccount": " Crea un cuntu"
+      "seePlans": " Vidi piani e prezzi",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
     }
   },
   "howItWorks": {
-    "title": "Comu funziona Chatforia",
-    "intro": "Chatforia è disignata pi fari la cumunicazzioni semprici, veloci e accessìbbili. Pi accuminciari ci vonnu sulu quarchi passu.",
-    "step1Title": "1. Crea un Cuntu",
-    "step1Desc": "Registrati usannu la tò email o nomu utente pi criari u tò cuntu Chatforia.",
-    "step2Title": "2. Accuminza na cunversazioni",
-    "step2Desc": "Cunnettiti cu l'àutri scegliennu cuntatti o accuminzannu novi chat.",
-    "step3Title": "3. Messaggistica in tempu rialì",
-    "step3Desc": "I missaggi vennu cunsegnati subitu pi offriri na spirienza di cumunicazioni fluida.",
-    "step4Title": "4. Comunicazzioni Globali",
-    "step4Desc": "La traduzzioni integrata aiuta l'utenti a cumunicari tra lingui diffirenti.",
-    "step5Title": "5. Stari 'n Cuntrullu",
-    "step5Desc": "Gestisci li toi preferenzi, cuntatti e impostazzioni di cumunicazzioni."
+    "title": "How Chatforia Works",
+    "intro": "Chatforia is designed to make communication simple, fast, and accessible. Getting started takes just a few steps.",
+    "step1Title": "1. Create an Account",
+    "step1Desc": "Sign up using your email or username to create your Chatforia account.",
+    "step2Title": "2. Start a Conversation",
+    "step2Desc": "Connect with others by selecting contacts or starting new chats.",
+    "step3Title": "3. Real-Time Messaging",
+    "step3Desc": "Messages are delivered quickly to provide a smooth communication experience.",
+    "step4Title": "4. Global Communication",
+    "step4Desc": "Built-in translation helps users communicate across different languages.",
+    "step5Title": "5. Stay in Control",
+    "step5Desc": "Manage your preferences, contacts, and communication settings."
   },
-  "sicurezza": {
-    "titulu": "Sicurezza e Linìi Guida pi la Cumunità",
-    "introduzzioni": "Chatforia s'impegna a mantèniri un ambienti sicuru e rispittusu pi tutti l'utenti. Sti linìi guida aiutanu a assicurari na spirienza pusitiva pi tutti.",
-    "respectTitle": "Cumunicazzioni Rispittusa",
-    "respectDesc": "Si spetta ca l'utenti cumunicanu cu rispettu. Molestie, abusu o cumpurtamentu dannusu nun è permessu.",
-    "prohibitedTitle": "Cuntenutu Pruibitu",
+  "safety": {
+    "title": "Safety & Community Guidelines",
+    "intro": "Chatforia is committed to maintaining a safe and respectful environment for all users. These guidelines help ensure a positive experience for everyone.",
+    "respectTitle": "Respectful Communication",
+    "respectDesc": "Users are expected to communicate respectfully. Harassment, abuse, or harmful behavior is not permitted.",
+    "prohibitedTitle": "Prohibited Content",
     "prohibited": {
-      "illegal": "Attivitati illegali",
-      "molestia": "Molestia o bullismu",
-      "òdiu": "Discorsu d'òdiu o discriminazzioni",
-      "esplicitu": "Materiale esplicitu o dannusu",
-      "spam": "Spam o pràtichi ingannusi"
+      "illegal": "Illegal activities",
+      "harassment": "Harassment or bullying",
+      "hate": "Hate speech or discrimination",
+      "explicit": "Explicit or harmful material",
+      "spam": "Spam or deceptive practices"
     },
-    "arnesiTitulu": "Arnesi pi la Sicurezza dî Utenti",
-    "arnesi": {
-      "signala": "Signala cumpurtamentu o cuntenutu inappropriatu",
-      "blocca": "Blocca l'utenti pi impediri àutra interazzioni",
-      "cuntròlla": "Gestisci li paràmitri di privacy e di cumunicazzioni"
+    "toolsTitle": "User Safety Tools",
+    "tools": {
+      "report": "Report inappropriate behavior or content",
+      "block": "Block users to prevent further interaction",
+      "control": "Manage privacy and communication settings"
     },
     "enforcementTitle": "Enforcement",
-    "enforcementDesc": "Putemu pigghiari azzioni contru a cunti ca vìolanu sti linìi guida, cumpresi avvisi, restrizzioni, o rimozzioni permanenti dâ piattaforma."
+    "enforcementDesc": "We may take action against accounts that violate these guidelines, including warnings, restrictions, or permanent removal from the platform."
   },
   "blog": {
     "whyMessaging": {
       "title": "Picchì li piattaformi di missaggiu sunnu cchiù mpurtanti ca mai",
-      "intro": "Li piattaformi di missaggiu sunnu addivintati unu di li strumenti cchiù mpurtanti pi la cumunicazzioni ntô munnu d'oggi. Di cunversazzioni personali a nterazzioni di travagghiu, l'app di missaggiu permettunu a li pirsuni di ristari cunnessi subitu e in modu efficaci.",
+      "intro": "Li piattaformi di missaggiu sunnu addivintati unu di li strumenti cchiù mpurtanti pi la cumunicazzioni ntô munnu d'oggi. Di cunversazzioni personali a nterazzioni di travagghiu, l'app di missaggiu permettunu a la genti di ristari cunnessi subitu e in modu efficaci.",
       "everydayTitle": "Cumunicazzioni di ogni jornu",
-      "everydayDesc": "A genti si fida di l'app di missaggi pi cumunicari ogni jornu cu l'amici, la famigghia e li culleghi. Ca sia un aghjurnamentu veloci o na cunversazioni longa, li missaggi offrunu na manera cunvinienti e flessìbbili pi ristari in cuntattu.",
-      "speedTitle": "Velucità e Cunvinienza",
-      "speedDesc": "Unu di li principali vantaggi di li piattaformi di missaggiu è la so velucità. Li missaggi vennu cunsegnati subitu, permettendu a l'utenti di cumunicari in tempu rialì. Stu liveddu di cunvinienza ha fattu di li missaggiu lu mètudu di cumunicazzioni preferitu pi assai genti.",
-      "globalTitle": "Raggiunguta Globale",
-      "globalDesc": "Li piattaformi di missaggiu cunnèttinu genti di tuttu lu munnu. Cu l'accessu a Internet, l'utenti ponnu cumunicari senza guardari unni si trovanu, facennu cchiù facili custruiri rilazzioni e cuuperari a livellu internazziunali.",
-      "privacyTitle": "Privacy e Cuntròllu",
-      "privacyDesc": "Li piattaformi di missaggiu muderni si cuncentranu a dari ai utenti lu cuntrollu supra li so dati e cunversazioni. Funzionalità comu criptazzioni, impostazzioni di privacy e cuntrolli di missaggiu permettunu a l'utenti di cumunicari cu fiducia.",
-      "futureTitle": "U Futuru di li Messaggi",
-      "futureDesc": "Li servizi di missaggi cuntìnuanu a evolviri cu novi funziunalità comu risposti alimentati di IA, traduzzioni e spartuta di multimediali. Comu la tecnoluggìa avanza, li piattaformi di missaggi addivintarannu ancora cchiù putenti e versatili.",
-      "outro": "Chatforia è custruita cu sti principî 'n menti, offrendu na sperienza rapida, sicura, e n'esperienza di missaggiu facili a usari pi nu munnu cunnessu."
+      "everydayDesc": "\n Li pirsuni si fidanu di l'app di missaggiu pi la cumunicazzioni cutidiana cu l'amici, la famigghia e li culleghi. Ca sia un aghjurnamentu rapidu o na cunversazioni longa, lu missaggiu offri na manera cunvinienti e flessìbbili pi ristari in cuntattu.",
+      "speedTitle": "Velucità e Cummudità",
+      "speedDesc": "Unu di li principali vantaggi di li piattaformi di missaggiu è la so velucità. Li missaggi vennu cunsegnati subitu, permettendu a l'utenti di cumunicari in tempu rialì. Stu liveddu di cummudità ha fattu di li missaggiu lu mètudu di cumunicazzioni preferitu pi assai genti.",
+      "globalTitle": "Raggiungimentu Globali",
+      "globalDesc": "Li piattaformi di missaggiu cunnèttinu genti in tuttu u munnu. Cu l'accessu a Internet, l'utenti ponnu cumunicari senza guardari unni si trovanu, facennu cchiù facili custruiri rilazzioni e cullabburari a livellu internazziunali.",
+      "privacyTitle": "Privacy e Cuntròllu ",
+      "privacyDesc": "Li piattaformi di missaggiu muderni si cuncènttranu a dari ai utenti lu cuntrollu supra li so dati e cunvirsazioni. Funzionalità comu la crittografia, li impostazzioni di privacy e li cuntrolli di missaggiu permettunu a l'utenti di cumunicari cu fiducia.",
+      "futureTitle": "Lu Futuru di li Missaggi",
+      "futureDesc": "Lu missaggiu cuntìnua a evolviri cu novi funzioni comu risposti alimentati di IA, traduzzioni e spartuta di multimediali. Comu la tecnoluggìa avanza, li piattaformi di missaggiu addivintarannu ancora cchiù putenti e versatili.",
+      "outro": "Chatforia è custruita cu sti principî 'n menti, offrennu n'esperienza di missaggiu veloci, sicura e facili d'usari pi nu munnu cunnessu."
     },
     "global": {
       "title": "U Futuru dâ Comunicazzioni Globali",
-      "intro": "A cumunicazzioni s'havi evolutu rapidamenti nti l'ùrtimi decenni. Chiddu ca prima richiedeva chiamati ô telefunu o in incontri tra tri pirsuni ponnu ora essiri fatti prestu attraversu piattaformi di missaggiu. Comu la tecnoluggìa cuntinua a avanzari, la cumunicazzioni glubbali addiventa cchiù ràpida, cchiù accessìbbili e cchiù inclusiva.",
-      "barriersTitle": "Rompiri li barriere",
-      "barriersDesc": "Unu di li cchiù granni cambiamenti nta la cumunicazzioni è la riduzzioni di li barriere giugrafichi. Ora li pirsuni ponnu cunnettirisi cu l'àutri di tuttu lu munnu quasi in tempu rialu. Sia pi cunversazzioni personali, affari o cullabburazzioni, li piattaformi di missaggiu hannu fattu ca la distanza è assai menu limitanti .",
-      "translationTitle": "U Rolu dâ Tecnuluggìa di Traduzzioni",
-      "translationDesc": "A lingua è sempri stata unu dî cchiù granni ostaculi pâ cumunicazzioni glubbali. Oggi, li strumenti di traduzzioni ncorporati aiutanu a superari stu divariu. Piattaformi comu Chatforia permettunu ê utenti di cumunicari cchiù facirmenti puru si parranu lingui diffirenti, criannu novi upurtunità pi cunnissioni e capiscenza.",
-      "realtimeTitle": "Cunnissioni in Tempu Riali",
-      "realtimeDesc": "A vilucitati è un fatturi chiavi ca furma a cumunicazzioni muderna. L'utenti s'aspittanu ca i missaggi vennu cunsegnati subitu, e l'infrastruttura muderna susteni sta aspettativa. A messaggistica in tempu riali permette cunversazzioni cchiù naturali e fluidi.",
+      "intro": "A cumunicazzioni si è sviluppata prestu nti l'ùrtimi decenni. Chiddu ca prima richiedeva chiamati ô telefunu o ncontri di pirsuna ora si pò fari prestu attraversu piattaformi di missaggi. Comu a tecnoluggìa cuntinua a avanzari, a cumunicazzioni glubbali addiventa sempri cchiù ràpida, accessìbbili e inclusiva.",
+      "barriersTitle": "Rompennu li Barrieri",
+      "barriersDesc": "Unu di li cchiù granni canciamenti nta la cumunicazzioni è la riduzzioni di li barriere giugrafichi. Ora li pirsuni ponnu cunnettirisi cu l'àutri nta tuttu lu munnu quasi in tempu reali. Sia pi cunversazzioni personali, pi affari o pi cullabburazzioni, li piattaformi di missaggiu hannu fattu ca la distanza è assai menu limitanti.",
+      "translationTitle": "Lu Rolu di la Tecnuluggìa di Traduzzioni",
+      "translationDesc": "A lingua è sempri stata unu di li cchiù granni ostaculi pi la cumunicazzioni glubbali. Oggi, li strumenti di traduzzioni nnati aiutanu a cupriri stu divariu. Piattaformi comu Chatforia permettunu a l'utenti di cumunicari cchiù facirmenti puru si parranu lingui diffirenti, criannu novi upurtunità pi cunnissioni e capiscenza.",
+      "realtimeTitle": "Cunnettività in Tempu Riali",
+      "realtimeDesc": "A vilucità è un fatturi chiavi ca furma la cumunicazzioni muderna. L'utenti s'aspettanu ca li missaggi vennu cunsegnati subitu, e l'infrastruttura muderna sustinìri sta aspettativa. Lu missaggiu in tempu rialì permette cunversazzioni cchiù naturali e fluidi.",
       "privacyTitle": "Privacy e Sicurezza",
-      "privacyDesc": "Comu a cumunicazzioni addiventa cchiù digitali, a privacy e a sicurizza sunnu sempri cchiù mpurtanti. L'utenti vonnu aviri fiducia ca i so cunversazzioni sunnu prutetti. Funzionalità comu a crittografia e i paràmetri cuntrullati di l'utenti aiutanu a sustiniri n'esperienza di cumunicazzioni cchiù sicura.",
+      "privacyDesc": "Comu la cumunicazzioni addiventa cchiù digitali, la privacy e la sicurezza sunnu sempri cchiù mpurtanti. L'utenti vonnu aviri fiducia ca li so cunversazzioni sunnu prutetti. Funzionalità comu la crittografia e li impostazzioni cuntrullati di l'utenti aiutanu a sustiniri n'esperienza di cumunicazzioni cchiù sicura.",
       "futureTitle": "Chiddu ca veni dopu",
-      "futureDesc": "U futuru dâ cumunicazzioni glubbali prubabbirmenti ncludirà arnesi cchiù avanzati, comu missaggi assistuti di l'IA, traduzzioni migghiurata e spirienzi d'utilizzaturi arricchiti. Comu a tecnuluggìa si sviluppa, a cumunicazzioni cuntinuerà a addivintari cchiù intuitiva e accessìbbili.",
+      "futureDesc": "U futuru dâ cumunicazzioni glubbali prubabbirmenti ncludirà arnesi cchiù avanzati, comu missaggistica assistuta di IA, traduzzioni migghiurata e spirienzi d'utilizzaturi arricchiti. Comu a tecnoluggìa si sviluppa, a cumunicazzioni cuntinuerà a addivintari cchiù intuitiva e accessìbbili.",
       "outro": "Piattaformi comu Chatforia sunnu parti di stu cambiamentu, aiutannu a genti a cunnettirisi cchiù facirmenti attraversu lingui e cunfini."
     },
     "index": {
       "title": "Blog di Chatforia",
-      "intro": "Esplora approfondimenti supra a cumunicazzioni, a sicurezza online e comu a tecnoluggìa di missaggiu sta cunnettiennu a genti ntô munnu.",
+      "intro": "Esplora approfondimenti supra a cumunicazzioni, a sicurezza online, e comu a tecnoluggìa di missaggiu sta cunnettendu a genti ntô munnu.",
       "post1": "Comu Chatari in Modu Sicuru Online",
-      "post2": "U Futuru dâ Cumunicazzioni Globali",
-      "post3": "Picchì i Piattaformi di Missaggiu sunnu 'mpurtanti"
+      "post2": "\n U Futuru dâ Comunicazzioni Globali",
+      "post3": "Picchì li piattaformi di messaggistica sunnu mpurtanti"
     },
     "chatSafely": {
       "title": "Comu Chatari in Modu Sicuru Online",
-      "intro": "A cumunicazzioni online ha fattu cchiù facili ca mai cunnettirisi cu genti di tuttu u munnu. Ca stai mannannu missaggi a l'amici, ncontrannu genti nova, o cuuperannu prufissiunali, i piattaformi di missaggistica hannu un rolu mpurtanti nta la vita di ogni jornu. Però, ristari sicuri online è tantu mpurtanti quantu ristari cunnettuti.",
+      "intro": "La cumunicazzioni online ha fattu cchiù facili ca mai cunnettirisi cu genti di tuttu lu munnu. Ca si stai mandannu missaggi a l'amici, ncontrannu genti nova, o cullabburannu prufissiunalmenti, li piattaformi di messaggistica hannu un rolu mpurtanti nta la vita di ogni jornu. Però, ristari sicuri online è giustu mpurtanti quantu ristari cunnittutu.",
       "personalInfo": {
-        "title": " Pruteggi i toi nfurmazzioni personali",
-        "body": "Una di li règuli cchiù mpurtanti di la sicurizza online è evitari di sparteri nfurmazzioni personali sensìbbili. Chistu include l'indirizzu di casa, li dittagli finanziari, li password, o ogni nfurmazzioni identificativa ca putissi èssiri abusata. Macari nta cunversazzioni casuali, è megghiu stari attenti a chiddu ca sparti e cu cui lu sparti."
+        "title": "Protect Your Personal Information",
+        "body": "Li piattaformi di missaggiu muderni comu Chatforia offrunu strumenti pi aiutari l'utenti a ristari sicuri. Funzionalità comu lu bloccu, la segnalazzioni e li cuntrolli di privacy sunnu disignati pi dari a l'utenti lu cuntrollu supra la so spirienza. Si quarcunu si cumporta in modu inappropriatu o ti fa sentiri a disagiu, avissi a usari sti strumenti subitu."
       },
-      "funzionalitàDiSicurezza": {
-        "titulu": "Usa li Funzionalità di Sicurezza Integrati",
-        "corpu": "Li piattaformi di missaggiu mudèrni comu Chatforia offrunu strumenti pi aiutari l'utenti a ristari sicuri. Funzionalità comu lu bloccu, la segnalazzioni e li cuntrolli di privacy sunnu disignati pi dari a l'utenti lu cuntrollu supra la so spirienza. Si quarcunu si cumporta in modu inappropriatu o ti fa sentiri a disagiu, avissi a usari sti strumenti subitu."
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Li piattaformi di missaggiu muderni comu Chatforia offrunu strumenti pi aiutari l'utenti a ristari sicuri. Funzionalità comu lu bloccu, la segnalazzioni e li cuntrolli di privacy sunnu disignati pi dari a l'utenti lu cuntrollu supra la so spirienza. Si quarcunu si cumporta in modu inappropriatu o ti fa sentiri a disagiu, avissi a usari sti strumenti subitu."
       },
-      "truffìi": {
-        "titulu": "Statti attentu ê truffìi",
-        "testu": "I truffaturi spissu usanu piattaformi di missaggiu pi ingannari l'utenti e farli spartiri nfurmazzioni pirsunali o mannari sordi. Statti cautu cu li missaggi ca parunu troppu beddi pi essiri veri, comu pruposti nun aspittati, richiesti urgenti, o ligami scunusciuti. Verifica sempri l'identità dâ pirsuna cu cui stai cumunicannu prima di fari ogni azzioni."
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Li piattaformi di missaggiu muderni comu Chatforia offrunu strumenti pi aiutari l'utenti a ristari sicuri. Funzionalità comu lu bloccu, la segnalazzioni e li cuntrolli di privacy sunnu disignati pi dari a l'utenti lu cuntrollu supra la so spirienza. Si quarcunu si cumporta in modu inappropriatu o ti fa sentiri a disagiu, avissi a usari sti strumenti subitu."
       },
-      "responsabbilmenti": {
-        "titulu": "Cumunicari Responsabbilmenti",
-        "corpu": "Na cumunicazzioni rispittusa aiuta a criari un ambienti cchiù sicuru pi tutti. Evita di participari a cunversazzioni dannusi o abusivi, e stati attenti a comu i vostri palori ponnu affettari l'àutri. Interazzioni pusitivi cuntribbuiscinu a na spirienza megghiu pi tutti l'utenti."
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Li piattaformi di missaggiu muderni comu Chatforia offrunu strumenti pi aiutari l'utenti a ristari sicuri. Funzionalità comu lu bloccu, la segnalazzioni e li cuntrolli di privacy sunnu disignati pi dari a l'utenti lu cuntrollu supra la so spirienza. Si quarcunu si cumporta in modu inappropriatu o ti fa sentiri a disagiu, avissi a usari sti strumenti subitu."
       },
-      "picchìSicurezza": {
-        "titulu": "Picchì la Sicurezza Online è Importanti",
-        "corpu": "Comu la cumunicazzioni digitali cuntinua a crìsciri, mantèniri sicurezza e fiducia addivèntanu sempri cchiù mpurtanti. Sèguennu li pràtichi di sicurezza basi e usannu l'arnesi dispunìbbili, l'utenti ponnu gudiri di li vantaggi di li missaggi mentri minimizzanu li risichi."
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "Li piattaformi di missaggiu muderni comu Chatforia offrunu strumenti pi aiutari l'utenti a ristari sicuri. Funzionalità comu lu bloccu, la segnalazzioni e li cuntrolli di privacy sunnu disignati pi dari a l'utenti lu cuntrollu supra la so spirienza. Si quarcunu si cumporta in modu inappropriatu o ti fa sentiri a disagiu, avissi a usari sti strumenti subitu."
       },
-      "conclusioni": "Stari sicuri online nun richiedi cunniscenzi tècnichi avanzati—basta cuscenza, prudenza e bon giudizziu. Cu li abitudini giusti, poi cumunicari cu fiducia e in modu sicuru."
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
     }
   },
   "about": {
-    "title": "A propositu di Chatforia",
-    "description": "Chatforia è un messaggeru sicuru e multilingua cu crittografia end-to-end, traduzzioni istantànea e chiamati vocali/video. A nostra missioni è semprici: aiutari a genti a cunnettirisi—in modu sicuru, privatu e attraversu li lingui.",
-    "valuesTitle": "Chiddu ca apprezzamu",
+    "title": "About Chatforia",
+    "description": "Chatforia is a secure, multilingual messenger with end-to-end encryption, instant translation, and voice/video calling. Our mission is simple: help people connect—safely, privately, and across languages.",
+    "valuesTitle": "What we value",
     "values": {
-      "privacy": "<b>Privacy prima di tuttu:</b> crittografia E2E di difettu.",
-      "access": "<b>Accessu pi tutti:</b> traduzzioni automatica di cchiù di 100 lingui.",
-      "control": "<b>Cuntròllu:</b> missaggi ca sparisciunu e ricevuti di lettura sunnu opzziunali.",
-      "privacy_ aria": "Prima la privacy: crittografia E2E di difettu.",
-      "access_aria": "Accessu pi tutti: traduzzioni automatica di cchiù di 100 lingui.",
-      "control_aria": "Cuntròllu: li missaggi ca sparisciunu e li ricevuti di lettura sunnu opzziunali."
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
     },
-    "howTitle": "Comu funziona Chatforia",
-    "howDescription": "I missaggi sunnu criptati supra u vostru dispusitivu prima ca nescinu. A traduzzioni, i backup e a sincronizzazzioni tra dispusitivi sunnu cuncepiti pi minimizzari chiddu ca i nostri server ponnu vidiri."
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "Privacy-first",
+    "privacyDesc": "End-to-end encryption and privacy controls are built into Chatforia from the start.",
+    "accessTitle": "Access for everyone",
+    "accessDesc": "Chatforia helps people connect across languages, devices, and borders.",
+    "controlTitle": "Your control",
+    "controlDesc": "Choose how messages appear, when they disappear, and how your account stays protected."
   },
   "press": {
     "title": "Stampa",
-    "contactLine": "Pi richiesti di stampa, cuntattaci a",
+    "contactLine": "Pi richiesti di media, cuntattaci a",
     "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia è n'app di missaggiu ca dà la priorità â privacy e fa li chat tra lingui diffirenti senza sforzu. Li missaggi sunnu criptati di default di capu a coda, e la traduzzioni integrata supporta cchiù di 100 lingui in tempu reali. L'utenti ponnu attivari missaggi ca sparisciunu, manteniri li ricevuti di lettura opzionali, e sincronizzari tra diversi dispusitivi. Disponìbbili pi iOS, Android e web.",
-    "assetsTitle": " Risorsi dâ marca",
-    "assetsSubtitle": "Loghi, screenshot e mmàggini dû prudottu.",
+    "boilerplateBody": "Chatforia è n'app di missaggiu ca duna la priorità a la privacy e ca fa li chat tra lingui diversi senza sforzu. Li missaggi sunnu criptati di fini a -messaggi criptati di difettu, e la traduzzioni integrata supporta cchiù di 100 lingui in tempu reali. L'utenti ponnu attivari li missaggi ca sparisciunu, manteniri li ricevuti di lettura opzionali, e sincronizzari tra diversi dispusitivi. Disponìbbili pi iOS, Android, e u web.",
+    "assetsTitle": "Risorsi di marca",
+    "assetsSubtitle": "Loghi, screenshot, e mmàggini dû prodottu.",
     "downloadCta": "Scarrica u media kit",
     "downloadTitle": "Pigghia l'app",
-    "scanTip": "Ntô computer? Scanna cu lu tò telefunu pi pigghiari l'app.",
+    "scanTip": "Ntô computer? Scannà cu lu tò telefonu pi pigghiari l'app.",
     "qrAria": "Apri u situ di Chatforia",
-    "appStore": "Scarica di l'App Store",
-    "googlePlay": "Pigliatilu di Google Play"
+    "appStore": "Scarrica di l'App Store",
+    "googlePlay": "Pigghialu di Google Play"
   },
   "careers": {
     "title": "Carrieri",
-    "intro": "Semmu na picciola squadra fundatrici ca sta custruennu Chatforia — un messenger privatu e glubbali ca si lancia supra web, iOS e Android. Si ti nteressa la privacy, la criptazzioni e l'esperienzi d'utilizzaturi piacevuli, ni piacissi assai sentiri di tia.",
-    "openRoles": "<b>Roli fundatrici aperti:</b> Ingigneri Lead Full-stack, Ingigneri Backend (Node.js), Frontend/ Ingigneri Web (React), Ingigneri Mòbbili (iOS), Ingigneri Mòbbili (Android), DevOps/SRE, Ingigneri di Sicurezza e Criptazzioni, Ingigneri di Telecomunicazzioni (Twilio + eSIM).",
-    "apply": "Comu candidàrisi: Usa u buttuni sutta pi mannari u tò curriculum e li link pi email.",
-    "emailCta": "Manna u tò curriculum pi email",
-    "whyNow": "Picchì juncìrisi ora?",
-    "whyBullets": "• Aiuta a custruiri li fundamenta di un novu messenger glubbali.\n• Spedisci migliuramenti usati ntra web, iOS e Android.\n• Travagghia direttamenti cu lu fundaturi supra l'architettura e la direzzioni dû prodottu.\n• Pigghia in caricu li parti cchiù mpattanti dû stack: missaggi, vuci, video, criptazzioni, telecomunicazzioni, IA.\n• Unisciti a l'iniziu — prima ca la basa d'utenti crisci."
+    "intro": "Semmu na piccula squadra fundatrici ca sta custruennu Chatforia — un messenger privatu e glubbali ca si lancia supra web, iOS e Android. Si ti nteressanu la privacy, la crittografia e l'esperienzi d'utilizzu piacièvuli, ni piacissi assai sintiri di tia.",
+    "openRoles": "<b>Ròli fundatrici aperti:</b> Ingigneri Lead Full-stack, Ingigneri Backend (Node.js), Ingigneri Frontend/Web (React), Ingigneri Mòbbili (iOS), Ingigneri Mòbbili (Android), DevOps/SRE, Ingigneri di Sicurezza e Criptazzioni, Ingigneri di Telecomunicazzioni (Twilio + eSIM).",
+    "apply": "Comu candidàrisi: Usa u buttuni sutta pi mannari n'email dû tò curriculum e li link.",
+    "emailCta": "Manna n'email dû tò curriculum",
+    "whyNow": "Picchì unìrisi ora?",
+    "whyBullets": "• Aiuta a custruiri li fundamenta di un novu messenger glubbali.\n• Spedisci migliuramenti usati ntô web, iOS e Android.\n• Travagghia direttamenti cu lu fundaturi supra l'architettura e la direzzioni dû prodottu.\n• Pigghia in caricu li parti cchiù mpattanti dû stack: missaggi, vuci, video, criptazzioni, telecomunicazzioni, IA.\\ n• Unisciti a l'iniziu — prima ca la basa d'utenti crisci.",
+    "futureRoles": "Ròli futuri"
   },
   "advertise": {
     "title": "Pubblicità cu Chatforia",
-    "description": "Raggiungi utenti di messaggeria impegnati cu pusizzioni di bon gustu e sicuri pi la marca. Offriemu inventariu di banner in posti di alta visibilità, sponsorizzazzioni e prumuzzioni interne. Li abbonati premium nun vidunu pubblicità.",
+    "description": "Raggiungi utenti di messaggeria 'ngaggiati cu pusizzioni di bon gustu e sicuri pi la marca. Offrimu spazi pi banner in punti di àuta visibilità, sponsorizzazzioni, e prumozzioni interni. Li abbonati premium nun vidunu pubblicità.",
     "adsense": {
-      "withPubIdShort": "Servemu puru inventariu attraversu Google AdSense. Pò mirari Chatforia cu l'ID di pubblicaturi {{pub Id}}, o usa lu furmulariu cca sutta pi sponsorizzazzioni diretti.",
-      "noPubIdShort": "Servemu puru quarchi inventariu via Google AdSense. Sunnu dispunìbbili sponsorizzazzioni diretti—usa lu furmulariu cca sutta."
+      "withPubIdShort": "Offrimu puru inventariu attraversu Google AdSense. Pò mirari Chatforia cu lu publisher ID {{pubId}}, o usari lu furmulariu cca sutta pi sponsorizzazzioni diretti.",
+      "noPubIdShort": "Offrimu puru quarchi inventariu attraversu Google AdSense. Li sponsorizzazzioni diretti sunnu disponibili—usa lu furmulariu cca sutta."
     },
     "inventoryHeader": "Inventariu & Specificazzioni",
     "placement": {
@@ -1802,43 +2249,43 @@
       "acceptedSizes": "Dimensioni accittati",
       "adsenseSlot": "Slot AdSense:"
     },
-    "noPlacementsPublic": "Stamu finalizzannu u nostru inventariu di annunci. Parlaci dâ tò campagna e ti ricummanniremu i pusizzioni.",
+    "noPlacementsPublic": " Stamu finalizzannu u nostru inventariu di annunci. Parlaci dâ tò campagna e ti ricummanniremu i pusizzioni.",
     "whyHeader": "Picchì Chatforia?",
     "why": {
-      "highSession": "Frequenza di sessioni àuta e tempu di permanenza ntâ UI di chat",
-      "brandSafe": "Formati brand-safe; limitazzioni di frequenza rispittusa",
-      "sponsoredMoments": "Mumenti sponsorizzati (p.es., modal \"Accumincia na Chat\") dispunìbbili",
-      "deals": "Accordi diretti o programmatic via AdSense/Google Ads"
+      "highSession": "Àuta frequenza di sessioni e tempu di permanenza ntâ UI di chat",
+      "brandSafe": "Formati sicuri pi la marca; limitazzioni di frequenza rispittusa",
+      "sponsoredMoments": "Mumenti sponsorizzati (p.es., modal \"Accuminza na Chat\") dispunìbbili",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "contactHeader": "Cuntattu",
+    "contactHeader": "Contact",
     "form": {
       "submittedMsg": "Grazzî! A tò richiesta è in via. Ti ricuntatteremu prestu.",
-      "missingRequired": "Pi favuri, compila nomu, email e missaggiu.",
+      "missingRequired": "Pì favuri, compila nomu, email e missaggiu.",
       "successToast": "Grazzî! Ci cuntatteremu prestu.",
-      "mailtoInfo": "Aprennu u vostru client di posta pi mannari a richiesta…",
-      "nameLabel": "U vostru nomu",
+      "mailtoInfo": "Aprennu u tò client di posta pi mannari a richiesta…",
+      "nameLabel": "U tò nomu",
       "namePlaceholder": "Jane Doe",
       "emailLabel": "Email",
       "emailPlaceholder": "you@company.com",
-      "companyLabel": "Cumpagnìa",
+      "companyLabel": "Company",
       "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Budget mensili (opzziunali)",
-      "budgetPlaceholder": "p.es. $1,000–$20,000+",
-      "messageLabel": "Raccuntaci dâ tò campagna",
-      "messagePlaceholder": "Target, dati, KPI, preferenzi di pusizzioni…",
-      "sendCta": "Manna l'inchiesta"
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targetamentu, dati, KPI, preferenzi di pusizzioni…",
+      "sendCta": "Send inquiry"
     },
     "legal": {
-      "disclaimerStart": "Suttamittènnu, accunsenti ê nostri",
-      "termini": "Termini",
-      "e": "e",
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
       "privacy": "Politica di Privacy"
     }
   },
-  "contattu": {
-    "titulu": "Cuntattaci",
+  "contact": {
+    "title": "Cuntattaci",
     "successMsg": "Grazzî—u nostru team ti rispunni pi email.",
-    "errorSend": "Nun si putìa mannari. Pi favuri, scrivi a support@chatforia.com.",
+    "errorSend": "Nun si putìa mannari. Pi favuri scrivi a support@chatforia.com.",
     "form": {
       "nameLabel": "Nomu",
       "emailLabel": "Email",
@@ -1847,159 +2294,163 @@
     }
   },
   "privacyPolicy": {
-    "title": "Politica di Privacy",
-    "lastUpdated": "Ultimu aggiornamentu:",
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
     "intro": {
-      "body": "Sta Politica di Privacy spiega comu Chatforia (\"nuautri\", \"a nuautri\") raccògghinu, usanu e spartunu nfurmazzioni quannu usi i nostri app e sirvizzi. Disignamu Chatforia pi minimizzari i dati a cui putemu aviri accessu."
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
     },
     "infoWeCollect": {
       "title": "Nfurmazzioni ca raccògghiamu",
       "account": "Nfurmazzioni dû cuntu (p.es., email/telefonu) pi criari e sicurizzari u tò cuntu.",
       "encrypted": "U cuntenutu criptatu (missaggi/chiamati) è criptatu di fini a fini; nun putemu lèggirlu.",
-      "diagnostics": "Diagnòstichi/usu comu log di crash, tipu di dispusitivu, o analìtica generica pi migghiurari li prestazzioni."
+      "diagnostics": "Diagnòstichi/usu comu log di crash, tipu di dispusitivu, o analìtichi generali pi migghiurari i prestazzioni."
     },
     "sms": {
-      "title": "Nùmmari di telefunu mùbbili e SMS",
-      "body": "Si scegghi di furniri un nùmmaru di telefunu mùbbili, lu usamu pi abilitari funzioni comu la virìfica dû cuntu, l'avvisi di login e la messaggerìa tra utenti via SMS unni supportatu. Putemu mannari SMS transazzionali rilativi ô tò cuntu e all'attività supra Chatforia. Pò disattivari la ricezzioni di SMS in ogni mumentu rinunziannu cu na parola chiavi di disiscrizzioni supportata (comu \"STOP\") o canciannu li tò preferenzi di nutificazioni ntâ app. Nun vinnemu u tò numaru di telefonu né lu usamu pi marketing nun rilativu.",
-      "newText": "Novu testu",
-      "enterRecipient": "Mèttici un nomu o un numaru",
+      "title": "Numeri di telefunu mùbbili e SMS",
+      "body": "Si scegghi di furniri un numaru di telefonu mubilì, lu usamu pi abilitari funzioni comu la virificazioni dû cuntu, l'avvisi di login e la messaggeria tra utenti via SMS unni supportatu. Putemu mannari SMS transazzionali rilativi ô tò cuntu e all'attività supra Chatforia. Pò disattivari la ricezzioni di SMS in ogni mumentu rispunnennu cu na parola chiavi di disattivazioni supportata (comu \"STOP\") o canciannu li preferenzi di notifiche ntâ app. Nun facemu\n vènniri u tò numaru di telefunu o usallu pi marketing nun rilativu.",
+      "newText": "Tèxtu novu",
+      "enterRecipient": "Mètti un nomu o un numaru",
       "typeMessage": "Scrivi un missaggiu…",
       "addRecipient": "Aggiungi un destinatariu supra pi accuminciari…"
     },
     "howWeUse": {
-      "title": "Comu usamu l'infurmazzioni ",
-      "provide": "Furniri e sicurari u serviziu (autenticazzioni, rilevamentu di spam/abusu).",
-      "improve": "Migliurari li funzioni (qualità dâ traduzzioni, affidabilità).",
+      "title": "Comu usamu l'infurmazzioni",
+      "provide": "Furniri e sicurizzari u sirvizziu (autenticazzioni, rilevamentu di spam/abusu).",
+      "improve": "Migghiurari li funzioni (qualità dâ traduzzioni, affidabilità).",
       "legal": "Rispittari l'obblighi ligali."
     },
     "sharing": {
       "title": "Condivisiuni",
       "body": "Nun vinnemu dati personali. Putemu cundividiri dati limitati cu prucissuri (p.es., nutificazzioni push, analìtica) sutta cuntratti stritti."
     },
-    "diritti": {
-      "title": "I toi diritti",
-      "body": "Secunnu a tò riggiuni (p.es., GDPR/UK GDPR/CPRA), poi richiediri accessu, currezzioni, cancellazzioni, o rinunzia a certi trattamenti. Cuntattu: privacy@chatforia.com."
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
     },
-    "conservazzioni": {
-      "title": "Ritenuta dî dati & sigurtà",
-      "body": "Nui ritenemu sulu chiddu ca servi pi fari funziunari u sirvizziu e pi applicari la sigurtà standard dû settore. U cuntenutu E2E nun pò èssiri decriptatu di nuàutri."
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
     },
     "children": {
       "title": "Picciriddi",
-      "body": "Chatforia nun è destinata a picciriddi sutta i 13 anni (o comu richiestu di la tò liggi lucali)."
+      "body": " Chatforia nun è destinata a picciriddi sutta i 13 anni (o comu richiestu di la tò liggi lucali)."
     },
-    "cambiamenti": {
-      "title": "Cambiamenti",
-      "body": "Pubblicaremu aggiornamenti ccà e rivideremu la data di \"Ultima aghjurnata\"."
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "Cuntattu",
+      "title": "Contact",
       "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
     }
   },
   "terms": {
-    "title": "Cundizioni dû Serviziu",
-    "lastUpdated": "Ultimu aghjurnamentu:",
+    "title": "Cundizioni di Serviziu",
+    "lastUpdated": "Ultimu aggiornamentu:",
     "intro": {
-      "body": "Usannu Chatforia accunsenti a sti Termini. Si nun accunsenti, nun usari u serviziu."
+      "body": "Usannu Chatforia accunsenti a sti Termini. Si nun si d'accordu, nun usari u serviziu."
     },
     "accounts": {
       "title": "Accounts",
-      "itemAccurateInfo": " Furnisci nfurmazzioni accurati e manteni i credenziali sicuri.",
-      "itemResponsibility": "Si rispunzabbili pi l'attività supra u tò cuntu."
+      "itemAccurateInfo": "Fornisci nfurmazzioni curretti e manteni i credenziali sicuri.",
+      "itemResponsibility": "Si rispunzèvuli pi l'attività supra u tò account."
     },
     "acceptableUse": {
       "title": "Usu accittabbili",
-      "itemNoAbuse": "Nenti cuntenutu illegali, abusivu o ca violi diritti; nenti spam o abusu autumàticu.",
+      "itemNoAbuse": "Nenti cuntenutu illegali, abusivu o ca vìola diritti; nenti spam o abusu autumàticu.",
       "itemSuspend": "Putemu suspènniri/terminari pi violazzioni."
     },
     "sms": {
       "title": "Cumunicazzioni SMS",
-      "body": "Si furnisci un numaru di telefonu mubilì, accunsenti ca Chatforia pò mannari SMS riguardanti u tò cuntu e l'usu dû serviziu, comu avvisi di login, notifiche di sigurtà e missaggi ligati a cunversazzioni ca inizi o nni participi. Nun usamu SMS pi missaggi promozziunali o di marketing senza u tò cunsensu esplicitu. Pò applicàrisi tariffi standard pi missaggi e dati. Pò disiscrìviri di li missaggi SMS in ogni mumentu rispunnennu cu na paròla chiavi di disattivazzioni supportata (p'esempiu, \"STOP\") o aghjurnannu li tò impostazzioni di nutìfica ntâ app."
+      "body": "Si furnisci nu nummaru di telefunu mùbbili, accunsenti ca Chatforia pò mannari SMS ligati a to cuntu e l'usu dû serviziu, comu avvisi di login, nutifiche di sigurtà, e missaggi ligati a cunversazioni ca inizi o unni participi. Nun usamu SMS pi missaggi promozziunali o di marketing senza u to cunsensu esplicitu. Pò essiri ca si applicanu tariffi standard pi missaggi e dati. Pò disiscriviti di li missaggi SMS in ogni mumentu rispunnennu cu na paròla chiavi di disiscrizzioni supportata (pi esempiu, \"STOP\") o aghjurnannu i to impostazzioni di nutifica ntâ app."
     },
     "yourContent": {
       "title": "U tò cuntenutu",
-      "body": "Teni li diritti dû tò cuntenutu. Ni concedi li diritti nicissarii pi fari funziunari u sirvizziu (p'esempiu, instrumintazzioni, archiviazzioni, traduzzioni)."
+      "body": "Teni i diritti supra u tò cuntenutu. Ni concedi i diritti nicissarii pi funziunari u serviziu (p.es., instrummenzu, archiviazioni, traduzzioni)."
     },
     "disclaimer": {
-      "title": "Esclusioni di responsabilità & responsabilità",
-      "body": "U sirvizziu è furnutu \"comu è\" senza garanzii. A lu massimu gradu permissu di liggi, Chatforia nun è rispunzabbili pi danni indiretti o cunsequenziali."
+      "title": "Avvisi & rispunzabbilitati",
+      "body": "U serviziu è furnutu \"comu è\" senza garanzii. A lu massimu gradu permissu di liggi, Chatforia nun è rispunzabbili pi danni indiretti o cunsequenziali."
     },
-    "cambiamenti": {
-      "title": "Cambiamenti",
-      "body": "Putemu aghjurnari sti termini; l'usu cuntinuu doppu li canciamenti significa accittazzioni."
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
     "contact": {
-      "title": "Cuntattu",
+      "title": "Contact",
       "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
     }
   },
   "refund": {
-    "title": "Pulìtica di Rimborzu",
-    "lastUpdated": "Ultimu aggiornatu:",
-    "intro": "A Chatforia, circamu di offriri un serviziu di àuta qualità a tutti l'utenti. Sta Pulìtica di Rimborzu spiega quannu si ponnu emettiri rimborsi.",
-    "abbonamenti": {
-      "titulu": "Abbonamenti",
-      "testu": "L'abbonamenti sunnu fattu pagari in anticipu supra na basa ricurrenti. Pò annullari in ogni mumentu attraversu li paràmitri dû tò cuntu o la piattaforma usata pi accattari."
+    "title": "Politica di Rimborzu",
+    "lastUpdated": "Ultimu aggiornamentu:",
+    "intro": "A Chatforia, nni sforzamu di offriri un serviziu di àuta qualità a tutti l'utenti. Sta Politica di Rimborzu spiega quannu si ponnu fari rimborsi.",
+    "subscriptions": {
+      "title": "Abbonamenti",
+      "body": "L'abbonamenti sunnu fattu pagari in anticipu supra na basa ricurrenti. Pò annullari in ogni mumentu attraversu li impostazzioni dû tò cuntu o la piattaforma usata pi accattari."
     },
-    "idoneità": {
+    "eligibility": {
       "title": "Eligibilità pi Rimborzu",
-      "body": "Li rimborsi ponnu èssiri cuncessi pi addebiti duplica, errori di fatturazzioni, o prublemi tècnichi ca impediscinu l'accessu a funzioni a pagamentu. Tutti li richiesti vennu esaminati casu pi casu."
+      "body": "Li rimborzi ponnu èssiri cuncessi pi addebbiti duplica, errori di fatturazzioni, o prublemi tècnichi ca impediscinu l'accessu a funzioni a pagamentu. Tutti li richiesti vennu esaminati casu pi casu."
     },
-    "nonRimborsabbili": {
-      "title": "Non Rimborsabbili",
-      "body": "Generalmenti nun furnemu rimborsi pi tempu nun usatu, periodi parziali di abbonamentu, o mancatu annullamentu prima di rinnuvamentu.\"    ",
-      "terzu": {
-        "title": "Acquisti di terzi",
-        "body": "Si cumprati attraversu piattaformi di terzi comu l'Apple App Store, i rimborsi hannu a èssiri richiesti direttamenti attraversu chiddi piattaformi."
-      },
-      "contact": {
-        "title": "Cuntattu",
-        "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 8280 1, USA"
-      }
+    "nonRefundable": {
+      "title": "Non Rimborzabbili",
+      "body": "Generalmenti nun facemu rimborsi pi tempu nun usatu, periodi di abbonamentu parziali, o pi mancatu annullamentu prima dû rinnuvamentu."
     },
-    "doNotSell": {
-      "title": "Nun Vènniri o Cundividiri i Mè Nfurmazzioni Pirsunali",
-      "body": "Chatforia nun vènni nfurmazzioni pirsunali. I risidenti di California ponnu sempri mannari richiesti sutta u CPRA usannu u buttuni cca sutta.",
-      "cta": "Manna na richiesta"
+    "thirdParty": {
+      "title": "Acquisti di Terzi Parti",
+      "body": "Si acquistatu attraversu terzi pi piattaformi di terzi comu l'Apple App Store, i rimborsi hannu a èssiri richiesti direttamenti attraversu chiddi piattaformi."
     },
-    "cookies": {
-      "title": "Impostazzioni di Cookie",
-      "body": "Chatforia usa sulu cookie minimali (p.es., di sessioni, di sigurezza). Nun usamu cookie pi pubblicità di terzi. Gestisci i cookie attraversu l'impostazzioni dû tò navigaturi."
-    },
-    "premiumGuard": {
-      "requiresPremium": "Sta funzione richiedi un pianu Premium."
-    },
-    "smsPolicy": {
-      "title": "Chatforia — Pulìtica SMS & Opt-in",
-      "lastUpdated": "Ultimu aggiornamentu:",
-      "whatWeSend": {
-        "title": "Chi mannammu",
-        "body": "Chatforia manda sulu SMS ligati a l'account e a la cunversazioni a li numeri di telefonu ca n'utenti ha datu esplicitamenti e a cui ha datu cunsensu. Li missaggi tipici ncludunu codici di login/verificazioni, avvisi di cunsegna missaggi, nutizzi di sigurtà, e aggiornamenti transazzionali di l'account."
-      },
-      "optIn": {
-        "title": "Comu l'utenti s'iscrivunu",
-        "body": "L'utenti s'iscrivunu nserennu u so numaru di telefonu duranti a registrazzioni e spuntannu a casella di cunsensu pi SMS nta la pàggina di registrazzioni o ntô furmulariu dedicatu",
-        "link": "pi iscrìviri"
-      },
-      "disiscrizzioni": {
-        "title": "Comu l'utenti si disiscrivunu",
-        "stop": "Rispondi STOP a ogni SMS di Chatforia pi annullari l'iscrizzioni.",
-        "start": "Rispondi START pi riiscrìviri.",
-        "contactPrefix": "Cuntatta u supportu a"
-      },
-      "help": {
-        "title": "Ajutu",
-        "bodyPrefix": "Rispondi HELP pi assistenza o scrivi a"
-      },
-      "privacyTerms": {
-        "title": "Privacy & Termini",
-        "bodyStart": "Accunsintennu a l'SMS, l'utenti accunsentunu puru a li nostri",
-        "terms": "Termini di Serviziu",
-        "and": "e",
-        "privacy": "Politica di Privacy"
-      },
-      "footer": "© 2026 Chatforia Inc."
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
     }
+  },
+  "doNotSell": {
+    "title": "Nun Vènniri o Cundividiri i Mè Nfurmazzioni Pirsunali",
+    "body": "Chatforia nun vènni nfurmazzioni pirsunali. I risidenti di California ponnu sempri mannari richiesti sutta u CPRA usannu u buttuni cca sutta.",
+    "cta": "Suttamètti na richiesta"
+  },
+  "cookies": {
+    "title": "Impostazzioni di cookie",
+    "body": "Chatforia usa sulu pochi cookie (p.es., sessioni, sigurtà). Nun usamu cookie di pubblicità di terzi. Gestisci i cookie attraversu l'impostazzioni dû tò navigaturi."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — Pulìtica SMS & Opt-in",
+    "lastUpdated": "Ultimu aggiornamentu:",
+    "whatWeSend": {
+      "title": "Chiddu ca mannammu",
+      "body": "Chatforia manda sulu SMS ligati a l'account e di cunversazioni a numeri di telefonu ca un utente ha esplicitamenti furnutu e accunsintutu. Li missaggi tipici ncludunu codici di login/verificazioni, avvisi di cunsegna di missaggi, nutizzi di sigurtà, e aggiornamenti transazzionali di l'account."
+    },
+    "optIn": {
+      "title": "Comu l'utenti si iscrivunu",
+      "body": "L'utenti si iscrivunu nserennu u so numaru di telefonu duranti a registrazioni e spuntannu u casella di cuntestu pi l'SMS nta la pàggina di registrazzioni o ntô dedicatu",
+      "link": "modulu di iscrizzioni"
+    },
+    "optOut": {
+      "title": "Comu l'utenti si disiscrivunu",
+      "stop": "Rispunni STOP a ogni SMS di Chatforia pi disiscriviri.",
+      "start": "Rispunni START pi risuscriviri.",
+      "contactPrefix": "Cuntatta lu supportu a"
+    },
+    "help": {
+      "title": "Ajutu",
+      "bodyPrefix": "Rispunni HELP pi assistenza o email"
+    },
+    "privacyTerms": {
+      "title": "Privacy & Termini",
+      "bodyStart": "Accunsintennu a l'SMS, l'utenti accunsentunu puru a li nostri",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Politica di Privacy"
+    },
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "Novu testu",
+    "thread": "Filu",
+    "enterRecipient": " Mèttici un nomu o un numaru",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }

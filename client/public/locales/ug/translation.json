@@ -7,10 +7,24 @@
     "cancelAria": "بىكار قىلىش",
     "copy": "كۆچۈرۈش",
     "copied": "كۆچۈرۈلدى!",
-    "errorWithMessage": "خاتالىق: {{message}}"
+    "errorWithMessage": "خاتالىق: {{message}}",
+    "loading": "Loading…",
+    "saveError": "Save failed",
+    "clear": "Clear",
+    "error": "Error",
+    "learnMore": "Learn more",
+    "retry": "Retry",
+    "send": "Send",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "undo": "Undo"
   },
   "a11y": {
     "skipToMain": "ئاساسىي مەزمۇنغا ئاتلاڭ"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
     "backupCreated": "ئاچقۇچ زاپاس نۇسخىسى قۇرۇلۇپ چۈشۈرۈلدى ✓",
@@ -24,6 +38,102 @@
     "chooseFile": "ھۆججەت تاللاڭ ۋە پارول كىرگۈزۈڭ.",
     "imported": "شەخسىي ئاچقۇچ بۇ ئۈسكۈنىگە ئىمپورت قىلىندى. كونا ئۇچۇرلارنى ئوقۇيالايسىز.",
     "enterPassword": "ھېسابات پارولىڭىزنى كىرگۈزۈڭ تاكى ئاچقۇچلىرىڭىزنى بىخەتەر زاپاسلىيالايمىز."
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.",
+      "lockedTitle": "Messages are locked",
+      "lockedBody": "Restore or unlock your encryption key to read encrypted messages on this device."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      },
+      "devicePasscode": {
+        "label": "Device passcode",
+        "description": "Enter the passcode used to protect keys on this device."
+      },
+      "newDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode to protect keys on this device."
+      },
+      "resetDevicePasscode": {
+        "label": "New device passcode",
+        "description": "Create a passcode for the new encryption key on this device."
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption",
+      "advancedRecovery": "Advanced recovery",
+      "restoreChats": "Restore chats",
+      "restoreEncryptedChats": "Restore encrypted chats",
+      "startFreshEncryption": "Start fresh encryption",
+      "unlockMessages": "Unlock messages"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly",
+      "resetFailed": "Could not reset encryption. Please try again.",
+      "restoreFailed": "Could not restore your encryption key. Check your backup and password.",
+      "unlockFailed": "Could not unlock your encryption key. Check your passcode and try again."
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.",
+    "danger": {
+      "title": "Start fresh encryption",
+      "body": "This creates a new encryption key. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "simpleTitle": "Unlock encrypted messages",
+    "simpleDescription": "Use your device passcode or restore a backup to unlock encrypted messages.",
+    "restoreDescription": "Restore your encrypted chat key from a backup protected by your backup password."
+  },
+  "smsConsent": {
+    "label": "I consent to receive SMS notifications and alerts from {{companyName}}. Message frequency may vary. Msg & data rates may apply. Reply <stop>STOP</stop> to unsubscribe at any time. Reply <help>HELP</help> for help."
+  },
+  "phoneField": {
+    "label": "Phone",
+    "invalid": "Invalid phone number",
+    "hint": "Include country code if needed (e.g., +1 415…)"
   },
   "auth": {
     "headline": "ھەرقانداق ئادەمگە، ھەرقانداق جايدا بىخەتەر ئۇچۇرلىشىش",
@@ -45,11 +155,11 @@
       "freeNote": "ئاساسىي قىچىش ۋە ئۇچۇر يوللاش ھەقسىز. ئىلغار AI ۋە ئالىي ئىقتىدارلارنى ئېرىشىش ئۈچۈن يۇقىرى دەرىجىگە كۆتۈرۈش كېرەك."
     },
     "feat": {
-      "encryption": "ئۇچتىن-ئۇچقىچە مەخپىيلەشتۈرۈش ھەمىشە ئىجرا بولىدۇ"
+      "encryption": "ئۇچتىن-ئۇچقىچە مەخپىيلەشتۈرۈش ھەمىشە ئىجرا بولىدۇ",
+      "translate": "Break language barriers in your conversations",
+      "disappear": "Disappearing messages & read receipts",
+      "privacy": "Privacy-first. Your data, your control."
     },
-    "translate": "سۆھبىتىڭىزدىكى تىل توسالغۇسىنى بۇزۇڭ",
-    "disappear": "ئۆچۈرۈلۈپ كېتىدىغان ئۇچۇرلار ۋە ئوقۇلغانلىقىنى كۆرسىتىش",
-    "privacy": "مەخپىيەتلىك ئالدىنقى ئورۇندا. سانلىق مەلۇماتلىرىڭىز، كونترولىڭىز.",
     "continueGoogle": "Google بىلەن داۋاملاشتۇرۇڭ",
     "continueApple": "Apple بىلەن داۋاملاشتۇرۇڭ",
     "username": "ئىشلەتكۈچى نامى",
@@ -88,7 +198,19 @@
       "passwordDescription": "ئەڭ كەم 6 ھەرپ. كۈچلۈك ۋە ئۆزگىچە پارول ئىشلىتىڭ.",
       "smsConsent": "ھېسابات قۇرۇش ئارقىلىق Chatforia پائالىيىتىڭىزگە مۇناسىۋەتلىك SMS ئۇقتۇرۇشلىرىنى قوبۇل قىلىشنى قوبۇل قىلىسىز (باشقا ئىشلەتكۈچىلەردىن كەلگەن ئۇچۇرلار قاتارلىق). ئۇچۇر ۋە سانلىق مەلۇمات ھەققى قوللىنىلىشى مۇمكىن. ھەر قاچان تەڭشەكلەردە ئىشلىتىشتىن ۋاز كېچىشىڭىز مۇمكىن.",
       "termsLink": "مۇلازىمەت شەرتلىرى",
-      "privacyLink": "مەخپىيەتلىك سياسىتى"
+      "privacyLink": "مەخپىيەتلىك سياسىتى",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
     },
     "to": "گە:",
     "enterRecipient": "ئىسىم ياكى نومۇر كىرگۈزۈڭ",
@@ -99,11 +221,95 @@
     "addRecipient": "ئۇچۇر باشلاش ئۈچۈن يۇقىرىدا قوبۇل قىلغۇچى قوشۇڭ…",
     "oneRecipient": "ھازىرچە بىر قوبۇل قىلغۇچى كىرگۈزۈڭ.",
     "enterValidRecipient": "ساقلانغان ئالاقىداش ئىسمى ياكى تېلېفون نومۇرى كىرگۈزۈڭ.",
-    "sendFailed": "ئۇچۇر يوللىيالمىدى. تەپسىلاتلارنى كونسولدا تەكشۈرۈڭ."
+    "sendFailed": "ئۇچۇر يوللىيالمىدى. تەپسىلاتلارنى كونسولدا تەكشۈرۈڭ.",
+    "logIn": "كىرىش",
+    "seePlans": "پىلانلار ۋە باھالارنى كۆرۈڭ",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "ھېسابات قۇرۇش ئارقىلىق Chatforia پائالىيىتىڭىزگە مۇناسىۋەتلىك SMS ئۇقتۇرۇشلىرىنى قوبۇل قىلىشنى قوبۇل قىلىسىز (باشقا ئىشلەتكۈچىلەردىن كەلگەن ئۇچۇرلار قاتارلىق). ئۇچۇر ۋە سانلىق مەلۇمات ھەققى قوللىنىلىشى مۇمكىن. ھەر قاچان تەڭشەكلەردە ئىشلىتىشتىن ۋاز كېچىشىڭىز مۇمكىن.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "googleShort": "Google",
+    "appleShort": "Apple",
+    "googleUnavailable": "Google sign-in unavailable",
+    "appleUnavailable": "Apple sign-in unavailable",
+    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+    "or": "or",
+    "accountLabel": "Account",
+    "identifierPh": "Email or username",
+    "passwordLabel": "Password",
+    "passwordPh": "Your password",
+    "keepSignedIn": "Keep me signed in",
+    "forgot": "Forgot password?",
+    "resendVerification": "Resend verification email",
+    "submit": "Log In",
+    "loggingIn": "Logging in…",
+    "verification": {
+      "sent": "Verification email sent. Check your inbox.",
+      "failed": "Failed to resend verification email."
+    },
+    "error": {
+      "missing": "Please enter your credentials.",
+      "invalid": "Invalid username or password",
+      "denied": "Access denied.",
+      "unprocessable": "Invalid request. Check your username/email and password.",
+      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+      "premiumRequired": "This action requires a Premium plan."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailInvalid": "Please enter a valid email address.",
+      "genericError": "Unable to process request. Please try again in a moment.",
+      "sending": "Sending reset link...",
+      "sendCta": "Send Reset Link",
+      "sentLabel": "Sent!",
+      "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+      "previewDev": "Preview Email (Dev)",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "missingToken": "Invalid or missing password reset token.",
+      "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+      "passwordMismatch": "Passwords do not match",
+      "success": "Your password has been reset successfully",
+      "genericError": "Error: Unable to reset password.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter your new password",
+      "resetting": "Resetting...",
+      "submit": "Reset Password",
+      "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+    }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "home": {
     "title": "باش بېت",
-    "header": "ئۇچۇرلىرىڭىز",
+    "messagesTitle": "Your messages",
+    "messagesSubtitle": "Enter a recipient above, then send a message to start a conversation.",
     "subheader": "ئۇچۇر يوللاپ پاراڭ باشلاڭ.",
     "sendButton": "ئۇچۇر يوللاڭ",
     "gifPicker": "GIF تاللىغۇچنى ئېچىڭ",
@@ -114,226 +320,31 @@
     "sendTooltip": "يوللاڭ",
     "sendTooltipEmpty": "ئۇچۇر يېزىپ يوللاڭ",
     "send": "يوللاڭ",
+    "welcomeMessage": "Chatforia غا خۇش كېلىڭىز",
+    "getStarted": "باشلاڭ",
+    "mixedRecipients": "Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).",
     "enterRecipient": "ئىسىم ياكى نومۇر كىرگۈزۈڭ",
     "addRecipient": "باشلاش ئۈچۈن يۇقىرىغا قوبۇللىغۇچى قوشۇڭ…",
-    "welcomeMessage": "Chatforia غا خۇش كېلىڭىز",
-    "getStarted": "باشلاڭ"
+    "needNumber": "You need a Chatforia number before sending SMS.",
+    "chooseNumber": "Choose a number",
+    "to": "To",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "clearRecipients": "Clear recipients",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name, username, or phone number.",
+    "sendFailed": "Send failed. Please try again."
   },
-  "refund": {
-    "title": "پۇل قايتۇرۇش سىياسىتى",
-    "lastUpdated": "ئاخىرقى يېڭىلانغان ۋاقتى:",
-    "intro": "Chatforia دا، بىز بارلىق قوللانغۇچىلارغا يۇقىرى سۈپەتلىك مۇلازىمەت تەمىنلەشكە تىرىشىمىز. بۇ پۇل قايتۇرۇش سىياسىتى قايسى ئەھۋاللاردا پۇل قايتۇرۇلىدىغانلىقىنى چۈشەندۈرىدۇ.",
-    "subscriptions": {
-      "title": "مۇشتەرىلىكلەر",
-      "body": "مۇشتەرىلىكلەر ئالدىن پۇل تۆلەش شەكلىدە، قايتىلىنىدىغان ھالدا ھەق ئېلىنىدۇ. سىز ھەر قانداق ۋاقىتتا ھېساباتىڭىزنىڭ تەڭشەكلىرى ئارقىلىق ياكى سېتىۋالغان پلاتفورما ئارقىلىق بىكار قىلالايسىز."
-    },
-    "eligibility": {
-      "title": "پۇل قايتۇرۇش شەرتلىرى",
-      "body": "تەكرار ھەق ئېلىش، ھەق ئېلىش خاتالىقى ياكى ھەقلىق ئىقتىدارلارغا كىرىشنى توسقان تېخنىكىلىق مەسىلىلەر بولسا، پۇل قايتۇرۇش مۇمكىن. بارلىق تەلەپلەر ئايرىم-ئايرىم باھالىنىدۇ."
-    },
-    "nonRefundable": {
-      "title": "قايتۇرۇلمايدىغان ئەھۋاللار",
-      "body": "ئادەتتە ئىشلىتىلمىگەن ۋاقىت، قىسمەن مۇشتەرىلىك مەزگىلى ياكى يېڭىلاشتىن بۇرۇن بىكار قىلماسلىق سەۋەبىدىن پۇل قايتۇرۇلمايدۇ."
-    },
-    "thirdParty": {
-      "title": "ئۈچىنچى تەرەپ سېتىۋېلىش",
-      "body": "ئەگەر Apple App Store قاتارلىق ئۈچىنچى تەرەپ پلاتفورمىلىرى ئارقىلىق سېتىۋالغان بولسىڭىز، پۇل قايتۇرۇشنى بىۋاسىتە شۇ پلاتفورمىلار ئارقىلىق سوراش كېرەك."
-    },
-    "contact": {
-      "title": "ئالاقىلىشىش",
-      "body": "support@chatforia.com • Chatforia LLC، 30 N Gould Street STE N، Sheridan، WY 82801، USA"
-    }
-  },
-
-  "about": {
-    "title": "Chatforia ھەققىدە",
-    "description": "Chatforia بىخەتەر ۋە كۆپ تىللىق ئالاقە ئۈچۈن لايىھەلەنگەن زامانىۋى ئۇچۇرلىشىش پلاتفورمىسى...",
-    "valuesTitle": "بىز قىممەت قارىيدىغان نەرسىلەر",
-    "privacyTitle": "مەخپىيەتلىك بىرىنچى",
-    "privacyDesc": "كۈچلۈك شىفىرلاش ۋە قوللانغۇچى كونترول قىلىدىغان مەخپىيەتلىك تەڭشەكلىرى",
-    "accessTitle": "ھەممەيلەنگە ئېرىشىش",
-    "accessDesc": "كۆپ تىللىق تەرجىمە ئىقتىدارى",
-    "controlTitle": "كونترول",
-    "controlDesc": "يوقىلىدىغان ئۇچۇرلار ۋە ئوقۇش بىلدۈرۈشلىرى قاتارلىق ئىقتىدارلار"
-  },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "نېمە ئۈچۈن ئۇچۇرلىشىش پلاتفورمىلىرى بەك مۇھىم",
-      "intro": "ئۇچۇرلىشىش پلاتفورمىلىرى بۈگۈنكى دۇنيادا ئالاقىنىڭ ئەڭ مۇھىم قوراللىرىنىڭ بىرىگە ئايلاندى...",
-      "everydayTitle": "كۈندىلىك ئالاقە",
-      "everydayDesc": "كىشىلەر كۈندىلىك ئالاقە ئۈچۈن ئۇچۇرلىشىش ئەپلەرگە تايىنىدۇ...",
-      "speedTitle": "تېزلىك ۋە قولايلىق",
-      "speedDesc": "ئۇچۇرلار دەرھال يەتكۈزىلىدۇ...",
-      "globalTitle": "دۇنياۋى دائىرە",
-      "globalDesc": "بۇ پلاتفورمىلار دۇنيانىڭ ھەرقايسى جايلىرىدىكى كىشىلەرنى باغلايدۇ...",
-      "privacyTitle": "مەخپىيەتلىك ۋە كونترول",
-      "privacyDesc": "زامانىۋى پلاتفورمىلار قوللانغۇچىلارغا كونترول بېرىشكە ئەھمىيەت بېرىدۇ...",
-      "futureTitle": "ئۇچۇرلىشىشنىڭ كەلگۈسى",
-      "futureDesc": "ئۇچۇرلىشىش يېڭى ئىقتىدارلار بىلەن داۋاملىق تەرەققىي قىلماقتا...",
-      "outro": "Chatforia مۇشۇ قىممەتلەر ئاساسىدا قۇرۇلغان..."
-    },
-
-    "global": {
-      "title": "دۇنياۋى ئالاقىنىڭ كەلگۈسى",
-      "intro": "ئالاقە تېز سۈرئەتتە ئۆزگىرىپ كەلمەكتە...",
-      "barriersTitle": "توسالغۇلارنى بۇزۇش",
-      "barriersDesc": "كىشىلەر ھازىر دۇنيانىڭ ھەر قايسى جايلىرى بىلەن باغلىنالايدۇ...",
-      "translationTitle": "تەرجىمە تېخنىكىسىنىڭ رولى",
-      "translationDesc": "تىل بۇرۇن توسالغۇ بولۇپ كەلگەن...",
-      "realtimeTitle": "ھەقىقىي ۋاقىتتا ئالاقە",
-      "realtimeDesc": "تېزلىك مۇھىم ئامىل...",
-      "privacyTitle": "مەخپىيەتلىك ۋە بىخەتەرلىك",
-      "privacyDesc": "قوللانغۇچىلار سۆھبەتلىرىنىڭ بىخەتەرلىكىگە ئىشەنچ قىلىشنى خالايدۇ...",
-      "futureTitle": "كېلەچەكتە نېمە بولىدۇ",
-      "futureDesc": "دۇنياۋى ئالاقە يېڭى ئىقتىدارلارنى ئۆز ئىچىگە ئالىدۇ...",
-      "outro": "Chatforia قاتارلىق پلاتفورمىلار بۇ ئۆزگىرىشنىڭ بىر قىسمى..."
-    },
-
-    "index": {
-      "title": "Chatforia بىلوگى",
-      "intro": "ئالاقە ھەققىدىكى كۆز قاراشلارنى كۆرۈڭ...",
-      "post1": "توردا بىخەتەر سۆھبەت قىلىش ئۇسۇلى",
-      "post2": "دۇنياۋى ئالاقىنىڭ كەلگۈسى",
-      "post3": "نېمە ئۈچۈن ئۇچۇرلىشىش پلاتفورمىلىرى مۇھىم"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Chatforia قانداق ئىشلەيدۇ",
-    "intro": "Chatforia ئالاقىنى ئاددىيلاشتۇرۇش ئۈچۈن لايىھەلەنگەن...",
-    "step1Title": "1. ھېسابات قۇرۇش",
-    "step1Desc": "ئېلېكترونلۇق خەت ياكى ئىشلەتكۈچى نامى بىلەن تىزىملىتىڭ...",
-    "step2Title": "2. سۆھبەت باشلاش",
-    "step2Desc": "باشقىلار بىلەن باغلىنىڭ...",
-    "step3Title": "3. ھەقىقىي ۋاقىتتا ئۇچۇرلىشىش",
-    "step3Desc": "ئۇچۇرلار تېز يەتكۈزىلىدۇ...",
-    "step4Title": "4. دۇنياۋى ئالاقە",
-    "step4Desc": "تەرجىمە ئىقتىدارى قوللانغۇچىلارغا ياردەم بېرىدۇ...",
-    "step5Title": "5. كونترولنى ساقلاڭ",
-    "step5Desc": "تەڭشەكلىرىڭىزنى باشقۇرۇڭ..."
-  },
-
-  "safety": {
-    "title": "بىخەتەرلىك ۋە جەمئىيەت قائىدىلىرى",
-    "intro": "Chatforia بىخەتەر مۇھىتنى قوغداشقا ۋەدە بېرىدۇ...",
-    "respectTitle": "ھۆرمەتلىك ئالاقە",
-    "respectDesc": "قوللانغۇچىلار بىر-بىرىگە ھۆرمەت بىلەن مۇئامىلە قىلىشى كېرەك...",
-    "prohibitedTitle": "چەكلەنگەن مەزمۇن",
-    "prohibited": {
-      "illegal": "قانۇنسىز پائالىيەتلەر",
-      "harassment": "تەھقىرلەش ياكى زوراۋانلىق",
-      "hate": "نەپرىت سۆزى ياكى كەمسىتىش",
-      "explicit": "ئاشكارا ياكى زىيانلىق مەزمۇن",
-      "spam": "سپام ياكى ئالدامچىلىق"
-    },
-    "toolsTitle": "بىخەتەرلىك قوراللىرى",
-    "tools": {
-      "report": "نامۇۋاپىق ھەرىكەتنى دوكلات قىلىش",
-      "block": "قوللانغۇچىلارنى توسۇش",
-      "control": "مەخپىيەتلىك تەڭشەكلىرىنى باشقۇرۇش"
-    },
-    "enforcementTitle": "ئىجرا قىلىش",
-    "enforcementDesc": "بىز ھېساباتلارغا قارشى چارە قوللىنىشىمىز مۇمكىن..."
-},
-  "chat": {
-    "selectPrompt": "پاراڭ باشلاش ئۈچۈن تېكىست ياكى پاراڭ ئۆيى تاللاڭ",
-    "newMessages": "يېڭى ئۇچۇرلار",
-    "typing": "{{name}} يېزىۋاتىدۇ...",
-    "emptyTitle": "ئۇچۇرلىرىڭىز",
-    "emptySubtitle": "ئۇچۇر يوللاپ پاراڭ باشلاڭ.",
-    "startChatButton": "ئۇچۇر يوللاڭ",
-    "mediaAttachment": "مېدىيا قوشۇمچىسى",
-    "thisUser": "بۇ ئىشلەتكۈچى",
-    "blockConfirm": "{{name}} نى توسۇڭ؟ ئۇلاردىن ئۇچۇر تاپشۇرۇۋالمايسىز.",
-    "blockedUser": "{{name}} توسۇلدى.",
-    "blockError": "توسۇش نىشان ئىشلەتكۈچىنى بەلگىلىيەلمىدى.",
-    "blockFailed": "توسۇش مەغلۇپ بولدى (ئارقا تەرەپ تېخى ئۇلانمىغان).",
-    "encryptedUnavailable": "مەخپىيلەشتۈرۈلگەن ئۇچۇر (ئاچقۇچ يوق)",
-    "unlockToView": "بۇ ئۇچۇرنى كۆرۈش ئۈچۈن ئاچقۇچىڭىزنى ئېچىڭ"
-  },
-  "messageInput": {
-    "ttl": {
-      "off": "تاقاق"
-    },
-    "freeLimit": "ھەقسىز پىلان چەكلىمىسى: ئاپتوماتىك ئۆچۈرۈش 1 كۈنگىچە. 1k غا قىسقارتىلدى.",
-    "premiumLimit": "Premium نىڭ ئەڭ چوڭ ئاپتوماتىك ئۆچۈرۈشى 30 كۈن. 30k غا قىسقارتىلدى.",
-    "nothingToSend": "ئۇچۇر يېزىڭ ياكى ھۆججەت قوشۇڭ.",
-    "encryptionFailed": "مەخپىيلەشتۈرۈش مەغلۇپ بولدى. ئۇچۇر يوللانمىدى.",
-    "sent": "ئۇچۇر يەتكۈزۈلدى.",
-    "placeholder": "ئۇچۇر يېزىڭ…",
-    "voiceAdded": "ئاۋازلىق خاتىرە قوشۇلدى",
-    "attachmentAdded": "قوشۇمچە ھۆججەت قوشۇلدى",
-    "autoDelete": "ئاپتوماتىك ئۆچۈرۈش",
-    "typeToSend": "ئۇچۇر يېزىپ يوللاڭ",
-    "send": "يوللاڭ",
-    "sendWithEnter": "يوللاڭ (Enter)",
-    "attachment": "قوشۇمچە",
-    "caption": "ماۋزۇ (ئىختىيارىي)",
-    "remove": "ئۆچۈرۈش",
-    "clear": "تازىلاش",
-    "gif": "GIF",
-    "sticker": "چىراي ئىپادىسى",
-    "errors": {
-      "attachmentTooLarge": "قوشۇمچە بەك چوڭ. كىچىكرەك ھۆججەت سىناڭ.",
-      "unsupportedFile": "قوللىمايدىغان ھۆججەت تىپى.",
-      "rateLimit": "بەك تېز ئۇچۇر يوللاۋاتىسىز. سىللىقراق بولۇڭ.",
-      "validation": "دەلىللەش خاتالىقى. ئۇچۇرنى تەكشۈرۈپ قايتا سىناڭ.",
-      "failedToSend": "يوللاش مەغلۇپ بولدى. مەغلۇپ كۆپۈكچىنى قايتا سىناڭ."
-    }
-  },
-  "contactList": {
-    "savedContacts": "ساقلانغان ئالاقىداشلار",
-    "refreshAria": "ئالاقىداشلارنى يېڭىلاڭ",
-    "filterPlaceholder": "ساقلانغان ئالاقىداشلارنى سۈزۈڭ…",
-    "filterAria": "ساقلانغان ئالاقىداشلارنى سۈزۈڭ",
-    "noContactsFound": "ئالاقىداش تېپىلمىدى.",
-    "externalContact": "سىرتقى ئالاقىداش",
-    "notJoined": "بۇ ئالاقىداش تېخى Chatforia غا قوشۇلمىغان.",
-    "couldNotStart": "پاراڭ باشلىيالمىدى. قايتا سىناڭ.",
-    "startFailed": "پاراڭ باشلاش مەغلۇپ بولدى. قايتا سىناڭ.",
-    "deleted": "ئالاقىداش ئۆچۈرۈلدى.",
-    "deleteFailed": "ئالاقىداشنى ئۆچۈرۈش مەغلۇپ بولدى. قايتا سىناڭ.",
-    "aliasUpdated": "لەقەم يېڭىلاندى.",
-    "updateAliasFailed": "لەقەمنى يېڭىلاش مەغلۇپ بولدى. قايتا سىناڭ.",
-    "selectContact": "{{name}} نى تاللاڭ",
-    "alias": "لەقەم",
-    "startChat": "پاراڭ باشلاڭ",
-    "message": "ئۇچۇر",
-    "delete": "ئۆچۈرۈش",
-    "deleteContactAria": "ئالاقىداشنى ئۆچۈرۈڭ",
-    "loadFailed": "ئالاقىداشلارنى يۈكلىيەلمىدى. قايتا سىناڭ.",
-    "loadMore": "تېخىمۇ كۆپ يۈكلەڭ",
-    "call": "قىچىش",
-    "callStarted": "Chatforia نومۇرىڭىز ئارقىلىق بۇ نومۇرغا قىچىۋاتىدۇ…",
-    "callFailed": "قىچىشنى باشلاش مەغلۇپ بولدى. قايتا سىناڭ."
-  },
-  "startChatModal": {
-    "title": "پاراڭ باشلاڭ",
-    "searchPlaceholder": "ئىسىم، ئىشلەتكۈچى نامى ياكى تېلېفون نومۇرىنى ئىزدەڭ",
-    "messageThisPerson": "بۇ كىشىگە ئۇچۇر يوللاڭ",
-    "contacts": "ئالاقىداشلار",
-    "recentInteractions": "يېقىنقى ئالاقىلەر",
-    "noContactsMatch": "ئىزدىشىڭىزگە ماس ئالاقىداش يوق.",
-    "noRecentInteractions": "تېخى يېقىنقى ئالاقە يوق.",
-    "unknown": "نامەلۇم",
-    "interactionType": {
-      "message": "ئۇچۇر",
-      "call": "قىچىش",
-      "video": "سىن"
-    }
-  },
-  "addContactModal": {
-    "title": "ئالاقىداش قوشۇڭ",
-    "phoneOrUsername": "تېلېفون ياكى ئىشلەتكۈچى نامى",
-    "phoneOrUsernamePlaceholder": "مەسىلەن +13018019227 ياكى juliannorton",
-    "alias": "لەقەم (ئىختىيارىي)",
-    "aliasPlaceholder": "مەسىلەن خىزمەت، ئانا، مايك – ياۋروپا",
-    "enterPhoneOrUsername": "تېلېفون نومۇرى ياكى ئىشلەتكۈچى نامى كىرگۈزۈڭ.",
-    "userLookupFailed": "ئىشلەتكۈچى ئىزدىشى مەغلۇپ بولدى.",
-    "cannotAddSelf": "ئۆزىڭىزنى ئالاقىداش قىلىپ قوشالمايسىز.",
-    "failedToAdd": "ئالاقىداش قوشۇش مەغلۇپ بولدى.",
-    "add": "قوشۇڭ"
+  "composer": {
+    "aria": "Message composer",
+    "emoji": "Emoji",
+    "gifPicker": "Open GIF picker",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "sendDisabled": "Type a message or attach a file to send.",
+    "upload": "Upload attachment",
+    "voiceNote": "Voice note"
   },
   "sidebar": {
     "randomChat": "تاسادىپىي پاراڭ",
@@ -357,13 +368,151 @@
     "startChatAlt": "يېڭى پاراڭ باشلاڭ",
     "calls": "قىچىشلار",
     "video": "سىن",
-    "voicemail": "ئاۋازلىق خەت"
+    "voicemail": "ئاۋازلىق خەت",
+    "chats": "Chats",
+    "messages": "Messages",
+    "more": "More",
+    "noResults": "No results",
+    "refreshChats": "Refresh chats",
+    "refreshTooltip": "Refresh conversations",
+    "searchAriaLabel": "Search conversations",
+    "callHistory": "Call history",
+    "deleteConversation": "Delete conversation",
+    "deletedTitle": "Conversation deleted",
+    "deletedMsg": "The conversation was deleted.",
+    "deleteFailedTitle": "Could not delete conversation",
+    "deleteFailedMsg": "Please try again.",
+    "archivedTitle": "Conversation archived",
+    "archivedMsg": "The conversation was archived.",
+    "archiveFailedTitle": "Could not archive conversation",
+    "archiveFailedMsg": "Please try again."
   },
   "topbar": {
     "newStatus": "يېڭى ھالەت",
     "logout": "چىقىش",
     "help": "ياردەم",
     "createStatusAria": "يېڭى ھالەت قۇرۇڭ"
+  },
+  "footer": {
+    "plans": "Plans & Pricing",
+    "about": "About Chatforia",
+    "careers": "Careers",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Do Not Sell My Info",
+    "language": "Language",
+    "contactShort": "Contact",
+    "aria": "Footer",
+    "homeAria": "Chatforia home",
+    "section": {
+      "company": "COMPANY",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Do Not Sell My Info",
+      "cookie-settings": "Cookie Settings",
+      "how-it-works": "How It Works",
+      "blog": "Blog",
+      "refund-policy": "Refund Policy",
+      "sms-policy": "SMS Messaging Policy"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
+  },
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia home"
+  },
+  "chat": {
+    "selectPrompt": "پاراڭ باشلاش ئۈچۈن تېكىست ياكى پاراڭ ئۆيى تاللاڭ",
+    "newMessages": "يېڭى ئۇچۇرلار",
+    "typing": "{{name}} يېزىۋاتىدۇ...",
+    "emptyTitle": "ئۇچۇرلىرىڭىز",
+    "emptySubtitle": "ئۇچۇر يوللاپ پاراڭ باشلاڭ.",
+    "startChatButton": "ئۇچۇر يوللاڭ",
+    "mediaAttachment": "مېدىيا قوشۇمچىسى",
+    "thisUser": "بۇ ئىشلەتكۈچى",
+    "blockConfirm": "{{name}} نى توسۇڭ؟ ئۇلاردىن ئۇچۇر تاپشۇرۇۋالمايسىز.",
+    "blockedUser": "{{name}} توسۇلدى.",
+    "blockError": "توسۇش نىشان ئىشلەتكۈچىنى بەلگىلىيەلمىدى.",
+    "blockFailed": "توسۇش مەغلۇپ بولدى (ئارقا تەرەپ تېخى ئۇلانمىغان).",
+    "encryptedUnavailable": "مەخپىيلەشتۈرۈلگەن ئۇچۇر (ئاچقۇچ يوق)",
+    "unlockToView": "بۇ ئۇچۇرنى كۆرۈش ئۈچۈن ئاچقۇچىڭىزنى ئېچىڭ",
+    "clearConfirm": "Clear this conversation? This cannot be undone.",
+    "unknownThread": "Unknown thread"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "تاقاق"
+    },
+    "freeLimit": "ھەقسىز پىلان چەكلىمىسى: ئاپتوماتىك ئۆچۈرۈش 1 كۈنگىچە. 1k غا قىسقارتىلدى.",
+    "premiumLimit": "Premium نىڭ ئەڭ چوڭ ئاپتوماتىك ئۆچۈرۈشى 30 كۈن. 30k غا قىسقارتىلدى.",
+    "nothingToSend": "ئۇچۇر يېزىڭ ياكى ھۆججەت قوشۇڭ.",
+    "encryptionFailed": "مەخپىيلەشتۈرۈش مەغلۇپ بولدى. ئۇچۇر يوللانمىدى.",
+    "sent": "ئۇچۇر يەتكۈزۈلدى.",
+    "placeholder": "ئۇچۇر يېزىڭ…",
+    "autoDelete": "ئاپتوماتىك ئۆچۈرۈش",
+    "typeToSend": "ئۇچۇر يېزىپ يوللاڭ",
+    "send": "يوللاڭ",
+    "sendWithEnter": "يوللاڭ (Enter)",
+    "attachment": "قوشۇمچە",
+    "caption": "ماۋزۇ (ئىختىيارىي)",
+    "remove": "ئۆچۈرۈش",
+    "clear": "تازىلاش",
+    "gif": "GIF",
+    "sticker": "چىراي ئىپادىسى",
+    "errors": {
+      "attachmentTooLarge": "قوشۇمچە بەك چوڭ. كىچىكرەك ھۆججەت سىناڭ.",
+      "unsupportedFile": "قوللىمايدىغان ھۆججەت تىپى.",
+      "rateLimit": "بەك تېز ئۇچۇر يوللاۋاتىسىز. سىللىقراق بولۇڭ.",
+      "validation": "دەلىللەش خاتالىقى. ئۇچۇرنى تەكشۈرۈپ قايتا سىناڭ.",
+      "failedToSend": "يوللاش مەغلۇپ بولدى. مەغلۇپ كۆپۈكچىنى قايتا سىناڭ.",
+      "premiumRequired": "This feature requires Premium.",
+      "upgradeRequired": "Upgrade required to use this feature."
+    },
+    "emoji": "Emoji",
+    "stickersGif": "Stickers / GIF",
+    "voiceAdded": "ئاۋازلىق خاتىرە قوشۇلدى"
+  },
+  "messages": {
+    "deletedPreview": "This message was deleted.",
+    "mediaAudio": "Audio message",
+    "mediaCount": "{{count}} media item",
+    "mediaFile": "File attachment",
+    "mediaPhoto": "Photo",
+    "mediaVideo": "Video"
   },
   "threadActions": {
     "threadMenu": "پاراڭ تىزىملىكى",
@@ -379,8 +528,6 @@
     "invitePeople": "كىشىلەرنى تەكلىپ قىلىڭ",
     "roomSettings": "ئۆي تەڭشىكى",
     "clearConversation": "سۆھبەتنى تازىلاش",
-    "clearConversationForMe": "مەن ئۈچۈن تازىلاش",
-    "clearConversationForEveryone": "ھەممەيلەن ئۈچۈن تازىلاش",
     "block": "توسۇش"
   },
   "roomSearch": {
@@ -407,7 +554,18 @@
       "tagged": "پەقەت /tr … بىلەن بەلگىلەنگەنلەر",
       "all": "بارلىق ئۇچۇرلار"
     },
-    "updated": "تەڭشەكلەر يېڭىلاندى"
+    "updated": "تەڭشەكلەر يېڭىلاندى",
+    "title": "Room settings",
+    "participants": "Participants",
+    "user": "User",
+    "role": "Role",
+    "owner": "Owner",
+    "actions": "Actions",
+    "remove": "Remove",
+    "aiAssistant": "AI assistant",
+    "allowBot": "Allow ForiaBot in this room",
+    "autoTranslation": "Auto-translation",
+    "saveAIMode": "Save AI mode"
   },
   "mediaGallery": {
     "sharedMedia": "ئورتاق مېدىيا",
@@ -477,6 +635,110 @@
     "markRead": "ئوقۇلغان دەپ بەلگىلەڭ",
     "delete": "ئۆچۈرۈش",
     "unreadDotAria": "ئوقۇلمىغان ئاۋازلىق خەت كۆرسەتكۈچى"
+  },
+  "contactList": {
+    "savedContacts": "ساقلانغان ئالاقىداشلار",
+    "refreshAria": "ئالاقىداشلارنى يېڭىلاڭ",
+    "filterPlaceholder": "ساقلانغان ئالاقىداشلارنى سۈزۈڭ…",
+    "filterAria": "ساقلانغان ئالاقىداشلارنى سۈزۈڭ",
+    "noContactsFound": "ئالاقىداش تېپىلمىدى.",
+    "externalContact": "سىرتقى ئالاقىداش",
+    "notJoined": "بۇ ئالاقىداش تېخى Chatforia غا قوشۇلمىغان.",
+    "couldNotStart": "پاراڭ باشلىيالمىدى. قايتا سىناڭ.",
+    "startFailed": "پاراڭ باشلاش مەغلۇپ بولدى. قايتا سىناڭ.",
+    "deleted": "ئالاقىداش ئۆچۈرۈلدى.",
+    "deleteFailed": "ئالاقىداشنى ئۆچۈرۈش مەغلۇپ بولدى. قايتا سىناڭ.",
+    "aliasUpdated": "لەقەم يېڭىلاندى.",
+    "updateAliasFailed": "لەقەمنى يېڭىلاش مەغلۇپ بولدى. قايتا سىناڭ.",
+    "selectContact": "{{name}} نى تاللاڭ",
+    "alias": "لەقەم",
+    "startChat": "پاراڭ باشلاڭ",
+    "message": "ئۇچۇر",
+    "delete": "ئۆچۈرۈش",
+    "deleteContactAria": "ئالاقىداشنى ئۆچۈرۈڭ",
+    "loadFailed": "ئالاقىداشلارنى يۈكلىيەلمىدى. قايتا سىناڭ.",
+    "loadMore": "تېخىمۇ كۆپ يۈكلەڭ",
+    "call": "قىچىش",
+    "callStarted": "Chatforia نومۇرىڭىز ئارقىلىق بۇ نومۇرغا قىچىۋاتىدۇ…",
+    "callFailed": "قىچىشنى باشلاش مەغلۇپ بولدى. قايتا سىناڭ.",
+    "noRoute": "No route available for this contact.",
+    "selectContactPrefix": "Select contact",
+    "video": "Video",
+    "videoRequiresAccount": "Video calls require a Chatforia account."
+  },
+  "addContactModal": {
+    "title": "ئالاقىداش قوشۇڭ",
+    "phoneOrUsername": "تېلېفون ياكى ئىشلەتكۈچى نامى",
+    "phoneOrUsernamePlaceholder": "مەسىلەن +13018019227 ياكى juliannorton",
+    "alias": "لەقەم (ئىختىيارىي)",
+    "aliasPlaceholder": "مەسىلەن خىزمەت، ئانا، مايك – ياۋروپا",
+    "enterPhoneOrUsername": "تېلېفون نومۇرى ياكى ئىشلەتكۈچى نامى كىرگۈزۈڭ.",
+    "userLookupFailed": "ئىشلەتكۈچى ئىزدىشى مەغلۇپ بولدى.",
+    "cannotAddSelf": "ئۆزىڭىزنى ئالاقىداش قىلىپ قوشالمايسىز.",
+    "failedToAdd": "ئالاقىداش قوشۇش مەغلۇپ بولدى.",
+    "add": "قوشۇڭ"
+  },
+  "startChatModal": {
+    "title": "پاراڭ باشلاڭ",
+    "searchPlaceholder": "ئىسىم، ئىشلەتكۈچى نامى ياكى تېلېفون نومۇرىنى ئىزدەڭ",
+    "messageThisPerson": "بۇ كىشىگە ئۇچۇر يوللاڭ",
+    "contacts": "ئالاقىداشلار",
+    "recentInteractions": "يېقىنقى ئالاقىلەر",
+    "noContactsMatch": "ئىزدىشىڭىزگە ماس ئالاقىداش يوق.",
+    "noRecentInteractions": "تېخى يېقىنقى ئالاقە يوق.",
+    "unknown": "نامەلۇم",
+    "interactionType": {
+      "message": "ئۇچۇر",
+      "call": "قىچىش",
+      "video": "سىن"
+    },
+    "quickPicker": "Quick picker",
+    "to": "To",
+    "nameOrUsername": "Type a name, username",
+    "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+    "startWithSelected": "Start chat with selected",
+    "searchByUsernameOrPhone": "Search by username or phone",
+    "search": "Search",
+    "searchPrompt": "Type a username or phone and press Search.",
+    "pickFromContacts": "Or pick from contacts",
+    "addContact": "Add a Contact",
+    "show": "Show",
+    "add": "Add",
+    "close": "Close",
+    "selectedCount": "{{count}} selected",
+    "pickAtLeastOne": "Pick at least one recipient.",
+    "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+    "failedBulkStart": "Failed to start chat with selected recipients.",
+    "noResults": "No results",
+    "mode": "Mode",
+    "group": "Group",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Group name (optional)",
+    "firstMessageOptional": "First message (optional but recommended)",
+    "createGroup": "Create group",
+    "sendBroadcast": "Send broadcast"
+  },
+  "peoplePage": {
+    "people": "People",
+    "search": "Search",
+    "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+    "quickStart": "Quick start",
+    "quickStartDesc": "Manage your contacts and invite friends.",
+    "importContacts": "Import your contacts",
+    "import": "Import",
+    "addContact": "Add a contact",
+    "add": "Add",
+    "inviteFriends": "Invite friends",
+    "inviteDesc": "Share your invite link to start chatting instantly.",
+    "getTheApp": "Get the app",
+    "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+    "download": "Download",
+    "syncTip": "Tip: Your messages stay synced across web and mobile.",
+    "filterSaved": "Filter saved contacts",
+    "noContactsFound": "No contacts found",
+    "focusSearch": "Focus Search",
+    "findOrAdd": "Find or add someone",
+    "searchByPhoneOrUsername": "Search by phone / username"
   },
   "profile": {
     "title": "ئىشلەتكۈچى ئارخىپى",
@@ -614,13 +876,167 @@
     "voicemailNote": "Chatforia نومۇرلىرىڭىزدىن كەلگەن ئاۋازلىق خەتلەر ئاۋازلىق خەت قوبۇل قىلىش ساندۇقىڭىزدا ساقلىنىدۇ. قوللايدىغان پىلانلاردا خاتىرىلەش ۋە يوللاشنى قوزغىتالايسىز.",
     "portHint": "نۆۋەتتىكى نومۇرنى ساقلىماقچىمۇ؟ ئۇنى Chatforia Wireless غا يۆتكىيەلەيسىز.",
     "wireless": {
-      "manage": "كۆچمە تېلېفوننى باشقۇرۇڭ"
+      "manage": "كۆچمە تېلېفوننى باشقۇرۇڭ",
+      "portCta": "Port your number"
     },
     "esim": {
-      "title": "Chatforia eSIM",
+      "title": "ئىشلەتكۈچى ئارخىپى",
       "desc": "Wi-Fi دىن يىراقتا بولغاندا Chatforia ئۈچۈن كۆچمە سانلىق مەلۇمات ئېلىڭ.",
-      "cta": "eSIM ئېلىڭ / QR كودىنى كۆرسىتىڭ"
-    }
+      "cta": "eSIM ئېلىڭ / QR كودىنى كۆرسىتىڭ",
+      "ctaManage": "Manage eSIM",
+      "descActive": "Your eSIM is active and ready to manage."
+    },
+    "encryptedBackupsTitle": "Encryption Key Backup",
+    "accessibilityFailed": "Failed to save accessibility settings.",
+    "aiFailed": "Failed to save AI settings.",
+    "avatarRemoveError": "Failed to remove avatar.",
+    "avatarRemoved": "Avatar removed.",
+    "disappearAfterSeconds": "Disappear after {{seconds}} seconds",
+    "forwardingLoading": "Loading forwarding settings…",
+    "presetSeconds": "{{seconds}} seconds",
+    "removeAvatar": "Remove avatar",
+    "safetyAge": "Safety & age",
+    "typeOrPick": "Type or pick a value",
+    "userFallback": "Chatforia user",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Notification Sounds",
+    "resetToDefaults": "Reset to defaults",
+    "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+    "freeNoticeEnd": " to unlock all.",
+    "messageTone": "Message tone",
+    "ringtone": "Ringtone",
+    "preview": "Preview",
+    "stop": "Stop",
+    "volume": "Volume",
+    "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+    "premiumRequired": "Premium required for that selection.",
+    "saved": "Sound settings saved.",
+    "saveFailed": "Could not save sound settings.",
+    "resetNotSaved": "Reset to defaults (not yet saved).",
+    "premiumTone": "That’s a Premium tone.",
+    "premiumRingtone": "That’s a Premium ringtone.",
+    "customComingSoon": "Custom sound uploads coming soon.",
+    "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Pulsating Sound",
+    "textMessage": "Text Message",
+    "xylophone": "Xylophone",
+    "classic": "Classic",
+    "urgency": "Urgency",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Digital Phone",
+    "melodic": "Melodic",
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
+  },
+  "aiSettings": {
+    "title": "AI Settings",
+    "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+    "translation": "Translation",
+    "autoTranslateIncoming": "Auto-translate incoming messages",
+    "showOriginalAlongside": "Show original text alongside translation",
+    "smartReplies": "Smart Replies",
+    "enableSmartReplies": "Enable Smart Replies",
+    "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+    "maskProfanity": "Mask profanity in AI suggestions",
+    "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Enable auto-reply when I’m busy",
+    "autoReplyMode": "Auto-reply mode",
+    "cooldownSeconds": "Cooldown (seconds)",
+    "signature": "Signature",
+    "autoReply": "🤖 Auto-reply",
+    "activeUntilOptional": "Active until (optional)",
+    "save": "Save AI Settings",
+    "saved": "AI preferences saved",
+    "saveFailed": "Failed to save AI settings",
+    "translateOff": "Off",
+    "translateTagged": "Only when @translated or tagged",
+    "translateAll": "Translate all incoming messages",
+    "modeDm": "1:1 chats only",
+    "modeMention": "Only when I’m @mentioned",
+    "modeAll": "All inbound messages",
+    "off": "Off",
+    "on": "On"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Failed to load settings",
+    "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+    "interfaceFontSize": "Interface font size",
+    "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+    "notifications": "Notifications",
+    "visualAlerts": "Visual alerts for messages & calls",
+    "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+    "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+    "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+    "flashOnCallShort": "Flash screen on incoming call",
+    "flashOnCallDesc": "Brief bright flash when a call rings.",
+    "liveCaptionsTitle": "Live captions (calls)",
+    "enableLiveCaptions": "Enable live captions during calls (Premium)",
+    "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+    "captionFontSize": "Caption font size",
+    "captionBackground": "Caption background",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+    "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+    "changesSavedInstantly": "Changes are saved instantly.",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "light": "Light",
+    "dark": "Dark",
+    "transparent": "Transparent",
+    "accessibility": "Accessibility",
+    "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+    "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+    "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+    "liveCaptions": "Live captions (calls)"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+    "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+    "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+  },
+  "linkedDevicesPanel": {
+    "title": "Linked devices",
+    "noneFound": "No linked devices found.",
+    "refresh": "Refresh",
+    "unknown": "Unknown",
+    "loadFailed": "Failed to load linked devices",
+    "loadFailedLog": "Failed to load linked devices",
+    "renamePrompt": "Enter a new name for this device",
+    "renamed": "Device renamed",
+    "renameFailed": "Could not rename device",
+    "revoked": "Device revoked",
+    "revokeFailed": "Could not revoke device",
+    "unnamedDevice": "Unnamed device",
+    "primary": "Primary",
+    "revokedStatus": "Revoked",
+    "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+    "renameDevice": "Rename device",
+    "revokeDevice": "Revoke device"
   },
   "wireless": {
     "title": "Chatforia Wireless",
@@ -672,7 +1088,685 @@
     "expiresIn": "{{days}} كۈندىن كېيىن ۋاقىت توشىدۇ",
     "exhausted": "سانلىق مەلۇماتىڭىز تۈگىدى. داۋاملىق ئىشلىتىش ئۈچۈن يېڭى بوغچا سېتىۋېلىڭ.",
     "buyPack": "سانلىق مەلۇمات بوغچىسى سېتىۋېلىڭ",
-    "esimPackLabel": "eSIM بوغچىسى"
+    "esimPackLabel": "eSIM بوغچىسى",
+    "dashboardIntro": "Manage your Chatforia mobile data, phone number, eSIM setup, and plan status.",
+    "loading": "يۈكلىنىۋاتىدۇ…",
+    "phoneNumber": "Phone number",
+    "viewPlans": "View plans",
+    "error": {
+      "load": "Failed to load wireless details."
+    },
+    "data": {
+      "yourData": "Your data",
+      "caption": "Track your current data usage and remaining balance.",
+      "familyLabel": "Family data",
+      "familyCaption": "Shared data across your family members."
+    },
+    "plan": {
+      "title": "Chatforia Wireless",
+      "noneTitle": "No active mobile plan",
+      "noneBody": "Choose a data pack to activate Chatforia Mobile.",
+      "noneBodyReady": "Set up your eSIM first, then choose a data pack when you’re ready.",
+      "bodyActive": "Your mobile plan is active.",
+      "familyLabel": "Family plan",
+      "familyBody": "This plan is part of a shared family data pool.",
+      "manageCta": "Manage plan",
+      "setupFirstCta": "Set up eSIM first"
+    },
+    "esim": {
+      "title": "Chatforia Wireless",
+      "heading": "Set up your eSIM",
+      "subheading": "Install your eSIM to use Chatforia Mobile data on this device.",
+      "body": "Generate or open your eSIM QR code and follow the activation instructions on your phone.",
+      "readyBody": "Your eSIM is ready. You can open the QR code or continue managing your mobile plan.",
+      "setupCta": "Set up eSIM",
+      "openCta": "Open eSIM setup"
+    }
+  },
+  "esim": {
+    "title": "Chatforia eSIM",
+    "loadingExisting": "Loading existing eSIM…",
+    "regionLabel": "Region",
+    "ctaGenerate": "Generate eSIM QR code",
+    "ctaRegenerate": "Regenerate QR code",
+    "ctaReserving": "Reserving…",
+    "generatingQr": "Generating QR code…",
+    "errorReserve": "Could not reserve an eSIM. Please try again.",
+    "noQrAvailable": "No QR code is available yet.",
+    "downloadPng": "Download PNG",
+    "activationCode": "Activation code",
+    "lpaUri": "LPA URI",
+    "smdp": "SM-DP+ address",
+    "iccid": "ICCID",
+    "iccidHint": "The ICCID uniquely identifies this eSIM profile.",
+    "msisdn": "MSISDN",
+    "statusLabel": "Status",
+    "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "instructions": {
+      "step1": "Open your phone’s cellular or mobile data settings.",
+      "step2": "Choose Add eSIM or Scan QR Code.",
+      "step3": "Scan this QR code and follow the on-screen steps to finish activation."
+    }
+  },
+  "phoneNumberManager": {
+    "pickNumber": "Pick a number",
+    "phoneNumber": "Phone number",
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberHint": "Free number that may be recycled after inactivity.",
+    "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+    "country": "Country",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "e.g., 415",
+    "capability": "Capability",
+    "search": "Search",
+    "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+    "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "availableNumbers": "Available numbers",
+    "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "keep": "Keep",
+    "select": "Select",
+    "assignNumberFirst": "Assign a number first.",
+    "premiumKeepFeature": "Keeping your number is a Premium feature.",
+    "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+    "numberAssigned": "Number assigned.",
+    "numberProtectedNow": "Your number is now protected.",
+    "numberProtected": "Number protected.",
+    "numberUnprotected": "Number unprotected.",
+    "numberReleased": "Number released.",
+    "couldNotLoadNumbers": "Could not load numbers.",
+    "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+    "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+    "couldNotProtectNow": "Could not protect your number right now.",
+    "couldNotProtect": "Could not protect the number.",
+    "couldNotUnprotect": "Could not unprotect the number.",
+    "couldNotRelease": "Could not release the number.",
+    "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+    "noInventory": "No available inventory right now.",
+    "noFreeNumbers": "No free numbers are available right now.",
+    "noInventoryAreaCode": "No available inventory for that area code right now.",
+    "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+    "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+    "unprotect": "Unprotect",
+    "keepThisNumber": "Keep this number",
+    "replace": "Replace",
+    "release": "Release",
+    "active": "Active",
+    "noNumber": "No number",
+    "premiumFeature": "Premium feature",
+    "protectYourNumber": "Protect your number",
+    "protected": "Protected",
+    "notProtected": "Not protected",
+    "expiresInShort": "Expires in {{count}}d",
+    "expiresInDaysFull": "Expires in {{count}} day",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Renews {{date}}",
+    "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+    "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app.",
+    "unableToLoadStatus": "Unable to load phone number status.",
+    "lock": "Lock",
+    "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
+  },
+  "dialer": {
+    "title": "Calls",
+    "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+    "enterNumber": "Enter number",
+    "enterNumberAria": "Enter number",
+    "resolving": "Resolving call target…",
+    "call": "Call",
+    "callBrowser": "Call via browser",
+    "backspace": "Backspace",
+    "recents": "Recents",
+    "noRecents": "No recent calls yet.",
+    "resolveFailed": "Could not resolve call target.",
+    "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+    "callFailed": "Could not place call.",
+    "deleteConfirm": "Delete this call from recents?",
+    "deleteFailed": "Could not delete call.",
+    "deleteFailedLog": "Failed to delete call",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail",
+    "callAria": "Call {{name}}",
+    "deleteAria": "Delete call with {{name}}",
+    "enterNumberPh": "Enter number",
+    "recentsEmpty": "No recent calls yet.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Calls",
+    "subtitle": "Your recent incoming and outgoing calls.",
+    "loadFailed": "Could not load call history.",
+    "loadFailedTitle": "Couldn’t load call history",
+    "emptyTitle": "No calls yet",
+    "emptySubtitle": "Your recent calls will show up here.",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "missed": "Missed",
+    "declined": "Declined",
+    "failed": "Failed",
+    "completed": "Completed",
+    "outgoingCall": "Outgoing Call",
+    "incomingCall": "Incoming Call",
+    "voicemail": "Voicemail"
+  },
+  "video": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Choose a video type."
+    },
+    "direct": {
+      "title": "Direct Video",
+      "subtitle": "Start a 1:1 video call with another user.",
+      "desc": "1:1 camera call with another user.",
+      "start": "Start",
+      "callBtn": "Call",
+      "callByPhone": {
+        "title": "Call by phone"
+      },
+      "phone": {
+        "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+        "aria": "Phone to call"
+      },
+      "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+      "findUser": {
+        "title": "Find a user"
+      },
+      "search": {
+        "placeholder": "Search by name or username",
+        "aria": "Search by name or username",
+        "btn": "Search"
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Create a room or join an existing one by typing the same name.",
+      "desc": "Multi-party video using a shared room name.",
+      "roomLabel": "Room name",
+      "roomPlaceholder": "e.g. team-standup",
+      "roomAria": "Room name",
+      "joinCreate": "Join / Create",
+      "tip": "Tip: share this name with others, or deep link to"
+    },
+    "title": "Video",
+    "chooseType": "Choose a video type.",
+    "directTitle": "Direct Video",
+    "directDesc": "1:1 camera call with another user.",
+    "directStart": "Start",
+    "roomsTitle": "Rooms",
+    "roomsDesc": "Multi-party video using a shared room name.",
+    "roomsIntro": "Join or create a multi-party room.",
+    "roomNameLabel": "Room name",
+    "roomNamePh": "e.g. team-standup",
+    "join": "Join",
+    "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Start a direct 1:1 video call.",
+    "findUserLabel": "Find a user",
+    "findUserPh": "Search by name or username",
+    "search": "Search",
+    "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
+  },
+  "premium": {
+    "heading": "Premium غا ئۆتۈڭ",
+    "description": "كۈچلۈك ئىقتىدارلارنى ئېچىڭ ۋە ئېلانلارنى ئۆچۈرۈڭ.",
+    "cta": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+    "upgrade": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+    "upgradeAria": "Chatforia Premium غا يۇقىرى دەرىجىگە كۆتۈرۈڭ"
+  },
+  "premiumGuard": {
+    "requiresPremium": "This feature requires a Premium plan.",
+    "toUnlock": "Upgrade to unlock this feature."
+  },
+  "upgrade": {
+    "title": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+    "titleLoggedIn": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+    "titlePublic": "باھالار",
+    "h1": "Chatforia باھا ۋە پىلانلىرى",
+    "h1Subtitle": "ھەقسىز، ئېلان قوللىغان پىلاندىن باشلاڭ. Plus بىلەن ئېلانسىز ياكى Premium بىلەن تولۇق كۈچلۈك ئىقتىدارلارنى ئېچىڭ.",
+    "subtitle": "ئەپ پىلانىنى تاللاڭ، ئۆزىڭىزگە سانلىق مەلۇمات بوغچىسى قوشۇڭ ياكى ئائىلىڭىز بىلەن ئورتاقلىشىڭ — ھەممىسى بىر جايدا.",
+    "subtitle.app": "ھەقسىز، ئېلان قوللىغان پىلاندىن باشلاڭ. Plus بىلەن ئېلانسىز ياكى Premium بىلەن تولۇق كۈچلۈك ئىقتىدارلارنى ئېچىڭ.",
+    "subtitle.mobile": "Wi-Fi دىن يىراقتا بولغاندا Chatforia نىڭ ئىشلىشى ئۈچۈن دۇنياۋى eSIM سانلىق مەلۇماتى قوشۇڭ.",
+    "subtitle.family": "ئائىلىڭىز ئۈچۈن ئورتاق سانلىق مەلۇمات كۆلى قۇرۇڭ ۋە ھەممەيلەننىڭ ئىشلىتىشىنى بىر جايدىن باشقۇرۇڭ.",
+    "perMonth": "ئاي",
+    "perYear": "يىل",
+    "goPremium": "Premium غا ئۆتۈڭ",
+    "benefitsLine": "كۈچلۈك ئىقتىدارلارنى ئېچىڭ ۋە ئېلانلارنى ئۆچۈرۈڭ.",
+    "ctaText": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+    "aria": "Chatforia Premium غا يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+    "toggle": {
+      "monthly": "ھەر ئاي",
+      "annual": "يىللىق (30% تېجەڭ)"
+    },
+    "scheduleBanner": {
+      "title": "مۇشتەرىلىك ئاخىرلىشىدۇ",
+      "body": "ھەقسىزگە قايتىسىز",
+      "keepPlanCta": "{{plan}} نى ساقلاڭ",
+      "manageBillingCta": "ھېساباتنى باشقۇرۇڭ"
+    },
+    "billing": {
+      "opening": "ئېچىلىۋاتىدۇ…",
+      "manage": "ھېساباتنى باشقۇرۇڭ"
+    },
+    "checkout": {
+      "redirecting": "قايتا نىشانلاۋاتىدۇ…"
+    },
+    "auth": {
+      "continue": "كىرىشكە داۋاملاشتۇرۇڭ",
+      "createAccount": "ھېسابات قۇرۇڭ",
+      "signIn": "كىرىڭ"
+    },
+    "cta": {
+      "aria": "پىلان تاللاڭ",
+      "getPlus": "Plus غا يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+      "upgradeMonthly": "ھەر ئاي يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+      "upgradeAnnual": "يىللىق يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+      "public": {
+        "plus": "Get Plus – continue to login",
+        "premiumMonthly": "Unlock Premium – continue to login",
+        "premiumAnnual": "Save 30% with annual – continue to login"
+      }
+    },
+    "section": {
+      "app": "ئەپ پىلانلىرى",
+      "mobile": "كۆچمە (eSIM)",
+      "family": "ئائىلە پىلانلىرى"
+    },
+    "plans": {
+      "free": {
+        "title": "ھەقسىز",
+        "price": "$0",
+        "desc": "ھەقسىز ئۇچۇرلىشىڭ. Chatforia نى سىناپ باقماقچى بولسىڭىز ئەڭ ياخشى.",
+        "features": {
+          "chat": "رېئال ۋاقىت 1:1 ۋە گۇرۇپپا پارىڭى، ئاۋاز ۋە سىن قىچىشى",
+          "media": "رەسىم، ئاۋازلىق ئۇچۇر ۋە قىسقا سىنلارنى ئورتاقلىشىڭ",
+          "ai": "AI كۈچىدىكى ئەقلىي جاۋاب ۋە دەرھال تەرجىمە (ئادىل ئىشلىتىش)",
+          "disappearing": "ئۆچۈرۈلۈپ كېتىدىغان ئۇچۇرلار ۋە ئاساسىي مەخپىيەتلىك كونتروللىرى",
+          "ads": "ئەپتە مەڭگۈ ھەقسىز ئېلان بىلەن"
+        },
+        "ctaCurrent": "نۆۋەتتىكى پىلان",
+        "ctaManage": "ھېساباتتا باشقۇرۇڭ",
+        "ctaPublic": "باشلاڭ – كىرىشكە داۋاملاشتۇرۇڭ",
+        "aria": "ھەقسىز پىلان"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "بارلىق زۆرۈر نەرسىلەر، ئېلانسىز. كۈندىلىك ئۇچۇرلىشىش ۋە قىچىش ئۈچۈن ئەڭ ياخشى.",
+        "features": {
+          "allFree": "ھەقسىزدىكى ھەممە نەرسە، ئېلانسىز",
+          "forwarding": "قىچىش ۋە ئۇچۇرلارنى ھەقىقىي تېلېفون نومۇرىڭىزغا يوللاڭ",
+          "history": "ئۇزۇنراق ئۇچۇر تارىخى (ئەڭ كۆپ 6 ئاي)",
+          "support": "مەسىلە كۆرۈلسە تېخىمۇ تېز ياردەم"
+        },
+        "badge": "ئالقىشلانغان",
+        "cta": "ئېلانسىزغا ئۆتۈڭ",
+        "ctaPublic": "Plus ئېلىڭ – كىرىشكە داۋاملاشتۇرۇڭ",
+        "aria": "Plus غا يۇقىرى دەرىجىگە كۆتۈرۈڭ"
+      },
+      "premiumMonthly": {
+        "title": "Premium (ھەر ئاي)",
+        "price": "$11.99",
+        "desc": "تولۇق Chatforia تەجرىبىسى: AI كۈچى قوراللىرى، خاسلاشتۇرۇش ۋە ئالدىنقى ياردەم.",
+        "features": {
+          "plusAll": "Plus تىكى ھەممە نەرسە",
+          "themes": "بارلىق Premium رەڭ تېمىلىرى ۋە ئەپ خاسلاشتۇرۇشلىرىنى ئېچىڭ",
+          "ai": "Premium غا خاس AI كۈچى قوراللىرى – قايتا يېزىش، ئەقلىي جاۋاب ۋە خۇلاسە",
+          "support": "ئەڭ كېرەكلىك ۋاقىتتا ئالدىنقى ياردەم",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "تەۋسىيە قىلىنغان",
+        "cta": "يۇقىرى دەرىجىگە كۆتۈرۈڭ (ھەر ئاي)",
+        "ctaPublic": "Premium نى ئېچىڭ – كىرىشكە داۋاملاشتۇرۇڭ",
+        "aria": "Premium ھەر ئايغا يۇقىرى دەرىجىگە كۆتۈرۈڭ"
+      },
+      "premiumAnnual": {
+        "title": "Premium (يىللىق)",
+        "price": "$99",
+        "desc": "يىللىق ھېسابات بىلەن تېخىمۇ كۆپ تېجەڭ — قوشۇمچە رەڭ تېمىلىرى، AI قوراللىرى ۋە ئالدىنقى ياردەم.",
+        "features": {
+          "allPremium": "Premium ھەر ئايدىكى ھەممە نەرسە — قوشۇمچە رەڭ تېمىلىرى",
+          "annualBilling": "يىلىغا بىر قېتىم ھېسابات",
+          "save25": "ھەر ئايلىق ھېساباتقا نىسبەتەن تەخمىنەن 30% تېجەڭ",
+          "bestFor": "كۈچلۈك ئىشلەتكۈچىلەر، يىراق خىزمەتچىلەر ۋە ئېغىر ساياھەتچىلەر ئۈچۈن ئەڭ ياخشى",
+          "number": "Keep your Chatforia number protected while your plan is active"
+        },
+        "badge": "30% تېجەڭ",
+        "cta": "يۇقىرى دەرىجىگە كۆتۈرۈڭ (يىللىق)",
+        "ctaPublic": "يىللىق 30% تېجەپ Premium غا ئۆتۈڭ – كىرىشكە داۋاملاشتۇرۇڭ",
+        "aria": "Premium يىللىققا يۇقىرى دەرىجىگە كۆتۈرۈڭ",
+        "disclaimer": "ئالدىن ھېسابات. خالىغان ۋاقىتتا ئىناۋەتسىز قىلىڭ. يوشۇرۇن ھەق يوق."
+      }
+    },
+    "marketing": {
+      "freeTitle": "ھەقسىز",
+      "freeDesc": "ھەقسىز ئۇچۇرلىشىڭ.",
+      "plusTitle": "Plus",
+      "plusBadge": "ئالقىشلانغان",
+      "plusDesc": "ئەڭ ئەرزان ئېلانسىز تەجرىبە.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "تولۇق ئىقتىدارلار، رىڭتونلار ۋە AI كۈچى قوراللىرى.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "يىللىق ھېسابات بىلەن تېخىمۇ كۆپ تېجەڭ.",
+      "annualDisclaimer": "ئالدىن ھېسابات. خالىغان ۋاقىتتا ئىناۋەتسىز قىلىڭ. يوشۇرۇن ھەق يوق."
+    },
+    "mobile": {
+      "title": "Chatforia كۆچمە (eSIM سانلىق مەلۇمات بوغچىلىرى)",
+      "subtitle": "Wi-Fi بولمىغاندىمۇ Chatforia نىڭ ئىشلىشى ئۈچۈن دۇنياۋى سانلىق مەلۇمات قوشۇڭ. باھا دۆلىتىڭىز ۋە پۇل بىرلىكىڭىزگە ئاساسەن ئاپتوماتىك تەڭشىلىدۇ.",
+      "subtitle.detail": "ساياھەت ياكى Wi-Fi دىن يىراقتا بولغاندا Chatforia نىڭ ئىشلىشى ئۈچۈن بىر قېتىملىق دۇنياۋى سانلىق مەلۇمات بوغچىسى تاللاڭ.",
+      "scope": {
+        "local": "يەرلىك",
+        "europe": "ياۋروپا",
+        "global": "دۇنياۋى",
+        "localTab": "Local plans",
+        "europeTab": "Europe plans",
+        "globalTab": "Global plans"
+      },
+      "localEquals": "يەرلىك = {{country}}",
+      "localEqualsFallback": "يەرلىك = نۆۋەتتىكى دۆلىتىڭىز",
+      "perPack": "/ بوغچا",
+      "cta": "بۇ سانلىق مەلۇمات بوغچىسىنى ئېلىڭ",
+      "ctaPublic": "بۇ سانلىق مەلۇمات بوغچىسىنى ئېلىڭ",
+      "checkout": {
+        "redirecting": "قايتا نىشانلاۋاتىدۇ…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "ئېغىر ئىشلىتىش ئۈچۈن يۇقىرى سۈرئەتلىك سانلىق مەلۇمات",
+          "throttle": "ئېغىر ئىشلىتىشتىن كېيىن سۈرئەت ئاستىلىشى مۇمكىن",
+          "coverage": "ئىشەنچلىك قاپلاش",
+          "instant": "دەرھال eSIM ئاكتىپلىنىشى",
+          "noContract": "بىر قېتىملىق بوغچا، توختام يوق"
+        },
+        "title": "Unlimited pack",
+        "data": "Unlimited",
+        "bestFor": "Best for heavy use where supported."
+      },
+      "disclaimer": {
+        "devices": "eSIM سانلىق مەلۇمات بوغچىلىرى eSIM قوللايدىغان ۋە قۇلۇپسىز ئۈسكۈنىگە ئېھتىياجلىق. تېلېفون مودېلى، ئوپېراتور ۋە دۆلەتكە ئاساسەن پەرق قىلىدۇ. قاپلاش ۋە سۈرئەت رايونغا ئاساسەن ئوخشىمايدۇ.",
+        "fairUse": "ئادىل ئىشلىتىش قائىدىسى ۋە يەرلىك چەكلەرگە تېگىشلىك"
+      },
+      "packs": {
+        "3gb": {
+          "title": "{{scope}} 3 GB"
+        },
+        "5gb": {
+          "title": "{{scope}} 5 GB"
+        },
+        "10gb": {
+          "title": "{{scope}} 10 GB"
+        },
+        "20gb": {
+          "title": "{{scope}} 20 GB"
+        },
+        "unlimited": {
+          "title": "{{scope}} Unlimited"
+        }
+      },
+      "compare": {
+        "title": "eSIM سانلىق مەلۇمات بوغچىلىرىنى سېلىشتۇرۇڭ",
+        "col": {
+          "pack": "بوغچا",
+          "data": "ئىچىدىكى سانلىق مەلۇمات",
+          "bestFor": "ئەڭ ياخشى ئىشلىتىش"
+        },
+        "disclaimer": "ئەمەلىي سانلىق مەلۇمات ئىشلىتىشى Chatforia (ئاۋاز، سىن، مېدىيا ۋە تېلېفونىڭىزدىكى باشقا ئەپ) قانداق ئىشلىتىشىڭىزگە باغلىق."
+      },
+      "aria": "Chatforia Mobile eSIM data plans",
+      "hero": {
+        "aria": "Chatforia Mobile hero image",
+        "subcopy": "Instant eSIM data for travel, backup connectivity, and staying reachable away from Wi‑Fi."
+      },
+      "choosePack": "Choose a data pack",
+      "choosePackSubtitle": "Pick the coverage zone and amount of data that fits your trip or everyday backup needs.",
+      "badge": {
+        "popular": "Popular",
+        "bestValue": "GB غا ئەڭ ياخشى باھا"
+      },
+      "feature": {
+        "instant": "دەرھال eSIM ئاكتىپلىنىشى",
+        "coverage": "ئىشەنچلىك قاپلاش",
+        "contracts": "No long-term contracts"
+      },
+      "card": {
+        "feature": {
+          "1": "Works on eSIM-compatible unlocked devices",
+          "2": "One-time data packs with clear pricing",
+          "3": "Use Chatforia when Wi‑Fi is unavailable"
+        }
+      },
+      "region": {
+        "local": "يەرلىك",
+        "localSubtitle": "Best for staying connected in one country.",
+        "europe": "ياۋروپا",
+        "europeSubtitle": "Great for trips across supported European countries.",
+        "global": "دۇنياۋى",
+        "globalSubtitle": "Best for international travel across multiple regions."
+      },
+      "small": {
+        "title": "باشلىغۇچى بوغچا",
+        "data": "3 GB",
+        "bestFor": "قىسقا ساياھەت، يېنىك ئۇچۇرلىشىش ۋە پەقەت قىچىش"
+      },
+      "medium": {
+        "title": "ساياھەتچى بوغچا",
+        "data": "5 GB",
+        "bestFor": "ھەپتە ئاخىرى ساياھىتى، دائىملىق VoIP قىچىش ۋە خەرىتە"
+      },
+      "large": {
+        "title": "كۈچلۈك بوغچا",
+        "data": "10 GB",
+        "bestFor": "ئېغىر پاراڭ، قىچىش، سىن ۋە ھورپوت ئىشلىتىش"
+      },
+      "xl": {
+        "title": "XL pack",
+        "data": "20 GB",
+        "bestFor": "Best for extended travel and frequent video or media use."
+      }
+    },
+    "family": {
+      "title": "Chatforia ئائىلە (ئورتاق سانلىق مەلۇمات)",
+      "subtitle": "ئائىلىڭىزدىكى ھەممەيلەن بىر سانلىق مەلۇمات كۆلىنى ئورتاقلىشىدۇ. بىر ھېسابات، كۆپ Chatforia ھېساباتى، دۇنياۋى قاپلاش.",
+      "perPack": "/ بوغچا",
+      "small": {
+        "title": "ئائىلە كىچىك",
+        "desc": "20 GB ئورتاق يۇقىرى سۈرئەتلىك سانلىق مەلۇمات — 2–3 يېنىك ئىشلەتكۈچى ئۈچۈن ئەڭ ياخشى.",
+        "price": "$29.99",
+        "aria": "ئائىلە كىچىك بوغچىسىنى سېتىۋېلىڭ"
+      },
+      "medium": {
+        "title": "ئائىلە ئوتتۇرا",
+        "desc": "40 GB ئورتاق يۇقىرى سۈرئەتلىك سانلىق مەلۇمات — 3–5 ئاكتىپ ئەزا ئۈچۈن ئەڭ ياخشى.",
+        "price": "$49.99",
+        "aria": "ئائىلە ئوتتۇرا بوغچىسىنى سېتىۋېلىڭ"
+      },
+      "large": {
+        "title": "ئائىلە چوڭ",
+        "desc": "80 GB ئورتاق يۇقىرى سۈرئەتلىك سانلىق مەلۇمات — ھەمىشە تورغا ئۇلانغان كۈچلۈك ئائىلىلەر ئۈچۈن.",
+        "price": "$84.99",
+        "aria": "ئائىلە چوڭ بوغچىسىنى سېتىۋېلىڭ"
+      },
+      "feature": {
+        "shared": "ئائىلىڭىز ئۈچۈن ئورتاق سانلىق مەلۇمات كۆلى",
+        "members": "ئەڭ كۆپ 4 قوشۇمچە ئەزا تەكلىپ قىلىڭ",
+        "membersMore": "3–5 ئاكتىپ ئەزا ئۈچۈن ئەڭ ياخشى",
+        "manage": "ھەر بىر ئەزانىڭ چېكىنى باشقۇرۇڭ",
+        "topUp": "خالىغان ۋاقىتتا تېخىمۇ كۆپ بوغچا قوشۇڭ",
+        "bestValue": "GB غا ئەڭ ياخشى باھا",
+        "fairUse": "ئادىل ئىشلىتىش قائىدىسى ۋە يەرلىك چەكلەرگە تېگىشلىك"
+      },
+      "disclaimer": "ئائىلە بوغچىلىرى ئورتاق سانلىق مەلۇمات كۆلى قۇرىدۇ ياكى تولۇقلىدۇ. ئەزالارنى خالىغان ۋاقىتتا تەكلىپ قىلىپ ياكى چىقىرىۋېتەلەيسىز.",
+      "footnote": "ئائىلە بوغچىلىرى ئۇلانغان Chatforia ھېساباتلىرى ئارىسىدا بىر سانلىق مەلۇمات كۆلىنى ئورتاقلىشىدۇ. ئىشلىتىش ۋە چەكلەر دۆلىتىڭىز ۋە يەرلىك قانۇنلارغا ئاساسەن ئوخشىمايدۇ."
+    },
+    "why": {
+      "title": "كىشىلەر نېمىشقا Chatforia غا ئۆتىدۇ",
+      "subtitle": "Chatforia سىزگە ھەقىقىي تېلېفون نومۇرى، ئەقلىي تەرجىمە ۋە ئېلانسىزغا ئۆتۈشنىڭ ئوچۇق يولىنى بېرىدۇ.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "ھەقسىزدە يېنىكرەك ئېلان، ئېھتىياجىڭىزغا ئاساسەن ئاددىي Plus يۇقىرى دەرىجىگە كۆتۈرۈش ۋە TextNow دا يوق Premium قوراللىرى."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "زامانىۋى ئەپ، دۇنياۋى ئالدىنقى لايىھە ۋە كونا تىپتىكى قىچىش يوللاشنىڭ ئورنىغا ئىچكى تەرجىمە."
+        },
+        "messengers": {
+          "title": "Chatforia vs پاراڭ ئەپلىرى",
+          "body": "پەقەت ئەپ ئىشلەتكۈچىلىرى ئەمەس — ھەقىقىي تېلېفون نومۇرلىرىغا ئۇچۇر يوللاڭ — AI ۋە ھالەت ئىچكى. TextFree ياكى TextMe دىن كەلگەن بولسىڭىز ئەڭ ياخشى."
+        }
+      },
+      "tableTitle": "Chatforia قانداق سېلىشتۇرۇلىدۇ",
+      "col": {
+        "feature": "ئىقتىدار",
+        "chatforia": "ئەڭ كۆپ 12+ ئاي",
+        "textnow": "ھېساباتقا ئاساسەن ئوخشىمايدۇ",
+        "googleVoice": "Google Voice"
+      },
+      "feature": {
+        "freeNumber": "ھەقسىز تېلېفون نومۇرى",
+        "translation": "ئىچكى ئاپتوماتىك تەرجىمە",
+        "aiTools": "AI قوراللىرى (قايتا يېزىش، جاۋاب، خۇلاسە)",
+        "ads": "ئېلانسىز تاللاش",
+        "history": "ئۇچۇر تارىخى"
+      },
+      "yes": "ھەئە",
+      "no": "ياق",
+      "yesPremium": "ھەئە (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "چەكلىك",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "ئەڭ كۆپ 12+ ئاي",
+        "textnow": "ھېساباتقا ئاساسەن ئوخشىمايدۇ",
+        "voice": "چەكلىك / ھېساباتقا ئاساسەن"
+      },
+      "disclaimer": "سېلىشتۇرۇش ئاممىۋى ئۇچۇرلارغا ئاساسەن بولۇپ ۋاقىت ئۆتكەنچە ئۆزگىرىشى مۇمكىن. TextFree ياكى TextMe قاتارلىق باشقا ھەقسىز ئۇچۇر ئەپلىرى ئادەتتە TextNow غا ئوخشاش."
+    },
+    "faq": {
+      "title": "باھا ۋە پىلانلار FAQ",
+      "free": {
+        "q": "ھەقسىز پىلان ھەقىقەتەن ھەقسىزمۇ؟",
+        "a": "ھەئە. ھەقسىز پىلان Chatforia نومۇرى، قىچىش ۋە ئېلان بىلەن ئۇچۇرلىشىشنى ئۆز ئىچىگە ئالىدۇ. خالىغانچە ھەقسىزدە قالالايسىز ياكى ئېلاننى ئۆچۈرۈپ تېخىمۇ كۆپ ئىقتىدار ئېچىش ئۈچۈن يۇقىرى دەرىجىگە كۆتۈرۈڭ."
+      },
+      "plusPremium": {
+        "q": "Plus بىلەن Premium نىڭ پەرقى نېمە؟",
+        "a": "Plus ئېلاننى ئۆچۈرۈپ ئۇچۇر تارىخىڭىزنى ئۇزارتىدۇ — كۈندىلىك ئىشلىتىش ئۈچۈن ئەڭ ياخشى. Premium قوشۇمچە خاسلاشتۇرۇش، قايتا يېزىش ۋە جاۋاب ئۈچۈن AI قوراللىرى ۋە ئېغىر ئىشلەتكۈچىلەر ئۈچۈن ئالدىنقى ياردەم قوشىدۇ."
+      },
+      "esim": {
+        "q": "eSIM سانلىق مەلۇمات بوغچىلىرى قەيەردە ئىشلەيدۇ؟",
+        "a": "Chatforia كۆچمە دۇنياۋى eSIM قاپلاشنى ئىشلىتىدۇ. ئىشلىتىش دۆلىتىڭىز ۋە ئۈسكۈنىڭىزگە باغلىق. ئەپ ئىچىدە ئاكتىپلىغاندا قوللايدىغان تاللاشلارنى كۆرىسىز."
+      },
+      "cancel": {
+        "q": "پىلاننى خالىغان ۋاقىتتا ئىناۋەتسىز قىلالامدىم ياكى ئۆزگەرتەلەمدىم؟",
+        "a": "ھەئە. ئەپتىكى ھېسابات بېتىدىن مۇشتەرىلىكنى باشقۇرۇڭ ياكى ئىناۋەتسىز قىلىڭ. ئۆزگەرتىش نۆۋەتتىكى ھېسابات مەزگىلىنىڭ ئاخىرىدا كۈچكە ئىگە بولىدۇ."
+      },
+      "family": {
+        "q": "ئائىلە بوغچىلىرى قانداق ئىشلەيدۇ؟",
+        "a": "ئائىلە بوغچىلىرى كۆپ Chatforia ھېساباتى ئارىسىدا ئورتاق سانلىق مەلۇمات كۆلى قۇرىدۇ. بىر كىشى ھېسابات تۆلەيدۇ، ئەزالارنى تەكلىپ قىلىپ ياكى چىقىرىۋېتەلەيسىز ۋە ھەر كىشىگە چەك بېكىتەلەيسىز."
+      }
+    },
+    "h2": {
+      "app": "App plans"
+    },
+    "oneTime": "one-time",
+    "perMonthLong": "per month",
+    "perYearLong": "per year",
+    "esim": {
+      "local": {
+        "3": {
+          "title": "Local 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "5": {
+          "title": "Local 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "10": {
+          "title": "Local 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "20": {
+          "title": "Local 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across your selected country."
+        },
+        "unlimited": {
+          "title": "Local Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across your selected country, subject to fair-use and local network availability."
+        }
+      },
+      "europe": {
+        "3": {
+          "title": "Europe 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "5": {
+          "title": "Europe 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "10": {
+          "title": "Europe 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "20": {
+          "title": "Europe 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported European countries."
+        },
+        "unlimited": {
+          "title": "Europe Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported European countries, subject to fair-use and local network availability."
+        }
+      },
+      "global": {
+        "3": {
+          "title": "Global 3 GB",
+          "desc": "3 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "5": {
+          "title": "Global 5 GB",
+          "desc": "5 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "10": {
+          "title": "Global 10 GB",
+          "desc": "10 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "20": {
+          "title": "Global 20 GB",
+          "desc": "20 GB of one-time eSIM data for Chatforia use across supported global destinations."
+        },
+        "unlimited": {
+          "title": "Global Unlimited",
+          "desc": "Unlimited data for heavy Chatforia use across supported global destinations, subject to fair-use and local network availability."
+        }
+      }
+    }
+  },
+  "billing": {
+    "myPlanTitle": "My plan",
+    "myPlanError": "Unable to load your plan.",
+    "myPlanLoading": "Loading your plan…",
+    "currentPlan": "Current plan",
+    "renewsAt": "Renews on",
+    "activeSubscription": "Active subscription",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNow": "Cancel now",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
   },
   "family": {
     "title": "ئائىلە",
@@ -745,685 +1839,618 @@
       "error": "سىزنى بۇ ئائىلىگە قوشالمىدى. تەكلىپ ئىناۋەتسىز ياكى ۋاقىت توشقان بولۇشى مۇمكىن."
     }
   },
-  "premium": {
-    "heading": "Premium غا ئۆتۈڭ",
-    "description": "كۈچلۈك ئىقتىدارلارنى ئېچىڭ ۋە ئېلانلارنى ئۆچۈرۈڭ.",
-    "cta": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
-    "upgrade": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
-    "upgradeAria": "Chatforia Premium غا يۇقىرى دەرىجىگە كۆتۈرۈڭ"
+  "randomChat": {
+    "title": "Random Chat",
+    "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+    "start": "Start a conversation",
+    "description": "Chat anonymously first. Add Friend later if it feels right.",
+    "findMatch": "Find me a match",
+    "chatWithRia": "Chat with Ria",
+    "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "idle": "Idle",
+    "matching": "Matching…",
+    "searching": "Searching…",
+    "cancel": "Cancel",
+    "connectionProblem": "Connection problem",
+    "ai": "AI",
+    "anonymous": "Anonymous",
+    "connectedAs": "Connected as",
+    "waitingAddFriend": "Waiting for them to accept Add Friend…",
+    "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+    "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+    "sendMessage": "Send message",
+    "chatEnded": "Chat ended",
+    "conversationEnded": "That conversation has ended.",
+    "findAnotherMatch": "Find another match",
+    "next": "Next Person",
+    "addFriend": "Add Friend",
+    "requested": "Requested",
+    "leave": "Leave",
+    "messageRia": "Message Ria…",
+    "messageMatch": "Message your match…",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "close": "Close",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "disconnected": "Disconnected.",
+    "left": "You left the chat."
   },
-  "upgrade": {
-    "title": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
-    "titleLoggedIn": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
-    "titlePublic": "باھالار",
-    "h1": "Chatforia باھا ۋە پىلانلىرى",
-    "h1Subtitle": "ھەقسىز، ئېلان قوللىغان پىلاندىن باشلاڭ. Plus بىلەن ئېلانسىز ياكى Premium بىلەن تولۇق كۈچلۈك ئىقتىدارلارنى ئېچىڭ.",
-    "subtitle": "ئەپ پىلانىنى تاللاڭ، ئۆزىڭىزگە سانلىق مەلۇمات بوغچىسى قوشۇڭ ياكى ئائىلىڭىز بىلەن ئورتاقلىشىڭ — ھەممىسى بىر جايدا.",
-    "subtitle.app": "ھەقسىز، ئېلان قوللىغان پىلاندىن باشلاڭ. Plus بىلەن ئېلانسىز ياكى Premium بىلەن تولۇق كۈچلۈك ئىقتىدارلارنى ئېچىڭ.",
-    "subtitle.mobile": "Wi-Fi دىن يىراقتا بولغاندا Chatforia نىڭ ئىشلىشى ئۈچۈن دۇنياۋى eSIM سانلىق مەلۇماتى قوشۇڭ.",
-    "subtitle.family": "ئائىلىڭىز ئۈچۈن ئورتاق سانلىق مەلۇمات كۆلى قۇرۇڭ ۋە ھەممەيلەننىڭ ئىشلىتىشىنى بىر جايدىن باشقۇرۇڭ.",
-    "perMonth": "ئاي",
-    "perYear": "يىل",
-    "goPremium": "Premium غا ئۆتۈڭ",
-    "benefitsLine": "كۈچلۈك ئىقتىدارلارنى ئېچىڭ ۋە ئېلانلارنى ئۆچۈرۈڭ.",
-    "ctaText": "يۇقىرى دەرىجىگە كۆتۈرۈڭ",
-    "aria": "Chatforia Premium غا يۇقىرى دەرىجىگە كۆتۈرۈڭ",
-    "toggle": {
-      "monthly": "ھەر ئاي",
-      "annual": "يىللىق (30% تېجەڭ)"
+  "ria": {
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
     },
-    "scheduleBanner": {
-      "title": "مۇشتەرىلىك ئاخىرلىشىدۇ",
-      "body": "ھەقسىزگە قايتىسىز",
-      "keepPlanCta": "{{plan}} نى ساقلاڭ",
-      "manageBillingCta": "ھېساباتنى باشقۇرۇڭ"
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
     },
-    "billing": {
-      "opening": "ئېچىلىۋاتىدۇ…",
-      "manage": "ھېساباتنى باشقۇرۇڭ"
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleShort": "Google",
+      "appleShort": "Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "or": "or",
+      "accountLabel": "Account",
+      "identifierPh": "Email or username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "resendVerification": "Resend verification email",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "verification": {
+        "sent": "Verification email sent. Check your inbox.",
+        "failed": "Failed to resend verification email."
+      },
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "emailInvalid": "Please enter a valid email address.",
+        "genericError": "Unable to process request. Please try again in a moment.",
+        "sending": "Sending reset link...",
+        "sendCta": "Send Reset Link",
+        "sentLabel": "Sent!",
+        "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+        "previewDev": "Preview Email (Dev)",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "missingToken": "Invalid or missing password reset token.",
+        "missingTokenHelper": "Invalid or missing token. Please request a new password reset link.",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Your password has been reset successfully",
+        "genericError": "Error: Unable to reset password.",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPasswordLabel": "Confirm new password",
+        "confirmPasswordPlaceholder": "Re-enter your new password",
+        "resetting": "Resetting...",
+        "submit": "Reset Password",
+        "strongPasswordHint": "Choose a strong password you don’t use elsewhere."
+      }
+    }
+  },
+  "support": {
+    "helpFab": "Help",
+    "openSupportAria": "Open support",
+    "badge": "Support",
+    "heading": "How can we help?",
+    "tabs": {
+      "help": "Help Center",
+      "contact": "Contact us"
     },
-    "checkout": {
-      "redirecting": "قايتا نىشانلاۋاتىدۇ…"
+    "searchPlaceholder": "Search help articles…",
+    "searchAria": "Search help",
+    "searchBtn": "Search",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
     },
-    "auth": {
-      "continue": "كىرىشكە داۋاملاشتۇرۇڭ",
-      "createAccount": "ھېسابات قۇرۇڭ",
-      "signIn": "كىرىڭ"
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Send",
+    "sent": "Message sent. We’ll reply by email.",
+    "sendError": "Could not send. Email support@chatforia.com instead.",
+    "actionCompleted": "Action completed.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "ticketCreated": "We couldn’t resolve this automatically. Our team will follow up.",
+    "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+    "genericError": "Something went wrong. Please try again.",
+    "analyzing": "Analyzing your issue...",
+    "takeAction": "Take recommended action",
+    "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+    "escalating": "Escalating to support...",
+    "takeRecommendedAction": "Take recommended action"
+  },
+  "help": {
+    "title": "Help",
+    "howCanWeHelp": "How can we help?",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact us",
+    "quickTopics": "Quick topics",
+    "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+    "cantLogin": "Can't log in",
+    "paymentsBilling": "Payments/ billing",
+    "reportAbuse": "Report abuse",
+    "searchHelpArticles": "Search help articles",
+    "search": "Search"
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+    "alert": {
+      "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) Create your account",
+      "signup": "Sign up",
+      "or": "or",
+      "login": "log in",
+      "loginText": "with your existing account.",
+      "prefsStart": "In the app, open Settings to set your preferences",
+      "prefsLink": "preferences",
+      "prefsRest": "(language, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Start messaging",
+      "item1": "Create a DM or Group and send your first message.",
+      "item2": "Use instant translation to chat across 100+ languages.",
+      "item3": "Try disappearing messages and read receipts in Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Go further",
+      "item1": "You can upgrade to a paid plan anytime inside the app.",
+      "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.",
+      "item2Part1": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
     },
     "cta": {
-      "aria": "پىلان تاللاڭ",
-      "getPlus": "Plus غا يۇقىرى دەرىجىگە كۆتۈرۈڭ",
-      "upgradeMonthly": "ھەر ئاي يۇقىرى دەرىجىگە كۆتۈرۈڭ",
-      "upgradeAnnual": "يىللىق يۇقىرى دەرىجىگە كۆتۈرۈڭ"
+      "seePlans": "See plans & pricing",
+      "openSettings": "Open settings",
+      "createAccount": "Create an account"
+    }
+  },
+  "howItWorks": {
+    "title": "Chatforia قانداق ئىشلەيدۇ",
+    "intro": "Chatforia ئالاقىنى ئاددىيلاشتۇرۇش ئۈچۈن لايىھەلەنگەن...",
+    "step1Title": "1. ھېسابات قۇرۇش",
+    "step1Desc": "ئېلېكترونلۇق خەت ياكى ئىشلەتكۈچى نامى بىلەن تىزىملىتىڭ...",
+    "step2Title": "2. سۆھبەت باشلاش",
+    "step2Desc": "باشقىلار بىلەن باغلىنىڭ...",
+    "step3Title": "3. ھەقىقىي ۋاقىتتا ئۇچۇرلىشىش",
+    "step3Desc": "ئۇچۇرلار تېز يەتكۈزىلىدۇ...",
+    "step4Title": "4. دۇنياۋى ئالاقە",
+    "step4Desc": "تەرجىمە ئىقتىدارى قوللانغۇچىلارغا ياردەم بېرىدۇ...",
+    "step5Title": "5. كونترولنى ساقلاڭ",
+    "step5Desc": "تەڭشەكلىرىڭىزنى باشقۇرۇڭ..."
+  },
+  "safety": {
+    "title": "بىخەتەرلىك ۋە جەمئىيەت قائىدىلىرى",
+    "intro": "Chatforia بىخەتەر مۇھىتنى قوغداشقا ۋەدە بېرىدۇ...",
+    "respectTitle": "ھۆرمەتلىك ئالاقە",
+    "respectDesc": "قوللانغۇچىلار بىر-بىرىگە ھۆرمەت بىلەن مۇئامىلە قىلىشى كېرەك...",
+    "prohibitedTitle": "چەكلەنگەن مەزمۇن",
+    "prohibited": {
+      "illegal": "قانۇنسىز پائالىيەتلەر",
+      "harassment": "تەھقىرلەش ياكى زوراۋانلىق",
+      "hate": "نەپرىت سۆزى ياكى كەمسىتىش",
+      "explicit": "ئاشكارا ياكى زىيانلىق مەزمۇن",
+      "spam": "سپام ياكى ئالدامچىلىق"
     },
-    "section": {
-      "app": "ئەپ پىلانلىرى",
-      "mobile": "كۆچمە (eSIM)",
-      "family": "ئائىلە پىلانلىرى"
+    "toolsTitle": "بىخەتەرلىك قوراللىرى",
+    "tools": {
+      "report": "نامۇۋاپىق ھەرىكەتنى دوكلات قىلىش",
+      "block": "قوللانغۇچىلارنى توسۇش",
+      "control": "مەخپىيەتلىك تەڭشەكلىرىنى باشقۇرۇش"
     },
-    "plans": {
-      "free": {
-        "title": "ھەقسىز",
-        "price": "$0",
-        "desc": "ھەقسىز ئۇچۇرلىشىڭ. Chatforia نى سىناپ باقماقچى بولسىڭىز ئەڭ ياخشى.",
-        "features": {
-          "chat": "رېئال ۋاقىت 1:1 ۋە گۇرۇپپا پارىڭى، ئاۋاز ۋە سىن قىچىشى",
-          "media": "رەسىم، ئاۋازلىق ئۇچۇر ۋە قىسقا سىنلارنى ئورتاقلىشىڭ",
-          "ai": "AI كۈچىدىكى ئەقلىي جاۋاب ۋە دەرھال تەرجىمە (ئادىل ئىشلىتىش)",
-          "disappearing": "ئۆچۈرۈلۈپ كېتىدىغان ئۇچۇرلار ۋە ئاساسىي مەخپىيەتلىك كونتروللىرى",
-          "ads": "ئەپتە مەڭگۈ ھەقسىز ئېلان بىلەن"
-        },
-        "ctaCurrent": "نۆۋەتتىكى پىلان",
-        "ctaManage": "ھېساباتتا باشقۇرۇڭ",
-        "ctaPublic": "باشلاڭ – كىرىشكە داۋاملاشتۇرۇڭ",
-        "aria": "ھەقسىز پىلان"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$6.99",
-        "desc": "بارلىق زۆرۈر نەرسىلەر، ئېلانسىز. كۈندىلىك ئۇچۇرلىشىش ۋە قىچىش ئۈچۈن ئەڭ ياخشى.",
-        "features": {
-          "allFree": "ھەقسىزدىكى ھەممە نەرسە، ئېلانسىز",
-          "forwarding": "قىچىش ۋە ئۇچۇرلارنى ھەقىقىي تېلېفون نومۇرىڭىزغا يوللاڭ",
-          "history": "ئۇزۇنراق ئۇچۇر تارىخى (ئەڭ كۆپ 6 ئاي)",
-          "support": "مەسىلە كۆرۈلسە تېخىمۇ تېز ياردەم"
-        },
-        "badge": "ئالقىشلانغان",
-        "cta": "ئېلانسىزغا ئۆتۈڭ",
-        "ctaPublic": "Plus ئېلىڭ – كىرىشكە داۋاملاشتۇرۇڭ",
-        "aria": "Plus غا يۇقىرى دەرىجىگە كۆتۈرۈڭ"
-      },
-      "premiumMonthly": {
-        "title": "Premium (ھەر ئاي)",
-        "price": "$11.99",
-        "desc": "تولۇق Chatforia تەجرىبىسى: AI كۈچى قوراللىرى، خاسلاشتۇرۇش ۋە ئالدىنقى ياردەم.",
-        "features": {
-          "plusAll": "Plus تىكى ھەممە نەرسە",
-          "themes": "بارلىق Premium رەڭ تېمىلىرى ۋە ئەپ خاسلاشتۇرۇشلىرىنى ئېچىڭ",
-          "ai": "Premium غا خاس AI كۈچى قوراللىرى – قايتا يېزىش، ئەقلىي جاۋاب ۋە خۇلاسە",
-          "support": "ئەڭ كېرەكلىك ۋاقىتتا ئالدىنقى ياردەم"
-        },
-        "badge": "تەۋسىيە قىلىنغان",
-        "cta": "يۇقىرى دەرىجىگە كۆتۈرۈڭ (ھەر ئاي)",
-        "ctaPublic": "Premium نى ئېچىڭ – كىرىشكە داۋاملاشتۇرۇڭ",
-        "aria": "Premium ھەر ئايغا يۇقىرى دەرىجىگە كۆتۈرۈڭ"
-      },
-      "premiumAnnual": {
-        "title": "Premium (يىللىق)",
-        "price": "$99",
-        "desc": "يىللىق ھېسابات بىلەن تېخىمۇ كۆپ تېجەڭ — قوشۇمچە رەڭ تېمىلىرى، AI قوراللىرى ۋە ئالدىنقى ياردەم.",
-        "features": {
-          "allPremium": "Premium ھەر ئايدىكى ھەممە نەرسە — قوشۇمچە رەڭ تېمىلىرى",
-          "annualBilling": "يىلىغا بىر قېتىم ھېسابات",
-          "save25": "ھەر ئايلىق ھېساباتقا نىسبەتەن تەخمىنەن 30% تېجەڭ",
-          "bestFor": "كۈچلۈك ئىشلەتكۈچىلەر، يىراق خىزمەتچىلەر ۋە ئېغىر ساياھەتچىلەر ئۈچۈن ئەڭ ياخشى"
-        },
-        "badge": "30% تېجەڭ",
-        "cta": "يۇقىرى دەرىجىگە كۆتۈرۈڭ (يىللىق)",
-        "ctaPublic": "يىللىق 30% تېجەپ Premium غا ئۆتۈڭ – كىرىشكە داۋاملاشتۇرۇڭ",
-        "aria": "Premium يىللىققا يۇقىرى دەرىجىگە كۆتۈرۈڭ",
-        "disclaimer": "ئالدىن ھېسابات. خالىغان ۋاقىتتا ئىناۋەتسىز قىلىڭ. يوشۇرۇن ھەق يوق."
-      }
+    "enforcementTitle": "ئىجرا قىلىش",
+    "enforcementDesc": "بىز ھېساباتلارغا قارشى چارە قوللىنىشىمىز مۇمكىن..."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "نېمە ئۈچۈن ئۇچۇرلىشىش پلاتفورمىلىرى بەك مۇھىم",
+      "intro": "ئۇچۇرلىشىش پلاتفورمىلىرى بۈگۈنكى دۇنيادا ئالاقىنىڭ ئەڭ مۇھىم قوراللىرىنىڭ بىرىگە ئايلاندى...",
+      "everydayTitle": "كۈندىلىك ئالاقە",
+      "everydayDesc": "كىشىلەر كۈندىلىك ئالاقە ئۈچۈن ئۇچۇرلىشىش ئەپلەرگە تايىنىدۇ...",
+      "speedTitle": "تېزلىك ۋە قولايلىق",
+      "speedDesc": "ئۇچۇرلار دەرھال يەتكۈزىلىدۇ...",
+      "globalTitle": "دۇنياۋى دائىرە",
+      "globalDesc": "بۇ پلاتفورمىلار دۇنيانىڭ ھەرقايسى جايلىرىدىكى كىشىلەرنى باغلايدۇ...",
+      "privacyTitle": "مەخپىيەتلىك ۋە كونترول",
+      "privacyDesc": "زامانىۋى پلاتفورمىلار قوللانغۇچىلارغا كونترول بېرىشكە ئەھمىيەت بېرىدۇ...",
+      "futureTitle": "ئۇچۇرلىشىشنىڭ كەلگۈسى",
+      "futureDesc": "ئۇچۇرلىشىش يېڭى ئىقتىدارلار بىلەن داۋاملىق تەرەققىي قىلماقتا...",
+      "outro": "Chatforia مۇشۇ قىممەتلەر ئاساسىدا قۇرۇلغان..."
     },
-    "marketing": {
-      "freeTitle": "ھەقسىز",
-      "freeDesc": "ھەقسىز ئۇچۇرلىشىڭ.",
-      "plusTitle": "Plus",
-      "plusBadge": "ئالقىشلانغان",
-      "plusDesc": "ئەڭ ئەرزان ئېلانسىز تەجرىبە.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "تولۇق ئىقتىدارلار، رىڭتونلار ۋە AI كۈچى قوراللىرى.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "يىللىق ھېسابات بىلەن تېخىمۇ كۆپ تېجەڭ.",
-      "annualDisclaimer": "ئالدىن ھېسابات. خالىغان ۋاقىتتا ئىناۋەتسىز قىلىڭ. يوشۇرۇن ھەق يوق."
+    "global": {
+      "title": "دۇنياۋى ئالاقىنىڭ كەلگۈسى",
+      "intro": "ئالاقە تېز سۈرئەتتە ئۆزگىرىپ كەلمەكتە...",
+      "barriersTitle": "توسالغۇلارنى بۇزۇش",
+      "barriersDesc": "كىشىلەر ھازىر دۇنيانىڭ ھەر قايسى جايلىرى بىلەن باغلىنالايدۇ...",
+      "translationTitle": "تەرجىمە تېخنىكىسىنىڭ رولى",
+      "translationDesc": "تىل بۇرۇن توسالغۇ بولۇپ كەلگەن...",
+      "realtimeTitle": "ھەقىقىي ۋاقىتتا ئالاقە",
+      "realtimeDesc": "تېزلىك مۇھىم ئامىل...",
+      "privacyTitle": "مەخپىيەتلىك ۋە بىخەتەرلىك",
+      "privacyDesc": "قوللانغۇچىلار سۆھبەتلىرىنىڭ بىخەتەرلىكىگە ئىشەنچ قىلىشنى خالايدۇ...",
+      "futureTitle": "كېلەچەكتە نېمە بولىدۇ",
+      "futureDesc": "دۇنياۋى ئالاقە يېڭى ئىقتىدارلارنى ئۆز ئىچىگە ئالىدۇ...",
+      "outro": "Chatforia قاتارلىق پلاتفورمىلار بۇ ئۆزگىرىشنىڭ بىر قىسمى..."
     },
-    "mobile": {
-      "title": "Chatforia كۆچمە (eSIM سانلىق مەلۇمات بوغچىلىرى)",
-      "subtitle": "Wi-Fi بولمىغاندىمۇ Chatforia نىڭ ئىشلىشى ئۈچۈن دۇنياۋى سانلىق مەلۇمات قوشۇڭ. باھا دۆلىتىڭىز ۋە پۇل بىرلىكىڭىزگە ئاساسەن ئاپتوماتىك تەڭشىلىدۇ.",
-      "subtitle.detail": "ساياھەت ياكى Wi-Fi دىن يىراقتا بولغاندا Chatforia نىڭ ئىشلىشى ئۈچۈن بىر قېتىملىق دۇنياۋى سانلىق مەلۇمات بوغچىسى تاللاڭ.",
-      "scope": {
-        "local": "يەرلىك",
-        "europe": "ياۋروپا",
-        "global": "دۇنياۋى"
-      },
-      "note": "3 GB دىن تۆۋەن بوغچىلارنى ساتمايمىز.",
-      "localEquals": "يەرلىك = {{country}}",
-      "localEqualsFallback": "يەرلىك = نۆۋەتتىكى دۆلىتىڭىز",
-      "perPack": "/ بوغچا",
-      "cta": "بۇ سانلىق مەلۇمات بوغچىسىنى ئېلىڭ",
-      "ctaPublic": "بۇ سانلىق مەلۇمات بوغچىسىنى ئېلىڭ",
-      "checkout": {
-        "redirecting": "قايتا نىشانلاۋاتىدۇ…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "ئېغىر ئىشلىتىش ئۈچۈن يۇقىرى سۈرئەتلىك سانلىق مەلۇمات",
-          "throttle": "ئېغىر ئىشلىتىشتىن كېيىن سۈرئەت ئاستىلىشى مۇمكىن",
-          "coverage": "ئىشەنچلىك قاپلاش",
-          "instant": "دەرھال eSIM ئاكتىپلىنىشى",
-          "noContract": "بىر قېتىملىق بوغچا، توختام يوق"
-        }
-      },
-      "disclaimer": {
-        "devices": "eSIM سانلىق مەلۇمات بوغچىلىرى eSIM قوللايدىغان ۋە قۇلۇپسىز ئۈسكۈنىگە ئېھتىياجلىق. تېلېفون مودېلى، ئوپېراتور ۋە دۆلەتكە ئاساسەن پەرق قىلىدۇ. قاپلاش ۋە سۈرئەت رايونغا ئاساسەن ئوخشىمايدۇ."
-      },
-      "small": {
-        "title": "باشلىغۇچى بوغچا",
-        "desc": "3 GB يۇقىرى سۈرئەتلىك سانلىق مەلۇمات — يېنىك ئۇچۇرلىشىش ۋە پەقەت قىچىش ئۈچۈن ئەڭ ياخشى.",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "قىسقا ساياھەت، يېنىك ئۇچۇرلىشىش ۋە پەقەت قىچىش",
-        "aria": "Starter eSIM سانلىق مەلۇمات بوغچىسى سېتىۋېلىڭ"
-      },
-      "medium": {
-        "title": "ساياھەتچى بوغچا",
-        "desc": "5 GB يۇقىرى سۈرئەتلىك سانلىق مەلۇمات — ساياھەت، خىزمەتكە بېرىش ۋە دائىملىق VoIP قىچىش ئۈچۈن.",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "ھەپتە ئاخىرى ساياھىتى، دائىملىق VoIP قىچىش ۋە خەرىتە",
-        "aria": "Traveler eSIM سانلىق مەلۇمات بوغچىسى سېتىۋېلىڭ"
-      },
-      "large": {
-        "title": "كۈچلۈك بوغچا",
-        "desc": "10 GB يۇقىرى سۈرئەتلىك سانلىق مەلۇمات — Chatforia تورىدا ئېغىر پاراڭ، قىچىش ۋە سىن ئۈچۈن.",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "ئېغىر پاراڭ، قىچىش، سىن ۋە ھورپوت ئىشلىتىش",
-        "aria": "Power user eSIM سانلىق مەلۇمات بوغچىسى سېتىۋېلىڭ"
-      },
-      "compare": {
-        "title": "eSIM سانلىق مەلۇمات بوغچىلىرىنى سېلىشتۇرۇڭ",
-        "col": {
-          "pack": "بوغچا",
-          "data": "ئىچىدىكى سانلىق مەلۇمات",
-          "bestFor": "ئەڭ ياخشى ئىشلىتىش"
-        },
-        "disclaimer": "ئەمەلىي سانلىق مەلۇمات ئىشلىتىشى Chatforia (ئاۋاز، سىن، مېدىيا ۋە تېلېفونىڭىزدىكى باشقا ئەپ) قانداق ئىشلىتىشىڭىزگە باغلىق."
-      }
+    "index": {
+      "title": "Chatforia بىلوگى",
+      "intro": "ئالاقە ھەققىدىكى كۆز قاراشلارنى كۆرۈڭ...",
+      "post1": "توردا بىخەتەر سۆھبەت قىلىش ئۇسۇلى",
+      "post2": "دۇنياۋى ئالاقىنىڭ كەلگۈسى",
+      "post3": "نېمە ئۈچۈن ئۇچۇرلىشىش پلاتفورمىلىرى مۇھىم"
     },
-    "family": {
-      "title": "Chatforia ئائىلە (ئورتاق سانلىق مەلۇمات)",
-      "subtitle": "ئائىلىڭىزدىكى ھەممەيلەن بىر سانلىق مەلۇمات كۆلىنى ئورتاقلىشىدۇ. بىر ھېسابات، كۆپ Chatforia ھېساباتى، دۇنياۋى قاپلاش.",
-      "perPack": "/ بوغچا",
-      "small": {
-        "title": "ئائىلە كىچىك",
-        "desc": "20 GB ئورتاق يۇقىرى سۈرئەتلىك سانلىق مەلۇمات — 2–3 يېنىك ئىشلەتكۈچى ئۈچۈن ئەڭ ياخشى.",
-        "price": "$29.99",
-        "aria": "ئائىلە كىچىك بوغچىسىنى سېتىۋېلىڭ"
+    "chatSafely": {
+      "title": "How to Chat Safely Online",
+      "intro": "Online communication has made it easier than ever to connect with people across the world. Whether you're messaging friends, meeting new people, or collaborating professionally, messaging platforms play a major role in everyday life. However, staying safe online is just as important as staying connected.",
+      "personalInfo": {
+        "title": "Protect Your Personal Information",
+        "body": "One of the most important rules of online safety is to avoid sharing sensitive personal information. This includes your home address, financial details, passwords, or any identifying information that could be misused. Even in casual conversations, it's best to be mindful of what you share and who you share it with."
       },
-      "medium": {
-        "title": "ئائىلە ئوتتۇرا",
-        "desc": "40 GB ئورتاق يۇقىرى سۈرئەتلىك سانلىق مەلۇمات — 3–5 ئاكتىپ ئەزا ئۈچۈن ئەڭ ياخشى.",
-        "price": "$49.99",
-        "aria": "ئائىلە ئوتتۇرا بوغچىسىنى سېتىۋېلىڭ"
+      "safetyFeatures": {
+        "title": "Use Built-In Safety Features",
+        "body": "Modern messaging platforms like Chatforia provide tools to help users stay safe. Features such as blocking, reporting, and privacy controls are designed to give users control over their experience. If someone behaves inappropriately or makes you uncomfortable, you should use these tools immediately."
       },
-      "large": {
-        "title": "ئائىلە چوڭ",
-        "desc": "80 GB ئورتاق يۇقىرى سۈرئەتلىك سانلىق مەلۇمات — ھەمىشە تورغا ئۇلانغان كۈچلۈك ئائىلىلەر ئۈچۈن.",
-        "price": "$84.99",
-        "aria": "ئائىلە چوڭ بوغچىسىنى سېتىۋېلىڭ"
+      "scams": {
+        "title": "Be Aware of Scams",
+        "body": "Scammers often use messaging platforms to trick users into sharing personal information or sending money. Be cautious of messages that seem too good to be true, such as unexpected offers, urgent requests, or unfamiliar links. Always verify the identity of the person you're communicating with before taking any action."
       },
-      "feature": {
-        "shared": "ئائىلىڭىز ئۈچۈن ئورتاق سانلىق مەلۇمات كۆلى",
-        "members": "ئەڭ كۆپ 4 قوشۇمچە ئەزا تەكلىپ قىلىڭ",
-        "membersMore": "3–5 ئاكتىپ ئەزا ئۈچۈن ئەڭ ياخشى",
-        "manage": "ھەر بىر ئەزانىڭ چېكىنى باشقۇرۇڭ",
-        "topUp": "خالىغان ۋاقىتتا تېخىمۇ كۆپ بوغچا قوشۇڭ",
-        "bestValue": "GB غا ئەڭ ياخشى باھا",
-        "fairUse": "ئادىل ئىشلىتىش قائىدىسى ۋە يەرلىك چەكلەرگە تېگىشلىك"
+      "responsibly": {
+        "title": "Communicate Responsibly",
+        "body": "Respectful communication helps create a safer environment for everyone. Avoid engaging in harmful or abusive conversations, and be mindful of how your words may affect others. Positive interactions contribute to a better experience for all users."
       },
-      "disclaimer": "ئائىلە بوغچىلىرى ئورتاق سانلىق مەلۇمات كۆلى قۇرىدۇ ياكى تولۇقلىدۇ. ئەزالارنى خالىغان ۋاقىتتا تەكلىپ قىلىپ ياكى چىقىرىۋېتەلەيسىز.",
-      "footnote": "ئائىلە بوغچىلىرى ئۇلانغان Chatforia ھېساباتلىرى ئارىسىدا بىر سانلىق مەلۇمات كۆلىنى ئورتاقلىشىدۇ. ئىشلىتىش ۋە چەكلەر دۆلىتىڭىز ۋە يەرلىك قانۇنلارغا ئاساسەن ئوخشىمايدۇ."
+      "whySafety": {
+        "title": "Why Online Safety Matters",
+        "body": "As digital communication continues to grow, maintaining safety and trust becomes increasingly important. By following basic safety practices and using available tools, users can enjoy the benefits of messaging while minimizing risks."
+      },
+      "conclusion": "Staying safe online doesn’t require advanced technical knowledge—just awareness, caution, and good judgment. With the right habits, you can communicate confidently and securely."
+    }
+  },
+  "about": {
+    "title": "Chatforia ھەققىدە",
+    "description": "Chatforia بىخەتەر ۋە كۆپ تىللىق ئالاقە ئۈچۈن لايىھەلەنگەن زامانىۋى ئۇچۇرلىشىش پلاتفورمىسى...",
+    "valuesTitle": "بىز قىممەت قارىيدىغان نەرسىلەر",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
     },
+    "howTitle": "How Chatforia works",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see.",
+    "privacyTitle": "مەخپىيەتلىك بىرىنچى",
+    "privacyDesc": "كۈچلۈك شىفىرلاش ۋە قوللانغۇچى كونترول قىلىدىغان مەخپىيەتلىك تەڭشەكلىرى",
+    "accessTitle": "ھەممەيلەنگە ئېرىشىش",
+    "accessDesc": "كۆپ تىللىق تەرجىمە ئىقتىدارى",
+    "controlTitle": "كونترول",
+    "controlDesc": "يوقىلىدىغان ئۇچۇرلار ۋە ئوقۇش بىلدۈرۈشلىرى قاتارلىق ئىقتىدارلار"
+  },
+  "press": {
+    "title": "Press",
+    "contactLine": "For media inquiries, reach us at",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Logos, screenshots, and product imagery.",
+    "downloadCta": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
+  },
+  "careers": {
+    "title": "Careers",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.",
+    "futureRoles": "Future roles"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Accepted sizes",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
     "why": {
-      "title": "كىشىلەر نېمىشقا Chatforia غا ئۆتىدۇ",
-      "subtitle": "Chatforia سىزگە ھەقىقىي تېلېفون نومۇرى، ئەقلىي تەرجىمە ۋە ئېلانسىزغا ئۆتۈشنىڭ ئوچۇق يولىنى بېرىدۇ.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "ھەقسىزدە يېنىكرەك ئېلان، ئېھتىياجىڭىزغا ئاساسەن ئاددىي Plus يۇقىرى دەرىجىگە كۆتۈرۈش ۋە TextNow دا يوق Premium قوراللىرى."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "زامانىۋى ئەپ، دۇنياۋى ئالدىنقى لايىھە ۋە كونا تىپتىكى قىچىش يوللاشنىڭ ئورنىغا ئىچكى تەرجىمە."
-        },
-        "messengers": {
-          "title": "Chatforia vs پاراڭ ئەپلىرى",
-          "body": "پەقەت ئەپ ئىشلەتكۈچىلىرى ئەمەس — ھەقىقىي تېلېفون نومۇرلىرىغا ئۇچۇر يوللاڭ — AI ۋە ھالەت ئىچكى. TextFree ياكى TextMe دىن كەلگەن بولسىڭىز ئەڭ ياخشى."
-        }
-      },
-      "tableTitle": "Chatforia قانداق سېلىشتۇرۇلىدۇ",
-      "col": {
-        "feature": "ئىقتىدار"
-      },
-      "feature": {
-        "freeNumber": "ھەقسىز تېلېفون نومۇرى",
-        "translation": "ئىچكى ئاپتوماتىك تەرجىمە",
-        "aiTools": "AI قوراللىرى (قايتا يېزىش، جاۋاب، خۇلاسە)",
-        "ads": "ئېلانسىز تاللاش",
-        "history": "ئۇچۇر تارىخى"
-      },
-      "yes": "ھەئە",
-      "no": "ياق",
-      "yesPremium": "ھەئە (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "چەكلىك",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "ئەڭ كۆپ 12+ ئاي",
-        "textnow": "ھېساباتقا ئاساسەن ئوخشىمايدۇ",
-        "voice": "چەكلىك / ھېساباتقا ئاساسەن"
-      },
-      "disclaimer": "سېلىشتۇرۇش ئاممىۋى ئۇچۇرلارغا ئاساسەن بولۇپ ۋاقىت ئۆتكەنچە ئۆزگىرىشى مۇمكىن. TextFree ياكى TextMe قاتارلىق باشقا ھەقسىز ئۇچۇر ئەپلىرى ئادەتتە TextNow غا ئوخشاش."
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "faq": {
-      "title": "باھا ۋە پىلانلار FAQ",
-      "free": {
-        "q": "ھەقسىز پىلان ھەقىقەتەن ھەقسىزمۇ؟",
-        "a": "ھەئە. ھەقسىز پىلان Chatforia نومۇرى، قىچىش ۋە ئېلان بىلەن ئۇچۇرلىشىشنى ئۆز ئىچىگە ئالىدۇ. خالىغانچە ھەقسىزدە قالالايسىز ياكى ئېلاننى ئۆچۈرۈپ تېخىمۇ كۆپ ئىقتىدار ئېچىش ئۈچۈن يۇقىرى دەرىجىگە كۆتۈرۈڭ."
-      },
-      "plusPremium": {
-        "q": "Plus بىلەن Premium نىڭ پەرقى نېمە؟",
-        "a": "Plus ئېلاننى ئۆچۈرۈپ ئۇچۇر تارىخىڭىزنى ئۇزارتىدۇ — كۈندىلىك ئىشلىتىش ئۈچۈن ئەڭ ياخشى. Premium قوشۇمچە خاسلاشتۇرۇش، قايتا يېزىش ۋە جاۋاب ئۈچۈن AI قوراللىرى ۋە ئېغىر ئىشلەتكۈچىلەر ئۈچۈن ئالدىنقى ياردەم قوشىدۇ."
-      },
-      "esim": {
-        "q": "eSIM سانلىق مەلۇمات بوغچىلىرى قەيەردە ئىشلەيدۇ؟",
-        "a": "Chatforia كۆچمە دۇنياۋى eSIM قاپلاشنى ئىشلىتىدۇ. ئىشلىتىش دۆلىتىڭىز ۋە ئۈسكۈنىڭىزگە باغلىق. ئەپ ئىچىدە ئاكتىپلىغاندا قوللايدىغان تاللاشلارنى كۆرىسىز."
-      },
-      "cancel": {
-        "q": "پىلاننى خالىغان ۋاقىتتا ئىناۋەتسىز قىلالامدىم ياكى ئۆزگەرتەلەمدىم؟",
-        "a": "ھەئە. ئەپتىكى ھېسابات بېتىدىن مۇشتەرىلىكنى باشقۇرۇڭ ياكى ئىناۋەتسىز قىلىڭ. ئۆزگەرتىش نۆۋەتتىكى ھېسابات مەزگىلىنىڭ ئاخىرىدا كۈچكە ئىگە بولىدۇ."
-      },
-      "family": {
-        "q": "ئائىلە بوغچىلىرى قانداق ئىشلەيدۇ؟",
-        "a": "ئائىلە بوغچىلىرى كۆپ Chatforia ھېساباتى ئارىسىدا ئورتاق سانلىق مەلۇمات كۆلى قۇرىدۇ. بىر كىشى ھېسابات تۆلەيدۇ، ئەزالارنى تەكلىپ قىلىپ ياكى چىقىرىۋېتەلەيسىز ۋە ھەر كىشىگە چەك بېكىتەلەيسىز."
-      }
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Send inquiry"
     },
-    "gettingStarted": {
-      "title": "باشلاش",
-      "subtitle": "Chatforia غا يېڭىمۇ؟ بۇ قىسقا باشلاش قوللانمىسى سىزنى بىر نەچچە مىنۇتتا ئىشلىتىشكە تەييارلايدۇ.",
-      "alert": {
-        "text": "بۇ قوللانما يېڭى ئىقتىدارلار چىققاندا كېڭىيىدۇ. بىرەر نەرسە كەم بولسا، بىزگە",
-        "contactLink": "ئالاقىلىشىڭ"
-      },
-      "section1": {
-        "title": "1) ھېسابات قۇرۇڭ",
-        "signup": "تىزىملىتىڭ",
-        "or": "ياكى",
-        "login": "كىرىڭ",
-        "loginText": "مەۋجۇت ھېساباتىڭىز بىلەن.",
-        "prefsStart": "تەڭشەكلىرىڭىزنى بېكىتىڭ",
-        "prefsLink": "مايىللىقلىرىڭىزنى",
-        "prefsRest": "(تىل، ئوقۇلغانلىقىنى كۆرسىتىش، تېمىلار)."
-      },
-      "section2": {
-        "title": "2) ئۇچۇرلىشىشنى باشلاڭ",
-        "item1": "DM ياكى گۇرۇپپا قۇرۇپ تۇنجى ئۇچۇر يوللاڭ.",
-        "item2": "100+ تىل ئارىسىدا دەرھال تەرجىمىنى ئىشلىتىڭ.",
-        "item3": "ئارخىپ → مەخپىيەتلىكتە ئۆچۈرۈلۈپ كېتىدىغان ئۇچۇرلار ۋە ئوقۇلغانلىقىنى كۆرسىتىشنى سىناڭ."
-      },
-      "section3": {
-        "title": "3) تېخىمۇ ئىلگىرىلەڭ",
-        "item1": "ئەپ ئىچىدە خالىغان ۋاقىتتا پۇل تۆلەش پىلانىغا يۇقىرى دەرىجىگە كۆتۈرەلەيسىز.",
-        "item2": "كىرگەندىن كېيىن، قوشۇمچە ئۈسكۈنىلەرنى ئۇلاپ ئەپتىكى تەڭشەكلەردىن مەخپىيلەشتۈرۈلگەن زاپاس نۇسخىنى تەڭشىيەلەيسىز."
-      },
-      "cta": {
-        "seePlans": "پىلانلارنى كۆرۈڭ",
-        "openSettings": "تەڭشەكلەرنى ئېچىڭ"
-      }
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "successMsg": "Thanks—our team will reply by email.",
+    "errorSend": "Could not send. Please email support@chatforia.com.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Send"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
     },
-    "helpCenter": {
-      "title": "ياردەم مەركىزى",
-      "faq": {
-        "account": {
-          "q": "ھېسابات قانداق قۇرۇش ياكى ئەسلىگە كەلتۈرۈش كېرەك؟",
-          "a": "ئەپنى چۈشۈرۈڭ ياكى تورنى ئىشلىتىڭ، «ھېسابات قۇرۇڭ» نى بېسىڭ، ئېلېكترونلۇق خەت/تېلېفوننى دەلىللەڭ. ئەسلىگە كەلتۈرۈش ئۈچۈن «پارولنى ئۇنتۇپ قالدىڭىزمۇ؟» نى ئىشلىتىڭ."
-        },
-        "privacy": {
-          "q": "ئۇچۇرلار ئۇچتىن-ئۇچقىچە مەخپىيلەشتۈرۈلگەنمۇ؟",
-          "a": "ھەئە. ئۇچۇرلار ۋە قىچىشلار كۆڭۈلدىكى ئۇچتىن-ئۇچقىچە مەخپىيلەشتۈرۈلگەن. پەقەت سىز ۋە قوبۇل قىلغۇچى ئوقۇيالايدۇ."
-        },
-        "translate": {
-          "q": "دەرھال تەرجىمە قانداق ئىشلەيدۇ؟",
-          "a": "تەڭشەكلەر → كۆرۈنۈش ۋە تىلدا «ئاپتوماتىك تەرجىمە» نى قوزغىتىڭ. قوللايدىغان جايلاردا ئۈسكۈنىدە تەرجىمە قىلىمىز، باشقا جايلاردا بىخەتەر API ئارقىلىق ئاز مىقداردا مېتا سانلىق مەلۇمات بىلەن."
-        },
-        "contact": {
-          "q": "ياردەم بىلەن ئالاقىلىشىڭ",
-          "a": "support@chatforia.com غا ئۇچۇر ئەۋەتىڭ. ئېكران كېسىكلىرى ۋە ئەپ نۇسخىڭىزنى قوشۇڭ."
-        }
-      }
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+      "newText": "New text",
+      "enterRecipient": "Enter a name or number",
+      "typeMessage": "Type a message…",
+      "addRecipient": "Add a recipient above to start…"
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
     },
     "contact": {
-      "title": "بىز بىلەن ئالاقىلىشىڭ",
-      "successMsg": "رەھمەت — كوماندىمىز ئېلېكترونلۇق خەت ئارقىلىق جاۋاب بېرىدۇ.",
-      "errorSend": "ئەۋەتەلمىدى. support@chatforia.com غا ئېلېكترونلۇق خەت ئەۋەتىڭ.",
-      "form": {
-        "nameLabel": "ئىسىم",
-        "emailLabel": "ئېلېكترونلۇق خەت",
-        "messageLabel": "ئۇچۇر",
-        "sendCta": "ئەۋەتىڭ"
-      }
+      "title": "Contact",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
     },
-    "privacyPolicy": {
-      "title": "مەخپىيەتلىك سياسىتى",
-      "lastUpdated": "ئاخىرقى يېڭىلانغان:",
-      "intro": {
-        "body": "بۇ مەخپىيەتلىك سياسىتى Chatforia («بىز»، «بىزنى») ئەپ ۋە مۇلازىمەتلىرىڭىزنى ئىشلەتكەندە قانداق ئۇچۇر توپلايدىغانلىقىمىزنى، ئىشلىتىدىغانلىقىمىزنى ۋە ئورتاقلىشىدىغانلىقىمىزنى چۈشەندۈرىدۇ. Chatforia نى سانلىق مەلۇماتنى ئەڭ ئاز قىلىپ لايىھىلەيمىز."
-      },
-      "infoWeCollect": {
-        "title": "بىز توپلايدىغان ئۇچۇرلار",
-        "account": "ھېسابات ئۇچۇرلىرى (مەسىلەن ئېلېكترونلۇق خەت/تېلېفون) ھېسابات قۇرۇش ۋە بىخەتەر قىلىش ئۈچۈن.",
-        "encrypted": "مەخپىيلەشتۈرۈلگەن مەزمۇن (ئۇچۇر/قىچىش) ئۇچتىن-ئۇچقىچە مەخپىيلەشتۈرۈلگەن؛ بىز ئۇنى ئوقۇيالمايمىز.",
-        "diagnostics": "دىئاگنوز/ئىشلىتىش (مەسىلەن چۈشۈش خاتىرىلىرى، ئۈسكۈنە تىپى ياكى ئۇمۇمىي ئانالىز) ئىقتىدارنى ياخشىلاش ئۈچۈن."
-      },
-      "sms": {
-        "title": "كۆچمە تېلېفون نومۇرلىرى ۋە SMS",
-        "body": "كۆچمە تېلېفون نومۇرى بېرىشنى تاللىسىڭىز، ئۇنى ھېسابات دەلىللەش، كىرىش ئۇقتۇرۇشلىرى ۋە قوللايدىغان جايلاردا ئىشلەتكۈچى ئارىسىدىكى SMS ئۇچۇرلىشىش ئۈچۈن ئىشلىتىمىز. Chatforia پائالىيىتىڭىزگە مۇناسىۋەتلىك ئۇچۇرلىشىش SMS ئۇچۇرلىرىنى ئەۋەتىشىمىز مۇمكىن. ئۇچۇر ۋە سانلىق مەلۇمات ھەققى قوللىنىلىشى مۇمكىن. ھەر قاچان «STOP» قاتارلىق قوللايدىغان ئاچقۇچ سۆز بىلەن ياكى ئەپتىكى ئۇقتۇرۇش مايىللىقلىرىنى ئۆزگەرتىپ SMS ئۇچۇرلىرىدىن ۋاز كېچىشىڭىز مۇمكىن. تېلېفون نومۇرىڭىزنى ساتمايمىز ياكى مۇناسىۋەتسىز تېخنىكىلىق ئىشلىتىشكە ئىشلەتمەيمىز.",
-        "newText": "يېڭى ئۇچۇر",
-        "enterRecipient": "ئىسىم ياكى نومۇر كىرگۈزۈڭ",
-        "typeMessage": "ئۇچۇر يېزىڭ…",
-        "addRecipient": "ئۇچۇر باشلاش ئۈچۈن يۇقىرىدا قوبۇل قىلغۇچى قوشۇڭ…"
-      },
-      "howWeUse": {
-        "title": "ئۇچۇرلارنى قانداق ئىشلىتىمىز",
-        "provide": "مۇلازىمەت بېرىش ۋە بىخەتەر قىلىش (دەلىللەش، spam/قالايمىقانچىلىقنى بايقاش).",
-        "improve": "ئىقتىدارلارنى ياخشىلاش (تەرجىمە سۈپىتى، ئىشەنچلىكلىك).",
-        "legal": "قانۇنىي مەسئۇلىيەتلەرگە رىئايە قىلىش."
-      },
-      "sharing": {
-        "title": "ئورتاقلىشىش",
-        "body": "شەخسىي سانلىق مەلۇمات ساتمايمىز. قاتتىق توختام بىلەن بىر تەرەپ قىلغۇچىلار بىلەن (مەسىلەن ئۇقتۇرۇش، ئانالىز) چەكلىك سانلىق مەلۇمات ئورتاقلىشىشىمىز مۇمكىن."
-      },
-      "rights": {
-        "title": "ھوقۇقلىرىڭىز",
-        "body": "رايونىڭىزغا ئاساسەن (مەسىلەن GDPR/UK GDPR/CPRA) زىيارەت، تۈزىتىش، ئۆچۈرۈش ياكى بەزى بىر تەرەپ قىلىشتىن ۋاز كېچىشنى تەلەپ قىلالايسىز. ئالاقىلىشىڭ: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "سانلىق مەلۇمات ساقلاش ۋە بىخەتەرلىك",
-        "body": "مۇلازىمەتنى ئىجرا قىلىش ئۈچۈن زۆرۈر بولغانلىرىنىلا ساقلايمىز ۋە كەسپىي ئۆلچەمدىكى بىخەتەرلىكنى قوللىنىمىز. E2E مەزمۇننى بىز ئاچالمايمىز."
-      },
-      "children": {
-        "title": "بالىلار",
-        "body": "Chatforia 13 ياشتىن تۆۋەن بالىلارغا (ياكى يەرلىك قانۇن تەلەپ قىلغانچە) قارىتىلمىغان."
-      },
-      "changes": {
-        "title": "ئۆزگىرىشلەر",
-        "body": "يېڭىلىقلارنى بۇ يەردە ئېلان قىلىمىز ۋە «ئاخىرقى يېڭىلانغان» ۋاقىتنى ئۆزگەرتىمىز."
-      },
-      "contact": {
-        "title": "ئالاقىلىشىش",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
     },
-    "terms": {
-      "title": "مۇلازىمەت شەرتلىرى",
-      "lastUpdated": "ئاخىرقى يېڭىلانغان:",
-      "intro": {
-        "body": "Chatforia نى ئىشلىتىش ئارقىلىق بۇ شەرتلەرنى قوبۇل قىلىسىز. قوبۇل قىلمىسىڭىز مۇلازىمەتنى ئىشلەتمەڭ."
-      },
-      "accounts": {
-        "title": "ھېساباتلار",
-        "itemAccurateInfo": "دەلىق ئۇچۇر بېرىڭ ۋە سالاھىيەتلىك پارولىڭىزنى بىخەتەر ساقلاڭ.",
-        "itemResponsibility": "ھېساباتىڭىزدىكى پائالىيەتكە سىز مەسئۇل."
-      },
-      "acceptableUse": {
-        "title": "قوبۇل قىلىنغان ئىشلىتىش",
-        "itemNoAbuse": "قانۇنسىز، قالايمىقانچىلىق ياكى ھەقسىز مەزمۇن يوق؛ spam ياكى ئاپتوماتىك قالايمىقانچىلىق يوق.",
-        "itemSuspend": "قائىدىگە خىلاپلىق قىلسا توختىتىش/ئەمەلدىن قالدۇرۇشىمىز مۇمكىن."
-      },
-      "sms": {
-        "title": "SMS ئالاقىسى",
-        "body": "كۆچمە تېلېفون نومۇرى بەرسىڭىز، Chatforia ھېساباتىڭىز ۋە مۇلازىمەت ئىشلىتىشىڭىزغا مۇناسىۋەتلىك SMS ئۇچۇرلىرىنى (كىرىش ئۇقتۇرۇشلىرى، بىخەتەرلىك ئۇقتۇرۇشلىرى ۋە سىز قاتناشقان پاراڭلارغا مۇناسىۋەتلىك ئۇچۇرلار) ئەۋەتىشى مۇمكىنلىكىنى قوبۇل قىلىسىز. ئېلان ياكى تېخنىكىلىق ئۇچۇرلار ئۈچۈن ئېنىق رۇخسەتسىز SMS ئىشلەتمەيمىز. ئۇچۇر ۋە سانلىق مەلۇمات ھەققى قوللىنىلىشى مۇمكىن. «STOP» قاتارلىق قوللايدىغان ئاچقۇچ سۆز بىلەن ياكى ئەپتىكى ئۇقتۇرۇش تەڭشىكىنى ئۆزگەرتىپ SMS ئۇچۇرلىرىدىن خالىغان ۋاقىتتا ۋاز كېچىشىڭىز مۇمكىن."
-      },
-      "yourContent": {
-        "title": "مەزمۇنىڭىز",
-        "body": "مەزمۇنىڭىزنىڭ ھوقۇقى سىزدە. مۇلازىمەتنى ئىجرا قىلىش ئۈچۈن زۆرۈر ھوقۇقلارنى بىزگە بېرىسىز (مەسىلەن يوللاش، ساقلاش، تەرجىمە)."
-      },
-      "disclaimer": {
-        "title": "مەسئۇلىيەتسىزلىك ۋە جاۋابكارلىق",
-        "body": "مۇلازىمەت «ھازىرقى ھالىتى» بىلەن تەمىنلىنىدۇ، ھېچقانداق كېپىللىكسىز. قانۇن رۇخسەت قىلغان ئەڭ تولۇق دائىرىدە Chatforia غا ۋاسىتىلىك ياكى نەتىجىدىن كېلىپ چىققان زىيانغا جاۋابكار بولمايدۇ."
-      },
-      "changes": {
-        "title": "ئۆزگىرىشلەر",
-        "body": "شەرتلەرنى يېڭىلىشىمىز مۇمكىن؛ ئۆزگەرتىشتىن كېيىن داۋاملىق ئىشلىتىش قوبۇل قىلىشنى بىلدۈرىدۇ."
-      },
-      "contact": {
-        "title": "ئالاقىلىشىش",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
     },
-    "doNotSell": {
-      "title": "شەخسىي ئۇچۇرۇمنى سېتىش ياكى ئورتاقلىشىشتىن ۋاز كېچىش",
-      "body": "Chatforia شەخسىي ئۇچۇر ساتمايدۇ. كالىفورنىيە تۇرغۇچىلىرى CPRA ئاستىدا تەلەپنى تۆۋەندىكى كۇنۇپكا ئارقىلىق يوللىيالايدۇ.",
-      "cta": "تەلەپ يوللاڭ"
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
     },
-    "cookies": {
-      "title": "Cookie تەڭشىكى",
-      "body": "Chatforia ئىنتايىن ئاز cookie (مەسىلەن سېسسىيە، بىخەتەرلىك) ئىشلىتىدۇ. ئۈچىنچى تەرەپ ئېلان cookie سىنى ئىشلەتمەيمىز. تور كۆرگۈچ تەڭشىكىڭىز ئارقىلىق cookie نى باشقۇرۇڭ."
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
     },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "تېلېفون نومۇر ھالىتىنى يۈكلىيەلمىدى.",
-      "lock": "قۇلۇپلاڭ",
-      "noNumberAssigned": "نومۇر تەقسىم قىلىنمىغان. رايون كودى بىلەن نومۇر تاللاپ ئۇچۇر يوللاشنى باشلاڭ.",
-      "pickNumber": "نومۇر تاللاڭ",
-      "phoneNumber": "تېلېفون نومۇرى"
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
     },
-    "startChatModal": {
-      "title": "پاراڭ باشلاڭ",
-      "quickPicker": "تېز تاللىغۇچ",
-      "to": "گە",
-      "nameOrUsername": "ئىسىم، ئىشلەتكۈچى نامى كىرگۈزۈڭ",
-      "nameUsernamePhoneEmail": "ئىسىم، ئىشلەتكۈچى نامى، تېلېفون ياكى ئېلېكترونلۇق خەت كىرگۈزۈڭ…",
-      "startWithSelected": "تاللانغان بىلەن پاراڭ باشلاڭ",
-      "searchByUsernameOrPhone": "ئىشلەتكۈچى نامى ياكى تېلېفون بىلەن ئىزدەڭ",
-      "search": "ئىزدەش",
-      "searchPrompt": "ئىشلەتكۈچى نامى ياكى تېلېفون كىرگۈزۈپ «ئىزدەش» نى بېسىڭ.",
-      "pickFromContacts": "ياكى ئالاقىداشلاردىن تاللاڭ",
-      "addContact": "ئالاقىداش قوشۇڭ",
-      "show": "كۆرسىتىڭ",
-      "add": "قوشۇڭ",
-      "close": "تاقاڭ",
-      "selectedCount": "{{count}} تاللانغان",
-      "pickAtLeastOne": "ئاز دېگەندە بىر قوبۇل قىلغۇچى تاللاڭ.",
-      "saveContactsHint": "تېلېفون/ئېلېكترونلۇق خەت كىرگۈزۈشلەر ئۇلارنى ئالاقىداش قىلىپ ساقلىغاندىن كېيىن ئىشلىتىلىدۇ.",
-      "failedBulkStart": "تاللانغان قوبۇل قىلغۇچىلار بىلەن پاراڭ باشلاش مەغلۇپ بولدى.",
-      "noResults": "نەتىجە يوق",
-      "mode": "ھالەت",
-      "group": "گۇرۇپپا",
-      "broadcast": "ئۇمۇمىي ئۇچۇر",
-      "groupNameOptional": "گۇرۇپپا ئىسمى (ئىختىيارىي)",
-      "firstMessageOptional": "تۇنجى ئۇچۇر (ئىختىيارىي ئەمما تەۋسىيە قىلىنىدۇ)",
-      "createGroup": "گۇرۇپپا قۇرۇڭ",
-      "sendBroadcast": "ئۇمۇمىي ئۇچۇر يوللاڭ"
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
     },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "refund": {
+    "title": "پۇل قايتۇرۇش سىياسىتى",
+    "lastUpdated": "ئاخىرقى يېڭىلانغان ۋاقتى:",
+    "intro": "Chatforia دا، بىز بارلىق قوللانغۇچىلارغا يۇقىرى سۈپەتلىك مۇلازىمەت تەمىنلەشكە تىرىشىمىز. بۇ پۇل قايتۇرۇش سىياسىتى قايسى ئەھۋاللاردا پۇل قايتۇرۇلىدىغانلىقىنى چۈشەندۈرىدۇ.",
+    "subscriptions": {
+      "title": "مۇشتەرىلىكلەر",
+      "body": "مۇشتەرىلىكلەر ئالدىن پۇل تۆلەش شەكلىدە، قايتىلىنىدىغان ھالدا ھەق ئېلىنىدۇ. سىز ھەر قانداق ۋاقىتتا ھېساباتىڭىزنىڭ تەڭشەكلىرى ئارقىلىق ياكى سېتىۋالغان پلاتفورما ئارقىلىق بىكار قىلالايسىز."
     },
-    "sounds": {
-      "freeNotice": "سىز ھەقسىزدىكى — Premium ئاۋازلار كۆرسىتىلگەن ئەمما قۇلۇپلانغان. ھەممىنى ئېچىش ئۈچۈن يۇقىرى دەرىجىگە كۆتۈرۈڭ.",
-      "preview": "ئالدىن كۆرۈش",
-      "resetToDefaults": "كۆڭۈلدىكىگە قايتۇرۇڭ",
-      "notificationSounds": "ئۇقتۇرۇش ئاۋازلىرى",
-      "messageTone": "ئۇچۇر ئاۋازى",
-      "default": "كۆڭۈلدىكى",
-      "vibrate": "تىترىتىش",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Pulsating Sound",
-      "textMessage": "Text Message",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Digital Phone",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
+    "eligibility": {
+      "title": "پۇل قايتۇرۇش شەرتلىرى",
+      "body": "تەكرار ھەق ئېلىش، ھەق ئېلىش خاتالىقى ياكى ھەقلىق ئىقتىدارلارغا كىرىشنى توسقان تېخنىكىلىق مەسىلىلەر بولسا، پۇل قايتۇرۇش مۇمكىن. بارلىق تەلەپلەر ئايرىم-ئايرىم باھالىنىدۇ."
     },
-    "premiumGuard": {
-      "requiresPremium": "بۇ ئىقتىدار Premium پىلاننى تەلەپ قىلىدۇ."
+    "nonRefundable": {
+      "title": "قايتۇرۇلمايدىغان ئەھۋاللار",
+      "body": "ئادەتتە ئىشلىتىلمىگەن ۋاقىت، قىسمەن مۇشتەرىلىك مەزگىلى ياكى يېڭىلاشتىن بۇرۇن بىكار قىلماسلىق سەۋەبىدىن پۇل قايتۇرۇلمايدۇ."
     },
-    "aiSettings": {
-      "title": "AI تەڭشىكى",
-      "controlIntro": "تەرجىمە، ئەقلىي جاۋاب ۋە ForiaBot ئاپتوماتىك جاۋابىنى كونترول قىلىڭ.",
-      "save": "AI تەڭشىكىنى ساقلاڭ",
-      "autoTranslateIncoming": "كېلىۋاتقان ئۇچۇرلارنى ئاپتوماتىك تەرجىمە قىلىڭ",
-      "showOriginalAlongside": "ئەسلى تېكىستنى تەرجىمە بىلەن بىرگە كۆرسىتىڭ",
-      "enableSmartReplies": "ئەقلىي جاۋابلارنى قوزغىتىڭ",
-      "smartRepliesHint": "AI غا تازىلانغان ئاخىرقى بىر قانچە ئۇچۇرنى ئەۋەتىپ تېز جاۋاب تەكلىپ قىلىڭ.",
-      "maskProfanity": "AI تەكلىپلىرىدە قوپال سۆزلەرنى ماسكىلاڭ",
-      "maskProfanityHint": "ئاچىقاندا، AI قايتۇرغان تەكلىپلەردە بايقالغان سۆزلەر ماسكىلىنىدۇ",
-      "foriaBot": "ForiaBot ئاپتوماتىك جاۋاب بېرىش",
-      "enableAutoReply": "ئالدىراش بولغاندا ئاپتوماتىك جاۋابنى قوزغىتىڭ",
-      "autoReplyMode": "ئاپتوماتىك جاۋاب ھالىتى",
-      "cooldownSeconds": "سوۋۇتۇش (سېكۇنت)",
-      "off": "تاقاق",
-      "on": "ئاچىق",
-      "signature": "ئىمزا",
-      "autoReply": "ئاپتوماتىك جاۋاب",
-      "activeUntilOptional": "ئاكتىپلىق ۋاقتى (ئىختىيارىي)",
-      "saved": "AI مايىللىقلىرى ساقلاندى",
-      "saveFailed": "AI تەڭشىكىنى ساقلىيالمىدى",
-      "translateOff": "تاقاق",
-      "translateTagged": "پەقەت @translated ياكى بەلگىلەنگەندىلا",
-      "translateAll": "بارلىق كېلىۋاتقان ئۇچۇرلارنى تەرجىمە قىلىڭ",
-      "modeDm": "پەقەت 1:1 پاراڭ",
-      "modeMention": "پەقەت @mentioned بولغاندا",
-      "modeAll": "بارلىق كېلىۋاتقان ئۇچۇرلار"
+    "thirdParty": {
+      "title": "ئۈچىنچى تەرەپ سېتىۋېلىش",
+      "body": "ئەگەر Apple App Store قاتارلىق ئۈچىنچى تەرەپ پلاتفورمىلىرى ئارقىلىق سېتىۋالغان بولسىڭىز، پۇل قايتۇرۇشنى بىۋاسىتە شۇ پلاتفورمىلار ئارقىلىق سوراش كېرەك."
     },
-    "accessibilitySettings": {
-      "title": "قولايلىق ۋە ئۇقتۇرۇشلار",
-      "accessibility": "قولايلىق",
-      "accessibilityDesc": "ئاۋازغا تايىنىپ ئىشلىتىشتىن ساقلىنىپ Chatforia نى تېخىمۇ ئاسان ئىشلىتىش تاللاشلىرى.",
-      "interfaceFontSize": "ئىنтерفېيس خەت چوڭلۇقى",
-      "interfaceFontSizeHelp": "كۆڭۈلدىكى چوڭلۇقتىن باشلىنىدۇ. قولايلىق تەڭشىكىدە تېخىمۇ چوڭ تېكىستنى خالىسىڭىز چوڭايتىڭ.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "ئۇقتۇرۇشلار",
-      "notificationsDesc": "ئۇچۇر ۋە قىچىش ئۈچۈن كۆرۈنۈش ئۇقتۇرۇشلىرى\nباننېر ۋە ماۋزۇ چاقناشنى كۆرسىتىپ پائالىيەتنى قولدىن بەرمەڭ.",
-      "vibrateOnNew": "يېڭى ئۇچۇرلاردا تىترىتىش (قوللىغاندا)\nئۇقتۇرۇش بىلەن ئۈسكۈنىنى تىترىتىڭ.",
-      "flashOnCall": "كېلىۋاتقان قىچىشتا ئېكراننى چاقناتىڭ\nقىچىش قوڭغۇراق چېلىنغاندا قىسقا يورۇق چاقناش.",
-      "liveCaptions": "رېئال ۋاقىت خاتىرە (قىچىش)",
-      "captionFontSize": "خاتىرە خەت چوڭلۇقى",
-      "captionBackground": "خاتىرە ئارقا كۆرۈنۈش",
-      "light": "يورۇق",
-      "dark": "قاراڭغۇ",
-      "transparent": "سۈزۈك",
-      "voiceNotes": "ئاۋاز خاتىرىسى",
-      "autoTranscribeVoiceNotes": "ئاۋاز خاتىرىلىرىنى ئاپتوماتىك خاتىرىلەڭ",
-      "autoTranscribeVoiceNotesDesc": "قوبۇل قىلغان ئاۋازلىق ئۇچۇرلارغا خاتىرە قوشۇڭ.",
-      "changesSavedInstantly": "ئۆزگەرتىشلەر دەرھال ساقلىنىدۇ.",
-      "loadFailed": "تەڭشەكلەرنى يۈكلىيەلمىدى",
-      "visualAlerts": "ئۇچۇر ۋە قىچىش ئۈچۈن كۆرۈنۈش ئۇقتۇرۇشلىرى",
-      "visualAlertsDesc": "باننېر ۋە ماۋزۇ چاقناشنى كۆرسىتىپ پائالىيەتنى قولدىن بەرمەڭ.",
-      "vibrateOnNewShort": "يېڭى ئۇچۇرلاردا تىترىتىش (قوللىغاندا)",
-      "vibrateOnNewDesc": "ئۇقتۇرۇش بىلەن ئۈسكۈنىنى تىترىتىڭ.",
-      "flashOnCallShort": "كېلىۋاتقان قىچىشتا ئېكراننى چاقناتىڭ",
-      "flashOnCallDesc": "قىچىش قوڭغۇراق چېلىنغاندا قىسقا يورۇق چاقناش."
+    "contact": {
+      "title": "ئالاقىلىشىش",
+      "body": "support@chatforia.com • Chatforia LLC، 30 N Gould Street STE N، Sheridan، WY 82801، USA"
+    }
+  },
+  "doNotSell": {
+    "title": "Do Not Sell or Share My Personal Information",
+    "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+    "cta": "Submit a request"
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+  },
+  "smsPolicy": {
+    "title": "Chatforia — SMS Policy & Opt-in",
+    "lastUpdated": "Last updated:",
+    "whatWeSend": {
+      "title": "What we send",
+      "body": "Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates."
     },
-    "privacySection": {
-      "strictE2EE": "قاتتىق ئۇچتىن-ئۇچقىچە مەخپىيلەشتۈرۈش",
-      "ciphertextOnlyNote": "مۇلازىمېتىردا پەقەت شىفىرلىق تېكىست ساقلاڭ. AI/تەرجىمە ۋە مودېراتور ئالدىن كۆرۈشنى ئىناۋەتسىز قىلىدۇ."
+    "optIn": {
+      "title": "How users opt in",
+      "body": "Users opt in by entering their phone number during registration and checking the SMS consent checkbox on the registration page or the dedicated",
+      "link": "opt-in form"
     },
-    "linkedDevicesPanel": {
-      "title": "ئۇلانغان ئۈسكۈنىلەر",
-      "noneFound": "ئۇلانغان ئۈسكۈنە تېپىلمىدى.",
-      "refresh": "يېڭىلا"
+    "optOut": {
+      "title": "How users opt out",
+      "stop": "Reply STOP to any Chatforia SMS to opt out.",
+      "start": "Reply START to resubscribe.",
+      "contactPrefix": "Contact support at"
     },
     "help": {
-      "title": "ياردەم",
-      "howCanWeHelp": "قانداق ياردەم قىلالايمىز؟",
-      "helpCenter": "ياردەم مەركىزى",
-      "contactUs": "بىز بىلەن ئالاقىلىشىڭ",
-      "quickTopics": "تېز تېمىلار",
-      "searchExamples": "«تەرجىمە»، «زاپاس نۇسخا» ياكى «مەخپىيەتلىك» نى ئىزدەپ سىناڭ.",
-      "cantLogin": "كىرەلمىدىم",
-      "paymentsBilling": "پۇل تۆلەش/ھېسابات",
-      "reportAbuse": "قالايمىقانچىلىقنى دوكلات قىلىڭ",
-      "searchHelpArticles": "ياردەم ماقالىلىرىنى ئىزدەڭ",
-      "search": "ئىزدەش"
+      "title": "Help",
+      "bodyPrefix": "Reply HELP for assistance or email"
     },
-    "peoplePage": {
-      "people": "كىشىلەر",
-      "search": "ئىزدەش",
-      "searchPlaceholder": "لەقەم، ئىسىم، ئىشلەتكۈچى نامى ياكى تېلېفون بىلەن ئىزدەڭ",
-      "filterSaved": "ساقلانغان ئالاقىداشلارنى سۈزۈڭ",
-      "noContactsFound": "ئالاقىداش تېپىلمىدى",
-      "quickStart": "تېز باشلاش",
-      "quickStartDesc": "بىر قانچە تېز ئۇسۇل بىلەن باشلاڭ.",
-      "importContacts": "ئالاقىداشلىرىڭىزنى ئىمپورت قىلىڭ",
-      "add": "قوشۇڭ",
-      "focusSearch": "ئىزدەشنى فوكۇس قىلىڭ",
-      "import": "ئىمپورت قىلىڭ",
-      "findOrAdd": "كىشىنى تېپىڭ ياكى قوشۇڭ",
-      "searchByPhoneOrUsername": "تېلېفون / ئىشلەتكۈچى نامى بىلەن ئىزدەڭ",
-      "inviteFriends": "دوستلارنى تەكلىپ قىلىڭ",
-      "inviteDesc": "تەكلىپ ئۇلانمىڭىزنى ئورتاقلىشىپ دەرھال پاراڭ باشلاڭ.",
-      "getTheApp": "ئەپنى ئېلىڭ",
-      "getTheAppDesc": "Chatforia iOS ۋە Android ئۈچۈن كۆچمە ئەپ بىلەن ئالاقىنى داۋاملاشتۇرۇڭ.",
-      "download": "چۈشۈرۈش",
-      "syncTip": "تەكلىپ: ئۇچۇرلىرىڭىز تور ۋە كۆچمە ئۈسكۈنىدە ماسقەدەم ساقلىنىدۇ."
+    "privacyTerms": {
+      "title": "Privacy & Terms",
+      "bodyStart": "By consenting to SMS, users also agree to our",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy"
     },
-    "randomChat": {
-      "title": "تاسادىپىي پاراڭ",
-      "description": "دەرھال يېڭى كىشى بىلەن تونۇشۇڭ. سىزنى جۈپلەپ ۋاقىتلىق پاراڭ ئۆيى ئاچىمىز. ئالدى بىلەن نامسىز پاراڭلىشىڭ. ئۇيغۇن بولسا كېيىن «دوست قوشۇڭ».",
-      "findMatch": "ماڭا جۈپ تېپىڭ",
-      "chatWithForia": "Foria بىلەن پاراڭلىشىڭ",
-      "chatWithForiaBot": "ForiaBot بىلەن پاراڭلىشىڭ",
-      "cancel": "بىكار قىلىش",
-      "close": "تاقاڭ",
-      "searching": "ئىزدەۋاتىدۇ...",
-      "finding": "تېپىۋاتىدۇ...",
-      "looking": "كىشى ئىزدەۋاتىدۇ...",
-      "startingForia": "Foria بىلەن پاراڭ باشلاۋاتىدۇ...",
-      "partnerDisconnected": "جۈپىڭىز ئۈزۈلدى.",
-      "noPartner": "ھازىرچە جۈپ تېپىلمىدى.",
-      "connectedTo": "{{name}} غا ئۇلاندى",
-      "connected": "ئۇلاندى",
-      "idle": "بوش",
-      "partnerLeft": "جۈپىڭىز كەتتى.",
-      "stopped": "توختىدى.",
-      "skip": "ئاتلاڭ",
-      "save": "ساقلا",
-      "saveGuard": "پەقەت ئىنسان-ئىنسان پاراڭلىرىنى ساقلىغىلى بولىدۇ",
-      "youAreChattingWith": "{{name}} بىلەن پاراڭلىشىۋاتىسىز",
-      "bot": "BOT",
-      "leave": "چىقىڭ",
-      "sayHi": "سالاملاڭ 👋",
-      "you": "سىز",
-      "typeMessage": "ئۇچۇر يېزىڭ",
-      "send": "يوللاڭ",
-      "partner": "جۈپ",
-      "withRia": "Ria بىلەن",
-      "chatWithRia": "Ria بىلەن پاراڭلىشىڭ",
-      "startingRia": "Ria بىلەن پاراڭ باشلاۋاتىدۇ...",
-      "ageDisclaimer": "بىز پەقەت يېشىڭىز دائىرىسىنى ساقلايمىز (توغرا تۇغۇلغان كۈن ئەمەس). بۇ تاسادىپىي پاراڭ جۈپلىشىشنى مۇۋاپىق ساقلايدۇ. كىشىلەر بىلەن (پەقەت RiaBot ئەمەس) جۈپلىشىش ئۈچۈن تەڭشەكلەر → يېشى ۋە تاسادىپىي پاراڭدا يېشىڭىز دائىرىسىنى بېكىتىڭ.",
-      "ageBandRequired": "كىشىلەر بىلەن جۈپلىشىش ئۈچۈن ئارخىپ → يېشى ۋە تاسادىپىي پاراڭدا يېشىڭىز دائىرىسىنى بېكىتىڭ.",
-      "ageBandCallout": "كىشىلەر بىلەن (پەقەت RiaBot ئەمەس) جۈپلىشىش ئۈچۈن تەڭشەكلەر → يېشى ۋە تاسادىپىي پاراڭدا يېشىڭىز دائىرىسىنى بېكىتىڭ.",
-      "subtitle": "دەرھال يېڭى كىشى بىلەن تونۇشۇڭ ياكى Ria بىلەن پاراڭلىشىڭ.",
-      "start": "پاراڭ باشلاڭ",
-      "matching": "جۈپلىشىۋاتىدۇ...",
-      "setAge": "كىشىلەر بىلەن جۈپلىشىش ئۈچۈن ئارخىپ → يېشى ۋە تاسادىپىي پاراڭدا يېشىڭىز دائىرىسىنى بېكىتىڭ.",
-      "next": "كېيىنكى كىشى",
-      "addFriend": "دوست قوشۇڭ",
-      "requested": "تەلەپ قىلىندى",
-      "messageRia": "Ria غا ئۇچۇر يوللاڭ...",
-      "messageMatch": "جۈپىڭىزگە ئۇچۇر يوللاڭ..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    }
+    "footer": "© 2026 Chatforia Inc."
+  },
+  "sms": {
+    "newText": "New text",
+    "thread": "Thread",
+    "enterRecipient": "Enter a name or number",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…"
   }
 }
