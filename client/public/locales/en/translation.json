@@ -1,7 +1,9 @@
 {
   "common": {
     "save": "Save",
+    "done": "Done",
     "cancel": "Cancel",
+    "country": "Country",
     "refresh": "Refresh",
     "noMatches": "No matches",
     "cancelAria": "Cancel",
@@ -20,7 +22,44 @@
     "undo": "Undo",
     "processing": "Processing...",
     "register": "Register",
-    "suggested": "Suggested"
+    "suggested": "Suggested",
+    "report": "Report",
+    "sent": "Sent",
+    "received": "Received",
+    "additionalDetails": "Additional details",
+    "archive": "Archive",
+    "availableNow": "Available now",
+    "beforeYouContinue": "Before you continue",
+    "close": "Close",
+    "import": "Import",
+    "install": "Install",
+    "invite": "Invite",
+    "ok": "OK",
+    "search": "Search",
+    "submit": "Submit",
+    "upgrade": "Upgrade",
+    "welcome": "Welcome",
+    "findingSomeone": "Finding someone…",
+    "howThisWorks": "How this works",
+    "importFromPhone": "Import from Phone",
+    "keep": "Keep",
+    "manageSubscription": "Manage Subscription",
+    "newConversation": "New Conversation",
+    "phoneNumber": "Phone number",
+    "preferredLanguage": "Preferred Language",
+    "preview": "Preview",
+    "reason": "Reason",
+    "searching": "Searching…",
+    "select": "Select",
+    "selectAll": "Select All",
+    "serviceActive": "Service active",
+    "status": "Status",
+    "tryAgain": "Try Again",
+    "upgradeRequired": "Upgrade Required",
+    "upgradeWithApple": "Upgrade with Apple",
+    "username": "Username",
+    "welcomeBack": "Welcome back",
+    "welcomeToChatforia": "Welcome to Chatforia"
   },
   "a11y": {
     "skipToMain": "Skip to main content"
@@ -41,6 +80,11 @@
     "chooseFile": "Choose a file and enter the password.",
     "imported": "Private key imported to this device. You can read old messages now.",
     "enterPassword": "Enter your account password so we can back up your keys securely."
+  },
+    "encryption": {
+    "backUpKey": "Back Up Encryption Key",
+    "backupPassword": "Backup password",
+    "checkingBackup": "Checking backup…"
   },
   "encryptionRecovery": {
     "title": "Manage Encryption",
@@ -513,13 +557,33 @@
     "voiceAdded": "Voice note added."
   },
   "messages": {
+    "addCaptionThenSend": "Add a caption, then tap Send",
+    "messageInfo": "Message Info",
+    "reportMessage": "Report Message",
+    "searchMessages": "Search messages",
+    "noMessagesYet": "No messages yet",
+    "thisMessageWasDeleted": "This message was deleted",
     "deletedPreview": "This message was deleted.",
     "mediaAudio": "Audio message",
     "mediaCount": "{{count}} media item",
     "mediaFile": "File attachment",
     "mediaPhoto": "Photo",
     "mediaVideo": "Video",
-    "edited": "Edited"
+    "edited": "Edited",
+    "addCaption": "Add a caption",
+    "message": "Message",
+    "context": "Context",
+    "conversation": "Conversation",
+    "editMessage": "Edit message",
+    "emoji": "Emoji",
+    "includePreviousMessages": "Include previous messages",
+    "noOneHasReadThisMessageYet": "No one has read this message yet.",
+    "onlyThisMessage": "Only this message",
+    "protectAccessToYourMessages": "Protect Access to Your Messages",
+    "messageRia": "Message Ria..."
+  },
+    "report": {
+    "blockUserAfterReporting": "Block this user after reporting"
   },
   "threadActions": {
     "threadMenu": "Thread menu",
@@ -574,6 +638,19 @@
     "autoTranslation": "Auto-translation",
     "saveAIMode": "Save AI mode"
   },
+  "media": {
+    "couldNotLoadImage": "Could not load image",
+    "searchGifs": "Search GIFs",
+    "noGifsFound": "No GIFs found",
+    "loadingGifs": "Loading GIFs…",
+    "gif": "GIF",
+    "gifs": "GIFs",
+    "removeGif": "Remove GIF"
+  },
+  "gif": {
+    "couldNotLoad": "Couldn’t load GIF",
+    "couldNotLoadPlural": "Couldn’t load GIFs"
+  },
   "mediaGallery": {
     "sharedMedia": "Shared media",
     "noMediaCached": "No media cached locally yet.",
@@ -625,6 +702,7 @@
   },
   "voicemail": {
     "pageTitle": "Voicemail",
+    "couldNotLoad": "Couldn’t load voicemail",
     "from": "From",
     "to": "To",
     "unknownCaller": "Unknown",
@@ -642,6 +720,18 @@
     "markRead": "Mark as read",
     "delete": "Delete",
     "unreadDotAria": "Unread voicemail indicator"
+  },
+    "contacts": {
+      "addContact": "Add Contact",
+      "contact": "Contact",
+      "chatforiaUsers": "Chatforia users",
+      "searchContacts": "Search contacts",
+      "savedContacts": "Saved contacts",
+      "importContacts": "Import Contacts",
+      "inviteContacts": "Invite Contacts",
+      "inviteFromPhoneContacts": "Invite from Phone Contacts",
+      "noPhoneContactsFound": "No phone contacts found.",
+      "usernameContactNameOrPhoneNumber": "Username, contact name, or phone number"
   },
   "contactList": {
     "savedContacts": "Saved Contacts",
@@ -749,8 +839,9 @@
   },
   "profile": {
     "title": "User Profile",
+    "chooseLanguage": "Choose your language",
     "preferredLanguage": "Preferred language",
-    "chooseLanguage": "Choose a language",
+    "customization": "Customization",
     "mustLogin": "You must sign in to view the settings.",
     "autoTranslate": "Auto-translate messages",
     "showOriginalWithTranslation": "Show original and translated messages",
@@ -884,14 +975,19 @@
     "portHint": "Want to keep your current number? You can port it into Chatforia Wireless.",
     "wireless": {
       "manage": "Manage wireless",
-      "portCta": "Port your number"
+      "portCta": "Port your number",
+      "coverage": "Coverage"
     },
     "esim": {
       "title": "Chatforia eSIM",
       "desc": "Get mobile data for Chatforia when you’re away from Wi-Fi.",
       "cta": "Get eSIM / Show QR",
       "ctaManage": "Manage eSIM",
-      "descActive": "Your eSIM is active and ready to manage."
+      "descActive": "Your eSIM is active and ready to manage.",
+      "activate": "Activate eSIM",
+      "activationDetails": "Activation details",
+      "setup": "Set up eSIM",
+      "manage": "Manage eSIM"
     },
     "encryptedBackupsTitle": "Encryption Key Backup",
     "accessibilityFailed": "Failed to save accessibility settings.",
@@ -926,6 +1022,7 @@
     "preview": "Preview",
     "stop": "Stop",
     "volume": "Volume",
+    "chooseTone": "Choose a tone",
     "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
     "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
     "premiumRequired": "Premium required for that selection.",
@@ -1155,6 +1252,11 @@
       "step3": "Scan this QR code and follow the on-screen steps to finish activation."
     }
   },
+  "phoneNumber": {
+    "areaCode": "Area code",
+    "capability": "Capability",
+    "areaCodeExample": "e.g., 415"
+  },
   "phoneNumberManager": {
     "pickNumber": "Pick a number",
     "phoneNumber": "Phone number",
@@ -1215,6 +1317,7 @@
     "noNumberAssigned": "No number assigned. Pick one by area code to start texting."
   },
   "dialer": {
+    "availableNumbers": "Available numbers",
     "title": "Calls",
     "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
     "enterNumber": "Enter number",
@@ -1247,6 +1350,27 @@
     "key": "Key {{d}}",
     "dial": "Dial",
     "openDialPad": "Open dial pad"
+  },
+  "forwarding": {
+    "enableCallForwarding": "Enable call forwarding",
+    "enableTextForwarding": "Enable text forwarding",
+    "saveForwarding": "Save Forwarding",
+    "forwardTextsToEmail": "Forward texts to email",
+    "forwardTextsToPhone": "Forward texts to phone",
+    "destinationPhoneForCalls": "Destination (E.164) for calls",
+    "title": "Forwarding"
+  },
+    "calls": {
+    "section": "Calls Section",
+    "cameraOff": "Camera off",
+    "callBack": "Call Back",
+    "calling": "Calling...",
+    "call": "Call",
+    "loadingCalls": "Loading calls…"
+  },
+  "settings": {
+    "startHour": "Start hour (0–23)",
+    "endHour": "End hour (0–23)"
   },
   "callHistory": {
     "title": "Calls",
@@ -1333,7 +1457,8 @@
     "description": "Unlock power features & remove ads.",
     "cta": "Upgrade",
     "upgrade": "Upgrade",
-    "upgradeAria": "Upgrade to Chatforia Premium"
+    "upgradeAria": "Upgrade to Chatforia Premium",
+    "requiresPlan": "Requires %@"
   },
   "premiumGuard": {
     "requiresPremium": "This feature requires a Premium plan.",
@@ -1351,6 +1476,9 @@
     "subtitle.family": "Create a shared data pool for your family and manage everyone’s usage from one place.",
     "perMonth": "mo",
     "perYear": "year",
+    "bestExperience": "Best experience",
+    "choosePlan": "Choose your plan",
+    "confirmPurchase": "Confirm Purchase",
     "goPremium": "Go Premium",
     "benefitsLine": "Unlock power features & remove ads.",
     "ctaText": "Upgrade",
@@ -1367,7 +1495,8 @@
     },
     "billing": {
       "opening": "Opening…",
-      "manage": "Manage Billing"
+      "manage": "Manage Billing",
+      "planBilling": "Plan & Billing"
     },
     "checkout": {
       "redirecting": "Redirecting…",
@@ -1375,8 +1504,15 @@
     },
     "auth": {
       "continue": "Continue to login",
-      "createAccount": "Create account",
-      "signIn": "Sign in"
+      "createAccount": "Create Account",
+      "creatingAccount": "Creating account...",
+      "createYourAccount": "Create your account",
+      "chooseUsername": "Choose your username",
+      "confirmPassword": "Confirm password",
+      "forgotPassword": "Forgot Password",
+      "signIn": "Sign in",
+      "signInOrCreateAnAccount": "Sign in or create an account",
+      "logInToYourChatforiaAccount": "Log in to your Chatforia account"
     },
     "cta": {
       "aria": "Select plan",
@@ -1765,8 +1901,8 @@
   "billing": {
     "myPlanTitle": "My plan",
     "myPlanError": "Unable to load your plan.",
-    "myPlanLoading": "Loading your plan…",
     "currentPlan": "Current plan",
+    "myPlanLoading": "Loading your plan…",
     "renewsAt": "Renews on",
     "activeSubscription": "Active subscription",
     "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
