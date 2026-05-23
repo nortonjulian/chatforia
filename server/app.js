@@ -11,6 +11,8 @@ import { fileURLToPath } from 'url';
 
 import authMiddleware from './middleware/auth.js';
 
+import translateRoutes from "./routes/translate.js";
+
 import voiceClientRouter from './routes/voiceClient.js';
 
 import prisma from './utils/prismaClient.js'; // add near the top of app.js with other imports
@@ -538,6 +540,8 @@ app.use('/conversations', conversationsRouter);
   app.use('/api', contactsImportRouter);
 
   app.use('/api/phone', phoneRoutes);
+
+  app.use("/translate", translateRoutes);
 
   app.use('/api/video', videoRouter);
 
