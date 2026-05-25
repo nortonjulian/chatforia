@@ -355,8 +355,8 @@ export function createApp() {
       ? (_req, _res, next) => next()
       : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
-  const csrfBypassPattern =
-  /^\/auth\/(login|register|logout|apple\/callback)$|^\/auth\/oauth(\/|$)|^\/billing\/webhook$|^\/billing\/apple\/notifications$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
+    const csrfBypassPattern =
+    /^\/translate(\/|$)|^\/auth\/(login|register|logout|apple\/callback)$|^\/auth\/oauth(\/|$)|^\/billing\/webhook$|^\/billing\/apple\/notifications$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
 
   const csrfBrowserOnly = csrfOnlyForCookieAuth(csrfMw);
 
@@ -388,6 +388,8 @@ export function createApp() {
       next();
     });
   }
+
+  app.use("/translate", translateRoutes);
 
   app.use('/admin/support', adminSupportRouter);
 
@@ -540,8 +542,6 @@ app.use('/conversations', conversationsRouter);
   app.use('/api', contactsImportRouter);
 
   app.use('/api/phone', phoneRoutes);
-
-  app.use("/translate", translateRoutes);
 
   app.use('/api/video', videoRouter);
 
