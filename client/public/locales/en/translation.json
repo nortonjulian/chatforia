@@ -7,12 +7,17 @@
     "refresh": "Refresh",
     "noMatches": "No matches",
     "cancelAria": "Cancel",
+    "today": "Today",
+    "yesterday": "Yesterday",
     "copy": "Copy",
     "copied": "Copied!",
     "back": "Back",
     "continue": "Continue",
     "emptyDash": "—",
+    "name": "Name",
+    "zeroDuration": "0:00",
     "saving": "Saving...",
+    "opening": "Opening…",
     "errorWithMessage": "Error: {{message}}",
     "loading": "Loading…",
     "saveError": "Save failed",
@@ -21,7 +26,13 @@
     "learnMore": "Learn more",
     "retry": "Retry",
     "send": "Send",
+    "reset": "Reset",
+    "message": "Message",
+    "call": "Call",
+    "video": "Video",
+    "phone": "Phone",
     "unknown": "Unknown",
+    "userWithId": "User %d",
     "showOriginal": "Show original",
     "showTranslation": "Show translation",
     "undo": "Undo",
@@ -103,6 +114,14 @@
   "label_email": "Email",
   "label_role": "Role",
   "label_plan": "Plan",
+  "plan_free": "Free",
+  "plan_plus": "Plus",
+  "plan_premium": "Premium",
+  "role_user": "User",
+  "role_admin": "Admin",
+
+"premiumpicker_free_caption": "Included on your current plan.",
+"premiumpicker_premium_caption": "Visible below and unlockable with Premium.",
   "label_theme": "Theme",
   "label_message_tone": "Message Tone",
   "label_ringtone": "Ringtone",
@@ -152,7 +171,9 @@
   "title": "Invite Friends",
   "shareInviteLink": "Share My Invite Link",
   "fromPhoneContacts": "Invite from Phone Contacts",
-  "mustBeLoggedIn": "You need to be logged in to create an invite."
+  "mustBeLoggedIn": "You need to be logged in to create an invite.",
+  "shareMessageWithName": "%@ invited you to Chatforia — a better way to message globally. Join here: %@",
+  "shareMessageGeneric": "Join me on Chatforia — a better way to message globally. Join here: %@"
 },
   "keys": {
     "backupCreated": "Key backup created and downloaded ✓",
@@ -178,7 +199,28 @@
     "noBackupFirst": "No backup found. Please create a backup first.",
     "restoreKey": "Restore Key",
     "success": "Your encryption key was restored successfully.",
-    "deviceMismatch": "Key restore did not complete correctly on this device."
+    "deviceMismatch": "Key restore did not complete correctly on this device.",
+     "reset": {
+    "localFailure":
+      "Encryption reset did not complete correctly on this device."
+    },
+
+    "restore": {
+      "localFailure":
+        "Key restore did not complete correctly on this device."
+    },
+    "rotate": {
+      "title": "Rotate Encryption Key",
+      "header": "Rotate Your Encryption Key",
+      "subtitle": "This creates a new encryption key for your account.",
+      "backupWarning": "Back up your current key first.",
+      "messageAccessWarning": "Older encrypted messages may become inaccessible unless migration support exists.",
+      "riskWarning": "Only do this if you understand the risk.",
+      "typeToContinue": "Type ROTATE to continue",
+      "placeholder": "ROTATE",
+      "action": "Rotate Encryption Key",
+      "backendNotConnected": "Rotation backend not connected yet."
+    }
   },
 
   "reset": {
@@ -320,6 +362,10 @@
     "headline": "Secure messaging for anyone, anywhere",
     "youNeedToBeSignedIn": "You need to be signed in.",
     "signupSubtitle": "Sign up to start messaging on Chatforia",
+    "sessionExpiredSignInAgain": "Your session expired. Please sign in again.",
+    "missingEncryptionKeyOlderMessages": "This device is missing your encryption key. Restore it to read older encrypted messages.",
+    "missingEncryptionKey": "This device is missing your encryption key. Restore it to read encrypted messages.",
+    "mismatchedEncryptionKey": "This device has a different encryption key. Restore the correct key to access your messages.",
 
   "continueWithGoogle":
     "Continue with Google…",
@@ -601,6 +647,7 @@
     "chats": "Chats",
     "messages": "Messages",
     "more": "More",
+    "groupVideo": "Group Video",
     "noResults": "No results",
     "refreshChats": "Refresh chats",
     "refreshTooltip": "Refresh conversations",
@@ -700,8 +747,12 @@
     "encryptedUnavailable": "Encrypted message (key unavailable)",
     "unlockToView": "Unlock your key to view this message",
     "clearConfirm": "Clear this conversation? This cannot be undone.",
-    "unknownThread": "Unknown thread"
-  },
+    "unknownThread": "Unknown thread",
+    "roomNumber": "Chat #%d",
+    "missingConversationId": "Missing conversation id.",
+    "archiveFailed": "Failed to archive conversation.",
+    "deleteFailed": "Failed to delete conversation."
+    },
   "messageInput": {
     "ttl": {
       "off": "Off"
@@ -740,15 +791,33 @@
     "messageInfo": "Message Info",
     "reportMessage": "Report Message",
     "searchMessages": "Search messages",
+    "messageDeleted": "Message deleted",
     "noMessagesYet": "No messages yet",
     "thisMessageWasDeleted": "This message was deleted",
+    "encryptedMessage": "Encrypted message",
     "deletedPreview": "This message was deleted.",
     "mediaAudio": "Audio message",
     "mediaCount": "{{count}} media item",
+    "recording": "Recording…",
+    "voiceNoteReady": "Voice note ready",
     "mediaFile": "File attachment",
     "mediaPhoto": "Photo",
     "mediaVideo": "Video",
+    "videoReady": "Video ready",
+    "photoReady": "Photo ready",
+    "uploadingVideo": "Uploading video...",
+    "processingVideo": "Processing video...",
+    "keepChatforiaOpen": "Please keep Chatforia open while this finishes.",
+    "videoLoadFailed": "Couldn’t load selected video. %@",
+    "readByUser": "Read by %@",
+    "readByCount": "Read by %d",
     "edited": "Edited",
+    "searchInThread": "Search in thread",
+    "noText": "[No text]",
+    "noOneReadYet": "No one has read this message yet.",
+    "seenByOnePerson": "Seen by 1 person",
+    "seenByPeopleCount": "Seen by %d people",
+    "seen": "Seen",
     "addCaption": "Add a caption",
     "message": "Message",
     "context": "Context",
@@ -759,10 +828,31 @@
     "noOneHasReadThisMessageYet": "No one has read this message yet.",
     "onlyThisMessage": "Only this message",
     "protectAccessToYourMessages": "Protect Access to Your Messages",
-    "messageRia": "Message Ria..."
+    "messageRia": "Message Ria...",
+    "selectedVideoLoadFailed": "Couldn’t load selected video. %@",
+    "deleteMessageTitle": "Delete message?",
+    "deleteForMe": "Delete for me",
+    "deleteForEveryone": "Delete for everyone"
   },
     "report": {
-    "blockUserAfterReporting": "Block this user after reporting"
+    "blockUserAfterReporting": "Block this user after reporting",
+     "title": "Report Message",
+    "reason": "Reason",
+    "includePreviousMessages": "Include previous messages",
+    "onlyThisMessage": "Only this message",
+    "thisPlusPrevious5": "This + previous 5",
+    "thisPlusPrevious10": "This + previous 10",
+    "thisPlusPrevious20": "This + previous 20",
+    "preview": "Preview",
+    "reportingMessageFrom": "Reporting message from %@",
+    "noVisibleText": "[No visible text]",
+    "harassment": "Harassment",
+    "threats": "Threats",
+    "hate": "Hate or abusive conduct",
+    "sexualContent": "Sexual content",
+    "spamScam": "Spam or scam",
+    "impersonation": "Impersonation",
+    "other": "Other"
   },
   "threadActions": {
     "threadMenu": "Thread menu",
@@ -822,13 +912,33 @@
     "searchGifs": "Search GIFs",
     "noGifsFound": "No GIFs found",
     "loadingGifs": "Loading GIFs…",
+     "photo": "Photo",
+    "video": "Video",
+    "audio": "Audio",
+    "attachment": "Attachment",
     "gif": "GIF",
     "gifs": "GIFs",
-    "removeGif": "Remove GIF"
+    "removeGif": "Remove GIF",
+    "uploadFailed": "Could not upload selected image(s).",
+    "protectedMedia": "Protected media",
+    "noCameraAvailable": "No camera available.",
+    "couldNotCreateCameraSource": "Could not create camera source.",
+    "cameraDenied": "Camera access is denied. Enable it in Settings.",
+    "microphoneDenied": "Microphone access is denied. Enable it in Settings.",
+    "cameraRestricted": "Camera access is restricted on this device.",
+    "microphoneRestricted": "Microphone access is restricted on this device."
   },
   "gif": {
     "couldNotLoad": "Couldn’t load GIF",
-    "couldNotLoadPlural": "Couldn’t load GIFs"
+    "couldNotLoadPlural": "Couldn’t load GIFs",
+    "title": "GIFs",
+    "search": "Search GIFs",
+    "noResults": "No GIFs found",
+    "tryDifferentSearch": "Try a different search.",
+    "emptyData": "GIF data is empty.",
+    "sendFailed": "Couldn’t send GIF. %@",
+    "remove": "Remove GIF",
+    "shortTitle": "GIF"
   },
   "mediaGallery": {
     "sharedMedia": "Shared media",
@@ -848,6 +958,10 @@
       "audio": "audio",
       "file": "file"
     }
+  },
+  "audio": {
+    "playing": "Playing",
+    "tapToPlay": "Tap to play"
   },
   "status": {
     "userNumber": "User #{{id}}",
@@ -908,25 +1022,52 @@
     "unknownCaller": "Unknown Caller"
   },
     "contacts": {
-      "addContact": "Add Contact",
-      "contact": "Contact",
-      "unknown": "Unknown",
-      "chatforiaUsers": "Chatforia users",
-      "searchContacts": "Search contacts",
-      "savedContacts": "Saved contacts",
-      "importContacts": "Import Contacts",
-      "inviteContacts": "Invite Contacts",
-      "inviteFromPhoneContacts": "Invite from Phone Contacts",
-      "noPhoneContactsFound": "No phone contacts found.",
-      "usernameContactNameOrPhoneNumber": "Username, contact name, or phone number",
-      "loading": "Loading contacts…",
-      "loadingSubtitle": "Pulling in your saved people.",
-      "empty": "No contacts yet",
-      "notFound": "No contacts found",
-      "loadingContacts": "Loading contacts...",
-      "loginRequiredForInvites": "You need to be logged in to create invites.",
-      "selectAtLeastOneContact": "Select at least one contact."
-  },
+  "addContact": "Add Contact",
+  "contact": "Contact",
+  "unknown": "Unknown",
+  "chatforiaUsers": "Chatforia users",
+  "searchContacts": "Search contacts",
+  "savedContacts": "Saved contact",
+  "importContacts": "Import Contacts",
+  "externalName": "External Name",
+  "inviteContacts": "Invite Contacts",
+  "inviteFromPhoneContacts": "Invite from Phone Contacts",
+  "noPhoneContactsFound": "No phone contacts found.",
+  "usernameContactNameOrPhoneNumber": "Username, contact name, or phone number",
+  "loading": "Loading contacts…",
+  "loadingSubtitle": "Pulling in your saved people.",
+  "empty": "No contacts yet",
+  "notFound": "No contacts found",
+  "phone": "Phone",
+  "loadingPhoneContacts": "Loading phone contacts…",
+  "readingContactsFromIPhone": "Reading contacts from your iPhone.",
+  "noImportableContacts": "There are no importable contacts available.",
+  "enterUsername": "Enter a username.",
+  "contactSaved": "Contact saved.",
+  "noUserFoundUsePhone": "No Chatforia user found with that username. Use the Phone tab to save them by number.",
+  "enterValidPhone": "Enter a valid phone number.",
+  "loadingContacts": "Loading contacts...",
+  "loginRequiredForInvites": "You need to be logged in to create invites.",
+  "selectAtLeastOneContact": "Select at least one contact.",
+
+  "accessNotGranted": "Contacts access was not granted.",
+  "selectAtLeastOne": "Select at least one contact.",
+  "importedOneContact": "Imported 1 contact.",
+  "importedContactsCount": "Imported %d contacts.",
+  "oneContactCouldNotImport": "1 contact could not be imported.",
+  "contactsCouldNotImportCount": "%d contacts could not be imported.",
+  "couldNotImportSelectedContact": "Could not import the selected contact.",
+  "couldNotImportSelectedContacts": "Could not import the selected contacts.",
+
+  "mode": "Mode",
+  "phoneNumber": "Phone Number",
+  "aliasOptional": "Alias (optional)",
+  "favorite": "Favorite",
+  "favoriteSubtitle": "Pin this person as a favorite contact.",
+  "usernameModeHelp": "Use this tab only for existing Chatforia users.",
+  "phoneModeHelp": "Save any phone number, even if they are not on Chatforia.",
+  "saveContact": "Save Contact"
+},
   "onboarding": {
   "welcomeSubtitle": "Message globally, translate instantly, and start conversations fast.",
   "usernameSubtitle": "This is how other people will see you.",
@@ -1211,6 +1352,8 @@
     "following": "Following"
   },
   "themes": {
+      "dawn": "Dawn",
+      "midnight": "Midnight",
     "amoled": "Amoled",
     "aurora": "Aurora",
     "neon": "Neon",
@@ -1242,6 +1385,7 @@
     "default": "Default",
     "vibrate": "Vibrate",
     "dreamer": "Dreamer",
+    "happyMessage": "Happy Message",
     "notify": "Notify",
     "pop": "Pop",
     "pulsatingSound": "Pulsating Sound",
@@ -1445,6 +1589,9 @@
     "noQrAvailable": "No QR code is available yet.",
     "downloadPng": "Download PNG",
     "activationCode": "Activation code",
+    "setup": "Set up",
+    "activate": "Activate",
+    "manage": "Manage",
     "lpaUri": "LPA URI",
     "smdp": "SM-DP+ address",
     "iccid": "ICCID",
@@ -1452,6 +1599,38 @@
     "msisdn": "MSISDN",
     "statusLabel": "Status",
     "secrecyNote": "Keep this QR code private. Anyone with access may be able to install the eSIM.",
+    "activeTitle": "Your eSIM is active",
+    "readyTitle": "Your eSIM is ready",
+    "installSubtitle": "Install your eSIM to start using your data pack.",
+    "installed": "Installed",
+    "install": "Install eSIM",
+    "invalidInstallLink": "This eSIM doesn’t have a valid install link yet.",
+    "unableToInstall": "Unable to install eSIM",
+    "serviceActive": "Service active",
+    "readyToInstall": "Ready to install",
+    "local": "Local",
+    "europe": "Europe",
+    "global": "Global",
+
+    "localSubtitle": "Coverage for your current country or nearby local use.",
+
+    "europeSubtitle": "Regional coverage across Europe.",
+
+    "globalSubtitle": "Broader international coverage for travel.",
+
+    "unlimited": "Unlimited",
+
+    "globalUnlimited": "Global Unlimited",
+    "heavyUsageDescription": "Best for heavy usage, streaming, and never worrying about data limits.",
+
+    "installDirectlyOrUseDetails":
+      "Install directly on this iPhone, or use the activation details below on another supported device.",
+
+    "noValidInstallLink":
+      "Your carrier hasn’t provided a valid install link yet. You can still use the manual activation details below when available.",
+
+    "installationSupportText":
+      "eSIM installation steps can vary by device. Make sure your iPhone is unlocked and eSIM-compatible before installing. If direct install is unavailable, use the activation details above in Settings > Cellular > Add eSIM.",
     "instructions": {
       "step1": "Open your phone’s cellular or mobile data settings.",
       "step2": "Choose Add eSIM or Scan QR Code.",
@@ -1471,11 +1650,13 @@
     "areaCodeExample": "e.g., 415",
     "noInventory": "No available inventory right now.",
     "exampleAreaCode": "e.g., 415",
-
+    "availableNumber": "Available number",
+    "premiumNumber": "Premium number 🔒",
+    "freeNumberSubtitle": "Free number that may be lost after inactivity.",
+    "premiumNumberSubtitle": "Keep and protect your number (no recycling)",
     "sms": "SMS",
     "voice": "Voice",
     "smsVoice": "SMS + Voice",
-
     "premiumProtected":
       "Premium numbers are protected from recycling while your Premium subscription is active.",
 
@@ -1578,6 +1759,15 @@
     "openDialPad": "Open dial pad"
   },
   "forwarding": {
+    "callTextForwarding": "Call & Text Forwarding",
+
+    "description":
+      "Forward incoming calls and texts to your verified phone or email. Outgoing calls/texts can show your Chatforia number.",
+
+    "destinationCallsE164":
+      "Destination (E.164) for calls",
+
+    "saved": "Forwarding settings saved",
     "enableCallForwarding": "Enable call forwarding",
     "enableTextForwarding": "Enable text forwarding",
     "saveForwarding": "Save Forwarding",
@@ -1589,6 +1779,7 @@
     "calls": {
     "section": "Calls Section",
     "cameraOff": "Camera off",
+    "noIncomingCallToAnswer": "No incoming call to answer.",
     "callBack": "Call Back",
     "calling": "Calling...",
     "loadingCalls": "Loading calls…",
@@ -1597,7 +1788,22 @@
     "recents": "Recents",
     "voicemail": "Voicemail",
     "call_failed": "Call failed.",
-    "video_call": "Video Call",
+    "idle": "Idle",
+    "participant": "Participant",
+    "waitingForParticipant": "Waiting for participant…",
+    "videoCall": "Video Call",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "camera": "Camera",
+    "flip": "Flip",
+    "speaker": "Speaker",
+    "end": "End",
+    "preparing": "Preparing call…",
+    "callingDestination": "Calling %@…",
+    "incomingCalling": "%@ is calling…",
+    "connecting": "Connecting to %@…",
+    "inCallWith": "In call with %@",
+    "ended": "Call ended",
     "video_app_users_only": "Video calling is only available for app users right now.",
     "missing_pending_context": "Missing pending call context.",
     "missing_current_user": "Missing current user.",
@@ -1617,8 +1823,24 @@
   },
   "settings": {
     "startHour": "Start hour (0–23)",
-    "endHour": "End hour (0–23)"
+    "endHour": "End hour (0–23)",
+    "preferredLanguage": "Preferred Language"
   },
+  "sound": {
+  "title": "Sounds",
+  "volume": "Volume",
+  "textTone": "Text Tone",
+
+  "requiresPlan": "Requires",
+
+  "premiumTitle": "Premium Sound",
+
+  "upgradeUnlockMessage":
+    "%@ is a premium sound. Upgrade to unlock premium text tones and ringtones.",
+
+  "upgradePreviewMessage":
+    "%@ is a premium sound. Upgrade to preview and use it."
+},
   "callHistory": {
     "title": "Calls",
     "subtitle": "Your recent incoming and outgoing calls.",
@@ -2191,7 +2413,6 @@
   "myPlan": "My Plan",
   "myPlanLoading": "Loading your plan…",
   "myPlanError": "Unable to load your plan.",
-
   "currentPlan": "Current plan",
   "activeSubscription": "Active subscription",
   "renewsAt": "Renews on",
@@ -2953,9 +3174,15 @@
   "sms": {
     "newText": "New text",
     "thread": "Thread",
+    "threadNumber": "SMS #%d",
     "enterRecipient": "Enter a name or number",
     "typeMessage": "Type a message…",
-    "addRecipient": "Add a recipient above to start…"
+    "addRecipient": "Add a recipient above to start…",
+    "loading": "Loading SMS…",
+    "loadingSubtitle": "Pulling in your latest text messages.",
+    "chooseNumberBeforeSending": "Choose a Chatforia number before sending SMS.",
+    "missingDestinationNumber": "Missing destination phone number.",
+    "inThread": "In thread"
   },
   "random": {
     "stranger": "Stranger"
@@ -2977,6 +3204,27 @@
     "adult_35_49": "ADULT_35_49",
     "adult_50_plus": "ADULT_50_PLUS",
     "ai": "AI",
+    "wireless": "Wireless",
+    "we_couldnt_load_your_usage_right_now": "We couldn’t load your usage right now.",
+    "low": "Low",
+    "out": "Out",
+    "expired": "Expired",
+    "active": "Active",
+    "today": "Today",
+    "one_day": "1 day",
+    "days": "days",
+    "stay_connected_when_youre_traveling_or_away_from_wifi": "Stay connected when you’re traveling or away from Wi-Fi.",
+    "we_dont_sell_data_packs_under_3_gb": "We don’t sell data packs under 3 GB.",
+    "instant_esim_activation": "Instant eSIM activation",
+    "one_time_pack_no_contract": "One-time pack. No contract.",
+    "top_up_anytime": "Top up anytime",
+    "choose_this_pack": "Choose this pack",
+
+    "you_dont_have_an_esim_yet": "You don’t have an eSIM yet.",
+    "your_esim_is_ready_to_install": "Your eSIM is ready to install.",
+    "your_esim_is_active": "Your eSIM is active.",
+    "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM data packs require an eSIM-compatible and unlocked device.",
+    "we_couldnt_start_your_esim_activation": "We couldn’t start your eSIM activation.",
     "add_contacts_manually_import_them_from_your_phone_or_start_a_new_conversation": "Add contacts manually, import them from your phone, or start a new conversation.",
     "alias_optional": "Alias (optional)",
     "auto_renewable_subscription_payment_is_charged_to_your_apple_account_at_confirma": "Auto-renewable subscription. Payment is charged to your Apple Account at confirmation of purchase. Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage and cancel your subscription in your Apple account settings.",
