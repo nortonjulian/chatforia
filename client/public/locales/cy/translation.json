@@ -329,7 +329,19 @@
     "smsConsentRequired": "Caniatewch negeseuon SMS neu tynnwch y rhif ffôn.",
     "secureKeySetupFailed": "Crëwyd eich cyfrif, ond methodd y gosodiad allwedd ddiogel ar y ddyfais hon. Cofiwch geisio eto.",
     "verifyEmailAfterSignup": "Cyfrif wedi'i greu. Gwiriwch eich e-bost i wirio'ch cyfrif cyn mewngofnodi.",
-    "sessionExpiredSignInAgain": "Mae eich sesiwn wedi dod i ben. Mewngofnodwch eto."
+    "sessionExpiredSignInAgain": "Mae eich sesiwn wedi dod i ben. Mewngofnodwch eto.",
+    "sessionExpired": "Mae eich sesiwn wedi dod i ben.",
+    "missingEncryptionKeyOlderMessages": "Mae'r ddyfais hon yn brin o'ch allwedd amgryptio. Adferwch ef i ddarllen negeseuon amgryptiedig hŷn.",
+    "missingEncryptionKey": "Mae'r ddyfais hon yn brin o'ch allwedd amgryptio. Adferwch ef i ddarllen negeseuon wedi'u hamgryptio.",
+    "mismatchedEncryptionKey": "Mae gan y ddyfais hon allwedd amgryptio gwahanol. Adferwch yr allwedd gywir i gael mynediad i'ch negeseuon.",
+    "forgotPasswordQuestion": "Anghofio cyfrinair?",
+    "sending": "Anfon...",
+    "resendVerificationEmail": "Ail-anfon e-bost dilysu",
+    "emailOrUsername": "E-bost neu enw defnyddiwr",
+    "loggingIn": "Mewngofnodi...",
+    "verificationEmailSent": "Anfonwyd e-bost dilysu. Gwiriwch eich mewnflwch.",
+    "resendVerificationFailed": "Methodd ag ail-anfon e-bost dilysu.",
+    "verifyEmailBeforeLogin": "Cadarnhewch eich e-bost cyn mewngofnodi."
   },
   "login": {
     "welcomeBack": "Croeso'n ôl",
@@ -476,7 +488,8 @@
     "archivedTitle": "Sgwrs wedi'i harchifo",
     "archivedMsg": "Cafodd y sgwrs ei harchifo.",
     "archiveFailedTitle": "Methu archifo sgwrs",
-    "archiveFailedMsg": "Cynigiwch eto."
+    "archiveFailedMsg": "Cynigiwch eto.",
+    "groupVideo": "Fideo Grŵp"
   },
   "topbar": {
     "newStatus": "Statws Newydd",
@@ -566,7 +579,18 @@
     "roomNumber": "Sgwrs #%d",
     "missingConversationId": "ID sgwrs ar goll.",
     "archiveFailed": "Methodd wrth archifo sgwrs.",
-    "deleteFailed": "Methodd â dileu'r sgwrs."
+    "deleteFailed": "Methodd â dileu'r sgwrs.",
+    "sendMessageFailed": "Methu anfon y neges.",
+    "sendImageFailed": "Methu anfon y ddelwedd.",
+    "sendVideoFailed": "Methu anfon y fideo.",
+    "sendAudioFailed": "Doedd dim modd anfon sain.",
+    "editMessageFailed": "Methu golygu'r neges.",
+    "editFailed": "Methodd y golygiad:",
+    "deleteMessageFailed": "Methu dileu'r neges.",
+    "archiveConversationFailed": "Methu archifo sgwrs.",
+    "deleteConversationFailed": "Methu dileu'r sgwrs.",
+    "imageDataEmpty": "Mae data'r ddelwedd yn wag.",
+    "videoDataEmpty": "Mae data'r fideo yn wag."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Ni chwblhaodd ailosod yr amgryptio yn gywir ar y ddyfais hon."
       },
       "restore": {
-        "localFailure": "Ni lwyddodd Adfer Allwedd i gwblhau'n gywir ar y ddyfais hon."
-      }
+        "localFailure": "Ni lwyddodd Adfer Allwedd i gwblhau'n gywir ar y ddyfais hon.",
+        "title": "Adfer Allwedd Amgryptio",
+        "instructions": "Rhowch eich cyfrinair wrth gefn i adfer eich allwedd amgryptio.",
+        "noBackup": "Ni chanfuwyd unrhyw gopi wrth gefn o bell.",
+        "noBackupFirst": "Creu copi wrth gefn cyn ceisio adfer.",
+        "restoreKey": "Adfer Allwedd",
+        "success": "Adferwyd yr allwedd amgryptio'n llwyddiannus.",
+        "deviceMismatch": "Nid yw'r allwedd wedi'i hadfer yn cyfateb i'r ddyfais hon.",
+        "correctKeyMissing": "Nid oes gan y ddyfais hon y allwedd amgryptio cywir o hyd."
+      },
+      "checkingBackup": "Gwirio'r copi wrth gefn...",
+      "backupPassword": "Cyfrinair wrth gefn"
     },
     "reset": {
       "title": "Ailosod Amgryptio",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Gwrthodwyd mynediad i'r camera. Ei alluogi yn y Gosodiadau.",
     "microphoneDenied": "Gwrthodir mynediad i'r meicroffon. Ei alluogi yn y Gosodiadau.",
     "cameraRestricted": "Mae mynediad i'r camera wedi'i gyfyngu ar y ddyfais hon.",
-    "microphoneRestricted": "Mae mynediad i'r meicroffon wedi'i gyfyngu ar y ddyfais hon."
+    "microphoneRestricted": "Mae mynediad i'r meicroffon wedi'i gyfyngu ar y ddyfais hon.",
+    "noCameraAvailable": "Dim camera ar gael.",
+    "couldNotCreateCameraSource": "Methu â chreu ffynhonnell y camera."
   },
   "gif": {
     "couldNotLoad": "Methu llwytho'r GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Camera",
     "flip": "Trowch",
     "speaker": "Siaradwr",
-    "end": "Diwedd"
+    "end": "Diwedd",
+    "noIncomingCallToAnswer": "Dim galwad sy'n dod i mewn i'w hateb."
   },
   "settings": {
     "startHour": "Awr gychwyn (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Mae eich eSIM yn barod i'w osod.",
     "your_esim_is_active": "Mae eich eSIM yn weithredol.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Mae angen dyfais sy'n gydnaws ag eSIM ac sydd wedi'i datgloi ar gyfer pecynnau data eSIM.",
-    "we_couldnt_start_your_esim_activation": "Ni allem ddechrau actifadu eich eSIM."
+    "we_couldnt_start_your_esim_activation": "Ni allem ddechrau actifadu eich eSIM.",
+    "missing_auth_token": "Tocyn dilysu ar goll.",
+    "invalid_room_id_client": "ID ystafell annilys."
   },
   "onboarding": {
     "welcomeSubtitle": "Anfon neges yn fyd-eang, cyfieithu ar unwaith, a dechrau sgyrsiau'n gyflym.",
@@ -3493,5 +3532,12 @@
     "yi": "Iddeweg",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Canslo",
+  "startChat": {
+    "fetchResultsFailed": "Methu â chael y canlyniadau. Cofiwch geisio eto.",
+    "fetchContactsFailed": "Methu â chasglu cysylltiadau.",
+    "contactOpenFailed": "Ni ellid agor y cyswllt hwn.",
+    "enterValidPhone": "Rhowch rif ffôn dilys."
   }
 }

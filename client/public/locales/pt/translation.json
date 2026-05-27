@@ -329,7 +329,19 @@
     "smsConsentRequired": "Aceite as mensagens SMS ou remova o número de telefone.",
     "secureKeySetupFailed": "Sua conta foi criada, mas a configuração da chave segura falhou neste dispositivo. Tente novamente.",
     "verifyEmailAfterSignup": "Conta criada. Verifique seu e-mail para confirmar sua conta antes de fazer login.",
-    "sessionExpiredSignInAgain": "Sua sessão expirou. Faça login novamente."
+    "sessionExpiredSignInAgain": "Sua sessão expirou. Faça login novamente.",
+    "sessionExpired": "Sua sessão expirou.",
+    "missingEncryptionKeyOlderMessages": "Este dispositivo não tem sua chave de criptografia. Restaure-a para ler mensagens criptografadas mais antigas.",
+    "missingEncryptionKey": "Este dispositivo não tem sua chave de criptografia. Restaure-a para ler mensagens criptografadas.",
+    "mismatchedEncryptionKey": "Este dispositivo tem uma chave de criptografia diferente. Restaure a chave correta para acessar suas mensagens.",
+    "forgotPasswordQuestion": "Esqueceu a senha?",
+    "sending": "Enviando...",
+    "resendVerificationEmail": "Reenviar e-mail de verificação",
+    "emailOrUsername": "E-mail ou nome de usuário",
+    "loggingIn": "Fazendo login...",
+    "verificationEmailSent": "E-mail de verificação enviado. Verifique sua caixa de entrada.",
+    "resendVerificationFailed": "Falha ao reenviar o e-mail de verificação.",
+    "verifyEmailBeforeLogin": "Verifique seu e-mail antes de fazer o login."
   },
   "login": {
     "welcomeBack": "Bem-vindo de volta",
@@ -476,7 +488,8 @@
     "archivedTitle": "Conversa arquivada",
     "archivedMsg": "A conversa foi arquivada.",
     "archiveFailedTitle": "Não foi possível arquivar a conversa",
-    "archiveFailedMsg": "Tente novamente."
+    "archiveFailedMsg": "Tente novamente.",
+    "groupVideo": "Vídeo em grupo"
   },
   "topbar": {
     "newStatus": "Novo estado",
@@ -566,7 +579,18 @@
     "roomNumber": "Bate-papo #%d",
     "missingConversationId": "ID de conversa ausente.",
     "archiveFailed": "Falha ao arquivar a conversa.",
-    "deleteFailed": "Falha ao excluir a conversa."
+    "deleteFailed": "Falha ao excluir a conversa.",
+    "sendMessageFailed": "Não foi possível enviar a mensagem.",
+    "sendImageFailed": "Não foi possível enviar a imagem.",
+    "sendVideoFailed": "Não foi possível enviar o vídeo.",
+    "sendAudioFailed": "Não foi possível enviar o áudio.",
+    "editMessageFailed": "Não foi possível editar a mensagem.",
+    "editFailed": "Falha na edição:",
+    "deleteMessageFailed": "Não foi possível excluir a mensagem.",
+    "archiveConversationFailed": "Não foi possível arquivar a conversa.",
+    "deleteConversationFailed": "Não foi possível excluir a conversa.",
+    "imageDataEmpty": "Os dados da imagem estão vazios.",
+    "videoDataEmpty": "Os dados de vídeo estão vazios."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "A redefinição da criptografia não foi concluída corretamente neste dispositivo."
       },
       "restore": {
-        "localFailure": "A restauração da chave não foi concluída corretamente neste dispositivo."
-      }
+        "localFailure": "A restauração da chave não foi concluída corretamente neste dispositivo.",
+        "title": "Restaurar a chave de criptografia",
+        "instructions": "Digite sua senha de backup para restaurar sua chave de criptografia.",
+        "noBackup": "Não foi encontrado nenhum backup remoto.",
+        "noBackupFirst": "Crie um backup antes de tentar fazer a restauração.",
+        "restoreKey": "Restaurar chave",
+        "success": "Chave de criptografia restaurada com sucesso.",
+        "deviceMismatch": "A chave restaurada não corresponde a esse dispositivo.",
+        "correctKeyMissing": "Esse dispositivo ainda não tem a chave de criptografia correta."
+      },
+      "checkingBackup": "Verificação de backup...",
+      "backupPassword": "Senha de backup"
     },
     "reset": {
       "title": "Redefinir a criptografia",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "O acesso à câmera foi negado. Habilite-o em Configurações.",
     "microphoneDenied": "O acesso ao microfone foi negado. Ative-o em Configurações.",
     "cameraRestricted": "O acesso à câmera é restrito nesse dispositivo.",
-    "microphoneRestricted": "O acesso ao microfone é restrito nesse dispositivo."
+    "microphoneRestricted": "O acesso ao microfone é restrito nesse dispositivo.",
+    "noCameraAvailable": "Não há câmera disponível.",
+    "couldNotCreateCameraSource": "Não foi possível criar a origem da câmera."
   },
   "gif": {
     "couldNotLoad": "Não foi possível carregar o GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Câmera",
     "flip": "Flip",
     "speaker": "Alto-falante",
-    "end": "Fim"
+    "end": "Fim",
+    "noIncomingCallToAnswer": "Nenhuma chamada recebida para atender."
   },
   "settings": {
     "startHour": "Hora de início (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Seu eSIM está pronto para ser instalado.",
     "your_esim_is_active": "Seu eSIM está ativo.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Os pacotes de dados eSIM exigem um dispositivo compatível com o eSIM e desbloqueado.",
-    "we_couldnt_start_your_esim_activation": "Não foi possível iniciar a ativação do seu eSIM."
+    "we_couldnt_start_your_esim_activation": "Não foi possível iniciar a ativação do seu eSIM.",
+    "missing_auth_token": "Token de autenticação ausente.",
+    "invalid_room_id_client": "ID de quarto inválido."
   },
   "onboarding": {
     "welcomeSubtitle": "Envie mensagens globalmente, traduza instantaneamente e inicie conversas rapidamente.",
@@ -3493,5 +3532,12 @@
     "yi": "Iídiche",
     "yo": "Iorubá",
     "zu": "Zulu"
+  },
+  "button_cancel": "Cancelar",
+  "startChat": {
+    "fetchResultsFailed": "Não foi possível obter resultados. Por favor, tente novamente.",
+    "fetchContactsFailed": "Não é possível buscar contatos.",
+    "contactOpenFailed": "Esse contato não pôde ser aberto.",
+    "enterValidPhone": "Digite um número de telefone válido."
   }
 }

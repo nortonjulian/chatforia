@@ -329,7 +329,19 @@
     "smsConsentRequired": "Giv samtykke til SMS-beskeder, eller fjern telefonnummeret.",
     "secureKeySetupFailed": "Din konto blev oprettet, men opsætningen af den sikre nøgle mislykkedes på denne enhed. Prøv venligst igen.",
     "verifyEmailAfterSignup": "Konto oprettet. Tjek venligst din e-mail for at bekræfte din konto, før du logger ind.",
-    "sessionExpiredSignInAgain": "Din session er udløbet. Log venligst ind igen."
+    "sessionExpiredSignInAgain": "Din session er udløbet. Log venligst ind igen.",
+    "sessionExpired": "Din session er udløbet.",
+    "missingEncryptionKeyOlderMessages": "Denne enhed mangler din krypteringsnøgle. Gendan den for at læse ældre krypterede beskeder.",
+    "missingEncryptionKey": "Denne enhed mangler din krypteringsnøgle. Gendan den for at læse krypterede beskeder.",
+    "mismatchedEncryptionKey": "Denne enhed har en anden krypteringsnøgle. Gendan den korrekte nøgle for at få adgang til dine beskeder.",
+    "forgotPasswordQuestion": "Har du glemt din adgangskode?",
+    "sending": "Sender...",
+    "resendVerificationEmail": "Send bekræftelsesmail igen",
+    "emailOrUsername": "E-mail eller brugernavn",
+    "loggingIn": "Logger ind...",
+    "verificationEmailSent": "Bekræftelsesmail sendt. Tjek din indbakke.",
+    "resendVerificationFailed": "Kunne ikke sende bekræftelsesmail igen.",
+    "verifyEmailBeforeLogin": "Bekræft venligst din e-mail, før du logger ind."
   },
   "login": {
     "welcomeBack": "Velkommen tilbage",
@@ -476,7 +488,8 @@
     "archivedTitle": "Samtale arkiveret",
     "archivedMsg": "Samtalen blev arkiveret.",
     "archiveFailedTitle": "Kunne ikke arkivere samtalen",
-    "archiveFailedMsg": "Prøv venligst igen."
+    "archiveFailedMsg": "Prøv venligst igen.",
+    "groupVideo": "Gruppe-video"
   },
   "topbar": {
     "newStatus": "Ny status",
@@ -566,7 +579,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Manglende samtale-id.",
     "archiveFailed": "Kunne ikke arkivere samtalen.",
-    "deleteFailed": "Det lykkedes ikke at slette samtalen."
+    "deleteFailed": "Det lykkedes ikke at slette samtalen.",
+    "sendMessageFailed": "Kunne ikke sende en besked.",
+    "sendImageFailed": "Kunne ikke sende billedet.",
+    "sendVideoFailed": "Kunne ikke sende video.",
+    "sendAudioFailed": "Kunne ikke sende lyd.",
+    "editMessageFailed": "Kunne ikke redigere beskeden.",
+    "editFailed": "Redigeringen mislykkedes:",
+    "deleteMessageFailed": "Kunne ikke slette beskeden.",
+    "archiveConversationFailed": "Kunne ikke arkivere samtalen.",
+    "deleteConversationFailed": "Jeg kunne ikke slette samtalen.",
+    "imageDataEmpty": "Billeddataene er tomme.",
+    "videoDataEmpty": "Videodata er tomme."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Nulstilling af kryptering blev ikke gennemført korrekt på denne enhed."
       },
       "restore": {
-        "localFailure": "Gendannelse af nøgle blev ikke gennemført korrekt på denne enhed."
-      }
+        "localFailure": "Gendannelse af nøgle blev ikke gennemført korrekt på denne enhed.",
+        "title": "Gendan krypteringsnøgle",
+        "instructions": "Indtast din backup-adgangskode for at gendanne din krypteringsnøgle.",
+        "noBackup": "Der blev ikke fundet nogen fjernbackup.",
+        "noBackupFirst": "Lav en sikkerhedskopi, før du forsøger at gendanne.",
+        "restoreKey": "Gendan nøgle",
+        "success": "Krypteringsnøgle gendannet med succes.",
+        "deviceMismatch": "Den gendannede nøgle passer ikke til denne enhed.",
+        "correctKeyMissing": "Denne enhed har stadig ikke den korrekte krypteringsnøgle."
+      },
+      "checkingBackup": "Tjekker for backup...",
+      "backupPassword": "Backup-adgangskode"
     },
     "reset": {
       "title": "Nulstil kryptering",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Adgang til kameraet er nægtet. Aktivér det i Indstillinger.",
     "microphoneDenied": "Mikrofonadgang er nægtet. Aktivér det i Indstillinger.",
     "cameraRestricted": "Kameraadgang er begrænset på denne enhed.",
-    "microphoneRestricted": "Mikrofonadgangen er begrænset på denne enhed."
+    "microphoneRestricted": "Mikrofonadgangen er begrænset på denne enhed.",
+    "noCameraAvailable": "Intet kamera tilgængeligt.",
+    "couldNotCreateCameraSource": "Kunne ikke oprette kamerakilde."
   },
   "gif": {
     "couldNotLoad": "Kunne ikke indlæse GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Flip",
     "speaker": "Højttaler",
-    "end": "Slut"
+    "end": "Slut",
+    "noIncomingCallToAnswer": "Intet indgående opkald at besvare."
   },
   "settings": {
     "startHour": "Start time (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Dit eSIM er klar til at blive installeret.",
     "your_esim_is_active": "Dit eSIM er aktivt.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM-datapakker kræver en eSIM-kompatibel og ulåst enhed.",
-    "we_couldnt_start_your_esim_activation": "Vi kunne ikke starte din eSIM-aktivering."
+    "we_couldnt_start_your_esim_activation": "Vi kunne ikke starte din eSIM-aktivering.",
+    "missing_auth_token": "Manglende godkendelsestoken.",
+    "invalid_room_id_client": "Ugyldigt værelses-ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Send beskeder globalt, oversæt med det samme, og start samtaler hurtigt.",
@@ -3493,5 +3532,12 @@
     "yi": "Jiddisch",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Annuller",
+  "startChat": {
+    "fetchResultsFailed": "Kan ikke hente resultater. Prøv venligst igen.",
+    "fetchContactsFailed": "Kan ikke hente kontakter.",
+    "contactOpenFailed": "Denne kontakt kunne ikke åbnes.",
+    "enterValidPhone": "Indtast et gyldigt telefonnummer."
   }
 }

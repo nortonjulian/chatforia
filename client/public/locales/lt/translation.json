@@ -329,7 +329,19 @@
     "smsConsentRequired": "Prašome sutikti su SMS žinutėmis arba pašalinti telefono numerį.",
     "secureKeySetupFailed": "Jūsų paskyra sukurta, tačiau šiame prietaise nepavyko nustatyti saugaus rakto. Bandykite dar kartą.",
     "verifyEmailAfterSignup": "Sukurta paskyra. Prieš prisijungdami patikrinkite savo el. paštą ir patikrinkite paskyrą.",
-    "sessionExpiredSignInAgain": "Jūsų sesija baigėsi. Prašome prisijungti dar kartą."
+    "sessionExpiredSignInAgain": "Jūsų sesija baigėsi. Prašome prisijungti dar kartą.",
+    "sessionExpired": "Jūsų sesija baigėsi.",
+    "missingEncryptionKeyOlderMessages": "Šiame prietaise trūksta šifravimo rakto. Atkurkite jį, kad galėtumėte skaityti senesnius užšifruotus pranešimus.",
+    "missingEncryptionKey": "Šiame prietaise trūksta šifravimo rakto. Atkurkite jį, kad galėtumėte skaityti užšifruotus pranešimus.",
+    "mismatchedEncryptionKey": "Šis įrenginys turi kitą šifravimo raktą. Atkurkite teisingą raktą, kad galėtumėte pasiekti savo žinutes.",
+    "forgotPasswordQuestion": "Pamiršote slaptažodį?",
+    "sending": "Siunčiame...",
+    "resendVerificationEmail": "Pakartotinai išsiųskite patvirtinimo el. laišką",
+    "emailOrUsername": "El. paštas arba vartotojo vardas",
+    "loggingIn": "Prisijungimas...",
+    "verificationEmailSent": "Išsiųstas patvirtinimo el. laiškas. Patikrinkite savo pašto dėžutę.",
+    "resendVerificationFailed": "Nepavyko pakartotinai išsiųsti patvirtinimo el. laiško.",
+    "verifyEmailBeforeLogin": "Prieš prisijungdami patikrinkite savo el. pašto adresą."
   },
   "login": {
     "welcomeBack": "Sveiki sugrįžę",
@@ -476,7 +488,8 @@
     "archivedTitle": "Pokalbis archyvuotas",
     "archivedMsg": "Pokalbis buvo įrašytas į archyvą.",
     "archiveFailedTitle": "Nepavyko archyvuoti pokalbio",
-    "archiveFailedMsg": "Pabandykite dar kartą."
+    "archiveFailedMsg": "Pabandykite dar kartą.",
+    "groupVideo": "Grupės vaizdo įrašas"
   },
   "topbar": {
     "newStatus": "Naujas statusas",
@@ -566,7 +579,18 @@
     "roomNumber": "Pokalbiai #%d",
     "missingConversationId": "Trūksta pokalbio ID.",
     "archiveFailed": "Nepavyko archyvuoti pokalbio.",
-    "deleteFailed": "Nepavyko ištrinti pokalbio."
+    "deleteFailed": "Nepavyko ištrinti pokalbio.",
+    "sendMessageFailed": "Nepavyko išsiųsti pranešimo.",
+    "sendImageFailed": "Nepavyko išsiųsti vaizdo.",
+    "sendVideoFailed": "Nepavyko išsiųsti vaizdo įrašo.",
+    "sendAudioFailed": "Nepavyko išsiųsti garso įrašo.",
+    "editMessageFailed": "Nepavyko redaguoti pranešimo.",
+    "editFailed": "Redaguoti nepavyko:",
+    "deleteMessageFailed": "Nepavyko ištrinti pranešimo.",
+    "archiveConversationFailed": "Nepavyko archyvuoti pokalbio.",
+    "deleteConversationFailed": "Nepavyko ištrinti pokalbio.",
+    "imageDataEmpty": "Vaizdo duomenys yra tušti.",
+    "videoDataEmpty": "Vaizdo duomenys yra tušti."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Šifravimo atkūrimas šiame prietaise nebuvo tinkamai užbaigtas."
       },
       "restore": {
-        "localFailure": "Šiame prietaise rakto atkūrimas nebuvo tinkamai užbaigtas."
-      }
+        "localFailure": "Šiame prietaise rakto atkūrimas nebuvo tinkamai užbaigtas.",
+        "title": "Atkurti šifravimo raktą",
+        "instructions": "Įveskite atsarginės kopijos slaptažodį, kad atkurtumėte šifravimo raktą.",
+        "noBackup": "Nuotolinės atsarginės kopijos nerasta.",
+        "noBackupFirst": "Prieš bandydami atkurti, sukurkite atsarginę kopiją.",
+        "restoreKey": "Atkurti raktą",
+        "success": "Šifravimo raktas atkurtas sėkmingai.",
+        "deviceMismatch": "Atkurtas raktas neatitinka šio įrenginio.",
+        "correctKeyMissing": "Šis įrenginys vis dar neturi tinkamo šifravimo rakto."
+      },
+      "checkingBackup": "Tikrinama atsarginė kopija...",
+      "backupPassword": "Atsarginės kopijos slaptažodis"
     },
     "reset": {
       "title": "Iš naujo nustatyti šifravimą",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Prieiga prie fotoaparato neleidžiama. Įgalinkite ją nustatymuose.",
     "microphoneDenied": "Prieiga prie mikrofono neleidžiama. Įjunkite ją nustatymuose.",
     "cameraRestricted": "Šiame prietaise prieiga prie fotoaparato yra ribota.",
-    "microphoneRestricted": "Prieiga prie mikrofono šiame prietaise yra apribota."
+    "microphoneRestricted": "Prieiga prie mikrofono šiame prietaise yra apribota.",
+    "noCameraAvailable": "Fotoaparato nėra.",
+    "couldNotCreateCameraSource": "Nepavyko sukurti fotoaparato šaltinio."
   },
   "gif": {
     "couldNotLoad": "Nepavyko įkelti GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Fotoaparatas",
     "flip": "Flip",
     "speaker": "Garsiakalbis",
-    "end": "Pabaiga"
+    "end": "Pabaiga",
+    "noIncomingCallToAnswer": "Nėra įeinančio skambučio, į kurį būtų galima atsiliepti."
   },
   "settings": {
     "startHour": "Pradžios valanda (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "\"eSIM\" yra paruošta įdiegti.",
     "your_esim_is_active": "Jūsų eSIM yra aktyvi.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "\"eSIM\" duomenų paketams reikia su \"eSIM\" suderinamo ir atrakinto prietaiso.",
-    "we_couldnt_start_your_esim_activation": "Nepavyko pradėti jūsų eSIM aktyvavimo."
+    "we_couldnt_start_your_esim_activation": "Nepavyko pradėti jūsų eSIM aktyvavimo.",
+    "missing_auth_token": "Trūksta autentifikavimo simbolio.",
+    "invalid_room_id_client": "Neteisingas kambario ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Rašykite žinutes visame pasaulyje, išverskite iš karto ir greitai pradėkite pokalbius.",
@@ -3493,5 +3532,12 @@
     "yi": "Jidiš",
     "yo": "Joruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Atšaukti",
+  "startChat": {
+    "fetchResultsFailed": "Nepavyksta gauti rezultatų. Bandykite dar kartą.",
+    "fetchContactsFailed": "Nepavyksta gauti kontaktų.",
+    "contactOpenFailed": "Šio kontakto nepavyko atidaryti.",
+    "enterValidPhone": "Įveskite galiojantį telefono numerį."
   }
 }

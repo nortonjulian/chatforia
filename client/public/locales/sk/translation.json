@@ -329,7 +329,19 @@
     "smsConsentRequired": "Prosím, vyjadrite súhlas so správami SMS alebo odstráňte telefónne číslo.",
     "secureKeySetupFailed": "Vaše konto bolo vytvorené, ale nastavenie zabezpečeného kľúča v tomto zariadení zlyhalo. Skúste to prosím znova.",
     "verifyEmailAfterSignup": "Vytvorené konto. Pred prihlásením skontrolujte svoj e-mail a overte svoje konto.",
-    "sessionExpiredSignInAgain": "Vaša relácia vypršala. Prihláste sa znova."
+    "sessionExpiredSignInAgain": "Vaša relácia vypršala. Prihláste sa znova.",
+    "sessionExpired": "Vaša relácia vypršala.",
+    "missingEncryptionKeyOlderMessages": "Tomuto zariadeniu chýba váš šifrovací kľúč. Ak chcete čítať staršie zašifrované správy, obnovte ho.",
+    "missingEncryptionKey": "Tomuto zariadeniu chýba váš šifrovací kľúč. Ak chcete čítať zašifrované správy, obnovte ho.",
+    "mismatchedEncryptionKey": "Toto zariadenie má iný šifrovací kľúč. Ak chcete získať prístup k správam, obnovte správny kľúč.",
+    "forgotPasswordQuestion": "Zabudli ste heslo?",
+    "sending": "Odoslanie...",
+    "resendVerificationEmail": "Opätovné odoslanie overovacieho e-mailu",
+    "emailOrUsername": "E-mail alebo používateľské meno",
+    "loggingIn": "Prihlásenie...",
+    "verificationEmailSent": "Odoslaný overovací e-mail. Skontrolujte si doručenú poštu.",
+    "resendVerificationFailed": "Nepodarilo sa opätovne odoslať overovací e-mail.",
+    "verifyEmailBeforeLogin": "Pred prihlásením overte svoj e-mail."
   },
   "login": {
     "welcomeBack": "Vitajte späť",
@@ -476,7 +488,8 @@
     "archivedTitle": "Konverzácia archivovaná",
     "archivedMsg": "Konverzácia bola archivovaná.",
     "archiveFailedTitle": "Konverzáciu sa nepodarilo archivovať",
-    "archiveFailedMsg": "Skúste to znovu."
+    "archiveFailedMsg": "Skúste to znovu.",
+    "groupVideo": "Skupinové video"
   },
   "topbar": {
     "newStatus": "Nový status",
@@ -566,7 +579,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Chýbajúce ID konverzácie.",
     "archiveFailed": "Nepodarilo sa archivovať konverzáciu.",
-    "deleteFailed": "Nepodarilo sa odstrániť konverzáciu."
+    "deleteFailed": "Nepodarilo sa odstrániť konverzáciu.",
+    "sendMessageFailed": "Správu sa nepodarilo odoslať.",
+    "sendImageFailed": "Nepodarilo sa odoslať obrázok.",
+    "sendVideoFailed": "Nebolo možné odoslať video.",
+    "sendAudioFailed": "Nepodarilo sa odoslať zvuk.",
+    "editMessageFailed": "Správu sa nepodarilo upraviť.",
+    "editFailed": "Úprava sa nepodarila:",
+    "deleteMessageFailed": "Správu sa nepodarilo vymazať.",
+    "archiveConversationFailed": "Nepodarilo sa mi archivovať konverzáciu.",
+    "deleteConversationFailed": "Konverzáciu nebolo možné vymazať.",
+    "imageDataEmpty": "Údaje o obrázku sú prázdne.",
+    "videoDataEmpty": "Video údaje sú prázdne."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Obnovenie šifrovania sa v tomto zariadení nedokončilo správne."
       },
       "restore": {
-        "localFailure": "Obnovenie kľúča sa na tomto zariadení nedokončilo správne."
-      }
+        "localFailure": "Obnovenie kľúča sa na tomto zariadení nedokončilo správne.",
+        "title": "Obnovenie šifrovacieho kľúča",
+        "instructions": "Zadaním hesla zálohy obnovíte šifrovací kľúč.",
+        "noBackup": "Nebola nájdená žiadna vzdialená záloha.",
+        "noBackupFirst": "Pred pokusom o obnovenie vytvorte zálohu.",
+        "restoreKey": "Obnovenie kľúča",
+        "success": "Šifrovací kľúč bol úspešne obnovený.",
+        "deviceMismatch": "Obnovený kľúč nezodpovedá tomuto zariadeniu.",
+        "correctKeyMissing": "Toto zariadenie stále nemá správny šifrovací kľúč."
+      },
+      "checkingBackup": "Kontrola zálohovania...",
+      "backupPassword": "Záložné heslo"
     },
     "reset": {
       "title": "Obnovenie šifrovania",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Prístup ku kamere je zamietnutý. Povoľte ho v Nastaveniach.",
     "microphoneDenied": "Prístup k mikrofónu je zamietnutý. Povoľte ho v Nastaveniach.",
     "cameraRestricted": "Prístup k fotoaparátu je v tomto zariadení obmedzený.",
-    "microphoneRestricted": "Prístup k mikrofónu je v tomto zariadení obmedzený."
+    "microphoneRestricted": "Prístup k mikrofónu je v tomto zariadení obmedzený.",
+    "noCameraAvailable": "Kamera nie je k dispozícii.",
+    "couldNotCreateCameraSource": "Nepodarilo sa vytvoriť zdroj fotoaparátu."
   },
   "gif": {
     "couldNotLoad": "Nepodarilo sa načítať GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Fotoaparát",
     "flip": "Flip",
     "speaker": "Reproduktor",
-    "end": "Koniec"
+    "end": "Koniec",
+    "noIncomingCallToAnswer": "Žiadny prichádzajúci hovor, ktorý by ste mohli prijať."
   },
   "settings": {
     "startHour": "Hodina začiatku (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Vaša karta eSIM je pripravená na inštaláciu.",
     "your_esim_is_active": "Vaša karta eSIM je aktívna.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Dátové balíky eSIM vyžadujú odomknuté zariadenie kompatibilné s eSIM.",
-    "we_couldnt_start_your_esim_activation": "Nemohli sme spustiť aktiváciu vašej eSIM."
+    "we_couldnt_start_your_esim_activation": "Nemohli sme spustiť aktiváciu vašej eSIM.",
+    "missing_auth_token": "Chýba overovací token.",
+    "invalid_room_id_client": "Neplatné ID izby."
   },
   "onboarding": {
     "welcomeSubtitle": "Posielajte globálne správy, okamžite prekladajte a rýchlo začnite konverzáciu.",
@@ -3493,5 +3532,12 @@
     "yi": "Jidiš",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Zrušiť",
+  "startChat": {
+    "fetchResultsFailed": "Nie je možné načítať výsledky. Skúste to prosím znova.",
+    "fetchContactsFailed": "Nie je možné načítať kontakty.",
+    "contactOpenFailed": "Tento kontakt nebolo možné otvoriť.",
+    "enterValidPhone": "Zadajte platné telefónne číslo."
   }
 }

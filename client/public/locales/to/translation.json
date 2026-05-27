@@ -329,7 +329,19 @@
     "smsConsentRequired": "Please consent to SMS messages or remove the phone number.",
     "secureKeySetupFailed": "Your account was created, but secure key setup failed on this device. Please try again.",
     "verifyEmailAfterSignup": "Account created. Please check your email to verify your account before logging in.",
-    "sessionExpiredSignInAgain": "Your session expired. Please sign in again."
+    "sessionExpiredSignInAgain": "Your session expired. Please sign in again.",
+    "sessionExpired": "Your session has expired.",
+    "missingEncryptionKeyOlderMessages": "This device is missing your encryption key. Restore it to read older encrypted messages.",
+    "missingEncryptionKey": "This device is missing your encryption key. Restore it to read encrypted messages.",
+    "mismatchedEncryptionKey": "This device has a different encryption key. Restore the correct key to access your messages.",
+    "forgotPasswordQuestion": "Forgot password?",
+    "sending": "Sending...",
+    "resendVerificationEmail": "Resend verification email",
+    "emailOrUsername": "Email or username",
+    "loggingIn": "Logging in...",
+    "verificationEmailSent": "Verification email sent. Check your inbox.",
+    "resendVerificationFailed": "Failed to resend verification email.",
+    "verifyEmailBeforeLogin": "Please verify your email before logging in."
   },
   "login": {
     "welcomeBack": "Welcome back",
@@ -476,7 +488,8 @@
     "archivedTitle": "Conversation archived",
     "archivedMsg": "The conversation was archived.",
     "archiveFailedTitle": "Could not archive conversation",
-    "archiveFailedMsg": "Please try again."
+    "archiveFailedMsg": "Please try again.",
+    "groupVideo": "Group Video"
   },
   "topbar": {
     "newStatus": "Status foʻou",
@@ -566,7 +579,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Missing conversation id.",
     "archiveFailed": "Failed to archive conversation.",
-    "deleteFailed": "Failed to delete conversation."
+    "deleteFailed": "Failed to delete conversation.",
+    "sendMessageFailed": "Couldn't send message.",
+    "sendImageFailed": "Couldn't send image.",
+    "sendVideoFailed": "Couldn't send video.",
+    "sendAudioFailed": "Couldn't send audio.",
+    "editMessageFailed": "Couldn't edit message.",
+    "editFailed": "Edit failed:",
+    "deleteMessageFailed": "Couldn't delete message.",
+    "archiveConversationFailed": "Couldn't archive conversation.",
+    "deleteConversationFailed": "Couldn't delete conversation.",
+    "imageDataEmpty": "Image data is empty.",
+    "videoDataEmpty": "Video data is empty."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Encryption reset did not complete correctly on this device."
       },
       "restore": {
-        "localFailure": "Key restore did not complete correctly on this device."
-      }
+        "localFailure": "Key restore did not complete correctly on this device.",
+        "title": "Restore Encryption Key",
+        "instructions": "Enter your backup password to restore your encryption key.",
+        "noBackup": "No remote backup was found.",
+        "noBackupFirst": "Create a backup before attempting restoration.",
+        "restoreKey": "Restore Key",
+        "success": "Encryption key restored successfully.",
+        "deviceMismatch": "The restored key does not match this device.",
+        "correctKeyMissing": "This device still does not have the correct encryption key."
+      },
+      "checkingBackup": "Checking for backup...",
+      "backupPassword": "Backup Password"
     },
     "reset": {
       "title": "Reset Encryption",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Camera access is denied. Enable it in Settings.",
     "microphoneDenied": "Microphone access is denied. Enable it in Settings.",
     "cameraRestricted": "Camera access is restricted on this device.",
-    "microphoneRestricted": "Microphone access is restricted on this device."
+    "microphoneRestricted": "Microphone access is restricted on this device.",
+    "noCameraAvailable": "No camera available.",
+    "couldNotCreateCameraSource": "Could not create camera source."
   },
   "gif": {
     "couldNotLoad": "Couldn’t load GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Camera",
     "flip": "Flip",
     "speaker": "Speaker",
-    "end": "End"
+    "end": "End",
+    "noIncomingCallToAnswer": "No incoming call to answer."
   },
   "settings": {
     "startHour": "Start hour (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Your eSIM is ready to install.",
     "your_esim_is_active": "Your eSIM is active.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM data packs require an eSIM-compatible and unlocked device.",
-    "we_couldnt_start_your_esim_activation": "We couldn’t start your eSIM activation."
+    "we_couldnt_start_your_esim_activation": "We couldn’t start your eSIM activation.",
+    "missing_auth_token": "Missing authentication token.",
+    "invalid_room_id_client": "Invalid room ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Message globally, translate instantly, and start conversations fast.",
@@ -3493,5 +3532,12 @@
     "yi": "Yiddish",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Cancel",
+  "startChat": {
+    "fetchResultsFailed": "Unable to fetch results. Please try again.",
+    "fetchContactsFailed": "Unable to fetch contacts.",
+    "contactOpenFailed": "This contact could not be opened.",
+    "enterValidPhone": "Enter a valid phone number."
   }
 }

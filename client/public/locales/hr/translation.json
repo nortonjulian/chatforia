@@ -329,7 +329,19 @@
     "smsConsentRequired": "Molimo dajte suglasnost za SMS poruke ili uklonite broj telefona.",
     "secureKeySetupFailed": "Vaš je račun stvoren, ali postavljanje sigurnog ključa na ovom je uređaju neuspjelo. Molimo pokušajte ponovno.",
     "verifyEmailAfterSignup": "Račun je uspješno kreiran. Molimo provjerite svoju e-poštu kako biste potvrdili svoj račun prije prijave.",
-    "sessionExpiredSignInAgain": "Vaša sesija je istekla. Molimo prijavite se ponovno."
+    "sessionExpiredSignInAgain": "Vaša sesija je istekla. Molimo prijavite se ponovno.",
+    "sessionExpired": "Vaša je sesija istekla.",
+    "missingEncryptionKeyOlderMessages": "Ovaj uređaj nema vaš ključ za šifriranje. Obnovite ga kako biste mogli čitati starije šifrirane poruke.",
+    "missingEncryptionKey": "Ovaj uređaj nema vaš ključ za šifriranje. Obnovite ga kako biste mogli čitati šifrirane poruke.",
+    "mismatchedEncryptionKey": "Ovaj uređaj ima drugačiji ključ šifriranja. Obnovite ispravan ključ za pristup vašim porukama.",
+    "forgotPasswordQuestion": "Zaboravili ste lozinku?",
+    "sending": "Pošalji...",
+    "resendVerificationEmail": "Ponovno pošalji e-poštu za provjeru",
+    "emailOrUsername": "E-pošta ili korisničko ime",
+    "loggingIn": "Prijavljivanje...",
+    "verificationEmailSent": "E-pošta za provjeru je poslana. Provjerite svoj ulaz.",
+    "resendVerificationFailed": "Nije uspjelo ponovno poslati e-poštu za provjeru.",
+    "verifyEmailBeforeLogin": "Molimo provjerite svoju e-poštu prije prijave."
   },
   "login": {
     "welcomeBack": "Dobrodošli natrag",
@@ -476,7 +488,8 @@
     "archivedTitle": "Razgovor je arhiviran",
     "archivedMsg": "Razgovor je arhiviran.",
     "archiveFailedTitle": "Nije moguće arhivirati razgovor",
-    "archiveFailedMsg": "Molimo pokušajte ponovno."
+    "archiveFailedMsg": "Molimo pokušajte ponovno.",
+    "groupVideo": "Grupni video"
   },
   "topbar": {
     "newStatus": "Novi status",
@@ -566,7 +579,18 @@
     "roomNumber": "Čavrljanje #%d",
     "missingConversationId": "Fali ID razgovora.",
     "archiveFailed": "Nije uspjelo arhivirati razgovor.",
-    "deleteFailed": "Nije uspjelo izbrisati razgovor."
+    "deleteFailed": "Nije uspjelo izbrisati razgovor.",
+    "sendMessageFailed": "Poruka nije poslana.",
+    "sendImageFailed": "Nije moguće poslati sliku.",
+    "sendVideoFailed": "Nisam mogao poslati video.",
+    "sendAudioFailed": "Nisam mogao poslati audio.",
+    "editMessageFailed": "Nije bilo moguće urediti poruku.",
+    "editFailed": "Uređivanje nije uspjelo:",
+    "deleteMessageFailed": "Nije moguće izbrisati poruku.",
+    "archiveConversationFailed": "Nije moguće arhivirati razgovor.",
+    "deleteConversationFailed": "Nije moguće izbrisati razgovor.",
+    "imageDataEmpty": "Podaci slike su prazni.",
+    "videoDataEmpty": "Videozapisni podaci su prazni."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Ponovno pokretanje šifriranja nije uspješno dovršeno na ovom uređaju."
       },
       "restore": {
-        "localFailure": "Ključna obnova nije uspješno dovršena na ovom uređaju."
-      }
+        "localFailure": "Ključna obnova nije uspješno dovršena na ovom uređaju.",
+        "title": "Obnovi ključ šifriranja",
+        "instructions": "Unesite lozinku za rezervnu kopiju kako biste obnovili ključ šifriranja.",
+        "noBackup": "Nije pronađena daljinska sigurnosna kopija.",
+        "noBackupFirst": "Napravite sigurnosnu kopiju prije pokušaja obnove.",
+        "restoreKey": "Obnovi ključ",
+        "success": "Ključ šifriranja je uspješno vraćen.",
+        "deviceMismatch": "Obnovljeni ključ ne odgovara ovom uređaju.",
+        "correctKeyMissing": "Ovaj uređaj još uvijek nema ispravan ključ za šifriranje."
+      },
+      "checkingBackup": "Provjera sigurnosne kopije...",
+      "backupPassword": "Sigurnosna lozinka"
     },
     "reset": {
       "title": "Resetiranje enkripcije",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Pristup kameri je uskraćen. Omogućite ga u postavkama.",
     "microphoneDenied": "Pristup mikrofona je onemogućen. Omogućite ga u postavkama.",
     "cameraRestricted": "Pristup kameri na ovom je uređaju ograničen.",
-    "microphoneRestricted": "Pristup mikrofona na ovom uređaju je ograničen."
+    "microphoneRestricted": "Pristup mikrofona na ovom uređaju je ograničen.",
+    "noCameraAvailable": "Nema dostupne kamere.",
+    "couldNotCreateCameraSource": "Nije moguće stvoriti izvor kamere."
   },
   "gif": {
     "couldNotLoad": "Nije moguće učitati GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Okreni",
     "speaker": "Govornik",
-    "end": "Kraj"
+    "end": "Kraj",
+    "noIncomingCallToAnswer": "Nema dolaznog poziva za odgovaranje."
   },
   "settings": {
     "startHour": "Početno vrijeme (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Vaša eSIM je spremna za instalaciju.",
     "your_esim_is_active": "Vaša eSIM je aktivna.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Paketi podatkovnog prometa za eSIM zahtijevaju uređaj kompatibilan s eSIM-om i otključan.",
-    "we_couldnt_start_your_esim_activation": "Nismo mogli pokrenuti aktivaciju vaše eSIM kartice."
+    "we_couldnt_start_your_esim_activation": "Nismo mogli pokrenuti aktivaciju vaše eSIM kartice.",
+    "missing_auth_token": "Fali token za autentifikaciju.",
+    "invalid_room_id_client": "Neispravan ID sobe."
   },
   "onboarding": {
     "welcomeSubtitle": "Pošaljite poruku globalno, odmah je prevedite i brzo započnite razgovore.",
@@ -3493,5 +3532,12 @@
     "yi": "Jidiš",
     "yo": "Joruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Otkaži",
+  "startChat": {
+    "fetchResultsFailed": "Nije moguće dohvatiti rezultate. Molimo pokušajte ponovno.",
+    "fetchContactsFailed": "Ne može dohvatiti kontakte.",
+    "contactOpenFailed": "Ovaj kontakt nije moguće otvoriti.",
+    "enterValidPhone": "Unesite važeći broj telefona."
   }
 }

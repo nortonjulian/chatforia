@@ -329,7 +329,19 @@
     "smsConsentRequired": "SMSメッセージに同意するか、電話番号を削除してください。",
     "secureKeySetupFailed": "アカウントは作成されましたが、このデバイスではセキュアキーのセットアップに失敗しました。もう一度お試しください。",
     "verifyEmailAfterSignup": "アカウントが作成されました。ログインする前に、あなたのアカウントを確認するために電子メールを確認してください。",
-    "sessionExpiredSignInAgain": "セッションの有効期限が切れました。もう一度サインインしてください。"
+    "sessionExpiredSignInAgain": "セッションの有効期限が切れました。もう一度サインインしてください。",
+    "sessionExpired": "セッションが終了しました。",
+    "missingEncryptionKeyOlderMessages": "このデバイスには暗号化キーがありません。暗号化された古いメッセージを読むには復元してください。",
+    "missingEncryptionKey": "このデバイスには暗号化キーがありません。暗号化されたメッセージを読むには復元してください。",
+    "mismatchedEncryptionKey": "このデバイスの暗号化キーは異なります。メッセージにアクセスするには、正しいキーを復元してください。",
+    "forgotPasswordQuestion": "パスワードをお忘れですか？",
+    "sending": "送信...",
+    "resendVerificationEmail": "認証メールを再送する",
+    "emailOrUsername": "Eメールまたはユーザー名",
+    "loggingIn": "ログイン...",
+    "verificationEmailSent": "確認メールが送信されました。受信箱を確認してください。",
+    "resendVerificationFailed": "認証メールの再送に失敗しました。",
+    "verifyEmailBeforeLogin": "ログインする前にEメールを確認してください。"
   },
   "login": {
     "welcomeBack": "お帰りなさい",
@@ -476,7 +488,8 @@
     "archivedTitle": "会話をアーカイブしました",
     "archivedMsg": "会話がアーカイブされました。",
     "archiveFailedTitle": "会話をアーカイブできませんでした",
-    "archiveFailedMsg": "もう一度お試しください。"
+    "archiveFailedMsg": "もう一度お試しください。",
+    "groupVideo": "グループビデオ"
   },
   "topbar": {
     "newStatus": "新しいステータス",
@@ -566,7 +579,18 @@
     "roomNumber": "チャット #%d",
     "missingConversationId": "会話IDが見つからない。",
     "archiveFailed": "会話のアーカイブに失敗しました。",
-    "deleteFailed": "会話の削除に失敗しました。"
+    "deleteFailed": "会話の削除に失敗しました。",
+    "sendMessageFailed": "メッセージを送信できませんでした。",
+    "sendImageFailed": "画像を送信できませんでした。",
+    "sendVideoFailed": "ビデオを送信できませんでした。",
+    "sendAudioFailed": "音声を送信できませんでした。",
+    "editMessageFailed": "メッセージを編集できませんでした。",
+    "editFailed": "編集に失敗した：",
+    "deleteMessageFailed": "メッセージを削除できませんでした。",
+    "archiveConversationFailed": "会話をアーカイブすることができなかった。",
+    "deleteConversationFailed": "会話を削除できませんでした。",
+    "imageDataEmpty": "画像データは空です。",
+    "videoDataEmpty": "ビデオデータは空です。"
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "このデバイスで暗号化リセットが正しく完了しませんでした。"
       },
       "restore": {
-        "localFailure": "このデバイスでキーの復元が正しく完了しませんでした。"
-      }
+        "localFailure": "このデバイスでキーの復元が正しく完了しませんでした。",
+        "title": "暗号化キーの復元",
+        "instructions": "暗号化キーを復元するには、バックアップパスワードを入力します。",
+        "noBackup": "リモートバックアップが見つかりませんでした。",
+        "noBackupFirst": "復元を試みる前にバックアップを作成してください。",
+        "restoreKey": "復元キー",
+        "success": "暗号鍵の復元に成功。",
+        "deviceMismatch": "復元されたキーがこのデバイスと一致しない。",
+        "correctKeyMissing": "このデバイスにはまだ正しい暗号化キーがない。"
+      },
+      "checkingBackup": "バックアップのチェック...",
+      "backupPassword": "バックアップパスワード"
     },
     "reset": {
       "title": "暗号化リセット",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "カメラへのアクセスが拒否されています。設定で有効にしてください。",
     "microphoneDenied": "マイクへのアクセスが拒否されています。設定で有効にしてください。",
     "cameraRestricted": "このデバイスではカメラへのアクセスが制限されています。",
-    "microphoneRestricted": "このデバイスでは、マイクへのアクセスが制限されています。"
+    "microphoneRestricted": "このデバイスでは、マイクへのアクセスが制限されています。",
+    "noCameraAvailable": "カメラはない。",
+    "couldNotCreateCameraSource": "カメラソースを作成できませんでした。"
   },
   "gif": {
     "couldNotLoad": "GIFをロードできませんでした",
@@ -2981,7 +3017,8 @@
     "camera": "カメラ",
     "flip": "フリップ",
     "speaker": "スピーカー",
-    "end": "終了"
+    "end": "終了",
+    "noIncomingCallToAnswer": "応答すべき着信がない。"
   },
   "settings": {
     "startHour": "開始時間 (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIMのインストールは完了です。",
     "your_esim_is_active": "eSIMはアクティブです。",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIMデータパックを利用するには、eSIMに対応し、ロック解除された端末が必要です。",
-    "we_couldnt_start_your_esim_activation": "eSIMのアクティベーションを開始できませんでした。"
+    "we_couldnt_start_your_esim_activation": "eSIMのアクティベーションを開始できませんでした。",
+    "missing_auth_token": "認証トークンがありません。",
+    "invalid_room_id_client": "無効なルームIDです。"
   },
   "onboarding": {
     "welcomeSubtitle": "グローバルなメッセージ、瞬時の翻訳、迅速な会話の開始。",
@@ -3493,5 +3532,12 @@
     "yi": "イディッシュ語",
     "yo": "ヨルバ",
     "zu": "ズールー"
+  },
+  "button_cancel": "キャンセル",
+  "startChat": {
+    "fetchResultsFailed": "結果を取得できません。再試行してください。",
+    "fetchContactsFailed": "連絡先を取得できません。",
+    "contactOpenFailed": "このコンタクトは開けなかった。",
+    "enterValidPhone": "有効な電話番号を入力してください。"
   }
 }

@@ -329,7 +329,19 @@
     "smsConsentRequired": "Ju lutemi pranoni mesazhet SMS ose hiqni numrin e telefonit.",
     "secureKeySetupFailed": "Llogaria juaj u krijua, por konfigurimi i çelësit të sigurt dështoi në këtë pajisje. Ju lutemi provoni përsëri.",
     "verifyEmailAfterSignup": "Llogaria është krijuar. Ju lutemi kontrolloni emailin tuaj për të verifikuar llogarinë para se të hyni.",
-    "sessionExpiredSignInAgain": "Seanca juaj ka skaduar. Ju lutemi, identifikoheni përsëri."
+    "sessionExpiredSignInAgain": "Seanca juaj ka skaduar. Ju lutemi, identifikoheni përsëri.",
+    "sessionExpired": "Seanca juaj ka skaduar.",
+    "missingEncryptionKeyOlderMessages": "Kjo pajisje i mungon çelësi juaj i enkriptimit. Rikthejeni atë për të lexuar mesazhet e mëparshme të enkriptuara.",
+    "missingEncryptionKey": "Këtij pajisjeji i mungon çelësi juaj i enkriptimit. Rikthejeni atë për të lexuar mesazhet e enkriptuara.",
+    "mismatchedEncryptionKey": "Ky pajisje ka një çelës enkriptimi të ndryshëm. Rikthe çelësin e saktë për të hyrë në mesazhet tuaja.",
+    "forgotPasswordQuestion": "Harruat fjalëkalimin?",
+    "sending": "Dërgim...",
+    "resendVerificationEmail": "Riqarko emailin e verifikimit",
+    "emailOrUsername": "Email ose emri i përdoruesit",
+    "loggingIn": "Po hyj...",
+    "verificationEmailSent": "Emaili i verifikimit është dërguar. Kontrolloni kutinë tuaj të postës elektronike.",
+    "resendVerificationFailed": "Dështoi të dërgojë përsëri emailin e verifikimit.",
+    "verifyEmailBeforeLogin": "Ju lutemi verifikoni emailin tuaj para se të hyni."
   },
   "login": {
     "welcomeBack": "Mirësevini përsëri",
@@ -476,7 +488,8 @@
     "archivedTitle": "Biseda e arkivuar",
     "archivedMsg": "Biseda u arkivua.",
     "archiveFailedTitle": "Nuk mund të arkivohet biseda",
-    "archiveFailedMsg": "Ju lutem provoni përsëri."
+    "archiveFailedMsg": "Ju lutem provoni përsëri.",
+    "groupVideo": "Video e grupit"
   },
   "topbar": {
     "newStatus": "Statusi i ri",
@@ -566,7 +579,18 @@
     "roomNumber": "Bisedë #%d",
     "missingConversationId": "ID e munguar e bisedës.",
     "archiveFailed": "Dështoi të arkivojë bisedën.",
-    "deleteFailed": "Dështoi të fshihej biseda."
+    "deleteFailed": "Dështoi të fshihej biseda.",
+    "sendMessageFailed": "Nuk mund të dërgohej mesazhi.",
+    "sendImageFailed": "Nuk mund të dërgohej imazhi.",
+    "sendVideoFailed": "Nuk mund të dërgohej videoja.",
+    "sendAudioFailed": "Nuk mund të dërgonte audio.",
+    "editMessageFailed": "Nuk mund të redaktohej mesazhi.",
+    "editFailed": "Redaktimi dështoi:",
+    "deleteMessageFailed": "Nuk mund të fshihej mesazhi.",
+    "archiveConversationFailed": "Nuk mund të arkivohej biseda.",
+    "deleteConversationFailed": "Nuk mund të fshihej biseda.",
+    "imageDataEmpty": "Të dhënat e imazhit janë bosh.",
+    "videoDataEmpty": "Të dhënat e videos janë bosh."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Rinisja e enkriptimit nuk u përfundua si duhet në këtë pajisje."
       },
       "restore": {
-        "localFailure": "Rikthimi i çelësit nuk u përfundua si duhet në këtë pajisje."
-      }
+        "localFailure": "Rikthimi i çelësit nuk u përfundua si duhet në këtë pajisje.",
+        "title": "Rikthe çelësin e enkriptimit",
+        "instructions": "Futni fjalëkalimin e rezervës për të rikthyer çelësin tuaj të enkriptimit.",
+        "noBackup": "Nuk u gjet asnjë kopje rezervë e largët.",
+        "noBackupFirst": "Krijoni një kopje rezervë para se të përpiqeni restaurimin.",
+        "restoreKey": "Rikthe çelësin",
+        "success": "Çelësi i enkriptimit u rikthye me sukses.",
+        "deviceMismatch": "Çelësi i rikthyer nuk përputhet me këtë pajisje.",
+        "correctKeyMissing": "Ky pajisje ende nuk ka çelësin e duhur të enkriptimit."
+      },
+      "checkingBackup": "Kontrollim i kopjes rezervë...",
+      "backupPassword": "Fjalëkalimi rezervë"
     },
     "reset": {
       "title": "Rinis enkriptimin",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Qasja në kamerë është refuzuar. Aktivizojeni në Cilësimet.",
     "microphoneDenied": "Qasja në mikrofon është refuzuar. Aktivizojeni në Cilësimet.",
     "cameraRestricted": "Qasja në kamerë është e kufizuar në këtë pajisje.",
-    "microphoneRestricted": "Qasja në mikrofon është e kufizuar në këtë pajisje."
+    "microphoneRestricted": "Qasja në mikrofon është e kufizuar në këtë pajisje.",
+    "noCameraAvailable": "Nuk ka kamerë të disponueshme.",
+    "couldNotCreateCameraSource": "Nuk mund të krijohet burimi i kamerës."
   },
   "gif": {
     "couldNotLoad": "Nuk u ngarkua GIF-i",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Kthe përmbys",
     "speaker": "Folës",
-    "end": "Fund"
+    "end": "Fund",
+    "noIncomingCallToAnswer": "Nuk ka thirrje hyrëse për t'u përgjigjur."
   },
   "settings": {
     "startHour": "Ora e fillimit (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM-i juaj është gati për t'u instaluar.",
     "your_esim_is_active": "eSIM-i juaj është aktiv.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Paketat e të dhënave eSIM kërkojnë një pajisje të pajtueshme me eSIM dhe të ç'kyçur.",
-    "we_couldnt_start_your_esim_activation": "Ne nuk mundëm të fillonim aktivizimin e eSIM-it tuaj."
+    "we_couldnt_start_your_esim_activation": "Ne nuk mundëm të fillonim aktivizimin e eSIM-it tuaj.",
+    "missing_auth_token": "Mungon tokeni i autentifikimit.",
+    "invalid_room_id_client": "ID e dhomës e pavlefshme."
   },
   "onboarding": {
     "welcomeSubtitle": "Dërgo mesazhe në mbarë botën, përkthe menjëherë dhe fillo biseda shpejt.",
@@ -3493,5 +3532,12 @@
     "yi": "Jidish",
     "yo": "Joruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Shfuqizo",
+  "startChat": {
+    "fetchResultsFailed": "Nuk mund të merren rezultatet. Ju lutemi provoni përsëri.",
+    "fetchContactsFailed": "Nuk mund të merren kontaktet.",
+    "contactOpenFailed": "Ky kontakt nuk mund të hapej.",
+    "enterValidPhone": "Futni një numër telefoni të vlefshëm."
   }
 }

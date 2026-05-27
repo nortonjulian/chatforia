@@ -329,7 +329,19 @@
     "smsConsentRequired": "Si prega di acconsentire ai messaggi SMS o di rimuovere il numero di telefono.",
     "secureKeySetupFailed": "L'account è stato creato, ma l'impostazione della chiave sicura non è riuscita su questo dispositivo. Riprovare.",
     "verifyEmailAfterSignup": "Account creato. Controllare l'e-mail per verificare l'account prima di accedere.",
-    "sessionExpiredSignInAgain": "La sessione è scaduta. Effettuare nuovamente l'accesso."
+    "sessionExpiredSignInAgain": "La sessione è scaduta. Effettuare nuovamente l'accesso.",
+    "sessionExpired": "La sessione è scaduta.",
+    "missingEncryptionKeyOlderMessages": "In questo dispositivo manca la chiave di crittografia. Ripristinatela per leggere i messaggi criptati più vecchi.",
+    "missingEncryptionKey": "In questo dispositivo manca la chiave di crittografia. Ripristinarla per leggere i messaggi crittografati.",
+    "mismatchedEncryptionKey": "Questo dispositivo ha una chiave di crittografia diversa. Ripristinare la chiave corretta per accedere ai messaggi.",
+    "forgotPasswordQuestion": "Hai dimenticato la password?",
+    "sending": "Invio...",
+    "resendVerificationEmail": "Reinvio dell'e-mail di verifica",
+    "emailOrUsername": "Email o nome utente",
+    "loggingIn": "Accesso...",
+    "verificationEmailSent": "È stata inviata un'e-mail di verifica. Controllare la posta in arrivo.",
+    "resendVerificationFailed": "Impossibile inviare nuovamente l'e-mail di verifica.",
+    "verifyEmailBeforeLogin": "Verificare l'e-mail prima di effettuare l'accesso."
   },
   "login": {
     "welcomeBack": "Bentornato",
@@ -476,7 +488,8 @@
     "archivedTitle": "Conversazione archiviata",
     "archivedMsg": "La conversazione è stata archiviata.",
     "archiveFailedTitle": "Impossibile archiviare la conversazione",
-    "archiveFailedMsg": "Si prega di riprovare."
+    "archiveFailedMsg": "Si prega di riprovare.",
+    "groupVideo": "Video di gruppo"
   },
   "topbar": {
     "newStatus": "Nuovo stato",
@@ -566,7 +579,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Manca l'id della conversazione.",
     "archiveFailed": "Impossibile archiviare la conversazione.",
-    "deleteFailed": "Non è stato possibile eliminare la conversazione."
+    "deleteFailed": "Non è stato possibile eliminare la conversazione.",
+    "sendMessageFailed": "Impossibile inviare il messaggio.",
+    "sendImageFailed": "Impossibile inviare l'immagine.",
+    "sendVideoFailed": "Non è stato possibile inviare il video.",
+    "sendAudioFailed": "Impossibile inviare l'audio.",
+    "editMessageFailed": "Impossibile modificare il messaggio.",
+    "editFailed": "Modifica fallita:",
+    "deleteMessageFailed": "Impossibile cancellare il messaggio.",
+    "archiveConversationFailed": "Non è stato possibile archiviare la conversazione.",
+    "deleteConversationFailed": "Non è stato possibile cancellare la conversazione.",
+    "imageDataEmpty": "I dati dell'immagine sono vuoti.",
+    "videoDataEmpty": "I dati video sono vuoti."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Il ripristino della crittografia non è stato completato correttamente su questo dispositivo."
       },
       "restore": {
-        "localFailure": "Il ripristino della chiave non è stato completato correttamente su questo dispositivo."
-      }
+        "localFailure": "Il ripristino della chiave non è stato completato correttamente su questo dispositivo.",
+        "title": "Ripristino della chiave di crittografia",
+        "instructions": "Inserire la password di backup per ripristinare la chiave di crittografia.",
+        "noBackup": "Non è stato trovato alcun backup remoto.",
+        "noBackupFirst": "Creare un backup prima di tentare il ripristino.",
+        "restoreKey": "Ripristino della chiave",
+        "success": "La chiave di crittografia è stata ripristinata con successo.",
+        "deviceMismatch": "La chiave ripristinata non corrisponde a questo dispositivo.",
+        "correctKeyMissing": "Questo dispositivo non dispone ancora della chiave di crittografia corretta."
+      },
+      "checkingBackup": "Controllo del backup...",
+      "backupPassword": "Password di backup"
     },
     "reset": {
       "title": "Ripristino della crittografia",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "L'accesso alla telecamera è negato. Abilitarlo in Impostazioni.",
     "microphoneDenied": "L'accesso al microfono è negato. Abilitarlo nelle Impostazioni.",
     "cameraRestricted": "L'accesso alla fotocamera è limitato su questo dispositivo.",
-    "microphoneRestricted": "L'accesso al microfono è limitato su questo dispositivo."
+    "microphoneRestricted": "L'accesso al microfono è limitato su questo dispositivo.",
+    "noCameraAvailable": "Nessuna telecamera disponibile.",
+    "couldNotCreateCameraSource": "Impossibile creare la sorgente della telecamera."
   },
   "gif": {
     "couldNotLoad": "Impossibile caricare la GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Macchina fotografica",
     "flip": "Capovolgere",
     "speaker": "Altoparlante",
-    "end": "Fine"
+    "end": "Fine",
+    "noIncomingCallToAnswer": "Nessuna chiamata in arrivo a cui rispondere."
   },
   "settings": {
     "startHour": "Ora di inizio (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "La eSIM è pronta per essere installata.",
     "your_esim_is_active": "La eSIM è attiva.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "I pacchetti dati eSIM richiedono un dispositivo compatibile con eSIM e sbloccato.",
-    "we_couldnt_start_your_esim_activation": "Non è stato possibile avviare l'attivazione della eSIM."
+    "we_couldnt_start_your_esim_activation": "Non è stato possibile avviare l'attivazione della eSIM.",
+    "missing_auth_token": "Manca il token di autenticazione.",
+    "invalid_room_id_client": "ID camera non valido."
   },
   "onboarding": {
     "welcomeSubtitle": "Messaggi a livello globale, traduzioni istantanee e conversazioni rapide.",
@@ -3493,5 +3532,12 @@
     "yi": "Yiddish",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Annullamento",
+  "startChat": {
+    "fetchResultsFailed": "Impossibile recuperare i risultati. Riprovare.",
+    "fetchContactsFailed": "Impossibile recuperare i contatti.",
+    "contactOpenFailed": "Non è stato possibile aprire questo contatto.",
+    "enterValidPhone": "Inserire un numero di telefono valido."
   }
 }

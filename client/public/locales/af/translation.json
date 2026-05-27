@@ -348,7 +348,19 @@
     "smsConsentRequired": "Gee asseblief toestemming vir SMS-boodskappe of verwyder die telefoonnommer.",
     "secureKeySetupFailed": "Jou rekening is geskep, maar die veilige sleutelopstelling het op hierdie toestel misluk. Probeer asseblief weer.",
     "verifyEmailAfterSignup": "Rekening geskep. Kyk asseblief na jou e-pos om jou rekening te verifieer voordat jy aanmeld.",
-    "sessionExpiredSignInAgain": "Jou sessie het verval. Meld asseblief weer aan."
+    "sessionExpiredSignInAgain": "Jou sessie het verval. Meld asseblief weer aan.",
+    "sessionExpired": "Jou sessie het verval.",
+    "missingEncryptionKeyOlderMessages": "Hierdie toestel ontbreek jou enkripsiesleutel. Herstel dit om ouer versleutelde boodskappe te lees.",
+    "missingEncryptionKey": "Hierdie toestel ontbreek jou enkripsiesleutel. Herstel dit om versleutelde boodskappe te lees.",
+    "mismatchedEncryptionKey": "Hierdie toestel het 'n ander enkripsiesleutel. Herstel die korrekte sleutel om toegang tot jou boodskappe te kry.",
+    "forgotPasswordQuestion": "Het jy jou wagwoord vergeet?",
+    "sending": "Stuur...",
+    "resendVerificationEmail": "Stuur die verifikasie-e-pos weer",
+    "emailOrUsername": "E-pos of gebruikersnaam",
+    "loggingIn": "Aanmelding...",
+    "verificationEmailSent": "Verifikasie-e-pos gestuur. Kyk jou inkassie.",
+    "resendVerificationFailed": "Misluk om die verifikasie-e-pos weer te stuur.",
+    "verifyEmailBeforeLogin": "Verifieer asseblief jou e-pos voordat jy aanmeld."
   },
   "login": {
     "welcomeBack": "Welkom terug",
@@ -495,7 +507,8 @@
     "archivedTitle": "Konn nie die gesprek geargiveer nie",
     "archivedMsg": "Probeer asseblief weer.iOS / App Store",
     "archiveFailedTitle": "Android / Google Play",
-    "archiveFailedMsg": "iOS / App Store"
+    "archiveFailedMsg": "iOS / App Store",
+    "groupVideo": "Groepsvideo"
   },
   "topbar": {
     "newStatus": "Nuwe Status",
@@ -585,7 +598,18 @@
     "roomNumber": "Klets #%d",
     "missingConversationId": "Ontbrekende gesprek-ID.",
     "archiveFailed": "Kon nie die gesprek argiveer nie.",
-    "deleteFailed": "Kon nie die gesprek uitvee nie."
+    "deleteFailed": "Kon nie die gesprek uitvee nie.",
+    "sendMessageFailed": "Konn nie boodskap stuur nie.",
+    "sendImageFailed": "Konn nie die beeld stuur nie.",
+    "sendVideoFailed": "Konn nie video stuur nie.",
+    "sendAudioFailed": "Konn nie klank stuur nie.",
+    "editMessageFailed": "Konn nie boodskap wysig nie.",
+    "editFailed": "Wysiging misluk:",
+    "deleteMessageFailed": "Kon nie die boodskap uitvee nie.",
+    "archiveConversationFailed": "Kon nie die gesprek argiveer nie.",
+    "deleteConversationFailed": "Kon nie die gesprek uitvee nie.",
+    "imageDataEmpty": "Beelddata is leeg.",
+    "videoDataEmpty": "Video-data is leeg."
   },
   "messageInput": {
     "ttl": {
@@ -2859,8 +2883,18 @@
         "localFailure": "Enkripsie-terugstel is nie korrek op hierdie toestel voltooi nie."
       },
       "restore": {
-        "localFailure": "Key restore is nie korrek op hierdie toestel voltooi nie."
-      }
+        "localFailure": "Key restore is nie korrek op hierdie toestel voltooi nie.",
+        "title": "Herstel enkripsiesleutel",
+        "instructions": "Voer jou rugsteunwagwoord in om jou enkripsiesleutel te herstel.",
+        "noBackup": "Geen afgeleë rugsteun is gevind nie.",
+        "noBackupFirst": "Maak 'n rugsteun voordat jy probeer herstel.",
+        "restoreKey": "Herstel Sleutel",
+        "success": "Enkripsiesleutel suksesvol herstel.",
+        "deviceMismatch": "Die herstelde sleutel stem nie ooreen met hierdie toestel nie.",
+        "correctKeyMissing": "Hierdie toestel het nog steeds nie die korrekte enkripsiesleutel nie."
+      },
+      "checkingBackup": "Gaan na rugsteun...",
+      "backupPassword": "Rugsteunwagwoord"
     },
     "reset": {
       "title": "Stel versleuteling terug",
@@ -2923,7 +2957,9 @@
     "cameraDenied": "Kamera-toegang is geweier. Skakel dit in Instellings.",
     "microphoneDenied": "Mikrofoontoegang is geweier. Skakel dit in Instellings.",
     "cameraRestricted": "Kamera-toegang is op hierdie toestel beperk.",
-    "microphoneRestricted": "Mikrofoontoegang is op hierdie toestel beperk."
+    "microphoneRestricted": "Mikrofoontoegang is op hierdie toestel beperk.",
+    "noCameraAvailable": "Geen kamera beskikbaar nie.",
+    "couldNotCreateCameraSource": "Kamera-bron kon nie geskep word nie."
   },
   "gif": {
     "couldNotLoad": "Daar is nog geen media plaaslik gekas nie.",
@@ -3068,7 +3104,8 @@
     "camera": "Kamera",
     "flip": "Omkeer",
     "speaker": "Spreker",
-    "end": "Einde"
+    "end": "Einde",
+    "noIncomingCallToAnswer": "Geen inkomende oproep om te beantwoord nie."
   },
   "settings": {
     "startHour": "Beginuur (0–23)",
@@ -3402,7 +3439,9 @@
     "your_esim_is_ready_to_install": "Jou eSIM is gereed om te installeer.",
     "your_esim_is_active": "Jou eSIM is aktief.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM-datapakette vereis 'n eSIM-kompatibele en ontslote toestel.",
-    "we_couldnt_start_your_esim_activation": "Ons kon jou eSIM-aktivering nie begin nie."
+    "we_couldnt_start_your_esim_activation": "Ons kon jou eSIM-aktivering nie begin nie.",
+    "missing_auth_token": "Ontbrekende verifikasietoken.",
+    "invalid_room_id_client": "Ongeldige kamer-ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Stuur boodskappe wêreldwyd, vertaal onmiddellik en begin vinnig gesprekke.",
@@ -3599,5 +3638,12 @@
     "yi": "Jiddisj",
     "yo": "Joruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Kanselleer",
+  "startChat": {
+    "fetchResultsFailed": "Onmoontlik om resultate op te haal. Probeer asseblief weer.",
+    "fetchContactsFailed": "Kan nie kontakte ophaal nie.",
+    "contactOpenFailed": "Hierdie kontak kon nie geopen word nie.",
+    "enterValidPhone": "Voer 'n geldige telefoonnommer in."
   }
 }

@@ -329,7 +329,19 @@
     "smsConsentRequired": "Mesedez, onartu SMS mezuak jasotzea edo kendu telefono zenbakia.",
     "secureKeySetupFailed": "Zure kontua sortu da, baina gako seguruaren konfigurazioa gailu honetan huts egin du. Mesedez, saiatu berriro.",
     "verifyEmailAfterSignup": "Kontua sortu da. Mesedez, egiaztatu zure posta elektronikoa kontua berresteko saioa hasi aurretik.",
-    "sessionExpiredSignInAgain": "Zure saioa iraungi da. Mesedez, saioa berriro hasi."
+    "sessionExpiredSignInAgain": "Zure saioa iraungi da. Mesedez, saioa berriro hasi.",
+    "sessionExpired": "Zure saioa iraungi da.",
+    "missingEncryptionKeyOlderMessages": "Gailu honek zure enkriptazio-gakoa falta du. Berreskuratu mezulu zaharrago enkriptatuak irakurtzeko.",
+    "missingEncryptionKey": "Gailu honek zure enkriptazio-gakoa falta du. Berreskuratu mezu enkriptatuak irakurtzeko.",
+    "mismatchedEncryptionKey": "Gailu honek enkriptazio-gako desberdina du. Berreskuratu gako egokia zure mezuetara sartzeko.",
+    "forgotPasswordQuestion": "Pasahitza ahaztu al duzu?",
+    "sending": "Bidaltzen...",
+    "resendVerificationEmail": "Bidali berriro egiaztapen posta elektronikoa",
+    "emailOrUsername": "Posta elektronikoa edo erabiltzaile-izena",
+    "loggingIn": "Sartzen...",
+    "verificationEmailSent": "Egiaztapen-mezu elektronikoa bidali da. Begiratu zure sarrera-postara.",
+    "resendVerificationFailed": "Ezin izan da berriro bidali egiaztapen posta elektronikoa.",
+    "verifyEmailBeforeLogin": "Mesedez, saioa hasi aurretik egiaztatu zure posta elektronikoa."
   },
   "login": {
     "welcomeBack": "Ongi etorri berriro",
@@ -476,7 +488,8 @@
     "archivedTitle": "Elkarrizketa artxibatu da",
     "archivedMsg": "Elkarrizketa artxibatu zuten.",
     "archiveFailedTitle": "Ezin izan da elkarrizketa artxibatu",
-    "archiveFailedMsg": "Mesedez, saiatu berriro."
+    "archiveFailedMsg": "Mesedez, saiatu berriro.",
+    "groupVideo": "Taldeko bideoa"
   },
   "topbar": {
     "newStatus": "Egoera berria",
@@ -566,7 +579,18 @@
     "roomNumber": "Txat #%d",
     "missingConversationId": "Hitzaldiaren ID falta da.",
     "archiveFailed": "Hitzaldia artxibatzeko huts egin da.",
-    "deleteFailed": "Hitzaldia ezabatzeko saiakera huts egin du."
+    "deleteFailed": "Hitzaldia ezabatzeko saiakera huts egin du.",
+    "sendMessageFailed": "Mezu bidali ezin izan da.",
+    "sendImageFailed": "Irudia bidali ezin izan zen.",
+    "sendVideoFailed": "Bideoa bidali ezin izan nuen.",
+    "sendAudioFailed": "Ezin izan zen audioa bidali.",
+    "editMessageFailed": "Ezin izan nuen mezua editatu.",
+    "editFailed": "Aldaketa huts egin du:",
+    "deleteMessageFailed": "Ezin izan da mezua ezabatu.",
+    "archiveConversationFailed": "Ezin izan da elkarrizketa artxibatu.",
+    "deleteConversationFailed": "Ezin izan nuen elkarrizketa ezabatu.",
+    "imageDataEmpty": "Irudi-datuak hutsik daude.",
+    "videoDataEmpty": "Bideo-datuak hutsik daude."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Zifratzea berrezartzea ez zen gailu honetan behar bezala osatu."
       },
       "restore": {
-        "localFailure": "Gailu honetan Key Restore ez da behar bezala amaitu."
-      }
+        "localFailure": "Gailu honetan Key Restore ez da behar bezala amaitu.",
+        "title": "Zifratze-gakoa berreskuratu",
+        "instructions": "Sartu zure babeskopia-pasahitza zure enkriptazio-gakoa berreskuratzeko.",
+        "noBackup": "Ez da urruneko babeskopiarik aurkitu.",
+        "noBackupFirst": "Berreskurapena saiatu aurretik, egin babeskopia bat.",
+        "restoreKey": "Berreskuratu gakoa",
+        "success": "Zifratze-gakoa arrakastaz berreskuratu da.",
+        "deviceMismatch": "Berreskuratutako giltzak ez du gailu honekin bat egiten.",
+        "correctKeyMissing": "Gailu honek oraindik ez du zifratze-gako egokia."
+      },
+      "checkingBackup": "Backup egiaztatzen...",
+      "backupPassword": "Erreserba-pasahitza"
     },
     "reset": {
       "title": "Zifratzea berrezarri",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Kamerarako sarbidea ukatu da. Ezarpenetan aktibatu.",
     "microphoneDenied": "Mikrofonora sarbidea ukatu da. Ezarri ezarpenetan.",
     "cameraRestricted": "Gailu honetan kamerarako sarbidea mugatuta dago.",
-    "microphoneRestricted": "Gailu honetan mikrofonoaren sarbidea mugatuta dago."
+    "microphoneRestricted": "Gailu honetan mikrofonoaren sarbidea mugatuta dago.",
+    "noCameraAvailable": "Ez dago kamerarik erabilgarri.",
+    "couldNotCreateCameraSource": "Kameraren iturria ezin izan da sortu."
   },
   "gif": {
     "couldNotLoad": "GIF-a ezin izan da kargatu",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Alderantz",
     "speaker": "Hizlaria",
-    "end": "Amaiera"
+    "end": "Amaiera",
+    "noIncomingCallToAnswer": "Erantzuteko deirik ez dator."
   },
   "settings": {
     "startHour": "Hasiera-ordua (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Zure eSIMa instalatzeko prest dago.",
     "your_esim_is_active": "Zure eSIMa aktiboa da.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM datu-paketeek eSIMarekin bateragarria eta desblokeatutako gailu bat behar dute.",
-    "we_couldnt_start_your_esim_activation": "Zure eSIM aktibazioa ezin izan genuen hasi."
+    "we_couldnt_start_your_esim_activation": "Zure eSIM aktibazioa ezin izan genuen hasi.",
+    "missing_auth_token": "Egiaztapen-tokena falta da.",
+    "invalid_room_id_client": "Gela ID baliogabea."
   },
   "onboarding": {
     "welcomeSubtitle": "Mezuak mundu osoan zabaldu, berehala itzuli eta elkarrizketak azkar hasi.",
@@ -3493,5 +3532,12 @@
     "yi": "Yidi",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Ezeztatu",
+  "startChat": {
+    "fetchResultsFailed": "Emaitzak ezin izan dira eskuratu. Mesedez, saiatu berriro.",
+    "fetchContactsFailed": "Ezin dira kontaktuak eskuratu.",
+    "contactOpenFailed": "Harreman hau ezin izan da ireki.",
+    "enterValidPhone": "Sartu telefono-zenbaki baliozkoa."
   }
 }

@@ -329,7 +329,19 @@
     "smsConsentRequired": "Vänligen godkänn SMS eller ta bort telefonnumret.",
     "secureKeySetupFailed": "Ditt konto har skapats, men konfigurationen av den säkra nyckeln misslyckades på den här enheten. Vänligen försök igen.",
     "verifyEmailAfterSignup": "Konto har skapats. Kontrollera din e-post för att verifiera ditt konto innan du loggar in.",
-    "sessionExpiredSignInAgain": "Din session har löpt ut. Vänligen logga in igen."
+    "sessionExpiredSignInAgain": "Din session har löpt ut. Vänligen logga in igen.",
+    "sessionExpired": "Din session har löpt ut.",
+    "missingEncryptionKeyOlderMessages": "Den här enheten saknar din krypteringsnyckel. Återställ den för att läsa äldre krypterade meddelanden.",
+    "missingEncryptionKey": "Den här enheten saknar din krypteringsnyckel. Återställ den för att läsa krypterade meddelanden.",
+    "mismatchedEncryptionKey": "Den här enheten har en annan krypteringsnyckel. Återställ den korrekta nyckeln för att komma åt dina meddelanden.",
+    "forgotPasswordQuestion": "Har du glömt lösenordet?",
+    "sending": "Skickar...",
+    "resendVerificationEmail": "Skicka ett nytt verifieringsmeddelande",
+    "emailOrUsername": "E-post eller användarnamn",
+    "loggingIn": "Loggar in...",
+    "verificationEmailSent": "Verifieringsmejl skickat. Kontrollera din inkorg.",
+    "resendVerificationFailed": "Misslyckades med att skicka ett nytt verifieringsmeddelande.",
+    "verifyEmailBeforeLogin": "Vänligen verifiera din e-postadress innan du loggar in."
   },
   "login": {
     "welcomeBack": "Välkommen tillbaka",
@@ -476,7 +488,8 @@
     "archivedTitle": "Konversation arkiverad",
     "archivedMsg": "Samtalet arkiverades.",
     "archiveFailedTitle": "Kunde inte arkivera konversationen",
-    "archiveFailedMsg": "Vänligen försök igen."
+    "archiveFailedMsg": "Vänligen försök igen.",
+    "groupVideo": "Gruppvideo"
   },
   "topbar": {
     "newStatus": "Ny status",
@@ -566,7 +579,18 @@
     "roomNumber": "Chatt #%d",
     "missingConversationId": "Saknar konversations-ID.",
     "archiveFailed": "Misslyckades med att arkivera konversationen.",
-    "deleteFailed": "Misslyckades med att ta bort konversationen."
+    "deleteFailed": "Misslyckades med att ta bort konversationen.",
+    "sendMessageFailed": "Det gick inte att skicka ett meddelande.",
+    "sendImageFailed": "Det gick inte att skicka bilden.",
+    "sendVideoFailed": "Det gick inte att skicka video.",
+    "sendAudioFailed": "Det gick inte att skicka ljud.",
+    "editMessageFailed": "Det gick inte att redigera meddelandet.",
+    "editFailed": "Redigeringen misslyckades:",
+    "deleteMessageFailed": "Det gick inte att radera meddelandet.",
+    "archiveConversationFailed": "Kunde inte arkivera konversationen.",
+    "deleteConversationFailed": "Jag kunde inte radera konversationen.",
+    "imageDataEmpty": "Bilddata är tom.",
+    "videoDataEmpty": "Videodata är tomma."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Återställningen av krypteringen slutfördes inte korrekt på den här enheten."
       },
       "restore": {
-        "localFailure": "Nyckelåterställningen slutfördes inte korrekt på den här enheten."
-      }
+        "localFailure": "Nyckelåterställningen slutfördes inte korrekt på den här enheten.",
+        "title": "Återställ krypteringsnyckel",
+        "instructions": "Ange ditt lösenord för säkerhetskopiering för att återställa din krypteringsnyckel.",
+        "noBackup": "Ingen fjärrbackup hittades.",
+        "noBackupFirst": "Skapa en säkerhetskopia innan du försöker återställa.",
+        "restoreKey": "Återställ nyckel",
+        "success": "Krypteringsnyckeln har återställts framgångsrikt.",
+        "deviceMismatch": "Den återställda nyckeln matchar inte den här enheten.",
+        "correctKeyMissing": "Den här enheten har fortfarande inte rätt krypteringsnyckel."
+      },
+      "checkingBackup": "Kontrollerar för backup...",
+      "backupPassword": "Lösenord för säkerhetskopiering"
     },
     "reset": {
       "title": "Återställ kryptering",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Kameraåtkomst nekas. Aktivera det i Inställningar.",
     "microphoneDenied": "Mikrofonen är nekad åtkomst. Aktivera det i Inställningar.",
     "cameraRestricted": "Kameraåtkomst är begränsad på den här enheten.",
-    "microphoneRestricted": "Mikrofonåtkomst är begränsad på den här enheten."
+    "microphoneRestricted": "Mikrofonåtkomst är begränsad på den här enheten.",
+    "noCameraAvailable": "Ingen kamera tillgänglig.",
+    "couldNotCreateCameraSource": "Det gick inte att skapa en kamerakälla."
   },
   "gif": {
     "couldNotLoad": "Det gick inte att ladda GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Vändning",
     "speaker": "Högtalare",
-    "end": "Slut"
+    "end": "Slut",
+    "noIncomingCallToAnswer": "Inget inkommande samtal att besvara."
   },
   "settings": {
     "startHour": "Starttimme (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Din eSIM är klar att installeras.",
     "your_esim_is_active": "Din eSIM är aktiv.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM-datapaket kräver en eSIM-kompatibel och upplåst enhet.",
-    "we_couldnt_start_your_esim_activation": "Vi kunde inte starta din eSIM-aktivering."
+    "we_couldnt_start_your_esim_activation": "Vi kunde inte starta din eSIM-aktivering.",
+    "missing_auth_token": "Saknar autentiseringstoken.",
+    "invalid_room_id_client": "Ogiltigt rums-ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Skicka meddelanden globalt, översätt direkt och starta konversationer snabbt.",
@@ -3493,5 +3532,12 @@
     "yi": "Jiddisch",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Avbryt",
+  "startChat": {
+    "fetchResultsFailed": "Det går inte att hämta resultat. Vänligen försök igen.",
+    "fetchContactsFailed": "Det går inte att hämta kontakter.",
+    "contactOpenFailed": "Denna kontakt kunde inte öppnas.",
+    "enterValidPhone": "Ange ett giltigt telefonnummer."
   }
 }

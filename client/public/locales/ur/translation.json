@@ -329,7 +329,19 @@
     "smsConsentRequired": "براہ کرم ایس ایم ایس پیغامات کی اجازت دیں یا فون نمبر ہٹا دیں۔",
     "secureKeySetupFailed": "آپ کا اکاؤنٹ بنا دیا گیا ہے، لیکن اس ڈیوائس پر محفوظ کلید کی ترتیب ناکام رہی۔ براہ کرم دوبارہ کوشش کریں۔",
     "verifyEmailAfterSignup": "اکاؤنٹ بنا لیا گیا ہے۔ براہ کرم لاگ ان کرنے سے پہلے اپنے اکاؤنٹ کی تصدیق کے لیے اپنا ای میل چیک کریں۔",
-    "sessionExpiredSignInAgain": "آپ کا سیشن ختم ہو گیا ہے۔ براہ کرم دوبارہ سائن ان کریں۔"
+    "sessionExpiredSignInAgain": "آپ کا سیشن ختم ہو گیا ہے۔ براہ کرم دوبارہ سائن ان کریں۔",
+    "sessionExpired": "آپ کا سیشن ختم ہو چکا ہے۔",
+    "missingEncryptionKeyOlderMessages": "اس آلے میں آپ کی انکرپشن کلید موجود نہیں ہے۔ اسے بحال کریں تاکہ آپ پرانے انکرپٹڈ پیغامات پڑھ سکیں۔",
+    "missingEncryptionKey": "اس آلے میں آپ کی انکرپشن کلید موجود نہیں ہے۔ اسے بحال کریں تاکہ آپ خفیہ کردہ پیغامات پڑھ سکیں۔",
+    "mismatchedEncryptionKey": "اس آلے میں ایک مختلف انکرپشن کلید ہے۔ اپنے پیغامات تک رسائی کے لیے درست کلید بحال کریں۔",
+    "forgotPasswordQuestion": "پاس ورڈ بھول گئے؟",
+    "sending": "بھیج رہے ہیں...",
+    "resendVerificationEmail": "تصدیقی ای میل دوبارہ بھیجیں",
+    "emailOrUsername": "ای میل یا صارف نام",
+    "loggingIn": "لاگ ان ہو رہا ہے...",
+    "verificationEmailSent": "تصدیقی ای میل بھیجی گئی ہے۔ اپنا ان باکس چیک کریں۔",
+    "resendVerificationFailed": "تصدیقی ای میل دوبارہ بھیجنے میں ناکام۔",
+    "verifyEmailBeforeLogin": "براہ کرم لاگ ان کرنے سے پہلے اپنا ای میل تصدیق کریں۔"
   },
   "login": {
     "welcomeBack": "واپسی پر خوش آمدید",
@@ -476,7 +488,8 @@
     "archivedTitle": "گفتگو آرکائیو کی گئی",
     "archivedMsg": "گفتگو آرکائیو کر دی گئی.",
     "archiveFailedTitle": "گفتگو آرکائیو نہیں کی جا سکی",
-    "archiveFailedMsg": "براہ کرم دوبارہ کوشش کریں."
+    "archiveFailedMsg": "براہ کرم دوبارہ کوشش کریں.",
+    "groupVideo": "گروپ ویڈیو"
   },
   "topbar": {
     "newStatus": "نیا اسٹیٹس",
@@ -566,7 +579,18 @@
     "roomNumber": "چٹ #%d",
     "missingConversationId": "گفتگو کی شناخت غائب ہے۔",
     "archiveFailed": "گفتگو کو محفوظ کرنے میں ناکامی۔",
-    "deleteFailed": "گفتگو حذف کرنے میں ناکام۔"
+    "deleteFailed": "گفتگو حذف کرنے میں ناکام۔",
+    "sendMessageFailed": "پیغام بھیجنے میں ناکام رہا۔",
+    "sendImageFailed": "تصویر بھیج نہیں سکا۔",
+    "sendVideoFailed": "ویڈیو بھیج نہ سکا۔",
+    "sendAudioFailed": "آڈیو بھیج نہ سکا۔",
+    "editMessageFailed": "پیغام ترمیم نہیں کر سکے۔",
+    "editFailed": "ترمیم ناکام رہی:",
+    "deleteMessageFailed": "پیغام حذف نہیں کیا جا سکا۔",
+    "archiveConversationFailed": "گفتگو کو آرکائیو نہیں کیا جا سکا۔",
+    "deleteConversationFailed": "گفتگو حذف نہیں کی جا سکی۔",
+    "imageDataEmpty": "تصویری ڈیٹا خالی ہے۔",
+    "videoDataEmpty": "ویڈیو ڈیٹا خالی ہے۔"
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "اس ڈیوائس پر انکرپشن ری سیٹ صحیح طریقے سے مکمل نہیں ہوا۔"
       },
       "restore": {
-        "localFailure": "اس ڈیوائس پر کی ریسٹور درست طریقے سے مکمل نہیں ہوا۔"
-      }
+        "localFailure": "اس ڈیوائس پر کی ریسٹور درست طریقے سے مکمل نہیں ہوا۔",
+        "title": "انکرپشن کلید بحال کریں",
+        "instructions": "اپنی انکرپشن کلید بحال کرنے کے لیے اپنا بیک اپ پاس ورڈ درج کریں۔",
+        "noBackup": "کوئی دور دراز بیک اپ نہیں ملا۔",
+        "noBackupFirst": "بحالی کی کوشش کرنے سے پہلے بیک اپ بنائیں۔",
+        "restoreKey": "کلیدی بحال کریں",
+        "success": "انکرپشن کلید کامیابی کے ساتھ بحال کر دی گئی۔",
+        "deviceMismatch": "بحال شدہ کلید اس آلے سے مطابقت نہیں رکھتی۔",
+        "correctKeyMissing": "اس آلے میں ابھی بھی درست انکرپشن کلید موجود نہیں ہے۔"
+      },
+      "checkingBackup": "بیک اپ چیک کرنا...",
+      "backupPassword": "بیک اپ پاس ورڈ"
     },
     "reset": {
       "title": "انکرپشن کو ری سیٹ کریں",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "کیمرے تک رسائی مسترد کر دی گئی ہے۔ اسے ترتیبات میں فعال کریں۔",
     "microphoneDenied": "مائیکروفون تک رسائی منسوخ ہے۔ اسے ترتیبات میں فعال کریں۔",
     "cameraRestricted": "اس آلے پر کیمرے تک رسائی محدود ہے۔",
-    "microphoneRestricted": "اس ڈیوائس پر مائیکروفون تک رسائی محدود ہے۔"
+    "microphoneRestricted": "اس ڈیوائس پر مائیکروفون تک رسائی محدود ہے۔",
+    "noCameraAvailable": "کوئی کیمرہ دستیاب نہیں۔",
+    "couldNotCreateCameraSource": "کیمرہ ماخذ نہیں بنایا جا سکا۔"
   },
   "gif": {
     "couldNotLoad": "جی آئی ایف لوڈ نہیں ہو سکا۔",
@@ -2981,7 +3017,8 @@
     "camera": "کیمرہ",
     "flip": "پلٹیں",
     "speaker": "مقرر",
-    "end": "ختم"
+    "end": "ختم",
+    "noIncomingCallToAnswer": "جواب دینے کے لیے کوئی آنے والی کال نہیں۔"
   },
   "settings": {
     "startHour": "شروع کا گھنٹہ (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "آپ کی eSIM انسٹال کرنے کے لیے تیار ہے۔",
     "your_esim_is_active": "آپ کی ای سیم فعال ہے۔",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "ای سِم ڈیٹا پیک کے لیے ای سِم کے موافق اور انلاک شدہ ڈیوائس درکار ہے۔",
-    "we_couldnt_start_your_esim_activation": "ہم آپ کی eSIM کی فعال کاری شروع نہیں کر سکے۔"
+    "we_couldnt_start_your_esim_activation": "ہم آپ کی eSIM کی فعال کاری شروع نہیں کر سکے۔",
+    "missing_auth_token": "تصدیقی ٹوکن غائب ہے۔",
+    "invalid_room_id_client": "غلط کمرے کی شناخت۔"
   },
   "onboarding": {
     "welcomeSubtitle": "عالمی سطح پر پیغام بھیجیں، فوری طور پر ترجمہ کریں، اور جلدی بات چیت شروع کریں۔",
@@ -3493,5 +3532,12 @@
     "yi": "یِڈِش",
     "yo": "یوروبا",
     "zu": "زولو"
+  },
+  "button_cancel": "منسوخ کریں",
+  "startChat": {
+    "fetchResultsFailed": "نتائج حاصل نہیں کیے جا سکے۔ براہ کرم دوبارہ کوشش کریں۔",
+    "fetchContactsFailed": "رابطے حاصل نہیں کیے جا سکے۔",
+    "contactOpenFailed": "یہ رابطہ نہیں کھل سکا۔",
+    "enterValidPhone": "ایک درست فون نمبر درج کریں۔"
   }
 }

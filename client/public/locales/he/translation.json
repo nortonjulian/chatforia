@@ -329,7 +329,19 @@
     "smsConsentRequired": "אנא הסכים לקבלת הודעות SMS או הסר את מספר הטלפון.",
     "secureKeySetupFailed": "החשבון שלך נוצר, אך הגדרת המפתח המאובטח נכשלה במכשיר זה. אנא נסה שוב.",
     "verifyEmailAfterSignup": "החשבון נוצר. אנא בדוק את הדוא\"ל שלך כדי לאמת את החשבון לפני הכניסה.",
-    "sessionExpiredSignInAgain": "הפעילות שלך פקעה. אנא התחבר שוב."
+    "sessionExpiredSignInAgain": "הפעילות שלך פקעה. אנא התחבר שוב.",
+    "sessionExpired": "הפעילות שלך פקעה.",
+    "missingEncryptionKeyOlderMessages": "במכשיר זה חסר מפתח ההצפנה שלך. יש לשחזר אותו כדי לקרוא הודעות מוצפנות ישנות יותר.",
+    "missingEncryptionKey": "במכשיר זה חסר מפתח ההצפנה שלך. יש לשחזר אותו כדי לקרוא הודעות מוצפנות.",
+    "mismatchedEncryptionKey": "למכשיר זה יש מפתח הצפנה שונה. יש לשחזר את המפתח הנכון כדי לגשת להודעות שלך.",
+    "forgotPasswordQuestion": "שכחת את הסיסמה?",
+    "sending": "שולח...",
+    "resendVerificationEmail": "שלח שוב את דוא\"ל האימות",
+    "emailOrUsername": "דוא\"ל או שם משתמש",
+    "loggingIn": "נכנסים...",
+    "verificationEmailSent": "נשלחה הודעת אימות. אנא בדוק את תיבת הדואר הנכנס שלך.",
+    "resendVerificationFailed": "לא הצלחתי לשלוח מחדש את דוא\"ל האימות.",
+    "verifyEmailBeforeLogin": "אנא אמת את כתובת הדוא\"ל שלך לפני הכניסה."
   },
   "login": {
     "welcomeBack": "ברוך שובך",
@@ -476,7 +488,8 @@
     "archivedTitle": "שיחה הועברה לארכיון",
     "archivedMsg": "השיחה הועברה לארכיון.",
     "archiveFailedTitle": "לא ניתן להעביר את השיחה לארכיון",
-    "archiveFailedMsg": "אנא נסה שוב."
+    "archiveFailedMsg": "אנא נסה שוב.",
+    "groupVideo": "סרטון קבוצתי"
   },
   "topbar": {
     "newStatus": "סטטוס חדש",
@@ -566,7 +579,18 @@
     "roomNumber": "צ'אט #%d",
     "missingConversationId": "מזהה השיחה חסר.",
     "archiveFailed": "לא הצלחתי לארכוב את השיחה.",
-    "deleteFailed": "לא ניתן למחוק את השיחה."
+    "deleteFailed": "לא ניתן למחוק את השיחה.",
+    "sendMessageFailed": "לא ניתן לשלוח את ההודעה.",
+    "sendImageFailed": "לא ניתן לשלוח את התמונה.",
+    "sendVideoFailed": "לא הצלחתי לשלוח את הסרטון.",
+    "sendAudioFailed": "לא הצלחתי לשלוח את הקובץ הקולי.",
+    "editMessageFailed": "לא הצלחתי לערוך את ההודעה.",
+    "editFailed": "העריכה נכשלה:",
+    "deleteMessageFailed": "לא הצלחתי למחוק את ההודעה.",
+    "archiveConversationFailed": "לא ניתן היה לשמור את השיחה.",
+    "deleteConversationFailed": "לא הצלחתי למחוק את השיחה.",
+    "imageDataEmpty": "נתוני התמונה ריקים.",
+    "videoDataEmpty": "נתוני הווידאו ריקים."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "איפוס ההצפנה לא הושלם כהלכה במכשיר זה."
       },
       "restore": {
-        "localFailure": "שחזור המפתח לא הושלם כהלכה במכשיר זה."
-      }
+        "localFailure": "שחזור המפתח לא הושלם כהלכה במכשיר זה.",
+        "title": "שחזור מפתח הצפנה",
+        "instructions": "הזן את סיסמת הגיבוי שלך כדי לשחזר את מפתח ההצפנה.",
+        "noBackup": "לא נמצא גיבוי מרחוק.",
+        "noBackupFirst": "יש ליצור גיבוי לפני שמנסים לבצע שחזור.",
+        "restoreKey": "שחזור מפתח",
+        "success": "מפתח ההצפנה שוחזר בהצלחה.",
+        "deviceMismatch": "המפתח ששוחזר אינו תואם למכשיר זה.",
+        "correctKeyMissing": "למכשיר זה עדיין אין את מפתח ההצפנה הנכון."
+      },
+      "checkingBackup": "בודק אם יש גיבוי...",
+      "backupPassword": "סיסמת גיבוי"
     },
     "reset": {
       "title": "איפוס הצפנה",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "הגישה למצלמה נחסמה. הפעל אותה בהגדרות.",
     "microphoneDenied": "הגישה למיקרופון נחסמה. הפעל אותה בהגדרות.",
     "cameraRestricted": "הגישה למצלמה מוגבלת במכשיר זה.",
-    "microphoneRestricted": "הגישה למיקרופון מוגבלת במכשיר זה."
+    "microphoneRestricted": "הגישה למיקרופון מוגבלת במכשיר זה.",
+    "noCameraAvailable": "אין מצלמה זמינה.",
+    "couldNotCreateCameraSource": "לא ניתן ליצור מקור מצלמה."
   },
   "gif": {
     "couldNotLoad": "לא ניתן לטעון את ה-GIF",
@@ -2981,7 +3017,8 @@
     "camera": "מצלמה",
     "flip": "להפוך",
     "speaker": "דובר",
-    "end": "סוף"
+    "end": "סוף",
+    "noIncomingCallToAnswer": "אין שיחה נכנסת לענות עליה."
   },
   "settings": {
     "startHour": "שעת התחלה (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "ה-eSIM שלך מוכן להתקנה.",
     "your_esim_is_active": "ה-eSIM שלך פעיל.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "חבילות נתונים ל-eSIM מחייבות שימוש במכשיר התומך ב-eSIM ושהוא לא נעול.",
-    "we_couldnt_start_your_esim_activation": "לא הצלחנו להפעיל את ה-eSIM שלך."
+    "we_couldnt_start_your_esim_activation": "לא הצלחנו להפעיל את ה-eSIM שלך.",
+    "missing_auth_token": "אסימון אימות חסר.",
+    "invalid_room_id_client": "מזהה חדר לא חוקי."
   },
   "onboarding": {
     "welcomeSubtitle": "שלחו הודעות לכל העולם, תרגמו באופן מיידי והתחילו שיחות במהירות.",
@@ -3493,5 +3532,12 @@
     "yi": "יידיש",
     "yo": "יורובה",
     "zu": "זולו"
+  },
+  "button_cancel": "בטל",
+  "startChat": {
+    "fetchResultsFailed": "לא ניתן לאחזר את התוצאות. אנא נסה שוב.",
+    "fetchContactsFailed": "לא ניתן לאחזר אנשי קשר.",
+    "contactOpenFailed": "לא ניתן לפתוח את איש הקשר הזה.",
+    "enterValidPhone": "הזן מספר טלפון תקף."
   }
 }

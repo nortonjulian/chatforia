@@ -329,7 +329,19 @@
     "smsConsentRequired": "Consentite, quaeso, nuntiis SMS aut numerum telephonicum removeatis.",
     "secureKeySetupFailed": "Ratio tua creata est, sed constitutio clavis securitatis in hoc apparatu defecit. Quaeso, iterum conare.",
     "verifyEmailAfterSignup": "Ratio creata. Quaeso, inspice epistulam tuam electronicam ut rationem tuam confirmes antequam ingrediaris.",
-    "sessionExpiredSignInAgain": "Sessio tua exspiravit. Quaeso, iterum ingredere."
+    "sessionExpiredSignInAgain": "Sessio tua exspiravit. Quaeso, iterum ingredere.",
+    "sessionExpired": "Sessio tua exspiravit.",
+    "missingEncryptionKeyOlderMessages": "Hoc instrumentum clavi tuae cryptographicae caret. Eam restitue ut nuntios antiquiores cryptographice missos legas.",
+    "missingEncryptionKey": "Hoc instrumentum clavi tuo cryptographico caret. Redintegra id ut nuntios cryptographicos legas.",
+    "mismatchedEncryptionKey": "Hoc instrumentum clavem encryptionis diversam habet. Restitue clavem rectam ut nuntiis tuis accedas.",
+    "forgotPasswordQuestion": "Tesseramne oblitus es?",
+    "sending": "Mittitur...",
+    "resendVerificationEmail": "Epistulam electronicam verificationis remitte",
+    "emailOrUsername": "Epistula electronica aut nomen usoris",
+    "loggingIn": "Intratio...",
+    "verificationEmailSent": "Epistula electronica confirmationis missa est. Inspice cistam tuam.",
+    "resendVerificationFailed": "Missio epistulae electronicae confirmatoriae defecit.",
+    "verifyEmailBeforeLogin": "Quaeso, inscriptionem electronicam tuam confirma antequam ingrediaris."
   },
   "login": {
     "welcomeBack": "Bene redistis",
@@ -476,7 +488,8 @@
     "archivedTitle": "Sermo conditus",
     "archivedMsg": "Sermo in archivo conditus est.",
     "archiveFailedTitle": "Conversatio condi non potuit.",
-    "archiveFailedMsg": "Quaeso, iterum conare."
+    "archiveFailedMsg": "Quaeso, iterum conare.",
+    "groupVideo": "Video Gregis"
   },
   "topbar": {
     "newStatus": "Novus Status",
@@ -566,7 +579,18 @@
     "roomNumber": "Sermo #%d",
     "missingConversationId": "ID colloquii desideratur.",
     "archiveFailed": "Conversatio in archivo condere non potuit.",
-    "deleteFailed": "Conversatio deleri non potuit."
+    "deleteFailed": "Conversatio deleri non potuit.",
+    "sendMessageFailed": "Nuntium mittere non potuit.",
+    "sendImageFailed": "Imaginem mittere non potui.",
+    "sendVideoFailed": "Video mittere non potui.",
+    "sendAudioFailed": "Vox mitti non potuit.",
+    "editMessageFailed": "Nuntium edere non potuit.",
+    "editFailed": "Editio defecit:",
+    "deleteMessageFailed": "Nuntium delere non potuit.",
+    "archiveConversationFailed": "Conversatio archiviari non potuit.",
+    "deleteConversationFailed": "Conversatio deleri non potuit.",
+    "imageDataEmpty": "Data imaginis vacua sunt.",
+    "videoDataEmpty": "Data visifica vacua sunt."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Resetatio encryptionis in hoc apparatu non rite perfecta est."
       },
       "restore": {
-        "localFailure": "Restitutio clavis in hoc instrumento non rite perfecta est."
-      }
+        "localFailure": "Restitutio clavis in hoc instrumento non rite perfecta est.",
+        "title": "Restitue clavem encryptionis",
+        "instructions": "Introduc tesseram tuam subsidiariam ad clavem tuam cryptographicam restituendam.",
+        "noBackup": "Nullum subsidium remotum inventum est.",
+        "noBackupFirst": "Fac exemplar servatorium antequam restitutionem coneris.",
+        "restoreKey": "Restitue Clavem",
+        "success": "Clavis encryptionis feliciter restituta est.",
+        "deviceMismatch": "Clavis restituta huic instrumento non congruit.",
+        "correctKeyMissing": "Hoc instrumentum adhuc clavem encryptionis rectam non habet."
+      },
+      "checkingBackup": "Subsidium inspiciens...",
+      "backupPassword": "Tessera Subsidiaria"
     },
     "reset": {
       "title": "Resetare encryptionem",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Aditus ad cameram negatur. Eam in Configurationibus activa fac.",
     "microphoneDenied": "Aditus ad microphonum negatur. Activa id in Configurationibus.",
     "cameraRestricted": "Aditus ad cameram in hoc apparatu coartatus est.",
-    "microphoneRestricted": "Aditus ad microphonum in hoc apparatu cohibetur."
+    "microphoneRestricted": "Aditus ad microphonum in hoc apparatu cohibetur.",
+    "noCameraAvailable": "Nulla camera praesto est.",
+    "couldNotCreateCameraSource": "Fons camerae creari non potuit."
   },
   "gif": {
     "couldNotLoad": "Imago GIF onerari non potuit.",
@@ -2981,7 +3017,8 @@
     "camera": "Machina Photographica",
     "flip": "Inverte",
     "speaker": "Orator",
-    "end": "Finis"
+    "end": "Finis",
+    "noIncomingCallToAnswer": "Nullum vocabulum ad respondendum."
   },
   "settings": {
     "startHour": "Hora initialis (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM tuum ad instituendum paratum est.",
     "your_esim_is_active": "eSIM tuum activum est.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Fasciculi datorum eSIM requirunt instrumentum eSIM congruens et liberatum.",
-    "we_couldnt_start_your_esim_activation": "Activationem eSIM tuam incipere non potuimus."
+    "we_couldnt_start_your_esim_activation": "Activationem eSIM tuam incipere non potuimus.",
+    "missing_auth_token": "Tessera authentificationis deest.",
+    "invalid_room_id_client": "Indicium cubiculi invalidum."
   },
   "onboarding": {
     "welcomeSubtitle": "Nuntium per orbem terrarum mitte, statim interpreta, et sermones cito incipe.",
@@ -3493,5 +3532,12 @@
     "yi": "Iudaice",
     "yo": "Ioruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Sine",
+  "startChat": {
+    "fetchResultsFailed": "Exitus reportari non potuerunt. Quaeso, iterum conare.",
+    "fetchContactsFailed": "Contactus recuperare non potest.",
+    "contactOpenFailed": "Haec communicatio aperiri non potuit.",
+    "enterValidPhone": "Inscribe numerum telephonicum validum."
   }
 }

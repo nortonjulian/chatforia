@@ -329,7 +329,19 @@
     "smsConsentRequired": "Vui lòng đồng ý nhận tin nhắn SMS hoặc xóa số điện thoại.",
     "secureKeySetupFailed": "Tài khoản của bạn đã được tạo, nhưng quá trình thiết lập khóa bảo mật trên thiết bị này đã không thành công. Vui lòng thử lại.",
     "verifyEmailAfterSignup": "Tài khoản đã được tạo. Vui lòng kiểm tra hộp thư điện tử của bạn để xác minh tài khoản trước khi đăng nhập.",
-    "sessionExpiredSignInAgain": "Phiên làm việc của bạn đã hết hạn. Vui lòng đăng nhập lại."
+    "sessionExpiredSignInAgain": "Phiên làm việc của bạn đã hết hạn. Vui lòng đăng nhập lại.",
+    "sessionExpired": "Phiên làm việc của bạn đã hết hạn.",
+    "missingEncryptionKeyOlderMessages": "Thiết bị này chưa có khóa mã hóa của bạn. Hãy khôi phục khóa để đọc các tin nhắn đã được mã hóa trước đó.",
+    "missingEncryptionKey": "Thiết bị này chưa có khóa mã hóa của bạn. Hãy khôi phục khóa để đọc các tin nhắn đã được mã hóa.",
+    "mismatchedEncryptionKey": "Thiết bị này đang sử dụng một khóa mã hóa khác. Hãy khôi phục khóa chính xác để truy cập tin nhắn của bạn.",
+    "forgotPasswordQuestion": "Quên mật khẩu?",
+    "sending": "Đang gửi...",
+    "resendVerificationEmail": "Gửi lại email xác minh",
+    "emailOrUsername": "Email hoặc tên người dùng",
+    "loggingIn": "Đang đăng nhập...",
+    "verificationEmailSent": "Thư xác nhận đã được gửi đi. Vui lòng kiểm tra hộp thư đến của bạn.",
+    "resendVerificationFailed": "Không thể gửi lại email xác minh.",
+    "verifyEmailBeforeLogin": "Vui lòng xác minh địa chỉ email của bạn trước khi đăng nhập."
   },
   "login": {
     "welcomeBack": "Chào mừng quay lại",
@@ -476,7 +488,8 @@
     "archivedTitle": "Cuộc trò chuyện đã được lưu trữ",
     "archivedMsg": "Cuộc trò chuyện đã được lưu trữ.",
     "archiveFailedTitle": "Không thể lưu trữ cuộc trò chuyện",
-    "archiveFailedMsg": "Vui lòng thử lại."
+    "archiveFailedMsg": "Vui lòng thử lại.",
+    "groupVideo": "Video nhóm"
   },
   "topbar": {
     "newStatus": "Trạng thái mới",
@@ -566,7 +579,18 @@
     "roomNumber": "Trò chuyện #%d",
     "missingConversationId": "Thiếu ID cuộc trò chuyện.",
     "archiveFailed": "Không thể lưu trữ cuộc trò chuyện.",
-    "deleteFailed": "Không thể xóa cuộc trò chuyện."
+    "deleteFailed": "Không thể xóa cuộc trò chuyện.",
+    "sendMessageFailed": "Không thể gửi tin nhắn.",
+    "sendImageFailed": "Không thể gửi hình ảnh.",
+    "sendVideoFailed": "Không thể gửi video.",
+    "sendAudioFailed": "Không thể gửi âm thanh.",
+    "editMessageFailed": "Không thể chỉnh sửa tin nhắn.",
+    "editFailed": "Không thể chỉnh sửa:",
+    "deleteMessageFailed": "Không thể xóa tin nhắn.",
+    "archiveConversationFailed": "Không thể lưu trữ cuộc trò chuyện.",
+    "deleteConversationFailed": "Không thể xóa cuộc trò chuyện.",
+    "imageDataEmpty": "Dữ liệu hình ảnh trống.",
+    "videoDataEmpty": "Dữ liệu video trống."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Quá trình khôi phục cài đặt mã hóa trên thiết bị này không hoàn tất thành công."
       },
       "restore": {
-        "localFailure": "Quá trình khôi phục khóa trên thiết bị này không hoàn tất thành công."
-      }
+        "localFailure": "Quá trình khôi phục khóa trên thiết bị này không hoàn tất thành công.",
+        "title": "Khôi phục khóa mã hóa",
+        "instructions": "Hãy nhập mật khẩu dự phòng để khôi phục khóa mã hóa của bạn.",
+        "noBackup": "Không tìm thấy bản sao lưu từ xa nào.",
+        "noBackupFirst": "Hãy tạo bản sao lưu trước khi tiến hành khôi phục.",
+        "restoreKey": "Khôi phục khóa",
+        "success": "Khóa mã hóa đã được khôi phục thành công.",
+        "deviceMismatch": "Khóa đã khôi phục không khớp với thiết bị này.",
+        "correctKeyMissing": "Thiết bị này vẫn chưa có khóa mã hóa chính xác."
+      },
+      "checkingBackup": "Đang kiểm tra bản sao lưu...",
+      "backupPassword": "Mật khẩu dự phòng"
     },
     "reset": {
       "title": "Đặt lại mã hóa",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Quyền truy cập camera bị từ chối. Vui lòng bật quyền này trong phần Cài đặt.",
     "microphoneDenied": "Quyền truy cập micrô bị từ chối. Vui lòng bật quyền này trong phần Cài đặt.",
     "cameraRestricted": "Quyền truy cập camera bị hạn chế trên thiết bị này.",
-    "microphoneRestricted": "Quyền truy cập micrô bị hạn chế trên thiết bị này."
+    "microphoneRestricted": "Quyền truy cập micrô bị hạn chế trên thiết bị này.",
+    "noCameraAvailable": "Không có camera.",
+    "couldNotCreateCameraSource": "Không thể tạo nguồn camera."
   },
   "gif": {
     "couldNotLoad": "Không thể tải GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Máy ảnh",
     "flip": "Lật",
     "speaker": "Diễn giả",
-    "end": "Kết thúc"
+    "end": "Kết thúc",
+    "noIncomingCallToAnswer": "Không có cuộc gọi đến nào để trả lời."
   },
   "settings": {
     "startHour": "Giờ bắt đầu (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Thẻ eSIM của bạn đã sẵn sàng để cài đặt.",
     "your_esim_is_active": "Thẻ eSIM của bạn đã được kích hoạt.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Các gói dữ liệu eSIM yêu cầu thiết bị tương thích với eSIM và đã được mở khóa.",
-    "we_couldnt_start_your_esim_activation": "Chúng tôi không thể kích hoạt eSIM của bạn."
+    "we_couldnt_start_your_esim_activation": "Chúng tôi không thể kích hoạt eSIM của bạn.",
+    "missing_auth_token": "Thiếu mã xác thực.",
+    "invalid_room_id_client": "Mã phòng không hợp lệ."
   },
   "onboarding": {
     "welcomeSubtitle": "Gửi tin nhắn trên toàn cầu, dịch ngay lập tức và bắt đầu cuộc trò chuyện nhanh chóng.",
@@ -3493,5 +3532,12 @@
     "yi": "Tiếng Yiddish",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Hủy",
+  "startChat": {
+    "fetchResultsFailed": "Không thể lấy kết quả. Vui lòng thử lại.",
+    "fetchContactsFailed": "Không thể lấy danh bạ.",
+    "contactOpenFailed": "Không thể mở liên hệ này.",
+    "enterValidPhone": "Vui lòng nhập số điện thoại hợp lệ."
   }
 }

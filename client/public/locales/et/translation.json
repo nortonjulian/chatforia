@@ -329,7 +329,19 @@
     "smsConsentRequired": "Palun andke nõusolek SMS-sõnumitele või eemaldage telefoninumber.",
     "secureKeySetupFailed": "Teie konto on loodud, kuid turvalise võtme seadistamine sellel seadmel ebaõnnestus. Palun proovige uuesti.",
     "verifyEmailAfterSignup": "Konto loodud. Palun kontrollige enne sisselogimist oma e-posti aadressi, et kontrollida oma kontot.",
-    "sessionExpiredSignInAgain": "Teie seanss on lõppenud. Palun logige uuesti sisse."
+    "sessionExpiredSignInAgain": "Teie seanss on lõppenud. Palun logige uuesti sisse.",
+    "sessionExpired": "Teie seanss on lõppenud.",
+    "missingEncryptionKeyOlderMessages": "Sellel seadmel puudub teie krüpteerimisvõti. Vanemate krüpteeritud sõnumite lugemiseks taastage see.",
+    "missingEncryptionKey": "Sellel seadmel puudub teie krüpteerimisvõti. Krüpteeritud sõnumite lugemiseks taastage see.",
+    "mismatchedEncryptionKey": "Sellel seadmel on erinev krüpteerimisvõti. Sõnumitele juurdepääsu saamiseks taastage õige võti.",
+    "forgotPasswordQuestion": "Unustasid salasõna?",
+    "sending": "Saatmine...",
+    "resendVerificationEmail": "Saada kinnituse e-kiri uuesti",
+    "emailOrUsername": "E-post või kasutajanimi",
+    "loggingIn": "Sisselogimine...",
+    "verificationEmailSent": "Kinnitus e-kiri saadetud. Kontrollige oma postkasti.",
+    "resendVerificationFailed": "Ebaõnnestus kinnitusmeili uuesti saatmine.",
+    "verifyEmailBeforeLogin": "Enne sisselogimist kontrollige palun oma e-posti aadressi."
   },
   "login": {
     "welcomeBack": "Tere tulemast tagasi",
@@ -476,7 +488,8 @@
     "archivedTitle": "Vestlus arhiveeritud",
     "archivedMsg": "Vestlus arhiveeriti.",
     "archiveFailedTitle": "Vestlust ei õnnestunud arhiveerida",
-    "archiveFailedMsg": "Palun proovi uuesti."
+    "archiveFailedMsg": "Palun proovi uuesti.",
+    "groupVideo": "Rühma video"
   },
   "topbar": {
     "newStatus": "Uus staatus",
@@ -566,7 +579,18 @@
     "roomNumber": "Vestlus #%d",
     "missingConversationId": "Puudub vestluse id.",
     "archiveFailed": "Vestluse arhiveerimine ebaõnnestus.",
-    "deleteFailed": "Ei õnnestunud vestlust kustutada."
+    "deleteFailed": "Ei õnnestunud vestlust kustutada.",
+    "sendMessageFailed": "Ei saanud sõnumit saata.",
+    "sendImageFailed": "Ei saanud pilti saata.",
+    "sendVideoFailed": "Ei saanud videot saata.",
+    "sendAudioFailed": "Ei saanud heli saata.",
+    "editMessageFailed": "Ei saanud sõnumit muuta.",
+    "editFailed": "Redigeerimine ebaõnnestus:",
+    "deleteMessageFailed": "Ei saanud sõnumit kustutada.",
+    "archiveConversationFailed": "Ei saanud arhiveerida vestlust.",
+    "deleteConversationFailed": "Ei saanud vestlust kustutada.",
+    "imageDataEmpty": "Pildiandmed on tühjad.",
+    "videoDataEmpty": "Videoandmed on tühjad."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Krüpteerimise lähtestamine ei ole selles seadmes õigesti lõpule viidud."
       },
       "restore": {
-        "localFailure": "Võtmete taastamine ei lõppenud selles seadmes korrektselt."
-      }
+        "localFailure": "Võtmete taastamine ei lõppenud selles seadmes korrektselt.",
+        "title": "Krüpteerimisvõtme taastamine",
+        "instructions": "Krüpteerimisvõtme taastamiseks sisestage oma varukoopia parool.",
+        "noBackup": "Kaugvarukoopiaid ei leitud.",
+        "noBackupFirst": "Looge enne taastamise katsetamist varukoopia.",
+        "restoreKey": "Taastada võti",
+        "success": "Krüpteerimisvõti edukalt taastatud.",
+        "deviceMismatch": "Taastatud võti ei vasta sellele seadmele.",
+        "correctKeyMissing": "Sellel seadmel ei ole ikka veel õiget krüpteerimisvõtit."
+      },
+      "checkingBackup": "Varukoopia kontrollimine...",
+      "backupPassword": "Varukoopia parool"
     },
     "reset": {
       "title": "Salastatuse lähtestamine",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Kaamera juurdepääs on keelatud. Lubage see seadetes.",
     "microphoneDenied": "Mikrofoni juurdepääs on keelatud. Lubage see seadetes.",
     "cameraRestricted": "Kaamera juurdepääs on selles seadmes piiratud.",
-    "microphoneRestricted": "Sellel seadmel on juurdepääs mikrofonile piiratud."
+    "microphoneRestricted": "Sellel seadmel on juurdepääs mikrofonile piiratud.",
+    "noCameraAvailable": "Kaamera puudub.",
+    "couldNotCreateCameraSource": "Ei saanud luua kaamera allikat."
   },
   "gif": {
     "couldNotLoad": "Ei saanud GIF-i laadida",
@@ -2981,7 +3017,8 @@
     "camera": "Kaamera",
     "flip": "Flip",
     "speaker": "Kõneleja",
-    "end": "End"
+    "end": "End",
+    "noIncomingCallToAnswer": "Sissetulevale kõnele ei saa vastata."
   },
   "settings": {
     "startHour": "Algusaeg (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Teie eSIM on valmis paigaldamiseks.",
     "your_esim_is_active": "Teie eSIM on aktiivne.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM-andmepaketid nõuavad eSIM-ühilduvat ja lukustamata seadet.",
-    "we_couldnt_start_your_esim_activation": "Me ei saanud teie eSIM-i aktiveerimist käivitada."
+    "we_couldnt_start_your_esim_activation": "Me ei saanud teie eSIM-i aktiveerimist käivitada.",
+    "missing_auth_token": "Puudub autentimise sümbol.",
+    "invalid_room_id_client": "Vale toa ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Sõnumite globaalne tõlkimine, kohene tõlkimine ja kiire vestluse alustamine.",
@@ -3493,5 +3532,12 @@
     "yi": "Jidiš",
     "yo": "Joruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Tühista",
+  "startChat": {
+    "fetchResultsFailed": "Tulemusi ei ole võimalik kätte saada. Palun proovige uuesti.",
+    "fetchContactsFailed": "Kontakte ei ole võimalik kätte saada.",
+    "contactOpenFailed": "Seda kontakti ei saanud avada.",
+    "enterValidPhone": "Sisestage kehtiv telefoninumber."
   }
 }

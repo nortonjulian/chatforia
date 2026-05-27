@@ -329,7 +329,19 @@
     "smsConsentRequired": "Si us plau, autoritzeu els missatges SMS o suprimiu el número de telèfon.",
     "secureKeySetupFailed": "El vostre compte s'ha creat, però la configuració de la clau segura ha fallat en aquest dispositiu. Si us plau, torneu-ho a provar.",
     "verifyEmailAfterSignup": "Compte creat. Si us plau, comproveu el vostre correu electrònic per verificar el vostre compte abans d'iniciar la sessió.",
-    "sessionExpiredSignInAgain": "La vostra sessió ha expirat. Si us plau, inicieu la sessió de nou."
+    "sessionExpiredSignInAgain": "La vostra sessió ha expirat. Si us plau, inicieu la sessió de nou.",
+    "sessionExpired": "La vostra sessió ha expirat.",
+    "missingEncryptionKeyOlderMessages": "A aquest dispositiu li falta la teva clau de xifratge. Restablix-la per llegir missatges xifrats més antics.",
+    "missingEncryptionKey": "A aquest dispositiu li falta la teva clau de xifratge. Restablix-la per llegir missatges xifrats.",
+    "mismatchedEncryptionKey": "Aquest dispositiu té una clau de xifratge diferent. Restabliu la clau correcta per accedir als vostres missatges.",
+    "forgotPasswordQuestion": "Has oblidat la contrasenya?",
+    "sending": "Enviant...",
+    "resendVerificationEmail": "Reenviar el correu electrònic de verificació",
+    "emailOrUsername": "Correu electrònic o nom d'usuari",
+    "loggingIn": "Iniciant la sessió...",
+    "verificationEmailSent": "Correu electrònic de verificació enviat. Comproveu la vostra bústia d'entrada.",
+    "resendVerificationFailed": "S'ha fallat el reenviament del correu electrònic de verificació.",
+    "verifyEmailBeforeLogin": "Si us plau, verifiqueu el vostre correu electrònic abans d'iniciar la sessió."
   },
   "login": {
     "welcomeBack": "Benvinguts de nou",
@@ -476,7 +488,8 @@
     "archivedTitle": "Conversació arxivada",
     "archivedMsg": "La conversa va ser arxivada.",
     "archiveFailedTitle": "No s'ha pogut arxivar la conversa",
-    "archiveFailedMsg": "Si us plau, torni a provar."
+    "archiveFailedMsg": "Si us plau, torni a provar.",
+    "groupVideo": "Vídeo de grup"
   },
   "topbar": {
     "newStatus": "Nou estat",
@@ -566,7 +579,18 @@
     "roomNumber": "Xat #%d",
     "missingConversationId": "ID de conversa absent.",
     "archiveFailed": "S'ha fallat l'arxivament de la conversa.",
-    "deleteFailed": "S'ha fallat l'eliminació de la conversa."
+    "deleteFailed": "S'ha fallat l'eliminació de la conversa.",
+    "sendMessageFailed": "No s'ha pogut enviar el missatge.",
+    "sendImageFailed": "No s'ha pogut enviar la imatge.",
+    "sendVideoFailed": "No s'ha pogut enviar el vídeo.",
+    "sendAudioFailed": "No s'ha pogut enviar l'àudio.",
+    "editMessageFailed": "No es va poder editar el missatge.",
+    "editFailed": "Edició fallida:",
+    "deleteMessageFailed": "No s'ha pogut esborrar el missatge.",
+    "archiveConversationFailed": "No s'ha pogut arxivar la conversa.",
+    "deleteConversationFailed": "No s'ha pogut esborrar la conversa.",
+    "imageDataEmpty": "Les dades de la imatge estan buides.",
+    "videoDataEmpty": "Les dades del vídeo estan buides."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "El reinici del xifratge no s'ha completat correctament en aquest dispositiu."
       },
       "restore": {
-        "localFailure": "La restauració de la còpia de seguretat no s'ha completat correctament en aquest dispositiu."
-      }
+        "localFailure": "La restauració de la còpia de seguretat no s'ha completat correctament en aquest dispositiu.",
+        "title": "Restablix la clau de xifratge",
+        "instructions": "Introdueix la teva contrasenya de còpia de seguretat per restaurar la teva clau de xifratge.",
+        "noBackup": "No s'ha trobat cap còpia de seguretat remota.",
+        "noBackupFirst": "Crea una còpia de seguretat abans d'intentar la restauració.",
+        "restoreKey": "Restablix la clau",
+        "success": "La clau de xifratge s'ha restaurat correctament.",
+        "deviceMismatch": "La clau restaurada no coincideix amb aquest dispositiu.",
+        "correctKeyMissing": "Aquest dispositiu encara no té la clau de xifratge correcta."
+      },
+      "checkingBackup": "Comprovant la còpia de seguretat...",
+      "backupPassword": "Contrassena de còpia de seguretat"
     },
     "reset": {
       "title": "Restabliment del xifratge",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "L'accés a la càmera està denegat. Activa'l a Configuració.",
     "microphoneDenied": "L'accés al micròfon està denegat. Activa'l a la configuració.",
     "cameraRestricted": "L'accés a la càmera està restringit en aquest dispositiu.",
-    "microphoneRestricted": "L'accés al micròfon està restringit en aquest dispositiu."
+    "microphoneRestricted": "L'accés al micròfon està restringit en aquest dispositiu.",
+    "noCameraAvailable": "No hi ha cap càmera disponible.",
+    "couldNotCreateCameraSource": "No s'ha pogut crear la font de la càmera."
   },
   "gif": {
     "couldNotLoad": "No s'ha pogut carregar el GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Càmera",
     "flip": "Gira",
     "speaker": "Orador",
-    "end": "Fi"
+    "end": "Fi",
+    "noIncomingCallToAnswer": "No hi ha cap trucada entrant per respondre."
   },
   "settings": {
     "startHour": "Hora d'inici (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "La teva eSIM està a punt per instal·lar.",
     "your_esim_is_active": "La teva eSIM està activa.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Els paquets de dades d'eSIM requereixen un dispositiu compatible amb eSIM i desbloquejat.",
-    "we_couldnt_start_your_esim_activation": "No hem pogut iniciar l'activació de la teva eSIM."
+    "we_couldnt_start_your_esim_activation": "No hem pogut iniciar l'activació de la teva eSIM.",
+    "missing_auth_token": "Tòken d'autenticació absent.",
+    "invalid_room_id_client": "ID d'habitació invàlida."
   },
   "onboarding": {
     "welcomeSubtitle": "Envia missatges a tot el món, tradueix a l'instant i inicia converses ràpidament.",
@@ -3493,5 +3532,12 @@
     "yi": "Iídish",
     "yo": "Ioruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Cancel·la",
+  "startChat": {
+    "fetchResultsFailed": "Impossible de recuperar els resultats. Torni a provar.",
+    "fetchContactsFailed": "Impossible de recollir contactes.",
+    "contactOpenFailed": "Aquest contacte no s'ha pogut obrir.",
+    "enterValidPhone": "Introdueix un número de telèfon vàlid."
   }
 }

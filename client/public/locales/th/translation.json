@@ -329,7 +329,19 @@
     "smsConsentRequired": "กรุณาให้ความยินยอมในการรับข้อความ SMS หรือนำหมายเลขโทรศัพท์ออก",
     "secureKeySetupFailed": "บัญชีของคุณถูกสร้างขึ้นแล้ว แต่การตั้งค่าคีย์ความปลอดภัยล้มเหลวบนอุปกรณ์นี้ กรุณาลองอีกครั้ง",
     "verifyEmailAfterSignup": "บัญชีถูกสร้างขึ้นแล้ว กรุณาตรวจสอบอีเมลของคุณเพื่อยืนยันบัญชีของคุณก่อนทำการเข้าสู่ระบบ",
-    "sessionExpiredSignInAgain": "เซสชันของคุณหมดอายุ กรุณาลงชื่อเข้าใช้ใหม่"
+    "sessionExpiredSignInAgain": "เซสชันของคุณหมดอายุ กรุณาลงชื่อเข้าใช้ใหม่",
+    "sessionExpired": "เซสชันของคุณหมดอายุแล้ว",
+    "missingEncryptionKeyOlderMessages": "อุปกรณ์นี้ไม่มีคีย์การเข้ารหัสของคุณ. กรุณากู้คืนเพื่ออ่านข้อความที่เข้ารหัสไว้ก่อนหน้านี้.",
+    "missingEncryptionKey": "อุปกรณ์นี้ไม่มีคีย์การเข้ารหัสของคุณ. กรุณากู้คืนเพื่ออ่านข้อความที่เข้ารหัส.",
+    "mismatchedEncryptionKey": "อุปกรณ์นี้มีคีย์การเข้ารหัสที่ต่างกัน กรุณากู้คีย์ที่ถูกต้องเพื่อเข้าถึงข้อความของคุณ",
+    "forgotPasswordQuestion": "ลืมรหัสผ่านหรือไม่?",
+    "sending": "กำลังส่ง...",
+    "resendVerificationEmail": "ส่งอีเมลยืนยันใหม่",
+    "emailOrUsername": "อีเมลหรือชื่อผู้ใช้",
+    "loggingIn": "กำลังเข้าสู่ระบบ...",
+    "verificationEmailSent": "ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบในกล่องจดหมายของคุณ",
+    "resendVerificationFailed": "ไม่สามารถส่งอีเมลยืนยันใหม่ได้",
+    "verifyEmailBeforeLogin": "กรุณาตรวจสอบอีเมลของคุณก่อนเข้าสู่ระบบ"
   },
   "login": {
     "welcomeBack": "ยินดีต้อนรับกลับ",
@@ -476,7 +488,8 @@
     "archivedTitle": "การสนทนาถูกเก็บถาวร",
     "archivedMsg": "การสนทนาถูกเก็บถาวรแล้ว",
     "archiveFailedTitle": "ไม่สามารถเก็บถาวรการสนทนาได้",
-    "archiveFailedMsg": "กรุณาลองอีกครั้ง"
+    "archiveFailedMsg": "กรุณาลองอีกครั้ง",
+    "groupVideo": "วิดีโอกลุ่ม"
   },
   "topbar": {
     "newStatus": "สถานะใหม่",
@@ -566,7 +579,18 @@
     "roomNumber": "แชท #%d",
     "missingConversationId": "ไม่มีรหัสการสนทนา",
     "archiveFailed": "ไม่สามารถเก็บถาวรการสนทนาได้",
-    "deleteFailed": "ไม่สามารถลบการสนทนาได้"
+    "deleteFailed": "ไม่สามารถลบการสนทนาได้",
+    "sendMessageFailed": "ไม่สามารถส่งข้อความได้",
+    "sendImageFailed": "ไม่สามารถส่งรูปภาพได้",
+    "sendVideoFailed": "ไม่สามารถส่งวิดีโอได้",
+    "sendAudioFailed": "ไม่สามารถส่งเสียงได้",
+    "editMessageFailed": "ไม่สามารถแก้ไขข้อความได้",
+    "editFailed": "แก้ไขล้มเหลว:",
+    "deleteMessageFailed": "ไม่สามารถลบข้อความได้",
+    "archiveConversationFailed": "ไม่สามารถเก็บถาวรการสนทนาได้",
+    "deleteConversationFailed": "ไม่สามารถลบการสนทนาได้",
+    "imageDataEmpty": "ข้อมูลภาพว่างเปล่า",
+    "videoDataEmpty": "ข้อมูลวิดีโอว่างเปล่า"
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "การรีเซ็ตการเข้ารหัสไม่สมบูรณ์อย่างถูกต้องบนอุปกรณ์นี้"
       },
       "restore": {
-        "localFailure": "การกู้คืนหลักไม่สมบูรณ์อย่างถูกต้องบนอุปกรณ์นี้"
-      }
+        "localFailure": "การกู้คืนหลักไม่สมบูรณ์อย่างถูกต้องบนอุปกรณ์นี้",
+        "title": "กู้คืนกุญแจการเข้ารหัส",
+        "instructions": "กรุณากรอกรหัสผ่านสำรองของคุณเพื่อกู้คืนกุญแจการเข้ารหัสของคุณ",
+        "noBackup": "ไม่พบการสำรองข้อมูลระยะไกล",
+        "noBackupFirst": "สร้างสำรองข้อมูลก่อนทำการกู้คืน",
+        "restoreKey": "กู้คืนกุญแจ",
+        "success": "การกู้คืนกุญแจการเข้ารหัสสำเร็จแล้ว",
+        "deviceMismatch": "กุญแจที่ซ่อมแซมแล้วไม่ตรงกับอุปกรณ์นี้",
+        "correctKeyMissing": "อุปกรณ์นี้ยังไม่มีคีย์การเข้ารหัสที่ถูกต้อง"
+      },
+      "checkingBackup": "กำลังตรวจสอบการสำรองข้อมูล...",
+      "backupPassword": "รหัสผ่านสำรอง"
     },
     "reset": {
       "title": "รีเซ็ตการเข้ารหัส",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "การเข้าถึงกล้องถูกปฏิเสธ กรุณาเปิดใช้งานในตั้งค่า",
     "microphoneDenied": "ไมโครโฟนถูกปฏิเสธการเข้าถึง กรุณาเปิดใช้งานในตั้งค่า",
     "cameraRestricted": "การเข้าถึงกล้องถูกจำกัดบนอุปกรณ์นี้",
-    "microphoneRestricted": "การเข้าถึงไมโครโฟนถูกจำกัดบนอุปกรณ์นี้"
+    "microphoneRestricted": "การเข้าถึงไมโครโฟนถูกจำกัดบนอุปกรณ์นี้",
+    "noCameraAvailable": "ไม่มีกล้องพร้อมใช้งาน",
+    "couldNotCreateCameraSource": "ไม่สามารถสร้างแหล่งที่มาของกล้องได้"
   },
   "gif": {
     "couldNotLoad": "ไม่สามารถโหลด GIF ได้",
@@ -2981,7 +3017,8 @@
     "camera": "กล้อง",
     "flip": "พลิก",
     "speaker": "ผู้พูด",
-    "end": "สิ้นสุด"
+    "end": "สิ้นสุด",
+    "noIncomingCallToAnswer": "ไม่มีสายเรียกเข้า"
   },
   "settings": {
     "startHour": "ชั่วโมงเริ่มต้น (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM ของคุณพร้อมติดตั้งแล้ว",
     "your_esim_is_active": "eSIM ของคุณเปิดใช้งานแล้ว",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "แพ็กเกจข้อมูล eSIM ต้องใช้กับอุปกรณ์ที่รองรับ eSIM และปลดล็อกแล้วเท่านั้น",
-    "we_couldnt_start_your_esim_activation": "เราไม่สามารถเริ่มการเปิดใช้งาน eSIM ของคุณได้"
+    "we_couldnt_start_your_esim_activation": "เราไม่สามารถเริ่มการเปิดใช้งาน eSIM ของคุณได้",
+    "missing_auth_token": "ไม่มีโทเค็นการยืนยันตัวตน",
+    "invalid_room_id_client": "รหัสห้องไม่ถูกต้อง"
   },
   "onboarding": {
     "welcomeSubtitle": "ส่งข้อความทั่วโลก แปลทันที และเริ่มการสนทนาได้อย่างรวดเร็ว",
@@ -3493,5 +3532,12 @@
     "yi": "ยิดดิช",
     "yo": "โยรูบา",
     "zu": "ซูลู"
+  },
+  "button_cancel": "ยกเลิก",
+  "startChat": {
+    "fetchResultsFailed": "ไม่สามารถดึงผลลัพธ์ได้ กรุณาลองอีกครั้ง",
+    "fetchContactsFailed": "ไม่สามารถดึงข้อมูลรายชื่อติดต่อได้",
+    "contactOpenFailed": "ไม่สามารถเปิดการติดต่อนี้ได้",
+    "enterValidPhone": "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง"
   }
 }

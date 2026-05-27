@@ -329,7 +329,19 @@
     "smsConsentRequired": "Kérjük, járuljon hozzá az SMS-üzenetekhez, vagy távolítsa el a telefonszámot.",
     "secureKeySetupFailed": "A fiók létrehozása megtörtént, de a biztonságos kulcs beállítása sikertelen volt ezen az eszközön. Kérjük, próbálja meg újra.",
     "verifyEmailAfterSignup": "Fiók létrehozása. Kérjük, ellenőrizze az e-mailjét, hogy ellenőrizze a fiókját, mielőtt bejelentkezik.",
-    "sessionExpiredSignInAgain": "A munkamenet lejárt. Kérjük, jelentkezzen be újra."
+    "sessionExpiredSignInAgain": "A munkamenet lejárt. Kérjük, jelentkezzen be újra.",
+    "sessionExpired": "Az Ön munkamenete lejárt.",
+    "missingEncryptionKeyOlderMessages": "A készülékről hiányzik a titkosítási kulcs. A régebbi titkosított üzenetek olvasásához állítsa vissza.",
+    "missingEncryptionKey": "A készülékről hiányzik a titkosítási kulcs. A titkosított üzenetek olvasásához állítsa vissza.",
+    "mismatchedEncryptionKey": "Ez az eszköz más titkosítási kulccsal rendelkezik. Az üzenetek eléréséhez állítsa vissza a megfelelő kulcsot.",
+    "forgotPasswordQuestion": "Elfelejtette jelszavát?",
+    "sending": "Elküldöm...",
+    "resendVerificationEmail": "Ellenőrző e-mail újraküldése",
+    "emailOrUsername": "Email vagy felhasználónév",
+    "loggingIn": "Bejelentkezés...",
+    "verificationEmailSent": "Ellenőrző e-mail elküldve. Ellenőrizze a postaládáját.",
+    "resendVerificationFailed": "Nem sikerült újraküldeni az ellenőrző e-mailt.",
+    "verifyEmailBeforeLogin": "Kérjük, ellenőrizze e-mail címét a bejelentkezés előtt."
   },
   "login": {
     "welcomeBack": "Üdvözöljük újra",
@@ -476,7 +488,8 @@
     "archivedTitle": "Beszélgetés archiválva",
     "archivedMsg": "A beszélgetést archiválták.",
     "archiveFailedTitle": "Nem sikerült archiválni a beszélgetést",
-    "archiveFailedMsg": "Kérjük, próbálja meg újra."
+    "archiveFailedMsg": "Kérjük, próbálja meg újra.",
+    "groupVideo": "Csoportos videó"
   },
   "topbar": {
     "newStatus": "Új állapot",
@@ -566,7 +579,18 @@
     "roomNumber": "Csevegés #%d",
     "missingConversationId": "Hiányzó beszélgetési azonosító.",
     "archiveFailed": "Nem sikerült archiválni a beszélgetést.",
-    "deleteFailed": "Nem sikerült törölni a beszélgetést."
+    "deleteFailed": "Nem sikerült törölni a beszélgetést.",
+    "sendMessageFailed": "Nem tudtam üzenetet küldeni.",
+    "sendImageFailed": "Nem tudtam képet küldeni.",
+    "sendVideoFailed": "Nem tudtam videót küldeni.",
+    "sendAudioFailed": "Nem tudtam hangot küldeni.",
+    "editMessageFailed": "Nem tudta szerkeszteni az üzenetet.",
+    "editFailed": "Szerkesztés sikertelen:",
+    "deleteMessageFailed": "Nem sikerült törölni az üzenetet.",
+    "archiveConversationFailed": "Nem tudtam archiválni a beszélgetést.",
+    "deleteConversationFailed": "Nem tudtam törölni a beszélgetést.",
+    "imageDataEmpty": "A képadatok üresek.",
+    "videoDataEmpty": "A videó adatok üresek."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "A titkosítás visszaállítása nem fejeződött be megfelelően ezen az eszközön."
       },
       "restore": {
-        "localFailure": "A kulcs visszaállítása nem fejeződött be megfelelően ezen az eszközön."
-      }
+        "localFailure": "A kulcs visszaállítása nem fejeződött be megfelelően ezen az eszközön.",
+        "title": "Titkosítási kulcs visszaállítása",
+        "instructions": "A titkosítási kulcs visszaállításához adja meg a biztonsági másolat jelszavát.",
+        "noBackup": "Nem találtunk távoli biztonsági másolatot.",
+        "noBackupFirst": "A helyreállítási kísérlet előtt készítsen biztonsági másolatot.",
+        "restoreKey": "Kulcs visszaállítása",
+        "success": "A titkosítási kulcs sikeresen helyreállt.",
+        "deviceMismatch": "A visszaállított kulcs nem felel meg ennek az eszköznek.",
+        "correctKeyMissing": "Ez az eszköz még mindig nem rendelkezik a megfelelő titkosítási kulccsal."
+      },
+      "checkingBackup": "Biztonsági mentés ellenőrzése...",
+      "backupPassword": "Biztonsági mentés jelszó"
     },
     "reset": {
       "title": "Titkosítás visszaállítása",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "A kamerához való hozzáférés megtagadva. Engedélyezze a Beállításokban.",
     "microphoneDenied": "A mikrofonhoz való hozzáférés megtagadva. Engedélyezze a Beállításokban.",
     "cameraRestricted": "A kamerához való hozzáférés korlátozott ezen a készüléken.",
-    "microphoneRestricted": "A mikrofonhoz való hozzáférés korlátozott ezen a készüléken."
+    "microphoneRestricted": "A mikrofonhoz való hozzáférés korlátozott ezen a készüléken.",
+    "noCameraAvailable": "Nincs kamera.",
+    "couldNotCreateCameraSource": "Nem sikerült létrehozni a kamera forrását."
   },
   "gif": {
     "couldNotLoad": "Nem tudta betölteni a GIF-et",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Flip",
     "speaker": "Beszélő",
-    "end": "Vége"
+    "end": "Vége",
+    "noIncomingCallToAnswer": "Nincs bejövő hívás, amit válaszolnia kellene."
   },
   "settings": {
     "startHour": "Kezdő óra (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Az eSIM készen áll a telepítésre.",
     "your_esim_is_active": "Az eSIM aktív.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Az eSIM-adatcsomagokhoz eSIM-kompatibilis és feloldott készülékre van szükség.",
-    "we_couldnt_start_your_esim_activation": "Nem tudtuk elindítani az eSIM aktiválását."
+    "we_couldnt_start_your_esim_activation": "Nem tudtuk elindítani az eSIM aktiválását.",
+    "missing_auth_token": "Hiányzik a hitelesítési jelszó.",
+    "invalid_room_id_client": "Érvénytelen szoba azonosító."
   },
   "onboarding": {
     "welcomeSubtitle": "Üzenet globálisan, azonnali fordítás és gyors beszélgetések indítása.",
@@ -3493,5 +3532,12 @@
     "yi": "Jiddis",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Törölje",
+  "startChat": {
+    "fetchResultsFailed": "Nem sikerült lekérni az eredményeket. Kérjük, próbálja újra.",
+    "fetchContactsFailed": "Nem sikerült lekérni a kapcsolatokat.",
+    "contactOpenFailed": "Ezt a kapcsolatot nem lehetett megnyitni.",
+    "enterValidPhone": "Adjon meg egy érvényes telefonszámot."
   }
 }

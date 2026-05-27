@@ -329,7 +329,19 @@
     "smsConsentRequired": "Zəhmət olmasa SMS mesajlarına razılıq verin və ya telefon nömrəsini silin.",
     "secureKeySetupFailed": "Hesabınız yaradıldı, lakin bu cihazda təhlükəsiz açar quraşdırılması uğursuz oldu. Zəhmət olmasa yenidən cəhd edin.",
     "verifyEmailAfterSignup": "Hesab yaradıldı. Zəhmət olmasa, daxil olmadan əvvəl hesabınızı təsdiqləmək üçün e-poçt ünvanınızı yoxlayın.",
-    "sessionExpiredSignInAgain": "Sizin sessiyanız başa çatdı. Zəhmət olmasa yenidən daxil olun."
+    "sessionExpiredSignInAgain": "Sizin sessiyanız başa çatdı. Zəhmət olmasa yenidən daxil olun.",
+    "sessionExpired": "Sizin sessiyanız bitib.",
+    "missingEncryptionKeyOlderMessages": "Bu cihazda şifrələmə açarınız yoxdur. Daha əvvəl şifrələnmiş mesajları oxumaq üçün onu bərpa edin.",
+    "missingEncryptionKey": "Bu cihazda şifrələmə açarınız yoxdur. Şifrələnmiş mesajları oxumaq üçün onu bərpa edin.",
+    "mismatchedEncryptionKey": "Bu cihazda fərqli şifrələmə açarı var. Mesajlarınıza daxil olmaq üçün düzgün açarı bərpa edin.",
+    "forgotPasswordQuestion": "Şifrəni unutmusunuz?",
+    "sending": "Göndərilir...",
+    "resendVerificationEmail": "Təsdiq e-poçtunu yenidən göndər",
+    "emailOrUsername": "E-poçt və ya istifadəçi adı",
+    "loggingIn": "Giriş edilir...",
+    "verificationEmailSent": "Təsdiq e-poçtu göndərildi. Gələnlər qutunuza baxın.",
+    "resendVerificationFailed": "Təsdiq e-poçtunu yenidən göndərmək alınmadı.",
+    "verifyEmailBeforeLogin": "Zəhmət olmasa daxil olmadan əvvəl e-poçt ünvanınızı təsdiqləyin."
   },
   "login": {
     "welcomeBack": "Yenidən xoş gəlmisiniz",
@@ -476,7 +488,8 @@
     "archivedTitle": "Söhbət arxivləşdirildi",
     "archivedMsg": "Söhbət arxivləşdirildi.",
     "archiveFailedTitle": "Söhbəti arxivləşdirmək mümkün olmadı",
-    "archiveFailedMsg": "Zəhmət olmasa yenidən cəhd edin."
+    "archiveFailedMsg": "Zəhmət olmasa yenidən cəhd edin.",
+    "groupVideo": "Qrup videosu"
   },
   "topbar": {
     "newStatus": "Yeni Status",
@@ -566,7 +579,18 @@
     "roomNumber": "Söhbət #%d",
     "missingConversationId": "Söhbət ID-si yoxdur.",
     "archiveFailed": "Söhbəti arxivləşdirmək alınmadı.",
-    "deleteFailed": "Söhbəti silmək alınmadı."
+    "deleteFailed": "Söhbəti silmək alınmadı.",
+    "sendMessageFailed": "Mesajı göndərə bilmədi.",
+    "sendImageFailed": "Şəkili göndərə bilmədi.",
+    "sendVideoFailed": "Video göndərə bilmədim.",
+    "sendAudioFailed": "Səs göndərə bilmədi.",
+    "editMessageFailed": "Mesajı redaktə etmək mümkün olmadı.",
+    "editFailed": "Düzəliş uğursuz oldu:",
+    "deleteMessageFailed": "Mesajı silə bilmədi.",
+    "archiveConversationFailed": "Söhbəti arxivləşdirmək mümkün olmadı.",
+    "deleteConversationFailed": "Söhbəti silə bilmədi.",
+    "imageDataEmpty": "Şəkil məlumatları boşdur.",
+    "videoDataEmpty": "Video məlumatları boşdur."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Şifrələmə sıfırlaması bu cihazda düzgün başa çatmadı."
       },
       "restore": {
-        "localFailure": "Bu cihazda Key Restore düzgün tamamlanmadı."
-      }
+        "localFailure": "Bu cihazda Key Restore düzgün tamamlanmadı.",
+        "title": "Şifrələmə açarını bərpa et",
+        "instructions": "Şifrləmə açarınızı bərpa etmək üçün ehtiyat şifrənizi daxil edin.",
+        "noBackup": "Uzaqdan ehtiyat nüsxə tapılmadı.",
+        "noBackupFirst": "Bərpa etməyə cəhd etməzdən əvvəl ehtiyat nüsxə yaradın.",
+        "restoreKey": "Açar bərpa et",
+        "success": "Şifrləmə açarı uğurla bərpa edildi.",
+        "deviceMismatch": "Bərpa olunmuş açar bu cihazla uyğun gəlmir.",
+        "correctKeyMissing": "Bu cihazda hələ də düzgün şifrələmə açarı yoxdur."
+      },
+      "checkingBackup": "Ehtiyat nüsxəni yoxlayıram...",
+      "backupPassword": "Ehtiyat şifrə"
     },
     "reset": {
       "title": "Şifrələməni sıfırla",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Kamera girişi rədd edildi. Parametrlərdə onu aktiv edin.",
     "microphoneDenied": "Mikrofon girişi rədd edildi. Onu Tənzimləmələrdə aktiv edin.",
     "cameraRestricted": "Bu cihazda kamera istifadəsi məhdudlaşdırılıb.",
-    "microphoneRestricted": "Bu cihazda mikrofon istifadəsi məhdudlaşdırılıb."
+    "microphoneRestricted": "Bu cihazda mikrofon istifadəsi məhdudlaşdırılıb.",
+    "noCameraAvailable": "Heç bir kamera mövcud deyil.",
+    "couldNotCreateCameraSource": "Kamera mənbəyini yaratmaq mümkün olmadı."
   },
   "gif": {
     "couldNotLoad": "GIF yüklənə bilmədi",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Əksinə çevir",
     "speaker": "Natiq",
-    "end": "Son"
+    "end": "Son",
+    "noIncomingCallToAnswer": "Cavablandırılacaq heç bir daxil olan zəng yoxdur."
   },
   "settings": {
     "startHour": "Başlanğıc saatı (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM-iniz quraşdırmağa hazırdır.",
     "your_esim_is_active": "eSIM-iniz aktivdir.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM data paketləri eSIM-ə uyğun və kilidsiz cihaz tələb edir.",
-    "we_couldnt_start_your_esim_activation": "Biz eSIM aktivləşdirmənizi başlada bilmədik."
+    "we_couldnt_start_your_esim_activation": "Biz eSIM aktivləşdirmənizi başlada bilmədik.",
+    "missing_auth_token": "Səhv autentifikasiya tokeni.",
+    "invalid_room_id_client": "Etibarsız otaq ID-si."
   },
   "onboarding": {
     "welcomeSubtitle": "Mesajı qlobal səviyyədə göndərin, dərhal tərcümə edin və söhbətlərə tez başlayın.",
@@ -3493,5 +3532,12 @@
     "yi": "Yidi",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Ləğv et",
+  "startChat": {
+    "fetchResultsFailed": "Nəticələri əldə etmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.",
+    "fetchContactsFailed": "Əlaqələri əldə etmək mümkün olmadı.",
+    "contactOpenFailed": "Bu əlaqə açılmadı.",
+    "enterValidPhone": "Etibarlı telefon nömrəsini daxil edin."
   }
 }

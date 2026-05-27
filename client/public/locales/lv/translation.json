@@ -329,7 +329,19 @@
     "smsConsentRequired": "Lūdzu, piekrītiet SMS ziņojumiem vai noņemiet tālruņa numuru.",
     "secureKeySetupFailed": "Jūsu konts tika izveidots, taču šajā ierīcē neizdevās iestatīt drošu atslēgu. Lūdzu, mēģiniet vēlreiz.",
     "verifyEmailAfterSignup": "Izveidots konts. Pirms pieteikšanās pārbaudiet savu e-pastu, lai apstiprinātu savu kontu.",
-    "sessionExpiredSignInAgain": "Jūsu sesija beidzās. Lūdzu, pierakstieties vēlreiz."
+    "sessionExpiredSignInAgain": "Jūsu sesija beidzās. Lūdzu, pierakstieties vēlreiz.",
+    "sessionExpired": "Jūsu sesija ir beigusies.",
+    "missingEncryptionKeyOlderMessages": "Šajā ierīcē trūkst šifrēšanas atslēgas. Atjaunojiet to, lai lasītu vecākus šifrētos ziņojumus.",
+    "missingEncryptionKey": "Šajā ierīcē trūkst šifrēšanas atslēgas. Atjaunojiet to, lai lasītu šifrētos ziņojumus.",
+    "mismatchedEncryptionKey": "Šai ierīcei ir cita šifrēšanas atslēga. Atjaunojiet pareizo atslēgu, lai piekļūtu ziņojumiem.",
+    "forgotPasswordQuestion": "Aizmirsāt paroli?",
+    "sending": "Nosūtot...",
+    "resendVerificationEmail": "Atkārtoti nosūtīt verifikācijas e-pasta vēstuli",
+    "emailOrUsername": "E-pasts vai lietotājvārds",
+    "loggingIn": "Pieteikšanās...",
+    "verificationEmailSent": "Nosūtīts verifikācijas e-pasta vēstule. Pārbaudiet savu iesūtni.",
+    "resendVerificationFailed": "Neizdevās atkārtoti nosūtīt verifikācijas e-pastu.",
+    "verifyEmailBeforeLogin": "Pirms pieteikšanās pārbaudiet savu e-pasta adresi."
   },
   "login": {
     "welcomeBack": "Laipni lūdzam atpakaļ",
@@ -476,7 +488,8 @@
     "archivedTitle": "Sarunas arhivētas",
     "archivedMsg": "Saruna tika arhivēta.",
     "archiveFailedTitle": "Nevarēja arhivēt sarunu",
-    "archiveFailedMsg": "Lūdzu, mēģiniet vēlreiz."
+    "archiveFailedMsg": "Lūdzu, mēģiniet vēlreiz.",
+    "groupVideo": "Grupas video"
   },
   "topbar": {
     "newStatus": "Jauns statuss",
@@ -566,7 +579,18 @@
     "roomNumber": "Tērzēšana #%d",
     "missingConversationId": "Trūkst sarunas ID.",
     "archiveFailed": "Neizdevās arhivēt sarunu.",
-    "deleteFailed": "Neizdevās izdzēst sarunu."
+    "deleteFailed": "Neizdevās izdzēst sarunu.",
+    "sendMessageFailed": "Nevarēja nosūtīt ziņojumu.",
+    "sendImageFailed": "Nevarēja nosūtīt attēlu.",
+    "sendVideoFailed": "Nevarēja nosūtīt videoklipu.",
+    "sendAudioFailed": "Nevarēja nosūtīt audio.",
+    "editMessageFailed": "Nevarēja rediģēt ziņojumu.",
+    "editFailed": "Rediģēšana neizdevās:",
+    "deleteMessageFailed": "Nevarēja izdzēst ziņojumu.",
+    "archiveConversationFailed": "Nevarēja arhivēt sarunu.",
+    "deleteConversationFailed": "Nevarēja izdzēst sarunu.",
+    "imageDataEmpty": "Attēla dati ir tukši.",
+    "videoDataEmpty": "Video dati ir tukši."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Šifrēšanas atiestatīšana šajā ierīcē nav pabeigta pareizi."
       },
       "restore": {
-        "localFailure": "Atslēgas atjaunošana šajā ierīcē netika pabeigta pareizi."
-      }
+        "localFailure": "Atslēgas atjaunošana šajā ierīcē netika pabeigta pareizi.",
+        "title": "Šifrēšanas atslēgas atjaunošana",
+        "instructions": "Ievadiet dublējuma paroli, lai atjaunotu šifrēšanas atslēgu.",
+        "noBackup": "Netika atrasta neviena attālā dublējuma kopija.",
+        "noBackupFirst": "Pirms atjaunošanas mēģinājuma izveidojiet dublējumu.",
+        "restoreKey": "Atjaunot atslēgu",
+        "success": "Šifrēšanas atslēga veiksmīgi atjaunota.",
+        "deviceMismatch": "Atjaunotā atslēga neatbilst šai ierīcei.",
+        "correctKeyMissing": "Šai ierīcei joprojām nav pareizās šifrēšanas atslēgas."
+      },
+      "checkingBackup": "Dublējuma pārbaude...",
+      "backupPassword": "Rezerves kopijas parole"
     },
     "reset": {
       "title": "Atiestatīt šifrēšanu",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Piekļuve kamerai ir liegta. Atļaujiet to iestatījumos.",
     "microphoneDenied": "Piekļuve mikrofonam ir liegta. Atļaujiet to iestatījumos.",
     "cameraRestricted": "Piekļuve kamerai šajā ierīcē ir ierobežota.",
-    "microphoneRestricted": "Piekļuve mikrofonam šajā ierīcē ir ierobežota."
+    "microphoneRestricted": "Piekļuve mikrofonam šajā ierīcē ir ierobežota.",
+    "noCameraAvailable": "Kamera nav pieejama.",
+    "couldNotCreateCameraSource": "Nevar izveidot kameras avotu."
   },
   "gif": {
     "couldNotLoad": "Nevar ielādēt GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Flip",
     "speaker": "Runātājs",
-    "end": "Izbeigt"
+    "end": "Izbeigt",
+    "noIncomingCallToAnswer": "Nav ienākošā zvana, uz kuru jāatbild."
   },
   "settings": {
     "startHour": "Sākuma stunda (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Jūsu eSIM ir gatava uzstādīšanai.",
     "your_esim_is_active": "Jūsu eSIM ir aktīva.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM datu pakotnēm nepieciešama eSIM saderīga un atbloķēta ierīce.",
-    "we_couldnt_start_your_esim_activation": "Mēs nevarējām sākt jūsu eSIM aktivizēšanu."
+    "we_couldnt_start_your_esim_activation": "Mēs nevarējām sākt jūsu eSIM aktivizēšanu.",
+    "missing_auth_token": "Trūkst autentifikācijas marķiera.",
+    "invalid_room_id_client": "Nederīgs telpas ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Sūtiet ziņojumus visā pasaulē, tulkojiet uzreiz un ātri sāciet sarunas.",
@@ -3493,5 +3532,12 @@
     "yi": "Jidiš",
     "yo": "Joruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Atcelt",
+  "startChat": {
+    "fetchResultsFailed": "Nevar iegūt rezultātus. Lūdzu, mēģiniet vēlreiz.",
+    "fetchContactsFailed": "Nevar iegūt kontaktus.",
+    "contactOpenFailed": "Šo kontaktu nevarēja atvērt.",
+    "enterValidPhone": "Ievadiet derīgu tālruņa numuru."
   }
 }

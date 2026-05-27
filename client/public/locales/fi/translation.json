@@ -329,7 +329,19 @@
     "smsConsentRequired": "Suostu tekstiviesteihin tai poista puhelinnumero.",
     "secureKeySetupFailed": "Tilisi luotiin, mutta turvallisen avaimen asennus epäonnistui tällä laitteella. Yritä uudelleen.",
     "verifyEmailAfterSignup": "Tili luotu. Tarkista sähköpostisi vahvistaaksesi tilisi ennen kirjautumista.",
-    "sessionExpiredSignInAgain": "Istuntosi päättyi. Kirjaudu uudelleen."
+    "sessionExpiredSignInAgain": "Istuntosi päättyi. Kirjaudu uudelleen.",
+    "sessionExpired": "Istuntosi on päättynyt.",
+    "missingEncryptionKeyOlderMessages": "Tästä laitteesta puuttuu salausavain. Palauta se lukeaksesi vanhempia salattuja viestejä.",
+    "missingEncryptionKey": "Tästä laitteesta puuttuu salausavain. Palauta se lukeaksesi salattuja viestejä.",
+    "mismatchedEncryptionKey": "Tällä laitteella on eri salausavain. Palauta oikea avain, jotta voit käyttää viestejäsi.",
+    "forgotPasswordQuestion": "Unohditko salasanan?",
+    "sending": "Lähettää...",
+    "resendVerificationEmail": "Lähetä vahvistussähköposti uudelleen",
+    "emailOrUsername": "Sähköpostiosoite tai käyttäjätunnus",
+    "loggingIn": "Kirjautuminen sisään...",
+    "verificationEmailSent": "Vahvistussähköposti lähetetty. Tarkista postilaatikkosi.",
+    "resendVerificationFailed": "Vahvistussähköpostia ei onnistuttu lähettämään uudelleen.",
+    "verifyEmailBeforeLogin": "Vahvista sähköpostiosoitteesi ennen kirjautumista."
   },
   "login": {
     "welcomeBack": "Tervetuloa takaisin",
@@ -476,7 +488,8 @@
     "archivedTitle": "Keskustelu arkistoitu",
     "archivedMsg": "Keskustelu arkistoitiin.",
     "archiveFailedTitle": "Keskustelua ei voitu arkistoida",
-    "archiveFailedMsg": "Yritä uudelleen."
+    "archiveFailedMsg": "Yritä uudelleen.",
+    "groupVideo": "Ryhmävideo"
   },
   "topbar": {
     "newStatus": "Uusi tila",
@@ -566,7 +579,18 @@
     "roomNumber": "Keskustelu #%d",
     "missingConversationId": "Keskustelun tunnus puuttuu.",
     "archiveFailed": "Keskustelun arkistointi epäonnistui.",
-    "deleteFailed": "Keskustelun poistaminen epäonnistui."
+    "deleteFailed": "Keskustelun poistaminen epäonnistui.",
+    "sendMessageFailed": "Viestiä ei voitu lähettää.",
+    "sendImageFailed": "Kuvaa ei voitu lähettää.",
+    "sendVideoFailed": "Videota ei voitu lähettää.",
+    "sendAudioFailed": "Ei voinut lähettää ääntä.",
+    "editMessageFailed": "Viestiä ei voitu muokata.",
+    "editFailed": "Muokkaus epäonnistui:",
+    "deleteMessageFailed": "Viestiä ei voitu poistaa.",
+    "archiveConversationFailed": "Keskustelua ei voitu arkistoida.",
+    "deleteConversationFailed": "Keskustelua ei voitu poistaa.",
+    "imageDataEmpty": "Kuvatiedot ovat tyhjiä.",
+    "videoDataEmpty": "Videotiedot ovat tyhjiä."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Salausasetusten nollaus ei valmistunut oikein tässä laitteessa."
       },
       "restore": {
-        "localFailure": "Avaimen palautus ei valmistunut oikein tällä laitteella."
-      }
+        "localFailure": "Avaimen palautus ei valmistunut oikein tällä laitteella.",
+        "title": "Salausavaimen palauttaminen",
+        "instructions": "Kirjoita varmuuskopiointisalasana, jotta voit palauttaa salausavaimen.",
+        "noBackup": "Etävarmistusta ei löytynyt.",
+        "noBackupFirst": "Luo varmuuskopio ennen kuin yrität palauttamista.",
+        "restoreKey": "Palauta avain",
+        "success": "Salausavain palautettu onnistuneesti.",
+        "deviceMismatch": "Palautettu avain ei vastaa tätä laitetta.",
+        "correctKeyMissing": "Tällä laitteella ei vieläkään ole oikeaa salausavainta."
+      },
+      "checkingBackup": "Tarkistan varmuuskopion...",
+      "backupPassword": "Varmistussalasana"
     },
     "reset": {
       "title": "Nollaa salaus",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Kameran käyttöoikeus on estetty. Ota se käyttöön Asetuksissa.",
     "microphoneDenied": "Mikrofonin käyttöoikeus on estetty. Ota se käyttöön Asetuksissa.",
     "cameraRestricted": "Kameran käyttö on rajoitettu tässä laitteessa.",
-    "microphoneRestricted": "Mikrofonin käyttö on rajoitettu tässä laitteessa."
+    "microphoneRestricted": "Mikrofonin käyttö on rajoitettu tässä laitteessa.",
+    "noCameraAvailable": "Kameraa ei ole käytettävissä.",
+    "couldNotCreateCameraSource": "Kameran lähdettä ei voitu luoda."
   },
   "gif": {
     "couldNotLoad": "GIF-tiedostoa ei voitu ladata",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Flip",
     "speaker": "Puhuja",
-    "end": "End"
+    "end": "End",
+    "noIncomingCallToAnswer": "Ei tulevaa puhelua vastattavaksi."
   },
   "settings": {
     "startHour": "Aloitustunti (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM on valmis asennettavaksi.",
     "your_esim_is_active": "eSIM-korttisi on aktiivinen.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM-datapaketit edellyttävät eSIM-yhteensopivaa ja lukituksetonta laitetta.",
-    "we_couldnt_start_your_esim_activation": "Emme voineet aloittaa eSIM-aktivointia."
+    "we_couldnt_start_your_esim_activation": "Emme voineet aloittaa eSIM-aktivointia.",
+    "missing_auth_token": "Todennuskoodi puuttuu.",
+    "invalid_room_id_client": "Huoneen tunnus on virheellinen."
   },
   "onboarding": {
     "welcomeSubtitle": "Viesti maailmanlaajuisesti, käännä heti ja aloita keskustelut nopeasti.",
@@ -3493,5 +3532,12 @@
     "yi": "Jiddish",
     "yo": "Joruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Peruuta",
+  "startChat": {
+    "fetchResultsFailed": "Tuloksia ei pystytä hakemaan. Yritä uudelleen.",
+    "fetchContactsFailed": "Yhteystietoja ei pystytä hakemaan.",
+    "contactOpenFailed": "Tätä yhteyttä ei voitu avata.",
+    "enterValidPhone": "Kirjoita voimassa oleva puhelinnumero."
   }
 }

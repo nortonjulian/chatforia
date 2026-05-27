@@ -329,7 +329,19 @@
     "smsConsentRequired": "يرجى الموافقة على الرسائل النصية القصيرة أو إزالة رقم الهاتف.",
     "secureKeySetupFailed": "تم إنشاء حسابك، ولكن فشل إعداد المفتاح الآمن على هذا الجهاز. يرجى المحاولة مرة أخرى.",
     "verifyEmailAfterSignup": "تم إنشاء الحساب. يرجى التحقق من بريدك الإلكتروني للتحقق من حسابك قبل تسجيل الدخول.",
-    "sessionExpiredSignInAgain": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى."
+    "sessionExpiredSignInAgain": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى.",
+    "sessionExpired": "انتهت صلاحية جلستك.",
+    "missingEncryptionKeyOlderMessages": "هذا الجهاز يفتقد مفتاح التشفير الخاص بك. استعده لقراءة الرسائل المشفرة القديمة.",
+    "missingEncryptionKey": "هذا الجهاز ينقصه مفتاح التشفير. استعده لقراءة الرسائل المشفرة.",
+    "mismatchedEncryptionKey": "يحتوي هذا الجهاز على مفتاح تشفير مختلف. استعد المفتاح الصحيح للوصول إلى رسائلك.",
+    "forgotPasswordQuestion": "هل نسيت كلمة المرور؟",
+    "sending": "إرسال...",
+    "resendVerificationEmail": "إعادة إرسال بريد إلكتروني للتحقق",
+    "emailOrUsername": "البريد الإلكتروني أو اسم المستخدم",
+    "loggingIn": "تسجيل الدخول...",
+    "verificationEmailSent": "تم إرسال رسالة التحقق بالبريد الإلكتروني. تحقق من صندوق الوارد الخاص بك.",
+    "resendVerificationFailed": "فشل في إعادة إرسال رسالة التحقق بالبريد الإلكتروني.",
+    "verifyEmailBeforeLogin": "يرجى التحقق من بريدك الإلكتروني قبل تسجيل الدخول."
   },
   "login": {
     "welcomeBack": "مرحبًا بعودتك",
@@ -476,7 +488,8 @@
     "archivedTitle": "تم أرشفة المحادثة",
     "archivedMsg": "تم أرشفة المحادثة.",
     "archiveFailedTitle": "تعذر أرشفة المحادثة",
-    "archiveFailedMsg": "يرجى المحاولة مرة أخرى."
+    "archiveFailedMsg": "يرجى المحاولة مرة أخرى.",
+    "groupVideo": "فيديو جماعي"
   },
   "topbar": {
     "newStatus": "حالة جديدة",
@@ -566,7 +579,18 @@
     "roomNumber": "الدردشة #%د",
     "missingConversationId": "معرّف المحادثة المفقود",
     "archiveFailed": "فشل في أرشفة المحادثة.",
-    "deleteFailed": "فشل في حذف المحادثة."
+    "deleteFailed": "فشل في حذف المحادثة.",
+    "sendMessageFailed": "تعذر إرسال رسالة",
+    "sendImageFailed": "تعذر إرسال الصورة.",
+    "sendVideoFailed": "تعذر إرسال الفيديو",
+    "sendAudioFailed": "تعذر إرسال الصوت",
+    "editMessageFailed": "تعذر تحرير الرسالة",
+    "editFailed": "فشل التعديل:",
+    "deleteMessageFailed": "تعذر حذف الرسالة.",
+    "archiveConversationFailed": "تعذر أرشفة المحادثة",
+    "deleteConversationFailed": "تعذر حذف المحادثة",
+    "imageDataEmpty": "بيانات الصورة فارغة.",
+    "videoDataEmpty": "بيانات الفيديو فارغة."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "لم تكتمل إعادة تعيين التشفير بشكل صحيح على هذا الجهاز."
       },
       "restore": {
-        "localFailure": "لم تكتمل استعادة المفاتيح بشكل صحيح على هذا الجهاز."
-      }
+        "localFailure": "لم تكتمل استعادة المفاتيح بشكل صحيح على هذا الجهاز.",
+        "title": "استعادة مفتاح التشفير",
+        "instructions": "أدخل كلمة المرور الاحتياطية لاستعادة مفتاح التشفير الخاص بك.",
+        "noBackup": "لم يتم العثور على نسخة احتياطية عن بعد.",
+        "noBackupFirst": "قم بإنشاء نسخة احتياطية قبل محاولة الاستعادة.",
+        "restoreKey": "مفتاح الاستعادة",
+        "success": "تمت استعادة مفتاح التشفير بنجاح.",
+        "deviceMismatch": "المفتاح المستعاد لا يتطابق مع هذا الجهاز.",
+        "correctKeyMissing": "لا يزال هذا الجهاز لا يحتوي على مفتاح التشفير الصحيح."
+      },
+      "checkingBackup": "التحقق من النسخ الاحتياطي...",
+      "backupPassword": "كلمة المرور الاحتياطية"
     },
     "reset": {
       "title": "إعادة تعيين التشفير",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "الوصول إلى الكاميرا مرفوض. قم بتمكينه في الإعدادات.",
     "microphoneDenied": "تم رفض الوصول إلى الميكروفون. قم بتمكينه في الإعدادات.",
     "cameraRestricted": "الوصول إلى الكاميرا مقيد على هذا الجهاز.",
-    "microphoneRestricted": "الوصول إلى الميكروفون مقيد على هذا الجهاز."
+    "microphoneRestricted": "الوصول إلى الميكروفون مقيد على هذا الجهاز.",
+    "noCameraAvailable": "لا توجد كاميرا متوفرة.",
+    "couldNotCreateCameraSource": "تعذر إنشاء مصدر الكاميرا."
   },
   "gif": {
     "couldNotLoad": "تعذر تحميل GIF",
@@ -2981,7 +3017,8 @@
     "camera": "كاميرا",
     "flip": "الوجه",
     "speaker": "مكبر الصوت",
-    "end": "النهاية"
+    "end": "النهاية",
+    "noIncomingCallToAnswer": "لا توجد مكالمة واردة للرد عليها."
   },
   "settings": {
     "startHour": "ساعة البدء (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "شريحة eSIM جاهزة للتثبيت.",
     "your_esim_is_active": "شريحة eSIM الخاصة بك نشطة.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "تتطلب حزم بيانات eSIM جهازاً متوافقاً مع eSIM وغير مقفل.",
-    "we_couldnt_start_your_esim_activation": "لم نتمكن من بدء تفعيل شريحة eSIM الخاصة بك."
+    "we_couldnt_start_your_esim_activation": "لم نتمكن من بدء تفعيل شريحة eSIM الخاصة بك.",
+    "missing_auth_token": "رمز المصادقة المفقود.",
+    "invalid_room_id_client": "معرف الغرفة غير صالح."
   },
   "onboarding": {
     "welcomeSubtitle": "أرسل رسائل على مستوى العالم وترجمها على الفور وابدأ المحادثات بسرعة.",
@@ -3493,5 +3532,12 @@
     "yi": "اليديشية",
     "yo": "اليوروبا",
     "zu": "زولو"
+  },
+  "button_cancel": "إلغاء",
+  "startChat": {
+    "fetchResultsFailed": "غير قادر على جلب النتائج. يرجى المحاولة مرة أخرى.",
+    "fetchContactsFailed": "غير قادر على جلب جهات الاتصال.",
+    "contactOpenFailed": "لا يمكن فتح هذا الاتصال.",
+    "enterValidPhone": "أدخل رقم هاتف صالح."
   }
 }

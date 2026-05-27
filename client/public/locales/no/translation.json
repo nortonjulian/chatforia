@@ -329,7 +329,19 @@
     "smsConsentRequired": "Vennligst gi samtykke til SMS-meldinger eller fjern telefonnummeret.",
     "secureKeySetupFailed": "Kontoen din ble opprettet, men oppsett av sikker nøkkel mislyktes på denne enheten. Vennligst prøv på nytt.",
     "verifyEmailAfterSignup": "Konto opprettet. Vennligst sjekk e-posten din for å bekrefte kontoen din før du logger inn.",
-    "sessionExpiredSignInAgain": "Økten din er utløpt. Vennligst logg inn på nytt."
+    "sessionExpiredSignInAgain": "Økten din er utløpt. Vennligst logg inn på nytt.",
+    "sessionExpired": "Økten din er utløpt.",
+    "missingEncryptionKeyOlderMessages": "Denne enheten mangler krypteringsnøkkelen din. Gjenopprett den for å lese eldre krypterte meldinger.",
+    "missingEncryptionKey": "Denne enheten mangler krypteringsnøkkelen din. Gjenopprett den for å lese krypterte meldinger.",
+    "mismatchedEncryptionKey": "Denne enheten har en annen krypteringsnøkkel. Gjenopprett riktig nøkkel for å få tilgang til meldingene dine.",
+    "forgotPasswordQuestion": "Glemt passord?",
+    "sending": "Sender...",
+    "resendVerificationEmail": "Send bekreftelses-e-post på nytt",
+    "emailOrUsername": "E-post eller brukernavn",
+    "loggingIn": "Logger inn...",
+    "verificationEmailSent": "Bekreftelses-e-post sendt. Sjekk innboksen din.",
+    "resendVerificationFailed": "Kunne ikke sende bekreftelses-e-post på nytt.",
+    "verifyEmailBeforeLogin": "Vennligst bekreft e-postadressen din før du logger inn."
   },
   "login": {
     "welcomeBack": "Velkommen tilbake",
@@ -476,7 +488,8 @@
     "archivedTitle": "Samtale arkivert",
     "archivedMsg": "Samtalen ble arkivert.",
     "archiveFailedTitle": "Kunne ikke arkivere samtalen",
-    "archiveFailedMsg": "Vennligst prøv igjen."
+    "archiveFailedMsg": "Vennligst prøv igjen.",
+    "groupVideo": "Gruppevideo"
   },
   "topbar": {
     "newStatus": "Ny status",
@@ -566,7 +579,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Manglende samtale-ID.",
     "archiveFailed": "Kunne ikke arkivere samtalen.",
-    "deleteFailed": "Kunne ikke slette samtalen."
+    "deleteFailed": "Kunne ikke slette samtalen.",
+    "sendMessageFailed": "Kunne ikke sende melding.",
+    "sendImageFailed": "Kunne ikke sende bilde.",
+    "sendVideoFailed": "Kunne ikke sende video.",
+    "sendAudioFailed": "Kunne ikke sende lyd.",
+    "editMessageFailed": "Kunne ikke redigere meldingen.",
+    "editFailed": "Redigeringen mislyktes:",
+    "deleteMessageFailed": "Kunne ikke slette meldingen.",
+    "archiveConversationFailed": "Kunne ikke arkivere samtalen.",
+    "deleteConversationFailed": "Kunne ikke slette samtalen.",
+    "imageDataEmpty": "Bildedataene er tomme.",
+    "videoDataEmpty": "Videodataene er tomme."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Tilbakestillingen av krypteringen ble ikke fullført på riktig måte på denne enheten."
       },
       "restore": {
-        "localFailure": "Gjenoppretting av nøkler ble ikke fullført på riktig måte på denne enheten."
-      }
+        "localFailure": "Gjenoppretting av nøkler ble ikke fullført på riktig måte på denne enheten.",
+        "title": "Gjenopprett krypteringsnøkkel",
+        "instructions": "Skriv inn sikkerhetskopipassordet for å gjenopprette krypteringsnøkkelen.",
+        "noBackup": "Ingen ekstern sikkerhetskopi ble funnet.",
+        "noBackupFirst": "Lag en sikkerhetskopi før du prøver å gjenopprette.",
+        "restoreKey": "Gjenopprett nøkkel",
+        "success": "Krypteringsnøkkelen er gjenopprettet.",
+        "deviceMismatch": "Den gjenopprettede nøkkelen passer ikke til denne enheten.",
+        "correctKeyMissing": "Denne enheten har fortsatt ikke riktig krypteringsnøkkel."
+      },
+      "checkingBackup": "Sjekker for backup...",
+      "backupPassword": "Backup-passord"
     },
     "reset": {
       "title": "Tilbakestill kryptering",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Kameratilgang er nektet. Aktiver det i Innstillinger.",
     "microphoneDenied": "Mikrofontilgang er nektet. Aktiver den i Innstillinger.",
     "cameraRestricted": "Kameratilgang er begrenset på denne enheten.",
-    "microphoneRestricted": "Mikrofontilgang er begrenset på denne enheten."
+    "microphoneRestricted": "Mikrofontilgang er begrenset på denne enheten.",
+    "noCameraAvailable": "Ingen kamera tilgjengelig.",
+    "couldNotCreateCameraSource": "Kunne ikke opprette kamerakilde."
   },
   "gif": {
     "couldNotLoad": "Kunne ikke laste inn GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Flip",
     "speaker": "Høyttaler",
-    "end": "Slutt"
+    "end": "Slutt",
+    "noIncomingCallToAnswer": "Ingen innkommende anrop å besvare."
   },
   "settings": {
     "startHour": "Start time (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM-kortet er klart til å installeres.",
     "your_esim_is_active": "Ditt eSIM er aktivt.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM-datapakker krever en eSIM-kompatibel og ulåst enhet.",
-    "we_couldnt_start_your_esim_activation": "Vi kunne ikke starte eSIM-aktiveringen din."
+    "we_couldnt_start_your_esim_activation": "Vi kunne ikke starte eSIM-aktiveringen din.",
+    "missing_auth_token": "Mangler autentiseringstoken.",
+    "invalid_room_id_client": "Ugyldig rom-ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Send meldinger globalt, oversett umiddelbart og start samtaler raskt.",
@@ -3493,5 +3532,12 @@
     "yi": "Jiddisch",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Avbryt",
+  "startChat": {
+    "fetchResultsFailed": "Kan ikke hente resultater. Vennligst prøv igjen.",
+    "fetchContactsFailed": "Kan ikke hente kontakter.",
+    "contactOpenFailed": "Denne kontakten kunne ikke åpnes.",
+    "enterValidPhone": "Skriv inn et gyldig telefonnummer."
   }
 }

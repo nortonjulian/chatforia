@@ -329,7 +329,19 @@
     "smsConsentRequired": "SMS 메시지 수신에 동의하거나 전화번호를 삭제하세요.",
     "secureKeySetupFailed": "계정이 생성되었지만 이 장치에서 보안 키 설정에 실패했습니다. 다시 시도해 주세요.",
     "verifyEmailAfterSignup": "계정이 생성되었습니다. 로그인하기 전에 이메일을 확인하여 계정 인증을 받으세요.",
-    "sessionExpiredSignInAgain": "세션이 만료되었습니다. 다시 로그인해 주세요."
+    "sessionExpiredSignInAgain": "세션이 만료되었습니다. 다시 로그인해 주세요.",
+    "sessionExpired": "세션이 만료되었습니다.",
+    "missingEncryptionKeyOlderMessages": "이 장치에 암호화 키가 없습니다. 이전 암호화된 메시지를 읽으려면 복원하세요.",
+    "missingEncryptionKey": "이 장치에 암호화 키가 없습니다. 암호화된 메시지를 읽으려면 복원하세요.",
+    "mismatchedEncryptionKey": "이 장치에 다른 암호화 키가 있습니다. 메시지에 액세스하려면 올바른 키를 복원하세요.",
+    "forgotPasswordQuestion": "비밀번호를 잊으셨나요?",
+    "sending": "보내기...",
+    "resendVerificationEmail": "인증 이메일 다시 보내기",
+    "emailOrUsername": "이메일 또는 사용자 이름",
+    "loggingIn": "로그인...",
+    "verificationEmailSent": "확인 이메일이 전송되었습니다. 받은 편지함을 확인하세요.",
+    "resendVerificationFailed": "인증 이메일을 다시 보내지 못했습니다.",
+    "verifyEmailBeforeLogin": "로그인하기 전에 이메일을 인증해 주세요."
   },
   "login": {
     "welcomeBack": "다시 오신 것을 환영합니다",
@@ -476,7 +488,8 @@
     "archivedTitle": "대화 보관됨",
     "archivedMsg": "대화가 보관되었습니다.",
     "archiveFailedTitle": "대화를 보관할 수 없습니다",
-    "archiveFailedMsg": "다시 시도해 주세요."
+    "archiveFailedMsg": "다시 시도해 주세요.",
+    "groupVideo": "그룹 비디오"
   },
   "topbar": {
     "newStatus": "새 상태",
@@ -566,7 +579,18 @@
     "roomNumber": "채팅 #%d",
     "missingConversationId": "대화 ID가 누락되었습니다.",
     "archiveFailed": "대화를 보관하지 못했습니다.",
-    "deleteFailed": "대화를 삭제하지 못했습니다."
+    "deleteFailed": "대화를 삭제하지 못했습니다.",
+    "sendMessageFailed": "메시지를 보낼 수 없습니다.",
+    "sendImageFailed": "이미지를 보낼 수 없습니다.",
+    "sendVideoFailed": "동영상을 전송할 수 없습니다.",
+    "sendAudioFailed": "오디오를 전송할 수 없습니다.",
+    "editMessageFailed": "메시지를 수정할 수 없습니다.",
+    "editFailed": "편집에 실패했습니다:",
+    "deleteMessageFailed": "메시지를 삭제할 수 없습니다.",
+    "archiveConversationFailed": "대화를 보관할 수 없습니다.",
+    "deleteConversationFailed": "대화를 삭제할 수 없습니다.",
+    "imageDataEmpty": "이미지 데이터가 비어 있습니다.",
+    "videoDataEmpty": "동영상 데이터가 비어 있습니다."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "이 장치에서 암호화 재설정이 올바르게 완료되지 않았습니다."
       },
       "restore": {
-        "localFailure": "이 장치에서 키 복원이 올바르게 완료되지 않았습니다."
-      }
+        "localFailure": "이 장치에서 키 복원이 올바르게 완료되지 않았습니다.",
+        "title": "암호화 키 복원",
+        "instructions": "백업 비밀번호를 입력하여 암호화 키를 복원합니다.",
+        "noBackup": "원격 백업을 찾을 수 없습니다.",
+        "noBackupFirst": "복원을 시도하기 전에 백업을 만드세요.",
+        "restoreKey": "키 복원",
+        "success": "암호화 키가 성공적으로 복원되었습니다.",
+        "deviceMismatch": "복원된 키가 이 장치와 일치하지 않습니다.",
+        "correctKeyMissing": "이 장치에 여전히 올바른 암호화 키가 없습니다."
+      },
+      "checkingBackup": "백업 확인 중...",
+      "backupPassword": "백업 비밀번호"
     },
     "reset": {
       "title": "암호화 초기화",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "카메라 액세스가 거부됩니다. 설정에서 활성화합니다.",
     "microphoneDenied": "마이크 액세스가 거부됩니다. 설정에서 사용 설정합니다.",
     "cameraRestricted": "이 디바이스에서는 카메라 액세스가 제한됩니다.",
-    "microphoneRestricted": "이 장치에서는 마이크 액세스가 제한됩니다."
+    "microphoneRestricted": "이 장치에서는 마이크 액세스가 제한됩니다.",
+    "noCameraAvailable": "사용 가능한 카메라가 없습니다.",
+    "couldNotCreateCameraSource": "카메라 소스를 만들 수 없습니다."
   },
   "gif": {
     "couldNotLoad": "GIF를 로드할 수 없습니다.",
@@ -2981,7 +3017,8 @@
     "camera": "카메라",
     "flip": "플립",
     "speaker": "스피커",
-    "end": "종료"
+    "end": "종료",
+    "noIncomingCallToAnswer": "받을 수신 전화가 없습니다."
   },
   "settings": {
     "startHour": "시작 시간(0~23시)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM을 설치할 준비가 되었습니다.",
     "your_esim_is_active": "eSIM이 활성화되었습니다.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM 데이터 팩을 사용하려면 eSIM과 호환되고 잠금 해제된 기기가 필요합니다.",
-    "we_couldnt_start_your_esim_activation": "eSIM 활성화를 시작할 수 없습니다."
+    "we_couldnt_start_your_esim_activation": "eSIM 활성화를 시작할 수 없습니다.",
+    "missing_auth_token": "인증 토큰이 누락되었습니다.",
+    "invalid_room_id_client": "잘못된 객실 ID입니다."
   },
   "onboarding": {
     "welcomeSubtitle": "전 세계에 메시지를 보내고, 즉시 번역하고, 빠르게 대화를 시작하세요.",
@@ -3493,5 +3532,12 @@
     "yi": "이디시어",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "취소",
+  "startChat": {
+    "fetchResultsFailed": "결과를 가져올 수 없습니다. 다시 시도해 주세요.",
+    "fetchContactsFailed": "연락처를 가져올 수 없습니다.",
+    "contactOpenFailed": "이 연락처를 열 수 없습니다.",
+    "enterValidPhone": "유효한 전화번호를 입력합니다."
   }
 }

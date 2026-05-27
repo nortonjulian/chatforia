@@ -329,7 +329,19 @@
     "smsConsentRequired": "कृपया एसएमएस संदेशों के लिए सहमति दें या फ़ोन नंबर हटाएँ।",
     "secureKeySetupFailed": "आपका खाता बना लिया गया है, लेकिन इस डिवाइस पर सुरक्षित कुंजी सेटअप विफल हो गया। कृपया फिर से प्रयास करें।",
     "verifyEmailAfterSignup": "खाता बना लिया गया है। कृपया लॉग इन करने से पहले अपने खाते की पुष्टि करने के लिए अपना ईमेल देखें।",
-    "sessionExpiredSignInAgain": "आपका सत्र समाप्त हो गया है। कृपया फिर से साइन इन करें।"
+    "sessionExpiredSignInAgain": "आपका सत्र समाप्त हो गया है। कृपया फिर से साइन इन करें।",
+    "sessionExpired": "आपका सत्र समाप्त हो गया है।",
+    "missingEncryptionKeyOlderMessages": "इस डिवाइस में आपकी एन्क्रिप्शन कुंजी नहीं है। पुराने एन्क्रिप्टेड संदेश पढ़ने के लिए इसे पुनर्स्थापित करें।",
+    "missingEncryptionKey": "इस डिवाइस में आपकी एन्क्रिप्शन कुंजी नहीं है। एन्क्रिप्टेड संदेश पढ़ने के लिए इसे पुनर्स्थापित करें।",
+    "mismatchedEncryptionKey": "इस डिवाइस में एक अलग एन्क्रिप्शन कुंजी है। अपने संदेशों तक पहुँचने के लिए सही कुंजी पुनर्स्थापित करें।",
+    "forgotPasswordQuestion": "पासवर्ड भूल गए?",
+    "sending": "भेज रहा है...",
+    "resendVerificationEmail": "सत्यापन ईमेल पुनः भेजें",
+    "emailOrUsername": "ईमेल या उपयोगकर्ता नाम",
+    "loggingIn": "लॉग इन हो रहा है...",
+    "verificationEmailSent": "सत्यापन ईमेल भेज दी गई है। अपना इनबॉक्स देखें।",
+    "resendVerificationFailed": "पुनः सत्यापन ईमेल भेजने में असफल।",
+    "verifyEmailBeforeLogin": "कृपया लॉग इन करने से पहले अपना ईमेल सत्यापित करें।"
   },
   "login": {
     "welcomeBack": "फिर से स्वागत है",
@@ -476,7 +488,8 @@
     "archivedTitle": "संवाद संग्रहीत",
     "archivedMsg": "वार्तालाप संग्रहीत कर दिया गया था।",
     "archiveFailedTitle": "संवाद संग्रहीत नहीं किया जा सका",
-    "archiveFailedMsg": "कृपया फिर से प्रयास करें।"
+    "archiveFailedMsg": "कृपया फिर से प्रयास करें।",
+    "groupVideo": "समूह वीडियो"
   },
   "topbar": {
     "newStatus": "नया स्टेटस",
@@ -566,7 +579,18 @@
     "roomNumber": "चैट #%d",
     "missingConversationId": "चैट आईडी गुम है।",
     "archiveFailed": "संवाद संग्रहीत करने में विफल।",
-    "deleteFailed": "संवाद हटाने में असफल।"
+    "deleteFailed": "संवाद हटाने में असफल।",
+    "sendMessageFailed": "संदेश नहीं भेजा जा सका।",
+    "sendImageFailed": "छवि नहीं भेज सका।",
+    "sendVideoFailed": "वीडियो भेज नहीं पाया।",
+    "sendAudioFailed": "ऑडियो भेज नहीं सका।",
+    "editMessageFailed": "संदेश संपादित नहीं कर सके।",
+    "editFailed": "संपादन विफल:",
+    "deleteMessageFailed": "संदेश हटा नहीं सका।",
+    "archiveConversationFailed": "संवाद संग्रहीत नहीं हो सका।",
+    "deleteConversationFailed": "संवाद हटा नहीं सका।",
+    "imageDataEmpty": "छवि डेटा खाली है।",
+    "videoDataEmpty": "वीडियो डेटा खाली है।"
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "इस डिवाइस पर एन्क्रिप्शन रीसेट सही ढंग से पूरा नहीं हुआ।"
       },
       "restore": {
-        "localFailure": "इस डिवाइस पर की रिस्टोर सही से पूरा नहीं हुआ।"
-      }
+        "localFailure": "इस डिवाइस पर की रिस्टोर सही से पूरा नहीं हुआ।",
+        "title": "एन्क्रिप्शन कुंजी पुनर्स्थापित करें",
+        "instructions": "अपनी एन्क्रिप्शन कुंजी को पुनर्स्थापित करने के लिए अपना बैकअप पासवर्ड दर्ज करें।",
+        "noBackup": "कोई दूरस्थ बैकअप नहीं मिला।",
+        "noBackupFirst": "पुनर्स्थापना का प्रयास करने से पहले एक बैकअप बना लें।",
+        "restoreKey": "कुंजी पुनर्स्थापित करें",
+        "success": "एन्क्रिप्शन कुंजी सफलतापूर्वक पुनर्स्थापित हो गई।",
+        "deviceMismatch": "पुनर्स्थापित कुंजी इस डिवाइस से मेल नहीं खाती।",
+        "correctKeyMissing": "इस डिवाइस में अभी भी सही एन्क्रिप्शन कुंजी नहीं है।"
+      },
+      "checkingBackup": "बैकअप की जाँच...",
+      "backupPassword": "बैकअप पासवर्ड"
     },
     "reset": {
       "title": "एन्क्रिप्शन रीसेट करें",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "कैमरे की पहुँच अस्वीकार कर दी गई है। इसे सेटिंग्स में सक्षम करें।",
     "microphoneDenied": "माइक्रोफ़ोन तक पहुँच अस्वीकार कर दी गई है। इसे सेटिंग्स में सक्षम करें।",
     "cameraRestricted": "इस डिवाइस पर कैमरा एक्सेस प्रतिबंधित है।",
-    "microphoneRestricted": "इस डिवाइस पर माइक्रोफ़ोन की पहुँच प्रतिबंधित है।"
+    "microphoneRestricted": "इस डिवाइस पर माइक्रोफ़ोन की पहुँच प्रतिबंधित है।",
+    "noCameraAvailable": "कोई कैमरा उपलब्ध नहीं है।",
+    "couldNotCreateCameraSource": "कैमरा स्रोत नहीं बनाया जा सका।"
   },
   "gif": {
     "couldNotLoad": "GIF लोड नहीं हो सका",
@@ -2981,7 +3017,8 @@
     "camera": "कैमरा",
     "flip": "पलटें",
     "speaker": "वक्ता",
-    "end": "अंत"
+    "end": "अंत",
+    "noIncomingCallToAnswer": "उत्तर देने के लिए कोई इनकमिंग कॉल नहीं है।"
   },
   "settings": {
     "startHour": "शुरुआत का समय (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "आपकी ई-सिम इंस्टॉल करने के लिए तैयार है।",
     "your_esim_is_active": "आपकी ई-सिम सक्रिय है।",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM डेटा पैक के लिए eSIM-संगत और अनलॉक्ड डिवाइस की आवश्यकता होती है।",
-    "we_couldnt_start_your_esim_activation": "हम आपका ई-सिम सक्रियण शुरू नहीं कर सके।"
+    "we_couldnt_start_your_esim_activation": "हम आपका ई-सिम सक्रियण शुरू नहीं कर सके।",
+    "missing_auth_token": "प्रमाणीकरण टोकन अनुपस्थित है।",
+    "invalid_room_id_client": "अमान्य कमरा आईडी।"
   },
   "onboarding": {
     "welcomeSubtitle": "दुनिया भर में संदेश भेजें, तुरंत अनुवाद करें, और जल्दी बातचीत शुरू करें।",
@@ -3493,5 +3532,12 @@
     "yi": "यिद्दिश",
     "yo": "योरूबा",
     "zu": "ज़ुलु"
+  },
+  "button_cancel": "रद्द करें",
+  "startChat": {
+    "fetchResultsFailed": "परिणाम प्राप्त नहीं हो सके। कृपया फिर से प्रयास करें।",
+    "fetchContactsFailed": "संपर्क प्राप्त नहीं हो सके।",
+    "contactOpenFailed": "यह संपर्क नहीं खोला जा सका।",
+    "enterValidPhone": "एक वैध फ़ोन नंबर दर्ज करें।"
   }
 }

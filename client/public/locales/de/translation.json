@@ -329,7 +329,19 @@
     "smsConsentRequired": "Bitte stimmen Sie SMS-Nachrichten zu oder entfernen Sie die Telefonnummer.",
     "secureKeySetupFailed": "Ihr Konto wurde erstellt, aber die Einrichtung des sicheren Schlüssels ist auf diesem Gerät fehlgeschlagen. Bitte versuchen Sie es erneut.",
     "verifyEmailAfterSignup": "Konto erstellt. Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu verifizieren, bevor Sie sich anmelden.",
-    "sessionExpiredSignInAgain": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an."
+    "sessionExpiredSignInAgain": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+    "sessionExpired": "Ihre Sitzung ist abgelaufen.",
+    "missingEncryptionKeyOlderMessages": "Diesem Gerät fehlt Ihr Verschlüsselungscode. Stellen Sie ihn wieder her, um ältere verschlüsselte Nachrichten zu lesen.",
+    "missingEncryptionKey": "Diesem Gerät fehlt Ihr Verschlüsselungscode. Stellen Sie ihn wieder her, um verschlüsselte Nachrichten zu lesen.",
+    "mismatchedEncryptionKey": "Dieses Gerät hat einen anderen Verschlüsselungscode. Stellen Sie den richtigen Schlüssel wieder her, um auf Ihre Nachrichten zuzugreifen.",
+    "forgotPasswordQuestion": "Passwort vergessen?",
+    "sending": "Ich schicke...",
+    "resendVerificationEmail": "Verifizierungs-E-Mail erneut senden",
+    "emailOrUsername": "E-Mail oder Nutzername",
+    "loggingIn": "Einloggen...",
+    "verificationEmailSent": "Verifizierungs-E-Mail gesendet. Prüfen Sie Ihren Posteingang.",
+    "resendVerificationFailed": "Die Bestätigungs-E-Mail konnte nicht erneut gesendet werden.",
+    "verifyEmailBeforeLogin": "Bitte verifizieren Sie Ihre E-Mail, bevor Sie sich anmelden."
   },
   "login": {
     "welcomeBack": "Willkommen zurück",
@@ -476,7 +488,8 @@
     "archivedTitle": "Gespräch archiviert",
     "archivedMsg": "Das Gespräch wurde archiviert.",
     "archiveFailedTitle": "Konversation konnte nicht archiviert werden",
-    "archiveFailedMsg": "Bitte versuchen Sie es erneut."
+    "archiveFailedMsg": "Bitte versuchen Sie es erneut.",
+    "groupVideo": "Gruppen-Video"
   },
   "topbar": {
     "newStatus": "Neuer Status",
@@ -566,7 +579,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Fehlende Konversations-ID.",
     "archiveFailed": "Konversation konnte nicht archiviert werden.",
-    "deleteFailed": "Konversation konnte nicht gelöscht werden."
+    "deleteFailed": "Konversation konnte nicht gelöscht werden.",
+    "sendMessageFailed": "Konnte die Nachricht nicht senden.",
+    "sendImageFailed": "Konnte das Bild nicht senden.",
+    "sendVideoFailed": "Konnte kein Video senden.",
+    "sendAudioFailed": "Konnte keinen Ton senden.",
+    "editMessageFailed": "Konnte die Nachricht nicht bearbeiten.",
+    "editFailed": "Bearbeitung fehlgeschlagen:",
+    "deleteMessageFailed": "Die Nachricht konnte nicht gelöscht werden.",
+    "archiveConversationFailed": "Konnte das Gespräch nicht archivieren.",
+    "deleteConversationFailed": "Konnte die Unterhaltung nicht löschen.",
+    "imageDataEmpty": "Die Bilddaten sind leer.",
+    "videoDataEmpty": "Die Videodaten sind leer."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Das Zurücksetzen der Verschlüsselung wurde auf diesem Gerät nicht korrekt abgeschlossen."
       },
       "restore": {
-        "localFailure": "Die Schlüsselwiederherstellung wurde auf diesem Gerät nicht korrekt abgeschlossen."
-      }
+        "localFailure": "Die Schlüsselwiederherstellung wurde auf diesem Gerät nicht korrekt abgeschlossen.",
+        "title": "Verschlüsselungsschlüssel wiederherstellen",
+        "instructions": "Geben Sie Ihr Sicherungskennwort ein, um Ihren Verschlüsselungscode wiederherzustellen.",
+        "noBackup": "Es wurde keine Remote-Sicherung gefunden.",
+        "noBackupFirst": "Erstellen Sie eine Sicherungskopie, bevor Sie eine Wiederherstellung versuchen.",
+        "restoreKey": "Schlüssel wiederherstellen",
+        "success": "Verschlüsselungsschlüssel erfolgreich wiederhergestellt.",
+        "deviceMismatch": "Der wiederhergestellte Schlüssel passt nicht zu diesem Gerät.",
+        "correctKeyMissing": "Dieses Gerät verfügt immer noch nicht über den richtigen Verschlüsselungscode."
+      },
+      "checkingBackup": "Prüfen auf Sicherung...",
+      "backupPassword": "Passwort sichern"
     },
     "reset": {
       "title": "Verschlüsselung zurücksetzen",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Der Zugriff auf die Kamera ist verweigert. Aktivieren Sie sie in den Einstellungen.",
     "microphoneDenied": "Der Zugriff auf das Mikrofon ist verweigert. Aktivieren Sie es in den Einstellungen.",
     "cameraRestricted": "Der Zugriff auf die Kamera ist bei diesem Gerät eingeschränkt.",
-    "microphoneRestricted": "Der Zugriff auf das Mikrofon ist bei diesem Gerät eingeschränkt."
+    "microphoneRestricted": "Der Zugriff auf das Mikrofon ist bei diesem Gerät eingeschränkt.",
+    "noCameraAvailable": "Keine Kamera verfügbar.",
+    "couldNotCreateCameraSource": "Die Kameraquelle konnte nicht erstellt werden."
   },
   "gif": {
     "couldNotLoad": "GIF kann nicht geladen werden",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Flip",
     "speaker": "Sprecher",
-    "end": "Ende"
+    "end": "Ende",
+    "noIncomingCallToAnswer": "Kein eingehender Anruf zu beantworten."
   },
   "settings": {
     "startHour": "Anfangsstunde (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Ihre eSIM ist bereit für die Installation.",
     "your_esim_is_active": "Ihre eSIM ist aktiv.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM-Datenpakete erfordern ein eSIM-kompatibles und entsperrtes Gerät.",
-    "we_couldnt_start_your_esim_activation": "Wir konnten die Aktivierung Ihrer eSIM nicht starten."
+    "we_couldnt_start_your_esim_activation": "Wir konnten die Aktivierung Ihrer eSIM nicht starten.",
+    "missing_auth_token": "Fehlendes Authentifizierungstoken.",
+    "invalid_room_id_client": "Ungültige Raum-ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Nachrichten weltweit versenden, sofort übersetzen und schnell ins Gespräch kommen.",
@@ -3493,5 +3532,12 @@
     "yi": "Jiddisch",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Abbrechen",
+  "startChat": {
+    "fetchResultsFailed": "Die Ergebnisse können nicht abgerufen werden. Bitte versuchen Sie es erneut.",
+    "fetchContactsFailed": "Es können keine Kontakte abgerufen werden.",
+    "contactOpenFailed": "Dieser Kontakt konnte nicht geöffnet werden.",
+    "enterValidPhone": "Geben Sie eine gültige Rufnummer ein."
   }
 }

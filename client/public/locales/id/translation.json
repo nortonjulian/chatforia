@@ -329,7 +329,19 @@
     "smsConsentRequired": "Harap setujui pesan SMS atau hapus nomor telepon.",
     "secureKeySetupFailed": "Akun Anda telah dibuat, tetapi penyiapan kunci aman gagal pada perangkat ini. Silakan coba lagi.",
     "verifyEmailAfterSignup": "Akun dibuat. Periksa email Anda untuk memverifikasi akun Anda sebelum masuk.",
-    "sessionExpiredSignInAgain": "Sesi Anda telah berakhir. Silakan masuk lagi."
+    "sessionExpiredSignInAgain": "Sesi Anda telah berakhir. Silakan masuk lagi.",
+    "sessionExpired": "Sesi Anda telah kedaluwarsa.",
+    "missingEncryptionKeyOlderMessages": "Perangkat ini tidak memiliki kunci enkripsi. Kembalikan untuk membaca pesan terenkripsi yang lebih lama.",
+    "missingEncryptionKey": "Perangkat ini tidak memiliki kunci enkripsi. Kembalikan untuk membaca pesan terenkripsi.",
+    "mismatchedEncryptionKey": "Perangkat ini memiliki kunci enkripsi yang berbeda. Kembalikan kunci yang benar untuk mengakses pesan Anda.",
+    "forgotPasswordQuestion": "Lupa kata sandi?",
+    "sending": "Mengirim...",
+    "resendVerificationEmail": "Kirim ulang email verifikasi",
+    "emailOrUsername": "Email atau nama pengguna",
+    "loggingIn": "Masuk...",
+    "verificationEmailSent": "Email verifikasi terkirim. Periksa kotak masuk Anda.",
+    "resendVerificationFailed": "Gagal mengirim ulang email verifikasi.",
+    "verifyEmailBeforeLogin": "Harap verifikasi email Anda sebelum masuk."
   },
   "login": {
     "welcomeBack": "Selamat datang kembali",
@@ -476,7 +488,8 @@
     "archivedTitle": "Percakapan diarsipkan",
     "archivedMsg": "Percakapan tersebut diarsipkan.",
     "archiveFailedTitle": "Tidak dapat mengarsipkan percakapan",
-    "archiveFailedMsg": "Silakan coba lagi."
+    "archiveFailedMsg": "Silakan coba lagi.",
+    "groupVideo": "Video Grup"
   },
   "topbar": {
     "newStatus": "Status Baru",
@@ -566,7 +579,18 @@
     "roomNumber": "Obrolan #%d",
     "missingConversationId": "Id percakapan yang hilang.",
     "archiveFailed": "Gagal mengarsipkan percakapan.",
-    "deleteFailed": "Gagal menghapus percakapan."
+    "deleteFailed": "Gagal menghapus percakapan.",
+    "sendMessageFailed": "Tidak dapat mengirim pesan.",
+    "sendImageFailed": "Tidak dapat mengirim gambar.",
+    "sendVideoFailed": "Tidak dapat mengirim video.",
+    "sendAudioFailed": "Tidak dapat mengirim audio.",
+    "editMessageFailed": "Tidak dapat mengedit pesan.",
+    "editFailed": "Edit gagal:",
+    "deleteMessageFailed": "Tidak dapat menghapus pesan.",
+    "archiveConversationFailed": "Tidak dapat mengarsipkan percakapan.",
+    "deleteConversationFailed": "Tidak dapat menghapus percakapan.",
+    "imageDataEmpty": "Data gambar kosong.",
+    "videoDataEmpty": "Data video kosong."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Pengaturan ulang enkripsi tidak selesai dengan benar pada perangkat ini."
       },
       "restore": {
-        "localFailure": "Pemulihan kunci tidak selesai dengan benar pada perangkat ini."
-      }
+        "localFailure": "Pemulihan kunci tidak selesai dengan benar pada perangkat ini.",
+        "title": "Mengembalikan Kunci Enkripsi",
+        "instructions": "Masukkan kata sandi cadangan untuk memulihkan kunci enkripsi Anda.",
+        "noBackup": "Tidak ditemukan cadangan jarak jauh.",
+        "noBackupFirst": "Buat cadangan sebelum mencoba pemulihan.",
+        "restoreKey": "Kembalikan Kunci",
+        "success": "Kunci enkripsi berhasil dipulihkan.",
+        "deviceMismatch": "Kunci yang dipulihkan tidak cocok dengan perangkat ini.",
+        "correctKeyMissing": "Perangkat ini masih belum memiliki kunci enkripsi yang benar."
+      },
+      "checkingBackup": "Memeriksa cadangan...",
+      "backupPassword": "Kata Sandi Cadangan"
     },
     "reset": {
       "title": "Atur Ulang Enkripsi",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Akses kamera ditolak. Aktifkan di Pengaturan.",
     "microphoneDenied": "Akses mikrofon ditolak. Aktifkan di Pengaturan.",
     "cameraRestricted": "Akses kamera dibatasi pada perangkat ini.",
-    "microphoneRestricted": "Akses mikrofon dibatasi pada perangkat ini."
+    "microphoneRestricted": "Akses mikrofon dibatasi pada perangkat ini.",
+    "noCameraAvailable": "Tidak ada kamera yang tersedia.",
+    "couldNotCreateCameraSource": "Tidak dapat membuat sumber kamera."
   },
   "gif": {
     "couldNotLoad": "Tidak dapat memuat GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Flip",
     "speaker": "Pembicara",
-    "end": "Akhir"
+    "end": "Akhir",
+    "noIncomingCallToAnswer": "Tidak ada panggilan masuk yang harus dijawab."
   },
   "settings": {
     "startHour": "Jam mulai (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM Anda siap dipasang.",
     "your_esim_is_active": "eSIM Anda aktif.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Paket data eSIM memerlukan perangkat yang kompatibel dengan eSIM dan tidak terkunci.",
-    "we_couldnt_start_your_esim_activation": "Kami tidak dapat memulai aktivasi eSIM Anda."
+    "we_couldnt_start_your_esim_activation": "Kami tidak dapat memulai aktivasi eSIM Anda.",
+    "missing_auth_token": "Token otentikasi hilang.",
+    "invalid_room_id_client": "ID kamar tidak valid."
   },
   "onboarding": {
     "welcomeSubtitle": "Kirim pesan secara global, terjemahkan secara instan, dan mulai percakapan dengan cepat.",
@@ -3493,5 +3532,12 @@
     "yi": "Yiddish",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Batal",
+  "startChat": {
+    "fetchResultsFailed": "Tidak dapat mengambil hasil. Silakan coba lagi.",
+    "fetchContactsFailed": "Tidak dapat mengambil kontak.",
+    "contactOpenFailed": "Kontak ini tidak dapat dibuka.",
+    "enterValidPhone": "Masukkan nomor telepon yang valid."
   }
 }

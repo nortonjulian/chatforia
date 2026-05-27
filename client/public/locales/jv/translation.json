@@ -329,7 +329,19 @@
     "smsConsentRequired": "Mangga setujoni pesen SMS utawa mbusak nomer telpon.",
     "secureKeySetupFailed": "Akun panjenengan wis digawe, nanging pangaturan kunci aman gagal ing piranti iki. Mangga coba maneh.",
     "verifyEmailAfterSignup": "Akun wis digawe. Mangga priksa email panjenengan kanggo verifikasi akun sadurunge mlebu.",
-    "sessionExpiredSignInAgain": "Sesi sampeyan wis kadaluwarsa. Mangga mlebu maneh."
+    "sessionExpiredSignInAgain": "Sesi sampeyan wis kadaluwarsa. Mangga mlebu maneh.",
+    "sessionExpired": "Sesi sampeyan wis kadaluwarsa.",
+    "missingEncryptionKeyOlderMessages": "Piranti iki ora duwe kunci enkripsi sampeyan. Pulihake supaya bisa maca pesen-pesen enkripsi lawas.",
+    "missingEncryptionKey": "Piranti iki ora duwe kunci enkripsi sampeyan. Balèkna supaya bisa maca pesen sing dienkripsi.",
+    "mismatchedEncryptionKey": "Piranti iki nduwèni kunci enkripsi sing béda. Balèkaké kunci sing bener supaya bisa ngakses pesenmu.",
+    "forgotPasswordQuestion": "Lali sandhi?",
+    "sending": "Ngirim...",
+    "resendVerificationEmail": "Kirim maneh email verifikasi",
+    "emailOrUsername": "Email utawa jeneng pangguna",
+    "loggingIn": "Masuk...",
+    "verificationEmailSent": "Email verifikasi wis dikirim. Priksa kothak mlebu sampeyan.",
+    "resendVerificationFailed": "Gagal ngirim maneh email verifikasi.",
+    "verifyEmailBeforeLogin": "Mangga priksa email panjenengan sadurunge mlebu."
   },
   "login": {
     "welcomeBack": "Sugeng wangsul",
@@ -476,7 +488,8 @@
     "archivedTitle": "Obrolan wis diarsip",
     "archivedMsg": "Obrolan wis diarsip.",
     "archiveFailedTitle": "Ora bisa ngarsipake obrolan",
-    "archiveFailedMsg": "Mangga coba maneh."
+    "archiveFailedMsg": "Mangga coba maneh.",
+    "groupVideo": "Video Klompok"
   },
   "topbar": {
     "newStatus": "Status Anyar",
@@ -566,7 +579,18 @@
     "roomNumber": "Obrolan #%d",
     "missingConversationId": "ID obrolan ilang.",
     "archiveFailed": "Gagal ngarsipake obrolan.",
-    "deleteFailed": "Gagal mbusak obrolan."
+    "deleteFailed": "Gagal mbusak obrolan.",
+    "sendMessageFailed": "Ora bisa ngirim pesen.",
+    "sendImageFailed": "Ora bisa ngirim gambar.",
+    "sendVideoFailed": "Ora bisa ngirim video.",
+    "sendAudioFailed": "Ora bisa ngirim audio.",
+    "editMessageFailed": "Ora bisa nyunting pesen.",
+    "editFailed": "Suntingan gagal:",
+    "deleteMessageFailed": "Ora bisa mbusak pesen.",
+    "archiveConversationFailed": "Ora bisa ngarsipake obrolan.",
+    "deleteConversationFailed": "Ora bisa mbusak obrolan.",
+    "imageDataEmpty": "Data gambar kosong.",
+    "videoDataEmpty": "Data video kosong."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Reset enkripsi ora rampung kanthi bener ing piranti iki."
       },
       "restore": {
-        "localFailure": "Pemulihan kunci ora rampung kanthi bener ing piranti iki."
-      }
+        "localFailure": "Pemulihan kunci ora rampung kanthi bener ing piranti iki.",
+        "title": "Mbalèkaké Kunci Enkripsi",
+        "instructions": "Lebokna sandhi cadanganmu kanggo mbalekake kunci enkripsimu.",
+        "noBackup": "Ora ana cadangan adoh sing ditemokake.",
+        "noBackupFirst": "Gawé cadangan sadurungé nyoba mbalèkaké.",
+        "restoreKey": "Mbalèkaké Kunci",
+        "success": "Kunci enkripsi wis pulih kanthi sukses.",
+        "deviceMismatch": "Kunci sing wis dipulihaké ora cocog karo piranti iki.",
+        "correctKeyMissing": "Piranti iki isih ora duwe kunci enkripsi sing bener."
+      },
+      "checkingBackup": "Mriksa cadangan...",
+      "backupPassword": "Sandhi Cadangan"
     },
     "reset": {
       "title": "Atur ulang enkripsi",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Akses kamera ditolak. Aktifake ing Setelan.",
     "microphoneDenied": "Akses mikropon ditolak. Aktifake ing Setelan.",
     "cameraRestricted": "Akses kamera winates ing piranti iki.",
-    "microphoneRestricted": "Akses mikropon diwatesi ing piranti iki."
+    "microphoneRestricted": "Akses mikropon diwatesi ing piranti iki.",
+    "noCameraAvailable": "Ora ana kamera sing kasedhiya.",
+    "couldNotCreateCameraSource": "Ora bisa nggawe sumber kamera."
   },
   "gif": {
     "couldNotLoad": "Ora bisa muat GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Balik",
     "speaker": "Pembicara",
-    "end": "Pungkasan"
+    "end": "Pungkasan",
+    "noIncomingCallToAnswer": "Ora ana telpon mlebu sing kudu dijawab."
   },
   "settings": {
     "startHour": "Jam wiwitan (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM sampeyan wis siap dipasang.",
     "your_esim_is_active": "eSIM sampeyan wis aktif.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Paket data eSIM mbutuhake piranti sing cocog karo eSIM lan wis diunlock.",
-    "we_couldnt_start_your_esim_activation": "Kita ora bisa miwiti aktivasi eSIM sampeyan."
+    "we_couldnt_start_your_esim_activation": "Kita ora bisa miwiti aktivasi eSIM sampeyan.",
+    "missing_auth_token": "Token autentikasi ilang.",
+    "invalid_room_id_client": "ID kamar ora sah."
   },
   "onboarding": {
     "welcomeSubtitle": "Ngirim pesen sacara global, nerjemahake kanthi cepet, lan miwiti obrolan kanthi cepet.",
@@ -3493,5 +3532,12 @@
     "yi": "Yiddish",
     "yo": "Yoruba",
     "zu": "Zuluku"
+  },
+  "button_cancel": "Batal",
+  "startChat": {
+    "fetchResultsFailed": "Ora bisa njupuk asil. Mangga nyoba maneh.",
+    "fetchContactsFailed": "Ora bisa njupuk kontak.",
+    "contactOpenFailed": "Kontak iki ora bisa dibukak.",
+    "enterValidPhone": "Lebokake nomer telpon sing sah."
   }
 }

@@ -330,7 +330,19 @@
     "smsConsentRequired": "Por favor, acepte los mensajes SMS o elimine el número de teléfono.",
     "secureKeySetupFailed": "Su cuenta ha sido creada, pero la configuración de la clave segura ha fallado en este dispositivo. Inténtalo de nuevo.",
     "verifyEmailAfterSignup": "Cuenta creada. Compruebe su correo electrónico para verificar su cuenta antes de iniciar sesión.",
-    "sessionExpiredSignInAgain": "Su sesión ha expirado. Por favor, inicie sesión de nuevo."
+    "sessionExpiredSignInAgain": "Su sesión ha expirado. Por favor, inicie sesión de nuevo.",
+    "sessionExpired": "Su sesión ha expirado.",
+    "missingEncryptionKeyOlderMessages": "A este dispositivo le falta su clave de cifrado. Restáurala para leer mensajes cifrados más antiguos.",
+    "missingEncryptionKey": "A este dispositivo le falta su clave de cifrado. Restáurala para leer los mensajes cifrados.",
+    "mismatchedEncryptionKey": "Este dispositivo tiene una clave de encriptación diferente. Restaura la clave correcta para acceder a tus mensajes.",
+    "forgotPasswordQuestion": "¿Ha olvidado su contraseña?",
+    "sending": "Enviando...",
+    "resendVerificationEmail": "Reenviar correo electrónico de verificación",
+    "emailOrUsername": "Correo electrónico o nombre de usuario",
+    "loggingIn": "Iniciando sesión...",
+    "verificationEmailSent": "Correo electrónico de verificación enviado. Compruebe su bandeja de entrada.",
+    "resendVerificationFailed": "No se ha podido reenviar el correo de verificación.",
+    "verifyEmailBeforeLogin": "Verifique su correo electrónico antes de iniciar sesión."
   },
   "login": {
     "welcomeBack": "Bienvenido de nuevo",
@@ -477,7 +489,8 @@
     "archivedTitle": "Conversación archivada",
     "archivedMsg": "La conversación fue archivada.",
     "archiveFailedTitle": "No se ha podido archivar la conversación",
-    "archiveFailedMsg": "Inténtalo de nuevo."
+    "archiveFailedMsg": "Inténtalo de nuevo.",
+    "groupVideo": "Vídeo de grupo"
   },
   "topbar": {
     "newStatus": "Nuevo estado",
@@ -567,7 +580,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Falta el identificador de conversación.",
     "archiveFailed": "No se ha podido archivar la conversación.",
-    "deleteFailed": "Error al borrar conversación."
+    "deleteFailed": "Error al borrar conversación.",
+    "sendMessageFailed": "No se ha podido enviar el mensaje.",
+    "sendImageFailed": "No se ha podido enviar la imagen.",
+    "sendVideoFailed": "No se puede enviar vídeo.",
+    "sendAudioFailed": "No se puede enviar audio.",
+    "editMessageFailed": "No se ha podido editar el mensaje.",
+    "editFailed": "Edición fallida:",
+    "deleteMessageFailed": "No se ha podido borrar el mensaje.",
+    "archiveConversationFailed": "No pude archivar la conversación.",
+    "deleteConversationFailed": "No he podido borrar la conversación.",
+    "imageDataEmpty": "Los datos de la imagen están vacíos.",
+    "videoDataEmpty": "Los datos de vídeo están vacíos."
   },
   "messageInput": {
     "ttl": {
@@ -2789,8 +2813,18 @@
         "localFailure": "El restablecimiento del cifrado no se ha completado correctamente en este dispositivo."
       },
       "restore": {
-        "localFailure": "La restauración de claves no se ha completado correctamente en este dispositivo."
-      }
+        "localFailure": "La restauración de claves no se ha completado correctamente en este dispositivo.",
+        "title": "Restaurar clave de encriptación",
+        "instructions": "Introduce la contraseña de la copia de seguridad para restaurar la clave de cifrado.",
+        "noBackup": "No se ha encontrado ninguna copia de seguridad remota.",
+        "noBackupFirst": "Crea una copia de seguridad antes de intentar la restauración.",
+        "restoreKey": "Restaurar clave",
+        "success": "Clave de encriptación restaurada con éxito.",
+        "deviceMismatch": "La clave restaurada no coincide con este dispositivo.",
+        "correctKeyMissing": "Este dispositivo aún no tiene la clave de cifrado correcta."
+      },
+      "checkingBackup": "Comprobando la copia de seguridad...",
+      "backupPassword": "Contraseña de seguridad"
     },
     "reset": {
       "title": "Restablecer cifrado",
@@ -2853,7 +2887,9 @@
     "cameraDenied": "El acceso a la cámara está denegado. Actívelo en Configuración.",
     "microphoneDenied": "El acceso al micrófono está denegado. Actívalo en Configuración.",
     "cameraRestricted": "El acceso a la cámara está restringido en este dispositivo.",
-    "microphoneRestricted": "El acceso al micrófono está restringido en este dispositivo."
+    "microphoneRestricted": "El acceso al micrófono está restringido en este dispositivo.",
+    "noCameraAvailable": "No hay cámara disponible.",
+    "couldNotCreateCameraSource": "No se ha podido crear la fuente de la cámara."
   },
   "gif": {
     "couldNotLoad": "No se puede cargar el GIF",
@@ -2992,7 +3028,8 @@
     "camera": "Cámara",
     "flip": "Flip",
     "speaker": "Altavoz",
-    "end": "Fin"
+    "end": "Fin",
+    "noIncomingCallToAnswer": "No hay llamadas entrantes que atender."
   },
   "settings": {
     "startHour": "Hora de inicio (0-23)",
@@ -3307,7 +3344,9 @@
     "your_esim_is_ready_to_install": "Su eSIM está lista para ser instalada.",
     "your_esim_is_active": "Tu eSIM está activa.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Los paquetes de datos eSIM requieren un dispositivo compatible con eSIM y desbloqueado.",
-    "we_couldnt_start_your_esim_activation": "No hemos podido iniciar la activación de tu eSIM."
+    "we_couldnt_start_your_esim_activation": "No hemos podido iniciar la activación de tu eSIM.",
+    "missing_auth_token": "Falta token de autenticación.",
+    "invalid_room_id_client": "ID de habitación no válida."
   },
   "onboarding": {
     "welcomeSubtitle": "Envíe mensajes a todo el mundo, traduzca al instante e inicie conversaciones rápidamente.",
@@ -3504,5 +3543,12 @@
     "yi": "Yiddish",
     "yo": "Yoruba",
     "zu": "Zulú"
+  },
+  "button_cancel": "Cancelar",
+  "startChat": {
+    "fetchResultsFailed": "No se han podido obtener resultados. Por favor, inténtelo de nuevo.",
+    "fetchContactsFailed": "No se pueden recuperar los contactos.",
+    "contactOpenFailed": "Este contacto no se ha podido abrir.",
+    "enterValidPhone": "Introduzca un número de teléfono válido."
   }
 }

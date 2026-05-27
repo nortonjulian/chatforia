@@ -329,7 +329,19 @@
     "smsConsentRequired": "Geef toestemming voor SMS-berichten of verwijder het telefoonnummer.",
     "secureKeySetupFailed": "Uw account is aangemaakt, maar het instellen van de beveiligde sleutel is mislukt op dit apparaat. Probeer het opnieuw.",
     "verifyEmailAfterSignup": "Account aangemaakt. Controleer uw e-mail om uw account te verifiëren voordat u inlogt.",
-    "sessionExpiredSignInAgain": "Uw sessie is verlopen. Meld u opnieuw aan."
+    "sessionExpiredSignInAgain": "Uw sessie is verlopen. Meld u opnieuw aan.",
+    "sessionExpired": "Uw sessie is verlopen.",
+    "missingEncryptionKeyOlderMessages": "Je coderingssleutel ontbreekt op dit apparaat. Herstel deze om oudere versleutelde berichten te lezen.",
+    "missingEncryptionKey": "Je coderingssleutel ontbreekt op dit apparaat. Herstel deze om versleutelde berichten te lezen.",
+    "mismatchedEncryptionKey": "Dit apparaat heeft een andere coderingssleutel. Herstel de juiste sleutel om toegang te krijgen tot uw berichten.",
+    "forgotPasswordQuestion": "Wachtwoord vergeten?",
+    "sending": "Versturen...",
+    "resendVerificationEmail": "Verificatiemail opnieuw verzenden",
+    "emailOrUsername": "E-mail of gebruikersnaam",
+    "loggingIn": "Inloggen...",
+    "verificationEmailSent": "Verificatie-e-mail verzonden. Controleer je inbox.",
+    "resendVerificationFailed": "Verificatie-e-mail niet opnieuw verzonden.",
+    "verifyEmailBeforeLogin": "Controleer je e-mailadres voordat je inlogt."
   },
   "login": {
     "welcomeBack": "Welkom terug",
@@ -476,7 +488,8 @@
     "archivedTitle": "Gesprek gearchiveerd",
     "archivedMsg": "Het gesprek is gearchiveerd.",
     "archiveFailedTitle": "Gesprek kon niet worden gearchiveerd",
-    "archiveFailedMsg": "Probeer het opnieuw."
+    "archiveFailedMsg": "Probeer het opnieuw.",
+    "groupVideo": "Groepsvideo"
   },
   "topbar": {
     "newStatus": "Nieuwe status",
@@ -566,7 +579,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Gespreksid. ontbreekt.",
     "archiveFailed": "Gesprek niet gearchiveerd.",
-    "deleteFailed": "Gesprek niet verwijderd."
+    "deleteFailed": "Gesprek niet verwijderd.",
+    "sendMessageFailed": "Kan bericht niet verzenden.",
+    "sendImageFailed": "Kan afbeelding niet verzenden.",
+    "sendVideoFailed": "Video kon niet worden verzonden.",
+    "sendAudioFailed": "Kan geen audio verzenden.",
+    "editMessageFailed": "Kan bericht niet bewerken.",
+    "editFailed": "Bewerken mislukt:",
+    "deleteMessageFailed": "Kan bericht niet verwijderen.",
+    "archiveConversationFailed": "Kon gesprek niet archiveren.",
+    "deleteConversationFailed": "Kon gesprek niet verwijderen.",
+    "imageDataEmpty": "Afbeeldingsgegevens zijn leeg.",
+    "videoDataEmpty": "De videogegevens zijn leeg."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Coderingsreset niet correct voltooid op dit apparaat."
       },
       "restore": {
-        "localFailure": "Toetsherstel is niet correct voltooid op dit apparaat."
-      }
+        "localFailure": "Toetsherstel is niet correct voltooid op dit apparaat.",
+        "title": "Encryptiesleutel herstellen",
+        "instructions": "Voer je back-upwachtwoord in om je coderingssleutel te herstellen.",
+        "noBackup": "Er is geen externe back-up gevonden.",
+        "noBackupFirst": "Maak een back-up voordat u probeert te herstellen.",
+        "restoreKey": "Herstelsleutel",
+        "success": "Encryptiesleutel succesvol hersteld.",
+        "deviceMismatch": "De herstelde sleutel komt niet overeen met dit apparaat.",
+        "correctKeyMissing": "Dit apparaat heeft nog steeds niet de juiste coderingssleutel."
+      },
+      "checkingBackup": "Controleren op back-up...",
+      "backupPassword": "Back-up wachtwoord"
     },
     "reset": {
       "title": "Encryptie resetten",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Cameratoegang wordt geweigerd. Schakel dit in bij Instellingen.",
     "microphoneDenied": "De microfoon heeft geen toegang. Schakel dit in bij Instellingen.",
     "cameraRestricted": "Cameratoegang is beperkt op dit apparaat.",
-    "microphoneRestricted": "De toegang tot de microfoon is beperkt op dit apparaat."
+    "microphoneRestricted": "De toegang tot de microfoon is beperkt op dit apparaat.",
+    "noCameraAvailable": "Geen camera beschikbaar.",
+    "couldNotCreateCameraSource": "Kan geen camerabron maken."
   },
   "gif": {
     "couldNotLoad": "Kan GIF niet laden",
@@ -2981,7 +3017,8 @@
     "camera": "Camera",
     "flip": "Flip",
     "speaker": "Spreker",
-    "end": "Einde"
+    "end": "Einde",
+    "noIncomingCallToAnswer": "Geen inkomende oproep om te beantwoorden."
   },
   "settings": {
     "startHour": "Begin uur (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Uw eSIM is klaar voor installatie.",
     "your_esim_is_active": "Uw eSIM is actief.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Voor eSIM-datapakketten is een eSIM-compatibel en ontgrendeld apparaat nodig.",
-    "we_couldnt_start_your_esim_activation": "We konden uw eSIM-activering niet starten."
+    "we_couldnt_start_your_esim_activation": "We konden uw eSIM-activering niet starten.",
+    "missing_auth_token": "Authenticatietoken ontbreekt.",
+    "invalid_room_id_client": "Ongeldig kamer-ID."
   },
   "onboarding": {
     "welcomeSubtitle": "Wereldwijd berichten versturen, onmiddellijk vertalen en snel gesprekken beginnen.",
@@ -3493,5 +3532,12 @@
     "yi": "Jiddisch",
     "yo": "Yoruba",
     "zu": "Zoeloe"
+  },
+  "button_cancel": "Annuleren",
+  "startChat": {
+    "fetchResultsFailed": "Kan geen resultaten ophalen. Probeer het opnieuw.",
+    "fetchContactsFailed": "Kan geen contactpersonen ophalen.",
+    "contactOpenFailed": "Dit contact kon niet worden geopend.",
+    "enterValidPhone": "Voer een geldig telefoonnummer in."
   }
 }

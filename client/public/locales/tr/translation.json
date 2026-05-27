@@ -329,7 +329,19 @@
     "smsConsentRequired": "Lütfen SMS mesajlarına izin verin veya telefon numarasını kaldırın.",
     "secureKeySetupFailed": "Hesabınız oluşturuldu, ancak bu cihazda güvenli anahtar kurulumu başarısız oldu. Lütfen tekrar deneyin.",
     "verifyEmailAfterSignup": "Hesap oluşturuldu. Giriş yapmadan önce hesabınızı doğrulamak için lütfen e-postanızı kontrol edin.",
-    "sessionExpiredSignInAgain": "Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın."
+    "sessionExpiredSignInAgain": "Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın.",
+    "sessionExpired": "Oturumunuzun süresi doldu.",
+    "missingEncryptionKeyOlderMessages": "Bu cihazda şifreleme anahtarınız eksik. Eski şifrelenmiş mesajları okumak için geri yükleyin.",
+    "missingEncryptionKey": "Bu cihazda şifreleme anahtarınız eksik. Şifrelenmiş mesajları okumak için geri yükleyin.",
+    "mismatchedEncryptionKey": "Bu cihazın farklı bir şifreleme anahtarı var. Mesajlarınıza erişmek için doğru anahtarı geri yükleyin.",
+    "forgotPasswordQuestion": "Şifrenizi mi unuttunuz?",
+    "sending": "Gönderiyorum.",
+    "resendVerificationEmail": "Doğrulama e-postasını yeniden gönder",
+    "emailOrUsername": "E-posta veya kullanıcı adı",
+    "loggingIn": "Giriş yapıyorum...",
+    "verificationEmailSent": "Doğrulama e-postası gönderildi. Gelen kutunuzu kontrol edin.",
+    "resendVerificationFailed": "Doğrulama e-postası yeniden gönderilemedi.",
+    "verifyEmailBeforeLogin": "Lütfen giriş yapmadan önce e-postanızı doğrulayın."
   },
   "login": {
     "welcomeBack": "Hoş geldiniz",
@@ -476,7 +488,8 @@
     "archivedTitle": "Sohbet arşivlendi",
     "archivedMsg": "Sohbet arşivlendi.",
     "archiveFailedTitle": "Sohbeti arşivleyemedi",
-    "archiveFailedMsg": "Lütfen tekrar deneyin."
+    "archiveFailedMsg": "Lütfen tekrar deneyin.",
+    "groupVideo": "Grup Videosu"
   },
   "topbar": {
     "newStatus": "Yeni Durum",
@@ -566,7 +579,18 @@
     "roomNumber": "Sohbet #%d",
     "missingConversationId": "Eksik konuşma kimliği.",
     "archiveFailed": "Konuşma arşivlenemedi.",
-    "deleteFailed": "Konuşma silinemedi."
+    "deleteFailed": "Konuşma silinemedi.",
+    "sendMessageFailed": "Mesaj gönderilemedi.",
+    "sendImageFailed": "Resim gönderilemedi.",
+    "sendVideoFailed": "Video gönderilemedi.",
+    "sendAudioFailed": "Ses gönderilemedi.",
+    "editMessageFailed": "Mesaj düzenlenemedi.",
+    "editFailed": "Düzenleme başarısız oldu:",
+    "deleteMessageFailed": "Mesaj silinemedi.",
+    "archiveConversationFailed": "Konuşmayı arşivleyemedim.",
+    "deleteConversationFailed": "Konuşma silinemedi.",
+    "imageDataEmpty": "Görüntü verileri boş.",
+    "videoDataEmpty": "Video verileri boş."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Şifreleme sıfırlaması bu cihazda doğru şekilde tamamlanmadı."
       },
       "restore": {
-        "localFailure": "Anahtar geri yükleme bu cihazda doğru şekilde tamamlanmadı."
-      }
+        "localFailure": "Anahtar geri yükleme bu cihazda doğru şekilde tamamlanmadı.",
+        "title": "Şifreleme Anahtarını Geri Yükle",
+        "instructions": "Şifreleme anahtarınızı geri yüklemek için yedekleme parolanızı girin.",
+        "noBackup": "Uzaktan yedekleme bulunamadı.",
+        "noBackupFirst": "Geri yüklemeyi denemeden önce bir yedekleme oluşturun.",
+        "restoreKey": "Anahtarı Geri Yükle",
+        "success": "Şifreleme anahtarı başarıyla geri yüklendi.",
+        "deviceMismatch": "Geri yüklenen anahtar bu cihazla eşleşmiyor.",
+        "correctKeyMissing": "Bu cihaz hala doğru şifreleme anahtarına sahip değil."
+      },
+      "checkingBackup": "Yedekleme kontrol ediliyor...",
+      "backupPassword": "Yedekleme Şifresi"
     },
     "reset": {
       "title": "Şifrelemeyi Sıfırla",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Kamera erişimi reddedildi. Ayarlar'da etkinleştirin.",
     "microphoneDenied": "Mikrofon erişimi reddedildi. Ayarlar'da etkinleştirin.",
     "cameraRestricted": "Bu cihazda kamera erişimi kısıtlanmıştır.",
-    "microphoneRestricted": "Bu cihazda mikrofon erişimi kısıtlanmıştır."
+    "microphoneRestricted": "Bu cihazda mikrofon erişimi kısıtlanmıştır.",
+    "noCameraAvailable": "Kamera mevcut değil.",
+    "couldNotCreateCameraSource": "Kamera kaynağı oluşturulamadı."
   },
   "gif": {
     "couldNotLoad": "GIF yüklenemedi",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Çevir",
     "speaker": "Konuşmacı",
-    "end": "Bitiş"
+    "end": "Bitiş",
+    "noIncomingCallToAnswer": "Cevaplanacak çağrı yok."
   },
   "settings": {
     "startHour": "Başlangıç saati (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM'iniz kuruluma hazırdır.",
     "your_esim_is_active": "eSIM'iniz aktif.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM veri paketleri, eSIM uyumlu ve kilidi açılmış bir cihaz gerektirir.",
-    "we_couldnt_start_your_esim_activation": "eSIM aktivasyonunuzu başlatamadık."
+    "we_couldnt_start_your_esim_activation": "eSIM aktivasyonunuzu başlatamadık.",
+    "missing_auth_token": "Kimlik doğrulama belirteci eksik.",
+    "invalid_room_id_client": "Geçersiz oda kimliği."
   },
   "onboarding": {
     "welcomeSubtitle": "Küresel olarak mesajlaşın, anında çeviri yapın ve hızlı bir şekilde sohbet başlatın.",
@@ -3493,5 +3532,12 @@
     "yi": "Yidiş",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "İptal",
+  "startChat": {
+    "fetchResultsFailed": "Sonuçlar getirilemiyor. Lütfen tekrar deneyin.",
+    "fetchContactsFailed": "Kişiler getirilemiyor.",
+    "contactOpenFailed": "Bu kontak açılamadı.",
+    "enterValidPhone": "Geçerli bir telefon numarası girin."
   }
 }

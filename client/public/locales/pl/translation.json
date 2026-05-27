@@ -329,7 +329,19 @@
     "smsConsentRequired": "Prosimy o wyrażenie zgody na otrzymywanie wiadomości SMS lub usunięcie numeru telefonu.",
     "secureKeySetupFailed": "Twoje konto zostało utworzone, ale konfiguracja klucza zabezpieczającego na tym urządzeniu nie powiodła się. Spróbuj ponownie.",
     "verifyEmailAfterSignup": "Konto zostało utworzone. Przed zalogowaniem sprawdź pocztę e-mail, aby zweryfikować swoje konto.",
-    "sessionExpiredSignInAgain": "Twoja sesja wygasła. Zaloguj się ponownie."
+    "sessionExpiredSignInAgain": "Twoja sesja wygasła. Zaloguj się ponownie.",
+    "sessionExpired": "Twoja sesja wygasła.",
+    "missingEncryptionKeyOlderMessages": "Na tym urządzeniu brakuje klucza szyfrowania. Przywróć go, aby odczytać starsze zaszyfrowane wiadomości.",
+    "missingEncryptionKey": "Na tym urządzeniu brakuje klucza szyfrowania. Przywróć go, aby odczytać zaszyfrowane wiadomości.",
+    "mismatchedEncryptionKey": "To urządzenie ma inny klucz szyfrowania. Przywróć prawidłowy klucz, aby uzyskać dostęp do wiadomości.",
+    "forgotPasswordQuestion": "Zapomniałeś hasła?",
+    "sending": "Wysyłanie...",
+    "resendVerificationEmail": "Wyślij ponownie weryfikacyjną wiadomość e-mail",
+    "emailOrUsername": "Adres e-mail lub nazwa użytkownika",
+    "loggingIn": "Logowanie...",
+    "verificationEmailSent": "Wiadomość weryfikacyjna została wysłana. Sprawdź swoją skrzynkę odbiorczą.",
+    "resendVerificationFailed": "Ponowne wysłanie wiadomości weryfikacyjnej nie powiodło się.",
+    "verifyEmailBeforeLogin": "Zweryfikuj swój adres e-mail przed zalogowaniem."
   },
   "login": {
     "welcomeBack": "Witamy ponownie",
@@ -476,7 +488,8 @@
     "archivedTitle": "Rozmowa zarchiwizowana",
     "archivedMsg": "Rozmowa została zarchiwizowana.",
     "archiveFailedTitle": "Nie udało się zarchiwizować rozmowy",
-    "archiveFailedMsg": "Spróbuj ponownie."
+    "archiveFailedMsg": "Spróbuj ponownie.",
+    "groupVideo": "Wideo grupowe"
   },
   "topbar": {
     "newStatus": "Nowy status",
@@ -566,7 +579,18 @@
     "roomNumber": "Czat #%d",
     "missingConversationId": "Brakujący identyfikator konwersacji.",
     "archiveFailed": "Nie udało się zarchiwizować konwersacji.",
-    "deleteFailed": "Nie udało się usunąć konwersacji."
+    "deleteFailed": "Nie udało się usunąć konwersacji.",
+    "sendMessageFailed": "Nie można wysłać wiadomości.",
+    "sendImageFailed": "Nie można wysłać obrazu.",
+    "sendVideoFailed": "Nie można wysłać wideo.",
+    "sendAudioFailed": "Nie można wysłać dźwięku.",
+    "editMessageFailed": "Nie można edytować wiadomości.",
+    "editFailed": "Edycja nie powiodła się:",
+    "deleteMessageFailed": "Nie można usunąć wiadomości.",
+    "archiveConversationFailed": "Nie udało się zarchiwizować rozmowy.",
+    "deleteConversationFailed": "Nie można usunąć konwersacji.",
+    "imageDataEmpty": "Dane obrazu są puste.",
+    "videoDataEmpty": "Dane wideo są puste."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Resetowanie szyfrowania nie zostało poprawnie zakończone na tym urządzeniu."
       },
       "restore": {
-        "localFailure": "Przywracanie klucza nie zakończyło się poprawnie na tym urządzeniu."
-      }
+        "localFailure": "Przywracanie klucza nie zakończyło się poprawnie na tym urządzeniu.",
+        "title": "Przywróć klucz szyfrowania",
+        "instructions": "Wprowadź hasło kopii zapasowej, aby przywrócić klucz szyfrowania.",
+        "noBackup": "Nie znaleziono zdalnej kopii zapasowej.",
+        "noBackupFirst": "Utwórz kopię zapasową przed próbą przywrócenia.",
+        "restoreKey": "Przywróć klucz",
+        "success": "Klucz szyfrowania został pomyślnie przywrócony.",
+        "deviceMismatch": "Przywrócony klucz nie pasuje do tego urządzenia.",
+        "correctKeyMissing": "To urządzenie nadal nie ma prawidłowego klucza szyfrowania."
+      },
+      "checkingBackup": "Sprawdzanie kopii zapasowej...",
+      "backupPassword": "Hasło kopii zapasowej"
     },
     "reset": {
       "title": "Resetowanie szyfrowania",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Dostęp do kamery jest zablokowany. Włącz ją w Ustawieniach.",
     "microphoneDenied": "Dostęp do mikrofonu jest zablokowany. Włącz ją w Ustawieniach.",
     "cameraRestricted": "Dostęp do kamery na tym urządzeniu jest ograniczony.",
-    "microphoneRestricted": "Dostęp do mikrofonu na tym urządzeniu jest ograniczony."
+    "microphoneRestricted": "Dostęp do mikrofonu na tym urządzeniu jest ograniczony.",
+    "noCameraAvailable": "Brak dostępnej kamery.",
+    "couldNotCreateCameraSource": "Nie można utworzyć źródła kamery."
   },
   "gif": {
     "couldNotLoad": "Nie można załadować GIF-a",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Klapka",
     "speaker": "Głośnik",
-    "end": "Koniec"
+    "end": "Koniec",
+    "noIncomingCallToAnswer": "Brak połączenia przychodzącego do odebrania."
   },
   "settings": {
     "startHour": "Godzina rozpoczęcia (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Karta eSIM jest gotowa do instalacji.",
     "your_esim_is_active": "Karta eSIM jest aktywna.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Pakiety danych eSIM wymagają kompatybilnego z eSIM i odblokowanego urządzenia.",
-    "we_couldnt_start_your_esim_activation": "Nie mogliśmy rozpocząć aktywacji karty eSIM."
+    "we_couldnt_start_your_esim_activation": "Nie mogliśmy rozpocząć aktywacji karty eSIM.",
+    "missing_auth_token": "Brak tokena uwierzytelniającego.",
+    "invalid_room_id_client": "Nieprawidłowy identyfikator pokoju."
   },
   "onboarding": {
     "welcomeSubtitle": "Wysyłaj wiadomości globalnie, natychmiast tłumacz i szybko rozpoczynaj rozmowy.",
@@ -3493,5 +3532,12 @@
     "yi": "Jidysz",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Anuluj",
+  "startChat": {
+    "fetchResultsFailed": "Nie można pobrać wyników. Spróbuj ponownie.",
+    "fetchContactsFailed": "Nie można pobrać kontaktów.",
+    "contactOpenFailed": "Nie można otworzyć tego kontaktu.",
+    "enterValidPhone": "Wprowadź prawidłowy numer telefonu."
   }
 }

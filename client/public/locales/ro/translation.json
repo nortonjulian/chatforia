@@ -329,7 +329,19 @@
     "smsConsentRequired": "Vă rugăm să acceptați mesajele SMS sau să eliminați numărul de telefon.",
     "secureKeySetupFailed": "Contul dvs. a fost creat, dar configurarea cheii securizate a eșuat pe acest dispozitiv. Vă rugăm să încercați din nou.",
     "verifyEmailAfterSignup": "Cont creat. Vă rugăm să verificați adresa dvs. de e-mail pentru a vă verifica contul înainte de a vă conecta.",
-    "sessionExpiredSignInAgain": "Sesiunea dvs. a expirat. Vă rugăm să vă conectați din nou."
+    "sessionExpiredSignInAgain": "Sesiunea dvs. a expirat. Vă rugăm să vă conectați din nou.",
+    "sessionExpired": "Sesiunea dvs. a expirat.",
+    "missingEncryptionKeyOlderMessages": "Acestui dispozitiv îi lipsește cheia dvs. de criptare. Restaurați-o pentru a citi mesaje criptate mai vechi.",
+    "missingEncryptionKey": "Acestui dispozitiv îi lipsește cheia dvs. de criptare. Restaurați-o pentru a citi mesajele criptate.",
+    "mismatchedEncryptionKey": "Acest dispozitiv are o cheie de criptare diferită. Restaurați cheia corectă pentru a vă accesa mesajele.",
+    "forgotPasswordQuestion": "Ați uitat parola?",
+    "sending": "Trimiterea...",
+    "resendVerificationEmail": "Trimiteți din nou un e-mail de verificare",
+    "emailOrUsername": "E-mail sau nume de utilizator",
+    "loggingIn": "Conectarea...",
+    "verificationEmailSent": "E-mail de verificare trimis. Verifică-ți căsuța de primire.",
+    "resendVerificationFailed": "Nu a reușit să retrimită e-mailul de verificare.",
+    "verifyEmailBeforeLogin": "Vă rugăm să vă verificați adresa de e-mail înainte de a vă conecta."
   },
   "login": {
     "welcomeBack": "Bine ați revenit",
@@ -476,7 +488,8 @@
     "archivedTitle": "Conversație arhivată",
     "archivedMsg": "Conversația a fost arhivată.",
     "archiveFailedTitle": "Nu s-a putut arhiva conversația",
-    "archiveFailedMsg": "Vă rugăm să încercați din nou."
+    "archiveFailedMsg": "Vă rugăm să încercați din nou.",
+    "groupVideo": "Video de grup"
   },
   "topbar": {
     "newStatus": "Stare nouă",
@@ -566,7 +579,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Lipsește id-ul conversației.",
     "archiveFailed": "A eșuat arhivarea conversației.",
-    "deleteFailed": "Eșec la ștergerea conversației."
+    "deleteFailed": "Eșec la ștergerea conversației.",
+    "sendMessageFailed": "Nu s-a putut trimite mesajul.",
+    "sendImageFailed": "Nu s-a putut trimite imaginea.",
+    "sendVideoFailed": "Nu am putut trimite video.",
+    "sendAudioFailed": "Nu s-a putut trimite audio.",
+    "editMessageFailed": "Nu s-a putut edita mesajul.",
+    "editFailed": "Editarea a eșuat:",
+    "deleteMessageFailed": "Nu am putut șterge mesajul.",
+    "archiveConversationFailed": "Nu am putut arhiva conversația.",
+    "deleteConversationFailed": "Nu am putut șterge conversația.",
+    "imageDataEmpty": "Datele imaginii sunt goale.",
+    "videoDataEmpty": "Datele video sunt goale."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Resetarea criptării nu s-a finalizat corect pe acest dispozitiv."
       },
       "restore": {
-        "localFailure": "Restaurarea cheii nu s-a finalizat corect pe acest dispozitiv."
-      }
+        "localFailure": "Restaurarea cheii nu s-a finalizat corect pe acest dispozitiv.",
+        "title": "Restaurarea cheii de criptare",
+        "instructions": "Introduceți parola de rezervă pentru a restabili cheia de criptare.",
+        "noBackup": "Nu a fost găsită nicio copie de rezervă la distanță.",
+        "noBackupFirst": "Creați o copie de rezervă înainte de a încerca restaurarea.",
+        "restoreKey": "Restaurare cheie",
+        "success": "Cheia de criptare restaurată cu succes.",
+        "deviceMismatch": "Cheia restaurată nu se potrivește cu acest dispozitiv.",
+        "correctKeyMissing": "Acest dispozitiv nu are încă cheia de criptare corectă."
+      },
+      "checkingBackup": "Verificarea pentru backup...",
+      "backupPassword": "Parolă de rezervă"
     },
     "reset": {
       "title": "Resetare criptare",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Accesul la cameră este interzis. Activați-l în Setări.",
     "microphoneDenied": "Accesul la microfon este interzis. Activați-l în Setări.",
     "cameraRestricted": "Accesul la cameră este restricționat pe acest dispozitiv.",
-    "microphoneRestricted": "Accesul la microfon este restricționat pe acest dispozitiv."
+    "microphoneRestricted": "Accesul la microfon este restricționat pe acest dispozitiv.",
+    "noCameraAvailable": "Nu există nicio cameră disponibilă.",
+    "couldNotCreateCameraSource": "Nu s-a putut crea sursa camerei."
   },
   "gif": {
     "couldNotLoad": "Nu s-a putut încărca GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Aparat foto",
     "flip": "Flip",
     "speaker": "Vorbitor",
-    "end": "Sfârșit"
+    "end": "Sfârșit",
+    "noIncomingCallToAnswer": "Nu trebuie să răspundeți la niciun apel primit."
   },
   "settings": {
     "startHour": "Ora de începere (0-23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "eSIM-ul dvs. este gata de instalare.",
     "your_esim_is_active": "eSIM-ul dvs. este activ.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Pachetele de date eSIM necesită un dispozitiv compatibil cu eSIM și deblocat.",
-    "we_couldnt_start_your_esim_activation": "Nu am putut începe activarea eSIM."
+    "we_couldnt_start_your_esim_activation": "Nu am putut începe activarea eSIM.",
+    "missing_auth_token": "Lipsește jetonul de autentificare.",
+    "invalid_room_id_client": "ID cameră invalid."
   },
   "onboarding": {
     "welcomeSubtitle": "Trimiteți mesaje la nivel global, traduceți instantaneu și începeți conversațiile rapid.",
@@ -3493,5 +3532,12 @@
     "yi": "Yiddish",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "Anulează",
+  "startChat": {
+    "fetchResultsFailed": "Nu se pot prelua rezultatele. Vă rugăm să încercați din nou.",
+    "fetchContactsFailed": "Nu se pot prelua contactele.",
+    "contactOpenFailed": "Acest contact nu a putut fi deschis.",
+    "enterValidPhone": "Introduceți un număr de telefon valid."
   }
 }

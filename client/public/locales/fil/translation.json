@@ -329,7 +329,19 @@
     "smsConsentRequired": "Mangyaring payagan ang mga SMS mensahe o alisin ang numero ng telepono.",
     "secureKeySetupFailed": "Nilikha ang iyong account, ngunit nabigo ang pag-set up ng secure key sa aparatong ito. Mangyaring subukan muli.",
     "verifyEmailAfterSignup": "Nilikha ang account. Mangyaring suriin ang iyong email upang mapatunayan ang iyong account bago mag-log in.",
-    "sessionExpiredSignInAgain": "Nawalan ng bisa ang iyong sesyon. Mangyaring mag-sign in muli."
+    "sessionExpiredSignInAgain": "Nawalan ng bisa ang iyong sesyon. Mangyaring mag-sign in muli.",
+    "sessionExpired": "Nawalan ng bisa ang iyong sesyon.",
+    "missingEncryptionKeyOlderMessages": "Kulang ang iyong susi sa pag-encrypt sa aparatong ito. I-restore ito upang mabasa ang mga mas lumang naka-encrypt na mensahe.",
+    "missingEncryptionKey": "Kulang ang iyong susi sa pag-encrypt sa aparatong ito. Ibalik ito upang mabasa ang mga naka-encrypt na mensahe.",
+    "mismatchedEncryptionKey": "Ang aparatong ito ay may ibang susi sa pag-encrypt. Ibalik ang tamang susi upang ma-access ang iyong mga mensahe.",
+    "forgotPasswordQuestion": "Nakakalimot ka ba ng password?",
+    "sending": "Ipinapadala...",
+    "resendVerificationEmail": "Ipadala muli ang email ng beripikasyon",
+    "emailOrUsername": "Email o pangalan ng gumagamit",
+    "loggingIn": "Naglo-log in...",
+    "verificationEmailSent": "Naipadala na ang email ng beripikasyon. Suriin ang iyong inbox.",
+    "resendVerificationFailed": "Hindi naipadala muli ang email ng beripikasyon.",
+    "verifyEmailBeforeLogin": "Mangyaring i-verify ang iyong email bago mag-log in."
   },
   "login": {
     "welcomeBack": "Maligayang pagbabalik",
@@ -476,7 +488,8 @@
     "archivedTitle": "Na-archive ang pag-uusap",
     "archivedMsg": "Na-archive ang pag-uusap.",
     "archiveFailedTitle": "Hindi mai-archive ang pag-uusap.",
-    "archiveFailedMsg": "Mangyaring subukan muli."
+    "archiveFailedMsg": "Mangyaring subukan muli.",
+    "groupVideo": "Video ng Grupo"
   },
   "topbar": {
     "newStatus": "Bago Status",
@@ -566,7 +579,18 @@
     "roomNumber": "Chat #%d",
     "missingConversationId": "Wala ang ID ng pag-uusap.",
     "archiveFailed": "Hindi nagawa i-archive ang pag-uusap.",
-    "deleteFailed": "Hindi nagawa burahin ang pag-uusap."
+    "deleteFailed": "Hindi nagawa burahin ang pag-uusap.",
+    "sendMessageFailed": "Hindi maipadala ang mensahe.",
+    "sendImageFailed": "Hindi maipadala ang larawan.",
+    "sendVideoFailed": "Hindi naipadala ang video.",
+    "sendAudioFailed": "Hindi maipadala ang audio.",
+    "editMessageFailed": "Hindi ma-edit ang mensahe.",
+    "editFailed": "Hindi nagtagumpay ang pag-edit:",
+    "deleteMessageFailed": "Hindi ma-delete ang mensahe.",
+    "archiveConversationFailed": "Hindi mai-archive ang pag-uusap.",
+    "deleteConversationFailed": "Hindi ma-delete ang pag-uusap.",
+    "imageDataEmpty": "Walang laman ang datos ng imahe.",
+    "videoDataEmpty": "Walang laman ang datos ng video."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "Hindi matagumpay na na-reset ang encryption sa aparatong ito."
       },
       "restore": {
-        "localFailure": "Hindi matagumpay na nakumpleto ang Key restore sa aparatong ito."
-      }
+        "localFailure": "Hindi matagumpay na nakumpleto ang Key restore sa aparatong ito.",
+        "title": "Ibalik ang susi ng pag-encrypt",
+        "instructions": "Ipasok ang iyong password ng backup upang maibalik ang iyong susi sa pag-encrypt.",
+        "noBackup": "Walang natagpuang malayong backup.",
+        "noBackupFirst": "Gumawa ng backup bago subukang ibalik.",
+        "restoreKey": "Ibalik ang susi",
+        "success": "Matagumpay na naibalik ang susi sa pag-encrypt.",
+        "deviceMismatch": "Ang naibalik na susi ay hindi tumutugma sa aparatong ito.",
+        "correctKeyMissing": "Ang aparatong ito ay wala pa ring tamang susi sa pag-encrypt."
+      },
+      "checkingBackup": "Sinusuri ang backup...",
+      "backupPassword": "Reserbang Password"
     },
     "reset": {
       "title": "I-reset ang pag-encrypt",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "Hindi pinapayagan ang pag-access sa kamera. I-enable ito sa Mga Setting.",
     "microphoneDenied": "Hindi pinapayagan ang pag-access sa mikropono. I-enable ito sa Mga Setting.",
     "cameraRestricted": "Limitado ang pag-access sa kamera sa aparatong ito.",
-    "microphoneRestricted": "Limitado ang pag-access sa mikropono sa aparatong ito."
+    "microphoneRestricted": "Limitado ang pag-access sa mikropono sa aparatong ito.",
+    "noCameraAvailable": "Walang magagamit na kamera.",
+    "couldNotCreateCameraSource": "Hindi nagawa ang paglikha ng pinagmumulan ng kamera."
   },
   "gif": {
     "couldNotLoad": "Hindi na-load ang GIF",
@@ -2981,7 +3017,8 @@
     "camera": "Kamera",
     "flip": "Baliktarin",
     "speaker": "Tagapagsalita",
-    "end": "Wakas"
+    "end": "Wakas",
+    "noIncomingCallToAnswer": "Walang papasok na tawag na sasagutin."
   },
   "settings": {
     "startHour": "Oras ng pagsisimula (0–23)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "Handa nang i-install ang iyong eSIM.",
     "your_esim_is_active": "Aktibo na ang iyong eSIM.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "Ang mga eSIM data pack ay nangangailangan ng isang eSIM-compatible at naka-unlock na aparato.",
-    "we_couldnt_start_your_esim_activation": "Hindi namin maisimula ang pag-activate ng iyong eSIM."
+    "we_couldnt_start_your_esim_activation": "Hindi namin maisimula ang pag-activate ng iyong eSIM.",
+    "missing_auth_token": "Kulang ang authentication token.",
+    "invalid_room_id_client": "Hindi wastong ID ng silid."
   },
   "onboarding": {
     "welcomeSubtitle": "Magpadala ng mensahe sa buong mundo, isalin kaagad, at simulan agad ang mga pag-uusap.",
@@ -3493,5 +3532,12 @@
     "yi": "Yiddish",
     "yo": "Yoruba",
     "zu": "Zulu"
+  },
+  "button_cancel": "I-cancel",
+  "startChat": {
+    "fetchResultsFailed": "Hindi makuha ang mga resulta. Mangyaring subukan muli.",
+    "fetchContactsFailed": "Hindi makuha ang mga kontak.",
+    "contactOpenFailed": "Hindi mabuksan ang contact na ito.",
+    "enterValidPhone": "Ipasok ang wastong numero ng telepono."
   }
 }

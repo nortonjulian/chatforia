@@ -329,7 +329,19 @@
     "smsConsentRequired": "请同意接收短信或删除电话号码。",
     "secureKeySetupFailed": "您的账户已创建，但该设备上的安全密钥设置失败。请重试。",
     "verifyEmailAfterSignup": "已创建账户。登录前，请检查您的电子邮件以验证您的账户。",
-    "sessionExpiredSignInAgain": "您的会话已过期。请重新登录。"
+    "sessionExpiredSignInAgain": "您的会话已过期。请重新登录。",
+    "sessionExpired": "您的会话已过期。",
+    "missingEncryptionKeyOlderMessages": "该设备缺少您的加密密钥。恢复密钥可读取旧版加密信息。",
+    "missingEncryptionKey": "该设备缺少您的加密密钥。恢复密钥后即可读取加密信息。",
+    "mismatchedEncryptionKey": "此设备的加密密钥不同。恢复正确的密钥即可访问信息。",
+    "forgotPasswordQuestion": "忘记密码？",
+    "sending": "发送...",
+    "resendVerificationEmail": "重新发送验证电子邮件",
+    "emailOrUsername": "电子邮件或用户名",
+    "loggingIn": "登录...",
+    "verificationEmailSent": "已发送验证电子邮件。请检查您的收件箱。",
+    "resendVerificationFailed": "重新发送验证电子邮件失败。",
+    "verifyEmailBeforeLogin": "登录前请先验证您的电子邮件。"
   },
   "login": {
     "welcomeBack": "歡迎回來",
@@ -476,7 +488,8 @@
     "archivedTitle": "對話已歸檔",
     "archivedMsg": "該對話已歸檔。",
     "archiveFailedTitle": "無法將對話歸檔",
-    "archiveFailedMsg": "請再試一次。"
+    "archiveFailedMsg": "請再試一次。",
+    "groupVideo": "小组视频"
   },
   "topbar": {
     "newStatus": "新增狀態",
@@ -566,7 +579,18 @@
     "roomNumber": "聊天 #%d",
     "missingConversationId": "对话 ID 丢失。",
     "archiveFailed": "对话存档失败。",
-    "deleteFailed": "删除对话失败。"
+    "deleteFailed": "删除对话失败。",
+    "sendMessageFailed": "无法发送信息。",
+    "sendImageFailed": "无法发送图像。",
+    "sendVideoFailed": "无法发送视频。",
+    "sendAudioFailed": "无法发送音频。",
+    "editMessageFailed": "无法编辑信息。",
+    "editFailed": "编辑失败：",
+    "deleteMessageFailed": "无法删除信息。",
+    "archiveConversationFailed": "无法将对话存档。",
+    "deleteConversationFailed": "无法删除对话。",
+    "imageDataEmpty": "图像数据为空。",
+    "videoDataEmpty": "视频数据为空。"
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "加密重置未在此设备上正确完成。"
       },
       "restore": {
-        "localFailure": "密钥还原未在此设备上正确完成。"
-      }
+        "localFailure": "密钥还原未在此设备上正确完成。",
+        "title": "恢复加密密钥",
+        "instructions": "输入备份密码以恢复加密密钥。",
+        "noBackup": "未找到远程备份。",
+        "noBackupFirst": "在尝试恢复前创建备份。",
+        "restoreKey": "恢复密钥",
+        "success": "加密密钥恢复成功。",
+        "deviceMismatch": "恢复的密钥与此设备不匹配。",
+        "correctKeyMissing": "该设备仍然没有正确的加密密钥。"
+      },
+      "checkingBackup": "检查备份...",
+      "backupPassword": "备份密码"
     },
     "reset": {
       "title": "重置加密",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "相机访问被拒绝。在设置中启用。",
     "microphoneDenied": "麦克风访问被拒绝。在设置中启用。",
     "cameraRestricted": "该设备的摄像头访问受限。",
-    "microphoneRestricted": "该设备的麦克风访问受限。"
+    "microphoneRestricted": "该设备的麦克风访问受限。",
+    "noCameraAvailable": "无摄像头。",
+    "couldNotCreateCameraSource": "无法创建摄像机源。"
   },
   "gif": {
     "couldNotLoad": "无法加载 GIF",
@@ -2981,7 +3017,8 @@
     "camera": "照相机",
     "flip": "翻转",
     "speaker": "发言人",
-    "end": "结束"
+    "end": "结束",
+    "noIncomingCallToAnswer": "没有来电需要接听。"
   },
   "settings": {
     "startHour": "起始小时（0-23）",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "您的 eSIM 已准备好安装。",
     "your_esim_is_active": "您的 eSIM 处于激活状态。",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "eSIM 数据包要求使用兼容 eSIM 且解锁的设备。",
-    "we_couldnt_start_your_esim_activation": "我们无法启动您的 eSIM 激活。"
+    "we_couldnt_start_your_esim_activation": "我们无法启动您的 eSIM 激活。",
+    "missing_auth_token": "缺少验证令牌。",
+    "invalid_room_id_client": "房间 ID 无效。"
   },
   "onboarding": {
     "welcomeSubtitle": "发送全球信息，即时翻译，快速开始对话。",
@@ -3493,5 +3532,12 @@
     "yi": "意第绪语",
     "yo": "伊博语",
     "zu": "祖鲁语"
+  },
+  "button_cancel": "取消",
+  "startChat": {
+    "fetchResultsFailed": "无法获取结果。请重试。",
+    "fetchContactsFailed": "无法获取联系人。",
+    "contactOpenFailed": "此触点无法打开。",
+    "enterValidPhone": "输入有效的电话号码。"
   }
 }

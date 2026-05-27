@@ -329,7 +329,19 @@
     "smsConsentRequired": "لطفاً برای دریافت پیامک‌ها رضایت دهید یا شماره تلفن را حذف کنید.",
     "secureKeySetupFailed": "حساب کاربری شما ایجاد شد، اما راه‌اندازی کلید امن در این دستگاه ناموفق بود. لطفاً دوباره تلاش کنید.",
     "verifyEmailAfterSignup": "حساب کاربری ایجاد شد. لطفاً پیش از ورود، ایمیل خود را برای تأیید حساب کاربری بررسی کنید.",
-    "sessionExpiredSignInAgain": "جلسه شما منقضی شد. لطفاً دوباره وارد شوید."
+    "sessionExpiredSignInAgain": "جلسه شما منقضی شد. لطفاً دوباره وارد شوید.",
+    "sessionExpired": "جلسه شما منقضی شده است.",
+    "missingEncryptionKeyOlderMessages": "این دستگاه کلید رمزگذاری شما را ندارد. آن را بازیابی کنید تا پیام‌های رمزگذاری‌شده قدیمی‌تر را بخوانید.",
+    "missingEncryptionKey": "این دستگاه کلید رمزگذاری شما را ندارد. آن را بازیابی کنید تا پیام‌های رمزگذاری‌شده را بخوانید.",
+    "mismatchedEncryptionKey": "این دستگاه کلید رمزگذاری متفاوتی دارد. کلید صحیح را بازیابی کنید تا به پیام‌های خود دسترسی پیدا کنید.",
+    "forgotPasswordQuestion": "رمز عبور را فراموش کرده‌اید؟",
+    "sending": "در حال ارسال...",
+    "resendVerificationEmail": "ارسال مجدد ایمیل تأیید",
+    "emailOrUsername": "ایمیل یا نام کاربری",
+    "loggingIn": "در حال ورود...",
+    "verificationEmailSent": "ایمیل تأیید ارسال شد. صندوق ورودی خود را بررسی کنید.",
+    "resendVerificationFailed": "ارسال مجدد ایمیل تأیید ناموفق بود.",
+    "verifyEmailBeforeLogin": "لطفاً قبل از ورود، ایمیل خود را تأیید کنید."
   },
   "login": {
     "welcomeBack": "خوش آمدید",
@@ -476,7 +488,8 @@
     "archivedTitle": "گفتگو بایگانی شد",
     "archivedMsg": "گفتگو بایگانی شد.",
     "archiveFailedTitle": "امکان بایگانی گفتگو وجود ندارد",
-    "archiveFailedMsg": "لطفاً دوباره تلاش کنید."
+    "archiveFailedMsg": "لطفاً دوباره تلاش کنید.",
+    "groupVideo": "ویدیوی گروهی"
   },
   "topbar": {
     "newStatus": "وضعیت جدید",
@@ -566,7 +579,18 @@
     "roomNumber": "چت #%d",
     "missingConversationId": "شناسهٔ گفتگو مفقود است.",
     "archiveFailed": "آرشیو گفتگو ناموفق بود.",
-    "deleteFailed": "حذف گفتگو ناموفق بود."
+    "deleteFailed": "حذف گفتگو ناموفق بود.",
+    "sendMessageFailed": "پیام ارسال نشد.",
+    "sendImageFailed": "نمی‌توانست تصویر را ارسال کند.",
+    "sendVideoFailed": "نمی‌توانستم ویدیو را ارسال کنم.",
+    "sendAudioFailed": "نمی‌توانست صدا را ارسال کند.",
+    "editMessageFailed": "نمی‌توانست پیام را ویرایش کند.",
+    "editFailed": "ویرایش ناموفق:",
+    "deleteMessageFailed": "نمی‌توان پیام را حذف کرد.",
+    "archiveConversationFailed": "نمی‌توانست گفتگو را بایگانی کند.",
+    "deleteConversationFailed": "نمی‌توانست گفتگو را حذف کند.",
+    "imageDataEmpty": "داده‌های تصویر خالی است.",
+    "videoDataEmpty": "داده‌های ویدیو خالی است."
   },
   "messageInput": {
     "ttl": {
@@ -2778,8 +2802,18 @@
         "localFailure": "بازنشانی رمزگذاری روی این دستگاه به‌درستی انجام نشد."
       },
       "restore": {
-        "localFailure": "عملیات بازیابی کلید روی این دستگاه به درستی تکمیل نشد."
-      }
+        "localFailure": "عملیات بازیابی کلید روی این دستگاه به درستی تکمیل نشد.",
+        "title": "بازیابی کلید رمزگذاری",
+        "instructions": "کلمه عبور پشتیبان خود را وارد کنید تا کلید رمزگذاری خود را بازیابی کنید.",
+        "noBackup": "هیچ نسخه پشتیبان دوری یافت نشد.",
+        "noBackupFirst": "قبل از اقدام به بازیابی، یک نسخه پشتیبان تهیه کنید.",
+        "restoreKey": "بازیابی کلید",
+        "success": "کلید رمزگذاری با موفقیت بازیابی شد.",
+        "deviceMismatch": "کلید بازیابی‌شده با این دستگاه مطابقت ندارد.",
+        "correctKeyMissing": "این دستگاه هنوز کلید رمزگذاری صحیح را ندارد."
+      },
+      "checkingBackup": "در حال بررسی پشتیبان...",
+      "backupPassword": "رمز عبور پشتیبان"
     },
     "reset": {
       "title": "بازنشانی رمزگذاری",
@@ -2842,7 +2876,9 @@
     "cameraDenied": "دسترسی به دوربین رد شد. آن را در تنظیمات فعال کنید.",
     "microphoneDenied": "دسترسی به میکروفون رد شد. آن را در تنظیمات فعال کنید.",
     "cameraRestricted": "دسترسی به دوربین در این دستگاه محدود است.",
-    "microphoneRestricted": "دسترسی به میکروفون در این دستگاه محدود است."
+    "microphoneRestricted": "دسترسی به میکروفون در این دستگاه محدود است.",
+    "noCameraAvailable": "دوربین در دسترس نیست.",
+    "couldNotCreateCameraSource": "ایجاد منبع دوربین امکان‌پذیر نبود."
   },
   "gif": {
     "couldNotLoad": "GIF بارگذاری نشد",
@@ -2981,7 +3017,8 @@
     "camera": "دوربین",
     "flip": "برگردان",
     "speaker": "سخنران",
-    "end": "پایان"
+    "end": "پایان",
+    "noIncomingCallToAnswer": "هیچ تماس ورودی برای پاسخگویی وجود ندارد."
   },
   "settings": {
     "startHour": "ساعت شروع (۰–۲۳)",
@@ -3296,7 +3333,9 @@
     "your_esim_is_ready_to_install": "ای‌سیم شما آماده نصب است.",
     "your_esim_is_active": "ای‌سیم شما فعال است.",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device": "بسته‌های دیتای eSIM نیازمند دستگاهی سازگار با eSIM و آنلاک‌شده هستند.",
-    "we_couldnt_start_your_esim_activation": "ما نتوانستیم فعال‌سازی eSIM شما را آغاز کنیم."
+    "we_couldnt_start_your_esim_activation": "ما نتوانستیم فعال‌سازی eSIM شما را آغاز کنیم.",
+    "missing_auth_token": "توکن احراز هویت گم شده است.",
+    "invalid_room_id_client": "شناسه اتاق نامعتبر."
   },
   "onboarding": {
     "welcomeSubtitle": "پیام را به‌طور جهانی ارسال کنید، فوراً ترجمه کنید و سریعاً گفتگوها را آغاز کنید.",
@@ -3493,5 +3532,12 @@
     "yi": "یدیش",
     "yo": "یوروبا",
     "zu": "زولو"
+  },
+  "button_cancel": "لغو",
+  "startChat": {
+    "fetchResultsFailed": "نتایج قابل بازیابی نیست. لطفاً دوباره تلاش کنید.",
+    "fetchContactsFailed": "نمی‌توان تماس‌ها را بازیابی کرد.",
+    "contactOpenFailed": "این تماس قابل باز شدن نبود.",
+    "enterValidPhone": "یک شماره تلفن معتبر وارد کنید."
   }
 }
