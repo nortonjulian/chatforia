@@ -33,8 +33,12 @@ function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n");
 }
 
-function getNestedValue(obj, dottedKey) {
-  return dottedKey.split(".").reduce((acc, key) => acc?.[key], obj);
+function getValue(obj, key) {
+  if (Object.prototype.hasOwnProperty.call(obj, key)) {
+    return obj[key];
+  }
+
+  return key.split(".").reduce((acc, part) => acc?.[part], obj);
 }
 
 function setNestedValue(obj, dottedKey, value) {
@@ -106,7 +110,7 @@ async function main() {
     console.log(`\n🌍 Translating ${missingKeys.length} keys for ${lang}...`);
 
     for (const key of missingKeys) {
-      const englishText = getNestedValue(sourceJson, key);
+      const englishText = getValue(sourceJson, key);
 
       if (typeof englishText !== "string" || !englishText.trim()) {
         console.warn(`⚠️ Skipping ${lang}.${key}: source value is not text`);

@@ -51,7 +51,21 @@ function flattenObject(obj, prefix = "") {
   return Object.entries(obj).reduce((acc, [key, value]) => {
     const fullKey = prefix ? `${prefix}.${key}` : key;
 
-    if (value && typeof value === "object" && !Array.isArray(value)) {
+    // Preserve exact flat string keys like "billing.free"
+    if (
+      !prefix &&
+      key.includes(".") &&
+      (typeof value !== "object" || value === null || Array.isArray(value))
+    ) {
+      acc[key] = value;
+      return acc;
+    }
+
+    if (
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value)
+    ) {
       Object.assign(acc, flattenObject(value, fullKey));
     } else {
       acc[fullKey] = value;
