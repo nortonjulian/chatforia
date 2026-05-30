@@ -15,14 +15,20 @@ const SOURCE_FILE = "translation.json";
 const missingReportPath = path.resolve(__dirname, "./missing-locale-keys.json");
 
 const CHATFORIA_DEEPL_LANGS = new Set([
-  "af","sq","ar","hy","az","eu","be","bn","bg","my",
-  "ca","zh-cn","zh-tw","hr","cs","da","nl","en",
-  "et","fil","fi","fr","gl","ka","de","el","gu",
-  "he","hi","hu","id","it","ja","jv","kk","ko",
-  "ky","la","lv","lt","lb","mk","ms","ml","mt",
-  "mr","mn","ne","no","fa","pl","pt","pa","ro",
-  "ru","sr","sk","sl","es","sv","ta","te","th",
-  "tr","uk","ur","uz","vi","cy","zu"
+  "af", "sq", "ar", "hy", "as", "ay", "az", "eu", "be", "bn",
+  "bho", "bs", "br", "bg", "my", "yue", "ca", "ceb",
+  "zh-hans", "zh-hant", "hr", "cs", "da", "prs", "nl",
+  "en", "en-us", "en-gb", "eo", "et", "fil", "fi", "fr",
+  "fr-ca", "gl", "ka", "de", "de-ch", "el", "gn", "gu",
+  "ht", "ha", "he", "hi", "is", "ig", "id", "ga", "it",
+  "ja", "jv", "kk", "gom", "ko", "kmr", "ckb", "ky", "la",
+  "ln", "lt", "lv", "lb", "mk", "mai", "mg", "ms", "ml",
+  "mt", "mi", "mr", "mn", "ne", "nb", "oc", "om", "pag",
+  "ps", "fa", "pl", "pt-pt", "pt-br", "pa", "qu", "ro",
+  "ru", "sa", "sr", "st", "scn", "es", "es-419", "su",
+  "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "ts",
+  "tn", "tr", "tk", "uk", "ur", "uz", "vi", "cy", "wo",
+  "xh", "yi", "zu"
 ]);
 
 function readJson(filePath) {
@@ -60,17 +66,36 @@ function toDeepLLangCode(lang) {
 
   const map = {
     en: "EN-US",
+    "en-us": "EN-US",
+    "en-gb": "EN-GB",
 
-    pt: "PT-BR",
+    pt: "PT-PT",
+    "pt-pt": "PT-PT",
+    "pt-br": "PT-BR",
 
-    no: "NB",
     nb: "NB",
+    no: "NB",
 
-    "zh-cn": "ZH",
-    "zh-tw": "ZH",
+    "zh-cn": "ZH-HANS",
+    "zh-hans": "ZH-HANS",
+    "zh-tw": "ZH-HANT",
+    "zh-hant": "ZH-HANT",
 
-    fil: "TL",
+    fil: "FIL",
     tl: "TL",
+
+    bho: "BHO",
+    prs: "PRS",
+    kmr: "KMR",
+    ckb: "CKB",
+    yue: "YUE",
+    gom: "GOM",
+    mai: "MAI",
+    pag: "PAG",
+
+    "fr-ca": "FR-CA",
+    "de-ch": "DE-CH",
+    "es-419": "ES-419"
   };
 
   return map[normalized] || normalized.toUpperCase();
@@ -97,12 +122,14 @@ async function main() {
 
     const targetJson = readJson(targetPath);
 
-    const useEnglishFallback = !CHATFORIA_DEEPL_LANGS.has(lang.toLowerCase());
+    const isDeepLSupported =
+      CHATFORIA_DEEPL_LANGS.has(lang.toLowerCase());
 
-    if (useEnglishFallback) {
+    if (!isDeepLSupported) {
       console.log(
-        `↩️ ${lang} is not in Chatforia+DeepL intersection — using English fallback`
+        `⏭️ Skipping ${lang} — not DeepL-supported yet`
       );
+      continue;
     }
 
     const deeplTargetLang = toDeepLLangCode(lang);
@@ -118,9 +145,7 @@ async function main() {
       }
 
       try {
-        const translatedText = useEnglishFallback
-          ? englishText
-          : await translate(englishText, deeplTargetLang, "EN");
+        const translatedText = await translate(englishText, deeplTargetLang, "EN");
 
         setNestedValue(targetJson, key, translatedText);
         console.log(`✅ ${lang}.${key}`);

@@ -29,14 +29,20 @@ function writeJson(filePath, data) {
 }
 
 const CHATFORIA_DEEPL_LANGS = new Set([
-  "af","sq","ar","hy","az","eu","be","bn","bg","my",
-  "ca","zh-CN","zh-TW","hr","cs","da","nl","en",
-  "et","fil","fi","fr","gl","ka","de","el","gu",
-  "he","hi","hu","id","it","ja","jv","kk","ko",
-  "ky","la","lv","lt","lb","mk","ms","ml","mt",
-  "mr","mn","ne","no","fa","pl","pt","pa","ro",
-  "ru","sr","sk","sl","es","sv","ta","te","th",
-  "tr","uk","ur","uz","vi","cy","zu"
+  "af", "sq", "ar", "hy", "as", "ay", "az", "eu", "be", "bn",
+  "bho", "bs", "br", "bg", "my", "yue", "ca", "ceb",
+  "zh-hans", "zh-hant", "hr", "cs", "da", "prs", "nl",
+  "en", "en-us", "en-gb", "eo", "et", "fil", "fi", "fr",
+  "fr-ca", "gl", "ka", "de", "de-ch", "el", "gn", "gu",
+  "ht", "ha", "he", "hi", "is", "ig", "id", "ga", "it",
+  "ja", "jv", "kk", "gom", "ko", "kmr", "ckb", "ky", "la",
+  "ln", "lt", "lv", "lb", "mk", "mai", "mg", "ms", "ml",
+  "mt", "mi", "mr", "mn", "ne", "nb", "oc", "om", "pag",
+  "ps", "fa", "pl", "pt-pt", "pt-br", "pa", "qu", "ro",
+  "ru", "sa", "sr", "st", "scn", "es", "es-419", "su",
+  "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "ts",
+  "tn", "tr", "tk", "uk", "ur", "uz", "vi", "cy", "wo",
+  "xh", "yi", "zu"
 ]);
 
 function appleLocaleToDeepL(locale) {

@@ -9,11 +9,15 @@ const SITE_LOCALES_DIR = path.resolve(__dirname, "../../client/public/locales");
 const XCSTRINGS_PATH =
   "/Users/juliannorton/Desktop/chatforia-ios/Chatforia/Chatforia/Localizable.xcstrings";
 
-const langs = process.argv.slice(2);
-
 const langAliases = {
-  prs: "fa-AF"
+  "zh-cn": "zh-Hans",
+  "zh-CN": "zh-Hans",
+  "zh-tw": "zh-Hant",
+  "zh-TW": "zh-Hant",
+  no: "nb",
 };
+
+const langs = process.argv.slice(2);
 
 function flatten(obj, prefix = "", out = {}) {
   for (const [key, value] of Object.entries(obj)) {
@@ -25,6 +29,7 @@ function flatten(obj, prefix = "", out = {}) {
       out[fullKey] = String(value ?? "");
     }
   }
+
   return out;
 }
 
@@ -35,8 +40,7 @@ catalog.strings ||= {};
 catalog.version ||= "1.0";
 
 for (const lang of langs) {
-
-    const iosLang = langAliases[lang] ?? lang;
+  const iosLang = langAliases[lang] ?? lang;
   const sourcePath = path.join(SITE_LOCALES_DIR, lang, "translation.json");
 
   if (!fs.existsSync(sourcePath)) {
@@ -53,12 +57,12 @@ for (const lang of langs) {
     catalog.strings[key].localizations[iosLang] = {
       stringUnit: {
         state: "translated",
-        value
-      }
+        value,
+      },
     };
   }
 
-  console.log(`✅ Added ${lang} to Localizable.xcstrings`);
+  console.log(`✅ Added ${lang} as ${iosLang} to Localizable.xcstrings`);
 }
 
 fs.writeFileSync(XCSTRINGS_PATH, JSON.stringify(catalog, null, 2) + "\n");

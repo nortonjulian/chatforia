@@ -39,16 +39,17 @@ function flattenObject(obj, prefix = "") {
 function localeToApple(locale) {
   const normalized = locale.replace("_", "-").toLowerCase();
 
-  const map = {
-    "zh-cn": "zh-Hans",
-    "zh-tw": "zh-Hant",
-    pt: "pt-BR",
-    no: "nb",
-    tl: "fil",
-    fil: "fil",
-    "mni-mtei": "mni",
-    prs: "fa-AF",
-  };
+const map = {
+  "zh-cn": "zh-Hans",
+  "zh-tw": "zh-Hant",
+  "zh-hans": "zh-Hans",
+  "zh-hant": "zh-Hant",
+  pt: "pt-BR",
+  no: "nb",
+  fil: "tl",
+  "mni-mtei": "mni",
+  prs: "fa-AF",
+};
 
   return map[normalized] || normalized;
 }

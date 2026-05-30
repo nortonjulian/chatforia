@@ -32,7 +32,7 @@
     "video": "Video",
     "phone": "Phone",
     "unknown": "Unknown",
-    "userWithId": "User %d",
+    "userWithId": "User {id}",
     "showOriginal": "Show original",
     "showTranslation": "Show translation",
     "undo": "Undo",
@@ -90,7 +90,6 @@
   "button_save_settings": "Save Settings",
   "button_delete_account": "Delete Account",
   "button_log_out": "Log out",
-
   "section_account": "Account",
   "section_plan": "Plan",
   "section_wireless": "Wireless",
@@ -104,13 +103,11 @@
   "section_voicemail": "Voicemail",
   "section_forwarding": "Call & Text Forwarding",
   "section_legal_support": "Legal & Support",
-
   "tab_chats": "Chats",
   "tab_calls": "Calls",
   "tab_contacts": "Contacts",
   "tab_profile": "Profile",
-   "button_cancel": "Cancel",
-
+  "button_cancel": "Cancel",
   "label_username": "Username",
   "label_email": "Email",
   "label_role": "Role",
@@ -120,23 +117,19 @@
   "plan_premium": "Premium",
   "role_user": "User",
   "role_admin": "Admin",
-
-"premiumpicker_free_caption": "Included on your current plan.",
-"premiumpicker_premium_caption": "Visible below and unlockable with Premium.",
+  "premiumpicker_free_caption": "Included on your current plan.",
+  "premiumpicker_premium_caption": "Visible below and unlockable with Premium.",
   "label_theme": "Theme",
   "label_message_tone": "Message Tone",
   "label_ringtone": "Ringtone",
   "label_volume": "Volume",
   "label_your_age_range": "Your age range",
-
   "plan_billing": "Plan & Billing",
-  "current_plan_format": "Current Plan: %@",
+  "current_plan_format": "Current Plan: {plan}",
   "manage_billing": "Manage Billing",
-
   "billing.free": "Free",
   "billing.plus": "Plus",
   "billing.premium": "Premium",
-
   "esim.local3gb": "Local 3GB",
   "esim.local5gb": "Local 5GB",
   "esim.local10gb": "Local 10GB",
@@ -145,44 +138,32 @@
   "esim.local5gbDescription": "Great for travel, messaging, maps, and everyday use.",
   "esim.local10gbDescription": "Ideal for heavier travel usage and streaming.",
   "esim.local20gbDescription": "Maximum data for extended travel and heavy usage.",
-
   "esim.localUnlimitedDescription": "Unlimited data for travelers who never want to worry about usage.",
-
   "wireless.coverage": "Coverage",
-
   "esim.localUnlimited": "Local Unlimited",
-
   "esim.europe3gb": "Europe 3 GB",
   "esim.europe5gb": "Europe 5 GB",
   "esim.europe10gb": "Europe 10 GB",
   "esim.europe20gb": "Europe 20 GB",
   "esim.europeUnlimited": "Europe Unlimited",
-
   "esim.global3gb": "Global 3 GB",
   "esim.global5gb": "Global 5 GB",
   "esim.global10gb": "Global 10 GB",
   "esim.globalUnlimited": "Global Unlimited",
-
   "wireless_chatforia_mobile": "Chatforia Mobile",
   "wireless_esim_description": "Browse eSIM data packs and manage wireless features.",
   "wireless_phone_number": "Phone number",
   "wireless_phone_number_description": "Manage your Chatforia phone number.",
-
   "security_backup_description": "Back up your encryption key so you can restore access to encrypted messages.",
   "security_encryption_key": "Encryption Key",
   "security_status_no_backup": "No backup saved",
   "security_backup_recommended": "Backup recommended",
-
   "security_backup_key_title": "Back Up Encryption Key",
   "security_backup_key_subtitle": "Create a secure backup of your encryption key.",
-
   "security_rotate_key_title": "Rotate Encryption Key",
   "security_rotate_key_backup_required": "Backup required before rotating.",
-
   "appearance_free_theme_notice": "Free includes basic themes. Upgrade to unlock more themes.",
-
   "sounds_free_notice": "Free includes basic sounds. Upgrade to unlock more tones and ringtones.",
-
   "upgrade_choose_plus_or_premium": "Choose Plus or Premium to unlock more features.",
   "select_age_range": "Select age range",
   "forwarding_manage": "Manage forwarding",
@@ -191,7 +172,6 @@
   "legal_terms_of_service": "Terms of Service",
   "legal_sms_policy": "SMS Policy",
   "legal_contact_support": "Contact Support",
-
   "setting_auto_translate_messages": "Auto-translate messages",
   "setting_show_original_with_translation": "Show original with translation",
   "setting_enable_read_receipts": "Enable read receipts",
@@ -209,11 +189,9 @@
   "setting_auto_delete_voicemails_days": "Auto-delete voicemails after (days)",
   "setting_forward_voicemail_email": "Forward voicemail to email",
   "setting_text_fallback_greeting": "Text fallback greeting",
-
   "placeholder_keep_voicemails_forever": "Keep forever",
   "placeholder_email_address": "Email address",
   "placeholder_greeting": "Greeting",
-
   "settings_saved": "Settings saved.",
   "a11y": {
     "skipToMain": "Skip to main content"
@@ -223,13 +201,13 @@
     "ria": "Ria"
   },
   "invite": {
-  "title": "Invite Friends",
-  "shareInviteLink": "Share My Invite Link",
-  "fromPhoneContacts": "Invite from Phone Contacts",
-  "mustBeLoggedIn": "You need to be logged in to create an invite.",
-  "shareMessageWithName": "%@ invited you to Chatforia — a better way to message globally. Join here: %@",
-  "shareMessageGeneric": "Join me on Chatforia — a better way to message globally. Join here: %@"
-},
+    "title": "Invite Friends",
+    "shareInviteLink": "Share My Invite Link",
+    "fromPhoneContacts": "Invite from Phone Contacts",
+    "mustBeLoggedIn": "You need to be logged in to create an invite.",
+    "shareMessageWithName": "{value} invited you to Chatforia — a better way to message globally. Join here: {value}",
+    "shareMessageGeneric": "Join me on Chatforia — a better way to message globally. Join here: {value}"
+  },
   "keys": {
     "backupCreated": "Key backup created and downloaded ✓",
     "restored": "Key backup restored ✓ Keys installed locally",
@@ -243,82 +221,70 @@
     "imported": "Private key imported to this device. You can read old messages now.",
     "enterPassword": "Enter your account password so we can back up your keys securely."
   },
-    "encryption": {
+  "encryption": {
     "backUpKey": "Back Up Encryption Key",
     "backupPassword": "Backup password",
     "checkingBackup": "Checking backup…",
     "restore": {
-    "title": "Restore Encryption Key",
-    "instructions": "Enter the backup password you created when you saved your encryption key.",
-    "noBackup": "No backup found. Create one to protect your messages.",
-    "noBackupFirst": "No backup found. Please create a backup first.",
-    "restoreKey": "Restore Key",
-    "success": "Your encryption key was restored successfully.",
-    "deviceMismatch": "Key restore did not complete correctly on this device.",
-    "checkingBackup": "Checking for backup...",
-
-    "backupPassword": "Backup Password",
-
-    "restore": {
       "title": "Restore Encryption Key",
-      "instructions": "Enter your backup password to restore your encryption key.",
-      "noBackup": "No remote backup was found.",
-      "noBackupFirst": "Create a backup before attempting restoration.",
+      "instructions": "Enter the backup password you created when you saved your encryption key.",
+      "noBackup": "No backup found. Create one to protect your messages.",
+      "noBackupFirst": "No backup found. Please create a backup first.",
       "restoreKey": "Restore Key",
-      "success": "Encryption key restored successfully.",
-      "deviceMismatch": "The restored key does not match this device.",
-      "correctKeyMissing": "This device still does not have the correct encryption key.",
-      "localFailure": "Key restore did not complete correctly on this device."
+      "success": "Your encryption key was restored successfully.",
+      "deviceMismatch": "Key restore did not complete correctly on this device.",
+      "checkingBackup": "Checking for backup...",
+      "backupPassword": "Backup Password",
+      "restore": {
+        "title": "Restore Encryption Key",
+        "instructions": "Enter your backup password to restore your encryption key.",
+        "noBackup": "No remote backup was found.",
+        "noBackupFirst": "Create a backup before attempting restoration.",
+        "restoreKey": "Restore Key",
+        "success": "Encryption key restored successfully.",
+        "deviceMismatch": "The restored key does not match this device.",
+        "correctKeyMissing": "This device still does not have the correct encryption key.",
+        "localFailure": "Key restore did not complete correctly on this device."
+      },
+      "reset": {
+        "localFailure": "Encryption reset did not complete correctly on this device."
+      },
+      "rotate": {
+        "title": "Rotate Encryption Key",
+        "header": "Rotate Your Encryption Key",
+        "subtitle": "This creates a new encryption key for your account.",
+        "backupWarning": "Back up your current key first.",
+        "messageAccessWarning": "Older encrypted messages may become inaccessible unless migration support exists.",
+        "riskWarning": "Only do this if you understand the risk.",
+        "typeToContinue": "Type ROTATE to continue",
+        "placeholder": "ROTATE",
+        "action": "Rotate Encryption Key",
+        "backendNotConnected": "Rotation backend not connected yet."
+      }
     },
-     "reset": {
-    "localFailure":
-      "Encryption reset did not complete correctly on this device."
+    "reset": {
+      "title": "Reset Encryption",
+      "description": "This will generate a new encryption key for your account. Older encrypted messages may become unreadable unless you restore your original key.",
+      "confirmationTitle": "Reset encryption?",
+      "confirmationMessage": "This will replace your encryption key. Older encrypted messages may not be readable unless you restore your original key.",
+      "success": "Encryption was reset successfully.",
+      "deviceMismatch": "Encryption reset did not complete correctly on this device."
     },
-
-    "rotate": {
-      "title": "Rotate Encryption Key",
-      "header": "Rotate Your Encryption Key",
-      "subtitle": "This creates a new encryption key for your account.",
-      "backupWarning": "Back up your current key first.",
-      "messageAccessWarning": "Older encrypted messages may become inaccessible unless migration support exists.",
-      "riskWarning": "Only do this if you understand the risk.",
-      "typeToContinue": "Type ROTATE to continue",
-      "placeholder": "ROTATE",
-      "action": "Rotate Encryption Key",
-      "backendNotConnected": "Rotation backend not connected yet."
+    "backup": {
+      "headerTitle": "Protect Access to Your Messages",
+      "headerSubtitle": "Create a password-protected backup of your encryption key so you can restore access on a new device.",
+      "protectedTitle": "Your encryption key stays protected",
+      "protectedSubtitle": "The backup is encrypted with the password you choose.",
+      "restoreDeviceTitle": "Restore on another device",
+      "restoreDeviceSubtitle": "Use this backup later if this device is lost, replaced, or reset.",
+      "passwordWarningTitle": "Don’t lose your backup password",
+      "passwordWarningSubtitle": "Chatforia cannot recover it for you.",
+      "minimumLength": "Use at least 6 characters.",
+      "footerNote": "This backup helps you restore your encrypted messages later. Keep your password somewhere safe.",
+      "enterPassword": "Enter a backup password.",
+      "passwordTooShort": "Your backup password must be at least 6 characters.",
+      "success": "Your encryption key backup was created successfully."
     }
-  },
-
-  "reset": {
-    "title": "Reset Encryption",
-    "description": "This will generate a new encryption key for your account. Older encrypted messages may become unreadable unless you restore your original key.",
-    "confirmationTitle": "Reset encryption?",
-    "confirmationMessage": "This will replace your encryption key. Older encrypted messages may not be readable unless you restore your original key.",
-    "success": "Encryption was reset successfully.",
-    "deviceMismatch": "Encryption reset did not complete correctly on this device."
-   },
-   "backup": {
-    "headerTitle": "Protect Access to Your Messages",
-    "headerSubtitle": "Create a password-protected backup of your encryption key so you can restore access on a new device.",
-
-    "protectedTitle": "Your encryption key stays protected",
-    "protectedSubtitle": "The backup is encrypted with the password you choose.",
-
-    "restoreDeviceTitle": "Restore on another device",
-    "restoreDeviceSubtitle": "Use this backup later if this device is lost, replaced, or reset.",
-
-    "passwordWarningTitle": "Don’t lose your backup password",
-    "passwordWarningSubtitle": "Chatforia cannot recover it for you.",
-
-    "minimumLength": "Use at least 6 characters.",
-
-    "footerNote": "This backup helps you restore your encrypted messages later. Keep your password somewhere safe.",
-
-    "enterPassword": "Enter a backup password.",
-    "passwordTooShort": "Your backup password must be at least 6 characters.",
-
-    "success": "Your encryption key backup was created successfully."
-   }
   },
   "encryptionRecovery": {
     "title": "Manage Encryption",
@@ -390,7 +356,7 @@
       "keyRestored": "Key restored from account backup.",
       "resetSuccess": "Encryption reset successfully.",
       "creatingBackup": "Creating backup...",
-     "rotating": "Rotating..."
+      "rotating": "Rotating..."
     },
     "errors": {
       "restoreIncomplete": "Key restore incomplete or incorrect for this account",
@@ -433,167 +399,133 @@
     "missingEncryptionKeyOlderMessages": "This device is missing your encryption key. Restore it to read older encrypted messages.",
     "missingEncryptionKey": "This device is missing your encryption key. Restore it to read encrypted messages.",
     "mismatchedEncryptionKey": "This device has a different encryption key. Restore the correct key to access your messages.",
-
     "forgotPasswordQuestion": "Forgot password?",
-
     "sending": "Sending...",
     "resendVerificationEmail": "Resend verification email",
-
     "emailOrUsername": "Email or username",
-
     "loggingIn": "Logging in...",
-
     "verificationEmailSent": "Verification email sent. Check your inbox.",
     "resendVerificationFailed": "Failed to resend verification email.",
-
     "verifyEmailBeforeLogin": "Please verify your email before logging in.",
-    "continueWithGoogle":
-      "Continue with Google…",
-
-    "continueWithApple":
-      "Continue with Apple…",
-
+    "continueWithGoogle": "Continue with Google…",
+    "continueWithApple": "Continue with Apple…",
     "google": "Google",
     "apple": "Apple",
-
     "smsConsent": "SMS consent",
-
-    "smsConsentSubtitle":
-      "I consent to receive SMS messages from Chatforia.",
-
+    "smsConsentSubtitle": "I consent to receive SMS messages from Chatforia.",
     "phoneOptional": "Phone (optional)",
-
-    "loginPreviousScreen":
-      "Log in from the previous screen",
-
-    "termsAgreement":
-      "By creating an account, you agree to our Terms of Service and Privacy Policy.",
-
-    "usernameRequired":
-      "Username is required.",
-
-    "validEmailRequired":
-      "Please enter a valid email address.",
-
-    "passwordRequired":
-      "Password is required.",
-
-    "passwordMinLength":
-      "Password must be at least 6 characters.",
-
-    "passwordsDontMatch":
-      "Passwords do not match.",
-
-    "smsConsentRequired":
-      "Please consent to SMS messages or remove the phone number.",
-
-    "secureKeySetupFailed":
-      "Your account was created, but secure key setup failed on this device. Please try again.",
-
-    "verifyEmailAfterSignup":
-      "Account created. Please check your email to verify your account before logging in.",
-      "description": "End-to-end encryption, translation to 100+ languages, disappearing messages, and voice/video calling.",
-      "feature": {
-        "encryption": "End-to-end encryption by default",
-        "translation": "Smart, built-in message translation",
-        "disappearing": "Disappearing messages & read receipts",
-        "privacy": "Privacy-first. Your data, your control.",
-        "translate": "Smart, built-in message translation",
-        "disappear": "Disappearing messages",
-        "privacyAlt": "Privacy-first design",
-        "seePlans": "See plans & pricing"
-      },
-      "hero": {
-        "line1": "Secure messaging for anyone, anywhere — with",
-        "em": "translation to 100+ languages",
-        "sub": "Get a free secure phone number to call and text worldwide over Wi-Fi or data. Enjoy end-to-end encryption, disappearing messages, and HD voice/video calling — with built-in tools that help you stay connected across borders.",
-        "freeNote": "Basic calling and texting are free. Advanced AI and premium features require an upgrade."
-      },
-      "feat": {
-        "encryption": "End-to-end encryption, always on",
-        "translate": "Break language barriers in your conversations",
-        "disappear": "Disappearing messages & read receipts",
-        "privacy": "Privacy-first. Your data, your control."
-      },
-      "continueGoogle": "Continue with Google",
-      "continueApple": "Continue with Apple",
-      "username": "Username",
-      "password": "Password",
-      "keepSignedIn": "Keep me signed in",
-      "forgotPassword": "Forgot password?",
-      "loginButton": "Log In",
-      "createAccount": "Create an account",
-      "freeAccountButton": "Create free account",
-      "newHere": "New here?",
-      "getApp": "Get the app",
-      "desktopTip": "On desktop? Scan with your phone to get the app.",
-      "scanHelper": "On desktop? Scan with your phone to get the app.",
-      "goHome": "Go to home",
-      "home": "Home",
-      "headlineAlt": {
-        "main": "The secure messenger that",
-        "highlight": "speaks your language"
-      },
-      "subhead": "Private, encrypted, and translated messaging — instantly.",
-      "upgrade": "Upgrade now",
-      "tip": "Tip: Use the same account on web and mobile. Your messages stay synced.",
-      "openDownload": "Open download page",
-      "qrAlt": "QR code for Chatforia",
-      "scanHint": "Scan to download the app or open in your browser.",
-      "iosAria": "Download on the App Store",
-      "iosTitle": "Download on the App Store",
-      "iosBadgeAlt": "App Store badge",
-      "androidAria": "Get it on Google Play",
-      "androidTitle": "Google Play Store",
-      "androidBadgeAlt": "Google Play badge",
-      "login": "Log In",
-      "signup": "Sign Up",
-      "email": "Email",
-      "registration": {
-        "passwordDescription": "Minimum 6 characters. Use a strong, unique password.",
-        "smsConsent": "By creating an account, you agree to receive SMS notifications related to your Chatforia activity (such as messages from other users). Message & data rates may apply. You can opt out at any time in Settings.",
-        "termsLink": "Terms of Service",
-        "privacyLink": "Privacy Policy",
-        "already": "Already have an account?",
-        "emailLabel": "Email",
-        "emailPlaceholder": "you@example.com",
-        "passwordLabel": "Password",
-        "passwordPlaceholder": "Create a password",
-        "phoneHelp": "Used for verification, security, and SMS features where supported.",
-        "phoneLabel": "Phone number",
-        "submit": "Create account",
-        "submitAria": "Create your Chatforia account",
-        "title": "Create your Chatforia account",
-        "usernameLabel": "Username",
-        "usernamePlaceholder": "Choose a username"
-      },
-      "to": "To:",
-      "enterRecipient": "Enter a name or number",
-      "clearRecipients": "Clear recipients",
-      "sms": "SMS",
-      "chatforia": "Chatforia",
-      "typeMessage": "Type a message…",
-      "addRecipient": "Add a recipient above to start…",
-      "oneRecipient": "Please enter one recipient for now.",
-      "enterValidRecipient": "Enter a saved contact name or a phone number.",
-      "sendFailed": "Send failed. Check console for details.",
-      "logIn": "Log in",
-      "seePlans": "See plans",
-      "errors": {
-        "emailTaken": "That email is already in use.",
-        "invalidEmail": "Enter a valid email address.",
-        "invalidInput": "Please check your information and try again.",
-        "invalidPhone": "Enter a valid phone number.",
-        "invalidValue": "One of the values is invalid.",
-        "passwordLength": "Password must be at least 6 characters.",
-        "passwordRequired": "Password is required.",
-        "registrationFailed": "Registration failed. Please try again.",
-        "smsConsent": "Please accept SMS consent to continue.",
-        "tooManyAttempts": "Too many attempts. Please wait and try again.",
-        "usernameOrEmailTaken": "That username or email is already taken.",
-        "usernameRequired": "Username is required.",
-        "usernameTaken": "That username is already taken."
-      }
+    "loginPreviousScreen": "Log in from the previous screen",
+    "termsAgreement": "By creating an account, you agree to our Terms of Service and Privacy Policy.",
+    "usernameRequired": "Username is required.",
+    "validEmailRequired": "Please enter a valid email address.",
+    "passwordRequired": "Password is required.",
+    "passwordMinLength": "Password must be at least 6 characters.",
+    "passwordsDontMatch": "Passwords do not match.",
+    "smsConsentRequired": "Please consent to SMS messages or remove the phone number.",
+    "secureKeySetupFailed": "Your account was created, but secure key setup failed on this device. Please try again.",
+    "verifyEmailAfterSignup": "Account created. Please check your email to verify your account before logging in.",
+    "description": "End-to-end encryption, translation to 100+ languages, disappearing messages, and voice/video calling.",
+    "feature": {
+      "encryption": "End-to-end encryption by default",
+      "translation": "Smart, built-in message translation",
+      "disappearing": "Disappearing messages & read receipts",
+      "privacy": "Privacy-first. Your data, your control.",
+      "translate": "Smart, built-in message translation",
+      "disappear": "Disappearing messages",
+      "privacyAlt": "Privacy-first design",
+      "seePlans": "See plans & pricing"
+    },
+    "hero": {
+      "line1": "Secure messaging for anyone, anywhere — with",
+      "em": "translation to 100+ languages",
+      "sub": "Get a free secure phone number to call and text worldwide over Wi-Fi or data. Enjoy end-to-end encryption, disappearing messages, and HD voice/video calling — with built-in tools that help you stay connected across borders.",
+      "freeNote": "Basic calling and texting are free. Advanced AI and premium features require an upgrade."
+    },
+    "feat": {
+      "encryption": "End-to-end encryption, always on",
+      "translate": "Break language barriers in your conversations",
+      "disappear": "Disappearing messages & read receipts",
+      "privacy": "Privacy-first. Your data, your control."
+    },
+    "continueGoogle": "Continue with Google",
+    "continueApple": "Continue with Apple",
+    "username": "Username",
+    "password": "Password",
+    "keepSignedIn": "Keep me signed in",
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Log In",
+    "createAccount": "Create an account",
+    "freeAccountButton": "Create free account",
+    "newHere": "New here?",
+    "getApp": "Get the app",
+    "desktopTip": "On desktop? Scan with your phone to get the app.",
+    "scanHelper": "On desktop? Scan with your phone to get the app.",
+    "goHome": "Go to home",
+    "home": "Home",
+    "headlineAlt": {
+      "main": "The secure messenger that",
+      "highlight": "speaks your language"
+    },
+    "subhead": "Private, encrypted, and translated messaging — instantly.",
+    "upgrade": "Upgrade now",
+    "tip": "Tip: Use the same account on web and mobile. Your messages stay synced.",
+    "openDownload": "Open download page",
+    "qrAlt": "QR code for Chatforia",
+    "scanHint": "Scan to download the app or open in your browser.",
+    "iosAria": "Download on the App Store",
+    "iosTitle": "Download on the App Store",
+    "iosBadgeAlt": "App Store badge",
+    "androidAria": "Get it on Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play badge",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "email": "Email",
+    "registration": {
+      "passwordDescription": "Minimum 6 characters. Use a strong, unique password.",
+      "smsConsent": "By creating an account, you agree to receive SMS notifications related to your Chatforia activity (such as messages from other users). Message & data rates may apply. You can opt out at any time in Settings.",
+      "termsLink": "Terms of Service",
+      "privacyLink": "Privacy Policy",
+      "already": "Already have an account?",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "phoneHelp": "Used for verification, security, and SMS features where supported.",
+      "phoneLabel": "Phone number",
+      "submit": "Create account",
+      "submitAria": "Create your Chatforia account",
+      "title": "Create your Chatforia account",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username"
+    },
+    "to": "To:",
+    "enterRecipient": "Enter a name or number",
+    "clearRecipients": "Clear recipients",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type a message…",
+    "addRecipient": "Add a recipient above to start…",
+    "oneRecipient": "Please enter one recipient for now.",
+    "enterValidRecipient": "Enter a saved contact name or a phone number.",
+    "sendFailed": "Send failed. Check console for details.",
+    "logIn": "Log in",
+    "seePlans": "See plans",
+    "errors": {
+      "emailTaken": "That email is already in use.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidInput": "Please check your information and try again.",
+      "invalidPhone": "Enter a valid phone number.",
+      "invalidValue": "One of the values is invalid.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordRequired": "Password is required.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "smsConsent": "Please accept SMS consent to continue.",
+      "tooManyAttempts": "Too many attempts. Please wait and try again.",
+      "usernameOrEmailTaken": "That username or email is already taken.",
+      "usernameRequired": "Username is required.",
+      "usernameTaken": "That username is already taken."
+    }
   },
   "login": {
     "welcomeBack": "Welcome back",
@@ -828,7 +760,7 @@
     "unlockToView": "Unlock your key to view this message",
     "clearConfirm": "Clear this conversation? This cannot be undone.",
     "unknownThread": "Unknown thread",
-    "roomNumber": "Chat #%d",
+    "roomNumber": "Chat #{number}",
     "missingConversationId": "Missing conversation id.",
     "archiveFailed": "Failed to archive conversation.",
     "deleteFailed": "Failed to delete conversation.",
@@ -836,17 +768,14 @@
     "sendImageFailed": "Couldn't send image.",
     "sendVideoFailed": "Couldn't send video.",
     "sendAudioFailed": "Couldn't send audio.",
-
     "editMessageFailed": "Couldn't edit message.",
     "editFailed": "Edit failed:",
-
     "deleteMessageFailed": "Couldn't delete message.",
     "archiveConversationFailed": "Couldn't archive conversation.",
     "deleteConversationFailed": "Couldn't delete conversation.",
-
     "imageDataEmpty": "Image data is empty.",
     "videoDataEmpty": "Video data is empty."
-    },
+  },
   "messageInput": {
     "ttl": {
       "off": "Off"
@@ -902,15 +831,15 @@
     "uploadingVideo": "Uploading video...",
     "processingVideo": "Processing video...",
     "keepChatforiaOpen": "Please keep Chatforia open while this finishes.",
-    "videoLoadFailed": "Couldn’t load selected video. %@",
-    "readByUser": "Read by %@",
-    "readByCount": "Read by %d",
+    "videoLoadFailed": "Couldn’t load selected video. {error}",
+    "readByUser": "Read by {name}",
+    "readByCount": "Read by {count}",
     "edited": "Edited",
     "searchInThread": "Search in thread",
     "noText": "[No text]",
     "noOneReadYet": "No one has read this message yet.",
     "seenByOnePerson": "Seen by 1 person",
-    "seenByPeopleCount": "Seen by %d people",
+    "seenByPeopleCount": "Seen by {count} people",
     "seen": "Seen",
     "addCaption": "Add a caption",
     "message": "Message",
@@ -923,14 +852,14 @@
     "onlyThisMessage": "Only this message",
     "protectAccessToYourMessages": "Protect Access to Your Messages",
     "messageRia": "Message Ria...",
-    "selectedVideoLoadFailed": "Couldn’t load selected video. %@",
+    "selectedVideoLoadFailed": "Couldn’t load selected video. {error}",
     "deleteMessageTitle": "Delete message?",
     "deleteForMe": "Delete for me",
     "deleteForEveryone": "Delete for everyone"
   },
-    "report": {
+  "report": {
     "blockUserAfterReporting": "Block this user after reporting",
-     "title": "Report Message",
+    "title": "Report Message",
     "reason": "Reason",
     "includePreviousMessages": "Include previous messages",
     "onlyThisMessage": "Only this message",
@@ -938,7 +867,7 @@
     "thisPlusPrevious10": "This + previous 10",
     "thisPlusPrevious20": "This + previous 20",
     "preview": "Preview",
-    "reportingMessageFrom": "Reporting message from %@",
+    "reportingMessageFrom": "Reporting message from {name}",
     "noVisibleText": "[No visible text]",
     "harassment": "Harassment",
     "threats": "Threats",
@@ -1006,7 +935,7 @@
     "searchGifs": "Search GIFs",
     "noGifsFound": "No GIFs found",
     "loadingGifs": "Loading GIFs…",
-     "photo": "Photo",
+    "photo": "Photo",
     "video": "Video",
     "audio": "Audio",
     "attachment": "Attachment",
@@ -1030,7 +959,7 @@
     "noResults": "No GIFs found",
     "tryDifferentSearch": "Try a different search.",
     "emptyData": "GIF data is empty.",
-    "sendFailed": "Couldn’t send GIF. %@",
+    "sendFailed": "Couldn’t send GIF. {error}",
     "remove": "Remove GIF",
     "shortTitle": "GIF"
   },
@@ -1115,65 +1044,63 @@
     "transcriptUnavailable": "Transcript unavailable.",
     "unknownCaller": "Unknown Caller"
   },
-    "contacts": {
-  "addContact": "Add Contact",
-  "contact": "Contact",
-  "unknown": "Unknown",
-  "chatforiaUsers": "Chatforia users",
-  "searchContacts": "Search contacts",
-  "savedContacts": "Saved contact",
-  "importContacts": "Import Contacts",
-  "externalName": "External Name",
-  "inviteContacts": "Invite Contacts",
-  "inviteFromPhoneContacts": "Invite from Phone Contacts",
-  "noPhoneContactsFound": "No phone contacts found.",
-  "usernameContactNameOrPhoneNumber": "Username, contact name, or phone number",
-  "loading": "Loading contacts…",
-  "loadingSubtitle": "Pulling in your saved people.",
-  "empty": "No contacts yet",
-  "notFound": "No contacts found",
-  "phone": "Phone",
-  "loadingPhoneContacts": "Loading phone contacts…",
-  "readingContactsFromIPhone": "Reading contacts from your iPhone.",
-  "noImportableContacts": "There are no importable contacts available.",
-  "enterUsername": "Enter a username.",
-  "contactSaved": "Contact saved.",
-  "noUserFoundUsePhone": "No Chatforia user found with that username. Use the Phone tab to save them by number.",
-  "enterValidPhone": "Enter a valid phone number.",
-  "loadingContacts": "Loading contacts...",
-  "loginRequiredForInvites": "You need to be logged in to create invites.",
-  "selectAtLeastOneContact": "Select at least one contact.",
-
-  "accessNotGranted": "Contacts access was not granted.",
-  "selectAtLeastOne": "Select at least one contact.",
-  "importedOneContact": "Imported 1 contact.",
-  "importedContactsCount": "Imported %d contacts.",
-  "oneContactCouldNotImport": "1 contact could not be imported.",
-  "contactsCouldNotImportCount": "%d contacts could not be imported.",
-  "couldNotImportSelectedContact": "Could not import the selected contact.",
-  "couldNotImportSelectedContacts": "Could not import the selected contacts.",
-
-  "mode": "Mode",
-  "phoneNumber": "Phone Number",
-  "aliasOptional": "Alias (optional)",
-  "favorite": "Favorite",
-  "favoriteSubtitle": "Pin this person as a favorite contact.",
-  "usernameModeHelp": "Use this tab only for existing Chatforia users.",
-  "phoneModeHelp": "Save any phone number, even if they are not on Chatforia.",
-  "saveContact": "Save Contact"
-},
+  "contacts": {
+    "addContact": "Add Contact",
+    "contact": "Contact",
+    "unknown": "Unknown",
+    "chatforiaUsers": "Chatforia users",
+    "searchContacts": "Search contacts",
+    "savedContacts": "Saved contact",
+    "importContacts": "Import Contacts",
+    "externalName": "External Name",
+    "inviteContacts": "Invite Contacts",
+    "inviteFromPhoneContacts": "Invite from Phone Contacts",
+    "noPhoneContactsFound": "No phone contacts found.",
+    "usernameContactNameOrPhoneNumber": "Username, contact name, or phone number",
+    "loading": "Loading contacts…",
+    "loadingSubtitle": "Pulling in your saved people.",
+    "empty": "No contacts yet",
+    "notFound": "No contacts found",
+    "phone": "Phone",
+    "loadingPhoneContacts": "Loading phone contacts…",
+    "readingContactsFromIPhone": "Reading contacts from your iPhone.",
+    "noImportableContacts": "There are no importable contacts available.",
+    "enterUsername": "Enter a username.",
+    "contactSaved": "Contact saved.",
+    "noUserFoundUsePhone": "No Chatforia user found with that username. Use the Phone tab to save them by number.",
+    "enterValidPhone": "Enter a valid phone number.",
+    "loadingContacts": "Loading contacts...",
+    "loginRequiredForInvites": "You need to be logged in to create invites.",
+    "selectAtLeastOneContact": "Select at least one contact.",
+    "accessNotGranted": "Contacts access was not granted.",
+    "selectAtLeastOne": "Select at least one contact.",
+    "importedOneContact": "Imported 1 contact.",
+    "importedContactsCount": "Imported {count} contacts.",
+    "oneContactCouldNotImport": "1 contact could not be imported.",
+    "contactsCouldNotImportCount": "{count} contacts could not be imported.",
+    "couldNotImportSelectedContact": "Could not import the selected contact.",
+    "couldNotImportSelectedContacts": "Could not import the selected contacts.",
+    "mode": "Mode",
+    "phoneNumber": "Phone Number",
+    "aliasOptional": "Alias (optional)",
+    "favorite": "Favorite",
+    "favoriteSubtitle": "Pin this person as a favorite contact.",
+    "usernameModeHelp": "Use this tab only for existing Chatforia users.",
+    "phoneModeHelp": "Save any phone number, even if they are not on Chatforia.",
+    "saveContact": "Save Contact"
+  },
   "onboarding": {
-  "welcomeSubtitle": "Message globally, translate instantly, and start conversations fast.",
-  "usernameSubtitle": "This is how other people will see you.",
-  "languageSubtitle": "This helps Chatforia personalize translation and messaging for you.",
-  "readyTitle": "You’re ready to chat",
-  "readySubtitle": "You can start a new conversation, save contacts, and come back here later to update your settings.",
-  "saveUsername": "Save Username",
-  "saveLanguage": "Save Language",
-  "startChatting": "Start Chatting",
-  "chooseUsernameError": "Please choose a username.",
-  "usernameTooShort": "Username must be at least 3 characters."
-},
+    "welcomeSubtitle": "Message globally, translate instantly, and start conversations fast.",
+    "usernameSubtitle": "This is how other people will see you.",
+    "languageSubtitle": "This helps Chatforia personalize translation and messaging for you.",
+    "readyTitle": "You’re ready to chat",
+    "readySubtitle": "You can start a new conversation, save contacts, and come back here later to update your settings.",
+    "saveUsername": "Save Username",
+    "saveLanguage": "Save Language",
+    "startChatting": "Start Chatting",
+    "chooseUsernameError": "Please choose a username.",
+    "usernameTooShort": "Username must be at least 3 characters."
+  },
   "contactList": {
     "savedContacts": "Saved Contacts",
     "refreshAria": "Refresh contacts",
@@ -1205,11 +1132,11 @@
     "videoRequiresAccount": "Video calls require a Chatforia account."
   },
   "startChat": {
-  "fetchResultsFailed": "Unable to fetch results. Please try again.",
-  "fetchContactsFailed": "Unable to fetch contacts.",
-  "contactOpenFailed": "This contact could not be opened.",
-  "enterValidPhone": "Enter a valid phone number."
-},
+    "fetchResultsFailed": "Unable to fetch results. Please try again.",
+    "fetchContactsFailed": "Unable to fetch contacts.",
+    "contactOpenFailed": "This contact could not be opened.",
+    "enterValidPhone": "Enter a valid phone number."
+  },
   "addContactModal": {
     "title": "Add contact",
     "phoneOrUsername": "Phone or username",
@@ -1420,7 +1347,6 @@
     "voicemailGreetingUploadError": "Failed to upload voicemail greeting",
     "voicemailNote": "Voicemails from your Chatforia numbers will be stored in your Voicemail inbox. You can enable transcription and forwarding in supported plans.",
     "portHint": "Want to keep your current number? You can port it into Chatforia Wireless.",
-    
     "wireless": {
       "manage": "Manage wireless",
       "portCta": "Port your number",
@@ -1453,8 +1379,8 @@
     "following": "Following"
   },
   "themes": {
-      "dawn": "Dawn",
-      "midnight": "Midnight",
+    "dawn": "Dawn",
+    "midnight": "Midnight",
     "amoled": "Amoled",
     "aurora": "Aurora",
     "neon": "Neon",
@@ -1712,26 +1638,15 @@
     "local": "Local",
     "europe": "Europe",
     "global": "Global",
-
     "localSubtitle": "Coverage for your current country or nearby local use.",
-
     "europeSubtitle": "Regional coverage across Europe.",
-
     "globalSubtitle": "Broader international coverage for travel.",
-
     "unlimited": "Unlimited",
-
     "globalUnlimited": "Global Unlimited",
     "heavyUsageDescription": "Best for heavy usage, streaming, and never worrying about data limits.",
-
-    "installDirectlyOrUseDetails":
-      "Install directly on this iPhone, or use the activation details below on another supported device.",
-
-    "noValidInstallLink":
-      "Your carrier hasn’t provided a valid install link yet. You can still use the manual activation details below when available.",
-
-    "installationSupportText":
-      "eSIM installation steps can vary by device. Make sure your iPhone is unlocked and eSIM-compatible before installing. If direct install is unavailable, use the activation details above in Settings > Cellular > Add eSIM.",
+    "installDirectlyOrUseDetails": "Install directly on this iPhone, or use the activation details below on another supported device.",
+    "noValidInstallLink": "Your carrier hasn’t provided a valid install link yet. You can still use the manual activation details below when available.",
+    "installationSupportText": "eSIM installation steps can vary by device. Make sure your iPhone is unlocked and eSIM-compatible before installing. If direct install is unavailable, use the activation details above in Settings > Cellular > Add eSIM.",
     "instructions": {
       "step1": "Open your phone’s cellular or mobile data settings.",
       "step2": "Choose Add eSIM or Scan QR Code.",
@@ -1758,11 +1673,8 @@
     "sms": "SMS",
     "voice": "Voice",
     "smsVoice": "SMS + Voice",
-    "premiumProtected":
-      "Premium numbers are protected from recycling while your Premium subscription is active.",
-
-    "areaCodeSearchHint":
-      "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+    "premiumProtected": "Premium numbers are protected from recycling while your Premium subscription is active.",
+    "areaCodeSearchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
     "noFreeNumbersForAreaCode": "No free numbers in our pool for that area code right now."
   },
   "phoneNumberManager": {
@@ -1861,13 +1773,8 @@
   },
   "forwarding": {
     "callTextForwarding": "Call & Text Forwarding",
-
-    "description":
-      "Forward incoming calls and texts to your verified phone or email. Outgoing calls/texts can show your Chatforia number.",
-
-    "destinationCallsE164":
-      "Destination (E.164) for calls",
-
+    "description": "Forward incoming calls and texts to your verified phone or email. Outgoing calls/texts can show your Chatforia number.",
+    "destinationCallsE164": "Destination (E.164) for calls",
     "saved": "Forwarding settings saved",
     "enableCallForwarding": "Enable call forwarding",
     "enableTextForwarding": "Enable text forwarding",
@@ -1877,7 +1784,7 @@
     "destinationPhoneForCalls": "Destination (E.164) for calls",
     "title": "Forwarding"
   },
-    "calls": {
+  "calls": {
     "section": "Calls Section",
     "cameraOff": "Camera off",
     "noIncomingCallToAnswer": "No incoming call to answer.",
@@ -1900,10 +1807,10 @@
     "speaker": "Speaker",
     "end": "End",
     "preparing": "Preparing call…",
-    "callingDestination": "Calling %@…",
-    "incomingCalling": "%@ is calling…",
-    "connecting": "Connecting to %@…",
-    "inCallWith": "In call with %@",
+    "callingDestination": "Calling {destination}…",
+    "incomingCalling": "{caller} is calling…",
+    "connecting": "Connecting to {destination}…",
+    "inCallWith": "In call with {name}",
     "ended": "Call ended",
     "video_app_users_only": "Video calling is only available for app users right now.",
     "missing_pending_context": "Missing pending call context.",
@@ -1928,20 +1835,14 @@
     "preferredLanguage": "Preferred Language"
   },
   "sound": {
-  "title": "Sounds",
-  "volume": "Volume",
-  "textTone": "Text Tone",
-
-  "requiresPlan": "Requires",
-
-  "premiumTitle": "Premium Sound",
-
-  "upgradeUnlockMessage":
-    "%@ is a premium sound. Upgrade to unlock premium text tones and ringtones.",
-
-  "upgradePreviewMessage":
-    "%@ is a premium sound. Upgrade to preview and use it."
-},
+    "title": "Sounds",
+    "volume": "Volume",
+    "textTone": "Text Tone",
+    "requiresPlan": "Requires",
+    "premiumTitle": "Premium Sound",
+    "upgradeUnlockMessage": "{sound} is a premium sound. Upgrade to unlock premium text tones and ringtones.",
+    "upgradePreviewMessage": "{sound} is a premium sound. Upgrade to preview and use it."
+  },
   "callHistory": {
     "title": "Calls",
     "subtitle": "Your recent incoming and outgoing calls.",
@@ -2028,7 +1929,7 @@
     "cta": "Upgrade",
     "upgrade": "Upgrade",
     "upgradeAria": "Upgrade to Chatforia Premium",
-    "requiresPlan": "Requires %@"
+    "requiresPlan": "Requires {plan}"
   },
   "premiumGuard": {
     "requiresPremium": "This feature requires a Premium plan.",
@@ -2039,7 +1940,7 @@
     "titleLoggedIn": "Upgrade",
     "titlePublic": "Pricing",
     "h1": "Chatforia Pricing & Plans",
-    "requires_plan_format": "Requires %@",
+    "requires_plan_format": "Requires {plan}",
     "to_plus": "Upgrade to Plus",
     "to_premium": "Upgrade to Premium",
     "h1Subtitle": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
@@ -2076,22 +1977,22 @@
     "checkingSubscription": "Checking your subscription…",
     "subscriptionActive": "Your subscription is active.",
     "stillSyncing": "Still syncing. Please try again in a moment.",
-  "feature": {
-    "noAds": "No ads",
-    "messageForwarding": "Message forwarding",
-    "longerHistory": "Longer message history",
-    "fasterSupport": "Faster support",
-    "everythingInPlus": "Everything in Plus",
-    "additionalThemes": "Additional Chatforia themes",
-    "tonesAndRingtones": "Message tones & ringtones",
-    "aiTools": "AI tools",
-    "priorityFeatures": "Priority features"
-  },
-  "pill": {
-    "themes": "Themes",
-    "messageTones": "Message tones",
-    "ringtones": "Ringtones"
-  },
+    "feature": {
+      "noAds": "No ads",
+      "messageForwarding": "Message forwarding",
+      "longerHistory": "Longer message history",
+      "fasterSupport": "Faster support",
+      "everythingInPlus": "Everything in Plus",
+      "additionalThemes": "Additional Chatforia themes",
+      "tonesAndRingtones": "Message tones & ringtones",
+      "aiTools": "AI tools",
+      "priorityFeatures": "Priority features"
+    },
+    "pill": {
+      "themes": "Themes",
+      "messageTones": "Message tones",
+      "ringtones": "Ringtones"
+    },
     "toggle": {
       "monthly": "Monthly",
       "annual": "Annual (Save 30%)"
@@ -2508,81 +2409,69 @@
     }
   },
   "billing": {
-  "planAndBilling": "Plan & Billing",
-
-  "myPlanTitle": "My plan",
-  "myPlan": "My Plan",
-  "myPlanLoading": "Loading your plan…",
-  "myPlanError": "Unable to load your plan.",
-  "currentPlan": "Current plan",
-  "activeSubscription": "Active subscription",
-  "renewsAt": "Renews on",
-
-  "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
-
-  "upgradeCta": "Upgrade plan",
-  "changePlanCta": "Change plan",
-  "manageBilling": "Manage billing",
-  "cancelNow": "Cancel now",
-
-  "portalError": "Unable to open the billing portal right now.",
-  "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
-  "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing.",
-
-  "comparePlans": "Compare Plans",
-  "compareDescription": "Go ad-free with Plus, or unlock AI tools and customization with Premium.",
-
-  "plans": {
+    "planAndBilling": "Plan & Billing",
+    "myPlanTitle": "My plan",
+    "myPlan": "My Plan",
+    "myPlanLoading": "Loading your plan…",
+    "myPlanError": "Unable to load your plan.",
+    "currentPlan": "Current plan",
+    "activeSubscription": "Active subscription",
+    "renewsAt": "Renews on",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features.",
+    "upgradeCta": "Upgrade plan",
+    "changePlanCta": "Change plan",
+    "manageBilling": "Manage billing",
+    "cancelNow": "Cancel now",
+    "portalError": "Unable to open the billing portal right now.",
+    "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+    "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing.",
+    "comparePlans": "Compare Plans",
+    "compareDescription": "Go ad-free with Plus, or unlock AI tools and customization with Premium.",
+    "plans": {
+      "plus": "Plus",
+      "premium": "Premium"
+    },
+    "descriptions": {
+      "free": "Basic access to Chatforia with core messaging features.",
+      "plus": "Ad-free access with longer history and forwarding features.",
+      "premium": "Full access to premium customization, AI tools, and priority support."
+    },
+    "features": {
+      "adFree": "Ad-free experience",
+      "longerHistory": "Longer message history",
+      "forwarding": "Call & text forwarding",
+      "aiTools": "AI tools",
+      "premiumThemes": "Premium themes & sounds",
+      "prioritySupport": "Priority support"
+    },
     "plus": "Plus",
-    "premium": "Premium"
+    "premium": "Premium",
+    "includedTitle": "Included",
+    "description": {
+      "free": "Basic access to Chatforia with core messaging features.",
+      "plus": "Ad-free access with longer history and forwarding features.",
+      "premium": "Full access to premium customization, AI tools, and priority support."
+    },
+    "feature": {
+      "adFree": "Ad-free experience",
+      "longerHistory": "Longer message history",
+      "forwarding": "Message forwarding",
+      "aiTools": "AI tools",
+      "premiumThemes": "Premium themes & sounds",
+      "prioritySupport": "Priority support"
+    },
+    "included": {
+      "messaging": "Messaging",
+      "translation": "Translation",
+      "mediaSharing": "Media sharing",
+      "expandedAccess": "Expanded access",
+      "enhancedFeatures": "Enhanced features",
+      "premiumThemes": "Premium themes",
+      "premiumSounds": "Premium sounds",
+      "aiTools": "AI tools",
+      "prioritySupport": "Priority support"
+    }
   },
-
-  "descriptions": {
-    "free": "Basic access to Chatforia with core messaging features.",
-    "plus": "Ad-free access with longer history and forwarding features.",
-    "premium": "Full access to premium customization, AI tools, and priority support."
-  },
-
-  "features": {
-    "adFree": "Ad-free experience",
-    "longerHistory": "Longer message history",
-    "forwarding": "Call & text forwarding",
-    "aiTools": "AI tools",
-    "premiumThemes": "Premium themes & sounds",
-    "prioritySupport": "Priority support"
-  },
-  "plus": "Plus",
-  "premium": "Premium",
-
-  "includedTitle": "Included",
-
-  "description": {
-    "free": "Basic access to Chatforia with core messaging features.",
-    "plus": "Ad-free access with longer history and forwarding features.",
-    "premium": "Full access to premium customization, AI tools, and priority support."
-  },
-
-  "feature": {
-    "adFree": "Ad-free experience",
-    "longerHistory": "Longer message history",
-    "forwarding": "Message forwarding",
-    "aiTools": "AI tools",
-    "premiumThemes": "Premium themes & sounds",
-    "prioritySupport": "Priority support"
-  },
-
-  "included": {
-    "messaging": "Messaging",
-    "translation": "Translation",
-    "mediaSharing": "Media sharing",
-    "expandedAccess": "Expanded access",
-    "enhancedFeatures": "Enhanced features",
-    "premiumThemes": "Premium themes",
-    "premiumSounds": "Premium sounds",
-    "aiTools": "AI tools",
-    "prioritySupport": "Priority support"
-  }
-},
   "family": {
     "title": "Family",
     "loading": "Loading your family details…",
@@ -3275,7 +3164,7 @@
   "sms": {
     "newText": "New text",
     "thread": "Thread",
-    "threadNumber": "SMS #%d",
+    "threadNumber": "SMS #{number}",
     "enterRecipient": "Enter a name or number",
     "typeMessage": "Type a message…",
     "addRecipient": "Add a recipient above to start…",
@@ -3289,14 +3178,14 @@
     "stranger": "Stranger"
   },
   "ios": {
+    "50": "50+",
     "upgrade_to_premium_to_keep_it_protected": "Upgrade to Premium to keep it protected.",
     "13_17": "13–17",
     "18_24": "18–24",
     "25_34": "25–34",
     "35_49": "35–49",
-    "50": "50+",
     "": ":",
-    "remaining_of": "remaining of %@",
+    "remaining_of": "remaining of {value}",
     "unknown": "Unknown",
     "username": "Username",
     "search_chats": "Search chats",
@@ -3322,7 +3211,6 @@
     "one_time_pack_no_contract": "One-time pack. No contract.",
     "top_up_anytime": "Top up anytime",
     "choose_this_pack": "Choose this pack",
-
     "you_dont_have_an_esim_yet": "You don’t have an eSIM yet.",
     "your_esim_is_ready_to_install": "Your eSIM is ready to install.",
     "your_esim_is_active": "Your eSIM is active.",
@@ -3388,7 +3276,7 @@
     "loading_sms": "Loading SMS…",
     "loading_chats": "Loading chats…",
     "loading_contacts": "Loading contacts…",
-    "chat_number": "Chat #%@",
+    "chat_number": "Chat #{number}",
     "draft": "draft",
     "loading_phone_contacts": "Loading phone contacts…",
     "loading_usage": "Loading usage…",
@@ -3398,7 +3286,7 @@
     "voice_message": "Voice message",
     "attachment": "Attachment",
     "attachments": "attachments",
-    "kind_format": "Kind: %@",
+    "kind_format": "Kind: {kind}",
     "local_10_gb": "Local 10 GB",
     "local_20_gb": "Local 20 GB",
     "local_3_gb": "Local 3 GB",
