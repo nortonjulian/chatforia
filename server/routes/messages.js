@@ -620,13 +620,19 @@ router.post(
       }
     }
 
-    const canonical = await getCanonicalMessageForRealtime(saved.id);
+    // Send correct per-user encrypted payload to each participant
+    await emitMessageUpsertPerParticipant(chatRoomId, saved.id);
 
-    // room-wide canonical payload
-    if (canonical) {
-      await emitMessageUpsert(chatRoomId, canonical);
+    // Private ACK for the sender
+    if (saved?.clientMessageId && senderId) {
+      emitMessageAck(senderId, {
+        clientMessageId: saved.clientMessageId,
+        id: saved.id,
+        chatRoomId: Number(chatRoomId),
+        createdAt: saved.createdAt?.toISOString?.() || new Date().toISOString(),
+      });
     }
-
+    
     // Private ACK for the sender (optimistic → real ID replacement on iOS/web)
     if (saved?.clientMessageId && senderId) {
       emitMessageAck(senderId, {
