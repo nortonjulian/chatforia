@@ -157,6 +157,7 @@ router.get(
             id: true,
             rawContent: true,
             translatedContent: true,
+            contentCiphertext: true,
             deletedBySender: true,
             deletedForAll: true,
             createdAt: true,
@@ -217,15 +218,26 @@ router.get(
 
       const deleted = Boolean(lastMsg?.deletedForAll) || Boolean(lastMsg?.deletedBySender);
 
+      const plaintextPreview = (lastMsg?.translatedContent || lastMsg?.rawContent || '').trim();
+      const hasEncryptedText = !!lastMsg?.contentCiphertext;
+
       const previewText = !lastMsg
         ? ''
         : deleted
           ? '(deleted)'
-          : buildLastPreviewText({
-              text: (lastMsg.translatedContent || lastMsg.rawContent || '').trim(),
-              hasMedia: media.hasMedia,
-              mediaKinds: media.mediaKinds,
-            });
+          : plaintextPreview
+            ? buildLastPreviewText({
+                text: plaintextPreview,
+                hasMedia: media.hasMedia,
+                mediaKinds: media.mediaKinds,
+              })
+            : hasEncryptedText
+              ? 'Message'
+              : buildLastPreviewText({
+                  text: '',
+                  hasMedia: media.hasMedia,
+                  mediaKinds: media.mediaKinds,
+                });
 
       const otherParticipants = (r.participants || []).filter(
         (p) => Number(p.userId) !== Number(userId)
