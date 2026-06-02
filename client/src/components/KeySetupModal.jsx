@@ -8,47 +8,177 @@ import {
   FileInput,
   PasswordInput,
   Alert,
+  Divider,
+  Collapse,
 } from '@mantine/core';
 import axiosClient from '../api/axiosClient';
-import { generateKeypair, saveKeysLocal } from '../utils/keys';
+import { generateKeypair, saveKeysLocal, loadKeysLocal } from '../utils/keys';
 import { importEncryptedPrivateKey } from '../utils/keyBackup';
+import {
+  uploadRemoteKeyBackup,
+  restoreRemoteKeyBackupToLocal,
+} from '../utils/keyBackupRemote';
 import { useTranslation } from 'react-i18next';
-import { uploadRemoteKeyBackup } from '../utils/keyBackupRemote';
-
-import { restoreRemoteKeyBackupToLocal } from '../utils/keyBackupRemote';
-
-import { loadKeysLocal } from '../utils/keys';
 
 export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
   const { t } = useTranslation();
-  const [accountPassword, setAccountPassword] = useState('');
   const fileRef = useRef(null);
-  const [pwd, setPwd] = useState('');
+
+  const [recoveryPasscode, setRecoveryPasscode] = useState('');
+  const [confirmRecoveryPasscode, setConfirmRecoveryPasscode] = useState('');
+  const [filePassword, setFilePassword] = useState('');
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
   const [err, setErr] = useState('');
 
-  const finish = () => {
-    setPwd('');
+  const resetForm = () => {
+    setRecoveryPasscode('');
+    setConfirmRecoveryPasscode('');
+    setFilePassword('');
     setMsg('');
     setErr('');
-    if (fileRef.current) fileRef.current.value = null;
+    setShowAdvanced(false);
+
+    if (fileRef.current) {
+      fileRef.current.value = null;
+    }
+  };
+
+  const finish = () => {
+    resetForm();
     onClose?.();
   };
 
-  const handleImport = async (file) => {
+  const validateRecoveryPasscode = ({ requireConfirm = false } = {}) => {
+    const passcode = recoveryPasscode.trim();
+    const confirm = confirmRecoveryPasscode.trim();
+
+    if (passcode.length < 8) {
+      return 'Recovery Passcode must be at least 8 characters.';
+    }
+
+    if (requireConfirm && passcode !== confirm) {
+      return 'Recovery Passcodes do not match.';
+    }
+
+    return null;
+  };
+
+  const handleSetupEncryption = async () => {
     try {
       setErr('');
       setMsg('');
+
+      const validationError = validateRecoveryPasscode({
+        requireConfirm: true,
+      });
+
+      if (validationError) {
+        setErr(validationError);
+        return;
+      }
+
       setBusy(true);
-      if (!file || !pwd) {
+
+      const kp = generateKeypair();
+
+      await saveKeysLocal(kp);
+
+      await axiosClient.post('/users/keys', {
+        publicKey: kp.publicKey,
+      });
+
+      await uploadRemoteKeyBackup({
+        publicKey: kp.publicKey,
+        privateKey: kp.privateKey,
+        password: recoveryPasscode.trim(),
+      });
+
+      setMsg(
+        t(
+          'keySetup.encryptionReady',
+          'Encryption is ready. Your Recovery Passcode can restore chats on your other devices.'
+        )
+      );
+
+      setTimeout(finish, 800);
+    } catch (e) {
+      console.error(e);
+      setErr(
+        e?.message ||
+          t(
+            'keySetup.setupFailed',
+            'Failed to set up encryption. Please try again.'
+          )
+      );
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleRestoreFromAccount = async () => {
+    try {
+      setErr('');
+      setMsg('');
+
+      const validationError = validateRecoveryPasscode();
+
+      if (validationError) {
+        setErr(validationError);
+        return;
+      }
+
+      setBusy(true);
+
+      await restoreRemoteKeyBackupToLocal({
+        password: recoveryPasscode.trim(),
+      });
+
+      setMsg(
+        t(
+          'keySetup.restored',
+          'Encrypted chats restored on this device.'
+        )
+      );
+
+      setTimeout(finish, 800);
+    } catch (e) {
+      console.error(e);
+      setErr(
+        e?.message ||
+          t(
+            'keySetup.restoreFailed',
+            'Could not restore your encrypted chats. Check your Recovery Passcode and try again.'
+          )
+      );
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleImportFileBackup = async (file) => {
+    try {
+      setErr('');
+      setMsg('');
+
+      if (!file || !filePassword) {
         setErr(
-          t('keySetup.chooseFile', 'Choose a file and enter the password.')
+          t(
+            'keySetup.chooseFile',
+            'Choose a backup file and enter its password.'
+          )
         );
         return;
       }
 
-      const privateKeyB64 = await importEncryptedPrivateKey(file, pwd);
+      setBusy(true);
+
+      const privateKeyB64 = await importEncryptedPrivateKey(
+        file,
+        filePassword
+      );
 
       const existing = await loadKeysLocal();
 
@@ -56,168 +186,186 @@ export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
         publicKey: existing?.publicKey || null,
         privateKey: privateKeyB64,
       });
-      
+
       setMsg(
         t(
           'keySetup.imported',
-          'Private key imported to this device. You can read old messages now.'
+          'Private key imported to this device.'
         )
       );
+
       setTimeout(finish, 800);
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error(e);
-      setErr('Import failed. Wrong password or file is invalid.');
+      setErr(
+        t(
+          'keySetup.importFailed',
+          'Import failed. Wrong password or invalid backup file.'
+        )
+      );
     } finally {
       setBusy(false);
     }
   };
 
-  const handleGenerate = async () => {
-  try {
-    setErr('');
-    setMsg('');
-    setBusy(true);
+  const isExistingAccount = Boolean(haveServerPubKey);
 
-    if (!accountPassword) {
-      setErr(
-        t(
-          'keySetup.enterPassword',
-          'Enter your account password so we can back up your keys securely.'
-        )
-      );
-      return;
-    }
-
-    const kp = generateKeypair();
-    await saveKeysLocal(kp);
-
-    await axiosClient.post('/users/keys', { publicKey: kp.publicKey });
-
-    await uploadRemoteKeyBackup({
-      publicKey: kp.publicKey,
-      privateKey: kp.privateKey,
-      password: accountPassword,
-    });
-
-    setMsg(
-      'New keypair generated and backed up. You can read new messages on this device.'
-    );
-    setTimeout(finish, 800);
-  } catch (e) {
-    console.error(e);
-    setErr('Failed to generate/upload keys.');
-  } finally {
-    setBusy(false);
-  }
-};
-
-const handleRestoreFromAccount = async () => {
-  try {
-    setErr('');
-    setMsg('');
-    setBusy(true);
-
-    if (!accountPassword) {
-      setErr('Enter your account password first.');
-      return;
-    }
-
-    await restoreRemoteKeyBackupToLocal({ password: accountPassword });
-
-    setMsg('Private key restored from your account.');
-    setTimeout(finish, 800);
-  } catch (e) {
-    console.error(e);
-    setErr('Could not restore keys from your account.');
-  } finally {
-    setBusy(false);
-  }
-};
+  const primaryDisabled = isExistingAccount
+    ? recoveryPasscode.trim().length < 8
+    : recoveryPasscode.trim().length < 8 ||
+      confirmRecoveryPasscode.trim().length < 8;
 
   return (
     <Modal
       opened={opened}
       onClose={finish}
-      title={t('keySetup.title', 'Set up your device keys')}
+      title={
+        isExistingAccount
+          ? t('keySetup.restoreTitle', 'Restore encrypted chats')
+          : t('keySetup.setupTitle', 'Secure your encrypted chats')
+      }
       radius="lg"
       centered
+      closeOnClickOutside={false}
+      closeOnEscape={false}
     >
-      <Stack gap="sm">
-        <Text size="sm">
-          {t(
-            'keySetup.description',
-            'This device doesn’t have your private key yet. Import a password-protected backup, or generate a new keypair (you’ll be able to read new messages from now on).'
-          )}
+      <Stack gap="md">
+        <Text size="sm" c="dimmed">
+          {isExistingAccount
+            ? t(
+                'keySetup.restoreDescription',
+                'This device does not have your encryption key yet. Enter your Recovery Passcode to restore your encrypted chats.'
+              )
+            : t(
+                'keySetup.setupDescription',
+                'Create one Recovery Passcode. It protects your encrypted chat backup and lets you restore chats on your other devices.'
+              )}
         </Text>
 
-        {haveServerPubKey ? (
-          <Alert variant="light">
-            We found a public key on your account. To read past messages on this
-            device, import your backup.
-          </Alert>
-        ) : (
-          <Alert variant="light" color="blue">
-            New account detected—generating a keypair is recommended.
-          </Alert>
+        <Alert variant="light" color={isExistingAccount ? 'blue' : 'green'}>
+          {isExistingAccount
+            ? t(
+                'keySetup.serverKeyFound',
+                'We found encryption already set up for your account.'
+              )
+            : t(
+                'keySetup.newEncryptionBackup',
+                'Your key will be saved on this device and backed up securely for cross-device recovery.'
+              )}
+        </Alert>
+
+        <PasswordInput
+          label={t('keySetup.recoveryPasscode', 'Recovery Passcode')}
+          placeholder={t(
+            'keySetup.recoveryPasscodePlaceholder',
+            'Enter your Recovery Passcode'
+          )}
+          value={recoveryPasscode}
+          onChange={(e) => setRecoveryPasscode(e.currentTarget.value)}
+          description={t(
+            'keySetup.recoveryPasscodeDescription',
+            'Use at least 8 characters. Chatforia cannot recover this for you.'
+          )}
+          disabled={busy}
+        />
+
+        {!isExistingAccount && (
+          <PasswordInput
+            label={t(
+              'keySetup.confirmRecoveryPasscode',
+              'Confirm Recovery Passcode'
+            )}
+            placeholder={t(
+              'keySetup.confirmRecoveryPasscodePlaceholder',
+              'Re-enter your Recovery Passcode'
+            )}
+            value={confirmRecoveryPasscode}
+            onChange={(e) =>
+              setConfirmRecoveryPasscode(e.currentTarget.value)
+            }
+            disabled={busy}
+          />
         )}
 
-        <Group gap="sm" align="flex-end">
-          <FileInput
-            ref={fileRef}
-            accept="application/json"
-            placeholder="Select backup file"
-          />
-          {/* Add a visible label so tests can query by label text */}
-          <PasswordInput
-            label="Backup password"
-            placeholder="Backup password"
-            value={pwd}
-            onChange={(e) => setPwd(e.currentTarget.value)}
-          />
+        <Button
+          fullWidth
+          loading={busy}
+          disabled={busy || primaryDisabled}
+          onClick={
+            isExistingAccount
+              ? handleRestoreFromAccount
+              : handleSetupEncryption
+          }
+        >
+          {isExistingAccount
+            ? t('keySetup.restoreChats', 'Restore Chats')
+            : t('keySetup.setupEncryption', 'Set Up Encryption')}
+        </Button>
 
-          <PasswordInput
-            label="Account password"
-            placeholder="Your login password"
-            value={accountPassword}
-            onChange={(e) => setAccountPassword(e.currentTarget.value)}
-          />
+        <Divider label={t('common.advanced', 'Advanced')} />
 
-          <Button
-            loading={busy}
-            onClick={() => handleImport(fileRef.current?.files?.[0])}
-          >
-            Import
-          </Button>
-        </Group>
+        <Button
+          variant="subtle"
+          onClick={() => setShowAdvanced((value) => !value)}
+          disabled={busy}
+        >
+          {showAdvanced
+            ? t('keySetup.hideAdvanced', 'Hide advanced recovery')
+            : t('keySetup.showAdvanced', 'Show advanced recovery')}
+        </Button>
 
-        <Group justify="space-between" mt="xs">
-          <Button
-            variant="light"
-            color="orange"
-            loading={busy}
-            onClick={handleGenerate}
-          >
-            Generate new keypair
-          </Button>
-          <Button variant="subtle" onClick={finish}>
-            Not now
-          </Button>
+        <Collapse in={showAdvanced}>
+          <Stack gap="sm">
+            <Text size="sm" c="dimmed">
+              {t(
+                'keySetup.advancedDescription',
+                'Use this only if you have an older downloaded key backup file.'
+              )}
+            </Text>
 
-          <Button
-            variant="light"
-            loading={busy}
-            onClick={handleRestoreFromAccount}
-          >
-            Restore from account
-          </Button>
-        </Group>
+            <FileInput
+              ref={fileRef}
+              accept="application/json"
+              label={t('keySetup.backupFile', 'Backup file')}
+              placeholder={t(
+                'keySetup.selectBackupFile',
+                'Select backup file'
+              )}
+              disabled={busy}
+            />
+
+            <PasswordInput
+              label={t('keySetup.fileBackupPassword', 'Backup file password')}
+              placeholder={t(
+                'keySetup.fileBackupPasswordPlaceholder',
+                'Enter backup file password'
+              )}
+              value={filePassword}
+              onChange={(e) => setFilePassword(e.currentTarget.value)}
+              disabled={busy}
+            />
+
+            <Group justify="flex-end">
+              <Button
+                variant="light"
+                loading={busy}
+                disabled={busy || !filePassword}
+                onClick={() =>
+                  handleImportFileBackup(fileRef.current?.files?.[0])
+                }
+              >
+                {t('keySetup.importBackupFile', 'Import Backup File')}
+              </Button>
+            </Group>
+          </Stack>
+        </Collapse>
 
         {msg && (
           <Alert color="green" variant="light">
             {msg}
           </Alert>
         )}
+
         {err && (
           <Alert color="red" variant="light">
             {err}

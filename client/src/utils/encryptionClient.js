@@ -818,16 +818,28 @@ export async function exportLocalPrivateKeyBundle(passcode) {
   };
 }
 
-export async function installLocalPrivateKeyBundle(received, passcode) {
+function generateLocalDevicePasscode() {
+  const bytes = crypto.getRandomValues(new Uint8Array(32));
+  return bytes2b64(bytes);
+}
+
+export async function installLocalPrivateKeyBundle(received, passcode = null) {
   if (!received?.privateKey || !received?.publicKey) {
     throw new Error('Received bundle is missing keys');
   }
-  if (!passcode) throw new Error('Passcode required to protect keys');
+
+  const localPasscode = passcode || generateLocalDevicePasscode();
 
   await saveEncryptedBundle(
-    { publicKey: received.publicKey, privateKey: received.privateKey },
-    passcode
+    {
+      publicKey: received.publicKey,
+      privateKey: received.privateKey,
+    },
+    localPasscode
   );
+
+  persistUnlockPasscodeForSession(localPasscode);
+
   return true;
 }
 

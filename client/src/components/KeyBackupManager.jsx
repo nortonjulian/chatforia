@@ -31,7 +31,6 @@ export default function KeyBackupManager() {
 
   // Import state
   const [importPassword, setImportPassword] = useState('');
-  const [newLocalPasscode, setNewLocalPasscode] = useState('');
   const [busyImport, setBusyImport] = useState(false);
   const [importMsg, setImportMsg] = useState('');
 
@@ -146,7 +145,7 @@ export default function KeyBackupManager() {
 
       const bundle = JSON.parse(td.decode(plaintext));
 
-      await installLocalPrivateKeyBundle(bundle, newLocalPasscode);
+      await installLocalPrivateKeyBundle(bundle);
 
       const meta = await getLocalKeyBundleMeta();
 
@@ -172,10 +171,7 @@ export default function KeyBackupManager() {
     backupPassword.length < 6;
 
   const importDisabled =
-    !importPassword ||
-    importPassword.length < 6 ||
-    !newLocalPasscode ||
-    newLocalPasscode.length < 6;
+  !importPassword || importPassword.length < 8;
 
     useEffect(() => {
       let mounted = true;
@@ -214,7 +210,7 @@ export default function KeyBackupManager() {
           description="Used to decrypt your keys locally before exporting"
         />
         <PasswordInput
-          label="Backup password"
+          label="Recovery Passcode"
           value={backupPassword}
           onChange={(e) => setBackupPassword(e.currentTarget.value)}
           description="Used to encrypt the backup file"
@@ -237,17 +233,12 @@ export default function KeyBackupManager() {
           </Text>
         )}
         <PasswordInput
-          label="Backup password"
+          label="Recovery Passcode"
           value={importPassword}
           onChange={(e) => setImportPassword(e.currentTarget.value)}
           description="The password you created when backing up your key on iPhone"
         />
-        <PasswordInput
-          label="New local passcode"
-          value={newLocalPasscode}
-          onChange={(e) => setNewLocalPasscode(e.currentTarget.value)}
-          description="Protect keys at rest on this browser"
-        />
+     
         <Group justify="flex-end">
           <Button onClick={onImport} loading={busyImport} disabled={importDisabled}>
             Restore from account backup

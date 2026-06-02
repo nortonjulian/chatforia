@@ -1,5 +1,5 @@
 import axiosClient from '@/api/axiosClient';
-import { saveKeysLocal } from './keys.js';
+import { installLocalPrivateKeyBundle } from './encryptionClient.js';
 
 const te = new TextEncoder();
 const td = new TextDecoder();
@@ -14,6 +14,7 @@ function b64ToBytes(b64) {
 
 async function deriveWrapKey(password, saltB64, iterations) {
   const salt = b64ToBytes(saltB64);
+
   const keyMaterial = await crypto.subtle.importKey(
     'raw',
     te.encode(password),
@@ -63,8 +64,7 @@ async function aesEncryptJson(obj, password) {
 }
 
 async function aesDecryptJson(bundle, password, saltB64, iterations) {
-  const parsed =
-    typeof bundle === 'string' ? JSON.parse(bundle) : bundle;
+  const parsed = typeof bundle === 'string' ? JSON.parse(bundle) : bundle;
 
   const key = await deriveWrapKey(password, saltB64, iterations);
 
@@ -77,15 +77,26 @@ async function aesDecryptJson(bundle, password, saltB64, iterations) {
   return JSON.parse(td.decode(plaintext));
 }
 
-export async function uploadRemoteKeyBackup({ publicKey, privateKey, password }) {
+export async function uploadRemoteKeyBackup({
+  publicKey,
+  privateKey,
+  password,
+}) {
   if (!publicKey || !privateKey) {
     throw new Error('Missing keypair for backup');
   }
-  if (!password) {
-    throw new Error('Password required for remote key backup');
+
+  if (!password || password.trim().length < 8) {
+    throw new Error('Recovery Passcode must be at least 8 characters.');
   }
 
-  const wrapped = await aesEncryptJson({ publicKey, privateKey }, password);
+  const wrapped = await aesEncryptJson(
+    {
+      publicKey,
+      privateKey,
+    },
+    password.trim()
+  );
 
   const { data } = await axiosClient.post('/auth/keys/backup', {
     publicKey,
@@ -101,16 +112,19 @@ export async function fetchRemoteKeyBackup() {
 }
 
 export async function restoreRemoteKeyBackupToLocal({ password }) {
-  if (!password) throw new Error('Password required');
+  if (!password || password.trim().length < 8) {
+    throw new Error('Recovery Passcode must be at least 8 characters.');
+  }
 
   const keys = await fetchRemoteKeyBackup();
+
   if (!keys?.encryptedPrivateKeyBundle) {
     throw new Error('No remote key backup found');
   }
 
   const obj = await aesDecryptJson(
     keys.encryptedPrivateKeyBundle,
-    password,
+    password.trim(),
     keys.privateKeyWrapSalt,
     keys.privateKeyWrapIterations
   );
@@ -119,7 +133,7 @@ export async function restoreRemoteKeyBackupToLocal({ password }) {
     throw new Error('Remote key backup is invalid');
   }
 
-  await saveKeysLocal({
+  await installLocalPrivateKeyBundle({
     publicKey: obj.publicKey,
     privateKey: obj.privateKey,
   });
