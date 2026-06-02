@@ -1161,7 +1161,7 @@ router.post(
 
 /* =========================
  *   KEY BACKUP FETCH
- *   GET /auth/keys/backup
+ *   GET /
  * ========================= */
 router.get(
   '/keys/backup',

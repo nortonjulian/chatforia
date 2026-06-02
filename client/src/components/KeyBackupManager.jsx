@@ -168,7 +168,7 @@ export default function KeyBackupManager() {
     !unlockPasscode ||
     unlockPasscode.length < 6 ||
     !backupPassword ||
-    backupPassword.length < 6;
+    backupPassword.length < 8;
 
   const importDisabled =
   !importPassword || importPassword.length < 8;
@@ -196,28 +196,38 @@ export default function KeyBackupManager() {
   return (
     <Card withBorder padding="lg" radius="md">
       <Stack gap="md">
-        <Text fw={700}>Encrypted Key Backups</Text>
+        <Text fw={700}>Encryption Recovery</Text>
         <Text c="dimmed">
-          Create a local encrypted backup from this browser, or restore directly from your
-          Chatforia account backup.
+          Protect your encrypted chats with a Recovery Passcode. Use the same Recovery Passcode to restore your chats on iPhone, Android, and the web.
         </Text>
 
-        <Divider label="Create key backup" />
-        <PasswordInput
-          label="Unlock passcode (current device)"
-          value={unlockPasscode}
-          onChange={(e) => setUnlockPasscode(e.currentTarget.value)}
-          description="Used to decrypt your keys locally before exporting"
-        />
+        <Divider label="Create Recovery Backup" />
+        <Accordion>
+          <Accordion.Item value="advanced">
+            <Accordion.Control>
+              Advanced Recovery Options
+            </Accordion.Control>
+
+            <Accordion.Panel>
+              <PasswordInput
+                label="Device Unlock Passcode"
+                value={unlockPasscode}
+                onChange={(e) => setUnlockPasscode(e.currentTarget.value)}
+                description="Only needed when creating a downloadable backup file from this browser."
+              />
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+        
         <PasswordInput
           label="Recovery Passcode"
           value={backupPassword}
           onChange={(e) => setBackupPassword(e.currentTarget.value)}
-          description="Used to encrypt the backup file"
+          description="Use at least 8 characters. You'll use this Recovery Passcode to restore chats on iPhone, Android, and the web."
         />
         <Group justify="flex-end">
           <Button onClick={onExport} loading={busyExport} disabled={exportDisabled}>
-            Download encrypted key backup
+            Create Recovery Backup
           </Button>
         </Group>
         {exportMsg && (
@@ -229,19 +239,19 @@ export default function KeyBackupManager() {
         <Divider label="Restore from account backup" />
         {hasAccountBackup === false && (
           <Text c="dimmed" size="sm">
-            No backup found. Create one to protect your messages.
+            No Recovery Backup found. Create one so you can restore your encrypted chats on iPhone, Android, and the web.
           </Text>
         )}
         <PasswordInput
           label="Recovery Passcode"
           value={importPassword}
           onChange={(e) => setImportPassword(e.currentTarget.value)}
-          description="The password you created when backing up your key on iPhone"
+          description="Enter the Recovery Passcode you created on another device. Must be at least 8 characters."
         />
      
         <Group justify="flex-end">
           <Button onClick={onImport} loading={busyImport} disabled={importDisabled}>
-            Restore from account backup
+            Restore Chats
           </Button>
         </Group>
         {importMsg && (
