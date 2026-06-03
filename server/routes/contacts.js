@@ -138,7 +138,6 @@ router.post(
         where: {
           OR: [
             { phoneNumber: normalized },
-            { phone: normalized },
           ],
         },
         select: { id: true },
@@ -241,7 +240,6 @@ router.post(
           where: {
             OR: [
               { phoneNumber: item.externalPhone },
-              { phone: item.externalPhone },
             ],
           },
           select: { id: true },
