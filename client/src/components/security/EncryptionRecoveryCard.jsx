@@ -41,7 +41,6 @@ export default function EncryptionRecoveryCard({
 
   const [restoreOpen, setRestoreOpen] = useState(false);
   const [importPassword, setImportPassword] = useState('');
-  const [newLocalPasscode, setNewLocalPasscode] = useState('');
   const [busyImport, setBusyImport] = useState(false);
   const [importMsg, setImportMsg] = useState('');
 
@@ -206,8 +205,8 @@ export default function EncryptionRecoveryCard({
 
       const bundle = JSON.parse(td.decode(plaintext));
 
-      persistUnlockPasscodeForSession(newLocalPasscode);
-      await installLocalPrivateKeyBundle(bundle, newLocalPasscode);
+      persistUnlockPasscodeForSession(importPassword);
+      await installLocalPrivateKeyBundle(bundle, importPassword);
       await validateAndFinishRestore();
 
       setImportMsg(
@@ -303,10 +302,7 @@ export default function EncryptionRecoveryCard({
   const unlockDisabled = !unlockPasscode || unlockPasscode.length < 6;
 
   const restoreDisabled =
-    !importPassword ||
-    importPassword.length < 6 ||
-    !newLocalPasscode ||
-    newLocalPasscode.length < 6;
+   !importPassword || importPassword.length < 8;
 
   const resetDisabled = !resetPasscode || resetPasscode.length < 6;
 
@@ -391,33 +387,20 @@ export default function EncryptionRecoveryCard({
               <Text c="dimmed" size="sm">
                 {t(
                   'encryptionRecovery.restoreDescription',
-                  'Use the backup password you created earlier, then choose a new passcode for this browser.'
+                  'Enter the Recovery Passcode you created on iPhone, Android, or web.'
                 )}
               </Text>
 
               <PasswordInput
                 label={t(
                   'encryptionRecovery.fields.restoreBackupPassword.label',
-                  'Backup password'
+                  'Recovery Passcode'
                 )}
                 value={importPassword}
                 onChange={(e) => setImportPassword(e.currentTarget.value)}
                 description={t(
                   'encryptionRecovery.fields.restoreBackupPassword.description',
                   'The password you used when creating your encrypted backup.'
-                )}
-              />
-
-              <PasswordInput
-                label={t(
-                  'encryptionRecovery.fields.newDevicePasscode.label',
-                  'New device passcode'
-                )}
-                value={newLocalPasscode}
-                onChange={(e) => setNewLocalPasscode(e.currentTarget.value)}
-                description={t(
-                  'encryptionRecovery.fields.newDevicePasscode.description',
-                  'Used to protect your encrypted chats on this browser.'
                 )}
               />
 
