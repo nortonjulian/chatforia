@@ -233,8 +233,9 @@ router.post(
       return true;
     });
 
-    const results = await prisma.$transaction(
-      deduped.map(async (item) => {
+    const results = [];
+
+    for (const item of deduped) {
 
         const matchedUser = await prisma.user.findFirst({
           where: {
@@ -283,8 +284,58 @@ router.post(
             },
           },
         });
-      })
-    );
+      const matchedUser = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { phoneNumber: item.externalPhone },
+      ],
+    },
+    select: { id: true },
+  });
+
+  const result = await prisma.contact.upsert({
+    where: {
+      ownerId_externalPhone: {
+        ownerId,
+        externalPhone: item.externalPhone,
+      },
+    },
+    update: {
+      externalName: item.externalName ?? undefined,
+      alias: item.alias ?? undefined,
+      favorite: typeof item.favorite === 'boolean'
+        ? item.favorite
+        : undefined,
+      userId: matchedUser?.id ?? undefined,
+    },
+    create: {
+      ownerId,
+      externalPhone: item.externalPhone,
+      externalName: item.externalName ?? null,
+      alias: item.alias ?? undefined,
+      favorite: !!item.favorite,
+      userId: matchedUser?.id ?? undefined,
+    },
+    select: {
+      id: true,
+      alias: true,
+      favorite: true,
+      externalPhone: true,
+      externalName: true,
+      createdAt: true,
+      userId: true,
+      user: {
+        select: {
+          id: true,
+          username: true,
+          avatarUrl: true,
+        },
+      },
+    },
+  });
+
+  results.push(result);
+}
 
     return res.status(201).json({
       ok: true,
