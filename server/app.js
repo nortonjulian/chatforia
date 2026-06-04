@@ -499,35 +499,37 @@ export function createApp() {
 app.use('/rooms', roomsRouter);
 app.use('/chatrooms', chatroomsRouter);
 app.use('/conversations', conversationsRouter);
-  app.use('/messages', messagesRouter);
+app.use('/messages', messagesRouter);
 
-  app.use('/reports', reportsRouter);
-  app.use('/admin/reports', adminReportsRouter);
+app.use('/people-invites', peopleInvitesRouter);
 
-  app.use(a11yRouter);
+app.use('/reports', reportsRouter);
+app.use('/admin/reports', adminReportsRouter);
 
-  app.use('/follows', followsRouter);
-  app.use('/random-chats', randomChatsRouter);
-  app.use(['/contacts', '/api/contacts'], contactRoutes);
-  app.use(['/invites', '/api/invites'], RL(limiterInvites));
-  app.use(['/invites', '/api/invites'], invitesRouter);
-  app.use('/media', mediaRouter);
-  app.use('/devices', devicesRouter);
-  app.use('/', transcriptsRouter);
+app.use(a11yRouter);
 
-  // Backups require auth
-  app.use('/backups', requireAuth, backupsRouter);
+app.use('/follows', followsRouter);
+app.use('/random-chats', randomChatsRouter);
+app.use(['/contacts', '/api/contacts'], contactRoutes);
+app.use(['/invites', '/api/invites'], RL(limiterInvites));
+app.use(['/invites', '/api/invites'], invitesRouter);
+app.use('/media', mediaRouter);
+app.use('/devices', devicesRouter);
+app.use('/', transcriptsRouter);
 
-  app.use('/uploads', express.static(path.resolve('uploads')));
-  app.use('/settings', settingsForwardingRouter);
-  app.use('/premium', premiumRouter);
-  app.use('/api/translations', translationsRouter);
-  app.use('/api/languages', languagesRouter);
-  app.use('/stories', storiesRouter);
-  app.use('/connectivity', connectivityRouter);
+// Backups require auth
+app.use('/backups', requireAuth, backupsRouter);
 
-  app.use('/family', requireAuth, familyRouter);
-  app.use('/api/wireless', requireAuth, wirelessRouter);
+app.use('/uploads', express.static(path.resolve('uploads')));
+app.use('/settings', settingsForwardingRouter);
+app.use('/premium', premiumRouter);
+app.use('/api/translations', translationsRouter);
+app.use('/api/languages', languagesRouter);
+app.use('/stories', storiesRouter);
+app.use('/connectivity', connectivityRouter);
+
+app.use('/family', requireAuth, familyRouter);
+app.use('/api/wireless', requireAuth, wirelessRouter);
 
   // eSIM: mount conditionally via feature flag
   if (ESIM_ENABLED) {
