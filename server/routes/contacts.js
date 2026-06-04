@@ -237,53 +237,6 @@ router.post(
 
     for (const item of deduped) {
 
-        const matchedUser = await prisma.user.findFirst({
-          where: {
-            OR: [
-              { phoneNumber: item.externalPhone },
-            ],
-          },
-          select: { id: true },
-        });
-
-        return prisma.contact.upsert({
-          where: {
-            ownerId_externalPhone: {
-              ownerId,
-              externalPhone: item.externalPhone,
-            },
-          },
-          update: {
-            externalName: item.externalName ?? undefined,
-            alias: item.alias ?? undefined,
-            favorite: typeof item.favorite === 'boolean' ? item.favorite : undefined,
-            userId: matchedUser?.id ?? undefined, // ✅ ADD THIS
-          },
-          create: {
-            ownerId,
-            externalPhone: item.externalPhone,
-            externalName: item.externalName ?? null,
-            alias: item.alias ?? undefined,
-            favorite: !!item.favorite,
-            userId: matchedUser?.id ?? undefined, // ✅ ADD THIS
-          },
-          select: {
-            id: true,
-            alias: true,
-            favorite: true,
-            externalPhone: true,
-            externalName: true,
-            createdAt: true,
-            userId: true,
-            user: {
-              select: {
-                id: true,
-                username: true,
-                avatarUrl: true,
-              },
-            },
-          },
-        });
       const matchedUser = await prisma.user.findFirst({
     where: {
       OR: [
