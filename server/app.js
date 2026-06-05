@@ -82,7 +82,7 @@ import transcriptsRouter from './routes/transcripts.js';
 
 import stickersRouter from './routes/stickers.js';
 
-import uploadsRouter from './routes/uploads.js';
+
 
 import appleBillingWebhook from './routes/appleBillingWebhook.js';
 
