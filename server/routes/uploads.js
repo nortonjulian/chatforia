@@ -177,11 +177,11 @@ router.post('/intent', requireAuth, async (req, res) => {
     const key = `${prefix}/${Date.now()}_${rand}_${base}${ext}`;
 
     // If STORAGE_BUCKET is configured, return a presigned PUT URL
-    if (process.env.STORAGE_BUCKET) {
+    if (process.env.R2_BUCKET) {
       const expires = Number(process.env.R2_SIGNED_EXPIRES_SEC || process.env.STORAGE_SIGNED_EXPIRES_SEC || 300);
       const { url: uploadUrl, expiresIn } = await generatePresignedPutUrl({ key, contentType: mimeType, expiresIn: expires });
 
-      const publicUrl = process.env.STORAGE_PUBLIC_BASE_URL ? buildPublicUrlForKey(key) : undefined;
+      const publicUrl = process.env.R2_PUBLIC_BASE ? buildPublicUrlForKey(key) : undefined;
 
       return res.json({
         uploadUrl,
@@ -212,7 +212,7 @@ router.post('/complete', requireAuth, async (req, res) => {
     const ownerId = Number(req.user?.id) || null;
 
     // If storage is public, construct public URL (otherwise client may fetch signed GET)
-    const publicUrl = process.env.STORAGE_PUBLIC_BASE_URL ? buildPublicUrlForKey(key) : null;
+    const publicUrl = process.env.R2_PUBLIC_BASE ? buildPublicUrlForKey(key) : null;
 
     // Create DB row (flexible creation to tolerate schema differences)
     const uploadPayload = {
@@ -222,7 +222,7 @@ router.post('/complete', requireAuth, async (req, res) => {
       originalName: name || path.basename(key),
       mimeType,
       size: Number(size) || 0,
-      driver: process.env.STORAGE_BUCKET ? 's3' : 'local',
+      driver: process.env.R2_BUCKET ? 's3' : 'local',
     };
 
     const uploadRow = sha

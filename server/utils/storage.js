@@ -1,34 +1,47 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-/**
- * Generic S3/R2 client.
- * Configure via env:
- * - STORAGE_ENDPOINT (optional, e.g. R2 endpoint)
- * - STORAGE_REGION
- * - STORAGE_BUCKET
- * - STORAGE_ACCESS_KEY_ID
- * - STORAGE_SECRET_ACCESS_KEY
- * - STORAGE_PUBLIC_BASE_URL (optional; if not set, we build a default)
- */
+const STORAGE_ENDPOINT =
+  process.env.R2_S3_ENDPOINT ||
+  process.env.STORAGE_ENDPOINT;
+
+const STORAGE_REGION =
+  process.env.R2_REGION ||
+  process.env.STORAGE_REGION ||
+  'auto';
+
+const STORAGE_BUCKET =
+  process.env.R2_BUCKET ||
+  process.env.STORAGE_BUCKET;
+
+const STORAGE_ACCESS_KEY_ID =
+  process.env.R2_ACCESS_KEY_ID ||
+  process.env.STORAGE_ACCESS_KEY_ID ||
+  '';
+
+const STORAGE_SECRET_ACCESS_KEY =
+  process.env.R2_SECRET_ACCESS_KEY ||
+  process.env.STORAGE_SECRET_ACCESS_KEY ||
+  '';
+
+const STORAGE_PUBLIC_BASE =
+  process.env.R2_PUBLIC_BASE ||
+  process.env.STORAGE_PUBLIC_BASE_URL;
+
 const s3 = new S3Client({
-  endpoint: process.env.STORAGE_ENDPOINT || undefined,
-  region: process.env.STORAGE_REGION || 'auto',
+  endpoint: STORAGE_ENDPOINT || undefined,
+  region: STORAGE_REGION,
   credentials: {
-    accessKeyId: process.env.STORAGE_ACCESS_KEY_ID ?? '',
-    secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY ?? '',
+    accessKeyId: STORAGE_ACCESS_KEY_ID,
+    secretAccessKey: STORAGE_SECRET_ACCESS_KEY,
   },
-  forcePathStyle: true, // good for R2/minio-style endpoints
+  forcePathStyle: true,
 });
 
-/**
- * Upload a Buffer to the configured storage (used by server-side flows).
- * Returns the public URL (constructed) — note: for private buckets you may prefer signed urls.
- */
 export async function uploadBufferToStorage({ key, buffer, contentType }) {
-  const Bucket = process.env.STORAGE_BUCKET;
+  const Bucket = STORAGE_BUCKET;
   if (!Bucket) {
-    throw new Error('STORAGE_BUCKET is not set');
+    throw new Error('R2_BUCKET/STORAGE_BUCKET is not set');
   }
 
   await s3.send(
@@ -37,52 +50,51 @@ export async function uploadBufferToStorage({ key, buffer, contentType }) {
       Key: key,
       Body: buffer,
       ContentType: contentType || 'application/octet-stream',
-      ACL: 'public-read', // remove/adjust if you’re using signed URLs instead
     }),
   );
 
-  const base =
-    process.env.STORAGE_PUBLIC_BASE_URL ||
-    `https://${Bucket}.s3.${process.env.STORAGE_REGION || 'auto'}.amazonaws.com`;
-
-  return `${base}/${encodeURIComponent(key)}`;
+  return buildPublicUrlForKey(key);
 }
 
-/**
- * Generate a presigned PUT URL for direct client uploads.
- * - key: desired object key (string)
- * - expiresIn: seconds (<= 3600 recommended)
- *
- * Works with AWS S3 and Cloudflare R2 (S3-compatible).
- */
-export async function generatePresignedPutUrl({ key, contentType = 'application/octet-stream', expiresIn = 300 }) {
-  const Bucket = process.env.STORAGE_BUCKET;
-  if (!Bucket) throw new Error('STORAGE_BUCKET is not set');
+export async function generatePresignedPutUrl({
+  key,
+  contentType = 'application/octet-stream',
+  expiresIn = 300,
+}) {
+  const Bucket = STORAGE_BUCKET;
+  if (!Bucket) {
+    throw new Error('R2_BUCKET/STORAGE_BUCKET is not set');
+  }
 
   const cmd = new PutObjectCommand({
     Bucket,
     Key: key,
     ContentType: contentType,
-    ACL: process.env.STORAGE_PUBLIC_READ === 'true' ? 'public-read' : undefined,
   });
 
   const url = await getSignedUrl(s3, cmd, { expiresIn });
+
   return { url, key, expiresIn };
 }
 
-/**
- * Build a public URL for an object key. If STORAGE_PUBLIC_BASE_URL is set,
- * uses that; otherwise falls back to standard s3-style URL.
- */
 export function buildPublicUrlForKey(key) {
-  const base = process.env.STORAGE_PUBLIC_BASE_URL;
-  if (base) {
-    // ensure no double slashes
-    return `${base.replace(/\/$/, '')}/${encodeURIComponent(key)}`;
+  const encodedKey = key
+    .split('/')
+    .map(encodeURIComponent)
+    .join('/');
+
+  if (STORAGE_PUBLIC_BASE) {
+    return `${STORAGE_PUBLIC_BASE.replace(/\/$/, '')}/${encodedKey}`;
   }
-  const Bucket = process.env.STORAGE_BUCKET;
-  const region = process.env.STORAGE_REGION || 'auto';
-  return `https://${Bucket}.s3.${region}.amazonaws.com/${encodeURIComponent(key)}`;
+
+  const Bucket = STORAGE_BUCKET;
+  if (!Bucket) {
+    throw new Error('R2_BUCKET/STORAGE_BUCKET is not set');
+  }
+
+  const region = STORAGE_REGION;
+
+  return `https://${Bucket}.s3.${region}.amazonaws.com/${encodedKey}`;
 }
 
 export default s3;
