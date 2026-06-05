@@ -80,6 +80,8 @@ import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
 import pricingRouter from './routes/pricing.js';
 import transcriptsRouter from './routes/transcripts.js';
 
+import stickersRouter from './routes/stickers.js';
+
 import appleBillingWebhook from './routes/appleBillingWebhook.js';
 
 import smsConsentRouter from './routes/smsConsent.js';
@@ -466,6 +468,8 @@ export function createApp() {
   app.use('/webhooks/status', twilioStatusWebhook);
 
   app.use('/conversations', conversationsRouter);
+
+  app.use('/stickers', stickersRouter);
 
   // PSTN/telephony surfaces (require at least email verification)
   app.use('/voice', voiceRouter);
