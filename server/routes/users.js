@@ -504,6 +504,7 @@ router.patch('/me', requireAuth, async (req, res) => {
           cycling: true,
           messageTone: true,
           ringtone: true,
+          soundVolume: true,
           ageBand: true,
           ageAttestedAt: true,
           wantsAgeFilter: true,
