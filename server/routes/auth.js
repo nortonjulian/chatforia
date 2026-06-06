@@ -1496,6 +1496,7 @@ router.get(
 
       messageTone: safeUser.messageTone || 'Default.mp3',
       ringtone: safeUser.ringtone || 'Classic.mp3',
+      soundVolume: safeUser.soundVolume ?? 70,
     };
     let subscriber = null;
     try {
