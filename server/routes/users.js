@@ -516,6 +516,10 @@ router.patch('/me', requireAuth, async (req, res) => {
         .json({ error: 'Failed to update profile (db write failed)' });
     }
 
+    console.log("PATCH /users/me result", {
+      savedShowReadReceipts: updated.showReadReceipts
+    });
+
     return res.json(serializeUser(updated));
   } catch (e) {
     console.error('PATCH /users/me failed (outer catch)', e);

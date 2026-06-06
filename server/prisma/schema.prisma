@@ -343,6 +343,7 @@ model User {
   emojiTag          String?
   messageTone       String? @default("Default.mp3")
   ringtone          String? @default("Classic.mp3")
+  soundVolume       Int @default(70)
 
   voicemailEnabled        Boolean @default(true)
   voicemailAutoDeleteDays Int?
