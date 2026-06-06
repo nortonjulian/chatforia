@@ -208,6 +208,7 @@ router.patch('/me', requireAuth, async (req, res) => {
       theme,
       cycling,
       messageTone,
+      soundVolume,
       ringtone,
       foriaRemember,
       voicemailEnabled,
@@ -415,6 +416,16 @@ router.patch('/me', requireAuth, async (req, res) => {
       }
 
       data.ringtone = val;
+    }
+
+    if (soundVolume !== undefined) {
+      const volume = Number(soundVolume);
+
+      if (Number.isFinite(volume) && volume >= 0 && volume <= 100) {
+        data.soundVolume = Math.round(volume);
+      } else {
+        return res.status(400).json({ error: 'Invalid soundVolume' });
+      }
     }
 
     // Age stuff
