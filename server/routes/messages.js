@@ -632,7 +632,7 @@ router.post(
         createdAt: saved.createdAt?.toISOString?.() || new Date().toISOString(),
       });
     }
-    
+
     // Private ACK for the sender (optimistic → real ID replacement on iOS/web)
     if (saved?.clientMessageId && senderId) {
       emitMessageAck(senderId, {
@@ -1486,14 +1486,20 @@ router.post(
       });
     }
 
-    const io = req.app.get('io');
     const readAtISO = new Date().toISOString();
+
     for (const m of msgs.filter((m) => allowedIds.includes(m.id))) {
-      io?.to(String(m.chatRoomId)).emit('message_read', {
-        messageId: m.id,
-        reader: { id: userId, username: req.user.username },
-        readAt: readAtISO,
-      });
+      await emitMessageUpsertPerParticipant(m.chatRoomId, m.id);
+
+      const participantIds = await getParticipantUserIds(m.chatRoomId);
+
+      for (const participantId of participantIds) {
+        emitToUser(participantId, 'message_read', {
+          messageId: m.id,
+          reader: { id: userId, username: req.user.username },
+          readAt: readAtISO,
+        });
+      }
     }
 
     return res.json({ ok: true, count: allowedIds.length });
