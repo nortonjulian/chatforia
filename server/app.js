@@ -429,6 +429,9 @@ export function createApp() {
   // NOTE: ensure you've run `cd client && npm run build` so client/dist exists
   const distPath = path.resolve(__dirname, '../client/dist');
 
+   app.use(['/voicemail', '/api/voicemail'], voicemailRouter);
+   app.use('/api/voicemail/greeting', voicemailGreetingRouter);
+
   // Serve static assets from the built client
   app.use(express.static(distPath));
 
@@ -490,9 +493,6 @@ export function createApp() {
   app.use('/api/pricing', pricingRouter);
 
   app.use("/people-invites", peopleInvitesRouter);
-
-  app.use(['/voicemail', '/api/voicemail'], voicemailRouter);
-  app.use('/api/voicemail/greeting', voicemailGreetingRouter);
 
   app.use('/api/porting', authMiddleware, portingRouter);
   app.use('/webhooks/twilio/porting', express.json(), twilioPortingWebhook);
