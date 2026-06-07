@@ -40,10 +40,30 @@ export async function reserveEsimProfile({ userId, region } = {}) {
   };
 
   try {
-    const data = await telnaRequest('/esim/reserve', {
-      method: 'POST',
-      body: payload,
-    });
+    let data;
+
+if (process.env.ESIM_MOCK === 'true') {
+  const profileId = `mock-telna-${Date.now()}`;
+  const activationCode = `ACT-${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
+  const smdp = 'mock.smdp.chatforia.com';
+
+  data = {
+    profileId,
+    iccid: `890000${Date.now()}`,
+    iccidHint: '890000••••••',
+    smdp,
+    activationCode,
+    lpaUri: `LPA:1$${smdp}$${activationCode}`,
+    qrPayload: `LPA:1$${smdp}$${activationCode}`,
+    region,
+    mock: true,
+  };
+} else {
+  data = await telnaRequest('/esim/reserve', {
+    method: 'POST',
+    body: payload,
+  });
+}
 
     return {
       providerProfileId: data.profileId ?? data.id ?? null,

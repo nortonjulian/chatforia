@@ -600,7 +600,62 @@ router.post('/:id/answer-participant', asyncHandler(async (req, res) => {
     });
   }
 
+  for (const id of notifyIds) {
+  emitToUser(id, 'call:participant-offer-needed', {
+    callId,
+    participant: updated,
+  });
+}
+
   res.json({ ok: true, participant: updated });
+}));
+
+router.post('/:id/participant-offer', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+  const callId = Number(req.params.id);
+  const { toUserId, offer } = req.body || {};
+
+  if (!toUserId || !offer?.sdp) {
+    return res.status(400).json({ error: 'toUserId and offer.sdp required' });
+  }
+
+  const call = await prisma.call.findUnique({
+    where: { id: callId },
+    include: { participants: true },
+  });
+
+  if (!call) return res.status(404).json({ error: 'Call not found' });
+
+  const targetParticipant = await prisma.callParticipant.findUnique({
+    where: {
+      callId_userId: {
+        callId,
+        userId: Number(toUserId),
+      },
+    },
+  });
+
+  if (
+    !targetParticipant ||
+    !['RINGING', 'JOINED'].includes(targetParticipant.status)
+  ) {
+    return res.status(403).json({
+      error: 'Target participant is not available',
+    });
+  }
+
+  const fromUser = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true, username: true, displayName: true, avatarUrl: true },
+  });
+
+  emitToUser(Number(toUserId), 'call:participant-offer', {
+    callId,
+    fromUser,
+    offer,
+  });
+
+  res.json({ ok: true });
 }));
 
 router.post('/:id/decline-participant', asyncHandler(async (req, res) => {

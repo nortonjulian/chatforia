@@ -2,9 +2,6 @@ import fetch from 'node-fetch';
 import AbortController from 'abort-controller';
 import { getEsimProviderConfig } from '../config/esim.js';
 
-// Use provider-specific config (falls back to ONEGLOBAL)
-const TELNA = getEsimProviderConfig() || ONEGLOBAL;
-
 const DEFAULT_TIMEOUT = 10_000;
 const DEFAULT_ATTEMPTS = 3;
 const MAX_BODY_PREVIEW = 1024;
@@ -22,6 +19,8 @@ export async function telnaRequest(
   path,
   { method = 'GET', body, timeout = DEFAULT_TIMEOUT, attempts = DEFAULT_ATTEMPTS } = {}
 ) {
+  const TELNA = getEsimProviderConfig('telna');
+
   if (!TELNA?.baseUrl) {
     throw new Error('TELNA.baseUrl is not configured');
   }

@@ -10,7 +10,7 @@ export async function notifyUserOfPendingRelease(userId, { number, releaseDate }
     return;
   }
 
-  const greetingName = user.firstName || user.username || 'there';
+  const greetingName = user.displayName || user.username || 'there';
 
   const msg = {
     to: user.email,

@@ -75,6 +75,8 @@ export function CallProvider({ children, me }) {
     socket.on('call:participant-joined', onParticipantJoined);
     socket.on('call:participant-left', onParticipantLeft);
     socket.on('call:participant-declined', onParticipantDeclined);
+    socket.on('call:participant-offer-needed', onParticipantOfferNeeded);
+    socket.on('call:participant-offer', onParticipantOffer);
     return () => {
       socket.off('call:incoming', onIncoming);
       socket.off('call:answer', onAnswer);
@@ -87,6 +89,8 @@ export function CallProvider({ children, me }) {
       socket.off('call:participant-joined', onParticipantJoined);
       socket.off('call:participant-left', onParticipantLeft);
       socket.off('call:participant-declined', onParticipantDeclined);
+      socket.off('call:participant-offer-needed', onParticipantOfferNeeded);
+      socket.off('call:participant-offer', onParticipantOffer);
     };
   }, []);
 
@@ -270,6 +274,10 @@ async function addParticipant(userId) {
   }
 
   async function acceptCall() {
+    if (!incoming) return;
+
+    const { callId, fromUser, offer, mode = 'AUDIO' } = incoming;
+
     if (incoming.isParticipantInvite) {
       const pc = await createPeer({ callId, peerId: fromUser?.id });
 
@@ -337,6 +345,82 @@ async function addParticipant(userId) {
     setIncoming(null);
     setPending(false);
   }
+
+  async function createOfferForParticipant(targetUserId) {
+  if (!active?.callId) return;
+
+  let local = localStreamRef.current;
+
+  if (!local) {
+    local = await navigator.mediaDevices.getUserMedia({
+      video: false,
+      audio: true,
+    });
+    localStreamRef.current = local;
+  }
+
+  const pc = await createPeer({
+    callId: active.callId,
+    peerId: Number(targetUserId),
+  });
+
+  local.getTracks().forEach((track) => pc.addTrack(track, local));
+
+  const offer = await pc.createOffer();
+  await pc.setLocalDescription(offer);
+
+  await fetch(`${API_BASE}/calls/${active.callId}/participant-offer`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      toUserId: Number(targetUserId),
+      offer,
+    }),
+  });
+}
+
+async function onParticipantOfferNeeded({ participant }) {
+  try {
+    await createOfferForParticipant(participant.userId);
+  } catch (err) {
+    console.error('Failed to create participant offer', err);
+  }
+}
+
+async function onParticipantOffer({ callId, fromUser, offer }) {
+  const pc = await createPeer({
+    callId,
+    peerId: fromUser.id,
+  });
+
+  let local = localStreamRef.current;
+
+  if (!local) {
+    local = await navigator.mediaDevices.getUserMedia({
+      video: false,
+      audio: true,
+    });
+    localStreamRef.current = local;
+  }
+
+  local.getTracks().forEach((track) => pc.addTrack(track, local));
+
+  await pc.setRemoteDescription(offer);
+
+  const answer = await pc.createAnswer();
+  await pc.setLocalDescription(answer);
+
+  await fetch(`${API_BASE}/calls/${callId}/answer-participant`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      answer,
+      toUserId: fromUser.id,
+    }),
+  });
+}
 
   async function rejectCall() {
     if (!incoming) return;
@@ -441,15 +525,40 @@ function onParticipantDeclined({ participant }) {
   }
 
   function closePeerConnection(peerUserId) {
-    const key = String(peerUserId);
-    const pc = peerConnectionsRef.current[key];
+  const key = String(peerUserId);
+  const pc = peerConnectionsRef.current[key];
 
-    if (pc) {
-      try { pc.close(); } catch {}
-    }
+  if (pc) {
+    try {
+      pc.getReceivers().forEach((receiver) => {
+        const track = receiver.track;
+        if (!track) return;
 
-    delete peerConnectionsRef.current[key];
+        try {
+          track.stop();
+        } catch {}
+
+        try {
+          remoteStreamRef.current.removeTrack(track);
+        } catch {}
+      });
+    } catch {}
+
+    try {
+      pc.getSenders().forEach((sender) => {
+        try {
+          sender.track?.stop();
+        } catch {}
+      });
+    } catch {}
+
+    try {
+      pc.close();
+    } catch {}
   }
+
+  delete peerConnectionsRef.current[key];
+}
 
   function cleanup() {
     try {
