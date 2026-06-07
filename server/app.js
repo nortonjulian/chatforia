@@ -491,7 +491,7 @@ export function createApp() {
 
   app.use("/people-invites", peopleInvitesRouter);
 
-  app.use('/voicemail', voicemailRouter);
+  app.use(['/voicemail', '/api/voicemail'], voicemailRouter);
   app.use('/api/voicemail/greeting', voicemailGreetingRouter);
 
   app.use('/api/porting', authMiddleware, portingRouter);
