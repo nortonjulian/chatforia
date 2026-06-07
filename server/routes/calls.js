@@ -7,9 +7,42 @@ import { requireAuth } from '../middleware/auth.js';
 const router = express.Router();
 router.use(requireAuth);
 
-function ensureParticipant(call, userId) {
+async function ensureParticipant(call, userId) {
   if (!call) return false;
-  return call.callerId === userId || call.calleeId === userId;
+
+  if (call.callerId === userId || call.calleeId === userId) return true;
+
+  const participant = await prisma.callParticipant.findUnique({
+    where: {
+      callId_userId: {
+        callId: call.id,
+        userId,
+      },
+    },
+  });
+
+  return Boolean(participant);
+}
+
+const MAX_CALL_PARTICIPANTS = 3;
+
+function participantSelect() {
+  return {
+    id: true,
+    userId: true,
+    role: true,
+    status: true,
+    joinedAt: true,
+    leftAt: true,
+    user: {
+      select: {
+        id: true,
+        username: true,
+        displayName: true,
+        avatarUrl: true,
+      },
+    },
+  };
 }
 
 /**
@@ -35,11 +68,11 @@ router.post('/invite', asyncHandler(async (req, res) => {
   const [caller, callee] = await Promise.all([
     prisma.user.findUnique({
       where: { id: callerId },
-      select: { id: true, username: true, name: true, avatarUrl: true },
+      select: { id: true, username: true, displayName: true, avatarUrl: true },
     }),
     prisma.user.findUnique({
       where: { id: Number(calleeId) },
-      select: { id: true, username: true, name: true, avatarUrl: true },
+      select: { id: true, username: true, displayName: true, avatarUrl: true },
     }),
   ]);
 
@@ -56,6 +89,21 @@ router.post('/invite', asyncHandler(async (req, res) => {
       status: 'RINGING',
       offerSdp: mode === 'VIDEO' ? null : offer.sdp,
       twilioCallSid: twilioCallSid ?? null,
+      participants: {
+        create: [
+          {
+            userId: callerId,
+            role: 'HOST',
+            status: 'JOINED',
+            joinedAt: new Date(),
+          },
+          {
+            userId: Number(calleeId),
+            role: 'MEMBER',
+            status: 'RINGING',
+          },
+        ],
+      },
     },
     select: {
       id: true,
@@ -75,7 +123,7 @@ router.post('/invite', asyncHandler(async (req, res) => {
       callId: call.id,
       roomName,
       callerId,
-      callerName: caller?.name || caller?.username || 'Chatforia user',
+      callerName: caller?.displayName || caller?.username || 'Chatforia user',
       chatRoomId: call.roomId ?? null,
       createdAt: call.createdAt,
     });
@@ -131,6 +179,18 @@ router.post('/answer', asyncHandler(async (req, res) => {
     },
   });
 
+  await prisma.callParticipant.updateMany({
+    where: {
+      callId: call.id,
+      userId,
+    },
+    data: {
+      status: 'JOINED',
+      joinedAt: new Date(),
+      leftAt: null,
+    },
+  });
+
   emitToUser(updated.callerId, 'call:answer', {
     callId: updated.id,
     answer,
@@ -153,12 +213,13 @@ router.post('/candidate', asyncHandler(async (req, res) => {
   }
 
   const call = await prisma.call.findUnique({ where: { id: Number(callId) } });
-  if (!ensureParticipant(call, userId)) {
+  if (!(await ensureParticipant(call, userId))) {
     return res.status(403).json({ error: 'Not a participant' });
   }
 
   emitToUser(Number(toUserId), 'call:candidate', {
     callId: Number(callId),
+    fromUserId: userId,
     candidate,
   });
 
@@ -184,9 +245,13 @@ router.post('/end', asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'callId required' });
   }
 
-  const call = await prisma.call.findUnique({ where: { id: Number(callId) } });
+  const call = await prisma.call.findUnique({
+    where: { id: Number(callId) },
+    include: { participants: true },
+  });
+
   if (!call) return res.status(404).json({ error: 'Call not found' });
-  if (!ensureParticipant(call, userId)) {
+  if (!(await ensureParticipant(call, userId))) {
     return res.status(403).json({ error: 'Not a participant' });
   }
 
@@ -216,24 +281,35 @@ router.post('/end', asyncHandler(async (req, res) => {
     },
   });
 
-  const otherId = userId === updated.callerId ? updated.calleeId : updated.callerId;
+  const notifyIds = new Set();
 
-  emitToUser(otherId, 'call:ended', {
-    callId: updated.id,
-    status: updated.status,
-    endedAt: updated.endedAt,
-    durationSec: updated.durationSec,
-    reason: updated.endReason,
-  });
+  if (updated.callerId && updated.callerId !== userId) notifyIds.add(updated.callerId);
+  if (updated.calleeId && updated.calleeId !== userId) notifyIds.add(updated.calleeId);
 
-  if (call.mode === 'VIDEO') {
-    emitToUser(otherId, 'video:ended', {
+  for (const p of call.participants || []) {
+    if (p.userId !== userId) notifyIds.add(p.userId);
+  }
+
+  for (const id of notifyIds) {
+    emitToUser(id, 'call:ended', {
       callId: updated.id,
       status: updated.status,
       endedAt: updated.endedAt,
       durationSec: updated.durationSec,
       reason: updated.endReason,
     });
+  }
+
+  if (call.mode === 'VIDEO') {
+    for (const id of notifyIds) {
+      emitToUser(id, 'video:ended', {
+        callId: updated.id,
+        status: updated.status,
+        endedAt: updated.endedAt,
+        durationSec: updated.durationSec,
+        reason: updated.endReason,
+      });
+    }
   }
 
   res.json({ ok: true });
@@ -258,7 +334,7 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
 
   const call = await prisma.call.findUnique({ where: { id: callId } });
   if (!call) return res.status(404).json({ error: 'Call not found' });
-  if (!ensureParticipant(call, userId)) {
+  if (!(await ensureParticipant(call, userId))) {
     return res.status(403).json({ error: 'Not a participant' });
   }
 
@@ -315,13 +391,288 @@ router.delete('/:id', asyncHandler(async (req, res) => {
     return res.status(404).json({ error: 'Call not found' });
   }
 
-  if (!ensureParticipant(call, userId)) {
+  if (!(await ensureParticipant(call, userId))) {
     return res.status(403).json({ error: 'Not a participant' });
   }
 
   await prisma.call.delete({
     where: { id: callId },
   });
+
+  res.json({ ok: true });
+}));
+
+router.post('/:id/add-participant', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+  const callId = Number(req.params.id);
+  const { userId: addedUserId, offer } = req.body || {};
+
+  if (!addedUserId) {
+    return res.status(400).json({ error: 'userId required' });
+  }
+
+  if (!offer?.sdp) {
+    return res.status(400).json({ error: 'offer.sdp required' });
+  }
+
+  const call = await prisma.call.findUnique({
+    where: { id: callId },
+    include: {
+      participants: {
+        select: participantSelect(),
+      },
+    },
+  });
+
+  if (!call) return res.status(404).json({ error: 'Call not found' });
+
+  if (!(await ensureParticipant(call, userId))) {
+    return res.status(403).json({ error: 'Not a participant' });
+  }
+
+  if (call.mode !== 'AUDIO') {
+    return res.status(409).json({ error: 'Three-way calling is audio-only for now' });
+  }
+
+  if (!['ACTIVE', 'RINGING', 'INITIATED'].includes(call.status)) {
+    return res.status(409).json({ error: `Cannot add participant in status ${call.status}` });
+  }
+
+  const activeCount = call.participants.filter((p) =>
+    ['RINGING', 'JOINED'].includes(p.status)
+  ).length;
+
+  if (activeCount >= MAX_CALL_PARTICIPANTS) {
+    return res.status(409).json({ error: 'Call is already at the 3-person limit' });
+  }
+
+  const addedUser = await prisma.user.findUnique({
+    where: { id: Number(addedUserId) },
+    select: {
+      id: true,
+      username: true,
+      displayName: true,
+      avatarUrl: true,
+    },
+  });
+
+  if (!addedUser) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  const existing = await prisma.callParticipant.findUnique({
+    where: {
+      callId_userId: {
+        callId,
+        userId: Number(addedUserId),
+      },
+    },
+  });
+
+  if (existing && ['RINGING', 'JOINED'].includes(existing.status)) {
+    return res.status(409).json({ error: 'User is already in this call' });
+  }
+
+  const participant = await prisma.callParticipant.upsert({
+    where: {
+      callId_userId: {
+        callId,
+        userId: Number(addedUserId),
+      },
+    },
+    update: {
+      status: 'RINGING',
+      leftAt: null,
+      joinedAt: null,
+    },
+    create: {
+      callId,
+      userId: Number(addedUserId),
+      role: 'MEMBER',
+      status: 'RINGING',
+    },
+    select: participantSelect(),
+  });
+
+  const inviter = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      username: true,
+      displayName: true,
+      avatarUrl: true,
+    },
+  });
+
+  emitToUser(Number(addedUserId), 'call:participant-invite', {
+    callId,
+    fromUser: inviter,
+    mode: 'AUDIO',
+    offer,
+    participants: call.participants.map((p) => ({
+      userId: p.userId,
+      status: p.status,
+      role: p.role,
+      user: p.user,
+    })),
+    createdAt: new Date(),
+  });
+
+  emitToUser(call.callerId, 'call:participant-ringing', {
+    callId,
+    participant,
+  });
+
+  if (call.calleeId && call.calleeId !== call.callerId) {
+    emitToUser(call.calleeId, 'call:participant-ringing', {
+      callId,
+      participant,
+    });
+  }
+
+  res.status(201).json({ participant });
+}));
+
+router.post('/:id/answer-participant', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+  const callId = Number(req.params.id);
+  const { answer, toUserId } = req.body || {};
+
+  if (!answer?.sdp) {
+    return res.status(400).json({ error: 'answer.sdp required' });
+  }
+
+  const call = await prisma.call.findUnique({
+    where: { id: callId },
+    include: {
+      participants: true,
+    },
+  });
+
+  if (!call) return res.status(404).json({ error: 'Call not found' });
+
+  const participant = await prisma.callParticipant.findUnique({
+    where: {
+      callId_userId: {
+        callId,
+        userId,
+      },
+    },
+    select: participantSelect(),
+  });
+
+  if (!participant) {
+    return res.status(403).json({ error: 'Not an invited participant' });
+  }
+
+  const updated = await prisma.callParticipant.update({
+    where: {
+      callId_userId: {
+        callId,
+        userId,
+      },
+    },
+    data: {
+      status: 'JOINED',
+      joinedAt: new Date(),
+      leftAt: null,
+    },
+    select: participantSelect(),
+  });
+
+  const hostUserId = Number(toUserId || call.callerId);
+
+  emitToUser(hostUserId, 'call:participant-answer', {
+    callId,
+    fromUserId: userId,
+    participant: updated,
+    answer,
+  });
+
+  const notifyIds = call.participants
+    .map((p) => p.userId)
+    .filter((id) => id !== userId && id !== hostUserId);
+
+  for (const id of notifyIds) {
+    emitToUser(id, 'call:participant-joined', {
+      callId,
+      participant: updated,
+    });
+  }
+
+  res.json({ ok: true, participant: updated });
+}));
+
+router.post('/:id/decline-participant', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+  const callId = Number(req.params.id);
+
+  const call = await prisma.call.findUnique({
+    where: { id: callId },
+    include: { participants: true },
+  });
+
+  if (!call) return res.status(404).json({ error: 'Call not found' });
+
+  const updated = await prisma.callParticipant.update({
+    where: {
+      callId_userId: {
+        callId,
+        userId,
+      },
+    },
+    data: {
+      status: 'DECLINED',
+      leftAt: new Date(),
+    },
+    select: participantSelect(),
+  });
+
+  for (const p of call.participants) {
+    if (p.userId !== userId) {
+      emitToUser(p.userId, 'call:participant-declined', {
+        callId,
+        participant: updated,
+      });
+    }
+  }
+
+  res.json({ ok: true });
+}));
+
+router.post('/:id/leave-participant', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+  const callId = Number(req.params.id);
+
+  const call = await prisma.call.findUnique({
+    where: { id: callId },
+    include: { participants: true },
+  });
+
+  if (!call) return res.status(404).json({ error: 'Call not found' });
+
+  const updated = await prisma.callParticipant.update({
+    where: {
+      callId_userId: {
+        callId,
+        userId,
+      },
+    },
+    data: {
+      status: 'LEFT',
+      leftAt: new Date(),
+    },
+    select: participantSelect(),
+  });
+
+  for (const p of call.participants) {
+    if (p.userId !== userId) {
+      emitToUser(p.userId, 'call:participant-left', {
+        callId,
+        participant: updated,
+      });
+    }
+  }
 
   res.json({ ok: true });
 }));

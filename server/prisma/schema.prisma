@@ -314,6 +314,7 @@ model User {
   provisionLinksCreated      ProvisionLink[]      @relation("ProvisionLinkCreator")
   callsPlaced                Call[]               @relation("CallCaller")
   callsReceived              Call[]               @relation("CallCallee")
+  callParticipants           CallParticipant[]
   scheduledMessagesAuthored  ScheduledMessage[]   @relation("ScheduledMessageSender")
   messageSessionKeysReceived MessageSessionKey[]  @relation("MsgSessionKeys_Recipient")
   assignedNumbers            PhoneNumber[]
@@ -675,6 +676,24 @@ model Participant {
   @@unique([chatRoomId, userId])
   @@index([chatRoomId], map: "part_room")
   @@index([userId, clearedAt], map: "part_user_cleared") // optional but helpful
+}
+
+model CallParticipant {
+  id        Int      @id @default(autoincrement())
+  callId    Int
+  userId    Int
+  role      String   @default("MEMBER")
+  status    String   @default("RINGING")
+  joinedAt  DateTime?
+  leftAt    DateTime?
+  createdAt DateTime @default(now())
+
+  call Call @relation(fields: [callId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([callId, userId])
+  @@index([callId])
+  @@index([userId])
 }
 
 model PeopleInvite {
@@ -1291,6 +1310,7 @@ model Call {
   endReason     String?
   fromLabel     String?
   toLabel       String?
+  participants  CallParticipant[]
 
   caller User   @relation("CallCaller", fields: [callerId], references: [id])
   callee User?  @relation("CallCallee", fields: [calleeId], references: [id])

@@ -27,7 +27,9 @@ export function CallProvider({ children, me }) {
   const [pending, setPending] = useState(false);     // dialing/connecting state
   const [inviteHint, setInviteHint] = useState(null); // { requiresInvite, inviteUrl? } for UI to surface
 
-  const pcRef = useRef(null);
+  const peerConnectionsRef = useRef({});
+  const pcRef = useRef(null); // keep for backwards compatibility
+  const [participants, setParticipants] = useState([]);
 
   // Keep local & remote streams for UI
   const localStreamRef = useRef(null);               // MediaStream | null
@@ -38,17 +40,26 @@ export function CallProvider({ children, me }) {
     function onIncoming(payload) {
       setIncoming(payload);
     }
+
     function onAnswer({ callId, answer }) {
       if (!pcRef.current) return;
       pcRef.current.setRemoteDescription(answer).catch(() => {});
       setActive((prev) => prev || { callId });
       setPending(false);
     }
-    function onCandidate({ candidate }) {
-      if (candidate && pcRef.current) {
-        pcRef.current.addIceCandidate(candidate).catch(() => {});
+
+    function onCandidate({ fromUserId, candidate }) {
+      if (!candidate) return;
+
+      const pc =
+        (fromUserId ? getPeerConnection(fromUserId) : null) ||
+        pcRef.current;
+
+      if (pc) {
+        pc.addIceCandidate(candidate).catch(() => {});
       }
     }
+
     function onEnded() {
       cleanup();
     }
@@ -57,32 +68,50 @@ export function CallProvider({ children, me }) {
     socket.on('call:answer', onAnswer);
     socket.on('call:candidate', onCandidate);
     socket.on('call:ended', onEnded);
+
+    socket.on('call:participant-invite', onParticipantInvite);
+    socket.on('call:participant-answer', onParticipantAnswer);
+    socket.on('call:participant-ringing', onParticipantRinging);
+    socket.on('call:participant-joined', onParticipantJoined);
+    socket.on('call:participant-left', onParticipantLeft);
+    socket.on('call:participant-declined', onParticipantDeclined);
     return () => {
       socket.off('call:incoming', onIncoming);
       socket.off('call:answer', onAnswer);
       socket.off('call:candidate', onCandidate);
       socket.off('call:ended', onEnded);
+
+      socket.off('call:participant-invite', onParticipantInvite);
+      socket.off('call:participant-answer', onParticipantAnswer);
+      socket.off('call:participant-ringing', onParticipantRinging);
+      socket.off('call:participant-joined', onParticipantJoined);
+      socket.off('call:participant-left', onParticipantLeft);
+      socket.off('call:participant-declined', onParticipantDeclined);
     };
   }, []);
 
   async function createPeer(nextActive = null) {
-    // Close previous peer if any
-    if (pcRef.current) {
-      try { pcRef.current.close(); } catch {}
+    const peerUserId = nextActive?.peerId;
+
+    if (peerUserId) {
+      closePeerConnection(peerUserId);
     }
 
-    // Fetch ICE servers (TURN/STUN)
-    const res = await fetch(`${API_BASE}/ice-servers?provider=all`, { credentials: 'include' });
-    const { iceServers } = await res.json();
+    const res = await fetch(`${API_BASE}/ice-servers?provider=all`, {
+      credentials: 'include',
+    });
 
+    const { iceServers } = await res.json();
     const pc = new RTCPeerConnection({ iceServers });
 
     pc.onicecandidate = ({ candidate }) => {
       if (!candidate) return;
-      const callId = (nextActive?.callId ?? active?.callId) || null;
-      const toUserId = (nextActive?.peerId ?? active?.peerId) || undefined;
 
-      if (!callId) return;
+      const callId = nextActive?.callId ?? active?.callId;
+      const toUserId = nextActive?.peerId;
+
+      if (!callId || !toUserId) return;
+
       fetch(`${API_BASE}/calls/candidate`, {
         method: 'POST',
         credentials: 'include',
@@ -101,9 +130,70 @@ export function CallProvider({ children, me }) {
       });
     };
 
+  if (peerUserId) {
+    setPeerConnection(peerUserId, pc);
+  } else {
     pcRef.current = pc;
-    return pc;
   }
+
+  return pc;
+}
+
+async function addParticipant(userId) {
+  if (!active?.callId) throw new Error('No active call');
+  if (active.mode && active.mode !== 'AUDIO') {
+    throw new Error('Adding a person is only available for audio calls');
+  }
+
+  const existingIds = participants.map((p) => Number(p.userId));
+  if (existingIds.includes(Number(userId))) {
+    throw new Error('This person is already in the call');
+  }
+
+  if (participants.filter((p) => ['RINGING', 'JOINED'].includes(p.status)).length >= 3) {
+    throw new Error('This call already has 3 people');
+  }
+
+  let local = localStreamRef.current;
+
+  if (!local) {
+    local = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
+    localStreamRef.current = local;
+  }
+
+  const pc = await createPeer({
+    callId: active.callId,
+    peerId: Number(userId),
+  });
+
+  local.getTracks().forEach((track) => pc.addTrack(track, local));
+
+  const offer = await pc.createOffer();
+  await pc.setLocalDescription(offer);
+
+  const resp = await fetch(`${API_BASE}/calls/${active.callId}/add-participant`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      userId: Number(userId),
+      offer,
+    }),
+  });
+
+  const data = await resp.json();
+
+  if (!resp.ok) {
+    throw new Error(data?.error || 'Failed to add participant');
+  }
+
+  setParticipants((prev) => {
+    const without = prev.filter((p) => Number(p.userId) !== Number(userId));
+    return [...without, data.participant];
+  });
+
+  return data;
+}
 
   /**
    * Start a call by userId (existing Chatforia user).
@@ -129,7 +219,7 @@ export function CallProvider({ children, me }) {
     });
 
     const data = await resp.json(); // { callId, peerId }
-    setActive({ callId: data.callId, peerId: calleeId });
+    setActive({ callId: data.callId, peerId: calleeId, mode });
     return data;
   }
 
@@ -160,7 +250,7 @@ export function CallProvider({ children, me }) {
     });
 
     const data = await resp.json(); // { callId, peerId?, phoneNumber?, requiresInvite?, inviteUrl? }
-    setActive({ callId: data.callId, peerId: data.peerId, phoneNumber });
+    setActive({ callId: data.callId, peerId: data.peerId, phoneNumber, mode });
     if (data?.requiresInvite) {
       // surface to UI so you can show a toast/button linking to JoinInvitePage, etc.
       setInviteHint({ requiresInvite: true, inviteUrl: data.inviteUrl || null });
@@ -180,8 +270,52 @@ export function CallProvider({ children, me }) {
   }
 
   async function acceptCall() {
-    if (!incoming) return;
-    const { callId, fromUser, offer, mode } = incoming;
+    if (incoming.isParticipantInvite) {
+      const pc = await createPeer({ callId, peerId: fromUser?.id });
+
+      const local = await navigator.mediaDevices.getUserMedia({
+        video: false,
+        audio: true,
+      });
+
+      localStreamRef.current = local;
+      local.getTracks().forEach((t) => pc.addTrack(t, local));
+
+      await pc.setRemoteDescription(offer);
+
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+
+      await fetch(`${API_BASE}/calls/${callId}/answer-participant`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          answer,
+          toUserId: fromUser?.id,
+        }),
+      });
+
+      setActive({
+        callId,
+        peerId: fromUser?.id,
+        mode: 'AUDIO',
+      });
+
+      setParticipants([
+        ...(incoming.participants || []),
+        {
+          userId: me?.id,
+          status: 'JOINED',
+          role: 'MEMBER',
+          user: me,
+        },
+      ]);
+
+      setIncoming(null);
+      setPending(false);
+      return;
+    }
 
     const pc = await createPeer({ callId, peerId: fromUser?.id });
     const local = await navigator.mediaDevices.getUserMedia({ video: mode === 'VIDEO', audio: true });
@@ -199,19 +333,29 @@ export function CallProvider({ children, me }) {
       body: JSON.stringify({ callId, answer }),
     });
 
-    setActive({ callId, peerId: fromUser?.id });
+    setActive({ callId, peerId: fromUser?.id, mode });
     setIncoming(null);
     setPending(false);
   }
 
   async function rejectCall() {
     if (!incoming) return;
-    await fetch(`${API_BASE}/calls/end`, {
+
+    const url = incoming.isParticipantInvite
+      ? `${API_BASE}/calls/${incoming.callId}/decline-participant`
+      : `${API_BASE}/calls/end`;
+
+    const body = incoming.isParticipantInvite
+      ? {}
+      : { callId: incoming.callId, reason: 'rejected' };
+
+    await fetch(url, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ callId: incoming.callId, reason: 'rejected' }),
+      body: JSON.stringify(body),
     }).catch(() => {});
+
     setIncoming(null);
     setPending(false);
   }
@@ -228,9 +372,94 @@ export function CallProvider({ children, me }) {
     cleanup();
   }
 
+  function onParticipantInvite(payload) {
+  setIncoming({
+    ...payload,
+    isParticipantInvite: true,
+  });
+}
+
+function onParticipantAnswer({ fromUserId, answer, participant }) {
+  const pc = getPeerConnection(fromUserId);
+  if (pc && answer) {
+    pc.setRemoteDescription(answer).catch(() => {});
+  }
+
+  setParticipants((prev) => {
+    const without = prev.filter((p) => Number(p.userId) !== Number(fromUserId));
+    return [...without, participant];
+  });
+
+  setPending(false);
+}
+
+function onParticipantRinging({ participant }) {
+  setParticipants((prev) => {
+    const without = prev.filter((p) => Number(p.userId) !== Number(participant.userId));
+    return [...without, participant];
+  });
+}
+
+function onParticipantJoined({ participant }) {
+  setParticipants((prev) => {
+    const without = prev.filter((p) => Number(p.userId) !== Number(participant.userId));
+    return [...without, participant];
+  });
+}
+
+function onParticipantLeft({ participant }) {
+  closePeerConnection(participant.userId);
+
+  setParticipants((prev) =>
+    prev.map((p) =>
+      Number(p.userId) === Number(participant.userId)
+        ? participant
+        : p
+    )
+  );
+}
+
+function onParticipantDeclined({ participant }) {
+  closePeerConnection(participant.userId);
+
+  setParticipants((prev) =>
+    prev.map((p) =>
+      Number(p.userId) === Number(participant.userId)
+        ? participant
+        : p
+    )
+  );
+}
+
+  function setPeerConnection(peerUserId, pc) {
+    peerConnectionsRef.current[String(peerUserId)] = pc;
+    pcRef.current = pc;
+  }
+
+  function getPeerConnection(peerUserId) {
+    return peerConnectionsRef.current[String(peerUserId)] || null;
+  }
+
+  function closePeerConnection(peerUserId) {
+    const key = String(peerUserId);
+    const pc = peerConnectionsRef.current[key];
+
+    if (pc) {
+      try { pc.close(); } catch {}
+    }
+
+    delete peerConnectionsRef.current[key];
+  }
+
   function cleanup() {
-    try { pcRef.current?.getSenders().forEach((s) => s.track?.stop()); } catch {}
-    try { pcRef.current?.close(); } catch {}
+    try {
+      Object.values(peerConnectionsRef.current).forEach((pc) => {
+        try { pc.getSenders().forEach((s) => s.track?.stop()); } catch {}
+        try { pc.close(); } catch {}
+      });
+    } catch {}
+
+    peerConnectionsRef.current = {};
     pcRef.current = null;
 
     if (localStreamRef.current) {
@@ -243,6 +472,7 @@ export function CallProvider({ children, me }) {
     setIncoming(null);
     setPending(false);
     setInviteHint(null);
+    setParticipants([]);
   }
 
   const value = {
@@ -250,7 +480,12 @@ export function CallProvider({ children, me }) {
     incoming,
     active,
     pending,
-    inviteHint,      // { requiresInvite, inviteUrl? } -> show CTA / toast / modal
+    inviteHint,  // { requiresInvite, inviteUrl? } -> show CTA / toast / modal
+    me,
+
+    participants,
+    addParticipant,
+    peerConnectionsRef,
 
     // streams
     pcRef,
