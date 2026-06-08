@@ -15,7 +15,7 @@ const appleAudience =
   process.env.APPLE_CLIENT_ID;
 
 // POST /auth/oauth/google/ios
-router.post('/google/ios', async (req, res) => {
+async function handleGoogleOAuth(req, res, channel = 'mobile') {
   try {
     const { idToken } = req.body || {};
 
@@ -47,7 +47,7 @@ router.post('/google/ios', async (req, res) => {
       displayName: name,
       avatarUrl: avatar,
       logContext: {
-        channel: 'ios',
+        channel,
         path: req.originalUrl,
       },
     });
@@ -75,13 +75,21 @@ router.post('/google/ios', async (req, res) => {
       });
     }
 
-    console.error('Google iOS OAuth error:', err);
+    console.error(`Google ${channel} OAuth error:`, err);
     return res.status(500).json({
       error: 'OAuth failed',
       details: err?.message || String(err),
     });
   }
-});
+}
+
+router.post('/google/ios', (req, res) =>
+  handleGoogleOAuth(req, res, 'ios')
+);
+
+router.post('/google/android', (req, res) =>
+  handleGoogleOAuth(req, res, 'android')
+);
 
 // POST /auth/oauth/apple/ios
 router.post('/apple/ios', async (req, res) => {

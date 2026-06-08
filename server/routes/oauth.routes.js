@@ -21,6 +21,11 @@ const FRONTEND =
 /* ---------- helpers ---------- */
 function getSafeNextUrl(raw) {
   if (!raw) return FRONTEND;
+
+  if (typeof raw === "string" && raw.startsWith("chatforia://oauth/apple")) {
+    return raw;
+  }
+
   try {
     const parsed = new URL(raw);
     const allowed = new Set([
@@ -156,6 +161,12 @@ async function handleAppleCallback(req, res) {
         nextUrl = getSafeNextUrl(parsed?.next);
       }
     } catch {}
+
+    if (nextUrl.startsWith("chatforia://oauth/apple")) {
+      const redirectUrl = new URL(nextUrl);
+      redirectUrl.searchParams.set("token", token);
+      return res.redirect(redirectUrl.toString());
+    }
 
     return res.redirect(nextUrl);
   } catch (e) {
