@@ -550,7 +550,7 @@ router.post('/push-token', requireAuth, async (req, res) => {
 
 import { sendPushToUser } from '../services/pushService.js';
 
-router.post('/test-push/:userId', requireAuth, async (req, res) => {
+router.post('/test-push/:userId', async (req, res) => {
   try {
     const result = await sendPushToUser(Number(req.params.userId), {
       alert: {
