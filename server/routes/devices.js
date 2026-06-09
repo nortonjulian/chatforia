@@ -485,16 +485,26 @@ router.post('/push-token', requireAuth, async (req, res) => {
   }
 
   try {
-    const device = await prisma.device.update({
+    const device = await prisma.device.upsert({
       where: {
         userId_deviceId: {
           userId,
           deviceId,
         },
       },
-      data: {
+      update: {
         pushToken,
         pushProvider,
+        lastSeenAt: new Date(),
+        revokedAt: null,
+      },
+      create: {
+        userId,
+        deviceId,
+        pushToken,
+        pushProvider,
+        platform: pushProvider === 'fcm' ? 'Android' : 'iOS',
+        name: pushProvider === 'fcm' ? 'Android device' : 'iOS device',
         lastSeenAt: new Date(),
         revokedAt: null,
       },
@@ -508,6 +518,7 @@ router.post('/push-token', requireAuth, async (req, res) => {
         updatedAt: true,
         revokedAt: true,
         pushToken: true,
+        pushProvider: true,
       },
     });
 
@@ -516,6 +527,7 @@ router.post('/push-token', requireAuth, async (req, res) => {
       userId: device.userId,
       deviceId: device.deviceId,
       platform: device.platform,
+      pushProvider: device.pushProvider,
     });
 
     return res.json({ success: true, device });
@@ -532,6 +544,31 @@ router.post('/push-token', requireAuth, async (req, res) => {
       error: 'push-token failed',
       detail: error?.message || 'unknown error',
       code: error?.code || null,
+    });
+  }
+});
+
+import { sendPushToUser } from '../services/pushService.js';
+
+router.post('/test-push/:userId', requireAuth, async (req, res) => {
+  try {
+    const result = await sendPushToUser(Number(req.params.userId), {
+      alert: {
+        title: 'Chatforia Test',
+        body: 'Android FCM test',
+      },
+      sound: 'default',
+      data: {
+        type: 'test_push',
+      },
+    });
+
+    return res.json(result);
+  } catch (error) {
+    console.error('❌ test push failed', error);
+
+    return res.status(500).json({
+      error: error?.message || 'test push failed',
     });
   }
 });
