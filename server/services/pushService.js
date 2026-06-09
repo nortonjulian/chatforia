@@ -43,56 +43,69 @@ async function getUserTokens(userId) {
       revokedAt: null,
       pushToken: { not: null },
     },
-    select: { pushToken: true },
+    select: {
+      pushToken: true,
+      pushProvider: true,
+    },
   });
 
-  return devices.map(d => d.pushToken).filter(Boolean);
+  return {
+    apns: devices
+      .filter(d => d.pushProvider === 'apns')
+      .map(d => d.pushToken)
+      .filter(Boolean),
+
+    fcm: devices
+      .filter(d => d.pushProvider === 'fcm')
+      .map(d => d.pushToken)
+      .filter(Boolean),
+  };
 }
 
 /**
  * Generic push sender
  */
 export async function sendPushToUser(userId, payload) {
-  const apnProvider = getProvider();
-  if (!apnProvider) {
-    console.log('[push] skipped (no provider)', { userId, payload });
-    return { ok: false, reason: 'no_provider' };
-  }
-
   const tokens = await getUserTokens(userId);
 
-  if (!tokens.length) {
-    console.log('[push] no tokens for user', userId);
-    return { ok: false, reason: 'no_tokens' };
-  }
+  const results = {
+    apns: null,
+    fcm: null,
+  };
 
-  const note = new apn.Notification();
+  if (tokens.apns.length) {
+    const apnProvider = getProvider();
 
-  note.topic = process.env.APNS_TOPIC;
-  note.alert = payload.alert || {};
-  note.sound = payload.sound || 'default';
-  note.payload = payload.data || {};
+    if (apnProvider) {
+      const note = new apn.Notification();
 
-  try {
-    const result = await apnProvider.send(note, tokens);
+      note.topic = process.env.APNS_TOPIC;
+      note.alert = payload.alert || {};
+      note.sound = payload.sound || 'default';
+      note.payload = payload.data || {};
 
-    if (result.failed?.length) {
-      console.warn('[push] failed deliveries', result.failed.map(f => ({
-        device: f.device,
-        status: f.status,
-        error: f.response || f.error?.message,
-      })));
+      results.apns = await apnProvider.send(note, tokens.apns);
     }
-
-    return {
-      ok: result.sent?.length > 0,
-      sent: result.sent?.length ?? 0,
-      failed: result.failed?.length ?? 0,
-    };
-  } catch (err) {
-    console.error('[push] send error', err);
-    return { ok: false, error: err.message };
   }
+
+  if (tokens.fcm.length) {
+    // FCM send goes here next
+    console.log('[push] FCM tokens found, sender not wired yet', {
+      userId,
+      count: tokens.fcm.length,
+    });
+  }
+
+  return {
+    ok: Boolean(
+      results.apns?.sent?.length ||
+      results.fcm?.successCount
+    ),
+    apnsSent: results.apns?.sent?.length ?? 0,
+    apnsFailed: results.apns?.failed?.length ?? 0,
+    fcmSent: results.fcm?.successCount ?? 0,
+    fcmFailed: results.fcm?.failureCount ?? 0,
+  };
 }
 
 /**
