@@ -12,7 +12,6 @@ const IGNORE_VALUES = new Set([
   "",
   "Chatforia",
   "Ria",
-  "FOREA",
   "AI",
   "SMS",
   "MMS",
