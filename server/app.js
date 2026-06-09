@@ -360,7 +360,7 @@ export function createApp() {
       : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
     const csrfBypassPattern =
-    /^\/translate(\/|$)|^\/auth\/(login|register|logout|apple\/callback)$|^\/auth\/oauth(\/|$)|^\/billing\/webhook$|^\/billing\/apple\/notifications$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
+      /^\/devices\/test-push(\/|$)|^\/translate(\/|$)|^\/auth\/(login|register|logout|apple\/callback)$|^\/auth\/oauth(\/|$)|^\/billing\/webhook$|^\/billing\/apple\/notifications$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
 
   const csrfBrowserOnly = csrfOnlyForCookieAuth(csrfMw);
 
