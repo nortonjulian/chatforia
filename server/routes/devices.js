@@ -1,6 +1,7 @@
 import express from 'express';
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
+import { sendPushToUser } from '../services/pushService.js';
 
 const router = express.Router();
 
@@ -473,11 +474,22 @@ router.post('/push-token', requireAuth, async (req, res) => {
   const pushToken = normalizeString(req.body?.pushToken, 4096);
   const pushProvider = normalizeString(req.body?.pushProvider, 64) || 'apns';
 
+  const publicKey = normalizeString(req.body?.publicKey, 4096);
+  const keyAlgorithm = normalizeString(req.body?.keyAlgorithm, 64) || 'curve25519';
+  const keyVersion = Number(req.body?.keyVersion || 1);
+  const platform =
+    normalizeString(req.body?.platform, 64) ||
+    (pushProvider === 'fcm' ? 'Android' : 'iOS');
+  const name =
+    normalizeString(req.body?.name, 191) ||
+    (pushProvider === 'fcm' ? 'Android device' : 'iOS device');
+
   console.log('📥 /devices/push-token request', {
     userId,
     deviceId,
     pushTokenPreview: pushToken ? `${pushToken.slice(0, 12)}...` : null,
     pushProvider,
+    hasPublicKey: Boolean(publicKey),
   });
 
   if (!userId || !deviceId || !pushToken) {
@@ -485,42 +497,79 @@ router.post('/push-token', requireAuth, async (req, res) => {
   }
 
   try {
-    const device = await prisma.device.upsert({
+    const existing = await prisma.device.findUnique({
       where: {
         userId_deviceId: {
           userId,
           deviceId,
         },
       },
-      update: {
-        pushToken,
-        pushProvider,
-        lastSeenAt: new Date(),
-        revokedAt: null,
-      },
-      create: {
-        userId,
-        deviceId,
-        pushToken,
-        pushProvider,
-        platform: pushProvider === 'fcm' ? 'Android' : 'iOS',
-        name: pushProvider === 'fcm' ? 'Android device' : 'iOS device',
-        lastSeenAt: new Date(),
-        revokedAt: null,
-      },
-      select: {
-        id: true,
-        userId: true,
-        deviceId: true,
-        name: true,
-        platform: true,
-        lastSeenAt: true,
-        updatedAt: true,
-        revokedAt: true,
-        pushToken: true,
-        pushProvider: true,
-      },
     });
+
+    let device;
+
+    if (existing) {
+      device = await prisma.device.update({
+        where: {
+          userId_deviceId: {
+            userId,
+            deviceId,
+          },
+        },
+        data: {
+          pushToken,
+          pushProvider,
+          lastSeenAt: new Date(),
+          revokedAt: null,
+        },
+        select: {
+          id: true,
+          userId: true,
+          deviceId: true,
+          name: true,
+          platform: true,
+          lastSeenAt: true,
+          updatedAt: true,
+          revokedAt: true,
+          pushToken: true,
+          pushProvider: true,
+        },
+      });
+    } else {
+      if (!publicKey) {
+        return res.status(400).json({
+          error: 'publicKey is required when creating a new device from push-token',
+        });
+      }
+
+      device = await prisma.device.create({
+        data: {
+          userId,
+          deviceId,
+          pushToken,
+          pushProvider,
+          publicKey,
+          keyAlgorithm,
+          keyVersion,
+          platform,
+          name,
+          lastSeenAt: new Date(),
+          revokedAt: null,
+        },
+        select: {
+          id: true,
+          userId: true,
+          deviceId: true,
+          name: true,
+          platform: true,
+          lastSeenAt: true,
+          updatedAt: true,
+          revokedAt: true,
+          pushToken: true,
+          pushProvider: true,
+        },
+      });
+    }
 
     console.log('✅ /devices/push-token saved', {
       id: device.id,
@@ -548,29 +597,5 @@ router.post('/push-token', requireAuth, async (req, res) => {
   }
 });
 
-import { sendPushToUser } from '../services/pushService.js';
-
-router.post('/test-push/:userId', async (req, res) => {
-  try {
-    const result = await sendPushToUser(Number(req.params.userId), {
-      alert: {
-        title: 'Chatforia Test',
-        body: 'Android FCM test',
-      },
-      sound: 'default',
-      data: {
-        type: 'test_push',
-      },
-    });
-
-    return res.json(result);
-  } catch (error) {
-    console.error('❌ test push failed', error);
-
-    return res.status(500).json({
-      error: error?.message || 'test push failed',
-    });
-  }
-});
 
 export default router;
