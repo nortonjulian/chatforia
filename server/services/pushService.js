@@ -1,6 +1,6 @@
 import apn from 'apn';
 import prisma from '../utils/prismaClient.js';
-import { getFirebaseAdmin } from './firebaseAdmin.js';
+import { getFirebaseMessaging } from './firebaseAdmin.js';
 
 let provider = null;
 
@@ -90,15 +90,15 @@ export async function sendPushToUser(userId, payload) {
   }
 
   if (tokens.fcm.length) {
-  const admin = getFirebaseAdmin();
+  const messaging = getFirebaseMessaging();
 
-  if (admin) {
+  if (messaging) {
     console.log('[push] Sending FCM push', {
       userId,
       count: tokens.fcm.length,
     });
 
-    results.fcm = await admin.messaging().sendEachForMulticast({
+    results.fcm = await messaging.sendEachForMulticast({
       tokens: tokens.fcm,
       notification: {
         title: payload.alert?.title || 'Chatforia',

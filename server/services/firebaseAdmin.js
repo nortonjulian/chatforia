@@ -1,9 +1,10 @@
-import admin from 'firebase-admin';
+import { initializeApp, cert, getApps } from 'firebase-admin/app';
+import { getMessaging } from 'firebase-admin/messaging';
 
-let initialized = false;
+let messaging = null;
 
-export function getFirebaseAdmin() {
-  if (initialized) return admin;
+export function getFirebaseMessaging() {
+  if (messaging) return messaging;
 
   const {
     FIREBASE_PROJECT_ID,
@@ -16,16 +17,19 @@ export function getFirebaseAdmin() {
     return null;
   }
 
-  admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: FIREBASE_PROJECT_ID,
-      clientEmail: FIREBASE_CLIENT_EMAIL,
-      privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    }),
-  });
+  if (!getApps().length) {
+    initializeApp({
+      credential: cert({
+        projectId: FIREBASE_PROJECT_ID,
+        clientEmail: FIREBASE_CLIENT_EMAIL,
+        privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      }),
+    });
+  }
 
-  initialized = true;
+  messaging = getMessaging();
+
   console.log('[firebase] Firebase Admin initialized');
 
-  return admin;
+  return messaging;
 }
