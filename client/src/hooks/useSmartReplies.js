@@ -18,7 +18,7 @@ export function useSmartReplies({
     if (!last || last.id === lastSeenMsgId.current) return;
 
     // Only trigger on inbound messages
-    const inbound = last.sender?.id && last.sender.id !== currentUserId;
+    const inbound = last.sender?.id != null && String(last.sender.id) !== String(currentUserId);
     if (!inbound) {
       lastSeenMsgId.current = last.id;
       setSuggestions([]);
@@ -28,8 +28,7 @@ export function useSmartReplies({
     // Build last 3 decrypted turns (clamp text length a bit)
     const tail = messages.slice(-3).map((m) => ({
       role: m.sender?.id === currentUserId ? 'assistant' : 'user',
-      author: m.sender?.username || m.sender?.id,
-      text: String(m.decryptedContent || m.content || '').slice(0, 500),
+      content: String(m.decryptedContent || m.content || '').slice(0, 500),
     }));
 
     let cancelled = false;
@@ -39,7 +38,11 @@ export function useSmartReplies({
       try {
         const { data } = await axiosClient.post(
           '/ai/suggest-replies',
-          { snippets: tail, locale },
+          {
+            messages: tail,
+            locale,
+            filterProfanity: false,
+          },
           { timeout: 6000 }
         );
         if (!cancelled) {
