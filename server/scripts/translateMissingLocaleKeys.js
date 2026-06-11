@@ -136,23 +136,51 @@ async function main() {
 
     console.log(`\n🌍 Translating ${missingKeys.length} keys for ${lang}...`);
 
-    for (const key of missingKeys) {
-      const englishText = getValue(sourceJson, key);
+    // for (const key of missingKeys) {
+    //   const englishText = getValue(sourceJson, key);
 
-      if (typeof englishText !== "string" || !englishText.trim()) {
+    //   if (typeof englishText !== "string" || !englishText.trim()) {
+    //     console.warn(`⚠️ Skipping ${lang}.${key}: source value is not text`);
+    //     continue;
+    //   }
+
+    //   try {
+    //     const translatedText = await translate(englishText, deeplTargetLang, "EN");
+
+    //     setNestedValue(targetJson, key, translatedText);
+    //     console.log(`✅ ${lang}.${key}`);
+    //   } catch (err) {
+    //     console.error(`❌ Failed ${lang}.${key}:`, err.message);
+    //   }
+    // }
+
+    for (const key of missingKeys) {
+
+    // Only translate the Rotate Encryption screen
+    if (!key.startsWith("encryption.rotate.")) {
+        continue;
+    }
+
+    const englishText = getValue(sourceJson, key);
+
+    if (typeof englishText !== "string" || !englishText.trim()) {
         console.warn(`⚠️ Skipping ${lang}.${key}: source value is not text`);
         continue;
-      }
+    }
 
-      try {
-        const translatedText = await translate(englishText, deeplTargetLang, "EN");
+    try {
+        const translatedText = await translate(
+            englishText,
+            deeplTargetLang,
+            "EN"
+        );
 
         setNestedValue(targetJson, key, translatedText);
         console.log(`✅ ${lang}.${key}`);
-      } catch (err) {
+    } catch (err) {
         console.error(`❌ Failed ${lang}.${key}:`, err.message);
-      }
     }
+}
 
     writeJson(targetPath, targetJson);
     console.log(`💾 Updated ${targetPath}`);

@@ -72,7 +72,7 @@
     "unknown": "Sconosciuto",
     "name": "Nome",
     "opening": "Apertura...",
-    "reset": "Reset",
+    "reset": "Reimposta",
     "userWithId": "Utente {id}",
     "zeroDuration": "0:00",
     "today": "Oggi",
@@ -81,7 +81,8 @@
     "call": "Chiamata",
     "video": "Video",
     "phone": "Telefono",
-    "delete": "Cancellare"
+    "delete": "Cancellare",
+    "or": "oppure"
   },
   "a11y": {
     "skipToMain": "Vai al contenuto principale"
@@ -265,14 +266,14 @@
     "androidBadgeAlt": "Badge Google Play",
     "login": "Accedi",
     "signup": "Registrati",
-    "email": "Email",
+    "email": "E-mail",
     "registration": {
       "passwordDescription": "Minimo 6 caratteri. Usa una password forte e unica.",
       "smsConsent": "Creando un account, accetti di ricevere notifiche via SMS relative alla tua attività su Chatforia (come messaggi da altri utenti). Potrebbero essere applicate tariffe per messaggi e dati. Puoi disattivare questa opzione in qualsiasi momento nelle Impostazioni.",
       "termsLink": "Termini di servizio",
       "privacyLink": "Informativa sulla privacy",
       "already": "Avete già un account?",
-      "emailLabel": "Email",
+      "emailLabel": "E-mail",
       "emailPlaceholder": "you@example.com",
       "passwordLabel": "Password",
       "passwordPlaceholder": "Creare una password",
@@ -380,7 +381,7 @@
     "forgotPassword": {
       "title": "Password dimenticata",
       "helper": "Inserite l'e-mail che avete utilizzato per creare il vostro account Chatforia e vi invieremo un link sicuro per reimpostare la vostra password.",
-      "emailLabel": "Email",
+      "emailLabel": "E-mail",
       "emailPlaceholder": "you@example.com",
       "emailInvalid": "Inserire un indirizzo e-mail valido.",
       "genericError": "Impossibile elaborare la richiesta. Riprovare tra poco.",
@@ -782,7 +783,7 @@
     "to": "A",
     "unknownCaller": "Sconosciuto",
     "yourNumber": "Il tuo numero Chatforia",
-    "durationSeconds": "{{count}}s",
+    "durationSeconds": "{{count}} secondi",
     "audioAria": "Lettore audio messaggi vocali",
     "transcriptHeading": "Trascrizione",
     "transcriptPending": "Trascrizione del messaggio vocale in corso…",
@@ -1085,10 +1086,12 @@
     "appearance_free_theme_notice": "La versione gratuita include i temi di base. Aggiornare per sbloccare altri temi.",
     "sounds_free_notice": "La versione gratuita include i suoni di base. Aggiornate per sbloccare altri toni e suonerie.",
     "upgrade_choose_plus_or_premium": "Scegliete Plus o Premium per sbloccare altre funzioni.",
-    "select_age_range": "Selezionare la fascia d'età"
+    "select_age_range": "Selezionare la fascia d'età",
+    "riaRemember": "Fai in modo che Ria ricordi le cose che le dici",
+    "riaRememberDesc": "Quando questa opzione è attiva, Foria può utilizzare le tue precedenti conversazioni in Random Chat (solo quelle con te) per mantenere vivo il dialogo. Puoi disattivarla in qualsiasi momento."
   },
   "themes": {
-    "amoled": "Amoled",
+    "amoled": "AMOLED",
     "aurora": "Aurora",
     "neon": "Neon",
     "sunset": "Tramonto",
@@ -1861,11 +1864,11 @@
       "subtitle": "Chatforia ti offre un numero di telefono reale, una traduzione intelligente e un percorso chiaro per eliminare la pubblicità quando sei pronto.",
       "card": {
         "textnow": {
-          "title": "Chatforia vs TextNow",
+          "title": "Chatforia contro TextNow",
           "body": "Pubblicità più leggere nella versione Free, un semplice upgrade a Plus quando sei pronto e strumenti Premium che TextNow non offre."
         },
         "voice": {
-          "title": "Chatforia vs Google Voice",
+          "title": "Chatforia contro Google Voice",
           "body": "App moderna, design e traduzione integrata invece del vecchio inoltro di chiamata."
         },
         "messengers": {
@@ -2593,7 +2596,7 @@
     },
     "inventoryHeader": "Inventario e specifiche",
     "placement": {
-      "displayBadge": "Display",
+      "displayBadge": "Visualizza",
       "acceptedSizes": "Dimensioni accettate",
       "adsenseSlot": "Slot AdSense:"
     },
@@ -2613,10 +2616,10 @@
       "mailtoInfo": "Aprire il client di posta elettronica per inviare la richiesta...",
       "nameLabel": "Il tuo nome",
       "namePlaceholder": "Sconosciuta",
-      "emailLabel": "Email",
+      "emailLabel": "E-mail",
       "emailPlaceholder": "you@company.com",
       "companyLabel": "Azienda",
-      "companyPlaceholder": "Acme Inc.",
+      "companyPlaceholder": "Acme S.r.l.",
       "budgetLabel": "Bilancio mensile (facoltativo)",
       "budgetPlaceholder": "ad es. $1.000–$20.000+",
       "messageLabel": "Parlaci della tua campagna",
@@ -2870,6 +2873,18 @@
       "enterPassword": "Inserire una password di backup.",
       "passwordTooShort": "La password di backup deve essere composta da almeno 6 caratteri.",
       "success": "Il backup della chiave di crittografia è stato creato correttamente."
+    },
+    "rotate": {
+      "title": "Rinnovare la chiave di crittografia",
+      "header": "Cambia la tua chiave di crittografia",
+      "subtitle": "In questo modo viene creata una nuova chiave di crittografia per il tuo account.",
+      "backupWarning": "Esegui prima un backup della tua chiave attuale.",
+      "messageAccessWarning": "I messaggi crittografati più vecchi potrebbero diventare inaccessibili, a meno che non sia disponibile un supporto per la migrazione.",
+      "riskWarning": "Fallo solo se sei consapevole dei rischi.",
+      "typeToContinue": "Digita ROTATE per continuare",
+      "placeholder": "RUOTA",
+      "action": "Rinnovare la chiave di crittografia",
+      "backendNotConnected": "Il backend di rotazione non è ancora connesso."
     }
   },
   "report": {
@@ -3080,7 +3095,7 @@
   "section_forwarding": "Inoltro di chiamate e testi",
   "section_legal_support": "Legale e assistenza",
   "label_username": "Nome utente",
-  "label_email": "Email",
+  "label_email": "E-mail",
   "label_role": "Ruolo",
   "label_plan": "Piano",
   "label_theme": "Tema",
@@ -3153,7 +3168,7 @@
     "current_usage": "Uso attuale",
     "destination_e_164_for_calls": "Destinazione (E.164) per le chiamate",
     "don_t_lose_your_backup_password": "Non perdete la password di backup",
-    "email": "Email",
+    "email": "E-mail",
     "email_or_username": "Email o nome utente",
     "end": "Fine",
     "enter_a_3_digit_area_code_us_ca_only_or_leave_blank_then_search": "Immettere un prefisso di 3 cifre (solo USA/CA) o lasciare vuoto, quindi effettuare la ricerca.",
@@ -3249,7 +3264,7 @@
     "ria": "Ria",
     "ringtones": "Suonerie",
     "rotate_your_encryption_key": "Rotazione della chiave di crittografia",
-    "sms": "sms",
+    "sms": "SMS",
     "sms_voice": "SMS + Voce",
     "sms_consent": "Consenso agli SMS",
     "save_any_phone_number_even_if_they_are_not_on_chatforia": "Salvate qualsiasi numero di telefono, anche se non è presente su Chatforia.",
@@ -3316,7 +3331,7 @@
     "you_re_ready_to_chat": "Siete pronti a chiacchierare",
     "pair_value": "\\(coppia.valore)",
     "settingsvm_soundvolume": "\\(settingsVM.soundVolume)%",
-    "vm_soundvolume": "\\(vm.soundVolume)%",
+    "vm_soundvolume": "\\(vm.soundVolume) %",
     "both": "entrambi",
     "esim_data_packs_require_an_esim_compatible_and_unlocked_device_availability_vari": "I pacchetti dati eSIM richiedono un dispositivo compatibile con eSIM e sbloccato. La disponibilità varia a seconda del modello di telefono, dell'operatore e del Paese. La copertura e la velocità variano a seconda della regione.",
     "esim_installation_steps_can_vary_by_device_make_sure_your_iphone_is_unlocked_and": "Le fasi di installazione della eSIM possono variare a seconda del dispositivo. Prima di procedere all'installazione, accertarsi che l'iPhone sia sbloccato e compatibile con le eSIM. Se l'installazione diretta non è disponibile, utilizzare i dettagli di attivazione di cui sopra in Impostazioni > Cellulare > Aggiungi eSIM.",
@@ -3416,7 +3431,7 @@
   "plan_plus": "In più",
   "plan_premium": "Premio",
   "role_user": "Utente",
-  "role_admin": "Admin",
+  "role_admin": "Amministratore",
   "premiumpicker_free_caption": "Incluso nel vostro piano attuale.",
   "premiumpicker_premium_caption": "Visibile in basso e sbloccabile con Premium.",
   "languages": {
@@ -3592,5 +3607,36 @@
   "legal_privacy_policy": "Informativa sulla privacy",
   "legal_terms_of_service": "Termini di servizio",
   "legal_sms_policy": "Politica SMS",
-  "legal_contact_support": "Contatto con l'assistenza"
+  "legal_contact_support": "Contatto con l'assistenza",
+  "add_person_to_call": "Aggiungi una persona alla chiamata",
+  "add_person_description": "Puoi aggiungere un'altra persona a questa chiamata audio.",
+  "add_person_failed": "Non è stato possibile aggiungere questa persona alla chiamata.",
+  "search_for_person": "Cerca una persona…",
+  "add_person": "Aggiungi persona",
+  "user_with_id": "Utente {{id}}",
+  "accessibility_title": "Accessibilità",
+  "accessibility_description": "Avvisi visivi, didascalie e accessibilità delle note vocali.",
+  "accessibility_interface_font_size": "Dimensione dei caratteri dell'interfaccia",
+  "accessibility_interface_font_size_help": "Modifica la dimensione del testo visualizzato in tutta l'app.",
+  "accessibility_notifications": "Notifiche",
+  "accessibility_visual_alerts": "Segnali visivi",
+  "accessibility_vibrate_on_new": "Avvisa con una vibrazione quando arrivano nuovi messaggi",
+  "accessibility_flash_on_call": "Lampeggio in caso di chiamate in arrivo",
+  "accessibility_flash_disabled_reduce_motion": "Disabilitato quando è attiva l'opzione \"Riduci movimento\".",
+  "accessibility_live_captions": "Sottotitoli in tempo reale",
+  "accessibility_enable_live_captions": "Attiva i sottotitoli in tempo reale",
+  "accessibility_caption_font_size": "Dimensione del carattere della didascalia",
+  "accessibility_caption_background": "Sfondo della didascalia",
+  "accessibility_voice_notes": "Note vocali",
+  "accessibility_auto_transcribe_voice_notes": "Trascrivi automaticamente le note vocali",
+  "accessibility_font_sm": "Piccolo",
+  "accessibility_font_md": "Medio",
+  "accessibility_font_lg": "Grande",
+  "accessibility_font_xl": "Extra large",
+  "accessibility_caption_bg_light": "Luce",
+  "accessibility_caption_bg_dark": "Buio",
+  "accessibility_caption_bg_transparent": "Trasparente",
+  "api": {
+    "notAuthorized": "Non autorizzato"
+  }
 }

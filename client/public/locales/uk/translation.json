@@ -81,7 +81,8 @@
     "call": "Дзвони.",
     "video": "Відео",
     "phone": "Телефон",
-    "delete": "Видалити"
+    "delete": "Видалити",
+    "or": "або"
   },
   "a11y": {
     "skipToMain": "Перейти до основного вмісту"
@@ -261,7 +262,7 @@
     "iosTitle": "Завантажити в App Store",
     "iosBadgeAlt": "Значок App Store",
     "androidAria": "Завантажити в Google Play",
-    "androidTitle": "Google Play Store",
+    "androidTitle": "Магазин Google Play",
     "androidBadgeAlt": "Значок Google Play",
     "login": "Увійти",
     "signup": "Зареєструватися",
@@ -1085,7 +1086,9 @@
     "appearance_free_theme_notice": "До безкоштовної версії входять базові теми. Оновіть версію, щоб розблокувати більше тем.",
     "sounds_free_notice": "До безкоштовної версії входять базові звуки. Оновіть, щоб розблокувати більше мелодій та рингтонів.",
     "upgrade_choose_plus_or_premium": "Виберіть Plus або Premium, щоб отримати більше можливостей.",
-    "select_age_range": "Виберіть віковий діапазон"
+    "select_age_range": "Виберіть віковий діапазон",
+    "riaRemember": "Нехай Рія запам'ятовує те, що ти їй скажеш",
+    "riaRememberDesc": "Якщо ця функція увімкнена, Foria може використовувати ваші попередні розмови у «Випадковому чаті» (лише з вами), щоб підтримувати розмову. Ви можете вимкнути цю функцію в будь-який момент."
   },
   "themes": {
     "amoled": "Амолед",
@@ -1448,7 +1451,7 @@
     "resolving": "Визначення адресата дзвінка…",
     "call": "Дзвінок",
     "callBrowser": "Дзвінок через браузер",
-    "backspace": "Backspace",
+    "backspace": "Клавіша «Backspace»",
     "recents": "Останні дзвінки",
     "noRecents": "Поки що немає останніх дзвінків.",
     "resolveFailed": "Не вдалося визначити адресата дзвінка.",
@@ -2870,6 +2873,18 @@
       "enterPassword": "Введіть резервний пароль.",
       "passwordTooShort": "Ваш резервний пароль повинен містити щонайменше 6 символів.",
       "success": "Резервну копію ключа шифрування успішно створено."
+    },
+    "rotate": {
+      "title": "Оновлення ключа шифрування",
+      "header": "Оновлюйте свій ключ шифрування",
+      "subtitle": "Це створює новий ключ шифрування для вашого облікового запису.",
+      "backupWarning": "Спочатку створіть резервну копію поточного ключа.",
+      "messageAccessWarning": "Старі зашифровані повідомлення можуть стати недоступними, якщо не буде забезпечено підтримку міграції.",
+      "riskWarning": "Робіть це лише в тому випадку, якщо ви усвідомлюєте ризик.",
+      "typeToContinue": "Введіть ROTATE, щоб продовжити",
+      "placeholder": "ПОВЕРНУТИ",
+      "action": "Оновлення ключа шифрування",
+      "backendNotConnected": "Бекенд ротації ще не підключено."
     }
   },
   "report": {
@@ -3128,7 +3143,7 @@
     "adult_18_24": "ADULT_18_24",
     "adult_25_34": "ADULT_25_34",
     "adult_35_49": "ADULT_35_49",
-    "adult_50_plus": "ADULT_50_PLUS",
+    "adult_50_plus": "ДОРОСЛІ_50_ПЛЮС",
     "ai": "ШІ",
     "add_contacts_manually_import_them_from_your_phone_or_start_a_new_conversation": "Додавайте контакти вручну, імпортуйте їх з телефону або починайте нову розмову.",
     "alias_optional": "Псевдонім (необов'язково)",
@@ -3592,5 +3607,36 @@
   "legal_privacy_policy": "Політика конфіденційності",
   "legal_terms_of_service": "Умови надання послуг",
   "legal_sms_policy": "Політика щодо SMS",
-  "legal_contact_support": "Зверніться до служби підтримки"
+  "legal_contact_support": "Зверніться до служби підтримки",
+  "add_person_to_call": "Додати особу до списку дзвінків",
+  "add_person_description": "Ви можете додати ще одну людину до цього аудіодзвінка.",
+  "add_person_failed": "Не вдалося додати цю особу до дзвінка.",
+  "search_for_person": "Пошук особи…",
+  "add_person": "Додати особу",
+  "user_with_id": "Користувач {{id}}",
+  "accessibility_title": "Доступність",
+  "accessibility_description": "Візуальні сповіщення, підписи та доступність голосових нотаток.",
+  "accessibility_interface_font_size": "Розмір шрифту інтерфейсу",
+  "accessibility_interface_font_size_help": "Налаштуйте розмір тексту, що відображається в усьому додатку.",
+  "accessibility_notifications": "Повідомлення",
+  "accessibility_visual_alerts": "Візуальні сигнали",
+  "accessibility_vibrate_on_new": "Вібрація при надходженні нових повідомлень",
+  "accessibility_flash_on_call": "Світловий сигнал при вхідних дзвінках",
+  "accessibility_flash_disabled_reduce_motion": "Функція вимкнена, якщо увімкнено режим «Зменшити рух».",
+  "accessibility_live_captions": "Субтитри в реальному часі",
+  "accessibility_enable_live_captions": "Увімкнути субтитри в режимі реального часу",
+  "accessibility_caption_font_size": "Розмір шрифту підпису",
+  "accessibility_caption_background": "Фон підпису",
+  "accessibility_voice_notes": "Голосові нотатки",
+  "accessibility_auto_transcribe_voice_notes": "Автоматично розшифровувати голосові нотатки",
+  "accessibility_font_sm": "Невеликий",
+  "accessibility_font_md": "Середній",
+  "accessibility_font_lg": "Великий",
+  "accessibility_font_xl": "Дуже великий",
+  "accessibility_caption_bg_light": "Світло",
+  "accessibility_caption_bg_dark": "Темний",
+  "accessibility_caption_bg_transparent": "Прозорий",
+  "api": {
+    "notAuthorized": "Не дозволено"
+  }
 }
