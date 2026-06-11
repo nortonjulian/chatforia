@@ -320,8 +320,8 @@ model User {
   assignedNumbers            PhoneNumber[]
   numberReservations         NumberReservation[]  @relation("UserNumberReservations")
   transcripts                Transcript[]
-  foriaRemember              Boolean              @default(true)
-  foriaMessages              ForiaMessage[]
+  riaRemember                Boolean              @default(true)
+  riaMessages                RiaMessage[]
 
   familyMemberships FamilyMember[]
   familiesOwned     FamilyGroup[]  @relation("FamilyOwner")
@@ -1276,7 +1276,7 @@ model BotEventLog {
   @@index([installId])
 }
 
-model ForiaMessage {
+model RiaMessage {
   id        Int      @id @default(autoincrement())
   userId    Int
   role      String // 'user' or 'assistant'
