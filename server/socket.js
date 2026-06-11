@@ -158,7 +158,7 @@ export function initSocket(httpServer) {
           role: true,
           plan: true,
           preferredLanguage: true,
-          foriaRemember: true,
+          riaRemember: true,
         },
       });
 
@@ -178,7 +178,7 @@ export function initSocket(httpServer) {
           id: user.id,
           username: user.username,
           preferredLanguage: user.preferredLanguage,
-          foriaRemember: user.foriaRemember,
+          riaRemember: user.riaRemember,
         });
       }
 

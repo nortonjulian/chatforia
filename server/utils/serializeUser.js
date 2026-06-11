@@ -42,7 +42,7 @@ export function serializeUser(user) {
     ageBand: user.ageBand ?? null,
     wantsAgeFilter: user.wantsAgeFilter ?? true,
     randomChatAllowedBands: user.randomChatAllowedBands ?? [],
-    foriaRemember: user.foriaRemember ?? true,
+    riaRemember: user.riaRemember ?? true,
 
     voicemailEnabled: user.voicemailEnabled ?? true,
     voicemailAutoDeleteDays: user.voicemailAutoDeleteDays ?? null,

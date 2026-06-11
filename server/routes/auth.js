@@ -1486,7 +1486,7 @@ router.get(
       wantsAgeFilter: safeUser.wantsAgeFilter,
       randomChatAllowedBands: safeUser.randomChatAllowedBands,
 
-      foriaRemember: safeUser.foriaRemember,
+      riaRemember: safeUser.riaRemember,
 
       voicemailEnabled: safeUser.voicemailEnabled,
       voicemailAutoDeleteDays: safeUser.voicemailAutoDeleteDays,

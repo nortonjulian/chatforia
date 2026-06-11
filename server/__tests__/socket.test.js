@@ -233,7 +233,7 @@ describe('initSocket', () => {
       role: 'USER',
       plan: 'FREE',
       preferredLanguage: 'en',
-      foriaRemember: false,
+      riaRemember: false,
     });
 
     const mw = serverInstance._getMiddlewares()[0];
@@ -250,7 +250,7 @@ describe('initSocket', () => {
       role: 'USER',
       plan: 'FREE',
       preferredLanguage: 'en',
-      foriaRemember: false,
+      riaRemember: false,
     });
     expect(socket.data.user).toEqual(socket.user);
     expect(socket.join).toHaveBeenCalledWith('user:123');
@@ -271,7 +271,7 @@ describe('initSocket', () => {
       role: 'USER',
       plan: 'FREE',
       preferredLanguage: 'en',
-      foriaRemember: false,
+      riaRemember: false,
     });
 
     const mw = serverInstance._getMiddlewares()[0];
@@ -291,7 +291,7 @@ describe('initSocket', () => {
         role: true,
         plan: true,
         preferredLanguage: true,
-        foriaRemember: true,
+        riaRemember: true,
       },
     });
 
@@ -302,7 +302,7 @@ describe('initSocket', () => {
       role: 'USER',
       plan: 'FREE',
       preferredLanguage: 'en',
-      foriaRemember: false,
+      riaRemember: false,
     });
 
     expect(socket.data.user).toEqual(socket.user);
@@ -327,7 +327,7 @@ describe('initSocket', () => {
       role: 'USER',
       plan: 'FREE',
       preferredLanguage: 'en',
-      foriaRemember: false,
+      riaRemember: false,
     });
 
     prismaMock.participant.findMany.mockResolvedValueOnce([

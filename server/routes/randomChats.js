@@ -64,7 +64,7 @@ async function buildRiaReply({ user, text }) {
 
   // Default: remember is ON unless explicitly set false
   // (still using existing foriaRemember column for now)
-  const remember = user?.foriaRemember !== false;
+  const remember = user?.riaRemember !== false;
   const preferredLang = user?.preferredLanguage || 'en';
 
   // 1) Load recent history ONLY if remember is on

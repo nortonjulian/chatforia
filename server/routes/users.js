@@ -193,6 +193,8 @@ router.patch('/me', requireAuth, async (req, res) => {
     const {
       username, 
       enableSmartReplies,
+      autoTranslate,
+      showOriginalWithTranslation,
       showReadReceipts,
       allowExplicitContent,
       privacyBlurEnabled,
@@ -210,7 +212,7 @@ router.patch('/me', requireAuth, async (req, res) => {
       messageTone,
       soundVolume,
       ringtone,
-      foriaRemember,
+      riaRemember,
       voicemailEnabled,
       voicemailAutoDeleteDays,
       voicemailForwardEmail,
@@ -251,6 +253,14 @@ router.patch('/me', requireAuth, async (req, res) => {
       data.enableSmartReplies = enableSmartReplies;
     }
 
+    if (typeof autoTranslate === 'boolean') {
+      data.autoTranslate = autoTranslate;
+    }
+
+    if (typeof showOriginalWithTranslation === 'boolean') {
+      data.showOriginalWithTranslation = showOriginalWithTranslation;
+    }
+
     if (typeof showReadReceipts === 'boolean') {
       data.showReadReceipts = showReadReceipts;
     }
@@ -287,9 +297,9 @@ router.patch('/me', requireAuth, async (req, res) => {
       data.strictE2EE = strictE2EE;
     }
 
-    // 👇 NEW: Foria memory flag
-    if (typeof foriaRemember === 'boolean') {
-      data.foriaRemember = foriaRemember;
+    // 👇 NEW: Ria memory flag
+    if (typeof riaRemember === 'boolean') {
+      data.riaRemember = riaRemember;
     }
 
     // 👇 NEW: Voicemail toggles
@@ -493,6 +503,8 @@ router.patch('/me', requireAuth, async (req, res) => {
           preferredLanguage: true,
           uiLanguage: true,
           enableSmartReplies: true,
+          autoTranslate: true,
+          showOriginalWithTranslation: true,
           showReadReceipts: true,
           allowExplicitContent: true,
           privacyBlurEnabled: true,
@@ -509,7 +521,7 @@ router.patch('/me', requireAuth, async (req, res) => {
           ageAttestedAt: true,
           wantsAgeFilter: true,
           randomChatAllowedBands: true,
-          foriaRemember: true,
+          riaRemember: true,
           voicemailEnabled: true,
           voicemailAutoDeleteDays: true,
           voicemailForwardEmail: true,

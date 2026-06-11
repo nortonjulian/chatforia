@@ -233,9 +233,9 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   );
 
   // 🧠 Foria memory toggle
-  const [foriaRemember, setForiaRemember] = useState(
-    typeof currentUser?.foriaRemember === 'boolean'
-      ? currentUser.foriaRemember
+  const [riaRemember, setriaRemember] = useState(
+    typeof currentUser?.riaRemember === 'boolean'
+      ? currentUser.riaRemember
       : true
   );
 
@@ -458,7 +458,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         wantsAgeFilter,
         randomChatAllowedBands,
         // Foria memory
-        foriaRemember,
+        riaRemember,
         // Voicemail
         voicemailEnabled,
         voicemailAutoDeleteDays:
@@ -1487,14 +1487,14 @@ export default function UserProfile({ onLanguageChange, openSection }) {
               )}
 
               <Switch
-                checked={foriaRemember}
-                onChange={(e) => setForiaRemember(e.currentTarget.checked)}
+                checked={riaRemember}
+                onChange={(e) => setriaRemember(e.currentTarget.checked)}
                 label={t(
-                  'profile.foriaRemember',
+                  'profile.riaRemember',
                   'Let Ria remember things you tell it'
                 )}
                 description={t(
-                  'profile.foriaRememberDesc',
+                  'profile.riaRememberDesc',
                   'When this is on, Foria can use your past Random Chat conversations (just with you) to keep the conversation flowing. You can turn this off any time.'
                 )}
               />
