@@ -314,7 +314,7 @@ router.post(
       },
     };
 
-    const existingRoom = await prisma.chatRoom.findFirst({
+    const existingRooms = await prisma.chatRoom.findMany({
       where: {
         isGroup: false,
         AND: [
@@ -322,10 +322,40 @@ router.post(
           { participants: { some: { userId: userId2 } } },
         ],
       },
-      include: participantInclude,
+      include: {
+        ...participantInclude,
+        messages: {
+          select: {
+            id: true,
+            createdAt: true,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 1,
+        },
+      },
     });
 
-    if (existingRoom) return res.json(existingRoom);
+    const existingRoom = existingRooms
+      .sort((a, b) => {
+        const aLast = a.messages?.[0]?.createdAt
+          ? new Date(a.messages[0].createdAt).getTime()
+          : 0;
+
+        const bLast = b.messages?.[0]?.createdAt
+          ? new Date(b.messages[0].createdAt).getTime()
+          : 0;
+
+        if (aLast !== bLast) return bLast - aLast;
+
+        return Number(b.id) - Number(a.id);
+      })[0];
+
+    if (existingRoom) {
+      const { messages, ...roomWithoutMessages } = existingRoom;
+      return res.json(roomWithoutMessages);
+    }
 
     const newChatRoom = await prisma.chatRoom.create({
       data: {
