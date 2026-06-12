@@ -61,10 +61,6 @@ router.post('/invite', asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'offer.sdp required for non-video calls' });
   }
 
-  if (!['AUDIO', 'VIDEO'].includes(mode)) {
-    return res.status(400).json({ error: 'Invalid mode' });
-  }
-
   const [caller, callee] = await Promise.all([
     prisma.user.findUnique({
       where: { id: callerId },
@@ -87,7 +83,7 @@ router.post('/invite', asyncHandler(async (req, res) => {
       roomId: roomId ?? null,
       mode,
       status: 'RINGING',
-      offerSdp: mode === 'VIDEO' ? null : offer.sdp,
+      offerSdp: offer?.sdp ?? null,
       twilioCallSid: twilioCallSid ?? null,
       participants: {
         create: [
