@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler';
 import prisma from '../utils/prismaClient.js';
 import { emitToUser } from '../services/socketBus.js';
 import { requireAuth } from '../middleware/auth.js';
+import { sendPushToUser } from '../services/pushService.js';
 
 const router = express.Router();
 router.use(requireAuth);
@@ -114,29 +115,76 @@ router.post('/invite', asyncHandler(async (req, res) => {
 
   const roomName = `call_${call.id}`;
 
-  if (mode === 'VIDEO') {
-    emitToUser(callee.id, 'video:incoming', {
-      callId: call.id,
-      roomName,
-      callerId,
-      callerName: caller?.displayName || caller?.username || 'Chatforia user',
-      chatRoomId: call.roomId ?? null,
-      createdAt: call.createdAt,
+  const callerName =
+  caller?.displayName || caller?.username || 'Chatforia user';
+
+if (mode === 'VIDEO') {
+  emitToUser(callee.id, 'video:incoming', {
+    callId: call.id,
+    roomName,
+    callerId,
+    callerName,
+    chatRoomId: call.roomId ?? null,
+    createdAt: call.createdAt,
+  });
+
+  try {
+    await sendPushToUser(callee.id, {
+      alert: {
+        title: 'Incoming video call',
+        body: `${callerName} is calling`,
+      },
+      sound: 'default',
+      data: {
+        type: 'call_incoming',
+        callId: call.id,
+        callerId,
+        callerName,
+        mode: 'VIDEO',
+        roomName,
+        chatRoomId: call.roomId ?? '',
+      },
     });
+  } catch (err) {
+    console.warn('[calls] failed to send video call push', err?.message || err);
+  }
   } else {
     emitToUser(callee.id, 'call:incoming', {
       callId: call.id,
       callerId,
-      callerName: caller?.displayName || caller?.username || 'Chatforia user',
+      callerName,
       fromUser: caller,
       mode,
       offer: offer ?? null,
       roomId: call.roomId ?? null,
       createdAt: call.createdAt,
     });
+
+    try {
+      await sendPushToUser(callee.id, {
+        alert: {
+          title: 'Incoming call',
+          body: `${callerName} is calling`,
+        },
+        sound: 'default',
+        data: {
+          type: 'call_incoming',
+          callId: call.id,
+          callerId,
+          callerName,
+          mode: 'AUDIO',
+          roomId: call.roomId ?? '',
+        },
+      });
+    } catch (err) {
+      console.warn('[calls] failed to send audio call push', err?.message || err);
+    }
   }
 
-  res.status(201).json({ callId: call.id });
+  res.status(201).json({
+    callId: call.id,
+    resolvedCallId: call.id,
+  });
 }));
 
 /**
@@ -374,7 +422,10 @@ router.post('/start-external', asyncHandler(async (req, res) => {
     },
   });
 
-  res.status(201).json({ callId: call.id });
+  res.status(201).json({
+    callId: call.id,
+    resolvedCallId: call.id,
+  });
 }));
 
 router.delete('/:id', asyncHandler(async (req, res) => {

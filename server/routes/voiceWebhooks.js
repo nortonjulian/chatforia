@@ -29,7 +29,7 @@ router.post('/status', async (req, res) => {
     From,
     To,
     Direction,
-    AnsweredBy,
+    AnsweredBy, 
     Timestamp,
     Duration,
   } = req.body || {};
@@ -229,6 +229,26 @@ router.post('/client', async (req, res) => {
     if (!to) {
       twiml.say('Missing destination.');
       twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    const numericUserId = Number(to);
+
+    if (/^\d+$/.test(to) && !Number.isNaN(numericUserId)) {
+      const targetUser = await prisma.user.findUnique({
+        where: { id: numericUserId },
+        select: { id: true },
+      });
+
+      if (!targetUser) {
+        twiml.say('The Chatforia user you called was not found.');
+        twiml.hangup();
+        return res.type('text/xml').send(twiml.toString());
+      }
+
+      const dial = twiml.dial();
+      dial.client(`user:${numericUserId}`);
+
       return res.type('text/xml').send(twiml.toString());
     }
 
