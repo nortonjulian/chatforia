@@ -130,12 +130,6 @@ router.get(
         participants: {
           some: { userId, archivedAt: null },
         },
-        threadState: {
-          none: {
-            userId,
-            deletedAt: { not: null },
-          },
-        },
       },
       select: {
         id: true,
@@ -188,6 +182,26 @@ router.get(
       orderBy: [{ updatedAt: 'desc' }, { id: 'desc' }],
       take: 200,
     });
+
+    const threadStates = await prisma.threadState.findMany({
+      where: {
+        userId,
+        chatRoomId: {
+          in: rooms.map((r) => r.id),
+        },
+      },
+      select: {
+        chatRoomId: true,
+        deletedAt: true,
+      },
+    });
+
+    const deletedMap = new Map(
+      threadStates.map((t) => [
+        t.chatRoomId,
+        t.deletedAt,
+      ])
+    );
     
     const allParticipantUserIds = new Set();
 
@@ -216,7 +230,8 @@ router.get(
       chatContacts.map((c) => [c.userId, c.alias])
     );
 
-    const chatConvos = rooms.map((r) => {
+    const chatConvos = rooms
+      .map((r) => {
       const lastMsg = r.messages?.[0] || null;
       const media = summarizeAttachments(lastMsg?.attachments || []);
 
@@ -290,6 +305,17 @@ router.get(
           ? resolveDisplayName(lastMsg.sender, contactAliasByUserId)
           : null;
 
+      const deletedAt = deletedMap.get(r.id);
+        if (
+            deletedAt &&
+            (
+                !lastMsg ||
+                new Date(lastMsg.createdAt) <= new Date(deletedAt)
+            )
+        ) {
+            return null;
+        }
+
       return {
         kind: 'chat',
         id: r.id,
@@ -310,7 +336,8 @@ router.get(
           : null,
         unreadCount: 0,
       };
-    });
+    }).filter(Boolean);
+    
 
     // ----------------
     // SMS / MMS threads
