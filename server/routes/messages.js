@@ -1698,6 +1698,7 @@ async function editMessageCore(req, res) {
       mm.rawContent = isEncryptedMessage ? '' : newContent;
       mm.contentCiphertext = isEncryptedMessage ? contentCiphertext : null;
       mm.encryptedKeys = isEncryptedMessage ? encryptedKeys : null;
+      mm.attachments = attachments;
       mm.editedAt = new Date().toISOString();
       mm.updatedAt = new Date().toISOString();
       mm.revision = (mm.revision ?? 1) + 1;

@@ -115,6 +115,10 @@ router.get(
   '/',
   requireAuth,
   asyncHandler(async (req, res) => {
+    res.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    res.removeHeader('ETag');
     const userId = Number(req.user?.id);
     if (!userId) throw Boom.unauthorized('Not authenticated');
 
