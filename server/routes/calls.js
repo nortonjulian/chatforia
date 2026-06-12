@@ -57,8 +57,8 @@ router.post('/invite', asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'calleeId required' });
   }
 
-  if (mode !== 'VIDEO' && !offer?.sdp) {
-    return res.status(400).json({ error: 'offer.sdp required for non-video calls' });
+  if (!['AUDIO', 'VIDEO'].includes(mode)) {
+    return res.status(400).json({ error: 'Invalid mode' });
   }
 
   const [caller, callee] = await Promise.all([
