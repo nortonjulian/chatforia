@@ -336,7 +336,8 @@ router.get(
           : null,
         unreadCount: 0,
       };
-    }).filter(Boolean);
+    })
+    .filter(Boolean);
     
 
     // ----------------
