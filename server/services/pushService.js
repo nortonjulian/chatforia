@@ -90,35 +90,39 @@ export async function sendPushToUser(userId, payload) {
   }
 
   if (tokens.fcm.length) {
-  const messaging = getFirebaseMessaging();
+    const messaging = getFirebaseMessaging();
 
-  if (messaging) {
-    console.log('[push] Sending FCM push', {
-      userId,
-      count: tokens.fcm.length,
-    });
+    if (messaging) {
+      console.log('[push] Sending FCM push', {
+        userId,
+        count: tokens.fcm.length,
+      });
 
-    results.fcm = await messaging.sendEachForMulticast({
-      tokens: tokens.fcm,
-      notification: {
-        title: payload.alert?.title || 'Chatforia',
-        body: payload.alert?.body || '',
-      },
-      data: Object.fromEntries(
-        Object.entries(payload.data || {}).map(([key, value]) => [
-          key,
-          value == null ? '' : String(value),
-        ])
-      ),
-      android: {
-        priority: 'high',
+      results.fcm = await messaging.sendEachForMulticast({
+        tokens: tokens.fcm,
         notification: {
-          sound: payload.sound || 'default',
+          title: payload.alert?.title || 'Chatforia',
+          body: payload.alert?.body || '',
         },
-      },
-    });
+        data: Object.fromEntries(
+          Object.entries(payload.data || {}).map(([key, value]) => [
+            key,
+            value == null ? '' : String(value),
+          ])
+        ),
+        android: {
+          priority: 'high',
+          notification: {
+            sound: payload.sound || 'default',
+            channelId:
+              payload.data?.type === 'call_incoming'
+                ? 'chatforia_calls'
+                : undefined,
+          },
+        },
+      });
+    }
   }
-}
 
   return {
     ok: Boolean(
