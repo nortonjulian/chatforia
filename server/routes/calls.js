@@ -126,9 +126,11 @@ router.post('/invite', asyncHandler(async (req, res) => {
   } else {
     emitToUser(callee.id, 'call:incoming', {
       callId: call.id,
+      callerId,
+      callerName: caller?.displayName || caller?.username || 'Chatforia user',
       fromUser: caller,
       mode,
-      offer,
+      offer: offer ?? null,
       roomId: call.roomId ?? null,
       createdAt: call.createdAt,
     });
