@@ -3066,7 +3066,8 @@
     "flip": "پلٹیں",
     "speaker": "مقرر",
     "end": "ختم",
-    "noIncomingCallToAnswer": "جواب دینے کے لیے کوئی آنے والی کال نہیں۔"
+    "noIncomingCallToAnswer": "جواب دینے کے لیے کوئی آنے والی کال نہیں۔",
+    "serviceUnavailable": "کال سروس اس وقت دستیاب نہیں ہے۔ براہ کرم بعد میں دوبارہ کوشش کریں۔"
   },
   "settings": {
     "startHour": "شروع کا گھنٹہ (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "سیاہ",
   "accessibility_caption_bg_transparent": "شفاف",
   "api": {
-    "notAuthorized": "اختیار یافتہ نہیں"
+    "notAuthorized": "اختیار یافتہ نہیں",
+    "invalidURL": "غیر درست سرور کا پتہ۔",
+    "serverError": "سرور کی خرابی (%d): %@",
+    "failedToDecodeResponse": "سرور کا جواب پڑھا نہیں جا سکا: %@"
+  },
+  "tap_to_view_contact": "رابطہ دیکھنے کے لیے ٹیپ کریں",
+  "android": {
+    "plan": {
+      "plan_billing": "منصوبہ بندی اور بلنگ",
+      "current_plan": "موجودہ منصوبہ",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "پلس کے ساتھ بغیر اشتہار کے تجربہ کریں، یا پریمیم کے ساتھ AI ٹولز اور حسبِ ضرورت ترتیبیں حاصل کریں۔",
+      "plus": "علاوہ",
+      "premium": "اعلیٰ معیار",
+      "back": "واپس",
+      "my_plan": "میرا منصوبہ",
+      "compare_plans": "منصوبوں کا موازنہ کریں",
+      "included": "شامل"
+    },
+    "upgrade": {
+      "upgrade": "اپ گریڈ",
+      "restore_purchases": "خریداریاں بحال کریں",
+      "unlock_more_with": "Chatforia کے ساتھ مزید انلاک کریں",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "اشتہارات ہٹانے، اپنے تجربے کو حسبِ منشا ڈھالنے، اور جدید ٹولز تک رسائی حاصل کرنے کے لیے پلس یا پریمیم منتخب کریں۔",
+      "best_experience": "بہترین تجربہ",
+      "close": "بند کریں",
+      "plus": "چیٹفوریا پلس",
+      "remove_ads_and_unlock_more_everyday_features": "اشتہارات ہٹائیں اور روزمرہ کی مزید خصوصیات کو انلاک کریں۔",
+      "premium": "چیٹفوریا پریمیم",
+      "the_full_experience": "مکمل چیٹفوریا تجربہ۔",
+      "premium_annual": "پریمیئم سالانہ",
+      "save_compared_to_monthly_premium": "ماہانہ پریمیم کے مقابلے میں بچت۔"
+    },
+    "audio_call": {
+      "mute": "خاموش",
+      "speaker": "مقرر",
+      "end_call": "کال ختم کریں"
+    },
+    "dial_pad": {
+      "dial": "ڈائل",
+      "done": "ہو گیا",
+      "enter_number": "نمبر درج کریں",
+      "call": "کال کریں",
+      "delete_digit": "اعداد حذف کریں"
+    },
+    "incoming_call": {
+      "decline": "زوال",
+      "accept": "قبول کریں",
+      "decline_call": " کال مسترد کریں",
+      "accept_call": "کال قبول کریں"
+    },
+    "video_call": {
+      "camera": "کیمرہ",
+      "flip_camera": "فلپ کیمرہ"
+    },
+    "chats": {
+      "search_chats": "چٹس تلاش کریں",
+      "no_chats_yet": "ابھی تک کوئی چیٹس نہیں",
+      "admob_ad": "ایڈ موب اشتہار",
+      "delete_conversation": "گفتگو حذف کریں؟",
+      "this_will_remove_this_conversation_from_your_cha": "یہ آپ کی چیٹ لسٹ سے اس گفتگو کو ہٹا دے گا۔",
+      "delete": "مٹائیں",
+      "cancel": "منسوخ کریں",
+      "chats": "گفتگوئیں",
+      "new_chat": "نئی چیٹ",
+      "refresh": "تازہ کریں",
+      "random_chat": "بے ترتیب چیٹ",
+      "search": "تلاش",
+      "delete_conversation_2": "گفتگو حذف کریں"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "صارف کا نام، رابطے کا نام، یا فون نمبر",
+      "new_chat": "نئی چیٹ",
+      "start_a_chat": "چٹ بات چیت شروع کریں",
+      "search_by_username_contact_name_or_phone_number": "یوزر نیم، رابطے کے نام، یا فون نمبر کے ذریعے تلاش کریں۔",
+      "results": "نتائج",
+      "open_chat": "چیٹ کھولیں"
+    },
+    "calls": {
+      "recents": "حالیہ",
+      "voicemail": "آواز پیغام",
+      "calls": "کالز",
+      "no_calls_yet": "ابھی تک کوئی کال نہیں آئی",
+      "your_recent_calls_will_show_up_here": "آپ کی حالیہ کالیں یہاں ظاہر ہوں گی۔",
+      "open_dial_pad": "ڈائل پیڈ کھولیں",
+      "delete_call": " کال حذف کریں",
+      "video_call": "ویڈیو کال"
+    },
+    "contacts": {
+      "contacts": "رابطے",
+      "add_contact": "رابطہ شامل کریں",
+      "import_from_phone": "فون سے درآمد کریں",
+      "invite_friends": "دوستوں کو مدعو کریں",
+      "favorite": "پسندیدہ",
+      "open_contact": "رابطہ کھولیں"
+    },
+    "main_activity": {
+      "loading": "لوڈ ہو رہا ہے...",
+      "profile": "پروفائل"
+    },
+    "profile": {
+      "delete_account": "اکاؤنٹ حذف کریں",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "یہ عمل واپس نہیں کیا جا سکتا۔ کیا آپ واقعی اپنا اکاؤنٹ حذف کرنا چاہتے ہیں؟",
+      "log_out": "لاگ آؤٹ کریں",
+      "change_photo": "تصویر تبدیل کریں",
+      "remove_photo": "تصویر ہٹائیں",
+      "preferred_language": "ترجیحی زبان",
+      "your_age_range": "آپ کی عمر کی حد",
+      "theme": "موضوع",
+      "choose_how_looks_across_the_app": "ایپ میں Chatforia کیسے نظر آئے، منتخب کریں۔",
+      "uploading": "اپلوڈ ہو رہا ہے…",
+      "choose_plus_or_premium": "پلس یا پریمیم منتخب کریں",
+      "profile_photo": "پروفائل تصویر",
+      "open_upgrade": "اپ گریڈ کھولیں",
+      "open": "کھلا",
+      "account": "اکاؤنٹ",
+      "username": "صارف نام",
+      "email": "ای میل",
+      "plan": "منصوبہ",
+      "wireless": "وائرلیس",
+      "mobile": "چیٹفوریا موبائل",
+      "esim_and_wireless_settings": "ای سِم اور وائرلیس ترتیبات",
+      "call_text_forwarding": "کال اور ٹیکسٹ فارورڈنگ",
+      "forward_incoming_calls_and_texts": "آنے والی کالز اور ٹیکسٹ پیغامات آگے بھیجیں",
+      "phone_number": "فون نمبر",
+      "manage_your_number": "اپنا چیٹفوریا نمبر مینیج کریں",
+      "settings": "ترتیبات",
+      "auto_translate_messages": "پیغامات کی خودکار ترجمہ",
+      "automatically_translate_messages_into_your_prefe": "پیغامات کو خودکار طور پر آپ کی پسندیدہ زبان میں ترجمہ کریں۔",
+      "show_original_with_translation": "اصل کے ساتھ ترجمہ دکھائیں",
+      "show_the_original_message_alongside_the_translat": "اصل پیغام کو ترجمے کے ساتھ ساتھ دکھائیں۔",
+      "smart_reply_suggestions": "سمارٹ جواب تجاویز",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "ریا سے چلنے والی دوبارہ تحریر کی معاونت اور فوری جوابات دکھائیں۔",
+      "linked_devices": "منسلک آلات",
+      "manage_trusted_devices": "اعتماد شدہ آلات کا انتظام کریں",
+      "pair_new_device": "نئی ڈیوائس جوڑیں",
+      "approve_a_new_device": "نئے آلے کی منظوری دیں",
+      "appearance": "ظاہری شکل",
+      "accessibility": "رسائی",
+      "visual_alerts_captions_and_voice_note_accessibil": "بصری انتباہات، کیپشنز، اور وائس نوٹ تک رسائی",
+      "security": "سیکیورٹی",
+      "encryption_key_protected": "انکرپشن کلید محفوظ",
+      "privacy": "رازداری",
+      "allow_explicit_content": "واضح مواد کی اجازت دیں",
+      "show_read_receipts": "پڑھنے کی رسیدیں دکھائیں",
+      "blur_messages_by_default": "پیغامات کو بطورِ پیشِ فرض دھندلا دیں",
+      "blur_when_app_is_unfocused": "جب ایپ غیر مرکوز ہو تو دھندلا",
+      "hold_to_reveal_messages": "پیغامات دکھانے کے لیے دبائے رکھیں",
+      "notify_when_messages_are_copied": "پیغامات کاپی کیے جانے پر مطلع کریں",
+      "random_chat": "تصادفی چیٹ",
+      "use_age_based_matching": "عمر کی بنیاد پر ملاپ استعمال کریں۔",
+      "let_ria_remember_conversations": "ریا کو بات چیت یاد کرنے دو۔",
+      "forward_voicemail_to_email": "آواز پیغام کو ای میل پر فارورڈ کریں",
+      "legal_support": "قانونی و معاونت",
+      "free": "مفت"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "آواز پر انحصار کیے بغیر چیٹفوریا کو استعمال میں آسان بنانے کے اختیارات۔",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "عام سائز سے شروع ہوتا ہے۔ اگر آپ بڑا متن پسند کرتے ہیں تو رسائی کی ترتیبات میں سائز بڑھا دیں۔",
+      "interface_font_size": "انٹرفیس فونٹ سائز",
+      "notifications": "اطلاعات",
+      "visual_alerts_for_messages_calls": "پیغامات اور کالز کے لیے بصری انتباہات",
+      "show_banners_and_visual_indicators_so_you_do_not": "بینرز اور بصری اشارے دکھائیں تاکہ آپ کوئی بھی سرگرمی نہ چھوڑیں۔",
+      "vibrate_on_new_messages": "نئے پیغامات پر کمپن کریں",
+      "trigger_device_vibration_with_notifications_when": "جب سپورٹ ہو تو نوٹیفیکیشنز کے ساتھ ٹریگر ڈیوائس کی کمپن کو فعال کریں۔",
+      "flash_screen_on_incoming_call": "آنے والی کال پر فلیش اسکرین",
+      "briefly_flash_the_screen_when_a_call_rings": "جب کال بجے تو اسکرین کو مختصراً جھلکائیں۔",
+      "live_captions": "براہِ راست کیپشنز",
+      "enable_live_captions": "براہِ راست کیپشنز فعال کریں",
+      "show_real_time_captions_during_calls_premium_req": "کالز کے دوران حقیقی وقت کے کیپشن دکھائیں۔ پریمیم درکار ہے۔",
+      "caption_font_size": "کیپشن کے فونٹ کا سائز",
+      "caption_background": "کیپشن پس منظر",
+      "voice_notes": "آواز کے نوٹس",
+      "auto_transcribe_voice_notes": "آواز نوٹس کی خودکار نقل",
+      "attach_a_transcript_to_audio_messages_you_receiv": "آپ کو موصول ہونے والے آڈیو پیغامات کے ساتھ ٹرانسکرپٹ منسلک کریں۔"
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "میں نے اپنی چابی بحال کر لی ہے۔",
+      "restore_encryption": "انکرپشن بحال کریں"
+    },
+    "language_selection": {
+      "select_language": "زبان منتخب کریں"
+    },
+    "login": {
+      "email_or_username": "ای میل یا صارف نام",
+      "password": "پاس ورڈ",
+      "forgot_password": "پاس ورڈ بھول گئے؟",
+      "resend_verification_email": "تصدیقی ای میل دوبارہ بھیجیں",
+      "reset_encryption": "انکرپشن کو ری سیٹ کریں",
+      "create_an_account": "اکاؤنٹ بنائیں",
+      "welcome_to": "چیٹفوریا میں خوش آمدید",
+      "sign_in_or_create_an_account": "سائن ان کریں یا اکاؤنٹ بنائیں",
+      "or": "یا",
+      "don_t_have_an_account_yet": "کیا آپ کے پاس ابھی تک اکاؤنٹ نہیں ہے؟"
+    },
+    "onboarding": {
+      "welcome": "خوش آمدید",
+      "set_up_your_profile_so_can_personalize_your_expe": "اپنا پروفائل اس طرح ترتیب دیں کہ Chatforia آپ کے تجربے کو ذاتی نوعیت کا بنا سکے۔",
+      "choose_a_username": "ایک صارف نام منتخب کریں",
+      "this_is_how_people_will_recognize_you_in": "یہ ہے کہ لوگ چیٹفوریا میں آپ کو کیسے پہچانیں گے۔",
+      "choose_your_language": "اپنی زبان منتخب کریں",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia اسے تراجم اور آپ کے ایپ کے تجربے کے لیے استعمال کرے گا۔",
+      "you_re_ready": "آپ تیار ہیں",
+      "start_chatting_calling_translating_and_connectin": "دنیا بھر کے لوگوں کے ساتھ چیٹ کرنا، کال کرنا، ترجمہ کرنا اور رابطہ قائم کرنا شروع کریں۔"
+    },
+    "register": {
+      "confirm_password": "پاس ورڈ کی تصدیق کریں",
+      "phone_optional": "فون اختیاری",
+      "log_in": "داخل کریں",
+      "create_your_account": "اپنا اکاؤنٹ بنائیں",
+      "start_chatting_across_languages_with": "Chatforia کے ساتھ مختلف زبانوں میں چیٹنگ شروع کریں۔",
+      "i_agree_to_receive_sms_verification_messages": "میں ایس ایم ایس تصدیقی پیغامات وصول کرنے کے لیے رضامند ہوں۔",
+      "already_have_an_account": "کیا آپ کے پاس پہلے سے اکاؤنٹ ہے؟"
+    },
+    "add_contact": {
+      "phone": "فون",
+      "name": "نام",
+      "alias_optional": "متبادل نام اختیاری",
+      "pin_this_person_as_a_favorite_contact": "اس شخص کو پسندیدہ رابطے کے طور پر محفوظ کریں۔"
+    },
+    "contact_detail": {
+      "edit_contact": "رابطہ ترمیم کریں",
+      "delete_contact": "رابطہ حذف کریں",
+      "message": "پیغام",
+      "video": "ویڈیو",
+      "external_name": "بیرونی نام"
+    },
+    "import_phone_contacts": {
+      "select_all": "سب منتخب کریں",
+      "clear": "صاف",
+      "import_contacts": "رابطے درآمد کریں"
+    },
+    "invite_friends": {
+      "share_invite_link": "دعوت نامے کا لنک شیئر کریں",
+      "invite_friends": "دوستوں کو مدعو کریں",
+      "share_a_invite_link_with_friends_using_messages_": "اپنے دوستوں کے ساتھ Chatforia کا دعوت نامہ لنک Messages، ای میل یا اپنے فون کی کسی بھی ایپ کے ذریعے شیئر کریں۔"
+    },
+    "device_pairing": {
+      "pair_a_new_device": "نیا آلہ جوڑیں",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "اپنے نئے آلے پر Chatforia کھولیں اور سائن ان کریں۔ اگر اسے آپ کی خفیہ کردہ چیٹس تک رسائی کی ضرورت ہو تو اسے کسی قابلِ اعتماد آلے سے منظور کریں۔",
+      "view_pending_device_requests": "معطل ڈیوائس درخواستیں دیکھیں"
+    },
+    "key_setup": {
+      "recovery_passcode": "بحالی کا پاس کوڈ",
+      "confirm_recovery_passcode": "بحالی پاس کوڈ کی تصدیق کریں",
+      "restore_chats": "گفتگوئیں بحال کریں",
+      "clear_local_key": "مقامی کلید صاف کریں",
+      "reset_encryption": "انکرپشن ری سیٹ کریں؟",
+      "this_will_permanently_replace_your_encryption_ke": "یہ آپ کی انکرپشن کلید کو مستقل طور پر تبدیل کر دے گا۔",
+      "encryption": "انکرپشن",
+      "restore_encrypted_chats": "انکرپٹڈ چیٹس بحال کریں",
+      "no_recovery_backup_found": "کوئی بحالی بیک اپ نہیں ملا۔",
+      "open_on_a_device_that_can_already_read_your_encr": "ایک ایسے آلے پر Chatforia کھولیں جو پہلے ہی آپ کی انکرپٹڈ چیٹس پڑھ سکتا ہو اور وہاں ایک ریکوری پاس کوڈ بنائیں۔",
+      "no_recovery_backup_found_yet_create_one_from_thi": "ابھی تک کوئی بحالی بیک اپ نہیں ملا۔ اس ڈیوائس سے ایک بیک اپ بنائیں تاکہ آپ iOS، Android اور ویب پر چیٹس بحال کر سکیں۔",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "اسے صرف اسی صورت میں استعمال کریں جب آپ نے تمام معتبر آلات کھو دیے ہوں اور آپ اپنی اصل کلید بحال نہیں کر سکتے۔"
+    },
+    "linked_devices": {
+      "your_devices": "آپ کے آلات",
+      "pending_approvals": "منظوریوں کا انتظار",
+      "approve": "منظور کریں",
+      "reject": "رد",
+      "revoke": "منسوخ کریں",
+      "request_approval_for_this_device": "اس آلے کی منظوری کی درخواست کریں",
+      "finish_device_approval": "ڈیوائس کی منظوری مکمل کریں"
+    },
+    "forwarding_settings": {
+      "reset": "ری سیٹ",
+      "forward_incoming_calls_and_texts_to_your_verifie": "آنے والی کالز اور ٹیکسٹ پیغامات کو اپنے تصدیق شدہ فون یا ای میل پر فارورڈ کریں۔",
+      "quiet_hours": "خاموشی کے اوقات",
+      "forwarding": "آگے بھیجنا",
+      "enable_text_forwarding": "متن کی فارورڈنگ کو فعال کریں",
+      "forward_texts_to_phone": "پیغامات کو فون پر بھیجیں",
+      "forward_texts_to_email": "پیغامات کو ای میل پر بھیجیں",
+      "enable_call_forwarding": "کال فارورڈنگ کو فعال کریں"
+    },
+    "chat_message_row": {
+      "copy": "نقل",
+      "edit": "ترمیم",
+      "report": "رپورٹ",
+      "message_info": "پیغام کی معلومات"
+    },
+    "chat_thread": {
+      "no_messages_yet": "ابھی تک کوئی پیغام نہیں",
+      "delete_message": "پیغام حذف کریں؟",
+      "choose_how_you_want_to_delete_this_message": "چنیں کہ آپ اس پیغام کو کیسے حذف کرنا چاہتے ہیں۔",
+      "delete_for_everyone": "سب کے لیے حذف کریں",
+      "delete_for_me": "میرے لیے حذف کریں",
+      "search_messages": "پیغامات تلاش کریں",
+      "search_in_chat": "چیٹ میں تلاش کریں",
+      "sending": "بھیج رہے ہیں…",
+      "failed_to_send": "بھیجنے میں ناکام",
+      "edited": "ترمیم شدہ",
+      "audio_call": "آڈیو کال",
+      "video_call": "ویڈیو کال",
+      "selected_gif": "منتخب جی آئی ایف",
+      "remove_gif": "GIF ہٹا دیں",
+      "attach": "منسلک کریں",
+      "rewrite_with_ria": "ریا کے ساتھ دوبارہ لکھیں",
+      "composer_action": "کمپوزر ایکشن"
+    },
+    "edit_message": {
+      "save": "محفوظ کریں",
+      "emoji": "ایموجی",
+      "edit_message": "پیغام میں ترمیم کریں"
+    },
+    "message_attachments": {
+      "image_attachment": "تصویر کا منسلک",
+      "video_attachment": "ویڈیو منسلک",
+      "play_video": "ویڈیو چلائیں"
+    },
+    "message_bubble": {
+      "disappearing_message": "غائب ہونے والا پیغام"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "ابھی تک کسی نے اسے نہیں پڑھا۔",
+      "message_info": "پیغام کی معلومات"
+    },
+    "report_message": {
+      "reason": "وجہ",
+      "include_previous_messages": "پچھلے پیغامات شامل کریں",
+      "additional_details": "مزید تفصیلات",
+      "anything_else_moderators_should_know": "کیا منتظمین کو اور کچھ جاننا چاہیے؟",
+      "block_this_user_after_reporting": "رپورٹ کرنے کے بعد اس صارف کو بلاک کریں۔",
+      "submit_report": "رپورٹ جمع کروائیں",
+      "report_message": "رپورٹ پیغام"
+    },
+    "phone_number": {
+      "replace_number": "نمبر تبدیل کریں",
+      "pick_a_number": "ایک عدد منتخب کریں",
+      "no_number_assigned": "کوئی چیٹ فوریا نمبر تفویض نہیں کیا گیا۔",
+      "your_number": "آپ کا چیٹفوریا نمبر"
+    },
+    "pick_number": {
+      "area_code": "علاقائی کوڈ",
+      "premium_numbers_are_protected_from_recycling": "پریمیئم نمبر دوبارہ استعمال سے محفوظ ہیں۔",
+      "available_numbers": "دستیاب نمبر",
+      "search_by_area_code_to_find_available_numbers": "دستیاب نمبروں کو تلاش کرنے کے لیے ایریا کوڈ کے ذریعے تلاش کریں۔",
+      "capability": "صلاحیت",
+      "country": "ملک"
+    },
+    "gif_picker": {
+      "search_tenor": "سرچ ٹینور",
+      "search_gifs": "GIFs تلاش کریں"
+    },
+    "random_chat": {
+      "add_friend": "دوست بنائیں",
+      "skip": "چھوڑیں",
+      "send": "بھیجیں",
+      "end_chat": "چٹ بات ختم"
+    },
+    "random_matching": {
+      "finding_someone": "کسی کو تلاش کرنا"
+    },
+    "ria_chat": {
+      "ask_ria": "ریا سے پوچھو...",
+      "you_re_now_chatting_with_ria": "آپ اب ریا سے بات کر رہے ہیں۔",
+      "chat_with_ria_anytime_separate_from_random_human": "ریا سے کسی بھی وقت بات کریں، بے ترتیب انسانی ملاپ سے الگ۔"
+    },
+    "ria_rewrite": {
+      "original_text": "اصلی متن",
+      "choose_tone": "لہجہ منتخب کریں",
+      "rewriting": "دوبارہ لکھنا…",
+      "suggestions": "مشورے",
+      "choose_a_tone_to_generate_rewrite_suggestions": "دوبارہ لکھنے کی تجاویز پیدا کرنے کے لیے ایک لہجہ منتخب کریں۔"
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "مفت میں بنیادی آوازیں شامل ہیں۔ مزید ٹونز اور رنگ ٹونز انلاک کرنے کے لیے اپ گریڈ کریں۔",
+      "volume": "حجم",
+      "message_tone": "پیغام کا لہجہ",
+      "ringtone": "رنگ ٹون"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "ابھی تک کوئی وائس میل نہیں۔",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "جب کوئی آپ کو وائس میل چھوڑے گا، تو وہ یہاں ظاہر ہو جائے گا۔",
+      "play_voicemail": "وائس میل چلائیں",
+      "delete_voicemail": "وائس میل حذف کریں"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "منتخب وائس میل"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "آپ کے موجودہ ملک یا قریبی مقامی استعمال کے لیے کوریج۔",
+      "coverage_across_supported_european_destinations": "مدد یافتہ یورپی منزلوں میں کوریج۔",
+      "coverage_across_supported_global_destinations": "مدد یافتہ عالمی منزلوں میں کوریج۔"
+    },
+    "wireless_home": {
+      "manage_wireless": "وائرلیس کا انتظام کریں",
+      "port_my_number": "اپنا نمبر پورٹ کریں",
+      "esim_data_packs_require_an_esim_compatible_and_u": "ای سِم ڈیٹا پیک کے لیے ای سِم کے موافق اور انلاک شدہ ڈیوائس درکار ہے۔",
+      "stay_connected_when_you_re_traveling_or_away_fro": "جب آپ سفر کر رہے ہوں یا وائی فائی سے دور ہوں تو جڑے رہیں۔",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "مقامی، یورپی یا عالمی کوریج کے لیے ایک مرتبہ استعمال ہونے والا eSIM ڈیٹا پیک منتخب کریں۔",
+      "we_don_t_sell_data_packs_under_3_gb": "ہم 3 جی بی سے کم ڈیٹا پیک نہیں بیچتے۔",
+      "loading_usage": "استعمال کی لوڈنگ…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "ابھی کوئی فعال ڈیٹا پیک موجود نہیں ہے۔ استعمال کی ٹریکنگ شروع کرنے کے لیے نیچے دیا گیا پیک خریدیں۔",
+      "usage_details_will_appear_once_your_data_pack_is": "استعمال کی تفصیلات آپ کے ڈیٹا پیک کے فعال ہونے کے بعد ظاہر ہوں گی۔",
+      "manage": "انتظام کریں",
+      "coverage": "کوریج",
+      "your_esim": "آپ کی ای سیم",
+      "current_usage": "موجودہ استعمال"
+    }
   }
 }

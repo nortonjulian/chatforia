@@ -3066,7 +3066,8 @@
     "flip": "Флип",
     "speaker": "Говорител",
     "end": "Край на",
-    "noIncomingCallToAnswer": "Няма входящо повикване, на което да отговорите."
+    "noIncomingCallToAnswer": "Няма входящо повикване, на което да отговорите.",
+    "serviceUnavailable": "В момента телефонната линия не работи. Моля, опитайте отново по-късно."
   },
   "settings": {
     "startHour": "Начален час (0-23)",
@@ -3329,7 +3330,7 @@
     "your_encryption_key_stays_protected": "Вашият ключ за криптиране остава защитен",
     "your_number_may_be_released_in_days_day_days_1": "Вашият номер може да бъде освободен след \\(дни) ден\\(дни == 1 ?",
     "you_re_ready_to_chat": "Готови сте за чат",
-    "pair_value": "\\(pair.value)",
+    "pair_value": "\\(стойност на двойката)",
     "settingsvm_soundvolume": "\\(settingsVM.soundVolume)%",
     "vm_soundvolume": "\\(vm.soundVolume)%",
     "both": "и двете",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Тъмно",
   "accessibility_caption_bg_transparent": "Прозрачен",
   "api": {
-    "notAuthorized": "Нямате права"
+    "notAuthorized": "Нямате права",
+    "invalidURL": "Невалиден адрес на сървъра.",
+    "serverError": "Сървърна грешка (%d): %@",
+    "failedToDecodeResponse": "Не може да се прочете отговора на сървъра: %@"
+  },
+  "tap_to_view_contact": "Докоснете, за да видите контакта",
+  "android": {
+    "plan": {
+      "plan_billing": "План и фактуриране",
+      "current_plan": "Текущ план",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Преминете към версията Plus без реклами или отключете AI инструменти и възможности за персонализиране с Premium.",
+      "plus": "Освен това",
+      "premium": "Премиум",
+      "back": "Назад",
+      "my_plan": "Моят план",
+      "compare_plans": "Сравни планове",
+      "included": "Включено"
+    },
+    "upgrade": {
+      "upgrade": "Актуализация",
+      "restore_purchases": "Възстановяване на покупки",
+      "unlock_more_with": "Открийте още възможности с Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Изберете „Plus“ или „Premium“, за да премахнете рекламите, да персонализирате изживяването си и да получите достъп до разширени инструменти.",
+      "best_experience": "Най-доброто преживяване",
+      "close": "Затвори",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Премахнете рекламите и отключете още ежедневни функции.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Пълното преживяване с Chatforia.",
+      "premium_annual": "Годишен абонамент „Премиум“",
+      "save_compared_to_monthly_premium": "Спестете в сравнение с месечния абонамент „Премиум“."
+    },
+    "audio_call": {
+      "mute": "Без звук",
+      "speaker": "Докладчик",
+      "end_call": "Завърши разговора"
+    },
+    "dial_pad": {
+      "dial": "Набиране",
+      "done": "Готово",
+      "enter_number": "Въведете число",
+      "call": "Обади се",
+      "delete_digit": "Изтрий цифра"
+    },
+    "incoming_call": {
+      "decline": "Намаляване",
+      "accept": "Приеми",
+      "decline_call": "Отхвърли обаждането",
+      "accept_call": "Приеми обаждането"
+    },
+    "video_call": {
+      "camera": "Камера",
+      "flip_camera": "Камера Flip"
+    },
+    "chats": {
+      "search_chats": "Търсене в чатове",
+      "no_chats_yet": "Все още няма чатове",
+      "admob_ad": "Реклама на AdMob",
+      "delete_conversation": "Да изтриете разговора?",
+      "this_will_remove_this_conversation_from_your_cha": "Това ще премахне този разговор от списъка ви с чатове.",
+      "delete": "Изтрий",
+      "cancel": "Отмени",
+      "chats": "Чат",
+      "new_chat": "Нов чат",
+      "refresh": "Опресни",
+      "random_chat": "Случаен чат",
+      "search": "Търсене",
+      "delete_conversation_2": "Изтрий разговора"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Потребителско име, име на контактното лице или телефонен номер",
+      "new_chat": "Нов чат",
+      "start_a_chat": "Започни чат",
+      "search_by_username_contact_name_or_phone_number": "Търсене по потребителско име, име на контакт или телефонен номер.",
+      "results": "Резултати",
+      "open_chat": "Отвори чат"
+    },
+    "calls": {
+      "recents": "Последни",
+      "voicemail": "Гласова поща",
+      "calls": "Обаждания",
+      "no_calls_yet": "Все още няма обаждания",
+      "your_recent_calls_will_show_up_here": "Тук ще се покажат последните ви обаждания.",
+      "open_dial_pad": "Отвори клавиатурата",
+      "delete_call": "Изтрий обаждането",
+      "video_call": "Видеоразговор"
+    },
+    "contacts": {
+      "contacts": "Контакти",
+      "add_contact": "Добави контакт",
+      "import_from_phone": "Импортиране от телефона",
+      "invite_friends": "Покани приятели",
+      "favorite": "Любими",
+      "open_contact": "Отворен контакт"
+    },
+    "main_activity": {
+      "loading": "Зареждане...",
+      "profile": "Профил"
+    },
+    "profile": {
+      "delete_account": "Изтриване на профил",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Това действие не може да бъде отменено. Сигурен ли сте, че искате да изтриете профила си?",
+      "log_out": "Излез",
+      "change_photo": "Смени снимката",
+      "remove_photo": "Премахване на снимка",
+      "preferred_language": "Предпочитан език",
+      "your_age_range": "Вашата възрастова група",
+      "theme": "Тема",
+      "choose_how_looks_across_the_app": "Изберете как да изглежда Chatforia в приложението.",
+      "uploading": "Качване…",
+      "choose_plus_or_premium": "Изберете „Plus“ или „Premium“",
+      "profile_photo": "Профилна снимка",
+      "open_upgrade": "Отворете актуализацията",
+      "open": "Отвори",
+      "account": "Акаунт",
+      "username": "Потребителско име",
+      "email": "Имейл",
+      "plan": "План",
+      "wireless": "Безжичен",
+      "mobile": "Chatforia за мобилни устройства",
+      "esim_and_wireless_settings": "Настройки за eSIM и безжична връзка",
+      "call_text_forwarding": "Пренасочване на повиквания и SMS-и",
+      "forward_incoming_calls_and_texts": "Пренасочване на входящи обаждания и съобщения",
+      "phone_number": "Телефонен номер",
+      "manage_your_number": "Управление на номера ви в Chatforia",
+      "settings": "Настройки",
+      "auto_translate_messages": "Автоматичен превод на съобщения",
+      "automatically_translate_messages_into_your_prefe": "Превеждайте автоматично съобщенията на предпочитания от вас език.",
+      "show_original_with_translation": "Покажи оригинала с превода",
+      "show_the_original_message_alongside_the_translat": "Покажи оригиналното съобщение заедно с превода.",
+      "smart_reply_suggestions": "Предложения за интелигентни отговори",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Покажи помощта за пренаписване с Ria и бързите отговори.",
+      "linked_devices": "Свързани устройства",
+      "manage_trusted_devices": "Управление на доверенни устройства",
+      "pair_new_device": "Свързване на ново устройство",
+      "approve_a_new_device": "Одобри ново устройство",
+      "appearance": "Външен вид",
+      "accessibility": "Достъпност",
+      "visual_alerts_captions_and_voice_note_accessibil": "Визуални сигнали, надписи и достъпност на гласовите бележки",
+      "security": "Сигурност",
+      "encryption_key_protected": "Защитен с криптиращ ключ",
+      "privacy": "Поверителност",
+      "allow_explicit_content": "Разреши съдържание за възрастни",
+      "show_read_receipts": "Показване на потвърждения за прочитане",
+      "blur_messages_by_default": "По подразбиране съобщенията се замъгляват",
+      "blur_when_app_is_unfocused": "Замъгляване, когато приложението не е на преден план",
+      "hold_to_reveal_messages": "Натиснете и задръжте, за да видите съобщенията",
+      "notify_when_messages_are_copied": "Уведомявай при копиране на съобщения",
+      "random_chat": "Случаен чат",
+      "use_age_based_matching": "Използвайте съпоставяне въз основа на възрастта",
+      "let_ria_remember_conversations": "Нека Риа си спомня разговорите",
+      "forward_voicemail_to_email": "Препращане на гласови съобщения към имейл",
+      "legal_support": "Правни въпроси и поддръжка",
+      "free": "Безплатно"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Възможности за по-лесно ползване на Chatforia без да се разчита на звук.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Започва с нормален размер. Увеличете го, ако предпочитате по-голям шрифт в настройките за достъпност.",
+      "interface_font_size": "Размер на шрифта в интерфейса",
+      "notifications": "Известия",
+      "visual_alerts_for_messages_calls": "Визуални сигнали за съобщения и обаждания",
+      "show_banners_and_visual_indicators_so_you_do_not": "Показвайте банери и визуални индикатори, за да не пропуснете нищо.",
+      "vibrate_on_new_messages": "Вибриране при нови съобщения",
+      "trigger_device_vibration_with_notifications_when": "Активирайте вибрация на устройството при получаване на известия, когато тази функция се поддържа.",
+      "flash_screen_on_incoming_call": "Флаш екран при входящо обаждане",
+      "briefly_flash_the_screen_when_a_call_rings": "Екранът да мига кратко, когато зазвъни телефонът.",
+      "live_captions": "Субтитри на живо",
+      "enable_live_captions": "Активиране на субтитрите на живо",
+      "show_real_time_captions_during_calls_premium_req": "Показване на субтитри в реално време по време на разговори. Необходим е абонамент за Premium.",
+      "caption_font_size": "Размер на шрифта на надписа",
+      "caption_background": "Фон на надписа",
+      "voice_notes": "Гласови бележки",
+      "auto_transcribe_voice_notes": "Автоматично преобразуване на гласови бележки в текст",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Прикачете транскрипт към получените аудиосъобщения."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Възстанових ключа си",
+      "restore_encryption": "Възстановяване на криптирането"
+    },
+    "language_selection": {
+      "select_language": "Изберете език"
+    },
+    "login": {
+      "email_or_username": "Имейл или потребителско име",
+      "password": "Парола",
+      "forgot_password": "Забравили сте паролата си?",
+      "resend_verification_email": "Изпрати отново имейла за потвърждение",
+      "reset_encryption": "Възстановяване на криптирането",
+      "create_an_account": "Създайте профил",
+      "welcome_to": "Добре дошли в Chatforia",
+      "sign_in_or_create_an_account": "Влезте или създайте профил",
+      "or": "или",
+      "don_t_have_an_account_yet": "Все още нямате профил?"
+    },
+    "onboarding": {
+      "welcome": "Добре дошли",
+      "set_up_your_profile_so_can_personalize_your_expe": "Настройте профила си, за да може Chatforia да персонализира вашето преживяване.",
+      "choose_a_username": "Изберете потребителско име",
+      "this_is_how_people_will_recognize_you_in": "Така ще ви разпознават хората в Chatforia.",
+      "choose_your_language": "Изберете език",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia ще използва тази информация за преводи и за подобряване на вашето преживяване с приложението.",
+      "you_re_ready": "Готов си",
+      "start_chatting_calling_translating_and_connectin": "Започнете да чатите, да провеждате разговори, да превеждате и да общувате с хора от цял свят."
+    },
+    "register": {
+      "confirm_password": "Потвърдете паролата",
+      "phone_optional": "Телефонът е по избор",
+      "log_in": "Влез",
+      "create_your_account": "Създайте си профил",
+      "start_chatting_across_languages_with": "Започнете да общувате на различни езици с Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Съгласен съм да получавам SMS съобщения за потвърждение.",
+      "already_have_an_account": "Вече имате профил?"
+    },
+    "add_contact": {
+      "phone": "Телефон",
+      "name": "Име",
+      "alias_optional": "Псевдонимът е по избор",
+      "pin_this_person_as_a_favorite_contact": "Добави този човек към любимите си контакти."
+    },
+    "contact_detail": {
+      "edit_contact": "Редактиране на контакт",
+      "delete_contact": "Изтрий контакт",
+      "message": "Съобщение",
+      "video": "Видео",
+      "external_name": "Външно име"
+    },
+    "import_phone_contacts": {
+      "select_all": "Избери всичко",
+      "clear": "Изчисти",
+      "import_contacts": "Импортиране на контакти"
+    },
+    "invite_friends": {
+      "share_invite_link": "Сподели линка за покана",
+      "invite_friends": "Покани приятели",
+      "share_a_invite_link_with_friends_using_messages_": "Споделете линка за покана за Chatforia с приятели чрез „Съобщения“, имейл или което и да е приложение на телефона си."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Свържете ново устройство",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Отворете Chatforia на новото си устройство и влезте в профила си. Ако приложението поиска достъп до вашите криптирани чатове, одобрете го от доверен устройство.",
+      "view_pending_device_requests": "Преглед на чакащите заявки за устройства"
+    },
+    "key_setup": {
+      "recovery_passcode": "Парла за възстановяване",
+      "confirm_recovery_passcode": "Потвърдете кода за възстановяване",
+      "restore_chats": "Възстановяване на чатове",
+      "clear_local_key": "Изчистване на локалния ключ",
+      "reset_encryption": "Да се нулира криптирането?",
+      "this_will_permanently_replace_your_encryption_ke": "Това ще замени трайно вашия ключ за криптиране.",
+      "encryption": "Криптиране",
+      "restore_encrypted_chats": "Възстановяване на криптирани чатове",
+      "no_recovery_backup_found": "Не беше открит резервен архив за възстановяване",
+      "open_on_a_device_that_can_already_read_your_encr": "Отворете Chatforia на устройство, което вече има достъп до вашите криптирани чатове, и създайте там код за възстановяване.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Все още не е открит резервен архив за възстановяване. Създайте такъв от това устройство, за да можете да възстановите чатовете си в iOS, Android и уеб.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Използвайте тази опция само ако сте загубили всичките си доверен устройства и не можете да възстановите оригиналния си ключ."
+    },
+    "linked_devices": {
+      "your_devices": "Вашите устройства",
+      "pending_approvals": "В очакване на одобрение",
+      "approve": "Одобри",
+      "reject": "Отхвърли",
+      "revoke": "Отмени",
+      "request_approval_for_this_device": "Поискайте одобрение за това устройство",
+      "finish_device_approval": "Окончателно одобрение на устройството"
+    },
+    "forwarding_settings": {
+      "reset": "Възстановяване",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Пренасочвайте входящите обаждания и съобщения към потвърдения си телефонен номер или имейл адрес.",
+      "quiet_hours": "Часове за тишина",
+      "forwarding": "Препращане",
+      "enable_text_forwarding": "Активиране на препращането на текстови съобщения",
+      "forward_texts_to_phone": "Препращане на текстови съобщения към телефона",
+      "forward_texts_to_email": "Препращане на текстови съобщения към имейл",
+      "enable_call_forwarding": "Активиране на пренасочването на повиквания"
+    },
+    "chat_message_row": {
+      "copy": "Копирай",
+      "edit": "Редактиране",
+      "report": "Доклад",
+      "message_info": "Информация за съобщението"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Все още няма съобщения",
+      "delete_message": "Да изтриете съобщението?",
+      "choose_how_you_want_to_delete_this_message": "Изберете как искате да изтриете това съобщение.",
+      "delete_for_everyone": "Изтрий за всички",
+      "delete_for_me": "Изтрий го за мен",
+      "search_messages": "Търсене на съобщения",
+      "search_in_chat": "Търсене в чата",
+      "sending": "Изпращане…",
+      "failed_to_send": "Изпращането се провали",
+      "edited": "Редактирано",
+      "audio_call": "Аудиоразговор",
+      "video_call": "Видеоразговор",
+      "selected_gif": "Избрани GIF-файлове",
+      "remove_gif": "Премахване на GIF",
+      "attach": "Прикачи",
+      "rewrite_with_ria": "Пренапиши с Риа",
+      "composer_action": "Действие на композитора"
+    },
+    "edit_message": {
+      "save": "Запази",
+      "emoji": "Емоджи",
+      "edit_message": "Редактирай съобщение"
+    },
+    "message_attachments": {
+      "image_attachment": "Прикачен файл",
+      "video_attachment": "Прикачен видеофайл",
+      "play_video": "Възпроизведи видео"
+    },
+    "message_bubble": {
+      "disappearing_message": "Изчезващо съобщение"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Все още никой не е прочел това",
+      "message_info": "Информация за съобщението"
+    },
+    "report_message": {
+      "reason": "Причина",
+      "include_previous_messages": "Включи предишните съобщения",
+      "additional_details": "Допълнителна информация",
+      "anything_else_moderators_should_know": "Има ли още нещо, което модераторите трябва да знаят?",
+      "block_this_user_after_reporting": "Блокирай този потребител след подаване на сигнал",
+      "submit_report": "Изпрати сигнал",
+      "report_message": "Докладвай съобщение"
+    },
+    "phone_number": {
+      "replace_number": "Замени номер",
+      "pick_a_number": "Избери число",
+      "no_number_assigned": "Няма присвоен номер в Chatforia.",
+      "your_number": "Вашият номер в Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Телефонен код",
+      "premium_numbers_are_protected_from_recycling": "Премиум номерата са защитени от повторно използване.",
+      "available_numbers": "Налични номера",
+      "search_by_area_code_to_find_available_numbers": "Търсете по телефонен код, за да намерите свободни номера.",
+      "capability": "Възможности",
+      "country": "Страна"
+    },
+    "gif_picker": {
+      "search_tenor": "Търсене по тенор",
+      "search_gifs": "Търсене на GIF-ове"
+    },
+    "random_chat": {
+      "add_friend": "Добави приятел",
+      "skip": "Пропусни",
+      "send": "Изпрати",
+      "end_chat": "Затвори чата"
+    },
+    "random_matching": {
+      "finding_someone": "Да намериш някого"
+    },
+    "ria_chat": {
+      "ask_ria": "Попитай Риа...",
+      "you_re_now_chatting_with_ria": "В момента разговаряш с Риа",
+      "chat_with_ria_anytime_separate_from_random_human": "Можете да чатите с Риа по всяко време, независимо от това дали имате съвпадение с друг потребител."
+    },
+    "ria_rewrite": {
+      "original_text": "Оригинален текст",
+      "choose_tone": "Изберете тон",
+      "rewriting": "Презаписване…",
+      "suggestions": "Предложения",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Изберете тон, за да получите предложения за пренаписване."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Безплатната версия включва основни звуци. Направете ъпгрейд, за да отключите още мелодии и сигнали за обаждане.",
+      "volume": "Обем",
+      "message_tone": "Звук на съобщението",
+      "ringtone": "Мелодия за звънене"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Все още няма гласови съобщения.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Когато някой ви остави гласово съобщение,\nто ще се появи тук.",
+      "play_voicemail": "Възпроизвеждане на гласово съобщение",
+      "delete_voicemail": "Изтрий гласовото съобщение"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Избрано гласово съобщение"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Покритие за страната, в която се намирате, или за близките околности.",
+      "coverage_across_supported_european_destinations": "Покритие във всички поддържани европейски дестинации.",
+      "coverage_across_supported_global_destinations": "Покритие в поддържаните дестинации по целия свят."
+    },
+    "wireless_home": {
+      "manage_wireless": "Управление на безжичната мрежа",
+      "port_my_number": "Прехвърли номера ми",
+      "esim_data_packs_require_an_esim_compatible_and_u": "За пакетите с данни за eSIM е необходимо устройство, съвместимо с eSIM и без SIM-блокировка.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Останете свързани, когато пътувате или сте далеч от Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Изберете еднократен пакет за данни с eSIM за местно, европейско или глобално покритие.",
+      "we_don_t_sell_data_packs_under_3_gb": "Не предлагаме пакети с обем под 3 GB.",
+      "loading_usage": "Зареждане на данни за използването…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Все още нямате активен пакет данни. Купете пакет по-долу, за да започнете да следите потреблението си.",
+      "usage_details_will_appear_once_your_data_pack_is": "Подробностите за използването ще се покажат, след като пакетът ви за данни стане активен.",
+      "manage": "Управление",
+      "coverage": "Обхват",
+      "your_esim": "Вашата eSIM",
+      "current_usage": "Текущо използване"
+    }
   }
 }

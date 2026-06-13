@@ -3066,7 +3066,8 @@
     "flip": "Перагарнуць",
     "speaker": "Спікер",
     "end": "Канец",
-    "noIncomingCallToAnswer": "Няма уваходных званкоў, якія можна адказаць."
+    "noIncomingCallToAnswer": "Няма уваходных званкоў, якія можна адказаць.",
+    "serviceUnavailable": "Паслуга выкліку зараз недаступная. Калі ласка, паспрабуйце зноў пазней."
   },
   "settings": {
     "startHour": "Пачаткавы час (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Цёмны",
   "accessibility_caption_bg_transparent": "Празрысты",
   "api": {
-    "notAuthorized": "Не ўліковы"
+    "notAuthorized": "Не ўліковы",
+    "invalidURL": "Няправільны адрас сервера.",
+    "serverError": "Памылка сервера (%d): %@",
+    "failedToDecodeResponse": "Не ўдалося прачытаць адказ сервера: %@"
+  },
+  "tap_to_view_contact": "Націсніце, каб праглядзець кантакт",
+  "android": {
+    "plan": {
+      "plan_billing": "План і аплата",
+      "current_plan": "Бягучы план",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Перайдзіце на Plus, каб пазбавіцца ад рэкламы, або актывуйце Premium, каб атрымаць доступ да інструментаў ШІ і магчымасцей наладкі.",
+      "plus": "Плюс",
+      "premium": "Прэміум",
+      "back": "Назад",
+      "my_plan": "Мой план",
+      "compare_plans": "Параўнаць тарыфныя планы",
+      "included": "Уключана"
+    },
+    "upgrade": {
+      "upgrade": "Абнаўленне",
+      "restore_purchases": "Аднавіць пакупкі",
+      "unlock_more_with": "Раскрыйце больш з Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Выберыце «Плюс» або «Прэміум», каб прыбраць рэкламу, наладзіць свой досвед і разблакіраваць пашыраныя інструменты.",
+      "best_experience": "Найлепшы досвед",
+      "close": "Закрыць",
+      "plus": "Чатфарыя Плюс",
+      "remove_ads_and_unlock_more_everyday_features": "Прыбярыце рэкламу і адкрыйце больш штодзённых функцый.",
+      "premium": "Чатфорія Прэміум",
+      "the_full_experience": "Поўны досвед Чатфорыі.",
+      "premium_annual": "Прэміум гадавы",
+      "save_compared_to_monthly_premium": "Эканомія ў параўнанні з штомесячнай падпіскай Premium."
+    },
+    "audio_call": {
+      "mute": "Выключыць гук",
+      "speaker": "Спікер",
+      "end_call": "Завяршыць выклік"
+    },
+    "dial_pad": {
+      "dial": "Круг",
+      "done": "Гатова",
+      "enter_number": "Увядзіце нумар",
+      "call": "Тэлефануйце",
+      "delete_digit": "Выдаліць лічбу"
+    },
+    "incoming_call": {
+      "decline": "Змяншэнне",
+      "accept": "Прыняць",
+      "decline_call": "Адхіліць выклік",
+      "accept_call": "Прыняць выклік"
+    },
+    "video_call": {
+      "camera": "Камера",
+      "flip_camera": "Кампактная камера"
+    },
+    "chats": {
+      "search_chats": "Пошук па чатах",
+      "no_chats_yet": "Пакуль няма чатаў",
+      "admob_ad": "Рэклама AdMob",
+      "delete_conversation": "Выдаліць размову?",
+      "this_will_remove_this_conversation_from_your_cha": "Гэта выдаліць гэтую размову са спіса чатаў.",
+      "delete": "Выдаліць",
+      "cancel": "Скасаваць",
+      "chats": "Размовы",
+      "new_chat": "Новы чат",
+      "refresh": "Абнавіць",
+      "random_chat": "Случайны чат",
+      "search": "Пошук",
+      "delete_conversation_2": "Выдаліць размову"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Імя карыстальніка, імя для кантакту або нумар тэлефона",
+      "new_chat": "Новы чат",
+      "start_a_chat": "Пачаць чат",
+      "search_by_username_contact_name_or_phone_number": "Пошук па імёне карыстальніка, імя кантакту або нумары тэлефона.",
+      "results": "Вынікі",
+      "open_chat": "Адкрыць чат"
+    },
+    "calls": {
+      "recents": "Апошнія",
+      "voicemail": "Галасавая пошта",
+      "calls": "Званкі",
+      "no_calls_yet": "Пакуль няма званкоў",
+      "your_recent_calls_will_show_up_here": "Вашы нядаўнія званкі будуць паказаны тут.",
+      "open_dial_pad": "Адкрыць дыялавае акно",
+      "delete_call": "Скасаваць выклік",
+      "video_call": "Відэазванок"
+    },
+    "contacts": {
+      "contacts": "Кантакты",
+      "add_contact": "Дадаць кантакт",
+      "import_from_phone": "Імпарт з тэлефона",
+      "invite_friends": "Запрасіць сяброў",
+      "favorite": "Улюбёны",
+      "open_contact": "Адкрыць кантакт"
+    },
+    "main_activity": {
+      "loading": "Загрузка...",
+      "profile": "Профіль"
+    },
+    "profile": {
+      "delete_account": "Выдаліць уліковы запіс",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Гэта дзеянне нельга адмяніць. Вы ўпэўнены, што хочаце выдаліць свой уліковы запіс?",
+      "log_out": "Выйсці",
+      "change_photo": "Змяніць фота",
+      "remove_photo": "Выдаліць фота",
+      "preferred_language": "Пераважная мова",
+      "your_age_range": "Ваш узроставы дыяпазон",
+      "theme": "Тэма",
+      "choose_how_looks_across_the_app": "Выберыце, як Chatforia выглядае ва ўсім дадатку.",
+      "uploading": "Загрузка…",
+      "choose_plus_or_premium": "Выберыце Плюс або Прэміум",
+      "profile_photo": "Фота профілю",
+      "open_upgrade": "Адкрытае абнаўленне",
+      "open": "Адкрыць",
+      "account": "Уліковы запіс",
+      "username": "Імя карыстальніка",
+      "email": "Электронная пошта",
+      "plan": "План",
+      "wireless": "Бесправадны",
+      "mobile": "Чатфарыя Мабільная",
+      "esim_and_wireless_settings": "eSIM і бесправадныя налады",
+      "call_text_forwarding": "Пераадрасаванне выклікаў і паведамленняў",
+      "forward_incoming_calls_and_texts": "Пераадрасаваць уваходныя выклікі і паведамленні",
+      "phone_number": "Нумар тэлефона",
+      "manage_your_number": "Кіраваць вашым нумарам Chatforia",
+      "settings": "Налады",
+      "auto_translate_messages": "Аўтаматычны пераклад паведамленняў",
+      "automatically_translate_messages_into_your_prefe": "Аўтаматычна перакладайце паведамленні на абраную мову.",
+      "show_original_with_translation": "Паказаць арыгінал з перакладам",
+      "show_the_original_message_alongside_the_translat": "Пакажыце арыгінальнае паведамленне побач з перакладам.",
+      "smart_reply_suggestions": "Прапановы разумных адказаў",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Паказаць дапамогу па перапісванні ад Ria і хуткія адказы.",
+      "linked_devices": "Звязаныя прылады",
+      "manage_trusted_devices": "Кіраванне даверанымі прыладамі",
+      "pair_new_device": "Пара новага прылады",
+      "approve_a_new_device": "Зацвердзіць новы прыбор",
+      "appearance": "Знешні выгляд",
+      "accessibility": "Даступнасць",
+      "visual_alerts_captions_and_voice_note_accessibil": "Даступнасць візуальных абвесткаў, подпісаў і галасавых запісаў",
+      "security": "Бяспека",
+      "encryption_key_protected": "Ключ шыфравання абаронены",
+      "privacy": "Прыватнасць",
+      "allow_explicit_content": "Дазволіць адкрыты кантэнт",
+      "show_read_receipts": "Паказваць пацвярджэнні прачытання",
+      "blur_messages_by_default": "Замазаць паведамленні па змаўчанні",
+      "blur_when_app_is_unfocused": "Замагчыванне пры размытым фокусе",
+      "hold_to_reveal_messages": "Трымайце, каб паказаць паведамленні",
+      "notify_when_messages_are_copied": "Паведамляць пры капіраванні паведамленняў",
+      "random_chat": "Случайны чат",
+      "use_age_based_matching": "Выкарыстоўваць супастаўленне па ўзросце",
+      "let_ria_remember_conversations": "Няхай Рыя запомніць размовы",
+      "forward_voicemail_to_email": "Перасылаць галасавыя паведамленні на электронную пошту",
+      "legal_support": "Прававая дапамога і падтрымка",
+      "free": "Бясплатна"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Варыянты для палягчэння выкарыстання Chatforia без выкарыстання гуку.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Пачынаецца з звычайнага памеру. Павялічце, калі вы аддаяце перавагу большаму тэксту ў наладах даступнасці.",
+      "interface_font_size": "Памер шрыфта інтэрфейса",
+      "notifications": "Апавяшчэнні",
+      "visual_alerts_for_messages_calls": "Візуальныя апавяшчэнні для паведамленняў і званкоў",
+      "show_banners_and_visual_indicators_so_you_do_not": "Паказвайце банеры і візуальныя паказчыкі, каб вы не прапусцілі ніякай актыўнасці.",
+      "vibrate_on_new_messages": "Вібраваць пры новых паведамленнях",
+      "trigger_device_vibration_with_notifications_when": "Выклікаць вібрацыю прылады з апавяшчэннямі, калі яны падтрымліваюцца.",
+      "flash_screen_on_incoming_call": "Экран з падсветкай пры ўваходным выкліку",
+      "briefly_flash_the_screen_when_a_call_rings": "Каротка падсвятліце экран, калі зазваніць тэлефон.",
+      "live_captions": "Жывыя субцітры",
+      "enable_live_captions": "Уключыць субцітры ўжывую",
+      "show_real_time_captions_during_calls_premium_req": "Паказваць субцітры ў рэальным часе падчас званкоў. Патрабуецца прэміум-падпіска.",
+      "caption_font_size": "Памер шрыфта подпісу",
+      "caption_background": "Фон подпісу",
+      "voice_notes": "Голасавыя запісы",
+      "auto_transcribe_voice_notes": "Аўтаматычная расшыфроўка галасавых нататак",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Далучайце транскрыпт да аўдыяпаведамленняў, якія вы атрымліваеце."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Я аднавіў свой ключ",
+      "restore_encryption": "Аднавіць шыфраванне"
+    },
+    "language_selection": {
+      "select_language": "Выберыце мову"
+    },
+    "login": {
+      "email_or_username": "Электронная пошта або імя карыстальніка",
+      "password": "Параў",
+      "forgot_password": "Забылі пароль?",
+      "resend_verification_email": "Даслаць паўторна ліст для верыфікацыі",
+      "reset_encryption": "Скінуць шыфраванне",
+      "create_an_account": "Стварыць уліковы запіс",
+      "welcome_to": "Вітаем у Чатфарыі",
+      "sign_in_or_create_an_account": "Увайсці або стварыць уліковы запіс",
+      "or": "або",
+      "don_t_have_an_account_yet": "Яшчэ няма ўліковага запісу?"
+    },
+    "onboarding": {
+      "welcome": "Сардэчна запрашаем",
+      "set_up_your_profile_so_can_personalize_your_expe": "Наладзьце свой профіль, каб Chatforia магла персаналізаваць ваш досвед.",
+      "choose_a_username": "Выберыце імя карыстальніка",
+      "this_is_how_people_will_recognize_you_in": "Так цябе пазнаюць у Чэтфорыі.",
+      "choose_your_language": "Выберыце мову",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia будзе выкарыстоўваць гэта для перакладаў і для вашага досведу выкарыстання дадатку.",
+      "you_re_ready": "Вы гатовыя",
+      "start_chatting_calling_translating_and_connectin": "Пачніце чатаць, тэлефанаваць, перакладаць і звязвацца з людзьмі па ўсім свеце."
+    },
+    "register": {
+      "confirm_password": "Пацвердзіць пароль",
+      "phone_optional": "Тэлефон неабавязковы",
+      "log_in": "Увайсці",
+      "create_your_account": "Стварыць уліковы запіс",
+      "start_chatting_across_languages_with": "Пачніце размаўляць на розных мовах з Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Я згаджаюся атрымліваць SMS-паведамленні для верыфікацыі.",
+      "already_have_an_account": "Ужо ёсць уліковы запіс?"
+    },
+    "add_contact": {
+      "phone": "Тэлефон",
+      "name": "Імя",
+      "alias_optional": "Аліас неабавязковы",
+      "pin_this_person_as_a_favorite_contact": "Дадайце гэтага чалавека ў любімыя кантакты."
+    },
+    "contact_detail": {
+      "edit_contact": "Рэдагаваць кантакт",
+      "delete_contact": "Выдаліць кантакт",
+      "message": "Паведамленне",
+      "video": "Відэа",
+      "external_name": "Знешняя назва"
+    },
+    "import_phone_contacts": {
+      "select_all": "Выбраць усё",
+      "clear": "Выразны",
+      "import_contacts": "Імпарт кантактаў"
+    },
+    "invite_friends": {
+      "share_invite_link": "Падзяліцца спасылкай на запрашэнне",
+      "invite_friends": "Запрасіць сяброў",
+      "share_a_invite_link_with_friends_using_messages_": "Падзяліцеся спасылкай на запрашэнне ў Chatforia з сябрамі праз «Паведамленні», электронную пошту або любую іншую праграму на вашым тэлефоне."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Спалучыць новую прыладу",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Адкрыйце Chatforia на вашым новым прыладзе і ўвайдзіце ў сістэму. Калі прыкладанню спатрэбіцца доступ да вашых зашыфраваных чатаў, ухваліце яго з даверанай прылады.",
+      "view_pending_device_requests": "Прагледзець чакаючыя запыты на прылады"
+    },
+    "key_setup": {
+      "recovery_passcode": "Код аднаўлення",
+      "confirm_recovery_passcode": "Пацвердзіць код аднаўлення",
+      "restore_chats": "Аднавіць чаты",
+      "clear_local_key": "Вычысціць мясцовы ключ",
+      "reset_encryption": "Скінуць шыфраванне?",
+      "this_will_permanently_replace_your_encryption_ke": "Гэта назаўжды заменіць ваш ключ шыфравання.",
+      "encryption": "Шыфраванне",
+      "restore_encrypted_chats": "Аднавіць зашыфраваныя чаты",
+      "no_recovery_backup_found": "Ніводзін рэзервовых копій аднаўлення не знойдзены.",
+      "open_on_a_device_that_can_already_read_your_encr": "Адкрыйце Chatforia на прыладзе, якая ўжо можа чытаць вашыя зашыфраваныя чаты, і стварыце там код для аднаўлення.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Рэзервовая копія для аднаўлення яшчэ не знойдзена. Стварыце яе на гэтым прыладзе, каб вы маглі аднавіць чаты на iOS, Android і ў вэб-версіі.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Выкарыстоўвайце гэта толькі ў тым выпадку, калі вы страцілі ўсе давераныя прылады і не можаце аднавіць свой арыгінальны ключ."
+    },
+    "linked_devices": {
+      "your_devices": "Вашы прылады",
+      "pending_approvals": "У чаканні зацвярджэнняў",
+      "approve": "Узгадніць",
+      "reject": "Адхіліць",
+      "revoke": "Адклікаць",
+      "request_approval_for_this_device": "Запытаць адабрэнне для гэтага прылады",
+      "finish_device_approval": "Завяршэнне адабрэння прылады"
+    },
+    "forwarding_settings": {
+      "reset": "Скінуць",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Накіроўвайце ўваходныя званкі і паведамленні на пацверджаны тэлефон або электронную пошту.",
+      "quiet_hours": "Ціхія гадзіны",
+      "forwarding": "Даслаць далей",
+      "enable_text_forwarding": "Уключыць перасылку тэксту",
+      "forward_texts_to_phone": "Даслаць тэксты на тэлефон",
+      "forward_texts_to_email": "Даслаць тэксты на электронную пошту",
+      "enable_call_forwarding": "Уключыць пераадрасацыю выклікаў"
+    },
+    "chat_message_row": {
+      "copy": "Скапіраваць",
+      "edit": "Рэдагаваць",
+      "report": "Справаздача",
+      "message_info": "Інфармацыя пра паведамленне"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Паведамленняў пакуль няма",
+      "delete_message": "Выдаліць паведамленне?",
+      "choose_how_you_want_to_delete_this_message": "Выберыце, як вы хочаце выдаліць гэтае паведамленне.",
+      "delete_for_everyone": "Выдаліць для ўсіх",
+      "delete_for_me": "Выдаліць для мяне",
+      "search_messages": "Пошук паведамленняў",
+      "search_in_chat": "Пошук у чаце",
+      "sending": "Адпраўляецца…",
+      "failed_to_send": "Адпраўка не ўдалася",
+      "edited": "Рэдагавана",
+      "audio_call": "Аўдыязванок",
+      "video_call": "Відэазванок",
+      "selected_gif": "Выбраны GIF",
+      "remove_gif": "Выдаліць GIF",
+      "attach": "Далучыць",
+      "rewrite_with_ria": "Перапішы з Рыяй",
+      "composer_action": "Дзеянне кампазітара"
+    },
+    "edit_message": {
+      "save": "Захаваць",
+      "emoji": "Эмадзі",
+      "edit_message": "Рэдагаваць паведамленне"
+    },
+    "message_attachments": {
+      "image_attachment": "Далучаны выява",
+      "video_attachment": "Відэа-дадатак",
+      "play_video": "Прайграць відэа"
+    },
+    "message_bubble": {
+      "disappearing_message": "Знікаючае паведамленне"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Ніхто яшчэ гэтага не чытаў",
+      "message_info": "Інфармацыя пра паведамленне"
+    },
+    "report_message": {
+      "reason": "Прычына",
+      "include_previous_messages": "Уключыць папярэднія паведамленні",
+      "additional_details": "Дадатковыя звесткі",
+      "anything_else_moderators_should_know": "Ці ёсць яшчэ нешта, што павінны ведаць мадэратары?",
+      "block_this_user_after_reporting": "Блакіраваць гэтага карыстальніка пасля паведамлення",
+      "submit_report": "Адправіць справаздачу",
+      "report_message": "Паведамленне аб справаздачы"
+    },
+    "phone_number": {
+      "replace_number": "Замяніць нумар",
+      "pick_a_number": "Выберыце лічбу",
+      "no_number_assigned": "Нумар Чэтфарыі не прызначаны.",
+      "your_number": "Ваш нумар Чатфарыі"
+    },
+    "pick_number": {
+      "area_code": "Код раёна",
+      "premium_numbers_are_protected_from_recycling": "Прэміум-нумары абаронены ад перавыпуску.",
+      "available_numbers": "Даступныя нумары",
+      "search_by_area_code_to_find_available_numbers": "Шукайце па кодзе раёна, каб знайсці даступныя нумары.",
+      "capability": "Здольнасць",
+      "country": "Краіна"
+    },
+    "gif_picker": {
+      "search_tenor": "Пошук тэнара",
+      "search_gifs": "Пошук гіфаў"
+    },
+    "random_chat": {
+      "add_friend": "Дадаць сябра",
+      "skip": "Прапусціць",
+      "send": "Даслаць",
+      "end_chat": "Завершыць размову"
+    },
+    "random_matching": {
+      "finding_someone": "Знайсці кагосьці"
+    },
+    "ria_chat": {
+      "ask_ria": "Спытайце ў Рыі...",
+      "you_re_now_chatting_with_ria": "Вы цяпер размаўляеце з Рыяй.",
+      "chat_with_ria_anytime_separate_from_random_human": "Чат з Рыяй у любы час, асобна ад выпадковага спалучэння з людзьмі."
+    },
+    "ria_rewrite": {
+      "original_text": "Арыгінальны тэкст",
+      "choose_tone": "Выберыце тон",
+      "rewriting": "Перапісванне…",
+      "suggestions": "Прапановы",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Выберыце тон для генерацыі прапаноў па перапісцы."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "У бясплатнай версіі ёсць базавыя гукі. Абнавіце, каб разблакіраваць больш тонаў і званкоў.",
+      "volume": "Том",
+      "message_tone": "Тон паведамлення",
+      "ringtone": "Званок"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Пакуль няма галасавых паведамленняў.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Калі вам пакінуць галасавое паведамленне, яно з'явіцца тут.",
+      "play_voicemail": "Прайграць галасавое паведамленне",
+      "delete_voicemail": "Выдаліць галасавое паведамленне"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Выбраныя галасавыя паведамленні"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Ахоп для вашай цяперашняй краіны або для выкарыстання ў бліжэйшых мясцовасцях.",
+      "coverage_across_supported_european_destinations": "Ахоп па ўсіх падтрымліваемых еўрапейскіх напрамках.",
+      "coverage_across_supported_global_destinations": "Ахоп па ўсіх падтрымліваемых сусветных напрамках."
+    },
+    "wireless_home": {
+      "manage_wireless": "Кіраванне бесправадной сувяззю",
+      "port_my_number": "Партаваць мой нумар",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Патрабуецца прылада, сумяшчальная з eSIM і разблакаваная.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Заставайцеся на сувязі, калі падарожнічаеце або знаходзіцеся без Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Выберыце аднаразовы пакет даных eSIM для мясцовага, еўрапейскага або глабальнага пакрыцця.",
+      "we_don_t_sell_data_packs_under_3_gb": "Мы не прадаём даных-пакеты меншыя за 3 ГБ.",
+      "loading_usage": "Загрузка выкарыстання…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Пакуль няма актыўнага пакета даных. Купіце пакет ніжэй, каб пачаць адсочваць спажыванне.",
+      "usage_details_will_appear_once_your_data_pack_is": "Падрабязнасці выкарыстання з'явяцца, як толькі ваш пакет даных будзе актываваны.",
+      "manage": "Кіраваць",
+      "coverage": "Пакрыццё",
+      "your_esim": "Ваша eSIM",
+      "current_usage": "Бягучае выкарыстанне"
+    }
   }
 }

@@ -3066,7 +3066,8 @@
     "flip": "Pööra",
     "speaker": "Kõneleja",
     "end": "Lõpp",
-    "noIncomingCallToAnswer": "Sissetulevale kõnele ei saa vastata."
+    "noIncomingCallToAnswer": "Sissetulevale kõnele ei saa vastata.",
+    "serviceUnavailable": "Klienditeenindus ei ole hetkel kättesaadav. Palun proovi hiljem uuesti."
   },
   "settings": {
     "startHour": "Algusaeg (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Tume",
   "accessibility_caption_bg_transparent": "Läbipaistev",
   "api": {
-    "notAuthorized": "Juurdepääs keelatud"
+    "notAuthorized": "Juurdepääs keelatud",
+    "invalidURL": "Kehtetu serveri aadress.",
+    "serverError": "Serveriviga (%d): %@",
+    "failedToDecodeResponse": "Serveri vastust ei õnnestunud lugeda: %@"
+  },
+  "tap_to_view_contact": "Puuduta, et kontakti vaadata",
+  "android": {
+    "plan": {
+      "plan_billing": "Pakett ja arveldamine",
+      "current_plan": "Praegune plaan",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Vali Plus, et vabaneda reklaamidest, või Premium, et saada juurdepääs tehisintellekti tööriistadele ja isikupärastamisvõimalustele.",
+      "plus": "Lisaks",
+      "premium": "Premium",
+      "back": "Tagasi",
+      "my_plan": "Minu plaan",
+      "compare_plans": "Võrdle pakette",
+      "included": "Komplektis"
+    },
+    "upgrade": {
+      "upgrade": "Uuendamine",
+      "restore_purchases": "Taasta ostud",
+      "unlock_more_with": "Avasta veelgi rohkem koos Chatforiaga",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Vali pakett „Plus“ või „Premium“, et eemaldada reklaamid, kohandada kasutuskogemust ja avada täiustatud tööriistad.",
+      "best_experience": "Parim kogemus",
+      "close": "Sulge",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Eemalda reklaamid ja ava juurdepääs veelgi rohkematele igapäevastele funktsioonidele.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Täielik Chatforia-kogemus.",
+      "premium_annual": "Premium-aastapilet",
+      "save_compared_to_monthly_premium": "Säästke võrreldes igakuise Premium-paketiga."
+    },
+    "audio_call": {
+      "mute": "Vaigista",
+      "speaker": "Esineja",
+      "end_call": "Kõne lõpetamine"
+    },
+    "dial_pad": {
+      "dial": "Valik",
+      "done": "Valmis",
+      "enter_number": "Sisesta number",
+      "call": "Helista",
+      "delete_digit": "Kustuta number"
+    },
+    "incoming_call": {
+      "decline": "Langus",
+      "accept": "Nõustu",
+      "decline_call": "Kõne katkestamine",
+      "accept_call": "Võta kõne vastu"
+    },
+    "video_call": {
+      "camera": "Kaamera",
+      "flip_camera": "Flip-kaamera"
+    },
+    "chats": {
+      "search_chats": "Otsi vestlusi",
+      "no_chats_yet": "Veel pole ühtegi vestlust",
+      "admob_ad": "AdMob-reklaam",
+      "delete_conversation": "Kas soovid vestluse kustutada?",
+      "this_will_remove_this_conversation_from_your_cha": "See eemaldab selle vestluse sinu vestlusloendist.",
+      "delete": "Kustuta",
+      "cancel": "Tühista",
+      "chats": "Vestlused",
+      "new_chat": "Uus vestlus",
+      "refresh": "Värskenda",
+      "random_chat": "Juhuslik vestlus",
+      "search": "Otsi",
+      "delete_conversation_2": "Kustuta vestlus"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Kasutajanimi, kontaktisiku nimi või telefoninumber",
+      "new_chat": "Uus vestlus",
+      "start_a_chat": "Alusta vestlust",
+      "search_by_username_contact_name_or_phone_number": "Otsi kasutajanime, kontaktisiku nime või telefoninumbri järgi.",
+      "results": "Tulemused",
+      "open_chat": "Ava vestlus"
+    },
+    "calls": {
+      "recents": "Viimased",
+      "voicemail": "Häälpost",
+      "calls": "Kõned",
+      "no_calls_yet": "Hetkel pole ühtegi kõnet",
+      "your_recent_calls_will_show_up_here": "Siin kuvatakse su viimased kõned.",
+      "open_dial_pad": "Ava numbriklaviatuur",
+      "delete_call": "Kõne kustutamine",
+      "video_call": "Videokõne"
+    },
+    "contacts": {
+      "contacts": "Kontaktid",
+      "add_contact": "Lisa kontakt",
+      "import_from_phone": "Impordi telefonist",
+      "invite_friends": "Kutsu sõpru",
+      "favorite": "Lemmik",
+      "open_contact": "Ava kontakt"
+    },
+    "main_activity": {
+      "loading": "Laaditakse...",
+      "profile": "Profiil"
+    },
+    "profile": {
+      "delete_account": "Konto kustutamine",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Seda toimingut ei saa tagasi võtta. Kas soovid kindlasti oma konto kustutada?",
+      "log_out": "Välju",
+      "change_photo": "Vaheta fotot",
+      "remove_photo": "Foto eemaldamine",
+      "preferred_language": "Eelistatud keel",
+      "your_age_range": "Teie vanuserühm",
+      "theme": "Teema",
+      "choose_how_looks_across_the_app": "Vali, milline on Chatforia välimus kogu rakenduses.",
+      "uploading": "Laadimine…",
+      "choose_plus_or_premium": "Vali Plus või Premium",
+      "profile_photo": "Profiilipilt",
+      "open_upgrade": "Avatud uuendus",
+      "open": "Ava",
+      "account": "Konto",
+      "username": "Kasutajanimi",
+      "email": "E-post",
+      "plan": "Kava",
+      "wireless": "Traadita",
+      "mobile": "Chatforia mobiilirakendus",
+      "esim_and_wireless_settings": "eSIM ja traadita ühenduse seaded",
+      "call_text_forwarding": "Kõnede ja sõnumite suunamine",
+      "forward_incoming_calls_and_texts": "Saabuvate kõnede ja sõnumite edastamine",
+      "phone_number": "Telefoninumber",
+      "manage_your_number": "Haldage oma Chatforia numbrit",
+      "settings": "Seaded",
+      "auto_translate_messages": "Sõnumite automaatne tõlkimine",
+      "automatically_translate_messages_into_your_prefe": "Tõlgi sõnumid automaatselt oma eelistatud keelde.",
+      "show_original_with_translation": "Näita originaali koos tõlkega",
+      "show_the_original_message_alongside_the_translat": "Näita originaalsõnumit koos tõlkega.",
+      "smart_reply_suggestions": "Nutikad vastuse soovitused",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Näita Ria-põhist ümberkirjutamise abi ja kiirvastuseid.",
+      "linked_devices": "Ühendatud seadmed",
+      "manage_trusted_devices": "Usaldusväärsete seadmete haldamine",
+      "pair_new_device": "Uue seadme sidumine",
+      "approve_a_new_device": "Uue seadme heakskiitmine",
+      "appearance": "Välimus",
+      "accessibility": "Juurdepääsetavus",
+      "visual_alerts_captions_and_voice_note_accessibil": "Visuaalsed hoiatused, subtiitrid ja häälmärkuste juurdepääsetavus",
+      "security": "Turvalisus",
+      "encryption_key_protected": "Krüpteerimisvõtmega kaitstud",
+      "privacy": "Andmekaitse",
+      "allow_explicit_content": "Luba täiskasvanutele mõeldud sisu",
+      "show_read_receipts": "Näita lugemiskinnitusi",
+      "blur_messages_by_default": "Hägusta sõnumeid vaikimisi",
+      "blur_when_app_is_unfocused": "Pilt muutub uduseks, kui rakendus ei ole fookuses",
+      "hold_to_reveal_messages": "Hoia all, et sõnumeid näha",
+      "notify_when_messages_are_copied": "Teavita, kui sõnumeid kopeeritakse",
+      "random_chat": "Juhuslik vestlus",
+      "use_age_based_matching": "Kasuta vanusel põhinevat sobitamist",
+      "let_ria_remember_conversations": "Las Ria mäletab neid vestlusi",
+      "forward_voicemail_to_email": "Edasta kõneposti sõnum e-postile",
+      "legal_support": "Õigusabi ja tugi",
+      "free": "Tasuta"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Võimalused, kuidas muuta Chatforia kasutamist lihtsamaks ilma helile tuginemata.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Alguses on tekst tavalise suurusega. Suurenda seda, kui soovid juurdepääsuseadetes suuremat teksti.",
+      "interface_font_size": "Liidese kirjasuurus",
+      "notifications": "Teated",
+      "visual_alerts_for_messages_calls": "Sõnumite ja kõnede visuaalsed märguanded",
+      "show_banners_and_visual_indicators_so_you_do_not": "Näita bännereid ja visuaalseid märguandeid, et sa midagi olulist ei jääks märkamata.",
+      "vibrate_on_new_messages": "Vibratsioon uute sõnumite korral",
+      "trigger_device_vibration_with_notifications_when": "Kui see on toetatud, aktiveeri seadme vibratsioon teavituste korral.",
+      "flash_screen_on_incoming_call": "Sissetuleva kõne puhul kuvatav teade",
+      "briefly_flash_the_screen_when_a_call_rings": "Kui heliseb telefon, vilgub ekraan lühidalt.",
+      "live_captions": "Reaalajas subtiitrid",
+      "enable_live_captions": "Luba reaalajas subtiitrid",
+      "show_real_time_captions_during_calls_premium_req": "Näita kõne ajal reaalajas subtiitreid. Vajalik on Premium-pakett.",
+      "caption_font_size": "Pildiallkirja kirjasuurus",
+      "caption_background": "Pildi taust",
+      "voice_notes": "Häälmärkmed",
+      "auto_transcribe_voice_notes": "Häälmärkmete automaatne transkribeerimine",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Lisage saadud helisõnumitele transkriptsioon."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Ma olen oma võtme taastanud",
+      "restore_encryption": "Taasta krüpteerimine"
+    },
+    "language_selection": {
+      "select_language": "Vali keel"
+    },
+    "login": {
+      "email_or_username": "E-post või kasutajanimi",
+      "password": "Parool",
+      "forgot_password": "Unustasid parooli?",
+      "resend_verification_email": "Saada kinnituskiri uuesti",
+      "reset_encryption": "Krüpteeringu taastamine",
+      "create_an_account": "Loo konto",
+      "welcome_to": "Tere tulemast Chatforiasse",
+      "sign_in_or_create_an_account": "Logi sisse või loo konto",
+      "or": "või",
+      "don_t_have_an_account_yet": "Kas sul pole veel kontot?"
+    },
+    "onboarding": {
+      "welcome": "Tere tulemast",
+      "set_up_your_profile_so_can_personalize_your_expe": "Seadista oma profiil, et Chatforia saaks sinu kasutuskogemust isikupärastada.",
+      "choose_a_username": "Vali kasutajanimi",
+      "this_is_how_people_will_recognize_you_in": "Nii tunnistavad sind inimesed Chatforias ära.",
+      "choose_your_language": "Vali keel",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia kasutab seda tõlkimiseks ja teie rakenduse kasutuskogemuse parandamiseks.",
+      "you_re_ready": "Oled valmis",
+      "start_chatting_calling_translating_and_connectin": "Alusta vestlemist, helistamist, tõlkimist ja suhtlemist inimestega üle kogu maailma."
+    },
+    "register": {
+      "confirm_password": "Kinnita parool",
+      "phone_optional": "Telefon on vabatahtlik",
+      "log_in": "Logi sisse",
+      "create_your_account": "Loo oma konto",
+      "start_chatting_across_languages_with": "Alusta keeltevahelist vestlust Chatforia abil.",
+      "i_agree_to_receive_sms_verification_messages": "Nõustun SMS-kinnitussõnumite saamisega.",
+      "already_have_an_account": "Kas sul on juba konto?"
+    },
+    "add_contact": {
+      "phone": "Telefon",
+      "name": "Nimi",
+      "alias_optional": "Alias on vabatahtlik",
+      "pin_this_person_as_a_favorite_contact": "Lisa see inimene lemmikkontaktide hulka."
+    },
+    "contact_detail": {
+      "edit_contact": "Muuda kontaktandmeid",
+      "delete_contact": "Kustuta kontakt",
+      "message": "Sõnum",
+      "video": "Video",
+      "external_name": "Välisnimi"
+    },
+    "import_phone_contacts": {
+      "select_all": "Vali kõik",
+      "clear": "Tühista",
+      "import_contacts": "Kontaktide importimine"
+    },
+    "invite_friends": {
+      "share_invite_link": "Jaga kutselink",
+      "invite_friends": "Kutsu sõpru",
+      "share_a_invite_link_with_friends_using_messages_": "Jaga Chatforia kutselink sõpradega sõnumite, e-posti või mõne muu oma telefonis oleva rakenduse kaudu."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Uue seadme ühendamine",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Ava Chatforia oma uuel seadmel ja logi sisse. Kui rakendus vajab juurdepääsu su krüpteeritud vestlustele, anna selleks luba usaldusväärselt seadmelt.",
+      "view_pending_device_requests": "Vaata ootel olevaid seadmepäringuid"
+    },
+    "key_setup": {
+      "recovery_passcode": "Taastamiskood",
+      "confirm_recovery_passcode": "Kinnita taastamiskood",
+      "restore_chats": "Taasta vestlused",
+      "clear_local_key": "Kohaliku võtme tühistamine",
+      "reset_encryption": "Krüpteeringu taastamine?",
+      "this_will_permanently_replace_your_encryption_ke": "See asendab teie krüpteerimisvõtme lõplikult.",
+      "encryption": "Krüpteerimine",
+      "restore_encrypted_chats": "Taasta krüpteeritud vestlused",
+      "no_recovery_backup_found": "Taastamisvarukoopiat ei leitud",
+      "open_on_a_device_that_can_already_read_your_encr": "Ava Chatforia seadmes, mis suudab juba sinu krüpteeritud vestlusi lugeda, ja loo seal taastamiskood.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Taastamisvarukoopia pole veel leitud. Loo see sellelt seadmelt, et saaksid vestlusi taastada iOS-is, Androidis ja veebis.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Kasuta seda võimalust ainult juhul, kui oled kaotanud kõik usaldusväärsed seadmed ja ei saa oma algset võtit taastada."
+    },
+    "linked_devices": {
+      "your_devices": "Teie seadmed",
+      "pending_approvals": "Ootab heakskiitmist",
+      "approve": "Kinnita",
+      "reject": "Tagasi lükata",
+      "revoke": "Tühistada",
+      "request_approval_for_this_device": "Taotlege selle seadme heakskiitmist",
+      "finish_device_approval": "Seadme kinnitamine"
+    },
+    "forwarding_settings": {
+      "reset": "Taasta",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Suuna sissetulevad kõned ja sõnumid oma kinnitatud telefonile või e-posti aadressile.",
+      "quiet_hours": "Vaikne aeg",
+      "forwarding": "Edastamine",
+      "enable_text_forwarding": "Luba tekstisõnumite edastamine",
+      "forward_texts_to_phone": "Edasta tekstisõnumid telefonile",
+      "forward_texts_to_email": "Edasta tekstid e-postile",
+      "enable_call_forwarding": "Luba kõnede suunamine"
+    },
+    "chat_message_row": {
+      "copy": "Kopeeri",
+      "edit": "Muuda",
+      "report": "Aruanne",
+      "message_info": "Sõnumi info"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Sõnumeid pole veel",
+      "delete_message": "Kas soovid sõnumi kustutada?",
+      "choose_how_you_want_to_delete_this_message": "Vali, kuidas soovid selle sõnumi kustutada.",
+      "delete_for_everyone": "Kustuta kõigi jaoks",
+      "delete_for_me": "Kustuta minu eest",
+      "search_messages": "Otsi sõnumeid",
+      "search_in_chat": "Otsi vestlusest",
+      "sending": "Saadetakse…",
+      "failed_to_send": "Saadetis ebaõnnestus",
+      "edited": "Muudetud",
+      "audio_call": "Helikõne",
+      "video_call": "Videokõne",
+      "selected_gif": "Valitud GIF",
+      "remove_gif": "Eemalda GIF",
+      "attach": "Lisa",
+      "rewrite_with_ria": "Kirjuta ümber koos Riaga",
+      "composer_action": "Helilooja tegevus"
+    },
+    "edit_message": {
+      "save": "Salvesta",
+      "emoji": "Emoji",
+      "edit_message": "Muuda sõnumit"
+    },
+    "message_attachments": {
+      "image_attachment": "Pildi manustamine",
+      "video_attachment": "Videolisa",
+      "play_video": "Vaata videot"
+    },
+    "message_bubble": {
+      "disappearing_message": "Kaduv sõnum"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Seda pole veel keegi lugenud",
+      "message_info": "Sõnumi info"
+    },
+    "report_message": {
+      "reason": "Põhjus",
+      "include_previous_messages": "Lisa eelmised sõnumid",
+      "additional_details": "Täiendav teave",
+      "anything_else_moderators_should_know": "Kas on veel midagi, mida moderaatorid peaksid teadma?",
+      "block_this_user_after_reporting": "Blokeeri see kasutaja pärast teatamist",
+      "submit_report": "Saada aruanne",
+      "report_message": "Teata sõnumist"
+    },
+    "phone_number": {
+      "replace_number": "Asenda number",
+      "pick_a_number": "Vali number",
+      "no_number_assigned": "Chatforia numbrit pole määratud.",
+      "your_number": "Sinu Chatforia number"
+    },
+    "pick_number": {
+      "area_code": "Suunakood",
+      "premium_numbers_are_protected_from_recycling": "Premium-numbrid on kaitstud taaskasutamise eest.",
+      "available_numbers": "Saadaval olevad numbrid",
+      "search_by_area_code_to_find_available_numbers": "Otsi vabu numbreid suunakoodi järgi.",
+      "capability": "Võimekus",
+      "country": "Riik"
+    },
+    "gif_picker": {
+      "search_tenor": "Otsi Tenor",
+      "search_gifs": "Otsi GIF-faile"
+    },
+    "random_chat": {
+      "add_friend": "Lisa sõber",
+      "skip": "Vaata edasi",
+      "send": "Saada",
+      "end_chat": "Lõpeta vestlus"
+    },
+    "random_matching": {
+      "finding_someone": "Kellegi leidmine"
+    },
+    "ria_chat": {
+      "ask_ria": "Küsi Rialt...",
+      "you_re_now_chatting_with_ria": "Sa vestled praegu Riaga",
+      "chat_with_ria_anytime_separate_from_random_human": "Võid Ria'ga igal ajal vestelda, ilma et sind juhuslikult kellegagi kokku sobitataks."
+    },
+    "ria_rewrite": {
+      "original_text": "Algne tekst",
+      "choose_tone": "Vali toon",
+      "rewriting": "Ümberkirjutamine…",
+      "suggestions": "Soovitused",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Vali toon, et saada ümberkirjutamise soovitusi."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Tasuta versioon sisaldab põhilisi helisid. Uuendage, et avada rohkem helisid ja helinaid.",
+      "volume": "Maht",
+      "message_tone": "Sõnumi helisignaal",
+      "ringtone": "Helin"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Häälsõnumeid pole veel.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Kui keegi jätab sulle kõneposti,\nilmub see siia.",
+      "play_voicemail": "Kuula kõneposti",
+      "delete_voicemail": "Kustuta kõneposti sõnum"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Valitud kõneposti sõnum"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Leviala teie praeguses riigis või lähiümbruses.",
+      "coverage_across_supported_european_destinations": "Teenus on saadaval kõigis toetatud Euroopa sihtkohtades.",
+      "coverage_across_supported_global_destinations": "Teenuse kättesaadavus toetatud sihtkohtades üle maailma."
+    },
+    "wireless_home": {
+      "manage_wireless": "Traadita võrgu haldamine",
+      "port_my_number": "Minu numbri ülekandmine",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM-andmepakettide kasutamiseks on vaja eSIM-iga ühilduvat ja lukustamata seadet.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Püsi ühenduses ka reisil olles või kui Wi-Fi-võrgust eemal oled.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Vali ühekordne eSIM-andmepakett kohaliku, Euroopa või ülemaailmse levialaga.",
+      "we_don_t_sell_data_packs_under_3_gb": "Me ei müü alla 3 GB suuruseid andmepakette.",
+      "loading_usage": "Laadimise kasutamine…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Hetkel pole aktiivset andmepaketti. Osta allpool pakett, et hakata andmeside kasutamist jälgima.",
+      "usage_details_will_appear_once_your_data_pack_is": "Andmeside kasutamise andmed kuvatakse, kui teie andmepakett on aktiveeritud.",
+      "manage": "Haldamine",
+      "coverage": "Katteala",
+      "your_esim": "Teie eSIM",
+      "current_usage": "Praegune kasutus"
+    }
   }
 }

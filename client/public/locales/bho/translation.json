@@ -3066,7 +3066,8 @@
     "flip": "पलट",
     "speaker": "बोलनिहार",
     "end": "खतम",
-    "noIncomingCallToAnswer": "जवाब देवे खातिर कौनो आवत कॉल नइखे।"
+    "noIncomingCallToAnswer": "जवाब देवे खातिर कौनो आवत कॉल नइखे।",
+    "serviceUnavailable": "कॉल सेवा अभी उपलब्ध नइखे। कृपया बाद में फेर से कोशिश करीं।"
   },
   "settings": {
     "startHour": "शुरुआत के घंटा (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "अँधेरा",
   "accessibility_caption_bg_transparent": "पारदर्शी",
   "api": {
-    "notAuthorized": "अधिकृत नइखे"
+    "notAuthorized": "अधिकृत नइखे",
+    "invalidURL": "सर्वर पता गलत बा।",
+    "serverError": "सर्वर त्रुटि (%d): %@",
+    "failedToDecodeResponse": "सर्वर के जवाब पढ़ल ना जा सकल: %@"
+  },
+  "tap_to_view_contact": "संपर्क देखे खातिर टैप करीं",
+  "android": {
+    "plan": {
+      "plan_billing": "योजना आ बिलिंग",
+      "current_plan": "वर्तमान योजना",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "प्लस से विज्ञापन-मुक्त होखीं, या प्रीमियम से AI टूल्स आ कस्टमाइजेशन अनलॉक करीं।",
+      "plus": "अउरी",
+      "premium": "प्रीमियम",
+      "back": "वापस",
+      "my_plan": "हमार योजना",
+      "compare_plans": "योजनाओं की तुलना करें",
+      "included": "शामिल बा"
+    },
+    "upgrade": {
+      "upgrade": "अपग्रेड",
+      "restore_purchases": "खरीदल सामान बहाल करीं",
+      "unlock_more_with": "Chatforia से अउरी अनलॉक करीं",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "विज्ञापन हटावे, आपन अनुभव के अनुकूलित करे आ उन्नत उपकरण अनलॉक करे खातिर प्लस या प्रीमियम चुनीं।",
+      "best_experience": "सबसे बढ़िया अनुभव",
+      "close": "बंद करीं",
+      "plus": "चैटफोरिया प्लस",
+      "remove_ads_and_unlock_more_everyday_features": "विज्ञापन हटाईं आ रोजाना के अउरी फीचर अनलॉक करीं।",
+      "premium": "चैटफोरिया प्रीमियम",
+      "the_full_experience": "पूरा चैटफोरिया अनुभव।",
+      "premium_annual": "प्रिमियम सालाना",
+      "save_compared_to_monthly_premium": "मासिक प्रीमियम से बचत"
+    },
+    "audio_call": {
+      "mute": "चुप",
+      "speaker": "बोलनिहार",
+      "end_call": "फ़ोन बंद करीं"
+    },
+    "dial_pad": {
+      "dial": "घुमाईं",
+      "done": "हो गइल",
+      "enter_number": "संख्या दर्ज करीं",
+      "call": "फोन करीं",
+      "delete_digit": "अंक मिटाईं"
+    },
+    "incoming_call": {
+      "decline": "गिरावट",
+      "accept": "स्वीकार करीं",
+      "decline_call": "कॉल ठुकराईं",
+      "accept_call": "कॉल स्वीकार करीं"
+    },
+    "video_call": {
+      "camera": "कैमरा",
+      "flip_camera": "पलट के कैमरा"
+    },
+    "chats": {
+      "search_chats": "चैट खोजीं",
+      "no_chats_yet": "अभी तक कौनो बातचीत नइखे भइल",
+      "admob_ad": "एडमोब विज्ञापन",
+      "delete_conversation": "बातचीत हटाईं?",
+      "this_will_remove_this_conversation_from_your_cha": "ई बातचीत रउरा चैट लिस्ट से हटा दी।",
+      "delete": "मिटाईं",
+      "cancel": "रद्द करीं",
+      "chats": "बातचीत",
+      "new_chat": "नया चैट",
+      "refresh": "ताज़ा करीं",
+      "random_chat": "बेतरतीब बातचीत",
+      "search": "खोजीं",
+      "delete_conversation_2": "बातचीत मिटाईं"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "यूज़रनेम, संपर्क नाम, या फोन नंबर",
+      "new_chat": "नया चैट",
+      "start_a_chat": "चैट शुरू करीं",
+      "search_by_username_contact_name_or_phone_number": "यूज़रनेम, संपर्क नाम, या फोन नंबर से खोजीं।",
+      "results": "परिणाम",
+      "open_chat": "चैट खोलें"
+    },
+    "calls": {
+      "recents": "हाल के",
+      "voicemail": "वॉइसमेल",
+      "calls": "कॉल",
+      "no_calls_yet": "अबहीं तक कौनो कॉल नइखे",
+      "your_recent_calls_will_show_up_here": "तोहार हाल के कॉल इहाँ देखाई देइहें।",
+      "open_dial_pad": "डायल पैड खोलें",
+      "delete_call": "कॉल हटाईं",
+      "video_call": "वीडियो कॉल"
+    },
+    "contacts": {
+      "contacts": "संपर्क",
+      "add_contact": "संपर्क जोड़ें",
+      "import_from_phone": "फोन से आयात करीं",
+      "invite_friends": "दोस्त लोग के बुलावा दिहल जाव",
+      "favorite": "पसंदीदा",
+      "open_contact": "संपर्क खोलें"
+    },
+    "main_activity": {
+      "loading": "लोड हो रहल बा...",
+      "profile": "प्रोफ़ाइल"
+    },
+    "profile": {
+      "delete_account": "खाता मिटाईं",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "ई कार्रवाई वापस ना हो सकेला। का रउआ पक्का बानी कि रउआ आपन खाता मिटावे चाहतानी?",
+      "log_out": "बाहर निकलें",
+      "change_photo": "फोटो बदलीं",
+      "remove_photo": "फोटो हटाईं",
+      "preferred_language": "पसंदीदा भाषा",
+      "your_age_range": "तोहार उमिर के दायरा",
+      "theme": "थीम",
+      "choose_how_looks_across_the_app": "पूरा ऐप में Chatforia कइसन देखाई, चुनीं।",
+      "uploading": "अपलोड हो रहल बा…",
+      "choose_plus_or_premium": "प्लस या प्रीमियम चुनीं",
+      "profile_photo": "प्रोफ़ाइल फोटो",
+      "open_upgrade": "अपग्रेड खोलें",
+      "open": "खोलल",
+      "account": "खाता",
+      "username": "उपयोगकर्ता नाम",
+      "email": "ईमेल",
+      "plan": "योजना",
+      "wireless": "वायरलेस",
+      "mobile": "चैटफोरिया मोबाइल",
+      "esim_and_wireless_settings": "ई-सिम आ वायरलेस सेटिंग्स",
+      "call_text_forwarding": "कॉल आ टेक्स्ट फॉरवर्डिंग",
+      "forward_incoming_calls_and_texts": "आवे वाली कॉल आ मैसेज अगिला करीं",
+      "phone_number": "फोन नंबर",
+      "manage_your_number": "अपने Chatforia नंबर के प्रबंध करीं",
+      "settings": "सेटिंग्स",
+      "auto_translate_messages": "संदेशन के अपने आप अनुवाद करीं",
+      "automatically_translate_messages_into_your_prefe": "संदेशन के अपने पसंदीदा भाषा में अपने आप अनुवाद करीं।",
+      "show_original_with_translation": "मूल आ अनुवाद देखाईं",
+      "show_the_original_message_alongside_the_translat": "मूल संदेश के अनुवाद के साथे देखाईं।",
+      "smart_reply_suggestions": "स्मार्ट रिप्लाई सुझाव",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "रिया-संचालित पुनर्लेखन सहायता आ त्वरित जवाब देखाईं।",
+      "linked_devices": "जुड़ल उपकरण",
+      "manage_trusted_devices": "भरोसेमंद डिवाइस सभ के प्रबंध करीं",
+      "pair_new_device": "नया डिवाइस जोड़ीं",
+      "approve_a_new_device": "नया डिवाइस के मंजूरी दीं",
+      "appearance": "दिखाई",
+      "accessibility": "पहुँच",
+      "visual_alerts_captions_and_voice_note_accessibil": "दृश्य चेतावनी, कैप्शन आ वॉइस नोट के पहुँच",
+      "security": "सुरक्षा",
+      "encryption_key_protected": "एन्क्रिप्शन कुंजी सुरक्षित",
+      "privacy": "निजता",
+      "allow_explicit_content": "स्पष्ट सामग्री के अनुमति दीं",
+      "show_read_receipts": "पढ़ल रसीद देखाईं",
+      "blur_messages_by_default": "डिफ़ॉल्ट रूप से संदेश धुंधला करीं",
+      "blur_when_app_is_unfocused": "जब ऐप फोकस में ना होखे तब धुंधला करीं",
+      "hold_to_reveal_messages": "रुकके संदेश देखाईं",
+      "notify_when_messages_are_copied": "जब संदेश कॉपी होखे त सूचना दीं",
+      "random_chat": "यादृच्छिक बातचीत",
+      "use_age_based_matching": "उमिर-आधारित मिलान के इस्तेमाल करीं",
+      "let_ria_remember_conversations": "रिया के बातचीत याद रहे दे।",
+      "forward_voicemail_to_email": "वॉयसमेल के ईमेल पर फॉरवर्ड करीं",
+      "legal_support": "कानूनी आ सहायता",
+      "free": "मुफ्त"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "ध्वनि पर निर्भर ना होके Chatforia के इस्तेमाल आसान बनावे के विकल्प।",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "सामान्य आकार से शुरू होला। अगर रउआ के बड़का टेक्स्ट पसंद बा त पहुँच सेटिंग्स में बढ़ा दीं।",
+      "interface_font_size": "इंटरफेस फ़ॉन्ट साइज़",
+      "notifications": "सूचनाएं",
+      "visual_alerts_for_messages_calls": "संदेश आ कॉल खातिर दृश्य अलर्ट",
+      "show_banners_and_visual_indicators_so_you_do_not": "गतिविधि से चूके ना रहीं, एह खातिर बैनर आ दृश्य संकेत देखाईं।",
+      "vibrate_on_new_messages": "नया संदेश पर कंपन करा",
+      "trigger_device_vibration_with_notifications_when": "जब समर्थित होखे, त सूचना के साथ ट्रिगर डिवाइस कंपन।",
+      "flash_screen_on_incoming_call": "आवे वाली कॉल पर फ्लैश स्क्रीन",
+      "briefly_flash_the_screen_when_a_call_rings": "जब कॉल बजे, तब स्क्रीन पर थोड़ी देर खातिर झिलमिलाईं।",
+      "live_captions": "लाइव कैप्शन",
+      "enable_live_captions": "लाइव कैप्शन चालू करीं",
+      "show_real_time_captions_during_calls_premium_req": "कॉल के दौरान रियल-टाइम कैप्शन देखाईं। प्रीमियम जरूरी बा।",
+      "caption_font_size": "कैप्शन फॉन्ट साइज",
+      "caption_background": "कैप्शन पृष्ठभूमि",
+      "voice_notes": "आवाज़ी नोट्स",
+      "auto_transcribe_voice_notes": "वॉइस नोट्स के अपने आप ट्रांसक्रिब करे",
+      "attach_a_transcript_to_audio_messages_you_receiv": "पहिले मिलल ऑडियो संदेशन से ट्रांसक्रिप्ट जोड़ दीं।"
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "हम आपन चाबी ठीक कइनी।",
+      "restore_encryption": "एन्क्रिप्शन बहाल करीं"
+    },
+    "language_selection": {
+      "select_language": "भाषा चुनल जाव"
+    },
+    "login": {
+      "email_or_username": "ईमेल या यूज़रनेम",
+      "password": "पासवर्ड",
+      "forgot_password": "पासवर्ड भूल गइल बानी?",
+      "resend_verification_email": "पुनः सत्यापन ईमेल भेजीं",
+      "reset_encryption": "एन्क्रिप्शन रीसेट करीं",
+      "create_an_account": "खाता बनाईं",
+      "welcome_to": "चैटफोरिया में रउरा स्वागत बा",
+      "sign_in_or_create_an_account": "साइन इन करीं या खाता बनाईं",
+      "or": "या",
+      "don_t_have_an_account_yet": "का रउरा अबहीं ले खाता नइखे बनवले?"
+    },
+    "onboarding": {
+      "welcome": "स्वागत बा",
+      "set_up_your_profile_so_can_personalize_your_expe": "अपना प्रोफ़ाइल सेट अप करीं ताकि Chatforia रउरा अनुभव के निजी बना सके।",
+      "choose_a_username": "यूज़रनेम चुनऽ",
+      "this_is_how_people_will_recognize_you_in": "एह तरह से लोग चैटफोरिया में रउआ के पहचानिहें।",
+      "choose_your_language": "अपना भाषा चुनऽ",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia एकरा के अनुवाद आ रउरा ऐप के अनुभव खातिर इस्तेमाल करी।",
+      "you_re_ready": "तू तैयार बाड़ऽ",
+      "start_chatting_calling_translating_and_connectin": "दुनिया भर के लोगन से चैट करे, कॉल करे, अनुवाद करे आ जुड़े शुरू करीं।"
+    },
+    "register": {
+      "confirm_password": "पासवर्ड पुष्टि करीं",
+      "phone_optional": "फोन वैकल्पिक",
+      "log_in": "लॉग इन",
+      "create_your_account": "अपना खाता बनाईं",
+      "start_chatting_across_languages_with": "Chatforia से अलग-अलग भाषा में बातचीत शुरू करीं।",
+      "i_agree_to_receive_sms_verification_messages": "हम एसएमएस सत्यापन संदेश प्राप्त करे खातिर सहमत बानी।",
+      "already_have_an_account": "का रउरा लगे पहिले से अकाउंट बा?"
+    },
+    "add_contact": {
+      "phone": "फोन",
+      "name": "नाम",
+      "alias_optional": "उपनाम वैकल्पिक",
+      "pin_this_person_as_a_favorite_contact": "एह आदमी के पसंदीदा संपर्क के रूप में पिन करीं।"
+    },
+    "contact_detail": {
+      "edit_contact": "संपर्क संपादित करीं",
+      "delete_contact": "संपर्क हटाईं",
+      "message": "संदेश",
+      "video": "वीडियो",
+      "external_name": "बाहरी नाम"
+    },
+    "import_phone_contacts": {
+      "select_all": "सब चुनीं",
+      "clear": "साफ",
+      "import_contacts": "संपर्क आयात करीं"
+    },
+    "invite_friends": {
+      "share_invite_link": "आमंत्रण लिंक साझा करीं",
+      "invite_friends": "दोस्त लोग के बुलावा",
+      "share_a_invite_link_with_friends_using_messages_": "Messages, ईमेल, या अपने फोन के कवनो ऐप से दोस्तन के साथ Chatforia के इनवाइट लिंक शेयर करीं।"
+    },
+    "device_pairing": {
+      "pair_a_new_device": "नया डिवाइस जोड़ीं",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "अपने नया डिवाइस पर Chatforia खोलें आ साइन इन करें। अगर ई आपके एन्क्रिप्टेड चैट्स तक पहुँच मांगे, त एक भरोसेमंद डिवाइस से मंजूरी दे दीं।",
+      "view_pending_device_requests": "लंबित डिवाइस अनुरोध देखें"
+    },
+    "key_setup": {
+      "recovery_passcode": "रिकवरी पासकोड",
+      "confirm_recovery_passcode": "रिकवरी पासकोड की पुष्टि करीं",
+      "restore_chats": "चैट्स बहाल करीं",
+      "clear_local_key": "स्थानीय कुंजी मिटाईं",
+      "reset_encryption": "एन्क्रिप्शन रीसेट करीं?",
+      "this_will_permanently_replace_your_encryption_ke": "ई रउरा एन्क्रिप्शन कुंजी के स्थायी रूप से बदल दी।",
+      "encryption": "एन्क्रिप्शन",
+      "restore_encrypted_chats": "एन्क्रिप्ट कइल चैट्स बहाल करीं",
+      "no_recovery_backup_found": "कोनो रिकवरी बैकअप ना मिलल",
+      "open_on_a_device_that_can_already_read_your_encr": "Chatforia के ओह डिवाइस पर खोलें जे पहले से ही रउरा एन्क्रिप्ट कइल चैट्स पढ़ सकेला आ ओहिजा एगो रिकवरी पासकोड बनावें।",
+      "no_recovery_backup_found_yet_create_one_from_thi": "अबहीं ले कवनो रिकवरी बैकअप ना मिलल बा। एह डिवाइस से एगो बनाईं, ताकि रउआ iOS, Android आ वेब पर चैट्स रिस्टोर कर सकीं।",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "केवल तबे ई इस्तेमाल करीं जब रउआ सभ भरोसेमंद डिवाइस खो चुकल बानी आ आपन असली चाबी वापस ना बना पावत बानी।"
+    },
+    "linked_devices": {
+      "your_devices": "तोहार डिवाइस",
+      "pending_approvals": "मंजूरी लंबित बा",
+      "approve": "मंजूर करीं",
+      "reject": "अस्वीकार",
+      "revoke": "रद्द करीं",
+      "request_approval_for_this_device": "एह डिवाइस खातिर मंजूरी के अनुरोध करीं",
+      "finish_device_approval": "डिवाइस मंजूरी पूरा करीं"
+    },
+    "forwarding_settings": {
+      "reset": "रिसेट",
+      "forward_incoming_calls_and_texts_to_your_verifie": "आवे वाली कॉल आ टेक्स्ट के अपने सत्यापित फोन या ईमेल पर फॉरवर्ड करीं।",
+      "quiet_hours": "चुपचाप घंटा",
+      "forwarding": "आगे भेजे",
+      "enable_text_forwarding": "टेक्स्ट फॉरवर्डिंग सक्षम करीं",
+      "forward_texts_to_phone": "फोन पर टेक्स्ट अगेंव बढ़ाईं",
+      "forward_texts_to_email": "टेक्स्ट संदेशन के ईमेल पर भेजीं",
+      "enable_call_forwarding": "कॉल फॉरवर्डिंग चालू करीं"
+    },
+    "chat_message_row": {
+      "copy": "नकल",
+      "edit": "संपादन",
+      "report": "रिपोर्ट",
+      "message_info": "संदेश जानकारी"
+    },
+    "chat_thread": {
+      "no_messages_yet": "अभी तक कौनो संदेश नइखे",
+      "delete_message": "संदेश मिटाईं?",
+      "choose_how_you_want_to_delete_this_message": "ई संदेश के मिटावे के तरीका चुन लीं।",
+      "delete_for_everyone": "सबके खातिर मिटाईं",
+      "delete_for_me": "हमरा खातिर मिटा दीं",
+      "search_messages": "संदेश खोजीं",
+      "search_in_chat": "चैट में खोजीं",
+      "sending": "भेजत…",
+      "failed_to_send": "भेजे में असफल",
+      "edited": "संपादित",
+      "audio_call": "ऑडियो कॉल",
+      "video_call": "वीडियो कॉल",
+      "selected_gif": "चुनि गइल GIF",
+      "remove_gif": "GIF हटाईं",
+      "attach": "जोड़ीं",
+      "rewrite_with_ria": "रिया के साथ फेर से लिखीं",
+      "composer_action": "रचनाकार क्रिया"
+    },
+    "edit_message": {
+      "save": "बचाईं",
+      "emoji": "इमोजी",
+      "edit_message": "संदेश संपादित करीं"
+    },
+    "message_attachments": {
+      "image_attachment": "छवि संलग्न",
+      "video_attachment": "वीडियो संलग्न",
+      "play_video": "वीडियो चलाईं"
+    },
+    "message_bubble": {
+      "disappearing_message": "गायब होखे वाला संदेश"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "अभी तक केहू ई ना पढ़ले बा",
+      "message_info": "संदेश जानकारी"
+    },
+    "report_message": {
+      "reason": "कारण",
+      "include_previous_messages": "पहिले के संदेश शामिल करीं",
+      "additional_details": "अतिरिक्त विवरण",
+      "anything_else_moderators_should_know": "मोडरेटर लोगन के अउरी कुछ जानल जरूरी बा?",
+      "block_this_user_after_reporting": "रिपोर्ट करे के बाद ई यूजर के ब्लॉक करीं",
+      "submit_report": "रिपोर्ट भेजीं",
+      "report_message": "रिपोर्ट संदेश"
+    },
+    "phone_number": {
+      "replace_number": "नंबर बदलीं",
+      "pick_a_number": "एक नंबर चुनऽ",
+      "no_number_assigned": "कोई चैटफ़ोर्निया नंबर आवंटित नइखे भइल।",
+      "your_number": "तोहार चैटफोरिया नंबर"
+    },
+    "pick_number": {
+      "area_code": "क्षेत्र कोड",
+      "premium_numbers_are_protected_from_recycling": "प्रिमियम नंबरन के दोबारा इस्तेमाल से बचावल जाला।",
+      "available_numbers": "उपलब्ध नंबर",
+      "search_by_area_code_to_find_available_numbers": "उपलब्ध नंबर खोजे खातिर एरिया कोड से खोजीं।",
+      "capability": "क्षमता",
+      "country": "देश"
+    },
+    "gif_picker": {
+      "search_tenor": "टेनर खोजीं",
+      "search_gifs": "GIF खोजीं"
+    },
+    "random_chat": {
+      "add_friend": "दोस्त जोड़ें",
+      "skip": "छोड़ि दीं",
+      "send": "भेजो",
+      "end_chat": "चैट खत्म"
+    },
+    "random_matching": {
+      "finding_someone": "केहू के खोजल"
+    },
+    "ria_chat": {
+      "ask_ria": "रिया से पूछीं...",
+      "you_re_now_chatting_with_ria": "अब रिया से बात कर रहल बानी।",
+      "chat_with_ria_anytime_separate_from_random_human": "रिया से कभी भी चैट करीं, बिना यादृच्छिक मानव मिलान के।"
+    },
+    "ria_rewrite": {
+      "original_text": "मूल पाठ",
+      "choose_tone": "टोन चुनऽ",
+      "rewriting": "फेर से लिखेला…",
+      "suggestions": "सुझाव",
+      "choose_a_tone_to_generate_rewrite_suggestions": "पुनर्लेखन सुझाव बनावे खातिर एगो टोन चुन लीं।"
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "मुफ्त में बुनियादी ध्वनि शामिल बा। अधिक टोन आ रिंगटोन अनलॉक करे खातिर अपग्रेड करीं।",
+      "volume": "मात्रा",
+      "message_tone": "संदेश के लहजा",
+      "ringtone": "घंटी के धुन"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "अभी तक कौनो वॉइसमेल नइखे।",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "जब कोई रउरा के वॉइसमेल छोड़ेला, त ऊ इहाँ देखाई देई।",
+      "play_voicemail": "वॉइसमेल बजाईं",
+      "delete_voicemail": "वॉइसमेल हटाईं"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "चुनल गइल वॉइसमेल"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "तोहार वर्तमान देश या नजदीकी स्थानीय इस्तेमाल खातिर कवरेज।",
+      "coverage_across_supported_european_destinations": "समर्थित यूरोपीय गंतव्यन में कवरेज।",
+      "coverage_across_supported_global_destinations": "समर्थित वैश्विक गंतव्यन में कवरेज।"
+    },
+    "wireless_home": {
+      "manage_wireless": "वायरलेस प्रबंध करीं",
+      "port_my_number": "हमार नंबर पोर्ट करीं",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM डेटा पैक खातिर eSIM-संगत आ अनलॉक कइल डिवाइस जरूरी बा।",
+      "stay_connected_when_you_re_traveling_or_away_fro": "जब रउआ यात्रा करत बानीं या वाई-फाई से दूर बानीं, तबो जुड़ल रहीं।",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "स्थानीय, यूरोप या वैश्विक कवरेज खातिर एकबारगी ई-सिम डेटा पैक चुन लीं।",
+      "we_don_t_sell_data_packs_under_3_gb": "हमनी 3 जीबी से कम डाटा पैक ना बेचत बानी।",
+      "loading_usage": "उपयोग लोड हो रहल बा…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "अभी तक कौनो सक्रिय डेटा पैक नइखे। उपयोग ट्रैक करे खातिर नीचे से एगो पैक खरीद लीं।",
+      "usage_details_will_appear_once_your_data_pack_is": "जब रउरा डेटा पैक सक्रिय हो जाई, तब इस्तेमाल के विवरण देखाई देई।",
+      "manage": "प्रबंध करीं",
+      "coverage": "आवरण",
+      "your_esim": "तोहार ई-सिम",
+      "current_usage": "वर्तमान उपयोग"
+    }
   }
 }

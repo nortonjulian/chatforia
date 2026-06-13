@@ -1752,7 +1752,7 @@
           "title": "{{scope}} 3 GB"
         },
         "5gb": {
-          "title": "{{scope}} 5 GB"
+          "title": "{{scope}} GB 5"
         },
         "10gb": {
           "title": "{{scope}} 10 GB"
@@ -3066,7 +3066,8 @@
     "flip": "Jallisi",
     "speaker": "Dubbataa",
     "end": "Xumurame",
-    "noIncomingCallToAnswer": "Bilbilli dhufaa deebifamu hin jiru."
+    "noIncomingCallToAnswer": "Bilbilli dhufaa deebifamu hin jiru.",
+    "serviceUnavailable": "Tajaajilli bilbilaa amma hin argamu. Maaloo booda irra deebi'aa yaalaa."
   },
   "settings": {
     "startHour": "Sa'aatii jalqabaa (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Dukkanaa'aa",
   "accessibility_caption_bg_transparent": "Ifa",
   "api": {
-    "notAuthorized": "Hin hayyamamne"
+    "notAuthorized": "Hin hayyamamne",
+    "invalidURL": "Teessoon tajaajilaa sirrii miti.",
+    "serverError": "Dogoggora sarvarii (%d): %@",
+    "failedToDecodeResponse": "Deebii sarvarii dubbisuun hin danda'amne: %@"
+  },
+  "tap_to_view_contact": "Quunnamtii ilaaluuf tuqi",
+  "android": {
+    "plan": {
+      "plan_billing": "Karooraa fi Kaffaltii",
+      "current_plan": "Karoora yeroo ammaa",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Plus-iin beeksisa malee fayyadamaa, yookaan Premium-iin meeshaalee AI fi sirreeffama dhuunfaa banadhaa.",
+      "plus": "Dabalataan",
+      "premium": "Gatii olaanaa",
+      "back": "Gara duubaatti",
+      "my_plan": "Karoora Koo",
+      "compare_plans": "Karoorawwan walbira qabi",
+      "included": "Dabalameera"
+    },
+    "upgrade": {
+      "upgrade": "Fooyyessuu",
+      "restore_purchases": "Bitoota deebisi",
+      "unlock_more_with": "Chatforia'n caalaatti banaa.",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Beeksisa balleessuuf, muuxannoo kee sirreessuuf, fi meeshaalee sadarkaa olaanaa banuuf Plus yookiin Premium filadhu.",
+      "best_experience": "Muuxannoo isa gaarii",
+      "close": "Cufi",
+      "plus": "Chaatfooriyaa Pilaas",
+      "remove_ads_and_unlock_more_everyday_features": "Beeksisa balleessi, amaloota dabalataa guyyaa guyyaa banadhu.",
+      "premium": "Chaatfooriyaa Piriimiyem",
+      "the_full_experience": "Muuxannoo Chatforia guutuu.",
+      "premium_annual": "Gatii Addaa Waggaa",
+      "save_compared_to_monthly_premium": "Kaffaltii ji'aa wajjin yoo madaalamu qusata."
+    },
+    "audio_call": {
+      "mute": "Sagalee cufi",
+      "speaker": "Dubbataa",
+      "end_call": "Bilbila xumuri"
+    },
+    "dial_pad": {
+      "dial": "Lakkoofsa",
+      "done": "Xumurame",
+      "enter_number": "Lakkoofsa galchi",
+      "call": "Bilbili",
+      "delete_digit": "Lakkoofsa haqi"
+    },
+    "incoming_call": {
+      "decline": "Gadi bu'iinsa",
+      "accept": "Fudhadhu",
+      "decline_call": "Bilbila dhiisi",
+      "accept_call": "Bilbila fudhadhu"
+    },
+    "video_call": {
+      "camera": "Kaameraa",
+      "flip_camera": "Kaameraa garagalchi"
+    },
+    "chats": {
+      "search_chats": "Haasawaa barbaadi",
+      "no_chats_yet": "Hanga ammaatti haasofni hin jiru",
+      "admob_ad": "Beeksisa AdMob",
+      "delete_conversation": "Mariin haqamaa?",
+      "this_will_remove_this_conversation_from_your_cha": "Kun haasawa kana tarree haasawaa kee keessaa ni baasa.",
+      "delete": "Haqi",
+      "cancel": "Haqi",
+      "chats": "Haasaawwan",
+      "new_chat": "Haasawa haaraa",
+      "refresh": "Haaromsi",
+      "random_chat": "Haasaa tasaa",
+      "search": "Barbaadi",
+      "delete_conversation_2": "Marii haqi"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Maqaa fayyadamaa, maqaa qunnamtii, yookaan lakkoofsa bilbilaa",
+      "new_chat": "Haasawa Haaraa",
+      "start_a_chat": "Haasaa jalqabi",
+      "search_by_username_contact_name_or_phone_number": "Maqaa fayyadamaa, maqaa qunnamtii, yookaan lakkoofsa bilbilaatiin barbaadi.",
+      "results": "Bu'aawwan",
+      "open_chat": "Haasaa Bani"
+    },
+    "calls": {
+      "recents": "Dhiheenya kana",
+      "voicemail": "Ergaa Sagalee",
+      "calls": "Iyyannoowwan",
+      "no_calls_yet": "Ammaaf bilbilli hin jiru",
+      "your_recent_calls_will_show_up_here": "Bilbila kee kan dhiheenyaa asitti ni mul'atu.",
+      "open_dial_pad": "Padii lakkoofsaa bani",
+      "delete_call": "Bilbila haqi",
+      "video_call": "Bilbila Viidiyoo"
+    },
+    "contacts": {
+      "contacts": "Qunnamtiiwwan",
+      "add_contact": "Quunnamtii dabali",
+      "import_from_phone": "Bilbila irraa galchi",
+      "invite_friends": "Hiriyoota affeeri",
+      "favorite": "Kan jaallatamu",
+      "open_contact": "Qunnamtii banaa"
+    },
+    "main_activity": {
+      "loading": "Fe'amaa jira...",
+      "profile": "Ibsa Dhuunfaa"
+    },
+    "profile": {
+      "delete_account": "Herrega Haqi",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Gocha kana deebisuun hin danda'amu. Akkaawuntii kee haquu akka barbaaddu sirriitti mirkanaa'aa?",
+      "log_out": "Ba'i",
+      "change_photo": "Suuraa jijjiiri",
+      "remove_photo": "Suuraa Kaasi",
+      "preferred_language": "Afaan Filatame",
+      "your_age_range": "Daangaa umrii keetii",
+      "theme": "Mata duree",
+      "choose_how_looks_across_the_app": "Appilikeeshinicha keessatti Chatforia'n akkamitti akka mul'atu filadhu.",
+      "uploading": "Ol fe'amaa jira…",
+      "choose_plus_or_premium": "Filadhu Plus yookiin Premium",
+      "profile_photo": "Suuraa piroofaayilii",
+      "open_upgrade": "Fooyyessa banaa",
+      "open": "Bani",
+      "account": "Herrega",
+      "username": "Maqaa fayyadamaa",
+      "email": "Imeelii",
+      "plan": "Karoora",
+      "wireless": "Zabibii malee",
+      "mobile": "Chaatfooriyaa Moobaayilii",
+      "esim_and_wireless_settings": "Qindaa'ina eSIM fi kanneen wayaarlesii",
+      "call_text_forwarding": "Ergaa Bilbilaa fi Ergaa Barreeffamaa Qajeelchuu",
+      "forward_incoming_calls_and_texts": "Bilbilaafi ergaawwan dhufan gara fuulduraatti dabarsi",
+      "phone_number": "Lakkoofsa Bilbilaa",
+      "manage_your_number": "Lakkoofsa Chatforia kee bulchi",
+      "settings": "Qindaa'inoota",
+      "auto_translate_messages": "Ergaawwan ofumaan hiikuu",
+      "automatically_translate_messages_into_your_prefe": "Ergaawwan ofumaan gara afaan filattutti hiiki.",
+      "show_original_with_translation": "Jalqabaa hiikkaa wajjin agarsiisi",
+      "show_the_original_message_alongside_the_translat": "Ergaa jalqabaa hiikkaa isaa cinaatti agarsiisi.",
+      "smart_reply_suggestions": "Yaada deebii ogeessaa",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Gargaarsa barreeffama haaromsuu kan Ria-n deeggarame fi deebiiwwan saffisaa agarsiisi.",
+      "linked_devices": "Meeshaalee Wal-hidhaman",
+      "manage_trusted_devices": "Meeshaalee amanamoo bulchi",
+      "pair_new_device": "Meeshaa Haaraa Walqabsiisi",
+      "approve_a_new_device": "Meeshaa haaraa mirkaneessi",
+      "appearance": "Mul'ata",
+      "accessibility": "Gahiinsa",
+      "visual_alerts_captions_and_voice_note_accessibil": "Argannoowwan mul'atan, ibsa suuraa, fi argamummaa yaada sagalee",
+      "security": "Nageenya",
+      "encryption_key_protected": "Furtuun icciitii eegameera",
+      "privacy": "Iccitii",
+      "allow_explicit_content": "Qabiyyee ifa ta'e hayyami",
+      "show_read_receipts": "Ragaa dubbisaa agarsiisi",
+      "blur_messages_by_default": "Ergaawwan akka idileetti burjaajji",
+      "blur_when_app_is_unfocused": "Yeroo appiin xiyyeeffannoo hin qabne",
+      "hold_to_reveal_messages": "Ergaawwan agarsiisuuf qabadhu",
+      "notify_when_messages_are_copied": "Yeroo ergaawwan garagalfamaniif beeksisi",
+      "random_chat": "Haasaa Tasaa",
+      "use_age_based_matching": "Wal-simsiisa umrii irratti hundaa'e fayyadami",
+      "let_ria_remember_conversations": "Riyaan haasawa yaadatti haa hafu",
+      "forward_voicemail_to_email": "Ergaa sagalee gara imeeliitti dabarsi",
+      "legal_support": "Seeraa fi Deeggarsa",
+      "free": "Tola"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Filannoowwan Chatforia sagalee irratti hirkachuu malee fayyadamuuf salphaa taasisan.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Hamma idileetiin jalqaba. Yoo barreeffama guddaa filatte, qindaa'ina fayyadamaa keessatti guddisi.",
+      "interface_font_size": "Hamma qubee fuula walqunnamtii",
+      "notifications": "Beeksisa",
+      "visual_alerts_for_messages_calls": "Ergaawwaniifi bilbilootaaf akeekkachiisa mul'atu",
+      "show_banners_and_visual_indicators_so_you_do_not": "Sochii akka isin hin darbineef, baanerootaafi agarsiistota mul'atan agarsiisaa.",
+      "vibrate_on_new_messages": "Ergaawwan haaraa irratti hollachiisi",
+      "trigger_device_vibration_with_notifications_when": "Yeroo deeggaramu, beeksisa wajjin rirriqqii meeshaa kakaasi.",
+      "flash_screen_on_incoming_call": "Iskiriinii bilbila dhufu irratti ifu",
+      "briefly_flash_the_screen_when_a_call_rings": "Yeroo bilbilli bilbilu, iskiriiniin gabaabinaan ibsi.",
+      "live_captions": "Ibsa sagalee kallattiin",
+      "enable_live_captions": "Mata dureewwan kallattiin dubbifaman eeyyami",
+      "show_real_time_captions_during_calls_premium_req": "Yeroo bilbilaa jechoota dhaga'aman yeroodhaan agarsiisi. Piriimiyamii ni barbaachisa.",
+      "caption_font_size": "Guddina qubee mata duree",
+      "caption_background": "Mata duree duubee",
+      "voice_notes": "Yaadannoo sagalee",
+      "auto_transcribe_voice_notes": "Yaadannoo sagalee ofumaan barreessi",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Ergaawwan sagalee isin simattanitti waraqaa ragaa barnootaa maxxansaa."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Furtuu koo deebiseera.",
+      "restore_encryption": "Icceessuu Deebisi"
+    },
+    "language_selection": {
+      "select_language": "Afaan filadhu"
+    },
+    "login": {
+      "email_or_username": "Imeelii yookiin maqaa fayyadamaa",
+      "password": "Jecha iccitii",
+      "forgot_password": "Jecha darbii kee irraanfatteettaa?",
+      "resend_verification_email": "Imeelii mirkaneessaa irra deebi'ii ergi",
+      "reset_encryption": "Icceessuu Deebisanii Jalqabsiisuu",
+      "create_an_account": "Akkaawuntii uumi",
+      "welcome_to": "Gara Chatforiaatti Baga Nagaan Dhuftan",
+      "sign_in_or_create_an_account": "Seeni yookaan herrega uumi",
+      "or": "yookaan",
+      "don_t_have_an_account_yet": "Akkawuntii hin qabduu?"
+    },
+    "onboarding": {
+      "welcome": "Baga nagaan dhuftan",
+      "set_up_your_profile_so_can_personalize_your_expe": "Muuxannoo kee akka Chatforia siif mijaajessuuf, piroofaayilii kee qindeessi.",
+      "choose_a_username": "Maqaa fayyadamaa filadhu",
+      "this_is_how_people_will_recognize_you_in": "Akka kanaan namoonni Chaatfooriyaa keessatti si beeku.",
+      "choose_your_language": "Afaan kee filadhu",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia kana hiikkaa fi muuxannoo appii keessaniif ni fayyadama.",
+      "you_re_ready": "Qophii dha",
+      "start_chatting_calling_translating_and_connectin": "Haasa'uu, bilbiluu, hiikuu fi namoota addunyaa maratti argaman waliin wal qunnamuu jalqabi."
+    },
+    "register": {
+      "confirm_password": "Jecha darbii mirkaneeffadhu",
+      "phone_optional": "Bilbila filannoo",
+      "log_in": "Seeni",
+      "create_your_account": "Akkaawuntii kee uumi",
+      "start_chatting_across_languages_with": "Chatforia'n afaanota adda addaatiin haasa'uu jalqabi.",
+      "i_agree_to_receive_sms_verification_messages": "Ergaawwan mirkaneessaa SMS argachuuf walii galeera.",
+      "already_have_an_account": "Kanaa dura akkawuntii qabdaa?"
+    },
+    "add_contact": {
+      "phone": "Bilbila",
+      "name": "Maqaa",
+      "alias_optional": "Maqaa biraa filannoo",
+      "pin_this_person_as_a_favorite_contact": "Nama kana akka qunnamtii jaallatamaatti mallatteessi."
+    },
+    "contact_detail": {
+      "edit_contact": "Quunnamtii Sirreessi",
+      "delete_contact": "Qunnamtii haqi",
+      "message": "Ergaa",
+      "video": "Viidiyoo",
+      "external_name": "Maqaa Alaa"
+    },
+    "import_phone_contacts": {
+      "select_all": "Hunda Filadhu",
+      "clear": "Ifa",
+      "import_contacts": "Qunnamtiiwwan Galchuu"
+    },
+    "invite_friends": {
+      "share_invite_link": "Geessituu Afeerraa Qoodi",
+      "invite_friends": "Hiriyoota affeeri",
+      "share_a_invite_link_with_friends_using_messages_": "Ergaa, imeelii, yookiin appii bilbila kee irra jiru kamiyyuu fayyadamuun, hiriyoota keetiif geessituu affeerraa Chatforia hiri'i."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Meeshaa Haaraa Walqabsiisi",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Meeshaa kee isa haaraa irratti Chatforia baniitii seeni. Yoo haasawa kee isa iccitiin eegame argachuun isa barbaachise, meeshaa amanamaa irraa hayyami.",
+      "view_pending_device_requests": "Gaaffiiwwan meeshaa eeggachaa jiran ilaali"
+    },
+    "key_setup": {
+      "recovery_passcode": "Koodii Deebisanii Banuu",
+      "confirm_recovery_passcode": "Koodii Darbii Deebii Mirkaneeffadhu",
+      "restore_chats": "Haasaawwan Deebisi",
+      "clear_local_key": "Furtuu naannoo qulqulleessi",
+      "reset_encryption": "Icceessuu deebisanii jalqabsiisuu?",
+      "this_will_permanently_replace_your_encryption_ke": "Kun furtuu icciitii kee yeroo hundumaaf bakka bu'a.",
+      "encryption": "Icceessuu",
+      "restore_encrypted_chats": "Haasaawwan icciitiin eegaman deebisi",
+      "no_recovery_backup_found": "Kuusaan gargaarsaa deebisuuf hin argamne",
+      "open_on_a_device_that_can_already_read_your_encr": "Meeshaa haasawa kee icciitiin qabame dubbisuu danda'u irratti Chatforia banaa, achittis Koodii Deebisanii Ittiin Banan uumaa.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Kuusaan gargaarsaa kan Haaromsaaf oolu hanga ammaatti hin argamne. Haasaawwan iOS, Android, fi weebii irratti deebistee haaromsuuf, meeshaa kanarraa tokko uumi.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Meeshaalee amanamoo hunda yoo dhabde fi furtuu kee isa jalqabaa deebistee yoo uumuu hin dandeenye qofa kana fayyadami."
+    },
+    "linked_devices": {
+      "your_devices": "Meeshaalee kee",
+      "pending_approvals": "Mirkanneeffama eeggachaa jira",
+      "approve": "Mirkaneeffadhu",
+      "reject": "Diduu",
+      "revoke": "Haqaa",
+      "request_approval_for_this_device": "Meeshaa kanaaf hayyama gaafadhaa",
+      "finish_device_approval": "Mirkanneessa meeshaa xumuraa"
+    },
+    "forwarding_settings": {
+      "reset": "Gara duriitti deebi'i",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Bilbilaafi ergaawwan galuu gara bilbila kee mirkanaa'eetti yookaan gara iimeelii keetti dabarsi.",
+      "quiet_hours": "Sa'aatiiwwan Callisaa",
+      "forwarding": "Fakkeessaa",
+      "enable_text_forwarding": "Ergaa barruu dabarsuu eeyyami",
+      "forward_texts_to_phone": "Ergaawwan gara bilbilaatti dabarsi",
+      "forward_texts_to_email": "Ergaawwan gara imeeliitti dabarsi",
+      "enable_call_forwarding": "Bilbila gara fuulduraatti dabarsuu eeyyami"
+    },
+    "chat_message_row": {
+      "copy": "Koppii",
+      "edit": "Gulaali",
+      "report": "Gabaasa",
+      "message_info": "Odeeffannoo Ergaa"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Ergaawwan hanga ammaatti hin jiran",
+      "delete_message": "Ergaa haqi?",
+      "choose_how_you_want_to_delete_this_message": "Ergaa kana akkamitti haquu akka barbaaddu filadhu.",
+      "delete_for_everyone": "Hundaaf haqi",
+      "delete_for_me": "Anaaf haqi",
+      "search_messages": "Ergaawwan barbaadi",
+      "search_in_chat": "Haasawa keessatti barbaadi",
+      "sending": "Ergaa jira…",
+      "failed_to_send": "Erguun hin milkoofne",
+      "edited": "Gulaalame",
+      "audio_call": "Bilbila Sagalee",
+      "video_call": "Bilbila Viidiyoo",
+      "selected_gif": "GIF Filatame",
+      "remove_gif": "GIF Baasi",
+      "attach": "Makaa",
+      "rewrite_with_ria": "Riyaadhaan irra deebi'ii barreessi",
+      "composer_action": "Gocha qindeessaa"
+    },
+    "edit_message": {
+      "save": "Ol kaa'i",
+      "emoji": "Emoojii",
+      "edit_message": "Ergaa gulaali"
+    },
+    "message_attachments": {
+      "image_attachment": "Fakkii maxxansaa",
+      "video_attachment": "Viidiyoo maxxanfame",
+      "play_video": "Viidiyoo taphachiisi"
+    },
+    "message_bubble": {
+      "disappearing_message": "Ergaa badu"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Ammaatti namni tokkollee kana hin dubbisne",
+      "message_info": "Odeeffannoo ergaa"
+    },
+    "report_message": {
+      "reason": "Sababa",
+      "include_previous_messages": "Ergaawwan duraanii dabaladhu",
+      "additional_details": "Odeeffannoo Dabalataa",
+      "anything_else_moderators_should_know": "Wanti biraa qindeessitoonni beekuu qaban jiraa?",
+      "block_this_user_after_reporting": "Gabaasuu booda fayyadamaa kana cufi",
+      "submit_report": "Gabaasa galchi",
+      "report_message": "Ergaa gabaasi"
+    },
+    "phone_number": {
+      "replace_number": "Lakkoofsa Beddisi",
+      "pick_a_number": "Lakkoofsa Filadhu",
+      "no_number_assigned": "Lakkoofsi Chaatfooriyaa hin kennamne.",
+      "your_number": "Lakkoofsa kee kan Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Koodii Naannoo",
+      "premium_numbers_are_protected_from_recycling": "Lakkoofsotni addaa irra deebiin akka hin fayyadaman eegamaniiru.",
+      "available_numbers": "Lakkoofsota Argaman",
+      "search_by_area_code_to_find_available_numbers": "Lakkoofsota argaman argachuuf koodii naannootiin barbaadi.",
+      "capability": "Dandeettii",
+      "country": "Biyya"
+    },
+    "gif_picker": {
+      "search_tenor": "Tenor barbaadi",
+      "search_gifs": "GIFwwan barbaadi"
+    },
+    "random_chat": {
+      "add_friend": "Hiriyaa Dabali",
+      "skip": "Irra Darbi",
+      "send": "Ergi",
+      "end_chat": "Haasawa xumuri"
+    },
+    "random_matching": {
+      "finding_someone": "Nama argachuu"
+    },
+    "ria_chat": {
+      "ask_ria": "Riyaa gaafadhu...",
+      "you_re_now_chatting_with_ria": "Amma Ri'aa wajjin haasa'aa jirta.",
+      "chat_with_ria_anytime_separate_from_random_human": "Riyaadhaan yeroo barbaaddetti haasofsi, wal-qunnamsiisa namoota tasaa irraa adda."
+    },
+    "ria_rewrite": {
+      "original_text": "Barruu jalqabaa",
+      "choose_tone": "Sagalee filadhu",
+      "rewriting": "Irra deebi'anii barreessuu…",
+      "suggestions": "Yaadawwan",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Yaada irra deebiin barreessuu maddisiisuuf sagalee filadhu."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Gatiin bilisaa sagaleewwan bu'uuraa of keessatti qabata. Sagaleewwan dabalataa fi sagaleewwan bilbilaa banuuf gara sadarkaa ol'aanaatti guddisadhaa.",
+      "volume": "Guutina",
+      "message_tone": "Sagalee Ergaa",
+      "ringtone": "Sagalee Bilbilaa"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Ergaa sagalee hanga ammaatti hin jiru.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Yeroo namni tokko ergaa sagalee siif dhiisu, asitti mul'ata.",
+      "play_voicemail": "Ergaa sagalee taphachiisi",
+      "delete_voicemail": "Ergaa sagalee haqi"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Ergaa sagalee filatame"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Uwwisa biyya keessan ykn naannoo keessaniif.",
+      "coverage_across_supported_european_destinations": "Bakkeewwan Awurooppaa deeggaraman hunda keessatti uwwisa.",
+      "coverage_across_supported_global_destinations": "Bakkeewwan addunyaa deeggaraman hunda keessatti uwwisa."
+    },
+    "wireless_home": {
+      "manage_wireless": "Sarara malee to'achuu",
+      "port_my_number": "Lakkoofsa Koo Galuu",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Paakeejii daataa eSIM'f meeshaa eSIM wajjin walsimuufi kan hin cufamne barbaachisa.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Yeroo imaltu yookaan Wi-Fi irraa fagaatte, wal qunnamaa.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Uwwisa Naannoo, Awurooppaa, yookiin Addunyaatiif paakeejii daataa eSIM kan yeroo tokkoof ta'u filadhu.",
+      "we_don_t_sell_data_packs_under_3_gb": "Paakeejii daataa 3 GB gadi hin gurgurru.",
+      "loading_usage": "Fayyadama fe'aa jira…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Paakiin daataa hojjechaa jiru ammaaf hin jiru. Fayyadama hordofuu jalqabuuf paakii armaan gadii bitadhaa.",
+      "usage_details_will_appear_once_your_data_pack_is": "Tartiibni fayyadamaa erga paakeejiin daataa kee hojii eegalee booda ni mul'ata.",
+      "manage": "To'achuu",
+      "coverage": "Haguuggii",
+      "your_esim": "eSIM kee",
+      "current_usage": "Fayyadama Ammaa"
+    }
   }
 }

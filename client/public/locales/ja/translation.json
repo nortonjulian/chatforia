@@ -3066,7 +3066,8 @@
     "flip": "フリップ",
     "speaker": "スピーカー",
     "end": "終了",
-    "noIncomingCallToAnswer": "応答すべき着信がない。"
+    "noIncomingCallToAnswer": "応答すべき着信がない。",
+    "serviceUnavailable": "現在、電話サービスはご利用いただけません。後ほど再度お試しください。"
   },
   "settings": {
     "startHour": "開始時間 (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "ダーク",
   "accessibility_caption_bg_transparent": "透明",
   "api": {
-    "notAuthorized": "許可されていません"
+    "notAuthorized": "許可されていません",
+    "invalidURL": "サーバーアドレスが無効です。",
+    "serverError": "サーバーエラー (%d): %@",
+    "failedToDecodeResponse": "サーバーの応答を読み取れませんでした: %@"
+  },
+  "tap_to_view_contact": "タップして連絡先を表示",
+  "android": {
+    "plan": {
+      "plan_billing": "プランと請求",
+      "current_plan": "現在の計画",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "「Plus」で広告なしの環境を手に入れましょう。あるいは、「Premium」でAIツールやカスタマイズ機能を利用できるようになります。",
+      "plus": "さらに",
+      "premium": "プレミアム",
+      "back": "戻る",
+      "my_plan": "私の計画",
+      "compare_plans": "プランを比較する",
+      "included": "含まれる"
+    },
+    "upgrade": {
+      "upgrade": "アップグレード",
+      "restore_purchases": "購入履歴を復元する",
+      "unlock_more_with": "Chatforiaでさらなる可能性を解き放つ",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "「Plus」または「Premium」を選択すると、広告を非表示にしたり、利用環境をカスタマイズしたり、高度な機能を利用できるようになります。",
+      "best_experience": "最高の体験",
+      "close": "閉じる",
+      "plus": "チャットフォリア・プラス",
+      "remove_ads_and_unlock_more_everyday_features": "広告を非表示にして、日常使いの機能をさらに活用しましょう。",
+      "premium": "チャットフォリア プレミアム",
+      "the_full_experience": "Chatforiaのすべてを体感してください。",
+      "premium_annual": "プレミアム年間プラン",
+      "save_compared_to_monthly_premium": "月額プレミアムプランと比べてお得です。"
+    },
+    "audio_call": {
+      "mute": "ミュート",
+      "speaker": "講演者",
+      "end_call": "通話を終了する"
+    },
+    "dial_pad": {
+      "dial": "ダイヤル",
+      "done": "完了",
+      "enter_number": "数字を入力してください",
+      "call": "電話",
+      "delete_digit": "数字を削除"
+    },
+    "incoming_call": {
+      "decline": "減少",
+      "accept": "同意する",
+      "decline_call": "通話を切る",
+      "accept_call": "通話を受ける"
+    },
+    "video_call": {
+      "camera": "カメラ",
+      "flip_camera": "フリップカメラ"
+    },
+    "chats": {
+      "search_chats": "チャットを検索",
+      "no_chats_yet": "まだチャットはありません",
+      "admob_ad": "AdMob広告",
+      "delete_conversation": "この会話を削除しますか？",
+      "this_will_remove_this_conversation_from_your_cha": "これで、この会話がチャットリストから削除されます。",
+      "delete": "削除",
+      "cancel": "キャンセル",
+      "chats": "チャット",
+      "new_chat": "新しいチャット",
+      "refresh": "更新",
+      "random_chat": "ランダムチャット",
+      "search": "検索",
+      "delete_conversation_2": "会話を削除"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "ユーザー名、担当者名、または電話番号",
+      "new_chat": "新しいチャット",
+      "start_a_chat": "チャットを始める",
+      "search_by_username_contact_name_or_phone_number": "ユーザー名、連絡先名、または電話番号で検索してください。",
+      "results": "結果",
+      "open_chat": "チャットを開く"
+    },
+    "calls": {
+      "recents": "最近の投稿",
+      "voicemail": "留守番電話",
+      "calls": "通話",
+      "no_calls_yet": "まだ電話はありません",
+      "your_recent_calls_will_show_up_here": "ここには最近の通話履歴が表示されます。",
+      "open_dial_pad": "ダイヤルパッドを開く",
+      "delete_call": "通話を終了する",
+      "video_call": "ビデオ通話"
+    },
+    "contacts": {
+      "contacts": "お問い合わせ",
+      "add_contact": "連絡先を追加",
+      "import_from_phone": "スマホからインポート",
+      "invite_friends": "友達を招待する",
+      "favorite": "お気に入り",
+      "open_contact": "連絡先を開く"
+    },
+    "main_activity": {
+      "loading": "読み込み中...",
+      "profile": "プロフィール"
+    },
+    "profile": {
+      "delete_account": "アカウントを削除する",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "この操作は元に戻せません。アカウントを削除してもよろしいですか？",
+      "log_out": "ログアウト",
+      "change_photo": "写真を変更する",
+      "remove_photo": "写真を削除",
+      "preferred_language": "希望する言語",
+      "your_age_range": "対象年齢",
+      "theme": "テーマ",
+      "choose_how_looks_across_the_app": "アプリ全体でのChatforiaの表示スタイルを選択してください。",
+      "uploading": "アップロード中…",
+      "choose_plus_or_premium": "「Plus」または「Premium」をお選びください",
+      "profile_photo": "プロフィール写真",
+      "open_upgrade": "アップグレードを開始",
+      "open": "開く",
+      "account": "アカウント",
+      "username": "ユーザー名",
+      "email": "メール",
+      "plan": "計画",
+      "wireless": "ワイヤレス",
+      "mobile": "Chatforia モバイル",
+      "esim_and_wireless_settings": "eSIMとワイヤレス設定",
+      "call_text_forwarding": "通話・SMS転送",
+      "forward_incoming_calls_and_texts": "着信とメッセージを転送する",
+      "phone_number": "電話番号",
+      "manage_your_number": "Chatforiaの電話番号を管理する",
+      "settings": "設定",
+      "auto_translate_messages": "メッセージの自動翻訳",
+      "automatically_translate_messages_into_your_prefe": "メッセージをお好みの言語に自動翻訳します。",
+      "show_original_with_translation": "原文と翻訳を表示",
+      "show_the_original_message_alongside_the_translat": "翻訳文の横に元のメッセージを表示する。",
+      "smart_reply_suggestions": "スマートな返信候補",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Riaを活用したリライト支援機能と定型返信を表示します。",
+      "linked_devices": "接続されたデバイス",
+      "manage_trusted_devices": "信頼済みデバイスの管理",
+      "pair_new_device": "新しいデバイスをペアリングする",
+      "approve_a_new_device": "新しいデバイスを承認する",
+      "appearance": "外観",
+      "accessibility": "アクセシビリティ",
+      "visual_alerts_captions_and_voice_note_accessibil": "視覚的なアラート、キャプション、および音声メモのアクセシビリティ",
+      "security": "セキュリティ",
+      "encryption_key_protected": "暗号化キーによる保護",
+      "privacy": "プライバシー",
+      "allow_explicit_content": "成人向けコンテンツを許可する",
+      "show_read_receipts": "既読通知を表示する",
+      "blur_messages_by_default": "デフォルトでメッセージをぼかす",
+      "blur_when_app_is_unfocused": "アプリがフォーカス外になったときにぼかす",
+      "hold_to_reveal_messages": "長押ししてメッセージを表示",
+      "notify_when_messages_are_copied": "メッセージがコピーされたときに通知する",
+      "random_chat": "ランダムチャット",
+      "use_age_based_matching": "年齢に基づくマッチングを使用する",
+      "let_ria_remember_conversations": "リアに会話を思い出させてあげよう",
+      "forward_voicemail_to_email": "ボイスメールをメールに転送する",
+      "legal_support": "法務・サポート",
+      "free": "無料"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "音声に頼らずにChatforiaをより使いやすくするためのオプション。",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "初期設定では標準サイズで表示されます。アクセシビリティ設定で文字を大きくしたい場合は、サイズを大きくしてください。",
+      "interface_font_size": "インターフェースのフォントサイズ",
+      "notifications": "通知",
+      "visual_alerts_for_messages_calls": "メッセージと着信の視覚的な通知",
+      "show_banners_and_visual_indicators_so_you_do_not": "アクティビティを見逃さないよう、バナーや視覚的なインジケーターを表示します。",
+      "vibrate_on_new_messages": "新着メッセージでバイブレーション",
+      "trigger_device_vibration_with_notifications_when": "対応している場合は、通知時にデバイスの振動をオンにします。",
+      "flash_screen_on_incoming_call": "着信時のフラッシュ画面",
+      "briefly_flash_the_screen_when_a_call_rings": "着信があったときに、画面を短時間点滅させる。",
+      "live_captions": "ライブ字幕",
+      "enable_live_captions": "ライブ字幕を有効にする",
+      "show_real_time_captions_during_calls_premium_req": "通話中にリアルタイムの字幕を表示します。プレミアムプランが必要です。",
+      "caption_font_size": "キャプションのフォントサイズ",
+      "caption_background": "キャプションの背景",
+      "voice_notes": "音声メモ",
+      "auto_transcribe_voice_notes": "音声メモを自動文字起こし",
+      "attach_a_transcript_to_audio_messages_you_receiv": "受信した音声メッセージに文字起こしを添付してください。"
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "キーを復元しました",
+      "restore_encryption": "暗号化を復元する"
+    },
+    "language_selection": {
+      "select_language": "言語を選択"
+    },
+    "login": {
+      "email_or_username": "メールアドレスまたはユーザー名",
+      "password": "パスワード",
+      "forgot_password": "パスワードをお忘れですか？",
+      "resend_verification_email": "確認メールを再送信する",
+      "reset_encryption": "暗号化をリセット",
+      "create_an_account": "アカウントを作成する",
+      "welcome_to": "Chatforiaへようこそ",
+      "sign_in_or_create_an_account": "ログインするか、アカウントを作成してください",
+      "or": "または",
+      "don_t_have_an_account_yet": "まだアカウントをお持ちではありませんか？"
+    },
+    "onboarding": {
+      "welcome": "ようこそ",
+      "set_up_your_profile_so_can_personalize_your_expe": "Chatforiaがあなたに合わせた体験を提供できるよう、プロフィールを設定してください。",
+      "choose_a_username": "ユーザー名を入力してください",
+      "this_is_how_people_will_recognize_you_in": "Chatforiaでは、このようにして他のユーザーにあなたを認識してもらえます。",
+      "choose_your_language": "言語を選択してください",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforiaは、翻訳やアプリのユーザー体験向上のためにこの情報を活用します。",
+      "you_re_ready": "準備は万端です",
+      "start_chatting_calling_translating_and_connectin": "チャットや通話、翻訳を楽しんだり、世界中の人々とつながったりしましょう。"
+    },
+    "register": {
+      "confirm_password": "パスワードの確認",
+      "phone_optional": "携帯電話は任意",
+      "log_in": "ログイン",
+      "create_your_account": "アカウントを作成する",
+      "start_chatting_across_languages_with": "Chatforiaで、言語の壁を越えてチャットを始めましょう。",
+      "i_agree_to_receive_sms_verification_messages": "SMSによる認証メッセージの受信に同意します。",
+      "already_have_an_account": "すでにアカウントをお持ちですか？"
+    },
+    "add_contact": {
+      "phone": "電話番号",
+      "name": "名前",
+      "alias_optional": "別名（任意）",
+      "pin_this_person_as_a_favorite_contact": "この人を「お気に入り」に登録する。"
+    },
+    "contact_detail": {
+      "edit_contact": "連絡先を編集",
+      "delete_contact": "連絡先を削除",
+      "message": "メッセージ",
+      "video": "動画",
+      "external_name": "外部名"
+    },
+    "import_phone_contacts": {
+      "select_all": "すべて選択",
+      "clear": "クリア",
+      "import_contacts": "連絡先をインポートする"
+    },
+    "invite_friends": {
+      "share_invite_link": "招待リンクを共有する",
+      "invite_friends": "友達を招待する",
+      "share_a_invite_link_with_friends_using_messages_": "「Chatforia」の招待リンクを、メッセージやメール、あるいはスマホのアプリを使って友達に共有しましょう。"
+    },
+    "device_pairing": {
+      "pair_a_new_device": "新しいデバイスをペアリングする",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "新しい端末でChatforiaを開き、サインインしてください。暗号化されたチャットへのアクセスが必要になった場合は、信頼できる端末から許可してください。",
+      "view_pending_device_requests": "保留中のデバイスリクエストを表示する"
+    },
+    "key_setup": {
+      "recovery_passcode": "復旧パスコード",
+      "confirm_recovery_passcode": "復元パスコードを確認する",
+      "restore_chats": "チャットを復元する",
+      "clear_local_key": "ローカルキーを削除する",
+      "reset_encryption": "暗号化をリセットしますか？",
+      "this_will_permanently_replace_your_encryption_ke": "これにより、暗号化キーが完全に置き換えられます。",
+      "encryption": "暗号化",
+      "restore_encrypted_chats": "暗号化されたチャットを復元する",
+      "no_recovery_backup_found": "復元用のバックアップが見つかりません",
+      "open_on_a_device_that_can_already_read_your_encr": "すでに暗号化されたチャットを読み取れる端末でChatforiaを開き、そこで復旧パスコードを作成してください。",
+      "no_recovery_backup_found_yet_create_one_from_thi": "まだ復元用バックアップが見つかりません。このデバイスからバックアップを作成して、iOS、Android、およびウェブ上でチャットを復元できるようにしてください。",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "信頼済みデバイスをすべて失い、元の鍵を復元できない場合にのみ、これを使用してください。"
+    },
+    "linked_devices": {
+      "your_devices": "お使いのデバイス",
+      "pending_approvals": "承認待ち",
+      "approve": "承認する",
+      "reject": "拒否",
+      "revoke": "取り消す",
+      "request_approval_for_this_device": "本デバイスの承認を申請する",
+      "finish_device_approval": "機器の承認を完了する"
+    },
+    "forwarding_settings": {
+      "reset": "リセット",
+      "forward_incoming_calls_and_texts_to_your_verifie": "着信やメッセージを、認証済みの電話番号またはメールアドレスに転送します。",
+      "quiet_hours": "静かな時間",
+      "forwarding": "転送",
+      "enable_text_forwarding": "テキスト転送を有効にする",
+      "forward_texts_to_phone": "テキストメッセージを携帯電話に転送する",
+      "forward_texts_to_email": "テキストメッセージをメールに転送する",
+      "enable_call_forwarding": "着信転送を有効にする"
+    },
+    "chat_message_row": {
+      "copy": "コピー",
+      "edit": "編集",
+      "report": "レポート",
+      "message_info": "メッセージ情報"
+    },
+    "chat_thread": {
+      "no_messages_yet": "まだメッセージはありません",
+      "delete_message": "メッセージを削除しますか？",
+      "choose_how_you_want_to_delete_this_message": "このメッセージをどのように削除するか選択してください。",
+      "delete_for_everyone": "全員の投稿を削除",
+      "delete_for_me": "私の分も削除してください",
+      "search_messages": "メッセージを検索",
+      "search_in_chat": "チャット内を検索",
+      "sending": "送信中…",
+      "failed_to_send": "送信に失敗しました",
+      "edited": "編集済み",
+      "audio_call": "音声通話",
+      "video_call": "ビデオ通話",
+      "selected_gif": "厳選GIF",
+      "remove_gif": "GIFを削除",
+      "attach": "添付",
+      "rewrite_with_ria": "Riaで書き換える",
+      "composer_action": "作曲者のアクション"
+    },
+    "edit_message": {
+      "save": "保存",
+      "emoji": "絵文字",
+      "edit_message": "メッセージを編集"
+    },
+    "message_attachments": {
+      "image_attachment": "画像の添付",
+      "video_attachment": "動画ファイル",
+      "play_video": "動画を再生"
+    },
+    "message_bubble": {
+      "disappearing_message": "消えるメッセージ"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "まだ誰もこれを読んでいません",
+      "message_info": "メッセージ情報"
+    },
+    "report_message": {
+      "reason": "理由",
+      "include_previous_messages": "過去のメッセージを含める",
+      "additional_details": "詳細情報",
+      "anything_else_moderators_should_know": "モデレーターが知っておくべきことは他にありますか？",
+      "block_this_user_after_reporting": "通報後にこのユーザーをブロックする",
+      "submit_report": "レポートを送信",
+      "report_message": "メッセージを報告する"
+    },
+    "phone_number": {
+      "replace_number": "番号を置き換える",
+      "pick_a_number": "数字を選んでください",
+      "no_number_assigned": "Chatforiaの番号が割り当てられていません。",
+      "your_number": "あなたのChatforia番号"
+    },
+    "pick_number": {
+      "area_code": "市外局番",
+      "premium_numbers_are_protected_from_recycling": "プレミアム番号は再利用されません。",
+      "available_numbers": "利用可能な番号",
+      "search_by_area_code_to_find_available_numbers": "市外局番で検索して、利用可能な番号を探してください。",
+      "capability": "機能",
+      "country": "国"
+    },
+    "gif_picker": {
+      "search_tenor": "テノールを検索",
+      "search_gifs": "GIFを検索"
+    },
+    "random_chat": {
+      "add_friend": "友達追加",
+      "skip": "スキップ",
+      "send": "送信",
+      "end_chat": "チャットを終了する"
+    },
+    "random_matching": {
+      "finding_someone": "誰かを見つける"
+    },
+    "ria_chat": {
+      "ask_ria": "リアに聞いてみよう…",
+      "you_re_now_chatting_with_ria": "現在、リアとチャット中です",
+      "chat_with_ria_anytime_separate_from_random_human": "ランダムな相手とのマッチングとは別に、いつでもリアとチャットできます。"
+    },
+    "ria_rewrite": {
+      "original_text": "原文",
+      "choose_tone": "トーンを選択",
+      "rewriting": "書き換え中…",
+      "suggestions": "ご提案",
+      "choose_a_tone_to_generate_rewrite_suggestions": "書き換えの提案を表示するには、トーンを選択してください。"
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "基本サウンドは無料で利用できます。アップグレードすると、さらに多くの音色や着信音が利用可能になります。",
+      "volume": "巻数",
+      "message_tone": "メッセージのトーン",
+      "ringtone": "着信音"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "まだ留守電はありません。",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "誰かがボイスメールを残すと、\nここに表示されます。",
+      "play_voicemail": "留守電を再生する",
+      "delete_voicemail": "ボイスメールを削除する"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "選択されたボイスメール"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "現在お住まいの国または近隣地域での利用に対応しています。",
+      "coverage_across_supported_european_destinations": "欧州の対応地域全域をカバーしています。",
+      "coverage_across_supported_global_destinations": "世界中の対応地域を網羅しています。"
+    },
+    "wireless_home": {
+      "manage_wireless": "ワイヤレスの管理",
+      "port_my_number": "番号ポータビリティ",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIMデータパックをご利用いただくには、eSIM対応かつSIMロック解除済みの端末が必要です。",
+      "stay_connected_when_you_re_traveling_or_away_fro": "旅行中やWi-Fiが利用できない場所でも、常にネットに接続できます。",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "国内、ヨーロッパ、または世界対応の1回限りのeSIMデータパックをお選びください。",
+      "we_don_t_sell_data_packs_under_3_gb": "3GB未満のデータパックは販売しておりません。",
+      "loading_usage": "使用状況を読み込み中…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "まだ有効なデータパックはありません。以下のパックを購入して、データ使用量の確認を開始してください。",
+      "usage_details_will_appear_once_your_data_pack_is": "データパックが有効になると、利用状況の詳細が表示されます。",
+      "manage": "管理",
+      "coverage": "対象範囲",
+      "your_esim": "お客様のeSIM",
+      "current_usage": "現在の使用状況"
+    }
   }
 }

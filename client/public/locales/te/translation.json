@@ -3066,7 +3066,8 @@
     "flip": "తిప్పి",
     "speaker": "వక్త",
     "end": "ముగింపు",
-    "noIncomingCallToAnswer": "జవాబు చేయడానికి ఇన్‌కమింగ్ కాల్ లేదు."
+    "noIncomingCallToAnswer": "జవాబు చేయడానికి ఇన్‌కమింగ్ కాల్ లేదు.",
+    "serviceUnavailable": "కాల్ సేవ ప్రస్తుతం అందుబాటులో లేదు. దయచేసి తర్వాత మళ్ళీ ప్రయత్నించండి."
   },
   "settings": {
     "startHour": "ప్రారంభ గంట (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "చీకటి",
   "accessibility_caption_bg_transparent": "పారదర్శకమైన",
   "api": {
-    "notAuthorized": "అధికారం లేదు"
+    "notAuthorized": "అధికారం లేదు",
+    "invalidURL": "సర్వర్ చిరునామా చెల్లదు.",
+    "serverError": "సర్వర్ దోషం (%d): %@",
+    "failedToDecodeResponse": "సర్వర్ స్పందనను చదవలేకపోయింది: %@"
+  },
+  "tap_to_view_contact": "సంప్రదించడానికి నొక్కండి",
+  "android": {
+    "plan": {
+      "plan_billing": "ప్లాన్ & బిల్లింగ్",
+      "current_plan": "ప్రస్తుత ప్రణాళిక",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "ప్లస్‌తో ప్రకటనలు లేకుండా ఉండండి, లేదా ప్రీమియంతో AI సాధనాలు మరియు అనుకూలీకరణను అన్‌లాక్ చేయండి.",
+      "plus": "అదనంగా",
+      "premium": "ప్రీమియం",
+      "back": "వెనుకకు",
+      "my_plan": "నా ప్రణాళిక",
+      "compare_plans": "ప్లాన్‌లను పోల్చండి",
+      "included": "చేర్చబడినది"
+    },
+    "upgrade": {
+      "upgrade": "అప్‌గ్రేడ్",
+      "restore_purchases": "కొనుగోళ్లను పునరుద్ధరించండి",
+      "unlock_more_with": "చాట్‌ఫోరియాతో మరిన్నింటిని అన్‌లాక్ చేయండి",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "ప్రకటనలను తొలగించడానికి, మీ అనుభవాన్ని అనుకూలీకరించడానికి, మరియు అధునాతన సాధనాలను అన్‌లాక్ చేయడానికి ప్లస్ లేదా ప్రీమియంను ఎంచుకోండి.",
+      "best_experience": "ఉత్తమ అనుభవం",
+      "close": "మూసివేయండి",
+      "plus": "చాట్‌ఫోరియా ప్లస్",
+      "remove_ads_and_unlock_more_everyday_features": "ప్రకటనలను తొలగించి, మరిన్ని రోజువారీ ఫీచర్లను అన్‌లాక్ చేయండి.",
+      "premium": "చాట్‌ఫోరియా ప్రీమియం",
+      "the_full_experience": "పూర్తి చాట్‌ఫోరియా అనుభవం.",
+      "premium_annual": "ప్రీమియం వార్షిక",
+      "save_compared_to_monthly_premium": "నెలవారీ ప్రీమియంతో పోలిస్తే ఆదా"
+    },
+    "audio_call": {
+      "mute": "మ్యూట్",
+      "speaker": "వక్త",
+      "end_call": "కాల్ ముగించండి"
+    },
+    "dial_pad": {
+      "dial": "డయల్",
+      "done": "పూర్తయింది",
+      "enter_number": "సంఖ్యను నమోదు చేయండి",
+      "call": "కాల్ చేయండి",
+      "delete_digit": "అంకెను తొలగించండి"
+    },
+    "incoming_call": {
+      "decline": "క్షీణత",
+      "accept": "అంగీకరించు",
+      "decline_call": "కాల్‌ను తిరస్కరించండి",
+      "accept_call": "కాల్‌ను అంగీకరించండి"
+    },
+    "video_call": {
+      "camera": "కెమెరా",
+      "flip_camera": "ఫ్లిప్ కెమెరా"
+    },
+    "chats": {
+      "search_chats": "చాట్‌ల కోసం వెతకండి",
+      "no_chats_yet": "ఇంకా చాట్‌లు లేవు",
+      "admob_ad": "యాడ్‌మోబ్ ప్రకటన",
+      "delete_conversation": "సంభాషణను తొలగించాలా?",
+      "this_will_remove_this_conversation_from_your_cha": "ఇది ఈ సంభాషణను మీ చాట్ జాబితా నుండి తొలగిస్తుంది.",
+      "delete": "తొలగించు",
+      "cancel": "రద్దు చేయండి",
+      "chats": "సంభాషణలు",
+      "new_chat": "కొత్త చాట్",
+      "refresh": "పునరుద్ధరించు",
+      "random_chat": "యాదృచ్ఛిక చాట్",
+      "search": "శోధన",
+      "delete_conversation_2": "సంభాషణను తొలగించండి"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "వినియోగదారు పేరు, సంప్రదించవలసిన పేరు, లేదా ఫోన్ నంబర్",
+      "new_chat": "కొత్త చాట్",
+      "start_a_chat": "చాట్ ప్రారంభించండి",
+      "search_by_username_contact_name_or_phone_number": "యూజర్‌నేమ్, కాంటాక్ట్ పేరు, లేదా ఫోన్ నంబర్ ద్వారా వెతకండి.",
+      "results": "ఫలితాలు",
+      "open_chat": "చాట్‌ను తెరవండి"
+    },
+    "calls": {
+      "recents": "ఇటీవలి",
+      "voicemail": "వాయిస్‌మెయిల్",
+      "calls": "కాల్స్",
+      "no_calls_yet": "ఇంకా కాల్స్ లేవు",
+      "your_recent_calls_will_show_up_here": "మీ ఇటీవలి కాల్స్ ఇక్కడ కనిపిస్తాయి.",
+      "open_dial_pad": "డయల్ ప్యాడ్‌ను తెరవండి",
+      "delete_call": "కాల్‌ను తొలగించండి",
+      "video_call": "వీడియో కాల్"
+    },
+    "contacts": {
+      "contacts": "సంప్రదింపులు",
+      "add_contact": "సంప్రదించండి",
+      "import_from_phone": "ఫోన్ నుండి దిగుమతి",
+      "invite_friends": "స్నేహితులను ఆహ్వానించండి",
+      "favorite": "ఇష్టమైన",
+      "open_contact": "సంప్రదించండి"
+    },
+    "main_activity": {
+      "loading": "లోడ్ అవుతోంది...",
+      "profile": "ప్రొఫైల్"
+    },
+    "profile": {
+      "delete_account": "ఖాతాను తొలగించండి",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "ఈ చర్యను వెనక్కి తీసుకోలేము. మీ ఖాతాను తొలగించాలనుకుంటున్నారా?",
+      "log_out": "లాగ్ అవుట్",
+      "change_photo": "ఫోటో మార్చండి",
+      "remove_photo": "ఫోటోను తొలగించండి",
+      "preferred_language": "ఇష్టమైన భాష",
+      "your_age_range": "మీ వయస్సు పరిధి",
+      "theme": "థీమ్",
+      "choose_how_looks_across_the_app": "యాప్ అంతటా చాట్‌ఫోరియా ఎలా కనిపిస్తుందో ఎంచుకోండి.",
+      "uploading": "అప్‌లోడ్ చేస్తున్నాను…",
+      "choose_plus_or_premium": "ప్లస్ లేదా ప్రీమియం ఎంచుకోండి",
+      "profile_photo": "ప్రొఫైల్ ఫోటో",
+      "open_upgrade": "అప్‌గ్రేడ్ తెరవండి",
+      "open": "తెరవండి",
+      "account": "ఖాతా",
+      "username": "వినియోగదారు పేరు",
+      "email": "ఇమెయిల్",
+      "plan": "ప్రణాళిక",
+      "wireless": "వైర్‌లెస్",
+      "mobile": "చాట్‌ఫోరియా మొబైల్",
+      "esim_and_wireless_settings": "ఇ-సిమ్ మరియు వైర్‌లెస్ సెట్టింగ్‌లు",
+      "call_text_forwarding": "కాల్ & టెక్స్ట్ ఫార్వార్డింగ్",
+      "forward_incoming_calls_and_texts": "వచ్చే కాల్స్ మరియు టెక్స్ట్‌లను ఫార్వార్డ్ చేయండి",
+      "phone_number": "ఫోన్ నంబర్",
+      "manage_your_number": "మీ చాట్‌ఫోరియా నంబర్‌ను నిర్వహించండి",
+      "settings": "సెట్టింగ్‌లు",
+      "auto_translate_messages": "సందేశాలను స్వయంచాలకంగా అనువదించండి",
+      "automatically_translate_messages_into_your_prefe": "సందేశాలను మీకు ఇష్టమైన భాషలోకి స్వయంచాలకంగా అనువదించండి.",
+      "show_original_with_translation": "అనువాదంతో అసలును చూపించు",
+      "show_the_original_message_alongside_the_translat": "అనువాదంతో పాటు అసలు సందేశాన్ని చూపండి.",
+      "smart_reply_suggestions": "స్మార్ట్ ప్రత్యుత్తర సూచనలు",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "రియా-ఆధారిత పునఃరచన సహాయం మరియు త్వరిత ప్రతిస్పందనలను చూపండి.",
+      "linked_devices": "లింక్ చేయబడిన పరికరాలు",
+      "manage_trusted_devices": "విశ్వసనీయ పరికరాలను నిర్వహించండి",
+      "pair_new_device": "కొత్త పరికరాన్ని జతచేయండి",
+      "approve_a_new_device": "కొత్త పరికరాన్ని ఆమోదించండి",
+      "appearance": "దృశ్యం",
+      "accessibility": "అందుబాటు",
+      "visual_alerts_captions_and_voice_note_accessibil": "దృశ్య హెచ్చరికలు, శీర్షికలు మరియు వాయిస్ నోట్ అందుబాటు",
+      "security": "భద్రత",
+      "encryption_key_protected": "ఎన్‌క్రిప్షన్ కీ రక్షించబడింది",
+      "privacy": "గోప్యత",
+      "allow_explicit_content": "స్పష్టమైన కంటెంట్‌ను అనుమతించండి",
+      "show_read_receipts": "చదవడం పూర్తయినట్లు చూపించు",
+      "blur_messages_by_default": "డిఫాల్ట్‌గా సందేశాలను మసకబార్చండి",
+      "blur_when_app_is_unfocused": "యాప్ ఫోకస్‌లో లేనప్పుడు మసకబారడం",
+      "hold_to_reveal_messages": "సందేశాలను చూపించడానికి పట్టుకోండి",
+      "notify_when_messages_are_copied": "సందేశాలు కాపీ చేయబడినప్పుడు తెలియజేయండి",
+      "random_chat": "యాదృచ్ఛిక చాట్",
+      "use_age_based_matching": "వయస్సు ఆధారిత సరిపోల్చుటను ఉపయోగించండి",
+      "let_ria_remember_conversations": "రియా సంభాషణలను గుర్తుంచుకోనివ్వండి",
+      "forward_voicemail_to_email": "వాయిస్‌మెయిల్‌ను ఈమెయిల్‌కు ఫార్వార్డ్ చేయండి",
+      "legal_support": "చట్టపరమైన & మద్దతు",
+      "free": "ఉచితం"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "శబ్దంపై ఆధారపడకుండా చాట్‌ఫోరియాను సులభంగా ఉపయోగించడానికి ఎంపికలు.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "సాధారణ పరిమాణంలో ప్రారంభమవుతుంది. యాక్సెసిబిలిటీ సెట్టింగ్స్‌లో మీకు పెద్ద అక్షరాలు ఇష్టమైతే పెంచండి.",
+      "interface_font_size": "ఇంటర్‌ఫేస్ ఫాంట్ పరిమాణం",
+      "notifications": "సూచనలు",
+      "visual_alerts_for_messages_calls": "సందేశాలు & కాల్స్ కోసం దృశ్య హెచ్చరికలు",
+      "show_banners_and_visual_indicators_so_you_do_not": "కదలికను మీరు కోల్పోకుండా ఉండేందుకు బ్యానర్లు మరియు దృశ్య సూచికలను చూపండి.",
+      "vibrate_on_new_messages": "కొత్త సందేశాల కోసం కంపించు",
+      "trigger_device_vibration_with_notifications_when": "మద్దతు ఉన్నప్పుడు నోటిఫికేషన్‌లతో ట్రిగ్గర్ పరికరం కంపనాన్ని ప్రారంభించండి.",
+      "flash_screen_on_incoming_call": "వచ్చే కాల్‌కు ఫ్లాష్ స్క్రీన్",
+      "briefly_flash_the_screen_when_a_call_rings": "కాల్ రింగ్ అయినప్పుడు స్క్రీన్ క్లుక్మని మెరవాలి.",
+      "live_captions": "ప్రత్యక్ష శీర్షికలు",
+      "enable_live_captions": "లైవ్ క్యాప్షన్‌లను ప్రారంభించండి",
+      "show_real_time_captions_during_calls_premium_req": "కాల్స్ సమయంలో నిజ-సమయ క్యాప్షన్‌లను చూపండి. ప్రీమియం అవసరం.",
+      "caption_font_size": "శీర్షిక ఫాంట్ పరిమాణం",
+      "caption_background": "శీర్షిక నేపథ్యం",
+      "voice_notes": "వాయిస్ నోట్స్",
+      "auto_transcribe_voice_notes": "వాయిస్ నోట్‌లను స్వయంచాలకంగా ట్రాన్స్‌క్రిప్ట్ చేయండి",
+      "attach_a_transcript_to_audio_messages_you_receiv": "మీకు వచ్చే ఆడియో సందేశాలకు ట్రాన్స్క్రిప్ట్‌ను జతచేయండి."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "నేను నా కీని పునరుద్ధరించాను",
+      "restore_encryption": "ఎన్‌క్రిప్షన్‌ను పునరుద్ధరించండి"
+    },
+    "language_selection": {
+      "select_language": "భాషను ఎంచుకోండి"
+    },
+    "login": {
+      "email_or_username": "ఇమెయిల్ లేదా వినియోగదారు పేరు",
+      "password": "పాస్‌వర్డ్",
+      "forgot_password": "పాస్‌వర్డ్ మర్చిపోయారా?",
+      "resend_verification_email": "ప్రామాణీకరణ ఇమెయిల్‌ను తిరిగి పంపండి",
+      "reset_encryption": "ఎన్‌క్రిప్షన్‌ను పునఃప్రారంభించండి",
+      "create_an_account": "ఖాతాను సృష్టించండి",
+      "welcome_to": "చాట్‌ఫోరియాకు స్వాగతం",
+      "sign_in_or_create_an_account": "లాగిన్ అవ్వండి లేదా ఖాతాను సృష్టించండి",
+      "or": "లేదా",
+      "don_t_have_an_account_yet": "ఇంకా ఖాతా లేదా?"
+    },
+    "onboarding": {
+      "welcome": "స్వాగతం",
+      "set_up_your_profile_so_can_personalize_your_expe": "చాట్‌ఫోరియా మీ అనుభవాన్ని వ్యక్తిగతీకరించడానికి మీ ప్రొఫైల్‌ను సెటప్ చేయండి.",
+      "choose_a_username": "వినియోగదారు పేరును ఎంచుకోండి",
+      "this_is_how_people_will_recognize_you_in": "చాట్‌ఫోరియాలో ప్రజలు మిమ్మల్ని ఈ విధంగా గుర్తిస్తారు.",
+      "choose_your_language": "మీ భాషను ఎంచుకోండి",
+      "will_use_this_for_translations_and_your_app_expe": "చాట్‌ఫోరియా దీనిని అనువాదాల కోసం మరియు మీ యాప్ అనుభవం కోసం ఉపయోగిస్తుంది.",
+      "you_re_ready": "మీరు సిద్ధంగా ఉన్నారు",
+      "start_chatting_calling_translating_and_connectin": "ప్రపంచవ్యాప్తంగా ఉన్న ప్రజలతో చాట్ చేయడం, కాల్ చేయడం, అనువదించడం మరియు కనెక్ట్ అవ్వడం ప్రారంభించండి."
+    },
+    "register": {
+      "confirm_password": "పాస్‌వర్డ్‌ను నిర్ధారించండి",
+      "phone_optional": "ఫోన్ ఐచ్ఛికం",
+      "log_in": "లాగిన్",
+      "create_your_account": "మీ ఖాతాను సృష్టించండి",
+      "start_chatting_across_languages_with": "చాట్‌ఫోరియాతో భాషల మధ్య చాటింగ్ ప్రారంభించండి.",
+      "i_agree_to_receive_sms_verification_messages": "నేను SMS ధృవీకరణ సందేశాలను స్వీకరించడానికి అంగీకరిస్తున్నాను.",
+      "already_have_an_account": "ఇప్పటికే ఖాతా ఉందా?"
+    },
+    "add_contact": {
+      "phone": "ఫోన్",
+      "name": "పేరు",
+      "alias_optional": "పేరు ఐచ్ఛికం",
+      "pin_this_person_as_a_favorite_contact": "ఈ వ్యక్తిని ఇష్టమైన కాంటాక్ట్‌గా గుర్తించండి."
+    },
+    "contact_detail": {
+      "edit_contact": "సంప్రదింపును సవరించు",
+      "delete_contact": "సంప్రదింపును తొలగించు",
+      "message": "సందేశం",
+      "video": "వీడియో",
+      "external_name": "బాహ్య పేరు"
+    },
+    "import_phone_contacts": {
+      "select_all": "అన్నింటినీ ఎంచుకోండి",
+      "clear": "తొలగించు",
+      "import_contacts": "సంప్రదింపులను దిగుమతి చేసుకోండి"
+    },
+    "invite_friends": {
+      "share_invite_link": "ఆహ్వాన లింక్‌ను పంచుకోండి",
+      "invite_friends": "స్నేహితులను ఆహ్వానించండి",
+      "share_a_invite_link_with_friends_using_messages_": "మీ ఫోన్‌లోని మెసేజెస్, ఇమెయిల్ లేదా ఏదైనా యాప్‌ను ఉపయోగించి స్నేహితులతో చాట్‌ఫోరియా ఆహ్వాన లింక్‌ను పంచుకోండి."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "కొత్త పరికరాన్ని జతచేయండి",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "మీ కొత్త పరికరంలో చాట్‌ఫోరియాను తెరిచి సైన్ ఇన్ చేయండి. మీ ఎన్‌క్రిప్టెడ్ చాట్‌లకు యాక్సెస్ అవసరమైతే, నమ్మకమైన పరికరం నుండి దానిని ఆమోదించండి.",
+      "view_pending_device_requests": "పెండింగ్‌లో ఉన్న పరికర అభ్యర్థనలను వీక్షించండి"
+    },
+    "key_setup": {
+      "recovery_passcode": "పునరుద్ధరణ పాస్‌కోడ్",
+      "confirm_recovery_passcode": "పునరుద్ధరణ పాస్‌కోడ్‌ను నిర్ధారించండి",
+      "restore_chats": "చాట్‌లను పునరుద్ధరించండి",
+      "clear_local_key": "స్థానిక కీని తొలగించండి",
+      "reset_encryption": "ఎన్‌క్రిప్షన్‌ను పునఃసెట్ చేయాలా?",
+      "this_will_permanently_replace_your_encryption_ke": "ఇది మీ ఎన్‌క్రిప్షన్ కీని శాశ్వతంగా భర్తీ చేస్తుంది.",
+      "encryption": "ఎన్‌క్రిప్షన్",
+      "restore_encrypted_chats": "ఎన్‌క్రిప్ట్ చేయబడిన చాట్‌లను పునరుద్ధరించండి",
+      "no_recovery_backup_found": "రికవరీ బ్యాకప్ కనుగొనబడలేదు",
+      "open_on_a_device_that_can_already_read_your_encr": "ఇప్పటికే మీ ఎన్‌క్రిప్టెడ్ చాట్‌లను చదవగల పరికరంలో చాట్‌ఫోరియాను తెరిచి, అక్కడ రికవరీ పాస్‌కోడ్‌ను సృష్టించండి.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "ఇంకా ఎటువంటి రికవరీ బ్యాకప్ కనుగొనబడలేదు. iOS, Android, మరియు వెబ్‌లో చాట్‌లను పునరుద్ధరించడానికి, ఈ పరికరం నుండి ఒక బ్యాకప్ సృష్టించండి.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "మీకు ఉన్న అన్ని నమ్మకమైన పరికరాలు పోయి, మీ అసలు కీని పునరుద్ధరించుకోలేని పరిస్థితిలో మాత్రమే దీనిని ఉపయోగించండి."
+    },
+    "linked_devices": {
+      "your_devices": "మీ పరికరాలు",
+      "pending_approvals": "ఆమోదాల కోసం వేచి ఉంది",
+      "approve": "ఆమోదించండి",
+      "reject": "తిరస్కరించు",
+      "revoke": "రద్దు చేయండి",
+      "request_approval_for_this_device": "ఈ పరికరానికి ఆమోదం కోసం అభ్యర్థించండి",
+      "finish_device_approval": "పరికర ఆమోదం పూర్తి చేయండి"
+    },
+    "forwarding_settings": {
+      "reset": "పునఃప్రారంభించు",
+      "forward_incoming_calls_and_texts_to_your_verifie": "వచ్చే కాల్స్ మరియు టెక్స్ట్‌లను మీ ధృవీకరించబడిన ఫోన్ లేదా ఇమెయిల్‌కు ఫార్వార్డ్ చేయండి.",
+      "quiet_hours": "నిశ్శబ్ద గంటలు",
+      "forwarding": "ఫార్వార్డింగ్",
+      "enable_text_forwarding": "టెక్స్ట్ ఫార్వార్డింగ్‌ను ప్రారంభించండి",
+      "forward_texts_to_phone": "ఫోన్‌కు టెక్స్ట్‌లను ఫార్వార్డ్ చేయండి",
+      "forward_texts_to_email": "టెక్స్ట్‌లను ఇమెయిల్‌కు ఫార్వార్డ్ చేయండి",
+      "enable_call_forwarding": "కాల్ ఫార్వార్డింగ్‌ను ప్రారంభించండి"
+    },
+    "chat_message_row": {
+      "copy": "నకలు",
+      "edit": "సవరించు",
+      "report": "నివేదిక",
+      "message_info": "సందేశం సమాచారం"
+    },
+    "chat_thread": {
+      "no_messages_yet": "ఇంకా సందేశాలు లేవు",
+      "delete_message": "సందేశాన్ని తొలగించాలా?",
+      "choose_how_you_want_to_delete_this_message": "ఈ సందేశాన్ని మీరు ఎలా తొలగించాలనుకుంటున్నారో ఎంచుకోండి.",
+      "delete_for_everyone": "అందరి కోసం తొలగించండి",
+      "delete_for_me": "నా కోసం తొలగించండి",
+      "search_messages": "సందేశాల కోసం వెతకండి",
+      "search_in_chat": "చాట్‌లో వెతకండి",
+      "sending": "పంపుతోంది…",
+      "failed_to_send": "పంపడంలో విఫలమైంది",
+      "edited": "సవరించబడింది",
+      "audio_call": "ఆడియో కాల్",
+      "video_call": "వీడియో కాల్",
+      "selected_gif": "ఎంపిక చేసిన జిఫ్",
+      "remove_gif": "GIFను తొలగించండి",
+      "attach": "అటాచ్ చేయండి",
+      "rewrite_with_ria": "రియాతో తిరిగి వ్రాయండి",
+      "composer_action": "సంగీత దర్శకుడి చర్య"
+    },
+    "edit_message": {
+      "save": "పొదుపు చేయండి",
+      "emoji": "ఈమోజీ",
+      "edit_message": "సందేశాన్ని సవరించండి"
+    },
+    "message_attachments": {
+      "image_attachment": "చిత్ర జతచేయడం",
+      "video_attachment": "వీడియో జతచేయబడింది",
+      "play_video": "వీడియో ప్లే చేయండి"
+    },
+    "message_bubble": {
+      "disappearing_message": "అదృశ్యమయ్యే సందేశం"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "ఇంకా ఎవరూ దీనిని చదవలేదు",
+      "message_info": "సందేశం సమాచారం"
+    },
+    "report_message": {
+      "reason": "కారణం",
+      "include_previous_messages": "మునుపటి సందేశాలను చేర్చండి",
+      "additional_details": "అదనపు వివరాలు",
+      "anything_else_moderators_should_know": "మోడరేటర్లు తెలుసుకోవలసిన మరేమైనా ఉందా?",
+      "block_this_user_after_reporting": "నివేదించిన తర్వాత ఈ వినియోగదారుని నిరోధించండి",
+      "submit_report": "నివేదికను సమర్పించండి",
+      "report_message": "రిపోర్ట్ సందేశం"
+    },
+    "phone_number": {
+      "replace_number": "సంఖ్యను భర్తీ చేయండి",
+      "pick_a_number": "ఒక సంఖ్యను ఎంచుకోండి",
+      "no_number_assigned": "చాట్‌ఫోరియా నంబర్ కేటాయించబడలేదు.",
+      "your_number": "మీ చాట్‌ఫోరియా నంబర్"
+    },
+    "pick_number": {
+      "area_code": "ప్రాంత కోడ్",
+      "premium_numbers_are_protected_from_recycling": "ప్రీమియం నంబర్లు పునర్వినియోగం నుండి కాపాడబడతాయి.",
+      "available_numbers": "అందుబాటులో ఉన్న నంబర్లు",
+      "search_by_area_code_to_find_available_numbers": "అందుబాటులో ఉన్న నంబర్లను కనుగొనడానికి ఏరియా కోడ్ ద్వారా శోధించండి.",
+      "capability": "సామర్థ్యం",
+      "country": "దేశం"
+    },
+    "gif_picker": {
+      "search_tenor": "టెనర్ శోధన",
+      "search_gifs": "GIFల కోసం వెతకండి"
+    },
+    "random_chat": {
+      "add_friend": "స్నేహితుడిని జోడించండి",
+      "skip": "తప్పించు",
+      "send": "పంపండి",
+      "end_chat": "చాట్ ముగించండి"
+    },
+    "random_matching": {
+      "finding_someone": "ఎవరినైనా కనుగొనడం"
+    },
+    "ria_chat": {
+      "ask_ria": "రియాను అడగండి...",
+      "you_re_now_chatting_with_ria": "మీరు ఇప్పుడు రియాతో చాట్ చేస్తున్నారు",
+      "chat_with_ria_anytime_separate_from_random_human": "యాదృచ్ఛిక మానవ జతచేతలకు భిన్నంగా, రియాతో ఎప్పుడైనా చాట్ చేయండి."
+    },
+    "ria_rewrite": {
+      "original_text": "అసలు పాఠ్యం",
+      "choose_tone": "స్వరం ఎంచుకోండి",
+      "rewriting": "తిరిగి వ్రాయడం…",
+      "suggestions": "సూచనలు",
+      "choose_a_tone_to_generate_rewrite_suggestions": "మళ్లీ వ్రాయడానికి సూచనలను రూపొందించడానికి ఒక టోన్‌ను ఎంచుకోండి."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "ఉచితంలో ప్రాథమిక సౌండ్‌లు ఉంటాయి. మరిన్ని టోన్‌లు మరియు రింగ్‌టోన్‌లను అన్‌లాక్ చేయడానికి అప్‌గ్రేడ్ చేయండి.",
+      "volume": "పరిమాణం",
+      "message_tone": "సందేశ స్వరం",
+      "ringtone": "రింగ్‌టోన్"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "ఇంకా వాయిస్‌మెయిల్స్ లేవు.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "ఎవరైనా మీకు వాయిస్‌మెయిల్ పంపినప్పుడు, అది ఇక్కడ కనిపిస్తుంది.",
+      "play_voicemail": "వాయిస్‌మెయిల్‌ను ప్లే చేయండి",
+      "delete_voicemail": "వాయిస్‌మెయిల్‌ను తొలగించండి"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "ఎంపిక చేసిన వాయిస్‌మెయిల్"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "మీ ప్రస్తుత దేశం లేదా సమీప స్థానిక వినియోగం కోసం కవరేజ్.",
+      "coverage_across_supported_european_destinations": "మద్దతు ఉన్న యూరోపియన్ గమ్యస్థానాలన్నింటిలో కవరేజ్.",
+      "coverage_across_supported_global_destinations": "మద్దతు ఉన్న ప్రపంచ గమ్యస్థానాలన్నిటా కవరేజ్."
+    },
+    "wireless_home": {
+      "manage_wireless": "వైర్‌లెస్‌ను నిర్వహించండి",
+      "port_my_number": "నా నంబర్‌ను పోర్ట్ చేయండి",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM డేటా ప్యాక్‌లకు eSIM-అనుకూలమైన మరియు అన్‌లాక్ చేయబడిన పరికరం అవసరం.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "మీరు ప్రయాణిస్తున్నప్పుడు లేదా Wi-Fiకి దూరంగా ఉన్నప్పుడు కనెక్ట్‌గా ఉండండి.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "స్థానిక, యూరప్, లేదా గ్లోబల్ కవరేజ్ కోసం ఒకేసారి వాడే eSIM డేటా ప్యాక్‌ను ఎంచుకోండి.",
+      "we_don_t_sell_data_packs_under_3_gb": "మేము 3 GB కంటే తక్కువ డేటా ప్యాక్‌లను అమ్మము.",
+      "loading_usage": "వినియోగం లోడ్ అవుతోంది…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "ఇంకా యాక్టివ్ డేటా ప్యాక్ లేదు. వినియోగాన్ని ట్రాక్ చేయడం ప్రారంభించడానికి కింద ఒక ప్యాక్‌ను కొనండి.",
+      "usage_details_will_appear_once_your_data_pack_is": "మీ డేటా ప్యాక్ యాక్టివ్ అయిన తర్వాత వినియోగ వివరాలు కనిపిస్తాయి.",
+      "manage": "నిర్వహించు",
+      "coverage": "పరిధి",
+      "your_esim": "మీ ఇసిమ్",
+      "current_usage": "ప్రస్తుత వినియోగం"
+    }
   }
 }

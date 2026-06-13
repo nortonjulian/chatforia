@@ -3066,7 +3066,8 @@
     "flip": "Vändning",
     "speaker": "Högtalare",
     "end": "Slut",
-    "noIncomingCallToAnswer": "Inget inkommande samtal att besvara."
+    "noIncomingCallToAnswer": "Inget inkommande samtal att besvara.",
+    "serviceUnavailable": "Tjänsten är inte tillgänglig just nu. Försök igen senare."
   },
   "settings": {
     "startHour": "Starttimme (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Mörkt",
   "accessibility_caption_bg_transparent": "Transparent",
   "api": {
-    "notAuthorized": "Ej godkänd"
+    "notAuthorized": "Ej godkänd",
+    "invalidURL": "Ogiltig serveradress.",
+    "serverError": "Serverfel (%d): %@",
+    "failedToDecodeResponse": "Det gick inte att läsa serverns svar: %@"
+  },
+  "tap_to_view_contact": "Tryck för att visa kontaktuppgifter",
+  "android": {
+    "plan": {
+      "plan_billing": "Abonnemang och fakturering",
+      "current_plan": "Nuvarande plan",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Välj Plus för en reklamfri upplevelse, eller lås upp AI-verktyg och anpassningsmöjligheter med Premium.",
+      "plus": "Dessutom",
+      "premium": "Premium",
+      "back": "Tillbaka",
+      "my_plan": "Min plan",
+      "compare_plans": "Jämför abonnemang",
+      "included": "Ingår"
+    },
+    "upgrade": {
+      "upgrade": "Uppgradera",
+      "restore_purchases": "Återställ köp",
+      "unlock_more_with": "Få ut mer med Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Välj Plus eller Premium för att ta bort annonser, anpassa din upplevelse och få tillgång till avancerade verktyg.",
+      "best_experience": "Den bästa upplevelsen",
+      "close": "Stäng",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Ta bort annonser och få tillgång till fler vardagsfunktioner.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Den fullständiga Chatforia-upplevelsen.",
+      "premium_annual": "Premium-årsabonnemang",
+      "save_compared_to_monthly_premium": "Spara jämfört med månadsabonnemanget Premium."
+    },
+    "audio_call": {
+      "mute": "Stäng av ljudet",
+      "speaker": "Talare",
+      "end_call": "Avsluta samtalet"
+    },
+    "dial_pad": {
+      "dial": "Välj",
+      "done": "Klart",
+      "enter_number": "Ange siffra",
+      "call": "Ring",
+      "delete_digit": "Ta bort siffra"
+    },
+    "incoming_call": {
+      "decline": "Avböja",
+      "accept": "Godkänn",
+      "decline_call": "Avvisa samtal",
+      "accept_call": "Svara på samtalet"
+    },
+    "video_call": {
+      "camera": "Kamera",
+      "flip_camera": "Flip-kamera"
+    },
+    "chats": {
+      "search_chats": "Sök i chattar",
+      "no_chats_yet": "Inga chattar än",
+      "admob_ad": "AdMob-annons",
+      "delete_conversation": "Vill du ta bort konversationen?",
+      "this_will_remove_this_conversation_from_your_cha": "Detta kommer att ta bort den här konversationen från din chattlista.",
+      "delete": "Ta bort",
+      "cancel": "Avbryt",
+      "chats": "Chattar",
+      "new_chat": "Ny chatt",
+      "refresh": "Uppdatera",
+      "random_chat": "Slumpmässig chatt",
+      "search": "Sök",
+      "delete_conversation_2": "Ta bort konversationen"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Användarnamn, kontaktperson eller telefonnummer",
+      "new_chat": "Ny chatt",
+      "start_a_chat": "Starta en chatt",
+      "search_by_username_contact_name_or_phone_number": "Sök efter användarnamn, kontaktnamn eller telefonnummer.",
+      "results": "Resultat",
+      "open_chat": "Öppna chatten"
+    },
+    "calls": {
+      "recents": "Senaste",
+      "voicemail": "Röstbrevlåda",
+      "calls": "Samtal",
+      "no_calls_yet": "Inga samtal än",
+      "your_recent_calls_will_show_up_here": "Dina senaste samtal visas här.",
+      "open_dial_pad": "Öppna knappsatsen",
+      "delete_call": "Ta bort samtal",
+      "video_call": "Videosamtal"
+    },
+    "contacts": {
+      "contacts": "Kontakter",
+      "add_contact": "Lägg till kontakt",
+      "import_from_phone": "Importera från telefonen",
+      "invite_friends": "Bjud in vänner",
+      "favorite": "Favorit",
+      "open_contact": "Öppen kontakt"
+    },
+    "main_activity": {
+      "loading": "Laddar...",
+      "profile": "Profil"
+    },
+    "profile": {
+      "delete_account": "Ta bort konto",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Den här åtgärden går inte att ångra. Är du säker på att du vill radera ditt konto?",
+      "log_out": "Logga ut",
+      "change_photo": "Byt foto",
+      "remove_photo": "Ta bort foto",
+      "preferred_language": "Önskat språk",
+      "your_age_range": "Din åldersgrupp",
+      "theme": "Tema",
+      "choose_how_looks_across_the_app": "Välj hur Chatforia ska se ut i appen.",
+      "uploading": "Laddar upp…",
+      "choose_plus_or_premium": "Välj Plus eller Premium",
+      "profile_photo": "Profilbild",
+      "open_upgrade": "Öppen uppgradering",
+      "open": "Öppna",
+      "account": "Konto",
+      "username": "Användarnamn",
+      "email": "E-post",
+      "plan": "Plan",
+      "wireless": "Trådlöst",
+      "mobile": "Chatforia Mobile",
+      "esim_and_wireless_settings": "eSIM och trådlösa inställningar",
+      "call_text_forwarding": "Vidarekoppling av samtal och SMS",
+      "forward_incoming_calls_and_texts": "Vidarebefordra inkommande samtal och sms",
+      "phone_number": "Telefonnummer",
+      "manage_your_number": "Hantera ditt Chatforia-nummer",
+      "settings": "Inställningar",
+      "auto_translate_messages": "Översätt meddelanden automatiskt",
+      "automatically_translate_messages_into_your_prefe": "Översätt meddelanden automatiskt till det språk du föredrar.",
+      "show_original_with_translation": "Visa originalet med översättning",
+      "show_the_original_message_alongside_the_translat": "Visa originalmeddelandet bredvid översättningen.",
+      "smart_reply_suggestions": "Förslag på smarta svar",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Visa Ria-baserade hjälpmedel för omskrivning och snabbsvar.",
+      "linked_devices": "Anslutna enheter",
+      "manage_trusted_devices": "Hantera betrodda enheter",
+      "pair_new_device": "Koppla ihop en ny enhet",
+      "approve_a_new_device": "Godkänn en ny enhet",
+      "appearance": "Utseende",
+      "accessibility": "Tillgänglighet",
+      "visual_alerts_captions_and_voice_note_accessibil": "Visuella varningar, undertexter och tillgänglighet för röstmeddelanden",
+      "security": "Säkerhet",
+      "encryption_key_protected": "Skyddad med krypteringsnyckel",
+      "privacy": "Sekretess",
+      "allow_explicit_content": "Tillåt vuxet innehåll",
+      "show_read_receipts": "Visa läskvitton",
+      "blur_messages_by_default": "Dölj meddelanden som standard",
+      "blur_when_app_is_unfocused": "Sudda ut när appen inte är i fokus",
+      "hold_to_reveal_messages": "Håll ned för att visa meddelanden",
+      "notify_when_messages_are_copied": "Meddela när meddelanden kopieras",
+      "random_chat": "Slumpmässig chatt",
+      "use_age_based_matching": "Använd åldersbaserad matchning",
+      "let_ria_remember_conversations": "Låt Ria minnas samtalen",
+      "forward_voicemail_to_email": "Vidarebefordra röstmeddelanden till e-post",
+      "legal_support": "Juridisk information och support",
+      "free": "Gratis"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Alternativ för att göra Chatforia enklare att använda utan att behöva förlita sig på ljud.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Visas i normal storlek. Öka storleken om du föredrar större text i tillgänglighetsinställningarna.",
+      "interface_font_size": "Teckenstorlek i gränssnittet",
+      "notifications": "Meddelanden",
+      "visual_alerts_for_messages_calls": "Visuella aviseringar för meddelanden och samtal",
+      "show_banners_and_visual_indicators_so_you_do_not": "Visa banners och visuella indikatorer så att du inte missar något.",
+      "vibrate_on_new_messages": "Vibrera vid nya meddelanden",
+      "trigger_device_vibration_with_notifications_when": "Aktivera enhetens vibration vid aviseringar när detta stöds.",
+      "flash_screen_on_incoming_call": "Blinkande skärm vid inkommande samtal",
+      "briefly_flash_the_screen_when_a_call_rings": "Låt skärmen blinka kort när det ringer.",
+      "live_captions": "Liveundertexter",
+      "enable_live_captions": "Aktivera direkttextning",
+      "show_real_time_captions_during_calls_premium_req": "Visa undertexter i realtid under samtal. Premium krävs.",
+      "caption_font_size": "Teckenstorlek för bildtexter",
+      "caption_background": "Bildtextens bakgrund",
+      "voice_notes": "Röstmeddelanden",
+      "auto_transcribe_voice_notes": "Automatisk transkribering av röstanteckningar",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Bifoga en transkription till de röstmeddelanden du får."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Jag har återställt min nyckel",
+      "restore_encryption": "Återställ kryptering"
+    },
+    "language_selection": {
+      "select_language": "Välj språk"
+    },
+    "login": {
+      "email_or_username": "E-postadress eller användarnamn",
+      "password": "Lösenord",
+      "forgot_password": "Har du glömt lösenordet?",
+      "resend_verification_email": "Skicka verifieringsmejlet igen",
+      "reset_encryption": "Återställ kryptering",
+      "create_an_account": "Skapa ett konto",
+      "welcome_to": "Välkommen till Chatforia",
+      "sign_in_or_create_an_account": "Logga in eller skapa ett konto",
+      "or": "eller",
+      "don_t_have_an_account_yet": "Har du inget konto än?"
+    },
+    "onboarding": {
+      "welcome": "Välkommen",
+      "set_up_your_profile_so_can_personalize_your_expe": "Ställ in din profil så att Chatforia kan skräddarsy din upplevelse.",
+      "choose_a_username": "Välj ett användarnamn",
+      "this_is_how_people_will_recognize_you_in": "Så här kommer andra att känna igen dig i Chatforia.",
+      "choose_your_language": "Välj språk",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia kommer att använda detta för översättningar och för att förbättra din upplevelse av appen.",
+      "you_re_ready": "Nu är du redo",
+      "start_chatting_calling_translating_and_connectin": "Börja chatta, ringa, översätta och ta kontakt med människor över hela världen."
+    },
+    "register": {
+      "confirm_password": "Bekräfta lösenord",
+      "phone_optional": "Telefon (valfritt)",
+      "log_in": "Logga in",
+      "create_your_account": "Skapa ett konto",
+      "start_chatting_across_languages_with": "Börja chatta på olika språk med Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Jag samtycker till att ta emot verifieringsmeddelanden via SMS.",
+      "already_have_an_account": "Har du redan ett konto?"
+    },
+    "add_contact": {
+      "phone": "Telefon",
+      "name": "Namn",
+      "alias_optional": "Alias (valfritt)",
+      "pin_this_person_as_a_favorite_contact": "Lägg till den här personen som favoritkontakt."
+    },
+    "contact_detail": {
+      "edit_contact": "Redigera kontakt",
+      "delete_contact": "Ta bort kontakt",
+      "message": "Meddelande",
+      "video": "Video",
+      "external_name": "Externt namn"
+    },
+    "import_phone_contacts": {
+      "select_all": "Markera allt",
+      "clear": "Rensa",
+      "import_contacts": "Importera kontakter"
+    },
+    "invite_friends": {
+      "share_invite_link": "Dela inbjudningslänken",
+      "invite_friends": "Bjud in vänner",
+      "share_a_invite_link_with_friends_using_messages_": "Dela en inbjudningslänk till Chatforia med dina vänner via Meddelanden, e-post eller vilken app som helst på din telefon."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Koppla ihop en ny enhet",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Öppna Chatforia på din nya enhet och logga in. Om appen behöver åtkomst till dina krypterade chattar ska du godkänna detta från en enhet du litar på.",
+      "view_pending_device_requests": "Visa väntande enhetsförfrågningar"
+    },
+    "key_setup": {
+      "recovery_passcode": "Återställningskod",
+      "confirm_recovery_passcode": "Bekräfta återställningskoden",
+      "restore_chats": "Återställ chattar",
+      "clear_local_key": "Rensa lokal nyckel",
+      "reset_encryption": "Återställa kryptering?",
+      "this_will_permanently_replace_your_encryption_ke": "Detta kommer att ersätta din krypteringsnyckel permanent.",
+      "encryption": "Kryptering",
+      "restore_encrypted_chats": "Återställ krypterade chattar",
+      "no_recovery_backup_found": "Ingen säkerhetskopia hittades",
+      "open_on_a_device_that_can_already_read_your_encr": "Öppna Chatforia på en enhet som redan kan läsa dina krypterade chattar och skapa en återställningskod där.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Ingen säkerhetskopia har hittats ännu. Skapa en från den här enheten så att du kan återställa chattar på iOS, Android och webben.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Använd detta endast om du har förlorat alla betrodda enheter och inte kan återställa din ursprungliga nyckel."
+    },
+    "linked_devices": {
+      "your_devices": "Dina enheter",
+      "pending_approvals": "Väntar på godkännande",
+      "approve": "Godkänn",
+      "reject": "Avvisa",
+      "revoke": "Återkalla",
+      "request_approval_for_this_device": "Begär godkännande för denna enhet",
+      "finish_device_approval": "Godkännande av utrustning"
+    },
+    "forwarding_settings": {
+      "reset": "Återställ",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Vidarebefordra inkommande samtal och sms till din verifierade telefon eller e-postadress.",
+      "quiet_hours": "Tysta tider",
+      "forwarding": "Vidarebefordran",
+      "enable_text_forwarding": "Aktivera vidarebefordran av text",
+      "forward_texts_to_phone": "Vidarebefordra SMS till telefonen",
+      "forward_texts_to_email": "Vidarebefordra SMS till e-post",
+      "enable_call_forwarding": "Aktivera vidarekoppling"
+    },
+    "chat_message_row": {
+      "copy": "Kopiera",
+      "edit": "Redigera",
+      "report": "Rapport",
+      "message_info": "Meddelandeinformation"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Inga meddelanden än",
+      "delete_message": "Vill du radera meddelandet?",
+      "choose_how_you_want_to_delete_this_message": "Välj hur du vill ta bort det här meddelandet.",
+      "delete_for_everyone": "Ta bort för alla",
+      "delete_for_me": "Ta bort åt mig",
+      "search_messages": "Sök i meddelanden",
+      "search_in_chat": "Sök i chatten",
+      "sending": "Skickar…",
+      "failed_to_send": "Det gick inte att skicka",
+      "edited": "Redigerat",
+      "audio_call": "Röstsamtal",
+      "video_call": "Videosamtal",
+      "selected_gif": "Utvald GIF",
+      "remove_gif": "Ta bort GIF",
+      "attach": "Bifoga",
+      "rewrite_with_ria": "Skriv om med Ria",
+      "composer_action": "Kompositörens åtgärd"
+    },
+    "edit_message": {
+      "save": "Spara",
+      "emoji": "Emoji",
+      "edit_message": "Redigera meddelande"
+    },
+    "message_attachments": {
+      "image_attachment": "Bildbilaga",
+      "video_attachment": "Videobilaga",
+      "play_video": "Spela upp videon"
+    },
+    "message_bubble": {
+      "disappearing_message": "Försvinnande meddelande"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Ingen har läst det här än",
+      "message_info": "Meddelandeinformation"
+    },
+    "report_message": {
+      "reason": "Motivering",
+      "include_previous_messages": "Inkludera tidigare meddelanden",
+      "additional_details": "Ytterligare information",
+      "anything_else_moderators_should_know": "Är det något annat som moderatorerna bör känna till?",
+      "block_this_user_after_reporting": "Blockera den här användaren efter att du har anmält hen",
+      "submit_report": "Skicka rapport",
+      "report_message": "Rapportera meddelande"
+    },
+    "phone_number": {
+      "replace_number": "Ersätt nummer",
+      "pick_a_number": "Välj ett nummer",
+      "no_number_assigned": "Inget Chatforia-nummer har tilldelats.",
+      "your_number": "Ditt Chatforia-nummer"
+    },
+    "pick_number": {
+      "area_code": "Riktnummer",
+      "premium_numbers_are_protected_from_recycling": "Premiumnummer skyddas mot återanvändning.",
+      "available_numbers": "Lediga nummer",
+      "search_by_area_code_to_find_available_numbers": "Sök efter riktnummer för att hitta lediga nummer.",
+      "capability": "Kapacitet",
+      "country": "Land"
+    },
+    "gif_picker": {
+      "search_tenor": "Sök i Tenor",
+      "search_gifs": "Sök efter GIF-bilder"
+    },
+    "random_chat": {
+      "add_friend": "Lägg till vän",
+      "skip": "Hoppa över",
+      "send": "Skicka",
+      "end_chat": "Avsluta chatt"
+    },
+    "random_matching": {
+      "finding_someone": "Att hitta någon"
+    },
+    "ria_chat": {
+      "ask_ria": "Fråga Ria...",
+      "you_re_now_chatting_with_ria": "Du chattar nu med Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Chatta med Ria när som helst, utan att behöva vänta på att bli kopplad till en slumpmässig användare."
+    },
+    "ria_rewrite": {
+      "original_text": "Originaltext",
+      "choose_tone": "Välj ton",
+      "rewriting": "Omskrivning…",
+      "suggestions": "Förslag",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Välj en ton för att få förslag på omformuleringar."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "I grundversionen ingår grundläggande ljud. Uppgradera för att få tillgång till fler toner och ringsignaler.",
+      "volume": "Volym",
+      "message_tone": "Signalton",
+      "ringtone": "Ringsignal"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Inga röstmeddelanden än.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "När någon lämnar ett röstmeddelande till dig\nkommer det att visas här.",
+      "play_voicemail": "Spela upp röstmeddelandet",
+      "delete_voicemail": "Ta bort röstmeddelande"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Utvald röstmeddelande"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Täckning för det land du befinner dig i eller för användning i närområdet.",
+      "coverage_across_supported_european_destinations": "Täckning i alla europeiska destinationer som stöds.",
+      "coverage_across_supported_global_destinations": "Täckning i alla stödda destinationer världen över."
+    },
+    "wireless_home": {
+      "manage_wireless": "Hantera trådlösa nätverk",
+      "port_my_number": "Flytta mitt nummer",
+      "esim_data_packs_require_an_esim_compatible_and_u": "För eSIM-datapaket krävs en eSIM-kompatibel och olåst enhet.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Håll kontakten när du är på resande fot eller inte har tillgång till Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Välj ett engångspaket med eSIM-data för täckning i Sverige, Europa eller globalt.",
+      "we_don_t_sell_data_packs_under_3_gb": "Vi säljer inga datapaket på under 3 GB.",
+      "loading_usage": "Laddar användningsstatistik…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Det finns inget aktivt datapaket ännu. Köp ett paket nedan för att börja mäta din dataförbrukning.",
+      "usage_details_will_appear_once_your_data_pack_is": "Användningsstatistiken visas så snart ditt datapaket har aktiverats.",
+      "manage": "Hantera",
+      "coverage": "Omfattning",
+      "your_esim": "Ditt eSIM",
+      "current_usage": "Nuvarande användning"
+    }
   }
 }

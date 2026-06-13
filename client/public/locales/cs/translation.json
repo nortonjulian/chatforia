@@ -3066,7 +3066,8 @@
     "flip": "Překlopit",
     "speaker": "Reproduktor",
     "end": "Konec",
-    "noIncomingCallToAnswer": "Žádný příchozí hovor, který by bylo možné přijmout."
+    "noIncomingCallToAnswer": "Žádný příchozí hovor, který by bylo možné přijmout.",
+    "serviceUnavailable": "Telefonická podpora není momentálně k dispozici. Zkuste to prosím později."
   },
   "settings": {
     "startHour": "Počáteční hodina (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Temný",
   "accessibility_caption_bg_transparent": "Průhledný",
   "api": {
-    "notAuthorized": "Není povoleno"
+    "notAuthorized": "Není povoleno",
+    "invalidURL": "Neplatná adresa serveru.",
+    "serverError": "Chyba serveru (%d): %@",
+    "failedToDecodeResponse": "Nelze načíst odpověď serveru: %@"
+  },
+  "tap_to_view_contact": "Klepnutím zobrazíte kontakt",
+  "android": {
+    "plan": {
+      "plan_billing": "Tarify a fakturace",
+      "current_plan": "Aktuální plán",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "S verzí Plus se zbavíte reklam, s verzí Premium získáte přístup k nástrojům umělé inteligence a možnostem přizpůsobení.",
+      "plus": "Navíc",
+      "premium": "Prémiový",
+      "back": "Zpět",
+      "my_plan": "Můj plán",
+      "compare_plans": "Porovnat tarify",
+      "included": "Součástí balení"
+    },
+    "upgrade": {
+      "upgrade": "Aktualizace",
+      "restore_purchases": "Obnovit nákupy",
+      "unlock_more_with": "Objevte s Chatforií ještě více",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Vyberte si tarif Plus nebo Premium, abyste odstranili reklamy, přizpůsobili si prostředí a odemkli pokročilé nástroje.",
+      "best_experience": "Nejlepší zážitek",
+      "close": "Zavřít",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Odstraňte reklamy a odemkněte další užitečné funkce.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Plnohodnotný zážitek z Chatforie.",
+      "premium_annual": "Prémiové roční předplatné",
+      "save_compared_to_monthly_premium": "Ušetřete oproti měsíčnímu tarifu Premium."
+    },
+    "audio_call": {
+      "mute": "Ztlumit",
+      "speaker": "Řečník",
+      "end_call": "Ukončit hovor"
+    },
+    "dial_pad": {
+      "dial": "Číselník",
+      "done": "Hotovo",
+      "enter_number": "Zadejte číslo",
+      "call": "Zavolejte",
+      "delete_digit": "Odstranit číslici"
+    },
+    "incoming_call": {
+      "decline": "Pokles",
+      "accept": "Přijmout",
+      "decline_call": "Odmítnout hovor",
+      "accept_call": "Přijmout hovor"
+    },
+    "video_call": {
+      "camera": "Fotoaparát",
+      "flip_camera": "Kameru Flip"
+    },
+    "chats": {
+      "search_chats": "Vyhledat konverzace",
+      "no_chats_yet": "Zatím žádné konverzace",
+      "admob_ad": "Reklama AdMob",
+      "delete_conversation": "Smazat konverzaci?",
+      "this_will_remove_this_conversation_from_your_cha": "Tímto krokem odstraníte tuto konverzaci ze seznamu chatů.",
+      "delete": "Odstranit",
+      "cancel": "Zrušit",
+      "chats": "Chaty",
+      "new_chat": "Nový chat",
+      "refresh": "Obnovit",
+      "random_chat": "Náhodný chat",
+      "search": "Hledat",
+      "delete_conversation_2": "Smazat konverzaci"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Uživatelské jméno, jméno kontaktní osoby nebo telefonní číslo",
+      "new_chat": "Nový chat",
+      "start_a_chat": "Zahájit chat",
+      "search_by_username_contact_name_or_phone_number": "Vyhledávejte podle uživatelského jména, jména kontaktu nebo telefonního čísla.",
+      "results": "Výsledky",
+      "open_chat": "Otevřít chat"
+    },
+    "calls": {
+      "recents": "Poslední",
+      "voicemail": "Hlasová schránka",
+      "calls": "Hovory",
+      "no_calls_yet": "Zatím žádné hovory",
+      "your_recent_calls_will_show_up_here": "Zde se zobrazí vaše poslední hovory.",
+      "open_dial_pad": "Otevřít číselník",
+      "delete_call": "Zrušit hovor",
+      "video_call": "Videohovor"
+    },
+    "contacts": {
+      "contacts": "Kontakty",
+      "add_contact": "Přidat kontakt",
+      "import_from_phone": "Importovat z telefonu",
+      "invite_friends": "Pozvi přátele",
+      "favorite": "Oblíbené",
+      "open_contact": "Otevřít kontakt"
+    },
+    "main_activity": {
+      "loading": "Načítání...",
+      "profile": "Profil"
+    },
+    "profile": {
+      "delete_account": "Smazat účet",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Tuto akci nelze vrátit zpět. Opravdu chcete svůj účet smazat?",
+      "log_out": "Odhlásit se",
+      "change_photo": "Změnit fotografii",
+      "remove_photo": "Odstranit fotografii",
+      "preferred_language": "Preferovaný jazyk",
+      "your_age_range": "Váš věkový rozsah",
+      "theme": "Téma",
+      "choose_how_looks_across_the_app": "Vyberte si, jak bude Chatforia vypadat v celé aplikaci.",
+      "uploading": "Nahrává se…",
+      "choose_plus_or_premium": "Vyberte si tarif Plus nebo Premium",
+      "profile_photo": "Profilová fotka",
+      "open_upgrade": "Otevřít aktualizaci",
+      "open": "Otevřít",
+      "account": "Účet",
+      "username": "Uživatelské jméno",
+      "email": "E-mail",
+      "plan": "Plán",
+      "wireless": "Bezdrátové",
+      "mobile": "Chatforia pro mobilní zařízení",
+      "esim_and_wireless_settings": "Nastavení eSIM a bezdrátového připojení",
+      "call_text_forwarding": "Přesměrování hovorů a SMS",
+      "forward_incoming_calls_and_texts": "Přesměrování příchozích hovorů a SMS zpráv",
+      "phone_number": "Telefonní číslo",
+      "manage_your_number": "Spravujte své číslo Chatforia",
+      "settings": "Nastavení",
+      "auto_translate_messages": "Automatický překlad zpráv",
+      "automatically_translate_messages_into_your_prefe": "Zprávy se automaticky přeloží do vašeho preferovaného jazyka.",
+      "show_original_with_translation": "Zobrazit originál s překladem",
+      "show_the_original_message_alongside_the_translat": "Zobrazit původní zprávu vedle překladu.",
+      "smart_reply_suggestions": "Návrhy inteligentních odpovědí",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Zobrazit pomoc při přepisování a rychlé odpovědi využívající technologii Ria.",
+      "linked_devices": "Připojená zařízení",
+      "manage_trusted_devices": "Správa důvěryhodných zařízení",
+      "pair_new_device": "Spárovat nové zařízení",
+      "approve_a_new_device": "Schválit nové zařízení",
+      "appearance": "Vzhled",
+      "accessibility": "Přístupnost",
+      "visual_alerts_captions_and_voice_note_accessibil": "Vizuální upozornění, titulky a přístupnost hlasových poznámek",
+      "security": "Bezpečnost",
+      "encryption_key_protected": "Chráněno šifrovacím klíčem",
+      "privacy": "Ochrana osobních údajů",
+      "allow_explicit_content": "Povolit obsah pro dospělé",
+      "show_read_receipts": "Zobrazit potvrzení o přečtení",
+      "blur_messages_by_default": "Ve výchozím nastavení zprávy rozmazat",
+      "blur_when_app_is_unfocused": "Rozostření při odklonu pozornosti od aplikace",
+      "hold_to_reveal_messages": "Podržte prst a zobrazí se zprávy",
+      "notify_when_messages_are_copied": "Upozornit při kopírování zpráv",
+      "random_chat": "Náhodný chat",
+      "use_age_based_matching": "Použít přiřazování podle věku",
+      "let_ria_remember_conversations": "Ať si Ria zapamatuje rozhovory",
+      "forward_voicemail_to_email": "Přeposílat hlasové zprávy na e-mail",
+      "legal_support": "Právní informace a podpora",
+      "free": "Zdarma"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Možnosti, jak usnadnit používání aplikace Chatforia bez nutnosti spoléhat se na zvuk.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Výchozí velikost je standardní. Pokud dáváte přednost většímu textu, zvětšete jej v nastavení přístupnosti.",
+      "interface_font_size": "Velikost písma v rozhraní",
+      "notifications": "Oznámení",
+      "visual_alerts_for_messages_calls": "Vizuální upozornění na zprávy a hovory",
+      "show_banners_and_visual_indicators_so_you_do_not": "Zobrazujte upoutávky a vizuální upozornění, abyste nic nezmeškali.",
+      "vibrate_on_new_messages": "Vibrovat při nových zprávách",
+      "trigger_device_vibration_with_notifications_when": "Pokud je tato funkce podporována, aktivujte vibrace zařízení při oznámeních.",
+      "flash_screen_on_incoming_call": "Úvodní obrazovka při příchozím hovoru",
+      "briefly_flash_the_screen_when_a_call_rings": "Při zazvonění hovoru krátce rozsvítit displej.",
+      "live_captions": "Živé titulky",
+      "enable_live_captions": "Zapnout živé titulky",
+      "show_real_time_captions_during_calls_premium_req": "Zobrazovat titulky v reálném čase během hovorů. Vyžaduje předplatné Premium.",
+      "caption_font_size": "Velikost písma titulků",
+      "caption_background": "Pozadí popisku",
+      "voice_notes": "Hlasové poznámky",
+      "auto_transcribe_voice_notes": "Automatický přepis hlasových poznámek",
+      "attach_a_transcript_to_audio_messages_you_receiv": "K přijatým hlasovým zprávám přiložte přepis."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Obnovil jsem svůj klíč",
+      "restore_encryption": "Obnovit šifrování"
+    },
+    "language_selection": {
+      "select_language": "Vyberte jazyk"
+    },
+    "login": {
+      "email_or_username": "E-mail nebo uživatelské jméno",
+      "password": "Heslo",
+      "forgot_password": "Zapomněli jste heslo?",
+      "resend_verification_email": "Znovu odeslat ověřovací e-mail",
+      "reset_encryption": "Obnovit šifrování",
+      "create_an_account": "Vytvořit účet",
+      "welcome_to": "Vítejte na Chatforii",
+      "sign_in_or_create_an_account": "Přihlaste se nebo si vytvořte účet",
+      "or": "nebo",
+      "don_t_have_an_account_yet": "Ještě nemáte účet?"
+    },
+    "onboarding": {
+      "welcome": "Vítejte",
+      "set_up_your_profile_so_can_personalize_your_expe": "Nastavte si svůj profil, aby vám Chatforia mohla přizpůsobit zážitek na míru.",
+      "choose_a_username": "Vyberte si uživatelské jméno",
+      "this_is_how_people_will_recognize_you_in": "Takto vás budou lidé v Chatforii poznávat.",
+      "choose_your_language": "Vyberte si jazyk",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia tyto údaje využije pro překlady a ke zlepšení vašeho uživatelského zážitku s aplikací.",
+      "you_re_ready": "Jste připraveni",
+      "start_chatting_calling_translating_and_connectin": "Začněte chatovat, volat, překládat a spojujte se s lidmi z celého světa."
+    },
+    "register": {
+      "confirm_password": "Potvrďte heslo",
+      "phone_optional": "Telefon není nutný",
+      "log_in": "Přihlásit se",
+      "create_your_account": "Vytvořte si účet",
+      "start_chatting_across_languages_with": "Začněte chatovat v různých jazycích s Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Souhlasím s přijímáním ověřovacích SMS zpráv.",
+      "already_have_an_account": "Už máte účet?"
+    },
+    "add_contact": {
+      "phone": "Telefon",
+      "name": "Jméno",
+      "alias_optional": "Alias (volitelné)",
+      "pin_this_person_as_a_favorite_contact": "Přidejte si tuto osobu mezi oblíbené kontakty."
+    },
+    "contact_detail": {
+      "edit_contact": "Upravit kontakt",
+      "delete_contact": "Odstranit kontakt",
+      "message": "Zpráva",
+      "video": "Video",
+      "external_name": "Externí název"
+    },
+    "import_phone_contacts": {
+      "select_all": "Vybrat vše",
+      "clear": "Vymazat",
+      "import_contacts": "Importovat kontakty"
+    },
+    "invite_friends": {
+      "share_invite_link": "Sdílet odkaz na pozvánku",
+      "invite_friends": "Pozvi přátele",
+      "share_a_invite_link_with_friends_using_messages_": "Sdílejte odkaz na pozvánku do Chatforie s přáteli prostřednictvím aplikace Zprávy, e-mailu nebo jakékoli jiné aplikace ve vašem telefonu."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Připojit nové zařízení",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Spusťte aplikaci Chatforia na svém novém zařízení a přihlaste se. Pokud aplikace bude potřebovat přístup k vašim šifrovaným konverzacím, povolte jí to z důvěryhodného zařízení.",
+      "view_pending_device_requests": "Zobrazit nevyřízené žádosti o zařízení"
+    },
+    "key_setup": {
+      "recovery_passcode": "Odzamykací kód",
+      "confirm_recovery_passcode": "Potvrďte kód pro obnovení",
+      "restore_chats": "Obnovit konverzace",
+      "clear_local_key": "Vymazat místní klíč",
+      "reset_encryption": "Obnovit šifrování?",
+      "this_will_permanently_replace_your_encryption_ke": "Tím dojde k trvalé změně vašeho šifrovacího klíče.",
+      "encryption": "Šifrování",
+      "restore_encrypted_chats": "Obnovit zašifrované konverzace",
+      "no_recovery_backup_found": "Nebyla nalezena žádná záložní kopie pro obnovení",
+      "open_on_a_device_that_can_already_read_your_encr": "Spusťte aplikaci Chatforia na zařízení, které již dokáže přečíst vaše šifrované konverzace, a vytvořte tam obnovovací kód.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Zatím nebyla nalezena žádná záloha pro obnovení. Vytvořte ji z tohoto zařízení, abyste mohli obnovit konverzace v systému iOS, Android a na webu.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Tuto možnost použijte pouze v případě, že jste ztratili všechna důvěryhodná zařízení a nemůžete obnovit svůj původní klíč."
+    },
+    "linked_devices": {
+      "your_devices": "Vaše zařízení",
+      "pending_approvals": "Čeká se na schválení",
+      "approve": "Schválit",
+      "reject": "Odmítnout",
+      "revoke": "Zrušit",
+      "request_approval_for_this_device": "Požádat o schválení tohoto zařízení",
+      "finish_device_approval": "Dokončení schvalování zařízení"
+    },
+    "forwarding_settings": {
+      "reset": "Obnovit",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Přesměrujte příchozí hovory a SMS zprávy na svůj ověřený telefonní číslo nebo e-mailovou adresu.",
+      "quiet_hours": "Klidové hodiny",
+      "forwarding": "Přeposlání",
+      "enable_text_forwarding": "Povolit přeposílání textových zpráv",
+      "forward_texts_to_phone": "Přeposílat SMS na telefon",
+      "forward_texts_to_email": "Přeposílat SMS na e-mail",
+      "enable_call_forwarding": "Zapnout přesměrování hovorů"
+    },
+    "chat_message_row": {
+      "copy": "Kopírovat",
+      "edit": "Upravit",
+      "report": "Zpráva",
+      "message_info": "Informace o zprávě"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Zatím žádné zprávy",
+      "delete_message": "Smazat zprávu?",
+      "choose_how_you_want_to_delete_this_message": "Vyberte, jakým způsobem chcete tuto zprávu smazat.",
+      "delete_for_everyone": "Odstranit pro všechny",
+      "delete_for_me": "Smaž to za mě",
+      "search_messages": "Vyhledat zprávy",
+      "search_in_chat": "Hledat v chatu",
+      "sending": "Odesílám…",
+      "failed_to_send": "Odeslání se nezdařilo",
+      "edited": "Upravil",
+      "audio_call": "Hlasový hovor",
+      "video_call": "Videohovor",
+      "selected_gif": "Vybrané GIF",
+      "remove_gif": "Odstranit GIF",
+      "attach": "Připojit",
+      "rewrite_with_ria": "Přepište to s Riou",
+      "composer_action": "Akce skladatele"
+    },
+    "edit_message": {
+      "save": "Uložit",
+      "emoji": "Emoji",
+      "edit_message": "Upravit zprávu"
+    },
+    "message_attachments": {
+      "image_attachment": "Příloha obrázku",
+      "video_attachment": "Příloha ve formě videa",
+      "play_video": "Přehrát video"
+    },
+    "message_bubble": {
+      "disappearing_message": "Zmizící zpráva"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Toto zatím nikdo nečetl",
+      "message_info": "Informace o zprávě"
+    },
+    "report_message": {
+      "reason": "Důvod",
+      "include_previous_messages": "Zahrnout předchozí zprávy",
+      "additional_details": "Další podrobnosti",
+      "anything_else_moderators_should_know": "Je ještě něco, co by moderátoři měli vědět?",
+      "block_this_user_after_reporting": "Po nahlášení tohoto uživatele ho zablokovat",
+      "submit_report": "Odeslat hlášení",
+      "report_message": "Nahlásit zprávu"
+    },
+    "phone_number": {
+      "replace_number": "Nahradit číslo",
+      "pick_a_number": "Vyberte si číslo",
+      "no_number_assigned": "Nebylo přiděleno žádné číslo Chatforia.",
+      "your_number": "Vaše číslo Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Předvolba",
+      "premium_numbers_are_protected_from_recycling": "Prémiová čísla jsou chráněna před opětovným přidělením.",
+      "available_numbers": "Volná čísla",
+      "search_by_area_code_to_find_available_numbers": "Vyhledejte volná čísla podle předčíslí.",
+      "capability": "Schopnost",
+      "country": "Země"
+    },
+    "gif_picker": {
+      "search_tenor": "Vyhledat Tenor",
+      "search_gifs": "Vyhledat GIFy"
+    },
+    "random_chat": {
+      "add_friend": "Přidat do přátel",
+      "skip": "Přeskočit",
+      "send": "Odeslat",
+      "end_chat": "Ukončit chat"
+    },
+    "random_matching": {
+      "finding_someone": "Najít někoho"
+    },
+    "ria_chat": {
+      "ask_ria": "Zeptej se Rii...",
+      "you_re_now_chatting_with_ria": "Právě chatujete s Riou",
+      "chat_with_ria_anytime_separate_from_random_human": "S Ria si můžeš popovídat kdykoli, a to nezávisle na náhodném přiřazování uživatelů."
+    },
+    "ria_rewrite": {
+      "original_text": "Původní text",
+      "choose_tone": "Vyberte barvu",
+      "rewriting": "Přepisuji…",
+      "suggestions": "Návrhy",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Vyberte styl, na jehož základě se mají generovat návrhy na přeformulování."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Základní zvuky jsou k dispozici zdarma. Pro odemknutí dalších tónů a vyzváněcích melodií si pořiďte upgrade.",
+      "volume": "Objem",
+      "message_tone": "Zvukové signály",
+      "ringtone": "Zvonění"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Zatím žádné hlasové zprávy.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Když vám někdo nechá vzkaz v hlasové schránce,\nzobrazí se vám tady.",
+      "play_voicemail": "Přehrát hlasovou zprávu",
+      "delete_voicemail": "Smazat hlasovou zprávu"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Vybraná hlasová zpráva"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Pokrytí pro vaši aktuální zemi nebo pro použití v okolí.",
+      "coverage_across_supported_european_destinations": "Pokrytí ve všech podporovaných evropských destinacích.",
+      "coverage_across_supported_global_destinations": "Pokrytí ve všech podporovaných destinacích po celém světě."
+    },
+    "wireless_home": {
+      "manage_wireless": "Správa bezdrátových sítí",
+      "port_my_number": "Přenést mé číslo",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Datové balíčky pro eSIM vyžadují zařízení kompatibilní s eSIM a odblokované.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Zůstaňte v kontaktu, i když jste na cestách nebo mimo dosah Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Vyberte si jednorázový datový balíček eSIM s pokrytím v rámci dané země, Evropy nebo celého světa.",
+      "we_don_t_sell_data_packs_under_3_gb": "Neprodáváme datové balíčky s objemem menším než 3 GB.",
+      "loading_usage": "Načítání údajů o využití…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Zatím nemáte aktivní datový balíček. Zakupte si balíček níže a začněte sledovat spotřebu dat.",
+      "usage_details_will_appear_once_your_data_pack_is": "Podrobnosti o využití se zobrazí, jakmile bude váš datový balíček aktivován.",
+      "manage": "Spravovat",
+      "coverage": "Rozsah",
+      "your_esim": "Vaše eSIM",
+      "current_usage": "Aktuální využití"
+    }
   }
 }

@@ -3066,7 +3066,8 @@
     "flip": "Hundzuluxa",
     "speaker": "Xivulavuri",
     "end": "Makumu",
-    "noIncomingCallToAnswer": "A ku na riqingho leri nghenaka ro hlamula."
+    "noIncomingCallToAnswer": "A ku na riqingho leri nghenaka ro hlamula.",
+    "serviceUnavailable": "Vukorhokeri byo fona a byi kumeki sweswi. Hi kombela u ringeta nakambe endzhaku."
   },
   "settings": {
     "startHour": "Nkarhi wo sungula (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Rimunyu",
   "accessibility_caption_bg_transparent": "Ku vonakala",
   "api": {
-    "notAuthorized": "A swi pfumeleriwanga"
+    "notAuthorized": "A swi pfumeleriwanga",
+    "invalidURL": "Adirese ya server a yi lulamanga.",
+    "serverError": "Xihoxo xa server (%d): %@",
+    "failedToDecodeResponse": "A swi koteki ku hlaya nhlamulo ya server: %@"
+  },
+  "tap_to_view_contact": "Tlhoma ku vona vuxokoxoko bya vutihlanganisi",
+  "android": {
+    "plan": {
+      "plan_billing": "Kunguhata na Ku Hakela",
+      "current_plan": "Kungu ra sweswi",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Susa swinavetiso hi Plus, kumbe pfulela switirhisiwa swa AI na ku tihlela hi Premium.",
+      "plus": "Ku engetela",
+      "premium": "Xa xiyimo xa le henhla",
+      "back": "Vuyela endzhaku",
+      "my_plan": "Kunguhata ya mina",
+      "compare_plans": "Pimanisa Tipulani",
+      "included": "Ku katsiwile"
+    },
+    "upgrade": {
+      "upgrade": "Antswisa",
+      "restore_purchases": "Vuyisela leswi xaviweke",
+      "unlock_more_with": "Pfula swo tala na Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Hlawula Plus kumbe Premium ku susa swinavetiso, ku cinca ntokoto wa wena, ni ku pfulela switirhisiwa swa xiyimo xa le henhla.",
+      "best_experience": "Ntokoto lowunene ngopfu",
+      "close": "Pfalela",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Susa swinavetiso u pfulela swihlawulekisi swo tala swa siku na siku.",
+      "premium": "Chatforia ya le Henhla",
+      "the_full_experience": "Ntokoto lowu hetisekeke wa Chatforia.",
+      "premium_annual": "Gore na Gore xa Xiyimo xa le Henhla",
+      "save_compared_to_monthly_premium": "Hlayisa ku pimanisiwa na Premium ya n'hweti na n'hweti."
+    },
+    "audio_call": {
+      "mute": "Miyerisa",
+      "speaker": "Xivulavuri",
+      "end_call": "Hela riqingho"
+    },
+    "dial_pad": {
+      "dial": "Rhinga",
+      "done": "Ku hetisekile",
+      "enter_number": "Ngenisa nomboro",
+      "call": "Fona",
+      "delete_digit": "Sula nomboro"
+    },
+    "incoming_call": {
+      "decline": "Ku hunguteka",
+      "accept": "Amukela",
+      "decline_call": "Ala riqingho",
+      "accept_call": "Amukela riqingho"
+    },
+    "video_call": {
+      "camera": "Khamera",
+      "flip_camera": "Khamera yo pfilunganya"
+    },
+    "chats": {
+      "search_chats": "Lava mabulo",
+      "no_chats_yet": "A ku si va na mabulo",
+      "admob_ad": "Xikhangiso xa AdMob",
+      "delete_conversation": "Ku susa bulo?",
+      "this_will_remove_this_conversation_from_your_cha": "Leswi swi ta susa bulu leri eka nxaxamelo wa wena wa mabulu.",
+      "delete": "Sula",
+      "cancel": "Herisa",
+      "chats": "Mabulo",
+      "new_chat": "Bulo lerintshwa",
+      "refresh": "Vuyisela",
+      "random_chat": "Bulo leri nga hlelekangiki",
+      "search": "Lava",
+      "delete_conversation_2": "Sula bulo"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Vito ra mutirhisi, vito ra munhu wo vulavula na yena, kumbe nomboro ya riqingho",
+      "new_chat": "Bulo Lerintshwa",
+      "start_a_chat": "Sungula bulo",
+      "search_by_username_contact_name_or_phone_number": "Lava hi vito ra mutirhisi, vito ra vuxokoxoko, kumbe nomboro ya riqingho.",
+      "results": "Mbuyelo",
+      "open_chat": "Pfula bula"
+    },
+    "calls": {
+      "recents": "Swa sweswinyana",
+      "voicemail": "Rungula ra rito",
+      "calls": "Mifonelo",
+      "no_calls_yet": "A ku si ri na mibizo",
+      "your_recent_calls_will_show_up_here": "Tirhingo ta wena ta sweswinyana ti ta humelela laha.",
+      "open_dial_pad": "Pfula xipadana xa dinivho",
+      "delete_call": "Sula riqingho",
+      "video_call": "Riqingho ra vhidiyo"
+    },
+    "contacts": {
+      "contacts": "Vahlanganisi",
+      "add_contact": "Engetela vuxokoxoko bya vuhlanganisi",
+      "import_from_phone": "Nghenisa kusuka eka riqingho",
+      "invite_friends": "Rhamba vanghana",
+      "favorite": "Lexi rhandzekaka",
+      "open_contact": "Pfula vuhlanganisi"
+    },
+    "main_activity": {
+      "loading": "Ku layicha...",
+      "profile": "Vuxokoxoko"
+    },
+    "profile": {
+      "delete_account": "Sula Akhawunti",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Xiendlo lexi a xi tlheriseriwi endzhaku. Xana u tiyisile leswaku u lava ku susa akhawunti ya wena?",
+      "log_out": "Humela ehandle",
+      "change_photo": "Cinca Xifaniso",
+      "remove_photo": "Susa Xifaniso",
+      "preferred_language": "Ririmi leri rhandzekaka",
+      "your_age_range": "Ntsengo wa malembe ya wena",
+      "theme": "Nhlokomhaka",
+      "choose_how_looks_across_the_app": "Hlawula ndlela leyi Chatforia yi langutekaka ha yona eka app hinkwayo.",
+      "uploading": "Ku layicha…",
+      "choose_plus_or_premium": "Hlawula Plus kumbe Premium",
+      "profile_photo": "Xifaniso xa phurofayili",
+      "open_upgrade": "Pfula ku antswisa",
+      "open": "Pfula",
+      "account": "Akawunti",
+      "username": "Vito ra mutirhisi",
+      "email": "Imeyili",
+      "plan": "Kunguhata",
+      "wireless": "Handle ka waya",
+      "mobile": "Chatforia ya Selula",
+      "esim_and_wireless_settings": "Swilunghiselelo swa eSIM na swa wayilesi",
+      "call_text_forwarding": "Ku Yisa Mberi Mabuloho na Marungula",
+      "forward_incoming_calls_and_texts": "Rhumela emahlweni mibuzo leyi nghenaka na marungula ya le ka selula",
+      "phone_number": "Nomboro ya riqingho",
+      "manage_your_number": "Lawula nomboro ya wena ya Chatforia",
+      "settings": "Swilunghiselo",
+      "auto_translate_messages": "Hundzuluxa marungula hi xoxe",
+      "automatically_translate_messages_into_your_prefe": "Hundzuluxa marungula hi xoxe eka ririmi leri u ri hlawuleke.",
+      "show_original_with_translation": "Kombisa xitsariwa xo sungula na vuhundzuluxi",
+      "show_the_original_message_alongside_the_translat": "Kombisa rungula ro sungula etlhelo ka vuhundzuluxi.",
+      "smart_reply_suggestions": "Swiringanyeto swa tinhlamulo to tlhariha",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Kombisa mpfuno wo tsala nakambe hi Ria na tinhlamulo ta xihatla.",
+      "linked_devices": "Switirhisiwa leswi hlanganisiweke",
+      "manage_trusted_devices": "Lawula switirhisiwa leswi tshembekaka",
+      "pair_new_device": "Hlanganisa Xitirhisiwa Xintshwa",
+      "approve_a_new_device": "Pasisa xitirhisiwa lexintshwa",
+      "appearance": "Xivumbeko",
+      "accessibility": "Ku fikeleleka",
+      "visual_alerts_captions_and_voice_note_accessibil": "Ku fikeleleka ka switsundzuxo leswi vonekaka, tinhlamuselo ta swifaniso, na marungula ya rito",
+      "security": "Vuhlayiseki",
+      "encryption_key_protected": "Xilotlelo xo fihla xi sirheleriwile",
+      "privacy": "Xihundla",
+      "allow_explicit_content": "Pfumelela leswi nga faneliki eka vanhu hinkwavo",
+      "show_read_receipts": "Kombisa leswaku ku hlariwile",
+      "blur_messages_by_default": "Sula marungula hi ntolovelo",
+      "blur_when_app_is_unfocused": "Ku pfumala ku vonaka loko app yi nga langutisiwanga",
+      "hold_to_reveal_messages": "Tshikilela ku kombisa marungula",
+      "notify_when_messages_are_copied": "Tivisa loko marungula ma kopiwile",
+      "random_chat": "Bulo ra xiwelo",
+      "use_age_based_matching": "Tirhisa ku pimanisa hi malembe.",
+      "let_ria_remember_conversations": "A Ria a tsundzuke mabulo.",
+      "forward_voicemail_to_email": "Rhumela marungula ya le riqingweni eka imeyili",
+      "legal_support": "Na Nawu & Nseketelo",
+      "free": "Mahala"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Swo hlawula leswaku Chatforia yi olova ku yi tirhisa handle ko tshembela eka mpfumawulo.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Yi sungula yi ri eka sayizi ya ntolovelo. Engetela loko u rhandza matsalwa lamakulu eka swiletelwa swa vukorhokeri.",
+      "interface_font_size": "Ndlela yo cinciwa ka sayizi ya fonti",
+      "notifications": "Switiviso",
+      "visual_alerts_for_messages_calls": "Switsundzuxo swo voniwa swa marungula na mibindzu",
+      "show_banners_and_visual_indicators_so_you_do_not": "Kombisa tibenera na swikombiso leswi vonakaka leswaku u nga sali endzhaku eka leswi humelelaka.",
+      "vibrate_on_new_messages": "Ntshukuneta eka marungula lamantshwa",
+      "trigger_device_vibration_with_notifications_when": "Pfurhisa ku ririma ka xitirhisiwa na switiviso loko swi seketeriwa.",
+      "flash_screen_on_incoming_call": "Xikirini xa flash eka riqingho leri nghenaka",
+      "briefly_flash_the_screen_when_a_call_rings": "Xirhangiso xi voninge hi ku hatlisa loko riqingho ri rila.",
+      "live_captions": "Marito ya le hansi lama hanyaka",
+      "enable_live_captions": "Pfumelela tinhlamuselo leti humelelaka hi nkarhi",
+      "show_real_time_captions_during_calls_premium_req": "Kombisa marito ya nkarhi wa xiviri loko u ri eka riqingho. Ku laveka Premium.",
+      "caption_font_size": "Sayizi ya fonti ya marito ya le hansi",
+      "caption_background": "Nkandziyiso wa le ndzhaku",
+      "voice_notes": "Marungula ya rito",
+      "auto_transcribe_voice_notes": "Tsala marito ya vhidiyo hi xoxe",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Hambanisa marungula ya mpfumawulo lawa u ma kumaka hi matsalwa."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Ndzi vuyiserile xilotlelo xa mina.",
+      "restore_encryption": "Vuyisela Vuhlayiselo bya Xihundla"
+    },
+    "language_selection": {
+      "select_language": "Hlawula ririmi"
+    },
+    "login": {
+      "email_or_username": "Imeyili kumbe vito ra mutirhisi",
+      "password": "Rihanyo",
+      "forgot_password": "U rivale phaswedi?",
+      "resend_verification_email": "Rhumela nakambe imeyili yo tiyisisa",
+      "reset_encryption": "Seta nakambe vuhundzuluxeri",
+      "create_an_account": "Vumba akhawunti",
+      "welcome_to": "Ha mi amukela eChatforia",
+      "sign_in_or_create_an_account": "Nghena kumbe u tumbuluxa akhawunti",
+      "or": "kumbe",
+      "don_t_have_an_account_yet": "A wu si va na akhawunti?"
+    },
+    "onboarding": {
+      "welcome": "Ha mi amukela",
+      "set_up_your_profile_so_can_personalize_your_expe": "Lulamisa phurofayili ya wena leswaku Chatforia yi ta endla ntokoto wa wena wu va wa wena n'wini.",
+      "choose_a_username": "Hlawula vito ra mutirhisi",
+      "this_is_how_people_will_recognize_you_in": "Hi ndlela leyi vanhu va nga ta ku tiva ha yona eChatforia.",
+      "choose_your_language": "Hlawula ririmi ra wena",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia yi ta tirhisa leswi ku hundzuluxa ni ku antswisa ntokoto wa wena wa app.",
+      "you_re_ready": "U lunghekile",
+      "start_chatting_calling_translating_and_connectin": "Sungula ku bula, ku fonela, ku hundzuluxa, ni ku hlanganisa vanhu emisaveni hinkwayo."
+    },
+    "register": {
+      "confirm_password": "Netseleta phaswedi",
+      "phone_optional": "Riqingho a ri bohi",
+      "log_in": "Ngena",
+      "create_your_account": "Vumba akhawunti ya wena",
+      "start_chatting_across_languages_with": "Sungula ku bula hi tindzimi to hambana na Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Ndzi pfumela ku amukela marungula ya SMS yo tiyisisa.",
+      "already_have_an_account": "Xana se u na akawunti?"
+    },
+    "add_contact": {
+      "phone": "Riqingho",
+      "name": "Vito",
+      "alias_optional": "Vito ra xihundla ri nga hlawuriwa",
+      "pin_this_person_as_a_favorite_contact": "Hlawula munhu loyi tanihi munhu wa nkoka."
+    },
+    "contact_detail": {
+      "edit_contact": "Lulamisa vuxokoxoko bya vuhlanganisi",
+      "delete_contact": "Sula Vuxokoxoko",
+      "message": "Rungula",
+      "video": "Vhidiyo",
+      "external_name": "Vito ra le handle"
+    },
+    "import_phone_contacts": {
+      "select_all": "Hlawula Hinkwaswo",
+      "clear": "Susa",
+      "import_contacts": "Nghenisa Vaxinani"
+    },
+    "invite_friends": {
+      "share_invite_link": "Avelana xihlanganisi xa xirhambo",
+      "invite_friends": "Rhamba vanghana",
+      "share_a_invite_link_with_friends_using_messages_": "Avelana linki ya xirhambo xa Chatforia ni vanghana hi ku tirhisa Messages, email, kumbe app yin'wana ni yin'wana eka riqingho ra wena."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Hlanganisa Xitirhisiwa Xintshwa",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Pfula Chatforia eka xitirhisiwa xa wena lexintshwa kutani u nghena. Loko xi lava ku fikelela mabulo ya wena lama sirheleriweke, pfumelela eka xitirhisiwa lexi tshembekaka.",
+      "view_pending_device_requests": "Vona swikombelo swa switirhisiwa leswi yimeke"
+    },
+    "key_setup": {
+      "recovery_passcode": "Khodi yo Hlamulela",
+      "confirm_recovery_passcode": "Nkambisisani khodi yo tlhela",
+      "restore_chats": "Vuyisela Mabulo",
+      "clear_local_key": "Sula xilotlelo xa laha kaya",
+      "reset_encryption": "Seta nakambe vuhundzuluxi?",
+      "this_will_permanently_replace_your_encryption_ke": "Leswi swi ta siva xilotlelo xa wena xa xihundla hi masiku.",
+      "encryption": "Ku fihla vuxokoxoko",
+      "restore_encrypted_chats": "Vuyisela mabulo lama fihliweke",
+      "no_recovery_backup_found": "A ku kumekanga backup ya ku vuyisela",
+      "open_on_a_device_that_can_already_read_your_encr": "Pfula Chatforia eka xitirhisiwa lexi se xi kotaka ku hlaya mabulo ya wena lama sirheleriweke naswona u tumbuluxa Khowudi yo Vuyisela kona.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "A ku si kumeka Backup ya ku Vuyisela. Endla yin'wana hi xitirhisiwa lexi leswaku u ta kota ku vuyisela mabulo eka iOS, Android, na webu.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Tirhisa leswi ntsena loko u lahlekeriwe hi switirhisiwa hinkwaswo leswi tshembekaka naswona u nga ha koti ku vuyisa xilotlelo xa wena xo sungula."
+    },
+    "linked_devices": {
+      "your_devices": "Switirhisiwa swa wena",
+      "pending_approvals": "Swi rindzele ku pasisiwa",
+      "approve": "Pasisa",
+      "reject": "A ndzi amukeli",
+      "revoke": "Herisa",
+      "request_approval_for_this_device": "Kombela mpfumelelo wa xitirhisiwa lexi",
+      "finish_device_approval": "Ku heta ku pasisiwa ka xitirhisiwa"
+    },
+    "forwarding_settings": {
+      "reset": "Seta nakambe",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Rhumela mberi mibindzu leyi nghenaka na marungula eka riqingho ra wena leri tiyisisiweke kumbe imeyili.",
+      "quiet_hours": "Tiawara ta ku miyela",
+      "forwarding": "Ku rhumela emahlweni",
+      "enable_text_forwarding": "Pfumelela ku rhumela emahlweni matsalwa",
+      "forward_texts_to_phone": "Rhumela marungula eka riqingho",
+      "forward_texts_to_email": "Rhumela marungula eka imeyili",
+      "enable_call_forwarding": "Pfumelela ku yisa mibindzu"
+    },
+    "chat_message_row": {
+      "copy": "Pindzisa",
+      "edit": "Lulamisa",
+      "report": "Xiviko",
+      "message_info": "Vuxokoxoko bya Rungula"
+    },
+    "chat_thread": {
+      "no_messages_yet": "A ku si va na marungula",
+      "delete_message": "Susa rungula?",
+      "choose_how_you_want_to_delete_this_message": "Hlawula ndlela leyi u lavaka ku susa rungula leri ha yona.",
+      "delete_for_everyone": "Sula eka vanhu hinkwavo",
+      "delete_for_me": "Sula eka mina",
+      "search_messages": "Lava marungula",
+      "search_in_chat": "Lava eka bula",
+      "sending": "Ku rhumela…",
+      "failed_to_send": "Ku tsandzekile ku rhumela",
+      "edited": "Ku lulamisiwile",
+      "audio_call": "Riqingho ra mpfumawulo",
+      "video_call": "Riqingho ra vhidiyo",
+      "selected_gif": "GIF leyi hlawuriweke",
+      "remove_gif": "Susa GIF",
+      "attach": "Nameketa",
+      "rewrite_with_ria": "Tsala nakambe na Ria",
+      "composer_action": "Xiendlo xa mutumbuluxi"
+    },
+    "edit_message": {
+      "save": "Hlayisa",
+      "emoji": "Swifaniso-marito",
+      "edit_message": "Lulamisa rungula"
+    },
+    "message_attachments": {
+      "image_attachment": "Xifaniso lexi namarhetiweke",
+      "video_attachment": "Xihlanganisi xa vhidiyo",
+      "play_video": "Tlanga vhidiyo"
+    },
+    "message_bubble": {
+      "disappearing_message": "Rungula leri nyamalalaka"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "A ku na munhu la hlayeke leswi sweswi.",
+      "message_info": "Vuxokoxoko bya rungula"
+    },
+    "report_message": {
+      "reason": "Xivangelo",
+      "include_previous_messages": "Katsa marungula lama hundzeke",
+      "additional_details": "Vuxokoxoko byo engetela",
+      "anything_else_moderators_should_know": "Xana ku na swin'wana leswi valawuri va faneleke ku swi tiva?",
+      "block_this_user_after_reporting": "Sivela mutirhisi loyi endzhaku ko vika",
+      "submit_report": "Rhumela xiviko",
+      "report_message": "Vika rungula"
+    },
+    "phone_number": {
+      "replace_number": "Siva nomboro",
+      "pick_a_number": "Hlawula nomboro",
+      "no_number_assigned": "A ku nyikiwanga nomboro ya Chatforia.",
+      "your_number": "Nomboro ya wena ya Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Khodi ya Ndhawu",
+      "premium_numbers_are_protected_from_recycling": "Tinomboro ta premium ti sirheleriwile leswaku ti nga tirhisiwi nakambe.",
+      "available_numbers": "Tinomboro leti kumekaka",
+      "search_by_area_code_to_find_available_numbers": "Lava hi khodi ya ndhawu ku kuma tinomboro leti kumekaka.",
+      "capability": "Vuswikoti",
+      "country": "Tiko"
+    },
+    "gif_picker": {
+      "search_tenor": "Lava Tenori",
+      "search_gifs": "Lava ti-GIF"
+    },
+    "random_chat": {
+      "add_friend": "Engetela munghana",
+      "skip": "Tlulela",
+      "send": "Rhumela",
+      "end_chat": "Hela bulo"
+    },
+    "random_matching": {
+      "finding_someone": "Ku kuma munhu"
+    },
+    "ria_chat": {
+      "ask_ria": "Vutisa Ria...",
+      "you_re_now_chatting_with_ria": "Sweswi u vulavula na Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Bulo na Ria nkarhi wun'wana na wun'wana, handle ko hlanganisiwa na vanhu van'wana hi xiwelo."
+    },
+    "ria_rewrite": {
+      "original_text": "Matsalwa yo sungula",
+      "choose_tone": "Hlawula rito",
+      "rewriting": "Ku tsala nakambe…",
+      "suggestions": "Swiringanyeto",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Hlawula rito-ndlela ku tumbuluxa swiringanyeto swo tsala nakambe."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Mahala yi katsa mipfumawulo ya xisekelo. Antswisa leswaku u pfulela tinononi to tala na tiringitoni.",
+      "volume": "Vholumu",
+      "message_tone": "Mukhuva wa rungula",
+      "ringtone": "Mpfumawulo wa riqingho"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "A ku si va na marungula ya rito.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Loko munhu a ku siyela rungula ra rito, ri ta humelela laha.",
+      "play_voicemail": "Tlanga marungula ya le riqingweni",
+      "delete_voicemail": "Sula voicemail"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Rungula ra rito leri hlawuriweke"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Nsirhelelo wa tiko ra wena ra sweswi kumbe wa matirhiselo ya le kusuhi.",
+      "coverage_across_supported_european_destinations": "Nkhavelo eka tindhawu hinkwato ta le Yuropa leti seketeriwaka.",
+      "coverage_across_supported_global_destinations": "Nkhavelo eka tindhawu hinkwato ta misava leti seketeriwaka."
+    },
+    "wireless_home": {
+      "manage_wireless": "Lawula Wireless",
+      "port_my_number": "Hundzisa Nomboro ya Mina",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Tipaketi ta data ta eSIM ti lava xitirhisiwa lexi fambisanaka na eSIM naswona xi pfuleriwile.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Tshama u ri karhi u nghena eka inthanete loko u ri karhi u famba kumbe u ri kule na Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Hlawula phakheji ya data ya eSIM ya kan'we ntsena ya vukorhokeri bya laha kaya, bya le Yuropa, kumbe bya misava hinkwayo.",
+      "we_don_t_sell_data_packs_under_3_gb": "A hi xavisi tipakiti ta data leti nga ehansi ka 3 GB.",
+      "loading_usage": "Ku layicha matirhiselo…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "A ku si va na data pack leyi tirhaka. Xava pack laha hansi leswaku u sungula ku landzelerisa matirhiselo.",
+      "usage_details_will_appear_once_your_data_pack_is": "Vuxokoxoko bya matirhiselo byi ta humelela loko phakete ya wena ya data yi sungula ku tirha.",
+      "manage": "Lawula",
+      "coverage": "Ku funengeta",
+      "your_esim": "eSIM ya wena",
+      "current_usage": "Matirhiselo ya sweswi"
+    }
   }
 }

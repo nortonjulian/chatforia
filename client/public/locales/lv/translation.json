@@ -3066,7 +3066,8 @@
     "flip": "Apgriezt",
     "speaker": "Runātājs",
     "end": "Izbeigt",
-    "noIncomingCallToAnswer": "Nav ienākošā zvana, uz kuru jāatbild."
+    "noIncomingCallToAnswer": "Nav ienākošā zvana, uz kuru jāatbild.",
+    "serviceUnavailable": "Zvanu pakalpojums pašlaik nav pieejams. Lūdzu, mēģiniet vēlāk."
   },
   "settings": {
     "startHour": "Sākuma stunda (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Tumšs",
   "accessibility_caption_bg_transparent": "Caurspīdīgs",
   "api": {
-    "notAuthorized": "Nav atļauts"
+    "notAuthorized": "Nav atļauts",
+    "invalidURL": "Nepareiza servera adrese.",
+    "serverError": "Servera kļūda (%d): %@",
+    "failedToDecodeResponse": "Neizdevās nolasīt servera atbildi: %@"
+  },
+  "tap_to_view_contact": "Pieskarieties, lai apskatītu kontaktu",
+  "android": {
+    "plan": {
+      "plan_billing": "Plāns un rēķini",
+      "current_plan": "Pašreizējais plāns",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Izmantojiet versiju „Plus“, lai izvairītos no reklāmām, vai arī iegūstiet piekļuvi AI rīkiem un pielāgošanas iespējām ar versiju „Premium“.",
+      "plus": "Turklāt",
+      "premium": "Premium",
+      "back": "Atpakaļ",
+      "my_plan": "Mans plāns",
+      "compare_plans": "Salīdzināt tarifu plānus",
+      "included": "Iekļauts"
+    },
+    "upgrade": {
+      "upgrade": "Atjaunināt",
+      "restore_purchases": "Atjaunot pirkumus",
+      "unlock_more_with": "Izmanto visas iespējas ar Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Izvēlieties „Plus“ vai „Premium“, lai atbrīvotos no reklāmām, pielāgotu lietošanas pieredzi un atbloķētu papildu rīkus.",
+      "best_experience": "Vislabākā pieredze",
+      "close": "Aizvērt",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Atbrīvojieties no reklāmām un atbloķējiet vairāk ikdienas funkciju.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Pilnīga „Chatforia“ pieredze.",
+      "premium_annual": "Premium gada abonements",
+      "save_compared_to_monthly_premium": "Ietaupiet salīdzinājumā ar ikmēneša Premium abonementu."
+    },
+    "audio_call": {
+      "mute": "Apturēt skaņu",
+      "speaker": "Priekšsēdētājs",
+      "end_call": "Beigt zvanu"
+    },
+    "dial_pad": {
+      "dial": "Zvanīt",
+      "done": "Pabeigts",
+      "enter_number": "Ievadiet skaitli",
+      "call": "Zvanīt",
+      "delete_digit": "Dzēst ciparu"
+    },
+    "incoming_call": {
+      "decline": "Samazināties",
+      "accept": "Apstiprināt",
+      "decline_call": "Noraidīt zvanu",
+      "accept_call": "Atbildēt uz zvanu"
+    },
+    "video_call": {
+      "camera": "Kamera",
+      "flip_camera": "Flip kamera"
+    },
+    "chats": {
+      "search_chats": "Meklēt tērzēšanas",
+      "no_chats_yet": "Vēl nav nekādu tērzēšanu",
+      "admob_ad": "AdMob reklāma",
+      "delete_conversation": "Dzēst sarunu?",
+      "this_will_remove_this_conversation_from_your_cha": "Tādējādi šī saruna tiks dzēsta no jūsu tērzēšanas saraksta.",
+      "delete": "Dzēst",
+      "cancel": "Atcelt",
+      "chats": "Tērzēšanas",
+      "new_chat": "Jauns tērzēšanas logs",
+      "refresh": "Atjaunināt",
+      "random_chat": "Izlases tērzēšana",
+      "search": "Meklēt",
+      "delete_conversation_2": "Dzēst sarunu"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Lietotājvārds, kontaktpersonas vārds vai tālruņa numurs",
+      "new_chat": "Jauns tērzēšanas logs",
+      "start_a_chat": "Sākt tērzēšanu",
+      "search_by_username_contact_name_or_phone_number": "Meklējiet pēc lietotājvārda, kontaktpersonas vārda vai tālruņa numura.",
+      "results": "Rezultāti",
+      "open_chat": "Atvērt tērzēšanu"
+    },
+    "calls": {
+      "recents": "Jaunākie",
+      "voicemail": "Balss pasts",
+      "calls": "Zvani",
+      "no_calls_yet": "Vēl nav saņemti zvani",
+      "your_recent_calls_will_show_up_here": "Šeit tiks parādīti jūsu pēdējie zvani.",
+      "open_dial_pad": "Atvērt ciparu tastatūru",
+      "delete_call": "Dzēst zvanu",
+      "video_call": "Videozvans"
+    },
+    "contacts": {
+      "contacts": "Kontakti",
+      "add_contact": "Pievienot kontaktu",
+      "import_from_phone": "Importēt no tālruņa",
+      "invite_friends": "Uzaicini draugus",
+      "favorite": "Izlase",
+      "open_contact": "Atvērt kontaktu"
+    },
+    "main_activity": {
+      "loading": "Tiek ielādēts...",
+      "profile": "Profils"
+    },
+    "profile": {
+      "delete_account": "Dzēst kontu",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Šo darbību nevar atcelt. Vai tiešām vēlaties dzēst savu kontu?",
+      "log_out": "Iziet",
+      "change_photo": "Mainīt fotoattēlu",
+      "remove_photo": "Dzēst fotoattēlu",
+      "preferred_language": "Vēlamā valoda",
+      "your_age_range": "Tavs vecuma diapazons",
+      "theme": "Tēma",
+      "choose_how_looks_across_the_app": "Izvēlieties, kā Chatforia izskatīsies visā lietotnē.",
+      "uploading": "Augšupielāde…",
+      "choose_plus_or_premium": "Izvēlieties „Plus“ vai „Premium“",
+      "profile_photo": "Profila foto",
+      "open_upgrade": "Atvērt atjauninājumu",
+      "open": "Atvērt",
+      "account": "Konta",
+      "username": "Lietotājvārds",
+      "email": "E-pasts",
+      "plan": "Plāns",
+      "wireless": "Bezvadu",
+      "mobile": "Chatforia mobilajai versijai",
+      "esim_and_wireless_settings": "eSIM un bezvadu iestatījumi",
+      "call_text_forwarding": "Zvanu un īsziņu pāradresēšana",
+      "forward_incoming_calls_and_texts": "Pāradresēt ienākošos zvanus un īsziņas",
+      "phone_number": "Tālruņa numurs",
+      "manage_your_number": "Pārvaldi savu Chatforia numuru",
+      "settings": "Iestatījumi",
+      "auto_translate_messages": "Ziņojumu automātiska tulkošana",
+      "automatically_translate_messages_into_your_prefe": "Ziņojumus automātiski tulkot jūsu izvēlētajā valodā.",
+      "show_original_with_translation": "Rādīt oriģinālu ar tulkojumu",
+      "show_the_original_message_alongside_the_translat": "Rādīt sākotnējo ziņojumu kopā ar tulkojumu.",
+      "smart_reply_suggestions": "Viedie atbilžu ieteikumi",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Rādīt Ria balstīto pārrakstīšanas palīdzību un ātrās atbildes.",
+      "linked_devices": "Pieslēgtās ierīces",
+      "manage_trusted_devices": "Pārvaldīt uzticamas ierīces",
+      "pair_new_device": "Piesaistīt jaunu ierīci",
+      "approve_a_new_device": "Apstiprināt jaunu ierīci",
+      "appearance": "Izskats",
+      "accessibility": "Piekļuve",
+      "visual_alerts_captions_and_voice_note_accessibil": "Vizuālie brīdinājumi, apraksti un balss piezīmju pieejamība",
+      "security": "Drošība",
+      "encryption_key_protected": "Aizsargāts ar šifrēšanas atslēgu",
+      "privacy": "Privātums",
+      "allow_explicit_content": "Atļaut nepiemērotu saturu",
+      "show_read_receipts": "Rādīt lasīšanas apstiprinājumus",
+      "blur_messages_by_default": "Pēc noklusējuma izpludināt ziņojumus",
+      "blur_when_app_is_unfocused": "Izplūst, ja lietotne nav fokusa centrā",
+      "hold_to_reveal_messages": "Pieskarieties un turiet, lai parādītu ziņojumus",
+      "notify_when_messages_are_copied": "Paziņot, kad tiek kopēti ziņojumi",
+      "random_chat": "Izlases tērzēšana",
+      "use_age_based_matching": "Izmantot atlasi pēc vecuma",
+      "let_ria_remember_conversations": "Ļaujiet Riai atcerēties sarunas",
+      "forward_voicemail_to_email": "Pārsūtīt balss pastu uz e-pastu",
+      "legal_support": "Juridiskā informācija un atbalsts",
+      "free": "Bez maksas"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Iespējas, kā padarīt „Chatforia“ lietošanu ērtāku, neizmantojot skaņu.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Sākotnēji tiek parādīts standarta izmērā. Ja vēlaties lielāku tekstu, palieliniet to pieejamības iestatījumos.",
+      "interface_font_size": "Saskarnes fontu izmērs",
+      "notifications": "Paziņojumi",
+      "visual_alerts_for_messages_calls": "Vizuāli brīdinājumi par ziņojumiem un zvaniem",
+      "show_banners_and_visual_indicators_so_you_do_not": "Rādi baneri un vizuālos indikatorus, lai nepalaistu garām notikumus.",
+      "vibrate_on_new_messages": "Vibrēt, saņemot jaunas ziņas",
+      "trigger_device_vibration_with_notifications_when": "Ja atbalstīts, aktivizējiet ierīces vibrāciju, saņemot paziņojumus.",
+      "flash_screen_on_incoming_call": "Flash ekrāns, saņemot zvanu",
+      "briefly_flash_the_screen_when_a_call_rings": "Kad skan zvans, īsi uz mirkli iedegties ekrānam.",
+      "live_captions": "Tiešraides subtitri",
+      "enable_live_captions": "Ieslēgt subtitrus reāllaikā",
+      "show_real_time_captions_during_calls_premium_req": "Zvanu laikā rādīt subtitrus reālajā laikā. Nepieciešama Premium versija.",
+      "caption_font_size": "Bildes paraksta burtu izmērs",
+      "caption_background": "Attēla fons",
+      "voice_notes": "Balss piezīmes",
+      "auto_transcribe_voice_notes": "Balss piezīmju automātiska transkripcija",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Pievienojiet saņemtajiem audioziņojumiem transkripciju."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Esmu atjaunojis savu atslēgu",
+      "restore_encryption": "Atjaunot šifrēšanu"
+    },
+    "language_selection": {
+      "select_language": "Izvēlieties valodu"
+    },
+    "login": {
+      "email_or_username": "E-pasts vai lietotājvārds",
+      "password": "Parole",
+      "forgot_password": "Aizmirsāt paroli?",
+      "resend_verification_email": "Nosūtīt apstiprinājuma e-pastu atkārtoti",
+      "reset_encryption": "Atjaunot šifrēšanu",
+      "create_an_account": "Izveidot kontu",
+      "welcome_to": "Laipni lūdzam Chatforia!",
+      "sign_in_or_create_an_account": "Piesakies vai izveido kontu",
+      "or": "vai",
+      "don_t_have_an_account_yet": "Vai tev vēl nav konta?"
+    },
+    "onboarding": {
+      "welcome": "Laipni lūdzam",
+      "set_up_your_profile_so_can_personalize_your_expe": "Iestati savu profilu, lai Chatforia varētu pielāgot pakalpojumu tieši tev.",
+      "choose_a_username": "Izvēlieties lietotājvārdu",
+      "this_is_how_people_will_recognize_you_in": "Tā tevi atpazīs citi lietotāji Chatforia.",
+      "choose_your_language": "Izvēlieties valodu",
+      "will_use_this_for_translations_and_your_app_expe": "„Chatforia“ izmantos šo informāciju tulkojumiem un jūsu lietotnes lietošanas pieredzes uzlabošanai.",
+      "you_re_ready": "Tu esi gatavs",
+      "start_chatting_calling_translating_and_connectin": "Sāc tērzēt, zvanīt, tulkot un sazināties ar cilvēkiem visā pasaulē."
+    },
+    "register": {
+      "confirm_password": "Apstiprināt paroli",
+      "phone_optional": "Tālrunis nav obligāts",
+      "log_in": "Pieslēgties",
+      "create_your_account": "Izveidojiet savu kontu",
+      "start_chatting_across_languages_with": "Sāc sazināties dažādās valodās ar Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Es piekrītu saņemt SMS apstiprinājuma ziņojumus.",
+      "already_have_an_account": "Vai tev jau ir konts?"
+    },
+    "add_contact": {
+      "phone": "Tālrunis",
+      "name": "Vārds",
+      "alias_optional": "Aliass nav obligāts",
+      "pin_this_person_as_a_favorite_contact": "Pievieno šo personu iecienītajiem kontaktiem."
+    },
+    "contact_detail": {
+      "edit_contact": "Rediģēt kontaktu",
+      "delete_contact": "Dzēst kontaktu",
+      "message": "Ziņojums",
+      "video": "Video",
+      "external_name": "Ārējais nosaukums"
+    },
+    "import_phone_contacts": {
+      "select_all": "Atlasīt visu",
+      "clear": "Dzēst",
+      "import_contacts": "Importēt kontaktus"
+    },
+    "invite_friends": {
+      "share_invite_link": "Dalīties ar uzaicinājuma saiti",
+      "invite_friends": "Uzaicināt draugus",
+      "share_a_invite_link_with_friends_using_messages_": "Dalies ar Chatforia uzaicinājuma saiti ar draugiem, izmantojot ziņojumus, e-pastu vai jebkuru citu tālruņa lietotni."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Piesaistīt jaunu ierīci",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Atveriet lietotni „Chatforia“ savā jaunajā ierīcē un piesakieties. Ja lietotnei ir nepieciešama piekļuve jūsu šifrētajiem tērzējumiem, apstipriniet to no uzticamas ierīces.",
+      "view_pending_device_requests": "Skatīt neapstrādātos ierīču pieprasījumus"
+    },
+    "key_setup": {
+      "recovery_passcode": "Atjaunošanas kods",
+      "confirm_recovery_passcode": "Apstipriniet atjaunošanas paroli",
+      "restore_chats": "Atjaunot tērzēšanas",
+      "clear_local_key": "Dzēst vietējo atslēgu",
+      "reset_encryption": "Atjaunot šifrēšanu?",
+      "this_will_permanently_replace_your_encryption_ke": "Tas neatgriezeniski aizstās jūsu šifrēšanas atslēgu.",
+      "encryption": "Šifrēšana",
+      "restore_encrypted_chats": "Atjaunot šifrētās tērzēšanas",
+      "no_recovery_backup_found": "Nav atrasts atjaunošanas dublējums",
+      "open_on_a_device_that_can_already_read_your_encr": "Atveriet „Chatforia“ ierīcē, kas jau var lasīt jūsu šifrētos tērzējumus, un tur izveidojiet atjaunošanas paroli.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Vēl nav atrasts atjaunošanas dublējums. Izveidojiet to no šīs ierīces, lai varētu atjaunot tērzēšanas vēstules iOS, Android un tīmeklī.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Izmantojiet šo iespēju tikai tad, ja esat zaudējis visas uzticamās ierīces un nevarat atjaunot sākotnējo atslēgu."
+    },
+    "linked_devices": {
+      "your_devices": "Jūsu ierīces",
+      "pending_approvals": "Gaida apstiprinājumu",
+      "approve": "Apstiprināt",
+      "reject": "Noraidīt",
+      "revoke": "Atcelt",
+      "request_approval_for_this_device": "Lūgt apstiprinājumu šai ierīcei",
+      "finish_device_approval": "Ierīces apstiprināšana"
+    },
+    "forwarding_settings": {
+      "reset": "Atjaunot",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Pāradresējiet ienākošos zvanus un īsziņas uz savu apstiprināto tālruni vai e-pastu.",
+      "quiet_hours": "Kluso stundu laiks",
+      "forwarding": "Pārsūtīšana",
+      "enable_text_forwarding": "Iespējot teksta pārsūtīšanu",
+      "forward_texts_to_phone": "Nosūtīt tekstus uz tālruni",
+      "forward_texts_to_email": "Nosūtīt tekstus uz e-pastu",
+      "enable_call_forwarding": "Iespējot zvanu pāradresāciju"
+    },
+    "chat_message_row": {
+      "copy": "Kopēt",
+      "edit": "Rediģēt",
+      "report": "Ziņojums",
+      "message_info": "Ziņojuma informācija"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Vēl nav ziņojumu",
+      "delete_message": "Dzēst ziņojumu?",
+      "choose_how_you_want_to_delete_this_message": "Izvēlieties, kā vēlaties dzēst šo ziņojumu.",
+      "delete_for_everyone": "Dzēst visiem",
+      "delete_for_me": "Dzēst manā vietā",
+      "search_messages": "Meklēt ziņojumus",
+      "search_in_chat": "Meklēt tērzēšanā",
+      "sending": "Nosūtu…",
+      "failed_to_send": "Nesekmīga nosūtīšana",
+      "edited": "Rediģēts",
+      "audio_call": "Audio zvans",
+      "video_call": "Videozvans",
+      "selected_gif": "Izvēlēts GIF",
+      "remove_gif": "Noņemt GIF",
+      "attach": "Pievienot",
+      "rewrite_with_ria": "Pārrakstīt kopā ar Riju",
+      "composer_action": "Komponista darbība"
+    },
+    "edit_message": {
+      "save": "Saglabāt",
+      "emoji": "Emoji",
+      "edit_message": "Rediģēt ziņojumu"
+    },
+    "message_attachments": {
+      "image_attachment": "Attēla pielikums",
+      "video_attachment": "Video pielikums",
+      "play_video": "Atskaņot video"
+    },
+    "message_bubble": {
+      "disappearing_message": "Zudums ziņojums"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "To vēl neviens nav lasījis",
+      "message_info": "Ziņojuma informācija"
+    },
+    "report_message": {
+      "reason": "Iemesls",
+      "include_previous_messages": "Iekļaut iepriekšējās ziņas",
+      "additional_details": "Papildu informācija",
+      "anything_else_moderators_should_know": "Vai ir vēl kaut kas, ko moderatoriem vajadzētu zināt?",
+      "block_this_user_after_reporting": "Pēc ziņošanas bloķēt šo lietotāju",
+      "submit_report": "Iesniegt ziņojumu",
+      "report_message": "Ziņot par ziņojumu"
+    },
+    "phone_number": {
+      "replace_number": "Aizstāt numuru",
+      "pick_a_number": "Izvēlies skaitli",
+      "no_number_assigned": "Nav piešķirts Chatforia numurs.",
+      "your_number": "Jūsu Chatforia numurs"
+    },
+    "pick_number": {
+      "area_code": "Tālruņa kods",
+      "premium_numbers_are_protected_from_recycling": "Premium numuri ir aizsargāti pret atkārtotu izmantošanu.",
+      "available_numbers": "Pieejamie numuri",
+      "search_by_area_code_to_find_available_numbers": "Meklējiet pēc tālruņa koda, lai atrastu pieejamos numurus.",
+      "capability": "Spēja",
+      "country": "Valsts"
+    },
+    "gif_picker": {
+      "search_tenor": "Meklēt Tenor",
+      "search_gifs": "Meklēt GIF failus"
+    },
+    "random_chat": {
+      "add_friend": "Pievienot draugu",
+      "skip": "Pāriet tālāk",
+      "send": "Nosūtīt",
+      "end_chat": "Beigt tērzēšanu"
+    },
+    "random_matching": {
+      "finding_someone": "Atrast kādu"
+    },
+    "ria_chat": {
+      "ask_ria": "Jautā Riai...",
+      "you_re_now_chatting_with_ria": "Tu tagad tērzē ar Riju",
+      "chat_with_ria_anytime_separate_from_random_human": "Sazinies ar Ria jebkurā laikā, neatkarīgi no nejaušas cilvēku pārošanas."
+    },
+    "ria_rewrite": {
+      "original_text": "Oriģinālais teksts",
+      "choose_tone": "Izvēlieties toņu",
+      "rewriting": "Pārrakstīšana…",
+      "suggestions": "Ieteikumi",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Izvēlieties stilu, lai saņemtu pārrakstīšanas ieteikumus."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Bezmaksas versijā ir iekļautas pamata skaņas. Veiciet uzlabojumu, lai atbloķētu vairāk toņu un zvana melodiju.",
+      "volume": "Apjoms",
+      "message_tone": "Ziņojuma signāls",
+      "ringtone": "Zvanu melodija"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Vēl nav balss ziņojumu.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Kad kāds tev atstāj balss ziņojumu,\ntas parādīsies šeit.",
+      "play_voicemail": "Atvērt balss pastu",
+      "delete_voicemail": "Dzēst balss pastu"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Izvēlētais balss pasts"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Pārklājums jūsu pašreizējā valstī vai tuvākajā apkārtnē.",
+      "coverage_across_supported_european_destinations": "Pārklājums visos atbalstītajos Eiropas galamērķos.",
+      "coverage_across_supported_global_destinations": "Pārklājums visās atbalstītajās pasaules valstīs."
+    },
+    "wireless_home": {
+      "manage_wireless": "Bezvadu tīkla pārvaldība",
+      "port_my_number": "Pārnest manu numuru",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Lai izmantotu eSIM datu paketes, ir nepieciešama ar eSIM saderīga un atbloķēta ierīce.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Saglabājiet savienojumu, ceļojot vai atrodoties ārpus Wi-Fi tīkla.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Izvēlieties vienreizēju eSIM datu paketi vietējam, Eiropas vai pasaules pārklājumam.",
+      "we_don_t_sell_data_packs_under_3_gb": "Mēs nepārdodam datu pakas, kuru apjoms ir mazāks par 3 GB.",
+      "loading_usage": "Ielādē lietošanas datus…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Vēl nav aktīva datu pakete. Lai sāktu uzskaitīt datu patēriņu, iegādājieties paketi zemāk.",
+      "usage_details_will_appear_once_your_data_pack_is": "Datu izmantošanas informācija parādīsies, tiklīdz jūsu datu pakete būs aktivizēta.",
+      "manage": "Pārvaldīt",
+      "coverage": "Pārklājums",
+      "your_esim": "Jūsu eSIM",
+      "current_usage": "Pašreizējais patēriņš"
+    }
   }
 }

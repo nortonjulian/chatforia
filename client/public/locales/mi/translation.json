@@ -3066,7 +3066,8 @@
     "flip": "Huri",
     "speaker": "Kaikorero",
     "end": "Whakamutunga",
-    "noIncomingCallToAnswer": "Kāore he karanga e tae mai ana hei whakautu."
+    "noIncomingCallToAnswer": "Kāore he karanga e tae mai ana hei whakautu.",
+    "serviceUnavailable": "Kāore e wātea ana te ratonga waea i tēnei wā. Tēnā whakamātau anō ā muri ake."
   },
   "settings": {
     "startHour": "Haora tīmatanga (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Pōuri",
   "accessibility_caption_bg_transparent": "Mārama",
   "api": {
-    "notAuthorized": "Kāore i whakaaetia"
+    "notAuthorized": "Kāore i whakaaetia",
+    "invalidURL": "He wāhitau tūmau hē.",
+    "serverError": "Hapa tūmau (%d): %@",
+    "failedToDecodeResponse": "Kāore i taea te pānui i te whakautu a te tūmau: %@"
+  },
+  "tap_to_view_contact": "Pāhia kia kite i ngā taipitopito whakapā",
+  "android": {
+    "plan": {
+      "plan_billing": "Mahere me te Pire",
+      "current_plan": "Mahere o nāianei",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Haere kore pānui me te Plus, rānei whakatuwherahia ngā taputapu AI me te whakarite whaiaro me te Premium.",
+      "plus": "Tāpiri",
+      "premium": "Taumata teitei",
+      "back": "Hoki whakamuri",
+      "my_plan": "Taku Mahere",
+      "compare_plans": "Whakatairite Mahere",
+      "included": "Kua whakaurua"
+    },
+    "upgrade": {
+      "upgrade": "Whakahōu",
+      "restore_purchases": "Whakahokia ngā hoko",
+      "unlock_more_with": "Whakatuwherahia atu anō mā Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Kōwhiria te Plus, te Premium rānei kia tangohia ngā pānui, kia whakaritea tō wheako, kia whakatuwherahia ngā taputapu matatau.",
+      "best_experience": "Te wheako pai rawa atu",
+      "close": "Kati",
+      "plus": "Chatforia Tāpiri",
+      "remove_ads_and_unlock_more_everyday_features": "Tangohia ngā pānui, ā, whakatuwherahia ētahi atu āhuatanga mō ia rā.",
+      "premium": "Chatforia Taumata-nui",
+      "the_full_experience": "Te wheako Chatforia katoa",
+      "premium_annual": "Tau-ā-tau taumata-nui",
+      "save_compared_to_monthly_premium": "Penapena i te whakatairite ki te utu ā-marama."
+    },
+    "audio_call": {
+      "mute": "Kore oro",
+      "speaker": "Kaikorero",
+      "end_call": "Whakamutua te waea"
+    },
+    "dial_pad": {
+      "dial": "Tūtohu",
+      "done": "Kua oti",
+      "enter_number": "Whakauruhia te nama",
+      "call": "Waea mai",
+      "delete_digit": "Muku i te nama"
+    },
+    "incoming_call": {
+      "decline": "Heke",
+      "accept": "Whakaae",
+      "decline_call": "Whakakore waea",
+      "accept_call": "Whakaae ki te waea"
+    },
+    "video_call": {
+      "camera": "Kāmera",
+      "flip_camera": "Kāmera huri"
+    },
+    "chats": {
+      "search_chats": "Rapu kōrerorero",
+      "no_chats_yet": "Kāore anō he kōrero",
+      "admob_ad": "Pānui AdMob",
+      "delete_conversation": "Muku i te kōrero?",
+      "this_will_remove_this_conversation_from_your_cha": "Ka tangohia tēnei kōrero i tō rārangi kōrero.",
+      "delete": "Muku",
+      "cancel": "Whakakore",
+      "chats": "Ngā kōrero",
+      "new_chat": "Kōrero hou",
+      "refresh": "Whakahou",
+      "random_chat": "Kōrero noa",
+      "search": "Rapu",
+      "delete_conversation_2": "Muku i te kōrero"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Ingoa kaiwhakamahi, ingoa whakapā, tau waea rānei",
+      "new_chat": "Kōrero Hou",
+      "start_a_chat": "Tīmatahia he kōrero",
+      "search_by_username_contact_name_or_phone_number": "Rapua mā te ingoa kaiwhakamahi, te ingoa whakapā, te nama waea rānei.",
+      "results": "Ngā hua",
+      "open_chat": "Whakatuwherahia te kōrero"
+    },
+    "calls": {
+      "recents": "Ngā mea tata nei",
+      "voicemail": "Rīpeka reo",
+      "calls": "Waea",
+      "no_calls_yet": "Kāore anō he karanga",
+      "your_recent_calls_will_show_up_here": "Ka puta mai i konei ō waea hou.",
+      "open_dial_pad": "Whakatuwherahia te papa nama",
+      "delete_call": "Muku waea",
+      "video_call": "Waea ataata"
+    },
+    "contacts": {
+      "contacts": "Ngā hononga",
+      "add_contact": "Tāpiri hononga",
+      "import_from_phone": "Tāuru mai i te waea",
+      "invite_friends": "Tonoa ngā hoa",
+      "favorite": "Tino pai",
+      "open_contact": "Whakapā tuwhera"
+    },
+    "main_activity": {
+      "loading": "Kei te utaina...",
+      "profile": "Kōtaha"
+    },
+    "profile": {
+      "delete_account": "Muku Kaute",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Kāore e taea te whakahoki i tēnei mahi. Kei te mōhio koe e hiahia ana koe ki te muku i tō pūkete?",
+      "log_out": "Tukua atu",
+      "change_photo": "Huri Whakaahua",
+      "remove_photo": "Tangohia te whakaahua",
+      "preferred_language": "Reo Manakohia",
+      "your_age_range": "Tō whānuitanga tau",
+      "theme": "Tēma",
+      "choose_how_looks_across_the_app": "Kōwhiria te āhua o Chatforia puta noa i te taupānga.",
+      "uploading": "Kei te tuku…",
+      "choose_plus_or_premium": "Tīpakohia te Plus, te Premium rānei",
+      "profile_photo": "Whakaahua kōtaha",
+      "open_upgrade": "Whakahōu tuwhera",
+      "open": "Whakatuwhera",
+      "account": "Pūkete",
+      "username": "Ingoa kaiwhakamahi",
+      "email": "Īmēra",
+      "plan": "Mahere",
+      "wireless": "Kore-taura",
+      "mobile": "Chatforia Pūkoro",
+      "esim_and_wireless_settings": "Ngā tautuhinga eSIM me ngā tautuhinga ahokore",
+      "call_text_forwarding": "Whakamua Waea me ngā Karere Tēkini",
+      "forward_incoming_calls_and_texts": "Whakamaherehia ngā karanga me ngā karere kuputuhi e haere mai ana",
+      "phone_number": "Nama waea",
+      "manage_your_number": "Whakahaerehia tō nama Chatforia",
+      "settings": "Tautuhinga",
+      "auto_translate_messages": "Whakamāoritia aunoa ngā karere",
+      "automatically_translate_messages_into_your_prefe": "Tautuhi aunoa i ngā karere ki tō reo e pai ana.",
+      "show_original_with_translation": "Whakaatuhia te tuhinga taketake me te whakamāoritanga",
+      "show_the_original_message_alongside_the_translat": "Whakaatuhia te karere taketake i te taha o te whakamāoritanga.",
+      "smart_reply_suggestions": "Ngā tūtohutanga whakautu atamai",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Whakaatu i te āwhina tuhi anō e whakahaerehia ana e Ria me ngā whakautu tere.",
+      "linked_devices": "Ngā Pūrere Hono",
+      "manage_trusted_devices": "Whakahaere i ngā pūrere whakawhirinaki",
+      "pair_new_device": "Whakakotahitia te Pūrere Hou",
+      "approve_a_new_device": "Whakaae ki tētahi pūrere hou",
+      "appearance": "Te āhua",
+      "accessibility": "Te wātea",
+      "visual_alerts_captions_and_voice_note_accessibil": "Te wātea o ngā whakatūpato ā-ata, ngā taitara, me ngā tuhipoka reo",
+      "security": "Haumarutanga",
+      "encryption_key_protected": "Kua tiakina te kī whakamunatanga",
+      "privacy": "Tūmataitinga",
+      "allow_explicit_content": "Whakaaetia ngā ihirangi mārama",
+      "show_read_receipts": "Whakaatu i ngā whiwhinga pānui",
+      "blur_messages_by_default": "Whakakorea ngā karere i te taunoa",
+      "blur_when_app_is_unfocused": "Whakamatapō i te taupānga ina kāore i te arotahi",
+      "hold_to_reveal_messages": "Pāwhiritia kia whakaatuhia ngā karere",
+      "notify_when_messages_are_copied": "Whakamōhio ina tāruatia ngā karere",
+      "random_chat": "Kōrero noa",
+      "use_age_based_matching": "Whakamahia te taurite ā-tau",
+      "let_ria_remember_conversations": "Me mahara a Ria ki ngā kōrero",
+      "forward_voicemail_to_email": "Whakamua i ngā karere reo ki te īmēra",
+      "legal_support": "Ture me te Tautoko",
+      "free": "Kore utu"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Ngā kōwhiringa hei whakarite kia māmā ake te whakamahi i a Chatforia, me te kore e whakawhirinaki ki te oro.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Ka tīmata i te rahi noa. Whakanuia mēnā e pai ana koe ki te kuputuhi nui ake i ngā tautuhinga urunga.",
+      "interface_font_size": "Tautuhi i te rahi o te momotuhi",
+      "notifications": "Ngā pānui",
+      "visual_alerts_for_messages_calls": "Ngā whakatūpato ā-ataata mō ngā karere me ngā waea",
+      "show_banners_and_visual_indicators_so_you_do_not": "Whakaatuhia ngā pānui me ngā tohu ā-ata kia kore koe e mahue i ngā mahi.",
+      "vibrate_on_new_messages": "Whakawharau i ngā karere hou",
+      "trigger_device_vibration_with_notifications_when": "Whakahohe i te wiri o te pūrere me ngā pānui mēnā ka tautokohia.",
+      "flash_screen_on_incoming_call": "Whakaaturanga whakamaharatanga mō te karanga e uru mai ana",
+      "briefly_flash_the_screen_when_a_call_rings": "Whiti poto te mata ina tangi te waea.",
+      "live_captions": "Ngā taitara ora",
+      "enable_live_captions": "Whakahohe i ngā taitara ora",
+      "show_real_time_captions_during_calls_premium_req": "Whakaatuhia ngā taitara i te wā tūturu i ngā waea. Me utu mō te ratonga taumata-nui.",
+      "caption_font_size": "Rahi o te momotuhi taitara",
+      "caption_background": "Papamuri o te taitara",
+      "voice_notes": "Ngā tuhipoka reo",
+      "auto_transcribe_voice_notes": "Tuhituhi aunoa i ngā tuhipoka reo",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Whakapirihia he tuhipoka kuputuhi ki ngā karere oro ka whiwhi koe."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Kua whakahokia e au taku kī",
+      "restore_encryption": "Whakahokia te whakamunatanga"
+    },
+    "language_selection": {
+      "select_language": "Tīpako reo"
+    },
+    "login": {
+      "email_or_username": "Wāhitau īmēra, ingoa kaiwhakamahi rānei",
+      "password": "kupuhipa",
+      "forgot_password": "Kua wareware koe i tō kupuhipa?",
+      "resend_verification_email": "Tukua anō te īmēra whakamana",
+      "reset_encryption": "Whakahokia te whakamunatanga",
+      "create_an_account": "Waihangahia he pūkete",
+      "welcome_to": "Nau mai ki Chatforia",
+      "sign_in_or_create_an_account": "Takiuru, rēhita rānei i tētahi pūkete",
+      "or": "rānei",
+      "don_t_have_an_account_yet": "Kāore anō koe kia whai pūkete?"
+    },
+    "onboarding": {
+      "welcome": "Nau mai",
+      "set_up_your_profile_so_can_personalize_your_expe": "Whakaritea tō kōtaha kia taea e Chatforia te whakarite i tō wheako.",
+      "choose_a_username": "Tīpakohia he ingoa kaiwhakamahi",
+      "this_is_how_people_will_recognize_you_in": "Koinei te huarahi ka mōhiotia ai koe e ngā tāngata i Chatforia.",
+      "choose_your_language": "Tīpakohia tō reo",
+      "will_use_this_for_translations_and_your_app_expe": "Ka whakamahia e Chatforia tēnei mō ngā whakamāoritanga me tō wheako taupānga.",
+      "you_re_ready": "Kua rite koe",
+      "start_chatting_calling_translating_and_connectin": "Tīmatahia te kōrero, te waea, te whakamāori, me te hono ki ngā tāngata puta noa i te ao."
+    },
+    "register": {
+      "confirm_password": "Whakapūmau i te kupuhipa",
+      "phone_optional": "Waea he kōwhiringa",
+      "log_in": "Tomo mai",
+      "create_your_account": "Waihangahia tō pūkete",
+      "start_chatting_across_languages_with": "Tīmatahia te kōrero puta noa i ngā reo mā Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Ka whakaae ahau ki te whiwhi karere whakamana SMS.",
+      "already_have_an_account": "Kua whai pūkete koe?"
+    },
+    "add_contact": {
+      "phone": "Waea",
+      "name": "Ingoa",
+      "alias_optional": "Taitara kē, he kōwhiringa",
+      "pin_this_person_as_a_favorite_contact": "Tohua tēnei tangata hei hononga tino pai."
+    },
+    "contact_detail": {
+      "edit_contact": "Whakatika Whakapā",
+      "delete_contact": "Muku i te hononga",
+      "message": "Karere",
+      "video": "Rīpene ataata",
+      "external_name": "Ingoa o waho"
+    },
+    "import_phone_contacts": {
+      "select_all": "Tīpakohia katoa",
+      "clear": "Mārama",
+      "import_contacts": "Tāuru i ngā hononga"
+    },
+    "invite_friends": {
+      "share_invite_link": "Tiritiri i te hononga tono",
+      "invite_friends": "Tono hoa",
+      "share_a_invite_link_with_friends_using_messages_": "Tukuna he hononga tono Chatforia ki ō hoa mā te Messages, īmēra, rānei he taupānga i runga i tō waea."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Whakakotahitia he pūrere hou",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Whakatuwherahia te Chatforia i tō pūrere hou, ā, takiuru. Mēnā e hiahia ana kia uru ki ō kōrero kua whakamunatia, whakaae mai i tētahi pūrere e whakawhirinaki ana koe.",
+      "view_pending_device_requests": "Tirohia ngā tono taputapu e tatari ana"
+    },
+    "key_setup": {
+      "recovery_passcode": "Waehere Whakaora",
+      "confirm_recovery_passcode": "Whakau i te waehere whakaora",
+      "restore_chats": "Whakahokia ngā kōrero",
+      "clear_local_key": "Muku i te kī ā-rohe",
+      "reset_encryption": "Whakahōu i te whakamunatanga?",
+      "this_will_permanently_replace_your_encryption_ke": "Ka whakakapi tūturu tēnei i tō kī whakamuna.",
+      "encryption": "Whakamunatanga",
+      "restore_encrypted_chats": "Whakahokia ngā kōrerorero kua whakamunatia",
+      "no_recovery_backup_found": "Kāore i kitea he tārua whakaora",
+      "open_on_a_device_that_can_already_read_your_encr": "Whakatuwherahia te Chatforia i runga i tētahi pūrere e taea ana te pānui i ōu kōrero kua whakamunatia, ā, waihangahia he Waehere Whakaora i reira.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Kāore anō kia kitea he tārua whakaora.  Waihangahia tētahi mai i tēnei pūrere kia taea ai e koe te whakahoki mai i ngā kōrero i runga i te iOS, Android, me te paetukutuku.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Whakamahia anake tēnei mēnā kua ngaro katoa ō pūrere whakawhirinaki, ā, kāore e taea e koe te whakahoki mai i tō kī taketake."
+    },
+    "linked_devices": {
+      "your_devices": "ō pūrere",
+      "pending_approvals": "Kei te tatari kia whakaaetia",
+      "approve": "Whakaae",
+      "reject": "Kore e whakaae",
+      "revoke": "Whakakore",
+      "request_approval_for_this_device": "Tono kia whakaaetia tēnei pūrere",
+      "finish_device_approval": "Whakaaetanga o te pūrere whakamutunga"
+    },
+    "forwarding_settings": {
+      "reset": "Whakahokia",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Whakamaheretia ngā karanga me ngā karere kuputuhi e haere mai ana ki tō waea kua whakamana, ki tō īmēra rānei.",
+      "quiet_hours": "Ngā Haora Rangimārie",
+      "forwarding": "Tuku whakamua",
+      "enable_text_forwarding": "Whakahohe i te tuku tuhinga",
+      "forward_texts_to_phone": "Tukuna ngā karere kuputuhi ki te waea pūkoro",
+      "forward_texts_to_email": "Tukuna ngā karere kuputuhi ki te īmēra",
+      "enable_call_forwarding": "Whakahohe i te whakawhiti waea"
+    },
+    "chat_message_row": {
+      "copy": "Kape",
+      "edit": "Whakatika",
+      "report": "Pūrongo",
+      "message_info": "Mōhiohio karere"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Kāore anō he karere",
+      "delete_message": "Muku karere?",
+      "choose_how_you_want_to_delete_this_message": "Tīpakohia me pēhea koe e hiahia ana ki te muku i tēnei karere.",
+      "delete_for_everyone": "Muku mā te katoa",
+      "delete_for_me": "Mēnā māku",
+      "search_messages": "Rapu karere",
+      "search_in_chat": "Rapu i te kōrerorero",
+      "sending": "Kei te tuku…",
+      "failed_to_send": "Kāore i taea te tuku",
+      "edited": "Kua whakatikahia",
+      "audio_call": "Waea oro",
+      "video_call": "Waea ataata",
+      "selected_gif": "GIF kua tohua",
+      "remove_gif": "Tangohia te GIF",
+      "attach": "Whakapirihia",
+      "rewrite_with_ria": "Tuhia anō me Ria",
+      "composer_action": "Mahinga kaihanga puoro"
+    },
+    "edit_message": {
+      "save": "Tiaki",
+      "emoji": "Emoji",
+      "edit_message": "Whakatika karere"
+    },
+    "message_attachments": {
+      "image_attachment": "Tāpiritanga whakaahua",
+      "video_attachment": "Tāpiritanga ataata",
+      "play_video": "Tākaro i te ataata"
+    },
+    "message_bubble": {
+      "disappearing_message": "Karere e ngaro ana"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Kāore anō tētahi kia pānui i tēnei.",
+      "message_info": "Ngā mōhiohio o te karere"
+    },
+    "report_message": {
+      "reason": "Take",
+      "include_previous_messages": "Tāpiri i ngā karere o mua",
+      "additional_details": "Ngā taipitopito anō",
+      "anything_else_moderators_should_know": "He aha atu anō ngā mea e tika ana kia mōhio ngā kaiwhakahaere?",
+      "block_this_user_after_reporting": "Whakawāteahia tēnei kaiwhakamahi i muri i te pūrongo",
+      "submit_report": "Tuku pūrongo",
+      "report_message": "Tukuna karere pūrongo"
+    },
+    "phone_number": {
+      "replace_number": "Whakakapia te nama",
+      "pick_a_number": "Tīpakohia he nama",
+      "no_number_assigned": "Kāore he nama Chatforia i tohua.",
+      "your_number": "Tō nama Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Waehere ā-Rohe",
+      "premium_numbers_are_protected_from_recycling": "Kei te tiakina ngā nama taumata kia kore e whakahokia.",
+      "available_numbers": "Ngā nama e wātea ana",
+      "search_by_area_code_to_find_available_numbers": "Rapua mā te waehere rohe kia kitea ngā nama e wātea ana.",
+      "capability": "Te āheinga",
+      "country": "Whenua"
+    },
+    "gif_picker": {
+      "search_tenor": "Rapu Tenor",
+      "search_gifs": "Rapu GIF"
+    },
+    "random_chat": {
+      "add_friend": "Tāpiri hoa",
+      "skip": "Peke",
+      "send": "Tukua",
+      "end_chat": "Whakamutua te kōrero"
+    },
+    "random_matching": {
+      "finding_someone": "Te kimi i tētahi"
+    },
+    "ria_chat": {
+      "ask_ria": "Pātai ki a Ria...",
+      "you_re_now_chatting_with_ria": "Kei te kōrero koe ināianei ki a Ria.",
+      "chat_with_ria_anytime_separate_from_random_human": "Kōrerorero ki a Ria i ngā wā katoa, motuhake i te whakakotahitanga tangata tūturu."
+    },
+    "ria_rewrite": {
+      "original_text": "Tuhi taketake",
+      "choose_tone": "Tīpakohia te āhua reo",
+      "rewriting": "Te tuhi anō…",
+      "suggestions": "Ngā tūtohunga",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Tīpakohia tētahi āhua reo hei whakaputa i ngā tūtohutanga tuhi anō."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "He kore utu, kei roto ngā oro taketake. Whakahōutia kia whakatuwhera i ētahi atu oro me ngā oro karanga.",
+      "volume": "Rōrahi",
+      "message_tone": "Te āhua o te karere",
+      "ringtone": "Tūoro waea"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Kāore anō he karere reo.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Ka waiho e tētahi he karere reo ki a koe, ka puta mai ki konei.",
+      "play_voicemail": "Whakatangihia te karere oro",
+      "delete_voicemail": "Muku karere reo"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Karere reo kua tohua"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Te kapi mō tō whenua o nāianei, mō te whakamahinga ā-rohe tata rānei.",
+      "coverage_across_supported_european_destinations": "Te kapi puta noa i ngā ūnga o Europi e tautokohia ana.",
+      "coverage_across_supported_global_destinations": "Te kapi puta noa i ngā ūnga ā-ao e tautokohia ana."
+    },
+    "wireless_home": {
+      "manage_wireless": "Whakahaere Waea-kore",
+      "port_my_number": "Whakawhiti i taku nama",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Me pūrere hototahi ki te eSIM, ā, kua wetewetehia, hei whakamahi i ngā pākete raraunga eSIM.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Noho hono tonu koe i a koe e haere ana, e tawhiti ana rānei i te Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Tīpakohia tētahi pākete raraunga eSIM kotahi-anake mō te rohe ā-rohe, mō Īropi, mō te ao whānui rānei.",
+      "we_don_t_sell_data_packs_under_3_gb": "Kāore mātou e hoko i ngā pākete raraunga kei raro iho i te 3 GB.",
+      "loading_usage": "Kei te utaina te whakamahinga…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Kāore anō he pākete raraunga e whakahohea. Hokona he pākete i raro nei kia tīmata ai te aroturuki i te whakamahinga.",
+      "usage_details_will_appear_once_your_data_pack_is": "Ka puta ngā taipitopito whakamahinga ina kua whakahohe tō pākete raraunga.",
+      "manage": "Whakahaere",
+      "coverage": "Uhi",
+      "your_esim": "Tō eSIM",
+      "current_usage": "Te whakamahinga o nāianei"
+    }
   }
 }

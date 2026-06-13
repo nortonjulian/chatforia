@@ -2619,7 +2619,7 @@
       "emailLabel": "E-mail",
       "emailPlaceholder": "you@company.com",
       "companyLabel": "Bedrijf",
-      "companyPlaceholder": "Acme Inc.",
+      "companyPlaceholder": "Acme N.V.",
       "budgetLabel": "Maandelijks budget (optioneel)",
       "budgetPlaceholder": "bijv. $1.000–$20.000+",
       "messageLabel": "Vertel ons over uw campagne",
@@ -3066,7 +3066,8 @@
     "flip": "Omdraaien",
     "speaker": "Spreker",
     "end": "Einde",
-    "noIncomingCallToAnswer": "Geen inkomende oproep om te beantwoorden."
+    "noIncomingCallToAnswer": "Geen inkomende oproep om te beantwoorden.",
+    "serviceUnavailable": "De telefoondienst is momenteel niet beschikbaar. Probeer het later nog eens."
   },
   "settings": {
     "startHour": "Begin uur (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Donker",
   "accessibility_caption_bg_transparent": "Transparant",
   "api": {
-    "notAuthorized": "Geen toestemming"
+    "notAuthorized": "Geen toestemming",
+    "invalidURL": "Ongeldig serveradres.",
+    "serverError": "Serverfout (%d): %@",
+    "failedToDecodeResponse": "Het antwoord van de server kon niet worden gelezen: %@"
+  },
+  "tap_to_view_contact": "Tik om het contact te bekijken",
+  "android": {
+    "plan": {
+      "plan_billing": "Abonnementen en facturering",
+      "current_plan": "Huidig plan",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Kies voor Plus om reclamevrij te werken, of ontgrendel AI-tools en aanpassingsmogelijkheden met Premium.",
+      "plus": "Plus",
+      "premium": "Premium",
+      "back": "Terug",
+      "my_plan": "Mijn plan",
+      "compare_plans": "Vergelijk abonnementen",
+      "included": "Inbegrepen"
+    },
+    "upgrade": {
+      "upgrade": "Upgrade",
+      "restore_purchases": "Aankopen herstellen",
+      "unlock_more_with": "Ontdek meer met Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Kies voor Plus of Premium om advertenties te verwijderen, je ervaring aan te passen en geavanceerde functies te ontgrendelen.",
+      "best_experience": "De beste ervaring",
+      "close": "Sluiten",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Verwijder advertenties en ontgrendel meer handige functies voor dagelijks gebruik.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "De volledige Chatforia-ervaring.",
+      "premium_annual": "Premium Jaarabonnement",
+      "save_compared_to_monthly_premium": "Bespaar ten opzichte van het maandabonnement."
+    },
+    "audio_call": {
+      "mute": "Dempen",
+      "speaker": "Spreker",
+      "end_call": "Gesprek beëindigen"
+    },
+    "dial_pad": {
+      "dial": "Kiezen",
+      "done": "Klaar",
+      "enter_number": "Voer een getal in",
+      "call": "Bel",
+      "delete_digit": "Cijfer verwijderen"
+    },
+    "incoming_call": {
+      "decline": "Afname",
+      "accept": "Accepteren",
+      "decline_call": "Gesprek afwijzen",
+      "accept_call": "Oproep aannemen"
+    },
+    "video_call": {
+      "camera": "Camera",
+      "flip_camera": "Flip-camera"
+    },
+    "chats": {
+      "search_chats": "Chats zoeken",
+      "no_chats_yet": "Nog geen chats",
+      "admob_ad": "AdMob-advertentie",
+      "delete_conversation": "Gesprek verwijderen?",
+      "this_will_remove_this_conversation_from_your_cha": "Hiermee wordt dit gesprek uit je chatlijst verwijderd.",
+      "delete": "Verwijderen",
+      "cancel": "Annuleren",
+      "chats": "Chats",
+      "new_chat": "Nieuwe chat",
+      "refresh": "Vernieuwen",
+      "random_chat": "Willekeurige chat",
+      "search": "Zoeken",
+      "delete_conversation_2": "Gesprek verwijderen"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Gebruikersnaam, naam van de contactpersoon of telefoonnummer",
+      "new_chat": "Nieuwe chat",
+      "start_a_chat": "Een chat starten",
+      "search_by_username_contact_name_or_phone_number": "Zoek op gebruikersnaam, contactnaam of telefoonnummer.",
+      "results": "Resultaten",
+      "open_chat": "Chat openen"
+    },
+    "calls": {
+      "recents": "Laatste",
+      "voicemail": "Voicemail",
+      "calls": "Oproepen",
+      "no_calls_yet": "Nog geen telefoontjes",
+      "your_recent_calls_will_show_up_here": "Je recente gesprekken worden hier weergegeven.",
+      "open_dial_pad": "Toetsenblok openen",
+      "delete_call": "Oproep verwijderen",
+      "video_call": "Videogesprek"
+    },
+    "contacts": {
+      "contacts": "Contactpersonen",
+      "add_contact": "Contactpersoon toevoegen",
+      "import_from_phone": "Importeren vanaf telefoon",
+      "invite_friends": "Vrienden uitnodigen",
+      "favorite": "Favoriet",
+      "open_contact": "Open contact"
+    },
+    "main_activity": {
+      "loading": "Bezig met laden...",
+      "profile": "Profiel"
+    },
+    "profile": {
+      "delete_account": "Account verwijderen",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Deze handeling kan niet ongedaan worden gemaakt. Weet je zeker dat je je account wilt verwijderen?",
+      "log_out": "Uitloggen",
+      "change_photo": "Foto wijzigen",
+      "remove_photo": "Foto verwijderen",
+      "preferred_language": "Voorkeurstaal",
+      "your_age_range": "Uw leeftijdsgroep",
+      "theme": "Thema",
+      "choose_how_looks_across_the_app": "Kies hoe Chatforia er in de app uitziet.",
+      "uploading": "Beeld wordt geüpload…",
+      "choose_plus_or_premium": "Kies Plus of Premium",
+      "profile_photo": "Profielfoto",
+      "open_upgrade": "Upgrade starten",
+      "open": "Open",
+      "account": "Account",
+      "username": "Gebruikersnaam",
+      "email": "E-mail",
+      "plan": "Plan",
+      "wireless": "Draadloos",
+      "mobile": "Chatforia Mobile",
+      "esim_and_wireless_settings": "eSIM- en draadloze instellingen",
+      "call_text_forwarding": "Doorschakelen van oproepen en sms-berichten",
+      "forward_incoming_calls_and_texts": "Inkomende oproepen en sms-berichten doorschakelen",
+      "phone_number": "Telefoonnummer",
+      "manage_your_number": "Beheer je Chatforia-nummer",
+      "settings": "Instellingen",
+      "auto_translate_messages": "Berichten automatisch vertalen",
+      "automatically_translate_messages_into_your_prefe": "Laat berichten automatisch vertalen naar de taal van uw keuze.",
+      "show_original_with_translation": "Toon origineel met vertaling",
+      "show_the_original_message_alongside_the_translat": "Geef het oorspronkelijke bericht naast de vertaling weer.",
+      "smart_reply_suggestions": "Slimme suggesties voor antwoorden",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Toon de door Ria aangestuurde hulp bij het herschrijven en de snelle antwoorden.",
+      "linked_devices": "Gekoppelde apparaten",
+      "manage_trusted_devices": "Vertrouwde apparaten beheren",
+      "pair_new_device": "Nieuw apparaat koppelen",
+      "approve_a_new_device": "Een nieuw apparaat goedkeuren",
+      "appearance": "Uiterlijk",
+      "accessibility": "Toegankelijkheid",
+      "visual_alerts_captions_and_voice_note_accessibil": "Toegankelijkheid van visuele waarschuwingen, ondertitels en spraakberichten",
+      "security": "Beveiliging",
+      "encryption_key_protected": "Beveiligd met een versleutelingssleutel",
+      "privacy": "Privacy",
+      "allow_explicit_content": "Expliciete inhoud toestaan",
+      "show_read_receipts": "Bevestigingen van ontvangst weergeven",
+      "blur_messages_by_default": "Berichten standaard verbergen",
+      "blur_when_app_is_unfocused": "Vervagen wanneer de app niet actief is",
+      "hold_to_reveal_messages": "Houd ingedrukt om berichten te bekijken",
+      "notify_when_messages_are_copied": "Een melding geven wanneer berichten worden gekopieerd",
+      "random_chat": "Willekeurige chat",
+      "use_age_based_matching": "Gebruik matching op basis van leeftijd",
+      "let_ria_remember_conversations": "Laat Ria zich gesprekken herinneren",
+      "forward_voicemail_to_email": "Voicemail doorsturen naar e-mail",
+      "legal_support": "Juridisch & Ondersteuning",
+      "free": "Gratis"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Mogelijkheden om Chatforia gebruiksvriendelijker te maken zonder gebruik te maken van geluid.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Begint op normale grootte. Vergroot de tekst als je in de toegankelijkheidsinstellingen de voorkeur geeft aan grotere tekst.",
+      "interface_font_size": "Lettergrootte van de interface",
+      "notifications": "Meldingen",
+      "visual_alerts_for_messages_calls": "Visuele meldingen voor berichten en oproepen",
+      "show_banners_and_visual_indicators_so_you_do_not": "Zorg dat er banners en visuele indicatoren te zien zijn, zodat je geen activiteiten mist.",
+      "vibrate_on_new_messages": "Trillen bij nieuwe berichten",
+      "trigger_device_vibration_with_notifications_when": "Activeer de trilling van het apparaat bij meldingen, indien ondersteund.",
+      "flash_screen_on_incoming_call": "Flash-scherm bij een inkomend gesprek",
+      "briefly_flash_the_screen_when_a_call_rings": "Laat het scherm even oplichten wanneer er een oproep binnenkomt.",
+      "live_captions": "Live ondertiteling",
+      "enable_live_captions": "Live ondertiteling inschakelen",
+      "show_real_time_captions_during_calls_premium_req": "Toon realtime ondertitels tijdens gesprekken. Premium vereist.",
+      "caption_font_size": "Lettergrootte van het bijschrift",
+      "caption_background": "Achtergrond bij het bijschrift",
+      "voice_notes": "Spraakmemo's",
+      "auto_transcribe_voice_notes": "Spraaknotities automatisch transcriberen",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Voeg een transcriptie toe aan de audioberichten die je ontvangt."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Ik heb mijn sleutel hersteld",
+      "restore_encryption": "Versleuteling herstellen"
+    },
+    "language_selection": {
+      "select_language": "Taal selecteren"
+    },
+    "login": {
+      "email_or_username": "E-mailadres of gebruikersnaam",
+      "password": "Wachtwoord",
+      "forgot_password": "Wachtwoord vergeten?",
+      "resend_verification_email": "Verificatie-e-mail opnieuw verzenden",
+      "reset_encryption": "Versleuteling resetten",
+      "create_an_account": "Maak een account aan",
+      "welcome_to": "Welkom bij Chatforia",
+      "sign_in_or_create_an_account": "Log in of maak een account aan",
+      "or": "of",
+      "don_t_have_an_account_yet": "Heb je nog geen account?"
+    },
+    "onboarding": {
+      "welcome": "Welkom",
+      "set_up_your_profile_so_can_personalize_your_expe": "Stel je profiel in, zodat Chatforia je ervaring kan personaliseren.",
+      "choose_a_username": "Kies een gebruikersnaam",
+      "this_is_how_people_will_recognize_you_in": "Zo zullen mensen je herkennen in Chatforia.",
+      "choose_your_language": "Kies uw taal",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia gebruikt deze gegevens voor vertalingen en om je app-ervaring te verbeteren.",
+      "you_re_ready": "Je bent er klaar voor",
+      "start_chatting_calling_translating_and_connectin": "Begin met chatten, bellen, vertalen en contact leggen met mensen over de hele wereld."
+    },
+    "register": {
+      "confirm_password": "Bevestig wachtwoord",
+      "phone_optional": "Telefoon (optioneel)",
+      "log_in": "Inloggen",
+      "create_your_account": "Maak een account aan",
+      "start_chatting_across_languages_with": "Begin met chatten in verschillende talen met Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Ik ga ermee akkoord om verificatieberichten via sms te ontvangen.",
+      "already_have_an_account": "Heb je al een account?"
+    },
+    "add_contact": {
+      "phone": "Telefoon",
+      "name": "Naam",
+      "alias_optional": "Alias (optioneel)",
+      "pin_this_person_as_a_favorite_contact": "Voeg deze persoon toe aan je favoriete contacten."
+    },
+    "contact_detail": {
+      "edit_contact": "Contactgegevens bewerken",
+      "delete_contact": "Contact verwijderen",
+      "message": "Bericht",
+      "video": "Video",
+      "external_name": "Externe naam"
+    },
+    "import_phone_contacts": {
+      "select_all": "Alles selecteren",
+      "clear": "Wissen",
+      "import_contacts": "Contacten importeren"
+    },
+    "invite_friends": {
+      "share_invite_link": "Deel uitnodigingslink",
+      "invite_friends": "Vrienden uitnodigen",
+      "share_a_invite_link_with_friends_using_messages_": "Deel een Chatforia-uitnodigingslink met vrienden via Berichten, e-mail of een andere app op je telefoon."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Een nieuw apparaat koppelen",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Open Chatforia op je nieuwe apparaat en log in. Als de app toegang nodig heeft tot je versleutelde chats, geef dan toestemming vanaf een vertrouwd apparaat.",
+      "view_pending_device_requests": "In behandeling zijnde apparaataanvragen bekijken"
+    },
+    "key_setup": {
+      "recovery_passcode": "Herstelcode",
+      "confirm_recovery_passcode": "Bevestig het herstelwachtwoord",
+      "restore_chats": "Chats herstellen",
+      "clear_local_key": "Lokale sleutel wissen",
+      "reset_encryption": "Versleuteling opnieuw instellen?",
+      "this_will_permanently_replace_your_encryption_ke": "Hierdoor wordt uw versleutelingssleutel definitief vervangen.",
+      "encryption": "Versleuteling",
+      "restore_encrypted_chats": "Versleutelde chats herstellen",
+      "no_recovery_backup_found": "Er is geen back-up voor herstel gevonden",
+      "open_on_a_device_that_can_already_read_your_encr": "Open Chatforia op een apparaat dat je versleutelde chats al kan lezen en maak daar een herstelcode aan.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Er is nog geen back-up gevonden. Maak er een aan vanaf dit apparaat, zodat je chats kunt herstellen op iOS, Android en via de webversie.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Gebruik deze optie alleen als je alle vertrouwde apparaten kwijt bent en je oorspronkelijke sleutel niet kunt herstellen."
+    },
+    "linked_devices": {
+      "your_devices": "Uw apparaten",
+      "pending_approvals": "In afwachting van goedkeuring",
+      "approve": "Goedkeuren",
+      "reject": "Afwijzen",
+      "revoke": "Intrekken",
+      "request_approval_for_this_device": "Vraag goedkeuring aan voor dit apparaat",
+      "finish_device_approval": "Goedkeuring van apparatuur afronden"
+    },
+    "forwarding_settings": {
+      "reset": "Opnieuw instellen",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Stuur inkomende oproepen en sms-berichten door naar je geverifieerde telefoonnummer of e-mailadres.",
+      "quiet_hours": "Rusttijden",
+      "forwarding": "Doorsturen",
+      "enable_text_forwarding": "Tekstdoorsturen inschakelen",
+      "forward_texts_to_phone": "Sms-berichten doorsturen naar de telefoon",
+      "forward_texts_to_email": "Sms-berichten doorsturen naar e-mail",
+      "enable_call_forwarding": "Doorschakelen inschakelen"
+    },
+    "chat_message_row": {
+      "copy": "Kopiëren",
+      "edit": "Bewerken",
+      "report": "Verslag",
+      "message_info": "Berichtgegevens"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Nog geen berichten",
+      "delete_message": "Bericht verwijderen?",
+      "choose_how_you_want_to_delete_this_message": "Kies hoe je dit bericht wilt verwijderen.",
+      "delete_for_everyone": "Voor iedereen verwijderen",
+      "delete_for_me": "Verwijder dit voor mij",
+      "search_messages": "Berichten zoeken",
+      "search_in_chat": "Zoeken in chat",
+      "sending": "Bezig met verzenden…",
+      "failed_to_send": "Verzenden mislukt",
+      "edited": "Bewerkt",
+      "audio_call": "Gesprek",
+      "video_call": "Videogesprek",
+      "selected_gif": "Geselecteerde GIF",
+      "remove_gif": "GIF verwijderen",
+      "attach": "Bijvoegen",
+      "rewrite_with_ria": "Herschrijf met Ria",
+      "composer_action": "Actie van de componist"
+    },
+    "edit_message": {
+      "save": "Opslaan",
+      "emoji": "Emoji",
+      "edit_message": "Bericht bewerken"
+    },
+    "message_attachments": {
+      "image_attachment": "Afbeelding bijvoegen",
+      "video_attachment": "Videobijlage",
+      "play_video": "Video afspelen"
+    },
+    "message_bubble": {
+      "disappearing_message": "Verdwijnend bericht"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Dit heeft nog niemand gelezen",
+      "message_info": "Berichtgegevens"
+    },
+    "report_message": {
+      "reason": "Reden",
+      "include_previous_messages": "Eerdere berichten meenemen",
+      "additional_details": "Meer informatie",
+      "anything_else_moderators_should_know": "Is er nog iets anders dat moderators moeten weten?",
+      "block_this_user_after_reporting": "Deze gebruiker blokkeren na het melden",
+      "submit_report": "Rapport indienen",
+      "report_message": "Bericht melden"
+    },
+    "phone_number": {
+      "replace_number": "Nummer vervangen",
+      "pick_a_number": "Kies een getal",
+      "no_number_assigned": "Er is geen Chatforia-nummer toegewezen.",
+      "your_number": "Je Chatforia-nummer"
+    },
+    "pick_number": {
+      "area_code": "Netnummer",
+      "premium_numbers_are_protected_from_recycling": "Premiumnummers worden beschermd tegen hergebruik.",
+      "available_numbers": "Beschikbare nummers",
+      "search_by_area_code_to_find_available_numbers": "Zoek op netnummer om beschikbare nummers te vinden.",
+      "capability": "Mogelijkheden",
+      "country": "Land"
+    },
+    "gif_picker": {
+      "search_tenor": "Zoek Tenor",
+      "search_gifs": "GIF's zoeken"
+    },
+    "random_chat": {
+      "add_friend": "Vriend toevoegen",
+      "skip": "Overslaan",
+      "send": "Verzenden",
+      "end_chat": "Chat beëindigen"
+    },
+    "random_matching": {
+      "finding_someone": "Iemand vinden"
+    },
+    "ria_chat": {
+      "ask_ria": "Vraag het aan Ria...",
+      "you_re_now_chatting_with_ria": "Je bent nu aan het chatten met Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Je kunt op elk moment met Ria chatten, los van de willekeurige koppeling met andere gebruikers."
+    },
+    "ria_rewrite": {
+      "original_text": "Oorspronkelijke tekst",
+      "choose_tone": "Kies de toon",
+      "rewriting": "Opnieuw schrijven…",
+      "suggestions": "Suggesties",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Kies een toon om herschrijfsuggesties te genereren."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "De gratis versie bevat standaardgeluiden. Upgrade om meer geluiden en beltonen te ontgrendelen.",
+      "volume": "Volume",
+      "message_tone": "Toon van het bericht",
+      "ringtone": "Beltoon"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Nog geen voicemails.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Als iemand een voicemail voor je achterlaat,\nverschijnt die hier.",
+      "play_voicemail": "Voicemail afspelen",
+      "delete_voicemail": "Voicemail verwijderen"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Geselecteerde voicemail"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Dekking voor het land waar u zich momenteel bevindt of voor gebruik in de directe omgeving.",
+      "coverage_across_supported_european_destinations": "Dekking in alle ondersteunde Europese bestemmingen.",
+      "coverage_across_supported_global_destinations": "Dekking in alle ondersteunde bestemmingen wereldwijd."
+    },
+    "wireless_home": {
+      "manage_wireless": "Draadloos beheer",
+      "port_my_number": "Mijn nummer overzetten",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Voor eSIM-datapakketten is een eSIM-compatibel en simlockvrij toestel vereist.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Blijf verbonden als je op reis bent of geen wifi hebt.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Kies een eenmalig eSIM-datapakket voor lokaal, Europees of wereldwijd bereik.",
+      "we_don_t_sell_data_packs_under_3_gb": "Wij verkopen geen datapakketten van minder dan 3 GB.",
+      "loading_usage": "Gebruik wordt geladen…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Er is nog geen actief datapakket. Koop hieronder een pakket om je verbruik bij te houden.",
+      "usage_details_will_appear_once_your_data_pack_is": "De gebruiksgegevens worden weergegeven zodra je datapakket actief is.",
+      "manage": "Beheren",
+      "coverage": "Dekking",
+      "your_esim": "Uw eSIM",
+      "current_usage": "Huidig verbruik"
+    }
   }
 }

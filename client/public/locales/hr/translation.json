@@ -3066,7 +3066,8 @@
     "flip": "Okreni",
     "speaker": "Govornik",
     "end": "Kraj",
-    "noIncomingCallToAnswer": "Nema dolaznog poziva za odgovaranje."
+    "noIncomingCallToAnswer": "Nema dolaznog poziva za odgovaranje.",
+    "serviceUnavailable": "Usluga poziva trenutno nije dostupna. Molimo pokušajte ponovno kasnije."
   },
   "settings": {
     "startHour": "Početno vrijeme (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Mračno",
   "accessibility_caption_bg_transparent": "Proziran",
   "api": {
-    "notAuthorized": "Nije ovlašteno"
+    "notAuthorized": "Nije ovlašteno",
+    "invalidURL": "Neispravna adresa poslužitelja.",
+    "serverError": "Greška poslužitelja (%d): %@",
+    "failedToDecodeResponse": "Nije moguće pročitati odgovor poslužitelja: %@"
+  },
+  "tap_to_view_contact": "Dodirnite za pregled kontakta",
+  "android": {
+    "plan": {
+      "plan_billing": "Plan i naplata",
+      "current_plan": "Trenutni plan",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Prebacite se na Plus bez oglasa ili otključajte AI alate i prilagodbu s Premiumom.",
+      "plus": "Plus",
+      "premium": "Premium",
+      "back": "Natrag",
+      "my_plan": "Moj plan",
+      "compare_plans": "Usporedi planove",
+      "included": "Uključeno"
+    },
+    "upgrade": {
+      "upgrade": "Nadogradnja",
+      "restore_purchases": "Obnovi kupnje",
+      "unlock_more_with": "Otključajte više s Chatforijom",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Odaberite Plus ili Premium za uklanjanje oglasa, prilagodbu vašeg iskustva i otključavanje naprednih alata.",
+      "best_experience": "Najbolje iskustvo",
+      "close": "Zatvori",
+      "plus": "Četforija Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Uklonite oglase i otključajte više svakodnevnih značajki.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Cjelokupno Chatforijsko iskustvo.",
+      "premium_annual": "Premium godišnja",
+      "save_compared_to_monthly_premium": "Ušteda u usporedbi s mjesečnom Premium pretplatom."
+    },
+    "audio_call": {
+      "mute": "Mute",
+      "speaker": "Govornik",
+      "end_call": "Završi poziv"
+    },
+    "dial_pad": {
+      "dial": "Brojčanik",
+      "done": "Gotovo",
+      "enter_number": "Unesite broj",
+      "call": "Nazovi",
+      "delete_digit": "Izbriši znamenku"
+    },
+    "incoming_call": {
+      "decline": "Pad",
+      "accept": "Prihvati",
+      "decline_call": "Odbaci poziv",
+      "accept_call": "Prihvati poziv"
+    },
+    "video_call": {
+      "camera": "Kamera",
+      "flip_camera": "Flip kamera"
+    },
+    "chats": {
+      "search_chats": "Pretraži razgovore",
+      "no_chats_yet": "Još nema razgovora",
+      "admob_ad": "AdMob oglas",
+      "delete_conversation": "Izbriši razgovor?",
+      "this_will_remove_this_conversation_from_your_cha": "Ovo će ukloniti ovaj razgovor s vaše liste razgovora.",
+      "delete": "Izbriši",
+      "cancel": "Otkaži",
+      "chats": "Razgovori",
+      "new_chat": "Novi chat",
+      "refresh": "Osvježi",
+      "random_chat": "Nasumični chat",
+      "search": "Pretraži",
+      "delete_conversation_2": "Izbriši razgovor"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Korisničko ime, ime za kontakt ili broj telefona",
+      "new_chat": "Novi chat",
+      "start_a_chat": "Pokreni razgovor",
+      "search_by_username_contact_name_or_phone_number": "Pretražite korisničko ime, ime kontakta ili broj telefona.",
+      "results": "Rezultati",
+      "open_chat": "Otvori chat"
+    },
+    "calls": {
+      "recents": "Nedavni",
+      "voicemail": "Glasovna pošta",
+      "calls": "Pozivi",
+      "no_calls_yet": "Još nema poziva",
+      "your_recent_calls_will_show_up_here": "Vaši nedavni pozivi će se ovdje pojaviti.",
+      "open_dial_pad": "Otvori brojčanik",
+      "delete_call": "Obrisi poziv",
+      "video_call": "Videozov"
+    },
+    "contacts": {
+      "contacts": "Kontakt",
+      "add_contact": "Dodaj kontakt",
+      "import_from_phone": "Uvoz s telefona",
+      "invite_friends": "Pozovi prijatelje",
+      "favorite": "Omiljeni",
+      "open_contact": "Otvori kontakt"
+    },
+    "main_activity": {
+      "loading": "Učitavanje...",
+      "profile": "Profil"
+    },
+    "profile": {
+      "delete_account": "Izbriši račun",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Ova radnja se ne može poništiti. Jeste li sigurni da želite izbrisati svoj račun?",
+      "log_out": "Odjavi se",
+      "change_photo": "Promijeni fotografiju",
+      "remove_photo": "Ukloni fotografiju",
+      "preferred_language": "Preferirani jezik",
+      "your_age_range": "Vaš dobni raspon",
+      "theme": "Tema",
+      "choose_how_looks_across_the_app": "Odaberite kako Chatforia izgleda u cijeloj aplikaciji.",
+      "uploading": "Učitavanje…",
+      "choose_plus_or_premium": "Odaberite Plus ili Premium",
+      "profile_photo": "Fotografija profila",
+      "open_upgrade": "Otvoreno nadogradnja",
+      "open": "Otvoreno",
+      "account": "Račun",
+      "username": "Korisničko ime",
+      "email": "E-pošta",
+      "plan": "Plan",
+      "wireless": "Bežični",
+      "mobile": "Chatforia Mobile",
+      "esim_and_wireless_settings": "eSIM i bežične postavke",
+      "call_text_forwarding": "Prosljeđivanje poziva i poruka",
+      "forward_incoming_calls_and_texts": "Prosljeđujte dolazne pozive i poruke",
+      "phone_number": "Broj telefona",
+      "manage_your_number": "Upravljajte svojim Chatforia brojem",
+      "settings": "Postavke",
+      "auto_translate_messages": "Automatski prevodi poruke",
+      "automatically_translate_messages_into_your_prefe": "Automatski prevodite poruke na jezik po vašem izboru.",
+      "show_original_with_translation": "Prikaži original s prijevodom",
+      "show_the_original_message_alongside_the_translat": "Prikaži izvorni tekst pored prijevoda.",
+      "smart_reply_suggestions": "Pametni prijedlozi za odgovore",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Prikaži Ria-pogonjenu pomoć pri prepravljanju i brze odgovore.",
+      "linked_devices": "Povezani uređaji",
+      "manage_trusted_devices": "Upravljanje pouzdanim uređajima",
+      "pair_new_device": "Poveži novi uređaj",
+      "approve_a_new_device": "Odobri novi uređaj",
+      "appearance": "Izgled",
+      "accessibility": "Pristupačnost",
+      "visual_alerts_captions_and_voice_note_accessibil": "Pristupačnost vizualnih upozorenja, natpisa i glasovnih poruka",
+      "security": "Sigurnost",
+      "encryption_key_protected": "Šifrirajući ključ zaštićen",
+      "privacy": "Privatnost",
+      "allow_explicit_content": "Omogući eksplicitan sadržaj",
+      "show_read_receipts": "Prikaži potvrde o čitanju",
+      "blur_messages_by_default": "Zamagljujte poruke prema zadanim postavkama",
+      "blur_when_app_is_unfocused": "Zamućivanje kad je aplikacija izvan fokusa",
+      "hold_to_reveal_messages": "Držite da biste otkrili poruke",
+      "notify_when_messages_are_copied": "Obavijestiti pri kopiranju poruka",
+      "random_chat": "Nasumični chat",
+      "use_age_based_matching": "Koristite podudaranje prema dobi",
+      "let_ria_remember_conversations": "Neka Ria zapamti razgovore",
+      "forward_voicemail_to_email": "Proslijedi govornu poštu na e-poštu",
+      "legal_support": "Pravne i potporne usluge",
+      "free": "Besplatno"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Opcije za lakšu upotrebu Chatforije bez oslanjanja na zvuk.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Počinje u normalnoj veličini. Povećajte ako želite veći tekst u postavkama pristupačnosti.",
+      "interface_font_size": "Interfejs veličina fonta",
+      "notifications": "Obavijesti",
+      "visual_alerts_for_messages_calls": "Vizualna obavijesti za poruke i pozive",
+      "show_banners_and_visual_indicators_so_you_do_not": "Prikaži banere i vizualne indikatore kako ne biste propustili aktivnost.",
+      "vibrate_on_new_messages": "Vibriraj na nove poruke",
+      "trigger_device_vibration_with_notifications_when": "Pokreni vibraciju uređaja s obavijestima kada je podržano.",
+      "flash_screen_on_incoming_call": "Flash zaslon pri dolaznom pozivu",
+      "briefly_flash_the_screen_when_a_call_rings": "Kratko osvijetli zaslon kada zvoni poziv.",
+      "live_captions": "Prijenosni titlovi",
+      "enable_live_captions": "Omogući titlove uživo",
+      "show_real_time_captions_during_calls_premium_req": "Prikaži titlove u stvarnom vremenu tijekom poziva. Potrebna je premium pretplata.",
+      "caption_font_size": "Veličina fonta natpisa",
+      "caption_background": "Pozadina opisa",
+      "voice_notes": "Glasovne bilješke",
+      "auto_transcribe_voice_notes": "Automatska transkripcija glasovnih poruka",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Priložite transkript audio porukama koje primate."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Obnovio sam svoj ključ",
+      "restore_encryption": "Obnovi šifriranje"
+    },
+    "language_selection": {
+      "select_language": "Odaberite jezik"
+    },
+    "login": {
+      "email_or_username": "E-pošta ili korisničko ime",
+      "password": "lozinka",
+      "forgot_password": "Zaboravili ste lozinku?",
+      "resend_verification_email": "Ponovno pošalji e-poštu za provjeru",
+      "reset_encryption": "Resetiranje enkripcije",
+      "create_an_account": "Kreira račun",
+      "welcome_to": "Dobrodošli u Chatforiju",
+      "sign_in_or_create_an_account": "Prijavite se ili kreirajte račun",
+      "or": "ili",
+      "don_t_have_an_account_yet": "Još nemate račun?"
+    },
+    "onboarding": {
+      "welcome": "Dobrodošli",
+      "set_up_your_profile_so_can_personalize_your_expe": "Postavite svoj profil kako bi vam Chatforia mogla personalizirati iskustvo.",
+      "choose_a_username": "Odaberite korisničko ime",
+      "this_is_how_people_will_recognize_you_in": "Ovako će te ljudi prepoznati u Chatforiji.",
+      "choose_your_language": "Odaberite svoj jezik",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia će ovo koristiti za prijevode i vaše iskustvo s aplikacijom.",
+      "you_re_ready": "Spremni ste",
+      "start_chatting_calling_translating_and_connectin": "Počnite razgovarati, zvati, prevoditi i povezivati se s ljudima diljem svijeta."
+    },
+    "register": {
+      "confirm_password": "Potvrdite lozinku",
+      "phone_optional": "Telefon po želji",
+      "log_in": "Prijava",
+      "create_your_account": "Kreirajte svoj račun",
+      "start_chatting_across_languages_with": "Počnite razgovarati na različitim jezicima s Chatforijom.",
+      "i_agree_to_receive_sms_verification_messages": "Slažem se primati SMS poruke za verifikaciju.",
+      "already_have_an_account": "Već imate račun?"
+    },
+    "add_contact": {
+      "phone": "Telefon",
+      "name": "Ime",
+      "alias_optional": "Nadimak neobavezan",
+      "pin_this_person_as_a_favorite_contact": "Označi ovu osobu kao omiljeni kontakt."
+    },
+    "contact_detail": {
+      "edit_contact": "Uredi kontakt",
+      "delete_contact": "Izbriši kontakt",
+      "message": "Poruka",
+      "video": "Video",
+      "external_name": "Vanjski naziv"
+    },
+    "import_phone_contacts": {
+      "select_all": "Odaberi sve",
+      "clear": "Jasno",
+      "import_contacts": "Uvezi kontakte"
+    },
+    "invite_friends": {
+      "share_invite_link": "Podijeli poveznicu za poziv",
+      "invite_friends": "Pozovi prijatelje",
+      "share_a_invite_link_with_friends_using_messages_": "Podijelite poveznicu za pozivnicu za Chatforia s prijateljima putem Poruka, e-pošte ili bilo koje aplikacije na vašem telefonu."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Poveži novi uređaj",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Otvorite Chatforiju na svom novom uređaju i prijavite se. Ako mu je potreban pristup vašim šifriranim razgovorima, odobrite mu pristup s pouzdanog uređaja.",
+      "view_pending_device_requests": "Pregledajte zahtjeve za uređaje u čeku"
+    },
+    "key_setup": {
+      "recovery_passcode": "Kod za oporavak",
+      "confirm_recovery_passcode": "Potvrdite kod za oporavak",
+      "restore_chats": "Obnovi razgovore",
+      "clear_local_key": "Očisti lokalni ključ",
+      "reset_encryption": "Resetirati enkripciju?",
+      "this_will_permanently_replace_your_encryption_ke": "Ovo će trajno zamijeniti vaš ključ šifriranja.",
+      "encryption": "Šifriranje",
+      "restore_encrypted_chats": "Obnovite šifrirane razgovore",
+      "no_recovery_backup_found": "Nije pronađena sigurnosna kopija za oporavak",
+      "open_on_a_device_that_can_already_read_your_encr": "Otvorite Chatforiju na uređaju koji već može čitati vaše šifrirane razgovore i ondje stvorite kod za oporavak.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Još nije pronađena sigurnosna kopija za oporavak. Napravite je na ovom uređaju kako biste mogli vratiti razgovore na iOS-u, Androidu i webu.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Koristite ovo samo ako ste izgubili sve pouzdane uređaje i ne možete obnoviti svoj izvorni ključ."
+    },
+    "linked_devices": {
+      "your_devices": "Vaši uređaji",
+      "pending_approvals": "U čekanju odobrenja",
+      "approve": "Odobriti",
+      "reject": "Odbaci",
+      "revoke": "Oduzeti",
+      "request_approval_for_this_device": "Zatražite odobrenje za ovaj uređaj",
+      "finish_device_approval": "Odobrenje uređaja za završnu obradu"
+    },
+    "forwarding_settings": {
+      "reset": "Ponovno pokretanje",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Prosljeđujte dolazne pozive i poruke na svoj provjereni telefon ili e-poštu.",
+      "quiet_hours": "Tihe sate",
+      "forwarding": "Prosljeđivanje",
+      "enable_text_forwarding": "Omogući prosljeđivanje teksta",
+      "forward_texts_to_phone": "Proslijedi poruke na telefon",
+      "forward_texts_to_email": "Proslijedi tekstove na e-poštu",
+      "enable_call_forwarding": "Omogući preusmjeravanje poziva"
+    },
+    "chat_message_row": {
+      "copy": "Kopiraj",
+      "edit": "Uredi",
+      "report": "Izvješće",
+      "message_info": "Informacije o poruci"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Još nema poruka",
+      "delete_message": "Izbriši poruku?",
+      "choose_how_you_want_to_delete_this_message": "Odaberite kako želite izbrisati ovu poruku.",
+      "delete_for_everyone": "Izbriši za sve",
+      "delete_for_me": "Obriši za mene",
+      "search_messages": "Pretraži poruke",
+      "search_in_chat": "Pretraži chat",
+      "sending": "Pošalji…",
+      "failed_to_send": "Nije uspjelo poslati",
+      "edited": "Uređeno",
+      "audio_call": "Audio poziv",
+      "video_call": "Videozov",
+      "selected_gif": "Odabrani GIF",
+      "remove_gif": "Ukloni GIF",
+      "attach": "Priloži",
+      "rewrite_with_ria": "Prepiši s Rijom",
+      "composer_action": "Akcija kompozitora"
+    },
+    "edit_message": {
+      "save": "Sačuvaj",
+      "emoji": "Emoji",
+      "edit_message": "Uredi poruku"
+    },
+    "message_attachments": {
+      "image_attachment": "Prilozi slike",
+      "video_attachment": "Priloženi video",
+      "play_video": "Pusti video"
+    },
+    "message_bubble": {
+      "disappearing_message": "Nestajuća poruka"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Još nitko ovo nije pročitao",
+      "message_info": "Informacije o poruci"
+    },
+    "report_message": {
+      "reason": "Razlog",
+      "include_previous_messages": "Uključi prethodne poruke",
+      "additional_details": "Dodatni detalji",
+      "anything_else_moderators_should_know": "Ima li još nešto što bi moderatori trebali znati?",
+      "block_this_user_after_reporting": "Blokirajte ovog korisnika nakon prijave",
+      "submit_report": "Pošalji izvještaj",
+      "report_message": "Prijavi poruku"
+    },
+    "phone_number": {
+      "replace_number": "Zamijeni broj",
+      "pick_a_number": "Odaberi broj",
+      "no_number_assigned": "Nijedan Chatforia broj nije dodijeljen.",
+      "your_number": "Vaš Chatforijski broj"
+    },
+    "pick_number": {
+      "area_code": "Pozivni broj",
+      "premium_numbers_are_protected_from_recycling": "Premium brojevi su zaštićeni od reciklaže.",
+      "available_numbers": "Dostupni brojevi",
+      "search_by_area_code_to_find_available_numbers": "Pretražite po područnom broju kako biste pronašli dostupne brojeve.",
+      "capability": "Sposobnost",
+      "country": "Država"
+    },
+    "gif_picker": {
+      "search_tenor": "Pretraži tenor",
+      "search_gifs": "Pretraži GIF-ove"
+    },
+    "random_chat": {
+      "add_friend": "Dodaj prijatelja",
+      "skip": "Preskoči",
+      "send": "Pošalji",
+      "end_chat": "Kraj chata"
+    },
+    "random_matching": {
+      "finding_someone": "Pronalaženje nekoga"
+    },
+    "ria_chat": {
+      "ask_ria": "Pitaj Riu...",
+      "you_re_now_chatting_with_ria": "Sada razgovaraš s Rijom",
+      "chat_with_ria_anytime_separate_from_random_human": "Razgovaraj s Rijom kad god želiš, odvojeno od nasumičnog uparivanja s ljudima."
+    },
+    "ria_rewrite": {
+      "original_text": "Originalni tekst",
+      "choose_tone": "Odaberite ton",
+      "rewriting": "Prepisivanje…",
+      "suggestions": "Prijedlozi",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Odaberite ton za generiranje prijedloga za preformuliranje."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Besplatna verzija uključuje osnovne zvukove. Nadogradite da biste otključali više tonova i melodija zvona.",
+      "volume": "Svezak",
+      "message_tone": "Ton poruke",
+      "ringtone": "Zvono"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Još nema glasovnih poruka.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Kada vam netko ostavi glasovnu poruku, pojavit će se ovdje.",
+      "play_voicemail": "Pusti govornu poštu",
+      "delete_voicemail": "Izbriši govornu poštu"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Odabrana govorna pošta"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Pokriće za vašu trenutnu zemlju ili obližnju lokalnu upotrebu.",
+      "coverage_across_supported_european_destinations": "Pokriće u svim podržanim europskim destinacijama.",
+      "coverage_across_supported_global_destinations": "Pokriće u svim podržanim globalnim destinacijama."
+    },
+    "wireless_home": {
+      "manage_wireless": "Upravljanje bežičnom mrežom",
+      "port_my_number": "Prenesi moj broj",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Paketi podatkovnog prometa za eSIM zahtijevaju uređaj kompatibilan s eSIM-om i otključan.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Ostanite povezani dok putujete ili ste izvan Wi-Fi mreže.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Odaberite jednokratni eSIM paket podataka za lokalno, europsko ili globalno pokriće.",
+      "we_don_t_sell_data_packs_under_3_gb": "Ne prodajemo podatkovne pakete manje od 3 GB.",
+      "loading_usage": "Učitavanje upotrebe…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Još nema aktivnog paketa podataka. Kupite paket u nastavku kako biste počeli pratiti potrošnju.",
+      "usage_details_will_appear_once_your_data_pack_is": "Detalji o korištenju pojavit će se čim vaš paket podataka bude aktivan.",
+      "manage": "Upravljaj",
+      "coverage": "Pokriće",
+      "your_esim": "Vaša eSIM",
+      "current_usage": "Trenutna upotreba"
+    }
   }
 }

@@ -3066,7 +3066,8 @@
     "flip": "ফ্লিপ",
     "speaker": "স্পিকার",
     "end": "সমাপ্তি",
-    "noIncomingCallToAnswer": "উত্তর দেওয়ার জন্য কোনো ইনকামিং কল নেই।"
+    "noIncomingCallToAnswer": "উত্তর দেওয়ার জন্য কোনো ইনকামিং কল নেই।",
+    "serviceUnavailable": "কল সার্ভিস বর্তমানে উপলব্ধ নেই। অনুগ্রহ করে পরে আবার চেষ্টা করুন।"
   },
   "settings": {
     "startHour": "শুরু করার সময় (০–২৩)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "অন্ধকার",
   "accessibility_caption_bg_transparent": "স্বচ্ছ",
   "api": {
-    "notAuthorized": "অনুমোদিত নয়"
+    "notAuthorized": "অনুমোদিত নয়",
+    "invalidURL": "অবৈধ সার্ভার ঠিকানা।",
+    "serverError": "সার্ভার ত্রুটি (%d): %@",
+    "failedToDecodeResponse": "সার্ভারের প্রতিক্রিয়া পড়তে পারল না: %@"
+  },
+  "tap_to_view_contact": "যোগাযোগ দেখতে ট্যাপ করুন",
+  "android": {
+    "plan": {
+      "plan_billing": "পরিকল্পনা ও বিলিং",
+      "current_plan": "বর্তমান পরিকল্পনা",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "প্লাস নিয়ে বিজ্ঞাপনমুক্ত অভিজ্ঞতা পান, অথবা প্রিমিয়াম দিয়ে এআই টুল এবং কাস্টমাইজেশন আনলক করুন।",
+      "plus": "এছাড়াও",
+      "premium": "প্রিমিয়াম",
+      "back": "পিছনে",
+      "my_plan": "আমার পরিকল্পনা",
+      "compare_plans": "পরিকল্পনাগুলি তুলনা করুন",
+      "included": "অন্তর্ভুক্ত"
+    },
+    "upgrade": {
+      "upgrade": "উন্নীতকরণ",
+      "restore_purchases": "ক্রয়গুলি পুনরুদ্ধার করুন",
+      "unlock_more_with": "চ্যাটফোরিয়ার সাথে আরও অনেক কিছু আনলক করুন",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "বিজ্ঞাপন অপসারণ, আপনার অভিজ্ঞতা কাস্টমাইজ এবং উন্নত টুল আনলক করতে প্লাস বা প্রিমিয়াম নির্বাচন করুন।",
+      "best_experience": "সেরা অভিজ্ঞতা",
+      "close": "বন্ধ করুন",
+      "plus": "চ্যাটফোরিয়া প্লাস",
+      "remove_ads_and_unlock_more_everyday_features": "বিজ্ঞাপন মুছে ফেলুন এবং আরও দৈনন্দিন ফিচার আনলক করুন।",
+      "premium": "চ্যাটফোরিয়া প্রিমিয়াম",
+      "the_full_experience": "পূর্ণ চ্যাটফোরিয়া অভিজ্ঞতা।",
+      "premium_annual": "প্রিমিয়াম বার্ষিক",
+      "save_compared_to_monthly_premium": "মাসিক প্রিমিয়ামের তুলনায় সাশ্রয় করুন।"
+    },
+    "audio_call": {
+      "mute": "মৌন",
+      "speaker": "স্পিকার",
+      "end_call": "কল শেষ করুন"
+    },
+    "dial_pad": {
+      "dial": "ডায়াল",
+      "done": "সম্পন্ন",
+      "enter_number": "সংখ্যা লিখুন",
+      "call": "কল করুন",
+      "delete_digit": "অঙ্ক মুছুন"
+    },
+    "incoming_call": {
+      "decline": "হ্রাস",
+      "accept": "গ্রহণ করুন",
+      "decline_call": "কল প্রত্যাখ্যান করুন",
+      "accept_call": "কল গ্রহণ করুন"
+    },
+    "video_call": {
+      "camera": "ক্যামেরা",
+      "flip_camera": "ফ্লিপ ক্যামেরা"
+    },
+    "chats": {
+      "search_chats": "চ্যাট অনুসন্ধান করুন",
+      "no_chats_yet": "এখনও কোনো চ্যাট নেই",
+      "admob_ad": "অ্যাডমোব বিজ্ঞাপন",
+      "delete_conversation": "আলোচনা মুছবেন?",
+      "this_will_remove_this_conversation_from_your_cha": "এটি আপনার চ্যাট তালিকা থেকে এই কথোপকথনটি মুছে ফেলবে।",
+      "delete": "মুছুন",
+      "cancel": "বাতিল করুন",
+      "chats": "চ্যাটস",
+      "new_chat": "নতুন চ্যাট",
+      "refresh": "তাজা করুন",
+      "random_chat": "এলোমেলো চ্যাট",
+      "search": "অনুসন্ধান",
+      "delete_conversation_2": "আলোচনা মুছুন"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "ব্যবহারকারীর নাম, যোগাযোগের নাম, অথবা ফোন নম্বর",
+      "new_chat": "নতুন চ্যাট",
+      "start_a_chat": "চ্যাট শুরু করুন",
+      "search_by_username_contact_name_or_phone_number": "ব্যবহারকারীর নাম, যোগাযোগের নাম বা ফোন নম্বর দিয়ে অনুসন্ধান করুন।",
+      "results": "ফলাফল",
+      "open_chat": "চ্যাট খুলুন"
+    },
+    "calls": {
+      "recents": "সাম্প্রতিক",
+      "voicemail": "ভয়েসমেইল",
+      "calls": "কলসমূহ",
+      "no_calls_yet": "এখনও কোনো কল আসেনি",
+      "your_recent_calls_will_show_up_here": "আপনার সাম্প্রতিক কলগুলো এখানে প্রদর্শিত হবে।",
+      "open_dial_pad": "ডায়াল প্যাড খুলুন",
+      "delete_call": "কল মুছুন",
+      "video_call": "ভিডিও কল"
+    },
+    "contacts": {
+      "contacts": "যোগাযোগ",
+      "add_contact": "যোগাযোগ যোগ করুন",
+      "import_from_phone": "ফোন থেকে আমদানি করুন",
+      "invite_friends": "বন্ধুদের আমন্ত্রণ করুন",
+      "favorite": "প্রিয়",
+      "open_contact": "যোগাযোগ খোলা"
+    },
+    "main_activity": {
+      "loading": "লোড হচ্ছে...",
+      "profile": "প্রোফাইল"
+    },
+    "profile": {
+      "delete_account": "অ্যাকাউন্ট মুছুন",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "এই ক্রিয়াটি বাতিল করা যাবে না। আপনি কি নিশ্চিত যে আপনি আপনার অ্যাকাউন্ট মুছতে চান?",
+      "log_out": "লগ আউট করুন",
+      "change_photo": "ছবি পরিবর্তন করুন",
+      "remove_photo": "ছবি সরান",
+      "preferred_language": "প্রাধান্যপ্রাপ্ত ভাষা",
+      "your_age_range": "আপনার বয়সসীমা",
+      "theme": "থিম",
+      "choose_how_looks_across_the_app": "অ্যাপ জুড়ে Chatforia কীভাবে দেখাবে তা নির্বাচন করুন।",
+      "uploading": "আপলোড হচ্ছে…",
+      "choose_plus_or_premium": "প্লাস বা প্রিমিয়াম নির্বাচন করুন",
+      "profile_photo": "প্রোফাইল ছবি",
+      "open_upgrade": "আপগ্রেড খুলুন",
+      "open": "খোলা",
+      "account": "অ্যাকাউন্ট",
+      "username": "ব্যবহারকারীর নাম",
+      "email": "ইমেইল",
+      "plan": "পরিকল্পনা",
+      "wireless": "তারবিহীন",
+      "mobile": "চ্যাটফোরিয়া মোবাইল",
+      "esim_and_wireless_settings": "ই-সিম এবং ওয়্যারলেস সেটিংস",
+      "call_text_forwarding": "কল ও টেক্সট ফরওয়ার্ডিং",
+      "forward_incoming_calls_and_texts": "আগামী কল এবং টেক্সট ফরওয়ার্ড করুন",
+      "phone_number": "ফোন নম্বর",
+      "manage_your_number": "আপনার Chatforia নম্বর পরিচালনা করুন",
+      "settings": "সেটিংস",
+      "auto_translate_messages": "বার্তাগুলো স্বয়ংক্রিয়ভাবে অনুবাদ করুন",
+      "automatically_translate_messages_into_your_prefe": "স্বয়ংক্রিয়ভাবে বার্তাগুলো আপনার পছন্দের ভাষায় অনুবাদ করুন।",
+      "show_original_with_translation": "অনুবাদের সাথে মূল দেখান",
+      "show_the_original_message_alongside_the_translat": "মূল বার্তাটি অনুবাদের পাশে দেখান।",
+      "smart_reply_suggestions": "স্মার্ট রিপ্লাই পরামর্শসমূহ",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Ria-চালিত পুনঃলিখন সহায়তা এবং দ্রুত উত্তর দেখান।",
+      "linked_devices": "সংযুক্ত ডিভাইসসমূহ",
+      "manage_trusted_devices": "বিশ্বস্ত ডিভাইসগুলি পরিচালনা করুন",
+      "pair_new_device": "নতুন ডিভাইস জোড়া",
+      "approve_a_new_device": "নতুন একটি ডিভাইস অনুমোদন করুন",
+      "appearance": "দৃষ্টি",
+      "accessibility": "সুগমতার",
+      "visual_alerts_captions_and_voice_note_accessibil": "দৃশ্যগত সতর্কতা, ক্যাপশন এবং ভয়েস নোটের প্রবেশযোগ্যতা",
+      "security": "নিরাপত্তা",
+      "encryption_key_protected": "এনক্রিপশন কী সুরক্ষিত",
+      "privacy": "গোপনীয়তা",
+      "allow_explicit_content": "স্পষ্ট বিষয়বস্তু অনুমোদন করুন",
+      "show_read_receipts": "পড়া রসিদ দেখান",
+      "blur_messages_by_default": "ডিফল্টভাবে বার্তাগুলো ঝাপসা করুন",
+      "blur_when_app_is_unfocused": "অ্যাপ অ-ফোকাসড হলে ঝাপসা করুন",
+      "hold_to_reveal_messages": "বার্তা দেখানোর জন্য ধরে রাখুন",
+      "notify_when_messages_are_copied": "বার্তাগুলো কপি হলে জানাতে",
+      "random_chat": "এলোমেলো চ্যাট",
+      "use_age_based_matching": "বয়স-ভিত্তিক মিলান ব্যবহার করুন",
+      "let_ria_remember_conversations": "রিয়াকে কথোপকথনগুলো মনে করতে দাও",
+      "forward_voicemail_to_email": "ভয়েসমেইল ইমেলে ফরওয়ার্ড করুন",
+      "legal_support": "আইনি ও সহায়তা",
+      "free": "বিনামূল্যে"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "শব্দে নির্ভর না করে Chatforia ব্যবহার সহজ করার বিকল্পসমূহ।",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "স্বাভাবিক আকারে শুরু হয়। যদি আপনি বড় লেখা পছন্দ করেন, অ্যাক্সেসিবিলিটি সেটিংসে আকার বাড়িয়ে নিন।",
+      "interface_font_size": "ইন্টারফেস ফন্টের আকার",
+      "notifications": "অবহিতকরণ",
+      "visual_alerts_for_messages_calls": "বার্তা ও কলের জন্য ভিজ্যুয়াল সতর্কতা",
+      "show_banners_and_visual_indicators_so_you_do_not": "ব্যানার এবং ভিজ্যুয়াল ইঙ্গিত দেখান যাতে আপনি কোনো কার্যকলাপ মিস না করেন।",
+      "vibrate_on_new_messages": "নতুন বার্তা আসলে কম্পন করুন",
+      "trigger_device_vibration_with_notifications_when": "সমর্থিত হলে বিজ্ঞপ্তিসহ ট্রিগার ডিভাইস কম্পন।",
+      "flash_screen_on_incoming_call": "আগামীকলের ফ্ল্যাশ স্ক্রিন",
+      "briefly_flash_the_screen_when_a_call_rings": "কলের রিং হওয়ার সময় স্ক্রিনটি সংক্ষিপ্তভাবে ঝলমল করান।",
+      "live_captions": "লাইভ ক্যাপশন",
+      "enable_live_captions": "লাইভ ক্যাপশন চালু করুন",
+      "show_real_time_captions_during_calls_premium_req": "কল চলাকালীন রিয়েল-টাইম ক্যাপশন দেখান। প্রিমিয়াম প্রয়োজন।",
+      "caption_font_size": "শিরোনাম ফন্টের আকার",
+      "caption_background": "শিরোনাম পটভূমি",
+      "voice_notes": "ভয়েস নোট",
+      "auto_transcribe_voice_notes": "ভয়েস নোট স্বয়ংক্রিয়ভাবে প্রতিলিপি করুন",
+      "attach_a_transcript_to_audio_messages_you_receiv": "আপনি যে অডিও বার্তাগুলো পান, সেগুলোর সাথে একটি ট্রান্সক্রিপ্ট সংযুক্ত করুন।"
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "আমি আমার চাবি পুনরুদ্ধার করেছি।",
+      "restore_encryption": "এনক্রিপশন পুনরুদ্ধার করুন"
+    },
+    "language_selection": {
+      "select_language": "ভাষা নির্বাচন করুন"
+    },
+    "login": {
+      "email_or_username": "ইমেইল বা ব্যবহারকারীর নাম",
+      "password": "পাসওয়ার্ড",
+      "forgot_password": "পাসওয়ার্ড ভুলে গেছেন?",
+      "resend_verification_email": "যাচাইকরণ ইমেইল পুনরায় পাঠান",
+      "reset_encryption": "এনক্রিপশন রিসেট করুন",
+      "create_an_account": "অ্যাকাউন্ট তৈরি করুন",
+      "welcome_to": "চ্যাটফোরিয়ায় স্বাগতম",
+      "sign_in_or_create_an_account": "সাইন ইন করুন অথবা একটি অ্যাকাউন্ট তৈরি করুন",
+      "or": "অথবা",
+      "don_t_have_an_account_yet": "এখনও অ্যাকাউন্ট নেই?"
+    },
+    "onboarding": {
+      "welcome": "স্বাগতম",
+      "set_up_your_profile_so_can_personalize_your_expe": "আপনার প্রোফাইল সেট আপ করুন যাতে Chatforia আপনার অভিজ্ঞতা ব্যক্তিগতকরণ করতে পারে।",
+      "choose_a_username": "একটি ব্যবহারকারীর নাম নির্বাচন করুন",
+      "this_is_how_people_will_recognize_you_in": "এভাবেই মানুষ চ্যাটফোরিয়ায় আপনাকে চিনবে।",
+      "choose_your_language": "আপনার ভাষা নির্বাচন করুন",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia এটি অনুবাদ এবং আপনার অ্যাপ অভিজ্ঞতার জন্য ব্যবহার করবে।",
+      "you_re_ready": "তুমি প্রস্তুত",
+      "start_chatting_calling_translating_and_connectin": "বিশ্বজুড়ে মানুষের সাথে চ্যাট করা, কল করা, অনুবাদ করা এবং সংযোগ স্থাপন করা শুরু করুন।"
+    },
+    "register": {
+      "confirm_password": "পাসওয়ার্ড নিশ্চিত করুন",
+      "phone_optional": "ফোন ঐচ্ছিক",
+      "log_in": "লগ ইন করুন",
+      "create_your_account": "আপনার অ্যাকাউন্ট তৈরি করুন",
+      "start_chatting_across_languages_with": "Chatforia-র মাধ্যমে বিভিন্ন ভাষায় চ্যাট শুরু করুন।",
+      "i_agree_to_receive_sms_verification_messages": "আমি এসএমএস যাচাইকরণ বার্তা পেতে সম্মতি দিচ্ছি।",
+      "already_have_an_account": "ইতিমধ্যেই একটি অ্যাকাউন্ট আছে?"
+    },
+    "add_contact": {
+      "phone": "ফোন",
+      "name": "নাম",
+      "alias_optional": "অ্যালিয়াস ঐচ্ছিক",
+      "pin_this_person_as_a_favorite_contact": "এই ব্যক্তিকে প্রিয় যোগাযোগ হিসেবে পিন করুন।"
+    },
+    "contact_detail": {
+      "edit_contact": "যোগাযোগ সম্পাদনা করুন",
+      "delete_contact": "যোগাযোগ মুছুন",
+      "message": "বার্তা",
+      "video": "ভিডিও",
+      "external_name": "বাহ্যিক নাম"
+    },
+    "import_phone_contacts": {
+      "select_all": "সব নির্বাচন করুন",
+      "clear": "স্বচ্ছ",
+      "import_contacts": "যোগাযোগ আমদানি করুন"
+    },
+    "invite_friends": {
+      "share_invite_link": "আমন্ত্রণ লিঙ্ক শেয়ার করুন",
+      "invite_friends": "বন্ধুদের আমন্ত্রণ করুন",
+      "share_a_invite_link_with_friends_using_messages_": "Messages, ইমেইল বা আপনার ফোনের যেকোনো অ্যাপ ব্যবহার করে বন্ধুদের সাথে একটি Chatforia আমন্ত্রণ লিঙ্ক শেয়ার করুন।"
+    },
+    "device_pairing": {
+      "pair_a_new_device": "নতুন ডিভাইস যুক্ত করুন",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "আপনার নতুন ডিভাইসে Chatforia খুলুন এবং সাইন ইন করুন। যদি এটি আপনার এনক্রিপ্টেড চ্যাটগুলিতে অ্যাক্সেস চায়, তবে একটি বিশ্বস্ত ডিভাইস থেকে অনুমোদন করুন।",
+      "view_pending_device_requests": "মুলতুবি ডিভাইস অনুরোধগুলি দেখুন"
+    },
+    "key_setup": {
+      "recovery_passcode": "রিকভারি পাসকোড",
+      "confirm_recovery_passcode": "রিকভারি পাসকোড নিশ্চিত করুন",
+      "restore_chats": "চ্যাটগুলো পুনরুদ্ধার করুন",
+      "clear_local_key": "স্থানীয় কী মুছুন",
+      "reset_encryption": "এনক্রিপশন রিসেট?",
+      "this_will_permanently_replace_your_encryption_ke": "এটি আপনার এনক্রিপশন কী স্থায়ীভাবে প্রতিস্থাপন করবে।",
+      "encryption": "এনক্রিপশন",
+      "restore_encrypted_chats": "এনক্রিপ্ট করা চ্যাটগুলো পুনরুদ্ধার করুন",
+      "no_recovery_backup_found": "কোনো পুনরুদ্ধার ব্যাকআপ পাওয়া যায়নি",
+      "open_on_a_device_that_can_already_read_your_encr": "যে ডিভাইসে ইতিমধ্যেই আপনার এনক্রিপ্টেড চ্যাট পড়তে পারে, সেই ডিভাইসে Chatforia খুলুন এবং সেখানে একটি রিকভারি পাসকোড তৈরি করুন।",
+      "no_recovery_backup_found_yet_create_one_from_thi": "এখনও কোনো রিকভারি ব্যাকআপ পাওয়া যায়নি।  এই ডিভাইস থেকে একটি ব্যাকআপ তৈরি করুন যাতে আপনি iOS, Android এবং ওয়েবে চ্যাটগুলো পুনরুদ্ধার করতে পারেন।",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "শুধুমাত্র তখনই এটি ব্যবহার করুন যদি আপনি সমস্ত ট্রাস্টেড ডিভাইস হারিয়ে ফেলেছেন এবং আপনার মূল কী পুনরুদ্ধার করতে না পারেন।"
+    },
+    "linked_devices": {
+      "your_devices": "আপনার ডিভাইসসমূহ",
+      "pending_approvals": "অনুমোদন প্রক্রিয়াধীন",
+      "approve": "অনুমোদন করুন",
+      "reject": "প্রত্যাখ্যান",
+      "revoke": "বাতিল করুন",
+      "request_approval_for_this_device": "এই ডিভাইসের অনুমোদন অনুরোধ করুন",
+      "finish_device_approval": "ডিভাইস অনুমোদন সম্পন্ন করুন"
+    },
+    "forwarding_settings": {
+      "reset": "পুনঃসেট",
+      "forward_incoming_calls_and_texts_to_your_verifie": "আগামী কল এবং টেক্সট আপনার যাচাইকৃত ফোন বা ইমেইলে ফরওয়ার্ড করুন।",
+      "quiet_hours": "নীরব সময়",
+      "forwarding": "ফরওয়ার্ডিং",
+      "enable_text_forwarding": "টেক্সট ফরওয়ার্ডিং সক্ষম করুন",
+      "forward_texts_to_phone": "ফোনে টেক্সট ফরওয়ার্ড করুন",
+      "forward_texts_to_email": "টেক্সটগুলো ইমেইলে ফরওয়ার্ড করুন",
+      "enable_call_forwarding": "কল ফরওয়ার্ডিং সক্ষম করুন"
+    },
+    "chat_message_row": {
+      "copy": "নকল করুন",
+      "edit": "সম্পাদনা",
+      "report": "প্রতিবেদন",
+      "message_info": "বার্তার তথ্য"
+    },
+    "chat_thread": {
+      "no_messages_yet": "এখনও কোনো বার্তা নেই",
+      "delete_message": "বার্তা মুছবেন?",
+      "choose_how_you_want_to_delete_this_message": "এই বার্তাটি আপনি কীভাবে মুছতে চান তা নির্বাচন করুন।",
+      "delete_for_everyone": "সবাই জন্য মুছুন",
+      "delete_for_me": "আমার জন্য মুছুন",
+      "search_messages": "বার্তা অনুসন্ধান",
+      "search_in_chat": "চ্যাটে অনুসন্ধান করুন",
+      "sending": "পাঠাচ্ছে…",
+      "failed_to_send": "প্রেরণে ব্যর্থ",
+      "edited": "সম্পাদিত",
+      "audio_call": "অডিও কল",
+      "video_call": "ভিডিও কল",
+      "selected_gif": "নির্বাচিত জিআইএফ",
+      "remove_gif": "GIF সরান",
+      "attach": "সংযুক্ত করুন",
+      "rewrite_with_ria": "রিয়ার সাথে পুনঃলিখন",
+      "composer_action": "সংযোজক অ্যাকশন"
+    },
+    "edit_message": {
+      "save": "সংরক্ষণ করুন",
+      "emoji": "ইমোজি",
+      "edit_message": "বার্তা সম্পাদনা করুন"
+    },
+    "message_attachments": {
+      "image_attachment": "ছবির সংযুক্তি",
+      "video_attachment": "ভিডিও সংযুক্তি",
+      "play_video": "ভিডিও প্লে করুন"
+    },
+    "message_bubble": {
+      "disappearing_message": "অদৃশ্য বার্তা"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "এখনো কেউ এটি পড়েনি",
+      "message_info": "বার্তার তথ্য"
+    },
+    "report_message": {
+      "reason": "কারণ",
+      "include_previous_messages": "পূর্ববর্তী বার্তাগুলি অন্তর্ভুক্ত করুন",
+      "additional_details": "অতিরিক্ত বিবরণ",
+      "anything_else_moderators_should_know": "মডারেটরদের আর কিছু জানা উচিত?",
+      "block_this_user_after_reporting": "রিপোর্ট করার পর এই ব্যবহারকারীকে ব্লক করুন",
+      "submit_report": "রিপোর্ট জমা দিন",
+      "report_message": "রিপোর্ট বার্তা"
+    },
+    "phone_number": {
+      "replace_number": "সংখ্যা প্রতিস্থাপন করুন",
+      "pick_a_number": "একটি সংখ্যা বেছে নিন",
+      "no_number_assigned": "চ্যাটফোরিয়া নম্বর বরাদ্দ করা হয়নি।",
+      "your_number": "আপনার চ্যাটফোরিয়া নম্বর"
+    },
+    "pick_number": {
+      "area_code": "এলাকা কোড",
+      "premium_numbers_are_protected_from_recycling": "প্রিমিয়াম নম্বরগুলো পুনর্ব্যবহার থেকে সুরক্ষিত।",
+      "available_numbers": "উপলব্ধ নম্বরসমূহ",
+      "search_by_area_code_to_find_available_numbers": "উপলব্ধ নম্বরগুলি খুঁজে পেতে এরিয়া কোড অনুযায়ী অনুসন্ধান করুন।",
+      "capability": "ক্ষমতা",
+      "country": "দেশ"
+    },
+    "gif_picker": {
+      "search_tenor": "টেনর অনুসন্ধান করুন",
+      "search_gifs": "জিআইএফ অনুসন্ধান করুন"
+    },
+    "random_chat": {
+      "add_friend": "বন্ধু যোগ করুন",
+      "skip": " Skip",
+      "send": "প্রেরণ করুন",
+      "end_chat": "চ্যাট শেষ করুন"
+    },
+    "random_matching": {
+      "finding_someone": "কেউ খুঁজে পাওয়া"
+    },
+    "ria_chat": {
+      "ask_ria": "রিয়াকে জিজ্ঞাসা করো...",
+      "you_re_now_chatting_with_ria": "আপনি এখন রিয়ার সাথে চ্যাট করছেন।",
+      "chat_with_ria_anytime_separate_from_random_human": "রিয়া-র সাথে যে কোনো সময় চ্যাট করুন, এলোমেলো মানব মিলানোর বাইরে।"
+    },
+    "ria_rewrite": {
+      "original_text": "মূল পাঠ্য",
+      "choose_tone": "স্বর নির্বাচন করুন",
+      "rewriting": "পুনঃলিখন…",
+      "suggestions": "পরামর্শ",
+      "choose_a_tone_to_generate_rewrite_suggestions": "পুনঃলিখন পরামর্শ তৈরি করতে একটি টোন নির্বাচন করুন।"
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "ফ্রি সংস্করণে মৌলিক সাউন্ড অন্তর্ভুক্ত। আরও টোন এবং রিংটোন আনলক করতে আপগ্রেড করুন।",
+      "volume": "পরিমাণ",
+      "message_tone": "বার্তার স্বর",
+      "ringtone": "রিংটোন"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "এখনও কোনো ভয়েসমেল নেই।",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "যখন কেউ আপনাকে ভয়েসমেইল পাঠাবে, এটি এখানে দেখাবে।",
+      "play_voicemail": "ভয়েসমেইল প্লে করুন",
+      "delete_voicemail": "ভয়েসমেইল মুছুন"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "নির্বাচিত ভয়েসমেইল"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "আপনার বর্তমান দেশ বা নিকটস্থ স্থানীয় ব্যবহারের জন্য কভারেজ।",
+      "coverage_across_supported_european_destinations": "সমর্থিত ইউরোপীয় গন্তব্যস্থলগুলোতে কভারেজ।",
+      "coverage_across_supported_global_destinations": "সমর্থিত বৈশ্বিক গন্তব্যস্থলগুলোতে কভারেজ।"
+    },
+    "wireless_home": {
+      "manage_wireless": "ওয়্যারলেস পরিচালনা করুন",
+      "port_my_number": "আমার নম্বর পোর্ট করুন",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM ডেটা প্যাকগুলির জন্য একটি eSIM-সামঞ্জস্যপূর্ণ এবং আনলক করা ডিভাইস প্রয়োজন।",
+      "stay_connected_when_you_re_traveling_or_away_fro": "যাত্রার সময় বা ওয়াই-ফাই থেকে দূরে থাকাকালীন সংযুক্ত থাকুন।",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "স্থানীয়, ইউরোপ বা গ্লোবাল কভারেজের জন্য এককালীন ই-সিম ডেটা প্যাক নির্বাচন করুন।",
+      "we_don_t_sell_data_packs_under_3_gb": "আমরা ৩ জিবি-এর কম ডেটা প্যাক বিক্রি করি না।",
+      "loading_usage": "ব্যবহার লোড হচ্ছে…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "এখনও কোনো সক্রিয় ডেটা প্যাক নেই। ব্যবহার ট্র্যাক করতে শুরু করতে নিচের প্যাকগুলির একটি কিনুন।",
+      "usage_details_will_appear_once_your_data_pack_is": "আপনার ডেটা প্যাক সক্রিয় হলে ব্যবহারের বিবরণ দেখা যাবে।",
+      "manage": "পরিচালনা করুন",
+      "coverage": "আচ্ছাদন",
+      "your_esim": "আপনার ই-সিম",
+      "current_usage": "বর্তমান ব্যবহার"
+    }
   }
 }

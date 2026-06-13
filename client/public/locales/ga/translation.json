@@ -3066,7 +3066,8 @@
     "flip": "Cas",
     "speaker": "Cainteoir",
     "end": "Deireadh",
-    "noIncomingCallToAnswer": "Níl aon ghlao isteach le freagairt."
+    "noIncomingCallToAnswer": "Níl aon ghlao isteach le freagairt.",
+    "serviceUnavailable": "Níl an tseirbhís glaonna ar fáil faoi láthair. Le do thoil, bain triail as arís níos déanaí."
   },
   "settings": {
     "startHour": "Uair thosaigh (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Dorch",
   "accessibility_caption_bg_transparent": "Trédhearcach",
   "api": {
-    "notAuthorized": "Ní cheadaítear"
+    "notAuthorized": "Ní cheadaítear",
+    "invalidURL": "Seoladh freastalaí neamhbhailí.",
+    "serverError": "Earráid freastalaí (%d): %@",
+    "failedToDecodeResponse": "Níorbh fhéidir an freagra freastalaí a léamh: %@"
+  },
+  "tap_to_view_contact": "Tapáil chun an teagmhálaí a fheiceáil",
+  "android": {
+    "plan": {
+      "plan_billing": "Pleanáil & sonrascadh",
+      "current_plan": "An plean reatha",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Bí saor ó fhógraí le Plus, nó díghlasáil uirlisí IS agus saincheapadh le Premium.",
+      "plus": "A thuilleadh",
+      "premium": "Préimh",
+      "back": "Ar ais",
+      "my_plan": "Mo Phlean",
+      "compare_plans": "Cuir Pleananna i gComparáid",
+      "included": "San áireamh"
+    },
+    "upgrade": {
+      "upgrade": "Uasghrádú",
+      "restore_purchases": "Athchuir ceannacháin",
+      "unlock_more_with": "Fuaimghlasáil níos mó le Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Roghnaigh Plus nó Premium chun fógraí a bhaint, do thaithí a shaincheapadh, agus uirlisí ardleibhéil a dhíghlasáil.",
+      "best_experience": "An t-eispéireas is fearr",
+      "close": "Dún",
+      "plus": "Chatforia Breise",
+      "remove_ads_and_unlock_more_everyday_features": "Bain na fógraí agus fuascail níos mó gnéithe laethúla.",
+      "premium": "Chatforia Préimhe",
+      "the_full_experience": "An t-eispéireas iomlán Chatforia.",
+      "premium_annual": "Bliantúil Préimhe",
+      "save_compared_to_monthly_premium": "Sábháil i gcomparáid leis an bPréimh mhíosúil."
+    },
+    "audio_call": {
+      "mute": "Múcht",
+      "speaker": "Cainteoir",
+      "end_call": "Críoch a chur leis an nglao"
+    },
+    "dial_pad": {
+      "dial": "Dial",
+      "done": "Déanta",
+      "enter_number": "Cuir isteach an uimhir",
+      "call": "Glaoigh",
+      "delete_digit": "Scrios digit"
+    },
+    "incoming_call": {
+      "decline": "Meath",
+      "accept": "Glac",
+      "decline_call": "Diúltaigh don ghlao",
+      "accept_call": "Glao a ghlacadh"
+    },
+    "video_call": {
+      "camera": "Ceamara",
+      "flip_camera": "Ceamara Flip"
+    },
+    "chats": {
+      "search_chats": "Cuardaigh comhráite",
+      "no_chats_yet": "Níl aon chomhráite ann go fóill",
+      "admob_ad": "Fógra AdMob",
+      "delete_conversation": "Comhrá a scriosadh?",
+      "this_will_remove_this_conversation_from_your_cha": "Bainfear an comhrá seo ó do liosta comhrá.",
+      "delete": "Scrios",
+      "cancel": "Cealaigh",
+      "chats": "Comhráite",
+      "new_chat": "Comhrá nua",
+      "refresh": "Athnuachan",
+      "random_chat": "Comhrá fánach",
+      "search": "Cuardaigh",
+      "delete_conversation_2": "Scrios comhrá"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Ainm úsáideora, ainm teagmhála, nó uimhir theileafóin",
+      "new_chat": "Comhrá Nua",
+      "start_a_chat": "Tosaigh comhrá",
+      "search_by_username_contact_name_or_phone_number": "Cuardaigh de réir ainm úsáideora, ainm teagmhála, nó uimhir theileafóin.",
+      "results": "Torthaí",
+      "open_chat": "Comhrá oscailte"
+    },
+    "calls": {
+      "recents": "Le déanaí",
+      "voicemail": "Ríomhphost gutha",
+      "calls": "Glaonna",
+      "no_calls_yet": "Níl aon ghlaonna go fóill",
+      "your_recent_calls_will_show_up_here": "Taispeánfar do ghlaonna is déanaí anseo.",
+      "open_dial_pad": "Pad diailithe oscailte",
+      "delete_call": "Scrios glao",
+      "video_call": "Glao físe"
+    },
+    "contacts": {
+      "contacts": "Teagmhálaithe",
+      "add_contact": "Cuir teagmháil leis",
+      "import_from_phone": "Iompórtáil ón bhfón",
+      "invite_friends": "Cuir cuireadh ar chairde",
+      "favorite": "An ceann is fearr",
+      "open_contact": "Teagmháil oscailte"
+    },
+    "main_activity": {
+      "loading": "Á lódáil...",
+      "profile": "Próifíl"
+    },
+    "profile": {
+      "delete_account": "Scrios Cuntas",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Ní féidir an gníomh seo a chur ar ceal. An bhfuil tú cinnte gur mian leat do chuntas a scriosadh?",
+      "log_out": "Slog amach",
+      "change_photo": "Athraigh grianghraf",
+      "remove_photo": "Bain an Grianghraf",
+      "preferred_language": "Teanga Roghnaithe",
+      "your_age_range": "Do raon aoise",
+      "theme": "Téama",
+      "choose_how_looks_across_the_app": "Roghnaigh an chuma a bheidh ar Chatforia ar fud an aip.",
+      "uploading": "Á uaslódáil…",
+      "choose_plus_or_premium": "Roghnaigh Plus nó Premium",
+      "profile_photo": "Grianghraf próifíle",
+      "open_upgrade": "Uasghrádú oscailte",
+      "open": "Oscailte",
+      "account": "Cuntas",
+      "username": "Ainm úsáideora",
+      "email": "Ríomhphost",
+      "plan": "Plean",
+      "wireless": "Gan sreang",
+      "mobile": "Chatforia Soghluaiste",
+      "esim_and_wireless_settings": "eSIM agus socruithe gan sreang",
+      "call_text_forwarding": "Athsheoladh Glaonna & Téacsanna",
+      "forward_incoming_calls_and_texts": "Aistrigh glaonna agus téacsanna isteach",
+      "phone_number": "Uimhir Fóin",
+      "manage_your_number": "Bainistigh d'uimhir Chatforia",
+      "settings": "Socruithe",
+      "auto_translate_messages": "Aistrigh teachtaireachtaí go huathoibríoch",
+      "automatically_translate_messages_into_your_prefe": "Aistrigh teachtaireachtaí go huathoibríoch isteach i do theanga roghnaithe.",
+      "show_original_with_translation": "Taispeáin an bunleagan leis an aistriúchán",
+      "show_the_original_message_alongside_the_translat": "Taispeáin an teachtaireacht bhunaidh in éineacht leis an aistriúchán.",
+      "smart_reply_suggestions": "Moltaí freagra cliste",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Taispeáin cúnamh athscríbhneoireachta agus freagraí gasta ó Ria.",
+      "linked_devices": "Gléasanna Nasctha",
+      "manage_trusted_devices": "Bainistigh gléasanna iontaofa",
+      "pair_new_device": "Déan péireáil le gléas nua",
+      "approve_a_new_device": "Faomh gléas nua",
+      "appearance": "Cuma",
+      "accessibility": "Inrochtaineacht",
+      "visual_alerts_captions_and_voice_note_accessibil": "Inrochtaineacht foláireamh amhairc, ceannteidil, agus nótaí gutha",
+      "security": "Slándáil",
+      "encryption_key_protected": "Eochair chriptithe cosanta",
+      "privacy": "Príobháideacht",
+      "allow_explicit_content": "Ceadaigh ábhar follasach",
+      "show_read_receipts": "Taispeáin admhálacha léite",
+      "blur_messages_by_default": "Doiléirigh teachtaireachtaí mar réamhshocrú",
+      "blur_when_app_is_unfocused": "Doiléir nuair a bhíonn an aip as fócas",
+      "hold_to_reveal_messages": "Coinnigh chun teachtaireachtaí a nochtadh",
+      "notify_when_messages_are_copied": "Cuir in iúl nuair a dhéantar teachtaireachtaí a chóipeáil",
+      "random_chat": "Comhrá fánach",
+      "use_age_based_matching": "Bain úsáid as meaitseáil aoise",
+      "let_ria_remember_conversations": "Go gcuimhneoidh Ria ar chomhráite",
+      "forward_voicemail_to_email": "Seol teachtaireachtaí gutha ar aghaidh chuig ríomhphost",
+      "legal_support": "Dlí & Tacaíocht",
+      "free": "Saor in aisce"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Roghanna chun Chatforia a dhéanamh níos fusa le húsáid gan a bheith ag brath ar fhuaim.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Tosaíonn sé ar ghnáthmhéid. Méadaigh é más fearr leat téacs níos mó i socruithe inrochtaineachta.",
+      "interface_font_size": "Comhéadan méid an chló",
+      "notifications": "Fógraí",
+      "visual_alerts_for_messages_calls": "Foláirimh amhairc do theachtaireachtaí & do ghlaonna",
+      "show_banners_and_visual_indicators_so_you_do_not": "Taispeáin meirgí agus táscairí amhairc ionas nach gcaillfidh tú gníomhaíocht.",
+      "vibrate_on_new_messages": "Crith ar teachtaireachtaí nua",
+      "trigger_device_vibration_with_notifications_when": "Cuir tús le creathadh an fheiste le fógraí nuair a bhíonn sé tacaithe.",
+      "flash_screen_on_incoming_call": "Scáileán spléach ar ghlao isteach",
+      "briefly_flash_the_screen_when_a_call_rings": "Taispeáin an scáileán go gairid nuair a bhíonn glao ag fónadh.",
+      "live_captions": "Teidil bheo",
+      "enable_live_captions": "Cuir ceannteidil bheo ar siúl",
+      "show_real_time_captions_during_calls_premium_req": "Taispeáin fotheidil fíor-ama le linn glaonna. Préimh riachtanach.",
+      "caption_font_size": "Méid cló an cheannteidil",
+      "caption_background": "Cúlra an cheannteidil",
+      "voice_notes": "Nótaí gutha",
+      "auto_transcribe_voice_notes": "Uath-thras-scríobh nótaí gutha",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Ceangail tras-scríbhinn le teachtaireachtaí fuaime a fhaigheann tú."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Tá mo eochair athchóirithe agam.",
+      "restore_encryption": "Athbhunú Criptiúcháin"
+    },
+    "language_selection": {
+      "select_language": "Roghnaigh teanga"
+    },
+    "login": {
+      "email_or_username": "Ríomhphost nó ainm úsáideora",
+      "password": "Pasfhocal",
+      "forgot_password": "Ar dearmad do phasfhocal?",
+      "resend_verification_email": "Athsheol ríomhphost fíoraithe",
+      "reset_encryption": "Athshocraigh an Criptiú",
+      "create_an_account": "Cruthaigh cuntas",
+      "welcome_to": "Fáilte go Chatforia",
+      "sign_in_or_create_an_account": "Logáil isteach nó cruthaigh cuntas",
+      "or": "nó",
+      "don_t_have_an_account_yet": "Nach bhfuil cuntas agat go fóill?"
+    },
+    "onboarding": {
+      "welcome": "Fáilte",
+      "set_up_your_profile_so_can_personalize_your_expe": "Socraigh do phróifíl ionas gur féidir le Chatforia do thaithí a phearsantú.",
+      "choose_a_username": "Roghnaigh ainm úsáideora",
+      "this_is_how_people_will_recognize_you_in": "Seo mar a aithneoidh daoine thú i gChatforia.",
+      "choose_your_language": "Roghnaigh do theanga",
+      "will_use_this_for_translations_and_your_app_expe": "Úsáidfidh Chatforia seo le haghaidh aistriúchán agus d'eispéireas leis an aip.",
+      "you_re_ready": "Tá tú réidh",
+      "start_chatting_calling_translating_and_connectin": "Tosaigh ag comhrá, ag glaoch, ag aistriú, agus ag nascadh le daoine ar fud an domhain."
+    },
+    "register": {
+      "confirm_password": "Deimhnigh pasfhocal",
+      "phone_optional": "Fón roghnach",
+      "log_in": "Logáil isteach",
+      "create_your_account": "Cruthaigh do chuntas",
+      "start_chatting_across_languages_with": "Tosaigh ag comhrá trasna teangacha le Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Aontaím teachtaireachtaí fíorúcháin SMS a fháil.",
+      "already_have_an_account": "An bhfuil cuntas agat cheana féin?"
+    },
+    "add_contact": {
+      "phone": "Fón",
+      "name": "Ainm",
+      "alias_optional": "Leasainm roghnach",
+      "pin_this_person_as_a_favorite_contact": "Socrú an duine seo mar theagmhálaí is fearr."
+    },
+    "contact_detail": {
+      "edit_contact": "Cuir in eagar an teagmhálaí",
+      "delete_contact": "Scrios an Teagmhálaí",
+      "message": "Teachtaireacht",
+      "video": "Físeán",
+      "external_name": "Ainm seachtrach"
+    },
+    "import_phone_contacts": {
+      "select_all": "Roghnaigh Gach",
+      "clear": "Glan",
+      "import_contacts": "Iompórtáil Teagmhálaithe"
+    },
+    "invite_friends": {
+      "share_invite_link": "Roinn an nasc cuir chuige",
+      "invite_friends": "Cuir cuireadh ar chairde",
+      "share_a_invite_link_with_friends_using_messages_": "Roinn nasc chuig cuireadh Chatforia le cairde trí Messages, ríomhphost, nó aip ar bith ar do ghuthán."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Ceangail gléas nua",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Oscail Chatforia ar do ghléas nua agus sínigh isteach. Má tá rochtain de dhíth air ar do chomhráite criptithe, ceadaigh é ó ghléas iontaofa.",
+      "view_pending_device_requests": "Féach ar iarratais ar fheistí atá ar feitheamh"
+    },
+    "key_setup": {
+      "recovery_passcode": "Cód Aisghabhála",
+      "confirm_recovery_passcode": "Deimhnigh an Cód Pas Aisghabhála",
+      "restore_chats": "Athchuirigh Comhráite",
+      "clear_local_key": "Príomheochair áitiúil a ghlanadh",
+      "reset_encryption": "Athshocraigh an Criptiú?",
+      "this_will_permanently_replace_your_encryption_ke": "Cuirfidh sé seo do eochair chriptiúcháin in ionad go buan.",
+      "encryption": "Rúiteachas",
+      "restore_encrypted_chats": "Athchuir comhráite criptithe",
+      "no_recovery_backup_found": "Níor aimsíodh aon chúltaca téarnaimh",
+      "open_on_a_device_that_can_already_read_your_encr": "Oscail Chatforia ar ghléas a bhfuil sé de chumas aige cheana féin do chomhráite criptithe a léamh agus Críochfort Athshlánaithe a chruthú ann.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Níl aon Chúltaca Aisghabhála aimsithe go fóill. Cruthaigh ceann ón bhfón seo ionas gur féidir leat comhráite a athchóiriú ar iOS, Android, agus ar an ngréasán.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Ná húsáid é seo ach amháin má tá gach gléas iontaofa caillte agat agus mura féidir leat d'iarchlave bunaidh a athchóiriú."
+    },
+    "linked_devices": {
+      "your_devices": "Do ghléasanna",
+      "pending_approvals": "Faofaí ar feitheamh",
+      "approve": "Faomhaigh",
+      "reject": "Diúltú",
+      "revoke": "Cealaigh",
+      "request_approval_for_this_device": "Iarr ceadú don fheiste seo",
+      "finish_device_approval": "Ceadú an fheiste"
+    },
+    "forwarding_settings": {
+      "reset": "Athshocraigh",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Aistrigh glaonna agus téacsanna isteach chuig do ghuthán fíoraithe nó do ríomhphost.",
+      "quiet_hours": "Uaireanta Ciúine",
+      "forwarding": "Ar aghaidh",
+      "enable_text_forwarding": "Cuir ar chumas téacs a chur ar aghaidh",
+      "forward_texts_to_phone": "Seol téacsanna chuig an nguthán",
+      "forward_texts_to_email": "Seol téacsanna chuig ríomhphost",
+      "enable_call_forwarding": "Cuir tarchur glaonna ar siúl"
+    },
+    "chat_message_row": {
+      "copy": "Cóipeáil",
+      "edit": "Cuir in eagar",
+      "report": "Tuarascáil",
+      "message_info": "Eolas an Teachtaireachta"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Níl aon teachtaireachtaí ann go fóill",
+      "delete_message": "Scrios teachtaireacht?",
+      "choose_how_you_want_to_delete_this_message": "Roghnaigh an chaoi ar mhaith leat an teachtaireacht seo a scriosadh.",
+      "delete_for_everyone": "Scrios do chách",
+      "delete_for_me": "Scrios dom",
+      "search_messages": "Cuardaigh teachtaireachtaí",
+      "search_in_chat": "Cuardaigh sa chomhrá",
+      "sending": "Á sheoladh…",
+      "failed_to_send": "Theip ar an seoladh",
+      "edited": "Curtha in eagar",
+      "audio_call": "Glao Gutha",
+      "video_call": "Glao Físe",
+      "selected_gif": "GIF roghnaithe",
+      "remove_gif": "Bain an GIF",
+      "attach": "Ceangail",
+      "rewrite_with_ria": "Athscríobh le Ria",
+      "composer_action": "Gníomh an chumadóra"
+    },
+    "edit_message": {
+      "save": "Sábháil",
+      "emoji": "Emoji",
+      "edit_message": "Cuir teachtaireacht in eagar"
+    },
+    "message_attachments": {
+      "image_attachment": "Gabháil íomhá",
+      "video_attachment": "Gabháil físe",
+      "play_video": "Seinn físeán"
+    },
+    "message_bubble": {
+      "disappearing_message": "Teachtaireacht a imíonn"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Níl sé seo léite ag éinne go fóill.",
+      "message_info": "Eolas teachtaireachta"
+    },
+    "report_message": {
+      "reason": "Réasún",
+      "include_previous_messages": "Cuir teachtaireachtaí roimhe seo san áireamh",
+      "additional_details": "Sonraí breise",
+      "anything_else_moderators_should_know": "Aon rud eile ar cheart do na modhnóirí a bheith ar eolas acu?",
+      "block_this_user_after_reporting": "Cuir bac ar an úsáideoir seo tar éis tuairiscithe",
+      "submit_report": "Cuir tuairisc isteach",
+      "report_message": "Tuairiscigh teachtaireacht"
+    },
+    "phone_number": {
+      "replace_number": "Athsholáthair Uimhir",
+      "pick_a_number": "Roghnaigh Uimhir",
+      "no_number_assigned": "Níl aon uimhir Chatforia sannta.",
+      "your_number": "Do Uimhir Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Cód Ceantair",
+      "premium_numbers_are_protected_from_recycling": "Tá uimhreacha préimhe cosanta ó athchúrsáil.",
+      "available_numbers": "Uimhreacha ar fáil",
+      "search_by_area_code_to_find_available_numbers": "Cuardaigh de réir cód ceantair chun uimhreacha atá ar fáil a aimsiú.",
+      "capability": "Cumas",
+      "country": "Tír"
+    },
+    "gif_picker": {
+      "search_tenor": "Cuardaigh Teanóir",
+      "search_gifs": "Cuardaigh GIFanna"
+    },
+    "random_chat": {
+      "add_friend": "Cuir cara leis",
+      "skip": "Léim thairis",
+      "send": "Seol",
+      "end_chat": "Críoch a chur leis an gcomhrá"
+    },
+    "random_matching": {
+      "finding_someone": "Ag teacht ar dhuine"
+    },
+    "ria_chat": {
+      "ask_ria": "Fiafraigh de Ria...",
+      "you_re_now_chatting_with_ria": "Tá tú ag caint le Ria anois.",
+      "chat_with_ria_anytime_separate_from_random_human": "Comhrá le Ria am ar bith, ar leithligh ó mheaitseáil randamach le daoine."
+    },
+    "ria_rewrite": {
+      "original_text": "An téacs bunaidh",
+      "choose_tone": "Roghnaigh ton",
+      "rewriting": "Athscríobh…",
+      "suggestions": "Moltaí",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Roghnaigh ton chun moltaí athscríbhneoireachta a ghiniúint."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Áirítear fuaimeanna bunúsacha sa leagan saor in aisce. Uasghrádaigh chun níos mó toin agus fuaimeanna fógra a dhíghlasáil.",
+      "volume": "Imleabhar",
+      "message_tone": "Ton an teachtaireachta",
+      "ringtone": "Fuaim ghlao"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Níl aon teachtaireachtaí gutha ann go fóill.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Nuair a fhágann duine éigin teachtaireacht ghutha duit, beidh sí le feiceáil anseo.",
+      "play_voicemail": "Seinn teachtaireacht gutha",
+      "delete_voicemail": "Scrios teachtaireacht gutha"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Ríomhphost guthphoist roghnaithe"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Cumhdach do do thír reatha nó d'úsáid áitiúil sa ngar.",
+      "coverage_across_supported_european_destinations": "Clúdach ar fud na gceann scríbe Eorpach tacaíochta.",
+      "coverage_across_supported_global_destinations": "Clúdach thar cinn scríbe domhanda tacaíochta."
+    },
+    "wireless_home": {
+      "manage_wireless": "Bainistigh gan Sreang",
+      "port_my_number": "Aistrigh mo Uimhir",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Teastaíonn gléas atá comhoiriúnach le eSIM agus díghlasáilte le haghaidh pacáistí sonraí eSIM.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Fan ceangailte agus tú ag taisteal nó nuair atá tú as raon an Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Roghnaigh pacáiste sonraí eSIM aonuaire le haghaidh cumhdaigh Áitiúil, Eorpach, nó Dhomhanda.",
+      "we_don_t_sell_data_packs_under_3_gb": "Ní dhíolaimid pacáistí sonraí faoi bhun 3 GB.",
+      "loading_usage": "Lódáil úsáide…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Níl aon phacáiste sonraí gníomhach ann go fóill. Ceannaigh pacáiste thíos chun tús a chur le rianú úsáide.",
+      "usage_details_will_appear_once_your_data_pack_is": "Taispeánfar sonraí úsáide nuair a bheidh do phacáiste sonraí gníomhach.",
+      "manage": "Bainistigh",
+      "coverage": "Clúdach",
+      "your_esim": "Do eSIM",
+      "current_usage": "Úsáid reatha"
+    }
   }
 }

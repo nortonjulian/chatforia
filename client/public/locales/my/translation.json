@@ -3066,7 +3066,8 @@
     "flip": "လှည့်",
     "speaker": "စပီကာ",
     "end": "အဆုံး",
-    "noIncomingCallToAnswer": "ဖြေဆိုရန် လက်ခံခေါ်ဆိုမှု မရှိပါ။"
+    "noIncomingCallToAnswer": "ဖြေဆိုရန် လက်ခံခေါ်ဆိုမှု မရှိပါ။",
+    "serviceUnavailable": "ဖုန်းခေါ်ဆိုမှုဝန်ဆောင်မှုကို ယခုအချိန်တွင် မရရှိနိုင်ပါ။ နောက်မှ ထပ်မံကြိုးစားပါ။"
   },
   "settings": {
     "startHour": "စတင်ချိန် (၀–၂၃)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "မဲ",
   "accessibility_caption_bg_transparent": "ရှင်းလင်းသော",
   "api": {
-    "notAuthorized": "ခွင့်ပြုထားခြင်းမရှိပါ။"
+    "notAuthorized": "ခွင့်ပြုထားခြင်းမရှိပါ။",
+    "invalidURL": "ဆာဗာလိပ်စာ မမှန်ပါ။",
+    "serverError": "ဆာဗာအမှား (%d): %@",
+    "failedToDecodeResponse": "ဆာဗာတုံ့ပြန်ချက်ကို ဖတ်၍ မရနိုင်ပါ: %@"
+  },
+  "tap_to_view_contact": "ဆက်သွယ်ရန် တို့ပါ",
+  "android": {
+    "plan": {
+      "plan_billing": "အစီအစဉ်နှင့် ငွေတောင်းခံခြင်း",
+      "current_plan": "လက်ရှိအစီအစဉ်",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Plus ဖြင့် ကြော်ငြာမပါဘဲ အသုံးပြုပါ၊ သို့မဟုတ် Premium ဖြင့် AI ကိရိယာများနှင့် စိတ်ကြိုက်ပြင်ဆင်နိုင်မှုများကို ဖြေရှင်းပါ။",
+      "plus": "ထို့အပြင်",
+      "premium": "အဆင့်မြင့်",
+      "back": "ပြန်",
+      "my_plan": "ကျွန်ုပ်၏အစီအစဉ်",
+      "compare_plans": "အစီအစဉ်များကို နှိုင်းယှဉ်ပါ",
+      "included": "ပါဝင်သည်"
+    },
+    "upgrade": {
+      "upgrade": "အဆင့်မြှင့်တင်ခြင်း",
+      "restore_purchases": "ဝယ်ယူမှုများကို ပြန်လည်ထူထောင်ပါ။",
+      "unlock_more_with": "Chatforia နဲ့ ပိုမိုများစွာကို ဖြေရှင်းလိုက်ပါ။",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "ကြော်ငြာများကို ဖယ်ရှားရန်၊ သင့်အတွေ့အကြုံကို စိတ်တိုင်းကျ ပြင်ဆင်ရန်နှင့် အဆင့်မြင့်ကိရိယာများကို ဖြေရှင်းရန် Plus သို့မဟုတ် Premium ကို ရွေးပါ။",
+      "best_experience": "အကောင်းဆုံးအတွေ့အကြုံ",
+      "close": "ပိတ်ပါ",
+      "plus": "ချတ်ဖိုးရီးယား ပလပ်စ်",
+      "remove_ads_and_unlock_more_everyday_features": "ကြော်ငြာများကို ဖယ်ရှားပြီး နေ့စဉ်အသုံးပြုနိုင်သည့် အင်္ဂါရပ်များ ပိုမို ဖြေရှင်းပါ။",
+      "premium": "ချတ်ဖိုရီယာ ပရီးမီယံ",
+      "the_full_experience": "Chatforia အပြည့်အစုံ အတွေ့အကြုံ",
+      "premium_annual": "ပရီမီယံ နှစ်စဉ်",
+      "save_compared_to_monthly_premium": "လစဉ်ပရီမီယံနှင့် နှိုင်းယှဉ်လျှင် သက်သာသည်။"
+    },
+    "audio_call": {
+      "mute": "အသံပိတ်",
+      "speaker": "စပီကာ",
+      "end_call": "ဖုန်းခေါ်ဆိုမှုကို အဆုံးသတ်ပါ"
+    },
+    "dial_pad": {
+      "dial": "ခေါ်ဆိုရန်",
+      "done": "ပြီးပြီ",
+      "enter_number": "နံပါတ် ထည့်ပါ",
+      "call": "ခေါ်ပါ",
+      "delete_digit": "ဂဏန်း ဖျက်ပါ"
+    },
+    "incoming_call": {
+      "decline": "ကျဆင်းခြင်း",
+      "accept": "လက်ခံပါ",
+      "decline_call": "ခေါ်ဆိုမှုကို ငြင်းပယ်ပါ",
+      "accept_call": "ခေါ်ဆိုမှုကို လက်ခံပါ"
+    },
+    "video_call": {
+      "camera": "ကင်မရာ",
+      "flip_camera": "ဖလစ်ကင်မရာ"
+    },
+    "chats": {
+      "search_chats": "စကားပြောခန်းများ ရှာဖွေခြင်း",
+      "no_chats_yet": "ယခုထိ စကားမပြောသေးပါ",
+      "admob_ad": "AdMob ကြော်ငြာ",
+      "delete_conversation": "စကားပြောဆွေးနွေးမှုကို ဖျက်မည်လား?",
+      "this_will_remove_this_conversation_from_your_cha": "ဤသည် သင့် စကားပြောစာရင်းမှ ဤ စကားပြောကို ဖယ်ရှားမည်။",
+      "delete": "ဖျက်ပါ",
+      "cancel": "ဖျက်ရန်",
+      "chats": "စကားပြောခြင်းများ",
+      "new_chat": "အသစ် စကားပြော",
+      "refresh": "ပြန်လည်အသစ်ပြုလုပ်",
+      "random_chat": "မရွေးချယ်ဘဲ စကားပြော",
+      "search": "ရှာဖွေ",
+      "delete_conversation_2": "စကားပြောဆွေးနွေးမှုကို ဖျက်ပါ"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "အသုံးပြုသူအမည်၊ ဆက်သွယ်ရန်အမည် သို့မဟုတ် ဖုန်းနံပါတ်",
+      "new_chat": "အသစ်စကားပြော",
+      "start_a_chat": "စကားပြောစတင်ပါ",
+      "search_by_username_contact_name_or_phone_number": "အသုံးပြုသူအမည်၊ ဆက်သွယ်သူအမည် သို့မဟုတ် ဖုန်းနံပါတ်ဖြင့် ရှာပါ။",
+      "results": "ရလဒ်များ",
+      "open_chat": "ချက်ပြောဖွင့်ပါ"
+    },
+    "calls": {
+      "recents": "နောက်ဆုံးထွက်များ",
+      "voicemail": "အသံစာတိုက်",
+      "calls": "ခေါ်ဆိုမှုများ",
+      "no_calls_yet": "အခုထိ ဖုန်းခေါ်ဆိုမှု မရှိသေးပါဘူး။",
+      "your_recent_calls_will_show_up_here": "သင့်နောက်ဆုံးခေါ်ဆိုမှုများကို ဒီမှာ ပြသမည်။",
+      "open_dial_pad": "နံပါတ်ခလုတ်ပြားကို ဖွင့်ပါ",
+      "delete_call": "ဖုန်းခေါ်ဆိုမှု ဖျက်ရန်",
+      "video_call": "ဗီဒီယိုခေါ်ဆိုမှု"
+    },
+    "contacts": {
+      "contacts": "ဆက်သွယ်ရန်",
+      "add_contact": "ဆက်သွယ်ရန်ထည့်ပါ",
+      "import_from_phone": "ဖုန်းမှ တင်သွင်း",
+      "invite_friends": "မိတ်ဆွေများကို ဖိတ်ခေါ်ပါ",
+      "favorite": "အကြိုက်ဆုံး",
+      "open_contact": "ဆက်သွယ်ရန်ဖွင့်ပါ"
+    },
+    "main_activity": {
+      "loading": "တင်နေပါပြီ...",
+      "profile": "ကိုယ်ရေးအကျဉ်း"
+    },
+    "profile": {
+      "delete_account": "အကောင့် ဖျက်ရန်",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "ဤ လုပ်ဆောင်ချက်ကို ပြန်လည်ဖျက်၍ မရပါ။ သင့်အကောင့်ကို ဖျက်လိုပါသလား?",
+      "log_out": "ထွက်ရန်",
+      "change_photo": "ဓာတ်ပုံပြောင်းပါ",
+      "remove_photo": "ဓာတ်ပုံ ဖယ်ရှားပါ",
+      "preferred_language": "နှစ်သက်သောဘာသာစကား",
+      "your_age_range": "သင့်အသက်အကန့်အသတ်",
+      "theme": "ခေါင်းစဉ်",
+      "choose_how_looks_across_the_app": "အက်ပ်တစ်လျှောက် Chatforia ဘယ်လိုမြင်ရမလဲ ရွေးချယ်ပါ။",
+      "uploading": "တင်နေဆဲ…",
+      "choose_plus_or_premium": "ပလပ်စ် သို့မဟုတ် ပရီမီယံ ကို ရွေးပါ",
+      "profile_photo": "ကိုယ်ရေးဓာတ်ပုံ",
+      "open_upgrade": "အဆင့်မြှင့်ရန်ဖွင့်ပါ",
+      "open": "ဖွင့်",
+      "account": "အကောင့်",
+      "username": "အသုံးပြုသူအမည်",
+      "email": "အီးမေးလ်",
+      "plan": "အစီအစဉ်",
+      "wireless": "ကြိုးမဲ့",
+      "mobile": "ချက်ဖိုးရီးယား မိုဘိုင်း",
+      "esim_and_wireless_settings": "eSIM နှင့် ကြိုးမဲ့ဆက်တင်များ",
+      "call_text_forwarding": "ဖုန်းခေါ်ဆိုမှုနှင့် စာတိုပို့ခြင်း လွှဲပြောင်းခြင်း",
+      "forward_incoming_calls_and_texts": "ဝင်လာမည့် ဖုန်းခေါ်ဆိုမှုများနှင့် စာတိုများကို ရှေ့ဆက်ပို့ပါ။",
+      "phone_number": "ဖုန်းနံပါတ်",
+      "manage_your_number": "သင့် Chatforia နံပါတ်ကို စီမံခန့်ခွဲပါ။",
+      "settings": "ဆက်တင်များ",
+      "auto_translate_messages": "မက်ဆေ့ခ်ျများကို အလိုအလျောက် ဘာသာပြန်ပါ",
+      "automatically_translate_messages_into_your_prefe": "မက်ဆေ့ခ်ျများကို သင်နှစ်သက်ရာ ဘာသာစကားသို့ အလိုအလျောက် ဘာသာပြန်ပါ။",
+      "show_original_with_translation": "မူရင်းနှင့် ဘာသာပြန်ကို ပြသပါ",
+      "show_the_original_message_alongside_the_translat": "မူရင်းစာတိုနှင့် ဘာသာပြန်ချက်ကို တစ်ပြိုင်နက်ပြပါ။",
+      "smart_reply_suggestions": "စမတ်ဖြေကြားချက် အကြံပြုချက်များ",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Ria ဖြင့် အစားထိုးပြန်ရေးကူညီမှုနှင့် အမြန်ဖြေကြားချက်များကို ပြပါ။",
+      "linked_devices": "ချိတ်ဆက်ထားသော ကိရိယာများ",
+      "manage_trusted_devices": "ယုံကြည်စိတ်ချရသော ကိရိယာများကို စီမံခန့်ခွဲပါ",
+      "pair_new_device": "စက်အသစ်တွဲဖက်ပါ",
+      "approve_a_new_device": "ကိရိယာအသစ်ကို အတည်ပြုပါ။",
+      "appearance": "ပုံစံ",
+      "accessibility": "ဝင်ရောက်အသုံးပြုနိုင်မှု",
+      "visual_alerts_captions_and_voice_note_accessibil": "မြင်သာသတိပေးချက်များ၊ ခေါင်းစဉ်များနှင့် အသံမှတ်စုများ၏ လက်လှမ်းမီနိုင်မှု",
+      "security": "လုံခြုံရေး",
+      "encryption_key_protected": "ကုဒ်သော့ကာကွယ်ထားသည်",
+      "privacy": "ကိုယ်ရေးကိုယ်တာလုံခြုံရေး",
+      "allow_explicit_content": "ထင်ရှားသော အကြောင်းအရာများကို ခွင့်ပြုပါ။",
+      "show_read_receipts": "ဖတ်ပြီးကြောင်း အတည်ပြုချက်များ ပြသပါ",
+      "blur_messages_by_default": "မူလအနေဖြင့် စာများကို မရှင်းလင်းအောင် ပြုလုပ်ပါ။",
+      "blur_when_app_is_unfocused": "အက်ပ် မအာရုံစိုက်ထားသောအချိန်တွင် မှုန်ကုပ်စေပါ။",
+      "hold_to_reveal_messages": "မက်ဆေ့ခ်ျများကို ဖော်ပြရန် ဖိထားပါ။",
+      "notify_when_messages_are_copied": "မက်ဆေ့ခ်ျများကို ကူးယူသောအခါ အသိပေးပါ",
+      "random_chat": "အကျပ်မဲ့ စကားပြော",
+      "use_age_based_matching": "အသက်အခြေပြု ကိုက်ညီမှုကို အသုံးပြုပါ။",
+      "let_ria_remember_conversations": "Ria ကို စကားပြောဆိုချက်တွေကို မှတ်မိစေပါ။",
+      "forward_voicemail_to_email": "အသံစာတိုက်ကို အီးမေးလ်သို့ ပို့ပါ",
+      "legal_support": "ဥပဒေရေးရာနှင့် အထောက်အပံ့",
+      "free": "အခမဲ့"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "အသံမလိုဘဲ Chatforia ကို ပိုမိုလွယ်ကူစွာ အသုံးပြုနိုင်ရန် ရွေးချယ်စရာများ။",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "ပုံမှန်အရွယ်အစားဖြင့် စတင်သည်။   အသုံးပြုနိုင်မှုဆိုင်ရာ ဆက်တင်များတွင် စာသားကို ပိုကြီးမြင်လိုပါက အရွယ်အစားကို တိုးနိုင်သည်။",
+      "interface_font_size": "အင်တာဖေ့စ် ဖောင့်အရွယ်အစား",
+      "notifications": "အသိပေးချက်များ",
+      "visual_alerts_for_messages_calls": "မက်ဆေ့ခ်ျများနှင့် ဖုန်းခေါ်ဆိုမှုများအတွက် မြင်သာသတိပေးချက်များ",
+      "show_banners_and_visual_indicators_so_you_do_not": "လှုပ်ရှားမှုများကို မလွတ်မသွားစေရန် ဘန်နာများနှင့် မြင်သာသော အချက်ပြများကို ပြပါ။",
+      "vibrate_on_new_messages": "မက်ဆေ့ခ်ျအသစ်များလာတိုင်း ဖုန်းကို လှုပ်ခတ်ပါ",
+      "trigger_device_vibration_with_notifications_when": "ထောက်ပံ့ထားသောအခါ အသိပေးချက်များနှင့်အတူ ထိခိုက်စေသောကိရိယာတုန်လှုပ်မှုကို ဖွင့်ပါ။",
+      "flash_screen_on_incoming_call": "ဝင်လာသောခေါ်ဆိုမှုအတွက် ဖလက်ရှ် မျက်နှာပြင်",
+      "briefly_flash_the_screen_when_a_call_rings": "ဖုန်းခေါ်ဆိုမှု တစ်ခါတိုင်း လာတိုင်း မျက်နှာပြင်ကို အတိုချုပ် တောက်ပစေပါ။",
+      "live_captions": "တိုက်ရိုက်စာတန်းများ",
+      "enable_live_captions": "တိုက်ရိုက်စာတန်းများကို ဖွင့်ပါ",
+      "show_real_time_captions_during_calls_premium_req": "ခေါ်ဆိုစဉ်တွင် တိုက်ရိုက်စာတန်းများ ပြပါ။ ပရီမီယံလိုအပ်ပါသည်။",
+      "caption_font_size": "ခေါင်းစဉ် စာလုံးအရွယ်အစား",
+      "caption_background": "ခေါင်းစဉ် နောက်ခံ",
+      "voice_notes": "အသံမှတ်စုများ",
+      "auto_transcribe_voice_notes": "အသံမှတ်စုများကို အလိုအလျောက် စာသားပြောင်းခြင်း",
+      "attach_a_transcript_to_audio_messages_you_receiv": "သင်လက်ခံရရှိသော အသံမက်ဆေ့ခ်ျများတွင် ထုတ်ယူမှတ်တမ်းကို တွဲထည့်ပါ။"
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "ကျွန်ုပ်သည် ကျွန်ုပ်၏သော့ကို ပြန်လည်ထူထောင်ပြီးပါပြီ။",
+      "restore_encryption": "အထူးကုဒ်ပြုလုပ်မှုကို ပြန်လည်ထူထောင်ပါ။"
+    },
+    "language_selection": {
+      "select_language": "ဘာသာစကားရွေးပါ"
+    },
+    "login": {
+      "email_or_username": "အီးမေးလ် သို့မဟုတ် အသုံးပြုသူအမည်",
+      "password": "စကားဝှက်",
+      "forgot_password": "စကားဝှက်မေ့သွားပါသလား?",
+      "resend_verification_email": "အတည်ပြုအီးမေးလ်ကို ထပ်ပို့ပါ",
+      "reset_encryption": "ကုဒ်ဝှက်မှုကို ပြန်လည်စတင်ခြင်း",
+      "create_an_account": "အကောင့်ဖန်တီးပါ",
+      "welcome_to": "Chatforia သို့ ကြိုဆိုပါသည်",
+      "sign_in_or_create_an_account": "ဝင်ရောက်ရန် သို့မဟုတ် အကောင့်အသစ်ဖန်တီးရန်",
+      "or": "သို့မဟုတ်",
+      "don_t_have_an_account_yet": "အကောင့်မရှိသေးဘူးလား?"
+    },
+    "onboarding": {
+      "welcome": "ကြိုဆိုပါသည်",
+      "set_up_your_profile_so_can_personalize_your_expe": "Chatforia မှ သင့်အတွေ့အကြုံကို ပုဂ္ဂိုလ်ရေးပြုလုပ်နိုင်ရန် သင့်ပရိုဖိုင်ကို စနစ်တကျ ပြင်ဆင်ပါ။",
+      "choose_a_username": "အသုံးပြုသူအမည်ကို ရွေးပါ",
+      "this_is_how_people_will_recognize_you_in": "ဒီလိုနဲ့ လူတွေက Chatforia မှာ သင့်ကို မှတ်မိကြမှာပါ။",
+      "choose_your_language": "သင့်ဘာသာစကားကိုရွေးပါ",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia သည် ဤအချက်အလက်ကို ဘာသာပြန်ခြင်းနှင့် သင့်အက်ပ်အသုံးပြုမှုအတွေ့အကြုံအတွက် အသုံးပြုမည်။",
+      "you_re_ready": "သင်ပြင်ဆင်ပြီးပါပြီ။",
+      "start_chatting_calling_translating_and_connectin": "ကမ္ဘာတစ်ဝှမ်းရှိ လူများနှင့် စကားပြော၊ ဖုန်းခေါ်၊ ဘာသာပြန်နှင့် ချိတ်ဆက်ပါ။"
+    },
+    "register": {
+      "confirm_password": "စကားဝှက်ကို အတည်ပြုပါ",
+      "phone_optional": "ဖုန်း ရွေးချယ်နိုင်သည်",
+      "log_in": "ဝင်ရောက်ပါ",
+      "create_your_account": "သင့်အကောင့်ကို ဖန်တီးပါ",
+      "start_chatting_across_languages_with": "Chatforia ဖြင့် ဘာသာစကားကွာခြားပြီး စကားပြောစတင်ပါ။",
+      "i_agree_to_receive_sms_verification_messages": "ကျွန်ုပ်သည် SMS အတည်ပြုမက်ဆေ့ခ်ျများ လက်ခံရန် သဘောတူပါသည်။",
+      "already_have_an_account": "အကောင့်ရှိပြီးပြီလား?"
+    },
+    "add_contact": {
+      "phone": "ဖုန်း",
+      "name": "အမည်",
+      "alias_optional": "အမည်အခြားနာမည် ရွေးချယ်နိုင်သည်",
+      "pin_this_person_as_a_favorite_contact": "ဤလူကို အကြိုက်ဆုံး ဆက်သွယ်ရန်အဖြစ် သတ်မှတ်ပါ။"
+    },
+    "contact_detail": {
+      "edit_contact": "ဆက်သွယ်ရန် အချက်အလက် တည်းဖြတ်ပါ",
+      "delete_contact": "ဆက်သွယ်ရန် ဖျက်ရန်",
+      "message": "မက်ဆေ့ခ်ျ",
+      "video": "ဗီဒီယို",
+      "external_name": "ပြင်ပအမည်"
+    },
+    "import_phone_contacts": {
+      "select_all": "အားလုံးကိုရွေးပါ",
+      "clear": "ရှင်းလင်း",
+      "import_contacts": "ဆက်သွယ်သူများ တင်သွင်းခြင်း"
+    },
+    "invite_friends": {
+      "share_invite_link": "ဖိတ်ကြားစာလင့်ခ် မျှဝေပါ။",
+      "invite_friends": "မိတ်ဆွေများကို ဖိတ်ခေါ်ပါ",
+      "share_a_invite_link_with_friends_using_messages_": "Messages၊ အီးမေးလ် သို့မဟုတ် ဖုန်းပေါ်ရှိ မည်သည့် အက်ပ်မဆို အသုံးပြုပြီး Chatforia ဖိတ်ကြားစာလင့်ခ်ကို မိတ်ဆွေများနှင့် မျှဝေပါ။"
+    },
+    "device_pairing": {
+      "pair_a_new_device": "ကိရိယာအသစ်တစ်ခုကိုတွဲဖက်ပါ",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "သင့်စက်အသစ်တွင် Chatforia ကိုဖွင့်ပြီး ဝင်ပါ။ လုံခြုံစိတ်ချစွာ ကုဒ်ဖြင့်ကာကွယ်ထားသော စကားပြောများသို့ ဝင်ရောက်ခွင့်လိုအပ်ပါက ယုံကြည်စိတ်ချရသော စက်မှ ခွင့်ပြုပါ။",
+      "view_pending_device_requests": "စောင့်ဆိုင်းနေသော စက်ကိရိယာ တောင်းဆိုချက်များကို ကြည့်ပါ။"
+    },
+    "key_setup": {
+      "recovery_passcode": "ပြန်လည်ရယူရေး လုံခြုံကုဒ်",
+      "confirm_recovery_passcode": "ပြန်လည်ရယူရေး လုံခြုံကုဒ် အတည်ပြုပါ",
+      "restore_chats": "စကားပြောမှတ်တမ်းများ ပြန်လည်ထူထောင်ပါ",
+      "clear_local_key": "ဒေသဆိုင်ရာ key ကို ဖျက်ပါ",
+      "reset_encryption": "ကုဒ်ဝှက်မှုကို ပြန်လည်စတင်မလား?",
+      "this_will_permanently_replace_your_encryption_ke": "ဤသည် သင့် шифရခြင်းသော့ကို အမြဲတမ်း အစားထိုးမည်။",
+      "encryption": "ကုဒ်ဝှက်ခြင်း",
+      "restore_encrypted_chats": "ကုဒ်ဖြင့်ကာကွယ်ထားသော စကားပြောမှတ်တမ်းများကို ပြန်လည်ထူထောင်ပါ။",
+      "no_recovery_backup_found": "ပြန်လည်ကောင်းမြင်ရန် မိတ္တူကူးထားသော backup မတွေ့ပါ။",
+      "open_on_a_device_that_can_already_read_your_encr": "သင့်အထူးကုဒ်ဖြင့် ကာကွယ်ထားသော စကားပြောများကို ဖတ်ရှုနိုင်ပြီးသား စက်ပစ္စည်းတစ်ခုတွင် Chatforia ကို ဖွင့်ပြီး အဲဒီမှာ ပြန်လည်ထူထောင်ရေးကုဒ် (Recovery Passcode) တစ်ခု ဖန်တီးပါ။",
+      "no_recovery_backup_found_yet_create_one_from_thi": "ပြန်လည်သုံးစွဲရန် မိတ္တူကူးထားသည့် Backup မတွေ့ရသေးပါ။ ဒီကိရိယာမှ Backup အသစ်တစ်ခု ဖန်တီးပြီး iOS၊ Android နှင့် ဝက်ဘ်ပေါ်ရှိ စကားပြောမှတ်တမ်းများကို ပြန်လည်ထူထောင်နိုင်ပါသည်။",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "ယုံကြည်စိတ်ချရသော စက်ပစ္စည်းများအားလုံးကို ဆုံးရှုံးပြီး မူလသော့ကို ပြန်လည်ထူထောင်၍ မရပါကသာ ဤနည်းကို အသုံးပြုပါ။"
+    },
+    "linked_devices": {
+      "your_devices": "သင့်စက်ပစ္စည်းများ",
+      "pending_approvals": "အတည်ပြုချက်များ စောင့်ဆိုင်းနေသည်",
+      "approve": "အတည်ပြုပါ",
+      "reject": "ငြင်းပယ်",
+      "revoke": "ဖျက်သိမ်း",
+      "request_approval_for_this_device": "ဒီကိရိယာအတွက် အတည်ပြုချက် တောင်းဆိုပါ",
+      "finish_device_approval": "စက်ကိရိယာအတည်ပြုခြင်း ပြီးစီးပါပြီ။"
+    },
+    "forwarding_settings": {
+      "reset": "ပြန်စတင်",
+      "forward_incoming_calls_and_texts_to_your_verifie": "ဝင်လာမည့် ဖုန်းခေါ်ဆိုမှုများနှင့် စာတိုများကို သင့်အတည်ပြုထားသော ဖုန်းသို့မဟုတ် အီးမေးလ်သို့ ပို့ဆောင်ပါ။",
+      "quiet_hours": "တိတ်ဆိတ်ချိန်များ",
+      "forwarding": "ပို့ဆောင်ခြင်း",
+      "enable_text_forwarding": "စာသားပို့ဆောင်မှုကို ဖွင့်ပါ",
+      "forward_texts_to_phone": "စာတိုများကို ဖုန်းသို့ ပို့ပါ",
+      "forward_texts_to_email": "စာတိုများကို အီးမေးလ်သို့ ပို့ပါ",
+      "enable_call_forwarding": "ခေါ်ဆိုမှုပို့ဆောင်မှုကို ဖွင့်ပါ"
+    },
+    "chat_message_row": {
+      "copy": "ကူးယူ",
+      "edit": "ပြင်ဆင်ပါ",
+      "report": "အစီရင်ခံစာ",
+      "message_info": "မက်ဆေ့ခ်ျ အချက်အလက်"
+    },
+    "chat_thread": {
+      "no_messages_yet": "မက်ဆေ့ခ်ျ မရှိသေးပါ",
+      "delete_message": "မက်ဆေ့ခ်ျ ဖျက်မလား?",
+      "choose_how_you_want_to_delete_this_message": "ဤမက်ဆေ့ခ်ျကို ဖျက်လိုသည့် နည်းလမ်းကို ရွေးပါ။",
+      "delete_for_everyone": "အားလုံးအတွက် ဖျက်ရန်",
+      "delete_for_me": "ငါ့အတွက် ဖျက်ပေးပါ",
+      "search_messages": "မက်ဆေ့ခ်ျများ ရှာဖွေခြင်း",
+      "search_in_chat": "ချက်တွင် ရှာဖွေပါ။",
+      "sending": "ပို့နေသည်…",
+      "failed_to_send": "ပို့ရန် မအောင်မြင်ပါ",
+      "edited": "ပြင်ဆင်ထားသည်",
+      "audio_call": "အသံခေါ်ဆိုမှု",
+      "video_call": "ဗီဒီယိုခေါ်ဆိုမှု",
+      "selected_gif": "ရွေးချယ်ထားသော GIF",
+      "remove_gif": "GIF ကို ဖယ်ရှားပါ",
+      "attach": "တွဲထည့်ပါ",
+      "rewrite_with_ria": "Ria နှင့် ပြန်ရေးပါ",
+      "composer_action": "တေးရေးဆရာ လှုပ်ရှားမှု"
+    },
+    "edit_message": {
+      "save": "သိမ်းဆည်း",
+      "emoji": "အီမိုဂျီ",
+      "edit_message": "မက်ဆေ့ခ်ျကို တည်းဖြတ်ပါ"
+    },
+    "message_attachments": {
+      "image_attachment": "ပုံထည့်ခြင်း",
+      "video_attachment": "ဗီဒီယို ပူးတွဲပါ",
+      "play_video": "ဗီဒီယိုဖွင့်ပါ"
+    },
+    "message_bubble": {
+      "disappearing_message": "ပျောက်ကွယ်သွားမည့် စာတို"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "ယခုထိ မည်သူမှ မဖတ်ရသေးပါ။",
+      "message_info": "မက်ဆေ့ခ်ျအချက်အလက်"
+    },
+    "report_message": {
+      "reason": "အကြောင်းရင်း",
+      "include_previous_messages": "ယခင်စာများပါဝင်စေပါ။",
+      "additional_details": "ထပ်ဆောင်းအသေးစိတ်အချက်အလက်များ",
+      "anything_else_moderators_should_know": "မော်ဒရေတာများသိထားသင့်တာ တခြားဘာများရှိပါသလဲ။",
+      "block_this_user_after_reporting": "အစီရင်ခံပြီးနောက် ဤအသုံးပြုသူကို ပိတ်ဆို့ပါ။",
+      "submit_report": "အစီရင်ခံစာ တင်သွင်းပါ",
+      "report_message": "အစီရင်ခံစာပို့"
+    },
+    "phone_number": {
+      "replace_number": "နံပါတ်အစားထိုး",
+      "pick_a_number": "နံပါတ်တစ်ခုရွေးပါ",
+      "no_number_assigned": "Chatforia နံပါတ် မပေးထားပါ။",
+      "your_number": "သင့်ရဲ့ ချက်ဖိုရီယာ နံပါတ်"
+    },
+    "pick_number": {
+      "area_code": "ဒေသကုဒ်",
+      "premium_numbers_are_protected_from_recycling": "ပရီမီယံနံပါတ်များကို ပြန်လည်အသုံးပြုခြင်းမှ ကာကွယ်ထားသည်။",
+      "available_numbers": "ရနိုင်သည့်နံပါတ်များ",
+      "search_by_area_code_to_find_available_numbers": "ရရှိနိုင်သည့်နံပါတ်များကိုရှာဖွေရန် ဒေသကုဒ်ဖြင့်ရှာပါ။",
+      "capability": "စွမ်းရည်",
+      "country": "နိုင်ငံ"
+    },
+    "gif_picker": {
+      "search_tenor": "တဲနော်ရှာဖွေခြင်း",
+      "search_gifs": "GIF များ ရှာဖွေခြင်း"
+    },
+    "random_chat": {
+      "add_friend": "မိတ်ဆွေထည့်ရန်",
+      "skip": "ကျော်ရန်",
+      "send": "ပို့ပါ",
+      "end_chat": "စကားပြောပြီးဆုံး"
+    },
+    "random_matching": {
+      "finding_someone": "တစ်ယောက်ကို ရှာဖွေခြင်း"
+    },
+    "ria_chat": {
+      "ask_ria": "Ria ကိုမေးပါ...",
+      "you_re_now_chatting_with_ria": "သင်သည် ယခု Ria နှင့် စကားပြောနေပါသည်။",
+      "chat_with_ria_anytime_separate_from_random_human": "မရွေးချယ်ထားသော လူတွေနဲ့ တွဲဖက်ခြင်းမပါဘဲ၊ မည်သည့်အချိန်မဆို Ria နဲ့ စကားပြောနိုင်သည်။"
+    },
+    "ria_rewrite": {
+      "original_text": "မူရင်းစာသား",
+      "choose_tone": "အသံအမျိုးအစားရွေးပါ",
+      "rewriting": "ပြန်ရေးနေသည်…",
+      "suggestions": "အကြံပြုချက်များ",
+      "choose_a_tone_to_generate_rewrite_suggestions": "ပြန်ရေးအကြံပြုချက်များ ထုတ်လုပ်ရန် အသံအမျိုးအစား တစ်ခုကို ရွေးပါ။"
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "အခမဲ့တွင် အခြေခံအသံများ ပါဝင်သည်။ ပိုမိုသော တေးသံများနှင့် ဖုန်းခေါ်သံများကို ဖွင့်ရန် အဆင့်မြှင့်ပါ။",
+      "volume": "ပမာဏ",
+      "message_tone": "မက်ဆေ့ခ်် အသံအမျိုးအစား",
+      "ringtone": "ခေါ်ဆိုသံ"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "အသံစာတိုများ မရှိသေးပါ။",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "တစ်ယောက်က သင့်ထံသို့ အသံစာတို ပို့လိုက်လျှင်၊ ဤနေရာတွင် ပြသမည်။",
+      "play_voicemail": "အသံစာတိုက်ကို ဖွင့်နားဆင်ပါ",
+      "delete_voicemail": "အသံစာတို ဖျက်ပါ"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "ရွေးချယ်ထားသော အသံစာတိုက်မက်ဆေ့ခ်ျ"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "သင့်လက်ရှိနိုင်ငံ သို့မဟုတ် အနီးအနားဒေသတွင်း အသုံးပြုမှုအတွက် ဖုံးလွှမ်းမှု။",
+      "coverage_across_supported_european_destinations": "ထောက်ပံ့ထားသည့် ဥရောပ ခရီးသွားရာနေရာများအားလုံးတွင် အာမခံကာကွယ်မှု။",
+      "coverage_across_supported_global_destinations": "ကမ္ဘာတစ်ဝှမ်းရှိ ထောက်ပံ့ထားသော ခရီးသွားရာနေရာများအားလုံးတွင် အာမခံကာကွယ်မှု။"
+    },
+    "wireless_home": {
+      "manage_wireless": "ကြိုးမဲ့ စီမံခန့်ခွဲခြင်း",
+      "port_my_number": "ကျွန်ုပ်၏နံပါတ်အား ပို့ပါ",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM ဒေတာပက်များအတွက် eSIM ကိုက်ညီပြီး ဖွင့်ထားသော စက်တစ်လုံး လိုအပ်ပါသည်။",
+      "stay_connected_when_you_re_traveling_or_away_fro": "ခရီးသွားနေစဉ် သို့မဟုတ် Wi-Fi မရှိတဲ့အချိန်မှာလည်း ဆက်သွယ်မှုမပြတ်နိုင်ပါစေ။",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "ဒေသတွင်း၊ ဥရောပ သို့မဟုတ် ကမ္ဘာလုံးဆိုင်ရာ ဖုံးလွှမ်းမှုအတွက် တစ်ကြိမ်သုံး eSIM ဒေတာပက်ကို ရွေးချယ်ပါ။",
+      "we_don_t_sell_data_packs_under_3_gb": "ကျွန်ုပ်တို့သည် 3 GB ထက်နည်းသော ဒေတာပက်များကို မရောင်းပါ။",
+      "loading_usage": "အသုံးပြုမှုကို တင်နေသည်…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "အသုံးပြုမှုကို စတင်မှတ်တမ်းတင်ရန် ဒေတာပက် မရှိသေးပါ။ အောက်တွင် ဒေတာပက် တစ်ခု ဝယ်ယူပါ။",
+      "usage_details_will_appear_once_your_data_pack_is": "သင့်ဒေတာပက် အက်တစ်ဗ်ဖြစ်လာသည်နှင့် အသုံးပြုမှုအသေးစိတ်များ ပြသမည်။",
+      "manage": "စီမံခန့်ခွဲ",
+      "coverage": "အာမခံကာကွယ်မှု",
+      "your_esim": "သင့် eSIM",
+      "current_usage": "လက်ရှိအသုံးပြုမှု"
+    }
   }
 }

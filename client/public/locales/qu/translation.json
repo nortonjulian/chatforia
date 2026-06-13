@@ -3066,7 +3066,8 @@
     "flip": "T'ikray",
     "speaker": "Rimaq",
     "end": "Tukuy",
-    "noIncomingCallToAnswer": "Mana haykuq waqyay kutichinapaq."
+    "noIncomingCallToAnswer": "Mana haykuq waqyay kutichinapaq.",
+    "serviceUnavailable": "Kunanqa waqyanapaq yanapayqa manam llamk'anchu. Ama hina kaspa, qhipaman yapamanta malliy."
   },
   "settings": {
     "startHour": "Qallariy pacha (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Yana",
   "accessibility_caption_bg_transparent": "Ch'uya",
   "api": {
-    "notAuthorized": "Mana saqillasqachu"
+    "notAuthorized": "Mana saqillasqachu",
+    "invalidURL": "Mana chanin sirwiq tiyay.",
+    "serverError": "Sirwiqpa pantaynin (%d): %@",
+    "failedToDecodeResponse": "Manam atikunchu sirwiqpa kutichiyninta ñawiriyta: %@"
+  },
+  "tap_to_view_contact": "Llamk'achiy tupayta qhawanapaq",
+  "android": {
+    "plan": {
+      "plan_billing": "Rurana & Qullqi Mañay",
+      "current_plan": "Kunan ruwana",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Plus nisqawan willakuykuna mana rikukuq kananpaq, utaq Premium nisqawan Yachayniyuq Ruraykunata chaymanta munayman hina tikraykunata kichariy.",
+      "plus": "Yapasqa",
+      "premium": "Sumaqllaña",
+      "back": "Kutiy",
+      "my_plan": "Ruranay",
+      "compare_plans": "Plannikunata kuskachay",
+      "included": "Churasqa"
+    },
+    "upgrade": {
+      "upgrade": "Allinchay",
+      "restore_purchases": "Rantisqakunata kutichiy",
+      "unlock_more_with": "Chatforiawan astawan kichariy",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Akllay Plus utaq Premium willakuykunata chinkachinaykipaq, imayna llamk'achisqaykita kikinchakunaykipaq, hinallataq ñawpaqman risqa llamk'anakunata kicharinaykipaq.",
+      "best_experience": "Aswan allin kawsay",
+      "close": "Wichq'ay",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Willakuykunata qichuy hinaspa sapa p'unchaw astawan imaymanakunata kichariy.",
+      "premium": "Chatforia Sumaq",
+      "the_full_experience": "Chatforia hunt'asqa kawsay.",
+      "premium_annual": "Sapa wata sumaq",
+      "save_compared_to_monthly_premium": "Sapa killa Premium nisqawan tupachispa waqaychay."
+    },
+    "audio_call": {
+      "mute": "Upallachiy",
+      "speaker": "Rimaq",
+      "end_call": "Waqyana tukuchiy"
+    },
+    "dial_pad": {
+      "dial": "Muyuriq",
+      "done": "Tukusqa",
+      "enter_number": "Yupayta qillqay",
+      "call": "Wakyay",
+      "delete_digit": "Yupayta pichay"
+    },
+    "incoming_call": {
+      "decline": "Uray",
+      "accept": "Chaskiy",
+      "decline_call": "Waqyayta qichuy",
+      "accept_call": "Waqyarikuyta chaskiy"
+    },
+    "video_call": {
+      "camera": "Rikch'a hap'iq",
+      "flip_camera": "Muyuriq rikch'a hap'iq"
+    },
+    "chats": {
+      "search_chats": "Rimanakuykunata mask'ay",
+      "no_chats_yet": "Manaraqmi rimanakuykuna kanchu",
+      "admob_ad": "AdMob willakuy",
+      "delete_conversation": "Rimanakuyta pichay?",
+      "this_will_remove_this_conversation_from_your_cha": "Kayqa kay rimanakuyta qampa rimanakuykuna listaykimanta hurqunqa.",
+      "delete": "Pichay",
+      "cancel": "Qichuy",
+      "chats": "Rimanakuykuna",
+      "new_chat": "Musuq rimanakuy",
+      "refresh": "Musuqyachiy",
+      "random_chat": "Mana akllasqa rimanakuy",
+      "search": "Mask'ay",
+      "delete_conversation_2": "Rimanakuyta pichay"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Sut'ichasqa suti, tupanakuy suti, icha karu rimana yupay",
+      "new_chat": "Musuq rimanakuy",
+      "start_a_chat": "Rimanakuyta qallariy",
+      "search_by_username_contact_name_or_phone_number": "Ruraq sutichawan, riqsinapaq sutichawan, utaq karu rimana yupaywan maskhay.",
+      "results": "Lluqsisqakuna",
+      "open_chat": "Rimanakuyta kichay"
+    },
+    "calls": {
+      "recents": "Qayna p'unchawkuna",
+      "voicemail": "Kunkawan willakuy",
+      "calls": "Waqyaykuna",
+      "no_calls_yet": "Manaraqmi waqyachikunchu",
+      "your_recent_calls_will_show_up_here": "Qayna qayaykunaqa kaypi rikhurinqa.",
+      "open_dial_pad": "Yupana ñit'inata kichay",
+      "delete_call": "Waqyayta pichay",
+      "video_call": "Rikuy rimanakuy"
+    },
+    "contacts": {
+      "contacts": "Riqsisqakuna",
+      "add_contact": "Tupayta yapay",
+      "import_from_phone": "Celularmanta apamuy",
+      "invite_friends": "Masikikunata waqyay",
+      "favorite": "Aswan munasqa",
+      "open_contact": "Kichariy tupanakuyta"
+    },
+    "main_activity": {
+      "loading": "Chaskichkan...",
+      "profile": "Rikch'ay"
+    },
+    "profile": {
+      "delete_account": "Rurayta Puchukachiy",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Kay ruwasqaqa manañam kutichiy atinachu. ¿Chiqapchu cuentaykita pichayta munanki?",
+      "log_out": "Lluqsinapaq",
+      "change_photo": "Rikch'ata T'ikray",
+      "remove_photo": "Llimp'ita hurquy",
+      "preferred_language": "Akllasqa simi",
+      "your_age_range": "Watanchayki",
+      "theme": "Yuyay",
+      "choose_how_looks_across_the_app": "Akllay imaynatam Chatforia llapan apppi rikurinqa.",
+      "uploading": "Wichachichkan...",
+      "choose_plus_or_premium": "Akllay Plus utaq Premium",
+      "profile_photo": "Rikch'ayniy",
+      "open_upgrade": "Kichasqa musuqyachiy",
+      "open": "Kichasqa",
+      "account": "Yupaychay",
+      "username": "Sutiyki",
+      "email": "Chaski",
+      "plan": "Rurana",
+      "wireless": "Mana q'aytuyuq",
+      "mobile": "Chatforia Kuyuchina",
+      "esim_and_wireless_settings": "eSIM chaymanta mana waskhayuq allichaykuna",
+      "call_text_forwarding": "Wakyaykunata Qillqasqakunatapas Apachiy",
+      "forward_incoming_calls_and_texts": "Chayamuq waqyakuykunata qillqasqakunatapas apachiy",
+      "phone_number": "Karu rimana yupay",
+      "manage_your_number": "Chatforia yupayniykita kamachiy",
+      "settings": "Allichaykuna",
+      "auto_translate_messages": "Willakuykunata kikinmanta t'ikray",
+      "automatically_translate_messages_into_your_prefe": "Willakuykunata kikinmanta munasqayki simiman t'ikray.",
+      "show_original_with_translation": "Qallariyta t'ikrasqawan rikuchiy",
+      "show_the_original_message_alongside_the_translat": "Qallariy willakuyta t'ikrasqawan kuska rikuchiy.",
+      "smart_reply_suggestions": "Yachaywan kutichinapaq yuyaychaykuna",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Ria-pa kallpachasqan qillqa allichay yanapayta chaymanta utqay kutichiykunata rikuchiy.",
+      "linked_devices": "T'inkisqa llamk'anakuna",
+      "manage_trusted_devices": "Iñisqa llamk'anakunata kamachiy",
+      "pair_new_device": "Musuq Llamk'anata T'inkiy",
+      "approve_a_new_device": "Musuq llamk'anata chaninchay",
+      "appearance": "Rikch'aynin",
+      "accessibility": "Haypay atiy",
+      "visual_alerts_captions_and_voice_note_accessibil": "Rikuna willakuykuna, qillqa sut'inchaykuna, hinallataq kunka qillqakunamanpas yaykuy atiy",
+      "security": "Amachay",
+      "encryption_key_protected": "Pakasqa qillqaypa llawin amachasqa",
+      "privacy": "Sapan kay",
+      "allow_explicit_content": "Sut'i q'añu kaqkunata saqiy",
+      "show_read_receipts": "Ñawirisqa qillqakunata rikuchiy",
+      "blur_messages_by_default": "Willakuykunata kikinmanta p'anpachay",
+      "blur_when_app_is_unfocused": "Aplicación mana chawpichasqa kachkaptin laqha",
+      "hold_to_reveal_messages": "Hap'iy willakuykunata rikuchinapaq",
+      "notify_when_messages_are_copied": "Willay willakuykuna kopiasqa kaptin",
+      "random_chat": "Mana reqsinakuspa rimanakuy",
+      "use_age_based_matching": "Wata nisqanman hina t'inkichiy",
+      "let_ria_remember_conversations": "Riaqa rimanakuykunata yuyarinan kachun.",
+      "forward_voicemail_to_email": "Kunkawan willakuykunata chaski qillqaman apachiy",
+      "legal_support": "Kamachiywan Yanapay",
+      "free": "Qasilla"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Chatforia-ta mana waqaywan aswan facilta llamk'achinapaq akllanakuna.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Qallarin sapsi sayayninpi. Sayaynin wiñachiy sichus qillqata aswan hatunta munanki, chaytaqa aypanapaq allichaykunapi ruwawaq.",
+      "interface_font_size": "Uyan qillqa sayaynin",
+      "notifications": "Willakuykuna",
+      "visual_alerts_for_messages_calls": "Willakuykunapaq waqyakuykunapaqpas rikuchikuq willaykuna",
+      "show_banners_and_visual_indicators_so_you_do_not": "Ruraykunata ama chinkachinaykipaq, unanchakunata rikuchiykunatapas rikuchiy.",
+      "vibrate_on_new_messages": "Musuq willakuykunawan katatataq",
+      "trigger_device_vibration_with_notifications_when": "Atikuqtin, willaykunawan kuskataq kuyuchiy llamk'anata.",
+      "flash_screen_on_incoming_call": "Chayamuq waqyaynapaq k'anchaq qhawanapampa",
+      "briefly_flash_the_screen_when_a_call_rings": "Waqyamuptin, qhawanata usqhayllata k'anchachiy.",
+      "live_captions": "Kawsachkaq qillqasqakuna",
+      "enable_live_captions": "Kawsaylla qillqasqakunata saqillay",
+      "show_real_time_captions_during_calls_premium_req": "Waqyana pachapi kikin pachapi qillqasqakunata rikuchiy. Premium nisqa munasqa.",
+      "caption_font_size": "Qillqa sayaynin",
+      "caption_background": "Qillqasqap qhipan",
+      "voice_notes": "Kunkamanta willakuykuna",
+      "auto_transcribe_voice_notes": "Kunkamanta willakuykunata kikinmanta qillqay",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Chaskisqayki uyarina willakuykunaman qillqasqa willakuyta yapay."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Llaveyta kutichimuni.",
+      "restore_encryption": "Pakasqata Kutichiy"
+    },
+    "language_selection": {
+      "select_language": "Simita akllay"
+    },
+    "login": {
+      "email_or_username": "Chaski utaq suti",
+      "password": "Pakasqa simi",
+      "forgot_password": "Qillqaykita qunqarqankichu?",
+      "resend_verification_email": "Chiqaqchay chaski qillqata yapamanta apachiy",
+      "reset_encryption": "Ch'ipachiyta Qallariyman Kutichiy",
+      "create_an_account": "Yaykuna qillqata kichariy",
+      "welcome_to": "Allin hamusqa kachun Chatforia llaqtaman.",
+      "sign_in_or_create_an_account": "Yaykuy utaq musuq yupaychata kichariy",
+      "or": "icha",
+      "don_t_have_an_account_yet": "Manaraqchu yupaychayniyki kan?"
+    },
+    "onboarding": {
+      "welcome": "Allin hamusqa",
+      "set_up_your_profile_so_can_personalize_your_expe": "Perfilniykita allichay, Chatforia imayna kasqaykiman hina ruwananpaq.",
+      "choose_a_username": "Sutiykita akllay",
+      "this_is_how_people_will_recognize_you_in": "Kay hinam runakunaqa Chatforiapi riqsisuqku.",
+      "choose_your_language": "Simiykita akllay",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforiaqa kayta apaykachanqa t'ikraykunapaq chaymanta app-niykiwan ruwayniyki allin kananpaq.",
+      "you_re_ready": "Wakichisqañam kanki",
+      "start_chatting_calling_translating_and_connectin": "Tukuy pachapi runakunawan rimanakuyta, waqyanakuyta, t'ikranakuyta, hinallataq t'inkinakuyta qallariy."
+    },
+    "register": {
+      "confirm_password": "Pakasqa simita takyachiy",
+      "phone_optional": "Karu rimana akllanalla",
+      "log_in": "Yaykuy",
+      "create_your_account": "Ruray qillqaykita",
+      "start_chatting_across_languages_with": "Chatforiawan huk simikunapi rimanakuyta qallariy.",
+      "i_agree_to_receive_sms_verification_messages": "SMS chiqaqchana willakuykunata chaskinaypaq ari nini.",
+      "already_have_an_account": "¿Ñam huk rak'iyki kapusunkichu?"
+    },
+    "add_contact": {
+      "phone": "Karu rimana",
+      "name": "Suti",
+      "alias_optional": "Huk suti (munaspa)",
+      "pin_this_person_as_a_favorite_contact": "Kay runata aswan munasqa riqsisqayki hina churay."
+    },
+    "contact_detail": {
+      "edit_contact": "Tupayta Allichay",
+      "delete_contact": "Tupayta pichay",
+      "message": "Willakuy",
+      "video": "Kuyuq rikch'a",
+      "external_name": "Hawa suti"
+    },
+    "import_phone_contacts": {
+      "select_all": "Llapan akllay",
+      "clear": "Ch'uyanchay",
+      "import_contacts": "Tupaykunata apamuy"
+    },
+    "invite_friends": {
+      "share_invite_link": "Waqyarinapaq t'inkita rakinakuy",
+      "invite_friends": "Masikunata waqyay",
+      "share_a_invite_link_with_friends_using_messages_": "Chatforia waqyay t'inkita masikikunawan rak'inakuy, Willakuykunata, chaski qillqata, utaq celularniykipi ima appllatapas servichikuspa."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Musuq llamk'anata t'inkiy",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Musuq llamk'anaykipi Chatforia nisqata kichay hinaspa yaykuy. Sichus pakasqa rimanakuyniykikunaman yaykunanpaq mañakun chayqa, huk iñisqa llamk'anaykimanta ari niy.",
+      "view_pending_device_requests": "Suyachkaq llamk'ana mañakuykunata qhaway"
+    },
+    "key_setup": {
+      "recovery_passcode": "Kutirichina Pakasqa Yupa",
+      "confirm_recovery_passcode": "Kutichiy Pakasqa Yupayta T'ikray",
+      "restore_chats": "Rimanakuykunata kutichiy",
+      "clear_local_key": "Kikin llaqtap chaninta ch'uyanchay",
+      "reset_encryption": "Ch'ipachiyta Musuqmanta Churay?",
+      "this_will_permanently_replace_your_encryption_ke": "Kayqa wiñaypaqmi pakay kichanaykita rantinqa.",
+      "encryption": "Pakasqa qillqay",
+      "restore_encrypted_chats": "Pakasqa rimanakuykunata kutichiy",
+      "no_recovery_backup_found": "Mana allichanapaq waqaychasqa tarisqachu",
+      "open_on_a_device_that_can_already_read_your_encr": "Chatforia nisqata kichay huk aparichapi, mayqinchus ñam pakasqa rimanakuykikunata ñawinchanman, chaypitaq huk Kutichinapaq Yupayta kamariy.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Manaraqmi tarisqachu waqaychasqa willakuy kutichinapaq. Kay llamk'anaykiwan hukta kamariy, chaynapi iOS, Android, web nisqakunapi rimanakuykunata kutichiyta atinaykipaq.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Kaytaqa llamk'achiy chinkachispa llapan iñisqa llamk'anakunaykita, hinaspa qallariy kichanaykita mana kutichiyta atispalla."
+    },
+    "linked_devices": {
+      "your_devices": "Qampa llamk'anakunayki",
+      "pending_approvals": "Chaskichinaraq",
+      "approve": "Allin nin",
+      "reject": "Qhisachay",
+      "revoke": "Qichuy",
+      "request_approval_for_this_device": "Kay llamk'anapaq saqillayta mañakuy",
+      "finish_device_approval": "Llamk'ana tukuchiy chaninchay"
+    },
+    "forwarding_settings": {
+      "reset": "Musuqmanta qallariy",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Chayamuq waqyakuykunata qillqasqakunatapas chiqanchasqa tiliphunuykiman utaq chaski qillqaykiman apachiy.",
+      "quiet_hours": "Ch'in Pachakuna",
+      "forwarding": "Apachiy",
+      "enable_text_forwarding": "Qillqata apachiyta atichiy",
+      "forward_texts_to_phone": "Willakuykunata kachay celularman",
+      "forward_texts_to_email": "Chaski qillqaman qillqasqakunata apachiy",
+      "enable_call_forwarding": "Wakyay apachiyta atichiy"
+    },
+    "chat_message_row": {
+      "copy": "Kikinchay",
+      "edit": "Allichay",
+      "report": "Willakuy",
+      "message_info": "Willakuymanta"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Manaraq willakuykuna kanchu",
+      "delete_message": "Willakuyta pichay?",
+      "choose_how_you_want_to_delete_this_message": "Akllay imaynatas kay willakuyta pichayta munanki.",
+      "delete_for_everyone": "Llapanpaq pichay",
+      "delete_for_me": "Ñuqapaq pichay",
+      "search_messages": "Willakuykunata mask'ay",
+      "search_in_chat": "Rimanakuypi mask'ay",
+      "sending": "Apachispa…",
+      "failed_to_send": "Mana apachiyta atirqanchu",
+      "edited": "Allichasqa",
+      "audio_call": "Uyarina Wakyay",
+      "video_call": "Rikuy Wakyay",
+      "selected_gif": "Akllasqa GIF",
+      "remove_gif": "GIF-ta hurquy",
+      "attach": "Waqaychay",
+      "rewrite_with_ria": "Riawan yapamanta qillqay",
+      "composer_action": "Ruraqpa ruwaynin"
+    },
+    "edit_message": {
+      "save": "Waqaychay",
+      "emoji": "Rikch'achakuna",
+      "edit_message": "Willakuyta t'ikray"
+    },
+    "message_attachments": {
+      "image_attachment": "Rikch'a yapasqa",
+      "video_attachment": "Videowan kuskachasqa",
+      "play_video": "Videota qhawachiy"
+    },
+    "message_bubble": {
+      "disappearing_message": "Chinkachkaq willakuy"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Manaraqmi pipas kayta ñawinchanchu",
+      "message_info": "Willakuymanta willakuy"
+    },
+    "report_message": {
+      "reason": "Hamut'ay",
+      "include_previous_messages": "Ñawpaq willakuykunata yapay",
+      "additional_details": "Yapasqa willakuykuna",
+      "anything_else_moderators_should_know": "¿Ima wak kaqtataq umalliqkuna yachananku?",
+      "block_this_user_after_reporting": "Willasqayki qhipaman kay llamk'achiqta hark'ay",
+      "submit_report": "Willakuyta apachiy",
+      "report_message": "Willakuyta willay"
+    },
+    "phone_number": {
+      "replace_number": "Yupayta T'ikray",
+      "pick_a_number": "Huk yupayta akllay",
+      "no_number_assigned": "Mana Chatforia yupay churasqachu.",
+      "your_number": "Qampa Chatforia Yupayniyki"
+    },
+    "pick_number": {
+      "area_code": "Suyu Waqyanapaq Yupay",
+      "premium_numbers_are_protected_from_recycling": "Sapaq yupaykunaqa kutichinamanta hark'asqam kanku.",
+      "available_numbers": "Akllanapaq Yupaykuna",
+      "search_by_area_code_to_find_available_numbers": "Kutirina yupaykunata tarinapaq, suyu yupaywan maskhay.",
+      "capability": "Atiy",
+      "country": "Llaqta"
+    },
+    "gif_picker": {
+      "search_tenor": "T'uqyaq mask'ay",
+      "search_gifs": "GIFkunata mask'ay"
+    },
+    "random_chat": {
+      "add_friend": "Masita yapay",
+      "skip": "Qhipanchay",
+      "send": "Apachiy",
+      "end_chat": "Rimanakuyta tukuchiy"
+    },
+    "random_matching": {
+      "finding_someone": "Pipas tariy"
+    },
+    "ria_chat": {
+      "ask_ria": "Riata tapuy...",
+      "you_re_now_chatting_with_ria": "Kunanqa Riawanmi rimachkanki.",
+      "chat_with_ria_anytime_separate_from_random_human": "Riawan mayk'aqpas rimanakuy, mana akllasqa runakunawan tinkunamanta t'aqasqa."
+    },
+    "ria_rewrite": {
+      "original_text": "Qallariy qillqa",
+      "choose_tone": "Rimay ñanta akllay",
+      "rewriting": "Musuqmanta qillqaspa…",
+      "suggestions": "Yuyaychaykuna",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Qillqayta allichanapaq yuyaychaykunata paqarichinapaq huk simi k'allkuta akllay."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Qhasillaqa qallariy waqyaykunata qun. Aswan takikunata, waqyaykunatapas kicharinapaqqa yapasqata rantiy.",
+      "volume": "Tupun",
+      "message_tone": "Willaypa kunkaynin",
+      "ringtone": "Waqyana takiy"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Manaraq kachkan kunka willakuykuna.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Pipas qampaq kunka willakuyta saqiptinqa, kaypi rikhurinqa.",
+      "play_voicemail": "Kunkawan willakuyta uyariy",
+      "delete_voicemail": "Kunkawan willakuyta pichay"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Akllasqa kunka willakuy"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Kunan suyuykipaq utaq qayllaykipi llamk'achinapaq.",
+      "coverage_across_supported_european_destinations": "Yanapasqa Europa llaqtakunapi llapan qatay.",
+      "coverage_across_supported_global_destinations": "Tukuy yanapasqa pachantinpi lloqsinakunapi qatay."
+    },
+    "wireless_home": {
+      "manage_wireless": "Mana Yawrayuqta Kamachiy",
+      "port_my_number": "Yupayniyta Apachiy",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM willay huñukunaqa eSIM-paq allin kaq, mana wichq'asqa llamk'anatan munanku.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Purichkaspa utaq Wi-Fi-manta karupi kachkaspa, t'inkisqallapuni kay.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Akllay huk kutillapaq eSIM willay q'ipi llaqtapi, Europapi, utaq pachantinpi llamk'ananpaq.",
+      "we_don_t_sell_data_packs_under_3_gb": "Manam 3 GB-manta aswan pisi willay q'ipikunataqa ranqhunchikchu.",
+      "loading_usage": "Llamk'achiyta churaykuchkan…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Manaraqmi llamk'achkaq willay q'ipi kanchu. Llamk'achisqaykita qallarinapaq, uraypi huk q'ipita rantiy.",
+      "usage_details_will_appear_once_your_data_pack_is": "Imayna llamk'achisqanmanta willakuykunaqa rikhurinqa datu q'ipiyki llamk'ayta qallariptin.",
+      "manage": "Kamachiy",
+      "coverage": "Qatan",
+      "your_esim": "Qampa eSIMniyki",
+      "current_usage": "Kunan pacha llamk'achiy"
+    }
   }
 }

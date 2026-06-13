@@ -3066,7 +3066,8 @@
     "flip": "واړوه",
     "speaker": "ویاند",
     "end": "پای",
-    "noIncomingCallToAnswer": "د ځواب ورکولو لپاره هیڅ راتلونکی زنګ نشته."
+    "noIncomingCallToAnswer": "د ځواب ورکولو لپاره هیڅ راتلونکی زنګ نشته.",
+    "serviceUnavailable": "د زنګ وهلو خدمت همدا اوس شتون نلري. مهرباني وکړئ وروسته بیا هڅه وکړئ."
   },
   "settings": {
     "startHour": "پیل ساعت (۰–۲۳)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "تېاره",
   "accessibility_caption_bg_transparent": "شفاف",
   "api": {
-    "notAuthorized": "اجازه نه لري"
+    "notAuthorized": "اجازه نه لري",
+    "invalidURL": "د سرور ناسم پته.",
+    "serverError": "د سرور تېروتنه (%d): %@",
+    "failedToDecodeResponse": "د سرور ځواب ولوستل نشو کیدای: %@"
+  },
+  "tap_to_view_contact": "د اړیکې لیدو لپاره کلیک وکړئ",
+  "android": {
+    "plan": {
+      "plan_billing": "پلان او لېږد",
+      "current_plan": "اوسنی پلان",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "د پلس سره اعلانونه لرې کړئ، یا د پریمیم سره د مصنوعي ځيرکتيا وسايل او د خوښې سره سم جوړول فعال کړئ.",
+      "plus": "پلس",
+      "premium": "غوره",
+      "back": "شاته",
+      "my_plan": "زما پلان",
+      "compare_plans": "د پلانونو پرتله کول",
+      "included": "شامل"
+    },
+    "upgrade": {
+      "upgrade": "تازه کول",
+      "restore_purchases": "پیرودل شوي توکي بیرته راوړئ",
+      "unlock_more_with": "د چیټفوریا سره نور ډېر څه خلاص کړئ",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "د اعلانونو لرې کولو، د خپلې تجربې د تنظیمولو، او پرمختللي وسیلو د خلاصولو لپاره پلس یا پریمیم وټاکئ.",
+      "best_experience": "غوره تجربه",
+      "close": "بندول",
+      "plus": "چټفوریا پلس",
+      "remove_ads_and_unlock_more_everyday_features": "اعلانات لرې کړئ او نورې ورځنۍ ځانګړتیاوې خلاصې کړئ.",
+      "premium": "چاټفوریا پریمیم",
+      "the_full_experience": "د چاټفوریا بشپړه تجربه",
+      "premium_annual": "غوره کلنی",
+      "save_compared_to_monthly_premium": "د میاشتنۍ پریمیم په پرتله سپما"
+    },
+    "audio_call": {
+      "mute": "غلي",
+      "speaker": "ویاند",
+      "end_call": "تلیفون پای ته ورسوئ"
+    },
+    "dial_pad": {
+      "dial": "ګرځوونکی",
+      "done": "په اړه",
+      "enter_number": "شماره ولیکئ",
+      "call": "زنګ ووهئ",
+      "delete_digit": "شماره حذف کړئ"
+    },
+    "incoming_call": {
+      "decline": "کمی",
+      "accept": "قبول کړئ",
+      "decline_call": "تلیفون رد کړئ",
+      "accept_call": "زنگ ومنئ"
+    },
+    "video_call": {
+      "camera": "کمره",
+      "flip_camera": "پلټونکې کمره"
+    },
+    "chats": {
+      "search_chats": "د خبرو اترو لټون",
+      "no_chats_yet": "تر اوسه کومه خبره نه ده شوې",
+      "admob_ad": "اډموب اشتهار",
+      "delete_conversation": "خبرې اترې حذف کړئ؟",
+      "this_will_remove_this_conversation_from_your_cha": "دا به دا خبرې اترې ستاسو د چیټ له لیست څخه لرې کړي.",
+      "delete": "مخکې له دې چې د حذف کولو پرېکړه وکړئ، مهرباني وکړ",
+      "cancel": "لغوه کول",
+      "chats": "خبرې اترې",
+      "new_chat": "نوی چیټ",
+      "refresh": "تازه کول",
+      "random_chat": "تصادفي خبرې اترې",
+      "search": "لټون",
+      "delete_conversation_2": "خبرې اترې حذف کړئ"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "د کارونکي نوم، د اړیکې نوم، یا د ټیلیفون شمیره",
+      "new_chat": "نوی خبرې اترې",
+      "start_a_chat": "خبرې پیل کړئ",
+      "search_by_username_contact_name_or_phone_number": "د کارن نوم، د اړیکې نوم، یا د تلیفون شمېرې له مخې ولټوئ.",
+      "results": "پایلې",
+      "open_chat": "خبرې اترې پرانیزئ"
+    },
+    "calls": {
+      "recents": "تازه",
+      "voicemail": "غږیز پیغام",
+      "calls": "اړیکې",
+      "no_calls_yet": "تر اوسه زنګونه نشته",
+      "your_recent_calls_will_show_up_here": "ستاسو وروستۍ اړیکې به دلته ښکاره شي.",
+      "open_dial_pad": "شماره ډایل کړئ",
+      "delete_call": "اړیکه لغوه کړئ",
+      "video_call": "ویډیويي اړیکه"
+    },
+    "contacts": {
+      "contacts": "اړیکې",
+      "add_contact": "اړیکه اضافه کړئ",
+      "import_from_phone": "له تلیفون څخه واردول",
+      "invite_friends": "دوستونو ته بلنه ورکړئ",
+      "favorite": "غوره",
+      "open_contact": "اړیکه ونیسئ"
+    },
+    "main_activity": {
+      "loading": "بارېږي...",
+      "profile": "پېژنیال"
+    },
+    "profile": {
+      "delete_account": "حساب حذف کړئ",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "دا عمل بېرته نه شي کیدای. ایا تاسو ډاډه یاست چې غواړئ خپل اکاونټ حذف کړئ؟",
+      "log_out": "وتل",
+      "change_photo": "عکس بدل کړئ",
+      "remove_photo": "عکس لرې کړئ",
+      "preferred_language": "غوره ژبه",
+      "your_age_range": "ستاسو د عمر محدوده",
+      "theme": "موضوع",
+      "choose_how_looks_across_the_app": "په ټول اپلیکیشن کې د چیټفوریا بڼه وټاکئ.",
+      "uploading": "اپلوډیږي...",
+      "choose_plus_or_premium": "پلس یا پریمیم وټاکئ",
+      "profile_photo": "د پروفایل عکس",
+      "open_upgrade": "اپګریډ خلاص کړئ",
+      "open": "پرانیستل",
+      "account": "حساب",
+      "username": "د کارن نوم",
+      "email": "برېښنالیک",
+      "plan": "پلان",
+      "wireless": "بې سیمه",
+      "mobile": "چټفوریا موبایل",
+      "esim_and_wireless_settings": "ای سیم او بې سیم ترتیبات",
+      "call_text_forwarding": "د زنګ او پیغام لېږدول",
+      "forward_incoming_calls_and_texts": "راتلونکي زنګونه او پیغامونه مخکې کړئ",
+      "phone_number": "د تلیفون شمېره",
+      "manage_your_number": "خپل چټفوریا شمېره اداره کړئ",
+      "settings": "تنظیمات",
+      "auto_translate_messages": "پیغامونه په اتوماتيک ډول وژباړئ",
+      "automatically_translate_messages_into_your_prefe": "پیغامونه په اتوماتيک ډول ستاسو په خوښه ژبه وژباړئ.",
+      "show_original_with_translation": "اصلي متن له ژباړې سره وښایاست",
+      "show_the_original_message_alongside_the_translat": "اصلي پیغام د ژباړې ترڅنګ وښایاست.",
+      "smart_reply_suggestions": "د هوښیار ځواب وړاندیزونه",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "د ريا پر بنسټ د ليکنې د بيا ليکلو مرسته او چټک ځوابونه وښایاست.",
+      "linked_devices": "تړل شوي وسایل",
+      "manage_trusted_devices": "باوري وسیلې اداره کړئ",
+      "pair_new_device": "نوی وسیله جوړه کړئ",
+      "approve_a_new_device": "یو نوی وسیله تصویب کړئ",
+      "appearance": "ظاهر",
+      "accessibility": "لرلېد",
+      "visual_alerts_captions_and_voice_note_accessibil": "د بصري خبرتیاوو، سرلیکونو، او غږیزو یادښتونو لاسرسي",
+      "security": "امنیت",
+      "encryption_key_protected": "د انکرپشن کیلي خوندي شوه",
+      "privacy": "محرمیت",
+      "allow_explicit_content": "ښکاره منځپانګې ته اجازه ورکړئ",
+      "show_read_receipts": "د لوستلو رسیدونه وښایاست",
+      "blur_messages_by_default": "پیغامونه په ډیفالټ توګه ګډوډ کړئ",
+      "blur_when_app_is_unfocused": "کله چې اپلیکیشن په مرکز کې نه وي، ښکاره کړئ",
+      "hold_to_reveal_messages": "د پیغامونو د ښودلو لپاره ونیسئ",
+      "notify_when_messages_are_copied": "کله چې پیغامونه کاپي کیږي خبر راکړئ",
+      "random_chat": "تصادفي خبرې اترې",
+      "use_age_based_matching": "د عمر پر بنسټ جوړه کول وکاروئ",
+      "let_ria_remember_conversations": "ریا دې خبرې په یاد وساتي",
+      "forward_voicemail_to_email": "غږیز پیغام برېښنالیک ته واستوئ",
+      "legal_support": "قانوني او ملاتړ",
+      "free": "وړیا"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "د غږ پر ګټه اخیستنې پرته چټفوریا د کارولو لپاره اسانه کولو اختیارونه.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "په عادي اندازه پیل کیږي. که تاسو غوره ګڼئ چې متن لوی وي، د لاسرسي په ترتیباتو کې یې لوی کړئ.",
+      "interface_font_size": "د انټرفیس د فونټ اندازه",
+      "notifications": "خبرتیاوې",
+      "visual_alerts_for_messages_calls": "د پیغامونو او زنګونو لپاره بصري خبرتیاوې",
+      "show_banners_and_visual_indicators_so_you_do_not": "بېرغونه او بصري نښې وښایاست ترڅو کوم فعالیت له لاسه ورنکړئ.",
+      "vibrate_on_new_messages": "د نویو پیغامونو لپاره وایبریټ",
+      "trigger_device_vibration_with_notifications_when": "کله چې ملاتړ یې وشي، د خبرتیاوو سره د وسیلې د لړزې فعالول",
+      "flash_screen_on_incoming_call": "د راتلونکي زنګ فلش سکرین",
+      "briefly_flash_the_screen_when_a_call_rings": "کله چې زنګ راشي، سکرین په لنډه توګه روښانه کړئ.",
+      "live_captions": "ژوندۍ سرلیکونه",
+      "enable_live_captions": "ژوندۍ سرلیکونه فعال کړئ",
+      "show_real_time_captions_during_calls_premium_req": "د اړیکو پرمهال په ژوندۍ بڼه سرلیکونه وښایاست. پریمیم ته اړتیا ده.",
+      "caption_font_size": "د سرلیک د فونټ اندازه",
+      "caption_background": "سرلیک شالید",
+      "voice_notes": "غږیز یادښتونه",
+      "auto_transcribe_voice_notes": "غږیز نوټونه په اتوماتيک ډول ولیکئ",
+      "attach_a_transcript_to_audio_messages_you_receiv": "د خپلو ترلاسه شویو غږیزو پیغامونو سره یوه رونوشت ضمیمه کړئ."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "ما خپل کیلي بیرته راوړ",
+      "restore_encryption": "انکرپشن بیرته راولي"
+    },
+    "language_selection": {
+      "select_language": "ژبه وټاکئ"
+    },
+    "login": {
+      "email_or_username": "بریښنالیک یا کارن نوم",
+      "password": "پټ نوم",
+      "forgot_password": "پټ نوم مو هېر شوی؟",
+      "resend_verification_email": "د تایید بریښنالیک بیا واستوئ",
+      "reset_encryption": "انکرپشن بیا تنظیم کړئ",
+      "create_an_account": "حساب جوړ کړئ",
+      "welcome_to": "چتفوریا ته ښه راغلاست",
+      "sign_in_or_create_an_account": "ننوځئ یا نوی حساب جوړ کړئ",
+      "or": "یا",
+      "don_t_have_an_account_yet": "تر اوسه حساب نه لرئ؟"
+    },
+    "onboarding": {
+      "welcome": "ښه راغلاست",
+      "set_up_your_profile_so_can_personalize_your_expe": "خپل پروفایل تنظیم کړئ ترڅو چاټفوریا ستاسو تجربه شخصي کړي.",
+      "choose_a_username": "کارن نوم وټاکئ",
+      "this_is_how_people_will_recognize_you_in": "په چاټفوریا کې به خلک تاسو ته په دې ډول پېژني.",
+      "choose_your_language": "خپله ژبه وټاکئ",
+      "will_use_this_for_translations_and_your_app_expe": "چاټفوریا به دا د ژباړو او ستاسو د اپلیکیشن د تجربې لپاره وکاروي.",
+      "you_re_ready": "تاسو چمتو یاست",
+      "start_chatting_calling_translating_and_connectin": "د نړۍ له ګوټ ګوټ څخه له خلکو سره خبرې اترې، زنګونه وهل، ژباړه کول او اړیکه نیول پیل کړئ."
+    },
+    "register": {
+      "confirm_password": "پټ نوم تایید کړئ",
+      "phone_optional": "ټلیفون اختیاري",
+      "log_in": "ننوتل",
+      "create_your_account": "خپل حساب جوړ کړئ",
+      "start_chatting_across_languages_with": "د چاټفوریا سره په بېلابېلو ژبو خبرې پیل کړئ.",
+      "i_agree_to_receive_sms_verification_messages": "زه د ایس ایم ایس تاییدي پیغامونو ترلاسه کولو سره موافق یم.",
+      "already_have_an_account": "آیا تاسو لا دمخه اکاونټ لرئ؟"
+    },
+    "add_contact": {
+      "phone": "تلیفون",
+      "name": "نوم",
+      "alias_optional": "عبارت اختیاري",
+      "pin_this_person_as_a_favorite_contact": "دا کس د خپلې خوښې اړیکې په توګه نښه کړئ."
+    },
+    "contact_detail": {
+      "edit_contact": "د اړیکې سمول",
+      "delete_contact": "اړیکې حذف کړئ",
+      "message": "پیغام",
+      "video": "ویډیو",
+      "external_name": "بهرنی نوم"
+    },
+    "import_phone_contacts": {
+      "select_all": "ټول انتخاب کړئ",
+      "clear": "صاف",
+      "import_contacts": "اړیکې وارد کړئ"
+    },
+    "invite_friends": {
+      "share_invite_link": "د بلنې لینک شریک کړئ",
+      "invite_friends": "دوستونو ته بلنه ورکړئ",
+      "share_a_invite_link_with_friends_using_messages_": "د میسجز، بریښنالیک، یا په خپل تلیفون کې د هرې بلې اپلیکېشن په کارولو سره له خپلو ملګرو سره د چټفوریا د بلنې لینک شریک کړئ."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "یو نوی وسیله جوړه کړئ",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "په خپل نوي وسیله کې چټفوریا خلاص کړئ او ننوځئ. که دا ستاسو کوډ شویو خبرو اترو ته لاسرسي ته اړتیا ولري، له یوې باوري وسیلې څخه یې تایید کړئ.",
+      "view_pending_device_requests": "د وسیلې په انتظار غوښتنې وګورئ"
+    },
+    "key_setup": {
+      "recovery_passcode": "د بیارغونې پاسکوډ",
+      "confirm_recovery_passcode": "د ریکوري پاسکوډ تایید کړئ",
+      "restore_chats": "مکالمې بیرته راوړئ",
+      "clear_local_key": "محلي کیلي پاک کړئ",
+      "reset_encryption": "انکرپشن بیا تنظیم کړئ؟",
+      "this_will_permanently_replace_your_encryption_ke": "دا به ستاسو د انکرپشن کیلي د تل لپاره بدل کړي.",
+      "encryption": "رمز کول",
+      "restore_encrypted_chats": "شېفر شوي چټونه بېرته راوړئ",
+      "no_recovery_backup_found": "د بیارغونې بیک اپ وموندل شو",
+      "open_on_a_device_that_can_already_read_your_encr": "په داسې یو وسیله کې چې ستاسو کوډ شوي چټونه لوللی شي، چټفوریا خلاص کړئ او هلته یو ریکوري پاسکوډ جوړ کړئ.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "تر اوسه د بیا رغونې بیک اپ ندی موندل شوی. له دې وسیلې څخه یو جوړ کړئ ترڅو تاسو وکولی شئ په iOS، انډرایډ او ویب کې خبرې بیا راوګرځوئ.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "دا یوازې هغه وخت وکاروئ چې تاسو خپل ټول باوري وسایل له لاسه ورکړي وي او خپل اصلي کیلي بېرته نشئ جوړولی."
+    },
+    "linked_devices": {
+      "your_devices": "ستاسو وسایل",
+      "pending_approvals": "د تایید په تمه",
+      "approve": "منظور کړئ",
+      "reject": "رد کول",
+      "revoke": "لغوه کول",
+      "request_approval_for_this_device": "د دې وسیلې د تایید غوښتنه وکړئ",
+      "finish_device_approval": "د وسیلې تصویب بشپړول"
+    },
+    "forwarding_settings": {
+      "reset": "بیا تنظیمول",
+      "forward_incoming_calls_and_texts_to_your_verifie": "راتلونکي تلیفون زنګونه او پیغامونه خپل تایید شوي تلیفون یا بریښنالیک ته واستوئ.",
+      "quiet_hours": "د ارامۍ ساعتونه",
+      "forwarding": "لېږدول",
+      "enable_text_forwarding": "د متن لېږد فعال کړئ",
+      "forward_texts_to_phone": "پیغامونه تلیفون ته واستوئ",
+      "forward_texts_to_email": "پیغامونه بریښنالیک ته واستوئ",
+      "enable_call_forwarding": "مکالمه لېږد فعال کړئ"
+    },
+    "chat_message_row": {
+      "copy": "کاپی",
+      "edit": "سمول",
+      "report": "راپور",
+      "message_info": "د پیغام معلومات"
+    },
+    "chat_thread": {
+      "no_messages_yet": "تر اوسه پیغام نشته",
+      "delete_message": "پیغام حذف کړئ؟",
+      "choose_how_you_want_to_delete_this_message": "غوره کړئ چې دا پیغام څنګه غواړئ حذف کړئ.",
+      "delete_for_everyone": "د ټولو لپاره حذف کړئ",
+      "delete_for_me": "زما لپاره حذف کړئ",
+      "search_messages": "پیغامونه ولټوئ",
+      "search_in_chat": "په چټ کې لټون",
+      "sending": "لېږل...",
+      "failed_to_send": "لېږل کېدای نه شول",
+      "edited": "سمه شوه",
+      "audio_call": "غږیز زنګ",
+      "video_call": "ویډیويي اړیکه",
+      "selected_gif": "غوره شوی جي آی ایف",
+      "remove_gif": "GIF لرې کړئ",
+      "attach": "منسلک کړئ",
+      "rewrite_with_ria": "له ریا سره بیا ولیکئ",
+      "composer_action": "د کمپوزر عمل"
+    },
+    "edit_message": {
+      "save": "خوندي کول",
+      "emoji": "ایموجي",
+      "edit_message": "پیغام سمول"
+    },
+    "message_attachments": {
+      "image_attachment": "د انځور ضمیمه",
+      "video_attachment": "ویډیو ضمیمه",
+      "play_video": "ویډیو وغږوئ"
+    },
+    "message_bubble": {
+      "disappearing_message": "وځنکی پیغام"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "تر اوسه یې هیچا نه دي لوستلي",
+      "message_info": "د پیغام معلومات"
+    },
+    "report_message": {
+      "reason": "دلیل",
+      "include_previous_messages": "پخواني پیغامونه شامل کړئ",
+      "additional_details": "اضافي جزئیات",
+      "anything_else_moderators_should_know": "ایا بل څه شته چې مدیران یې باید پوه شي؟",
+      "block_this_user_after_reporting": "د راپور ورکولو وروسته دا کاروونکی بند کړئ",
+      "submit_report": "راپور وسپارئ",
+      "report_message": "د راپور پیغام"
+    },
+    "phone_number": {
+      "replace_number": "شماره بدله کړئ",
+      "pick_a_number": "یو عدد وټاکئ",
+      "no_number_assigned": "چټفوریا شمېره نه ده ورکړل شوې.",
+      "your_number": "ستاسو چټفوریا شمېره"
+    },
+    "pick_number": {
+      "area_code": "د سیمې کوډ",
+      "premium_numbers_are_protected_from_recycling": "ځانګړي شمیرې له بیا کارونې څخه خوندي دي.",
+      "available_numbers": "موجود شمېرې",
+      "search_by_area_code_to_find_available_numbers": "د شته شمېرو موندلو لپاره د سیمې کوډ له مخې لټون وکړئ.",
+      "capability": "وړتیا",
+      "country": "هېواد"
+    },
+    "gif_picker": {
+      "search_tenor": "ټینر ولټوئ",
+      "search_gifs": "جي آی ایفونه ولټوئ"
+    },
+    "random_chat": {
+      "add_friend": "د ملګري اضافه کول",
+      "skip": "تېر کول",
+      "send": "ولېږئ",
+      "end_chat": "خبرې پای ته ورسوئ"
+    },
+    "random_matching": {
+      "finding_someone": "د چا موندل"
+    },
+    "ria_chat": {
+      "ask_ria": "ریا پوښتنه وکړئ...",
+      "you_re_now_chatting_with_ria": "تاسو اوس له ریا سره خبرې کوئ",
+      "chat_with_ria_anytime_separate_from_random_human": "له ریا سره هر وخت خبرې وکړئ، د تصادفي انساني جوړې جوړولو څخه جلا."
+    },
+    "ria_rewrite": {
+      "original_text": "اصلي متن",
+      "choose_tone": "لهجه غوره کړئ",
+      "rewriting": "بیا لیکل...",
+      "suggestions": "وړاندیزونه",
+      "choose_a_tone_to_generate_rewrite_suggestions": "د بیا لیکلو وړاندیزونو د تولید لپاره یو لهجه وټاکئ."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "وړیا کې بنسټیز غږونه شامل دي. د نورو ټونونو او رنګټونونو د خلاصولو لپاره اپګریډ وکړئ.",
+      "volume": "حجم",
+      "message_tone": "د پیغام لحن",
+      "ringtone": "غږ"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "تر اوسه غږیز پیغام نشته.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "کله چې څوک تاسو ته غږیز پیغام پریږدي، هغه به دلته ښکاره شي.",
+      "play_voicemail": "غږیز پیغام غږوئ",
+      "delete_voicemail": "غږیز پیغام حذف کړئ"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "غوره شوې غږیزه پیغام"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "ستاسو د اوسني هېواد یا نږدې سیمې د کارونې لپاره پوښښ.",
+      "coverage_across_supported_european_destinations": "په ټولو ملاتړ شویو اروپايي ځایونو کې پوښښ",
+      "coverage_across_supported_global_destinations": "په ټولو ملاتړ شویو نړیوالو ځایونو کې پوښښ."
+    },
+    "wireless_home": {
+      "manage_wireless": "بې سیمه اداره کړئ",
+      "port_my_number": "زما شمېره پورټ کړئ",
+      "esim_data_packs_require_an_esim_compatible_and_u": "د ای سیم ډیټا پیکونو لپاره یو ای سیم سره مطابقت لرونکي او غیر قلف شوي وسیلې ته اړتیا ده.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "کله چې سفر کوئ یا له وای فای څخه لرې یاست، وصل پاتې شئ.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "د سیم کارت د یو ځل لپاره ډیټا پیک د سیم کارت د سیم، اروپا، یا نړیوال پوښښ لپاره غوره کړئ.",
+      "we_don_t_sell_data_packs_under_3_gb": "موږ له ۳ جي بي څخه کم ډیټا پيکونه نه پلورو.",
+      "loading_usage": "د کارونې بارول...",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "تر اوسه فعال ډیټا پیک نشته. د کارونې تعقیب پیل کولو لپاره لاندې یو پیک وپیرئ.",
+      "usage_details_will_appear_once_your_data_pack_is": "د کارونې جزئیات به هغه وخت ښکاره شي چې ستاسو ډیټا پیک فعال شي.",
+      "manage": "مدیریت کول",
+      "coverage": "پوښښ",
+      "your_esim": "ستاسو ای سیم",
+      "current_usage": "اوسنی مصرف"
+    }
   }
 }

@@ -3066,7 +3066,8 @@
     "flip": "קער איבער",
     "speaker": "רעדנער",
     "end": "סוף",
-    "noIncomingCallToAnswer": "קיין אָנקומענדיקער רוף צו ענטפֿערן."
+    "noIncomingCallToAnswer": "קיין אָנקומענדיקער רוף צו ענטפֿערן.",
+    "serviceUnavailable": "די רוף־דינסט איז איצט נישט בנימצא. ביטע פּרוּווט ווידער שפּעטער."
   },
   "settings": {
     "startHour": "אָנהייב־שעה (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "טױפֿיק",
   "accessibility_caption_bg_transparent": "דורכזיכטיק",
   "api": {
-    "notAuthorized": "נישט אויטאָריזירט"
+    "notAuthorized": "נישט אויטאָריזירט",
+    "invalidURL": "אומגילטיקער סערווער־אַדרעס.",
+    "serverError": "סערווער־פֿעלער (%d): %@",
+    "failedToDecodeResponse": "מען האָט נישט געקענט לייענען דעם סערווער־ענטפֿער: %@"
+  },
+  "tap_to_view_contact": "טאַפּן צו זען דעם קאָנטאַקט",
+  "android": {
+    "plan": {
+      "plan_billing": "פּלאַן און רעכענונג",
+      "current_plan": "איצטיקער פּלאַן",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "גייט אַד־פֿרײַ מיט פּלוס, אָדער אַנטשליסט AI־געצייג און קאַסטאָמיזאַציע מיט פּרעמיום.",
+      "plus": "פּלוס",
+      "premium": "פּרעמיום",
+      "back": "צוריק",
+      "my_plan": "מײַן פּלאַן",
+      "compare_plans": "פֿאַרגלײַכן פּלענער",
+      "included": "אַרײַנגערעכנט"
+    },
+    "upgrade": {
+      "upgrade": "אויפֿגרייד",
+      "restore_purchases": "צוריקשטעלן קניות",
+      "unlock_more_with": "אַנטשליסט מער מיט טשאַטפֿאָריאַ",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "קלײַבט אויס פּלוס אָדער פּרעמיום צו באַזײַטיקן רעקלאַמעס, צופּאַסן אײַער דערפֿאַרונג, און אַנטשליסן פֿאָרגעשריטענע געצײַג.",
+      "best_experience": "די בעסטע דערפֿאַרונג",
+      "close": "פֿאַרמאַכן",
+      "plus": "טשאַטפֿאָריאַ פּלוס",
+      "remove_ads_and_unlock_more_everyday_features": "נעמט אַוועק די רעקלאַמעס און אַנטשליסט מער טעגלעכע פֿונקציעס.",
+      "premium": "טשאַטפֿאָריאַ פּרעמיום",
+      "the_full_experience": "די גאַנצע טשאַטפֿאָריאַ־דערפֿאַרונג.",
+      "premium_annual": "פּרעמיום־יאָרלעך",
+      "save_compared_to_monthly_premium": "שפּאָרן אין פֿאַרגלײַך מיט חודשלעכן פּרעמיום."
+    },
+    "audio_call": {
+      "mute": "שטיל",
+      "speaker": "רעדנער",
+      "end_call": "סוף רוף"
+    },
+    "dial_pad": {
+      "dial": "ציפֿערבלאַט",
+      "done": "פֿאַרטיק",
+      "enter_number": "געבט אַרײַן נומער",
+      "call": "רוף",
+      "delete_digit": "מעקן ציפֿער"
+    },
+    "incoming_call": {
+      "decline": "נידעריקער ווערן",
+      "accept": "אָננעמען",
+      "decline_call": "אָפּרופן אָפּזאָגן",
+      "accept_call": "אָננעמען רוף"
+    },
+    "video_call": {
+      "camera": "קאַמערע",
+      "flip_camera": "פֿליפּ־קאַמערע"
+    },
+    "chats": {
+      "search_chats": "זוכן שמועסן",
+      "no_chats_yet": "נאָך קיין שמועסן",
+      "admob_ad": "אַדמאָב אַד",
+      "delete_conversation": "מעקן שמועס?",
+      "this_will_remove_this_conversation_from_your_cha": "דאָס וועט אויסמעקן דעם שמועס פֿון דײַן שמועס־ליסטע.",
+      "delete": "מעקן",
+      "cancel": "אָפּזאָגן",
+      "chats": "שמועסן",
+      "new_chat": "נײַער שמועס",
+      "refresh": "דערפרישן",
+      "random_chat": "צופֿעליקער שמועס",
+      "search": "זוכן",
+      "delete_conversation_2": "מעק אויס שמועס"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "באַניצער־נאָמען, קאָנטאַקט־נאָמען, אָדער טעלעפֿאָן־נומער",
+      "new_chat": "נײַער שמועס",
+      "start_a_chat": "אָנהייבן אַ שמועס",
+      "search_by_username_contact_name_or_phone_number": "זוכן לויט באַניצער־נאָמען, קאָנטאַקט־נאָמען, אָדער טעלעפֿאָן־נומער.",
+      "results": "רעזולטאַטן",
+      "open_chat": "עפֿענען שמועס"
+    },
+    "calls": {
+      "recents": "לעצטנס",
+      "voicemail": "שטימע־אָנזאָג",
+      "calls": "רופֿן",
+      "no_calls_yet": "נאָך קיין רופֿן",
+      "your_recent_calls_will_show_up_here": "אייערע לעצטע רופֿן וועלן דאָ דערשייַנען.",
+      "open_dial_pad": "עפֿנט די נומערן־פּאַד",
+      "delete_call": "אויסמעקן רוף",
+      "video_call": "ווידעאָ־רוף"
+    },
+    "contacts": {
+      "contacts": "קאָנטאַקטן",
+      "add_contact": "צוגעבן קאָנטאַקט",
+      "import_from_phone": "אימפּאָרטירן פֿון טעלעפֿאָן",
+      "invite_friends": "לאַד פֿרײַנד",
+      "favorite": "באַליבטסטער",
+      "open_contact": "עפֿנט קאָנטאַקט"
+    },
+    "main_activity": {
+      "loading": "לאָדנדיק...",
+      "profile": "פּראָפֿיל"
+    },
+    "profile": {
+      "delete_account": "מעקן חשבון",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "די אַקציע קען נישט אומגעקערט ווערן. זענט איר זיכער אַז איר ווילט אויסמעקן אייער חשבון?",
+      "log_out": "אויסלאָגירן",
+      "change_photo": "טוישן פאָטאָ",
+      "remove_photo": "אַראָפּנעמען פֿאָטאָ",
+      "preferred_language": "פֿאָרגעצויגענע שפּראַך",
+      "your_age_range": "אייער עלטער־שפּאַן",
+      "theme": "טעמע",
+      "choose_how_looks_across_the_app": "קלײַבט אויס ווי Chatforia זאָל אויסזען איבער דער אַפּ.",
+      "uploading": "אַרויפֿלאָדן…",
+      "choose_plus_or_premium": "קלײַבט אויס פּלוס אָדער פּרעמיום",
+      "profile_photo": "פּראָפֿיל־פֿאָטאָ",
+      "open_upgrade": "עפֿנט אויפֿגרייד",
+      "open": "עפֿנט",
+      "account": "חשבון",
+      "username": "באַניצער־נאָמען",
+      "email": "אימעיל",
+      "plan": "פּלאַן",
+      "wireless": "אָן־דראָט",
+      "mobile": "טשאַטפֿאָריאַ מאָביל",
+      "esim_and_wireless_settings": "eSIM און דראָטלאָזע אײַנשטעלונגען",
+      "call_text_forwarding": "רוף־ און טעקסט־פֿאָרווערטיקונג",
+      "forward_incoming_calls_and_texts": "פֿאָרווערטס שיקן אָנקומענדיקע רופֿן און טעקסטן",
+      "phone_number": "טעלעפֿאָן־נומער",
+      "manage_your_number": "פֿאַרוואַלטן אײַער טשאַטפֿאָריאַ נומער",
+      "settings": "איינשטעלונגען",
+      "auto_translate_messages": "אױטאָמאַטיש איבערזעצן אָנזאָגן",
+      "automatically_translate_messages_into_your_prefe": "אויטאָמאַטיש איבערזעצן אָנזאָגן אין אייער באַליבטער שפּראַך.",
+      "show_original_with_translation": "ווײַזן אָריגינאַל מיט איבערזעצונג",
+      "show_the_original_message_alongside_the_translat": "ווײַז דעם אָריגינעלן אָנזאָג צוזאַמען מיט דער איבערזעצונג.",
+      "smart_reply_suggestions": "פֿאָרשלאָגן פֿאַר קלוגע ענטפֿערס",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "ווײַז ריאַ-געשטיצטע איבערשרײַב-הילף און שנעלע ענטפֿערס.",
+      "linked_devices": "פֿאַרבונדענע מכשירים",
+      "manage_trusted_devices": "פֿאַרוואַלטן פֿאַרלאָזלעכע מכשירים",
+      "pair_new_device": "פּאָרן נײַן מיטל",
+      "approve_a_new_device": "באַשטעטיקן אַ נײַעם מכשיר",
+      "appearance": "אויסזען",
+      "accessibility": "צוטריטלעכקייט",
+      "visual_alerts_captions_and_voice_note_accessibil": "וויזועלע אַלערטן, קאַפּשאַנז און אַקסעסיביליטעט פֿון קול־נאָטן",
+      "security": "זיכערהייט",
+      "encryption_key_protected": "פֿאַרשליסלטער שליסל באַשיצט",
+      "privacy": "פּריוואַטקייט",
+      "allow_explicit_content": "דערלויבן עקספּליציטן אינהאַלט",
+      "show_read_receipts": "ווײַזן לייען־באַשטעטיקונגען",
+      "blur_messages_by_default": "פֿאַרווישן אָנזאָגן פֿון זיך אַליין",
+      "blur_when_app_is_unfocused": "פֿאַרווישן ווען די אַפּליקאַציע איז נישט אין פאָקוס",
+      "hold_to_reveal_messages": "האַלט צו ווײַזן אָנזאָגן",
+      "notify_when_messages_are_copied": "מעלדן ווען מעסעדזשעס ווערן קאָפּירט",
+      "random_chat": "צופֿעליקער שמועס",
+      "use_age_based_matching": "ניצט עלטער־באזירטע פּאַרונג",
+      "let_ria_remember_conversations": "לא ריאַ זאָל געדענקען שמועסן",
+      "forward_voicemail_to_email": "פֿאָרווערטס שיקן קול־פּאָסט צו אימעיל",
+      "legal_support": "רעכטלעך און שטיצע",
+      "free": "פֿרײַ"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "אָפּציעס צו מאַכן Chatforia גרינגער צו נוצן אָן זיך פֿאַרלאָזן אויף קלאַנג.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "עס הייבט זיך אָן אין נאָרמאַלער גרייס. פֿאַרגרעסערט עס אויב איר ווילט גרעסערן טעקסט אין די אַקסעסיביליטעט־איינשטעלונגען.",
+      "interface_font_size": "אינטערפֿייס שריפֿט־גרייס",
+      "notifications": "מעלדונגען",
+      "visual_alerts_for_messages_calls": "וויזועלע אַלערטן פֿאַר מעסעדזשעס און רופֿן",
+      "show_banners_and_visual_indicators_so_you_do_not": "ווײַז באַנערס און וויזועל אינדיקאַטאָרן, אַזוי אַז איר זאָלט נישט פאַרפּאַסן קיין אַקטיוויטעט.",
+      "vibrate_on_new_messages": "וואַברירן אויף נײַע אָנזאָגן",
+      "trigger_device_vibration_with_notifications_when": "טריגערן די וויבראַציע פֿון דער מיטל מיט אָנזאָגן ווען עס ווערט געשטיצט.",
+      "flash_screen_on_incoming_call": "פֿלעש־עקראַן בײַ אַן אַרײַנקומענדיקן רוף",
+      "briefly_flash_the_screen_when_a_call_rings": "בײַם קלינגען פֿון אַ רוף, לאָזט קורץ אויפֿבליצן דעם עקראַן.",
+      "live_captions": "לעבעדיקע אונטערשריפטן",
+      "enable_live_captions": "אַקטיווירן לעבעדיקע אונטערטיטלען",
+      "show_real_time_captions_during_calls_premium_req": "ווײַזן רעאַל־צײַט אונטערשריפֿטן בעת רופֿן. פּרעמיום פֿאַרלאַנגט.",
+      "caption_font_size": "אונטערשריפֿט שריפֿט־גרייס",
+      "caption_background": "אונטערשריפֿט הינטערגרונט",
+      "voice_notes": "שטימע־אויפֿצייכענונגען",
+      "auto_transcribe_voice_notes": "אויטאָמאַטיש טראַנסקריבירן קול־נאָטיצן",
+      "attach_a_transcript_to_audio_messages_you_receiv": "לייג אַ טראַנסקריפּט צו די אוידיאָ־מעסעדזשעס וואָס דו באַקומסט."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "איך האָב מײַן שליסל צוריקגעשטעלט.",
+      "restore_encryption": "צוריקשטעלן פֿאַרשליסלונג"
+    },
+    "language_selection": {
+      "select_language": "אויסקלײַבן שפּראַך"
+    },
+    "login": {
+      "email_or_username": "אימעיל אָדער באַניצערנאָמען",
+      "password": "פּאַראָל",
+      "forgot_password": "פֿאַרגעסן פּאַראָל?",
+      "resend_verification_email": "איבערשיקן די אימעיל פֿאַר באַשטעטיקונג",
+      "reset_encryption": "צוריקשטעלן פֿאַרשליסלונג",
+      "create_an_account": "שאַפֿט אַ חשבון",
+      "welcome_to": "ברוכים הבאים צו טשאַטפֿאָריאַ",
+      "sign_in_or_create_an_account": "אַרײַנלאָגירן אָדער שאַפֿן אַ קאָנטע",
+      "or": "אָדער",
+      "don_t_have_an_account_yet": "האָסט נאָך נישט קיין חשבון?"
+    },
+    "onboarding": {
+      "welcome": "ברוכים הבאים",
+      "set_up_your_profile_so_can_personalize_your_expe": "שטעלט אײַן אײַער פּראָפֿיל, כּדי טשאַטפֿאָריאַ זאָל קענען פּערסאָנאַליזירן אײַער דערפֿאַרונג.",
+      "choose_a_username": "קלײַבט אויס אַ באַניצער־נאָמען",
+      "this_is_how_people_will_recognize_you_in": "אַזוי וועלן מענטשן דערקענען אײַך אין טשאַטפֿאָריאַ.",
+      "choose_your_language": "קלײַבט אויס אײַער שפּראַך",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia וועט דאָס נוצן פֿאַר איבערזעצונגען און פֿאַר דיין אַפּ־דערפֿאַרונג.",
+      "you_re_ready": "דו ביסט גרייט",
+      "start_chatting_calling_translating_and_connectin": "הייב אָן צו שמועסן, צו רופן, צו איבערזעצן און זיך פֿאַרבינדן מיט מענטשן אַרום דער וועלט."
+    },
+    "register": {
+      "confirm_password": "באַשטעטיקן פּאַראָל",
+      "phone_optional": "טעלעפֿאָן אָפּציאָנעל",
+      "log_in": "אַרײַנלאָגירן",
+      "create_your_account": "שאַפֿט אײַער קאָנטע",
+      "start_chatting_across_languages_with": "הייבט אָן שמועסן איבער שפּראַכן מיט טשאַטפֿאָריאַ.",
+      "i_agree_to_receive_sms_verification_messages": "איך בין מסכים צו באַקומען SMS באַשטעטיקונגס־מעסעדזשעס.",
+      "already_have_an_account": "האָסט שוין אַ חשבון?"
+    },
+    "add_contact": {
+      "phone": "טעלעפֿאָן",
+      "name": "נאָמען",
+      "alias_optional": "אַליאַס אָפּציאָנעל",
+      "pin_this_person_as_a_favorite_contact": "פּין דעם מענטש ווי אַ באַליבטן קאָנטאַקט."
+    },
+    "contact_detail": {
+      "edit_contact": "רעדאַגירן קאָנטאַקט",
+      "delete_contact": "מעקן קאָנטאַקט",
+      "message": "מעסעדזש",
+      "video": "ווידעאָ",
+      "external_name": "אויסערלעכער נאָמען"
+    },
+    "import_phone_contacts": {
+      "select_all": "אַלע אויסקלײַבן",
+      "clear": "קלאָר",
+      "import_contacts": "אימפּאָרטירן קאָנטאַקטן"
+    },
+    "invite_friends": {
+      "share_invite_link": "טיילן דעם איינלאַדונג־לינק",
+      "invite_friends": "לאַד פֿרײַנד",
+      "share_a_invite_link_with_friends_using_messages_": "טייל אַ Chatforia איינלאַדונג־לינק מיט חברים דורך Messages, אימעיל, אָדער קיין אַפּ אויף דיין טעלעפֿאָן."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "פּאָרן אַ נײַעם מיטל",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "עפֿנט Chatforia אויף אייער נײַעם מיטל און לאָגט זיך אַרײַן. אויב עס דאַרף צוטריט צו אייערע פֿאַרשליסלטע שמועסן, באַשטעטיקט עס פֿון אַ פאַרלאָזלעכן מיטל.",
+      "view_pending_device_requests": "זען אָפּהענגיקע מיטל־בקשות"
+    },
+    "key_setup": {
+      "recovery_passcode": "הילף־קאָד",
+      "confirm_recovery_passcode": "באַשטעטיקן דעם צוריקקער־פּאַסקאָד",
+      "restore_chats": "צוריקשטעלן שמועסן",
+      "clear_local_key": "קלערן אָרטיקן שליסל",
+      "reset_encryption": "איבערזעצן פֿאַרשליסלונג?",
+      "this_will_permanently_replace_your_encryption_ke": "דאָס וועט פֿאַר שטענדיק פאַרבײַטן אײַער ענקריפּציע־שליסל.",
+      "encryption": "פֿאַרשליסלונג",
+      "restore_encrypted_chats": "צוריקשטעלן פֿאַרשליסלטע שמועסן",
+      "no_recovery_backup_found": "קיין ריקאַווערי־באַקאַפּ געפֿונען",
+      "open_on_a_device_that_can_already_read_your_encr": "עפֿנט טשאַטפֿאָריאַ אויף אַ מיטל וואָס קען שוין לייענען אײַערע פֿאַרשליסלטע שמועסן און שאַפֿט דאָרטן אַ צוריקשטעלונג־פּאַראָל.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "קיין ריקאַווערי־באַקאַפּ איז נאָך נישט געפֿונען. שאַפֿט איין פֿון דעם מיטל, אַזוי אַז איר קענט צוריקשטעלן שמועסן אויף iOS, Android און וועב.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "ניצט דאָס נאָר אויב איר האָט פאַרלוירן אַלע פאַרלאָזלעכע דעוויסעס און קענט נישט צוריקשטעלן אייער אָריגינעלער שליסל."
+    },
+    "linked_devices": {
+      "your_devices": "אייערע מיטלען",
+      "pending_approvals": "וואַרטנדיקע באַשטעטיקונגען",
+      "approve": "באַשטעטיקן",
+      "reject": "אָפּװײַזן",
+      "revoke": "אָפּרופֿן",
+      "request_approval_for_this_device": "בעטן באַשטעטיקונג פֿאַר דעם מכשיר",
+      "finish_device_approval": "פֿאַרענדיקונג פֿון מכשיר־באַשטעטיקונג"
+    },
+    "forwarding_settings": {
+      "reset": "צוריקשטעלן",
+      "forward_incoming_calls_and_texts_to_your_verifie": "פֿאָרווערטס רופֿן און טעקסטן צו אײַער באַשטעטיקטן טעלעפֿאָן אָדער אימעיל.",
+      "quiet_hours": "שטילע שעהען",
+      "forwarding": "פֿאָרווערטיקן",
+      "enable_text_forwarding": "אַקטיווירן טעקסט־פֿאָרווערטיקונג",
+      "forward_texts_to_phone": "שיק טעקסטן צום טעלעפֿאָן",
+      "forward_texts_to_email": "שיק טעקסטן צו אימעיל",
+      "enable_call_forwarding": "אַקטיווירן רוף־פֿאָרווערטיקונג"
+    },
+    "chat_message_row": {
+      "copy": "קאָפּירן",
+      "edit": "רעדאַגירן",
+      "report": "באַריכט",
+      "message_info": "מעסעדזש אינפֿאָרמאַציע"
+    },
+    "chat_thread": {
+      "no_messages_yet": "נאָך קיין מעסעדזשעס",
+      "delete_message": "מעסעדזש אויסמעקן?",
+      "choose_how_you_want_to_delete_this_message": "קלײַבט אויס ווי אַזוי איר ווילט אויסמעקן דעם אָנזאָג.",
+      "delete_for_everyone": "מעקן פֿאַר אַלעמען",
+      "delete_for_me": "מעקט פֿאַר מיר",
+      "search_messages": "זוכן אָנזאָגן",
+      "search_in_chat": "זוך אין שמועס",
+      "sending": "שיקט…",
+      "failed_to_send": "געפֿאַלן צו שיקן",
+      "edited": "רעדאַגירט",
+      "audio_call": "קלאַנג־רוף",
+      "video_call": "ווידעאָ־רוף",
+      "selected_gif": "אויסגעקליבענער גיף",
+      "remove_gif": "אַראָפּנעמען גיף",
+      "attach": "צוטשעפּן",
+      "rewrite_with_ria": "שרײַב איבער מיט ריאַ",
+      "composer_action": "קאָמפּאָזיטאָר אַקציע"
+    },
+    "edit_message": {
+      "save": "אויפֿהיטן",
+      "emoji": "עמאָדזשי",
+      "edit_message": "עדיטירן אָנזאָג"
+    },
+    "message_attachments": {
+      "image_attachment": "בילד־צוגאָב",
+      "video_attachment": "ווידעאָ־צוגאָב",
+      "play_video": "שפּיל ווידעא"
+    },
+    "message_bubble": {
+      "disappearing_message": "פֿאַרשווינדנדיקער אָנזאָג"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "קיינער האָט דאָס נאָך נישט געלייענט",
+      "message_info": "מעסעדזש אינפֿאָרמאַציע"
+    },
+    "report_message": {
+      "reason": "סיבה",
+      "include_previous_messages": "אַרײַננעמען פֿריִערדיקע אָנזאָגן",
+      "additional_details": "ווײַטערדיקע פּרטים",
+      "anything_else_moderators_should_know": "איז דאָ עפּעס אַנדערש וואָס די מאָדעראַטאָרן זאָלן וויסן?",
+      "block_this_user_after_reporting": "בלאָקירן דעם באַניצער נאָך מעלדן",
+      "submit_report": "אײַנגעבן באַריכט",
+      "report_message": "מעלדן אָנזאָג"
+    },
+    "phone_number": {
+      "replace_number": "פֿאַרבײַטן נומער",
+      "pick_a_number": "קלײַבט אויס אַ נומער",
+      "no_number_assigned": "קיין טשאַטפֿאָריאַ נומער איז נישט צוגעשטעלט.",
+      "your_number": "אייער טשאַטפֿאָריאַ נומער"
+    },
+    "pick_number": {
+      "area_code": "געגנט־קאָד",
+      "premium_numbers_are_protected_from_recycling": "פּרעמיום־נומערן זענען באַשיצט פֿון ווידער־נוצן.",
+      "available_numbers": "פֿאַראַנענע נומערן",
+      "search_by_area_code_to_find_available_numbers": "זוך לויט געגנט־קאָד צו געפֿינען בנימצא נומערן.",
+      "capability": "פֿעיִקייט",
+      "country": "לאַנד"
+    },
+    "gif_picker": {
+      "search_tenor": "זוך טענאָר",
+      "search_gifs": "זוך גיפס"
+    },
+    "random_chat": {
+      "add_friend": "לייג צוגאָבֿן פֿרײַנד",
+      "skip": "שפּרינגען",
+      "send": "שיקן",
+      "end_chat": "סוף שמועס"
+    },
+    "random_matching": {
+      "finding_someone": "געפֿינען עמעצן"
+    },
+    "ria_chat": {
+      "ask_ria": "פֿרעג ריאַ...",
+      "you_re_now_chatting_with_ria": "דו שמועסט איצט מיט ריאַ",
+      "chat_with_ria_anytime_separate_from_random_human": "שמועס מיט ריאַ ווען דו ווילסט, באַזונדער פֿון צופאַלדיקע פּאָרונג מיט מענטשן."
+    },
+    "ria_rewrite": {
+      "original_text": "אָריגינעלער טעקסט",
+      "choose_tone": "קלײַבט אויס אַ טאָן",
+      "rewriting": "איבערשרײַבן…",
+      "suggestions": "פֿאָרשלאָגן",
+      "choose_a_tone_to_generate_rewrite_suggestions": "קלײַבט אויס אַ טאָן צו גענערירן פֿאָרשלאָגן פֿאַר איבערשרײַבן."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "דער פֿרײַער פּלאַן אַרײַננעמט גרונט־קלאַנגען. דערהייבט צו אַנטשליסן נאָך מער טאָנען און רינגטאָנען.",
+      "volume": "פֿאַרנעם",
+      "message_tone": "מעסעדזש־טאָן",
+      "ringtone": "קלינגטאָן"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "נאָך נישטאָ קיין קול־מעסעדזשעס.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "ווען עמעצער לאָזט אײַך אַ קולמעסעדזש, וועט עס דאָ דערשײַנען.",
+      "play_voicemail": "שפּילן וואָיסמעיל",
+      "delete_voicemail": "מעקן וואָיסמעיל"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "אויסגעקליבענע וואָיסמעיל"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "דעקונג פֿאַר אײַער איצטיקן לאַנד אָדער פֿאַר נאָענט־לאָקאַלע באַניץ.",
+      "coverage_across_supported_european_destinations": "דעקונג אין אַלע געשטיצטע אייראָפּעיִשע דעסטינאַציעס.",
+      "coverage_across_supported_global_destinations": "דעקונג אין אַלע געשטיצטע גלאבאַלע דעסטינאציעס."
+    },
+    "wireless_home": {
+      "manage_wireless": "פֿאַרוואַלטן דראָטלאָז",
+      "port_my_number": "פּאָרט מײַן נומער",
+      "esim_data_packs_require_an_esim_compatible_and_u": "עס־ים דאַטן־פּעקלעך פֿאָדערן אַן עס־ים־קאָמפּאַטיבלען און אויפֿגעשלאָסענעם אַפּאַראַט.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "בלײַבט פֿאַרבונדן ווען איר רייזט אָדער זענט ווײַט פֿון ווייפֿיי.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "קלײַבט אויס אַן איינמאָליקן eSIM דאַטן־פּעקל פֿאַר לאָקאַלע, אייראָפּעישע, אָדער גלאָבאַלע דעקונג.",
+      "we_don_t_sell_data_packs_under_3_gb": "מיר פאַרקויפן נישט דאַטן־פּאַקס אונטער 3 גיגאבייט.",
+      "loading_usage": "לאָדנדיק באַניץ…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "נאָך איז נישט קיין אַקטיווע דאַטן־פּאַק. קויפֿט אונטן אַ פּאַק צו אָנהייבן צו נאָכגיין די באַניץ.",
+      "usage_details_will_appear_once_your_data_pack_is": "די באַניץ־דעטאַילן וועלן זיך ווײַזן אַמאָל אײַער דאַטן־פּאַק איז אַקטיוו.",
+      "manage": "פֿאַרוואַלטן",
+      "coverage": "אָפּדעקונג",
+      "your_esim": "אייער ע-סים",
+      "current_usage": "איצטיקע באַניצונג"
+    }
   }
 }

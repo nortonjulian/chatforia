@@ -3066,7 +3066,8 @@
     "flip": "Αναστροφή",
     "speaker": "Ομιλητής",
     "end": "Τέλος",
-    "noIncomingCallToAnswer": "Δεν υπάρχει εισερχόμενη κλήση για απάντηση."
+    "noIncomingCallToAnswer": "Δεν υπάρχει εισερχόμενη κλήση για απάντηση.",
+    "serviceUnavailable": "Η τηλεφωνική εξυπηρέτηση δεν είναι διαθέσιμη αυτή τη στιγμή. Παρακαλώ δοκιμάστε ξανά αργότερα."
   },
   "settings": {
     "startHour": "Ώρα έναρξης (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Σκοτεινό",
   "accessibility_caption_bg_transparent": "Διαφανές",
   "api": {
-    "notAuthorized": "Δεν επιτρέπεται"
+    "notAuthorized": "Δεν επιτρέπεται",
+    "invalidURL": "Η διεύθυνση του διακομιστή είναι μη έγκυρη.",
+    "serverError": "Σφάλμα διακομιστή (%d): %@",
+    "failedToDecodeResponse": "Δεν ήταν δυνατή η ανάγνωση της απόκρισης του διακομιστή: %@"
+  },
+  "tap_to_view_contact": "Πατήστε για να δείτε την επαφή",
+  "android": {
+    "plan": {
+      "plan_billing": "Πρόγραμμα & Χρέωση",
+      "current_plan": "Τρέχον σχέδιο",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Απολαύστε μια εμπειρία χωρίς διαφημίσεις με το Plus ή αποκτήστε πρόσβαση σε εργαλεία τεχνητής νοημοσύνης και δυνατότητες προσαρμογής με το Premium.",
+      "plus": "Επιπλέον",
+      "premium": "Premium",
+      "back": "Πίσω",
+      "my_plan": "Το σχέδιό μου",
+      "compare_plans": "Σύγκριση πακέτων",
+      "included": "Περιλαμβάνονται"
+    },
+    "upgrade": {
+      "upgrade": "Αναβάθμιση",
+      "restore_purchases": "Επαναφορά αγορών",
+      "unlock_more_with": "Αποκτήστε περισσότερες δυνατότητες με το Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Επιλέξτε το πακέτο Plus ή Premium για να καταργήσετε τις διαφημίσεις, να προσαρμόσετε την εμπειρία σας και να αποκτήσετε πρόσβαση σε προηγμένα εργαλεία.",
+      "best_experience": "Η καλύτερη εμπειρία",
+      "close": "Κλείσιμο",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Αφαιρέστε τις διαφημίσεις και αποκτήστε πρόσβαση σε περισσότερες λειτουργίες καθημερινής χρήσης.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Η πλήρης εμπειρία του Chatforia.",
+      "premium_annual": "Ετήσια συνδρομή Premium",
+      "save_compared_to_monthly_premium": "Εξοικονόμηση σε σύγκριση με το μηνιαίο Premium."
+    },
+    "audio_call": {
+      "mute": "Σίγαση",
+      "speaker": "Ομιλητής",
+      "end_call": "Τερματισμός κλήσης"
+    },
+    "dial_pad": {
+      "dial": "Κλήση",
+      "done": "Έγινε",
+      "enter_number": "Εισάγετε αριθμό",
+      "call": "Κλήση",
+      "delete_digit": "Διαγραφή ψηφίου"
+    },
+    "incoming_call": {
+      "decline": "Μείωση",
+      "accept": "Αποδοχή",
+      "decline_call": "Απόρριψη κλήσης",
+      "accept_call": "Αποδοχή κλήσης"
+    },
+    "video_call": {
+      "camera": "Κάμερα",
+      "flip_camera": "Κάμερα Flip"
+    },
+    "chats": {
+      "search_chats": "Αναζήτηση συνομιλιών",
+      "no_chats_yet": "Δεν υπάρχουν ακόμη συζητήσεις",
+      "admob_ad": "Διαφήμιση AdMob",
+      "delete_conversation": "Να διαγραφεί η συνομιλία;",
+      "this_will_remove_this_conversation_from_your_cha": "Αυτό θα αφαιρέσει αυτή τη συνομιλία από τη λίστα συνομιλιών σου.",
+      "delete": "Διαγραφή",
+      "cancel": "Ακύρωση",
+      "chats": "Συνομιλίες",
+      "new_chat": "Νέα συνομιλία",
+      "refresh": "Ανανέωση",
+      "random_chat": "Τυχαία συνομιλία",
+      "search": "Αναζήτηση",
+      "delete_conversation_2": "Διαγραφή συνομιλίας"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Όνομα χρήστη, όνομα επαφής ή αριθμός τηλεφώνου",
+      "new_chat": "Νέα συνομιλία",
+      "start_a_chat": "Ξεκινήστε μια συνομιλία",
+      "search_by_username_contact_name_or_phone_number": "Αναζήτηση με βάση το όνομα χρήστη, το όνομα επαφής ή τον αριθμό τηλεφώνου.",
+      "results": "Αποτελέσματα",
+      "open_chat": "Άνοιγμα συνομιλίας"
+    },
+    "calls": {
+      "recents": "Πρόσφατα",
+      "voicemail": "Τηλεφωνητής",
+      "calls": "Κλήσεις",
+      "no_calls_yet": "Δεν υπάρχουν ακόμη κλήσεις",
+      "your_recent_calls_will_show_up_here": "Εδώ θα εμφανίζονται οι πρόσφατες κλήσεις σας.",
+      "open_dial_pad": "Άνοιγμα πληκτρολογίου",
+      "delete_call": "Διαγραφή κλήσης",
+      "video_call": "Βιντεοκλήση"
+    },
+    "contacts": {
+      "contacts": "Επαφές",
+      "add_contact": "Προσθήκη επαφής",
+      "import_from_phone": "Εισαγωγή από το τηλέφωνο",
+      "invite_friends": "Προσκάλεσε φίλους",
+      "favorite": "Αγαπημένα",
+      "open_contact": "Ανοιχτή επαφή"
+    },
+    "main_activity": {
+      "loading": "Φόρτωση...",
+      "profile": "Προφίλ"
+    },
+    "profile": {
+      "delete_account": "Διαγραφή λογαριασμού",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Αυτή η ενέργεια δεν μπορεί να ανακληθεί. Είστε σίγουροι ότι θέλετε να διαγράψετε τον λογαριασμό σας;",
+      "log_out": "Αποσύνδεση",
+      "change_photo": "Αλλαγή φωτογραφίας",
+      "remove_photo": "Διαγραφή φωτογραφίας",
+      "preferred_language": "Προτιμώμενη γλώσσα",
+      "your_age_range": "Η ηλικιακή σας ομάδα",
+      "theme": "Θέμα",
+      "choose_how_looks_across_the_app": "Επιλέξτε την εμφάνιση της Chatforia σε όλη την εφαρμογή.",
+      "uploading": "Ανεβάζω…",
+      "choose_plus_or_premium": "Επιλέξτε Plus ή Premium",
+      "profile_photo": "Φωτογραφία προφίλ",
+      "open_upgrade": "Ανοιχτή αναβάθμιση",
+      "open": "Άνοιγμα",
+      "account": "Λογαριασμός",
+      "username": "Όνομα χρήστη",
+      "email": "Ηλεκτρονικό ταχυδρομείο",
+      "plan": "Σχέδιο",
+      "wireless": "Ασύρματο",
+      "mobile": "Chatforia για κινητά",
+      "esim_and_wireless_settings": "Ρυθμίσεις eSIM και ασύρματης σύνδεσης",
+      "call_text_forwarding": "Προώθηση κλήσεων και μηνυμάτων",
+      "forward_incoming_calls_and_texts": "Προώθηση εισερχόμενων κλήσεων και μηνυμάτων",
+      "phone_number": "Αριθμός τηλεφώνου",
+      "manage_your_number": "Διαχείριση του αριθμού σας στη Chatforia",
+      "settings": "Ρυθμίσεις",
+      "auto_translate_messages": "Αυτόματη μετάφραση μηνυμάτων",
+      "automatically_translate_messages_into_your_prefe": "Μεταφράστε αυτόματα τα μηνύματα στη γλώσσα της προτίμησής σας.",
+      "show_original_with_translation": "Εμφάνιση πρωτότυπου κειμένου με μετάφραση",
+      "show_the_original_message_alongside_the_translat": "Εμφάνιση του αρχικού μηνύματος δίπλα στη μετάφραση.",
+      "smart_reply_suggestions": "Προτάσεις έξυπνων απαντήσεων",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Εμφάνιση βοήθειας αναδιατύπωσης με τη χρήση του Ria και γρήγορων απαντήσεων.",
+      "linked_devices": "Συνδεδεμένες συσκευές",
+      "manage_trusted_devices": "Διαχείριση αξιόπιστων συσκευών",
+      "pair_new_device": "Σύνδεση νέας συσκευής",
+      "approve_a_new_device": "Έγκριση νέας συσκευής",
+      "appearance": "Εμφάνιση",
+      "accessibility": "Προσβασιμότητα",
+      "visual_alerts_captions_and_voice_note_accessibil": "Οπτικές ειδοποιήσεις, υπότιτλοι και προσβασιμότητα φωνητικών σημειώσεων",
+      "security": "Ασφάλεια",
+      "encryption_key_protected": "Προστατεύεται με κλειδί κρυπτογράφησης",
+      "privacy": "Προστασία προσωπικών δεδομένων",
+      "allow_explicit_content": "Να επιτρέπεται το ακατάλληλο περιεχόμενο",
+      "show_read_receipts": "Εμφάνιση επιβεβαιώσεων ανάγνωσης",
+      "blur_messages_by_default": "Απόκρυψη μηνυμάτων από προεπιλογή",
+      "blur_when_app_is_unfocused": "Θόλωση όταν η εφαρμογή δεν είναι ενεργή",
+      "hold_to_reveal_messages": "Πατήστε και κρατήστε πατημένο για να εμφανιστούν τα μηνύματα",
+      "notify_when_messages_are_copied": "Ειδοποίηση όταν αντιγράφονται μηνύματα",
+      "random_chat": "Τυχαία συνομιλία",
+      "use_age_based_matching": "Χρήση αντιστοίχισης βάσει ηλικίας",
+      "let_ria_remember_conversations": "Ας θυμηθεί η Ρία τις συζητήσεις",
+      "forward_voicemail_to_email": "Προώθηση φωνητικών μηνυμάτων στο email",
+      "legal_support": "Νομικά & Υποστήριξη",
+      "free": "Δωρεάν"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Επιλογές που διευκολύνουν τη χρήση του Chatforia χωρίς να απαιτείται ήχος.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Αρχικά εμφανίζεται σε κανονικό μέγεθος. Αυξήστε το μέγεθος αν προτιμάτε μεγαλύτερο κείμενο στις ρυθμίσεις προσβασιμότητας.",
+      "interface_font_size": "Μέγεθος γραμματοσειράς διεπαφής",
+      "notifications": "Ειδοποιήσεις",
+      "visual_alerts_for_messages_calls": "Οπτικές ειδοποιήσεις για μηνύματα και κλήσεις",
+      "show_banners_and_visual_indicators_so_you_do_not": "Εμφάνιση banner και οπτικών ενδείξεων, ώστε να μην χάνετε καμία δραστηριότητα.",
+      "vibrate_on_new_messages": "Δόνηση κατά την λήψη νέων μηνυμάτων",
+      "trigger_device_vibration_with_notifications_when": "Ενεργοποίηση δόνησης της συσκευής με ειδοποιήσεις, όπου αυτό υποστηρίζεται.",
+      "flash_screen_on_incoming_call": "Εμφάνιση οθόνης κατά την εισερχόμενη κλήση",
+      "briefly_flash_the_screen_when_a_call_rings": "Να αναβοσβήνει για λίγο η οθόνη όταν χτυπάει το τηλέφωνο.",
+      "live_captions": "Ζωντανές υπότιτλοι",
+      "enable_live_captions": "Ενεργοποίηση υποτίτλων σε πραγματικό χρόνο",
+      "show_real_time_captions_during_calls_premium_req": "Εμφάνιση υποτίτλων σε πραγματικό χρόνο κατά τη διάρκεια των κλήσεων. Απαιτείται συνδρομή Premium.",
+      "caption_font_size": "Μέγεθος γραμματοσειράς λεζάντας",
+      "caption_background": "Φόντο λεζάντας",
+      "voice_notes": "Φωνητικές σημειώσεις",
+      "auto_transcribe_voice_notes": "Αυτόματη μεταγραφή φωνητικών σημειώσεων",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Επισυνάψτε ένα κείμενο στα ηχητικά μηνύματα που λαμβάνετε."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Αποκατέστησα τον κωδικό πρόσβασής μου",
+      "restore_encryption": "Επαναφορά κρυπτογράφησης"
+    },
+    "language_selection": {
+      "select_language": "Επιλογή γλώσσας"
+    },
+    "login": {
+      "email_or_username": "Διεύθυνση email ή όνομα χρήστη",
+      "password": "Κωδικός πρόσβασης",
+      "forgot_password": "Ξεχάσατε τον κωδικό πρόσβασής σας;",
+      "resend_verification_email": "Επανάληψη αποστολής του email επαλήθευσης",
+      "reset_encryption": "Επαναφορά κρυπτογράφησης",
+      "create_an_account": "Δημιουργία λογαριασμού",
+      "welcome_to": "Καλώς ήρθατε στο Chatforia",
+      "sign_in_or_create_an_account": "Συνδεθείτε ή δημιουργήστε λογαριασμό",
+      "or": "ή",
+      "don_t_have_an_account_yet": "Δεν έχετε ακόμα λογαριασμό;"
+    },
+    "onboarding": {
+      "welcome": "Καλώς ήρθατε",
+      "set_up_your_profile_so_can_personalize_your_expe": "Ρυθμίστε το προφίλ σας, ώστε το Chatforia να μπορεί να εξατομικεύσει την εμπειρία σας.",
+      "choose_a_username": "Επιλέξτε ένα όνομα χρήστη",
+      "this_is_how_people_will_recognize_you_in": "Έτσι θα σε αναγνωρίζουν οι άλλοι στο Chatforia.",
+      "choose_your_language": "Επιλέξτε τη γλώσσα σας",
+      "will_use_this_for_translations_and_your_app_expe": "Η Chatforia θα χρησιμοποιήσει αυτά τα στοιχεία για τις μεταφράσεις και τη βελτίωση της εμπειρίας χρήσης της εφαρμογής σας.",
+      "you_re_ready": "Είσαι έτοιμος",
+      "start_chatting_calling_translating_and_connectin": "Ξεκινήστε να συνομιλείτε, να τηλεφωνείτε, να μεταφράζετε και να επικοινωνείτε με ανθρώπους από όλο τον κόσμο."
+    },
+    "register": {
+      "confirm_password": "Επιβεβαίωση κωδικού πρόσβασης",
+      "phone_optional": "Το τηλέφωνο είναι προαιρετικό",
+      "log_in": "Σύνδεση",
+      "create_your_account": "Δημιουργήστε τον λογαριασμό σας",
+      "start_chatting_across_languages_with": "Ξεκινήστε να συνομιλείτε σε διάφορες γλώσσες με το Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Συμφωνώ να λαμβάνω μηνύματα SMS για επαλήθευση.",
+      "already_have_an_account": "Έχετε ήδη λογαριασμό;"
+    },
+    "add_contact": {
+      "phone": "Τηλέφωνο",
+      "name": "Όνομα",
+      "alias_optional": "Το ψευδώνυμο είναι προαιρετικό",
+      "pin_this_person_as_a_favorite_contact": "Προσθέστε αυτό το άτομο στα αγαπημένα σας."
+    },
+    "contact_detail": {
+      "edit_contact": "Επεξεργασία επαφής",
+      "delete_contact": "Διαγραφή επαφής",
+      "message": "Μήνυμα",
+      "video": "Βίντεο",
+      "external_name": "Εξωτερική ονομασία"
+    },
+    "import_phone_contacts": {
+      "select_all": "Επιλογή όλων",
+      "clear": "Διαγραφή",
+      "import_contacts": "Εισαγωγή επαφών"
+    },
+    "invite_friends": {
+      "share_invite_link": "Κοινή χρήση συνδέσμου πρόσκλησης",
+      "invite_friends": "Προσκάλεσε φίλους",
+      "share_a_invite_link_with_friends_using_messages_": "Μοιραστείτε έναν σύνδεσμο πρόσκλησης για το Chatforia με τους φίλους σας μέσω του «Μηνύματα», του ηλεκτρονικού ταχυδρομείου ή οποιασδήποτε εφαρμογής στο κινητό σας."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Σύνδεση νέας συσκευής",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Άνοιξε την εφαρμογή Chatforia στη νέα σου συσκευή και συνδέσου. Εάν σου ζητηθεί πρόσβαση στις κρυπτογραφημένες συνομιλίες σου, δέξου την από μια αξιόπιστη συσκευή.",
+      "view_pending_device_requests": "Προβολή εκκρεμών αιτήσεων συσκευών"
+    },
+    "key_setup": {
+      "recovery_passcode": "Κωδικός πρόσβασης επαναφοράς",
+      "confirm_recovery_passcode": "Επιβεβαίωση κωδικού πρόσβασης επαναφοράς",
+      "restore_chats": "Επαναφορά συνομιλιών",
+      "clear_local_key": "Εκκαθάριση τοπικού κλειδιού",
+      "reset_encryption": "Επαναφορά κρυπτογράφησης;",
+      "this_will_permanently_replace_your_encryption_ke": "Αυτό θα αντικαταστήσει οριστικά το κλειδί κρυπτογράφησης που χρησιμοποιείτε.",
+      "encryption": "Κρυπτογράφηση",
+      "restore_encrypted_chats": "Επαναφορά κρυπτογραφημένων συνομιλιών",
+      "no_recovery_backup_found": "Δεν βρέθηκε αντίγραφο ασφαλείας αποκατάστασης",
+      "open_on_a_device_that_can_already_read_your_encr": "Άνοιξε την εφαρμογή Chatforia σε μια συσκευή που έχει ήδη πρόσβαση στις κρυπτογραφημένες συνομιλίες σου και δημιούργησε εκεί έναν κωδικό ανάκτησης.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Δεν έχει βρεθεί ακόμη αντίγραφο ασφαλείας. Δημιουργήστε ένα από αυτή τη συσκευή, ώστε να μπορείτε να επαναφέρετε τις συνομιλίες σας σε iOS, Android και στον ιστό.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Χρησιμοποιήστε αυτή την επιλογή μόνο αν έχετε χάσει όλες τις αξιόπιστες συσκευές και δεν μπορείτε να επαναφέρετε το αρχικό σας κλειδί."
+    },
+    "linked_devices": {
+      "your_devices": "Οι συσκευές σας",
+      "pending_approvals": "Σε αναμονή εγκρίσεων",
+      "approve": "Έγκριση",
+      "reject": "Απόρριψη",
+      "revoke": "Ανάκληση",
+      "request_approval_for_this_device": "Ζητήστε έγκριση για αυτή τη συσκευή",
+      "finish_device_approval": "Ολοκλήρωση της έγκρισης της συσκευής"
+    },
+    "forwarding_settings": {
+      "reset": "Επαναφορά",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Προωθήστε τις εισερχόμενες κλήσεις και τα μηνύματα κειμένου στο επαληθευμένο τηλέφωνο ή email σας.",
+      "quiet_hours": "Ώρες ησυχίας",
+      "forwarding": "Προώθηση",
+      "enable_text_forwarding": "Ενεργοποίηση προώθησης κειμένου",
+      "forward_texts_to_phone": "Προώθηση μηνυμάτων στο τηλέφωνο",
+      "forward_texts_to_email": "Προώθηση μηνυμάτων στο email",
+      "enable_call_forwarding": "Ενεργοποίηση προώθησης κλήσεων"
+    },
+    "chat_message_row": {
+      "copy": "Αντιγραφή",
+      "edit": "Επεξεργασία",
+      "report": "Έκθεση",
+      "message_info": "Πληροφορίες μηνύματος"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Δεν υπάρχουν ακόμη μηνύματα",
+      "delete_message": "Να διαγραφεί το μήνυμα;",
+      "choose_how_you_want_to_delete_this_message": "Επιλέξτε τον τρόπο με τον οποίο θέλετε να διαγράψετε αυτό το μήνυμα.",
+      "delete_for_everyone": "Διαγραφή για όλους",
+      "delete_for_me": "Διαγράψτε το για μένα",
+      "search_messages": "Αναζήτηση μηνυμάτων",
+      "search_in_chat": "Αναζήτηση στο chat",
+      "sending": "Αποστολή…",
+      "failed_to_send": "Αποτυχία αποστολής",
+      "edited": "Επεξεργασμένο",
+      "audio_call": "Ηχητική κλήση",
+      "video_call": "Βιντεοκλήση",
+      "selected_gif": "Επιλεγμένο GIF",
+      "remove_gif": "Κατάργηση GIF",
+      "attach": "Επισύναψη",
+      "rewrite_with_ria": "Αναδιατύπωση με τη Ρία",
+      "composer_action": "Ενέργεια συνθέτη"
+    },
+    "edit_message": {
+      "save": "Αποθήκευση",
+      "emoji": "Emoji",
+      "edit_message": "Επεξεργασία μηνύματος"
+    },
+    "message_attachments": {
+      "image_attachment": "Επισύναψη εικόνας",
+      "video_attachment": "Συνημμένο βίντεο",
+      "play_video": "Αναπαραγωγή βίντεο"
+    },
+    "message_bubble": {
+      "disappearing_message": "Μήνυμα που εξαφανίζεται"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Κανείς δεν το έχει διαβάσει ακόμα",
+      "message_info": "Πληροφορίες μηνύματος"
+    },
+    "report_message": {
+      "reason": "Λόγος",
+      "include_previous_messages": "Συμπεριλάβετε τα προηγούμενα μηνύματα",
+      "additional_details": "Περισσότερες πληροφορίες",
+      "anything_else_moderators_should_know": "Υπάρχει κάτι άλλο που πρέπει να γνωρίζουν οι διαχειριστές;",
+      "block_this_user_after_reporting": "Αποκλείστε αυτόν τον χρήστη μετά την αναφορά",
+      "submit_report": "Υποβολή αναφοράς",
+      "report_message": "Αναφορά μηνύματος"
+    },
+    "phone_number": {
+      "replace_number": "Αντικατάσταση αριθμού",
+      "pick_a_number": "Διάλεξε έναν αριθμό",
+      "no_number_assigned": "Δεν έχει εκχωρηθεί αριθμός Chatforia.",
+      "your_number": "Ο αριθμός σας στη Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Κωδικός περιοχής",
+      "premium_numbers_are_protected_from_recycling": "Οι αριθμοί Premium προστατεύονται από την επαναχρησιμοποίηση.",
+      "available_numbers": "Διαθέσιμοι αριθμοί",
+      "search_by_area_code_to_find_available_numbers": "Κάντε αναζήτηση με βάση τον κωδικό περιοχής για να βρείτε διαθέσιμους αριθμούς.",
+      "capability": "Δυνατότητα",
+      "country": "Χώρα"
+    },
+    "gif_picker": {
+      "search_tenor": "Αναζήτηση Tenor",
+      "search_gifs": "Αναζήτηση GIF"
+    },
+    "random_chat": {
+      "add_friend": "Προσθήκη φίλου",
+      "skip": "Παράλειψη",
+      "send": "Αποστολή",
+      "end_chat": "Τέλος συνομιλίας"
+    },
+    "random_matching": {
+      "finding_someone": "Να βρεις κάποιον"
+    },
+    "ria_chat": {
+      "ask_ria": "Ρώτα τη Ρία...",
+      "you_re_now_chatting_with_ria": "Τώρα συνομιλείς με τη Ρία",
+      "chat_with_ria_anytime_separate_from_random_human": "Μιλήστε με τη Ρία όποτε θέλετε, ανεξάρτητα από την τυχαία αντιστοίχιση με άλλους χρήστες."
+    },
+    "ria_rewrite": {
+      "original_text": "Αρχικό κείμενο",
+      "choose_tone": "Επιλέξτε τόνο",
+      "rewriting": "Επανασύνταξη…",
+      "suggestions": "Προτάσεις",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Επιλέξτε έναν τόνο για να εμφανιστούν προτάσεις αναδιατύπωσης."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Η δωρεάν έκδοση περιλαμβάνει βασικούς ήχους. Κάντε αναβάθμιση για να ξεκλειδώσετε περισσότερους ήχους και ήχους κλήσης.",
+      "volume": "Όγκος",
+      "message_tone": "Ήχος μηνύματος",
+      "ringtone": "Ήχος κλήσης"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Δεν υπάρχουν ακόμα φωνητικά μηνύματα.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Όταν κάποιος σας αφήσει φωνητικό μήνυμα,\nθα εμφανιστεί εδώ.",
+      "play_voicemail": "Αναπαραγωγή φωνητικού μηνύματος",
+      "delete_voicemail": "Διαγραφή φωνητικού μηνύματος"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Επιλεγμένα μηνύματα φωνητικού ταχυδρομείου"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Κάλυψη για τη χώρα στην οποία βρίσκεστε ή για χρήση σε κοντινή περιοχή.",
+      "coverage_across_supported_european_destinations": "Κάλυψη σε όλους τους υποστηριζόμενους ευρωπαϊκούς προορισμούς.",
+      "coverage_across_supported_global_destinations": "Κάλυψη σε όλους τους υποστηριζόμενους προορισμούς παγκοσμίως."
+    },
+    "wireless_home": {
+      "manage_wireless": "Διαχείριση ασύρματων δικτύων",
+      "port_my_number": "Μεταφορά αριθμού",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Τα πακέτα δεδομένων eSIM απαιτούν συσκευή συμβατή με eSIM και χωρίς κλείδωμα.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Μείνετε συνδεδεμένοι όταν ταξιδεύετε ή όταν δεν έχετε πρόσβαση σε Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Επιλέξτε ένα πακέτο δεδομένων eSIM εφάπαξ για τοπική, ευρωπαϊκή ή παγκόσμια κάλυψη.",
+      "we_don_t_sell_data_packs_under_3_gb": "Δεν διαθέτουμε πακέτα δεδομένων κάτω των 3 GB.",
+      "loading_usage": "Φόρτωση στοιχείων χρήσης…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Δεν υπάρχει ακόμη ενεργό πακέτο δεδομένων. Αγοράστε ένα πακέτο παρακάτω για να αρχίσετε να παρακολουθείτε τη χρήση.",
+      "usage_details_will_appear_once_your_data_pack_is": "Οι λεπτομέρειες χρήσης θα εμφανιστούν μόλις ενεργοποιηθεί το πακέτο δεδομένων σας.",
+      "manage": "Διαχείριση",
+      "coverage": "Κάλυψη",
+      "your_esim": "Το eSIM σας",
+      "current_usage": "Τρέχουσα χρήση"
+    }
   }
 }

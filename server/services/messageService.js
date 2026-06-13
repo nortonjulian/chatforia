@@ -322,7 +322,13 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
   try {
     const db = prismaArg || prisma;
 
-    const hasProvider = !!process.env.DEEPL_API_KEY || !!process.env.TRANSLATE_ENDPOINT;
+    const hasProvider =
+      !!process.env.GOOGLE_TRANSLATE_API_KEY ||
+      !!process.env.GOOGLE_API_KEY ||
+      !!process.env.GOOGLE_PROJECT_ID ||
+      !!process.env.DEEPL_API_KEY ||
+      !!process.env.TRANSLATE_ENDPOINT;
+
     if (!hasProvider) return;
 
     const roomId = Number(savedMessage.chatRoomId);
@@ -340,10 +346,10 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
     });
     if (!room) return;
 
-    const mode = room.autoTranslateMode || 'off';
-    if (mode === 'off') return;
+    const mode = String(room.autoTranslateMode || 'OFF').toUpperCase();
+    if (mode === 'OFF') return;
 
-    if (mode === 'tagged') {
+    if (mode === 'TAGGED') {
       const tagged = /(^|\s)#translate(\s|$)|^\/tr(\s|$)/i.test(raw);
       if (!tagged) return;
     }
@@ -352,11 +358,20 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
 
     const participants = await db.participant.findMany({
       where: { chatRoomId: roomId },
-      include: { user: { select: { id: true, preferredLanguage: true } } },
+      include: {
+        user: {
+          select: {
+            id: true,
+            preferredLanguage: true,
+            autoTranslate: true
+          }
+        }
+      },
     });
 
     const targets = new Set(
       (participants || [])
+        .filter((p) => p.user?.autoTranslate === true)
         .map((p) => (p.user?.preferredLanguage || 'en').trim().toLowerCase())
         .filter(Boolean)
     );

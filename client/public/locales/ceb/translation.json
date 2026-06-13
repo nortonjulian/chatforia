@@ -3066,7 +3066,8 @@
     "flip": "Baliko",
     "speaker": "Magsulti",
     "end": "Katapusan",
-    "noIncomingCallToAnswer": "Walay tawag nga mosulod aron tubagon."
+    "noIncomingCallToAnswer": "Walay tawag nga mosulod aron tubagon.",
+    "serviceUnavailable": "Ang serbisyo sa tawag dili karon magamit. Palihug sulayi pag-usab unya."
   },
   "settings": {
     "startHour": "Sugdan nga oras (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Itom",
   "accessibility_caption_bg_transparent": "Tin-aw",
   "api": {
-    "notAuthorized": "Dili awtorisado"
+    "notAuthorized": "Dili awtorisado",
+    "invalidURL": "Dili balido nga address sa server.",
+    "serverError": "Sayop sa server (%d): %@",
+    "failedToDecodeResponse": "Dili mabasa ang tubag sa server: %@"
+  },
+  "tap_to_view_contact": "I-tap aron makita ang kontak",
+  "android": {
+    "plan": {
+      "plan_billing": "Plano ug Pagsingil",
+      "current_plan": "Karon nga plano",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Wala'y patalastas gamit ang Plus, o i-unlock ang mga AI nga himan ug pag-customize gamit ang Premium.",
+      "plus": "Dugang pa",
+      "premium": "Pinakamaayo",
+      "back": "Pabalik",
+      "my_plan": "Ang akong plano",
+      "compare_plans": "I-kompara ang mga plano",
+      "included": "Apil"
+    },
+    "upgrade": {
+      "upgrade": "Pag-upgrade",
+      "restore_purchases": "Ibalik ang mga palit",
+      "unlock_more_with": "Pag-unlock pa ug daghan gamit ang Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Pilia ang Plus o Premium aron tangtangon ang mga patalastas, i-customize ang imong kasinatian, ug ma-unlock ang mga abanteng himan.",
+      "best_experience": "Pinakamaayong kasinatian",
+      "close": "Isira",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Tangtanga ang mga patalastas ug i-unlock ang dugang nga adlaw-adlaw nga mga feature.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Ang hingpit nga kasinatian sa Chatforia.",
+      "premium_annual": "Premium nga Taonan",
+      "save_compared_to_monthly_premium": "Mas makatipid kumpara sa binulan nga premium."
+    },
+    "audio_call": {
+      "mute": "Pahilom",
+      "speaker": "Magsulti",
+      "end_call": "Tapusa ang tawag"
+    },
+    "dial_pad": {
+      "dial": "Dial",
+      "done": "Nahuman",
+      "enter_number": "Isulod ang numero",
+      "call": "Tawga",
+      "delete_digit": "Tangtanga ang numero"
+    },
+    "incoming_call": {
+      "decline": "Pagkunhod",
+      "accept": "Dawat",
+      "decline_call": "Balibara sa tawag",
+      "accept_call": "Tubag sa tawag"
+    },
+    "video_call": {
+      "camera": "Kamera",
+      "flip_camera": "Flip nga kamera"
+    },
+    "chats": {
+      "search_chats": "Pangitaa ang mga chat",
+      "no_chats_yet": "Walay pakighinabi pa",
+      "admob_ad": "AdMob nga Patalastas",
+      "delete_conversation": "Tangtanga ang panag-istorya?",
+      "this_will_remove_this_conversation_from_your_cha": "Kini tangtangon kining pakighinabi gikan sa imong listahan sa chat.",
+      "delete": "Tangtanga",
+      "cancel": "Ikansela",
+      "chats": "Mga pakighinabi",
+      "new_chat": "Bag-ong chat",
+      "refresh": "I-refresh",
+      "random_chat": "Random nga chat",
+      "search": "Pangitaa",
+      "delete_conversation_2": "Tangtanga ang panag-istoryahanay"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Ngalan sa tiggamit, ngalan sa kontak, o numero sa telepono",
+      "new_chat": "Bag-ong Chat",
+      "start_a_chat": "Sugdi ang usa ka chat",
+      "search_by_username_contact_name_or_phone_number": "Pangitaa pinaagi sa username, ngalan sa kontak, o numero sa telepono.",
+      "results": "Mga resulta",
+      "open_chat": "Ablihi ang chat"
+    },
+    "calls": {
+      "recents": "Bag-ohay lang",
+      "voicemail": "Mensahe sa tingog",
+      "calls": "Mga tawag",
+      "no_calls_yet": "Wala pa'y tawag",
+      "your_recent_calls_will_show_up_here": "Ang imong bag-ong mga tawag makita dinhi.",
+      "open_dial_pad": "Ablihi ang dial pad",
+      "delete_call": "Tangtanga ang tawag",
+      "video_call": "Video tawag"
+    },
+    "contacts": {
+      "contacts": "Mga kontak",
+      "add_contact": "Idugang ang kontak",
+      "import_from_phone": "I-import gikan sa telepono",
+      "invite_friends": "Imbita ang mga higala",
+      "favorite": "Paborito",
+      "open_contact": "Ablihi ang kontak"
+    },
+    "main_activity": {
+      "loading": "Nag-load...",
+      "profile": "Profil"
+    },
+    "profile": {
+      "delete_account": "Tangtanga ang Akawnt",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Dili na mabalik kining aksyon. Sigurado ka ba nga gusto nimong tangtangon ang imong account?",
+      "log_out": "Mogawas",
+      "change_photo": "Usbon ang litrato",
+      "remove_photo": "Tangtanga ang Larawan",
+      "preferred_language": "Gipili nga pinulongan",
+      "your_age_range": "Ang imong gilapdon sa edad",
+      "theme": "Tema",
+      "choose_how_looks_across_the_app": "Pilia kung unsaon pagtan-aw sa Chatforia sa tibuok app.",
+      "uploading": "Pag-upload…",
+      "choose_plus_or_premium": "Pilia ang Plus o Premium",
+      "profile_photo": "Litrato sa profile",
+      "open_upgrade": "Abli nga pag-upgrade",
+      "open": "Abli",
+      "account": "Akawnt",
+      "username": "Ngalan sa tiggamit",
+      "email": "Email",
+      "plan": "Plano",
+      "wireless": "Walay kable",
+      "mobile": "Chatforia Mobile",
+      "esim_and_wireless_settings": "eSIM ug mga wireless nga setting",
+      "call_text_forwarding": "Pag-forward sa Tawag ug Text",
+      "forward_incoming_calls_and_texts": "I-forward ang mga tawag ug mga text nga moabot",
+      "phone_number": "Numero sa telepono",
+      "manage_your_number": "Dumala sa imong Chatforia nga numero",
+      "settings": "Mga setting",
+      "auto_translate_messages": "Awtomatikong hubaron ang mga mensahe",
+      "automatically_translate_messages_into_your_prefe": "Awtomatikong hubad sa mga mensahe ngadto sa imong gipiling pinulongan.",
+      "show_original_with_translation": "Ipakita ang orihinal uban sa hubad",
+      "show_the_original_message_alongside_the_translat": "Ipakita ang orihinal nga mensahe kauban ang hubad.",
+      "smart_reply_suggestions": "Mga sugyot sa maalamon nga tubag",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Ipakita ang Ria-powered nga tabang sa pag-usab sa teksto ug ang dali nga mga tubag.",
+      "linked_devices": "Naka-link nga mga Device",
+      "manage_trusted_devices": "Dumala sa mga kasaligan nga device",
+      "pair_new_device": "Ipares ang Bag-ong Device",
+      "approve_a_new_device": "Aprubahi ang bag-ong device",
+      "appearance": "Panagway",
+      "accessibility": "Kahimong ma-access",
+      "visual_alerts_captions_and_voice_note_accessibil": "Kakayahang ma-access sa biswal nga mga pahimangno, mga caption, ug mga voice note",
+      "security": "Seguridad",
+      "encryption_key_protected": "Giprotektahan ang yawi sa pag-encrypt",
+      "privacy": "Pribasiya",
+      "allow_explicit_content": "Tugoti ang eksplisit nga sulod",
+      "show_read_receipts": "Ipakita ang mga resibo sa pagbasa",
+      "blur_messages_by_default": "I-blur ang mga mensahe sa default",
+      "blur_when_app_is_unfocused": "Maglabo kung dili nakatutok ang app",
+      "hold_to_reveal_messages": "Pug-on aron ipakita ang mga mensahe",
+      "notify_when_messages_are_copied": "Pahibaloa kung makopya ang mga mensahe",
+      "random_chat": "Random nga Chat",
+      "use_age_based_matching": "Gamita ang pagpares base sa edad.",
+      "let_ria_remember_conversations": "Pasagdi si Ria nga mahinumdom sa mga panag-istorya.",
+      "forward_voicemail_to_email": "Ipadala ang mensahe sa boses ngadto sa email",
+      "legal_support": "Legal ug Suporta",
+      "free": "Libre"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Mga kapilian aron mas sayon gamiton ang Chatforia nga dili magsalig sa tunog.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Nagsugod sa normal nga gidak-on. Pataasa kung gusto nimo og mas dako nga teksto sa mga setting sa accessibility.",
+      "interface_font_size": "Interface nga gidak-on sa font",
+      "notifications": "Mga pahibalo",
+      "visual_alerts_for_messages_calls": "Mga biswal nga pahibalo para sa mga mensahe ug tawag",
+      "show_banners_and_visual_indicators_so_you_do_not": "Ipakita ang mga banner ug biswal nga mga indikador aron dili nimo malaktawan ang mga kalihokan.",
+      "vibrate_on_new_messages": "Mag-vibrate sa bag-ong mga mensahe",
+      "trigger_device_vibration_with_notifications_when": "Palihoka ang vibrasyon sa device ug ipahibalo kung suportado.",
+      "flash_screen_on_incoming_call": "Pag-flash sa screen sa nag-abot nga tawag",
+      "briefly_flash_the_screen_when_a_call_rings": "Pagpablik-sidlak sa screen sa mubo nga panahon sa dihang motunog ang tawag.",
+      "live_captions": "Mga live nga caption",
+      "enable_live_captions": "I-aktibar ang live captions",
+      "show_real_time_captions_during_calls_premium_req": "Ipakita ang mga real-time nga caption sa panahon sa tawag. Gikinahanglan ang premium.",
+      "caption_font_size": "Gidak-on sa font sa caption",
+      "caption_background": "Kaption nga background",
+      "voice_notes": "Mga voice note",
+      "auto_transcribe_voice_notes": "Awtomatikong i-transcribe ang mga voice note",
+      "attach_a_transcript_to_audio_messages_you_receiv": "I-attach ang transcript sa mga audio nga mensahe nga imong madawat."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Nabawi na nako ang akong yawi.",
+      "restore_encryption": "Ibalik ang Enkripsyon"
+    },
+    "language_selection": {
+      "select_language": "Pilia ang pinulongan"
+    },
+    "login": {
+      "email_or_username": "Email o username",
+      "password": "Paslista",
+      "forgot_password": "Nakalimot ka sa imong password?",
+      "resend_verification_email": "Ipadala pag-usab ang email sa pag-verify",
+      "reset_encryption": "I-reset ang Encryption",
+      "create_an_account": "Paghimo og usa ka account",
+      "welcome_to": "Maayong pag-abot sa Chatforia",
+      "sign_in_or_create_an_account": "Mag-sign in o maghimo og account",
+      "or": "o",
+      "don_t_have_an_account_yet": "Wala pa kay account?"
+    },
+    "onboarding": {
+      "welcome": "Maayong pag-abot",
+      "set_up_your_profile_so_can_personalize_your_expe": "I-set up ang imong profile aron mapahiangay sa Chatforia ang imong kasinatian.",
+      "choose_a_username": "Pilia ang username",
+      "this_is_how_people_will_recognize_you_in": "Mao ni ang paagi nga mailhan ka sa mga tawo sa Chatforia.",
+      "choose_your_language": "Pilia ang imong pinulongan",
+      "will_use_this_for_translations_and_your_app_expe": "Gamiton kini sa Chatforia alang sa mga hubad ug sa imong kasinatian sa app.",
+      "you_re_ready": "Andam na ka",
+      "start_chatting_calling_translating_and_connectin": "Sugdi ang pag-chat, pagtawag, paghubad, ug pagkonektar sa mga tawo sa tibuok kalibutan."
+    },
+    "register": {
+      "confirm_password": "Kumpirmahi ang password",
+      "phone_optional": "Telepono opsyonal",
+      "log_in": "Mag-login",
+      "create_your_account": "Paghimo sa imong account",
+      "start_chatting_across_languages_with": "Sugdi ang pag-chat sa lain-laing mga pinulongan gamit ang Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Uyon ko nga madawat ang mga SMS nga mensahe sa pag-verify.",
+      "already_have_an_account": "Naa na ba kay account?"
+    },
+    "add_contact": {
+      "phone": "Tawag",
+      "name": "Ngalan",
+      "alias_optional": "Alias opsyonal",
+      "pin_this_person_as_a_favorite_contact": "Itudlo kini nga tawo isip paborito nga kontak."
+    },
+    "contact_detail": {
+      "edit_contact": "I-edit ang kontak",
+      "delete_contact": "Tangtanga ang kontak",
+      "message": "Mensahe",
+      "video": "Video",
+      "external_name": "Eksternal nga ngalan"
+    },
+    "import_phone_contacts": {
+      "select_all": "Pilia ang tanan",
+      "clear": "Hayag",
+      "import_contacts": "I-import ang mga kontak"
+    },
+    "invite_friends": {
+      "share_invite_link": "Ibahin ang link sa imbitasyon",
+      "invite_friends": "Imbita ang mga higala",
+      "share_a_invite_link_with_friends_using_messages_": "Ibahin ang imong Chatforia invite link sa mga higala gamit ang Messages, email, o bisan unsang app sa imong telepono."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Ipares ang bag-ong device",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Ablihi ang Chatforia sa imong bag-ong device ug mag-sign in. Kung kinahanglan niini ang pag-access sa imong naka-encrypt nga mga chat, aprobaha kini gikan sa usa ka kasaligan nga device.",
+      "view_pending_device_requests": "Tan-awa ang naghulat nga mga hangyo sa device"
+    },
+    "key_setup": {
+      "recovery_passcode": "Kodigo sa Pag-ayo",
+      "confirm_recovery_passcode": "Kumpirmahi ang passcode sa pag-ayo",
+      "restore_chats": "Ibalik ang mga Chat",
+      "clear_local_key": "Limpyoha ang lokal nga yawe",
+      "reset_encryption": "I-reset ang pag-encrypt?",
+      "this_will_permanently_replace_your_encryption_ke": "Kini permanente nga mopuli sa imong encryption key.",
+      "encryption": "Pag-encrypt",
+      "restore_encrypted_chats": "Ibalik ang mga naka-encrypt nga chat",
+      "no_recovery_backup_found": "Walay nakitang backup sa pag-uli",
+      "open_on_a_device_that_can_already_read_your_encr": "Ablihi ang Chatforia sa usa ka device nga makabasa na sa imong naka-encrypt nga mga chat ug paghimo didto og Recovery Passcode.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Wala pa'y nakitang Recovery Backup. Paghimo og usa gikan niining device aron ma-restore nimo ang mga chat sa iOS, Android, ug web.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Gamita lang kini kung nawala na nimo ang tanan nimong gisaligan nga mga device ug dili na nimo ma-restore ang imong orihinal nga yawi."
+    },
+    "linked_devices": {
+      "your_devices": "Ang imong mga device",
+      "pending_approvals": "Nagpaabot pa sa pag-apruba",
+      "approve": "Uyonan",
+      "reject": "Balibara",
+      "revoke": "Bawi",
+      "request_approval_for_this_device": "Paghangyo og aprobasyon para niining device",
+      "finish_device_approval": "Human sa pag-apruba sa device"
+    },
+    "forwarding_settings": {
+      "reset": "I-reset",
+      "forward_incoming_calls_and_texts_to_your_verifie": "I-forward ang mga incoming nga tawag ug text sa imong napatud-an nga telepono o email.",
+      "quiet_hours": "Horas sa Kalinaw",
+      "forwarding": "Pagpadala",
+      "enable_text_forwarding": "I-aktibar ang pagpadala sa teksto",
+      "forward_texts_to_phone": "Ipadala ang mga mensahe sa telepono",
+      "forward_texts_to_email": "Ipadala ang mga text sa email",
+      "enable_call_forwarding": "I-aktibar ang pag-forward sa tawag"
+    },
+    "chat_message_row": {
+      "copy": "Kopya",
+      "edit": "Usbon",
+      "report": "Ulat",
+      "message_info": "Impormasyon sa mensahe"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Walay mensahe pa",
+      "delete_message": "Tangtanga ang mensahe?",
+      "choose_how_you_want_to_delete_this_message": "Pilia kung giunsa nimo gusto tangtangon kini nga mensahe.",
+      "delete_for_everyone": "Tangtanga para sa tanan",
+      "delete_for_me": "Tangtanga para nako",
+      "search_messages": "Pangitaa ang mga mensahe",
+      "search_in_chat": "Pangita sa chat",
+      "sending": "Nagpadala…",
+      "failed_to_send": "Napakyas sa pagpadala",
+      "edited": "Gi-edit",
+      "audio_call": "Tawag sa Audio",
+      "video_call": "Video tawag",
+      "selected_gif": "Gipiling GIF",
+      "remove_gif": "Tangtanga ang GIF",
+      "attach": "Idugtong",
+      "rewrite_with_ria": "Isulat pag-usab uban ni Ria",
+      "composer_action": "Lihok sa kompositor"
+    },
+    "edit_message": {
+      "save": "I-save",
+      "emoji": "Emoji",
+      "edit_message": "I-edit ang mensahe"
+    },
+    "message_attachments": {
+      "image_attachment": "Pag-apil sa hulagway",
+      "video_attachment": "Video nga kalakip",
+      "play_video": "Pagdula sa video"
+    },
+    "message_bubble": {
+      "disappearing_message": "Mawala nga mensahe"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Walay nakabasa niini pa.",
+      "message_info": "Impormasyon sa mensahe"
+    },
+    "report_message": {
+      "reason": "Rason",
+      "include_previous_messages": "Apila ang mga naunang mensahe",
+      "additional_details": "Dugang nga mga detalye",
+      "anything_else_moderators_should_know": "Aduna pa bay lain nga angay mahibal-an sa mga moderator?",
+      "block_this_user_after_reporting": "Block kini nga tiggamit pagkahuman sa pagreport",
+      "submit_report": "Isumite ang report",
+      "report_message": "Ireport ang mensahe"
+    },
+    "phone_number": {
+      "replace_number": "Ilisi ang Numero",
+      "pick_a_number": "Pilia ang numero",
+      "no_number_assigned": "Walay numero sa Chatforia nga gi-assign.",
+      "your_number": "Ang imong numero sa Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Kodigo sa Rehiyon",
+      "premium_numbers_are_protected_from_recycling": "Ang mga premium nga numero protektado gikan sa pag-recycle.",
+      "available_numbers": "Magamit nga mga numero",
+      "search_by_area_code_to_find_available_numbers": "Pangitaa pinaagi sa area code aron makit-an ang mga magamit nga numero.",
+      "capability": "Kahimoan",
+      "country": "Nasud"
+    },
+    "gif_picker": {
+      "search_tenor": "Pangitaa ang Tenor",
+      "search_gifs": "Pangitaa ang mga GIF"
+    },
+    "random_chat": {
+      "add_friend": "Idugang ang Higala",
+      "skip": "Laktaw",
+      "send": "Ipadala",
+      "end_chat": "Tapus ang chat"
+    },
+    "random_matching": {
+      "finding_someone": "Pagpangita og usa ka tawo"
+    },
+    "ria_chat": {
+      "ask_ria": "Pangutan-a si Ria...",
+      "you_re_now_chatting_with_ria": "Nag-chat na ka karon kang Ria.",
+      "chat_with_ria_anytime_separate_from_random_human": "Makig-chat kang Ria bisan kanus-a, nga lahi sa random nga pagpares sa tawo."
+    },
+    "ria_rewrite": {
+      "original_text": "Orihinal nga teksto",
+      "choose_tone": "Pilia ang tono",
+      "rewriting": "Pag-usab sa pagsulat…",
+      "suggestions": "Mga Sugyot",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Pilia ang tono aron makahimo og mga sugyot sa pag-usab sa teksto."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Ang libre naglakip sa batakang mga tunog. I-upgrade aron ma-unlock ang dugang nga mga tono ug mga ringtone.",
+      "volume": "Bolyum",
+      "message_tone": "Tono sa mensahe",
+      "ringtone": "Tono sa tawag"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Walay mga mensahe sa tingog pa.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Kung adunay magbilin ug mensahe sa tingog para nimo, makita nimo kini dinhi.",
+      "play_voicemail": "Pagdula sa mensahe sa tingog",
+      "delete_voicemail": "Tangtanga ang mensahe sa boses"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Gipiling mensahe sa boses"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Sakop para sa imong kasamtangang nasud o sa duol nga lokal nga paggamit.",
+      "coverage_across_supported_european_destinations": "Paglangkob sa tanang gisuportahan nga mga destinasyon sa Europa.",
+      "coverage_across_supported_global_destinations": "Paglangkob sa mga suportadong global nga destinasyon."
+    },
+    "wireless_home": {
+      "manage_wireless": "Pagdumala sa Wireless",
+      "port_my_number": "I-port ang akong numero",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Ang mga eSIM data pack nagkinahanglan og eSIM-compatible ug unlocked nga device.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Magpabilin nga konektado bisan nagbiyahe ka o layo sa Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Pilia ang usa ka higayon nga eSIM data pack para sa lokal, Europa, o global nga coverage.",
+      "we_don_t_sell_data_packs_under_3_gb": "Dili namo ibaligya ang data pack nga ubos sa 3 GB.",
+      "loading_usage": "Pag-load sa paggamit…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Wala pa'y aktibo nga data pack. Palita ang usa ka pack sa ubos aron masugdan ang pagsubay sa paggamit.",
+      "usage_details_will_appear_once_your_data_pack_is": "Mopakita ang mga detalye sa paggamit sa diha nga aktibo na ang imong data pack.",
+      "manage": "Dumala",
+      "coverage": "Tabon",
+      "your_esim": "Ang imong eSIM",
+      "current_usage": "Karon nga paggamit"
+    }
   }
 }

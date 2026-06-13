@@ -3066,7 +3066,8 @@
     "flip": "Lật",
     "speaker": "Diễn giả",
     "end": "Kết thúc",
-    "noIncomingCallToAnswer": "Không có cuộc gọi đến nào để trả lời."
+    "noIncomingCallToAnswer": "Không có cuộc gọi đến nào để trả lời.",
+    "serviceUnavailable": "Hiện tại dịch vụ điện thoại không khả dụng. Vui lòng thử lại sau."
   },
   "settings": {
     "startHour": "Giờ bắt đầu (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Tối",
   "accessibility_caption_bg_transparent": "Trong suốt",
   "api": {
-    "notAuthorized": "Không được phép"
+    "notAuthorized": "Không được phép",
+    "invalidURL": "Địa chỉ máy chủ không hợp lệ.",
+    "serverError": "Lỗi máy chủ (%d): %@",
+    "failedToDecodeResponse": "Không thể đọc phản hồi từ máy chủ: %@"
+  },
+  "tap_to_view_contact": "Nhấn vào đây để xem thông tin liên hệ",
+  "android": {
+    "plan": {
+      "plan_billing": "Gói cước & Thanh toán",
+      "current_plan": "Kế hoạch hiện tại",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Hãy sử dụng gói Plus để loại bỏ quảng cáo, hoặc mở khóa các công cụ AI và tính năng tùy chỉnh với gói Premium.",
+      "plus": "Ngoài ra",
+      "premium": "Cao cấp",
+      "back": "Quay lại",
+      "my_plan": "Kế hoạch của tôi",
+      "compare_plans": "So sánh các gói cước",
+      "included": "Bao gồm"
+    },
+    "upgrade": {
+      "upgrade": "Nâng cấp",
+      "restore_purchases": "Khôi phục các giao dịch mua",
+      "unlock_more_with": "Khám phá nhiều hơn cùng Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Chọn gói Plus hoặc Premium để loại bỏ quảng cáo, tùy chỉnh trải nghiệm của bạn và mở khóa các công cụ nâng cao.",
+      "best_experience": "Trải nghiệm tuyệt vời nhất",
+      "close": "Đóng",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Loại bỏ quảng cáo và mở khóa thêm nhiều tính năng hữu ích hàng ngày.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Trải nghiệm trọn vẹn với Chatforia.",
+      "premium_annual": "Gói cao cấp hàng năm",
+      "save_compared_to_monthly_premium": "Tiết kiệm hơn so với gói Premium hàng tháng."
+    },
+    "audio_call": {
+      "mute": "Tắt tiếng",
+      "speaker": "Diễn giả",
+      "end_call": "Kết thúc cuộc gọi"
+    },
+    "dial_pad": {
+      "dial": "Quay số",
+      "done": "Xong",
+      "enter_number": "Nhập số",
+      "call": "Gọi",
+      "delete_digit": "Xóa chữ số"
+    },
+    "incoming_call": {
+      "decline": "Sự suy giảm",
+      "accept": "Chấp nhận",
+      "decline_call": "Từ chối cuộc gọi",
+      "accept_call": "Nhận cuộc gọi"
+    },
+    "video_call": {
+      "camera": "Máy ảnh",
+      "flip_camera": "Máy ảnh lật"
+    },
+    "chats": {
+      "search_chats": "Tìm kiếm cuộc trò chuyện",
+      "no_chats_yet": "Chưa có cuộc trò chuyện nào",
+      "admob_ad": "Quảng cáo AdMob",
+      "delete_conversation": "Xóa cuộc trò chuyện?",
+      "this_will_remove_this_conversation_from_your_cha": "Thao tác này sẽ xóa cuộc trò chuyện này khỏi danh sách trò chuyện của bạn.",
+      "delete": "Xóa",
+      "cancel": "Hủy",
+      "chats": "Trò chuyện",
+      "new_chat": "Cuộc trò chuyện mới",
+      "refresh": "Làm mới",
+      "random_chat": "Trò chuyện ngẫu nhiên",
+      "search": "Tìm kiếm",
+      "delete_conversation_2": "Xóa cuộc trò chuyện"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Tên người dùng, tên người liên hệ hoặc số điện thoại",
+      "new_chat": "Trò chuyện mới",
+      "start_a_chat": "Bắt đầu trò chuyện",
+      "search_by_username_contact_name_or_phone_number": "Tìm kiếm theo tên người dùng, tên liên hệ hoặc số điện thoại.",
+      "results": "Kết quả",
+      "open_chat": "Mở cuộc trò chuyện"
+    },
+    "calls": {
+      "recents": "Các bài viết gần đây",
+      "voicemail": "Thư thoại",
+      "calls": "Cuộc gọi",
+      "no_calls_yet": "Chưa có cuộc gọi nào",
+      "your_recent_calls_will_show_up_here": "Các cuộc gọi gần đây của bạn sẽ hiển thị tại đây.",
+      "open_dial_pad": "Mở bàn phím số",
+      "delete_call": "Xóa cuộc gọi",
+      "video_call": "Cuộc gọi video"
+    },
+    "contacts": {
+      "contacts": "Liên hệ",
+      "add_contact": "Thêm liên hệ",
+      "import_from_phone": "Nhập từ điện thoại",
+      "invite_friends": "Mời bạn bè",
+      "favorite": "Yêu thích",
+      "open_contact": "Liên hệ"
+    },
+    "main_activity": {
+      "loading": "Đang tải...",
+      "profile": "Hồ sơ"
+    },
+    "profile": {
+      "delete_account": "Xóa tài khoản",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa tài khoản của mình không?",
+      "log_out": "Đăng xuất",
+      "change_photo": "Thay đổi ảnh",
+      "remove_photo": "Xóa ảnh",
+      "preferred_language": "Ngôn ngữ ưa thích",
+      "your_age_range": "Độ tuổi của bạn",
+      "theme": "Chủ đề",
+      "choose_how_looks_across_the_app": "Chọn giao diện của Chatforia trong ứng dụng.",
+      "uploading": "Đang tải lên…",
+      "choose_plus_or_premium": "Chọn gói Plus hoặc Premium",
+      "profile_photo": "Ảnh đại diện",
+      "open_upgrade": "Nâng cấp mở",
+      "open": "Mở",
+      "account": "Tài khoản",
+      "username": "Tên người dùng",
+      "email": "Email",
+      "plan": "Kế hoạch",
+      "wireless": "Không dây",
+      "mobile": "Chatforia Phiên bản di động",
+      "esim_and_wireless_settings": "Cài đặt eSIM và kết nối không dây",
+      "call_text_forwarding": "Chuyển tiếp cuộc gọi và tin nhắn",
+      "forward_incoming_calls_and_texts": "Chuyển tiếp các cuộc gọi và tin nhắn đến",
+      "phone_number": "Số điện thoại",
+      "manage_your_number": "Quản lý số điện thoại Chatforia của bạn",
+      "settings": "Cài đặt",
+      "auto_translate_messages": "Tự động dịch tin nhắn",
+      "automatically_translate_messages_into_your_prefe": "Tự động dịch tin nhắn sang ngôn ngữ bạn chọn.",
+      "show_original_with_translation": "Hiển thị bản gốc kèm bản dịch",
+      "show_the_original_message_alongside_the_translat": "Hiển thị tin nhắn gốc cùng với bản dịch.",
+      "smart_reply_suggestions": "Đề xuất trả lời thông minh",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Hiển thị tính năng hỗ trợ viết lại và trả lời nhanh do Ria cung cấp.",
+      "linked_devices": "Các thiết bị được kết nối",
+      "manage_trusted_devices": "Quản lý các thiết bị đáng tin cậy",
+      "pair_new_device": "Kết nối thiết bị mới",
+      "approve_a_new_device": "Chấp thuận thiết bị mới",
+      "appearance": "Hình thức",
+      "accessibility": "Khả năng tiếp cận",
+      "visual_alerts_captions_and_voice_note_accessibil": "Các cảnh báo trực quan, phụ đề và khả năng truy cập ghi chú giọng nói",
+      "security": "Bảo mật",
+      "encryption_key_protected": "Được bảo vệ bằng khóa mã hóa",
+      "privacy": "Quyền riêng tư",
+      "allow_explicit_content": "Cho phép nội dung nhạy cảm",
+      "show_read_receipts": "Hiển thị thông báo đã đọc",
+      "blur_messages_by_default": "Mặc định là làm mờ tin nhắn",
+      "blur_when_app_is_unfocused": "Làm mờ khi ứng dụng không được chọn",
+      "hold_to_reveal_messages": "Nhấn và giữ để hiển thị thông báo",
+      "notify_when_messages_are_copied": "Thông báo khi tin nhắn được sao chép",
+      "random_chat": "Trò chuyện ngẫu nhiên",
+      "use_age_based_matching": "Sử dụng phương pháp ghép đôi dựa trên độ tuổi",
+      "let_ria_remember_conversations": "Hãy để Ria ghi nhớ những cuộc trò chuyện",
+      "forward_voicemail_to_email": "Chuyển tiếp thư thoại sang email",
+      "legal_support": "Pháp lý & Hỗ trợ",
+      "free": "Miễn phí"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Các tùy chọn giúp sử dụng Chatforia dễ dàng hơn mà không cần dựa vào âm thanh.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Mặc định là kích thước bình thường. Bạn có thể tăng kích thước nếu muốn chữ to hơn trong cài đặt trợ năng.",
+      "interface_font_size": "Kích thước phông chữ giao diện",
+      "notifications": "Thông báo",
+      "visual_alerts_for_messages_calls": "Cảnh báo bằng hình ảnh cho tin nhắn và cuộc gọi",
+      "show_banners_and_visual_indicators_so_you_do_not": "Hiển thị các biểu ngữ và chỉ báo trực quan để bạn không bỏ lỡ các hoạt động.",
+      "vibrate_on_new_messages": "Rung khi có tin nhắn mới",
+      "trigger_device_vibration_with_notifications_when": "Kích hoạt chế độ rung cho thiết bị khi có thông báo (nếu được hỗ trợ).",
+      "flash_screen_on_incoming_call": "Màn hình nhấp nháy khi có cuộc gọi đến",
+      "briefly_flash_the_screen_when_a_call_rings": "Làm sáng màn hình trong chốc lát khi có cuộc gọi đến.",
+      "live_captions": "Phụ đề trực tiếp",
+      "enable_live_captions": "Bật phụ đề trực tiếp",
+      "show_real_time_captions_during_calls_premium_req": "Hiển thị phụ đề thời gian thực trong khi gọi. Yêu cầu gói Premium.",
+      "caption_font_size": "Kích thước phông chữ chú thích",
+      "caption_background": "Nền chú thích",
+      "voice_notes": "Ghi chú bằng giọng nói",
+      "auto_transcribe_voice_notes": "Tự động chuyển đổi ghi chú giọng nói thành văn bản",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Đính kèm bản ghi âm vào các tin nhắn thoại mà bạn nhận được."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Tôi đã khôi phục lại khóa của mình",
+      "restore_encryption": "Khôi phục mã hóa"
+    },
+    "language_selection": {
+      "select_language": "Chọn ngôn ngữ"
+    },
+    "login": {
+      "email_or_username": "Email hoặc tên người dùng",
+      "password": "Mật khẩu",
+      "forgot_password": "Quên mật khẩu?",
+      "resend_verification_email": "Gửi lại email xác minh",
+      "reset_encryption": "Đặt lại mã hóa",
+      "create_an_account": "Tạo tài khoản",
+      "welcome_to": "Chào mừng bạn đến với Chatforia",
+      "sign_in_or_create_an_account": "Đăng nhập hoặc tạo tài khoản",
+      "or": "hoặc",
+      "don_t_have_an_account_yet": "Bạn chưa có tài khoản?"
+    },
+    "onboarding": {
+      "welcome": "Chào mừng",
+      "set_up_your_profile_so_can_personalize_your_expe": "Hãy thiết lập hồ sơ của bạn để Chatforia có thể cá nhân hóa trải nghiệm của bạn.",
+      "choose_a_username": "Chọn tên người dùng",
+      "this_is_how_people_will_recognize_you_in": "Đây là cách mọi người sẽ nhận ra bạn trên Chatforia.",
+      "choose_your_language": "Chọn ngôn ngữ của bạn",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia sẽ sử dụng thông tin này cho việc dịch thuật và trải nghiệm ứng dụng của bạn.",
+      "you_re_ready": "Bạn đã sẵn sàng",
+      "start_chatting_calling_translating_and_connectin": "Hãy bắt đầu trò chuyện, gọi điện, dịch thuật và kết nối với mọi người trên khắp thế giới."
+    },
+    "register": {
+      "confirm_password": "Xác nhận mật khẩu",
+      "phone_optional": "Không bắt buộc phải có điện thoại",
+      "log_in": "Đăng nhập",
+      "create_your_account": "Tạo tài khoản của bạn",
+      "start_chatting_across_languages_with": "Hãy bắt đầu trò chuyện đa ngôn ngữ cùng Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Tôi đồng ý nhận tin nhắn xác minh qua SMS.",
+      "already_have_an_account": "Bạn đã có tài khoản chưa?"
+    },
+    "add_contact": {
+      "phone": "Điện thoại",
+      "name": "Tên",
+      "alias_optional": "Tên gọi khác (tùy chọn)",
+      "pin_this_person_as_a_favorite_contact": "Ghim người này vào danh sách liên hệ yêu thích."
+    },
+    "contact_detail": {
+      "edit_contact": "Chỉnh sửa thông tin liên hệ",
+      "delete_contact": "Xóa liên hệ",
+      "message": "Thông điệp",
+      "video": "Video",
+      "external_name": "Tên bên ngoài"
+    },
+    "import_phone_contacts": {
+      "select_all": "Chọn tất cả",
+      "clear": "Xóa",
+      "import_contacts": "Nhập danh bạ"
+    },
+    "invite_friends": {
+      "share_invite_link": "Chia sẻ liên kết mời",
+      "invite_friends": "Mời bạn bè",
+      "share_a_invite_link_with_friends_using_messages_": "Hãy chia sẻ liên kết mời Chatforia với bạn bè qua Tin nhắn, email hoặc bất kỳ ứng dụng nào trên điện thoại của bạn."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Kết nối thiết bị mới",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Mở ứng dụng Chatforia trên thiết bị mới của bạn và đăng nhập. Nếu ứng dụng yêu cầu quyền truy cập vào các cuộc trò chuyện đã được mã hóa của bạn, hãy chấp thuận yêu cầu này từ một thiết bị đáng tin cậy.",
+      "view_pending_device_requests": "Xem các yêu cầu thiết bị đang chờ xử lý"
+    },
+    "key_setup": {
+      "recovery_passcode": "Mật khẩu khôi phục",
+      "confirm_recovery_passcode": "Xác nhận mã khôi phục",
+      "restore_chats": "Khôi phục các cuộc trò chuyện",
+      "clear_local_key": "Xóa khóa cục bộ",
+      "reset_encryption": "Đặt lại mã hóa?",
+      "this_will_permanently_replace_your_encryption_ke": "Điều này sẽ thay thế vĩnh viễn khóa mã hóa của bạn.",
+      "encryption": "Mã hóa",
+      "restore_encrypted_chats": "Khôi phục các cuộc trò chuyện đã được mã hóa",
+      "no_recovery_backup_found": "Không tìm thấy bản sao lưu khôi phục",
+      "open_on_a_device_that_can_already_read_your_encr": "Hãy mở Chatforia trên một thiết bị có thể đọc được các cuộc trò chuyện đã được mã hóa của bạn và tạo Mật mã khôi phục tại đó.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Chưa tìm thấy bản sao lưu nào. Hãy tạo một bản sao lưu từ thiết bị này để bạn có thể khôi phục các cuộc trò chuyện trên iOS, Android và web.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Chỉ nên sử dụng tùy chọn này nếu bạn đã mất tất cả các thiết bị đáng tin cậy và không thể khôi phục khóa ban đầu."
+    },
+    "linked_devices": {
+      "your_devices": "Các thiết bị của bạn",
+      "pending_approvals": "Đang chờ phê duyệt",
+      "approve": "Phê duyệt",
+      "reject": "Từ chối",
+      "revoke": "Hủy bỏ",
+      "request_approval_for_this_device": "Yêu cầu phê duyệt thiết bị này",
+      "finish_device_approval": "Hoàn tất việc phê duyệt thiết bị"
+    },
+    "forwarding_settings": {
+      "reset": "Đặt lại",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Chuyển tiếp các cuộc gọi và tin nhắn đến số điện thoại hoặc địa chỉ email đã được xác minh của bạn.",
+      "quiet_hours": "Giờ yên tĩnh",
+      "forwarding": "Chuyển tiếp",
+      "enable_text_forwarding": "Bật tính năng chuyển tiếp tin nhắn",
+      "forward_texts_to_phone": "Chuyển tiếp tin nhắn đến điện thoại",
+      "forward_texts_to_email": "Chuyển tiếp tin nhắn văn bản sang email",
+      "enable_call_forwarding": "Bật tính năng chuyển tiếp cuộc gọi"
+    },
+    "chat_message_row": {
+      "copy": "Sao chép",
+      "edit": "Chỉnh sửa",
+      "report": "Báo cáo",
+      "message_info": "Thông tin tin nhắn"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Chưa có tin nhắn nào",
+      "delete_message": "Xóa tin nhắn?",
+      "choose_how_you_want_to_delete_this_message": "Hãy chọn cách bạn muốn xóa tin nhắn này.",
+      "delete_for_everyone": "Xóa cho tất cả mọi người",
+      "delete_for_me": "Xóa giúp tôi",
+      "search_messages": "Tìm kiếm tin nhắn",
+      "search_in_chat": "Tìm kiếm trong cuộc trò chuyện",
+      "sending": "Đang gửi…",
+      "failed_to_send": "Không gửi được",
+      "edited": "Đã chỉnh sửa",
+      "audio_call": "Cuộc gọi thoại",
+      "video_call": "Cuộc gọi video",
+      "selected_gif": "GIF được chọn",
+      "remove_gif": "Xóa GIF",
+      "attach": "Đính kèm",
+      "rewrite_with_ria": "Viết lại cùng Ria",
+      "composer_action": "Hành động của nhà soạn nhạc"
+    },
+    "edit_message": {
+      "save": "Lưu",
+      "emoji": "Biểu tượng cảm xúc",
+      "edit_message": "Chỉnh sửa tin nhắn"
+    },
+    "message_attachments": {
+      "image_attachment": "Tệp đính kèm hình ảnh",
+      "video_attachment": "Tệp đính kèm video",
+      "play_video": "Phát video"
+    },
+    "message_bubble": {
+      "disappearing_message": "Tin nhắn tự động biến mất"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Chưa có ai đọc bài này cả",
+      "message_info": "Thông tin tin nhắn"
+    },
+    "report_message": {
+      "reason": "Lý do",
+      "include_previous_messages": "Bao gồm các tin nhắn trước đó",
+      "additional_details": "Thông tin chi tiết",
+      "anything_else_moderators_should_know": "Còn điều gì khác mà các điều hành viên cần biết không?",
+      "block_this_user_after_reporting": "Chặn người dùng này sau khi báo cáo",
+      "submit_report": "Gửi báo cáo",
+      "report_message": "Báo cáo tin nhắn"
+    },
+    "phone_number": {
+      "replace_number": "Thay thế số",
+      "pick_a_number": "Chọn một con số",
+      "no_number_assigned": "Chưa được cấp số Chatforia.",
+      "your_number": "Số Chatforia của bạn"
+    },
+    "pick_number": {
+      "area_code": "Mã vùng",
+      "premium_numbers_are_protected_from_recycling": "Các số điện thoại cao cấp được bảo vệ khỏi việc tái sử dụng.",
+      "available_numbers": "Các số còn trống",
+      "search_by_area_code_to_find_available_numbers": "Tìm kiếm theo mã vùng để xem các số điện thoại còn trống.",
+      "capability": "Khả năng",
+      "country": "Quốc gia"
+    },
+    "gif_picker": {
+      "search_tenor": "Tìm kiếm Tenor",
+      "search_gifs": "Tìm kiếm GIF"
+    },
+    "random_chat": {
+      "add_friend": "Thêm bạn bè",
+      "skip": "Bỏ qua",
+      "send": "Gửi",
+      "end_chat": "Kết thúc cuộc trò chuyện"
+    },
+    "random_matching": {
+      "finding_someone": "Tìm một người"
+    },
+    "ria_chat": {
+      "ask_ria": "Hãy hỏi Ria...",
+      "you_re_now_chatting_with_ria": "Bạn hiện đang trò chuyện với Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Bạn có thể trò chuyện với Ria bất cứ lúc nào, không cần phải ghép đôi ngẫu nhiên với người khác."
+    },
+    "ria_rewrite": {
+      "original_text": "Bản gốc",
+      "choose_tone": "Chọn giọng điệu",
+      "rewriting": "Đang viết lại…",
+      "suggestions": "Gợi ý",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Chọn một giọng điệu để tạo các đề xuất viết lại."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Phiên bản miễn phí bao gồm các âm thanh cơ bản. Nâng cấp để mở khóa thêm các âm thanh và nhạc chuông.",
+      "volume": "Khối lượng",
+      "message_tone": "Giọng điệu tin nhắn",
+      "ringtone": "Nhạc chuông"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Chưa có tin nhắn thoại nào.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Khi ai đó để lại tin nhắn thoại cho bạn,\ntin nhắn đó sẽ hiển thị ở đây.",
+      "play_voicemail": "Phát tin nhắn thoại",
+      "delete_voicemail": "Xóa thư thoại"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Thư thoại đã chọn"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Phạm vi phủ sóng tại quốc gia hiện tại của bạn hoặc khu vực lân cận.",
+      "coverage_across_supported_european_destinations": "Phạm vi phủ sóng tại các điểm đến ở châu Âu được hỗ trợ.",
+      "coverage_across_supported_global_destinations": "Phạm vi phủ sóng tại các điểm đến trên toàn cầu được hỗ trợ."
+    },
+    "wireless_home": {
+      "manage_wireless": "Quản lý mạng không dây",
+      "port_my_number": "Chuyển số điện thoại của tôi",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Các gói dữ liệu eSIM yêu cầu thiết bị tương thích với eSIM và đã được mở khóa.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Luôn kết nối khi bạn đang đi du lịch hoặc ở nơi không có Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Chọn gói dữ liệu eSIM dùng một lần cho vùng phủ sóng trong nước, châu Âu hoặc toàn cầu.",
+      "we_don_t_sell_data_packs_under_3_gb": "Chúng tôi không bán các gói dữ liệu dưới 3 GB.",
+      "loading_usage": "Đang tải dữ liệu sử dụng…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Hiện chưa có gói dữ liệu nào đang hoạt động. Hãy mua một gói dưới đây để bắt đầu theo dõi lượng dữ liệu đã sử dụng.",
+      "usage_details_will_appear_once_your_data_pack_is": "Thông tin chi tiết về việc sử dụng sẽ hiển thị sau khi gói dữ liệu của bạn được kích hoạt.",
+      "manage": "Quản lý",
+      "coverage": "Phạm vi bảo hiểm",
+      "your_esim": "Thẻ eSIM của bạn",
+      "current_usage": "Tình hình sử dụng hiện tại"
+    }
   }
 }

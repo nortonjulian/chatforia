@@ -508,7 +508,7 @@
     "contact": "Կապ մեզ հետ",
     "help": "Օգնության կենտրոն",
     "status": "Վիճակի էջ",
-    "iosDownload": "iOS / App Store",
+    "iosDownload": "iOS / Ապստոր",
     "androidDownload": "Android / Google Play",
     "privacy": "Գաղտնիության քաղաքականություն",
     "terms": "Ծառայության պայմաններ",
@@ -3066,7 +3066,8 @@
     "flip": "Փոխել",
     "speaker": "Խոսնակ",
     "end": "Վերջ",
-    "noIncomingCallToAnswer": "Պատասխանելու համար զանգ չկա։"
+    "noIncomingCallToAnswer": "Պատասխանելու համար զանգ չկա։",
+    "serviceUnavailable": "Զանգերի սպասարկումը ներկայումս մատչելի չէ։ Խնդրում ենք փորձել կրկին ավելի ուշ։"
   },
   "settings": {
     "startHour": "Սկսման ժամ (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Մութ",
   "accessibility_caption_bg_transparent": "Թափանցիկ",
   "api": {
-    "notAuthorized": "Չի թույլատրվում"
+    "notAuthorized": "Չի թույլատրվում",
+    "invalidURL": "Սերվերի հասցեն անվավեր է։",
+    "serverError": "Սերվերի սխալ (%d): %@",
+    "failedToDecodeResponse": "Չհաջողվեց կարդալ սերվերի պատասխանը: %@"
+  },
+  "tap_to_view_contact": "Սեղմեք՝ կոնտակտը դիտելու համար",
+  "android": {
+    "plan": {
+      "plan_billing": "Պլան և հաշիվ-ապրանքագիր",
+      "current_plan": "Ներկա պլան",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Անխափան գովազդազուրկ փորձառության համար ընտրեք Plus, կամ Premium-ով բացեք արհեստական բանականության գործիքներն ու հարմարեցման հնարավորությունները։",
+      "plus": "Պլյուս",
+      "premium": "Պրեմիում",
+      "back": "Վերադառնալ",
+      "my_plan": "Իմ պլանը",
+      "compare_plans": "Պլանների համեմատություն",
+      "included": "ներառված է"
+    },
+    "upgrade": {
+      "upgrade": "Թարմացում",
+      "restore_purchases": "Վերականգնել գնումները",
+      "unlock_more_with": "Chatforia-ով բացեք ավելին",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Ընտրեք Plus կամ Premium՝ գովազդները հեռացնելու, ձեր փորձը հարմարեցնելու և առաջադեմ գործիքներ բացելու համար։",
+      "best_experience": "Լավագույն փորձ",
+      "close": "Փակել",
+      "plus": "Չաթֆորիա Պլյուս",
+      "remove_ads_and_unlock_more_everyday_features": "Հեռացրեք գովազդները և բացեք ավելի շատ առօրյա հնարավորություններ։",
+      "premium": "Չաթֆորիա Պրեմիում",
+      "the_full_experience": "Լիարժեք Չաթֆորիա փորձը։",
+      "premium_annual": "Պրեմիում տարեկան",
+      "save_compared_to_monthly_premium": "Խնայեք՝ համեմատած ամսական պրեմիումի հետ։"
+    },
+    "audio_call": {
+      "mute": "Լռեցնել",
+      "speaker": "Խոսնակ",
+      "end_call": "Զանգը ավարտել"
+    },
+    "dial_pad": {
+      "dial": "Թիվապանակ",
+      "done": "Կատարված է",
+      "enter_number": "Մուտքագրեք թիվը",
+      "call": "Զանգահարել",
+      "delete_digit": "Թվանշակը ջնջել"
+    },
+    "incoming_call": {
+      "decline": "Նվազում",
+      "accept": "Ընդունել",
+      "decline_call": "Զանգը մերժել",
+      "accept_call": "Զանգը ընդունել"
+    },
+    "video_call": {
+      "camera": "Լուսանկարչական ապարատ",
+      "flip_camera": "Ֆլիփ տեսախցիկ"
+    },
+    "chats": {
+      "search_chats": "Չաթերի որոնում",
+      "no_chats_yet": "Դեռ չաթեր չկան",
+      "admob_ad": "AdMob գովազդ",
+      "delete_conversation": "Հեռացնել զրույցը?",
+      "this_will_remove_this_conversation_from_your_cha": "Սա կհեռացնի այս զրույցը ձեր զրույցների ցուցակից։",
+      "delete": "Սրբել",
+      "cancel": "Չեղարկել",
+      "chats": "Չաթեր",
+      "new_chat": "Նոր զրույց",
+      "refresh": "Թարմացնել",
+      "random_chat": "Հարմարեցված զրույց",
+      "search": "Փնտրել",
+      "delete_conversation_2": "Հեռացնել զրույցը"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Օգտանուն, կոնտակտային անուն կամ հեռախոսահամար",
+      "new_chat": "Նոր զրույց",
+      "start_a_chat": "Սկսեք զրույցը",
+      "search_by_username_contact_name_or_phone_number": "Փնտրեք օգտանվամբ, կոնտակտային անունով կամ հեռախոսահամարով։",
+      "results": "Արդյունքներ",
+      "open_chat": "Բացել զրույցը"
+    },
+    "calls": {
+      "recents": "Վերջիններ",
+      "voicemail": "Ձայնային նամակ",
+      "calls": "Զանգեր",
+      "no_calls_yet": "Դեռ զանգեր չկան",
+      "your_recent_calls_will_show_up_here": "Ձեր վերջին զանգերը կհայտնվեն այստեղ։",
+      "open_dial_pad": "Բացեք թվահավաքի վահանակը",
+      "delete_call": "Զանգը ջնջել",
+      "video_call": "Տեսազանգ"
+    },
+    "contacts": {
+      "contacts": "Կապեր",
+      "add_contact": "Ավելացնել կոնտակտ",
+      "import_from_phone": "Հեռախոսից ներմուծել",
+      "invite_friends": "Ընկերներին հրավիրել",
+      "favorite": "Սիրելի",
+      "open_contact": "Կապ հաստատել"
+    },
+    "main_activity": {
+      "loading": "Ցուցադրվում է...",
+      "profile": "Պրոֆիլ"
+    },
+    "profile": {
+      "delete_account": "Հաշիվը ջնջել",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Այս գործողությունը չի կարող չեղարկվել։ Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ձեր հաշիվը։",
+      "log_out": "Ելք",
+      "change_photo": "Փոխել լուսանկարը",
+      "remove_photo": "Հեռացնել լուսանկարը",
+      "preferred_language": "Նախընտրելի լեզու",
+      "your_age_range": "Ձեր տարիքային միջակայք",
+      "theme": "Թեմա",
+      "choose_how_looks_across_the_app": "Ընտրեք, թե ինչպես Chatforia-ն կհայտնվի ամբողջ հավելվածում։",
+      "uploading": "Վերբեռնում…",
+      "choose_plus_or_premium": "Ընտրեք Plus կամ Premium",
+      "profile_photo": "Պրոֆիլի լուսանկար",
+      "open_upgrade": "Բաց թարմացում",
+      "open": "Բաց",
+      "account": "Հաշիվ",
+      "username": "Օգտանուն",
+      "email": "Էլփոստ",
+      "plan": "Պլան",
+      "wireless": "Անլար",
+      "mobile": "Չաթֆորիա Մոբայլ",
+      "esim_and_wireless_settings": "eSIM և անլար կարգավորումներ",
+      "call_text_forwarding": "Զանգերի և հաղորդագրությունների փոխանցում",
+      "forward_incoming_calls_and_texts": "Ուղարկել մուտքային զանգերն ու հաղորդագրությունները",
+      "phone_number": "Հեռախոսի համարը",
+      "manage_your_number": "Կառավարեք ձեր Chatforia համարը",
+      "settings": "Կարգավորումներ",
+      "auto_translate_messages": "Հաղորդագրությունների ավտոմատ թարգմանություն",
+      "automatically_translate_messages_into_your_prefe": "Հաղորդագրությունները ավտոմատ կերպով թարգմանեք ձեր նախընտրած լեզվով։",
+      "show_original_with_translation": "Ցուցադրել բնօրինակը թարգմանությամբ",
+      "show_the_original_message_alongside_the_translat": "Ցուցադրեք բնօրինակ հաղորդագրությունը թարգմանության կողքին։",
+      "smart_reply_suggestions": "Խելացի պատասխանի առաջարկներ",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Ցուցադրել Ria-ով աշխատող վերաշարադրման օգնություն և արագ պատասխաններ։",
+      "linked_devices": "Կապակցված սարքեր",
+      "manage_trusted_devices": "Կառավարել վստահելի սարքերը",
+      "pair_new_device": "Նոր սարքի զուգավորում",
+      "approve_a_new_device": "Հաստատել նոր սարք",
+      "appearance": "Տեսք",
+      "accessibility": "Մատչելիություն",
+      "visual_alerts_captions_and_voice_note_accessibil": "Տեսողական ազդանշաններ, վերնագրեր և ձայնային նոթերի մատչելիություն",
+      "security": "Անվտանգություն",
+      "encryption_key_protected": "Գաղտնագրման բանալին պաշտպանված է",
+      "privacy": "Գաղտնիություն",
+      "allow_explicit_content": "Թույլ տալ բացահայտ բովանդակություն",
+      "show_read_receipts": "Ցուցադրել կարդացածի հաստատումները",
+      "blur_messages_by_default": "Պատահականացրեք հաղորդագրությունները ըստ նախնական կարգավորման",
+      "blur_when_app_is_unfocused": "Ծրագրի անֆոկուս վիճակում մշացրեք",
+      "hold_to_reveal_messages": "Պահեք՝ հաղորդագրությունները ցուցադրելու համար",
+      "notify_when_messages_are_copied": "Հաղորդագրություններ պատճենելու ժամանակ ծանուցել",
+      "random_chat": "Հաճախակի զրույց",
+      "use_age_based_matching": "Օգտագործեք տարիքային համապատասխանեցում",
+      "let_ria_remember_conversations": "Թող Ռիան հիշի զրույցները",
+      "forward_voicemail_to_email": "Ձայնային նամակը ուղարկել էլփոստով",
+      "legal_support": "Իրավաբանական և աջակցության ծառայություններ",
+      "free": "Անվճար"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Ձայնին հենվելով չմնալով՝ Chatforia-ն օգտագործելը հեշտացնելու տարբերակներ։",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Սկսվում է սովորական չափով։ Մեծացրեք, եթե մատչելիության կարգավորումներում նախընտրում եք ավելի մեծ տեքստ։",
+      "interface_font_size": "Ինտերֆեյսի տառատեսակի չափ",
+      "notifications": "Ծանուցումներ",
+      "visual_alerts_for_messages_calls": "Հաղորդագրությունների և զանգերի տեսողական ծանուցումներ",
+      "show_banners_and_visual_indicators_so_you_do_not": "Ցուցադրեք պաստառներ և տեսողական ցուցիչներ, որպեսզի չվրիպեք ակտիվությունից։",
+      "vibrate_on_new_messages": "Նոր հաղորդագրությունների ժամանակ հեռախոսը թրթռա",
+      "trigger_device_vibration_with_notifications_when": "Աջակցվող դեպքերում սարքի թրեյգեր-սարքի թրթռում և ծանուցումներ",
+      "flash_screen_on_incoming_call": "Մուտքային զանգի ժամանակ Flash էկրան",
+      "briefly_flash_the_screen_when_a_call_rings": "Զանգի ժամանակ էկրանը կարճ ժամանակով փայլեցրեք։",
+      "live_captions": "Ուղիղ վերնագրեր",
+      "enable_live_captions": "Ակտիվացնել ուղիղ վերնագրերը",
+      "show_real_time_captions_during_calls_premium_req": "Զանգերի ընթացքում ցուցադրել իրական ժամանակի ենթագրեր։ Պրեմիում բաժանորդագրություն պահանջվում է։",
+      "caption_font_size": "Նկարի վերնագրի տառատեսակի չափը",
+      "caption_background": "Նկարի վերնագրի ֆոն",
+      "voice_notes": "Ձայնային նոթեր",
+      "auto_transcribe_voice_notes": "Ավտոմատ տրանսկրիպցիա ձայնային նոթերի",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Հավելեք ստացվող ձայնային հաղորդագրություններին տրանսկրիպտ։"
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Ես վերականգնել եմ իմ բանալին։",
+      "restore_encryption": "Վերականգնել գաղտնագրումը"
+    },
+    "language_selection": {
+      "select_language": "Ընտրեք լեզու"
+    },
+    "login": {
+      "email_or_username": "Էլփոստ կամ օգտանուն",
+      "password": "Գաղտնաբառ",
+      "forgot_password": "Մոռացե՞լ եք գաղտնաբառը։",
+      "resend_verification_email": "Վերաուղարկել վավերացման էլփոստը",
+      "reset_encryption": "Վերականգնել գաղտնագրումը",
+      "create_an_account": "Հաշիվ ստեղծել",
+      "welcome_to": "Բարի գալուստ Չաթֆորիա",
+      "sign_in_or_create_an_account": "Մուտք գործեք կամ ստեղծեք հաշիվ",
+      "or": "կամ",
+      "don_t_have_an_account_yet": "Դեռ չունե՞ք հաշիվ։"
+    },
+    "onboarding": {
+      "welcome": "Բարի գալուստ",
+      "set_up_your_profile_so_can_personalize_your_expe": "Կարգավորեք ձեր պրոֆիլը, որպեսզի Chatforia-ն կարողանա անհատականացնել ձեր փորձը։",
+      "choose_a_username": "Ընտրեք օգտանուն",
+      "this_is_how_people_will_recognize_you_in": "Այսպես մարդիկ կճանաչեն քեզ Չեթֆորիայում։",
+      "choose_your_language": "Ընտրեք ձեր լեզուն",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia-ն կօգտագործի սա թարգմանությունների և ձեր հավելվածի փորձի համար։",
+      "you_re_ready": "Դուք պատրաստ եք",
+      "start_chatting_calling_translating_and_connectin": "Սկսեք զրուցել, զանգահարել, թարգմանել և կապ հաստատել աշխարհի տարբեր անկյուններում գտնվող մարդկանց հետ։"
+    },
+    "register": {
+      "confirm_password": "Հաստատեք գաղտնաբառը",
+      "phone_optional": "Հեռախոսը ընտրովի",
+      "log_in": "Մուտք գործել",
+      "create_your_account": "Ստեղծեք ձեր հաշիվը",
+      "start_chatting_across_languages_with": "Սկսեք զրուցել տարբեր լեզուներով Chatforia-ի միջոցով։",
+      "i_agree_to_receive_sms_verification_messages": "Ես համաձայն եմ ստանալ SMS վավերացման հաղորդագրություններ։",
+      "already_have_an_account": "Արդեն ունե՞ք հաշիվ։"
+    },
+    "add_contact": {
+      "phone": "Հեռախոս",
+      "name": "Անուն",
+      "alias_optional": "Այլ անունը՝ ըստ ցանկության",
+      "pin_this_person_as_a_favorite_contact": "Այս անձին նշեք որպես սիրելի կոնտակտ։"
+    },
+    "contact_detail": {
+      "edit_contact": "Խմբագրել կոնտակտը",
+      "delete_contact": "Հեռացնել կոնտակտը",
+      "message": "Հաղորդագրություն",
+      "video": "Տեսանյութ",
+      "external_name": "Արտաքին անուն"
+    },
+    "import_phone_contacts": {
+      "select_all": "Բոլորը ընտրել",
+      "clear": "Մաքուր",
+      "import_contacts": "Կոնտակտներ ներմուծել"
+    },
+    "invite_friends": {
+      "share_invite_link": "Կիսեք հրավերի հղումը",
+      "invite_friends": "Ընկերներ հրավիրել",
+      "share_a_invite_link_with_friends_using_messages_": "Կիսվեք Chatforia-ի հրավեր հղումով ընկերների հետ՝ օգտագործելով Messages, էլփոստ կամ ձեր հեռախոսի ցանկացած հավելված։"
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Նոր սարք զուգակցել",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Բացեք Chatforia-ն ձեր նոր սարքում և մուտք գործեք։ Եթե այն պահանջի մուտք ձեր գաղտնագրված զրույցներին, հաստատեք դա վստահելի սարքից։",
+      "view_pending_device_requests": "Դիտել սարքի կախված հարցումները"
+    },
+    "key_setup": {
+      "recovery_passcode": "Վերականգնման գաղտնաբառ",
+      "confirm_recovery_passcode": "Հաստատեք վերականգման գաղտնաբառը",
+      "restore_chats": "Չաթերը վերականգնել",
+      "clear_local_key": "Մաքրել տեղական բանալին",
+      "reset_encryption": "Վերականգնել գաղտնագրումը?",
+      "this_will_permanently_replace_your_encryption_ke": "Սա մշտապես կփոխարինի ձեր գաղտնագրման բանալին։",
+      "encryption": "Մասնավորագրում",
+      "restore_encrypted_chats": "Վերականգնել գաղտնագրված զրույցները",
+      "no_recovery_backup_found": "Վերականգնման պահուստային պատճեն չի գտնվել",
+      "open_on_a_device_that_can_already_read_your_encr": "Բացեք Chatforia այն սարքում, որը արդեն կարող է կարդալ ձեր գաղտնագրված զրույցները, և այնտեղ ստեղծեք վերականգնման գաղտնաբառ։",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Դեռևս չի հայտնաբերվել որևէ վերականգնման պահուստային պատճեն։ Ստեղծեք մեկը այս սարքից, որպեսզի կարողանաք վերականգնել զրույցները iOS-ում, Android-ում և վեբում։",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Սա օգտագործեք միայն այն դեպքում, եթե կորցրել եք բոլոր վստահելի սարքերը և չեք կարող վերականգնել ձեր սկզբնական բանալին։"
+    },
+    "linked_devices": {
+      "your_devices": "Ձեր սարքերը",
+      "pending_approvals": "Հաստատումների սպասման մեջ",
+      "approve": "Հաստատել",
+      "reject": "Մերժել",
+      "revoke": "Չեղյալ հայտարարել",
+      "request_approval_for_this_device": "Հաստատում ստանալու համար դիմեք այս սարքի համար",
+      "finish_device_approval": "Սարքի հաստատում"
+    },
+    "forwarding_settings": {
+      "reset": "Վերականգնել",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Ուղարկեք ստացվող զանգերն ու հաղորդագրությունները ձեր հաստատված հեռախոսին կամ էլփոստին։",
+      "quiet_hours": "Հանգիստ ժամեր",
+      "forwarding": "Ուղարկում",
+      "enable_text_forwarding": "Ակտիվացնել տեքստի փոխանցումը",
+      "forward_texts_to_phone": "Տեքստերը ուղարկել հեռախոսին",
+      "forward_texts_to_email": "Տեքստերը ուղարկել էլփոստով",
+      "enable_call_forwarding": "Ակտիվացնել զանգերի փոխանցումը"
+    },
+    "chat_message_row": {
+      "copy": "Պատճենել",
+      "edit": "Խմբագրել",
+      "report": "Հաշվետվություն",
+      "message_info": "Հաղորդագրության տեղեկություններ"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Դեռ հաղորդագրություններ չկան",
+      "delete_message": "Հաղորդագրությունը ջնջե՞լ",
+      "choose_how_you_want_to_delete_this_message": "Ընտրեք, թե ինչպես եք ուզում ջնջել այս հաղորդագրությունը։",
+      "delete_for_everyone": "Հեռացնել բոլորի համար",
+      "delete_for_me": "Հեռացրու ինձ համար",
+      "search_messages": "Հաղորդագրություններ որոնել",
+      "search_in_chat": "Փնտրել զրույցում",
+      "sending": "Ուղարկվում է…",
+      "failed_to_send": "Չհաջողվեց ուղարկել",
+      "edited": "Խմբագրված",
+      "audio_call": "Ձայնային զանգ",
+      "video_call": "Տեսազանգ",
+      "selected_gif": "Ընտրված GIF",
+      "remove_gif": "Հեռացնել GIF-ը",
+      "attach": "Միացնել",
+      "rewrite_with_ria": "Վերագրիր Ռիայի հետ",
+      "composer_action": "Կոմպոզիտորի գործողություն"
+    },
+    "edit_message": {
+      "save": "Պահպանել",
+      "emoji": "Էմոջի",
+      "edit_message": "Խմբագրել հաղորդագրությունը"
+    },
+    "message_attachments": {
+      "image_attachment": "Նկարի կցում",
+      "video_attachment": "Տեսանյութի կցում",
+      "play_video": "Վիդեոն միացնել"
+    },
+    "message_bubble": {
+      "disappearing_message": "Չքացող հաղորդագրություն"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Դեռ ոչ ոք սա չի կարդացել։",
+      "message_info": "Հաղորդագրության տեղեկություններ"
+    },
+    "report_message": {
+      "reason": "Պատճառ",
+      "include_previous_messages": "Ներառել նախորդ հաղորդագրությունները",
+      "additional_details": "Լրացուցիչ մանրամասներ",
+      "anything_else_moderators_should_know": "Մոդերատորները պետք է իմանան՞ որևէ այլ բան։",
+      "block_this_user_after_reporting": "Հաշվետվություն ներկայացնելուց հետո արգելափակել այս օգտվողին",
+      "submit_report": "Հաշվետվություն ներկայացնել",
+      "report_message": "Հաղորդագրության հաղորդում"
+    },
+    "phone_number": {
+      "replace_number": "Թիվը փոխարինել",
+      "pick_a_number": "Ընտրեք մի թիվ",
+      "no_number_assigned": "Չաթֆորիա համարը չի նշանակվել։",
+      "your_number": "Ձեր Չաթֆորիա համարը"
+    },
+    "pick_number": {
+      "area_code": "Տարածքային կոդ",
+      "premium_numbers_are_protected_from_recycling": "Պրեմիում համարները պաշտպանված են վերամշակմանց։",
+      "available_numbers": "Հասանելի համարներ",
+      "search_by_area_code_to_find_available_numbers": "Տարածքային կոդով փնտրեք մատչելի համարներ։",
+      "capability": "ունակություն",
+      "country": "Երկիր"
+    },
+    "gif_picker": {
+      "search_tenor": "Տենորի որոնում",
+      "search_gifs": "GIF-եր փնտրել"
+    },
+    "random_chat": {
+      "add_friend": "Ավելացնել ընկեր",
+      "skip": "Անտեսել",
+      "send": "Ուղարկել",
+      "end_chat": "Չաթը ավարտեք"
+    },
+    "random_matching": {
+      "finding_someone": "Մեկին գտնել"
+    },
+    "ria_chat": {
+      "ask_ria": "Հարցրու Ռիային...",
+      "you_re_now_chatting_with_ria": "Դուք այժմ զրուցում եք Ռիայի հետ։",
+      "chat_with_ria_anytime_separate_from_random_human": "Չաթեք Ռիայի հետ ցանկացած պահի, առանց պատահական մարդկանց զուգակցման։"
+    },
+    "ria_rewrite": {
+      "original_text": "Առաջնօրինակ տեքստ",
+      "choose_tone": "Ընտրեք տոն",
+      "rewriting": "Վերագրում…",
+      "suggestions": "Առաջարկներ",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Ընտրեք տոն՝ վերաշարադրման առաջարկներ ստանալու համար։"
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Անվճար տարբերակը ներառում է հիմնական ձայներ։ Թարմացրեք՝ բացելու համար ավելի շատ տոններ և զանգի ձայներ։",
+      "volume": "Ծավալ",
+      "message_tone": "Հաղորդագրության տոնը",
+      "ringtone": "Զանգի ձայն"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Դեռ ձայնային հաղորդագրություններ չկան։",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Երբ որևէ մեկը ձեզ ձայնային հաղորդագրություն թողնի, այն կհայտնվի այստեղ։",
+      "play_voicemail": "Ձայնային նամակ նվագարկել",
+      "delete_voicemail": "Հեռացնել ձայնային նամակը"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Ընտրված ձայնային նամակ"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Ձեր ներկայիս երկրի կամ հարակից տեղական օգտագործման ծածկույթ։",
+      "coverage_across_supported_european_destinations": "Աջակցվող եվրոպական ուղղությունների ամբողջ տարածքը ընդգրկված է։",
+      "coverage_across_supported_global_destinations": "Աջակցվող համաշխարհային ուղղություններում ընդգրկում։"
+    },
+    "wireless_home": {
+      "manage_wireless": "Կառավարել անլար կապը",
+      "port_my_number": "Պորտավորել իմ համարը",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM տվյալների փաթեթները պահանջում են eSIM-համատեղելի և բացված սարք։",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Մնացեք կապված, երբ ճանապարհորդում եք կամ Wi-Fi-ից հեռու եք։",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Ընտրեք մեկանգամյա eSIM տվյալների փաթեթ՝ տեղական, եվրոպական կամ համաշխարհային ծածկույթի համար։",
+      "we_don_t_sell_data_packs_under_3_gb": "Մենք չենք վաճառում 3 ԳԲ-ից փոքր տվյալների փաթեթներ։",
+      "loading_usage": "Օգտագործման բեռնում…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Դեռևս ակտիվ տվյալների փաթեթ չկա։ Ստորև գնել փաթեթ՝ օգտագործումը սկսելու համար։",
+      "usage_details_will_appear_once_your_data_pack_is": "Օգտագործման մանրամասները կհայտնվեն, երբ ձեր տվյալների փաթեթը ակտիվանա։",
+      "manage": "Կառավարել",
+      "coverage": "Ծածկույթ",
+      "your_esim": "Ձեր eSIM",
+      "current_usage": "Ընթացիկ օգտագործում"
+    }
   }
 }

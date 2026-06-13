@@ -3066,7 +3066,8 @@
     "flip": "พลิก",
     "speaker": "ผู้พูด",
     "end": "สิ้นสุด",
-    "noIncomingCallToAnswer": "ไม่มีสายเรียกเข้า"
+    "noIncomingCallToAnswer": "ไม่มีสายเรียกเข้า",
+    "serviceUnavailable": "บริการโทรศัพท์ไม่สามารถใช้งานได้ในขณะนี้ กรุณาลองใหม่อีกครั้งในภายหลัง"
   },
   "settings": {
     "startHour": "ชั่วโมงเริ่มต้น (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "มืด",
   "accessibility_caption_bg_transparent": "โปร่งใส",
   "api": {
-    "notAuthorized": "ไม่ได้รับอนุญาต"
+    "notAuthorized": "ไม่ได้รับอนุญาต",
+    "invalidURL": "ที่อยู่เซิร์ฟเวอร์ไม่ถูกต้อง",
+    "serverError": "ข้อผิดพลาดของเซิร์ฟเวอร์ (%d): %@",
+    "failedToDecodeResponse": "ไม่สามารถอ่านการตอบกลับของเซิร์ฟเวอร์ได้: %@"
+  },
+  "tap_to_view_contact": "แตะเพื่อดูข้อมูลติดต่อ",
+  "android": {
+    "plan": {
+      "plan_billing": "แผนงานและการเรียกเก็บเงิน",
+      "current_plan": "แผนปัจจุบัน",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "เพลิดเพลินกับประสบการณ์ไร้โฆษณาด้วย Plus หรือปลดล็อกเครื่องมือ AI และการปรับแต่งด้วย Premium",
+      "plus": "พลัส",
+      "premium": "พรีเมียม",
+      "back": "กลับ",
+      "my_plan": "แผนของฉัน",
+      "compare_plans": "เปรียบเทียบแผน",
+      "included": "รวมอยู่ด้วย"
+    },
+    "upgrade": {
+      "upgrade": "อัปเกรด",
+      "restore_purchases": "กู้คืนการซื้อ",
+      "unlock_more_with": "ปลดล็อกศักยภาพเพิ่มเติมด้วย Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "เลือก Plus หรือ Premium เพื่อลบโฆษณา ปรับแต่งประสบการณ์ของคุณ และปลดล็อกเครื่องมือขั้นสูง",
+      "best_experience": "ประสบการณ์ที่ดีที่สุด",
+      "close": "ปิด",
+      "plus": "แชทโฟเรีย พลัส",
+      "remove_ads_and_unlock_more_everyday_features": "ลบโฆษณาและปลดล็อกฟีเจอร์เพิ่มเติมสำหรับใช้งานประจำวัน",
+      "premium": "แชทโฟเรีย พรีเมียม",
+      "the_full_experience": "ประสบการณ์ Chatforia แบบเต็มรูปแบบ",
+      "premium_annual": "พรีเมียมรายปี",
+      "save_compared_to_monthly_premium": "ประหยัดเมื่อเทียบกับค่าบริการรายเดือน"
+    },
+    "audio_call": {
+      "mute": "ปิดเสียง",
+      "speaker": "ผู้พูด",
+      "end_call": "จบการโทร"
+    },
+    "dial_pad": {
+      "dial": "หมุน",
+      "done": "เสร็จแล้ว",
+      "enter_number": "กรุณากรอกหมายเลข",
+      "call": "โทร",
+      "delete_digit": "ลบตัวเลข"
+    },
+    "incoming_call": {
+      "decline": "การลดลง",
+      "accept": "ยอมรับ",
+      "decline_call": "ปฏิเสธการรับสาย",
+      "accept_call": "รับสาย"
+    },
+    "video_call": {
+      "camera": "กล้อง",
+      "flip_camera": "กล้องแบบพลิก"
+    },
+    "chats": {
+      "search_chats": "ค้นหาแชท",
+      "no_chats_yet": "ยังไม่มีแชท",
+      "admob_ad": "โฆษณา AdMob",
+      "delete_conversation": "ลบการสนทนา?",
+      "this_will_remove_this_conversation_from_your_cha": "นี่จะลบการสนทนานี้ออกจากรายการแชทของคุณ",
+      "delete": "ลบ",
+      "cancel": "ยกเลิก",
+      "chats": "การสนทนา",
+      "new_chat": "แชทใหม่",
+      "refresh": "รีเฟรช",
+      "random_chat": "แชทแบบสุ่ม",
+      "search": "ค้นหา",
+      "delete_conversation_2": "ลบการสนทนา"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "ชื่อผู้ใช้, ชื่อผู้ติดต่อ, หรือหมายเลขโทรศัพท์",
+      "new_chat": "แชทใหม่",
+      "start_a_chat": "เริ่มการสนทนา",
+      "search_by_username_contact_name_or_phone_number": "ค้นหาโดยชื่อผู้ใช้, ชื่อผู้ติดต่อ, หรือหมายเลขโทรศัพท์.",
+      "results": "ผลลัพธ์",
+      "open_chat": "แชทเปิด"
+    },
+    "calls": {
+      "recents": "รายการล่าสุด",
+      "voicemail": "ข้อความเสียง",
+      "calls": "การโทร",
+      "no_calls_yet": "ยังไม่มีการโทรเข้ามา",
+      "your_recent_calls_will_show_up_here": "การโทรล่าสุดของคุณจะแสดงที่นี่",
+      "open_dial_pad": "เปิดแป้นพิมพ์",
+      "delete_call": "ลบการโทร",
+      "video_call": "การโทรผ่านวิดีโอ"
+    },
+    "contacts": {
+      "contacts": "รายชื่อผู้ติดต่อ",
+      "add_contact": "เพิ่มผู้ติดต่อ",
+      "import_from_phone": "นำเข้าจากโทรศัพท์",
+      "invite_friends": "เชิญเพื่อน",
+      "favorite": "รายการโปรด",
+      "open_contact": "เปิดการติดต่อ"
+    },
+    "main_activity": {
+      "loading": "กำลังโหลด...",
+      "profile": "โปรไฟล์"
+    },
+    "profile": {
+      "delete_account": "ลบบัญชี",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "การกระทำนี้ไม่สามารถย้อนกลับได้ คุณแน่ใจหรือไม่ว่าคุณต้องการลบบัญชีของคุณ?",
+      "log_out": "ออกจากระบบ",
+      "change_photo": "เปลี่ยนรูปภาพ",
+      "remove_photo": "ลบรูปภาพ",
+      "preferred_language": "ภาษาที่ต้องการ",
+      "your_age_range": "ช่วงอายุของคุณ",
+      "theme": "ธีม",
+      "choose_how_looks_across_the_app": "เลือกวิธีแสดงผลของ Chatforia ในแอป",
+      "uploading": "กำลังอัปโหลด...",
+      "choose_plus_or_premium": "เลือก Plus หรือ Premium",
+      "profile_photo": "รูปโปรไฟล์",
+      "open_upgrade": "เปิดการอัปเกรด",
+      "open": "เปิด",
+      "account": "บัญชี",
+      "username": "ชื่อผู้ใช้",
+      "email": "อีเมล",
+      "plan": "แผน",
+      "wireless": "ไร้สาย",
+      "mobile": "แชทโฟเรีย โมบาย",
+      "esim_and_wireless_settings": "การตั้งค่า eSIM และการเชื่อมต่อไร้สาย",
+      "call_text_forwarding": "การโอนสายและข้อความ",
+      "forward_incoming_calls_and_texts": "โอนสายและข้อความขาเข้า",
+      "phone_number": "หมายเลขโทรศัพท์",
+      "manage_your_number": "จัดการหมายเลข Chatforia ของคุณ",
+      "settings": "การตั้งค่า",
+      "auto_translate_messages": "แปลข้อความโดยอัตโนมัติ",
+      "automatically_translate_messages_into_your_prefe": "แปลข้อความโดยอัตโนมัติเป็นภาษาที่คุณต้องการ",
+      "show_original_with_translation": "แสดงต้นฉบับพร้อมคำแปล",
+      "show_the_original_message_alongside_the_translat": "แสดงข้อความต้นฉบับพร้อมการแปล",
+      "smart_reply_suggestions": "คำแนะนำการตอบกลับอัจฉริยะ",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "แสดงการช่วยเหลือการเขียนใหม่และคำตอบอย่างรวดเร็วที่ขับเคลื่อนด้วย Ria",
+      "linked_devices": "อุปกรณ์ที่เชื่อมต่อ",
+      "manage_trusted_devices": "จัดการอุปกรณ์ที่เชื่อถือได้",
+      "pair_new_device": "จับคู่กับอุปกรณ์ใหม่",
+      "approve_a_new_device": "อนุมัติอุปกรณ์ใหม่",
+      "appearance": "ลักษณะ",
+      "accessibility": "การเข้าถึง",
+      "visual_alerts_captions_and_voice_note_accessibil": "การแจ้งเตือนด้วยภาพ คำบรรยาย และการเข้าถึงบันทึกเสียง",
+      "security": "ความปลอดภัย",
+      "encryption_key_protected": "ป้องกันด้วยกุญแจเข้ารหัส",
+      "privacy": "ความเป็นส่วนตัว",
+      "allow_explicit_content": "อนุญาตเนื้อหาที่ชัดเจน",
+      "show_read_receipts": "แสดงใบเสร็จการอ่าน",
+      "blur_messages_by_default": "ทำให้ข้อความเบลอโดยอัตโนมัติ",
+      "blur_when_app_is_unfocused": "ภาพเบลอเมื่อแอปไม่ได้โฟกัส",
+      "hold_to_reveal_messages": "กดค้างเพื่อแสดงข้อความ",
+      "notify_when_messages_are_copied": "แจ้งเตือนเมื่อมีการคัดลอกข้อความ",
+      "random_chat": "แชทแบบสุ่ม",
+      "use_age_based_matching": "ใช้การจับคู่ตามอายุ",
+      "let_ria_remember_conversations": "ให้เรียจดจำบทสนทนา",
+      "forward_voicemail_to_email": "ส่งต่อข้อความเสียงไปยังอีเมล",
+      "legal_support": "กฎหมายและการสนับสนุน",
+      "free": "ฟรี"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "ตัวเลือกเพื่อทำให้ Chatforia ใช้งานง่ายขึ้นโดยไม่ต้องพึ่งพาเสียง",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "เริ่มต้นที่ขนาดปกติ เพิ่มขนาดหากต้องการข้อความขนาดใหญ่ขึ้นในการตั้งค่าการเข้าถึง",
+      "interface_font_size": "ขนาดตัวอักษรของอินเทอร์เฟซ",
+      "notifications": "การแจ้งเตือน",
+      "visual_alerts_for_messages_calls": "การแจ้งเตือนด้วยภาพสำหรับข้อความและการโทร",
+      "show_banners_and_visual_indicators_so_you_do_not": "แสดงแบนเนอร์และตัวบ่งชี้ภาพเพื่อให้คุณไม่พลาดกิจกรรม",
+      "vibrate_on_new_messages": "สั่นเมื่อมีข้อความใหม่",
+      "trigger_device_vibration_with_notifications_when": "กระตุ้นการสั่นของอุปกรณ์ด้วยคำเตือนเมื่อมีการรองรับ",
+      "flash_screen_on_incoming_call": "หน้าจอแฟลชเมื่อมีสายเรียกเข้า",
+      "briefly_flash_the_screen_when_a_call_rings": "กระพริบหน้าจอสั้น ๆ เมื่อมีสายเรียกเข้า",
+      "live_captions": "คำบรรยายสด",
+      "enable_live_captions": "เปิดคำบรรยายสด",
+      "show_real_time_captions_during_calls_premium_req": "แสดงคำบรรยายแบบเรียลไทม์ระหว่างการสนทนา ต้องใช้แบบพรีเมียม",
+      "caption_font_size": "ขนาดตัวอักษรคำบรรยาย",
+      "caption_background": "คำบรรยายพื้นหลัง",
+      "voice_notes": "บันทึกเสียง",
+      "auto_transcribe_voice_notes": "ถอดเสียงบันทึกเสียงอัตโนมัติ",
+      "attach_a_transcript_to_audio_messages_you_receiv": "แนบเอกสารแสดงผลการเรียนไปกับข้อความเสียงที่คุณได้รับ"
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "ฉันได้กู้คืนกุญแจของฉันแล้ว",
+      "restore_encryption": "กู้คืนการเข้ารหัส"
+    },
+    "language_selection": {
+      "select_language": "เลือกภาษา"
+    },
+    "login": {
+      "email_or_username": "อีเมลหรือชื่อผู้ใช้",
+      "password": "รหัสผ่าน",
+      "forgot_password": "ลืมรหัสผ่านหรือไม่?",
+      "resend_verification_email": "ส่งอีเมลยืนยันใหม่",
+      "reset_encryption": "รีเซ็ตการเข้ารหัส",
+      "create_an_account": "สร้างบัญชี",
+      "welcome_to": "ยินดีต้อนรับสู่ Chatforia",
+      "sign_in_or_create_an_account": "ลงชื่อเข้าใช้หรือสร้างบัญชี",
+      "or": "หรือ",
+      "don_t_have_an_account_yet": "ยังไม่มีบัญชีใช่ไหม?"
+    },
+    "onboarding": {
+      "welcome": "ยินดีต้อนรับ",
+      "set_up_your_profile_so_can_personalize_your_expe": "ตั้งค่าโปรไฟล์ของคุณเพื่อให้ Chatforia สามารถปรับแต่งประสบการณ์ของคุณได้",
+      "choose_a_username": "เลือกชื่อผู้ใช้",
+      "this_is_how_people_will_recognize_you_in": "นี่คือวิธีที่คนจะรู้จักคุณใน Chatforia",
+      "choose_your_language": "เลือกภาษาของคุณ",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia จะใช้สิ่งนี้สำหรับการแปลและประสบการณ์การใช้งานแอปของคุณ",
+      "you_re_ready": "คุณพร้อมแล้ว",
+      "start_chatting_calling_translating_and_connectin": "เริ่มแชท โทร แปลภาษา และเชื่อมต่อกับผู้คนทั่วโลก"
+    },
+    "register": {
+      "confirm_password": "ยืนยันรหัสผ่าน",
+      "phone_optional": "โทรศัพท์เป็นตัวเลือก",
+      "log_in": "เข้าสู่ระบบ",
+      "create_your_account": "สร้างบัญชีของคุณ",
+      "start_chatting_across_languages_with": "เริ่มสนทนาข้ามภาษาด้วย Chatforia",
+      "i_agree_to_receive_sms_verification_messages": "ฉันยินยอมรับข้อความ SMS เพื่อยืนยันตัวตน",
+      "already_have_an_account": "มีบัญชีอยู่แล้วหรือไม่?"
+    },
+    "add_contact": {
+      "phone": "โทรศัพท์",
+      "name": "ชื่อ",
+      "alias_optional": "ชื่อเล่น (ไม่บังคับ)",
+      "pin_this_person_as_a_favorite_contact": "ปักหมุดบุคคลนี้เป็นรายชื่อติดต่อโปรด"
+    },
+    "contact_detail": {
+      "edit_contact": "แก้ไขข้อมูลติดต่อ",
+      "delete_contact": "ลบผู้ติดต่อ",
+      "message": "ข้อความ",
+      "video": "วิดีโอ",
+      "external_name": "ชื่อภายนอก"
+    },
+    "import_phone_contacts": {
+      "select_all": "เลือกทั้งหมด",
+      "clear": "ชัดเจน",
+      "import_contacts": "นำเข้าผู้ติดต่อ"
+    },
+    "invite_friends": {
+      "share_invite_link": "แชร์ลิงก์เชิญเข้าร่วม",
+      "invite_friends": "เชิญเพื่อน",
+      "share_a_invite_link_with_friends_using_messages_": "แชร์ลิงก์เชิญ Chatforia กับเพื่อน ๆ ผ่านข้อความ อีเมล หรือแอปใดก็ได้บนโทรศัพท์ของคุณ"
+    },
+    "device_pairing": {
+      "pair_a_new_device": "จับคู่กับอุปกรณ์ใหม่",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "เปิด Chatforia บนอุปกรณ์ใหม่ของคุณและลงชื่อเข้าใช้ หากต้องการเข้าถึงแชทที่เข้ารหัสของคุณ ให้อนุมัติจากอุปกรณ์ที่เชื่อถือได้",
+      "view_pending_device_requests": "ดูคำขออุปกรณ์ที่รอดำเนินการ"
+    },
+    "key_setup": {
+      "recovery_passcode": "รหัสผ่านสำหรับการกู้คืน",
+      "confirm_recovery_passcode": "ยืนยันรหัสผ่านกู้คืน",
+      "restore_chats": "กู้คืนแชท",
+      "clear_local_key": "คีย์ท้องถิ่นที่ชัดเจน",
+      "reset_encryption": "รีเซ็ตการเข้ารหัส?",
+      "this_will_permanently_replace_your_encryption_ke": "นี่จะแทนที่กุญแจการเข้ารหัสของคุณอย่างถาวร",
+      "encryption": "การเข้ารหัส",
+      "restore_encrypted_chats": "กู้คืนแชทที่เข้ารหัส",
+      "no_recovery_backup_found": "ไม่พบข้อมูลสำรองสำหรับการกู้คืน",
+      "open_on_a_device_that_can_already_read_your_encr": "เปิด Chatforia บนอุปกรณ์ที่สามารถอ่านแชทที่เข้ารหัสของคุณได้แล้ว และสร้างรหัสกู้คืนที่นั่น",
+      "no_recovery_backup_found_yet_create_one_from_thi": "ยังไม่พบข้อมูลสำรองสำหรับการกู้คืน กรุณาสร้างข้อมูลสำรองจากอุปกรณ์นี้เพื่อที่คุณจะสามารถกู้คืนแชทบน iOS, Android และเว็บได้",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "ใช้สิ่งนี้เฉพาะเมื่อคุณสูญเสียอุปกรณ์ที่เชื่อถือได้ทั้งหมดและไม่สามารถกู้คืนคีย์ดั้งเดิมของคุณได้"
+    },
+    "linked_devices": {
+      "your_devices": "อุปกรณ์ของคุณ",
+      "pending_approvals": "อยู่ระหว่างการอนุมัติ",
+      "approve": "อนุมัติ",
+      "reject": "ปฏิเสธ",
+      "revoke": "เพิกถอน",
+      "request_approval_for_this_device": "ขอการอนุมัติสำหรับอุปกรณ์นี้",
+      "finish_device_approval": "เสร็จสิ้นการอนุมัติอุปกรณ์"
+    },
+    "forwarding_settings": {
+      "reset": "รีเซ็ต",
+      "forward_incoming_calls_and_texts_to_your_verifie": "โอนสายเรียกเข้าและข้อความไปยังโทรศัพท์หรืออีเมลที่คุณยืนยันแล้ว",
+      "quiet_hours": "เวลาสงบ",
+      "forwarding": "ส่งต่อ",
+      "enable_text_forwarding": "เปิดการส่งต่อข้อความ",
+      "forward_texts_to_phone": "ส่งข้อความต่อไปยังโทรศัพท์",
+      "forward_texts_to_email": "ส่งข้อความต่อทางอีเมล",
+      "enable_call_forwarding": "เปิดการโอนสาย"
+    },
+    "chat_message_row": {
+      "copy": "คัดลอก",
+      "edit": "แก้ไข",
+      "report": "รายงาน",
+      "message_info": "ข้อมูลข้อความ"
+    },
+    "chat_thread": {
+      "no_messages_yet": "ยังไม่มีข้อความ",
+      "delete_message": "ลบข้อความ?",
+      "choose_how_you_want_to_delete_this_message": "เลือกวิธีที่คุณต้องการลบข้อความนี้",
+      "delete_for_everyone": "ลบสำหรับทุกคน",
+      "delete_for_me": "ลบให้ฉัน",
+      "search_messages": "ค้นหาข้อความ",
+      "search_in_chat": "ค้นหาในแชท",
+      "sending": "กำลังส่ง...",
+      "failed_to_send": "ไม่สามารถส่งได้",
+      "edited": "แก้ไขแล้ว",
+      "audio_call": "การโทรด้วยเสียง",
+      "video_call": "การโทรผ่านวิดีโอ",
+      "selected_gif": "GIF ที่เลือก",
+      "remove_gif": "ลบ GIF",
+      "attach": "แนบ",
+      "rewrite_with_ria": "เขียนใหม่กับเรีย",
+      "composer_action": "การกระทำของนักแต่งเพลง"
+    },
+    "edit_message": {
+      "save": "บันทึก",
+      "emoji": "อีโมจิ",
+      "edit_message": "แก้ไขข้อความ"
+    },
+    "message_attachments": {
+      "image_attachment": "ไฟล์แนบ",
+      "video_attachment": "ไฟล์วิดีโอแนบ",
+      "play_video": "เล่นวิดีโอ"
+    },
+    "message_bubble": {
+      "disappearing_message": "ข้อความที่หายไป"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "ยังไม่มีใครอ่านสิ่งนี้เลย",
+      "message_info": "ข้อมูลข้อความ"
+    },
+    "report_message": {
+      "reason": "เหตุผล",
+      "include_previous_messages": "รวมข้อความก่อนหน้า",
+      "additional_details": "รายละเอียดเพิ่มเติม",
+      "anything_else_moderators_should_know": "มีอะไรเพิ่มเติมที่ผู้ดูแลควรทราบหรือไม่?",
+      "block_this_user_after_reporting": "บล็อกผู้ใช้รายนี้หลังจากรายงาน",
+      "submit_report": "ส่งรายงาน",
+      "report_message": "รายงานข้อความ"
+    },
+    "phone_number": {
+      "replace_number": "เปลี่ยนหมายเลข",
+      "pick_a_number": "เลือกหมายเลข",
+      "no_number_assigned": "ไม่มีหมายเลข Chatforia ที่กำหนด",
+      "your_number": "หมายเลข Chatforia ของคุณ"
+    },
+    "pick_number": {
+      "area_code": "รหัสพื้นที่",
+      "premium_numbers_are_protected_from_recycling": "หมายเลขพรีเมียมได้รับการคุ้มครองไม่ให้ถูกนำกลับมาใช้ใหม่",
+      "available_numbers": "หมายเลขที่มีให้บริการ",
+      "search_by_area_code_to_find_available_numbers": "ค้นหาตามรหัสพื้นที่เพื่อค้นหารายการที่พร้อมใช้งาน",
+      "capability": "ความสามารถ",
+      "country": "ประเทศ"
+    },
+    "gif_picker": {
+      "search_tenor": "ค้นหา Tenor",
+      "search_gifs": "ค้นหา GIF"
+    },
+    "random_chat": {
+      "add_friend": "เพิ่มเพื่อน",
+      "skip": "ข้าม",
+      "send": "ส่ง",
+      "end_chat": "สิ้นสุดการสนทนา"
+    },
+    "random_matching": {
+      "finding_someone": "การค้นหาใครบางคน"
+    },
+    "ria_chat": {
+      "ask_ria": "ถามเรีย...",
+      "you_re_now_chatting_with_ria": "คุณกำลังคุยกับเรีย",
+      "chat_with_ria_anytime_separate_from_random_human": "คุยกับเรียได้ทุกเมื่อ แยกจากการจับคู่กับคนแปลกหน้า"
+    },
+    "ria_rewrite": {
+      "original_text": "ข้อความต้นฉบับ",
+      "choose_tone": "เลือกโทน",
+      "rewriting": "กำลังเขียนใหม่...",
+      "suggestions": "ข้อเสนอแนะ",
+      "choose_a_tone_to_generate_rewrite_suggestions": "เลือกโทนเพื่อสร้างคำแนะนำการเขียนใหม่"
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "ฟรีรวมเสียงพื้นฐาน. อัปเกรดเพื่อปลดล็อกเสียงเพิ่มเติมและเสียงเรียกเข้า.",
+      "volume": "ปริมาณ",
+      "message_tone": "โทนเสียงข้อความ",
+      "ringtone": "เสียงเรียกเข้า"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "ยังไม่มีข้อความเสียง",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "เมื่อมีคนฝากข้อความเสียงไว้ให้คุณ\nมันจะแสดงที่นี่",
+      "play_voicemail": "เล่นข้อความเสียง",
+      "delete_voicemail": "ลบข้อความเสียง"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "ข้อความเสียงที่เลือก"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "ความคุ้มครองสำหรับประเทศที่คุณอยู่ปัจจุบันหรือการใช้งานในท้องถิ่นใกล้เคียง",
+      "coverage_across_supported_european_destinations": "ครอบคลุมทุกจุดหมายปลายทางในยุโรปที่รองรับ",
+      "coverage_across_supported_global_destinations": "ครอบคลุมทุกจุดหมายปลายทางทั่วโลกที่รองรับ"
+    },
+    "wireless_home": {
+      "manage_wireless": "จัดการไร้สาย",
+      "port_my_number": "พอร์ตหมายเลขของฉัน",
+      "esim_data_packs_require_an_esim_compatible_and_u": "แพ็กเกจข้อมูล eSIM ต้องใช้กับอุปกรณ์ที่รองรับ eSIM และปลดล็อกแล้วเท่านั้น",
+      "stay_connected_when_you_re_traveling_or_away_fro": "เชื่อมต่ออยู่เสมอเมื่อคุณเดินทางหรืออยู่ห่างจาก Wi-Fi",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "เลือกแพ็กเกจข้อมูล eSIM แบบครั้งเดียวสำหรับการใช้งานในประเทศ, ยุโรป, หรือทั่วโลก",
+      "we_don_t_sell_data_packs_under_3_gb": "เราไม่ขายแพ็กเกจข้อมูลต่ำกว่า 3 GB",
+      "loading_usage": "กำลังโหลดการใช้งาน...",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "ยังไม่มีแพ็กเกจข้อมูลที่ใช้งานอยู่. ซื้อแพ็กเกจด้านล่างเพื่อเริ่มติดตามการใช้งาน.",
+      "usage_details_will_appear_once_your_data_pack_is": "รายละเอียดการใช้งานจะปรากฏขึ้นเมื่อแพ็กเกจข้อมูลของคุณเปิดใช้งานแล้ว",
+      "manage": "จัดการ",
+      "coverage": "ความคุ้มครอง",
+      "your_esim": "อีซิมของคุณ",
+      "current_usage": "การใช้งานปัจจุบัน"
+    }
   }
 }

@@ -3066,7 +3066,8 @@
     "flip": "Айналдыру",
     "speaker": "Спикер",
     "end": "Аяқтау",
-    "noIncomingCallToAnswer": "Жауап беруге шақырулар жоқ."
+    "noIncomingCallToAnswer": "Жауап беруге шақырулар жоқ.",
+    "serviceUnavailable": "Қоңырау шалу қызметі қазір қолжетімсіз. Кейін қайталап көріңіз."
   },
   "settings": {
     "startHour": "Басталу уақыты (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Қараңғы",
   "accessibility_caption_bg_transparent": "Ашық",
   "api": {
-    "notAuthorized": "Рұқсат етілмеген"
+    "notAuthorized": "Рұқсат етілмеген",
+    "invalidURL": "Сервер мекенжайы дұрыс емес.",
+    "serverError": "Сервер қатесі (%d): %@",
+    "failedToDecodeResponse": "Сервер жауабын оқи алмады: %@"
+  },
+  "tap_to_view_contact": "Контактті көру үшін түртіңіз",
+  "android": {
+    "plan": {
+      "plan_billing": "Жоспар және шот-фактура",
+      "current_plan": "Ағымдағы жоспар",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Plus-пен жарнамасыз пайдаланыңыз немесе Premium-пен AI құралдары мен баптау мүмкіндіктерін ашыңыз.",
+      "plus": "Сонымен қатар",
+      "premium": "Жоғары сапалы",
+      "back": "Кері",
+      "my_plan": "Менің жоспарым",
+      "compare_plans": "Жоспарларды салыстыру",
+      "included": "Қосылған"
+    },
+    "upgrade": {
+      "upgrade": "Жаңарту",
+      "restore_purchases": "Сатып алуларды қалпына келтіру",
+      "unlock_more_with": "Chatforia-мен көбірек мүмкіндіктерді ашыңыз",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Жарнаманы жою, тәжірибеңізді баптау және жетілдірілген құралдарды ашу үшін Plus немесе Premium таңдаңыз.",
+      "best_experience": "Ең жақсы тәжірибе",
+      "close": "Жабу",
+      "plus": "Чатфория Плюс",
+      "remove_ads_and_unlock_more_everyday_features": "Жарнамаларды алып тастап, күнделікті қосымша мүмкіндіктерге қол жеткізіңіз.",
+      "premium": "Чатфория Премиум",
+      "the_full_experience": "Chatforia-ның толық тәжірибесі.",
+      "premium_annual": "Жыл сайынғы премиум",
+      "save_compared_to_monthly_premium": "Айына төленетін Premium-пен салыстырғанда үнемдеңіз."
+    },
+    "audio_call": {
+      "mute": "Дауыссыз",
+      "speaker": "Спикер",
+      "end_call": "Қоңырауды аяқтау"
+    },
+    "dial_pad": {
+      "dial": "Диалог",
+      "done": "Былғары",
+      "enter_number": "Санды енгізіңіз",
+      "call": "Қоңырау шалыңыз",
+      "delete_digit": "Санды өшіру"
+    },
+    "incoming_call": {
+      "decline": "Төмендеу",
+      "accept": "Қабылдау",
+      "decline_call": "Шақыруды бас тарту",
+      "accept_call": "Қоңырауды қабылдау"
+    },
+    "video_call": {
+      "camera": "Камера",
+      "flip_camera": "Флип камера"
+    },
+    "chats": {
+      "search_chats": "Сөйлесулерді іздеу",
+      "no_chats_yet": "Әзірге чаттар жоқ",
+      "admob_ad": "AdMob жарнамасы",
+      "delete_conversation": "Сөйлесуді жою?",
+      "this_will_remove_this_conversation_from_your_cha": "Бұл әңгімелесуді сіздің чат тізіміңізден жояды.",
+      "delete": "Өшіру",
+      "cancel": "Жою",
+      "chats": "Сөйлесулер",
+      "new_chat": "Жаңа чат",
+      "refresh": "Жаңарту",
+      "random_chat": "Кездейсоқ чат",
+      "search": "Іздеу",
+      "delete_conversation_2": "Сөйлесуді жою"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Пайдаланушы аты, байланыс аты немесе телефон нөмірі",
+      "new_chat": "Жаңа чат",
+      "start_a_chat": "Сөйлесуді бастаңыз",
+      "search_by_username_contact_name_or_phone_number": "Пайдаланушы аты, байланыс аты немесе телефон нөмірі бойынша іздеу.",
+      "results": "Нәтижелер",
+      "open_chat": "Чатты ашу"
+    },
+    "calls": {
+      "recents": "Соңғылар",
+      "voicemail": "Дауыстық пошта",
+      "calls": "Шақырулар",
+      "no_calls_yet": "Әлі ешқандай қоңырау шалынбады",
+      "your_recent_calls_will_show_up_here": "Сіздің соңғы қоңырауларыңыз мұнда көрсетіледі.",
+      "open_dial_pad": "Нөмір теру панелін ашу",
+      "delete_call": "Шақыруды жою",
+      "video_call": "Бейнеқоңырау"
+    },
+    "contacts": {
+      "contacts": "Контактілер",
+      "add_contact": "Контактты қосу",
+      "import_from_phone": "Телефоннан импорттау",
+      "invite_friends": "Достарды шақырыңыз",
+      "favorite": "Сүйікті",
+      "open_contact": "Қосулы байланыс"
+    },
+    "main_activity": {
+      "loading": "Жүктеліп жатыр...",
+      "profile": "Профиль"
+    },
+    "profile": {
+      "delete_account": "Есептік жазбаны жою",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Бұл әрекетті кері қайтару мүмкін емес. Акаунтыңызды жойғыңыз келетініне сенімдісіз бе?",
+      "log_out": "Шығу",
+      "change_photo": "Суретті өзгерту",
+      "remove_photo": "Суретті жою",
+      "preferred_language": "Артықшылық берілетін тіл",
+      "your_age_range": "Сіздің жас аралығыңыз",
+      "theme": "Тақырып",
+      "choose_how_looks_across_the_app": "Қосымшада Chatforia-ның көрінісін таңдаңыз.",
+      "uploading": "Жүктеліп жатыр…",
+      "choose_plus_or_premium": "Плюс немесе Премиумты таңдаңыз",
+      "profile_photo": "Профиль суреті",
+      "open_upgrade": "Жаңартуды бастау",
+      "open": "Ашық",
+      "account": "Есептік жазба",
+      "username": "Пайдаланушы аты",
+      "email": "Электрондық пошта",
+      "plan": "Жоспар",
+      "wireless": "Сымсыз",
+      "mobile": "Чатфория Мобайл",
+      "esim_and_wireless_settings": "eSIM және сымсыз баптаулар",
+      "call_text_forwarding": "Қоңыраулар мен мәтіндерді басқа нөмірге жіберу",
+      "forward_incoming_calls_and_texts": "Келетін қоңыраулар мен мәтіндерді басқа нөмірге аударыңыз",
+      "phone_number": "Телефон нөмірі",
+      "manage_your_number": "Chatforia нөміріңізді басқарыңыз",
+      "settings": "Параметрлер",
+      "auto_translate_messages": "Хабарламаларды автоматты аудару",
+      "automatically_translate_messages_into_your_prefe": "Хабарламаларды автоматты түрде сіз таңдаған тілге аударыңыз.",
+      "show_original_with_translation": "Түпнұсқаны аудармасымен көрсету",
+      "show_the_original_message_alongside_the_translat": "Түпнұсқа хабарламаны аудармамен қатар көрсетіңіз.",
+      "smart_reply_suggestions": "Ақылды жауап ұсыныстары",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Ria технологиясымен қамтамасыз етілген қайта жазуға көмек пен жылдам жауаптарды көрсетіңіз.",
+      "linked_devices": "Байланысқан құрылғылар",
+      "manage_trusted_devices": "Сенімді құрылғыларды басқару",
+      "pair_new_device": "Жаңа құрылғыны жұптастыру",
+      "approve_a_new_device": "Жаңа құрылғыны мақұлдау",
+      "appearance": "Сыртқы түрі",
+      "accessibility": "Қолжетімділік",
+      "visual_alerts_captions_and_voice_note_accessibil": "Көру ескертулері, тақырыпшалар және дауыстық жазбаларға қолжетімділік",
+      "security": "Қауіпсіздік",
+      "encryption_key_protected": "Шифрлау кілті қорғалған",
+      "privacy": "Жеке өмірге қатысты құпиялылық",
+      "allow_explicit_content": "Ашық мазмұнға рұқсат етіңіз",
+      "show_read_receipts": "Оқығанын растауларды көрсету",
+      "blur_messages_by_default": "Хабарламаларды әдепкі бойынша бұлыңғырлату",
+      "blur_when_app_is_unfocused": "Қосымша фокуста болмаған кезде бұлдыру",
+      "hold_to_reveal_messages": "Ұстап тұрып хабарламаларды көрсетіңіз",
+      "notify_when_messages_are_copied": "Хабарламалар көшірілгенде хабарлау",
+      "random_chat": "Кездейсоқ чат",
+      "use_age_based_matching": "Жас бойынша сәйкестендіруді пайдаланыңыз",
+      "let_ria_remember_conversations": "Рия әңгімелерді еске түсірсін",
+      "forward_voicemail_to_email": "Дауыстық поштаны электрондық поштаға жіберу",
+      "legal_support": "Құқықтық және қолдау",
+      "free": "Тегін"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Дыбысқа сүйенбей Chatforia-ны пайдалануды жеңілдетудің нұсқалары.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Әдепкі өлшемнен басталады. Қолжетімділік баптауларында мәтіннің үлкенірек болуын қаласаңыз, өлшемін ұлғайтыңыз.",
+      "interface_font_size": "Интерфейс қаріп өлшемі",
+      "notifications": "Хабарламалар",
+      "visual_alerts_for_messages_calls": "Хабарламалар мен қоңырауларға арналған визуалды ескертулер",
+      "show_banners_and_visual_indicators_so_you_do_not": "Әрекеттерді жіберіп алмау үшін баннерлер мен визуалды индикаторларды көрсетіңіз.",
+      "vibrate_on_new_messages": "Жаңа хабарламалар келуі кезінде дірілдеу",
+      "trigger_device_vibration_with_notifications_when": "Қолдау көрсетілетін жағдайда хабарламалармен бірге триггер құрылғысының дірілдеуін іске қосыңыз.",
+      "flash_screen_on_incoming_call": "Келетін қоңыраудағы Flash экран",
+      "briefly_flash_the_screen_when_a_call_rings": "Қоңырау шалынған кезде экранды қысқаша жыпылықтырыңыз.",
+      "live_captions": "Тікелей субтитрлер",
+      "enable_live_captions": "Тікелей субтитрлерді қосу",
+      "show_real_time_captions_during_calls_premium_req": "Қоңыраулар кезінде нақты уақыттағы субтитрлерді көрсетіңіз. Премиум қажет.",
+      "caption_font_size": "Мәтіннің қаріп өлшемі",
+      "caption_background": "Жазбаның фоны",
+      "voice_notes": "Дауыстық жазбалар",
+      "auto_transcribe_voice_notes": "Дауыстық жазбаларды автоматты түрде транскрипциялау",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Алған аудио хабарламаларға транскрипт тіркеңіз."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Мен кілтіме қайта қалпына келтірдім",
+      "restore_encryption": "Шифрлауды қалпына келтіру"
+    },
+    "language_selection": {
+      "select_language": "Тілді таңдаңыз"
+    },
+    "login": {
+      "email_or_username": "Электрондық пошта немесе пайдаланушы аты",
+      "password": "Сөздік құпиялы",
+      "forgot_password": "Сіз парольді ұмытып қалдыңыз ба?",
+      "resend_verification_email": "Растау электрондық поштасын қайта жіберу",
+      "reset_encryption": "Шифрлауды қалпына келтіру",
+      "create_an_account": "Есептік жазбаны жасаңыз",
+      "welcome_to": "Chatforia-ға қош келдіңіз",
+      "sign_in_or_create_an_account": "Жүйеге кіру немесе есептік жазба құру",
+      "or": "немесе",
+      "don_t_have_an_account_yet": "Әлі есептік жазбаңыз жоқ па?"
+    },
+    "onboarding": {
+      "welcome": "Қош келдіңіз",
+      "set_up_your_profile_so_can_personalize_your_expe": "Профиліңізді баптаңыз, сонда Chatforia сіздің тәжірибеңізді жекелендіре алады.",
+      "choose_a_username": "Пайдаланушы атын таңдаңыз",
+      "this_is_how_people_will_recognize_you_in": "Осылайша адамдар сені Chatforia-да таниды.",
+      "choose_your_language": "Өзіңіздің тіліңізді таңдаңыз",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia мұны аудармалар мен сіздің қосымша тәжірибеңіз үшін пайдаланады.",
+      "you_re_ready": "Сен дайынсың",
+      "start_chatting_calling_translating_and_connectin": "Әлемнің түкпір-түкпіріндегі адамдармен чат құрып, қоңырау шалып, аударып және байланыс орнатыңыз."
+    },
+    "register": {
+      "confirm_password": "Сөзді растаңыз",
+      "phone_optional": "Телефон міндетті емес",
+      "log_in": "Жүйеге кіру",
+      "create_your_account": "Акаунт жасаңыз",
+      "start_chatting_across_languages_with": "Chatforia арқылы тілдер арасында сөйлесуді бастаңыз.",
+      "i_agree_to_receive_sms_verification_messages": "Мен SMS растау хабарламаларын алуға келісемін.",
+      "already_have_an_account": "Сізде есептік жазба бар ма?"
+    },
+    "add_contact": {
+      "phone": "Телефон",
+      "name": "Аты",
+      "alias_optional": "Атау міндетті емес",
+      "pin_this_person_as_a_favorite_contact": "Бұл адамды сүйікті байланыс ретінде белгілеу."
+    },
+    "contact_detail": {
+      "edit_contact": "Контактты өңдеу",
+      "delete_contact": "Контактті жою",
+      "message": "Хабарлама",
+      "video": "Бейне",
+      "external_name": "Сыртқы атау"
+    },
+    "import_phone_contacts": {
+      "select_all": "Барлығын таңдау",
+      "clear": "Таза",
+      "import_contacts": "Контактілерді импорттау"
+    },
+    "invite_friends": {
+      "share_invite_link": "Шақыру сілтемесін бөлісу",
+      "invite_friends": "Достарды шақырыңыз",
+      "share_a_invite_link_with_friends_using_messages_": "Messages, электрондық пошта немесе телефоныңыздағы кез келген қосымша арқылы Chatforia шақыру сілтемесін достарыңызбен бөлісіңіз."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Жаңа құрылғыны жұптастыру",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Жаңа құрылғыңызда Chatforia-ны ашып, жүйеге кіріңіз. Егер ол шифрланған чаттарға қол жеткізуді талап етсе, сенімді құрылғыдан рұқсат беріңіз.",
+      "view_pending_device_requests": "Күтіліп тұрған құрылғы сұраныстарын көру"
+    },
+    "key_setup": {
+      "recovery_passcode": "Қалпына келтіру паролі",
+      "confirm_recovery_passcode": "Қалпына келтіру паролін растаңыз",
+      "restore_chats": "Сөйлесулерді қалпына келтіру",
+      "clear_local_key": "Жергілікті кілтті тазалау",
+      "reset_encryption": "Шифрлауды қалпына келтіру?",
+      "this_will_permanently_replace_your_encryption_ke": "Бұл сіздің шифрлау кілтіңізді мәңгілікке ауыстырады.",
+      "encryption": "Шифрлау",
+      "restore_encrypted_chats": "Шифрланған чаттарды қалпына келтіру",
+      "no_recovery_backup_found": "Қалпына келтіруге арналған сақтық көшірме табылмады",
+      "open_on_a_device_that_can_already_read_your_encr": "Шифрланған чаттарды оқи алатын құрылғыда Chatforia-ны ашып, онда қалпына келтіру кодын жасаңыз.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Әлі ешқандай қалпына келтіру сақтық көшірмесі табылған жоқ. Осы құрылғыдан жаңасын жасаңыз, сонда iOS, Android және веб-нұсқалардағы чаттарды қалпына келтіре аласыз.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Бұл әдісті тек барлық сенімді құрылғыларыңызды жоғалтқан және бастапқы кілтіңізді қалпына келтіре алмаған жағдайда ғана пайдаланыңыз."
+    },
+    "linked_devices": {
+      "your_devices": "Сіздің құрылғыларыңыз",
+      "pending_approvals": "Күтіліп жатқан мақұлдаулар",
+      "approve": "Жазбаны мақұлдаңыз",
+      "reject": "Бас тарту",
+      "revoke": "Кері қайтару",
+      "request_approval_for_this_device": "Осы құрылғыны мақұлдауды сұрау",
+      "finish_device_approval": "Құрылғыны бекіту"
+    },
+    "forwarding_settings": {
+      "reset": "Қайта орнату",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Келетін қоңыраулар мен мәтіндерді расталған телефоныңызға немесе электрондық поштаңызға жіберіңіз.",
+      "quiet_hours": "Тыныш сағаттар",
+      "forwarding": "Жөнелту",
+      "enable_text_forwarding": "Мәтінді жолдауды қосу",
+      "forward_texts_to_phone": "СМС хабарламаларды телефонға жіберу",
+      "forward_texts_to_email": "СМС хабарламаларды электрондық поштаға жіберу",
+      "enable_call_forwarding": "Шақыруды басқа нөмірге аударуды қосыңыз"
+    },
+    "chat_message_row": {
+      "copy": "Көшіру",
+      "edit": "Өңдеу",
+      "report": "Есеп",
+      "message_info": "Хабарлама туралы ақпарат"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Әзірге хабарламалар жоқ",
+      "delete_message": "Хабарламаны жою ма?",
+      "choose_how_you_want_to_delete_this_message": "Осы хабарламаны қалай жоюды таңдаңыз.",
+      "delete_for_everyone": "Барлығы үшін жою",
+      "delete_for_me": "Мен үшін өшіру",
+      "search_messages": "Хабарламаларды іздеу",
+      "search_in_chat": "Чатта іздеу",
+      "sending": "Жіберу…",
+      "failed_to_send": "Жіберу сәтсіз аяқталды",
+      "edited": "Өңделді",
+      "audio_call": "Дыбыстық қоңырау",
+      "video_call": "Бейнеқоңырау",
+      "selected_gif": "Таңдалған GIF",
+      "remove_gif": "GIF-ті алып тастаңыз",
+      "attach": "Қосу",
+      "rewrite_with_ria": "Ria-мен қайта жазу",
+      "composer_action": "Композитор әрекеті"
+    },
+    "edit_message": {
+      "save": "Сақтау",
+      "emoji": "Эмодзи",
+      "edit_message": "Хабарламаны өңдеу"
+    },
+    "message_attachments": {
+      "image_attachment": "Сурет тіркемесі",
+      "video_attachment": "Бейне тіркеме",
+      "play_video": "Бейнені ойнату"
+    },
+    "message_bubble": {
+      "disappearing_message": "Жоғалып кететін хабарлама"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Әзірге ешкім мұны оқымаған",
+      "message_info": "Хабарлама туралы ақпарат"
+    },
+    "report_message": {
+      "reason": "Себеп",
+      "include_previous_messages": "Алдыңғы хабарламаларды қосу",
+      "additional_details": "Қосымша мәліметтер",
+      "anything_else_moderators_should_know": "Модераторларға тағы не білу керек?",
+      "block_this_user_after_reporting": "Хабарлағаннан кейін осы пайдаланушыны бұғаттау",
+      "submit_report": "Есеп жіберу",
+      "report_message": "Хабарламаны есепке алу"
+    },
+    "phone_number": {
+      "replace_number": "Санды ауыстыру",
+      "pick_a_number": "Санды таңдаңыз",
+      "no_number_assigned": "Chatforia нөмірі тағайындалмаған.",
+      "your_number": "Сіздің Chatforia нөміріңіз"
+    },
+    "pick_number": {
+      "area_code": "Аймақ коды",
+      "premium_numbers_are_protected_from_recycling": "Премиум нөмірлер қайта өңдеуден қорғалған.",
+      "available_numbers": "Қолжетімді нөмірлер",
+      "search_by_area_code_to_find_available_numbers": "Қолжетімді нөмірлерді табу үшін аймақтық код бойынша іздеңіз.",
+      "capability": "Құзыреттілік",
+      "country": "Ел"
+    },
+    "gif_picker": {
+      "search_tenor": "Тенорды іздеу",
+      "search_gifs": "GIF-терді іздеу"
+    },
+    "random_chat": {
+      "add_friend": "Досты қосу",
+      "skip": "Өту",
+      "send": "Жіберу",
+      "end_chat": "Сөйлесуді аяқтау"
+    },
+    "random_matching": {
+      "finding_someone": "Кімді табу"
+    },
+    "ria_chat": {
+      "ask_ria": "Риядан сұраңыз...",
+      "you_re_now_chatting_with_ria": "Сіз қазір Риямен сөйлесіп жатырсыз.",
+      "chat_with_ria_anytime_separate_from_random_human": "Кездейсоқ адаммен жұптастырудан бөлек, Риамен кез келген уақытта чат жасаңыз."
+    },
+    "ria_rewrite": {
+      "original_text": "Түпнұсқа мәтін",
+      "choose_tone": "Тонды таңда",
+      "rewriting": "Қайта жазу…",
+      "suggestions": "Ұсыныстар",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Қайта жазу ұсыныстарын жасау үшін тон таңдаңыз."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Тегін нұсқаға негізгі дыбыстар кіреді. Қосымша тондар мен қоңырау дыбыстарын ашу үшін жаңартыңыз.",
+      "volume": "Көлем",
+      "message_tone": "Хабарламаның реңі",
+      "ringtone": "Қоңырау үні"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Әзірге дауыстық хабарламалар жоқ.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Кімде-кім сізге дауыстық хабарлама қалдырса, ол мұнда көрінеді.",
+      "play_voicemail": "Дауыстық поштаны ойнату",
+      "delete_voicemail": "Дауыстық поштаны жою"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Таңдалған дауыстық пошта"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Сіздің қазіргі еліңізде немесе жақын жердегі жергілікті қолдану үшін қамту.",
+      "coverage_across_supported_european_destinations": "Қолдау көрсетілетін Еуропа бағыттары бойынша қамту.",
+      "coverage_across_supported_global_destinations": "Қолдау көрсетілетін әлемдік бағыттар бойынша қамту."
+    },
+    "wireless_home": {
+      "manage_wireless": "Сымсызды басқару",
+      "port_my_number": "Менің нөмірімді аудару",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM деректер пакеттері eSIM-ге үйлесімді және құлыпталмаған құрылғыны талап етеді.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Саяхаттап жүргенде немесе Wi-Fi желісінен тыс жерде болғанда байланыста болыңыз.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Жергілікті, Еуропа немесе Жаһандық қамту үшін бір реттік eSIM деректер пакетін таңдаңыз.",
+      "we_don_t_sell_data_packs_under_3_gb": "Біз 3 ГБ-тан төмен деректер пакеттерін сатпаймыз.",
+      "loading_usage": "Пайдалануды жүктеу…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Әзірге белсенді деректер пакеті жоқ. Пайдалануды бақылауды бастау үшін төменде пакет сатып алыңыз.",
+      "usage_details_will_appear_once_your_data_pack_is": "Қолдану егжей-тегжейлері деректер пакетіңіз іске қосылғаннан кейін көрінеді.",
+      "manage": "Басқару",
+      "coverage": "Қамту",
+      "your_esim": "Сіздің eSIM",
+      "current_usage": "Ағымдағы пайдалану"
+    }
   }
 }

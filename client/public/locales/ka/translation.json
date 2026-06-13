@@ -3066,7 +3066,8 @@
     "flip": "შებრუნება",
     "speaker": "მომხსენებელი",
     "end": "დასასრული",
-    "noIncomingCallToAnswer": "პასუხის გასაცემად შემოსული ზარი არ არის."
+    "noIncomingCallToAnswer": "პასუხის გასაცემად შემოსული ზარი არ არის.",
+    "serviceUnavailable": "ზარის სერვისი ამჟამად ხელმისაწვდომი არ არის. გთხოვთ, მოგვიანებით სცადოთ."
   },
   "settings": {
     "startHour": "დაწყების საათი (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "მუქი",
   "accessibility_caption_bg_transparent": "გამჭვირვალე",
   "api": {
-    "notAuthorized": "არ არის ავტორიზებული"
+    "notAuthorized": "არ არის ავტორიზებული",
+    "invalidURL": "არასწორი სერვერის მისამართი.",
+    "serverError": "სერვერის შეცდომა (%d): %@",
+    "failedToDecodeResponse": "ვერ წაიკითხა სერვერის პასუხი: %@"
+  },
+  "tap_to_view_contact": "საკონტაქტო ინფორმაციის სანახავად დააჭირეთ",
+  "android": {
+    "plan": {
+      "plan_billing": "გეგმა და ანგარიშსწორება",
+      "current_plan": "მიმდინარე გეგმა",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "გადადით Plus-ზე რეკლამის გარეშე, ან გახსენით ხელოვნური ინტელექტის ინსტრუმენტები და პერსონალიზაცია Premium-ით.",
+      "plus": "პლუსი",
+      "premium": "პრემიუმ",
+      "back": "უკან",
+      "my_plan": "ჩემი გეგმა",
+      "compare_plans": "გეგმების შედარება",
+      "included": "ჩართულია"
+    },
+    "upgrade": {
+      "upgrade": "განახლება",
+      "restore_purchases": "შეძენების აღდგენა",
+      "unlock_more_with": "გახსენით მეტი Chatforia-სთან ერთად",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "აირჩიეთ Plus ან Premium რეკლამების გასატანად, თქვენი გამოცდილების მოსარგებად და მოწინავე ინსტრუმენტების გასააქტიურებლად.",
+      "best_experience": "საუკეთესო გამოცდილება",
+      "close": "დახურვა",
+      "plus": "ჩატფორია პლუს",
+      "remove_ads_and_unlock_more_everyday_features": "მოიხსენით რეკლამა და გაააქტიურეთ მეტი ყოველდღიური ფუნქცია.",
+      "premium": "ჩატფორია პრემიუმ",
+      "the_full_experience": "Chatforia-ს სრული გამოცდილება.",
+      "premium_annual": "პრემიუმ წლიური",
+      "save_compared_to_monthly_premium": "დაზოგეთ ყოველთვიურ პრემიუმთან შედარებით."
+    },
+    "audio_call": {
+      "mute": "დადუმება",
+      "speaker": "მომხსენებელი",
+      "end_call": "დაასრულეთ ზარი"
+    },
+    "dial_pad": {
+      "dial": "ციფერბლატი",
+      "done": "შესრულებულია",
+      "enter_number": "შეიყვანეთ რიცხვი",
+      "call": "დარეკეთ",
+      "delete_digit": "ციფრის წაშლა"
+    },
+    "incoming_call": {
+      "decline": "კლება",
+      "accept": "მიიღეთ",
+      "decline_call": "ზარის უარყოფა",
+      "accept_call": "ზარის მიღება"
+    },
+    "video_call": {
+      "camera": "კამერა",
+      "flip_camera": "ფლიპ კამერა"
+    },
+    "chats": {
+      "search_chats": "ჩატების ძიება",
+      "no_chats_yet": "ჯერ არ არის ჩატები",
+      "admob_ad": "AdMob-ის რეკლამა",
+      "delete_conversation": "ჩატის წაშლა?",
+      "this_will_remove_this_conversation_from_your_cha": "ეს წაშლის ამ საუბარს თქვენი ჩატების სიიდან.",
+      "delete": "წაშლა",
+      "cancel": "გაუქმება",
+      "chats": "ჩათები",
+      "new_chat": "ახალი ჩატი",
+      "refresh": "განახლება",
+      "random_chat": "შემთხვევითი ჩათი",
+      "search": "ძიება",
+      "delete_conversation_2": "ჩატის წაშლა"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "მომხმარებლის სახელი, საკონტაქტო სახელი ან ტელეფონის ნომერი",
+      "new_chat": "ახალი ჩატი",
+      "start_a_chat": "დაიწყეთ ჩატი",
+      "search_by_username_contact_name_or_phone_number": "ძიება მომხმარებლის სახელით, კონტაქტის სახელით ან ტელეფონის ნომრით.",
+      "results": "შედეგები",
+      "open_chat": "ჩატის გახსნა"
+    },
+    "calls": {
+      "recents": "ბოლო",
+      "voicemail": "ხმოვანი ფოსტა",
+      "calls": "ზარები",
+      "no_calls_yet": "ჯერ არ არის ზარები",
+      "your_recent_calls_will_show_up_here": "თქვენი ბოლო ზარები აქ გამოჩნდება.",
+      "open_dial_pad": "დიალის პადის გახსნა",
+      "delete_call": "დარეკვის წაშლა",
+      "video_call": "ვიდეო ზარი"
+    },
+    "contacts": {
+      "contacts": "კონტაქტები",
+      "add_contact": "დაამატეთ კონტაქტი",
+      "import_from_phone": "იმპორტი ტელეფონიდან",
+      "invite_friends": "დაპატიჟე მეგობრები",
+      "favorite": "რჩეული",
+      "open_contact": "დაუკავშირდით"
+    },
+    "main_activity": {
+      "loading": "იტვირთება...",
+      "profile": "პროფილი"
+    },
+    "profile": {
+      "delete_account": "ანგარიშის წაშლა",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "ამ ქმედების გაუქმება შეუძლებელია. დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?",
+      "log_out": "გასვლა",
+      "change_photo": "ფოტოს შეცვლა",
+      "remove_photo": "ფოტოს წაშლა",
+      "preferred_language": "სასურველი ენა",
+      "your_age_range": "თქვენი ასაკობრივი დიაპაზონი",
+      "theme": "თემა",
+      "choose_how_looks_across_the_app": "აირჩიეთ, თუ როგორ გამოიყურება Chatforia აპლიკაციაში.",
+      "uploading": "გადმოტვირთვა...",
+      "choose_plus_or_premium": "აირჩიეთ პლუსი ან პრემიუმი",
+      "profile_photo": "პროფილის ფოტო",
+      "open_upgrade": "გახსნილი განახლება",
+      "open": "გახსნილი",
+      "account": "ანგარიში",
+      "username": "მომხმარებლის სახელი",
+      "email": "ელფოსტა",
+      "plan": "გეგმა",
+      "wireless": "უსადენო",
+      "mobile": "ჩატფორია მობილური",
+      "esim_and_wireless_settings": "eSIM და უსადენო პარამეტრები",
+      "call_text_forwarding": "ზარებისა და ტექსტური შეტყობინებების გადამისამართება",
+      "forward_incoming_calls_and_texts": "შემომავალი ზარებისა და ტექსტური შეტყობინებების გადამისამართება",
+      "phone_number": "სატელეფონო ნომერი",
+      "manage_your_number": "მართეთ თქვენი Chatforia ნომერი",
+      "settings": "პარამეტრები",
+      "auto_translate_messages": "შეტყობინებების ავტომატური თარგმნა",
+      "automatically_translate_messages_into_your_prefe": "ავტომატურად თარგმნეთ შეტყობინებები თქვენს სასურველ ენაზე.",
+      "show_original_with_translation": "აჩვენეთ ორიგინალი თარგმანთან ერთად",
+      "show_the_original_message_alongside_the_translat": "აჩვენეთ ორიგინალი შეტყობინება თარგმანთან ერთად.",
+      "smart_reply_suggestions": "ჭკვიანი პასუხის შემოთავაზებები",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "აჩვენეთ Ria-ს მიერ უზრუნველყოფილი ტექსტის გადაწერის დახმარება და სწრაფი პასუხები.",
+      "linked_devices": "დაკავშირებული მოწყობილობები",
+      "manage_trusted_devices": "მართეთ სანდო მოწყობილობები",
+      "pair_new_device": "ახალი მოწყობილობის დაწყვილება",
+      "approve_a_new_device": "დაამტკიცეთ ახალი მოწყობილობა",
+      "appearance": "გარეგნობა",
+      "accessibility": "ხელმისაწვდომობა",
+      "visual_alerts_captions_and_voice_note_accessibil": "ვიზუალური შეტყობინებები, წარწერები და ხმოვანი ჩანაწერების ხელმისაწვდომობა",
+      "security": "უსაფრთხოება",
+      "encryption_key_protected": "შიფრის გასაღები დაცულია",
+      "privacy": "კონფიდენციალურობა",
+      "allow_explicit_content": "ნებართვა მიეცით ექსპლიციტურ კონტენტს",
+      "show_read_receipts": "წაკითხვის დადასტურების ჩვენება",
+      "blur_messages_by_default": "შეტყობინებების ნაგულისხმევად გაბუნდოვანება",
+      "blur_when_app_is_unfocused": "გაბუნდოვნება, როდესაც აპლიკაცია ფოკუსში არ არის",
+      "hold_to_reveal_messages": "დააჭირეთ შეტყობინებების გამოსაჩენად",
+      "notify_when_messages_are_copied": "შეტყობინება გზავნილის ასლის გადაღებისას",
+      "random_chat": "შემთხვევითი ჩათი",
+      "use_age_based_matching": "გამოიყენეთ ასაკზე დაფუძნებული შესაბამისობა",
+      "let_ria_remember_conversations": "მიეცით რიას საუბრების გახსენების საშუალება",
+      "forward_voicemail_to_email": "ხმოვანი ფოსტის გადაგზავნა ელფოსტაზე",
+      "legal_support": "იურიდიული დახმარება და მხარდაჭერა",
+      "free": "უფასო"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "ვარიანტები Chatforia-ს გამოყენების გასამარტივებლად ხმის გამოყენების გარეშე.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "იწყება სტანდარტული ზომით. გაზარდეთ, თუ ხელმისაწვდომობის პარამეტრებში უფრო დიდი ტექსტი გირჩევნიათ.",
+      "interface_font_size": "ინტერფეისის შრიფტის ზომა",
+      "notifications": "შეტყობინებები",
+      "visual_alerts_for_messages_calls": "ვიზუალური შეტყობინებები შეტყობინებებისა და ზარებისთვის",
+      "show_banners_and_visual_indicators_so_you_do_not": "აჩვენეთ ბანერები და ვიზუალური ინდიკატორები, რათა არ გამოტოვოთ აქტივობა.",
+      "vibrate_on_new_messages": "ვიბრაცია ახალი შეტყობინებებისას",
+      "trigger_device_vibration_with_notifications_when": "გააქტიურების მოწყობილობის ვიბრაცია შეტყობინებებით, თუ მხარდაჭერილია.",
+      "flash_screen_on_incoming_call": "შემომავალი ზარის ფლეშ ეკრანი",
+      "briefly_flash_the_screen_when_a_call_rings": "ზარის განხორციელებისას ეკრანი ხანმოკლეად აინთოს.",
+      "live_captions": "ცოცხალი წარწერები",
+      "enable_live_captions": "ჩართეთ პირდაპირი ტექსტური თარგმანი",
+      "show_real_time_captions_during_calls_premium_req": "ზარის დროს აჩვენეთ რეალურ დროში ჩათი. საჭიროებს პრემიუმ გამოწერას.",
+      "caption_font_size": "ზედწერილის შრიფტის ზომა",
+      "caption_background": "წინასწარმეტყველების ფონი",
+      "voice_notes": "ხმოვანი ჩანაწერები",
+      "auto_transcribe_voice_notes": "ხმოვანი ჩანაწერების ავტომატური ტრანსკრიფცია",
+      "attach_a_transcript_to_audio_messages_you_receiv": "მიაბით ტრანსკრიპტი თქვენ მიერ მიღებულ აუდიო შეტყობინებებს."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "მე ჩემი გასაღები აღვადგინე",
+      "restore_encryption": "შიფრვის აღდგენა"
+    },
+    "language_selection": {
+      "select_language": "ენების არჩევა"
+    },
+    "login": {
+      "email_or_username": "ელფოსტა ან მომხმარებლის სახელი",
+      "password": "პაროლი",
+      "forgot_password": "გაგახსენდებათ პაროლი?",
+      "resend_verification_email": "გამოწერის ელფოსტის ხელახლა გაგზავნა",
+      "reset_encryption": "შიფრაციის გადატვირთვა",
+      "create_an_account": "შექმენით ანგარიში",
+      "welcome_to": "კეთილი იყოს თქვენი მობრძანება ჩატფორიაში",
+      "sign_in_or_create_an_account": "შედით სისტემაში ან შექმენით ანგარიში",
+      "or": "ან",
+      "don_t_have_an_account_yet": "ჯერ არ გაქვთ ანგარიში?"
+    },
+    "onboarding": {
+      "welcome": "კეთილი იყოს თქვენი მობრძანება",
+      "set_up_your_profile_so_can_personalize_your_expe": "დააყენეთ თქვენი პროფილი, რათა Chatforia-მ თქვენი გამოცდილება პერსონალიზებული გახადოს.",
+      "choose_a_username": "აირჩიეთ მომხმარებლის სახელი",
+      "this_is_how_people_will_recognize_you_in": "აი ასე გაგიცნობენ ადამიანები ჩატფორიაში.",
+      "choose_your_language": "აირჩიეთ თქვენი ენა",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia ამას გამოიყენებს თარგმანებისა და თქვენი აპლიკაციის გამოცდილებისთვის.",
+      "you_re_ready": "შენ მზად ხარ",
+      "start_chatting_calling_translating_and_connectin": "დაიწყეთ ჩატში საუბარი, ზარები, თარგმნა და დაკავშირება მსოფლიოს გარშემო მყოფ ადამიანებთან."
+    },
+    "register": {
+      "confirm_password": "დაადასტურეთ პაროლი",
+      "phone_optional": "ტელეფონი არასავალდებულო",
+      "log_in": "შესვლა",
+      "create_your_account": "შექმენით თქვენი ანგარიში",
+      "start_chatting_across_languages_with": "Chatforia-თი დაიწყეთ სხვადასხვა ენაზე საუბარი.",
+      "i_agree_to_receive_sms_verification_messages": "ვეთანხმები SMS ვერიფიკაციის შეტყობინებების მიღებას.",
+      "already_have_an_account": "უკვე გაქვთ ანგარიში?"
+    },
+    "add_contact": {
+      "phone": "ტელეფონი",
+      "name": "სახელი",
+      "alias_optional": "ალტერ ეგო (არასავალდებულო)",
+      "pin_this_person_as_a_favorite_contact": "დაამატეთ ეს პირი რჩეულ კონტაქტებში."
+    },
+    "contact_detail": {
+      "edit_contact": "კონტაქტის რედაქტირება",
+      "delete_contact": "კონტაქტის წაშლა",
+      "message": "შეტყობინება",
+      "video": "ვიდეო",
+      "external_name": "გარე სახელი"
+    },
+    "import_phone_contacts": {
+      "select_all": "ყველას მონიშვნა",
+      "clear": "გასუფთავება",
+      "import_contacts": "კონტაქტების იმპორტი"
+    },
+    "invite_friends": {
+      "share_invite_link": "გააზიარეთ მოსაწვევი ბმული",
+      "invite_friends": "მეგობრების მოწვევა",
+      "share_a_invite_link_with_friends_using_messages_": "გაუზიარეთ მეგობრებს Chatforia-ს მოსაწვევი ბმული Messages-ის, ელფოსტის ან თქვენი ტელეფონის ნებისმიერი აპლიკაციის გამოყენებით."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "ახალი მოწყობილობის დაწყვილება",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "ახალ მოწყობილობაზე გახსენით Chatforia და შედით სისტემაში. თუ მას თქვენს დაშიფრულ ჩატებზე წვდომა დასჭირდება, დაამტკიცეთ ეს ნდობილი მოწყობილობიდან.",
+      "view_pending_device_requests": "მოწყობილობის მოლოდინში მყოფი მოთხოვნების ნახვა"
+    },
+    "key_setup": {
+      "recovery_passcode": "აღდგენის პაროლი",
+      "confirm_recovery_passcode": "დაადასტურეთ აღდგენის კოდი",
+      "restore_chats": "ჩატების აღდგენა",
+      "clear_local_key": "ადგილობრივი საკვანძოს წაშლა",
+      "reset_encryption": "შიფრაციის გადატვირთვა?",
+      "this_will_permanently_replace_your_encryption_ke": "ეს სამუდამოდ ჩაანაცვლებს თქვენს დაშიფვრის გასაღებს.",
+      "encryption": "შიფრვა",
+      "restore_encrypted_chats": "დაკრპიტული ჩატების აღდგენა",
+      "no_recovery_backup_found": "აღდგენის სარეზერვო ასლი არ მოიძებნა",
+      "open_on_a_device_that_can_already_read_your_encr": "გახსენით Chatforia მოწყობილობაზე, რომელსაც უკვე შეუძლია თქვენი დაშიფრული ჩატების წაკითხვა, და შექმენით იქ აღდგენის პაროლი.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "აღდგენის სარეზერვო ასლი ჯერ არ მოიძებნა. შექმენით ახალი ამ მოწყობილობიდან, რათა შეძლოთ ჩატების აღდგენა iOS-ზე, Android-ზე და ვებ-ვერსიაში.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "ეს გამოიყენეთ მხოლოდ იმ შემთხვევაში, თუ ყველა სანდო მოწყობილობა დაკარგული გაქვთ და ორიგინალური გასაღების აღდგენა არ შეგიძლიათ."
+    },
+    "linked_devices": {
+      "your_devices": "თქვენი მოწყობილობები",
+      "pending_approvals": "მომლოდინე დამტკიცებები",
+      "approve": "დაამტკიცეთ",
+      "reject": "უარყოფა",
+      "revoke": "გაუქმება",
+      "request_approval_for_this_device": "მოითხოვეთ ამ მოწყობილობის დამტკიცება",
+      "finish_device_approval": "მოწყობილობის დამტკიცება"
+    },
+    "forwarding_settings": {
+      "reset": "გადატვირთვა",
+      "forward_incoming_calls_and_texts_to_your_verifie": "გადაამისამართეთ შემომავალი ზარები და ტექსტური შეტყობინებები თქვენს დადასტურებულ ტელეფონზე ან ელფოსტაზე.",
+      "quiet_hours": "სიმშვიდის საათები",
+      "forwarding": "გადმოგზავნა",
+      "enable_text_forwarding": "ტექსტის გადამისამართების ჩართვა",
+      "forward_texts_to_phone": "ტექსტების გადაგზავნა ტელეფონზე",
+      "forward_texts_to_email": "ტექსტების გადაგზავნა ელფოსტაზე",
+      "enable_call_forwarding": "ჩართეთ ზარის გადამისამართება"
+    },
+    "chat_message_row": {
+      "copy": "ასლის გადაღება",
+      "edit": "რედაქტირება",
+      "report": "ანგარიში",
+      "message_info": "შეტყობინების ინფორმაცია"
+    },
+    "chat_thread": {
+      "no_messages_yet": "ჯერ არ არის შეტყობინებები",
+      "delete_message": "შეტყობინების წაშლა?",
+      "choose_how_you_want_to_delete_this_message": "აირჩიეთ, როგორ გსურთ ამ შეტყობინების წაშლა.",
+      "delete_for_everyone": "ყველასთვის წაშლა",
+      "delete_for_me": "წაშალე ჩემთვის",
+      "search_messages": "შეტყობინებების ძიება",
+      "search_in_chat": "ჩათში ძიება",
+      "sending": "გზავნა...",
+      "failed_to_send": "გზავნის გაგზავნა ვერ მოხერხდა",
+      "edited": "რედაქტირებული",
+      "audio_call": "აუდიო ზარი",
+      "video_call": "ვიდეო ზარი",
+      "selected_gif": "არჩეული GIF",
+      "remove_gif": "GIF-ის წაშლა",
+      "attach": "მიმაგრება",
+      "rewrite_with_ria": "დაწერე ხელახლა რიასთან ერთად",
+      "composer_action": "კომპოზიტორის მოქმედება"
+    },
+    "edit_message": {
+      "save": "შენახვა",
+      "emoji": "ემოჯი",
+      "edit_message": "შეცვალეთ შეტყობინება"
+    },
+    "message_attachments": {
+      "image_attachment": "სურათის მიმაგრება",
+      "video_attachment": "ვიდეო მიმაგრებულია",
+      "play_video": "ვიდეოს გაშვება"
+    },
+    "message_bubble": {
+      "disappearing_message": "გაუჩინარებადი შეტყობინება"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "ამას ჯერ არავის წაუკითხავს",
+      "message_info": "შეტყობინების ინფორმაცია"
+    },
+    "report_message": {
+      "reason": "მიზეზი",
+      "include_previous_messages": "წინა შეტყობინებების ჩართვა",
+      "additional_details": "დამატებითი დეტალები",
+      "anything_else_moderators_should_know": "კიდევ არის რამე, რაც მოდერატორებმა უნდა იცოდნენ?",
+      "block_this_user_after_reporting": "ამ მომხმარებლის შეტყობინების შემდეგ დაბლოკეთ",
+      "submit_report": "ანგარიშის წარდგენა",
+      "report_message": "ანგარიშის შეტყობინება"
+    },
+    "phone_number": {
+      "replace_number": "რიცხვის შეცვლა",
+      "pick_a_number": "აირჩიეთ რიცხვი",
+      "no_number_assigned": "ჩათფორიის ნომერი არ არის მინიჭებული.",
+      "your_number": "თქვენი ჩატფორიის ნომერი"
+    },
+    "pick_number": {
+      "area_code": "რეგიონის კოდი",
+      "premium_numbers_are_protected_from_recycling": "პრემიუმ ნომრები დაცულია ხელახალი გამოყენებისგან.",
+      "available_numbers": "ხელმისაწვდომი ნომრები",
+      "search_by_area_code_to_find_available_numbers": "თავისუფალი ნომრების საპოვნელად მოძებნეთ ტერიტორიული კოდით.",
+      "capability": "უნარიანობა",
+      "country": "ქვეყანა"
+    },
+    "gif_picker": {
+      "search_tenor": "ტენორის ძიება",
+      "search_gifs": "GIF-ების ძიება"
+    },
+    "random_chat": {
+      "add_friend": "დაამატე მეგობარი",
+      "skip": "გადატანა",
+      "send": "გაგზავნა",
+      "end_chat": "საუბრის დასრულება"
+    },
+    "random_matching": {
+      "finding_someone": "ვინმეს პოვნა"
+    },
+    "ria_chat": {
+      "ask_ria": "ჰკითხე რიას...",
+      "you_re_now_chatting_with_ria": "ახლა თქვენ ესაუბრებით რიას",
+      "chat_with_ria_anytime_separate_from_random_human": "ჩათი რეასთან ნებისმიერ დროს, შემთხვევითი ადამიანების შეხამებისგან დამოუკიდებლად."
+    },
+    "ria_rewrite": {
+      "original_text": "ორიგინალი ტექსტი",
+      "choose_tone": "აირჩიეთ ტონი",
+      "rewriting": "გადაწერა…",
+      "suggestions": "შენიშვნები",
+      "choose_a_tone_to_generate_rewrite_suggestions": "აირჩიეთ ტონი ხელახალი წერის წინადადებების გენერირებისთვის."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "უფასო ვერსია მოიცავს საბაზისო ხმებს. განაახლეთ, რომ გახსნათ მეტი ტონი და ზუმბას ხმები.",
+      "volume": "მოცულობა",
+      "message_tone": "შეტყობინების ტონი",
+      "ringtone": "ზუმბიკი"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "ჯერ არ არის ხმოვანი შეტყობინებები.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "როდესაც ვინმე დაგიტოვებთ ხმოვან შეტყობინებას, ის აქ გამოჩნდება.",
+      "play_voicemail": "ხმოვანი ფოსტის ჩართვა",
+      "delete_voicemail": "ხმოვანი ფოსტის წაშლა"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "არჩეული ხმოვანი ფოსტა"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "ფარვა თქვენს ამჟამინდელ ქვეყანაში ან ახლომდებარე ადგილებში გამოყენებისთვის.",
+      "coverage_across_supported_european_destinations": "ფარვა ევროპის მხარდაჭერილ დანიშნულების ადგილებში.",
+      "coverage_across_supported_global_destinations": "ფარვა მხარდაჭერილ გლობალურ დანიშნულების ადგილებში."
+    },
+    "wireless_home": {
+      "manage_wireless": "სადენგარო მართვა",
+      "port_my_number": "ნომრის პორტირება",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM-ის მონაცემთა პაკეტები მოითხოვს eSIM-თან თავსებად და განბლოკილ მოწყობილობას.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "დარჩით დაკავშირებული მოგზაურობისას ან Wi-Fi-ს გარეშე ყოფნისას.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "აირჩიეთ ერთჯერადი eSIM მონაცემთა პაკეტი ადგილობრივი, ევროპული ან გლობალური დაფარვისთვის.",
+      "we_don_t_sell_data_packs_under_3_gb": "3 გბ-ზე ნაკლები მოცულობის მონაცემთა პაკეტებს არ ვყიდით.",
+      "loading_usage": "გამოყენების ჩატვირთვა…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "მონაცემების პაკეტი ჯერ არ არის აქტიური. გამოყენების აღრიცხვის დასაწყებად შეიძინეთ პაკეტი ქვემოთ.",
+      "usage_details_will_appear_once_your_data_pack_is": "დეტალები გამოყენების შესახებ გამოჩნდება, როგორც კი თქვენი მონაცემთა პაკეტი გააქტიურდება.",
+      "manage": "მართვა",
+      "coverage": "გაჟღენთვა",
+      "your_esim": "თქვენი eSIM",
+      "current_usage": "მიმდინარე გამოყენება"
+    }
   }
 }

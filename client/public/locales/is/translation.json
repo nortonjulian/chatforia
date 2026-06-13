@@ -3066,7 +3066,8 @@
     "flip": "Snúa við",
     "speaker": "Fyrirlesari",
     "end": "Lok",
-    "noIncomingCallToAnswer": "Engin innkoma símtal til að svara."
+    "noIncomingCallToAnswer": "Engin innkoma símtal til að svara.",
+    "serviceUnavailable": "Símtalþjónusta er ekki í boði núna. Vinsamlegast reyndu aftur síðar."
   },
   "settings": {
     "startHour": "Upphafstími (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Dökkur",
   "accessibility_caption_bg_transparent": "Gagnsætt",
   "api": {
-    "notAuthorized": "Ekki heimilt"
+    "notAuthorized": "Ekki heimilt",
+    "invalidURL": "Ógild netfang netþjóns.",
+    "serverError": "Þjónustuvilla (%d): %@",
+    "failedToDecodeResponse": "Ekki var hægt að lesa svarið frá netþjóninum: %@"
+  },
+  "tap_to_view_contact": "Pikkaðu til að sjá tengilið",
+  "android": {
+    "plan": {
+      "plan_billing": "Áætlun og reikningur",
+      "current_plan": "Núverandi áætlun",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Farðu auglýsingalaus með Plus, eða opnaðu gervigreindartól og sérsniðna aðlögun með Premium.",
+      "plus": "Auk þess",
+      "premium": "Premium",
+      "back": "Aftur",
+      "my_plan": "Áætlun mín",
+      "compare_plans": "Bera áætlanir saman",
+      "included": "Innifalið"
+    },
+    "upgrade": {
+      "upgrade": "Uppfærsla",
+      "restore_purchases": "Endurheimta kaup",
+      "unlock_more_with": "Opnaðu meira með Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Veldu Plus eða Premium til að fjarlægja auglýsingar, sérsníða upplifun þína og opna háþróuð verkfæri.",
+      "best_experience": "Besta reynsla",
+      "close": "Hafa lokað",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Fjarlægið auglýsingar og opnið aðgang að fleiri daglegum eiginleikum.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Hin fullkomna Chatforia-upplifun.",
+      "premium_annual": "Árlegt úrvalsáskrift",
+      "save_compared_to_monthly_premium": "Sparaðu miðað við mánaðarlegt Premium."
+    },
+    "audio_call": {
+      "mute": "Þögn",
+      "speaker": "Fyrirlesari",
+      "end_call": "Sláðu á endanum"
+    },
+    "dial_pad": {
+      "dial": "Dials",
+      "done": "Klárt",
+      "enter_number": "Sláðu inn töluna",
+      "call": "Hringja",
+      "delete_digit": "Eyða tölustaf"
+    },
+    "incoming_call": {
+      "decline": "Hnignun",
+      "accept": "Samþykkja",
+      "decline_call": "Hætta við símtalið",
+      "accept_call": "Samþykkja símtal"
+    },
+    "video_call": {
+      "camera": "Myndavél",
+      "flip_camera": "Flip-myndavél"
+    },
+    "chats": {
+      "search_chats": "Leita í spjöllum",
+      "no_chats_yet": "Engar spjall ennþá",
+      "admob_ad": "AdMob-auglýsing",
+      "delete_conversation": "Eyða samtalinu?",
+      "this_will_remove_this_conversation_from_your_cha": "Þetta mun fjarlægja þessa spjallþráð af spjallalistanum þínum.",
+      "delete": "Eyða",
+      "cancel": "Hætta við",
+      "chats": "Spjall",
+      "new_chat": "Nýtt spjall",
+      "refresh": "Endurnýja",
+      "random_chat": "Handahófskennd spjall",
+      "search": "Leita",
+      "delete_conversation_2": "Eyða samtalinu"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Notandanafn, tengiliðarnafn eða símanúmer",
+      "new_chat": "Nýtt spjall",
+      "start_a_chat": "Byrjaðu spjall",
+      "search_by_username_contact_name_or_phone_number": "Leitaðu eftir notendanafni, nafni tengiliðs eða símanúmeri.",
+      "results": "Niðurstöður",
+      "open_chat": "Opna spjall"
+    },
+    "calls": {
+      "recents": "Nýleg",
+      "voicemail": "Raddpóstur",
+      "calls": "Símtöl",
+      "no_calls_yet": "Engar símtöl enn",
+      "your_recent_calls_will_show_up_here": "Nýjustu símtöl þín birtast hér.",
+      "open_dial_pad": "Opna talnaaborðið",
+      "delete_call": "Eyða símtali",
+      "video_call": "Myndsímtal"
+    },
+    "contacts": {
+      "contacts": "Tengiliðir",
+      "add_contact": "Bæta við tengilið",
+      "import_from_phone": "Innflutningur frá síma",
+      "invite_friends": "Bjóða vinum",
+      "favorite": "Uppáhald",
+      "open_contact": "Opna tengilið"
+    },
+    "main_activity": {
+      "loading": "Að hlaða...",
+      "profile": "Prófíl"
+    },
+    "profile": {
+      "delete_account": "Eyða reikningi",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Þessa aðgerð er ekki hægt að ógilda. Viltu vera viss um að þú viljir eyða reikningnum þínum?",
+      "log_out": "Hætta innskráningu",
+      "change_photo": "Breyta mynd",
+      "remove_photo": "Fjarlægja mynd",
+      "preferred_language": "Valið tungumál",
+      "your_age_range": "Aldursbil þitt",
+      "theme": "Þema",
+      "choose_how_looks_across_the_app": "Veldu hvernig Chatforia lítur út í gegnum forritið.",
+      "uploading": "Upphleðsla…",
+      "choose_plus_or_premium": "Veldu Plus eða Premium",
+      "profile_photo": "Prófílmynd",
+      "open_upgrade": "Opna uppfærslu",
+      "open": "Opinn",
+      "account": "Reikningur",
+      "username": "Notandanafn",
+      "email": "Tölvupóstur",
+      "plan": "Áætlun",
+      "wireless": "Þráðlaust",
+      "mobile": "Chatforia Farsími",
+      "esim_and_wireless_settings": "eSIM og þráðlausar stillingar",
+      "call_text_forwarding": "Símtals- og textaboðaleiðsögn",
+      "forward_incoming_calls_and_texts": "Framsetja innkomandi símtöl og skilaboð",
+      "phone_number": "Símnúmer",
+      "manage_your_number": "Stjórnaðu Chatforia-númerinu þínu",
+      "settings": "Stillingar",
+      "auto_translate_messages": "Sjálfvirk þýðing á skilaboðum",
+      "automatically_translate_messages_into_your_prefe": "Þýddu skilaboð sjálfkrafa á þitt valda tungumál.",
+      "show_original_with_translation": "Sýna upprunalegt með þýðingu",
+      "show_the_original_message_alongside_the_translat": "Sýndu upprunalega skilaboðin hlið við hlið við þýðinguna.",
+      "smart_reply_suggestions": "Snjall svars tillögur",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Sýna Ria-drifna endurskrifunarhjálp og skjót svör.",
+      "linked_devices": "Tengd tæki",
+      "manage_trusted_devices": "Stjórna traustum tækjum",
+      "pair_new_device": "Para nýja tækið",
+      "approve_a_new_device": "Samþykkja nýjan búnað",
+      "appearance": "Útlit",
+      "accessibility": "Aðgengi",
+      "visual_alerts_captions_and_voice_note_accessibil": "Sjónræn viðvörun, myndatextar og aðgengi raddnóta",
+      "security": "Öryggi",
+      "encryption_key_protected": "Dulkóðunarlykill verndaður",
+      "privacy": "Persónuvernd",
+      "allow_explicit_content": "Leyfa skýr efni",
+      "show_read_receipts": "Sýna leskvittanir",
+      "blur_messages_by_default": "Óskýrðu skilaboð sjálfgefið",
+      "blur_when_app_is_unfocused": "Óskýr þegar forritið er utan fókusar",
+      "hold_to_reveal_messages": "Haltu til að birta skilaboð",
+      "notify_when_messages_are_copied": "Tilkynna þegar skilaboð eru afrituð",
+      "random_chat": "Handahófskennt spjall",
+      "use_age_based_matching": "Notaðu aldursbundna samsvarun",
+      "let_ria_remember_conversations": "Láttu Riu muna samtöl",
+      "forward_voicemail_to_email": "Fara áfram talhólfsskilaboð á tölvupóst",
+      "legal_support": "Lögfræði og stuðningur",
+      "free": "Ókeypis"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Valmöguleikar til að gera Chatforia auðveldara í notkun án þess að treysta á hljóð.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Byrjar í venjulegri stærð. Stækkaðu ef þú vilt stærri texta í aðgengisstuðningi.",
+      "interface_font_size": "Miðlari leturstærð",
+      "notifications": "Tilkynningar",
+      "visual_alerts_for_messages_calls": "Sjónræn viðvörun fyrir skilaboð og símtöl",
+      "show_banners_and_visual_indicators_so_you_do_not": "Sýndu borða og sjónræn merki svo þú missir ekki af athöfnum.",
+      "vibrate_on_new_messages": "Vibrera við nýjum skilaboðum",
+      "trigger_device_vibration_with_notifications_when": "Kveikja titring tækis með tilkynningum þegar það er studt.",
+      "flash_screen_on_incoming_call": "Flash-skjár við innhringing",
+      "briefly_flash_the_screen_when_a_call_rings": "Ljósblikkaðu skjáinn stuttlega þegar símtal hringir.",
+      "live_captions": "Beinar textanir",
+      "enable_live_captions": "Kveikja á lifandi textum",
+      "show_real_time_captions_during_calls_premium_req": "Sýna rauntímatexta á meðan á símtölum stendur. Premium áskrift krafist.",
+      "caption_font_size": "Leturstærð myndatexta",
+      "caption_background": "Myndatexta bakgrunnur",
+      "voice_notes": "Raddnótur",
+      "auto_transcribe_voice_notes": "Sjálfvirkt afrita talnótur",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Bættu við afriti með hljóðskilaboðum sem þú færð."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Ég hef endurheimt lykilinn minn",
+      "restore_encryption": "Endurheimta dulkóðun"
+    },
+    "language_selection": {
+      "select_language": "Veldu tungumál"
+    },
+    "login": {
+      "email_or_username": "Netfang eða notandanafn",
+      "password": "Lykilorð",
+      "forgot_password": "Gleymdirðu lykilorðinu?",
+      "resend_verification_email": "Endursenda staðfestingarpóstinn",
+      "reset_encryption": "Endurstilla dulkóðun",
+      "create_an_account": "Búðu til reikning",
+      "welcome_to": "Velkomin til Chatforia",
+      "sign_in_or_create_an_account": "Innganga eða stofna reikning",
+      "or": "eða",
+      "don_t_have_an_account_yet": "Átt þú ekki reikning ennþá?"
+    },
+    "onboarding": {
+      "welcome": "Velkomin",
+      "set_up_your_profile_so_can_personalize_your_expe": "Settu upp prófílinn þinn svo Chatforia geti sérsniðið upplifun þína.",
+      "choose_a_username": "Veldu notendanafn",
+      "this_is_how_people_will_recognize_you_in": "Svona munu menn þekkja þig í Chatforia.",
+      "choose_your_language": "Veldu tungumálið þitt",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia mun nota þetta til þýðinga og fyrir upplifun þína í forritinu.",
+      "you_re_ready": "Þú ert tilbúinn",
+      "start_chatting_calling_translating_and_connectin": "Byrjaðu að spjalla, hringja, þýða og tengjast fólki um allan heim."
+    },
+    "register": {
+      "confirm_password": "Staðfesta lykilorð",
+      "phone_optional": "Símtal valkvætt",
+      "log_in": "Innganga",
+      "create_your_account": "Búðu til reikninginn þinn",
+      "start_chatting_across_languages_with": "Byrjaðu að spjalla á milli tungumála með Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Ég samþykki að fá SMS-staðfestingarskilaboð.",
+      "already_have_an_account": "Áttu þegar reikning?"
+    },
+    "add_contact": {
+      "phone": "Sími",
+      "name": "Nafn",
+      "alias_optional": "Annað nafn valkvætt",
+      "pin_this_person_as_a_favorite_contact": "Merktu þennan einstakling sem uppáhalds tengilið."
+    },
+    "contact_detail": {
+      "edit_contact": "Breyta tengilið",
+      "delete_contact": "Eyða tengilið",
+      "message": "Skilaboð",
+      "video": "Myndband",
+      "external_name": "Ytra nafn"
+    },
+    "import_phone_contacts": {
+      "select_all": "Velja allt",
+      "clear": "Skýr",
+      "import_contacts": "Flytja inn tengiliði"
+    },
+    "invite_friends": {
+      "share_invite_link": "Deila hlekknum á boðinu",
+      "invite_friends": "Bjóða vinum",
+      "share_a_invite_link_with_friends_using_messages_": "Deildu boðslink fyrir Chatforia með vinum með Messages, tölvupósti eða hvaða forriti sem er á símanum þínum."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Pörðu nýjan búnað",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Opnaðu Chatforia á nýja tækinu þínu og skráðu þig inn. Ef það þarf aðgang að dulkóðuðum spjallum þínum, samþykktu það frá traustum tæki.",
+      "view_pending_device_requests": "Skoða biðandi tækibeiðnir"
+    },
+    "key_setup": {
+      "recovery_passcode": "Endurheimtarleyfilokakóða",
+      "confirm_recovery_passcode": "Staðfesta endurheimtarauðkennisnúmer",
+      "restore_chats": "Endurheimta spjöll",
+      "clear_local_key": "Hreinsa staðbundna lykilinn",
+      "reset_encryption": "Endurstilla dulkóðun?",
+      "this_will_permanently_replace_your_encryption_ke": "Þetta mun varanlega skipta út dulkóðunarlyklinum þínum.",
+      "encryption": "Dulkóðun",
+      "restore_encrypted_chats": "Endurheimta dulkóðuð spjöll",
+      "no_recovery_backup_found": "Engin endurheimtaröryggisafrit fundið",
+      "open_on_a_device_that_can_already_read_your_encr": "Opnaðu Chatforia á tæki sem þegar getur lesið dulkóðuðu spjallið þitt og búðu til endurheimtarleyfiskóða þar.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Engin afritun til endurheimtar fannst enn. Búðu til afritun af þessu tæki svo þú getir endurheimt spjall á iOS, Android og vef.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Notaðu þetta aðeins ef þú hefur misst öll traust tæki og getur ekki endurheimt upprunalega lykilinn þinn."
+    },
+    "linked_devices": {
+      "your_devices": "Tækin þín",
+      "pending_approvals": "Bið eftir samþykktum",
+      "approve": "Samþykkja",
+      "reject": "Hafna",
+      "revoke": "Fella úr gildi",
+      "request_approval_for_this_device": "Beiða um samþykki fyrir þetta tæki",
+      "finish_device_approval": "Ljúka samþykki tækis"
+    },
+    "forwarding_settings": {
+      "reset": "Endurstilla",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Framsetjðu innkomandi símtöl og textaskilaboð á staðfesta símanúmerið þitt eða netfangið þitt.",
+      "quiet_hours": "Þögnartímar",
+      "forwarding": "Áframsending",
+      "enable_text_forwarding": "Kveikja á textaleiðbeiningu",
+      "forward_texts_to_phone": "Fara áfram skilaboð á síma",
+      "forward_texts_to_email": "Fara áfram textar í tölvupóst",
+      "enable_call_forwarding": "Kveikja á hringjavísun"
+    },
+    "chat_message_row": {
+      "copy": "Afrita",
+      "edit": "Breyta",
+      "report": "Skýrsla",
+      "message_info": "Upplýsingar um skilaboð"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Engar skilaboð enn",
+      "delete_message": "Eyða skilaboðum?",
+      "choose_how_you_want_to_delete_this_message": "Veldu hvernig þú vilt eyða þessari skilaboðum.",
+      "delete_for_everyone": "Eyða fyrir alla",
+      "delete_for_me": "Eyða fyrir mig",
+      "search_messages": "Leita í skilaboðum",
+      "search_in_chat": "Leitaðu í spjallinu",
+      "sending": "Að senda…",
+      "failed_to_send": "Tókst ekki að senda",
+      "edited": "Breytt",
+      "audio_call": "Hljóðsímasamtal",
+      "video_call": "Myndsímtal",
+      "selected_gif": "Valinn GIF",
+      "remove_gif": "Fjarlægja GIF",
+      "attach": "Hengja við",
+      "rewrite_with_ria": "Endurskrifa með Riu",
+      "composer_action": "Aðgerð tónskálds"
+    },
+    "edit_message": {
+      "save": "Vista",
+      "emoji": "Emoji",
+      "edit_message": "Breyta skilaboðum"
+    },
+    "message_attachments": {
+      "image_attachment": "Myndviðhengi",
+      "video_attachment": "Myndbandsviðhengi",
+      "play_video": "Spila myndbandið"
+    },
+    "message_bubble": {
+      "disappearing_message": "Eyðandi skilaboð"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Enginn hefur lesið þetta ennþá",
+      "message_info": "Upplýsingar um skilaboðin"
+    },
+    "report_message": {
+      "reason": "Ástæða",
+      "include_previous_messages": "Bættu við fyrri skilaboðum",
+      "additional_details": "Viðbótarupplýsingar",
+      "anything_else_moderators_should_know": "Eitthvað annað sem stjórnendur ættu að vita?",
+      "block_this_user_after_reporting": "Bannarðu þennan notanda eftir tilkynningu",
+      "submit_report": "Senda skýrslu",
+      "report_message": "Tilkynna skilaboð"
+    },
+    "phone_number": {
+      "replace_number": "Breyta númeri",
+      "pick_a_number": "Veldu tölu",
+      "no_number_assigned": "Enginn Chatforia-númer hefur verið úthlutað.",
+      "your_number": "Þitt Chatforia-númer"
+    },
+    "pick_number": {
+      "area_code": "Svæðisnúmer",
+      "premium_numbers_are_protected_from_recycling": "Premiumnúmer eru vernduð gegn endurvinnslu.",
+      "available_numbers": "Fáanleg númer",
+      "search_by_area_code_to_find_available_numbers": "Leitaðu eftir svæðisnúmeri til að finna lausa númer.",
+      "capability": "Getu",
+      "country": "Land"
+    },
+    "gif_picker": {
+      "search_tenor": "Leita í tenór",
+      "search_gifs": "Leita að GIF-myndum"
+    },
+    "random_chat": {
+      "add_friend": "Bæta vini",
+      "skip": "Yfirgefa",
+      "send": "Senda",
+      "end_chat": "Ljúka spjallinu"
+    },
+    "random_matching": {
+      "finding_someone": "Að finna einhvern"
+    },
+    "ria_chat": {
+      "ask_ria": "Spyrðu Riu...",
+      "you_re_now_chatting_with_ria": "Þú ert nú að spjalla við Riu",
+      "chat_with_ria_anytime_separate_from_random_human": "Spjallaðu við Riu hvenær sem er, aðskilið frá handahófskenndri paraðningu við fólk."
+    },
+    "ria_rewrite": {
+      "original_text": "Upprunalegur texti",
+      "choose_tone": "Veldu tón",
+      "rewriting": "Endurskrif…",
+      "suggestions": "Tillögur",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Veldu tón til að búa til tillögur um endurskrif."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Ókeypis útgáfan inniheldur grunnhljóð. Uppfærðu til að opna fleiri tóna og hringitóna.",
+      "volume": "Rúmmál",
+      "message_tone": "Tónn skilaboða",
+      "ringtone": "Hringitóna"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Engar talhólfsskilaboð enn.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Þegar einhver skilur eftir þér raddpóst, mun hann birtast hér.",
+      "play_voicemail": "Spila talhólfsskilaboð",
+      "delete_voicemail": "Eyða talhólfsskilaboðum"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Valin talhólfsskilaboð"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Þjónustusvæði fyrir núverandi land þitt eða nærliggjandi svæði.",
+      "coverage_across_supported_european_destinations": "Þjónustuland á öllum studdum evrópskum áfangastöðum.",
+      "coverage_across_supported_global_destinations": "Þjónustulandakvörðun á studdum alþjóðlegum áfangastöðum."
+    },
+    "wireless_home": {
+      "manage_wireless": "Stjórna þráðlausu neti",
+      "port_my_number": "Flytja númerið mitt",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM gagnapakkar krefjast eSIM-samhæfs og opins tækis.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Vertu tengdur þegar þú ert á ferð eða án Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Veldu einnota eSIM gagnapakka fyrir staðbundna, evrópska eða alþjóðlega þjónustu.",
+      "we_don_t_sell_data_packs_under_3_gb": "Við seljum ekki gagnapakka undir 3 GB.",
+      "loading_usage": "Að hlaða notkun…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Enginn virkur gagnapakki enn. Kaupðu pakka hér að neðan til að byrja að fylgjast með notkun.",
+      "usage_details_will_appear_once_your_data_pack_is": "Nánari upplýsingar um notkun munu birtast þegar gagnapakkan þinn er virkur.",
+      "manage": "Stjórna",
+      "coverage": "Umfjöllun",
+      "your_esim": "eSIM-ið þitt",
+      "current_usage": "Núverandi notkun"
+    }
   }
 }

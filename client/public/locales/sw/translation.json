@@ -3066,7 +3066,8 @@
     "flip": "Geuza",
     "speaker": "Mzungumzaji",
     "end": "Mwisho",
-    "noIncomingCallToAnswer": "Hakuna simu inayokuja ya kujibu."
+    "noIncomingCallToAnswer": "Hakuna simu inayokuja ya kujibu.",
+    "serviceUnavailable": "Huduma ya simu haipatikani kwa sasa. Tafadhali jaribu tena baadaye."
   },
   "settings": {
     "startHour": "Saa ya kuanza (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Giza",
   "accessibility_caption_bg_transparent": "Wazi",
   "api": {
-    "notAuthorized": "Haidhinishwa"
+    "notAuthorized": "Haidhinishwa",
+    "invalidURL": "Anwani ya seva si halali.",
+    "serverError": "Hitilafu ya seva (%d): %@",
+    "failedToDecodeResponse": "Haikuweza kusoma jibu la seva: %@"
+  },
+  "tap_to_view_contact": "Gusa ili kuona mawasiliano",
+  "android": {
+    "plan": {
+      "plan_billing": "Mpango na Malipo",
+      "current_plan": "Mpango wa sasa",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Ondoa matangazo na Plus, au fungua zana za AI na ubinafsishaji na Premium.",
+      "plus": "Zaidi",
+      "premium": "Bora",
+      "back": "Rudi nyuma",
+      "my_plan": "Mpango Wangu",
+      "compare_plans": "Linganisha Mipango",
+      "included": "Imejumuishwa"
+    },
+    "upgrade": {
+      "upgrade": "Boresha",
+      "restore_purchases": "Rejesha manunuzi",
+      "unlock_more_with": "Fungua zaidi na Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Chagua Plus au Premium ili kuondoa matangazo, kubinafsisha uzoefu wako, na kufungua zana za hali ya juu.",
+      "best_experience": "Uzoefu bora",
+      "close": "Funga",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Ondoa matangazo na fungua vipengele zaidi vya kila siku.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Uzoefu kamili wa Chatforia.",
+      "premium_annual": "Mwaka wa Premium",
+      "save_compared_to_monthly_premium": "Akiba ikilinganishwa na Premium ya kila mwezi."
+    },
+    "audio_call": {
+      "mute": "Kimya",
+      "speaker": "Mzungumzaji",
+      "end_call": "Mwisho wa simu"
+    },
+    "dial_pad": {
+      "dial": "Nambari ya simu",
+      "done": "Imekamilika",
+      "enter_number": "Ingiza nambari",
+      "call": "Piga simu",
+      "delete_digit": "Futa tarakimu"
+    },
+    "incoming_call": {
+      "decline": "Mteremko",
+      "accept": "Kubali",
+      "decline_call": "Kataa simu",
+      "accept_call": "Kubali simu"
+    },
+    "video_call": {
+      "camera": "Kamera",
+      "flip_camera": "Kamera ya Flip"
+    },
+    "chats": {
+      "search_chats": "Tafuta mazungumzo",
+      "no_chats_yet": "Bado hakuna mazungumzo",
+      "admob_ad": "Tangazo la AdMob",
+      "delete_conversation": "Futa mazungumzo?",
+      "this_will_remove_this_conversation_from_your_cha": "Hii itaondoa mazungumzo haya kutoka kwenye orodha yako ya mazungumzo.",
+      "delete": "Futa",
+      "cancel": "Futa",
+      "chats": "Mazungumzo",
+      "new_chat": "Soga mpya",
+      "refresh": "Boresha",
+      "random_chat": "Soga ya nasibu",
+      "search": "Tafuta",
+      "delete_conversation_2": "Futa mazungumzo"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Jina la mtumiaji, jina la mwasiliani, au nambari ya simu",
+      "new_chat": "Ujumbe mpya",
+      "start_a_chat": "Anza mazungumzo",
+      "search_by_username_contact_name_or_phone_number": "Tafuta kwa kutumia jina la mtumiaji, jina la mwasiliano, au nambari ya simu.",
+      "results": "Matokeo",
+      "open_chat": "Fungua mazungumzo"
+    },
+    "calls": {
+      "recents": "Vya hivi karibuni",
+      "voicemail": "Ujumbe wa sauti",
+      "calls": "Simu",
+      "no_calls_yet": "Bado hakuna simu",
+      "your_recent_calls_will_show_up_here": "Simu zako za hivi karibuni zitaonekana hapa.",
+      "open_dial_pad": "Fungua kibodi ya nambari",
+      "delete_call": "Futa simu",
+      "video_call": "Simu ya video"
+    },
+    "contacts": {
+      "contacts": "Mawasiliano",
+      "add_contact": "Ongeza mawasiliano",
+      "import_from_phone": "Agiza kutoka kwa simu",
+      "invite_friends": "Alika marafiki",
+      "favorite": "Kipendwa",
+      "open_contact": "Wasiliana wazi"
+    },
+    "main_activity": {
+      "loading": "Inapakia...",
+      "profile": "Wasifu"
+    },
+    "profile": {
+      "delete_account": "Futa Akaunti",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Kitendo hiki hakiwezi kurejeshwa. Je, una hakika unataka kufuta akaunti yako?",
+      "log_out": "Toka",
+      "change_photo": "Badilisha Picha",
+      "remove_photo": "Ondoa Picha",
+      "preferred_language": "Lugha inayopendekezwa",
+      "your_age_range": "Wigo wako wa umri",
+      "theme": "Mandhari",
+      "choose_how_looks_across_the_app": "Chagua jinsi Chatforia inavyoonekana katika programu nzima.",
+      "uploading": "Inapakia…",
+      "choose_plus_or_premium": "Chagua Plus au Premium",
+      "profile_photo": "Picha ya wasifu",
+      "open_upgrade": "Sasisha wazi",
+      "open": "Fungua",
+      "account": "Akaunti",
+      "username": "Jina la mtumiaji",
+      "email": "Barua pepe",
+      "plan": "Mpango",
+      "wireless": "Bila waya",
+      "mobile": "Chatforia Simu",
+      "esim_and_wireless_settings": "Mipangilio ya eSIM na isiyo na waya",
+      "call_text_forwarding": "Uhamishaji wa Simu na Ujumbe",
+      "forward_incoming_calls_and_texts": "Pitisha simu na ujumbe mfupi unaoingia",
+      "phone_number": "Nambari ya simu",
+      "manage_your_number": "Dhibiti nambari yako ya Chatforia",
+      "settings": "Mipangilio",
+      "auto_translate_messages": "Tafsiri kiotomatiki ujumbe",
+      "automatically_translate_messages_into_your_prefe": "Tafsiri ujumbe kiotomatiki katika lugha unayoipendelea.",
+      "show_original_with_translation": "Onyesha asili pamoja na tafsiri",
+      "show_the_original_message_alongside_the_translat": "Onyesha ujumbe wa awali kando ya tafsiri.",
+      "smart_reply_suggestions": "Mapendekezo ya majibu ya akili",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Onyesha msaada wa uandishi upya unaotumia Ria na majibu ya haraka.",
+      "linked_devices": "Vifaa Vilivyounganishwa",
+      "manage_trusted_devices": "Dhibiti vifaa vya kuaminika",
+      "pair_new_device": "Panga kifaa kipya",
+      "approve_a_new_device": "Idhinisha kifaa kipya",
+      "appearance": "Mwonekano",
+      "accessibility": "Upatikanaji",
+      "visual_alerts_captions_and_voice_note_accessibil": "Upatikanaji wa arifa za kuona, maelezo ya picha, na noti za sauti",
+      "security": "Usalama",
+      "encryption_key_protected": "Ufunguo wa usimbaji fiche umelindwa",
+      "privacy": "Faragha",
+      "allow_explicit_content": "Ruhusu maudhui ya wazi",
+      "show_read_receipts": "Onyesha uthibitisho wa kusoma",
+      "blur_messages_by_default": "Fifisha ujumbe kwa chaguo-msingi",
+      "blur_when_app_is_unfocused": "Fifisha wakati programu haiko makini",
+      "hold_to_reveal_messages": "Shikilia ili kuonyesha ujumbe",
+      "notify_when_messages_are_copied": "Arifa unapopigwa nakala ya ujumbe",
+      "random_chat": "Soga ya nasibu",
+      "use_age_based_matching": "Tumia ulinganisho kulingana na umri",
+      "let_ria_remember_conversations": "Acha Ria akumbuke mazungumzo",
+      "forward_voicemail_to_email": "Tuma ujumbe wa sauti kwa barua pepe",
+      "legal_support": "Kisheria na Usaidizi",
+      "free": "Bure"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Chaguzi za kufanya Chatforia iwe rahisi kutumia bila kutegemea sauti.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Inaanza kwa ukubwa wa kawaida. Ongeza ikiwa unapendelea maandishi makubwa zaidi katika mipangilio ya ufikiaji.",
+      "interface_font_size": "Kiolesura cha ukubwa wa fonti",
+      "notifications": "Arifa",
+      "visual_alerts_for_messages_calls": "Arifa za kuona kwa ujumbe na simu",
+      "show_banners_and_visual_indicators_so_you_do_not": "Onyesha mabango na viashiria vya kuona ili usikose shughuli.",
+      "vibrate_on_new_messages": "Tetemeka kwa ujumbe mpya",
+      "trigger_device_vibration_with_notifications_when": "Washa mtetemo wa kifaa na arifa inapounga mkono.",
+      "flash_screen_on_incoming_call": "Kionyesho cha flash kwenye simu inayoingia",
+      "briefly_flash_the_screen_when_a_call_rings": "Onyesha mwanga kwa muda mfupi kwenye skrini wakati simu inapopiga.",
+      "live_captions": "Maelezo ya moja kwa moja",
+      "enable_live_captions": "Washa manukuu ya moja kwa moja",
+      "show_real_time_captions_during_calls_premium_req": "Onyesha manukuu ya wakati halisi wakati wa simu. Inahitajika Premium.",
+      "caption_font_size": "Ukubwa wa fonti ya maelezo",
+      "caption_background": "Mandhari ya maelezo",
+      "voice_notes": "Dondoo za sauti",
+      "auto_transcribe_voice_notes": "Kutafsiri kiotomatiki noti za sauti",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Ambatanisha nakala ya maandishi kwenye ujumbe wa sauti unaopokea."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Nimerudisha ufunguo wangu",
+      "restore_encryption": "Rejesha Usimbaji fiche"
+    },
+    "language_selection": {
+      "select_language": "Chagua lugha"
+    },
+    "login": {
+      "email_or_username": "Barua pepe au jina la mtumiaji",
+      "password": "Nenosiri",
+      "forgot_password": "Umesahau nenosiri?",
+      "resend_verification_email": "Tuma tena barua pepe ya uthibitisho",
+      "reset_encryption": "Weka upya usimbaji fiche",
+      "create_an_account": "Unda akaunti",
+      "welcome_to": "Karibu Chatforia",
+      "sign_in_or_create_an_account": "Ingia au tengeneza akaunti",
+      "or": "au",
+      "don_t_have_an_account_yet": "Bado huna akaunti?"
+    },
+    "onboarding": {
+      "welcome": "Karibu",
+      "set_up_your_profile_so_can_personalize_your_expe": "Weka wasifu wako ili Chatforia iweze kubinafsisha uzoefu wako.",
+      "choose_a_username": "Chagua jina la mtumiaji",
+      "this_is_how_people_will_recognize_you_in": "Hivi ndivyo watu watakutambua katika Chatforia.",
+      "choose_your_language": "Chagua lugha yako",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia itatumia hii kwa tafsiri na uzoefu wako wa programu.",
+      "you_re_ready": "Uko tayari",
+      "start_chatting_calling_translating_and_connectin": "Anza kupiga soga, kupiga simu, kutafsiri, na kuungana na watu kote duniani."
+    },
+    "register": {
+      "confirm_password": "Thibitisha nenosiri",
+      "phone_optional": "Simu si lazima",
+      "log_in": "Ingia",
+      "create_your_account": "Unda akaunti yako",
+      "start_chatting_across_languages_with": "Anza kupiga soga kwa lugha mbalimbali na Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Nakubali kupokea ujumbe wa uthibitisho wa SMS.",
+      "already_have_an_account": "Tayari una akaunti?"
+    },
+    "add_contact": {
+      "phone": "Simu",
+      "name": "Jina",
+      "alias_optional": "Jina la ziada si lazima",
+      "pin_this_person_as_a_favorite_contact": "Weka mtu huyu kama mwasiliani anayependwa."
+    },
+    "contact_detail": {
+      "edit_contact": "Hariri Mawasiliano",
+      "delete_contact": "Futa Mwasiliano",
+      "message": "Ujumbe",
+      "video": "Video",
+      "external_name": "Jina la nje"
+    },
+    "import_phone_contacts": {
+      "select_all": "Chagua yote",
+      "clear": "Safisha",
+      "import_contacts": "Agiza Anwani"
+    },
+    "invite_friends": {
+      "share_invite_link": "Shiriki Kiungo cha Mwaliko",
+      "invite_friends": "Alika Marafiki",
+      "share_a_invite_link_with_friends_using_messages_": "Shiriki kiungo cha mwaliko wa Chatforia na marafiki kwa kutumia Messages, barua pepe, au programu yoyote kwenye simu yako."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Onganisha kifaa kipya",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Fungua Chatforia kwenye kifaa chako kipya na uingie. Ikiwa inahitaji kufikia mazungumzo yako yaliyosimbwa, idhinisha kutoka kwenye kifaa unachokiamini.",
+      "view_pending_device_requests": "Tazama maombi ya vifaa yanayosubiri"
+    },
+    "key_setup": {
+      "recovery_passcode": "Nambari ya Urejeshaji",
+      "confirm_recovery_passcode": "Thibitisha nambari ya siri ya urejeshaji",
+      "restore_chats": "Rejesha mazungumzo",
+      "clear_local_key": "Futa ufunguo wa eneo",
+      "reset_encryption": "Weka upya usimbaji fiche?",
+      "this_will_permanently_replace_your_encryption_ke": "Hii itabadilisha ufunguo wako wa usimbaji fiche kwa kudumu.",
+      "encryption": "Ufichaji",
+      "restore_encrypted_chats": "Rejesha mazungumzo yaliyosimbwa",
+      "no_recovery_backup_found": "Hakuna nakala rudufu ya urejeshaji iliyopatikana",
+      "open_on_a_device_that_can_already_read_your_encr": "Fungua Chatforia kwenye kifaa ambacho tayari kinaweza kusoma mazungumzo yako yaliyosimbwa na uunde Nambari ya Uokoaji hapo.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Hakuna nakala rudufu ya urejeshaji iliyopatikana bado. Tengeneza moja kutoka kwenye kifaa hiki ili uweze kurejesha mazungumzo kwenye iOS, Android, na wavuti.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Tumia hii tu ikiwa umepoteza vifaa vyote vinavyoaminika na huwezi kurejesha ufunguo wako wa awali."
+    },
+    "linked_devices": {
+      "your_devices": "Vifaa vyako",
+      "pending_approvals": "Iko kusubiri idhini",
+      "approve": "Idhinisha",
+      "reject": "Kataa",
+      "revoke": "Futa",
+      "request_approval_for_this_device": "Omba idhini kwa kifaa hiki",
+      "finish_device_approval": "Kukamilisha idhini ya kifaa"
+    },
+    "forwarding_settings": {
+      "reset": "Weka upya",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Piga mbele simu na ujumbe mfupi unaoingia kwenye simu yako iliyothibitishwa au barua pepe yako.",
+      "quiet_hours": "Saa za utulivu",
+      "forwarding": "Kuendelea",
+      "enable_text_forwarding": "Wezesha uhamishaji wa maandishi",
+      "forward_texts_to_phone": "Tuma maandishi kwenye simu",
+      "forward_texts_to_email": "Tuma maandishi kwa barua pepe",
+      "enable_call_forwarding": "Wezesha uhamishaji wa simu"
+    },
+    "chat_message_row": {
+      "copy": "Nakili",
+      "edit": "Hariri",
+      "report": "Ripoti",
+      "message_info": "Taarifa ya Ujumbe"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Bado hakuna ujumbe",
+      "delete_message": "Futa ujumbe?",
+      "choose_how_you_want_to_delete_this_message": "Chagua jinsi unavyotaka kufuta ujumbe huu.",
+      "delete_for_everyone": "Futa kwa kila mtu",
+      "delete_for_me": "Futa kwa ajili yangu",
+      "search_messages": "Tafuta ujumbe",
+      "search_in_chat": "Tafuta kwenye soga",
+      "sending": "Inatuma…",
+      "failed_to_send": "Imeshindwa kutuma",
+      "edited": "Imehaririwa",
+      "audio_call": "Simu ya Sauti",
+      "video_call": "Simu ya video",
+      "selected_gif": "GIF iliyochaguliwa",
+      "remove_gif": "Ondoa GIF",
+      "attach": "Ambatanisha",
+      "rewrite_with_ria": "Andika upya na Ria",
+      "composer_action": "Kitendo cha mtunzi"
+    },
+    "edit_message": {
+      "save": "Hifadhi",
+      "emoji": "Emoji",
+      "edit_message": "Hariri ujumbe"
+    },
+    "message_attachments": {
+      "image_attachment": "Kiambatisho cha picha",
+      "video_attachment": "Kiambatisho cha video",
+      "play_video": "Cheza video"
+    },
+    "message_bubble": {
+      "disappearing_message": "Ujumbe unaotoweka"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Hakuna mtu aliyesoma hii bado",
+      "message_info": "Taarifa ya ujumbe"
+    },
+    "report_message": {
+      "reason": "Sababu",
+      "include_previous_messages": "Jumuisha ujumbe uliopita",
+      "additional_details": "Maelezo ya ziada",
+      "anything_else_moderators_should_know": "Kuna kitu kingine ambacho wasimamizi wanapaswa kujua?",
+      "block_this_user_after_reporting": "Zuie mtumiaji huyu baada ya kuripoti",
+      "submit_report": "Wasilisha ripoti",
+      "report_message": "Ripoti ujumbe"
+    },
+    "phone_number": {
+      "replace_number": "Badilisha Nambari",
+      "pick_a_number": "Chagua namba",
+      "no_number_assigned": "Hakuna nambari ya Chatforia iliyotolewa.",
+      "your_number": "Nambari yako ya Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Nambari ya eneo",
+      "premium_numbers_are_protected_from_recycling": "Nambari za malipo ya juu zinalindwa dhidi ya kutumika tena.",
+      "available_numbers": "Nambari zinazopatikana",
+      "search_by_area_code_to_find_available_numbers": "Tafuta kwa msimbo wa eneo ili kupata nambari zinazopatikana.",
+      "capability": "Uwezo",
+      "country": "Nchi"
+    },
+    "gif_picker": {
+      "search_tenor": "Tafuta Tenori",
+      "search_gifs": "Tafuta GIF"
+    },
+    "random_chat": {
+      "add_friend": "Ongeza Rafiki",
+      "skip": "Ruka",
+      "send": "Tuma",
+      "end_chat": "Mwisho wa mazungumzo"
+    },
+    "random_matching": {
+      "finding_someone": "Kumpata mtu"
+    },
+    "ria_chat": {
+      "ask_ria": "Muulize Ria...",
+      "you_re_now_chatting_with_ria": "Sasa unaongea na Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Zungumza na Ria wakati wowote, tofauti na upangaji wa watu kiholela."
+    },
+    "ria_rewrite": {
+      "original_text": "Maandishi ya awali",
+      "choose_tone": "Chagua toni",
+      "rewriting": "Kuandika upya…",
+      "suggestions": "Mapendekezo",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Chagua toni ili kutoa mapendekezo ya uandishi upya."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Toleo la bure linajumuisha sauti za msingi. Sasisha ili kufungua toni zaidi na melodi za simu.",
+      "volume": "Kiasi",
+      "message_tone": "Mtindo wa ujumbe",
+      "ringtone": "Sauti ya simu"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Bado hakuna ujumbe wowote wa sauti.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Mtu anapo kuachia ujumbe wa sauti, utaonekana hapa.",
+      "play_voicemail": "Cheza ujumbe wa sauti",
+      "delete_voicemail": "Futa ujumbe wa sauti"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Ujumbe wa sauti ulioteuliwa"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Ufikiaji kwa nchi yako ya sasa au matumizi ya karibu.",
+      "coverage_across_supported_european_destinations": "Ufikiaji katika maeneo yote ya Ulaya yanayotumika.",
+      "coverage_across_supported_global_destinations": "Ufikiaji katika maeneo yote ya kimataifa yanayotumika."
+    },
+    "wireless_home": {
+      "manage_wireless": "Dhibiti Wi-Fi",
+      "port_my_number": "Hamisha Nambari Yangu",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Vifurushi vya data vya eSIM vinahitaji kifaa kinachokubali eSIM na kisichofungwa.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Endelea kuunganishwa unapokuwa unasafiri au mbali na Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Chagua kifurushi cha data cha eSIM cha mara moja kwa ajili ya ufikiaji wa ndani, Ulaya, au kimataifa.",
+      "we_don_t_sell_data_packs_under_3_gb": "Hatutauza vifurushi vya data chini ya GB 3.",
+      "loading_usage": "Inapakia matumizi…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Hakuna kifurushi cha data kinachotumika bado. Nunua kifurushi hapa chini ili kuanza kufuatilia matumizi.",
+      "usage_details_will_appear_once_your_data_pack_is": "Maelezo ya matumizi yataonekana punde tu kifurushi chako cha data kitakapokuwa hai.",
+      "manage": "Dhibiti",
+      "coverage": "Ufunuo",
+      "your_esim": "eSIM yako",
+      "current_usage": "Matumizi ya sasa"
+    }
   }
 }

@@ -3066,7 +3066,8 @@
     "flip": "Juya",
     "speaker": "Mai magana",
     "end": "Ƙare",
-    "noIncomingCallToAnswer": "Babu kiran da ke shigowa don a amsa."
+    "noIncomingCallToAnswer": "Babu kiran da ke shigowa don a amsa.",
+    "serviceUnavailable": "A halin yanzu ba a samun sabis na kiran. Don Allah ku sake gwadawa daga baya."
   },
   "settings": {
     "startHour": "Awoyi na farawa (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Duhu",
   "accessibility_caption_bg_transparent": "Bayyananne",
   "api": {
-    "notAuthorized": "Ba a amince ba"
+    "notAuthorized": "Ba a amince ba",
+    "invalidURL": "Adireshin sabar ba daidai ba.",
+    "serverError": "Kuskuren sabar (%d): %@",
+    "failedToDecodeResponse": "Ba a iya karanta amsa daga uwar garke: %@"
+  },
+  "tap_to_view_contact": "Taɓa don ganin lambar waya",
+  "android": {
+    "plan": {
+      "plan_billing": "Tsari da Biyan Kudi",
+      "current_plan": "Tsarin yanzu",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Ku yi amfani da Plus ba tare da tallace-tallace ba, ko ku buɗe kayan aikin AI da keɓancewa tare da Premium.",
+      "plus": "Kari",
+      "premium": "Mafi inganci",
+      "back": "Komawa baya",
+      "my_plan": "Shirin Na",
+      "compare_plans": "Kwata-kwata shirye-shirye",
+      "included": "An haɗa"
+    },
+    "upgrade": {
+      "upgrade": "Haɓakawa",
+      "restore_purchases": "Dawo da abubuwan da aka saya",
+      "unlock_more_with": "Bude ƙarin abubuwa tare da Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Zaɓi Plus ko Premium don cire tallace-tallace, keɓance ƙwarewarka, da buɗe kayan aikin ci gaba.",
+      "best_experience": "Mafi kyawun kwarewa",
+      "close": "Rufe",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Cire tallace-tallace kuma buɗe ƙarin fasaloli na yau da kullum.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Cikakkiyar kwarewar Chatforia.",
+      "premium_annual": "Shekara-shekara na musamman",
+      "save_compared_to_monthly_premium": "Ajiye idan aka kwatanta da Premium na wata-wata."
+    },
+    "audio_call": {
+      "mute": "Rufe sauti",
+      "speaker": "Mai magana",
+      "end_call": "Kare kiran"
+    },
+    "dial_pad": {
+      "dial": "Lamba",
+      "done": "An kammala",
+      "enter_number": "Shigar da lamba",
+      "call": "Kira",
+      "delete_digit": "Goge lambar"
+    },
+    "incoming_call": {
+      "decline": "Raguwa",
+      "accept": "Yarda",
+      "decline_call": "Ki amsa kiran",
+      "accept_call": "Yarda da kiran"
+    },
+    "video_call": {
+      "camera": "Kamera",
+      "flip_camera": "Kamarar juyawa"
+    },
+    "chats": {
+      "search_chats": "Nemo hirarraki",
+      "no_chats_yet": "Ba a yi hirarraki ba tukuna",
+      "admob_ad": "Talla ta AdMob",
+      "delete_conversation": "Goge tattaunawa?",
+      "this_will_remove_this_conversation_from_your_cha": "Wannan zai cire wannan hirar daga jerin hirarka.",
+      "delete": "Goge",
+      "cancel": "Soke",
+      "chats": "Tattaunawa",
+      "new_chat": "Sabuwar hira",
+      "refresh": "Sabunta",
+      "random_chat": "Tattaunawa ta bazata",
+      "search": "Nemo",
+      "delete_conversation_2": "Goge tattaunawa"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Sunan mai amfani, sunan tuntuɓa, ko lambar waya",
+      "new_chat": "Sabuwar hira",
+      "start_a_chat": "Fara hira",
+      "search_by_username_contact_name_or_phone_number": "Nemo ta sunan mai amfani, sunan tuntuɓa, ko lambar waya.",
+      "results": "Sakamako",
+      "open_chat": "Buɗe hirar"
+    },
+    "calls": {
+      "recents": "Na baya-bayan nan",
+      "voicemail": "Sakon murya",
+      "calls": "Kiraye-kiraye",
+      "no_calls_yet": "Ba a kira ba tukuna",
+      "your_recent_calls_will_show_up_here": "Kiran ku na baya-bayan nan zai bayyana anan.",
+      "open_dial_pad": "Buɗe maɓallin lambobi",
+      "delete_call": "Goge kiran",
+      "video_call": "Kiran bidiyo"
+    },
+    "contacts": {
+      "contacts": "Tuntuɓa",
+      "add_contact": "Ƙara tuntuɓa",
+      "import_from_phone": "Shigo daga waya",
+      "invite_friends": "Gayyaci abokai",
+      "favorite": "Abin so",
+      "open_contact": "Buɗe tuntuɓa"
+    },
+    "main_activity": {
+      "loading": "Ana loda...",
+      "profile": "Bayanan martaba"
+    },
+    "profile": {
+      "delete_account": "Goge Asusu",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Ba za a iya mayar da wannan aikin ba. Shin kuna tabbata kuna son goge asusun ku?",
+      "log_out": "Fita",
+      "change_photo": "Sauya hoto",
+      "remove_photo": "Cire hoto",
+      "preferred_language": "Harshen da aka fi so",
+      "your_age_range": "Tsawon shekarunka",
+      "theme": "Tema",
+      "choose_how_looks_across_the_app": "Zaɓi yadda Chatforia zai bayyana a duk faɗin manhajar.",
+      "uploading": "Ana loda…",
+      "choose_plus_or_premium": "Zaɓi Plus ko Premium",
+      "profile_photo": "Hoton bayanin martaba",
+      "open_upgrade": "Buɗe haɓakawa",
+      "open": "Buɗe",
+      "account": "Asusu",
+      "username": "Sunayen mai amfani",
+      "email": "Imel",
+      "plan": "Tsari",
+      "wireless": "Ba tare da waya ba",
+      "mobile": "Chatforia Mobile",
+      "esim_and_wireless_settings": "eSIM da saitunan mara waya",
+      "call_text_forwarding": "Turawa kiran waya da saƙon rubutu",
+      "forward_incoming_calls_and_texts": "Mika kiran da saƙonnin da ke shigowa",
+      "phone_number": "Lambar waya",
+      "manage_your_number": "Sarrafa lambarka ta Chatforia",
+      "settings": "Saituna",
+      "auto_translate_messages": "Fassarar saƙonni ta atomatik",
+      "automatically_translate_messages_into_your_prefe": "Fassarar saƙonni ta atomatik zuwa harshen da kake so.",
+      "show_original_with_translation": "Nuna asali tare da fassara",
+      "show_the_original_message_alongside_the_translat": "Nuna saƙon asali tare da fassarar.",
+      "smart_reply_suggestions": "Shawarwarin amsa mai wayo",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Nuna taimakon sake rubutawa na Ria da amsoshi masu sauri.",
+      "linked_devices": "Na'urori da aka haɗa",
+      "manage_trusted_devices": "Sarrafa na'urori masu amana",
+      "pair_new_device": "Haɗa Sabon Na'ura",
+      "approve_a_new_device": "Yarda da sabon na'ura",
+      "appearance": "Bayyanar",
+      "accessibility": "Sauƙin samun dama",
+      "visual_alerts_captions_and_voice_note_accessibil": "Samun damar ganewar gani, rubutun bayan hoto, da sautin murya",
+      "security": "Tsaro",
+      "encryption_key_protected": "An kare makullin ɓoyayyen bayanai",
+      "privacy": "Sirri",
+      "allow_explicit_content": "Ba da izinin abun ciki na bayyanannu",
+      "show_read_receipts": "Nuna tabbacin karantawa",
+      "blur_messages_by_default": "Ɓoye saƙonni ta tsohuwa",
+      "blur_when_app_is_unfocused": "Maye idan manhaja ba a mayar mata da hankali ba",
+      "hold_to_reveal_messages": "Riƙe don nuna saƙonni",
+      "notify_when_messages_are_copied": "Sanar da kai idan an kwafa saƙonni",
+      "random_chat": "Tattaunawa ta bazuwar",
+      "use_age_based_matching": "Yi amfani da daidaitawa bisa shekaru",
+      "let_ria_remember_conversations": "Bari Ria ta tuna hirarraki",
+      "forward_voicemail_to_email": "Aika saƙon murya zuwa imel",
+      "legal_support": "Dokoki da Tallafi",
+      "free": "Kyauta"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Zaɓuɓɓuka don sauƙaƙe amfani da Chatforia ba tare da dogaro da sauti ba.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Yana farawa da girman da ya saba. Ƙara idan kana so rubutu ya fi girma a saitunan sauƙin amfani.",
+      "interface_font_size": "Hulɗar girman rubutu",
+      "notifications": "Sanarwa",
+      "visual_alerts_for_messages_calls": "Gargadi na gani don saƙonni da kiran waya",
+      "show_banners_and_visual_indicators_so_you_do_not": "Nuna tutoci da alamomin gani domin kada ka rasa ayyuka.",
+      "vibrate_on_new_messages": "Yi girgiza a kan sabbin saƙonni",
+      "trigger_device_vibration_with_notifications_when": "Haɓaka girgizar na'ura tare da sanarwa idan ana tallafawa.",
+      "flash_screen_on_incoming_call": "Allon haske lokacin kiran shigowa",
+      "briefly_flash_the_screen_when_a_call_rings": "Nuna haske a allon na ɗan gajeren lokaci idan waya ta yi kiran.",
+      "live_captions": "Rubutun hoto kai tsaye",
+      "enable_live_captions": "Ku kunna rubutun hoto kai tsaye",
+      "show_real_time_captions_during_calls_premium_req": "Nuna rubutun magana a ainihin lokaci yayin kiran waya. Ana buƙatar biyan kuɗi na musamman.",
+      "caption_font_size": "Girman rubutun taken",
+      "caption_background": "Rubutun bayan gida",
+      "voice_notes": "Sakon murya",
+      "auto_transcribe_voice_notes": "Rubuta saƙonnin murya ta atomatik",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Haɗa kwafin rubutu ga saƙonnin murya da kake karɓa."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Na dawo da makullina",
+      "restore_encryption": "Dawo da ɓoyayyen bayanai"
+    },
+    "language_selection": {
+      "select_language": "Zaɓi harshe"
+    },
+    "login": {
+      "email_or_username": "Imel ko sunan mai amfani",
+      "password": "Kalmar sirri",
+      "forgot_password": "Ka manta da kalmar sirri?",
+      "resend_verification_email": "A sake tura imel ɗin tabbatarwa",
+      "reset_encryption": "Saitin sake ɓoyewa",
+      "create_an_account": "Kirkiri asusu",
+      "welcome_to": "Maraba zuwa Chatforia",
+      "sign_in_or_create_an_account": "Shiga ko ƙirƙiri asusu",
+      "or": "ko",
+      "don_t_have_an_account_yet": "Ba ku da asusu tukuna?"
+    },
+    "onboarding": {
+      "welcome": "Maraba",
+      "set_up_your_profile_so_can_personalize_your_expe": "Saita bayanin martabarka domin Chatforia ta iya keɓance maka ƙwarewarka.",
+      "choose_a_username": "Zaɓi sunan mai amfani",
+      "this_is_how_people_will_recognize_you_in": "Haka mutane za su gane ka a Chatforia.",
+      "choose_your_language": "Zaɓi harshenka",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia za ta yi amfani da wannan don fassarori da kwarewar aikace-aikacenku.",
+      "you_re_ready": "Kun shirya",
+      "start_chatting_calling_translating_and_connectin": "Fara hira, kiran waya, fassara, da haɗa kai da mutane a duk faɗin duniya."
+    },
+    "register": {
+      "confirm_password": "Tabbatar da kalmar sirri",
+      "phone_optional": "Zaɓi wayar salula",
+      "log_in": "Shiga",
+      "create_your_account": "Kirkiri asusunka",
+      "start_chatting_across_languages_with": "Fara hira tsakanin harsuna tare da Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Na yarda in karɓi saƙonnin SMS na tabbatarwa.",
+      "already_have_an_account": "Kana da asusu tuni?"
+    },
+    "add_contact": {
+      "phone": "Wayoyi",
+      "name": "Suna",
+      "alias_optional": "Sunan daban zaɓi ne",
+      "pin_this_person_as_a_favorite_contact": "Sanya wannan mutumin a matsayin abokin hulɗa mafi so."
+    },
+    "contact_detail": {
+      "edit_contact": "Gyara Tuntuɓa",
+      "delete_contact": "Goge Tuntuɓa",
+      "message": "Sako",
+      "video": "Bidiyo",
+      "external_name": "Sunan waje"
+    },
+    "import_phone_contacts": {
+      "select_all": "Zaɓi duka",
+      "clear": "Bayyana",
+      "import_contacts": "Shigo da lambobin sadarwa"
+    },
+    "invite_friends": {
+      "share_invite_link": "Raba mahaɗin gayyata",
+      "invite_friends": "Gayyaci abokai",
+      "share_a_invite_link_with_friends_using_messages_": "Raba mahaɗin gayyata na Chatforia da abokai ta amfani da Messages, imel, ko wata manhaja a wayarka."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Haɗa sabon na'ura",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Buɗe Chatforia a sabon na'urarka ka shiga. Idan tana buƙatar damar shiga hirarrunka masu ɓoyayyen tsaro, amince da ita daga na'urar da ka yarda da ita.",
+      "view_pending_device_requests": "Dubi buƙatun na'ura da ke jiran amincewa"
+    },
+    "key_setup": {
+      "recovery_passcode": "Lambar samun damar dawowa",
+      "confirm_recovery_passcode": "Tabbatar da lambar wucewar farfadowa",
+      "restore_chats": "Dawo da hirarraki",
+      "clear_local_key": "Goge maɓallin yankin",
+      "reset_encryption": "Saitin sake ɓoyewa?",
+      "this_will_permanently_replace_your_encryption_ke": "Wannan zai maye gurbin makullin ɓoyayyenku har abada.",
+      "encryption": "Boye bayanai",
+      "restore_encrypted_chats": "Dawo da hirarraki masu ɓoyayyen tsaro",
+      "no_recovery_backup_found": "Ba a sami madadin ajiya na dawowa ba",
+      "open_on_a_device_that_can_already_read_your_encr": "Buɗe Chatforia a kan na'urar da tuni za ta iya karanta hirarrakin da aka ɓoye, sannan ka ƙirƙiri lambar fararwa a can.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Ba a sami madadin ajiya na dawowa ba tukuna.  Kirkiri ɗaya daga wannan na'urar domin ka iya dawo da hirarraki a iOS, Android, da yanar gizo.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Ka yi amfani da wannan ne kawai idan ka rasa dukkan na'urorin da aka amince da su kuma ba za ka iya dawo da makullinka na asali ba."
+    },
+    "linked_devices": {
+      "your_devices": "Na'urorinka",
+      "pending_approvals": "Ana jiran amincewa",
+      "approve": "Yarda",
+      "reject": "ƙi",
+      "revoke": "Soke",
+      "request_approval_for_this_device": "Nemi amincewa don wannan na'urar",
+      "finish_device_approval": "Kammala amincewa da na'urar"
+    },
+    "forwarding_settings": {
+      "reset": "Saitawa",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Mika kiran da saƙonnin da ke shigowa zuwa wayarka da aka tabbatar ko imel ɗinka.",
+      "quiet_hours": "Awoyin shiru",
+      "forwarding": "Mika gaba",
+      "enable_text_forwarding": "Kuma kunna tura saƙonni",
+      "forward_texts_to_phone": "Aika saƙonnin rubutu zuwa waya",
+      "forward_texts_to_email": "Aika saƙonnin rubutu zuwa imel",
+      "enable_call_forwarding": "Kuma kunna tura kiran waya"
+    },
+    "chat_message_row": {
+      "copy": "Kwafi",
+      "edit": "Gyara",
+      "report": "Rahoto",
+      "message_info": "Bayanan Saƙo"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Ba a tura saƙonni ba tukuna",
+      "delete_message": "Goge saƙo?",
+      "choose_how_you_want_to_delete_this_message": "Zaɓi yadda kake son goge wannan saƙon.",
+      "delete_for_everyone": "Goge ga kowa",
+      "delete_for_me": "Goge mini",
+      "search_messages": "Nemo saƙonni",
+      "search_in_chat": "Nemo a cikin hirar",
+      "sending": "Ana aika…",
+      "failed_to_send": "An gaza aika",
+      "edited": "An gyara",
+      "audio_call": "Kiran sauti",
+      "video_call": "Kiran bidiyo",
+      "selected_gif": "GIF da aka zaɓa",
+      "remove_gif": "Cire GIF",
+      "attach": "Haɗa",
+      "rewrite_with_ria": "Sake rubutawa tare da Ria",
+      "composer_action": "Aikin mai tsarawa"
+    },
+    "edit_message": {
+      "save": "Ajiye",
+      "emoji": "Alamar fuska",
+      "edit_message": "Gyara saƙo"
+    },
+    "message_attachments": {
+      "image_attachment": "Haɗa hoto",
+      "video_attachment": "Haɗin bidiyo",
+      "play_video": "Yi wasa bidiyo"
+    },
+    "message_bubble": {
+      "disappearing_message": "Saƙon da ke ɓacewa"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Babu wanda ya karanta wannan tukuna",
+      "message_info": "Bayanan saƙo"
+    },
+    "report_message": {
+      "reason": "Dalili",
+      "include_previous_messages": "Haɗa saƙonnin da suka gabata",
+      "additional_details": "Ƙarin bayani",
+      "anything_else_moderators_should_know": "Akwai wani abu da masu tsara tattaunawa ya kamata su sani?",
+      "block_this_user_after_reporting": "Katse wannan mai amfani bayan ka ba da rahoto",
+      "submit_report": "Aiko rahoto",
+      "report_message": "Raiɗa saƙo"
+    },
+    "phone_number": {
+      "replace_number": "Maye Gurbin Lamba",
+      "pick_a_number": "Zaɓi lamba",
+      "no_number_assigned": "Ba a sanya lambar Chatforia ba.",
+      "your_number": "Lambarka ta Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Lambobin yankin",
+      "premium_numbers_are_protected_from_recycling": "An kare lambobin premium daga sake amfani da su.",
+      "available_numbers": "Lambobi da ake da su",
+      "search_by_area_code_to_find_available_numbers": "Nemo ta lambar yanki don samun lambobi da ake da su.",
+      "capability": "Iko",
+      "country": "Ƙasa"
+    },
+    "gif_picker": {
+      "search_tenor": "Nemo Tenor",
+      "search_gifs": "Nemo GIFs"
+    },
+    "random_chat": {
+      "add_friend": "Ƙara aboki",
+      "skip": "Tsallaka",
+      "send": "Aika",
+      "end_chat": "Kare tattaunawa"
+    },
+    "random_matching": {
+      "finding_someone": "Nemo wani"
+    },
+    "ria_chat": {
+      "ask_ria": "Tambayi Ria...",
+      "you_re_now_chatting_with_ria": "Yanzu kana hira da Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Yi hira da Ria a kowane lokaci, daban daga haɗa mutane ba zato ba tsammani."
+    },
+    "ria_rewrite": {
+      "original_text": "Rubutun asali",
+      "choose_tone": "Zaɓi sauti",
+      "rewriting": "Rubuta sake…",
+      "suggestions": "Shawarwari",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Zaɓi salo don samar da shawarwarin sake rubutawa."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Kyauta tana haɗa da sautuka na asali. Yi haɓakawa don buɗe ƙarin sautuka da sautin waya.",
+      "volume": "Yawa",
+      "message_tone": "Salon saƙo",
+      "ringtone": "Sautin waya"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Babu saƙonnin murya tukuna.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Idan wani ya bar maka saƙon murya, zai bayyana anan.",
+      "play_voicemail": "Yi kunna saƙon murya",
+      "delete_voicemail": "Goge saƙon murya"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Sakon murya da aka zaɓa"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Rufin amfani a ƙasar ku ta yanzu ko a wuraren da ke kusa.",
+      "coverage_across_supported_european_destinations": "Rufin wuraren Turai da ake tallafawa.",
+      "coverage_across_supported_global_destinations": "Rufin a duk wuraren duniya da ake tallafawa."
+    },
+    "wireless_home": {
+      "manage_wireless": "Sarrafa mara waya",
+      "port_my_number": "Port Lambata",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Kunshin bayanai na eSIM suna buƙatar na'ura mai dacewa da eSIM kuma ba a kulle ta ba.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Kasance cikin haɗi yayin tafiya ko idan ba ka da Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Zaɓi fakitin bayanai na eSIM na sau ɗaya don rufe yankin cikin gida, Turai, ko duniya.",
+      "we_don_t_sell_data_packs_under_3_gb": "Ba mu sayar da fakitin bayanai ƙasa da 3 GB ba.",
+      "loading_usage": "Lodawa amfani…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Ba a sami fakitin bayanai mai aiki ba tukuna. Sayi fakitin a ƙasa don fara bin diddigin amfani.",
+      "usage_details_will_appear_once_your_data_pack_is": "Cikakkun bayanai za su bayyana da zarar kun kunna kunshin bayananku.",
+      "manage": "Sarrafa",
+      "coverage": "Rufi",
+      "your_esim": "eSIM ɗinka",
+      "current_usage": "Amfani na yanzu"
+    }
   }
 }

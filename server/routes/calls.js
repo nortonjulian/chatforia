@@ -832,6 +832,12 @@ router.get('/history', asyncHandler(async (req, res) => {
         otherUser?.username ||
         call.externalPhone ||
         null,
+
+      otherUserId: otherUser?.id ?? null,
+      otherUsername: otherUser?.username ?? null,
+      otherDisplayName: otherUser?.displayName ?? null,
+      phoneNumber: call.externalPhone || otherUser?.phoneNumber || null,
+
       hasVoicemail: call.voicemails.length > 0,
       voicemailId: call.voicemails[0]?.id ?? null,
     };

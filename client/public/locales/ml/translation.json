@@ -3066,7 +3066,8 @@
     "flip": "മറിക്കുക",
     "speaker": "അധ്യക്ഷൻ",
     "end": "അവസാനം",
-    "noIncomingCallToAnswer": "ഉത്തരം നൽകാനായി ഇൻകമിംഗ് കോളുകളില്ല."
+    "noIncomingCallToAnswer": "ഉത്തരം നൽകാനായി ഇൻകമിംഗ് കോളുകളില്ല.",
+    "serviceUnavailable": "വിളിക്കുന്ന സേവനം നിലവിൽ ലഭ്യമല്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക."
   },
   "settings": {
     "startHour": "തുടക്കമണിക്കൂർ (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "ഇരുണ്ട",
   "accessibility_caption_bg_transparent": "പാരദർശകമായ",
   "api": {
-    "notAuthorized": "അംഗീകാരമില്ല"
+    "notAuthorized": "അംഗീകാരമില്ല",
+    "invalidURL": "സെർവർ വിലാസം അസാധു.",
+    "serverError": "സെർവർ പിശക് (%d): %@",
+    "failedToDecodeResponse": "സെർവർ പ്രതികരണം വായിക്കാൻ കഴിഞ്ഞില്ല: %@"
+  },
+  "tap_to_view_contact": "ബന്ധപ്പെടാനുള്ള വിവരങ്ങൾ കാണാൻ ടാപ്പ് ചെയ്യുക",
+  "android": {
+    "plan": {
+      "plan_billing": "പ്ലാൻ & ബില്ലിംഗ്",
+      "current_plan": "നിലവിലെ പദ്ധതി",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "പ്ലസിലൂടെ പരസ്യരഹിതമായ അനുഭവം നേടൂ, അല്ലെങ്കിൽ പ്രീമിയത്തിലൂടെ എഐ ടൂളുകളും കസ്റ്റമൈസേഷനും ലഭ്യമാക്കൂ.",
+      "plus": "കൂടാതെ",
+      "premium": "പ്രീമിയം",
+      "back": "തിരികെ",
+      "my_plan": "എൻ്റെ പദ്ധതി",
+      "compare_plans": "പ്ലാനുകൾ താരതമ്യം ചെയ്യുക",
+      "included": "ഉൾപ്പെടുത്തിയിരിക്കുന്നു"
+    },
+    "upgrade": {
+      "upgrade": "പുതുക്കുക",
+      "restore_purchases": "വാങ്ങിയവ പുനഃസ്ഥാപിക്കുക",
+      "unlock_more_with": "ചാറ്റ്ഫോറിയയിലൂടെ കൂടുതൽ അൺലോക്ക് ചെയ്യുക",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "പരസ്യങ്ങൾ നീക്കം ചെയ്യാനും, നിങ്ങളുടെ അനുഭവം ഇഷ്ടാനുസൃതമാക്കാനും, നൂതന ടൂളുകൾ ലഭ്യമാക്കാനും പ്ലസ് അല്ലെങ്കിൽ പ്രീമിയം തിരഞ്ഞെടുക്കുക.",
+      "best_experience": "മികച്ച അനുഭവം",
+      "close": "അടയ്ക്കുക",
+      "plus": "ചാറ്റ്ഫോറിയ പ്ലസ്",
+      "remove_ads_and_unlock_more_everyday_features": "പരസ്യങ്ങൾ നീക്കം ചെയ്യുക, കൂടുതൽ ദൈനംദിന ഫീച്ചറുകൾ അൺലോക്ക് ചെയ്യുക.",
+      "premium": "ചാറ്റ്ഫോറിയ പ്രീമിയം",
+      "the_full_experience": "ചാറ്റ്ഫോറിയയുടെ പൂർണ്ണമായ അനുഭവം.",
+      "premium_annual": "പ്രീമിയം വാർഷികം",
+      "save_compared_to_monthly_premium": "പ്രതിമാസ പ്രീമിയവുമായി താരതമ്യപ്പെടുത്തുമ്പോൾ ലാഭിക്കൂ."
+    },
+    "audio_call": {
+      "mute": "നിശ്ശബ്ദമാക്കുക",
+      "speaker": "അധ്യക്ഷൻ",
+      "end_call": "ഫോൺ വിളിക്കൽ അവസാനിപ്പിക്കുന്നു"
+    },
+    "dial_pad": {
+      "dial": "ടയൽ",
+      "done": "കഴിഞ്ഞു",
+      "enter_number": "നമ്പർ നൽകുക",
+      "call": "വിളിക്കുക",
+      "delete_digit": "അക്കം ഇല്ലാതാക്കുക"
+    },
+    "incoming_call": {
+      "decline": "കുറവ്",
+      "accept": "സ്വീകരിക്കുക",
+      "decline_call": "വിളി നിരസിക്കുക",
+      "accept_call": "വിളി സ്വീകരിക്കുക"
+    },
+    "video_call": {
+      "camera": "ക്യാമറ",
+      "flip_camera": "ഫ്ലിപ്പ് ക്യാമറ"
+    },
+    "chats": {
+      "search_chats": "ചാറ്റുകൾ തിരയുക",
+      "no_chats_yet": "ഇതുവരെ ചാറ്റുകളില്ല",
+      "admob_ad": "ആഡ്‌മോബ് പരസ്യം",
+      "delete_conversation": "സംഭാഷണം ഇല്ലാതാക്കണോ?",
+      "this_will_remove_this_conversation_from_your_cha": "ഇത് ഈ സംഭാഷണം നിങ്ങളുടെ ചാറ്റ് ലിസ്റ്റിൽ നിന്ന് നീക്കം ചെയ്യും.",
+      "delete": "ഇല്ലാതാക്കുക",
+      "cancel": "റദ്ദാക്കുക",
+      "chats": "സംഭാഷണങ്ങൾ",
+      "new_chat": "പുതിയ ചാറ്റ്",
+      "refresh": "പുതുക്കുക",
+      "random_chat": "യദൃശ്ചികമായ ചാറ്റ്",
+      "search": "തിരയുക",
+      "delete_conversation_2": "സംഭാഷണം ഇല്ലാതാക്കുക"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "ഉപയോക്തൃനാമം, ബന്ധപ്പെടാനുള്ള പേര്, അല്ലെങ്കിൽ ഫോൺ നമ്പർ",
+      "new_chat": "പുതിയ ചാറ്റ്",
+      "start_a_chat": "ചാറ്റ് ആരംഭിക്കുക",
+      "search_by_username_contact_name_or_phone_number": "യൂസർനെയിം, കോൺടാക്റ്റ് നെയിം, അല്ലെങ്കിൽ ഫോൺ നമ്പർ ഉപയോഗിച്ച് തിരയുക.",
+      "results": "ഫലങ്ങൾ",
+      "open_chat": "ചാറ്റ് തുറക്കുക"
+    },
+    "calls": {
+      "recents": "സമീപകാലത്തെ",
+      "voicemail": "ശബ്ദസന്ദേശം",
+      "calls": "വിളികൾ",
+      "no_calls_yet": "ഇതുവരെ കോളുകളൊന്നും ഇല്ല",
+      "your_recent_calls_will_show_up_here": "നിങ്ങളുടെ സമീപകാല കോളുകൾ ഇവിടെ കാണിക്കും.",
+      "open_dial_pad": "ഡയൽ പാഡ് തുറക്കുക",
+      "delete_call": "വിളി ഇല്ലാതാക്കുക",
+      "video_call": "വീഡിയോ കോൾ"
+    },
+    "contacts": {
+      "contacts": "ബന്ധപ്പെടാനുള്ള വിവരങ്ങൾ",
+      "add_contact": "ബന്ധപ്പെടാനുള്ള വിവരങ്ങൾ ചേർക്കുക",
+      "import_from_phone": "ഫോണിൽ നിന്ന് ഇറക്കുമതി ചെയ്യുക",
+      "invite_friends": "സുഹൃത്തുക്കളെ ക്ഷണിക്കുക",
+      "favorite": "പ്രിയപ്പെട്ട",
+      "open_contact": "ബന്ധപ്പെടുക"
+    },
+    "main_activity": {
+      "loading": "ലോഡ് ചെയ്യുന്നു...",
+      "profile": "പ്രൊഫൈൽ"
+    },
+    "profile": {
+      "delete_account": "അക്കൗണ്ട് ഇല്ലാതാക്കുക",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "ഈ പ്രവർത്തനം റദ്ദാക്കാൻ കഴിയില്ല. നിങ്ങളുടെ അക്കൗണ്ട് ഡിലീറ്റ് ചെയ്യാൻ നിങ്ങൾക്ക് ഉറപ്പുണ്ടോ?",
+      "log_out": "ലോഗ് ഔട്ട് ചെയ്യുക",
+      "change_photo": "ഫോട്ടോ മാറ്റുക",
+      "remove_photo": "ഫോട്ടോ നീക്കം ചെയ്യുക",
+      "preferred_language": "ഇഷ്ടഭാഷ",
+      "your_age_range": "നിങ്ങളുടെ പ്രായപരിധി",
+      "theme": "പ്രമേയം",
+      "choose_how_looks_across_the_app": "ആപ്പിലുടനീളം ചാറ്റ്ഫോറിയ എങ്ങനെയിരിക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.",
+      "uploading": "അപ്‌ലോഡ് ചെയ്യുന്നു...",
+      "choose_plus_or_premium": "പ്ലസ് അല്ലെങ്കിൽ പ്രീമിയം തിരഞ്ഞെടുക്കുക",
+      "profile_photo": "പ്രൊഫൈൽ ഫോട്ടോ",
+      "open_upgrade": "അപ്‌ഗ്രേഡ് ചെയ്യുക",
+      "open": "തുറക്കുക",
+      "account": "അക്കൗണ്ട്",
+      "username": "ഉപയോക്തൃനാമം",
+      "email": "ഇമെയിൽ",
+      "plan": "പദ്ധതി",
+      "wireless": "വയർലെസ്",
+      "mobile": "ചാറ്റ്ഫോറിയ മൊബൈൽ",
+      "esim_and_wireless_settings": "ഇ-സിം, വയർലെസ് ക്രമീകരണങ്ങൾ",
+      "call_text_forwarding": "വിളിയും ടെക്സ്റ്റും ഫോർവേഡിംഗ്",
+      "forward_incoming_calls_and_texts": "വരുന്ന കോളുകളും സന്ദേശങ്ങളും മുന്നോട്ട് അയയ്ക്കുക",
+      "phone_number": "ഫോൺ നമ്പർ",
+      "manage_your_number": "നിങ്ങളുടെ ചാറ്റ്ഫോറിയ നമ്പർ നിയന്ത്രിക്കുക",
+      "settings": "ക്രമീകരണങ്ങൾ",
+      "auto_translate_messages": "സന്ദേശങ്ങൾ സ്വയമേവ വിവർത്തനം ചെയ്യുക",
+      "automatically_translate_messages_into_your_prefe": "സന്ദേശങ്ങൾ നിങ്ങളുടെ ഇഷ്ടഭാഷയിലേക്ക് സ്വയമേവ വിവർത്തനം ചെയ്യുക.",
+      "show_original_with_translation": "മൂലരേഖയും വിവർത്തനവും കാണിക്കുക",
+      "show_the_original_message_alongside_the_translat": "മൂല സന്ദേശം വിവർത്തനത്തോടൊപ്പം കാണിക്കുക.",
+      "smart_reply_suggestions": "സ്മാർട്ട് മറുപടി നിർദ്ദേശങ്ങൾ",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "റിയാ-പോവർഡ് റൈറ്റ്-എയ്ഡ് സഹായവും വേഗത്തിലുള്ള മറുപടികളും കാണിക്കുക.",
+      "linked_devices": "ബന്ധിപ്പിച്ച ഉപകരണങ്ങൾ",
+      "manage_trusted_devices": "വിശ്വസ്തമായ ഉപകരണങ്ങൾ കൈകാര്യം ചെയ്യുക",
+      "pair_new_device": "പുതിയ ഉപകരണം ജോടിയാക്കുക",
+      "approve_a_new_device": "പുതിയ ഉപകരണം അംഗീകരിക്കുക",
+      "appearance": "രൂപം",
+      "accessibility": "സുലഭത",
+      "visual_alerts_captions_and_voice_note_accessibil": "ദൃശ്യ മുന്നറിയിപ്പുകൾ, അടിക്കുറിപ്പുകൾ, വോയിസ് നോട്ട് പ്രാപ്യത",
+      "security": "സുരക്ഷ",
+      "encryption_key_protected": "എൻക്രിപ്ഷൻ കീ സംരക്ഷിച്ചു",
+      "privacy": "സ്വകാര്യത",
+      "allow_explicit_content": "പ്രകടമായ ഉള്ളടക്കം അനുവദിക്കുക",
+      "show_read_receipts": "വായിച്ച രസീതുകൾ കാണിക്കുക",
+      "blur_messages_by_default": "സന്ദേശങ്ങൾ ഡിഫോൾട്ടായി മങ്ങിക്കുക",
+      "blur_when_app_is_unfocused": "ആപ്പ് ഫോക്കസിൽ അല്ലാത്തപ്പോൾ മങ്ങിക്കുക",
+      "hold_to_reveal_messages": "സന്ദേശങ്ങൾ കാണുന്നതിന് അമർത്തിപ്പിടിക്കുക",
+      "notify_when_messages_are_copied": "സന്ദേശങ്ങൾ കോപ്പി ചെയ്യുമ്പോൾ അറിയിക്കുക",
+      "random_chat": "യദൃശ്ചികമായ സംഭാഷണം",
+      "use_age_based_matching": "പ്രായം അനുസരിച്ചുള്ള മത്ചിംഗ് ഉപയോഗിക്കുക",
+      "let_ria_remember_conversations": "രിയ സംഭാഷണങ്ങൾ ഓർക്കട്ടെ",
+      "forward_voicemail_to_email": "വോയിസ്‌മെയിൽ ഇമെയിലിലേക്ക് മുന്നോട്ട് അയക്കുക",
+      "legal_support": "നിയമപരവും പിന്തുണയും",
+      "free": "സൗജന്യം"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "ശബ്ദത്തെ ആശ്രയിക്കാതെ ചാറ്റ്ഫോറിയ ഉപയോഗിക്കാൻ എളുപ്പമാക്കുന്നതിനുള്ള ഓപ്ഷനുകൾ.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "സാധാരണ വലുപ്പത്തിൽ ആരംഭിക്കുന്നു. ആക്സസിബിലിറ്റി ക്രമീകരണങ്ങളിൽ നിങ്ങൾക്ക് വലിയ അക്ഷരങ്ങൾ ഇഷ്ടമാണെങ്കിൽ വലുപ്പം കൂട്ടുക.",
+      "interface_font_size": "ഇന്റർഫേസ് ഫോണ്ട് വലുപ്പം",
+      "notifications": "അറിയിപ്പുകൾ",
+      "visual_alerts_for_messages_calls": "സന്ദേശങ്ങൾക്കും കോളുകൾക്കുമുള്ള ദൃശ്യ മുന്നറിയിപ്പുകൾ",
+      "show_banners_and_visual_indicators_so_you_do_not": "പ്രവർത്തനങ്ങൾ നഷ്ടമാകാതിരിക്കാൻ ബാനറുകളും ദൃശ്യ സൂചകങ്ങളും കാണിക്കുക.",
+      "vibrate_on_new_messages": "പുതിയ സന്ദേശങ്ങളിൽ വിബ്രേറ്റ് ചെയ്യുക",
+      "trigger_device_vibration_with_notifications_when": "പിന്തുണയ്ക്കുമ്പോൾ അറിയിപ്പുകളോടുകൂടി ട്രിഗർ ഉപകരണത്തിന്റെ വിറയൽ.",
+      "flash_screen_on_incoming_call": "വരുന്ന കോളിന്റെ ഫ്ലാഷ് സ്ക്രീൻ",
+      "briefly_flash_the_screen_when_a_call_rings": "വിളി വരുമ്പോൾ സ്ക്രീൻ ഒരു നിമിഷം മിന്നുക.",
+      "live_captions": "തത്സമയ അടിക്കുറിപ്പുകൾ",
+      "enable_live_captions": "ലൈവ് ക്യാപ്ഷനുകൾ പ്രവർത്തനക്ഷമമാക്കുക",
+      "show_real_time_captions_during_calls_premium_req": "കോളുകൾക്കിടയിൽ തത്സമയ ക്യാപ്ഷനുകൾ കാണിക്കുക. പ്രീമിയം ആവശ്യമാണ്.",
+      "caption_font_size": "അടിക്കുറിപ്പ് ഫോണ്ട് വലുപ്പം",
+      "caption_background": "അടിക്കുറിപ്പ് പശ്ചാത്തലം",
+      "voice_notes": "ശബ്ദ കുറിപ്പുകൾ",
+      "auto_transcribe_voice_notes": "വോയിസ് നോട്ടുകൾ സ്വയമേവ പകർത്തിയെഴുതുക",
+      "attach_a_transcript_to_audio_messages_you_receiv": "നിങ്ങൾക്ക് ലഭിക്കുന്ന ഓഡിയോ സന്ദേശങ്ങളോടൊപ്പം ഒരു ട്രാൻസ്ക്രിപ്റ്റ് ചേർക്കുക."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "ഞാൻ എൻ്റെ താക്കോൽ പുനഃസ്ഥാപിച്ചു",
+      "restore_encryption": "എൻക്രിപ്ഷൻ പുനഃസ്ഥാപിക്കുക"
+    },
+    "language_selection": {
+      "select_language": "ഭാഷ തിരഞ്ഞെടുക്കുക"
+    },
+    "login": {
+      "email_or_username": "ഇമെയിൽ അല്ലെങ്കിൽ ഉപയോക്തൃനാമം",
+      "password": "പാസ്‌വേഡ്",
+      "forgot_password": "പാസ്‌വേഡ് മറന്നുപോയോ?",
+      "resend_verification_email": "വെരിഫിക്കേഷൻ ഇമെയിൽ വീണ്ടും അയയ്ക്കുക",
+      "reset_encryption": "എൻക്രിപ്ഷൻ റീസെറ്റ് ചെയ്യുക",
+      "create_an_account": "അക്കൗണ്ട് ഉണ്ടാക്കുക",
+      "welcome_to": "ചാറ്റ്ഫോറിയയിലേക്ക് സ്വാഗതം",
+      "sign_in_or_create_an_account": "സൈൻ ഇൻ ചെയ്യുക അല്ലെങ്കിൽ ഒരു അക്കൗണ്ട് ഉണ്ടാക്കുക",
+      "or": "അല്ലെങ്കിൽ",
+      "don_t_have_an_account_yet": "ഇതുവരെ അക്കൗണ്ട് ഇല്ലേ?"
+    },
+    "onboarding": {
+      "welcome": "സ്വാഗതം",
+      "set_up_your_profile_so_can_personalize_your_expe": "ചാറ്റ്ഫോറിയക്ക് നിങ്ങളുടെ അനുഭവം വ്യക്തിഗതമാക്കാൻ കഴിയുന്ന രീതിയിൽ നിങ്ങളുടെ പ്രൊഫൈൽ സജ്ജീകരിക്കുക.",
+      "choose_a_username": "ഒരു ഉപയോക്തൃനാമം തിരഞ്ഞെടുക്കുക",
+      "this_is_how_people_will_recognize_you_in": "ചാറ്റ്ഫോറിയയിൽ ആളുകൾ നിങ്ങളെ ഇങ്ങനെയാണ് തിരിച്ചറിയുക.",
+      "choose_your_language": "നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക",
+      "will_use_this_for_translations_and_your_app_expe": "ചാറ്റ്ഫോറിയ ഇത് വിവർത്തനങ്ങൾക്കും നിങ്ങളുടെ ആപ്പ് അനുഭവത്തിനും ഉപയോഗിക്കും.",
+      "you_re_ready": "നിങ്ങൾ തയ്യാറാണ്",
+      "start_chatting_calling_translating_and_connectin": "ലോകമെമ്പാടുമുള്ള ആളുകളുമായി ചാറ്റ് ചെയ്യാൻ, കോൾ ചെയ്യാൻ, വിവർത്തനം ചെയ്യാൻ, ബന്ധപ്പെടാൻ തുടങ്ങുക."
+    },
+    "register": {
+      "confirm_password": "പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക",
+      "phone_optional": "ഫോൺ ഐച്ഛികം",
+      "log_in": "ലോഗിൻ ചെയ്യുക",
+      "create_your_account": "നിങ്ങളുടെ അക്കൗണ്ട് ഉണ്ടാക്കുക",
+      "start_chatting_across_languages_with": "ചാറ്റ്ഫോറിയയിലൂടെ വിവിധ ഭാഷകളിൽ ചാറ്റ് ചെയ്യാൻ തുടങ്ങുക.",
+      "i_agree_to_receive_sms_verification_messages": "എസ്എംഎസ് വെരിഫിക്കേഷൻ സന്ദേശങ്ങൾ സ്വീകരിക്കാൻ ഞാൻ സമ്മതിക്കുന്നു.",
+      "already_have_an_account": "നിലവിൽ അക്കൗണ്ട് ഉണ്ടോ?"
+    },
+    "add_contact": {
+      "phone": "ഫോൺ",
+      "name": "പേര്",
+      "alias_optional": "മറ്റൊരു പേര് ഐച്ഛികം",
+      "pin_this_person_as_a_favorite_contact": "ഈ വ്യക്തിയെ ഒരു പ്രിയപ്പെട്ട കോൺടാക്റ്റായി പിൻ ചെയ്യുക."
+    },
+    "contact_detail": {
+      "edit_contact": "ബന്ധപ്പെടാനുള്ള വിവരങ്ങൾ തിരുത്തുക",
+      "delete_contact": "ബന്ധം മായ്ക്കുക",
+      "message": "സന്ദേശം",
+      "video": "വീഡിയോ",
+      "external_name": "പുറത്തുള്ള പേര്"
+    },
+    "import_phone_contacts": {
+      "select_all": "എല്ലാം തിരഞ്ഞെടുക്കുക",
+      "clear": "വ്യക്തമാക്കുക",
+      "import_contacts": "കോൺടാക്റ്റുകൾ ഇറക്കുമതി ചെയ്യുക"
+    },
+    "invite_friends": {
+      "share_invite_link": "ക്ഷണം പങ്കുവെക്കുക",
+      "invite_friends": "സുഹൃത്തുക്കളെ ക്ഷണിക്കുക",
+      "share_a_invite_link_with_friends_using_messages_": "മെസേജ്, ഇമെയിൽ, അല്ലെങ്കിൽ നിങ്ങളുടെ ഫോണിലെ ഏതെങ്കിലും ആപ്പ് ഉപയോഗിച്ച് സുഹൃത്തുക്കളുമായി ഒരു ചാറ്റ്ഫോറിയ ക്ഷണലിങ്ക് പങ്കുവെക്കുക."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "പുതിയ ഉപകരണം ജോഡിക്കുക",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "നിങ്ങളുടെ പുതിയ ഉപകരണത്തിൽ ചാറ്റ്ഫോറിയ ഓപ്പൺ ചെയ്ത് സൈൻ ഇൻ ചെയ്യുക. നിങ്ങളുടെ എൻക്രിപ്റ്റ് ചെയ്ത ചാറ്റുകളിലേക്ക് ആക്‌സസ് ആവശ്യമുണ്ടെങ്കിൽ, വിശ്വസ്തമായ ഒരു ഉപകരണത്തിൽ നിന്ന് അത് അംഗീകരിക്കുക.",
+      "view_pending_device_requests": "പരിശോധിക്കാനിരിക്കുന്ന ഉപകരണ അഭ്യർത്ഥനകൾ കാണുക"
+    },
+    "key_setup": {
+      "recovery_passcode": "റിക്കവറി പാസ്‌കോഡ്",
+      "confirm_recovery_passcode": "റിക്കവറി പാസ്‌കോഡ് സ്ഥിരീകരിക്കുക",
+      "restore_chats": "ചാറ്റുകൾ പുനഃസ്ഥാപിക്കുക",
+      "clear_local_key": "പ്രാദേശിക കീ മായ്ക്കുക",
+      "reset_encryption": "എൻക്രിപ്ഷൻ റീസെറ്റ് ചെയ്യുകയാണോ?",
+      "this_will_permanently_replace_your_encryption_ke": "ഇത് നിങ്ങളുടെ എൻക്രിപ്ഷൻ കീയെ സ്ഥിരമായി മാറ്റിസ്ഥാപിക്കും.",
+      "encryption": "എൻക്രിപ്ഷൻ",
+      "restore_encrypted_chats": "എൻക്രിപ്റ്റ് ചെയ്ത ചാറ്റുകൾ വീണ്ടെടുക്കുക",
+      "no_recovery_backup_found": "റിക്വറി ബാക്കപ്പ് കണ്ടെത്തിയില്ല",
+      "open_on_a_device_that_can_already_read_your_encr": "നിങ്ങളുടെ എൻക്രിപ്റ്റ് ചെയ്ത ചാറ്റുകൾ ഇതിനകം വായിക്കാൻ കഴിയുന്ന ഒരു ഉപകരണത്തിൽ ചാറ്റ്ഫോറിയ തുറന്ന് അവിടെ ഒരു റിക്കവറി പാസ്‌കോഡ് ഉണ്ടാക്കുക.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "ഇതുവരെ ഒരു റിക്കവറി ബാക്കപ്പ് കണ്ടെത്തിയിട്ടില്ല. iOS, Android, വെബ് എന്നിവയിലെ ചാറ്റുകൾ പുനഃസ്ഥാപിക്കുന്നതിനായി ഈ ഉപകരണത്തിൽ നിന്ന് ഒരെണ്ണം ഉണ്ടാക്കുക.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "നിങ്ങളുടെ എല്ലാ ട്രസ്റ്റഡ് ഉപകരണങ്ങളും നഷ്ടപ്പെടുകയും യഥാർത്ഥ കീ വീണ്ടെടുക്കാൻ കഴിയാതെ വരികയും ചെയ്താൽ മാത്രം ഇത് ഉപയോഗിക്കുക."
+    },
+    "linked_devices": {
+      "your_devices": "നിങ്ങളുടെ ഉപകരണങ്ങൾ",
+      "pending_approvals": "അംഗീകാരങ്ങൾക്കായി കാത്തിരിക്കുന്നു",
+      "approve": "അംഗീകരിക്കുക",
+      "reject": "തള്ളുക",
+      "revoke": "നിരസിക്കുക",
+      "request_approval_for_this_device": "ഈ ഉപകരണത്തിനുള്ള അംഗീകാരം അഭ്യർത്ഥിക്കുക",
+      "finish_device_approval": "ഉപകരണ അംഗീകാരം പൂർത്തിയാക്കുക"
+    },
+    "forwarding_settings": {
+      "reset": "പുനഃക്രമീകരിക്കുക",
+      "forward_incoming_calls_and_texts_to_your_verifie": "വരുന്ന കോളുകളും സന്ദേശങ്ങളും നിങ്ങളുടെ സ്ഥിരീകരിച്ച ഫോണിലേക്കോ ഇമെയിലിലേക്കോ മുന്നോട്ട് അയയ്ക്കുക.",
+      "quiet_hours": "നിശ്ശബ്ദ മണിക്കൂറുകൾ",
+      "forwarding": "മുന്നോട്ട് അയക്കുക",
+      "enable_text_forwarding": "ടെക്സ്റ്റ് ഫോർവേഡിംഗ് പ്രവർത്തനക്ഷമമാക്കുക",
+      "forward_texts_to_phone": "ഫോണിലേക്ക് ടെക്സ്റ്റുകൾ ഫോർവേഡ് ചെയ്യുക",
+      "forward_texts_to_email": "സന്ദേശങ്ങൾ ഇമെയിലിലേക്ക് അയയ്ക്കുക",
+      "enable_call_forwarding": "കോൾ ഫോർവേഡിംഗ് പ്രവർത്തനക്ഷമമാക്കുക"
+    },
+    "chat_message_row": {
+      "copy": "പകർത്തുക",
+      "edit": "തിരുത്തുക",
+      "report": "റിപ്പോർട്ട്",
+      "message_info": "സന്ദേശ വിവരങ്ങൾ"
+    },
+    "chat_thread": {
+      "no_messages_yet": "സന്ദേശങ്ങളൊന്നും ഇതുവരെ ഇല്ല",
+      "delete_message": "സന്ദേശം ഇല്ലാതാക്കുക?",
+      "choose_how_you_want_to_delete_this_message": "ഈ സന്ദേശം എങ്ങനെ ഇല്ലാതാക്കാൻ ആഗ്രഹിക്കുന്നുവോ തിരഞ്ഞെടുക്കുക.",
+      "delete_for_everyone": "എല്ലാവർക്കും ഇല്ലാതാക്കുക",
+      "delete_for_me": "എനിക്കുവേണ്ടി ഇത് ഡിലീറ്റ് ചെയ്യുക",
+      "search_messages": "സന്ദേശങ്ങൾ തിരയുക",
+      "search_in_chat": "ചാറ്റിൽ തിരയുക",
+      "sending": "അയക്കുന്നു...",
+      "failed_to_send": "അയക്കുന്നതിൽ പരാജയപ്പെട്ടു",
+      "edited": "തിരുത്തിയത്",
+      "audio_call": "ഓഡിയോ കോൾ",
+      "video_call": "വീഡിയോ കോൾ",
+      "selected_gif": "തിരഞ്ഞെടുത്ത ജിഫ്",
+      "remove_gif": "GIF നീക്കം ചെയ്യുക",
+      "attach": "ചേർക്കുക",
+      "rewrite_with_ria": "റിയയോടൊപ്പം മാറ്റിയെഴുതുക",
+      "composer_action": "സംഗീതസംവിധായകന്റെ പ്രവർത്തനം"
+    },
+    "edit_message": {
+      "save": "സേവ് ചെയ്യുക",
+      "emoji": "ഇമോജി",
+      "edit_message": "സന്ദേശം തിരുത്തുക"
+    },
+    "message_attachments": {
+      "image_attachment": "ചിത്രം അറ്റാച്ച് ചെയ്തിരിക്കുന്നു",
+      "video_attachment": "വീഡിയോ അറ്റാച്ച്മെൻ്റ്",
+      "play_video": "വീഡിയോ പ്ലേ ചെയ്യുക"
+    },
+    "message_bubble": {
+      "disappearing_message": "അപ്രത്യക്ഷമാകുന്ന സന്ദേശം"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "ഇതുവരെ ആരും ഇത് വായിച്ചിട്ടില്ല",
+      "message_info": "സന്ദേശ വിവരങ്ങൾ"
+    },
+    "report_message": {
+      "reason": "കാരണം",
+      "include_previous_messages": "മുൻപത്തെ സന്ദേശങ്ങൾ ഉൾപ്പെടുത്തുക",
+      "additional_details": "കൂടുതൽ വിവരങ്ങൾ",
+      "anything_else_moderators_should_know": "മോഡറേറ്റർമാർ അറിയേണ്ട മറ്റെന്തെങ്കിലും ഉണ്ടോ?",
+      "block_this_user_after_reporting": "റിപ്പോർട്ട് ചെയ്ത ശേഷം ഈ ഉപയോക്താവിനെ ബ്ലോക്ക് ചെയ്യുക",
+      "submit_report": "റിപ്പോർട്ട് സമർപ്പിക്കുക",
+      "report_message": "റിപ്പോർട്ട് സന്ദേശം"
+    },
+    "phone_number": {
+      "replace_number": "നമ്പർ മാറ്റുക",
+      "pick_a_number": "ഒരു സംഖ്യ തിരഞ്ഞെടുക്കുക",
+      "no_number_assigned": "ചാറ്റ്ഫോറിയ നമ്പർ നൽകിയിട്ടില്ല.",
+      "your_number": "നിങ്ങളുടെ ചാറ്റ്ഫോറിയ നമ്പർ"
+    },
+    "pick_number": {
+      "area_code": "പ്രദേശ കോഡ്",
+      "premium_numbers_are_protected_from_recycling": "പ്രീമിയം നമ്പറുകൾ പുനരുപയോഗത്തിൽ നിന്ന് സംരക്ഷിക്കപ്പെട്ടിരിക്കുന്നു.",
+      "available_numbers": "ലഭ്യമായ നമ്പറുകൾ",
+      "search_by_area_code_to_find_available_numbers": "ലഭ്യമായ നമ്പറുകൾ കണ്ടെത്താൻ ഏരിയ കോഡ് ഉപയോഗിച്ച് തിരയുക.",
+      "capability": "കഴിവ്",
+      "country": "രാജ്യം"
+    },
+    "gif_picker": {
+      "search_tenor": "ടെനർ തിരയുക",
+      "search_gifs": "ജിഫുകൾക്കായി തിരയുക"
+    },
+    "random_chat": {
+      "add_friend": "സുഹൃത്താക്കാൻ",
+      "skip": "ചാടുക",
+      "send": "അയക്കുക",
+      "end_chat": "ചാറ്റ് അവസാനിപ്പിക്കുന്നു"
+    },
+    "random_matching": {
+      "finding_someone": "ഒരാളെ കണ്ടെത്തുക"
+    },
+    "ria_chat": {
+      "ask_ria": "റിയയോട് ചോദിക്കൂ...",
+      "you_re_now_chatting_with_ria": "നിങ്ങൾ ഇപ്പോൾ റിയയുമായി ചാറ്റ് ചെയ്യുകയാണ്",
+      "chat_with_ria_anytime_separate_from_random_human": "യാദൃശ്ചികമായി മനുഷ്യരുമായി ജോഡി ചേരുന്നതിൽ നിന്ന് വേറിട്ട്, എപ്പോൾ വേണമെങ്കിലും രിയയുമായി ചാറ്റ് ചെയ്യുക."
+    },
+    "ria_rewrite": {
+      "original_text": "യഥാർത്ഥ എഴുത്ത്",
+      "choose_tone": "ശൈലി തിരഞ്ഞെടുക്കുക",
+      "rewriting": "പുനഃരെഴുതുന്നു…",
+      "suggestions": "നിർദ്ദേശങ്ങൾ",
+      "choose_a_tone_to_generate_rewrite_suggestions": "പുനഃരെഴുതാനുള്ള നിർദ്ദേശങ്ങൾ ഉണ്ടാക്കുന്നതിന് ഒരു ടോൺ തിരഞ്ഞെടുക്കുക."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "സൗജന്യ പതിപ്പിൽ അടിസ്ഥാന ശബ്ദങ്ങൾ ഉൾപ്പെടുന്നു. കൂടുതൽ ടോണുകളും റിംഗ്ടോണുകളും അൺലോക്ക് ചെയ്യുന്നതിന് അപ്‌ഗ്രേഡ് ചെയ്യുക.",
+      "volume": "അളവ്",
+      "message_tone": "സന്ദേശത്തിന്റെ സ്വരം",
+      "ringtone": "റിംഗ്ടോൺ"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "ഇതുവരെ വോയിസ് മെയിലുകളൊന്നും ഇല്ല.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "ആരെങ്കിലും നിങ്ങൾക്ക് ഒരു വോയിസ് മെയിൽ അയക്കുമ്പോൾ, അത് ഇവിടെ കാണാം.",
+      "play_voicemail": "വോയിസ്‌മെയിൽ പ്ലേ ചെയ്യുക",
+      "delete_voicemail": "വോയിസ്‌മെയിൽ ഇല്ലാതാക്കുക"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "തിരഞ്ഞെടുത്ത വോയിസ്‌മെയിൽ"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "നിങ്ങളുടെ നിലവിലെ രാജ്യത്തോ സമീപത്തുള്ള പ്രദേശങ്ങളിലോ ഉപയോഗിക്കാനുള്ള കവറേജ്.",
+      "coverage_across_supported_european_destinations": "പിന്തുണയ്ക്കപ്പെടുന്ന യൂറോപ്യൻ ലക്ഷ്യസ്ഥാനങ്ങളിലുടനീളം കവറേജ്.",
+      "coverage_across_supported_global_destinations": "പിന്തുണയ്ക്കപ്പെടുന്ന ആഗോള ലക്ഷ്യസ്ഥാനങ്ങളിലുടനീളം കവറേജ്."
+    },
+    "wireless_home": {
+      "manage_wireless": "വയർലെസ് നിയന്ത്രിക്കുക",
+      "port_my_number": "എൻ്റെ നമ്പർ പോർട്ട് ചെയ്യുക",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM ഡാറ്റാ പാക്കുകൾക്ക് eSIM-ന് അനുയോജ്യമായതും അൺലോക്ക് ചെയ്തതുമായ ഒരു ഉപകരണം ആവശ്യമാണ്.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "യാത്ര ചെയ്യുമ്പോഴോ വൈ-ഫൈയിൽ നിന്ന് വിട്ടുനിൽക്കുമ്പോഴോ ബന്ധം നിലനിർത്തുക.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "പ്രാദേശിക, യൂറോപ്യൻ, അല്ലെങ്കിൽ ആഗോള കവറേജിനായി ഒരു തവണത്തേക്കുള്ള ഇ-സിം ഡാറ്റാ പായ്ക്ക് തിരഞ്ഞെടുക്കുക.",
+      "we_don_t_sell_data_packs_under_3_gb": "ഞങ്ങൾ 3 ജിബി-യിൽ താഴെയുള്ള ഡാറ്റാ പാക്കുകൾ വിൽക്കുന്നില്ല.",
+      "loading_usage": "ഉപയോഗം ലോഡ് ചെയ്യുന്നു…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "ഇതുവരെ ഡാറ്റാ പായ്ക്ക് സജീവമാക്കിയിട്ടില്ല. ഉപയോഗം ട്രാക്ക് ചെയ്യാൻ തുടങ്ങുന്നതിനായി താഴെ നിന്ന് ഒരു പായ്ക്ക് വാങ്ങുക.",
+      "usage_details_will_appear_once_your_data_pack_is": "നിങ്ങളുടെ ഡാറ്റാ പാക്കിന് ആക്ടീവ് ആയിക്കഴിഞ്ഞാൽ ഉപയോഗത്തിന്റെ വിശദാംശങ്ങൾ ദൃശ്യമാകും.",
+      "manage": "നിയന്ത്രിക്കുക",
+      "coverage": "പരിധി",
+      "your_esim": "നിങ്ങളുടെ ഇ-സിം",
+      "current_usage": "നിലവിലെ ഉപയോഗം"
+    }
   }
 }

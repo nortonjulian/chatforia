@@ -3066,7 +3066,8 @@
     "flip": "Trowch",
     "speaker": "Siaradwr",
     "end": "Diwedd",
-    "noIncomingCallToAnswer": "Dim galwad sy'n dod i mewn i'w hateb."
+    "noIncomingCallToAnswer": "Dim galwad sy'n dod i mewn i'w hateb.",
+    "serviceUnavailable": "Nid yw'r gwasanaeth galw ar gael ar hyn o bryd. Cofiwch geisio eto yn ddiweddarach."
   },
   "settings": {
     "startHour": "Awr gychwyn (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Tywyll",
   "accessibility_caption_bg_transparent": "Trawsgrynweddol",
   "api": {
-    "notAuthorized": "Nid yw wedi'i awdurdodi"
+    "notAuthorized": "Nid yw wedi'i awdurdodi",
+    "invalidURL": "Cyfeiriad gweinydd annilys.",
+    "serverError": "Gwall gweinydd (%d): %@",
+    "failedToDecodeResponse": "Methu darllen ymateb y gweinydd: %@"
+  },
+  "tap_to_view_contact": "Tapio i weld y cyswllt",
+  "android": {
+    "plan": {
+      "plan_billing": "Cynllun a Filio",
+      "current_plan": "Cynllun presennol",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Ewch yn ddi-hysbyseb gyda Plus, neu datgloeio offer AI a phersonoliad gyda Premium.",
+      "plus": "Hefyd",
+      "premium": "Uwch-radd",
+      "back": "Yn ôl",
+      "my_plan": "Fy Nghynllun",
+      "compare_plans": "Cymharu Cynlluniau",
+      "included": "Cynnwys"
+    },
+    "upgrade": {
+      "upgrade": "Uwchraddiad",
+      "restore_purchases": "Adfer pryniannau",
+      "unlock_more_with": "Datgloeio mwy gyda Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Dewiswch Plus neu Premium i gael gwared ar hysbysebion, addasu eich profiad, a datgloi offer uwch.",
+      "best_experience": "Y profiad gorau",
+      "close": "Cau",
+      "plus": "Siaradforia Plws",
+      "remove_ads_and_unlock_more_everyday_features": "Tynnwch hysbysebion a datgloiwch fwy o nodweddion bob dydd.",
+      "premium": "Siaradforia Premiwm",
+      "the_full_experience": "Y profiad Chatforia llawn.",
+      "premium_annual": "Blynyddol Premiwm",
+      "save_compared_to_monthly_premium": "Arbed o'i gymharu â Premiwm misol."
+    },
+    "audio_call": {
+      "mute": "Distaw",
+      "speaker": "Siaradwr",
+      "end_call": "Diwedd galwad"
+    },
+    "dial_pad": {
+      "dial": "Dewislen",
+      "done": "Gwnaed",
+      "enter_number": "Rhowch y rhif",
+      "call": "Galw",
+      "delete_digit": "Dileu digid"
+    },
+    "incoming_call": {
+      "decline": "Gostyngiad",
+      "accept": "Derbyn",
+      "decline_call": "Gwrthod galwad",
+      "accept_call": "Derbyn galwad"
+    },
+    "video_call": {
+      "camera": "Camera",
+      "flip_camera": "Camera Flip"
+    },
+    "chats": {
+      "search_chats": "Chwilio sgyrsiau",
+      "no_chats_yet": "Dim sgyrsiau eto",
+      "admob_ad": "Hysbyseb AdMob",
+      "delete_conversation": "Dileu sgwrs?",
+      "this_will_remove_this_conversation_from_your_cha": "Bydd hyn yn tynnu'r sgwrs hon o'ch rhestr sgyrsiau.",
+      "delete": "Dileu",
+      "cancel": "Canslo",
+      "chats": "Sgyrsiau",
+      "new_chat": "Sgwrs newydd",
+      "refresh": "Adnewyddu",
+      "random_chat": "Sgwrs ar hap",
+      "search": "Chwilio",
+      "delete_conversation_2": "Dileu sgwrs"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Enw defnyddiwr, enw cyswllt, neu rif ffôn",
+      "new_chat": "Sgwrs Newydd",
+      "start_a_chat": "Cychwyn sgwrs",
+      "search_by_username_contact_name_or_phone_number": "Chwiliwch yn ôl enw defnyddiwr, enw cyswllt, neu rif ffôn.",
+      "results": "Canlyniadau",
+      "open_chat": "Sgwrs agored"
+    },
+    "calls": {
+      "recents": "Diweddar",
+      "voicemail": "Nefyn llais",
+      "calls": "Galwadau",
+      "no_calls_yet": "Dim galwadau eto",
+      "your_recent_calls_will_show_up_here": "Bydd eich galwadau diweddar yn ymddangos yma.",
+      "open_dial_pad": "Agor pad deialu",
+      "delete_call": "Dileu galwad",
+      "video_call": "Galwad fideo"
+    },
+    "contacts": {
+      "contacts": "Cysylltiadau",
+      "add_contact": "Ychwanegu cyswllt",
+      "import_from_phone": "Mewnforio o'r ffôn",
+      "invite_friends": "Gwahodd ffrindiau",
+      "favorite": "Ffefryn",
+      "open_contact": "Cyswllt agored"
+    },
+    "main_activity": {
+      "loading": "Llwytho...",
+      "profile": "Proffil"
+    },
+    "profile": {
+      "delete_account": "Dileu Cyfrif",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Ni ellir dychwelyd y weithred hon. Ydych chi'n siŵr eich bod chi am ddileu eich cyfrif?",
+      "log_out": "Logio allan",
+      "change_photo": "Newid Llun",
+      "remove_photo": "Tynnu Llun",
+      "preferred_language": "Iaith Ddewisol",
+      "your_age_range": "Eich ystod oedran",
+      "theme": "Thema",
+      "choose_how_looks_across_the_app": "Dewiswch sut olwg sydd ar Chatforia ar draws yr ap.",
+      "uploading": "Uwchlwytho…",
+      "choose_plus_or_premium": "Dewiswch Plus neu Premium",
+      "profile_photo": "Llun proffil",
+      "open_upgrade": "Uwchraddiad agored",
+      "open": "Agored",
+      "account": "Cyfrif",
+      "username": "Enw defnyddiwr",
+      "email": "E-bost",
+      "plan": "Cynllun",
+      "wireless": "Di-wifr",
+      "mobile": "Chatforia Symudol",
+      "esim_and_wireless_settings": "eSIM a gosodiadau diwifr",
+      "call_text_forwarding": "Dyrannu Galwadau a Negeseuon Testun",
+      "forward_incoming_calls_and_texts": "Rhoi galwadau a negeseuon testun sy'n dod i mewn ymlaen",
+      "phone_number": "Rhif Ffôn",
+      "manage_your_number": "Rheoli eich rhif Chatforia",
+      "settings": "Gosodiadau",
+      "auto_translate_messages": "Trosi negeseuon yn awtomatig",
+      "automatically_translate_messages_into_your_prefe": "Cyfieithu negeseuon yn awtomatig i'ch dewis iaith.",
+      "show_original_with_translation": "Dangos y gwreiddiol gyda'r cyfieithiad",
+      "show_the_original_message_alongside_the_translat": "Dangoswch y neges wreiddiol ochr yn ochr â'r cyfieithiad.",
+      "smart_reply_suggestions": "Awgrymiadau ateb clyfar",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Dangos cymorth ailysgrifennu a atebion cyflym wedi'u pweru gan Ria.",
+      "linked_devices": "Dyfaisyddau Cysylltiedig",
+      "manage_trusted_devices": "Rheoli dyfeisiau dibynadwy",
+      "pair_new_device": "Pârio Dyfais Newydd",
+      "approve_a_new_device": "Cymeradwyo dyfais newydd",
+      "appearance": "Ymddangosiad",
+      "accessibility": "Cyrrachadwyedd",
+      "visual_alerts_captions_and_voice_note_accessibil": "Cyrraeddadwyedd hysbysiadau gweledol, capsiynau, a nodiadau llais",
+      "security": "Diogelwch",
+      "encryption_key_protected": "Allwedd amgryptio wedi'i diogelu",
+      "privacy": "Preifatrwydd",
+      "allow_explicit_content": "Caniatáu cynnwys penodol",
+      "show_read_receipts": "Dangos derbyniadau darllen",
+      "blur_messages_by_default": "Cuddio negeseuon yn ddiofyn",
+      "blur_when_app_is_unfocused": "Anfocws wrth ddefnyddio'r ap",
+      "hold_to_reveal_messages": "Daliwch i ddatgelu negeseuon",
+      "notify_when_messages_are_copied": "Hysbysu wrth gopïo negeseuon",
+      "random_chat": "Sgwrs ar hap",
+      "use_age_based_matching": "Defnyddiwch gyfateb yn ôl oedran",
+      "let_ria_remember_conversations": "Gad i Ria gofio sgyrsiau",
+      "forward_voicemail_to_email": "Anfon neges lleisiol ymlaen i e-bost",
+      "legal_support": "Cyfreithiol a Chymorth",
+      "free": "Am ddim"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Opsiwnau i wneud Chatforia yn haws i'w ddefnyddio heb ddibynnu ar sain.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Yn dechrau ar faint arferol. Cynyddwch os yw'n well gennych destun mwy yn y gosodiadau hygyrchedd.",
+      "interface_font_size": "Maint ffont y rhyngwyneb",
+      "notifications": "Hysbysiadau",
+      "visual_alerts_for_messages_calls": "Rhybuddion gweledol ar gyfer negeseuon a galwadau",
+      "show_banners_and_visual_indicators_so_you_do_not": "Dangos baneri a dangosyddion gweledol fel nad ydych yn colli gweithgaredd.",
+      "vibrate_on_new_messages": "Crynu ar negeseuon newydd",
+      "trigger_device_vibration_with_notifications_when": "Sgwrio dyfais gyda hysbysiadau pan fo hynny'n cael ei gefnogi.",
+      "flash_screen_on_incoming_call": "Sgrin fflach ar alwad sy'n dod i mewn",
+      "briefly_flash_the_screen_when_a_call_rings": "Ffliwsiwch y sgrin yn fyr pan fydd galwad yn canu.",
+      "live_captions": "Capsiynau byw",
+      "enable_live_captions": "Galluogi capsiynau byw",
+      "show_real_time_captions_during_calls_premium_req": "Dangos capsiynau amser real yn ystod galwadau. Mae angen tanysgrifiad Premiwm.",
+      "caption_font_size": "Maint ffont y pennawd",
+      "caption_background": "Cefndir y capsiwn",
+      "voice_notes": "Nodiadau llais",
+      "auto_transcribe_voice_notes": "Trawsgrifio nodiadau llais yn awtomatig",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Atodwch drawsgrifiad i negeseuon sain a dderbyniwch."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Dw i wedi adfer fy allwedd",
+      "restore_encryption": "Adfer Amgryptio"
+    },
+    "language_selection": {
+      "select_language": "Dewiswch iaith"
+    },
+    "login": {
+      "email_or_username": "E-bost neu enw defnyddiwr",
+      "password": "Cyfrinair",
+      "forgot_password": "Anghofio cyfrinair?",
+      "resend_verification_email": "Ail-anfon e-bost dilysu",
+      "reset_encryption": "Ailosod Amgryptio",
+      "create_an_account": "Creu cyfrif",
+      "welcome_to": "Croeso i Chatforia",
+      "sign_in_or_create_an_account": "Mewngofnodi neu greu cyfrif",
+      "or": "neu",
+      "don_t_have_an_account_yet": "Heb gyfrif eto?"
+    },
+    "onboarding": {
+      "welcome": "Croeso",
+      "set_up_your_profile_so_can_personalize_your_expe": "Cysylltwch â'ch proffil fel y gall Chatforia bersonoli eich profiad.",
+      "choose_a_username": "Dewiswch enw defnyddiwr",
+      "this_is_how_people_will_recognize_you_in": "Dyma sut y bydd pobl yn eich adnabod yn Chatforia.",
+      "choose_your_language": "Dewiswch eich iaith",
+      "will_use_this_for_translations_and_your_app_expe": "Bydd Chatforia yn defnyddio hwn ar gyfer cyfieithiadau a'ch profiad ar yr ap.",
+      "you_re_ready": "Rwyt ti'n barod",
+      "start_chatting_calling_translating_and_connectin": "Dechreuwch sgwrsio, galw, cyfieithu, a chysylltu â phobl o amgylch y byd."
+    },
+    "register": {
+      "confirm_password": "Cadarnhau cyfrinair",
+      "phone_optional": "Ffôn dewisol",
+      "log_in": "Mewngofnodi",
+      "create_your_account": "Creu eich cyfrif",
+      "start_chatting_across_languages_with": "Dechreuwch sgwrsio ar draws ieithoedd gyda Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Rwy'n cytuno i dderbyn negeseuon SMS dilysu.",
+      "already_have_an_account": "Oes gennych chi gyfrif yn barod?"
+    },
+    "add_contact": {
+      "phone": "Ffôn",
+      "name": "Enw",
+      "alias_optional": "Alias dewisol",
+      "pin_this_person_as_a_favorite_contact": "Pinnwch y person hwn fel cyswllt ffefryn."
+    },
+    "contact_detail": {
+      "edit_contact": "Golygu Cyswllt",
+      "delete_contact": "Dileu Cyswllt",
+      "message": "Neges",
+      "video": "Fideo",
+      "external_name": "Enw allanol"
+    },
+    "import_phone_contacts": {
+      "select_all": "Dewis popeth",
+      "clear": "Clir",
+      "import_contacts": "Mewnforio Cysylltiadau"
+    },
+    "invite_friends": {
+      "share_invite_link": "Rhannu Dolen y Gwahoddiad",
+      "invite_friends": "Gwahodd ffrindiau",
+      "share_a_invite_link_with_friends_using_messages_": "Rhannwch gyswllt gwahoddiad Chatforia gyda ffrindiau gan ddefnyddio Negeseuon, e-bost, neu unrhyw ap ar eich ffôn."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Pârwch ddyfais newydd",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Agorwch Chatforia ar eich dyfais newydd a mewngofnodwch. Os oes angen mynediad iddo i'ch sgyrsiau wedi'u hamgryptio, cymeradwywch ef o ddyfais ddibynadwy.",
+      "view_pending_device_requests": "Gweld ceisiadau dyfais sydd ar y gweill"
+    },
+    "key_setup": {
+      "recovery_passcode": "Cod Adfer",
+      "confirm_recovery_passcode": "Cadarnhau cod pas adfer",
+      "restore_chats": "Adfer sgyrsiau",
+      "clear_local_key": "Clirio allwedd leol",
+      "reset_encryption": "Ail-osod amgryptio?",
+      "this_will_permanently_replace_your_encryption_ke": "Bydd hwn yn disodli eich allwedd amgryptio yn barhaol.",
+      "encryption": "Amgryptio",
+      "restore_encrypted_chats": "Adfer sgyrsiau wedi'u hamgryptio",
+      "no_recovery_backup_found": "Ni chanfuwyd copi wrth gefn adferiad",
+      "open_on_a_device_that_can_already_read_your_encr": "Agorwch Chatforia ar ddyfais sydd eisoes yn gallu darllen eich sgyrsiau wedi'u hamgryptio a chreu Cod Adfer yno.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Ni chanfuwyd copi wrth gefn adfer eto. Crëwch un o'r ddyfais hon fel y gallwch adfer sgyrsiau ar iOS, Android, a'r we.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Defnyddiwch hwn yn unig os ydych wedi colli'r holl ddyfeisiau dibynadwy ac na allwch adfer eich allwedd wreiddiol."
+    },
+    "linked_devices": {
+      "your_devices": "Eich dyfeisiau",
+      "pending_approvals": "Cymeradwyaethau'n aros",
+      "approve": "Cymeradwyo",
+      "reject": "Gwrthod",
+      "revoke": "Dirymu",
+      "request_approval_for_this_device": "Gofyn am gymeradwyaeth ar gyfer y ddyfais hon",
+      "finish_device_approval": "Cymeradwyo dyfais"
+    },
+    "forwarding_settings": {
+      "reset": "Ailosod",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Rhowch alwadau a negeseuon testun sy'n dod i mewn ymlaen i'ch ffôn neu'ch e-bost wedi'u gwirio.",
+      "quiet_hours": "Oriau Tawel",
+      "forwarding": "Anfon ymlaen",
+      "enable_text_forwarding": "Galluogi trosglwyddo testun",
+      "forward_texts_to_phone": "Anfon negeseuon testun i ffôn",
+      "forward_texts_to_email": "Anfon negeseuon testun i e-bost",
+      "enable_call_forwarding": "Galluogi rhagwireddu galwadau"
+    },
+    "chat_message_row": {
+      "copy": "Copïo",
+      "edit": "Golygu",
+      "report": "Adroddiad",
+      "message_info": "Gwybodaeth neges"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Dim negeseuon eto",
+      "delete_message": "Dileu neges?",
+      "choose_how_you_want_to_delete_this_message": "Dewiswch sut rydych chi am ddileu'r neges hon.",
+      "delete_for_everyone": "Dileu i bawb",
+      "delete_for_me": "Dileu i mi",
+      "search_messages": "Chwilio negeseuon",
+      "search_in_chat": "Chwilio yn y sgwrs",
+      "sending": "Anfon...",
+      "failed_to_send": "Methodd anfon",
+      "edited": "Golygwyd",
+      "audio_call": "Galwad Sain",
+      "video_call": "Galwad Fideo",
+      "selected_gif": "GIF Dewisol",
+      "remove_gif": "Tynnu GIF",
+      "attach": "Atodi",
+      "rewrite_with_ria": "Ailysgrifennu gyda Ria",
+      "composer_action": "Gweithred cyfansoddwr"
+    },
+    "edit_message": {
+      "save": "Cadw",
+      "emoji": "Emoji",
+      "edit_message": "Golygu neges"
+    },
+    "message_attachments": {
+      "image_attachment": "Atodiad delwedd",
+      "video_attachment": "Atodiad fideo",
+      "play_video": "Chwarae fideo"
+    },
+    "message_bubble": {
+      "disappearing_message": "Neges sy'n diflannu"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Nid oes neb wedi darllen hwn eto.",
+      "message_info": "Gwybodaeth neges"
+    },
+    "report_message": {
+      "reason": "Rheswm",
+      "include_previous_messages": "Cynnwys negeseuon blaenorol",
+      "additional_details": "Manylion ychwanegol",
+      "anything_else_moderators_should_know": "Oes unrhyw beth arall y dylai'r cymedrolwyr ei wybod?",
+      "block_this_user_after_reporting": "Blociwch y defnyddiwr hwn ar ôl adrodd",
+      "submit_report": "Cyflwyno adroddiad",
+      "report_message": "Adrodd neges"
+    },
+    "phone_number": {
+      "replace_number": "Newid Rhif",
+      "pick_a_number": "Dewiswch rif",
+      "no_number_assigned": "Ni roddwyd rhif Chatforia.",
+      "your_number": "Eich Rhif Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Cod Ardal",
+      "premium_numbers_are_protected_from_recycling": "Mae rhifau premiwm wedi'u diogelu rhag cael eu hailgylchu.",
+      "available_numbers": "Rhifau sydd ar gael",
+      "search_by_area_code_to_find_available_numbers": "Chwiliwch yn ôl côd ardal i ddod o hyd i rifau sydd ar gael.",
+      "capability": "Galluedd",
+      "country": "Gwlad"
+    },
+    "gif_picker": {
+      "search_tenor": "Chwilio tenor",
+      "search_gifs": "Chwilio am GIFs"
+    },
+    "random_chat": {
+      "add_friend": "Ychwanegu ffrind",
+      "skip": "Neidio",
+      "send": "Anfon",
+      "end_chat": "Diwedd sgwrs"
+    },
+    "random_matching": {
+      "finding_someone": "Dod o hyd i rywun"
+    },
+    "ria_chat": {
+      "ask_ria": "Gofynnwch i Ria...",
+      "you_re_now_chatting_with_ria": "Rydych chi nawr yn sgwrsio â Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Siaradwch â Ria unrhyw bryd, ar wahân i'r paru ar hap â phobl."
+    },
+    "ria_rewrite": {
+      "original_text": "Testun gwreiddiol",
+      "choose_tone": "Dewiswch naws",
+      "rewriting": "Ailysgrifennu…",
+      "suggestions": "Awgrymiadau",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Dewiswch don i gynhyrchu awgrymiadau ailysgrifennu."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Mae'r fersiwn am ddim yn cynnwys synau sylfaenol. Uwchraddiwch i ddatgloi mwy o donau a seiniau ffôn.",
+      "volume": "Cyfeirnod",
+      "message_tone": "Tôn y Neges",
+      "ringtone": "Tôn ffôn"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Dim negeseuon llais eto.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Pan fydd rhywun yn gadael neges lais i chi, bydd yn ymddangos yma.",
+      "play_voicemail": "Chwarae neges leis",
+      "delete_voicemail": "Dileu neges leis"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Neges lleisiol ddetholedig"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Cwmpas ar gyfer eich gwlad bresennol neu ddefnydd lleol gerllaw.",
+      "coverage_across_supported_european_destinations": "Cwmpas ar draws cyrchfannau Ewropeaidd a gefnogir.",
+      "coverage_across_supported_global_destinations": "Cwmpas ar draws cyrchfannau byd-eang a gefnogir."
+    },
+    "wireless_home": {
+      "manage_wireless": "Rheoli Di-wifr",
+      "port_my_number": "Symud fy rhif",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Mae angen dyfais sy'n gydnaws ag eSIM ac sydd wedi'i datgloi ar gyfer pecynnau data eSIM.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Arhoswch yn gysylltiedig wrth deithio neu pan fyddwch yn bell o Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Dewiswch becyn data eSIM untro ar gyfer darpariaeth Leol, Ewropeaidd, neu Fyd-eang.",
+      "we_don_t_sell_data_packs_under_3_gb": "Nid ydym yn gwerthu pecynnau data o dan 3 GB.",
+      "loading_usage": "Llwytho defnydd…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Dim pecyn data gweithredol eto. Prynwch becyn isod i ddechrau olrhain defnydd.",
+      "usage_details_will_appear_once_your_data_pack_is": "Bydd manylion defnydd yn ymddangos unwaith y bydd eich pecyn data yn weithredol.",
+      "manage": "Rheoli",
+      "coverage": "Cwmpas",
+      "your_esim": "Eich eSIM",
+      "current_usage": "Defnydd presennol"
+    }
   }
 }

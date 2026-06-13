@@ -3066,7 +3066,8 @@
     "flip": "Эргүүлэх",
     "speaker": "Илтгэгч",
     "end": "Төгсгөл",
-    "noIncomingCallToAnswer": "Хариулах дотоод дуудлага байхгүй."
+    "noIncomingCallToAnswer": "Хариулах дотоод дуудлага байхгүй.",
+    "serviceUnavailable": "Дуудлагын үйлчилгээ одоогоор боломжгүй байна. Дахин оролдоно уу."
   },
   "settings": {
     "startHour": "Эхлэх цаг (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Харанхуй",
   "accessibility_caption_bg_transparent": "Тунгалаг",
   "api": {
-    "notAuthorized": "Зөвшөөрөгдөөгүй"
+    "notAuthorized": "Зөвшөөрөгдөөгүй",
+    "invalidURL": "Серверийн хаяг хүчин төгөлдөр бус байна.",
+    "serverError": "Серверийн алдаа (%d): %@",
+    "failedToDecodeResponse": "Серверийн хариуг уншиж чадаагүй: %@"
+  },
+  "tap_to_view_contact": "Холбоо барих мэдээллийг харахын тулд товшоно уу",
+  "android": {
+    "plan": {
+      "plan_billing": "Төлөвлөгөө ба тооцоо",
+      "current_plan": "Одоогийн төлөвлөгөө",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Plus-ээр зар сурталчилгаагүй бол, эсвэл Premium-ээр хиймэл оюун ухааны хэрэгсэл болон тохиргоог нээх боломжтой.",
+      "plus": "Нэмэх",
+      "premium": "Дээд зэрэглэлийн",
+      "back": "Буцах",
+      "my_plan": "Миний төлөвлөгөө",
+      "compare_plans": "Төлөвлөгөөг харьцуулах",
+      "included": "Оруулсан"
+    },
+    "upgrade": {
+      "upgrade": "Шинэчлэх",
+      "restore_purchases": "Худалдан авалтуудыг сэргээх",
+      "unlock_more_with": "Chatforia-тай илүү ихийг нээгээрэй",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Зар сурталчилгааг арилгах, туршлагыг тань тохируулах, дэвшилтэт хэрэгслүүдийг нээхийн тулд Plus эсвэл Premium-ийг сонгоно уу.",
+      "best_experience": "Шилдэг туршлага",
+      "close": "Хаах",
+      "plus": "Чатфориа Плюс",
+      "remove_ads_and_unlock_more_everyday_features": "Зар сурталчилгааг арилгаж, өдөр тутмын илүү олон боломжийг нээх.",
+      "premium": "Чатфория Премиум",
+      "the_full_experience": "Chatforia-ийн бүрэн туршлага.",
+      "premium_annual": "Дээд зэрэглэлийн жилийн",
+      "save_compared_to_monthly_premium": "Сар бүрийн Premium-тэй харьцуулахад хэмнэлттэй."
+    },
+    "audio_call": {
+      "mute": "Дуугүй",
+      "speaker": "Илтгэгч",
+      "end_call": "Дуудлагыг дуусгах"
+    },
+    "dial_pad": {
+      "dial": "Тохируулагч",
+      "done": "Дууссан",
+      "enter_number": "Тоо оруулаарай",
+      "call": "Утасдах",
+      "delete_digit": "Тоог устгах"
+    },
+    "incoming_call": {
+      "decline": "Буурах",
+      "accept": "Зөвшөөрөх",
+      "decline_call": "Утас дуудлагыг татгалзах",
+      "accept_call": "Дуудлагыг хүлээн авах"
+    },
+    "video_call": {
+      "camera": "Камер",
+      "flip_camera": "Флип камер"
+    },
+    "chats": {
+      "search_chats": "Чат хайх",
+      "no_chats_yet": "Одоогоор яриа байхгүй байна",
+      "admob_ad": "AdMob зар",
+      "delete_conversation": "Яриаг устгах уу?",
+      "this_will_remove_this_conversation_from_your_cha": "Энэ нь таны чатны жагсаалтаас энэ яриаг устгана.",
+      "delete": "Устгах",
+      "cancel": "Хуцлах",
+      "chats": "Ярианууд",
+      "new_chat": "Шинэ чат",
+      "refresh": "Шинэчлэх",
+      "random_chat": "Санамсаргүй чат",
+      "search": "Хайх",
+      "delete_conversation_2": "Яриаг устгах"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Хэрэглэгчийн нэр, холбоо барих хүн эсвэл утасны дугаар",
+      "new_chat": "Шинэ чат",
+      "start_a_chat": "Чат эхлүүлэх",
+      "search_by_username_contact_name_or_phone_number": "Хэрэглэгчийн нэр, холбоо барих нэр эсвэл утасны дугаараар хайх.",
+      "results": "Үр дүн",
+      "open_chat": "Чат нээх"
+    },
+    "calls": {
+      "recents": "Сүүлийн үеийн",
+      "voicemail": "Дуу хоолойн мессеж",
+      "calls": "Дуудлагууд",
+      "no_calls_yet": "Одоогоор ямар ч дуудлага ирээгүй байна",
+      "your_recent_calls_will_show_up_here": "Таны сүүлийн дуудлагууд энд харагдана.",
+      "open_dial_pad": "Товчлуурын самбарыг нээх",
+      "delete_call": "Дуудлагыг устгах",
+      "video_call": "Видео дуудлага"
+    },
+    "contacts": {
+      "contacts": "Холбоо барих мэдээлэл",
+      "add_contact": "Холбоо барихыг нэмэх",
+      "import_from_phone": "Утаснаас импортлох",
+      "invite_friends": "Найзуудыг урих",
+      "favorite": "Дуртай",
+      "open_contact": "Холбоог нээх"
+    },
+    "main_activity": {
+      "loading": "Боломжийн хязгаарт...",
+      "profile": "Профайл"
+    },
+    "profile": {
+      "delete_account": "Акаунтыг устгах",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Энэ үйлдлийг буцаах боломжгүй. Та үнэхээр дансаа устгахыг хүсэж байна уу?",
+      "log_out": "Нэгтээх",
+      "change_photo": "Зургийг солих",
+      "remove_photo": "Зургийг устгах",
+      "preferred_language": "Урьдал хэл",
+      "your_age_range": "Таны насны хүрээ",
+      "theme": "Сэдэв",
+      "choose_how_looks_across_the_app": "Аппликейшн даяар Chatforia хэрхэн харагдахыг сонго.",
+      "uploading": "Боломжтой…",
+      "choose_plus_or_premium": "Плюс эсвэл Премиум сонгоно уу",
+      "profile_photo": "Профайл зураг",
+      "open_upgrade": "Шинэчлэл эхлүүлэх",
+      "open": "Нээх",
+      "account": "Аккаунт",
+      "username": "Хэрэглэгчийн нэр",
+      "email": "Имэйл",
+      "plan": "Төлөвлөгөө",
+      "wireless": "Утасгүй",
+      "mobile": "Чатфория Мобайл",
+      "esim_and_wireless_settings": "eSIM ба утасгүй тохиргоо",
+      "call_text_forwarding": "Дуудлага болон мессежийн дамжуулалт",
+      "forward_incoming_calls_and_texts": "Орох дуудлага, мессежийг дамжуулах",
+      "phone_number": "Утасны дугаар",
+      "manage_your_number": "Chatforia дугаараа удирдаарай",
+      "settings": "Тохиргоо",
+      "auto_translate_messages": "Зурвасуудыг автоматаар орчуулах",
+      "automatically_translate_messages_into_your_prefe": "Зурвасуудаа таны хүссэн хэл рүү автоматаар орчуулна.",
+      "show_original_with_translation": "Анхны хувилбар болон орчуулгыг харуулах",
+      "show_the_original_message_alongside_the_translat": "Анхны мессежийг орчуулгын хамт харуулах.",
+      "smart_reply_suggestions": "Ухаалаг хариултын санал",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Ria-ээр хангагдсан дахин бичих тусламж болон хурдан хариултуудыг харуулах.",
+      "linked_devices": "Холбогдсон төхөөрөмжүүд",
+      "manage_trusted_devices": "Итгэмжлэгдсэн төхөөрөмжүүдийг удирдах",
+      "pair_new_device": "Шинэ төхөөрөмж хослох",
+      "approve_a_new_device": "Шинэ төхөөрөмжийг батлах",
+      "appearance": "Гадна төрх",
+      "accessibility": "Хүртээмж",
+      "visual_alerts_captions_and_voice_note_accessibil": "Визуал дохио, гарчиг, дууны тэмдэглэлийн хүртээмж",
+      "security": "Аюулгүй байдал",
+      "encryption_key_protected": "Шифрлэх түлхүүр хамгаалагдсан",
+      "privacy": "Нууцлал",
+      "allow_explicit_content": "Тодорхой агуулгыг зөвшөөрөх",
+      "show_read_receipts": "Уншсан баримтыг харуулах",
+      "blur_messages_by_default": "Зурвасуудаа анхдагчаар бүдгэрүүлэх",
+      "blur_when_app_is_unfocused": "Апп анхаарал төвлөрөөгүй үед бүдгэрүүлэх",
+      "hold_to_reveal_messages": "Барихад мессежүүдийг харуулна",
+      "notify_when_messages_are_copied": "Мессежүүдийг хуулбарласан үед мэдэгдүүлэх",
+      "random_chat": "Санамсаргүй чат",
+      "use_age_based_matching": "Насны дагуу тааруулахыг ашигла",
+      "let_ria_remember_conversations": "Риа яриануудыг санаж байг",
+      "forward_voicemail_to_email": "Дууны мессежийг имэйл рүү илгээх",
+      "legal_support": "Хууль, дэмжлэг",
+      "free": "Үнэгүй"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Дуу авианд найдахгүйгээр Chatforia-г ашиглахад хялбар болгох сонголтууд",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Эхэндээ хэвийн хэмжээтэй эхэлнэ. Хэрэв та том текст илүүд үздэг бол хүртээмжийн тохиргоонд хэмжээг нэмэгдүүлээрэй.",
+      "interface_font_size": "Холбоо барих фонтын хэмжээ",
+      "notifications": "Мэдэгдэлүүд",
+      "visual_alerts_for_messages_calls": "Мессеж, дуудлагын дүрслэл мэдэгдэлүүд",
+      "show_banners_and_visual_indicators_so_you_do_not": "Актив байдлыг алдалгүй харахын тулд баннер болон визуал заагчийг харуулна уу.",
+      "vibrate_on_new_messages": "Шинэ мессежүүдэд чичир",
+      "trigger_device_vibration_with_notifications_when": "Дэмждэг үед мэдэгдэлтэйгээр триггер төхөөрөмжийн чичиргээг идэвхжүүлэх",
+      "flash_screen_on_incoming_call": "Орох дуудлагын үед флаш дэлгэц",
+      "briefly_flash_the_screen_when_a_call_rings": "Дуудлага дуугарах үед дэлгэцийг түр зуур гялалзуулах.",
+      "live_captions": "Шууд гарчиг",
+      "enable_live_captions": "Шууд гарчиг асаах",
+      "show_real_time_captions_during_calls_premium_req": "Дуудлагын явцад бодит цагийн гарчиг харуулах. Премиум шаардлагатай.",
+      "caption_font_size": "Зургийн тайлбарын фонтын хэмжээ",
+      "caption_background": "Гарчигны фон",
+      "voice_notes": "Дууны тэмдэглэлүүд",
+      "auto_transcribe_voice_notes": "Дууны тэмдэглэлийг автоматаар бичвэржүүлэх",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Та хүлээн авсан аудио мессежүүдэд транскрипт хавсаргана."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Би түлхүүрээ сэргээсэн",
+      "restore_encryption": "Нууцлалыг сэргээх"
+    },
+    "language_selection": {
+      "select_language": "Хэл сонгох"
+    },
+    "login": {
+      "email_or_username": "Имэйл эсвэл хэрэглэгчийн нэр",
+      "password": "Нууц үг",
+      "forgot_password": "Нууц үгээ мартсан уу?",
+      "resend_verification_email": "Баталгаажуулалтын имэйл дахин илгээх",
+      "reset_encryption": "Шифрлэлтийг анхны байдалд оруулах",
+      "create_an_account": "Акаунт үүсгэх",
+      "welcome_to": "Чатфориад тавтай морилно уу",
+      "sign_in_or_create_an_account": "Нэвтрэх эсвэл шинэ данс үүсгэх",
+      "or": "эсвэл",
+      "don_t_have_an_account_yet": "Одоогоор дансгүй байна уу?"
+    },
+    "onboarding": {
+      "welcome": "Тавтай морилно уу",
+      "set_up_your_profile_so_can_personalize_your_expe": "Профайлаа тохируулснаар Chatforia таны туршлагыг хувийн болгож өгнө.",
+      "choose_a_username": "Хэрэглэгчийн нэрээ сонгоорой",
+      "this_is_how_people_will_recognize_you_in": "Ийм байдлаар хүмүүс чамайг Chatforia-д таних болно.",
+      "choose_your_language": "Хэлээ сонго",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia үүнийг орчуулга болон таны аппликейшний хэрэглээний туршлагад ашиглана.",
+      "you_re_ready": "Чи бэлэн байна",
+      "start_chatting_calling_translating_and_connectin": "Дэлхий даяар хүмүүстэй чатлах, дуудлага хийх, орчуулах, холбогдохыг эхлүүлээрэй."
+    },
+    "register": {
+      "confirm_password": "Нууц үгийг баталгаажуулах",
+      "phone_optional": "Утас сонголттой",
+      "log_in": "Нэвтрэх",
+      "create_your_account": "Акаунтаа үүсгэх",
+      "start_chatting_across_languages_with": "Chatforia-тай хамт хэл дамжин чатлахыг эхлүүлээрэй.",
+      "i_agree_to_receive_sms_verification_messages": "Би SMS баталгаажуулалтын мессежүүдийг хүлээн авахад зөвшөөрч байна.",
+      "already_have_an_account": "Та аль хэдийнэ данстай юу?"
+    },
+    "add_contact": {
+      "phone": "Утас",
+      "name": "Нэр",
+      "alias_optional": "Нэр өгөх нь заавал биш",
+      "pin_this_person_as_a_favorite_contact": "Энэ хүнийг дуртай холбоо барих хүн болгон тэмдэглэ."
+    },
+    "contact_detail": {
+      "edit_contact": "Холбоо барих мэдээллийг засах",
+      "delete_contact": "Холбоо барих мэдээллийг устгах",
+      "message": "Зурвас",
+      "video": "Видео",
+      "external_name": "Гадаад нэр"
+    },
+    "import_phone_contacts": {
+      "select_all": "Бүгдийг сонгох",
+      "clear": "Цэвэр",
+      "import_contacts": "Холбоо барих мэдээллийг импортлох"
+    },
+    "invite_friends": {
+      "share_invite_link": "Урилга холбоосыг хуваалцах",
+      "invite_friends": "Найзуудыг урих",
+      "share_a_invite_link_with_friends_using_messages_": "Messages, имэйл эсвэл утасны ямар ч аппликейшн ашиглан Chatforia-д урих холбоосыг найзуудтайгаа хуваалцаарай."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Шинэ төхөөрөмж холбох",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Шинэ төхөөрөмж дээрээ Chatforia-г нээгээд нэвтэрнэ үү. Хэрэв шифрлэгдсэн чат руу хандах эрх шаардвал итгэмжтэй төхөөрөмжөөс зөвшөөрөл өгнө үү.",
+      "view_pending_device_requests": "Хүлээлгийн төхөөрөмжийн хүсэлтүүдийг үзэх"
+    },
+    "key_setup": {
+      "recovery_passcode": "Сэргээх нууц код",
+      "confirm_recovery_passcode": "Сэргээх нууц кодыг баталгаажуулах",
+      "restore_chats": "Чатүүдийг сэргээх",
+      "clear_local_key": "Орон нутгийн түлхүүрийг цэвэрлэх",
+      "reset_encryption": "Шифрлэлтийг сэргээх үү?",
+      "this_will_permanently_replace_your_encryption_ke": "Энэ нь таны шифрлэх түлхүүрийг байнгын байдлаар сольж орлуулах болно.",
+      "encryption": "Нууж бичлэг",
+      "restore_encrypted_chats": "Нууцлагдсан чатуудыг сэргээх",
+      "no_recovery_backup_found": "Сэргээх нөөц олдоогүй",
+      "open_on_a_device_that_can_already_read_your_encr": "Таны шифрлэсэн чат мессежийг аль хэдийн уншиж чадах төхөөрөмж дээр Chatforia-г нээгээд тэнд сэргээх нууц код үүсгээрэй.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Сэргээх нөөц одоогоор олдоогүй байна. Энэ төхөөрөмжөөс шинэ нөөц үүсгээрэй, ингэснээр iOS, Android болон вэб дээрх чатуудыг сэргээх боломжтой болно.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Энэ аргыг зөвхөн бүх итгэмжлэгдсэн төхөөрөмжөө алдсан бөгөөд анхны түлхүүрээ сэргээх боломжгүй болсон тохиолдолд ашиглана уу."
+    },
+    "linked_devices": {
+      "your_devices": "Таны төхөөрөмжүүд",
+      "pending_approvals": "Зөвшөөрөл хүлээгдэж байна",
+      "approve": "Зөвшөөрөх",
+      "reject": "Тайтгарах",
+      "revoke": "Хүчингүй болгох",
+      "request_approval_for_this_device": "Энэхүү төхөөрөмжийн баталгаажуулалтыг хүсэх",
+      "finish_device_approval": "Төхөөрөмжийн баталгаажуулалтыг дуусгах"
+    },
+    "forwarding_settings": {
+      "reset": "Дахин тохируулах",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Орох дуудлага, мессежийг баталгаажсан утас эсвэл имэйл рүүгээ дамжуулна уу.",
+      "quiet_hours": "Амгалан цаг",
+      "forwarding": "Илгээх",
+      "enable_text_forwarding": "Текстийг дамжуулахыг идэвхжүүлэх",
+      "forward_texts_to_phone": "Мессежийг утсанд илгээх",
+      "forward_texts_to_email": "Мессежийг имэйл рүү илгээх",
+      "enable_call_forwarding": "Дуудлага дамжуулалтыг идэвхжүүлэх"
+    },
+    "chat_message_row": {
+      "copy": "Хуулбарлах",
+      "edit": "Засварлах",
+      "report": "Тайлан",
+      "message_info": "Мэдээллийн мэдээлэл"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Одоогоор мессеж байхгүй байна",
+      "delete_message": "Зурвасыг устгах уу?",
+      "choose_how_you_want_to_delete_this_message": "Энэ мессежийг хэрхэн устгахыг сонгоно уу.",
+      "delete_for_everyone": "Бүгдэд устгах",
+      "delete_for_me": "Миний өмнөөс устгах",
+      "search_messages": "Мессеж хайх",
+      "search_in_chat": "Чат дотор хайх",
+      "sending": "Илгээж байна…",
+      "failed_to_send": "Илгээхэд алдаа гарлаа",
+      "edited": "Засварлагдсан",
+      "audio_call": "Дуу хоолойн дуудлага",
+      "video_call": "Видео дуудлага",
+      "selected_gif": "Сонгогдсон GIF",
+      "remove_gif": "GIF-ийг устгах",
+      "attach": "Зохион холбох",
+      "rewrite_with_ria": "Риатай дахин бичих",
+      "composer_action": "Композер үйлдэл"
+    },
+    "edit_message": {
+      "save": "Хадгалах",
+      "emoji": "Эможи",
+      "edit_message": "Мессежийг засах"
+    },
+    "message_attachments": {
+      "image_attachment": "Зургийн хавсралт",
+      "video_attachment": "Видео хавсралт",
+      "play_video": "Видео тоглуулах"
+    },
+    "message_bubble": {
+      "disappearing_message": "Алдагддаг мессеж"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Одоогоор хэн ч үүнийг уншаагүй байна",
+      "message_info": "Мэдээллийн мэдээлэл"
+    },
+    "report_message": {
+      "reason": "Шалтгаан",
+      "include_previous_messages": "Өмнөх мессежүүдийг оруулах",
+      "additional_details": "Нэмэлт дэлгэрэнгүй мэдээлэл",
+      "anything_else_moderators_should_know": "Модераторууд мэдэж байх ёстой өөр зүйл байна уу?",
+      "block_this_user_after_reporting": "Илчилсний дараа энэ хэрэглэгчийг хаах",
+      "submit_report": "Илтгэл илгээх",
+      "report_message": "Мэдэгдлийг илгээх"
+    },
+    "phone_number": {
+      "replace_number": "Тоог солих",
+      "pick_a_number": "Тоо сонгоорой",
+      "no_number_assigned": "Чатфорнийн дугаар олгоогүй.",
+      "your_number": "Таны Chatforia дугаар"
+    },
+    "pick_number": {
+      "area_code": "Бүс нутгийн код",
+      "premium_numbers_are_protected_from_recycling": "Премиум дугааруудыг дахин ашиглахаас хамгаалдаг.",
+      "available_numbers": "Боломжтой дугаарууд",
+      "search_by_area_code_to_find_available_numbers": "Боломжит дугааруудыг олохын тулд бүс нутгийн кодоор хай.",
+      "capability": "Чадвар",
+      "country": "Улс"
+    },
+    "gif_picker": {
+      "search_tenor": "Тенор хайх",
+      "search_gifs": "GIF хайх"
+    },
+    "random_chat": {
+      "add_friend": "Найз нэмэх",
+      "skip": "Даван гарах",
+      "send": "Илгээх",
+      "end_chat": "Чат дууслаа"
+    },
+    "random_matching": {
+      "finding_someone": "Хэн нэгнийг олох"
+    },
+    "ria_chat": {
+      "ask_ria": "Риагаас асуу...",
+      "you_re_now_chatting_with_ria": "Та одоо Риатай чалчиж байна.",
+      "chat_with_ria_anytime_separate_from_random_human": "Санамсаргүй хүмүүстэй хослохоос тусдаа, хүссэн үедээ Риатай чатлаарай."
+    },
+    "ria_rewrite": {
+      "original_text": "Анхны текст",
+      "choose_tone": "Тон сонго",
+      "rewriting": "Дахин бичих…",
+      "suggestions": "Санал",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Дахин бичих санал үүсгэхийн тулд тоныг сонгоно уу."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Үнэгүй нь үндсэн дуу авилуудыг агуулдаг. Илүү олон аялгуу, дуудлагын аяыг нээхийн тулд шинэчлэлт хийх боломжтой.",
+      "volume": "Эзлэхүүн",
+      "message_tone": "Мессежийн өнгө аяс",
+      "ringtone": "Дууны дохио"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Одоогоор дууны зурвас байхгүй байна.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Хэн нэгэн танд дуу хоолойн зурвас үлдээхэд,\nэнэ энд гарч ирнэ.",
+      "play_voicemail": "Дуут мэндчиллийг тоглуулах",
+      "delete_voicemail": "Дуу хоолойн мессежийг устгах"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Сонгогдсон дууны шуудангийн зурвас"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Таны одоо байгаа улс эсвэл ойр орчмын ашиглалтад зориулсан хамгаалалт.",
+      "coverage_across_supported_european_destinations": "Дэмжигддэг Европын чиглэлүүдэд үзүүлэх хамрах хүрээ.",
+      "coverage_across_supported_global_destinations": "Дэмжигддэг дэлхийн бүх чиглэлүүдэд үйлчилгээний хамрах хүрээ."
+    },
+    "wireless_home": {
+      "manage_wireless": "Утасгүй сүлжээг удирдах",
+      "port_my_number": "Миний дугаарыг шилжүүлэх",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM дата багцууд нь eSIM-тэй нийцтэй, түгжээгүй төхөөрөмж шаарддаг.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Аялаж явахдаа эсвэл Wi-Fi-гүй үед холбогдсон хэвээр байгаарай.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Орон нутгийн, Европын эсвэл Дэлхийн хамрах хүрээнд нэг удаагийн eSIM дата багцыг сонгоно уу.",
+      "we_don_t_sell_data_packs_under_3_gb": "Бид 3 ГБ-аас бага дата багцыг худалдаалдаггүй.",
+      "loading_usage": "Ашиглалтыг ачаалж байна…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Одоогоор идэвхтэй өгөгдлийн багц байхгүй байна. Хэрэглээгээ хянахын тулд доорх багцыг худалдаж аваарай.",
+      "usage_details_will_appear_once_your_data_pack_is": "Өгөгдлийн багц идэвхжсэн даруйд хэрэглээний дэлгэрэнгүй мэдээлэл харагдана.",
+      "manage": "Удирдах",
+      "coverage": "Хүрээ",
+      "your_esim": "Таны eSIM",
+      "current_usage": "Одоогийн хэрэглээ"
+    }
   }
 }

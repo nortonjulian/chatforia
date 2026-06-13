@@ -3066,7 +3066,8 @@
     "flip": "Käännä",
     "speaker": "Puhuja",
     "end": "Loppu",
-    "noIncomingCallToAnswer": "Ei tulevaa puhelua vastattavaksi."
+    "noIncomingCallToAnswer": "Ei tulevaa puhelua vastattavaksi.",
+    "serviceUnavailable": "Puhelinpalvelu ei ole tällä hetkellä käytettävissä. Yritä myöhemmin uudelleen."
   },
   "settings": {
     "startHour": "Aloitustunti (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Pimeä",
   "accessibility_caption_bg_transparent": "Läpinäkyvä",
   "api": {
-    "notAuthorized": "Ei sallittu"
+    "notAuthorized": "Ei sallittu",
+    "invalidURL": "Palvelimen osoite on virheellinen.",
+    "serverError": "Palvelinvirhe (%d): %@",
+    "failedToDecodeResponse": "Palvelimen vastausta ei voitu lukea: %@"
+  },
+  "tap_to_view_contact": "Napauta nähdäksesi yhteystiedot",
+  "android": {
+    "plan": {
+      "plan_billing": "Sopimus ja laskutus",
+      "current_plan": "Nykyinen suunnitelma",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Siirry Plus-versioon ilman mainoksia tai avaa tekoälytyökalut ja mukautusmahdollisuudet Premium-versiolla.",
+      "plus": "Lisäksi",
+      "premium": "Premium",
+      "back": "Takaisin",
+      "my_plan": "Suunnitelmani",
+      "compare_plans": "Vertaa paketteja",
+      "included": "Sisältyy"
+    },
+    "upgrade": {
+      "upgrade": "Päivitä",
+      "restore_purchases": "Palauta ostokset",
+      "unlock_more_with": "Ota kaikki irti Chatforiasta",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Valitse Plus- tai Premium-versio, jotta voit poistaa mainokset, mukauttaa käyttökokemustasi ja saada käyttöösi lisätoimintoja.",
+      "best_experience": "Paras kokemus",
+      "close": "Sulje",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Poista mainokset ja avaa lisää arkipäivän toimintoja.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Täydellinen Chatforia-kokemus.",
+      "premium_annual": "Premium-vuosikortti",
+      "save_compared_to_monthly_premium": "Säästä verrattuna kuukausittaiseen Premium-pakettiin."
+    },
+    "audio_call": {
+      "mute": "Mykistä",
+      "speaker": "Puhuja",
+      "end_call": "Lopeta puhelu"
+    },
+    "dial_pad": {
+      "dial": "Valinta",
+      "done": "Valmis",
+      "enter_number": "Kirjoita numero",
+      "call": "Soita",
+      "delete_digit": "Poista numero"
+    },
+    "incoming_call": {
+      "decline": "Lasku",
+      "accept": "Hyväksy",
+      "decline_call": "Hylkää puhelu",
+      "accept_call": "Vastaa puheluun"
+    },
+    "video_call": {
+      "camera": "Kamera",
+      "flip_camera": "Flip-kamera"
+    },
+    "chats": {
+      "search_chats": "Hae keskusteluja",
+      "no_chats_yet": "Ei vielä keskusteluja",
+      "admob_ad": "AdMob-mainos",
+      "delete_conversation": "Poistetaanko keskustelu?",
+      "this_will_remove_this_conversation_from_your_cha": "Tämä poistaa tämän keskustelun chat-luettelostasi.",
+      "delete": "Poista",
+      "cancel": "Peruuta",
+      "chats": "Keskustelut",
+      "new_chat": "Uusi keskustelu",
+      "refresh": "Päivitä",
+      "random_chat": "Satunnainen chat",
+      "search": "Haku",
+      "delete_conversation_2": "Poista keskustelu"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Käyttäjätunnus, yhteyshenkilön nimi tai puhelinnumero",
+      "new_chat": "Uusi keskustelu",
+      "start_a_chat": "Aloita keskustelu",
+      "search_by_username_contact_name_or_phone_number": "Hae käyttäjätunnuksen, yhteyshenkilön nimen tai puhelinnumeron perusteella.",
+      "results": "Tulokset",
+      "open_chat": "Avaa chat"
+    },
+    "calls": {
+      "recents": "Viimeisimmät",
+      "voicemail": "Puhelinvastaaja",
+      "calls": "Puhelut",
+      "no_calls_yet": "Ei vielä puheluita",
+      "your_recent_calls_will_show_up_here": "Viimeisimmät puhelusi näkyvät tässä.",
+      "open_dial_pad": "Avaa numeronäppäimistö",
+      "delete_call": "Poista puhelu",
+      "video_call": "Videopuhelu"
+    },
+    "contacts": {
+      "contacts": "Yhteystiedot",
+      "add_contact": "Lisää yhteystieto",
+      "import_from_phone": "Tuo puhelimesta",
+      "invite_friends": "Kutsu ystäviä",
+      "favorite": "Suosikki",
+      "open_contact": "Avoin yhteys"
+    },
+    "main_activity": {
+      "loading": "Ladataan...",
+      "profile": "Profiili"
+    },
+    "profile": {
+      "delete_account": "Poista tili",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Tätä toimintoa ei voi peruuttaa. Haluatko varmasti poistaa tilisi?",
+      "log_out": "Kirjaudu ulos",
+      "change_photo": "Vaihda kuva",
+      "remove_photo": "Poista valokuva",
+      "preferred_language": "Ensisijainen kieli",
+      "your_age_range": "Ikäryhmäsi",
+      "theme": "Teema",
+      "choose_how_looks_across_the_app": "Valitse, miltä Chatforia näyttää sovelluksessa.",
+      "uploading": "Lataamassa…",
+      "choose_plus_or_premium": "Valitse Plus tai Premium",
+      "profile_photo": "Profiilikuva",
+      "open_upgrade": "Avoin päivitys",
+      "open": "Avaa",
+      "account": "Tili",
+      "username": "Käyttäjätunnus",
+      "email": "Sähköposti",
+      "plan": "Suunnitelma",
+      "wireless": "Langaton",
+      "mobile": "Chatforia Mobile",
+      "esim_and_wireless_settings": "eSIM- ja langattomat asetukset",
+      "call_text_forwarding": "Puheluiden ja tekstiviestien edelleenohjaus",
+      "forward_incoming_calls_and_texts": "Siirrä saapuvat puhelut ja tekstiviestit",
+      "phone_number": "Puhelinnumero",
+      "manage_your_number": "Hallinnoi Chatforia-numeroasi",
+      "settings": "Asetukset",
+      "auto_translate_messages": "Viestien automaattinen käännös",
+      "automatically_translate_messages_into_your_prefe": "Käännä viestit automaattisesti haluamallesi kielelle.",
+      "show_original_with_translation": "Näytä alkuperäinen teksti ja käännös",
+      "show_the_original_message_alongside_the_translat": "Näytä alkuperäinen viesti käännöksen vieressä.",
+      "smart_reply_suggestions": "Älykkäät vastausehdotukset",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Näytä Ria-pohjainen tekstinmuokkausapu ja pikavastaukset.",
+      "linked_devices": "Yhdistetyt laitteet",
+      "manage_trusted_devices": "Hallitse luotettavia laitteita",
+      "pair_new_device": "Yhdistä uusi laite",
+      "approve_a_new_device": "Hyväksy uusi laite",
+      "appearance": "Ulkonäkö",
+      "accessibility": "Esteettömyys",
+      "visual_alerts_captions_and_voice_note_accessibil": "Visuaaliset hälytykset, tekstitykset ja äänimuistiinpanojen esteettömyys",
+      "security": "Turvallisuus",
+      "encryption_key_protected": "Salausavaimella suojattu",
+      "privacy": "Tietosuoja",
+      "allow_explicit_content": "Salli aikuisille suunnattu sisältö",
+      "show_read_receipts": "Näytä lukukuittaukset",
+      "blur_messages_by_default": "Hämärtää viestit oletuksena",
+      "blur_when_app_is_unfocused": "Hämärtää, kun sovellus ei ole valittuna",
+      "hold_to_reveal_messages": "Pidä painettuna, niin viestit tulevat näkyviin",
+      "notify_when_messages_are_copied": "Ilmoita, kun viestejä kopioidaan",
+      "random_chat": "Satunnainen chat",
+      "use_age_based_matching": "Käytä ikään perustuvaa hakua",
+      "let_ria_remember_conversations": "Annetaan Rian muistaa keskustelut",
+      "forward_voicemail_to_email": "Välitä vastaajaviestit sähköpostiin",
+      "legal_support": "Oikeudelliset asiat ja tuki",
+      "free": "Ilmainen"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Vaihtoehtoja, joilla Chatforian käyttöä voi helpottaa ilman ääniä.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Tekstin koko on oletusarvoisesti normaali. Voit suurentaa tekstiä esteettömyysasetuksissa, jos haluat lukea suuremmalla tekstillä.",
+      "interface_font_size": "Käyttöliittymän fonttikoko",
+      "notifications": "Ilmoitukset",
+      "visual_alerts_for_messages_calls": "Viestien ja puheluiden visuaaliset hälytykset",
+      "show_banners_and_visual_indicators_so_you_do_not": "Näytä bannerit ja visuaaliset merkit, jotta et jää paitsi toiminnasta.",
+      "vibrate_on_new_messages": "Värinä uusista viesteistä",
+      "trigger_device_vibration_with_notifications_when": "Käynnistä laitteen värinäilmoitukset, jos laite tukee tätä ominaisuutta.",
+      "flash_screen_on_incoming_call": "Välähdysnäyttö saapuvan puhelun yhteydessä",
+      "briefly_flash_the_screen_when_a_call_rings": "Näytä näytöllä lyhyt vilkahdus, kun puhelu soi.",
+      "live_captions": "Reaaliaikaiset tekstitykset",
+      "enable_live_captions": "Ota reaaliaikaiset tekstitykset käyttöön",
+      "show_real_time_captions_during_calls_premium_req": "Näytä reaaliaikaiset tekstitykset puhelun aikana. Edellyttää Premium-tilausta.",
+      "caption_font_size": "Kuvatekstin fonttikoko",
+      "caption_background": "Kuvatekstin tausta",
+      "voice_notes": "Äänimuistiinpanot",
+      "auto_transcribe_voice_notes": "Äänimuistiinpanojen automaattinen tekstiksi muuntaminen",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Liitä teksti saamiisi ääniviesteihin."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Olen palauttanut avaimeni",
+      "restore_encryption": "Palauta salaus"
+    },
+    "language_selection": {
+      "select_language": "Valitse kieli"
+    },
+    "login": {
+      "email_or_username": "Sähköpostiosoite tai käyttäjätunnus",
+      "password": "Salasana",
+      "forgot_password": "Unohditko salasanasi?",
+      "resend_verification_email": "Lähetä vahvistussähköposti uudelleen",
+      "reset_encryption": "Nollaa salaus",
+      "create_an_account": "Luo tili",
+      "welcome_to": "Tervetuloa Chatforiaan",
+      "sign_in_or_create_an_account": "Kirjaudu sisään tai luo tili",
+      "or": "tai",
+      "don_t_have_an_account_yet": "Eikö sinulla ole vielä tiliä?"
+    },
+    "onboarding": {
+      "welcome": "Tervetuloa",
+      "set_up_your_profile_so_can_personalize_your_expe": "Määritä profiilisi asetukset, jotta Chatforia voi räätälöidä käyttökokemuksesi.",
+      "choose_a_username": "Valitse käyttäjätunnus",
+      "this_is_how_people_will_recognize_you_in": "Näin muut tunnistavat sinut Chatforiassa.",
+      "choose_your_language": "Valitse kieli",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia käyttää näitä tietoja käännöksiin ja sovelluskokemuksesi parantamiseen.",
+      "you_re_ready": "Olet valmis",
+      "start_chatting_calling_translating_and_connectin": "Aloita keskusteleminen, soittaminen, kääntäminen ja yhteydenpito ihmisiin ympäri maailmaa."
+    },
+    "register": {
+      "confirm_password": "Vahvista salasana",
+      "phone_optional": "Puhelin valinnainen",
+      "log_in": "Kirjaudu sisään",
+      "create_your_account": "Luo tili",
+      "start_chatting_across_languages_with": "Aloita kieltenvälinen keskustelu Chatforian avulla.",
+      "i_agree_to_receive_sms_verification_messages": "Hyväksyn, että minulle lähetetään vahvistusviestejä tekstiviestillä.",
+      "already_have_an_account": "Onko sinulla jo tili?"
+    },
+    "add_contact": {
+      "phone": "Puhelin",
+      "name": "Nimi",
+      "alias_optional": "Alias (valinnainen)",
+      "pin_this_person_as_a_favorite_contact": "Lisää tämä henkilö suosikkikontakteihin."
+    },
+    "contact_detail": {
+      "edit_contact": "Muokkaa yhteystietoja",
+      "delete_contact": "Poista yhteystieto",
+      "message": "Viesti",
+      "video": "Video",
+      "external_name": "Ulkoinen nimi"
+    },
+    "import_phone_contacts": {
+      "select_all": "Valitse kaikki",
+      "clear": "Tyhjennä",
+      "import_contacts": "Tuo yhteystiedot"
+    },
+    "invite_friends": {
+      "share_invite_link": "Jaa kutsulinkki",
+      "invite_friends": "Kutsu ystäviä",
+      "share_a_invite_link_with_friends_using_messages_": "Jaa Chatforia-kutsulinkki ystävillesi Viestit-sovelluksen, sähköpostin tai minkä tahansa puhelimesi sovelluksen kautta."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Yhdistä uusi laite",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Avaa Chatforia uudella laitteellasi ja kirjaudu sisään. Jos sovellus pyytää pääsyä salattuihin keskusteluihisi, hyväksy pyyntö luotettavalla laitteella.",
+      "view_pending_device_requests": "Tarkastele odottavia laitepyyntöjä"
+    },
+    "key_setup": {
+      "recovery_passcode": "Palautuskoodi",
+      "confirm_recovery_passcode": "Vahvista palautuskoodi",
+      "restore_chats": "Palauta keskustelut",
+      "clear_local_key": "Tyhjennä paikallinen avain",
+      "reset_encryption": "Nollata salaus?",
+      "this_will_permanently_replace_your_encryption_ke": "Tämä korvaa salausavaimesi pysyvästi.",
+      "encryption": "Salaus",
+      "restore_encrypted_chats": "Palauta salatut keskustelut",
+      "no_recovery_backup_found": "Palautusvarmuuskopiota ei löytynyt",
+      "open_on_a_device_that_can_already_read_your_encr": "Avaa Chatforia laitteella, joka pystyy jo lukemaan salatut keskustelusi, ja luo siellä palautuskoodi.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Varmuuskopiota ei ole vielä löydetty. Luo varmuuskopio tästä laitteesta, jotta voit palauttaa keskustelut iOS-, Android- ja verkkosovelluksissa.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Käytä tätä vaihtoehtoa vain, jos olet menettänyt kaikki luotetut laitteet etkä voi palauttaa alkuperäistä avainta."
+    },
+    "linked_devices": {
+      "your_devices": "Laitteesi",
+      "pending_approvals": "Hyväksynnät odottavat",
+      "approve": "Hyväksy",
+      "reject": "Hylkää",
+      "revoke": "Peruuta",
+      "request_approval_for_this_device": "Pyydä hyväksyntää tälle laitteelle",
+      "finish_device_approval": "Laitteen hyväksynnän loppuun saattaminen"
+    },
+    "forwarding_settings": {
+      "reset": "Nollaa",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Ohjaa saapuvat puhelut ja tekstiviestit vahvistettuun puhelimeesi tai sähköpostiisi.",
+      "quiet_hours": "Hiljaisuusajat",
+      "forwarding": "Välitys",
+      "enable_text_forwarding": "Ota tekstiviestien edelleenlähetys käyttöön",
+      "forward_texts_to_phone": "Lähetä tekstiviestit puhelimeen",
+      "forward_texts_to_email": "Välitä tekstiviestit sähköpostiin",
+      "enable_call_forwarding": "Ota puhelunsiirto käyttöön"
+    },
+    "chat_message_row": {
+      "copy": "Kopioi",
+      "edit": "Muokkaa",
+      "report": "Raportti",
+      "message_info": "Viestin tiedot"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Vielä ei ole viestejä",
+      "delete_message": "Poistetaanko viesti?",
+      "choose_how_you_want_to_delete_this_message": "Valitse, miten haluat poistaa tämän viestin.",
+      "delete_for_everyone": "Poista kaikilta",
+      "delete_for_me": "Poista puolestani",
+      "search_messages": "Hae viestejä",
+      "search_in_chat": "Hae keskustelusta",
+      "sending": "Lähetetään…",
+      "failed_to_send": "Lähetys epäonnistui",
+      "edited": "Muokattu",
+      "audio_call": "Äänipuhelu",
+      "video_call": "Videopuhelu",
+      "selected_gif": "Valittu GIF",
+      "remove_gif": "Poista GIF",
+      "attach": "Liitä",
+      "rewrite_with_ria": "Kirjoita uudelleen Rian kanssa",
+      "composer_action": "Säveltäjän toiminta"
+    },
+    "edit_message": {
+      "save": "Tallenna",
+      "emoji": "Emoji",
+      "edit_message": "Muokkaa viestiä"
+    },
+    "message_attachments": {
+      "image_attachment": "Kuvaliite",
+      "video_attachment": "Videoliite",
+      "play_video": "Toista video"
+    },
+    "message_bubble": {
+      "disappearing_message": "Katoava viesti"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Kukaan ei ole vielä lukenut tätä",
+      "message_info": "Viestin tiedot"
+    },
+    "report_message": {
+      "reason": "Syy",
+      "include_previous_messages": "Lisää aiemmat viestit",
+      "additional_details": "Lisätietoja",
+      "anything_else_moderators_should_know": "Onko vielä jotain muuta, mitä moderaattoreiden tulisi tietää?",
+      "block_this_user_after_reporting": "Estä tämä käyttäjä ilmoituksen jälkeen",
+      "submit_report": "Lähetä ilmoitus",
+      "report_message": "Ilmoita viestistä"
+    },
+    "phone_number": {
+      "replace_number": "Korvaa numero",
+      "pick_a_number": "Valitse numero",
+      "no_number_assigned": "Chatforia-numeroa ei ole annettu.",
+      "your_number": "Chatforia-numerosi"
+    },
+    "pick_number": {
+      "area_code": "Suuntanumero",
+      "premium_numbers_are_protected_from_recycling": "Premium-numerot on suojattu uudelleenkäytöltä.",
+      "available_numbers": "Saatavilla olevat numerot",
+      "search_by_area_code_to_find_available_numbers": "Hae saatavilla olevia numeroita suuntanumeron perusteella.",
+      "capability": "Ominaisuus",
+      "country": "Maa"
+    },
+    "gif_picker": {
+      "search_tenor": "Hae Tenor",
+      "search_gifs": "Hae GIF-kuvia"
+    },
+    "random_chat": {
+      "add_friend": "Lisää ystävä",
+      "skip": "Ohita",
+      "send": "Lähetä",
+      "end_chat": "Lopeta keskustelu"
+    },
+    "random_matching": {
+      "finding_someone": "Löytää joku"
+    },
+    "ria_chat": {
+      "ask_ria": "Kysy Rialta...",
+      "you_re_now_chatting_with_ria": "Keskustelet nyt Rian kanssa",
+      "chat_with_ria_anytime_separate_from_random_human": "Voit keskustella Rian kanssa milloin tahansa, ilman satunnaista ihmisten välistä parinmuodostusta."
+    },
+    "ria_rewrite": {
+      "original_text": "Alkuperäinen teksti",
+      "choose_tone": "Valitse sävy",
+      "rewriting": "Uudelleenkirjoittaminen…",
+      "suggestions": "Ehdotuksia",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Valitse sävy, jotta saat ehdotuksia tekstin uudelleenkirjoittamiseen."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Ilmaisversio sisältää perusäänet. Päivitä saadaksesi lisää ääniä ja soittoääniä.",
+      "volume": "Tilavuus",
+      "message_tone": "Viestin äänimerkki",
+      "ringtone": "Soittoääni"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Vielä ei ole viestejä.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Kun joku jättää sinulle ääniviestin,\nse näkyy tässä.",
+      "play_voicemail": "Toista vastaajaviesti",
+      "delete_voicemail": "Poista vastaajaviesti"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Valittu vastaajaviesti"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Kattavuus nykyisessä maassasi tai lähialueilla.",
+      "coverage_across_supported_european_destinations": "Kattavuus kaikissa tuetuissa eurooppalaisissa kohteissa.",
+      "coverage_across_supported_global_destinations": "Kattavuus kaikissa tuetuissa kohteissa ympäri maailmaa."
+    },
+    "wireless_home": {
+      "manage_wireless": "Langattomien verkkojen hallinta",
+      "port_my_number": "Siirrä numeroni",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM-datapaketit edellyttävät eSIM-yhteensopivaa ja lukitsematonta laitetta.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Pysy yhteydessä, kun olet matkalla tai poissa Wi-Fi-verkon ulottuvilta.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Valitse kertakäyttöinen eSIM-datapaketti, joka kattaa paikallisen, Euroopan tai maailmanlaajuisen verkon.",
+      "we_don_t_sell_data_packs_under_3_gb": "Emme myy alle 3 Gt:n datapaketteja.",
+      "loading_usage": "Lataa käyttötietoja…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Aktiivista datapakettia ei ole vielä. Osta paketti alla olevista vaihtoehdoista, jotta voit alkaa seurata datankäyttöäsi.",
+      "usage_details_will_appear_once_your_data_pack_is": "Käyttötiedot näkyvät, kun datapakettisi on aktivoitu.",
+      "manage": "Hallinnoi",
+      "coverage": "Kattavuus",
+      "your_esim": "Sinun eSIM-korttisi",
+      "current_usage": "Nykyinen käyttö"
+    }
   }
 }

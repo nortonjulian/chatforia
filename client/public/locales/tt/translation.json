@@ -3066,7 +3066,8 @@
     "flip": "Айлан",
     "speaker": "Сөйләүче",
     "end": "Ахыр",
-    "noIncomingCallToAnswer": "Җавап бирергә килүче шалтырату юк."
+    "noIncomingCallToAnswer": "Җавап бирергә килүче шалтырату юк.",
+    "serviceUnavailable": "Шалтырату хезмәте хәзерге вакытта эшләми. Зинһар, соңрак яңадан тырышыгыз."
   },
   "settings": {
     "startHour": "Башлану сәгате (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Караңгы",
   "accessibility_caption_bg_transparent": "Ачык",
   "api": {
-    "notAuthorized": "Рөхсәт ителмәгән"
+    "notAuthorized": "Рөхсәт ителмәгән",
+    "invalidURL": "Сервер адресы дөрес түгел.",
+    "serverError": "Сервер хатасы (%d): %@",
+    "failedToDecodeResponse": "Сервер җавабын укый алмады: %@"
+  },
+  "tap_to_view_contact": "Контактны карау өчен басыгыз",
+  "android": {
+    "plan": {
+      "plan_billing": "План һәм түләүләр",
+      "current_plan": "Хәзерге план",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Plus белән рекламасыз кулланыгыз, яки Premium белән AI кораллары һәм көйләү мөмкинлекләрен ачыгыз.",
+      "plus": "Өстәвенә",
+      "premium": "Премиум",
+      "back": "Кире",
+      "my_plan": "Минем планым",
+      "compare_plans": "Планнарны чагыштыру",
+      "included": "Кертелгән"
+    },
+    "upgrade": {
+      "upgrade": "Яңарту",
+      "restore_purchases": "Сатып алынганнарны торгызыгыз",
+      "unlock_more_with": "Chatforia белән тагын да күбрәк мөмкинлекләр ачыгыз",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Рекламаны бетерү, тәҗрибәгезне көйләү һәм алдынгы коралларны ачу өчен Plus яки Premiumны сайлагыз.",
+      "best_experience": "Иң яхшы тәҗрибә",
+      "close": "Ябырга",
+      "plus": "Чатфория Плюс",
+      "remove_ads_and_unlock_more_everyday_features": "Рекламаны бетерегез һәм көндәлек күбрәк функцияләргә керү мөмкинлеген ачыгыз.",
+      "premium": "Чатфория Премиум",
+      "the_full_experience": "Тулы Чатфория тәҗрибәсе.",
+      "premium_annual": "Премиум еллык",
+      "save_compared_to_monthly_premium": "Айлык Премиум белән чагыштырганда экономияләгез."
+    },
+    "audio_call": {
+      "mute": "Тавышсыз",
+      "speaker": "Сөйләүче",
+      "end_call": "Шалтыратуны тәмамлагыз"
+    },
+    "dial_pad": {
+      "dial": "Айландыру",
+      "done": "Бетте",
+      "enter_number": "Санны кертегез",
+      "call": "Шалтыратыгыз",
+      "delete_digit": "Санны бетерү"
+    },
+    "incoming_call": {
+      "decline": "Кәмеү",
+      "accept": "Кабул ит",
+      "decline_call": "Шалтыратуны кире кагу",
+      "accept_call": "Шалтыратуны кабул ит"
+    },
+    "video_call": {
+      "camera": "Камера",
+      "flip_camera": "Флип камера"
+    },
+    "chats": {
+      "search_chats": "Сөйләшүләрне эзләү",
+      "no_chats_yet": "Әле сөйләшүләр юк",
+      "admob_ad": "AdMob рекламасы",
+      "delete_conversation": "Сөйләшүне бетерергә?",
+      "this_will_remove_this_conversation_from_your_cha": "Бу әңгәмәне сезнең чат исемлегеннән бетерәчәк.",
+      "delete": "Бетерү",
+      "cancel": "Бөтерү",
+      "chats": "Сөйләшүләр",
+      "new_chat": "Яңа чат",
+      "refresh": "Яңарту",
+      "random_chat": "Очраклы чат",
+      "search": "Эзләү",
+      "delete_conversation_2": "Сөйләшүне бетерү"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Кулланучы исеме, элемтә исеме яки телефон номеры",
+      "new_chat": "Яңа чат",
+      "start_a_chat": "Сөйләшүне башла",
+      "search_by_username_contact_name_or_phone_number": "Кулланучы исеме, элемтә исеме яки телефон номеры буенча эзләгез.",
+      "results": "Нәтиҗәләр",
+      "open_chat": "Чатны ачу"
+    },
+    "calls": {
+      "recents": "Соңгылар",
+      "voicemail": "Тавышлы почта",
+      "calls": "Шалтыратулар",
+      "no_calls_yet": "Әле шалтыратулар юк",
+      "your_recent_calls_will_show_up_here": "Сезнең соңгы шалтыратуларыгыз монда күренәчәк.",
+      "open_dial_pad": "Шифр тактасын ачу",
+      "delete_call": "Шалтыратуны бетерү",
+      "video_call": "Видеошалтырату"
+    },
+    "contacts": {
+      "contacts": "Контактлар",
+      "add_contact": "Контакт өстәргә",
+      "import_from_phone": "Телефоннан импортлау",
+      "invite_friends": "Дусларыңны чакыр",
+      "favorite": "Яраткан",
+      "open_contact": "Элемтәгә керегез"
+    },
+    "main_activity": {
+      "loading": "Йөкләнә...",
+      "profile": "Профиль"
+    },
+    "profile": {
+      "delete_account": "Хисап язмасын бетерү",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Бу гамәлне кире кайтару мөмкин түгел. Сез чынлап та исәп язмагызны бетерергә телисезме?",
+      "log_out": "Чыгу",
+      "change_photo": "Фотоны үзгәртергә",
+      "remove_photo": "Фотоны бетерү",
+      "preferred_language": "Өстен тел",
+      "your_age_range": "Сезнең яшь диапазоныгыз",
+      "theme": "Тема",
+      "choose_how_looks_across_the_app": "Кушымта буйлап Chatforia ничек күренүен сайлагыз.",
+      "uploading": "Йөкләнә…",
+      "choose_plus_or_premium": "Плюс яки Премиумны сайлагыз",
+      "profile_photo": "Профиль фотосы",
+      "open_upgrade": "Яңартуны ачу",
+      "open": "Ачык",
+      "account": "Хисап язмасы",
+      "username": "Кулланучы исеме",
+      "email": "Электрон почта",
+      "plan": "План",
+      "wireless": "Сымсыз",
+      "mobile": "Чатфория Мобайл",
+      "esim_and_wireless_settings": "eSIM һәм чыбыксыз көйләүләр",
+      "call_text_forwarding": "Шалтыратуларны һәм текст хәбәрләрен юллау",
+      "forward_incoming_calls_and_texts": "Керүче шалтыратуларны һәм текст хәбәрләрен алга җибәрү",
+      "phone_number": "Телефон номеры",
+      "manage_your_number": "Үз Чатфория номерыгызны идарә итегез",
+      "settings": "Көйләүләр",
+      "auto_translate_messages": "Хәбәрләрне автомат тәрҗемә итү",
+      "automatically_translate_messages_into_your_prefe": "Хәбәрләрне автоматик рәвештә сез сайлаган телгә тәрҗемә итегез.",
+      "show_original_with_translation": "Тәрҗемә белән бергә оригиналын күрсәтергә",
+      "show_the_original_message_alongside_the_translat": "Төп хәбәрне тәрҗемә белән янәшә күрсәтегез.",
+      "smart_reply_suggestions": "Акыллы җавап тәкъдимнәре",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Ria-га көйләнгән яңадан язу ярдәме һәм тиз җавапларны күрсәтегез.",
+      "linked_devices": "Бәйләнгән җайланмалар",
+      "manage_trusted_devices": "Ышанычлы җайланмаларны идарә итү",
+      "pair_new_device": "Яңа җайланманы парлаштыру",
+      "approve_a_new_device": "Яңа җайланманы раслау",
+      "appearance": "Тышкы кыяфәт",
+      "accessibility": "Кереп җитү мөмкинлеге",
+      "visual_alerts_captions_and_voice_note_accessibil": "Визуаль кисәтүләр, язу аңлатмалары һәм тавыш язмаларына керү мөмкинлеге",
+      "security": "Иминлек",
+      "encryption_key_protected": "Шифрлау ачкычы сакланган",
+      "privacy": "Шәхси мәгълүматларның яшеренлеге",
+      "allow_explicit_content": "Ачык эчтәлеккә рөхсәт итегез",
+      "show_read_receipts": "Укылганлык квитанцияләрен күрсәтергә",
+      "blur_messages_by_default": "Хәбәрләрне стандарт рәвештә томалау",
+      "blur_when_app_is_unfocused": "Кушымта фокустан читтә булганда боза",
+      "hold_to_reveal_messages": "Тотып торсаң хәбәрләр күренә",
+      "notify_when_messages_are_copied": "Хәбәрләр күчерелгәндә хәбәр итү",
+      "random_chat": "Очраклы чат",
+      "use_age_based_matching": "Яшькә нигезләнгән туры китерүне кулланыгыз",
+      "let_ria_remember_conversations": "Рия сөйләшүләрне хәтерләсен",
+      "forward_voicemail_to_email": "Тавышлы почта хәбәрләрен электрон почтага җибәрү",
+      "legal_support": "Юридик ярдәм һәм хуплау",
+      "free": "Бушлай"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Тавышка таянмыйча Chatforia'ны куллануны җиңеләйтү вариантлары.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Башта ул гадәти зурлыкта башлана. Әгәр дә сезгә зуррак текст кирәк булса, аны уңайлылык көйләүләрендә арттырыгыз.",
+      "interface_font_size": "Интерфейс шрифт зурлыгы",
+      "notifications": "Хәбәрләр",
+      "visual_alerts_for_messages_calls": "Хәбәрләр һәм шалтыратулар өчен визуаль кисәтүләр",
+      "show_banners_and_visual_indicators_so_you_do_not": "Чараларны калдырмас өчен баннерлар һәм визуаль күрсәткечләр күрсәтегез.",
+      "vibrate_on_new_messages": "Яңа хәбәрләр килгәндә тибрәнү",
+      "trigger_device_vibration_with_notifications_when": "Ярдәм иткән очракта хәбәрләр белән җайланма тибрәнүен эшләтү",
+      "flash_screen_on_incoming_call": "Керүче шалтыратуда Флеш экраны",
+      "briefly_flash_the_screen_when_a_call_rings": "Шалтырату яңгыраганда экранны кыска гына яктыртып күрсәт.",
+      "live_captions": "Туры эфир субтитрлары",
+      "enable_live_captions": "Туры эфир субтитрларын кабызыгыз",
+      "show_real_time_captions_during_calls_premium_req": "Шалтыратулар вакытында реаль вакыттагы субтитрларны күрсәтегез. Премиум кирәк.",
+      "caption_font_size": "Язу язуының зурлыгы",
+      "caption_background": "Язу асты фон",
+      "voice_notes": "Тавыш язмалары",
+      "auto_transcribe_voice_notes": "Тавыш язмаларын автомат рәвештә транскрипцияләү",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Алган аудио хәбәрләргә транскрипт өстәгез."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Мин ачкычымны торгыздым",
+      "restore_encryption": "Шифрлауны торгызу"
+    },
+    "language_selection": {
+      "select_language": "Телне сайлагыз"
+    },
+    "login": {
+      "email_or_username": "Электрон почта яки кулланучы исеме",
+      "password": "Шифр сүзе",
+      "forgot_password": "Парольне оныттыгызмы?",
+      "resend_verification_email": "Раслау электрон почтасын яңадан җибәрү",
+      "reset_encryption": "Шифрлауны яңадан көйләү",
+      "create_an_account": "Хисап язмасы булдыру",
+      "welcome_to": "Чатфориягә рәхим итегез",
+      "sign_in_or_create_an_account": "Керегез яки яңа исәп язмасы булдырыгыз",
+      "or": "яки",
+      "don_t_have_an_account_yet": "Әле исәп язмагыз юкмы?"
+    },
+    "onboarding": {
+      "welcome": "Рәхим итегез",
+      "set_up_your_profile_so_can_personalize_your_expe": "Профилегезне көйләгез, шулай итеп Chatforia сезнең тәҗрибәгезне шәхси итә ала.",
+      "choose_a_username": "Кулланучы исемен сайлагыз",
+      "this_is_how_people_will_recognize_you_in": "Шулай итеп кешеләр сине Chatforiaда танырлар.",
+      "choose_your_language": "Үз телен сайлагыз",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia моны тәрҗемәләр һәм сезнең кушымта тәҗрибәгез өчен кулланачак.",
+      "you_re_ready": "Син әзер",
+      "start_chatting_calling_translating_and_connectin": "Сөйләшүне, шалтыратуны, тәрҗемә итүне һәм бөтен дөнья буйлап кешеләр белән элемтәгә керүне башлагыз."
+    },
+    "register": {
+      "confirm_password": "Параметрны раслагыз",
+      "phone_optional": "Телефон ихтыяри",
+      "log_in": "Керегез",
+      "create_your_account": "Хисабыгызны булдырыгыз",
+      "start_chatting_across_languages_with": "Chatforia белән телләр арасында аралаша башлагыз.",
+      "i_agree_to_receive_sms_verification_messages": "Мин SMS раслату хәбәрләрен алырга ризамын.",
+      "already_have_an_account": "Сездә инде аккаунт бармы?"
+    },
+    "add_contact": {
+      "phone": "Телефон",
+      "name": "Исем",
+      "alias_optional": "Алияс ихтыяри",
+      "pin_this_person_as_a_favorite_contact": "Бу кешене яраткан контакт итеп билгеләгез."
+    },
+    "contact_detail": {
+      "edit_contact": "Контактны үзгәртергә",
+      "delete_contact": "Контактны бетерү",
+      "message": "Хәбәр",
+      "video": "Видео",
+      "external_name": "Тышкы исем"
+    },
+    "import_phone_contacts": {
+      "select_all": "Барысын да сайлау",
+      "clear": "Ачык",
+      "import_contacts": "Контактларны импортлау"
+    },
+    "invite_friends": {
+      "share_invite_link": "Чакыру сылтамасын уртаклашыгыз",
+      "invite_friends": "Дусларыңны чакыр",
+      "share_a_invite_link_with_friends_using_messages_": "Messages, электрон почта яки телефоныңыздагы теләсә нинди кушымта аша дусларыгыз белән Chatforia чакыру сылтамасын уртаклашыгыз."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Яңа җайланманы парлаштыру",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Яңа җайланмагызда Chatforiaны ачыгыз һәм керегез. Әгәр ул сезнең шифрланган чатларыгызга керүне сорый икән, ышанычлы җайланмадан рөхсәт итегез.",
+      "view_pending_device_requests": "Көтеп торучы җайланма сорауларын карау"
+    },
+    "key_setup": {
+      "recovery_passcode": "Торгызу пароле",
+      "confirm_recovery_passcode": "Торгызу паронын раслагыз",
+      "restore_chats": "Сөйләшүләрне торгызу",
+      "clear_local_key": "Җирле ачкычны бетерү",
+      "reset_encryption": "Шифрлауны яңадан көйләргә?",
+      "this_will_permanently_replace_your_encryption_ke": "Бу сезнең шифрлау ачкычыгызны мәңгегә алыштырачак.",
+      "encryption": "Шифрлау",
+      "restore_encrypted_chats": "Шифрланган чатларны торгызыгыз",
+      "no_recovery_backup_found": "Күчермә саклау табылмады",
+      "open_on_a_device_that_can_already_read_your_encr": "Шифрланган чатларыгызны инде укый ала торган җайланмада Chatforiaны ачыгыз һәм анда торгызу паролен булдырыгыз.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Әлегә кадәр бернинди резерв күчермә табылмады. iOS, Android һәм вебтагы чатларны торгызу өчен бу җайланмадан яңа резерв күчермә булдырыгыз.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Бу ышанычлы җайланмаларның барысын да югалткан һәм оригиналь ачкычыгызны кире кайтара алмаган очракта гына кулланыгыз."
+    },
+    "linked_devices": {
+      "your_devices": "Сезнең җайланмаларыгыз",
+      "pending_approvals": "Разыйлыклар көтелә",
+      "approve": "Раслау",
+      "reject": "Кире кагу",
+      "revoke": "Кире кагу",
+      "request_approval_for_this_device": "Бу җайланма өчен раслау сорау",
+      "finish_device_approval": "Җайланманы раслауны тәмамлау"
+    },
+    "forwarding_settings": {
+      "reset": "Яңадан көйләү",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Керүче шалтыратуларны һәм текст хәбәрләрен расланган телефоныгызга яки электрон почтагызга юллагыз.",
+      "quiet_hours": "Тыныч сәгатьләр",
+      "forwarding": "Юллау",
+      "enable_text_forwarding": "Текстны күчерүне активлаштырыгыз",
+      "forward_texts_to_phone": "Текстларны телефонга җибәрү",
+      "forward_texts_to_email": "Текстларны электрон почтага җибәрү",
+      "enable_call_forwarding": "Шалтыратуларны күчерүне активлаштырыгыз"
+    },
+    "chat_message_row": {
+      "copy": "Күчерү",
+      "edit": "Үзгәртергә",
+      "report": "Хисап",
+      "message_info": "Хәбәр турында мәгълүмат"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Әле хәбәрләр юк",
+      "delete_message": "Хәбәрне бетерергә?",
+      "choose_how_you_want_to_delete_this_message": "Бу хәбәрне ничек бетерергә теләгәнегезне сайлагыз.",
+      "delete_for_everyone": "Барысы өчен бетерү",
+      "delete_for_me": "Минем өчен бетер",
+      "search_messages": "Хәбәрләрне эзләү",
+      "search_in_chat": "Чатта эзләү",
+      "sending": "Җибәрү…",
+      "failed_to_send": "Җибәрү уңышсыз булды",
+      "edited": "Төзәтелде",
+      "audio_call": "Аудио шалтырату",
+      "video_call": "Видеошалтырату",
+      "selected_gif": "Сайлап алынган GIF",
+      "remove_gif": "GIFны бетерү",
+      "attach": "Кушып җибәр",
+      "rewrite_with_ria": "Риа белән яңадан яз",
+      "composer_action": "Композитор гамәле"
+    },
+    "edit_message": {
+      "save": "Сакла",
+      "emoji": "Эмодзи",
+      "edit_message": "Хәбәрне үзгәртергә"
+    },
+    "message_attachments": {
+      "image_attachment": "Рәсем өстәмәсе",
+      "video_attachment": "Видео кушымтасы",
+      "play_video": "Видеоны уйнату"
+    },
+    "message_bubble": {
+      "disappearing_message": "Югала торган хәбәр"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Әле беркем дә моны укымаган",
+      "message_info": "Хәбәр турында мәгълүмат"
+    },
+    "report_message": {
+      "reason": "Сәбәп",
+      "include_previous_messages": "Алдагы хәбәрләрне дә кертергә",
+      "additional_details": "Өстәмә мәгълүмат",
+      "anything_else_moderators_should_know": "Модераторларга башка нәрсә белергә кирәкме?",
+      "block_this_user_after_reporting": "Хәбәр иткәннән соң бу кулланучыны блоклагыз",
+      "submit_report": "Хисапны тапшыру",
+      "report_message": "Хәбәрне хәбәр итү"
+    },
+    "phone_number": {
+      "replace_number": "Санны алыштыру",
+      "pick_a_number": "Сан сайлагыз",
+      "no_number_assigned": "Чатфорния номеры билгеләнмәде.",
+      "your_number": "Сезнең Чатфория номерыгыз"
+    },
+    "pick_number": {
+      "area_code": "Район коды",
+      "premium_numbers_are_protected_from_recycling": "Премиум номерлар яңадан кулланудан саклана.",
+      "available_numbers": "Бар номерлар",
+      "search_by_area_code_to_find_available_numbers": "Буш номерларны табу өчен төбәк коды буенча эзләгез.",
+      "capability": "Сәләт",
+      "country": "Ил"
+    },
+    "gif_picker": {
+      "search_tenor": "Тенор эзләү",
+      "search_gifs": "GIFларны эзләү"
+    },
+    "random_chat": {
+      "add_friend": "Дуска өстәргә",
+      "skip": "Узып кит",
+      "send": "Җибәр",
+      "end_chat": "Сөйләшүне тәмамлау"
+    },
+    "random_matching": {
+      "finding_someone": "Кемнедер табу"
+    },
+    "ria_chat": {
+      "ask_ria": "Риягә сорагыз...",
+      "you_re_now_chatting_with_ria": "Сез хәзер Риа белән сөйләшәсез.",
+      "chat_with_ria_anytime_separate_from_random_human": "Теләсә кайсы вакытта Риа белән аралашыгыз, очраклы кешеләр белән парлаштырудан аерым."
+    },
+    "ria_rewrite": {
+      "original_text": "Төп текст",
+      "choose_tone": "Тонны сайлагыз",
+      "rewriting": "Яңадан язу…",
+      "suggestions": "Тәкъдимнәр",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Яңадан язу тәкъдимнәрен булдыру өчен тон сайлагыз."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Бушлай төп тавышларны үз эченә ала. Күбрәк тональлекләр һәм рингтоннарны ачу өчен яңарту ясагыз.",
+      "volume": "Күләм",
+      "message_tone": "Хәбәр тоны",
+      "ringtone": "Шалтырау тоны"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Әле тавышлы хәбәрләр юк.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Кемдер сезгә тавышлы хәбәр калдырганда, ул монда күренәчәк.",
+      "play_voicemail": "Тавышлы хәбәрне уйнатыгыз",
+      "delete_voicemail": "Тавышлы хәбәрне бетерү"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Сайланган тавышлы хәбәр"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Сезнең хәзерге илегез яки якындагы җирле куллану өчен каплау.",
+      "coverage_across_supported_european_destinations": "Яклау барлык хупланган Европа юнәлешләрендә.",
+      "coverage_across_supported_global_destinations": "Дөнья буйлап хупланган барлык юнәлешләрне каплау."
+    },
+    "wireless_home": {
+      "manage_wireless": "Сымсызны идарә итү",
+      "port_my_number": "Минем номерымны күчерү",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM мәгълүмат пакетлары eSIM-га туры килгән һәм блокланмаган җайланма таләп итә.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Сәяхәт иткәндә яки Wi-Fiсыз булганда да элемтәдә калыгыз.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Локаль, Европа яки Глобаль каплау өчен бер тапкырлы eSIM мәгълүмат пакетын сайлагыз.",
+      "we_don_t_sell_data_packs_under_3_gb": "Без 3 ГБ-тан ким булган мәгълүмат пакетларын сатмыйбыз.",
+      "loading_usage": "Куллану йөкләнә…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Әле актив мәгълүмат пакеты юк. Куллануны күзәтүне башлау өчен түбәндә пакет сатып алыгыз.",
+      "usage_details_will_appear_once_your_data_pack_is": "Куллану детальләре сезнең мәгълүмат пакеты активлашкач күренәчәк.",
+      "manage": "Идарә итү",
+      "coverage": "Күләм",
+      "your_esim": "Сезнең eSIM",
+      "current_usage": "Хәзерге кулланылыш"
+    }
   }
 }

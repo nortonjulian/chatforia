@@ -3066,7 +3066,8 @@
     "flip": "翻转",
     "speaker": "发言人",
     "end": "结束",
-    "noIncomingCallToAnswer": "没有来电需要接听。"
+    "noIncomingCallToAnswer": "没有来电需要接听。",
+    "serviceUnavailable": "目前无法接通电话。请稍后再试。"
   },
   "settings": {
     "startHour": "起始小时（0-23）",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "黑暗",
   "accessibility_caption_bg_transparent": "透明",
   "api": {
-    "notAuthorized": "未授权"
+    "notAuthorized": "未授权",
+    "invalidURL": "服务器地址无效。",
+    "serverError": "服务器错误 (%d)：%@",
+    "failedToDecodeResponse": "无法读取服务器响应：%@"
+  },
+  "tap_to_view_contact": "点击查看联系人",
+  "android": {
+    "plan": {
+      "plan_billing": "套餐与账单",
+      "current_plan": "当前计划",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "升级至 Plus 版即可享受无广告体验，或升级至 Premium 版解锁 AI 工具和个性化设置。",
+      "plus": "此外",
+      "premium": "高级版",
+      "back": "返回",
+      "my_plan": "我的计划",
+      "compare_plans": "比较套餐",
+      "included": "包含"
+    },
+    "upgrade": {
+      "upgrade": "升级",
+      "restore_purchases": "恢复购买",
+      "unlock_more_with": "借助 Chatforia 解锁更多可能",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "选择“Plus”或“Premium”套餐，即可去除广告、自定义使用体验并解锁高级工具。",
+      "best_experience": "最佳体验",
+      "close": "关闭",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "移除广告，解锁更多日常功能。",
+      "premium": "Chatforia 尊享版",
+      "the_full_experience": "完整的Chatforia体验。",
+      "premium_annual": "高级年度版",
+      "save_compared_to_monthly_premium": "与每月高级套餐相比，更省钱。"
+    },
+    "audio_call": {
+      "mute": "静音",
+      "speaker": "演讲者",
+      "end_call": "结束通话"
+    },
+    "dial_pad": {
+      "dial": "拨号盘",
+      "done": "完成",
+      "enter_number": "输入数字",
+      "call": "致电",
+      "delete_digit": "删除数字"
+    },
+    "incoming_call": {
+      "decline": "下降",
+      "accept": "接受",
+      "decline_call": "拒接来电",
+      "accept_call": "接听电话"
+    },
+    "video_call": {
+      "camera": "相机",
+      "flip_camera": "Flip 摄像机"
+    },
+    "chats": {
+      "search_chats": "搜索聊天记录",
+      "no_chats_yet": "目前尚无聊天记录",
+      "admob_ad": "AdMob 广告",
+      "delete_conversation": "删除对话？",
+      "this_will_remove_this_conversation_from_your_cha": "这将把该对话从您的聊天列表中移除。",
+      "delete": "删除",
+      "cancel": "取消",
+      "chats": "聊天",
+      "new_chat": "新建聊天",
+      "refresh": "刷新",
+      "random_chat": "随机聊天",
+      "search": "搜索",
+      "delete_conversation_2": "删除对话"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "用户名、联系人姓名或电话号码",
+      "new_chat": "新建聊天",
+      "start_a_chat": "开始聊天",
+      "search_by_username_contact_name_or_phone_number": "按用户名、联系人姓名或电话号码搜索。",
+      "results": "结果",
+      "open_chat": "打开聊天"
+    },
+    "calls": {
+      "recents": "最近",
+      "voicemail": "语音信箱",
+      "calls": "呼叫",
+      "no_calls_yet": "目前还没有来电",
+      "your_recent_calls_will_show_up_here": "您最近的通话记录将显示在此处。",
+      "open_dial_pad": "打开拨号盘",
+      "delete_call": "删除通话",
+      "video_call": "视频通话"
+    },
+    "contacts": {
+      "contacts": "联系方式",
+      "add_contact": "添加联系人",
+      "import_from_phone": "从手机导入",
+      "invite_friends": "邀请好友",
+      "favorite": "收藏",
+      "open_contact": "打开联系人"
+    },
+    "main_activity": {
+      "loading": "正在加载...",
+      "profile": "个人资料"
+    },
+    "profile": {
+      "delete_account": "删除账户",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "此操作无法撤销。您确定要删除您的账户吗？",
+      "log_out": "退出",
+      "change_photo": "更换照片",
+      "remove_photo": "删除照片",
+      "preferred_language": "首选语言",
+      "your_age_range": "您的年龄段",
+      "theme": "主题",
+      "choose_how_looks_across_the_app": "选择 Chatforia 在整个应用中的外观。",
+      "uploading": "正在上传……",
+      "choose_plus_or_premium": "选择“Plus”或“Premium”",
+      "profile_photo": "头像",
+      "open_upgrade": "开启升级",
+      "open": "打开",
+      "account": "账户",
+      "username": "用户名",
+      "email": "电子邮件",
+      "plan": "计划",
+      "wireless": "无线",
+      "mobile": "Chatforia 移动版",
+      "esim_and_wireless_settings": "eSIM 和无线设置",
+      "call_text_forwarding": "来电与短信转接",
+      "forward_incoming_calls_and_texts": "转接来电和短信",
+      "phone_number": "电话号码",
+      "manage_your_number": "管理您的Chatforia号码",
+      "settings": "设置",
+      "auto_translate_messages": "自动翻译消息",
+      "automatically_translate_messages_into_your_prefe": "自动将消息翻译成您首选的语言。",
+      "show_original_with_translation": "显示原文及翻译",
+      "show_the_original_message_alongside_the_translat": "在翻译旁边显示原文。",
+      "smart_reply_suggestions": "智能回复建议",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "显示由 Ria 驱动的重写辅助和快速回复。",
+      "linked_devices": "已连接设备",
+      "manage_trusted_devices": "管理受信任的设备",
+      "pair_new_device": "配对新设备",
+      "approve_a_new_device": "批准新设备",
+      "appearance": "外观",
+      "accessibility": "无障碍功能",
+      "visual_alerts_captions_and_voice_note_accessibil": "视觉提示、字幕和语音备忘录的无障碍功能",
+      "security": "安全",
+      "encryption_key_protected": "加密密钥受保护",
+      "privacy": "隐私",
+      "allow_explicit_content": "允许显示成人内容",
+      "show_read_receipts": "显示已读回执",
+      "blur_messages_by_default": "默认对消息进行模糊处理",
+      "blur_when_app_is_unfocused": "当应用失去焦点时模糊",
+      "hold_to_reveal_messages": "长按查看消息",
+      "notify_when_messages_are_copied": "消息被复制时通知",
+      "random_chat": "随机聊天",
+      "use_age_based_matching": "使用基于年龄的匹配",
+      "let_ria_remember_conversations": "让莉亚记住那些对话",
+      "forward_voicemail_to_email": "将语音信箱转发至电子邮件",
+      "legal_support": "法律与支持",
+      "free": "免费"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "无需依赖声音即可更轻松使用 Chatforia 的选项。",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "默认显示为标准字号。如需更大字号，请在辅助功能设置中进行调整。",
+      "interface_font_size": "界面字体大小",
+      "notifications": "通知",
+      "visual_alerts_for_messages_calls": "消息和来电的视觉提示",
+      "show_banners_and_visual_indicators_so_you_do_not": "显示横幅和视觉提示，以免您错过活动。",
+      "vibrate_on_new_messages": "收到新消息时振动",
+      "trigger_device_vibration_with_notifications_when": "在支持的情况下，通过通知触发设备振动。",
+      "flash_screen_on_incoming_call": "来电时屏幕闪烁",
+      "briefly_flash_the_screen_when_a_call_rings": "来电时屏幕短暂闪烁。",
+      "live_captions": "实时字幕",
+      "enable_live_captions": "启用实时字幕",
+      "show_real_time_captions_during_calls_premium_req": "通话时显示实时字幕。需订阅高级会员。",
+      "caption_font_size": "字幕字体大小",
+      "caption_background": "图片说明背景",
+      "voice_notes": "语音备忘录",
+      "auto_transcribe_voice_notes": "自动转录语音备忘录",
+      "attach_a_transcript_to_audio_messages_you_receiv": "在收到的语音消息中添加文字记录。"
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "我已经恢复了我的密钥",
+      "restore_encryption": "恢复加密"
+    },
+    "language_selection": {
+      "select_language": "选择语言"
+    },
+    "login": {
+      "email_or_username": "电子邮件或用户名",
+      "password": "密码",
+      "forgot_password": "忘记密码了吗？",
+      "resend_verification_email": "重新发送验证邮件",
+      "reset_encryption": "重置加密",
+      "create_an_account": "创建账户",
+      "welcome_to": "欢迎来到Chatforia",
+      "sign_in_or_create_an_account": "登录或注册",
+      "or": "或",
+      "don_t_have_an_account_yet": "还没有账号吗？"
+    },
+    "onboarding": {
+      "welcome": "欢迎",
+      "set_up_your_profile_so_can_personalize_your_expe": "请设置您的个人资料，以便 Chatforia 为您提供个性化体验。",
+      "choose_a_username": "选择用户名",
+      "this_is_how_people_will_recognize_you_in": "这就是人们在Chatforia中认出你的方式。",
+      "choose_your_language": "选择您的语言",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia 将利用这些信息进行翻译并优化您的应用体验。",
+      "you_re_ready": "你准备好了",
+      "start_chatting_calling_translating_and_connectin": "立即开始聊天、通话、翻译，并与世界各地的人们建立联系。"
+    },
+    "register": {
+      "confirm_password": "确认密码",
+      "phone_optional": "可选电话",
+      "log_in": "登录",
+      "create_your_account": "创建您的账户",
+      "start_chatting_across_languages_with": "立即使用 Chatforia 进行跨语言聊天。",
+      "i_agree_to_receive_sms_verification_messages": "我同意接收短信验证信息。",
+      "already_have_an_account": "已有账户？"
+    },
+    "add_contact": {
+      "phone": "电话",
+      "name": "姓名",
+      "alias_optional": "别名（可选）",
+      "pin_this_person_as_a_favorite_contact": "将此人设为收藏联系人。"
+    },
+    "contact_detail": {
+      "edit_contact": "编辑联系人",
+      "delete_contact": "删除联系人",
+      "message": "消息",
+      "video": "视频",
+      "external_name": "外部名称"
+    },
+    "import_phone_contacts": {
+      "select_all": "全选",
+      "clear": "清除",
+      "import_contacts": "导入联系人"
+    },
+    "invite_friends": {
+      "share_invite_link": "分享邀请链接",
+      "invite_friends": "邀请好友",
+      "share_a_invite_link_with_friends_using_messages_": "通过“信息”应用、电子邮件或手机上的任何应用，将 Chatforia 的邀请链接分享给朋友。"
+    },
+    "device_pairing": {
+      "pair_a_new_device": "配对新设备",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "在新设备上打开Chatforia并登录。如果应用需要访问您的加密聊天记录，请通过可信设备进行授权。",
+      "view_pending_device_requests": "查看待处理的设备请求"
+    },
+    "key_setup": {
+      "recovery_passcode": "恢复密码",
+      "confirm_recovery_passcode": "确认恢复密码",
+      "restore_chats": "恢复聊天记录",
+      "clear_local_key": "清除本地密钥",
+      "reset_encryption": "重置加密？",
+      "this_will_permanently_replace_your_encryption_ke": "这将永久替换您的加密密钥。",
+      "encryption": "加密",
+      "restore_encrypted_chats": "恢复加密聊天记录",
+      "no_recovery_backup_found": "未找到恢复备份",
+      "open_on_a_device_that_can_already_read_your_encr": "请在能够读取您加密聊天记录的设备上打开Chatforia，并在该设备上创建恢复密码。",
+      "no_recovery_backup_found_yet_create_one_from_thi": "尚未找到恢复备份。请从本设备创建一个备份，以便在 iOS、Android 和网页端恢复聊天记录。",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "仅当您已丢失所有受信任的设备且无法恢复原始密钥时，才应使用此功能。"
+    },
+    "linked_devices": {
+      "your_devices": "您的设备",
+      "pending_approvals": "待批准",
+      "approve": "批准",
+      "reject": "拒绝",
+      "revoke": "撤销",
+      "request_approval_for_this_device": "申请批准此设备",
+      "finish_device_approval": "完成设备审批"
+    },
+    "forwarding_settings": {
+      "reset": "重置",
+      "forward_incoming_calls_and_texts_to_your_verifie": "将来电和短信转发至您已验证的手机号码或电子邮箱。",
+      "quiet_hours": "安静时段",
+      "forwarding": "转发",
+      "enable_text_forwarding": "启用短信转发",
+      "forward_texts_to_phone": "将短信转发至手机",
+      "forward_texts_to_email": "将短信转发至电子邮件",
+      "enable_call_forwarding": "启用呼叫转移"
+    },
+    "chat_message_row": {
+      "copy": "复制",
+      "edit": "编辑",
+      "report": "报告",
+      "message_info": "消息信息"
+    },
+    "chat_thread": {
+      "no_messages_yet": "尚无消息",
+      "delete_message": "删除消息？",
+      "choose_how_you_want_to_delete_this_message": "请选择您希望如何删除此消息。",
+      "delete_for_everyone": "对所有人删除",
+      "delete_for_me": "帮我删除",
+      "search_messages": "搜索消息",
+      "search_in_chat": "在聊天中搜索",
+      "sending": "正在发送……",
+      "failed_to_send": "发送失败",
+      "edited": "已编辑",
+      "audio_call": "语音通话",
+      "video_call": "视频通话",
+      "selected_gif": "精选GIF",
+      "remove_gif": "删除 GIF",
+      "attach": "附件",
+      "rewrite_with_ria": "与Ria一起重写",
+      "composer_action": "作曲家操作"
+    },
+    "edit_message": {
+      "save": "保存",
+      "emoji": "表情符号",
+      "edit_message": "编辑消息"
+    },
+    "message_attachments": {
+      "image_attachment": "图片附件",
+      "video_attachment": "视频附件",
+      "play_video": "播放视频"
+    },
+    "message_bubble": {
+      "disappearing_message": "自动消失的消息"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "目前还没有人读过这篇文章",
+      "message_info": "消息信息"
+    },
+    "report_message": {
+      "reason": "原因",
+      "include_previous_messages": "包含之前的消息",
+      "additional_details": "更多详情",
+      "anything_else_moderators_should_know": "还有其他需要版主注意的事项吗？",
+      "block_this_user_after_reporting": "举报后屏蔽此用户",
+      "submit_report": "提交报告",
+      "report_message": "举报消息"
+    },
+    "phone_number": {
+      "replace_number": "替换数字",
+      "pick_a_number": "选一个数字",
+      "no_number_assigned": "未分配Chatforia号码。",
+      "your_number": "您的Chatforia账号"
+    },
+    "pick_number": {
+      "area_code": "区号",
+      "premium_numbers_are_protected_from_recycling": "高级号码不会被回收。",
+      "available_numbers": "可用号码",
+      "search_by_area_code_to_find_available_numbers": "按区号搜索可用的号码。",
+      "capability": "能力",
+      "country": "国家"
+    },
+    "gif_picker": {
+      "search_tenor": "搜索 Tenor",
+      "search_gifs": "搜索GIF"
+    },
+    "random_chat": {
+      "add_friend": "添加好友",
+      "skip": "跳过",
+      "send": "发送",
+      "end_chat": "结束聊天"
+    },
+    "random_matching": {
+      "finding_someone": "寻找某人"
+    },
+    "ria_chat": {
+      "ask_ria": "问问丽娅……",
+      "you_re_now_chatting_with_ria": "您现在正在与Ria聊天",
+      "chat_with_ria_anytime_separate_from_random_human": "您可以随时与Ria聊天，这与随机匹配真人聊天是分开的。"
+    },
+    "ria_rewrite": {
+      "original_text": "原文",
+      "choose_tone": "选择语气",
+      "rewriting": "正在重写……",
+      "suggestions": "建议",
+      "choose_a_tone_to_generate_rewrite_suggestions": "选择一种语气以生成改写建议。"
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "免费版本包含基础音效。升级即可解锁更多音色和铃声。",
+      "volume": "卷",
+      "message_tone": "消息语气",
+      "ringtone": "铃声"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "目前还没有语音留言。",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "当有人给你留言时，\n留言会显示在这里。",
+      "play_voicemail": "播放语音信箱",
+      "delete_voicemail": "删除语音信箱"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "精选语音信箱"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "适用于您当前所在国家或邻近地区的网络覆盖。",
+      "coverage_across_supported_european_destinations": "覆盖所有支持的欧洲目的地。",
+      "coverage_across_supported_global_destinations": "覆盖全球所有支持的目的地。"
+    },
+    "wireless_home": {
+      "manage_wireless": "管理无线网络",
+      "port_my_number": "携号转网",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM数据套餐需要使用支持eSIM且已解锁的设备。",
+      "stay_connected_when_you_re_traveling_or_away_fro": "无论您正在旅行还是身处无Wi-Fi覆盖的区域，都能保持连接。",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "选择适用于本地、欧洲或全球范围的一次性eSIM数据套餐。",
+      "we_don_t_sell_data_packs_under_3_gb": "我们不销售低于3GB的数据套餐。",
+      "loading_usage": "正在加载使用情况……",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "目前尚无有效的数据包。请在下方购买一个数据包，开始记录使用情况。",
+      "usage_details_will_appear_once_your_data_pack_is": "数据包激活后，将显示使用详情。",
+      "manage": "管理",
+      "coverage": "报道范围",
+      "your_esim": "您的 eSIM",
+      "current_usage": "当前使用情况"
+    }
   }
 }

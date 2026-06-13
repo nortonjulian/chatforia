@@ -3066,7 +3066,8 @@
     "flip": "Alderantz",
     "speaker": "Hizlaria",
     "end": "Amaiera",
-    "noIncomingCallToAnswer": "Erantzuteko deirik ez dator."
+    "noIncomingCallToAnswer": "Erantzuteko deirik ez dator.",
+    "serviceUnavailable": "Deien zerbitzua ez dago une honetan erabilgarri. Mesedez, saiatu berriro geroago."
   },
   "settings": {
     "startHour": "Hasiera-ordua (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Iluna",
   "accessibility_caption_bg_transparent": "Gardena",
   "api": {
-    "notAuthorized": "Ez dago baimenduta"
+    "notAuthorized": "Ez dago baimenduta",
+    "invalidURL": "Zerbitzariaren helbidea baliogabea da.",
+    "serverError": "Zerbitzariaren akatsa (%d): %@",
+    "failedToDecodeResponse": "Ezin izan da zerbitzariaren erantzuna irakurri: %@"
+  },
+  "tap_to_view_contact": "Ukitu harremana ikusteko",
+  "android": {
+    "plan": {
+      "plan_billing": "Plana eta fakturazioa",
+      "current_plan": "Egungo plana",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Plusekin iragarkirik gabe gozatu, edo Premiumarekin adimen artifizialeko tresnak eta pertsonalizazioa desblokeatu.",
+      "plus": "Gainera",
+      "premium": "Primoa",
+      "back": "Atzera",
+      "my_plan": "Nire plana",
+      "compare_plans": "Planak alderatu",
+      "included": "Barnean sartuta"
+    },
+    "upgrade": {
+      "upgrade": "Hobekuntza",
+      "restore_purchases": "Erosketak berreskuratu",
+      "unlock_more_with": "Desblokeatu gehiago Chatforia-rekin",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Hautatu Plus edo Premium iragarkiak kentzeko, zure esperientzia pertsonalizatzeko eta tresna aurreratuak desblokeatzeko.",
+      "best_experience": "Esperientzia onena",
+      "close": "Itxi",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Kendu iragarkiak eta desblokeatu eguneroko funtzio gehiago.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Chatforia esperientzia osoa.",
+      "premium_annual": "Urteko Premium",
+      "save_compared_to_monthly_premium": "Hilabeteko Premiumarekin alderatuta aurreztea."
+    },
+    "audio_call": {
+      "mute": "Isildu",
+      "speaker": "Hizlaria",
+      "end_call": "Deia amaitu"
+    },
+    "dial_pad": {
+      "dial": "Aurrealdeko diala",
+      "done": "Egin",
+      "enter_number": "Sartu zenbaki bat",
+      "call": "Deitu",
+      "delete_digit": "Zifra ezabatu"
+    },
+    "incoming_call": {
+      "decline": "Jaitsiera",
+      "accept": "Onartu",
+      "decline_call": "Deia baztertu",
+      "accept_call": "Deia onartu"
+    },
+    "video_call": {
+      "camera": "Kamera",
+      "flip_camera": "Bira-kamera"
+    },
+    "chats": {
+      "search_chats": "Bilatu txat-ak",
+      "no_chats_yet": "Oraindik ez dago txat-ik",
+      "admob_ad": "AdMob iragarkia",
+      "delete_conversation": "Solasa ezabatu?",
+      "this_will_remove_this_conversation_from_your_cha": "Honek elkarrizketa hau zure txat-zerrendatik kenduko du.",
+      "delete": "Ezabatu",
+      "cancel": "Ezeztatu",
+      "chats": "Txategiak",
+      "new_chat": "Txat berria",
+      "refresh": "Berritu",
+      "random_chat": "Txat ausazkoa",
+      "search": "Bilatu",
+      "delete_conversation_2": "Baztertu elkarrizketa"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Erabiltzaile-izena, harremanerako izena edo telefono-zenbakia",
+      "new_chat": "Txat berria",
+      "start_a_chat": "Egin txat bat",
+      "search_by_username_contact_name_or_phone_number": "Erabiltzaile-izenaren, kontaktuko izenaren edo telefono-zenbakiaren arabera bilatu.",
+      "results": "Emaitzak",
+      "open_chat": "Irekitu txat-a"
+    },
+    "calls": {
+      "recents": "Azkenak",
+      "voicemail": "Ahots-mezuak",
+      "calls": "Deiak",
+      "no_calls_yet": "Oraindik ez da deirik",
+      "your_recent_calls_will_show_up_here": "Zure azken deiak hemen agertuko dira.",
+      "open_dial_pad": "Ateatu zenbaki-teklatua",
+      "delete_call": "Deia ezabatu",
+      "video_call": "Bideo-deia"
+    },
+    "contacts": {
+      "contacts": "Harremanak",
+      "add_contact": "Gehitu harremana",
+      "import_from_phone": "Telefonoa inportatu",
+      "invite_friends": "Lagunak gonbidatu",
+      "favorite": "Gustukoena",
+      "open_contact": "Harreman ireki"
+    },
+    "main_activity": {
+      "loading": "Kargatzen...",
+      "profile": "Profil"
+    },
+    "profile": {
+      "delete_account": "Kontua ezabatu",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Ekintza hau ezin da atzera bota. Ziur al zaude zure kontua ezabatu nahi duzula?",
+      "log_out": "Irten",
+      "change_photo": "Aldatu argazkia",
+      "remove_photo": "Kendu argazkia",
+      "preferred_language": "Hautatutako hizkuntza",
+      "your_age_range": "Zure adin-tartea",
+      "theme": "Gaia",
+      "choose_how_looks_across_the_app": "Aukeratu nola agertzen den Chatforia aplikazio osoan.",
+      "uploading": "Igoera…",
+      "choose_plus_or_premium": "Hautatu Plus edo Premium",
+      "profile_photo": "Profil-argazkia",
+      "open_upgrade": "Eguneratze irekia",
+      "open": "Irekita",
+      "account": "Kontua",
+      "username": "Erabiltzaile-izena",
+      "email": "Posta elektronikoa",
+      "plan": "Plana",
+      "wireless": "Haririk gabeko",
+      "mobile": "Chatforia Mugikorra",
+      "esim_and_wireless_settings": "eSIM eta haririk gabeko ezarpenak",
+      "call_text_forwarding": "Deien eta testu-mezuaren bideratzea",
+      "forward_incoming_calls_and_texts": "Sarrerako deiak eta testu-mezuak birbideratu",
+      "phone_number": "Telefono zenbakia",
+      "manage_your_number": "Kudeatu zure Chatforia zenbakia",
+      "settings": "Ezarpenak",
+      "auto_translate_messages": "Mezuak automatikoki itzuli",
+      "automatically_translate_messages_into_your_prefe": "Mezuak automatikoki zure nahiago duzun hizkuntzara itzuli.",
+      "show_original_with_translation": "Jatorrizkoa itzulpenarekin erakutsi",
+      "show_the_original_message_alongside_the_translat": "Jatorrizko mezua itzulpenarekin batera erakutsi.",
+      "smart_reply_suggestions": "Erantzun adimentsu gomendioak",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Erakutsi Ria-k bultzatutako berridazketa-laguntza eta erantzun azkarrak.",
+      "linked_devices": "Elkarlotutako gailuak",
+      "manage_trusted_devices": "Konfiantzazko gailuak kudeatu",
+      "pair_new_device": "Gailu berria bikotatu",
+      "approve_a_new_device": "Gailu berri bat onartu",
+      "appearance": "Itxura",
+      "accessibility": " irisgarritasuna",
+      "visual_alerts_captions_and_voice_note_accessibil": "Ikusizko alerta, azpititulu eta ahots-oharren irisgarritasuna",
+      "security": "Segurtasuna",
+      "encryption_key_protected": "Zifratze-gakoa babestuta dago",
+      "privacy": "Pribatutasuna",
+      "allow_explicit_content": "Eduki esplizitoa baimendu",
+      "show_read_receipts": "Irakurketa-jasotzeak erakutsi",
+      "blur_messages_by_default": "Mezuak lehenetsiz lausotu",
+      "blur_when_app_is_unfocused": "Aplikazioa fokutik kanpo dagoenean lausotu",
+      "hold_to_reveal_messages": "Eutsi mezuak agerian uzteko",
+      "notify_when_messages_are_copied": "Mezuak kopiatu direnean jakinarazi",
+      "random_chat": "Txat ausazkoa",
+      "use_age_based_matching": "Adinaren arabera egindako parekatzea erabili",
+      "let_ria_remember_conversations": "Utzi Ria elkarrizketak gogoratzen",
+      "forward_voicemail_to_email": "Boz-mezuak posta elektronikora bideratu",
+      "legal_support": "Legea eta Laguntza",
+      "free": "Doan"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Soinuaren menpe egon gabe Chatforia errazago erabiltzeko aukerak.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Tamaina normalean hasten da. Handitu nahi baduzu, handitu irisgarritasun-ezarpenetan testu handiagoa nahi baduzu.",
+      "interface_font_size": "Interfazearen letra-tamaina",
+      "notifications": "Jakinarazpenak",
+      "visual_alerts_for_messages_calls": "Mezu eta deietarako alerta bisualak",
+      "show_banners_and_visual_indicators_so_you_do_not": "Ikusgai jarri pankartak eta adierazle bisualak, jarduera ez galtzeko.",
+      "vibrate_on_new_messages": "Mezu berrietan bibrazioa piztu",
+      "trigger_device_vibration_with_notifications_when": "Gailuaren bibrazioa abiarazi jakinarazpenekin, onartzen denean.",
+      "flash_screen_on_incoming_call": "Sarrerako deiaren pantaila-flash-a",
+      "briefly_flash_the_screen_when_a_call_rings": "Deia jotzen denean, pantaila laburki piztu.",
+      "live_captions": "Zuzeneko azpitituluak",
+      "enable_live_captions": "Gehitu azpititulu zuzenak",
+      "show_real_time_captions_during_calls_premium_req": "Deien bitartean denbora errealean azpitituluak erakutsi. Premium beharrezkoa da.",
+      "caption_font_size": "Izenburuko letra-tamaina",
+      "caption_background": "Izenburuaren atzeko planoa",
+      "voice_notes": "Ahots-oharrak",
+      "auto_transcribe_voice_notes": "Ahots-oharrak automatikoki transkribatu",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Jaso dituzun audio-mezuetan erantsi transkripzio bat."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Nire giltza berreskuratu dut.",
+      "restore_encryption": "Zifratzea berrezarri"
+    },
+    "language_selection": {
+      "select_language": "Hautatu hizkuntza"
+    },
+    "login": {
+      "email_or_username": "Posta elektronikoa edo erabiltzaile-izena",
+      "password": "Pasahitza",
+      "forgot_password": "Pasahitza ahaztu al duzu?",
+      "resend_verification_email": "Bidali berriro egiaztapen posta elektronikoa",
+      "reset_encryption": "Zifratzea berrezarri",
+      "create_an_account": "Sortu kontu bat",
+      "welcome_to": "Ongi etorri Chatforia-ra",
+      "sign_in_or_create_an_account": "Sartu edo sortu kontu bat",
+      "or": "edo",
+      "don_t_have_an_account_yet": "Oraindik konturik ez duzu?"
+    },
+    "onboarding": {
+      "welcome": "Ongi etorri",
+      "set_up_your_profile_so_can_personalize_your_expe": "Ezarri zure profila Chatforia-k zure esperientzia pertsonalizatu dezan.",
+      "choose_a_username": "Hautatu erabiltzaile-izena",
+      "this_is_how_people_will_recognize_you_in": "Horrela ezagutuko zaituzte Chatforian.",
+      "choose_your_language": "Hautatu zure hizkuntza",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia honi itzulpenetarako eta zure aplikazioaren esperientzia hobetzeko erabiliko dio.",
+      "you_re_ready": "Prest zaude",
+      "start_chatting_calling_translating_and_connectin": "Hasi txateatzen, deitzen, itzultzen eta mundu osoko jendearekin konektatzen."
+    },
+    "register": {
+      "confirm_password": "Berretsi pasahitza",
+      "phone_optional": "Telefonoa aukerakoa",
+      "log_in": "Sartu",
+      "create_your_account": "Sortu zure kontua",
+      "start_chatting_across_languages_with": "Hasi hizkuntza ezberdinetan txateatzen Chatforia-rekin.",
+      "i_agree_to_receive_sms_verification_messages": "SMS bidezko egiaztapen-mezuak jasotzea onartzen dut.",
+      "already_have_an_account": "Jada kontu bat duzu?"
+    },
+    "add_contact": {
+      "phone": "Telefonoa",
+      "name": "Izena",
+      "alias_optional": "Izengai aukerakoa",
+      "pin_this_person_as_a_favorite_contact": "Markatu pertsona hau kontaktu gogokoenetako bat gisa."
+    },
+    "contact_detail": {
+      "edit_contact": "Aldatu harremanetarako informazioa",
+      "delete_contact": "Ezabatu harremana",
+      "message": "Mezu",
+      "video": "Bideoa",
+      "external_name": "Kanpoko izena"
+    },
+    "import_phone_contacts": {
+      "select_all": "Denak hautatu",
+      "clear": "Argi",
+      "import_contacts": "Inportatu kontaktuak"
+    },
+    "invite_friends": {
+      "share_invite_link": "Partekatu gonbidapen-esteka",
+      "invite_friends": "Lagunak gonbidatu",
+      "share_a_invite_link_with_friends_using_messages_": "Partekatu Chatforia gonbidapen-esteka zure lagunekin Messages, posta elektroniko edo zure telefonoan dagoen edozein aplikazio erabiliz."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Gailu berri bat parekatu",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Ireki Chatforia zure gailu berrian eta saioa hasi. Zure zifratutako txatetara sarbidea behar badu, onartu gailu fidagarri batetik.",
+      "view_pending_device_requests": "Itxaroten ari diren gailu-eskaerak ikusi"
+    },
+    "key_setup": {
+      "recovery_passcode": "Berreskuratze pasahitza",
+      "confirm_recovery_passcode": "Berreskuratze pasahitzaren baieztapena",
+      "restore_chats": "Berreskuratu txatak",
+      "clear_local_key": "Tokiko gako garbia",
+      "reset_encryption": "Zifratzea berrezarri?",
+      "this_will_permanently_replace_your_encryption_ke": "Honek behin betiko ordezkatuko du zure enkriptazio-gakoa.",
+      "encryption": "Zifratzea",
+      "restore_encrypted_chats": "Zifratutako txatak berreskuratu",
+      "no_recovery_backup_found": "Ez da berreskuratzeko babeskopia aurkitu",
+      "open_on_a_device_that_can_already_read_your_encr": "Irek ezazu Chatforia gailu batean, zure zifratutako txatak jada irakur ditzakeena, eta bertan Berreskuratze Pasatxoa sortu.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Oraindik ez da berreskuratzeko babeskopiarik aurkitu. Sortu bat gailu honetatik, iOS, Android eta webeko txatak berreskuratzeko.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Erabili hau soilik konfiantzazko gailu guztiak galdu badituzu eta ezin baduzu zure jatorrizko giltza berreskuratu."
+    },
+    "linked_devices": {
+      "your_devices": "Zure gailuak",
+      "pending_approvals": "Onespenak zain",
+      "approve": "Onartu",
+      "reject": "Ukatzea",
+      "revoke": "Indargabetu",
+      "request_approval_for_this_device": "Gailu honen onespena eskatu",
+      "finish_device_approval": "Gailuaren onespenaren amaiera"
+    },
+    "forwarding_settings": {
+      "reset": "Berrezarri",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Bidal ezazu etor daitezkeen deiak eta testu-mezuak zure egiaztatutako telefono-zenbakira edo posta elektronikora.",
+      "quiet_hours": "Isilune orduak",
+      "forwarding": "Bidalketa",
+      "enable_text_forwarding": "Testuaren birbidalketa gaitzea",
+      "forward_texts_to_phone": "Bidali testuak telefonora",
+      "forward_texts_to_email": "Testu-mezuak posta elektronikora bidali",
+      "enable_call_forwarding": "Deien bideratzea gaitzeko"
+    },
+    "chat_message_row": {
+      "copy": "Kopiatu",
+      "edit": "Aldatu",
+      "report": "Txostena",
+      "message_info": "Mezuaren informazioa"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Oraindik ez dago mezurik",
+      "delete_message": "Mezu ezabatu?",
+      "choose_how_you_want_to_delete_this_message": "Aukeratu nola ezabatu nahi duzun mezu hau.",
+      "delete_for_everyone": "Denontzat ezabatu",
+      "delete_for_me": "Niretzat ezabatu",
+      "search_messages": "Mezuak bilatu",
+      "search_in_chat": "Bilatu txatean",
+      "sending": "Bidaltzen…",
+      "failed_to_send": "Bidaltzea huts egin du",
+      "edited": "Aldatua",
+      "audio_call": "Audio dei",
+      "video_call": "Bideo-deia",
+      "selected_gif": "Aukeratutako GIFa",
+      "remove_gif": "Kendu GIF-a",
+      "attach": "Erantsi",
+      "rewrite_with_ria": "Riarekin berridatzi",
+      "composer_action": "Konpositorearen ekintza"
+    },
+    "edit_message": {
+      "save": "Gorde",
+      "emoji": "Emoji",
+      "edit_message": "Mezu editatu"
+    },
+    "message_attachments": {
+      "image_attachment": "Irudi eranskina",
+      "video_attachment": "Bideo eranskina",
+      "play_video": "Bideoa erreproduzitu"
+    },
+    "message_bubble": {
+      "disappearing_message": "Desagertzen ari den mezua"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Oraindik inork ez du hau irakurri",
+      "message_info": "Mezuaren informazioa"
+    },
+    "report_message": {
+      "reason": "Arrazoia",
+      "include_previous_messages": "Sartu aurreko mezuak",
+      "additional_details": "Datu osagarriak",
+      "anything_else_moderators_should_know": "Moderatzaileek beste zerbait jakin beharko lukete?",
+      "block_this_user_after_reporting": "Erabiltzaile hau salatu ondoren blokeatu",
+      "submit_report": "Bidali txostena",
+      "report_message": "Mezuaren berri eman"
+    },
+    "phone_number": {
+      "replace_number": "Aldatu zenbakia",
+      "pick_a_number": "Aukeratu zenbaki bat",
+      "no_number_assigned": "Ez dago Chatforia zenbakirik esleituta.",
+      "your_number": "Zure Chatforia zenbakia"
+    },
+    "pick_number": {
+      "area_code": "Eskualde-aurrezenbakia",
+      "premium_numbers_are_protected_from_recycling": "Premium zenbakiak birziklatze-prozesutik babestuta daude.",
+      "available_numbers": "Eskuragarri dauden zenbakiak",
+      "search_by_area_code_to_find_available_numbers": "Eskualde-kodea erabiliz bilatu erabilgarri dauden zenbakiak.",
+      "capability": "Gaitasuna",
+      "country": "Herrialdea"
+    },
+    "gif_picker": {
+      "search_tenor": "Tenorra bilatu",
+      "search_gifs": "Bilatu GIFak"
+    },
+    "random_chat": {
+      "add_friend": "Lagun bat gehitu",
+      "skip": "Salbatu",
+      "send": "Bidali",
+      "end_chat": "Amaitu txata"
+    },
+    "random_matching": {
+      "finding_someone": "Norbait aurkitzea"
+    },
+    "ria_chat": {
+      "ask_ria": "Galdetu Ria...",
+      "you_re_now_chatting_with_ria": "Orain Riarekin txateatzen ari zara.",
+      "chat_with_ria_anytime_separate_from_random_human": "Riarekin nahi duzun unetan txateatu, ausazko gizaki-parekatzeetatik bereizita."
+    },
+    "ria_rewrite": {
+      "original_text": "Jatorrizko testua",
+      "choose_tone": "Aukeratu tonua",
+      "rewriting": "Berriro idazten…",
+      "suggestions": "Iruzkinak",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Hautatu tonu bat berridazketa-iradokizunak sortzeko."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Doakoak oinarrizko soinuak barne hartzen ditu. Eguneratu tonu eta melodia gehiago desblokeatzeko.",
+      "volume": "Bolumena",
+      "message_tone": "Mezuaren tonua",
+      "ringtone": "Dei-soinua"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Oraindik ez dago ahots-mezurik.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Norbaitek ahotsezko mezu bat utziz gero, hemen agertuko da.",
+      "play_voicemail": "Utzi ahots-mezuaren erreprodukzioa",
+      "delete_voicemail": "Boz-mezuak ezabatu"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Aukeratutako ahots-mezua"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Zure egungo herrialderako edo inguruko tokiko erabilerarako estaldura.",
+      "coverage_across_supported_european_destinations": "Euskarridun Europako helmuga guztietan estaldura.",
+      "coverage_across_supported_global_destinations": "Euskarridun mundu osoko helmuga guztietako estaldura."
+    },
+    "wireless_home": {
+      "manage_wireless": "Kudeatu haririk gabekoa",
+      "port_my_number": "Nire zenbakia eramatea",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM datu-paketeek eSIMarekin bateragarria eta desblokeatutako gailu bat behar dute.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Bidaiatzen ari zarenean edo Wi-Fi-tik urrun zaudenean konektatuta egon.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Aukeratu behin bakarreko eSIM datu-pakete bat tokiko, Europako edo mundu osoko estaldurarako.",
+      "we_don_t_sell_data_packs_under_3_gb": "3 GB-tik beherako datu-paketeak ez ditugu saltzen.",
+      "loading_usage": "Erabileraren karga…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Oraindik ez dago datu-pakete aktiborik. Erosi behean dagoen pakete bat erabilera jarraipena hasteko.",
+      "usage_details_will_appear_once_your_data_pack_is": "Erabilera xehetasunak agertuko dira zure datu-paketea aktibo dagoenean.",
+      "manage": "Kudeatu",
+      "coverage": "Estaldura",
+      "your_esim": "Zure eSIMa",
+      "current_usage": "Uneko erabilera"
+    }
   }
 }

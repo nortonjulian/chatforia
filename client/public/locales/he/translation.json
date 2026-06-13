@@ -3066,7 +3066,8 @@
     "flip": "להפוך",
     "speaker": "דובר",
     "end": "סוף",
-    "noIncomingCallToAnswer": "אין שיחה נכנסת לענות עליה."
+    "noIncomingCallToAnswer": "אין שיחה נכנסת לענות עליה.",
+    "serviceUnavailable": "שירות השיחות אינו זמין כרגע. אנא נסה שוב מאוחר יותר."
   },
   "settings": {
     "startHour": "שעת התחלה (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "אפל",
   "accessibility_caption_bg_transparent": "שקוף",
   "api": {
-    "notAuthorized": "לא מאושר"
+    "notAuthorized": "לא מאושר",
+    "invalidURL": "כתובת שרת לא חוקית.",
+    "serverError": "שגיאת שרת (%d): %@",
+    "failedToDecodeResponse": "לא ניתן לקרוא את תגובת השרת: %@"
+  },
+  "tap_to_view_contact": "הקש כדי להציג את פרטי הקשר",
+  "android": {
+    "plan": {
+      "plan_billing": "תוכנית ותשלום",
+      "current_plan": "התוכנית הנוכחית",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "הפוך את החוויה שלך לחופשית מפרסומות עם Plus, או גש לכלים מבוססי בינה מלאכותית ואפשרויות התאמה אישית עם Premium.",
+      "plus": "בנוסף",
+      "premium": "פרימיום",
+      "back": "חזרה",
+      "my_plan": "התוכנית שלי",
+      "compare_plans": "השוואת תוכניות",
+      "included": "כלול"
+    },
+    "upgrade": {
+      "upgrade": "שדרוג",
+      "restore_purchases": "שחזור רכישות",
+      "unlock_more_with": "הפק עוד יותר עם Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "בחר באפשרות Plus או Premium כדי להסיר פרסומות, להתאים אישית את חוויית השימוש שלך ולפתוח כלים מתקדמים.",
+      "best_experience": "החוויה הטובה ביותר",
+      "close": "סגור",
+      "plus": "צ'אטפוריה פלוס",
+      "remove_ads_and_unlock_more_everyday_features": "הסר את הפרסומות ופתח גישה לתכונות נוספות לשימוש יומיומי.",
+      "premium": "Chatforia פרימיום",
+      "the_full_experience": "החוויה המלאה של Chatforia.",
+      "premium_annual": "מנוי שנתי פרימיום",
+      "save_compared_to_monthly_premium": "חיסכון בהשוואה למנוי הפרימיום החודשי."
+    },
+    "audio_call": {
+      "mute": "השתק",
+      "speaker": "דובר",
+      "end_call": "לסיים שיחה"
+    },
+    "dial_pad": {
+      "dial": "חיוג",
+      "done": "בוצע",
+      "enter_number": "הזן מספר",
+      "call": "התקשר",
+      "delete_digit": "מחק ספרה"
+    },
+    "incoming_call": {
+      "decline": "ירידה",
+      "accept": "קבל",
+      "decline_call": "לדחות שיחה",
+      "accept_call": "קבל שיחה"
+    },
+    "video_call": {
+      "camera": "מצלמה",
+      "flip_camera": "מצלמת Flip"
+    },
+    "chats": {
+      "search_chats": "חיפוש בצ'אטים",
+      "no_chats_yet": "עדיין אין צ'אטים",
+      "admob_ad": "מודעת AdMob",
+      "delete_conversation": "למחוק את השיחה?",
+      "this_will_remove_this_conversation_from_your_cha": "פעולה זו תסיר את השיחה הזו מרשימת הצ'אטים שלך.",
+      "delete": "מחק",
+      "cancel": "בטל",
+      "chats": "צ'אטים",
+      "new_chat": "צ'אט חדש",
+      "refresh": "רענן",
+      "random_chat": "צ'אט אקראי",
+      "search": "חיפוש",
+      "delete_conversation_2": "מחק את השיחה"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "שם משתמש, שם איש הקשר או מספר טלפון",
+      "new_chat": "צ'אט חדש",
+      "start_a_chat": "התחל צ'אט",
+      "search_by_username_contact_name_or_phone_number": "חפש לפי שם משתמש, שם איש הקשר או מספר טלפון.",
+      "results": "תוצאות",
+      "open_chat": "פתח צ'אט"
+    },
+    "calls": {
+      "recents": "אחרונים",
+      "voicemail": "תיבת דואר קולי",
+      "calls": "שיחות",
+      "no_calls_yet": "עדיין לא התקבלו שיחות",
+      "your_recent_calls_will_show_up_here": "השיחות האחרונות שלך יופיעו כאן.",
+      "open_dial_pad": "לפתוח את לוח המקשים",
+      "delete_call": "מחק שיחה",
+      "video_call": "שיחת וידאו"
+    },
+    "contacts": {
+      "contacts": "אנשי קשר",
+      "add_contact": "הוסף איש קשר",
+      "import_from_phone": "ייבוא מהטלפון",
+      "invite_friends": "הזמן חברים",
+      "favorite": "מועדף",
+      "open_contact": "צור קשר"
+    },
+    "main_activity": {
+      "loading": "טוען...",
+      "profile": "פרופיל"
+    },
+    "profile": {
+      "delete_account": "מחק חשבון",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "לא ניתן לבטל פעולה זו. האם אתה בטוח שברצונך למחוק את חשבונך?",
+      "log_out": "התנתק",
+      "change_photo": "החלף תמונה",
+      "remove_photo": "הסר תמונה",
+      "preferred_language": "שפה מועדפת",
+      "your_age_range": "טווח הגילאים שלך",
+      "theme": "נושא",
+      "choose_how_looks_across_the_app": "בחר את המראה של Chatforia בכל רחבי האפליקציה.",
+      "uploading": "מעלה...",
+      "choose_plus_or_premium": "בחר ב-Plus או ב-Premium",
+      "profile_photo": "תמונת פרופיל",
+      "open_upgrade": "שדרוג פתוח",
+      "open": "פתוח",
+      "account": "חשבון",
+      "username": "שם משתמש",
+      "email": "דוא\"ל",
+      "plan": "תוכנית",
+      "wireless": "אלחוטי",
+      "mobile": "Chatforia לנייד",
+      "esim_and_wireless_settings": "הגדרות eSIM ואלחוטיות",
+      "call_text_forwarding": "העברת שיחות והודעות טקסט",
+      "forward_incoming_calls_and_texts": "העברת שיחות נכנסות והודעות טקסט",
+      "phone_number": "מספר טלפון",
+      "manage_your_number": "נהל את מספר ה-Chatforia שלך",
+      "settings": "הגדרות",
+      "auto_translate_messages": "תרגום אוטומטי של הודעות",
+      "automatically_translate_messages_into_your_prefe": "תרגם הודעות באופן אוטומטי לשפה המועדפת עליך.",
+      "show_original_with_translation": "הצג את הטקסט המקורי עם התרגום",
+      "show_the_original_message_alongside_the_translat": "הצג את ההודעה המקורית לצד התרגום.",
+      "smart_reply_suggestions": "הצעות לתשובות חכמות",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "הצג את העזרה בכתיבה מחדש המונעת על ידי Ria ואת התשובות המהירות.",
+      "linked_devices": "מכשירים מחוברים",
+      "manage_trusted_devices": "ניהול מכשירים מהימנים",
+      "pair_new_device": "לצמד מכשיר חדש",
+      "approve_a_new_device": "לאשר מכשיר חדש",
+      "appearance": "מראה",
+      "accessibility": "נגישות",
+      "visual_alerts_captions_and_voice_note_accessibil": "התראות חזותיות, כיתוביות ונגישות להודעות קוליות",
+      "security": "אבטחה",
+      "encryption_key_protected": "מוגן באמצעות מפתח הצפנה",
+      "privacy": "פרטיות",
+      "allow_explicit_content": "אפשר תוכן למבוגרים בלבד",
+      "show_read_receipts": "הצג אישורי קריאה",
+      "blur_messages_by_default": "הסתרת הודעות כברירת מחדל",
+      "blur_when_app_is_unfocused": "טשטוש כאשר האפליקציה אינה בפוקוס",
+      "hold_to_reveal_messages": "החזק כדי לחשוף הודעות",
+      "notify_when_messages_are_copied": "הודע כאשר הודעות מועתקות",
+      "random_chat": "צ'אט אקראי",
+      "use_age_based_matching": "השתמש בהתאמה לפי גיל",
+      "let_ria_remember_conversations": "תני לריה לזכור את השיחות",
+      "forward_voicemail_to_email": "העבר הודעות קוליות לדוא\"ל",
+      "legal_support": "משפטי ותמיכה",
+      "free": "חינם"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "אפשרויות להקל על השימוש ב-Chatforia מבלי להסתמך על צליל.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "הגודל ההתחלתי הוא רגיל. ניתן להגדיל את הגודל בהגדרות הנגישות אם אתה מעדיף טקסט גדול יותר.",
+      "interface_font_size": "גודל הגופן בממשק",
+      "notifications": "התראות",
+      "visual_alerts_for_messages_calls": "התראות חזותיות להודעות ושיחות",
+      "show_banners_and_visual_indicators_so_you_do_not": "הצג באנרים ואינדיקטורים חזותיים כדי שלא תחמיץ את הפעילות.",
+      "vibrate_on_new_messages": "רטט בעת קבלת הודעות חדשות",
+      "trigger_device_vibration_with_notifications_when": "הפעל רטט במכשיר עם התראות, כאשר תכונה זו נתמכת.",
+      "flash_screen_on_incoming_call": "מסך פלאש בעת שיחה נכנסת",
+      "briefly_flash_the_screen_when_a_call_rings": "להבהב את המסך לרגע קצר כאשר מתקבלת שיחה.",
+      "live_captions": "כתוביות בזמן אמת",
+      "enable_live_captions": "הפעל כתוביות בזמן אמת",
+      "show_real_time_captions_during_calls_premium_req": "הצג כתוביות בזמן אמת במהלך שיחות. נדרשת מנוי פרימיום.",
+      "caption_font_size": "גודל גופן הכיתוב",
+      "caption_background": "רקע לכיתוב",
+      "voice_notes": "הערות קוליות",
+      "auto_transcribe_voice_notes": "תמלול אוטומטי של הערות קוליות",
+      "attach_a_transcript_to_audio_messages_you_receiv": "צרף תמלול להודעות הקוליות שאתה מקבל."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "שחזרתי את המפתח שלי",
+      "restore_encryption": "שחזור הצפנה"
+    },
+    "language_selection": {
+      "select_language": "בחר שפה"
+    },
+    "login": {
+      "email_or_username": "דוא\"ל או שם משתמש",
+      "password": "סיסמה",
+      "forgot_password": "שכחת את הסיסמה?",
+      "resend_verification_email": "שלח שוב את דוא\"ל האימות",
+      "reset_encryption": "איפוס ההצפנה",
+      "create_an_account": "הירשם",
+      "welcome_to": "ברוכים הבאים ל-Chatforia",
+      "sign_in_or_create_an_account": "התחבר או צור חשבון",
+      "or": "או",
+      "don_t_have_an_account_yet": "עדיין אין לך חשבון?"
+    },
+    "onboarding": {
+      "welcome": "ברוכים הבאים",
+      "set_up_your_profile_so_can_personalize_your_expe": "הגדר את הפרופיל שלך כדי ש-Chatforia תוכל להתאים את החוויה שלך אליך.",
+      "choose_a_username": "בחר שם משתמש",
+      "this_is_how_people_will_recognize_you_in": "כך יזהו אותך ב-Chatforia.",
+      "choose_your_language": "בחר שפה",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia תשתמש במידע זה לצורך תרגומים ולשיפור חוויית השימוש באפליקציה.",
+      "you_re_ready": "אתה מוכן",
+      "start_chatting_calling_translating_and_connectin": "התחילו לשוחח, להתקשר, לתרגם וליצור קשר עם אנשים ברחבי העולם."
+    },
+    "register": {
+      "confirm_password": "אשר את הסיסמה",
+      "phone_optional": "טלפון – לא חובה",
+      "log_in": "התחבר",
+      "create_your_account": "הירשם",
+      "start_chatting_across_languages_with": "התחילו לשוחח בשפות שונות עם Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "אני מסכים לקבל הודעות SMS לאימות.",
+      "already_have_an_account": "יש לך כבר חשבון?"
+    },
+    "add_contact": {
+      "phone": "טלפון",
+      "name": "שם",
+      "alias_optional": "שם כינוי (לא חובה)",
+      "pin_this_person_as_a_favorite_contact": "הוסף את האדם הזה לרשימת אנשי הקשר המועדפים."
+    },
+    "contact_detail": {
+      "edit_contact": "ערוך פרטי קשר",
+      "delete_contact": "מחק איש קשר",
+      "message": "הודעה",
+      "video": "סרטון",
+      "external_name": "שם חיצוני"
+    },
+    "import_phone_contacts": {
+      "select_all": "בחר הכל",
+      "clear": "נקי",
+      "import_contacts": "ייבוא אנשי קשר"
+    },
+    "invite_friends": {
+      "share_invite_link": "שתף קישור הזמנה",
+      "invite_friends": "הזמן חברים",
+      "share_a_invite_link_with_friends_using_messages_": "שתפו קישור הזמנה ל-Chatforia עם חברים באמצעות 'הודעות', דוא\"ל או כל אפליקציה אחרת בטלפון שלכם."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "לצמד מכשיר חדש",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "פתח את Chatforia במכשיר החדש שלך והיכנס. אם האפליקציה מבקשת גישה לצ'אטים המוצפנים שלך, אשר את הבקשה ממכשיר מהימן.",
+      "view_pending_device_requests": "הצגת בקשות למכשירים הממתינות לאישור"
+    },
+    "key_setup": {
+      "recovery_passcode": "קוד שחזור",
+      "confirm_recovery_passcode": "אשר את קוד הגישה לשחזור",
+      "restore_chats": "שחזור צ'אטים",
+      "clear_local_key": "נקה מפתח מקומי",
+      "reset_encryption": "לאפס את ההצפנה?",
+      "this_will_permanently_replace_your_encryption_ke": "פעולה זו תחליף את מפתח ההצפנה שלך באופן קבוע.",
+      "encryption": "הצפנה",
+      "restore_encrypted_chats": "שחזור צ'אטים מוצפנים",
+      "no_recovery_backup_found": "לא נמצא גיבוי לשחזור",
+      "open_on_a_device_that_can_already_read_your_encr": "פתח את Chatforia במכשיר שכבר יכול לקרוא את הצ'אטים המוצפנים שלך, וצור שם קוד שחזור.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "עדיין לא נמצא גיבוי לשחזור. צור גיבוי מהמכשיר הזה כדי שתוכל לשחזר צ'אטים ב-iOS, ב-Android ובאינטרנט.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "השתמש באפשרות זו רק אם איבדת את כל המכשירים המהימנים ואינך יכול לשחזר את המפתח המקורי שלך."
+    },
+    "linked_devices": {
+      "your_devices": "המכשירים שלך",
+      "pending_approvals": "בהמתנה לאישורים",
+      "approve": "לאשר",
+      "reject": "לדחות",
+      "revoke": "לבטל",
+      "request_approval_for_this_device": "בקש אישור למכשיר זה",
+      "finish_device_approval": "השלמת אישור המכשיר"
+    },
+    "forwarding_settings": {
+      "reset": "איפוס",
+      "forward_incoming_calls_and_texts_to_your_verifie": "העבר שיחות נכנסות והודעות טקסט למספר הטלפון או לכתובת הדוא\"ל המאומתים שלך.",
+      "quiet_hours": "שעות השקט",
+      "forwarding": "העברה",
+      "enable_text_forwarding": "הפעל העברת הודעות טקסט",
+      "forward_texts_to_phone": "העבר הודעות לטלפון",
+      "forward_texts_to_email": "העבר הודעות טקסט לדוא\"ל",
+      "enable_call_forwarding": "הפעל העברת שיחות"
+    },
+    "chat_message_row": {
+      "copy": "העתק",
+      "edit": "ערוך",
+      "report": "דו\"ח",
+      "message_info": "פרטי ההודעה"
+    },
+    "chat_thread": {
+      "no_messages_yet": "עדיין אין הודעות",
+      "delete_message": "למחוק את ההודעה?",
+      "choose_how_you_want_to_delete_this_message": "בחר כיצד ברצונך למחוק הודעה זו.",
+      "delete_for_everyone": "מחק עבור כולם",
+      "delete_for_me": "תמחק בשבילי",
+      "search_messages": "חיפוש הודעות",
+      "search_in_chat": "חיפוש בצ'אט",
+      "sending": "שולח...",
+      "failed_to_send": "לא הצליח לשלוח",
+      "edited": "ערוך",
+      "audio_call": "שיחת אודיו",
+      "video_call": "שיחת וידאו",
+      "selected_gif": "GIF נבחר",
+      "remove_gif": "הסר GIF",
+      "attach": "צרף",
+      "rewrite_with_ria": "לכתוב מחדש עם ריה",
+      "composer_action": "פעולת המלחין"
+    },
+    "edit_message": {
+      "save": "שמור",
+      "emoji": "אימוג'י",
+      "edit_message": "ערוך הודעה"
+    },
+    "message_attachments": {
+      "image_attachment": "קובץ תמונה מצורף",
+      "video_attachment": "קובץ וידאו מצורף",
+      "play_video": "הפעל את הסרטון"
+    },
+    "message_bubble": {
+      "disappearing_message": "הודעה נעלמת"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "עדיין אף אחד לא קרא את זה",
+      "message_info": "פרטי ההודעה"
+    },
+    "report_message": {
+      "reason": "הסיבה",
+      "include_previous_messages": "כלול הודעות קודמות",
+      "additional_details": "פרטים נוספים",
+      "anything_else_moderators_should_know": "האם יש עוד משהו שהמנחים צריכים לדעת?",
+      "block_this_user_after_reporting": "חסום משתמש זה לאחר הדיווח",
+      "submit_report": "שלח דוח",
+      "report_message": "דווח על הודעה"
+    },
+    "phone_number": {
+      "replace_number": "החלף מספר",
+      "pick_a_number": "בחר מספר",
+      "no_number_assigned": "לא הוקצה מספר Chatforia.",
+      "your_number": "מספר ה-Chatforia שלך"
+    },
+    "pick_number": {
+      "area_code": "קוד אזור",
+      "premium_numbers_are_protected_from_recycling": "מספרי פרימיום מוגנים מפני שימוש חוזר.",
+      "available_numbers": "מספרים פנויים",
+      "search_by_area_code_to_find_available_numbers": "חפש לפי קידומת כדי למצוא מספרי טלפון פנויים.",
+      "capability": "יכולת",
+      "country": "מדינה"
+    },
+    "gif_picker": {
+      "search_tenor": "חפש Tenor",
+      "search_gifs": "חפש GIFים"
+    },
+    "random_chat": {
+      "add_friend": "הוסף חבר",
+      "skip": "דלג",
+      "send": "שלח",
+      "end_chat": "לסיים את הצ'אט"
+    },
+    "random_matching": {
+      "finding_someone": "למצוא מישהו"
+    },
+    "ria_chat": {
+      "ask_ria": "שאלו את ריה...",
+      "you_re_now_chatting_with_ria": "אתה משוחח כעת עם ריה",
+      "chat_with_ria_anytime_separate_from_random_human": "תוכל לשוחח עם ריה בכל עת, בנפרד מהשידוכים האקראיים עם אנשים אחרים."
+    },
+    "ria_rewrite": {
+      "original_text": "הטקסט המקורי",
+      "choose_tone": "בחר גוון",
+      "rewriting": "שכתוב...",
+      "suggestions": "הצעות",
+      "choose_a_tone_to_generate_rewrite_suggestions": "בחר סגנון כדי לקבל הצעות לניסוח מחדש."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "הגרסה החינמית כוללת צלילים בסיסיים. שדרג כדי לפתוח צלילים ורינגטונים נוספים.",
+      "volume": "נפח",
+      "message_tone": "צליל הודעה",
+      "ringtone": "רינגטון"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "עדיין אין הודעות קוליות.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "כאשר מישהו משאיר לך הודעה קולית,\nהיא תופיע כאן.",
+      "play_voicemail": "הפעל הודעת דואר קולי",
+      "delete_voicemail": "מחק הודעת קולית"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "הודעות קוליות נבחרות"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "כיסוי במדינה שבה אתה נמצא כעת או לשימוש מקומי בסביבה.",
+      "coverage_across_supported_european_destinations": "כיסוי בכל היעדים האירופיים הנתמכים.",
+      "coverage_across_supported_global_destinations": "כיסוי בכל היעדים הנתמכים ברחבי העולם."
+    },
+    "wireless_home": {
+      "manage_wireless": "ניהול רשתות אלחוטיות",
+      "port_my_number": "העבר את המספר שלי",
+      "esim_data_packs_require_an_esim_compatible_and_u": "חבילות נתונים ל-eSIM מחייבות שימוש במכשיר התומך ב-eSIM ושהוא לא נעול.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "הישאר מחובר גם כשאתה מטייל או נמצא מחוץ לטווח ה-Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "בחר חבילת נתונים חד-פעמית ל-eSIM לכיסוי מקומי, אירופי או עולמי.",
+      "we_don_t_sell_data_packs_under_3_gb": "אנחנו לא מוכרים חבילות גלישה בנפח נמוך מ-3 ג'יגה-בייט.",
+      "loading_usage": "טוען נתוני שימוש…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "עדיין אין חבילת נתונים פעילה. רכשו חבילה מהרשימה שלמטה כדי להתחיל לעקוב אחר השימוש.",
+      "usage_details_will_appear_once_your_data_pack_is": "פרטי השימוש יופיעו ברגע שחבילת הנתונים שלך תופעל.",
+      "manage": "ניהול",
+      "coverage": "כיסוי",
+      "your_esim": "ה-eSIM שלך",
+      "current_usage": "שימוש נוכחי"
+    }
   }
 }

@@ -3066,7 +3066,8 @@
     "flip": "மாற்று",
     "speaker": "பேச்சாளர்",
     "end": "முடிவு",
-    "noIncomingCallToAnswer": "பதிலளிக்க அழைப்புகள் இல்லை."
+    "noIncomingCallToAnswer": "பதிலளிக்க அழைப்புகள் இல்லை.",
+    "serviceUnavailable": "கால் சேவை தற்போது கிடைக்கவில்லை. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
   },
   "settings": {
     "startHour": "தொடக்க நேரம் (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "இருள்",
   "accessibility_caption_bg_transparent": "தெளிவான",
   "api": {
-    "notAuthorized": "அங்கீகரிக்கப்படவில்லை"
+    "notAuthorized": "அங்கீகரிக்கப்படவில்லை",
+    "invalidURL": "செயலற்ற சேவையக முகவரி.",
+    "serverError": "சர்வர் பிழை (%d): %@",
+    "failedToDecodeResponse": "சர்வர் பதிலைப் படிக்க முடியவில்லை: %@"
+  },
+  "tap_to_view_contact": "தொடர்பைக் காணத் தட்டவும்",
+  "android": {
+    "plan": {
+      "plan_billing": "திட்டம் மற்றும் கட்டண முறை",
+      "current_plan": "தற்போதைய திட்டம்",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "பிளஸ் மூலம் விளம்பரமில்லாமல் பயன்படுத்துங்கள், அல்லது பிரீமியம் மூலம் AI கருவிகளையும் தனிப்பயனாக்கலையும் திறந்துகொள்ளுங்கள்.",
+      "plus": "கூடுதல்",
+      "premium": "பிரீமியம்",
+      "back": "திரும்புக",
+      "my_plan": "என் திட்டம்",
+      "compare_plans": "திட்டங்களை ஒப்பிடுக",
+      "included": "சேர்க்கப்பட்டுள்ளது"
+    },
+    "upgrade": {
+      "upgrade": "மேம்படுத்துதல்",
+      "restore_purchases": "வாங்கல்களை மீட்டமை",
+      "unlock_more_with": "செயட்ஃபோரியாவுடன் மேலும் பலவற்றைத் திறக்கவும்",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "விளம்பரங்களை நீக்க, உங்கள் அனுபவத்தைத் தனிப்பயனாக்க, மற்றும் மேம்பட்ட கருவிகளைத் திறக்க பிளஸ் அல்லது பிரீமியத்தைத் தேர்ந்தெடுக்கவும்.",
+      "best_experience": "சிறந்த அனுபவம்",
+      "close": "மூடுக",
+      "plus": "சட்போரியா பிளஸ்",
+      "remove_ads_and_unlock_more_everyday_features": "விளம்பரங்களை நீக்கி, மேலும் பல அன்றாட அம்சங்களைத் திறக்கவும்.",
+      "premium": "சட்போரியா பிரீமியம்",
+      "the_full_experience": "முழுமையான சாட்ஃபோரியா அனுபவம்.",
+      "premium_annual": "பிரீமியம் வருடாந்திரம்",
+      "save_compared_to_monthly_premium": "மாதாந்திர பிரீமியத்துடன் ஒப்பிடும்போது சேமிக்கவும்."
+    },
+    "audio_call": {
+      "mute": "பேசாதிரு",
+      "speaker": "பேச்சாளர்",
+      "end_call": "கால அழைப்பை முடி"
+    },
+    "dial_pad": {
+      "dial": "சுழற்று",
+      "done": "முடிந்தது",
+      "enter_number": "எண்ணை உள்ளிடவும்",
+      "call": "கூப்பிடு",
+      "delete_digit": "எண்ணை நீக்கவும்"
+    },
+    "incoming_call": {
+      "decline": "குறைவு",
+      "accept": "ஏற்றுக்கொள்",
+      "decline_call": "கூப்பிட்டதை நிராகரிக்கவும்",
+      "accept_call": "கால்கோப்பை ஏற்றுக்கொள்"
+    },
+    "video_call": {
+      "camera": "கேமரா",
+      "flip_camera": "ஃபிளிப் கேமரா"
+    },
+    "chats": {
+      "search_chats": "உரையாடல்களைத் தேடு",
+      "no_chats_yet": "இன்னும் அரட்டைகள் இல்லை",
+      "admob_ad": "அட்மாப் விளம்பரம்",
+      "delete_conversation": "உரையாடலை நீக்கவா?",
+      "this_will_remove_this_conversation_from_your_cha": "இது இந்த உரையாடலை உங்கள் அரட்டைப் பட்டியலிலிருந்து நீக்கும்.",
+      "delete": "நீக்கு",
+      "cancel": "ரத்து செய்",
+      "chats": "உரையாடல்கள்",
+      "new_chat": "புதிய அரட்டை",
+      "refresh": "புதுப்பி",
+      "random_chat": "தற்செயல் அரட்டை",
+      "search": "தேடல்",
+      "delete_conversation_2": "உரையாடலை நீக்கு"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "பயனர் பெயர், தொடர்பு பெயர் அல்லது தொலைபேசி எண்",
+      "new_chat": "புதிய அரட்டை",
+      "start_a_chat": "உரையாடலைத் தொடங்குங்கள்",
+      "search_by_username_contact_name_or_phone_number": "பயனர் பெயர், தொடர்புப் பெயர் அல்லது தொலைபேசி எண் மூலம் தேடவும்.",
+      "results": "முடிவுகள்",
+      "open_chat": "செயலியைத் திற"
+    },
+    "calls": {
+      "recents": "சமீபத்தியவை",
+      "voicemail": "குரலஞ்சல்",
+      "calls": "கால்கள்",
+      "no_calls_yet": "இதுவரை அழைப்புகள் இல்லை",
+      "your_recent_calls_will_show_up_here": "உங்கள் சமீபத்திய அழைப்புகள் இங்கே தோன்றும்.",
+      "open_dial_pad": "எண் விசைப்பலகையைத் திறக்கவும்",
+      "delete_call": "அழைப்பை நீக்கு",
+      "video_call": "காணொளி அழைப்பு"
+    },
+    "contacts": {
+      "contacts": "தொடர்புகள்",
+      "add_contact": "தொடர்பைச் சேர்",
+      "import_from_phone": "தொலைபேசியிலிருந்து இறக்குமதி",
+      "invite_friends": "நண்பர்களை அழைக்கவும்",
+      "favorite": "பிடித்தமான",
+      "open_contact": "தொடர்பைத் திற"
+    },
+    "main_activity": {
+      "loading": "ஏற்றுகிறது...",
+      "profile": "சுயவிவரம்"
+    },
+    "profile": {
+      "delete_account": "கணக்கை நீக்கவும்",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "இந்தச் செயலை மாற்ற முடியாது. உங்கள் கணக்கை நீக்க விரும்புகிறீர்களா?",
+      "log_out": "வெளியேறு",
+      "change_photo": "படத்தை மாற்று",
+      "remove_photo": "படத்தை நீக்கு",
+      "preferred_language": "விரும்பிய மொழி",
+      "your_age_range": "உங்கள் வயது வரம்பு",
+      "theme": "தலைப்பு",
+      "choose_how_looks_across_the_app": "செயலியில் Chatforia எப்படித் தோற்றமளிக்கிறது என்பதைத் தேர்ந்தெடுக்கவும்.",
+      "uploading": "ஏற்றுகிறது…",
+      "choose_plus_or_premium": "பிளஸ் அல்லது பிரீமியத்தைத் தேர்ந்தெடுக்கவும்",
+      "profile_photo": "சுயவிவரப் படம்",
+      "open_upgrade": "திறந்த மேம்படுத்தல்",
+      "open": "திற",
+      "account": "கணக்கு",
+      "username": "பயனர் பெயர்",
+      "email": "மின்னஞ்சல்",
+      "plan": "திட்டம்",
+      "wireless": "கம்பியில்லா",
+      "mobile": "சட்போரியா மொபைல்",
+      "esim_and_wireless_settings": "இ-சிம் மற்றும் வயர்லெஸ் அமைப்புகள்",
+      "call_text_forwarding": "கால் மற்றும் டெக்ஸ்ட் பகிர்தல்",
+      "forward_incoming_calls_and_texts": "வருகின்ற அழைப்புகளையும் குறுஞ்செய்திகளையும் பகிரவும்",
+      "phone_number": "தொலைபேசி எண்",
+      "manage_your_number": "உங்கள் Chatforia எண்ணை நிர்வகிக்கவும்",
+      "settings": "அமைப்புகள்",
+      "auto_translate_messages": "செய்திகளைத் தானாக மொழிபெயர்க்கவும்",
+      "automatically_translate_messages_into_your_prefe": "செய்திகளை உங்கள் விருப்ப மொழிக்கு தானாகவே மொழிபெயர்க்கவும்.",
+      "show_original_with_translation": "மொழிபெயர்ப்புடன் அசலைக் காட்டு",
+      "show_the_original_message_alongside_the_translat": "மொழிபெயர்ப்புடன் அசல் செய்தியைக் காட்டவும்.",
+      "smart_reply_suggestions": "புத்திசாலித்தனமான பதிலளிப்புப் பரிந்துரைகள்",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "ரியா-ஆற்றல்மிக்க மறுஎழுத்து உதவி மற்றும் விரைவான பதில்களைக் காட்டு.",
+      "linked_devices": "இணைக்கப்பட்ட சாதனங்கள்",
+      "manage_trusted_devices": "நம்பகமான சாதனங்களை நிர்வகிக்கவும்",
+      "pair_new_device": "புதிய சாதனத்தை இணைக்கவும்",
+      "approve_a_new_device": "புதிய சாதனத்தை அங்கீகரிக்கவும்",
+      "appearance": "தோற்றம்",
+      "accessibility": "அணுகல்தன்மை",
+      "visual_alerts_captions_and_voice_note_accessibil": "காட்சி எச்சரிக்கைகள், தலைப்புகள் மற்றும் குரல் குறிப்பு அணுகல்தன்மை",
+      "security": "பாதுகாப்பு",
+      "encryption_key_protected": "குறியாக்கத் திறவுகோல் பாதுகாக்கப்பட்டது",
+      "privacy": "தனியுரிமை",
+      "allow_explicit_content": "தெளிவான உள்ளடக்கத்தை அனுமதிக்கவும்",
+      "show_read_receipts": "படித்ததற்கான ரசீதுகளைக் காட்டு",
+      "blur_messages_by_default": "செய்திகளை இயல்பாக மங்கச் செய்தல்",
+      "blur_when_app_is_unfocused": "செயலி கவனத்தில் இல்லாதபோது மங்கல்",
+      "hold_to_reveal_messages": "செய்திகளைக் காட்ட அழுத்திப் பிடிக்கவும்",
+      "notify_when_messages_are_copied": "செய்திகள் நகலெடுக்கப்படும்போது அறிவிக்கவும்",
+      "random_chat": "தற்செயல் அரட்டை",
+      "use_age_based_matching": "வயது அடிப்படையிலான பொருத்துதலைப் பயன்படுத்தவும்",
+      "let_ria_remember_conversations": "ரியா உரையாடல்களை நினைவில் கொள்ளட்டும்",
+      "forward_voicemail_to_email": "குரலஞ்சலியை மின்னஞ்சலுக்கு அனுப்பவும்",
+      "legal_support": "சட்டரீதியான மற்றும் ஆதரவு",
+      "free": "இலவசம்"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "ஒலியைச் சார்ந்திருக்காமல் Chatforia-வை எளிதாகப் பயன்படுத்தும் விருப்பங்கள்.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "சாதாரண அளவில் தொடங்குகிறது. அணுகல்தன்மை அமைப்புகளில் நீங்கள் பெரிய உரையை விரும்பினால் அளவை அதிகரிக்கவும்.",
+      "interface_font_size": " இடைமுக எழுத்துரு அளவு",
+      "notifications": "அறிவிப்புகள்",
+      "visual_alerts_for_messages_calls": "செய்திகள் மற்றும் அழைப்புகளுக்கான காட்சி எச்சரிக்கைகள்",
+      "show_banners_and_visual_indicators_so_you_do_not": "செயல்பாடுகளை நீங்கள் தவறவிடாமல் இருக்க, பதாகைகளையும் காட்சிச் சுட்டிகளையும் காட்டுங்கள்.",
+      "vibrate_on_new_messages": "புதிய செய்திகளுக்கு அதிர்வு",
+      "trigger_device_vibration_with_notifications_when": "ஆதரிக்கப்படும்போது அறிவிப்புகளுடன் தூண்டுதல் சாதன அதிர்வை இயக்கவும்.",
+      "flash_screen_on_incoming_call": "வருகை அழைப்பின் திரை மின்னல்",
+      "briefly_flash_the_screen_when_a_call_rings": "கால் வரும்போது திரையைச் சுருக்கமாக ஒளிரச் செய்யவும்.",
+      "live_captions": "நேரடி தலைப்புகள்",
+      "enable_live_captions": "நேரடி தலைப்புகளை இயக்கவும்",
+      "show_real_time_captions_during_calls_premium_req": "கால்களின் போது நிகழ்நேர தலைப்புகளைக் காட்டவும். பிரீமியம் தேவை.",
+      "caption_font_size": "தலைப்பு எழுத்துரு அளவு",
+      "caption_background": "தலைப்புப் பின்னணி",
+      "voice_notes": "குரல் குறிப்புகள்",
+      "auto_transcribe_voice_notes": "குரல் குறிப்புகளைத் தானாக எழுது",
+      "attach_a_transcript_to_audio_messages_you_receiv": "நீங்கள் பெறும் ஆடியோ செய்திகளுடன் ஒரு பிரதியை இணைக்கவும்."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "நான் எனது சாவியை மீட்டெடுத்துள்ளேன்",
+      "restore_encryption": "குறியாக்கத்தை மீட்டமை"
+    },
+    "language_selection": {
+      "select_language": "மொழியைத் தேர்ந்தெடுக்கவும்"
+    },
+    "login": {
+      "email_or_username": "மின்னஞ்சல் அல்லது பயனர் பெயர்",
+      "password": "கடவுச்சொல்",
+      "forgot_password": "கடவுச்சொல்லை மறந்துவிட்டீர்களா?",
+      "resend_verification_email": "சரிபார்ப்பு மின்னஞ்சலை மீண்டும் அனுப்பவும்",
+      "reset_encryption": "குறியாக்கத்தை மீட்டமை",
+      "create_an_account": "கணக்கை உருவாக்கவும்",
+      "welcome_to": "சட்போரியாவுக்கு வரவேற்கிறோம்",
+      "sign_in_or_create_an_account": "உள்நுழையவும் அல்லது கணக்கை உருவாக்கவும்",
+      "or": "அல்லது",
+      "don_t_have_an_account_yet": "இன்னும் கணக்கு இல்லையா?"
+    },
+    "onboarding": {
+      "welcome": "நல்வரவு",
+      "set_up_your_profile_so_can_personalize_your_expe": "Chatforia உங்கள் அனுபவத்தைத் தனிப்பயனாக்க, உங்கள் சுயவிவரத்தை அமைக்கவும்.",
+      "choose_a_username": "பயனர் பெயரைத் தேர்ந்தெடுக்கவும்",
+      "this_is_how_people_will_recognize_you_in": "சாட்ஃபோரியாவில் மக்கள் உங்களை இப்படித்தான் அடையாளம் காண்பார்கள்.",
+      "choose_your_language": "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்",
+      "will_use_this_for_translations_and_your_app_expe": "சாட்ஃபோரியா இதை மொழிபெயர்ப்புகளுக்கும் உங்கள் செயலி அனுபவத்திற்கும் பயன்படுத்தும்.",
+      "you_re_ready": "நீங்கள் தயாராக இருக்கிறீர்கள்",
+      "start_chatting_calling_translating_and_connectin": "உலகெங்கிலும் உள்ள மக்களுடன் அரட்டையடிக்க, அழைக்க, மொழிபெயர்க்க மற்றும் இணையுங்கள்."
+    },
+    "register": {
+      "confirm_password": "கடவுச்சொல்லை உறுதிப்படுத்துங்கள்",
+      "phone_optional": "தொலைபேசி விருப்பத்தேர்வு",
+      "log_in": "உள்நுழைக",
+      "create_your_account": "உங்கள் கணக்கை உருவாக்குங்கள்",
+      "start_chatting_across_languages_with": "சாட்ஃபோரியாவுடன் மொழிகளுக்கு இடையே அரட்டையடிக்கத் தொடங்குங்கள்.",
+      "i_agree_to_receive_sms_verification_messages": "எஸ்எம்எஸ் சரிபார்ப்புச் செய்திகளைப் பெற நான் ஒப்புக்கொள்கிறேன்.",
+      "already_have_an_account": "ஏற்கனவே கணக்கு உள்ளதா?"
+    },
+    "add_contact": {
+      "phone": "தொலைபேசி",
+      "name": "பெயர்",
+      "alias_optional": "மாற்றுப்பெயர் விருப்பத்தேர்வு",
+      "pin_this_person_as_a_favorite_contact": "இந்த நபரை விருப்பமான தொடர்பாகக் குறிக்கவும்."
+    },
+    "contact_detail": {
+      "edit_contact": "தொடர்பைத் திருத்து",
+      "delete_contact": "தொடர்பை நீக்கு",
+      "message": "செய்தி",
+      "video": "காணொளி",
+      "external_name": "வெளிப்பெயர்"
+    },
+    "import_phone_contacts": {
+      "select_all": "அனைத்தையும் தேர்ந்தெடுக்கவும்",
+      "clear": "தெளிவான",
+      "import_contacts": "தொடர்புகளை இறக்குமதி செய்யவும்"
+    },
+    "invite_friends": {
+      "share_invite_link": "அழைப்பிதழ் இணைப்பைப் பகிரவும்",
+      "invite_friends": "நண்பர்களை அழைக்கவும்",
+      "share_a_invite_link_with_friends_using_messages_": "மெசேஜஸ், மின்னஞ்சல் அல்லது உங்கள் தொலைபேசியில் உள்ள எந்தவொரு செயலியையும் பயன்படுத்தி நண்பர்களுடன் ஒரு Chatforia அழைப்பு இணைப்பைப் பகிரவும்."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "புதிய சாதனத்தை இணைக்கவும்",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "உங்கள் புதிய சாதனத்தில் Chatforia-வைத் திறந்து உள்நுழையவும். உங்கள் மறைகுறியாக்கப்பட்ட அரட்டைகளை அணுகுவதற்கு அது தேவைப்பட்டால், ஒரு நம்பகமான சாதனத்திலிருந்து ஒப்புதல் அளிக்கவும்.",
+      "view_pending_device_requests": "காதோலிக்கும் சாதனக் கோரிக்கைகளைப் பார்க்கவும்"
+    },
+    "key_setup": {
+      "recovery_passcode": "மீட்பு கடவுச்சொல்",
+      "confirm_recovery_passcode": "மீட்பு கடவுச்சொல்லை உறுதிப்படுத்துங்கள்",
+      "restore_chats": "உரையாடல்களை மீட்டமை",
+      "clear_local_key": "உள்ளூர் விசையை நீக்கு",
+      "reset_encryption": "குறியாக்கத்தை மீட்டமைக்கவா?",
+      "this_will_permanently_replace_your_encryption_ke": "இது உங்கள் குறியாக்க விசையை நிரந்தரமாக மாற்றிவிடும்.",
+      "encryption": "குறியாக்கம்",
+      "restore_encrypted_chats": "குறியாக்கப்பட்ட அரட்டைகளை மீட்டமை",
+      "no_recovery_backup_found": "மீட்பு நகல் எதுவும் காணப்படவில்லை",
+      "open_on_a_device_that_can_already_read_your_encr": "உங்கள் மறைகுறியாக்கப்பட்ட உரையாடல்களை ஏற்கனவே படிக்கக்கூடிய ஒரு சாதனத்தில் Chatforia-வைத் திறந்து, அங்கு ஒரு மீட்பு கடவுச்சொல்லை உருவாக்கவும்.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "இன்னும் மீட்புப் பிரதி எதுவும் கண்டறியப்படவில்லை. iOS, Android மற்றும் இணையத்தில் உரையாடல்களை மீட்டெடுக்க, இந்தச் சாதனத்திலிருந்து ஒன்றை உருவாக்கவும்.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "உங்களிடம் உள்ள அனைத்து நம்பகமான சாதனங்களையும் நீங்கள் இழந்து, உங்கள் அசல் சாவியை மீட்டெடுக்க முடியாத பட்சத்தில் மட்டுமே இதைப் பயன்படுத்தவும்."
+    },
+    "linked_devices": {
+      "your_devices": "உங்கள் சாதனங்கள்",
+      "pending_approvals": "ஒப்புதல்களுக்காக காத்திருத்தல்",
+      "approve": "அங்கீகரிக்கவும்",
+      "reject": "தள்ளுபடி",
+      "revoke": "நீக்கு",
+      "request_approval_for_this_device": "இந்தச் சாதனத்திற்கு ஒப்புதல் கோரவும்",
+      "finish_device_approval": "சாதன ஒப்புதல்"
+    },
+    "forwarding_settings": {
+      "reset": "மீட்டமை",
+      "forward_incoming_calls_and_texts_to_your_verifie": "உங்கள் சரிபார்க்கப்பட்ட தொலைபேசி அல்லது மின்னஞ்சலுக்கு வரும் அழைப்புகள் மற்றும் குறுஞ்செய்திகளைத் திருப்பி அனுப்புங்கள்.",
+      "quiet_hours": "அமைதியான மணிநேரங்கள்",
+      "forwarding": "முன்னேற்றுதல்",
+      "enable_text_forwarding": "செய்தி பகிர்தலை இயக்கவும்",
+      "forward_texts_to_phone": "செய்திகளைத் தொலைபேசிக்கு அனுப்பவும்",
+      "forward_texts_to_email": "குறுஞ்செய்திகளை மின்னஞ்சலுக்கு அனுப்பவும்",
+      "enable_call_forwarding": "கால் ஃபார்வர்டிங்கை இயக்கவும்"
+    },
+    "chat_message_row": {
+      "copy": "நகலெடு",
+      "edit": "திருத்து",
+      "report": "அறிக்கை",
+      "message_info": "செய்தித் தகவல்"
+    },
+    "chat_thread": {
+      "no_messages_yet": "இன்னும் செய்திகள் இல்லை",
+      "delete_message": "செய்தியை நீக்கவா?",
+      "choose_how_you_want_to_delete_this_message": "இந்தச் செய்தியை நீங்கள் எவ்வாறு அழிக்க விரும்புகிறீர்கள் என்பதைத் தேர்ந்தெடுக்கவும்.",
+      "delete_for_everyone": "அனைவருக்கும் நீக்கு",
+      "delete_for_me": "எனக்காக நீக்கு",
+      "search_messages": "செய்திகளைத் தேடு",
+      "search_in_chat": "செயலியில் தேடு",
+      "sending": "அனுப்புகிறேன்…",
+      "failed_to_send": "அனுப்பத் தவறியது",
+      "edited": "திருத்தப்பட்டது",
+      "audio_call": "ஒலி அழைப்பு",
+      "video_call": "காணொளி அழைப்பு",
+      "selected_gif": "தேர்ந்தெடுக்கப்பட்ட ஜிஃப்",
+      "remove_gif": "GIF-ஐ நீக்கு",
+      "attach": "இணைக்கவும்",
+      "rewrite_with_ria": "ரியாவுடன் திருத்தி எழுது",
+      "composer_action": "இசையமைப்பாளர் செயல்"
+    },
+    "edit_message": {
+      "save": "சேமி",
+      "emoji": "எமோஜி",
+      "edit_message": "செய்தியைத் திருத்து"
+    },
+    "message_attachments": {
+      "image_attachment": "பட இணைப்பு",
+      "video_attachment": "காணொளி இணைப்பு",
+      "play_video": "வீடியோவை இயக்கவும்"
+    },
+    "message_bubble": {
+      "disappearing_message": "மறைந்துபோகும் செய்தி"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "இதை இன்னும் யாரும் படிக்கவில்லை",
+      "message_info": "செய்தித் தகவல்"
+    },
+    "report_message": {
+      "reason": "காரணம்",
+      "include_previous_messages": "முந்தைய செய்திகளைச் சேர்க்கவும்",
+      "additional_details": "கூடுதல் விவரங்கள்",
+      "anything_else_moderators_should_know": "நடத்துநர்கள் தெரிந்து கொள்ள வேண்டிய வேறு ஏதேனும் உள்ளதா?",
+      "block_this_user_after_reporting": "புகாரளித்த பிறகு இந்தப் பயனரைத் தடுக்கவும்",
+      "submit_report": "அறிக்கையைச் சமர்ப்பிக்கவும்",
+      "report_message": "அறிக்கை செய்தி"
+    },
+    "phone_number": {
+      "replace_number": "எண்ணை மாற்று",
+      "pick_a_number": "ஒரு எண்ணைத் தேர்ந்தெடு",
+      "no_number_assigned": "சட்போரியா எண் ஒதுக்கப்படவில்லை.",
+      "your_number": "உங்கள் சட்போரியா எண்"
+    },
+    "pick_number": {
+      "area_code": "பகுதி குறியீடு",
+      "premium_numbers_are_protected_from_recycling": "பிரீமியம் எண்கள் மறுசுழற்சியிலிருந்து பாதுகாக்கப்படுகின்றன.",
+      "available_numbers": "கிடைக்கும் எண்கள்",
+      "search_by_area_code_to_find_available_numbers": "கிடைக்கக்கூடிய எண்களைக் கண்டறிய, பகுதி குறியீட்டின்படி தேடவும்.",
+      "capability": "திறன்",
+      "country": "நாடு"
+    },
+    "gif_picker": {
+      "search_tenor": "டெனரைத் தேடு",
+      "search_gifs": "GIF-களைத் தேடு"
+    },
+    "random_chat": {
+      "add_friend": "நண்பராகச் சேர்",
+      "skip": "விடுப",
+      "send": "அனுப்பு",
+      "end_chat": "செயல்திறன் உரையாடல் முடிந்தது"
+    },
+    "random_matching": {
+      "finding_someone": "ஒருவரைக் கண்டுபிடித்தல்"
+    },
+    "ria_chat": {
+      "ask_ria": "ரியாவிடம் கேளுங்கள்...",
+      "you_re_now_chatting_with_ria": "நீங்கள் இப்போது ரியாவுடன் அரட்டையடிக்கிறீர்கள்",
+      "chat_with_ria_anytime_separate_from_random_human": "யாருடனாவது தோராயமாகப் பொருத்துவதிலிருந்து தனித்தனியாக, ரியாவுடன் எப்போது வேண்டுமானாலும் அரட்டையடிக்கலாம்."
+    },
+    "ria_rewrite": {
+      "original_text": "அசல் உரை",
+      "choose_tone": "தொனியைத் தேர்ந்தெடுக்கவும்",
+      "rewriting": "மீண்டும் எழுதுதல்…",
+      "suggestions": "முன்மொழிவுகள்",
+      "choose_a_tone_to_generate_rewrite_suggestions": "மீளெழுதும் பரிந்துரைகளை உருவாக்க ஒரு தொனியைத் தேர்ந்தெடுக்கவும்."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "இலவசப் பதிப்பில் அடிப்படை ஒலிகள் அடங்கும். மேலும் டோன்கள் மற்றும் ரிங்டோன்களைத் திறக்க மேம்படுத்தவும்.",
+      "volume": "அளவு",
+      "message_tone": "செய்தி தொனி",
+      "ringtone": "ரிங்டோன்"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "இன்னும் குரலஞ்சல்கள் இல்லை.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "யாராவது உங்களுக்குக் குரலஞ்சலை அனுப்பும்போது, அது இங்கே தோன்றும்.",
+      "play_voicemail": "குரலஞ்சலியை ஒலிக்கவும்",
+      "delete_voicemail": "குரலஞ்சலியை நீக்கு"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "தேர்ந்தெடுக்கப்பட்ட குரலஞ்சல்"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "உங்கள் தற்போதைய நாட்டிற்கான அல்லது அருகிலுள்ள உள்ளூர் பயன்பாட்டிற்கான கவரேஜ்.",
+      "coverage_across_supported_european_destinations": "ஆதரிக்கப்படும் ஐரோப்பிய இடங்கள் முழுவதும் உள்ளடக்கம்.",
+      "coverage_across_supported_global_destinations": "ஆதரிக்கப்படும் உலகளாவிய இடங்கள் முழுவதும் உள்ளடக்கம்."
+    },
+    "wireless_home": {
+      "manage_wireless": "கம்பியில்லா நிர்வாகம்",
+      "port_my_number": "எனது எண்ணை மாற்று",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM டேட்டா பேக்குகளுக்கு eSIM-இணக்கமான மற்றும் அன்லாக் செய்யப்பட்ட சாதனம் தேவை.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "பயணத்தின்போதோ அல்லது வைஃபை இல்லாதபோதோ இணைப்பில் இருங்கள்.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "உள்ளூர், ஐரோப்பா அல்லது உலகளாவிய கவரேஜிற்காக ஒரு முறை பயன்படுத்தும் eSIM டேட்டா பேக்கைத் தேர்ந்தெடுக்கவும்.",
+      "we_don_t_sell_data_packs_under_3_gb": "நாங்கள் 3 ஜிபி-க்குக் குறைவான டேட்டா பேக்குகளை விற்பனை செய்வதில்லை.",
+      "loading_usage": "பயன்பாட்டை ஏற்றுகிறது…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "தற்போது செயலில் உள்ள டேட்டா பேக் எதுவும் இல்லை. பயன்பாட்டைக் கண்காணிக்கத் தொடங்க, கீழே ஒரு பேக்கை வாங்குங்கள்.",
+      "usage_details_will_appear_once_your_data_pack_is": "உங்கள் டேட்டா பேக் செயல்பட்டவுடன் பயன்பாட்டு விவரங்கள் தோன்றும்.",
+      "manage": "கையாளு",
+      "coverage": "அட்டைப்படம்",
+      "your_esim": "உங்கள் இ-சிம்",
+      "current_usage": "தற்போதைய பயன்பாடு"
+    }
   }
 }

@@ -3066,7 +3066,8 @@
     "flip": "وەرگێڕە",
     "speaker": "قسەکەر",
     "end": "کۆتایی",
-    "noIncomingCallToAnswer": "هیچ پەیوەندییەکی هاتوو نییە بۆ وەڵامدانەوە."
+    "noIncomingCallToAnswer": "هیچ پەیوەندییەکی هاتوو نییە بۆ وەڵامدانەوە.",
+    "serviceUnavailable": "ئێستا خزمەتگوزاریی پەیوەندی بەردەست نییە. تکایە دواتر دووبارە هەوڵ بدە."
   },
   "settings": {
     "startHour": "کاتی دەستپێک (٠–٢٣)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "تاریک",
   "accessibility_caption_bg_transparent": "ڕوون",
   "api": {
-    "notAuthorized": "مۆڵەتپێنەکراو"
+    "notAuthorized": "مۆڵەتپێنەکراو",
+    "invalidURL": "ناونیشانی سێرڤەر نادروستە.",
+    "serverError": "هەڵەی سێرڤەر (%d): %@",
+    "failedToDecodeResponse": "نەتوانرا وەڵامی سێرڤەرەکە بخوێنرێتەوە: %@"
+  },
+  "tap_to_view_contact": "لێدەدە بۆ بینینی پەیوەندییەکە",
+  "android": {
+    "plan": {
+      "plan_billing": "پلان و پسوڵەکردن",
+      "current_plan": "پلانی ئێستا",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "بە پڵەس ڕێکلام-بێ بەکاربهێنە، یان بە پریمیم ئامرازەکانی زیرەکیی دەستکرد و تایبەتکردنەکان بکەرەوە.",
+      "plus": "زیاتر",
+      "premium": "نایاب",
+      "back": "گەڕانەوە",
+      "my_plan": "پلانی من",
+      "compare_plans": "بەراوردکردنی پلانەکان",
+      "included": "لەخۆدەگرێت"
+    },
+    "upgrade": {
+      "upgrade": "بەرزکردنەوە",
+      "restore_purchases": "گەڕاندنەوەی کڕینەکان",
+      "unlock_more_with": "زیاتر بکەرەوە لەگەڵ چاتفۆریا",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "پڵەس یان پرێمیەم هەڵبژێرە بۆ لابردنی ڕیکلامەکان، تایبەتمەندکردنی ئەزموونەکەت، و کردنەوەی ئامرازە پێشکەوتووەکان.",
+      "best_experience": "باشترین ئەزموون",
+      "close": "داخستن",
+      "plus": "چاتفۆریا پڵەس",
+      "remove_ads_and_unlock_more_everyday_features": "ڕیکلامەکان لابەرە و تایبەتمەندیی زیاتری ڕۆژانە بکەرەوە.",
+      "premium": "چاتفۆریا پرێمیەم",
+      "the_full_experience": "ئەزموونی تەواوی چاتفۆریا.",
+      "premium_annual": "ساڵانەی نایاب",
+      "save_compared_to_monthly_premium": "پاشەکەوت بە بەراورد بە پریمیمی مانگانە."
+    },
+    "audio_call": {
+      "mute": "بێدەنگ",
+      "speaker": "قسەکەر",
+      "end_call": "کۆتایی پەیوەندی"
+    },
+    "dial_pad": {
+      "dial": "ژمارە",
+      "done": "تەواو",
+      "enter_number": "ژمارە بنووسە",
+      "call": "پەیوەندی بکە",
+      "delete_digit": "ژمارە بسڕەوە"
+    },
+    "incoming_call": {
+      "decline": "کەمیکردن",
+      "accept": "قبووڵکردن",
+      "decline_call": "پاشگەزبوونەوە لە پەیوەندی",
+      "accept_call": "پەیوەندییەکە وەربگرە"
+    },
+    "video_call": {
+      "camera": "کامێرا",
+      "flip_camera": "کامێرای فلیپ"
+    },
+    "chats": {
+      "search_chats": "گەڕان لە چاتەکاندا",
+      "no_chats_yet": "هێشتا هیچ چاتێک نییە",
+      "admob_ad": "ڕیکلامی AdMob",
+      "delete_conversation": "سڕینەوەی گفتوگۆ؟",
+      "this_will_remove_this_conversation_from_your_cha": "ئەمە ئەم گفتوگۆیە لە لیستی چاتەکانت دەسڕێتەوە.",
+      "delete": "سڕینەوە",
+      "cancel": "هەڵوەشاندنەوە",
+      "chats": "قسەکردنەکان",
+      "new_chat": "چاتی نوێ",
+      "refresh": "نوێکردنەوە",
+      "random_chat": "چاتی هەڕەمەکی",
+      "search": "گەڕان",
+      "delete_conversation_2": "سڕینەوەی گفتوگۆکە"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "ناوی بەکارهێنەر، ناوی پەیوەندی، یان ژمارەی تەلەفۆن",
+      "new_chat": "چاتی نوێ",
+      "start_a_chat": "چاتێک دەست پێ بکە",
+      "search_by_username_contact_name_or_phone_number": "بەپێی ناوی بەکارهێنەر، ناوی پەیوەندی، یان ژمارەی تەلەفۆن بگەڕێ.",
+      "results": "ئەنجامەکان",
+      "open_chat": "چاتی کراوە"
+    },
+    "calls": {
+      "recents": "نوێترینەکان",
+      "voicemail": "پەیامی دەنگی",
+      "calls": "پەیوەندییەکان",
+      "no_calls_yet": "هێشتا هیچ پەیوەندییەک نییە",
+      "your_recent_calls_will_show_up_here": "پەیوەندییە نوێیەکانت لێرە دەردەکەون.",
+      "open_dial_pad": "کلاڤیەی ژمارەکان بکەرەوە",
+      "delete_call": "سڕینەوەی پەیوەندی",
+      "video_call": "پەیوەندیی ڤیدیۆیی"
+    },
+    "contacts": {
+      "contacts": "پەیوەندییەکان",
+      "add_contact": "زیادکردنی پەیوەندی",
+      "import_from_phone": "هاوردەکردن لە مۆبایلەوە",
+      "invite_friends": "بانگهێشتکردنی هاوڕێیان",
+      "favorite": "دڵخواز",
+      "open_contact": "پەیوەندی بکە"
+    },
+    "main_activity": {
+      "loading": "بارکردن...",
+      "profile": "پرۆفایل"
+    },
+    "profile": {
+      "delete_account": "سڕینەوەی هەژمار",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "ئەم کردارە ناگەڕێتەوە. ئایا دڵنیایت دەتەوێت هەژمارەکەت بسڕیتەوە؟",
+      "log_out": "دەرچوون",
+      "change_photo": "گۆڕینی وێنە",
+      "remove_photo": "سڕینەوەی وێنە",
+      "preferred_language": "زمانی پێشەنگ",
+      "your_age_range": "مەودای تەمەنت",
+      "theme": "بابەت",
+      "choose_how_looks_across_the_app": "هەڵبژێرە چاتفۆریا لە سەرانسەری ئەپەکەدا چۆن دەردەکەوێت.",
+      "uploading": "بارکردن...",
+      "choose_plus_or_premium": "پڵەس یان پرێمیەم هەڵبژێرە",
+      "profile_photo": "وێنەی پڕۆفایل",
+      "open_upgrade": "نوێکردنەوەی کراوە",
+      "open": "بکرێتەوە",
+      "account": "هەژمار",
+      "username": "ناوی بەکارهێنەر",
+      "email": "ئیمەیڵ",
+      "plan": "پلان",
+      "wireless": "بێ وایەر",
+      "mobile": "چاتفۆریا مۆبایل",
+      "esim_and_wireless_settings": "ڕێکخستنەکانی ئایسیم و بێتەل",
+      "call_text_forwarding": "ئاراستەکردنەوەی پەیوەندی و نامە",
+      "forward_incoming_calls_and_texts": "گواستنەوەی پەیوەندییە هاتووەکان و نامەکان",
+      "phone_number": "ژمارەی تەلەفۆن",
+      "manage_your_number": "بەڕێوەبردنی ژمارەکەی چاتفۆریات",
+      "settings": "ڕێکخستنەکان",
+      "auto_translate_messages": "وەرگێڕانی ئۆتۆماتیکیی نامەکان",
+      "automatically_translate_messages_into_your_prefe": "پەیامەکان بە شێوەیەکی ئۆتۆماتیکی وەربگێڕە بۆ زمانی دڵخوازی خۆت.",
+      "show_original_with_translation": "نیشاندانی ئەسڵ لەگەڵ وەرگێڕانەکە",
+      "show_the_original_message_alongside_the_translat": "پەیامە ڕەسەنەکە شانبەشانی وەرگێڕانەکە پیشان بدە.",
+      "smart_reply_suggestions": "پێشنیارەکانی وەڵامی زیرەک",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "یارمەتیی دووبارە نووسینەوەی پاڵپشتیکراو بە Ria و وەڵامە خێراکانی پیشان بدە.",
+      "linked_devices": "ئامێرە بەستراوەکان",
+      "manage_trusted_devices": "بەڕێوەبردنی ئامێرە متمانەپێکراوەکان",
+      "pair_new_device": "جووتکردنی ئامێری نوێ",
+      "approve_a_new_device": "پەسەندکردنی ئامێرێکی نوێ",
+      "appearance": "دیمەن",
+      "accessibility": "بەردەستی",
+      "visual_alerts_captions_and_voice_note_accessibil": "ئاگادارکەرەوەی بینراو، سەردێڕ، و دەستڕاگەیشتن بە تێبینی دەنگی",
+      "security": "ئاسایش",
+      "encryption_key_protected": "کلیلی شفرەپارێزراوە",
+      "privacy": "تایبەتمەندی",
+      "allow_explicit_content": "ڕێگەدان بە ناوەڕۆکی ئاشکرا",
+      "show_read_receipts": "نیشاندانی وێنەی خوێندنەوەکان",
+      "blur_messages_by_default": "نامەکان بە شێوەی بنەڕەتی تەڵخ بکە",
+      "blur_when_app_is_unfocused": "تارکردن کاتێک ئەپ لە دەرەوەی تیشکدایە",
+      "hold_to_reveal_messages": "بگرە بۆ پیشاندانی نامەکان",
+      "notify_when_messages_are_copied": "ئاگادار بکەرەوە کاتێک نامەکان کۆپی دەکرێن",
+      "random_chat": "چاتی هەڕەمەکی",
+      "use_age_based_matching": "هاوتاکردنی تەمەن بەکاربهێنە",
+      "let_ria_remember_conversations": "با ڕیا گفتوگۆکان بهیرد بکاتەوە",
+      "forward_voicemail_to_email": "نامەی دەنگیی هاتوو بۆ ئیمەیڵ بنێرە",
+      "legal_support": "یاسایی و پشتیوانی",
+      "free": "بەخۆڕایی"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "بژاردەکان بۆ ئاسانترکردنی بەکارهێنانی چاتفۆریا بەبێ پشت بەستن بە دەنگ.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "بە قەبارەی ئاسایی دەست پێدەکات. لە ڕێکخستنەکانی دەستڕاگەیشتن، قەبارەکەی گەورەتر بکە ئەگەر دەتەوێت نووسینە گەورەترەکان بەکاربهێنیت.",
+      "interface_font_size": "قەبارەی فۆنتی ڕووکار",
+      "notifications": "ئاگادارکردنەوەکان",
+      "visual_alerts_for_messages_calls": "ئاگادارکەرەوەی بینراو بۆ نامە و پەیوەندییەکان",
+      "show_banners_and_visual_indicators_so_you_do_not": "بانەر و نیشاندەری بینراو پیشان بدە تا چالاکییەکان لەدەست نەدەیت.",
+      "vibrate_on_new_messages": "لەسەر نامە نوێیەکان بڵەرزە",
+      "trigger_device_vibration_with_notifications_when": "لە کاتی پشتگیریکردنیدا، لەرینی ئامێرەکە لەگەڵ ئاگادارکردنەوەکاندا چالاک بکە.",
+      "flash_screen_on_incoming_call": "پەردەی فلەش لەسەر پەیوەندیی هاتوو",
+      "briefly_flash_the_screen_when_a_call_rings": "کاتێک پەیوەندییەک زەنگ لێدەدات، شاشەکە بۆ ماوەیەکی کورت بدرەوشێتەوە.",
+      "live_captions": "سەردێڕی ڕاستەوخۆ",
+      "enable_live_captions": "چالاککردنی ژێرنووسی ڕاستەوخۆ",
+      "show_real_time_captions_during_calls_premium_req": "لە کاتی پەیوەندییەکاندا سەردێڕی ڕاستەوخۆ پیشان بدە. پێویستی بە پریمیم هەیە.",
+      "caption_font_size": "قەبارەی فۆنتی سەردێڕ",
+      "caption_background": "سەردێڕی پاشبنەما",
+      "voice_notes": "تۆماری دەنگی",
+      "auto_transcribe_voice_notes": "خۆکارکردنی نووسینی تێبینییە دەنگییەکان",
+      "attach_a_transcript_to_audio_messages_you_receiv": "لایەنە دەنگییەکانەوە کە وەریان دەگریت، وێنەدانەکیان پێوەی هاوپێچ بکە."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "کلێمەکانم چاککردەوە",
+      "restore_encryption": "گەڕاندنەوەی شاردنەوەی نهێنی"
+    },
+    "language_selection": {
+      "select_language": "زمان هەڵبژێرە"
+    },
+    "login": {
+      "email_or_username": "ئیمەیڵ یان ناوی بەکارهێنەر",
+      "password": "وشەی نهێنی",
+      "forgot_password": "وشەی نهێنیـت لەبیر چووە؟",
+      "resend_verification_email": "دووبارە ناردنەوەی ئیمەیڵی پشتڕاستکردنەوە",
+      "reset_encryption": "سەرلەنوێکردنەوەی شاردنەوەی نهێنی",
+      "create_an_account": "هەژمارێک دروست بکە",
+      "welcome_to": "بەخێربێن بۆ چاتفۆریا",
+      "sign_in_or_create_an_account": "بچۆ ژوورەوە یان هەژمارێک دروست بکە",
+      "or": "یان",
+      "don_t_have_an_account_yet": "هێشتا هەژمارت نییە؟"
+    },
+    "onboarding": {
+      "welcome": "بەخێربێن",
+      "set_up_your_profile_so_can_personalize_your_expe": "پڕۆفایلەکەت دابنێ تا چاتفۆریا بتوانێت ئەزموونەکەت تایبەت بکات.",
+      "choose_a_username": "ناوی بەکارهێنەرێک هەڵبژێرە",
+      "this_is_how_people_will_recognize_you_in": "ئاوا خەڵک لە چاتفۆریا دەتناسنەوە.",
+      "choose_your_language": "زمانی خۆت هەڵبژێرە",
+      "will_use_this_for_translations_and_your_app_expe": "چاتفۆریا ئەمە بۆ وەرگێڕان و ئەزموونی ئەپەکەت بەکاردەهێنێت.",
+      "you_re_ready": "تۆ ئامادەیت",
+      "start_chatting_calling_translating_and_connectin": "دەست بکە بە چاتکردن، پەیوەندیکردن، وەرگێڕان، و پەیوەندیکردن لەگەڵ خەڵکی سەرانسەری جیهان."
+    },
+    "register": {
+      "confirm_password": "پاسوۆردەکە پشتڕاست بکەرەوە",
+      "phone_optional": "مۆبایل: ئارەزوومەندانە",
+      "log_in": "چوونە ژوورەوە",
+      "create_your_account": "هەژمارەکەت دروست بکە",
+      "start_chatting_across_languages_with": "لەگەڵ چاتفۆریا بە چەندین زمان دەست بە چاتکردن بکە.",
+      "i_agree_to_receive_sms_verification_messages": "من ڕەزامەندم لەسەر وەرگرتنی نامەی پشتڕاستکردنەوەی SMS.",
+      "already_have_an_account": "پێشتر هەژمارت هەیە؟"
+    },
+    "add_contact": {
+      "phone": "تەلەفۆن",
+      "name": "ناو",
+      "alias_optional": "ناوی دیکە (ئارەزوومەندانە)",
+      "pin_this_person_as_a_favorite_contact": "ئەم کەسە وەک پەیوەندییەکی دڵخواز دیاری بکە."
+    },
+    "contact_detail": {
+      "edit_contact": "دەستکاریی پەیوەندی",
+      "delete_contact": "سڕینەوەی پەیوەندی",
+      "message": "پەیام",
+      "video": "ڤیدیۆ",
+      "external_name": "ناوی دەرەکی"
+    },
+    "import_phone_contacts": {
+      "select_all": "هەموویان دیاری بکە",
+      "clear": "ڕوون",
+      "import_contacts": "هاوردەکردنی پەیوەندییەکان"
+    },
+    "invite_friends": {
+      "share_invite_link": "بەستەری بانگهێشتەکە هاوبەش بکە",
+      "invite_friends": "بانگهێشتکردنی هاوڕێیان",
+      "share_a_invite_link_with_friends_using_messages_": "بە بەکارهێنانی Messages، ئیمەیڵ، یان هەر ئەپێکی تری سەر مۆبایلەکەت، لینکێکی بانگهێشتنامەی چاتفۆریا لەگەڵ هاوڕێکانتدا هاوبەش بکە."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "ئامێرێکی نوێ جووت بکە",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "چاتفۆریا لەسەر ئامێرە نوێیەکەت بکەرەوە و بچۆ ژوورەوە. ئەگەر پێویستی بە دەستگەیشتن بوو بە چاتە نهێنییەکانت، لە ئامێرێکی متمانەپێکراوەوە ڕێگەی پێبدە.",
+      "view_pending_device_requests": "بینینی داواکارییەکانی ئامێرە چاوەڕوانکراوەکان"
+    },
+    "key_setup": {
+      "recovery_passcode": "کۆدی بووژاندنەوە",
+      "confirm_recovery_passcode": "پاسکۆدی پشتڕاستکردنەوەی چاککردنەوە پشتڕاست بکەرەوە",
+      "restore_chats": "گەڕاندنەوەی چاتەکان",
+      "clear_local_key": "سڕینەوەی کلیلە ناوخۆییەکە",
+      "reset_encryption": "سەرلەنوێکردنەوەی شاردنەوەکە؟",
+      "this_will_permanently_replace_your_encryption_ke": "ئەمە بە شێوەیەکی هەمیشەیی جێگەی کلیلی نهێنیکردنەکەت دەگرێتەوە.",
+      "encryption": "شفرەکردن",
+      "restore_encrypted_chats": "گەڕاندنەوەی چاتە نهێنیکراوەکان",
+      "no_recovery_backup_found": "کۆپی یەدەگی بەدەستنەهات",
+      "open_on_a_device_that_can_already_read_your_encr": "چاتفۆریا لەسەر ئامێرێک بکەرەوە کە پێشتر دەتوانێت چاتە نهێنیکراوەکانت بخوێنێتەوە و لەوێدا کۆدێکی بەدەستهێنانەوە دروست بکە.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "هێشتا هیچ بەکئەپێکی گەڕاندنەوە نەدۆزراوەتەوە. یەکێک لەم ئامێرەوە دروست بکە تا بتوانیت چاتەکان لەسەر iOS، ئەندرۆید و وێب بگەڕێنیتەوە.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "ئەمە تەنها بەکاربهێنە ئەگەر هەموو ئامێرە متمانەپێکراوەکانت لەدەستداوە و ناتوانیت کلیلی سەرەکییەکەت بگەڕێنیتەوە."
+    },
+    "linked_devices": {
+      "your_devices": "ئامێرەکانت",
+      "pending_approvals": "چاوەڕوانی پەسەندکردن",
+      "approve": "پەسەندکردن",
+      "reject": "ڕەتکردنەوە",
+      "revoke": "هەڵوەشاندنەوە",
+      "request_approval_for_this_device": "داوای ڕەزامەندی بکە بۆ ئەم ئامێرە",
+      "finish_device_approval": "تەواوکردنی پەسەندکردنی ئامێر"
+    },
+    "forwarding_settings": {
+      "reset": "سەرلەنوێکردنەوە",
+      "forward_incoming_calls_and_texts_to_your_verifie": "پێشوازیی پەیوەندییە هاتووەکان و نامەکان بکە بۆ سەر مۆبایلە پشتڕاستکراوەکەت یان ئیمەیڵەکەت.",
+      "quiet_hours": "کاتژمێرەکانی بێدەنگی",
+      "forwarding": "گواستنەوە",
+      "enable_text_forwarding": "ناردنەوەی دەق چالاک بکە",
+      "forward_texts_to_phone": "نامەکان بۆ مۆبایل بنێرە",
+      "forward_texts_to_email": "نامەکان بۆ ئیمەیڵ بنێرە",
+      "enable_call_forwarding": "ئاراستەکردنی پەیوەندی چالاک بکە"
+    },
+    "chat_message_row": {
+      "copy": "کۆپیکردن",
+      "edit": "دەستکاری",
+      "report": "ڕاپۆرت",
+      "message_info": "زانیاریی پەیام"
+    },
+    "chat_thread": {
+      "no_messages_yet": "تا ئێستا هیچ نامەیەک نییە",
+      "delete_message": "سڕینەوەی نامە؟",
+      "choose_how_you_want_to_delete_this_message": "هەڵبژێرە چۆن دەتەوێت ئەم نامەیە بسڕیتەوە.",
+      "delete_for_everyone": "سڕینەوە بۆ هەمووان",
+      "delete_for_me": "بۆ من بسڕەوە",
+      "search_messages": "گەڕان لە نامەکاندا",
+      "search_in_chat": "لە چاتدا بگەڕێ",
+      "sending": "ناردن...",
+      "failed_to_send": "نەنێردرا",
+      "edited": "دەستکاری کراوە",
+      "audio_call": "پەیوەندیی دەنگی",
+      "video_call": "پەیوەندیی ڤیدیۆیی",
+      "selected_gif": "جی ئایف ئەی هەڵبژێردراو",
+      "remove_gif": "سڕینەوەی GIF",
+      "attach": "پێوەبەستن",
+      "rewrite_with_ria": "دووبارە نووسینەوە لەگەڵ ڕیا",
+      "composer_action": "کرداری ئاوازدانەر"
+    },
+    "edit_message": {
+      "save": "پاشەکەوتکردن",
+      "emoji": "ئیماجۆی",
+      "edit_message": "دەستکاریی نامەکە"
+    },
+    "message_attachments": {
+      "image_attachment": "پێوەی وێنە",
+      "video_attachment": "پێوەی ڤیدیۆ",
+      "play_video": "ڤیدیۆیەکە لێبدە"
+    },
+    "message_bubble": {
+      "disappearing_message": "پەیامی دیارنەماو"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "هێشتا کەس ئەمەی نەخوێندووەتەوە",
+      "message_info": "زانیاریی پەیام"
+    },
+    "report_message": {
+      "reason": "هۆکار",
+      "include_previous_messages": "نامیلکەکانی پێشوو لەخۆبگرە",
+      "additional_details": "وردەکاریی زیاتر",
+      "anything_else_moderators_should_know": "هیچ شتێکی تر هەیە کە پێویست بێت بەڕێوەبەران بزانن؟",
+      "block_this_user_after_reporting": "دوای ڕاپۆرتکردن، ئەم بەکارهێنەرە بلۆک بکە",
+      "submit_report": "ناردنی ڕاپۆرت",
+      "report_message": "ئاگادارکردنەوەی نامە"
+    },
+    "phone_number": {
+      "replace_number": "ژمارە بگۆڕە",
+      "pick_a_number": "ژمارەیەک هەڵبژێرە",
+      "no_number_assigned": "هیچ ژمارەیەکی چاتفۆریا تەرخان نەکراوە.",
+      "your_number": "ژمارەکەت لە چاتفۆریا"
+    },
+    "pick_number": {
+      "area_code": "کۆدی ناوچە",
+      "premium_numbers_are_protected_from_recycling": "ژمارە تایبەتەکان لە دووبارە بەکارهێنانەوە پارێزراون.",
+      "available_numbers": "ژمارە بەردەستەکان",
+      "search_by_area_code_to_find_available_numbers": "بەپێی کۆدی ناوچە بگەڕێ بۆ دۆزینەوەی ژمارە بەردەستەکان.",
+      "capability": "توانا",
+      "country": "وڵات"
+    },
+    "gif_picker": {
+      "search_tenor": "گەڕان بۆ تێنۆر",
+      "search_gifs": "گێفەکان بگەڕێ"
+    },
+    "random_chat": {
+      "add_friend": "زیادکردنی هاوڕێ",
+      "skip": "بازدان",
+      "send": "ناردن",
+      "end_chat": "کۆتایی چات"
+    },
+    "random_matching": {
+      "finding_someone": "دۆزینەوەی کەسێک"
+    },
+    "ria_chat": {
+      "ask_ria": "لە ڕیا بپرسە...",
+      "you_re_now_chatting_with_ria": "تۆ ئێستا لەگەڵ ڕیا چات دەکەیت",
+      "chat_with_ria_anytime_separate_from_random_human": "هەر کاتێک بێت لەگەڵ ڕیا چات بکە، بە جیا لە جووتکردنی هەڕەمەکیی مرۆڤەکان."
+    },
+    "ria_rewrite": {
+      "original_text": "دەقی ڕەسەن",
+      "choose_tone": "تۆنێک هەڵبژێرە",
+      "rewriting": "نووسینەوە…",
+      "suggestions": "پێشنیارەکان",
+      "choose_a_tone_to_generate_rewrite_suggestions": "تۆنێک هەڵبژێرە بۆ پێشنیاری دووبارە نووسینەوە."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "وەشانی خۆڕایی دەنگە بنەڕەتییەکانی لەخۆدەگرێت. بۆ کردنەوەی تۆن و زەنگی زیاتر، نوێی بکەرەوە.",
+      "volume": "قەبارە",
+      "message_tone": "تۆنی پەیام",
+      "ringtone": "زەنگی مۆبایل"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "هێشتا هیچ پەیامێکی دەنگی نییە.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "کاتێک کەسێک پەیامێکی دەنگی بۆ جێدەهێڵیت، لێرە دەردەکەوێت.",
+      "play_voicemail": "لێدانی پەیامی دەنگی",
+      "delete_voicemail": "سڕینەوەی نامەی دەنگی"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "پەیامی دەنگیی هەڵبژێردراو"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "داپۆشین بۆ وڵاتی ئێستات یان بەکارهێنانی ناوخۆیی نزیک.",
+      "coverage_across_supported_european_destinations": "داپۆشین لە سەرانسەری شوێنە پاڵپشتیکراوەکانی ئەوروپادا.",
+      "coverage_across_supported_global_destinations": "داپۆشین لە سەرانسەری شوێنە جیهانییە پشتیوانیکراوەکاندا."
+    },
+    "wireless_home": {
+      "manage_wireless": "بەڕێوەبردنی بێتەل",
+      "port_my_number": "گواستنەوەی ژمارەکەم",
+      "esim_data_packs_require_an_esim_compatible_and_u": "پاکێجەکانی داتای eSIM پێویستیان بە ئامێرێکی گونجاو لەگەڵ eSIM و کراوە هەیە.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "کاتێک گەشت دەکەیت یان لە وایفای دوورکەوتوویت، بەردەوام بەسەر هێڵ.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "پاکێجێکی داتای eSIMی یەکجارەکی بۆ داپۆشینی ناوخۆیی، ئەوروپا، یان جیهانی هەڵبژێرە.",
+      "we_don_t_sell_data_packs_under_3_gb": "ئێمە پاکێجی داتا بە کەمتر لە ٣ گێگابایت نافرۆشین.",
+      "loading_usage": "بارکردنی بەکارهێنان…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "هێشتا پاکێجی داتای کارا نییە. پاکێجێکی خوارەوە بکڕە بۆ دەستپێکردنی بەدواداچوونی بەکارهێنان.",
+      "usage_details_will_appear_once_your_data_pack_is": "وردەکارییەکان دەردەکەون کاتێک پاکێجی داتاکەت چالاک دەبێت.",
+      "manage": "بەڕێوەبردن",
+      "coverage": "داپۆشین",
+      "your_esim": "ئیسیمەکەت",
+      "current_usage": "بەکارهێنانی ئێستا"
+    }
   }
 }

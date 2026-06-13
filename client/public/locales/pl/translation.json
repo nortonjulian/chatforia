@@ -2619,7 +2619,7 @@
       "emailLabel": "E-mail",
       "emailPlaceholder": "you@company.com",
       "companyLabel": "Firma",
-      "companyPlaceholder": "Acme Inc.",
+      "companyPlaceholder": "Acme Sp. z o.o.",
       "budgetLabel": "Miesięczny budżet (opcjonalnie)",
       "budgetPlaceholder": "np. 1 000–20 000+ USD",
       "messageLabel": "Opisz nam swoją kampanię",
@@ -3066,7 +3066,8 @@
     "flip": "Klapka",
     "speaker": "Głośnik",
     "end": "Koniec",
-    "noIncomingCallToAnswer": "Brak połączenia przychodzącego do odebrania."
+    "noIncomingCallToAnswer": "Brak połączenia przychodzącego do odebrania.",
+    "serviceUnavailable": "Usługa telefoniczna jest obecnie niedostępna. Proszę spróbować ponownie później."
   },
   "settings": {
     "startHour": "Godzina rozpoczęcia (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Ciemny",
   "accessibility_caption_bg_transparent": "Przezroczysty",
   "api": {
-    "notAuthorized": "Brak uprawnień"
+    "notAuthorized": "Brak uprawnień",
+    "invalidURL": "Nieprawidłowy adres serwera.",
+    "serverError": "Błąd serwera (%d): %@",
+    "failedToDecodeResponse": "Nie udało się odczytać odpowiedzi serwera: %@"
+  },
+  "tap_to_view_contact": "Kliknij, aby wyświetlić dane kontaktowe",
+  "android": {
+    "plan": {
+      "plan_billing": "Plan i rozliczenia",
+      "current_plan": "Obecny plan",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Wybierz wersję Plus bez reklam lub wersję Premium z dostępem do narzędzi opartych na sztucznej inteligencji i opcji personalizacji.",
+      "plus": "Dodatkowo",
+      "premium": "Klasa Premium",
+      "back": "Powrót",
+      "my_plan": "Mój plan",
+      "compare_plans": "Porównaj plany",
+      "included": "W zestawie"
+    },
+    "upgrade": {
+      "upgrade": "Aktualizacja",
+      "restore_purchases": "Przywróć zakupy",
+      "unlock_more_with": "Odkryj więcej dzięki Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Wybierz opcję Plus lub Premium, aby usunąć reklamy, dostosować wygląd serwisu i uzyskać dostęp do zaawansowanych narzędzi.",
+      "best_experience": "Najlepsze wrażenia",
+      "close": "Zamknij",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Usuń reklamy i odblokuj więcej przydatnych funkcji.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Pełnia wrażeń z Chatforii.",
+      "premium_annual": "Roczna subskrypcja Premium",
+      "save_compared_to_monthly_premium": "Oszczędność w porównaniu z miesięcznym abonamentem Premium."
+    },
+    "audio_call": {
+      "mute": "Wycisz",
+      "speaker": "Prelegent",
+      "end_call": "Zakończ połączenie"
+    },
+    "dial_pad": {
+      "dial": "Wybierz numer",
+      "done": "Gotowe",
+      "enter_number": "Wpisz liczbę",
+      "call": "Zadzwoń",
+      "delete_digit": "Usuń cyfrę"
+    },
+    "incoming_call": {
+      "decline": "Spadek",
+      "accept": "Zaakceptuj",
+      "decline_call": "Odrzuć połączenie",
+      "accept_call": "Odbierz połączenie"
+    },
+    "video_call": {
+      "camera": "Aparat",
+      "flip_camera": "Kamera Flip"
+    },
+    "chats": {
+      "search_chats": "Wyszukaj rozmowy",
+      "no_chats_yet": "Jeszcze nie ma żadnych rozmów",
+      "admob_ad": "Reklama AdMob",
+      "delete_conversation": "Usunąć rozmowę?",
+      "this_will_remove_this_conversation_from_your_cha": "Spowoduje to usunięcie tej rozmowy z listy czatów.",
+      "delete": "Usuń",
+      "cancel": "Anuluj",
+      "chats": "Czat",
+      "new_chat": "Nowy czat",
+      "refresh": "Odśwież",
+      "random_chat": "Czat losowy",
+      "search": "Wyszukiwanie",
+      "delete_conversation_2": "Usuń rozmowę"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Nazwa użytkownika, imię i nazwisko osoby kontaktowej lub numer telefonu",
+      "new_chat": "Nowy czat",
+      "start_a_chat": "Rozpocznij rozmowę",
+      "search_by_username_contact_name_or_phone_number": "Wyszukaj według nazwy użytkownika, nazwiska osoby kontaktowej lub numeru telefonu.",
+      "results": "Wyniki",
+      "open_chat": "Otwórz czat"
+    },
+    "calls": {
+      "recents": "Ostatnio dodane",
+      "voicemail": "Poczta głosowa",
+      "calls": "Połączenia",
+      "no_calls_yet": "Jeszcze nie dzwonili",
+      "your_recent_calls_will_show_up_here": "W tym miejscu wyświetlą się Twoje ostatnie połączenia.",
+      "open_dial_pad": "Otwórz klawiaturę numeryczną",
+      "delete_call": "Usuń połączenie",
+      "video_call": "Wideo rozmowa"
+    },
+    "contacts": {
+      "contacts": "Kontakty",
+      "add_contact": "Dodaj kontakt",
+      "import_from_phone": "Importuj z telefonu",
+      "invite_friends": "Zaproś znajomych",
+      "favorite": "Ulubione",
+      "open_contact": "Otwórz kontakt"
+    },
+    "main_activity": {
+      "loading": "Ładowanie...",
+      "profile": "Profil"
+    },
+    "profile": {
+      "delete_account": "Usuń konto",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Tej czynności nie można cofnąć. Czy na pewno chcesz usunąć swoje konto?",
+      "log_out": "Wyloguj się",
+      "change_photo": "Zmień zdjęcie",
+      "remove_photo": "Usuń zdjęcie",
+      "preferred_language": "Preferowany język",
+      "your_age_range": "Przedział wiekowy",
+      "theme": "Temat",
+      "choose_how_looks_across_the_app": "Wybierz wygląd Chatforii w całej aplikacji.",
+      "uploading": "Przesyłanie…",
+      "choose_plus_or_premium": "Wybierz opcję Plus lub Premium",
+      "profile_photo": "Zdjęcie profilowe",
+      "open_upgrade": "Aktualizacja w trybie otwartym",
+      "open": "Otwórz",
+      "account": "Konto",
+      "username": "Nazwa użytkownika",
+      "email": "E-mail",
+      "plan": "Plan",
+      "wireless": "Bezprzewodowy",
+      "mobile": "Chatforia Mobile",
+      "esim_and_wireless_settings": "Ustawienia eSIM i sieci bezprzewodowej",
+      "call_text_forwarding": "Przekierowywanie połączeń i wiadomości tekstowych",
+      "forward_incoming_calls_and_texts": "Przekierowywanie przychodzących połączeń i wiadomości tekstowych",
+      "phone_number": "Numer telefonu",
+      "manage_your_number": "Zarządzaj swoim numerem Chatforia",
+      "settings": "Ustawienia",
+      "auto_translate_messages": "Automatyczne tłumaczenie wiadomości",
+      "automatically_translate_messages_into_your_prefe": "Automatycznie tłumacz wiadomości na wybrany język.",
+      "show_original_with_translation": "Pokaż oryginał wraz z tłumaczeniem",
+      "show_the_original_message_alongside_the_translat": "Wyświetl oryginalną wiadomość obok tłumaczenia.",
+      "smart_reply_suggestions": "Inteligentne propozycje odpowiedzi",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Wyświetl funkcje pomocy przy przepisywaniu tekstu oparte na technologii Ria oraz szybkie odpowiedzi.",
+      "linked_devices": "Podłączone urządzenia",
+      "manage_trusted_devices": "Zarządzaj zaufanymi urządzeniami",
+      "pair_new_device": "Skonfiguruj nowe urządzenie",
+      "approve_a_new_device": "Zatwierdź nowe urządzenie",
+      "appearance": "Wygląd",
+      "accessibility": "Dostępność",
+      "visual_alerts_captions_and_voice_note_accessibil": "Dostępność alertów wizualnych, napisów i notatek głosowych",
+      "security": "Bezpieczeństwo",
+      "encryption_key_protected": "Zabezpieczone kluczem szyfrującym",
+      "privacy": "Polityka prywatności",
+      "allow_explicit_content": "Zezwól na treści dla dorosłych",
+      "show_read_receipts": "Pokaż potwierdzenia przeczytania",
+      "blur_messages_by_default": "Domyślnie wiadomości są zamazane",
+      "blur_when_app_is_unfocused": "Rozmycie, gdy aplikacja nie jest aktywna",
+      "hold_to_reveal_messages": "Przytrzymaj, aby wyświetlić wiadomości",
+      "notify_when_messages_are_copied": "Powiadamiaj o kopiowaniu wiadomości",
+      "random_chat": "Czat losowy",
+      "use_age_based_matching": "Wykorzystaj dopasowanie na podstawie wieku",
+      "let_ria_remember_conversations": "Niech Ria zapamięta te rozmowy",
+      "forward_voicemail_to_email": "Przekieruj wiadomości z poczty głosowej na adres e-mail",
+      "legal_support": "Informacje prawne i pomoc techniczna",
+      "free": "Bezpłatnie"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Opcje ułatwiające korzystanie z Chatforii bez konieczności używania dźwięku.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Domyślnie tekst jest wyświetlany w normalnym rozmiarze. Jeśli wolisz większy tekst, zwiększ jego rozmiar w ustawieniach dostępności.",
+      "interface_font_size": "Rozmiar czcionki interfejsu",
+      "notifications": "Powiadomienia",
+      "visual_alerts_for_messages_calls": "Sygnały wizualne dla wiadomości i połączeń",
+      "show_banners_and_visual_indicators_so_you_do_not": "Wyświetlaj banery i wizualne powiadomienia, aby nie przegapić żadnej aktywności.",
+      "vibrate_on_new_messages": "Powiadomienia wibracyjne o nowych wiadomościach",
+      "trigger_device_vibration_with_notifications_when": "Włącz wibracje urządzenia przy powiadomieniach, jeśli jest to obsługiwane.",
+      "flash_screen_on_incoming_call": "Ekran powitalny przy połączeniu przychodzącym",
+      "briefly_flash_the_screen_when_a_call_rings": "Krótko podświetl ekran, gdy zadzwoni telefon.",
+      "live_captions": "Napisy na żywo",
+      "enable_live_captions": "Włącz napisy na żywo",
+      "show_real_time_captions_during_calls_premium_req": "Wyświetlanie napisów w czasie rzeczywistym podczas rozmów. Wymagana subskrypcja Premium.",
+      "caption_font_size": "Rozmiar czcionki podpisów",
+      "caption_background": "Tło podpisu",
+      "voice_notes": "Notatki głosowe",
+      "auto_transcribe_voice_notes": "Automatyczne transkrybowanie notatek głosowych",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Dołącz transkrypcję do otrzymanych wiadomości głosowych."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Odzyskałem swój klucz",
+      "restore_encryption": "Przywróć szyfrowanie"
+    },
+    "language_selection": {
+      "select_language": "Wybierz język"
+    },
+    "login": {
+      "email_or_username": "Adres e-mail lub nazwa użytkownika",
+      "password": "Hasło",
+      "forgot_password": "Nie pamiętasz hasła?",
+      "resend_verification_email": "Wyślij ponownie wiadomość e-mail z linkiem weryfikacyjnym",
+      "reset_encryption": "Zresetuj szyfrowanie",
+      "create_an_account": "Załóż konto",
+      "welcome_to": "Witamy w Chatforii",
+      "sign_in_or_create_an_account": "Zaloguj się lub załóż konto",
+      "or": "lub",
+      "don_t_have_an_account_yet": "Nie masz jeszcze konta?"
+    },
+    "onboarding": {
+      "welcome": "Witamy",
+      "set_up_your_profile_so_can_personalize_your_expe": "Skonfiguruj swój profil, aby Chatforia mogła dostosować serwis do Twoich potrzeb.",
+      "choose_a_username": "Wybierz nazwę użytkownika",
+      "this_is_how_people_will_recognize_you_in": "W ten sposób użytkownicy będą cię rozpoznawać w Chatforii.",
+      "choose_your_language": "Wybierz język",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia wykorzysta te dane do tłumaczeń oraz w celu poprawy komfortu korzystania z aplikacji.",
+      "you_re_ready": "Jesteś gotowy",
+      "start_chatting_calling_translating_and_connectin": "Zacznij rozmawiać, dzwonić, tłumaczyć i nawiązywać kontakty z ludźmi z całego świata."
+    },
+    "register": {
+      "confirm_password": "Potwierdź hasło",
+      "phone_optional": "Telefon nie jest konieczny",
+      "log_in": "Zaloguj się",
+      "create_your_account": "Załóż konto",
+      "start_chatting_across_languages_with": "Zacznij rozmawiać w różnych językach dzięki Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Wyrażam zgodę na otrzymywanie wiadomości SMS w celu weryfikacji.",
+      "already_have_an_account": "Masz już konto?"
+    },
+    "add_contact": {
+      "phone": "Telefon",
+      "name": "Imię",
+      "alias_optional": "Pseudonim (opcjonalnie)",
+      "pin_this_person_as_a_favorite_contact": "Dodaj tę osobę do ulubionych kontaktów."
+    },
+    "contact_detail": {
+      "edit_contact": "Edytuj dane kontaktowe",
+      "delete_contact": "Usuń kontakt",
+      "message": "Wiadomość",
+      "video": "Film",
+      "external_name": "Nazwa zewnętrzna"
+    },
+    "import_phone_contacts": {
+      "select_all": "Zaznacz wszystko",
+      "clear": "Wyczyść",
+      "import_contacts": "Importuj kontakty"
+    },
+    "invite_friends": {
+      "share_invite_link": "Udostępnij link zaproszeniowy",
+      "invite_friends": "Zaproś znajomych",
+      "share_a_invite_link_with_friends_using_messages_": "Udostępnij znajomym link zaproszeniowy do Chatforii za pomocą aplikacji „Wiadomości”, poczty e-mail lub dowolnej innej aplikacji na telefonie."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Skonfiguruj nowe urządzenie",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Uruchom aplikację Chatforia na nowym urządzeniu i zaloguj się. Jeśli aplikacja zażąda dostępu do zaszyfrowanych rozmów, zezwól na to z zaufanego urządzenia.",
+      "view_pending_device_requests": "Wyświetl oczekujące wnioski dotyczące urządzeń"
+    },
+    "key_setup": {
+      "recovery_passcode": "Kod odzyskiwania",
+      "confirm_recovery_passcode": "Potwierdź kod odzyskiwania",
+      "restore_chats": "Przywróć czaty",
+      "clear_local_key": "Wyczyść klucz lokalny",
+      "reset_encryption": "Zresetować szyfrowanie?",
+      "this_will_permanently_replace_your_encryption_ke": "Spowoduje to trwałe zastąpienie Twojego klucza szyfrującego.",
+      "encryption": "Szyfrowanie",
+      "restore_encrypted_chats": "Przywróć zaszyfrowane rozmowy",
+      "no_recovery_backup_found": "Nie znaleziono kopii zapasowej do przywrócenia",
+      "open_on_a_device_that_can_already_read_your_encr": "Otwórz aplikację Chatforia na urządzeniu, które ma już dostęp do Twoich zaszyfrowanych rozmów, i utwórz na nim kod odzyskiwania.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Nie znaleziono jeszcze kopii zapasowej. Utwórz ją z tego urządzenia, aby móc przywrócić czaty na urządzeniach z systemem iOS, Android oraz w przeglądarce internetowej.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Skorzystaj z tej opcji tylko wtedy, gdy utraciłeś wszystkie zaufane urządzenia i nie możesz przywrócić pierwotnego klucza."
+    },
+    "linked_devices": {
+      "your_devices": "Twoje urządzenia",
+      "pending_approvals": "Oczekujące na zatwierdzenie",
+      "approve": "Zatwierdzić",
+      "reject": "Odrzuć",
+      "revoke": "Cofnąć",
+      "request_approval_for_this_device": "Proszę o zatwierdzenie tego urządzenia",
+      "finish_device_approval": "Zakończenie procesu zatwierdzania urządzenia"
+    },
+    "forwarding_settings": {
+      "reset": "Resetuj",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Przekieruj przychodzące połączenia i wiadomości tekstowe na swój zweryfikowany numer telefonu lub adres e-mail.",
+      "quiet_hours": "Cisza nocna",
+      "forwarding": "Przekazywanie",
+      "enable_text_forwarding": "Włącz przekazywanie wiadomości tekstowych",
+      "forward_texts_to_phone": "Przekaż SMS-y na telefon",
+      "forward_texts_to_email": "Przekazuj wiadomości SMS na adres e-mail",
+      "enable_call_forwarding": "Włącz przekierowanie połączeń"
+    },
+    "chat_message_row": {
+      "copy": "Skopiuj",
+      "edit": "Edytuj",
+      "report": "Raport",
+      "message_info": "Informacje o wiadomości"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Jeszcze nie ma żadnych wiadomości",
+      "delete_message": "Usunąć wiadomość?",
+      "choose_how_you_want_to_delete_this_message": "Wybierz sposób, w jaki chcesz usunąć tę wiadomość.",
+      "delete_for_everyone": "Usuń dla wszystkich",
+      "delete_for_me": "Usuń to za mnie",
+      "search_messages": "Wyszukaj wiadomości",
+      "search_in_chat": "Wyszukaj na czacie",
+      "sending": "Wysyłanie…",
+      "failed_to_send": "Wysyłanie nie powiodło się",
+      "edited": "Edytowano",
+      "audio_call": "Rozmowa głosowa",
+      "video_call": "Wideo rozmowa",
+      "selected_gif": "Wybrane pliki GIF",
+      "remove_gif": "Usuń plik GIF",
+      "attach": "Załącz",
+      "rewrite_with_ria": "Przepisz z Rią",
+      "composer_action": "Działanie kompozytora"
+    },
+    "edit_message": {
+      "save": "Zapisz",
+      "emoji": "Emoji",
+      "edit_message": "Edytuj wiadomość"
+    },
+    "message_attachments": {
+      "image_attachment": "Załącznik graficzny",
+      "video_attachment": "Załącznik wideo",
+      "play_video": "Odtwórz film"
+    },
+    "message_bubble": {
+      "disappearing_message": "Znikająca wiadomość"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Nikt tego jeszcze nie przeczytał",
+      "message_info": "Informacje o wiadomości"
+    },
+    "report_message": {
+      "reason": "Powód",
+      "include_previous_messages": "Uwzględnij poprzednie wiadomości",
+      "additional_details": "Dodatkowe informacje",
+      "anything_else_moderators_should_know": "Czy jest jeszcze coś, o czym moderatorzy powinni wiedzieć?",
+      "block_this_user_after_reporting": "Zablokuj tego użytkownika po zgłoszeniu",
+      "submit_report": "Prześlij zgłoszenie",
+      "report_message": "Zgłoś wiadomość"
+    },
+    "phone_number": {
+      "replace_number": "Zmień numer",
+      "pick_a_number": "Wybierz liczbę",
+      "no_number_assigned": "Nie przypisano numeru Chatforia.",
+      "your_number": "Twój numer Chatforia"
+    },
+    "pick_number": {
+      "area_code": "Numer kierunkowy",
+      "premium_numbers_are_protected_from_recycling": "Numery premium są zabezpieczone przed ponownym przydzieleniem.",
+      "available_numbers": "Dostępne numery",
+      "search_by_area_code_to_find_available_numbers": "Wyszukaj numery dostępne według numeru kierunkowego.",
+      "capability": "Możliwości",
+      "country": "Kraj"
+    },
+    "gif_picker": {
+      "search_tenor": "Wyszukaj Tenor",
+      "search_gifs": "Wyszukaj pliki GIF"
+    },
+    "random_chat": {
+      "add_friend": "Dodaj znajomego",
+      "skip": "Pomiń",
+      "send": "Wyślij",
+      "end_chat": "Zakończ czat"
+    },
+    "random_matching": {
+      "finding_someone": "Znalezienie kogoś"
+    },
+    "ria_chat": {
+      "ask_ria": "Zapytaj Rię...",
+      "you_re_now_chatting_with_ria": "Rozmawiasz teraz z Rią",
+      "chat_with_ria_anytime_separate_from_random_human": "Porozmawiaj z Rią w dowolnym momencie, niezależnie od losowego dobierania rozmówców."
+    },
+    "ria_rewrite": {
+      "original_text": "Tekst oryginalny",
+      "choose_tone": "Wybierz ton",
+      "rewriting": "Przepisuję…",
+      "suggestions": "Propozycje",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Wybierz styl, aby wygenerować propozycje przeróbek."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Wersja bezpłatna zawiera podstawowe dźwięki. Przejdź na wersję premium, aby odblokować więcej dźwięków i dzwonków.",
+      "volume": "Objętość",
+      "message_tone": "Sygnał dźwiękowy wiadomości",
+      "ringtone": "Dzwonek"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Nie ma jeszcze żadnych wiadomości głosowych.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Gdy ktoś zostawi Ci wiadomość głosową,\npojawi się ona tutaj.",
+      "play_voicemail": "Odtwórz wiadomość głosową",
+      "delete_voicemail": "Usuń wiadomość głosową"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Wybrana wiadomość głosowa"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Zasięg w Twoim obecnym kraju lub w najbliższej okolicy.",
+      "coverage_across_supported_european_destinations": "Zasięg w obsługiwanych miejscowościach w Europie.",
+      "coverage_across_supported_global_destinations": "Zasięg w obsługiwanych lokalizacjach na całym świecie."
+    },
+    "wireless_home": {
+      "manage_wireless": "Zarządzaj siecią bezprzewodową",
+      "port_my_number": "Przenieś mój numer",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Pakiety danych eSIM wymagają urządzenia obsługującego kartę eSIM i odblokowanego.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Pozostań w kontakcie podczas podróży lub gdy nie masz dostępu do sieci Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Wybierz jednorazowy pakiet danych eSIM z zasięgiem lokalnym, europejskim lub globalnym.",
+      "we_don_t_sell_data_packs_under_3_gb": "Nie oferujemy pakietów danych o pojemności mniejszej niż 3 GB.",
+      "loading_usage": "Ładowanie danych o wykorzystaniu…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Nie masz jeszcze aktywnego pakietu danych. Kup pakiet poniżej, aby zacząć monitorować zużycie.",
+      "usage_details_will_appear_once_your_data_pack_is": "Szczegóły dotyczące wykorzystania pojawią się po aktywacji pakietu danych.",
+      "manage": "Zarządzaj",
+      "coverage": "Zakres",
+      "your_esim": "Twoja karta eSIM",
+      "current_usage": "Aktualne wykorzystanie"
+    }
   }
 }

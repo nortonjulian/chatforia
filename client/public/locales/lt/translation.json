@@ -3066,7 +3066,8 @@
     "flip": "Apsiversti",
     "speaker": "Garsiakalbis",
     "end": "Pabaiga",
-    "noIncomingCallToAnswer": "Nėra įeinančio skambučio, į kurį būtų galima atsiliepti."
+    "noIncomingCallToAnswer": "Nėra įeinančio skambučio, į kurį būtų galima atsiliepti.",
+    "serviceUnavailable": "Šiuo metu skambučių paslauga neveikia. Prašome pabandyti vėliau."
   },
   "settings": {
     "startHour": "Pradžios valanda (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Tamsus",
   "accessibility_caption_bg_transparent": "Skaidrus",
   "api": {
-    "notAuthorized": "Nėra leidimo"
+    "notAuthorized": "Nėra leidimo",
+    "invalidURL": "Neteisingas serverio adresas.",
+    "serverError": "Serverio klaida (%d): %@",
+    "failedToDecodeResponse": "Nepavyko perskaityti serverio atsakymo: %@"
+  },
+  "tap_to_view_contact": "Bakstelėkite, kad peržiūrėtumėte kontaktą",
+  "android": {
+    "plan": {
+      "plan_billing": "Planas ir sąskaitos",
+      "current_plan": "Dabartinis planas",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Pasirinkite „Plus“ ir atsikratykite reklamų arba įsigykite „Premium“ ir naudokitės AI įrankiais bei pritaikymo galimybėmis.",
+      "plus": "Be to",
+      "premium": "„Premium“",
+      "back": "Atgal",
+      "my_plan": "Mano planas",
+      "compare_plans": "Palyginkite planus",
+      "included": "Įtraukta"
+    },
+    "upgrade": {
+      "upgrade": "Atnaujinti",
+      "restore_purchases": "Atkurti pirkimus",
+      "unlock_more_with": "Atraskite daugiau galimybių su „Chatforia“",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Pasirinkite „Plus“ arba „Premium“, kad pašalintumėte reklamą, pritaikytumėte svetainę pagal savo poreikius ir gautumėte prieigą prie išplėstinių funkcijų.",
+      "best_experience": "Geriausia patirtis",
+      "close": "Uždaryti",
+      "plus": "„Chatforia Plus“",
+      "remove_ads_and_unlock_more_everyday_features": "Pašalinkite reklamą ir atrakinkite daugiau kasdienių funkcijų.",
+      "premium": "„Chatforia Premium“",
+      "the_full_experience": "Visapusiškas „Chatforia“ patyrimas.",
+      "premium_annual": "„Premium“ metinis",
+      "save_compared_to_monthly_premium": "Sutaupykite, palyginti su mėnesiniu „Premium“ planu."
+    },
+    "audio_call": {
+      "mute": "Išjungti garsą",
+      "speaker": "Pranešėjas",
+      "end_call": "Baigti pokalbį"
+    },
+    "dial_pad": {
+      "dial": "Skambinti",
+      "done": "Baigta",
+      "enter_number": "Įveskite skaičių",
+      "call": "Skambinti",
+      "delete_digit": "Ištrinti skaitmenį"
+    },
+    "incoming_call": {
+      "decline": "Atmesti",
+      "accept": "Sutinku",
+      "decline_call": "Atmesti skambutį",
+      "accept_call": "Priimti skambutį"
+    },
+    "video_call": {
+      "camera": "Fotoaparatas",
+      "flip_camera": "„Flip“ kamera"
+    },
+    "chats": {
+      "search_chats": "Ieškoti pokalbių",
+      "no_chats_yet": "Dar nėra pokalbių",
+      "admob_ad": "„AdMob“ reklama",
+      "delete_conversation": "Ištrinti pokalbį?",
+      "this_will_remove_this_conversation_from_your_cha": "Tai pašalins šį pokalbį iš jūsų pokalbių sąrašo.",
+      "delete": "Ištrinti",
+      "cancel": "Atšaukti",
+      "chats": "Pokalbiai",
+      "new_chat": "Naujas pokalbis",
+      "refresh": "Atnaujinti",
+      "random_chat": "Atsitiktinis pokalbis",
+      "search": "Paieška",
+      "delete_conversation_2": "Ištrinti pokalbį"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Vartotojo vardas, kontaktinio asmens vardas ir pavardė arba telefono numeris",
+      "new_chat": "Naujas pokalbis",
+      "start_a_chat": "Pradėti pokalbį",
+      "search_by_username_contact_name_or_phone_number": "Ieškokite pagal vartotojo vardą, kontaktinio asmens vardą ir pavardę arba telefono numerį.",
+      "results": "Rezultatai",
+      "open_chat": "Atidaryti pokalbį"
+    },
+    "calls": {
+      "recents": "Naujausi",
+      "voicemail": "Balsinė pašto dėžutė",
+      "calls": "Skambučiai",
+      "no_calls_yet": "Kol kas nėra skambučių",
+      "your_recent_calls_will_show_up_here": "Čia bus rodomi jūsų paskutiniai skambučiai.",
+      "open_dial_pad": "Atidaryti skambinimo klaviatūrą",
+      "delete_call": "Ištrinti skambutį",
+      "video_call": "Vaizdo skambutis"
+    },
+    "contacts": {
+      "contacts": "Kontaktai",
+      "add_contact": "Pridėti kontaktą",
+      "import_from_phone": "Importuoti iš telefono",
+      "invite_friends": "Pakviesk draugus",
+      "favorite": "Mėgstamiausias",
+      "open_contact": "Atidaryti kontaktą"
+    },
+    "main_activity": {
+      "loading": "Įkeliama...",
+      "profile": "Profilis"
+    },
+    "profile": {
+      "delete_account": "Ištrinti paskyrą",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Šio veiksmo atšaukti negalima. Ar tikrai norite ištrinti savo paskyrą?",
+      "log_out": "Atsijungti",
+      "change_photo": "Pakeisti nuotrauką",
+      "remove_photo": "Pašalinti nuotrauką",
+      "preferred_language": "Pageidaujama kalba",
+      "your_age_range": "Jūsų amžiaus grupė",
+      "theme": "Tema",
+      "choose_how_looks_across_the_app": "Pasirinkite, kaip „Chatforia“ atrodys visoje programėlėje.",
+      "uploading": "Įkeliama…",
+      "choose_plus_or_premium": "Pasirinkite „Plus“ arba „Premium“",
+      "profile_photo": "Profilinė nuotrauka",
+      "open_upgrade": "Atidaryti atnaujinimą",
+      "open": "Atidaryti",
+      "account": "Paskyra",
+      "username": "Vartotojo vardas",
+      "email": "El. paštas",
+      "plan": "Planas",
+      "wireless": "Belaidis",
+      "mobile": "„Chatforia“ mobilioji versija",
+      "esim_and_wireless_settings": "eSIM ir belaidžio ryšio nustatymai",
+      "call_text_forwarding": "Skambučių ir SMS persiuntimas",
+      "forward_incoming_calls_and_texts": "Perkreipti gaunamus skambučius ir žinutes",
+      "phone_number": "Telefono numeris",
+      "manage_your_number": "Valdykite savo „Chatforia“ numerį",
+      "settings": "Nustatymai",
+      "auto_translate_messages": "Automatinis pranešimų vertimas",
+      "automatically_translate_messages_into_your_prefe": "Pranešimus automatiškai išversti į jūsų pasirinktą kalbą.",
+      "show_original_with_translation": "Rodyti originalą su vertimu",
+      "show_the_original_message_alongside_the_translat": "Rodyti originalų pranešimą kartu su vertimu.",
+      "smart_reply_suggestions": "Išmanūs atsakymų pasiūlymai",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Rodyti „Ria“ pagrįstą rašymo pagalbos funkciją ir greitus atsakymus.",
+      "linked_devices": "Prijungti įrenginiai",
+      "manage_trusted_devices": "Valdyti patikimus įrenginius",
+      "pair_new_device": "Prijungti naują įrenginį",
+      "approve_a_new_device": "Patvirtinti naują įrenginį",
+      "appearance": "Išvaizda",
+      "accessibility": "Prieinamumas",
+      "visual_alerts_captions_and_voice_note_accessibil": "Vaizdiniai įspėjimai, antraštės ir balso užrašų prieinamumas",
+      "security": "Saugumas",
+      "encryption_key_protected": "Apsaugota šifravimo raktu",
+      "privacy": "Privatumas",
+      "allow_explicit_content": "Leisti rodyti suaugusiems skirtą turinį",
+      "show_read_receipts": "Rodyti perskaitymo patvirtinimus",
+      "blur_messages_by_default": "Pranešimus ištrinti pagal numatytuosius nustatymus",
+      "blur_when_app_is_unfocused": "Išblukinti, kai programa nėra aktyvi",
+      "hold_to_reveal_messages": "Paspauskite ir palaikykite, kad pamatytumėte pranešimus",
+      "notify_when_messages_are_copied": "Pranešti, kai pranešimai yra kopijuojami",
+      "random_chat": "Atsitiktinis pokalbis",
+      "use_age_based_matching": "Naudoti atranką pagal amžių",
+      "let_ria_remember_conversations": "Tegul Ria prisimena pokalbius",
+      "forward_voicemail_to_email": "Persiųsti balso paštą į el. paštą",
+      "legal_support": "Teisinė informacija ir pagalba",
+      "free": "Nemokamai"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Galimybės, leidžiančios naudotis „Chatforia“ patogiau, nesiremiant garsu.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Pradinis dydis yra standartinis. Jei norite didesnio teksto, padidinkite jį prieinamumo nustatymuose.",
+      "interface_font_size": "Sąsajos šrifto dydis",
+      "notifications": "Pranešimai",
+      "visual_alerts_for_messages_calls": "Vizualiniai pranešimų ir skambučių įspėjimai",
+      "show_banners_and_visual_indicators_so_you_do_not": "Rodykite reklaminės juostos ir vaizdinius pranešimus, kad nepraleistumėte veiklos.",
+      "vibrate_on_new_messages": "Pranešti apie naujus pranešimus vibracija",
+      "trigger_device_vibration_with_notifications_when": "Jei įrenginys palaiko šią funkciją, įjunkite vibraciją, kai gaunami pranešimai.",
+      "flash_screen_on_incoming_call": "Pranešimas apie gaunamą skambutį",
+      "briefly_flash_the_screen_when_a_call_rings": "Skambant skambučiui trumpai mirktelėkite ekraną.",
+      "live_captions": "Tiesioginiai subtitrai",
+      "enable_live_captions": "Įjungti tiesioginius subtitrus",
+      "show_real_time_captions_during_calls_premium_req": "Rodyti subtitrus realiuoju laiku pokalbių metu. Reikalingas „Premium“ paketas.",
+      "caption_font_size": "Antraštės šrifto dydis",
+      "caption_background": "Paveikslėlio fono aprašymas",
+      "voice_notes": "Balsinės užrašai",
+      "auto_transcribe_voice_notes": "Automatiškai transkribuoti balso įrašus",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Pridėkite gautų garso pranešimų transkripciją."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Atsistatiau savo raktą",
+      "restore_encryption": "Atkurti šifravimą"
+    },
+    "language_selection": {
+      "select_language": "Pasirinkite kalbą"
+    },
+    "login": {
+      "email_or_username": "El. paštas arba vartotojo vardas",
+      "password": "Slaptažodis",
+      "forgot_password": "Pamiršote slaptažodį?",
+      "resend_verification_email": "Pakartotinai išsiųsti patvirtinimo laišką",
+      "reset_encryption": "Atkurti šifravimą",
+      "create_an_account": "Sukurti paskyrą",
+      "welcome_to": "Sveiki atvykę į „Chatforia“",
+      "sign_in_or_create_an_account": "Prisijunkite arba susikurkite paskyrą",
+      "or": "arba",
+      "don_t_have_an_account_yet": "Dar neturite paskyros?"
+    },
+    "onboarding": {
+      "welcome": "Sveiki atvykę",
+      "set_up_your_profile_so_can_personalize_your_expe": "Nustatykite savo profilį, kad „Chatforia“ galėtų pritaikyti paslaugas jūsų poreikiams.",
+      "choose_a_username": "Pasirinkite vartotojo vardą",
+      "this_is_how_people_will_recognize_you_in": "Būtent taip žmonės tave atpažins „Chatforia“.",
+      "choose_your_language": "Pasirinkite kalbą",
+      "will_use_this_for_translations_and_your_app_expe": "„Chatforia“ naudos šią informaciją vertimams ir jūsų patirčiai naudojantis programa.",
+      "you_re_ready": "Jūs esate pasiruošę",
+      "start_chatting_calling_translating_and_connectin": "Pradėkite bendrauti, skambinti, versti ir užmegzti ryšius su žmonėmis iš viso pasaulio."
+    },
+    "register": {
+      "confirm_password": "Patvirtinkite slaptažodį",
+      "phone_optional": "Telefonas nėra privalomas",
+      "log_in": "Prisijungti",
+      "create_your_account": "Sukurkite savo paskyrą",
+      "start_chatting_across_languages_with": "Pradėkite bendrauti įvairiomis kalbomis su „Chatforia“.",
+      "i_agree_to_receive_sms_verification_messages": "Sutinku gauti SMS patvirtinimo pranešimus.",
+      "already_have_an_account": "Jau turite paskyrą?"
+    },
+    "add_contact": {
+      "phone": "Telefonas",
+      "name": "Vardas",
+      "alias_optional": "Aliasas (neprivalomas)",
+      "pin_this_person_as_a_favorite_contact": "Pridėkite šį asmenį prie mėgstamų kontaktų."
+    },
+    "contact_detail": {
+      "edit_contact": "Redaguoti kontaktą",
+      "delete_contact": "Ištrinti kontaktą",
+      "message": "Pranešimas",
+      "video": "Vaizdo įrašas",
+      "external_name": "Išorinis pavadinimas"
+    },
+    "import_phone_contacts": {
+      "select_all": "Pažymėti viską",
+      "clear": "Išvalyti",
+      "import_contacts": "Importuoti kontaktus"
+    },
+    "invite_friends": {
+      "share_invite_link": "Pasidalinti kvietimo nuoroda",
+      "invite_friends": "Pakvieskite draugus",
+      "share_a_invite_link_with_friends_using_messages_": "Pasidalinkite „Chatforia“ kvietimo nuoroda su draugais naudodami žinutes, el. paštą ar bet kurią kitą telefono programėlę."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Prijunkite naują įrenginį",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Atidarykite „Chatforia“ savo naujajame įrenginyje ir prisijunkite. Jei programai reikės prieigos prie jūsų užšifruotų pokalbių, patvirtinkite tai iš patikimo įrenginio.",
+      "view_pending_device_requests": "Peržiūrėti laukiančius įrenginių prašymus"
+    },
+    "key_setup": {
+      "recovery_passcode": "Atsistatymo kodas",
+      "confirm_recovery_passcode": "Patvirtinkite atkūrimo kodą",
+      "restore_chats": "Atkurti pokalbius",
+      "clear_local_key": "Ištrinti vietinį raktą",
+      "reset_encryption": "Atkurti šifravimą?",
+      "this_will_permanently_replace_your_encryption_ke": "Tai visam laikui pakeis jūsų šifravimo raktą.",
+      "encryption": "Šifravimas",
+      "restore_encrypted_chats": "Atkurti užšifruotus pokalbius",
+      "no_recovery_backup_found": "Nerasta atsarginės kopijos",
+      "open_on_a_device_that_can_already_read_your_encr": "Atidarykite „Chatforia“ įrenginyje, kuris jau gali skaityti jūsų užšifruotus pokalbius, ir ten sukurkite atkūrimo kodą.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Kol kas nerasta atsarginės kopijos. Sukurkite ją šiame įrenginyje, kad galėtumėte atkurti pokalbius „iOS“, „Android“ ir žiniatinklyje.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Naudokite šią funkciją tik tuo atveju, jei praradote visus patikimus įrenginius ir negalite atkurti savo pradinio rakto."
+    },
+    "linked_devices": {
+      "your_devices": "Jūsų įrenginiai",
+      "pending_approvals": "Laukiama patvirtinimų",
+      "approve": "Patvirtinti",
+      "reject": "Atmesti",
+      "revoke": "Panaikinti",
+      "request_approval_for_this_device": "Prašyti patvirtinti šį prietaisą",
+      "finish_device_approval": "Įrenginio patvirtinimo užbaigimas"
+    },
+    "forwarding_settings": {
+      "reset": "Atstatyti",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Perkelkite gaunamus skambučius ir žinutes į savo patvirtintą telefoną arba el. paštą.",
+      "quiet_hours": "Tylos valandos",
+      "forwarding": "Persiuntimas",
+      "enable_text_forwarding": "Įjungti teksto persiuntimą",
+      "forward_texts_to_phone": "Persiųsti tekstinius pranešimus į telefoną",
+      "forward_texts_to_email": "Persiųsti tekstinius pranešimus į el. paštą",
+      "enable_call_forwarding": "Įjungti skambučių peradresavimą"
+    },
+    "chat_message_row": {
+      "copy": "Kopijuoti",
+      "edit": "Redaguoti",
+      "report": "Ataskaita",
+      "message_info": "Pranešimo informacija"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Dar nėra pranešimų",
+      "delete_message": "Ištrinti pranešimą?",
+      "choose_how_you_want_to_delete_this_message": "Pasirinkite, kaip norite ištrinti šią žinutę.",
+      "delete_for_everyone": "Ištrinti visiems",
+      "delete_for_me": "Ištrink man",
+      "search_messages": "Ieškoti pranešimų",
+      "search_in_chat": "Ieškoti pokalbiuose",
+      "sending": "Siunčiama…",
+      "failed_to_send": "Nepavyko išsiųsti",
+      "edited": "Redaguota",
+      "audio_call": "Garso skambutis",
+      "video_call": "Vaizdo skambutis",
+      "selected_gif": "Pasirinkta GIF",
+      "remove_gif": "Pašalinti GIF",
+      "attach": "Pridėti",
+      "rewrite_with_ria": "Perrašyk su Ria",
+      "composer_action": "Kompozitoriaus veiksmas"
+    },
+    "edit_message": {
+      "save": "Išsaugoti",
+      "emoji": "Emoji",
+      "edit_message": "Redaguoti pranešimą"
+    },
+    "message_attachments": {
+      "image_attachment": "Pridėtas paveikslėlis",
+      "video_attachment": "Vaizdo įrašo priedas",
+      "play_video": "Paleisti vaizdo įrašą"
+    },
+    "message_bubble": {
+      "disappearing_message": "Išnykstantis pranešimas"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Niekas to dar neskaitė",
+      "message_info": "Pranešimo informacija"
+    },
+    "report_message": {
+      "reason": "Priežastis",
+      "include_previous_messages": "Įtraukti ankstesnius pranešimus",
+      "additional_details": "Papildoma informacija",
+      "anything_else_moderators_should_know": "Ar yra dar kas nors, ką moderatoriai turėtų žinoti?",
+      "block_this_user_after_reporting": "Pranešus apie šį vartotoją, jį užblokuoti",
+      "submit_report": "Pateikti ataskaitą",
+      "report_message": "Pranešti apie pranešimą"
+    },
+    "phone_number": {
+      "replace_number": "Pakeisti numerį",
+      "pick_a_number": "Pasirinkite skaičių",
+      "no_number_assigned": "„Chatforia“ numeris nepriskirtas.",
+      "your_number": "Jūsų „Chatforia“ numeris"
+    },
+    "pick_number": {
+      "area_code": "Miesto kodas",
+      "premium_numbers_are_protected_from_recycling": "„Premium“ numeriai yra apsaugoti nuo pakartotinio naudojimo.",
+      "available_numbers": "Laisvi numeriai",
+      "search_by_area_code_to_find_available_numbers": "Ieškokite pagal telefono kodą, kad rastumėte laisvus numerius.",
+      "capability": "Galimybės",
+      "country": "Šalis"
+    },
+    "gif_picker": {
+      "search_tenor": "Ieškoti Tenor",
+      "search_gifs": "Ieškoti GIF failų"
+    },
+    "random_chat": {
+      "add_friend": "Pridėti draugą",
+      "skip": "Pereiti",
+      "send": "Siųsti",
+      "end_chat": "Baigti pokalbį"
+    },
+    "random_matching": {
+      "finding_someone": "Kaip rasti ką nors"
+    },
+    "ria_chat": {
+      "ask_ria": "Paklausk Rios...",
+      "you_re_now_chatting_with_ria": "Dabar bendraujate su Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Bet kuriuo metu galite bendrauti su Ria, nepriklausomai nuo atsitiktinio žmonių poravimo."
+    },
+    "ria_rewrite": {
+      "original_text": "Originalus tekstas",
+      "choose_tone": "Pasirinkite toną",
+      "rewriting": "Perrašoma…",
+      "suggestions": "Pasiūlymai",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Pasirinkite stilių, kad būtų pateikti teksto perrašymo pasiūlymai."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Nemokamoje versijoje yra pagrindiniai garsai. Atnaujinkite, kad galėtumėte naudotis daugiau garsų ir skambėjimo tonų.",
+      "volume": "Tūris",
+      "message_tone": "Pranešimo signalas",
+      "ringtone": "Skambėjimo tonas"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Kol kas nėra balso pranešimų.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Kai kas nors paliks jums balso žinutę,\nji bus rodoma čia.",
+      "play_voicemail": "Paleisti balso paštą",
+      "delete_voicemail": "Ištrinti balso paštą"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Pasirinkta balso pašto žinutė"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Ryšio aprėptis jūsų šalyje arba artimiausioje vietovėje.",
+      "coverage_across_supported_european_destinations": "Paslaugos teikiamos visose palaikomose Europos šalyse.",
+      "coverage_across_supported_global_destinations": "Paslaugos teikiamos visose palaikomose pasaulio vietovėse."
+    },
+    "wireless_home": {
+      "manage_wireless": "Belaidžio ryšio valdymas",
+      "port_my_number": "Perkelti mano numerį",
+      "esim_data_packs_require_an_esim_compatible_and_u": "Norint naudotis eSIM duomenų paketais, reikalingas su eSIM suderinamas ir atrakinamas įrenginys.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Būkite visada prisijungę, kai keliaujate ar esate toli nuo „Wi-Fi“ tinklo.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Pasirinkite vienkartinį eSIM duomenų paketą, skirtą vietiniam, Europos ar pasauliniam ryšiui.",
+      "we_don_t_sell_data_packs_under_3_gb": "Mes neparduodame duomenų paketų, kurių dydis mažesnis nei 3 GB.",
+      "loading_usage": "Įkeliama naudojimo informacija…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Kol kas nėra aktyvių duomenų paketų. Norėdami pradėti stebėti duomenų naudojimą, įsigykite paketą žemiau.",
+      "usage_details_will_appear_once_your_data_pack_is": "Duomenų naudojimo informacija bus rodoma, kai jūsų duomenų paketas bus aktyvuotas.",
+      "manage": "Valdyti",
+      "coverage": "Apimtis",
+      "your_esim": "Jūsų eSIM",
+      "current_usage": "Dabartinis naudojimas"
+    }
   }
 }
