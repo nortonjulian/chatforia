@@ -378,13 +378,24 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
     if (targets.size === 0) return;
 
     const results = {};
+
     for (const lang of targets) {
       try {
         if (!allow(`translate:${roomId}:${lang}`, 6, 10_000)) continue;
-        const out = await translateText({ text: clipped, targetLang: lang });
-        if (out?.text) results[lang] = out.text;
-      } catch {
-        // skip
+
+        const out = await translateText({
+          text: clipped,
+          targetLang: lang
+        });
+
+        const translated =
+          out?.translatedText || out?.translated || out?.text || null;
+
+        if (translated) {
+          results[lang] = translated;
+        }
+      } catch (err) {
+        console.error('[maybeAutoTranslate] translate failed:', lang, err?.message || err);
       }
     }
 
