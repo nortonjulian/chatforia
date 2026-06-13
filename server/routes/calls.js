@@ -820,11 +820,22 @@ router.get('/history', asyncHandler(async (req, res) => {
     take: 100,
   });
 
-  const enriched = items.map((call) => ({
-    ...call,
-    hasVoicemail: call.voicemails.length > 0,
-    voicemailId: call.voicemails[0]?.id ?? null,
-  }));
+  const enriched = items.map((call) => {
+    const isOutgoing = call.callerId === userId;
+    const otherUser = isOutgoing ? call.callee : call.caller;
+
+    return {
+      ...call,
+      direction: isOutgoing ? 'OUTGOING' : 'INCOMING',
+      displayName:
+        otherUser?.displayName ||
+        otherUser?.username ||
+        call.externalPhone ||
+        null,
+      hasVoicemail: call.voicemails.length > 0,
+      voicemailId: call.voicemails[0]?.id ?? null,
+    };
+  });
 
   res.json({ items: enriched });
 }));

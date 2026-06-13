@@ -132,7 +132,7 @@
   "label_volume": "Volume",
   "label_your_age_range": "Your age range",
   "plan_billing": "Plan & Billing",
-  "current_plan_format": "Current Plan: %@",
+  "current_plan_format": "Current Plan: {plan}",
   "manage_billing": "Manage Billing",
   "tap_to_view_contact": "Tap to view contact",
   "billing.plus": "Plus",
@@ -202,32 +202,27 @@
   "settings_saved": "Settings saved.",
   "user_with_id": "User {{id}}",
   "accessibility_title": "Accessibility",
-"accessibility_description": "Visual alerts, captions, and voice note accessibility.",
-"accessibility_interface_font_size": "Interface font size",
-"accessibility_interface_font_size_help": "Adjust the size of text shown throughout the app.",
-
-"accessibility_notifications": "Notifications",
-"accessibility_visual_alerts": "Visual alerts",
-"accessibility_vibrate_on_new": "Vibrate on new messages",
-"accessibility_flash_on_call": "Flash on incoming calls",
-"accessibility_flash_disabled_reduce_motion": "Disabled while Reduce Motion is enabled.",
-
-"accessibility_live_captions": "Live captions",
-"accessibility_enable_live_captions": "Enable live captions",
-"accessibility_caption_font_size": "Caption font size",
-"accessibility_caption_background": "Caption background",
-
-"accessibility_voice_notes": "Voice notes",
-"accessibility_auto_transcribe_voice_notes": "Automatically transcribe voice notes",
-
-"accessibility_font_sm": "Small",
-"accessibility_font_md": "Medium",
-"accessibility_font_lg": "Large",
-"accessibility_font_xl": "Extra Large",
-
-"accessibility_caption_bg_light": "Light",
-"accessibility_caption_bg_dark": "Dark",
-"accessibility_caption_bg_transparent": "Transparent",
+  "accessibility_description": "Visual alerts, captions, and voice note accessibility.",
+  "accessibility_interface_font_size": "Interface font size",
+  "accessibility_interface_font_size_help": "Adjust the size of text shown throughout the app.",
+  "accessibility_notifications": "Notifications",
+  "accessibility_visual_alerts": "Visual alerts",
+  "accessibility_vibrate_on_new": "Vibrate on new messages",
+  "accessibility_flash_on_call": "Flash on incoming calls",
+  "accessibility_flash_disabled_reduce_motion": "Disabled while Reduce Motion is enabled.",
+  "accessibility_live_captions": "Live captions",
+  "accessibility_enable_live_captions": "Enable live captions",
+  "accessibility_caption_font_size": "Caption font size",
+  "accessibility_caption_background": "Caption background",
+  "accessibility_voice_notes": "Voice notes",
+  "accessibility_auto_transcribe_voice_notes": "Automatically transcribe voice notes",
+  "accessibility_font_sm": "Small",
+  "accessibility_font_md": "Medium",
+  "accessibility_font_lg": "Large",
+  "accessibility_font_xl": "Extra Large",
+  "accessibility_caption_bg_light": "Light",
+  "accessibility_caption_bg_dark": "Dark",
+  "accessibility_caption_bg_transparent": "Transparent",
   "a11y": {
     "skipToMain": "Skip to main content"
   },
@@ -258,17 +253,17 @@
   },
   "encryption": {
     "rotate": {
-        "title": "Rotate Encryption Key",
-        "header": "Rotate Your Encryption Key",
-        "subtitle": "This creates a new encryption key for your account.",
-        "backupWarning": "Back up your current key first.",
-        "messageAccessWarning": "Older encrypted messages may become inaccessible unless migration support exists.",
-        "riskWarning": "Only do this if you understand the risk.",
-        "typeToContinue": "Type ROTATE to continue",
-        "placeholder": "ROTATE",
-        "action": "Rotate Encryption Key",
-        "backendNotConnected": "Rotation backend not connected yet."
-      },
+      "title": "Rotate Encryption Key",
+      "header": "Rotate Your Encryption Key",
+      "subtitle": "This creates a new encryption key for your account.",
+      "backupWarning": "Back up your current key first.",
+      "messageAccessWarning": "Older encrypted messages may become inaccessible unless migration support exists.",
+      "riskWarning": "Only do this if you understand the risk.",
+      "typeToContinue": "Type ROTATE to continue",
+      "placeholder": "ROTATE",
+      "action": "Rotate Encryption Key",
+      "backendNotConnected": "Rotation backend not connected yet."
+    },
     "backUpKey": "Back Up Encryption Key",
     "backupPassword": "Backup password",
     "checkingBackup": "Checking backup…",
@@ -1022,8 +1017,11 @@
     "tapToPlay": "Tap to play"
   },
   "api": {
-  "notAuthorized": "Not authorized"
-},
+    "notAuthorized": "Not authorized",
+    "invalidURL": "Invalid server address.",
+    "serverError": "Server error (%d): %@",
+    "failedToDecodeResponse": "Could not read the server response: %@"
+  },
   "status": {
     "userNumber": "User #{{id}}",
     "posted": "Status posted",
@@ -1846,7 +1844,7 @@
     "end": "End",
     "preparing": "Preparing call…",
     "callingDestination": "Calling {destination}…",
-    "incomingCalling": "%@ is calling...",
+    "incomingCalling": "{caller} is calling...",
     "connecting": "Connecting to {destination}…",
     "inCallWith": "In call with {name}",
     "ended": "Call ended",
@@ -1856,6 +1854,7 @@
     "missing_backend_call_id": "Missing backend call ID.",
     "room_video_only": "Room calling only supports video right now.",
     "group_video": "Group Video",
+    "serviceUnavailable": "Call service isn’t available right now. Please try again later.",
     "could_not_change_audio_output": "Could not change audio output.",
     "couldntLoadHistory": "Couldn’t load call history",
     "outgoingCall": "Outgoing Call",
@@ -3470,5 +3469,399 @@
     "or": "or",
     "remaining_of_formatgb_totalmb": "remaining of \\(formatGB(totalMb))",
     "encrypted_message": "🔒 Encrypted message"
+  },
+  "android": {
+    "plan": {
+      "plan_billing": "Plan & Billing",
+      "current_plan": "Current plan",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Go ad-free with Plus, or unlock AI tools and customization with Premium.",
+      "plus": "Plus",
+      "premium": "Premium",
+      "back": "Back",
+      "my_plan": "My Plan",
+      "compare_plans": "Compare Plans",
+      "included": "Included"
+    },
+    "upgrade": {
+      "upgrade": "Upgrade",
+      "restore_purchases": "Restore purchases",
+      "unlock_more_with": "Unlock more with Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Choose Plus or Premium to remove ads, customize your experience, and unlock advanced tools.",
+      "best_experience": "Best experience",
+      "close": "Close",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Remove ads and unlock more everyday features.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "The full Chatforia experience.",
+      "premium_annual": "Premium Annual",
+      "save_compared_to_monthly_premium": "Save compared to monthly Premium."
+    },
+    "audio_call": {
+      "mute": "Mute",
+      "speaker": "Speaker",
+      "end_call": "End call"
+    },
+    "dial_pad": {
+      "dial": "Dial",
+      "done": "Done",
+      "enter_number": "Enter number",
+      "call": "Call",
+      "delete_digit": "Delete digit"
+    },
+    "incoming_call": {
+      "decline": "Decline",
+      "accept": "Accept",
+      "decline_call": "Decline call",
+      "accept_call": "Accept call"
+    },
+    "video_call": {
+      "camera": "Camera",
+      "flip_camera": "Flip camera"
+    },
+    "chats": {
+      "search_chats": "Search chats",
+      "no_chats_yet": "No chats yet",
+      "admob_ad": "AdMob Ad",
+      "delete_conversation": "Delete conversation?",
+      "this_will_remove_this_conversation_from_your_cha": "This will remove this conversation from your chat list.",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "chats": "Chats",
+      "new_chat": "New chat",
+      "refresh": "Refresh",
+      "random_chat": "Random chat",
+      "search": "Search",
+      "delete_conversation_2": "Delete conversation"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Username, contact name, or phone number",
+      "new_chat": "New Chat",
+      "start_a_chat": "Start a chat",
+      "search_by_username_contact_name_or_phone_number": "Search by username, contact name, or phone number.",
+      "results": "Results",
+      "open_chat": "Open chat"
+    },
+    "calls": {
+      "recents": "Recents",
+      "voicemail": "Voicemail",
+      "calls": "Calls",
+      "no_calls_yet": "No calls yet",
+      "your_recent_calls_will_show_up_here": "Your recent calls will show up here.",
+      "open_dial_pad": "Open dial pad",
+      "delete_call": "Delete call",
+      "video_call": "Video call"
+    },
+    "contacts": {
+      "contacts": "Contacts",
+      "add_contact": "Add contact",
+      "import_from_phone": "Import from phone",
+      "invite_friends": "Invite friends",
+      "favorite": "Favorite",
+      "open_contact": "Open contact"
+    },
+    "main_activity": {
+      "loading": "Loading...",
+      "profile": "Profile"
+    },
+    "profile": {
+      "delete_account": "Delete Account",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "This action cannot be undone. Are you sure you want to delete your account?",
+      "log_out": "Log out",
+      "change_photo": "Change Photo",
+      "remove_photo": "Remove Photo",
+      "preferred_language": "Preferred Language",
+      "your_age_range": "Your age range",
+      "theme": "Theme",
+      "choose_how_looks_across_the_app": "Choose how Chatforia looks across the app.",
+      "uploading": "Uploading…",
+      "choose_plus_or_premium": "Choose Plus or Premium",
+      "profile_photo": "Profile photo",
+      "open_upgrade": "Open upgrade",
+      "open": "Open",
+      "account": "Account",
+      "username": "Username",
+      "email": "Email",
+      "plan": "Plan",
+      "wireless": "Wireless",
+      "mobile": "Chatforia Mobile",
+      "esim_and_wireless_settings": "eSIM and wireless settings",
+      "call_text_forwarding": "Call & Text Forwarding",
+      "forward_incoming_calls_and_texts": "Forward incoming calls and texts",
+      "phone_number": "Phone Number",
+      "manage_your_number": "Manage your Chatforia number",
+      "settings": "Settings",
+      "auto_translate_messages": "Auto-translate messages",
+      "automatically_translate_messages_into_your_prefe": "Automatically translate messages into your preferred language.",
+      "show_original_with_translation": "Show original with translation",
+      "show_the_original_message_alongside_the_translat": "Show the original message alongside the translation.",
+      "smart_reply_suggestions": "Smart reply suggestions",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Show Ria-powered rewrite assistance and quick replies.",
+      "linked_devices": "Linked Devices",
+      "manage_trusted_devices": "Manage trusted devices",
+      "pair_new_device": "Pair New Device",
+      "approve_a_new_device": "Approve a new device",
+      "appearance": "Appearance",
+      "accessibility": "Accessibility",
+      "visual_alerts_captions_and_voice_note_accessibil": "Visual alerts, captions, and voice note accessibility",
+      "security": "Security",
+      "encryption_key_protected": "Encryption key protected",
+      "privacy": "Privacy",
+      "allow_explicit_content": "Allow explicit content",
+      "show_read_receipts": "Show read receipts",
+      "blur_messages_by_default": "Blur messages by default",
+      "blur_when_app_is_unfocused": "Blur when app is unfocused",
+      "hold_to_reveal_messages": "Hold to reveal messages",
+      "notify_when_messages_are_copied": "Notify when messages are copied",
+      "random_chat": "Random Chat",
+      "use_age_based_matching": "Use age-based matching",
+      "let_ria_remember_conversations": "Let Ria remember conversations",
+      "forward_voicemail_to_email": "Forward voicemail to email",
+      "legal_support": "Legal & Support",
+      "free": "Free"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Options to make Chatforia easier to use without relying on sound.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Starts at normal size. Increase if you prefer larger text in accessibility settings.",
+      "interface_font_size": "Interface font size",
+      "notifications": "Notifications",
+      "visual_alerts_for_messages_calls": "Visual alerts for messages & calls",
+      "show_banners_and_visual_indicators_so_you_do_not": "Show banners and visual indicators so you do not miss activity.",
+      "vibrate_on_new_messages": "Vibrate on new messages",
+      "trigger_device_vibration_with_notifications_when": "Trigger device vibration with notifications when supported.",
+      "flash_screen_on_incoming_call": "Flash screen on incoming call",
+      "briefly_flash_the_screen_when_a_call_rings": "Briefly flash the screen when a call rings.",
+      "live_captions": "Live captions",
+      "enable_live_captions": "Enable live captions",
+      "show_real_time_captions_during_calls_premium_req": "Show real-time captions during calls. Premium required.",
+      "caption_font_size": "Caption font size",
+      "caption_background": "Caption background",
+      "voice_notes": "Voice notes",
+      "auto_transcribe_voice_notes": "Auto-transcribe voice notes",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Attach a transcript to audio messages you receive."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "I've restored my key",
+      "restore_encryption": "Restore Encryption"
+    },
+    "language_selection": {
+      "select_language": "Select language"
+    },
+    "login": {
+      "email_or_username": "Email or username",
+      "password": "Password",
+      "forgot_password": "Forgot password?",
+      "resend_verification_email": "Resend verification email",
+      "reset_encryption": "Reset Encryption",
+      "create_an_account": "Create an account",
+      "welcome_to": "Welcome to Chatforia",
+      "sign_in_or_create_an_account": "Sign in or create an account",
+      "or": "or",
+      "don_t_have_an_account_yet": "Don’t have an account yet?"
+    },
+    "onboarding": {
+      "welcome": "Welcome",
+      "set_up_your_profile_so_can_personalize_your_expe": "Set up your profile so Chatforia can personalize your experience.",
+      "choose_a_username": "Choose a username",
+      "this_is_how_people_will_recognize_you_in": "This is how people will recognize you in Chatforia.",
+      "choose_your_language": "Choose your language",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia will use this for translations and your app experience.",
+      "you_re_ready": "You’re ready",
+      "start_chatting_calling_translating_and_connectin": "Start chatting, calling, translating, and connecting with people around the world."
+    },
+    "register": {
+      "confirm_password": "Confirm password",
+      "phone_optional": "Phone optional",
+      "log_in": "Log in",
+      "create_your_account": "Create your account",
+      "start_chatting_across_languages_with": "Start chatting across languages with Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "I agree to receive SMS verification messages.",
+      "already_have_an_account": "Already have an account?"
+    },
+    "add_contact": {
+      "phone": "Phone",
+      "name": "Name",
+      "alias_optional": "Alias optional",
+      "pin_this_person_as_a_favorite_contact": "Pin this person as a favorite contact."
+    },
+    "contact_detail": {
+      "edit_contact": "Edit Contact",
+      "delete_contact": "Delete Contact",
+      "message": "Message",
+      "video": "Video",
+      "external_name": "External name"
+    },
+    "import_phone_contacts": {
+      "select_all": "Select All",
+      "clear": "Clear",
+      "import_contacts": "Import Contacts"
+    },
+    "invite_friends": {
+      "share_invite_link": "Share Invite Link",
+      "invite_friends": "Invite Friends",
+      "share_a_invite_link_with_friends_using_messages_": "Share a Chatforia invite link with friends using Messages, email, or any app on your phone."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Pair a New Device",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Open Chatforia on your new device and sign in. If it needs access to your encrypted chats, approve it from a trusted device.",
+      "view_pending_device_requests": "View pending device requests"
+    },
+    "key_setup": {
+      "recovery_passcode": "Recovery Passcode",
+      "confirm_recovery_passcode": "Confirm Recovery Passcode",
+      "restore_chats": "Restore Chats",
+      "clear_local_key": "Clear local key",
+      "reset_encryption": "Reset Encryption?",
+      "this_will_permanently_replace_your_encryption_ke": "This will permanently replace your encryption key.",
+      "encryption": "Encryption",
+      "restore_encrypted_chats": "Restore encrypted chats",
+      "no_recovery_backup_found": "No recovery backup found",
+      "open_on_a_device_that_can_already_read_your_encr": "Open Chatforia on a device that can already read your encrypted chats and create a Recovery Passcode there.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "No Recovery Backup found yet. Create one from this device so you can restore chats on iOS, Android, and web.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Only use this if you have lost all trusted devices and cannot restore your original key."
+    },
+    "linked_devices": {
+      "your_devices": "Your devices",
+      "pending_approvals": "Pending approvals",
+      "approve": "Approve",
+      "reject": "Reject",
+      "revoke": "Revoke",
+      "request_approval_for_this_device": "Request approval for this device",
+      "finish_device_approval": "Finish device approval"
+    },
+    "forwarding_settings": {
+      "reset": "Reset",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Forward incoming calls and texts to your verified phone or email.",
+      "quiet_hours": "Quiet Hours",
+      "forwarding": "Forwarding",
+      "enable_text_forwarding": "Enable text forwarding",
+      "forward_texts_to_phone": "Forward texts to phone",
+      "forward_texts_to_email": "Forward texts to email",
+      "enable_call_forwarding": "Enable call forwarding"
+    },
+    "chat_message_row": {
+      "copy": "Copy",
+      "edit": "Edit",
+      "report": "Report",
+      "message_info": "Message Info"
+    },
+    "chat_thread": {
+      "no_messages_yet": "No messages yet",
+      "delete_message": "Delete message?",
+      "choose_how_you_want_to_delete_this_message": "Choose how you want to delete this message.",
+      "delete_for_everyone": "Delete for everyone",
+      "delete_for_me": "Delete for me",
+      "search_messages": "Search messages",
+      "search_in_chat": "Search in chat",
+      "sending": "Sending…",
+      "failed_to_send": "Failed to send",
+      "edited": "Edited",
+      "audio_call": "Audio Call",
+      "video_call": "Video Call",
+      "selected_gif": "Selected GIF",
+      "remove_gif": "Remove GIF",
+      "attach": "Attach",
+      "rewrite_with_ria": "Rewrite with Ria",
+      "composer_action": "Composer action"
+    },
+    "edit_message": {
+      "save": "Save",
+      "emoji": "Emoji",
+      "edit_message": "Edit message"
+    },
+    "message_attachments": {
+      "image_attachment": "Image attachment",
+      "video_attachment": "Video attachment",
+      "play_video": "Play video"
+    },
+    "message_bubble": {
+      "disappearing_message": "Disappearing message"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "No one has read this yet",
+      "message_info": "Message info"
+    },
+    "report_message": {
+      "reason": "Reason",
+      "include_previous_messages": "Include previous messages",
+      "additional_details": "Additional details",
+      "anything_else_moderators_should_know": "Anything else moderators should know?",
+      "block_this_user_after_reporting": "Block this user after reporting",
+      "submit_report": "Submit report",
+      "report_message": "Report message"
+    },
+    "phone_number": {
+      "replace_number": "Replace Number",
+      "pick_a_number": "Pick a Number",
+      "no_number_assigned": "No Chatforia number assigned.",
+      "your_number": "Your Chatforia Number"
+    },
+    "pick_number": {
+      "area_code": "Area Code",
+      "premium_numbers_are_protected_from_recycling": "Premium numbers are protected from recycling.",
+      "available_numbers": "Available Numbers",
+      "search_by_area_code_to_find_available_numbers": "Search by area code to find available numbers.",
+      "capability": "Capability",
+      "country": "Country"
+    },
+    "gif_picker": {
+      "search_tenor": "Search Tenor",
+      "search_gifs": "Search GIFs"
+    },
+    "random_chat": {
+      "add_friend": "Add Friend",
+      "skip": "Skip",
+      "send": "Send",
+      "end_chat": "End chat"
+    },
+    "random_matching": {
+      "finding_someone": "Finding someone"
+    },
+    "ria_chat": {
+      "ask_ria": "Ask Ria...",
+      "you_re_now_chatting_with_ria": "You’re now chatting with Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Chat with Ria anytime, separate from random human matching."
+    },
+    "ria_rewrite": {
+      "original_text": "Original text",
+      "choose_tone": "Choose tone",
+      "rewriting": "Rewriting…",
+      "suggestions": "Suggestions",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Choose a tone to generate rewrite suggestions."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Free includes basic sounds. Upgrade to unlock more tones and ringtones.",
+      "volume": "Volume",
+      "message_tone": "Message Tone",
+      "ringtone": "Ringtone"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "No voicemails yet.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "When someone leaves you a voicemail,\nit will show up here.",
+      "play_voicemail": "Play voicemail",
+      "delete_voicemail": "Delete voicemail"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Selected voicemail"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Coverage for your current country or nearby local use.",
+      "coverage_across_supported_european_destinations": "Coverage across supported European destinations.",
+      "coverage_across_supported_global_destinations": "Coverage across supported global destinations."
+    },
+    "wireless_home": {
+      "manage_wireless": "Manage Wireless",
+      "port_my_number": "Port My Number",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM data packs require an eSIM-compatible and unlocked device.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Stay connected when you’re traveling or away from Wi-Fi.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Choose a one-time eSIM data pack for Local, Europe, or Global coverage.",
+      "we_don_t_sell_data_packs_under_3_gb": "We don’t sell data packs under 3 GB.",
+      "loading_usage": "Loading usage…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "No active data pack yet. Buy a pack below to start tracking usage.",
+      "usage_details_will_appear_once_your_data_pack_is": "Usage details will appear once your data pack is active.",
+      "manage": "Manage",
+      "coverage": "Coverage",
+      "your_esim": "Your eSIM",
+      "current_usage": "Current Usage"
+    }
   }
 }

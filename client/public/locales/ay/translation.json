@@ -2880,7 +2880,7 @@
       "subtitle": "Akax qamawimatakix mä machaq imantañawja luri.",
       "backupWarning": "Nayraqata jichha llavim imasipxma.",
       "messageAccessWarning": "Nayra ch'ikachat qillqatanakaxa, jan astasiñ yanapt'awix utjkani ukhaxa, inasa jan uñjañjamäxaniwa.",
-      "riskWarning": "Aka lurañamawa, ukhamarusa jan walt'äwinakapa amuyassta ukhaki.",
+      "riskWarning": "Aka lurañamawa, ukhamarusa jan walt'äwinakapa amuyasstaxa.",
       "typeToContinue": "Sarantaskakiñatakix ROTATE qillqt'am.",
       "placeholder": "Muyt'ayaña",
       "action": "Ch'amañchaña Llawi Muyt'ayaña",
@@ -3066,7 +3066,8 @@
     "flip": "K'iñt'aña",
     "speaker": "Arst'iri",
     "end": "Tukuyawi",
-    "noIncomingCallToAnswer": "Janiw jawsäwix utjkiti jaysañataki."
+    "noIncomingCallToAnswer": "Janiw jawsäwix utjkiti jaysañataki.",
+    "serviceUnavailable": "Jichhax jawsäwix janiw utjkiti. Qhiparux wasitat yant'apxam."
   },
   "settings": {
     "startHour": "Qallta urasa (0–23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "Ch'amaka",
   "accessibility_caption_bg_transparent": "Qhanawa",
   "api": {
-    "notAuthorized": "Janiw iyawsatäkiti"
+    "notAuthorized": "Janiw iyawsatäkiti",
+    "invalidURL": "Jan wali sirwiqir chiqawja.",
+    "serverError": "Servidor pantja (%d): %@",
+    "failedToDecodeResponse": "Servidoran jaysäwipa janiw liyt'asiñjamäkänti: %@"
+  },
+  "tap_to_view_contact": "Uñjañatak llamkt'aña",
+  "android": {
+    "plan": {
+      "plan_billing": "Amtawi ukhamaraki Cobranzi",
+      "current_plan": "Jichha amta",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Plus ukamp yatiyäwinak jan uñjasaw apnaqam, jan ukax Premium ukamp AI irnaqañanaka ukat munarjam wakicht'añanak jist'aram.",
+      "plus": "Juk'ampi",
+      "premium": "Wali suma",
+      "back": "Kutiña",
+      "my_plan": "Nayan amtawija",
+      "compare_plans": "Plananaka kikt'aña",
+      "included": "Apthapita"
+    },
+    "upgrade": {
+      "upgrade": "Jilxattayaña",
+      "restore_purchases": "Alatanaka kutt'ayaña",
+      "unlock_more_with": "Chatforia-mpi juk'ampi jist'araña",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Yatiyäwinaka apsuñataki, juman luräwima wakicht'añataki, ukhamaraki jilïr irnaqañanaka jist'arañataki, Plus jan ukax Premium ajllt'am.",
+      "best_experience": "Juk'amp suma yant'äwi",
+      "close": "Wist'aña",
+      "plus": "Chatforia Jilxattata",
+      "remove_ads_and_unlock_more_everyday_features": "Yatiyäwinaka apsuña ukat sapa uru juk'ampi luräwinaka jist'araña.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Chatforia-n taqpach yant'awipa.",
+      "premium_annual": "Wali suma maran maran",
+      "save_compared_to_monthly_premium": "Phaxsit phaxsi Premium-ampi chikachthapisa imaña."
+    },
+    "audio_call": {
+      "mute": "Amukt'aña",
+      "speaker": "Arst'iri",
+      "end_call": "Jawsäwi tukuyaña"
+    },
+    "dial_pad": {
+      "dial": "Jakhüwi",
+      "done": "Tukuyatawa",
+      "enter_number": "Jakhu qillqantaña",
+      "call": "Jawsaña",
+      "delete_digit": "Jakhu chhaqtayaña"
+    },
+    "incoming_call": {
+      "decline": "Aynachaña",
+      "accept": "Katuqaña",
+      "decline_call": "Jaysaña janiw munti",
+      "accept_call": "Jawsa katuqaña"
+    },
+    "video_call": {
+      "camera": "Uñch'ukiña",
+      "flip_camera": "Muytiri cámara"
+    },
+    "chats": {
+      "search_chats": "Aruskipäwinaka thaqhaña",
+      "no_chats_yet": "Janiw jichhakamax aruskipäwinakax utjkiti",
+      "admob_ad": "AdMob Yatiyäwi",
+      "delete_conversation": "Aruskipäwi pichaña?",
+      "this_will_remove_this_conversation_from_your_cha": "Aka aruskipäwixa aruskipäwinakama listata apsuniwa.",
+      "delete": "Pichaña",
+      "cancel": "Q'al chhaqtayaña",
+      "chats": "Aruskipäwinaka",
+      "new_chat": "Machaqa aruskipäwi",
+      "refresh": "Machaqaptayaña",
+      "random_chat": "Jan uñt'atanakampi aruskipasiwi",
+      "search": "Thaqaña",
+      "delete_conversation_2": "Aruskipäwi pichaña"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Apnaqiri suti, uñt'asiñ suti, jan ukax celular jakhu",
+      "new_chat": "Machaqa aruskipäwi",
+      "start_a_chat": "Aruskipäwi qalltaña",
+      "search_by_username_contact_name_or_phone_number": "Suti apnaqañampi, uñt'asiñ sutiampi, jan ukax celular jakhuwimpi thaqhaña.",
+      "results": "Tukuyatanaka",
+      "open_chat": "Aruskipäwi jist'araña"
+    },
+    "calls": {
+      "recents": "Qhipha urunaka",
+      "voicemail": "Arunaka Apayaña",
+      "calls": "Jawst'awinaka",
+      "no_calls_yet": "Janiw kuna jawsäwinakas utjkiti",
+      "your_recent_calls_will_show_up_here": "Jichhaki jawst'atanakamax akana uñstaniwa.",
+      "open_dial_pad": "Jakhüñ p'anqa justaraña",
+      "delete_call": "Jawsäwi pichaña",
+      "video_call": "Uñjasiñ jawst'awi"
+    },
+    "contacts": {
+      "contacts": "Uñt'atanaka",
+      "add_contact": "Uñt'äwi yapxataña",
+      "import_from_phone": "Celularata apaniña",
+      "invite_friends": "Masinakaru jawst'am",
+      "favorite": "Munata",
+      "open_contact": "Jiskt'asiñataki jist'araña"
+    },
+    "main_activity": {
+      "loading": "Q'ipicht'askiwa...",
+      "profile": "Uñt'äwi"
+    },
+    "profile": {
+      "delete_account": "Qillqata Pichaña",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Aka lurañax janiw kutt'ayaskaspati. ¿Chiqapuniti cuentama chhaqtayaña munta?",
+      "log_out": "Mistuña",
+      "change_photo": "Sama mayjt'ayaña",
+      "remove_photo": "Sama apaqaña",
+      "preferred_language": "Ajllit aru",
+      "your_age_range": "Juman maranakama",
+      "theme": "Amuyu",
+      "choose_how_looks_across_the_app": "Chatforiax app ukan kunjams uñstani uk ajllma.",
+      "uploading": "Apkataskiwa…",
+      "choose_plus_or_premium": "Plus jan ukax Premium ajllim",
+      "profile_photo": "Uñnaq jamuqa",
+      "open_upgrade": "Justa machaqaptäwi",
+      "open": "Justaraña",
+      "account": "Qillqata",
+      "username": "Apnaqiri sutipa",
+      "email": "Chaski qillqa",
+      "plan": "Amta",
+      "wireless": "Jan chinuqani",
+      "mobile": "Chatforia Móvil",
+      "esim_and_wireless_settings": "eSIM ukhamaraki jan chinuñani wakiyawinaka",
+      "call_text_forwarding": "Jawsäwinaka ukat Qillqatanaka Apayaña",
+      "forward_incoming_calls_and_texts": "Jutir jawillt'awinaka qillqatanakampi khitaña",
+      "phone_number": "Jaysawin Jakhupa",
+      "manage_your_number": "Chatforia jakhumaru apnaqma",
+      "settings": "Wakichäwinaka",
+      "auto_translate_messages": "Yatiyäwinaka kikipa jaqukipaña",
+      "automatically_translate_messages_into_your_prefe": "Yatiyawinakax jank'akiw jumax munat arumar jaqukipasi.",
+      "show_original_with_translation": "Qallta qillqata jaqukipata ukamp uñacht'ayaña",
+      "show_the_original_message_alongside_the_translat": "Qallta qillqata jaqukipata chikata uñacht'ayaña.",
+      "smart_reply_suggestions": "Yatiñampi jaysäwinaka amuyt'ayaña",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Ria-mp ch'amanchat qillqata wasitat qillqañ yanapa ukat jank'a jaysäwinaka uñacht'ayaña.",
+      "linked_devices": "Chikt'at Yänaka",
+      "manage_trusted_devices": "Iyawsata aparanaka apnaqaña",
+      "pair_new_device": "Machaqa Aparatu Apthapiña",
+      "approve_a_new_device": "Machaq aparatu iyaw saña",
+      "appearance": "Uñnaqa",
+      "accessibility": "Mantañataki",
+      "visual_alerts_captions_and_voice_note_accessibil": "Uñjañjam yatiyäwinaka, qillqat qhanañchäwinaka, ukhamaraki aru qillqatanakaru mantañjama",
+      "security": "Jark'aqasiwi",
+      "encryption_key_protected": "Ch'ikhi imata",
+      "privacy": "Imantatäwi",
+      "allow_explicit_content": "Qhananchat yänaka jaytaña",
+      "show_read_receipts": "Uñjaña liyt'at qillqatanak",
+      "blur_messages_by_default": "Yatiyäwinaka pachpat ch'amakt'ayaña",
+      "blur_when_app_is_unfocused": "Aplicacionax jan uñt'atäki ukhaxa laq'achaña",
+      "hold_to_reveal_messages": "Katxaruñampi uñacht'ayaña qillqatanaka",
+      "notify_when_messages_are_copied": "Yatiyäwinakax kopiyata ukhax yatiyäta",
+      "random_chat": "Jan uñt'at aruskipäwi",
+      "use_age_based_matching": "Marapjam tupthapiña apnaqaña",
+      "let_ria_remember_conversations": "Riax aruskipäwinak amtaspan.",
+      "forward_voicemail_to_email": "Arunaka imat aru correo electrónico ukaru apayaña",
+      "legal_support": "Kamachi ukat Yanapa",
+      "free": "Inaki"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Chatforia juk'amp jasaki apnaqañataki ajlliñanaka, jan arumpi apnaqasa.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Qalltanxa jisk'akiwa. Jach'a qillqañ munsta ukhaxa, uñjañatak wakichäwinakana jilxattayam.",
+      "interface_font_size": "Uñnaq qillqa jach'akayapa",
+      "notifications": "Yatiyäwinaka",
+      "visual_alerts_for_messages_calls": "Yatiyäwinakataki ukhamaraki jawst'äwinakataki uñjañjam amuyt'ayirinaka",
+      "show_banners_and_visual_indicators_so_you_do_not": "Luräwinak jan chhaqhayañamataki, wiphala uñacht'äwinaksa uñacht'ayapxam.",
+      "vibrate_on_new_messages": "Machaqa yatiyäwinakampi khathatiña",
+      "trigger_device_vibration_with_notifications_when": "Yanapt'ata ukhaxa, yatiyäwinakampi chika ch'allxtayiri aparan khathatiñapa.",
+      "flash_screen_on_incoming_call": "Jutir jawsäwin pantallapan qhanapaxa",
+      "briefly_flash_the_screen_when_a_call_rings": "Jawsäwix t'uqki ukhaxa, pisi pachakiw pantallax qhant'añapa.",
+      "live_captions": "Jakäwi qillqatanaka",
+      "enable_live_captions": "Jichhapach qillqatanaka uñstayaña",
+      "show_real_time_captions_during_calls_premium_req": "Jawsäwinakan pachpach aru qillqatanaka uñacht'ayaña. Premium munasiwa.",
+      "caption_font_size": "Qillqata qillqa jach'akayapa",
+      "caption_background": "Qillqata qhipa",
+      "voice_notes": "Aru qillqatanaka",
+      "auto_transcribe_voice_notes": "Aru qillqatanaka kikipa qillqaña",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Katuqkta uka aru qillqatanakarux mä qillqata apkatam."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Llawinakajxa askichawaytwa.",
+      "restore_encryption": "Ch'ikachaña Kutt'ayaña"
+    },
+    "language_selection": {
+      "select_language": "Aru ajlliña"
+    },
+    "login": {
+      "email_or_username": "Chaski jan ukax apnaqiri suti",
+      "password": "Imantat aru",
+      "forgot_password": "¿Imantat arum armtati?",
+      "resend_verification_email": "Yatiyäwi correo electrónico wasitat apayaña",
+      "reset_encryption": "Ch'ikachaña Kuttayaña",
+      "create_an_account": "Mä qillqantäwi luraña",
+      "welcome_to": "Chatforia-ru aski purinipxta",
+      "sign_in_or_create_an_account": "Mantam jan ukax mä qillqantäwi luram",
+      "or": "jan ukax",
+      "don_t_have_an_account_yet": "Janitï cuenta-marikïta?"
+    },
+    "onboarding": {
+      "welcome": "Aski purinipxta",
+      "set_up_your_profile_so_can_personalize_your_expe": "Perfilama wakicht'am, ukhamat Chatforia-x jumatakjam lurañapataki.",
+      "choose_a_username": "Mä apnaqiri suti ajllt'am",
+      "this_is_how_people_will_recognize_you_in": "Akhamaw jaqinakax Chatforia-n jumar uñt'apxätam.",
+      "choose_your_language": "Aru ajllim",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforiax aka apnaqani jaqukipañataki ukhamaraki app apnaqañ yant'äwimataki.",
+      "you_re_ready": "Walikïtawa",
+      "start_chatting_calling_translating_and_connectin": "Taqi akapachankir jaqinakampi aruskipasiña, jawst'asiña, jaqukipasiña, ukhamaraki mayachasiña qalltam."
+    },
+    "register": {
+      "confirm_password": "Imantat aru ch'amañchaña",
+      "phone_optional": "Jaysañax janiw wakiskiti",
+      "log_in": "Mantaña",
+      "create_your_account": "Qillqantasiñama luraña",
+      "start_chatting_across_languages_with": "Chatforia-mpi may maya arunaka aruskipañ qalltam.",
+      "i_agree_to_receive_sms_verification_messages": "SMS qillqampi chiqañchañ yatiyawinaka katuqañatakix iyaw sista.",
+      "already_have_an_account": "¿Jumax mä cuenta utjtamti?"
+    },
+    "add_contact": {
+      "phone": "Jaysaña",
+      "name": "Suti",
+      "alias_optional": "Yaqha suti munaspa",
+      "pin_this_person_as_a_favorite_contact": "Aka jaqiru munat uñt'atjam imaña."
+    },
+    "contact_detail": {
+      "edit_contact": "Uñt'atiru askichaña",
+      "delete_contact": "Uñt'at jaqi pichaña",
+      "message": "Yatiyäwi",
+      "video": "Uñacht'äwi",
+      "external_name": "Anqäx sutipa"
+    },
+    "import_phone_contacts": {
+      "select_all": "Taqpach ajlliña",
+      "clear": "Q'umachaña",
+      "import_contacts": "Uñt'atanaka Apkataña"
+    },
+    "invite_friends": {
+      "share_invite_link": "Jutäwi Chinu Ch'iqiyaña",
+      "invite_friends": "Masinakaru jawst'aña",
+      "share_a_invite_link_with_friends_using_messages_": "Masinakamampi mä Chatforia jawillt'äwi chinu apayasiñama, Messages, correo electrónico, jan ukax celularaman kuna aplicacionampis apnaqasa."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Machaq Aparatu Apthapiña",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Machaq aparanamanxa Chatforia jist'araña ukat mantaña. Jark'aqat aruskipäwinakamar mantañ munani ukhaxa, mä iyawsat aparanata iyaw saña.",
+      "view_pending_device_requests": "Uñjaña suyt'aski uka aparan mayiwinaka"
+    },
+    "key_setup": {
+      "recovery_passcode": "Kutintañataki Imantat Aru",
+      "confirm_recovery_passcode": "Kutintañataki imantat aru chiqapchaña",
+      "restore_chats": "Aruskipäwinaka kutt'ayaña",
+      "clear_local_key": "Uka chiqana qhanañchiri pichaña",
+      "reset_encryption": "Ch'ikachaña Kutt'ayaña?",
+      "this_will_permanently_replace_your_encryption_ke": "Akax wiñayatak juman ch'amanchawi llawinakam lantintaniwa.",
+      "encryption": "Imantaña",
+      "restore_encrypted_chats": "Ch'ikkatat aruskipäwinaka kutt'ayaña",
+      "no_recovery_backup_found": "Janiw kuna qhispiyañataki imatäwix jikxatatkiti",
+      "open_on_a_device_that_can_already_read_your_encr": "Chatforia jist'araña mä yäpar, kawkhantix jark'aqata aruskipäwinakama liyt'irjamäki ukana, ukatsti mä Kutiqtayañataki Imantata Chimpu ukan uñstayaña.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Janiw imat qillqatanak kutt'ayañatakix jikxataskiti. Aka aparanita may lurasim, ukhamat iOS, Android, ukhamarak web ukanakan aruskipäwinakama kutt'ayasiñamataki.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Taqi iyawsat yänakama chhaqhayawaysta ukat qallta jist'arañama kutt'ayirismati ukhaki aka apnaqam."
+    },
+    "linked_devices": {
+      "your_devices": "Juman aparanakama",
+      "pending_approvals": "Iyaw sañanakax suyasiwa",
+      "approve": "Iyaw saña",
+      "reject": "Janiw munkti",
+      "revoke": "Qhispiyaña",
+      "request_approval_for_this_device": "Aka aparatuatakix iyaw sañ mayiña",
+      "finish_device_approval": "Yänkamachawi tukuyawi"
+    },
+    "forwarding_settings": {
+      "reset": "Qalltatpach luraña",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Jutir jawillt'awinaka ukat qillqatanaka chiqanchat telefonumarusa jan ukax correo electrónico-marusa apayam.",
+      "quiet_hours": "Ch'ujña urasanaka",
+      "forwarding": "Apayaña",
+      "enable_text_forwarding": "Qillqatanaka apayaña ch'amanchaña",
+      "forward_texts_to_phone": "Qillqatanaka celulararu apayaña",
+      "forward_texts_to_email": "Qillqatanaka correo electrónico ukaru apayaña",
+      "enable_call_forwarding": "Jawsäwi apayaña ch'amanchaña"
+    },
+    "chat_message_row": {
+      "copy": "Katuqaña",
+      "edit": "Askichaña",
+      "report": "Yatiyawi",
+      "message_info": "Yatiyäwi tuqita"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Janiw yatiyäwinakax utjkiti",
+      "delete_message": "Yatiyäwi pichaña?",
+      "choose_how_you_want_to_delete_this_message": "Aka yatiyäwi kunjams picharañ munsta uk ajllim.",
+      "delete_for_everyone": "Taqinitaki pichaña",
+      "delete_for_me": "Nayataki pichaña",
+      "search_messages": "Yatiyäwinaka thaqhaña",
+      "search_in_chat": "Aruskipäwin thaqaña",
+      "sending": "Apayanisa…",
+      "failed_to_send": "Janiw apayasiwaykiti",
+      "edited": "Askichata",
+      "audio_call": "Ist'añ jawsäwi",
+      "video_call": "Uñt'asis aruskipäwi",
+      "selected_gif": "Ajllita GIF",
+      "remove_gif": "GIF apsuña",
+      "attach": "Katuqayaña",
+      "rewrite_with_ria": "Ria-mpi wasitat qillqaña",
+      "composer_action": "Qillqirin lurañapa"
+    },
+    "edit_message": {
+      "save": "Imaña",
+      "emoji": "Uñnaqchawinaka",
+      "edit_message": "Yatiyäwi askichaña"
+    },
+    "message_attachments": {
+      "image_attachment": "Uñacht'äwi apkataña",
+      "video_attachment": "Video apkatata",
+      "play_video": "Video uñt'ayaña"
+    },
+    "message_bubble": {
+      "disappearing_message": "Chhaqtir qillqata"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Janiw khitis aka janïr ullañkiti",
+      "message_info": "Yatiyäwi tuqita"
+    },
+    "report_message": {
+      "reason": "Amuyu",
+      "include_previous_messages": "Nayra qillqatanaka yapxataña",
+      "additional_details": "Juk'ampi yatiyäwinaka",
+      "anything_else_moderators_should_know": "¿Yaqha kunsa moderadoranakax yatiñapaxa?",
+      "block_this_user_after_reporting": "Yatiyasina, aka apnaqir jark'aqma.",
+      "submit_report": "Yatiyäwi apayaña",
+      "report_message": "Yatiyawi apayaña"
+    },
+    "phone_number": {
+      "replace_number": "Jakhu mayjt'ayaña",
+      "pick_a_number": "Mä jakhu ajllim",
+      "no_number_assigned": "Janiw Chatforia jakhuwix churatakiti.",
+      "your_number": "Juman Chatforia Jakhumaxa"
+    },
+    "pick_number": {
+      "area_code": "Suyu jawsäwi",
+      "premium_numbers_are_protected_from_recycling": "Premium jakhuwinakax wasitat apnaqañat jark'aqatawa.",
+      "available_numbers": "Jakhuwinaka utji",
+      "search_by_area_code_to_find_available_numbers": "Jakhuwinaka jikxatañatakixa, suyu jakhu tuqiru thaqhaña.",
+      "capability": "Ch'amapa",
+      "country": "Marka"
+    },
+    "gif_picker": {
+      "search_tenor": "Jach'a ch'allan thaqaña",
+      "search_gifs": "GIF-naka thaqaña"
+    },
+    "random_chat": {
+      "add_friend": "Masichasiña",
+      "skip": "Jalt'aña",
+      "send": "Apayaña",
+      "end_chat": "Aruskipäwi tukuyaña"
+    },
+    "random_matching": {
+      "finding_someone": "Mä jaqi jikxataña"
+    },
+    "ria_chat": {
+      "ask_ria": "Riaru jiskt'am...",
+      "you_re_now_chatting_with_ria": "Jichhax Ria-mpiw aruskipasiskta.",
+      "chat_with_ria_anytime_separate_from_random_human": "Ria-mpi kuna pachas aruskipaña, jan khitimpis mayak uñt'ayasisa."
+    },
+    "ria_rewrite": {
+      "original_text": "Qallta qillqata",
+      "choose_tone": "Arsuña ajlliña",
+      "rewriting": "Wasitat qillqaña…",
+      "suggestions": "Amuyt'awinaka",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Mä aru thakhi ajllt'am, mayjt'ayat qillqañatak amuyunaka uñstayañataki."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Yanqhax qallta jach'anakaniwa. Juk'ampi jach'anaka ukat jawsa jach'anaka jist'arañatakix jilxattayam.",
+      "volume": "Walja",
+      "message_tone": "Yatiyäwi aru",
+      "ringtone": "Jawsañ q'uchu"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Janiw kuns aru qillqatanakax utjkiti.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Khititix jumaru aru qillqata jaytawaytam ukhaxa, akana uñstaniwa.",
+      "play_voicemail": "Arunaka apayaña ist'aña",
+      "delete_voicemail": "Arunaka apayaña p'anqa pichaña"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Ajllita aru qillqata"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Jichha markamataki jan ukax jak'a chiqanakan apnaqañataki.",
+      "coverage_across_supported_european_destinations": "Yanapt'at Europa markanakana taqpach uñjawi.",
+      "coverage_across_supported_global_destinations": "Taqi yanapt'at akapach markanakana imantata."
+    },
+    "wireless_home": {
+      "manage_wireless": "Jan chinuñan kamachiña",
+      "port_my_number": "Jakhuñaja Apkataña",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM datos paquetenakax mä eSIM-amp apnaqañatak wakiskir ukhamarak jist'arat dispositivowa munasi.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Sarnaqkasasa jan ukax Wi-Fi-t jayanakasasa, internetampi chikt'atäskakim.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Aka markataki, Europa markataki, jan ukax Taqi markanakataki mä kuti apnaqañataki eSIM datos paquete ajllt'am.",
+      "we_don_t_sell_data_packs_under_3_gb": "Janiw 3 GB-t juk'a datos paquetenak aljapkti.",
+      "loading_usage": "Apnaqaña q'ipicht'aski…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Jichhakamax janiw kuna apnaqat yatiyäwi q'ipis utjkiti. Apnaqatam uñjañ qalltañatakix, aynachan mä q'ipi althapim.",
+      "usage_details_will_appear_once_your_data_pack_is": "Apnaqañ qhananchäwinakaxa, datu pakimaxa irnaqañ qalltkipanwa uñstani.",
+      "manage": "Kamachiña",
+      "coverage": "Qatantawi",
+      "your_esim": "Juman eSIM-ama",
+      "current_usage": "Jichha apnaqäwi"
+    }
   }
 }

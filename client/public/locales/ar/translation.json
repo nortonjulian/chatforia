@@ -3066,7 +3066,8 @@
     "flip": "الوجه",
     "speaker": "مكبر الصوت",
     "end": "النهاية",
-    "noIncomingCallToAnswer": "لا توجد مكالمة واردة للرد عليها."
+    "noIncomingCallToAnswer": "لا توجد مكالمة واردة للرد عليها.",
+    "serviceUnavailable": "خدمة الاتصال غير متاحة حالياً. يرجى المحاولة مرة أخرى لاحقاً."
   },
   "settings": {
     "startHour": "ساعة البدء (0-23)",
@@ -3637,6 +3638,404 @@
   "accessibility_caption_bg_dark": "مظلم",
   "accessibility_caption_bg_transparent": "شفاف",
   "api": {
-    "notAuthorized": "غير مصرح به"
+    "notAuthorized": "غير مصرح به",
+    "invalidURL": "عنوان الخادم غير صالح.",
+    "serverError": "خطأ في الخادم (%d): %@",
+    "failedToDecodeResponse": "تعذر قراءة استجابة الخادم: %@"
+  },
+  "tap_to_view_contact": "انقر لعرض جهة الاتصال",
+  "android": {
+    "plan": {
+      "plan_billing": "الخطط والفواتير",
+      "current_plan": "الخطة الحالية",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "استمتع بتجربة خالية من الإعلانات مع \"Plus\"، أو احصل على أدوات الذكاء الاصطناعي وخيارات التخصيص مع \"Premium\".",
+      "plus": "بالإضافة إلى",
+      "premium": "متميز",
+      "back": "العودة",
+      "my_plan": "خطتي",
+      "compare_plans": "مقارنة الباقات",
+      "included": "مُضمَّن"
+    },
+    "upgrade": {
+      "upgrade": "الترقية",
+      "restore_purchases": "استعادة المشتريات",
+      "unlock_more_with": "اكتشف المزيد مع Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "اختر \"Plus\" أو \"Premium\" لإزالة الإعلانات وتخصيص تجربتك والوصول إلى الأدوات المتقدمة.",
+      "best_experience": "أفضل تجربة",
+      "close": "إغلاق",
+      "plus": "شاتفوريا بلس",
+      "remove_ads_and_unlock_more_everyday_features": "أزل الإعلانات واستمتع بمزيد من الميزات اليومية.",
+      "premium": "شاتفوريا بريميوم",
+      "the_full_experience": "تجربة Chatforia الكاملة.",
+      "premium_annual": "الاشتراك السنوي المميز",
+      "save_compared_to_monthly_premium": "وفّر مقارنةً بالاشتراك الشهري المميز."
+    },
+    "audio_call": {
+      "mute": "كتم الصوت",
+      "speaker": "المتحدث",
+      "end_call": "إنهاء المكالمة"
+    },
+    "dial_pad": {
+      "dial": "الاتصال",
+      "done": "تم",
+      "enter_number": "أدخل الرقم",
+      "call": "اتصل",
+      "delete_digit": "حذف رقم"
+    },
+    "incoming_call": {
+      "decline": "الانخفاض",
+      "accept": "قبول",
+      "decline_call": "رفض المكالمة",
+      "accept_call": "قبول المكالمة"
+    },
+    "video_call": {
+      "camera": "الكاميرا",
+      "flip_camera": "كاميرا فليب"
+    },
+    "chats": {
+      "search_chats": "البحث في المحادثات",
+      "no_chats_yet": "لا توجد محادثات حتى الآن",
+      "admob_ad": "إعلان AdMob",
+      "delete_conversation": "هل تريد حذف المحادثة؟",
+      "this_will_remove_this_conversation_from_your_cha": "سيؤدي ذلك إلى حذف هذه المحادثة من قائمة الدردشات الخاصة بك.",
+      "delete": "حذف",
+      "cancel": "إلغاء",
+      "chats": "الدردشات",
+      "new_chat": "محادثة جديدة",
+      "refresh": "تحديث",
+      "random_chat": "دردشة عشوائية",
+      "search": "بحث",
+      "delete_conversation_2": "حذف المحادثة"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "اسم المستخدم أو اسم جهة الاتصال أو رقم الهاتف",
+      "new_chat": "محادثة جديدة",
+      "start_a_chat": "ابدأ محادثة",
+      "search_by_username_contact_name_or_phone_number": "ابحث باستخدام اسم المستخدم أو اسم جهة الاتصال أو رقم الهاتف.",
+      "results": "النتائج",
+      "open_chat": "فتح الدردشة"
+    },
+    "calls": {
+      "recents": "الأحدث",
+      "voicemail": "البريد الصوتي",
+      "calls": "المكالمات",
+      "no_calls_yet": "لم ترد أي مكالمات حتى الآن",
+      "your_recent_calls_will_show_up_here": "ستظهر مكالماتك الأخيرة هنا.",
+      "open_dial_pad": "فتح لوحة الأرقام",
+      "delete_call": "حذف المكالمة",
+      "video_call": "مكالمة فيديو"
+    },
+    "contacts": {
+      "contacts": "جهات الاتصال",
+      "add_contact": "إضافة جهة اتصال",
+      "import_from_phone": "استيراد من الهاتف",
+      "invite_friends": "ادعُ أصدقاءك",
+      "favorite": "المفضلة",
+      "open_contact": "اتصل بنا"
+    },
+    "main_activity": {
+      "loading": "جاري التحميل...",
+      "profile": "الملف الشخصي"
+    },
+    "profile": {
+      "delete_account": "حذف الحساب",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "لا يمكن التراجع عن هذه الخطوة. هل أنت متأكد من رغبتك في حذف حسابك؟",
+      "log_out": "تسجيل الخروج",
+      "change_photo": "تغيير الصورة",
+      "remove_photo": "إزالة الصورة",
+      "preferred_language": "اللغة المفضلة",
+      "your_age_range": "الفئة العمرية",
+      "theme": "الموضوع",
+      "choose_how_looks_across_the_app": "اختر الشكل الذي تظهر به Chatforia في جميع أنحاء التطبيق.",
+      "uploading": "جاري التحميل…",
+      "choose_plus_or_premium": "اختر «Plus» أو «Premium»",
+      "profile_photo": "صورة الملف الشخصي",
+      "open_upgrade": "تحديث مفتوح",
+      "open": "فتح",
+      "account": "الحساب",
+      "username": "اسم المستخدم",
+      "email": "البريد الإلكتروني",
+      "plan": "الخطة",
+      "wireless": "لاسلكي",
+      "mobile": "Chatforia للجوال",
+      "esim_and_wireless_settings": "إعدادات eSIM والاتصال اللاسلكي",
+      "call_text_forwarding": "تحويل المكالمات والرسائل النصية",
+      "forward_incoming_calls_and_texts": "إعادة توجيه المكالمات والرسائل النصية الواردة",
+      "phone_number": "رقم الهاتف",
+      "manage_your_number": "إدارة رقم Chatforia الخاص بك",
+      "settings": "الإعدادات",
+      "auto_translate_messages": "الترجمة التلقائية للرسائل",
+      "automatically_translate_messages_into_your_prefe": "ترجمة الرسائل تلقائيًا إلى لغتك المفضلة.",
+      "show_original_with_translation": "عرض النص الأصلي مع الترجمة",
+      "show_the_original_message_alongside_the_translat": "اعرض الرسالة الأصلية بجانب الترجمة.",
+      "smart_reply_suggestions": "اقتراحات الردود الذكية",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "عرض ميزة المساعدة في إعادة الصياغة والردود السريعة المدعومة من Ria.",
+      "linked_devices": "الأجهزة المتصلة",
+      "manage_trusted_devices": "إدارة الأجهزة الموثوق بها",
+      "pair_new_device": "إقران جهاز جديد",
+      "approve_a_new_device": "الموافقة على جهاز جديد",
+      "appearance": "المظهر",
+      "accessibility": "إمكانية الوصول",
+      "visual_alerts_captions_and_voice_note_accessibil": "إمكانية الوصول إلى التنبيهات المرئية والتعليقات التوضيحية والملاحظات الصوتية",
+      "security": "الأمن",
+      "encryption_key_protected": "محمي بمفتاح تشفير",
+      "privacy": "الخصوصية",
+      "allow_explicit_content": "السماح بالمحتوى الصريح",
+      "show_read_receipts": "إظهار إشعارات القراءة",
+      "blur_messages_by_default": "إخفاء الرسائل بشكل افتراضي",
+      "blur_when_app_is_unfocused": "تشويش الصورة عند إخراج التطبيق من التركيز",
+      "hold_to_reveal_messages": "اضغط مع الاستمرار لإظهار الرسائل",
+      "notify_when_messages_are_copied": "إخطار عند نسخ الرسائل",
+      "random_chat": "دردشة عشوائية",
+      "use_age_based_matching": "استخدام المطابقة حسب العمر",
+      "let_ria_remember_conversations": "دع ريا تتذكر المحادثات",
+      "forward_voicemail_to_email": "إعادة توجيه رسائل البريد الصوتي إلى البريد الإلكتروني",
+      "legal_support": "الشؤون القانونية والدعم",
+      "free": "مجانًا"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "خيارات لتسهيل استخدام Chatforia دون الاعتماد على الصوت.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "يبدأ الحجم بالحجم العادي. يمكنك زيادة الحجم إذا كنت تفضل نصًا أكبر في إعدادات إمكانية الوصول.",
+      "interface_font_size": "حجم خط الواجهة",
+      "notifications": "الإشعارات",
+      "visual_alerts_for_messages_calls": "تنبيهات مرئية للرسائل والمكالمات",
+      "show_banners_and_visual_indicators_so_you_do_not": "اعرض اللافتات والمؤشرات المرئية حتى لا تفوتك أي نشاط.",
+      "vibrate_on_new_messages": "الاهتزاز عند وصول رسائل جديدة",
+      "trigger_device_vibration_with_notifications_when": "تشغيل اهتزاز الجهاز عند تلقي الإشعارات، إذا كان ذلك متاحًا.",
+      "flash_screen_on_incoming_call": "شاشة فلاش عند تلقي مكالمة",
+      "briefly_flash_the_screen_when_a_call_rings": "إضاءة الشاشة لفترة وجيزة عند رنين المكالمة.",
+      "live_captions": "ترجمة فورية",
+      "enable_live_captions": "تمكين الترجمة الفورية",
+      "show_real_time_captions_during_calls_premium_req": "عرض الترجمة النصية في الوقت الفعلي أثناء المكالمات. يتطلب الاشتراك في الخدمة المميزة.",
+      "caption_font_size": "حجم خط التسمية التوضيحية",
+      "caption_background": "خلفية التسمية التوضيحية",
+      "voice_notes": "الملاحظات الصوتية",
+      "auto_transcribe_voice_notes": "النسخ التلقائي للملاحظات الصوتية",
+      "attach_a_transcript_to_audio_messages_you_receiv": "أرفق نسخة نصية بالرسائل الصوتية التي تتلقاها."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "لقد استعدت مفتاحي",
+      "restore_encryption": "استعادة التشفير"
+    },
+    "language_selection": {
+      "select_language": "اختر اللغة"
+    },
+    "login": {
+      "email_or_username": "البريد الإلكتروني أو اسم المستخدم",
+      "password": "كلمة المرور",
+      "forgot_password": "هل نسيت كلمة المرور؟",
+      "resend_verification_email": "إعادة إرسال رسالة البريد الإلكتروني الخاصة بالتحقق",
+      "reset_encryption": "إعادة تعيين التشفير",
+      "create_an_account": "إنشاء حساب",
+      "welcome_to": "مرحبًا بكم في Chatforia",
+      "sign_in_or_create_an_account": "تسجيل الدخول أو إنشاء حساب",
+      "or": "أو",
+      "don_t_have_an_account_yet": "ألا تملك حسابًا بعد؟"
+    },
+    "onboarding": {
+      "welcome": "مرحبًا بكم",
+      "set_up_your_profile_so_can_personalize_your_expe": "قم بإعداد ملفك الشخصي حتى تتمكن Chatforia من تخصيص تجربتك.",
+      "choose_a_username": "اختر اسم مستخدم",
+      "this_is_how_people_will_recognize_you_in": "هكذا سيتعرف عليك الآخرون في Chatforia.",
+      "choose_your_language": "اختر لغتك",
+      "will_use_this_for_translations_and_your_app_expe": "ستستخدم Chatforia هذه المعلومات في الترجمة وتحسين تجربة استخدام التطبيق.",
+      "you_re_ready": "أنت جاهز",
+      "start_chatting_calling_translating_and_connectin": "ابدأ في الدردشة والاتصال والترجمة والتواصل مع الناس في جميع أنحاء العالم."
+    },
+    "register": {
+      "confirm_password": "تأكيد كلمة المرور",
+      "phone_optional": "الهاتف اختياري",
+      "log_in": "تسجيل الدخول",
+      "create_your_account": "أنشئ حسابك",
+      "start_chatting_across_languages_with": "ابدأ الدردشة عبر اللغات المختلفة مع Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "أوافق على تلقي رسائل التحقق عبر الرسائل القصيرة.",
+      "already_have_an_account": "هل لديك حساب بالفعل؟"
+    },
+    "add_contact": {
+      "phone": "الهاتف",
+      "name": "الاسم",
+      "alias_optional": "الاسم المستعار اختياري",
+      "pin_this_person_as_a_favorite_contact": "أضف هذا الشخص إلى قائمة جهات الاتصال المفضلة."
+    },
+    "contact_detail": {
+      "edit_contact": "تحرير جهة الاتصال",
+      "delete_contact": "حذف جهة اتصال",
+      "message": "رسالة",
+      "video": "فيديو",
+      "external_name": "الاسم الخارجي"
+    },
+    "import_phone_contacts": {
+      "select_all": "تحديد الكل",
+      "clear": "مسح",
+      "import_contacts": "استيراد جهات الاتصال"
+    },
+    "invite_friends": {
+      "share_invite_link": "مشاركة رابط الدعوة",
+      "invite_friends": "ادعُ الأصدقاء",
+      "share_a_invite_link_with_friends_using_messages_": "شارك رابط دعوة Chatforia مع أصدقائك عبر تطبيق \"الرسائل\" أو البريد الإلكتروني أو أي تطبيق آخر على هاتفك."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "إقران جهاز جديد",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "افتح تطبيق Chatforia على جهازك الجديد وقم بتسجيل الدخول. إذا طلب التطبيق الوصول إلى محادثاتك المشفرة، فقم بالموافقة عليه من جهاز موثوق به.",
+      "view_pending_device_requests": "عرض طلبات الأجهزة المعلقة"
+    },
+    "key_setup": {
+      "recovery_passcode": "رمز المرور للاستعادة",
+      "confirm_recovery_passcode": "تأكيد رمز مرور الاسترداد",
+      "restore_chats": "استعادة المحادثات",
+      "clear_local_key": "مسح المفتاح المحلي",
+      "reset_encryption": "إعادة تعيين التشفير؟",
+      "this_will_permanently_replace_your_encryption_ke": "سيؤدي هذا إلى استبدال مفتاح التشفير الخاص بك بشكل نهائي.",
+      "encryption": "التشفير",
+      "restore_encrypted_chats": "استعادة المحادثات المشفرة",
+      "no_recovery_backup_found": "لم يتم العثور على نسخة احتياطية للاستعادة",
+      "open_on_a_device_that_can_already_read_your_encr": "افتح تطبيق Chatforia على جهاز يمكنه بالفعل قراءة محادثاتك المشفرة، ثم قم بإنشاء رمز مرور الاسترداد عليه.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "لم يتم العثور على نسخة احتياطية للبيانات بعد. قم بإنشاء نسخة احتياطية من هذا الجهاز حتى تتمكن من استعادة المحادثات على أجهزة iOS وAndroid وعلى الويب.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "لا تستخدم هذه الطريقة إلا إذا فقدت جميع الأجهزة الموثوقة ولم يعد بإمكانك استعادة مفتاحك الأصلي."
+    },
+    "linked_devices": {
+      "your_devices": "أجهزتك",
+      "pending_approvals": "في انتظار الموافقات",
+      "approve": "الموافقة",
+      "reject": "رفض",
+      "revoke": "إلغاء",
+      "request_approval_for_this_device": "طلب الموافقة على هذا الجهاز",
+      "finish_device_approval": "إنهاء إجراءات اعتماد الجهاز"
+    },
+    "forwarding_settings": {
+      "reset": "إعادة الضبط",
+      "forward_incoming_calls_and_texts_to_your_verifie": "قم بتحويل المكالمات والرسائل النصية الواردة إلى رقم هاتفك أو بريدك الإلكتروني الذي تم التحقق منه.",
+      "quiet_hours": "ساعات الهدوء",
+      "forwarding": "إعادة التوجيه",
+      "enable_text_forwarding": "تمكين إعادة توجيه الرسائل النصية",
+      "forward_texts_to_phone": "إعادة توجيه الرسائل النصية إلى الهاتف",
+      "forward_texts_to_email": "إعادة توجيه الرسائل النصية إلى البريد الإلكتروني",
+      "enable_call_forwarding": "تمكين إعادة توجيه المكالمات"
+    },
+    "chat_message_row": {
+      "copy": "نسخ",
+      "edit": "تحرير",
+      "report": "تقرير",
+      "message_info": "معلومات الرسالة"
+    },
+    "chat_thread": {
+      "no_messages_yet": "لا توجد رسائل حتى الآن",
+      "delete_message": "هل تريد حذف الرسالة؟",
+      "choose_how_you_want_to_delete_this_message": "اختر الطريقة التي تريد بها حذف هذه الرسالة.",
+      "delete_for_everyone": "حذف للجميع",
+      "delete_for_me": "احذف هذا من أجلي",
+      "search_messages": "البحث في الرسائل",
+      "search_in_chat": "البحث في الدردشة",
+      "sending": "جاري الإرسال…",
+      "failed_to_send": "فشل الإرسال",
+      "edited": "تم تحريره",
+      "audio_call": "مكالمة صوتية",
+      "video_call": "مكالمة فيديو",
+      "selected_gif": "صورة GIF مختارة",
+      "remove_gif": "إزالة ملف GIF",
+      "attach": "إرفاق",
+      "rewrite_with_ria": "أعد الكتابة مع ريا",
+      "composer_action": "إجراء الملحن"
+    },
+    "edit_message": {
+      "save": "حفظ",
+      "emoji": "الرموز التعبيرية",
+      "edit_message": "تحرير الرسالة"
+    },
+    "message_attachments": {
+      "image_attachment": "صورة مرفقة",
+      "video_attachment": "ملف فيديو مرفق",
+      "play_video": "تشغيل الفيديو"
+    },
+    "message_bubble": {
+      "disappearing_message": "رسالة تختفي"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "لم يقرأ أحد هذا بعد",
+      "message_info": "معلومات الرسالة"
+    },
+    "report_message": {
+      "reason": "السبب",
+      "include_previous_messages": "تضمين الرسائل السابقة",
+      "additional_details": "تفاصيل إضافية",
+      "anything_else_moderators_should_know": "هل هناك أي شيء آخر يجب أن يعرفه المشرفون؟",
+      "block_this_user_after_reporting": "حظر هذا المستخدم بعد الإبلاغ عنه",
+      "submit_report": "إرسال التقرير",
+      "report_message": "الإبلاغ عن الرسالة"
+    },
+    "phone_number": {
+      "replace_number": "استبدال الرقم",
+      "pick_a_number": "اختر رقمًا",
+      "no_number_assigned": "لم يتم تخصيص رقم Chatforia.",
+      "your_number": "رقمك في Chatforia"
+    },
+    "pick_number": {
+      "area_code": "رمز المنطقة",
+      "premium_numbers_are_protected_from_recycling": "الأرقام المميزة محمية من إعادة الاستخدام.",
+      "available_numbers": "الأرقام المتاحة",
+      "search_by_area_code_to_find_available_numbers": "ابحث حسب رمز المنطقة للعثور على الأرقام المتاحة.",
+      "capability": "القدرة",
+      "country": "البلد"
+    },
+    "gif_picker": {
+      "search_tenor": "البحث عن تينور",
+      "search_gifs": "البحث عن صور GIF"
+    },
+    "random_chat": {
+      "add_friend": "إضافة صديق",
+      "skip": "تخطي",
+      "send": "إرسال",
+      "end_chat": "إنهاء المحادثة"
+    },
+    "random_matching": {
+      "finding_someone": "العثور على شخص ما"
+    },
+    "ria_chat": {
+      "ask_ria": "اسأل ريا...",
+      "you_re_now_chatting_with_ria": "أنت تتحدث الآن مع ريا",
+      "chat_with_ria_anytime_separate_from_random_human": "تحدث مع ريا في أي وقت، بشكل مستقل عن ميزة المطابقة العشوائية مع أشخاص آخرين."
+    },
+    "ria_rewrite": {
+      "original_text": "النص الأصلي",
+      "choose_tone": "اختر النغمة",
+      "rewriting": "إعادة الكتابة...",
+      "suggestions": "اقتراحات",
+      "choose_a_tone_to_generate_rewrite_suggestions": "اختر نبرة لإنشاء اقتراحات لإعادة الصياغة."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "تتضمن النسخة المجانية الأصوات الأساسية. قم بالترقية لفتح المزيد من النغمات ونغمات الرنين.",
+      "volume": "الحجم",
+      "message_tone": "نغمة الرسالة",
+      "ringtone": "نغمة الرنين"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "لا توجد رسائل صوتية حتى الآن.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "عندما يترك لك أحدهم رسالة صوتية،\nستظهر هنا.",
+      "play_voicemail": "تشغيل رسالة البريد الصوتي",
+      "delete_voicemail": "حذف رسالة صوتية"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "رسائل البريد الصوتي المختارة"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "تغطية لبلدك الحالي أو للاستخدام المحلي في المناطق المجاورة.",
+      "coverage_across_supported_european_destinations": "تغطية في جميع الوجهات الأوروبية المدعومة.",
+      "coverage_across_supported_global_destinations": "تغطية في جميع الوجهات العالمية المدعومة."
+    },
+    "wireless_home": {
+      "manage_wireless": "إدارة الشبكة اللاسلكية",
+      "port_my_number": "نقل رقمي",
+      "esim_data_packs_require_an_esim_compatible_and_u": "تتطلب باقات بيانات eSIM جهازًا متوافقًا مع تقنية eSIM وغير مقفل.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "ابقَ على اتصال أثناء السفر أو عندما تكون بعيدًا عن شبكة الواي فاي.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "اختر باقة بيانات eSIM لمرة واحدة لتغطية محلية أو أوروبية أو عالمية.",
+      "we_don_t_sell_data_packs_under_3_gb": "لا نبيع باقات بيانات أقل من 3 غيغابايت.",
+      "loading_usage": "جاري تحميل بيانات الاستخدام…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "لا توجد حزمة بيانات نشطة حتى الآن. اشترِ حزمة من الخيارات أدناه لبدء تتبع الاستخدام.",
+      "usage_details_will_appear_once_your_data_pack_is": "ستظهر تفاصيل الاستخدام بمجرد تفعيل باقة البيانات الخاصة بك.",
+      "manage": "إدارة",
+      "coverage": "التغطية",
+      "your_esim": "بطاقة eSIM الخاصة بك",
+      "current_usage": "الاستخدام الحالي"
+    }
   }
 }

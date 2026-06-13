@@ -156,11 +156,6 @@ async function main() {
 
     for (const key of missingKeys) {
 
-    // Only translate the Rotate Encryption screen
-    if (!key.startsWith("encryption.rotate.")) {
-        continue;
-    }
-
     const englishText = getValue(sourceJson, key);
 
     if (typeof englishText !== "string" || !englishText.trim()) {

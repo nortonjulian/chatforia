@@ -3152,7 +3152,8 @@
     "flip": "Omkeer",
     "speaker": "Spreker",
     "end": "Einde",
-    "noIncomingCallToAnswer": "Geen inkomende oproep om te beantwoord nie."
+    "noIncomingCallToAnswer": "Geen inkomende oproep om te beantwoord nie.",
+    "serviceUnavailable": "Oproepperdiens is tans nie beskikbaar nie. Probeer asseblief later weer."
   },
   "settings": {
     "startHour": "Beginuur (0–23)",
@@ -3742,6 +3743,404 @@
   "accessibility_caption_bg_dark": "Donker",
   "accessibility_caption_bg_transparent": "Deursigtig",
   "api": {
-    "notAuthorized": "Nie gemagtig nie"
+    "notAuthorized": "Nie gemagtig nie",
+    "invalidURL": "Ongeldige bedieneradres.",
+    "serverError": "Bedienerfout (%d): %@",
+    "failedToDecodeResponse": "Kon nie die bedienerreaksie lees nie: %@"
+  },
+  "tap_to_view_contact": "Tik om kontak te sien",
+  "android": {
+    "plan": {
+      "plan_billing": "Beplanning en fakturering",
+      "current_plan": "Huidige plan",
+      "go_ad_free_with_plus_or_unlock_ai_tools_and_cust": "Gaan sonder advertensies met Plus, of ontsluit KI-gereedskap en aanpassings met Premium.",
+      "plus": "Plus",
+      "premium": "Premium",
+      "back": "Terug",
+      "my_plan": "My plan",
+      "compare_plans": "Vergelyk planne",
+      "included": "Ingesluit"
+    },
+    "upgrade": {
+      "upgrade": "Opgradering",
+      "restore_purchases": "Herstel aankope",
+      "unlock_more_with": "Ontsluit meer met Chatforia",
+      "choose_plus_or_premium_to_remove_ads_customize_y": "Kies Plus of Premium om advertensies te verwyder, jou ervaring aan te pas en gevorderde gereedskap oop te sluit.",
+      "best_experience": "Beste ervaring",
+      "close": "Sluit",
+      "plus": "Chatforia Plus",
+      "remove_ads_and_unlock_more_everyday_features": "Verwyder advertensies en ontsluit meer daaglikse funksies.",
+      "premium": "Chatforia Premium",
+      "the_full_experience": "Die volledige Chatforia-ervaring.",
+      "premium_annual": "Premium-jaarliks",
+      "save_compared_to_monthly_premium": "Bespaar in vergelyking met maandelikse premie."
+    },
+    "audio_call": {
+      "mute": "Stil",
+      "speaker": "Spreker",
+      "end_call": "Einde oproep"
+    },
+    "dial_pad": {
+      "dial": "Skakel",
+      "done": "Voltooid",
+      "enter_number": "Voer nommer in",
+      "call": "Bel",
+      "delete_digit": "Verwyder syfer"
+    },
+    "incoming_call": {
+      "decline": "Neergang",
+      "accept": "Aanvaar",
+      "decline_call": "Oproep weier",
+      "accept_call": "Aanvaar oproep"
+    },
+    "video_call": {
+      "camera": "Kamera",
+      "flip_camera": "Flip-kamera"
+    },
+    "chats": {
+      "search_chats": "Soek geselsies",
+      "no_chats_yet": "Nog geen kletsgesprekke nie",
+      "admob_ad": "AdMob-advertensie",
+      "delete_conversation": "Gesprek verwyder?",
+      "this_will_remove_this_conversation_from_your_cha": "Dit sal hierdie gesprek uit jou kletslys verwyder.",
+      "delete": "Verwyder",
+      "cancel": "Kanselleer",
+      "chats": "Geselsies",
+      "new_chat": "Nuwe klets",
+      "refresh": "Verfris",
+      "random_chat": "Random klets",
+      "search": "Soek",
+      "delete_conversation_2": "Verwyder gesprek"
+    },
+    "start_chat": {
+      "username_contact_name_or_phone_number": "Gebruikersnaam, kontaknaam of telefoonnommer",
+      "new_chat": "Nuwe klets",
+      "start_a_chat": "Begin 'n gesprek",
+      "search_by_username_contact_name_or_phone_number": "Soek na gebruikersnaam, kontaknaam of telefoonnommer.",
+      "results": "Resultate",
+      "open_chat": "Oop klets"
+    },
+    "calls": {
+      "recents": "Onlangse",
+      "voicemail": "Stemposboodskap",
+      "calls": "Oproepe",
+      "no_calls_yet": "Nog geen oproepe nie",
+      "your_recent_calls_will_show_up_here": "Jou onlangse oproepe sal hier verskyn.",
+      "open_dial_pad": "Maak die kiespaneel oop",
+      "delete_call": "Verwyder oproep",
+      "video_call": "Videogesprek"
+    },
+    "contacts": {
+      "contacts": "Kontakte",
+      "add_contact": "Voeg kontak by",
+      "import_from_phone": "Invoer vanaf foon",
+      "invite_friends": "Nooi vriende uit",
+      "favorite": "Gunsteling",
+      "open_contact": "Oop kontak"
+    },
+    "main_activity": {
+      "loading": "Laai...",
+      "profile": "Profiel"
+    },
+    "profile": {
+      "delete_account": "Verwyder rekening",
+      "this_action_cannot_be_undone_are_you_sure_you_wa": "Hierdie aksie kan nie ongedaan gemaak word nie. Is jy seker jy wil jou rekening uitvee?",
+      "log_out": "Teken uit",
+      "change_photo": "Verander foto",
+      "remove_photo": "Verwyder foto",
+      "preferred_language": "Voorkeurtaal",
+      "your_age_range": "Jou ouderdomsreeks",
+      "theme": "Tema",
+      "choose_how_looks_across_the_app": "Kies hoe Chatforia oor die hele app lyk.",
+      "uploading": "Laai op…",
+      "choose_plus_or_premium": "Kies Plus of Premium",
+      "profile_photo": "Profielfoto",
+      "open_upgrade": "Oop opgradering",
+      "open": "Oop",
+      "account": "Rekening",
+      "username": "Gebruikersnaam",
+      "email": "E-pos",
+      "plan": "Plan",
+      "wireless": "Draadloos",
+      "mobile": "Chatforia Mobiel",
+      "esim_and_wireless_settings": "eSIM en draadlose instellings",
+      "call_text_forwarding": "Oproep- en SMS-doorstuur",
+      "forward_incoming_calls_and_texts": "Rig inkomende oproepe en SMS'e vooruit",
+      "phone_number": "Telefoon nommer",
+      "manage_your_number": "Bestuur jou Chatforia-nommer",
+      "settings": "Instellings",
+      "auto_translate_messages": "Outomaties boodskappe vertaal",
+      "automatically_translate_messages_into_your_prefe": "Vertal boodskappe outomaties in jou voorkeurtaal.",
+      "show_original_with_translation": "Wys oorspronklike met vertaling",
+      "show_the_original_message_alongside_the_translat": "Wys die oorspronklike boodskap langs die vertaling.",
+      "smart_reply_suggestions": "Slim antwoordvoorstelle",
+      "show_ria_powered_rewrite_assistance_and_quick_re": "Wys Ria-aangedrewe herskryfhulpmiddel en vinnige antwoorde.",
+      "linked_devices": "Gekoppelde toestelle",
+      "manage_trusted_devices": "Bestuur betroubare toestelle",
+      "pair_new_device": "Pareer nuwe toestel",
+      "approve_a_new_device": "Goedkeur 'n nuwe toestel",
+      "appearance": "Uiterlike voorkoms",
+      "accessibility": "Toeganklikheid",
+      "visual_alerts_captions_and_voice_note_accessibil": "Sigbare waarskuwings, byskrifte en toeganklikheid van stemnotas",
+      "security": "Sekuriteit",
+      "encryption_key_protected": "Enkripsiesleutel beskerm",
+      "privacy": "Privaatheid",
+      "allow_explicit_content": "Laat eksplisiete inhoud toe",
+      "show_read_receipts": "Wys leesbevestigings",
+      "blur_messages_by_default": "Verwring boodskappe standaard",
+      "blur_when_app_is_unfocused": "Vag wanneer die app nie in fokus is nie",
+      "hold_to_reveal_messages": "Hou om boodskappe te openbaar",
+      "notify_when_messages_are_copied": "Laat weet wanneer boodskappe gekopieer word",
+      "random_chat": "Toevallige klets",
+      "use_age_based_matching": "Gebruik ouderdomsgebaseerde ooreenstemming",
+      "let_ria_remember_conversations": "Laat Ria gesprekke onthou.",
+      "forward_voicemail_to_email": "Stuur voicemail na e-pos",
+      "legal_support": "Regs- en Ondersteuning",
+      "free": "Gratis"
+    },
+    "accessibility_settings": {
+      "options_to_make_easier_to_use_without_relying_on": "Opsies om Chatforia makliker te gebruik sonder om op klank staat te maak.",
+      "starts_at_normal_size_increase_if_you_prefer_lar": "Begin in normale grootte. Verhoog indien jy groter teks in die toeganklikheidsinstellings verkies.",
+      "interface_font_size": "Koppelvlak-lettergrootte",
+      "notifications": "Kennisgewings",
+      "visual_alerts_for_messages_calls": "Visuele waarskuwings vir boodskappe en oproepe",
+      "show_banners_and_visual_indicators_so_you_do_not": "Wys banieren en visuele aanduidings sodat jy nie aktiwiteit misloop nie.",
+      "vibrate_on_new_messages": "Vibrasie op nuwe boodskappe",
+      "trigger_device_vibration_with_notifications_when": "Aktiveer toestelvibrasie met kennisgewings wanneer dit ondersteun word.",
+      "flash_screen_on_incoming_call": "Flash-skerm by inkomende oproep",
+      "briefly_flash_the_screen_when_a_call_rings": "Laat die skerm kortliks flits wanneer 'n oproep lui.",
+      "live_captions": "Lewende onderskrifte",
+      "enable_live_captions": "Aktiveer regstreekse onderskrifte",
+      "show_real_time_captions_during_calls_premium_req": "Wys regstreekse onderskrifte tydens oproepe. Premium vereis.",
+      "caption_font_size": "Opskriflettergrootte",
+      "caption_background": "Onderskrifagtergrond",
+      "voice_notes": "Stemnotas",
+      "auto_transcribe_voice_notes": "Transkribeer spraaknotas outomaties",
+      "attach_a_transcript_to_audio_messages_you_receiv": "Voeg 'n transkripsie by die oudioboodskappe wat jy ontvang."
+    },
+    "key_restore_gate": {
+      "i_ve_restored_my_key": "Ek het my sleutel herstel.",
+      "restore_encryption": "Herstel enkripsie"
+    },
+    "language_selection": {
+      "select_language": "Kies taal"
+    },
+    "login": {
+      "email_or_username": "E-pos of gebruikersnaam",
+      "password": "Wagwoord",
+      "forgot_password": "Het jy jou wagwoord vergeet?",
+      "resend_verification_email": "Stuur die verifikasie-e-pos weer",
+      "reset_encryption": "Stel versleuteling terug",
+      "create_an_account": "Skep 'n rekening",
+      "welcome_to": "Welkom by Chatforia",
+      "sign_in_or_create_an_account": "Meld aan of skep 'n rekening",
+      "or": "of",
+      "don_t_have_an_account_yet": "Het jy nog nie 'n rekening nie?"
+    },
+    "onboarding": {
+      "welcome": "Welkom",
+      "set_up_your_profile_so_can_personalize_your_expe": "Stel jou profiel in sodat Chatforia jou ervaring kan personaliseer.",
+      "choose_a_username": "Kies 'n gebruikersnaam",
+      "this_is_how_people_will_recognize_you_in": "Dit is hoe mense jou in Chatforia sal herken.",
+      "choose_your_language": "Kies jou taal",
+      "will_use_this_for_translations_and_your_app_expe": "Chatforia sal dit gebruik vir vertalings en jou app-ervaring.",
+      "you_re_ready": "Jy is gereed",
+      "start_chatting_calling_translating_and_connectin": "Begin gesels, bel, vertaal en verbind met mense regoor die wêreld."
+    },
+    "register": {
+      "confirm_password": "Bevestig wagwoord",
+      "phone_optional": "Foon opsioneel",
+      "log_in": "Teken aan",
+      "create_your_account": "Skep jou rekening",
+      "start_chatting_across_languages_with": "Begin om oor tale heen te gesels met Chatforia.",
+      "i_agree_to_receive_sms_verification_messages": "Ek stem in om SMS-verifikasieboodskappe te ontvang.",
+      "already_have_an_account": "Het jy reeds 'n rekening?"
+    },
+    "add_contact": {
+      "phone": "Foon",
+      "name": "Naam",
+      "alias_optional": "Bynaam opsioneel",
+      "pin_this_person_as_a_favorite_contact": "Speld hierdie persoon vas as 'n gunstelingkontak."
+    },
+    "contact_detail": {
+      "edit_contact": "Redigering van kontak",
+      "delete_contact": "Verwyder kontak",
+      "message": "Boodskap",
+      "video": "Video",
+      "external_name": "Eksterne naam"
+    },
+    "import_phone_contacts": {
+      "select_all": "Kies alles",
+      "clear": "Klaar",
+      "import_contacts": "Invoer kontakte"
+    },
+    "invite_friends": {
+      "share_invite_link": "Deel uitnodigingskakel",
+      "invite_friends": "Nooi vriende uit",
+      "share_a_invite_link_with_friends_using_messages_": "Deel 'n Chatforia-uitnodigingskakel met vriende via Messages, e-pos of enige app op jou foon."
+    },
+    "device_pairing": {
+      "pair_a_new_device": "Pareer 'n nuwe toestel",
+      "open_on_your_new_device_and_sign_in_if_it_needs_": "Open Chatforia op jou nuwe toestel en teken aan. As dit toegang tot jou versleutelde geselsies benodig, keur dit goed vanaf 'n vertroude toestel.",
+      "view_pending_device_requests": "Beskou hangende toestelversoeke"
+    },
+    "key_setup": {
+      "recovery_passcode": "Herverkrygings-toegangskode",
+      "confirm_recovery_passcode": "Bevestig herstel-toegangskode",
+      "restore_chats": "Herstel geselsies",
+      "clear_local_key": "Verwyder plaaslike sleutel",
+      "reset_encryption": "Enkripsie terugstel?",
+      "this_will_permanently_replace_your_encryption_ke": "Dit sal jou enkripsiesleutel permanent vervang.",
+      "encryption": "Enkripsie",
+      "restore_encrypted_chats": "Herstel versleutelde geselsies",
+      "no_recovery_backup_found": "Geen herstel-rugsteun gevind nie",
+      "open_on_a_device_that_can_already_read_your_encr": "Maak Chatforia oop op 'n toestel wat reeds jou versleutelde geselsies kan lees en skep daar 'n herstelwagwoord.",
+      "no_recovery_backup_found_yet_create_one_from_thi": "Geen herstel-rugsteun is nog gevind nie. Skep een vanaf hierdie toestel sodat jy geselsies op iOS, Android en die web kan herstel.",
+      "only_use_this_if_you_have_lost_all_trusted_devic": "Gebruik dit slegs as jy al jou betroubare toestelle verloor het en nie jou oorspronklike sleutel kan herstel nie."
+    },
+    "linked_devices": {
+      "your_devices": "Jou toestelle",
+      "pending_approvals": "Wag vir goedkeurings",
+      "approve": "Goedkeur",
+      "reject": "Verwerp",
+      "revoke": "Herroep",
+      "request_approval_for_this_device": "Versoek goedkeuring vir hierdie toestel",
+      "finish_device_approval": "Voltooi toestelgoedkeuring"
+    },
+    "forwarding_settings": {
+      "reset": "Herstel",
+      "forward_incoming_calls_and_texts_to_your_verifie": "Rig inkomende oproepe en SMS'e na jou geverifieerde telefoon of e-pos.",
+      "quiet_hours": "Stil ure",
+      "forwarding": "Doorstuur",
+      "enable_text_forwarding": "Aktiveer teks-doorstuur",
+      "forward_texts_to_phone": "Stuur tekste na foon",
+      "forward_texts_to_email": "Stuur tekste per e-pos",
+      "enable_call_forwarding": "Aktiveer oproepdoorstuur"
+    },
+    "chat_message_row": {
+      "copy": "Kopieer",
+      "edit": "Wysig",
+      "report": "Verslag",
+      "message_info": "Boodskapinligting"
+    },
+    "chat_thread": {
+      "no_messages_yet": "Nog geen boodskappe nie",
+      "delete_message": "Verwyder boodskap?",
+      "choose_how_you_want_to_delete_this_message": "Kies hoe jy hierdie boodskap wil uitvee.",
+      "delete_for_everyone": "Verwyder vir almal",
+      "delete_for_me": "Verwyder vir my",
+      "search_messages": "Soek boodskappe",
+      "search_in_chat": "Soek in klets",
+      "sending": "Stuur…",
+      "failed_to_send": "Misluk om te stuur",
+      "edited": "Geredigeer",
+      "audio_call": "Oudiooproep",
+      "video_call": "Videogesprek",
+      "selected_gif": "Gekose GIF",
+      "remove_gif": "Verwyder GIF",
+      "attach": "Vasheg",
+      "rewrite_with_ria": "Herskryf saam met Ria",
+      "composer_action": "Samesteller-aksie"
+    },
+    "edit_message": {
+      "save": "Bewaar",
+      "emoji": "Emoji",
+      "edit_message": "Bewerk boodskap"
+    },
+    "message_attachments": {
+      "image_attachment": "Beeldbylage",
+      "video_attachment": "Video-aanhangsel",
+      "play_video": "Speel video"
+    },
+    "message_bubble": {
+      "disappearing_message": "Verdwynende boodskap"
+    },
+    "message_receipt": {
+      "no_one_has_read_this_yet": "Niemand het dit nog gelees nie",
+      "message_info": "Boodskapinligting"
+    },
+    "report_message": {
+      "reason": "Reden",
+      "include_previous_messages": "Sluit vorige boodskappe in",
+      "additional_details": "Bykomende besonderhede",
+      "anything_else_moderators_should_know": "Is daar nog iets wat moderateurs moet weet?",
+      "block_this_user_after_reporting": "Blokkeer hierdie gebruiker nadat jy dit aangemeld het.",
+      "submit_report": "Dien verslag in",
+      "report_message": "Meld boodskap"
+    },
+    "phone_number": {
+      "replace_number": "Vervang nommer",
+      "pick_a_number": "Kies 'n getal",
+      "no_number_assigned": "Geen Chatforia-nommer toegewys nie.",
+      "your_number": "Jou Chatforia-nommer"
+    },
+    "pick_number": {
+      "area_code": "Gebiedsnommer",
+      "premium_numbers_are_protected_from_recycling": "Premiumnommers word beskerm teen herwinning.",
+      "available_numbers": "Beskikbare nommers",
+      "search_by_area_code_to_find_available_numbers": "Soek per area-kode om beskikbare nommers te vind.",
+      "capability": "Vermogen",
+      "country": "Land"
+    },
+    "gif_picker": {
+      "search_tenor": "Soek Tenor",
+      "search_gifs": "Soek GIF's"
+    },
+    "random_chat": {
+      "add_friend": "Voeg vriend by",
+      "skip": "Slaan oor",
+      "send": "Stuur",
+      "end_chat": "Einde klets"
+    },
+    "random_matching": {
+      "finding_someone": "Om iemand te vind"
+    },
+    "ria_chat": {
+      "ask_ria": "Vra Ria...",
+      "you_re_now_chatting_with_ria": "Jy gesels nou met Ria",
+      "chat_with_ria_anytime_separate_from_random_human": "Klets met Ria te eniger tyd, los van ewekansige menslike koppeling."
+    },
+    "ria_rewrite": {
+      "original_text": "Oorspronklike teks",
+      "choose_tone": "Kies toon",
+      "rewriting": "Herskryf…",
+      "suggestions": "Voorstelle",
+      "choose_a_tone_to_generate_rewrite_suggestions": "Kies 'n toon om herskryfvoorstelle te genereer."
+    },
+    "sound_settings": {
+      "free_includes_basic_sounds_upgrade_to_unlock_mor": "Gratis sluit basiese klanke in. Opgradeer om meer tonele en ringtonele oop te sluit.",
+      "volume": "Volume",
+      "message_tone": "Boodskapstoon",
+      "ringtone": "Geluidssein"
+    },
+    "voicemail_inbox": {
+      "no_voicemails_yet": "Nog geen spraakboodskappe nie.",
+      "when_someone_leaves_you_a_voicemail_it_will_show": "Wanneer iemand vir jou 'n spraakboodskap laat, sal dit hier verskyn.",
+      "play_voicemail": "Speel spraakpos af",
+      "delete_voicemail": "Verwyder spraakposboodskap"
+    },
+    "voicemail_player": {
+      "selected_voicemail": "Gekose voicemail"
+    },
+    "wireless_dto": {
+      "coverage_for_your_current_country_or_nearby_loca": "Dekking vir jou huidige land of vir plaaslike gebruik in die omgewing.",
+      "coverage_across_supported_european_destinations": "Dekking oor ondersteunde Europese bestemmings.",
+      "coverage_across_supported_global_destinations": "Dekking oor ondersteunde wêreldwye bestemmings."
+    },
+    "wireless_home": {
+      "manage_wireless": "Bestuur draadloos",
+      "port_my_number": "Porteer my nommer",
+      "esim_data_packs_require_an_esim_compatible_and_u": "eSIM-datapakette vereis 'n eSIM-kompatibele en ontslote toestel.",
+      "stay_connected_when_you_re_traveling_or_away_fro": "Bly verbind wanneer jy reis of weg van Wi-Fi is.",
+      "choose_a_one_time_esim_data_pack_for_local_europ": "Kies 'n eenmalige eSIM-datapakket vir plaaslike, Europese of wêreldwye dekking.",
+      "we_don_t_sell_data_packs_under_3_gb": "Ons verkoop nie datapakette kleiner as 3 GB nie.",
+      "loading_usage": "Laai gebruik…",
+      "no_active_data_pack_yet_buy_a_pack_below_to_star": "Nog geen aktiewe datapakket nie. Koop hieronder 'n pakket om gebruik te begin opspoor.",
+      "usage_details_will_appear_once_your_data_pack_is": "Gebruikbesonderhede sal verskyn sodra jou datapakket aktief is.",
+      "manage": "Bestuur",
+      "coverage": "Dekking",
+      "your_esim": "Jou eSIM",
+      "current_usage": "Huidige gebruik"
+    }
   }
 }
