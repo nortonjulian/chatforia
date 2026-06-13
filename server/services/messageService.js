@@ -312,6 +312,11 @@ export async function createMessageService({
   // In-app chat stays in-app.
   // External SMS sending belongs in smsService (SmsThread flow) using the user's active DID as `from`.
 
+  await maybeAutoTranslate({
+    savedMessage: saved,
+    prisma,
+  });
+
   return { ...saved, chatRoomId: roomIdNum };
 }
 
