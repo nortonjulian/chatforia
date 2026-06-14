@@ -340,13 +340,6 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
     const senderId = Number(savedMessage.senderId ?? savedMessage.sender?.id);
     const raw = String(savedMessage.rawContent || savedMessage.content || '').trim();
 
-    console.log('[maybeAutoTranslate] raw check', {
-      messageId: savedMessage.id,
-      roomId,
-      senderId,
-      rawLength: raw.length,
-      hasCipher: !!savedMessage.contentCiphertext
-    });
     if (!roomId || !raw) return;
 
     if (senderId && senderId === FORIA_BOT_USER_ID) return;
