@@ -16,10 +16,18 @@ let client = null;
 function getClient() {
   if (!client) {
     const projectId = process.env.GOOGLE_PROJECT_ID;
-    // Tests expect exactly { projectId: 'chatforia-xyz' } when set,
-    // and don't assert anything when projectId is missing.
-    client = projectId ? new Translate({ projectId }) : new Translate({});
+    const keyFilename =
+      process.env.GOOGLE_APPLICATION_CREDENTIALS ||
+      '/etc/chatforia/google-translate.json';
+
+    const options = {
+      ...(projectId ? { projectId } : {}),
+      keyFilename,
+    };
+
+    client = new Translate(options);
   }
+
   return client;
 }
 
