@@ -4,7 +4,6 @@ import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
 import { translateBatch } from '../services/translation/index.js';
-import { translateOne } from '../utils/translate.js';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -52,56 +51,7 @@ router.post('/batch', requireAuth, translateLimiter, async (req, res, next) => {
 });
 
 
-router.post('/message-preview', requireAuth, translateLimiter, async (req, res, next) => {
-    try {
-        const userId = Number(req.user?.id);
-        const chatRoomId = Number(req.body?.chatRoomId);
-        const text = String(req.body?.text || '').trim();
 
-        const targetLangs = Array.isArray(req.body?.targetLangs)
-            ? req.body.targetLangs
-                .map((x) => String(x || '').trim().toLowerCase())
-                .filter(Boolean)
-            : [];
-
-        if (!Number.isFinite(chatRoomId)) {
-            throw Boom.badRequest('Invalid chatRoomId');
-        }
-
-        if (!text) {
-            throw Boom.badRequest('text required');
-        }
-
-        const membership = await prisma.participant.findFirst({
-            where: {
-                chatRoomId,
-                userId,
-            },
-            select: {
-                userId: true,
-            },
-        });
-
-        if (!membership) {
-            throw Boom.forbidden('Not a participant');
-        }
-
-        const translations = {};
-
-        for (const lang of [...new Set(targetLangs)]) {
-            const translated = await translateOne(text, lang);
-
-            if (translated) {
-                translations[lang] = translated;
-            }
-        }
-
-        return res.json({ translations });
-
-    } catch (err) {
-        next(err.isBoom ? err : Boom.badImplementation(err.message));
-    }
-});
 
 // --- helpers ---
 function setNested(obj, keyPath, value) {
