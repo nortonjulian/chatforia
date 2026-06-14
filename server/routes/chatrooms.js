@@ -267,6 +267,8 @@ router.get(
                 id: true,
                 username: true,
                 publicKey: true,
+                preferredLanguage: true,
+                autoTranslate: true,
               },
             },
           },

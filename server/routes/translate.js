@@ -2,18 +2,20 @@ import express from "express";
 import Boom from "@hapi/boom";
 import { requireAuth } from "../middleware/auth.js";
 import prisma from "../utils/prismaClient.js";
-import { translate } from "../utils/translationService.js";
+import { translateText } from "../services/translation/googleTranslate.js";
 
 const router = express.Router();
 
 router.post("/test", async (req, res) => {
   try {
-    const { text, targetLang = "ES", sourceLang = null } = req.body;
-    const translatedText = await translate(text, targetLang, sourceLang);
+    const { text, targetLang = "es" } = req.body;
+
+    const out = await translateText(text, String(targetLang).toLowerCase());
+    const translatedText = out?.translated || null;
 
     res.json({ original: text, translated: translatedText });
   } catch (err) {
-    console.error("DeepL test error:", err);
+    console.error("Google Translate test error:", err);
     res.status(500).json({ error: "Translation failed" });
   }
 });
@@ -26,7 +28,7 @@ router.post("/message-preview", requireAuth, async (req, res, next) => {
 
     const targetLangs = Array.isArray(req.body?.targetLangs)
       ? req.body.targetLangs
-          .map((x) => String(x || "").trim().toUpperCase())
+         .map((x) => String(x || "").trim().toLowerCase())
           .filter(Boolean)
       : [];
 
@@ -50,10 +52,18 @@ router.post("/message-preview", requireAuth, async (req, res, next) => {
     const translations = {};
 
     for (const lang of [...new Set(targetLangs)]) {
-      const translated = await translate(text, lang, null);
+      try {
+        const out = await translateText(text, lang.toLowerCase());
+        const translated = out?.translated || null;
 
-      if (translated) {
-        translations[lang.toLowerCase()] = translated;
+        if (translated) {
+          translations[lang.toLowerCase()] = translated;
+        }
+      } catch (err) {
+        console.error("[message-preview] failed", {
+          lang,
+          error: err?.message || err,
+        });
       }
     }
 
