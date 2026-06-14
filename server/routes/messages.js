@@ -1109,7 +1109,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         select: { preferredLanguage: true },
       });
       const myLang = requester?.preferredLanguage || 'en';
-      const translationEnabled = process.env.TRANSLATION_ENABLED === 'true';
+      const translationEnabled = false;
       const translatedForMeMap = new Map();
 
       if (translationEnabled && deltaItems.length && myLang) {
@@ -1281,7 +1281,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     });
     const myLang = requester?.preferredLanguage || 'en';
 
-    const translationEnabled = process.env.TRANSLATION_ENABLED === 'true';
+    const translationEnabled = false;
     const translatedForMeMap = new Map();
 
     if (translationEnabled && items.length && myLang) {
