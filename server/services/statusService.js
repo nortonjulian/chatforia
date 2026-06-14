@@ -1,6 +1,6 @@
 import { prisma } from '../utils/prismaClient.js';
 import { isExplicit, cleanText } from '../utils/filter.js';
-import { translateForTargets } from '../utils/translate.js';
+import { maybeTranslateForTarget } from './translation/translateMessage.js';
 
 const DEV_FALLBACKS = String(process.env.DEV_FALLBACKS || '').toLowerCase() === 'true';
 
@@ -139,10 +139,28 @@ export async function createStatusService({
   if (cap && !DEV_FALLBACKS) {
     const targetLangs = users
       .filter((u) => u.id !== author.id)
-      .map((u) => u.preferredLanguage || 'en');
-    const res = await translateForTargets(cap, translatedFrom, targetLangs);
-    translations = Object.keys(res.map || {}).length ? res.map : null;
-    translatedFrom = res.from || translatedFrom;
+      .map((u) => String(u.preferredLanguage || 'en').trim().toLowerCase())
+      .filter(Boolean);
+
+    const map = {};
+
+    for (const lang of [...new Set(targetLangs)]) {
+      const result = await maybeTranslateForTarget(
+        cap,
+        translatedFrom,
+        lang
+      );
+
+      if (result?.translatedText) {
+        map[lang] = result.translatedText;
+      }
+
+      if (result?.detectedLang) {
+        translatedFrom = result.detectedLang;
+      }
+    }
+
+    translations = Object.keys(map).length ? map : null;
   }
 
  
