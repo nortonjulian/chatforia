@@ -38,6 +38,7 @@ export async function createMessageService({
   chatRoomId,
   clientMessageId = null,
   encryptedKeys = null,
+  encryptedPayloads = null,
   content,
   contentCiphertext,
   expireSeconds,
@@ -50,12 +51,25 @@ export async function createMessageService({
   const roomIdNum = Number(chatRoomId);
 
   // 0) Validate presence (allow content OR any media/attachments)
+  const hasEncryptedPayloads =
+    encryptedPayloads &&
+    typeof encryptedPayloads === 'object' &&
+    !Array.isArray(encryptedPayloads) &&
+    Object.keys(encryptedPayloads).length > 0;
+
   if (
     !senderId ||
     !roomIdNum ||
-    (!content && !contentCiphertext && !imageUrl && !audioUrl && !attachments?.length)
+    (
+      !content &&
+      !contentCiphertext &&
+      !hasEncryptedPayloads &&
+      !imageUrl &&
+      !audioUrl &&
+      !attachments?.length
+    )
   ) {
-    throw new Error('Missing required fields');
+      throw new Error('Missing required fields');
   }
 
   // 1) Ensure sender exists and is a participant in this room

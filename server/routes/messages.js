@@ -547,6 +547,8 @@ router.post(
     // ✅ Save via service
     let saved;
     try {
+      let encryptedPayloads = body.encryptedPayloads ?? null;
+
       saved = await createMessageService({
         senderId,
         chatRoomId,
