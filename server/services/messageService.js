@@ -379,10 +379,12 @@ translationsMap = Object.keys(map).length ? map : null;
   // In-app chat stays in-app.
   // External SMS sending belongs in smsService (SmsThread flow) using the user's active DID as `from`.
 
-  await maybeAutoTranslate({
-    savedMessage: saved,
-    prisma,
-  });
+  if (!hasEncryptedPayloads) {
+    await maybeAutoTranslate({
+      savedMessage: saved,
+      prisma,
+    });
+  }
 
   return { ...saved, chatRoomId: roomIdNum };
 }
