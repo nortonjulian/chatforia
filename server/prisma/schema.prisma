@@ -211,6 +211,8 @@ model User {
   uiLanguage           String  @default("en")
   allowExplicitContent Boolean @default(false)
 
+  payloads             MessagePayload[]
+
   // NOTE: existing field uses "...WithTranslation"
   showOriginalWithTranslation Boolean @default(true)
 
@@ -761,6 +763,7 @@ model Message {
   expiresAt         DateTime?
   editedAt          DateTime?
   revision          Int       @default(1)
+  payloads          MessagePayload[]
 
   deletedBySender Boolean   @default(false)
   deletedAt       DateTime?
@@ -801,6 +804,23 @@ model Message {
   @@index([chatRoomId, createdAt], map: "msg_room_time")
   @@index([chatRoomId, createdAt, id], map: "msg_room_time_id")
   @@index([deletedForAll, expiresAt], map: "msg_deleted_expires_idx")
+}
+
+model MessagePayload {
+  id                Int      @id @default(autoincrement())
+  messageId         Int
+  userId            Int
+  contentCiphertext String
+  encryptedKey      String
+  language          String?
+  sourceLanguage    String?
+  createdAt         DateTime @default(now())
+
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId])
+  @@index([userId])
 }
 
 model MessageRead {
