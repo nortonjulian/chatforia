@@ -709,7 +709,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     setEditSubmitting(true);
 
     const isEncrypted =
-      !!editTarget?.contentCiphertext || !!editTarget?.encryptedKeyForMe;
+      !!editTarget?.contentCiphertext ||
+      !!editTarget?.encryptedKeyForMe ||
+      !!editTarget?.encryptedPayloadForMe?.contentCiphertext ||
+      !!editTarget?.encryptedPayloadForMe?.encryptedKey;
 
     let updated = null;
 
