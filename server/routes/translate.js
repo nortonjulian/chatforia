@@ -15,8 +15,18 @@ router.post("/test", async (req, res) => {
 
     res.json({ original: text, translated: translatedText });
   } catch (err) {
-    console.error("Google Translate test error:", err);
-    res.status(500).json({ error: "Translation failed" });
+   console.error("Google Translate test error:", {
+      message: err?.message,
+      code: err?.code,
+      details: err?.details,
+      stack: err?.stack,
+    });
+
+    res.status(500).json({
+      error: err?.message || "Translation failed",
+      code: err?.code || null,
+      details: err?.details || null,
+    });
   }
 });
 
