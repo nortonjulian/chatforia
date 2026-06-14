@@ -556,6 +556,7 @@ router.post(
         content,
         contentCiphertext,
         encryptedKeys,
+        encryptedPayloads,
         expireSeconds: secs,
         attachments,
       });
