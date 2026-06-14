@@ -728,29 +728,25 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
       );
 
-      const encrypted = await encryptForRoom(
-        participantsRes.data?.participants ?? [],
-        newText,
-        toNum(currentUserId)
-      );
+      const participants = participantsRes.data?.participants ?? [];
 
-      const attachmentsWithCaption = editAttachments.map((a) => ({
-        ...a,
-        caption:
-          newText?.trim()
-            ? newText.trim()
-            : (a.caption ?? null),
-      }));
+      const encryptedPayloads = await buildEncryptedPayloadsForWeb({
+        roomIdNum,
+        text: newText,
+        participants,
+      });
 
       const { data } = await axiosClient.patch(
         `/messages/${editTarget.id}/edit`,
         {
-          newContent: newText,
-          attachments: attachmentsWithCaption,
+          newContent: null,
+          contentCiphertext: null,
+          encryptedKeys: null,
+          encryptedPayloads,
+          attachments: editAttachments,
         },
         { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
       );
-
       updated = data?.message ?? data ?? null;
     } else {
       const { data } = await axiosClient.patch(

@@ -752,6 +752,12 @@ router.post(
       },
     });
 
+    await prisma.messagePayload.deleteMany({
+      where: {
+        messageId: { in: affected.map((m) => m.id) },
+      },
+    });
+
     await Promise.all(
       affected.map(async ({ id }) => {
         const canonical = await getCanonicalMessageForRealtime(id);
@@ -1683,6 +1689,41 @@ async function editMessageCore(req, res) {
     }
   }
 
+  let encryptedPayloads = req.body?.encryptedPayloads ?? null;
+
+  if (typeof encryptedPayloads === 'string') {
+    try {
+      encryptedPayloads = JSON.parse(encryptedPayloads);
+    } catch {
+      encryptedPayloads = null;
+    }
+  }
+
+  const payloadRows =
+    encryptedPayloads &&
+    typeof encryptedPayloads === 'object' &&
+    !Array.isArray(encryptedPayloads)
+      ? Object.entries(encryptedPayloads)
+          .map(([userIdRaw, payload]) => ({
+            messageId,
+            userId: Number(userIdRaw),
+            contentCiphertext: payload?.contentCiphertext,
+            encryptedKey: payload?.encryptedKey,
+            language: payload?.language ?? null,
+            sourceLanguage: payload?.sourceLanguage ?? null,
+          }))
+          .filter(
+            (r) =>
+              Number.isFinite(r.userId) &&
+              typeof r.contentCiphertext === 'string' &&
+              r.contentCiphertext.length > 0 &&
+              typeof r.encryptedKey === 'string' &&
+              r.encryptedKey.length > 0
+          )
+      : [];
+
+  const hasEncryptedPayloads = payloadRows.length > 0;
+
   let attachments = [];
     try {
       attachments = Array.isArray(req.body?.attachments)
@@ -1719,18 +1760,22 @@ async function editMessageCore(req, res) {
         throw Boom.forbidden('Cannot edit a deleted message');
       }
 
-      const isEncryptedMessage = !!mm.contentCiphertext || !!mm.encryptedKeys;
-      const hasEncryptedTextPayload =
+      const isEncryptedMessage =
+        !!mm.contentCiphertext || !!mm.encryptedKeys || !!mm.encryptedPayloads;
+      const hasLegacyEncryptedTextPayload =
         !!contentCiphertext &&
         encryptedKeys &&
         typeof encryptedKeys === 'object' &&
         !Array.isArray(encryptedKeys);
 
+      const hasAnyEncryptedTextPayload =
+        hasEncryptedPayloads || hasLegacyEncryptedTextPayload;
+
       const hasAttachmentPayload = attachments.length > 0;
 
-      if (isEncryptedMessage && !hasEncryptedTextPayload && !hasAttachmentPayload) {
+      if (isEncryptedMessage && !hasAnyEncryptedTextPayload && !hasAttachmentPayload) {
         throw Boom.badRequest(
-          'Encrypted messages must include contentCiphertext/encryptedKeys or attachments'
+          'Encrypted messages must include encryptedPayloads, contentCiphertext/encryptedKeys, or attachments'
         );
       }
 
@@ -1739,8 +1784,21 @@ async function editMessageCore(req, res) {
       }
 
       mm.rawContent = isEncryptedMessage ? '' : newContent;
-      mm.contentCiphertext = isEncryptedMessage ? contentCiphertext : null;
-      mm.encryptedKeys = isEncryptedMessage ? encryptedKeys : null;
+      mm.contentCiphertext = isEncryptedMessage
+        ? hasEncryptedPayloads
+          ? null
+          : contentCiphertext
+        : null;
+
+      mm.encryptedKeys = isEncryptedMessage
+        ? hasEncryptedPayloads
+          ? null
+          : encryptedKeys
+        : null;
+
+      mm.encryptedPayloads = isEncryptedMessage && hasEncryptedPayloads
+        ? encryptedPayloads
+        : null;
       mm.attachments = attachments;
       mm.editedAt = new Date().toISOString();
       mm.updatedAt = new Date().toISOString();
@@ -1782,6 +1840,7 @@ async function editMessageCore(req, res) {
       sender: { select: { id: true, username: true } },
       readBy: { select: { id: true } },
       keys: { select: { userId: true, encryptedKey: true } },
+      payloads: { select: { userId: true } },
     },
   });
 
@@ -1804,19 +1863,24 @@ async function editMessageCore(req, res) {
   }
 
   const isEncryptedMessage =
-  !!existing.contentCiphertext || (existing.keys?.length ?? 0) > 0;
+    !!existing.contentCiphertext ||
+    (existing.keys?.length ?? 0) > 0 ||
+    (existing.payloads?.length ?? 0) > 0;
 
-  const hasEncryptedTextPayload =
+  const hasLegacyEncryptedTextPayload =
     !!contentCiphertext &&
     encryptedKeys &&
     typeof encryptedKeys === 'object' &&
     !Array.isArray(encryptedKeys);
 
+  const hasAnyEncryptedTextPayload =
+    hasEncryptedPayloads || hasLegacyEncryptedTextPayload;
+
   const hasAttachmentPayload = attachments.length > 0;
 
-  if (isEncryptedMessage && !hasEncryptedTextPayload && !hasAttachmentPayload) {
+  if (isEncryptedMessage && !hasAnyEncryptedTextPayload && !hasAttachmentPayload) {
     throw Boom.badRequest(
-      'Encrypted messages must include contentCiphertext/encryptedKeys or attachments'
+      'Encrypted messages must include encryptedPayloads, contentCiphertext/encryptedKeys, or attachments'
     );
   }
 
@@ -1831,9 +1895,13 @@ async function editMessageCore(req, res) {
   await tx.message.update({
     where: { id: messageId },
     data: {
-      rawContent: newContent ?? '',
+      rawContent: isEncryptedMessage ? '' : (newContent ?? ''),
       contentCiphertext: isEncryptedMessage
-        ? (hasEncryptedTextPayload ? contentCiphertext : existing.contentCiphertext)
+        ? hasEncryptedPayloads
+          ? null
+          : hasLegacyEncryptedTextPayload
+          ? contentCiphertext
+          : existing.contentCiphertext
         : existing.contentCiphertext,
       editedAt,
       revision: nextRevision,
@@ -1854,13 +1922,22 @@ async function editMessageCore(req, res) {
         width: a.width ?? null,
         height: a.height ?? null,
         durationSec: a.durationSec ?? null,
-        caption: a.caption ?? newContent ?? null,
+        caption: a.caption ?? (isEncryptedMessage ? null : newContent ?? null),
         thumbUrl: a.thumbUrl ?? null,
       })),
     });
   }
 
-  if (isEncryptedMessage && hasEncryptedTextPayload) {
+  if (isEncryptedMessage && hasEncryptedPayloads) {
+    await tx.messageKey.deleteMany({ where: { messageId } });
+    await tx.messagePayload.deleteMany({ where: { messageId } });
+
+    await tx.messagePayload.createMany({
+      data: payloadRows,
+      skipDuplicates: true,
+    });
+  } else if (isEncryptedMessage && hasLegacyEncryptedTextPayload) {
+    await tx.messagePayload.deleteMany({ where: { messageId } });
     await tx.messageKey.deleteMany({ where: { messageId } });
 
     const keyRows = Object.entries(encryptedKeys)
@@ -2057,6 +2134,10 @@ router.delete(
       });
 
       await prisma.messageKey.deleteMany({
+        where: { messageId },
+      });
+
+      await prisma.messagePayload.deleteMany({
         where: { messageId },
       });
 
