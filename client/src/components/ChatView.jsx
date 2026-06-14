@@ -36,7 +36,7 @@ import { useUser } from '@/context/UserContext';
 import axiosClient from '@/api/axiosClient';
 
 // dynamic: keep heavy crypto out of the initial bundle
-import { encryptForRoom } from '@/utils/encryptionClient';
+import { encryptForRoom, encryptForSingleUser } from '@/utils/encryptionClient';
 import loadEncryptionClient from '@/utils/loadEncryptionClient';
 
 // ✅ Smart Replies
@@ -1245,6 +1245,77 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     [chatroom?.participants]
   );
 
+  const buildEncryptedPayloadsForWeb = useCallback(
+  async ({ roomIdNum, text, participants }) => {
+    const participantRows = Array.isArray(participants) ? participants : [];
+
+    const targetLangs = [
+      ...new Set(
+        participantRows
+          .map((p) =>
+            String(
+              p?.user?.preferredLanguage ??
+                p?.preferredLanguage ??
+                ''
+            )
+              .trim()
+              .toLowerCase()
+          )
+          .filter(Boolean)
+      ),
+    ];
+
+    let translations = {};
+
+    if (targetLangs.length) {
+      const { data } = await axiosClient.post(
+        '/translate/message-preview',
+        {
+          chatRoomId: roomIdNum,
+          text,
+          targetLangs,
+        },
+        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+      );
+
+      translations = data?.translations || {};
+    }
+
+    const encryptedPayloads = {};
+
+    for (const p of participantRows) {
+      const user = p?.user ?? p;
+      const userId = Number(user?.id ?? p?.userId);
+      const publicKey = user?.publicKey ?? p?.publicKey;
+
+      if (!userId || !publicKey) continue;
+
+      const preferredLang = String(user?.preferredLanguage ?? '')
+        .trim()
+        .toLowerCase();
+
+      const isSender = userId === toNum(currentUserId);
+      const autoTranslate = user?.autoTranslate !== false;
+
+      const plaintextForUser =
+        isSender || !autoTranslate || !preferredLang
+          ? text
+          : translations[preferredLang] || text;
+
+      encryptedPayloads[String(userId)] = await encryptForSingleUser(
+        plaintextForUser,
+        userId,
+        publicKey,
+        preferredLang || null,
+        null
+      );
+    }
+
+    return encryptedPayloads;
+  },
+  [currentUserId]
+);
+
   const insertSavedMessage = useCallback(
     async (savedRaw, optimisticText = '') => {
       const saved = unwrapMessage(savedRaw);
@@ -1328,19 +1399,22 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
     );
 
-    const encrypted = await encryptForRoom(
-      participantsRes.data?.participants ?? [],
-      text.trim(),
-      toNum(currentUserId)
-    );
+    const participants = participantsRes.data?.participants ?? [];
+
+    const encryptedPayloads = await buildEncryptedPayloadsForWeb({
+      roomIdNum,
+      text: text.trim(),
+      participants,
+    });
 
     const { data } = await axiosClient.post(
       '/messages',
       {
         chatRoomId: roomIdNum,
         content: null,
-        contentCiphertext: encrypted.ciphertext,
-        encryptedKeys: encrypted.encryptedKeys,
+        contentCiphertext: null,
+        encryptedKeys: null,
+        encryptedPayloads,
         clientMessageId,
       },
       { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
@@ -1415,17 +1489,20 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
     );
 
-    const encrypted = await encryptForRoom(
-      participantsRes.data?.participants ?? [],
-      plaintext,
-      toNum(currentUserId)
-    );
+    const participants = participantsRes.data?.participants ?? [];
+
+    const encryptedPayloads = await buildEncryptedPayloadsForWeb({
+      roomIdNum,
+      text: plaintext,
+      participants,
+    });
 
     const payload = {
       chatRoomId: roomIdNum,
       content: null,
-      contentCiphertext: encrypted.ciphertext,
-      encryptedKeys: encrypted.encryptedKeys,
+      contentCiphertext: null,
+      encryptedKeys: null,
+      encryptedPayloads,
       expireSeconds: failedMsg.expireSeconds || 0,
       attachmentsInline: failedMsg.attachmentsInline || [],
     };
@@ -2093,21 +2170,23 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                         optimisticAttachments.some((a) => a.kind === 'AUDIO') ? '[voice note]' :
                         '[attachment]');
 
-                      const encrypted = await encryptForRoom(
-                        participantsRes.data?.participants ?? [],
-                        encryptionText,
-                        toNum(currentUserId)
-                      );
+                      const participants = participantsRes.data?.participants ?? [];
+
+                      const encryptedPayloads = await buildEncryptedPayloadsForWeb({
+                        roomIdNum,
+                        text,
+                        participants,
+                      });
 
                       const { data } = await axiosClient.post(
                         '/messages',
                         {
                           chatRoomId: roomIdNum,
                           content: null,
-                          contentCiphertext: encrypted.ciphertext,
-                          encryptedKeys: encrypted.encryptedKeys,
+                          contentCiphertext: null,
+                          encryptedKeys: null,
+                          encryptedPayloads,
                           clientMessageId,
-                          attachmentsInline: optimisticAttachments,
                         },
                         { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
                       );
@@ -2173,19 +2252,22 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
                   );
 
-                  const encrypted = await encryptForRoom(
-                    participantsRes.data?.participants ?? [],
+                  const participants = participantsRes.data?.participants ?? [];
+
+                  const encryptedPayloads = await buildEncryptedPayloadsForWeb({
+                    roomIdNum,
                     text,
-                    toNum(currentUserId)
-                  );
+                    participants,
+                  });
 
                   const { data } = await axiosClient.post(
                     '/messages',
                     {
                       chatRoomId: roomIdNum,
                       content: null,
-                      contentCiphertext: encrypted.ciphertext,
-                      encryptedKeys: encrypted.encryptedKeys,
+                      contentCiphertext: null,
+                      encryptedKeys: null,
+                      encryptedPayloads,
                       clientMessageId,
                     },
                     { headers: { 'X-Requested-With': 'XMLHttpRequest' } }

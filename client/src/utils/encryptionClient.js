@@ -725,14 +725,23 @@ export async function decryptFetchedMessages(
   return Promise.all(
     messages.map(async (msg) => {
       let encryptedKey = null;
+      let ciphertext = null;
 
       try {
+        const payload = msg.encryptedPayloadForMe ?? null;
+
         encryptedKey =
+          payload?.encryptedKey ??
           msg.encryptedKeyForMe ??
           (msg.encryptedKeys &&
             (msg.encryptedKeys[String(currentUserId)] ||
               msg.encryptedKeys[currentUserId] ||
               msg.encryptedKeys['me'])) ??
+          null;
+
+        ciphertext =
+          payload?.contentCiphertext ??
+          msg.contentCiphertext ??
           null;
 
         const senderPublicKey =
@@ -743,8 +752,10 @@ export async function decryptFetchedMessages(
 
         console.log('[decryptFetchedMessages] attempting', {
           msgId: msg.id,
-          hasCiphertext: !!msg.contentCiphertext,
+          hasPayloadForMe: !!payload,
+          hasCiphertext: !!ciphertext,
           hasEncryptedKeyForMe: !!msg.encryptedKeyForMe,
+          hasPayloadEncryptedKey: !!payload?.encryptedKey,
           encryptedKeyPreview:
             typeof encryptedKey === 'string' ? encryptedKey.slice(0, 120) : encryptedKey,
           senderId: msg.sender?.id,
@@ -757,12 +768,24 @@ export async function decryptFetchedMessages(
           encryptedKeyUserIds: msg.encryptedKeys ? Object.keys(msg.encryptedKeys) : null,
         });
 
+        if (!ciphertext) {
+          return {
+            ...msg,
+            decryptedContent:
+              msg.decryptedContent ??
+              msg.translatedForMe ??
+              msg.rawContent ??
+              msg.content ??
+              '',
+          };
+        }
+
         if (!encryptedKey) {
           return { ...msg, decryptedContent: '[Encrypted – key unavailable]' };
         }
 
         const decrypted = await decryptMessageForUserBrowser(
-          msg.contentCiphertext,
+          ciphertext,
           encryptedKey,
           currentUserPrivateKey,
           senderPublicKey,
@@ -776,6 +799,7 @@ export async function decryptFetchedMessages(
           encryptedKeyPreview:
             typeof encryptedKey === 'string' ? encryptedKey.slice(0, 120) : encryptedKey,
           encryptedKeyForMe: msg.encryptedKeyForMe,
+          encryptedPayloadForMe: msg.encryptedPayloadForMe,
           encryptedKeyUserIds: msg.encryptedKeys ? Object.keys(msg.encryptedKeys) : null,
           currentUserId,
           senderId: msg.sender?.id,
@@ -953,5 +977,40 @@ export async function encryptForRoom(participants = [], plaintext = '', currentU
     ciphertext,
     encryptedKeys,
     encryptionVersion: 'v2',
+  };
+}
+
+export async function encryptForSingleUser(
+  plaintext = '',
+  recipientUserId,
+  recipientPublicKeyB64,
+  language = null,
+  sourceLanguage = null
+) {
+  const { privateKey: senderPrivB64 } = await getUnlockedBundleCached();
+
+  const { keyRaw, ivBytes, ctBytes } = await encryptSym(plaintext);
+
+  const tagLen = 16;
+  if (ctBytes.length < tagLen) throw new Error('Ciphertext too short');
+
+  const encPart = ctBytes.slice(0, ctBytes.length - tagLen);
+  const tagPart = ctBytes.slice(ctBytes.length - tagLen);
+
+  const packedCiphertext = concatBytes(ivBytes, encPart, tagPart);
+  const contentCiphertext = bytes2b64(packedCiphertext);
+
+  const encryptedKey = await sealSessionKeyForRecipient(
+    keyRaw,
+    senderPrivB64,
+    recipientPublicKeyB64,
+    { recipientId: recipientUserId }
+  );
+
+  return {
+    contentCiphertext,
+    encryptedKey,
+    language,
+    sourceLanguage,
   };
 }
