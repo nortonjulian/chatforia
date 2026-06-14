@@ -232,6 +232,17 @@ function normalizeMediaKind(kind, mimeType) {
   return 'FILE';
 }
 
+function encryptedPayloadForMeFrom(m) {
+  return m.payloads?.[0]
+    ? {
+        contentCiphertext: m.payloads[0].contentCiphertext,
+        encryptedKey: m.payloads[0].encryptedKey,
+        language: m.payloads[0].language ?? null,
+        sourceLanguage: m.payloads[0].sourceLanguage ?? null,
+      }
+    : null;
+}
+
 /**
  * GET /messages/:chatRoomId/deltas?sinceId=NN
  *
@@ -294,6 +305,16 @@ router.get(
           select: { encryptedKey: true },
           take: 1,
         },
+        payloads: {
+          where: { userId: requesterId },
+          select: {
+            contentCiphertext: true,
+            encryptedKey: true,
+            language: true,
+            sourceLanguage: true,
+          },
+          take: 1,
+        },
         translations: true,
         translatedFrom: true,
       },
@@ -317,6 +338,7 @@ router.get(
       contentCiphertext: m.contentCiphertext,
       attachments: m.attachments || [],
       encryptedKeyForMe: m.keys?.[0]?.encryptedKey || null,
+      encryptedPayloadForMe: encryptedPayloadForMeFrom(m),
       translations: m.translations || null,
       translatedFrom: m.translatedFrom || null,
     }));
@@ -991,6 +1013,16 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         select: { encryptedKey: true },
         take: 1,
       },
+      payloads: {
+        where: { userId: requesterId },
+        select: {
+          contentCiphertext: true,
+          encryptedKey: true,
+          language: true,
+          sourceLanguage: true,
+        },
+        take: 1,
+      },
       chatRoomId: true,
     };
 
@@ -1151,6 +1183,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
           }
 
           const encryptedKeyForMe = m.keys?.[0]?.encryptedKey || null;
+          const encryptedPayloadForMe = encryptedPayloadForMeFrom(m);
           const preCached =
             m.translations && typeof m.translations === 'object'
               ? m.translations[myLang] ?? null
@@ -1160,10 +1193,11 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
           const live = translatedForMeMap.get(m.id) ?? null;
           const translatedForMe = preCached || legacy || live || null;
 
-          const { translations, translatedContent, translatedTo, keys, deletions, ...rest } = m;
+          const { translations, translatedContent, translatedTo, keys, payloads, deletions, ...rest } = m;
 
           const base = {
             ...rest,
+            encryptedPayloadForMe,
             encryptedKeyForMe,
             translatedForMe,
             reactionSummary,
@@ -1345,10 +1379,13 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
         const encryptedKeyForMe = m.keys?.[0]?.encryptedKey || null;
 
-        const { translations, translatedContent, translatedTo, keys, deletions, ...rest } = m;
+        const encryptedPayloadForMe = encryptedPayloadForMeFrom(m);
+
+        const { translations, translatedContent, translatedTo, keys, payloads, deletions, ...rest } = m;
 
         const base = {
           ...rest,
+          encryptedPayloadForMe,
           encryptedKeyForMe,
           translatedForMe,
           reactionSummary,
