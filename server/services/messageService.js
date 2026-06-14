@@ -616,6 +616,17 @@ export async function shapeMessageForUser(messageId, viewerUserId) {
           encryptedKey: true,
         },
       },
+
+      payloads: {
+        where: { userId: Number(viewerUserId) },
+        select: {
+          contentCiphertext: true,
+          encryptedKey: true,
+          language: true,
+          sourceLanguage: true,
+        },
+        take: 1,
+      },
     },
   });
 
@@ -639,9 +650,19 @@ export async function shapeMessageForUser(messageId, viewerUserId) {
       ? m.translations[viewerLang] || null
       : null;
 
+  const encryptedPayloadForMe = m.payloads?.[0]
+  ? {
+      contentCiphertext: m.payloads[0].contentCiphertext,
+      encryptedKey: m.payloads[0].encryptedKey,
+      language: m.payloads[0].language ?? null,
+      sourceLanguage: m.payloads[0].sourceLanguage ?? null,
+    }
+  : null;
+
   return {
     ...m,
     senderId,
+    encryptedPayloadForMe,
     encryptedKeyForMe: m.keys?.[0]?.encryptedKey || null,
     translatedForMe,
     rawContent: hasCipher && !isSender ? null : (m.rawContent || ''),
