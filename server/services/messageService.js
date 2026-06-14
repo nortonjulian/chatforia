@@ -1,7 +1,8 @@
 import prisma from '../utils/prismaClient.js';
 import { isExplicit, cleanText } from '../utils/filter.js';
-import { translateForTargets } from '../utils/translate.js';
-import { translateText } from '../utils/translateText.js';
+// import { translateForTargets } from '../utils/translate.js';
+// import { translateText } from '../utils/translateText.js';
+import { maybeTranslateForTarget } from './translation/translateMessage.js';
 import { allow } from '../utils/tokenBucket.js';
 import * as socketBus from './socketBus.js';
 
@@ -170,10 +171,33 @@ export async function createMessageService({
   let translationsMap = null;
   let translatedFrom = sender.preferredLanguage || 'en';
   if (cleanContent) {
-    const targetLangs = recipientsExceptSender.map((u) => u.preferredLanguage || 'en');
-    const res = await translateForTargets(cleanContent, translatedFrom, targetLangs);
-    translationsMap = Object.keys(res.map || {}).length ? res.map : null;
-    translatedFrom = res.from || translatedFrom;
+      const targetLangs = [
+    ...new Set(
+      recipientsExceptSender
+        .map((u) => String(u.preferredLanguage || 'en').trim().toLowerCase())
+        .filter(Boolean)
+    ),
+  ];
+
+  const map = {};
+
+  for (const lang of targetLangs) {
+    const result = await maybeTranslateForTarget(
+      cleanContent,
+      translatedFrom,
+      lang
+    );
+
+    if (result?.translatedText) {
+      map[lang] = result.translatedText;
+    }
+
+    if (result?.detectedLang) {
+      translatedFrom = result.detectedLang;
+    }
+  }
+
+translationsMap = Object.keys(map).length ? map : null;
   }
 
   // 5) Expiry clamp
