@@ -331,6 +331,35 @@ translationsMap = Object.keys(map).length ? map : null;
         });
       }
 
+      if (
+          encryptedPayloads &&
+          typeof encryptedPayloads === 'object' &&
+          !Array.isArray(encryptedPayloads)
+      ) {
+          const payloadRows = Object.entries(encryptedPayloads)
+              .map(([userIdRaw, payload]) => ({
+                  messageId: created.id,
+                  userId: Number(userIdRaw),
+                  contentCiphertext: payload.contentCiphertext,
+                  encryptedKey: payload.encryptedKey,
+                  language: payload.language ?? null,
+                  sourceLanguage: payload.sourceLanguage ?? null,
+              }))
+              .filter(
+                  (r) =>
+                      Number.isFinite(r.userId) &&
+                      r.contentCiphertext &&
+                      r.encryptedKey
+              );
+
+          if (payloadRows.length) {
+              await tx.messagePayload.createMany({
+                  data: payloadRows,
+                  skipDuplicates: true,
+              });
+          }
+      }
+
       return created;
     });
   } catch (e) {
