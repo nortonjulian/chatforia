@@ -272,6 +272,7 @@ router.get(
       take: 1000,
       select: {
         id: true,
+        clientMessageId: true,
         chatRoomId: true,
         rawContent: true,
         contentCiphertext: true,
@@ -322,6 +323,7 @@ router.get(
 
     const shaped = items.map((m) => ({
       id: m.id,
+      clientMessageId: m.clientMessageId,
       chatRoomId: m.chatRoomId,
       createdAt: m.createdAt,
       expiresAt: m.expiresAt,
@@ -624,21 +626,6 @@ router.post(
       }
     }
 
-    // private sender ACK
-    try {
-      const io = req.app.get('io');
-      if (io && clientMessageId) {
-        io.to(`user:${String(senderId)}`).emit('message:ack', {
-          clientMessageId,
-          id: saved.id,
-          chatRoomId,
-          createdAt: saved.createdAt?.toISOString?.() || new Date().toISOString(),
-        });
-      }
-    } catch (e) {
-      console.warn('[message:ack] emit failed', e?.message || e);
-    }
-
     let senderShaped = await shapeMessageForUser(saved.id, senderId);
 
     if (IS_TEST && !senderShaped) {
@@ -674,16 +661,6 @@ router.post(
     await emitMessageUpsertPerParticipant(chatRoomId, saved.id);
 
     // Private ACK for the sender
-    if (saved?.clientMessageId && senderId) {
-      emitMessageAck(senderId, {
-        clientMessageId: saved.clientMessageId,
-        id: saved.id,
-        chatRoomId: Number(chatRoomId),
-        createdAt: saved.createdAt?.toISOString?.() || new Date().toISOString(),
-      });
-    }
-
-    // Private ACK for the sender (optimistic → real ID replacement on iOS/web)
     if (saved?.clientMessageId && senderId) {
       emitMessageAck(senderId, {
         clientMessageId: saved.clientMessageId,
@@ -968,6 +945,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
     const baseSelect = {
       id: true,
+      clientMessageId: true,
       contentCiphertext: true,
       translations: true,
       translatedContent: true,
