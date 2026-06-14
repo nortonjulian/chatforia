@@ -807,10 +807,9 @@ model Message {
 }
 
 model MessagePayload {
-  id                Int      @id @default(autoincrement())
   messageId         Int
   userId            Int
-  contentCiphertext String
+  contentCiphertext Json
   encryptedKey      String
   language          String?
   sourceLanguage    String?
@@ -819,7 +818,8 @@ model MessagePayload {
   message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([messageId, userId])
+  @@id([messageId, userId])
+  @@index([messageId])
   @@index([userId])
 }
 
