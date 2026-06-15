@@ -956,8 +956,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       }
 
       const looksEncrypted = rows.some(
-        (m) => m?.contentCiphertext || m?.encryptedKeyForMe || m?.encryptedKeys
+        (m) =>
+          m?.encryptedPayloadForMe?.contentCiphertext ||
+          m?.encryptedPayloadForMe?.encryptedKey ||
+          m?.contentCiphertext ||
+          m?.encryptedKeyForMe ||
+          m?.encryptedKeys
       );
+
       setE2eeLocked(looksEncrypted);
 
       if (initial) {
@@ -1736,7 +1742,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
       const encryptedRows = messages.filter(
         (m) =>
-          (m?.contentCiphertext || m?.encryptedKeyForMe || m?.encryptedKeys) &&
+          (
+            m?.encryptedPayloadForMe?.contentCiphertext ||
+            m?.encryptedPayloadForMe?.encryptedKey ||
+            m?.contentCiphertext ||
+            m?.encryptedKeyForMe ||
+            m?.encryptedKeys
+          ) &&
           !m?.decryptedContent
       );
 
