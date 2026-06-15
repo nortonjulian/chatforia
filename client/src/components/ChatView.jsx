@@ -727,8 +727,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       }
 
       const participantsRes = await axiosClient.get(
-        `/chatrooms/${roomIdNum}/participants`,
-        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+        `/chatrooms/${roomIdNum}/participants?_=${Date.now()}`,
+        {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+          },
+        }
       );
 
       const participants = participantsRes.data?.participants ?? [];
@@ -1296,10 +1302,17 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       const isSender = userId === toNum(currentUserId);
       const autoTranslate = user?.autoTranslate !== false;
 
+      const baseLang = preferredLang.split('-')[0];
+
+      const translatedForUser =
+        translations[preferredLang] ||
+        translations[baseLang] ||
+        text;
+
       const plaintextForUser =
         isSender || !autoTranslate || !preferredLang
           ? text
-          : translations[preferredLang] || text;
+          : translatedForUser;
 
       encryptedPayloads[String(userId)] = await encryptForSingleUser(
         plaintextForUser,

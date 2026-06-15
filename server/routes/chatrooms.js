@@ -233,11 +233,18 @@ router.get(
   })
 );
 
-// GET /chatrooms/:id/participants
 router.get(
   '/:id/participants',
   requireAuth,
   asyncHandler(async (req, res) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    res.set('Surrogate-Control', 'no-store');
+
+    // Force this endpoint to avoid 304 cached participant responses
+    res.set('ETag', `"participants-${Date.now()}-${Math.random()}"`);
+
     const id = Number(req.params.id);
     if (!Number.isFinite(id)) {
       return res.status(400).json({ error: 'Invalid id' });
