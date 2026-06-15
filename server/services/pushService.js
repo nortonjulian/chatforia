@@ -56,6 +56,11 @@ async function getUserTokens(userId) {
       .map(d => d.pushToken)
       .filter(Boolean),
 
+    apnsVoip: devices
+      .filter(d => d.pushProvider === 'apns_voip')
+      .map(d => d.pushToken)
+      .filter(Boolean),
+
     fcm: devices
       .filter(d => d.pushProvider === 'fcm')
       .map(d => d.pushToken)
@@ -63,6 +68,54 @@ async function getUserTokens(userId) {
   };
 }
 
+export async function sendVoipCallPushToUser(userId, payload) {
+  const tokens = await getUserTokens(userId);
+
+  if (!tokens.apnsVoip?.length) {
+    console.warn('[push] no apns_voip tokens for user', userId);
+    return {
+      ok: false,
+      apnsVoipSent: 0,
+      apnsVoipFailed: 0,
+    };
+  }
+
+  const apnProvider = getProvider();
+
+  if (!apnProvider) {
+    return {
+      ok: false,
+      apnsVoipSent: 0,
+      apnsVoipFailed: tokens.apnsVoip.length,
+    };
+  }
+
+  const note = new apn.Notification();
+
+  note.topic = process.env.APNS_VOIP_TOPIC || `${process.env.APNS_TOPIC}.voip`;
+  note.pushType = 'voip';
+  note.priority = 10;
+  note.expiry = Math.floor(Date.now() / 1000) + 30;
+
+  note.payload = {
+    type: 'call_incoming',
+    callId: payload.callId == null ? '' : String(payload.callId),
+    callerId: payload.callerId == null ? '' : String(payload.callerId),
+    callerName: payload.callerName || 'Chatforia user',
+    mode: payload.mode || 'AUDIO',
+    roomName: payload.roomName || '',
+    chatRoomId: payload.chatRoomId == null ? '' : String(payload.chatRoomId),
+  };
+
+  const result = await apnProvider.send(note, tokens.apnsVoip);
+
+  return {
+    ok: result.sent.length > 0,
+    apnsVoipSent: result.sent.length,
+    apnsVoipFailed: result.failed.length,
+    result,
+  };
+}
 /**
  * Generic push sender
  */
