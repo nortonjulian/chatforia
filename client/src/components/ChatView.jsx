@@ -646,6 +646,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   // ✅ modal open helpers
   const openEditModal = useCallback((msg) => {
     const current = msg.rawContent ?? msg.content ?? '';
+
+    // Hard reset delete state before editing
+    setDeleteOpen(false);
+    setDeleteTarget(null);
+    setDeleteMode('me');
+    setDeleteSubmitting(false);
+
     setEditTarget(msg);
     setEditText(current);
     setEditAttachments(Array.isArray(msg.attachments) ? msg.attachments : []);
@@ -654,10 +661,17 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const closeEditModal = useCallback(() => {
     if (editSubmitting) return;
+
     setEditOpen(false);
     setEditTarget(null);
     setEditText('');
     setEditAttachments([]);
+
+    // Make sure no stale delete action is waiting behind the edit modal
+    setDeleteOpen(false);
+    setDeleteTarget(null);
+    setDeleteMode('me');
+    setDeleteSubmitting(false);
   }, [editSubmitting]);
 
   const openDeleteModal = useCallback((msg, mode = 'me') => {
@@ -697,6 +711,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const hasAttachments = nextAttachments.length > 0;
 
   if (!textChanged && !attachmentsChanged) {
+    setDeleteOpen(false);
+    setDeleteTarget(null);
+    setDeleteMode('me');
+    setDeleteSubmitting(false);
+
     closeEditModal();
     return;
   }
@@ -745,6 +764,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         participants,
       });
 
+      const attachmentsForEdit = editAttachments.map((a) => ({
+        ...a,
+        caption: null,
+      }));
+
       const { data } = await axiosClient.patch(
         `/messages/${editTarget.id}/edit`,
         {
@@ -752,7 +776,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           contentCiphertext: null,
           encryptedKeys: null,
           encryptedPayloads,
-          attachments: editAttachments,
+          attachments: attachmentsForEdit,
         },
         { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
       );
@@ -814,7 +838,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   // ✅ real delete submit
   const handleDeleteMessage = useCallback(async () => {
-    if (!deleteTarget?.id) return;
+    if (editOpen || editSubmitting) return;
+    if (!deleteOpen || !deleteTarget?.id) return;
 
     const msg = deleteTarget;
     const mode = deleteMode;
@@ -850,7 +875,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     } finally {
       setDeleteSubmitting(false);
     }
-  }, [deleteTarget, deleteMode, closeDeleteModal]);
+  }, [deleteTarget, deleteMode, closeDeleteModal, deleteOpen, editOpen, editSubmitting]);
 
   async function maybeGetUnlockedPrivateKey() {
     try {
@@ -2186,7 +2211,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
                       const encryptedPayloads = await buildEncryptedPayloadsForWeb({
                         roomIdNum,
-                        text,
+                        text: encryptionText,
                         participants,
                       });
 
@@ -2199,6 +2224,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                           encryptedKeys: null,
                           encryptedPayloads,
                           clientMessageId,
+                          attachmentsInline: optimisticAttachments.map((a) => ({
+                            ...a,
+                            caption: null,
+                          })),
                         },
                         { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
                       );
@@ -2642,11 +2671,12 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             </Box>
             {/* Buttons */}
             <Group justify="space-between">
-              <Button variant="subtle" color="gray" onClick={closeEditModal}>
+              <Button type="button" variant="subtle" color="gray" onClick={closeEditModal}>
                 Cancel
               </Button>
 
               <Button
+                type="button"
                 onClick={handleEditMessage}
                 loading={editSubmitting}
                 disabled={(() => {
@@ -2740,10 +2770,15 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             )}
 
             <Group justify="flex-end">
-              <Button variant="light" onClick={closeDeleteModal}>
+              <Button type="button" variant="light" onClick={closeDeleteModal}>
                 Cancel
               </Button>
-              <Button color="red" onClick={handleDeleteMessage} loading={deleteSubmitting}>
+              <Button
+                type="button"
+                color="red"
+                onClick={handleDeleteMessage}
+                loading={deleteSubmitting}
+              >
                 Delete
               </Button>
             </Group>
