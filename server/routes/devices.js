@@ -472,7 +472,27 @@ router.post('/push-token', requireAuth, async (req, res) => {
   const userId = Number(req.user?.id);
   const deviceId = normalizeString(req.body?.deviceId, 191);
   const pushToken = normalizeString(req.body?.pushToken, 4096);
-  const pushProvider = normalizeString(req.body?.pushProvider, 64) || 'apns';
+  const pushProvider =
+    (normalizeString(req.body?.pushProvider, 64) || 'apns').toLowerCase();
+  const pushTokenData = {
+    lastSeenAt: new Date(),
+    revokedAt: null,
+  };
+
+  if (pushProvider === 'apns_voip') {
+    pushTokenData.voipPushToken = pushToken;
+  } else if (pushProvider === 'apns') {
+    pushTokenData.apnsPushToken = pushToken;
+    pushTokenData.pushToken = pushToken;
+    pushTokenData.pushProvider = pushProvider;
+  } else if (pushProvider === 'fcm') {
+    pushTokenData.fcmPushToken = pushToken;
+    pushTokenData.pushToken = pushToken;
+    pushTokenData.pushProvider = pushProvider;
+  } else {
+    pushTokenData.pushToken = pushToken;
+    pushTokenData.pushProvider = pushProvider;
+  }
 
   const publicKey = normalizeString(req.body?.publicKey, 4096);
   const keyAlgorithm = normalizeString(req.body?.keyAlgorithm, 64) || 'curve25519';
@@ -516,12 +536,7 @@ router.post('/push-token', requireAuth, async (req, res) => {
             deviceId,
           },
         },
-        data: {
-          pushToken,
-          pushProvider,
-          lastSeenAt: new Date(),
-          revokedAt: null,
-        },
+        data: pushTokenData,
         select: {
           id: true,
           userId: true,
@@ -533,6 +548,9 @@ router.post('/push-token', requireAuth, async (req, res) => {
           revokedAt: true,
           pushToken: true,
           pushProvider: true,
+          apnsPushToken: true,
+          fcmPushToken: true,
+          voipPushToken: true,
         },
       });
     } else {
@@ -546,15 +564,12 @@ router.post('/push-token', requireAuth, async (req, res) => {
         data: {
           userId,
           deviceId,
-          pushToken,
-          pushProvider,
+          ...pushTokenData,
           publicKey,
           keyAlgorithm,
           keyVersion,
           platform,
           name,
-          lastSeenAt: new Date(),
-          revokedAt: null,
         },
         select: {
           id: true,
@@ -567,6 +582,9 @@ router.post('/push-token', requireAuth, async (req, res) => {
           revokedAt: true,
           pushToken: true,
           pushProvider: true,
+          apnsPushToken: true,
+          fcmPushToken: true,
+          voipPushToken: true,
         },
       });
     }

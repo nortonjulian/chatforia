@@ -42,29 +42,39 @@ async function getUserTokens(userId) {
     where: {
       userId: Number(userId),
       revokedAt: null,
-      pushToken: { not: null },
     },
     select: {
       pushToken: true,
       pushProvider: true,
+      apnsPushToken: true,
+      fcmPushToken: true,
+      voipPushToken: true,
     },
   });
 
+  const unique = (items) => [...new Set(items.filter(Boolean))];
+
   return {
-    apns: devices
-      .filter(d => d.pushProvider === 'apns')
-      .map(d => d.pushToken)
-      .filter(Boolean),
+    apns: unique([
+      ...devices.map(d => d.apnsPushToken),
+      ...devices
+        .filter(d => d.pushProvider === 'apns')
+        .map(d => d.pushToken),
+    ]),
 
-    apnsVoip: devices
-      .filter(d => d.pushProvider === 'apns_voip')
-      .map(d => d.pushToken)
-      .filter(Boolean),
+    apnsVoip: unique([
+      ...devices.map(d => d.voipPushToken),
+      ...devices
+        .filter(d => d.pushProvider === 'apns_voip')
+        .map(d => d.pushToken),
+    ]),
 
-    fcm: devices
-      .filter(d => d.pushProvider === 'fcm')
-      .map(d => d.pushToken)
-      .filter(Boolean),
+    fcm: unique([
+      ...devices.map(d => d.fcmPushToken),
+      ...devices
+        .filter(d => d.pushProvider === 'fcm')
+        .map(d => d.pushToken),
+    ]),
   };
 }
 

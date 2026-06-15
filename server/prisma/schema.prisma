@@ -450,8 +450,14 @@ model Device {
   platform  String?
   isPrimary Boolean @default(false)
 
+  // Legacy/general push fields. Keep these for compatibility.
   pushToken             String?
   pushProvider          String?
+
+  // Separate push tokens so APNs and VoIP do not overwrite each other.
+  apnsPushToken         String?
+  fcmPushToken          String?
+  voipPushToken         String?
   
   wrappedAccountKey     String?
   wrappedAccountKeyAlgo String?
@@ -475,6 +481,9 @@ model Device {
   @@index([userId])
   @@index([userId, revokedAt])
   @@index([userId, pairingStatus])
+  @@index([apnsPushToken])
+  @@index([fcmPushToken])
+  @@index([voipPushToken])
 }
 
 // ===================== 3) Config & Localization =====================
