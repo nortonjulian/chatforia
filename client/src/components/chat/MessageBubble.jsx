@@ -162,7 +162,7 @@ export default function MessageBubble({
 
   const tailBg = mine
     ? 'var(--bubble-outgoing, #f7a600)'
-    : 'var(--bubble-incoming, #f3f4f6)';
+    : 'var(--bubble-incoming-bg, #f3f4f6)';
 
   const captionTextStyle = mine
     ? {
@@ -363,8 +363,8 @@ export default function MessageBubble({
                     position: 'relative',
                     zIndex: 2,
                     borderRadius: 18,
-                    borderBottomRightRadius: mine && showTail ? 8 : 18,
-                    borderBottomLeftRadius: !mine && showTail ? 8 : 18,
+                    borderBottomRightRadius: mine && showTail ? 7 : 18,
+                    borderBottomLeftRadius: !mine && showTail ? 7 : 18,
                     wordBreak: 'break-word',
                     whiteSpace: 'pre-wrap',
                     overflowWrap: 'anywhere',
@@ -390,13 +390,13 @@ export default function MessageBubble({
                   style={{
                     position: 'absolute',
                     bottom: 1,
-                    right: mine ? 3 : 'auto',
-                    left: mine ? 'auto' : 3,
-                    width: 12,
-                    height: 12,
+                    right: mine ? -4 : 'auto',
+                    left: mine ? 'auto' : -4,
+                    width: 14,
+                    height: 14,
                     background: tailBg,
                     transform: 'rotate(45deg)',
-                    borderRadius: mine ? '0 0 6px 0' : '0 0 0 6px',
+                    borderRadius: mine ? '0 0 5px 0' : '0 0 0 5px',
                     zIndex: 1,
                   }}
                 />
