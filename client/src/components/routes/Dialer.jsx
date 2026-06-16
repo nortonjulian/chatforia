@@ -370,7 +370,14 @@ export default function Dialer() {
               (isOutgoing ? 'Outgoing Call' : 'Incoming Call');
 
             const Icon = statusIcon(item.status, isOutgoing);
+
+            const directionLabel = isOutgoing
+              ? t('callHistory.outgoing', 'Outgoing')
+              : t('callHistory.incoming', 'Incoming');
+
             const label = statusLabel(item.status, isOutgoing, t);
+            const showStatusLabel = label && label !== directionLabel;
+
             const duration = formatDuration(item.durationSec);
             const timestamp = formatTimestamp(item.endedAt || item.startedAt || item.createdAt);
             const color = statusColor(item.status);
@@ -395,10 +402,15 @@ export default function Dialer() {
 
                         <Group gap={8} mt={4}>
                           <Text size="sm" c="dimmed">
-                            {isOutgoing ? 'Outgoing' : 'Incoming'}
+                            {directionLabel}
                           </Text>
-                          <Text size="sm" c="dimmed">•</Text>
-                          <Text size="sm" c="dimmed">{label}</Text>
+
+                          {showStatusLabel ? (
+                            <>
+                              <Text size="sm" c="dimmed">•</Text>
+                              <Text size="sm" c="dimmed">{label}</Text>
+                            </>
+                          ) : null}
                           {duration ? (
                             <>
                               <Text size="sm" c="dimmed">•</Text>
