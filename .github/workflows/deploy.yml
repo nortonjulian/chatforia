@@ -44,9 +44,7 @@ jobs:
           ssh ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} << 'EOF'
           cat > /var/www/chatforia/env.js <<'EOL'
           window.__API_URL__ = "https://api.chatforia.com";
-          window.__ENV = {
-            VITE_TENOR_KEY: "AIzaSyAP0d9gHvgwthTVhSPf6CDH38YP1QYQabM"
-          };
+          window.__ENV = {};
           EOL
           systemctl reload nginx
           EOF

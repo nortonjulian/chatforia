@@ -1,6 +1,14 @@
 /** @jest-environment jsdom */
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+
+/* ---------------- axiosClient mock ---------------- */
+jest.mock('@/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    get: jest.fn(),
+  },
+}));
 
 /* ---------------- Mantine mocks (minimal) ---------------- */
 jest.mock('@mantine/core', () => {
@@ -10,20 +18,19 @@ jest.mock('@mantine/core', () => {
     opened ? <div role="dialog">{children}</div> : null;
 
   const Tabs = ({ children, value, onChange }) => (
-    <div
-      data-tabs
-      data-value={String(value)}
-      data-has-onchange={!!onChange}
-    >
+    <div data-tabs data-value={String(value)} data-has-onchange={!!onChange}>
       {children}
     </div>
   );
+
   Tabs.List = ({ children }) => <div data-tabs-list>{children}</div>;
+
   Tabs.Tab = ({ children, onClick, value }) => (
     <button type="button" data-tab={value} onClick={onClick}>
       {children}
     </button>
   );
+
   Tabs.Panel = ({ children, value, ...p }) => (
     <div data-tabs-panel={value} {...p}>
       {children}
@@ -76,32 +83,38 @@ jest.mock('@mantine/core', () => {
 
 /* ---------------- Emoji-mart mocks ---------------- */
 jest.mock('@emoji-mart/data', () => ({ __esModule: true, default: {} }));
+
 jest.mock('@emoji-mart/react', () => ({
   __esModule: true,
   default: () => <div data-testid="emoji-mart-picker" />,
 }));
 
-/* ---------------- Global fetch mock ---------------- */
+import axiosClient from '@/api/axiosClient';
+import StickerPicker from '../src/components/StickerPicker.jsx';
+
 beforeEach(() => {
-  // mock Tenor "featured" fetch that runs on mount
-  global.fetch = jest.fn().mockResolvedValue({
-    json: async () => ({ results: [] }),
+  jest.clearAllMocks();
+
+  axiosClient.get.mockResolvedValue({
+    data: {
+      results: [
+        {
+          id: 'gif1',
+          kind: 'GIF',
+          url: 'https://giphy.test/full.gif',
+          thumb: 'https://giphy.test/thumb.gif',
+          mimeType: 'image/gif',
+          width: 200,
+          height: 100,
+          provider: 'giphy',
+          providerId: 'gif1',
+        },
+      ],
+    },
   });
 });
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
-test('renders GIF picker tab and kicks off Tenor fetch when opened on GIFs', async () => {
-  // ✅ Make sure StickerPicker sees a Tenor key at module init
-  globalThis.__ENV = { VITE_TENOR_KEY: 'test-key' };
-
-  // Dynamic import AFTER we set __ENV so TENOR_KEY in the module picks it up.
-  const { default: StickerPicker } = await import(
-    '../src/components/StickerPicker.jsx'
-  );
-
+test('renders GIF picker tab and fetches GIFs from backend when opened on GIFs', async () => {
   const onPick = jest.fn();
   const onClose = jest.fn();
 
@@ -114,22 +127,20 @@ test('renders GIF picker tab and kicks off Tenor fetch when opened on GIFs', asy
     />
   );
 
-  // Modal should render
   expect(screen.getByRole('dialog')).toBeInTheDocument();
 
-  // We should now be in the "canUseTenor === true" branch,
-  // so the Tenor search input should show up:
-  const input = screen.getByPlaceholderText(/search gifs \(tenor\)…/i);
+  const input = screen.getByPlaceholderText(/search gifs/i);
   expect(input).toBeInTheDocument();
   expect(input).toHaveValue('');
 
-  // Because opened=true and we have a key,
-  // the component should have kicked off an initial Tenor "featured" fetch.
-  expect(global.fetch).toHaveBeenCalledTimes(1);
-  const firstArg = global.fetch.mock.calls[0][0];
-  expect(String(firstArg)).toMatch(/tenor/i);
-  expect(String(firstArg)).toMatch(/featured/i);
+  await waitFor(() => {
+    expect(axiosClient.get).toHaveBeenCalledWith('/stickers/search', {
+      params: {},
+    });
+  });
 
-  // sanity: no sticker picked yet
+  expect(await screen.findByAltText('gif')).toBeInTheDocument();
+  expect(screen.getByText(/powered by giphy/i)).toBeInTheDocument();
+
   expect(onPick).not.toHaveBeenCalled();
 });

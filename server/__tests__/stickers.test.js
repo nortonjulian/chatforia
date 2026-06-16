@@ -6,7 +6,6 @@ import request from 'supertest';
 const fetchMock = jest.fn();
 
 const mockRequireAuth = jest.fn((req, _res, next) => {
-  // simulate authenticated user
   req.user = { id: 1 };
   next();
 });
@@ -31,7 +30,6 @@ function makeApp() {
   app.use(express.json());
   app.use('/stickers', stickersRouter);
 
-  // basic error handler (route already catches most errors)
   app.use((err, _req, res, _next) => {
     return res.status(500).json({ error: err.message });
   });
@@ -45,21 +43,13 @@ describe('stickers routes', () => {
   beforeEach(() => {
     app = makeApp();
     jest.clearAllMocks();
-    delete process.env.TENOR_API_KEY;
+
+    delete process.env.GIPHY_API_KEY;
   });
 
   describe('GET /stickers/search', () => {
-    it('returns empty results when q is missing/blank', async () => {
-      const res = await request(app)
-        .get('/stickers/search')
-        .expect(200);
-
-      expect(res.body).toEqual({ results: [] });
-      expect(fetchMock).not.toHaveBeenCalled();
-    });
-
-    it('returns 501 when TENOR_API_KEY is not configured', async () => {
-      process.env.TENOR_API_KEY = ''; // or leave undefined
+    it('returns 501 when GIPHY_API_KEY is not configured', async () => {
+      process.env.GIPHY_API_KEY = '';
 
       const res = await request(app)
         .get('/stickers/search')
@@ -69,32 +59,111 @@ describe('stickers routes', () => {
       expect(res.body).toEqual({
         error: 'No sticker search key configured',
       });
+
       expect(fetchMock).not.toHaveBeenCalled();
     });
 
-    it('hits Tenor and maps results on success', async () => {
-      process.env.TENOR_API_KEY = 'test-tenor-key';
+    it('hits GIPHY trending when q is missing/blank', async () => {
+      process.env.GIPHY_API_KEY = 'test-giphy-key';
 
-      // Mock Tenor response
       fetchMock.mockResolvedValueOnce({
+        ok: true,
         json: async () => ({
-          results: [
+          data: [
+            {
+              id: 'trending1',
+              title: 'Trending GIF',
+              images: {
+                fixed_width_small: {
+                  url: 'https://giphy.test/trending-small.gif',
+                  width: '100',
+                  height: '80',
+                },
+                fixed_width: {
+                  url: 'https://giphy.test/trending-med.gif',
+                  width: '200',
+                  height: '160',
+                },
+                original: {
+                  url: 'https://giphy.test/trending-original.gif',
+                  width: '400',
+                  height: '320',
+                },
+              },
+            },
+          ],
+        }),
+      });
+
+      const res = await request(app)
+        .get('/stickers/search')
+        .expect(200);
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+
+      const [urlArg] = fetchMock.mock.calls[0];
+      expect(urlArg).toBeInstanceOf(URL);
+      expect(urlArg.origin).toBe('https://api.giphy.com');
+      expect(urlArg.pathname).toBe('/v1/gifs/trending');
+      expect(urlArg.searchParams.get('api_key')).toBe('test-giphy-key');
+      expect(urlArg.searchParams.get('limit')).toBe('36');
+      expect(urlArg.searchParams.get('rating')).toBe('pg');
+      expect(urlArg.searchParams.get('q')).toBe(null);
+
+      expect(res.body).toEqual({
+        results: [
+          {
+            id: 'trending1',
+            kind: 'GIF',
+            url: 'https://giphy.test/trending-med.gif',
+            thumb: 'https://giphy.test/trending-small.gif',
+            mimeType: 'image/gif',
+            width: 200,
+            height: 160,
+            provider: 'giphy',
+            providerId: 'trending1',
+          },
+        ],
+      });
+    });
+
+    it('hits GIPHY search and maps results on success', async () => {
+      process.env.GIPHY_API_KEY = 'test-giphy-key';
+
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          data: [
             {
               id: 'gif1',
-              media_formats: {
-                tinygif: { url: 'https://tiny.gif/1' },
-                mediumgif: {
-                  url: 'https://med.gif/1',
-                  dims: [200, 100],
+              title: 'Cat GIF',
+              images: {
+                fixed_width_small: {
+                  url: 'https://giphy.test/small-1.gif',
+                  width: '100',
+                  height: '50',
                 },
-                gif: { url: 'https://fallback.gif/1' },
+                downsized_medium: {
+                  url: 'https://giphy.test/medium-1.gif',
+                  width: '200',
+                  height: '100',
+                },
+                original: {
+                  url: 'https://giphy.test/original-1.gif',
+                  width: '400',
+                  height: '200',
+                },
               },
             },
             {
               id: 'gif2',
-              media_formats: {
-                // missing tinygif/mediumgif -> fallback to gif
-                gif: { url: 'https://fallback.gif/2' },
+              title: 'Fallback GIF',
+              images: {
+                original: {
+                  url: 'https://giphy.test/original-2.gif',
+                  width: '300',
+                  height: '150',
+                },
               },
             },
           ],
@@ -106,46 +175,64 @@ describe('stickers routes', () => {
         .query({ q: 'cats' })
         .expect(200);
 
-      // Verify fetch was called with correct URL + params
       expect(fetchMock).toHaveBeenCalledTimes(1);
+
       const [urlArg] = fetchMock.mock.calls[0];
       expect(urlArg).toBeInstanceOf(URL);
-      expect(urlArg.origin).toBe('https://tenor.googleapis.com');
-      expect(urlArg.pathname).toBe('/v2/search');
+      expect(urlArg.origin).toBe('https://api.giphy.com');
+      expect(urlArg.pathname).toBe('/v1/gifs/search');
       expect(urlArg.searchParams.get('q')).toBe('cats');
-      expect(urlArg.searchParams.get('key')).toBe('test-tenor-key');
-      expect(urlArg.searchParams.get('limit')).toBe('24');
-      expect(urlArg.searchParams.get('media_filter')).toBe(
-        'tinygif,mediumgif'
-      );
+      expect(urlArg.searchParams.get('api_key')).toBe('test-giphy-key');
+      expect(urlArg.searchParams.get('limit')).toBe('36');
+      expect(urlArg.searchParams.get('rating')).toBe('pg');
 
-      // Mapped response
       expect(res.body).toEqual({
         results: [
           {
             id: 'gif1',
             kind: 'GIF',
-            url: 'https://med.gif/1',
-            thumb: 'https://tiny.gif/1',
+            url: 'https://giphy.test/medium-1.gif',
+            thumb: 'https://giphy.test/small-1.gif',
             mimeType: 'image/gif',
             width: 200,
             height: 100,
+            provider: 'giphy',
+            providerId: 'gif1',
           },
           {
             id: 'gif2',
             kind: 'GIF',
-            url: 'https://fallback.gif/2',
-            thumb: 'https://fallback.gif/2',
+            url: 'https://giphy.test/original-2.gif',
+            thumb: 'https://giphy.test/original-2.gif',
             mimeType: 'image/gif',
-            width: null,
-            height: null,
+            width: 300,
+            height: 150,
+            provider: 'giphy',
+            providerId: 'gif2',
           },
         ],
       });
     });
 
-    it('returns 500 when Tenor request throws', async () => {
-      process.env.TENOR_API_KEY = 'test-tenor-key';
+    it('returns 502 when GIPHY returns a bad response', async () => {
+      process.env.GIPHY_API_KEY = 'test-giphy-key';
+
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        text: async () => 'Forbidden',
+      });
+
+      const res = await request(app)
+        .get('/stickers/search')
+        .query({ q: 'dogs' })
+        .expect(502);
+
+      expect(res.body).toEqual({ error: 'GIF provider failed' });
+    });
+
+    it('returns 500 when GIPHY request throws', async () => {
+      process.env.GIPHY_API_KEY = 'test-giphy-key';
 
       fetchMock.mockRejectedValueOnce(new Error('network down'));
 
