@@ -8,32 +8,49 @@ router.get('/search', requireAuth, async (req, res) => {
   const q = (req.query.q || '').toString().trim();
   if (!q) return res.json({ results: [] });
 
-  const key = process.env.TENOR_API_KEY; // or GIPHY key
-  if (!key)
+  const key = process.env.GIPHY_API_KEY;
+  if (!key) {
     return res.status(501).json({ error: 'No sticker search key configured' });
+  }
 
   try {
-    const url = new URL('https://tenor.googleapis.com/v2/search');
+    const url = new URL('https://api.giphy.com/v1/gifs/search');
+    url.searchParams.set('api_key', key);
     url.searchParams.set('q', q);
-    url.searchParams.set('key', key);
     url.searchParams.set('limit', '24');
-    url.searchParams.set('media_filter', 'tinygif,mediumgif');
+    url.searchParams.set('rating', 'pg');
 
     const r = await fetch(url);
     const data = await r.json();
 
-    const results = (data?.results || []).map((it) => {
-      const tiny = it.media_formats?.tinygif?.url || it.media_formats?.gif?.url;
+    const results = (data?.data || []).map((it) => {
+      const tiny =
+        it.images?.fixed_width_small?.url ||
+        it.images?.preview_gif?.url ||
+        it.images?.original?.url;
+
       const med =
-        it.media_formats?.mediumgif?.url || it.media_formats?.gif?.url;
+        it.images?.downsized_medium?.url ||
+        it.images?.fixed_width?.url ||
+        it.images?.original?.url ||
+        tiny;
+
       return {
         id: it.id,
         kind: 'GIF',
         url: med || tiny,
         thumb: tiny || med,
         mimeType: 'image/gif',
-        width: it.media_formats?.mediumgif?.dims?.[0] || null,
-        height: it.media_formats?.mediumgif?.dims?.[1] || null,
+        width: Number(
+          it.images?.downsized_medium?.width ||
+            it.images?.fixed_width?.width ||
+            it.images?.original?.width
+        ) || null,
+        height: Number(
+          it.images?.downsized_medium?.height ||
+            it.images?.fixed_width?.height ||
+            it.images?.original?.height
+        ) || null,
       };
     });
 
