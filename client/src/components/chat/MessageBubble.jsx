@@ -363,8 +363,8 @@ export default function MessageBubble({
                     position: 'relative',
                     zIndex: 2,
                     borderRadius: 18,
-                    borderBottomRightRadius: mine && showTail ? 7 : 18,
-                    borderBottomLeftRadius: !mine && showTail ? 7 : 18,
+                    borderBottomRightRadius: mine && showTail ? 14 : 18,
+                    borderBottomLeftRadius: !mine && showTail ? 14 : 18,
                     wordBreak: 'break-word',
                     whiteSpace: 'pre-wrap',
                     overflowWrap: 'anywhere',
@@ -389,14 +389,14 @@ export default function MessageBubble({
                   aria-hidden="true"
                   style={{
                     position: 'absolute',
-                    bottom: 1,
-                    right: mine ? -4 : 'auto',
-                    left: mine ? 'auto' : -4,
-                    width: 14,
-                    height: 14,
+                    bottom: 3,
+                    right: mine ? -2 : 'auto',
+                    left: mine ? 'auto' : -2,
+                    width: 9,
+                    height: 9,
                     background: tailBg,
                     transform: 'rotate(45deg)',
-                    borderRadius: mine ? '0 0 5px 0' : '0 0 0 5px',
+                    borderRadius: 3,
                     zIndex: 1,
                   }}
                 />
