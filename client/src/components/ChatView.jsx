@@ -2426,8 +2426,12 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                       Number(prevMsg?.sender?.id ?? prevMsg?.senderId) ===
                         Number(msg?.sender?.id ?? msg?.senderId);
 
-                    const isRestartAfterGap = nextGapMs > 5 * 60 * 1000;
-                    const showTail = !nextMsg || thisSenderId !== nextSenderId || isRestartAfterGap;
+                    const sameAsNext =
+                      nextMsg &&
+                      Number(nextMsg?.sender?.id ?? nextMsg?.senderId) ===
+                        Number(msg?.sender?.id ?? msg?.senderId);
+
+                    const showTail = !sameAsNext;
 
                     return (
                       <Box
@@ -2461,6 +2465,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                           canDeleteAll={canDeleteForEveryone(msg)}
                           showTail={showTail}
                           sameAsPrev={sameAsPrev}
+                          sameAsNext={sameAsNext}
                         />
 
                         {chatroom?.participants?.length === 2 && msg.mine && isLastOutgoing && (

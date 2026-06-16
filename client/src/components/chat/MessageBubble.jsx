@@ -63,6 +63,7 @@ export default function MessageBubble({
   canDeleteAll = false,
   showTail = false,
   sameAsPrev = false,
+  sameAsNext = false,
   isGroup = false,
 }) {
   const ts = dayjs(msg.createdAt).format('MMM D, YYYY • h:mm A');
@@ -163,6 +164,8 @@ export default function MessageBubble({
   const tailBg = mine
     ? 'var(--bubble-outgoing, #f7a600)'
     : 'var(--bubble-incoming-bg, #f3f4f6)';
+
+  const shouldShowTail = showTail && !isTombstone && hasText && !hasMedia;
 
   const captionTextStyle = mine
     ? {
@@ -363,8 +366,10 @@ export default function MessageBubble({
                     position: 'relative',
                     zIndex: 2,
                     borderRadius: 18,
-                    borderBottomRightRadius: mine && showTail ? 14 : 18,
-                    borderBottomLeftRadius: !mine && showTail ? 14 : 18,
+                    borderTopRightRadius: mine && sameAsPrev ? 13 : 18,
+                    borderTopLeftRadius: !mine && sameAsPrev ? 13 : 18,
+                    borderBottomRightRadius: mine && sameAsNext ? 13 : 18,
+                    borderBottomLeftRadius: !mine && sameAsNext ? 13 : 18,
                     wordBreak: 'break-word',
                     whiteSpace: 'pre-wrap',
                     overflowWrap: 'anywhere',
@@ -384,22 +389,28 @@ export default function MessageBubble({
                 </Text>
               </Tooltip>
 
-              {showTail && !isTombstone && hasText && (
+              {shouldShowTail && (
                 <Box
+                  component="svg"
                   aria-hidden="true"
+                  viewBox="0 0 14 18"
                   style={{
                     position: 'absolute',
-                    bottom: 3,
-                    right: mine ? -2 : 'auto',
-                    left: mine ? 'auto' : -2,
-                    width: 9,
-                    height: 9,
-                    background: tailBg,
-                    transform: 'rotate(45deg)',
-                    borderRadius: 3,
+                    bottom: 0,
+                    right: mine ? -5 : 'auto',
+                    left: mine ? 'auto' : -5,
+                    width: 14,
+                    height: 18,
                     zIndex: 1,
+                    transform: mine ? 'none' : 'scaleX(-1)',
+                    pointerEvents: 'none',
                   }}
-                />
+                >
+                  <path
+                    d="M0 2 C0 9 4 14 13 16 C8 18 3 17 0 13 Z"
+                    fill={tailBg}
+                  />
+                </Box>
               )}
             </Box>
           )}
