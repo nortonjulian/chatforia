@@ -2431,7 +2431,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                       Number(nextMsg?.sender?.id ?? nextMsg?.senderId) ===
                         Number(msg?.sender?.id ?? msg?.senderId);
 
-                    const showTail = !sameAsNext;
+                    const showTail = true;
 
                     return (
                       <Box

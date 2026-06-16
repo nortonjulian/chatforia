@@ -368,8 +368,8 @@ export default function MessageBubble({
                     borderRadius: 18,
                     borderTopRightRadius: mine && sameAsPrev ? 13 : 18,
                     borderTopLeftRadius: !mine && sameAsPrev ? 13 : 18,
-                    borderBottomRightRadius: mine && sameAsNext ? 13 : 18,
-                    borderBottomLeftRadius: !mine && sameAsNext ? 13 : 18,
+                    borderBottomRightRadius: mine && shouldShowTail ? 6 : mine && sameAsNext ? 13 : 18,
+                    borderBottomLeftRadius: !mine && shouldShowTail ? 6 : !mine && sameAsNext ? 13 : 18,
                     wordBreak: 'break-word',
                     whiteSpace: 'pre-wrap',
                     overflowWrap: 'anywhere',
@@ -389,28 +389,42 @@ export default function MessageBubble({
                 </Text>
               </Tooltip>
 
-              {shouldShowTail && (
-                <Box
-                  component="svg"
-                  aria-hidden="true"
-                  viewBox="0 0 14 18"
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: mine ? -5 : 'auto',
-                    left: mine ? 'auto' : -5,
-                    width: 14,
-                    height: 18,
-                    zIndex: 1,
-                    transform: mine ? 'none' : 'scaleX(-1)',
-                    pointerEvents: 'none',
-                  }}
-                >
-                  <path
-                    d="M0 2 C0 9 4 14 13 16 C8 18 3 17 0 13 Z"
-                    fill={tailBg}
+                            {shouldShowTail && (
+                <>
+                  <Box
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      right: mine ? -8 : 'auto',
+                      left: mine ? 'auto' : -8,
+                      width: 20,
+                      height: 18,
+                      background: tailBg,
+                      borderBottomLeftRadius: mine ? 18 : 0,
+                      borderBottomRightRadius: mine ? 0 : 18,
+                      zIndex: 1,
+                      pointerEvents: 'none',
+                    }}
                   />
-                </Box>
+
+                  <Box
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      bottom: -1,
+                      right: mine ? -21 : 'auto',
+                      left: mine ? 'auto' : -21,
+                      width: 21,
+                      height: 21,
+                      background: 'var(--chat-bg, #fff7ef)',
+                      borderBottomLeftRadius: mine ? 18 : 0,
+                      borderBottomRightRadius: mine ? 0 : 18,
+                      zIndex: 1,
+                      pointerEvents: 'none',
+                    }}
+                  />
+                </>
               )}
             </Box>
           )}
