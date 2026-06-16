@@ -67,6 +67,7 @@ function statusIcon(status, isOutgoing) {
 
 export default function CallHistory() {
   const { t } = useTranslation();
+  const { currentUser } = useUser();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -80,8 +81,10 @@ export default function CallHistory() {
         setError('');
         const data = await getCallHistory();
         if (!alive) return;
+        const rows = Array.isArray(data) ? data : data?.items || [];
+
         setItems(
-          [...data].sort((a, b) => {
+          [...rows].sort((a, b) => {
             const aTime = new Date(a.startedAt || a.createdAt).getTime();
             const bTime = new Date(b.startedAt || b.createdAt).getTime();
             return bTime - aTime;
@@ -204,7 +207,7 @@ export default function CallHistory() {
         })}
       </Stack>
     );
-  }, [items, loading, error]);
+  }, [items, loading, error, currentUser?.id, t]);
 
   return (
     <Box p="md">
