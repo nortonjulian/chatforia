@@ -814,11 +814,28 @@ router.post('/:id/leave-participant', asyncHandler(async (req, res) => {
 router.get('/history', asyncHandler(async (req, res) => {
   const userId = Number(req.user.id);
 
-  const items = await prisma.call.findMany({
+  const requestedLimit = Number.parseInt(String(req.query.limit || ''), 10);
+  const limit =
+    Number.isFinite(requestedLimit) && requestedLimit > 0
+      ? Math.min(requestedLimit, 100)
+      : 50;
+
+  const cursorId = req.query.cursor
+    ? Number.parseInt(String(req.query.cursor), 10)
+    : null;
+
+  const query = {
     where: {
       OR: [
         { callerId: userId },
         { calleeId: userId },
+        {
+          participants: {
+            some: {
+              userId,
+            },
+          },
+        },
       ],
     },
     include: {
@@ -842,9 +859,23 @@ router.get('/history', asyncHandler(async (req, res) => {
         take: 1,
       },
     },
-    orderBy: { createdAt: 'desc' },
-    take: 100,
-  });
+    orderBy: [
+      { createdAt: 'desc' },
+      { id: 'desc' },
+    ],
+    take: limit + 1,
+  };
+
+  if (Number.isInteger(cursorId) && cursorId > 0) {
+    query.cursor = { id: cursorId };
+    query.skip = 1;
+  }
+
+  const rows = await prisma.call.findMany(query);
+
+  const hasMore = rows.length > limit;
+  const items = hasMore ? rows.slice(0, limit) : rows;
+  const nextCursor = hasMore ? items[items.length - 1]?.id ?? null : null;
 
   const enriched = items.map((call) => {
     const isOutgoing = call.callerId === userId;
@@ -862,14 +893,17 @@ router.get('/history', asyncHandler(async (req, res) => {
       otherUserId: otherUser?.id ?? null,
       otherUsername: otherUser?.username ?? null,
       otherDisplayName: otherUser?.displayName ?? null,
-      phoneNumber: call.externalPhone || otherUser?.phoneNumber || null,
+      phoneNumber: call.externalPhone || null,
 
       hasVoicemail: call.voicemails.length > 0,
       voicemailId: call.voicemails[0]?.id ?? null,
     };
   });
 
-  res.json({ items: enriched });
+  res.json({
+    items: enriched,
+    nextCursor,
+  });
 }));
 
 export default router;

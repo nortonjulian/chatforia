@@ -9,6 +9,7 @@ import {
   Loader,
   Alert,
   ThemeIcon,
+  Button,
 } from '@mantine/core';
 import {
   Phone,
@@ -17,7 +18,7 @@ import {
   PhoneMissed,
   Voicemail,
 } from 'lucide-react';
-import { getCallHistory } from '@/api/calls';
+import { getCallHistoryPage } from '@/api/calls';
 import { useUser } from '@/context/UserContext';
 import { useTranslation } from 'react-i18next';
 
@@ -65,12 +66,17 @@ function statusIcon(status, isOutgoing) {
   return isOutgoing ? PhoneOutgoing : PhoneIncoming;
 }
 
+const CALL_HISTORY_PAGE_SIZE = 50;
+
 export default function CallHistory() {
   const { t } = useTranslation();
   const { currentUser } = useUser();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const [nextCursor, setNextCursor] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -79,21 +85,20 @@ export default function CallHistory() {
       try {
         setLoading(true);
         setError('');
-        const data = await getCallHistory();
-        if (!alive) return;
-        const rows = Array.isArray(data) ? data : data?.items || [];
 
-        setItems(
-          [...rows].sort((a, b) => {
-            const aTime = new Date(a.startedAt || a.createdAt).getTime();
-            const bTime = new Date(b.startedAt || b.createdAt).getTime();
-            return bTime - aTime;
-          })
-        );
+        const data = await getCallHistoryPage({
+          limit: CALL_HISTORY_PAGE_SIZE,
+        });
+
+        if (!alive) return;
+
+        setItems(data.items);
+        setNextCursor(data.nextCursor);
       } catch (err) {
         if (!alive) return;
+
         setError(
-        err?.response?.data?.error ||
+          err?.response?.data?.error ||
             err?.message ||
             t('callHistory.loadFailed', 'Could not load call history.')
         );
@@ -105,7 +110,32 @@ export default function CallHistory() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [t]);
+
+  const handleLoadMore = async () => {
+    if (!nextCursor || loadingMore) return;
+
+    try {
+      setLoadingMore(true);
+      setError('');
+
+      const data = await getCallHistoryPage({
+        limit: CALL_HISTORY_PAGE_SIZE,
+        cursor: nextCursor,
+      });
+
+      setItems((prev) => [...prev, ...data.items]);
+      setNextCursor(data.nextCursor);
+    } catch (err) {
+      setError(
+        err?.response?.data?.error ||
+          err?.message ||
+          t('callHistory.loadFailed', 'Could not load call history.')
+      );
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   const content = useMemo(() => {
     if (loading) {
@@ -229,6 +259,14 @@ export default function CallHistory() {
           {t('callHistory.subtitle', 'Your recent incoming and outgoing calls.')}
         </Text>
         {content}
+
+        {!loading && !error && nextCursor ? (
+          <Group justify="center">
+            <Button variant="light" loading={loadingMore} onClick={handleLoadMore}>
+              {t('callHistory.loadMore', 'Load more')}
+            </Button>
+          </Group>
+        ) : null}
       </Stack>
     </Box>
   );

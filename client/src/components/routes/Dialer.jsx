@@ -131,7 +131,7 @@ export default function Dialer() {
         setHistoryLoading(true);
         setHistoryError('');
 
-        const items = await getCallHistory();
+        const items = await getCallHistory({ limit: 25 });
         if (!mounted) return;
 
         const sorted = [...items].sort((a, b) => {
