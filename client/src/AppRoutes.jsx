@@ -88,6 +88,7 @@ import SmsPolicy from '@/pages/legal/SmsPolicy.jsx';
 import SmsConsentPage from './pages/SmsConsentPage';
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
+import AccountDeletion from '@/pages/legal/AccountDeletion.jsx';
 import RefundPolicy from '@/pages/RefundPolicy.jsx';
 
 import OAuthComplete from '@/pages/OAuthComplete.jsx';
@@ -374,6 +375,7 @@ export default function AppRoutes() {
           <Route path="/legal/sms" element={<SmsPolicy />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
           <Route path="/legal/cookies" element={<CookieSettings />} />
+          <Route path="/legal/account-deletion" element={<AccountDeletion />} />
           <Route path="/legal/consent" element={<SmsConsentPage />} />
           <Route path="/family/join/:token" element={<FamilyJoin />} />
         </Route>
