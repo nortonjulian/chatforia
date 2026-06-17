@@ -1,6 +1,8 @@
 import { Container, Title, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
+const LAST_UPDATED = 'April 13, 2026';
+
 export default function RefundPolicy() {
   const { t } = useTranslation();
 
