@@ -64,14 +64,21 @@ router.get('/search', requireAuth, async (req, res) => {
 
       return {
         id: it.id,
+        title: it.title || 'GIF',
         kind: 'GIF',
         url: med || tiny,
         thumb: tiny || med,
+        previewUrl: tiny || med,
+        previewURL: tiny || med,
         mimeType: 'image/gif',
         width: Number(width) || null,
         height: Number(height) || null,
         provider: 'giphy',
         providerId: it.id,
+
+        // Temporary backward compatibility for existing iOS/Android fields.
+        tenorID: it.id,
+        tenorId: it.id,
       };
     });
 
