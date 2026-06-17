@@ -207,8 +207,8 @@ export function attachRandomChatSockets(io) {
     };
 
     if (isAiRoom(roomId)) {
-      socket.emit('random:message', message);
-
+      // Do NOT echo the user's message back.
+      // The frontend already added it optimistically.
       const reply = await buildRiaReply({
         user: u,
         text: payload.content,
@@ -225,7 +225,9 @@ export function attachRandomChatSockets(io) {
       return;
     }
 
-    io.to(`random:${roomId}`).emit('random:message', message);
+    // For human random chats, send only to the other person.
+    // The sender already sees their own optimistic message.
+    socket.to(`random:${roomId}`).emit('random:message', message);
   });
 
   // 🤝 ADD FRIEND
