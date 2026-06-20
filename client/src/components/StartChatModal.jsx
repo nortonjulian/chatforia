@@ -149,14 +149,7 @@ export default function StartChatModal({
     return Array.isArray(savedContacts) ? savedContacts : [];
   }, [savedContacts]);
 
-  useEffect(() => {
-    if (opened) {
-      console.log('[StartChatModal] savedContacts prop =', savedContacts);
-      console.log('[StartChatModal] normalizedSaved =', normalizedSaved);
-      console.log('[StartChatModal] query =', query);
-    }
-  }, [opened, savedContacts, normalizedSaved, query]);
-
+  
   const visibleContacts = useMemo(() => {
   const q = query.trim().toLowerCase();
 
