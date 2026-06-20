@@ -43,6 +43,7 @@ const ChatroomsSidebar = lazy(() =>
 import StartChatModal from '@/components/StartChatModal';
 import UserProfile from '@/components/UserProfile';
 import { useTranslation } from 'react-i18next';
+import axiosClient from '@/api/axiosClient';
 
 // Ads
 import AdSlot from '@/ads/AdSlot';
@@ -55,6 +56,9 @@ function Sidebar({ currentUser, features = {} }) {
   const [profileTarget, setProfileTarget] = useState(null);
   const [query, setQuery] = useState('');
   const [count, setCount] = useState(0);
+
+  const [savedContacts, setSavedContacts] = useState([]);
+  const [recentInteractions] = useState([]);
 
   // ✅ Critical for tests (no async delay)
   const [showChats, setShowChats] = useState(
@@ -80,6 +84,46 @@ function Sidebar({ currentUser, features = {} }) {
   }, []);
 
   useEffect(() => {
+  if (!currentUser?.id || !showStartModal) return;
+
+  let alive = true;
+
+  async function loadSavedContacts() {
+    try {
+      const res = await axiosClient.get('/contacts', {
+        params: {
+          limit: 200,
+        },
+      });
+
+      const contacts =
+        Array.isArray(res.data)
+          ? res.data
+          : Array.isArray(res.data?.items)
+          ? res.data.items
+          : Array.isArray(res.data?.contacts)
+          ? res.data.contacts
+          : [];
+
+      if (alive) {
+        setSavedContacts(contacts);
+      }
+    } catch (err) {
+      console.error('[Sidebar] failed to load saved contacts', err);
+      if (alive) {
+        setSavedContacts([]);
+      }
+    }
+  }
+
+  loadSavedContacts();
+
+  return () => {
+    alive = false;
+  };
+}, [currentUser?.id, showStartModal]);
+
+  useEffect(() => {
     const onOpen = (ev) => {
       const draft = ev?.detail?.draft || null;
       setInitialDraft(draft);
@@ -100,6 +144,69 @@ function Sidebar({ currentUser, features = {} }) {
   const refreshChats = useCallback(() => {
     window.dispatchEvent(new CustomEvent('sidebar:reload-rooms'));
   }, []);
+
+  const handleStartDirectMessage = useCallback(
+  async (payload) => {
+    try {
+      console.log('[Sidebar] start direct message payload =', payload);
+
+      const value = payload?.value;
+
+      if (!value) return;
+
+      // Saved contact clicked
+      if (payload.type === 'contact') {
+        const contact = value;
+
+        const targetUserId =
+          contact.userId ||
+          contact.contactUserId ||
+          contact.user?.id ||
+          contact.contactUser?.id;
+
+        if (targetUserId) {
+          const res = await axiosClient.post(`/chatrooms/direct/${targetUserId}`);
+          const roomId = res.data?.id || res.data?.room?.id || res.data?.chatroom?.id;
+
+          if (roomId) {
+            setShowStartModal(false);
+            setInitialDraft(null);
+            navigate(`/chat/${Number(roomId)}`);
+          }
+
+          return;
+        }
+
+        const phone = contact.phone || contact.externalPhone;
+
+        if (phone) {
+          setShowStartModal(false);
+          setInitialDraft(null);
+          navigate(`/sms?to=${encodeURIComponent(phone)}`);
+          return;
+        }
+
+        return;
+      }
+
+      // Manual search/button typed into the box
+      if (payload.type === 'manual') {
+        const searchValue = String(value).trim();
+
+        if (!searchValue) return;
+
+        // For now, send typed phone-like values to SMS.
+        // Registered-user lookup can be added after we inspect users/search API.
+        setShowStartModal(false);
+        setInitialDraft(null);
+        navigate(`/sms?to=${encodeURIComponent(searchValue)}`);
+      }
+    } catch (err) {
+      console.error('[Sidebar] failed to start direct message', err);
+    }
+  },
+  [navigate]
+);
 
   const onSelectChat = useCallback(
     (thread) => {
@@ -318,6 +425,10 @@ function Sidebar({ currentUser, features = {} }) {
         <StartChatModal
           opened={showStartModal}
           currentUserId={currentUser?.id}
+          initialDraft={initialDraft}
+          savedContacts={savedContacts}
+          recentInteractions={recentInteractions}
+          onStartDirectMessage={handleStartDirectMessage}
           onClose={() => {
             setShowStartModal(false);
             setInitialDraft(null);

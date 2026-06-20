@@ -31,8 +31,14 @@ function buildContactSubtitle(contact, t) {
     parts.push(labelMap[contact.interactionType] || '');
   }
 
-  if (contact.phone) parts.push(contact.phone);
-  if (contact.username) parts.push(`@${contact.username}`);
+  const phone = contact.phone || contact.externalPhone;
+  const username =
+    contact.username ||
+    contact.user?.username ||
+    contact.contactUser?.username;
+
+  if (phone) parts.push(phone);
+  if (username) parts.push(`@${username}`);
 
   return parts.filter(Boolean).join(' • ');
 }
@@ -54,8 +60,13 @@ function ContactRow({ contact, onSelect }) {
           <Text fw={600}>
             {contact.name ||
               contact.displayName ||
+              contact.alias ||
+              contact.externalName ||
               contact.username ||
+              contact.user?.username ||
+              contact.contactUser?.username ||
               contact.phone ||
+              contact.externalPhone ||
               t('startChatModal.unknown', 'Unknown')}
           </Text>
 
@@ -101,27 +112,48 @@ export default function StartChatModal({
     return Array.isArray(savedContacts) ? savedContacts : [];
   }, [savedContacts]);
 
+  useEffect(() => {
+    if (opened) {
+      console.log('[StartChatModal] savedContacts prop =', savedContacts);
+      console.log('[StartChatModal] normalizedSaved =', normalizedSaved);
+      console.log('[StartChatModal] query =', query);
+    }
+  }, [opened, savedContacts, normalizedSaved, query]);
+
   const visibleContacts = useMemo(() => {
-    const q = query.trim().toLowerCase();
+  const q = query.trim().toLowerCase();
 
-    if (!q) return normalizedRecent;
+  if (!q) return normalizedRecent;
 
-    return normalizedSaved.filter((contact) => {
-      const haystack = [
-        contact.name,
-        contact.displayName,
-        contact.alias,
-        contact.username,
-        contact.phone,
-        contact.email,
-      ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
+  return normalizedSaved.filter((contact) => {
+    const haystack = [
+      contact.name,
+      contact.displayName,
+      contact.alias,
+      contact.username,
+      contact.phone,
+      contact.email,
 
-      return haystack.includes(q);
-    });
-  }, [query, normalizedRecent, normalizedSaved]);
+      contact.externalName,
+      contact.externalPhone,
+
+      contact.user?.username,
+      contact.user?.name,
+      contact.user?.displayName,
+      contact.user?.email,
+
+      contact.contactUser?.username,
+      contact.contactUser?.name,
+      contact.contactUser?.displayName,
+      contact.contactUser?.email,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase();
+      
+    return haystack.includes(q);
+  });
+}, [query, normalizedRecent, normalizedSaved]);
 
   const sectionLabel = query.trim()
   ? t('startChatModal.contacts', 'Contacts')
