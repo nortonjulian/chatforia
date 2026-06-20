@@ -25,13 +25,14 @@ export default function VideoHub({ currentUser }) {
   // Deep-links:
   const deepRoom = params.get('room');           // /video?room=standup -> Rooms flow
   const deepPeerId = params.get('peerId');       // /video?peerId=123   -> Direct flow (existing)
-  const deepUserId = params.get('userId');       // /video?userId=123   -> Direct flow (alias)
+  const deepUserId = params.get('userId');   
+  const deepPhone = params.get('to') || params.get('phone');    // /video?userId=123   -> Direct flow (alias)
 
   // Treat userId as peerId for DirectVideo
   const deepDirectUser = deepPeerId || deepUserId;
 
   const [mode, setMode] = useState(
-    deepRoom ? 'rooms' : deepDirectUser ? 'direct' : 'choose'
+    deepRoom ? 'rooms' : deepDirectUser || deepPhone ? 'direct' : 'choose'
   );
 
   // Rooms state (now inlined)
@@ -48,10 +49,10 @@ export default function VideoHub({ currentUser }) {
 
   // If someone deep-links with ?userId or ?peerId later, flip to direct
   useEffect(() => {
-    if (deepDirectUser && !deepRoom) {
+    if ((deepDirectUser || deepPhone) && !deepRoom) {
       setMode('direct');
     }
-  }, [deepDirectUser, deepRoom]);
+  }, [deepDirectUser, deepPhone, deepRoom]);
 
   const handleJoin = () => {
     if (!room) return;
@@ -73,8 +74,8 @@ export default function VideoHub({ currentUser }) {
         <DirectVideo
           currentUser={currentUser}
           showHeader={false}
-          // ✅ Works for ?peerId= or ?userId=
           initialPeerId={deepDirectUser || undefined}
+          initialPhone={deepPhone || undefined}
         />
       </Box>
     );

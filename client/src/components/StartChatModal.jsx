@@ -7,14 +7,16 @@ import {
   Group,
   Button,
   Card,
-  ThemeIcon,
   Divider,
   ScrollArea,
+  ActionIcon,
 } from '@mantine/core';
 import {
   Search,
   MessageSquarePlus,
+  MessageSquare,
   Phone,
+  Video,
 } from 'lucide-react';
 
 import { useTranslation } from 'react-i18next';
@@ -47,28 +49,35 @@ function ContactRow({ contact, onSelect }) {
   const { t } = useTranslation();
   const subtitle = buildContactSubtitle(contact, t);
 
+  const displayName =
+    contact.name ||
+    contact.displayName ||
+    contact.alias ||
+    contact.externalName ||
+    contact.username ||
+    contact.user?.username ||
+    contact.contactUser?.username ||
+    contact.phone ||
+    contact.externalPhone ||
+    t('startChatModal.unknown', 'Unknown');
+
+  const handleAction = (event, action) => {
+    event.stopPropagation();
+
+    onSelect(contact, action);
+  };
+
   return (
     <Card
       withBorder
       radius="lg"
       p="sm"
       style={{ cursor: 'pointer' }}
-      onClick={() => onSelect(contact)}
+      onClick={() => onSelect(contact, 'message')}
     >
       <Group justify="space-between" align="center">
         <div style={{ flex: 1 }}>
-          <Text fw={600}>
-            {contact.name ||
-              contact.displayName ||
-              contact.alias ||
-              contact.externalName ||
-              contact.username ||
-              contact.user?.username ||
-              contact.contactUser?.username ||
-              contact.phone ||
-              contact.externalPhone ||
-              t('startChatModal.unknown', 'Unknown')}
-          </Text>
+          <Text fw={600}>{displayName}</Text>
 
           {subtitle && (
             <Text size="sm" c="dimmed">
@@ -77,9 +86,37 @@ function ContactRow({ contact, onSelect }) {
           )}
         </div>
 
-        <ThemeIcon radius="xl" variant="light" color="yellow">
-          <Phone size={16} />
-        </ThemeIcon>
+        <Group gap="xs">
+          <ActionIcon
+            radius="xl"
+            variant="light"
+            color="yellow"
+            aria-label={t('startChatModal.messageContact', 'Message contact')}
+            onClick={(event) => handleAction(event, 'message')}
+          >
+            <MessageSquare size={16} />
+          </ActionIcon>
+
+          <ActionIcon
+            radius="xl"
+            variant="light"
+            color="yellow"
+            aria-label={t('startChatModal.callContact', 'Call contact')}
+            onClick={(event) => handleAction(event, 'call')}
+          >
+            <Phone size={16} />
+          </ActionIcon>
+
+          <ActionIcon
+            radius="xl"
+            variant="light"
+            color="yellow"
+            aria-label={t('startChatModal.videoContact', 'Video contact')}
+            onClick={(event) => handleAction(event, 'video')}
+          >
+            <Video size={16} />
+          </ActionIcon>
+        </Group>
       </Group>
     </Card>
   );
@@ -150,7 +187,7 @@ export default function StartChatModal({
       .filter(Boolean)
       .join(' ')
       .toLowerCase();
-      
+
     return haystack.includes(q);
   });
 }, [query, normalizedRecent, normalizedSaved]);
@@ -169,9 +206,10 @@ export default function StartChatModal({
     });
   };
 
-  const handleSelectContact = (contact) => {
+  const handleSelectContact = (contact, action = 'message') => {
     onStartDirectMessage?.({
       type: 'contact',
+      action,
       value: contact,
     });
   };

@@ -8,6 +8,8 @@ export default function DirectVideo({
   currentUser,
   showHeader = true,
   navigateToJoin,
+  initialPeerId,
+  initialPhone,
 }) {
   const { t } = useTranslation();
   const { startCall } = useCall();
@@ -22,8 +24,23 @@ export default function DirectVideo({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // reserved for future prefill logic (/video?peerId=...)
-  }, []);
+    if (initialPhone) {
+      setPhone(initialPhone);
+    }
+  }, [initialPhone]);
+
+  useEffect(() => {
+    if (!initialPeerId || !currentUser?.id) return;
+
+    const calleeId = Number(initialPeerId);
+
+    if (!Number.isFinite(calleeId)) return;
+
+    startCall({
+      calleeId,
+      mode: 'VIDEO',
+    });
+  }, [initialPeerId, currentUser?.id, startCall]);
 
   async function callByPhone() {
     if (!phone.trim() || !currentUser) return;

@@ -158,11 +158,42 @@ function Sidebar({ currentUser, features = {} }) {
       if (payload.type === 'contact') {
         const contact = value;
 
+        const action = payload.action || 'message';
+        const phone = contact.phone || contact.externalPhone;
+
         const targetUserId =
           contact.userId ||
           contact.contactUserId ||
           contact.user?.id ||
           contact.contactUser?.id;
+
+        if (action === 'call') {
+          setShowStartModal(false);
+          setInitialDraft(null);
+
+          if (phone) {
+            navigate(`/dialer?to=${encodeURIComponent(phone)}`);
+          } else {
+            navigate('/dialer');
+          }
+
+          return;
+        }
+
+        if (action === 'video') {
+          setShowStartModal(false);
+          setInitialDraft(null);
+
+          if (targetUserId) {
+            navigate(`/video?userId=${encodeURIComponent(targetUserId)}`);
+          } else if (phone) {
+            navigate(`/video?to=${encodeURIComponent(phone)}`);
+          } else {
+            navigate('/video');
+          }
+
+          return;
+        }
 
         if (targetUserId) {
           const res = await axiosClient.post(`/chatrooms/direct/${targetUserId}`);
@@ -177,17 +208,15 @@ function Sidebar({ currentUser, features = {} }) {
           return;
         }
 
-        const phone = contact.phone || contact.externalPhone;
+  if (phone) {
+    setShowStartModal(false);
+    setInitialDraft(null);
+    navigate(`/sms?to=${encodeURIComponent(phone)}`);
+    return;
+  }
 
-        if (phone) {
-          setShowStartModal(false);
-          setInitialDraft(null);
-          navigate(`/sms?to=${encodeURIComponent(phone)}`);
-          return;
-        }
-
-        return;
-      }
+  return;
+}
 
       // Manual search/button typed into the box
       if (payload.type === 'manual') {
