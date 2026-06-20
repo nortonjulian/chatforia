@@ -986,7 +986,7 @@ useEffect(() => {
         console.warn('get /pricing/quote failed for', product, err);
       }
 
-      const body = priceId ? { priceId } : { product };
+      const body = priceId ? { product, priceId } : { product };
 
       const res = await axiosClient.post('/billing/checkout', body);
       const url = res?.data?.checkoutUrl || res?.data?.url;

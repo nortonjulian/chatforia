@@ -1,6 +1,7 @@
 import express from 'express';
 import Stripe from 'stripe';
 import prisma from '../utils/prismaClient.js';
+import { getAddonConfig } from '../utils/billingProducts.js';
 
 const router = express.Router();
 
@@ -149,9 +150,26 @@ router.post('/checkout', async (req, res) => {
 
     const userId = Number(req.user.id);
     const plan = normalizePlanCode(req.body?.plan);
+    const product = String(req.body?.product || '').trim();
+
+    const addonConfig = product ? getAddonConfig(product) : null;
+
+    if (product && !addonConfig) {
+      return res.status(400).json({
+        error: 'Invalid or unknown add-on product',
+      });
+    }
 
     const isSubscription = isSubscriptionPlan(plan);
+    const isAddon = Boolean(addonConfig);
+
     const sessionMode = isSubscription ? 'subscription' : 'payment';
+
+    if (!isSubscription && !isAddon) {
+      return res.status(400).json({
+        error: 'Checkout must be for a known subscription or add-on product',
+      });
+    }
 
     let priceId =
       req.body?.priceId ||
@@ -232,6 +250,15 @@ router.post('/checkout', async (req, res) => {
       });
     }
 
+    const checkoutMetadata = {
+      userId: String(user.id),
+      plan: plan || '',
+      product: product || '',
+      addonKind: addonConfig?.addonKind || '',
+      addonType: addonConfig?.type || '',
+      checkoutType: sessionMode,
+    };
+
     const sessionPayload = {
       mode: sessionMode,
       customer: customerId,
@@ -254,18 +281,21 @@ router.post('/checkout', async (req, res) => {
         name: 'auto',
       },
 
-      metadata: {
-        userId: String(user.id),
-        plan,
-        checkoutType: sessionMode,
-      },
+      metadata: checkoutMetadata,
 
-      success_url:
-        `${frontendOrigin}/upgrade-success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: isAddon
+        ? `${frontendOrigin}/account/esim?session_id={CHECKOUT_SESSION_ID}`
+        : `${frontendOrigin}/upgrade-success?session_id={CHECKOUT_SESSION_ID}`,
 
       cancel_url:
         `${frontendOrigin}/upgrade?canceled=1`,
     };
+
+    if (!isSubscription) {
+      sessionPayload.payment_intent_data = {
+        metadata: checkoutMetadata,
+      };
+    }
 
     if (isSubscription) {
       sessionPayload.subscription_data = {

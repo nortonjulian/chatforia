@@ -1,6 +1,9 @@
 import express from 'express';
 import Stripe from 'stripe';
 import prisma from '../utils/prismaClient.js';
+import { getAddonConfig } from '../utils/billingProducts.js';
+import * as esimProvider from '../services/providers/esimProvider.js';
+import { ESIM_PROVIDER } from '../config/esim.js';
 
 const router = express.Router();
 
@@ -178,6 +181,222 @@ async function markSubscriptionCanceledOrPastDue(subscription, status) {
   });
 }
 
+function inferRegionFromAddon(addonKindOrProduct) {
+  const value = String(addonKindOrProduct || '').toLowerCase();
+
+  if (value.includes('europe')) return 'EU';
+  if (value.includes('global')) return 'GLOBAL';
+
+  // Default local pack to US for now.
+  return 'US';
+}
+
+function addDays(date, days) {
+  return new Date(date.getTime() + Number(days || 30) * 24 * 60 * 60 * 1000);
+}
+
+async function getLatestSubscriberForUser(userId) {
+  return prisma.subscriber.findFirst({
+    where: { userId: Number(userId) },
+    orderBy: [
+      { activatedAt: 'desc' },
+      { createdAt: 'desc' },
+    ],
+  });
+}
+
+async function applyPaidAddonCheckoutSession(session) {
+  if (session.mode !== 'payment') {
+    return { ignored: true, reason: 'not-payment-mode' };
+  }
+
+  if (session.payment_status && session.payment_status !== 'paid') {
+    return { ignored: true, reason: 'payment-not-paid' };
+  }
+
+  const userId =
+    Number(session.metadata?.userId) ||
+    Number(session.client_reference_id) ||
+    null;
+
+  if (!userId) {
+    console.warn('[stripeWebhook] payment session missing userId', {
+      sessionId: session.id,
+    });
+
+    return { ignored: true, reason: 'missing-user-id' };
+  }
+
+  const product = String(session.metadata?.product || '').trim();
+  const addonCfg = getAddonConfig(product);
+
+  if (!addonCfg) {
+    return { ignored: true, reason: 'unknown-addon-product' };
+  }
+
+  if (addonCfg.type !== 'ESIM') {
+    return { ignored: true, reason: 'not-esim-addon' };
+  }
+
+  const transactionId = String(session.payment_intent || session.id);
+  const purchasedAt = new Date();
+  const fallbackExpiresAt = addDays(purchasedAt, addonCfg.daysValid || 30);
+
+  let purchase = await prisma.mobileDataPackPurchase.findFirst({
+    where: {
+      billingTransactionId: transactionId,
+    },
+  });
+
+  if (!purchase) {
+    purchase = await prisma.mobileDataPackPurchase.create({
+      data: {
+        userId: Number(userId),
+        kind: addonCfg.type,
+        addonKind: addonCfg.addonKind,
+        purchasedAt,
+        expiresAt: fallbackExpiresAt,
+        totalDataMb: addonCfg.dataMb,
+        remainingDataMb: addonCfg.dataMb,
+        billingTransactionId: transactionId,
+      },
+    });
+  }
+
+  let subscriber = await getLatestSubscriberForUser(userId);
+
+  let providerProfileId = subscriber?.providerProfileId || null;
+  let reserve = null;
+
+  // If this is the user's first eSIM, reserve one and save QR/manual activation details.
+  if (!providerProfileId) {
+    const region = inferRegionFromAddon(addonCfg.addonKind || product);
+
+    reserve = await esimProvider.reserveEsimProfile({
+      userId: Number(userId),
+      region,
+      addonKind: addonCfg.addonKind,
+      planCode: addonCfg.addonKind,
+    });
+
+    providerProfileId = reserve?.providerProfileId || null;
+
+    subscriber = await prisma.subscriber.create({
+      data: {
+        userId: Number(userId),
+        purchaseId: purchase.id,
+        provider: ESIM_PROVIDER || 'unknown',
+        providerProfileId,
+        iccid: reserve?.iccid || null,
+        iccidHint: reserve?.iccidHint || reserve?.iccid || null,
+        smdp: reserve?.smdp || null,
+        activationCode: reserve?.activationCode || null,
+        lpaUri:
+          reserve?.lpaUri ||
+          reserve?.qrPayload ||
+          (reserve?.smdp && reserve?.activationCode
+            ? `LPA:1$${reserve.smdp}$${reserve.activationCode}`
+            : null),
+        qrPayload:
+          reserve?.qrPayload ||
+          reserve?.lpaUri ||
+          (reserve?.smdp && reserve?.activationCode
+            ? `LPA:1$${reserve.smdp}$${reserve.activationCode}`
+            : null),
+        region,
+        status: 'PENDING',
+        providerMeta: {
+          stripeSessionId: session.id,
+          stripePaymentIntentId: transactionId,
+          product,
+          addonKind: addonCfg.addonKind,
+          reserve,
+        },
+      },
+    });
+
+    if (reserve?.iccid) {
+      await prisma.user.update({
+        where: { id: Number(userId) },
+        data: { iccid: reserve.iccid },
+      });
+    }
+  }
+
+  let providerPack = null;
+
+  // Add/provision the purchased data pack to the provider profile when possible.
+  if (providerProfileId && typeof esimProvider.provisionEsimPack === 'function') {
+    providerPack = await esimProvider.provisionEsimPack({
+      userId: Number(userId),
+      providerProfileId: String(providerProfileId),
+      addonKind: addonCfg.addonKind,
+      planCode: addonCfg.addonKind,
+    });
+  }
+
+  const nextExpiresAt = providerPack?.expiresAt || fallbackExpiresAt;
+  const nextTotalDataMb =
+    typeof providerPack?.dataMb === 'number' ? providerPack.dataMb : addonCfg.dataMb;
+
+  await prisma.mobileDataPackPurchase.update({
+    where: { id: purchase.id },
+    data: {
+      expiresAt: nextExpiresAt,
+      totalDataMb: nextTotalDataMb,
+      remainingDataMb: nextTotalDataMb,
+      esimProfileId: providerProfileId || purchase.esimProfileId || null,
+      iccid:
+        providerPack?.iccid ||
+        reserve?.iccid ||
+        subscriber?.iccid ||
+        purchase.iccid ||
+        null,
+      qrCodeSvg: providerPack?.qrCodeSvg || purchase.qrCodeSvg || null,
+    },
+  });
+
+  if (subscriber?.id) {
+    const nextProviderMeta = {
+      ...(subscriber.providerMeta || {}),
+      stripeSessionId: session.id,
+      stripePaymentIntentId: transactionId,
+      product,
+      addonKind: addonCfg.addonKind,
+    };
+
+    if (reserve) {
+      nextProviderMeta.reserve = reserve;
+    }
+
+    if (providerPack) {
+      nextProviderMeta.providerPack = providerPack;
+    }
+
+    await prisma.subscriber.update({
+      where: { id: subscriber.id },
+      data: {
+        purchaseId: purchase.id,
+        providerProfileId: providerProfileId || subscriber.providerProfileId || null,
+        iccid:
+          providerPack?.iccid ||
+          reserve?.iccid ||
+          subscriber.iccid ||
+          null,
+        expiresAt: nextExpiresAt,
+        providerMeta: nextProviderMeta,
+      },
+    });
+  }
+
+  return {
+    ignored: false,
+    kind: 'esim-addon',
+    purchaseId: purchase.id,
+    subscriberId: subscriber?.id || null,
+  };
+}
+
 router.post(
   '/',
   async (req, res) => {
@@ -210,6 +429,17 @@ router.post(
       switch (event.type) {
         case 'checkout.session.completed': {
           const session = event.data.object;
+
+          if (session.mode === 'payment') {
+            const result = await applyPaidAddonCheckoutSession(session);
+
+            console.log('[stripeWebhook] payment checkout handled:', {
+              sessionId: session.id,
+              result,
+            });
+
+            break;
+          }
 
           if (session.mode !== 'subscription' || !session.subscription) {
             break;
