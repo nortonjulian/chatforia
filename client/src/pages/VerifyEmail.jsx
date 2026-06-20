@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Button, Center, Loader, Paper, Stack, Text, Title } from '@mantine/core';
 import axiosClient from '@/api/axiosClient';
+import posthog from '@/utils/analytics';
 
 export default function VerifyEmail() {
   const [params] = useSearchParams();
@@ -17,10 +18,28 @@ export default function VerifyEmail() {
         const { data } = await axiosClient.get('/auth/email/verify', {
           params: { uid, token },
         });
+
         console.log('[VerifyEmail] verify response', data);
-        setState(data?.ok ? 'ok' : 'error');
+
+        if (data?.ok) {
+          posthog.capture('email_verified');
+          setState('ok');
+        } else {
+          posthog.capture('email_verification_failed');
+          setState('error');
+        }
       } catch (err) {
-        console.error('[VerifyEmail] verify failed', err?.response?.status, err?.response?.data, err);
+        posthog.capture('email_verification_failed', {
+          status: err?.response?.status || 'unknown',
+        });
+
+        console.error(
+          '[VerifyEmail] verify failed',
+          err?.response?.status,
+          err?.response?.data,
+          err
+        );
+
         setState('error');
       }
     };

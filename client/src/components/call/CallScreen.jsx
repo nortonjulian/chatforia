@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useCall } from '../../context/CallContext';
 import AddCallParticipantModal from './AddCallParticipantModal';
+import posthog from '@/utils/analytics';
 
 export default function CallScreen() {
   const {
@@ -121,7 +122,14 @@ export default function CallScreen() {
 
           {/* End Call button */}
           <button
-            onClick={() => endCall('hangup')}
+            onClick={() => {
+              posthog.capture(active?.mode === 'VIDEO' ? 'video_call_ended' : 'voice_call_ended', {
+                reason: 'hangup',
+                mode: active?.mode,
+              });
+
+              endCall('hangup');
+            }}
             className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-red-600 hover:bg-red-700 text-white px-5 py-3 rounded-full"
           >
             End Call

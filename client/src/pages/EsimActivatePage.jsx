@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import QRCode from 'qrcode';
 import { useTranslation, Trans } from 'react-i18next';
 import { reserveEsim, getMyEsim } from '@/api/esim';
+import posthog from '@/utils/analytics';
 
 export default function EsimActivatePage() {
   const { t } = useTranslation();
@@ -18,6 +19,10 @@ export default function EsimActivatePage() {
   ]);
 
   const [region, setRegion] = useState('US');
+
+  useEffect(() => {
+    posthog.capture('esim_activation_page_viewed');
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -93,10 +98,32 @@ export default function EsimActivatePage() {
     setProvision(null);
     setQrDataUrl(null);
 
+
+    posthog.capture('esim_reserve_started', {
+      region,
+    });
+
     try {
       const data = await reserveEsim(region);
+
+      posthog.capture('esim_reserved', {
+        region,
+        status: data?.status || 'unknown',
+        has_qr: Boolean(
+          data?.qrPayload ||
+          data?.lpaUri ||
+          (data?.smdp && data?.activationCode)
+        ),
+      });
+
       setProvision(data);
     } catch (e) {
+      posthog.capture('esim_reserve_failed', {
+        region,
+        error: e?.message || 'unknown',
+      });
+
+
       setError(e?.message || t('esim.errorReserve', 'Failed to reserve eSIM'));
     } finally {
       setLoading(false);
@@ -120,6 +147,11 @@ export default function EsimActivatePage() {
         });
 
         if (!cancelled) setQrDataUrl(url);
+
+        posthog.capture('esim_qr_generated', {
+          region,
+        });
+        
       } catch (e) {
         console.error('QR generation failed', e);
       }

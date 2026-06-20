@@ -93,6 +93,10 @@ export default function Registration() {
     const phoneTrim = (form.phone || '').trim();
 
     if (phoneTrim) {
+      posthog.capture('registration_phone_consent_started', {
+        source: 'web',
+      });
+
       navigate('/verify-phone-consent', { state: { pendingRegistration: { ...form } } });
       return;
     }
@@ -119,6 +123,11 @@ export default function Registration() {
 
       navigate('/?checkEmail=1');
     } catch (err) {
+      posthog.capture('registration_failed', {
+        source: 'web',
+        status: err?.response?.status || 'unknown',
+      });
+
       const status = err?.response?.status;
       const data = err?.response?.data;
 

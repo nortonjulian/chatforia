@@ -691,6 +691,11 @@ export default function PhoneNumberManager() {
       return;
     }
     if (!isPremium) {
+      posthog.capture('upgrade_prompted_from_lock_number', {
+        source: 'lock_number',
+        current_state: status?.state || 'unknown',
+      });
+
       setBanner({
         type: 'warning',
         message: t('phoneNumberManager.lockingPremiumFeature', 'Locking numbers is a Premium feature.'),
@@ -705,7 +710,10 @@ export default function PhoneNumberManager() {
     axiosClient
       .post('/numbers/keep/enable')
       .then(() => {
+        posthog.capture('number_lock_enabled');
+
         setBanner({ type: 'success', message: 'Number protected.' });
+
         reload();
       })
       .catch(() => {
@@ -717,6 +725,8 @@ export default function PhoneNumberManager() {
     axiosClient
       .post('/numbers/keep/disable')
       .then(() => {
+        posthog.capture('number_lock_disabled');
+
         setBanner({
           type: 'success',
           message: t('phoneNumberManager.numberProtected', 'Number protected.'),
@@ -741,10 +751,16 @@ export default function PhoneNumberManager() {
       )
     )
       return;
+
+      posthog.capture('number_release_attempted', {
+        current_state: status?.state || 'unknown',
+      });
       
     axiosClient
       .post('/numbers/release')
       .then(() => {
+        posthog.capture('number_released');
+
         setBanner({
           type: 'warning',
           message: t('phoneNumberManager.numberReleased', 'Number released.'),

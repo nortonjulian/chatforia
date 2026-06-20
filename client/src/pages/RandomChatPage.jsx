@@ -25,6 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 import { WS_URL } from '@/config';
+import posthog from '@/utils/analytics';
 
 const SOCKET_URL = WS_URL;
 
@@ -185,6 +186,10 @@ export default function RandomChatPage() {
         iRequestedFriend: false,
       });
 
+      posthog.capture('random_chat_matched', {
+        roomId: payload?.roomId,
+      });
+
       setMessages([
         systemMessage(`You matched with ${payload.partnerAlias || 'someone new'}. Say hi 👋`),
       ]);
@@ -204,6 +209,11 @@ export default function RandomChatPage() {
         unlockedUsername: 'Ria',
         unlockedUserId: 0,
         iRequestedFriend: false,
+      });
+
+      posthog.capture('ria_chat_started', {
+        source: 'random_chat',
+        roomId: payload?.roomId,
       });
 
       setMessages([systemMessage("YOU'RE NOW CHATTING WITH RIA.")]);
@@ -244,6 +254,11 @@ export default function RandomChatPage() {
       setStatus('ended');
 
       const reason = payload?.reason;
+
+      posthog.capture('random_chat_ended', {
+        reason: reason || 'unknown',
+      });
+
       let text = 'This chat ended.';
 
       if (reason === 'peer_skipped') {
@@ -289,12 +304,17 @@ export default function RandomChatPage() {
     setMessages([]);
     setDraft('');
 
+    posthog.capture('random_chat_match_started');
+
     socket.emit('random:join', {});
   };
 
   const cancelMatching = () => {
     const socket = socketRef.current;
     if (!socket) return;
+
+
+    posthog.capture('random_chat_match_cancelled');
 
     socket.emit('random:leave');
     setStatus('idle');
@@ -314,6 +334,10 @@ export default function RandomChatPage() {
     setActive(null);
     setMessages([]);
     setDraft('');
+
+    posthog.capture('ria_chat_requested', {
+      source: 'random_chat',
+    });
 
     socket.emit('random:ai_start');
   };
@@ -337,6 +361,11 @@ export default function RandomChatPage() {
     setMessages((prev) => [...prev, optimistic]);
     setDraft('');
 
+    posthog.capture(active?.isAI ? 'ria_message_sent' : 'random_chat_message_sent', {
+      source: 'random_chat',
+      roomId: active.roomId,
+    });
+
     socket.emit('random:message', {
       roomId: active.roomId,
       content: text,
@@ -346,12 +375,21 @@ export default function RandomChatPage() {
   const nextPerson = () => {
     const socket = socketRef.current;
     if (!socket) return;
+
+    posthog.capture('random_chat_next_person', {
+      roomId: active?.roomId,
+    });
+
     socket.emit('random:skip');
   };
 
   const addFriend = () => {
     const socket = socketRef.current;
     if (!socket || !active?.roomId || active?.isAI) return;
+
+    posthog.capture('random_chat_add_friend_requested', {
+      roomId: active.roomId,
+    });
 
     socket.emit('random:add_friend', {
       roomId: active.roomId,

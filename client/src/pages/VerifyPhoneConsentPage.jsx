@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import VerifyPhoneConsent from "../components/VerifyPhoneConsent";
+import posthog from '@/utils/analytics';
 
 export default function VerifyPhoneConsentPage() {
   const location = useLocation();
@@ -14,6 +15,8 @@ export default function VerifyPhoneConsentPage() {
 
   async function sendOtp(phone) {
     try {
+      posthog.capture('phone_verification_requested');
+
       const res = await fetch("/auth/request-phone-verification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -25,9 +28,18 @@ export default function VerifyPhoneConsentPage() {
         throw new Error(err?.error || "Failed to request verification");
       }
 
+      posthog.capture('phone_verification_code_sent', {
+        phone_present: Boolean(phone),
+      });
+
       // On success, navigate to the OTP entry page and pass phoneNumber
       navigate("/verify-code", { state: { phoneNumber: phone } });
     } catch (e) {
+      posthog.capture('phone_verification_request_failed', {
+        error: e?.message || 'unknown',
+      });
+
+
       console.error("sendOtp error:", e);
       // show user-friendly error UI in production — for now alert
       alert("Unable to send verification code. Please try again.");

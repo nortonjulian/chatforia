@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { joinRoom } from './video';
+import posthog from '@/utils/analytics';
 
 export default function VideoCall({ identity, room, onEnd }) {
   const localRef = useRef(null);
@@ -21,6 +22,10 @@ export default function VideoCall({ identity, room, onEnd }) {
     (async () => {
       try {
         twilioRoom = await joinRoom({ identity, room });
+
+        posthog.capture('video_call_started', {
+          room,
+        });
 
         // fire onEnd if room disconnects (remote hangup, network, etc.)
         twilioRoom.on('disconnected', () => {
@@ -67,6 +72,12 @@ export default function VideoCall({ identity, room, onEnd }) {
         });
       } catch (err) {
         // eslint-disable-next-line no-console
+
+        posthog.capture('video_call_failed', {
+          room,
+          error: err?.message || 'unknown',
+        });
+        
         console.error('[video] joinRoom failed:', err);
         onEnd?.();
       }

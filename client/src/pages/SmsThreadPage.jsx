@@ -16,6 +16,8 @@ import axiosClient from '@/api/axiosClient';
 import BottomComposer from '@/components/BottomComposer.jsx';
 import { isOutgoingMessage } from '@/utils/messageDirection';
 
+import posthog from '@/utils/analytics';
+
 export default function SmsThreadPage() {
   const { threadId } = useParams();
   const [thread, setThread] = useState(null);
@@ -30,6 +32,13 @@ export default function SmsThreadPage() {
     try {
       const res = await axiosClient.get(`/sms/threads/${threadId}`);
       setThread(res.data);
+
+
+      posthog.capture('sms_thread_opened', {
+        threadId,
+        messageCount: res?.data?.messages?.length || 0,
+      });
+
     } catch {
       setThread(null);
     } finally {
@@ -52,6 +61,12 @@ export default function SmsThreadPage() {
 
     try {
       await axiosClient.post('/sms/send', { to: toNumber, body });
+
+      posthog.capture('sms_sent', {
+        source: 'sms_thread',
+        has_recipient: Boolean(toNumber),
+      });
+      
       await loadThread();
     } catch (e) {
       setText(body);

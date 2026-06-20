@@ -14,6 +14,7 @@ import socket from '../lib/socket';
 import { playSound, unlockAudio } from '../lib/sounds';
 import { getVolume, messageToneUrl, ringtoneUrl } from '../utils/sounds';
 import { useUser } from '../context/UserContext';
+import posthog from '@/utils/analytics';
 
 const CallContext = createContext(null);
 export function useCall() {
@@ -65,9 +66,15 @@ export default function CallManager({ children }) {
   // --- Incoming call events ---
   useEffect(() => {
     function onIncoming({ fromUser, roomId }) {
+      posthog.capture('voice_call_incoming', {
+        roomId,
+        fromUserId: fromUser?.id,
+      });
+
       setIncoming({ fromUser, roomId });
       startRinging();
     }
+
     function onCallCancelled() {
       stopRinging();
       setIncoming(null);
@@ -99,10 +106,16 @@ export default function CallManager({ children }) {
   // --- Outgoing call events ---
   useEffect(() => {
     function onCallAccepted({ peerUser, roomId }) {
+      posthog.capture('voice_call_connected', {
+        roomId,
+        peerUserId: peerUser?.id,
+      });
+
       stopRinging();
       setInCall({ peer: peerUser, roomId });
       setOutgoing(null);
     }
+
     function onCallRejected() {
       stopRinging();
       setOutgoing(null);
@@ -123,6 +136,11 @@ export default function CallManager({ children }) {
       if (!toUser?.id || !currentUser?.id) return;
       setOutgoing({ toUser, ringing: true });
       startRinging(); // ringback
+
+      posthog.capture('voice_call_started', {
+        toUserId: toUser.id,
+      });
+
       socket.emit('start_call', { toUserId: toUser.id });
     },
     [currentUser?.id, startRinging]
@@ -131,6 +149,12 @@ export default function CallManager({ children }) {
   const acceptCall = useCallback(() => {
     if (!incoming?.fromUser) return;
     stopRinging();
+
+    posthog.capture('voice_call_accepted', {
+      roomId: incoming.roomId,
+      fromUserId: incoming.fromUser?.id,
+    });
+
     socket.emit('accept_call', {
       fromUserId: incoming.fromUser.id,
       roomId: incoming.roomId,
@@ -142,12 +166,23 @@ export default function CallManager({ children }) {
   const declineCall = useCallback(() => {
     if (!incoming?.fromUser) return;
     stopRinging();
+
+    posthog.capture('voice_call_declined', {
+      roomId: incoming.roomId,
+      fromUserId: incoming.fromUser?.id,
+    });
+
     socket.emit('reject_call', { fromUserId: incoming.fromUser.id });
     setIncoming(null);
   }, [incoming, stopRinging]);
 
   const endCall = useCallback(() => {
     if (!inCall?.peer) return;
+
+    posthog.capture('voice_call_ended', {
+      roomId: inCall.roomId,
+    });
+    
     socket.emit('end_call', { peerUserId: inCall.peer.id, roomId: inCall.roomId });
     setInCall(null);
   }, [inCall]);

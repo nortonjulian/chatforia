@@ -111,6 +111,10 @@ export default function MyPlan() {
 
       await axiosClient.post('/billing/cancel-now', {});
 
+      posthog.capture('subscription_cancel_completed', {
+        plan: plan?.label,
+      });
+
       window.location.reload();
     } catch (err) {
       console.error('Immediate cancel failed', err);

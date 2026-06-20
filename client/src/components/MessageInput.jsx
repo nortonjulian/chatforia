@@ -20,6 +20,7 @@ import loadEncryptionClient from '@/utils/loadEncryptionClient';
 import MicButton from '@/components/MicButton.jsx';
 import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
+import posthog from '@/utils/analytics';
 
 const RAW_TTL_OPTIONS = [
   { value: '0', labelKey: 'messageInput.ttl.off', fallback: 'Off' },
@@ -226,6 +227,19 @@ export default function MessageInput({
       console.log('sending attachmentsInline', payload.attachmentsInline);
       const { data: saved } = await axiosClient.post('/messages', payload, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      });
+
+      posthog.capture('message_sent', {
+        source: 'web',
+        roomId: chatroomId,
+        messageType:
+          attachmentsInline.length > 0
+            ? String(attachmentsInline[0]?.kind || 'attachment').toLowerCase()
+            : 'text',
+        hasAttachments: attachmentsInline.length > 0,
+        attachmentCount: attachmentsInline.length,
+        encrypted: Boolean(payload.contentCiphertext),
+        ttlSeconds: Number(ttl) || 0,
       });
 
       // server should return the canonical message row (including server id)

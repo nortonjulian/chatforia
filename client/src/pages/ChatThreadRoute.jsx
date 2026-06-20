@@ -5,6 +5,7 @@ import axiosClient from '@/api/axiosClient';
 import ChatView from '@/components/ChatView.jsx';
 import { useUser } from '@/context/UserContext';
 import EncryptionRecoveryCard from '@/components/security/EncryptionRecoveryCard.jsx';
+import posthog from '@/utils/analytics';
 
 export default function ChatThreadRoute() {
   const { id } = useParams();
@@ -34,6 +35,11 @@ export default function ChatThreadRoute() {
 
         if (!alive) return;
         setChatroom(data ?? null);
+
+        posthog.capture('chat_thread_opened', {
+          roomId,
+        });
+
       } catch (e) {
         console.error('[ChatThreadRoute] load failed', {
           id,
