@@ -149,6 +149,8 @@ import { httpsRedirect } from './middleware/httpsRedirect.js';
 
 // Session + passport + oauth routes
 import session from 'express-session';
+import { RedisStore } from 'connect-redis';
+import { redisKv, ensureRedis } from './utils/redisClient.js';
 import passport from './auth/passport.js';
 import oauthRouter from './routes/oauth.routes.js';
 import oauthMobileRouter from './routes/oauth.mobile.js';
@@ -322,8 +324,25 @@ export function createApp() {
     );
   }
 
+  const sessionStore =
+    process.env.REDIS_URL && !isTest
+      ? new RedisStore({
+          client: redisKv,
+          prefix: 'chatforia:sess:',
+        })
+      : undefined;
+
+  if (sessionStore) {
+    void ensureRedis()
+      .then(() => logger.info('SESSION: Redis store connected'))
+      .catch((err) =>
+        logger.error({ err }, 'SESSION: Redis store connection failed')
+      );
+  }
+
   app.use(
     session({
+      store: sessionStore,
       secret: process.env.SESSION_SECRET || 'change-me',
       resave: false,
       saveUninitialized: false,
@@ -337,6 +356,7 @@ export function createApp() {
       },
     })
   );
+  
   app.use(passport.initialize());
   app.use(passport.session());
 
