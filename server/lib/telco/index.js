@@ -242,6 +242,7 @@ export async function sendSms({
   );
 
   return {
+    ok: true,
     provider: 'twilio',
     messageSid:
       msg?.sid ||
