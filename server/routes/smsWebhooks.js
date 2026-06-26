@@ -8,6 +8,13 @@ import { sendMail, isEmailAvailable } from '../utils/sendMail.js';
 
 const router = express.Router();
 
+function emptyTwilioResponse(res) {
+  return res
+    .type('text/xml')
+    .status(200)
+    .send('<Response></Response>');
+}
+
 /** Quiet-hours helper */
 function inQuietHours(start, end, now = new Date()) {
   if (start == null || end == null) return false;
@@ -55,7 +62,7 @@ router.post(
           // If invalid E.164, just 200 (avoid retries) and log
           if (!isE164(normalizedFrom)) {
             req.log?.info?.({ fromNumber }, '[webhook][twilio] keyword from invalid phone; skipping db record');
-            return res.sendStatus(200);
+            return emptyTwilioResponse(res);
           }
 
           // Decide action: STOP -> opt-out, START -> remove opt-out (resubscribe)
@@ -124,7 +131,7 @@ router.post(
       // We allow body to be empty as long as there is media.
       if (!isE164(toNumber) || !isE164(fromNumber)) {
         req.log?.info?.({ toNumber, fromNumber }, '[webhook][twilio] ignored (invalid e164)');
-        return res.sendStatus(200);
+        return emptyTwilioResponse(res);
       }
 
       // ✅ NEW: Parse inbound MMS media (NumMedia, MediaUrl0..N, MediaContentType0..N)
@@ -149,7 +156,7 @@ router.post(
 
       if (!hasBody && !hasMedia) {
         req.log?.info?.({ toNumber, fromNumber }, '[webhook][twilio] ignored (empty body + no media)');
-        return res.sendStatus(200);
+        return emptyTwilioResponse(res);
       }
 
       // Record inbound SMS/MMS
@@ -205,7 +212,7 @@ router.post(
         }
       }
 
-      return res.sendStatus(200);
+      return emptyTwilioResponse(res);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('[webhook][twilio] error', e);
