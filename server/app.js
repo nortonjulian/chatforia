@@ -379,7 +379,7 @@ export function createApp() {
       : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
     const csrfBypassPattern =
-      /^\/devices\/test-push(\/|$)|^\/translate(\/|$)|^\/auth\/(login|register|logout|apple\/callback)$|^\/auth\/oauth(\/|$)|^\/billing\/webhook$|^\/billing\/apple\/notifications$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
+      /^\/devices\/test-push(\/|$)|^\/translate(\/|$)|^\/auth\/(login|register|logout|apple\/callback)$|^\/auth\/oauth(\/|$)|^\/billing\/webhook$|^\/billing\/apple\/notifications$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/api\/webhooks(\/|$)|^\/_debug(\/|$)/;
 
   const csrfBrowserOnly = csrfOnlyForCookieAuth(csrfMw);
 
@@ -485,6 +485,7 @@ export function createApp() {
 
   // Inbound SMS webhooks (ungated)
   app.use('/webhooks/sms', smsWebhooks);
+  app.use('/api/webhooks/sms', smsWebhooks);
   app.use('/webhooks', webhooksTwilio);
   app.use('/webhooks/status', twilioStatusWebhook);
 
