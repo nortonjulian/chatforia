@@ -174,10 +174,10 @@ export default function MessageBubble({
         textAlign: 'right',
       }
     : {
-        color: 'var(--mantine-color-text)',
+        color: 'var(--bubble-incoming-fg, var(--fg, #111))',
         textAlign: 'left',
       };
-
+      
   async function handleCopy() {
     if (!canCopy) return;
 
@@ -417,7 +417,7 @@ export default function MessageBubble({
                       left: mine ? 'auto' : -21,
                       width: 21,
                       height: 21,
-                      background: 'var(--chat-bg, #fff7ef)',
+                      background: 'var(--chat-bg, var(--bg, #fff7ef))',
                       borderBottomLeftRadius: mine ? 18 : 0,
                       borderBottomRightRadius: mine ? 0 : 18,
                       zIndex: 1,

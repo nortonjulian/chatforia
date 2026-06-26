@@ -21,22 +21,17 @@
 
 /* --- Global UI tokens / aliases -------------------------------------- */
 :root {
-  /* canonical bubble text token */
-  --bubble-outgoing-text: #fff; /* safe default for gradients */
+  --chat-bg: var(--bg);
+
+  --bubble-outgoing-text: #fff;
   --bubble-incoming-text: var(--fg);
 
-  /* legacy aliases (one-way only) */
   --bubble-outgoing-fg: var(--bubble-outgoing-text);
   --bubble-incoming-fg: var(--bubble-incoming-text);
 
-  /* -------------------------------------------------------------------
-     CTA text token (THIS is what Buttons/Upgrade/Help/Log Out/GIF should use)
-     - Keep compatibility with your existing token name
-  ------------------------------------------------------------------- */
   --cta-label-on-gradient: var(--cta-label, #fff);
   --cta-on: var(--cta-label-on-gradient);
 
-  /* optional: improve readability over mixed gradients (Velvet especially) */
   --cta-on-shadow: none;
 }
 
@@ -453,4 +448,32 @@
 :root {
   --bubble-premium-outline: color-mix(in oklab, var(--accent-alt) 55%, transparent);
   --bubble-premium-glow: 0 8px 20px color-mix(in oklab, var(--accent) 18%, transparent);
+}
+
+/* -------------------------------------------------------
+   Chat bubble contrast fixes
+   Keeps incoming bubbles readable in every dark theme.
+------------------------------------------------------- */
+
+:root[data-theme="dark"],
+:root[data-theme="midnight"],
+:root[data-theme="neon"],
+:root[data-theme="amoled"],
+:root[data-theme="aurora"],
+:root[data-theme="velvet"] {
+  --chat-bg: var(--bg);
+
+  --bubble-incoming-bg: color-mix(in oklab, var(--card) 88%, var(--accent) 12%);
+  --bubble-incoming-text: var(--fg);
+  --bubble-incoming-fg: var(--fg);
+}
+
+:root[data-theme="dawn"],
+:root[data-theme="sunset"],
+:root[data-theme="solarized"] {
+  --chat-bg: var(--bg);
+
+  --bubble-incoming-bg: #ffffff;
+  --bubble-incoming-text: var(--fg);
+  --bubble-incoming-fg: var(--fg);
 }
