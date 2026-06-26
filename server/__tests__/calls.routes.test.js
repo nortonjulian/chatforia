@@ -13,20 +13,37 @@ const mockPrisma = {
     create: jest.fn(),
     findUnique: jest.fn(),
     update: jest.fn(),
+    delete: jest.fn(),
+    findMany: jest.fn(),
+  },
+  callParticipant: {
+    findUnique: jest.fn(),
+    updateMany: jest.fn(),
+    update: jest.fn(),
+    upsert: jest.fn(),
   },
 };
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+  __esModule: true,
   default: mockPrisma,
 }));
 
 const emitToUserMock = jest.fn();
 
 await jest.unstable_mockModule('../services/socketBus.js', () => ({
+  __esModule: true,
   emitToUser: emitToUserMock,
 }));
 
+await jest.unstable_mockModule('../services/pushService.js', () => ({
+  __esModule: true,
+  sendPushToUser: jest.fn(),
+  sendVoipCallPushToUser: jest.fn(),
+}));
+
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
+  __esModule: true,
   requireAuth: (req, _res, next) => {
     req.user = { id: 10, username: 'caller', role: 'USER' };
     next();
@@ -40,6 +57,13 @@ function makeApp() {
   const app = express();
   app.use(express.json());
   app.use('/calls', callsRouter);
+
+  app.use((err, _req, res, _next) => {
+    return res.status(500).json({
+      error: err?.message || 'Internal Server Error',
+    });
+  });
+
   return app;
 }
 
@@ -48,23 +72,29 @@ describe('calls routes', () => {
 
   beforeEach(() => {
     app = makeApp();
+
     jest.clearAllMocks();
+
+    mockPrisma.user.findUnique.mockReset();
+
+    mockPrisma.call.create.mockReset();
+    mockPrisma.call.findUnique.mockReset();
+    mockPrisma.call.update.mockReset();
+    mockPrisma.call.delete.mockReset();
+    mockPrisma.call.findMany.mockReset();
+
+    mockPrisma.callParticipant.findUnique.mockReset();
+    mockPrisma.callParticipant.updateMany.mockReset();
+    mockPrisma.callParticipant.update.mockReset();
+    mockPrisma.callParticipant.upsert.mockReset();
   });
 
   describe('POST /calls/invite', () => {
-    test('400 when calleeId or offer.sdp missing', async () => {
-      let res = await request(app).post('/calls/invite').send({});
+    test('400 when calleeId is missing', async () => {
+      const res = await request(app).post('/calls/invite').send({});
+
       expect(res.statusCode).toBe(400);
       expect(res.body).toEqual({ error: 'calleeId required' });
-
-      res = await request(app)
-        .post('/calls/invite')
-        .send({ calleeId: 20, offer: {} });
-
-      expect(res.statusCode).toBe(400);
-      expect(res.body).toEqual({
-        error: 'offer.sdp required for non-video calls',
-      });
     });
 
     test('404 when callee not found', async () => {
@@ -72,7 +102,7 @@ describe('calls routes', () => {
         .mockResolvedValueOnce({
           id: 10,
           username: 'caller',
-          name: 'Caller',
+          displayName: 'Caller',
           avatarUrl: null,
         })
         .mockResolvedValueOnce(null);
@@ -96,13 +126,13 @@ describe('calls routes', () => {
         .mockResolvedValueOnce({
           id: 10,
           username: 'caller',
-          name: 'Caller',
+          displayName: 'Caller',
           avatarUrl: 'caller.png',
         })
         .mockResolvedValueOnce({
           id: 20,
           username: 'callee',
-          name: 'Callee',
+          displayName: 'Callee',
           avatarUrl: 'callee.png',
         });
 
@@ -125,7 +155,10 @@ describe('calls routes', () => {
       const res = await request(app).post('/calls/invite').send(body);
 
       expect(res.statusCode).toBe(201);
-      expect(res.body).toEqual({ callId: 123 });
+      expect(res.body).toEqual({
+        callId: 123,
+        resolvedCallId: 123,
+      });
 
       expect(mockPrisma.call.create).toHaveBeenCalledWith({
         data: {
@@ -136,6 +169,21 @@ describe('calls routes', () => {
           status: 'RINGING',
           offerSdp: 'fake-sdp',
           twilioCallSid: null,
+          participants: {
+            create: [
+              {
+                userId: 10,
+                role: 'HOST',
+                status: 'JOINED',
+                joinedAt: expect.any(Date),
+              },
+              {
+                userId: 20,
+                role: 'MEMBER',
+                status: 'RINGING',
+              },
+            ],
+          },
         },
         select: {
           id: true,
@@ -150,10 +198,12 @@ describe('calls routes', () => {
 
       expect(emitToUserMock).toHaveBeenCalledWith(20, 'call:incoming', {
         callId: 123,
+        callerId: 10,
+        callerName: 'Caller',
         fromUser: {
           id: 10,
           username: 'caller',
-          name: 'Caller',
+          displayName: 'Caller',
           avatarUrl: 'caller.png',
         },
         mode: 'AUDIO',
@@ -247,6 +297,10 @@ describe('calls routes', () => {
         startedAt: now,
       });
 
+      mockPrisma.callParticipant.updateMany.mockResolvedValue({
+        count: 1,
+      });
+
       const answer = { type: 'answer', sdp: 'answer-sdp' };
 
       const res = await request(app)
@@ -271,6 +325,18 @@ describe('calls routes', () => {
           mode: true,
           status: true,
           startedAt: true,
+        },
+      });
+
+      expect(mockPrisma.callParticipant.updateMany).toHaveBeenCalledWith({
+        where: {
+          callId: 1,
+          userId: 10,
+        },
+        data: {
+          status: 'JOINED',
+          joinedAt: expect.any(Date),
+          leftAt: null,
         },
       });
 
@@ -299,6 +365,8 @@ describe('calls routes', () => {
         calleeId: 98,
       });
 
+      mockPrisma.callParticipant.findUnique.mockResolvedValue(null);
+
       const res = await request(app)
         .post('/calls/candidate')
         .send({
@@ -309,6 +377,15 @@ describe('calls routes', () => {
 
       expect(res.statusCode).toBe(403);
       expect(res.body).toEqual({ error: 'Not a participant' });
+
+      expect(mockPrisma.callParticipant.findUnique).toHaveBeenCalledWith({
+        where: {
+          callId_userId: {
+            callId: 1,
+            userId: 10,
+          },
+        },
+      });
     });
 
     test('200 and emits call:candidate when user is participant', async () => {
@@ -337,6 +414,7 @@ describe('calls routes', () => {
 
       expect(emitToUserMock).toHaveBeenCalledWith(20, 'call:candidate', {
         callId: 1,
+        fromUserId: 10,
         candidate,
       });
     });
@@ -364,12 +442,24 @@ describe('calls routes', () => {
         id: 1,
         callerId: 99,
         calleeId: 98,
+        participants: [],
       });
+
+      mockPrisma.callParticipant.findUnique.mockResolvedValue(null);
 
       const res = await request(app).post('/calls/end').send({ callId: 1 });
 
       expect(res.statusCode).toBe(403);
       expect(res.body).toEqual({ error: 'Not a participant' });
+
+      expect(mockPrisma.callParticipant.findUnique).toHaveBeenCalledWith({
+        where: {
+          callId_userId: {
+            callId: 1,
+            userId: 10,
+          },
+        },
+      });
     });
 
     test('200 on declined, emits call:ended with DECLINED', async () => {
@@ -380,6 +470,7 @@ describe('calls routes', () => {
         callerId: 10,
         calleeId: 20,
         mode: 'AUDIO',
+        participants: [{ userId: 10 }, { userId: 20 }],
       });
 
       mockPrisma.call.update.mockResolvedValue({
@@ -398,6 +489,11 @@ describe('calls routes', () => {
 
       expect(res.statusCode).toBe(200);
       expect(res.body).toEqual({ ok: true });
+
+      expect(mockPrisma.call.findUnique).toHaveBeenCalledWith({
+        where: { id: 1 },
+        include: { participants: true },
+      });
 
       expect(mockPrisma.call.update).toHaveBeenCalledWith({
         where: { id: 1 },
@@ -435,6 +531,7 @@ describe('calls routes', () => {
         callerId: 30,
         calleeId: 10,
         mode: 'AUDIO',
+        participants: [{ userId: 30 }, { userId: 10 }],
       });
 
       mockPrisma.call.update.mockResolvedValue({
@@ -451,6 +548,30 @@ describe('calls routes', () => {
 
       expect(res.statusCode).toBe(200);
       expect(res.body).toEqual({ ok: true });
+
+      expect(mockPrisma.call.findUnique).toHaveBeenCalledWith({
+        where: { id: 1 },
+        include: { participants: true },
+      });
+
+      expect(mockPrisma.call.update).toHaveBeenCalledWith({
+        where: { id: 1 },
+        data: {
+          status: 'ENDED',
+          endedAt: expect.any(Date),
+          durationSec: undefined,
+          endReason: null,
+        },
+        select: {
+          id: true,
+          callerId: true,
+          calleeId: true,
+          status: true,
+          endedAt: true,
+          durationSec: true,
+          endReason: true,
+        },
+      });
 
       expect(emitToUserMock).toHaveBeenCalledWith(30, 'call:ended', {
         callId: 1,

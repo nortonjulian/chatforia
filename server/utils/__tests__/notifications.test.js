@@ -97,12 +97,12 @@ describe('notifyUserOfPendingRelease', () => {
     logSpy.mockRestore();
   });
 
-  it('sends email using firstName when present', async () => {
+  it('sends email using displayName when present', async () => {
     prisma.user.findUnique.mockResolvedValueOnce({
       id: userId,
       email: 'user@example.com',
-      firstName: 'Julian',
-      username: 'julian-username',
+      displayName: 'Ria',
+      username: 'ria-username',
     });
 
     const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -122,11 +122,11 @@ describe('notifyUserOfPendingRelease', () => {
       subject: 'Your Chatforia number will be released soon',
     });
 
-    expect(msg.text).toContain('Hi Julian,');
+    expect(msg.text).toContain('Hi Ria,');
     expect(msg.text).toContain(`number ${number}`);
     expect(msg.text).toContain(`will be released on ${releaseDateStr}`);
 
-    expect(msg.html).toContain('Hi Julian');
+    expect(msg.html).toContain('Hi Ria');
     expect(msg.html).toContain(`<strong>${number}</strong>`);
     expect(msg.html).toContain(`<strong>${releaseDateStr}</strong>`);
 

@@ -231,6 +231,9 @@ describe('POST /billing/checkout', () => {
       metadata: {
         userId: '1',
         plan: 'PLUS_MONTHLY',
+        product: '',
+        addonKind: '',
+        addonType: '',
         checkoutType: 'subscription',
       },
       subscription_data: {
@@ -307,6 +310,9 @@ describe('POST /billing/checkout', () => {
         metadata: {
           userId: '1',
           plan: 'PREMIUM_MONTHLY',
+          product: '',
+          addonKind: '',
+          addonType: '',
           checkoutType: 'subscription',
         },
       })
@@ -327,7 +333,8 @@ describe('POST /billing/checkout', () => {
 
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual({
-      error: 'Invalid or unconfigured plan/price',
+      error:
+        'Checkout must be for a known subscription or add-on product',
     });
   });
 

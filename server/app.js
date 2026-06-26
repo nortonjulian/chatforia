@@ -42,7 +42,6 @@ import premiumRouter from './routes/premium.js';
 import backupsRouter from './routes/backups.js';
 import smsWebhooks from './routes/smsWebhooks.js';
 import devicesRouter from './routes/devices.js';
-import statusRoutes from './routes/status.js';
 import authRouter from './routes/auth.js';
 import usersRouter from './routes/users.js';
 import messagesRouter from './routes/messages.js';
@@ -595,7 +594,6 @@ app.use('/api/wireless', requireAuth, wirelessRouter);
       legacyHeaders: false,
     });
     app.use('/status', statusReadLimiter);
-    app.use('/status', statusRoutes);
   }
 
   // Dev-only mock endpoints

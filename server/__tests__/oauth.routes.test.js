@@ -25,13 +25,30 @@ let app;
 let jwt;
 let oauthRouter;
 
+function clearOAuthEnv() {
+  delete process.env.GOOGLE_CLIENT_ID;
+  delete process.env.GOOGLE_CLIENT_SECRET;
+  delete process.env.GOOGLE_CALLBACK_URL;
+
+  delete process.env.APPLE_CLIENT_ID;
+  delete process.env.APPLE_SERVICE_ID;
+  delete process.env.APPLE_TEAM_ID;
+  delete process.env.APPLE_KEY_ID;
+  delete process.env.APPLE_PRIVATE_KEY;
+  delete process.env.APPLE_PRIVATE_KEY_PATH;
+  delete process.env.APPLE_CALLBACK_URL;
+}
+
 beforeAll(async () => {
   process.env.NODE_ENV = 'test';
   process.env.JWT_SECRET = 'test-secret';
   process.env.FRONTEND_URL = 'http://frontend.test';
   delete process.env.COOKIE_DOMAIN;
 
+  clearOAuthEnv();
+
   await jest.unstable_mockModule('../auth/passport.js', () => ({
+    __esModule: true,
     default: {
       _strategy: jest.fn((name) => strategies[name]),
       authenticate: authenticateMock,
@@ -50,22 +67,23 @@ beforeAll(async () => {
   app = expressApp;
 });
 
-afterEach(() => {
-  jest.restoreAllMocks();
-  authenticateMock.mockClear();
+beforeEach(() => {
+  clearOAuthEnv();
 
   strategies.google = undefined;
   strategies.apple = undefined;
 
-  delete process.env.GOOGLE_CLIENT_ID;
-  delete process.env.GOOGLE_CLIENT_SECRET;
-  delete process.env.GOOGLE_CALLBACK_URL;
-  delete process.env.APPLE_SERVICE_ID;
-  delete process.env.APPLE_TEAM_ID;
-  delete process.env.APPLE_KEY_ID;
-  delete process.env.APPLE_PRIVATE_KEY;
-  delete process.env.APPLE_PRIVATE_KEY_PATH;
-  delete process.env.APPLE_CALLBACK_URL;
+  authenticateMock.mockClear();
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+  clearOAuthEnv();
+
+  strategies.google = undefined;
+  strategies.apple = undefined;
+
+  authenticateMock.mockClear();
 });
 
 describe('oauth.routes', () => {
@@ -175,7 +193,7 @@ describe('oauth.routes', () => {
   });
 
   test('GET /auth/apple redirects to Apple authorize URL', async () => {
-    process.env.APPLE_SERVICE_ID = 'service.test';
+    process.env.APPLE_CLIENT_ID = 'service.test';
     process.env.APPLE_CALLBACK_URL = 'http://localhost:4000/auth/apple/callback';
 
     const res = await request(app)
@@ -215,10 +233,11 @@ describe('oauth.routes', () => {
     process.env.GOOGLE_CLIENT_SECRET = 'secret';
     process.env.GOOGLE_CALLBACK_URL = 'https://example.com/google/callback';
 
+    process.env.APPLE_CLIENT_ID = 'service';
     process.env.APPLE_SERVICE_ID = 'service';
     process.env.APPLE_TEAM_ID = 'team';
     process.env.APPLE_KEY_ID = 'key';
-    process.env.APPLE_PRIVATE_KEY = '---PRIVATE KEY---';
+    process.env.APPLE_PRIVATE_KEY_PATH = '/tmp/apple-test-key.p8';
     process.env.APPLE_CALLBACK_URL = 'https://example.com/apple/callback';
 
     const res = await request(app).get('/auth/debug');
@@ -232,10 +251,11 @@ describe('oauth.routes', () => {
         GOOGLE_CLIENT_ID: true,
         GOOGLE_CLIENT_SECRET: true,
         GOOGLE_CALLBACK_URL: true,
+        APPLE_CLIENT_ID: true,
         APPLE_SERVICE_ID: true,
         APPLE_TEAM_ID: true,
         APPLE_KEY_ID: true,
-        APPLE_PRIVATE_KEY_OR_PATH: true,
+        APPLE_PRIVATE_KEY_PATH: true,
         APPLE_CALLBACK_URL: true,
       },
     });

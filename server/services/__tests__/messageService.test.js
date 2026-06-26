@@ -1,9 +1,28 @@
 import { jest, describe, it, expect, beforeEach, afterAll } from '@jest/globals';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-// ----- Env (read at module load in messageService) ---------------------------
+// ----- Env read at module load in messageService ----------------------------
 
 process.env.FORIA_BOT_USER_ID = '9999';
 process.env.TRANSLATE_MAX_INPUT_CHARS = '1200';
+
+// ----- Absolute paths for ESM mocks -----------------------------------------
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const prismaPath = path.resolve(__dirname, '../../utils/prismaClient.js');
+const filterPath = path.resolve(__dirname, '../../utils/filter.js');
+const translateMessagePath = path.resolve(
+  __dirname,
+  '../translation/translateMessage.js'
+);
+const encryptionPath = path.resolve(__dirname, '../../utils/encryption.js');
+const translateTextPath = path.resolve(__dirname, '../../utils/translateText.js');
+const tokenBucketPath = path.resolve(__dirname, '../../utils/tokenBucket.js');
+const socketBusPath = path.resolve(__dirname, '../socketBus.js');
+const messageServicePath = path.resolve(__dirname, '../messageService.js');
 
 // ----- Prisma mock -----------------------------------------------------------
 
@@ -27,7 +46,7 @@ const mockTransaction = jest.fn(async (callback) => {
   });
 });
 
-jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+jest.unstable_mockModule(prismaPath, () => ({
   __esModule: true,
   default: {
     user: {
@@ -57,26 +76,26 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
 const mockIsExplicit = jest.fn();
 const mockCleanText = jest.fn();
 
-jest.unstable_mockModule('../utils/filter.js', () => ({
+jest.unstable_mockModule(filterPath, () => ({
   __esModule: true,
   isExplicit: mockIsExplicit,
   cleanText: mockCleanText,
 }));
 
-// ----- translateForTargets mock ---------------------------------------------
+// ----- maybeTranslateForTarget mock -----------------------------------------
 
-const mockTranslateForTargets = jest.fn();
+const mockMaybeTranslateForTarget = jest.fn();
 
-jest.unstable_mockModule('../utils/translate.js', () => ({
+jest.unstable_mockModule(translateMessagePath, () => ({
   __esModule: true,
-  translateForTargets: mockTranslateForTargets,
+  maybeTranslateForTarget: mockMaybeTranslateForTarget,
 }));
 
 // ----- encryption mock -------------------------------------------------------
 
 const mockEncryptMessageForParticipants = jest.fn();
 
-jest.unstable_mockModule('../utils/encryption.js', () => ({
+jest.unstable_mockModule(encryptionPath, () => ({
   __esModule: true,
   encryptMessageForParticipants: mockEncryptMessageForParticipants,
 }));
@@ -85,28 +104,30 @@ jest.unstable_mockModule('../utils/encryption.js', () => ({
 
 const mockTranslateText = jest.fn();
 
-jest.unstable_mockModule('../utils/translateText.js', () => ({
+jest.unstable_mockModule(translateTextPath, () => ({
   __esModule: true,
   translateText: mockTranslateText,
 }));
 
 const mockAllow = jest.fn();
 
-jest.unstable_mockModule('../utils/tokenBucket.js', () => ({
+jest.unstable_mockModule(tokenBucketPath, () => ({
   __esModule: true,
   allow: mockAllow,
 }));
 
 // ----- socketBus mock --------------------------------------------------------
 
-jest.unstable_mockModule('../services/socketBus.js', () => ({
+jest.unstable_mockModule(socketBusPath, () => ({
   __esModule: true,
   setHelpers: jest.fn(),
 }));
 
-// ----- Import service under test *after* mocks -------------------------------
+// ----- Import service under test after mocks --------------------------------
 
-const { createMessageService, maybeAutoTranslate } = await import('../messageService.js');
+const { createMessageService, maybeAutoTranslate } = await import(
+  messageServicePath
+);
 
 // ----- Timers for expiry tests ----------------------------------------------
 
@@ -128,7 +149,7 @@ beforeEach(() => {
 
   mockIsExplicit.mockReset();
   mockCleanText.mockReset();
-  mockTranslateForTargets.mockReset();
+  mockMaybeTranslateForTarget.mockReset();
   mockEncryptMessageForParticipants.mockReset();
   mockTranslateText.mockReset();
   mockAllow.mockReset();
@@ -188,9 +209,8 @@ describe('createMessageService', () => {
     mockIsExplicit.mockReturnValueOnce(true);
     mockCleanText.mockReturnValueOnce('CLEAN_CONTENT');
 
-    mockTranslateForTargets.mockResolvedValueOnce({
-      map: { fr: 'Bonjour propre' },
-      from: 'en',
+    mockMaybeTranslateForTarget.mockResolvedValueOnce({
+      translatedText: 'Bonjour propre',
     });
 
     mockMessageCreate.mockResolvedValueOnce({
@@ -268,10 +288,10 @@ describe('createMessageService', () => {
     expect(mockIsExplicit).toHaveBeenCalledWith(rawContent);
     expect(mockCleanText).toHaveBeenCalledWith(rawContent);
 
-    expect(mockTranslateForTargets).toHaveBeenCalledWith(
+    expect(mockMaybeTranslateForTarget).toHaveBeenCalledWith(
       'CLEAN_CONTENT',
       'en',
-      ['fr']
+      'fr'
     );
 
     expect(mockEncryptMessageForParticipants).not.toHaveBeenCalled();
@@ -340,11 +360,6 @@ describe('createMessageService', () => {
 
     mockIsExplicit.mockReturnValueOnce(false);
     mockCleanText.mockImplementation((s) => s);
-
-    mockTranslateForTargets.mockResolvedValueOnce({
-      map: {},
-      from: 'en',
-    });
 
     mockMessageCreate.mockResolvedValueOnce({
       id: 1000,
@@ -432,8 +447,20 @@ describe('maybeAutoTranslate', () => {
       },
       participant: {
         findMany: jest.fn().mockResolvedValue([
-          { user: { id: 1, preferredLanguage: 'en' } },
-          { user: { id: 2, preferredLanguage: 'es' } },
+          {
+            user: {
+              id: 1,
+              preferredLanguage: 'en',
+              autoTranslate: true,
+            },
+          },
+          {
+            user: {
+              id: 2,
+              preferredLanguage: 'es',
+              autoTranslate: true,
+            },
+          },
         ]),
       },
       message: {
@@ -454,7 +481,15 @@ describe('maybeAutoTranslate', () => {
 
     expect(db.participant.findMany).toHaveBeenCalledWith({
       where: { chatRoomId: roomId },
-      include: { user: { select: { id: true, preferredLanguage: true } } },
+      include: {
+        user: {
+          select: {
+            id: true,
+            preferredLanguage: true,
+            autoTranslate: true,
+          },
+        },
+      },
     });
 
     const langs = mockTranslateText.mock.calls
@@ -478,6 +513,9 @@ describe('maybeAutoTranslate', () => {
   it('skips translation when provider is not available', async () => {
     delete process.env.DEEPL_API_KEY;
     delete process.env.TRANSLATE_ENDPOINT;
+    delete process.env.GOOGLE_TRANSLATE_API_KEY;
+    delete process.env.GOOGLE_API_KEY;
+    delete process.env.GOOGLE_PROJECT_ID;
 
     const savedMessage = {
       id: 1,

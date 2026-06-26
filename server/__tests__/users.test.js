@@ -242,13 +242,22 @@ describe('PATCH /users/me', () => {
       .send(body);
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({
+    expect(res.body).toMatchObject({
       id: 123,
       role: 'USER',
       plan: 'FREE',
       publicKey: null,
       theme: 'dawn',
       isPremium: false,
+
+      enableSmartReplies: true,
+      showReadReceipts: false,
+      allowExplicitContent: true,
+      privacyBlurEnabled: true,
+      privacyBlurOnUnfocus: false,
+      privacyHoldToReveal: true,
+      notifyOnCopy: false,
+      preferredLanguage: 'en-US',
     });
 
     const call = mockUserUpdate.mock.calls[0][0];

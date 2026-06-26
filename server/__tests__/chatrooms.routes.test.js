@@ -101,7 +101,37 @@ describe('chatrooms routes', () => {
 
   beforeEach(() => {
     app = makeApp();
+
     jest.clearAllMocks();
+
+    chatRoomCreate.mockReset();
+    chatRoomFindMany.mockReset();
+    chatRoomFindFirst.mockReset();
+    chatRoomFindUnique.mockReset();
+    chatRoomUpdate.mockReset();
+
+    participantCreate.mockReset();
+    participantCreateMany.mockReset();
+    participantFindMany.mockReset();
+    participantFindFirst.mockReset();
+    participantFindUnique.mockReset();
+    participantDelete.mockReset();
+
+    getEffectiveRoomRankMock.mockReset();
+    canActOnRankMock.mockReset();
+    requireRoomRankMock.mockReset();
+    requireRoomRankMock.mockImplementation(() => (_req, _res, next) => next());
+
+    mockPrisma.$transaction.mockReset();
+    mockPrisma.$transaction.mockImplementation((fn) =>
+      fn({
+        chatRoom: { create: chatRoomCreate },
+        participant: {
+          create: participantCreate,
+          createMany: participantCreateMany,
+        },
+      })
+    );
   });
 
   describe('POST /rooms/', () => {
@@ -183,21 +213,31 @@ describe('chatrooms routes', () => {
         id: 20,
         isGroup: false,
         participants: [],
+        messages: [
+          {
+            id: 100,
+            createdAt: new Date('2025-01-01T00:00:00.000Z'),
+          },
+        ],
       };
 
-      chatRoomFindFirst.mockResolvedValueOnce(existing);
+      chatRoomFindMany.mockResolvedValueOnce([existing]);
 
       const res = await request(app).post('/rooms/direct/2').send({});
 
       expect(res.statusCode).toBe(200);
-      expect(res.body).toEqual(existing);
+      expect(res.body).toEqual({
+        id: 20,
+        isGroup: false,
+        participants: [],
+      });
 
-      expect(chatRoomFindFirst).toHaveBeenCalled();
+      expect(chatRoomFindMany).toHaveBeenCalled();
       expect(chatRoomCreate).not.toHaveBeenCalled();
     });
 
     test('creates new direct room when none exists', async () => {
-      chatRoomFindFirst.mockResolvedValueOnce(null);
+      chatRoomFindMany.mockResolvedValueOnce([]);
 
       const created = {
         id: 30,
@@ -378,6 +418,8 @@ describe('chatrooms routes', () => {
                   id: true,
                   username: true,
                   publicKey: true,
+                  preferredLanguage: true,
+                  autoTranslate: true,
                 },
               },
             },

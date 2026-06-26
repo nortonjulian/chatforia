@@ -247,7 +247,6 @@ describe('contacts routes', () => {
         where: {
           OR: [
             { phoneNumber: '+15551234567' },
-            { phone: '+15551234567' },
           ],
         },
         select: { id: true },

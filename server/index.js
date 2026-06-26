@@ -27,18 +27,9 @@ import logger from './utils/logger.js';
 export function makeApp() {
   const app = createApp();
 
-  // Route dumper for tests/dev introspection (lightweight)
-  app.get('/__routes_dump', (req, res) => {
-    const layers = app._router?.stack || [];
-    const hasStatusRouter = layers.some((layer) => {
-      if (layer?.name === 'router' && layer?.regexp)
-        return String(layer.regexp).includes('^\\/status');
-      if (layer?.route?.path === '/status') return true;
-      return false;
-    });
+  app.get('/__routes_dump', (_req, res) => {
     res.json({
-      statusFlag: String(process.env.STATUS_ENABLED || ''),
-      hasStatusRouter,
+      ok: true,
     });
   });
 
@@ -130,61 +121,61 @@ if (ENV.IS_TEST) {
   setSocketIo(io, emitToUser);
 
   setHelpers({
-  fetchMessageById: async (messageId) => {
-    const message = await prisma.message.findUnique({
-      where: { id: Number(messageId) },
-      include: {
-        sender: {
-          select: { id: true, username: true, publicKey: true, avatarUrl: true },
-        },
-        readBy: {
-          select: { id: true, username: true, avatarUrl: true },
-        },
-        attachments: {
-          where: { deletedAt: null },
-          select: {
-            id: true,
-            kind: true,
-            url: true,
-            mimeType: true,
-            width: true,
-            height: true,
-            durationSec: true,
-            caption: true,
-            thumbUrl: true,
-            createdAt: true,
+    fetchMessageById: async (messageId) => {
+      const message = await prisma.message.findUnique({
+        where: { id: Number(messageId) },
+        include: {
+          sender: {
+            select: { id: true, username: true, publicKey: true, avatarUrl: true },
+          },
+          readBy: {
+            select: { id: true, username: true, avatarUrl: true },
+          },
+          attachments: {
+            where: { deletedAt: null },
+            select: {
+              id: true,
+              kind: true,
+              url: true,
+              mimeType: true,
+              width: true,
+              height: true,
+              durationSec: true,
+              caption: true,
+              thumbUrl: true,
+              createdAt: true,
+            },
+          },
+          keys: {
+            select: {
+              userId: true,
+              encryptedKey: true,
+            },
           },
         },
-        keys: {
-          select: {
-            userId: true,
-            encryptedKey: true,
-          },
-        },
-      },
-    });
+      });
 
-    if (!message) return null;
+      if (!message) return null;
 
-    return {
-      id: message.id,
-      chatRoomId: message.chatRoomId,
-      createdAt: message.createdAt,
-      editedAt: message.editedAt,
-      deletedForAll: message.deletedForAll,
-      deletedAt: message.deletedAt,
-      deletedById: message.deletedById,
-      rawContent: message.rawContent,
-      contentCiphertext: message.contentCiphertext,
-      sender: message.sender,
-      readBy: message.readBy,
-      attachments: message.attachments ?? [],
-      encryptedKeys: Object.fromEntries(
-        (message.keys ?? []).map((k) => [String(k.userId), k.encryptedKey])
-      ),
-    };
-  },
-});
+      return {
+        id: message.id,
+        chatRoomId: message.chatRoomId,
+        createdAt: message.createdAt,
+        editedAt: message.editedAt,
+        deletedForAll: message.deletedForAll,
+        deletedAt: message.deletedAt,
+        deletedById: message.deletedById,
+        rawContent: message.rawContent,
+        contentCiphertext: message.contentCiphertext,
+        sender: message.sender,
+        readBy: message.readBy,
+        attachments: message.attachments ?? [],
+        encryptedKeys: Object.fromEntries(
+          (message.keys ?? []).map((k) => [String(k.userId), k.encryptedKey])
+        ),
+      };
+    },
+  });
 
   // Start background cleanup cron (auto-delete expired messages, etc.)
   try {

@@ -1,15 +1,16 @@
-/** @jest-environment jsdom */
 import { jest } from '@jest/globals';
 
-/* -------- Other mocks -------- */
 const mockPost = jest.fn();
+
 jest.mock('../src/api/axiosClient', () => ({
   __esModule: true,
-  default: { post: (...a) => mockPost(...a) },
+  default: {
+    post: (...args) => mockPost(...args),
+  },
 }));
 
 const mockSaveKeysLocal = jest.fn();
-const mockLoadKeysLocal = jest.fn(async () => null);
+const mockLoadKeysLocal = jest.fn();
 const mockGenerateKeypair = jest.fn(() => ({
   publicKey: 'PUB',
   privateKey: 'PRIV',
@@ -17,40 +18,59 @@ const mockGenerateKeypair = jest.fn(() => ({
 
 jest.mock('../src/utils/keys', () => ({
   __esModule: true,
-  saveKeysLocal: (...a) => mockSaveKeysLocal(...a),
-  loadKeysLocal: (...a) => mockLoadKeysLocal(...a),
-  generateKeypair: (...a) => mockGenerateKeypair(...a),
+  saveKeysLocal: (...args) =>
+    mockSaveKeysLocal(...args),
+  loadKeysLocal: (...args) =>
+    mockLoadKeysLocal(...args),
+  generateKeypair: (...args) =>
+    mockGenerateKeypair(...args),
 }));
 
-const mockImportEncryptedPrivateKey = jest.fn(async () => 'IMPORTED_PRIV');
+const mockImportEncryptedPrivateKey = jest.fn();
+
 jest.mock('../src/utils/keyBackup', () => ({
   __esModule: true,
-  importEncryptedPrivateKey: (...a) => mockImportEncryptedPrivateKey(...a),
+  importEncryptedPrivateKey: (...args) =>
+    mockImportEncryptedPrivateKey(...args),
 }));
 
-const mockUploadRemoteKeyBackup = jest.fn(async () => ({}));
-const mockRestoreRemoteKeyBackupToLocal = jest.fn(async () => ({}));
+const mockUploadRemoteKeyBackup = jest.fn();
+const mockRestoreRemoteKeyBackupToLocal = jest.fn();
 
 jest.mock('../src/utils/keyBackupRemote', () => ({
   __esModule: true,
-  uploadRemoteKeyBackup: (...a) => mockUploadRemoteKeyBackup(...a),
-  restoreRemoteKeyBackupToLocal: (...a) =>
-    mockRestoreRemoteKeyBackupToLocal(...a),
+  uploadRemoteKeyBackup: (...args) =>
+    mockUploadRemoteKeyBackup(...args),
+
+  restoreRemoteKeyBackupToLocal: (...args) =>
+    mockRestoreRemoteKeyBackupToLocal(...args),
 }));
 
-/* -------- Now import test libs and component (AFTER mocks) -------- */
 import userEvent from '@testing-library/user-event';
-import { screen, waitFor } from '@testing-library/react';
+import {
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { renderWithRouter } from '../src/test-utils';
 import KeySetupModal from '../src/components/KeySetupModal.jsx';
 
 beforeEach(() => {
   jest.clearAllMocks();
+
   mockLoadKeysLocal.mockResolvedValue(null);
+  mockImportEncryptedPrivateKey.mockResolvedValue(
+    'IMPORTED_PRIV'
+  );
+  mockUploadRemoteKeyBackup.mockResolvedValue({});
+  mockRestoreRemoteKeyBackupToLocal.mockResolvedValue({});
 });
 
-test('generate new keypair path posts public key', async () => {
-  mockPost.mockResolvedValueOnce({ data: {} });
+test('sets up encryption and posts the public key', async () => {
+  const user = userEvent.setup();
+
+  mockPost.mockResolvedValueOnce({
+    data: {},
+  });
 
   renderWithRouter(
     <KeySetupModal
@@ -60,18 +80,31 @@ test('generate new keypair path posts public key', async () => {
     />
   );
 
-  await userEvent.type(
-    screen.getByLabelText(/account password/i),
-    'pw'
+  await user.type(
+    screen.getByLabelText(
+      /^recovery passcode$/i
+    ),
+    'abcdefgh'
   );
 
-  await userEvent.click(
+  await user.type(
+    screen.getByLabelText(
+      /^confirm recovery passcode$/i
+    ),
+    'abcdefgh'
+  );
+
+  await user.click(
     screen.getByRole('button', {
-      name: /generate new keypair/i,
+      name: /set up encryption/i,
     })
   );
 
-  await waitFor(() => expect(mockGenerateKeypair).toHaveBeenCalled());
+  await waitFor(() => {
+    expect(
+      mockGenerateKeypair
+    ).toHaveBeenCalled();
+  });
 
   expect(mockSaveKeysLocal).toHaveBeenCalledWith({
     publicKey: 'PUB',
@@ -80,49 +113,78 @@ test('generate new keypair path posts public key', async () => {
 
   expect(mockPost).toHaveBeenCalledWith(
     '/users/keys',
-    { publicKey: 'PUB' }
+    {
+      publicKey: 'PUB',
+    }
   );
 
-  expect(mockUploadRemoteKeyBackup).toHaveBeenCalledWith({
+  expect(
+    mockUploadRemoteKeyBackup
+  ).toHaveBeenCalledWith({
     publicKey: 'PUB',
     privateKey: 'PRIV',
-    password: 'pw',
+    password: 'abcdefgh',
   });
 
   expect(
-    await screen.findByText(/new keypair generated/i)
+    await screen.findByText(/encryption is ready/i)
   ).toBeInTheDocument();
 });
 
-test('import backup path saves private key and shows success', async () => {
+test('imports backup file, saves private key, and shows success', async () => {
+  const user = userEvent.setup();
+
   const file = new File(
     [JSON.stringify({ any: 'thing' })],
     'backup.json',
-    { type: 'application/json' }
+    {
+      type: 'application/json',
+    }
   );
 
   renderWithRouter(
-    <KeySetupModal opened haveServerPubKey onClose={() => {}} />
+    <KeySetupModal
+      opened
+      haveServerPubKey
+      onClose={() => {}}
+    />
   );
 
-  const fileInput = screen.getByLabelText(/select backup file/i);
-  await userEvent.upload(fileInput, file);
+  await user.click(
+    screen.getByRole('button', {
+      name: /show advanced recovery/i,
+    })
+  );
 
-  expect(fileInput.files?.length).toBe(1);
-  expect(fileInput.files?.[0]?.name).toBe('backup.json');
+  const fileInput = screen.getByLabelText(
+    /select backup file/i
+  );
 
-  await userEvent.type(
-    screen.getByLabelText(/backup password/i),
+  await user.upload(fileInput, file);
+
+  expect(fileInput.files).toHaveLength(1);
+  expect(fileInput.files[0].name).toBe(
+    'backup.json'
+  );
+
+  await user.type(
+    screen.getByLabelText(
+      /^backup file password$/i
+    ),
     'pw'
   );
 
-  await userEvent.click(
-    screen.getByRole('button', { name: /^import$/i })
+  await user.click(
+    screen.getByRole('button', {
+      name: /import backup file/i,
+    })
   );
 
-  await waitFor(() =>
-    expect(mockImportEncryptedPrivateKey).toHaveBeenCalled()
-  );
+  await waitFor(() => {
+    expect(
+      mockImportEncryptedPrivateKey
+    ).toHaveBeenCalledWith(file, 'pw');
+  });
 
   expect(mockLoadKeysLocal).toHaveBeenCalled();
 
@@ -132,6 +194,8 @@ test('import backup path saves private key and shows success', async () => {
   });
 
   expect(
-    await screen.findByText(/private key imported/i)
+    await screen.findByText(
+      /private key imported to this device/i
+    )
   ).toBeInTheDocument();
 });

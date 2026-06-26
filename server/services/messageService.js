@@ -1,7 +1,7 @@
 import prisma from '../utils/prismaClient.js';
 import { isExplicit, cleanText } from '../utils/filter.js';
 // import { translateForTargets } from '../utils/translate.js';
-// import { translateText } from '../utils/translateText.js';
+import { translateText } from '../utils/translateText.js';
 import { maybeTranslateForTarget } from './translation/translateMessage.js';
 import { allow } from '../utils/tokenBucket.js';
 import * as socketBus from './socketBus.js';

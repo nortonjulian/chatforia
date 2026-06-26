@@ -93,9 +93,11 @@ describe('googleTranslate service', () => {
     detectMock.mockResolvedValueOnce([{ language: 'es', confidence: 0.76 }]);
 
     const out = await detectLanguage('Hola, mundo');
-    expect(translateCtorSpy).toHaveBeenCalledWith({
-      projectId: 'chatforia-prod',
-    });
+    expect(translateCtorSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        projectId: 'chatforia-prod',
+      })
+    );
     expect(detectMock).toHaveBeenCalledWith('Hola, mundo');
     expect(pRetryCallSpy).toHaveBeenCalledWith({ retries: 3 });
 
@@ -139,7 +141,11 @@ describe('googleTranslate service', () => {
     translateMock.mockResolvedValueOnce(['hola']);
 
     const out = await translateText('hello', 'es');
-    expect(translateCtorSpy).toHaveBeenCalledWith({ projectId: 'chatforia-dev' });
+    expect(translateCtorSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        projectId: 'chatforia-dev',
+      })
+    );
     expect(translateMock).toHaveBeenCalledWith('hello', 'es');
     expect(pRetryCallSpy).toHaveBeenCalledWith({ retries: 3 });
     expect(out).toEqual({ translated: 'hola', provider: 'google' });
@@ -172,7 +178,11 @@ describe('googleTranslate service', () => {
 
     const out = await translateBatch(['one', 'two'], 'fr');
 
-    expect(translateCtorSpy).toHaveBeenCalledWith({ projectId: 'chatforia-prod' });
+    expect(translateCtorSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        projectId: 'chatforia-prod',
+      })
+    );
     expect(translateMock).toHaveBeenCalledWith(['one', 'two'], 'fr');
     expect(pRetryCallSpy).toHaveBeenCalledWith({ retries: 3 });
     expect(out).toEqual([

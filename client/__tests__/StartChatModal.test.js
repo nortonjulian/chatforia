@@ -134,6 +134,7 @@ test('selecting a contact starts direct message with contact payload', async () 
 
   expect(onStartDirectMessage).toHaveBeenCalledWith({
     type: 'contact',
+    action: 'message',
     value: contact,
   });
 });

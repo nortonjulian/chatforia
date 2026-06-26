@@ -101,6 +101,7 @@ async function globalSeed() {
     // finally delete the user
     await prisma.user.delete({
       where: { id: uid },
+      select: { id: true },
     });
   }
 

@@ -1,36 +1,71 @@
-import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
-import crypto from 'crypto';
+
+process.env.NODE_ENV = 'test';
+process.env.SMS_CONSENT_VERSION = 'v1';
 
 // --- Prisma mocks ------------------------------------------------------------
 
-const mockVerificationDeleteMany = jest.fn();
-const mockVerificationCreate = jest.fn();
-const mockVerificationFindFirst = jest.fn();
-const mockVerificationUpdate = jest.fn();
-const mockUserUpdate = jest.fn();
-const mockTransaction = jest.fn((ops) => Promise.all(ops));
+const mockPhoneOtpCount = jest.fn();
+const mockPhoneOtpCreate = jest.fn();
+const mockPhoneOtpFindFirst = jest.fn();
+const mockPhoneOtpUpdate = jest.fn();
+const mockPhoneOtpUpdateMany = jest.fn();
+const mockPhoneOtpDeleteMany = jest.fn();
 
-const mockPrismaInstance = {
-  verificationToken: {
-    deleteMany: mockVerificationDeleteMany,
-    create: mockVerificationCreate,
-    findFirst: mockVerificationFindFirst,
-    update: mockVerificationUpdate,
+const mockSmsConsentCreate = jest.fn();
+const mockSmsConsentFindFirst = jest.fn();
+
+const mockPrisma = {
+  phoneOtp: {
+    count: mockPhoneOtpCount,
+    create: mockPhoneOtpCreate,
+    findFirst: mockPhoneOtpFindFirst,
+    update: mockPhoneOtpUpdate,
+    updateMany: mockPhoneOtpUpdateMany,
+    deleteMany: mockPhoneOtpDeleteMany,
   },
+
+  smsConsent: {
+    create: mockSmsConsentCreate,
+    findFirst: mockSmsConsentFindFirst,
+  },
+
+  // Included so routes/auth.js can import safely even though these
+  // are not used by the phone OTP tests below.
   user: {
-    update: mockUserUpdate,
+    findUnique: jest.fn(),
+    findFirst: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
   },
-  $transaction: mockTransaction,
+
+  verificationToken: {
+    findFirst: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    updateMany: jest.fn(),
+  },
+
+  twoFactorRecoveryCode: {
+    findFirst: jest.fn(),
+    update: jest.fn(),
+  },
+
+  subscriber: {
+    findFirst: jest.fn(),
+  },
+
+  $transaction: jest.fn(),
 };
 
 jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
-  default: mockPrismaInstance,
+  default: mockPrisma,
 }));
 
-// --- telco / sms mock --------------------------------------------------------
+// --- SMS mock ----------------------------------------------------------------
 
 const mockSendSms = jest.fn();
 
@@ -39,337 +74,515 @@ jest.unstable_mockModule('../lib/telco/index.js', () => ({
   sendSms: mockSendSms,
 }));
 
-// --- IP mock -----------------------------------------------------------------
+// --- phone helper mock --------------------------------------------------------
 
-jest.unstable_mockModule('../utils/ip.js', () => ({
+const mockNormalizeE164 = jest.fn((phone) => String(phone).trim());
+
+jest.unstable_mockModule('../utils/phone.js', () => ({
   __esModule: true,
-  getClientIp: () => '203.0.113.1',
+  normalizeE164: mockNormalizeE164,
 }));
 
-// --- auth mock ---------------------------------------------------------------
+// --- Rate limiter mock --------------------------------------------------------
 
-jest.unstable_mockModule('../../middleware/auth.js', () => ({
+jest.unstable_mockModule('express-rate-limit', () => ({
   __esModule: true,
-  requireAuth: (req, res, next) => {
-    if (!req.user) req.user = { id: 123 };
+  default: () => (_req, _res, next) => next(),
+}));
+
+// --- Other auth.js dependency mocks ------------------------------------------
+
+jest.unstable_mockModule('../middleware/auth.js', () => ({
+  __esModule: true,
+  requireAuth: (req, _res, next) => {
+    if (!req.user) req.user = { id: 123, role: 'USER', plan: 'FREE' };
     next();
   },
 }));
 
-// Import router + memTokens AFTER mocks
-const authModule = await import('../routes/auth/phoneVerification.js');
-const phoneRouter = authModule.default;
-const { memTokens } = authModule;
+jest.unstable_mockModule('../middleware/csrf.js', () => ({
+  __esModule: true,
+  setCsrfCookie: jest.fn(),
+}));
 
-// --- Helper: app builder -----------------------------------------------------
+jest.unstable_mockModule('../utils/sendMail.js', () => ({
+  __esModule: true,
+  sendMail: jest.fn(),
+}));
 
-function createApp({ user } = {}) {
+jest.unstable_mockModule('../utils/encryption.js', () => ({
+  __esModule: true,
+  generateKeyPair: jest.fn(() => ({
+    publicKey: 'mock-public-key',
+    privateKey: 'mock-private-key',
+  })),
+}));
+
+jest.unstable_mockModule('../utils/resetTokens.js', () => ({
+  __esModule: true,
+  issueResetToken: jest.fn(),
+  consumeResetToken: jest.fn(),
+}));
+
+jest.unstable_mockModule('../utils/tokens.js', () => ({
+  __esModule: true,
+  newRawToken: jest.fn(() => 'raw-token'),
+  hashToken: jest.fn(async (token) => `hashed-${token}`),
+}));
+
+jest.unstable_mockModule('../utils/secretBox.js', () => ({
+  __esModule: true,
+  open: jest.fn(() => 'mock-secret'),
+}));
+
+jest.unstable_mockModule('../utils/serializeUser.js', () => ({
+  __esModule: true,
+  serializeUser: jest.fn((user) => user),
+}));
+
+jest.unstable_mockModule('bcrypt', () => ({
+  __esModule: true,
+  default: {
+    hash: jest.fn(async () => 'hashed-password'),
+    compare: jest.fn(async () => true),
+  },
+}));
+
+jest.unstable_mockModule('jsonwebtoken', () => ({
+  __esModule: true,
+  default: {
+    sign: jest.fn(() => 'mock-jwt'),
+    verify: jest.fn(() => ({ sub: 123, typ: 'mfa' })),
+  },
+}));
+
+jest.unstable_mockModule('speakeasy', () => ({
+  __esModule: true,
+  default: {
+    totp: {
+      verify: jest.fn(() => true),
+    },
+  },
+}));
+
+// Import router AFTER mocks
+const { default: authRouter } = await import('../routes/auth.js');
+
+// --- App helper ---------------------------------------------------------------
+
+function createApp() {
   const app = express();
+
   app.use(express.json());
+  app.use('/auth', authRouter);
 
-  // Shared session object to simulate persistent session across requests
-  const session = {};
-
-  app.use((req, res, next) => {
-    if (user) req.user = user;
-    req.session = session;
-    next();
+  app.use((err, _req, res, _next) => {
+    return res.status(500).json({
+      error: err?.message || 'Internal Server Error',
+    });
   });
 
-  app.use('/auth/phone', phoneRouter);
   return app;
-}
-
-// local sha256 to match route logic
-function sha256Local(s) {
-  return crypto.createHash('sha256').update(String(s), 'utf8').digest('hex');
 }
 
 beforeEach(() => {
   jest.clearAllMocks();
-  mockVerificationDeleteMany.mockReset();
-  mockVerificationCreate.mockReset();
-  mockVerificationFindFirst.mockReset();
-  mockVerificationUpdate.mockReset();
-  mockUserUpdate.mockReset();
-  mockTransaction.mockReset();
+
+  mockPhoneOtpCount.mockReset();
+  mockPhoneOtpCreate.mockReset();
+  mockPhoneOtpFindFirst.mockReset();
+  mockPhoneOtpUpdate.mockReset();
+  mockPhoneOtpUpdateMany.mockReset();
+  mockPhoneOtpDeleteMany.mockReset();
+
+  mockSmsConsentCreate.mockReset();
+  mockSmsConsentFindFirst.mockReset();
+
   mockSendSms.mockReset();
-  memTokens.clear();
+  mockNormalizeE164.mockReset();
+  mockNormalizeE164.mockImplementation((phone) => String(phone).trim());
 });
 
-// --- Tests: POST /auth/phone/start -------------------------------------------
+afterEach(() => {
+  jest.restoreAllMocks();
+});
 
-describe('POST /auth/phone/start', () => {
-  it('returns 400 for invalid phone number', async () => {
-    const app = createApp({ user: { id: 1 } });
+// --- Tests: POST /auth/send-verify ------------------------------------------
+
+describe('POST /auth/send-verify', () => {
+  it('returns 400 when consent is missing or false', async () => {
+    const app = createApp();
 
     const res = await request(app)
-      .post('/auth/phone/start')
-      .send({ phoneNumber: '12345' }); // not E.164-ish
+      .post('/auth/send-verify')
+      .send({
+        phone: '+15550001234',
+        consent: false,
+      });
 
     expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ ok: false, reason: 'invalid_phone' });
+    expect(res.body).toEqual({
+      message: 'Consent is required',
+    });
 
-    expect(mockVerificationCreate).not.toHaveBeenCalled();
+    expect(mockPhoneOtpCreate).not.toHaveBeenCalled();
     expect(mockSendSms).not.toHaveBeenCalled();
   });
 
-  it('writes token via Prisma when DB is OK and sends SMS', async () => {
-    const app = createApp({ user: { id: 42 } });
-
-    mockVerificationDeleteMany.mockResolvedValueOnce({ count: 0 });
-    let capturedTokenHash = null;
-
-    mockVerificationCreate.mockImplementationOnce(({ data }) => {
-      capturedTokenHash = data.tokenHash;
-      return { id: 1, ...data };
-    });
-
-    mockUserUpdate.mockResolvedValueOnce({});
+  it('returns 422 for invalid phone number', async () => {
+    const app = createApp();
 
     const res = await request(app)
-      .post('/auth/phone/start')
-      .send({ phoneNumber: '+1 555 000 1234' });
+      .post('/auth/send-verify')
+      .send({
+        phone: '12345',
+        consent: true,
+      });
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ ok: true });
-
-    expect(mockVerificationDeleteMany).toHaveBeenCalledWith({
-      where: { userId: 42, type: 'PHONE', usedAt: null },
+    expect(res.statusCode).toBe(422);
+    expect(res.body).toEqual({
+      message: 'Phone must be in E.164 format (e.g. +14155551234)',
     });
 
-    expect(mockVerificationCreate).toHaveBeenCalledTimes(1);
-    expect(typeof capturedTokenHash).toBe('string');
-    expect(capturedTokenHash).toHaveLength(64); // sha256 hex
-
-    // phoneNumber best-effort update
-    expect(mockUserUpdate).toHaveBeenCalledWith({
-      where: { id: 42 },
-      data: { phoneNumber: '+1 555 000 1234' },
-    });
-
-    // SMS sent
-    expect(mockSendSms).toHaveBeenCalledTimes(1);
-    const smsArgs = mockSendSms.mock.calls[0][0];
-    expect(smsArgs.to).toBe('+1 555 000 1234');
-    expect(smsArgs.text).toMatch(/Your Chatforia code is \d{6}/);
-
-    // since Prisma succeeded, memTokens should be empty
-    expect(memTokens.size).toBe(0);
+    expect(mockPhoneOtpCreate).not.toHaveBeenCalled();
+    expect(mockSendSms).not.toHaveBeenCalled();
   });
 
-  it('falls back to memTokens when Prisma create fails', async () => {
-    const userId = 99;
-    const phone = '+1 555 111 2222';
-    const app = createApp({ user: { id: userId } });
+  it('creates OTP, records consent, sends SMS, and stores provider message id', async () => {
+    const app = createApp();
+    const phone = '+15550001234';
 
-    mockVerificationDeleteMany.mockResolvedValueOnce({ count: 0 });
-    // both canonical + alt shapes fail
-    mockVerificationCreate
-      .mockRejectedValueOnce(new Error('no type'))
-      .mockRejectedValueOnce(new Error('no kind'));
+    jest.spyOn(Math, 'random').mockReturnValue(0.123456);
 
-    mockUserUpdate.mockRejectedValueOnce(new Error('no column'));
+    mockPhoneOtpCount.mockResolvedValueOnce(0);
+    mockSmsConsentCreate.mockResolvedValueOnce({ id: 1 });
+    mockPhoneOtpCreate.mockImplementationOnce(async ({ data }) => ({
+      id: 10,
+      ...data,
+    }));
+    mockSendSms.mockResolvedValueOnce({
+      messageSid: 'SM123',
+    });
+    mockPhoneOtpUpdateMany.mockResolvedValueOnce({
+      count: 1,
+    });
+
+    const pendingRegistration = {
+      username: 'julian',
+      email: 'julian@example.com',
+    };
 
     const res = await request(app)
-      .post('/auth/phone/start')
-      .send({ phoneNumber: phone });
+      .post('/auth/send-verify')
+      .set('user-agent', 'jest-agent')
+      .send({
+        phone,
+        consent: true,
+        pendingRegistration,
+      });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ ok: true });
+    expect(res.body).toEqual({
+      message: 'Verification code sent',
+    });
 
-    // Prisma create called twice (type/kind), both failed
-    expect(mockVerificationCreate).toHaveBeenCalledTimes(2);
+    expect(mockNormalizeE164).toHaveBeenCalledWith(phone);
 
-    // memTokens has an entry
-    expect(memTokens.has(userId)).toBe(true);
-    const tok = memTokens.get(userId);
-    expect(tok.phone).toBe(phone);
-    expect(typeof tok.tokenHash).toBe('string');
-    expect(tok.tokenHash).toHaveLength(64);
-    expect(tok.usedAt).toBeNull();
-    expect(tok.expiresAt instanceof Date || typeof tok.expiresAt === 'object').toBe(true);
+    expect(mockPhoneOtpCount).toHaveBeenCalledWith({
+      where: {
+        phone,
+        createdAt: {
+          gt: expect.any(Date),
+        },
+      },
+    });
 
-    // SMS still sent
+    expect(mockSmsConsentCreate).toHaveBeenCalledWith({
+      data: {
+        phone,
+        pendingRegistration,
+        consentTextVersion: 'v1',
+        ipAddress: expect.any(String),
+        userAgent: 'jest-agent',
+      },
+    });
+
+    expect(mockPhoneOtpCreate).toHaveBeenCalledTimes(1);
+
+    const createArg = mockPhoneOtpCreate.mock.calls[0][0];
+
+    expect(createArg.data).toMatchObject({
+      phone,
+      otpCode: expect.stringMatching(/^\d{6}$/),
+      expiresAt: expect.any(Date),
+    });
+
     expect(mockSendSms).toHaveBeenCalledTimes(1);
+
+    const smsArg = mockSendSms.mock.calls[0][0];
+
+    expect(smsArg).toMatchObject({
+      to: phone,
+      text: expect.stringMatching(
+        /^Chatforia: Your verification code is \d{6}\./
+      ),
+      clientRef: expect.stringMatching(/^otp:\+15550001234:/),
+    });
+
+    expect(mockPhoneOtpUpdateMany).toHaveBeenCalledWith({
+      where: {
+        phone,
+        otpCode: createArg.data.otpCode,
+      },
+      data: {
+        providerMessageId: 'SM123',
+      },
+    });
+  });
+
+  it('returns 429 when too many recent code requests exist for phone', async () => {
+    const app = createApp();
+    const phone = '+15550001234';
+
+    mockPhoneOtpCount.mockResolvedValueOnce(5);
+
+    const res = await request(app)
+      .post('/auth/send-verify')
+      .send({
+        phone,
+        consent: true,
+      });
+
+    expect(res.statusCode).toBe(429);
+    expect(res.body).toEqual({
+      message: 'Too many code requests for this phone',
+    });
+
+    expect(mockSmsConsentCreate).not.toHaveBeenCalled();
+    expect(mockPhoneOtpCreate).not.toHaveBeenCalled();
+    expect(mockSendSms).not.toHaveBeenCalled();
+  });
+
+  it('returns 500 when SMS sending fails', async () => {
+    const app = createApp();
+    const phone = '+15550001234';
+
+    mockPhoneOtpCount.mockResolvedValueOnce(0);
+    mockSmsConsentCreate.mockResolvedValueOnce({ id: 1 });
+    mockPhoneOtpCreate.mockResolvedValueOnce({
+      id: 10,
+      phone,
+      otpCode: '123456',
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+    });
+    mockSendSms.mockRejectedValueOnce(new Error('sms failed'));
+
+    const res = await request(app)
+      .post('/auth/send-verify')
+      .send({
+        phone,
+        consent: true,
+      });
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body).toEqual({
+      message: 'Failed to send verification code',
+    });
   });
 });
 
-// --- Tests: POST /auth/phone/verify -----------------------------------------
+// --- Tests: POST /auth/verify-phone-code -------------------------------------
 
-describe('POST /auth/phone/verify', () => {
-  it('verifies successfully using DB token', async () => {
-    const userId = 123;
-    const app = createApp({ user: { id: userId } });
-
-    const code = '123456';
-    const tokenHash = sha256Local(code);
-    const future = new Date(Date.now() + 10 * 60 * 1000);
-
-    mockVerificationFindFirst.mockResolvedValueOnce({
-      id: 1,
-      userId,
-      type: 'PHONE',
-      tokenHash,
-      expiresAt: future,
-      usedAt: null,
-    });
-
-    mockTransaction.mockResolvedValueOnce([]);
+describe('POST /auth/verify-phone-code', () => {
+  it('returns 422 for invalid input', async () => {
+    const app = createApp();
 
     const res = await request(app)
-      .post('/auth/phone/verify')
-      .send({ code });
+      .post('/auth/verify-phone-code')
+      .send({
+        phone: 'bad-phone',
+        code: 'abc',
+      });
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ ok: true });
+    expect(res.statusCode).toBe(422);
+    expect(res.body).toEqual({
+      message: 'Invalid input',
+    });
 
-    expect(mockVerificationFindFirst).toHaveBeenCalledWith({
-      where: { userId, type: 'PHONE', usedAt: null },
+    expect(mockPhoneOtpFindFirst).not.toHaveBeenCalled();
+  });
+
+  it('returns 400 when no OTP exists', async () => {
+    const app = createApp();
+    const phone = '+15550001234';
+
+    mockPhoneOtpFindFirst.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .post('/auth/verify-phone-code')
+      .send({
+        phone,
+        code: '123456',
+      });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({
+      message: 'No verification code found',
+    });
+
+    expect(mockPhoneOtpFindFirst).toHaveBeenCalledWith({
+      where: { phone },
       orderBy: { createdAt: 'desc' },
     });
-
-    expect(mockTransaction).toHaveBeenCalledTimes(1);
-    expect(mockVerificationUpdate).toHaveBeenCalled();
-    expect(mockUserUpdate).toHaveBeenCalled();
   });
 
-  it('verifies successfully using in-memory token when DB is unavailable', async () => {
-    const userId = 321;
-    const app = createApp({ user: { id: userId } });
+  it('returns 400 and deletes OTP when code is expired', async () => {
+    const app = createApp();
+    const phone = '+15550001234';
 
-    const code = '765432';
-    const tokenHash = sha256Local(code);
-    const future = new Date(Date.now() + 10 * 60 * 1000);
+    mockPhoneOtpFindFirst.mockResolvedValueOnce({
+      id: 22,
+      phone,
+      otpCode: '123456',
+      expiresAt: new Date(Date.now() - 60 * 1000),
+      attempts: 0,
+    });
 
-    // DB path fails/empty
-    mockVerificationFindFirst.mockResolvedValueOnce(null);
-
-    memTokens.set(userId, {
-      tokenHash,
-      expiresAt: future,
-      usedAt: null,
-      phone: '+1 555 999 8888',
+    mockPhoneOtpDeleteMany.mockResolvedValueOnce({
+      count: 1,
     });
 
     const res = await request(app)
-      .post('/auth/phone/verify')
-      .send({ code });
+      .post('/auth/verify-phone-code')
+      .send({
+        phone,
+        code: '123456',
+      });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({
+      message: 'Code expired',
+    });
+
+    expect(mockPhoneOtpDeleteMany).toHaveBeenCalledWith({
+      where: { id: 22 },
+    });
+  });
+
+  it('returns 400 and increments attempts when code is wrong', async () => {
+    const app = createApp();
+    const phone = '+15550001234';
+
+    mockPhoneOtpFindFirst.mockResolvedValueOnce({
+      id: 33,
+      phone,
+      otpCode: '111111',
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+      attempts: 2,
+    });
+
+    mockPhoneOtpUpdate.mockResolvedValueOnce({
+      id: 33,
+      attempts: 3,
+    });
+
+    const res = await request(app)
+      .post('/auth/verify-phone-code')
+      .send({
+        phone,
+        code: '222222',
+      });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({
+      message: 'Invalid code',
+    });
+
+    expect(mockPhoneOtpUpdate).toHaveBeenCalledWith({
+      where: { id: 33 },
+      data: { attempts: 3 },
+    });
+  });
+
+  it('verifies code, deletes OTP, and returns pending registration from latest consent', async () => {
+    const app = createApp();
+    const phone = '+15550001234';
+
+    const pendingRegistration = {
+      username: 'julian',
+      email: 'julian@example.com',
+    };
+
+    mockPhoneOtpFindFirst.mockResolvedValueOnce({
+      id: 44,
+      phone,
+      otpCode: '123456',
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+      attempts: 0,
+    });
+
+    mockPhoneOtpDeleteMany.mockResolvedValueOnce({
+      count: 1,
+    });
+
+    mockSmsConsentFindFirst.mockResolvedValueOnce({
+      id: 99,
+      phone,
+      pendingRegistration,
+    });
+
+    const res = await request(app)
+      .post('/auth/verify-phone-code')
+      .send({
+        phone,
+        code: '123456',
+      });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ ok: true });
+    expect(res.body).toEqual({
+      message: 'Phone verified',
+      pendingRegistration,
+    });
 
-    // No transaction (DB token not used)
-    expect(mockTransaction).not.toHaveBeenCalled();
-    expect(mockUserUpdate).toHaveBeenCalled();
+    expect(mockPhoneOtpDeleteMany).toHaveBeenCalledWith({
+      where: { id: 44 },
+    });
 
-    const memTok = memTokens.get(userId);
-    expect(memTok.usedAt).toBeInstanceOf(Date);
+    expect(mockSmsConsentFindFirst).toHaveBeenCalledWith({
+      where: { phone },
+      orderBy: { createdAt: 'desc' },
+    });
   });
 
-  it('returns expired when no token exists in DB or memory', async () => {
-    const userId = 777;
-    const app = createApp({ user: { id: userId } });
+  it('verifies code and returns pendingRegistration null when no consent exists', async () => {
+    const app = createApp();
+    const phone = '+15550001234';
 
-    mockVerificationFindFirst.mockResolvedValueOnce(null);
+    mockPhoneOtpFindFirst.mockResolvedValueOnce({
+      id: 55,
+      phone,
+      otpCode: '654321',
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+      attempts: 0,
+    });
+
+    mockPhoneOtpDeleteMany.mockResolvedValueOnce({
+      count: 1,
+    });
+
+    mockSmsConsentFindFirst.mockResolvedValueOnce(null);
 
     const res = await request(app)
-      .post('/auth/phone/verify')
-      .send({ code: '000000' });
+      .post('/auth/verify-phone-code')
+      .send({
+        phone,
+        code: '654321',
+      });
 
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ ok: false, reason: 'expired' });
-  });
-
-  it('returns bad_code when tokenHash does not match (DB path)', async () => {
-    const userId = 888;
-    const app = createApp({ user: { id: userId } });
-
-    const correctCode = '111111';
-    const wrongCode = '222222';
-
-    const tokenHash = sha256Local(correctCode);
-    const future = new Date(Date.now() + 10 * 60 * 1000);
-
-    mockVerificationFindFirst.mockResolvedValueOnce({
-      id: 5,
-      userId,
-      type: 'PHONE',
-      tokenHash,
-      expiresAt: future,
-      usedAt: null,
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({
+      message: 'Phone verified',
+      pendingRegistration: null,
     });
-
-    const res = await request(app)
-      .post('/auth/phone/verify')
-      .send({ code: wrongCode });
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ ok: false, reason: 'bad_code' });
-  });
-
-  it('throttles attempts and returns too_many_attempts after MAX_ATTEMPTS', async () => {
-    const userId = 999;
-    const app = createApp({ user: { id: userId } });
-
-    const correctCode = '333333';
-    const wrongCode = '444444';
-    const tokenHash = sha256Local(correctCode);
-    const future = new Date(Date.now() + 10 * 60 * 1000);
-
-    // Force memory path (no DB token)
-    mockVerificationFindFirst.mockResolvedValue(null);
-    memTokens.set(userId, {
-      tokenHash,
-      expiresAt: future,
-      usedAt: null,
-      phone: '+1 555 000 0000',
-    });
-
-    // First 5 attempts: bad_code
-    for (let i = 0; i < 5; i++) {
-      const r = await request(app)
-        .post('/auth/phone/verify')
-        .send({ code: wrongCode });
-
-      expect(r.statusCode).toBe(400);
-      expect(r.body.reason).toBe('bad_code');
-    }
-
-    // 6th attempt: throttled
-    const res6 = await request(app)
-      .post('/auth/phone/verify')
-      .send({ code: wrongCode });
-
-    expect(res6.statusCode).toBe(429);
-    expect(res6.body).toEqual({
-      ok: false,
-      reason: 'too_many_attempts',
-    });
-  });
-
-  it('treats expired token as expired (memory path)', async () => {
-    const userId = 444;
-    const app = createApp({ user: { id: userId } });
-
-    const code = '555555';
-    const tokenHash = sha256Local(code);
-    const past = new Date(Date.now() - 60 * 1000);
-
-    mockVerificationFindFirst.mockResolvedValueOnce(null);
-
-    memTokens.set(userId, {
-      tokenHash,
-      expiresAt: past, // already expired
-      usedAt: null,
-      phone: '+1 555 123 0000',
-    });
-
-    const res = await request(app)
-      .post('/auth/phone/verify')
-      .send({ code });
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ ok: false, reason: 'expired' });
   });
 });

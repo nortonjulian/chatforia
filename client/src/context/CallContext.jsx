@@ -561,22 +561,40 @@ function onParticipantDeclined({ participant }) {
 }
 
   function cleanup() {
-    try {
-      Object.values(peerConnectionsRef.current).forEach((pc) => {
-        try { pc.getSenders().forEach((s) => s.track?.stop()); } catch {}
-        try { pc.close(); } catch {}
-      });
-    } catch {}
+    const connections = [
+      ...Object.values(peerConnectionsRef.current),
+      pcRef.current,
+    ].filter(Boolean);
+
+    const uniqueConnections = [...new Set(connections)];
+
+    uniqueConnections.forEach((pc) => {
+      try {
+        pc.getSenders().forEach((sender) => {
+          sender.track?.stop();
+        });
+      } catch {}
+
+      try {
+        pc.close();
+      } catch {}
+    });
 
     peerConnectionsRef.current = {};
     pcRef.current = null;
 
     if (localStreamRef.current) {
-      try { localStreamRef.current.getTracks().forEach((t) => t.stop()); } catch {}
+      try {
+        localStreamRef.current
+          .getTracks()
+          .forEach((track) => track.stop());
+      } catch {}
+
       localStreamRef.current = null;
     }
 
     remoteStreamRef.current = new MediaStream();
+
     setActive(null);
     setIncoming(null);
     setPending(false);
