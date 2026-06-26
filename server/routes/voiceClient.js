@@ -45,9 +45,9 @@ router.post('/token', requireAuth, (req, res) => {
     const ttlSeconds = 60 * 60;
 
     const token = new AccessToken(accountSid, apiKeySid, apiKeySecret, {
+      identity,
       ttl: ttlSeconds,
     });
-    token.identity = identity;
 
     const androidPushCredentialSid = process.env.TWILIO_ANDROID_PUSH_CREDENTIAL_SID;
 
