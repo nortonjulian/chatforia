@@ -234,7 +234,7 @@ router.post('/client', async (req, res) => {
 
     const numericUserId = Number(to);
 
-    if (/^\d+$/.test(to) && !Number.isNaN(numericUserId)) {
+    if (/^\d{1,9}$/.test(to) && !Number.isNaN(numericUserId)) {
       const targetUser = await prisma.user.findUnique({
         where: { id: numericUserId },
         select: { id: true },
