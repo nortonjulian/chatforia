@@ -49,24 +49,43 @@ router.post('/token', requireAuth, (req, res) => {
     });
     token.identity = identity;
 
-    const voiceGrant = new VoiceGrant({
+    const androidPushCredentialSid = process.env.TWILIO_ANDROID_PUSH_CREDENTIAL_SID;
+
+    // Detect Android without breaking web/iOS
+    const platform = String(
+      req.body?.platform ||
+      req.query?.platform ||
+      req.get('x-chatforia-platform') ||
+      req.get('user-agent') ||
+      ''
+    ).toLowerCase();
+
+    const isAndroid = platform.includes('android');
+
+    const voiceGrantOptions = {
       outgoingApplicationSid: appSid,
-      incomingAllow: true, // allow inbound client calls later if you want
-    });
+      incomingAllow: true,
+    };
 
-    token.addGrant(voiceGrant);
+    if (isAndroid && androidPushCredentialSid) {
+      voiceGrantOptions.pushCredentialSid = androidPushCredentialSid;
+    }
 
-    const jwtToken = token.toJwt();
+    const voiceGrant = new VoiceGrant(voiceGrantOptions);
 
-    return res.json({
-      token: jwtToken,
-      identity,
-      ttlSeconds,
-    });
-  } catch (err) {
-    console.error('[voiceClient] token error', err);
-    return res.status(500).json({ error: 'Failed to create voice token' });
-  }
-});
+      token.addGrant(voiceGrant);
+
+      const jwtToken = token.toJwt();
+
+      return res.json({
+        token: jwtToken,
+        identity,
+        ttlSeconds,
+      });
+    } catch (err) {
+      console.error('[voiceClient] token error', err);
+      return res.status(500).json({ error: 'Failed to create voice token' });
+    }
+  });
 
 export default router;

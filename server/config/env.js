@@ -64,6 +64,8 @@ export const ENV = {
   DISABLE_TELCO_VALIDATION: bool(process.env.DISABLE_TELCO_VALIDATION, false),
   DEFAULT_PROVIDER: (process.env.DEFAULT_PROVIDER || 'twilio').toLowerCase(),
 
+  SMS_PROVIDER: (process.env.SMS_PROVIDER || '').toLowerCase(),
+
   TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID || '',
   TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN || '',
   TWILIO_API_KEY_SID: process.env.TWILIO_API_KEY_SID || '',

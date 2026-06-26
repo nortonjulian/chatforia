@@ -58,7 +58,9 @@ export default function validateEnv() {
   const wantsTwilio =
     !telcoValidationDisabled &&
     (
+      String(ENV.SMS_PROVIDER || '').toLowerCase() === 'twilio' ||
       String(ENV.DEFAULT_PROVIDER || '').toLowerCase() === 'twilio' ||
+      String(ENV.TELCO_PROVIDER || '').toLowerCase() === 'twilio' ||
       has(ENV.TWILIO_ACCOUNT_SID) ||
       has(ENV.TWILIO_AUTH_TOKEN) ||
       has(ENV.TWILIO_API_KEY_SID) ||
