@@ -1,113 +1,42 @@
-import express from 'express';
-import twilio from 'twilio';
-import { requireAuth } from '../middleware/auth.js';
+const androidPushCredentialSid = process.env.TWILIO_ANDROID_PUSH_CREDENTIAL_SID;
+const iosPushCredentialSid = process.env.TWILIO_IOS_PUSH_CREDENTIAL_SID;
 
-const router = express.Router();
+// Detect Android/iOS without breaking web
+const platform = String(
+  req.body?.platform ||
+  req.query?.platform ||
+  req.get('x-chatforia-platform') ||
+  req.get('user-agent') ||
+  ''
+).toLowerCase();
 
-const { jwt } = twilio;
-const { AccessToken } = jwt;
-const { VoiceGrant } = AccessToken;
+const isAndroid = platform.includes('android');
 
-/**
- * POST /voice/token
- *
- * Returns a Twilio Access Token that the browser can use with the
- * Twilio Voice JS SDK (Twilio.Device) to place/receive calls.
- *
- * Requires:
- *   TWILIO_ACCOUNT_SID
- *   TWILIO_API_KEY_SID
- *   TWILIO_API_KEY_SECRET
- *   TWILIO_VOICE_TWIML_APP_SID  (Twilio Voice App that points to /webhooks/voice/client)
- */
-router.post('/token', requireAuth, (req, res) => {
-  try {
-    const accountSid = process.env.TWILIO_ACCOUNT_SID;
-    const apiKeySid = process.env.TWILIO_API_KEY_SID;
-    const apiKeySecret = process.env.TWILIO_API_KEY_SECRET;
-    const appSid = process.env.TWILIO_VOICE_TWIML_APP_SID;
+const isIOS =
+  platform.includes('ios') ||
+  platform.includes('iphone') ||
+  platform.includes('ipad') ||
+  platform.includes('cfnetwork') ||
+  platform.includes('darwin');
 
-    if (!accountSid || !apiKeySid || !apiKeySecret || !appSid) {
-      return res.status(500).json({
-        error: 'Twilio Voice token not configured (missing env vars)',
-      });
-    }
+const voiceGrantOptions = {
+  outgoingApplicationSid: appSid,
+  incomingAllow: true,
+};
 
-    // Identity: tie to Chatforia user
-    const userId = req.user?.id;
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
+if (isAndroid && androidPushCredentialSid) {
+  voiceGrantOptions.pushCredentialSid = androidPushCredentialSid;
+} else if (isIOS && iosPushCredentialSid) {
+  voiceGrantOptions.pushCredentialSid = iosPushCredentialSid;
+}
 
-    const identity = `user:${userId}`;
-
-    // 1 hour TTL is usually fine
-    const ttlSeconds = 60 * 60;
-
-    const token = new AccessToken(accountSid, apiKeySid, apiKeySecret, {
-      identity,
-      ttl: ttlSeconds,
-    });
-
-    const androidPushCredentialSid = process.env.TWILIO_ANDROID_PUSH_CREDENTIAL_SID;
-    const iosPushCredentialSid = process.env.TWILIO_IOS_PUSH_CREDENTIAL_SID;
-
-    // Detect Android without breaking web/iOS
-    const platform = String(
-      req.body?.platform ||
-      req.query?.platform ||
-      req.get('x-chatforia-platform') ||
-      req.get('user-agent') ||
-      ''
-    ).toLowerCase();
-
-    const isAndroid = platform.includes('android');
-
-    const isIOS =
-      platform.includes('ios') ||
-      platform.includes('iphone') ||
-      platform.includes('ipad') ||
-      platform.includes('cfnetwork') ||
-      platform.includes('darwin');
-
-
-      console.log('[voiceClient] token platform', {
-        userId,
-        identity,
-        platform,
-        isAndroid,
-        isIOS,
-        hasAndroidPushCredentialSid: Boolean(androidPushCredentialSid),
-        hasIosPushCredentialSid: Boolean(iosPushCredentialSid),
-        selectedPushCredentialSid: voiceGrantOptions.pushCredentialSid || null,
-      });
-
-    const voiceGrantOptions = {
-      outgoingApplicationSid: appSid,
-      incomingAllow: true,
-    };
-
-    if (isAndroid && androidPushCredentialSid) {
-      voiceGrantOptions.pushCredentialSid = androidPushCredentialSid;
-    } else if (isIOS && iosPushCredentialSid) {
-      voiceGrantOptions.pushCredentialSid = iosPushCredentialSid;
-    }
-
-    const voiceGrant = new VoiceGrant(voiceGrantOptions);
-
-      token.addGrant(voiceGrant);
-
-      const jwtToken = token.toJwt();
-
-      return res.json({
-        token: jwtToken,
-        identity,
-        ttlSeconds,
-      });
-    } catch (err) {
-      console.error('[voiceClient] token error', err);
-      return res.status(500).json({ error: 'Failed to create voice token' });
-    }
-  });
-
-export default router;
+console.log('[voiceClient] token platform', {
+  userId,
+  identity,
+  platform,
+  isAndroid,
+  isIOS,
+  hasAndroidPushCredentialSid: Boolean(androidPushCredentialSid),
+  hasIosPushCredentialSid: Boolean(iosPushCredentialSid),
+  selectedPushCredentialSid: voiceGrantOptions.pushCredentialSid || null,
+});
