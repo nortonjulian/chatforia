@@ -50,6 +50,7 @@ router.post('/token', requireAuth, (req, res) => {
     });
 
     const androidPushCredentialSid = process.env.TWILIO_ANDROID_PUSH_CREDENTIAL_SID;
+    const iosPushCredentialSid = process.env.TWILIO_IOS_PUSH_CREDENTIAL_SID;
 
     // Detect Android without breaking web/iOS
     const platform = String(
@@ -62,6 +63,25 @@ router.post('/token', requireAuth, (req, res) => {
 
     const isAndroid = platform.includes('android');
 
+    const isIOS =
+      platform.includes('ios') ||
+      platform.includes('iphone') ||
+      platform.includes('ipad') ||
+      platform.includes('cfnetwork') ||
+      platform.includes('darwin');
+
+
+      console.log('[voiceClient] token platform', {
+        userId,
+        identity,
+        platform,
+        isAndroid,
+        isIOS,
+        hasAndroidPushCredentialSid: Boolean(androidPushCredentialSid),
+        hasIosPushCredentialSid: Boolean(iosPushCredentialSid),
+        selectedPushCredentialSid: voiceGrantOptions.pushCredentialSid || null,
+      });
+
     const voiceGrantOptions = {
       outgoingApplicationSid: appSid,
       incomingAllow: true,
@@ -69,6 +89,8 @@ router.post('/token', requireAuth, (req, res) => {
 
     if (isAndroid && androidPushCredentialSid) {
       voiceGrantOptions.pushCredentialSid = androidPushCredentialSid;
+    } else if (isIOS && iosPushCredentialSid) {
+      voiceGrantOptions.pushCredentialSid = iosPushCredentialSid;
     }
 
     const voiceGrant = new VoiceGrant(voiceGrantOptions);
