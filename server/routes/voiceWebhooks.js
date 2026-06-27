@@ -274,16 +274,26 @@ router.post('/client', async (req, res) => {
     }
 
     const dest = normalizeE164(to);
-    if (!isE164(dest)) {
-      twiml.say('The number you dialed is not valid.');
-      twiml.hangup();
+      if (!isE164(dest)) {
+        twiml.say('The number you dialed is not valid.');
+        twiml.hangup();
+        return res.type('text/xml').send(twiml.toString());
+      }
+
+      const dial = callerId ? twiml.dial({ callerId }) : twiml.dial();
+      dial.number(dest);
+
+      console.log('[voice/client TwiML]', {
+        To,
+        From,
+        identity,
+        to,
+        dest,
+        callerId,
+        xml: twiml.toString(),
+      });
+
       return res.type('text/xml').send(twiml.toString());
-    }
-
-    const dial = callerId ? twiml.dial({ callerId }) : twiml.dial();
-    dial.number(dest);
-
-    return res.type('text/xml').send(twiml.toString());
   } catch (err) {
     console.error('[Twilio Voice client] error', err);
     twiml.say('An error occurred. Goodbye.');
