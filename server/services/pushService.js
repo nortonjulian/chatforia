@@ -24,7 +24,7 @@ function getProvider() {
 
   provider = new apn.Provider({
     token: {
-      key: APNS_KEY,
+      key: APNS_KEY.replace(/\\n/g, '\n').replace(/^"|"$/g, ''),
       keyId: APNS_KEY_ID,
       teamId: APNS_TEAM_ID,
     },

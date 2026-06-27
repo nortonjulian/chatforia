@@ -481,6 +481,7 @@ router.post('/push-token', requireAuth, async (req, res) => {
 
   if (pushProvider === 'apns_voip') {
     pushTokenData.voipPushToken = pushToken;
+    pushTokenData.pushProvider = 'apns_voip';
   } else if (pushProvider === 'apns') {
     pushTokenData.apnsPushToken = pushToken;
     pushTokenData.pushToken = pushToken;
