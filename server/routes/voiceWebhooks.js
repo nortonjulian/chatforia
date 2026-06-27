@@ -280,7 +280,14 @@ router.post('/client', async (req, res) => {
         return res.type('text/xml').send(twiml.toString());
       }
 
-      const dial = callerId ? twiml.dial({ callerId }) : twiml.dial();
+      const dial = twiml.dial({
+        ...(callerId ? { callerId } : {}),
+        answerOnBridge: true,
+        timeout: 30,
+        action: '/webhooks/voice/dial-complete',
+        method: 'POST',
+      });
+
       dial.number(dest);
 
       console.log('[voice/client TwiML]', {
