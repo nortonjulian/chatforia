@@ -505,6 +505,7 @@ export function createApp() {
   app.use('/sms-consent', express.json(), smsConsentRouter);
   app.use('/search/people', requireAuth, searchPeopleRouter);
   app.use('/webhooks/voice', voiceWebhooks);
+  app.use('/api/webhooks/voice', voiceWebhooks);
   app.use('/api', videoTokens);
   app.use('/pricing', pricingRouter);
   app.use('/api/pricing', pricingRouter);
