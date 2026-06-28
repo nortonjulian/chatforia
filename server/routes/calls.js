@@ -236,7 +236,7 @@ router.post('/start-external', asyncHandler(async (req, res) => {
       calleeId: null,
       roomId: roomId ?? null,
       mode: 'AUDIO',
-      status: 'OUTGOING',
+      status: 'INITIATED',
       externalPhone: phoneNumber,
       twilioCallSid: twilioCallSid ?? null,
       participants: {
