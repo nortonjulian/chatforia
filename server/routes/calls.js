@@ -213,6 +213,63 @@ if (mode === 'VIDEO') {
   });
 }));
 
+
+/**
+ * POST /calls/start-external
+ * { phoneNumber, mode?: 'AUDIO', roomId?, twilioCallSid? }
+ */
+router.post('/start-external', asyncHandler(async (req, res) => {
+  const callerId = Number(req.user.id);
+  const { phoneNumber, mode = 'AUDIO', roomId, twilioCallSid } = req.body || {};
+
+  if (!phoneNumber) {
+    return res.status(400).json({ error: 'phoneNumber required' });
+  }
+
+  if (mode !== 'AUDIO') {
+    return res.status(400).json({ error: 'External calls only support AUDIO' });
+  }
+
+  const call = await prisma.call.create({
+    data: {
+      callerId,
+      calleeId: null,
+      roomId: roomId ?? null,
+      mode: 'AUDIO',
+      status: 'OUTGOING',
+      externalPhone: phoneNumber,
+      twilioCallSid: twilioCallSid ?? null,
+      participants: {
+        create: [
+          {
+            userId: callerId,
+            role: 'HOST',
+            status: 'JOINED',
+            joinedAt: new Date(),
+          },
+        ],
+      },
+    },
+    select: {
+      id: true,
+      callerId: true,
+      calleeId: true,
+      mode: true,
+      status: true,
+      roomId: true,
+      externalPhone: true,
+      twilioCallSid: true,
+      createdAt: true,
+    },
+  });
+
+  res.status(201).json({
+    callId: call.id,
+    resolvedCallId: call.id,
+    call,
+  });
+}));
+
 /**
  * POST /calls/answer
  * { callId, answer:{type,sdp} }
