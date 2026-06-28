@@ -404,8 +404,13 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     twilioCallSid,
   } = req.body || {};
 
-  const call = await prisma.call.findUnique({ where: { id: callId } });
+  const call = await prisma.call.findUnique({
+    where: { id: callId },
+    include: { participants: true },
+  });
+
   if (!call) return res.status(404).json({ error: 'Call not found' });
+
   if (!(await ensureParticipant(call, userId))) {
     return res.status(403).json({ error: 'Not a participant' });
   }
@@ -420,38 +425,77 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
       endReason: endReason ?? undefined,
       twilioCallSid: twilioCallSid ?? undefined,
     },
-  });
-
-  res.json({ call: updated });
-}));
-
-/**
- * POST /calls/start-external
- * { phoneNumber, mode: 'AUDIO' }
- */
-router.post('/start-external', asyncHandler(async (req, res) => {
-  const callerId = Number(req.user.id);
-  const { phoneNumber, mode = 'AUDIO', twilioCallSid } = req.body || {};
-
-  if (!phoneNumber) {
-    return res.status(400).json({ error: 'phoneNumber required' });
-  }
-
-  const call = await prisma.call.create({
-    data: {
-      callerId,
-      calleeId: null, // IMPORTANT: no user
-      mode,
-      status: 'INITIATED',
-      externalPhone: phoneNumber, // ← you NEED this column
-      twilioCallSid: twilioCallSid ?? null,
+    select: {
+      id: true,
+      callerId: true,
+      calleeId: true,
+      mode: true,
+      status: true,
+      startedAt: true,
+      endedAt: true,
+      durationSec: true,
+      endReason: true,
+      twilioCallSid: true,
     },
   });
 
-  res.status(201).json({
-    callId: call.id,
-    resolvedCallId: call.id,
-  });
+  const terminalStatuses = new Set([
+    'ENDED',
+    'DECLINED',
+    'MISSED',
+    'FAILED',
+  ]);
+
+  const updatedStatus = String(updated.status || '').toUpperCase();
+
+  if (terminalStatuses.has(updatedStatus)) {
+    const notifyIds = new Set();
+
+    if (updated.callerId && updated.callerId !== userId) {
+      notifyIds.add(updated.callerId);
+    }
+
+    if (updated.calleeId && updated.calleeId !== userId) {
+      notifyIds.add(updated.calleeId);
+    }
+
+    for (const p of call.participants || []) {
+      if (p.userId && p.userId !== userId) {
+        notifyIds.add(p.userId);
+      }
+    }
+
+    for (const id of notifyIds) {
+      emitToUser(id, 'call:ended', {
+        callId: updated.id,
+        status: updated.status,
+        endedAt: updated.endedAt,
+        durationSec: updated.durationSec,
+        reason: updated.endReason,
+      });
+    }
+
+    if (updated.mode === 'VIDEO') {
+      for (const id of notifyIds) {
+        emitToUser(id, 'video:ended', {
+          callId: updated.id,
+          status: updated.status,
+          endedAt: updated.endedAt,
+          durationSec: updated.durationSec,
+          reason: updated.endReason,
+        });
+      }
+    }
+
+    console.log('[calls/status] emitted call ended', {
+      callId: updated.id,
+      status: updated.status,
+      endedBy: userId,
+      notified: Array.from(notifyIds),
+    });
+  }
+
+  res.json({ call: updated });
 }));
 
 router.delete('/:id', asyncHandler(async (req, res) => {
