@@ -51,6 +51,12 @@ import {
 import SmsSearchDrawer from '@/components/sms/SmsSearchDrawer.jsx';
 import SmsMediaGalleryModal from '@/components/sms/SmsMediaGalleryModal.jsx';
 
+function isSmsOutgoing(m) {
+  return ['out', 'outbound', 'sent', 'outbound-api', 'outgoing'].includes(
+    String(m?.direction || '').toLowerCase()
+  );
+}
+
 export default function SmsLayout({ currentUserId, currentUser }) {
   const { threadId } = useParams();
   const navigate = useNavigate();
@@ -190,7 +196,7 @@ export default function SmsLayout({ currentUserId, currentUser }) {
     });
 
     try {
-      await axiosClient.delete(`/sms/media/${messageId}`);
+      await axiosClient.delete(`/sms/messages/${messageId}`);
       await loadThread();
     } catch (e) {
       console.error('SMS delete failed', e);
@@ -535,35 +541,46 @@ export default function SmsLayout({ currentUserId, currentUser }) {
           >
             <Stack gap="xs" p="xs">
               {(thread.messages || []).length ? (
-                (thread.messages || []).map((m) => {
-                  const isOut = m.direction === 'out';
+                (thread.messages || []).map((m, index, arr) => {
+                  const isOut = isSmsOutgoing(m);
+
+                  const prev = arr[index - 1];
+                  const next = arr[index + 1];
+
+                  const sameAsPrev = prev ? isSmsOutgoing(prev) === isOut : false;
+                  const sameAsNext = next ? isSmsOutgoing(next) === isOut : false;
+
                   const ts = dayjs(m.createdAt || m.sentAt || m.created_at).format(
                     'MMM D, YYYY • h:mm A'
                   );
 
+                  const isEditing = editingId === m.id;
+                  const media = Array.isArray(m.mediaUrls) ? m.mediaUrls : [];
+
+                  const hasText = Boolean(String(m.body || '').trim());
+                  const hasMedia = media.length > 0;
+
+                  // Match app-to-app behavior: only the last bubble in a streak gets the tail.
+                  const shouldShowTail = !sameAsNext && hasText && !hasMedia;
+
+                  const tailBg = isOut
+                    ? 'var(--bubble-outgoing, #f7a600)'
+                    : 'var(--bubble-incoming-bg, #f3f4f6)';
+
                   const bubbleStyle = {
                     maxWidth: 360,
                     background: isOut
-                      ? 'var(--bubble-outgoing)'
-                      : 'var(--bubble-incoming-bg, var(--card))',
+                      ? 'var(--bubble-outgoing, #f7a600)'
+                      : 'var(--bubble-incoming-bg, #f3f4f6)',
                     color: isOut
-                      ? 'var(--bubble-outgoing-text, #fff)'
-                      : 'var(--bubble-incoming-text, var(--fg))',
-                    borderRadius: 18,
+                      ? 'var(--bubble-outgoing-text, #111)'
+                      : 'var(--bubble-incoming-fg, var(--bubble-incoming-text, #111))',
+                    textShadow: isOut ? 'var(--bubble-outgoing-shadow, none)' : undefined,
 
-                    // Keep incoming bubbles clean. No glow.
-                    boxShadow: isOut && isPremium ? 'var(--bubble-premium-glow)' : 'none',
-
-                    // Optional: only outline outgoing premium bubbles.
-                    border: isOut && isPremium
-                      ? '1px solid var(--bubble-premium-outline)'
-                      : '1px solid rgba(0,0,0,0.06)',
+                    // To match MessageBubble.jsx more closely.
+                    border: 'none',
+                    boxShadow: 'none',
                   };
-
-                  const isEditing = editingId === m.id;
-
-                  // ✅ NEW: MMS thumbnails (per-message)
-                  const media = Array.isArray(m.mediaUrls) ? m.mediaUrls : [];
 
                   return (
                     <Group
@@ -637,117 +654,121 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                               ...bubbleStyle,
                               position: 'relative',
                               zIndex: 2,
-                              borderBottomRightRadius: isOut ? 6 : 18,
-                              borderBottomLeftRadius: isOut ? 18 : 6,
+                              borderRadius: 18,
+                              borderTopRightRadius: isOut && sameAsPrev ? 13 : 18,
+                              borderTopLeftRadius: !isOut && sameAsPrev ? 13 : 18,
+                              borderBottomRightRadius: isOut && shouldShowTail ? 6 : isOut && sameAsNext ? 13 : 18,
+                              borderBottomLeftRadius: !isOut && shouldShowTail ? 6 : !isOut && sameAsNext ? 13 : 18,
                             }}
                             className="sms-bubble"
                           >
-                          {!isEditing ? (
-                            <>
-                              <Text
-                                c="inherit"
-                                style={{
-                                  whiteSpace: 'pre-wrap',
-                                  overflowWrap: 'anywhere',
-                                }}
-                              >
-                                {m.body}
-                              </Text>
-
-                              {media.length > 0 && (
-                                <Group gap="xs" mt={8} wrap="wrap">
-                                  {media.map((_, idx) => {
-                                    const base = API_BASE_URL;
-                                    const src = `${base}/sms/media/${m.id}/${idx}`;
-                                    return (
-                                      <img
-                                        key={`${m.id}-${idx}`}
-                                        src={src}
-                                        alt="MMS"
-                                        style={{
-                                          width: 140,
-                                          height: 140,
-                                          objectFit: 'cover',
-                                          borderRadius: 12,
-                                          cursor: 'pointer',
-                                        }}
-                                        onClick={() => {
-                                          setGalleryOpen(true);
-                                        }}
-                                      />
-                                    );
-                                  })}
-                                </Group>
-                              )}
-                            </>
-                          ) : (
-                            <Box style={{ minWidth: 240 }}>
-                              <Textarea
-                                value={editingText}
-                                onChange={(e) => setEditingText(e.target.value)}
-                                autosize
-                                minRows={2}
-                                styles={{
-                                  input: {
-                                    background: 'transparent',
-                                    color: 'inherit',
-                                    borderColor: 'rgba(255,255,255,0.25)',
-                                  },
-                                }}
-                              />
-                              <Group justify="flex-end" gap="xs" mt={6}>
-                                <Button
-                                  variant="subtle"
-                                  size="xs"
-                                  onClick={cancelEdit}
+                            {!isEditing ? (
+                              <>
+                                <Text
+                                  c="inherit"
+                                  style={{
+                                    whiteSpace: 'pre-wrap',
+                                    overflowWrap: 'anywhere',
+                                  }}
                                 >
-                                  Cancel
-                                </Button>
-                                <Button size="xs" onClick={() => saveEdit(m)}>
-                                  Save
-                                </Button>
-                              </Group>
-                            </Box>
-                          )}
-                        </Paper>
-                      </Tooltip>
+                                  {m.body}
+                                </Text>
 
-                      <Box
-                        aria-hidden="true"
-                        style={{
-                          position: 'absolute',
-                          bottom: 0,
-                          right: isOut ? -8 : 'auto',
-                          left: isOut ? 'auto' : -8,
-                          width: 20,
-                          height: 18,
-                          background: isOut
-                            ? 'var(--bubble-outgoing)'
-                            : 'var(--bubble-incoming-bg, var(--card))',
-                          borderBottomLeftRadius: isOut ? 18 : 0,
-                          borderBottomRightRadius: isOut ? 0 : 18,
-                          zIndex: 1,
-                          pointerEvents: 'none',
-                        }}
-                      />
+                                {media.length > 0 && (
+                                  <Group gap="xs" mt={8} wrap="wrap">
+                                    {media.map((_, idx) => {
+                                      const base = API_BASE_URL;
+                                      const src = `${base}/sms/media/${m.id}/${idx}`;
 
-                      <Box
-                        aria-hidden="true"
-                        style={{
-                          position: 'absolute',
-                          bottom: -1,
-                          right: isOut ? -21 : 'auto',
-                          left: isOut ? 'auto' : -21,
-                          width: 21,
-                          height: 21,
-                          background: 'var(--chat-bg, var(--bg, #fff7ef))',
-                          borderBottomLeftRadius: isOut ? 18 : 0,
-                          borderBottomRightRadius: isOut ? 0 : 18,
-                          zIndex: 1,
-                          pointerEvents: 'none',
-                        }}
-                      />
-                    </Box>
+                                      return (
+                                        <img
+                                          key={`${m.id}-${idx}`}
+                                          src={src}
+                                          alt="MMS"
+                                          style={{
+                                            width: 140,
+                                            height: 140,
+                                            objectFit: 'cover',
+                                            borderRadius: 12,
+                                            cursor: 'pointer',
+                                          }}
+                                          onClick={() => {
+                                            setGalleryOpen(true);
+                                          }}
+                                        />
+                                      );
+                                    })}
+                                  </Group>
+                                )}
+                              </>
+                            ) : (
+                              <Box style={{ minWidth: 240 }}>
+                                <Textarea
+                                  value={editingText}
+                                  onChange={(e) => setEditingText(e.target.value)}
+                                  autosize
+                                  minRows={2}
+                                  styles={{
+                                    input: {
+                                      background: 'transparent',
+                                      color: 'inherit',
+                                      borderColor: 'rgba(255,255,255,0.25)',
+                                    },
+                                  }}
+                                />
+
+                                <Group justify="flex-end" gap="xs" mt={6}>
+                                  <Button variant="subtle" size="xs" onClick={cancelEdit}>
+                                    Cancel
+                                  </Button>
+
+                                  <Button size="xs" onClick={() => saveEdit(m)}>
+                                    Save
+                                  </Button>
+                                </Group>
+                              </Box>
+                            )}
+                          </Paper>
+                        </Tooltip>
+
+                        {shouldShowTail && (
+                          <>
+                            <Box
+                              aria-hidden="true"
+                              style={{
+                                position: 'absolute',
+                                bottom: 0,
+                                right: isOut ? -8 : 'auto',
+                                left: isOut ? 'auto' : -8,
+                                width: 20,
+                                height: 18,
+                                background: tailBg,
+                                borderBottomLeftRadius: isOut ? 18 : 0,
+                                borderBottomRightRadius: isOut ? 0 : 18,
+                                zIndex: 1,
+                                pointerEvents: 'none',
+                              }}
+                            />
+
+                            <Box
+                              aria-hidden="true"
+                              style={{
+                                position: 'absolute',
+                                bottom: -1,
+                                right: isOut ? -21 : 'auto',
+                                left: isOut ? 'auto' : -21,
+                                width: 21,
+                                height: 21,
+                                background: 'var(--chat-bg, var(--bg, #fff7ef))',
+                                borderBottomLeftRadius: isOut ? 18 : 0,
+                                borderBottomRightRadius: isOut ? 0 : 18,
+                                zIndex: 1,
+                                pointerEvents: 'none',
+                              }}
+                            />
+                          </>
+                        )}
+                      </Box>
 
                       {/* ✅ RECEIVED: dots on RIGHT */}
                       {!isOut && (
