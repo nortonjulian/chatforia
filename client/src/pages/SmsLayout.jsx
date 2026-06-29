@@ -359,8 +359,126 @@ export default function SmsLayout({ currentUserId, currentUser }) {
       }}
     >
       <ThreadShell
-        blockLabel={`Block ${titleText || 'number'}`}
-        composer={
+            header={
+              <>
+                {(voiceInitializing || voiceCalling || currentCall || voiceError) && (
+                  <Box
+                    mx="xs"
+                    mt="xs"
+                    mb="xs"
+                    p="xs"
+                    style={{
+                      border: '1px solid var(--border)',
+                      borderRadius: 12,
+                      background: 'var(--card)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: 12,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Text size="sm" c={voiceError ? 'red' : undefined}>
+                      {voiceError
+                        ? voiceError
+                        : currentCall
+                          ? `On call with ${toNumber}`
+                          : voiceCalling || voiceInitializing
+                            ? `Calling ${toNumber}…`
+                            : ''}
+                    </Text>
+
+                    {(currentCall || voiceCalling) && (
+                      <Button color="red" size="xs" onClick={hangup}>
+                        End
+                      </Button>
+                    )}
+                  </Box>
+                )}
+
+                <Box p="md" w="100%">
+                  <Group mb="sm" justify="space-between" align="center">
+                    <Title order={4}>{titleText}</Title>
+
+                    <Group gap="xs">
+                      <Tooltip label="Call" withArrow withinPortal>
+                        <ActionIcon
+                          variant="subtle"
+                          aria-label="Call"
+                          onClick={startSmsCall}
+                          disabled={!toNumber || voiceInitializing || voiceCalling || !!currentCall}
+                        >
+                          <IconPhoneCall size={18} />
+                        </ActionIcon>
+                      </Tooltip>
+
+                      <Tooltip
+                        label={
+                          linkedChatRoomId
+                            ? 'Video'
+                            : 'Invite them to Chatforia to enable video'
+                        }
+                        withArrow
+                        withinPortal
+                      >
+                        <span style={{ display: 'inline-flex' }}>
+                          <ActionIcon
+                            variant="subtle"
+                            aria-label="Video"
+                            onClick={startSmsVideo}
+                            disabled={!linkedChatRoomId}
+                          >
+                            <IconVideo size={18} />
+                          </ActionIcon>
+                        </span>
+                      </Tooltip>
+
+                      <Tooltip label="Search" withArrow>
+                        <ActionIcon
+                          variant="subtle"
+                          aria-label="Search"
+                          onClick={() => setSearchOpen(true)}
+                        >
+                          <IconSearch size={18} />
+                        </ActionIcon>
+                      </Tooltip>
+
+                      <Tooltip label="Media" withArrow>
+                        <ActionIcon
+                          variant="subtle"
+                          aria-label="Media"
+                          onClick={() => setGalleryOpen(true)}
+                        >
+                          <IconPhoto size={18} />
+                        </ActionIcon>
+                      </Tooltip>
+
+                      <ThreadActionsMenu
+                        isPremium={isPremium}
+                        showPremiumSection
+                        showThreadSection
+                        onAiPower={() => {
+                          if (!isPremium) return navigate('/upgrade');
+                          console.log('SMS AI Power (todo)');
+                        }}
+                        onSchedule={() => {
+                          if (!isPremium) return navigate('/upgrade');
+                          console.log('SMS Schedule (todo)');
+                        }}
+                        onSearch={() => setSearchOpen(true)}
+                        onMedia={() => setGalleryOpen(true)}
+                        canInvite
+                        inviteLabel="Invite to Chatforia"
+                        onInvitePeople={inviteToChatforia}
+                        onBlock={blockNumber}
+                        blockLabel={`Block ${titleText || 'number'}`}
+                      />
+                    </Group>
+                  </Group>
+                </Box>
+              </>
+            }
+            composer={
           <Box w="100%">
             <ThreadComposer
               value={draft}
