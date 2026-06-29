@@ -379,6 +379,48 @@ router.post('/client', async (req, res) => {
         return res.type('text/xml').send(twiml.toString());
       }
 
+      const browserUserId = identity.startsWith('user:')
+        ? Number(identity.split(':')[1])
+        : null;
+
+      const parentCallSid = req.body?.CallSid || null;
+
+      if (Number.isFinite(browserUserId) && parentCallSid) {
+        try {
+          const existing = await prisma.call.findFirst({
+            where: { twilioCallSid: parentCallSid },
+            select: { id: true },
+          });
+
+          if (!existing) {
+            await prisma.call.create({
+              data: {
+                callerId: browserUserId,
+                calleeId: null,
+                mode: 'AUDIO',
+                status: 'INITIATED',
+                externalPhone: dest,
+                twilioCallSid: parentCallSid,
+                fromLabel: callerId || null,
+                toLabel: dest,
+                participants: {
+                  create: [
+                    {
+                      userId: browserUserId,
+                      role: 'HOST',
+                      status: 'JOINED',
+                      joinedAt: new Date(),
+                    },
+                  ],
+                },
+              },
+            });
+          }
+        } catch (err) {
+          console.error('[Twilio Voice client] failed to create browser PSTN call row', err);
+        }
+      }
+
       const dial = twiml.dial({
         ...(callerId ? { callerId } : {}),
         answerOnBridge: true,

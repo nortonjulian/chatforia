@@ -85,6 +85,7 @@ export default function SmsLayout({ currentUserId, currentUser }) {
     hangup,
     initializing: voiceInitializing,
     calling: voiceCalling,
+    callStatus,
     currentCall,
     error: voiceError,
   } = useTwilioVoice();
@@ -105,6 +106,39 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   const titleText = useMemo(() => {
     return thread?.displayName || thread?.contactName || toNumber || 'Message';
   }, [thread, toNumber]);
+
+  const callBannerText = useMemo(() => {
+    if (voiceError) return voiceError;
+
+    switch (callStatus) {
+      case 'initializing':
+        return 'Preparing browser calling…';
+      case 'connecting':
+        return `Connecting to ${toNumber}…`;
+      case 'ringing':
+        return `Ringing ${toNumber}…`;
+      case 'in-call':
+        return `On call with ${toNumber}`;
+      case 'ending':
+        return 'Ending call…';
+      case 'ended':
+        return 'Call ended';
+      case 'incoming':
+        return 'Incoming browser call…';
+      case 'error':
+        return voiceError || 'Call error';
+      default:
+        return '';
+    }
+  }, [callStatus, toNumber, voiceError]);
+
+const showCallBanner = Boolean(
+  voiceInitializing ||
+    voiceCalling ||
+    currentCall ||
+    voiceError ||
+    ['connecting', 'ringing', 'in-call', 'ending', 'ended', 'incoming', 'error'].includes(callStatus)
+);
 
   const isPremium = Boolean(currentUser?.plan && currentUser.plan !== 'FREE');
 
@@ -267,7 +301,16 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   // ✅ Header actions: CALL + VIDEO
   const startSmsCall = useCallback(async () => {
     const target = (toNumber || '').trim();
-    if (!target || voiceInitializing || voiceCalling || currentCall) return;
+
+    if (
+      !target ||
+      voiceInitializing ||
+      voiceCalling ||
+      currentCall ||
+      ['connecting', 'ringing', 'in-call', 'ending'].includes(callStatus)
+    ) {
+      return;
+    }
 
     try {
       await startBrowserCall(target);
@@ -280,7 +323,14 @@ export default function SmsLayout({ currentUserId, currentUser }) {
 
       window.alert(message);
     }
-  }, [toNumber, voiceInitializing, voiceCalling, currentCall, startBrowserCall]);
+  }, [
+    toNumber,
+    voiceInitializing,
+    voiceCalling,
+    currentCall,
+    callStatus,
+    startBrowserCall,
+  ]);
 
   const startSmsVideo = useCallback(() => {
     if (linkedChatRoomId) {
@@ -361,7 +411,7 @@ export default function SmsLayout({ currentUserId, currentUser }) {
       <ThreadShell
             header={
               <>
-                {(voiceInitializing || voiceCalling || currentCall || voiceError) && (
+                {showCallBanner && (
                   <Box
                     mx="xs"
                     mt="xs"
@@ -379,16 +429,13 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                     }}
                   >
                     <Text size="sm" c={voiceError ? 'red' : undefined}>
-                      {voiceError
-                        ? voiceError
-                        : currentCall
-                          ? `On call with ${toNumber}`
-                          : voiceCalling || voiceInitializing
-                            ? `Calling ${toNumber}…`
-                            : ''}
+                      {callBannerText}
                     </Text>
 
-                    {(currentCall || voiceCalling) && (
+                    {(currentCall ||
+                      voiceCalling ||
+                      callStatus === 'ringing' ||
+                      callStatus === 'in-call') && (
                       <Button color="red" size="xs" onClick={hangup}>
                         End
                       </Button>
@@ -406,7 +453,13 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                           variant="subtle"
                           aria-label="Call"
                           onClick={startSmsCall}
-                          disabled={!toNumber || voiceInitializing || voiceCalling || !!currentCall}
+                          disabled={
+                            !toNumber ||
+                            voiceInitializing ||
+                            voiceCalling ||
+                            !!currentCall ||
+                            ['connecting', 'ringing', 'in-call', 'ending'].includes(callStatus)
+                          }
                         >
                           <IconPhoneCall size={18} />
                         </ActionIcon>
@@ -426,7 +479,6 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                             variant="subtle"
                             aria-label="Video"
                             onClick={startSmsVideo}
-                            disabled={!linkedChatRoomId}
                           >
                             <IconVideo size={18} />
                           </ActionIcon>
