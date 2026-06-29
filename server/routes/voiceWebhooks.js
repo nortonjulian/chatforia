@@ -387,12 +387,48 @@ router.post('/client', async (req, res) => {
 
       if (Number.isFinite(browserUserId) && parentCallSid) {
         try {
+          const recentCutoff = new Date(Date.now() - 5 * 60 * 1000);
+
           const existing = await prisma.call.findFirst({
-            where: { twilioCallSid: parentCallSid },
-            select: { id: true },
+            where: {
+              OR: [
+                { twilioCallSid: parentCallSid },
+                {
+                  callerId: browserUserId,
+                  calleeId: null,
+                  mode: 'AUDIO',
+                  externalPhone: dest,
+                  twilioCallSid: null,
+                  status: {
+                    in: ['INITIATED', 'RINGING', 'ACTIVE'],
+                  },
+                  createdAt: {
+                    gte: recentCutoff,
+                  },
+                },
+              ],
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+            select: {
+              id: true,
+              twilioCallSid: true,
+            },
           });
 
-          if (!existing) {
+          if (existing) {
+            if (!existing.twilioCallSid) {
+              await prisma.call.update({
+                where: { id: existing.id },
+                data: {
+                  twilioCallSid: parentCallSid,
+                  fromLabel: callerId || null,
+                  toLabel: dest,
+                },
+              });
+            }
+          } else {
             await prisma.call.create({
               data: {
                 callerId: browserUserId,
