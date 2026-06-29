@@ -50,6 +50,7 @@ import {
 } from '@/utils/smsMessagesStore.js';
 import SmsSearchDrawer from '@/components/sms/SmsSearchDrawer.jsx';
 import SmsMediaGalleryModal from '@/components/sms/SmsMediaGalleryModal.jsx';
+import { useTwilioVoice } from '@/hooks/useTwilioVoice';
 
 function isSmsOutgoing(m) {
   return ['out', 'outbound', 'sent', 'outbound-api', 'outgoing'].includes(
@@ -78,6 +79,15 @@ export default function SmsLayout({ currentUserId, currentUser }) {
 
   const loadingRef = useRef(false);
   const bottomRef = useRef(null);
+
+  const {
+    startBrowserCall,
+    hangup,
+    initializing: voiceInitializing,
+    calling: voiceCalling,
+    currentCall,
+    error: voiceError,
+  } = useTwilioVoice();
 
   const scrollToBottom = useCallback(() => {
     requestAnimationFrame(() => {
@@ -255,12 +265,22 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   }, []);
 
   // ✅ Header actions: CALL + VIDEO
-  const startSmsCall = useCallback(() => {
+  const startSmsCall = useCallback(async () => {
     const target = (toNumber || '').trim();
-    if (!target) return;
-    // Wire this to your Calls flow. This is a sane default.
-    navigate(`/calls?to=${encodeURIComponent(target)}`);
-  }, [navigate, toNumber]);
+    if (!target || voiceInitializing || voiceCalling || currentCall) return;
+
+    try {
+      await startBrowserCall(target);
+    } catch (e) {
+      const message =
+        e?.response?.data?.message ||
+        e?.response?.data?.error ||
+        e?.message ||
+        'Could not start the browser call.';
+
+      window.alert(message);
+    }
+  }, [toNumber, voiceInitializing, voiceCalling, currentCall, startBrowserCall]);
 
   const startSmsVideo = useCallback(() => {
     if (linkedChatRoomId) {
@@ -339,92 +359,7 @@ export default function SmsLayout({ currentUserId, currentUser }) {
       }}
     >
       <ThreadShell
-        header={
-          <Box p="md" w="100%">
-            <Group mb="sm" justify="space-between" align="center">
-              <Title order={4}>{titleText}</Title>
-
-              <Group gap="xs">
-                {/* ✅ NEW: Call */}
-                <Tooltip label="Call" withArrow withinPortal>
-                  <ActionIcon
-                    variant="subtle"
-                    aria-label="Call"
-                    onClick={startSmsCall}
-                  >
-                    <IconPhoneCall size={18} />
-                  </ActionIcon>
-                </Tooltip>
-
-                {/* ✅ NEW: Video (requires Chatforia link) */}
-                <Tooltip
-                  label={
-                    linkedChatRoomId
-                      ? 'Video'
-                      : 'Invite them to Chatforia to enable video'
-                  }
-                  withArrow
-                  withinPortal
-                >
-                  <span style={{ display: 'inline-flex' }}>
-                    <ActionIcon
-                      variant="subtle"
-                      aria-label="Video"
-                      onClick={startSmsVideo}
-                      disabled={!linkedChatRoomId}
-                    >
-                      <IconVideo size={18} />
-                    </ActionIcon>
-                  </span>
-                </Tooltip>
-
-                <Tooltip label="Search" withArrow>
-                  <ActionIcon
-                    variant="subtle"
-                    aria-label="Search"
-                    onClick={() => setSearchOpen(true)}
-                  >
-                    <IconSearch size={18} />
-                  </ActionIcon>
-                </Tooltip>
-
-                <Tooltip label="Media" withArrow>
-                  <ActionIcon
-                    variant="subtle"
-                    aria-label="Media"
-                    onClick={() => setGalleryOpen(true)}
-                  >
-                    <IconPhoto size={18} />
-                  </ActionIcon>
-                </Tooltip>
-
-                {/* ✅ Same menu structure as ChatView (AI Power + Schedule), plus Invite + Block */}
-                <ThreadActionsMenu
-                  isPremium={isPremium}
-                  showPremiumSection
-                  showThreadSection
-                  onAiPower={() => {
-                    if (!isPremium) return navigate('/upgrade');
-                    console.log('SMS AI Power (todo)');
-                  }}
-                  onSchedule={() => {
-                    if (!isPremium) return navigate('/upgrade');
-                    console.log('SMS Schedule (todo)');
-                  }}
-                  onSearch={() => setSearchOpen(true)}
-                  onMedia={() => setGalleryOpen(true)}
-                  // ✅ SMS-specific “Invite” (NOT room invite)
-                  canInvite
-                  inviteLabel="Invite to Chatforia"
-                  onInvitePeople={inviteToChatforia}
-                  // ✅ Local block
-                  onBlock={blockNumber}
-                  blockLabel={`Block ${titleText || 'number'}`}
-                />
-              </Group>
-            </Group>
-          </Box>
-        }
+        blockLabel={`Block ${titleText || 'number'}`}
         composer={
           <Box w="100%">
             <ThreadComposer
