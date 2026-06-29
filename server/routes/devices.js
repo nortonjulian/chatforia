@@ -7,7 +7,6 @@ const router = express.Router();
 
 router.use(express.json());
 
-console.log('✅ NEW devices.js route loaded');
 
 function normalizeString(value, maxLen = 255) {
   if (typeof value !== 'string') return null;
@@ -47,7 +46,7 @@ const deviceSelect = {
 };
 
 router.post('/register', requireAuth, async (req, res, next) => {
-  console.log('✅ NEW /devices/register hit');
+
   try {
     const userId = Number(req.user.id);
 
@@ -505,14 +504,6 @@ router.post('/push-token', requireAuth, async (req, res) => {
     normalizeString(req.body?.name, 191) ||
     (pushProvider === 'fcm' ? 'Android device' : 'iOS device');
 
-  console.log('📥 /devices/push-token request', {
-    userId,
-    deviceId,
-    pushTokenPreview: pushToken ? `${pushToken.slice(0, 12)}...` : null,
-    pushProvider,
-    hasPublicKey: Boolean(publicKey),
-  });
-
   if (!userId || !deviceId || !pushToken) {
     return res.status(400).json({ error: 'deviceId and pushToken are required' });
   }
@@ -589,14 +580,6 @@ router.post('/push-token', requireAuth, async (req, res) => {
         },
       });
     }
-
-    console.log('✅ /devices/push-token saved', {
-      id: device.id,
-      userId: device.userId,
-      deviceId: device.deviceId,
-      platform: device.platform,
-      pushProvider: device.pushProvider,
-    });
 
     return res.json({ success: true, device });
   } catch (error) {

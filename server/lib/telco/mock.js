@@ -4,7 +4,10 @@
  */
 export async function sendSms({ to, text, clientRef }) {
   const sid = `SM_mock_${Date.now().toString(36)}`;
-  console.log(`[MOCK SMS:OUT] sid=${sid} to=${to} text="${text}" ref=${clientRef || '-'}`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`[MOCK SMS:OUT] sid=${sid} ref=${clientRef || '-'}`);
+  }
+
   return {
     ok: true,
     provider: 'mock',

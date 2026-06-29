@@ -112,7 +112,6 @@ export function initSocket(httpServer) {
       sub = createClient({ url: process.env.REDIS_URL });
       await Promise.all([pub.connect(), sub.connect()]);
       io.adapter(createAdapter(pub, sub));
-      console.log('[WS] Redis adapter enabled');
     } catch (err) {
       console.error('[WS] Failed to enable Redis adapter:', err?.message || err);
     }
@@ -135,7 +134,6 @@ export function initSocket(httpServer) {
       // Debug: print short masked token preview (first 8 chars only)
       if (!IS_TEST) {
         const preview = token.slice(0, 8);
-        console.log('[WS] handshake token preview:', preview + (token.length > 8 ? '…' : ''));
       }
 
       const secret =
@@ -163,7 +161,7 @@ export function initSocket(httpServer) {
       });
 
       if (!user) {
-        console.warn('[WS] no user found for decoded token id:', decoded.id);
+        console.warn('[WS] no user found for decoded token id');
         return next(new Error('Unauthorized'));
       }
 
@@ -222,9 +220,6 @@ export function initSocket(httpServer) {
         const rooms = await getUserRoomIds(userId);
         if (rooms.length) {
           await Promise.all(rooms.map((rid) => socket.join(String(rid))));
-          console.log(
-            `[WS] auto-joined ${rooms.length} rooms for user:${userId}`
-          );
         }
       } catch (e) {
         console.warn('[WS] auto-join failed:', e?.message || e);

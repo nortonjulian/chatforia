@@ -20,8 +20,6 @@ function extractToken(handshake) {
 export function cookieSocketAuth(io) {
   io.use((socket, next) => {
     try {
-      // 👀 TEMP debug log
-      console.log('[SOCKET AUTH] token from handshake.auth:', socket.handshake?.auth?.token);
 
       const token = extractToken(socket.handshake);
       if (!token) return next(new Error('Unauthorized'));

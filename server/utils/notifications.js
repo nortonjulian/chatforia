@@ -26,5 +26,5 @@ export async function notifyUserOfPendingRelease(userId, { number, releaseDate }
   };
 
   await sgMail.send(msg);
-  console.log(`[Notify] Email sent: userId=${userId}, email=${user.email}, number=${number}`);
+  console.log(`[Notify] Email sent: userId=${userId}`);
 }

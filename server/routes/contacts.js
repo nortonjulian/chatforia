@@ -85,16 +85,6 @@ router.post(
     const ownerId = Number(req.user.id);
     let { userId, alias, externalPhone, externalName, favorite } = req.body;
 
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('[contacts.post] ownerId=%s body=%o', ownerId, {
-        userId,
-        alias,
-        externalPhone,
-        externalName,
-        favorite,
-      });
-    }
-
     if (!userId && !externalPhone) {
       return res.status(400).json({ error: 'Provide userId or externalPhone' });
     }

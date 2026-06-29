@@ -8,12 +8,12 @@ r.post(
   '/status',
   express.urlencoded({ extended: false }),
   asyncHandler(async (req, res) => {
-    const { MessageSid, MessageStatus, To, From, ErrorCode, ErrorMessage } = req.body || {};
-    console.log(`[Twilio Status] ${MessageSid}: ${MessageStatus}`, {
-      To,
-      From,
-      ErrorCode,
-      ErrorMessage,
+    const { MessageSid, MessageStatus, ErrorCode } = req.body || {};
+
+    console.log('[Twilio Status]', {
+      messageSid: MessageSid || null,
+      status: MessageStatus || null,
+      errorCode: ErrorCode || null,
     });
 
     await handleStatusUpdate({ ...req.body }); // safe if exists, or leave commented until stubbed

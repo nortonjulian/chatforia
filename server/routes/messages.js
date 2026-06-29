@@ -861,17 +861,12 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       originalUrl: req.originalUrl,
       url: req.url,
       params: req.params,
-      query: req.query,
+      queryKeys: req.query && typeof req.query === 'object' ? Object.keys(req.query) : [],
       rawRoomIdRaw,
       rawRoomId,
       sanitizedRoomId,
       chatRoomId,
       hasAuthHeader: !!req.headers['authorization'],
-      authHeaderPreview: (() => {
-        const a = String(req.headers['authorization'] || '');
-        if (!a) return null;
-        return `${a.slice(0, 8)}…${a.slice(-6)}`;
-      })(),
     });
   }
 
@@ -904,17 +899,11 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         membership || (IS_TEST && roomsMem?.members?.get(chatRoomId)?.has(requesterId));
 
       if (!okMember) {
-        console.log('🔒 MESSAGES FORBIDDEN DEBUG', {
-          requestedRoomId: chatRoomId,
-          authedUserId: req.user?.id,
-        });
 
         const p = await prisma.participant.findFirst({
           where: { chatRoomId: Number(chatRoomId), userId: Number(req.user?.id) },
           select: { id: true, userId: true, chatRoomId: true, role: true, archivedAt: true, clearedAt: true },
         });
-
-        console.log('🔒 Participant lookup result:', p);
 
         return res.status(403).json({ error: 'Forbidden' });
       }
@@ -1306,20 +1295,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       await Promise.all(jobs);
     }
 
-    if (isDebug && items.length) {
-      console.debug('[messages:list] first item sample', {
-        id: items[0].id,
-        rawContent: items[0].rawContent,
-        contentCiphertext: items[0].contentCiphertext,
-        translatedFrom: items[0].translatedFrom,
-        translatedContent: items[0].translatedContent,
-        translatedTo: items[0].translatedTo,
-        editedAt: items[0].editedAt,
-        deletedForAll: items[0].deletedForAll,
-        keysCount: items[0].keys?.length ?? 0,
-      });
-    }
-
     const shapedDb = items
       .filter((m) => !(m.deletions?.length))
       .filter((m) => !(m.deletedBySender && m.sender.id === requesterId))
@@ -1439,7 +1414,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       name: e?.name,
       roomId: req.params?.chatRoomId,
       userId: req.user?.id,
-      query: req.query,
+      queryKeys: req.query && typeof req.query === 'object' ? Object.keys(req.query) : [],
     });
     return res.status(500).json({
       error: 'Failed to fetch messages',
@@ -2049,9 +2024,6 @@ router.delete(
         const io = req.app.get('io');
         if (io) {
           io.to(String(mm.chatRoomId)).emit('message:deleted', { item: tombstone });
-          console.log(
-            `[WS] Emitted message:deleted (all) to room ${mm.chatRoomId} (test mode)`
-          );
         }
 
         await emitMessageUpsert(mm.chatRoomId, tombstone);
@@ -2168,9 +2140,6 @@ router.delete(
       const io = req.app.get('io');
       if (io) {
         io.to(String(message.chatRoomId)).emit('message:deleted', { item: tombstone });
-        console.log(
-          `[WS] Emitted message:deleted (all) to room ${String(message.chatRoomId)} id=${messageId}`
-        );
       }
 
       await emitMessageUpsert(message.chatRoomId, tombstone);

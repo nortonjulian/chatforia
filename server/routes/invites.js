@@ -181,7 +181,10 @@ async function sendSmsTestSafe({ to, text, clientRef }) {
 
   if (USE_SMS_MOCK) {
     const fakeSid = `SM_mock_${Date.now().toString(36)}`;
-    console.info('[invites] MOCK SMS →', { to, text, sid: fakeSid });
+    if (process.env.NODE_ENV !== 'production') {
+      console.info('[invites] MOCK SMS sent', { sid: fakeSid });
+    }
+
     return { provider: 'mock', messageSid: fakeSid };
   }
 

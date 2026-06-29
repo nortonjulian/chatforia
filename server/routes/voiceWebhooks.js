@@ -42,6 +42,15 @@ router.post('/status', async (req, res) => {
         ? new Date(Timestamp)
         : new Date();
 
+    const safeVoicePayload = {
+      CallSid: CallSid || null,
+      CallStatus: CallStatus || null,
+      Direction: Direction || null,
+      AnsweredBy: AnsweredBy || null,
+      Duration: Duration || null,
+      ErrorCode: req.body?.ErrorCode || null,
+    };
+
     await prisma.voiceLog.upsert({
       where: { callSid: CallSid || '' },
       update: {
@@ -52,7 +61,7 @@ router.post('/status', async (req, res) => {
         answeredBy: AnsweredBy || null,
         timestamp: ts,
         durationSec: Duration != null ? Number(Duration) : null,
-        rawPayload: req.body,
+        rawPayload: safeVoicePayload,
       },
       create: {
         callSid: CallSid || '',
@@ -63,11 +72,14 @@ router.post('/status', async (req, res) => {
         answeredBy: AnsweredBy || null,
         timestamp: ts,
         durationSec: Duration != null ? Number(Duration) : null,
-        rawPayload: req.body,
+        rawPayload: safeVoicePayload,
       },
     });
   } catch (err) {
-    console.error('[Twilio Voice Status] failed to log', err);
+    console.error('[Twilio Voice Status] failed to log', {
+      message: err?.message || String(err),
+      code: err?.code || null,
+    });
   }
 });
 
@@ -231,9 +243,6 @@ router.post('/inbound-app-complete', async (req, res) => {
     console.log('[Twilio Voice inbound-app-complete]', {
       dialStatus,
       userId,
-      fromNumber,
-      toNumber,
-      body: req.body,
     });
 
     // If the app call completed normally, do not forward afterward.

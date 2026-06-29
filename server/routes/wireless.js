@@ -123,8 +123,6 @@ router.get('/status', async (req, res) => {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    console.log("🔐 USER:", req.user);
-
     const userId = Number(req.user.id);
     const now = new Date();
 

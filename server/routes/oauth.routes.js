@@ -173,10 +173,8 @@ async function handleAppleCallback(req, res) {
     console.error("[APPLE MANUAL CALLBACK ERROR]", {
       message: e?.message,
       status: e?.response?.status,
-      response: e?.response?.data,
-      requestBody: req.body,
-      requestQuery: req.query,
-      stack: e?.stack,
+      bodyKeys: req.body && typeof req.body === "object" ? Object.keys(req.body) : [],
+      queryKeys: req.query && typeof req.query === "object" ? Object.keys(req.query) : [],
     });
 
     return res.status(500).json({

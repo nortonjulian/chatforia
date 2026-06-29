@@ -75,10 +75,18 @@ async function handleGoogleOAuth(req, res, channel = 'mobile') {
       });
     }
 
-    console.error(`Google ${channel} OAuth error:`, err);
+    console.error(`Google ${channel} OAuth error:`, {
+      message: err?.message || String(err),
+      status: err?.response?.status || null,
+      code: err?.code || null,
+    });
+
     return res.status(500).json({
       error: 'OAuth failed',
-      details: err?.message || String(err),
+      details:
+        process.env.NODE_ENV === 'production'
+          ? undefined
+          : err?.message || String(err),
     });
   }
 }
@@ -124,14 +132,6 @@ router.post('/apple/ios', async (req, res) => {
       return res.status(400).json({ error: 'Invalid Apple token: missing sub' });
     }
 
-    console.log('[APPLE TOKEN DEBUG]', {
-      aud: decoded.aud,
-      expected: appleAudience,
-      bundleIdFallback: 'com.chatforia.Chatforia',
-      iss: decoded.iss,
-      sub: decoded.sub,
-    });
-
     const validAppleAudiences = [
       appleAudience,
       'com.chatforia.Chatforia',
@@ -144,14 +144,6 @@ router.post('/apple/ios', async (req, res) => {
         expected: validAppleAudiences,
       });
     }
-
-    console.info('[oauth.apple.ios] decoded token', {
-      hasNonce: !!nonce,
-      tokenNonce: decoded.nonce || null,
-      aud: decoded.aud || null,
-      sub: appleSub,
-      email,
-    });
 
     const displayName =
       [firstName, lastName].filter(Boolean).join(' ').trim() || null;
@@ -192,10 +184,18 @@ router.post('/apple/ios', async (req, res) => {
       });
     }
 
-    console.error('Apple iOS OAuth error:', err);
+    console.error('Apple iOS OAuth error:', {
+      message: err?.message || String(err),
+      status: err?.response?.status || null,
+      code: err?.code || null,
+    });
+
     return res.status(500).json({
       error: 'OAuth failed',
-      details: err?.message || String(err),
+      details:
+        process.env.NODE_ENV === 'production'
+          ? undefined
+          : err?.message || String(err),
     });
   }
 });

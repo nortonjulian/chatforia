@@ -376,9 +376,9 @@ export async function resumeProfile(req, res) {
  */
 export async function handleEsimWebhook(req, res) {
   try {
-    console.info('[esim] provider webhook received:', {
-      headers: req.headers,
-      body: req.body,
+    console.info('[esim] provider webhook received', {
+      hasBody: Boolean(req.body),
+      bodyKeys: req.body && typeof req.body === 'object' ? Object.keys(req.body) : [],
     });
 
     // TODO: parse event, update DB, etc.

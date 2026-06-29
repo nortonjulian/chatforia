@@ -28,11 +28,14 @@ export function errorHandler(err, req, res, _next) {
 
   const { statusCode, payload } = boomErr.output;
 
-  const safeBody =
+  const bodyKeys =
     req.body && typeof req.body === 'object'
-      ? Object.keys(req.body).length <= 20
-        ? req.body
-        : '[large body]'
+      ? Object.keys(req.body)
+      : undefined;
+
+  const queryKeys =
+    req.query && typeof req.query === 'object'
+      ? Object.keys(req.query)
       : undefined;
 
   const logFields = {
@@ -41,8 +44,8 @@ export function errorHandler(err, req, res, _next) {
     route: req.originalUrl,
     method: req.method,
     params: req.params,
-    query: req.query,
-    body: safeBody,
+    queryKeys,
+    bodyKeys,
     requestId: req.id,
   };
 

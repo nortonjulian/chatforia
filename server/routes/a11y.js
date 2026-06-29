@@ -163,9 +163,10 @@ router.patch('/users/me/a11y', requireAuth, async (req, res) => {
     return res.json({ ok: true, user });
   } catch (err) {
     console.error('PATCH /users/me/a11y error', {
-        body: req.body,
-        code: err.code,
-        message: err.message,
+      userId: req.user?.id || null,
+      code: err.code,
+      message: err.message,
+      bodyKeys: req.body && typeof req.body === 'object' ? Object.keys(req.body) : [],
     });
     return res.status(500).json({ error: 'Failed to update accessibility settings' });
   }

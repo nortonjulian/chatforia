@@ -95,31 +95,10 @@ if (cleanServiceSid) {
     if (isHttps && !isLocalhost) {
       params.statusCallback = url;
     } else if (NODE_ENV === 'production') {
-      console.warn('[twilio-sendSms] Ignoring invalid TWILIO_STATUS_CALLBACK_URL in production:', url);
+      console.warn('[twilio-sendSms] Ignoring invalid TWILIO_STATUS_CALLBACK_URL in production');
     }
   }
 
-  console.log('[twilio-sendSms]', {
-    to: params.to,
-    using: params.from ? 'from' : 'messagingServiceSid',
-    from: params.from || null,
-    messagingServiceSid: params.messagingServiceSid || null,
-    hasMedia: Boolean(params.mediaUrl?.length),
-  });
-
-    console.log('[twilio-sendSms input]', {
-    to,
-    from_in: from || null,
-    env_serviceSid: process.env.TWILIO_MESSAGING_SERVICE_SID || null,
-    env_from: process.env.TWILIO_FROM_NUMBER || null,
-  });
-
-  console.log('[twilio-sendSms params]', {
-    to: params.to,
-    using: params.from ? 'from' : 'messagingServiceSid',
-    from: params.from || null,
-    messagingServiceSid: params.messagingServiceSid || null,
-  });
 
   const msg = await client.messages.create(params);
 

@@ -359,11 +359,6 @@ export function createApp() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Optional debug logging
-  app.use((req, _res, next) => {
-    console.log('💡 After passport.session:', req.user && req.user);
-    next();
-  });
 
   // ✅ Never CSRF-block preflight
   app.use((req, _res, next) => {

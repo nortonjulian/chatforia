@@ -283,12 +283,6 @@ router.post(
         text: `Verify your Chatforia email:\n${link}`,
       });
 
-      console.log('register sendMail result', {
-        email: user.email,
-        success: mailResult?.success,
-        data: mailResult?.data || null,
-        error: mailResult?.error || null,
-      });
     } catch (err) {
       console.error('register sendMail error', err);
     }
@@ -326,11 +320,7 @@ router.post(
     return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
   }
 
-  console.log('[verify-email] hit', req.query);
-
   const tokenHash = await hashToken(String(token));
-  console.log('[verify-email] tokenHash', tokenHash);
-
 
   const record = await prisma.verificationToken.findFirst({
     where: {
@@ -343,7 +333,6 @@ router.post(
     orderBy: { createdAt: 'desc' },
   });
 
-  console.log('[verify-email] record found?', !!record, record?.id);
 
   if (!record) {
     return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
@@ -360,7 +349,6 @@ router.post(
     }),
   ]);
 
-  console.log('[verify-email] success', { userId, recordId: record.id });
   return res.json({ ok: true });
 });
 
@@ -473,15 +461,6 @@ router.post(
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
-      console.log("LOGIN USER:", {
-        id: user?.id,
-        email: user?.email,
-        username: user?.username,
-        emailVerifiedAt: user?.emailVerifiedAt,
-        hasPasswordHash: !!user?.passwordHash,
-        twoFactorEnabled: !!user?.twoFactorEnabled,
-      });
-
       // Ensure there's a usable password hash
       let hash = user.passwordHash;
       if (!hash) {
@@ -499,10 +478,6 @@ router.post(
         ok = await bcrypt.compare(password, hash);
       } catch {}
 
-      console.log("LOGIN PASSWORD CHECK:", {
-        email: user?.email,
-        ok,
-      });
 
       // In test env: heal broken hashes if necessary
       if (!ok && String(process.env.NODE_ENV) === 'test') {
@@ -517,11 +492,6 @@ router.post(
       if (!ok) {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
-
-      console.log("LOGIN VERIFIED CHECK:", {
-        email: user?.email,
-        emailVerifiedAt: user?.emailVerifiedAt,
-      });
 
       // Block login until verified
       if (!user.emailVerifiedAt) {
@@ -1023,12 +993,6 @@ router.post(
           text: `Verify your Chatforia email:\n${link}`,
         });
 
-        console.log('resend-email sendMail result', {
-          email: user.email,
-          success: mailResult?.success,
-          data: mailResult?.data || null,
-          error: mailResult?.error || null,
-        });
       } catch (err) {
         console.error('resend-email sendMail error', err);
       }
@@ -1183,12 +1147,6 @@ router.get(
       },
     });
 
-    console.log("LOGIN USER:", {
-      id: user?.id,
-      email: user?.email,
-      emailVerifiedAt: user?.emailVerifiedAt,
-    });
-
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -1250,15 +1208,6 @@ router.post(
       const userId = Number(req.user?.id);
       const { publicKey, invalidateExistingBackup = true } = req.body || {};
 
-      console.log('[keys/rotate] incoming', {
-        userId,
-        hasPublicKey: !!publicKey,
-        publicKeyType: typeof publicKey,
-        publicKeyLength: publicKey?.length ?? 0,
-        invalidateExistingBackup,
-        body: req.body,
-      });
-
       if (!publicKey || typeof publicKey !== 'string' || publicKey.length < 24) {
         return res.status(400).json({ error: 'publicKey is required' });
       }
@@ -1275,8 +1224,6 @@ router.post(
         data.privateKeyWrapVersion = 1;
       }
 
-      console.log('[keys/rotate] prisma update data', data);
-
       const updated = await prisma.user.update({
         where: { id: userId },
         data,
@@ -1284,12 +1231,6 @@ router.post(
           publicKey: true,
           encryptedPrivateKeyBundle: true,
         },
-      });
-
-      console.log('[keys/rotate] success', {
-        publicKey: updated.publicKey,
-        hasBackup: !!updated.encryptedPrivateKeyBundle,
-        rotatedAt: updated.updatedAt,
       });
 
       return res.json({

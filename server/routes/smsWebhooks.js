@@ -72,6 +72,14 @@ router.post(
               where: { phone: normalizedFrom, provider },
             });
 
+            const safeSmsOptOutPayload = {
+              MessageSid: MessageSid || null,
+              From: normalizedFrom || null,
+              To: To || null,
+              Body: upperBody || null,
+              NumMedia: req.body?.NumMedia || null,
+            };
+
             if (existing) {
               // update reason / inboundMessageId / rawPayload for audit
               await prisma.smsOptOut.update({
@@ -79,7 +87,7 @@ router.post(
                 data: {
                   reason: upperBody,
                   inboundMessageId: MessageSid || null,
-                  rawPayload: req.body,
+                  rawPayload: safeSmsOptOutPayload,
                   ipAddress: req.ip,
                   userAgent: req.get?.('user-agent') || null,
                   createdAt: new Date(),
@@ -92,7 +100,7 @@ router.post(
                   provider,
                   reason: upperBody,
                   inboundMessageId: MessageSid || null,
-                  rawPayload: req.body,
+                  rawPayload: safeSmsOptOutPayload,
                   ipAddress: req.ip,
                   userAgent: req.get?.('user-agent') || null,
                 },

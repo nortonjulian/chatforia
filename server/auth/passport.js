@@ -8,13 +8,6 @@ const HAS_GOOGLE = !!(
   process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
 );
 
-const mask = (v) => (v ? `${String(v).slice(0, 4)}…(${String(v).length})` : null);
-console.log('[oauth:passport] env', {
-  GOOGLE_CLIENT_ID: mask(process.env.GOOGLE_CLIENT_ID),
-  GOOGLE_CLIENT_SECRET: mask(process.env.GOOGLE_CLIENT_SECRET),
-  GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL || null,
-});
-
 if (HAS_GOOGLE) {
   passport.use(
     new GoogleStrategy(

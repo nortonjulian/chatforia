@@ -267,7 +267,6 @@ r.post(
   requireAuth,
   asyncHandler(async (req, res) => {
     try {
-      console.log('[sms route] body', req.body);
 
       if (typeof smsService.sendUserSms !== 'function') {
         throw Boom.badImplementation('smsService.sendUserSms is not implemented');

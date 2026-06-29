@@ -222,7 +222,7 @@ function normalizeInboundMedia(media) {
 //   }
 
 //   const alreadyOpted = await prisma.smsOptOut.findFirst({
-//     where: { phone: toPhone, provider: { in: ['twilio', null] } }, 
+//     where: { phone: toPhone, provider: { in: ['twilio', null] } },
 //   });
 //   if (alreadyOpted) {
 //     const err = Boom.forbidden('Recipient has opted out of SMS');
@@ -289,10 +289,8 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
   try {
     const uid = Number(userId);
 
-    console.log('[smsService] start', { userId, to, body, from, mediaUrls });
-
     const toPhone = normalizeE164(to);
-    console.log('[smsService] normalized toPhone', { toPhone });
+
     if (!isE164(toPhone)) throw Boom.badRequest('Invalid destination phone');
 
     const safeBody = String(body ?? '').trim();
@@ -320,11 +318,8 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
     const fromNumber = from
       ? await assertUserOwnsFromNumber(uid, from)
       : (await getUserActiveDid(uid)).e164;
-    console.log('[smsService] fromNumber', { fromNumber });
 
-    console.log('[smsService] before upsertThread', { uid, toPhone });
     const thread = await upsertThread(uid, toPhone);
-    console.log('[smsService] after upsertThread', { threadId: thread?.id });
 
     const clientRef = `smsout:${uid}:${Date.now()}`;
 
@@ -337,11 +332,14 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
     });
 
     if (!result?.ok) {
-      console.error('[smsService] send failed', result);
+      console.error('[smsService] send failed', {
+        code: result?.code || null,
+        message: result?.message || 'send failed',
+      });
+
       throw Boom.badGateway(result?.detail || result?.reason || 'SMS send failed');
     }
 
-    console.log('[smsService] provider result', result);
 
     const provider = result?.provider || 'twilio';
 
@@ -389,7 +387,11 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
       clientRef: result?.clientRef || null,
     };
   } catch (err) {
-    console.error('[smsService.sendUserSms] FAILED', err);
+    console.error('[smsService.sendUserSms] FAILED', {
+      message: err?.message || String(err),
+      code: err?.code || null,
+    });
+
     throw err;
   }
 }

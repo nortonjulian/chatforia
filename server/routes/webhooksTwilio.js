@@ -40,7 +40,6 @@ r.post(
   express.urlencoded({ extended: false }),
   asyncHandler(async (req, res) => {
     const { userId, from, to } = req.query || {};
-    console.log('Twilio voice alias legA:', { query: req.query, body: req.body });
 
     const twiml = new VoiceResponse();
 
@@ -75,7 +74,6 @@ r.post(
   asyncHandler(async (req, res) => {
     const { Digits } = req.body || {};
     const { from, to } = req.query || {};
-    console.log('Twilio voice alias confirm:', { query: req.query, body: req.body });
 
     const twiml = new VoiceResponse();
 
@@ -105,7 +103,6 @@ r.post(
   express.urlencoded({ extended: false }),
   asyncHandler(async (req, res) => {
     const { To, From } = req.body || {};
-    console.log('Twilio inbound voice:', req.body);
 
     const twiml = new VoiceResponse();
 
@@ -245,7 +242,7 @@ r.post(
       const { userId, phoneNumberId, did, from } = req.query || {};
 
       if (!userId || !did || !from) {
-        console.error('[voicemail] missing query params', { query: req.query, body: req.body });
+        console.error('[voicemail] missing required query params');
         return;
       }
 
@@ -337,17 +334,13 @@ r.post(
     const {
       MessageSid,
       MessageStatus,
-      To,
-      From,
       ErrorCode,
-      ErrorMessage,
     } = req.body || {};
 
-    console.log(`[Twilio Status] ${MessageSid}: ${MessageStatus}`, {
-      To,
-      From,
-      ErrorCode,
-      ErrorMessage,
+    console.log('[Twilio Status]', {
+      messageSid: MessageSid || null,
+      status: MessageStatus || null,
+      errorCode: ErrorCode || null,
     });
 
     res.status(200).send('ok');

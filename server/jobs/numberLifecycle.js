@@ -124,7 +124,10 @@ export function startNumberLifecycleJob() {
       try {
         if (n.twilioSid) {
           await twilioClient.incomingPhoneNumbers(n.twilioSid).remove();
-          console.log(`[NumberLifecycle] Released Twilio number: ${n.e164}`);
+          console.log('[NumberLifecycle] Released Twilio number', {
+            phoneNumberId: n.id,
+          });
+
         } else {
           console.warn(
             `[NumberLifecycle] Missing twilioSid, cannot release: ${n.e164}`
