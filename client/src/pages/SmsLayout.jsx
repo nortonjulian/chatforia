@@ -550,12 +550,14 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                       ? 'var(--bubble-outgoing-text, #fff)'
                       : 'var(--bubble-incoming-text, var(--fg))',
                     borderRadius: 18,
-                    ...(isPremium
-                      ? {
-                          border: '1px solid var(--bubble-premium-outline)',
-                          boxShadow: 'var(--bubble-premium-glow)',
-                        }
-                      : {}),
+
+                    // Keep incoming bubbles clean. No glow.
+                    boxShadow: isOut && isPremium ? 'var(--bubble-premium-glow)' : 'none',
+
+                    // Optional: only outline outgoing premium bubbles.
+                    border: isOut && isPremium
+                      ? '1px solid var(--bubble-premium-outline)'
+                      : '1px solid rgba(0,0,0,0.06)',
                   };
 
                   const isEditing = editingId === m.id;
@@ -618,15 +620,28 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                       )}
 
                       {/* Bubble */}
-                      <Tooltip label={ts} withinPortal>
-                        <Paper
-                          px="md"
-                          py="xs"
-                          radius="lg"
-                          withBorder={false}
-                          style={bubbleStyle}
-                          className="sms-bubble"
-                        >
+                      <Box
+                        style={{
+                          position: 'relative',
+                          display: 'inline-block',
+                          maxWidth: 360,
+                        }}
+                      >
+                        <Tooltip label={ts} withinPortal>
+                          <Paper
+                            px="md"
+                            py="xs"
+                            radius="lg"
+                            withBorder={false}
+                            style={{
+                              ...bubbleStyle,
+                              position: 'relative',
+                              zIndex: 2,
+                              borderBottomRightRadius: isOut ? 6 : 18,
+                              borderBottomLeftRadius: isOut ? 18 : 6,
+                            }}
+                            className="sms-bubble"
+                          >
                           {!isEditing ? (
                             <>
                               <Text
@@ -696,6 +711,43 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                           )}
                         </Paper>
                       </Tooltip>
+
+                      <Box
+                        aria-hidden="true"
+                        style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          right: isOut ? -8 : 'auto',
+                          left: isOut ? 'auto' : -8,
+                          width: 20,
+                          height: 18,
+                          background: isOut
+                            ? 'var(--bubble-outgoing)'
+                            : 'var(--bubble-incoming-bg, var(--card))',
+                          borderBottomLeftRadius: isOut ? 18 : 0,
+                          borderBottomRightRadius: isOut ? 0 : 18,
+                          zIndex: 1,
+                          pointerEvents: 'none',
+                        }}
+                      />
+
+                      <Box
+                        aria-hidden="true"
+                        style={{
+                          position: 'absolute',
+                          bottom: -1,
+                          right: isOut ? -21 : 'auto',
+                          left: isOut ? 'auto' : -21,
+                          width: 21,
+                          height: 21,
+                          background: 'var(--chat-bg, var(--bg, #fff7ef))',
+                          borderBottomLeftRadius: isOut ? 18 : 0,
+                          borderBottomRightRadius: isOut ? 0 : 18,
+                          zIndex: 1,
+                          pointerEvents: 'none',
+                        }}
+                      />
+                    </Box>
 
                       {/* ✅ RECEIVED: dots on RIGHT */}
                       {!isOut && (

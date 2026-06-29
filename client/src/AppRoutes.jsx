@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { Routes, Route, Navigate, Outlet, Link } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, Link, useParams } from 'react-router-dom';
 import {
   AppShell,
   Burger,
@@ -121,6 +121,16 @@ import EsimActivatePage from '@/pages/EsimActivatePage.jsx';
 const NAV_W = 300;
 const ASIDE_W = 280;
 
+
+function LegacySmsThreadRedirect() {
+  const { id } = useParams();
+
+  if (!id) {
+    return <Navigate to="/sms" replace />;
+  }
+
+  return <Navigate to={`/sms/${encodeURIComponent(id)}`} replace />;
+}
 
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
@@ -459,7 +469,7 @@ export default function AppRoutes() {
           <Route path="compose" element={<SmsCompose />} />
 
           {/* legacy redirect: /sms/threads/:id -> /sms/:id */}
-          <Route path="threads/:id" element={<Navigate to="../:id" replace />} />
+          <Route path="threads/:id" element={<LegacySmsThreadRedirect />} />
 
           {/* thread view */}
           <Route
