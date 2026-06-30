@@ -210,12 +210,14 @@ export async function sendPushToUser(userId, payload) {
           body: payload.alert?.body || '',
         };
 
+        const channelId =
+          stringData.type === 'call_missed'
+            ? 'chatforia_missed_calls'
+            : 'chatforia_messages';
+
         message.android.notification = {
           sound: payload.sound || 'default',
-          channelId:
-            stringData.type === 'call_missed'
-              ? 'chatforia_missed_calls'
-              : undefined,
+          channelId,
         };
       }
 
