@@ -102,10 +102,14 @@ export async function sendVoipCallPushToUser(userId, payload) {
 
   const note = new apn.Notification();
 
-  note.topic = process.env.APNS_VOIP_TOPIC || `${process.env.APNS_TOPIC}.voip`;
-  note.pushType = 'voip';
+  note.topic = process.env.APNS_TOPIC;
+  note.pushType = 'alert';
   note.priority = 10;
-  note.expiry = Math.floor(Date.now() / 1000) + 30;
+  note.expiry = Math.floor(Date.now() / 1000) + 60 * 60;
+
+  note.alert = payload.alert || {};
+  note.sound = payload.sound || 'default';
+  note.payload = payload.data || {};
 
   note.payload = {
     type: 'call_incoming',
@@ -149,6 +153,18 @@ export async function sendPushToUser(userId, payload) {
       note.payload = payload.data || {};
 
       results.apns = await apnProvider.send(note, tokens.apns);
+
+      console.log('[push] APNs result', {
+        userId,
+        tokenCount: tokens.apns.length,
+        sent: results.apns.sent.length,
+        failed: results.apns.failed.map((failure) => ({
+          device: failure.device,
+          status: failure.status,
+          response: failure.response,
+          error: failure.error?.message || failure.error || null,
+        })),
+      });
     }
   }
 
