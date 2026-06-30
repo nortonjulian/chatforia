@@ -4,6 +4,7 @@ import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { emitToUser } from '../services/socketBus.js';
+import { sendPushToUser, sendVoipCallPushToUser } from '../services/pushService.js';
 
 const router = express.Router();
 
@@ -46,14 +47,54 @@ router.post('/start', requireAuth, asyncHandler(async (req, res) => {
 
   const roomName = `call_${call.id}`;
 
-  emitToUser(calleeId, 'video:incoming', {
+  const callerName =
+  req.user.displayName || req.user.username || 'Chatforia user';
+
+const incomingPayload = {
+  callId: call.id,
+  roomName,
+  callerId,
+  callerName,
+  mode: 'VIDEO',
+  chatRoomId,
+  createdAt: call.createdAt,
+};
+
+emitToUser(calleeId, 'video:incoming', incomingPayload);
+
+try {
+  await sendVoipCallPushToUser(calleeId, {
     callId: call.id,
-    roomName,
     callerId,
-    callerName: req.user.displayName || req.user.username || 'Chatforia user',
-    chatRoomId,
-    createdAt: call.createdAt,
+    callerName,
+    mode: 'VIDEO',
+    roomName,
+    chatRoomId: chatRoomId ?? '',
   });
+} catch (err) {
+  console.warn('[video] failed to send iOS video VoIP call push', err?.message || err);
+}
+
+try {
+  await sendPushToUser(calleeId, {
+    alert: {
+      title: 'Incoming video call',
+      body: `${callerName} is calling`,
+    },
+    sound: 'default',
+    data: {
+      type: 'call_incoming',
+      callId: call.id,
+      callerId,
+      callerName,
+      mode: 'VIDEO',
+      roomName,
+      chatRoomId: chatRoomId ?? '',
+    },
+  });
+} catch (err) {
+  console.warn('[video] failed to send video call push', err?.message || err);
+}
 
   res.json({
     ok: true,
