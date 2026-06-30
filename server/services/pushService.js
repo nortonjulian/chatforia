@@ -195,6 +195,10 @@ export async function sendPushToUser(userId, payload) {
       );
 
       const isIncomingCall = stringData.type === 'call_incoming';
+      const isMissedCall = stringData.type === 'call_missed';
+
+      stringData.title = payload.alert?.title || stringData.senderName || 'Chatforia';
+      stringData.body = payload.alert?.body || 'New encrypted message';
 
       const message = {
         tokens: tokens.fcm,
@@ -204,20 +208,15 @@ export async function sendPushToUser(userId, payload) {
         },
       };
 
-      if (!isIncomingCall) {
+      if (isMissedCall) {
         message.notification = {
-          title: payload.alert?.title || 'Chatforia',
+          title: payload.alert?.title || 'Missed call',
           body: payload.alert?.body || '',
         };
 
-        const channelId =
-          stringData.type === 'call_missed'
-            ? 'chatforia_missed_calls'
-            : 'chatforia_messages';
-
         message.android.notification = {
           sound: payload.sound || 'default',
-          channelId,
+          channelId: 'chatforia_missed_calls',
         };
       }
 
