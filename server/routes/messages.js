@@ -189,7 +189,7 @@ function makeMessagePushBody({
   }
 
   if (contentCiphertext || encryptedPayloads) {
-    return 'New encrypted message';
+    return 'New message';
   }
 
   const firstAttachment = attachments?.[0];
