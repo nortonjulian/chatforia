@@ -161,29 +161,39 @@ export async function sendPushToUser(userId, payload) {
         count: tokens.fcm.length,
       });
 
-      results.fcm = await messaging.sendEachForMulticast({
+      const stringData = Object.fromEntries(
+        Object.entries(payload.data || {}).map(([key, value]) => [
+          key,
+          value == null ? '' : String(value),
+        ])
+      );
+
+      const isIncomingCall = stringData.type === 'call_incoming';
+
+      const message = {
         tokens: tokens.fcm,
-        notification: {
-          title: payload.alert?.title || 'Chatforia',
-          body: payload.alert?.body || '',
-        },
-        data: Object.fromEntries(
-          Object.entries(payload.data || {}).map(([key, value]) => [
-            key,
-            value == null ? '' : String(value),
-          ])
-        ),
+        data: stringData,
         android: {
           priority: 'high',
-          notification: {
-            sound: payload.sound || 'default',
-            channelId:
-              payload.data?.type === 'call_incoming'
-                ? 'chatforia_calls'
-                : undefined,
-          },
         },
-      });
+      };
+
+      if (!isIncomingCall) {
+        message.notification = {
+          title: payload.alert?.title || 'Chatforia',
+          body: payload.alert?.body || '',
+        };
+
+        message.android.notification = {
+          sound: payload.sound || 'default',
+          channelId:
+            stringData.type === 'call_missed'
+              ? 'chatforia_missed_calls'
+              : undefined,
+        };
+      }
+
+      results.fcm = await messaging.sendEachForMulticast(message);
     }
   }
 

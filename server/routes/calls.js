@@ -124,6 +124,7 @@ if (mode === 'VIDEO') {
     roomName,
     callerId,
     callerName,
+     mode: 'VIDEO',
     chatRoomId: call.roomId ?? null,
     createdAt: call.createdAt,
   });
