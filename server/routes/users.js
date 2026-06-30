@@ -26,6 +26,15 @@ function isPremiumTheme(t) {
   return PREMIUM_THEMES.includes(t);
 }
 
+function normalizeUsername(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function normalizeEmail(value) {
+  const clean = String(value || '').trim().toLowerCase();
+  return clean || null;
+}
+
 /* ---------------------- PUBLIC: create user ---------------------- */
 // --- inside routes/users (replace the existing POST / handler) ---
 router.post('/', async (req, res) => {
@@ -34,10 +43,34 @@ router.post('/', async (req, res) => {
   const validationError = validateRegistrationInput(username, email, password);
   if (validationError) return res.status(400).json({ error: validationError });
 
+  const cleanUsername = String(username || '').trim();
+  const cleanEmail = email ? String(email).trim() : null;
+  const usernameNorm = normalizeUsername(cleanUsername);
+  const emailNorm = normalizeEmail(cleanEmail);
+
   // Basic uniqueness check for email (keep existing behavior)
   try {
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) return res.status(409).json({ error: 'Email already in use' });
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { usernameNorm },
+          ...(emailNorm ? [{ emailNorm }] : []),
+        ],
+      },
+      select: {
+        id: true,
+        usernameNorm: true,
+        emailNorm: true,
+      },
+    });
+
+    if (existingUser) {
+      if (existingUser.usernameNorm === usernameNorm) {
+        return res.status(409).json({ error: 'Username already taken' });
+      }
+
+      return res.status(409).json({ error: 'Email already in use' });
+    }
 
     // --- PHONE VERIFICATION (optional) ---
     // If client supplied phoneVerificationId, validate it and prepare to attach the phone.
@@ -77,19 +110,19 @@ router.post('/', async (req, res) => {
     let user;
     if (phoneToAttachId) {
       // use transaction to create user and attach phone
-      const tx = await prisma.$transaction([
-        prisma.user.create({
-          data: { username, email, password: hashedPassword, role: 'USER' },
-        }),
-        // we cannot reference user.id within same transaction array literal,
-        // so do it in a nested tx to ensure atomicity (below we use a transaction function)
-      ]);
 
       // The above array version can't update with created user id.
       // Instead do function transaction so we can attach using the created user id:
       user = await prisma.$transaction(async (prismaTx) => {
         const created = await prismaTx.user.create({
-          data: { username, email, password: hashedPassword, role: 'USER' },
+          data: {
+            username: cleanUsername,
+            email: cleanEmail,
+            usernameNorm,
+            emailNorm,
+            passwordHash: hashedPassword,
+            role: 'USER',
+          },
         });
 
         // attach phone record (if phone exists)
@@ -110,11 +143,23 @@ router.post('/', async (req, res) => {
     } else {
       // standard create-without-phone
       user = await prisma.user.create({
-        data: { username, email, password: hashedPassword, role: 'USER' },
+        data: {
+          username: cleanUsername,
+          email: cleanEmail,
+          usernameNorm,
+          emailNorm,
+          passwordHash: hashedPassword,
+          role: 'USER',
+        },
       });
     }
 
-    const { password: _omit, ...userWithoutPassword } = user;
+    const {
+      password: _omitPassword,
+      passwordHash: _omitPasswordHash,
+      ...userWithoutPassword
+    } = user;
+    
     return res.status(201).json(userWithoutPassword);
   } catch (error) {
     console.error('Error creating user:', error);
@@ -270,6 +315,8 @@ router.patch('/me', requireAuth, async (req, res) => {
     if (typeof username === 'string' && username.trim()) {
       const clean = username.trim();
 
+      const usernameNorm = normalizeUsername(clean);
+
       // Basic validation
       if (clean.length < 3 || clean.length > 20) {
         return res.status(400).json({ error: 'Username must be 3–20 characters' });
@@ -282,9 +329,10 @@ router.patch('/me', requireAuth, async (req, res) => {
       // Check uniqueness (case-insensitive)
       const existing = await prisma.user.findFirst({
         where: {
-          username: { equals: clean, mode: 'insensitive' },
+          usernameNorm,
           NOT: { id: Number(req.user.id) },
         },
+        select: { id: true },
       });
 
       if (existing) {
@@ -292,6 +340,8 @@ router.patch('/me', requireAuth, async (req, res) => {
       }
 
       data.username = clean;
+
+      data.usernameNorm = usernameNorm;
     }
 
         if (typeof discoverability === 'string') {
