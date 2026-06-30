@@ -401,11 +401,22 @@ router.post(
   requireAuth,
   asyncHandler(async (req, res) => {
     const { userIds, name } = req.body || {};
+    const me = Number(req.user.id);
+
     if (!Array.isArray(userIds) || userIds.length < 2) {
-      throw Boom.badRequest('Provide at least 2 user IDs for a group chat');
+      throw Boom.badRequest('Provide at least 2 other users for a group chat');
     }
 
-    const ids = [...new Set(userIds.map(Number))];
+    const ids = [
+      ...new Set(
+        [me, ...userIds.map(Number)]
+          .filter((id) => Number.isFinite(id) && id > 0)
+      ),
+    ];
+
+    if (ids.length < 3) {
+      throw Boom.badRequest('A group chat must have at least 3 total participants');
+    }
 
     const participantInclude = {
       participants: {
@@ -436,12 +447,13 @@ router.post(
 
     const created = await prisma.chatRoom.create({
       data: {
-        name: name || 'Group chat',
+        name: name?.trim() || 'Group chat',
         isGroup: true,
+        ownerId: me,
         participants: {
           create: ids.map((id) => ({
             user: { connect: { id } },
-            role: id === Number(req.user.id) ? 'ADMIN' : 'MEMBER',
+            role: id === me ? 'ADMIN' : 'MEMBER',
           })),
         },
       },
