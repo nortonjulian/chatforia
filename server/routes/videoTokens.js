@@ -9,34 +9,52 @@ const {
   TWILIO_API_KEY_SECRET,
 } = process.env;
 
-router.post('/video/token', requireAuth, express.json(), async (req, res) => {
+router.post('/video/token', requireAuth, async (req, res) => {
   try {
     const { identity, room } = req.body || {};
+
     if (!identity || !room) {
-      return res.status(400).json({ error: 'identity and room are required' });
+      return res.status(400).json({
+        error: 'identity and room are required',
+      });
+    }
+
+    if (!TWILIO_ACCOUNT_SID || !TWILIO_API_KEY_SID || !TWILIO_API_KEY_SECRET) {
+      return res.status(500).json({
+        error: 'missing_twilio_video_env',
+      });
     }
 
     const mod = await import('twilio');
     const twilio = mod.default ?? mod;
-    const { jwt } = twilio;
 
-    const AccessToken = jwt.AccessToken;
-    const VideoGrant = jwt.AccessToken.VideoGrant;
+    const AccessToken = twilio.jwt.AccessToken;
+    const VideoGrant = AccessToken.VideoGrant;
 
     const token = new AccessToken(
       TWILIO_ACCOUNT_SID,
       TWILIO_API_KEY_SID,
       TWILIO_API_KEY_SECRET,
-      { ttl: 60 * 60 }
+      {
+        identity: String(identity),
+        ttl: 60 * 60,
+      }
     );
 
-    token.identity = String(identity);
-    token.addGrant(new VideoGrant({ room: String(room) }));
+    token.addGrant(
+      new VideoGrant({
+        room: String(room),
+      })
+    );
 
-    return res.json({ token: token.toJwt() });
+    return res.json({
+      token: token.toJwt(),
+    });
   } catch (e) {
     console.error('[video][token] error', e);
-    res.status(500).json({ error: 'failed_to_issue_token' });
+    return res.status(500).json({
+      error: 'failed_to_issue_token',
+    });
   }
 });
 
