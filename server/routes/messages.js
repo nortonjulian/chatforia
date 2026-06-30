@@ -176,6 +176,97 @@ async function getParticipantUserIds(chatRoomId) {
   return rows.map(r => Number(r.userId)).filter(Boolean);
 }
 
+function makeMessagePushBody({
+  content,
+  contentCiphertext,
+  encryptedPayloads,
+  attachments,
+}) {
+  const plain = String(content || '').trim();
+
+  if (plain) {
+    return plain.length > 140 ? `${plain.slice(0, 137)}...` : plain;
+  }
+
+  if (contentCiphertext || encryptedPayloads) {
+    return 'New encrypted message';
+  }
+
+  const firstAttachment = attachments?.[0];
+
+  if (firstAttachment?.kind === 'GIF') return 'Sent a GIF';
+  if (firstAttachment?.kind === 'IMAGE') return 'Sent a photo';
+  if (firstAttachment?.kind === 'VIDEO') return 'Sent a video';
+  if (firstAttachment?.kind === 'AUDIO') return 'Sent a voice message';
+  if (firstAttachment) return 'Sent an attachment';
+
+  return 'New message';
+}
+
+async function sendMessagePushesToRecipients({
+  chatRoomId,
+  senderId,
+  senderName,
+  saved,
+  content,
+  contentCiphertext,
+  encryptedPayloads,
+  attachments,
+}) {
+  const recipientIds =
+    (await getParticipantUserIds(chatRoomId))
+      .filter((userId) => Number(userId) !== Number(senderId));
+
+  if (!recipientIds.length) {
+    console.log('[messages:create] no push recipients', {
+      messageId: saved.id,
+      chatRoomId,
+    });
+    return;
+  }
+
+  const body = makeMessagePushBody({
+    content,
+    contentCiphertext,
+    encryptedPayloads,
+    attachments,
+  });
+
+  const title = senderName || 'Chatforia';
+
+  const results = await Promise.allSettled(
+    recipientIds.map((recipientId) =>
+      sendPushToUser(recipientId, {
+        alert: {
+          title,
+          body,
+        },
+        sound: 'default',
+        data: {
+          type: 'message_new',
+          messageId: String(saved.id),
+          chatRoomId: String(chatRoomId),
+          senderId: String(senderId),
+          clientMessageId: saved.clientMessageId
+            ? String(saved.clientMessageId)
+            : '',
+        },
+      })
+    )
+  );
+
+  console.log('[messages:create] push results', {
+    messageId: saved.id,
+    chatRoomId,
+    recipientIds,
+    results: results.map((result) =>
+      result.status === 'fulfilled'
+        ? result.value
+        : { ok: false, error: result.reason?.message || String(result.reason) }
+    ),
+  });
+}
+
 async function emitMessageUpsertPerParticipant(chatRoomId, messageId) {
   const userIds = await getParticipantUserIds(chatRoomId);
 
@@ -551,8 +642,13 @@ router.post(
     // strict-E2EE gating
     const sender = await prisma.user.findUnique({
       where: { id: senderId },
-      select: { strictE2EE: true },
+      select: {
+        strictE2EE: true,
+        username: true,
+      },
     });
+
+
     const strict = !!sender?.strictE2EE;
 
     const hasAttachments = attachments.length > 0;
@@ -657,7 +753,6 @@ router.post(
       }
     }
 
-    // Send correct per-user encrypted payload to each participant
     await emitMessageUpsertPerParticipant(chatRoomId, saved.id);
 
     // Private ACK for the sender
@@ -670,9 +765,17 @@ router.post(
       });
     }
 
-    console.log(
-      `[messages:create] Emitted upsert via socketBus for message ${saved.id} in room ${chatRoomId}`
-    );
+    await sendMessagePushesToRecipients({
+      chatRoomId,
+      senderId,
+      senderName: sender?.username || 'Chatforia',
+      saved,
+      content,
+      contentCiphertext,
+      encryptedPayloads: body.encryptedPayloads ?? null,
+      attachments,
+    });
+
 
     return res.status(201).json({ message: senderShaped });
   })
