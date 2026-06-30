@@ -346,7 +346,20 @@ router.post(
       },
     });
 
+    const directUserIds = [userId1, userId2].sort((a, b) => a - b);
+
     const existingRoom = existingRooms
+      .filter((room) => {
+        const ids = (room.participants || [])
+          .map((p) => Number(p.userId))
+          .sort((a, b) => a - b);
+
+        return (
+          ids.length === 2 &&
+          ids[0] === directUserIds[0] &&
+          ids[1] === directUserIds[1]
+        );
+      })
       .sort((a, b) => {
         const aLast = a.messages?.[0]?.createdAt
           ? new Date(a.messages[0].createdAt).getTime()
@@ -360,7 +373,7 @@ router.post(
 
         return Number(b.id) - Number(a.id);
       })[0];
-
+      
     if (existingRoom) {
       const { messages, ...roomWithoutMessages } = existingRoom;
       return res.json(roomWithoutMessages);
