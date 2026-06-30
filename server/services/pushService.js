@@ -198,7 +198,7 @@ export async function sendPushToUser(userId, payload) {
       const isMissedCall = stringData.type === 'call_missed';
 
       stringData.title = payload.alert?.title || stringData.senderName || 'Chatforia';
-      stringData.body = payload.alert?.body || 'New encrypted message';
+      stringData.body = payload.alert?.body || 'New message';
 
       const message = {
         tokens: tokens.fcm,
