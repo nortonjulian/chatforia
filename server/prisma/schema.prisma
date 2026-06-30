@@ -211,6 +211,8 @@ model User {
   displayName          String?
   username             String  @unique
   email                String? @unique
+  usernameNorm         String?
+  emailNorm            String?
   passwordHash         String
   phoneNumber          String? @db.VarChar(32)
   preferredLanguage    String  @default("en")

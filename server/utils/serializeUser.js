@@ -16,6 +16,7 @@ export function serializeUser(user) {
     publicKey: user.publicKey ?? null,
     plan: user.plan ?? 'FREE',
     role: user.role ?? 'USER',
+    discoverability: user.discoverability ?? 'EVERYONE',
     isPremium: premium,
 
     preferredLanguage: user.preferredLanguage ?? 'en',
