@@ -501,6 +501,7 @@ export function createApp() {
   app.use('/search/people', requireAuth, searchPeopleRouter);
   app.use('/webhooks/voice', voiceWebhooks);
   app.use('/api/webhooks/voice', voiceWebhooks);
+  app.use('/', videoTokens);
   app.use('/api', videoTokens);
   app.use('/pricing', pricingRouter);
   app.use('/api/pricing', pricingRouter);
@@ -569,7 +570,8 @@ app.use('/api/wireless', requireAuth, wirelessRouter);
 
   app.use('/api/phone', phoneRoutes);
 
-  app.use('/api/video', videoRouter);
+  app.use('/video', videoRouter);      // POST /video/start, /video/end
+  app.use('/api/video', videoRouter);  // keep compatibility
 
   app.use('/calendar', calendarRouter);
   app.use('/', shareEventRouter);
