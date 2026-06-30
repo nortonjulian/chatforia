@@ -74,6 +74,12 @@ enum StatusAssetKind {
   FILE
 }
 
+enum UserDiscoverability {
+  EVERYONE
+  CONTACTS_ONLY
+  NO_ONE
+}
+
 enum AutoResponderMode {
   OFF
   DM
@@ -334,6 +340,15 @@ model User {
   peopleInvitesAcceptedBy PeopleInvite[] @relation("PeopleInviteAcceptedBy")
 
   portRequests PortRequest[]
+
+  discoverability UserDiscoverability @default(EVERYONE)
+
+  isSystem        Boolean @default(false)
+  isTestAccount   Boolean @default(false)
+  deletedAt       DateTime?
+
+  isBanned        Boolean @default(false)
+  bannedAt        DateTime?
 
   // Usage/analytics
   sttUsage STTUsage[] @relation("UserSTTUsage")

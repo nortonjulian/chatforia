@@ -131,8 +131,28 @@ router.get('/lookup', requireAuth, async (req, res) => {
     return res.status(400).json({ error: 'Missing username' });
   }
 
+  const me = Number(req.user.id);
+
   const user = await prisma.user.findFirst({
-    where: { username: { equals: username, mode: 'insensitive' } },
+    where: {
+      username: { equals: username, mode: 'insensitive' },
+      id: { not: me },
+      isBanned: false,
+      isSystem: false,
+      isTestAccount: false,
+      deletedAt: null,
+      OR: [
+        { discoverability: 'EVERYONE' },
+        {
+          discoverability: 'CONTACTS_ONLY',
+          contactsSaved: {
+            some: {
+              ownerId: me,
+            },
+          },
+        },
+      ],
+    },
     select: { id: true, username: true },
   });
 
@@ -151,28 +171,52 @@ router.get('/lookup', requireAuth, async (req, res) => {
 /* ---------------------- GET /users/search ---------------------- */
 router.get('/search', requireAuth, async (req, res) => {
   try {
+    const me = Number(req.user.id);
     const query = (req.query.query || '').toString().trim();
+    const limit = Math.min(Math.max(Number(req.query.limit || 20), 1), 20);
 
-    if (!query) {
+    if (query.length < 2) {
       return res.json([]);
     }
 
     const users = await prisma.user.findMany({
       where: {
+        id: { not: me },
+
         username: {
           contains: query,
           mode: 'insensitive',
         },
+
+        isBanned: false,
+        isSystem: false,
+        isTestAccount: false,
+        deletedAt: null,
+
+        OR: [
+          {
+            discoverability: 'EVERYONE',
+          },
+          {
+            discoverability: 'CONTACTS_ONLY',
+            contactsSaved: {
+              some: {
+                ownerId: me,
+              },
+            },
+          },
+        ],
       },
       select: {
         id: true,
         username: true,
+        displayName: true,
         avatarUrl: true,
       },
       orderBy: {
         username: 'asc',
       },
-      take: 20,
+      take: limit,
     });
 
     return res.json(users);
@@ -194,6 +238,7 @@ router.patch('/me', requireAuth, async (req, res) => {
       username, 
       enableSmartReplies,
       autoTranslate,
+      discoverability,
       showOriginalWithTranslation,
       showReadReceipts,
       allowExplicitContent,
@@ -248,6 +293,16 @@ router.patch('/me', requireAuth, async (req, res) => {
 
       data.username = clean;
     }
+
+        if (typeof discoverability === 'string') {
+          const value = discoverability.trim().toUpperCase();
+
+          if (!['EVERYONE', 'CONTACTS_ONLY', 'NO_ONE'].includes(value)) {
+            return res.status(400).json({ error: 'Invalid discoverability' });
+          }
+
+          data.discoverability = value;
+        }
 
     if (typeof enableSmartReplies === 'boolean') {
       data.enableSmartReplies = enableSmartReplies;
@@ -500,6 +555,7 @@ router.patch('/me', requireAuth, async (req, res) => {
           plan: true,
           publicKey: true,
           avatarUrl: true,
+          discoverability: true,
           preferredLanguage: true,
           uiLanguage: true,
           enableSmartReplies: true,

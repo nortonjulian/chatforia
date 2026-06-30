@@ -48,18 +48,46 @@ router.get(
     });
 
     // ---------------------------
-    // Users (username/email)
+    // Users (safe public username search only)
     // ---------------------------
-    const users = await prisma.user.findMany({
-      where: {
-        OR: [
-          { username: { contains: q, mode: 'insensitive' } },
-          { email: { contains: q, mode: 'insensitive' } },
-        ],
-      },
-      take: limit,
-      select: { id: true, username: true, avatarUrl: true, phoneNumber: true },
-    });
+    const users = q.length >= 2
+      ? await prisma.user.findMany({
+          where: {
+            id: { not: ownerId },
+
+            username: {
+              contains: q,
+              mode: 'insensitive',
+            },
+
+            isBanned: false,
+            isSystem: false,
+            isTestAccount: false,
+            deletedAt: null,
+
+            OR: [
+              {
+                discoverability: 'EVERYONE',
+              },
+              {
+                discoverability: 'CONTACTS_ONLY',
+                contactsSaved: {
+                  some: {
+                    ownerId,
+                  },
+                },
+              },
+            ],
+          },
+          take: limit,
+          select: {
+            id: true,
+            username: true,
+            displayName: true,
+            avatarUrl: true,
+          },
+        })
+      : [];
 
     // ---------------------------
     // SMS Threads (match any participant by digits substring)
@@ -104,8 +132,8 @@ router.get(
       ...users.map((u) => ({
         kind: 'user',
         id: u.id,
-        label: u.username || u.email || `User #${u.id}`,
-        phone: u.phoneNumber || null,
+        label: u.displayName || u.username || `User #${u.id}`,
+        phone: null,
         userId: u.id,
         avatarUrl: u.avatarUrl || null,
         score: (u.username || '').toLowerCase() === q.toLowerCase() ? 80 : 50,
