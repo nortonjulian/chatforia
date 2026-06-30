@@ -154,17 +154,27 @@ export async function sendPushToUser(userId, payload) {
 
       results.apns = await apnProvider.send(note, tokens.apns);
 
-      console.log('[push] APNs result', {
-        userId,
-        tokenCount: tokens.apns.length,
-        sent: results.apns.sent.length,
-        failed: results.apns.failed.map((failure) => ({
-          device: failure.device,
-          status: failure.status,
-          response: failure.response,
-          error: failure.error?.message || failure.error || null,
-        })),
-      });
+      console.log(
+        '[push] APNs result',
+        JSON.stringify(
+          {
+            userId,
+            tokenCount: tokens.apns.length,
+            sent: results.apns.sent.length,
+            failed: results.apns.failed.map((failure) => ({
+              device: failure.device
+                ? `${String(failure.device).slice(0, 10)}...${String(failure.device).slice(-6)}`
+                : null,
+              status: failure.status,
+              response: failure.response || null,
+              reason: failure.response?.reason || null,
+              error: failure.error?.message || failure.error || null,
+            })),
+          },
+          null,
+          2
+        )
+      );
     }
   }
 
