@@ -1,40 +1,38 @@
 import express from 'express';
 import { requireAuth } from '../middleware/auth.js';
+import twilio from 'twilio';
 
 const router = express.Router();
 
-const {
-  TWILIO_ACCOUNT_SID,
-  TWILIO_API_KEY_SID,
-  TWILIO_API_KEY_SECRET,
-} = process.env;
-
 router.post('/video/token', requireAuth, async (req, res) => {
   try {
-    const { identity, room } = req.body || {};
+    const { identity, room, roomName } = req.body || {};
 
-    if (!identity || !room) {
+    const resolvedRoom = room || roomName;
+
+    if (!identity || !resolvedRoom) {
       return res.status(400).json({
         error: 'identity and room are required',
       });
     }
 
-    if (!TWILIO_ACCOUNT_SID || !TWILIO_API_KEY_SID || !TWILIO_API_KEY_SECRET) {
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const apiKeySid = process.env.TWILIO_API_KEY_SID;
+    const apiKeySecret = process.env.TWILIO_API_KEY_SECRET;
+
+    if (!accountSid || !apiKeySid || !apiKeySecret) {
       return res.status(500).json({
         error: 'missing_twilio_video_env',
       });
     }
 
-    const mod = await import('twilio');
-    const twilio = mod.default ?? mod;
-
     const AccessToken = twilio.jwt.AccessToken;
     const VideoGrant = AccessToken.VideoGrant;
 
     const token = new AccessToken(
-      TWILIO_ACCOUNT_SID,
-      TWILIO_API_KEY_SID,
-      TWILIO_API_KEY_SECRET,
+      accountSid,
+      apiKeySid,
+      apiKeySecret,
       {
         identity: String(identity),
         ttl: 60 * 60,
@@ -43,7 +41,7 @@ router.post('/video/token', requireAuth, async (req, res) => {
 
     token.addGrant(
       new VideoGrant({
-        room: String(room),
+        room: String(resolvedRoom),
       })
     );
 
@@ -51,7 +49,12 @@ router.post('/video/token', requireAuth, async (req, res) => {
       token: token.toJwt(),
     });
   } catch (e) {
-    console.error('[video][token] error', e);
+    console.error('[video][token] error', {
+      message: e?.message,
+      code: e?.code,
+      stack: e?.stack,
+    });
+
     return res.status(500).json({
       error: 'failed_to_issue_token',
     });
