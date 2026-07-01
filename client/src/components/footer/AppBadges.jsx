@@ -10,7 +10,7 @@ export default function AppBadges() {
   return (
     <div className="flex flex-wrap items-center gap-3">
       <a
-        href="https://apps.apple.com/app/idXXXXXXXX"
+        href="https://apps.apple.com/us/app/chatforia/id6761696765"
         target="_blank"
         rel="noreferrer"
         aria-label="Download on the App Store"
