@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useCall } from '@/context/CallContext';
 import {
   Box,
   Group,
@@ -21,6 +22,7 @@ import {
   Voicemail,
   Phone,
   Trash2,
+  Video,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
@@ -73,9 +75,13 @@ function statusLabel(status, isOutgoing, t) {
   }
 }
 
-function statusIcon(status, isOutgoing) {
-  const normalized = String(status || '').toUpperCase();
-  if (normalized === 'MISSED') return PhoneMissed;
+function statusIcon(item, isOutgoing) {
+  const status = String(item?.status || '').toUpperCase();
+  const mode = String(item?.mode || '').toUpperCase();
+
+  if (mode === 'VIDEO') return Video;
+  if (status === 'MISSED') return PhoneMissed;
+
   return isOutgoing ? PhoneOutgoing : PhoneIncoming;
 }
 
@@ -114,6 +120,7 @@ export default function Dialer() {
   const [historyLoading, setHistoryLoading] = useState(true);
   const [historyError, setHistoryError] = useState('');
 
+  const { startCall, pending: appCallPending } = useCall();
   const { placeCall, loading: pstnLoading, error: pstnError } = usePstnCall();
 
   const {
@@ -228,6 +235,28 @@ export default function Dialer() {
     if (!toNumber || !voiceReady) return;
     await startBrowserCall(toNumber);
   };
+
+  const handleAppAudioCall = async (userId) => {
+  const calleeId = Number(userId);
+  if (!Number.isFinite(calleeId) || calleeId <= 0) return;
+
+  try {
+    await startCall({ calleeId, mode: 'AUDIO' });
+  } catch (e) {
+    setResolveError(e?.message || 'Could not start audio call.');
+  }
+};
+
+const handleAppVideoCall = async (userId) => {
+  const calleeId = Number(userId);
+  if (!Number.isFinite(calleeId) || calleeId <= 0) return;
+
+  try {
+    await startCall({ calleeId, mode: 'VIDEO' });
+  } catch (e) {
+    setResolveError(e?.message || 'Could not start video call.');
+  }
+};
 
   const handleRedial = async (item) => {
     const phone = normalizePhone(item.externalPhone || '');
@@ -361,15 +390,36 @@ export default function Dialer() {
       ) : (
         <Stack gap="sm">
           {history.map((item) => {
-            const isOutgoing = item.callerId === currentUser?.id;
+            const isOutgoing = Number(item.callerId) === Number(currentUser?.id);
             const otherParty = isOutgoing ? item.callee : item.caller;
+
+            const otherUserId =
+              item.otherUserId ||
+              otherParty?.id ||
+              null;
+
+            const phoneTarget = normalizePhone(
+              item.phoneNumber ||
+                item.externalPhone ||
+                ''
+            );
+
             const otherPartyName =
+              item.displayName ||
+              item.otherDisplayName ||
+              item.otherUsername ||
               otherParty?.displayName ||
               otherParty?.username ||
-              item.externalPhone ||
+              phoneTarget ||
               (isOutgoing ? 'Outgoing Call' : 'Incoming Call');
 
-            const Icon = statusIcon(item.status, isOutgoing);
+            const isVideoCall = String(item.mode || '').toUpperCase() === 'VIDEO';
+
+            const callTypeLabel = isVideoCall
+              ? t('callHistory.video', 'Video')
+              : t('callHistory.audio', 'Audio');
+
+            const Icon = statusIcon(item, isOutgoing);
 
             const directionLabel = isOutgoing
               ? t('callHistory.outgoing', 'Outgoing')
@@ -381,7 +431,9 @@ export default function Dialer() {
             const duration = formatDuration(item.durationSec);
             const timestamp = formatTimestamp(item.endedAt || item.startedAt || item.createdAt);
             const color = statusColor(item.status);
-            const canRedial = Boolean(normalizePhone(item.externalPhone || ''));
+            const canAppCall = Boolean(otherUserId);
+            const canPstnCall = Boolean(phoneTarget);
+            const canPhoneCall = canAppCall || canPstnCall;
 
             return (
               <Card key={item.id} withBorder radius="lg" p="md">
@@ -401,6 +453,12 @@ export default function Dialer() {
                         </Text>
 
                         <Group gap={8} mt={4}>
+                          <Text size="sm" c="dimmed">
+                            {callTypeLabel}
+                          </Text>
+
+                          <Text size="sm" c="dimmed">•</Text>
+
                           <Text size="sm" c="dimmed">
                             {directionLabel}
                           </Text>
@@ -437,17 +495,43 @@ export default function Dialer() {
                           </Badge>
                         ) : null}
 
-                        <ActionIcon
-                          variant="filled"
-                          color="yellow"
-                          radius="xl"
-                          size={38}
-                          onClick={() => handleRedial(item)}
-                          disabled={!canRedial || pstnLoading}
-                          aria-label={`Call ${otherPartyName}`}
-                        >
-                          <Phone size={18} />
-                        </ActionIcon>
+                        {canPhoneCall ? (
+                          <ActionIcon
+                            variant="filled"
+                            color="yellow"
+                            radius="xl"
+                            size={38}
+                            onClick={() => {
+                              if (canAppCall) {
+                                handleAppAudioCall(otherUserId);
+                              } else {
+                                handleRedial(item);
+                              }
+                            }}
+                            disabled={
+                              canAppCall
+                                ? appCallPending
+                                : pstnLoading
+                            }
+                            aria-label={`Call ${otherPartyName}`}
+                          >
+                            <Phone size={18} />
+                          </ActionIcon>
+                        ) : null}
+
+                        {canAppCall ? (
+                          <ActionIcon
+                            variant="light"
+                            color="yellow"
+                            radius="xl"
+                            size={38}
+                            onClick={() => handleAppVideoCall(otherUserId)}
+                            disabled={appCallPending}
+                            aria-label={`Video call ${otherPartyName}`}
+                          >
+                            <Video size={18} />
+                          </ActionIcon>
+                        ) : null}
 
                         <ActionIcon
                           variant="subtle"
