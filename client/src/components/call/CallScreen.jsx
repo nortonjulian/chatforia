@@ -27,6 +27,7 @@ export default function CallScreen() {
   } = useCall();
 
   const [addOpen, setAddOpen] = useState(false);
+  const [hasRemoteVideo, setHasRemoteVideo] = useState(false);
 
   const localRef = useRef(null);
   const remoteRef = useRef(null);
@@ -42,6 +43,22 @@ export default function CallScreen() {
       remoteRef.current.srcObject = remoteStream.current;
     }
   }, [active, remoteStream]);
+
+  useEffect(() => {
+    if (active?.mode !== 'VIDEO') {
+      setHasRemoteVideo(false);
+      return undefined;
+    }
+
+    const timer = setInterval(() => {
+      const tracks = remoteStream?.current?.getVideoTracks?.() || [];
+      const hasLiveVideo = tracks.some((track) => track.readyState === 'live');
+
+      setHasRemoteVideo(hasLiveVideo);
+    }, 500);
+
+    return () => clearInterval(timer);
+  }, [active?.callId, active?.mode, remoteStream]);
 
   if (!active) return null;
 
@@ -77,6 +94,34 @@ export default function CallScreen() {
 
     endCall('hangup');
   };
+
+  const callControls = (
+    <Group gap="xs" justify="center" wrap="nowrap">
+      {canAddPerson && (
+        <Button
+          variant="light"
+          color="yellow"
+          radius="xl"
+          leftSection={<UserPlus size={16} />}
+          onClick={() => setAddOpen(true)}
+        >
+          Add Person
+        </Button>
+      )}
+
+      <Button
+        radius="xl"
+        leftSection={<PhoneOff size={16} />}
+        onClick={handleEndCall}
+        style={{
+          background: '#ef4444',
+          color: 'white',
+        }}
+      >
+        End Call
+      </Button>
+    </Group>
+  );
 
   return (
     <>
@@ -137,6 +182,7 @@ export default function CallScreen() {
                   align="center"
                   gap={8}
                   style={{
+                    display: hasRemoteVideo ? 'none' : 'flex',
                     position: 'absolute',
                     inset: 0,
                     justifyContent: 'center',
@@ -249,46 +295,29 @@ export default function CallScreen() {
                     </Stack>
                   </Box>
                 )}
+
+                <Box mt="sm">{callControls}</Box>
               </Stack>
             </Paper>
           )}
 
-          <Paper
-            radius="xl"
-            p={8}
-            shadow="xl"
-            style={{
-              position: 'absolute',
-              bottom: 24,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              background: 'rgba(255, 255, 255, 0.95)',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-            }}
-          >
-            <Group gap="xs" justify="center" wrap="nowrap">
-              {canAddPerson && (
-                <Button
-                  variant="light"
-                  color="yellow"
-                  radius="xl"
-                  leftSection={<UserPlus size={16} />}
-                  onClick={() => setAddOpen(true)}
-                >
-                  Add Person
-                </Button>
-              )}
-
-              <Button
-                color="red"
-                radius="xl"
-                leftSection={<PhoneOff size={16} />}
-                onClick={handleEndCall}
-              >
-                End Call
-              </Button>
-            </Group>
-          </Paper>
+          {isVideo && (
+            <Paper
+              radius="xl"
+              p={8}
+              shadow="xl"
+              style={{
+                position: 'absolute',
+                bottom: 24,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'rgba(255, 255, 255, 0.95)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+              }}
+            >
+              {callControls}
+            </Paper>
+          )}
         </Box>
       </Box>
 
