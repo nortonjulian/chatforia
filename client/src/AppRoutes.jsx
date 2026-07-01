@@ -85,6 +85,7 @@ import SupportWidget from '@/components/support/SupportWidget.jsx';
 import PrivacyPolicy from '@/pages/legal/PrivacyPolicy.jsx';
 import TermsOfService from '@/pages/legal/TermsOfService.jsx';
 import SmsPolicy from '@/pages/legal/SmsPolicy.jsx';
+import OpenSourceLicenses from '@/pages/legal/OpenSourceLicenses.jsx';
 import SmsConsentPage from './pages/SmsConsentPage';
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
@@ -383,6 +384,7 @@ export default function AppRoutes() {
           <Route path="/legal/terms" element={<TermsOfService />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/legal/sms" element={<SmsPolicy />} />
+          <Route path="/legal/open-source" element={<OpenSourceLicenses />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
           <Route path="/legal/cookies" element={<CookieSettings />} />
           <Route path="/legal/account-deletion" element={<AccountDeletion />} />
@@ -410,6 +412,7 @@ export default function AppRoutes() {
       {import.meta.env.DEV && <Route path="/dev/chat" element={<Navigate to="/" replace />} />}
 
       {/* Ensure /sms-consent exists for authenticated users as well */}
+      <Route path="/legal/consent" element={<SmsConsentPage />} />
       <Route path="/legal/consent" element={<SmsConsentPage />} />
 
       <Route path="/" element={<AuthedLayout />}>

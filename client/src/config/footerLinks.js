@@ -129,6 +129,11 @@ export const FOOTER_SECTIONS = [
       i18nKey: "sms-messaging-policy",
     },
     {
+      label: "Open Source Licenses",
+      href: "/legal/open-source",
+      i18nKey: "open-source-licenses",
+    },
+    {
       label: "Do Not Sell My Info",
       href: "/legal/do-not-sell",
       i18nKey: "do-not-sell-my-info",
