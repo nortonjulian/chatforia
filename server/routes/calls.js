@@ -119,15 +119,21 @@ router.post('/invite', asyncHandler(async (req, res) => {
   caller?.displayName || caller?.username || 'Chatforia user';
 
 if (mode === 'VIDEO') {
-  emitToUser(callee.id, 'video:incoming', {
+  const webIncomingPayload = {
     callId: call.id,
     roomName,
     callerId,
     callerName,
-     mode: 'VIDEO',
+    fromUser: caller,
+    mode: 'VIDEO',
+    offer: offer ?? null,
+    roomId: call.roomId ?? null,
     chatRoomId: call.roomId ?? null,
     createdAt: call.createdAt,
-  });
+  };
+
+  emitToUser(callee.id, 'video:incoming', webIncomingPayload);
+  emitToUser(callee.id, 'call:incoming', webIncomingPayload);
 
   try {
     await sendVoipCallPushToUser(callee.id, {

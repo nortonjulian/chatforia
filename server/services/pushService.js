@@ -4,6 +4,70 @@ import { getFirebaseMessaging } from './firebaseAdmin.js';
 
 let provider = null;
 
+const INVALID_APNS_REASONS = new Set([
+  'BadDeviceToken',
+  'DeviceTokenNotForTopic',
+  'Unregistered',
+]);
+
+function isApnsProduction() {
+  const raw = process.env.APNS_PRODUCTION;
+
+  if (raw != null) {
+    return ['1', 'true', 'yes', 'production', 'prod']
+      .includes(String(raw).toLowerCase().trim());
+  }
+
+  return process.env.NODE_ENV === 'production';
+}
+
+async function cleanupInvalidApnsTokens(failed = [], kind = 'alert') {
+  for (const failure of failed) {
+    const token = failure?.device ? String(failure.device) : '';
+    const reason =
+      failure?.response?.reason ||
+      failure?.error?.reason ||
+      failure?.error?.message ||
+      '';
+
+    if (!token || !INVALID_APNS_REASONS.has(reason)) continue;
+
+    console.warn('[push] removing invalid APNs token', {
+      kind,
+      reason,
+      token: `${token.slice(0, 10)}...${token.slice(-6)}`,
+    });
+
+    if (kind === 'voip') {
+      await prisma.device.updateMany({
+        where: { voipPushToken: token },
+        data: { voipPushToken: null },
+      });
+
+      await prisma.device.updateMany({
+        where: {
+          pushProvider: 'apns_voip',
+          pushToken: token,
+        },
+        data: { pushToken: null },
+      });
+    } else {
+      await prisma.device.updateMany({
+        where: { apnsPushToken: token },
+        data: { apnsPushToken: null },
+      });
+
+      await prisma.device.updateMany({
+        where: {
+          pushProvider: 'apns',
+          pushToken: token,
+        },
+        data: { pushToken: null },
+      });
+    }
+  }
+}
+
 /**
  * Lazily initialize APNs provider
  */
@@ -28,7 +92,7 @@ function getProvider() {
       keyId: APNS_KEY_ID,
       teamId: APNS_TEAM_ID,
     },
-    production: process.env.NODE_ENV === 'production',
+    production: isApnsProduction(),
   });
 
   return provider;
@@ -102,14 +166,10 @@ export async function sendVoipCallPushToUser(userId, payload) {
 
   const note = new apn.Notification();
 
-  note.topic = process.env.APNS_TOPIC;
-  note.pushType = 'alert';
+  note.topic = process.env.APNS_VOIP_TOPIC || `${process.env.APNS_TOPIC}.voip`;
+  note.pushType = 'voip';
   note.priority = 10;
-  note.expiry = Math.floor(Date.now() / 1000) + 60 * 60;
-
-  note.alert = payload.alert || {};
-  note.sound = payload.sound || 'default';
-  note.payload = payload.data || {};
+  note.expiry = Math.floor(Date.now() / 1000) + 60;
 
   note.payload = {
     type: 'call_incoming',
@@ -122,6 +182,30 @@ export async function sendVoipCallPushToUser(userId, payload) {
   };
 
   const result = await apnProvider.send(note, tokens.apnsVoip);
+
+  console.log(
+    '[push] APNs VoIP result',
+    JSON.stringify(
+      {
+        userId,
+        tokenCount: tokens.apnsVoip.length,
+        sent: result.sent.length,
+        failed: result.failed.map((failure) => ({
+          device: failure.device
+            ? `${String(failure.device).slice(0, 10)}...${String(failure.device).slice(-6)}`
+            : null,
+          status: failure.status,
+          response: failure.response || null,
+          reason: failure.response?.reason || null,
+          error: failure.error?.message || failure.error || null,
+        })),
+      },
+      null,
+      2
+    )
+  );
+
+  await cleanupInvalidApnsTokens(result.failed, 'voip');
 
   return {
     ok: result.sent.length > 0,
@@ -148,6 +232,8 @@ export async function sendPushToUser(userId, payload) {
       const note = new apn.Notification();
 
       note.topic = process.env.APNS_TOPIC;
+      note.pushType = 'alert';
+      note.priority = 10;
       note.alert = payload.alert || {};
       note.sound = payload.sound || 'default';
       note.payload = payload.data || {};
@@ -175,6 +261,8 @@ export async function sendPushToUser(userId, payload) {
           2
         )
       );
+
+      await cleanupInvalidApnsTokens(results.apns.failed, 'alert');
     }
   }
 
@@ -194,7 +282,6 @@ export async function sendPushToUser(userId, payload) {
         ])
       );
 
-      const isIncomingCall = stringData.type === 'call_incoming';
       const isMissedCall = stringData.type === 'call_missed';
 
       stringData.title = payload.alert?.title || stringData.senderName || 'Chatforia';

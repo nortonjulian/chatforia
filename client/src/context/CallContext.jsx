@@ -37,62 +37,92 @@ export function CallProvider({ children, me }) {
 
   // socket listeners
   useEffect(() => {
-    function onIncoming(payload) {
-      setIncoming(payload);
-    }
+  function normalizeIncoming(payload, fallbackMode = 'AUDIO') {
+    const callerId = payload?.callerId ?? payload?.fromUser?.id ?? null;
 
-    function onAnswer({ callId, answer }) {
-      if (!pcRef.current) return;
-      pcRef.current.setRemoteDescription(answer).catch(() => {});
-      setActive((prev) => prev || { callId });
-      setPending(false);
-    }
+    const callerName =
+      payload?.callerName ||
+      payload?.fromUser?.displayName ||
+      payload?.fromUser?.username ||
+      'Chatforia user';
 
-    function onCandidate({ fromUserId, candidate }) {
-      if (!candidate) return;
-
-      const pc =
-        (fromUserId ? getPeerConnection(fromUserId) : null) ||
-        pcRef.current;
-
-      if (pc) {
-        pc.addIceCandidate(candidate).catch(() => {});
-      }
-    }
-
-    function onEnded() {
-      cleanup();
-    }
-
-    socket.on('call:incoming', onIncoming);
-    socket.on('call:answer', onAnswer);
-    socket.on('call:candidate', onCandidate);
-    socket.on('call:ended', onEnded);
-
-    socket.on('call:participant-invite', onParticipantInvite);
-    socket.on('call:participant-answer', onParticipantAnswer);
-    socket.on('call:participant-ringing', onParticipantRinging);
-    socket.on('call:participant-joined', onParticipantJoined);
-    socket.on('call:participant-left', onParticipantLeft);
-    socket.on('call:participant-declined', onParticipantDeclined);
-    socket.on('call:participant-offer-needed', onParticipantOfferNeeded);
-    socket.on('call:participant-offer', onParticipantOffer);
-    return () => {
-      socket.off('call:incoming', onIncoming);
-      socket.off('call:answer', onAnswer);
-      socket.off('call:candidate', onCandidate);
-      socket.off('call:ended', onEnded);
-
-      socket.off('call:participant-invite', onParticipantInvite);
-      socket.off('call:participant-answer', onParticipantAnswer);
-      socket.off('call:participant-ringing', onParticipantRinging);
-      socket.off('call:participant-joined', onParticipantJoined);
-      socket.off('call:participant-left', onParticipantLeft);
-      socket.off('call:participant-declined', onParticipantDeclined);
-      socket.off('call:participant-offer-needed', onParticipantOfferNeeded);
-      socket.off('call:participant-offer', onParticipantOffer);
+    return {
+      ...payload,
+      mode: payload?.mode || fallbackMode,
+      fromUser: payload?.fromUser || {
+        id: callerId,
+        username: callerName,
+        displayName: callerName,
+        name: callerName,
+      },
     };
-  }, []);
+  }
+
+  function onIncoming(payload) {
+    setIncoming(normalizeIncoming(payload, payload?.mode || 'AUDIO'));
+  }
+
+  function onVideoIncoming(payload) {
+    setIncoming(normalizeIncoming(payload, 'VIDEO'));
+  }
+
+  function onAnswer({ callId, answer }) {
+    if (!pcRef.current) return;
+    pcRef.current.setRemoteDescription(answer).catch(() => {});
+    setActive((prev) => prev || { callId });
+    setPending(false);
+  }
+
+  function onCandidate({ fromUserId, candidate }) {
+    if (!candidate) return;
+
+    const pc =
+      (fromUserId ? getPeerConnection(fromUserId) : null) ||
+      pcRef.current;
+
+    if (pc) {
+      pc.addIceCandidate(candidate).catch(() => {});
+    }
+  }
+
+  function onEnded() {
+    cleanup();
+  }
+
+  socket.on('call:incoming', onIncoming);
+  socket.on('video:incoming', onVideoIncoming);
+  socket.on('call:answer', onAnswer);
+  socket.on('call:candidate', onCandidate);
+  socket.on('call:ended', onEnded);
+  socket.on('video:ended', onEnded);
+
+  socket.on('call:participant-invite', onParticipantInvite);
+  socket.on('call:participant-answer', onParticipantAnswer);
+  socket.on('call:participant-ringing', onParticipantRinging);
+  socket.on('call:participant-joined', onParticipantJoined);
+  socket.on('call:participant-left', onParticipantLeft);
+  socket.on('call:participant-declined', onParticipantDeclined);
+  socket.on('call:participant-offer-needed', onParticipantOfferNeeded);
+  socket.on('call:participant-offer', onParticipantOffer);
+
+  return () => {
+    socket.off('call:incoming', onIncoming);
+    socket.off('video:incoming', onVideoIncoming);
+    socket.off('call:answer', onAnswer);
+    socket.off('call:candidate', onCandidate);
+    socket.off('call:ended', onEnded);
+    socket.off('video:ended', onEnded);
+
+    socket.off('call:participant-invite', onParticipantInvite);
+    socket.off('call:participant-answer', onParticipantAnswer);
+    socket.off('call:participant-ringing', onParticipantRinging);
+    socket.off('call:participant-joined', onParticipantJoined);
+    socket.off('call:participant-left', onParticipantLeft);
+    socket.off('call:participant-declined', onParticipantDeclined);
+    socket.off('call:participant-offer-needed', onParticipantOfferNeeded);
+    socket.off('call:participant-offer', onParticipantOffer);
+  };
+}, []);
 
   async function createPeer(nextActive = null) {
     const peerUserId = nextActive?.peerId;
