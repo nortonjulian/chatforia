@@ -295,7 +295,14 @@ const handleAppVideoCall = async (userId) => {
   const anyError = resolveError || pstnError || voiceError;
 
   return (
-    <Box p="md">
+    <Box
+      p="md"
+      style={{
+        height: 'calc(100dvh - 60px)',
+        overflowY: 'auto',
+        paddingBottom: 140,
+      }}
+    >
       <Text fw={700} mb="xs">
         {t('dialer.title', 'Calls')}
       </Text>
@@ -484,7 +491,7 @@ const handleAppVideoCall = async (userId) => {
                         )}
                       </Box>
 
-                      <Stack gap={6} align="flex-end">
+                      <Stack gap={8} align="flex-end" style={{ flexShrink: 0 }}>
                         {item.hasVoicemail ? (
                           <Badge
                             leftSection={<Voicemail size={12} />}
@@ -495,54 +502,52 @@ const handleAppVideoCall = async (userId) => {
                           </Badge>
                         ) : null}
 
-                        {canPhoneCall ? (
-                          <ActionIcon
-                            variant="filled"
-                            color="yellow"
-                            radius="xl"
-                            size={38}
-                            onClick={() => {
-                              if (canAppCall) {
-                                handleAppAudioCall(otherUserId);
-                              } else {
-                                handleRedial(item);
-                              }
-                            }}
-                            disabled={
-                              canAppCall
-                                ? appCallPending
-                                : pstnLoading
-                            }
-                            aria-label={`Call ${otherPartyName}`}
-                          >
-                            <Phone size={18} />
-                          </ActionIcon>
-                        ) : null}
+                        <Group gap={6} wrap="nowrap">
+                          {canPhoneCall ? (
+                            <ActionIcon
+                              variant="light"
+                              color="yellow"
+                              radius="xl"
+                              size={34}
+                              onClick={() => {
+                                if (canAppCall) {
+                                  handleAppAudioCall(otherUserId);
+                                } else {
+                                  handleRedial(item);
+                                }
+                              }}
+                              disabled={canAppCall ? appCallPending : pstnLoading}
+                              aria-label={`Call ${otherPartyName}`}
+                            >
+                              <Phone size={16} />
+                            </ActionIcon>
+                          ) : null}
 
-                        {canAppCall ? (
-                          <ActionIcon
-                            variant="light"
-                            color="yellow"
-                            radius="xl"
-                            size={38}
-                            onClick={() => handleAppVideoCall(otherUserId)}
-                            disabled={appCallPending}
-                            aria-label={`Video call ${otherPartyName}`}
-                          >
-                            <Video size={18} />
-                          </ActionIcon>
-                        ) : null}
+                          {canAppCall ? (
+                            <ActionIcon
+                              variant="light"
+                              color="yellow"
+                              radius="xl"
+                              size={34}
+                              onClick={() => handleAppVideoCall(otherUserId)}
+                              disabled={appCallPending}
+                              aria-label={`Video call ${otherPartyName}`}
+                            >
+                              <Video size={16} />
+                            </ActionIcon>
+                          ) : null}
 
-                        <ActionIcon
-                          variant="subtle"
-                          color="red"
-                          radius="xl"
-                          size={34}
-                          onClick={() => handleDelete(item.id)}
-                          aria-label={`Delete call with ${otherPartyName}`}
-                        >
-                          <Trash2 size={16} />
-                        </ActionIcon>
+                          <ActionIcon
+                            variant="subtle"
+                            color="red"
+                            radius="xl"
+                            size={32}
+                            onClick={() => handleDelete(item.id)}
+                            aria-label={`Delete call with ${otherPartyName}`}
+                          >
+                            <Trash2 size={15} />
+                          </ActionIcon>
+                        </Group>
                       </Stack>
                     </Group>
                   </Box>
