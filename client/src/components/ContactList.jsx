@@ -41,9 +41,10 @@ function normalizePhone(raw) {
 export default function ContactList({
   currentUserId,
   onChanged,
-  selectionMode = 'single', // 'single' | 'multiple'
-  selectedIds = [],         // string[]
-  onToggleSelect,           // (id: string) => void
+  searchQuery = '',
+  selectionMode = 'single',
+  selectedIds = [],
+  onToggleSelect,
 }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -82,8 +83,11 @@ export default function ContactList({
 
   useEffect(() => {
     fetchContacts({ append: false });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setSearch(searchQuery || '');
+  }, [searchQuery]);
 
   const filteredItems = useMemo(() => {
     const q = search.trim().toLowerCase();

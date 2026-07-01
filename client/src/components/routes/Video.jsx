@@ -61,25 +61,26 @@ export default function VideoHub({ currentUser }) {
   };
 
   // Direct (1:1) deep link: show DirectVideo prefilled
-  if (mode === 'direct') {
-    return (
-      <Box p="md">
-        <Title order={3} mb="sm">
-          {t('video.direct.title', 'Direct Video')}
-        </Title>
-        <Text c="dimmed" mb="md">
-          {t('video.direct.subtitle', 'Start a 1:1 video call with another user.')}
-        </Text>
+if (mode === 'direct') {
+  return (
+    <Box p="md">
+      <Title order={3} mb="sm">
+        {t('video.direct.title', 'Direct Video')}
+      </Title>
+      <Text c="dimmed" mb="md">
+        {t('video.direct.subtitle', 'Start a 1:1 video call with another user.')}
+      </Text>
 
-        <DirectVideo
-          currentUser={currentUser}
-          showHeader={false}
-          initialPeerId={deepDirectUser || undefined}
-          initialPhone={deepPhone || undefined}
-        />
-      </Box>
-    );
-  }
+      <DirectVideo
+        currentUser={currentUser}
+        showHeader={false}
+        initialPeerId={deepDirectUser || undefined}
+        initialPhone={deepPhone || undefined}
+        navigateToJoin={(inviteCode) => navigate(`/join/${inviteCode}`)}
+      />
+    </Box>
+  );
+}
 
   // Rooms flow (with inline joiner)
   if (mode === 'rooms') {
