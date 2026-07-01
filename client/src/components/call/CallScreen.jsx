@@ -1,4 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import {
+  Badge,
+  Box,
+  Button,
+  Group,
+  Paper,
+  Stack,
+  Text,
+} from '@mantine/core';
 import { useCall } from '../../context/CallContext';
 import AddCallParticipantModal from './AddCallParticipantModal';
 import posthog from '@/utils/analytics';
@@ -49,54 +58,105 @@ export default function CallScreen() {
     activeParticipants.length < 3 &&
     typeof addParticipant === 'function';
 
+  const handleEndCall = () => {
+    posthog.capture(
+      active?.mode === 'VIDEO' ? 'video_call_ended' : 'voice_call_ended',
+      {
+        reason: 'hangup',
+        mode: active?.mode,
+      }
+    );
+
+    endCall('hangup');
+  };
+
   return (
     <>
-      <div className="fixed inset-0 bg-black/90 z-40 flex items-center justify-center">
-        <div className="relative w-full h-full flex items-center justify-center">
+      <Box
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 1000,
+          background: 'rgba(0, 0, 0, 0.9)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 24,
+        }}
+      >
+        <Box
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           {/* Remote media */}
           <video
             ref={remoteRef}
             autoPlay
             playsInline
-            className={`max-h-[80vh] ${isVideo ? '' : 'hidden'}`}
+            style={{
+              display: isVideo ? 'block' : 'none',
+              maxWidth: '100%',
+              maxHeight: '80vh',
+              borderRadius: 16,
+              background: '#000',
+            }}
           />
 
           {/* Audio call UI */}
           {!isVideo && (
-            <div className="flex flex-col items-center gap-4 text-white">
-              <div className="text-xl text-center">
-                Audio call
-                {status ? ` — ${status}` : ''}
-              </div>
+            <Paper
+              radius="xl"
+              p="xl"
+              shadow="xl"
+              style={{
+                minWidth: 320,
+                maxWidth: 460,
+                background: 'rgba(255, 255, 255, 0.96)',
+                textAlign: 'center',
+              }}
+            >
+              <Stack gap="md" align="center">
+                <Text fw={700} size="xl">
+                  Audio call
+                  {status ? ` — ${status}` : ''}
+                </Text>
 
-              {activeParticipants.length > 0 && (
-                <div className="bg-white/10 rounded-xl px-4 py-3 min-w-[280px]">
-                  <div className="font-semibold mb-2">
-                    Participants ({activeParticipants.length}/3)
-                  </div>
+                {activeParticipants.length > 0 && (
+                  <Box w="100%">
+                    <Text fw={600} mb="sm">
+                      Participants ({activeParticipants.length}/3)
+                    </Text>
 
-                  <div className="space-y-2">
-                    {activeParticipants.map((participant) => (
-                      <div
-                        key={participant.userId}
-                        className="flex items-center justify-between"
-                      >
-                        <span>
-                          {participant.user?.displayName ||
-                            participant.user?.name ||
-                            participant.user?.username ||
-                            `User ${participant.userId}`}
-                        </span>
+                    <Stack gap="xs">
+                      {activeParticipants.map((participant) => (
+                        <Group
+                          key={participant.userId}
+                          justify="space-between"
+                          wrap="nowrap"
+                        >
+                          <Text size="sm">
+                            {participant.user?.displayName ||
+                              participant.user?.name ||
+                              participant.user?.username ||
+                              `User ${participant.userId}`}
+                          </Text>
 
-                        <span className="text-sm text-white/70">
-                          {participant.status}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+                          <Badge variant="light" color="yellow">
+                            {participant.status}
+                          </Badge>
+                        </Group>
+                      ))}
+                    </Stack>
+                  </Box>
+                )}
+              </Stack>
+            </Paper>
           )}
 
           {/* Local video preview */}
@@ -105,37 +165,53 @@ export default function CallScreen() {
             autoPlay
             muted
             playsInline
-            className={`absolute right-6 bottom-6 w-48 rounded-lg ${
-              isVideo ? '' : 'hidden'
-            }`}
+            style={{
+              display: isVideo ? 'block' : 'none',
+              position: 'absolute',
+              right: 24,
+              bottom: 24,
+              width: 192,
+              maxWidth: '28vw',
+              borderRadius: 12,
+              background: '#000',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
+            }}
           />
 
-          {/* Add Person button */}
-          {canAddPerson && (
-            <button
-              onClick={() => setAddOpen(true)}
-              className="absolute bottom-24 left-1/2 -translate-x-1/2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full"
-            >
-              Add Person
-            </button>
-          )}
-
-          {/* End Call button */}
-          <button
-            onClick={() => {
-              posthog.capture(active?.mode === 'VIDEO' ? 'video_call_ended' : 'voice_call_ended', {
-                reason: 'hangup',
-                mode: active?.mode,
-              });
-
-              endCall('hangup');
+          {/* Call controls */}
+          <Group
+            gap="sm"
+            justify="center"
+            style={{
+              position: 'absolute',
+              bottom: 24,
+              left: '50%',
+              transform: 'translateX(-50%)',
             }}
-            className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-red-600 hover:bg-red-700 text-white px-5 py-3 rounded-full"
           >
-            End Call
-          </button>
-        </div>
-      </div>
+            {canAddPerson && (
+              <Button
+                variant="light"
+                color="yellow"
+                radius="xl"
+                size="md"
+                onClick={() => setAddOpen(true)}
+              >
+                Add Person
+              </Button>
+            )}
+
+            <Button
+              color="red"
+              radius="xl"
+              size="md"
+              onClick={handleEndCall}
+            >
+              End Call
+            </Button>
+          </Group>
+        </Box>
+      </Box>
 
       <AddCallParticipantModal
         opened={addOpen}
