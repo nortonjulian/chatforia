@@ -64,6 +64,12 @@ export default function CallScreen() {
 
   const isVideo = active.mode === 'VIDEO';
 
+  const peerName =
+    active.peerName ||
+    active.peerUsername ||
+    active.phoneNumber ||
+    '';
+
   const activeParticipants = participants.filter((p) =>
     ['RINGING', 'JOINED'].includes(p.status)
   );
@@ -200,6 +206,10 @@ export default function CallScreen() {
                   </ThemeIcon>
 
                   <Text fw={700} size="lg">
+                    {peerName || 'Video call'}
+                  </Text>
+
+                  <Text size="sm" c="gray.4">
                     Video call
                   </Text>
 
@@ -247,6 +257,11 @@ export default function CallScreen() {
                 </ThemeIcon>
 
                 <Stack gap={2} align="center">
+                  {peerName ? (
+                    <Text fw={700} size="lg">
+                      {peerName}
+                    </Text>
+                  ) : null}
                   <Text fw={800} size="xl">
                     Audio call
                   </Text>

@@ -236,30 +236,35 @@ export default function Dialer() {
     await startBrowserCall(toNumber);
   };
 
-  const handleAppAudioCall = async (userId) => {
-  const calleeId = Number(userId);
-  if (!Number.isFinite(calleeId) || calleeId <= 0) return;
+  const handleAppAudioCall = async (userId, peerName) => {
+    const calleeId = Number(userId);
+    if (!Number.isFinite(calleeId) || calleeId <= 0) return;
 
-  try {
-    await startCall({ calleeId, mode: 'AUDIO' });
-  } catch (e) {
-    setResolveError(e?.message || 'Could not start audio call.');
-  }
-};
+    try {
+      await startCall({ calleeId, mode: 'AUDIO', peerName });
+    } catch (e) {
+      setResolveError(e?.message || 'Could not start audio call.');
+    }
+  };
 
-const handleAppVideoCall = async (userId) => {
-  const calleeId = Number(userId);
-  if (!Number.isFinite(calleeId) || calleeId <= 0) return;
+  const handleAppVideoCall = async (userId, peerName) => {
+    const calleeId = Number(userId);
+    if (!Number.isFinite(calleeId) || calleeId <= 0) return;
 
-  try {
-    await startCall({ calleeId, mode: 'VIDEO' });
-  } catch (e) {
-    setResolveError(e?.message || 'Could not start video call.');
-  }
-};
+    try {
+      await startCall({ calleeId, mode: 'VIDEO', peerName });
+    } catch (e) {
+      setResolveError(e?.message || 'Could not start video call.');
+    }
+  };
 
   const handleRedial = async (item) => {
-    const phone = normalizePhone(item.externalPhone || '');
+    const phone = normalizePhone(
+      item.phoneNumber ||
+        item.externalPhone ||
+        ''
+    );
+
     if (!phone) return;
 
     setDigits(phone);
@@ -310,7 +315,7 @@ const handleAppVideoCall = async (userId) => {
       <Text c="dimmed" size="sm" mb="md">
         {t(
           'dialer.subtitle',
-          'Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)'
+          'Make phone calls and review your recent calls.'
         )}
       </Text>
 
@@ -511,7 +516,7 @@ const handleAppVideoCall = async (userId) => {
                               size={34}
                               onClick={() => {
                                 if (canAppCall) {
-                                  handleAppAudioCall(otherUserId);
+                                  handleAppAudioCall(otherUserId, otherPartyName);
                                 } else {
                                   handleRedial(item);
                                 }
@@ -529,7 +534,7 @@ const handleAppVideoCall = async (userId) => {
                               color="yellow"
                               radius="xl"
                               size={34}
-                              onClick={() => handleAppVideoCall(otherUserId)}
+                              onClick={() => handleAppVideoCall(otherUserId, otherPartyName)}
                               disabled={appCallPending}
                               aria-label={`Video call ${otherPartyName}`}
                             >

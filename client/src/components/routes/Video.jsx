@@ -71,7 +71,7 @@ if (mode === 'direct') {
         {t('video.direct.title', 'Direct Video')}
       </Title>
       <Text c="dimmed" mb="md">
-        {t('video.direct.subtitle', 'Start a 1:1 video call with another user.')}
+        {t('video.direct.subtitle', 'Start a 1:1 video call with another Chatforia user.')}
       </Text>
 
       <DirectVideo
@@ -151,7 +151,7 @@ if (mode === 'direct') {
               <Text fw={600}>{t('video.direct.title', 'Direct Video')}</Text>
             </Group>
             <Text c="dimmed" size="sm">
-              {t('video.direct.desc', '1:1 camera call with another user.')}
+              {t('video.direct.desc', '1:1 camera call with another Chatforia user.')}
             </Text>
             <Button onClick={() => setMode('direct')} mt="sm">
               {t('video.direct.start', 'Start')}

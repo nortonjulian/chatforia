@@ -232,7 +232,7 @@ async function addParticipant(userId) {
   /**
    * Start a call by userId (existing Chatforia user).
    */
-  async function startCallByUser({ calleeId, mode = 'VIDEO' }) {
+  async function startCallByUser({ calleeId, mode = 'VIDEO', peerName }) {
     if (!calleeId) throw new Error('Missing calleeId');
     setInviteHint(null);
     setPending(true);
@@ -253,7 +253,12 @@ async function addParticipant(userId) {
     });
 
     const data = await resp.json(); // { callId, peerId }
-    setActive({ callId: data.callId, peerId: calleeId, mode });
+    setActive({
+      callId: data.callId,
+      peerId: calleeId,
+      mode,
+      peerName,
+    });
     return data;
   }
 
@@ -297,16 +302,23 @@ async function addParticipant(userId) {
   /**
    * Backwards-compatible single entry: accepts either calleeId OR phoneNumber.
    */
-  async function startCall({ calleeId, phoneNumber, mode = 'VIDEO' }) {
-    if (calleeId) return startCallByUser({ calleeId, mode });
-    if (phoneNumber) return startCallByPhone({ phoneNumber, mode });
-    throw new Error('Provide calleeId or phoneNumber');
+  async function startCall({ calleeId, mode = 'VIDEO', peerName }) {
+    if (calleeId) return startCallByUser({ calleeId, mode, peerName });
+
+    throw new Error('Provide calleeId');
   }
 
   async function acceptCall() {
     if (!incoming) return;
 
     const { callId, fromUser, offer, mode = 'AUDIO' } = incoming;
+
+    const peerName =
+      incoming.callerName ||
+      fromUser?.displayName ||
+      fromUser?.name ||
+      fromUser?.username ||
+      'Chatforia user';
 
     if (incoming.isParticipantInvite) {
       const pc = await createPeer({ callId, peerId: fromUser?.id });
@@ -338,6 +350,7 @@ async function addParticipant(userId) {
         callId,
         peerId: fromUser?.id,
         mode: 'AUDIO',
+        peerName,
       });
 
       setParticipants([
@@ -371,7 +384,13 @@ async function addParticipant(userId) {
       body: JSON.stringify({ callId, answer }),
     });
 
-    setActive({ callId, peerId: fromUser?.id, mode });
+    setActive({
+      callId,
+      peerId: fromUser?.id,
+      mode,
+      peerName,
+    });
+
     setIncoming(null);
     setPending(false);
   }
@@ -652,7 +671,6 @@ function onParticipantDeclined({ participant }) {
     // actions
     startCall,           // { calleeId? | phoneNumber?, mode? }
     startCallByUser,     // explicit user-id call
-    startCallByPhone,    // explicit phone-number call
     acceptCall,
     rejectCall,
     endCall,
