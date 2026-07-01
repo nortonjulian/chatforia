@@ -17,6 +17,7 @@ import {
   PhoneOutgoing,
   PhoneMissed,
   Voicemail,
+  Video,
 } from 'lucide-react';
 import { getCallHistoryPage } from '@/api/calls';
 import { useUser } from '@/context/UserContext';
@@ -59,10 +60,13 @@ function statusLabel(status, isOutgoing, t) {
   }
 }
 
-function statusIcon(status, isOutgoing) {
-  const normalized = String(status || '').toUpperCase();
+function statusIcon(item, isOutgoing) {
+  const status = String(item?.status || '').toUpperCase();
+  const mode = String(item?.mode || '').toUpperCase();
 
-  if (normalized === 'MISSED') return PhoneMissed;
+  if (mode === 'VIDEO') return Video;
+  if (status === 'MISSED') return PhoneMissed;
+
   return isOutgoing ? PhoneOutgoing : PhoneIncoming;
 }
 
@@ -175,16 +179,26 @@ export default function CallHistory() {
     return (
       <Stack gap="sm">
         {items.map((item) => {
-          const isOutgoing = item.callerId === currentUser?.id;
+          const isOutgoing = Number(item.callerId) === Number(currentUser?.id);
           const otherParty = isOutgoing ? item.callee : item.caller;
+
           const otherPartyName =
+            item.displayName ||
+            item.otherDisplayName ||
+            item.otherUsername ||
             otherParty?.displayName ||
             otherParty?.username ||
+            item.phoneNumber ||
             (isOutgoing
-                ? t('callHistory.outgoingCall', 'Outgoing Call')
-                : t('callHistory.incomingCall', 'Incoming Call'));
+              ? t('callHistory.outgoingCall', 'Outgoing Call')
+              : t('callHistory.incomingCall', 'Incoming Call'));
 
-          const Icon = statusIcon(item.status, isOutgoing);
+          const isVideoCall = String(item.mode || '').toUpperCase() === 'VIDEO';
+          const callTypeLabel = isVideoCall
+            ? t('callHistory.video', 'Video')
+            : t('callHistory.audio', 'Audio');
+
+          const Icon = statusIcon(item, isOutgoing);
 
           const directionLabel = isOutgoing
             ? t('callHistory.outgoing', 'Outgoing')
@@ -208,9 +222,15 @@ export default function CallHistory() {
                     <Box>
                       <Text fw={600}>{otherPartyName}</Text>
                       <Group gap={8} mt={4}>
-                        <Text size="sm" c="dimmed">
-                          {directionLabel}
-                        </Text>
+                      <Text size="sm" c="dimmed">
+                        {callTypeLabel}
+                      </Text>
+
+                      <Text size="sm" c="dimmed">•</Text>
+
+                      <Text size="sm" c="dimmed">
+                        {directionLabel}
+                      </Text>
 
                         {showStatusLabel ? (
                           <>
@@ -250,7 +270,15 @@ export default function CallHistory() {
   }, [items, loading, error, currentUser?.id, t]);
 
   return (
-    <Box p="md">
+    <Box
+      p="md"
+      style={{
+        flex: 1,
+        minHeight: 0,
+        overflowY: 'auto',
+        paddingBottom: 120,
+      }}
+    >
       <Stack gap="md">
         <Text fw={700} size="xl">
          {t('callHistory.title', 'Calls')}
