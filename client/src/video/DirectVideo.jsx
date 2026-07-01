@@ -165,6 +165,22 @@ export default function DirectVideo({
   }
 }
 
+useEffect(() => {
+  const query = q.trim();
+
+  if (!query) {
+    setResults([]);
+    return;
+  }
+
+  const timer = setTimeout(() => {
+    searchUsers();
+  }, 300);
+
+  return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [q]);
+
   return (
     <Box p="md">
       {showHeader && (
@@ -227,10 +243,12 @@ export default function DirectVideo({
               placeholder={t('video.direct.search.placeholder', 'Search by name or username')}
               aria-label={t('video.direct.search.aria', 'Search by name or username')}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') searchUsers();
+                if (e.key === 'Enter' && q.trim() && !loading) {
+                  searchUsers();
+                }
               }}
             />
-            <Button onClick={searchUsers} loading={loading} disabled={!currentUser}>
+            <Button onClick={searchUsers} loading={loading} disabled={!q.trim() || loading}>
               {t('video.direct.search.btn', 'Search')}
             </Button>
           </Group>

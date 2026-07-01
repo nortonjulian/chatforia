@@ -14,11 +14,15 @@ import { Video, Users as UsersIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import DirectVideo from '@/video/DirectVideo.jsx';
 import VideoCall from '@/video/VideoCall.jsx';
+import { useUser } from '@/context/UserContext';
 
-export default function VideoHub({ currentUser }) {
+export default function VideoHub({ currentUser: currentUserProp }) {
   const { t } = useTranslation();
   const [params] = useSearchParams();
   const navigate = useNavigate();
+
+  const { currentUser: contextUser } = useUser();
+  const currentUser = currentUserProp || contextUser;
 
   const identity = useMemo(() => String(currentUser?.id || ''), [currentUser?.id]);
 
