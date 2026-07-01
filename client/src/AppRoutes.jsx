@@ -413,7 +413,7 @@ export default function AppRoutes() {
 
       {/* Ensure /sms-consent exists for authenticated users as well */}
       <Route path="/legal/consent" element={<SmsConsentPage />} />
-      <Route path="/legal/consent" element={<SmsConsentPage />} />
+      <Route path="/legal/open-source" element={<OpenSourceLicenses />} />
 
       <Route path="/" element={<AuthedLayout />}>
         <Route path="/pair-browser" element={<PairBrowserPage />} />
