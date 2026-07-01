@@ -92,7 +92,7 @@ export const FOOTER_SECTIONS = [
   links: [
     {
       label: "iOS / App Store",
-      href: "https://apps.apple.com/app/idXXXXXXXX",
+      href: "https://apps.apple.com/us/app/chatforia/id6761696765",
       external: true,
       i18nKey: "ios-app-store",
     },
