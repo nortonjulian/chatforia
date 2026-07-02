@@ -83,13 +83,13 @@ export default function ChatThreadRoute() {
           blocked
           title={
             keyUnlockMode === 'locked'
-              ? 'Unlock encrypted messages'
-              : 'Restore encrypted messages'
+              ? 'Unlock secure messages'
+              : 'Restore secure messages'
           }
           description={
             keyUnlockMode === 'locked'
-              ? 'Enter your device passcode to view and send encrypted messages on this browser.'
-              : 'This browser needs your Chatforia encryption key before it can show encrypted messages.'
+              ? 'Enter your Secure Messages Passcode to view and send secure messages on this browser.'
+              : 'This browser needs your secure message key before it can show secure messages.'
           }
         />
       </Box>

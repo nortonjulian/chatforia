@@ -61,10 +61,10 @@ export default function SettingsBackups() {
 
         <Card withBorder radius="md" p="lg">
           <Stack gap="sm">
-            <Title order={5}>Unlock for Chat Backup</Title>
+            <Title order={5}>Unlock Secure Chat Backup</Title>
             <PasswordInput
               label="Unlock passcode"
-              description="Enter your device passcode to decrypt keys for export"
+              description="Enter your Secure Messages Passcode to unlock secure chat backup export."
               value={unlockPass}
               onChange={(e) => setUnlockPass(e.currentTarget.value)}
             />

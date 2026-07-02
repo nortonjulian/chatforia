@@ -112,24 +112,51 @@ export function removeFromQueue(queues, socketId) {
 export async function createRandomRoom(prisma, userA, userB) {
   const systemIntro = `You've been paired for a random chat. Be kind!`;
 
-  const room = await prisma.randomChatRoom.create({
-    data: {
-      participants: {
-        connect: [{ id: userA.userId }, { id: userB.userId }],
+  const room = await prisma.$transaction(async (tx) => {
+    const chatRoom = await tx.chatRoom.create({
+      data: {
+        isGroup: false,
+        participants: {
+          create: [
+            {
+              user: { connect: { id: userA.userId } },
+              role: "MEMBER",
+            },
+            {
+              user: { connect: { id: userB.userId } },
+              role: "MEMBER",
+            },
+          ],
+        },
       },
-      messages: {
-        create: [
-          {
-            content: systemIntro,
-            sender: { connect: { id: userA.userId } }, // or system user if you add one later
+    });
+
+    const randomRoom = await tx.randomChatRoom.create({
+      data: {
+        participants: {
+          connect: [{ id: userA.userId }, { id: userB.userId }],
+        },
+        messages: {
+          create: [
+            {
+              rawContent: systemIntro,
+              sender: { connect: { id: userA.userId } },
+              chatRoom: { connect: { id: chatRoom.id } },
+            },
+          ],
+        },
+      },
+      include: {
+        participants: true,
+        messages: {
+          include: {
+            sender: true,
           },
-        ],
+        },
       },
-    },
-    include: {
-      participants: true,
-      messages: { include: { sender: true } },
-    },
+    });
+
+    return randomRoom;
   });
 
   return room;
