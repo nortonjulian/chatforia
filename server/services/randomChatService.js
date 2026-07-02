@@ -112,6 +112,15 @@ export function removeFromQueue(queues, socketId) {
 export async function createRandomRoom(prisma, userA, userB) {
   const systemIntro = `You've been paired for a random chat. Be kind!`;
 
+  const aliasA = generateAlias(new Set());
+  const used = new Set([aliasA]);
+  const aliasB = generateAlias(used);
+
+  const aliasByUser = {
+    [userA.userId]: aliasA,
+    [userB.userId]: aliasB,
+  };
+
   const result = await prisma.$transaction(async (tx) => {
     const chatRoom = await tx.chatRoom.create({
       data: {
@@ -133,9 +142,13 @@ export async function createRandomRoom(prisma, userA, userB) {
 
     const randomRoom = await tx.randomChatRoom.create({
       data: {
+        chatRoom: {
+          connect: { id: chatRoom.id },
+        },
         participants: {
           connect: [{ id: userA.userId }, { id: userB.userId }],
         },
+        aliasByUser,
         messages: {
           create: [
             {
@@ -158,9 +171,10 @@ export async function createRandomRoom(prisma, userA, userB) {
 
     return {
       ...randomRoom,
-      id: chatRoom.id,              // IMPORTANT: app-facing roomId
+      id: chatRoom.id,
       chatRoomId: chatRoom.id,
       randomChatRoomId: randomRoom.id,
+      aliasByUser,
     };
   });
 
@@ -283,32 +297,54 @@ export async function tryMatch({ queues, prisma, io, currentEntry, getSocketById
   queues.waitingQueue.splice(peerIdx, 1);
   queues.waitingBySocket.delete(peerEntry.socketId);
 
-  // Create DB room
   const room = await createRandomRoom(prisma, currentEntry, peerEntry);
 
-  // Track active room pairings
   queues.activeRoomBySocket.set(currentEntry.socketId, {
-    roomId: room.id,
+    roomId: room.chatRoomId,
+    randomChatRoomId: room.randomChatRoomId,
     peerSocketId: peerEntry.socketId,
     peerUserId: peerEntry.userId,
   });
 
   queues.activeRoomBySocket.set(peerEntry.socketId, {
-    roomId: room.id,
+    roomId: room.chatRoomId,
+    randomChatRoomId: room.randomChatRoomId,
     peerSocketId: currentEntry.socketId,
     peerUserId: currentEntry.userId,
   });
 
-  // Create anonymous session metadata
-  const session = makeSession(room.id, currentEntry, peerEntry);
-  queues.sessionByRoomId.set(room.id, session);
+  const session = {
+    roomId: room.chatRoomId,
+    randomChatRoomId: room.randomChatRoomId,
+    users: {
+      [currentEntry.userId]: {
+        userId: currentEntry.userId,
+        socketId: currentEntry.socketId,
+        username: currentEntry.username,
+        alias: room.aliasByUser[currentEntry.userId],
+        requestedFriend: false,
+      },
+      [peerEntry.userId]: {
+        userId: peerEntry.userId,
+        socketId: peerEntry.socketId,
+        username: peerEntry.username,
+        alias: room.aliasByUser[peerEntry.userId],
+        requestedFriend: false,
+      },
+    },
+    isUnlocked: false,
+    createdAt: new Date(),
+  };
 
-  // Emit parity payload for iOS/frontend
-  emitMatched(io, room.id, session, currentEntry, peerEntry);
+  queues.sessionByRoomId.set(room.chatRoomId, session);
+
+  emitMatched(io, room.chatRoomId, session, currentEntry, peerEntry);
 
   return {
     matched: true,
-    roomId: room.id,
+    roomId: room.chatRoomId,
+    chatRoomId: room.chatRoomId,
+    randomChatRoomId: room.randomChatRoomId,
     myAlias: session.users[currentEntry.userId].alias,
     partnerAlias: session.users[peerEntry.userId].alias,
   };
@@ -341,6 +377,16 @@ export async function requestAddFriend({ queues, io, prisma, roomId, userId }) {
   }
 
   session.isUnlocked = true;
+
+  await prisma.randomChatRoom.updateMany({
+    where: {
+      chatRoomId: roomId,
+      unlockedAt: null,
+    },
+    data: {
+      unlockedAt: new Date(),
+    },
+  });
 
   const [userA, userB] = participants;
 
@@ -472,6 +518,9 @@ async function createOrOpenDirectChatRoom(prisma, userId1, userId2) {
   const existingRoom = await prisma.chatRoom.findFirst({
     where: {
       isGroup: false,
+      randomChatRoom: {
+        is: null,
+      },
       AND: [
         { participants: { some: { userId: userId1 } } },
         { participants: { some: { userId: userId2 } } },

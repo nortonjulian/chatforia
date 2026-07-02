@@ -136,6 +136,19 @@ router.get(
         name: true,
         updatedAt: true,
         isGroup: true,
+
+        randomChatRoom: {
+          select: {
+            id: true,
+            chatRoomId: true,
+            aliasByUser: true,
+            endedAt: true,
+            endedReason: true,
+            endedById: true,
+            unlockedAt: true,
+          },
+        },
+
         participants: {
           select: {
             userId: true,
@@ -235,6 +248,20 @@ router.get(
       const lastMsg = r.messages?.[0] || null;
       const media = summarizeAttachments(lastMsg?.attachments || []);
 
+      const randomChat = r.randomChatRoom || null;
+      const isRandomChat = Boolean(randomChat);
+      const isRandomUnlocked = Boolean(randomChat?.unlockedAt);
+
+      const aliasByUser =
+        randomChat?.aliasByUser &&
+        typeof randomChat.aliasByUser === 'object'
+          ? randomChat.aliasByUser
+          : {};
+
+      function aliasForUser(id) {
+        return aliasByUser[String(id)] || aliasByUser[Number(id)] || null;
+      }
+
       const deleted = Boolean(lastMsg?.deletedForAll) || Boolean(lastMsg?.deletedBySender);
 
       const plaintextPreview = (lastMsg?.translatedContent || lastMsg?.rawContent || '').trim();
@@ -278,18 +305,35 @@ router.get(
             ? names.join(', ')
             : null;
 
+      const partnerUserId = otherParticipants?.[0]?.userId || null;
+      const partnerAlias = partnerUserId ? aliasForUser(partnerUserId) : null;
+      const myAlias = aliasForUser(userId);
+
       const rawRoomName = String(r.name || '').trim();
       const isGenericRoomName = /^chat\s*#\s*\d+$/i.test(rawRoomName);
 
       const title =
-        (!isGenericRoomName ? rawRoomName : null) ||
-        participantTitle ||
-        `Chat #${r.id}`;
+        isRandomChat && !isRandomUnlocked
+          ? partnerAlias || 'Random Chat'
+          : ((!isGenericRoomName ? rawRoomName : null) ||
+              participantTitle ||
+              `Chat #${r.id}`);
 
       const avatarUsers = otherParticipants
         .map((p) => {
           const u = p?.user;
           if (!u) return null;
+
+          const alias = aliasForUser(p.userId);
+
+          if (isRandomChat && !isRandomUnlocked) {
+            return {
+              id: u.id,
+              username: alias || 'Random Chat',
+              displayName: alias || 'Random Chat',
+              avatarUrl: null,
+            };
+          }
 
           return {
             id: u.id,
@@ -301,9 +345,11 @@ router.get(
         .filter(Boolean);
 
       const senderName =
-        lastMsg?.sender
-          ? resolveDisplayName(lastMsg.sender, contactAliasByUserId)
-          : null;
+        isRandomChat && !isRandomUnlocked
+          ? null
+          : lastMsg?.sender
+            ? resolveDisplayName(lastMsg.sender, contactAliasByUserId)
+            : null;
 
       const deletedAt = deletedMap.get(r.id);
         if (
@@ -321,6 +367,24 @@ router.get(
         id: r.id,
         title,
         displayName: title,
+
+        isRandomChat,
+        randomChatRoomId: randomChat?.id || null,
+        randomChat: isRandomChat
+          ? {
+              id: randomChat.id,
+              chatRoomId: r.id,
+              myAlias,
+              partnerAlias,
+              isUnlocked: isRandomUnlocked,
+              endedAt: randomChat.endedAt
+                ? randomChat.endedAt.toISOString()
+                : null,
+              endedReason: randomChat.endedReason || null,
+              endedById: randomChat.endedById || null,
+            }
+          : null,
+
         updatedAt: (r.updatedAt || new Date()).toISOString(),
         isGroup: Boolean(r.isGroup),
         phone: null,

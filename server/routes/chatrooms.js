@@ -211,6 +211,20 @@ router.get(
     const room = await prisma.chatRoom.findUnique({
       where: { id },
       include: {
+
+        randomChatRoom: {
+          select: {
+            id: true,
+            chatRoomId: true,
+            aliasByUser: true,
+            endedAt: true,
+            endedReason: true,
+            endedById: true,
+            unlockedAt: true,
+            aiEnabled: true,
+            createdAt: true,
+          },
+        },
         participants: {
           include: {
             user: {
@@ -229,7 +243,43 @@ router.get(
     });
 
     if (!room) throw Boom.notFound('Not found');
-    return res.json(room);
+
+    const randomChat = room.randomChatRoom || null;
+    const aliasByUser =
+      randomChat?.aliasByUser &&
+      typeof randomChat.aliasByUser === 'object'
+        ? randomChat.aliasByUser
+        : {};
+
+    function aliasForUser(id) {
+      return aliasByUser[String(id)] || aliasByUser[Number(id)] || null;
+    }
+
+    const otherParticipant = (room.participants || []).find(
+      (p) => Number(p.userId) !== Number(me)
+    );
+
+    return res.json({
+      ...room,
+      isRandomChat: Boolean(randomChat),
+      randomChat: randomChat
+        ? {
+            id: randomChat.id,
+            chatRoomId: room.id,
+            myAlias: aliasForUser(me),
+            partnerAlias: otherParticipant
+              ? aliasForUser(otherParticipant.userId)
+              : null,
+            isUnlocked: Boolean(randomChat.unlockedAt),
+            endedAt: randomChat.endedAt
+              ? randomChat.endedAt.toISOString()
+              : null,
+            endedReason: randomChat.endedReason || null,
+            endedById: randomChat.endedById || null,
+            aiEnabled: Boolean(randomChat.aiEnabled),
+          }
+        : null,
+    });
   })
 );
 
@@ -326,6 +376,9 @@ router.post(
     const existingRooms = await prisma.chatRoom.findMany({
       where: {
         isGroup: false,
+        randomChatRoom: {
+          is: null,
+        },
         AND: [
           { participants: { some: { userId: userId1 } } },
           { participants: { some: { userId: userId2 } } },
@@ -442,7 +495,7 @@ router.post(
       },
       include: participantInclude,
     });
-
+ 
     if (existing) return res.json(existing);
 
     const created = await prisma.chatRoom.create({

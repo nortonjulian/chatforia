@@ -681,6 +681,8 @@ model ChatRoom {
   botInstalls       BotInstall[]       @relation("BotInstallRoom")
   scheduledMessages ScheduledMessage[] @relation("ScheduledMessageRoom")
 
+  randomChatRoom RandomChatRoom? @relation("RandomChatBackingRoom")
+
   @@index([ownerId])
   @@index([updatedAt, id], map: "room_updated_id")
 }
@@ -766,9 +768,19 @@ model RandomChatRoom {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
+  chatRoomId Int?      @unique
+  chatRoom   ChatRoom? @relation("RandomChatBackingRoom", fields: [chatRoomId], references: [id], onDelete: Cascade)
+
   participants User[]    @relation("RandomChatParticipants")
   messages     Message[]
   aiEnabled    Boolean   @default(false)
+
+  endedAt     DateTime?
+  endedReason String?
+  endedById   Int?
+  unlockedAt  DateTime?
+
+  aliasByUser Json?
 }
 
 // ===================== 6) Messaging (Messages + E2EE + Media + Scheduling) =====================
