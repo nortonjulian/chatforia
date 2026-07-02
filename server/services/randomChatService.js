@@ -112,7 +112,7 @@ export function removeFromQueue(queues, socketId) {
 export async function createRandomRoom(prisma, userA, userB) {
   const systemIntro = `You've been paired for a random chat. Be kind!`;
 
-  const room = await prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     const chatRoom = await tx.chatRoom.create({
       data: {
         isGroup: false,
@@ -156,10 +156,15 @@ export async function createRandomRoom(prisma, userA, userB) {
       },
     });
 
-    return randomRoom;
+    return {
+      ...randomRoom,
+      id: chatRoom.id,              // IMPORTANT: app-facing roomId
+      chatRoomId: chatRoom.id,
+      randomChatRoomId: randomRoom.id,
+    };
   });
 
-  return room;
+  return result;
 }
 
 function makeSession(roomId, userA, userB) {
