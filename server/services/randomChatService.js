@@ -181,36 +181,6 @@ export async function createRandomRoom(prisma, userA, userB) {
   return result;
 }
 
-function makeSession(roomId, userA, userB) {
-  const used = new Set();
-
-  const aliasA = generateAlias(used);
-  used.add(aliasA);
-
-  const aliasB = generateAlias(used);
-
-  return {
-    roomId,
-    users: {
-      [userA.userId]: {
-        userId: userA.userId,
-        socketId: userA.socketId,
-        username: userA.username,
-        alias: aliasA,
-        requestedFriend: false,
-      },
-      [userB.userId]: {
-        userId: userB.userId,
-        socketId: userB.socketId,
-        username: userB.username,
-        alias: aliasB,
-        requestedFriend: false,
-      },
-    },
-    isUnlocked: false,
-    createdAt: new Date(),
-  };
-}
 
 export function getSessionForSocket(queues, socketId) {
   const active = queues.activeRoomBySocket.get(socketId);
