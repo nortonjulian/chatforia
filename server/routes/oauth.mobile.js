@@ -6,7 +6,14 @@ import { resolveOAuthUser } from '../services/oauthIdentity.js';
 
 const router = Router();
 
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const googleClient = new OAuth2Client();
+
+const googleAudiences = [
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_WEB_CLIENT_ID,
+  process.env.GOOGLE_ANDROID_CLIENT_ID,
+  process.env.GOOGLE_IOS_CLIENT_ID,
+].filter(Boolean);
 
 const appleAudience =
   process.env.APPLE_IOS_BUNDLE_ID ||
@@ -25,7 +32,7 @@ async function handleGoogleOAuth(req, res, channel = 'mobile') {
 
     const ticket = await googleClient.verifyIdToken({
       idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: googleAudiences,
     });
 
     const payload = ticket.getPayload();
