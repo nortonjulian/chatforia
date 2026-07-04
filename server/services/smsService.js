@@ -101,9 +101,7 @@ async function upsertThread(userId, contactPhone, opts = {}) {
 
   const variants = phoneVariants(phone);
 
-  if (!contactId) {
-    contactId = await findMatchingContactId(uid, phone);
-  }
+  contactId = await getSafeContactId(uid, contactId, phone);
 
   let thread = null;
 
@@ -136,7 +134,7 @@ async function upsertThread(userId, contactPhone, opts = {}) {
     thread = await prisma.smsThread.create({
       data: {
         userId: uid,
-        contactId,
+        ...(contactId ? { contactId } : {}),
         contactPhone: phone,
         participants: {
           create: [{ phone }],
@@ -184,6 +182,28 @@ async function findMatchingContactId(ownerId, phone) {
   });
 
   return contact?.id ?? null;
+}
+
+async function getSafeContactId(ownerId, contactId, phone = null) {
+  const parsedContactId = Number(contactId);
+
+  if (Number.isInteger(parsedContactId) && parsedContactId > 0) {
+    const contact = await prisma.contact.findFirst({
+      where: {
+        id: parsedContactId,
+        ownerId: Number(ownerId),
+      },
+      select: { id: true },
+    });
+
+    if (contact) return contact.id;
+  }
+
+  if (phone) {
+    return await findMatchingContactId(ownerId, phone);
+  }
+
+  return null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -419,9 +439,7 @@ export async function getOrCreateThread(userId, phone, opts = {}) {
 
   const variants = phoneVariants(normalizedPhone);
 
-  if (!contactId) {
-    contactId = await findMatchingContactId(uid, normalizedPhone);
-  }
+  contactId = await getSafeContactId(uid, contactId, normalizedPhone);
 
   let thread = await prisma.smsThread.findFirst({
     where: {
@@ -439,7 +457,7 @@ export async function getOrCreateThread(userId, phone, opts = {}) {
     thread = await prisma.smsThread.create({
       data: {
         userId: uid,
-        contactId,
+        ...(contactId ? { contactId } : {}),
         contactPhone: normalizedPhone,
         participants: {
           create: [{ phone: normalizedPhone }],
