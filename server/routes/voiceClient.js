@@ -31,7 +31,7 @@ router.post('/token', requireAuth, (req, res) => {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const identity = `user:${userId}`;
+    const identity = `user_${userId}`;
     const ttlSeconds = 60 * 60;
 
     const token = new AccessToken(accountSid, apiKeySid, apiKeySecret, {
