@@ -64,11 +64,34 @@ describe('AliasDialer', () => {
     expect(button).not.toBeDisabled();
 
     // Click to place call
-    mockPost.mockResolvedValueOnce({ data: { ok: true } });
+    mockPost
+      .mockResolvedValueOnce({
+        data: {
+          callId: 244,
+          resolvedCallId: 244,
+        },
+      })
+      .mockResolvedValueOnce({
+        data: {
+          ok: true,
+          callSid: 'CA_TEST_123',
+          callId: 244,
+          resolvedCallId: 244,
+        },
+      });
+
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(mockPost).toHaveBeenCalledWith('/voice/call', { to: '+15551234567' });
+      expect(mockPost).toHaveBeenCalledWith('/calls/start-external', {
+        phoneNumber: '+15551234567',
+        mode: 'AUDIO',
+      });
+
+      expect(mockPost).toHaveBeenCalledWith('/voice/call', {
+        to: '+15551234567',
+        callId: 244,
+      });
     });
   });
 
