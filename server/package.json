@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env DOTENV_CONFIG_PATH=.env node -r dotenv/config bootstrap.js",
-    "start": "cross-env NODE_ENV=production DOTENV_CONFIG_PATH=.env.production node -r dotenv/config bootstrap.js",
+    "start": "cross-env NODE_ENV=production DOTENV_CONFIG_PATH=.env.production DOTENV_CONFIG_OVERRIDE=true node -r dotenv/config bootstrap.js",
     "dev:watch": "cross-env DOTENV_CONFIG_PATH=.env node --watch -r dotenv/config bootstrap.js",
     "pretest": "prisma generate --schema=prisma/schema.prisma",
     "postinstall": "prisma generate --schema=prisma/schema.prisma",
