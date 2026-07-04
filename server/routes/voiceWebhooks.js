@@ -394,37 +394,63 @@ router.post('/client', async (req, res) => {
 
       const parentCallSid = req.body?.CallSid || null;
 
+      const backendCallIdRaw =
+        req.query?.backendCallId ||
+        req.body?.backendCallId ||
+        null;
+
+      const backendCallId = backendCallIdRaw
+        ? Number(backendCallIdRaw)
+        : null;
+
       if (Number.isFinite(browserUserId) && parentCallSid) {
         try {
           const recentCutoff = new Date(Date.now() - 5 * 60 * 1000);
 
-          const existing = await prisma.call.findFirst({
-            where: {
-              OR: [
-                { twilioCallSid: parentCallSid },
-                {
-                  callerId: browserUserId,
-                  calleeId: null,
-                  mode: 'AUDIO',
-                  externalPhone: dest,
-                  twilioCallSid: null,
-                  status: {
-                    in: ['INITIATED', 'RINGING', 'ACTIVE'],
+          let existing = null;
+
+          if (Number.isInteger(backendCallId) && backendCallId > 0) {
+            existing = await prisma.call.findFirst({
+              where: {
+                id: backendCallId,
+                callerId: browserUserId,
+              },
+              select: {
+                id: true,
+                twilioCallSid: true,
+              },
+            });
+          }
+
+          if (!existing) {
+            existing = await prisma.call.findFirst({
+              where: {
+                OR: [
+                  { twilioCallSid: parentCallSid },
+                  {
+                    callerId: browserUserId,
+                    calleeId: null,
+                    mode: 'AUDIO',
+                    externalPhone: dest,
+                    twilioCallSid: null,
+                    status: {
+                      in: ['INITIATED', 'RINGING', 'ACTIVE'],
+                    },
+                    createdAt: {
+                      gte: recentCutoff,
+                    },
                   },
-                  createdAt: {
-                    gte: recentCutoff,
-                  },
-                },
-              ],
-            },
-            orderBy: {
-              createdAt: 'desc',
-            },
-            select: {
-              id: true,
-              twilioCallSid: true,
-            },
-          });
+                ],
+              },
+              orderBy: {
+                createdAt: 'desc',
+              },
+              select: {
+                id: true,
+                twilioCallSid: true,
+              },
+            });
+          }
 
           if (existing) {
             if (!existing.twilioCallSid) {

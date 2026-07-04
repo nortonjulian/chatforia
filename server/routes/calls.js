@@ -479,16 +479,34 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     return res.status(403).json({ error: 'Not a participant' });
   }
 
+  const updateData = {
+    status: status ?? undefined,
+    startedAt: startedAt ? new Date(startedAt) : undefined,
+    endedAt: endedAt ? new Date(endedAt) : undefined,
+    durationSec: durationSec ?? undefined,
+    endReason: endReason ?? undefined,
+  };
+
+  if (twilioCallSid) {
+    const existingSidOwner = await prisma.call.findUnique({
+      where: { twilioCallSid },
+      select: { id: true },
+    });
+
+    if (!existingSidOwner || existingSidOwner.id === call.id) {
+      updateData.twilioCallSid = twilioCallSid;
+    } else {
+      console.warn('[calls/status] twilioCallSid already belongs to another call', {
+        requestedCallId: call.id,
+        existingCallId: existingSidOwner.id,
+        twilioCallSid,
+      });
+    }
+  }
+
   const updated = await prisma.call.update({
     where: { id: callId },
-    data: {
-      status: status ?? undefined,
-      startedAt: startedAt ? new Date(startedAt) : undefined,
-      endedAt: endedAt ? new Date(endedAt) : undefined,
-      durationSec: durationSec ?? undefined,
-      endReason: endReason ?? undefined,
-      twilioCallSid: twilioCallSid ?? undefined,
-    },
+    data: updateData,
     select: {
       id: true,
       callerId: true,

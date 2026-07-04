@@ -69,14 +69,31 @@ r.post(
   requireAuth,
   express.json(),
   asyncHandler(async (req, res) => {
-    const { to } = req.body || {};
+    const { to, callId } = req.body || {};
+
+    const parsedCallId =
+      callId === undefined || callId === null || callId === ''
+        ? null
+        : Number(callId);
+
+    if (
+      parsedCallId !== null &&
+      (!Number.isInteger(parsedCallId) || parsedCallId <= 0)
+    ) {
+      return res.status(400).json({ error: 'Invalid callId' });
+    }
 
     logger?.info?.(
-      { userId: req.user.id, to },
+      { userId: req.user.id, to, callId: parsedCallId },
       'Placing alias call from /voice/call'
     );
 
-    const out = await startAliasCall({ userId: req.user.id, to });
+    const out = await startAliasCall({
+      userId: req.user.id,
+      to,
+      callId: parsedCallId,
+    });
+
     res.status(202).json(out);
   })
 );
