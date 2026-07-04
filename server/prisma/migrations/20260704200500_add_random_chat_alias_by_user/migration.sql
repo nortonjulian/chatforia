@@ -1,0 +1,2 @@
+ALTER TABLE "RandomChatRoom"
+ADD COLUMN IF NOT EXISTS "aliasByUser" JSONB;
