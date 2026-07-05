@@ -130,6 +130,21 @@ router.get(
         participants: {
           some: { userId, archivedAt: null },
         },
+        OR: [
+          {
+            randomChatRoom: {
+              is: null,
+            },
+          },
+          {
+            randomChatRoom: {
+              is: {
+                endedAt: null,
+                unlockedAt: null,
+              },
+            },
+          },
+        ],
       },
       select: {
         id: true,
