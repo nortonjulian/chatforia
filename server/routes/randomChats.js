@@ -198,6 +198,7 @@ export function attachRandomChatSockets(io) {
       io,
       prisma,
       socketId: socket.id,
+      peerEndedReason: 'peer_left',
     });
   });
 
@@ -260,9 +261,10 @@ export function attachRandomChatSockets(io) {
       io,
       prisma,
       socketId: socket.id,
+      peerEndedReason: 'peer_skipped',
     });
 
-    if (result?.roomId) {
+    if (result.ok) {
       socket.emit('random:ended', {
         roomId: result.roomId,
         reason: 'you_skipped',
