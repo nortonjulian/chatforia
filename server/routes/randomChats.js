@@ -186,9 +186,19 @@ export function attachRandomChatSockets(io) {
     });
   });
 
-  // 🚪 LEAVE QUEUE
-  socket.on('random:leave', () => {
-    removeFromQueue(queues, socket.id);
+  socket.on('random:leave', async () => {
+    const removedFromQueue = removeFromQueue(queues, socket.id);
+
+    if (removedFromQueue) {
+      return;
+    }
+
+    await skipRandomChat({
+      queues,
+      io,
+      prisma,
+      socketId: socket.id,
+    });
   });
 
   // 💬 MESSAGE
