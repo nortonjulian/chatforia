@@ -221,8 +221,27 @@ export function cleanupRoomSessionIfOrphaned(queues, roomId) {
   }
 }
 
-function emitMatched(io, roomId, session, userA, userB) {
+async function emitMatched(prisma, io, roomId, session, userA, userB) {
   const chan = `random:${roomId}`;
+
+  const [contactA, contactB] = await Promise.all([
+    prisma.contact.findUnique({
+      where: {
+        ownerId_userId: {
+          ownerId: userA.userId,
+          userId: userB.userId,
+        },
+      },
+    }),
+    prisma.contact.findUnique({
+      where: {
+        ownerId_userId: {
+          ownerId: userB.userId,
+          userId: userA.userId,
+        },
+      },
+    }),
+  ]);
 
   const socketA = io.sockets.sockets.get(userA.socketId);
   const socketB = io.sockets.sockets.get(userB.socketId);
@@ -233,6 +252,10 @@ function emitMatched(io, roomId, session, userA, userB) {
       roomId,
       myAlias: session.users[userA.userId].alias,
       partnerAlias: session.users[userB.userId].alias,
+      partnerDisplayName: contactA
+        ? (contactA.alias || userB.username || session.users[userB.userId].alias)
+        : session.users[userB.userId].alias,
+      relationshipStatus: contactA ? "friends" : "none",
     });
   }
 
@@ -242,6 +265,7 @@ function emitMatched(io, roomId, session, userA, userB) {
       roomId,
       myAlias: session.users[userB.userId].alias,
       partnerAlias: session.users[userA.userId].alias,
+      relationshipStatus: contactB ? "friends" : "none",
     });
   }
 }
@@ -308,7 +332,7 @@ export async function tryMatch({ queues, prisma, io, currentEntry, getSocketById
 
   queues.sessionByRoomId.set(room.chatRoomId, session);
 
-  emitMatched(io, room.chatRoomId, session, currentEntry, peerEntry);
+  await emitMatched(prisma, io, room.chatRoomId, session, currentEntry, peerEntry);
 
   return {
     matched: true,
@@ -318,6 +342,48 @@ export async function tryMatch({ queues, prisma, io, currentEntry, getSocketById
     myAlias: session.users[currentEntry.userId].alias,
     partnerAlias: session.users[peerEntry.userId].alias,
   };
+}
+
+async function ensureMutualContacts(prisma, userA, userB) {
+  await prisma.$transaction(async (tx) => {
+    const existingA = await tx.contact.findUnique({
+      where: {
+        ownerId_userId: {
+          ownerId: userA.userId,
+          userId: userB.userId,
+        },
+      },
+    });
+
+    if (!existingA) {
+      await tx.contact.create({
+        data: {
+          ownerId: userA.userId,
+          userId: userB.userId,
+          alias: userB.username || null,
+        },
+      });
+    }
+
+    const existingB = await tx.contact.findUnique({
+      where: {
+        ownerId_userId: {
+          ownerId: userB.userId,
+          userId: userA.userId,
+        },
+      },
+    });
+
+    if (!existingB) {
+      await tx.contact.create({
+        data: {
+          ownerId: userB.userId,
+          userId: userA.userId,
+          alias: userA.username || null,
+        },
+      });
+    }
+  });
 }
 
 /**
@@ -365,6 +431,8 @@ export async function requestAddFriend({ queues, io, prisma, roomId, userId }) {
     userA.userId,
     userB.userId
   );
+
+  await ensureMutualContacts(prisma, userA, userB);
 
   const socketA = io.sockets.sockets.get(userA.socketId);
   const socketB = io.sockets.sockets.get(userB.socketId);
