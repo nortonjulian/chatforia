@@ -244,10 +244,11 @@ export function attachRandomChatSockets(io) {
   });
 
   // ⏭ SKIP
-  socket.on('random:skip', () => {
-    const result = skipRandomChat({
+  socket.on('random:skip', async () => {
+    const result = await skipRandomChat({
       queues,
       io,
+      prisma,
       socketId: socket.id,
     });
 

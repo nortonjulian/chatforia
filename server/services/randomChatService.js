@@ -398,7 +398,7 @@ export async function requestAddFriend({ queues, io, prisma, roomId, userId }) {
  * Ends an active random chat for a socket, typically on skip.
  * Notifies the peer that the session ended.
  */
-export function skipRandomChat({ queues, io, socketId }) {
+export async function skipRandomChat({ queues, io, prisma, socketId }) {
   const active = queues.activeRoomBySocket.get(socketId);
   if (!active) {
     return { ok: false, reason: "not_in_active_random_room" };
@@ -428,6 +428,23 @@ export function skipRandomChat({ queues, io, socketId }) {
   }
 
   queues.sessionByRoomId.delete(roomId);
+
+  try {
+    await prisma.randomChatRoom.updateMany({
+      where: {
+        chatRoomId: roomId,
+        endedAt: null,
+      },
+      data: {
+        endedAt: new Date(),
+      },
+    });
+  } catch (err) {
+    console.error("[random] failed to mark random chat ended", {
+      roomId,
+      error: err?.message || err,
+    });
+  }
 
   return { ok: true, roomId };
 }
