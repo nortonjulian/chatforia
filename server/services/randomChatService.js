@@ -263,8 +263,11 @@ async function emitMatched(prisma, io, roomId, session, userA, userB) {
     socketB.join(chan);
     socketB.emit("random:matched", {
       roomId,
-      myAlias: session.users[userB.userId].alias,
-      partnerAlias: session.users[userA.userId].alias,
+      myAlias: aliasForB,
+      partnerAlias: aliasForA,
+      partnerDisplayName: contactB
+        ? (contactB.alias || userA.username || aliasForA)
+        : aliasForA,
       relationshipStatus: contactB ? "friends" : "none",
     });
   }
