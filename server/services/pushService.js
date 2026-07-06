@@ -10,6 +10,41 @@ const INVALID_APNS_REASONS = new Set([
   'Unregistered',
 ]);
 
+const INVALID_FCM_CODES = new Set([
+  'messaging/registration-token-not-registered',
+  'messaging/invalid-registration-token',
+  'messaging/invalid-argument',
+  'messaging/mismatched-credential',
+  'messaging/sender-id-mismatch',
+]);
+
+async function cleanupInvalidFcmTokens(failed = []) {
+  for (const failure of failed) {
+    const token = failure?.token ? String(failure.token) : '';
+    const code = failure?.code || '';
+
+    if (!token || !INVALID_FCM_CODES.has(code)) continue;
+
+    console.warn('[push] removing invalid FCM token', {
+      code,
+      token: `${token.slice(0, 10)}...${token.slice(-6)}`,
+    });
+
+    await prisma.device.updateMany({
+      where: { fcmPushToken: token },
+      data: { fcmPushToken: null },
+    });
+
+    await prisma.device.updateMany({
+      where: {
+        pushProvider: 'fcm',
+        pushToken: token,
+      },
+      data: { pushToken: null },
+    });
+  }
+}
+
 function isApnsProduction() {
   const raw = process.env.APNS_PRODUCTION;
 
@@ -308,6 +343,37 @@ export async function sendPushToUser(userId, payload) {
       }
 
       results.fcm = await messaging.sendEachForMulticast(message);
+
+      if (results.fcm.failureCount > 0) {
+        const failed = results.fcm.responses
+          .map((response, index) => ({
+            token: tokens.fcm[index],
+            success: response.success,
+            code: response.error?.code || null,
+            message: response.error?.message || null,
+          }))
+          .filter((item) => !item.success);
+
+        console.warn(
+          '[push] FCM failures',
+          JSON.stringify(
+            {
+              userId,
+              failed: failed.map((failure) => ({
+                token: failure.token
+                  ? `${String(failure.token).slice(0, 10)}...${String(failure.token).slice(-6)}`
+                  : null,
+                code: failure.code,
+                message: failure.message,
+              })),
+            },
+            null,
+            2
+          )
+        );
+
+        await cleanupInvalidFcmTokens(failed);
+      }
     }
   }
 
