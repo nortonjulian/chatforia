@@ -51,11 +51,17 @@ export async function createMessageService({
   const roomIdNum = Number(chatRoomId);
 
   // 0) Validate presence (allow content OR any media/attachments)
+  let encryptedPayloadsObj = encryptedPayloads;
+
+  if (typeof encryptedPayloadsObj === 'string') {
+    encryptedPayloadsObj = safeJsonParse(encryptedPayloadsObj);
+  }
+
   const hasEncryptedPayloads =
-    encryptedPayloads &&
-    typeof encryptedPayloads === 'object' &&
-    !Array.isArray(encryptedPayloads) &&
-    Object.keys(encryptedPayloads).length > 0;
+    encryptedPayloadsObj &&
+    typeof encryptedPayloadsObj === 'object' &&
+    !Array.isArray(encryptedPayloadsObj) &&
+    Object.keys(encryptedPayloadsObj).length > 0;
 
   if (
     !senderId ||
@@ -157,6 +163,42 @@ export async function createMessageService({
 
   const recipientUsers = participants.map((p) => p.user).filter(Boolean);
   const recipientsExceptSender = recipientUsers.filter((u) => u.id !== sender.id);
+
+  if (hasEncryptedPayloads) {
+    const requiredParticipantIds = participants
+      .map((p) => Number(p.userId ?? p.user?.id))
+      .filter(Number.isFinite)
+      .map(String);
+
+    const payloadEntries = Object.entries(encryptedPayloadsObj);
+
+    const validPayloadUserIds = new Set(
+      payloadEntries
+        .filter(([userIdRaw, payload]) => {
+          const userId = Number(userIdRaw);
+
+          return (
+            Number.isFinite(userId) &&
+            payload &&
+            typeof payload.contentCiphertext === 'string' &&
+            payload.contentCiphertext.length > 0 &&
+            typeof payload.encryptedKey === 'string' &&
+            payload.encryptedKey.length > 0
+          );
+        })
+        .map(([userIdRaw]) => String(Number(userIdRaw)))
+    );
+
+    const missingPayloadIds = requiredParticipantIds.filter(
+      (id) => !validPayloadUserIds.has(id)
+    );
+
+    if (missingPayloadIds.length) {
+      throw new Error(
+        `Missing encrypted payloads for participant user IDs: ${missingPayloadIds.join(', ')}`
+      );
+    }
+  }
   
   // 🔥 Strip placeholder text if media exists
   const placeholderTexts = new Set([
@@ -331,33 +373,27 @@ translationsMap = Object.keys(map).length ? map : null;
         });
       }
 
-      if (
-          encryptedPayloads &&
-          typeof encryptedPayloads === 'object' &&
-          !Array.isArray(encryptedPayloads)
-      ) {
-          const payloadRows = Object.entries(encryptedPayloads)
-              .map(([userIdRaw, payload]) => ({
-                  messageId: created.id,
-                  userId: Number(userIdRaw),
-                  contentCiphertext: payload.contentCiphertext,
-                  encryptedKey: payload.encryptedKey,
-                  language: payload.language ?? null,
-                  sourceLanguage: payload.sourceLanguage ?? null,
-              }))
-              .filter(
-                  (r) =>
-                      Number.isFinite(r.userId) &&
-                      r.contentCiphertext &&
-                      r.encryptedKey
-              );
+      if (hasEncryptedPayloads) {
+        const payloadRows = Object.entries(encryptedPayloadsObj)
+          .map(([userIdRaw, payload]) => ({
+            messageId: created.id,
+            userId: Number(userIdRaw),
+            contentCiphertext: payload.contentCiphertext,
+            encryptedKey: payload.encryptedKey,
+            language: payload.language ?? null,
+            sourceLanguage: payload.sourceLanguage ?? null,
+          }))
+          .filter(
+            (r) =>
+              Number.isFinite(r.userId) &&
+              r.contentCiphertext &&
+              r.encryptedKey
+          );
 
-          if (payloadRows.length) {
-              await tx.messagePayload.createMany({
-                  data: payloadRows,
-                  skipDuplicates: true,
-              });
-          }
+        await tx.messagePayload.createMany({
+          data: payloadRows,
+          skipDuplicates: true,
+        });
       }
 
       return created;

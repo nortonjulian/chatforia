@@ -486,9 +486,25 @@ router.post(
       try {
         encryptedKeys = JSON.parse(encryptedKeys);
       } catch {
-        // keep as-is; validation below will catch
+        encryptedKeys = null;
       }
     }
+
+    // encryptedPayloads can arrive as object or JSON string
+    let encryptedPayloads = body.encryptedPayloads ?? null;
+    if (typeof encryptedPayloads === 'string') {
+      try {
+        encryptedPayloads = JSON.parse(encryptedPayloads);
+      } catch {
+        encryptedPayloads = null;
+      }
+    }
+
+    const hasEncryptedPayloads =
+      encryptedPayloads &&
+      typeof encryptedPayloads === 'object' &&
+      !Array.isArray(encryptedPayloads) &&
+      Object.keys(encryptedPayloads).length > 0;
 
     const {
       expireSeconds,
@@ -653,22 +669,29 @@ router.post(
 
     const hasAttachments = attachments.length > 0;
     const hasText = Boolean(content && String(content).trim());
-    const hasSomeBody = hasText || hasAttachments;
+    const hasSomeBody =
+      hasText ||
+      hasAttachments ||
+      Boolean(contentCiphertext) ||
+      hasEncryptedPayloads;
 
     if (strict && hasSomeBody) {
-      if (!contentCiphertext || typeof contentCiphertext !== 'string') {
-        throw Boom.badRequest('contentCiphertext is required (Option A E2EE)');
-      }
-      if (!encryptedKeys || typeof encryptedKeys !== 'object' || Array.isArray(encryptedKeys)) {
-        throw Boom.badRequest('encryptedKeys must be a JSON object map (Option A E2EE)');
+      const hasLegacyEncryptedPayload =
+        contentCiphertext &&
+        typeof contentCiphertext === 'string' &&
+        encryptedKeys &&
+        typeof encryptedKeys === 'object' &&
+        !Array.isArray(encryptedKeys);
+
+      if (!hasEncryptedPayloads && !hasLegacyEncryptedPayload) {
+        throw Boom.badRequest('Encrypted message payload is required');
       }
     }
 
     // ✅ Save via service
     let saved;
-    try {
-      let encryptedPayloads = body.encryptedPayloads ?? null;
 
+    try {
       saved = await createMessageService({
         senderId,
         chatRoomId,
@@ -772,7 +795,7 @@ router.post(
       saved,
       content,
       contentCiphertext,
-      encryptedPayloads: body.encryptedPayloads ?? null,
+      encryptedPayloads,
       attachments,
     });
 
