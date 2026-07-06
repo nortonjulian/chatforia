@@ -243,6 +243,9 @@ async function emitMatched(prisma, io, roomId, session, userA, userB) {
     }),
   ]);
 
+  const aliasForA = session.users[userA.userId].alias;
+  const aliasForB = session.users[userB.userId].alias;
+
   const socketA = io.sockets.sockets.get(userA.socketId);
   const socketB = io.sockets.sockets.get(userB.socketId);
 
