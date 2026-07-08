@@ -704,30 +704,26 @@ router.post(
         attachments,
       });
 
-      // Restore the thread for recipients when a new message arrives.
-      await prisma.threadState.updateMany({
+      // Restore the conversation for every participant, including the sender.
+    await Promise.all([
+      prisma.threadState.updateMany({
         where: {
           chatRoomId,
-          userId: {
-            not: senderId,
-          },
         },
         data: {
           deletedAt: null,
         },
-      });
+      }),
 
-      await prisma.participant.updateMany({
+      prisma.participant.updateMany({
         where: {
           chatRoomId,
-          userId: {
-            not: senderId,
-          },
         },
         data: {
           archivedAt: null,
         },
-      });
+      }),
+    ]);
     } catch (err) {
       console.error('[message create FAILED]', err);
 
