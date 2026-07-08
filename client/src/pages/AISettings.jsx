@@ -66,7 +66,7 @@ export default function AISettings() {
           ? autoResponderActiveUntil.toISOString()
           : null,
       };
-      const { data } = await axiosClient.patch(`/users/${u.id}`, payload);
+      const { data } = await axiosClient.patch('/users/me', payload);
       setCurrentUser((prev) => ({ ...prev, ...payload, ...data }));
       // keep local pref in sync for instant UI reactions
       await setPref(PREF_SMART_REPLIES, enableSmartReplies);

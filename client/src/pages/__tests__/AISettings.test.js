@@ -255,7 +255,7 @@ describe('AISettings', () => {
     });
 
     const [url, body] = axiosClient.patch.mock.calls[0];
-    expect(url).toBe('/users/7');
+    expect(url).toBe('/users/me');
     expect(body).toEqual({
       enableSmartReplies: true,
       aiFilterProfanity: true,
