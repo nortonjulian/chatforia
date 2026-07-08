@@ -1438,6 +1438,8 @@ router.get(
       messageTone: safeUser.messageTone || 'Default.mp3',
       ringtone: safeUser.ringtone || 'Classic.mp3',
       soundVolume: safeUser.soundVolume ?? 70,
+
+      enableSmartReplies: safeUser.enableSmartReplies ?? false,
     };
     let subscriber = null;
     try {
