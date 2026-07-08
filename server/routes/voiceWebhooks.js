@@ -113,13 +113,6 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
         assignedUser: {
           select: {
             id: true,
-            forwardingEnabledCalls: true,
-            forwardToPhoneE164: true,
-            forwardQuietHoursStart: true,
-            forwardQuietHoursEnd: true,
-            voicemailEnabled: true,
-            voicemailGreetingText: true,
-            voicemailGreetingUrl: true,
           },
         },
       },
@@ -200,29 +193,6 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
 
     return res.type('text/xml').send(twiml.toString());
 
-    // Fallback: voicemail / no-forward behavior
-    if (user.voicemailEnabled) {
-      if (user.voicemailGreetingText) {
-        twiml.say(user.voicemailGreetingText);
-      } else {
-        twiml.say('The person you called is unavailable. Please leave a message after the tone.');
-      }
-
-      twiml.record({
-        maxLength: 120,
-        playBeep: true,
-        trim: 'trim-silence',
-        timeout: 5,
-        action: '/webhooks/voice/voicemail-complete',
-        method: 'POST',
-      });
-
-      return res.type('text/xml').send(twiml.toString());
-    }
-
-    twiml.say('The person you called is unavailable.');
-    twiml.hangup();
-    return res.type('text/xml').send(twiml.toString());
   } catch (err) {
     console.error('[Twilio Voice inbound] error', err);
     twiml.say('An error occurred. Goodbye.');
