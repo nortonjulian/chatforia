@@ -196,7 +196,7 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
       method: 'POST',
     });
 
-    dial.client(`user:${user.id}`);
+    dial.client(`user_${user.id}`);
 
     return res.type('text/xml').send(twiml.toString());
 
@@ -355,14 +355,14 @@ router.post('/client', async (req, res) => {
       }
 
       const dial = twiml.dial();
-      dial.client(`user:${numericUserId}`);
+      dial.client(`user_${numericUserId}`);
 
       return res.type('text/xml').send(twiml.toString());
     }
 
     let callerId = process.env.TWILIO_DEFAULT_CALLER_ID || null;
-    if (identity.startsWith('user:')) {
-      const userId = Number(identity.split(':')[1]);
+    if (identity.startsWith('user_')) {
+      const userId = Number(identity.split('_')[1]);
       if (!Number.isNaN(userId)) {
         const user = await prisma.user.findUnique({
           where: { id: userId },
@@ -388,8 +388,8 @@ router.post('/client', async (req, res) => {
         return res.type('text/xml').send(twiml.toString());
       }
 
-      const browserUserId = identity.startsWith('user:')
-        ? Number(identity.split(':')[1])
+      const browserUserId = identity.startsWith('user_')
+        ? Number(identity.split('_')[1])
         : null;
 
       const parentCallSid = req.body?.CallSid || null;
