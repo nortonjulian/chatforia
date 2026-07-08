@@ -25,7 +25,7 @@ export default function AppBadges() {
       </a>
 
       <a
-        href="https://play.google.com/store/apps/details?id=xxx"
+        href="https://play.google.com/store/apps/details?id=com.chatforia.android"
         target="_blank"
         rel="noreferrer"
         aria-label="Get it on Google Play"
