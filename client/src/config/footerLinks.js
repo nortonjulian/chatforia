@@ -98,7 +98,7 @@ export const FOOTER_SECTIONS = [
     },
     {
       label: "Android / Google Play",
-      href: "https://play.google.com/store/apps/details?id=xxx",
+      href: "https://play.google.com/store/apps/details?id=com.chatforia.android",
       external: true,
       i18nKey: "android-google-play",
     },
