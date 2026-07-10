@@ -188,6 +188,12 @@ router.post('/checkout', async (req, res) => {
 
     const addonConfig = product ? getAddonConfig(product) : null;
 
+    if (plan && product) {
+      return res.status(400).json({
+        error: 'Checkout cannot include both a subscription plan and an add-on product',
+      });
+    }
+
     if (product && !addonConfig) {
       return res.status(400).json({
         error: 'Invalid or unknown add-on product',
