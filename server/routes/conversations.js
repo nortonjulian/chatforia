@@ -596,13 +596,59 @@ router.delete('/:kind/:id', requireAuth, asyncHandler(async (req, res) => {
   if (kind === 'chat') {
     const roomId = Number(id);
 
-    await prisma.threadState.upsert({
-      where: { userId_chatRoomId: { userId, chatRoomId: roomId } },
-      update: { deletedAt: new Date() },
-      create: { userId, chatRoomId: roomId, deletedAt: new Date() },
+    if (!Number.isFinite(roomId)) {
+      throw Boom.badRequest('Invalid chat id');
+    }
+
+    const participant = await prisma.participant.findUnique({
+      where: {
+        chatRoomId_userId: {
+          chatRoomId: roomId,
+          userId,
+        },
+      },
+      select: { id: true },
     });
 
-    return res.json({ ok: true });
+    if (!participant) {
+      throw Boom.forbidden('Not a participant in this chat');
+    }
+
+    const deletedAt = new Date();
+
+    await prisma.$transaction([
+      prisma.participant.update({
+        where: {
+          chatRoomId_userId: {
+            chatRoomId: roomId,
+            userId,
+          },
+        },
+        data: {
+          clearedAt: deletedAt,
+        },
+      }),
+
+      prisma.threadState.upsert({
+        where: {
+          userId_chatRoomId: {
+            userId,
+            chatRoomId: roomId,
+          },
+        },
+        update: { deletedAt },
+        create: {
+          userId,
+          chatRoomId: roomId,
+          deletedAt,
+        },
+      }),
+    ]);
+
+    return res.json({
+      ok: true,
+      deletedAt: deletedAt.toISOString(),
+    });
   }
 
   if (kind === 'sms') {

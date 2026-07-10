@@ -4,6 +4,7 @@ import { IconDotsVertical, IconTrash, IconArchive } from '@tabler/icons-react';
 import ChatListSkeleton from '@/components/skeletons/ChatListSkeleton';
 import EmptyState from '@/components/empty/EmptyState';
 import { useSocket } from '@/context/SocketContext';
+import { deleteRoomMessages } from '@/utils/messagesStore';
 
 import useIsPremium from '@/hooks/useIsPremium';
 
@@ -367,11 +368,17 @@ const handleDeleteThread = async (thread) => {
 
   try {
     const kind = thread.type === 'chat' ? 'chat' : 'sms';
+
     await axiosClient.delete(
       `/conversations/${encodeURIComponent(kind)}/${encodeURIComponent(thread.id)}`
     );
+
+    if (thread.type === 'chat') {
+      await deleteRoomMessages(thread.id);
+    }
   } catch (e) {
     console.error('Delete thread failed', e);
+
     setChatrooms(prevChatrooms);
     setSmsThreads(prevSmsThreads);
   }

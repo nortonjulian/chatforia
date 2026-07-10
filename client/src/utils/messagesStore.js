@@ -1,7 +1,7 @@
 const DB_NAME = 'chatforia';
 const STORE = 'room_msgs';
 
-import { normalizeMessage, mergePageIntoState, upsertSingle } from './messageUtils.js';
+import { normalizeMessage, mergePageIntoState } from './messageUtils.js';
 
 let _db;
 function openDB() {
@@ -247,6 +247,23 @@ export async function searchRoom(roomId, query) {
     const haystack = normalize(`${visibleText} ${attachmentCaption}`);
 
     return haystack.includes(q);
+  });
+}
+
+/**
+ * Permanently remove all locally cached messages for one room.
+ */
+export async function deleteRoomMessages(roomId) {
+  if (roomId == null) return;
+
+  const os = await _getConn('readwrite');
+  const key = String(roomId);
+
+  return new Promise((resolve, reject) => {
+    const req = os.delete(key);
+
+    req.onsuccess = () => resolve();
+    req.onerror = () => reject(req.error);
   });
 }
 

@@ -350,14 +350,71 @@ router.get(
     const sinceId = Number(req.query.sinceId || 0);
 
     // membership check (reuse helper)
-    const okMember = await isMemberOrMemFallback(chatRoomId, requesterId);
-    if (!okMember) throw Boom.forbidden('Not a participant in this chat');
+    const membership = await prisma.participant.findFirst({
+      where: {
+        chatRoomId,
+        userId: requesterId,
+      },
+      select: {
+        id: true,
+        clearedAt: true,
+      },
+    });
+
+    const okMember =
+      membership ||
+      (IS_TEST && roomsMem?.members?.get(chatRoomId)?.has(requesterId));
+
+    if (!okMember) {
+      throw Boom.forbidden('Not a participant in this chat');
+    }
+
+    let clearedAt = membership?.clearedAt ?? null;
+
+    const threadState = await prisma.threadState.findUnique({
+      where: {
+        userId_chatRoomId: {
+          userId: requesterId,
+          chatRoomId,
+        },
+      },
+      select: {
+        deletedAt: true,
+      },
+    });
+
+    if (threadState?.deletedAt) {
+      const deletedAt = new Date(threadState.deletedAt);
+
+      if (!Number.isNaN(deletedAt.getTime())) {
+        clearedAt = clearedAt
+          ? new Date(
+              Math.max(
+                new Date(clearedAt).getTime(),
+                deletedAt.getTime()
+              )
+            )
+          : deletedAt;
+      }
+    }
 
     const items = await prisma.message.findMany({
       where: {
         chatRoomId,
         id: { gt: sinceId },
         deletedForAll: false,
+        ...(clearedAt
+          ? {
+              createdAt: {
+                gt: clearedAt,
+              },
+            }
+          : {}),
+        deletions: {
+          none: {
+            userId: requesterId,
+          },
+        },
       },
       orderBy: { id: 'asc' },
       take: 1000,
@@ -704,26 +761,17 @@ router.post(
         attachments,
       });
 
-      // Restore the conversation for every participant, including the sender.
-    await Promise.all([
-      prisma.threadState.updateMany({
-        where: {
-          chatRoomId,
-        },
-        data: {
-          deletedAt: null,
-        },
-      }),
+     // Restore archived conversations when a new message is sent.
+    // Do not reset clearedAt or ThreadState.deletedAt.
+    await prisma.participant.updateMany({
+      where: {
+        chatRoomId,
+      },
+      data: {
+        archivedAt: null,
+      },
+    });
 
-      prisma.participant.updateMany({
-        where: {
-          chatRoomId,
-        },
-        data: {
-          archivedAt: null,
-        },
-      }),
-    ]);
     } catch (err) {
       console.error('[message create FAILED]', err);
 
@@ -1036,7 +1084,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       });
     }
 
-    let clearedAt = membership?.archivedAt ?? null;
+    let clearedAt = membership?.clearedAt ?? null;
 
     if (!clearedAt && IS_TEST) {
       const iso = roomsMem?.clearedAt?.get(chatRoomId)?.get(requesterId) || null;
