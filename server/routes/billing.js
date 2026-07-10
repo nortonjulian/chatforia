@@ -72,6 +72,30 @@ function getPriceIdForPlan(plan) {
   }
 }
 
+function getPriceIdForAddon(addonKind) {
+  const value = String(addonKind || '')
+    .trim()
+    .toLowerCase();
+
+  const match =
+    /^chatforia_esim_(local|europe|global)_(3|5|10|20|unlimited)_premium$/.exec(
+      value
+    );
+
+  if (!match) {
+    return null;
+  }
+
+  const scope = match[1].toUpperCase();
+  const amount = match[2].toUpperCase();
+
+  const environmentVariable =
+    `STRIPE_PRICE_ESIM_${scope}_${amount}`;
+
+  return process.env[environmentVariable] || null;
+}
+
+
 function isSubscriptionPlan(plan) {
   return ['PLUS_MONTHLY', 'PREMIUM_MONTHLY', 'PREMIUM_ANNUAL'].includes(
     normalizePlanCode(plan)
@@ -152,6 +176,16 @@ router.post('/checkout', async (req, res) => {
     const plan = normalizePlanCode(req.body?.plan);
     const product = String(req.body?.product || '').trim();
 
+    const requestedPlatform = String(
+      req.body?.platform || 'web'
+    )
+      .trim()
+      .toLowerCase();
+
+    const platform = ['web', 'android', 'ios'].includes(requestedPlatform)
+      ? requestedPlatform
+      : 'web';
+
     const addonConfig = product ? getAddonConfig(product) : null;
 
     if (product && !addonConfig) {
@@ -171,9 +205,9 @@ router.post('/checkout', async (req, res) => {
       });
     }
 
-    let priceId =
-      req.body?.priceId ||
-      getPriceIdForPlan(plan);
+    const priceId = isAddon
+      ? getPriceIdForAddon(addonConfig.addonKind)
+      : getPriceIdForPlan(plan);
 
     if (!priceId) {
       return res.status(400).json({
@@ -257,6 +291,7 @@ router.post('/checkout', async (req, res) => {
       addonKind: addonConfig?.addonKind || '',
       addonType: addonConfig?.type || '',
       checkoutType: sessionMode,
+      platform,
     };
 
     const sessionPayload = {
