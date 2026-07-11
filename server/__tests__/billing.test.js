@@ -8,6 +8,7 @@ import request from 'supertest';
 let prismaMock;
 let stripeMock;
 let billingRouter;
+let recomputeUserAppEntitlementMock;
 
 beforeAll(async () => {
   process.env.NODE_ENV = 'test';
@@ -23,6 +24,14 @@ beforeAll(async () => {
         findUnique: jest.fn(),
         update: jest.fn(),
       },
+
+      appSubscription: {
+        updateMany: jest.fn(),
+      },
+
+      $transaction: jest.fn(
+        async (callback) => callback(prismaMock)
+      ),
     };
 
     return {
@@ -30,6 +39,19 @@ beforeAll(async () => {
       default: prismaMock,
     };
   });
+
+  await jest.unstable_mockModule(
+    '../services/appEntitlementService.js',
+    () => {
+      recomputeUserAppEntitlementMock = jest.fn();
+
+      return {
+        __esModule: true,
+        recomputeUserAppEntitlement:
+          recomputeUserAppEntitlementMock,
+      };
+    }
+  );
 
   await jest.unstable_mockModule('stripe', () => {
     stripeMock = {
@@ -39,6 +61,7 @@ beforeAll(async () => {
 
       subscriptions: {
         retrieve: jest.fn(),
+        cancel: jest.fn(),
       },
 
       checkout: {
@@ -150,13 +173,12 @@ describe('GET /billing/my-plan', () => {
         subscriptionStatus: true,
         subscriptionEndsAt: true,
         billingProvider: true,
-        billingSubscriptionId: true,
       },
     });
 
     expect(res.body).toEqual({
       plan: {
-        id: 'sub_123',
+        id: 'PREMIUM',
         code: 'PREMIUM',
         label: 'Chatforia Premium',
         isFree: false,
@@ -175,7 +197,9 @@ describe('POST /billing/checkout', () => {
     const res = await request(app).post('/billing/checkout').send({});
 
     expect(res.statusCode).toBe(401);
-    expect(res.body).toEqual({ error: 'Unauthorized' });
+    expect(res.body).toEqual({
+      error: 'Unauthorized',
+    });
   });
 
   test('creates checkout session for PLUS_MONTHLY using existing billing customer', async () => {
@@ -206,8 +230,12 @@ describe('POST /billing/checkout', () => {
         id: true,
         email: true,
         username: true,
+        plan: true,
+        billingProvider: true,
         billingCustomerId: true,
         billingSubscriptionId: true,
+        subscriptionStatus: true,
+        subscriptionEndsAt: true,
       },
     });
 
@@ -231,6 +259,7 @@ describe('POST /billing/checkout', () => {
       metadata: {
         userId: '1',
         plan: 'PLUS_MONTHLY',
+        platform: 'web',
         product: '',
         addonKind: '',
         addonType: '',
@@ -293,7 +322,6 @@ describe('POST /billing/checkout', () => {
     expect(prismaMock.user.update).toHaveBeenCalledWith({
       where: { id: 1 },
       data: {
-        billingProvider: 'STRIPE',
         billingCustomerId: 'cus_new',
       },
     });
@@ -310,6 +338,7 @@ describe('POST /billing/checkout', () => {
         metadata: {
           userId: '1',
           plan: 'PREMIUM_MONTHLY',
+          platform: 'web',
           product: '',
           addonKind: '',
           addonType: '',
@@ -359,27 +388,41 @@ describe('POST /billing/portal', () => {
     const res = await request(app).post('/billing/portal').send({});
 
     expect(res.statusCode).toBe(401);
-    expect(res.body).toEqual({ error: 'Unauthorized' });
+    expect(res.body).toEqual({
+      error: 'Unauthorized',
+      code: 'UNAUTHORIZED',
+    });
   });
 
   test('returns 400 when user has no billing customer', async () => {
     const app = buildApp();
 
     prismaMock.user.findUnique.mockResolvedValue({
+      id: 1,
+      plan: 'FREE',
+      billingProvider: null,
       billingCustomerId: null,
+      billingSubscriptionId: null,
     });
 
     const res = await request(app).post('/billing/portal').send({});
 
     expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'No billing customer found' });
+    expect(res.body).toEqual({
+      error: 'No Stripe app subscription was found.',
+      code: 'NO_STRIPE_SUBSCRIPTION',
+    });
   });
 
   test('creates billing portal session', async () => {
     const app = buildApp();
 
     prismaMock.user.findUnique.mockResolvedValue({
+      id: 1,
+      plan: 'PLUS',
+      billingProvider: 'STRIPE',
       billingCustomerId: 'cus_123',
+      billingSubscriptionId: 'sub_123',
     });
 
     stripeMock.billingPortal.sessions.create.mockResolvedValue({
@@ -394,7 +437,11 @@ describe('POST /billing/portal', () => {
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
       where: { id: 1 },
       select: {
+        id: true,
+        plan: true,
+        billingProvider: true,
         billingCustomerId: true,
+        billingSubscriptionId: true,
       },
     });
 
@@ -406,6 +453,234 @@ describe('POST /billing/portal', () => {
     expect(res.body).toEqual({
       url: 'https://stripe.test/portal/bps_123',
       portalUrl: 'https://stripe.test/portal/bps_123',
+      provider: 'STRIPE',
+      managedExternally: false,
+      managementAction: 'OPEN_STRIPE_PORTAL',
+    });
+  });
+});
+
+describe('POST /billing/provider-aware management', () => {
+  test('returns Google Play management action instead of opening Stripe portal', async () => {
+    const app = buildApp();
+
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: 1,
+      plan: 'PREMIUM',
+      billingProvider: 'GOOGLE_PLAY',
+      billingCustomerId: 'cus_123',
+      billingSubscriptionId: null,
+    });
+
+    const res = await request(app)
+      .post('/billing/portal')
+      .send({});
+
+    expect(res.statusCode).toBe(409);
+
+    expect(res.body).toEqual({
+      error:
+        'This subscription is managed by another provider.',
+      code: 'SUBSCRIPTION_MANAGED_BY_PROVIDER',
+      provider: 'GOOGLE_PLAY',
+      managedExternally: true,
+      managementAction:
+        'OPEN_GOOGLE_PLAY_SUBSCRIPTIONS',
+      message:
+        'Manage this subscription through Google Play.',
+    });
+
+    expect(
+      stripeMock.billingPortal.sessions.create
+    ).not.toHaveBeenCalled();
+  });
+
+  test('returns support action for a manual subscription portal request', async () => {
+    const app = buildApp();
+
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: 1,
+      plan: 'PREMIUM',
+      billingProvider: 'MANUAL',
+      billingCustomerId: null,
+      billingSubscriptionId: null,
+    });
+
+    const res = await request(app)
+      .post('/billing/portal')
+      .send({});
+
+    expect(res.statusCode).toBe(409);
+
+    expect(res.body).toEqual({
+      error:
+        'This subscription is managed by another provider.',
+      code: 'SUBSCRIPTION_MANAGED_BY_PROVIDER',
+      provider: 'MANUAL',
+      managedExternally: true,
+      managementAction: 'CONTACT_SUPPORT',
+      message:
+        'This subscription must be managed by Chatforia support.',
+    });
+
+    expect(
+      stripeMock.billingPortal.sessions.create
+    ).not.toHaveBeenCalled();
+  });
+
+  test('does not send a Google Play subscription to Stripe cancellation', async () => {
+    const app = buildApp();
+
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: 1,
+      plan: 'PLUS',
+      billingProvider: 'GOOGLE_PLAY',
+      billingSubscriptionId: null,
+    });
+
+    const res = await request(app)
+      .post('/billing/cancel-now')
+      .send({});
+
+    expect(res.statusCode).toBe(409);
+
+    expect(res.body).toEqual({
+      error:
+        'This subscription must be canceled through its billing provider.',
+      code: 'SUBSCRIPTION_MANAGED_BY_PROVIDER',
+      provider: 'GOOGLE_PLAY',
+      managedExternally: true,
+      managementAction:
+        'OPEN_GOOGLE_PLAY_SUBSCRIPTIONS',
+      message:
+        'Manage this subscription through Google Play.',
+    });
+
+    expect(
+      stripeMock.subscriptions.cancel
+    ).not.toHaveBeenCalled();
+
+    expect(
+      prismaMock.$transaction
+    ).not.toHaveBeenCalled();
+  });
+
+  test('does not send a manual subscription to Stripe cancellation', async () => {
+    const app = buildApp();
+
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: 1,
+      plan: 'PREMIUM',
+      billingProvider: 'MANUAL',
+      billingSubscriptionId: null,
+    });
+
+    const res = await request(app)
+      .post('/billing/cancel-now')
+      .send({});
+
+    expect(res.statusCode).toBe(409);
+
+    expect(res.body).toEqual({
+      error:
+        'This subscription must be canceled through its billing provider.',
+      code: 'SUBSCRIPTION_MANAGED_BY_PROVIDER',
+      provider: 'MANUAL',
+      managedExternally: true,
+      managementAction: 'CONTACT_SUPPORT',
+      message:
+        'This subscription must be managed by Chatforia support.',
+    });
+
+    expect(
+      stripeMock.subscriptions.cancel
+    ).not.toHaveBeenCalled();
+
+    expect(
+      prismaMock.$transaction
+    ).not.toHaveBeenCalled();
+  });
+
+  test('cancels Stripe entitlement and recomputes the effective app plan', async () => {
+    const app = buildApp();
+
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: 1,
+      plan: 'PLUS',
+      billingProvider: 'STRIPE',
+      billingSubscriptionId: 'sub_123',
+    });
+
+    stripeMock.subscriptions.cancel.mockResolvedValue({
+      id: 'sub_123',
+      status: 'canceled',
+      livemode: false,
+    });
+
+    prismaMock.appSubscription.updateMany
+      .mockResolvedValue({
+        count: 1,
+      });
+
+    recomputeUserAppEntitlementMock
+      .mockResolvedValue({
+        user: {
+          id: 1,
+          plan: 'FREE',
+          subscriptionStatus: 'INACTIVE',
+          subscriptionEndsAt: null,
+          billingProvider: null,
+          billingSubscriptionId: null,
+        },
+      });
+
+    const res = await request(app)
+      .post('/billing/cancel-now')
+      .send({});
+
+    expect(res.statusCode).toBe(200);
+
+    expect(
+      stripeMock.subscriptions.cancel
+    ).toHaveBeenCalledWith('sub_123');
+
+    expect(
+      prismaMock.appSubscription.updateMany
+    ).toHaveBeenCalledWith({
+      where: {
+        provider: 'STRIPE',
+        providerSubscriptionKey: 'sub_123',
+      },
+      data: {
+        status: 'CANCELED',
+        grantsAccess: false,
+        autoRenewEnabled: false,
+        endsAt: expect.any(Date),
+        lastVerifiedAt: expect.any(Date),
+        rawResponse: {
+          source: 'billing-cancel-now',
+          livemode: false,
+        },
+      },
+    });
+
+    expect(
+      recomputeUserAppEntitlementMock
+    ).toHaveBeenCalledWith(
+      1,
+      {
+        db: prismaMock,
+        now: expect.any(Date),
+      }
+    );
+
+    expect(res.body).toEqual({
+      ok: true,
+      canceledProvider: 'STRIPE',
+      plan: 'FREE',
+      status: 'INACTIVE',
+      provider: null,
+      endsAt: null,
     });
   });
 });

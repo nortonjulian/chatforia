@@ -337,6 +337,9 @@ model User {
   familiesOwned     FamilyGroup[]  @relation("FamilyOwner")
 
   mobileDataPackPurchases MobileDataPackPurchase[]
+  googlePlaySubscriptions GooglePlaySubscription[]
+  appSubscriptions        AppSubscription[]
+  wirelessEntitlements    WirelessEntitlement[]
 
   peopleInvitesCreated    PeopleInvite[] @relation("PeopleInvitesCreated")
   peopleInvitesAcceptedBy PeopleInvite[] @relation("PeopleInviteAcceptedBy")
@@ -1657,4 +1660,96 @@ model STTUsage {
   @@unique([userId, monthKey])
   @@index([monthKey])
   @@index([userId, updatedAt])
+}
+
+model GooglePlaySubscription {
+  id     String @id @default(cuid())
+  userId Int
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  packageName   String
+  productId     String
+  basePlanId    String?
+  purchaseToken String  @unique
+
+  linkedPurchaseToken String?
+  latestOrderId       String?
+
+  entitlementPlan Plan
+
+  subscriptionState    String
+  acknowledgementState String?
+  autoRenewEnabled     Boolean?
+
+  startTime  DateTime?
+  expiryTime DateTime?
+
+  regionCode     String? @db.VarChar(2)
+  isTestPurchase Boolean @default(false)
+
+  rawResponse Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, subscriptionState])
+  @@index([productId, basePlanId])
+  @@index([expiryTime])
+  @@index([latestOrderId])
+}
+
+model AppSubscription {
+  id     String @id @default(cuid())
+  userId Int
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  provider                String
+  providerSubscriptionKey String
+  customerReference       String?
+
+  productId  String
+  basePlanId String?
+  plan       Plan
+
+  status           String
+  grantsAccess     Boolean  @default(false)
+  autoRenewEnabled Boolean?
+
+  startsAt       DateTime?
+  endsAt         DateTime?
+  lastVerifiedAt DateTime?
+
+  rawResponse Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerSubscriptionKey])
+  @@index([userId, grantsAccess, endsAt])
+  @@index([provider, status])
+}
+
+model WirelessEntitlement {
+  id     String @id @default(cuid())
+  userId Int
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  provider          String
+  externalReference String?
+
+  status       String
+  grantsAccess Boolean @default(false)
+
+  startsAt DateTime?
+  endsAt   DateTime?
+
+  provisioningStatus String?
+  rawResponse        Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, grantsAccess, endsAt])
+  @@index([provider, status])
+  @@index([externalReference])
 }

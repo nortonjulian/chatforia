@@ -2,8 +2,65 @@ import express from 'express';
 import Stripe from 'stripe';
 import prisma from '../utils/prismaClient.js';
 import { getAddonConfig } from '../utils/billingProducts.js';
+import { verifyAndApplyGooglePlaySubscription } from '../services/googlePlayEntitlementService.js';
+import { recomputeUserAppEntitlement } from '../services/appEntitlementService.js';
 
 const router = express.Router();
+
+function getProviderManagementAction(provider) {
+  const normalizedProvider =
+    String(provider || '').trim().toUpperCase();
+
+  switch (normalizedProvider) {
+    case 'STRIPE':
+      return {
+        provider: 'STRIPE',
+        managedExternally: false,
+        managementAction: 'OPEN_STRIPE_PORTAL',
+        message:
+          'Manage this subscription through Chatforia billing.',
+      };
+
+    case 'GOOGLE_PLAY':
+      return {
+        provider: 'GOOGLE_PLAY',
+        managedExternally: true,
+        managementAction:
+          'OPEN_GOOGLE_PLAY_SUBSCRIPTIONS',
+        message:
+          'Manage this subscription through Google Play.',
+      };
+
+    case 'APPLE':
+      return {
+        provider: 'APPLE',
+        managedExternally: true,
+        managementAction:
+          'OPEN_APP_STORE_SUBSCRIPTIONS',
+        message:
+          'Manage this subscription through the App Store.',
+      };
+
+    case 'MANUAL':
+      return {
+        provider: 'MANUAL',
+        managedExternally: true,
+        managementAction: 'CONTACT_SUPPORT',
+        message:
+          'This subscription must be managed by Chatforia support.',
+      };
+
+    default:
+      return {
+        provider: normalizedProvider || null,
+        managedExternally: true,
+        managementAction: 'CONTACT_SUPPORT',
+        message:
+          'Contact Chatforia support to manage this subscription.',
+      };
+  }
+}
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -141,7 +198,6 @@ router.get('/my-plan', async (req, res) => {
         subscriptionStatus: true,
         subscriptionEndsAt: true,
         billingProvider: true,
-        billingSubscriptionId: true,
       },
     });
 
@@ -149,7 +205,7 @@ router.get('/my-plan', async (req, res) => {
 
     return res.json({
       plan: {
-        id: user?.billingSubscriptionId || null,
+        id: code === 'FREE' ? null : code,
         code,
         label: planLabel(code),
         isFree: code === 'FREE',
@@ -227,8 +283,12 @@ router.post('/checkout', async (req, res) => {
         id: true,
         email: true,
         username: true,
+        plan: true,
+        billingProvider: true,
         billingCustomerId: true,
         billingSubscriptionId: true,
+        subscriptionStatus: true,
+        subscriptionEndsAt: true,
       },
     });
 
@@ -241,7 +301,37 @@ router.post('/checkout', async (req, res) => {
       process.env.WEB_URL ||
       'https://chatforia.com';
 
-      if (isSubscription && user.billingSubscriptionId) {
+    const effectiveProvider =
+      String(user.billingProvider || '')
+        .trim()
+        .toUpperCase();
+
+    const hasPaidAppPlan =
+      ['PLUS', 'PREMIUM'].includes(
+        String(user.plan || '').toUpperCase()
+      );
+
+    if (
+      isSubscription &&
+      hasPaidAppPlan &&
+      effectiveProvider &&
+      effectiveProvider !== 'STRIPE'
+    ) {
+      return res.status(409).json({
+        error:
+          'Your current Chatforia subscription is managed by another provider.',
+        code: 'SUBSCRIPTION_MANAGED_BY_PROVIDER',
+        ...getProviderManagementAction(
+          effectiveProvider
+        ),
+      });
+    }
+
+    if (
+      isSubscription &&
+      effectiveProvider === 'STRIPE' &&
+      user.billingSubscriptionId
+    ) {
         try {
           const existingSub = await stripe.subscriptions.retrieve(
             user.billingSubscriptionId
@@ -284,7 +374,6 @@ router.post('/checkout', async (req, res) => {
       await prisma.user.update({
         where: { id: user.id },
         data: {
-          billingProvider: 'STRIPE',
           billingCustomerId: customerId,
         },
       });
@@ -361,7 +450,6 @@ router.post('/checkout', async (req, res) => {
       message: err?.message,
       type: err?.type,
       code: err?.code,
-      raw: err?.raw,
     });
     return res.status(500).json({ error: 'Failed to start checkout' });
   }
@@ -370,18 +458,67 @@ router.post('/checkout', async (req, res) => {
 router.post('/portal', async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({
+        error: 'Unauthorized',
+        code: 'UNAUTHORIZED',
+      });
     }
 
     const user = await prisma.user.findUnique({
-      where: { id: Number(req.user.id) },
+      where: {
+        id: Number(req.user.id),
+      },
       select: {
+        id: true,
+        plan: true,
+        billingProvider: true,
         billingCustomerId: true,
+        billingSubscriptionId: true,
       },
     });
 
-    if (!user?.billingCustomerId) {
-      return res.status(400).json({ error: 'No billing customer found' });
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found',
+        code: 'USER_NOT_FOUND',
+      });
+    }
+
+    const effectiveProvider =
+      String(user.billingProvider || '')
+        .trim()
+        .toUpperCase();
+
+    const hasPaidAppPlan =
+      ['PLUS', 'PREMIUM'].includes(
+        String(user.plan || '').toUpperCase()
+      );
+
+    if (
+      hasPaidAppPlan &&
+      effectiveProvider &&
+      effectiveProvider !== 'STRIPE'
+    ) {
+      return res.status(409).json({
+        error:
+          'This subscription is managed by another provider.',
+        code: 'SUBSCRIPTION_MANAGED_BY_PROVIDER',
+        ...getProviderManagementAction(
+          effectiveProvider
+        ),
+      });
+    }
+
+    if (
+      effectiveProvider !== 'STRIPE' ||
+      !user.billingSubscriptionId ||
+      !user.billingCustomerId
+    ) {
+      return res.status(400).json({
+        error:
+          'No Stripe app subscription was found.',
+        code: 'NO_STRIPE_SUBSCRIPTION',
+      });
     }
 
     const frontendOrigin =
@@ -389,63 +526,272 @@ router.post('/portal', async (req, res) => {
       process.env.WEB_URL ||
       'https://chatforia.com';
 
-    const portal = await stripe.billingPortal.sessions.create({
-      customer: user.billingCustomerId,
-      return_url: `${frontendOrigin}/account/plan`,
-    });
+    const portal =
+      await stripe.billingPortal.sessions.create({
+        customer: user.billingCustomerId,
+        return_url:
+          `${frontendOrigin}/account/plan`,
+      });
 
     return res.json({
       url: portal.url,
       portalUrl: portal.url,
+      provider: 'STRIPE',
+      managedExternally: false,
+      managementAction:
+        'OPEN_STRIPE_PORTAL',
     });
   } catch (err) {
-    console.error('[billing/portal] error:', err);
-    return res.status(500).json({ error: 'Failed to open billing portal' });
+    console.error('[billing/portal] error:', {
+      message: err?.message ?? null,
+      type: err?.type ?? null,
+      code: err?.code ?? null,
+    });
+
+    return res.status(500).json({
+      error: 'Failed to open billing portal',
+      code: 'BILLING_PORTAL_FAILED',
+    });
   }
 });
 
 router.post('/cancel-now', async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({
+        error: 'Unauthorized',
+        code: 'UNAUTHORIZED',
+      });
     }
 
     const userId = Number(req.user.id);
 
     const user = await prisma.user.findUnique({
-      where: { id: userId },
+      where: {
+        id: userId,
+      },
       select: {
         id: true,
+        plan: true,
+        billingProvider: true,
         billingSubscriptionId: true,
       },
     });
 
-    if (!user?.billingSubscriptionId) {
-      return res.status(400).json({ error: 'No active subscription found' });
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found',
+        code: 'USER_NOT_FOUND',
+      });
     }
 
-    await stripe.subscriptions.cancel(user.billingSubscriptionId);
+    const effectiveProvider =
+      String(user.billingProvider || '')
+        .trim()
+        .toUpperCase();
 
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
-        plan: 'FREE',
-        subscriptionStatus: 'CANCELED',
-        subscriptionEndsAt: new Date(),
-        billingSubscriptionId: null,
-      },
+    const hasPaidAppPlan =
+      ['PLUS', 'PREMIUM'].includes(
+        String(user.plan || '').toUpperCase()
+      );
+
+    if (
+      hasPaidAppPlan &&
+      effectiveProvider &&
+      effectiveProvider !== 'STRIPE'
+    ) {
+      return res.status(409).json({
+        error:
+          'This subscription must be canceled through its billing provider.',
+        code: 'SUBSCRIPTION_MANAGED_BY_PROVIDER',
+        ...getProviderManagementAction(
+          effectiveProvider
+        ),
+      });
+    }
+
+    if (
+      effectiveProvider !== 'STRIPE' ||
+      !user.billingSubscriptionId
+    ) {
+      return res.status(400).json({
+        error:
+          'No active Stripe subscription was found.',
+        code: 'NO_STRIPE_SUBSCRIPTION',
+      });
+    }
+
+    const stripeSubscriptionId =
+      user.billingSubscriptionId;
+
+    const canceledSubscription =
+      await stripe.subscriptions.cancel(
+        stripeSubscriptionId
+      );
+
+    const now = new Date();
+
+    const entitlementResult =
+      await prisma.$transaction(async (tx) => {
+        await tx.appSubscription.updateMany({
+          where: {
+            provider: 'STRIPE',
+            providerSubscriptionKey:
+              stripeSubscriptionId,
+          },
+          data: {
+            status: String(
+              canceledSubscription?.status ||
+              'canceled'
+            ).toUpperCase(),
+            grantsAccess: false,
+            autoRenewEnabled: false,
+            endsAt: now,
+            lastVerifiedAt: now,
+            rawResponse: {
+              source: 'billing-cancel-now',
+              livemode:
+                Boolean(
+                  canceledSubscription?.livemode
+                ),
+            },
+          },
+        });
+
+        return recomputeUserAppEntitlement(
+          userId,
+          {
+            db: tx,
+            now,
+          }
+        );
+      });
+
+    return res.json({
+      ok: true,
+      canceledProvider: 'STRIPE',
+      plan:
+        entitlementResult.user.plan,
+      status:
+        entitlementResult.user
+          .subscriptionStatus,
+      provider:
+        entitlementResult.user
+          .billingProvider,
+      endsAt:
+        entitlementResult.user
+          .subscriptionEndsAt
+          ?.toISOString() ?? null,
     });
-
-    return res.json({ ok: true });
   } catch (err) {
     console.error('[billing/cancel-now] error:', {
-      message: err?.message,
-      type: err?.type,
-      code: err?.code,
-      raw: err?.raw,
+      message: err?.message ?? null,
+      type: err?.type ?? null,
+      code: err?.code ?? null,
     });
 
-    return res.status(500).json({ error: 'Failed to cancel subscription' });
+    return res.status(500).json({
+      error: 'Failed to cancel subscription',
+      code: 'SUBSCRIPTION_CANCEL_FAILED',
+    });
+  }
+});
+
+router.post('/google-play/verify', async (req, res) => {
+  if (!req.user?.id) {
+    return res.status(401).json({
+      ok: false,
+      error: 'Unauthorized',
+      code: 'UNAUTHORIZED',
+    });
+  }
+
+  const purchaseToken =
+    typeof req.body?.purchaseToken === 'string'
+      ? req.body.purchaseToken.trim()
+      : '';
+
+  if (!purchaseToken) {
+    return res.status(400).json({
+      ok: false,
+      error: 'A Google Play purchase token is required.',
+      code: 'PURCHASE_TOKEN_REQUIRED',
+    });
+  }
+
+  try {
+    const result =
+      await verifyAndApplyGooglePlaySubscription({
+        userId: req.user.id,
+        purchaseToken,
+      });
+
+    return res.json({
+      ok: true,
+      plan: result.user.plan,
+      entitlementPlan: result.verified.entitlementPlan,
+      status: result.verified.subscriptionState,
+      expiresAt:
+        result.verified.expiryTime?.toISOString() ?? null,
+      acknowledged: result.acknowledged,
+      acknowledgementPending:
+        result.acknowledgementPending,
+      productId: result.verified.productId,
+      basePlanId: result.verified.basePlanId,
+      autoRenewEnabled:
+        result.verified.autoRenewEnabled,
+      grantsAccess: result.verified.grantsAccess,
+    });
+  } catch (err) {
+    const googleStatus = Number(
+      err?.response?.status ?? err?.code
+    );
+
+    let statusCode = 500;
+    let code = 'GOOGLE_PLAY_VERIFICATION_FAILED';
+    let message =
+      'Google Play subscription verification failed.';
+
+    if (Number.isInteger(err?.statusCode)) {
+      statusCode = err.statusCode;
+      code =
+        typeof err.code === 'string'
+          ? err.code
+          : code;
+      message = err.message;
+    } else if (
+      googleStatus === 400 ||
+      googleStatus === 404
+    ) {
+      statusCode = 400;
+      code = 'GOOGLE_PLAY_PURCHASE_NOT_FOUND';
+      message =
+        'Google Play could not verify this purchase.';
+    } else if (
+      googleStatus === 401 ||
+      googleStatus === 403
+    ) {
+      statusCode = 503;
+      code = 'GOOGLE_PLAY_API_UNAVAILABLE';
+      message =
+        'Google Play verification is temporarily unavailable.';
+    }
+
+    console.error('[billing/google-play/verify] error:', {
+      message: err?.message,
+      code: err?.code,
+      googleStatus:
+        Number.isFinite(googleStatus)
+          ? googleStatus
+          : null,
+      userId: req.user?.id,
+    });
+
+    return res.status(statusCode).json({
+      ok: false,
+      error: message,
+      code,
+    });
   }
 });
 
