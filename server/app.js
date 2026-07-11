@@ -55,6 +55,7 @@ import invitesRouter from './routes/invites.js';
 import mediaRouter from './routes/media.js';
 import billingRouter from './routes/billing.js';
 import billingWebhook from './routes/billingWebhook.js';
+import googlePlayRtdnRouter from './routes/googlePlayRtdn.js';
 import featuresRouter from './routes/features.js';
 import peopleInvitesRouter from "./routes/peopleInvites.js";
 import contactsImportRouter from './routes/contactsImport.js';
@@ -311,6 +312,18 @@ export function createApp() {
         paths: ['req.headers.authorization', 'req.headers.cookie', 'res.headers["set-cookie"]'],
       },
     })
+  );
+
+  /*
+   * Google Play RTDN:
+   * - Google Pub/Sub OIDC authentication
+   * - JSON body already parsed
+   * - deliberately mounted before sessions,
+   *   browser CSRF, and general mutation limits
+   */
+  app.use(
+    '/billing',
+    googlePlayRtdnRouter
   );
 
   /* ---------- Session + Passport (must be before OAuth routes) ---------- */
@@ -672,12 +685,27 @@ app.use('/api/wireless', requireAuth, wirelessRouter);
   // ✅ CSRF error tap (AFTER all routes, BEFORE Sentry + your error handlers)
   app.use((err, req, res, next) => {
     if (err && err.code === 'EBADCSRFTOKEN') {
+      const authorization =
+        req.headers.authorization;
+
+      const authScheme =
+        typeof authorization === 'string'
+          ? (
+              authorization
+                .trim()
+                .split(/\s+/, 1)[0] ||
+              null
+            )
+          : null;
+
       console.log('❌ CSRF BLOCK', {
         path: req.path,
         method: req.method,
-        hasAuth: !!req.headers.authorization,
-        authHeader: req.headers.authorization || null,
-        hasCookie: !!req.headers.cookie,
+        hasAuth:
+          Boolean(authorization),
+        authScheme,
+        hasCookie:
+          Boolean(req.headers.cookie),
         origin: req.headers.origin,
         referer: req.headers.referer,
       });
