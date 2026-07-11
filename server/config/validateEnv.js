@@ -166,6 +166,50 @@ export default function validateEnv() {
   }
 
   // -----------------------------
+  // Google Play billing / RTDN
+  // -----------------------------
+  const wantsGooglePlayBilling =
+    has(ENV.GOOGLE_PLAY_PACKAGE_NAME) ||
+    has(ENV.GOOGLE_PLAY_RTDN_AUDIENCE) ||
+    has(ENV.GOOGLE_PLAY_RTDN_SERVICE_ACCOUNT_EMAIL) ||
+    ENV.GOOGLE_PLAY_RECONCILIATION_ENABLED;
+
+  if (wantsGooglePlayBilling) {
+    requireNonEmpty(
+      ENV.GOOGLE_PLAY_PACKAGE_NAME,
+      'GOOGLE_PLAY_PACKAGE_NAME',
+      {
+        soft: SOFT,
+        advice: 'required for Google Play subscription verification',
+      }
+    );
+  }
+
+  const wantsGooglePlayRtdn =
+    has(ENV.GOOGLE_PLAY_RTDN_AUDIENCE) ||
+    has(ENV.GOOGLE_PLAY_RTDN_SERVICE_ACCOUNT_EMAIL);
+
+  if (wantsGooglePlayRtdn) {
+    requireNonEmpty(
+      ENV.GOOGLE_PLAY_RTDN_AUDIENCE,
+      'GOOGLE_PLAY_RTDN_AUDIENCE',
+      {
+        soft: SOFT,
+        advice: 'must match the Pub/Sub push OIDC audience',
+      }
+    );
+
+    requireNonEmpty(
+      ENV.GOOGLE_PLAY_RTDN_SERVICE_ACCOUNT_EMAIL,
+      'GOOGLE_PLAY_RTDN_SERVICE_ACCOUNT_EMAIL',
+      {
+        soft: SOFT,
+        advice: 'expected Pub/Sub push service-account identity',
+      }
+    );
+  }
+
+  // -----------------------------
   // Observability
   // -----------------------------
   if (IS_PROD && !has(ENV.SENTRY_DSN)) {

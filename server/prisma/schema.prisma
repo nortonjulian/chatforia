@@ -1689,6 +1689,26 @@ model GooglePlaySubscription {
 
   rawResponse Json?
 
+  lastVerifiedAt               DateTime?
+  lastVerificationErrorCode    String?
+  lastVerificationErrorMessage String?
+
+  lastRtdnAt               DateTime?
+  lastRtdnNotificationType Int?
+
+  accessGrantedSnapshot Boolean @default(false)
+
+  acknowledgementAttemptCount     Int       @default(0)
+  lastAcknowledgementAttemptAt    DateTime?
+  nextAcknowledgementAttemptAt    DateTime?
+  lastAcknowledgementErrorCode    String?
+  lastAcknowledgementErrorMessage String?
+
+  revokedAt    DateTime?
+  supersededAt DateTime?
+
+  rtdnEvents GooglePlayRtdnEvent[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -1696,6 +1716,46 @@ model GooglePlaySubscription {
   @@index([productId, basePlanId])
   @@index([expiryTime])
   @@index([latestOrderId])
+  @@index([lastVerifiedAt])
+  @@index([subscriptionState, lastVerifiedAt])
+  @@index([acknowledgementState, nextAcknowledgementAttemptAt])
+}
+
+
+model GooglePlayRtdnEvent {
+  id String @id @default(cuid())
+
+  pubsubMessageId String @unique
+
+  googlePlaySubscriptionId String?
+  googlePlaySubscription   GooglePlaySubscription? @relation(fields: [googlePlaySubscriptionId], references: [id], onDelete: SetNull)
+
+  packageName String
+  eventKind  String
+
+  notificationVersion String?
+  notificationType    Int?
+
+  // SHA-256 hash only. Never store the raw token in this table.
+  purchaseTokenHash String? @db.VarChar(64)
+
+  eventTime   DateTime?
+  publishTime DateTime?
+
+  status   String @default("RECEIVED")
+  attempts Int    @default(0)
+
+  lastErrorCode    String?
+  lastErrorMessage String?
+  processedAt      DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([purchaseTokenHash])
+  @@index([googlePlaySubscriptionId])
+  @@index([packageName, eventTime])
 }
 
 model AppSubscription {
