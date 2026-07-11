@@ -1707,6 +1707,9 @@ model GooglePlaySubscription {
   revokedAt    DateTime?
   supersededAt DateTime?
 
+  reconciliationLeaseId    String?
+  reconciliationLeaseUntil DateTime?
+
   rtdnEvents GooglePlayRtdnEvent[]
 
   createdAt DateTime @default(now())
@@ -1719,6 +1722,7 @@ model GooglePlaySubscription {
   @@index([lastVerifiedAt])
   @@index([subscriptionState, lastVerifiedAt])
   @@index([acknowledgementState, nextAcknowledgementAttemptAt])
+  @@index([reconciliationLeaseUntil])
 }
 
 
