@@ -90,6 +90,10 @@ describe('parseGooglePlayRtdnPush', () => {
             'utf8'
           )
           .digest('hex'),
+
+      voidedProductType: null,
+      voidedRefundType: null,
+      voidedOrderId: null,
     });
   });
 
@@ -179,6 +183,49 @@ describe('parseGooglePlayRtdnPush', () => {
         notificationType: null,
         purchaseToken: null,
         purchaseTokenHash: null,
+      })
+    );
+  });
+
+  test('parses a voided subscription purchase', () => {
+    const result =
+      parseGooglePlayRtdnPush(
+        buildBody({
+          version: '1.0',
+          packageName,
+          eventTimeMillis:
+            '1783792800000',
+
+          voidedPurchaseNotification: {
+            purchaseToken:
+              'voided-subscription-token',
+
+            orderId:
+              'GPA.1234-5678-9012-34567',
+
+            productType: 1,
+            refundType: 1,
+          },
+        }),
+        {
+          expectedPackageName: packageName,
+        }
+      );
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        eventKind: 'VOIDED_PURCHASE',
+
+        purchaseToken:
+          'voided-subscription-token',
+
+        notificationType: null,
+
+        voidedProductType: 1,
+        voidedRefundType: 1,
+
+        voidedOrderId:
+          'GPA.1234-5678-9012-34567',
       })
     );
   });

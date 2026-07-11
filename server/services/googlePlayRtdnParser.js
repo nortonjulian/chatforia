@@ -236,6 +236,9 @@ function classifyDeveloperNotification(
       notificationType: null,
       purchaseToken: null,
       purchaseTokenHash: null,
+      voidedProductType: null,
+      voidedRefundType: null,
+      voidedOrderId: null,
     };
   }
 
@@ -261,8 +264,13 @@ function classifyDeveloperNotification(
     );
 
   let notificationType = null;
+
   let purchaseToken =
     nonEmptyString(detail.purchaseToken);
+
+  let voidedProductType = null;
+  let voidedRefundType = null;
+  let voidedOrderId = null;
 
   if (
     eventKind === 'SUBSCRIPTION' ||
@@ -272,6 +280,44 @@ function classifyDeveloperNotification(
       parseNotificationType(
         detail.notificationType
       );
+  }
+
+  if (eventKind === 'VOIDED_PURCHASE') {
+    if (!purchaseToken) {
+      throw createParseError(
+        'The voided purchase token is required.',
+        'GOOGLE_PLAY_RTDN_PURCHASE_TOKEN_REQUIRED'
+      );
+    }
+
+    voidedProductType =
+      Number(detail.productType);
+
+    if (
+      !Number.isInteger(voidedProductType) ||
+      voidedProductType <= 0
+    ) {
+      throw createParseError(
+        'The voided purchase product type is invalid.',
+        'GOOGLE_PLAY_RTDN_VOIDED_PRODUCT_TYPE_INVALID'
+      );
+    }
+
+    voidedRefundType =
+      Number(detail.refundType);
+
+    if (
+      !Number.isInteger(voidedRefundType) ||
+      voidedRefundType <= 0
+    ) {
+      throw createParseError(
+        'The voided purchase refund type is invalid.',
+        'GOOGLE_PLAY_RTDN_VOIDED_REFUND_TYPE_INVALID'
+      );
+    }
+
+    voidedOrderId =
+      nonEmptyString(detail.orderId);
   }
 
   if (
@@ -291,6 +337,10 @@ function classifyDeveloperNotification(
     purchaseToken,
     purchaseTokenHash:
       hashPurchaseToken(purchaseToken),
+
+    voidedProductType,
+    voidedRefundType,
+    voidedOrderId,
   };
 }
 
