@@ -38,6 +38,10 @@ function getPackageName() {
   return packageName;
 }
 
+export function getGooglePlayPackageName() {
+  return getPackageName();
+}
+
 function getAndroidPublisherClient() {
   if (androidPublisherClient) {
     return androidPublisherClient;
