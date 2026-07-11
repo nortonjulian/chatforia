@@ -13,4 +13,24 @@ server/dist/
 **/coverage/
 storybook-static/
 
-server/certs/ 
+server/certs/
+# Environment files and secret backups
+.env
+.env.*
+!.env.example
+
+server/.env
+server/.env.*
+!server/.env.example
+
+client/.env
+client/.env.*
+!client/.env.example
+
+# Local backup files
+*.backup
+*.backup-*
+
+# Credential files
+*service-account*.json
+*credentials*.json

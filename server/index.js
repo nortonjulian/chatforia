@@ -4,7 +4,7 @@ import csurf from 'csurf';
 import { createApp } from './app.js';
 import { initSocket } from './socket.js';
 import { startCleanupJobs, stopCleanupJobs } from './cron/cleanup.js';
-import { initCrons } from './cron/index.js';
+import { initCrons, stopCrons } from './cron/index.js';
 import { scheduleExpireJob } from './jobs/expireMessagesJob.js';
 import { setSocketIo, setHelpers } from './services/socketBus.js';
 import prisma from './utils/prismaClient.js';
@@ -241,6 +241,14 @@ if (ENV.IS_TEST) {
       logger.info('Cleanup jobs stopped');
     } catch (e) {
       logger.warn({ err: e }, 'Cleanup stop error');
+    }
+
+    // Stop centralized cron timers
+    try {
+      await stopCrons();
+      logger.info('Cron jobs stopped');
+    } catch (e) {
+      logger.warn({ err: e }, 'Cron stop error');
     }
 
     // Close websockets / Socket.IO adapters
