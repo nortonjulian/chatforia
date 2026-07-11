@@ -42,16 +42,28 @@ function validateVerifiedSubscription(verified) {
 
 function buildGoogleSubscriptionCreateData(
   userId,
-  verified
+  verified,
+  now
 ) {
   return {
     userId,
     purchaseToken: verified.purchaseToken,
-    ...buildGoogleSubscriptionUpdateData(verified),
+    ...buildGoogleSubscriptionUpdateData(
+      verified,
+      now
+    ),
   };
 }
 
-function buildGoogleSubscriptionUpdateData(verified) {
+function buildGoogleSubscriptionUpdateData(
+  verified,
+  now
+) {
+  const acknowledgementRetryNeeded =
+    verified.acknowledgementState ===
+      'ACKNOWLEDGEMENT_STATE_PENDING' &&
+    Boolean(verified.grantsAccess);
+
   return {
     packageName: verified.packageName,
     productId: verified.productId,
@@ -89,6 +101,24 @@ function buildGoogleSubscriptionUpdateData(verified) {
 
     rawResponse:
       verified.rawResponse,
+
+    lastVerifiedAt: now,
+
+    lastVerificationErrorCode: null,
+    lastVerificationErrorMessage: null,
+
+    accessGrantedSnapshot:
+      Boolean(verified.grantsAccess),
+
+    ...(
+      !acknowledgementRetryNeeded
+        ? {
+            nextAcknowledgementAttemptAt: null,
+            lastAcknowledgementErrorCode: null,
+            lastAcknowledgementErrorMessage: null,
+          }
+        : {}
+    ),
   };
 }
 
@@ -273,6 +303,16 @@ async function disableSupersededSubscription(
     return;
   }
 
+  await tx.googlePlaySubscription.update({
+    where: {
+      id: linkedSubscription.id,
+    },
+    data: {
+      supersededAt: now,
+      accessGrantedSnapshot: false,
+    },
+  });
+
   await tx.appSubscription.updateMany({
     where: {
       provider: 'GOOGLE_PLAY',
@@ -294,10 +334,51 @@ async function disableSupersededSubscription(
   });
 }
 
+function safeProviderErrorMessage(
+  error,
+  secret
+) {
+  let message = String(
+    error?.message ||
+    'Google Play acknowledgement failed.'
+  );
+
+  if (secret) {
+    message = message
+      .split(secret)
+      .join('[REDACTED]');
+  }
+
+  return message.slice(0, 500);
+}
+
+function nextAcknowledgementRetryAt(
+  now,
+  previousAttemptCount
+) {
+  const previous =
+    Math.max(
+      0,
+      Number(previousAttemptCount) || 0
+    );
+
+  const exponent =
+    Math.min(previous, 6);
+
+  const delayMs =
+    Math.min(
+      15 * 60 * 1000 * (2 ** exponent),
+      24 * 60 * 60 * 1000
+    );
+
+  return new Date(now.getTime() + delayMs);
+}
+
 async function attemptAcknowledgement({
   verified,
   googleSubscriptionId,
   userId,
+  previousAttemptCount = 0,
 }) {
   const alreadyAcknowledged =
     verified.acknowledgementState ===
@@ -307,22 +388,28 @@ async function attemptAcknowledgement({
     return {
       acknowledged: true,
       acknowledgementPending: false,
+      acknowledgementAttempted: false,
+      acknowledgementErrorCode: null,
+      acknowledgementErrorMessage: null,
     };
   }
 
   const acknowledgementPending =
     verified.acknowledgementState ===
-    'ACKNOWLEDGEMENT_STATE_PENDING';
+      'ACKNOWLEDGEMENT_STATE_PENDING' &&
+    Boolean(verified.grantsAccess);
 
-  if (
-    !verified.grantsAccess ||
-    !acknowledgementPending
-  ) {
+  if (!acknowledgementPending) {
     return {
       acknowledged: false,
       acknowledgementPending,
+      acknowledgementAttempted: false,
+      acknowledgementErrorCode: null,
+      acknowledgementErrorMessage: null,
     };
   }
+
+  const attemptedAt = new Date();
 
   try {
     await acknowledgeGooglePlaySubscription({
@@ -341,6 +428,17 @@ async function attemptAcknowledgement({
         data: {
           acknowledgementState:
             'ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED',
+
+          acknowledgementAttemptCount: {
+            increment: 1,
+          },
+
+          lastAcknowledgementAttemptAt:
+            attemptedAt,
+
+          nextAcknowledgementAttemptAt: null,
+          lastAcknowledgementErrorCode: null,
+          lastAcknowledgementErrorMessage: null,
         },
       });
     } catch (persistenceError) {
@@ -354,7 +452,10 @@ async function attemptAcknowledgement({
           code:
             persistenceError?.code ?? null,
           message:
-            persistenceError?.message ?? null,
+            safeProviderErrorMessage(
+              persistenceError,
+              verified.purchaseToken
+            ),
         }
       );
     }
@@ -362,10 +463,72 @@ async function attemptAcknowledgement({
     return {
       acknowledged: true,
       acknowledgementPending: false,
+      acknowledgementAttempted: true,
+      acknowledgementErrorCode: null,
+      acknowledgementErrorMessage: null,
     };
   } catch (error) {
     // Access was already verified and stored. Do not report the
     // purchase as failed merely because acknowledgement needs retry.
+    const acknowledgementErrorCode =
+      String(
+        error?.code ??
+        error?.response?.status ??
+        error?.statusCode ??
+        'ACKNOWLEDGEMENT_FAILED'
+      ).slice(0, 100);
+
+    const acknowledgementErrorMessage =
+      safeProviderErrorMessage(
+        error,
+        verified.purchaseToken
+      );
+
+    const nextAcknowledgementAttemptAt =
+      nextAcknowledgementRetryAt(
+        attemptedAt,
+        previousAttemptCount
+      );
+
+    try {
+      await prisma.googlePlaySubscription.update({
+        where: {
+          id: googleSubscriptionId,
+        },
+        data: {
+          acknowledgementAttemptCount: {
+            increment: 1,
+          },
+
+          lastAcknowledgementAttemptAt:
+            attemptedAt,
+
+          nextAcknowledgementAttemptAt,
+
+          lastAcknowledgementErrorCode:
+            acknowledgementErrorCode,
+
+          lastAcknowledgementErrorMessage:
+            acknowledgementErrorMessage,
+        },
+      });
+    } catch (persistenceError) {
+      console.error(
+        '[googlePlayEntitlement] acknowledgement failure persistence failed',
+        {
+          userId,
+          googleSubscriptionId,
+          code:
+            persistenceError?.code ?? null,
+          message:
+            safeProviderErrorMessage(
+              persistenceError,
+              verified.purchaseToken
+            ),
+        }
+      );
+    }
+
     console.error(
       '[googlePlayEntitlement] acknowledgement failed',
       {
@@ -374,19 +537,22 @@ async function attemptAcknowledgement({
         productId:
           verified.productId,
         code:
-          error?.code ?? null,
+          acknowledgementErrorCode,
         status:
           error?.response?.status ??
           error?.statusCode ??
           null,
         message:
-          error?.message ?? null,
+          acknowledgementErrorMessage,
       }
     );
 
     return {
       acknowledged: false,
       acknowledgementPending: true,
+      acknowledgementAttempted: true,
+      acknowledgementErrorCode,
+      acknowledgementErrorMessage,
     };
   }
 }
@@ -542,13 +708,15 @@ export async function verifyAndApplyGooglePlaySubscription({
           create:
             buildGoogleSubscriptionCreateData(
               normalizedUserId,
-              verified
+              verified,
+              now
             ),
 
           // Ownership fields are deliberately excluded.
           update:
             buildGoogleSubscriptionUpdateData(
-              verified
+              verified,
+              now
             ),
         });
 
@@ -652,6 +820,12 @@ export async function verifyAndApplyGooglePlaySubscription({
 
       userId:
         normalizedUserId,
+
+      previousAttemptCount:
+        transactionResult
+          .googlePlaySubscription
+          .acknowledgementAttemptCount ??
+        0,
     });
 
   return {
@@ -662,6 +836,15 @@ export async function verifyAndApplyGooglePlaySubscription({
 
     acknowledgementPending:
       acknowledgement.acknowledgementPending,
+
+    acknowledgementAttempted:
+      acknowledgement.acknowledgementAttempted,
+
+    acknowledgementErrorCode:
+      acknowledgement.acknowledgementErrorCode,
+
+    acknowledgementErrorMessage:
+      acknowledgement.acknowledgementErrorMessage,
 
     subscription:
       transactionResult
