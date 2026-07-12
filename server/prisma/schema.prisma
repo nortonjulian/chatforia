@@ -1721,7 +1721,7 @@ model GooglePlaySubscription {
   @@index([latestOrderId])
   @@index([lastVerifiedAt])
   @@index([subscriptionState, lastVerifiedAt])
-  @@index([acknowledgementState, nextAcknowledgementAttemptAt])
+  @@index([acknowledgementState, nextAcknowledgementAttemptAt], map: "GooglePlaySubscription_acknowledgementState_nextAcknowledgement")
   @@index([reconciliationLeaseUntil])
 }
 
