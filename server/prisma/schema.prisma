@@ -1347,6 +1347,7 @@ model RiaMessage {
   user User @relation(fields: [userId], references: [id])
 
   @@index([userId, createdAt])
+  @@map("ForiaMessage")
 }
 
 // ===================== 10) Telecom: Calls / Numbers / Voicemail / Porting =====================

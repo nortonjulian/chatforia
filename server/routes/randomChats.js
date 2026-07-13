@@ -71,7 +71,7 @@ async function buildRiaReply({ user, text }) {
   let history = [];
   if (remember && user?.id) {
     try {
-      history = await prisma.foriaMessage.findMany({
+      history = await prisma.riaMessage.findMany({
         where: { userId: user.id },
         orderBy: { createdAt: 'asc' },
         take: 20,
@@ -135,7 +135,7 @@ You are Ria, a friendly chat companion inside the Chatforia app.
   // 3) Persist this turn ONLY if remember is on
   if (remember && user?.id) {
     try {
-      await prisma.foriaMessage.createMany({
+      await prisma.riaMessage.createMany({
         data: [
           { userId: user.id, role: 'user', content: text },
           { userId: user.id, role: 'assistant', content: replyText },
@@ -381,10 +381,10 @@ router.get('/id/:id', requireAuth, async (req, res) => {
 });
 
 // 🧹 Clear Ria memory for the current user
-// (still stored in prisma.foriaMessage table)
+// (still stored in the mapped "ForiaMessage" table)
 router.delete('/ria/memory', requireAuth, async (req, res) => {
   try {
-    await prisma.foriaMessage.deleteMany({
+    await prisma.riaMessage.deleteMany({
       where: { userId: req.user.id },
     });
     res.json({ ok: true });
