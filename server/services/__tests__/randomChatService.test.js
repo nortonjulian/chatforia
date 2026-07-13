@@ -99,62 +99,168 @@ describe('enqueue and removeFromQueue', () => {
 });
 
 describe('createRandomRoom', () => {
-  it('calls prisma.randomChatRoom.create with correct data and returns room', async () => {
-    const prisma = {
+  it('creates linked chat and random rooms in a transaction', async () => {
+    const chatRoomCreate = jest.fn().mockResolvedValue({
+      id: 'chat-room-123',
+    });
+
+    const randomChatRoomCreate = jest.fn().mockResolvedValue({
+      id: 'random-room-123',
+      participants: [{ id: 'user1' }, { id: 'user2' }],
+      messages: [
+        {
+          id: 'msg-1',
+          rawContent: "You've been paired for a random chat. Be kind!",
+          sender: { id: 'user1' },
+        },
+      ],
+    });
+
+    const tx = {
+      chatRoom: {
+        create: chatRoomCreate,
+      },
       randomChatRoom: {
-        create: jest.fn().mockResolvedValue({
-          id: 'room-123',
-          participants: [{ id: 'user1' }, { id: 'user2' }],
-          messages: [
-            {
-              id: 'msg-1',
-              content: "You've been paired for a random chat. Be kind!",
-              sender: { id: 'user1' },
-            },
-          ],
-        }),
+        create: randomChatRoomCreate,
       },
     };
 
-    const userA = { userId: 'user1', username: 'Alice' };
-    const userB = { userId: 'user2', username: 'Bob' };
+    const prisma = {
+      $transaction: jest.fn(
+        async (callback) => callback(tx),
+      ),
+    };
 
-    const room = await createRandomRoom(prisma, userA, userB);
+    const userA = {
+      userId: 'user1',
+      username: 'Alice',
+    };
 
-    expect(prisma.randomChatRoom.create).toHaveBeenCalledTimes(1);
+    const userB = {
+      userId: 'user2',
+      username: 'Bob',
+    };
 
-    const call = prisma.randomChatRoom.create.mock.calls[0][0];
+    const room = await createRandomRoom(
+      prisma,
+      userA,
+      userB,
+    );
 
-    expect(call).toMatchObject({
+    expect(
+      prisma.$transaction,
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      chatRoomCreate,
+    ).toHaveBeenCalledWith({
       data: {
+        isGroup: false,
         participants: {
-          connect: [{ id: 'user1' }, { id: 'user2' }],
+          create: [
+            {
+              user: {
+                connect: {
+                  id: 'user1',
+                },
+              },
+              role: 'MEMBER',
+            },
+            {
+              user: {
+                connect: {
+                  id: 'user2',
+                },
+              },
+              role: 'MEMBER',
+            },
+          ],
+        },
+      },
+    });
+
+    expect(
+      randomChatRoomCreate,
+    ).toHaveBeenCalledTimes(1);
+
+    const randomRoomCall =
+      randomChatRoomCreate.mock.calls[0][0];
+
+    expect(randomRoomCall).toMatchObject({
+      data: {
+        chatRoom: {
+          connect: {
+            id: 'chat-room-123',
+          },
+        },
+        participants: {
+          connect: [
+            { id: 'user1' },
+            { id: 'user2' },
+          ],
+        },
+        aliasByUser: {
+          user1: expect.any(String),
+          user2: expect.any(String),
         },
         messages: {
           create: [
             {
-              content: "You've been paired for a random chat. Be kind!",
+              rawContent:
+                "You've been paired for a random chat. Be kind!",
+              sender: {
+                connect: {
+                  id: 'user1',
+                },
+              },
+              chatRoom: {
+                connect: {
+                  id: 'chat-room-123',
+                },
+              },
             },
           ],
         },
       },
       include: {
         participants: true,
-        messages: { include: { sender: true } },
+        messages: {
+          include: {
+            sender: true,
+          },
+        },
       },
     });
 
     expect(room).toEqual({
-      id: 'room-123',
-      participants: [{ id: 'user1' }, { id: 'user2' }],
+      id: 'chat-room-123',
+      chatRoomId: 'chat-room-123',
+      randomChatRoomId: 'random-room-123',
+      participants: [
+        { id: 'user1' },
+        { id: 'user2' },
+      ],
       messages: [
         {
           id: 'msg-1',
-          content: "You've been paired for a random chat. Be kind!",
-          sender: { id: 'user1' },
+          rawContent:
+            "You've been paired for a random chat. Be kind!",
+          sender: {
+            id: 'user1',
+          },
         },
       ],
+      aliasByUser: {
+        user1: expect.any(String),
+        user2: expect.any(String),
+      },
     });
+
+    expect(
+      room.aliasByUser.user1,
+    ).not.toBe(
+      room.aliasByUser.user2,
+    );
   });
 });
 
@@ -264,13 +370,31 @@ describe('tryMatch', () => {
   it('matches with compatible peer, creates room, joins sockets, and emits random:matched', async () => {
     const queues = buildQueues();
 
-    const prisma = {
+    const chatRoomCreate = jest.fn().mockResolvedValue({
+      id: 'room-999',
+    });
+
+    const randomChatRoomCreate = jest.fn().mockResolvedValue({
+      id: 'random-room-999',
+      participants: [{ id: 'user-1' }, { id: 'user-2' }],
+      messages: [],
+    });
+
+    const tx = {
+      chatRoom: {
+        create: chatRoomCreate,
+      },
       randomChatRoom: {
-        create: jest.fn().mockResolvedValue({
-          id: 'room-999',
-          participants: [{ id: 'user-1' }, { id: 'user-2' }],
-          messages: [],
-        }),
+        create: randomChatRoomCreate,
+      },
+    };
+
+    const prisma = {
+      $transaction: jest.fn(
+        async (callback) => callback(tx),
+      ),
+      contact: {
+        findUnique: jest.fn().mockResolvedValue(null),
       },
     };
 
@@ -324,6 +448,8 @@ describe('tryMatch', () => {
     expect(result).toEqual({
       matched: true,
       roomId: 'room-999',
+      chatRoomId: 'room-999',
+      randomChatRoomId: 'random-room-999',
       myAlias: expect.any(String),
       partnerAlias: expect.any(String),
     });
@@ -333,12 +459,14 @@ describe('tryMatch', () => {
 
     expect(queues.activeRoomBySocket.get('sock-current')).toEqual({
       roomId: 'room-999',
+      randomChatRoomId: 'random-room-999',
       peerSocketId: 'sock-peer',
       peerUserId: 'user-2',
     });
 
     expect(queues.activeRoomBySocket.get('sock-peer')).toEqual({
       roomId: 'room-999',
+      randomChatRoomId: 'random-room-999',
       peerSocketId: 'sock-current',
       peerUserId: 'user-1',
     });
@@ -354,16 +482,44 @@ describe('tryMatch', () => {
     expect(socketCurrent.join).toHaveBeenCalledWith('random:room-999');
     expect(socketPeer.join).toHaveBeenCalledWith('random:room-999');
 
-    expect(socketCurrent.emit).toHaveBeenCalledWith('random:matched', {
-      roomId: 'room-999',
-      myAlias: expect.any(String),
-      partnerAlias: expect.any(String),
-    });
+    expect(socketCurrent.emit).toHaveBeenCalledWith(
+      'random:matched',
+      expect.objectContaining({
+        roomId: 'room-999',
+        myAlias: expect.any(String),
+        partnerAlias: expect.any(String),
+        partnerDisplayName: expect.any(String),
+        relationshipStatus: 'none',
+      }),
+    );
 
-    expect(socketPeer.emit).toHaveBeenCalledWith('random:matched', {
-      roomId: 'room-999',
-      myAlias: expect.any(String),
-      partnerAlias: expect.any(String),
-    });
+    expect(socketPeer.emit).toHaveBeenCalledWith(
+      'random:matched',
+      expect.objectContaining({
+        roomId: 'room-999',
+        myAlias: expect.any(String),
+        partnerAlias: expect.any(String),
+        partnerDisplayName: expect.any(String),
+        relationshipStatus: 'none',
+      }),
+    );
+
+    const currentMatchedPayload =
+      socketCurrent.emit.mock.calls.find(
+        ([event]) => event === 'random:matched',
+      )[1];
+
+    const peerMatchedPayload =
+      socketPeer.emit.mock.calls.find(
+        ([event]) => event === 'random:matched',
+      )[1];
+
+    expect(currentMatchedPayload.partnerDisplayName).toBe(
+      currentMatchedPayload.partnerAlias,
+    );
+
+    expect(peerMatchedPayload.partnerDisplayName).toBe(
+      peerMatchedPayload.partnerAlias,
+    );
   });
 });
