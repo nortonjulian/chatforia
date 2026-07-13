@@ -38,6 +38,19 @@ function getPackageName() {
   return packageName;
 }
 
+function getGooglePlayCredentialsPath() {
+  const credentialsPath =
+    process.env.GOOGLE_PLAY_APPLICATION_CREDENTIALS?.trim();
+
+  if (!credentialsPath) {
+    throw new Error(
+      'GOOGLE_PLAY_APPLICATION_CREDENTIALS is not configured.'
+    );
+  }
+
+  return credentialsPath;
+}
+
 export function getGooglePlayPackageName() {
   return getPackageName();
 }
@@ -48,6 +61,7 @@ function getAndroidPublisherClient() {
   }
 
   const auth = new google.auth.GoogleAuth({
+    keyFilename: getGooglePlayCredentialsPath(),
     scopes: [ANDROID_PUBLISHER_SCOPE],
   });
 
