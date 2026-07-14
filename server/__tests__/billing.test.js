@@ -10,6 +10,21 @@ let stripeMock;
 let billingRouter;
 let recomputeUserAppEntitlementMock;
 let assertAppSubscriptionProviderAvailableMock;
+let verifyAndApplyGooglePlaySubscriptionMock;
+
+await jest.unstable_mockModule(
+  '../services/googlePlayEntitlementService.js',
+  () => {
+    verifyAndApplyGooglePlaySubscriptionMock =
+      jest.fn();
+
+    return {
+      __esModule: true,
+      verifyAndApplyGooglePlaySubscription:
+        verifyAndApplyGooglePlaySubscriptionMock,
+    };
+  }
+);
 
 beforeAll(async () => {
   process.env.NODE_ENV = 'test';
@@ -29,6 +44,7 @@ beforeAll(async () => {
         },
 
         appSubscription: {
+          findFirst: jest.fn(),
           updateMany: jest.fn(),
         },
 
@@ -102,6 +118,20 @@ beforeAll(async () => {
     }
   );
 
+  await jest.unstable_mockModule(
+    '../services/googlePlayEntitlementService.js',
+    () => {
+      verifyAndApplyGooglePlaySubscriptionMock =
+        jest.fn();
+
+      return {
+        __esModule: true,
+        verifyAndApplyGooglePlaySubscription:
+          verifyAndApplyGooglePlaySubscriptionMock,
+      };
+    }
+  );
+
   ({ default: billingRouter } =
     await import('../routes/billing.js'));
 });
@@ -115,6 +145,9 @@ beforeEach(() => {
 
   recomputeUserAppEntitlementMock
     .mockReset();
+
+  verifyAndApplyGooglePlaySubscriptionMock
+  .mockReset();
 });
 
 function buildApp(userOverride = {}) {
@@ -658,6 +691,195 @@ describe('POST /billing/portal', () => {
     });
   });
 });
+
+describe(
+  'POST /billing/google-play/verify provider migration',
+  () => {
+    test(
+      'explicit restore migrates Stripe app subscription to Google Play',
+      async () => {
+        const app = buildApp();
+
+        const expiryTime =
+          new Date(
+            '2026-08-15T00:00:00.000Z'
+          );
+
+        const conflict =
+          new Error(
+            'This Chatforia app subscription is already managed through STRIPE.'
+          );
+
+        conflict.statusCode = 409;
+        conflict.code =
+          'APP_SUBSCRIPTION_PROVIDER_CONFLICT';
+        conflict.currentProvider =
+          'STRIPE';
+
+        verifyAndApplyGooglePlaySubscriptionMock
+          .mockRejectedValueOnce(
+            conflict
+          )
+          .mockResolvedValueOnce({
+            user: {
+              plan: 'PLUS',
+            },
+
+            verified: {
+              entitlementPlan:
+                'PLUS',
+
+              subscriptionState:
+                'SUBSCRIPTION_STATE_ACTIVE',
+
+              expiryTime,
+
+              productId:
+                'chatforia_plus',
+
+              basePlanId:
+                'monthly',
+
+              autoRenewEnabled:
+                true,
+
+              grantsAccess:
+                true,
+            },
+
+            acknowledged:
+              true,
+
+            acknowledgementPending:
+              false,
+          });
+
+        prismaMock.appSubscription.findFirst
+          .mockResolvedValue({
+            providerSubscriptionKey:
+              'sub_123',
+          });
+
+        stripeMock.subscriptions.cancel
+          .mockResolvedValue({
+            id: 'sub_123',
+            status: 'canceled',
+            livemode: false,
+          });
+
+        prismaMock.appSubscription.updateMany
+          .mockResolvedValue({
+            count: 1,
+          });
+
+        recomputeUserAppEntitlementMock
+          .mockResolvedValue({
+            user: {
+              id: 1,
+              plan: 'FREE',
+              subscriptionStatus:
+                'INACTIVE',
+              subscriptionEndsAt:
+                null,
+              billingProvider:
+                null,
+              billingSubscriptionId:
+                null,
+            },
+          });
+
+        const res =
+          await request(app)
+            .post(
+              '/billing/google-play/verify'
+            )
+            .send({
+              purchaseToken:
+                'google-token-123',
+
+              allowProviderMigration:
+                true,
+            });
+
+        expect(res.statusCode)
+          .toBe(200);
+
+        expect(
+          verifyAndApplyGooglePlaySubscriptionMock
+        ).toHaveBeenCalledTimes(2);
+
+        expect(
+          stripeMock.subscriptions.cancel
+        ).toHaveBeenCalledWith(
+          'sub_123'
+        );
+
+        expect(
+          prismaMock.appSubscription.updateMany
+        ).toHaveBeenCalledWith({
+          where: {
+            userId: 1,
+            provider: 'STRIPE',
+            providerSubscriptionKey:
+              'sub_123',
+          },
+
+          data: {
+            status: 'CANCELED',
+            grantsAccess: false,
+            autoRenewEnabled: false,
+            endsAt:
+              expect.any(Date),
+            lastVerifiedAt:
+              expect.any(Date),
+
+            rawResponse: {
+              source:
+                'google-play-provider-migration',
+
+              migratedTo:
+                'GOOGLE_PLAY',
+
+              livemode:
+                false,
+            },
+          },
+        });
+
+        expect(res.body).toEqual({
+          ok: true,
+          plan: 'PLUS',
+          entitlementPlan:
+            'PLUS',
+
+          status:
+            'SUBSCRIPTION_STATE_ACTIVE',
+
+          expiresAt:
+            expiryTime.toISOString(),
+
+          acknowledged:
+            true,
+
+          acknowledgementPending:
+            false,
+
+          productId:
+            'chatforia_plus',
+
+          basePlanId:
+            'monthly',
+
+          autoRenewEnabled:
+            true,
+
+          grantsAccess:
+            true,
+        });
+      }
+    );
+  }
+);
 
 describe('POST /billing/provider-aware management', () => {
   test('returns Google Play management action instead of opening Stripe portal', async () => {
