@@ -176,6 +176,110 @@ function planLabel(code) {
   }
 }
 
+async function migrateStripeAppSubscriptionToGooglePlay(
+  userId
+) {
+  const normalizedUserId = Number(userId);
+  const now = new Date();
+
+  const stripeEntitlement =
+    await prisma.appSubscription.findFirst({
+      where: {
+        userId: normalizedUserId,
+        provider: 'STRIPE',
+        grantsAccess: true,
+        plan: {
+          in: ['PLUS', 'PREMIUM'],
+        },
+        AND: [
+          {
+            OR: [
+              { startsAt: null },
+              { startsAt: { lte: now } },
+            ],
+          },
+          {
+            OR: [
+              { endsAt: null },
+              { endsAt: { gt: now } },
+            ],
+          },
+        ],
+      },
+      orderBy: [
+        { endsAt: 'desc' },
+        { updatedAt: 'desc' },
+      ],
+      select: {
+        providerSubscriptionKey: true,
+      },
+    });
+
+  const stripeSubscriptionId =
+    stripeEntitlement?.providerSubscriptionKey;
+
+  if (!stripeSubscriptionId) {
+    const error = new Error(
+      'No active Stripe app subscription was found to migrate.'
+    );
+
+    error.statusCode = 409;
+    error.code = 'NO_STRIPE_APP_SUBSCRIPTION';
+
+    throw error;
+  }
+
+  // Cancel the actual Stripe app subscription first.
+  // This does not affect wireless/eSIM purchases.
+  const canceledSubscription =
+    await stripe.subscriptions.cancel(
+      stripeSubscriptionId
+    );
+
+  const entitlementResult =
+    await prisma.$transaction(async (tx) => {
+      await tx.appSubscription.updateMany({
+        where: {
+          userId: normalizedUserId,
+          provider: 'STRIPE',
+          providerSubscriptionKey:
+            stripeSubscriptionId,
+        },
+        data: {
+          status: String(
+            canceledSubscription?.status ||
+              'canceled'
+          ).toUpperCase(),
+          grantsAccess: false,
+          autoRenewEnabled: false,
+          endsAt: now,
+          lastVerifiedAt: now,
+          rawResponse: {
+            source:
+              'google-play-provider-migration',
+            migratedTo: 'GOOGLE_PLAY',
+            livemode: Boolean(
+              canceledSubscription?.livemode
+            ),
+          },
+        },
+      });
+
+      return recomputeUserAppEntitlement(
+        normalizedUserId,
+        {
+          db: tx,
+          now,
+        }
+      );
+    });
+
+  return {
+    stripeSubscriptionId,
+    entitlementResult,
+  };
+}
+
 router.get('/my-plan', async (req, res) => {
   try {
     const userId = req.user?.id ? Number(req.user.id) : null;
@@ -797,12 +901,41 @@ router.post('/google-play/verify', async (req, res) => {
     });
   }
 
-  try {
-    const result =
-      await verifyAndApplyGooglePlaySubscription({
-        userId: req.user.id,
-        purchaseToken,
-      });
+  const allowProviderMigration =
+    req.body?.allowProviderMigration === true;
+
+    try {
+      let result;
+
+      try {
+        result =
+          await verifyAndApplyGooglePlaySubscription({
+            userId: req.user.id,
+            purchaseToken,
+          });
+      } catch (error) {
+        const canMigrateFromStripe =
+          allowProviderMigration &&
+          error?.code ===
+            'APP_SUBSCRIPTION_PROVIDER_CONFLICT' &&
+          error?.currentProvider === 'STRIPE';
+
+        if (!canMigrateFromStripe) {
+          throw error;
+        }
+
+        await migrateStripeAppSubscriptionToGooglePlay(
+          req.user.id
+        );
+
+        // The valid Google purchase can now become the
+        // authoritative app entitlement.
+        result =
+          await verifyAndApplyGooglePlaySubscription({
+            userId: req.user.id,
+            purchaseToken,
+          });
+      }
 
     return res.json({
       ok: true,
