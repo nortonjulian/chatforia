@@ -38,6 +38,10 @@ function getPackageName() {
   return packageName;
 }
 
+export function getGooglePlayPackageName() {
+  return getPackageName();
+}
+
 function getGooglePlayCredentialsPath() {
   const credentialsPath =
     process.env.GOOGLE_PLAY_APPLICATION_CREDENTIALS?.trim();
