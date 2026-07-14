@@ -8,6 +8,7 @@ let getGooglePlaySubscriptionMock;
 let normalizeGooglePlaySubscriptionMock;
 let acknowledgeGooglePlaySubscriptionMock;
 let recomputeUserAppEntitlementMock;
+let assertAppSubscriptionProviderAvailableMock;
 let verifyAndApplyGooglePlaySubscription;
 
 beforeAll(async () => {
@@ -26,6 +27,7 @@ beforeAll(async () => {
         },
 
         appSubscription: {
+          findUnique: jest.fn(),
           upsert: jest.fn(),
           updateMany: jest.fn(),
         },
@@ -70,8 +72,13 @@ beforeAll(async () => {
       recomputeUserAppEntitlementMock =
         jest.fn();
 
+      assertAppSubscriptionProviderAvailableMock =
+        jest.fn();
+
       return {
         __esModule: true,
+        assertAppSubscriptionProviderAvailable:
+          assertAppSubscriptionProviderAvailableMock,
         recomputeUserAppEntitlement:
           recomputeUserAppEntitlementMock,
       };
@@ -151,6 +158,13 @@ beforeEach(() => {
     .mockResolvedValue({
       id: 'google-sub-1',
     });
+
+  prismaMock.appSubscription
+    .findUnique
+    .mockResolvedValue(null);
+
+  assertAppSubscriptionProviderAvailableMock
+    .mockResolvedValue(undefined);
 
   prismaMock.appSubscription
     .upsert
