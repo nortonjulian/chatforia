@@ -9,6 +9,7 @@ let prismaMock;
 let stripeMock;
 let billingRouter;
 let recomputeUserAppEntitlementMock;
+let assertAppSubscriptionProviderAvailableMock;
 
 beforeAll(async () => {
   process.env.NODE_ENV = 'test';
@@ -18,78 +19,102 @@ beforeAll(async () => {
   process.env.STRIPE_PRICE_PREMIUM_MONTHLY = 'price_prem_m';
   process.env.STRIPE_PRICE_PREMIUM_ANNUAL = 'price_prem_a';
 
-  await jest.unstable_mockModule('../utils/prismaClient.js', () => {
-    prismaMock = {
-      user: {
-        findUnique: jest.fn(),
-        update: jest.fn(),
-      },
-
-      appSubscription: {
-        updateMany: jest.fn(),
-      },
-
-      $transaction: jest.fn(
-        async (callback) => callback(prismaMock)
-      ),
-    };
-
-    return {
-      __esModule: true,
-      default: prismaMock,
-    };
-  });
-
   await jest.unstable_mockModule(
-    '../services/appEntitlementService.js',
+    '../utils/prismaClient.js',
     () => {
-      recomputeUserAppEntitlementMock = jest.fn();
+      prismaMock = {
+        user: {
+          findUnique: jest.fn(),
+          update: jest.fn(),
+        },
+
+        appSubscription: {
+          updateMany: jest.fn(),
+        },
+
+        $transaction: jest.fn(
+          async (callback) =>
+            callback(prismaMock)
+        ),
+      };
 
       return {
         __esModule: true,
-        recomputeUserAppEntitlement:
-          recomputeUserAppEntitlementMock,
+        default: prismaMock,
       };
     }
   );
 
-  await jest.unstable_mockModule('stripe', () => {
-    stripeMock = {
-      customers: {
-        create: jest.fn(),
-      },
+  await jest.unstable_mockModule(
+    '../services/appEntitlementService.js',
+    () => {
+      recomputeUserAppEntitlementMock =
+        jest.fn();
 
-      subscriptions: {
-        retrieve: jest.fn(),
-        cancel: jest.fn(),
-      },
+      assertAppSubscriptionProviderAvailableMock =
+        jest.fn();
 
-      checkout: {
-        sessions: {
+      return {
+        __esModule: true,
+
+        recomputeUserAppEntitlement:
+          recomputeUserAppEntitlementMock,
+
+        assertAppSubscriptionProviderAvailable:
+          assertAppSubscriptionProviderAvailableMock,
+      };
+    }
+  );
+
+  await jest.unstable_mockModule(
+    'stripe',
+    () => {
+      stripeMock = {
+        customers: {
           create: jest.fn(),
         },
-      },
 
-      billingPortal: {
-        sessions: {
-          create: jest.fn(),
+        subscriptions: {
+          retrieve: jest.fn(),
+          cancel: jest.fn(),
         },
-      },
-    };
 
-    const StripeCtor = jest.fn(() => stripeMock);
+        checkout: {
+          sessions: {
+            create: jest.fn(),
+          },
+        },
 
-    return {
-      __esModule: true,
-      default: StripeCtor,
-    };
-  });
+        billingPortal: {
+          sessions: {
+            create: jest.fn(),
+          },
+        },
+      };
 
-  ({ default: billingRouter } = await import('../routes/billing.js'));
+      const StripeCtor =
+        jest.fn(() => stripeMock);
+
+      return {
+        __esModule: true,
+        default: StripeCtor,
+      };
+    }
+  );
+
+  ({ default: billingRouter } =
+    await import('../routes/billing.js'));
 });
 
-afterEach(() => {
+beforeEach(() => {
   jest.clearAllMocks();
+
+  assertAppSubscriptionProviderAvailableMock
+    .mockReset()
+    .mockResolvedValue(null);
+
+  recomputeUserAppEntitlementMock
+    .mockReset();
 });
 
 function buildApp(userOverride = {}) {
@@ -223,6 +248,13 @@ describe('POST /billing/checkout', () => {
       .send({ plan: 'PLUS_MONTHLY' });
 
     expect(res.statusCode).toBe(200);
+
+    expect(
+      assertAppSubscriptionProviderAvailableMock
+    ).toHaveBeenCalledWith(
+      1,
+      'STRIPE'
+    );
 
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
       where: { id: 1 },
@@ -366,6 +398,173 @@ describe('POST /billing/checkout', () => {
         'Checkout must be for a known subscription or add-on product',
     });
   });
+
+  test('blocks web Stripe checkout when another app provider is active', async () => {
+  const app = buildApp();
+
+  prismaMock.user.findUnique.mockResolvedValue({
+    id: 1,
+    email: 'user@test.com',
+    username: 'julian',
+
+    // Intentionally stale user projection.
+    plan: 'FREE',
+    billingProvider: null,
+
+    billingCustomerId: 'cus_123',
+    billingSubscriptionId: null,
+    subscriptionStatus: 'INACTIVE',
+    subscriptionEndsAt: null,
+  });
+
+  const conflictEndsAt =
+    new Date('2026-08-01T00:00:00.000Z');
+
+  const conflict =
+    new Error(
+      'This Chatforia app subscription is already managed through GOOGLE_PLAY.'
+    );
+
+  conflict.statusCode = 409;
+  conflict.code =
+    'APP_SUBSCRIPTION_PROVIDER_CONFLICT';
+  conflict.currentProvider =
+    'GOOGLE_PLAY';
+  conflict.requestedProvider =
+    'STRIPE';
+  conflict.currentPlan =
+    'PLUS';
+  conflict.currentSubscriptionEndsAt =
+    conflictEndsAt;
+
+  assertAppSubscriptionProviderAvailableMock
+    .mockRejectedValueOnce(conflict);
+
+  const res = await request(app)
+    .post('/billing/checkout')
+    .send({
+      plan: 'PLUS_MONTHLY',
+      platform: 'web',
+    });
+
+  expect(res.statusCode).toBe(409);
+
+  expect(res.body).toEqual({
+    error:
+      'This Chatforia app subscription is already managed through GOOGLE_PLAY.',
+
+    code:
+      'APP_SUBSCRIPTION_PROVIDER_CONFLICT',
+
+    currentProvider:
+      'GOOGLE_PLAY',
+
+    requestedProvider:
+      'STRIPE',
+
+    currentPlan:
+      'PLUS',
+
+    currentSubscriptionEndsAt:
+      conflictEndsAt.toISOString(),
+
+    provider:
+      'GOOGLE_PLAY',
+
+    managedExternally:
+      true,
+
+    managementAction:
+      'OPEN_GOOGLE_PLAY_SUBSCRIPTIONS',
+
+    message:
+      'Manage this subscription through Google Play.',
+  });
+
+  expect(
+    stripeMock.checkout.sessions.create
+  ).not.toHaveBeenCalled();
+});
+
+  test('blocks Stripe app checkout from Android', async () => {
+    const app = buildApp();
+
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: 1,
+      email: 'user@test.com',
+      username: 'julian',
+      plan: 'FREE',
+      billingProvider: null,
+      billingCustomerId: 'cus_123',
+      billingSubscriptionId: null,
+      subscriptionStatus: 'INACTIVE',
+      subscriptionEndsAt: null,
+    });
+
+    const res = await request(app)
+      .post('/billing/checkout')
+      .send({
+        plan: 'PLUS_MONTHLY',
+        platform: 'android',
+      });
+
+    expect(res.statusCode).toBe(409);
+
+    expect(res.body).toEqual({
+      error:
+        'Android app subscriptions must be purchased through Google Play.',
+      code: 'USE_GOOGLE_PLAY',
+      provider: 'GOOGLE_PLAY',
+    });
+
+    expect(
+      assertAppSubscriptionProviderAvailableMock
+    ).not.toHaveBeenCalled();
+
+    expect(
+      stripeMock.checkout.sessions.create
+    ).not.toHaveBeenCalled();
+  });
+
+  test('blocks Stripe app checkout from iOS', async () => {
+  const app = buildApp();
+
+  prismaMock.user.findUnique.mockResolvedValue({
+    id: 1,
+    email: 'user@test.com',
+    username: 'julian',
+    plan: 'FREE',
+    billingProvider: null,
+    billingCustomerId: 'cus_123',
+    billingSubscriptionId: null,
+    subscriptionStatus: 'INACTIVE',
+    subscriptionEndsAt: null,
+  });
+
+  const res = await request(app)
+    .post('/billing/checkout')
+    .send({
+      plan: 'PREMIUM_MONTHLY',
+      platform: 'ios',
+    });
+
+  expect(res.statusCode).toBe(409);
+
+  expect(res.body).toEqual({
+    error:
+      'iOS app subscriptions must be purchased through the App Store.',
+    code: 'USE_APPLE',
+    provider: 'APPLE',
+  });
+
+  expect(
+    assertAppSubscriptionProviderAvailableMock
+  ).not.toHaveBeenCalled();
+
+  expect(
+    stripeMock.checkout.sessions.create
+  ).not.toHaveBeenCalled();
+});
 
   test('returns 404 when user is not found', async () => {
     const app = buildApp();

@@ -4,6 +4,10 @@ import prisma from '../utils/prismaClient.js';
 import { getAddonConfig } from '../utils/billingProducts.js';
 import * as esimProvider from '../services/providers/esimProvider.js';
 import { ESIM_PROVIDER } from '../config/esim.js';
+import {
+  assertAppSubscriptionProviderAvailable,
+  recomputeUserAppEntitlement,
+} from '../services/appEntitlementService.js';
 
 const router = express.Router();
 
@@ -69,22 +73,6 @@ async function scheduleProtectedNumbersForDowngrade(userId) {
   });
 }
 
-async function downgradeUserToFree(userId, patch = {}) {
-  await prisma.user.update({
-    where: { id: Number(userId) },
-    data: {
-      plan: 'FREE',
-      subscriptionStatus: 'EXPIRED',
-      subscriptionEndsAt: null,
-      theme: 'dawn',
-      messageTone: 'Default.mp3',
-      ringtone: 'Classic.mp3',
-      ...patch,
-    },
-  });
-
-  await scheduleProtectedNumbersForDowngrade(userId);
-}
 
 async function findUserByStripeCustomer(customerId) {
   if (!customerId) return null;
@@ -97,88 +85,449 @@ async function findUserByStripeCustomer(customerId) {
   });
 }
 
-async function findUserBySubscription(subscriptionId) {
-  if (!subscriptionId) return null;
+async function findUserBySubscription(
+  subscriptionId
+) {
+  if (!subscriptionId) {
+    return null;
+  }
 
-  return prisma.user.findFirst({
-    where: {
-      billingSubscriptionId: String(subscriptionId),
-    },
-    select: { id: true },
-  });
+  const appSubscription =
+    await prisma.appSubscription.findUnique({
+      where: {
+        provider_providerSubscriptionKey: {
+          provider: 'STRIPE',
+          providerSubscriptionKey:
+            String(subscriptionId),
+        },
+      },
+
+      select: {
+        userId: true,
+      },
+    });
+
+  return appSubscription
+    ? { id: appSubscription.userId }
+    : null;
 }
 
-async function applyActiveSubscription(subscription) {
-  const subscriptionId = String(subscription.id);
-  const customerId = String(subscription.customer);
+async function applyActiveSubscription(
+  subscription
+) {
+  const subscriptionId =
+    String(subscription.id);
 
-  const item = subscription.items?.data?.[0];
-  const priceId = item?.price?.id || null;
-  const plan = stripePlanFromPriceId(priceId);
+  const customerId =
+    String(subscription.customer);
+
+  const item =
+    subscription.items?.data?.[0];
+
+  const priceId =
+    item?.price?.id || null;
+
+  const plan =
+    stripePlanFromPriceId(priceId);
 
   const userIdFromMetadata =
     Number(subscription.metadata?.userId) ||
     Number(subscription.metadata?.user_id) ||
     null;
 
-  let userId = Number.isFinite(userIdFromMetadata) ? userIdFromMetadata : null;
+  let userId =
+    Number.isFinite(userIdFromMetadata)
+      ? userIdFromMetadata
+      : null;
 
   if (!userId) {
-    const userBySub = await findUserBySubscription(subscriptionId);
-    userId = userBySub?.id || null;
+    const userBySub =
+      await findUserBySubscription(
+        subscriptionId
+      );
+
+    userId =
+      userBySub?.id || null;
   }
 
   if (!userId) {
-    const userByCustomer = await findUserByStripeCustomer(customerId);
-    userId = userByCustomer?.id || null;
+    const userByCustomer =
+      await findUserByStripeCustomer(
+        customerId
+      );
+
+    userId =
+      userByCustomer?.id || null;
   }
 
-  if (!userId || !plan) {
-    console.warn('[stripeWebhook] unable to apply active subscription', {
-      subscriptionId,
-      customerId,
-      priceId,
-      plan,
-      userId,
-    });
-    return;
+  if (!userId || !plan || !priceId) {
+    console.warn(
+      '[stripeWebhook] unable to apply active subscription',
+      {
+        subscriptionId,
+        customerId,
+        priceId,
+        plan,
+        userId,
+      }
+    );
+
+    return {
+      ignored: true,
+      reason:
+        'missing-user-or-supported-plan',
+    };
   }
 
-  await prisma.user.update({
-    where: { id: Number(userId) },
-    data: {
-      plan,
-      billingProvider: 'STRIPE',
-      billingCustomerId: customerId,
-      billingSubscriptionId: subscriptionId,
-      subscriptionStatus: String(subscription.status || 'active').toUpperCase(),
-      subscriptionEndsAt: dateFromUnix(subscription.current_period_end),
-      ...(subscription.status === 'active'
-        ? { firstPaidAt: new Date() }
-        : {}),
-    },
-  });
+  const now = new Date();
+
+  try {
+    return await prisma.$transaction(
+      async (tx) => {
+        const existingStripeSubscription =
+          await tx.appSubscription.findUnique({
+            where: {
+              provider_providerSubscriptionKey: {
+                provider: 'STRIPE',
+                providerSubscriptionKey:
+                  subscriptionId,
+              },
+            },
+
+            select: {
+              id: true,
+              userId: true,
+              grantsAccess: true,
+              startsAt: true,
+              endsAt: true,
+            },
+          });
+
+        if (
+          existingStripeSubscription &&
+          existingStripeSubscription.userId !==
+            Number(userId)
+        ) {
+          const error =
+            new Error(
+              'This Stripe subscription is already linked to another Chatforia account.'
+            );
+
+          error.code =
+            'STRIPE_SUBSCRIPTION_ALREADY_LINKED';
+
+          throw error;
+        }
+
+        const existingStripeIsCurrentlyActive =
+          Boolean(
+            existingStripeSubscription?.grantsAccess
+          ) &&
+          (
+            !existingStripeSubscription.startsAt ||
+            existingStripeSubscription.startsAt <= now
+          ) &&
+          (
+            !existingStripeSubscription.endsAt ||
+            existingStripeSubscription.endsAt > now
+          );
+
+        if (!existingStripeIsCurrentlyActive) {
+          await assertAppSubscriptionProviderAvailable(
+            userId,
+            'STRIPE',
+            {
+              db: tx,
+              now,
+            }
+          );
+        }
+
+        const status =
+          String(
+            subscription.status || 'active'
+          ).toUpperCase();
+
+        await tx.appSubscription.upsert({
+          where: {
+            provider_providerSubscriptionKey: {
+              provider: 'STRIPE',
+              providerSubscriptionKey:
+                subscriptionId,
+            },
+          },
+
+          create: {
+            userId: Number(userId),
+            provider: 'STRIPE',
+            providerSubscriptionKey:
+              subscriptionId,
+
+            customerReference:
+              customerId,
+
+            productId:
+              priceId,
+
+            basePlanId:
+              null,
+
+            plan,
+
+            status,
+
+            grantsAccess:
+              ['ACTIVE', 'TRIALING', 'PAST_DUE']
+                .includes(status),
+
+            autoRenewEnabled:
+              !subscription
+                .cancel_at_period_end,
+
+            startsAt:
+              dateFromUnix(
+                subscription.current_period_start
+              ),
+
+            endsAt:
+              dateFromUnix(
+                subscription.current_period_end
+              ),
+
+            lastVerifiedAt:
+              now,
+
+            rawResponse: {
+              source: 'stripe-webhook',
+              livemode:
+                Boolean(
+                  subscription.livemode
+                ),
+            },
+          },
+
+          update: {
+            customerReference:
+              customerId,
+
+            productId:
+              priceId,
+
+            plan,
+
+            status,
+
+            grantsAccess:
+              ['ACTIVE', 'TRIALING', 'PAST_DUE']
+                .includes(status),
+
+            autoRenewEnabled:
+              !subscription
+                .cancel_at_period_end,
+
+            startsAt:
+              dateFromUnix(
+                subscription.current_period_start
+              ),
+
+            endsAt:
+              dateFromUnix(
+                subscription.current_period_end
+              ),
+
+            lastVerifiedAt:
+              now,
+
+            rawResponse: {
+              source: 'stripe-webhook',
+              livemode:
+                Boolean(
+                  subscription.livemode
+                ),
+            },
+          },
+        });
+
+        // The Stripe customer ID may remain on the user
+        // even when wireless products are purchased later.
+        await tx.user.update({
+          where: {
+            id: Number(userId),
+          },
+
+          data: {
+            billingCustomerId:
+              customerId,
+          },
+        });
+
+        return recomputeUserAppEntitlement(
+          userId,
+          {
+            db: tx,
+            now,
+          }
+        );
+      }
+    );
+  } catch (error) {
+    if (
+      error?.code ===
+      'APP_SUBSCRIPTION_PROVIDER_CONFLICT'
+    ) {
+      console.error(
+        '[stripeWebhook] Stripe app subscription blocked by active provider',
+        {
+          userId,
+          subscriptionId,
+          requestedProvider: 'STRIPE',
+          currentProvider:
+            error.currentProvider ?? null,
+        }
+      );
+
+      // Do not let Stripe overwrite the active
+      // Google Play or Apple entitlement.
+      return {
+        ignored: true,
+        reason:
+          'app-subscription-provider-conflict',
+        currentProvider:
+          error.currentProvider ?? null,
+      };
+    }
+
+    throw error;
+  }
 }
 
-async function markSubscriptionCanceledOrPastDue(subscription, status) {
-  const subscriptionId = String(subscription.id);
-  const customerId = String(subscription.customer);
+async function markSubscriptionCanceledOrPastDue(
+  subscription,
+  status
+) {
+  const subscriptionId =
+    String(subscription.id);
 
-  await prisma.user.updateMany({
-    where: {
-      OR: [
-        { billingSubscriptionId: subscriptionId },
-        { billingCustomerId: customerId },
-      ],
-    },
-    data: {
-      billingProvider: 'STRIPE',
-      billingCustomerId: customerId,
-      billingSubscriptionId: subscriptionId,
-      subscriptionStatus: status,
-      subscriptionEndsAt: dateFromUnix(subscription.current_period_end),
-    },
-  });
+  const customerId =
+    String(subscription.customer);
+
+  const normalizedStatus =
+    String(status || '')
+      .trim()
+      .toUpperCase();
+
+  const existing =
+    await prisma.appSubscription.findUnique({
+      where: {
+        provider_providerSubscriptionKey: {
+          provider: 'STRIPE',
+          providerSubscriptionKey:
+            subscriptionId,
+        },
+      },
+
+      select: {
+        userId: true,
+      },
+    });
+
+  if (!existing) {
+    console.warn(
+      '[stripeWebhook] Stripe entitlement not found for status update',
+      {
+        subscriptionId,
+        customerId,
+        status: normalizedStatus,
+      }
+    );
+
+    return {
+      ignored: true,
+      reason:
+        'stripe-app-subscription-not-found',
+    };
+  }
+
+  const now = new Date();
+
+  const keepsAccess =
+    normalizedStatus === 'PAST_DUE';
+
+  const entitlementResult =
+    await prisma.$transaction(
+      async (tx) => {
+        await tx.appSubscription.update({
+          where: {
+            provider_providerSubscriptionKey: {
+              provider: 'STRIPE',
+              providerSubscriptionKey:
+                subscriptionId,
+            },
+          },
+
+          data: {
+            status:
+              normalizedStatus,
+
+            grantsAccess:
+              keepsAccess,
+
+            autoRenewEnabled:
+              keepsAccess
+                ? !subscription.cancel_at_period_end
+                : false,
+
+            endsAt:
+              dateFromUnix(
+                subscription.current_period_end
+              ) || now,
+
+            lastVerifiedAt:
+              now,
+
+            rawResponse: {
+              source: 'stripe-webhook',
+              status:
+                normalizedStatus,
+              livemode:
+                Boolean(
+                  subscription.livemode
+                ),
+            },
+          },
+        });
+
+        return recomputeUserAppEntitlement(
+          existing.userId,
+          {
+            db: tx,
+            now,
+          }
+        );
+      }
+    );
+
+  if (
+    entitlementResult.user.plan === 'FREE'
+  ) {
+    await prisma.user.update({
+      where: {
+        id: existing.userId,
+      },
+
+      data: {
+        theme: 'dawn',
+        messageTone: 'Default.mp3',
+        ringtone: 'Classic.mp3',
+      },
+    });
+
+    await scheduleProtectedNumbersForDowngrade(
+      existing.userId
+    );
+  }
+
+  return entitlementResult;
 }
 
 function inferRegionFromAddon(addonKindOrProduct) {
@@ -484,54 +833,28 @@ router.post(
           } else if (subscription.status === 'past_due') {
             await markSubscriptionCanceledOrPastDue(subscription, 'PAST_DUE');
           } else if (
-            ['canceled', 'unpaid', 'incomplete_expired'].includes(subscription.status)
+            [
+              'canceled',
+              'unpaid',
+              'incomplete_expired',
+            ].includes(subscription.status)
           ) {
-            const subId = String(subscription.id);
-            const customerId = String(subscription.customer);
-
-            const users = await prisma.user.findMany({
-              where: {
-                OR: [
-                  { billingSubscriptionId: subId },
-                  { billingCustomerId: customerId },
-                ],
-              },
-              select: { id: true },
-            });
-
-            for (const user of users) {
-              await downgradeUserToFree(user.id, {
-                billingProvider: 'STRIPE',
-                billingCustomerId: customerId,
-                billingSubscriptionId: subId,
-              });
-            }
+            await markSubscriptionCanceledOrPastDue(
+              subscription,
+              subscription.status
+            );
           }
           break;
         }
 
         case 'customer.subscription.deleted': {
-          const subscription = event.data.object;
-          const subId = String(subscription.id);
-          const customerId = String(subscription.customer);
+          const subscription =
+            event.data.object;
 
-          const users = await prisma.user.findMany({
-            where: {
-              OR: [
-                { billingSubscriptionId: subId },
-                { billingCustomerId: customerId },
-              ],
-            },
-            select: { id: true },
-          });
-
-          for (const user of users) {
-            await downgradeUserToFree(user.id, {
-              billingProvider: 'STRIPE',
-              billingCustomerId: customerId,
-              billingSubscriptionId: subId,
-            });
-          }
+          await markSubscriptionCanceledOrPastDue(
+            subscription,
+            'CANCELED'
+          );
 
           break;
         }
