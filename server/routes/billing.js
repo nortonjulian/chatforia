@@ -3,7 +3,10 @@ import Stripe from 'stripe';
 import prisma from '../utils/prismaClient.js';
 import { getAddonConfig } from '../utils/billingProducts.js';
 import { verifyAndApplyGooglePlaySubscription } from '../services/googlePlayEntitlementService.js';
-import { recomputeUserAppEntitlement } from '../services/appEntitlementService.js';
+import {
+  assertAppSubscriptionProviderAvailable,
+  recomputeUserAppEntitlement,
+} from '../services/appEntitlementService.js';
 
 const router = express.Router();
 
@@ -296,6 +299,30 @@ router.post('/checkout', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    if (
+      isSubscription &&
+      platform === 'android'
+    ) {
+      return res.status(409).json({
+        error:
+          'Android app subscriptions must be purchased through Google Play.',
+        code: 'USE_GOOGLE_PLAY',
+        provider: 'GOOGLE_PLAY',
+      });
+    }
+
+    if (
+      isSubscription &&
+      platform === 'ios'
+    ) {
+      return res.status(409).json({
+        error:
+          'iOS app subscriptions must be purchased through the App Store.',
+        code: 'USE_APPLE',
+        provider: 'APPLE',
+      });
+    }
+
     const frontendOrigin =
       process.env.FRONTEND_ORIGIN ||
       process.env.WEB_URL ||
@@ -358,6 +385,13 @@ router.post('/checkout', async (req, res) => {
       }
 
     let customerId = user.billingCustomerId;
+
+    if (isSubscription) {
+      await assertAppSubscriptionProviderAvailable(
+        userId,
+        'STRIPE'
+      );
+    }
 
     if (!customerId || !String(customerId).startsWith('cus_')) {
       const customer = await stripe.customers.create({
@@ -451,7 +485,51 @@ router.post('/checkout', async (req, res) => {
       type: err?.type,
       code: err?.code,
     });
-    return res.status(500).json({ error: 'Failed to start checkout' });
+
+    if (
+      err?.code ===
+      'APP_SUBSCRIPTION_PROVIDER_CONFLICT'
+    ) {
+      return res.status(409).json({
+        error: err.message,
+        code: err.code,
+
+        currentProvider:
+          err.currentProvider ?? null,
+
+        requestedProvider:
+          err.requestedProvider ?? null,
+
+        currentPlan:
+          err.currentPlan ?? null,
+
+        currentSubscriptionEndsAt:
+          err.currentSubscriptionEndsAt
+            ?.toISOString?.() ?? null,
+
+        ...getProviderManagementAction(
+          err.currentProvider
+        ),
+      });
+    }
+
+    if (Number.isInteger(err?.statusCode)) {
+      return res
+        .status(err.statusCode)
+        .json({
+          error:
+            err.message ||
+            'Failed to start checkout',
+
+          code:
+            err.code ||
+            'BILLING_CHECKOUT_FAILED',
+        });
+    }
+
+    return res.status(500).json({
+      error: 'Failed to start checkout',
+    });
   }
 });
 

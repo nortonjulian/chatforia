@@ -137,6 +137,119 @@ export async function getEffectiveAppEntitlement(
   return chooseBestEntitlement(subscriptions);
 }
 
+function normalizeProvider(provider) {
+  const value =
+    String(provider || '')
+      .trim()
+      .toUpperCase();
+
+  if (
+    ![
+      'STRIPE',
+      'GOOGLE_PLAY',
+      'APPLE',
+      'MANUAL',
+    ].includes(value)
+  ) {
+    const error =
+      new Error('A valid app billing provider is required.');
+
+    error.statusCode = 400;
+    error.code = 'INVALID_APP_BILLING_PROVIDER';
+
+    throw error;
+  }
+
+  return value;
+}
+
+export async function assertAppSubscriptionProviderAvailable(
+  userId,
+  requestedProvider,
+  {
+    db = prisma,
+    now = new Date(),
+  } = {}
+) {
+  const normalizedUserId =
+    normalizeUserId(userId);
+
+  const normalizedProvider =
+    normalizeProvider(requestedProvider);
+
+  const conflict =
+    await db.appSubscription.findFirst({
+      where: {
+        userId: normalizedUserId,
+
+        provider: {
+          not: normalizedProvider,
+        },
+
+        grantsAccess: true,
+
+        plan: {
+          in: ['PLUS', 'PREMIUM'],
+        },
+
+        AND: [
+          {
+            OR: [
+              { startsAt: null },
+              { startsAt: { lte: now } },
+            ],
+          },
+          {
+            OR: [
+              { endsAt: null },
+              { endsAt: { gt: now } },
+            ],
+          },
+        ],
+      },
+
+      orderBy: [
+        { endsAt: 'desc' },
+        { updatedAt: 'desc' },
+      ],
+
+      select: {
+        id: true,
+        provider: true,
+        plan: true,
+        status: true,
+        endsAt: true,
+      },
+    });
+
+  if (!conflict) {
+    return null;
+  }
+
+  const error =
+    new Error(
+      `This Chatforia app subscription is already managed through ${conflict.provider}.`
+    );
+
+  error.statusCode = 409;
+  error.code =
+    'APP_SUBSCRIPTION_PROVIDER_CONFLICT';
+
+  error.currentProvider =
+    conflict.provider;
+
+  error.requestedProvider =
+    normalizedProvider;
+
+  error.currentPlan =
+    conflict.plan;
+
+  error.currentSubscriptionEndsAt =
+    conflict.endsAt;
+
+  throw error;
+}
+
 export async function recomputeUserAppEntitlement(
   userId,
   {

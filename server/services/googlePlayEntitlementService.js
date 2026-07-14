@@ -7,6 +7,7 @@ import {
 } from './googlePlayBillingService.js';
 
 import {
+  assertAppSubscriptionProviderAvailable,
   recomputeUserAppEntitlement,
 } from './appEntitlementService.js';
 
@@ -97,6 +98,23 @@ function googleAppSubscriptionKey(
   // Use Chatforia's internal Google subscription record ID.
   // Do not duplicate the raw purchase token in AppSubscription.
   return `google-play:${googlePlaySubscriptionId}`;
+}
+
+function isCurrentlyActiveAppSubscription(
+  subscription,
+  now
+) {
+  return (
+    Boolean(subscription?.grantsAccess) &&
+    (
+      !subscription.startsAt ||
+      subscription.startsAt <= now
+    ) &&
+    (
+      !subscription.endsAt ||
+      subscription.endsAt > now
+    )
+  );
 }
 
 function canonicalGoogleSubscriptionStatus(state) {
@@ -202,7 +220,10 @@ async function assertPurchaseOwnership(
       },
     });
 
-  if (existing && existing.userId !== userId) {
+  if (
+    existing &&
+    existing.userId !== userId
+  ) {
     throw createServiceError(
       'This Google Play purchase is already linked to another Chatforia account.',
       409,
@@ -210,31 +231,37 @@ async function assertPurchaseOwnership(
     );
   }
 
-  if (!verified.linkedPurchaseToken) {
-    return null;
+  let linked = null;
+
+  if (verified.linkedPurchaseToken) {
+    linked =
+      await tx.googlePlaySubscription.findUnique({
+        where: {
+          purchaseToken:
+            verified.linkedPurchaseToken,
+        },
+        select: {
+          id: true,
+          userId: true,
+        },
+      });
+
+    if (
+      linked &&
+      linked.userId !== userId
+    ) {
+      throw createServiceError(
+        'The linked Google Play subscription belongs to another Chatforia account.',
+        409,
+        'GOOGLE_PLAY_LINKED_TOKEN_MISMATCH'
+      );
+    }
   }
 
-  const linked =
-    await tx.googlePlaySubscription.findUnique({
-      where: {
-        purchaseToken:
-          verified.linkedPurchaseToken,
-      },
-      select: {
-        id: true,
-        userId: true,
-      },
-    });
-
-  if (linked && linked.userId !== userId) {
-    throw createServiceError(
-      'The linked Google Play subscription belongs to another Chatforia account.',
-      409,
-      'GOOGLE_PLAY_LINKED_TOKEN_MISMATCH'
-    );
-  }
-
-  return linked;
+  return {
+    existingSubscription: existing,
+    linkedSubscription: linked,
+  };
 }
 
 async function disableSupersededSubscription(
@@ -426,12 +453,84 @@ export async function verifyAndApplyGooglePlaySubscription({
         );
       }
 
-      const linkedSubscription =
+      const {
+        existingSubscription,
+        linkedSubscription,
+      } =
         await assertPurchaseOwnership(
           tx,
           normalizedUserId,
           verified
         );
+
+    const existingAppSubscription =
+      existingSubscription
+        ? await tx.appSubscription.findUnique({
+            where: {
+              provider_providerSubscriptionKey: {
+                provider: 'GOOGLE_PLAY',
+                providerSubscriptionKey:
+                  googleAppSubscriptionKey(
+                    existingSubscription.id
+                  ),
+              },
+            },
+
+            select: {
+              grantsAccess: true,
+              startsAt: true,
+              endsAt: true,
+            },
+          })
+        : null;
+
+    const linkedAppSubscription =
+      linkedSubscription
+        ? await tx.appSubscription.findUnique({
+            where: {
+              provider_providerSubscriptionKey: {
+                provider: 'GOOGLE_PLAY',
+                providerSubscriptionKey:
+                  googleAppSubscriptionKey(
+                    linkedSubscription.id
+                  ),
+              },
+            },
+
+            select: {
+              grantsAccess: true,
+              startsAt: true,
+              endsAt: true,
+            },
+          })
+        : null;
+
+      const existingGoogleIsCurrentlyActive =
+        isCurrentlyActiveAppSubscription(
+          existingAppSubscription,
+          now
+        );
+
+      const linkedGoogleIsCurrentlyActive =
+        isCurrentlyActiveAppSubscription(
+          linkedAppSubscription,
+          now
+        );
+
+      if (
+        verified.grantsAccess &&
+        !existingGoogleIsCurrentlyActive &&
+        !linkedGoogleIsCurrentlyActive
+      ) {
+        await assertAppSubscriptionProviderAvailable(
+          normalizedUserId,
+          'GOOGLE_PLAY',
+          {
+            db: tx,
+            now,
+          }
+        );
+      }
 
       const googlePlaySubscription =
         await tx.googlePlaySubscription.upsert({
