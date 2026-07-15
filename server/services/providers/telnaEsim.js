@@ -92,14 +92,43 @@ if (testMode || process.env.ESIM_MOCK === 'true') {
  * params: { providerProfileId?, iccid?, activationCode? }
  * returns: { ok: boolean, activatedAt?: Date, msisdn?: string|null, providerMeta?: object }
  */
-export async function activateProfile({ providerProfileId, iccid, activationCode } = {}) {
-  ensureConfigured();
-
+export async function activateProfile({
+  providerProfileId,
+  iccid,
+  activationCode,
+  testMode = false,
+} = {}) {
   if (!providerProfileId && !iccid && !activationCode) {
-    const err = new Error('activateProfile requires providerProfileId, iccid, or activationCode');
+    const err = new Error(
+      'activateProfile requires providerProfileId, iccid, or activationCode'
+    );
+
     err.code = 'TELNA_MISSING_ACTIVATION_IDENTIFIERS';
     throw err;
   }
+
+  const useMock =
+    testMode === true ||
+    process.env.ESIM_MOCK === 'true';
+
+  if (useMock) {
+    const activatedAt = new Date();
+
+    return {
+      ok: true,
+      activatedAt,
+      msisdn: null,
+      providerMeta: {
+        mock: true,
+        testMode: Boolean(testMode),
+        providerProfileId: providerProfileId || null,
+        iccid: iccid || null,
+        activatedAt: activatedAt.toISOString(),
+      },
+    };
+  }
+
+  ensureConfigured();
 
   const payload = {
     profileId: providerProfileId,
@@ -114,18 +143,36 @@ export async function activateProfile({ providerProfileId, iccid, activationCode
     });
 
     const activatedAt =
-      data.activatedAt || data.activated_at || data.activationTimestamp || null;
+      data.activatedAt ||
+      data.activated_at ||
+      data.activationTimestamp ||
+      null;
 
     return {
       ok: Boolean(data.ok ?? data.success ?? true),
-      activatedAt: activatedAt ? new Date(activatedAt) : undefined,
-      msisdn: data.msisdn ?? data.msisdnAssigned ?? null,
+
+      activatedAt: activatedAt
+        ? new Date(activatedAt)
+        : undefined,
+
+      msisdn:
+        data.msisdn ??
+        data.msisdnAssigned ??
+        null,
+
       providerMeta: data ?? null,
     };
   } catch (err) {
-    const wrapped = new Error(`Telna activateProfile failed: ${err.message}`);
-    wrapped.code = err.code || 'TELNA_ACTIVATE_FAILED';
-    wrapped.providerMeta = err.providerBody ?? null;
+    const wrapped = new Error(
+      `Telna activateProfile failed: ${err.message}`
+    );
+
+    wrapped.code =
+      err.code || 'TELNA_ACTIVATE_FAILED';
+
+    wrapped.providerMeta =
+      err.providerBody ?? null;
+
     throw wrapped;
   }
 }
