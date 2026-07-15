@@ -626,6 +626,7 @@ async function applyPaidAddonCheckoutSession(session) {
       region,
       addonKind: addonCfg.addonKind,
       planCode: addonCfg.addonKind,
+      testMode: session.livemode === false,
     });
 
     providerProfileId = reserve?.providerProfileId || null;
@@ -681,6 +682,7 @@ async function applyPaidAddonCheckoutSession(session) {
       providerProfileId: String(providerProfileId),
       addonKind: addonCfg.addonKind,
       planCode: addonCfg.addonKind,
+      testMode: session.livemode === false,
     });
   }
 
