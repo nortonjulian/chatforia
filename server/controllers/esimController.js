@@ -200,54 +200,151 @@ export async function activateProfile(req, res) {
         .json({ error: 'activateProfile not implemented' });
     }
 
-    const iccid = String(req.body?.iccid || '').trim();
-    const activationCode = String(req.body?.code || req.body?.activationCode || '').trim();
-    const providerProfileId = String(req.body?.providerProfileId || '').trim();
+    const userId = req.user?.id ?? null;
+
+    if (!userId) {
+      return res.status(401).json({
+        error: 'Not authenticated',
+      });
+    }
+
+    const iccid =
+      String(req.body?.iccid || '').trim();
+
+    const activationCode =
+      String(
+        req.body?.code ||
+        req.body?.activationCode ||
+        ''
+      ).trim();
+
+    const providerProfileId =
+      String(
+        req.body?.providerProfileId || ''
+      ).trim();
 
     if (!iccid && !activationCode && !providerProfileId) {
       return res.status(400).json({
-        error: 'providerProfileId, iccid, or activationCode is required',
+        error:
+          'providerProfileId, iccid, or activationCode is required',
       });
     }
 
-    const out = await esimProvider.activateProfile({
-      iccid: iccid || undefined,
-      activationCode: activationCode || undefined,
-      providerProfileId: providerProfileId || undefined,
-    });
+    const identifierFilters = [
+      providerProfileId
+        ? { providerProfileId }
+        : undefined,
 
-    const userId = req.user?.id ?? null;
+      iccid
+        ? { iccid }
+        : undefined,
 
-    if (userId) {
-      const existing = await prisma.subscriber.findFirst({
+      activationCode
+        ? { activationCode }
+        : undefined,
+    ].filter(Boolean);
+
+    const existing =
+      await prisma.subscriber.findFirst({
         where: {
           userId: Number(userId),
-          OR: [
-            providerProfileId ? { providerProfileId } : undefined,
-            iccid ? { iccid } : undefined,
-            activationCode ? { activationCode } : undefined,
-          ].filter(Boolean),
+          OR: identifierFilters,
         },
-        orderBy: { createdAt: 'desc' },
+        orderBy: {
+          createdAt: 'desc',
+        },
       });
 
-      if (existing) {
-        await prisma.subscriber.update({
-          where: { id: existing.id },
-          data: {
-            status: 'ACTIVE',
-            activatedAt: out?.activatedAt ? new Date(out.activatedAt) : new Date(),
-            msisdn: out?.msisdn || existing.msisdn || null,
-            providerMeta: out || undefined,
-          },
-        });
-      }
+    if (!existing) {
+      return res.status(404).json({
+        error: 'eSIM profile not found',
+      });
     }
 
-    return res.json({ ok: true, ...out });
+    const existingProviderMeta =
+      existing.providerMeta &&
+      typeof existing.providerMeta === 'object' &&
+      !Array.isArray(existing.providerMeta)
+        ? existing.providerMeta
+        : {};
+
+    // Sandbox mode is determined from the saved server record,
+    // never from a client-supplied test flag.
+    const testMode =
+      String(
+        existing.providerProfileId || ''
+      ).startsWith('mock-telna-') ||
+
+      existingProviderMeta?.reserve
+        ?.providerMeta?.mock === true ||
+
+      existingProviderMeta?.providerPack
+        ?.providerMeta?.mock === true;
+
+    const out =
+      await esimProvider.activateProfile({
+        iccid:
+          existing.iccid ||
+          iccid ||
+          undefined,
+
+        activationCode:
+          existing.activationCode ||
+          activationCode ||
+          undefined,
+
+        providerProfileId:
+          existing.providerProfileId ||
+          providerProfileId ||
+          undefined,
+
+        testMode,
+      });
+
+    const activatedAt =
+      out?.activatedAt
+        ? new Date(out.activatedAt)
+        : new Date();
+
+    const updatedSubscriber =
+      await prisma.subscriber.update({
+        where: {
+          id: existing.id,
+        },
+        data: {
+          status: 'ACTIVE',
+          activatedAt,
+
+          msisdn:
+            out?.msisdn ||
+            existing.msisdn ||
+            null,
+
+          // Preserve reservation and provisioning metadata.
+          providerMeta: {
+            ...existingProviderMeta,
+            activation: {
+              ...out,
+              testMode,
+            },
+          },
+        },
+      });
+
+    return res.json({
+      ok: true,
+      ...out,
+      status: updatedSubscriber.status,
+    });
   } catch (err) {
-    console.error('[esim] activateProfile error:', err);
-    return res.status(500).json({ error: 'Failed to activate eSIM profile' });
+    console.error(
+      '[esim] activateProfile error:',
+      err
+    );
+
+    return res.status(500).json({
+      error: 'Failed to activate eSIM profile',
+    });
   }
 }
 
