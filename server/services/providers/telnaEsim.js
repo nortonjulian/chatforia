@@ -25,9 +25,11 @@ function ensureConfigured() {
  *   providerProfileId, iccid, iccidHint, smdp, activationCode, lpaUri, qrPayload, providerMeta
  * }
  */
-export async function reserveEsimProfile({ userId, region } = {}) {
-  ensureConfigured();
-
+export async function reserveEsimProfile({
+  userId,
+  region,
+  testMode = false,
+} = {}) {
   if (!region || typeof region !== 'string') {
     const err = new Error('reserveEsimProfile requires region (string)');
     err.code = 'TELNA_INVALID_REGION';
@@ -42,7 +44,7 @@ export async function reserveEsimProfile({ userId, region } = {}) {
   try {
     let data;
 
-if (process.env.ESIM_MOCK === 'true') {
+if (testMode || process.env.ESIM_MOCK === 'true') {
   const profileId = `mock-telna-${Date.now()}`;
   const activationCode = `ACT-${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
   const smdp = 'mock.smdp.chatforia.com';
@@ -59,6 +61,8 @@ if (process.env.ESIM_MOCK === 'true') {
     mock: true,
   };
 } else {
+  ensureConfigured();
+
   data = await telnaRequest('/esim/reserve', {
     method: 'POST',
     body: payload,
@@ -130,14 +134,56 @@ export async function activateProfile({ providerProfileId, iccid, activationCode
  * Provision an eSIM data pack for a user (billing add-on).
  * params: { userId, providerProfileId, addonKind, planCode }
  */
-export async function provisionEsimPack({ userId, providerProfileId, addonKind, planCode } = {}) {
-  ensureConfigured();
-
+export async function provisionEsimPack({
+  userId,
+  providerProfileId,
+  addonKind,
+  planCode,
+  testMode = false,
+} = {}) {
   if (!userId || !providerProfileId || !addonKind) {
-    const err = new Error('provisionEsimPack requires userId, providerProfileId and addonKind');
+    const err = new Error(
+      'provisionEsimPack requires userId, providerProfileId and addonKind'
+    );
     err.code = 'TELNA_INVALID_PROVISION_PARAMS';
     throw err;
   }
+
+  const useMock =
+    testMode === true ||
+    process.env.ESIM_MOCK === 'true';
+
+  if (useMock) {
+    const now = Date.now();
+
+    return {
+      providerPurchaseId: `mock-purchase-${now}`,
+      providerProfileId: String(providerProfileId),
+
+      // Keep this null so the ICCID created during reservation
+      // remains the subscriber's ICCID.
+      iccid: null,
+
+      qrCodeSvg: null,
+      expiresAt: new Date(
+        now + 30 * 24 * 60 * 60 * 1000
+      ),
+
+      // The webhook will fall back to the amount defined
+      // in billingProducts.js.
+      dataMb: null,
+
+      providerMeta: {
+        mock: true,
+        testMode: Boolean(testMode),
+        addonKind,
+        planCode: planCode || addonKind,
+      },
+    };
+  }
+
+  // Only require Telna configuration for real provisioning.
+  ensureConfigured();
 
   const payload = {
     externalUserId: String(userId),
@@ -153,31 +199,55 @@ export async function provisionEsimPack({ userId, providerProfileId, addonKind, 
       body: payload,
     });
 
-    const expiresAt = data.expiresAt || data.expires_at || data.expiry || null;
-    const expiresAtDate = expiresAt ? new Date(expiresAt) : null;
+    const expiresAt =
+      data.expiresAt ||
+      data.expires_at ||
+      data.expiry ||
+      null;
+
+    const expiresAtDate = expiresAt
+      ? new Date(expiresAt)
+      : null;
 
     const dataMb =
       typeof data.dataMb === 'number'
         ? data.dataMb
         : typeof data.totalMb === 'number'
-        ? data.totalMb
-        : typeof data.megabytes === 'number'
-        ? data.megabytes
-        : null;
+          ? data.totalMb
+          : typeof data.megabytes === 'number'
+            ? data.megabytes
+            : null;
 
     return {
-      providerPurchaseId: data.purchaseId ?? data.id ?? null,
-      providerProfileId: data.profileId ?? providerProfileId ?? null,
+      providerPurchaseId:
+        data.purchaseId ?? data.id ?? null,
+
+      providerProfileId:
+        data.profileId ?? providerProfileId ?? null,
+
       iccid: data.iccid ?? null,
-      qrCodeSvg: data.qrCodeSvg ?? data.qrSvg ?? data.qr ?? null,
+
+      qrCodeSvg:
+        data.qrCodeSvg ??
+        data.qrSvg ??
+        data.qr ??
+        null,
+
       expiresAt: expiresAtDate,
       dataMb,
       providerMeta: data ?? null,
     };
   } catch (err) {
-    const wrapped = new Error(`Telna provisionEsimPack failed: ${err.message}`);
-    wrapped.code = err.code || 'TELNA_PROVISION_FAILED';
-    wrapped.providerMeta = err.providerBody ?? null;
+    const wrapped = new Error(
+      `Telna provisionEsimPack failed: ${err.message}`
+    );
+
+    wrapped.code =
+      err.code || 'TELNA_PROVISION_FAILED';
+
+    wrapped.providerMeta =
+      err.providerBody ?? null;
+
     throw wrapped;
   }
 }
