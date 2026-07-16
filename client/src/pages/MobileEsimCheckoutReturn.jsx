@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Button,
   Container,
@@ -33,6 +34,32 @@ export default function MobileEsimCheckoutReturn({
     );
   }
 
+  const appURLString = appURL.toString();
+
+  useEffect(() => {
+    const isIOS =
+      /iPad|iPhone|iPod/.test(
+        window.navigator.userAgent
+      ) ||
+      (
+        window.navigator.platform ===
+          'MacIntel' &&
+        window.navigator.maxTouchPoints > 1
+      );
+
+    if (!isIOS) {
+      return undefined;
+    }
+
+    const timer = window.setTimeout(() => {
+      window.location.assign(appURLString);
+    }, 300);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [appURLString]);
+
   return (
     <Container size="xs" py={80}>
       <Paper
@@ -56,7 +83,7 @@ export default function MobileEsimCheckoutReturn({
 
           <Button
             component="a"
-            href={appURL.toString()}
+            href={appURLString}
             size="lg"
             fullWidth
           >
