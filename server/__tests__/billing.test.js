@@ -49,6 +49,14 @@ beforeAll(async () => {
           updateMany: jest.fn(),
         },
 
+        mobileDataPackPurchase: {
+          findFirst: jest.fn(),
+        },
+
+        subscriber: {
+          findFirst: jest.fn(),
+        },
+
         $transaction: jest.fn(
           async (callback) =>
             callback(prismaMock)
@@ -99,6 +107,7 @@ beforeAll(async () => {
         checkout: {
           sessions: {
             create: jest.fn(),
+            retrieve: jest.fn(),
           },
         },
 
@@ -244,6 +253,221 @@ describe('GET /billing/my-plan', () => {
         status: 'ACTIVE',
         renewsAt: renewsAt.toISOString(),
         provider: 'STRIPE',
+      },
+    });
+  });
+});
+
+describe('GET /billing/checkout-status', () => {
+  const paidEsimSession = {
+    id: 'cs_test_esim_123',
+    mode: 'payment',
+    status: 'complete',
+    payment_status: 'paid',
+    payment_intent:
+      'pi_test_esim_123',
+    client_reference_id: '1',
+    metadata: {
+      userId: '1',
+      product:
+        'chatforia_esim_local_5',
+      addonKind:
+        'chatforia_esim_local_5_premium',
+      addonType: 'ESIM',
+      platform: 'ios',
+    },
+  };
+
+  test('returns 401 when no user is authenticated', async () => {
+    const app = buildUnauthedApp();
+
+    const res = await request(app)
+      .get(
+        '/billing/checkout-status?session_id=cs_test_esim_123'
+      );
+
+    expect(res.statusCode).toBe(401);
+
+    expect(res.body).toEqual({
+      error: 'Unauthorized',
+    });
+  });
+
+  test('returns 400 when session_id is missing', async () => {
+    const app = buildApp();
+
+    const res = await request(app)
+      .get('/billing/checkout-status');
+
+    expect(res.statusCode).toBe(400);
+
+    expect(res.body).toEqual({
+      error: 'session_id is required',
+    });
+  });
+
+  test('blocks a checkout session belonging to another user', async () => {
+    const app = buildApp();
+
+    stripeMock.checkout.sessions.retrieve
+      .mockResolvedValue({
+        ...paidEsimSession,
+        client_reference_id: '2',
+        metadata: {
+          ...paidEsimSession.metadata,
+          userId: '2',
+        },
+      });
+
+    const res = await request(app)
+      .get(
+        '/billing/checkout-status?session_id=cs_test_esim_123'
+      );
+
+    expect(res.statusCode).toBe(403);
+
+    expect(res.body).toEqual({
+      error:
+        'This checkout session does not belong to the authenticated user',
+    });
+  });
+
+  test('returns PENDING while the webhook has not created the purchase', async () => {
+    const app = buildApp();
+
+    stripeMock.checkout.sessions.retrieve
+      .mockResolvedValue(
+        paidEsimSession
+      );
+
+    prismaMock.mobileDataPackPurchase
+      .findFirst
+      .mockResolvedValue(null);
+
+    const res = await request(app)
+      .get(
+        '/billing/checkout-status?session_id=cs_test_esim_123'
+      );
+
+    expect(res.statusCode).toBe(200);
+
+    expect(
+      prismaMock.mobileDataPackPurchase
+        .findFirst
+    ).toHaveBeenCalledWith({
+      where: {
+        userId: 1,
+        billingTransactionId:
+          'pi_test_esim_123',
+      },
+      select: {
+        id: true,
+        addonKind: true,
+        totalDataMb: true,
+        remainingDataMb: true,
+        expiresAt: true,
+        esimProfileId: true,
+      },
+    });
+
+    expect(res.body).toEqual({
+      status: 'PENDING',
+      complete: false,
+      paid: true,
+      provisioned: false,
+      sessionId:
+        'cs_test_esim_123',
+      paymentStatus: 'paid',
+      sessionStatus: 'complete',
+      purchase: null,
+    });
+  });
+
+  test('returns COMPLETE after the webhook links the purchase and subscriber', async () => {
+    const app = buildApp();
+
+    const expiresAt =
+      new Date(
+        '2026-08-15T00:00:00.000Z'
+      );
+
+    stripeMock.checkout.sessions.retrieve
+      .mockResolvedValue(
+        paidEsimSession
+      );
+
+    prismaMock.mobileDataPackPurchase
+      .findFirst
+      .mockResolvedValue({
+        id: 22,
+        addonKind:
+          'chatforia_esim_local_5_premium',
+        totalDataMb: 8192,
+        remainingDataMb: 8192,
+        expiresAt,
+        esimProfileId:
+          'mock-telna-profile',
+      });
+
+    prismaMock.subscriber.findFirst
+      .mockResolvedValue({
+        id: 7,
+        status: 'ACTIVE',
+        providerProfileId:
+          'mock-telna-profile',
+        providerMeta: {
+          stripeSessionId:
+            'cs_test_esim_123',
+        },
+      });
+
+    const res = await request(app)
+      .get(
+        '/billing/checkout-status?session_id=cs_test_esim_123'
+      );
+
+    expect(res.statusCode).toBe(200);
+
+    expect(
+      prismaMock.subscriber.findFirst
+    ).toHaveBeenCalledWith({
+      where: {
+        userId: 1,
+        purchaseId: 22,
+      },
+      orderBy: [
+        {
+          activatedAt: 'desc',
+        },
+        {
+          createdAt: 'desc',
+        },
+      ],
+      select: {
+        id: true,
+        status: true,
+        providerProfileId: true,
+        providerMeta: true,
+      },
+    });
+
+    expect(res.body).toEqual({
+      status: 'COMPLETE',
+      complete: true,
+      paid: true,
+      provisioned: true,
+      sessionId:
+        'cs_test_esim_123',
+      paymentStatus: 'paid',
+      sessionStatus: 'complete',
+      purchase: {
+        id: 22,
+        addonKind:
+          'chatforia_esim_local_5_premium',
+        totalDataMb: 8192,
+        remainingDataMb: 8192,
+        expiresAt:
+          expiresAt.toISOString(),
       },
     });
   });
