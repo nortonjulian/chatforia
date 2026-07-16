@@ -24,6 +24,7 @@ const SettingsBackups = lazy(() => import('@/pages/SettingsBackups.jsx'));
 import UpgradePage from '@/pages/UpgradePlan';
 import UpgradeSuccess from '@/pages/UpgradeSuccess.jsx';
 import BillingReturn from '@/pages/BillingReturn.jsx';
+import MobileEsimCheckoutReturn from '@/pages/MobileEsimCheckoutReturn.jsx';
 import Sidebar from '@/components/Sidebar';
 import RandomChatPage from '@/pages/RandomChatPage.jsx';
 import LoginForm from '@/components/LoginForm';
@@ -351,6 +352,19 @@ export default function AppRoutes() {
         <Route path="/upgrade" element={<UpgradePage variant="account" />} />
         <Route path="/pricing" element={<UpgradePage variant="public" />} />
 
+        <Route
+          path="/mobile/esim/checkout-complete"
+          element={
+            <MobileEsimCheckoutReturn status="complete" />
+          }
+        />
+        <Route
+          path="/mobile/esim/checkout-canceled"
+          element={
+            <MobileEsimCheckoutReturn status="canceled" />
+          }
+        />
+
         {/* Auth + marketing layout */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
@@ -402,6 +416,19 @@ export default function AppRoutes() {
     <>
       <AdSenseAutoAds />
     <Routes>
+      <Route
+        path="/mobile/esim/checkout-complete"
+        element={
+          <MobileEsimCheckoutReturn status="complete" />
+        }
+      />
+      <Route
+        path="/mobile/esim/checkout-canceled"
+        element={
+          <MobileEsimCheckoutReturn status="canceled" />
+        }
+      />
+
       <Route path="/upgrade" element={<UpgradePage variant="account" />} />
       <Route path="/pricing" element={<Navigate to="/upgrade" replace />} />
       <Route path="/upgrade/success" element={<UpgradeSuccess />} />
