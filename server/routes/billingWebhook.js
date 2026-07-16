@@ -589,7 +589,19 @@ async function applyPaidAddonCheckoutSession(session) {
 
   const transactionId = String(session.payment_intent || session.id);
   const purchasedAt = new Date();
-  const fallbackExpiresAt = addDays(purchasedAt, addonCfg.daysValid || 30);
+  const fallbackExpiresAt = addDays(
+    purchasedAt,
+    addonCfg.daysValid || 30
+  );
+
+  const purchasedDataMb =
+    Number.isInteger(addonCfg.dataMb) &&
+    addonCfg.dataMb >= 0
+      ? addonCfg.dataMb
+      : 0;
+
+  const isSandboxCheckout =
+    session.livemode === false;
 
   let purchase = await prisma.mobileDataPackPurchase.findFirst({
     where: {
@@ -605,11 +617,54 @@ async function applyPaidAddonCheckoutSession(session) {
         addonKind: addonCfg.addonKind,
         purchasedAt,
         expiresAt: fallbackExpiresAt,
-        totalDataMb: addonCfg.dataMb,
-        remainingDataMb: addonCfg.dataMb,
+        totalDataMb: purchasedDataMb,
+        remainingDataMb: purchasedDataMb,
         billingTransactionId: transactionId,
       },
     });
+  }
+
+  const purchaseAlreadyContainsCarryForward =
+    purchasedDataMb > 0 &&
+    purchase.totalDataMb > purchasedDataMb;
+
+  let carriedBalance = null;
+
+  // Stripe Sandbox uses the mock provider, so preserve any
+  // remaining finite-data balance when another pack is bought.
+  // Live Telna balances remain provider-authoritative.
+  if (
+    isSandboxCheckout &&
+    purchasedDataMb > 0 &&
+    !purchaseAlreadyContainsCarryForward
+  ) {
+    const priorPack =
+      await prisma.mobileDataPackPurchase.findFirst({
+        where: {
+          userId: Number(userId),
+          id: {
+            not: purchase.id,
+          },
+          expiresAt: {
+            gt: purchasedAt,
+          },
+          remainingDataMb: {
+            gt: 0,
+          },
+        },
+        orderBy: {
+          purchasedAt: 'desc',
+        },
+      });
+
+    if (priorPack) {
+      carriedBalance = {
+        purchaseId: priorPack.id,
+        totalDataMb: priorPack.totalDataMb,
+        remainingDataMb:
+          priorPack.remainingDataMb,
+      };
+    }
   }
 
   let subscriber = await getLatestSubscriberForUser(userId);
@@ -626,7 +681,7 @@ async function applyPaidAddonCheckoutSession(session) {
       region,
       addonKind: addonCfg.addonKind,
       planCode: addonCfg.addonKind,
-      testMode: session.livemode === false,
+      testMode: isSandboxCheckout,
     });
 
     providerProfileId = reserve?.providerProfileId || null;
@@ -682,63 +737,136 @@ async function applyPaidAddonCheckoutSession(session) {
       providerProfileId: String(providerProfileId),
       addonKind: addonCfg.addonKind,
       planCode: addonCfg.addonKind,
-      testMode: session.livemode === false,
+      testMode: isSandboxCheckout,
     });
   }
 
-  const nextExpiresAt = providerPack?.expiresAt || fallbackExpiresAt;
-  const nextTotalDataMb =
-    typeof providerPack?.dataMb === 'number' ? providerPack.dataMb : addonCfg.dataMb;
+  const nextExpiresAt =
+    providerPack?.expiresAt || fallbackExpiresAt;
 
-  await prisma.mobileDataPackPurchase.update({
-    where: { id: purchase.id },
-    data: {
-      expiresAt: nextExpiresAt,
-      totalDataMb: nextTotalDataMb,
-      remainingDataMb: nextTotalDataMb,
-      esimProfileId: providerProfileId || purchase.esimProfileId || null,
-      iccid:
-        providerPack?.iccid ||
-        reserve?.iccid ||
-        subscriber?.iccid ||
-        purchase.iccid ||
-        null,
-      qrCodeSvg: providerPack?.qrCodeSvg || purchase.qrCodeSvg || null,
-    },
-  });
+  let nextTotalDataMb =
+    purchaseAlreadyContainsCarryForward
+      ? purchase.totalDataMb
+      : typeof providerPack?.dataMb === 'number'
+        ? providerPack.dataMb
+        : purchasedDataMb;
 
-  if (subscriber?.id) {
-    const nextProviderMeta = {
-      ...(subscriber.providerMeta || {}),
-      stripeSessionId: session.id,
-      stripePaymentIntentId: transactionId,
-      product,
-      addonKind: addonCfg.addonKind,
+  let nextRemainingDataMb =
+    purchaseAlreadyContainsCarryForward
+      ? purchase.remainingDataMb
+      : nextTotalDataMb;
+
+  if (carriedBalance) {
+    nextTotalDataMb =
+      carriedBalance.totalDataMb +
+      purchasedDataMb;
+
+    nextRemainingDataMb =
+      carriedBalance.remainingDataMb +
+      purchasedDataMb;
+  }
+
+  const nextProviderMeta = subscriber?.id
+    ? {
+        ...(subscriber.providerMeta || {}),
+        stripeSessionId: session.id,
+        stripePaymentIntentId: transactionId,
+        product,
+        addonKind: addonCfg.addonKind,
+      }
+    : null;
+
+  if (nextProviderMeta && reserve) {
+    nextProviderMeta.reserve = reserve;
+  }
+
+  if (nextProviderMeta && providerPack) {
+    nextProviderMeta.providerPack =
+      providerPack;
+  }
+
+  if (nextProviderMeta && carriedBalance) {
+    nextProviderMeta.topUp = {
+      previousPurchaseId:
+        carriedBalance.purchaseId,
+      carriedTotalDataMb:
+        carriedBalance.totalDataMb,
+      carriedRemainingDataMb:
+        carriedBalance.remainingDataMb,
+      creditedDataMb:
+        purchasedDataMb,
+      combinedTotalDataMb:
+        nextTotalDataMb,
+      combinedRemainingDataMb:
+        nextRemainingDataMb,
+      appliedAt:
+        new Date().toISOString(),
+      sandbox: true,
     };
+  }
 
-    if (reserve) {
-      nextProviderMeta.reserve = reserve;
+  await prisma.$transaction(async (tx) => {
+    if (carriedBalance) {
+      await tx.mobileDataPackPurchase.update({
+        where: {
+          id: carriedBalance.purchaseId,
+        },
+        data: {
+          // The balance has been transferred into the
+          // newest active purchase record.
+          remainingDataMb: 0,
+        },
+      });
     }
 
-    if (providerPack) {
-      nextProviderMeta.providerPack = providerPack;
-    }
-
-    await prisma.subscriber.update({
-      where: { id: subscriber.id },
+    await tx.mobileDataPackPurchase.update({
+      where: {
+        id: purchase.id,
+      },
       data: {
-        purchaseId: purchase.id,
-        providerProfileId: providerProfileId || subscriber.providerProfileId || null,
+        expiresAt: nextExpiresAt,
+        totalDataMb: nextTotalDataMb,
+        remainingDataMb:
+          nextRemainingDataMb,
+        esimProfileId:
+          providerProfileId ||
+          purchase.esimProfileId ||
+          null,
         iccid:
           providerPack?.iccid ||
           reserve?.iccid ||
-          subscriber.iccid ||
+          subscriber?.iccid ||
+          purchase.iccid ||
           null,
-        expiresAt: nextExpiresAt,
-        providerMeta: nextProviderMeta,
+        qrCodeSvg:
+          providerPack?.qrCodeSvg ||
+          purchase.qrCodeSvg ||
+          null,
       },
     });
-  }
+
+    if (subscriber?.id) {
+      await tx.subscriber.update({
+        where: {
+          id: subscriber.id,
+        },
+        data: {
+          purchaseId: purchase.id,
+          providerProfileId:
+            providerProfileId ||
+            subscriber.providerProfileId ||
+            null,
+          iccid:
+            providerPack?.iccid ||
+            reserve?.iccid ||
+            subscriber.iccid ||
+            null,
+          expiresAt: nextExpiresAt,
+          providerMeta: nextProviderMeta,
+        },
+      });
+    }
+  });
 
   return {
     ignored: false,

@@ -33,6 +33,7 @@ beforeAll(async () => {
   process.env.STRIPE_PRICE_PLUS_MONTHLY = 'price_plus';
   process.env.STRIPE_PRICE_PREMIUM_MONTHLY = 'price_prem_m';
   process.env.STRIPE_PRICE_PREMIUM_ANNUAL = 'price_prem_a';
+  process.env.STRIPE_PRICE_ESIM_LOCAL_5 = 'price_esim_local_5';
 
   await jest.unstable_mockModule(
     '../utils/prismaClient.js',
@@ -598,6 +599,78 @@ describe('POST /billing/checkout', () => {
     stripeMock.checkout.sessions.create
   ).not.toHaveBeenCalled();
 });
+
+  test(
+    'creates iOS eSIM checkout with mobile return URLs',
+    async () => {
+      const app = buildApp();
+
+      prismaMock.user.findUnique.mockResolvedValue({
+        id: 1,
+        email: 'user@test.com',
+        username: 'julian',
+        plan: 'FREE',
+        billingProvider: null,
+        billingCustomerId: 'cus_123',
+        billingSubscriptionId: null,
+        subscriptionStatus: 'INACTIVE',
+        subscriptionEndsAt: null,
+      });
+
+      stripeMock.checkout.sessions.create.mockResolvedValue({
+        id: 'cs_esim_ios_123',
+        url: 'https://stripe.test/checkout/cs_esim_ios_123',
+      });
+
+      const res = await request(app)
+        .post('/billing/checkout')
+        .send({
+          product: 'chatforia_esim_local_5',
+          platform: 'ios',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(
+        stripeMock.checkout.sessions.create
+      ).toHaveBeenCalledWith(
+        expect.objectContaining({
+          mode: 'payment',
+
+          line_items: [
+            {
+              price: 'price_esim_local_5',
+              quantity: 1,
+            },
+          ],
+
+          metadata: expect.objectContaining({
+            userId: '1',
+            product: 'chatforia_esim_local_5',
+            addonKind:
+              'chatforia_esim_local_5_premium',
+            addonType: 'ESIM',
+            checkoutType: 'payment',
+            platform: 'ios',
+          }),
+
+          success_url:
+            'https://app.test/mobile/esim/checkout-complete?session_id={CHECKOUT_SESSION_ID}',
+
+          cancel_url:
+            'https://app.test/mobile/esim/checkout-canceled',
+        })
+      );
+
+      expect(res.body).toEqual(
+        expect.objectContaining({
+          checkoutUrl:
+            'https://stripe.test/checkout/cs_esim_ios_123',
+          sessionId: 'cs_esim_ios_123',
+        })
+      );
+    }
+  );
 
   test('returns 404 when user is not found', async () => {
     const app = buildApp();

@@ -82,6 +82,15 @@ async function refreshPackUsageFromProvider(userId, pack) {
 
   if (!providerIdentifier) return pack;
 
+  // Sandbox profiles have no real Telna usage endpoint.
+  // Keep using the saved database balance instead.
+  if (
+    String(providerIdentifier)
+      .startsWith('mock-telna-')
+  ) {
+    return pack;
+  }
+
   try {
     const usage = await fetchEsimUsage(providerIdentifier);
 

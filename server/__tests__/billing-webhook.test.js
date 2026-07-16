@@ -210,6 +210,18 @@ describe(
     },
   });
 
+  await prisma.subscriber.deleteMany({
+    where: {
+      userId: TEST_USER_ID,
+    },
+  });
+
+  await prisma.mobileDataPackPurchase.deleteMany({
+    where: {
+      userId: TEST_USER_ID,
+    },
+  });
+
   await prisma.user.deleteMany({
     where: {
       id: TEST_USER_ID,
@@ -292,6 +304,262 @@ describe(
         ).toBe(
           'checkout.session.completed'
         );
+      }
+    );
+
+    test(
+      'Sandbox eSIM top-up carries forward balance exactly once',
+      async () => {
+        await createTestUser();
+
+        const priorPurchasedAt =
+          new Date(
+            Date.now() -
+              24 * 60 * 60 * 1000
+          );
+
+        const priorExpiresAt =
+          new Date(
+            Date.now() +
+              20 *
+                24 *
+                60 *
+                60 *
+                1000
+          );
+
+        const priorPurchase =
+          await prisma.mobileDataPackPurchase.create({
+            data: {
+              userId: TEST_USER_ID,
+              kind: 'ESIM',
+              addonKind:
+                'chatforia_esim_local_3_premium',
+              purchasedAt:
+                priorPurchasedAt,
+              expiresAt:
+                priorExpiresAt,
+              totalDataMb:
+                3 * 1024,
+              remainingDataMb:
+                2 * 1024,
+              billingTransactionId:
+                'pi_existing_local_3',
+              esimProfileId:
+                'mock-telna-existing',
+              iccid:
+                '89000000000000999',
+            },
+          });
+
+        const subscriber =
+          await prisma.subscriber.create({
+            data: {
+              userId: TEST_USER_ID,
+              purchaseId:
+                priorPurchase.id,
+              provider: 'telna',
+              providerProfileId:
+                'mock-telna-existing',
+              iccid:
+                '89000000000000999',
+              iccidHint:
+                '890000••••••',
+              region: 'US',
+              status: 'ACTIVE',
+              activatedAt:
+                priorPurchasedAt,
+              expiresAt:
+                priorExpiresAt,
+              providerMeta: {
+                mock: true,
+              },
+            },
+          });
+
+        const checkoutSession = {
+          object:
+            'checkout.session',
+          id:
+            'cs_esim_topup_local_5',
+          mode:
+            'payment',
+          status:
+            'complete',
+          payment_status:
+            'paid',
+          payment_intent:
+            'pi_esim_topup_local_5',
+          client_reference_id:
+            String(TEST_USER_ID),
+          livemode:
+            false,
+
+          metadata: {
+            userId:
+              String(TEST_USER_ID),
+            product:
+              'chatforia_esim_local_5',
+            platform:
+              'ios',
+          },
+        };
+
+        const postWebhook = (event) =>
+          agent
+            .post(
+              ENDPOINTS.webhook
+            )
+            .set(
+              'Stripe-Signature',
+              't=0,v1=testsig'
+            )
+            .set(
+              'Content-Type',
+              'application/json'
+            )
+            .send(
+              JSON.stringify(event)
+            );
+
+        const firstEvent =
+          makeStripeEvent({
+            id:
+              'evt_esim_topup_local_5',
+            type:
+              'checkout.session.completed',
+            object:
+              checkoutSession,
+          });
+
+        await postWebhook(
+          firstEvent
+        ).expect(200);
+
+        const topUpPurchase =
+          await prisma.mobileDataPackPurchase.findUnique({
+            where: {
+              billingTransactionId:
+                'pi_esim_topup_local_5',
+            },
+          });
+
+        expect(
+          topUpPurchase
+        ).toEqual(
+          expect.objectContaining({
+            userId:
+              TEST_USER_ID,
+            totalDataMb:
+              8 * 1024,
+            remainingDataMb:
+              7 * 1024,
+            esimProfileId:
+              'mock-telna-existing',
+          })
+        );
+
+        const transferredPrior =
+          await prisma.mobileDataPackPurchase.findUnique({
+            where: {
+              id:
+                priorPurchase.id,
+            },
+          });
+
+        expect(
+          transferredPrior.remainingDataMb
+        ).toBe(0);
+
+        const updatedSubscriber =
+          await prisma.subscriber.findUnique({
+            where: {
+              id:
+                subscriber.id,
+            },
+          });
+
+        expect(
+          updatedSubscriber
+        ).toEqual(
+          expect.objectContaining({
+            purchaseId:
+              topUpPurchase.id,
+            providerProfileId:
+              'mock-telna-existing',
+          })
+        );
+
+        expect(
+          updatedSubscriber
+            .providerMeta
+            .topUp
+        ).toEqual(
+          expect.objectContaining({
+            previousPurchaseId:
+              priorPurchase.id,
+            carriedTotalDataMb:
+              3 * 1024,
+            carriedRemainingDataMb:
+              2 * 1024,
+            creditedDataMb:
+              5 * 1024,
+            combinedTotalDataMb:
+              8 * 1024,
+            combinedRemainingDataMb:
+              7 * 1024,
+            sandbox:
+              true,
+          })
+        );
+
+        // Simulate Stripe delivering the same
+        // checkout under another event ID.
+        const retryEvent =
+          makeStripeEvent({
+            id:
+              'evt_esim_topup_local_5_retry',
+            type:
+              'checkout.session.completed',
+            object:
+              checkoutSession,
+          });
+
+        await postWebhook(
+          retryEvent
+        ).expect(200);
+
+        const purchaseAfterRetry =
+          await prisma.mobileDataPackPurchase.findUnique({
+            where: {
+              billingTransactionId:
+                'pi_esim_topup_local_5',
+            },
+          });
+
+        expect(
+          purchaseAfterRetry.totalDataMb
+        ).toBe(
+          8 * 1024
+        );
+
+        expect(
+          purchaseAfterRetry.remainingDataMb
+        ).toBe(
+          7 * 1024
+        );
+
+        const purchaseCount =
+          await prisma.mobileDataPackPurchase.count({
+            where: {
+              userId:
+                TEST_USER_ID,
+            },
+          });
+
+        expect(
+          purchaseCount
+        ).toBe(2);
       }
     );
 

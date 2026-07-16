@@ -432,6 +432,19 @@ router.post('/checkout', async (req, res) => {
       process.env.WEB_URL ||
       'https://chatforia.com';
 
+    const isIOSAddonCheckout =
+      isAddon && platform === 'ios';
+
+    const addonSuccessURL =
+      isIOSAddonCheckout
+        ? `${frontendOrigin}/mobile/esim/checkout-complete?session_id={CHECKOUT_SESSION_ID}`
+        : `${frontendOrigin}/account/esim?session_id={CHECKOUT_SESSION_ID}`;
+
+    const addonCancelURL =
+      isIOSAddonCheckout
+        ? `${frontendOrigin}/mobile/esim/checkout-canceled`
+        : `${frontendOrigin}/upgrade?canceled=1`;
+
     const effectiveProvider =
       String(user.billingProvider || '')
         .trim()
@@ -552,11 +565,12 @@ router.post('/checkout', async (req, res) => {
       metadata: checkoutMetadata,
 
       success_url: isAddon
-        ? `${frontendOrigin}/account/esim?session_id={CHECKOUT_SESSION_ID}`
+        ? addonSuccessURL
         : `${frontendOrigin}/upgrade-success?session_id={CHECKOUT_SESSION_ID}`,
 
-      cancel_url:
-        `${frontendOrigin}/upgrade?canceled=1`,
+      cancel_url: isAddon
+        ? addonCancelURL
+        : `${frontendOrigin}/upgrade?canceled=1`,
     };
 
     if (!isSubscription) {
