@@ -329,6 +329,205 @@ router.get('/my-plan', async (req, res) => {
   }
 });
 
+router.get('/checkout-status', async (req, res) => {
+  try {
+    if (!req.user?.id) {
+      return res.status(401).json({
+        error: 'Unauthorized',
+      });
+    }
+
+    const userId = Number(req.user.id);
+
+    const sessionId = String(
+      req.query?.session_id || ''
+    ).trim();
+
+    if (!sessionId) {
+      return res.status(400).json({
+        error: 'session_id is required',
+      });
+    }
+
+    if (!sessionId.startsWith('cs_')) {
+      return res.status(400).json({
+        error: 'Invalid checkout session ID',
+      });
+    }
+
+    const session =
+      await stripe.checkout.sessions.retrieve(
+        sessionId
+      );
+
+    const sessionUserId =
+      Number(session.metadata?.userId) ||
+      Number(session.client_reference_id) ||
+      null;
+
+    if (
+      !sessionUserId ||
+      sessionUserId !== userId
+    ) {
+      return res.status(403).json({
+        error:
+          'This checkout session does not belong to the authenticated user',
+      });
+    }
+
+    const addonConfig = getAddonConfig(
+      session.metadata?.product
+    );
+
+    if (
+      session.mode !== 'payment' ||
+      addonConfig?.type !== 'ESIM'
+    ) {
+      return res.status(400).json({
+        error:
+          'This checkout session is not an eSIM purchase',
+      });
+    }
+
+    const paymentStatus = String(
+      session.payment_status || ''
+    )
+      .trim()
+      .toLowerCase();
+
+    const sessionStatus = String(
+      session.status || ''
+    )
+      .trim()
+      .toLowerCase();
+
+    const paid =
+      paymentStatus === 'paid';
+
+    const expired =
+      sessionStatus === 'expired';
+
+    const pendingResponse = {
+      status: expired ? 'EXPIRED' : 'PENDING',
+      complete: false,
+      paid,
+      provisioned: false,
+      sessionId: session.id,
+      paymentStatus: paymentStatus || null,
+      sessionStatus: sessionStatus || null,
+      purchase: null,
+    };
+
+    if (!paid) {
+      return res.json(pendingResponse);
+    }
+
+    const paymentIntentId =
+      typeof session.payment_intent === 'string'
+        ? session.payment_intent
+        : session.payment_intent?.id || null;
+
+    if (!paymentIntentId) {
+      return res.json(pendingResponse);
+    }
+
+    const purchase =
+      await prisma.mobileDataPackPurchase.findFirst({
+        where: {
+          userId,
+          billingTransactionId:
+            paymentIntentId,
+        },
+        select: {
+          id: true,
+          addonKind: true,
+          totalDataMb: true,
+          remainingDataMb: true,
+          expiresAt: true,
+          esimProfileId: true,
+        },
+      });
+
+    let subscriber = null;
+
+    if (purchase) {
+      subscriber =
+        await prisma.subscriber.findFirst({
+          where: {
+            userId,
+            purchaseId: purchase.id,
+          },
+          orderBy: [
+            {
+              activatedAt: 'desc',
+            },
+            {
+              createdAt: 'desc',
+            },
+          ],
+          select: {
+            id: true,
+            status: true,
+            providerProfileId: true,
+            providerMeta: true,
+          },
+        });
+    }
+
+    const webhookApplied = Boolean(
+      purchase?.esimProfileId &&
+      subscriber?.providerProfileId &&
+      subscriber?.providerMeta
+        ?.stripeSessionId === session.id
+    );
+
+    if (!webhookApplied) {
+      return res.json(pendingResponse);
+    }
+
+    return res.json({
+      status: 'COMPLETE',
+      complete: true,
+      paid: true,
+      provisioned: true,
+      sessionId: session.id,
+      paymentStatus,
+      sessionStatus,
+      purchase: {
+        id: purchase.id,
+        addonKind: purchase.addonKind,
+        totalDataMb:
+          purchase.totalDataMb,
+        remainingDataMb:
+          purchase.remainingDataMb,
+        expiresAt:
+          purchase.expiresAt,
+      },
+    });
+  } catch (err) {
+    if (err?.code === 'resource_missing') {
+      return res.status(404).json({
+        error:
+          'Checkout session not found',
+      });
+    }
+
+    console.error(
+      '[billing/checkout-status] error:',
+      {
+        message: err?.message,
+        type: err?.type,
+        code: err?.code,
+      }
+    );
+
+    return res.status(500).json({
+      error:
+        'Unable to check checkout status',
+    });
+  }
+});
+
 router.post('/checkout', async (req, res) => {
   try {
     if (!req.user?.id) {
