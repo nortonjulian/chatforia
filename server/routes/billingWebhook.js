@@ -551,12 +551,31 @@ function addDays(date, days) {
   return new Date(date.getTime() + Number(days || 30) * 24 * 60 * 60 * 1000);
 }
 
-async function getLatestSubscriberForUser(userId) {
+async function getReusableSubscriberForUser(userId) {
   return prisma.subscriber.findFirst({
-    where: { userId: Number(userId) },
+    where: {
+      userId: Number(userId),
+
+      providerProfileId: {
+        not: null,
+      },
+
+      status: {
+        in: [
+          'PENDING',
+          'ACTIVE',
+          'SUSPENDED',
+        ],
+      },
+    },
+
     orderBy: [
-      { activatedAt: 'desc' },
-      { createdAt: 'desc' },
+      {
+        activatedAt: 'desc',
+      },
+      {
+        createdAt: 'desc',
+      },
     ],
   });
 }
@@ -674,7 +693,7 @@ async function applyPaidAddonCheckoutSession(session) {
     }
   }
 
-  let subscriber = await getLatestSubscriberForUser(userId);
+  let subscriber = await getReusableSubscriberForUser(userId);
 
   let providerProfileId = subscriber?.providerProfileId || null;
   let reserve = null;
