@@ -168,7 +168,14 @@ export default function MyPlan() {
                   {!plan.isFree && (
                     <Text mt={6} size="sm" c="dimmed">
                       {plan.renewsAt
-                        ? `${t('billing.renewsAt', 'Renews on')} ${new Date(plan.renewsAt).toLocaleDateString()}`
+                        ? `${t(
+                            plan.autoRenewEnabled === false
+                              ? 'billing.activeThrough'
+                              : 'billing.renewsAt',
+                            plan.autoRenewEnabled === false
+                              ? 'Active through'
+                              : 'Renews on'
+                          )} ${new Date(plan.renewsAt).toLocaleDateString()}`
                         : t('billing.activeSubscription', 'Your subscription is active.')}
                     </Text>
                   )}

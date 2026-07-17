@@ -918,7 +918,9 @@ export default function UserProfile({ onLanguageChange, openSection }) {
 
                       {planInfo.renewsAt && (
                         <Text size="xs" c="dimmed" mt="xs">
-                          {t('profile.planRenewsOn', 'Renews on')}{' '}
+                          {planInfo.autoRenewEnabled === false
+                            ? t('billing.activeThrough', 'Active through')
+                            : t('profile.planRenewsOn', 'Renews on')}{' '}
                           {new Date(planInfo.renewsAt).toLocaleDateString()}
                         </Text>
                       )}

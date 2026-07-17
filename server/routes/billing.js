@@ -5,6 +5,7 @@ import { getAddonConfig } from '../utils/billingProducts.js';
 import { verifyAndApplyGooglePlaySubscription } from '../services/googlePlayEntitlementService.js';
 import {
   assertAppSubscriptionProviderAvailable,
+  getEffectiveAppEntitlement,
   recomputeUserAppEntitlement,
 } from '../services/appEntitlementService.js';
 import { verifyAndApplyAppleSubscription } from '../services/appleEntitlementService.js';
@@ -294,6 +295,7 @@ router.get('/my-plan', async (req, res) => {
           isFree: true,
           status: 'INACTIVE',
           renewsAt: null,
+          autoRenewEnabled: false,
           provider: null,
         },
       });
@@ -309,6 +311,9 @@ router.get('/my-plan', async (req, res) => {
       },
     });
 
+    const entitlement =
+      await getEffectiveAppEntitlement(userId);
+
     const code = normalizePlanCode(user?.plan || 'FREE');
 
     return res.json({
@@ -321,6 +326,8 @@ router.get('/my-plan', async (req, res) => {
         renewsAt: user?.subscriptionEndsAt
           ? new Date(user.subscriptionEndsAt).toISOString()
           : null,
+        autoRenewEnabled:
+          Boolean(entitlement?.autoRenewEnabled),
         provider: user?.billingProvider || null,
       },
     });
