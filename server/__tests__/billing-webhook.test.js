@@ -581,6 +581,492 @@ describe(
     );
 
     test(
+      'Sandbox eSIM purchase reuses an active subscriber after its prior pack expires',
+      async () => {
+        const existingIccid =
+          '89000000000009997';
+
+        await createTestUser({
+          iccid:
+            existingIccid,
+        });
+
+        const oldExpiry =
+          new Date(
+            Date.now() -
+              60 * 60 * 1000
+          );
+
+        const activeSubscriber =
+          await prisma.subscriber.create({
+            data: {
+              userId:
+                TEST_USER_ID,
+
+              provider:
+                'telna',
+
+              providerProfileId:
+                'mock-telna-active-expired-pack',
+
+              iccid:
+                existingIccid,
+
+              iccidHint:
+                '890000••••••',
+
+              region:
+                'US',
+
+              status:
+                'ACTIVE',
+
+              activatedAt:
+                new Date(
+                  Date.now() -
+                    24 *
+                      60 *
+                      60 *
+                      1000
+                ),
+
+              expiresAt:
+                oldExpiry,
+
+              providerMeta: {
+                mock:
+                  true,
+
+                priorPackExpired:
+                  true,
+              },
+            },
+          });
+
+        const checkoutSession = {
+          object:
+            'checkout.session',
+
+          id:
+            'cs_esim_active_expired_pack_topup',
+
+          mode:
+            'payment',
+
+          status:
+            'complete',
+
+          payment_status:
+            'paid',
+
+          payment_intent:
+            'pi_esim_active_expired_pack_topup',
+
+          client_reference_id:
+            String(TEST_USER_ID),
+
+          livemode:
+            false,
+
+          metadata: {
+            userId:
+              String(TEST_USER_ID),
+
+            product:
+              'chatforia_esim_local_3_premium',
+
+            platform:
+              'web',
+          },
+        };
+
+        const event =
+          makeStripeEvent({
+            id:
+              'evt_esim_active_expired_pack_topup',
+
+            type:
+              'checkout.session.completed',
+
+            object:
+              checkoutSession,
+          });
+
+        await agent
+          .post(
+            ENDPOINTS.webhook
+          )
+          .set(
+            'Stripe-Signature',
+            't=0,v1=testsig'
+          )
+          .set(
+            'Content-Type',
+            'application/json'
+          )
+          .send(
+            JSON.stringify(event)
+          )
+          .expect(200);
+
+        const purchase =
+          await prisma
+            .mobileDataPackPurchase
+            .findUnique({
+              where: {
+                billingTransactionId:
+                  checkoutSession
+                    .payment_intent,
+              },
+            });
+
+        const subscribers =
+          await prisma.subscriber.findMany({
+            where: {
+              userId:
+                TEST_USER_ID,
+            },
+
+            orderBy: {
+              createdAt:
+                'asc',
+            },
+          });
+
+        expect(
+          subscribers
+        ).toHaveLength(1);
+
+        expect(
+          subscribers[0]
+        ).toEqual(
+          expect.objectContaining({
+            id:
+              activeSubscriber.id,
+
+            status:
+              'ACTIVE',
+
+            purchaseId:
+              purchase.id,
+
+            providerProfileId:
+              'mock-telna-active-expired-pack',
+
+            iccid:
+              existingIccid,
+          })
+        );
+
+        expect(
+          subscribers[0].expiresAt
+        ).not.toEqual(
+          oldExpiry
+        );
+
+        expect(
+          purchase
+        ).toEqual(
+          expect.objectContaining({
+            userId:
+              TEST_USER_ID,
+
+            addonKind:
+              'chatforia_esim_local_3_premium',
+
+            totalDataMb:
+              3 * 1024,
+
+            remainingDataMb:
+              3 * 1024,
+
+            esimProfileId:
+              'mock-telna-active-expired-pack',
+
+            iccid:
+              existingIccid,
+          })
+        );
+
+        const user =
+          await prisma.user.findUnique({
+            where: {
+              id:
+                TEST_USER_ID,
+            },
+
+            select: {
+              iccid:
+                true,
+            },
+          });
+
+        expect(
+          user.iccid
+        ).toBe(
+          existingIccid
+        );
+      }
+    );
+
+    test(
+      'Sandbox eSIM purchase does not reuse a canceled subscriber',
+      async () => {
+        await createTestUser();
+
+        const canceledSubscriber =
+          await prisma.subscriber.create({
+            data: {
+              userId:
+                TEST_USER_ID,
+
+              provider:
+                'telna',
+
+              providerProfileId:
+                'mock-telna-canceled',
+
+              iccid:
+                '89000000000009998',
+
+              iccidHint:
+                '890000••••••',
+
+              region:
+                'US',
+
+              status:
+                'CANCELLED',
+
+              activatedAt:
+                new Date(
+                  Date.now() -
+                    24 *
+                      60 *
+                      60 *
+                      1000
+                ),
+
+              expiresAt:
+                new Date(
+                  Date.now() +
+                    24 *
+                      60 *
+                      60 *
+                      1000
+                ),
+
+              providerMeta: {
+                mock:
+                  true,
+
+                canceled:
+                  true,
+              },
+            },
+          });
+
+        const checkoutSession = {
+          object:
+            'checkout.session',
+
+          id:
+            'cs_esim_after_canceled_subscriber',
+
+          mode:
+            'payment',
+
+          status:
+            'complete',
+
+          payment_status:
+            'paid',
+
+          payment_intent:
+            'pi_esim_after_canceled_subscriber',
+
+          client_reference_id:
+            String(TEST_USER_ID),
+
+          livemode:
+            false,
+
+          metadata: {
+            userId:
+              String(TEST_USER_ID),
+
+            product:
+              'chatforia_esim_local_3_premium',
+
+            platform:
+              'web',
+          },
+        };
+
+        const event =
+          makeStripeEvent({
+            id:
+              'evt_esim_after_canceled_subscriber',
+
+            type:
+              'checkout.session.completed',
+
+            object:
+              checkoutSession,
+          });
+
+        await agent
+          .post(
+            ENDPOINTS.webhook
+          )
+          .set(
+            'Stripe-Signature',
+            't=0,v1=testsig'
+          )
+          .set(
+            'Content-Type',
+            'application/json'
+          )
+          .send(
+            JSON.stringify(event)
+          )
+          .expect(200);
+
+        const purchase =
+          await prisma
+            .mobileDataPackPurchase
+            .findUnique({
+              where: {
+                billingTransactionId:
+                  checkoutSession
+                    .payment_intent,
+              },
+            });
+
+        const subscribers =
+          await prisma.subscriber.findMany({
+            where: {
+              userId:
+                TEST_USER_ID,
+            },
+
+            orderBy: {
+              createdAt:
+                'asc',
+            },
+          });
+
+        const originalSubscriber =
+          subscribers.find(
+            (subscriber) =>
+              subscriber.id ===
+              canceledSubscriber.id
+          );
+
+        const replacementSubscriber =
+          subscribers.find(
+            (subscriber) =>
+              subscriber.id !==
+              canceledSubscriber.id
+          );
+
+        expect(
+          subscribers
+        ).toHaveLength(2);
+
+        expect(
+          originalSubscriber
+        ).toEqual(
+          expect.objectContaining({
+            status:
+              'CANCELLED',
+
+            providerProfileId:
+              'mock-telna-canceled',
+
+            purchaseId:
+              null,
+          })
+        );
+
+        expect(
+          replacementSubscriber
+        ).toEqual(
+          expect.objectContaining({
+            status:
+              'PENDING',
+
+            purchaseId:
+              purchase.id,
+
+            provider:
+              'telna',
+          })
+        );
+
+        expect(
+          replacementSubscriber
+            .providerProfileId
+        ).toMatch(
+          /^mock-telna-/
+        );
+
+        expect(
+          replacementSubscriber
+            .providerProfileId
+        ).not.toBe(
+          canceledSubscriber
+            .providerProfileId
+        );
+
+        expect(
+          purchase
+        ).toEqual(
+          expect.objectContaining({
+            userId:
+              TEST_USER_ID,
+
+            addonKind:
+              'chatforia_esim_local_3_premium',
+
+            totalDataMb:
+              3 * 1024,
+
+            remainingDataMb:
+              3 * 1024,
+
+            esimProfileId:
+              replacementSubscriber
+                .providerProfileId,
+
+            iccid:
+              replacementSubscriber
+                .iccid,
+          })
+        );
+
+        const user =
+          await prisma.user.findUnique({
+            where: {
+              id:
+                TEST_USER_ID,
+            },
+
+            select: {
+              iccid:
+                true,
+            },
+          });
+
+        expect(
+          user.iccid
+        ).toBe(
+          replacementSubscriber.iccid
+        );
+      }
+    );
+
+    test(
       'active Stripe subscription creates an AppSubscription and projects the user plan',
       async () => {
         await createTestUser();
