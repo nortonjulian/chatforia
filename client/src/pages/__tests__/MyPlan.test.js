@@ -128,6 +128,7 @@ describe('MyPlan page', () => {
           currency: 'usd',
           interval: 'month',
           renewsAt: '2030-01-01T00:00:00.000Z',
+          autoRenewEnabled: true,
         },
       },
     });
@@ -163,6 +164,34 @@ describe('MyPlan page', () => {
     ).toBeInTheDocument();
 
     expect(mockGet).toHaveBeenCalledWith('/billing/my-plan');
+  });
+
+  test('shows active-through text for a scheduled cancellation', async () => {
+    mockGet.mockResolvedValueOnce({
+      data: {
+        plan: {
+          label: 'Chatforia Premium',
+          isFree: false,
+          status: 'ACTIVE',
+          renewsAt: '2030-01-01T00:00:00.000Z',
+          autoRenewEnabled: false,
+        },
+      },
+    });
+
+    renderWithRouter();
+
+    expect(
+      await screen.findByText('Chatforia Premium')
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/active through/i)
+    ).toBeInTheDocument();
+
+    expect(
+      screen.queryByText(/renews on/i)
+    ).not.toBeInTheDocument();
   });
 
   test('shows error message when request fails', async () => {
