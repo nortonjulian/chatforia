@@ -1,23 +1,29 @@
 const appleIapConfig = {
-  bundleId: process.env.APPLE_BUNDLE_ID || 'com.chatforia.app',
+  bundleId: process.env.APPLE_BUNDLE_ID || 'com.chatforia.Chatforia',
   environment: (process.env.APPLE_IAP_ENV || 'sandbox').toLowerCase(), // sandbox | production
 
   products: {
     // Subscriptions
     plus_monthly: {
-      productId: 'com.chatforia.plus.monthly',
+      productId: 'plus.monthly',
+      aliases: ['com.chatforia.plus.monthly'],
       kind: 'subscription',
       plan: 'PLUS',
+      billingPeriod: 'monthly',
     },
     premium_monthly: {
-      productId: 'com.chatforia.premium.monthly',
+      productId: 'premium.monthly',
+      aliases: ['com.chatforia.premium.monthly'],
       kind: 'subscription',
       plan: 'PREMIUM',
+      billingPeriod: 'monthly',
     },
     premium_annual: {
-      productId: 'com.chatforia.premium.annual',
+      productId: 'premium.annual',
+      aliases: ['com.chatforia.premium.annual'],
       kind: 'subscription',
       plan: 'PREMIUM',
+      billingPeriod: 'annual',
     },
 
     // Add-ons / data packs
@@ -96,10 +102,18 @@ const appleIapConfig = {
   },
 };
 
-const productsById = Object.values(appleIapConfig.products).reduce((acc, product) => {
-  acc[product.productId] = product;
-  return acc;
-}, {});
+const productsById = Object.values(appleIapConfig.products).reduce(
+  (acc, product) => {
+    const productIds = [product.productId, ...(product.aliases || [])];
+
+    for (const productId of productIds) {
+      acc[productId] = product;
+    }
+
+    return acc;
+  },
+  {}
+);
 
 export function getAppleProduct(productId) {
   return productsById[String(productId || '').trim()] || null;
