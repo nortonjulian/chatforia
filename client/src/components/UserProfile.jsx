@@ -911,10 +911,8 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                       </Group>
 
                       {!planInfo.isFree && (
-                        <Text size="sm" mt="xs">
-                          {planInfo.amountFormatted}{' '}
-                          {planInfo.currency?.toUpperCase()}/
-                          {planInfo.interval || 'month'}
+                        <Text size="sm" mt="xs" c="dimmed">
+                          {t('billing.activeSubscription', 'Active subscription')}
                         </Text>
                       )}
 
