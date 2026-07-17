@@ -7,6 +7,7 @@ import {
   assertAppSubscriptionProviderAvailable,
   recomputeUserAppEntitlement,
 } from '../services/appEntitlementService.js';
+import { verifyAndApplyAppleSubscription } from '../services/appleEntitlementService.js';
 
 const router = express.Router();
 
@@ -1088,6 +1089,78 @@ router.post('/cancel-now', async (req, res) => {
     return res.status(500).json({
       error: 'Failed to cancel subscription',
       code: 'SUBSCRIPTION_CANCEL_FAILED',
+    });
+  }
+});
+
+router.post('/ios-sync', async (req, res) => {
+  if (!req.user?.id) {
+    return res.status(401).json({
+      ok: false,
+      error: 'Unauthorized',
+      code: 'UNAUTHORIZED',
+    });
+  }
+
+  const signedTransactionInfo =
+    typeof req.body?.signedTransactionInfo === 'string'
+      ? req.body.signedTransactionInfo.trim()
+      : '';
+
+  if (!signedTransactionInfo) {
+    return res.status(400).json({
+      ok: false,
+      error: 'A signed Apple transaction is required.',
+      code: 'APPLE_TRANSACTION_REQUIRED',
+    });
+  }
+
+  try {
+    const result =
+      await verifyAndApplyAppleSubscription({
+        userId: req.user.id,
+        signedTransactionInfo,
+      });
+
+    return res.json({
+      ok: true,
+      provider: 'APPLE',
+      plan: result.user.plan,
+      status:
+        result.user.subscriptionStatus,
+      expiresAt:
+        result.user.subscriptionEndsAt
+          ?.toISOString?.() ?? null,
+      productId:
+        result.transaction.productId,
+      grantsAccess:
+        result.grantsAccess,
+      alreadyLinked:
+        result.alreadyLinked,
+    });
+  } catch (err) {
+    const statusCode =
+      Number.isInteger(err?.statusCode)
+        ? err.statusCode
+        : 500;
+
+    console.error(
+      '[billing/ios-sync] error:',
+      {
+        message: err?.message ?? null,
+        code: err?.code ?? null,
+        userId: req.user?.id ?? null,
+      }
+    );
+
+    return res.status(statusCode).json({
+      ok: false,
+      error:
+        err?.message ||
+        'Apple subscription verification failed.',
+      code:
+        err?.code ||
+        'APPLE_SUBSCRIPTION_VERIFICATION_FAILED',
     });
   }
 });
