@@ -48,29 +48,28 @@ function makeActiveStripeSubscription({
 } = {}) {
   const now = Date.now();
 
+  const currentPeriodStart =
+    unixSeconds(
+      new Date(now - 60_000)
+    );
+
+  const currentPeriodEnd =
+    unixSeconds(
+      new Date(
+        now +
+          30 *
+            24 *
+            60 *
+            60 *
+            1000
+      )
+    );
+
   return {
     object: 'subscription',
     id,
     customer,
     status: 'active',
-
-    current_period_start:
-      unixSeconds(
-        new Date(now - 60_000)
-      ),
-
-    current_period_end:
-      unixSeconds(
-        new Date(
-          now +
-            30 *
-              24 *
-              60 *
-              60 *
-              1000
-        )
-      ),
-
     cancel_at_period_end: false,
 
     metadata: {
@@ -81,6 +80,12 @@ function makeActiveStripeSubscription({
       data: [
         {
           object: 'subscription_item',
+
+          current_period_start:
+            currentPeriodStart,
+
+          current_period_end:
+            currentPeriodEnd,
 
           price: {
             id: priceId,
@@ -93,22 +98,34 @@ function makeActiveStripeSubscription({
   };
 }
 
+
 function makeCanceledStripeSubscription({
   id = 'sub_live_abc',
   userId = TEST_USER_ID,
   customer = 'cus_live_999',
 } = {}) {
+  const currentPeriodEnd =
+    unixSeconds();
+
   return {
     object: 'subscription',
     id,
     customer,
     status: 'canceled',
-    current_period_end:
-      unixSeconds(),
     cancel_at_period_end: false,
 
     metadata: {
       userId: String(userId),
+    },
+
+    items: {
+      data: [
+        {
+          object: 'subscription_item',
+          current_period_end:
+            currentPeriodEnd,
+        },
+      ],
     },
 
     livemode: false,
@@ -616,6 +633,28 @@ describe(
               },
             });
 
+
+        const subscriptionItem =
+          subscription.items.data[0];
+
+        expect(
+          appSubscription.startsAt
+        ).toEqual(
+          new Date(
+            subscriptionItem.current_period_start *
+              1000
+          )
+        );
+
+        expect(
+          appSubscription.endsAt
+        ).toEqual(
+          new Date(
+            subscriptionItem.current_period_end *
+              1000
+          )
+        );
+
         expect(
           appSubscription
         ).toEqual(
@@ -689,7 +728,10 @@ describe(
               'ACTIVE',
 
             subscriptionEndsAt:
-              expect.any(Date),
+              new Date(
+                subscription.items.data[0]
+                  .current_period_end * 1000
+              ),
           })
         );
       }

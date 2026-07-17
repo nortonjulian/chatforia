@@ -36,6 +36,21 @@ function dateFromUnix(seconds) {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
+function getSubscriptionPeriod(subscription) {
+  const item = subscription.items?.data?.[0];
+
+  return {
+    startsAt: dateFromUnix(
+      item?.current_period_start ??
+        subscription.current_period_start
+    ),
+    endsAt: dateFromUnix(
+      item?.current_period_end ??
+        subscription.current_period_end
+    ),
+  };
+}
+
 async function hasProcessedStripeEvent(eventId) {
   const existing = await prisma.stripeWebhookEvent.findUnique({
     where: { id: String(eventId) },
@@ -123,6 +138,11 @@ async function applyActiveSubscription(
 
   const item =
     subscription.items?.data?.[0];
+
+  const {
+    startsAt: subscriptionStartsAt,
+    endsAt: subscriptionEndsAt,
+  } = getSubscriptionPeriod(subscription);
 
   const priceId =
     item?.price?.id || null;
@@ -284,15 +304,8 @@ async function applyActiveSubscription(
               !subscription
                 .cancel_at_period_end,
 
-            startsAt:
-              dateFromUnix(
-                subscription.current_period_start
-              ),
-
-            endsAt:
-              dateFromUnix(
-                subscription.current_period_end
-              ),
+            startsAt: subscriptionStartsAt,
+            endsAt: subscriptionEndsAt,
 
             lastVerifiedAt:
               now,
@@ -325,15 +338,8 @@ async function applyActiveSubscription(
               !subscription
                 .cancel_at_period_end,
 
-            startsAt:
-              dateFromUnix(
-                subscription.current_period_start
-              ),
-
-            endsAt:
-              dateFromUnix(
-                subscription.current_period_end
-              ),
+            startsAt: subscriptionStartsAt,
+            endsAt: subscriptionEndsAt,
 
             lastVerifiedAt:
               now,
@@ -450,6 +456,10 @@ async function markSubscriptionCanceledOrPastDue(
 
   const now = new Date();
 
+  const {
+    endsAt: subscriptionEndsAt,
+  } = getSubscriptionPeriod(subscription);
+
   const keepsAccess =
     normalizedStatus === 'PAST_DUE';
 
@@ -477,10 +487,7 @@ async function markSubscriptionCanceledOrPastDue(
                 ? !subscription.cancel_at_period_end
                 : false,
 
-            endsAt:
-              dateFromUnix(
-                subscription.current_period_end
-              ) || now,
+            endsAt: subscriptionEndsAt || now,
 
             lastVerifiedAt:
               now,
