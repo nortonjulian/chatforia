@@ -9,6 +9,7 @@ let prismaMock;
 let stripeMock;
 let billingRouter;
 let recomputeUserAppEntitlementMock;
+let getEffectiveAppEntitlementMock;
 let assertAppSubscriptionProviderAvailableMock;
 let verifyAndApplyGooglePlaySubscriptionMock;
 
@@ -76,6 +77,9 @@ beforeAll(async () => {
       recomputeUserAppEntitlementMock =
         jest.fn();
 
+      getEffectiveAppEntitlementMock =
+        jest.fn();
+
       assertAppSubscriptionProviderAvailableMock =
         jest.fn();
 
@@ -84,6 +88,9 @@ beforeAll(async () => {
 
         recomputeUserAppEntitlement:
           recomputeUserAppEntitlementMock,
+
+        getEffectiveAppEntitlement:
+          getEffectiveAppEntitlementMock,
 
         assertAppSubscriptionProviderAvailable:
           assertAppSubscriptionProviderAvailableMock,
@@ -156,6 +163,10 @@ beforeEach(() => {
   recomputeUserAppEntitlementMock
     .mockReset();
 
+  getEffectiveAppEntitlementMock
+    .mockReset()
+    .mockResolvedValue(null);
+
   verifyAndApplyGooglePlaySubscriptionMock
   .mockReset();
 });
@@ -212,6 +223,7 @@ describe('GET /billing/my-plan', () => {
         isFree: true,
         status: 'INACTIVE',
         renewsAt: null,
+        autoRenewEnabled: false,
         provider: null,
       },
     });
@@ -221,6 +233,10 @@ describe('GET /billing/my-plan', () => {
     const app = buildApp();
 
     const renewsAt = new Date('2026-01-01T00:00:00.000Z');
+
+    getEffectiveAppEntitlementMock.mockResolvedValue({
+      autoRenewEnabled: true,
+    });
 
     prismaMock.user.findUnique.mockResolvedValue({
       plan: 'PREMIUM',
@@ -252,6 +268,7 @@ describe('GET /billing/my-plan', () => {
         isFree: false,
         status: 'ACTIVE',
         renewsAt: renewsAt.toISOString(),
+        autoRenewEnabled: true,
         provider: 'STRIPE',
       },
     });

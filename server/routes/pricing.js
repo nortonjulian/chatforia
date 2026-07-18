@@ -22,6 +22,31 @@ function pickCurrencyForCountry(country) {
   return COUNTRY_CURRENCY[cc] || 'USD';
 }
 
+function normalizePricingProductForLookup(product) {
+  const normalized = String(product || '')
+    .trim()
+    .replace(
+      /_(\d+)gb(?=(_premium|_standard)?$)/i,
+      '_$1'
+    )
+    .replace(
+      /(\d+)gb$/i,
+      '$1'
+    );
+
+  if (
+    normalized.startsWith('chatforia_esim_') &&
+    normalized.endsWith('_premium')
+  ) {
+    return normalized.slice(
+      0,
+      -'_premium'.length
+    );
+  }
+
+  return normalized;
+}
+
 async function tierForCountry(country) {
   const cc = (country || '').toUpperCase();
   if (!cc) return 'ROW';
@@ -33,7 +58,17 @@ async function tierForCountry(country) {
 router.get('/quote', async (req, res) => {
   try {
     const user = req.user || null; // if you attach user on auth middleware
-    const product = (req.query.product || 'chatforia_premium').toString();
+
+    const requestedProduct =
+      (
+        req.query.product ||
+        'chatforia_premium'
+      ).toString();
+
+    const lookupProduct =
+      normalizePricingProductForLookup(
+        requestedProduct
+      );
 
     // Evidence (ordered by trust)
     const qCountry = (req.query.country || '').toString().toUpperCase();
@@ -60,20 +95,38 @@ router.get('/quote', async (req, res) => {
 
     // 4) Look up active price row
     let price = await prisma.price.findUnique({
-      where: { product_tier_currency: { product, tier, currency } },
+      where: {
+        product_tier_currency: {
+          product: lookupProduct,
+          tier,
+          currency,
+        },
+      },
     });
 
     // fallback 1: same tier in USD
     if (!price && currency !== 'USD') {
       price = await prisma.price.findUnique({
-        where: { product_tier_currency: { product, tier, currency: 'USD' } },
+        where: {
+          product_tier_currency: {
+            product: lookupProduct,
+            tier,
+            currency: 'USD',
+          },
+        },
       });
     }
 
     // fallback 2: ROW/USD
     if (!price) {
       price = await prisma.price.findUnique({
-        where: { product_tier_currency: { product, tier: 'ROW', currency: 'USD' } },
+        where: {
+          product_tier_currency: {
+            product: lookupProduct,
+            tier: 'ROW',
+            currency: 'USD',
+          },
+        },
       });
     }
 
@@ -83,7 +136,7 @@ router.get('/quote', async (req, res) => {
 
     // Shape response for client
     return res.json({
-      product,
+      product: requestedProduct,
       country,
       regionTier: tier,
       currency: price.currency,

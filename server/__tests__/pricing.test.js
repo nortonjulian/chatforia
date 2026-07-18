@@ -104,6 +104,103 @@ describe('GET /pricing/quote', () => {
     });
   });
 
+  it('resolves premium eSIM product aliases through existing pricing rows', async () => {
+    mockRegionRuleFindUnique.mockResolvedValueOnce(null);
+
+    mockPriceFindUnique.mockResolvedValueOnce({
+      product:
+        'chatforia_esim_local_3',
+
+      tier:
+        'ROW',
+
+      currency:
+        'USD',
+
+      unitAmount:
+        1499,
+
+      active:
+        true,
+
+      stripePriceId:
+        'price_esim_local_3',
+
+      appleSku:
+        null,
+
+      googleSku:
+        null,
+    });
+
+    const app = createApp();
+
+    const res =
+      await request(app)
+        .get('/pricing/quote')
+        .query({
+          country:
+            'US',
+
+          currency:
+            'USD',
+
+          product:
+            'chatforia_esim_local_3_premium',
+        });
+
+    expect(
+      res.statusCode
+    ).toBe(200);
+
+    expect(
+      res.body
+    ).toMatchObject({
+      product:
+        'chatforia_esim_local_3_premium',
+
+      country:
+        'US',
+
+      regionTier:
+        'ROW',
+
+      currency:
+        'USD',
+
+      unitAmount:
+        1499,
+
+      stripePriceId:
+        'price_esim_local_3',
+
+      display: {
+        amount:
+          '14.99',
+
+        currency:
+          'USD',
+      },
+    });
+
+    expect(
+      mockPriceFindUnique
+    ).toHaveBeenCalledWith({
+      where: {
+        product_tier_currency: {
+          product:
+            'chatforia_esim_local_3',
+
+          tier:
+            'ROW',
+
+          currency:
+            'USD',
+        },
+      },
+    });
+  });
+
   it('uses user billingCountry, pricingRegion, and currency when query params are missing', async () => {
     const user = {
       billingCountry: 'CA',
