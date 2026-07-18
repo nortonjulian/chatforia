@@ -10,6 +10,7 @@ import {
   Button,
   Stack,
   Loader,
+  Modal,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
@@ -23,6 +24,8 @@ export default function MyPlan() {
 
   const [loadingPortal, setLoadingPortal] = useState(false);
   const [loadingCancelNow, setLoadingCancelNow] = useState(false);
+
+  const [cancelModalOpen, setCancelModalOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -80,10 +83,7 @@ export default function MyPlan() {
     } catch (err) {
       console.error('Billing portal error', err);
       setError(
-        t(
-          'billing.portalError',
-          'Unable to open the billing portal right now.'
-        )
+        t('billing.portalError', 'Unable to open the billing portal right now.')
       );
     } finally {
       setLoadingPortal(false);
@@ -92,14 +92,6 @@ export default function MyPlan() {
 
   const cancelNow = async () => {
     if (!plan || plan.isFree) return;
-
-    const confirmed = window.confirm(
-      t(
-        'billing.cancelNowConfirm',
-        'Are you sure you want to cancel your plan immediately? This cannot be undone.'
-      )
-    );
-    if (!confirmed) return;
 
     posthog.capture('subscription_cancel_initiated', {
       plan: plan?.label,
@@ -110,6 +102,8 @@ export default function MyPlan() {
       setLoadingCancelNow(true);
 
       await axiosClient.post('/billing/cancel-now', {});
+
+      setCancelModalOpen(false);
 
       posthog.capture('subscription_cancel_completed', {
         plan: plan?.label,
@@ -133,18 +127,65 @@ export default function MyPlan() {
 
   return (
     <Container size="md" py="xl">
+      <Modal
+        opened={cancelModalOpen}
+        onClose={() => {
+          if (!loadingCancelNow) {
+            setCancelModalOpen(false);
+          }
+        }}
+        title={t('billing.cancelNowModalTitle', 'Cancel plan immediately?')}
+        centered
+        closeOnClickOutside={!loadingCancelNow}
+        closeOnEscape={!loadingCancelNow}
+        withCloseButton={!loadingCancelNow}
+      >
+        <Stack gap="md">
+          <Text size="sm">
+            {t(
+              'billing.cancelNowModalBody',
+              'Your paid plan benefits will end immediately. You can subscribe again later, but this cancellation takes effect right away.'
+            )}
+          </Text>
+
+          {error && (
+            <Text c="red" size="sm">
+              {error}
+            </Text>
+          )}
+
+          <Group justify="flex-end">
+            <Button
+              variant="default"
+              onClick={() => setCancelModalOpen(false)}
+              disabled={loadingCancelNow}
+            >
+              {t('billing.keepPlanButton', 'Keep my plan')}
+            </Button>
+
+            <Button color="red" onClick={cancelNow} loading={loadingCancelNow}>
+              {t('billing.cancelPlanNowButton', 'Cancel plan now')}
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
+
       <Stack gap="lg" maw={720}>
         <Title order={2}>{t('billing.myPlanTitle', 'My plan')}</Title>
 
         {loading && (
           <Group>
             <Loader size="sm" />
-            <Text size="sm">{t('billing.myPlanLoading', 'Loading your plan…')}</Text>
+            <Text size="sm">
+              {t('billing.myPlanLoading', 'Loading your plan…')}
+            </Text>
           </Group>
         )}
 
-        {error && !loading && (
-          <Text c="red" size="sm">{error}</Text>
+        {error && !loading && !cancelModalOpen && (
+          <Text c="red" size="sm">
+            {error}
+          </Text>
         )}
 
         {!loading && plan && (
@@ -169,7 +210,10 @@ export default function MyPlan() {
                     <Text mt={6} size="sm" c="dimmed">
                       {plan.renewsAt
                         ? `${t('billing.renewsAt', 'Renews on')} ${new Date(plan.renewsAt).toLocaleDateString()}`
-                        : t('billing.activeSubscription', 'Your subscription is active.')}
+                        : t(
+                            'billing.activeSubscription',
+                            'Your subscription is active.'
+                          )}
                     </Text>
                   )}
 
@@ -191,18 +235,17 @@ export default function MyPlan() {
                       {t('billing.manageBilling', 'Manage billing')}
                     </Button>
 
-                    <Button
-                      component={Link}
-                      to="/upgrade"
-                      variant="outline"
-                    >
+                    <Button component={Link} to="/upgrade" variant="outline">
                       {t('billing.changePlanCta', 'Change plan')}
                     </Button>
 
                     <Button
+                      color="red"
                       variant="light"
-                      onClick={cancelNow}
-                      loading={loadingCancelNow}
+                      onClick={() => {
+                        setError('');
+                        setCancelModalOpen(true);
+                      }}
                     >
                       {t('billing.cancelNow', 'Cancel now')}
                     </Button>
