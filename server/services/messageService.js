@@ -670,8 +670,68 @@ export async function shapeMessageForUser(messageId, viewerUserId) {
 
   if (!m) return null;
 
+  const viewerId = Number(viewerUserId);
+
+  const [membership, threadState] = await Promise.all([
+    prisma.participant.findUnique({
+      where: {
+        chatRoomId_userId: {
+          chatRoomId: m.chatRoomId,
+          userId: viewerId,
+        },
+      },
+      select: {
+        clearedAt: true,
+      },
+    }),
+
+    prisma.threadState.findUnique({
+      where: {
+        userId_chatRoomId: {
+          userId: viewerId,
+          chatRoomId: m.chatRoomId,
+        },
+      },
+      select: {
+        deletedAt: true,
+      },
+    }),
+  ]);
+
+  // Never emit a message to someone who is no longer in the room.
+  if (!membership) {
+    return null;
+  }
+
+  const clearedAtMs = membership.clearedAt
+    ? new Date(membership.clearedAt).getTime()
+    : 0;
+
+  const deletedAtMs = threadState?.deletedAt
+    ? new Date(threadState.deletedAt).getTime()
+    : 0;
+
+  const hiddenBeforeMs = Math.max(
+    Number.isFinite(clearedAtMs) ? clearedAtMs : 0,
+    Number.isFinite(deletedAtMs) ? deletedAtMs : 0
+  );
+
+  const messageCreatedAtMs = new Date(m.createdAt).getTime();
+
+  // Messages from before the user deleted or cleared the conversation
+  // must never return through realtime socket events.
+  if (
+    hiddenBeforeMs > 0 &&
+    (
+      !Number.isFinite(messageCreatedAtMs) ||
+      messageCreatedAtMs <= hiddenBeforeMs
+    )
+  ) {
+    return null;
+  }
+
   const viewer = await prisma.user.findUnique({
-    where: { id: Number(viewerUserId) },
+    where: { id: viewerId },
     select: {
       id: true,
       preferredLanguage: true,
@@ -680,7 +740,7 @@ export async function shapeMessageForUser(messageId, viewerUserId) {
 
   const viewerLang = (viewer?.preferredLanguage || 'en').trim().toLowerCase();
   const senderId = Number(m.sender?.id || 0);
-  const isSender = senderId === Number(viewerUserId);
+  const isSender = senderId === viewerId;
   const hasCipher = !!m.contentCiphertext;
 
   const translatedForMe =
