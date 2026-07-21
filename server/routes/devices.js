@@ -46,7 +46,6 @@ const deviceSelect = {
 };
 
 router.post('/register', requireAuth, async (req, res, next) => {
-
   try {
     const userId = Number(req.user.id);
 
@@ -54,89 +53,226 @@ router.post('/register', requireAuth, async (req, res, next) => {
     const name = normalizeString(req.body?.name, 120) || 'iPhone';
     const platform = normalizeString(req.body?.platform, 120) || 'iOS';
     const publicKey = normalizeString(req.body?.publicKey, 4096);
-    const keyAlgorithm = normalizeString(req.body?.keyAlgorithm, 50) || 'curve25519';
+    const keyAlgorithm =
+      normalizeString(req.body?.keyAlgorithm, 50) || 'curve25519';
     const keyVersion = Number(req.body?.keyVersion || 1);
 
+    const replaceExistingDevice =
+      req.body?.replaceExistingDevice === true;
+
+    const replaceDeviceId =
+      normalizeString(req.body?.replaceDeviceId, 191);
+
     if (!userId || !deviceId || !publicKey) {
-  return res.status(400).json({ error: 'deviceId and publicKey are required' });
-}
-
-    const existingActiveDevices = await prisma.device.count({
-      where: {
-        userId,
-        revokedAt: null,
-        NOT: {
-          deviceId,
-        },
-      },
-    });
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        plan: true,
-      },
-    });
-
-    const plan = String(user?.plan || 'FREE').toUpperCase();
-    const isPaidPlan = ['PLUS', 'PREMIUM', 'WIRELESS'].includes(plan);
-
-    if (!isPaidPlan && existingActiveDevices >= 1) {
-      return res.status(402).json({
-        error: 'FREE plan allows one active device. Upgrade to add more devices.',
-        code: 'DEVICE_LIMIT_REACHED',
+      return res.status(400).json({
+        error: 'deviceId and publicKey are required',
       });
     }
 
-    const device = await prisma.device.upsert({
-      where: {
-        userId_deviceId: {
+    if (replaceExistingDevice && !replaceDeviceId) {
+      return res.status(400).json({
+        error: 'replaceDeviceId is required when replacing a device',
+        code: 'REPLACE_DEVICE_ID_REQUIRED',
+      });
+    }
+
+    const result = await prisma.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({
+        where: { id: userId },
+        select: {
+          plan: true,
+        },
+      });
+
+      if (!user) {
+        return {
+          status: 404,
+          body: {
+            error: 'User not found',
+            code: 'USER_NOT_FOUND',
+          },
+        };
+      }
+
+      const plan = String(user.plan || 'FREE').toUpperCase();
+      const isPaidPlan =
+        ['PLUS', 'PREMIUM', 'WIRELESS'].includes(plan);
+
+      const activeOtherDevices = await tx.device.findMany({
+        where: {
+          userId,
+          revokedAt: null,
+          NOT: {
+            deviceId,
+          },
+        },
+        orderBy: [
+          {
+            lastSeenAt: 'desc',
+          },
+          {
+            createdAt: 'desc',
+          },
+        ],
+        select: {
+          deviceId: true,
+          name: true,
+          platform: true,
+          lastSeenAt: true,
+          createdAt: true,
+        },
+      });
+
+      const activeDeviceSummaries =
+        activeOtherDevices.map((device) => ({
+          deviceId: device.deviceId,
+          name: device.name,
+          platform: device.platform,
+          lastSeenAt: device.lastSeenAt,
+          createdAt: device.createdAt,
+        }));
+
+      if (
+        !isPaidPlan &&
+        activeOtherDevices.length >= 1 &&
+        !replaceExistingDevice
+      ) {
+        return {
+          status: 409,
+          body: {
+            error:
+              'This plan allows one active device. Confirm which existing device should be replaced.',
+            code: 'DEVICE_REPLACEMENT_REQUIRED',
+            existingDevices: activeDeviceSummaries,
+          },
+        };
+      }
+
+      if (replaceExistingDevice) {
+        const replacementTarget =
+          activeOtherDevices.find(
+            (device) => device.deviceId === replaceDeviceId
+          );
+
+        if (!replacementTarget) {
+          return {
+            status: 409,
+            body: {
+              error:
+                'The selected replacement device is no longer active. Refresh the device list and try again.',
+              code: 'DEVICE_REPLACEMENT_TARGET_STALE',
+              existingDevices: activeDeviceSummaries,
+            },
+          };
+        }
+
+        const now = new Date();
+
+        const replacementWhere = isPaidPlan
+          ? {
+              userId,
+              deviceId: replaceDeviceId,
+              revokedAt: null,
+            }
+          : {
+              userId,
+              deviceId: {
+                not: deviceId,
+              },
+              revokedAt: null,
+            };
+
+        await tx.device.updateMany({
+          where: replacementWhere,
+          data: {
+            revokedAt: now,
+            revokedById: userId,
+            isPrimary: false,
+            pushToken: null,
+            pushProvider: null,
+            apnsPushToken: null,
+            fcmPushToken: null,
+            voipPushToken: null,
+          },
+        });
+      }
+
+      const device = await tx.device.upsert({
+        where: {
+          userId_deviceId: {
+            userId,
+            deviceId,
+          },
+        },
+        update: {
+          name,
+          platform,
+          publicKey,
+          keyAlgorithm,
+          keyVersion: Number.isFinite(keyVersion)
+            ? keyVersion
+            : 1,
+          lastSeenAt: new Date(),
+          revokedAt: null,
+          revokedById: null,
+          pairingStatus: 'approved',
+          pairingApprovedAt: new Date(),
+          pairingRejectedAt: null,
+        },
+        create: {
           userId,
           deviceId,
+          name,
+          platform,
+          publicKey,
+          keyAlgorithm,
+          keyVersion: Number.isFinite(keyVersion)
+            ? keyVersion
+            : 1,
+          lastSeenAt: new Date(),
+          pairingStatus: 'approved',
+          pairingApprovedAt: new Date(),
         },
-      },
-      update: {
-        name,
-        platform,
-        publicKey,
-        keyAlgorithm,
-        keyVersion: Number.isFinite(keyVersion) ? keyVersion : 1,
-        lastSeenAt: new Date(),
-        revokedAt: null,
-        pairingStatus: 'approved',
-        pairingApprovedAt: new Date(),
-        pairingRejectedAt: null,
-      },
-      create: {
-        userId,
-        deviceId,
-        name,
-        platform,
-        publicKey,
-        keyAlgorithm,
-        keyVersion: Number.isFinite(keyVersion) ? keyVersion : 1,
-        lastSeenAt: new Date(),
-        pairingStatus: 'approved',
-        pairingApprovedAt: new Date(),
-      },
-      select: {
-        id: true,
-        userId: true,
-        deviceId: true,
-        name: true,
-        platform: true,
-        publicKey: true,
-        keyAlgorithm: true,
-        keyVersion: true,
-        isPrimary: true,
-        lastSeenAt: true,
-        createdAt: true,
-        updatedAt: true,
-        revokedAt: true,
-      },
+        select: {
+          id: true,
+          userId: true,
+          deviceId: true,
+          name: true,
+          platform: true,
+          publicKey: true,
+          keyAlgorithm: true,
+          keyVersion: true,
+          isPrimary: true,
+          lastSeenAt: true,
+          createdAt: true,
+          updatedAt: true,
+          revokedAt: true,
+        },
+      });
+
+      const replacedDeviceIds =
+        replaceExistingDevice
+          ? isPaidPlan
+            ? [replaceDeviceId]
+            : activeOtherDevices.map(
+                (item) => item.deviceId
+              )
+          : [];
+
+      return {
+        device,
+        replacedDeviceIds,
+      };
     });
 
-    return res.status(200).json({ device });
+    if (result.status) {
+      return res.status(result.status).json(result.body);
+    }
+
+    return res.status(200).json({
+      device: result.device,
+      replacedDeviceIds: result.replacedDeviceIds,
+    });
   } catch (error) {
     next(error);
   }
@@ -471,41 +607,17 @@ router.post('/push-token', requireAuth, async (req, res) => {
   const userId = Number(req.user?.id);
   const deviceId = normalizeString(req.body?.deviceId, 191);
   const pushToken = normalizeString(req.body?.pushToken, 4096);
+
   const pushProvider =
-    (normalizeString(req.body?.pushProvider, 64) || 'apns').toLowerCase();
-  const pushTokenData = {
-    lastSeenAt: new Date(),
-    revokedAt: null,
-  };
-
-  if (pushProvider === 'apns_voip') {
-    pushTokenData.voipPushToken = pushToken;
-    pushTokenData.pushProvider = 'apns_voip';
-  } else if (pushProvider === 'apns') {
-    pushTokenData.apnsPushToken = pushToken;
-    pushTokenData.pushToken = pushToken;
-    pushTokenData.pushProvider = pushProvider;
-  } else if (pushProvider === 'fcm') {
-    pushTokenData.fcmPushToken = pushToken;
-    pushTokenData.pushToken = pushToken;
-    pushTokenData.pushProvider = pushProvider;
-  } else {
-    pushTokenData.pushToken = pushToken;
-    pushTokenData.pushProvider = pushProvider;
-  }
-
-  const publicKey = normalizeString(req.body?.publicKey, 4096);
-  const keyAlgorithm = normalizeString(req.body?.keyAlgorithm, 64) || 'curve25519';
-  const keyVersion = Number(req.body?.keyVersion || 1);
-  const platform =
-    normalizeString(req.body?.platform, 64) ||
-    (pushProvider === 'fcm' ? 'Android' : 'iOS');
-  const name =
-    normalizeString(req.body?.name, 191) ||
-    (pushProvider === 'fcm' ? 'Android device' : 'iOS device');
+    (
+      normalizeString(req.body?.pushProvider, 64) ||
+      'apns'
+    ).toLowerCase();
 
   if (!userId || !deviceId || !pushToken) {
-    return res.status(400).json({ error: 'deviceId and pushToken are required' });
+    return res.status(400).json({
+      error: 'deviceId and pushToken are required',
+    });
   }
 
   try {
@@ -516,72 +628,74 @@ router.post('/push-token', requireAuth, async (req, res) => {
           deviceId,
         },
       },
+      select: {
+        id: true,
+        revokedAt: true,
+      },
     });
 
-    let device;
-
-    if (existing) {
-      device = await prisma.device.update({
-        where: {
-          userId_deviceId: {
-            userId,
-            deviceId,
-          },
-        },
-        data: pushTokenData,
-        select: {
-          id: true,
-          userId: true,
-          deviceId: true,
-          name: true,
-          platform: true,
-          lastSeenAt: true,
-          updatedAt: true,
-          revokedAt: true,
-          pushToken: true,
-          pushProvider: true,
-          apnsPushToken: true,
-          fcmPushToken: true,
-          voipPushToken: true,
-        },
-      });
-    } else {
-      if (!publicKey) {
-        return res.status(400).json({
-          error: 'publicKey is required when creating a new device from push-token',
-        });
-      }
-
-      device = await prisma.device.create({
-        data: {
-          userId,
-          deviceId,
-          ...pushTokenData,
-          publicKey,
-          keyAlgorithm,
-          keyVersion,
-          platform,
-          name,
-        },
-        select: {
-          id: true,
-          userId: true,
-          deviceId: true,
-          name: true,
-          platform: true,
-          lastSeenAt: true,
-          updatedAt: true,
-          revokedAt: true,
-          pushToken: true,
-          pushProvider: true,
-          apnsPushToken: true,
-          fcmPushToken: true,
-          voipPushToken: true,
-        },
+    if (!existing) {
+      return res.status(409).json({
+        error:
+          'Register this device before registering its push token.',
+        code: 'DEVICE_REGISTRATION_REQUIRED',
       });
     }
 
-    return res.json({ success: true, device });
+    if (existing.revokedAt) {
+      return res.status(409).json({
+        error:
+          'This device has been revoked and cannot register a push token.',
+        code: 'DEVICE_REVOKED',
+      });
+    }
+
+    const pushTokenData = {
+      lastSeenAt: new Date(),
+    };
+
+    if (pushProvider === 'apns_voip') {
+      pushTokenData.voipPushToken = pushToken;
+      pushTokenData.pushProvider = 'apns_voip';
+    } else if (pushProvider === 'apns') {
+      pushTokenData.apnsPushToken = pushToken;
+      pushTokenData.pushToken = pushToken;
+      pushTokenData.pushProvider = pushProvider;
+    } else if (pushProvider === 'fcm') {
+      pushTokenData.fcmPushToken = pushToken;
+      pushTokenData.pushToken = pushToken;
+      pushTokenData.pushProvider = pushProvider;
+    } else {
+      pushTokenData.pushToken = pushToken;
+      pushTokenData.pushProvider = pushProvider;
+    }
+
+    const device = await prisma.device.update({
+      where: {
+        id: existing.id,
+      },
+      data: pushTokenData,
+      select: {
+        id: true,
+        userId: true,
+        deviceId: true,
+        name: true,
+        platform: true,
+        lastSeenAt: true,
+        updatedAt: true,
+        revokedAt: true,
+        pushToken: true,
+        pushProvider: true,
+        apnsPushToken: true,
+        fcmPushToken: true,
+        voipPushToken: true,
+      },
+    });
+
+    return res.json({
+      success: true,
+      device,
+    });
   } catch (error) {
     console.error('❌ /devices/push-token failed', {
       userId,
