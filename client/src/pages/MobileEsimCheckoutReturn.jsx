@@ -52,16 +52,10 @@ export default function MobileEsimCheckoutReturn({
       /Android/i.test(userAgent);
 
     if (!isIOS && !isAndroid) {
-      return undefined;
+      return;
     }
 
-    const timer = window.setTimeout(() => {
-      window.location.assign(appURLString);
-    }, 300);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
+    window.location.assign(appURLString);
   }, [appURLString]);
 
   return (
