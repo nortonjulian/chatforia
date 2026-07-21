@@ -37,17 +37,21 @@ export default function MobileEsimCheckoutReturn({
   const appURLString = appURL.toString();
 
   useEffect(() => {
+    const userAgent =
+      window.navigator.userAgent || '';
+
     const isIOS =
-      /iPad|iPhone|iPod/.test(
-        window.navigator.userAgent
-      ) ||
+      /iPad|iPhone|iPod/i.test(userAgent) ||
       (
         window.navigator.platform ===
           'MacIntel' &&
         window.navigator.maxTouchPoints > 1
       );
 
-    if (!isIOS) {
+    const isAndroid =
+      /Android/i.test(userAgent);
+
+    if (!isIOS && !isAndroid) {
       return undefined;
     }
 
