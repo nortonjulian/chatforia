@@ -50,6 +50,55 @@ function messageHasDate(text = '') {
   return patterns.some((p) => p.test(t));
 }
 
+function LinkifiedText({ text }) {
+  const value = String(text || '');
+  const urlPattern =
+    /((?:https?:\/\/|www\.)[^\s<]+)/gi;
+
+  return value.split(urlPattern).map((part, index) => {
+    const isUrl =
+      /^(?:https?:\/\/|www\.)/i.test(part);
+
+    if (!isUrl) {
+      return part;
+    }
+
+    const match = part.match(
+      /^(.*?)([.,!?;:]*)$/
+    );
+
+    const visibleUrl = match?.[1] || part;
+    const trailingPunctuation = match?.[2] || '';
+
+    const href = /^www\./i.test(visibleUrl)
+      ? `https://${visibleUrl}`
+      : visibleUrl;
+
+    return (
+      <span key={`${visibleUrl}-${index}`}>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+          style={{
+            color: 'inherit',
+            textDecoration: 'underline',
+            textUnderlineOffset: 2,
+            overflowWrap: 'anywhere',
+          }}
+        >
+          {visibleUrl}
+        </a>
+
+        {trailingPunctuation}
+      </span>
+    );
+  });
+}
+
 export default function MessageBubble({
   msg,
   currentUserId,
@@ -380,7 +429,7 @@ export default function MessageBubble({
                     maxWidth: '100%',
                   }}
                 >
-                  {displayText}
+                    <LinkifiedText text={displayText} />
                   {Boolean(msg.editedAt) && !isTombstone ? (
                     <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
                       (edited)
@@ -514,7 +563,7 @@ export default function MessageBubble({
                       fontStyle: isTombstone ? 'italic' : 'normal',
                     }}
                   >
-                    {displayText}
+                        <LinkifiedText text={displayText} />
                     {Boolean(msg.editedAt) && !isTombstone ? (
                       <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
                         (edited)

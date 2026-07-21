@@ -13,6 +13,7 @@ const EXCLUDED_PREFIXES = [
   '/dialer',
   '/voicemail',
   '/pricing',
+  '/mobile/esim',
 ];
 
 function isPaidUser(user) {
@@ -38,13 +39,13 @@ export default function AdSenseAutoAds() {
     const adsEnabled = import.meta.env.VITE_ADS_ENABLED !== 'false';
 
     const isExcludedRoute = EXCLUDED_PREFIXES.some((prefix) =>
-    location.pathname.startsWith(prefix)
+      location.pathname.startsWith(prefix)
     );
 
     const shouldLoadAds =
-    adsEnabled &&
-    !isPaidUser(currentUser) &&
-    !isExcludedRoute;
+      adsEnabled &&
+      !isPaidUser(currentUser) &&
+      !isExcludedRoute;
     
     if (!shouldLoadAds) return;
 
