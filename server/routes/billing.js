@@ -639,16 +639,17 @@ router.post('/checkout', async (req, res) => {
       process.env.WEB_URL ||
       'https://chatforia.com';
 
-    const isIOSAddonCheckout =
-      isAddon && platform === 'ios';
+    const isMobileAddonCheckout =
+      isAddon &&
+      ['ios', 'android'].includes(platform);
 
     const addonSuccessURL =
-      isIOSAddonCheckout
+      isMobileAddonCheckout
         ? `${frontendOrigin}/mobile/esim/checkout-complete?session_id={CHECKOUT_SESSION_ID}`
         : `${frontendOrigin}/account/esim?session_id={CHECKOUT_SESSION_ID}`;
 
     const addonCancelURL =
-      isIOSAddonCheckout
+      isMobileAddonCheckout
         ? `${frontendOrigin}/mobile/esim/checkout-canceled`
         : `${frontendOrigin}/upgrade?canceled=1`;
 
