@@ -913,6 +913,267 @@ describe('POST /billing/checkout', () => {
     }
   );
 
+    test(
+      'creates Android eSIM checkout with a Stripe idempotency key',
+      async () => {
+        const app = buildApp();
+
+        prismaMock.user.findUnique.mockResolvedValue({
+          id: 1,
+          email: 'user@test.com',
+          username: 'julian',
+          plan: 'FREE',
+          billingProvider: null,
+          billingCustomerId: 'cus_123',
+          billingSubscriptionId: null,
+          subscriptionStatus: 'INACTIVE',
+          subscriptionEndsAt: null,
+        });
+
+        stripeMock.checkout.sessions.create.mockResolvedValue({
+          id: 'cs_esim_android_123',
+          url:
+            'https://stripe.test/checkout/cs_esim_android_123',
+        });
+
+        const checkoutAttemptId =
+          'attempt_android_12345678';
+
+        const res = await request(app)
+          .post('/billing/checkout')
+          .send({
+            product: 'chatforia_esim_local_5',
+            platform: 'android',
+            checkoutAttemptId,
+          });
+
+        expect(res.statusCode).toBe(200);
+
+        expect(
+          stripeMock.checkout.sessions.create
+        ).toHaveBeenCalledWith(
+          expect.objectContaining({
+            mode: 'payment',
+
+            customer: 'cus_123',
+
+            client_reference_id: '1',
+
+            line_items: [
+              {
+                price: 'price_esim_local_5',
+                quantity: 1,
+              },
+            ],
+
+            metadata: expect.objectContaining({
+              userId: '1',
+              product:
+                'chatforia_esim_local_5',
+              addonKind:
+                'chatforia_esim_local_5_premium',
+              addonType: 'ESIM',
+              checkoutType: 'payment',
+              platform: 'android',
+              checkoutAttemptId,
+            }),
+
+            payment_intent_data: {
+              metadata: expect.objectContaining({
+                userId: '1',
+                product:
+                  'chatforia_esim_local_5',
+                addonKind:
+                  'chatforia_esim_local_5_premium',
+                addonType: 'ESIM',
+                checkoutType: 'payment',
+                platform: 'android',
+                checkoutAttemptId,
+              }),
+            },
+
+            success_url:
+              'https://app.test/mobile/esim/checkout-complete?session_id={CHECKOUT_SESSION_ID}',
+
+            cancel_url:
+              'https://app.test/mobile/esim/checkout-canceled',
+          }),
+          {
+            idempotencyKey:
+              'chatforia-checkout:1:android:chatforia_esim_local_5_premium:attempt_android_12345678',
+          }
+        );
+
+        expect(res.body).toEqual({
+          url:
+            'https://stripe.test/checkout/cs_esim_android_123',
+          checkoutUrl:
+            'https://stripe.test/checkout/cs_esim_android_123',
+          sessionId:
+            'cs_esim_android_123',
+          plan: '',
+        });
+      }
+    );
+
+  test(
+    'uses the same Stripe idempotency key for repeated Android checkout requests',
+    async () => {
+      const app = buildApp();
+
+      prismaMock.user.findUnique.mockResolvedValue({
+        id: 1,
+        email: 'user@test.com',
+        username: 'julian',
+        plan: 'FREE',
+        billingProvider: null,
+        billingCustomerId: 'cus_123',
+        billingSubscriptionId: null,
+        subscriptionStatus: 'INACTIVE',
+        subscriptionEndsAt: null,
+      });
+
+      stripeMock.checkout.sessions.create.mockResolvedValue({
+        id: 'cs_esim_same_attempt',
+        url:
+          'https://stripe.test/checkout/cs_esim_same_attempt',
+      });
+
+      const requestBody = {
+        product: 'chatforia_esim_local_5',
+        platform: 'android',
+        checkoutAttemptId:
+          'same_attempt_12345678',
+      };
+
+      const firstResponse = await request(app)
+        .post('/billing/checkout')
+        .send(requestBody);
+
+      const secondResponse = await request(app)
+        .post('/billing/checkout')
+        .send(requestBody);
+
+      expect(firstResponse.statusCode).toBe(200);
+      expect(secondResponse.statusCode).toBe(200);
+
+      expect(
+        stripeMock.checkout.sessions.create
+      ).toHaveBeenCalledTimes(2);
+
+      const firstStripeOptions =
+        stripeMock.checkout.sessions.create
+          .mock.calls[0][1];
+
+      const secondStripeOptions =
+        stripeMock.checkout.sessions.create
+          .mock.calls[1][1];
+
+      expect(firstStripeOptions).toEqual({
+        idempotencyKey:
+          'chatforia-checkout:1:android:chatforia_esim_local_5_premium:same_attempt_12345678',
+      });
+
+      expect(secondStripeOptions).toEqual(
+        firstStripeOptions
+      );
+
+      expect(firstResponse.body.sessionId).toBe(
+        'cs_esim_same_attempt'
+      );
+
+      expect(secondResponse.body.sessionId).toBe(
+        'cs_esim_same_attempt'
+      );
+    }
+  );
+
+  test(
+    'allows legacy Android eSIM checkout without a checkout attempt ID',
+    async () => {
+      const app = buildApp();
+
+      prismaMock.user.findUnique.mockResolvedValue({
+        id: 1,
+        email: 'user@test.com',
+        username: 'julian',
+        plan: 'FREE',
+        billingProvider: null,
+        billingCustomerId: 'cus_123',
+        billingSubscriptionId: null,
+        subscriptionStatus: 'INACTIVE',
+        subscriptionEndsAt: null,
+      });
+
+      stripeMock.checkout.sessions.create.mockResolvedValue({
+        id: 'cs_esim_android_legacy',
+        url:
+          'https://stripe.test/checkout/cs_esim_android_legacy',
+      });
+
+      const res = await request(app)
+        .post('/billing/checkout')
+        .send({
+          product: 'chatforia_esim_local_5',
+          platform: 'android',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(
+        stripeMock.checkout.sessions.create
+      ).toHaveBeenCalledTimes(1);
+
+      expect(
+        stripeMock.checkout.sessions.create
+          .mock.calls[0]
+      ).toHaveLength(1);
+
+      expect(
+        stripeMock.checkout.sessions.create
+          .mock.calls[0][0]
+      ).toEqual(
+        expect.objectContaining({
+          metadata: expect.not.objectContaining({
+            checkoutAttemptId:
+              expect.anything(),
+          }),
+        })
+      );
+    }
+  );
+
+  test(
+    'rejects an invalid checkout attempt ID before creating a Stripe session',
+    async () => {
+      const app = buildApp();
+
+      const res = await request(app)
+        .post('/billing/checkout')
+        .send({
+          product: 'chatforia_esim_local_5',
+          platform: 'android',
+          checkoutAttemptId: 'bad id!',
+        });
+
+      expect(res.statusCode).toBe(400);
+
+      expect(res.body).toEqual({
+        error: 'Invalid checkoutAttemptId',
+        code:
+          'INVALID_CHECKOUT_ATTEMPT_ID',
+      });
+
+      expect(
+        prismaMock.user.findUnique
+      ).not.toHaveBeenCalled();
+
+      expect(
+        stripeMock.checkout.sessions.create
+      ).not.toHaveBeenCalled();
+    }
+  );
+
   test('returns 404 when user is not found', async () => {
     const app = buildApp();
 
