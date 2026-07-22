@@ -546,6 +546,10 @@ router.post('/checkout', async (req, res) => {
     const plan = normalizePlanCode(req.body?.plan);
     const product = String(req.body?.product || '').trim();
 
+    const checkoutAttemptId = String(
+      req.body?.checkoutAttemptId || ''
+    ).trim();
+
     const requestedPlatform = String(
       req.body?.platform || 'web'
     )
@@ -573,7 +577,18 @@ router.post('/checkout', async (req, res) => {
     const isSubscription = isSubscriptionPlan(plan);
     const isAddon = Boolean(addonConfig);
 
-    const sessionMode = isSubscription ? 'subscription' : 'payment';
+    if (
+      checkoutAttemptId &&
+      !/^[A-Za-z0-9_-]{8,64}$/.test(checkoutAttemptId)
+    ) {
+      return res.status(400).json({
+        error: 'Invalid checkoutAttemptId',
+        code: 'INVALID_CHECKOUT_ATTEMPT_ID',
+      });
+    }
+
+    const sessionMode =
+      isSubscription ? 'subscription' : 'payment';
 
     if (!isSubscription && !isAddon) {
       return res.status(400).json({
@@ -748,6 +763,11 @@ router.post('/checkout', async (req, res) => {
       platform,
     };
 
+    if (checkoutAttemptId) {
+      checkoutMetadata.checkoutAttemptId =
+        checkoutAttemptId;
+    }
+
     const sessionPayload = {
       mode: sessionMode,
       customer: customerId,
@@ -796,8 +816,28 @@ router.post('/checkout', async (req, res) => {
       };
     }
 
-    const session =
-      await stripe.checkout.sessions.create(sessionPayload);
+    const checkoutIdempotencyKey =
+      isAddon && checkoutAttemptId
+        ? [
+            'chatforia-checkout',
+            userId,
+            platform,
+            addonConfig.addonKind,
+            checkoutAttemptId,
+          ].join(':')
+        : null;
+
+    const session = checkoutIdempotencyKey
+      ? await stripe.checkout.sessions.create(
+          sessionPayload,
+          {
+            idempotencyKey:
+              checkoutIdempotencyKey,
+          }
+        )
+      : await stripe.checkout.sessions.create(
+          sessionPayload
+        );
 
     return res.json({
       url: session.url,
