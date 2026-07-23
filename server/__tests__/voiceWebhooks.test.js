@@ -41,6 +41,7 @@ class MockVoiceResponse {
       type: 'dial',
       opts,
       numbers: [],
+      clients: [],
     };
 
     this.actions.push(dial);
@@ -48,6 +49,10 @@ class MockVoiceResponse {
     return {
       number: (to) => {
         dial.numbers.push({ to });
+        return this;
+      },
+      client: (to) => {
+        dial.clients.push({ to });
         return this;
       },
     };
@@ -453,6 +458,299 @@ describe('POST /webhooks/voice/inbound', () => {
 
     expect(actions[1].opts.action).toBe(
       '/webhooks/voice/voicemail-complete'
+    );
+  });
+});
+
+// -----------------------------------------------------------------------------
+// POST /webhooks/voice/client — app-to-app voicemail handoff
+// -----------------------------------------------------------------------------
+
+describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
+  it('rings the Chatforia client for 25 seconds with a voicemail callback', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({
+      id: 99,
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/client')
+      .type('form')
+      .send({
+        From: 'client:user_42',
+        To: '99',
+        backendCallId: '777',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions).toHaveLength(1);
+    expect(actions[0].type).toBe('dial');
+    expect(actions[0].opts).toMatchObject({
+      answerOnBridge: true,
+      timeout: 25,
+      method: 'POST',
+    });
+    expect(actions[0].clients).toEqual([
+      {
+        to: 'user_99',
+      },
+    ]);
+
+    const completionUrl = new URL(
+      actions[0].opts.action,
+      'https://chatforia.test'
+    );
+
+    expect(completionUrl.pathname).toBe(
+      '/webhooks/voice/app-call-complete'
+    );
+    expect(completionUrl.searchParams.get('callerUserId')).toBe('42');
+    expect(completionUrl.searchParams.get('calleeUserId')).toBe('99');
+    expect(completionUrl.searchParams.get('backendCallId')).toBe('777');
+  });
+});
+
+// -----------------------------------------------------------------------------
+// POST /webhooks/voice/app-call-complete
+// -----------------------------------------------------------------------------
+
+describe('POST /webhooks/voice/app-call-complete', () => {
+  it('stops the unanswered recipient and sends the caller into voicemail', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      calleeId: 99,
+      startedAt: null,
+    });
+
+    prisma.call.update.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      calleeId: 99,
+      status: 'MISSED',
+      endedAt: new Date('2026-07-22T12:00:00.000Z'),
+      durationSec: 0,
+      endReason: 'no_answer',
+    });
+
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 99,
+        voicemailEnabled: true,
+        voicemailGreetingUrl: null,
+        voicemailGreetingText: 'Please leave Julian a message.',
+        assignedNumbers: [
+          {
+            id: 12,
+            e164: '+15550009999',
+          },
+        ],
+      })
+      .mockResolvedValueOnce({
+        id: 42,
+        assignedNumbers: [
+          {
+            e164: '+15550004242',
+          },
+        ],
+      });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/app-call-complete' +
+          '?callerUserId=42' +
+          '&calleeUserId=99' +
+          '&backendCallId=777'
+      )
+      .type('form')
+      .send({
+        DialCallStatus: 'no-answer',
+        DialCallDuration: '0',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions[0]).toEqual({
+      type: 'say',
+      opts: {},
+      text: 'Please leave Julian a message.',
+    });
+
+    const recordAction = actions.find(
+      (action) => action.type === 'record'
+    );
+
+    expect(recordAction).toBeDefined();
+    expect(recordAction.opts).toMatchObject({
+      playBeep: true,
+      maxLength: 120,
+      timeout: 5,
+      trim: 'trim-silence',
+      method: 'POST',
+      recordingStatusCallbackMethod: 'POST',
+    });
+
+    const completionUrl = new URL(
+      recordAction.opts.action,
+      'https://chatforia.test'
+    );
+
+    const recordingStatusUrl = new URL(
+      recordAction.opts.recordingStatusCallback,
+      'https://chatforia.test'
+    );
+
+    for (const callbackUrl of [completionUrl, recordingStatusUrl]) {
+      expect(callbackUrl.searchParams.get('userId')).toBe('99');
+      expect(callbackUrl.searchParams.get('phoneNumberId')).toBe('12');
+      expect(callbackUrl.searchParams.get('did')).toBe('+15550009999');
+      expect(callbackUrl.searchParams.get('from')).toBe('+15550004242');
+      expect(callbackUrl.searchParams.get('relatedCallId')).toBe('777');
+    }
+
+    expect(prisma.call.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          id: 777,
+        },
+        data: expect.objectContaining({
+          status: 'MISSED',
+          endReason: 'no_answer',
+        }),
+      })
+    );
+
+    expect(emitToUser).toHaveBeenCalledWith(
+      99,
+      'call:ended',
+      expect.objectContaining({
+        callId: 777,
+        status: 'MISSED',
+        reason: 'no_answer',
+      })
+    );
+
+    expect(emitToUser).not.toHaveBeenCalledWith(
+      42,
+      'call:ended',
+      expect.anything()
+    );
+  });
+});
+
+// -----------------------------------------------------------------------------
+// POST /webhooks/voice/app-call-complete — older client fallback
+// -----------------------------------------------------------------------------
+
+describe('POST /webhooks/voice/app-call-complete older client fallback', () => {
+  it('finds the latest matching audio call when backendCallId is absent', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 888,
+      callerId: 42,
+      calleeId: 99,
+      startedAt: null,
+    });
+
+    prisma.call.update.mockResolvedValueOnce({
+      id: 888,
+      callerId: 42,
+      calleeId: 99,
+      status: 'MISSED',
+      endedAt: new Date('2026-07-22T12:00:00.000Z'),
+      durationSec: 0,
+      endReason: 'no_answer',
+    });
+
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 99,
+        voicemailEnabled: true,
+        voicemailGreetingUrl: null,
+        voicemailGreetingText: 'Please leave a message.',
+        assignedNumbers: [
+          {
+            id: 12,
+            e164: '+15550009999',
+          },
+        ],
+      })
+      .mockResolvedValueOnce({
+        id: 42,
+        assignedNumbers: [],
+      });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/app-call-complete' +
+          '?callerUserId=42' +
+          '&calleeUserId=99'
+      )
+      .type('form')
+      .send({
+        DialCallStatus: 'no-answer',
+        DialCallDuration: '0',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    expect(prisma.call.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          callerId: 42,
+          calleeId: 99,
+          mode: 'AUDIO',
+          status: {
+            in: ['INITIATED', 'RINGING', 'ACTIVE'],
+          },
+          createdAt: {
+            gte: expect.any(Date),
+          },
+        }),
+        orderBy: {
+          createdAt: 'desc',
+        },
+      })
+    );
+
+    expect(prisma.call.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          id: 888,
+        },
+      })
+    );
+
+    const actions = JSON.parse(res.text);
+    const recordAction = actions.find(
+      (action) => action.type === 'record'
+    );
+
+    expect(recordAction).toBeDefined();
+
+    const completionUrl = new URL(
+      recordAction.opts.action,
+      'https://chatforia.test'
+    );
+
+    expect(completionUrl.searchParams.get('relatedCallId')).toBe('888');
+
+    expect(emitToUser).toHaveBeenCalledWith(
+      99,
+      'call:ended',
+      expect.objectContaining({
+        callId: 888,
+        status: 'MISSED',
+      })
     );
   });
 });

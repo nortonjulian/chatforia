@@ -296,6 +296,273 @@ router.post('/inbound-app-complete', async (req, res) => {
 });
 
 
+
+router.post('/app-call-complete', async (req, res) => {
+  const twiml = new VoiceResponse();
+
+  try {
+    const dialCallStatus =
+      String(req.body?.DialCallStatus || '').toLowerCase();
+
+    const callerUserId = Number(req.query?.callerUserId);
+    const calleeUserId = Number(req.query?.calleeUserId);
+    const backendCallId = Number(req.query?.backendCallId);
+    const dialCallDuration = req.body?.DialCallDuration;
+
+    const validCallerUserId =
+      Number.isInteger(callerUserId) && callerUserId > 0;
+
+    const validCalleeUserId =
+      Number.isInteger(calleeUserId) && calleeUserId > 0;
+
+    const validBackendCallId =
+      Number.isInteger(backendCallId) && backendCallId > 0;
+
+    let relatedCallId = null;
+    let existing = null;
+
+    if (validBackendCallId) {
+      existing = await prisma.call.findFirst({
+        where: {
+          id: backendCallId,
+          ...(validCallerUserId ? { callerId: callerUserId } : {}),
+          ...(validCalleeUserId ? { calleeId: calleeUserId } : {}),
+        },
+        select: {
+          id: true,
+          callerId: true,
+          calleeId: true,
+          startedAt: true,
+        },
+      });
+    }
+
+    // Current clients should send backendCallId. This fallback keeps
+    // voicemail reliable for an older iOS or Android build that does not.
+    if (!existing && validCallerUserId && validCalleeUserId) {
+      const recentCutoff = new Date(Date.now() - 5 * 60 * 1000);
+
+      existing = await prisma.call.findFirst({
+        where: {
+          callerId: callerUserId,
+          calleeId: calleeUserId,
+          mode: 'AUDIO',
+          status: {
+            in: ['INITIATED', 'RINGING', 'ACTIVE'],
+          },
+          createdAt: {
+            gte: recentCutoff,
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        select: {
+          id: true,
+          callerId: true,
+          calleeId: true,
+          startedAt: true,
+        },
+      });
+    }
+
+    if (existing) {
+      let status = 'ENDED';
+      let endReason = 'completed';
+
+      if (dialCallStatus === 'no-answer') {
+        status = 'MISSED';
+        endReason = 'no_answer';
+      } else if (dialCallStatus === 'busy') {
+        status = 'FAILED';
+        endReason = 'busy';
+      } else if (dialCallStatus === 'failed') {
+        status = 'FAILED';
+        endReason = 'failed';
+      } else if (dialCallStatus === 'canceled') {
+        status = 'DECLINED';
+        endReason = 'canceled';
+      }
+
+      const endedAt = new Date();
+
+      const updated = await prisma.call.update({
+        where: { id: existing.id },
+        data: {
+          status,
+          startedAt:
+            dialCallStatus === 'completed'
+              ? existing.startedAt ?? endedAt
+              : existing.startedAt ?? undefined,
+          endedAt,
+          durationSec:
+            dialCallDuration != null
+              ? Number(dialCallDuration)
+              : undefined,
+          endReason,
+        },
+        select: {
+          id: true,
+          callerId: true,
+          calleeId: true,
+          status: true,
+          endedAt: true,
+          durationSec: true,
+          endReason: true,
+        },
+      });
+
+      relatedCallId = updated.id;
+
+      const endedPayload = {
+        callId: updated.id,
+        status: updated.status,
+        endedAt: updated.endedAt,
+        durationSec: updated.durationSec,
+        reason: updated.endReason,
+        forwarded: false,
+      };
+
+      // For voicemail, keep the caller connected to Twilio while ending
+      // the unanswered recipient's ringing state.
+      if (dialCallStatus === 'completed') {
+        emitToUser(updated.callerId, 'call:ended', endedPayload);
+      }
+
+      if (
+        updated.calleeId &&
+        updated.calleeId !== updated.callerId
+      ) {
+        emitToUser(updated.calleeId, 'call:ended', endedPayload);
+      }
+    }
+
+
+    if (dialCallStatus === 'completed') {
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    const shouldOfferVoicemail = [
+      'no-answer',
+      'busy',
+      'failed',
+    ].includes(dialCallStatus);
+
+    if (!shouldOfferVoicemail || !validCalleeUserId) {
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    const [callee, caller] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: calleeUserId },
+        select: {
+          id: true,
+          voicemailEnabled: true,
+          voicemailGreetingUrl: true,
+          voicemailGreetingText: true,
+          assignedNumbers: {
+            select: {
+              id: true,
+              e164: true,
+            },
+            take: 1,
+            orderBy: {
+              id: 'asc',
+            },
+          },
+        },
+      }),
+      validCallerUserId
+        ? prisma.user.findUnique({
+            where: { id: callerUserId },
+            select: {
+              id: true,
+              assignedNumbers: {
+                select: {
+                  e164: true,
+                },
+                take: 1,
+                orderBy: {
+                  id: 'asc',
+                },
+              },
+            },
+          })
+        : Promise.resolve(null),
+    ]);
+
+    if (!callee?.voicemailEnabled) {
+      twiml.say('The person you called is unavailable.');
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    if (callee.voicemailGreetingUrl) {
+      twiml.play(callee.voicemailGreetingUrl);
+    } else if (callee.voicemailGreetingText?.trim()) {
+      twiml.say(callee.voicemailGreetingText.trim());
+    } else {
+      twiml.say(
+        'The person you called is unavailable. Please leave a message after the tone.'
+      );
+    }
+
+    const calleeNumber = callee.assignedNumbers?.[0] || null;
+    const callerNumber = caller?.assignedNumbers?.[0]?.e164 || null;
+
+    const did =
+      calleeNumber?.e164 ||
+      `app:user_${calleeUserId}`;
+
+    const from =
+      callerNumber ||
+      (validCallerUserId
+        ? `app:user_${callerUserId}`
+        : 'app:unknown');
+
+    const recordingParams = new URLSearchParams({
+      userId: String(calleeUserId),
+      phoneNumberId: String(calleeNumber?.id || ''),
+      did,
+      from,
+    });
+
+    if (relatedCallId) {
+      recordingParams.set(
+        'relatedCallId',
+        String(relatedCallId)
+      );
+    }
+
+    twiml.record({
+      playBeep: true,
+      maxLength: 120,
+      timeout: 5,
+      trim: 'trim-silence',
+      action:
+        `/webhooks/voice/voicemail/complete?` +
+        recordingParams.toString(),
+      method: 'POST',
+      recordingStatusCallback:
+        `/webhooks/voice/voicemail/recording-status?` +
+        recordingParams.toString(),
+      recordingStatusCallbackMethod: 'POST',
+    });
+
+    twiml.say('No recording received. Goodbye.');
+    twiml.hangup();
+
+    return res.type('text/xml').send(twiml.toString());
+  } catch (err) {
+    console.error('[Twilio Voice app-call-complete] error', err);
+    twiml.say('An error occurred. Goodbye.');
+    twiml.hangup();
+    return res.type('text/xml').send(twiml.toString());
+  }
+});
+
 router.post('/client', async (req, res) => {
   const twiml = new VoiceResponse();
 
@@ -324,7 +591,39 @@ router.post('/client', async (req, res) => {
         return res.type('text/xml').send(twiml.toString());
       }
 
-      const dial = twiml.dial();
+      const appCallerUserId =
+        identity.startsWith('user_')
+          ? Number(identity.slice('user_'.length))
+          : null;
+
+      const appBackendCallIdRaw =
+        req.query?.backendCallId ||
+        req.body?.backendCallId ||
+        null;
+
+      const appBackendCallId = appBackendCallIdRaw
+        ? Number(appBackendCallIdRaw)
+        : null;
+
+      const completionParams = new URLSearchParams({
+        calleeUserId: String(numericUserId),
+      });
+
+      if (Number.isInteger(appCallerUserId) && appCallerUserId > 0) {
+        completionParams.set('callerUserId', String(appCallerUserId));
+      }
+
+      if (Number.isInteger(appBackendCallId) && appBackendCallId > 0) {
+        completionParams.set('backendCallId', String(appBackendCallId));
+      }
+
+      const dial = twiml.dial({
+        answerOnBridge: true,
+        timeout: 25,
+        action: `/webhooks/voice/app-call-complete?${completionParams.toString()}`,
+        method: 'POST',
+      });
+
       dial.client(`user_${numericUserId}`);
 
       return res.type('text/xml').send(twiml.toString());

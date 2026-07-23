@@ -239,7 +239,13 @@ r.post(
         RecordingStatus,
       } = req.body || {};
 
-      const { userId, phoneNumberId, did, from } = req.query || {};
+      const {
+        userId,
+        phoneNumberId,
+        did,
+        from,
+        relatedCallId,
+      } = req.query || {};
 
       if (!userId || !did || !from) {
         console.error('[voicemail] missing required query params');
@@ -263,20 +269,61 @@ r.post(
         return;
       }
 
-      const numericPhoneNumberId = phoneNumberId ? Number(phoneNumberId) : null;
+      const numericPhoneNumberId =
+        phoneNumberId ? Number(phoneNumberId) : null;
+
+      const numericRelatedCallId =
+        relatedCallId ? Number(relatedCallId) : null;
+
       const createdAt = new Date();
 
-      const matchingCall = await findMatchingMissedCall({
-        userId: numericUserId,
-        createdAt,
-      });
+      let matchingCall = null;
+
+      if (
+        Number.isInteger(numericRelatedCallId) &&
+        numericRelatedCallId > 0
+      ) {
+        matchingCall = await prisma.call.findFirst({
+          where: {
+            id: numericRelatedCallId,
+            OR: [
+              { callerId: numericUserId },
+              { calleeId: numericUserId },
+            ],
+          },
+          select: {
+            id: true,
+          },
+        });
+      }
+
+      if (!matchingCall) {
+        matchingCall = await findMatchingMissedCall({
+          userId: numericUserId,
+          createdAt,
+        });
+      }
+
+      const normalizedFrom = normalizeE164(String(from));
+      const normalizedDid = normalizeE164(String(did));
+
+      const storedFrom =
+        normalizedFrom || String(from || '').trim();
+
+      const storedTo =
+        normalizedDid || String(did || '').trim();
+
+      if (!storedFrom || !storedTo) {
+        console.error('[voicemail] invalid caller or destination');
+        return;
+      }
 
       const voicemail = await prisma.voicemail.create({
         data: {
           userId: numericUserId,
           phoneNumberId: Number.isNaN(numericPhoneNumberId) ? null : numericPhoneNumberId,
-          fromNumber: normalizeE164(String(from)),
-          toNumber: normalizeE164(String(did)),
+          fromNumber: storedFrom,
+          toNumber: storedTo,
           audioUrl: `${RecordingUrl}.mp3`,
           durationSec: RecordingDuration != null ? Number(RecordingDuration) : null,
           transcript: null,
