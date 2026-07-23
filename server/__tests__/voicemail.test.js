@@ -9,6 +9,7 @@ import request from 'supertest';
 const prismaMock = {
   voicemail: {
     findMany: jest.fn(),
+    findFirst: jest.fn(),
     updateMany: jest.fn(),
   },
 };
@@ -17,6 +18,13 @@ const prismaMock = {
 jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
   default: prismaMock,
+}));
+
+const fetchTwilioMediaMock = jest.fn();
+
+jest.unstable_mockModule('../utils/twilioMediaProxy.js', () => ({
+  __esModule: true,
+  fetchTwilioMedia: fetchTwilioMediaMock,
 }));
 
 jest.unstable_mockModule('../middleware/auth.js', () => ({
@@ -84,6 +92,72 @@ describe('voicemail routes', () => {
         createdAt: fakeVoicemails[1].createdAt.toISOString(),
       })
     );
+  });
+
+  test('GET /api/voicemail/:id/audio securely proxies Twilio audio', async () => {
+    const app = makeApp();
+    const audioBytes = Buffer.from([1, 2, 3, 4]);
+
+    prismaMock.voicemail.findFirst.mockResolvedValueOnce({
+      audioUrl: 'https://api.twilio.com/recording.mp3',
+    });
+
+    fetchTwilioMediaMock.mockResolvedValueOnce({
+      headers: {
+        get: jest.fn((name) => {
+          if (name === 'content-type') return 'audio/mpeg';
+          if (name === 'content-length') {
+            return String(audioBytes.length);
+          }
+          return null;
+        }),
+      },
+      body: null,
+      arrayBuffer: jest.fn().mockResolvedValue(
+        audioBytes.buffer.slice(
+          audioBytes.byteOffset,
+          audioBytes.byteOffset + audioBytes.byteLength,
+        ),
+      ),
+    });
+
+    const res = await request(app)
+      .get('/api/voicemail/vm-audio/audio')
+      .expect(200);
+
+    expect(prismaMock.voicemail.findFirst).toHaveBeenCalledWith({
+      where: {
+        id: 'vm-audio',
+        userId: 123,
+        deleted: false,
+      },
+      select: {
+        audioUrl: true,
+      },
+    });
+
+    expect(fetchTwilioMediaMock).toHaveBeenCalledWith(
+      'https://api.twilio.com/recording.mp3',
+    );
+
+    expect(res.headers['content-type']).toMatch(/^audio\/mpeg/);
+    expect(Buffer.from(res.body)).toEqual(audioBytes);
+  });
+
+  test('GET /api/voicemail/:id/audio rejects another user or missing audio', async () => {
+    const app = makeApp();
+
+    prismaMock.voicemail.findFirst.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .get('/api/voicemail/missing/audio')
+      .expect(404);
+
+    expect(res.body).toEqual({
+      error: 'Voicemail audio not found',
+    });
+
+    expect(fetchTwilioMediaMock).not.toHaveBeenCalled();
   });
 
   test('PATCH /api/voicemail/:id/read marks voicemail as read/unread (success)', async () => {
