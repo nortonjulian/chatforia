@@ -51,46 +51,184 @@ describe('voicemail routes', () => {
     jest.clearAllMocks();
   });
 
-    test('GET /api/voicemail returns current user voicemails (non-deleted, newest first)', async () => {
+  test('GET /api/voicemail returns caller identity for app voicemails', async () => {
     const app = makeApp();
+
     const fakeVoicemails = [
-      { id: 'v2', userId: 123, deleted: false, createdAt: new Date('2024-02-01') },
-      { id: 'v1', userId: 123, deleted: false, createdAt: new Date('2024-01-01') },
+      {
+        id: 'alias-vm',
+        userId: 123,
+        deleted: false,
+        fromNumber: '+18187914303',
+        createdAt: new Date('2024-05-05T10:00:00Z'),
+        relatedCall: {
+          callerId: 456,
+          calleeId: 123,
+          caller: {
+            id: 456,
+            displayName: 'Julian Norton',
+            username: 'julian',
+            contactsSaved: [
+              {
+                alias: 'Julian',
+              },
+            ],
+          },
+        },
+      },
+      {
+        id: 'display-name-vm',
+        userId: 123,
+        deleted: false,
+        fromNumber: '+18187914304',
+        createdAt: new Date('2024-05-04T10:00:00Z'),
+        relatedCall: {
+          callerId: 457,
+          calleeId: 123,
+          caller: {
+            id: 457,
+            displayName: 'Alice Smith',
+            username: 'alice',
+            contactsSaved: [],
+          },
+        },
+      },
+      {
+        id: 'username-vm',
+        userId: 123,
+        deleted: false,
+        fromNumber: null,
+        createdAt: new Date('2024-05-03T10:00:00Z'),
+        relatedCall: {
+          callerId: 458,
+          calleeId: 123,
+          caller: {
+            id: 458,
+            displayName: null,
+            username: 'onlyusername',
+            contactsSaved: [],
+          },
+        },
+      },
+      {
+        id: 'external-vm',
+        userId: 123,
+        deleted: false,
+        fromNumber: '+13235550100',
+        createdAt: new Date('2024-05-02T10:00:00Z'),
+        relatedCall: null,
+      },
+      {
+        id: 'wrong-callee-vm',
+        userId: 123,
+        deleted: false,
+        fromNumber: '+13235550101',
+        createdAt: new Date('2024-05-01T10:00:00Z'),
+        relatedCall: {
+          callerId: 999,
+          calleeId: 999,
+          caller: {
+            id: 999,
+            displayName: 'Private Caller',
+            username: 'privatecaller',
+            contactsSaved: [],
+          },
+        },
+      },
     ];
 
-    prismaMock.voicemail.findMany.mockResolvedValueOnce(fakeVoicemails);
+    prismaMock.voicemail.findMany.mockResolvedValueOnce(
+      fakeVoicemails,
+    );
 
-    const res = await request(app).get('/api/voicemail').expect(200);
+    const res = await request(app)
+      .get('/api/voicemail')
+      .expect(200);
 
     expect(prismaMock.voicemail.findMany).toHaveBeenCalledWith({
       where: {
-        userId: 123, // Number('123')
+        userId: 123,
         deleted: false,
       },
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        relatedCall: {
+          select: {
+            callerId: true,
+            calleeId: true,
+            caller: {
+              select: {
+                id: true,
+                displayName: true,
+                username: true,
+                contactsSaved: {
+                  where: {
+                    ownerId: 123,
+                  },
+                  select: {
+                    alias: true,
+                  },
+                  take: 1,
+                },
+              },
+            },
+          },
+        },
+      },
     });
 
-    // Dates are serialized to ISO strings in JSON, so check shape instead of strict deep equality
-    expect(res.body.voicemails).toHaveLength(2);
+    expect(res.body.voicemails).toHaveLength(5);
 
     expect(res.body.voicemails[0]).toEqual(
       expect.objectContaining({
-        id: 'v2',
-        userId: 123,
-        deleted: false,
-        createdAt: fakeVoicemails[0].createdAt.toISOString(),
-      })
+        id: 'alias-vm',
+        callerUserId: 456,
+        displayName: 'Julian',
+        username: 'julian',
+      }),
     );
 
     expect(res.body.voicemails[1]).toEqual(
       expect.objectContaining({
-        id: 'v1',
-        userId: 123,
-        deleted: false,
-        createdAt: fakeVoicemails[1].createdAt.toISOString(),
-      })
+        id: 'display-name-vm',
+        callerUserId: 457,
+        displayName: 'Alice Smith',
+        username: 'alice',
+      }),
+    );
+
+    expect(res.body.voicemails[2]).toEqual(
+      expect.objectContaining({
+        id: 'username-vm',
+        callerUserId: 458,
+        displayName: null,
+        username: 'onlyusername',
+      }),
+    );
+
+    expect(res.body.voicemails[3]).toEqual(
+      expect.objectContaining({
+        id: 'external-vm',
+        callerUserId: null,
+        displayName: null,
+        username: null,
+        fromNumber: '+13235550100',
+      }),
+    );
+
+    expect(res.body.voicemails[4]).toEqual(
+      expect.objectContaining({
+        id: 'wrong-callee-vm',
+        callerUserId: null,
+        displayName: null,
+        username: null,
+      }),
+    );
+
+    expect(res.body.voicemails[0]).not.toHaveProperty(
+      'relatedCall',
     );
   });
 

@@ -21,7 +21,7 @@ r.get(
   asyncHandler(async (req, res) => {
     const userId = Number(req.user.id);
 
-    const voicemails = await prisma.voicemail.findMany({
+    const voicemailRows = await prisma.voicemail.findMany({
       where: {
         userId,
         deleted: false,
@@ -29,7 +29,64 @@ r.get(
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        relatedCall: {
+          select: {
+            callerId: true,
+            calleeId: true,
+            caller: {
+              select: {
+                id: true,
+                displayName: true,
+                username: true,
+                contactsSaved: {
+                  where: {
+                    ownerId: userId,
+                  },
+                  select: {
+                    alias: true,
+                  },
+                  take: 1,
+                },
+              },
+            },
+          },
+        },
+      },
     });
+
+    const voicemails = voicemailRows.map(
+      ({ relatedCall, ...voicemail }) => {
+        const isAppToAppVoicemail =
+          relatedCall?.calleeId === userId &&
+          relatedCall?.callerId !== userId;
+
+        const caller =
+          isAppToAppVoicemail
+            ? relatedCall?.caller
+            : null;
+
+        const alias =
+          caller?.contactsSaved?.[0]?.alias?.trim() ||
+          null;
+
+        const displayName =
+          alias ||
+          caller?.displayName?.trim() ||
+          null;
+
+        const username =
+          caller?.username?.trim() ||
+          null;
+
+        return {
+          ...voicemail,
+          callerUserId: caller?.id ?? null,
+          displayName,
+          username,
+        };
+      },
+    );
 
     res.json({ voicemails });
   }),
