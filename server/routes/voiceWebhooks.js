@@ -332,6 +332,9 @@ router.post('/app-call-complete', async (req, res) => {
           id: true,
           callerId: true,
           calleeId: true,
+          status: true,
+          endReason: true,
+          endedAt: true,
           startedAt: true,
         },
       });
@@ -361,12 +364,31 @@ router.post('/app-call-complete', async (req, res) => {
           id: true,
           callerId: true,
           calleeId: true,
+          status: true,
+          endReason: true,
+          endedAt: true,
           startedAt: true,
         },
       });
     }
 
     if (existing) {
+      const existingStatus =
+        String(existing.status || '').toUpperCase();
+
+      // A client may deliberately finalize the call before Twilio's Dial
+      // callback arrives. Do not let a late provider no-answer result
+      // overwrite an explicit decline, hang-up, or failure.
+      if (
+        existingStatus === 'DECLINED' ||
+        existingStatus === 'ENDED' ||
+        existingStatus === 'FAILED' ||
+        existingStatus === 'MISSED'
+      ) {
+        twiml.hangup();
+        return res.type('text/xml').send(twiml.toString());
+      }
+
       let status = 'ENDED';
       let endReason = 'completed';
 

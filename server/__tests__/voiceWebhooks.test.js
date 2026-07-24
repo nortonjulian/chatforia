@@ -644,6 +644,49 @@ describe('POST /webhooks/voice/app-call-complete', () => {
       expect.anything()
     );
   });
+
+  it('preserves an explicit client decline when Twilio later reports no-answer', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      calleeId: 99,
+      status: 'DECLINED',
+      endReason: 'declined',
+      endedAt: new Date('2026-07-23T23:18:57.000Z'),
+      startedAt: null,
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/app-call-complete' +
+          '?callerUserId=42' +
+          '&calleeUserId=99' +
+          '&backendCallId=777'
+      )
+      .type('form')
+      .send({
+        DialCallStatus: 'no-answer',
+        DialCallDuration: '0',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(
+      actions.some((action) => action.type === 'hangup')
+    ).toBe(true);
+
+    expect(
+      actions.some((action) => action.type === 'record')
+    ).toBe(false);
+
+    expect(prisma.call.update).not.toHaveBeenCalled();
+    expect(prisma.user.findUnique).not.toHaveBeenCalled();
+    expect(emitToUser).not.toHaveBeenCalled();
+  });
 });
 
 // -----------------------------------------------------------------------------
