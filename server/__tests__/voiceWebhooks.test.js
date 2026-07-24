@@ -752,9 +752,6 @@ describe('POST /webhooks/voice/app-call-complete older client fallback', () => {
           callerId: 42,
           calleeId: 99,
           mode: 'AUDIO',
-          status: {
-            in: ['INITIATED', 'RINGING', 'ACTIVE'],
-          },
           createdAt: {
             gte: expect.any(Date),
           },
@@ -764,6 +761,10 @@ describe('POST /webhooks/voice/app-call-complete older client fallback', () => {
         },
       })
     );
+
+    expect(
+      prisma.call.findFirst.mock.calls[0][0].where.status
+    ).toBeUndefined();
 
     expect(prisma.call.update).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -795,6 +796,47 @@ describe('POST /webhooks/voice/app-call-complete older client fallback', () => {
         status: 'MISSED',
       })
     );
+  });
+  it('hangs up for a declined fallback call when backendCallId is absent', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 888,
+      callerId: 42,
+      calleeId: 99,
+      status: 'DECLINED',
+      endReason: 'declined',
+      endedAt: new Date('2026-07-24T01:01:39.000Z'),
+      startedAt: null,
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/app-call-complete' +
+          '?callerUserId=42' +
+          '&calleeUserId=99'
+      )
+      .type('form')
+      .send({
+        DialCallStatus: 'no-answer',
+        DialCallDuration: '0',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(
+      actions.some((action) => action.type === 'hangup')
+    ).toBe(true);
+
+    expect(
+      actions.some((action) => action.type === 'record')
+    ).toBe(false);
+
+    expect(prisma.call.update).not.toHaveBeenCalled();
+    expect(prisma.user.findUnique).not.toHaveBeenCalled();
+    expect(emitToUser).not.toHaveBeenCalled();
   });
 });
 

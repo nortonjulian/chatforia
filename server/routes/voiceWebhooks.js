@@ -350,9 +350,6 @@ router.post('/app-call-complete', async (req, res) => {
           callerId: callerUserId,
           calleeId: calleeUserId,
           mode: 'AUDIO',
-          status: {
-            in: ['INITIATED', 'RINGING', 'ACTIVE'],
-          },
           createdAt: {
             gte: recentCutoff,
           },
