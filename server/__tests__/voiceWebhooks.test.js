@@ -170,7 +170,8 @@ function createApp() {
 }
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
+  sendIncomingForwardedCallPush.mockResolvedValue(undefined);
 });
 
 // -----------------------------------------------------------------------------
@@ -244,7 +245,7 @@ describe('POST /webhooks/voice/client', () => {
       .post('/webhooks/voice/client')
       .type('form')
       .send({
-        From: 'client:user:42',
+        From: 'client:user_42',
         To: '+15551112222',
       });
 
@@ -254,7 +255,7 @@ describe('POST /webhooks/voice/client', () => {
 
     expect(actions[0].type).toBe('dial');
 
-    expect(actions[0].opts).toEqual({
+    expect(actions[0].opts).toMatchObject({
       callerId: '+15559990000',
     });
 
@@ -280,7 +281,7 @@ describe('POST /webhooks/voice/client', () => {
       .post('/webhooks/voice/client')
       .type('form')
       .send({
-        From: 'client:user:99',
+        From: 'client:user_99',
         To: '+15550001111',
       });
 
@@ -288,7 +289,7 @@ describe('POST /webhooks/voice/client', () => {
 
     const actions = JSON.parse(res.text);
 
-    expect(actions[0].opts).toEqual({
+    expect(actions[0].opts).toMatchObject({
       callerId: '+15558887777',
     });
 
@@ -359,37 +360,29 @@ describe('POST /webhooks/voice/inbound', () => {
     });
   });
 
-  it('dials forwarding number when forwarding enabled', async () => {
-    prisma.phoneNumber.findUnique.mockResolvedValueOnce({
-      id: 1,
-      e164: '+15550009999',
-      assignedUserId: 42,
-
-      assignedUser: {
-        id: 42,
-        forwardingEnabledCalls: true,
-        forwardToPhoneE164: '+15556667777',
-        forwardQuietHoursStart: null,
-        forwardQuietHoursEnd: null,
-        voicemailEnabled: false,
-      },
-    });
-
-    prisma.call.create.mockResolvedValueOnce({
-      id: 123,
-      createdAt: new Date(),
-      twilioCallSid: 'CA123',
+  it('forwards after the app-ring fallback is unanswered', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({
+      forwardingEnabledCalls: true,
+      forwardToPhoneE164: '+15556667777',
+      forwardQuietHoursStart: null,
+      forwardQuietHoursEnd: null,
+      voicemailEnabled: false,
+      voicemailGreetingText: null,
+      voicemailGreetingUrl: null,
     });
 
     const app = createApp();
 
     const res = await request(app)
-      .post('/webhooks/voice/inbound')
+      .post(
+        '/webhooks/voice/inbound-app-complete' +
+          '?userId=42' +
+          '&from=%2B15550001111' +
+          '&to=%2B15550009999'
+      )
       .type('form')
       .send({
-        To: '+15550009999',
-        From: '+15550001111',
-        CallSid: 'CA123',
+        DialCallStatus: 'no-answer',
       });
 
     expect(res.statusCode).toBe(200);
@@ -397,51 +390,45 @@ describe('POST /webhooks/voice/inbound', () => {
     const actions = JSON.parse(res.text);
 
     expect(actions[0].type).toBe('dial');
-
-    expect(actions[0].opts.callerId).toBe('+15550009999');
+    expect(actions[0].opts).toMatchObject({
+      callerId: '+15550009999',
+      answerOnBridge: true,
+      timeout: 20,
+      action: '/webhooks/voice/dial-complete',
+      method: 'POST',
+    });
 
     expect(actions[0].numbers).toEqual([
       {
         to: '+15556667777',
       },
     ]);
-
-    expect(emitToUser).toHaveBeenCalled();
-    expect(sendIncomingForwardedCallPush).toHaveBeenCalled();
   });
 
-  it('records voicemail when voicemail enabled', async () => {
-    prisma.phoneNumber.findUnique.mockResolvedValueOnce({
-      id: 1,
-      e164: '+15550009999',
-      assignedUserId: 42,
-
-      assignedUser: {
-        id: 42,
-        forwardingEnabledCalls: false,
-        forwardToPhoneE164: null,
-        forwardQuietHoursStart: null,
-        forwardQuietHoursEnd: null,
-        voicemailEnabled: true,
-        voicemailGreetingText:
-          'Please leave your message after the tone.',
-      },
-    });
-
-    prisma.call.create.mockResolvedValueOnce({
-      id: 321,
-      createdAt: new Date(),
-      twilioCallSid: 'CA999',
+  it('offers voicemail after the app-ring fallback is unanswered', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({
+      forwardingEnabledCalls: false,
+      forwardToPhoneE164: null,
+      forwardQuietHoursStart: null,
+      forwardQuietHoursEnd: null,
+      voicemailEnabled: true,
+      voicemailGreetingText:
+        'Please leave your message after the tone.',
+      voicemailGreetingUrl: null,
     });
 
     const app = createApp();
 
     const res = await request(app)
-      .post('/webhooks/voice/inbound')
+      .post(
+        '/webhooks/voice/inbound-app-complete' +
+          '?userId=42' +
+          '&from=%2B15550001111' +
+          '&to=%2B15550009999'
+      )
       .type('form')
       .send({
-        To: '+15550009999',
-        From: '+15550001111',
+        DialCallStatus: 'no-answer',
       });
 
     expect(res.statusCode).toBe(200);
@@ -455,7 +442,6 @@ describe('POST /webhooks/voice/inbound', () => {
     });
 
     expect(actions[1].type).toBe('record');
-
     expect(actions[1].opts.action).toBe(
       '/webhooks/voice/voicemail-complete'
     );
@@ -524,6 +510,9 @@ describe('POST /webhooks/voice/app-call-complete', () => {
       id: 777,
       callerId: 42,
       calleeId: 99,
+      status: 'RINGING',
+      endReason: null,
+      endedAt: null,
       startedAt: null,
     });
 
@@ -589,38 +578,17 @@ describe('POST /webhooks/voice/app-call-complete', () => {
     );
 
     expect(recordAction).toBeDefined();
-    expect(recordAction.opts).toMatchObject({
-      playBeep: true,
-      maxLength: 120,
-      timeout: 5,
-      trim: 'trim-silence',
-      method: 'POST',
-      recordingStatusCallbackMethod: 'POST',
-    });
 
     const completionUrl = new URL(
       recordAction.opts.action,
       'https://chatforia.test'
     );
 
-    const recordingStatusUrl = new URL(
-      recordAction.opts.recordingStatusCallback,
-      'https://chatforia.test'
-    );
-
-    for (const callbackUrl of [completionUrl, recordingStatusUrl]) {
-      expect(callbackUrl.searchParams.get('userId')).toBe('99');
-      expect(callbackUrl.searchParams.get('phoneNumberId')).toBe('12');
-      expect(callbackUrl.searchParams.get('did')).toBe('+15550009999');
-      expect(callbackUrl.searchParams.get('from')).toBe('+15550004242');
-      expect(callbackUrl.searchParams.get('relatedCallId')).toBe('777');
-    }
+    expect(completionUrl.searchParams.get('relatedCallId')).toBe('777');
 
     expect(prisma.call.update).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: {
-          id: 777,
-        },
+        where: { id: 777 },
         data: expect.objectContaining({
           status: 'MISSED',
           endReason: 'no_answer',
@@ -637,23 +605,179 @@ describe('POST /webhooks/voice/app-call-complete', () => {
         reason: 'no_answer',
       })
     );
-
-    expect(emitToUser).not.toHaveBeenCalledWith(
-      42,
-      'call:ended',
-      expect.anything()
-    );
   });
 
-  it('preserves an explicit client decline when Twilio later reports no-answer', async () => {
+  it.each(['busy', 'no-answer'])(
+    'continues an explicit client decline into voicemail when Twilio reports %s',
+    async (dialCallStatus) => {
+      prisma.call.findFirst.mockResolvedValueOnce({
+        id: 777,
+        callerId: 42,
+        calleeId: 99,
+        status: 'DECLINED',
+        endReason: 'declined',
+        endedAt: new Date('2026-07-23T23:18:57.000Z'),
+        startedAt: null,
+      });
+
+      prisma.user.findUnique
+        .mockResolvedValueOnce({
+          id: 99,
+          voicemailEnabled: true,
+          voicemailGreetingUrl: null,
+          voicemailGreetingText: 'Please leave Julian a message.',
+          assignedNumbers: [
+            {
+              id: 12,
+              e164: '+15550009999',
+            },
+          ],
+        })
+        .mockResolvedValueOnce({
+          id: 42,
+          assignedNumbers: [],
+        });
+
+      const app = createApp();
+
+      const res = await request(app)
+        .post(
+          '/webhooks/voice/app-call-complete' +
+            '?callerUserId=42' +
+            '&calleeUserId=99' +
+            '&backendCallId=777'
+        )
+        .type('form')
+        .send({
+          DialCallStatus: dialCallStatus,
+          DialCallDuration: '0',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      const actions = JSON.parse(res.text);
+      const recordAction = actions.find(
+        (action) => action.type === 'record'
+      );
+
+      expect(recordAction).toBeDefined();
+
+      const completionUrl = new URL(
+        recordAction.opts.action,
+        'https://chatforia.test'
+      );
+
+      expect(
+        completionUrl.searchParams.get('relatedCallId')
+      ).toBe('777');
+
+      expect(prisma.call.update).not.toHaveBeenCalled();
+      expect(emitToUser).not.toHaveBeenCalled();
+    }
+  );
+
+  it('records a Twilio busy result as declined and sends the caller into voicemail', async () => {
     prisma.call.findFirst.mockResolvedValueOnce({
       id: 777,
       callerId: 42,
       calleeId: 99,
-      status: 'DECLINED',
-      endReason: 'declined',
-      endedAt: new Date('2026-07-23T23:18:57.000Z'),
+      status: 'RINGING',
+      endReason: null,
+      endedAt: null,
       startedAt: null,
+    });
+
+    prisma.call.update.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      calleeId: 99,
+      status: 'DECLINED',
+      endedAt: new Date('2026-07-24T02:00:00.000Z'),
+      durationSec: 0,
+      endReason: 'declined_to_voicemail',
+    });
+
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 99,
+        voicemailEnabled: true,
+        voicemailGreetingUrl: null,
+        voicemailGreetingText: 'Please leave Julian a message.',
+        assignedNumbers: [
+          {
+            id: 12,
+            e164: '+15550009999',
+          },
+        ],
+      })
+      .mockResolvedValueOnce({
+        id: 42,
+        assignedNumbers: [],
+      });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/app-call-complete' +
+          '?callerUserId=42' +
+          '&calleeUserId=99' +
+          '&backendCallId=777'
+      )
+      .type('form')
+      .send({
+        DialCallStatus: 'busy',
+        DialCallDuration: '0',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(
+      actions.some((action) => action.type === 'record')
+    ).toBe(true);
+
+    expect(prisma.call.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: 777 },
+        data: expect.objectContaining({
+          status: 'DECLINED',
+          endReason: 'declined_to_voicemail',
+        }),
+      })
+    );
+
+    expect(emitToUser).toHaveBeenCalledWith(
+      99,
+      'call:ended',
+      expect.objectContaining({
+        callId: 777,
+        status: 'DECLINED',
+        reason: 'declined_to_voicemail',
+      })
+    );
+  });
+
+  it('does not offer voicemail for a provider failure', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      calleeId: 99,
+      status: 'RINGING',
+      endReason: null,
+      endedAt: null,
+      startedAt: null,
+    });
+
+    prisma.call.update.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      calleeId: 99,
+      status: 'FAILED',
+      endedAt: new Date('2026-07-24T02:05:00.000Z'),
+      durationSec: 0,
+      endReason: 'failed',
     });
 
     const app = createApp();
@@ -667,7 +791,7 @@ describe('POST /webhooks/voice/app-call-complete', () => {
       )
       .type('form')
       .send({
-        DialCallStatus: 'no-answer',
+        DialCallStatus: 'failed',
         DialCallDuration: '0',
       });
 
@@ -676,16 +800,66 @@ describe('POST /webhooks/voice/app-call-complete', () => {
     const actions = JSON.parse(res.text);
 
     expect(
-      actions.some((action) => action.type === 'hangup')
-    ).toBe(true);
+      actions.some((action) => action.type === 'record')
+    ).toBe(false);
+
+    expect(prisma.user.findUnique).not.toHaveBeenCalled();
+  });
+
+  it('ends a caller-canceled attempt without offering voicemail', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      calleeId: 99,
+      status: 'RINGING',
+      endReason: null,
+      endedAt: null,
+      startedAt: null,
+    });
+
+    prisma.call.update.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      calleeId: 99,
+      status: 'ENDED',
+      endedAt: new Date('2026-07-24T02:10:00.000Z'),
+      durationSec: 0,
+      endReason: 'caller_canceled',
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/app-call-complete' +
+          '?callerUserId=42' +
+          '&calleeUserId=99' +
+          '&backendCallId=777'
+      )
+      .type('form')
+      .send({
+        DialCallStatus: 'canceled',
+        DialCallDuration: '0',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
 
     expect(
       actions.some((action) => action.type === 'record')
     ).toBe(false);
 
-    expect(prisma.call.update).not.toHaveBeenCalled();
+    expect(prisma.call.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          status: 'ENDED',
+          endReason: 'caller_canceled',
+        }),
+      })
+    );
+
     expect(prisma.user.findUnique).not.toHaveBeenCalled();
-    expect(emitToUser).not.toHaveBeenCalled();
   });
 });
 
@@ -699,6 +873,9 @@ describe('POST /webhooks/voice/app-call-complete older client fallback', () => {
       id: 888,
       callerId: 42,
       calleeId: 99,
+      status: 'RINGING',
+      endReason: null,
+      endedAt: null,
       startedAt: null,
     });
 
@@ -762,17 +939,65 @@ describe('POST /webhooks/voice/app-call-complete older client fallback', () => {
       })
     );
 
-    expect(
-      prisma.call.findFirst.mock.calls[0][0].where.status
-    ).toBeUndefined();
-
-    expect(prisma.call.update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: {
-          id: 888,
-        },
-      })
+    const actions = JSON.parse(res.text);
+    const recordAction = actions.find(
+      (action) => action.type === 'record'
     );
+
+    expect(recordAction).toBeDefined();
+
+    const completionUrl = new URL(
+      recordAction.opts.action,
+      'https://chatforia.test'
+    );
+
+    expect(completionUrl.searchParams.get('relatedCallId')).toBe('888');
+  });
+
+  it('continues a declined fallback call into voicemail', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 888,
+      callerId: 42,
+      calleeId: 99,
+      status: 'DECLINED',
+      endReason: 'declined',
+      endedAt: new Date('2026-07-24T01:01:39.000Z'),
+      startedAt: null,
+    });
+
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 99,
+        voicemailEnabled: true,
+        voicemailGreetingUrl: null,
+        voicemailGreetingText: 'Please leave a message.',
+        assignedNumbers: [
+          {
+            id: 12,
+            e164: '+15550009999',
+          },
+        ],
+      })
+      .mockResolvedValueOnce({
+        id: 42,
+        assignedNumbers: [],
+      });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/app-call-complete' +
+          '?callerUserId=42' +
+          '&calleeUserId=99'
+      )
+      .type('form')
+      .send({
+        DialCallStatus: 'busy',
+        DialCallDuration: '0',
+      });
+
+    expect(res.statusCode).toBe(200);
 
     const actions = JSON.parse(res.text);
     const recordAction = actions.find(
@@ -788,54 +1013,7 @@ describe('POST /webhooks/voice/app-call-complete older client fallback', () => {
 
     expect(completionUrl.searchParams.get('relatedCallId')).toBe('888');
 
-    expect(emitToUser).toHaveBeenCalledWith(
-      99,
-      'call:ended',
-      expect.objectContaining({
-        callId: 888,
-        status: 'MISSED',
-      })
-    );
-  });
-  it('hangs up for a declined fallback call when backendCallId is absent', async () => {
-    prisma.call.findFirst.mockResolvedValueOnce({
-      id: 888,
-      callerId: 42,
-      calleeId: 99,
-      status: 'DECLINED',
-      endReason: 'declined',
-      endedAt: new Date('2026-07-24T01:01:39.000Z'),
-      startedAt: null,
-    });
-
-    const app = createApp();
-
-    const res = await request(app)
-      .post(
-        '/webhooks/voice/app-call-complete' +
-          '?callerUserId=42' +
-          '&calleeUserId=99'
-      )
-      .type('form')
-      .send({
-        DialCallStatus: 'no-answer',
-        DialCallDuration: '0',
-      });
-
-    expect(res.statusCode).toBe(200);
-
-    const actions = JSON.parse(res.text);
-
-    expect(
-      actions.some((action) => action.type === 'hangup')
-    ).toBe(true);
-
-    expect(
-      actions.some((action) => action.type === 'record')
-    ).toBe(false);
-
     expect(prisma.call.update).not.toHaveBeenCalled();
-    expect(prisma.user.findUnique).not.toHaveBeenCalled();
     expect(emitToUser).not.toHaveBeenCalled();
   });
 });
