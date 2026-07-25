@@ -318,6 +318,7 @@ export async function sendPushToUser(userId, payload) {
       );
 
       const isMissedCall = stringData.type === 'call_missed';
+      const isIncomingCall = stringData.type === 'call_incoming';
 
       stringData.title = payload.alert?.title || stringData.senderName || 'Chatforia';
       stringData.body = payload.alert?.body || 'New message';
@@ -327,6 +328,12 @@ export async function sendPushToUser(userId, payload) {
         data: stringData,
         android: {
           priority: 'high',
+          ...(isIncomingCall
+            ? {
+                // Do not retain live-call invitations after the call window.
+                ttl: 30_000,
+              }
+            : {}),
         },
       };
 
