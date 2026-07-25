@@ -9,8 +9,13 @@ const prismaPath = path.resolve(__dirname, '../../utils/prismaClient.js');
 const loggerPath = path.resolve(__dirname, '../../utils/logger.js');
 const socketBusPath = path.resolve(__dirname, '../socketBus.js');
 const servicePath = path.resolve(__dirname, '../voicemailTranscription.js');
+const twilioMediaProxyPath = path.resolve(
+  __dirname,
+  '../../utils/twilioMediaProxy.js',
+);
 
 const mockCreateTranscription = jest.fn();
+const fetchTwilioMediaMock = jest.fn();
 
 const prismaMock = {
   voicemail: {
@@ -44,6 +49,7 @@ async function loadService({ openaiKey } = {}) {
   loggerMock.error.mockReset();
   emitToUserMock.mockReset();
   mockCreateTranscription.mockReset();
+  fetchTwilioMediaMock.mockReset();
   writeFileMock.mockClear();
   unlinkMock.mockClear();
   createReadStreamMock.mockClear();
@@ -69,6 +75,11 @@ async function loadService({ openaiKey } = {}) {
     emitToUser: emitToUserMock,
   }));
 
+  jest.unstable_mockModule(twilioMediaProxyPath, () => ({
+    __esModule: true,
+    fetchTwilioMedia: fetchTwilioMediaMock,
+  }));
+
   jest.unstable_mockModule('fs', () => ({
     __esModule: true,
     default: {
@@ -91,8 +102,6 @@ async function loadService({ openaiKey } = {}) {
       },
     })),
   }));
-
-  global.fetch = jest.fn();
 
   return import(servicePath);
 }
@@ -133,7 +142,7 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
       transcriptStatus: 'FAILED',
     });
 
-    expect(global.fetch).not.toHaveBeenCalled();
+    expect(fetchTwilioMediaMock).not.toHaveBeenCalled();
     expect(mockCreateTranscription).not.toHaveBeenCalled();
     expect(loggerMock.warn).toHaveBeenCalled();
   });
@@ -160,7 +169,7 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
     });
 
     expect(prismaMock.voicemail.update).not.toHaveBeenCalled();
-    expect(global.fetch).not.toHaveBeenCalled();
+    expect(fetchTwilioMediaMock).not.toHaveBeenCalled();
     expect(mockCreateTranscription).not.toHaveBeenCalled();
     expect(loggerMock.warn).toHaveBeenCalled();
   });
@@ -203,7 +212,7 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
       transcriptStatus: 'FAILED',
     });
 
-    expect(global.fetch).not.toHaveBeenCalled();
+    expect(fetchTwilioMediaMock).not.toHaveBeenCalled();
     expect(mockCreateTranscription).not.toHaveBeenCalled();
     expect(loggerMock.info).toHaveBeenCalled();
   });
@@ -227,7 +236,7 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
       transcriptStatus: 'COMPLETE',
     });
 
-    global.fetch.mockResolvedValueOnce({
+    fetchTwilioMediaMock.mockResolvedValueOnce({
       ok: true,
       status: 200,
       statusText: 'OK',
@@ -240,7 +249,7 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
 
     await enqueueVoicemailTranscription('vm-ok');
 
-    expect(global.fetch).toHaveBeenCalledWith('https://example.com/audio.mp3');
+    expect(fetchTwilioMediaMock).toHaveBeenCalledWith('https://example.com/audio.mp3');
 
     expect(createReadStreamMock).toHaveBeenCalled();
 
@@ -296,7 +305,7 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
       transcriptStatus: 'FAILED',
     });
 
-    global.fetch.mockRejectedValueOnce(new Error('network fail'));
+    fetchTwilioMediaMock.mockRejectedValueOnce(new Error('network fail'));
 
     await enqueueVoicemailTranscription('vm-error');
 

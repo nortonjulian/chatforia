@@ -6,6 +6,7 @@ import fs from 'fs';
 import { promisify } from 'util';
 import logger from '../utils/logger.js';
 import { emitToUser } from './socketBus.js';
+import { fetchTwilioMedia } from '../utils/twilioMediaProxy.js';
 
 const writeFile = promisify(fs.writeFile);
 const unlink = promisify(fs.unlink);
@@ -107,10 +108,7 @@ async function transcribeVoicemail(voicemailId) {
   let tmpPath = null;
 
   try {
-    const response = await fetch(audioUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch voicemail audio: ${response.status} ${response.statusText}`);
-    }
+    const response = await fetchTwilioMedia(audioUrl);
 
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
