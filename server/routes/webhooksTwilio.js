@@ -6,6 +6,10 @@ import twilio from 'twilio';
 import { enqueueVoicemailTranscription } from '../services/voicemailTranscription.js';
 import { sendVoicemailForwardEmail } from '../services/voicemailEmail.js';
 import { emitToUser } from '../services/socketBus.js';
+import {
+  analyzeTwilioVoicemailAudio,
+  isEffectivelySilentVoicemail,
+} from '../utils/voicemailAudioAnalysis.js';
 
 const { VoiceResponse } = twilio.twiml;
 const r = express.Router();
@@ -269,6 +273,57 @@ r.post(
         return;
       }
 
+      const recordingAudioUrl =
+        String(RecordingUrl).toLowerCase().endsWith('.mp3')
+          ? String(RecordingUrl)
+          : `${RecordingUrl}.mp3`;
+
+      try {
+        const audioAnalysis =
+          await analyzeTwilioVoicemailAudio(
+            recordingAudioUrl
+          );
+
+        if (
+          isEffectivelySilentVoicemail(
+            audioAnalysis
+          )
+        ) {
+          console.log(
+            '[voicemail] ignoring effectively silent recording',
+            {
+              userId: numericUserId,
+              relatedCallId:
+                relatedCallId || null,
+              recordingDuration:
+                RecordingDuration ?? null,
+              measuredDurationSec:
+                audioAnalysis.durationSec,
+              peakDbfs:
+                audioAnalysis.peakDbfs,
+              rmsDbfs:
+                audioAnalysis.rmsDbfs,
+              activePercent:
+                audioAnalysis.activePercent,
+            }
+          );
+
+          return;
+        }
+      } catch (audioAnalysisError) {
+        console.warn(
+          '[voicemail] audio analysis failed; preserving recording',
+          {
+            userId: numericUserId,
+            relatedCallId:
+              relatedCallId || null,
+            error:
+              audioAnalysisError?.message ||
+              String(audioAnalysisError),
+          }
+        );
+      }
+
       const numericPhoneNumberId =
         phoneNumberId ? Number(phoneNumberId) : null;
 
@@ -324,7 +379,7 @@ r.post(
           phoneNumberId: Number.isNaN(numericPhoneNumberId) ? null : numericPhoneNumberId,
           fromNumber: storedFrom,
           toNumber: storedTo,
-          audioUrl: `${RecordingUrl}.mp3`,
+          audioUrl: recordingAudioUrl,
           durationSec: RecordingDuration != null ? Number(RecordingDuration) : null,
           transcript: null,
           transcriptStatus: 'PENDING',
