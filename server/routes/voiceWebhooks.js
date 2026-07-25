@@ -373,89 +373,103 @@ router.post('/app-call-complete', async (req, res) => {
       const existingStatus =
         String(existing.status || '').toUpperCase();
 
-      // A client may deliberately finalize the call before Twilio's Dial
-      // callback arrives. Do not let a late provider no-answer result
-      // overwrite an explicit decline, hang-up, or failure.
-      if (
-        existingStatus === 'DECLINED' ||
-        existingStatus === 'ENDED' ||
-        existingStatus === 'FAILED' ||
-        existingStatus === 'MISSED'
-      ) {
-        twiml.hangup();
-        return res.type('text/xml').send(twiml.toString());
-      }
+      const terminalStatuses = [
+        'DECLINED',
+        'ENDED',
+        'FAILED',
+        'MISSED',
+      ];
 
-      let status = 'ENDED';
-      let endReason = 'completed';
+      const canContinueToVoicemailFromTerminalState =
+        (
+          existingStatus === 'DECLINED' &&
+          ['busy', 'no-answer'].includes(dialCallStatus)
+        ) ||
+        (
+          existingStatus === 'MISSED' &&
+          dialCallStatus === 'no-answer'
+        );
 
-      if (dialCallStatus === 'no-answer') {
-        status = 'MISSED';
-        endReason = 'no_answer';
-      } else if (dialCallStatus === 'busy') {
-        status = 'FAILED';
-        endReason = 'busy';
-      } else if (dialCallStatus === 'failed') {
-        status = 'FAILED';
-        endReason = 'failed';
-      } else if (dialCallStatus === 'canceled') {
-        status = 'DECLINED';
-        endReason = 'canceled';
-      }
+      if (terminalStatuses.includes(existingStatus)) {
+        relatedCallId = existing.id;
 
-      const endedAt = new Date();
+        // The app may finalize DECLINED or MISSED before Twilio's Dial
+        // callback arrives. Preserve that first terminal state, but still
+        // continue the caller into voicemail for an explicit decline or
+        // a normal unanswered timeout.
+        if (!canContinueToVoicemailFromTerminalState) {
+          twiml.hangup();
+          return res.type('text/xml').send(twiml.toString());
+        }
+      } else {
+        let status = 'ENDED';
+        let endReason = 'completed';
 
-      const updated = await prisma.call.update({
-        where: { id: existing.id },
-        data: {
-          status,
-          startedAt:
-            dialCallStatus === 'completed'
-              ? existing.startedAt ?? endedAt
-              : existing.startedAt ?? undefined,
-          endedAt,
-          durationSec:
-            dialCallDuration != null
-              ? Number(dialCallDuration)
-              : undefined,
-          endReason,
-        },
-        select: {
-          id: true,
-          callerId: true,
-          calleeId: true,
-          status: true,
-          endedAt: true,
-          durationSec: true,
-          endReason: true,
-        },
-      });
+        if (dialCallStatus === 'no-answer') {
+          status = 'MISSED';
+          endReason = 'no_answer';
+        } else if (dialCallStatus === 'busy') {
+          status = 'DECLINED';
+          endReason = 'declined_to_voicemail';
+        } else if (dialCallStatus === 'failed') {
+          status = 'FAILED';
+          endReason = 'failed';
+        } else if (dialCallStatus === 'canceled') {
+          status = 'ENDED';
+          endReason = 'caller_canceled';
+        }
 
-      relatedCallId = updated.id;
+        const endedAt = new Date();
 
-      const endedPayload = {
-        callId: updated.id,
-        status: updated.status,
-        endedAt: updated.endedAt,
-        durationSec: updated.durationSec,
-        reason: updated.endReason,
-        forwarded: false,
-      };
+        const updated = await prisma.call.update({
+          where: { id: existing.id },
+          data: {
+            status,
+            startedAt:
+              dialCallStatus === 'completed'
+                ? existing.startedAt ?? endedAt
+                : existing.startedAt ?? undefined,
+            endedAt,
+            durationSec:
+              dialCallDuration != null
+                ? Number(dialCallDuration)
+                : undefined,
+            endReason,
+          },
+          select: {
+            id: true,
+            callerId: true,
+            calleeId: true,
+            status: true,
+            endedAt: true,
+            durationSec: true,
+            endReason: true,
+          },
+        });
 
-      // For voicemail, keep the caller connected to Twilio while ending
-      // the unanswered recipient's ringing state.
-      if (dialCallStatus === 'completed') {
-        emitToUser(updated.callerId, 'call:ended', endedPayload);
-      }
+        relatedCallId = updated.id;
 
-      if (
-        updated.calleeId &&
-        updated.calleeId !== updated.callerId
-      ) {
-        emitToUser(updated.calleeId, 'call:ended', endedPayload);
+        const endedPayload = {
+          callId: updated.id,
+          status: updated.status,
+          endedAt: updated.endedAt,
+          durationSec: updated.durationSec,
+          reason: updated.endReason,
+          forwarded: false,
+        };
+
+        if (dialCallStatus === 'completed') {
+          emitToUser(updated.callerId, 'call:ended', endedPayload);
+        }
+
+        if (
+          updated.calleeId &&
+          updated.calleeId !== updated.callerId
+        ) {
+          emitToUser(updated.calleeId, 'call:ended', endedPayload);
+        }
       }
     }
-
 
     if (dialCallStatus === 'completed') {
       twiml.hangup();
@@ -465,7 +479,6 @@ router.post('/app-call-complete', async (req, res) => {
     const shouldOfferVoicemail = [
       'no-answer',
       'busy',
-      'failed',
     ].includes(dialCallStatus);
 
     if (!shouldOfferVoicemail || !validCalleeUserId) {
