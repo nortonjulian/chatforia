@@ -8,6 +8,17 @@ import { sendPushToUser, sendVoipCallPushToUser } from '../services/pushService.
 const router = express.Router();
 router.use(requireAuth);
 
+const TERMINAL_CALL_STATUSES = [
+  'ENDED',
+  'DECLINED',
+  'MISSED',
+  'FAILED',
+];
+
+function isTerminalCallStatus(status) {
+  return TERMINAL_CALL_STATUSES.includes(String(status || '').toUpperCase());
+}
+
 async function ensureParticipant(call, userId) {
   if (!call) return false;
 
@@ -398,14 +409,28 @@ router.post('/end', asyncHandler(async (req, res) => {
 
   const endedAt = new Date();
 
-  const updated = await prisma.call.update({
-    where: { id: call.id },
+  const finalization = await prisma.call.updateMany({
+    where: {
+      id: call.id,
+      status: { notIn: TERMINAL_CALL_STATUSES },
+    },
     data: {
       status,
       endedAt,
       durationSec: durationSec ?? undefined,
       endReason: reason ?? null,
     },
+  });
+
+  // A different client or reconciliation request already finalized the call.
+  // Treat this retry as successful, but do not overwrite terminal fields or
+  // emit duplicate call-ended events.
+  if (finalization.count === 0) {
+    return res.json({ ok: true });
+  }
+
+  const updated = await prisma.call.findUnique({
+    where: { id: call.id },
     select: {
       id: true,
       callerId: true,
@@ -448,6 +473,13 @@ router.post('/end', asyncHandler(async (req, res) => {
     }
   }
 
+  console.log('[calls/end] finalized call', {
+    callId: updated.id,
+    status: updated.status,
+    endedBy: userId,
+    notified: Array.from(notifyIds),
+  });
+
   res.json({ ok: true });
 }));
 
@@ -479,8 +511,11 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     return res.status(403).json({ error: 'Not a participant' });
   }
 
+  const normalizedStatus =
+    status == null ? null : String(status).toUpperCase();
+
   const updateData = {
-    status: status ?? undefined,
+    status: normalizedStatus ?? undefined,
     startedAt: startedAt ? new Date(startedAt) : undefined,
     endedAt: endedAt ? new Date(endedAt) : undefined,
     durationSec: durationSec ?? undefined,
@@ -504,9 +539,16 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     }
   }
 
-  const updated = await prisma.call.update({
-    where: { id: callId },
+  const lifecycleUpdate = await prisma.call.updateMany({
+    where: {
+      id: callId,
+      status: { notIn: TERMINAL_CALL_STATUSES },
+    },
     data: updateData,
+  });
+
+  const updated = await prisma.call.findUnique({
+    where: { id: callId },
     select: {
       id: true,
       callerId: true,
@@ -521,16 +563,7 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     },
   });
 
-  const terminalStatuses = new Set([
-    'ENDED',
-    'DECLINED',
-    'MISSED',
-    'FAILED',
-  ]);
-
-  const updatedStatus = String(updated.status || '').toUpperCase();
-
-  if (terminalStatuses.has(updatedStatus)) {
+  if (lifecycleUpdate.count === 1 && isTerminalCallStatus(normalizedStatus)) {
     const notifyIds = new Set();
 
     if (updated.callerId && updated.callerId !== userId) {

@@ -13,6 +13,7 @@ const mockPrisma = {
     create: jest.fn(),
     findUnique: jest.fn(),
     update: jest.fn(),
+    updateMany: jest.fn(),
     delete: jest.fn(),
     findMany: jest.fn(),
   },
@@ -80,6 +81,7 @@ describe('calls routes', () => {
     mockPrisma.call.create.mockReset();
     mockPrisma.call.findUnique.mockReset();
     mockPrisma.call.update.mockReset();
+    mockPrisma.call.updateMany.mockReset();
     mockPrisma.call.delete.mockReset();
     mockPrisma.call.findMany.mockReset();
 
@@ -465,23 +467,26 @@ describe('calls routes', () => {
     test('200 on declined, emits call:ended with DECLINED', async () => {
       const now = new Date('2025-01-03T00:00:00.000Z');
 
-      mockPrisma.call.findUnique.mockResolvedValue({
-        id: 1,
-        callerId: 10,
-        calleeId: 20,
-        mode: 'AUDIO',
-        participants: [{ userId: 10 }, { userId: 20 }],
-      });
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 10,
+          calleeId: 20,
+          mode: 'AUDIO',
+          status: 'RINGING',
+          participants: [{ userId: 10 }, { userId: 20 }],
+        })
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 10,
+          calleeId: 20,
+          status: 'DECLINED',
+          endedAt: now,
+          durationSec: undefined,
+          endReason: 'declined',
+        });
 
-      mockPrisma.call.update.mockResolvedValue({
-        id: 1,
-        callerId: 10,
-        calleeId: 20,
-        status: 'DECLINED',
-        endedAt: now,
-        durationSec: undefined,
-        endReason: 'declined',
-      });
+      mockPrisma.call.updateMany.mockResolvedValue({ count: 1 });
 
       const res = await request(app)
         .post('/calls/end')
@@ -490,27 +495,16 @@ describe('calls routes', () => {
       expect(res.statusCode).toBe(200);
       expect(res.body).toEqual({ ok: true });
 
-      expect(mockPrisma.call.findUnique).toHaveBeenCalledWith({
-        where: { id: 1 },
-        include: { participants: true },
-      });
-
-      expect(mockPrisma.call.update).toHaveBeenCalledWith({
-        where: { id: 1 },
+      expect(mockPrisma.call.updateMany).toHaveBeenCalledWith({
+        where: {
+          id: 1,
+          status: { notIn: ['ENDED', 'DECLINED', 'MISSED', 'FAILED'] },
+        },
         data: {
           status: 'DECLINED',
           endedAt: expect.any(Date),
           durationSec: undefined,
           endReason: 'declined',
-        },
-        select: {
-          id: true,
-          callerId: true,
-          calleeId: true,
-          status: true,
-          endedAt: true,
-          durationSec: true,
-          endReason: true,
         },
       });
 
@@ -526,50 +520,42 @@ describe('calls routes', () => {
     test('200 on hangup, emits call:ended with ENDED', async () => {
       const now = new Date('2025-01-04T00:00:00.000Z');
 
-      mockPrisma.call.findUnique.mockResolvedValue({
-        id: 1,
-        callerId: 30,
-        calleeId: 10,
-        mode: 'AUDIO',
-        participants: [{ userId: 30 }, { userId: 10 }],
-      });
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 30,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'ACTIVE',
+          participants: [{ userId: 30 }, { userId: 10 }],
+        })
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 30,
+          calleeId: 10,
+          status: 'ENDED',
+          endedAt: now,
+          durationSec: undefined,
+          endReason: null,
+        });
 
-      mockPrisma.call.update.mockResolvedValue({
-        id: 1,
-        callerId: 30,
-        calleeId: 10,
-        status: 'ENDED',
-        endedAt: now,
-        durationSec: undefined,
-        endReason: null,
-      });
+      mockPrisma.call.updateMany.mockResolvedValue({ count: 1 });
 
       const res = await request(app).post('/calls/end').send({ callId: 1 });
 
       expect(res.statusCode).toBe(200);
       expect(res.body).toEqual({ ok: true });
 
-      expect(mockPrisma.call.findUnique).toHaveBeenCalledWith({
-        where: { id: 1 },
-        include: { participants: true },
-      });
-
-      expect(mockPrisma.call.update).toHaveBeenCalledWith({
-        where: { id: 1 },
+      expect(mockPrisma.call.updateMany).toHaveBeenCalledWith({
+        where: {
+          id: 1,
+          status: { notIn: ['ENDED', 'DECLINED', 'MISSED', 'FAILED'] },
+        },
         data: {
           status: 'ENDED',
           endedAt: expect.any(Date),
           durationSec: undefined,
           endReason: null,
-        },
-        select: {
-          id: true,
-          callerId: true,
-          calleeId: true,
-          status: true,
-          endedAt: true,
-          durationSec: true,
-          endReason: true,
         },
       });
 
@@ -580,6 +566,96 @@ describe('calls routes', () => {
         durationSec: undefined,
         reason: null,
       });
+    });
+
+    test('does not overwrite or re-emit when another terminal update already won', async () => {
+      mockPrisma.call.findUnique.mockResolvedValue({
+        id: 1,
+        callerId: 10,
+        calleeId: 20,
+        mode: 'VIDEO',
+        status: 'ENDED',
+        participants: [{ userId: 10 }, { userId: 20 }],
+      });
+
+      mockPrisma.call.updateMany.mockResolvedValue({ count: 0 });
+
+      const res = await request(app)
+        .post('/calls/end')
+        .send({
+          callId: 1,
+          reason: 'hangup',
+          durationSec: 999,
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual({ ok: true });
+      expect(emitToUserMock).not.toHaveBeenCalled();
+      expect(mockPrisma.call.findUnique).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('PATCH /calls/:id/status', () => {
+    test('a late terminal patch does not overwrite or re-emit the winning terminal state', async () => {
+      const startedAt = new Date('2025-01-05T00:00:00.000Z');
+      const endedAt = new Date('2025-01-05T00:01:00.000Z');
+
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'VIDEO',
+          status: 'ENDED',
+          participants: [{ userId: 20 }, { userId: 10 }],
+        })
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'VIDEO',
+          status: 'ENDED',
+          startedAt,
+          endedAt,
+          durationSec: 60,
+          endReason: 'hangup',
+          twilioCallSid: null,
+        });
+
+      mockPrisma.call.updateMany.mockResolvedValue({ count: 0 });
+
+      const res = await request(app)
+        .patch('/calls/1/status')
+        .send({
+          status: 'ENDED',
+          endedAt: '2025-01-05T00:02:00.000Z',
+          durationSec: 120,
+          endReason: 'remote_ended',
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body.call).toMatchObject({
+        id: 1,
+        status: 'ENDED',
+        durationSec: 60,
+        endReason: 'hangup',
+      });
+
+      expect(mockPrisma.call.updateMany).toHaveBeenCalledWith({
+        where: {
+          id: 1,
+          status: { notIn: ['ENDED', 'DECLINED', 'MISSED', 'FAILED'] },
+        },
+        data: {
+          status: 'ENDED',
+          startedAt: undefined,
+          endedAt: new Date('2025-01-05T00:02:00.000Z'),
+          durationSec: 120,
+          endReason: 'remote_ended',
+        },
+      });
+
+      expect(emitToUserMock).not.toHaveBeenCalled();
     });
   });
 });
