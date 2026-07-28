@@ -214,14 +214,16 @@ export default function SecureMessageSettingsCard() {
           <Button
             variant="subtle"
             size="compact-sm"
+            px={8}
             aria-label="Refresh secure message status"
+            title="Refresh secure message status"
             onClick={refreshStatus}
             loading={status.checking}
-            leftSection={
-              <IconRefresh size={16} />
-            }
           >
-            Refresh
+            <IconRefresh
+              size={16}
+              aria-hidden="true"
+            />
           </Button>
         </Group>
 
