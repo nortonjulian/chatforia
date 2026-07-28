@@ -22,6 +22,23 @@ function normalizePairingStatus(value) {
   return null;
 }
 
+function normalizeDeviceIds(body) {
+  const rawIds =
+    Array.isArray(body?.deviceIds)
+      ? body.deviceIds
+      : [body?.deviceId];
+
+  return Array.from(
+    new Set(
+      rawIds
+        .map((value) =>
+          normalizeString(value, 191)
+        )
+        .filter(Boolean)
+    )
+  ).slice(0, 100);
+}
+
 const deviceSelect = {
   id: true,
   userId: true,
@@ -537,6 +554,70 @@ router.get('/user/:userId/public', requireAuth, async (req, res, next) => {
   }
 });
 
+
+router.post('/rename', requireAuth, async (req, res, next) => {
+  try {
+    const userId = Number(req.user.id);
+
+    const deviceIds =
+      normalizeDeviceIds(req.body);
+
+    const name =
+      normalizeString(req.body?.name, 120);
+
+    if (
+      !userId ||
+      deviceIds.length === 0 ||
+      !name
+    ) {
+      return res.status(400).json({
+        error:
+          'deviceId or deviceIds and name are required',
+      });
+    }
+
+    const result =
+      await prisma.device.updateMany({
+        where: {
+          userId,
+          deviceId: {
+            in: deviceIds,
+          },
+          revokedAt: null,
+        },
+        data: {
+          name,
+        },
+      });
+
+    if (result.count < 1) {
+      return res.status(404).json({
+        error: 'Device not found',
+      });
+    }
+
+    const devices =
+      await prisma.device.findMany({
+        where: {
+          userId,
+          deviceId: {
+            in: deviceIds,
+          },
+          revokedAt: null,
+        },
+        select: deviceSelect,
+      });
+
+    return res.json({
+      items: devices,
+      updatedCount: result.count,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 router.post('/heartbeat', requireAuth, async (req, res, next) => {
   try {
     const userId = Number(req.user.id);
@@ -572,36 +653,64 @@ router.post('/heartbeat', requireAuth, async (req, res, next) => {
 router.post('/revoke', requireAuth, async (req, res, next) => {
   try {
     const userId = Number(req.user.id);
-    const deviceId = normalizeString(req.body?.deviceId, 191);
 
-    if (!userId || !deviceId) {
-      return res.status(400).json({ error: 'deviceId is required' });
+    const deviceIds =
+      normalizeDeviceIds(req.body);
+
+    if (
+      !userId ||
+      deviceIds.length === 0
+    ) {
+      return res.status(400).json({
+        error:
+          'deviceId or deviceIds is required',
+      });
     }
 
-    const device = await prisma.device.update({
-      where: {
-        userId_deviceId: {
-          userId,
-          deviceId,
-        },
-      },
-      data: {
-        revokedAt: new Date(),
-        revokedById: userId,
-      },
-      select: {
-        id: true,
-        deviceId: true,
-        revokedAt: true,
-        revokedById: true,
-      },
-    });
+    const now = new Date();
 
-    return res.json({ device });
+    const result =
+      await prisma.device.updateMany({
+        where: {
+          userId,
+          deviceId: {
+            in: deviceIds,
+          },
+          revokedAt: null,
+        },
+        data: {
+          revokedAt: now,
+          revokedById: userId,
+          isPrimary: false,
+
+          pushToken: null,
+          pushProvider: null,
+          apnsPushToken: null,
+          fcmPushToken: null,
+          voipPushToken: null,
+
+          wrappedAccountKey: null,
+          wrappedAccountKeyAlgo: null,
+          wrappedAccountKeyVer: null,
+        },
+      });
+
+    if (result.count < 1) {
+      return res.status(404).json({
+        error: 'Device not found',
+      });
+    }
+
+    return res.json({
+      deviceIds,
+      revokedCount: result.count,
+      revokedAt: now,
+    });
   } catch (error) {
     next(error);
   }
 });
+
 
 router.post('/push-token', requireAuth, async (req, res) => {
   const userId = Number(req.user?.id);

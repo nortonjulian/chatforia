@@ -41,8 +41,6 @@ import { getTheme, setTheme, onThemeChange, isLightTheme } from '../utils/themeM
 import { setFaviconForTheme } from '../utils/favicon.js';
 import { premiumPreviewEnabled } from '../utils/premiumPreview.js';
 
-import { loadKeysLocal, saveKeysLocal, generateKeypair } from '../utils/keys';
-import { exportEncryptedPrivateKey, importEncryptedPrivateKey } from '../utils/keyBackup';
 import AppAvatar from '@/components/AppAvatar';
 import { API_BASE_URL } from '@/config';
 
@@ -54,6 +52,7 @@ import PhoneWarningBanner from '@/components/PhoneWarningBanner.jsx';
 
 /* 2FA */
 import TwoFASection from '@/components/security/TwoFASection.jsx';
+import SecureMessageSettingsCard from '@/components/security/SecureMessageSettingsCard.jsx';
 /* ✅ Forwarding lives outside the accordion */
 import ForwardingSettings from '@/features/settings/ForwardingSettings.jsx';
 
@@ -161,7 +160,6 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const viewUserId = params.userId ? Number(params.userId) : null;
   const viewingAnother = !!(viewUserId && currentUser && viewUserId !== currentUser.id);
 
-  const importFileRef = useRef(null);
   const forwardingAnchorRef = useRef(null);
 
   const { setColorScheme } = useMantineColorScheme();
@@ -596,84 +594,6 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     }
   };
 
-  const exportKey = async () => {
-    try {
-      const { privateKey } = await loadKeysLocal();
-      if (!privateKey) {
-        notifications.show({
-          color: 'red',
-          message: t('profile.noPrivateKey', 'No private key found'),
-        });
-        return;
-      }
-      const pwd = window.prompt(
-        t('profile.setBackupPassword', 'Set a password to encrypt your backup')
-      );
-      if (!pwd) return;
-      const blob = await exportEncryptedPrivateKey(privateKey, pwd);
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'chatforia-key.backup.json';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-      notifications.show({
-        color: 'green',
-        message: t('profile.backupDownloaded', 'Backup downloaded'),
-      });
-    } catch (e) {
-      console.error(e);
-      notifications.show({
-        color: 'red',
-        message: t('profile.exportFailed', 'Export failed'),
-      });
-    }
-  };
-
-  const importKey = async (file) => {
-    try {
-      if (!file) return;
-      const pwd = window.prompt(
-        t('profile.enterBackupPassword', 'Enter your backup password')
-      );
-      if (!pwd) return;
-      const privateKeyB64 = await importEncryptedPrivateKey(file, pwd);
-      const existing = await loadKeysLocal();
-      await saveKeysLocal({ publicKey: existing.publicKey, privateKey: privateKeyB64 });
-      notifications.show({
-        color: 'green',
-        message: t('profile.importSuccess', 'Backup imported successfully'),
-      });
-      if (importFileRef.current) importFileRef.current.value = null;
-    } catch (e) {
-      console.error(e);
-      notifications.show({
-        color: 'red',
-        message: t('profile.importFailed', 'Import failed'),
-      });
-    }
-  };
-
-  const rotateKeys = async () => {
-    try {
-      const kp = generateKeypair();
-      await saveKeysLocal(kp);
-      await axiosClient.post('/users/keys', { publicKey: kp.publicKey });
-      setCurrentUser((prev) => ({ ...prev, publicKey: kp.publicKey }));
-      notifications.show({
-        color: 'green',
-        message: t('profile.keysRotated', 'Keys rotated'),
-      });
-    } catch (e) {
-      console.error(e);
-      notifications.show({
-        color: 'red',
-        message: t('profile.rotateFailed', 'Key rotation failed'),
-      });
-    }
-  };
 
   /* ---------- early-return branches ---------- */
 
@@ -1245,46 +1165,66 @@ export default function UserProfile({ onLanguageChange, openSection }) {
             </Stack>
           </Accordion.Panel>
         </Accordion.Item>
-
-        {/* Backup & Sync (Premium) */}
+        {/* Chat history backups */}
         <Accordion.Item value="backup">
           <Accordion.Control>
-            {t('profile.backupSync', 'Backup & Sync')}
+            {t(
+              'profile.chatHistoryBackups',
+              'Chat History Backups'
+            )}
           </Accordion.Control>
+
           <Accordion.Panel>
-            <Card withBorder radius="lg" p="md">
-              <Group justify="space-between" align="center">
-                <Group>
+            <Card
+              withBorder
+              radius="lg"
+              p="md"
+            >
+              <Group
+                justify="space-between"
+                align="center"
+                wrap="nowrap"
+              >
+                <Group wrap="nowrap">
                   <IconCloudUpload size={20} />
-                  <Text fw={600}>
-                    {t(
-                      'profile.encryptedBackupsTitle',
-                      'Encryption Key Backup'
-                    )}
-                  </Text>
+
+                  <div>
+                    <Text fw={600}>
+                      {t(
+                        'profile.chatHistoryBackupTitle',
+                        'Encrypted Chat History Backups'
+                      )}
+                    </Text>
+
+                    <Text
+                      size="sm"
+                      c="dimmed"
+                      mt={4}
+                    >
+                      {t(
+                        'profile.chatHistoryBackupDescription',
+                        'Export encrypted copies of your chat history. Secure-message key recovery is managed separately under Security.'
+                      )}
+                    </Text>
+                  </div>
                 </Group>
+
                 <Button
                   variant="light"
-                  component="a"
-                  href="/settings/backups"
-                  aria-label={t(
-                    'profile.openBackupTools',
-                    'Back Up or Restore'
-                  )}
+                  onClick={() =>
+                    navigate('/settings/backups')
+                  }
                 >
-                  {t('profile.openBackupTools', 'Back Up or Restore')}
+                  {t(
+                    'profile.openChatBackups',
+                    'Open Chat Backups'
+                  )}
                 </Button>
               </Group>
-
-              <Text size="sm" c="dimmed" mt="xs">
-                {t(
-                  'profile.backupDesc',
-                  'Back up your encryption key to securely restore your messages on another device.'
-                )}
-              </Text>
             </Card>
           </Accordion.Panel>
         </Accordion.Item>
+
 
         {/* AI */}
         <Accordion.Item value="ai">
@@ -1501,50 +1441,41 @@ export default function UserProfile({ onLanguageChange, openSection }) {
             </Stack>
           </Accordion.Panel>
         </Accordion.Item>
-
         {/* Security */}
         <Accordion.Item value="security">
           <Accordion.Control>
-            {t('profile.security', 'Security')}
+            {t(
+              'profile.security',
+              'Security'
+            )}
           </Accordion.Control>
+
           <Accordion.Panel>
-            <TwoFASection user={currentUser} onChange={refreshAuthUser} />
-            <Group mt="md">
-              <Button
-                variant="light"
-                onClick={exportKey}
-                aria-label={t('profile.exportKey', 'Export key')}
-              >
-                {t('profile.exportKey', 'Export key')}
-              </Button>
-              <FileInput
-                ref={importFileRef}
-                accept="application/json"
-                aria-label={t('profile.importKey', 'Import key')}
-                placeholder={t('profile.importKey', 'Import key')}
-                onChange={importKey}
+            <Stack gap="md">
+              <TwoFASection
+                user={currentUser}
+                onChange={refreshAuthUser}
               />
-              <Button
-                color="orange"
-                variant="light"
-                onClick={rotateKeys}
-                aria-label={t('profile.rotateKeys', 'Rotate keys')}
-              >
-                {t('profile.rotateKeys', 'Rotate keys')}
-              </Button>
-            </Group>
+
+              <SecureMessageSettingsCard />
+            </Stack>
           </Accordion.Panel>
         </Accordion.Item>
 
-        {/* Devices */}
+        {/* Devices & Sessions */}
         <Accordion.Item value="devices">
           <Accordion.Control>
-            {t('profile.devices', 'Linked devices')}
+            {t(
+              'profile.devicesSessions',
+              'Devices & Sessions'
+            )}
           </Accordion.Control>
+
           <Accordion.Panel>
             <LinkedDevicesPanel />
           </Accordion.Panel>
         </Accordion.Item>
+
       </Accordion>
 
       <Divider my="lg" />

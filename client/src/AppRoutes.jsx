@@ -310,7 +310,8 @@ function AuthedLayout() {
                   <Center
                     style={{
                       flex: 1,
-                      padding: 24,
+                      alignItems: 'flex-start',
+                      padding: 'clamp(40px, 8vh, 80px) 24px 32px',
                     }}
                   >
                     <div
