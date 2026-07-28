@@ -457,6 +457,9 @@ function EsimCompareTable({ scope }) {
           <Table.Tr>
             <Table.Th>{t('upgrade.mobile.compare.col.pack', 'Pack')}</Table.Th>
             <Table.Th>{t('upgrade.mobile.compare.col.data', 'Data')}</Table.Th>
+            <Table.Th>
+              {t('upgrade.mobile.compare.col.validity', 'Validity')}
+            </Table.Th>
             <Table.Th>{t('upgrade.mobile.compare.col.bestFor', 'Best for')}</Table.Th>
           </Table.Tr>
         </Table.Thead>
@@ -466,6 +469,12 @@ function EsimCompareTable({ scope }) {
             <Table.Tr key={`${r.pack}-${r.data}`}>
               <Table.Td>{r.pack}</Table.Td>
               <Table.Td>{r.data}</Table.Td>
+              <Table.Td>
+                {t(
+                  'upgrade.mobile.compare.validity.30Days',
+                  '30 days from first use'
+                )}
+              </Table.Td>
               <Table.Td>{r.bestFor}</Table.Td>
             </Table.Tr>
           ))}
@@ -907,6 +916,16 @@ useEffect(() => {
   const perMonthLabel = t('upgrade.perMonthLong', '/ mo');
   const perYearLabel = t('upgrade.perYearLong', '/ year');
   const oneTimeLabel = t('upgrade.oneTime', 'one-time');
+
+  const esimValidityLabel = t(
+    'upgrade.mobile.validity.30Days',
+    'Valid for 30 days from first data connection'
+  );
+
+  const esimActivationLabel = t(
+    'upgrade.mobile.activation.firstConnection',
+    'Activates automatically on first data connection'
+  );
 
   const startCheckout = async ({ plan, priceId } = {}) => {
     if (!isAuthed) return navigate('/login?next=/upgrade');
@@ -1391,7 +1410,10 @@ useEffect(() => {
 
           <Group gap="md" mt={4}>
             <Text fw={600} c="dimmed">
-              {t('upgrade.mobile.feature.instant', '✔ Instant activation')}
+              {t('upgrade.mobile.feature.firstUse', '✔ Activates on first use')}
+            </Text>
+            <Text fw={600} c="dimmed">
+              {t('upgrade.mobile.feature.validity', '✔ Valid for 30 days')}
             </Text>
             <Text fw={600} c="dimmed">
               {t('upgrade.mobile.feature.contracts', '✔ No contracts')}
@@ -1457,7 +1479,7 @@ useEffect(() => {
                   <Text size="sm" c="dimmed">
                     {t(
                       'upgrade.mobile.hero.subcopy',
-                      'High-speed data for heavy travel use, with a simple one-time purchase.'
+                      'Unlimited data for 30 days, with speeds subject to the applicable fair-use policy.'
                     )}
                   </Text>
                 </Stack>
@@ -1470,11 +1492,15 @@ useEffect(() => {
                     style={{ margin: 0, paddingLeft: '1.2rem' }}
                   >
                       <li><Text size="sm" component="span">
+                        {esimValidityLabel}
+                      </Text></li>
+
+                      <li><Text size="sm" component="span">
                         {t('upgrade.mobile.unlimited.features.heavyUse', 'High-speed data for heavy use')}
                       </Text></li>
 
                       <li><Text size="sm" component="span">
-                        {t('upgrade.mobile.unlimited.features.throttle', 'Speeds may slow after high usage')}
+                        {t('upgrade.mobile.unlimited.features.throttle', 'Speeds may be reduced after high usage')}
                       </Text></li>
 
                       <li><Text size="sm" component="span">
@@ -1482,11 +1508,11 @@ useEffect(() => {
                       </Text></li>
 
                       <li><Text size="sm" component="span">
-                        {t('upgrade.mobile.unlimited.features.instant', 'Instant eSIM activation')}
+                        {esimActivationLabel}
                       </Text></li>
 
                       <li><Text size="sm" component="span">
-                        {t('upgrade.mobile.unlimited.features.noContract', 'One-time pack, no contract')}
+                        {t('upgrade.mobile.unlimited.features.noContract', 'One-time purchase with no contract')}
                       </Text></li>
                   </Stack>
 
@@ -1530,9 +1556,16 @@ useEffect(() => {
                   price={getEsimPriceLabel(p.product)}
                   priceSuffix={oneTimeLabel}
                   features={[
-                    t('upgrade.mobile.card.feature.1', 'Reliable coverage'),
-                    t('upgrade.mobile.card.feature.2', 'Maps, messaging, and travel'),
-                    t('upgrade.mobile.card.feature.3', 'Instant eSIM activation'),
+                    t(
+                      'upgrade.mobile.card.feature.coverage',
+                      'Reliable coverage in the selected region'
+                    ),
+                    esimValidityLabel,
+                    esimActivationLabel,
+                    t(
+                      'upgrade.mobile.card.feature.topup',
+                      'One-time purchase; top up anytime'
+                    ),
                   ]}
                   badge={
                     isMostPopular
