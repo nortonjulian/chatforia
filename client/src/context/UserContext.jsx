@@ -137,7 +137,11 @@ export function UserProvider({ children }) {
             await new Promise((r) => setTimeout(r, 2000));
 
             try {
-              const installed = await tryInstallKeysFromApprovedPairing(null);
+              const installed =
+                await tryInstallKeysFromApprovedPairing(
+                  null,
+                  serverPublicKey
+                );
 
               if (installed) {
                 console.log('[E2EE] pairing success → keys installed');
@@ -152,10 +156,23 @@ export function UserProvider({ children }) {
           setPairingPending(false);
 
           if (approved) {
-            const newMeta = await getLocalKeyBundleMeta();
-            setKeyMeta(newMeta || null);
-            shouldUnlock = false;
-            setKeyUnlockMode(null);
+            const newMeta =
+              await getLocalKeyBundleMeta();
+
+            if (
+              !newMeta?.publicKey ||
+              newMeta.publicKey !==
+                serverPublicKey
+            ) {
+              shouldUnlock = true;
+              restoreReason =
+                'The approved browser key could not be verified.';
+              setKeyUnlockMode('restore');
+            } else {
+              setKeyMeta(newMeta);
+              shouldUnlock = false;
+              setKeyUnlockMode(null);
+            }
           } else {
             shouldUnlock = true;
             restoreReason =
@@ -338,6 +355,7 @@ export function UserProvider({ children }) {
       setKeyMeta,
       keyUnlockLoading,
       pairingPending,
+      refreshSession: bootstrap,
     }),
     [
       currentUser,
@@ -349,6 +367,7 @@ export function UserProvider({ children }) {
       keyMeta,
       keyUnlockLoading,
       pairingPending,
+      bootstrap,
     ]
   );
 

@@ -17,8 +17,8 @@ function LoadingScreen() {
  * - Redirects unauthenticated users to "/" (your LoginForm).
  */
 export function RequireAuth({ children }) {
-  const { currentUser, loading } = useUser() || {};
-  if (loading) return <LoadingScreen />;
+  const { currentUser, authLoading } = useUser() || {};
+  if (authLoading) return <LoadingScreen />;
   if (!currentUser) return <Navigate to="/" replace />;
   return children;
 }
@@ -29,8 +29,8 @@ export function RequireAuth({ children }) {
  * - Non-premium users are redirected to /settings/upgrade.
  */
 export function RequirePremium({ children, allowAdmin = true }) {
-  const { currentUser, loading } = useUser() || {};
-  if (loading) return <LoadingScreen />;
+  const { currentUser, authLoading } = useUser() || {};
+  if (authLoading) return <LoadingScreen />;
 
   const plan = (currentUser?.plan || 'FREE').toUpperCase();
   const isAdmin = currentUser?.role === 'ADMIN';

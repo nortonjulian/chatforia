@@ -8,7 +8,7 @@ import {
   Title,
   ScrollArea,
   Anchor,
-  Alert,
+  Center,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +20,7 @@ import SkipLink from '@/components/a11y/SkipLink.jsx';
 
 // lazy: SettingsBackups is heavy — load it only when /settings/backups is visited
 const SettingsBackups = lazy(() => import('@/pages/SettingsBackups.jsx'));
+const SettingsSecurity = lazy(() => import('@/pages/SettingsSecurity.jsx'));
 
 import UpgradePage from '@/pages/UpgradePlan';
 import UpgradeSuccess from '@/pages/UpgradeSuccess.jsx';
@@ -64,6 +65,7 @@ import { primeCsrf } from '@/api/axiosClient';
 
 import AuthLayout from '@/components/AuthLayout';
 import SettingsPage from '@/features/settings/SettingsPage';
+import EncryptionRecoveryCard from '@/components/security/EncryptionRecoveryCard.jsx';
 import HomeIndex from '@/features/chat/HomeIndex';
 
 import SmsThreads from '@/pages/SmsThreads.jsx';
@@ -304,14 +306,37 @@ function AuthedLayout() {
                   flexDirection: 'column',
                 }}
               >
-                {needsKeyUnlock && (
-                  <Alert color="yellow" title="Encrypted messages locked" mb="md">
-                    You’re signed in. To start or view encrypted Chatforia chats on this browser,
-                    unlock or restore your encryption key.
-                  </Alert>
+                {needsKeyUnlock ? (
+                  <Center
+                    style={{
+                      flex: 1,
+                      padding: 24,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        maxWidth: 620,
+                      }}
+                    >
+                      <EncryptionRecoveryCard
+                        blocked
+                        title="Restore secure messages"
+                        description="This browser must restore or unlock the account secure message key before Chatforia can continue."
+                      />
+                    </div>
+                  </Center>
+                ) : (
+                  <Outlet
+                    context={{
+                      selectedRoom,
+                      setSelectedRoom,
+                      currentUser,
+                      features,
+                    }}
+                  />
                 )}
 
-                <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
               </div>
 
               <SupportWidget excludeRoutes={['/sms', '/admin']} />
@@ -448,7 +473,16 @@ export default function AppRoutes() {
         <Route path="random" element={<RandomChatPage />} />
         <Route path="people" element={<PeoplePage />} />
         <Route path="settings" element={<SettingsPage />} />
-        
+
+        <Route
+          path="settings/security"
+          element={
+            <Suspense fallback={<div>Loading security…</div>}>
+              <SettingsSecurity />
+            </Suspense>
+          }
+        />
+
         <Route
           path="settings/backups"
           element={

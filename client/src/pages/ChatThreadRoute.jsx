@@ -3,14 +3,11 @@ import { useParams, useOutletContext } from 'react-router-dom';
 import { Box, Loader, Text } from '@mantine/core';
 import axiosClient from '@/api/axiosClient';
 import ChatView from '@/components/ChatView.jsx';
-import { useUser } from '@/context/UserContext';
-import EncryptionRecoveryCard from '@/components/security/EncryptionRecoveryCard.jsx';
 import posthog from '@/utils/analytics';
 
 export default function ChatThreadRoute() {
   const { id } = useParams();
   const { currentUser } = useOutletContext();
-  const { needsKeyUnlock, keyUnlockMode } = useUser();
 
   const [chatroom, setChatroom] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -76,25 +73,6 @@ export default function ChatThreadRoute() {
     );
   }
 
-  if (needsKeyUnlock) {
-    return (
-      <Box p="md" style={{ flex: 1, overflowY: 'auto' }}>
-        <EncryptionRecoveryCard
-          blocked
-          title={
-            keyUnlockMode === 'locked'
-              ? 'Unlock secure messages'
-              : 'Restore secure messages'
-          }
-          description={
-            keyUnlockMode === 'locked'
-              ? 'Enter your Secure Messages Passcode to view and send secure messages on this browser.'
-              : 'This browser needs your secure message key before it can show secure messages.'
-          }
-        />
-      </Box>
-    );
-  }
 
   return (
     <Box

@@ -16,11 +16,18 @@ import {
 import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
 import {
+  clearPendingLocalPrivateKeyBundle,
   getLocalKeyBundleMeta,
-  installLocalPrivateKeyBundle,
-  unlockKeyBundle,
+  getUnlockedPrivateKeyForPublicKey,
   persistUnlockPasscodeForSession,
+  promotePendingLocalPrivateKeyBundle,
+  stagePendingLocalPrivateKeyBundle,
+  tryPromotePendingLocalPrivateKeyBundle,
+  unlockKeyBundle,
 } from '@/utils/encryptionClient';
+import {
+  restoreRemoteKeyBackupToLocal,
+} from '@/utils/keyBackupRemote';
 
 export default function EncryptionRecoveryCard({
   blocked = false,
@@ -31,28 +38,49 @@ export default function EncryptionRecoveryCard({
 
   const {
     currentUser,
+    setCurrentUser,
     setNeedsKeyUnlock,
     setKeyMeta,
     authError,
+    refreshSession,
   } = useUser();
 
-  const [unlockPasscode, setUnlockPasscode] = useState('');
-  const [busyUnlock, setBusyUnlock] = useState(false);
-  const [unlockMsg, setUnlockMsg] = useState('');
+  const [unlockPasscode, setUnlockPasscode] =
+    useState('');
 
-  const [helpOpen, setHelpOpen] = useState(false);
+  const [busyUnlock, setBusyUnlock] =
+    useState(false);
 
-  const [advancedOpen, setAdvancedOpen] = useState(false);
-  const [resetPasscode, setResetPasscode] = useState('');
-  const [resetConfirm, setResetConfirm] = useState('');
-  const [busyReset, setBusyReset] = useState(false);
-  const [resetMsg, setResetMsg] = useState('');
+  const [unlockMsg, setUnlockMsg] =
+    useState('');
 
-  const serverKey = (currentUser?.publicKey || '').trim();
+  const [helpOpen, setHelpOpen] =
+    useState(false);
+
+  const [advancedOpen, setAdvancedOpen] =
+    useState(false);
+
+  const [resetPasscode, setResetPasscode] =
+    useState('');
+
+  const [resetConfirm, setResetConfirm] =
+    useState('');
+
+  const [busyReset, setBusyReset] =
+    useState(false);
+
+  const [resetMsg, setResetMsg] =
+    useState('');
+
+  const serverKey =
+    (currentUser?.publicKey || '').trim();
 
   const resolvedTitle =
     title ||
-    t('encryptionRecovery.simpleTitle', 'Unlock secure messages');
+    t(
+      'encryptionRecovery.simpleTitle',
+      'Unlock secure messages'
+    );
 
   const resolvedDescription =
     description ||
@@ -61,124 +89,42 @@ export default function EncryptionRecoveryCard({
       'Enter your Secure Messages Passcode to view secure messages on this browser.'
     );
 
-  async function validateAndFinishRestore() {
-    const meta = await getLocalKeyBundleMeta();
-
-    if (!serverKey || !meta?.publicKey || meta.publicKey !== serverKey) {
+  async function validateAndFinishRestore(
+    expectedPublicKey = serverKey
+  ) {
+    if (!expectedPublicKey) {
       throw new Error(
-        t(
-          'encryptionRecovery.errors.restoreIncomplete',
-          'Secure message restore is incomplete or incorrect for this account.'
-        )
+        'This account does not currently expose a secure message key.'
+      );
+    }
+
+    await getUnlockedPrivateKeyForPublicKey(
+      expectedPublicKey
+    );
+
+    const meta =
+      await getLocalKeyBundleMeta();
+
+    if (
+      !meta?.publicKey ||
+      meta.publicKey !== expectedPublicKey
+    ) {
+      throw new Error(
+        'Secure message restore is incomplete or incorrect for this account.'
       );
     }
 
     setKeyMeta(meta);
     setNeedsKeyUnlock(false);
-  }
 
-  async function restoreFromAccountBackup(passcode) {
-    const { data } = await axiosClient.get('/auth/keys/backup');
-    const payload = data?.keys;
-
-    if (!data?.hasBackup || !payload?.encryptedPrivateKeyBundle) {
-      throw new Error(
-        t(
-          'encryptionRecovery.errors.noBackup',
-          'No secure message recovery backup exists for this account.'
-        )
-      );
+    if (refreshSession) {
+      await refreshSession();
     }
-
-    if (!payload?.publicKey) {
-      throw new Error(
-        t(
-          'encryptionRecovery.errors.missingPublicKey',
-          'Recovery backup is missing a public key.'
-        )
-      );
-    }
-
-    if (!serverKey) {
-      throw new Error(
-        t(
-          'encryptionRecovery.errors.noServerPublicKey',
-          'This account does not currently expose a secure message key.'
-        )
-      );
-    }
-
-    if (payload.publicKey.trim() !== serverKey) {
-      throw new Error(
-        t(
-          'encryptionRecovery.errors.serverBackupMismatch',
-          'Recovery backup does not match the current account secure message key.'
-        )
-      );
-    }
-
-    const encryptedPayload =
-      typeof payload.encryptedPrivateKeyBundle === 'string'
-        ? JSON.parse(payload.encryptedPrivateKeyBundle)
-        : payload.encryptedPrivateKeyBundle;
-
-    const saltB64 = payload.privateKeyWrapSalt;
-    const iterations = Number(payload.privateKeyWrapIterations || 250000);
-
-    if (!saltB64 || !payload.privateKeyWrapKdf || !iterations) {
-      throw new Error(
-        t(
-          'encryptionRecovery.errors.incompleteMetadata',
-          'Recovery backup metadata is incomplete.'
-        )
-      );
-    }
-
-    const te = new TextEncoder();
-    const td = new TextDecoder();
-    const ub64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
-
-    const keyMaterial = await crypto.subtle.importKey(
-      'raw',
-      te.encode(passcode),
-      'PBKDF2',
-      false,
-      ['deriveKey']
-    );
-
-    const key = await crypto.subtle.deriveKey(
-      {
-        name: 'PBKDF2',
-        salt: ub64(saltB64),
-        iterations,
-        hash: 'SHA-256',
-      },
-      keyMaterial,
-      { name: 'AES-GCM', length: 256 },
-      false,
-      ['decrypt']
-    );
-
-    const plaintext = await crypto.subtle.decrypt(
-      {
-        name: 'AES-GCM',
-        iv: ub64(encryptedPayload.ivB64),
-      },
-      key,
-      ub64(encryptedPayload.ctB64)
-    );
-
-    const bundle = JSON.parse(td.decode(plaintext));
-
-    persistUnlockPasscodeForSession(passcode);
-    await installLocalPrivateKeyBundle(bundle, passcode);
-    await validateAndFinishRestore();
-
-    return true;
   }
 
   const onUnlock = async () => {
-    const passcode = unlockPasscode.trim();
+    const passcode =
+      unlockPasscode.trim();
 
     setBusyUnlock(true);
     setUnlockMsg('');
@@ -187,41 +133,58 @@ export default function EncryptionRecoveryCard({
     try {
       try {
         await unlockKeyBundle(passcode);
-        persistUnlockPasscodeForSession(passcode);
+
+        persistUnlockPasscodeForSession(
+          passcode
+        );
+
         await validateAndFinishRestore();
 
+        setUnlockPasscode('');
         setUnlockMsg(
-          t(
-            'encryptionRecovery.messages.keyUnlocked',
-            'Secure messages unlocked.'
-          )
+          'Secure messages unlocked.'
         );
 
         return;
-      } catch (localError) {
-        console.warn('[EncryptionRecoveryCard] local unlock failed, trying account recovery', {
-          message: localError?.message || localError,
-        });
+      } catch {
+        // Continue to pending-key recovery.
       }
 
-      await restoreFromAccountBackup(passcode);
+      try {
+        const promoted =
+          await tryPromotePendingLocalPrivateKeyBundle({
+            expectedPublicKey:
+              serverKey,
+            passcode,
+          });
 
-      setUnlockMsg(
-        t(
-          'encryptionRecovery.messages.keyRestored',
-          'Secure messages restored on this browser.'
-        )
-      );
-    } catch (e) {
-      console.warn('[EncryptionRecoveryCard] unlock/recovery failed', {
-        message: e?.message || e,
+        if (promoted) {
+          await validateAndFinishRestore();
+
+          setUnlockPasscode('');
+          setUnlockMsg(
+            'Secure messages restored on this browser.'
+          );
+
+          return;
+        }
+      } catch {
+        // Continue to account recovery.
+      }
+
+      await restoreRemoteKeyBackupToLocal({
+        password: passcode,
       });
 
+      await validateAndFinishRestore();
+
+      setUnlockPasscode('');
       setUnlockMsg(
-        `${t('common.error', 'Error')}: ${t(
-          'encryptionRecovery.errors.unlockOrRestoreFailed',
-          'That passcode did not unlock your secure messages. Try again, or approve this browser from a signed-in device. Only start fresh if you cannot recover your secure messages.'
-        )}`
+        'Secure messages restored on this browser.'
+      );
+    } catch {
+      setUnlockMsg(
+        'Error: That Secure Messages Passcode did not unlock this browser or its account recovery backup.'
       );
     } finally {
       setBusyUnlock(false);
@@ -229,22 +192,23 @@ export default function EncryptionRecoveryCard({
   };
 
   const onReset = async () => {
-    if (resetConfirm.trim() !== 'START FRESH') {
+    const passcode =
+      resetPasscode.trim();
+
+    if (
+      resetConfirm.trim() !==
+      'START FRESH'
+    ) {
       setResetMsg(
-        `${t('common.error', 'Error')}: ${t(
-          'encryptionRecovery.errors.startFreshConfirmRequired',
-          'Type START FRESH to continue.'
-        )}`
+        'Error: Type START FRESH to continue.'
       );
       return;
     }
 
-    const confirmed = window.confirm(
-      t(
-        'encryptionRecovery.confirm.reset',
+    const confirmed =
+      window.confirm(
         'Start fresh with secure messages?\n\nThis creates a new secure message key for your account. Older app-to-app secure messages may no longer be readable on any device.\n\nSMS/text message conversations are not affected.'
-      )
-    );
+      );
 
     if (!confirmed) return;
 
@@ -252,56 +216,126 @@ export default function EncryptionRecoveryCard({
     setResetMsg('');
 
     try {
-      const mod = await import('@/utils/encryptionClient');
-      const nacl = (await import('tweetnacl')).default;
-      const naclUtil = await import('tweetnacl-util');
+      const nacl =
+        (await import('tweetnacl'))
+          .default;
 
-      const pair = nacl.box.keyPair();
-      const publicKey = naclUtil.encodeBase64(pair.publicKey);
-      const privateKey = naclUtil.encodeBase64(pair.secretKey);
-      const passcode = resetPasscode.trim();
+      const naclUtil =
+        await import(
+          'tweetnacl-util'
+        );
 
-      await mod.installLocalPrivateKeyBundle(
-        { publicKey, privateKey },
+      const pair =
+        nacl.box.keyPair();
+
+      const publicKey =
+        naclUtil.encodeBase64(
+          pair.publicKey
+        );
+
+      const privateKey =
+        naclUtil.encodeBase64(
+          pair.secretKey
+        );
+
+      await stagePendingLocalPrivateKeyBundle(
+        {
+          publicKey,
+          privateKey,
+        },
         passcode
       );
 
-      persistUnlockPasscodeForSession(passcode);
+      await axiosClient.post(
+        '/auth/keys/rotate',
+        {
+          publicKey,
+          invalidateExistingBackup: true,
+        }
+      );
 
-      await axiosClient.post('/auth/keys/rotate', {
-        publicKey,
-        invalidateExistingBackup: true,
-      });
+      const { data } =
+        await axiosClient.get(
+          '/auth/me'
+        );
 
-      const meta = await getLocalKeyBundleMeta();
+      const refreshedUser =
+        data?.user ?? data;
 
-      if (!meta?.publicKey || meta.publicKey !== publicKey) {
+      const refreshedPublicKey =
+        (
+          refreshedUser?.publicKey ||
+          ''
+        ).trim();
+
+      if (
+        refreshedPublicKey !==
+        publicKey
+      ) {
         throw new Error(
-          t(
-            'encryptionRecovery.errors.resetIncomplete',
-            'Secure messages were not set up correctly.'
-          )
+          'The server did not confirm the new secure message key.'
         );
       }
 
-      setKeyMeta(meta);
-      setNeedsKeyUnlock(false);
+      await promotePendingLocalPrivateKeyBundle({
+        expectedPublicKey:
+          publicKey,
+        passcode,
+      });
+
+      setCurrentUser((previous) => ({
+        ...previous,
+        ...refreshedUser,
+      }));
+
+      try {
+        const stored =
+          localStorage.getItem(
+            'user'
+          );
+
+        if (stored) {
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              ...JSON.parse(stored),
+              ...refreshedUser,
+            })
+          );
+        }
+      } catch {}
+
+      setResetPasscode('');
+      setResetConfirm('');
+
+      await validateAndFinishRestore(
+        publicKey
+      );
 
       setResetMsg(
-        t(
-          'encryptionRecovery.messages.resetSuccess',
-          'Fresh secure messages have been set up on this browser.'
-        )
+        'Fresh secure messages are protected on this browser. Create a new recovery backup.'
       );
-    } catch (e) {
+    } catch (error) {
+      const status =
+        error?.response?.status;
+
+      if (
+        status &&
+        status >= 400 &&
+        status < 500
+      ) {
+        await clearPendingLocalPrivateKeyBundle()
+          .catch(() => {});
+      }
+
+      const message =
+        status === 423
+          ? 'Secure message key changes are temporarily unavailable.'
+          : error?.message ||
+            'Could not start fresh with secure messages.';
+
       setResetMsg(
-        `${t('common.error', 'Error')}: ${
-          e?.message ||
-          t(
-            'encryptionRecovery.errors.resetFailed',
-            'Could not start fresh with secure messages.'
-          )
-        }`
+        `Error: ${message}`
       );
     } finally {
       setBusyReset(false);
@@ -309,19 +343,27 @@ export default function EncryptionRecoveryCard({
   };
 
   const unlockDisabled =
-    !unlockPasscode || unlockPasscode.trim().length < 6;
+    !unlockPasscode ||
+    unlockPasscode.trim().length < 6;
 
   const resetDisabled =
     busyReset ||
-    !resetPasscode ||
     resetPasscode.trim().length < 8 ||
-    resetConfirm.trim() !== 'START FRESH';
+    resetConfirm.trim() !==
+      'START FRESH';
 
   return (
-    <Card withBorder padding="lg" radius="md">
+    <Card
+      withBorder
+      padding="lg"
+      radius="md"
+    >
       <Stack gap="md">
         <div>
-          <Title order={blocked ? 2 : 4}>{resolvedTitle}</Title>
+          <Title order={blocked ? 2 : 4}>
+            {resolvedTitle}
+          </Title>
+
           <Text c="dimmed" mt={4}>
             {resolvedDescription}
           </Text>
@@ -330,182 +372,154 @@ export default function EncryptionRecoveryCard({
         {blocked && (
           <Alert
             color="yellow"
-            title={t(
-              'encryptionRecovery.alert.lockedTitle',
-              'Secure messages locked'
-            )}
+            title="Secure messages locked"
           >
             {authError ||
-              t(
-                'encryptionRecovery.alert.lockedBody',
-                'You can still use Chatforia, but secure messages are hidden until this browser is unlocked.'
-              )}
+              'Restore or unlock the secure message key for this browser to continue.'}
           </Alert>
         )}
 
-        <Stack gap="sm">
-          <PasswordInput
-            label={t(
-              'encryptionRecovery.fields.secureMessagesPasscode.label',
-              'Secure Messages Passcode'
-            )}
-            value={unlockPasscode}
-            onChange={(e) => setUnlockPasscode(e.currentTarget.value)}
-            description={t(
-              'encryptionRecovery.fields.secureMessagesPasscode.description',
-              'Use the passcode you created for secure messages. Chatforia will try this browser first, then your account recovery backup.'
-            )}
-          />
+        <PasswordInput
+          label="Secure Messages Passcode"
+          value={unlockPasscode}
+          onChange={(event) =>
+            setUnlockPasscode(
+              event.currentTarget.value
+            )
+          }
+          description="Chatforia checks this browser first, then the account recovery backup."
+          disabled={busyUnlock}
+        />
 
-          <Group justify="flex-end">
-            <Button
-              onClick={onUnlock}
-              loading={busyUnlock}
-              disabled={unlockDisabled}
-            >
-              {t(
-                'encryptionRecovery.actions.unlockSecureMessages',
-                'Unlock secure messages'
-              )}
-            </Button>
-          </Group>
+        <Group justify="flex-end">
+          <Button
+            onClick={onUnlock}
+            loading={busyUnlock}
+            disabled={unlockDisabled}
+          >
+            Unlock secure messages
+          </Button>
+        </Group>
 
-          {!!unlockMsg && (
-            <Text
-              c={unlockMsg.startsWith('Error:') ? 'red' : 'green'}
-              size="sm"
-            >
-              {unlockMsg}
+        {unlockMsg && (
+          <Text
+            c={
+              unlockMsg.startsWith(
+                'Error:'
+              )
+                ? 'red'
+                : 'green'
+            }
+            size="sm"
+          >
+            {unlockMsg}
+          </Text>
+        )}
+
+        <Divider />
+
+        <Group justify="center">
+          <Button
+            variant="subtle"
+            size="sm"
+            onClick={() =>
+              setHelpOpen(
+                (value) => !value
+              )
+            }
+          >
+            Having trouble unlocking?
+          </Button>
+        </Group>
+
+        <Collapse in={helpOpen}>
+          <Stack gap="xs">
+            <Text c="dimmed" size="sm">
+              Use the Secure Messages Passcode created when the recovery backup was saved.
             </Text>
-          )}
-        </Stack>
+
+            <Text c="dimmed" size="sm">
+              A signed-in phone may also approve this browser as a linked device.
+            </Text>
+          </Stack>
+        </Collapse>
 
         <Divider />
 
-        <Stack gap="xs">
-          <Group justify="center">
-            <Button
-              variant="subtle"
-              size="sm"
-              onClick={() => setHelpOpen((v) => !v)}
-            >
-              {t(
-                'encryptionRecovery.actions.havingTrouble',
-                'Having trouble unlocking?'
-              )}
-            </Button>
-          </Group>
+        <Group justify="center">
+          <Button
+            variant="subtle"
+            color="red"
+            size="sm"
+            onClick={() =>
+              setAdvancedOpen(
+                (value) => !value
+              )
+            }
+          >
+            I cannot recover my secure messages
+          </Button>
+        </Group>
 
-          <Collapse in={helpOpen}>
-            <Stack gap="xs" mt="sm">
-              <Text c="dimmed" size="sm">
-                {t(
-                  'encryptionRecovery.help.primary',
-                  'Make sure you are using the Secure Messages Passcode you created when secure messages were set up.'
-                )}
-              </Text>
-
-              <Text c="dimmed" size="sm">
-                {t(
-                  'encryptionRecovery.help.recovery',
-                  'If this browser has not been unlocked before, Chatforia will automatically try your account recovery backup with the same passcode.'
-                )}
-              </Text>
-
-              <Text c="dimmed" size="sm">
-                {t(
-                  'encryptionRecovery.help.devicePairing',
-                  'If you are signed in on another device, you may also be able to approve this browser from that device.'
-                )}
-              </Text>
-            </Stack>
-          </Collapse>
-        </Stack>
-
-        <Divider />
-
-        <Stack gap="xs">
-          <Group justify="center">
-            <Button
-              variant="subtle"
+        <Collapse in={advancedOpen}>
+          <Stack gap="sm">
+            <Alert
               color="red"
-              size="sm"
-              onClick={() => setAdvancedOpen((v) => !v)}
+              title="Start fresh with secure messages"
             >
-              {t(
-                'encryptionRecovery.actions.cannotRecover',
-                'I cannot recover my secure messages'
-              )}
-            </Button>
-          </Group>
+              Only use this as a last resort. Older app-to-app secure messages may no longer be readable on any device. SMS/text conversations are not affected.
+            </Alert>
 
-          <Collapse in={advancedOpen}>
-            <Stack gap="sm" mt="sm">
-              <Alert
+            <PasswordInput
+              label="New Secure Messages Passcode"
+              value={resetPasscode}
+              onChange={(event) =>
+                setResetPasscode(
+                  event.currentTarget.value
+                )
+              }
+              description="Use at least 8 characters."
+              disabled={busyReset}
+            />
+
+            <TextInput
+              label="Type START FRESH to continue"
+              value={resetConfirm}
+              onChange={(event) =>
+                setResetConfirm(
+                  event.currentTarget.value
+                )
+              }
+              disabled={busyReset}
+            />
+
+            <Group justify="flex-end">
+              <Button
                 color="red"
-                title={t(
-                  'encryptionRecovery.danger.title',
-                  'Start fresh with secure messages'
-                )}
+                onClick={onReset}
+                loading={busyReset}
+                disabled={resetDisabled}
               >
-                {t(
-                  'encryptionRecovery.danger.body',
-                  'Only use this as a last resort. This creates a new secure message key for your account. Older app-to-app secure messages may no longer be readable on any device. SMS/text message conversations are not affected.'
-                )}
-              </Alert>
+                Start fresh with secure messages
+              </Button>
+            </Group>
 
-              <PasswordInput
-                label={t(
-                  'encryptionRecovery.fields.resetSecureMessagesPasscode.label',
-                  'New Secure Messages Passcode'
-                )}
-                value={resetPasscode}
-                onChange={(e) => setResetPasscode(e.currentTarget.value)}
-                description={t(
-                  'encryptionRecovery.fields.resetSecureMessagesPasscode.description',
-                  'Use at least 8 characters. This passcode will protect secure messages on this browser.'
-                )}
-              />
-
-              <TextInput
-                label={t(
-                  'encryptionRecovery.fields.startFreshConfirm.label',
-                  'Type START FRESH to continue'
-                )}
-                value={resetConfirm}
-                onChange={(e) => setResetConfirm(e.currentTarget.value)}
-                description={t(
-                  'encryptionRecovery.fields.startFreshConfirm.description',
-                  'This helps prevent accidental secure message resets.'
-                )}
-              />
-
-              <Group justify="flex-end">
-                <Button
-                  color="red"
-                  variant="filled"
-                  onClick={onReset}
-                  loading={busyReset}
-                  disabled={resetDisabled}
-                >
-                  {t(
-                    'encryptionRecovery.actions.startFreshSecureMessages',
-                    'Start fresh with secure messages'
-                  )}
-                </Button>
-              </Group>
-
-              {!!resetMsg && (
-                <Text
-                  c={resetMsg.startsWith('Error:') ? 'red' : 'green'}
-                  size="sm"
-                >
-                  {resetMsg}
-                </Text>
-              )}
-            </Stack>
-          </Collapse>
-        </Stack>
+            {resetMsg && (
+              <Text
+                c={
+                  resetMsg.startsWith(
+                    'Error:'
+                  )
+                    ? 'red'
+                    : 'green'
+                }
+                size="sm"
+              >
+                {resetMsg}
+              </Text>
+            )}
+          </Stack>
+        </Collapse>
       </Stack>
     </Card>
   );

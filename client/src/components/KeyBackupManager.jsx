@@ -1,265 +1,647 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
+  Accordion,
+  Alert,
   Button,
   Card,
+  Divider,
   Group,
+  PasswordInput,
   Stack,
   Text,
-  PasswordInput,
-  Divider,
-  Accordion,
 } from '@mantine/core';
-import axiosClient from '@/api/axiosClient';
-import {
-  createEncryptedKeyBackup,
-} from '../utils/backupClient.js';
+
+import { useUser } from '@/context/UserContext';
+
 import {
   getLocalKeyBundleMeta,
-  installLocalPrivateKeyBundle,
+  getUnlockedPrivateKeyForPublicKey,
 } from '@/utils/encryptionClient';
-import { useUser } from '@/context/UserContext';
-import { useTranslation } from 'react-i18next';
+
+import {
+  fetchRemoteKeyBackup,
+  restoreRemoteKeyBackupToLocal,
+  uploadRemoteKeyBackup,
+} from '@/utils/keyBackupRemote';
+
+import {
+  createEncryptedKeyBackup,
+} from '@/utils/backupClient.js';
+
+function messageColor(message) {
+  return message.startsWith('Error:')
+    ? 'red'
+    : 'green';
+}
 
 export default function KeyBackupManager() {
-  const { currentUser, setNeedsKeyUnlock } = useUser();
-  const { t } = useTranslation();
+  const {
+    currentUser,
+    setNeedsKeyUnlock,
+    setKeyMeta,
+    refreshSession,
+  } = useUser();
 
-  // Export state
-  const [unlockPasscode, setUnlockPasscode] = useState('');
-  const [backupPassword, setBackupPassword] = useState('');
-  const [busyExport, setBusyExport] = useState(false);
-  const [exportMsg, setExportMsg] = useState('');
+  const serverKey = useMemo(
+    () =>
+      typeof currentUser?.publicKey === 'string'
+        ? currentUser.publicKey.trim()
+        : '',
+    [currentUser?.publicKey]
+  );
 
-  // Import state
-  const [importPassword, setImportPassword] = useState('');
-  const [busyImport, setBusyImport] = useState(false);
-  const [importMsg, setImportMsg] = useState('');
+  const [localMeta, setLocalMeta] = useState(null);
+  const [hasAccountBackup, setHasAccountBackup] =
+    useState(null);
 
-  const [hasAccountBackup, setHasAccountBackup] = useState(null);
+  const [backupMatchesServer, setBackupMatchesServer] =
+    useState(true);
 
-  const onExport = async () => {
-    setBusyExport(true);
-    setExportMsg('');
+  const [checkingStatus, setCheckingStatus] =
+    useState(true);
+
+  const [statusError, setStatusError] =
+    useState('');
+
+  const [backupPasscode, setBackupPasscode] =
+    useState('');
+
+  const [backupConfirm, setBackupConfirm] =
+    useState('');
+
+  const [busyBackup, setBusyBackup] =
+    useState(false);
+
+  const [backupMessage, setBackupMessage] =
+    useState('');
+
+  const [restorePasscode, setRestorePasscode] =
+    useState('');
+
+  const [busyRestore, setBusyRestore] =
+    useState(false);
+
+  const [restoreMessage, setRestoreMessage] =
+    useState('');
+
+  const [filePassword, setFilePassword] =
+    useState('');
+
+  const [filePasswordConfirm, setFilePasswordConfirm] =
+    useState('');
+
+  const [busyDownload, setBusyDownload] =
+    useState(false);
+
+  const [downloadMessage, setDownloadMessage] =
+    useState('');
+
+  const localMatchesServer =
+    Boolean(
+      serverKey &&
+      localMeta?.publicKey === serverKey
+    );
+
+  const backupActionLabel =
+    hasAccountBackup
+      ? 'Update Secure Message Backup'
+      : 'Create Secure Message Backup';
+
+  async function refreshStatus() {
+    setCheckingStatus(true);
+    setStatusError('');
 
     try {
-      const { blob, filename } = await createEncryptedKeyBackup({
-        unlockPasscode,
-        backupPassword,
+      const [meta, remote] =
+        await Promise.all([
+          getLocalKeyBundleMeta(),
+          fetchRemoteKeyBackup(),
+        ]);
+
+      setLocalMeta(meta || null);
+
+      const hasBackup =
+        Boolean(
+          remote?.encryptedPrivateKeyBundle
+        );
+
+      setHasAccountBackup(hasBackup);
+
+      const remotePublicKey =
+        typeof remote?.publicKey === 'string'
+          ? remote.publicKey.trim()
+          : '';
+
+      setBackupMatchesServer(
+        !hasBackup ||
+          Boolean(
+            serverKey &&
+            remotePublicKey === serverKey
+          )
+      );
+    } catch (error) {
+      setStatusError(
+        error?.message ||
+          'Could not verify secure message backup status.'
+      );
+    } finally {
+      setCheckingStatus(false);
+    }
+  }
+
+  useEffect(() => {
+    refreshStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serverKey]);
+
+  async function getVerifiedPrivateKey() {
+    if (!serverKey) {
+      throw new Error(
+        'This account does not currently expose a secure message key.'
+      );
+    }
+
+    try {
+      return await getUnlockedPrivateKeyForPublicKey(
+        serverKey
+      );
+    } catch (error) {
+      if (error?.message === 'LOCKED') {
+        throw new Error(
+          'This browser is locked. Return to the secure-message recovery screen and unlock it first.'
+        );
+      }
+
+      throw error;
+    }
+  }
+
+  async function onSaveAccountBackup() {
+    const passcode = backupPasscode.trim();
+    const confirm = backupConfirm.trim();
+
+    setBackupMessage('');
+    setRestoreMessage('');
+
+    if (passcode.length < 8) {
+      setBackupMessage(
+        'Error: Secure Messages Passcode must be at least 8 characters.'
+      );
+      return;
+    }
+
+    if (passcode !== confirm) {
+      setBackupMessage(
+        'Error: Secure Messages Passcodes do not match.'
+      );
+      return;
+    }
+
+    if (!localMatchesServer) {
+      setBackupMessage(
+        'Error: This browser does not have the verified account secure message key.'
+      );
+      return;
+    }
+
+    setBusyBackup(true);
+
+    try {
+      const privateKey =
+        await getVerifiedPrivateKey();
+
+      await uploadRemoteKeyBackup({
+        publicKey: serverKey,
+        privateKey,
+        password: passcode,
       });
 
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      const action =
+        hasAccountBackup
+          ? 'updated'
+          : 'created';
 
-      setExportMsg(
-        t('keys.backupCreated', 'Key backup created and downloaded ✓')
+      setBackupPasscode('');
+      setBackupConfirm('');
+
+      await refreshStatus();
+
+      setBackupMessage(
+        `Secure message recovery backup ${action} successfully.`
       );
-    } catch (e) {
-      setExportMsg(
-        t('common.errorWithMessage', 'Error: {{message}}', {
-          message: e.message,
-        })
+    } catch (error) {
+      setBackupMessage(
+        `Error: ${
+          error?.message ||
+          'Could not save the secure message recovery backup.'
+        }`
       );
     } finally {
-      setBusyExport(false);
+      setBusyBackup(false);
     }
-  };
+  }
 
-  const onImport = async () => {
-    setBusyImport(true);
-    setImportMsg('');
+  async function onRestoreAccountBackup() {
+    const passcode =
+      restorePasscode.trim();
+
+    setRestoreMessage('');
+    setBackupMessage('');
+
+    if (passcode.length < 8) {
+      setRestoreMessage(
+        'Error: Secure Messages Passcode must be at least 8 characters.'
+      );
+      return;
+    }
+
+    setBusyRestore(true);
 
     try {
-      const { data } = await axiosClient.get('/auth/keys/backup');
-      const payload = data?.keys;
+      await restoreRemoteKeyBackupToLocal({
+        password: passcode,
+      });
 
-      if (!data?.hasBackup || !payload?.encryptedPrivateKeyBundle) {
+      await getUnlockedPrivateKeyForPublicKey(
+        serverKey
+      );
+
+      const meta =
+        await getLocalKeyBundleMeta();
+
+      if (
+        !meta?.publicKey ||
+        meta.publicKey !== serverKey
+      ) {
         throw new Error(
-          t('keys.noBackup', 'No encrypted backup exists for this account')
+          'The restored key could not be verified for this account.'
         );
       }
 
-      if (!payload?.publicKey) {
-        throw new Error(
-          t('keys.missingPublicKey', 'Backup is missing a public key')
-        );
-      }
-
-      const serverKey = (currentUser?.publicKey || '').trim();
-      if (!serverKey) {
-        throw new Error('This account does not currently expose a server public key');
-      }
-
-      if (payload.publicKey.trim() !== serverKey) {
-        throw new Error('Server backup does not match the current account encryption key');
-      }
-
-      const encryptedPayload =
-        typeof payload.encryptedPrivateKeyBundle === 'string'
-          ? JSON.parse(payload.encryptedPrivateKeyBundle)
-          : payload.encryptedPrivateKeyBundle;
-
-      const saltB64 = payload.privateKeyWrapSalt;
-      const iterations = Number(payload.privateKeyWrapIterations || 250000);
-
-      if (!saltB64 || !payload.privateKeyWrapKdf || !iterations) {
-        throw new Error('Backup metadata is incomplete');
-      }
-
-      const te = new TextEncoder();
-      const td = new TextDecoder();
-
-      const ub64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
-
-      const keyMaterial = await crypto.subtle.importKey(
-        'raw',
-        te.encode(importPassword),
-        'PBKDF2',
-        false,
-        ['deriveKey']
-      );
-
-      const key = await crypto.subtle.deriveKey(
-        {
-          name: 'PBKDF2',
-          salt: ub64(saltB64),
-          iterations,
-          hash: 'SHA-256',
-        },
-        keyMaterial,
-        { name: 'AES-GCM', length: 256 },
-        false,
-        ['decrypt']
-      );
-
-      const plaintext = await crypto.subtle.decrypt(
-        {
-          name: 'AES-GCM',
-          iv: ub64(encryptedPayload.ivB64),
-        },
-        key,
-        ub64(encryptedPayload.ctB64)
-      );
-
-      const bundle = JSON.parse(td.decode(plaintext));
-
-      await installLocalPrivateKeyBundle(bundle);
-
-      const meta = await getLocalKeyBundleMeta();
-
-      if (!serverKey || !meta?.publicKey || meta.publicKey !== serverKey) {
-        throw new Error('Key restore incomplete or incorrect for this account');
-      }
-
+      setKeyMeta(meta);
       setNeedsKeyUnlock(false);
-      setImportMsg(
-        t('keys.restored', 'Key backup restored ✓ Keys installed locally')
-      );
-    } catch (e) {
-      setImportMsg(`Error: ${e.message}`);
-    } finally {
-      setBusyImport(false);
-    }
-  };
+      setRestorePasscode('');
 
-  const exportDisabled =
-    !unlockPasscode ||
-    unlockPasscode.length < 6 ||
-    !backupPassword ||
-    backupPassword.length < 8;
+      await refreshStatus();
 
-  const importDisabled =
-  !importPassword || importPassword.length < 8;
-
-    useEffect(() => {
-      let mounted = true;
-
-      async function checkBackup() {
-        try {
-          const { data } = await axiosClient.get('/auth/keys/backup');
-          if (!mounted) return;
-          setHasAccountBackup(Boolean(data?.hasBackup && data?.keys?.encryptedPrivateKeyBundle));
-        } catch {
-          if (!mounted) return;
-          setHasAccountBackup(false);
-        }
+      if (refreshSession) {
+        await refreshSession();
       }
 
-      checkBackup();
-      return () => {
-        mounted = false;
-      };
-    }, []);
+      setRestoreMessage(
+        'Secure messages restored on this browser.'
+      );
+    } catch (error) {
+      setRestoreMessage(
+        `Error: ${
+          error?.message ||
+          'Could not restore secure messages.'
+        }`
+      );
+    } finally {
+      setBusyRestore(false);
+    }
+  }
+
+  async function onDownloadBackupFile() {
+    const password =
+      filePassword.trim();
+
+    setDownloadMessage('');
+
+    if (password.length < 8) {
+      setDownloadMessage(
+        'Error: Backup-file password must be at least 8 characters.'
+      );
+      return;
+    }
+
+    if (
+      password !==
+      filePasswordConfirm.trim()
+    ) {
+      setDownloadMessage(
+        'Error: Backup-file passwords do not match.'
+      );
+      return;
+    }
+
+    setBusyDownload(true);
+
+    try {
+      const privateKey =
+        await getVerifiedPrivateKey();
+
+      const { blob, filename } =
+        await createEncryptedKeyBackup(
+          {
+            unlockPasscode:
+              'already-unlocked',
+            backupPassword: password,
+          },
+          {
+            exportLocalPrivateKeyBundle:
+              async () => ({
+                publicKey: serverKey,
+                privateKey,
+              }),
+          }
+        );
+
+      const url =
+        URL.createObjectURL(blob);
+
+      const anchor =
+        document.createElement('a');
+
+      anchor.href = url;
+      anchor.download = filename;
+
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+
+      setTimeout(
+        () => URL.revokeObjectURL(url),
+        1000
+      );
+
+      setFilePassword('');
+      setFilePasswordConfirm('');
+
+      setDownloadMessage(
+        'Encrypted backup file downloaded.'
+      );
+    } catch (error) {
+      setDownloadMessage(
+        `Error: ${
+          error?.message ||
+          'Could not create the downloadable backup file.'
+        }`
+      );
+    } finally {
+      setBusyDownload(false);
+    }
+  }
+
+  let statusText =
+    'Checking secure message status…';
+
+  if (!checkingStatus) {
+    if (!serverKey) {
+      statusText =
+        'No account secure message key is currently registered.';
+    } else if (
+      localMatchesServer &&
+      hasAccountBackup
+    ) {
+      statusText =
+        'Protected on this browser • Recovery backup saved';
+    } else if (localMatchesServer) {
+      statusText =
+        'Protected on this browser • Recovery backup not saved';
+    } else {
+      statusText =
+        'This browser must restore the account secure message key.';
+    }
+  }
 
   return (
-    <Card withBorder padding="lg" radius="md">
+    <Card
+      withBorder
+      padding="lg"
+      radius="md"
+    >
       <Stack gap="md">
-        <Text fw={700}>Encryption Recovery</Text>
-        <Text c="dimmed">
-          Protect your encrypted chats with a Recovery Passcode. Use the same Recovery Passcode to restore your chats on iPhone, Android, and the web.
+        <div>
+          <Text fw={700} size="lg">
+            Secure Message Recovery
+          </Text>
+
+          <Text c="dimmed" size="sm">
+            Protect the same account secure message key
+            across iPhone, Android, and the web.
+          </Text>
+        </div>
+
+        <Alert
+          color={
+            localMatchesServer
+              ? 'green'
+              : 'yellow'
+          }
+          title="Secure Message Key"
+        >
+          {statusText}
+        </Alert>
+
+        {statusError && (
+          <Text c="red" size="sm">
+            Error: {statusError}
+          </Text>
+        )}
+
+        {hasAccountBackup &&
+          !backupMatchesServer && (
+            <Alert
+              color="red"
+              title="Recovery backup mismatch"
+            >
+              The saved recovery backup does not
+              match the current account secure
+              message key. Do not restore it.
+            </Alert>
+          )}
+
+        <Divider
+          label={backupActionLabel}
+        />
+
+        <Text c="dimmed" size="sm">
+          {hasAccountBackup
+            ? 'Replace the saved backup or change its Secure Messages Passcode.'
+            : 'Create an encrypted account recovery backup using a Secure Messages Passcode.'}
         </Text>
 
-        <Divider label="Create Recovery Backup" />
+        <PasswordInput
+          label="Secure Messages Passcode"
+          value={backupPasscode}
+          onChange={(event) =>
+            setBackupPasscode(
+              event.currentTarget.value
+            )
+          }
+          description="Use at least 8 characters. Use this same passcode when restoring on iPhone, Android, or the web."
+          disabled={
+            busyBackup ||
+            checkingStatus
+          }
+        />
+
+        <PasswordInput
+          label="Confirm Secure Messages Passcode"
+          value={backupConfirm}
+          onChange={(event) =>
+            setBackupConfirm(
+              event.currentTarget.value
+            )
+          }
+          disabled={
+            busyBackup ||
+            checkingStatus
+          }
+        />
+
+        <Group justify="flex-end">
+          <Button
+            onClick={onSaveAccountBackup}
+            loading={busyBackup}
+            disabled={
+              busyBackup ||
+              checkingStatus ||
+              !localMatchesServer ||
+              backupPasscode.trim().length < 8 ||
+              backupConfirm.trim().length < 8
+            }
+          >
+            {backupActionLabel}
+          </Button>
+        </Group>
+
+        {backupMessage && (
+          <Text
+            c={messageColor(
+              backupMessage
+            )}
+            size="sm"
+          >
+            {backupMessage}
+          </Text>
+        )}
+
+        <Divider label="Restore Secure Messages" />
+
+        <Text c="dimmed" size="sm">
+          Restore the account secure message key
+          onto this browser using its Secure
+          Messages Passcode.
+        </Text>
+
+        <PasswordInput
+          label="Secure Messages Passcode"
+          value={restorePasscode}
+          onChange={(event) =>
+            setRestorePasscode(
+              event.currentTarget.value
+            )
+          }
+          disabled={busyRestore}
+        />
+
+        <Group justify="flex-end">
+          <Button
+            onClick={onRestoreAccountBackup}
+            loading={busyRestore}
+            disabled={
+              busyRestore ||
+              hasAccountBackup !== true ||
+              !backupMatchesServer ||
+              restorePasscode.trim().length < 8
+            }
+          >
+            Restore Secure Messages
+          </Button>
+        </Group>
+
+        {hasAccountBackup === false && (
+          <Text c="dimmed" size="sm">
+            No account recovery backup is currently
+            saved.
+          </Text>
+        )}
+
+        {restoreMessage && (
+          <Text
+            c={messageColor(
+              restoreMessage
+            )}
+            size="sm"
+          >
+            {restoreMessage}
+          </Text>
+        )}
+
         <Accordion>
-          <Accordion.Item value="advanced">
+          <Accordion.Item value="download">
             <Accordion.Control>
-              Advanced Recovery Options
+              Advanced: Download an encrypted key file
             </Accordion.Control>
 
             <Accordion.Panel>
-              <PasswordInput
-                label="Device Unlock Passcode"
-                value={unlockPasscode}
-                onChange={(e) => setUnlockPasscode(e.currentTarget.value)}
-                description="Only needed when creating a downloadable backup file from this browser."
-              />
+              <Stack gap="sm">
+                <Alert
+                  color="blue"
+                  title="Separate backup file"
+                >
+                  This downloaded file is separate
+                  from the account recovery backup
+                  used automatically by iPhone,
+                  Android, and the web.
+                </Alert>
+
+                <PasswordInput
+                  label="Backup-file password"
+                  value={filePassword}
+                  onChange={(event) =>
+                    setFilePassword(
+                      event.currentTarget.value
+                    )
+                  }
+                  description="Use at least 8 characters."
+                  disabled={busyDownload}
+                />
+
+                <PasswordInput
+                  label="Confirm backup-file password"
+                  value={filePasswordConfirm}
+                  onChange={(event) =>
+                    setFilePasswordConfirm(
+                      event.currentTarget.value
+                    )
+                  }
+                  disabled={busyDownload}
+                />
+
+                <Group justify="flex-end">
+                  <Button
+                    variant="light"
+                    onClick={onDownloadBackupFile}
+                    loading={busyDownload}
+                    disabled={
+                      busyDownload ||
+                      !localMatchesServer ||
+                      filePassword.trim().length < 8 ||
+                      filePasswordConfirm.trim().length < 8
+                    }
+                  >
+                    Download Encrypted Key File
+                  </Button>
+                </Group>
+
+                {downloadMessage && (
+                  <Text
+                    c={messageColor(
+                      downloadMessage
+                    )}
+                    size="sm"
+                  >
+                    {downloadMessage}
+                  </Text>
+                )}
+              </Stack>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
-        
-        <PasswordInput
-          label="Recovery Passcode"
-          value={backupPassword}
-          onChange={(e) => setBackupPassword(e.currentTarget.value)}
-          description="Use at least 8 characters. You'll use this Recovery Passcode to restore chats on iPhone, Android, and the web."
-        />
-        <Group justify="flex-end">
-          <Button onClick={onExport} loading={busyExport} disabled={exportDisabled}>
-            Create Recovery Backup
-          </Button>
-        </Group>
-        {exportMsg && (
-          <Text c={exportMsg.startsWith('Error') ? 'red' : 'green'}>
-            {exportMsg}
-          </Text>
-        )}
-
-        <Divider label="Restore from account backup" />
-        {hasAccountBackup === false && (
-          <Text c="dimmed" size="sm">
-            No Recovery Backup found. Create one so you can restore your encrypted chats on iPhone, Android, and the web.
-          </Text>
-        )}
-        <PasswordInput
-          label="Recovery Passcode"
-          value={importPassword}
-          onChange={(e) => setImportPassword(e.currentTarget.value)}
-          description="Enter the Recovery Passcode you created on another device. Must be at least 8 characters."
-        />
-     
-        <Group justify="flex-end">
-          <Button onClick={onImport} loading={busyImport} disabled={importDisabled}>
-            Restore Chats
-          </Button>
-        </Group>
-        {importMsg && (
-          <Text c={importMsg.startsWith('Error') ? 'red' : 'green'}>
-            {importMsg}
-          </Text>
-        )}
       </Stack>
     </Card>
   );

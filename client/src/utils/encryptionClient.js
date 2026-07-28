@@ -134,12 +134,81 @@ function decodeB64Any(input, label = 'key') {
   return naclUtil.decodeBase64(s);
 }
 
+export function validateAccountKeyBundle(
+  received,
+  expectedPublicKey = null
+) {
+  const rawPublicKey =
+    typeof received?.publicKey === 'string'
+      ? received.publicKey.trim()
+      : '';
+
+  const rawPrivateKey =
+    typeof received?.privateKey === 'string'
+      ? received.privateKey.trim()
+      : '';
+
+  if (!rawPublicKey || !rawPrivateKey) {
+    throw new Error('Secure message key bundle is incomplete.');
+  }
+
+  const publicKeyBytes =
+    decodeB64Any(rawPublicKey, 'account public key');
+
+  const privateKeyBytes =
+    decodeB64Any(rawPrivateKey, 'account private key');
+
+  if (
+    publicKeyBytes.length !== nacl.box.publicKeyLength ||
+    privateKeyBytes.length !== nacl.box.secretKeyLength
+  ) {
+    throw new Error('Secure message key bundle has invalid key lengths.');
+  }
+
+  const normalizedPublicKey =
+    naclUtil.encodeBase64(publicKeyBytes);
+
+  const normalizedPrivateKey =
+    naclUtil.encodeBase64(privateKeyBytes);
+
+  const derivedPublicKey =
+    naclUtil.encodeBase64(
+      nacl.box.keyPair
+        .fromSecretKey(privateKeyBytes)
+        .publicKey
+    );
+
+  if (derivedPublicKey !== normalizedPublicKey) {
+    throw new Error('LOCAL_KEYPAIR_INVALID');
+  }
+
+  if (expectedPublicKey) {
+    const normalizedExpected =
+      naclUtil.encodeBase64(
+        decodeB64Any(
+          expectedPublicKey,
+          'expected account public key'
+        )
+      );
+
+    if (normalizedPublicKey !== normalizedExpected) {
+      throw new Error('LOCAL_KEY_MISMATCH');
+    }
+  }
+
+  return {
+    publicKey: normalizedPublicKey,
+    privateKey: normalizedPrivateKey,
+  };
+}
+
 /* ============================================================
  * At-rest key storage (encrypted with passcode)
  * ========================================================== */
 
 const DB_KEY = 'chatforia:keys:v2';
 const LEGACY_KEY = 'chatforia:keys:v1';
+const PENDING_DB_KEY = 'chatforia:keys:pending:v1';
 
 let _derivedKey = null;
 let _saltB64 = null;
@@ -187,31 +256,70 @@ async function aesGcmDecrypt(key, ivB64, ctB64) {
   return new Uint8Array(pt);
 }
 
-async function saveEncryptedBundle({ publicKey, privateKey }, passcode) {
-  if (!publicKey || !privateKey) throw new Error('Missing keys');
+async function buildEncryptedBundleRecord(
+  received,
+  passcode
+) {
+  if (!passcode) {
+    throw new Error('Missing local secure message passcode.');
+  }
+
+  const bundle = validateAccountKeyBundle(received);
 
   const saltB64 = bytes2b64(randBytes(16));
   const iterations = _iterations;
-  const key = await deriveAesKey(passcode, saltB64, iterations);
+  const key = await deriveAesKey(
+    passcode,
+    saltB64,
+    iterations
+  );
 
-  const payload = JSON.stringify({ publicKey, privateKey });
-  const { ivB64, ctB64 } = await aesGcmEncrypt(key, te.encode(payload));
+  const payload = JSON.stringify(bundle);
+  const { ivB64, ctB64 } =
+    await aesGcmEncrypt(
+      key,
+      te.encode(payload)
+    );
 
   const rec = {
     version: 'v2',
     createdAt: new Date().toISOString(),
-    publicKey,
-    enc: { saltB64, iterations, ivB64, ctB64 },
+    publicKey: bundle.publicKey,
+    enc: {
+      saltB64,
+      iterations,
+      ivB64,
+      ctB64,
+    },
   };
 
-  await set(DB_KEY, rec);
+  return {
+    rec,
+    key,
+    bundle,
+    saltB64,
+    iterations,
+  };
+}
 
-  _derivedKey = key;
-  _saltB64 = saltB64;
-  _iterations = iterations;
-  _cachedUnlockedBundle = { publicKey, privateKey };
+async function saveEncryptedBundle(
+  received,
+  passcode
+) {
+  const built =
+    await buildEncryptedBundleRecord(
+      received,
+      passcode
+    );
 
-  return rec;
+  await set(DB_KEY, built.rec);
+
+  _derivedKey = built.key;
+  _saltB64 = built.saltB64;
+  _iterations = built.iterations;
+  _cachedUnlockedBundle = built.bundle;
+
+  return built.rec;
 }
 
 async function getUnlockedBundleOrThrow() {
@@ -238,7 +346,6 @@ async function getUnlockedBundleOrThrow() {
   try {
     console.log('[E2EE] before get(LEGACY_KEY)');
     legacyIdx = await get(LEGACY_KEY);
-    console.log('[E2EE] after get(LEGACY_KEY)', legacyIdx);
   } catch (e) {
     console.warn('[E2EE] get(LEGACY_KEY) threw', e?.message || e);
   }
@@ -252,7 +359,6 @@ async function getUnlockedBundleOrThrow() {
   try {
     console.log('[E2EE] before readLegacyLocalStorage()');
     legacyLS = readLegacyLocalStorage();
-    console.log('[E2EE] after readLegacyLocalStorage()', legacyLS);
   } catch (e) {
     console.warn('[E2EE] readLegacyLocalStorage() threw', e?.message || e);
   }
@@ -266,7 +372,6 @@ async function getUnlockedBundleOrThrow() {
   try {
     console.log('[E2EE] before get(DB_KEY)');
     rec = await get(DB_KEY);
-    console.log('[E2EE] after get(DB_KEY)', rec);
   } catch (e) {
     console.warn('[E2EE] get(DB_KEY) threw', e?.message || e);
   }
@@ -289,18 +394,6 @@ async function getUnlockedBundleOrThrow() {
     return obj;
   }
 
-  try {
-    console.log('[E2EE] attempting approved-pairing bootstrap');
-
-    const installed = await tryInstallKeysFromApprovedPairing(null);
-
-    if (installed) {
-      console.log('[E2EE] approved-pairing bootstrap succeeded');
-      return await getUnlockedBundleOrThrow();
-    }
-  } catch (e) {
-    console.warn('[E2EE] approved-pairing bootstrap failed', e?.message || e);
-  }
 
   console.warn('[E2EE] no local keypair found anywhere');
   throw new Error('No local keypair found');
@@ -394,19 +487,32 @@ export async function requestBrowserPairing(authToken) {
 export async function installPairedDeviceBundle({
   wrappedAccountKey,
   passcode,
+  expectedPublicKey,
 }) {
-  const unwrapped = await unwrapPairedAccountKeys(wrappedAccountKey);
+  if (!expectedPublicKey) {
+    throw new Error(
+      'Missing expected account public key for device pairing.'
+    );
+  }
+
+  const unwrapped =
+    await unwrapPairedAccountKeys(
+      wrappedAccountKey
+    );
+
+  const verified =
+    validateAccountKeyBundle(
+      unwrapped,
+      expectedPublicKey
+    );
 
   await saveEncryptedBundle(
-    {
-      publicKey: unwrapped.publicKey,
-      privateKey: unwrapped.privateKey,
-    },
+    verified,
     passcode
   );
 
   return {
-    publicKey: unwrapped.publicKey,
+    publicKey: verified.publicKey,
     installed: true,
   };
 }
@@ -470,34 +576,46 @@ export async function fetchBrowserPairingStatus(authToken) {
   return res.json();
 }
 
-export async function tryInstallKeysFromApprovedPairing(authToken) {
-  const { device } = await fetchBrowserPairingStatus(authToken);
+export async function tryInstallKeysFromApprovedPairing(
+  authToken,
+  expectedPublicKey
+) {
+  if (!expectedPublicKey) {
+    throw new Error(
+      'Missing expected account public key for pairing.'
+    );
+  }
+
+  const { device } =
+    await fetchBrowserPairingStatus(authToken);
 
   if (!device) return false;
   if (device.revokedAt) return false;
-  if (device.pairingStatus !== 'approved') return false;
+  if (device.pairingStatus !== 'approved') {
+    return false;
+  }
   if (!device.wrappedAccountKey) return false;
 
   const localPasscode = crypto.randomUUID();
 
   await installPairedDeviceBundle({
-    wrappedAccountKey: device.wrappedAccountKey,
+    wrappedAccountKey:
+      device.wrappedAccountKey,
     passcode: localPasscode,
+    expectedPublicKey,
   });
 
-  persistUnlockPasscodeForSession(localPasscode);
+  persistUnlockPasscodeForSession(
+    localPasscode
+  );
+
   return true;
 }
 
 export async function getUnlockedPrivateKey() {
-  console.log('[E2EE encryptionClient] getUnlockedPrivateKey called');
-  const { privateKey, publicKey } = await getUnlockedBundleCached();
-  console.log('[E2EE encryptionClient] unlocked bundle found', {
-    hasPrivateKey: !!privateKey,
-    hasPublicKey: !!publicKey,
-    privateKeyPreview: privateKey?.slice?.(0, 40) || null,
-    publicKeyPreview: publicKey?.slice?.(0, 40) || null,
-  });
+  const { privateKey } =
+    await getUnlockedBundleCached();
+
   return privateKey;
 }
 
@@ -603,40 +721,25 @@ export async function unlockKeyBundle(passcode) {
   return obj;
 }
 
-export async function getUnlockedPrivateKeyForPublicKey(expectedPublicKey) {
-  console.log('[E2EE encryptionClient] getUnlockedPrivateKeyForPublicKey called', {
-    expectedPublicKeyPreview: expectedPublicKey?.slice?.(0, 40) || null,
-  });
-
-  const { privateKey, publicKey } = await getUnlockedBundleCached();
-
-  console.log('[E2EE encryptionClient] comparing local vs expected publicKey', {
-    localPublicKeyPreview: publicKey?.slice?.(0, 40) || null,
-    expectedPublicKeyPreview: expectedPublicKey?.slice?.(0, 40) || null,
-  });
-
+export async function getUnlockedPrivateKeyForPublicKey(
+  expectedPublicKey
+) {
   if (!expectedPublicKey) {
-    throw new Error('Missing expected public key');
+    throw new Error(
+      'Missing expected public key'
+    );
   }
 
-  if (!publicKey || publicKey !== expectedPublicKey) {
-    throw new Error('LOCAL_KEY_MISMATCH');
-  }
+  const bundle =
+    await getUnlockedBundleCached();
 
-  const privateKeyBytes = naclUtil.decodeBase64(privateKey);
-  const derivedPublicKey = naclUtil.encodeBase64(
-    nacl.box.keyPair.fromSecretKey(privateKeyBytes).publicKey
-  );
+  const verified =
+    validateAccountKeyBundle(
+      bundle,
+      expectedPublicKey
+    );
 
-  console.log('[E2EE encryptionClient] keypair integrity check', {
-    storedPublicKeyPreview: publicKey?.slice?.(0, 40) || null,
-    derivedPublicKeyPreview: derivedPublicKey?.slice?.(0, 40) || null,
-    expectedPublicKeyPreview: expectedPublicKey?.slice?.(0, 40) || null,
-    matchesStored: derivedPublicKey === publicKey,
-    matchesExpected: derivedPublicKey === expectedPublicKey,
-  });
-
-  return privateKey;
+  return verified.privateKey;
 }
 
 export function lockKeyBundle() {
@@ -654,23 +757,139 @@ export function clearUnlockedBundleCache() {
  * Session unlock persistence (NEW)
  * ========================================================== */
 
-export function persistUnlockPasscodeForSession(passcode) {
+export function persistUnlockPasscodeForSession(
+  passcode
+) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem('chatforia:keyPasscode', passcode);
+
+  sessionStorage.setItem(
+    'chatforia:keyPasscode',
+    passcode
+  );
+
+  localStorage.removeItem(
+    'chatforia:keyPasscode'
+  );
 }
 
 export function getPersistedUnlockPasscodeForSession() {
-  if (typeof window === 'undefined') return null;
-  return localStorage.getItem('chatforia:keyPasscode');
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  return sessionStorage.getItem(
+    'chatforia:keyPasscode'
+  );
 }
 
 export function clearPersistedUnlockPasscodeForSession() {
   if (typeof window === 'undefined') return;
-  localStorage.removeItem('chatforia:keyPasscode');
+
+  sessionStorage.removeItem(
+    'chatforia:keyPasscode'
+  );
+
+  localStorage.removeItem(
+    'chatforia:keyPasscode'
+  );
+}
+
+export async function stagePendingLocalPrivateKeyBundle(
+  received,
+  passcode
+) {
+  const built =
+    await buildEncryptedBundleRecord(
+      received,
+      passcode
+    );
+
+  await set(
+    PENDING_DB_KEY,
+    built.rec
+  );
+
+  return {
+    publicKey: built.bundle.publicKey,
+  };
+}
+
+export async function promotePendingLocalPrivateKeyBundle({
+  expectedPublicKey,
+  passcode,
+}) {
+  const rec = await get(PENDING_DB_KEY);
+
+  if (!rec?.enc || !rec?.publicKey) {
+    throw new Error(
+      'No pending secure message key was found.'
+    );
+  }
+
+  const key = await deriveAesKey(
+    passcode,
+    rec.enc.saltB64,
+    rec.enc.iterations
+  );
+
+  const plaintext =
+    await aesGcmDecrypt(
+      key,
+      rec.enc.ivB64,
+      rec.enc.ctB64
+    );
+
+  const bundle =
+    validateAccountKeyBundle(
+      JSON.parse(td.decode(plaintext)),
+      expectedPublicKey
+    );
+
+  await set(DB_KEY, rec);
+  await del(PENDING_DB_KEY);
+
+  _derivedKey = key;
+  _saltB64 = rec.enc.saltB64;
+  _iterations = rec.enc.iterations;
+  _cachedUnlockedBundle = bundle;
+
+  persistUnlockPasscodeForSession(
+    passcode
+  );
+
+  return {
+    version: rec.version,
+    createdAt: rec.createdAt,
+    hasEncrypted: true,
+    publicKey: bundle.publicKey,
+  };
+}
+
+export async function tryPromotePendingLocalPrivateKeyBundle({
+  expectedPublicKey,
+  passcode,
+}) {
+  const rec = await get(PENDING_DB_KEY);
+
+  if (!rec) {
+    return false;
+  }
+
+  await promotePendingLocalPrivateKeyBundle({
+    expectedPublicKey,
+    passcode,
+  });
+
+  return true;
+}
+
+export async function clearPendingLocalPrivateKeyBundle() {
+  await del(PENDING_DB_KEY);
 }
 
 export async function clearLocalKeyBundle() {
   await del(DB_KEY);
+  await del(PENDING_DB_KEY);
   try {
     await del(LEGACY_KEY);
   } catch {}
@@ -750,24 +969,6 @@ export async function decryptFetchedMessages(
           msg.sender?.publicKey ||
           null;
 
-        console.log('[decryptFetchedMessages] attempting', {
-          msgId: msg.id,
-          hasPayloadForMe: !!payload,
-          hasCiphertext: !!ciphertext,
-          hasEncryptedKeyForMe: !!msg.encryptedKeyForMe,
-          hasPayloadEncryptedKey: !!payload?.encryptedKey,
-          encryptedKeyPreview:
-            typeof encryptedKey === 'string' ? encryptedKey.slice(0, 120) : encryptedKey,
-          senderId: msg.sender?.id,
-          senderPublicKeyPreview: senderPublicKey?.slice?.(0, 60) || null,
-          currentUserId,
-          selectedEncryptedKeyOwner:
-            msg.encryptedKeys && currentUserId != null
-              ? Object.prototype.hasOwnProperty.call(msg.encryptedKeys, String(currentUserId))
-              : null,
-          encryptedKeyUserIds: msg.encryptedKeys ? Object.keys(msg.encryptedKeys) : null,
-        });
-
         if (!ciphertext) {
           return {
             ...msg,
@@ -794,23 +995,16 @@ export async function decryptFetchedMessages(
 
         return { ...msg, decryptedContent: decrypted };
       } catch (err) {
-        console.warn(`[decryptFetchedMessages] failed for message ${msg.id}`, {
-          error: err?.message || err,
-          encryptedKeyPreview:
-            typeof encryptedKey === 'string' ? encryptedKey.slice(0, 120) : encryptedKey,
-          encryptedKeyForMe: msg.encryptedKeyForMe,
-          encryptedPayloadForMe: msg.encryptedPayloadForMe,
-          encryptedKeyUserIds: msg.encryptedKeys ? Object.keys(msg.encryptedKeys) : null,
-          currentUserId,
-          senderId: msg.sender?.id,
-          senderPublicKey:
-            senderPublicKeys?.[String(msg.sender?.id)] ||
-            senderPublicKeys?.[msg.sender?.id] ||
-            msg.sender?.publicKey ||
-            null,
-        });
+        console.warn(
+          `[decryptFetchedMessages] failed for message ${msg.id}`,
+          err?.message || err
+        );
 
-        return { ...msg, decryptedContent: '[Encrypted – could not decrypt]' };
+        return {
+          ...msg,
+          decryptedContent:
+            '[Encrypted – could not decrypt]',
+        };
       }
     })
   );
@@ -847,22 +1041,29 @@ function generateLocalDevicePasscode() {
   return bytes2b64(bytes);
 }
 
-export async function installLocalPrivateKeyBundle(received, passcode = null) {
-  if (!received?.privateKey || !received?.publicKey) {
-    throw new Error('Received bundle is missing keys');
-  }
+export async function installLocalPrivateKeyBundle(
+  received,
+  passcode = null,
+  expectedPublicKey = null
+) {
+  const verified =
+    validateAccountKeyBundle(
+      received,
+      expectedPublicKey
+    );
 
-  const localPasscode = passcode || generateLocalDevicePasscode();
+  const localPasscode =
+    passcode ||
+    generateLocalDevicePasscode();
 
   await saveEncryptedBundle(
-    {
-      publicKey: received.publicKey,
-      privateKey: received.privateKey,
-    },
+    verified,
     localPasscode
   );
 
-  persistUnlockPasscodeForSession(localPasscode);
+  persistUnlockPasscodeForSession(
+    localPasscode
+  );
 
   return true;
 }

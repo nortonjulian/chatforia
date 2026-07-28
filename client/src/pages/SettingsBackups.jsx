@@ -1,46 +1,33 @@
-import React, { useMemo, useState } from 'react';
+import React, {
+  useMemo,
+} from 'react';
+
 import {
-  Card,
   Stack,
-  Title,
-  PasswordInput,
-  Group,
-  Button,
   Text,
+  Title,
 } from '@mantine/core';
 
-import KeyBackupManager from '@/components/KeyBackupManager.jsx';
 import ChatBackupManager from '@/components/settings/ChatBackupManager.jsx';
 
-import loadEncryptionClient from '@/utils/loadEncryptionClient';
-
 export default function SettingsBackups() {
-  const [unlockPass, setUnlockPass] = useState('');
-  const [status, setStatus] = useState('');
-
-  async function onUnlock() {
-    setStatus('Unlocking…');
-    try {
-      const mod = await loadEncryptionClient();
-      if (!mod?.unlockKeyBundle || typeof mod.unlockKeyBundle !== 'function') {
-        throw new Error('Encryption client not available');
-      }
-
-      await mod.unlockKeyBundle(unlockPass);
-      setStatus('Unlocked ✓');
-    } catch (e) {
-      console.error('Unlock failed', e);
-      setStatus(e?.message ? `Error: ${e.message}` : 'Error: Unlock failed');
-    }
-  }
-
   const fetchAllMessages = useMemo(
     () => async () => {
-      const res = await fetch('/messages/all?limit=5000', {
-        credentials: 'include',
-      });
-      if (!res.ok) throw new Error('Failed to fetch messages');
-      return res.json();
+      const response =
+        await fetch(
+          '/messages/all?limit=5000',
+          {
+            credentials: 'include',
+          }
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          'Failed to fetch messages'
+        );
+      }
+
+      return response.json();
     },
     []
   );
@@ -48,40 +35,31 @@ export default function SettingsBackups() {
   return (
     <div
       style={{
-        height: 'calc(100dvh - 120px)',
+        height:
+          'calc(100dvh - 120px)',
         overflowY: 'auto',
         overflowX: 'hidden',
         paddingBottom: 32,
       }}
     >
       <Stack gap="lg">
-        <Title order={3}>Backups</Title>
+        <div>
+          <Title order={3}>
+            Chat History Backups
+          </Title>
 
-        <KeyBackupManager />
+          <Text
+            c="dimmed"
+            mt="xs"
+          >
+            Export encrypted copies of
+            your chat history.
+          </Text>
+        </div>
 
-        <Card withBorder radius="md" p="lg">
-          <Stack gap="sm">
-            <Title order={5}>Unlock Secure Chat Backup</Title>
-            <PasswordInput
-              label="Unlock passcode"
-              description="Enter your Secure Messages Passcode to unlock secure chat backup export."
-              value={unlockPass}
-              onChange={(e) => setUnlockPass(e.currentTarget.value)}
-            />
-            <Group justify="flex-end">
-              <Button onClick={onUnlock} disabled={!unlockPass || unlockPass.length < 6}>
-                Unlock
-              </Button>
-            </Group>
-            {status && (
-              <Text c={status.startsWith('Error') ? 'red' : 'green'}>
-                {status}
-              </Text>
-            )}
-          </Stack>
-        </Card>
-
-        <ChatBackupManager fetchPage={fetchAllMessages} />
+        <ChatBackupManager
+          fetchPage={fetchAllMessages}
+        />
       </Stack>
     </div>
   );
