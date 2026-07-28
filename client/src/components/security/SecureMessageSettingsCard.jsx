@@ -183,47 +183,44 @@ export default function SecureMessageSettingsCard() {
     >
       <Stack gap="md">
         <Group
-          justify="space-between"
           align="flex-start"
           wrap="nowrap"
         >
-          <Group
-            align="flex-start"
-            wrap="nowrap"
-          >
-            <IconShieldLock
-              size={24}
-              aria-hidden="true"
-            />
+          <IconShieldLock
+            size={24}
+            aria-hidden="true"
+          />
 
-            <div>
-              <Text fw={700}>
-                Secure Message Key
-              </Text>
+          <div>
+            <Text fw={700}>
+              Secure Message Key
+            </Text>
 
-              <Text
-                c="dimmed"
-                size="sm"
-              >
-                Manage encrypted-message recovery
-                across iPhone, Android, and the web.
-              </Text>
-            </div>
-          </Group>
+            <Text
+              c="dimmed"
+              size="sm"
+            >
+              Manage encrypted-message recovery
+              across iPhone, Android, and the web.
+            </Text>
+          </div>
+        </Group>
 
+        <Group justify="flex-end">
           <Button
-            variant="subtle"
+            variant="light"
             size="compact-sm"
-            px={8}
+            leftSection={
+              <IconRefresh
+                size={15}
+                aria-hidden="true"
+              />
+            }
             aria-label="Refresh secure message status"
-            title="Refresh secure message status"
             onClick={refreshStatus}
             loading={status.checking}
           >
-            <IconRefresh
-              size={16}
-              aria-hidden="true"
-            />
+            Refresh status
           </Button>
         </Group>
 
