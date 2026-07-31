@@ -41,6 +41,7 @@ describe('telco driver (Twilio only)', () => {
     });
 
     expect(res).toEqual({
+      ok: true,
       provider: 'twilio',
       messageSid: 'SM_mock_123',
     });
@@ -65,6 +66,7 @@ describe('telco driver (Twilio only)', () => {
     });
 
     expect(res).toEqual({
+      ok: true,
       provider: 'twilio',
       messageSid: 'SM_mock_123',
     });
