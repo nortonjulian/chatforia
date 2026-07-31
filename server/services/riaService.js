@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import prisma from '../utils/prismaClient.js';
 import {
   buildSuggestRepliesPrompt,
   buildRewritePrompt,
@@ -90,18 +91,90 @@ export async function chatWithRia({
   memoryEnabled = true,
   filterProfanity = false,
 }) {
+  const memoryPreference =
+    userId
+      ? await prisma.user.findUnique({
+          where: {
+            id: Number(userId),
+          },
+          select: {
+            riaRemember: true,
+          },
+        })
+      : null;
+
+  const effectiveMemoryEnabled =
+    Boolean(memoryEnabled) &&
+    memoryPreference?.riaRemember !== false;
+
+  const latestUserMessage =
+    [...messages]
+      .reverse()
+      .find((message) => message.role === 'user');
+
+  let promptMessages = messages;
+
+  if (effectiveMemoryEnabled && userId) {
+    const storedDescending =
+      await prisma.riaMessage.findMany({
+        where: {
+          userId: Number(userId),
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: 40,
+        select: {
+          role: true,
+          content: true,
+        },
+      });
+
+    promptMessages = storedDescending.reverse();
+
+    if (latestUserMessage) {
+      promptMessages.push(latestUserMessage);
+    }
+  }
+
   const prompt = buildChatPrompt({
     userId,
     username,
     displayName,
-    messages,
-    memoryEnabled,
+    messages: promptMessages,
+    memoryEnabled: effectiveMemoryEnabled,
   });
 
   const raw = await chatText(prompt, 220);
-  const reply = maybeMaskText(String(raw || '').trim(), filterProfanity);
+
+  const reply =
+    maybeMaskText(
+      String(raw || '').trim(),
+      filterProfanity
+    ) || "I'm here with you.";
+
+  if (
+    effectiveMemoryEnabled &&
+    userId &&
+    latestUserMessage?.content
+  ) {
+    await prisma.riaMessage.createMany({
+      data: [
+        {
+          userId: Number(userId),
+          role: 'user',
+          content: latestUserMessage.content,
+        },
+        {
+          userId: Number(userId),
+          role: 'assistant',
+          content: reply,
+        },
+      ],
+    });
+  }
 
   return {
-    reply: reply || "I'm here with you.",
+    reply,
   };
 }

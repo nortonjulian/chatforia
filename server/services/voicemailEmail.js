@@ -4,6 +4,7 @@ import { sendMail } from '../utils/sendMail.js';
 export async function sendVoicemailForwardEmail({
   toEmail,
   fromNumber,
+  fromDisplayName,
   toNumber,
   transcript,
   audioUrl,
@@ -15,13 +16,22 @@ export async function sendVoicemailForwardEmail({
     return;
   }
 
-  const subject = `New voicemail from ${fromNumber || 'Unknown caller'}`;
+  const callerLabel =
+    String(
+      fromDisplayName ||
+      fromNumber ||
+      'Unknown caller'
+    )
+      .replace(/[\r\n]+/g, ' ')
+      .trim() || 'Unknown caller';
+
+  const subject = `New voicemail from ${callerLabel}`;
   const created = createdAt ? new Date(createdAt) : new Date();
 
   const plainLines = [
     `You have a new voicemail in Chatforia.`,
     '',
-    `From: ${fromNumber || 'Unknown caller'}`,
+    `From: ${callerLabel}`,
     `To:   ${toNumber || 'Your Chatforia number'}`,
     `Time: ${created.toLocaleString()}`,
   ];
@@ -43,7 +53,7 @@ export async function sendVoicemailForwardEmail({
   const html = `
     <p>You have a new voicemail in <strong>Chatforia</strong>.</p>
     <ul>
-      <li><strong>From:</strong> ${fromNumber || 'Unknown caller'}</li>
+      <li><strong>From:</strong> ${escapeHtml(callerLabel)}</li>
       <li><strong>To:</strong> ${toNumber || 'Your Chatforia number'}</li>
       <li><strong>Time:</strong> ${created.toLocaleString()}</li>
       ${

@@ -6,11 +6,14 @@ import express from 'express';
 import request from 'supertest';
 
 const mockPrisma = {
+  $transaction: jest.fn(),
+  $executeRaw: jest.fn(),
   user: {
     findUnique: jest.fn(),
   },
   call: {
     create: jest.fn(),
+    findFirst: jest.fn(),
     findUnique: jest.fn(),
     update: jest.fn(),
     updateMany: jest.fn(),
@@ -76,12 +79,29 @@ describe('calls routes', () => {
 
     jest.clearAllMocks();
 
+    mockPrisma.$transaction
+      .mockReset()
+      .mockImplementation(async (callback) =>
+        callback(mockPrisma)
+      );
+
+    mockPrisma.$executeRaw
+      .mockReset()
+      .mockResolvedValue(undefined);
+
     mockPrisma.user.findUnique.mockReset();
 
     mockPrisma.call.create.mockReset();
+    mockPrisma.call.findFirst
+      .mockReset()
+      .mockResolvedValue(null);
     mockPrisma.call.findUnique.mockReset();
     mockPrisma.call.update.mockReset();
-    mockPrisma.call.updateMany.mockReset();
+    mockPrisma.call.updateMany
+      .mockReset()
+      .mockResolvedValue({
+        count: 0,
+      });
     mockPrisma.call.delete.mockReset();
     mockPrisma.call.findMany.mockReset();
 

@@ -12,12 +12,20 @@ process.env.TWILIO_VOICE_STATUS_CALLBACK_URL =
 // --- Prisma mock -------------------------------------------------------------
 
 const mockUserFindUnique = jest.fn();
+const mockCallFindFirst = jest.fn();
+const mockCallFindUnique = jest.fn();
+const mockCallCreate = jest.fn();
 
 jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
   default: {
     user: {
       findUnique: mockUserFindUnique,
+    },
+    call: {
+      findFirst: mockCallFindFirst,
+      findUnique: mockCallFindUnique,
+      create: mockCallCreate,
     },
   },
 }));
@@ -50,6 +58,17 @@ const { startAliasCall } = await import('../voiceBridge.js');
 beforeEach(() => {
   jest.clearAllMocks();
   mockUserFindUnique.mockReset();
+  mockCallFindFirst
+    .mockReset()
+    .mockResolvedValue(null);
+  mockCallFindUnique
+    .mockReset()
+    .mockResolvedValue(null);
+  mockCallCreate
+    .mockReset()
+    .mockResolvedValue({
+      id: 777,
+    });
   mockCallsCreate.mockReset();
 });
 
@@ -165,6 +184,8 @@ describe('startAliasCall', () => {
       userPhone,
       stage: 'legA-dialing',
       callSid: 'CA1234567890',
+      callId: 777,
+      resolvedCallId: 777,
     });
 
     expect(mockTwilioCtor).toHaveBeenCalledWith(

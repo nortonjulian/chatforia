@@ -99,21 +99,34 @@ describe('enqueue and removeFromQueue', () => {
 });
 
 describe('createRandomRoom', () => {
-  it('calls prisma.randomChatRoom.create with correct data and returns room', async () => {
+  it('creates the linked chat rooms in a transaction and returns the canonical room', async () => {
+    const chatRoomCreate = jest.fn().mockResolvedValue({
+      id: 'room-123',
+    });
+
+    const randomChatRoomCreate = jest.fn().mockResolvedValue({
+      id: 'random-room-123',
+      participants: [{ id: 'user1' }, { id: 'user2' }],
+      messages: [
+        {
+          id: 'msg-1',
+          rawContent: "You've been paired for a random chat. Be kind!",
+          sender: { id: 'user1' },
+        },
+      ],
+    });
+
     const prisma = {
-      randomChatRoom: {
-        create: jest.fn().mockResolvedValue({
-          id: 'room-123',
-          participants: [{ id: 'user1' }, { id: 'user2' }],
-          messages: [
-            {
-              id: 'msg-1',
-              content: "You've been paired for a random chat. Be kind!",
-              sender: { id: 'user1' },
-            },
-          ],
+      $transaction: jest.fn(async (callback) =>
+        callback({
+          chatRoom: {
+            create: chatRoomCreate,
+          },
+          randomChatRoom: {
+            create: randomChatRoomCreate,
+          },
         }),
-      },
+      ),
     };
 
     const userA = { userId: 'user1', username: 'Alice' };
@@ -121,19 +134,48 @@ describe('createRandomRoom', () => {
 
     const room = await createRandomRoom(prisma, userA, userB);
 
-    expect(prisma.randomChatRoom.create).toHaveBeenCalledTimes(1);
+    expect(prisma.$transaction).toHaveBeenCalledTimes(1);
+    expect(chatRoomCreate).toHaveBeenCalledTimes(1);
+    expect(randomChatRoomCreate).toHaveBeenCalledTimes(1);
 
-    const call = prisma.randomChatRoom.create.mock.calls[0][0];
+    expect(chatRoomCreate).toHaveBeenCalledWith({
+      data: {
+        isGroup: false,
+        participants: {
+          create: [
+            {
+              user: { connect: { id: 'user1' } },
+              role: 'MEMBER',
+            },
+            {
+              user: { connect: { id: 'user2' } },
+              role: 'MEMBER',
+            },
+          ],
+        },
+      },
+    });
+
+    const call = randomChatRoomCreate.mock.calls[0][0];
 
     expect(call).toMatchObject({
       data: {
+        chatRoom: {
+          connect: { id: 'room-123' },
+        },
         participants: {
           connect: [{ id: 'user1' }, { id: 'user2' }],
         },
         messages: {
           create: [
             {
-              content: "You've been paired for a random chat. Be kind!",
+              rawContent: "You've been paired for a random chat. Be kind!",
+              sender: {
+                connect: { id: 'user1' },
+              },
+              chatRoom: {
+                connect: { id: 'room-123' },
+              },
             },
           ],
         },
@@ -144,13 +186,19 @@ describe('createRandomRoom', () => {
       },
     });
 
-    expect(room).toEqual({
+    expect(room).toMatchObject({
       id: 'room-123',
+      chatRoomId: 'room-123',
+      randomChatRoomId: 'random-room-123',
+      aliasByUser: {
+        user1: expect.any(String),
+        user2: expect.any(String),
+      },
       participants: [{ id: 'user1' }, { id: 'user2' }],
       messages: [
         {
           id: 'msg-1',
-          content: "You've been paired for a random chat. Be kind!",
+          rawContent: "You've been paired for a random chat. Be kind!",
           sender: { id: 'user1' },
         },
       ],
@@ -265,13 +313,25 @@ describe('tryMatch', () => {
     const queues = buildQueues();
 
     const prisma = {
-      randomChatRoom: {
-        create: jest.fn().mockResolvedValue({
-          id: 'room-999',
-          participants: [{ id: 'user-1' }, { id: 'user-2' }],
-          messages: [],
-        }),
+      contact: {
+        findUnique: jest.fn().mockResolvedValue(null),
       },
+      $transaction: jest.fn(async (callback) =>
+        callback({
+          chatRoom: {
+            create: jest.fn().mockResolvedValue({
+              id: 'room-999',
+            }),
+          },
+          randomChatRoom: {
+            create: jest.fn().mockResolvedValue({
+              id: 'random-room-999',
+              participants: [{ id: 'user-1' }, { id: 'user-2' }],
+              messages: [],
+            }),
+          },
+        }),
+      ),
     };
 
     const peerEntry = {
@@ -324,6 +384,8 @@ describe('tryMatch', () => {
     expect(result).toEqual({
       matched: true,
       roomId: 'room-999',
+      chatRoomId: 'room-999',
+      randomChatRoomId: 'random-room-999',
       myAlias: expect.any(String),
       partnerAlias: expect.any(String),
     });
@@ -333,12 +395,14 @@ describe('tryMatch', () => {
 
     expect(queues.activeRoomBySocket.get('sock-current')).toEqual({
       roomId: 'room-999',
+      randomChatRoomId: 'random-room-999',
       peerSocketId: 'sock-peer',
       peerUserId: 'user-2',
     });
 
     expect(queues.activeRoomBySocket.get('sock-peer')).toEqual({
       roomId: 'room-999',
+      randomChatRoomId: 'random-room-999',
       peerSocketId: 'sock-current',
       peerUserId: 'user-1',
     });
@@ -358,12 +422,16 @@ describe('tryMatch', () => {
       roomId: 'room-999',
       myAlias: expect.any(String),
       partnerAlias: expect.any(String),
+      partnerDisplayName: expect.any(String),
+      relationshipStatus: 'none',
     });
 
     expect(socketPeer.emit).toHaveBeenCalledWith('random:matched', {
       roomId: 'room-999',
       myAlias: expect.any(String),
       partnerAlias: expect.any(String),
+      partnerDisplayName: expect.any(String),
+      relationshipStatus: 'none',
     });
   });
 });

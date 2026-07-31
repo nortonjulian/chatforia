@@ -73,13 +73,28 @@ router.post('/invite', asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'Invalid mode' });
   }
 
+  const targetCalleeId = Number(calleeId);
+
+  if (
+    !Number.isInteger(targetCalleeId) ||
+    targetCalleeId <= 0
+  ) {
+    return res.status(400).json({ error: 'Invalid calleeId' });
+  }
+
+  if (targetCalleeId === callerId) {
+    return res.status(400).json({
+      error: 'Cannot call yourself',
+    });
+  }
+
   const [caller, callee] = await Promise.all([
     prisma.user.findUnique({
       where: { id: callerId },
       select: { id: true, username: true, displayName: true, avatarUrl: true },
     }),
     prisma.user.findUnique({
-      where: { id: Number(calleeId) },
+      where: { id: targetCalleeId },
       select: { id: true, username: true, displayName: true, avatarUrl: true },
     }),
   ]);
@@ -88,41 +103,170 @@ router.post('/invite', asyncHandler(async (req, res) => {
     return res.status(404).json({ error: 'Callee not found' });
   }
 
-  const call = await prisma.call.create({
-    data: {
-      callerId,
-      calleeId: Number(calleeId),
-      roomId: roomId ?? null,
-      mode,
-      status: 'RINGING',
-      offerSdp: offer?.sdp ?? null,
-      twilioCallSid: twilioCallSid ?? null,
-      participants: {
-        create: [
-          {
-            userId: callerId,
-            role: 'HOST',
-            status: 'JOINED',
-            joinedAt: new Date(),
-          },
-          {
-            userId: Number(calleeId),
-            role: 'MEMBER',
-            status: 'RINGING',
-          },
-        ],
+  /*
+   * Prevent simultaneous reciprocal calls from creating two live
+   * database records and two Twilio legs.
+   *
+   * Both A -> B and B -> A use the same sorted advisory-lock key.
+   * PostgreSQL releases the lock automatically when this transaction
+   * commits or rolls back.
+   */
+  const lowUserId = Math.min(callerId, targetCalleeId);
+  const highUserId = Math.max(callerId, targetCalleeId);
+
+  const arbitration = await prisma.$transaction(async (tx) => {
+    await tx.$executeRaw`
+      SELECT pg_advisory_xact_lock(
+        CAST(${lowUserId} AS integer),
+        CAST(${highUserId} AS integer)
+      )
+    `;
+
+    const pairWhere = {
+      OR: [
+        {
+          callerId,
+          calleeId: targetCalleeId,
+        },
+        {
+          callerId: targetCalleeId,
+          calleeId: callerId,
+        },
+      ],
+    };
+
+    /*
+     * A pre-answer call should never remain live indefinitely.
+     * Finalize abandoned INITIATED/RINGING rows before checking
+     * whether this user pair already has a current call.
+     */
+    const staleBefore = new Date(Date.now() - 2 * 60 * 1000);
+
+    const staleCleanup = await tx.call.updateMany({
+      where: {
+        ...pairWhere,
+        status: {
+          in: ['INITIATED', 'RINGING'],
+        },
+        createdAt: {
+          lt: staleBefore,
+        },
       },
-    },
-    select: {
-      id: true,
-      callerId: true,
-      calleeId: true,
-      mode: true,
-      status: true,
-      roomId: true,
-      createdAt: true,
-    },
+      data: {
+        status: 'FAILED',
+        endedAt: new Date(),
+        endReason: 'stale_ringing_timeout',
+      },
+    });
+
+    if (staleCleanup.count > 0) {
+      console.info(
+        '[calls/invite] finalized stale pre-answer calls',
+        {
+          callerId,
+          calleeId: targetCalleeId,
+          count: staleCleanup.count,
+        }
+      );
+    }
+
+    const existingCall = await tx.call.findFirst({
+      where: {
+        ...pairWhere,
+        status: {
+          in: ['INITIATED', 'RINGING', 'ACTIVE'],
+        },
+      },
+      orderBy: {
+        id: 'asc',
+      },
+      select: {
+        id: true,
+        callerId: true,
+        calleeId: true,
+        mode: true,
+        status: true,
+        roomId: true,
+        createdAt: true,
+      },
+    });
+
+    if (existingCall) {
+      return {
+        created: false,
+        call: existingCall,
+      };
+    }
+
+    const createdCall = await tx.call.create({
+      data: {
+        callerId,
+        calleeId: targetCalleeId,
+        roomId: roomId ?? null,
+        mode,
+        status: 'RINGING',
+        offerSdp: offer?.sdp ?? null,
+        twilioCallSid: twilioCallSid ?? null,
+        participants: {
+          create: [
+            {
+              userId: callerId,
+              role: 'HOST',
+              status: 'JOINED',
+              joinedAt: new Date(),
+            },
+            {
+              userId: targetCalleeId,
+              role: 'MEMBER',
+              status: 'RINGING',
+            },
+          ],
+        },
+      },
+      select: {
+        id: true,
+        callerId: true,
+        calleeId: true,
+        mode: true,
+        status: true,
+        roomId: true,
+        createdAt: true,
+      },
+    });
+
+    return {
+      created: true,
+      call: createdCall,
+    };
   });
+
+  if (!arbitration.created) {
+    const existingCall = arbitration.call;
+
+    console.info(
+      '[calls/invite] live call already exists for user pair',
+      {
+        requestedCallerId: callerId,
+        requestedCalleeId: targetCalleeId,
+        survivingCallId: existingCall.id,
+        survivingCallerId: existingCall.callerId,
+        survivingCalleeId: existingCall.calleeId,
+        status: existingCall.status,
+      }
+    );
+
+    return res.status(409).json({
+      error: 'CALL_ALREADY_IN_PROGRESS',
+      callId: existingCall.id,
+      resolvedCallId: existingCall.id,
+      callerId: existingCall.callerId,
+      calleeId: existingCall.calleeId,
+      mode: existingCall.mode,
+      status: existingCall.status,
+    });
+  }
+
+  const call = arbitration.call;
 
   const roomName = `call_${call.id}`;
 
@@ -161,6 +305,7 @@ if (mode === 'VIDEO') {
 
   try {
     await sendPushToUser(callee.id, {
+      skipApns: true,
       alert: {
         title: 'Incoming video call',
         body: `${callerName} is calling`,
@@ -206,6 +351,7 @@ if (mode === 'VIDEO') {
 
     try {
       await sendPushToUser(callee.id, {
+        skipApns: true,
         alert: {
           title: 'Incoming call',
           body: `${callerName} is calling`,
@@ -473,6 +619,29 @@ router.post('/end', asyncHandler(async (req, res) => {
     }
   }
 
+  for (const id of notifyIds) {
+    try {
+      await sendPushToUser(id, {
+        data: {
+          type: 'call_ended',
+          callId: updated.id,
+          mode: call.mode,
+          status: updated.status,
+          reason: updated.endReason ?? '',
+        },
+      });
+    } catch (err) {
+      console.warn(
+        '[calls] failed to send terminal call push after /calls/end',
+        {
+          callId: updated.id,
+          userId: id,
+          error: err?.message || err,
+        }
+      );
+    }
+  }
+
   console.log('[calls/end] finalized call', {
     callId: updated.id,
     status: updated.status,
@@ -481,6 +650,43 @@ router.post('/end', asyncHandler(async (req, res) => {
   });
 
   res.json({ ok: true });
+}));
+
+/**
+ * GET /calls/:id/status
+ * Lightweight lifecycle lookup used to reject stale incoming-call pushes.
+ */
+router.get('/:id/status', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+  const callId = Number(req.params.id);
+
+  if (!Number.isFinite(callId) || callId <= 0) {
+    return res.status(400).json({ error: 'Invalid call id' });
+  }
+
+  const call = await prisma.call.findUnique({
+    where: { id: callId },
+    include: { participants: true },
+  });
+
+  if (!call) {
+    return res.status(404).json({ error: 'Call not found' });
+  }
+
+  if (!(await ensureParticipant(call, userId))) {
+    return res.status(403).json({ error: 'Not a participant' });
+  }
+
+  return res.json({
+    call: {
+      id: call.id,
+      mode: call.mode,
+      status: call.status,
+      endReason: call.endReason,
+      startedAt: call.startedAt,
+      endedAt: call.endedAt,
+    },
+  });
 }));
 
 /**
@@ -516,7 +722,12 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
 
   const updateData = {
     status: normalizedStatus ?? undefined,
-    startedAt: startedAt ? new Date(startedAt) : undefined,
+    startedAt:
+      startedAt
+        ? new Date(startedAt)
+        : normalizedStatus === 'ACTIVE'
+          ? new Date()
+          : undefined,
     endedAt: endedAt ? new Date(endedAt) : undefined,
     durationSec: durationSec ?? undefined,
     endReason: endReason ?? undefined,
@@ -599,6 +810,29 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
           durationSec: updated.durationSec,
           reason: updated.endReason,
         });
+      }
+    }
+
+    for (const id of notifyIds) {
+      try {
+        await sendPushToUser(id, {
+          data: {
+            type: 'call_ended',
+            callId: updated.id,
+            mode: updated.mode,
+            status: updated.status,
+            reason: updated.endReason ?? '',
+          },
+        });
+      } catch (err) {
+        console.warn(
+          '[calls] failed to send terminal call push after status patch',
+          {
+            callId: updated.id,
+            userId: id,
+            error: err?.message || err,
+          }
+        );
       }
     }
 

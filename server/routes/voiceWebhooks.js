@@ -297,6 +297,78 @@ router.post('/inbound-app-complete', async (req, res) => {
 
 
 
+/**
+ * Twilio child Client progress callback.
+ *
+ * Twilio sends the answered event when the recipient's Voice SDK
+ * client actually accepts the call. This is the authoritative moment
+ * for changing the app-to-app call from ringing to ACTIVE.
+ */
+router.post('/app-call-progress', async (req, res) => {
+  try {
+    const backendCallId = Number(
+      req.query?.backendCallId ||
+      req.body?.backendCallId
+    );
+
+    const callStatus = String(
+      req.body?.CallStatus || ''
+    ).toLowerCase();
+
+    if (
+      !Number.isInteger(backendCallId) ||
+      backendCallId <= 0
+    ) {
+      return res.status(204).end();
+    }
+
+    if (
+      callStatus !== 'in-progress' &&
+      callStatus !== 'answered'
+    ) {
+      return res.status(204).end();
+    }
+
+    const result = await prisma.call.updateMany({
+      where: {
+        id: backendCallId,
+        status: {
+          notIn: [
+            'DECLINED',
+            'ENDED',
+            'FAILED',
+            'MISSED',
+          ],
+        },
+      },
+      data: {
+        status: 'ACTIVE',
+        startedAt: new Date(),
+      },
+    });
+
+    console.log(
+      '[voice/app-call-progress] answered',
+      {
+        backendCallId,
+        callStatus,
+        updated: result.count,
+      }
+    );
+
+    return res.status(204).end();
+  } catch (error) {
+    console.error(
+      '[voice/app-call-progress] failed',
+      {
+        error: error?.message || error,
+      }
+    );
+
+    return res.status(500).end();
+  }
+});
+
 router.post('/app-call-complete', async (req, res) => {
   const twiml = new VoiceResponse();
 
@@ -381,22 +453,14 @@ router.post('/app-call-complete', async (req, res) => {
       ];
 
       const canContinueToVoicemailFromTerminalState =
-        (
-          existingStatus === 'DECLINED' &&
-          ['busy', 'no-answer'].includes(dialCallStatus)
-        ) ||
-        (
-          existingStatus === 'MISSED' &&
-          dialCallStatus === 'no-answer'
-        );
+        existingStatus === 'MISSED' &&
+        dialCallStatus === 'no-answer';
 
       if (terminalStatuses.includes(existingStatus)) {
         relatedCallId = existing.id;
 
-        // The app may finalize DECLINED or MISSED before Twilio's Dial
-        // callback arrives. Preserve that first terminal state, but still
-        // continue the caller into voicemail for an explicit decline or
-        // a normal unanswered timeout.
+        // Explicit decline is terminal and must hang up immediately.
+        // Only a genuinely missed, unanswered call may enter voicemail.
         if (!canContinueToVoicemailFromTerminalState) {
           twiml.hangup();
           return res.type('text/xml').send(twiml.toString());
@@ -410,7 +474,7 @@ router.post('/app-call-complete', async (req, res) => {
           endReason = 'no_answer';
         } else if (dialCallStatus === 'busy') {
           status = 'DECLINED';
-          endReason = 'declined_to_voicemail';
+          endReason = 'declined';
         } else if (dialCallStatus === 'failed') {
           status = 'FAILED';
           endReason = 'failed';
@@ -476,10 +540,8 @@ router.post('/app-call-complete', async (req, res) => {
       return res.type('text/xml').send(twiml.toString());
     }
 
-    const shouldOfferVoicemail = [
-      'no-answer',
-      'busy',
-    ].includes(dialCallStatus);
+    const shouldOfferVoicemail =
+      dialCallStatus === 'no-answer';
 
     if (!shouldOfferVoicemail || !validCalleeUserId) {
       twiml.hangup();
@@ -656,7 +718,24 @@ router.post('/client', async (req, res) => {
         method: 'POST',
       });
 
-      dial.client(`user_${numericUserId}`);
+      const clientOptions = {};
+
+      if (
+        Number.isInteger(appBackendCallId) &&
+        appBackendCallId > 0
+      ) {
+        clientOptions.statusCallback =
+          `/webhooks/voice/app-call-progress` +
+          `?backendCallId=${appBackendCallId}`;
+
+        clientOptions.statusCallbackEvent = 'answered';
+        clientOptions.statusCallbackMethod = 'POST';
+      }
+
+      dial.client(
+        clientOptions,
+        `user_${numericUserId}`
+      );
 
       return res.type('text/xml').send(twiml.toString());
     }

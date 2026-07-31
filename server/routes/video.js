@@ -77,6 +77,7 @@ try {
 
 try {
   await sendPushToUser(calleeId, {
+    skipApns: true,
     alert: {
       title: 'Incoming video call',
       body: `${callerName} is calling`,

@@ -6,8 +6,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const promptBuilderPath = path.resolve(__dirname, '../promptBuilder.js');
+const prismaClientPath = path.resolve(
+  __dirname,
+  '../../utils/prismaClient.js'
+);
 
 const createMock = jest.fn();
+
+const prismaMock = {
+  user: {
+    findUnique: jest.fn(),
+  },
+  riaMessage: {
+    findMany: jest.fn(),
+    createMany: jest.fn(),
+  },
+};
 
 jest.unstable_mockModule('openai', () => ({
   __esModule: true,
@@ -27,6 +41,11 @@ jest.unstable_mockModule(promptBuilderPath, () => ({
   buildChatPrompt: jest.fn(),
 }));
 
+jest.unstable_mockModule(prismaClientPath, () => ({
+  __esModule: true,
+  default: prismaMock,
+}));
+
 const {
   suggestReplies,
   rewriteText,
@@ -43,6 +62,15 @@ describe('riaService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     createMock.mockReset();
+
+    prismaMock.user.findUnique.mockResolvedValue({
+      riaRemember: true,
+    });
+    prismaMock.riaMessage.findMany.mockResolvedValue([]);
+    prismaMock.riaMessage.createMany.mockResolvedValue({
+      count: 2,
+    });
+
     process.env.OPENAI_API_KEY = 'test-openai-key';
     delete process.env.OPENAI_MODEL;
   });
