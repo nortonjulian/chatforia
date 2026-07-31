@@ -26,7 +26,7 @@ await jest.unstable_mockModule('twilio', () => {
       this.apiKeySid = apiKeySid;
       this.apiKeySecret = apiKeySecret;
       this.opts = opts;
-      this.identity = null;
+      this.identity = opts?.identity ?? null;
       this.grants = [];
     }
 
@@ -130,8 +130,8 @@ describe('POST /voice/token', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
-      token: 'mock-jwt-for-user:42',
-      identity: 'user:42',
+      token: 'mock-jwt-for-user_42',
+      identity: 'user_42',
       ttlSeconds: 60 * 60,
     });
   });

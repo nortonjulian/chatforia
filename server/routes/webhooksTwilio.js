@@ -368,6 +368,36 @@ r.post(
       const storedTo =
         normalizedDid || String(did || '').trim();
 
+      let fromDisplayName = null;
+
+      const internalCallerMatch =
+        storedFrom.match(
+          /^(?:app:|client:)user_(\d+)$/i
+        );
+
+      if (internalCallerMatch) {
+        const internalCallerId =
+          Number(internalCallerMatch[1]);
+
+        if (Number.isInteger(internalCallerId)) {
+          const internalCaller =
+            await prisma.user.findUnique({
+              where: {
+                id: internalCallerId,
+              },
+              select: {
+                displayName: true,
+                username: true,
+              },
+            });
+
+          fromDisplayName =
+            internalCaller?.displayName?.trim() ||
+            internalCaller?.username?.trim() ||
+            null;
+        }
+      }
+
       if (!storedFrom || !storedTo) {
         console.error('[voicemail] invalid caller or destination');
         return;
@@ -404,6 +434,7 @@ r.post(
         void sendVoicemailForwardEmail({
           toEmail: forwardEmail,
           fromNumber: voicemail.fromNumber,
+          fromDisplayName,
           toNumber: voicemail.toNumber,
           transcript: null,
           audioUrl: voicemail.audioUrl,

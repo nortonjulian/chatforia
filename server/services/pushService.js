@@ -204,7 +204,15 @@ export async function sendVoipCallPushToUser(userId, payload) {
   note.topic = process.env.APNS_VOIP_TOPIC || `${process.env.APNS_TOPIC}.voip`;
   note.pushType = 'voip';
   note.priority = 10;
-  note.expiry = Math.floor(Date.now() / 1000) + 60;
+  note.expiry = 0;
+
+  // apn@2.2.0 omits the apns-expiration header when expiry is 0.
+  // Force the literal header so APNs does not persist stale call invitations.
+  const originalHeaders = note.headers.bind(note);
+  note.headers = () => ({
+    ...originalHeaders(),
+    'apns-expiration': 0,
+  });
 
   note.payload = {
     type: 'call_incoming',
@@ -260,7 +268,7 @@ export async function sendPushToUser(userId, payload) {
     fcm: null,
   };
 
-  if (tokens.apns.length) {
+  if (!payload.skipApns && tokens.apns.length && payload.alert) {
     const apnProvider = getProvider();
 
     if (apnProvider) {
@@ -319,6 +327,12 @@ export async function sendPushToUser(userId, payload) {
 
       const isMissedCall = stringData.type === 'call_missed';
       const isIncomingCall = stringData.type === 'call_incoming';
+      const isEndedCall = stringData.type === 'call_ended';
+
+      const lifecycleCollapseKey =
+        stringData.callId && (isIncomingCall || isEndedCall)
+          ? `chatforia_call_${stringData.callId}`
+          : undefined;
 
       stringData.title = payload.alert?.title || stringData.senderName || 'Chatforia';
       stringData.body = payload.alert?.body || 'New message';
@@ -328,10 +342,27 @@ export async function sendPushToUser(userId, payload) {
         data: stringData,
         android: {
           priority: 'high',
+
           ...(isIncomingCall
             ? {
-                // Do not retain live-call invitations after the call window.
+                // A ringing invitation is useful only while the call is live.
                 ttl: 30_000,
+              }
+            : {}),
+
+          ...(isEndedCall
+            ? {
+                // Keep terminal cancellation available long enough to replace
+                // a queued incoming invitation.
+                ttl: 60_000,
+              }
+            : {}),
+
+          ...(lifecycleCollapseKey
+            ? {
+                // Incoming and terminal events for one call replace one
+                // another while queued by FCM.
+                collapseKey: lifecycleCollapseKey,
               }
             : {}),
         },

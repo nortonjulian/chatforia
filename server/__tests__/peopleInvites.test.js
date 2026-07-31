@@ -5,6 +5,8 @@ import { jest } from '@jest/globals';
 const mockFindUnique = jest.fn();
 const mockCreate = jest.fn();
 const mockUpdate = jest.fn();
+const mockUserFindUnique = jest.fn();
+const mockSendSms = jest.fn();
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
@@ -14,15 +16,26 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
       create: mockCreate,
       update: mockUpdate,
     },
+    user: {
+      findUnique: mockUserFindUnique,
+    },
   },
 }));
 
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
   __esModule: true,
   requireAuth: (req, _res, next) => {
-    req.user = { id: 'user-123' };
+    req.user = {
+      id: 'user-123',
+      username: 'testuser',
+    };
     next();
   },
+}));
+
+await jest.unstable_mockModule('../lib/telco/index.js', () => ({
+  __esModule: true,
+  sendSms: mockSendSms,
 }));
 
 const { default: router } = await import('../routes/peopleInvites.js');
@@ -41,6 +54,23 @@ describe('peopleInvites routes', () => {
   beforeEach(() => {
     app = makeApp();
     jest.clearAllMocks();
+
+    mockUserFindUnique.mockResolvedValue({
+      username: 'testuser',
+      phoneNumber: '+13035550000',
+    });
+
+    mockSendSms.mockResolvedValue({
+      ok: true,
+      provider: 'twilio',
+      messageSid: 'SM_TEST_INVITE',
+    });
+
+    mockUpdate.mockResolvedValue({
+      id: 'invite-1',
+      status: 'revoked',
+    });
+
     process.env = {
       ...OLD_ENV,
       APP_BASE_URL: 'https://chatforia.com',
@@ -85,6 +115,23 @@ describe('peopleInvites routes', () => {
           channel: 'sms',
         },
       });
+
+      expect(mockSendSms).toHaveBeenCalledTimes(1);
+      expect(mockSendSms).toHaveBeenCalledWith({
+        to: '+17195551234',
+        text: expect.stringContaining(
+          'https://chatforia.com/i/abc123xyz0'
+        ),
+        clientRef: expect.stringMatching(
+          /^people-invite:invite-1:/
+        ),
+      });
+
+      expect(
+        mockSendSms.mock.calls[0][0].text
+      ).toContain(
+        'testuser invited you to Chatforia'
+      );
     });
 
     it('defaults channel to share_link when blank', async () => {
@@ -114,6 +161,110 @@ describe('peopleInvites routes', () => {
           targetEmail: null,
           channel: 'share_link',
         }),
+      });
+    });
+
+    it('does not call Twilio for a share-link invite', async () => {
+      mockFindUnique.mockResolvedValueOnce(null);
+
+      mockCreate.mockResolvedValueOnce({
+        id: 'invite-share-1',
+        code: 'sharecode1',
+        inviterUserId: 'user-123',
+        targetPhone: null,
+        targetEmail: null,
+        channel: 'share_link',
+      });
+
+      const res = await request(app)
+        .post('/people-invites')
+        .send({
+          channel: 'share_link',
+        });
+
+      expect(res.status).toBe(201);
+      expect(res.body.url).toBe(
+        'https://chatforia.com/i/sharecode1'
+      );
+      expect(mockSendSms).not.toHaveBeenCalled();
+      expect(mockUserFindUnique).not.toHaveBeenCalled();
+    });
+
+    it('requires a phone number for an SMS invite', async () => {
+      const res = await request(app)
+        .post('/people-invites')
+        .send({
+          channel: 'sms',
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        error: 'A phone number is required for SMS invites.',
+      });
+
+      expect(mockCreate).not.toHaveBeenCalled();
+      expect(mockSendSms).not.toHaveBeenCalled();
+    });
+
+    it('rejects an SMS invite to the inviter own phone number', async () => {
+      mockUserFindUnique.mockResolvedValueOnce({
+        username: 'testuser',
+        phoneNumber: '+17195551234',
+      });
+
+      const res = await request(app)
+        .post('/people-invites')
+        .send({
+          targetPhone: '(719) 555-1234',
+          channel: 'sms',
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        error: 'You cannot invite your own phone number.',
+      });
+
+      expect(mockCreate).not.toHaveBeenCalled();
+      expect(mockSendSms).not.toHaveBeenCalled();
+    });
+
+    it('revokes the invite and returns 502 when Twilio fails', async () => {
+      mockFindUnique.mockResolvedValueOnce(null);
+
+      mockCreate.mockResolvedValueOnce({
+        id: 'invite-failed-1',
+        code: 'failedsms1',
+        inviterUserId: 'user-123',
+        targetPhone: '+17195551234',
+        targetEmail: null,
+        channel: 'sms',
+        status: 'pending',
+      });
+
+      mockSendSms.mockRejectedValueOnce(
+        new Error('Twilio unavailable')
+      );
+
+      const res = await request(app)
+        .post('/people-invites')
+        .send({
+          targetPhone: '(719) 555-1234',
+          channel: 'sms',
+        });
+
+      expect(res.status).toBe(502);
+      expect(res.body).toEqual({
+        error: 'Failed to send invite SMS.',
+      });
+
+      expect(mockSendSms).toHaveBeenCalledTimes(1);
+      expect(mockUpdate).toHaveBeenCalledWith({
+        where: {
+          id: 'invite-failed-1',
+        },
+        data: {
+          status: 'revoked',
+        },
       });
     });
 
