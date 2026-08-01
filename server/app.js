@@ -10,6 +10,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import authMiddleware from './middleware/auth.js';
+import {
+  createCorsForbiddenError,
+} from './middleware/cors.js';
 
 import translateRoutes from "./routes/translate.js";
 
@@ -224,7 +227,9 @@ export function createApp() {
         }
 
         console.log('❌ CORS BLOCKED:', origin);
-        return callback(new Error('Not allowed by CORS'));
+        return callback(
+          createCorsForbiddenError()
+        );
       },
       credentials: true,
     })

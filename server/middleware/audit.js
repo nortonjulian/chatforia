@@ -65,10 +65,29 @@ export function sentryRequestHandler(req, _res, next) {
   return next();
 }
 
+export function shouldCaptureSentryError(err) {
+  const statusCode = Number(
+    err?.statusCode ||
+    err?.status ||
+    err?.output?.statusCode
+  );
+
+  const isExpectedClientError =
+    Number.isInteger(statusCode) &&
+    statusCode >= 400 &&
+    statusCode < 500;
+
+  return !isExpectedClientError;
+}
+
 export function sentryErrorHandler(err, _req, _res, next) {
-  if (sentryEnabled) {
+  if (
+    sentryEnabled &&
+    shouldCaptureSentryError(err)
+  ) {
     Sentry.captureException(err);
   }
+
   return next(err);
 }
 
