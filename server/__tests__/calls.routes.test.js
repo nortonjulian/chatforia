@@ -182,6 +182,25 @@ describe('calls routes', () => {
         resolvedCallId: 123,
       });
 
+      expect(
+        mockPrisma.$executeRaw
+      ).toHaveBeenCalledTimes(1);
+
+      const [
+        sqlParts,
+        lowUserId,
+        highUserId,
+      ] = mockPrisma.$executeRaw.mock.calls[0];
+
+      expect(
+        sqlParts.join('?')
+      ).toMatch(
+        /pg_advisory_xact_lock\s*\(\s*CAST\(\? AS integer\),\s*CAST\(\? AS integer\)\s*\)/
+      );
+
+      expect(lowUserId).toBe(10);
+      expect(highUserId).toBe(20);
+
       expect(mockPrisma.call.create).toHaveBeenCalledWith({
         data: {
           callerId: 10,

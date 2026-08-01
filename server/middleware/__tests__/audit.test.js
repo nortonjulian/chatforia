@@ -268,4 +268,84 @@ describe('audit middleware suite', () => {
       expect(next).toHaveBeenCalledTimes(1);
     }
   });
+
+  test('shouldCaptureSentryError(): skips expected 4xx errors', async () => {
+    const { mod } = await loadModule();
+
+    expect(
+      mod.shouldCaptureSentryError({
+        statusCode: 400,
+      })
+    ).toBe(false);
+
+    expect(
+      mod.shouldCaptureSentryError({
+        statusCode: 401,
+        code: 'GOOGLE_PLAY_RTDN_TOKEN_REQUIRED',
+      })
+    ).toBe(false);
+
+    expect(
+      mod.shouldCaptureSentryError({
+        status: 403,
+      })
+    ).toBe(false);
+
+    expect(
+      mod.shouldCaptureSentryError({
+        output: {
+          statusCode: 404,
+        },
+      })
+    ).toBe(false);
+  });
+
+  test('shouldCaptureSentryError(): captures server and unknown errors', async () => {
+    const { mod } = await loadModule();
+
+    expect(
+      mod.shouldCaptureSentryError({
+        statusCode: 500,
+      })
+    ).toBe(true);
+
+    expect(
+      mod.shouldCaptureSentryError({
+        statusCode: 503,
+      })
+    ).toBe(true);
+
+    expect(
+      mod.shouldCaptureSentryError(
+        new Error('Unexpected failure')
+      )
+    ).toBe(true);
+  });
+
+  test('sentryErrorHandler(): always forwards the original error', async () => {
+    const { mod } = await loadModule();
+    const { req, res, next } =
+      makeReqResNext();
+
+    const error = Object.assign(
+      new Error(
+        'A valid Pub/Sub bearer token is required.'
+      ),
+      {
+        statusCode: 401,
+        code: 'GOOGLE_PLAY_RTDN_TOKEN_REQUIRED',
+      }
+    );
+
+    mod.sentryErrorHandler(
+      error,
+      req,
+      res,
+      next
+    );
+
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledWith(error);
+  });
+
 });

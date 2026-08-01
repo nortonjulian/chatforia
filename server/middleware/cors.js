@@ -7,6 +7,18 @@ function parseList(v) {
     .filter(Boolean);
 }
 
+export function createCorsForbiddenError() {
+  const error = new Error(
+    'Not allowed by CORS'
+  );
+
+  error.status = 403;
+  error.statusCode = 403;
+  error.code = 'CORS_ORIGIN_FORBIDDEN';
+
+  return error;
+}
+
 export function corsConfigured() {
   const devOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
   const extra = parseList(process.env.CORS_EXTRA_ORIGINS);
