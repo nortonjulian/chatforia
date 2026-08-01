@@ -429,6 +429,7 @@ describe('CallContext', () => {
     expect(ctxRef.active).toEqual({
       callId: 'in-99',
       peerId: 456,
+      peerName: 'Chatforia user',
       mode: 'AUDIO',
     });
 

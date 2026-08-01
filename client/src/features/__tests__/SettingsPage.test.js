@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 jest.mock('@mantine/core', () => {
   const React = require('react');
 
-  const Stack = ({ children, ...props }) => (
+  const Stack = ({ children, gap: _gap, ...props }) => (
     <div data-testid="stack" {...props}>
       {children}
     </div>
@@ -12,6 +12,7 @@ jest.mock('@mantine/core', () => {
 
   const Title = ({ children, order = 3, ...props }) => {
     const Tag = `h${order}`;
+
     return (
       <Tag data-testid="title" {...props}>
         {children}
@@ -21,7 +22,12 @@ jest.mock('@mantine/core', () => {
 
   const Divider = (props) => <hr data-testid="divider" {...props} />;
 
-  return { __esModule: true, Stack, Title, Divider };
+  return {
+    __esModule: true,
+    Stack,
+    Title,
+    Divider,
+  };
 });
 
 jest.mock('react-i18next', () => ({
@@ -31,7 +37,6 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-// Child components
 jest.mock('@/components/SoundSettings', () => ({
   __esModule: true,
   default: () => <div data-testid="sound-settings" />,
@@ -57,10 +62,13 @@ jest.mock('@/features/settings/ForwardingSettings.jsx', () => ({
   default: () => <div data-testid="forwarding-settings" />,
 }));
 
-jest.mock('@/components/security/EncryptionRecoveryCard.jsx', () => ({
-  __esModule: true,
-  default: () => <div data-testid="encryption-recovery-card" />,
-}));
+jest.mock(
+  '@/components/security/SecureMessageSettingsCard.jsx',
+  () => ({
+    __esModule: true,
+    default: () => <div data-testid="secure-message-settings-card" />,
+  })
+);
 
 // SUT
 import SettingsPage from '../settings/SettingsPage';
@@ -70,27 +78,45 @@ describe('SettingsPage', () => {
     render(<SettingsPage />);
 
     expect(
-      screen.getByRole('heading', { name: /appearance/i, level: 3 })
+      screen.getByRole('heading', {
+        name: /appearance/i,
+        level: 3,
+      })
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('heading', { name: /notification sounds/i, level: 3 })
+      screen.getByRole('heading', {
+        name: /notification sounds/i,
+        level: 3,
+      })
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('heading', { name: /privacy/i, level: 3 })
+      screen.getByRole('heading', {
+        name: /privacy/i,
+        level: 3,
+      })
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('heading', { name: /safety &\s*age/i, level: 3 })
+      screen.getByRole('heading', {
+        name: /safety &\s*age/i,
+        level: 3,
+      })
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('heading', { name: /call &\s*text forwarding/i, level: 3 })
+      screen.getByRole('heading', {
+        name: /call &\s*text forwarding/i,
+        level: 3,
+      })
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('heading', { name: /encryption/i, level: 3 })
+      screen.getByRole('heading', {
+        name: /security/i,
+        level: 3,
+      })
     ).toBeInTheDocument();
 
     expect(screen.getByTestId('theme-picker')).toBeInTheDocument();
@@ -98,9 +124,11 @@ describe('SettingsPage', () => {
     expect(screen.getByTestId('privacy-toggles')).toBeInTheDocument();
     expect(screen.getByTestId('age-settings')).toBeInTheDocument();
     expect(screen.getByTestId('forwarding-settings')).toBeInTheDocument();
-    expect(screen.getByTestId('encryption-recovery-card')).toBeInTheDocument();
 
-    const dividers = screen.getAllByTestId('divider');
-    expect(dividers).toHaveLength(5);
+    expect(
+      screen.getByTestId('secure-message-settings-card')
+    ).toBeInTheDocument();
+
+    expect(screen.getAllByTestId('divider')).toHaveLength(5);
   });
 });

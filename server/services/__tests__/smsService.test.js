@@ -216,7 +216,6 @@ describe('smsService', () => {
       expect(mockPrisma.smsThread.create).toHaveBeenCalledWith({
         data: {
           userId: 1,
-          contactId: null,
           contactPhone: '+15551234567',
           participants: {
             create: [{ phone: '+15551234567' }],
@@ -314,7 +313,6 @@ describe('smsService', () => {
       expect(mockPrisma.smsThread.create).toHaveBeenCalledWith({
         data: {
           userId: 7,
-          contactId: null,
           contactPhone: '+15551234567',
           participants: {
             create: [{ phone: '+15551234567' }],

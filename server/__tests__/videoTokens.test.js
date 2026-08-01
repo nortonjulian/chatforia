@@ -19,6 +19,10 @@ process.env = {
   TWILIO_API_KEY_SECRET: 'TEST_SECRET',
 };
 
+await jest.unstable_mockModule('../middleware/auth.js', () => ({
+  requireAuth: (_req, _res, next) => next(),
+}));
+
 // ---- Twilio mock wiring ----
 let AccessTokenCtor;
 let VideoGrantCtor;
@@ -62,6 +66,7 @@ const { default: videoTokensRouter } = await import('../routes/videoTokens.js');
 
 // Build test app
 const app = express();
+app.use(express.json());
 app.use(videoTokensRouter);
 
 beforeEach(() => {
@@ -111,11 +116,8 @@ describe('POST /video/token', () => {
       accountSid: 'AC_TEST_SID',
       apiKeySid: 'SK_TEST_SID',
       apiKeySecret: 'TEST_SECRET',
-      options: { ttl: 60 * 60 },
+      options: { identity: 'julian', ttl: 60 * 60 },
     });
-
-    // identity set as string
-    expect(lastAccessTokenInstance.identity).toBe('julian');
 
     // addGrant called with a VideoGrant containing the room
     expect(lastAccessTokenInstance.addGrant).toHaveBeenCalledTimes(1);

@@ -132,7 +132,7 @@ describe('notifyUserOfPendingRelease', () => {
 
     expect(logSpy).toHaveBeenCalledTimes(1);
     expect(logSpy.mock.calls[0][0]).toBe(
-      `[Notify] Email sent: userId=${userId}, email=user@example.com, number=${number}`
+      `[Notify] Email sent: userId=${userId}`
     );
 
     logSpy.mockRestore();

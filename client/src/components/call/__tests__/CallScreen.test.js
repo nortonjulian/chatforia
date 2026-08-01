@@ -181,21 +181,10 @@ describe('CallScreen', () => {
     const videos =
       container.querySelectorAll('video');
 
-    expect(videos).toHaveLength(2);
+    expect(videos).toHaveLength(0);
 
-    const [remoteVideo, localVideo] = videos;
-
-    expect(
-      remoteVideo.className
-    ).toMatch(/\bhidden\b/);
-
-    expect(
-      localVideo.className
-    ).toMatch(/\bhidden\b/);
-
-    expect(
-      screen.getByText(/audio call — ringing/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/^Audio call$/i)).toBeInTheDocument();
+    expect(screen.getByText(/^ringing$/i)).toBeInTheDocument();
   });
 
   test('updates video srcObject when stream refs change', () => {

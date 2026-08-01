@@ -54,12 +54,11 @@ describe('Twilio /webhooks/status router', () => {
     expect(logSpy).toHaveBeenCalledTimes(1);
     const [msg, meta] = logSpy.mock.calls[0];
 
-    expect(msg).toBe('[Twilio Status] SM123: delivered');
+    expect(msg).toBe('[Twilio Status]');
     expect(meta).toEqual({
-      To: body.To,
-      From: body.From,
-      ErrorCode: body.ErrorCode,
-      ErrorMessage: body.ErrorMessage,
+      messageSid: body.MessageSid,
+      status: body.MessageStatus,
+      errorCode: body.ErrorCode,
     });
 
     logSpy.mockRestore();
@@ -91,12 +90,11 @@ describe('Twilio /webhooks/status router', () => {
     expect(logSpy).toHaveBeenCalledTimes(1);
     const [msg, meta] = logSpy.mock.calls[0];
 
-    expect(msg).toBe('[Twilio Status] SM999: failed');
+    expect(msg).toBe('[Twilio Status]');
     expect(meta).toEqual({
-      To: undefined,
-      From: undefined,
-      ErrorCode: undefined,
-      ErrorMessage: undefined,
+      messageSid: body.MessageSid,
+      status: body.MessageStatus,
+      errorCode: null,
     });
 
     logSpy.mockRestore();

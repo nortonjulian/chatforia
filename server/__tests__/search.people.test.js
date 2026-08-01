@@ -291,13 +291,27 @@ describe('GET /search/people', () => {
     // Ensure user.findMany called with capped 'take'
     expect(mockUserFindMany).toHaveBeenCalledWith({
       where: {
+        id: { not: 123 },
+        username: { contains: q, mode: 'insensitive' },
+        isBanned: false,
+        isSystem: false,
+        isTestAccount: false,
+        deletedAt: null,
         OR: [
-          { username: { contains: q, mode: 'insensitive' } },
-          { email: { contains: q, mode: 'insensitive' } },
+          { discoverability: 'EVERYONE' },
+          {
+            discoverability: 'CONTACTS_ONLY',
+            contactsSaved: { some: { ownerId: 123 } },
+          },
         ],
       },
       take: 25,
-      select: { id: true, username: true, avatarUrl: true, phoneNumber: true },
+      select: {
+        id: true,
+        username: true,
+        displayName: true,
+        avatarUrl: true,
+      },
     });
   });
 });
