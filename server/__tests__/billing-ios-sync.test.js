@@ -45,6 +45,8 @@ await jest.unstable_mockModule('../services/appEntitlementService.js', () => ({
 
   assertAppSubscriptionProviderAvailable: jest.fn(),
 
+  getEffectiveAppEntitlement: jest.fn(),
+
   recomputeUserAppEntitlement: jest.fn(),
 }));
 

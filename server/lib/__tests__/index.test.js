@@ -163,7 +163,7 @@ describe('sendSms (Twilio)', () => {
     });
 
     const res = await mod.sendSms({ to: '+15550001111', text: 'hey' });
-    expect(res).toEqual({ provider: 'twilio', messageSid: 'SM999' });
+    expect(res).toEqual({ ok: true, provider: 'twilio', messageSid: 'SM999' });
 
     expect(createMock).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -191,7 +191,7 @@ describe('sendSms (Twilio)', () => {
     });
 
     const res = await mod.sendSms({ to: '+15550002222', from: '+18885551234', text: 'yo' });
-    expect(res).toEqual({ provider: 'twilio', messageSid: 'SM321' });
+    expect(res).toEqual({ ok: true, provider: 'twilio', messageSid: 'SM321' });
 
     expect(createMock).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -218,7 +218,7 @@ describe('sendSms (Twilio)', () => {
     });
 
     const res = await mod.sendSms({ to: '+15550003333', text: 'sup' });
-    expect(res).toEqual({ provider: 'twilio', messageSid: 'SM777' });
+    expect(res).toEqual({ ok: true, provider: 'twilio', messageSid: 'SM777' });
 
     expect(createMock).toHaveBeenCalledWith(
       expect.objectContaining({

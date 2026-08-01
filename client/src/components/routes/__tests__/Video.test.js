@@ -14,6 +14,11 @@ jest.mock('@/video/VideoCall.jsx', () => (props) => (
   </div>
 ));
 
+jest.mock('@/context/UserContext', () => ({
+  __esModule: true,
+  useUser: () => ({ currentUser: null }),
+}));
+
 import VideoHub from '../Video.jsx';
 
 function renderWithRouter(initialEntry = '/video', currentUser = { id: 42 }) {

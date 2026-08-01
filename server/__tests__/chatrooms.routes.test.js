@@ -212,7 +212,10 @@ describe('chatrooms routes', () => {
       const existing = {
         id: 20,
         isGroup: false,
-        participants: [],
+        participants: [
+          { userId: 1, role: 'ADMIN' },
+          { userId: 2, role: 'MEMBER' },
+        ],
         messages: [
           {
             id: 100,
@@ -229,7 +232,10 @@ describe('chatrooms routes', () => {
       expect(res.body).toEqual({
         id: 20,
         isGroup: false,
-        participants: [],
+        participants: [
+          { userId: 1, role: 'ADMIN' },
+          { userId: 2, role: 'MEMBER' },
+        ],
       });
 
       expect(chatRoomFindMany).toHaveBeenCalled();

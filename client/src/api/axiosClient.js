@@ -1,47 +1,28 @@
 import axios from 'axios';
 
-/** -------- Env helpers -------- */
-const isViteEnv =
-  typeof import.meta !== 'undefined' &&
-  typeof import.meta.env !== 'undefined';
-
+/** Vite replaces this in application builds; the Babel plugin maps it to
+ * process.env for Jest. Avoid testing `typeof import.meta`, which CommonJS
+ * cannot parse before that transform runs. */
+const viteEnv = import.meta.env || {};
 const isBrowser = typeof window !== 'undefined';
+const isDev = Boolean(viteEnv.DEV);
 
-const isDev = (isViteEnv && !!import.meta.env.DEV) || false;
-
-/** -------- Base URL detection --------
- *
- * Canonical:
- *   VITE_API_BASE_URL
- *
- * Dev default:
- *   ''  (so Vite proxy handles /auth, /billing, /api, etc.)
- *
- * Prod default:
- *   window.location.origin (only as a last resort)
- */
 const viteBase =
-  (isViteEnv &&
-    (
-      import.meta.env.VITE_API_BASE_URL ||
-      import.meta.env.VITE_API_BASE ||
-      import.meta.env.VITE_API_URL
-    )) ||
+  viteEnv.VITE_API_BASE_URL ||
+  viteEnv.VITE_API_BASE ||
+  viteEnv.VITE_API_URL ||
   '';
 
 const winBase = (isBrowser && window.__API_URL__) || '';
-
 const sameOriginFallback =
   isBrowser && window.location ? window.location.origin : '';
-
 const computedBase = winBase || viteBase;
-const baseURL = isDev ? (computedBase || '') : (computedBase || sameOriginFallback);
+const baseURL = isDev ? computedBase || '' : computedBase || sameOriginFallback;
 
 if (isDev) {
   console.log('[axiosClient] baseURL =', baseURL || '(empty -> Vite proxy)');
 }
 
-/** -------- Axios instance -------- */
 const axiosClient = axios.create({
   baseURL,
   withCredentials: true,
@@ -54,11 +35,10 @@ const axiosClient = axios.create({
   },
 });
 
-/** -------- Helpers -------- */
 function readCookie(name) {
   if (typeof document === 'undefined') return '';
-  const m = document.cookie.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));
-  return m ? decodeURIComponent(m[1]) : '';
+  const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));
+  return match ? decodeURIComponent(match[1]) : '';
 }
 
 async function ensureCsrfPrimed() {
@@ -66,40 +46,31 @@ async function ensureCsrfPrimed() {
   if (existing) return;
 
   try {
-    const res = await axiosClient.get('/auth/csrf', { withCredentials: true });
-    const tokenFromBody = res?.data?.csrfToken || res?.data?.token;
-    const tokenFromCookie = readCookie('XSRF-TOKEN');
-    const token = tokenFromCookie || tokenFromBody;
-
-    if (token) {
-      axiosClient.defaults.headers.common['X-CSRF-Token'] = token;
-    }
+    const response = await axiosClient.get('/auth/csrf', { withCredentials: true });
+    const bodyToken = response?.data?.csrfToken || response?.data?.token;
+    const token = readCookie('XSRF-TOKEN') || bodyToken;
+    if (token) axiosClient.defaults.headers.common['X-CSRF-Token'] = token;
   } catch {
-    // silent
+    // The request interceptor will continue without a token.
   }
 }
 
-function shouldSuppressDevAxiosError(err) {
-  const url = err?.config?.url || '';
-  const method = String(err?.config?.method || 'get').toLowerCase();
-  const status = err?.response?.status;
-
-  return method === 'get' && url === '/auth/me' && status === 401;
+function shouldSuppressDevAxiosError(error) {
+  const url = error?.config?.url || '';
+  const method = String(error?.config?.method || 'get').toLowerCase();
+  return method === 'get' && url === '/auth/me' && error?.response?.status === 401;
 }
 
-/** -------- Interceptors -------- */
-
-// Attach CSRF token for mutating requests
 axiosClient.interceptors.request.use(async (config) => {
   const method = String(config.method || 'get').toUpperCase();
   const isMutating = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
 
   if (isMutating) {
     await ensureCsrfPrimed();
-
-    const cookieToken = readCookie('XSRF-TOKEN');
-    const defaultToken = axiosClient.defaults.headers.common['X-CSRF-Token'] || null;
-    const token = cookieToken || defaultToken;
+    const token =
+      readCookie('XSRF-TOKEN') ||
+      axiosClient.defaults.headers.common['X-CSRF-Token'] ||
+      null;
 
     if (token) {
       config.headers = config.headers || {};
@@ -113,34 +84,29 @@ axiosClient.interceptors.request.use(async (config) => {
 });
 
 axiosClient.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    if (
-      isDev &&
-      typeof window !== 'undefined' &&
-      !shouldSuppressDevAxiosError(err)
-    ) {
+  (response) => response,
+  (error) => {
+    if (isDev && isBrowser && !shouldSuppressDevAxiosError(error)) {
       console.error('axios error:', {
-        url: err?.config?.url,
-        method: err?.config?.method,
-        status: err?.response?.status,
-        data: err?.response?.data,
+        url: error?.config?.url,
+        method: error?.config?.method,
+        status: error?.response?.status,
+        data: error?.response?.data,
       });
     }
-    return Promise.reject(err);
+    return Promise.reject(error);
   }
 );
 
 export default axiosClient;
 
-/** ------- Optional: explicit CSRF primer you can call on app start ------- */
-let _csrfPrimed = false;
+let csrfPrimed = false;
 export async function primeCsrf() {
-  if (_csrfPrimed) return;
+  if (csrfPrimed) return;
   try {
     await axiosClient.get('/auth/csrf', { withCredentials: true });
   } catch {
-    // ignore
+    // A later mutating request can retry CSRF initialization.
   }
-  _csrfPrimed = true;
+  csrfPrimed = true;
 }

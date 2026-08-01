@@ -6,6 +6,7 @@ import request from 'supertest';
 
 // prisma.user methods
 const mockUserFindUnique = jest.fn();
+const mockUserFindFirst = jest.fn();
 const mockUserCreate = jest.fn();
 const mockUserUpdate = jest.fn();
 
@@ -36,6 +37,7 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   default: {
     user: {
       findUnique: mockUserFindUnique,
+      findFirst: mockUserFindFirst,
       create: mockUserCreate,
       update: mockUserUpdate,
     },
@@ -80,6 +82,7 @@ function createApp({ user } = {}) {
 beforeEach(() => {
   jest.clearAllMocks();
   mockUserFindUnique.mockReset();
+  mockUserFindFirst.mockReset();
   mockUserCreate.mockReset();
   mockUserUpdate.mockReset();
   mockHash.mockReset();
@@ -107,7 +110,11 @@ describe('POST /users', () => {
 
   it('returns 409 when email is already in use', async () => {
     mockValidateRegistrationInput.mockReturnValue(null);
-    mockUserFindUnique.mockResolvedValueOnce({ id: 1, email: 'test@example.com' });
+    mockUserFindFirst.mockResolvedValueOnce({
+      id: 1,
+      usernameNorm: 'someone-else',
+      emailNorm: 'test@example.com',
+    });
 
     const app = createApp();
 
@@ -118,15 +125,25 @@ describe('POST /users', () => {
     expect(res.statusCode).toBe(409);
     expect(res.body).toEqual({ error: 'Email already in use' });
 
-    expect(mockUserFindUnique).toHaveBeenCalledWith({
-      where: { email: 'test@example.com' },
+    expect(mockUserFindFirst).toHaveBeenCalledWith({
+      where: {
+        OR: [
+          { usernameNorm: 'test' },
+          { emailNorm: 'test@example.com' },
+        ],
+      },
+      select: {
+        id: true,
+        usernameNorm: true,
+        emailNorm: true,
+      },
     });
     expect(mockUserCreate).not.toHaveBeenCalled();
   });
 
   it('creates a user, hashes password, and omits it from response', async () => {
     mockValidateRegistrationInput.mockReturnValue(null);
-    mockUserFindUnique.mockResolvedValueOnce(null);
+    mockUserFindFirst.mockResolvedValueOnce(null);
 
     mockHash.mockResolvedValueOnce('hashed-password');
 
@@ -134,7 +151,7 @@ describe('POST /users', () => {
       id: 42,
       username: 'alice',
       email: 'alice@example.com',
-      password: 'hashed-password',
+      passwordHash: 'hashed-password',
       role: 'USER',
     };
 
@@ -160,7 +177,9 @@ describe('POST /users', () => {
       data: {
         username: 'alice',
         email: 'alice@example.com',
-        password: 'hashed-password',
+        usernameNorm: 'alice',
+        emailNorm: 'alice@example.com',
+        passwordHash: 'hashed-password',
         role: 'USER',
       },
     });
@@ -168,7 +187,7 @@ describe('POST /users', () => {
 
   it('returns 500 when prisma.user.create throws', async () => {
     mockValidateRegistrationInput.mockReturnValue(null);
-    mockUserFindUnique.mockResolvedValueOnce(null);
+    mockUserFindFirst.mockResolvedValueOnce(null);
     mockHash.mockResolvedValueOnce('hashed-password');
     mockUserCreate.mockRejectedValueOnce(new Error('DB error'));
 

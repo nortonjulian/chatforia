@@ -21,6 +21,16 @@ jest.mock('@/context/UserContext', () => ({
   }),
 }));
 
+const mockStartCall = jest.fn();
+
+jest.mock('@/context/CallContext', () => ({
+  __esModule: true,
+  useCall: () => ({
+    startCall: mockStartCall,
+    pending: false,
+  }),
+}));
+
 const mockPlaceCall = jest.fn();
 
 jest.mock('@/hooks/usePstnCall', () => ({
@@ -213,7 +223,9 @@ describe('Dialer', () => {
     render(<Dialer />);
 
     expect(screen.getByText('Calls')).toBeInTheDocument();
-    expect(screen.getByText(/Keypad & recents\./i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Make phone calls and review your recent calls\./i)
+    ).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter number')).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: 'Call' })).toBeInTheDocument();
