@@ -2,6 +2,7 @@ import express from 'express';
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
 import { sendPushToUser } from '../services/pushService.js';
+import { premiumConfig } from '../config/premiumConfig.js';
 
 const router = express.Router();
 
@@ -13,6 +14,63 @@ function normalizeString(value, maxLen = 255) {
   const trimmed = value.trim();
   if (!trimmed) return null;
   return trimmed.slice(0, maxLen);
+}
+
+export function getDeviceLimitForPlan(planValue) {
+  const plan =
+    String(planValue || 'FREE')
+      .trim()
+      .toUpperCase();
+
+  return ['PLUS', 'PREMIUM', 'WIRELESS'].includes(plan)
+    ? premiumConfig.PREMIUM_DEVICE_LIMIT
+    : premiumConfig.FREE_DEVICE_LIMIT;
+}
+
+export function shouldRequireDeviceReplacement({
+  isCurrentDeviceActive,
+  activeOtherDeviceCount,
+  deviceLimit,
+  replaceExistingDevice,
+}) {
+  return (
+    !isCurrentDeviceActive &&
+    activeOtherDeviceCount >= deviceLimit &&
+    !replaceExistingDevice
+  );
+}
+
+export function getPushTokenOwnership(
+  pushProvider,
+  pushEnvironment = 'production'
+) {
+  if (pushProvider === 'apns_voip') {
+    return {
+      tokenField:
+        pushEnvironment === 'sandbox'
+          ? 'voipSandboxPushToken'
+          : 'voipPushToken',
+    };
+  }
+
+  if (pushProvider === 'apns') {
+    return {
+      tokenField:
+        pushEnvironment === 'sandbox'
+          ? 'apnsSandboxPushToken'
+          : 'apnsPushToken',
+    };
+  }
+
+  if (pushProvider === 'fcm') {
+    return {
+      tokenField: 'fcmPushToken',
+    };
+  }
+
+  return {
+    tokenField: 'pushToken',
+  };
 }
 
 function normalizePairingStatus(value) {
@@ -115,6 +173,31 @@ router.post('/register', requireAuth, async (req, res, next) => {
       const isPaidPlan =
         ['PLUS', 'PREMIUM', 'WIRELESS'].includes(plan);
 
+      const deviceLimit =
+        getDeviceLimitForPlan(plan);
+
+      /*
+       * Existing active devices must remain able to refresh their
+       * registration and push tokens, even if legacy data has placed the
+       * account above its current limit.
+       */
+      const currentDevice =
+        await tx.device.findUnique({
+          where: {
+            userId_deviceId: {
+              userId,
+              deviceId,
+            },
+          },
+          select: {
+            revokedAt: true,
+          },
+        });
+
+      const isCurrentDeviceActive =
+        Boolean(currentDevice) &&
+        currentDevice.revokedAt == null;
+
       const activeOtherDevices = await tx.device.findMany({
         where: {
           userId,
@@ -150,16 +233,26 @@ router.post('/register', requireAuth, async (req, res, next) => {
         }));
 
       if (
-        !isPaidPlan &&
-        activeOtherDevices.length >= 1 &&
-        !replaceExistingDevice
+        shouldRequireDeviceReplacement({
+          isCurrentDeviceActive,
+          activeOtherDeviceCount:
+            activeOtherDevices.length,
+          deviceLimit,
+          replaceExistingDevice,
+        })
       ) {
+        const deviceLabel =
+          deviceLimit === 1
+            ? 'one active device'
+            : `${deviceLimit} active devices`;
+
         return {
           status: 409,
           body: {
             error:
-              'This plan allows one active device. Confirm which existing device should be replaced.',
+              `This plan allows ${deviceLabel}. Confirm which existing device should be replaced.`,
             code: 'DEVICE_REPLACEMENT_REQUIRED',
+            deviceLimit,
             existingDevices: activeDeviceSummaries,
           },
         };
@@ -208,8 +301,10 @@ router.post('/register', requireAuth, async (req, res, next) => {
             pushToken: null,
             pushProvider: null,
             apnsPushToken: null,
+            apnsSandboxPushToken: null,
             fcmPushToken: null,
             voipPushToken: null,
+            voipSandboxPushToken: null,
           },
         });
       }
@@ -686,8 +781,10 @@ router.post('/revoke', requireAuth, async (req, res, next) => {
           pushToken: null,
           pushProvider: null,
           apnsPushToken: null,
+          apnsSandboxPushToken: null,
           fcmPushToken: null,
           voipPushToken: null,
+          voipSandboxPushToken: null,
 
           wrappedAccountKey: null,
           wrappedAccountKeyAlgo: null,
@@ -722,6 +819,23 @@ router.post('/push-token', requireAuth, async (req, res) => {
       normalizeString(req.body?.pushProvider, 64) ||
       'apns'
     ).toLowerCase();
+
+  const pushEnvironment =
+    (
+      normalizeString(req.body?.pushEnvironment, 32) ||
+      'production'
+    ).toLowerCase();
+
+  if (
+    ['apns', 'apns_voip'].includes(pushProvider) &&
+    !['sandbox', 'production'].includes(pushEnvironment)
+  ) {
+    return res.status(400).json({
+      error:
+        'pushEnvironment must be sandbox or production for APNs.',
+      code: 'INVALID_PUSH_ENVIRONMENT',
+    });
+  }
 
   if (!userId || !deviceId || !pushToken) {
     return res.status(400).json({
@@ -764,12 +878,21 @@ router.post('/push-token', requireAuth, async (req, res) => {
     };
 
     if (pushProvider === 'apns_voip') {
-      pushTokenData.voipPushToken = pushToken;
+      if (pushEnvironment === 'sandbox') {
+        pushTokenData.voipSandboxPushToken = pushToken;
+      } else {
+        pushTokenData.voipPushToken = pushToken;
+      }
+
       pushTokenData.pushProvider = 'apns_voip';
     } else if (pushProvider === 'apns') {
-      pushTokenData.apnsPushToken = pushToken;
-      pushTokenData.pushToken = pushToken;
-      pushTokenData.pushProvider = pushProvider;
+      if (pushEnvironment === 'sandbox') {
+        pushTokenData.apnsSandboxPushToken = pushToken;
+      } else {
+        pushTokenData.apnsPushToken = pushToken;
+        pushTokenData.pushToken = pushToken;
+        pushTokenData.pushProvider = pushProvider;
+      }
     } else if (pushProvider === 'fcm') {
       pushTokenData.fcmPushToken = pushToken;
       pushTokenData.pushToken = pushToken;
@@ -779,27 +902,74 @@ router.post('/push-token', requireAuth, async (req, res) => {
       pushTokenData.pushProvider = pushProvider;
     }
 
-    const device = await prisma.device.update({
-      where: {
-        id: existing.id,
-      },
-      data: pushTokenData,
-      select: {
-        id: true,
-        userId: true,
-        deviceId: true,
-        name: true,
-        platform: true,
-        lastSeenAt: true,
-        updatedAt: true,
-        revokedAt: true,
-        pushToken: true,
-        pushProvider: true,
-        apnsPushToken: true,
-        fcmPushToken: true,
-        voipPushToken: true,
-      },
-    });
+    const {
+      tokenField,
+    } = getPushTokenOwnership(
+      pushProvider,
+      pushEnvironment
+    );
+
+    const device = await prisma.$transaction(
+      async (tx) => {
+        /*
+         * A push token belongs to one app installation. Remove it from
+         * every other device/account before assigning it here.
+         */
+        await tx.device.updateMany({
+          where: {
+            id: {
+              not: existing.id,
+            },
+            [tokenField]: pushToken,
+          },
+          data: {
+            [tokenField]: null,
+          },
+        });
+
+        /*
+         * Older registrations may hold the same value in pushToken.
+         */
+        if (tokenField !== 'pushToken') {
+          await tx.device.updateMany({
+            where: {
+              id: {
+                not: existing.id,
+              },
+              pushToken,
+            },
+            data: {
+              pushToken: null,
+              pushProvider: null,
+            },
+          });
+        }
+
+        return tx.device.update({
+          where: {
+            id: existing.id,
+          },
+          data: pushTokenData,
+          select: {
+            id: true,
+            userId: true,
+            deviceId: true,
+            name: true,
+            platform: true,
+            lastSeenAt: true,
+            updatedAt: true,
+            revokedAt: true,
+            pushToken: true,
+            pushProvider: true,
+            apnsPushToken: true,
+            apnsSandboxPushToken: true,
+            fcmPushToken: true,
+            voipPushToken: true,
+            voipSandboxPushToken: true,
+          },
+        });
+      }
+    );
 
     return res.json({
       success: true,

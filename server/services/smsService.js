@@ -385,7 +385,12 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
           e164: fromNumber,
           status: { in: ['ASSIGNED', 'HOLD'] },
         },
-        data: { lastOutboundAt: new Date() },
+        data: {
+          lastOutboundAt: new Date(),
+          status: 'ASSIGNED',
+          holdUntil: null,
+          releaseAfter: null,
+        },
       });
 
       await tx.smsThread.update({
@@ -405,6 +410,7 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
       provider,
       messageSid: result?.messageSid || null,
       clientRef: result?.clientRef || null,
+      message: createdMessage,
     };
   } catch (err) {
     console.error('[smsService.sendUserSms] FAILED', {
@@ -531,6 +537,31 @@ export async function recordInboundSms({
 
   if (!owner?.assignedUserId) return { ok: false, reason: 'no-owner' };
 
+  /*
+   * Account-level PSTN blocking happens after compliance-keyword handling in
+   * smsWebhooks.js, but before a thread/message is created. Returning ok:false
+   * also prevents socket delivery, push notification, and SMS forwarding.
+   */
+  const blockedNumber = await prisma.smsBlockedNumber.findUnique({
+    where: {
+      userId_phone: {
+        userId: Number(owner.assignedUserId),
+        phone: fromE164,
+      },
+    },
+    select: { id: true },
+  });
+
+  if (blockedNumber) {
+    return {
+      ok: false,
+      blocked: true,
+      reason: 'blocked-number',
+      userId: Number(owner.assignedUserId),
+      fromNumber: fromE164,
+    };
+  }
+
   const safeBody = String(body ?? '').trim();
   const safeMedia = normalizeInboundMedia(media);
   const hasMedia = safeMedia.length > 0;
@@ -552,6 +583,25 @@ export async function recordInboundSms({
         provider: provider || null,
         providerMessageId: providerMessageId || null,
         mediaUrls: hasMedia ? safeMedia : null,
+      },
+    });
+
+    /*
+     * Receiving an SMS is qualifying number activity too. The existing
+     * lastOutboundAt field currently serves as the lifecycle activity
+     * timestamp for both inbound and outbound number usage.
+     */
+    await tx.phoneNumber.updateMany({
+      where: {
+        assignedUserId: owner.assignedUserId,
+        e164: toE164,
+        status: { in: ['ASSIGNED', 'HOLD'] },
+      },
+      data: {
+        lastOutboundAt: new Date(),
+        status: 'ASSIGNED',
+        holdUntil: null,
+        releaseAfter: null,
       },
     });
 
@@ -658,10 +708,19 @@ export async function getThread(userId, threadId) {
 
   if (!thread) throw Boom.notFound('Thread not found');
 
-  const messages = await prisma.smsMessage.findMany({
+  const rawMessages = await prisma.smsMessage.findMany({
     where: { threadId: thread.id },
     orderBy: { createdAt: 'asc' },
   });
+
+  const messages = rawMessages.map((message) => ({
+    ...message,
+    mediaUrls: Array.isArray(message.mediaUrls)
+      ? message.mediaUrls.filter(Boolean)
+      : message.mediaUrls && typeof message.mediaUrls === 'object'
+        ? Object.values(message.mediaUrls).filter(Boolean)
+        : [],
+  }));
 
   const peerPhone =
     thread.contactPhone ||

@@ -49,6 +49,7 @@ import authRouter from './routes/auth.js';
 import usersRouter from './routes/users.js';
 import messagesRouter from './routes/messages.js';
 import callsRouter from './routes/calls.js';
+import iceRouter from './routes/ice.js';
 import roomsRouter from './routes/rooms.js';
 import chatroomsRouter from './routes/chatrooms.js';
 import followsRouter from './routes/follows.js';
@@ -514,6 +515,7 @@ export function createApp() {
   app.use('/voice/client', requireAuth, requireEmailVerified, voiceClientRouter);
 
   app.use('/calls', requireAuth, requireEmailVerified, callsRouter);
+app.use('/ice-servers', requireAuth, requireEmailVerified, iceRouter);
   app.use('/sms', smsRouter)
   app.use('/sms-consent', express.json(), smsConsentRouter);
   app.use('/search/people', requireAuth, searchPeopleRouter);

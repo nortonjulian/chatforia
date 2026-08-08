@@ -219,7 +219,7 @@ model User {
   uiLanguage           String  @default("en")
   allowExplicitContent Boolean @default(false)
 
-  payloads             MessagePayload[]
+  payloads MessagePayload[]
 
   // NOTE: existing field uses "...WithTranslation"
   showOriginalWithTranslation Boolean @default(true)
@@ -246,10 +246,11 @@ model User {
   forwardQuietHoursStart Int?
   forwardQuietHoursEnd   Int?
 
-  cycling    Boolean     @default(false)
-  strictE2EE Boolean     @default(false)
-  uploads    Upload[]    @relation("UserUploads")
-  smsThreads SmsThread[] @relation("UserSmsThreads")
+  cycling           Boolean            @default(false)
+  strictE2EE        Boolean            @default(false)
+  uploads           Upload[]           @relation("UserUploads")
+  smsThreads        SmsThread[]        @relation("UserSmsThreads")
+  smsBlockedNumbers SmsBlockedNumber[] @relation("UserSmsBlockedNumbers")
 
   // --- verification & 2FA ---
   emailVerifiedAt        DateTime?
@@ -268,8 +269,8 @@ model User {
   autoResponderCooldownSec Int               @default(120)
   autoResponderActiveUntil DateTime?
   autoResponderSignature   String?
-  googleSub                String? @unique
-  appleSub                 String? @unique
+  googleSub                String?           @unique
+  appleSub                 String?           @unique
 
   // ---------- Billing ----------
   billingProvider       String?
@@ -284,7 +285,7 @@ model User {
   currency       String?     @db.VarChar(8)
   firstPaidAt    DateTime?
 
-  iccid          String?
+  iccid String?
 
   publicKey                 String?
   encryptedPrivateKeyBundle String?
@@ -348,12 +349,12 @@ model User {
 
   discoverability UserDiscoverability @default(EVERYONE)
 
-  isSystem        Boolean @default(false)
-  isTestAccount   Boolean @default(false)
-  deletedAt       DateTime?
+  isSystem      Boolean   @default(false)
+  isTestAccount Boolean   @default(false)
+  deletedAt     DateTime?
 
-  isBanned        Boolean @default(false)
-  bannedAt        DateTime?
+  isBanned Boolean   @default(false)
+  bannedAt DateTime?
 
   // Usage/analytics
   sttUsage STTUsage[] @relation("UserSTTUsage")
@@ -366,7 +367,7 @@ model User {
   emojiTag          String?
   messageTone       String? @default("Default.mp3")
   ringtone          String? @default("Classic.mp3")
-  soundVolume       Int @default(70)
+  soundVolume       Int     @default(70)
 
   voicemailEnabled        Boolean @default(true)
   voicemailAutoDeleteDays Int?
@@ -471,14 +472,17 @@ model Device {
   isPrimary Boolean @default(false)
 
   // Legacy/general push fields. Keep these for compatibility.
-  pushToken             String?
-  pushProvider          String?
+  pushToken    String? @unique
+  pushProvider String?
 
-  // Separate push tokens so APNs and VoIP do not overwrite each other.
-  apnsPushToken         String?
-  fcmPushToken          String?
-  voipPushToken         String?
-  
+  // Separate push tokens so APNs, VoIP, sandbox, and production
+  // registrations do not overwrite one another.
+  apnsPushToken        String? @unique
+  apnsSandboxPushToken String? @unique
+  fcmPushToken         String? @unique
+  voipPushToken        String? @unique
+  voipSandboxPushToken String? @unique
+
   wrappedAccountKey     String?
   wrappedAccountKeyAlgo String?
   wrappedAccountKeyVer  Int?
@@ -501,9 +505,6 @@ model Device {
   @@index([userId])
   @@index([userId, revokedAt])
   @@index([userId, pairingStatus])
-  @@index([apnsPushToken])
-  @@index([fcmPushToken])
-  @@index([voipPushToken])
 }
 
 // ===================== 3) Config & Localization =====================
@@ -562,10 +563,10 @@ model PriceOverride {
 }
 
 model StripeWebhookEvent {
-  id        String   @id
-  type      String
+  id          String   @id
+  type        String
   processedAt DateTime @default(now())
-  createdAt DateTime @default(now())
+  createdAt   DateTime @default(now())
 
   @@index([type])
 }
@@ -631,6 +632,16 @@ model MobileDataPackPurchase {
   stripeCheckoutSessionId String? @db.Text
   stripePaymentIntentId   String? @db.Text
 
+  stripeChargeId       String?
+  refundStatus         String?
+  refundedAmountMinor  Int       @default(0)
+  refundedCurrency     String?
+  refundedDataMb       Int       @default(0)
+  lastRefundId         String?
+  lastRefundEventId    String?
+  refundedAt           DateTime?
+  refundReviewRequired Boolean   @default(false)
+
   iccid String?
 
   esimProfileId String? @map("tealProfileId")
@@ -640,6 +651,8 @@ model MobileDataPackPurchase {
 
   @@index([userId, purchasedAt])
   @@index([userId, expiresAt])
+  @@index([refundReviewRequired])
+  @@index([refundStatus])
 }
 
 model ProvisionLink {
@@ -712,14 +725,14 @@ model Participant {
 }
 
 model CallParticipant {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   callId    Int
   userId    Int
-  role      String   @default("MEMBER")
-  status    String   @default("RINGING")
+  role      String    @default("MEMBER")
+  status    String    @default("RINGING")
   joinedAt  DateTime?
   leftAt    DateTime?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   call Call @relation(fields: [callId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -789,7 +802,7 @@ model RandomChatRoom {
 // ===================== 6) Messaging (Messages + E2EE + Media + Scheduling) =====================
 
 model Message {
-  id                Int       @id @default(autoincrement())
+  id                Int              @id @default(autoincrement())
   clientMessageId   String?
   contentCiphertext Json?
   rawContent        String?
@@ -797,13 +810,13 @@ model Message {
   translatedFrom    String?
   translatedContent String?
   translatedTo      String?
-  isExplicit        Boolean   @default(false)
+  isExplicit        Boolean          @default(false)
   imageUrl          String?
   audioUrl          String?
   audioDurationSec  Int?
   expiresAt         DateTime?
   editedAt          DateTime?
-  revision          Int       @default(1)
+  revision          Int              @default(1)
   payloads          MessagePayload[]
 
   deletedBySender Boolean   @default(false)
@@ -1036,6 +1049,8 @@ model SmsMessage {
   // link to thread (existing)
   thread SmsThread @relation(fields: [threadId], references: [id])
 
+  reports Report[] @relation("SmsMessageReports")
+
   // optional FK to Phone (helps joins & enforces integrity)
   phoneId Int?
   phone   Phone? @relation(fields: [phoneId], references: [id])
@@ -1054,6 +1069,20 @@ model SmsParticipant {
   thread SmsThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
 
   @@unique([threadId, phone])
+  @@index([phone])
+}
+
+model SmsBlockedNumber {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  phone     String   @db.VarChar(32)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation("UserSmsBlockedNumbers", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, phone])
+  @@index([userId, createdAt])
   @@index([phone])
 }
 
@@ -1093,9 +1122,12 @@ model Contact {
 
 model Report {
   id               Int      @id @default(autoincrement())
-  messageId        Int
+  reportType       String   @default("APP")
+  messageId        Int?
+  smsMessageId     Int?
   reporterId       Int
   reportedUserId   Int?
+  reportedPhone    String?  @db.VarChar(32)
   chatRoomId       Int?
   decryptedContent String
   reason           String?
@@ -1120,12 +1152,16 @@ model Report {
   aiSummary      String?
   reviewedByAiAt DateTime?
 
-  message      Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  reporter     User    @relation("UserReports", fields: [reporterId], references: [id], onDelete: Cascade)
-  reportedUser User?   @relation("ReportedUserReports", fields: [reportedUserId], references: [id], onDelete: SetNull)
+  message      Message?    @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  smsMessage   SmsMessage? @relation("SmsMessageReports", fields: [smsMessageId], references: [id], onDelete: SetNull)
+  reporter     User        @relation("UserReports", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedUser User?       @relation("ReportedUserReports", fields: [reportedUserId], references: [id], onDelete: SetNull)
 
   @@index([status, createdAt])
+  @@index([reportType, status, createdAt])
   @@index([reporterId, createdAt])
+  @@index([smsMessageId, reporterId, status])
+  @@index([reportedPhone, createdAt])
   @@index([reportedUserId, createdAt])
   @@index([chatRoomId, createdAt])
   // New moderation indexes
@@ -1363,18 +1399,18 @@ model Call {
 
   offerSdp      String?
   answerSdp     String?
-  createdAt     DateTime  @default(now())
+  createdAt     DateTime          @default(now())
   startedAt     DateTime?
   endedAt       DateTime?
-  twilioCallSid String?   @unique
+  twilioCallSid String?           @unique
   durationSec   Int?
   endReason     String?
   fromLabel     String?
   toLabel       String?
   participants  CallParticipant[]
 
-  caller User   @relation("CallCaller", fields: [callerId], references: [id])
-  callee User?  @relation("CallCallee", fields: [calleeId], references: [id])
+  caller User  @relation("CallCaller", fields: [callerId], references: [id])
+  callee User? @relation("CallCallee", fields: [calleeId], references: [id])
 
   voicemails Voicemail[]
 
@@ -1436,22 +1472,22 @@ model SmsCarrierEvent {
 
 model Subscriber {
   id                   Int       @id @default(autoincrement())
-  userId               Int? 
+  userId               Int?
   purchaseId           Int?
   externalSubscriberId String?
   esimProfileId        String?
-  provider             String 
-  providerProfileId    String? 
+  provider             String
+  providerProfileId    String?
   iccid                String?   @unique
   iccidHint            String?
-  smdp                 String? 
-  activationCode       String? 
-  lpaUri               String? 
-  qrPayload            String? 
-  msisdn               String? 
+  smdp                 String?
+  activationCode       String?
+  lpaUri               String?
+  qrPayload            String?
+  msisdn               String?
   region               String?   @db.VarChar(8)
   status               String    @default("PENDING") // PENDING | ACTIVE | SUSPENDED | CANCELLED
-  providerMeta         Json? 
+  providerMeta         Json?
   createdAt            DateTime  @default(now())
   activatedAt          DateTime?
   suspendedAt          DateTime?
@@ -1508,7 +1544,7 @@ model PhoneNumber {
   provider       String            @default("twilio")
   twilioSid      String?
   areaCode       String?
-  isoCountry     String?           @db.VarChar(2) 
+  isoCountry     String?           @db.VarChar(2)
   locality       String?
   region         String?
   capabilities   Json?
@@ -1526,8 +1562,8 @@ model PhoneNumber {
   updatedAt      DateTime          @updatedAt
   source         PhoneNumberSource @default(PROVISIONED)
 
-  isLeasable     Boolean           @default(true)
-  isPurchasable  Boolean           @default(false)
+  isLeasable    Boolean @default(true)
+  isPurchasable Boolean @default(false)
 
   voicemails Voicemail[] @relation("PhoneNumberVoicemails")
 
@@ -1725,7 +1761,6 @@ model GooglePlaySubscription {
   @@index([reconciliationLeaseUntil])
 }
 
-
 model GooglePlayRtdnEvent {
   id String @id @default(cuid())
 
@@ -1735,7 +1770,7 @@ model GooglePlayRtdnEvent {
   googlePlaySubscription   GooglePlaySubscription? @relation(fields: [googlePlaySubscriptionId], references: [id], onDelete: SetNull)
 
   packageName String
-  eventKind  String
+  eventKind   String
 
   notificationVersion String?
   notificationType    Int?

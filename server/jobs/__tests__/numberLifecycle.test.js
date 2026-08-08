@@ -11,6 +11,7 @@ const prismaMock = {
   phoneNumber: {
     findMany: jest.fn(),
     update: jest.fn(),
+    updateMany: jest.fn(),
   },
   numberReservation: {
     deleteMany: jest.fn(),
@@ -29,6 +30,10 @@ const setupMocksAndReload = async (env = {}) => {
 
   prismaMock.phoneNumber.findMany.mockReset();
   prismaMock.phoneNumber.update.mockReset();
+  prismaMock.phoneNumber.updateMany.mockReset();
+  prismaMock.phoneNumber.updateMany.mockResolvedValue({
+    count: 0,
+  });
   prismaMock.numberReservation.deleteMany.mockReset();
 
   mockTwilioRemove.mockReset();
@@ -108,6 +113,9 @@ describe('startNumberLifecycleJob', () => {
         assignedUserId: 123,
         status: 'ASSIGNED',
         keepLocked: false,
+        assignedAt: new Date(
+          NOW_MS - (INACTIVITY_DAYS + 1) * 24 * 60 * 60 * 1000,
+        ),
         lastOutboundAt: null,
         assignedUser: {
           id: 123,
@@ -175,6 +183,19 @@ describe('startNumberLifecycleJob', () => {
       NOW_MS + HOLD_DAYS * 24 * 60 * 60 * 1000,
     );
 
+    expect(prismaMock.phoneNumber.updateMany).toHaveBeenCalledWith({
+      where: {
+        status: 'HOLD',
+        assignedUserId: { not: null },
+        lastOutboundAt: { gte: cutoff },
+      },
+      data: {
+        status: 'ASSIGNED',
+        holdUntil: null,
+        releaseAfter: null,
+      },
+    });
+
     expect(prismaMock.phoneNumber.findMany).toHaveBeenNthCalledWith(1, {
       where: {
         status: 'ASSIGNED',
@@ -183,8 +204,23 @@ describe('startNumberLifecycleJob', () => {
           plan: 'FREE',
         },
         OR: [
-          { lastOutboundAt: null },
-          { lastOutboundAt: { lt: cutoff } },
+          {
+            lastOutboundAt: {
+              lt: cutoff,
+            },
+          },
+          {
+            AND: [
+              {
+                lastOutboundAt: null,
+              },
+              {
+                assignedAt: {
+                  lt: cutoff,
+                },
+              },
+            ],
+          },
         ],
       },
       include: {
@@ -304,7 +340,20 @@ describe('startNumberLifecycleJob', () => {
     await scheduled[0].fn();
 
     const firstCall = prismaMock.phoneNumber.findMany.mock.calls[0][0];
-    const cutoff = firstCall.where.OR[1].lastOutboundAt.lt;
+    const cutoff = firstCall.where.OR[0].lastOutboundAt.lt;
+
+    expect(
+      firstCall.where.OR[1].AND
+    ).toEqual([
+      {
+        lastOutboundAt: null,
+      },
+      {
+        assignedAt: {
+          lt: cutoff,
+        },
+      },
+    ]);
 
     const expectedCutoff = new Date(
       NOW_MS - 30 * 24 * 60 * 60 * 1000,

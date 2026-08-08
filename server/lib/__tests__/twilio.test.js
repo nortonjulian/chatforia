@@ -3,12 +3,45 @@ import { jest } from '@jest/globals';
 const ORIGINAL_ENV = process.env;
 
 let createMock;
+let incomingNumberCreateMock;
+let messagingServicePhoneNumberCreateMock;
 let twilioFactoryMock;
 
 jest.mock('twilio', () => {
   createMock = jest.fn().mockResolvedValue({ sid: 'SM123' });
+
+  messagingServicePhoneNumberCreateMock =
+    jest.fn().mockResolvedValue({
+      sid: 'PN123',
+    });
+
+  incomingNumberCreateMock = jest.fn().mockResolvedValue({
+    sid: 'PN123',
+    phoneNumber: '+15551234567',
+    isoCountry: 'US',
+    capabilities: {
+      voice: true,
+      sms: true,
+    },
+    locality: 'Denver',
+    region: 'CO',
+  });
+
   twilioFactoryMock = jest.fn(() => ({
     messages: { create: createMock },
+    incomingPhoneNumbers: {
+      create: incomingNumberCreateMock,
+    },
+    messaging: {
+      v1: {
+        services: jest.fn(() => ({
+          phoneNumbers: {
+            create:
+              messagingServicePhoneNumberCreateMock,
+          },
+        })),
+      },
+    },
   }));
 
   return { __esModule: true, default: twilioFactoryMock };
@@ -22,7 +55,13 @@ const reload = async (env = {}) => {
     ...env,
   };
 
-  if (createMock) createMock.mockReset();
+  if (createMock) createMock.mockClear();
+  if (incomingNumberCreateMock) {
+    incomingNumberCreateMock.mockClear();
+  }
+  if (messagingServicePhoneNumberCreateMock) {
+    messagingServicePhoneNumberCreateMock.mockClear();
+  }
   if (twilioFactoryMock) twilioFactoryMock.mockClear();
 
   const mod = await import('../telco/twilio.js');
@@ -127,5 +166,50 @@ describe('twilio sendSms()', () => {
     );
 
     expect(createMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('twilio purchaseNumber()', () => {
+  test('assigns the shared inbound Voice TwiML App', async () => {
+    const inboundVoiceAppSid =
+      'AP11111111111111111111111111111111';
+
+    const mod = await reload({
+      TWILIO_ACCOUNT_SID: 'ACxxx',
+      TWILIO_AUTH_TOKEN: 'tok',
+      TWILIO_INBOUND_VOICE_APP_SID:
+        inboundVoiceAppSid,
+      TWILIO_MESSAGING_SERVICE_SID:
+        'MG11111111111111111111111111111111',
+      TWILIO_WEBHOOK_BASE_URL:
+        'https://api.chatforia.com/api',
+    });
+
+    const result = await mod.purchaseNumber({
+      phoneNumber: '+15551234567',
+    });
+
+    expect(incomingNumberCreateMock).toHaveBeenCalledWith({
+      phoneNumber: '+15551234567',
+      smsUrl:
+        'https://api.chatforia.com/api/webhooks/sms/twilio',
+      smsMethod: 'POST',
+      voiceApplicationSid:
+        inboundVoiceAppSid,
+    });
+
+    expect(
+      messagingServicePhoneNumberCreateMock
+    ).toHaveBeenCalledWith({
+      phoneNumberSid: 'PN123',
+    });
+
+    expect(result).toMatchObject({
+      ok: true,
+      messagingServiceAttached: true,
+      sid: 'PN123',
+      e164: '+15551234567',
+      isoCountry: 'US',
+    });
   });
 });

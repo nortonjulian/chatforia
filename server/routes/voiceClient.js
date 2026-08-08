@@ -42,8 +42,11 @@ router.post('/token', requireAuth, (req, res) => {
     const androidPushCredentialSid =
       process.env.TWILIO_ANDROID_PUSH_CREDENTIAL_SID;
 
-    const iosPushCredentialSid =
+    const iosProductionPushCredentialSid =
       process.env.TWILIO_IOS_PUSH_CREDENTIAL_SID;
+
+    const iosSandboxPushCredentialSid =
+      process.env.TWILIO_IOS_SANDBOX_PUSH_CREDENTIAL_SID;
 
     const platform = String(
       req.body?.platform ||
@@ -52,6 +55,12 @@ router.post('/token', requireAuth, (req, res) => {
         req.get('user-agent') ||
         ''
     ).toLowerCase();
+
+    const requestedPushEnvironment = String(
+      req.body?.pushEnvironment ||
+        req.query?.pushEnvironment ||
+        ''
+    ).trim().toLowerCase();
 
     const isAndroid = platform.includes('android');
 
@@ -62,15 +71,52 @@ router.post('/token', requireAuth, (req, res) => {
       platform.includes('cfnetwork') ||
       platform.includes('darwin');
 
+    const iosPushEnvironment =
+      requestedPushEnvironment || 'production';
+
+    if (
+      isIOS &&
+      iosPushEnvironment !== 'sandbox' &&
+      iosPushEnvironment !== 'production'
+    ) {
+      return res.status(400).json({
+        error: 'Invalid iOS push environment',
+        code: 'INVALID_IOS_PUSH_ENVIRONMENT',
+      });
+    }
+
+    const selectedIosPushCredentialSid =
+      iosPushEnvironment === 'sandbox'
+        ? iosSandboxPushCredentialSid
+        : iosProductionPushCredentialSid;
+
     const voiceGrantOptions = {
       outgoingApplicationSid: appSid,
       incomingAllow: true,
     };
 
-    if (isAndroid && androidPushCredentialSid) {
-      voiceGrantOptions.pushCredentialSid = androidPushCredentialSid;
-    } else if (isIOS && iosPushCredentialSid) {
-      voiceGrantOptions.pushCredentialSid = iosPushCredentialSid;
+    if (isAndroid) {
+      if (!androidPushCredentialSid) {
+        return res.status(503).json({
+          error: 'Android Voice push credential is not configured',
+          code: 'ANDROID_VOICE_PUSH_CREDENTIAL_MISSING',
+        });
+      }
+
+      voiceGrantOptions.pushCredentialSid =
+        androidPushCredentialSid;
+    } else if (isIOS) {
+      if (!selectedIosPushCredentialSid) {
+        return res.status(503).json({
+          error:
+            `iOS ${iosPushEnvironment} Voice push credential is not configured`,
+          code: 'IOS_VOICE_PUSH_CREDENTIAL_MISSING',
+          pushEnvironment: iosPushEnvironment,
+        });
+      }
+
+      voiceGrantOptions.pushCredentialSid =
+        selectedIosPushCredentialSid;
     }
 
     console.log('[voiceClient] token platform', {
@@ -79,9 +125,16 @@ router.post('/token', requireAuth, (req, res) => {
       platform,
       isAndroid,
       isIOS,
-      hasAndroidPushCredentialSid: Boolean(androidPushCredentialSid),
-      hasIosPushCredentialSid: Boolean(iosPushCredentialSid),
-      selectedPushCredentialSid: voiceGrantOptions.pushCredentialSid || null,
+      pushEnvironment:
+        isIOS ? iosPushEnvironment : null,
+      hasAndroidPushCredentialSid:
+        Boolean(androidPushCredentialSid),
+      hasIosProductionPushCredentialSid:
+        Boolean(iosProductionPushCredentialSid),
+      hasIosSandboxPushCredentialSid:
+        Boolean(iosSandboxPushCredentialSid),
+      selectedPushCredentialSid:
+        voiceGrantOptions.pushCredentialSid || null,
     });
 
     const voiceGrant = new VoiceGrant(voiceGrantOptions);
