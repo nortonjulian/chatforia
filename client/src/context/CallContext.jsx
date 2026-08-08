@@ -29,6 +29,17 @@ export function CallProvider({ children, me }) {
 
   const peerConnectionsRef = useRef({});
   const pcRef = useRef(null); // keep for backwards compatibility
+  const activeRef = useRef(null);
+  const incomingRef = useRef(null);
+  const answeringCallIdRef = useRef(null);
+
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
+
+  useEffect(() => {
+    incomingRef.current = incoming;
+  }, [incoming]);
   const [participants, setParticipants] = useState([]);
 
   // Keep local & remote streams for UI
@@ -85,7 +96,49 @@ export function CallProvider({ children, me }) {
     }
   }
 
-  function onEnded() {
+  function onEnded(payload) {
+    const eventCallId = payload?.callId;
+
+    const currentCallId =
+      activeRef.current?.callId ??
+      incomingRef.current?.callId;
+
+    if (
+      eventCallId == null ||
+      currentCallId == null ||
+      String(eventCallId) !==
+        String(currentCallId)
+    ) {
+      return;
+    }
+
+    const status =
+      String(payload?.status || '')
+        .trim()
+        .toUpperCase();
+
+    if (status === 'ANSWERED_ELSEWHERE') {
+      const isAnsweringHere =
+        answeringCallIdRef.current != null &&
+        String(answeringCallIdRef.current) ===
+          String(eventCallId);
+
+      const isAlreadyActiveHere =
+        activeRef.current?.callId != null &&
+        String(activeRef.current.callId) ===
+          String(eventCallId);
+
+      if (
+        isAnsweringHere ||
+        isAlreadyActiveHere
+      ) {
+        return;
+      }
+
+      cleanup();
+      return;
+    }
+
     cleanup();
   }
 
@@ -234,32 +287,77 @@ async function addParticipant(userId) {
    */
   async function startCallByUser({ calleeId, mode = 'VIDEO', peerName }) {
     if (!calleeId) throw new Error('Missing calleeId');
+
     setInviteHint(null);
     setPending(true);
 
-    const pc = await createPeer();
-    const local = await navigator.mediaDevices.getUserMedia({ video: mode === 'VIDEO', audio: true });
-    localStreamRef.current = local;
-    local.getTracks().forEach((t) => pc.addTrack(t, local));
+    try {
+      const pc = await createPeer();
 
-    const offer = await pc.createOffer();
-    await pc.setLocalDescription(offer);
+      const local =
+        await navigator.mediaDevices.getUserMedia({
+          video: mode === 'VIDEO',
+          audio: true,
+        });
 
-    const resp = await fetch(`${API_BASE}/calls/invite`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ calleeId, mode, offer }),
-    });
+      localStreamRef.current = local;
+      local.getTracks().forEach((track) => {
+        pc.addTrack(track, local);
+      });
 
-    const data = await resp.json(); // { callId, peerId }
-    setActive({
-      callId: data.callId,
-      peerId: calleeId,
-      mode,
-      peerName,
-    });
-    return data;
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+
+      const resp = await fetch(
+        `${API_BASE}/calls/invite`,
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            calleeId,
+            mode,
+            offer,
+          }),
+        }
+      );
+
+      const data =
+        await resp.json().catch(() => ({}));
+
+      if (!resp.ok) {
+        const error = new Error(
+          data?.message ||
+            data?.error ||
+            `Could not start call (${resp.status}).`
+        );
+
+        error.status = resp.status;
+        error.data = data;
+
+        throw error;
+      }
+
+      if (!data?.callId) {
+        throw new Error(
+          'The call server did not return a call ID.'
+        );
+      }
+
+      setActive({
+        callId: data.callId,
+        peerId: calleeId,
+        mode,
+        peerName,
+      });
+
+      return data;
+    } catch (error) {
+      cleanup();
+      throw error;
+    }
   }
 
   /**
@@ -377,20 +475,78 @@ async function addParticipant(userId) {
     const answer = await pc.createAnswer();
     await pc.setLocalDescription(answer);
 
-    await fetch(`${API_BASE}/calls/answer`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ callId, answer }),
-    });
+    answeringCallIdRef.current = callId;
 
-    setActive({
+    let response;
+
+    try {
+      response = await fetch(
+        `${API_BASE}/calls/answer`,
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
+          body: JSON.stringify({
+            callId,
+            answer,
+          }),
+        }
+      );
+    } catch (error) {
+      answeringCallIdRef.current = null;
+      cleanup();
+      throw error;
+    }
+
+    const responseData =
+      await response
+        .json()
+        .catch(() => ({}));
+
+    if (response.ok === false) {
+      answeringCallIdRef.current = null;
+      cleanup();
+
+      if (
+        response.status === 409 &&
+        responseData?.code ===
+          'CALL_ANSWERED_ELSEWHERE'
+      ) {
+        return;
+      }
+
+      const error =
+        new Error(
+          responseData?.error ||
+          'Could not answer this call.'
+        );
+
+      error.code =
+        responseData?.code ||
+        null;
+
+      throw error;
+    }
+
+    const nextActive = {
       callId,
       peerId: fromUser?.id,
       mode,
       peerName,
-    });
+    };
 
+    /*
+     * Update the ref synchronously so a delayed
+     * answered-elsewhere event cannot land between
+     * the successful response and React's effect.
+     */
+    activeRef.current = nextActive;
+    setActive(nextActive);
+
+    answeringCallIdRef.current = null;
     setIncoming(null);
     setPending(false);
   }

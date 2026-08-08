@@ -23,6 +23,7 @@ import {
   IconVideo,
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { useCall } from '@/context/CallContext';
 
 // --- tiny, safe toast fallback so we don't crash if your toast util isn't wired yet
 const toast = {
@@ -48,6 +49,8 @@ export default function ContactList({
 }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+const callContext = useCall();
+const startCall = callContext?.startCall;
 
   const [items, setItems] = useState([]);
   const [nextCursor, setNextCursor] = useState(null);
@@ -171,19 +174,98 @@ export default function ContactList({
    * Your Dialer/Video pages should be driven by `?to=E164...`
    * (NOT `userId=...`)
    */
-  const goCall = ({ userId, phone }) => {
-  if (userId) return navigate(`/dialer?userId=${encodeURIComponent(userId)}`);
+  const goCall = async ({
+  userId,
+  phone,
+  alias,
+}) => {
+  if (userId) {
+    if (!startCall) {
+      toast.err(
+        t(
+          'contactList.callUnavailable',
+          'Calling is temporarily unavailable.'
+        )
+      );
+      return;
+    }
+
+    try {
+      await startCall({
+        calleeId: Number(userId),
+        mode: 'AUDIO',
+        peerName: alias,
+      });
+    } catch (error) {
+      toast.err(
+        error?.message ||
+          t(
+            'contactList.callFailed',
+            'Could not start audio call.'
+          )
+      );
+    }
+
+    return;
+  }
+
   const to = normalizePhone(phone);
-  if (!to) return toast.info('No callable number');
+
+  if (!to) {
+    toast.info(
+      t(
+        'contactList.noCallableNumber',
+        'No callable number.'
+      )
+    );
+    return;
+  }
+
   navigate(`/dialer?to=${encodeURIComponent(to)}`);
 };
 
-  const goVideo = ({ userId }) => {
-    if (!userId) return toast.info(t('contactList.videoRequiresAccount', 'Video requires a Chatforia account'));
-    navigate(`/video?userId=${encodeURIComponent(userId)}`);
-  };
+const goVideo = async ({
+  userId,
+  alias,
+}) => {
+  if (!userId) {
+    toast.info(
+      t(
+        'contactList.videoRequiresAccount',
+        'Video requires a Chatforia account'
+      )
+    );
+    return;
+  }
 
-  const openSmsThreadOrCompose = async ({ phone, alias }) => {
+  if (!startCall) {
+    toast.err(
+      t(
+        'contactList.callUnavailable',
+        'Calling is temporarily unavailable.'
+      )
+    );
+    return;
+  }
+
+  try {
+    await startCall({
+      calleeId: Number(userId),
+      mode: 'VIDEO',
+      peerName: alias,
+    });
+  } catch (error) {
+    toast.err(
+      error?.message ||
+        t(
+          'contactList.videoCallFailed',
+          'Could not start video call.'
+        )
+    );
+  }
+};
+
+const openSmsThreadOrCompose = async ({ phone, alias }) => {
     if (!phone) return;
 
     const to = String(phone).trim();
