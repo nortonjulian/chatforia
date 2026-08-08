@@ -1,6 +1,7 @@
 import express from 'express';
 import prisma from '../utils/prismaClient.js';
 import { recordInboundSms } from '../services/smsService.js';
+import { sendPushToUser } from '../services/pushService.js';
 // import { sendSmsWithFallback } from '../lib/telco/index.js';
 import { sendSms } from '../lib/telco/index.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
@@ -46,90 +47,187 @@ router.post(
       const bodyText = String(Body);
       const upperBody = bodyText.trim().toUpperCase();
 
-      // --- NEW: handle carrier keywords (STOP/START/etc) --------------------
-      const STOP_KEYWORDS = ['STOP', 'STOPALL', 'UNSUBSCRIBE', 'CANCEL', 'END', 'QUIT'];
-      const START_KEYWORDS = ['START', 'YES', 'UNSTOP'];
+      /*
+       * Compliance keyword handling:
+       *
+       * - Twilio remains authoritative for its carrier-facing blocklist
+       *   and compliance replies.
+       * - Chatforia mirrors STOP/START state locally so outbound sends
+       *   can be rejected before contacting Twilio.
+       * - Always return empty TwiML for compliance commands; otherwise
+       *   Twilio's automatic reply and our TwiML reply can both be sent.
+       * - YES is intentionally not reserved because it is common
+       *   conversational text in a person-to-person messaging product.
+       */
+      const optOutType =
+        String(req.body?.OptOutType || '')
+          .trim()
+          .toUpperCase();
 
-      // If this is a STOP/START keyword, we don't treat it as a user message.
-      // With Twilio's Advanced Opt-Out enabled on your Messaging Service,
-      // Twilio will handle the subscription state and confirmation text.
-      // ---------- replace previous keyword pass-through with DB recording ----------
-      if (STOP_KEYWORDS.includes(upperBody) || START_KEYWORDS.includes(upperBody)) {
+      const STOP_KEYWORDS = [
+        'STOP',
+        'STOPALL',
+        'UNSUBSCRIBE',
+        'CANCEL',
+        'END',
+        'QUIT',
+        'REVOKE',
+        'OPTOUT',
+      ];
+
+      const START_KEYWORDS = [
+        'START',
+        'UNSTOP',
+      ];
+
+      const HELP_KEYWORDS = [
+        'HELP',
+        'INFO',
+      ];
+
+      const twilioManagedAction =
+        ['STOP', 'START', 'HELP'].includes(optOutType)
+          ? optOutType
+          : null;
+
+      const fallbackAction =
+        STOP_KEYWORDS.includes(upperBody)
+          ? 'STOP'
+          : START_KEYWORDS.includes(upperBody)
+            ? 'START'
+            : HELP_KEYWORDS.includes(upperBody)
+              ? 'HELP'
+              : null;
+
+      const complianceAction =
+        twilioManagedAction ||
+        fallbackAction;
+
+      if (complianceAction) {
         try {
-          const normalizedFrom = normalizeE164(fromNumber);
+          const normalizedFrom =
+            normalizeE164(fromNumber);
+
           const provider = 'twilio';
 
-          // If invalid E.164, just 200 (avoid retries) and log
           if (!isE164(normalizedFrom)) {
-            req.log?.info?.({ fromNumber }, '[webhook][twilio] keyword from invalid phone; skipping db record');
+            req.log?.info?.(
+              {
+                fromNumber,
+                complianceAction,
+              },
+              '[webhook][twilio] compliance keyword from invalid phone'
+            );
+
             return emptyTwilioResponse(res);
           }
 
-          // Decide action: STOP -> opt-out, START -> remove opt-out (resubscribe)
-          if (STOP_KEYWORDS.includes(upperBody)) {
-            // find existing opt-out
-            const existing = await prisma.smsOptOut.findFirst({
-              where: { phone: normalizedFrom, provider },
-            });
+          const safeSmsOptOutPayload = {
+            MessageSid: MessageSid || null,
+            From: normalizedFrom || null,
+            To: To || null,
+            Body: upperBody || null,
+            OptOutType: optOutType || null,
+            NumMedia: req.body?.NumMedia || null,
+          };
 
-            const safeSmsOptOutPayload = {
-              MessageSid: MessageSid || null,
-              From: normalizedFrom || null,
-              To: To || null,
-              Body: upperBody || null,
-              NumMedia: req.body?.NumMedia || null,
-            };
+          if (complianceAction === 'STOP') {
+            const existing =
+              await prisma.smsOptOut.findFirst({
+                where: {
+                  phone: normalizedFrom,
+                  provider,
+                },
+              });
 
             if (existing) {
-              // update reason / inboundMessageId / rawPayload for audit
               await prisma.smsOptOut.update({
-                where: { id: existing.id },
+                where: {
+                  id: existing.id,
+                },
                 data: {
-                  reason: upperBody,
-                  inboundMessageId: MessageSid || null,
-                  rawPayload: safeSmsOptOutPayload,
-                  ipAddress: req.ip,
-                  userAgent: req.get?.('user-agent') || null,
-                  createdAt: new Date(),
+                  reason: upperBody || 'STOP',
+                  inboundMessageId:
+                    MessageSid || null,
+                  rawPayload:
+                    safeSmsOptOutPayload,
+                  ipAddress:
+                    req.ip,
+                  userAgent:
+                    req.get?.('user-agent') || null,
+                  createdAt:
+                    new Date(),
                 },
               });
             } else {
               await prisma.smsOptOut.create({
                 data: {
-                  phone: normalizedFrom,
+                  phone:
+                    normalizedFrom,
                   provider,
-                  reason: upperBody,
-                  inboundMessageId: MessageSid || null,
-                  rawPayload: safeSmsOptOutPayload,
-                  ipAddress: req.ip,
-                  userAgent: req.get?.('user-agent') || null,
+                  reason:
+                    upperBody || 'STOP',
+                  inboundMessageId:
+                    MessageSid || null,
+                  rawPayload:
+                    safeSmsOptOutPayload,
+                  ipAddress:
+                    req.ip,
+                  userAgent:
+                    req.get?.('user-agent') || null,
                 },
               });
             }
 
-            req.log?.info?.({ from: normalizedFrom }, '[webhook][twilio] recorded OPT-OUT');
+            req.log?.info?.(
+              {
+                from: normalizedFrom,
+                twilioManaged:
+                  Boolean(twilioManagedAction),
+              },
+              '[webhook][twilio] recorded OPT-OUT'
+            );
 
-            // Optional: reply confirmation (TwiML)
-            const reply = `<Response><Message>You have been unsubscribed from Chatforia SMS. Reply START to resubscribe. For help email support@chatforia.com.</Message></Response>`;
-            res.type('text/xml').status(200).send(reply);
-            return;
+            return emptyTwilioResponse(res);
           }
 
-          // START keyword -> remove opt-out (resubscribe)
-          if (START_KEYWORDS.includes(upperBody)) {
+          if (complianceAction === 'START') {
             await prisma.smsOptOut.deleteMany({
-              where: { phone: normalizedFrom, provider },
+              where: {
+                phone: normalizedFrom,
+                provider,
+              },
             });
 
-            req.log?.info?.({ from: normalizedFrom }, '[webhook][twilio] removed opt-out (START)');
-            const reply = `<Response><Message>You have been resubscribed to Chatforia SMS. For help email support@chatforia.com.</Message></Response>`;
-            res.type('text/xml').status(200).send(reply);
-            return;
+            req.log?.info?.(
+              {
+                from: normalizedFrom,
+                twilioManaged:
+                  Boolean(twilioManagedAction),
+              },
+              '[webhook][twilio] removed opt-out'
+            );
+
+            return emptyTwilioResponse(res);
           }
-        } catch (err) {
-          console.error('[webhook][twilio] opt-out handling error', err);
-          // fall through to 200 empty response to avoid provider retries
-          return res.type('text/xml').status(200).send('<Response></Response>');
+
+          req.log?.info?.(
+            {
+              from: normalizedFrom,
+              twilioManaged:
+                Boolean(twilioManagedAction),
+            },
+            '[webhook][twilio] handled HELP keyword'
+          );
+
+          return emptyTwilioResponse(res);
+        } catch (error) {
+          console.error(
+            '[webhook][twilio] compliance handling error',
+            error
+          );
+
+          return emptyTwilioResponse(res);
         }
       }
       // ----------------------------------------------------------------------
@@ -176,6 +274,57 @@ router.post(
         providerMessageId: MessageSid || null,
         media, // ✅ IMPORTANT: store as objects (url + contentType)
       });
+
+      if (rec?.blocked) {
+        req.log?.info?.(
+          {
+            userId: rec.userId,
+            fromNumber: rec.fromNumber,
+            providerMessageId: MessageSid || null,
+          },
+          '[sms:inbound] suppressed blocked PSTN number'
+        );
+      }
+
+      /*
+       * Notify the assigned user after successful persistence. Push delivery
+       * is intentionally independent of the Twilio webhook response so an
+       * APNs/FCM failure cannot cause Twilio to redeliver a saved message.
+       */
+      if (rec?.ok) {
+        const trimmedBody = bodyText.trim();
+
+        const notificationBody =
+          trimmedBody ||
+          (hasMedia ? 'New MMS received' : 'New SMS received');
+
+        void sendPushToUser(rec.userId, {
+          alert: {
+            title: fromNumber,
+            body: notificationBody.slice(0, 160),
+          },
+          sound: 'default',
+          data: {
+            type: 'sms_message',
+            threadId: String(rec.threadId),
+            fromNumber,
+            toNumber,
+          },
+        })
+          .then((result) => {
+            console.log('[sms:inbound] push result', {
+              userId: rec.userId,
+              threadId: rec.threadId,
+              result,
+            });
+          })
+          .catch((error) => {
+            console.warn(
+              '[sms:inbound] push failed',
+              error?.message || error
+            );
+          });
+      }
 
       // Forwarding (skip loops: we never receive our own fwd clientRef back from Twilio)
       if (rec?.ok) {

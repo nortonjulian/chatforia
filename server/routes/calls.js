@@ -4,6 +4,8 @@ import prisma from '../utils/prismaClient.js';
 import { emitToUser } from '../services/socketBus.js';
 import { requireAuth } from '../middleware/auth.js';
 import { sendPushToUser, sendVoipCallPushToUser } from '../services/pushService.js';
+import { collectCallLifecycleRecipientIds } from '../utils/callLifecycleRecipients.js';
+import { claimCallActive } from '../utils/callAnswerArbitration.js';
 
 const router = express.Router();
 router.use(requireAuth);
@@ -34,6 +36,45 @@ async function ensureParticipant(call, userId) {
   });
 
   return Boolean(participant);
+}
+
+async function notifyAnsweredElsewhere(call) {
+  if (!call?.calleeId) return;
+
+  const payload = {
+    callId: call.id,
+    mode: call.mode,
+    status: 'ANSWERED_ELSEWHERE',
+    reason: 'answered_elsewhere',
+  };
+
+  emitToUser(call.calleeId, 'call:ended', payload);
+
+  if (call.mode === 'VIDEO') {
+    emitToUser(call.calleeId, 'video:ended', payload);
+  }
+
+  try {
+    await sendPushToUser(call.calleeId, {
+      contentAvailable: true,
+      data: {
+        type: 'call_answered_elsewhere',
+        callId: call.id,
+        mode: call.mode,
+        status: 'ANSWERED_ELSEWHERE',
+        reason: 'answered_elsewhere',
+      },
+    });
+  } catch (error) {
+    console.warn(
+      '[calls] failed to send answered-elsewhere push',
+      {
+        callId: call.id,
+        userId: call.calleeId,
+        error: error?.message || error,
+      }
+    );
+  }
 }
 
 const MAX_CALL_PARTICIPANTS = 3;
@@ -446,20 +487,38 @@ router.post('/answer', asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'callId required' });
   }
 
-  const call = await prisma.call.findUnique({ where: { id: Number(callId) } });
-  if (!call) return res.status(404).json({ error: 'Call not found' });
-  if (call.calleeId !== userId) return res.status(403).json({ error: 'Only callee can answer' });
+  const numericCallId = Number(callId);
 
-  if (!['RINGING', 'INITIATED'].includes(call.status)) {
-    return res.status(409).json({ error: `Cannot answer in status ${call.status}` });
-  }
+const call = await prisma.call.findUnique({
+  where: {
+    id: numericCallId,
+  },
+});
 
-  const updated = await prisma.call.update({
-    where: { id: call.id },
+if (!call) {
+  return res.status(404).json({
+    error: 'Call not found',
+    code: 'CALL_NOT_FOUND',
+  });
+}
+
+if (call.calleeId !== userId) {
+  return res.status(403).json({
+    error: 'Only callee can answer',
+    code: 'ONLY_CALLEE_CAN_ANSWER',
+  });
+}
+
+const answerStartedAt = new Date();
+
+const answerClaim =
+  await claimCallActive({
+    callModel: prisma.call,
+    callId: numericCallId,
     data: {
       status: 'ACTIVE',
       answerSdp: answer?.sdp ?? null,
-      startedAt: new Date(),
+      startedAt: answerStartedAt,
       endReason: null,
     },
     select: {
@@ -472,25 +531,51 @@ router.post('/answer', asyncHandler(async (req, res) => {
     },
   });
 
-  await prisma.callParticipant.updateMany({
-    where: {
-      callId: call.id,
-      userId,
-    },
-    data: {
-      status: 'JOINED',
-      joinedAt: new Date(),
-      leftAt: null,
-    },
-  });
+if (!answerClaim.won) {
+  const authoritative =
+    answerClaim.call;
 
-  emitToUser(updated.callerId, 'call:answer', {
-    callId: updated.id,
-    answer,
-    startedAt: updated.startedAt,
+  return res.status(409).json({
+    error:
+      authoritative?.status === 'ACTIVE'
+        ? 'This call was answered on another device.'
+        : `Cannot answer in status ${authoritative?.status || 'UNKNOWN'}`,
+    code:
+      authoritative?.status === 'ACTIVE'
+        ? 'CALL_ANSWERED_ELSEWHERE'
+        : 'CALL_NOT_ANSWERABLE',
+    callId: numericCallId,
+    status: authoritative?.status || null,
   });
+}
 
-  res.json({ ok: true });
+const updated = answerClaim.call;
+
+await prisma.callParticipant.updateMany({
+  where: {
+    callId: numericCallId,
+    userId,
+  },
+  data: {
+    status: 'JOINED',
+    joinedAt: answerStartedAt,
+    leftAt: null,
+  },
+});
+
+emitToUser(updated.callerId, 'call:answer', {
+  callId: updated.id,
+  answer,
+  startedAt: updated.startedAt,
+});
+
+await notifyAnsweredElsewhere(updated);
+
+res.json({
+  ok: true,
+  callId: updated.id,
+  status: updated.status,
+});
 }));
 
 /**
@@ -588,14 +673,12 @@ router.post('/end', asyncHandler(async (req, res) => {
     },
   });
 
-  const notifyIds = new Set();
-
-  if (updated.callerId && updated.callerId !== userId) notifyIds.add(updated.callerId);
-  if (updated.calleeId && updated.calleeId !== userId) notifyIds.add(updated.calleeId);
-
-  for (const p of call.participants || []) {
-    if (p.userId !== userId) notifyIds.add(p.userId);
-  }
+  const notifyIds =
+    collectCallLifecycleRecipientIds({
+      callerId: updated.callerId,
+      calleeId: updated.calleeId,
+      participants: call.participants,
+    });
 
   for (const id of notifyIds) {
     emitToUser(id, 'call:ended', {
@@ -750,11 +833,27 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     }
   }
 
-  const lifecycleUpdate = await prisma.call.updateMany({
-    where: {
-      id: callId,
-      status: { notIn: TERMINAL_CALL_STATUSES },
-    },
+  const lifecycleWhere =
+  normalizedStatus === 'ACTIVE'
+    ? {
+        id: callId,
+        status: {
+          in: [
+            'RINGING',
+            'INITIATED',
+          ],
+        },
+      }
+    : {
+        id: callId,
+        status: {
+          notIn: TERMINAL_CALL_STATUSES,
+        },
+      };
+
+const lifecycleUpdate =
+  await prisma.call.updateMany({
+    where: lifecycleWhere,
     data: updateData,
   });
 
@@ -774,22 +873,38 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     },
   });
 
-  if (lifecycleUpdate.count === 1 && isTerminalCallStatus(normalizedStatus)) {
-    const notifyIds = new Set();
+  if (
+  normalizedStatus === 'ACTIVE' &&
+  lifecycleUpdate.count !== 1
+) {
+  return res.status(409).json({
+    error:
+      updated?.status === 'ACTIVE'
+        ? 'This call was answered on another device.'
+        : `Cannot answer in status ${updated?.status || 'UNKNOWN'}`,
+    code:
+      updated?.status === 'ACTIVE'
+        ? 'CALL_ANSWERED_ELSEWHERE'
+        : 'CALL_NOT_ANSWERABLE',
+    callId,
+    status: updated?.status || null,
+  });
+}
 
-    if (updated.callerId && updated.callerId !== userId) {
-      notifyIds.add(updated.callerId);
-    }
+if (
+  normalizedStatus === 'ACTIVE' &&
+  lifecycleUpdate.count === 1
+) {
+  await notifyAnsweredElsewhere(updated);
+}
 
-    if (updated.calleeId && updated.calleeId !== userId) {
-      notifyIds.add(updated.calleeId);
-    }
-
-    for (const p of call.participants || []) {
-      if (p.userId && p.userId !== userId) {
-        notifyIds.add(p.userId);
-      }
-    }
+if (lifecycleUpdate.count === 1 && isTerminalCallStatus(normalizedStatus)) {
+    const notifyIds =
+      collectCallLifecycleRecipientIds({
+        callerId: updated.callerId,
+        calleeId: updated.calleeId,
+        participants: call.participants,
+      });
 
     for (const id of notifyIds) {
       emitToUser(id, 'call:ended', {
@@ -1271,13 +1386,32 @@ router.get('/history', asyncHandler(async (req, res) => {
   const nextCursor = hasMore ? items[items.length - 1]?.id ?? null : null;
 
   const enriched = items.map((call) => {
-    const isOutgoing = call.callerId === userId;
-    const otherUser = isOutgoing ? call.callee : call.caller;
+    /*
+     * Inbound PSTN callers do not have Chatforia User rows. The assigned
+     * Chatforia user occupies callerId for ownership, while fromLabel and
+     * externalPhone identify the actual external caller.
+     */
+    const isExternalInbound =
+      call.calleeId == null &&
+      Boolean(call.externalPhone) &&
+      call.fromLabel === call.externalPhone;
+
+    const isOutgoing =
+      !isExternalInbound &&
+      call.callerId === userId;
+
+    const otherUser =
+      isExternalInbound
+        ? null
+        : isOutgoing
+          ? call.callee
+          : call.caller;
 
     return {
       ...call,
       direction: isOutgoing ? 'OUTGOING' : 'INCOMING',
       displayName:
+        (isExternalInbound ? call.externalPhone : null) ||
         otherUser?.displayName ||
         otherUser?.username ||
         call.externalPhone ||

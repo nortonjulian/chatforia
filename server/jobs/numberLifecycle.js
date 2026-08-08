@@ -29,8 +29,23 @@ export function startNumberLifecycleJob() {
           plan: 'FREE',
         },
         OR: [
-          { lastOutboundAt: null },
-          { lastOutboundAt: { lt: inactivityCutoff } },
+          {
+            lastOutboundAt: {
+              lt: inactivityCutoff,
+            },
+          },
+          {
+            AND: [
+              {
+                lastOutboundAt: null,
+              },
+              {
+                assignedAt: {
+                  lt: inactivityCutoff,
+                },
+              },
+            ],
+          },
         ],
       },
       include: {
@@ -73,6 +88,31 @@ export function startNumberLifecycleJob() {
           err.message
         );
       }
+    }
+
+    /*
+     * Rescue numbers that received qualifying SMS activity during their
+     * hold period. This is defense-in-depth in case an activity update and
+     * the lifecycle job overlap or an older app/server path updated only
+     * lastOutboundAt.
+     */
+    const reactivated = await prisma.phoneNumber.updateMany({
+      where: {
+        status: 'HOLD',
+        assignedUserId: { not: null },
+        lastOutboundAt: { gte: inactivityCutoff },
+      },
+      data: {
+        status: 'ASSIGNED',
+        holdUntil: null,
+        releaseAfter: null,
+      },
+    });
+
+    if (reactivated.count > 0) {
+      console.log(
+        `[NumberLifecycle] Reactivated ${reactivated.count} recently active HOLD number(s)`
+      );
     }
 
     // 2A) Return reusable HOLD numbers back to AVAILABLE pool

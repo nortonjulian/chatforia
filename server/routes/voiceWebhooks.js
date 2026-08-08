@@ -179,6 +179,7 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
       `&from=${encodeURIComponent(fromNumber || '')}` +
       `&to=${encodeURIComponent(toNumber || '')}` +
       `&callId=${encodeURIComponent(String(callRecord?.id || ''))}` +
+      `&phoneNumberId=${encodeURIComponent(String(phoneNumber.id))}` +
       `&callSid=${encodeURIComponent(callSid || '')}`;
 
     const dial = twiml.dial({
@@ -207,6 +208,8 @@ router.post('/inbound-app-complete', async (req, res) => {
   try {
     const dialStatus = req.body?.DialCallStatus;
     const userId = Number(req.query.userId);
+    const phoneNumberId = Number(req.query.phoneNumberId);
+    const relatedCallId = Number(req.query.callId);
     const fromNumber = normalizeE164(req.query.from || '');
     const toNumber = normalizeE164(req.query.to || '');
 
@@ -215,8 +218,95 @@ router.post('/inbound-app-complete', async (req, res) => {
       userId,
     });
 
-    // If the app call completed normally, do not forward afterward.
+    // The app answered and the Twilio Client leg later ended normally.
     if (dialStatus === 'completed') {
+      if (
+        Number.isInteger(relatedCallId) &&
+        relatedCallId > 0 &&
+        Number.isInteger(userId) &&
+        userId > 0
+      ) {
+        const endedAt = new Date();
+        const rawDuration = Number(
+          req.body?.DialCallDuration
+        );
+
+        const durationSec =
+          Number.isFinite(rawDuration) &&
+          rawDuration >= 0
+            ? Math.round(rawDuration)
+            : 0;
+
+        await prisma.call.updateMany({
+          where: {
+            id: relatedCallId,
+            callerId: userId,
+            status: {
+              notIn: [
+                'DECLINED',
+                'ENDED',
+                'FAILED',
+                'MISSED',
+              ],
+            },
+          },
+          data: {
+            status: 'ENDED',
+            endReason: 'completed',
+            startedAt: new Date(
+              endedAt.getTime() -
+              durationSec * 1000
+            ),
+            endedAt,
+            durationSec,
+          },
+        });
+      }
+
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    /*
+     * Only a genuine unanswered timeout may continue to forwarding or
+     * voicemail. Twilio reports an explicit Voice SDK rejection as
+     * "busy". The app has already persisted that call as DECLINED.
+     */
+    if (dialStatus !== 'no-answer') {
+      /*
+       * Twilio Voice SDK reports an explicit rejection as "busy".
+       * Persist the same DECLINED state used by app-to-app calls.
+       */
+      if (
+        dialStatus === 'busy' &&
+        Number.isInteger(relatedCallId) &&
+        relatedCallId > 0 &&
+        Number.isInteger(userId) &&
+        userId > 0
+      ) {
+        await prisma.call.updateMany({
+          where: {
+            id: relatedCallId,
+            callerId: userId,
+            status: 'RINGING',
+          },
+          data: {
+            status: 'DECLINED',
+            endReason: 'declined',
+            endedAt: new Date(),
+          },
+        });
+      }
+
+      console.log(
+        '[Twilio Voice inbound-app-complete] terminating without voicemail',
+        {
+          dialStatus,
+          userId,
+          relatedCallId,
+        }
+      );
+
       twiml.hangup();
       return res.type('text/xml').send(twiml.toString());
     }
@@ -265,6 +355,37 @@ router.post('/inbound-app-complete', async (req, res) => {
       return res.type('text/xml').send(twiml.toString());
     }
 
+    /*
+     * The app timed out and forwarding was not used. Finalize the
+     * canonical call before beginning the optional voicemail flow.
+     */
+    if (
+      Number.isInteger(relatedCallId) &&
+      relatedCallId > 0 &&
+      Number.isInteger(userId) &&
+      userId > 0
+    ) {
+      await prisma.call.updateMany({
+        where: {
+          id: relatedCallId,
+          callerId: userId,
+          status: {
+            notIn: [
+              'DECLINED',
+              'ENDED',
+              'FAILED',
+              'MISSED',
+            ],
+          },
+        },
+        data: {
+          status: 'MISSED',
+          endReason: 'missed',
+          endedAt: new Date(),
+        },
+      });
+    }
+
     if (user.voicemailEnabled) {
       if (user.voicemailGreetingText) {
         twiml.say(user.voicemailGreetingText);
@@ -272,14 +393,43 @@ router.post('/inbound-app-complete', async (req, res) => {
         twiml.say('The person you called is unavailable. Please leave a message after the tone.');
       }
 
+      const recordingParams = new URLSearchParams({
+        userId: String(userId),
+        phoneNumberId:
+          Number.isInteger(phoneNumberId) && phoneNumberId > 0
+            ? String(phoneNumberId)
+            : '',
+        did: toNumber || '',
+        from: fromNumber || '',
+      });
+
+      if (
+        Number.isInteger(relatedCallId) &&
+        relatedCallId > 0
+      ) {
+        recordingParams.set(
+          'relatedCallId',
+          String(relatedCallId)
+        );
+      }
+
       twiml.record({
         maxLength: 120,
         playBeep: true,
         trim: 'trim-silence',
         timeout: 5,
-        action: '/webhooks/voice/voicemail-complete',
+        action:
+          `/webhooks/voice/voicemail/complete?` +
+          recordingParams.toString(),
         method: 'POST',
+        recordingStatusCallback:
+          `/webhooks/voice/voicemail/recording-status?` +
+          recordingParams.toString(),
+        recordingStatusCallbackMethod: 'POST',
       });
+
+      twiml.say('No recording received. Goodbye.');
+      twiml.hangup();
 
       return res.type('text/xml').send(twiml.toString());
     }
@@ -690,6 +840,26 @@ router.post('/client', async (req, res) => {
           ? Number(identity.slice('user_'.length))
           : null;
 
+      const appCaller =
+        Number.isInteger(appCallerUserId) &&
+        appCallerUserId > 0
+          ? await prisma.user.findUnique({
+              where: {
+                id: appCallerUserId,
+              },
+              select: {
+                id: true,
+                username: true,
+                displayName: true,
+              },
+            })
+          : null;
+
+      const appCallerName =
+        appCaller?.displayName?.trim() ||
+        appCaller?.username?.trim() ||
+        'Chatforia user';
+
       const appBackendCallIdRaw =
         req.query?.backendCallId ||
         req.body?.backendCallId ||
@@ -732,10 +902,35 @@ router.post('/client', async (req, res) => {
         clientOptions.statusCallbackMethod = 'POST';
       }
 
-      dial.client(
+      const client = dial.client(
         clientOptions,
         `user_${numericUserId}`
       );
+
+      client.parameter({
+        name: 'callerName',
+        value: appCallerName,
+      });
+
+      if (
+        Number.isInteger(appCallerUserId) &&
+        appCallerUserId > 0
+      ) {
+        client.parameter({
+          name: 'callerId',
+          value: String(appCallerUserId),
+        });
+      }
+
+      if (
+        Number.isInteger(appBackendCallId) &&
+        appBackendCallId > 0
+      ) {
+        client.parameter({
+          name: 'backendCallId',
+          value: String(appBackendCallId),
+        });
+      }
 
       return res.type('text/xml').send(twiml.toString());
     }

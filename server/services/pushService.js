@@ -1,8 +1,12 @@
 import apn from 'apn';
 import prisma from '../utils/prismaClient.js';
 import { getFirebaseMessaging } from './firebaseAdmin.js';
+import { resolveMessageNotificationSound } from '../config/messageToneCatalog.js';
 
-let provider = null;
+const providers = {
+  production: null,
+  sandbox: null,
+};
 
 const INVALID_APNS_REASONS = new Set([
   'BadDeviceToken',
@@ -56,48 +60,79 @@ function isApnsProduction() {
   return process.env.NODE_ENV === 'production';
 }
 
-async function cleanupInvalidApnsTokens(failed = [], kind = 'alert') {
+async function cleanupInvalidApnsTokens(
+  failed = [],
+  kind = 'alert',
+  environment = 'production'
+) {
+  const isSandbox = environment === 'sandbox';
+
+  const tokenField =
+    kind === 'voip'
+      ? isSandbox
+        ? 'voipSandboxPushToken'
+        : 'voipPushToken'
+      : isSandbox
+        ? 'apnsSandboxPushToken'
+        : 'apnsPushToken';
+
   for (const failure of failed) {
-    const token = failure?.device ? String(failure.device) : '';
+    const token =
+      failure?.device
+        ? String(failure.device)
+        : '';
+
     const reason =
       failure?.response?.reason ||
       failure?.error?.reason ||
       failure?.error?.message ||
       '';
 
-    if (!token || !INVALID_APNS_REASONS.has(reason)) continue;
+    if (
+      !token ||
+      !INVALID_APNS_REASONS.has(reason)
+    ) {
+      continue;
+    }
 
-    console.warn('[push] removing invalid APNs token', {
-      kind,
-      reason,
-      token: `${token.slice(0, 10)}...${token.slice(-6)}`,
+    console.warn(
+      '[push] removing invalid APNs token',
+      {
+        kind,
+        environment,
+        reason,
+        token:
+          `${token.slice(0, 10)}...` +
+          `${token.slice(-6)}`,
+      }
+    );
+
+    await prisma.device.updateMany({
+      where: {
+        [tokenField]: token,
+      },
+      data: {
+        [tokenField]: null,
+      },
     });
 
-    if (kind === 'voip') {
-      await prisma.device.updateMany({
-        where: { voipPushToken: token },
-        data: { voipPushToken: null },
-      });
-
-      await prisma.device.updateMany({
-        where: {
-          pushProvider: 'apns_voip',
-          pushToken: token,
-        },
-        data: { pushToken: null },
-      });
-    } else {
-      await prisma.device.updateMany({
-        where: { apnsPushToken: token },
-        data: { apnsPushToken: null },
-      });
-
+    /*
+     * Legacy/general APNs fields represent production alert
+     * registrations only. Never clear them for sandbox or VoIP
+     * failures.
+     */
+    if (
+      kind === 'alert' &&
+      environment === 'production'
+    ) {
       await prisma.device.updateMany({
         where: {
           pushProvider: 'apns',
           pushToken: token,
         },
-        data: { pushToken: null },
+        data: {
+          pushToken: null,
+        },
       });
     }
   }
@@ -106,8 +141,15 @@ async function cleanupInvalidApnsTokens(failed = [], kind = 'alert') {
 /**
  * Lazily initialize APNs provider
  */
-function getProvider() {
-  if (provider) return provider;
+function getProvider(environment = 'production') {
+  const normalizedEnvironment =
+    environment === 'sandbox'
+      ? 'sandbox'
+      : 'production';
+
+  if (providers[normalizedEnvironment]) {
+    return providers[normalizedEnvironment];
+  }
 
   const {
     APNS_KEY,
@@ -116,21 +158,30 @@ function getProvider() {
     APNS_TOPIC,
   } = process.env;
 
-  if (!APNS_KEY || !APNS_KEY_ID || !APNS_TEAM_ID || !APNS_TOPIC) {
+  if (
+    !APNS_KEY ||
+    !APNS_KEY_ID ||
+    !APNS_TEAM_ID ||
+    !APNS_TOPIC
+  ) {
     console.warn('[push] APNs not configured');
     return null;
   }
 
-  provider = new apn.Provider({
-    token: {
-      key: APNS_KEY.replace(/\\n/g, '\n').replace(/^"|"$/g, ''),
-      keyId: APNS_KEY_ID,
-      teamId: APNS_TEAM_ID,
-    },
-    production: isApnsProduction(),
-  });
+  providers[normalizedEnvironment] =
+    new apn.Provider({
+      token: {
+        key: APNS_KEY
+          .replace(/\\n/g, '\n')
+          .replace(/^"|"$/g, ''),
+        keyId: APNS_KEY_ID,
+        teamId: APNS_TEAM_ID,
+      },
+      production:
+        normalizedEnvironment === 'production',
+    });
 
-  return provider;
+  return providers[normalizedEnvironment];
 }
 
 /**
@@ -146,42 +197,97 @@ async function getUserTokens(userId) {
       pushToken: true,
       pushProvider: true,
       apnsPushToken: true,
+      apnsSandboxPushToken: true,
       fcmPushToken: true,
       voipPushToken: true,
+      voipSandboxPushToken: true,
     },
   });
 
-  const unique = (items) => [...new Set(items.filter(Boolean))];
+  const unique = (items) =>
+    [...new Set(items.filter(Boolean))];
 
   return {
-    apns: unique([
-      ...devices.map(d => d.apnsPushToken),
+    apnsProduction: unique([
+      ...devices.map(
+        (device) => device.apnsPushToken
+      ),
       ...devices
-        .filter(d => d.pushProvider === 'apns')
-        .map(d => d.pushToken),
+        .filter(
+          (device) =>
+            device.pushProvider === 'apns'
+        )
+        .map(
+          (device) => device.pushToken
+        ),
     ]),
 
-    apnsVoip: unique([
-      ...devices.map(d => d.voipPushToken),
-      ...devices
-        .filter(d => d.pushProvider === 'apns_voip')
-        .map(d => d.pushToken),
-    ]),
+    apnsSandbox: unique(
+      devices.map(
+        (device) =>
+          device.apnsSandboxPushToken
+      )
+    ),
+
+    apnsVoipProduction: unique(
+      devices.map(
+        (device) => device.voipPushToken
+      )
+    ),
+
+    apnsVoipSandbox: unique(
+      devices.map(
+        (device) =>
+          device.voipSandboxPushToken
+      )
+    ),
 
     fcm: unique([
-      ...devices.map(d => d.fcmPushToken),
+      ...devices.map(
+        (device) => device.fcmPushToken
+      ),
       ...devices
-        .filter(d => d.pushProvider === 'fcm')
-        .map(d => d.pushToken),
+        .filter(
+          (device) =>
+            device.pushProvider === 'fcm'
+        )
+        .map(
+          (device) => device.pushToken
+        ),
     ]),
   };
 }
 
-export async function sendVoipCallPushToUser(userId, payload) {
+export async function sendVoipCallPushToUser(
+  userId,
+  payload
+) {
   const tokens = await getUserTokens(userId);
 
-  if (!tokens.apnsVoip?.length) {
-    console.warn('[push] no apns_voip tokens for user', userId);
+  const groups = [
+    {
+      environment: 'production',
+      tokens: tokens.apnsVoipProduction,
+    },
+    {
+      environment: 'sandbox',
+      tokens: tokens.apnsVoipSandbox,
+    },
+  ];
+
+  const tokenCount =
+    groups.reduce(
+      (total, group) =>
+        total + group.tokens.length,
+      0
+    );
+
+  if (!tokenCount) {
+    console.warn(
+      '[push] no apns_voip tokens for user',
+      userId
+    );
+
     return {
       ok: false,
       apnsVoipSent: 0,
@@ -189,74 +295,147 @@ export async function sendVoipCallPushToUser(userId, payload) {
     };
   }
 
-  const apnProvider = getProvider();
+  const aggregate = {
+    sent: [],
+    failed: [],
+  };
 
-  if (!apnProvider) {
-    return {
-      ok: false,
-      apnsVoipSent: 0,
-      apnsVoipFailed: tokens.apnsVoip.length,
+  for (const group of groups) {
+    if (!group.tokens.length) continue;
+
+    const apnProvider =
+      getProvider(group.environment);
+
+    if (!apnProvider) {
+      aggregate.failed.push(
+        ...group.tokens.map((device) => ({
+          device,
+          error: new Error(
+            `APNs ${group.environment} provider unavailable`
+          ),
+        }))
+      );
+
+      continue;
+    }
+
+    const note = new apn.Notification();
+
+    note.topic =
+      process.env.APNS_VOIP_TOPIC ||
+      `${process.env.APNS_TOPIC}.voip`;
+
+    note.pushType = 'voip';
+    note.priority = 10;
+    note.expiry = 0;
+
+    /*
+     * apn@2.2.0 omits the apns-expiration header when expiry is 0.
+     * Force the literal header so APNs does not persist stale calls.
+     */
+    const originalHeaders =
+      note.headers.bind(note);
+
+    note.headers = () => ({
+      ...originalHeaders(),
+      'apns-expiration': 0,
+    });
+
+    note.payload = {
+      type: 'call_incoming',
+      callId:
+        payload.callId == null
+          ? ''
+          : String(payload.callId),
+      callerId:
+        payload.callerId == null
+          ? ''
+          : String(payload.callerId),
+      callerName:
+        payload.callerName ||
+        'Chatforia user',
+      mode:
+        payload.mode ||
+        'AUDIO',
+      roomName:
+        payload.roomName ||
+        '',
+      chatRoomId:
+        payload.chatRoomId == null
+          ? ''
+          : String(payload.chatRoomId),
     };
+
+    const result =
+      await apnProvider.send(
+        note,
+        group.tokens
+      );
+
+    aggregate.sent.push(...result.sent);
+    aggregate.failed.push(...result.failed);
+
+    console.log(
+      '[push] APNs VoIP result',
+      JSON.stringify(
+        {
+          userId,
+          environment:
+            group.environment,
+          tokenCount:
+            group.tokens.length,
+          sent:
+            result.sent.length,
+          failed:
+            result.failed.map(
+              (failure) => ({
+                device:
+                  failure.device
+                    ? `${String(
+                        failure.device
+                      ).slice(0, 10)}...${String(
+                        failure.device
+                      ).slice(-6)}`
+                    : null,
+                status:
+                  failure.status,
+                response:
+                  failure.response ||
+                  null,
+                reason:
+                  failure.response
+                    ?.reason ||
+                  null,
+                error:
+                  failure.error
+                    ?.message ||
+                  failure.error ||
+                  null,
+              })
+            ),
+        },
+        null,
+        2
+      )
+    );
+
+    await cleanupInvalidApnsTokens(
+      result.failed,
+      'voip',
+      group.environment
+    );
   }
 
-  const note = new apn.Notification();
-
-  note.topic = process.env.APNS_VOIP_TOPIC || `${process.env.APNS_TOPIC}.voip`;
-  note.pushType = 'voip';
-  note.priority = 10;
-  note.expiry = 0;
-
-  // apn@2.2.0 omits the apns-expiration header when expiry is 0.
-  // Force the literal header so APNs does not persist stale call invitations.
-  const originalHeaders = note.headers.bind(note);
-  note.headers = () => ({
-    ...originalHeaders(),
-    'apns-expiration': 0,
-  });
-
-  note.payload = {
-    type: 'call_incoming',
-    callId: payload.callId == null ? '' : String(payload.callId),
-    callerId: payload.callerId == null ? '' : String(payload.callerId),
-    callerName: payload.callerName || 'Chatforia user',
-    mode: payload.mode || 'AUDIO',
-    roomName: payload.roomName || '',
-    chatRoomId: payload.chatRoomId == null ? '' : String(payload.chatRoomId),
-  };
-
-  const result = await apnProvider.send(note, tokens.apnsVoip);
-
-  console.log(
-    '[push] APNs VoIP result',
-    JSON.stringify(
-      {
-        userId,
-        tokenCount: tokens.apnsVoip.length,
-        sent: result.sent.length,
-        failed: result.failed.map((failure) => ({
-          device: failure.device
-            ? `${String(failure.device).slice(0, 10)}...${String(failure.device).slice(-6)}`
-            : null,
-          status: failure.status,
-          response: failure.response || null,
-          reason: failure.response?.reason || null,
-          error: failure.error?.message || failure.error || null,
-        })),
-      },
-      null,
-      2
-    )
-  );
-
-  await cleanupInvalidApnsTokens(result.failed, 'voip');
-
   return {
-    ok: result.sent.length > 0,
-    apnsVoipSent: result.sent.length,
-    apnsVoipFailed: result.failed.length,
-    result,
+    ok: aggregate.sent.length > 0,
+    apnsVoipSent:
+      aggregate.sent.length,
+    apnsVoipFailed:
+      aggregate.failed.length,
+    result: aggregate,
   };
 }
+
 /**
  * Generic push sender
  */
@@ -264,48 +443,174 @@ export async function sendPushToUser(userId, payload) {
   const tokens = await getUserTokens(userId);
 
   const results = {
-    apns: null,
+    apns: {
+      sent: [],
+      failed: [],
+    },
     fcm: null,
   };
 
-  if (!payload.skipApns && tokens.apns.length && payload.alert) {
-    const apnProvider = getProvider();
+  const apnsGroups = [
+    {
+      environment: 'production',
+      tokens: tokens.apnsProduction,
+    },
+    {
+      environment: 'sandbox',
+      tokens: tokens.apnsSandbox,
+    },
+  ];
 
-    if (apnProvider) {
+  const hasApnsTokens =
+    apnsGroups.some(
+      (group) => group.tokens.length > 0
+    );
+
+  if (
+    !payload.skipApns &&
+    hasApnsTokens &&
+    payload.alert
+  ) {
+    const notificationType =
+      String(payload.data?.type || '')
+        .trim()
+        .toLowerCase();
+
+    const usesAccountMessageTone =
+      notificationType === 'message_new' ||
+      notificationType === 'sms_message';
+
+    let apnsSound =
+      payload.sound === null
+        ? null
+        : payload.sound || 'default';
+
+    if (usesAccountMessageTone) {
+      const notificationUser =
+        await prisma.user.findUnique({
+          where: {
+            id: Number(userId),
+          },
+          select: {
+            messageTone: true,
+            plan: true,
+          },
+        });
+
+      apnsSound =
+        resolveMessageNotificationSound({
+          messageTone:
+            notificationUser?.messageTone,
+          plan:
+            notificationUser?.plan,
+        });
+    }
+
+    for (const group of apnsGroups) {
+      if (!group.tokens.length) continue;
+
+      const apnProvider =
+        getProvider(group.environment);
+
+      if (!apnProvider) {
+        results.apns.failed.push(
+          ...group.tokens.map(
+            (device) => ({
+              device,
+              error: new Error(
+                `APNs ${group.environment} provider unavailable`
+              ),
+            })
+          )
+        );
+
+        continue;
+      }
+
       const note = new apn.Notification();
 
-      note.topic = process.env.APNS_TOPIC;
+      note.topic =
+        process.env.APNS_TOPIC;
+
       note.pushType = 'alert';
       note.priority = 10;
-      note.alert = payload.alert || {};
-      note.sound = payload.sound || 'default';
-      note.payload = payload.data || {};
+      note.alert =
+        payload.alert || {};
 
-      results.apns = await apnProvider.send(note, tokens.apns);
+      /*
+       * A null sound represents Chatforia's Vibrate selection.
+       * APNs has no custom vibration-pattern field.
+       */
+      if (apnsSound) {
+        note.sound = apnsSound;
+      }
+
+      note.payload =
+        payload.data || {};
+
+      const result =
+        await apnProvider.send(
+          note,
+          group.tokens
+        );
+
+      results.apns.sent.push(
+        ...result.sent
+      );
+
+      results.apns.failed.push(
+        ...result.failed
+      );
 
       console.log(
         '[push] APNs result',
         JSON.stringify(
           {
             userId,
-            tokenCount: tokens.apns.length,
-            sent: results.apns.sent.length,
-            failed: results.apns.failed.map((failure) => ({
-              device: failure.device
-                ? `${String(failure.device).slice(0, 10)}...${String(failure.device).slice(-6)}`
-                : null,
-              status: failure.status,
-              response: failure.response || null,
-              reason: failure.response?.reason || null,
-              error: failure.error?.message || failure.error || null,
-            })),
+            environment:
+              group.environment,
+            tokenCount:
+              group.tokens.length,
+            sent:
+              result.sent.length,
+            failed:
+              result.failed.map(
+                (failure) => ({
+                  device:
+                    failure.device
+                      ? `${String(
+                          failure.device
+                        ).slice(0, 10)}...${String(
+                          failure.device
+                        ).slice(-6)}`
+                      : null,
+                  status:
+                    failure.status,
+                  response:
+                    failure.response ||
+                    null,
+                  reason:
+                    failure.response
+                      ?.reason ||
+                    null,
+                  error:
+                    failure.error
+                      ?.message ||
+                    failure.error ||
+                    null,
+                })
+              ),
           },
           null,
           2
         )
       );
 
-      await cleanupInvalidApnsTokens(results.apns.failed, 'alert');
+      await cleanupInvalidApnsTokens(
+        result.failed,
+        'alert',
+        group.environment
+      );
     }
   }
 

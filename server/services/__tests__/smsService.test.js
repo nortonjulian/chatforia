@@ -15,6 +15,9 @@ const mockPrisma = {
   smsOptOut: {
     findFirst: jest.fn(),
   },
+  smsBlockedNumber: {
+    findUnique: jest.fn(),
+  },
   smsThread: {
     findFirst: jest.fn(),
     create: jest.fn(),
@@ -95,6 +98,7 @@ describe('smsService', () => {
     isE164Mock.mockImplementation(() => true);
 
     mockPrisma.smsOptOut.findFirst.mockResolvedValue(null);
+    mockPrisma.smsBlockedNumber.findUnique.mockResolvedValue(null);
     mockPrisma.contact.findFirst.mockResolvedValue(null);
     mockPrisma.smsParticipant.upsert.mockResolvedValue({});
     mockPrisma.phoneNumber.updateMany.mockResolvedValue({ count: 1 });
@@ -189,6 +193,10 @@ describe('smsService', () => {
         provider: 'twilio',
         messageSid: 'SID-123',
         clientRef: 'client-ref-123',
+        message: {
+          id: 500,
+          body: 'mock message',
+        },
       });
     });
 
@@ -347,6 +355,48 @@ describe('smsService', () => {
         userId: 7,
         threadId: 33,
       });
+    });
+
+    it('suppresses an inbound message from an account-blocked PSTN number', async () => {
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue({
+        assignedUserId: 7,
+      });
+
+      mockPrisma.smsBlockedNumber.findUnique.mockResolvedValue({
+        id: 91,
+      });
+
+      const result = await recordInboundSms({
+        toNumber: '+19998887777',
+        fromNumber: '+15551234567',
+        body: 'Blocked message',
+        provider: 'twilio',
+        providerMessageId: 'SM-BLOCKED-1',
+      });
+
+      expect(mockPrisma.smsBlockedNumber.findUnique).toHaveBeenCalledWith({
+        where: {
+          userId_phone: {
+            userId: 7,
+            phone: '+15551234567',
+          },
+        },
+        select: { id: true },
+      });
+
+      expect(result).toEqual({
+        ok: false,
+        blocked: true,
+        reason: 'blocked-number',
+        userId: 7,
+        fromNumber: '+15551234567',
+      });
+
+      expect(mockPrisma.smsThread.findFirst).not.toHaveBeenCalled();
+      expect(mockPrisma.smsThread.create).not.toHaveBeenCalled();
+      expect(mockPrisma.smsMessage.create).not.toHaveBeenCalled();
+      expect(mockPrisma.phoneNumber.updateMany).not.toHaveBeenCalled();
+      expect(emitToUserMock).not.toHaveBeenCalled();
     });
 
     it('returns ok:false with reason no-owner when no user has the DID', async () => {

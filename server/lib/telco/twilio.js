@@ -183,8 +183,17 @@ async function purchaseNumber({ phoneNumber }) {
   const client = getClient();
   const base = process.env.TWILIO_WEBHOOK_BASE_URL;
 
-  const rawVoiceAppSid = (process.env.TWILIO_VOICE_APPLICATION_SID || '').trim();
-  const hasValidVoiceAppSid = /^AP[a-f0-9]{32}$/i.test(rawVoiceAppSid);
+  const rawInboundVoiceAppSid =
+    (process.env.TWILIO_INBOUND_VOICE_APP_SID || '').trim();
+
+  const hasValidInboundVoiceAppSid =
+    /^AP[a-f0-9]{32}$/i.test(rawInboundVoiceAppSid);
+
+  const rawMessagingServiceSid =
+    (process.env.TWILIO_MESSAGING_SERVICE_SID || '').trim();
+
+  const hasValidMessagingServiceSid =
+    /^MG[a-f0-9]{32}$/i.test(rawMessagingServiceSid);
 
   const createParams = { phoneNumber };
 
@@ -194,8 +203,9 @@ async function purchaseNumber({ phoneNumber }) {
     createParams.smsMethod = 'POST';
   }
 
-  if (hasValidVoiceAppSid) {
-    createParams.voiceApplicationSid = rawVoiceAppSid;
+  if (hasValidInboundVoiceAppSid) {
+    createParams.voiceApplicationSid =
+      rawInboundVoiceAppSid;
   } else if (base) {
     createParams.voiceUrl = `${base}/webhooks/voice/inbound`;
     createParams.voiceMethod = 'POST';
@@ -203,8 +213,37 @@ async function purchaseNumber({ phoneNumber }) {
 
   const res = await client.incomingPhoneNumbers.create(createParams);
 
+  let messagingServiceAttached = false;
+
+  if (hasValidMessagingServiceSid) {
+    try {
+      await client.messaging.v1
+        .services(rawMessagingServiceSid)
+        .phoneNumbers.create({
+          phoneNumberSid: res.sid,
+        });
+
+      messagingServiceAttached = true;
+    } catch (error) {
+      /*
+       * The number was successfully purchased and already has its direct
+       * SMS webhook. Do not lose the purchased number or skip database
+       * persistence if Messaging Service attachment temporarily fails.
+       */
+      console.error(
+        '[twilio purchaseNumber] Messaging Service attachment failed',
+        {
+          phoneNumber: res.phoneNumber,
+          phoneNumberSid: res.sid,
+          error: error?.message || String(error),
+        }
+      );
+    }
+  }
+
   return {
     ok: true,
+    messagingServiceAttached,
     sid: res.sid,
     e164: res.phoneNumber,
     isoCountry: res.isoCountry || null,
