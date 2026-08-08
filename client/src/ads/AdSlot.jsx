@@ -120,18 +120,28 @@ export default function AdSlot({
     return houseFallback;
   }, [provider, placement, config, houseFallback]);
 
-  if (!placement || !canShow || !content) return null;
+  const shouldRender = Boolean(
+    placement &&
+      canShow &&
+      content
+  );
 
   useEffect(() => {
-    if (!lazy) {
-      if (markedRef.current) return;
-      markedRef.current = true;
-      markShown(placement, capKey);
-    }
-  }, [lazy, placement, capKey, markShown]);
+    if (!shouldRender || lazy) return;
+    if (markedRef.current) return;
+
+    markedRef.current = true;
+    markShown(placement, capKey);
+  }, [
+    shouldRender,
+    lazy,
+    placement,
+    capKey,
+    markShown,
+  ]);
 
   useEffect(() => {
-    if (!lazy) return;
+    if (!shouldRender || !lazy) return;
 
     const el = rootRef.current;
     if (!el) return;
@@ -152,7 +162,15 @@ export default function AdSlot({
 
     obs.observe(el);
     return () => obs.disconnect();
-  }, [lazy, placement, capKey, markShown]);
+  }, [
+    shouldRender,
+    lazy,
+    placement,
+    capKey,
+    markShown,
+  ]);
+
+  if (!shouldRender) return null;
 
   return (
     <Box
