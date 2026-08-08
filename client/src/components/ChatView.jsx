@@ -33,6 +33,7 @@ import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
 
 import { useSocket } from '@/context/SocketContext';
 import { useUser } from '@/context/UserContext';
+import { useCall } from '@/context/CallContext';
 import axiosClient from '@/api/axiosClient';
 
 // dynamic: keep heavy crypto out of the initial bundle
@@ -207,6 +208,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isPremium = useIsPremium();
   const navigate = useNavigate();
   const { setNeedsKeyUnlock } = useUser();
+  const {
+    startCall,
+    active: activeCall,
+    incoming: incomingCall,
+  } = useCall();
 
   const [messages, setMessages] = useState([]);
   const [typingUser, setTypingUser] = useState('');
@@ -278,13 +284,46 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   );
 
   const otherParticipant = useMemo(() => {
-    const ps = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
+    const participants = Array.isArray(chatroom?.participants)
+      ? chatroom.participants
+      : [];
+
     return (
-      ps.find((p) => Number(p?.id ?? p?.userId) !== Number(currentUserId)) || null
+      participants.find((participant) => {
+        const participantUserId = Number(
+          participant?.userId ??
+            participant?.user?.id ??
+            participant?.id
+        );
+
+        return (
+          Number.isFinite(participantUserId) &&
+          participantUserId !== Number(currentUserId)
+        );
+      }) || null
     );
   }, [chatroom?.participants, currentUserId]);
 
-  const otherUserId = Number(otherParticipant?.id ?? otherParticipant?.userId);
+  const otherUser =
+    otherParticipant?.user ??
+    otherParticipant ??
+    null;
+
+  const otherUserId = Number(
+    otherParticipant?.userId ??
+      otherUser?.id
+  );
+
+  const isGroupChat =
+    Boolean(chatroom?.isGroup) ||
+    (chatroom?.participants?.length || 0) > 2;
+
+  const directCallUnavailable =
+    isGroupChat ||
+    !Number.isFinite(otherUserId) ||
+    otherUserId <= 0 ||
+    Boolean(activeCall) ||
+    Boolean(incomingCall);
 
   const MESSAGE_ACTION_WINDOW_SEC = 900;
 
@@ -562,15 +601,87 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   return '';
 }
 
-  const startChatCall = useCallback(() => {
-    if (!chatroom?.id) return;
-    navigate(`/calls?roomId=${encodeURIComponent(String(chatroom.id))}`);
-  }, [chatroom?.id, navigate]);
+  const startChatCall = useCallback(async () => {
+    if (directCallUnavailable) return;
 
-  const startChatVideo = useCallback(() => {
-    if (!chatroom?.id) return;
-    navigate(`/video?roomId=${encodeURIComponent(String(chatroom.id))}`);
-  }, [chatroom?.id, navigate]);
+    try {
+      await startCall({
+        calleeId: otherUserId,
+        mode: 'AUDIO',
+        peerName:
+          otherUser?.displayName ||
+          otherUser?.username ||
+          otherUser?.name,
+      });
+    } catch (error) {
+      console.error(
+        'ChatView: failed to start audio call',
+        error
+      );
+
+      window.alert(
+        error?.message ||
+          t(
+            'calls.startFailed',
+            'Could not start the call.'
+          )
+      );
+    }
+  }, [
+    directCallUnavailable,
+    otherUserId,
+    otherUser,
+    startCall,
+    t,
+  ]);
+
+  const startChatVideo = useCallback(async () => {
+    if (isGroupChat) {
+      if (!chatroom?.id) return;
+
+      navigate(
+        `/video?roomId=${encodeURIComponent(
+          String(chatroom.id)
+        )}`
+      );
+      return;
+    }
+
+    if (directCallUnavailable) return;
+
+    try {
+      await startCall({
+        calleeId: otherUserId,
+        mode: 'VIDEO',
+        peerName:
+          otherUser?.displayName ||
+          otherUser?.username ||
+          otherUser?.name,
+      });
+    } catch (error) {
+      console.error(
+        'ChatView: failed to start video call',
+        error
+      );
+
+      window.alert(
+        error?.message ||
+          t(
+            'calls.videoStartFailed',
+            'Could not start the video call.'
+          )
+      );
+    }
+  }, [
+    chatroom?.id,
+    directCallUnavailable,
+    isGroupChat,
+    navigate,
+    otherUserId,
+    otherUser,
+    startCall,
+    t,
+  ]);
 
   const scrollToBottomNow = useCallback(() => {
     const v = scrollViewportRef.current;
@@ -2044,9 +2155,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   }}
                 >
                   {chatroom?.name ||
-                    otherParticipant?.username ||
-                    otherParticipant?.displayName ||
-                    otherParticipant?.name ||
+                    otherUser?.displayName ||
+                    otherUser?.username ||
+                    otherUser?.name ||
                     'Chat'}
                 </Title>
 
@@ -2068,6 +2179,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     variant="subtle"
                     onClick={startChatCall}
                     aria-label="Start voice call"
+                    disabled={directCallUnavailable}
                   >
                     <IconPhoneCall size={18} />
                   </ActionIcon>
@@ -2078,6 +2190,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     variant="subtle"
                     onClick={startChatVideo}
                     aria-label="Start video call"
+                    disabled={
+                      !isGroupChat &&
+                      directCallUnavailable
+                    }
                   >
                     <IconVideo size={18} />
                   </ActionIcon>
