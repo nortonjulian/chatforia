@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import socket from '@/lib/socket';
 import { API_BASE } from '@/config';
+import { useTwilioVoice } from '@/hooks/useTwilioVoice';
+import { joinRoom } from '@/video/video';
 
 const CallCtx = createContext(null);
 export const useCall = () => useContext(CallCtx);
@@ -22,9 +24,11 @@ export const useCall = () => useContext(CallCtx);
  * - call:ended    {}
  */
 export function CallProvider({ children, me }) {
+  const twilioVoice = useTwilioVoice();
   const [incoming, setIncoming] = useState(null);    // { callId, fromUser, mode, offer }
   const [active, setActive] = useState(null);        // { callId, peerId?, phoneNumber? }
-  const [pending, setPending] = useState(false);     // dialing/connecting state
+  const [pending, setPending] = useState(false);
+  const [status, setStatus] = useState(null);     // dialing/connecting state
   const [inviteHint, setInviteHint] = useState(null); // { requiresInvite, inviteUrl? } for UI to surface
 
   const peerConnectionsRef = useRef({});
@@ -32,6 +36,7 @@ export function CallProvider({ children, me }) {
   const activeRef = useRef(null);
   const incomingRef = useRef(null);
   const answeringCallIdRef = useRef(null);
+const twilioVideoRoomRef = useRef(null);
 
   useEffect(() => {
     activeRef.current = active;
@@ -40,6 +45,49 @@ export function CallProvider({ children, me }) {
   useEffect(() => {
     incomingRef.current = incoming;
   }, [incoming]);
+
+  useEffect(() => {
+    if (
+      active?.mediaTransport !==
+      'twilio-voice'
+    ) {
+      return;
+    }
+
+    if (
+      twilioVoice.callStatus ===
+      'in-call'
+    ) {
+      setPending(false);
+      setStatus('In call');
+      return;
+    }
+
+    if (
+      twilioVoice.callStatus ===
+        'connecting' ||
+      twilioVoice.callStatus ===
+        'ringing'
+    ) {
+      setStatus('Connecting…');
+      return;
+    }
+
+    if (
+      twilioVoice.callStatus ===
+      'error'
+    ) {
+      setPending(false);
+      setStatus(
+        twilioVoice.error ||
+          'Call connection failed'
+      );
+    }
+  }, [
+    active?.mediaTransport,
+    twilioVoice.callStatus,
+    twilioVoice.error,
+  ]);
   const [participants, setParticipants] = useState([]);
 
   // Keep local & remote streams for UI
@@ -285,76 +333,283 @@ async function addParticipant(userId) {
   /**
    * Start a call by userId (existing Chatforia user).
    */
-  async function startCallByUser({ calleeId, mode = 'VIDEO', peerName }) {
+  function addTwilioMediaTrack(
+streamRef,
+twilioTrack
+) {
+const mediaTrack =
+twilioTrack?.mediaStreamTrack;
+
+if (!mediaTrack) return;
+
+const stream =
+streamRef.current ||
+new MediaStream();
+
+if (
+!stream
+.getTracks()
+.some((track) => track.id === mediaTrack.id)
+) {
+stream.addTrack(mediaTrack);
+}
+
+streamRef.current = stream;
+}
+
+function removeTwilioMediaTrack(
+streamRef,
+twilioTrack
+) {
+const mediaTrack =
+twilioTrack?.mediaStreamTrack;
+
+if (!mediaTrack || !streamRef.current) {
+return;
+}
+
+try {
+streamRef.current.removeTrack(mediaTrack);
+} catch {}
+}
+
+async function connectTwilioVideo({
+callId,
+roomName,
+}) {
+const identity = me?.id;
+
+if (!identity) {
+throw new Error(
+'The current user identity is unavailable.'
+);
+}
+
+const room = await joinRoom({
+identity: String(identity),
+room: roomName,
+});
+
+twilioVideoRoomRef.current = room;
+
+const wireParticipant = (participant) => {
+participant.tracks.forEach((publication) => {
+if (publication.track) {
+addTwilioMediaTrack(
+remoteStreamRef,
+publication.track
+);
+}
+});
+
+participant.on(
+'trackSubscribed',
+(track) => {
+addTwilioMediaTrack(
+remoteStreamRef,
+track
+);
+}
+);
+
+participant.on(
+'trackUnsubscribed',
+(track) => {
+removeTwilioMediaTrack(
+remoteStreamRef,
+track
+);
+}
+);
+};
+
+room.localParticipant.tracks.forEach(
+(publication) => {
+if (publication.track) {
+addTwilioMediaTrack(
+localStreamRef,
+publication.track
+);
+}
+}
+);
+
+room.participants.forEach(
+(participant) => {
+wireParticipant(participant);
+}
+);
+
+if (room.participants.size > 0) {
+setPending(false);
+setStatus('In call');
+}
+
+room.on(
+'participantConnected',
+(participant) => {
+wireParticipant(participant);
+setPending(false);
+setStatus('In call');
+}
+);
+
+room.on(
+'participantDisconnected',
+(participant) => {
+participant.tracks.forEach(
+(publication) => {
+if (publication.track) {
+removeTwilioMediaTrack(
+remoteStreamRef,
+publication.track
+);
+}
+}
+);
+
+setStatus('Connecting…');
+}
+);
+
+room.on('disconnected', () => {
+if (
+twilioVideoRoomRef.current !== room
+) {
+return;
+}
+
+twilioVideoRoomRef.current = null;
+cleanup();
+});
+
+return room;
+}
+
+async function startCallByUser({ calleeId, mode = 'VIDEO', peerName }) {
     if (!calleeId) throw new Error('Missing calleeId');
 
     setInviteHint(null);
     setPending(true);
+    setStatus('Connecting…');
 
     try {
-      const pc = await createPeer();
+      if (mode === 'AUDIO') {
+        const resp = await fetch(
+          `${API_BASE}/calls/invite`,
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type':
+                'application/json',
+            },
+            body: JSON.stringify({
+              calleeId,
+              mode: 'AUDIO',
+              offer: null,
+            }),
+          }
+        );
 
-      const local =
-        await navigator.mediaDevices.getUserMedia({
-          video: mode === 'VIDEO',
-          audio: true,
+        const data =
+          await resp
+            .json()
+            .catch(() => ({}));
+
+        if (!resp.ok) {
+          const error = new Error(
+            data?.message ||
+              data?.error ||
+              `Could not start call (${resp.status}).`
+          );
+
+          error.status = resp.status;
+          error.data = data;
+          throw error;
+        }
+
+        if (!data?.callId) {
+          throw new Error(
+            'The call server did not return a call ID.'
+          );
+        }
+
+        setActive({
+          callId: data.callId,
+          peerId: Number(calleeId),
+          mode: 'AUDIO',
+          peerName,
+          mediaTransport: 'twilio-voice',
         });
 
-      localStreamRef.current = local;
-      local.getTracks().forEach((track) => {
-        pc.addTrack(track, local);
-      });
+        await twilioVoice.startBrowserCall(
+          String(calleeId),
+          {
+            backendCallId: data.callId,
+          }
+        );
 
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
+        return data;
+      }
 
       const resp = await fetch(
-        `${API_BASE}/calls/invite`,
-        {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            calleeId,
-            mode,
-            offer,
-          }),
-        }
-      );
+`${API_BASE}/calls/invite`,
+{
+method: 'POST',
+credentials: 'include',
+headers: {
+'Content-Type': 'application/json',
+},
+body: JSON.stringify({
+calleeId,
+mode: 'VIDEO',
+offer: null,
+}),
+}
+);
 
-      const data =
-        await resp.json().catch(() => ({}));
+const data =
+await resp.json().catch(() => ({}));
 
-      if (!resp.ok) {
-        const error = new Error(
-          data?.message ||
-            data?.error ||
-            `Could not start call (${resp.status}).`
-        );
+if (!resp.ok) {
+const error = new Error(
+data?.message ||
+data?.error ||
+`Could not start call (${resp.status}).`
+);
 
-        error.status = resp.status;
-        error.data = data;
+error.status = resp.status;
+error.data = data;
+throw error;
+}
 
-        throw error;
-      }
+if (!data?.callId) {
+throw new Error(
+'The call server did not return a call ID.'
+);
+}
 
-      if (!data?.callId) {
-        throw new Error(
-          'The call server did not return a call ID.'
-        );
-      }
+const roomName =
+data.roomName ||
+`call_${data.callId}`;
 
-      setActive({
-        callId: data.callId,
-        peerId: calleeId,
-        mode,
-        peerName,
-      });
+await connectTwilioVideo({
+callId: data.callId,
+roomName,
+});
 
-      return data;
-    } catch (error) {
+setActive({
+callId: data.callId,
+peerId: Number(calleeId),
+mode: 'VIDEO',
+peerName,
+roomName,
+mediaTransport: 'twilio-video',
+});
+
+return data;
+} catch (error) {
       cleanup();
       throw error;
     }
@@ -766,7 +1021,30 @@ function onParticipantDeclined({ participant }) {
 }
 
   function cleanup() {
-    const connections = [
+try {
+twilioVoice.hangup();
+} catch {}
+
+const videoRoom =
+twilioVideoRoomRef.current;
+
+twilioVideoRoomRef.current = null;
+
+if (videoRoom) {
+try {
+videoRoom.localParticipant.tracks.forEach(
+(publication) => {
+publication.track?.stop();
+}
+);
+} catch {}
+
+try {
+videoRoom.disconnect();
+} catch {}
+}
+
+const connections = [
       ...Object.values(peerConnectionsRef.current),
       pcRef.current,
     ].filter(Boolean);
@@ -803,6 +1081,7 @@ function onParticipantDeclined({ participant }) {
     setActive(null);
     setIncoming(null);
     setPending(false);
+setStatus(null);
     setInviteHint(null);
     setParticipants([]);
   }
@@ -812,6 +1091,7 @@ function onParticipantDeclined({ participant }) {
     incoming,
     active,
     pending,
+    status,
     inviteHint,  // { requiresInvite, inviteUrl? } -> show CTA / toast / modal
     me,
 

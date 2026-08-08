@@ -2,6 +2,41 @@ import React, { useEffect } from 'react';
 import { render, act } from '@testing-library/react';
 import { CallProvider, useCall } from '@/context/CallContext';
 
+const mockStartBrowserCall = jest.fn();
+const mockTwilioHangup = jest.fn();
+
+const mockTwilioVoiceState = {
+  ready: true,
+  initializing: false,
+  calling: false,
+  callStatus: 'idle',
+  error: null,
+  currentCall: null,
+  startBrowserCall:
+    mockStartBrowserCall,
+  hangup: mockTwilioHangup,
+};
+
+jest.mock(
+  '@/hooks/useTwilioVoice',
+  () => ({
+    useTwilioVoice: () =>
+      mockTwilioVoiceState,
+  })
+);
+
+const mockJoinRoom = jest.fn();
+let mockVideoRoom;
+let mockTwilioLocalTrack;
+
+jest.mock(
+'@/video/video',
+() => ({
+joinRoom: (...args) =>
+mockJoinRoom(...args),
+})
+);
+
 // WebRTC and fetch mocks
 class MockMediaStream {
   constructor() {
@@ -226,6 +261,39 @@ function renderWithProvider(props = {}) {
 beforeEach(() => {
   ctxRef = null;
 
+mockTwilioLocalTrack = {
+mediaStreamTrack:
+makeTrack('twilio-video-local'),
+stop: jest.fn(),
+};
+
+mockVideoRoom = {
+localParticipant: {
+tracks: new Map([
+[
+'local-video',
+{
+track: mockTwilioLocalTrack,
+},
+],
+]),
+},
+participants: new Map(),
+on: jest.fn(),
+disconnect: jest.fn(),
+};
+
+mockJoinRoom.mockReset();
+mockJoinRoom.mockResolvedValue(
+mockVideoRoom
+);
+
+  mockStartBrowserCall.mockReset();
+  mockStartBrowserCall.mockResolvedValue({});
+  mockTwilioHangup.mockReset();
+  mockTwilioVoiceState.callStatus = 'idle';
+  mockTwilioVoiceState.error = null;
+
   fetchMock.mockClear();
   navigator.mediaDevices.getUserMedia.mockClear();
 
@@ -260,122 +328,200 @@ describe('CallContext', () => {
     expect(ctxRef.incoming).toEqual(payload);
   });
 
-  test('on call:answer sets remote description and active if pc exists', async () => {
-    renderWithProvider();
+  test('on call:answer updates an existing legacy incoming peer', async () => {
+renderWithProvider();
 
-    await act(async () => {
-      await ctxRef.startCall({
-        calleeId: 101,
-        mode: 'AUDIO',
-      });
+act(() => {
+socketMock.emit('call:incoming', {
+callId: 'incoming-video-1',
+fromUser: {
+id: 101,
+},
+mode: 'VIDEO',
+offer: {
+type: 'offer',
+sdp: 'incoming-offer',
+},
+});
+});
+
+await act(async () => {
+await ctxRef.acceptCall();
+});
+
+const peerConnection =
+ctxRef.pcRef.current;
+
+expect(peerConnection).toBeTruthy();
+
+const answer = {
+type: 'answer',
+sdp: 'ans',
+};
+
+await act(async () => {
+socketMock.emit('call:answer', {
+callId: 'incoming-video-1',
+answer,
+});
+});
+
+expect(
+peerConnection._remoteDescription
+).toEqual(answer);
+});
+
+test('on call:candidate forwards a candidate to an existing legacy incoming peer', async () => {
+renderWithProvider();
+
+act(() => {
+socketMock.emit('call:incoming', {
+callId: 'incoming-video-2',
+fromUser: {
+id: 5,
+},
+mode: 'VIDEO',
+offer: {
+type: 'offer',
+sdp: 'incoming-offer',
+},
+});
+});
+
+await act(async () => {
+await ctxRef.acceptCall();
+});
+
+const peerConnection =
+ctxRef.pcRef.current;
+
+expect(peerConnection).toBeTruthy();
+
+const candidate = {
+candidate: 'abc',
+sdpMid: '0',
+sdpMLineIndex: 0,
+};
+
+await act(async () => {
+socketMock.emit('call:candidate', {
+candidate,
+});
+});
+
+expect(
+peerConnection._candidate
+).toEqual(candidate);
+});
+
+test('startCall routes app video through the canonical Twilio Video room', async () => {
+renderWithProvider();
+
+await act(async () => {
+await ctxRef.startCall({
+calleeId: 123,
+mode: 'VIDEO',
+peerName: 'Reviewer',
+});
+});
+
+const inviteCall =
+fetchMock.mock.calls.find(
+([url]) =>
+url.includes('/calls/invite')
+);
+
+expect(inviteCall).toBeTruthy();
+
+expect(
+JSON.parse(inviteCall[1].body)
+).toEqual({
+calleeId: 123,
+mode: 'VIDEO',
+offer: null,
+});
+
+expect(mockJoinRoom).toHaveBeenCalledWith({
+identity: '7',
+room: 'call_call-123',
+});
+
+expect(
+navigator.mediaDevices.getUserMedia
+).not.toHaveBeenCalled();
+
+expect(fetchMock).not.toHaveBeenCalledWith(
+'/api/ice-servers?provider=all',
+expect.anything()
+);
+
+expect(ctxRef.active).toMatchObject({
+callId: 'call-123',
+peerId: 123,
+mode: 'VIDEO',
+peerName: 'Reviewer',
+roomName: 'call_call-123',
+mediaTransport: 'twilio-video',
+});
+
+expect(
+ctxRef.localStream.current
+.getTracks()
+).toContain(
+mockTwilioLocalTrack.mediaStreamTrack
+);
+});
+
+test('startCall routes app audio through Twilio Voice with the backend call ID', async () => {
+  renderWithProvider();
+
+  await act(async () => {
+    await ctxRef.startCall({
+      calleeId: 123,
+      mode: 'AUDIO',
+      peerName: 'Reviewer',
     });
-
-    const answer = {
-      type: 'answer',
-      sdp: 'ans',
-    };
-
-    await act(async () => {
-      socketMock.emit('call:answer', {
-        callId: 'call-123',
-        answer,
-      });
-    });
-
-    expect(ctxRef.active).toEqual(
-      expect.objectContaining({
-        callId: 'call-123',
-        mode: 'AUDIO',
-      })
-    );
-
-    expect(
-      ctxRef.pcRef.current._remoteDescription
-    ).toEqual(answer);
   });
 
-  test('on call:candidate forwards candidate to RTCPeerConnection', async () => {
-    renderWithProvider();
+  const inviteCall =
+    fetchMock.mock.calls.find(
+      ([url]) =>
+        url.includes('/calls/invite')
+    );
 
-    await act(async () => {
-      await ctxRef.startCall({
-        calleeId: 5,
-      });
-    });
+  expect(inviteCall).toBeTruthy();
 
-    const candidate = {
-      candidate: 'abc',
-      sdpMid: '0',
-      sdpMLineIndex: 0,
-    };
-
-    await act(async () => {
-      socketMock.emit('call:candidate', {
-        candidate,
-      });
-    });
-
-    expect(
-      ctxRef.pcRef.current._candidate
-    ).toEqual(candidate);
+  expect(
+    JSON.parse(inviteCall[1].body)
+  ).toEqual({
+    calleeId: 123,
+    mode: 'AUDIO',
+    offer: null,
   });
 
-  test('startCall creates peer, gets user media, posts invite, and sets active', async () => {
-    renderWithProvider();
+  expect(
+    mockStartBrowserCall
+  ).toHaveBeenCalledWith(
+    '123',
+    {
+      backendCallId: 'call-123',
+    }
+  );
 
-    await act(async () => {
-      await ctxRef.startCall({
-        calleeId: 123,
-        mode: 'VIDEO',
-      });
-    });
+  expect(
+    navigator.mediaDevices.getUserMedia
+  ).not.toHaveBeenCalled();
 
-    expect(fetchMock).toHaveBeenCalledWith(
-      '/api/ice-servers?provider=all',
-      expect.objectContaining({
-        credentials: 'include',
-      })
-    );
-
-    expect(
-      navigator.mediaDevices.getUserMedia
-    ).toHaveBeenCalledWith({
-      video: true,
-      audio: true,
-    });
-
-    const inviteCall = fetchMock.mock.calls.find(
-      ([url]) => url.includes('/calls/invite')
-    );
-
-    expect(inviteCall).toBeTruthy();
-
-    const inviteBody = JSON.parse(
-      inviteCall[1].body
-    );
-
-    expect(inviteBody).toEqual(
-      expect.objectContaining({
-        calleeId: 123,
-        mode: 'VIDEO',
-        offer: expect.objectContaining({
-          type: 'offer',
-        }),
-      })
-    );
-
-    expect(ctxRef.active).toEqual({
-      callId: 'call-123',
-      peerId: 123,
-      mode: 'VIDEO',
-    });
-
-    expect(
-      ctxRef.localStream.current
-    ).toBe(userMediaStream);
+  expect(ctxRef.active).toEqual({
+    callId: 'call-123',
+    peerId: 123,
+    mode: 'AUDIO',
+    peerName: 'Reviewer',
+    mediaTransport: 'twilio-voice',
   });
+});
 
-  test('acceptCall consumes incoming offer, sends answer, sets active and clears incoming', async () => {
+test('acceptCall consumes incoming offer, sends answer, sets active and clears incoming', async () => {
     renderWithProvider();
 
     const incoming = {
@@ -470,59 +616,54 @@ describe('CallContext', () => {
     expect(ctxRef.incoming).toBe(null);
   });
 
-  test('endCall posts end and performs cleanup', async () => {
-    renderWithProvider();
+  test('endCall disconnects Twilio Video and stops local media', async () => {
+renderWithProvider();
 
-    await act(async () => {
-      await ctxRef.startCall({
-        calleeId: 12,
-        mode: 'VIDEO',
-      });
-    });
+await act(async () => {
+await ctxRef.startCall({
+calleeId: 12,
+mode: 'VIDEO',
+peerName: 'Reviewer',
+});
+});
 
-    const peerConnection =
-      ctxRef.pcRef.current;
+await act(async () => {
+await ctxRef.endCall('hangup');
+});
 
-    const [audioSender, videoSender] =
-      peerConnection.getSenders();
+const endCall =
+fetchMock.mock.calls.find(
+([url]) =>
+url.includes('/calls/end')
+);
 
-    await act(async () => {
-      await ctxRef.endCall();
-    });
+expect(endCall).toBeTruthy();
 
-    const endCall = fetchMock.mock.calls.find(
-      ([url]) => url.includes('/calls/end')
-    );
+expect(
+mockTwilioLocalTrack.stop
+).toHaveBeenCalledTimes(1);
 
-    expect(endCall).toBeTruthy();
+expect(
+mockVideoRoom.disconnect
+).toHaveBeenCalledTimes(1);
 
-    expect(peerConnection.closed).toBe(true);
+expect(ctxRef.active).toBe(null);
+expect(ctxRef.incoming).toBe(null);
 
-    expect(
-      audioSender.track.stop
-    ).toHaveBeenCalled();
+expect(
+ctxRef.remoteStream.current
+).toBeInstanceOf(MockMediaStream);
 
-    expect(
-      videoSender.track.stop
-    ).toHaveBeenCalled();
+expect(
+ctxRef.remoteStream.current.getTracks()
+).toHaveLength(0);
 
-    expect(ctxRef.active).toBe(null);
-    expect(ctxRef.incoming).toBe(null);
+expect(
+ctxRef.localStream.current
+).toBe(null);
+});
 
-    expect(
-      ctxRef.remoteStream.current
-    ).toBeInstanceOf(MockMediaStream);
-
-    expect(
-      ctxRef.remoteStream.current.getTracks()
-    ).toHaveLength(0);
-
-    expect(
-      ctxRef.localStream.current
-    ).toBe(null);
-  });
-
-  test('call:ended socket event triggers cleanup', async () => {
+test('call:ended socket event triggers cleanup', async () => {
     renderWithProvider();
 
     await act(async () => {

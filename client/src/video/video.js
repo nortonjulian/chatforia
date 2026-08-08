@@ -26,7 +26,11 @@ export async function joinRoom({ identity, room }) {
   if (!token) throw new Error('Failed to get Video Access Token');
 
   return connect(token, {
+    name: String(room),
     audio: true,
-    video: { width: 1280, height: 720 },
+    video: {
+      width: 1280,
+      height: 720,
+    },
   });
 }

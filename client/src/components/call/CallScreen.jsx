@@ -80,6 +80,7 @@ export default function CallScreen() {
 
   const canAddPerson =
     active.mode === 'AUDIO' &&
+    active.mediaTransport !== 'twilio-voice' &&
     activeParticipants.length < 3 &&
     typeof addParticipant === 'function';
 
