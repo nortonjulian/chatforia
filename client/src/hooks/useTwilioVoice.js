@@ -134,7 +134,12 @@ export function useTwilioVoice() {
   }, [attachCallListeners]);
 
   const startBrowserCall = useCallback(
-    async (toNumber) => {
+    async (
+      toNumber,
+      {
+        backendCallId = null,
+      } = {}
+    ) => {
       const to = String(toNumber || '').trim();
 
       if (!to) {
@@ -153,8 +158,17 @@ export function useTwilioVoice() {
         const device = await initDevice();
         if (!device) throw new Error('Twilio device not ready');
 
+        const params = {
+          To: to,
+        };
+
+        if (backendCallId != null) {
+          params.backendCallId =
+            String(backendCallId);
+        }
+
         const call = await device.connect({
-          params: { To: to },
+          params,
         });
 
         setCurrentCall(call);
