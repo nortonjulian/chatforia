@@ -110,7 +110,6 @@ export default function Dialer() {
   const [params] = useSearchParams();
 
   const qpTo = params.get('to');
-  const qpUserId = params.get('userId');
 
   const [digits, setDigits] = useState('');
   const [resolving, setResolving] = useState(false);
@@ -165,55 +164,14 @@ export default function Dialer() {
   }, []);
 
   useEffect(() => {
-    let mounted = true;
+    setResolveError('');
 
-    async function run() {
-      setResolveError('');
-
-      if (qpTo) {
-        const next = normalizePhone(qpTo);
-        if (mounted) setDigits(next);
-        return;
-      }
-
-      if (qpUserId) {
-        const userId = String(qpUserId || '').trim();
-        if (!userId) return;
-
-        setResolving(true);
-        try {
-          const { data } = await axiosClient.get(
-            `/users/${encodeURIComponent(userId)}/call-target`
-          );
-
-          const to = normalizePhone(data?.to || '');
-          if (!to) {
-            throw new Error(
-              data?.error || 'No callable target for this user (missing phone number).'
-            );
-          }
-
-          if (mounted) setDigits(to);
-        } catch (e) {
-          console.error('Dialer: failed to resolve call target', e);
-          if (mounted) {
-            setResolveError(
-              e?.response?.data?.error ||
-                e?.message ||
-                t('dialer.resolveFailed', 'Could not resolve call target.')
-            );
-          }
-        } finally {
-          if (mounted) setResolving(false);
-        }
-      }
+    if (qpTo) {
+      setDigits(
+        normalizePhone(qpTo)
+      );
     }
-
-    run();
-    return () => {
-      mounted = false;
-    };
-  }, [qpTo, qpUserId, t]);
+  }, [qpTo]);
 
   const press = (d) => setDigits((s) => (s + d).slice(0, 32));
   const backspace = () => setDigits((s) => s.slice(0, -1));

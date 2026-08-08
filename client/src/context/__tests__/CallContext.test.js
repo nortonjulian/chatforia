@@ -533,11 +533,140 @@ describe('CallContext', () => {
     });
 
     await act(async () => {
-      socketMock.emit('call:ended');
+      socketMock.emit('call:ended', {
+        callId: 'call-123',
+      });
     });
 
     expect(ctxRef.active).toBe(null);
     expect(ctxRef.incoming).toBe(null);
     expect(ctxRef.pcRef.current).toBe(null);
   });
+
+test(
+  'ignores answered-elsewhere while this browser answer is pending',
+  async () => {
+    renderWithProvider();
+
+    act(() => {
+      socketMock.emit('call:incoming', {
+        callId: 'answer-here-1',
+        fromUser: {
+          id: 24,
+        },
+        mode: 'AUDIO',
+        offer: {
+          type: 'offer',
+          sdp: 'incoming-offer',
+        },
+      });
+    });
+
+    let resolveAnswerResponse;
+
+    const answerResponse =
+      new Promise((resolve) => {
+        resolveAnswerResponse = resolve;
+      });
+
+    fetchMock
+      .mockImplementationOnce(async () => ({
+        ok: true,
+        json: async () => ({
+          iceServers: [],
+        }),
+      }))
+      .mockImplementationOnce(
+        async () => answerResponse
+      );
+
+    let acceptPromise;
+
+    await act(async () => {
+      acceptPromise = ctxRef.acceptCall();
+      await Promise.resolve();
+    });
+
+    act(() => {
+      socketMock.emit('call:ended', {
+        callId: 'answer-here-1',
+        status: 'ANSWERED_ELSEWHERE',
+      });
+    });
+
+    expect(ctxRef.incoming).not.toBe(null);
+    expect(ctxRef.pcRef.current).not.toBe(null);
+
+    resolveAnswerResponse({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        ok: true,
+        callId: 'answer-here-1',
+        status: 'ACTIVE',
+      }),
+    });
+
+    await act(async () => {
+      await acceptPromise;
+    });
+
+    expect(ctxRef.active).toEqual(
+      expect.objectContaining({
+        callId: 'answer-here-1',
+      })
+    );
+
+    expect(ctxRef.incoming).toBe(null);
+  }
+);
+
+test(
+  'cleans up when another device wins the answer claim',
+  async () => {
+    renderWithProvider();
+
+    act(() => {
+      socketMock.emit('call:incoming', {
+        callId: 'answered-elsewhere-1',
+        fromUser: {
+          id: 24,
+        },
+        mode: 'VIDEO',
+        offer: {
+          type: 'offer',
+          sdp: 'incoming-offer',
+        },
+      });
+    });
+
+    fetchMock
+      .mockImplementationOnce(async () => ({
+        ok: true,
+        json: async () => ({
+          iceServers: [],
+        }),
+      }))
+      .mockImplementationOnce(async () => ({
+        ok: false,
+        status: 409,
+        json: async () => ({
+          error:
+            'This call was answered on another device.',
+          code:
+            'CALL_ANSWERED_ELSEWHERE',
+        }),
+      }));
+
+    await act(async () => {
+      await ctxRef.acceptCall();
+    });
+
+    expect(ctxRef.active).toBe(null);
+    expect(ctxRef.incoming).toBe(null);
+    expect(ctxRef.pcRef.current).toBe(null);
+    expect(ctxRef.localStream.current).toBe(null);
+  }
+);
+
 });
