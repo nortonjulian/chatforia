@@ -198,6 +198,24 @@ router.post('/register', requireAuth, async (req, res, next) => {
         Boolean(currentDevice) &&
         currentDevice.revokedAt == null;
 
+      /*
+       * Revocation is authoritative.
+       *
+       * A client that retains an old JWT, socket session, push token,
+       * or local deviceId must not be able to resurrect a revoked
+       * installation simply by calling /devices/register again.
+       */
+      if (currentDevice?.revokedAt) {
+        return {
+          status: 409,
+          body: {
+            error:
+              'This device has been revoked and cannot register again.',
+            code: 'DEVICE_REVOKED',
+          },
+        };
+      }
+
       const activeOtherDevices = await tx.device.findMany({
         where: {
           userId,
@@ -325,8 +343,6 @@ router.post('/register', requireAuth, async (req, res, next) => {
             ? keyVersion
             : 1,
           lastSeenAt: new Date(),
-          revokedAt: null,
-          revokedById: null,
           pairingStatus: 'approved',
           pairingApprovedAt: new Date(),
           pairingRejectedAt: null,
@@ -405,6 +421,26 @@ router.post('/pairing/request', requireAuth, async (req, res, next) => {
       return res.status(400).json({ error: 'deviceId and publicKey are required' });
     }
 
+    const existingDevice = await prisma.device.findUnique({
+      where: {
+        userId_deviceId: {
+          userId,
+          deviceId,
+        },
+      },
+      select: {
+        revokedAt: true,
+      },
+    });
+
+    if (existingDevice?.revokedAt) {
+      return res.status(409).json({
+        error:
+          'This device has been revoked and cannot request pairing.',
+        code: 'DEVICE_REVOKED',
+      });
+    }
+
     const device = await prisma.device.upsert({
       where: {
         userId_deviceId: {
@@ -419,7 +455,6 @@ router.post('/pairing/request', requireAuth, async (req, res, next) => {
         keyAlgorithm,
         keyVersion: Number.isFinite(keyVersion) ? keyVersion : 1,
         lastSeenAt: new Date(),
-        revokedAt: null,
         wrappedAccountKey: null,
         wrappedAccountKeyAlgo: null,
         wrappedAccountKeyVer: null,
@@ -744,6 +779,61 @@ router.post('/heartbeat', requireAuth, async (req, res, next) => {
     next(error);
   }
 });
+
+router.post('/logout', requireAuth, async (req, res, next) => {
+  try {
+    const userId = Number(req.user.id);
+    const deviceId =
+      normalizeString(req.body?.deviceId, 191);
+
+    if (!userId || !deviceId) {
+      return res.status(400).json({
+        error: 'deviceId is required',
+        code: 'DEVICE_ID_REQUIRED',
+      });
+    }
+
+    /*
+     * Logout is not revocation.
+     *
+     * Keep the device identity, encryption metadata, and pairing state.
+     * Remove delivery credentials so a signed-out installation cannot
+     * continue receiving messages or incoming-call pushes.
+     */
+    const result = await prisma.device.updateMany({
+      where: {
+        userId,
+        deviceId,
+        revokedAt: null,
+      },
+      data: {
+        pushToken: null,
+        pushProvider: null,
+        apnsPushToken: null,
+        apnsSandboxPushToken: null,
+        fcmPushToken: null,
+        voipPushToken: null,
+        voipSandboxPushToken: null,
+        lastSeenAt: new Date(),
+      },
+    });
+
+    if (result.count < 1) {
+      return res.status(404).json({
+        error: 'Active device not found',
+        code: 'DEVICE_NOT_FOUND',
+      });
+    }
+
+    return res.json({
+      success: true,
+      deviceId,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 router.post('/revoke', requireAuth, async (req, res, next) => {
   try {
