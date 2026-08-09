@@ -803,6 +803,51 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
   const normalizedStatus =
     status == null ? null : String(status).toUpperCase();
 
+  const normalizedEndReason =
+    endReason == null
+      ? null
+      : String(endReason).trim().toLowerCase();
+
+  // A remote-ended report is local cleanup after another lifecycle event.
+  // It must not become the authoritative terminal transition. Otherwise a
+  // stale same-account client can end the call immediately after another
+  // device successfully claims it ACTIVE.
+  if (
+    isTerminalCallStatus(normalizedStatus) &&
+    normalizedEndReason === 'remote_ended'
+  ) {
+    console.log(
+      '[calls/status] ignored non-authoritative remote-ended acknowledgement',
+      {
+        callId,
+        reportedBy: userId,
+        authoritativeStatus: call.status,
+      }
+    );
+
+    const authoritative = await prisma.call.findUnique({
+      where: {
+        id: callId,
+      },
+      select: {
+        id: true,
+        callerId: true,
+        calleeId: true,
+        mode: true,
+        status: true,
+        startedAt: true,
+        endedAt: true,
+        durationSec: true,
+        endReason: true,
+        twilioCallSid: true,
+      },
+    });
+
+    return res.json({
+      call: authoritative,
+    });
+  }
+
   const updateData = {
     status: normalizedStatus ?? undefined,
     startedAt:

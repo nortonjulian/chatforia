@@ -284,7 +284,10 @@ describe('calls routes', () => {
         .send({ callId: 1, answer: { type: 'answer', sdp: 'sdp' } });
 
       expect(res.statusCode).toBe(404);
-      expect(res.body).toEqual({ error: 'Call not found' });
+      expect(res.body).toEqual({
+        error: 'Call not found',
+        code: 'CALL_NOT_FOUND',
+      });
     });
 
     test('403 when caller tries to answer', async () => {
@@ -300,7 +303,10 @@ describe('calls routes', () => {
         .send({ callId: 1, answer: { type: 'answer', sdp: 'sdp' } });
 
       expect(res.statusCode).toBe(403);
-      expect(res.body).toEqual({ error: 'Only callee can answer' });
+      expect(res.body).toEqual({
+        error: 'Only callee can answer',
+        code: 'ONLY_CALLEE_CAN_ANSWER',
+      });
     });
 
     test('409 when status not RINGING or INITIATED', async () => {
@@ -316,7 +322,91 @@ describe('calls routes', () => {
         .send({ callId: 1, answer: { type: 'answer', sdp: 'sdp' } });
 
       expect(res.statusCode).toBe(409);
-      expect(res.body).toEqual({ error: 'Cannot answer in status ENDED' });
+      expect(res.body).toEqual({
+        error: 'Cannot answer in status ENDED',
+        code: 'CALL_NOT_ANSWERABLE',
+        callId: 1,
+        status: 'ENDED',
+      });
+    });
+
+    test('409 CALL_ANSWERED_ELSEWHERE when another device already won the answer race', async () => {
+      const startedAt =
+        new Date('2025-01-02T00:00:00.000Z');
+
+      /*
+       * First lookup is the request's initial RINGING state.
+       * The atomic claim then loses (count: 0), and its authoritative
+       * re-read shows another device already moved the call ACTIVE.
+       */
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'RINGING',
+        })
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'ACTIVE',
+          startedAt,
+        });
+
+      mockPrisma.call.updateMany.mockResolvedValue({
+        count: 0,
+      });
+
+      const res = await request(app)
+        .post('/calls/answer')
+        .send({
+          callId: 1,
+          answer: {
+            type: 'answer',
+            sdp: 'losing-answer-sdp',
+          },
+        });
+
+      expect(res.statusCode).toBe(409);
+
+      expect(res.body).toEqual({
+        error: 'This call was answered on another device.',
+        code: 'CALL_ANSWERED_ELSEWHERE',
+        callId: 1,
+        status: 'ACTIVE',
+      });
+
+      expect(
+        mockPrisma.call.updateMany
+      ).toHaveBeenCalledWith({
+        where: {
+          id: 1,
+          status: {
+            in: ['RINGING', 'INITIATED'],
+          },
+        },
+        data: {
+          status: 'ACTIVE',
+          answerSdp: 'losing-answer-sdp',
+          startedAt: expect.any(Date),
+          endReason: null,
+        },
+      });
+
+      /*
+       * Losing devices must not become joined participants and must not
+       * emit a second answer event that could disturb the winner.
+       */
+      expect(
+        mockPrisma.callParticipant.updateMany
+      ).not.toHaveBeenCalled();
+
+      expect(
+        emitToUserMock
+      ).not.toHaveBeenCalled();
     });
 
     test('200 on success, emits call:answer to caller', async () => {
@@ -329,14 +419,26 @@ describe('calls routes', () => {
         status: 'RINGING',
       });
 
-      mockPrisma.call.update.mockResolvedValue({
-        id: 1,
-        callerId: 20,
-        calleeId: 10,
-        mode: 'AUDIO',
-        status: 'ACTIVE',
-        startedAt: now,
+      mockPrisma.call.updateMany.mockResolvedValue({
+        count: 1,
       });
+
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'RINGING',
+        })
+        .mockResolvedValueOnce({
+          id: 1,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'ACTIVE',
+          startedAt: now,
+        });
 
       mockPrisma.callParticipant.updateMany.mockResolvedValue({
         count: 1,
@@ -349,25 +451,43 @@ describe('calls routes', () => {
         .send({ callId: 1, answer });
 
       expect(res.statusCode).toBe(200);
-      expect(res.body).toEqual({ ok: true });
+      expect(res.body).toEqual({
+        ok: true,
+        callId: 1,
+        status: 'ACTIVE',
+      });
 
-      expect(mockPrisma.call.update).toHaveBeenCalledWith({
-        where: { id: 1 },
+      expect(mockPrisma.call.updateMany).toHaveBeenCalledWith({
+        where: {
+          id: 1,
+          status: {
+            in: ['RINGING', 'INITIATED'],
+          },
+        },
         data: {
           status: 'ACTIVE',
           answerSdp: 'answer-sdp',
           startedAt: expect.any(Date),
           endReason: null,
         },
-        select: {
-          id: true,
-          callerId: true,
-          calleeId: true,
-          mode: true,
-          status: true,
-          startedAt: true,
-        },
       });
+
+      expect(mockPrisma.call.findUnique).toHaveBeenNthCalledWith(
+        2,
+        {
+          where: {
+            id: 1,
+          },
+          select: {
+            id: true,
+            callerId: true,
+            calleeId: true,
+            mode: true,
+            status: true,
+            startedAt: true,
+          },
+        }
+      );
 
       expect(mockPrisma.callParticipant.updateMany).toHaveBeenCalledWith({
         where: {
@@ -635,66 +755,59 @@ describe('calls routes', () => {
   });
 
   describe('PATCH /calls/:id/status', () => {
-    test('a late terminal patch does not overwrite or re-emit the winning terminal state', async () => {
-      const startedAt = new Date('2025-01-05T00:00:00.000Z');
-      const endedAt = new Date('2025-01-05T00:01:00.000Z');
+    test('a stale remote-ended acknowledgement cannot terminate an active call', async () => {
+      const startedAt =
+        new Date('2025-01-05T00:00:00.000Z');
+
+      const activeCall = {
+        id: 1,
+        callerId: 20,
+        calleeId: 10,
+        mode: 'AUDIO',
+        status: 'ACTIVE',
+        startedAt,
+        endedAt: null,
+        durationSec: null,
+        endReason: null,
+        twilioCallSid: null,
+      };
 
       mockPrisma.call.findUnique
         .mockResolvedValueOnce({
-          id: 1,
-          callerId: 20,
-          calleeId: 10,
-          mode: 'VIDEO',
-          status: 'ENDED',
-          participants: [{ userId: 20 }, { userId: 10 }],
+          ...activeCall,
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
         })
-        .mockResolvedValueOnce({
-          id: 1,
-          callerId: 20,
-          calleeId: 10,
-          mode: 'VIDEO',
-          status: 'ENDED',
-          startedAt,
-          endedAt,
-          durationSec: 60,
-          endReason: 'hangup',
-          twilioCallSid: null,
-        });
-
-      mockPrisma.call.updateMany.mockResolvedValue({ count: 0 });
+        .mockResolvedValueOnce(activeCall);
 
       const res = await request(app)
         .patch('/calls/1/status')
         .send({
           status: 'ENDED',
-          endedAt: '2025-01-05T00:02:00.000Z',
-          durationSec: 120,
+          endedAt:
+            '2025-01-05T00:00:00.250Z',
+          durationSec: null,
           endReason: 'remote_ended',
         });
 
       expect(res.statusCode).toBe(200);
+
       expect(res.body.call).toMatchObject({
         id: 1,
-        status: 'ENDED',
-        durationSec: 60,
-        endReason: 'hangup',
+        status: 'ACTIVE',
+        endedAt: null,
+        endReason: null,
       });
 
-      expect(mockPrisma.call.updateMany).toHaveBeenCalledWith({
-        where: {
-          id: 1,
-          status: { notIn: ['ENDED', 'DECLINED', 'MISSED', 'FAILED'] },
-        },
-        data: {
-          status: 'ENDED',
-          startedAt: undefined,
-          endedAt: new Date('2025-01-05T00:02:00.000Z'),
-          durationSec: 120,
-          endReason: 'remote_ended',
-        },
-      });
+      expect(
+        mockPrisma.call.updateMany
+      ).not.toHaveBeenCalled();
 
-      expect(emitToUserMock).not.toHaveBeenCalled();
+      expect(
+        emitToUserMock
+      ).not.toHaveBeenCalled();
     });
   });
 });

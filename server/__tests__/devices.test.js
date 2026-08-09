@@ -110,6 +110,58 @@ describe('Device registration and replacement', () => {
     expect(prismaMock.device.upsert).toHaveBeenCalledTimes(1);
   });
 
+  test('active device refresh does not rewrite revocation authority', async () => {
+    prismaMock.device.findUnique.mockResolvedValue({
+      revokedAt: null,
+    });
+
+    prismaMock.device.findMany.mockResolvedValue([]);
+
+    prismaMock.device.upsert.mockResolvedValue(
+      makeDevice()
+    );
+
+    const response = await request(app)
+      .post('/devices/register')
+      .send({
+        deviceId: 'device-new',
+        name: 'Android Device',
+        platform: 'Android',
+        publicKey: 'mock-public-key',
+      });
+
+    expect(response.status).toBe(200);
+
+    const upsert =
+      prismaMock.device.upsert.mock.calls[0][0];
+
+    expect(upsert.update).not.toHaveProperty('revokedAt');
+    expect(upsert.update).not.toHaveProperty('revokedById');
+  });
+
+  test('revoked device cannot silently re-register', async () => {
+    prismaMock.device.findUnique.mockResolvedValue({
+      revokedAt: new Date('2026-08-01T20:00:00.000Z'),
+    });
+
+    prismaMock.device.findMany.mockResolvedValue([]);
+
+    const response = await request(app)
+      .post('/devices/register')
+      .send({
+        deviceId: 'device-revoked',
+        name: 'Old Android Device',
+        platform: 'Android',
+        publicKey: 'mock-public-key',
+      });
+
+    expect(response.status).toBe(409);
+    expect(response.body.code).toBe('DEVICE_REVOKED');
+
+    expect(prismaMock.device.upsert).not.toHaveBeenCalled();
+    expect(prismaMock.device.updateMany).not.toHaveBeenCalled();
+  });
+
   test('FREE reinstall requires replacement confirmation', async () => {
     prismaMock.device.findMany.mockResolvedValue([
       {
@@ -271,11 +323,148 @@ describe('Device registration and replacement', () => {
   });
 });
 
+describe('Device pairing authority', () => {
+  let app;
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+    app = makeApp();
+  });
+
+  test('revoked device cannot resurrect through pairing request', async () => {
+    prismaMock.device.findUnique.mockResolvedValue({
+      revokedAt: new Date('2026-08-01T20:00:00.000Z'),
+    });
+
+    const response = await request(app)
+      .post('/devices/pairing/request')
+      .send({
+        deviceId: 'device-revoked',
+        name: 'Old Android Device',
+        platform: 'Android',
+        publicKey: 'mock-public-key',
+      });
+
+    expect(response.status).toBe(409);
+    expect(response.body.code).toBe('DEVICE_REVOKED');
+
+    expect(prismaMock.device.upsert).not.toHaveBeenCalled();
+  });
+
+  test('active or new device pairing does not rewrite revocation authority', async () => {
+    prismaMock.device.findUnique.mockResolvedValue(null);
+
+    prismaMock.device.upsert.mockResolvedValue(
+      makeDevice({
+        deviceId: 'device-new',
+      })
+    );
+
+    const response = await request(app)
+      .post('/devices/pairing/request')
+      .send({
+        deviceId: 'device-new',
+        name: 'Android Device',
+        platform: 'Android',
+        publicKey: 'mock-public-key',
+      });
+
+    expect(response.status).toBe(200);
+
+    const upsert =
+      prismaMock.device.upsert.mock.calls[0][0];
+
+    expect(upsert.update).not.toHaveProperty('revokedAt');
+    expect(upsert.update).not.toHaveProperty('revokedById');
+  });
+});
+
+describe('Device logout', () => {
+  let app;
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+    app = makeApp();
+  });
+
+  test('logout clears push credentials without revoking the device', async () => {
+    prismaMock.device.updateMany.mockResolvedValue({
+      count: 1,
+    });
+
+    const response = await request(app)
+      .post('/devices/logout')
+      .send({
+        deviceId: 'device-current',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.deviceId).toBe('device-current');
+
+    expect(prismaMock.device.updateMany).toHaveBeenCalledWith({
+      where: {
+        userId: 1,
+        deviceId: 'device-current',
+        revokedAt: null,
+      },
+      data: {
+        pushToken: null,
+        pushProvider: null,
+        apnsPushToken: null,
+        apnsSandboxPushToken: null,
+        fcmPushToken: null,
+        voipPushToken: null,
+        voipSandboxPushToken: null,
+        lastSeenAt: expect.any(Date),
+      },
+    });
+
+    const update =
+      prismaMock.device.updateMany.mock.calls[0][0];
+
+    expect(update.data).not.toHaveProperty('revokedAt');
+    expect(update.data).not.toHaveProperty('revokedById');
+    expect(update.data).not.toHaveProperty('publicKey');
+  });
+
+  test('logout cannot modify a nonexistent or unauthorized device', async () => {
+    prismaMock.device.updateMany.mockResolvedValue({
+      count: 0,
+    });
+
+    const response = await request(app)
+      .post('/devices/logout')
+      .send({
+        deviceId: 'not-my-active-device',
+      });
+
+    expect(response.status).toBe(404);
+    expect(response.body.code).toBe('DEVICE_NOT_FOUND');
+  });
+
+  test('logout requires deviceId', async () => {
+    const response = await request(app)
+      .post('/devices/logout')
+      .send({});
+
+    expect(response.status).toBe(400);
+    expect(response.body.code).toBe('DEVICE_ID_REQUIRED');
+
+    expect(prismaMock.device.updateMany).not.toHaveBeenCalled();
+  });
+});
+
 describe('Push-token registration', () => {
   let app;
 
   beforeEach(() => {
     jest.resetAllMocks();
+
+    prismaMock.$transaction.mockImplementation(
+      async (callback) => callback(prismaMock)
+    );
+
     app = makeApp();
   });
 
