@@ -552,7 +552,7 @@ describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
     expect(actions[0].type).toBe('dial');
 
     expect(actions[0].opts).toMatchObject({
-      answerOnBridge: true,
+      answerOnBridge: false,
       timeout: 25,
       method: 'POST',
     });
