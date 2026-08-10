@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import socket from '@/lib/socket';
+import { useSocketRaw } from '@/context/SocketContext';
 import { API_BASE } from '@/config';
 import { useTwilioVoice } from '@/hooks/useTwilioVoice';
 import { joinRoom } from '@/video/video';
@@ -24,6 +24,7 @@ export const useCall = () => useContext(CallCtx);
  * - call:ended    {}
  */
 export function CallProvider({ children, me }) {
+  const socket = useSocketRaw();
   const twilioVoice = useTwilioVoice();
   const [incoming, setIncoming] = useState(null);    // { callId, fromUser, mode, offer }
   const [active, setActive] = useState(null);        // { callId, peerId?, phoneNumber? }
@@ -104,6 +105,8 @@ const twilioVideoRoomRef = useRef(null);
 
   // socket listeners
   useEffect(() => {
+  if (!socket) return undefined;
+
   function normalizeIncoming(payload, fallbackMode = 'AUDIO') {
     const callerId = payload?.callerId ?? payload?.fromUser?.id ?? null;
 
@@ -231,7 +234,7 @@ const twilioVideoRoomRef = useRef(null);
     socket.off('call:participant-offer-needed', onParticipantOfferNeeded);
     socket.off('call:participant-offer', onParticipantOffer);
   };
-}, []);
+}, [socket]);
 
   async function createPeer(nextActive = null) {
     const peerUserId = nextActive?.peerId;

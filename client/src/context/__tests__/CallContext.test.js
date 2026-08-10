@@ -222,9 +222,9 @@ const socketMock = {
   },
 };
 
-jest.mock('@/lib/socket', () => ({
+jest.mock('@/context/SocketContext', () => ({
   __esModule: true,
-  default: socketMock,
+  useSocketRaw: () => socketMock,
 }));
 
 jest.mock('@/config', () => ({
@@ -661,6 +661,40 @@ ctxRef.remoteStream.current.getTracks()
 expect(
 ctxRef.localStream.current
 ).toBe(null);
+});
+
+
+test('outgoing audio call cleans up immediately when callee declines', async () => {
+  renderWithProvider();
+
+  await act(async () => {
+    await ctxRef.startCall({
+      calleeId: 24,
+      mode: 'AUDIO',
+      peerName: 'Reviewer',
+    });
+  });
+
+  expect(ctxRef.active).toMatchObject({
+    callId: 'call-123',
+    peerId: 24,
+    mode: 'AUDIO',
+    mediaTransport: 'twilio-voice',
+  });
+
+  mockTwilioHangup.mockClear();
+
+  act(() => {
+    socketMock.emit('call:ended', {
+      callId: 'call-123',
+      status: 'DECLINED',
+    });
+  });
+
+  expect(mockTwilioHangup).toHaveBeenCalledTimes(1);
+  expect(ctxRef.active).toBeNull();
+  expect(ctxRef.pending).toBe(false);
+  expect(ctxRef.status).toBeNull();
 });
 
 test('call:ended socket event triggers cleanup', async () => {
