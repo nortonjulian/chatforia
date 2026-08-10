@@ -1,6 +1,32 @@
 export const MAX_VOICE_FANOUT_DEVICES = 10;
 export const VOICE_REGISTRATION_VERSION = 1;
 
+export function normalizeVoicePlatform(value) {
+  const platform = String(value || '')
+    .trim()
+    .toLowerCase();
+
+  if (!platform) {
+    return null;
+  }
+
+  if (platform.includes('android')) {
+    return 'android';
+  }
+
+  if (
+    platform.includes('ios') ||
+    platform.includes('iphone') ||
+    platform.includes('ipad') ||
+    platform.includes('cfnetwork') ||
+    platform.includes('darwin')
+  ) {
+    return 'ios';
+  }
+
+  return null;
+}
+
 export function normalizeVoiceIdentityPart(value) {
   return String(value || '')
     .trim()
