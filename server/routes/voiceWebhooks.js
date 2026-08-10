@@ -893,7 +893,7 @@ router.post('/client', async (req, res) => {
       }
 
       const dial = twiml.dial({
-        answerOnBridge: true,
+        answerOnBridge: false,
         timeout: 25,
         action: `/webhooks/voice/app-call-complete?${completionParams.toString()}`,
         method: 'POST',
