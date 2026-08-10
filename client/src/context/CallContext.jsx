@@ -210,9 +210,8 @@ const twilioVideoRoomRef = useRef(null);
         'twilio-voice';
 
     if (isOutgoingTwilioVoicemailHandoff) {
-      cleanup({
-        preserveTwilioVoice: true,
-      });
+      setPending(false);
+      setStatus('Voicemail');
       return;
     }
 
