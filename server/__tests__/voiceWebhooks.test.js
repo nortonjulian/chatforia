@@ -710,6 +710,16 @@ describe('POST /webhooks/voice/app-call-complete', () => {
     );
 
     expect(emitToUser).toHaveBeenCalledWith(
+      42,
+      'call:ended',
+      expect.objectContaining({
+        callId: 777,
+        status: 'MISSED',
+        reason: 'no_answer',
+      })
+    );
+
+    expect(emitToUser).toHaveBeenCalledWith(
       99,
       'call:ended',
       expect.objectContaining({
