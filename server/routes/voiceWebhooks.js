@@ -5,6 +5,8 @@ import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import { emitToUser } from '../services/socketBus.js';
 import { sendIncomingForwardedCallPush } from '../services/pushService.js';
+import { getVoiceDialDestinations } from '../services/voiceDeviceService.js';
+import { parseVoiceIdentityUserId } from '../utils/voiceIdentity.js';
 
 const { VoiceResponse } = twilio.twiml;
 const router = express.Router();
@@ -813,6 +815,7 @@ router.post('/client', async (req, res) => {
   try {
     const { To, From } = req.body || {};
     const identity = (From || '').replace(/^client:/, '');
+    const identityUserId = parseVoiceIdentityUserId(identity);
     const to = (To || '').trim();
 
     if (!to) {
@@ -835,10 +838,7 @@ router.post('/client', async (req, res) => {
         return res.type('text/xml').send(twiml.toString());
       }
 
-      const appCallerUserId =
-        identity.startsWith('user_')
-          ? Number(identity.slice('user_'.length))
-          : null;
+      const appCallerUserId = identityUserId;
 
       const appCaller =
         Number.isInteger(appCallerUserId) &&
@@ -881,6 +881,15 @@ router.post('/client', async (req, res) => {
         completionParams.set('backendCallId', String(appBackendCallId));
       }
 
+      const dialDestinations =
+        await getVoiceDialDestinations(numericUserId);
+
+      if (dialDestinations.length === 0) {
+        twiml.say('The Chatforia user is not available for calls.');
+        twiml.hangup();
+        return res.type('text/xml').send(twiml.toString());
+      }
+
       const dial = twiml.dial({
         answerOnBridge: true,
         timeout: 25,
@@ -902,43 +911,45 @@ router.post('/client', async (req, res) => {
         clientOptions.statusCallbackMethod = 'POST';
       }
 
-      const client = dial.client(
-        clientOptions,
-        `user_${numericUserId}`
-      );
+      for (const destination of dialDestinations) {
+        const client = dial.client(
+          clientOptions,
+          destination.identity
+        );
 
-      client.parameter({
-        name: 'callerName',
-        value: appCallerName,
-      });
-
-      if (
-        Number.isInteger(appCallerUserId) &&
-        appCallerUserId > 0
-      ) {
         client.parameter({
-          name: 'callerId',
-          value: String(appCallerUserId),
+          name: 'callerName',
+          value: appCallerName,
         });
-      }
 
-      if (
-        Number.isInteger(appBackendCallId) &&
-        appBackendCallId > 0
-      ) {
-        client.parameter({
-          name: 'backendCallId',
-          value: String(appBackendCallId),
-        });
+        if (
+          Number.isInteger(appCallerUserId) &&
+          appCallerUserId > 0
+        ) {
+          client.parameter({
+            name: 'callerId',
+            value: String(appCallerUserId),
+          });
+        }
+
+        if (
+          Number.isInteger(appBackendCallId) &&
+          appBackendCallId > 0
+        ) {
+          client.parameter({
+            name: 'backendCallId',
+            value: String(appBackendCallId),
+          });
+        }
       }
 
       return res.type('text/xml').send(twiml.toString());
     }
 
     let callerId = process.env.TWILIO_DEFAULT_CALLER_ID || null;
-    if (identity.startsWith('user_')) {
-      const userId = Number(identity.split('_')[1]);
-      if (!Number.isNaN(userId)) {
+    if (Number.isInteger(identityUserId) && identityUserId > 0) {
+      const userId = identityUserId;
+      {
         const user = await prisma.user.findUnique({
           where: { id: userId },
           select: {
@@ -963,9 +974,7 @@ router.post('/client', async (req, res) => {
         return res.type('text/xml').send(twiml.toString());
       }
 
-      const browserUserId = identity.startsWith('user_')
-        ? Number(identity.split('_')[1])
-        : null;
+      const browserUserId = identityUserId;
 
       const parentCallSid = req.body?.CallSid || null;
 
