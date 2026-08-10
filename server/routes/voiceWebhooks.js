@@ -674,9 +674,11 @@ router.post('/app-call-complete', async (req, res) => {
           forwarded: false,
         };
 
-        if (dialCallStatus === 'completed') {
-          emitToUser(updated.callerId, 'call:ended', endedPayload);
-        }
+        emitToUser(
+          updated.callerId,
+          'call:ended',
+          endedPayload
+        );
 
         if (
           updated.calleeId &&
