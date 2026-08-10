@@ -4,11 +4,8 @@ import {
   buildLegacyVoiceIdentity,
   MAX_VOICE_FANOUT_DEVICES,
   VOICE_REGISTRATION_VERSION,
+  normalizeVoicePlatform,
 } from '../utils/voiceIdentity.js';
-
-function normalizePlatform(platform) {
-  return String(platform || '').trim().toLowerCase();
-}
 
 export function isVoiceEligibleDevice(device, userId) {
   if (!device) return false;
@@ -31,9 +28,9 @@ export function isVoiceEligibleDevice(device, userId) {
     return false;
   }
 
-  const platform = normalizePlatform(device.platform);
+  const platform = normalizeVoicePlatform(device.platform);
 
-  if (platform !== 'android' && platform !== 'ios') {
+  if (!platform) {
     return false;
   }
 
@@ -159,7 +156,7 @@ export async function getVoiceDialDestinations(
     .map((device) => ({
       identity: device.voiceIdentity,
       deviceId: device.deviceId,
-      platform: normalizePlatform(device.platform),
+      platform: normalizeVoicePlatform(device.platform),
       legacy: false,
     }))
     .filter((destination) =>
