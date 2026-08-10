@@ -1,6 +1,7 @@
 import express from 'express';
 import twilio from 'twilio';
 import { requireAuth } from '../middleware/auth.js';
+import prisma from '../utils/prismaClient.js';
 
 const router = express.Router();
 
@@ -8,12 +9,29 @@ const { jwt } = twilio;
 const { AccessToken } = jwt;
 const { VoiceGrant } = AccessToken;
 
+function normalizeVoiceIdentityPart(value) {
+  return String(value || '')
+    .trim()
+    .replace(/[^A-Za-z0-9_]/g, '_');
+}
+
+export function buildDeviceVoiceIdentity(userId, deviceId) {
+  const safeDeviceId = normalizeVoiceIdentityPart(deviceId);
+
+  if (!safeDeviceId) {
+    return null;
+  }
+
+  return `user_${Number(userId)}_device_${safeDeviceId}`;
+}
+
+
 /**
  * POST /voice/client/token
  *
  * Returns a Twilio Voice Access Token for Chatforia clients.
  */
-router.post('/token', requireAuth, (req, res) => {
+router.post('/token', requireAuth, async (req, res) => {
   try {
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
     const apiKeySid = process.env.TWILIO_API_KEY_SID;
@@ -26,18 +44,14 @@ router.post('/token', requireAuth, (req, res) => {
       });
     }
 
-    const userId = req.user?.id;
-    if (!userId) {
+    const userId = Number(req.user?.id);
+
+    if (!Number.isInteger(userId) || userId <= 0) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const identity = `user_${userId}`;
+    let identity = `user_${userId}`;
     const ttlSeconds = 60 * 60;
-
-    const token = new AccessToken(accountSid, apiKeySid, apiKeySecret, {
-      identity,
-      ttl: ttlSeconds,
-    });
 
     const androidPushCredentialSid =
       process.env.TWILIO_ANDROID_PUSH_CREDENTIAL_SID;
@@ -70,6 +84,68 @@ router.post('/token', requireAuth, (req, res) => {
       platform.includes('ipad') ||
       platform.includes('cfnetwork') ||
       platform.includes('darwin');
+
+    const requestedDeviceId = String(
+      req.body?.deviceId ||
+        req.query?.deviceId ||
+        ''
+    ).trim();
+
+    const isMobile = isAndroid || isIOS;
+
+    if (isMobile && requestedDeviceId) {
+      const verifiedDevice = await prisma.device.findUnique({
+        where: {
+          userId_deviceId: {
+            userId,
+            deviceId: requestedDeviceId,
+          },
+        },
+        select: {
+          deviceId: true,
+          platform: true,
+          revokedAt: true,
+          pairingStatus: true,
+        },
+      });
+
+      if (!verifiedDevice) {
+        return res.status(409).json({
+          error:
+            'Device must be registered before requesting a Voice token.',
+          code: 'DEVICE_REGISTRATION_REQUIRED',
+        });
+      }
+
+      if (verifiedDevice.revokedAt) {
+        return res.status(409).json({
+          error: 'This device has been revoked.',
+          code: 'DEVICE_REVOKED',
+        });
+      }
+
+      if (verifiedDevice.pairingStatus === 'rejected') {
+        return res.status(409).json({
+          error: 'This device is not approved.',
+          code: 'DEVICE_NOT_APPROVED',
+        });
+      }
+
+      identity = buildDeviceVoiceIdentity(
+        userId,
+        requestedDeviceId
+      );
+    }
+
+    const token = new AccessToken(
+      accountSid,
+      apiKeySid,
+      apiKeySecret,
+      {
+        identity,
+        ttl: ttlSeconds,
+      }
+    );
 
     const iosPushEnvironment =
       requestedPushEnvironment || 'production';
@@ -125,6 +201,11 @@ router.post('/token', requireAuth, (req, res) => {
       platform,
       isAndroid,
       isIOS,
+      deviceSpecific: Boolean(isMobile && requestedDeviceId),
+      deviceIdSuffix:
+        requestedDeviceId
+          ? requestedDeviceId.slice(-8)
+          : null,
       pushEnvironment:
         isIOS ? iosPushEnvironment : null,
       hasAndroidPushCredentialSid:
@@ -144,6 +225,7 @@ router.post('/token', requireAuth, (req, res) => {
       token: token.toJwt(),
       identity,
       ttlSeconds,
+      deviceSpecific: Boolean(isMobile && requestedDeviceId),
     });
   } catch (err) {
     console.error('[voiceClient] token error', err);
