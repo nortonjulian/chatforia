@@ -698,7 +698,7 @@ test('outgoing audio call cleans up immediately when callee declines', async () 
 });
 
 test(
-  'outgoing audio timeout clears UI without hanging up Twilio so voicemail can continue',
+  'outgoing audio timeout keeps call UI active during voicemail without hanging up Twilio',
   async () => {
     renderWithProvider();
 
@@ -731,9 +731,15 @@ test(
       mockTwilioHangup
     ).not.toHaveBeenCalled();
 
-    expect(ctxRef.active).toBeNull();
+    expect(ctxRef.active).toMatchObject({
+      callId: 'call-123',
+      peerId: 24,
+      mode: 'AUDIO',
+      mediaTransport: 'twilio-voice',
+    });
+
     expect(ctxRef.pending).toBe(false);
-    expect(ctxRef.status).toBeNull();
+    expect(ctxRef.status).toBe('Voicemail');
   }
 );
 
