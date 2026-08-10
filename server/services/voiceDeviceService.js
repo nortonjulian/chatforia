@@ -124,6 +124,8 @@ export async function getVoiceEligibleDevices(
       voiceRegisteredAt: true,
       voiceRegistrationVer: true,
       voicePushEnvironment: true,
+      voipPushToken: true,
+      voipSandboxPushToken: true,
     },
     orderBy: [
       { isPrimary: 'desc' },
