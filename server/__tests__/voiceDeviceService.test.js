@@ -81,6 +81,26 @@ describe('voiceDeviceService', () => {
     ).toBe(true);
   });
 
+  test('accepts versioned iOS platform strings', () => {
+    expect(
+      isVoiceEligibleDevice(
+        registeredIOS({
+          platform: 'iOS 26.6',
+        }),
+        42
+      )
+    ).toBe(true);
+
+    expect(
+      isVoiceEligibleDevice(
+        registeredIOS({
+          platform: 'iOS 26.5.2',
+        }),
+        42
+      )
+    ).toBe(true);
+  });
+
   test('rejects a revoked device', () => {
     expect(
       isVoiceEligibleDevice(

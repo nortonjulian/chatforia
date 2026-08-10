@@ -420,6 +420,51 @@ describe('POST /voice/token', () => {
     });
   });
 
+  test('confirms Voice registration for versioned iOS platform', async () => {
+    prismaDeviceFindUnique.mockResolvedValue({
+      deviceId: 'ios-versioned-device',
+      platform: 'iOS 26.6',
+      revokedAt: null,
+      pairingStatus: 'approved',
+    });
+
+    prismaDeviceUpdate.mockResolvedValue({});
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'ios-versioned-device',
+        pushEnvironment: 'sandbox',
+      });
+
+    expect(res.status).toBe(200);
+
+    expect(res.body).toEqual({
+      ok: true,
+      identity: 'user_42_device_ios_versioned_device',
+      registrationVersion: 1,
+      pushEnvironment: 'sandbox',
+    });
+
+    expect(prismaDeviceUpdate).toHaveBeenCalledWith({
+      where: {
+        userId_deviceId: {
+          userId: 42,
+          deviceId: 'ios-versioned-device',
+        },
+      },
+      data: {
+        voiceIdentity:
+          'user_42_device_ios_versioned_device',
+        voiceRegisteredAt: expect.any(Date),
+        voiceRegistrationVer: 1,
+        voicePushEnvironment: 'sandbox',
+      },
+    });
+  });
+
   test('confirms successful sandbox iOS Voice registration', async () => {
     prismaDeviceFindUnique.mockResolvedValue({
       deviceId: 'ios-device-789',

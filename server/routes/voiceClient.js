@@ -5,6 +5,7 @@ import prisma from '../utils/prismaClient.js';
 import {
   buildDeviceVoiceIdentity,
   VOICE_REGISTRATION_VERSION,
+  normalizeVoicePlatform,
 } from '../utils/voiceIdentity.js';
 
 const router = express.Router();
@@ -287,11 +288,11 @@ router.post('/registration', requireAuth, async (req, res) => {
       });
     }
 
-    const platform = String(device.platform || '')
-      .trim()
-      .toLowerCase();
+    const platform = normalizeVoicePlatform(
+      device.platform
+    );
 
-    if (platform !== 'android' && platform !== 'ios') {
+    if (!platform) {
       return res.status(409).json({
         error: 'This device platform does not support Twilio Voice.',
         code: 'VOICE_PLATFORM_UNSUPPORTED',
