@@ -2,6 +2,8 @@ import request from 'supertest';
 import express from 'express';
 import { jest } from '@jest/globals';
 
+const prismaDeviceFindUnique = jest.fn();
+
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
   __esModule: true,
   requireAuth: (req, res, next) => {
@@ -10,6 +12,15 @@ await jest.unstable_mockModule('../middleware/auth.js', () => ({
     }
 
     return next();
+  },
+}));
+
+await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+  __esModule: true,
+  default: {
+    device: {
+      findUnique: prismaDeviceFindUnique,
+    },
   },
 }));
 
@@ -58,6 +69,7 @@ describe('POST /voice/token', () => {
 
   beforeEach(() => {
     process.env = { ...OLD_ENV };
+    prismaDeviceFindUnique.mockReset();
   });
 
   afterAll(() => {
@@ -118,21 +130,186 @@ describe('POST /voice/token', () => {
     expect(res.body.error).toMatch(/unauthorized/i);
   });
 
-  test('returns 200 and a Twilio Access Token when env vars and user are present', async () => {
-    const app = buildAppWithUser({ id: 42 });
+  test('keeps legacy user identity when mobile client omits deviceId', async () => {
+  const app = buildAppWithUser({ id: 42 });
 
-    process.env.TWILIO_ACCOUNT_SID = 'AC_test_sid';
-    process.env.TWILIO_API_KEY_SID = 'SK_test_key';
-    process.env.TWILIO_API_KEY_SECRET = 'supersecret';
-    process.env.TWILIO_VOICE_TWIML_APP_SID = 'AP_test_app';
+  process.env.TWILIO_ACCOUNT_SID = 'AC_test_sid';
+  process.env.TWILIO_API_KEY_SID = 'SK_test_key';
+  process.env.TWILIO_API_KEY_SECRET = 'supersecret';
+  process.env.TWILIO_VOICE_TWIML_APP_SID = 'AP_test_app';
+  process.env.TWILIO_ANDROID_PUSH_CREDENTIAL_SID = 'CR_android_push';
 
-    const res = await request(app).post('/voice/token');
-
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({
-      token: 'mock-jwt-for-user_42',
-      identity: 'user_42',
-      ttlSeconds: 60 * 60,
+  const res = await request(app)
+    .post('/voice/token')
+    .send({
+      platform: 'android',
     });
+
+  expect(res.status).toBe(200);
+  expect(res.body).toEqual({
+    token: 'mock-jwt-for-user_42',
+    identity: 'user_42',
+    ttlSeconds: 60 * 60,
+    deviceSpecific: false,
+  });
+
+  expect(prismaDeviceFindUnique).not.toHaveBeenCalled();
+  });
+
+  test('returns device-specific identity for registered Android device', async () => {
+  prismaDeviceFindUnique.mockResolvedValue({
+    deviceId: 'android-device-123',
+    platform: 'android',
+    revokedAt: null,
+    pairingStatus: 'approved',
+  });
+
+  const app = buildAppWithUser({ id: 42 });
+
+  process.env.TWILIO_ACCOUNT_SID = 'AC_test_sid';
+  process.env.TWILIO_API_KEY_SID = 'SK_test_key';
+  process.env.TWILIO_API_KEY_SECRET = 'supersecret';
+  process.env.TWILIO_VOICE_TWIML_APP_SID = 'AP_test_app';
+  process.env.TWILIO_ANDROID_PUSH_CREDENTIAL_SID = 'CR_android_push';
+
+  const res = await request(app)
+    .post('/voice/token')
+    .send({
+      platform: 'android',
+      deviceId: 'android-device-123',
+    });
+
+  expect(res.status).toBe(200);
+
+  expect(prismaDeviceFindUnique).toHaveBeenCalledWith({
+    where: {
+      userId_deviceId: {
+        userId: 42,
+        deviceId: 'android-device-123',
+      },
+    },
+    select: {
+      deviceId: true,
+      platform: true,
+      revokedAt: true,
+      pairingStatus: true,
+    },
+  });
+
+  expect(res.body).toEqual({
+    token: 'mock-jwt-for-user_42_device_android_device_123',
+    identity: 'user_42_device_android_device_123',
+    ttlSeconds: 60 * 60,
+    deviceSpecific: true,
+  });
+  });
+
+  test('returns device-specific identity for registered iOS device', async () => {
+  prismaDeviceFindUnique.mockResolvedValue({
+    deviceId: 'ios-device-456',
+    platform: 'ios',
+    revokedAt: null,
+    pairingStatus: 'approved',
+  });
+
+  const app = buildAppWithUser({ id: 42 });
+
+  process.env.TWILIO_ACCOUNT_SID = 'AC_test_sid';
+  process.env.TWILIO_API_KEY_SID = 'SK_test_key';
+  process.env.TWILIO_API_KEY_SECRET = 'supersecret';
+  process.env.TWILIO_VOICE_TWIML_APP_SID = 'AP_test_app';
+  process.env.TWILIO_IOS_PUSH_CREDENTIAL_SID = 'CR_ios_prod_push';
+
+  const res = await request(app)
+    .post('/voice/token')
+    .send({
+      platform: 'ios',
+      pushEnvironment: 'production',
+      deviceId: 'ios-device-456',
+    });
+
+  expect(res.status).toBe(200);
+
+  expect(res.body).toEqual({
+    token: 'mock-jwt-for-user_42_device_ios_device_456',
+    identity: 'user_42_device_ios_device_456',
+    ttlSeconds: 60 * 60,
+    deviceSpecific: true,
+  });
+  });
+
+  test('rejects unknown mobile device', async () => {
+  prismaDeviceFindUnique.mockResolvedValue(null);
+
+  const app = buildAppWithUser({ id: 42 });
+
+  process.env.TWILIO_ACCOUNT_SID = 'AC_test_sid';
+  process.env.TWILIO_API_KEY_SID = 'SK_test_key';
+  process.env.TWILIO_API_KEY_SECRET = 'supersecret';
+  process.env.TWILIO_VOICE_TWIML_APP_SID = 'AP_test_app';
+
+  const res = await request(app)
+    .post('/voice/token')
+    .send({
+      platform: 'android',
+      deviceId: 'missing-device',
+    });
+
+  expect(res.status).toBe(409);
+  expect(res.body.code).toBe(
+    'DEVICE_REGISTRATION_REQUIRED'
+  );
+  });
+
+  test('rejects revoked mobile device', async () => {
+  prismaDeviceFindUnique.mockResolvedValue({
+    deviceId: 'revoked-device',
+    platform: 'android',
+    revokedAt: new Date('2026-08-01T00:00:00Z'),
+    pairingStatus: 'approved',
+  });
+
+  const app = buildAppWithUser({ id: 42 });
+
+  process.env.TWILIO_ACCOUNT_SID = 'AC_test_sid';
+  process.env.TWILIO_API_KEY_SID = 'SK_test_key';
+  process.env.TWILIO_API_KEY_SECRET = 'supersecret';
+  process.env.TWILIO_VOICE_TWIML_APP_SID = 'AP_test_app';
+
+  const res = await request(app)
+    .post('/voice/token')
+    .send({
+      platform: 'android',
+      deviceId: 'revoked-device',
+    });
+
+  expect(res.status).toBe(409);
+  expect(res.body.code).toBe('DEVICE_REVOKED');
+  });
+
+  test('rejects rejected mobile device', async () => {
+  prismaDeviceFindUnique.mockResolvedValue({
+    deviceId: 'rejected-device',
+    platform: 'ios',
+    revokedAt: null,
+    pairingStatus: 'rejected',
+  });
+
+  const app = buildAppWithUser({ id: 42 });
+
+  process.env.TWILIO_ACCOUNT_SID = 'AC_test_sid';
+  process.env.TWILIO_API_KEY_SID = 'SK_test_key';
+  process.env.TWILIO_API_KEY_SECRET = 'supersecret';
+  process.env.TWILIO_VOICE_TWIML_APP_SID = 'AP_test_app';
+
+  const res = await request(app)
+    .post('/voice/token')
+    .send({
+      platform: 'ios',
+      deviceId: 'rejected-device',
+    });
+
+  expect(res.status).toBe(409);
+  expect(res.body.code).toBe('DEVICE_NOT_APPROVED');
   });
 });
