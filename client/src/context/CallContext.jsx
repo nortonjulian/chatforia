@@ -75,6 +75,14 @@ const twilioVideoRoomRef = useRef(null);
 
     if (
       twilioVoice.callStatus ===
+      'ended'
+    ) {
+      cleanup();
+      return;
+    }
+
+    if (
+      twilioVoice.callStatus ===
       'error'
     ) {
       setPending(false);
