@@ -52,18 +52,31 @@ class MockVoiceResponse {
         return this;
       },
       client: (optionsOrIdentity, maybeIdentity) => {
-        if (maybeIdentity === undefined) {
-          dial.clients.push({
-            to: optionsOrIdentity,
-          });
-        } else {
-          dial.clients.push({
-            to: maybeIdentity,
-            opts: optionsOrIdentity || {},
-          });
-        }
+        const clientEntry =
+          maybeIdentity === undefined
+            ? {
+                to: optionsOrIdentity,
+                opts: {},
+                params: [],
+              }
+            : {
+                to: maybeIdentity,
+                opts: optionsOrIdentity || {},
+                params: [],
+              };
 
-        return this;
+        dial.clients.push(clientEntry);
+
+        return {
+          parameter: ({ name, value }) => {
+            clientEntry.params.push({
+              name,
+              value,
+            });
+
+            return this;
+          },
+        };
       },
     };
   }
@@ -157,6 +170,13 @@ const sendIncomingForwardedCallPush = jest.fn(async () => undefined);
 jest.unstable_mockModule('../services/pushService.js', () => ({
   __esModule: true,
   sendIncomingForwardedCallPush,
+}));
+
+const getVoiceDialDestinations = jest.fn();
+
+jest.unstable_mockModule('../services/voiceDeviceService.js', () => ({
+  __esModule: true,
+  getVoiceDialDestinations,
 }));
 
 // -----------------------------------------------------------------------------
@@ -452,8 +472,21 @@ describe('POST /webhooks/voice/inbound', () => {
     });
 
     expect(actions[1].type).toBe('record');
-    expect(actions[1].opts.action).toBe(
-      '/webhooks/voice/voicemail-complete'
+
+    const voicemailUrl = new URL(
+      actions[1].opts.action,
+      'https://chatforia.test'
+    );
+
+    expect(voicemailUrl.pathname).toBe(
+      '/webhooks/voice/voicemail/complete'
+    );
+    expect(voicemailUrl.searchParams.get('userId')).toBe('42');
+    expect(voicemailUrl.searchParams.get('did')).toBe(
+      '+15550009999'
+    );
+    expect(voicemailUrl.searchParams.get('from')).toBe(
+      '+15550001111'
     );
   });
 });
@@ -463,10 +496,33 @@ describe('POST /webhooks/voice/inbound', () => {
 // -----------------------------------------------------------------------------
 
 describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
-  it('rings the Chatforia client for 25 seconds with a voicemail callback', async () => {
-    prisma.user.findUnique.mockResolvedValueOnce({
-      id: 99,
-    });
+  it('fans out one Dial to all registered Voice devices and parses a device-specific caller identity', async () => {
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 99,
+      })
+      .mockResolvedValueOnce({
+        id: 42,
+        username: 'caller42',
+        displayName: 'Caller Forty Two',
+      });
+
+    getVoiceDialDestinations.mockResolvedValueOnce([
+      {
+        identity:
+          'user_99_device_android_device_123',
+        deviceId: 'android-device-123',
+        platform: 'android',
+        legacy: false,
+      },
+      {
+        identity:
+          'user_99_device_ios_device_456',
+        deviceId: 'ios-device-456',
+        platform: 'ios',
+        legacy: false,
+      },
+    ]);
 
     const app = createApp();
 
@@ -474,33 +530,65 @@ describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
       .post('/webhooks/voice/client')
       .type('form')
       .send({
-        From: 'client:user_42',
+        From:
+          'client:user_42_device_caller_device_abc',
         To: '99',
         backendCallId: '777',
       });
 
     expect(res.statusCode).toBe(200);
 
+    expect(
+      getVoiceDialDestinations
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      getVoiceDialDestinations
+    ).toHaveBeenCalledWith(99);
+
     const actions = JSON.parse(res.text);
 
     expect(actions).toHaveLength(1);
     expect(actions[0].type).toBe('dial');
+
     expect(actions[0].opts).toMatchObject({
       answerOnBridge: true,
       timeout: 25,
       method: 'POST',
     });
-    expect(actions[0].clients).toEqual([
-      {
-        to: 'user_99',
-        opts: {
-          statusCallback:
-            '/webhooks/voice/app-call-progress?backendCallId=777',
-          statusCallbackEvent: 'answered',
-          statusCallbackMethod: 'POST',
-        },
-      },
+
+    expect(actions[0].clients).toHaveLength(2);
+
+    expect(
+      actions[0].clients.map((client) => client.to)
+    ).toEqual([
+      'user_99_device_android_device_123',
+      'user_99_device_ios_device_456',
     ]);
+
+    for (const client of actions[0].clients) {
+      expect(client.opts).toEqual({
+        statusCallback:
+          '/webhooks/voice/app-call-progress?backendCallId=777',
+        statusCallbackEvent: 'answered',
+        statusCallbackMethod: 'POST',
+      });
+
+      expect(client.params).toEqual([
+        {
+          name: 'callerName',
+          value: 'Caller Forty Two',
+        },
+        {
+          name: 'callerId',
+          value: '42',
+        },
+        {
+          name: 'backendCallId',
+          value: '777',
+        },
+      ]);
+    }
 
     const completionUrl = new URL(
       actions[0].opts.action,
@@ -510,9 +598,18 @@ describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
     expect(completionUrl.pathname).toBe(
       '/webhooks/voice/app-call-complete'
     );
-    expect(completionUrl.searchParams.get('callerUserId')).toBe('42');
-    expect(completionUrl.searchParams.get('calleeUserId')).toBe('99');
-    expect(completionUrl.searchParams.get('backendCallId')).toBe('777');
+
+    expect(
+      completionUrl.searchParams.get('callerUserId')
+    ).toBe('42');
+
+    expect(
+      completionUrl.searchParams.get('calleeUserId')
+    ).toBe('99');
+
+    expect(
+      completionUrl.searchParams.get('backendCallId')
+    ).toBe('777');
   });
 });
 
