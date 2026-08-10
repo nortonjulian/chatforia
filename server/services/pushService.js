@@ -2,6 +2,7 @@ import apn from 'apn';
 import prisma from '../utils/prismaClient.js';
 import { getFirebaseMessaging } from './firebaseAdmin.js';
 import { resolveMessageNotificationSound } from '../config/messageToneCatalog.js';
+import { getVoiceEligibleDevices } from './voiceDeviceService.js';
 
 const providers = {
   production: null,
@@ -262,18 +263,82 @@ export async function sendVoipCallPushToUser(
   userId,
   payload
 ) {
-  const tokens = await getUserTokens(userId);
+  const isAudioCall =
+    String(payload?.mode || '')
+      .trim()
+      .toUpperCase() === 'AUDIO';
 
-  const groups = [
-    {
-      environment: 'production',
-      tokens: tokens.apnsVoipProduction,
-    },
-    {
-      environment: 'sandbox',
-      tokens: tokens.apnsVoipSandbox,
-    },
-  ];
+  let groups;
+
+  if (isAudioCall) {
+    /*
+     * App-to-app AUDIO calls use authoritative device-specific
+     * Twilio Voice registration. The CallKit VoIP push must target
+     * those same eligible iOS devices rather than every historical
+     * non-revoked VoIP token on the account.
+     */
+    const voiceDevices =
+      await getVoiceEligibleDevices(userId);
+
+    const productionTokens =
+      voiceDevices
+        .filter(
+          (device) =>
+            device.voicePushEnvironment ===
+              'production' &&
+            Boolean(device.voipPushToken)
+        )
+        .map(
+          (device) => device.voipPushToken
+        );
+
+    const sandboxTokens =
+      voiceDevices
+        .filter(
+          (device) =>
+            device.voicePushEnvironment ===
+              'sandbox' &&
+            Boolean(device.voipSandboxPushToken)
+        )
+        .map(
+          (device) =>
+            device.voipSandboxPushToken
+        );
+
+    groups = [
+      {
+        environment: 'production',
+        tokens: [
+          ...new Set(productionTokens),
+        ],
+      },
+      {
+        environment: 'sandbox',
+        tokens: [
+          ...new Set(sandboxTokens),
+        ],
+      },
+    ];
+  } else {
+    /*
+     * Preserve existing behavior for VIDEO and any other current
+     * VoIP-push consumers. This migration is specifically for the
+     * Twilio Voice AUDIO path.
+     */
+    const tokens =
+      await getUserTokens(userId);
+
+    groups = [
+      {
+        environment: 'production',
+        tokens: tokens.apnsVoipProduction,
+      },
+      {
+        environment: 'sandbox',
+        tokens: tokens.apnsVoipSandbox,
+      },
+    ];
+  }
 
   const tokenCount =
     groups.reduce(

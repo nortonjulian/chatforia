@@ -46,6 +46,8 @@ const getFirebaseMessagingMock = jest.fn();
 const resolveMessageNotificationSoundMock =
   jest.fn(() => 'Chatforia_Default.caf');
 
+const getVoiceEligibleDevicesMock = jest.fn();
+
 await jest.unstable_mockModule('apn', () => ({
   __esModule: true,
   default: {
@@ -77,6 +79,15 @@ await jest.unstable_mockModule(
     __esModule: true,
     resolveMessageNotificationSound:
       resolveMessageNotificationSoundMock,
+  })
+);
+
+await jest.unstable_mockModule(
+  '../services/voiceDeviceService.js',
+  () => ({
+    __esModule: true,
+    getVoiceEligibleDevices:
+      getVoiceEligibleDevicesMock,
   })
 );
 
@@ -139,6 +150,31 @@ describe('pushService APNs environment routing', () => {
       messageTone: 'Default.mp3',
       plan: 'FREE',
     });
+
+    getVoiceEligibleDevicesMock.mockResolvedValue([
+      {
+        deviceId: 'ios-production-device',
+        platform: 'iOS 26.6',
+        voiceIdentity:
+          'user_7_device_ios_production_device',
+        voiceRegisteredAt: new Date(),
+        voiceRegistrationVer: 1,
+        voicePushEnvironment: 'production',
+        voipPushToken: productionVoipToken,
+        voipSandboxPushToken: null,
+      },
+      {
+        deviceId: 'ios-sandbox-device',
+        platform: 'iOS 26.6',
+        voiceIdentity:
+          'user_7_device_ios_sandbox_device',
+        voiceRegisteredAt: new Date(),
+        voiceRegistrationVer: 1,
+        voicePushEnvironment: 'sandbox',
+        voipPushToken: null,
+        voipSandboxPushToken: sandboxVoipToken,
+      },
+    ]);
 
     getFirebaseMessagingMock.mockReturnValue(null);
 
@@ -221,6 +257,89 @@ describe('pushService APNs environment routing', () => {
       expect(result).toMatchObject({
         ok: true,
         apnsVoipSent: 2,
+        apnsVoipFailed: 0,
+      });
+    }
+  );
+
+  it(
+    'does not send AUDIO VoIP pushes to stale non-Voice-registered iOS devices',
+    async () => {
+      const staleProductionToken =
+        'stale-production-voip-token';
+
+      /*
+       * This represents the historical account-level token set:
+       * it contains a stale production iPhone token in addition
+       * to the current sandbox Voice-registered iPhone.
+       *
+       * AUDIO routing must ignore this generic token list and use
+       * getVoiceEligibleDevices() instead.
+       */
+      mockPrisma.device.findMany.mockResolvedValue([
+        {
+          pushToken: null,
+          pushProvider: null,
+          apnsPushToken: null,
+          apnsSandboxPushToken: null,
+          fcmPushToken: null,
+          voipPushToken:
+            staleProductionToken,
+          voipSandboxPushToken: null,
+        },
+      ]);
+
+      getVoiceEligibleDevicesMock.mockResolvedValue([
+        {
+          deviceId: 'current-ios-device',
+          platform: 'iOS 26.6',
+          voiceIdentity:
+            'user_7_device_current_ios_device',
+          voiceRegisteredAt: new Date(),
+          voiceRegistrationVer: 1,
+          voicePushEnvironment: 'sandbox',
+          voipPushToken: null,
+          voipSandboxPushToken:
+            sandboxVoipToken,
+        },
+      ]);
+
+      const result =
+        await sendVoipCallPushToUser(7, {
+          callId: 704,
+          callerId: 1,
+          callerName: 'Caller',
+          mode: 'AUDIO',
+        });
+
+      expect(
+        getVoiceEligibleDevicesMock
+      ).toHaveBeenCalledWith(7);
+
+      expect(providerSendMock)
+        .toHaveBeenCalledTimes(1);
+
+      expect(providerSendMock)
+        .toHaveBeenCalledWith(
+          expect.objectContaining({
+            production: false,
+            tokens: [sandboxVoipToken],
+          })
+        );
+
+      expect(providerSendMock)
+        .not.toHaveBeenCalledWith(
+          expect.objectContaining({
+            tokens:
+              expect.arrayContaining([
+                staleProductionToken,
+              ]),
+          })
+        );
+
+      expect(result).toMatchObject({
+        ok: true,
+        apnsVoipSent: 1,
         apnsVoipFailed: 0,
       });
     }
