@@ -697,6 +697,46 @@ test('outgoing audio call cleans up immediately when callee declines', async () 
   expect(ctxRef.status).toBeNull();
 });
 
+test(
+  'outgoing audio timeout clears UI without hanging up Twilio so voicemail can continue',
+  async () => {
+    renderWithProvider();
+
+    await act(async () => {
+      await ctxRef.startCall({
+        calleeId: 24,
+        mode: 'AUDIO',
+        peerName: 'Reviewer',
+      });
+    });
+
+    expect(ctxRef.active).toMatchObject({
+      callId: 'call-123',
+      peerId: 24,
+      mode: 'AUDIO',
+      mediaTransport: 'twilio-voice',
+    });
+
+    mockTwilioHangup.mockClear();
+
+    act(() => {
+      socketMock.emit('call:ended', {
+        callId: 'call-123',
+        status: 'MISSED',
+        reason: 'no_answer',
+      });
+    });
+
+    expect(
+      mockTwilioHangup
+    ).not.toHaveBeenCalled();
+
+    expect(ctxRef.active).toBeNull();
+    expect(ctxRef.pending).toBe(false);
+    expect(ctxRef.status).toBeNull();
+  }
+);
+
 test('call:ended socket event triggers cleanup', async () => {
     renderWithProvider();
 

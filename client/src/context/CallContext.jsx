@@ -198,6 +198,24 @@ const twilioVideoRoomRef = useRef(null);
       return;
     }
 
+    const reason =
+      String(payload?.reason || '')
+        .trim()
+        .toLowerCase();
+
+    const isOutgoingTwilioVoicemailHandoff =
+      status === 'MISSED' &&
+      reason === 'no_answer' &&
+      activeRef.current?.mediaTransport ===
+        'twilio-voice';
+
+    if (isOutgoingTwilioVoicemailHandoff) {
+      cleanup({
+        preserveTwilioVoice: true,
+      });
+      return;
+    }
+
     cleanup();
   }
 
@@ -1031,10 +1049,14 @@ function onParticipantDeclined({ participant }) {
   delete peerConnectionsRef.current[key];
 }
 
-  function cleanup() {
+  function cleanup({
+  preserveTwilioVoice = false,
+} = {}) {
+if (!preserveTwilioVoice) {
 try {
 twilioVoice.hangup();
 } catch {}
+}
 
 const videoRoom =
 twilioVideoRoomRef.current;
