@@ -808,20 +808,38 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
       ? null
       : String(endReason).trim().toLowerCase();
 
-  // A remote-ended report is local cleanup after another lifecycle event.
-  // It must not become the authoritative terminal transition. Otherwise a
-  // stale same-account client can end the call immediately after another
-  // device successfully claims it ACTIVE.
-  if (
+  const isRemoteEndedAcknowledgement =
     isTerminalCallStatus(normalizedStatus) &&
-    normalizedEndReason === 'remote_ended'
+    normalizedEndReason === 'remote_ended';
+
+  const isActiveCalleeLosingLegFailure =
+    call.status === 'ACTIVE' &&
+    userId === call.calleeId &&
+    normalizedStatus === 'FAILED' &&
+    normalizedEndReason === 'no incoming call to answer.';
+
+  // These reports describe local device cleanup rather than an authoritative
+  // account-level terminal transition.
+  //
+  // In a multi-device call, one callee device can successfully answer while
+  // another device loses its local Twilio incoming leg. That losing device
+  // must not be allowed to terminate the already-ACTIVE canonical call.
+  if (
+    isRemoteEndedAcknowledgement ||
+    isActiveCalleeLosingLegFailure
   ) {
     console.log(
-      '[calls/status] ignored non-authoritative remote-ended acknowledgement',
+      '[calls/status] ignored non-authoritative device lifecycle acknowledgement',
       {
         callId,
         reportedBy: userId,
+        reportedStatus: normalizedStatus,
+        reportedEndReason: normalizedEndReason,
         authoritativeStatus: call.status,
+        reason:
+          isActiveCalleeLosingLegFailure
+            ? 'losing_device_leg'
+            : 'remote_ended',
       }
     );
 

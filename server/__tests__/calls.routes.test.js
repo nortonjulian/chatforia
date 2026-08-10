@@ -809,5 +809,60 @@ describe('calls routes', () => {
         emitToUserMock
       ).not.toHaveBeenCalled();
     });
+
+    test('a losing callee device cannot fail an already active multi-device call', async () => {
+      const startedAt =
+        new Date('2026-08-10T20:21:48.527Z');
+
+      const activeCall = {
+        id: 703,
+        callerId: 20,
+        calleeId: 10,
+        mode: 'AUDIO',
+        status: 'ACTIVE',
+        startedAt,
+        endedAt: null,
+        durationSec: null,
+        endReason: null,
+        twilioCallSid: null,
+      };
+
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          ...activeCall,
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
+        })
+        .mockResolvedValueOnce(activeCall);
+
+      const res = await request(app)
+        .patch('/calls/703/status')
+        .send({
+          status: 'FAILED',
+          endedAt:
+            '2026-08-10T20:22:05.000Z',
+          endReason:
+            'No incoming call to answer.',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(res.body.call).toMatchObject({
+        id: 703,
+        status: 'ACTIVE',
+        endedAt: null,
+        endReason: null,
+      });
+
+      expect(
+        mockPrisma.call.updateMany
+      ).not.toHaveBeenCalled();
+
+      expect(
+        emitToUserMock
+      ).not.toHaveBeenCalled();
+    });
   });
 });
