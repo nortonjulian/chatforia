@@ -3,6 +3,7 @@ import express from 'express';
 import { jest } from '@jest/globals';
 
 const prismaDeviceFindUnique = jest.fn();
+const prismaDeviceUpdate = jest.fn();
 
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
   __esModule: true,
@@ -20,6 +21,7 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   default: {
     device: {
       findUnique: prismaDeviceFindUnique,
+      update: prismaDeviceUpdate,
     },
   },
 }));
@@ -70,6 +72,7 @@ describe('POST /voice/token', () => {
   beforeEach(() => {
     process.env = { ...OLD_ENV };
     prismaDeviceFindUnique.mockReset();
+    prismaDeviceUpdate.mockReset();
   });
 
   afterAll(() => {
@@ -312,4 +315,284 @@ describe('POST /voice/token', () => {
   expect(res.status).toBe(409);
   expect(res.body.code).toBe('DEVICE_NOT_APPROVED');
   });
+
+  test('confirms successful Android Voice registration', async () => {
+    prismaDeviceFindUnique.mockResolvedValue({
+      deviceId: 'android-device-123',
+      platform: 'android',
+      revokedAt: null,
+      pairingStatus: 'approved',
+    });
+
+    prismaDeviceUpdate.mockResolvedValue({});
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'android-device-123',
+      });
+
+    expect(res.status).toBe(200);
+
+    expect(res.body).toEqual({
+      ok: true,
+      identity: 'user_42_device_android_device_123',
+      registrationVersion: 1,
+      pushEnvironment: null,
+    });
+
+    expect(prismaDeviceFindUnique).toHaveBeenCalledWith({
+      where: {
+        userId_deviceId: {
+          userId: 42,
+          deviceId: 'android-device-123',
+        },
+      },
+      select: {
+        deviceId: true,
+        platform: true,
+        revokedAt: true,
+        pairingStatus: true,
+      },
+    });
+
+    expect(prismaDeviceUpdate).toHaveBeenCalledWith({
+      where: {
+        userId_deviceId: {
+          userId: 42,
+          deviceId: 'android-device-123',
+        },
+      },
+      data: {
+        voiceIdentity:
+          'user_42_device_android_device_123',
+        voiceRegisteredAt: expect.any(Date),
+        voiceRegistrationVer: 1,
+        voicePushEnvironment: null,
+      },
+    });
+  });
+
+  test('confirms successful production iOS Voice registration', async () => {
+    prismaDeviceFindUnique.mockResolvedValue({
+      deviceId: 'ios-device-456',
+      platform: 'ios',
+      revokedAt: null,
+      pairingStatus: 'approved',
+    });
+
+    prismaDeviceUpdate.mockResolvedValue({});
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'ios-device-456',
+        pushEnvironment: 'production',
+      });
+
+    expect(res.status).toBe(200);
+
+    expect(res.body).toEqual({
+      ok: true,
+      identity: 'user_42_device_ios_device_456',
+      registrationVersion: 1,
+      pushEnvironment: 'production',
+    });
+
+    expect(prismaDeviceUpdate).toHaveBeenCalledWith({
+      where: {
+        userId_deviceId: {
+          userId: 42,
+          deviceId: 'ios-device-456',
+        },
+      },
+      data: {
+        voiceIdentity:
+          'user_42_device_ios_device_456',
+        voiceRegisteredAt: expect.any(Date),
+        voiceRegistrationVer: 1,
+        voicePushEnvironment: 'production',
+      },
+    });
+  });
+
+  test('confirms successful sandbox iOS Voice registration', async () => {
+    prismaDeviceFindUnique.mockResolvedValue({
+      deviceId: 'ios-device-789',
+      platform: 'ios',
+      revokedAt: null,
+      pairingStatus: 'approved',
+    });
+
+    prismaDeviceUpdate.mockResolvedValue({});
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'ios-device-789',
+        pushEnvironment: 'sandbox',
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.pushEnvironment).toBe('sandbox');
+
+    expect(prismaDeviceUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          voicePushEnvironment: 'sandbox',
+          voiceRegistrationVer: 1,
+        }),
+      })
+    );
+  });
+
+  test('rejects Voice registration when deviceId is missing', async () => {
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({});
+
+    expect(res.status).toBe(400);
+    expect(res.body.code).toBe('DEVICE_ID_REQUIRED');
+    expect(prismaDeviceFindUnique).not.toHaveBeenCalled();
+    expect(prismaDeviceUpdate).not.toHaveBeenCalled();
+  });
+
+  test('rejects Voice registration for unknown device', async () => {
+    prismaDeviceFindUnique.mockResolvedValue(null);
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'missing-device',
+      });
+
+    expect(res.status).toBe(409);
+    expect(res.body.code).toBe(
+      'DEVICE_REGISTRATION_REQUIRED'
+    );
+    expect(prismaDeviceUpdate).not.toHaveBeenCalled();
+  });
+
+  test('rejects Voice registration for revoked device', async () => {
+    prismaDeviceFindUnique.mockResolvedValue({
+      deviceId: 'revoked-device',
+      platform: 'android',
+      revokedAt: new Date(),
+      pairingStatus: 'approved',
+    });
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'revoked-device',
+      });
+
+    expect(res.status).toBe(409);
+    expect(res.body.code).toBe('DEVICE_REVOKED');
+    expect(prismaDeviceUpdate).not.toHaveBeenCalled();
+  });
+
+  test('rejects Voice registration for rejected device', async () => {
+    prismaDeviceFindUnique.mockResolvedValue({
+      deviceId: 'rejected-device',
+      platform: 'android',
+      revokedAt: null,
+      pairingStatus: 'rejected',
+    });
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'rejected-device',
+      });
+
+    expect(res.status).toBe(409);
+    expect(res.body.code).toBe('DEVICE_NOT_APPROVED');
+    expect(prismaDeviceUpdate).not.toHaveBeenCalled();
+  });
+
+  test('rejects Voice registration for unsupported device platform', async () => {
+    prismaDeviceFindUnique.mockResolvedValue({
+      deviceId: 'web-device',
+      platform: 'web',
+      revokedAt: null,
+      pairingStatus: 'approved',
+    });
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'web-device',
+      });
+
+    expect(res.status).toBe(409);
+    expect(res.body.code).toBe(
+      'VOICE_PLATFORM_UNSUPPORTED'
+    );
+    expect(prismaDeviceUpdate).not.toHaveBeenCalled();
+  });
+
+  test('rejects iOS Voice registration without push environment', async () => {
+    prismaDeviceFindUnique.mockResolvedValue({
+      deviceId: 'ios-device',
+      platform: 'ios',
+      revokedAt: null,
+      pairingStatus: 'approved',
+    });
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'ios-device',
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body.code).toBe(
+      'INVALID_IOS_PUSH_ENVIRONMENT'
+    );
+    expect(prismaDeviceUpdate).not.toHaveBeenCalled();
+  });
+
+  test('rejects invalid iOS Voice push environment', async () => {
+    prismaDeviceFindUnique.mockResolvedValue({
+      deviceId: 'ios-device',
+      platform: 'ios',
+      revokedAt: null,
+      pairingStatus: 'approved',
+    });
+
+    const app = buildAppWithUser({ id: 42 });
+
+    const res = await request(app)
+      .post('/voice/registration')
+      .send({
+        deviceId: 'ios-device',
+        pushEnvironment: 'invalid',
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body.code).toBe(
+      'INVALID_IOS_PUSH_ENVIRONMENT'
+    );
+    expect(prismaDeviceUpdate).not.toHaveBeenCalled();
+  });
+
 });

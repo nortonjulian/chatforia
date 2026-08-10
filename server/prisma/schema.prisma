@@ -483,6 +483,14 @@ model Device {
   voipPushToken        String? @unique
   voipSandboxPushToken String? @unique
 
+  // Twilio Voice device-addressable registration authority.
+  // A push token alone does not prove that a Twilio Voice identity
+  // has successfully registered on this physical device.
+  voiceIdentity        String?   @unique
+  voiceRegisteredAt    DateTime?
+  voiceRegistrationVer Int       @default(0)
+  voicePushEnvironment String?
+
   wrappedAccountKey     String?
   wrappedAccountKeyAlgo String?
   wrappedAccountKeyVer  Int?
