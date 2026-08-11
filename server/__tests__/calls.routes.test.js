@@ -11,6 +11,9 @@ const mockPrisma = {
   user: {
     findUnique: jest.fn(),
   },
+  device: {
+    findUnique: jest.fn(),
+  },
   call: {
     create: jest.fn(),
     findFirst: jest.fn(),
@@ -90,6 +93,10 @@ describe('calls routes', () => {
       .mockResolvedValue(undefined);
 
     mockPrisma.user.findUnique.mockReset();
+
+    mockPrisma.device.findUnique
+      .mockReset()
+      .mockResolvedValue(null);
 
     mockPrisma.call.create.mockReset();
     mockPrisma.call.findFirst
@@ -752,6 +759,99 @@ describe('calls routes', () => {
       expect(emitToUserMock).not.toHaveBeenCalled();
       expect(mockPrisma.call.findUnique).toHaveBeenCalledTimes(1);
     });
+
+    test('a losing callee device cannot end an active call won by another device', async () => {
+      mockPrisma.call.findUnique.mockResolvedValueOnce({
+        id: 730,
+        callerId: 20,
+        calleeId: 10,
+        mode: 'AUDIO',
+        status: 'ACTIVE',
+        answeredDeviceId: 'iphone-device',
+        answeredVoiceIdentity:
+          'user_10_device_iphone_device',
+        participants: [
+          { userId: 20 },
+          { userId: 10 },
+        ],
+      });
+
+      const res = await request(app)
+        .post('/calls/end')
+        .send({
+          callId: 730,
+          reason: 'hangup',
+          deviceId: 'android-device',
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual({
+        ok: true,
+        ignored: true,
+        code: 'CALL_NOT_AUTHORITATIVE_DEVICE',
+      });
+
+      expect(
+        mockPrisma.call.updateMany
+      ).not.toHaveBeenCalled();
+
+      expect(
+        emitToUserMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('the winning callee device may end its active call', async () => {
+      const endedAt =
+        new Date('2026-08-11T02:00:00.000Z');
+
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 731,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'ACTIVE',
+          answeredDeviceId: 'android-device',
+          answeredVoiceIdentity:
+            'user_10_device_android_device',
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
+        })
+        .mockResolvedValueOnce({
+          id: 731,
+          callerId: 20,
+          calleeId: 10,
+          status: 'ENDED',
+          endedAt,
+          durationSec: undefined,
+          endReason: 'hangup',
+        });
+
+      mockPrisma.call.updateMany
+        .mockResolvedValueOnce({
+          count: 1,
+        });
+
+      const res = await request(app)
+        .post('/calls/end')
+        .send({
+          callId: 731,
+          reason: 'hangup',
+          deviceId: 'android-device',
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual({
+        ok: true,
+      });
+
+      expect(
+        mockPrisma.call.updateMany
+      ).toHaveBeenCalledTimes(1);
+    });
+
   });
 
   describe('PATCH /calls/:id/status', () => {
@@ -864,5 +964,369 @@ describe('calls routes', () => {
         emitToUserMock
       ).not.toHaveBeenCalled();
     });
+    test('an eligible callee device atomically becomes the physical answer winner', async () => {
+      const startedAt =
+        new Date('2026-08-11T02:05:00.000Z');
+
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 740,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'RINGING',
+          startedAt: null,
+          endedAt: null,
+          durationSec: null,
+          endReason: null,
+          twilioCallSid: null,
+          answeredDeviceId: null,
+          answeredVoiceIdentity: null,
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
+        })
+        .mockResolvedValueOnce({
+          id: 740,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'ACTIVE',
+          startedAt,
+          endedAt: null,
+          durationSec: null,
+          endReason: null,
+          twilioCallSid: null,
+          answeredDeviceId: 'android-device',
+          answeredVoiceIdentity:
+            'user_10_device_android_device',
+        });
+
+      mockPrisma.device.findUnique
+        .mockResolvedValueOnce({
+          deviceId: 'android-device',
+          platform: 'android',
+          pairingStatus: 'approved',
+          revokedAt: null,
+          voiceIdentity:
+            'user_10_device_android_device',
+          voiceRegisteredAt:
+            new Date('2026-08-11T01:00:00.000Z'),
+          voiceRegistrationVer: 1,
+          voicePushEnvironment: null,
+        });
+
+      mockPrisma.call.updateMany
+        .mockResolvedValueOnce({
+          count: 1,
+        });
+
+      const res = await request(app)
+        .patch('/calls/740/status')
+        .send({
+          status: 'ACTIVE',
+          startedAt:
+            startedAt.toISOString(),
+          deviceId: 'android-device',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(
+        mockPrisma.device.findUnique
+      ).toHaveBeenCalledWith({
+        where: {
+          userId_deviceId: {
+            userId: 10,
+            deviceId: 'android-device',
+          },
+        },
+        select: {
+          deviceId: true,
+          platform: true,
+          pairingStatus: true,
+          revokedAt: true,
+          voiceIdentity: true,
+          voiceRegisteredAt: true,
+          voiceRegistrationVer: true,
+          voicePushEnvironment: true,
+        },
+      });
+
+      expect(
+        mockPrisma.call.updateMany
+      ).toHaveBeenCalledWith({
+        where: {
+          id: 740,
+          status: {
+            in: [
+              'RINGING',
+              'INITIATED',
+            ],
+          },
+        },
+        data: expect.objectContaining({
+          status: 'ACTIVE',
+          answeredDeviceId:
+            'android-device',
+          answeredVoiceIdentity:
+            'user_10_device_android_device',
+        }),
+      });
+    });
+
+    test('the winning physical device may retry ACTIVE idempotently', async () => {
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 741,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'ACTIVE',
+          startedAt:
+            new Date('2026-08-11T02:06:00.000Z'),
+          endedAt: null,
+          durationSec: null,
+          endReason: null,
+          twilioCallSid: null,
+          answeredDeviceId: 'iphone-device',
+          answeredVoiceIdentity:
+            'user_10_device_iphone_device',
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
+        });
+
+      const res = await request(app)
+        .patch('/calls/741/status')
+        .send({
+          status: 'ACTIVE',
+          deviceId: 'iphone-device',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(res.body.call).toMatchObject({
+        id: 741,
+        status: 'ACTIVE',
+        answeredDeviceId:
+          'iphone-device',
+      });
+
+      expect(
+        mockPrisma.device.findUnique
+      ).not.toHaveBeenCalled();
+
+      expect(
+        mockPrisma.call.updateMany
+      ).not.toHaveBeenCalled();
+    });
+
+    test('a different physical device receives answered elsewhere after a winner exists', async () => {
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 742,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'ACTIVE',
+          startedAt:
+            new Date('2026-08-11T02:07:00.000Z'),
+          endedAt: null,
+          durationSec: null,
+          endReason: null,
+          twilioCallSid: null,
+          answeredDeviceId: 'iphone-device',
+          answeredVoiceIdentity:
+            'user_10_device_iphone_device',
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
+        });
+
+      const res = await request(app)
+        .patch('/calls/742/status')
+        .send({
+          status: 'ACTIVE',
+          deviceId: 'android-device',
+        });
+
+      expect(res.statusCode).toBe(409);
+
+      expect(res.body).toMatchObject({
+        code: 'CALL_ANSWERED_ELSEWHERE',
+        callId: 742,
+        status: 'ACTIVE',
+      });
+
+      expect(
+        mockPrisma.call.updateMany
+      ).not.toHaveBeenCalled();
+    });
+
+    test('a video ACTIVE claim is not gated by Twilio Voice device eligibility', async () => {
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 745,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'VIDEO',
+          status: 'RINGING',
+          startedAt: null,
+          endedAt: null,
+          durationSec: null,
+          endReason: null,
+          twilioCallSid: null,
+          answeredDeviceId: null,
+          answeredVoiceIdentity: null,
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
+        })
+        .mockResolvedValueOnce({
+          id: 745,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'VIDEO',
+          status: 'ACTIVE',
+          startedAt:
+            new Date('2026-08-11T02:09:00.000Z'),
+          endedAt: null,
+          durationSec: null,
+          endReason: null,
+          twilioCallSid: null,
+          answeredDeviceId: null,
+          answeredVoiceIdentity: null,
+        });
+
+      mockPrisma.call.updateMany
+        .mockResolvedValueOnce({
+          count: 1,
+        });
+
+      const res = await request(app)
+        .patch('/calls/745/status')
+        .send({
+          status: 'ACTIVE',
+          deviceId: 'video-device',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(
+        mockPrisma.device.findUnique
+      ).not.toHaveBeenCalled();
+
+      expect(
+        mockPrisma.call.updateMany
+      ).toHaveBeenCalledWith({
+        where: {
+          id: 745,
+          status: {
+            in: [
+              'RINGING',
+              'INITIATED',
+            ],
+          },
+        },
+        data: expect.objectContaining({
+          status: 'ACTIVE',
+          answeredDeviceId: undefined,
+          answeredVoiceIdentity: undefined,
+        }),
+      });
+    });
+
+    test('an ineligible physical device cannot claim a ringing call', async () => {
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 743,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'RINGING',
+          answeredDeviceId: null,
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
+        });
+
+      mockPrisma.device.findUnique
+        .mockResolvedValueOnce(null);
+
+      const res = await request(app)
+        .patch('/calls/743/status')
+        .send({
+          status: 'ACTIVE',
+          deviceId: 'unknown-device',
+        });
+
+      expect(res.statusCode).toBe(409);
+
+      expect(res.body).toMatchObject({
+        code: 'CALL_DEVICE_NOT_ELIGIBLE',
+        callId: 743,
+      });
+
+      expect(
+        mockPrisma.call.updateMany
+      ).not.toHaveBeenCalled();
+    });
+
+    test('a losing callee device cannot terminate the physical winner through status PATCH', async () => {
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 744,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'AUDIO',
+          status: 'ACTIVE',
+          startedAt:
+            new Date('2026-08-11T02:08:00.000Z'),
+          endedAt: null,
+          durationSec: null,
+          endReason: null,
+          twilioCallSid: null,
+          answeredDeviceId: 'iphone-device',
+          answeredVoiceIdentity:
+            'user_10_device_iphone_device',
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
+        });
+
+      const res = await request(app)
+        .patch('/calls/744/status')
+        .send({
+          status: 'ENDED',
+          endReason: 'hangup',
+          deviceId: 'android-device',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(res.body.call).toMatchObject({
+        id: 744,
+        status: 'ACTIVE',
+        answeredDeviceId:
+          'iphone-device',
+      });
+
+      expect(
+        mockPrisma.call.updateMany
+      ).not.toHaveBeenCalled();
+
+      expect(
+        emitToUserMock
+      ).not.toHaveBeenCalled();
+    });
+
+
   });
 });
