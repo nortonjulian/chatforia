@@ -814,6 +814,12 @@ router.post('/logout', requireAuth, async (req, res, next) => {
         fcmPushToken: null,
         voipPushToken: null,
         voipSandboxPushToken: null,
+
+        voiceIdentity: null,
+        voiceRegisteredAt: null,
+        voiceRegistrationVer: 0,
+        voicePushEnvironment: null,
+
         lastSeenAt: new Date(),
       },
     });
