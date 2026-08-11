@@ -416,6 +416,10 @@ describe('Device logout', () => {
         fcmPushToken: null,
         voipPushToken: null,
         voipSandboxPushToken: null,
+        voiceIdentity: null,
+        voiceRegisteredAt: null,
+        voiceRegistrationVer: 0,
+        voicePushEnvironment: null,
         lastSeenAt: expect.any(Date),
       },
     });
