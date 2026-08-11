@@ -1405,17 +1405,19 @@ model Call {
 
   externalPhone String?
 
-  offerSdp      String?
-  answerSdp     String?
-  createdAt     DateTime          @default(now())
-  startedAt     DateTime?
-  endedAt       DateTime?
-  twilioCallSid String?           @unique
-  durationSec   Int?
-  endReason     String?
-  fromLabel     String?
-  toLabel       String?
-  participants  CallParticipant[]
+  offerSdp              String?
+  answerSdp             String?
+  createdAt             DateTime          @default(now())
+  startedAt             DateTime?
+  endedAt               DateTime?
+  twilioCallSid         String?           @unique
+  answeredDeviceId      String?
+  answeredVoiceIdentity String?
+  durationSec           Int?
+  endReason             String?
+  fromLabel             String?
+  toLabel               String?
+  participants          CallParticipant[]
 
   caller User  @relation("CallCaller", fields: [callerId], references: [id])
   callee User? @relation("CallCallee", fields: [calleeId], references: [id])

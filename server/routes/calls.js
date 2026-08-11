@@ -6,6 +6,7 @@ import { requireAuth } from '../middleware/auth.js';
 import { sendPushToUser, sendVoipCallPushToUser } from '../services/pushService.js';
 import { collectCallLifecycleRecipientIds } from '../utils/callLifecycleRecipients.js';
 import { claimCallActive } from '../utils/callAnswerArbitration.js';
+import { isVoiceEligibleDevice } from '../services/voiceDeviceService.js';
 
 const router = express.Router();
 router.use(requireAuth);
@@ -36,6 +37,63 @@ async function ensureParticipant(call, userId) {
   });
 
   return Boolean(participant);
+}
+
+async function resolveEligibleVoiceDevice(
+  userId,
+  deviceId
+) {
+  const normalizedDeviceId =
+    String(deviceId || '').trim();
+
+  if (!normalizedDeviceId) {
+    return null;
+  }
+
+  const device = await prisma.device.findUnique({
+    where: {
+      userId_deviceId: {
+        userId: Number(userId),
+        deviceId: normalizedDeviceId,
+      },
+    },
+    select: {
+      deviceId: true,
+      platform: true,
+      pairingStatus: true,
+      revokedAt: true,
+      voiceIdentity: true,
+      voiceRegisteredAt: true,
+      voiceRegistrationVer: true,
+      voicePushEnvironment: true,
+    },
+  });
+
+  if (!isVoiceEligibleDevice(device, userId)) {
+    return null;
+  }
+
+  return device;
+}
+
+function isNonAuthoritativeActiveCalleeDevice({
+  call,
+  userId,
+  deviceId,
+}) {
+  if (
+    !call ||
+    call.status !== 'ACTIVE' ||
+    Number(userId) !== Number(call.calleeId) ||
+    !call.answeredDeviceId
+  ) {
+    return false;
+  }
+
+  return (
+    String(deviceId || '').trim() !==
+    String(call.answeredDeviceId).trim()
+  );
 }
 
 async function notifyAnsweredElsewhere(call) {
@@ -617,7 +675,12 @@ router.post('/candidate', asyncHandler(async (req, res) => {
  */
 router.post('/end', asyncHandler(async (req, res) => {
   const userId = Number(req.user.id);
-  const { callId, reason, durationSec } = req.body || {};
+  const {
+    callId,
+    reason,
+    durationSec,
+    deviceId,
+  } = req.body || {};
 
   if (!callId) {
     return res.status(400).json({ error: 'callId required' });
@@ -631,6 +694,39 @@ router.post('/end', asyncHandler(async (req, res) => {
   if (!call) return res.status(404).json({ error: 'Call not found' });
   if (!(await ensureParticipant(call, userId))) {
     return res.status(403).json({ error: 'Not a participant' });
+  }
+
+  /*
+   * Once an ACTIVE call has a recorded physical winner,
+   * only that winning callee installation may finalize it.
+   *
+   * Caller authority remains unchanged.
+   * Pre-answer decline/missed behavior remains unchanged.
+   */
+  if (
+    isNonAuthoritativeActiveCalleeDevice({
+      call,
+      userId,
+      deviceId,
+    })
+  ) {
+    console.log(
+      '[calls/end] ignored non-authoritative callee device',
+      {
+        callId: call.id,
+        userId,
+        reportedDeviceId:
+          String(deviceId || '').trim() || null,
+        answeredDeviceId:
+          call.answeredDeviceId,
+      }
+    );
+
+    return res.json({
+      ok: true,
+      ignored: true,
+      code: 'CALL_NOT_AUTHORITATIVE_DEVICE',
+    });
   }
 
   let status = 'ENDED';
@@ -787,6 +883,7 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     durationSec,
     endReason,
     twilioCallSid,
+    deviceId,
   } = req.body || {};
 
   const call = await prisma.call.findUnique({
@@ -807,6 +904,138 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     endReason == null
       ? null
       : String(endReason).trim().toLowerCase();
+
+  /*
+   * If the physical device that already won retries ACTIVE,
+   * treat the request as idempotent. The original HTTP response
+   * may have been lost after the database transition committed.
+   */
+  if (
+    normalizedStatus === 'ACTIVE' &&
+    call.status === 'ACTIVE' &&
+    userId === call.calleeId &&
+    call.answeredDeviceId &&
+    String(deviceId || '').trim() ===
+      String(call.answeredDeviceId).trim()
+  ) {
+    return res.json({
+      call: {
+        id: call.id,
+        callerId: call.callerId,
+        calleeId: call.calleeId,
+        mode: call.mode,
+        status: call.status,
+        startedAt: call.startedAt,
+        endedAt: call.endedAt,
+        durationSec: call.durationSec,
+        endReason: call.endReason,
+        twilioCallSid: call.twilioCallSid,
+        answeredDeviceId:
+          call.answeredDeviceId,
+        answeredVoiceIdentity:
+          call.answeredVoiceIdentity,
+      },
+    });
+  }
+
+  /*
+   * A different physical callee device cannot claim an
+   * already-ACTIVE call that has a recorded winner.
+   */
+  if (
+    normalizedStatus === 'ACTIVE' &&
+    call.status === 'ACTIVE' &&
+    userId === call.calleeId &&
+    call.answeredDeviceId
+  ) {
+    return res.status(409).json({
+      error:
+        'This call was answered on another device.',
+      code: 'CALL_ANSWERED_ELSEWHERE',
+      callId,
+      status: call.status,
+    });
+  }
+
+  let answeringDevice = null;
+
+  /*
+   * Supported mobile clients supply their stable installation
+   * deviceId. Validate it against the same server-side Voice
+   * authority used for Twilio fan-out.
+   *
+   * deviceId remains optional temporarily for rollout
+   * compatibility with existing clients.
+   */
+  if (
+    normalizedStatus === 'ACTIVE' &&
+    call.mode === 'AUDIO' &&
+    userId === call.calleeId &&
+    deviceId != null
+  ) {
+    answeringDevice =
+      await resolveEligibleVoiceDevice(
+        userId,
+        deviceId
+      );
+
+    if (!answeringDevice) {
+      return res.status(409).json({
+        error:
+          'This device is not eligible to answer this call.',
+        code: 'CALL_DEVICE_NOT_ELIGIBLE',
+        callId,
+      });
+    }
+  }
+
+  /*
+   * After a physical winner exists, a losing callee device may
+   * clean up its local leg but cannot terminate the canonical
+   * ACTIVE call. Caller authority is intentionally unaffected.
+   */
+  if (
+    isTerminalCallStatus(normalizedStatus) &&
+    isNonAuthoritativeActiveCalleeDevice({
+      call,
+      userId,
+      deviceId,
+    })
+  ) {
+    console.log(
+      '[calls/status] ignored non-authoritative callee device',
+      {
+        callId,
+        reportedBy: userId,
+        reportedDeviceId:
+          String(deviceId || '').trim() || null,
+        answeredDeviceId:
+          call.answeredDeviceId,
+        reportedStatus: normalizedStatus,
+        reportedEndReason:
+          normalizedEndReason,
+      }
+    );
+
+    return res.json({
+      call: {
+        id: call.id,
+        callerId: call.callerId,
+        calleeId: call.calleeId,
+        mode: call.mode,
+        status: call.status,
+        startedAt: call.startedAt,
+        endedAt: call.endedAt,
+        durationSec: call.durationSec,
+        endReason: call.endReason,
+        twilioCallSid: call.twilioCallSid,
+        answeredDeviceId:
+          call.answeredDeviceId,
+        answeredVoiceIdentity:
+          call.answeredVoiceIdentity,
+      },
+    });
+  }
 
   const isRemoteEndedAcknowledgement =
     isTerminalCallStatus(normalizedStatus) &&
@@ -877,6 +1106,18 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     endedAt: endedAt ? new Date(endedAt) : undefined,
     durationSec: durationSec ?? undefined,
     endReason: endReason ?? undefined,
+    answeredDeviceId:
+      normalizedStatus === 'ACTIVE' &&
+      call.mode === 'AUDIO' &&
+      answeringDevice
+        ? answeringDevice.deviceId
+        : undefined,
+    answeredVoiceIdentity:
+      normalizedStatus === 'ACTIVE' &&
+      call.mode === 'AUDIO' &&
+      answeringDevice
+        ? answeringDevice.voiceIdentity
+        : undefined,
   };
 
   if (twilioCallSid) {
@@ -933,6 +1174,8 @@ const lifecycleUpdate =
       durationSec: true,
       endReason: true,
       twilioCallSid: true,
+      answeredDeviceId: true,
+      answeredVoiceIdentity: true,
     },
   });
 
