@@ -1167,7 +1167,10 @@ describe('calls routes', () => {
       ).not.toHaveBeenCalled();
     });
 
-    test('a video ACTIVE claim is not gated by Twilio Voice device eligibility', async () => {
+    test('an active registered video device becomes the physical answer winner', async () => {
+      const startedAt =
+        new Date('2026-08-11T02:09:00.000Z');
+
       mockPrisma.call.findUnique
         .mockResolvedValueOnce({
           id: 745,
@@ -1193,14 +1196,20 @@ describe('calls routes', () => {
           calleeId: 10,
           mode: 'VIDEO',
           status: 'ACTIVE',
-          startedAt:
-            new Date('2026-08-11T02:09:00.000Z'),
+          startedAt,
           endedAt: null,
           durationSec: null,
           endReason: null,
           twilioCallSid: null,
-          answeredDeviceId: null,
+          answeredDeviceId: 'video-device',
           answeredVoiceIdentity: null,
+        });
+
+      mockPrisma.device.findUnique
+        .mockResolvedValueOnce({
+          deviceId: 'video-device',
+          pairingStatus: 'approved',
+          revokedAt: null,
         });
 
       mockPrisma.call.updateMany
@@ -1212,6 +1221,8 @@ describe('calls routes', () => {
         .patch('/calls/745/status')
         .send({
           status: 'ACTIVE',
+          startedAt:
+            startedAt.toISOString(),
           deviceId: 'video-device',
         });
 
@@ -1219,7 +1230,19 @@ describe('calls routes', () => {
 
       expect(
         mockPrisma.device.findUnique
-      ).not.toHaveBeenCalled();
+      ).toHaveBeenCalledWith({
+        where: {
+          userId_deviceId: {
+            userId: 10,
+            deviceId: 'video-device',
+          },
+        },
+        select: {
+          deviceId: true,
+          pairingStatus: true,
+          revokedAt: true,
+        },
+      });
 
       expect(
         mockPrisma.call.updateMany
@@ -1235,10 +1258,65 @@ describe('calls routes', () => {
         },
         data: expect.objectContaining({
           status: 'ACTIVE',
-          answeredDeviceId: undefined,
+          answeredDeviceId: 'video-device',
           answeredVoiceIdentity: undefined,
         }),
       });
+    });
+
+    test('a callee device local failure cannot terminate a ringing multi-device video call', async () => {
+      mockPrisma.call.findUnique
+        .mockResolvedValueOnce({
+          id: 746,
+          callerId: 20,
+          calleeId: 10,
+          mode: 'VIDEO',
+          status: 'RINGING',
+          startedAt: null,
+          endedAt: null,
+          durationSec: null,
+          endReason: null,
+          twilioCallSid: null,
+          answeredDeviceId: null,
+          answeredVoiceIdentity: null,
+          participants: [
+            { userId: 20 },
+            { userId: 10 },
+          ],
+        });
+
+      const res = await request(app)
+        .patch('/calls/746/status')
+        .send({
+          status: 'FAILED',
+          endedAt:
+            '2026-08-11T02:09:05.000Z',
+          endReason:
+            'Local video audio initialization failed.',
+          deviceId: 'stale-video-device',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(res.body).toMatchObject({
+        ignored: true,
+        code:
+          'CALL_DEVICE_LOCAL_FAILURE_IGNORED',
+        call: {
+          id: 746,
+          status: 'RINGING',
+          endedAt: null,
+          endReason: null,
+        },
+      });
+
+      expect(
+        mockPrisma.call.updateMany
+      ).not.toHaveBeenCalled();
+
+      expect(
+        emitToUserMock
+      ).not.toHaveBeenCalled();
     });
 
     test('an ineligible physical device cannot claim a ringing call', async () => {
