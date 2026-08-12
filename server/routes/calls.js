@@ -969,15 +969,50 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
    */
   if (
     normalizedStatus === 'ACTIVE' &&
-    call.mode === 'AUDIO' &&
     userId === call.calleeId &&
     deviceId != null
   ) {
-    answeringDevice =
-      await resolveEligibleVoiceDevice(
-        userId,
-        deviceId
-      );
+    if (call.mode === 'AUDIO') {
+      answeringDevice =
+        await resolveEligibleVoiceDevice(
+          userId,
+          deviceId
+        );
+    } else {
+      const registeredDevice =
+        await prisma.device.findUnique({
+          where: {
+            userId_deviceId: {
+              userId,
+              deviceId:
+                String(deviceId).trim(),
+            },
+          },
+          select: {
+            deviceId: true,
+            pairingStatus: true,
+            revokedAt: true,
+          },
+        });
+
+      const pairingStatus =
+        String(
+          registeredDevice?.pairingStatus || ''
+        )
+          .trim()
+          .toLowerCase();
+
+      if (
+        registeredDevice &&
+        !registeredDevice.revokedAt &&
+        (
+          !pairingStatus ||
+          pairingStatus === 'approved'
+        )
+      ) {
+        answeringDevice = registeredDevice;
+      }
+    }
 
     if (!answeringDevice) {
       return res.status(409).json({
@@ -987,6 +1022,52 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
         callId,
       });
     }
+  }
+
+  /*
+   * A callee device can fail to initialize its own local media
+   * while the same account is still ringing on another device.
+   * That local failure must not terminate the canonical call.
+   * Reconciliation will finalize the call if nobody answers.
+   */
+  if (
+    normalizedStatus === 'FAILED' &&
+    userId === call.calleeId &&
+    ['RINGING', 'INITIATED'].includes(call.status)
+  ) {
+    console.log(
+      '[calls/status] ignored ringing callee device failure',
+      {
+        callId,
+        reportedBy: userId,
+        reportedDeviceId:
+          String(deviceId || '').trim() || null,
+        reportedEndReason:
+          normalizedEndReason,
+        authoritativeStatus: call.status,
+      }
+    );
+
+    return res.json({
+      call: {
+        id: call.id,
+        callerId: call.callerId,
+        calleeId: call.calleeId,
+        mode: call.mode,
+        status: call.status,
+        startedAt: call.startedAt,
+        endedAt: call.endedAt,
+        durationSec: call.durationSec,
+        endReason: call.endReason,
+        twilioCallSid: call.twilioCallSid,
+        answeredDeviceId:
+          call.answeredDeviceId,
+        answeredVoiceIdentity:
+          call.answeredVoiceIdentity,
+      },
+      ignored: true,
+      code: 'CALL_DEVICE_LOCAL_FAILURE_IGNORED',
+    });
   }
 
   /*
@@ -1108,7 +1189,6 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
     endReason: endReason ?? undefined,
     answeredDeviceId:
       normalizedStatus === 'ACTIVE' &&
-      call.mode === 'AUDIO' &&
       answeringDevice
         ? answeringDevice.deviceId
         : undefined,
