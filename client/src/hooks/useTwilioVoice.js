@@ -6,6 +6,7 @@ import { toast } from '@/utils/safeToast';
 export function useTwilioVoice() {
   const deviceRef = useRef(null);
   const tokenRef = useRef(null);
+  const tokenRefreshPromiseRef = useRef(null);
 
   const [ready, setReady] = useState(false);
   const [initializing, setInitializing] = useState(false);
@@ -74,6 +75,53 @@ export function useTwilioVoice() {
     });
   }, []);
 
+  const refreshVoiceToken = useCallback(async (device) => {
+    if (tokenRefreshPromiseRef.current) {
+      return tokenRefreshPromiseRef.current;
+    }
+
+    const refreshPromise = (async () => {
+      const { token } = await fetchVoiceToken();
+
+      if (
+        !token ||
+        deviceRef.current !== device
+      ) {
+        return false;
+      }
+
+      device.updateToken(token);
+      tokenRef.current = token;
+
+      console.log('[twilio] Voice token refreshed');
+      return true;
+    })();
+
+    tokenRefreshPromiseRef.current = refreshPromise;
+
+    try {
+      return await refreshPromise;
+    } catch (e) {
+      const msg =
+        e?.response?.data?.error ||
+        e?.response?.data?.message ||
+        e?.message ||
+        'Failed to refresh Twilio Voice token';
+
+      setError(msg);
+      toast.err?.(msg);
+      console.error('[twilio] Voice token refresh failed', e);
+      throw e;
+    } finally {
+      if (
+        tokenRefreshPromiseRef.current ===
+        refreshPromise
+      ) {
+        tokenRefreshPromiseRef.current = null;
+      }
+    }
+  }, []);
+
   const initDevice = useCallback(async () => {
     if (deviceRef.current) return deviceRef.current;
 
@@ -112,6 +160,12 @@ export function useTwilioVoice() {
         attachCallListeners(call);
       });
 
+      device.on('tokenWillExpire', () => {
+        void refreshVoiceToken(device).catch(() => {
+          // State, toast, and logging are handled by refreshVoiceToken.
+        });
+      });
+
       await device.register();
       deviceRef.current = device;
 
@@ -131,7 +185,7 @@ export function useTwilioVoice() {
     } finally {
       setInitializing(false);
     }
-  }, [attachCallListeners]);
+  }, [attachCallListeners, refreshVoiceToken]);
 
   const startBrowserCall = useCallback(
     async (
@@ -221,6 +275,8 @@ export function useTwilioVoice() {
         console.error('[twilio] device destroy error', e);
       } finally {
         deviceRef.current = null;
+        tokenRef.current = null;
+        tokenRefreshPromiseRef.current = null;
       }
     };
   }, []);
