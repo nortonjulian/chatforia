@@ -7,6 +7,23 @@ import { joinRoom } from '@/video/video';
 const CallCtx = createContext(null);
 export const useCall = () => useContext(CallCtx);
 
+function hasUsableLegacyOffer(offer) {
+  const type =
+    String(offer?.type || '')
+      .trim()
+      .toLowerCase();
+
+  const sdp =
+    typeof offer?.sdp === 'string'
+      ? offer.sdp.trimStart()
+      : '';
+
+  return (
+    type === 'offer' &&
+    /^v=0(?:\r?\n|$)/.test(sdp)
+  );
+}
+
 /**
  * Server payloads (for reference):
  * - /ice-servers?provider=all -> { iceServers: [...] }
@@ -708,6 +725,9 @@ return data;
 
     const { callId, fromUser, offer, mode = 'AUDIO' } = incoming;
 
+    const hasLegacyOffer =
+      hasUsableLegacyOffer(offer);
+
     const peerName =
       incoming.callerName ||
       fromUser?.displayName ||
@@ -769,7 +789,7 @@ return data;
      */
     if (
       mode === 'AUDIO' &&
-      !offer
+      !hasLegacyOffer
     ) {
       answeringCallIdRef.current =
         callId;
@@ -903,7 +923,7 @@ return data;
      */
     if (
       mode === 'VIDEO' &&
-      !offer
+      !hasLegacyOffer
     ) {
       const roomName =
         incoming.roomName ||
@@ -1195,7 +1215,9 @@ async function onParticipantOffer({ callId, fromUser, offer }) {
       !incoming.isParticipantInvite &&
       incoming.mode?.toUpperCase() ===
         'AUDIO' &&
-      !incoming.offer;
+      !hasUsableLegacyOffer(
+        incoming.offer
+      );
 
     if (rejectsTwilioVoice) {
       twilioVoice

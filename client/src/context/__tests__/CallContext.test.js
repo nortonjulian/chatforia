@@ -360,7 +360,7 @@ id: 101,
 mode: 'VIDEO',
 offer: {
 type: 'offer',
-sdp: 'incoming-offer',
+sdp: 'v=0\r\n',
 },
 });
 });
@@ -403,7 +403,7 @@ id: 5,
 mode: 'VIDEO',
 offer: {
 type: 'offer',
-sdp: 'incoming-offer',
+sdp: 'v=0\r\n',
 },
 });
 });
@@ -542,7 +542,7 @@ test('startCall routes app audio through Twilio Voice with the backend call ID',
 });
 
 test(
-  'acceptCall claims and accepts an incoming canonical Twilio Voice call',
+  'acceptCall routes a placeholder SDP offer through Twilio Voice',
   async () => {
     renderWithProvider();
 
@@ -558,7 +558,10 @@ test(
               'Reviewer',
           },
           mode: 'AUDIO',
-          offer: null,
+          offer: {
+            type: 'offer',
+            sdp: 'placeholder',
+          },
         }
       );
     });
@@ -698,7 +701,7 @@ test(
 );
 
 test(
-  'rejectCall rejects the canonical Twilio Voice invitation',
+  'rejectCall rejects Twilio Voice when the SDP offer is a placeholder',
   async () => {
     renderWithProvider();
 
@@ -712,7 +715,10 @@ test(
             id: 456,
           },
           mode: 'AUDIO',
-          offer: null,
+          offer: {
+            type: 'offer',
+            sdp: 'placeholder',
+          },
         }
       );
     });
@@ -914,7 +920,7 @@ test('acceptCall consumes incoming offer, sends answer, sets active and clears i
       mode: 'AUDIO',
       offer: {
         type: 'offer',
-        sdp: 'incoming-offer',
+        sdp: 'v=0\r\n',
       },
     };
 
@@ -1160,7 +1166,7 @@ test(
         mode: 'AUDIO',
         offer: {
           type: 'offer',
-          sdp: 'incoming-offer',
+          sdp: 'v=0\r\n',
         },
       });
     });
@@ -1238,7 +1244,7 @@ test(
         mode: 'VIDEO',
         offer: {
           type: 'offer',
-          sdp: 'incoming-offer',
+          sdp: 'v=0\r\n',
         },
       });
     });
