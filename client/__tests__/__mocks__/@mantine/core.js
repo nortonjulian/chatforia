@@ -36,6 +36,9 @@ const ex = {};
 ex.MantineProvider = ({ children }) =>
   React.createElement(React.Fragment, null, children);
 
+ex.Portal = ({ children }) =>
+  React.createElement(React.Fragment, null, children);
+
 ex.Group = passthroughFactory('div');
 ex.Stack = passthroughFactory('div');
 ex.Paper = passthroughFactory('div');

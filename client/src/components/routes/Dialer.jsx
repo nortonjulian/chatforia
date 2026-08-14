@@ -14,6 +14,7 @@ import {
   ThemeIcon,
   Badge,
   ActionIcon,
+  Modal,
 } from '@mantine/core';
 import {
   PhoneOutgoing,
@@ -118,6 +119,8 @@ export default function Dialer() {
   const [history, setHistory] = useState([]);
   const [historyLoading, setHistoryLoading] = useState(true);
   const [historyError, setHistoryError] = useState('');
+  const [deleteCallId, setDeleteCallId] = useState(null);
+  const [deletingCallId, setDeletingCallId] = useState(null);
 
   const { startCall, pending: appCallPending } = useCall();
   const { placeCall, loading: pstnLoading, error: pstnError } = usePstnCall();
@@ -234,17 +237,20 @@ export default function Dialer() {
     }
   };
 
-  const handleDelete = async (callId) => {
-    if (
-      !window.confirm(
-        t('dialer.deleteConfirm', 'Delete this call from recents?')
-      )
-    )
-      return;
+  const closeDeleteModal = () => {
+    if (deletingCallId != null) return;
+    setDeleteCallId(null);
+  };
+
+  const handleDelete = async () => {
+    const callId = deleteCallId;
+    if (callId == null) return;
 
     try {
+      setDeletingCallId(callId);
       await axiosClient.delete(`/calls/${callId}`);
       setHistory((prev) => prev.filter((item) => item.id !== callId));
+      setDeleteCallId(null);
     } catch (e) {
       console.error(t('dialer.deleteFailedLog', 'Failed to delete call'), e);
       setHistoryError(
@@ -252,6 +258,8 @@ export default function Dialer() {
           e?.message ||
           t('dialer.deleteFailed', 'Could not delete call.')
       );
+    } finally {
+      setDeletingCallId(null);
     }
   };
 
@@ -505,7 +513,7 @@ export default function Dialer() {
                             color="red"
                             radius="xl"
                             size={32}
-                            onClick={() => handleDelete(item.id)}
+                            onClick={() => setDeleteCallId(item.id)}
                             aria-label={`Delete call with ${otherPartyName}`}
                           >
                             <Trash2 size={15} />
@@ -520,6 +528,40 @@ export default function Dialer() {
           })}
         </Stack>
       )}
+
+      <Modal
+        opened={deleteCallId != null}
+        onClose={closeDeleteModal}
+        title={t('dialer.deleteTitle', 'Delete recent call?')}
+        centered
+      >
+        <Stack gap="md">
+          <Text size="sm">
+            {t(
+              'dialer.deleteConfirm',
+              'This call will be removed from your recent calls.'
+            )}
+          </Text>
+
+          <Group justify="flex-end">
+            <Button
+              variant="default"
+              onClick={closeDeleteModal}
+              disabled={deletingCallId != null}
+            >
+              {t('common.cancel', 'Cancel')}
+            </Button>
+
+            <Button
+              color="red"
+              onClick={handleDelete}
+              loading={deletingCallId != null}
+            >
+              {t('common.delete', 'Delete')}
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
     </Box>
   );
 }

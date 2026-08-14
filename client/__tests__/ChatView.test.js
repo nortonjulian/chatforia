@@ -15,6 +15,14 @@ jest.mock('@/utils/toast', () => ({
   },
 }));
 
+
+jest.mock('@mantine/notifications', () => ({
+  __esModule: true,
+  notifications: {
+    show: jest.fn(),
+  },
+}));
+
 /* ---------- Premium / ads ---------- */
 jest.mock('@/hooks/useIsPremium', () => ({
   __esModule: true,
@@ -69,6 +77,15 @@ jest.mock('@/context/UserContext', () => ({
   __esModule: true,
   useUser: () => ({
     setNeedsKeyUnlock: jest.fn(),
+  }),
+}));
+
+jest.mock('@/context/CallContext', () => ({
+  __esModule: true,
+  useCall: () => ({
+    startCall: jest.fn(),
+    active: null,
+    incoming: null,
   }),
 }));
 
@@ -232,7 +249,9 @@ jest.mock('@/lib/sounds.js', () => ({
 }));
 
 /* ---------- Import under test ---------- */
-import ChatView from '../src/components/ChatView.jsx';
+import ChatView, {
+  formatCallStartError,
+} from '../src/components/ChatView.jsx';
 import axiosClient from '@/api/axiosClient';
 import { fetchLatestMessages } from '@/lib/api';
 
@@ -258,6 +277,19 @@ beforeEach(() => {
   });
 
   axiosClient.post.mockResolvedValue({ data: {} });
+});
+
+test('formats an active-call conflict for users', () => {
+  expect(
+    formatCallStartError(
+      new Error(
+        'CALL_ALREADY_IN_PROGRESS'
+      ),
+      'Could not start the call.'
+    )
+  ).toBe(
+    'You already have a call in progress. End it before starting another.'
+  );
 });
 
 test('shows “Select a conversation” when no chatroom', () => {

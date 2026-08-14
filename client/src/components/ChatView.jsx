@@ -71,6 +71,7 @@ import { playSound } from '@/lib/sounds.js';
 import useIsPremium from '@/hooks/useIsPremium';
 
 import { useTranslation } from 'react-i18next';
+import { notifications } from '@mantine/notifications';
 
 // 🧱 Ads (render only for Free users)
 import { CardAdWrap } from '@/ads/AdWrappers';
@@ -82,6 +83,19 @@ import { ADS_CONFIG } from '@/ads/config';
 import '@/styles.css';
 
 /* ---------- helpers ---------- */
+export function formatCallStartError(error, fallback) {
+  const code =
+    error?.response?.data?.error ||
+    error?.response?.data?.code ||
+    error?.message;
+
+  if (code === 'CALL_ALREADY_IN_PROGRESS') {
+    return 'You already have a call in progress. End it before starting another.';
+  }
+
+  return code || fallback;
+}
+
 function getMessageTimestampMs(message) {
   const value = message?.createdAt;
   if (!value) return 0;
@@ -619,13 +633,21 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         error
       );
 
-      window.alert(
-        error?.message ||
+      notifications.show({
+        color: 'red',
+        title: t(
+          'calls.unavailable',
+          'Call unavailable'
+        ),
+        message: formatCallStartError(
+          error,
           t(
             'calls.startFailed',
             'Could not start the call.'
           )
-      );
+        ),
+        withBorder: true,
+      });
     }
   }, [
     directCallUnavailable,
@@ -664,13 +686,21 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         error
       );
 
-      window.alert(
-        error?.message ||
+      notifications.show({
+        color: 'red',
+        title: t(
+          'calls.unavailable',
+          'Call unavailable'
+        ),
+        message: formatCallStartError(
+          error,
           t(
             'calls.videoStartFailed',
             'Could not start the video call.'
           )
-      );
+        ),
+        withBorder: true,
+      });
     }
   }, [
     chatroom?.id,
