@@ -176,4 +176,92 @@ describe('useTwilioVoice token refresh', () => {
     expect(device.destroy).toHaveBeenCalledTimes(1);
     expect(device.updateToken).not.toHaveBeenCalled();
   });
+  it('accepts an incoming Twilio Voice SDK invitation', async () => {
+    fetchVoiceToken.mockResolvedValueOnce({
+      token: 'incoming-token',
+      identity: 'user_1',
+    });
+
+    const { result, unmount } =
+      renderHook(() =>
+        useTwilioVoice()
+      );
+
+    await act(async () => {
+      await result.current.initialize();
+    });
+
+    const incomingCall = {
+      parameters: {
+        From: 'client:user_24',
+      },
+      on: jest.fn(),
+      accept: jest.fn(),
+      reject: jest.fn(),
+      disconnect: jest.fn(),
+    };
+
+    act(() => {
+      mockDevices[0].emit(
+        'incoming',
+        incomingCall
+      );
+    });
+
+    await act(async () => {
+      await result.current
+        .acceptIncomingCall();
+    });
+
+    expect(
+      incomingCall.accept
+    ).toHaveBeenCalledTimes(1);
+
+    unmount();
+  });
+
+  it('rejects an incoming Twilio Voice SDK invitation', async () => {
+    fetchVoiceToken.mockResolvedValueOnce({
+      token: 'incoming-token',
+      identity: 'user_1',
+    });
+
+    const { result, unmount } =
+      renderHook(() =>
+        useTwilioVoice()
+      );
+
+    await act(async () => {
+      await result.current.initialize();
+    });
+
+    const incomingCall = {
+      parameters: {
+        From: 'client:user_24',
+      },
+      on: jest.fn(),
+      accept: jest.fn(),
+      reject: jest.fn(),
+      disconnect: jest.fn(),
+    };
+
+    act(() => {
+      mockDevices[0].emit(
+        'incoming',
+        incomingCall
+      );
+    });
+
+    await act(async () => {
+      await result.current
+        .rejectIncomingCall();
+    });
+
+    expect(
+      incomingCall.reject
+    ).toHaveBeenCalledTimes(1);
+
+    unmount();
+  });
+
 });
