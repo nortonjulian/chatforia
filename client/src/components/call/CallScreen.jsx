@@ -5,6 +5,7 @@ import {
   Button,
   Group,
   Paper,
+  Portal,
   Stack,
   Text,
   ThemeIcon,
@@ -132,9 +133,10 @@ export default function CallScreen() {
 
   return (
     <>
-      <Box
-        style={{
-          position: 'fixed',
+      <Portal>
+        <Box
+          style={{
+            position: 'fixed',
           inset: 0,
           zIndex: 1000,
           background:
@@ -335,7 +337,8 @@ export default function CallScreen() {
             </Paper>
           )}
         </Box>
-      </Box>
+        </Box>
+      </Portal>
 
       <AddCallParticipantModal
         opened={addOpen}

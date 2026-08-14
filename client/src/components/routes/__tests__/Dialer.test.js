@@ -77,6 +77,7 @@ jest.mock('lucide-react', () => {
     Voicemail: Icon,
     Phone: Icon,
     Trash2: Icon,
+    Video: Icon,
   };
 });
 
@@ -193,6 +194,24 @@ jest.mock('@mantine/core', () => {
     </button>
   );
 
+  const Modal = ({
+    opened,
+    title,
+    children,
+  }) => {
+    if (!opened) return null;
+
+    return (
+      <div
+        role="dialog"
+        aria-label={title}
+      >
+        <h2>{title}</h2>
+        {children}
+      </div>
+    );
+  };
+
   return {
     __esModule: true,
     Box,
@@ -207,9 +226,11 @@ jest.mock('@mantine/core', () => {
     ThemeIcon,
     Badge,
     ActionIcon,
+    Modal,
   };
 });
 
+import axiosClient from '@/api/axiosClient';
 import { getCallHistory } from '@/api/calls';
 import Dialer from '../Dialer';
 
@@ -312,5 +333,121 @@ describe('Dialer', () => {
     await user.click(screen.getByRole('button', { name: 'Call' }));
 
     expect(mockPlaceCall).toHaveBeenCalledWith('5551234567');
+  });
+
+  it('cancels recent-call deletion from the styled modal', async () => {
+    const user = userEvent.setup();
+
+    getCallHistory.mockResolvedValueOnce([
+      {
+        id: 42,
+        callerId: 1,
+        callee: {
+          id: 2,
+          username: 'Bob',
+        },
+        mode: 'AUDIO',
+        status: 'ENDED',
+        createdAt: '2026-08-14T00:00:00.000Z',
+      },
+    ]);
+
+    render(<Dialer />);
+
+    await user.click(
+      await screen.findByRole(
+        'button',
+        {
+          name: 'Delete call with Bob',
+        }
+      )
+    );
+
+    expect(
+      screen.getByRole(
+        'dialog',
+        {
+          name: 'Delete recent call?',
+        }
+      )
+    ).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole(
+        'button',
+        {
+          name: 'Cancel',
+        }
+      )
+    );
+
+    expect(
+      axiosClient.delete
+    ).not.toHaveBeenCalled();
+
+    expect(
+      screen.queryByRole(
+        'dialog',
+        {
+          name: 'Delete recent call?',
+        }
+      )
+    ).not.toBeInTheDocument();
+  });
+
+  it('deletes a recent call after styled confirmation', async () => {
+    const user = userEvent.setup();
+
+    getCallHistory.mockResolvedValueOnce([
+      {
+        id: 42,
+        callerId: 1,
+        callee: {
+          id: 2,
+          username: 'Bob',
+        },
+        mode: 'AUDIO',
+        status: 'ENDED',
+        createdAt: '2026-08-14T00:00:00.000Z',
+      },
+    ]);
+
+    axiosClient.delete.mockResolvedValueOnce({
+      data: {
+        ok: true,
+      },
+    });
+
+    render(<Dialer />);
+
+    await user.click(
+      await screen.findByRole(
+        'button',
+        {
+          name: 'Delete call with Bob',
+        }
+      )
+    );
+
+    await user.click(
+      screen.getByRole(
+        'button',
+        {
+          name: 'Delete',
+        }
+      )
+    );
+
+    await waitFor(() => {
+      expect(
+        axiosClient.delete
+      ).toHaveBeenCalledWith(
+        '/calls/42'
+      );
+    });
+
+    expect(
+      screen.queryByText('Bob')
+    ).not.toBeInTheDocument();
   });
 });
