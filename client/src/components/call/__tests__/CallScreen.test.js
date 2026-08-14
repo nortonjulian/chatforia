@@ -1,4 +1,5 @@
 import {
+  act,
   render,
   screen,
   fireEvent,
@@ -291,4 +292,95 @@ describe('CallScreen', () => {
       newRemoteRef.current
     );
   });
+  test(
+    'attaches Twilio streams that arrive through stable refs',
+    () => {
+      jest.useFakeTimers();
+
+      let unmount = () => {};
+
+      try {
+        const localRef = {
+          current: null,
+        };
+
+        const remoteRef = {
+          current: null,
+        };
+
+        mockUseCall = () => ({
+          active: {
+            callId: 'late-stream-call',
+            mode: 'VIDEO',
+            mediaTransport:
+              'twilio-video',
+          },
+          status: 'connected',
+          localStream: localRef,
+          remoteStream: remoteRef,
+          participants: [],
+          addParticipant: undefined,
+          me: {
+            id: 1,
+          },
+          endCall: jest.fn(),
+        });
+
+        const rendered = render(
+          <CallScreen />
+        );
+
+        unmount = rendered.unmount;
+
+        const [
+          remoteVideo,
+          localVideo,
+        ] =
+          rendered.container
+            .querySelectorAll('video');
+
+        expect(
+          remoteVideo.srcObject
+        ).toBeUndefined();
+
+        expect(
+          localVideo.srcObject
+        ).toBeUndefined();
+
+        const lateLocal =
+          makeStream('late-local');
+
+        const lateRemote =
+          makeStream('late-remote');
+
+        act(() => {
+          /*
+           * Match Twilio's real behavior: mutate .current
+           * without replacing either React ref object.
+           */
+          localRef.current =
+            lateLocal;
+
+          remoteRef.current =
+            lateRemote;
+
+          jest.advanceTimersByTime(
+            500
+          );
+        });
+
+        expect(
+          localVideo.srcObject
+        ).toBe(lateLocal);
+
+        expect(
+          remoteVideo.srcObject
+        ).toBe(lateRemote);
+      } finally {
+        unmount();
+        jest.useRealTimers();
+      }
+    }
+  );
+
 });

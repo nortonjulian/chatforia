@@ -51,15 +51,60 @@ export default function CallScreen() {
       return undefined;
     }
 
-    const timer = setInterval(() => {
-      const tracks = remoteStream?.current?.getVideoTracks?.() || [];
-      const hasLiveVideo = tracks.some((track) => track.readyState === 'live');
+    const synchronizeVideoStreams = () => {
+      const local = localStream?.current;
+      const remote = remoteStream?.current;
+
+      /*
+       * Twilio adds tracks by mutating these stable refs. That
+       * mutation does not trigger React to rerun the attachment
+       * effects above, so synchronize the DOM video elements
+       * while checking media readiness.
+       */
+      if (
+        localRef.current &&
+        local &&
+        localRef.current.srcObject !== local
+      ) {
+        localRef.current.srcObject = local;
+      }
+
+      if (
+        remoteRef.current &&
+        remote &&
+        remoteRef.current.srcObject !== remote
+      ) {
+        remoteRef.current.srcObject = remote;
+      }
+
+      const tracks =
+        remote?.getVideoTracks?.() || [];
+
+      const hasLiveVideo =
+        tracks.some(
+          (track) =>
+            track.readyState === 'live'
+        );
 
       setHasRemoteVideo(hasLiveVideo);
-    }, 500);
+    };
 
-    return () => clearInterval(timer);
-  }, [active?.callId, active?.mode, remoteStream]);
+    synchronizeVideoStreams();
+
+    const timer =
+      setInterval(
+        synchronizeVideoStreams,
+        500
+      );
+
+    return () =>
+      clearInterval(timer);
+  }, [
+    active?.callId,
+    active?.mode,
+    localStream,
+    remoteStream,
+  ]);
 
   if (!active) return null;
 
