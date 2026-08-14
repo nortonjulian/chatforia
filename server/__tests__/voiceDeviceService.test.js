@@ -22,6 +22,12 @@ const {
   '../services/voiceDeviceService.js'
 );
 
+const {
+  parseVoiceIdentityUserId,
+} = await import(
+  '../utils/voiceIdentity.js'
+);
+
 describe('voiceDeviceService', () => {
   beforeEach(() => {
     prismaDeviceFindMany.mockReset();
@@ -208,6 +214,12 @@ describe('voiceDeviceService', () => {
         platform: 'ios',
         legacy: false,
       },
+      {
+        identity: 'user:42',
+        deviceId: null,
+        platform: 'web',
+        legacy: false,
+      },
     ]);
   });
 
@@ -218,6 +230,12 @@ describe('voiceDeviceService', () => {
       await getVoiceDialDestinations(42);
 
     expect(destinations).toEqual([
+      {
+        identity: 'user:42',
+        deviceId: null,
+        platform: 'web',
+        legacy: false,
+      },
       {
         identity: 'user_42',
         deviceId: null,
@@ -238,8 +256,26 @@ describe('voiceDeviceService', () => {
         }
       );
 
-    expect(destinations).toEqual([]);
+    expect(destinations).toEqual([
+      {
+        identity: 'user:42',
+        deviceId: null,
+        platform: 'web',
+        legacy: false,
+      },
+    ]);
   });
+
+  test(
+    'parses the browser Voice identity',
+    () => {
+      expect(
+        parseVoiceIdentityUserId(
+          'client:user:42'
+        )
+      ).toBe(42);
+    }
+  );
 
   test('never returns more than 10 eligible devices', async () => {
     prismaDeviceFindMany.mockResolvedValue(

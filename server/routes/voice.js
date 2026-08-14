@@ -4,6 +4,9 @@ import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { startAliasCall } from '../services/voiceBridge.js';
 import logger from '../utils/logger.js';
+import {
+  buildBrowserVoiceIdentity,
+} from '../utils/voiceIdentity.js';
 
 const r = express.Router();
 
@@ -35,7 +38,10 @@ r.post(
       });
     }
 
-    const identity = `user:${req.user.id}`;
+    const identity =
+      buildBrowserVoiceIdentity(
+        req.user.id
+      );
     const ttlSeconds = 3600;
 
     const token = new AccessToken(
