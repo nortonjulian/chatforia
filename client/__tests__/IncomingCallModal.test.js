@@ -1,66 +1,214 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 
-// ----- Controlled test doubles (allowed in mock factory because names start with "mock") -----
 let mockIncoming = {
   mode: 'VIDEO',
-  fromUser: { username: 'alice' },
+  fromUser: {
+    username: 'alice',
+  },
 };
+
 const mockAccept = jest.fn();
 const mockReject = jest.fn();
+const mockShowNotification =
+  jest.fn();
 
-// Mock the exact modules the component imports
-jest.mock('@/context/CallContext', () => ({
-  __esModule: true,
-  useCall: () => ({
-    incoming: mockIncoming,
-    acceptCall: mockAccept,
-    rejectCall: mockReject,
-  }),
-}));
+jest.mock(
+  '@/context/CallContext',
+  () => ({
+    __esModule: true,
+    useCall: () => ({
+      incoming: mockIncoming,
+      acceptCall: mockAccept,
+      rejectCall: mockReject,
+    }),
+  })
+);
 
-jest.mock('@/utils/safeToast', () => ({
-  __esModule: true,
-  toast: {
-    ok: jest.fn(),
-    info: jest.fn(),
-    err: jest.fn(),
-  },
-}));
+jest.mock(
+  '@mantine/notifications',
+  () => ({
+    __esModule: true,
+    notifications: {
+      show: (...args) =>
+        mockShowNotification(
+          ...args
+        ),
+    },
+  })
+);
 
-// SUT
 import IncomingCallModal from '@/components/IncomingCallModal';
 
 describe('IncomingCallModal', () => {
   beforeEach(() => {
-    mockAccept.mockClear();
-    mockReject.mockClear();
+    mockIncoming = {
+      mode: 'VIDEO',
+      fromUser: {
+        username: 'alice',
+      },
+    };
+
+    mockAccept.mockReset();
+    mockReject.mockReset();
+    mockShowNotification
+      .mockReset();
+
+    mockAccept
+      .mockResolvedValue(undefined);
+
+    mockReject
+      .mockResolvedValue(undefined);
   });
 
-  test('renders and wires Accept/Reject', () => {
-    // incoming call present
-    mockIncoming = { mode: 'VIDEO', fromUser: { username: 'alice' } };
+  test(
+    'renders styled controls and wires acceptance and rejection',
+    async () => {
+      render(<IncomingCallModal />);
 
-    render(<IncomingCallModal />);
+      expect(
+        screen.getByText(
+          'Incoming video call'
+        )
+      ).toBeInTheDocument();
 
-    expect(screen.getByText(/incoming/i)).toBeInTheDocument();
+      expect(
+        screen.getByText('alice')
+      ).toBeInTheDocument();
 
-    const acceptBtn  = screen.getByRole('button', { name: /accept|answer/i });
-    const declineBtn = screen.getByRole('button', { name: /decline|reject|deny/i });
+      const acceptButton =
+        screen.getByRole(
+          'button',
+          {
+            name: /accept/i,
+          }
+        );
 
-    fireEvent.click(acceptBtn);
-    expect(mockAccept).toHaveBeenCalled();
+      fireEvent.click(
+        acceptButton
+      );
 
-    fireEvent.click(declineBtn);
-    expect(mockReject).toHaveBeenCalled();
-  });
+      await waitFor(() => {
+        expect(
+          mockAccept
+        ).toHaveBeenCalledTimes(1);
+      });
 
-  test('renders nothing if no incoming call', () => {
-    // no incoming call
-    mockIncoming = null;
+      await waitFor(() => {
+        expect(
+          acceptButton
+        ).not.toBeDisabled();
+      });
 
-    const { queryByText, queryByRole } = render(<IncomingCallModal />);
-    expect(queryByText(/incoming/i)).toBeNull();
-    expect(queryByRole('button', { name: /accept|answer/i })).toBeNull();
-    expect(queryByRole('button', { name: /decline|reject|deny/i })).toBeNull();
-  });
+      fireEvent.click(
+        screen.getByRole(
+          'button',
+          {
+            name: /decline/i,
+          }
+        )
+      );
+
+      await waitFor(() => {
+        expect(
+          mockReject
+        ).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  test(
+    'keeps hook order stable when a call appears',
+    () => {
+      mockIncoming = null;
+
+      const { rerender } =
+        render(
+          <IncomingCallModal />
+        );
+
+      expect(
+        screen.queryByText(
+          'Incoming video call'
+        )
+      ).not.toBeInTheDocument();
+
+      mockIncoming = {
+        mode: 'VIDEO',
+        callerName: 'Reviewer',
+      };
+
+      rerender(
+        <IncomingCallModal />
+      );
+
+      expect(
+        screen.getByText(
+          'Incoming video call'
+        )
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByText('Reviewer')
+      ).toBeInTheDocument();
+    }
+  );
+
+  test(
+    'shows a visible acceptance error',
+    async () => {
+      mockAccept
+        .mockRejectedValueOnce(
+          new Error(
+            'Video room unavailable'
+          )
+        );
+
+      render(<IncomingCallModal />);
+
+      fireEvent.click(
+        screen.getByRole(
+          'button',
+          {
+            name: /accept/i,
+          }
+        )
+      );
+
+      await waitFor(() => {
+        expect(
+          mockShowNotification
+        ).toHaveBeenCalledWith(
+          expect.objectContaining({
+            color: 'red',
+            title:
+              'Could not answer call',
+            message:
+              'Video room unavailable',
+          })
+        );
+      });
+    }
+  );
+
+  test(
+    'renders nothing without an incoming call',
+    () => {
+      mockIncoming = null;
+
+      render(
+        <IncomingCallModal />
+      );
+
+      expect(
+        screen.queryByText(
+          /incoming (video|audio) call/i
+        )
+      ).not.toBeInTheDocument();
+    }
+  );
 });

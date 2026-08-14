@@ -521,6 +521,159 @@ test('startCall routes app audio through Twilio Voice with the backend call ID',
   });
 });
 
+test(
+  'acceptCall claims and joins an incoming canonical Twilio Video room',
+  async () => {
+    renderWithProvider();
+
+    act(() => {
+      socketMock.emit(
+        'video:incoming',
+        {
+          callId:
+            'incoming-video-room-1',
+          roomName:
+            'call_incoming-video-room-1',
+          fromUser: {
+            id: 456,
+            displayName:
+              'Reviewer',
+          },
+          mode: 'VIDEO',
+          offer: null,
+        }
+      );
+    });
+
+    await act(async () => {
+      await ctxRef.acceptCall();
+    });
+
+    const answerCall =
+      fetchMock.mock.calls.find(
+        ([url]) =>
+          url.includes(
+            '/calls/answer'
+          )
+      );
+
+    expect(answerCall)
+      .toBeTruthy();
+
+    expect(
+      JSON.parse(
+        answerCall[1].body
+      )
+    ).toEqual({
+      callId:
+        'incoming-video-room-1',
+      answer: null,
+    });
+
+    expect(
+      mockJoinRoom
+    ).toHaveBeenCalledWith({
+      identity: '7',
+      room:
+        'call_incoming-video-room-1',
+    });
+
+    expect(
+      navigator.mediaDevices
+        .getUserMedia
+    ).not.toHaveBeenCalled();
+
+    expect(
+      ctxRef.active
+    ).toMatchObject({
+      callId:
+        'incoming-video-room-1',
+      peerId: 456,
+      mode: 'VIDEO',
+      peerName: 'Reviewer',
+      roomName:
+        'call_incoming-video-room-1',
+      mediaTransport:
+        'twilio-video',
+    });
+
+    expect(
+      ctxRef.incoming
+    ).toBe(null);
+  }
+);
+
+test(
+  'acceptCall ends a claimed video call when its Twilio room cannot connect',
+  async () => {
+    renderWithProvider();
+
+    mockJoinRoom
+      .mockRejectedValueOnce(
+        new Error(
+          'Video room unavailable'
+        )
+      );
+
+    act(() => {
+      socketMock.emit(
+        'video:incoming',
+        {
+          callId:
+            'incoming-video-room-2',
+          roomName:
+            'call_incoming-video-room-2',
+          fromUser: {
+            id: 456,
+          },
+          mode: 'VIDEO',
+          offer: null,
+        }
+      );
+    });
+
+    let caughtError = null;
+
+    await act(async () => {
+      try {
+        await ctxRef.acceptCall();
+      } catch (error) {
+        caughtError = error;
+      }
+    });
+
+    expect(
+      caughtError?.message
+    ).toBe(
+      'Video room unavailable'
+    );
+
+    const endCall =
+      fetchMock.mock.calls.find(
+        ([url]) =>
+          url.includes('/calls/end')
+      );
+
+    expect(endCall)
+      .toBeTruthy();
+
+    expect(
+      JSON.parse(
+        endCall[1].body
+      )
+    ).toEqual({
+      callId:
+        'incoming-video-room-2',
+      reason:
+        'media_connect_failed',
+    });
+
+    expect(
+      ctxRef.active
+    ).toBe(null);
+  }
+);
+
 test('acceptCall consumes incoming offer, sends answer, sets active and clears incoming', async () => {
     renderWithProvider();
 
