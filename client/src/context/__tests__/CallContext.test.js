@@ -3,6 +3,9 @@ import { render, act } from '@testing-library/react';
 import { CallProvider, useCall } from '@/context/CallContext';
 
 const mockStartBrowserCall = jest.fn();
+const mockInitializeVoice = jest.fn();
+const mockAcceptIncomingVoiceCall = jest.fn();
+const mockRejectIncomingVoiceCall = jest.fn();
 const mockTwilioHangup = jest.fn();
 
 const mockTwilioVoiceState = {
@@ -12,8 +15,14 @@ const mockTwilioVoiceState = {
   callStatus: 'idle',
   error: null,
   currentCall: null,
+  initialize:
+    mockInitializeVoice,
   startBrowserCall:
     mockStartBrowserCall,
+  acceptIncomingCall:
+    mockAcceptIncomingVoiceCall,
+  rejectIncomingCall:
+    mockRejectIncomingVoiceCall,
   hangup: mockTwilioHangup,
 };
 
@@ -290,9 +299,20 @@ mockVideoRoom
 
   mockStartBrowserCall.mockReset();
   mockStartBrowserCall.mockResolvedValue({});
+
+  mockInitializeVoice.mockReset();
+  mockInitializeVoice.mockResolvedValue({});
+
+  mockAcceptIncomingVoiceCall.mockReset();
+  mockAcceptIncomingVoiceCall.mockResolvedValue({});
+
+  mockRejectIncomingVoiceCall.mockReset();
+  mockRejectIncomingVoiceCall.mockResolvedValue({});
+
   mockTwilioHangup.mockReset();
   mockTwilioVoiceState.callStatus = 'idle';
   mockTwilioVoiceState.error = null;
+  mockTwilioVoiceState.currentCall = null;
 
   fetchMock.mockClear();
   navigator.mediaDevices.getUserMedia.mockClear();
@@ -520,6 +540,215 @@ test('startCall routes app audio through Twilio Voice with the backend call ID',
     mediaTransport: 'twilio-voice',
   });
 });
+
+test(
+  'acceptCall claims and accepts an incoming canonical Twilio Voice call',
+  async () => {
+    renderWithProvider();
+
+    act(() => {
+      socketMock.emit(
+        'call:incoming',
+        {
+          callId:
+            'incoming-audio-1',
+          fromUser: {
+            id: 456,
+            displayName:
+              'Reviewer',
+          },
+          mode: 'AUDIO',
+          offer: null,
+        }
+      );
+    });
+
+    await act(async () => {
+      await ctxRef.acceptCall();
+    });
+
+    const answerCall =
+      fetchMock.mock.calls.find(
+        ([url]) =>
+          url.includes(
+            '/calls/answer'
+          )
+      );
+
+    expect(answerCall)
+      .toBeTruthy();
+
+    expect(
+      JSON.parse(
+        answerCall[1].body
+      )
+    ).toEqual({
+      callId:
+        'incoming-audio-1',
+      answer: null,
+    });
+
+    expect(
+      mockInitializeVoice
+    ).toHaveBeenCalled();
+
+    expect(
+      mockAcceptIncomingVoiceCall
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      navigator.mediaDevices
+        .getUserMedia
+    ).not.toHaveBeenCalled();
+
+    expect(
+      fetchMock.mock.calls.some(
+        ([url]) =>
+          url.includes(
+            '/ice-servers'
+          )
+      )
+    ).toBe(false);
+
+    expect(
+      ctxRef.active
+    ).toMatchObject({
+      callId:
+        'incoming-audio-1',
+      peerId: 456,
+      mode: 'AUDIO',
+      peerName: 'Reviewer',
+      mediaTransport:
+        'twilio-voice',
+    });
+
+    expect(
+      ctxRef.incoming
+    ).toBe(null);
+  }
+);
+
+test(
+  'acceptCall ends a claimed audio call when its Twilio invitation cannot connect',
+  async () => {
+    mockAcceptIncomingVoiceCall
+      .mockRejectedValueOnce(
+        new Error(
+          'Voice invitation unavailable'
+        )
+      );
+
+    renderWithProvider();
+
+    act(() => {
+      socketMock.emit(
+        'call:incoming',
+        {
+          callId:
+            'incoming-audio-2',
+          fromUser: {
+            id: 456,
+          },
+          mode: 'AUDIO',
+          offer: null,
+        }
+      );
+    });
+
+    let caughtError = null;
+
+    await act(async () => {
+      try {
+        await ctxRef.acceptCall();
+      } catch (error) {
+        caughtError = error;
+      }
+    });
+
+    expect(
+      caughtError?.message
+    ).toBe(
+      'Voice invitation unavailable'
+    );
+
+    const endCall =
+      fetchMock.mock.calls.find(
+        ([url]) =>
+          url.includes('/calls/end')
+      );
+
+    expect(endCall)
+      .toBeTruthy();
+
+    expect(
+      JSON.parse(
+        endCall[1].body
+      )
+    ).toEqual({
+      callId:
+        'incoming-audio-2',
+      reason:
+        'media_connect_failed',
+    });
+
+    expect(
+      ctxRef.active
+    ).toBe(null);
+  }
+);
+
+test(
+  'rejectCall rejects the canonical Twilio Voice invitation',
+  async () => {
+    renderWithProvider();
+
+    act(() => {
+      socketMock.emit(
+        'call:incoming',
+        {
+          callId:
+            'incoming-audio-3',
+          fromUser: {
+            id: 456,
+          },
+          mode: 'AUDIO',
+          offer: null,
+        }
+      );
+    });
+
+    await act(async () => {
+      await ctxRef.rejectCall();
+    });
+
+    expect(
+      mockRejectIncomingVoiceCall
+    ).toHaveBeenCalledTimes(1);
+
+    const endCall =
+      fetchMock.mock.calls.find(
+        ([url]) =>
+          url.includes('/calls/end')
+      );
+
+    expect(endCall)
+      .toBeTruthy();
+
+    expect(
+      JSON.parse(
+        endCall[1].body
+      )
+    ).toEqual({
+      callId:
+        'incoming-audio-3',
+      reason: 'rejected',
+    });
+
+    expect(
+      ctxRef.incoming
+    ).toBe(null);
+  }
+);
 
 test(
   'acceptCall claims and joins an incoming canonical Twilio Video room',

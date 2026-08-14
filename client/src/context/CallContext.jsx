@@ -97,6 +97,20 @@ const twilioVideoRoomRef = useRef(null);
     twilioVoice.callStatus,
     twilioVoice.error,
   ]);
+
+  /*
+   * Keep the browser Twilio Voice Device registered so native
+   * callers can deliver their SDK invitation before the user
+   * presses Accept.
+   */
+  useEffect(() => {
+    void twilioVoice
+      .initialize()
+      .catch(() => {
+        // The hook records and reports initialization errors.
+      });
+  }, [twilioVoice.initialize]);
+
   const [participants, setParticipants] = useState([]);
 
   // Keep local & remote streams for UI
@@ -750,6 +764,140 @@ return data;
     }
 
     /*
+     * Native clients originate canonical audio calls through
+     * Twilio Voice and therefore send no legacy SDP offer.
+     */
+    if (
+      mode === 'AUDIO' &&
+      !offer
+    ) {
+      answeringCallIdRef.current =
+        callId;
+
+      setPending(true);
+      setStatus('Connecting…');
+
+      try {
+        await twilioVoice
+          .initialize();
+      } catch (error) {
+        answeringCallIdRef.current =
+          null;
+
+        cleanup();
+        throw error;
+      }
+
+      let response;
+
+      try {
+        response = await fetch(
+          `${API_BASE}/calls/answer`,
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type':
+                'application/json',
+            },
+            body: JSON.stringify({
+              callId,
+              answer: null,
+            }),
+          }
+        );
+      } catch (error) {
+        answeringCallIdRef.current =
+          null;
+
+        cleanup();
+        throw error;
+      }
+
+      const responseData =
+        await response
+          .json()
+          .catch(() => ({}));
+
+      if (response.ok === false) {
+        answeringCallIdRef.current =
+          null;
+
+        cleanup();
+
+        if (
+          response.status === 409 &&
+          responseData?.code ===
+            'CALL_ANSWERED_ELSEWHERE'
+        ) {
+          return;
+        }
+
+        const error =
+          new Error(
+            responseData?.error ||
+            'Could not answer this call.'
+          );
+
+        error.code =
+          responseData?.code ||
+          null;
+
+        throw error;
+      }
+
+      try {
+        await twilioVoice
+          .acceptIncomingCall();
+      } catch (error) {
+        answeringCallIdRef.current =
+          null;
+
+        await fetch(
+          `${API_BASE}/calls/end`,
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type':
+                'application/json',
+            },
+            body: JSON.stringify({
+              callId,
+              reason:
+                'media_connect_failed',
+            }),
+          }
+        ).catch(() => {});
+
+        cleanup();
+        throw error;
+      }
+
+      const nextActive = {
+        callId,
+        peerId: fromUser?.id,
+        mode: 'AUDIO',
+        peerName,
+        mediaTransport:
+          'twilio-voice',
+      };
+
+      activeRef.current =
+        nextActive;
+
+      setActive(nextActive);
+
+      answeringCallIdRef.current =
+        null;
+
+      setIncoming(null);
+      setPending(false);
+
+      return;
+    }
+
+    /*
      * Native clients originate canonical video calls through a
      * Twilio Video room and therefore send no legacy SDP offer.
      */
@@ -1042,6 +1190,17 @@ async function onParticipantOffer({ callId, fromUser, offer }) {
 
   async function rejectCall() {
     if (!incoming) return;
+
+    const rejectsTwilioVoice =
+      !incoming.isParticipantInvite &&
+      incoming.mode?.toUpperCase() ===
+        'AUDIO' &&
+      !incoming.offer;
+
+    if (rejectsTwilioVoice) {
+      twilioVoice
+        .rejectIncomingCall();
+    }
 
     const url = incoming.isParticipantInvite
       ? `${API_BASE}/calls/${incoming.callId}/decline-participant`

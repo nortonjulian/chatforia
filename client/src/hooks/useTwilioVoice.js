@@ -7,6 +7,7 @@ export function useTwilioVoice() {
   const deviceRef = useRef(null);
   const tokenRef = useRef(null);
   const tokenRefreshPromiseRef = useRef(null);
+  const currentCallRef = useRef(null);
 
   const [ready, setReady] = useState(false);
   const [initializing, setInitializing] = useState(false);
@@ -17,6 +18,7 @@ export function useTwilioVoice() {
 
   const clearCallState = useCallback(() => {
     setCalling(false);
+    currentCallRef.current = null;
     setCurrentCall(null);
     setCallStatus('idle');
   }, []);
@@ -26,6 +28,7 @@ export function useTwilioVoice() {
 
     call.on('accept', () => {
       setCalling(false);
+      currentCallRef.current = call;
       setCurrentCall(call);
       setCallStatus('in-call');
       console.log('[twilio] Call accepted');
@@ -33,6 +36,7 @@ export function useTwilioVoice() {
 
     call.on('disconnect', () => {
       setCalling(false);
+      currentCallRef.current = null;
       setCurrentCall(null);
       setCallStatus('ended');
       console.log('[twilio] Call disconnected');
@@ -44,6 +48,7 @@ export function useTwilioVoice() {
 
     call.on('cancel', () => {
       setCalling(false);
+      currentCallRef.current = null;
       setCurrentCall(null);
       setCallStatus('ended');
       console.log('[twilio] Call cancelled');
@@ -55,6 +60,7 @@ export function useTwilioVoice() {
 
     call.on('reject', () => {
       setCalling(false);
+      currentCallRef.current = null;
       setCurrentCall(null);
       setCallStatus('ended');
       console.log('[twilio] Call rejected');
@@ -68,6 +74,7 @@ export function useTwilioVoice() {
       const msg = err?.message || 'Twilio call error';
       setError(msg);
       setCalling(false);
+      currentCallRef.current = null;
       setCurrentCall(null);
       setCallStatus('error');
       toast.err?.(msg);
@@ -155,6 +162,7 @@ export function useTwilioVoice() {
 
       device.on('incoming', (call) => {
         console.log('[twilio] Incoming call from', call.parameters?.From);
+        currentCallRef.current = call;
         setCurrentCall(call);
         setCallStatus('incoming');
         attachCallListeners(call);
@@ -225,6 +233,8 @@ export function useTwilioVoice() {
           params,
         });
 
+        currentCallRef.current = call;
+
         setCurrentCall(call);
         setCallStatus('ringing');
         attachCallListeners(call);
@@ -249,12 +259,124 @@ export function useTwilioVoice() {
     [attachCallListeners, initDevice]
   );
 
+  const waitForIncomingCall =
+    useCallback(
+      async (
+        timeoutMs = 10000
+      ) => {
+        const deadline =
+          Date.now() + timeoutMs;
+
+        while (
+          !currentCallRef.current &&
+          Date.now() < deadline
+        ) {
+          await new Promise(
+            (resolve) =>
+              setTimeout(resolve, 50)
+          );
+        }
+
+        const call =
+          currentCallRef.current;
+
+        if (!call) {
+          throw new Error(
+            'The incoming voice connection did not arrive.'
+          );
+        }
+
+        return call;
+      },
+      []
+    );
+
+  const acceptIncomingCall =
+    useCallback(
+      async () => {
+        try {
+          setCalling(true);
+          setError(null);
+          setCallStatus(
+            'connecting'
+          );
+
+          const call =
+            await waitForIncomingCall();
+
+          if (
+            typeof call.accept !==
+            'function'
+          ) {
+            throw new Error(
+              'The incoming voice connection cannot be answered.'
+            );
+          }
+
+          call.accept();
+          return call;
+        } catch (e) {
+          const msg =
+            e?.message ||
+            'Failed to answer incoming voice call';
+
+          setError(msg);
+          setCalling(false);
+          setCallStatus('error');
+          toast.err?.(msg);
+          throw e;
+        }
+      },
+      [waitForIncomingCall]
+    );
+
+  const rejectIncomingCall =
+    useCallback(() => {
+      const call =
+        currentCallRef.current;
+
+      if (!call) return;
+
+      try {
+        if (
+          typeof call.reject ===
+          'function'
+        ) {
+          call.reject();
+        } else if (
+          typeof call.disconnect ===
+          'function'
+        ) {
+          call.disconnect();
+        }
+      } catch (e) {
+        console.error(
+          '[twilio] reject error',
+          e
+        );
+      } finally {
+        clearCallState();
+      }
+    }, [clearCallState]);
+
   const hangup = useCallback(() => {
     try {
       setCallStatus('ending');
 
-      if (currentCall) {
-        currentCall.disconnect();
+      const call =
+        currentCallRef.current ||
+        currentCall;
+
+      if (call) {
+        if (
+          callStatus === 'incoming' &&
+          typeof call.reject ===
+            'function'
+        ) {
+          call.reject();
+        } else {
+          call.disconnect();
+        }
       } else if (deviceRef.current) {
         deviceRef.current.disconnectAll();
       }
@@ -263,7 +385,11 @@ export function useTwilioVoice() {
     } finally {
       clearCallState();
     }
-  }, [clearCallState, currentCall]);
+  }, [
+    callStatus,
+    clearCallState,
+    currentCall,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -277,6 +403,7 @@ export function useTwilioVoice() {
         deviceRef.current = null;
         tokenRef.current = null;
         tokenRefreshPromiseRef.current = null;
+        currentCallRef.current = null;
       }
     };
   }, []);
@@ -288,7 +415,10 @@ export function useTwilioVoice() {
     callStatus,
     error,
     currentCall,
+    initialize: initDevice,
     startBrowserCall,
+    acceptIncomingCall,
+    rejectIncomingCall,
     hangup,
   };
 }
