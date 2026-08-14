@@ -1,5 +1,6 @@
 import prisma from '../utils/prismaClient.js';
 import {
+  buildBrowserVoiceIdentity,
   buildDeviceVoiceIdentity,
   buildLegacyVoiceIdentity,
   MAX_VOICE_FANOUT_DEVICES,
@@ -165,31 +166,55 @@ export async function getVoiceDialDestinations(
       Boolean(destination.identity)
     );
 
-  if (deviceDestinations.length > 0) {
-    return deviceDestinations;
+  /*
+   * Reserve one Twilio fan-out destination for the website.
+   * Browser Voice tokens use a distinct identity so web calls
+   * do not weaken device-specific mobile authorization.
+   */
+  const destinations =
+    deviceDestinations.slice(
+      0,
+      MAX_VOICE_FANOUT_DEVICES - 1
+    );
+
+  const browserIdentity =
+    buildBrowserVoiceIdentity(
+      numericUserId
+    );
+
+  if (browserIdentity) {
+    destinations.push({
+      identity: browserIdentity,
+      deviceId: null,
+      platform: 'web',
+      legacy: false,
+    });
   }
 
   /*
    * Temporary migration compatibility only.
    *
-   * Remove this fallback after supported Android/iOS versions
-   * reliably confirm device-specific Voice registration.
+   * Preserve the legacy mobile identity only when no confirmed
+   * device-specific mobile registration exists.
    */
-  if (!allowLegacyFallback) {
-    return [];
+  if (
+    deviceDestinations.length === 0 &&
+    allowLegacyFallback
+  ) {
+    const legacyIdentity =
+      buildLegacyVoiceIdentity(
+        numericUserId
+      );
+
+    if (legacyIdentity) {
+      destinations.push({
+        identity: legacyIdentity,
+        deviceId: null,
+        platform: null,
+        legacy: true,
+      });
+    }
   }
 
-  const legacyIdentity =
-    buildLegacyVoiceIdentity(numericUserId);
-
-  return legacyIdentity
-    ? [
-        {
-          identity: legacyIdentity,
-          deviceId: null,
-          platform: null,
-          legacy: true,
-        },
-      ]
-    : [];
+  return destinations;
 }

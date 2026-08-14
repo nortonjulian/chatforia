@@ -58,10 +58,43 @@ export function buildLegacyVoiceIdentity(userId) {
   return `user_${numericUserId}`;
 }
 
+export function buildBrowserVoiceIdentity(userId) {
+  const numericUserId = Number(userId);
+
+  if (
+    !Number.isInteger(numericUserId) ||
+    numericUserId <= 0
+  ) {
+    return null;
+  }
+
+  return `user:${numericUserId}`;
+}
+
 export function parseVoiceIdentity(identity) {
   const raw = String(identity || '')
     .trim()
     .replace(/^client:/, '');
+
+  const browserMatch =
+    raw.match(/^user:(\d+)$/);
+
+  if (browserMatch) {
+    const userId =
+      Number(browserMatch[1]);
+
+    if (
+      Number.isInteger(userId) &&
+      userId > 0
+    ) {
+      return {
+        identity: raw,
+        userId,
+        deviceSpecific: false,
+        deviceIdentityPart: null,
+      };
+    }
+  }
 
   const match = raw.match(
     /^user_(\d+)(?:_device_(.+))?$/

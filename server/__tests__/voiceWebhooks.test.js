@@ -496,7 +496,7 @@ describe('POST /webhooks/voice/inbound', () => {
 // -----------------------------------------------------------------------------
 
 describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
-  it('fans out one Dial to all registered Voice devices and parses a device-specific caller identity', async () => {
+  it('fans out one Dial to mobile devices and the browser while parsing a device-specific caller identity', async () => {
     prisma.user.findUnique
       .mockResolvedValueOnce({
         id: 99,
@@ -520,6 +520,12 @@ describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
           'user_99_device_ios_device_456',
         deviceId: 'ios-device-456',
         platform: 'ios',
+        legacy: false,
+      },
+      {
+        identity: 'user:99',
+        deviceId: null,
+        platform: 'web',
         legacy: false,
       },
     ]);
@@ -557,13 +563,14 @@ describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
       method: 'POST',
     });
 
-    expect(actions[0].clients).toHaveLength(2);
+    expect(actions[0].clients).toHaveLength(3);
 
     expect(
       actions[0].clients.map((client) => client.to)
     ).toEqual([
       'user_99_device_android_device_123',
       'user_99_device_ios_device_456',
+      'user:99',
     ]);
 
     for (const client of actions[0].clients) {
