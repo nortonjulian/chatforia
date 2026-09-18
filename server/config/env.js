@@ -127,6 +127,23 @@ export const ENV = {
 
   // eSIM / connectivity
   ESIM_PROVIDER: (process.env.ESIM_PROVIDER || 'telna').toLowerCase(),
+
+  TELNA_API_BASE: process.env.TELNA_API_BASE || '',
+  TELNA_API_KEY_DEV: process.env.TELNA_API_KEY_DEV || '',
+  TELNA_API_KEY_PROD: process.env.TELNA_API_KEY_PROD || '',
+  TELNA_DEFAULT_INVENTORY_ID:
+    process.env.TELNA_DEFAULT_INVENTORY_ID || '',
+  TELNA_INVENTORY_ID: process.env.TELNA_INVENTORY_ID || '',
+  TELNA_GROUP_ID: process.env.TELNA_GROUP_ID || '',
+  TELNA_PACKAGE_TEMPLATE_MAP:
+    process.env.TELNA_PACKAGE_TEMPLATE_MAP || '{}',
+  TELNA_WEBHOOK_SECRET:
+    process.env.TELNA_WEBHOOK_SECRET || '',
+
+  PLINTRON_API_KEY: process.env.PLINTRON_API_KEY || '',
+  PLINTRON_BASE_URL: process.env.PLINTRON_BASE_URL || '',
+  PLINTRON_WEBHOOK_SECRET:
+    process.env.PLINTRON_WEBHOOK_SECRET || '',
 };
 
 export const cfg = {
