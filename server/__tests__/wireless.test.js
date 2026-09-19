@@ -2,6 +2,9 @@ import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
 
+const fetchEsimUsageMock =
+  jest.fn();
+
 // --- Prisma mock --- //
 const prismaMock = {
   familyMember: {
@@ -20,9 +23,13 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   default: prismaMock,
 }));
 
-jest.unstable_mockModule('../services/providers/esimProvider.js', () => ({
-  fetchEsimUsage: jest.fn(),
-}));
+jest.unstable_mockModule(
+  '../services/providers/esimProvider.js',
+  () => ({
+    fetchEsimUsage:
+      fetchEsimUsageMock,
+  })
+);
 
 jest.unstable_mockModule('../middleware/auth.js', () => ({
   requireAuth: (req, res, next) => {
@@ -133,6 +140,157 @@ describe('wireless routes', () => {
       prismaMock.mobileDataPackPurchase.findFirst
     ).toHaveBeenCalledTimes(1);
   });
+
+  it(
+  'refreshes provider usage with providerPurchaseId instead of profile ID or ICCID',
+  async () => {
+    const app = makeApp();
+
+    const expiresAt =
+      new Date(
+        Date.now() +
+          5 *
+            24 *
+            60 *
+            60 *
+            1000
+      ).toISOString();
+
+    const providerExpiresAt =
+      new Date(
+        Date.now() +
+          4 *
+            24 *
+            60 *
+            60 *
+            1000
+      ).toISOString();
+
+    prismaMock
+      .mobileDataPackPurchase
+      .findFirst
+      .mockResolvedValue({
+        id: 11,
+        userId: 123,
+        addonKind:
+          'ESIM_STARTER',
+        totalDataMb: 1000,
+        remainingDataMb: 700,
+        expiresAt,
+        purchasedAt:
+          new Date().toISOString(),
+
+        providerPurchaseId:
+          'telna-package-456',
+
+        esimProfileId:
+          'telna-profile-should-not-be-used',
+
+        iccid:
+          '8910300000059080801',
+      });
+
+    prismaMock
+      .subscriber
+      .findFirst
+      .mockResolvedValue({
+        id: 50,
+        userId: 123,
+
+        providerProfileId:
+          'telna-profile-should-not-be-used',
+
+        iccid:
+          '8910300000059080801',
+      });
+
+    fetchEsimUsageMock
+      .mockResolvedValue({
+        totalMb: 1000,
+        remainingMb: 512,
+        expiresAt:
+          providerExpiresAt,
+      });
+
+    prismaMock
+      .mobileDataPackPurchase
+      .update
+      .mockImplementation(
+        async ({ data }) => ({
+          id: 11,
+          userId: 123,
+          addonKind:
+            'ESIM_STARTER',
+          purchasedAt:
+            new Date().toISOString(),
+          ...data,
+        })
+      );
+
+    const res =
+      await request(app)
+        .get(
+          '/api/wireless/status'
+        );
+
+    expect(
+      res.status
+    ).toBe(200);
+
+    expect(
+      fetchEsimUsageMock
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      fetchEsimUsageMock
+    ).toHaveBeenCalledWith(
+      'telna-package-456'
+    );
+
+    expect(
+      fetchEsimUsageMock
+    ).not.toHaveBeenCalledWith(
+      'telna-profile-should-not-be-used'
+    );
+
+    expect(
+      fetchEsimUsageMock
+    ).not.toHaveBeenCalledWith(
+      '8910300000059080801'
+    );
+
+    expect(
+      prismaMock
+        .mobileDataPackPurchase
+        .update
+    ).toHaveBeenCalledWith({
+      where: {
+        id: 11,
+      },
+
+      data: {
+        totalDataMb: 1000,
+        remainingDataMb: 512,
+        expiresAt:
+          providerExpiresAt,
+
+        iccid:
+          '8910300000059080801',
+
+        esimProfileId:
+          'telna-profile-should-not-be-used',
+
+        providerPurchaseId:
+          'telna-package-456',
+      },
+    });
+
+    expect(
+      res.body.source
+        .remainingDataMb
+    ).toBe(512);
+  }
+);
 
   it('returns INDIVIDUAL exhausted/expired status from last pack when no active pack', async () => {
     const app = makeApp();

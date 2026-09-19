@@ -28,8 +28,6 @@ describe('telnaRequest', () => {
 
     telnaConfig.apiKey = 'test-api-key';
     telnaConfig.baseUrl = 'https://api.telna.test';
-    delete telnaConfig.username;
-    delete telnaConfig.password;
   });
 
   it('throws if Telna baseUrl is missing', async () => {
@@ -42,10 +40,22 @@ describe('telnaRequest', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('uses TELNA.baseUrl and sends JSON body + headers', async () => {
+  it('throws if Telna apiKey is missing', async () => {
+    telnaConfig.apiKey = null;
+
+    await expect(telnaRequest('/esim/test')).rejects.toThrow(
+      'TELNA.apiKey is not configured'
+    );
+
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('uses TELNA.baseUrl and sends JSON body + Telna headers', async () => {
     fetchMock.mockResolvedValueOnce({
       ok: true,
-      text: jest.fn().mockResolvedValueOnce(JSON.stringify({ ok: true, foo: 'bar' })),
+      text: jest.fn().mockResolvedValueOnce(
+        JSON.stringify({ ok: true, foo: 'bar' })
+      ),
     });
 
     const result = await telnaRequest('/esim/reserve', {
@@ -60,36 +70,77 @@ describe('telnaRequest', () => {
 
     expect(url).toBe('https://api.telna.test/esim/reserve');
     expect(opts.method).toBe('POST');
+
     expect(opts.headers).toEqual({
+      Accept: 'application/json',
       Authorization: 'Bearer test-api-key',
       'Content-Type': 'application/json',
+      'Request-ID': expect.any(String),
     });
-    expect(opts.body).toBe(JSON.stringify({ a: 1, b: 'two' }));
+
+    expect(opts.headers['Request-ID']).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+    );
+
+    expect(opts.headers.Version).toBeUndefined();
+
+    expect(opts.body).toBe(
+      JSON.stringify({ a: 1, b: 'two' })
+    );
+
     expect(opts.signal).toBeDefined();
 
-    expect(result).toEqual({ ok: true, foo: 'bar' });
+    expect(result).toEqual({
+      ok: true,
+      foo: 'bar',
+    });
   });
 
   it('defaults method to GET and omits body when none provided', async () => {
     fetchMock.mockResolvedValueOnce({
       ok: true,
-      text: jest.fn().mockResolvedValueOnce(JSON.stringify({ hello: 'world' })),
+      text: jest.fn().mockResolvedValueOnce(
+        JSON.stringify({ hello: 'world' })
+      ),
     });
 
-    const result = await telnaRequest('/status', { attempts: 1 });
+    const result = await telnaRequest('/status', {
+      attempts: 1,
+    });
 
     const [url, opts] = fetchMock.mock.calls[0];
 
     expect(url).toBe('https://api.telna.test/status');
     expect(opts.method).toBe('GET');
+
     expect(opts.headers).toEqual({
+      Accept: 'application/json',
       Authorization: 'Bearer test-api-key',
       'Content-Type': 'application/json',
+      'Request-ID': expect.any(String),
     });
+
+    expect(opts.headers.Version).toBeUndefined();
+
     expect(opts.body).toBeUndefined();
     expect(opts.signal).toBeDefined();
 
-    expect(result).toEqual({ hello: 'world' });
+    expect(result).toEqual({
+      hello: 'world',
+    });
+  });
+
+  it('returns empty object when successful response body is empty', async () => {
+    fetchMock.mockResolvedValueOnce({
+      ok: true,
+      text: jest.fn().mockResolvedValueOnce(''),
+    });
+
+    const result = await telnaRequest('/empty', {
+      attempts: 1,
+    });
+
+    expect(result).toEqual({});
   });
 
   it('returns empty object when successful response body is not JSON', async () => {
@@ -98,7 +149,9 @@ describe('telnaRequest', () => {
       text: jest.fn().mockResolvedValueOnce('not json'),
     });
 
-    const result = await telnaRequest('/plain', { attempts: 1 });
+    const result = await telnaRequest('/plain', {
+      attempts: 1,
+    });
 
     expect(result).toEqual({});
   });
@@ -112,7 +165,10 @@ describe('telnaRequest', () => {
     });
 
     await expect(
-      telnaRequest('/error', { method: 'GET', attempts: 1 })
+      telnaRequest('/error', {
+        method: 'GET',
+        attempts: 1,
+      })
     ).rejects.toThrow(
       '[TELNA] GET https://api.telna.test/error failed: 500 Server Error — boom'
     );

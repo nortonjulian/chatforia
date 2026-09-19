@@ -15,9 +15,8 @@ function ensureEnabled() {
 
 /**
  * Resolve the active eSIM provider implementation.
- * Currently supports 'telna'.
  *
- * @returns {object} provider module (must implement the expected functions)
+ * @returns {object} provider module and provider name
  */
 function ensureProvider() {
   const providerKey = (ESIM_PROVIDER || 'telna').toLowerCase();
@@ -25,10 +24,14 @@ function ensureProvider() {
   switch (providerKey) {
     case 'telna':
       return { impl: telna, name: 'telna' };
+
     case 'plintron':
       return { impl: plintron, name: 'plintron' };
+
     default: {
-      const err = new Error(`Unsupported eSIM provider: ${ESIM_PROVIDER}`);
+      const err = new Error(
+        `Unsupported eSIM provider: ${ESIM_PROVIDER}`
+      );
       err.code = 'ESIM_UNSUPPORTED_PROVIDER';
       throw err;
     }
@@ -36,16 +39,20 @@ function ensureProvider() {
 }
 
 /**
- * Helper: call provider function if available, wrap errors to include provider name.
- * @param {string} fnName - name of function to call on provider
- * @param {Array} args - arguments to pass through to provider function
+ * Call a provider function and attach the provider name to errors.
+ *
+ * @param {string} fnName
+ * @param {Array} args
  */
 async function callProvider(fnName, args) {
   const { impl, name } = ensureProvider();
 
   const fn = impl[fnName];
+
   if (typeof fn !== 'function') {
-    const err = new Error(`${fnName} not implemented for current eSIM provider (${name})`);
+    const err = new Error(
+      `${fnName} not implemented for current eSIM provider (${name})`
+    );
     err.code = 'ESIM_PROVIDER_MISSING_FN';
     throw err;
   }
@@ -53,20 +60,45 @@ async function callProvider(fnName, args) {
   try {
     return await fn(...args);
   } catch (err) {
-    // attach provider name for easier debugging & auditing
-    const wrapped = new Error(`eSIM provider (${name}) error in ${fnName}: ${err.message}`);
-    wrapped.code = err.code || 'ESIM_PROVIDER_ERROR';
+    const wrapped = new Error(
+      `eSIM provider (${name}) error in ${fnName}: ${err.message}`
+    );
+
+    wrapped.code =
+      err.code || 'ESIM_PROVIDER_ERROR';
+
     wrapped.provider = name;
     wrapped.cause = err;
+
+    if (err.providerMeta !== undefined) {
+      wrapped.providerMeta = err.providerMeta;
+    }
+
+    if (err.requestId) {
+      wrapped.requestId = err.requestId;
+    }
+
+    if (err.status) {
+      wrapped.status = err.status;
+    }
+
     throw wrapped;
   }
 }
 
 /**
- * Reserve an eSIM profile / line for a user in a given region.
- * Called by /esim/profiles (reserveProfile controller).
+ * Discover/reserve an eSIM profile for a user.
  *
- * params: { userId?: number, region: string }
+ * Telna Connect v2.1 uses this operation for discovery. The caller is
+ * responsible for atomically claiming the returned ICCID in Chatforia.
+ *
+ * params:
+ * {
+ *   userId?: number,
+ *   region: string,
+ *   testMode?: boolean,
+ *   excludedIccids?: string[]
+ * }
  *
  * Returns:
  * {
@@ -84,177 +116,298 @@ export async function reserveEsimProfile(params = {}) {
   ensureEnabled();
 
   if (!params || typeof params !== 'object') {
-    const err = new Error('reserveEsimProfile expects a params object');
+    const err = new Error(
+      'reserveEsimProfile expects a params object'
+    );
     err.code = 'ESIM_INVALID_PARAMS';
     throw err;
   }
-  if (!params.region || typeof params.region !== 'string') {
-    const err = new Error('reserveEsimProfile requires a region string');
+
+  if (
+    !params.region ||
+    typeof params.region !== 'string'
+  ) {
+    const err = new Error(
+      'reserveEsimProfile requires a region string'
+    );
     err.code = 'ESIM_INVALID_REGION';
     throw err;
   }
 
-  return callProvider('reserveEsimProfile', [params]);
+  if (
+    params.excludedIccids !== undefined &&
+    !Array.isArray(params.excludedIccids)
+  ) {
+    const err = new Error(
+      'reserveEsimProfile excludedIccids must be an array when provided'
+    );
+    err.code = 'ESIM_INVALID_EXCLUDED_ICCIDS';
+    throw err;
+  }
+
+  return callProvider(
+    'reserveEsimProfile',
+    [params]
+  );
 }
 
 /**
- * Activate a reserved profile (ICCID + activationCode / providerProfileId).
- * Called by /esim/activate.
+ * Activate/check activation of a profile.
  *
- * params: { providerProfileId?: string, iccid?: string, activationCode?: string }
- *
- * Returns:
+ * params:
  * {
- *   ok: boolean,
- *   activatedAt?: Date,
- *   msisdn?: string | null,
- *   providerMeta?: object
+ *   providerProfileId?: string,
+ *   iccid?: string,
+ *   activationCode?: string,
+ *   testMode?: boolean
  * }
  */
 export async function activateProfile(params = {}) {
   ensureEnabled();
 
   if (!params || typeof params !== 'object') {
-    const err = new Error('activateProfile expects a params object');
+    const err = new Error(
+      'activateProfile expects a params object'
+    );
     err.code = 'ESIM_INVALID_PARAMS';
     throw err;
   }
 
-  // must supply at least one of providerProfileId | iccid | activationCode
-  if (!params.providerProfileId && !params.iccid && !params.activationCode) {
-    const err = new Error('activateProfile requires providerProfileId, iccid, or activationCode');
-    err.code = 'ESIM_MISSING_ACTIVATION_IDENTIFIERS';
+  if (
+    !params.providerProfileId &&
+    !params.iccid &&
+    !params.activationCode
+  ) {
+    const err = new Error(
+      'activateProfile requires providerProfileId, iccid, or activationCode'
+    );
+    err.code =
+      'ESIM_MISSING_ACTIVATION_IDENTIFIERS';
     throw err;
   }
 
-  return callProvider('activateProfile', [params]);
+  return callProvider(
+    'activateProfile',
+    [params]
+  );
 }
 
 /**
- * Suspend an active line by providerProfileId or iccid.
- * Called by /esim/suspend.
+ * Suspend an active line by providerProfileId or ICCID.
  *
- * params: { providerProfileId?: string, iccid?: string }
- *
- * Returns: { ok: boolean, providerMeta: object }
+ * The selected provider decides whether SIM-level suspension is
+ * supported.
  */
 export async function suspendLine(params = {}) {
   ensureEnabled();
 
   if (!params || typeof params !== 'object') {
-    const err = new Error('suspendLine expects a params object');
+    const err = new Error(
+      'suspendLine expects a params object'
+    );
     err.code = 'ESIM_INVALID_PARAMS';
     throw err;
   }
 
-  if (!params.providerProfileId && !params.iccid) {
-    const err = new Error('suspendLine requires providerProfileId or iccid');
+  if (
+    !params.providerProfileId &&
+    !params.iccid
+  ) {
+    const err = new Error(
+      'suspendLine requires providerProfileId or iccid'
+    );
     err.code = 'ESIM_MISSING_IDENTIFIER';
     throw err;
   }
 
-  return callProvider('suspendLine', [params]);
+  return callProvider(
+    'suspendLine',
+    [params]
+  );
 }
 
 /**
- * Resume a suspended line by providerProfileId or iccid.
- * Called by /esim/resume.
+ * Resume a suspended line by providerProfileId or ICCID.
  *
- * params: { providerProfileId?: string, iccid?: string }
- *
- * Returns: { ok: boolean, providerMeta: object }
+ * The selected provider decides whether SIM-level resume is supported.
  */
 export async function resumeLine(params = {}) {
   ensureEnabled();
 
   if (!params || typeof params !== 'object') {
-    const err = new Error('resumeLine expects a params object');
+    const err = new Error(
+      'resumeLine expects a params object'
+    );
     err.code = 'ESIM_INVALID_PARAMS';
     throw err;
   }
 
-  if (!params.providerProfileId && !params.iccid) {
-    const err = new Error('resumeLine requires providerProfileId or iccid');
+  if (
+    !params.providerProfileId &&
+    !params.iccid
+  ) {
+    const err = new Error(
+      'resumeLine requires providerProfileId or iccid'
+    );
     err.code = 'ESIM_MISSING_IDENTIFIER';
     throw err;
   }
 
-  return callProvider('resumeLine', [params]);
+  return callProvider(
+    'resumeLine',
+    [params]
+  );
 }
 
 /**
- * Provision an eSIM data pack for a billing add-on.
- * Called from billing flows (e.g. handleAddonCheckoutCompleted).
+ * Provision an eSIM data pack.
  *
- * params: { userId: number, providerProfileId: string, addonKind: string, planCode: string }
+ * providerProfileId is retained because existing provider integrations
+ * use it. ICCID is also passed through because Telna Connect v2.1
+ * package creation identifies the SIM by ICCID.
  *
- * Returns:
+ * params:
  * {
- *   providerPurchaseId: string | null,
- *   providerProfileId: string | null,
- *   iccid: string | null,
- *   qrCodeSvg: string | null,
- *   expiresAt: Date | null,
- *   dataMb: number | null,
- *   providerMeta: object | null
+ *   userId: number,
+ *   providerProfileId: string,
+ *   iccid?: string,
+ *   addonKind: string,
+ *   planCode?: string,
+ *   testMode?: boolean,
+ *   timeAllowance?: number
  * }
  */
 export async function provisionEsimPack(params = {}) {
   ensureEnabled();
 
   if (!params || typeof params !== 'object') {
-    const err = new Error('provisionEsimPack expects a params object');
+    const err = new Error(
+      'provisionEsimPack expects a params object'
+    );
     err.code = 'ESIM_INVALID_PARAMS';
     throw err;
   }
 
-  if (!params.userId || typeof params.userId !== 'number') {
-    const err = new Error('provisionEsimPack requires userId (number)');
+  if (
+    !params.userId ||
+    typeof params.userId !== 'number'
+  ) {
+    const err = new Error(
+      'provisionEsimPack requires userId (number)'
+    );
     err.code = 'ESIM_INVALID_USERID';
     throw err;
   }
 
-  if (!params.providerProfileId || typeof params.providerProfileId !== 'string') {
-    const err = new Error('provisionEsimPack requires providerProfileId (string)');
-    err.code = 'ESIM_INVALID_PROVIDER_PROFILE_ID';
+  if (
+    !params.providerProfileId ||
+    typeof params.providerProfileId !== 'string'
+  ) {
+    const err = new Error(
+      'provisionEsimPack requires providerProfileId (string)'
+    );
+    err.code =
+      'ESIM_INVALID_PROVIDER_PROFILE_ID';
     throw err;
   }
 
-  if (!params.addonKind || typeof params.addonKind !== 'string') {
-    const err = new Error('provisionEsimPack requires addonKind (string)');
+  if (
+    params.iccid !== undefined &&
+    params.iccid !== null &&
+    typeof params.iccid !== 'string'
+  ) {
+    const err = new Error(
+      'provisionEsimPack iccid must be a string when provided'
+    );
+    err.code = 'ESIM_INVALID_ICCID';
+    throw err;
+  }
+
+  if (
+    !params.addonKind ||
+    typeof params.addonKind !== 'string'
+  ) {
+    const err = new Error(
+      'provisionEsimPack requires addonKind (string)'
+    );
     err.code = 'ESIM_INVALID_ADDON_KIND';
     throw err;
   }
 
-  // planCode can be optional for some providers, but validate type if provided
-  if (params.planCode && typeof params.planCode !== 'string') {
-    const err = new Error('provisionEsimPack planCode must be a string when provided');
+  if (
+    params.planCode !== undefined &&
+    params.planCode !== null &&
+    typeof params.planCode !== 'string'
+  ) {
+    const err = new Error(
+      'provisionEsimPack planCode must be a string when provided'
+    );
     err.code = 'ESIM_INVALID_PLAN_CODE';
     throw err;
   }
 
-  return callProvider('provisionEsimPack', [params]);
-}
-
-/**
- * Fetch usage for a given eSIM profile (providerProfileId).
- * Used for periodic usage sync / dashboards.
- *
- * profileId: string (providerProfileId / iccid depending on provider)
- *
- * Returns:
- * { usedMb: number, totalMb: number, remainingMb: number, expiresAt: Date|null, providerMeta: object }
- */
-export async function fetchEsimUsage(profileId) {
-  ensureEnabled();
-
-  if (!profileId || (typeof profileId !== 'string' && typeof profileId !== 'number')) {
-    const err = new Error('fetchEsimUsage requires a profileId (string or number)');
-    err.code = 'ESIM_INVALID_PROFILE_ID';
+  if (
+    params.timeAllowance !== undefined &&
+    params.timeAllowance !== null &&
+    (
+      typeof params.timeAllowance !== 'number' ||
+      !Number.isInteger(params.timeAllowance) ||
+      params.timeAllowance <= 0
+    )
+  ) {
+    const err = new Error(
+      'provisionEsimPack timeAllowance must be a positive integer when provided'
+    );
+    err.code =
+      'ESIM_INVALID_TIME_ALLOWANCE';
     throw err;
   }
 
-  // Some providers expect the raw providerProfileId string, others may accept iccid.
-  // We pass through the identifier and let provider implementers interpret it.
-  return callProvider('fetchEsimUsage', [String(profileId)]);
+  return callProvider(
+    'provisionEsimPack',
+    [params]
+  );
+}
+
+/**
+ * Fetch provider usage for a provider-specific purchase/package
+ * identifier.
+ *
+ * For Telna Connect v2.1 this identifier is the Telna package ID.
+ * Other providers remain free to interpret the scalar identifier
+ * according to their own adapter contract.
+ *
+ * Returns:
+ * {
+ *   usedMb: number | null,
+ *   totalMb: number | null,
+ *   remainingMb: number | null,
+ *   expiresAt: Date | null,
+ *   providerMeta: object | null
+ * }
+ */
+export async function fetchEsimUsage(providerUsageId) {
+  ensureEnabled();
+
+  if (
+    providerUsageId === null ||
+    providerUsageId === undefined ||
+    (
+      typeof providerUsageId !== 'string' &&
+      typeof providerUsageId !== 'number'
+    ) ||
+    String(providerUsageId).trim() === ''
+  ) {
+    const err = new Error(
+      'fetchEsimUsage requires a provider usage identifier (string or number)'
+    );
+    err.code =
+      'ESIM_INVALID_USAGE_IDENTIFIER';
+    throw err;
+  }
+
+  return callProvider(
+    'fetchEsimUsage',
+    [String(providerUsageId)]
+  );
 }

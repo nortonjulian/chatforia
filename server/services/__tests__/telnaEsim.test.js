@@ -5,9 +5,14 @@ const telnaRequestMock = jest.fn();
 jest.unstable_mockModule('../config/esim.js', () => ({
   __esModule: true,
   getEsimProviderConfig: jest.fn(() => ({
-    baseUrl: 'https://test.telna.com',
+    baseUrl: 'https://developer-api.telna.com',
     apiKey: 'test-api-key',
-    partnerId: 'partner-123',
+    inventoryId: 52187,
+    groupId: null,
+    packageTemplateMap: {
+      'US-10GB': 900001,
+      DATA_PACK: 900002,
+    },
   })),
 }));
 
@@ -26,184 +31,459 @@ const {
 } = await import('../providers/telnaEsim.js');
 
 describe('telnaEsim provider', () => {
-  let warnSpy;
-
   beforeEach(() => {
     jest.clearAllMocks();
-
-    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    warnSpy.mockRestore();
   });
 
   describe('reserveEsimProfile', () => {
-    it('calls telnaRequest with correct payload and normalizes response', async () => {
-      telnaRequestMock.mockResolvedValue({
-        smDpPlus: 'smdp+val',
-        matchingId: 'match-123',
-        qrPayload: 'LPA:1$xyz',
-        iccidHint: '8901',
-      });
+    it('discovers an available SIM and retrieves its eUICC profile', async () => {
+      telnaRequestMock
+        .mockResolvedValueOnce({
+          offset: 0,
+          total: 1,
+          sims: [
+            {
+              iccid: '8910300000059080801',
+              sim_status: 'pre-service',
+              sim_type: 'Classic',
+              sim_variance: 'TEST',
+              group: 1111437,
+              inventory: 52187,
+              company: 72800,
+              created_date: '2026-09-01T00:00:00Z',
+              modified_date: '2026-09-01T00:00:00Z',
+              removed_date: null,
+              imsis: [312300051404901],
+              mapped_imsi: 312300051404901,
+            },
+          ],
+        })
+        .mockResolvedValueOnce({
+          iccid: '8910300000059080801',
+          imsi: '312300051404901',
+          state: 'AVAILABLE',
+          last_operation_date: '2026-09-01T00:00:00Z',
+          activation_code: 'REAL-TELNA-ACTIVATION-CODE',
+          release_date: null,
+          cc_required: false,
+          cc_retries: 0,
+          eid: '',
+        });
 
       const result = await reserveEsimProfile({
         userId: 42,
-        region: 'EU',
+        region: 'GLOBAL',
       });
 
-      expect(telnaRequestMock).toHaveBeenCalledTimes(1);
+      expect(telnaRequestMock).toHaveBeenCalledTimes(2);
 
-      expect(telnaRequestMock).toHaveBeenCalledWith('/esim/reserve', {
-        method: 'POST',
-        body: {
-          externalUserId: '42',
-          region: 'EU',
-        },
+      expect(telnaRequestMock).toHaveBeenNthCalledWith(
+        1,
+        '/v2.1/inventory/sim-registries?inventory=52187&count=100&offset=0',
+        {
+          method: 'GET',
+        }
+      );
+
+      expect(telnaRequestMock).toHaveBeenNthCalledWith(
+        2,
+        '/v2.1/esim-rsp/euicc-profiles/8910300000059080801',
+        {
+          method: 'GET',
+        }
+      );
+
+      expect(result.providerProfileId).toBe(
+        '8910300000059080801'
+      );
+
+      expect(result.iccid).toBe(
+        '8910300000059080801'
+      );
+
+      expect(result.activationCode).toBe(
+        'REAL-TELNA-ACTIVATION-CODE'
+      );
+
+      /*
+       * Until Telna confirms the exact production LPA/QR payload
+       * format, the provider must not manufacture one.
+       */
+      expect(result.smdp).toBeNull();
+      expect(result.lpaUri).toBeNull();
+      expect(result.qrPayload).toBeNull();
+
+      expect(result.providerMeta.euiccProfile.state).toBe('AVAILABLE');
+    });
+
+    it('skips ICCIDs already excluded by the caller', async () => {
+      telnaRequestMock
+        .mockResolvedValueOnce({
+          offset: 0,
+          total: 2,
+          sims: [
+            {
+              iccid: '8910300000059080801',
+            },
+            {
+              iccid: '8910300000059080802',
+            },
+          ],
+        })
+        .mockResolvedValueOnce({
+          iccid: '8910300000059080802',
+          state: 'AVAILABLE',
+          activation_code: 'ACTIVATION-2',
+        });
+
+      const result = await reserveEsimProfile({
+        userId: 42,
+        region: 'GLOBAL',
+        excludedIccids: [
+          '8910300000059080801',
+        ],
       });
 
-      expect(result).toEqual({
-        providerProfileId: null,
-        iccid: null,
-        iccidHint: '8901',
-        smdp: 'smdp+val',
-        activationCode: 'match-123',
-        lpaUri: null,
-        qrPayload: 'LPA:1$xyz',
-        providerMeta: {
-          smDpPlus: 'smdp+val',
-          matchingId: 'match-123',
-          qrPayload: 'LPA:1$xyz',
-          iccidHint: '8901',
-        },
+      expect(telnaRequestMock).toHaveBeenCalledTimes(2);
+
+      expect(telnaRequestMock).toHaveBeenNthCalledWith(
+        2,
+        '/v2.1/esim-rsp/euicc-profiles/8910300000059080802',
+        {
+          method: 'GET',
+        }
+      );
+
+      expect(result.iccid).toBe(
+        '8910300000059080802'
+      );
+    });
+
+    it('skips a non-AVAILABLE eUICC profile', async () => {
+      telnaRequestMock
+        .mockResolvedValueOnce({
+          offset: 0,
+          total: 2,
+          sims: [
+            {
+              iccid: '8910300000059080801',
+            },
+            {
+              iccid: '8910300000059080802',
+            },
+          ],
+        })
+        .mockResolvedValueOnce({
+          iccid: '8910300000059080801',
+          state: 'ENABLED',
+          activation_code: 'OLD',
+        })
+        .mockResolvedValueOnce({
+          iccid: '8910300000059080802',
+          state: 'AVAILABLE',
+          activation_code: 'NEW',
+        });
+
+      const result = await reserveEsimProfile({
+        userId: 42,
+        region: 'GLOBAL',
       });
+
+      expect(telnaRequestMock).toHaveBeenCalledTimes(3);
+      expect(result.iccid).toBe(
+        '8910300000059080802'
+      );
+      expect(result.activationCode).toBe('NEW');
+    });
+
+    it('preserves mock reservation behavior without calling Telna', async () => {
+      const result = await reserveEsimProfile({
+        userId: 42,
+        region: 'GLOBAL',
+        testMode: true,
+      });
+
+      expect(telnaRequestMock).not.toHaveBeenCalled();
+
+      expect(result.providerProfileId).toMatch(
+        /^mock-telna-/
+      );
+
+      expect(result.iccid).toBeTruthy();
+      expect(result.activationCode).toBeTruthy();
+
+      expect(result.lpaUri).toMatch(
+        /^LPA:1\$mock\.smdp\.chatforia\.com\$/
+      );
+
+      expect(result.qrPayload).toBe(
+        result.lpaUri
+      );
     });
   });
 
   describe('activateProfile', () => {
-    it('posts correct payload and returns normalized data', async () => {
+    it('retrieves the eUICC profile and reports ENABLED as active', async () => {
       telnaRequestMock.mockResolvedValue({
-        ok: true,
-        activatedAt: '2025-01-01T00:00:00.000Z',
-        msisdn: '+15555555555',
+        iccid: '8910300000059080801',
+        state: 'ENABLED',
+        activation_code: 'ACTIVATION',
+        last_operation_date:
+          '2026-09-19T12:00:00Z',
       });
 
       const result = await activateProfile({
-        iccid: '123',
-        activationCode: 'ABC',
+        iccid: '8910300000059080801',
       });
 
-      expect(telnaRequestMock).toHaveBeenCalledWith('/esim/activate', {
-        method: 'POST',
-        body: {
-          profileId: undefined,
-          iccid: '123',
-          activationCode: 'ABC',
-        },
-      });
+      expect(telnaRequestMock).toHaveBeenCalledWith(
+        '/v2.1/esim-rsp/euicc-profiles/8910300000059080801',
+        {
+          method: 'GET',
+        }
+      );
 
       expect(result.ok).toBe(true);
-      expect(result.msisdn).toBe('+15555555555');
       expect(result.activatedAt).toBeInstanceOf(Date);
+      expect(result.providerMeta.state).toBe('ENABLED');
     });
-  });
 
-  describe('suspendLine', () => {
-    it('calls telnaRequest with encoded ICCID and POST method', async () => {
-      telnaRequestMock.mockResolvedValue({ ok: true });
+    it('does not invent an activation POST for a profile that is not ENABLED', async () => {
+      telnaRequestMock.mockResolvedValue({
+        iccid: '8910300000059080801',
+        state: 'AVAILABLE',
+        activation_code: 'ACTIVATION',
+      });
 
-      const iccid = 'ic cid/with spaces';
+      const result = await activateProfile({
+        providerProfileId:
+          '8910300000059080801',
+      });
 
-      const result = await suspendLine({ iccid });
+      expect(telnaRequestMock).toHaveBeenCalledTimes(1);
 
       expect(telnaRequestMock).toHaveBeenCalledWith(
-        `/esim/${encodeURIComponent(iccid)}/suspend`,
-        { method: 'POST' }
+        '/v2.1/esim-rsp/euicc-profiles/8910300000059080801',
+        {
+          method: 'GET',
+        }
       );
 
-      expect(result).toEqual({
-        ok: true,
-        providerMeta: { ok: true },
-      });
-    });
-  });
-
-  describe('resumeLine', () => {
-    it('calls telnaRequest with encoded ICCID and POST method', async () => {
-      telnaRequestMock.mockResolvedValue({ ok: true });
-
-      const iccid = 'ic cid/with spaces';
-
-      const result = await resumeLine({ iccid });
-
-      expect(telnaRequestMock).toHaveBeenCalledWith(
-        `/esim/${encodeURIComponent(iccid)}/resume`,
-        { method: 'POST' }
-      );
-
-      expect(result).toEqual({
-        ok: true,
-        providerMeta: { ok: true },
-      });
+      expect(result.ok).toBe(false);
+      expect(result.activatedAt).toBeUndefined();
     });
   });
 
   describe('provisionEsimPack', () => {
-    it('calls telnaRequest with correct payload and maps response', async () => {
+    it('creates a Telna package using ICCID and mapped package template', async () => {
       telnaRequestMock.mockResolvedValue({
-        profileId: 'profile-123',
-        qrCodeSvg: '<svg>qr</svg>',
-        iccid: '8901',
-        expiresAt: '2025-01-01T00:00:00.000Z',
-        dataMb: 1024,
+        id: 456789,
+        sim: '8910300000059080801',
+        status: 'NOT_ACTIVE',
+        created_date:
+          '2026-09-19T12:00:00Z',
+        expiry_date:
+          '2026-10-19T12:00:00Z',
+        activated_date: null,
+        terminated_date: null,
+        data_usage_remaining:
+          10737418240,
       });
 
       const result = await provisionEsimPack({
         userId: 7,
-        providerProfileId: 'profile-123',
+        providerProfileId:
+          '8910300000059080801',
+        iccid:
+          '8910300000059080801',
         addonKind: 'DATA_PACK',
         planCode: 'US-10GB',
       });
 
-      expect(telnaRequestMock).toHaveBeenCalledWith('/esim/provision', {
-        method: 'POST',
-        body: {
-          externalUserId: '7',
-          profileId: 'profile-123',
-          addonKind: 'DATA_PACK',
-          planCode: 'US-10GB',
-          partnerId: 'partner-123',
-        },
+      expect(telnaRequestMock).toHaveBeenCalledWith(
+        '/v2.1/pcr/packages',
+        {
+          method: 'POST',
+          body: {
+            sim: '8910300000059080801',
+            package_template: 900001,
+          },
+        }
+      );
+
+      expect(result.providerPurchaseId).toBe(
+        '456789'
+      );
+
+      expect(result.providerProfileId).toBe(
+        '8910300000059080801'
+      );
+
+      expect(result.iccid).toBe(
+        '8910300000059080801'
+      );
+
+      expect(result.expiresAt).toBeInstanceOf(Date);
+
+      /*
+       * The package response tells us remaining bytes, but the
+       * adapter intentionally does not invent the package's total
+       * allowance without retrieving its template.
+       */
+      expect(result.dataMb).toBeNull();
+    });
+
+    it('falls back to addonKind when planCode has no template mapping', async () => {
+      telnaRequestMock.mockResolvedValue({
+        id: 456790,
+        sim: '8910300000059080801',
+        status: 'NOT_ACTIVE',
       });
 
-      expect(result.providerProfileId).toBe('profile-123');
-      expect(result.qrCodeSvg).toBe('<svg>qr</svg>');
-      expect(result.iccid).toBe('8901');
-      expect(result.expiresAt).toBeInstanceOf(Date);
-      expect(result.dataMb).toBe(1024);
+      const result = await provisionEsimPack({
+        userId: 7,
+        providerProfileId:
+          '8910300000059080801',
+        addonKind: 'DATA_PACK',
+        planCode: 'UNMAPPED-PLAN',
+      });
+
+      expect(telnaRequestMock).toHaveBeenCalledWith(
+        '/v2.1/pcr/packages',
+        {
+          method: 'POST',
+          body: {
+            sim: '8910300000059080801',
+            package_template: 900002,
+          },
+        }
+      );
+
+      expect(result.providerPurchaseId).toBe(
+        '456790'
+      );
+    });
+
+    it('fails clearly when no production package template is configured', async () => {
+      await expect(
+        provisionEsimPack({
+          userId: 7,
+          providerProfileId:
+            '8910300000059080801',
+          addonKind: 'UNKNOWN_ADDON',
+          planCode: 'UNKNOWN_PLAN',
+        })
+      ).rejects.toMatchObject({
+        code: 'TELNA_PACKAGE_TEMPLATE_NOT_CONFIGURED',
+      });
+
+      expect(telnaRequestMock).not.toHaveBeenCalled();
+    });
+
+    it('preserves mock package provisioning', async () => {
+      const result = await provisionEsimPack({
+        userId: 7,
+        providerProfileId:
+          'mock-telna-profile',
+        iccid:
+          '8900000000000000001',
+        addonKind: 'DATA_PACK',
+        planCode: 'US-10GB',
+        testMode: true,
+      });
+
+      expect(telnaRequestMock).not.toHaveBeenCalled();
+
+      expect(result.providerPurchaseId).toMatch(
+        /^mock-purchase-/
+      );
+
+      expect(result.providerProfileId).toBe(
+        'mock-telna-profile'
+      );
     });
   });
 
   describe('fetchEsimUsage', () => {
-    it('maps usage correctly', async () => {
+    it('retrieves usage by Telna package ID and converts remaining bytes to MB', async () => {
       telnaRequestMock.mockResolvedValue({
-        usedMb: 500,
-        totalMb: 2000,
-        remainingMb: 1500,
-        expiresAt: '2025-03-01T00:00:00.000Z',
+        id: 456789,
+        sim: '8910300000059080801',
+        status: 'ACTIVE',
+        expiry_date:
+          '2026-10-19T12:00:00Z',
+        data_usage_remaining:
+          1572864000,
       });
 
-      const result = await fetchEsimUsage('profile with spaces');
-
-      expect(telnaRequestMock).toHaveBeenCalledWith(
-        `/esim/${encodeURIComponent('profile with spaces')}/usage`,
-        { method: 'GET' }
+      const result = await fetchEsimUsage(
+        '456789'
       );
 
-      expect(result.usedMb).toBe(500);
-      expect(result.totalMb).toBe(2000);
+      expect(telnaRequestMock).toHaveBeenCalledWith(
+        '/v2.1/pcr/packages/456789',
+        {
+          method: 'GET',
+        }
+      );
+
+      expect(result.usedMb).toBeNull();
+      expect(result.totalMb).toBeNull();
       expect(result.remainingMb).toBe(1500);
       expect(result.expiresAt).toBeInstanceOf(Date);
+      expect(result.providerMeta.id).toBe(456789);
+    });
+  });
+
+  describe('suspendLine', () => {
+    it('does not call an undocumented Telna suspend endpoint', async () => {
+      await expect(
+        suspendLine({
+          iccid:
+            '8910300000059080801',
+        })
+      ).rejects.toMatchObject({
+        code: 'TELNA_SUSPEND_UNSUPPORTED',
+      });
+
+      expect(telnaRequestMock).not.toHaveBeenCalled();
+    });
+
+    it('preserves mock suspension behavior', async () => {
+      const result = await suspendLine({
+        providerProfileId:
+          'mock-telna-profile',
+        testMode: true,
+      });
+
+      expect(result.ok).toBe(true);
+      expect(telnaRequestMock).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('resumeLine', () => {
+    it('does not call an undocumented Telna resume endpoint', async () => {
+      await expect(
+        resumeLine({
+          iccid:
+            '8910300000059080801',
+        })
+      ).rejects.toMatchObject({
+        code: 'TELNA_RESUME_UNSUPPORTED',
+      });
+
+      expect(telnaRequestMock).not.toHaveBeenCalled();
+    });
+
+    it('preserves mock resume behavior', async () => {
+      const result = await resumeLine({
+        providerProfileId:
+          'mock-telna-profile',
+        testMode: true,
+      });
+
+      expect(result.ok).toBe(true);
+      expect(telnaRequestMock).not.toHaveBeenCalled();
     });
   });
 });

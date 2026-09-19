@@ -473,6 +473,10 @@ describe(
               7 * 1024,
             esimProfileId:
               'mock-telna-existing',
+            providerPurchaseId:
+              expect.stringMatching(
+                /^mock-purchase-/
+              ),
           })
         );
 
