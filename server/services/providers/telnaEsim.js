@@ -438,12 +438,36 @@ export async function reserveEsimProfile({
           }
 
           /*
-           * AVAILABLE is the clean production candidate state.
+           * Telna production inventory currently exposes unused
+           * Chatforia eSIMs as:
            *
-           * Do not allocate profiles that Telna already reports as
-           * allocated, downloaded, installed, enabled, disabled, etc.
+           *   SIM Registry: pre-service
+           *   eUICC Profile: RELEASED
+           *
+           * AVAILABLE is also an allocatable eUICC state.
+           *
+           * Require pre-service at the SIM level so profiles that are
+           * already in service are never selected, regardless of their
+           * eUICC state.
            */
-          if (state !== 'AVAILABLE') {
+          const simStatus =
+            typeof sim?.sim_status === 'string'
+              ? sim.sim_status.toLowerCase()
+              : null;
+
+          const hasActivationCode =
+            typeof profile?.activation_code === 'string' &&
+            profile.activation_code.trim().length > 0;
+
+          const allocatableState =
+            state === 'AVAILABLE' ||
+            state === 'RELEASED';
+
+          if (
+            simStatus !== 'pre-service' ||
+            !allocatableState ||
+            !hasActivationCode
+          ) {
             continue;
           }
 

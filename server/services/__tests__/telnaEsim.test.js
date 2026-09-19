@@ -121,12 +121,14 @@ describe('telnaEsim provider', () => {
         .mockResolvedValueOnce({
           offset: 0,
           total: 2,
-          sims: [
+           sims: [
             {
               iccid: '8910300000059080801',
+              sim_status: 'pre-service',
             },
             {
               iccid: '8910300000059080802',
+              sim_status: 'pre-service',
             },
           ],
         })
@@ -159,7 +161,46 @@ describe('telnaEsim provider', () => {
       );
     });
 
-    it('skips a non-AVAILABLE eUICC profile', async () => {
+    it('accepts a pre-service RELEASED eUICC profile with an activation code', async () => {
+      telnaRequestMock
+        .mockResolvedValueOnce({
+          offset: 0,
+          total: 1,
+          sims: [
+            {
+              iccid: '8910300000059080801',
+              sim_status: 'pre-service',
+            },
+          ],
+        })
+        .mockResolvedValueOnce({
+          iccid: '8910300000059080801',
+          state: 'RELEASED',
+          activation_code: 'RELEASED-ACTIVATION',
+          eid: '',
+        });
+
+      const result = await reserveEsimProfile({
+        userId: 42,
+        region: 'GLOBAL',
+      });
+
+      expect(telnaRequestMock).toHaveBeenCalledTimes(2);
+
+      expect(result.iccid).toBe(
+        '8910300000059080801'
+      );
+
+      expect(result.activationCode).toBe(
+        'RELEASED-ACTIVATION'
+      );
+
+      expect(
+        result.providerMeta.euiccProfile.state
+      ).toBe('RELEASED');
+    });
+
+    it('skips an in-service DISABLED profile and selects an eligible pre-service profile', async () => {
       telnaRequestMock
         .mockResolvedValueOnce({
           offset: 0,
@@ -167,21 +208,25 @@ describe('telnaEsim provider', () => {
           sims: [
             {
               iccid: '8910300000059080801',
+              sim_status: 'in-service',
             },
             {
               iccid: '8910300000059080802',
+              sim_status: 'pre-service',
             },
           ],
         })
         .mockResolvedValueOnce({
           iccid: '8910300000059080801',
-          state: 'ENABLED',
+          state: 'DISABLED',
           activation_code: 'OLD',
+          eid: '89000000000000000000000000000001',
         })
         .mockResolvedValueOnce({
           iccid: '8910300000059080802',
-          state: 'AVAILABLE',
+          state: 'RELEASED',
           activation_code: 'NEW',
+          eid: '',
         });
 
       const result = await reserveEsimProfile({
@@ -190,10 +235,57 @@ describe('telnaEsim provider', () => {
       });
 
       expect(telnaRequestMock).toHaveBeenCalledTimes(3);
+
       expect(result.iccid).toBe(
         '8910300000059080802'
       );
+
       expect(result.activationCode).toBe('NEW');
+    });
+
+    it('skips a RELEASED profile without an activation code', async () => {
+      telnaRequestMock
+        .mockResolvedValueOnce({
+          offset: 0,
+          total: 2,
+          sims: [
+            {
+              iccid: '8910300000059080801',
+              sim_status: 'pre-service',
+            },
+            {
+              iccid: '8910300000059080802',
+              sim_status: 'pre-service',
+            },
+          ],
+        })
+        .mockResolvedValueOnce({
+          iccid: '8910300000059080801',
+          state: 'RELEASED',
+          activation_code: '',
+          eid: '',
+        })
+        .mockResolvedValueOnce({
+          iccid: '8910300000059080802',
+          state: 'RELEASED',
+          activation_code: 'VALID-ACTIVATION',
+          eid: '',
+        });
+
+      const result = await reserveEsimProfile({
+        userId: 42,
+        region: 'GLOBAL',
+      });
+
+      expect(telnaRequestMock).toHaveBeenCalledTimes(3);
+
+      expect(result.iccid).toBe(
+        '8910300000059080802'
+      );
+
+      expect(result.activationCode).toBe(
+        'VALID-ACTIVATION'
+      );
     });
 
     it('preserves mock reservation behavior without calling Telna', async () => {
