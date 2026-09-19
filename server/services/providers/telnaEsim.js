@@ -236,16 +236,29 @@ function normalizeEuiccProfile(data, fallbackIccid = null) {
     iccid,
     iccidHint: makeIccidHint(iccid),
 
-    // The documentation we have confirms activation_code but does not
-    // establish a separate SM-DP+ field or the exact QR/LPA construction.
+    /*
+     * Telna production returns activation_code as the complete
+     * LPA activation string used for QR-code generation.
+     *
+     * Preserve Telna's value exactly. Never reconstruct, prepend,
+     * append, or otherwise manufacture an LPA payload.
+     */
     smdp: null,
     activationCode:
       data?.activation_code ??
       null,
 
-    // Never manufacture these for a real Telna profile.
-    lpaUri: null,
-    qrPayload: null,
+    lpaUri:
+      typeof data?.activation_code === 'string' &&
+      data.activation_code.startsWith('LPA:1$')
+        ? data.activation_code
+        : null,
+
+    qrPayload:
+      typeof data?.activation_code === 'string' &&
+      data.activation_code.startsWith('LPA:1$')
+        ? data.activation_code
+        : null,
 
     state,
     providerMeta: data ?? null,
