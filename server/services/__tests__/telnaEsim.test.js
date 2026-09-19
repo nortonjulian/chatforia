@@ -37,6 +37,8 @@ describe('telnaEsim provider', () => {
 
   describe('reserveEsimProfile', () => {
     it('discovers an available SIM and retrieves its eUICC profile', async () => {
+      const telnaLpa =
+        'LPA:1$smdp.example.test$REAL-TELNA-ACTIVATION-CODE';
       telnaRequestMock
         .mockResolvedValueOnce({
           offset: 0,
@@ -63,7 +65,7 @@ describe('telnaEsim provider', () => {
           imsi: '312300051404901',
           state: 'AVAILABLE',
           last_operation_date: '2026-09-01T00:00:00Z',
-          activation_code: 'REAL-TELNA-ACTIVATION-CODE',
+          activation_code: telnaLpa,
           release_date: null,
           cc_required: false,
           cc_retries: 0,
@@ -101,17 +103,15 @@ describe('telnaEsim provider', () => {
         '8910300000059080801'
       );
 
-      expect(result.activationCode).toBe(
-        'REAL-TELNA-ACTIVATION-CODE'
-      );
+      expect(result.activationCode).toBe(telnaLpa);
 
       /*
-       * Until Telna confirms the exact production LPA/QR payload
-       * format, the provider must not manufacture one.
-       */
+      * Telna supplies the complete LPA payload in activation_code.
+      * Preserve it exactly rather than constructing one locally.
+      */
       expect(result.smdp).toBeNull();
-      expect(result.lpaUri).toBeNull();
-      expect(result.qrPayload).toBeNull();
+      expect(result.lpaUri).toBe(telnaLpa);
+      expect(result.qrPayload).toBe(telnaLpa);
 
       expect(result.providerMeta.euiccProfile.state).toBe('AVAILABLE');
     });
@@ -121,7 +121,7 @@ describe('telnaEsim provider', () => {
         .mockResolvedValueOnce({
           offset: 0,
           total: 2,
-           sims: [
+          sims: [
             {
               iccid: '8910300000059080801',
               sim_status: 'pre-service',
@@ -194,6 +194,9 @@ describe('telnaEsim provider', () => {
       expect(result.activationCode).toBe(
         'RELEASED-ACTIVATION'
       );
+
+      expect(result.lpaUri).toBeNull();
+      expect(result.qrPayload).toBeNull();
 
       expect(
         result.providerMeta.euiccProfile.state
