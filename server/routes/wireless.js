@@ -72,54 +72,104 @@ async function getLatestSubscriberForUser(userId) {
 async function refreshPackUsageFromProvider(userId, pack) {
   if (!pack) return pack;
 
-  const subscriber = await getLatestSubscriberForUser(userId);
+  const subscriber =
+    await getLatestSubscriberForUser(userId);
+
   if (!subscriber) return pack;
 
-  const providerIdentifier =
-    subscriber.providerProfileId ||
-    subscriber.iccid ||
-    null;
+  /*
+   * Usage is associated with the provider's purchased data package,
+   * not with the eSIM profile itself.
+   *
+   * For Telna Connect v2.1 this is the package ID returned when the
+   * package is created and stored as providerPurchaseId.
+   */
+  const providerUsageId =
+    pack.providerPurchaseId || null;
 
-  if (!providerIdentifier) return pack;
+  /*
+   * Older purchases may not have a providerPurchaseId because they
+   * predate package-ID persistence. Do not incorrectly substitute the
+   * profile ID or ICCID for Telna package usage.
+   */
+  if (!providerUsageId) {
+    return pack;
+  }
 
-  // Sandbox profiles have no real Telna usage endpoint.
-  // Keep using the saved database balance instead.
+  // Sandbox/mock purchases do not have a real provider package to
+  // query. Keep using the balance already stored in Chatforia.
   if (
-    String(providerIdentifier)
-      .startsWith('mock-telna-')
+    String(providerUsageId)
+      .startsWith('mock-')
   ) {
     return pack;
   }
 
   try {
-    const usage = await fetchEsimUsage(providerIdentifier);
+    const usage =
+      await fetchEsimUsage(
+        providerUsageId
+      );
 
     const nextTotalMb =
-      typeof usage.totalMb === 'number' && usage.totalMb >= 0
+      typeof usage.totalMb === 'number' &&
+      usage.totalMb >= 0
         ? Math.round(usage.totalMb)
         : pack.totalDataMb;
 
     const nextRemainingMb =
-      typeof usage.remainingMb === 'number' && usage.remainingMb >= 0
+      typeof usage.remainingMb === 'number' &&
+      usage.remainingMb >= 0
         ? Math.round(usage.remainingMb)
         : pack.remainingDataMb;
 
-    const nextExpiresAt = usage.expiresAt ?? pack.expiresAt ?? null;
+    const nextExpiresAt =
+      usage.expiresAt ??
+      pack.expiresAt ??
+      null;
 
-    const updated = await prisma.mobileDataPackPurchase.update({
-      where: { id: pack.id },
-      data: {
-        totalDataMb: nextTotalMb,
-        remainingDataMb: nextRemainingMb,
-        expiresAt: nextExpiresAt,
-        iccid: subscriber.iccid ?? pack.iccid ?? undefined,
-        esimProfileId: subscriber.providerProfileId ?? pack.esimProfileId ?? undefined,
-      },
-    });
+    const updated =
+      await prisma.mobileDataPackPurchase.update({
+        where: {
+          id: pack.id,
+        },
+
+        data: {
+          totalDataMb:
+            nextTotalMb,
+
+          remainingDataMb:
+            nextRemainingMb,
+
+          expiresAt:
+            nextExpiresAt,
+
+          iccid:
+            subscriber.iccid ??
+            pack.iccid ??
+            undefined,
+
+          esimProfileId:
+            subscriber.providerProfileId ??
+            pack.esimProfileId ??
+            undefined,
+
+          /*
+           * Preserve the provider package identifier used for this
+           * usage lookup.
+           */
+          providerPurchaseId:
+            String(providerUsageId),
+        },
+      });
 
     return updated;
   } catch (err) {
-    console.warn('provider usage refresh failed:', err?.message || err);
+    console.warn(
+      'provider usage refresh failed:',
+      err?.message || err
+    );
+
     return pack;
   }
 }

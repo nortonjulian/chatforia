@@ -43,54 +43,139 @@ describe('esimProvider', () => {
     const DISABLED_ERROR = 'eSIM feature is disabled';
 
     it.each([
-      ['reserveEsimProfile', 'reserveEsimProfile', { userId: 1, region: 'US' }],
-      ['activateProfile', 'activateProfile', { iccid: '123' }],
-      ['suspendLine', 'suspendLine', { iccid: '123' }],
-      ['resumeLine', 'resumeLine', { iccid: '123' }],
+      [
+        'reserveEsimProfile',
+        'reserveEsimProfile',
+        {
+          userId: 1,
+          region: 'US',
+          excludedIccids: [],
+        },
+      ],
+      [
+        'activateProfile',
+        'activateProfile',
+        {
+          iccid: '123',
+        },
+      ],
+      [
+        'suspendLine',
+        'suspendLine',
+        {
+          iccid: '123',
+        },
+      ],
+      [
+        'resumeLine',
+        'resumeLine',
+        {
+          iccid: '123',
+        },
+      ],
       [
         'provisionEsimPack',
         'provisionEsimPack',
         {
           userId: 1,
           providerProfileId: 'prof-1',
+          iccid: '8901',
           addonKind: 'DATA',
           planCode: 'US-5GB',
         },
       ],
-      ['fetchEsimUsage', 'fetchEsimUsage', 'profile-123'],
-    ])('throws when calling %s', async (_name, exportName, arg) => {
-      const subject = await loadSubject({ enabled: false });
+      [
+        'fetchEsimUsage',
+        'fetchEsimUsage',
+        'package-123',
+      ],
+    ])(
+      'throws when calling %s',
+      async (_name, exportName, arg) => {
+        const subject = await loadSubject({
+          enabled: false,
+        });
 
-      await expect(subject[exportName](arg)).rejects.toThrow(DISABLED_ERROR);
-    });
+        await expect(
+          subject[exportName](arg)
+        ).rejects.toThrow(DISABLED_ERROR);
+      }
+    );
   });
 
   describe('reserveEsimProfile', () => {
-    it('delegates to telna.reserveEsimProfile when enabled', async () => {
-      const { reserveEsimProfile } = await loadSubject({ enabled: true });
-
-      const params = { userId: 1, region: 'US' };
-
-      mockReserveEsimProfile.mockResolvedValue({
-        ok: true,
-        foo: 'bar',
+    it('delegates reservation parameters including excluded ICCIDs to Telna', async () => {
+      const {
+        reserveEsimProfile,
+      } = await loadSubject({
+        enabled: true,
       });
 
-      const result = await reserveEsimProfile(params);
+      const params = {
+        userId: 1,
+        region: 'US',
+        excludedIccids: [
+          '8910300000059080801',
+          '8910300000059080802',
+        ],
+      };
 
-      expect(mockReserveEsimProfile).toHaveBeenCalledTimes(1);
-      expect(mockReserveEsimProfile).toHaveBeenCalledWith(params);
+      mockReserveEsimProfile.mockResolvedValue({
+        providerProfileId:
+          '8910300000059080803',
+        iccid:
+          '8910300000059080803',
+      });
+
+      const result =
+        await reserveEsimProfile(params);
+
+      expect(
+        mockReserveEsimProfile
+      ).toHaveBeenCalledTimes(1);
+
+      expect(
+        mockReserveEsimProfile
+      ).toHaveBeenCalledWith(params);
 
       expect(result).toEqual({
-        ok: true,
-        foo: 'bar',
+        providerProfileId:
+          '8910300000059080803',
+        iccid:
+          '8910300000059080803',
       });
     });
 
-    it('throws provider-wrapped error if Telna reserveEsimProfile fails', async () => {
-      const { reserveEsimProfile } = await loadSubject({ enabled: true });
+    it('rejects invalid excludedIccids before calling the provider', async () => {
+      const {
+        reserveEsimProfile,
+      } = await loadSubject({
+        enabled: true,
+      });
 
-      mockReserveEsimProfile.mockRejectedValue(new Error('Telna unavailable'));
+      await expect(
+        reserveEsimProfile({
+          userId: 1,
+          region: 'US',
+          excludedIccids: 'not-an-array',
+        })
+      ).rejects.toThrow();
+
+      expect(
+        mockReserveEsimProfile
+      ).not.toHaveBeenCalled();
+    });
+
+    it('throws provider-wrapped error if Telna reserveEsimProfile fails', async () => {
+      const {
+        reserveEsimProfile,
+      } = await loadSubject({
+        enabled: true,
+      });
+
+      mockReserveEsimProfile.mockRejectedValue(
+        new Error('Telna unavailable')
+      );
 
       await expect(
         reserveEsimProfile({
@@ -105,7 +190,11 @@ describe('esimProvider', () => {
 
   describe('activateProfile', () => {
     it('delegates to telna.activateProfile when enabled', async () => {
-      const { activateProfile } = await loadSubject({ enabled: true });
+      const {
+        activateProfile,
+      } = await loadSubject({
+        enabled: true,
+      });
 
       const params = {
         iccid: 'iccid-123',
@@ -117,9 +206,12 @@ describe('esimProvider', () => {
         status: 'activated',
       });
 
-      const result = await activateProfile(params);
+      const result =
+        await activateProfile(params);
 
-      expect(mockActivateProfile).toHaveBeenCalledWith(params);
+      expect(
+        mockActivateProfile
+      ).toHaveBeenCalledWith(params);
 
       expect(result).toEqual({
         ok: true,
@@ -130,7 +222,11 @@ describe('esimProvider', () => {
 
   describe('suspendLine', () => {
     it('delegates to telna.suspendLine when enabled', async () => {
-      const { suspendLine } = await loadSubject({ enabled: true });
+      const {
+        suspendLine,
+      } = await loadSubject({
+        enabled: true,
+      });
 
       const params = {
         iccid: 'iccid-123',
@@ -141,9 +237,12 @@ describe('esimProvider', () => {
         status: 'suspended',
       });
 
-      const result = await suspendLine(params);
+      const result =
+        await suspendLine(params);
 
-      expect(mockSuspendLine).toHaveBeenCalledWith(params);
+      expect(
+        mockSuspendLine
+      ).toHaveBeenCalledWith(params);
 
       expect(result).toEqual({
         ok: true,
@@ -154,7 +253,11 @@ describe('esimProvider', () => {
 
   describe('resumeLine', () => {
     it('delegates to telna.resumeLine when enabled', async () => {
-      const { resumeLine } = await loadSubject({ enabled: true });
+      const {
+        resumeLine,
+      } = await loadSubject({
+        enabled: true,
+      });
 
       const params = {
         iccid: 'iccid-123',
@@ -165,9 +268,12 @@ describe('esimProvider', () => {
         status: 'resumed',
       });
 
-      const result = await resumeLine(params);
+      const result =
+        await resumeLine(params);
 
-      expect(mockResumeLine).toHaveBeenCalledWith(params);
+      expect(
+        mockResumeLine
+      ).toHaveBeenCalledWith(params);
 
       expect(result).toEqual({
         ok: true,
@@ -177,46 +283,99 @@ describe('esimProvider', () => {
   });
 
   describe('provisionEsimPack', () => {
-    it('delegates to telna.provisionEsimPack when enabled', async () => {
-      const { provisionEsimPack } = await loadSubject({ enabled: true });
+    it('delegates ICCID and package parameters to Telna', async () => {
+      const {
+        provisionEsimPack,
+      } = await loadSubject({
+        enabled: true,
+      });
 
       const params = {
         userId: 7,
-        providerProfileId: 'prof-1',
+        providerProfileId:
+          '8910300000059080801',
+        iccid:
+          '8910300000059080801',
         addonKind: 'DATA_PACK',
         planCode: 'US-5GB',
+        timeAllowance: 604800,
       };
 
       mockProvisionEsimPack.mockResolvedValue({
-        providerProfileId: 'prof-123',
+        providerProfileId:
+          '8910300000059080801',
+        providerPurchaseId: '456789',
+        iccid:
+          '8910300000059080801',
       });
 
-      const result = await provisionEsimPack(params);
+      const result =
+        await provisionEsimPack(params);
 
-      expect(mockProvisionEsimPack).toHaveBeenCalledWith(params);
+      expect(
+        mockProvisionEsimPack
+      ).toHaveBeenCalledWith(params);
 
       expect(result).toEqual({
-        providerProfileId: 'prof-123',
+        providerProfileId:
+          '8910300000059080801',
+        providerPurchaseId: '456789',
+        iccid:
+          '8910300000059080801',
       });
+    });
+
+    it('rejects an invalid timeAllowance before calling the provider', async () => {
+      const {
+        provisionEsimPack,
+      } = await loadSubject({
+        enabled: true,
+      });
+
+      await expect(
+        provisionEsimPack({
+          userId: 7,
+          providerProfileId:
+            '8910300000059080801',
+          iccid:
+            '8910300000059080801',
+          addonKind: 'DATA_PACK',
+          planCode: 'US-5GB',
+          timeAllowance: 0,
+        })
+      ).rejects.toThrow();
+
+      expect(
+        mockProvisionEsimPack
+      ).not.toHaveBeenCalled();
     });
   });
 
   describe('fetchEsimUsage', () => {
-    it('delegates to telna.fetchEsimUsage when enabled', async () => {
-      const { fetchEsimUsage } = await loadSubject({ enabled: true });
-
-      mockFetchEsimUsage.mockResolvedValue({
-        usedMb: 100,
-        totalMb: 500,
+    it('delegates the provider package ID to Telna', async () => {
+      const {
+        fetchEsimUsage,
+      } = await loadSubject({
+        enabled: true,
       });
 
-      const result = await fetchEsimUsage('profile-123');
+      mockFetchEsimUsage.mockResolvedValue({
+        usedMb: null,
+        totalMb: null,
+        remainingMb: 1500,
+      });
 
-      expect(mockFetchEsimUsage).toHaveBeenCalledWith('profile-123');
+      const result =
+        await fetchEsimUsage(456789);
+
+      expect(
+        mockFetchEsimUsage
+      ).toHaveBeenCalledWith('456789');
 
       expect(result).toEqual({
-        usedMb: 100,
-        totalMb: 500,
+        usedMb: null,
+        totalMb: null,
+        remainingMb: 1500,
       });
     });
   });

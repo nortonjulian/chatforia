@@ -5,6 +5,9 @@ import { getAddonConfig } from '../utils/billingProducts.js';
 import * as esimProvider from '../services/providers/esimProvider.js';
 import { ESIM_PROVIDER } from '../config/esim.js';
 import {
+  createSubscriberWithAllocatedEsim,
+} from '../services/esimAllocation.js';
+import {
   assertAppSubscriptionProviderAvailable,
   recomputeUserAppEntitlement,
 } from '../services/appEntitlementService.js';
@@ -693,78 +696,104 @@ async function applyPaidAddonCheckoutSession(session) {
     }
   }
 
-  let subscriber = await getReusableSubscriberForUser(userId);
+    let subscriber =
+      await getReusableSubscriberForUser(
+        userId
+      );
 
-  let providerProfileId = subscriber?.providerProfileId || null;
-  let reserve = null;
+    let providerProfileId =
+      subscriber?.providerProfileId ||
+      null;
 
-  // If this is the user's first eSIM, reserve one and save QR/manual activation details.
-  if (!providerProfileId) {
-    const region = inferRegionFromAddon(addonCfg.addonKind || product);
+    let reserve = null;
 
-    reserve = await esimProvider.reserveEsimProfile({
-      userId: Number(userId),
-      region,
-      addonKind: addonCfg.addonKind,
-      planCode: addonCfg.addonKind,
-      testMode: isSandboxCheckout,
-    });
+    /*
+    * First eSIM for this user:
+    *
+    * Telna discovers eligible ICCIDs, while Subscriber.iccid @unique
+    * makes Chatforia's database the authoritative allocation guard.
+    *
+    * If another checkout claims the same ICCID first, the helper
+    * excludes that ICCID and asks Telna discovery for another one.
+    */
+    if (!providerProfileId) {
+      const region =
+        inferRegionFromAddon(
+          addonCfg.addonKind ||
+          product
+        );
 
-    providerProfileId = reserve?.providerProfileId || null;
-
-    subscriber = await prisma.subscriber.create({
-      data: {
-        userId: Number(userId),
-        purchaseId: purchase.id,
-        provider: ESIM_PROVIDER || 'unknown',
-        providerProfileId,
-        iccid: reserve?.iccid || null,
-        iccidHint: reserve?.iccidHint || reserve?.iccid || null,
-        smdp: reserve?.smdp || null,
-        activationCode: reserve?.activationCode || null,
-        lpaUri:
-          reserve?.lpaUri ||
-          reserve?.qrPayload ||
-          (reserve?.smdp && reserve?.activationCode
-            ? `LPA:1$${reserve.smdp}$${reserve.activationCode}`
-            : null),
-        qrPayload:
-          reserve?.qrPayload ||
-          reserve?.lpaUri ||
-          (reserve?.smdp && reserve?.activationCode
-            ? `LPA:1$${reserve.smdp}$${reserve.activationCode}`
-            : null),
-        region,
-        status: 'PENDING',
-        providerMeta: {
-          stripeSessionId: session.id,
-          stripePaymentIntentId: transactionId,
+      const allocation =
+        await createSubscriberWithAllocatedEsim({
+          userId: Number(userId),
+          purchaseId: purchase.id,
+          region,
           product,
-          addonKind: addonCfg.addonKind,
-          reserve,
-        },
-      },
-    });
+          addonKind:
+            addonCfg.addonKind,
+          stripeSessionId:
+            session.id,
+          stripePaymentIntentId:
+            transactionId,
+          testMode:
+            isSandboxCheckout,
+        });
 
-    if (reserve?.iccid) {
-      await prisma.user.update({
-        where: { id: Number(userId) },
-        data: { iccid: reserve.iccid },
-      });
+      subscriber =
+        allocation.subscriber;
+
+      reserve =
+        allocation.reserve;
+
+      providerProfileId =
+        allocation.providerProfileId;
+
+      /*
+      * Preserve the existing User.iccid mirror only after the
+      * Subscriber row has successfully claimed the ICCID.
+      */
+      if (subscriber?.iccid) {
+        await prisma.user.update({
+          where: {
+            id: Number(userId),
+          },
+          data: {
+            iccid:
+              subscriber.iccid,
+          },
+        });
+      }
     }
-  }
 
   let providerPack = null;
 
   // Add/provision the purchased data pack to the provider profile when possible.
   if (providerProfileId && typeof esimProvider.provisionEsimPack === 'function') {
-    providerPack = await esimProvider.provisionEsimPack({
-      userId: Number(userId),
-      providerProfileId: String(providerProfileId),
-      addonKind: addonCfg.addonKind,
-      planCode: addonCfg.addonKind,
-      testMode: isSandboxCheckout,
-    });
+        providerPack =
+          await esimProvider.provisionEsimPack({
+            userId: Number(userId),
+
+            providerProfileId:
+              String(providerProfileId),
+
+            /*
+            * Telna Connect v2.1 creates packages against the ICCID.
+            * Existing providers can simply ignore this extra field.
+            */
+            iccid:
+              subscriber?.iccid ||
+              reserve?.iccid ||
+              null,
+
+            addonKind:
+              addonCfg.addonKind,
+
+            planCode:
+              addonCfg.addonKind,
+
+            testMode:
+              isSandboxCheckout,
+      });
   }
 
   const nextExpiresAt =
@@ -858,12 +887,19 @@ async function applyPaidAddonCheckoutSession(session) {
           providerProfileId ||
           purchase.esimProfileId ||
           null,
+
+        providerPurchaseId:
+          providerPack?.providerPurchaseId ||
+          purchase.providerPurchaseId ||
+          null,
+
         iccid:
           providerPack?.iccid ||
           reserve?.iccid ||
           subscriber?.iccid ||
           purchase.iccid ||
           null,
+
         qrCodeSvg:
           providerPack?.qrCodeSvg ||
           purchase.qrCodeSvg ||
