@@ -283,7 +283,7 @@ function supportedTypes(
   ];
 }
 
-function resolveType(
+function resolveTypesToTry(
   requested,
   supported
 ) {
@@ -297,27 +297,25 @@ function resolveType(
       );
     }
 
-    return requested;
+    return [requested];
   }
 
-  for (
-    const preferred
-    of [
+  const preferred =
+    [
       'local',
       'mobile',
       'tollfree',
-    ]
-  ) {
-    if (
-      supported.includes(preferred)
-    ) {
-      return preferred;
-    }
+    ].filter((type) =>
+      supported.includes(type)
+    );
+
+  if (!preferred.length) {
+    throw new Error(
+      'Twilio lists no purchasable number types for this country'
+    );
   }
 
-  throw new Error(
-    'Twilio lists no purchasable number types for this country'
-  );
+  return preferred;
 }
 
 function readRegulatoryMap() {
@@ -718,8 +716,8 @@ async function main() {
       countryResource
     );
 
-  const type =
-    resolveType(
+  const typesToTry =
+    resolveTypesToTry(
       requestedType,
       availableTypes
     );
@@ -768,17 +766,12 @@ async function main() {
     !apply ||
     explicitDryRun;
 
-  const regulatory =
-    resolveRegulatoryConfig(
-      country,
-      type
-    );
-
   console.log(
     '[stockTwilioPool] starting',
     {
       country,
-      type,
+      requestedType,
+      typesToTry,
       supportedTypes:
         availableTypes,
       requiredCapabilities,
@@ -786,6 +779,149 @@ async function main() {
       postalCode,
       limit,
       dryRun,
+
+      hasTWILIO_WEBHOOK_BASE_URL:
+        Boolean(
+          process.env
+            .TWILIO_WEBHOOK_BASE_URL
+        ),
+    }
+  );
+
+  if (!apply) {
+    console.log(
+      '⚠️ Dry run mode: use --apply to authorize purchases.'
+    );
+  }
+
+  let type = null;
+  let candidates = [];
+
+  for (
+    const candidateType
+    of typesToTry
+  ) {
+    const { items } =
+      await twilioAdapter
+        .searchAvailable({
+          country,
+
+          areaCode:
+            areaCode
+              ? String(areaCode)
+              : undefined,
+
+          postalCode:
+            postalCode
+              ? String(postalCode)
+              : undefined,
+
+          type:
+            candidateType,
+
+          limit:
+            Math.max(
+              limit * 3,
+              limit
+            ),
+
+          requiredCapabilities,
+        });
+
+    const matches =
+      (items || [])
+        .map((number) => ({
+          ...number,
+
+          capabilities:
+            normalizeCapabilitiesJson(
+              number.capabilities
+            ) || {},
+        }))
+        .filter((number) =>
+          requiredCapabilities.every(
+            (capability) =>
+              number.capabilities[
+                capability
+              ] === true
+          )
+        )
+        .map((number) => ({
+          e164:
+            cleanE164(
+              number.e164 ||
+              number.number
+            ),
+
+          locality:
+            number.locality ||
+            null,
+
+          region:
+            number.region ||
+            null,
+
+          capabilities:
+            number.capabilities,
+
+          addressRequirements:
+            number.addressRequirements ||
+            null,
+        }))
+        .filter(
+          (number) =>
+            number.e164
+        )
+        .slice(
+          0,
+          limit
+        );
+
+    console.log(
+      '[stockTwilioPool] type search',
+      {
+        type:
+          candidateType,
+        matches:
+          matches.length,
+      }
+    );
+
+    if (matches.length) {
+      type =
+        candidateType;
+
+      candidates =
+        matches;
+
+      break;
+    }
+  }
+
+  if (!candidates.length) {
+    console.log(
+      '[stockTwilioPool] no matching candidates found',
+      {
+        searchedTypes:
+          typesToTry,
+
+        requiredCapabilities,
+      }
+    );
+
+    return;
+  }
+
+  const regulatory =
+    resolveRegulatoryConfig(
+      country,
+      type
+    );
+
+  console.log(
+    '[stockTwilioPool] selected inventory',
+    {
+      type,
 
       regulatory: {
         hasAddressSid:
@@ -803,97 +939,8 @@ async function main() {
             regulatory.identitySid
           ),
       },
-
-      hasTWILIO_WEBHOOK_BASE_URL:
-        Boolean(
-          process.env
-            .TWILIO_WEBHOOK_BASE_URL
-        ),
     }
   );
-
-  if (!apply) {
-    console.log(
-      '⚠️ Dry run mode: use --apply to authorize purchases.'
-    );
-  }
-
-  const { items } =
-    await twilioAdapter
-      .searchAvailable({
-        country,
-
-        areaCode:
-          areaCode
-            ? String(areaCode)
-            : undefined,
-
-        postalCode:
-          postalCode
-            ? String(postalCode)
-            : undefined,
-
-        type,
-
-        limit:
-          Math.max(
-            limit * 3,
-            limit
-          ),
-
-        requiredCapabilities,
-      });
-
-  const candidates =
-    (items || [])
-      .filter((number) =>
-        requiredCapabilities.every(
-          (capability) =>
-            number.capabilities
-              ?.[capability] ===
-            true
-        )
-      )
-      .map((number) => ({
-        e164:
-          cleanE164(
-            number.e164 ||
-            number.number
-          ),
-
-        locality:
-          number.locality ||
-          null,
-
-        region:
-          number.region ||
-          null,
-
-        capabilities:
-          normalizeCapabilitiesJson(
-            number.capabilities
-          ),
-
-        addressRequirements:
-          number.addressRequirements ||
-          null,
-      }))
-      .filter(
-        (number) =>
-          number.e164
-      )
-      .slice(
-        0,
-        limit
-      );
-
-  if (!candidates.length) {
-    console.log(
-      '[stockTwilioPool] no matching candidates found'
-    );
-
-    return;
-  }
 
   console.log(
     '[stockTwilioPool] candidates',
