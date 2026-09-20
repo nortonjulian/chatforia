@@ -2,22 +2,22 @@ import Twilio from 'twilio';
 
 export const providerName = 'twilio';
 
-/* -------------------------------------------------------------------------- */
-/*  Client helper                                                             */
-/* -------------------------------------------------------------------------- */
-
 function getClient() {
   const sid = process.env.TWILIO_ACCOUNT_SID;
   const token = process.env.TWILIO_AUTH_TOKEN;
 
   if (!sid || !token) {
-    throw new Error('Twilio not configured: missing TWILIO_ACCOUNT_SID or TWILIO_AUTH_TOKEN');
+    throw new Error(
+      'Twilio not configured: missing TWILIO_ACCOUNT_SID or TWILIO_AUTH_TOKEN'
+    );
   }
 
   const TwilioFn =
     typeof Twilio === 'function'
       ? Twilio
-      : (Twilio && typeof Twilio.default === 'function' ? Twilio.default : null);
+      : Twilio && typeof Twilio.default === 'function'
+        ? Twilio.default
+        : null;
 
   if (!TwilioFn) {
     throw new Error('Twilio client factory is not a function');
@@ -26,20 +26,51 @@ function getClient() {
   return TwilioFn(sid, token);
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Optional SMS helper (Twilio-only)                                        */
-/*  (Your main app is using sendSms from lib/telco/index.js, but this stays  */
-/*   for any Twilio-specific callers that import from './twilio.js'.)        */
-/* -------------------------------------------------------------------------- */
+function normalizeRequiredCapabilities(value) {
+  const values = Array.isArray(value)
+    ? value
+    : String(value || 'sms,voice').split(',');
 
-/**
- * sendSms({ to, text, clientRef, from })
- * - If `from` is provided, use that (user’s DID).
- * - Else prefer TWILIO_MESSAGING_SERVICE_SID, then TWILIO_FROM_NUMBER.
- */
-// server/lib/telco/twilio.js
+  const supported = new Set(['sms', 'voice', 'mms']);
+  const normalized = [
+    ...new Set(
+      values
+        .map((item) => String(item).trim().toLowerCase())
+        .filter(Boolean)
+    ),
+  ];
 
-export async function sendSmsRaw({ to, text, clientRef, from, mediaUrls }) {
+  for (const capability of normalized) {
+    if (!supported.has(capability)) {
+      throw new Error(
+        `Unsupported required capability: ${capability}. Use sms, voice, or mms.`
+      );
+    }
+  }
+
+  return normalized;
+}
+
+function optionalSid(value, prefix, label) {
+  const clean = typeof value === 'string' ? value.trim() : '';
+  if (!clean) return null;
+
+  const pattern = new RegExp(`^${prefix}[a-f0-9]{32}$`, 'i');
+
+  if (!pattern.test(clean)) {
+    throw new Error(`${label} must be a valid ${prefix} SID`);
+  }
+
+  return clean;
+}
+
+export async function sendSmsRaw({
+  to,
+  text,
+  clientRef,
+  from,
+  mediaUrls,
+}) {
   const {
     TWILIO_FROM_NUMBER,
     TWILIO_MESSAGING_SERVICE_SID,
@@ -48,7 +79,6 @@ export async function sendSmsRaw({ to, text, clientRef, from, mediaUrls }) {
   } = process.env;
 
   const client = getClient();
-
   const cleanTo = typeof to === 'string' ? to.trim() : to;
   const body = typeof text === 'string' ? text : String(text ?? '');
 
@@ -58,7 +88,9 @@ export async function sendSmsRaw({ to, text, clientRef, from, mediaUrls }) {
       : '';
 
   const cleanFrom =
-    typeof from === 'string' ? from.trim() : from;
+    typeof from === 'string'
+      ? from.trim()
+      : from;
 
   const cleanDefaultFrom =
     typeof TWILIO_FROM_NUMBER === 'string'
@@ -70,35 +102,38 @@ export async function sendSmsRaw({ to, text, clientRef, from, mediaUrls }) {
     body,
   };
 
-  // ✅ US A2P: always route via Messaging Service if configured
-if (cleanServiceSid) {
-  params.messagingServiceSid = cleanServiceSid;
-} else if (cleanFrom) {
-  params.from = cleanFrom;
-} else {
-  if (!cleanDefaultFrom) throw new Error('Twilio SMS requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER');
-  params.from = cleanDefaultFrom;
-}
+  if (cleanServiceSid) {
+    params.messagingServiceSid = cleanServiceSid;
+  } else if (cleanFrom) {
+    params.from = cleanFrom;
+  } else {
+    if (!cleanDefaultFrom) {
+      throw new Error(
+        'Twilio SMS requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER'
+      );
+    }
 
-  // ✅ MMS support (optional)
-  // Twilio expects `mediaUrl` as string or array of strings
+    params.from = cleanDefaultFrom;
+  }
+
   if (Array.isArray(mediaUrls) && mediaUrls.length) {
     params.mediaUrl = mediaUrls.filter(Boolean);
   }
 
-  // ✅ Status callback: Twilio requires public HTTPS; avoid localhost in dev
   if (TWILIO_STATUS_CALLBACK_URL) {
     const url = TWILIO_STATUS_CALLBACK_URL.trim();
     const isHttps = /^https:\/\//i.test(url);
-    const isLocalhost = /localhost|127\.0\.0\.1|0\.0\.0\.0/i.test(url);
+    const isLocalhost =
+      /localhost|127\.0\.0\.1|0\.0\.0\.0/i.test(url);
 
     if (isHttps && !isLocalhost) {
       params.statusCallback = url;
     } else if (NODE_ENV === 'production') {
-      console.warn('[twilio-sendSms] Ignoring invalid TWILIO_STATUS_CALLBACK_URL in production');
+      console.warn(
+        '[twilio-sendSms] Ignoring invalid TWILIO_STATUS_CALLBACK_URL in production'
+      );
     }
   }
-
 
   const msg = await client.messages.create(params);
 
@@ -110,32 +145,33 @@ if (cleanServiceSid) {
   };
 }
 
-
-/* -------------------------------------------------------------------------- */
-/*  Number search (for pool picker UI)                                       */
-/* -------------------------------------------------------------------------- */
-
-/**
- * searchAvailable({ areaCode, postalCode, country, type, limit })
- * - `areaCode`   = NPA (e.g. "415")
- * - `postalCode` = ZIP (e.g. "94105")
- * If postalCode is present we prefer it; otherwise we use areaCode.
- */
 async function searchAvailable({
   areaCode,
   postalCode,
   country = 'US',
   type = 'local',
   limit = 20,
+  requiredCapabilities = ['sms', 'voice'],
 }) {
   const client = getClient();
   const base = client.availablePhoneNumbers(country);
+  const required =
+    normalizeRequiredCapabilities(requiredCapabilities);
 
   const params = {
     limit,
-    smsEnabled: true,
-    voiceEnabled: true,
   };
+
+  if (
+    required.includes('sms') ||
+    required.includes('mms')
+  ) {
+    params.smsEnabled = true;
+  }
+
+  if (required.includes('voice')) {
+    params.voiceEnabled = true;
+  }
 
   if (postalCode) {
     params.inPostalCode = String(postalCode);
@@ -144,74 +180,148 @@ async function searchAvailable({
   }
 
   let list;
+
   if (type === 'tollfree') {
     list = await base.tollFree.list(params);
   } else if (type === 'mobile') {
     list = await base.mobile.list(params);
-  } else {
-    // default: local
+  } else if (type === 'local') {
     list = await base.local.list(params);
+  } else {
+    throw new Error(
+      `Unsupported Twilio number type: ${type}`
+    );
   }
 
-  const items = list.map((n) => ({
-    e164: n.phoneNumber,
-    number: n.phoneNumber,
-    region: n.region,
-    locality: n.locality || n.friendlyName || null,
-    isoCountry: n.isoCountry,
-    postalCode: n.postalCode || null,
-    capabilities: n.capabilities || {
-      sms: true,
-      voice: true,
-      mms: false,
-    },
-    price: null, // Twilio pricing API can be wired in later
-  }));
+  const items = list
+    .map((number) => ({
+      e164: number.phoneNumber,
+      number: number.phoneNumber,
+      region: number.region || null,
+      locality:
+        number.locality ||
+        number.friendlyName ||
+        null,
+      isoCountry:
+        number.isoCountry ||
+        String(country).toUpperCase(),
+      postalCode:
+        number.postalCode ||
+        null,
+      addressRequirements:
+        number.addressRequirements ||
+        null,
+      beta: Boolean(number.beta),
+      capabilities:
+        number.capabilities ||
+        {},
+      price: null,
+    }))
+    .filter((number) =>
+      required.every(
+        (capability) =>
+          number.capabilities?.[capability] === true
+      )
+    );
 
-  return { items };
+  return {
+    items,
+  };
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Purchase / release numbers                                               */
-/* -------------------------------------------------------------------------- */
-
-/**
- * purchaseNumber({ phoneNumber })
- * - Buys the number and wires SMS/Voice webhooks.
- */
-async function purchaseNumber({ phoneNumber }) {
+async function purchaseNumber({
+  phoneNumber,
+  addressSid,
+  bundleSid,
+  identitySid,
+}) {
   const client = getClient();
-  const base = process.env.TWILIO_WEBHOOK_BASE_URL;
+  const base =
+    process.env.TWILIO_WEBHOOK_BASE_URL;
 
-  const rawInboundVoiceAppSid =
-    (process.env.TWILIO_INBOUND_VOICE_APP_SID || '').trim();
+  const rawInboundVoiceAppSid = (
+    process.env.TWILIO_INBOUND_VOICE_APP_SID ||
+    ''
+  ).trim();
 
   const hasValidInboundVoiceAppSid =
-    /^AP[a-f0-9]{32}$/i.test(rawInboundVoiceAppSid);
+    /^AP[a-f0-9]{32}$/i.test(
+      rawInboundVoiceAppSid
+    );
 
-  const rawMessagingServiceSid =
-    (process.env.TWILIO_MESSAGING_SERVICE_SID || '').trim();
+  const rawMessagingServiceSid = (
+    process.env.TWILIO_MESSAGING_SERVICE_SID ||
+    ''
+  ).trim();
 
   const hasValidMessagingServiceSid =
-    /^MG[a-f0-9]{32}$/i.test(rawMessagingServiceSid);
+    /^MG[a-f0-9]{32}$/i.test(
+      rawMessagingServiceSid
+    );
 
-  const createParams = { phoneNumber };
+  const createParams = {
+    phoneNumber,
+  };
+
+  const cleanAddressSid =
+    optionalSid(
+      addressSid,
+      'AD',
+      'addressSid'
+    );
+
+  const cleanBundleSid =
+    optionalSid(
+      bundleSid,
+      'BU',
+      'bundleSid'
+    );
+
+  const cleanIdentitySid =
+    optionalSid(
+      identitySid,
+      'RI',
+      'identitySid'
+    );
+
+  if (cleanAddressSid) {
+    createParams.addressSid =
+      cleanAddressSid;
+  }
+
+  if (cleanBundleSid) {
+    createParams.bundleSid =
+      cleanBundleSid;
+  }
+
+  if (cleanIdentitySid) {
+    createParams.identitySid =
+      cleanIdentitySid;
+  }
 
   if (base) {
-    // ✅ keep smsWebhooks.js as the single inbound handler
-    createParams.smsUrl = `${base}/webhooks/sms/twilio`;
-    createParams.smsMethod = 'POST';
+    createParams.smsUrl =
+      `${base}/webhooks/sms/twilio`;
+
+    createParams.smsMethod =
+      'POST';
   }
 
   if (hasValidInboundVoiceAppSid) {
     createParams.voiceApplicationSid =
       rawInboundVoiceAppSid;
   } else if (base) {
-    createParams.voiceUrl = `${base}/webhooks/voice/inbound`;
-    createParams.voiceMethod = 'POST';
+    createParams.voiceUrl =
+      `${base}/webhooks/voice/inbound`;
+
+    createParams.voiceMethod =
+      'POST';
   }
 
-  const res = await client.incomingPhoneNumbers.create(createParams);
+  const result =
+    await client.incomingPhoneNumbers.create(
+      createParams
+    );
 
   let messagingServiceAttached = false;
 
@@ -220,22 +330,21 @@ async function purchaseNumber({ phoneNumber }) {
       await client.messaging.v1
         .services(rawMessagingServiceSid)
         .phoneNumbers.create({
-          phoneNumberSid: res.sid,
+          phoneNumberSid: result.sid,
         });
 
       messagingServiceAttached = true;
     } catch (error) {
-      /*
-       * The number was successfully purchased and already has its direct
-       * SMS webhook. Do not lose the purchased number or skip database
-       * persistence if Messaging Service attachment temporarily fails.
-       */
       console.error(
         '[twilio purchaseNumber] Messaging Service attachment failed',
         {
-          phoneNumber: res.phoneNumber,
-          phoneNumberSid: res.sid,
-          error: error?.message || String(error),
+          phoneNumber:
+            result.phoneNumber,
+          phoneNumberSid:
+            result.sid,
+          error:
+            error?.message ||
+            String(error),
         }
       );
     }
@@ -244,38 +353,64 @@ async function purchaseNumber({ phoneNumber }) {
   return {
     ok: true,
     messagingServiceAttached,
-    sid: res.sid,
-    e164: res.phoneNumber,
-    isoCountry: res.isoCountry || null,
-    capabilities: res.capabilities || null,
-    locality: res.locality || res.friendlyName || null,
-    region: res.region || null,
+    sid:
+      result.sid,
+    e164:
+      result.phoneNumber,
+    isoCountry:
+      result.isoCountry ||
+      null,
+    capabilities:
+      result.capabilities ||
+      null,
+    locality:
+      result.locality ||
+      result.friendlyName ||
+      null,
+    region:
+      result.region ||
+      null,
+    addressRequirements:
+      result.addressRequirements ||
+      null,
+    addressSid:
+      result.addressSid ||
+      cleanAddressSid,
+    bundleSid:
+      result.bundleSid ||
+      cleanBundleSid,
+    identitySid:
+      result.identitySid ||
+      cleanIdentitySid,
   };
 }
 
-/**
- * releaseNumber({ phoneNumber })
- * - Releases a Twilio number you own.
- */
-async function releaseNumber({ phoneNumber }) {
+async function releaseNumber({
+  phoneNumber,
+}) {
   const client = getClient();
 
-  const [num] = await client.incomingPhoneNumbers.list({
-    phoneNumber,
-    limit: 1,
-  });
+  const [number] =
+    await client.incomingPhoneNumbers.list({
+      phoneNumber,
+      limit: 1,
+    });
 
-  if (!num) {
-    return { ok: false, reason: 'not-found' };
+  if (!number) {
+    return {
+      ok: false,
+      reason: 'not-found',
+    };
   }
 
-  await client.incomingPhoneNumbers(num.sid).remove();
-  return { ok: true };
-}
+  await client
+    .incomingPhoneNumbers(number.sid)
+    .remove();
 
-/* -------------------------------------------------------------------------- */
-/*  Adapter object used by lib/telco/index.js                                */
-/* -------------------------------------------------------------------------- */
+  return {
+    ok: true,
+  };
+}
 
 const adapter = {
   providerName,
