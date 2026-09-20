@@ -51,6 +51,17 @@ function normalizeRequiredCapabilities(value) {
   return normalized;
 }
 
+function normalizeCapabilityMap(value) {
+  if (!value || typeof value !== 'object') return {};
+
+  return Object.fromEntries(
+    Object.entries(value).map(([key, enabled]) => [
+      String(key).trim().toLowerCase(),
+      Boolean(enabled),
+    ])
+  );
+}
+
 function optionalSid(value, prefix, label) {
   const clean = typeof value === 'string' ? value.trim() : '';
   if (!clean) return null;
@@ -123,6 +134,7 @@ export async function sendSmsRaw({
   if (TWILIO_STATUS_CALLBACK_URL) {
     const url = TWILIO_STATUS_CALLBACK_URL.trim();
     const isHttps = /^https:\/\//i.test(url);
+
     const isLocalhost =
       /localhost|127\.0\.0\.1|0\.0\.0\.0/i.test(url);
 
@@ -213,8 +225,9 @@ async function searchAvailable({
         null,
       beta: Boolean(number.beta),
       capabilities:
-        number.capabilities ||
-        {},
+        normalizeCapabilityMap(
+          number.capabilities
+        ),
       price: null,
     }))
     .filter((number) =>
