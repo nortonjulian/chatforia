@@ -130,6 +130,7 @@ async function main() {
   let created = 0;
   let updated = 0;
   let unchanged = 0;
+  let skippedUnresolvedCountry = 0;
 
   for (const n of twilioNums) {
     const e164 = n.phoneNumber;
@@ -180,6 +181,25 @@ async function main() {
 
     const areaCode = parseAreaCode(e164, iso2);
 
+    /*
+     * Numbers acquired through stockTwilioPool.js already have an explicit
+     * country in the database. For an unknown Twilio-owned number, refuse to
+     * guess when the provider payload omits the country.
+     */
+    if (!existing && !iso2) {
+      skippedUnresolvedCountry++;
+
+      console.warn(
+        '[syncTwilioInventory] skipped number with unresolved country',
+        {
+          e164,
+          twilioSid: n.sid || null,
+        }
+      );
+
+      continue;
+    }
+
     if (!existing) {
       created++;
 
@@ -211,6 +231,18 @@ async function main() {
       isoCountry: iso2 ?? existing.isoCountry ?? null,
       capabilities: capsJson ?? existing.capabilities ?? null,
       areaCode: areaCode ?? existing.areaCode ?? null,
+      locality:
+        n.locality ||
+        n.localityName ||
+        n.city ||
+        existing.locality ||
+        null,
+      region:
+        n.region ||
+        n.state ||
+        n.province ||
+        existing.region ||
+        null,
       
       source: existing.source || 'PROVISIONED',
     };
@@ -284,6 +316,7 @@ async function main() {
     created,
     updated,
     unchanged,
+    skippedUnresolvedCountry,
     missingReleased,
     dryRun: !APPLY,
   });
