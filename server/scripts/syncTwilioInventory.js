@@ -55,16 +55,19 @@ function toIso2(v) {
 }
 
 /**
- * Your Twilio SDK payload doesn't include isoCountry for incomingPhoneNumbers,
- * so we infer country from E.164 as a safe fallback.
+ * Infer a country only when the E.164 prefix is unambiguous.
  *
- * NOTE: +1 could be US/CA; for now returning 'US' is fine for your pool filtering
- * and areaCode parsing. If you later need strict US vs CA, use libphonenumber.
+ * +1 is shared by the US, Canada, and other NANP territories, so existing
+ * database metadata must be preserved when Twilio omits the country.
  */
 function inferIsoCountryFromE164(e164) {
   if (!e164) return null;
   const digits = String(e164).replace(/[^\d]/g, '');
-  if (digits.startsWith('1') && digits.length === 11) return 'US';
+  /*
+   * +1 is shared by the US, Canada, and other NANP territories.
+   * Never identify a +1 number as US from its prefix alone.
+   */
+  if (digits.startsWith('1') && digits.length === 11) return null;
   return null;
 }
 
@@ -137,18 +140,16 @@ async function main() {
 
     twilioSet.add(e164);
 
-    // Twilio payload in your environment doesn't include isoCountry, so infer it.
-    const iso2 =
-      toIso2(
-        n.isoCountry ??
-          n.iso_country ??
-          n.iso_country_code ??
-          n.countryCode ??
-          n.country_code
-      ) ?? inferIsoCountryFromE164(e164);
+    // Use Twilio's explicit country when supplied; otherwise preserve DB metadata.
+    const providerIso2 = toIso2(
+      n.isoCountry ??
+        n.iso_country ??
+        n.iso_country_code ??
+        n.countryCode ??
+        n.country_code
+    );
 
     const capsJson = twilioCapsToJson(n.capabilities);
-    const areaCode = parseAreaCode(e164, iso2);
 
     const existing = await prisma.phoneNumber.findUnique({
       where: { e164 },
@@ -167,6 +168,17 @@ async function main() {
         source: true,
       },
     });
+
+    /*
+     * Prefer Twilio's explicit country, then the country already stored by
+     * stockTwilioPool.js. Prefix inference is only a final fallback.
+     */
+    const iso2 =
+      providerIso2 ??
+      existing?.isoCountry ??
+      inferIsoCountryFromE164(e164);
+
+    const areaCode = parseAreaCode(e164, iso2);
 
     if (!existing) {
       created++;
