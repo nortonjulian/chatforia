@@ -566,6 +566,7 @@ async function getReusableSubscriberForUser(userId) {
       status: {
         in: [
           'PENDING',
+          'PROVISIONING',
           'ACTIVE',
           'SUSPENDED',
         ],
