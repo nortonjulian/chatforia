@@ -920,11 +920,8 @@ export async function fetchEsimUsage(
 }
 
 /**
- * SIM-level suspension is intentionally unsupported here.
- *
- * Telna's documented package PUT operation changes package_status,
- * but terminating a package is not the same thing as suspending a
- * SIM/line. We will not substitute one operation for the other.
+ * Suspend a Telna SIM by disabling its data, voice, and SMS services
+ * through the SIM PCR profile.
  */
 export async function suspendLine({
   providerProfileId,
@@ -958,15 +955,45 @@ export async function suspendLine({
 
   ensureConfigured();
 
-  throw makeError(
-    'Telna SIM-level suspension is not configured because no documented Connect v2.1 suspend operation has been confirmed',
-    'TELNA_SUSPEND_UNSUPPORTED'
-  );
+  const normalizedIccid = normalizeIccid(id);
+
+  if (!normalizedIccid) {
+    throw makeError(
+      'Telna SIM suspension requires a valid ICCID',
+      'TELNA_MISSING_ICCID'
+    );
+  }
+
+  const path =
+    `/v2.1/pcr/sim-pcr-profiles/` +
+    encodeURIComponent(normalizedIccid);
+
+  const data = await telnaRequest(path, {
+    method: 'PUT',
+    body: {
+      data: {
+        state: 'DISABLED',
+        active_throttling: 'NO_LIMIT',
+      },
+      voice: {
+        state: 'DISABLED',
+      },
+      sms: {
+        state: 'DISABLED',
+      },
+      wallet_mode: 'SIM',
+    },
+  });
+
+  return {
+    ok: true,
+    providerMeta: data ?? null,
+  };
 }
 
 /**
- * SIM-level resume is intentionally unsupported for the same reason
- * as suspendLine().
+ * Resume a Telna SIM by enabling its data, voice, and SMS services
+ * through the SIM PCR profile.
  */
 export async function resumeLine({
   providerProfileId,
@@ -1000,10 +1027,40 @@ export async function resumeLine({
 
   ensureConfigured();
 
-  throw makeError(
-    'Telna SIM-level resume is not configured because no documented Connect v2.1 resume operation has been confirmed',
-    'TELNA_RESUME_UNSUPPORTED'
-  );
+  const normalizedIccid = normalizeIccid(id);
+
+  if (!normalizedIccid) {
+    throw makeError(
+      'Telna SIM resume requires a valid ICCID',
+      'TELNA_MISSING_ICCID'
+    );
+  }
+
+  const path =
+    `/v2.1/pcr/sim-pcr-profiles/` +
+    encodeURIComponent(normalizedIccid);
+
+  const data = await telnaRequest(path, {
+    method: 'PUT',
+    body: {
+      data: {
+        state: 'ENABLED',
+        active_throttling: 'NO_LIMIT',
+      },
+      voice: {
+        state: 'ENABLED',
+      },
+      sms: {
+        state: 'ENABLED',
+      },
+      wallet_mode: 'SIM',
+    },
+  });
+
+  return {
+    ok: true,
+    providerMeta: data ?? null,
+  };
 }
 
 export default {

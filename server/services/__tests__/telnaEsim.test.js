@@ -531,17 +531,50 @@ describe('telnaEsim provider', () => {
   });
 
   describe('suspendLine', () => {
-    it('does not call an undocumented Telna suspend endpoint', async () => {
-      await expect(
-        suspendLine({
-          iccid:
-            '8910300000059080801',
-        })
-      ).rejects.toMatchObject({
-        code: 'TELNA_SUSPEND_UNSUPPORTED',
+    it('disables the Telna SIM PCR profile', async () => {
+      telnaRequestMock.mockResolvedValue({
+        data: {
+          state: 'DISABLED',
+          active_throttling: 'NO_LIMIT',
+        },
+        voice: {
+          state: 'DISABLED',
+        },
+        sms: {
+          state: 'DISABLED',
+        },
+        wallet_mode: 'SIM',
       });
 
-      expect(telnaRequestMock).not.toHaveBeenCalled();
+      const result = await suspendLine({
+        iccid:
+          '8910300000059080801',
+      });
+
+      expect(telnaRequestMock).toHaveBeenCalledWith(
+        '/v2.1/pcr/sim-pcr-profiles/8910300000059080801',
+        {
+          method: 'PUT',
+          body: {
+            data: {
+              state: 'DISABLED',
+              active_throttling: 'NO_LIMIT',
+            },
+            voice: {
+              state: 'DISABLED',
+            },
+            sms: {
+              state: 'DISABLED',
+            },
+            wallet_mode: 'SIM',
+          },
+        }
+      );
+
+      expect(result.ok).toBe(true);
+      expect(result.providerMeta.data.state).toBe(
+        'DISABLED'
+      );
     });
 
     it('preserves mock suspension behavior', async () => {
@@ -557,17 +590,50 @@ describe('telnaEsim provider', () => {
   });
 
   describe('resumeLine', () => {
-    it('does not call an undocumented Telna resume endpoint', async () => {
-      await expect(
-        resumeLine({
-          iccid:
-            '8910300000059080801',
-        })
-      ).rejects.toMatchObject({
-        code: 'TELNA_RESUME_UNSUPPORTED',
+    it('enables the Telna SIM PCR profile', async () => {
+      telnaRequestMock.mockResolvedValue({
+        data: {
+          state: 'ENABLED',
+          active_throttling: 'NO_LIMIT',
+        },
+        voice: {
+          state: 'ENABLED',
+        },
+        sms: {
+          state: 'ENABLED',
+        },
+        wallet_mode: 'SIM',
       });
 
-      expect(telnaRequestMock).not.toHaveBeenCalled();
+      const result = await resumeLine({
+        iccid:
+          '8910300000059080801',
+      });
+
+      expect(telnaRequestMock).toHaveBeenCalledWith(
+        '/v2.1/pcr/sim-pcr-profiles/8910300000059080801',
+        {
+          method: 'PUT',
+          body: {
+            data: {
+              state: 'ENABLED',
+              active_throttling: 'NO_LIMIT',
+            },
+            voice: {
+              state: 'ENABLED',
+            },
+            sms: {
+              state: 'ENABLED',
+            },
+            wallet_mode: 'SIM',
+          },
+        }
+      );
+
+      expect(result.ok).toBe(true);
+      expect(result.providerMeta.data.state).toBe(
+        'ENABLED'
+      );
     });
 
     it('preserves mock resume behavior', async () => {
