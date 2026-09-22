@@ -83,110 +83,69 @@ export async function reserveProfile(req, res) {
   if (!ensureEnabled(res)) return;
 
   try {
-    const regionRaw = req.body?.region ?? 'US';
-    const region = String(regionRaw).trim().toUpperCase();
-    const userId = req.user?.id ?? null; // assumes auth middleware
+    const userId = req.user?.id ?? null;
 
-    if (typeof esimProvider.reserveEsimProfile !== 'function') {
+    if (!userId) {
       return res
-        .status(501)
-        .json({ error: 'reserveEsimProfile not implemented' });
+        .status(401)
+        .json({ error: 'Authentication required' });
     }
 
-    const data = await esimProvider.reserveEsimProfile({ userId, region });
-    if (!data || typeof data !== 'object') {
-      return res
-        .status(502)
-        .json({ error: 'Invalid response from eSIM provider' });
-    }
+    /*
+     * Production eSIM allocation is owned by the paid purchase flow.
+     *
+     * This endpoint is retained for compatibility with older clients,
+     * but it must never independently reserve provider inventory or
+     * replace an ICCID already assigned to a Subscriber.
+     */
+    const subscriber = await prisma.subscriber.findFirst({
+      where: {
+        userId: Number(userId),
+        OR: [
+          { status: 'PENDING' },
+          { status: 'PROVISIONING' },
+          { status: 'ACTIVE' },
+          { status: 'SUSPENDED' },
+        ],
+      },
+      orderBy: { createdAt: 'desc' },
+    });
 
-    const providerProfileId = data.providerProfileId || null;
-    const iccid = data.iccid || null;
-    const iccidHint = data.iccidHint || data.iccid || null;
-    const smdp = data.smdp || data.smDpPlus || null;
-    const activationCode = data.activationCode || data.matchingId || null;
-
-    // Prefer API-provided QR payload; otherwise build a standards-compliant LPA URI
-    const lpaUri =
-      data.lpaUri ||
-      data.qrPayload ||
-      (smdp && activationCode ? `LPA:1$${smdp}$${activationCode}` : null);
-
-    const qrPayload = data.qrPayload || lpaUri || null;
-
-    // Persist the reserved eSIM for the authenticated user
-    if (userId) {
-      const existing = await prisma.subscriber.findFirst({
-        where: {
-          userId: Number(userId),
-          OR: [
-            { status: 'PENDING' },
-            { status: 'PROVISIONING' },
-            { status: 'ACTIVE' },
-            { status: 'SUSPENDED' },
-          ],
-        },
-        orderBy: { createdAt: 'desc' },
+    if (!subscriber) {
+      return res.status(409).json({
+        error:
+          'No eSIM has been allocated. Complete a mobile data plan purchase first.',
+        code: 'ESIM_PURCHASE_REQUIRED',
       });
-
-      if (existing) {
-        await prisma.subscriber.update({
-          where: { id: existing.id },
-          data: {
-            provider: ESIM_PROVIDER || 'unknown',
-            providerProfileId,
-            iccid,
-            iccidHint,
-            smdp,
-            activationCode,
-            lpaUri,
-            qrPayload,
-            region,
-            status: existing.status || 'PENDING',
-            providerMeta: data,
-          },
-        });
-      } else {
-        await prisma.subscriber.create({
-          data: {
-            userId: Number(userId),
-            provider: ESIM_PROVIDER || 'unknown',
-            providerProfileId,
-            iccid,
-            iccidHint,
-            smdp,
-            activationCode,
-            lpaUri,
-            qrPayload,
-            region,
-            status: 'PENDING',
-            providerMeta: data,
-          },
-        });
-      }
-
-      // Keep legacy iccid field on user in sync if present
-      if (iccid) {
-        await prisma.user.update({
-          where: { id: Number(userId) },
-          data: { iccid },
-        });
-      }
     }
 
     return res.json({
-      providerProfileId,
-      iccid,
-      iccidHint,
-      smdp,
-      activationCode,
-      lpaUri,
-      qrPayload,
-      region,
+      providerProfileId:
+        subscriber.providerProfileId || null,
+      iccid:
+        subscriber.iccid || null,
+      iccidHint:
+        subscriber.iccidHint ||
+        subscriber.iccid ||
+        null,
+      smdp:
+        subscriber.smdp || null,
+      activationCode:
+        subscriber.activationCode || null,
+      lpaUri:
+        subscriber.lpaUri || null,
+      qrPayload:
+        subscriber.qrPayload || null,
+      region:
+        subscriber.region || null,
+      status:
+        subscriber.status || null,
     });
   } catch (err) {
     console.error('[esim] reserveProfile error:', err);
-    return res.status(500).json({ error: 'Failed to reserve eSIM profile' });
+    return res.status(500).json({
+      error: 'Failed to load eSIM profile',
+    });
   }
 }
 

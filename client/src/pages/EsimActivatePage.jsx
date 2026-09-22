@@ -1,51 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import QRCode from 'qrcode';
 import { useTranslation, Trans } from 'react-i18next';
-import { reserveEsim, getMyEsim } from '@/api/esim';
+import { getMyEsim } from '@/api/esim';
 import posthog from '@/utils/analytics';
 
 export default function EsimActivatePage() {
   const { t } = useTranslation();
 
-  const [loading, setLoading] = useState(false);
   const [loadingExisting, setLoadingExisting] = useState(true);
   const [provision, setProvision] = useState(null);
   const [qrDataUrl, setQrDataUrl] = useState(null);
   const [error, setError] = useState(null);
 
-  // Fallback list (client-side) in case /esim/regions isn't available.
-  const [regions, setRegions] = useState([
-    'US', 'EU', 'UK', 'CA', 'AU', 'JP', 'MX', 'BR', 'IN', 'ZA', 'SG', 'HK', 'KR', 'AE',
-  ]);
-
-  const [region, setRegion] = useState('US');
-
   useEffect(() => {
     posthog.capture('esim_activation_page_viewed');
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      try {
-        const res = await fetch('/esim/regions', { credentials: 'include' });
-        if (!res.ok) return;
-        const data = await res.json();
-
-        if (!cancelled && Array.isArray(data?.regions) && data.regions.length) {
-          setRegions(data.regions);
-          if (!data.regions.includes(region)) setRegion(data.regions[0]);
-        }
-      } catch {
-        // silently keep fallback regions
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -60,9 +28,6 @@ export default function EsimActivatePage() {
 
         if (!cancelled && subscriber) {
           setProvision(subscriber);
-          if (subscriber.region) {
-            setRegion(subscriber.region);
-          }
         }
       } catch (e) {
         // If no saved eSIM exists or fetch fails, page should still work normally.
@@ -92,44 +57,6 @@ export default function EsimActivatePage() {
       ? `LPA:1$${provision.smdp}$${provision.activationCode}`
       : null);
 
-  async function handleReserve() {
-    setLoading(true);
-    setError(null);
-    setProvision(null);
-    setQrDataUrl(null);
-
-
-    posthog.capture('esim_reserve_started', {
-      region,
-    });
-
-    try {
-      const data = await reserveEsim(region);
-
-      posthog.capture('esim_reserved', {
-        region,
-        status: data?.status || 'unknown',
-        has_qr: Boolean(
-          data?.qrPayload ||
-          data?.lpaUri ||
-          (data?.smdp && data?.activationCode)
-        ),
-      });
-
-      setProvision(data);
-    } catch (e) {
-      posthog.capture('esim_reserve_failed', {
-        region,
-        error: e?.message || 'unknown',
-      });
-
-
-      setError(e?.message || t('esim.errorReserve', 'Failed to reserve eSIM'));
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
     let cancelled = false;
 
@@ -148,9 +75,7 @@ export default function EsimActivatePage() {
 
         if (!cancelled) setQrDataUrl(url);
 
-        posthog.capture('esim_qr_generated', {
-          region,
-        });
+        posthog.capture('esim_qr_generated');
         
       } catch (e) {
         console.error('QR generation failed', e);
@@ -161,26 +86,6 @@ export default function EsimActivatePage() {
       cancelled = true;
     };
   }, [qrPayload]);
-
-  const REGION_NAME_FALLBACKS = {
-    US: 'United States',
-    EU: 'European Union',
-    UK: 'United Kingdom',
-    CA: 'Canada',
-    AU: 'Australia',
-    JP: 'Japan',
-    MX: 'Mexico',
-    BR: 'Brazil',
-    IN: 'India',
-    ZA: 'South Africa',
-    SG: 'Singapore',
-    HK: 'Hong Kong',
-    KR: 'South Korea',
-    AE: 'United Arab Emirates',
-  };
-
-  const regionLabel = (r) =>
-    t(`esim.regions.${r}`, REGION_NAME_FALLBACKS[r] || r);
 
   const instructions = useMemo(
     () => (
@@ -217,36 +122,14 @@ export default function EsimActivatePage() {
         {t('esim.title', 'Activate your eSIM')}
       </h1>
 
-      <div className="flex items-center gap-2 flex-wrap">
-        <label className="text-sm">
-          {t('esim.regionLabel', 'Region')}
-        </label>
-
-        <select
-          className="border rounded px-2 py-1 text-sm"
-          value={region}
-          onChange={(e) => setRegion(e.target.value)}
-          disabled={loading || loadingExisting}
-        >
-          {regions.map((r) => (
-            <option key={r} value={r}>
-              {regionLabel(r)}
-            </option>
-          ))}
-        </select>
-
-        <button
-          onClick={handleReserve}
-          disabled={loading || loadingExisting}
-          className="ml-auto px-3 py-1.5 rounded bg-black text-white disabled:opacity-60"
-        >
-          {loading
-            ? t('esim.ctaReserving', 'Reserving…')
-            : canShow
-              ? t('esim.ctaRegenerate', 'Generate new QR')
-              : t('esim.ctaGenerate', 'Generate QR')}
-        </button>
-      </div>
+      {!loadingExisting && !provision && (
+        <div className="p-4 border rounded text-sm">
+          {t(
+            'esim.purchaseRequired',
+            'No eSIM has been allocated yet. Purchase a mobile data plan to receive your eSIM.',
+          )}
+        </div>
+      )}
 
       {loadingExisting && (
         <div className="p-4 border rounded text-sm">
