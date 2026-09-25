@@ -82,6 +82,7 @@ const {
   getRegulatoryProfile,
   upsertRegulatoryProfile,
   syncRegulatoryBundleStatus,
+  syncRegulatoryBundleStatusBySid,
   evaluateNumberRegulatoryCompliance,
   initializeNumberRegulatoryVerification,
   provisionRegulatorySupportingDocument,
@@ -198,6 +199,92 @@ describe('numberRegulatoryService', () => {
         status: 'PENDING_REVIEW',
       },
     });
+  });
+
+  test('synchronizes a regulatory Bundle by Bundle SID', async () => {
+    const profile = baseProfile({
+      bundleSid: BU,
+    });
+
+    findUniqueMock
+      .mockResolvedValueOnce(profile)
+      .mockResolvedValueOnce(profile);
+
+    getRegulatoryBundleMock.mockResolvedValue({
+      sid: BU,
+      status: 'twilio-approved',
+      validUntil: null,
+    });
+
+    normalizeStatusMock.mockReturnValue(
+      'APPROVED'
+    );
+
+    updateMock.mockImplementation(
+      async ({ data }) => ({
+        ...profile,
+        ...data,
+      })
+    );
+
+    const result =
+      await syncRegulatoryBundleStatusBySid({
+        bundleSid: BU,
+      });
+
+    expect(findUniqueMock).toHaveBeenNthCalledWith(
+      1,
+      {
+        where: {
+          bundleSid: BU,
+        },
+      }
+    );
+
+    expect(
+      getRegulatoryBundleMock
+    ).toHaveBeenCalledWith({
+      bundleSid: BU,
+    });
+
+    expect(result.approved).toBe(true);
+    expect(result.knownStatus).toBe(true);
+  });
+
+  test('rejects an invalid Bundle SID before database access', async () => {
+    const result =
+      await syncRegulatoryBundleStatusBySid({
+        bundleSid: 'malicious-value',
+      });
+
+    expect(result).toEqual({
+      profile: null,
+      approved: false,
+      knownStatus: false,
+      reason: 'invalid-bundle-sid',
+    });
+
+    expect(findUniqueMock).not.toHaveBeenCalled();
+    expect(
+      getRegulatoryBundleMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('fails closed when Bundle SID is not owned by a regulatory profile', async () => {
+    findUniqueMock.mockResolvedValue(null);
+
+    const result =
+      await syncRegulatoryBundleStatusBySid({
+        bundleSid: BU,
+      });
+
+    expect(result.reason).toBe(
+      'profile-not-found'
+    );
+
+    expect(
+      getRegulatoryBundleMock
+    ).not.toHaveBeenCalled();
   });
 
   test('fails closed when no profile exists', async () => {

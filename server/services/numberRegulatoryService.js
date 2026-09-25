@@ -193,6 +193,57 @@ export async function upsertRegulatoryProfile({
   });
 }
 
+export async function syncRegulatoryBundleStatusBySid({
+  bundleSid,
+  provider = PROFILE_PROVIDER,
+}) {
+  const cleanBundleSid = String(
+    bundleSid || ''
+  ).trim();
+
+  if (!/^BU[a-f0-9]{32}$/i.test(cleanBundleSid)) {
+    return {
+      profile: null,
+      approved: false,
+      knownStatus: false,
+      reason: 'invalid-bundle-sid',
+    };
+  }
+
+  const normalizedProvider = String(
+    provider || PROFILE_PROVIDER
+  )
+    .trim()
+    .toLowerCase();
+
+  const profile =
+    await prisma.numberRegulatoryProfile.findUnique({
+      where: {
+        bundleSid: cleanBundleSid,
+      },
+    });
+
+  if (
+    !profile ||
+    profile.provider !== normalizedProvider
+  ) {
+    return {
+      profile: null,
+      approved: false,
+      knownStatus: false,
+      reason: 'profile-not-found',
+    };
+  }
+
+  return syncRegulatoryBundleStatus({
+    userId: profile.userId,
+    provider: profile.provider,
+    country: profile.isoCountry,
+    numberType: profile.numberType,
+    endUserType: profile.endUserType,
+  });
+}
+
 export async function syncRegulatoryBundleStatus({
   userId,
   provider = PROFILE_PROVIDER,
