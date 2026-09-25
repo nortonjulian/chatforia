@@ -17,6 +17,7 @@ let getProviderMock;
 let searchAvailableMock;
 let getRegulationsMock;
 let evaluateNumberRegulatoryComplianceMock;
+let initializeNumberRegulatoryVerificationMock;
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => {
   prismaMock = {
@@ -75,10 +76,15 @@ await jest.unstable_mockModule(
     evaluateNumberRegulatoryComplianceMock =
       jest.fn();
 
+    initializeNumberRegulatoryVerificationMock =
+      jest.fn();
+
     return {
       __esModule: true,
       evaluateNumberRegulatoryCompliance:
         evaluateNumberRegulatoryComplianceMock,
+      initializeNumberRegulatoryVerification:
+        initializeNumberRegulatoryVerificationMock,
     };
   }
 );
@@ -997,5 +1003,250 @@ describe('POST /numbers/keep/disable', () => {
       where: { id: 60 },
       data: { keepLocked: false },
     });
+  });
+});
+describe('POST /numbers/regulatory/initialize', () => {
+  const candidate = {
+    id: 170,
+    e164: '+61255550170',
+    status: 'AVAILABLE',
+    provider: 'twilio',
+    isoCountry: 'AU',
+    regulatoryNumberType: 'local',
+    isLeasable: true,
+    isPurchasable: false,
+  };
+
+  test('initializes verification from the exact persisted candidate', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    const result = {
+      initialized: true,
+      reused: false,
+      reason: null,
+      profile: {
+        id: 10,
+        userId: 123,
+        provider: 'twilio',
+        isoCountry: 'AU',
+        numberType: 'local',
+        endUserType: 'individual',
+        status: 'NOT_STARTED',
+      },
+      regulation: {
+        sid: 'RN11111111111111111111111111111111',
+        isoCountry: 'AU',
+        numberType: 'local',
+        endUserType: 'individual',
+      },
+      requirements: {
+        end_user: [],
+      },
+    };
+
+    initializeNumberRegulatoryVerificationMock
+      .mockResolvedValueOnce(result);
+
+    const res = await request(app)
+      .post('/numbers/regulatory/initialize')
+      .send({
+        e164: candidate.e164,
+
+        // These must not control regulatory identity.
+        country: 'US',
+        numberType: 'mobile',
+        provider: 'other',
+
+        endUserAttributes: {
+          first_name: 'Test',
+          last_name: 'User',
+        },
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).toHaveBeenCalledWith({
+      where: {
+        e164: candidate.e164,
+        status: 'AVAILABLE',
+        isLeasable: true,
+      },
+    });
+
+    expect(
+      initializeNumberRegulatoryVerificationMock
+    ).toHaveBeenCalledWith({
+      userId: 123,
+      candidate,
+      endUserType: 'individual',
+      endUserAttributes: {
+        first_name: 'Test',
+        last_name: 'User',
+      },
+    });
+
+    expect(res.body).toEqual(result);
+  });
+
+  test('requires an E.164 number', async () => {
+    const res = await request(app)
+      .post('/numbers/regulatory/initialize')
+      .send({})
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(400);
+
+    expect(res.body).toEqual({
+      error: 'e164 required',
+    });
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).not.toHaveBeenCalled();
+
+    expect(
+      initializeNumberRegulatoryVerificationMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('rejects a number that is not available inventory', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .post('/numbers/regulatory/initialize')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(404);
+
+    expect(res.body).toEqual({
+      error: 'Number not available',
+    });
+
+    expect(
+      initializeNumberRegulatoryVerificationMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('fails closed when persisted regulatory type is unknown', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce({
+        ...candidate,
+        regulatoryNumberType: null,
+      });
+
+    const res = await request(app)
+      .post('/numbers/regulatory/initialize')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body).toEqual({
+      error: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+      decision: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+    });
+
+    expect(
+      initializeNumberRegulatoryVerificationMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('returns structured service failure without exposing provider errors', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    initializeNumberRegulatoryVerificationMock
+      .mockResolvedValueOnce({
+        initialized: false,
+        reused: false,
+        reason: 'missing-end-user-fields',
+        profile: {
+          id: 10,
+        },
+        regulation: {
+          sid: 'RN11111111111111111111111111111111',
+        },
+        requirements: {
+          end_user: [
+            {
+              fields: [
+                'first_name',
+                'last_name',
+              ],
+            },
+          ],
+        },
+        validation: {
+          valid: false,
+          requiredFields: [
+            'first_name',
+            'last_name',
+          ],
+          missingFields: [
+            'last_name',
+          ],
+          attributes: {
+            first_name: 'Test',
+          },
+        },
+      });
+
+    const res = await request(app)
+      .post('/numbers/regulatory/initialize')
+      .send({
+        e164: candidate.e164,
+        endUserAttributes: {
+          first_name: 'Test',
+        },
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+    expect(res.body.initialized).toBe(false);
+    expect(res.body.reason).toBe(
+      'missing-end-user-fields'
+    );
+    expect(res.body.validation.missingFields)
+      .toEqual(['last_name']);
+  });
+
+  test('returns a generic server error if initialization throws', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    initializeNumberRegulatoryVerificationMock
+      .mockRejectedValueOnce(
+        new Error('sensitive provider error')
+      );
+
+    const res = await request(app)
+      .post('/numbers/regulatory/initialize')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(502);
+
+    expect(res.body).toEqual({
+      error:
+        'Regulatory verification initialization failed',
+    });
+
+    expect(
+      JSON.stringify(res.body)
+    ).not.toContain(
+      'sensitive provider error'
+    );
   });
 });
