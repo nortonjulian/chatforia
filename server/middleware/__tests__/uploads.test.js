@@ -104,16 +104,19 @@ describe('uploads middleware', () => {
 
     // Calls include singleUploadMemory (files:1, 25MB),
     // avatar (files:1, 5MB) and media (files:10, 100MB)
-    const avatarCall = multerCalls.find(
+    const fiveMbSingleCalls = multerCalls.filter(
       (o) => o?.limits?.files === 1 && o?.limits?.fileSize === 5 * 1024 * 1024
     );
+    const regulatoryCall = fiveMbSingleCalls[0];
+    const avatarCall = fiveMbSingleCalls[1];
     const mediaCall = multerCalls.find(
       (o) => o?.limits?.files === 10 && o?.limits?.fileSize === 100 * 1024 * 1024
     );
 
+    expect(regulatoryCall).toBeTruthy();
     expect(avatarCall).toBeTruthy();
     expect(mediaCall).toBeTruthy();
-    expect(memoryStorageMock).toHaveBeenCalledTimes(3); // single + avatar + media
+    expect(memoryStorageMock).toHaveBeenCalledTimes(4); // single + regulatory + avatar + media
     expect(diskStorageMock).not.toHaveBeenCalled();
 
     expect(mod.uploadAvatar).toEqual(expect.any(Function));
@@ -125,13 +128,16 @@ describe('uploads middleware', () => {
 
     const { uploadDirs } = mod;
 
-    const avatarCall = multerCalls.find(
+    const fiveMbSingleCalls = multerCalls.filter(
       (o) => o?.limits?.files === 1 && o?.limits?.fileSize === 5 * 1024 * 1024
     );
+    const regulatoryCall = fiveMbSingleCalls[0];
+    const avatarCall = fiveMbSingleCalls[1];
     const mediaCall = multerCalls.find(
       (o) => o?.limits?.files === 10 && o?.limits?.fileSize === 100 * 1024 * 1024
     );
 
+    expect(regulatoryCall).toBeTruthy();
     expect(avatarCall).toBeTruthy();
     expect(mediaCall).toBeTruthy();
     expect(diskStorageMock).toHaveBeenCalledTimes(2);
@@ -172,9 +178,15 @@ describe('uploads middleware', () => {
     test('avatar: accepts proper image types and extensions', async () => {
       await reloadModule({ UPLOAD_TARGET: 'memory' });
 
-      const avatarCall = multerCalls.find(
+      const fiveMbSingleCalls = multerCalls.filter(
         (o) => o?.limits?.files === 1 && o?.limits?.fileSize === 5 * 1024 * 1024
       );
+      const regulatoryCall = fiveMbSingleCalls[0];
+      const avatarCall = fiveMbSingleCalls[1];
+
+      expect(regulatoryCall).toBeTruthy();
+      expect(avatarCall).toBeTruthy();
+
       const filter = avatarCall.fileFilter;
 
       // Good JPEG
@@ -192,6 +204,50 @@ describe('uploads middleware', () => {
       ;[err, accept] = await runFilter(filter, 'application/pdf', 'file.pdf');
       expect(err).toBeInstanceOf(Error);
       expect(err.message).toBe('IMAGE_ONLY');
+      expect(accept).toBe(false);
+    });
+
+    test('regulatory documents use their dedicated file filter', async () => {
+      await reloadModule({ UPLOAD_TARGET: 'memory' });
+
+      const fiveMbSingleCalls = multerCalls.filter(
+        (o) => o?.limits?.files === 1 && o?.limits?.fileSize === 5 * 1024 * 1024
+      );
+
+      const regulatoryCall = fiveMbSingleCalls[0];
+
+      expect(regulatoryCall).toBeTruthy();
+
+      const filter = regulatoryCall.fileFilter;
+
+      let [err, accept] = await runFilter(
+        filter,
+        'application/pdf',
+        'identity.pdf'
+      );
+      expect(err).toBeNull();
+      expect(accept).toBe(true);
+
+      ;[err, accept] = await runFilter(
+        filter,
+        'image/png',
+        'vector.svg'
+      );
+      expect(err).toBeInstanceOf(Error);
+      expect(err.message).toBe(
+        'INVALID_REGULATORY_DOCUMENT_EXTENSION'
+      );
+      expect(accept).toBe(false);
+
+      ;[err, accept] = await runFilter(
+        filter,
+        'image/webp',
+        'identity.webp'
+      );
+      expect(err).toBeInstanceOf(Error);
+      expect(err.message).toBe(
+        'UNSUPPORTED_REGULATORY_DOCUMENT_TYPE'
+      );
       expect(accept).toBe(false);
     });
 
