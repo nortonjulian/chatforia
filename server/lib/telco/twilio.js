@@ -759,6 +759,244 @@ async function createRegulatorySupportingDocument({
   };
 }
 
+function detectRegulatoryDocumentMime(buffer) {
+  if (!Buffer.isBuffer(buffer) || buffer.length < 4) {
+    return null;
+  }
+
+  // JPEG: FF D8 FF
+  if (
+    buffer[0] === 0xff &&
+    buffer[1] === 0xd8 &&
+    buffer[2] === 0xff
+  ) {
+    return 'image/jpeg';
+  }
+
+  // PNG: 89 50 4E 47 0D 0A 1A 0A
+  if (
+    buffer.length >= 8 &&
+    buffer[0] === 0x89 &&
+    buffer[1] === 0x50 &&
+    buffer[2] === 0x4e &&
+    buffer[3] === 0x47 &&
+    buffer[4] === 0x0d &&
+    buffer[5] === 0x0a &&
+    buffer[6] === 0x1a &&
+    buffer[7] === 0x0a
+  ) {
+    return 'image/png';
+  }
+
+  // PDF: %PDF-
+  if (
+    buffer.length >= 5 &&
+    buffer.subarray(0, 5).toString('ascii') === '%PDF-'
+  ) {
+    return 'application/pdf';
+  }
+
+  return null;
+}
+
+async function uploadRegulatorySupportingDocument({
+  friendlyName,
+  type,
+  attributes,
+  fileBuffer,
+  fileName,
+  mimeType,
+}) {
+  const accountSid = String(
+    process.env.TWILIO_ACCOUNT_SID || ''
+  ).trim();
+
+  const authToken = String(
+    process.env.TWILIO_AUTH_TOKEN || ''
+  ).trim();
+
+  if (!accountSid || !authToken) {
+    throw new Error(
+      'Twilio not configured: missing TWILIO_ACCOUNT_SID or TWILIO_AUTH_TOKEN'
+    );
+  }
+
+  const cleanFriendlyName =
+    typeof friendlyName === 'string'
+      ? friendlyName.trim()
+      : '';
+
+  const cleanType =
+    typeof type === 'string'
+      ? type.trim()
+      : '';
+
+  if (!cleanFriendlyName) {
+    throw new Error('friendlyName is required');
+  }
+
+  if (!cleanType) {
+    throw new Error('type is required');
+  }
+
+  if (
+    attributes !== undefined &&
+    attributes !== null &&
+    (
+      typeof attributes !== 'object' ||
+      Array.isArray(attributes)
+    )
+  ) {
+    throw new Error('attributes must be an object');
+  }
+
+  if (!Buffer.isBuffer(fileBuffer)) {
+    throw new Error('fileBuffer must be a Buffer');
+  }
+
+  if (fileBuffer.length === 0) {
+    throw new Error('fileBuffer is empty');
+  }
+
+  if (fileBuffer.length > 5 * 1024 * 1024) {
+    throw new Error('regulatory document exceeds 5 MB');
+  }
+
+  const detectedMime =
+    detectRegulatoryDocumentMime(fileBuffer);
+
+  if (!detectedMime) {
+    throw new Error(
+      'unsupported regulatory document contents'
+    );
+  }
+
+  const cleanMime = String(mimeType || '')
+    .trim()
+    .toLowerCase();
+
+  if (cleanMime && cleanMime !== detectedMime) {
+    throw new Error(
+      'regulatory document MIME type does not match contents'
+    );
+  }
+
+  const defaultExtension = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'application/pdf': 'pdf',
+  }[detectedMime];
+
+  const cleanFileName =
+    typeof fileName === 'string' && fileName.trim()
+      ? fileName.trim()
+      : `document.${defaultExtension}`;
+
+  const form = new FormData();
+
+  form.append(
+    'FriendlyName',
+    cleanFriendlyName
+  );
+
+  form.append(
+    'Type',
+    cleanType
+  );
+
+  if (
+    attributes !== undefined &&
+    attributes !== null
+  ) {
+    form.append(
+      'Attributes',
+      JSON.stringify(attributes)
+    );
+  }
+
+  form.append(
+    'File',
+    new Blob(
+      [fileBuffer],
+      { type: detectedMime }
+    ),
+    cleanFileName
+  );
+
+  const authorization =
+    Buffer.from(
+      `${accountSid}:${authToken}`,
+      'utf8'
+    ).toString('base64');
+
+  const response = await fetch(
+    'https://numbers-upload.twilio.com/v2/RegulatoryCompliance/SupportingDocuments',
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${authorization}`,
+        Accept: 'application/json',
+      },
+      body: form,
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Twilio regulatory document upload failed with status ${response.status}`
+    );
+  }
+
+  const result = await response.json();
+
+  return {
+    sid:
+      result.sid ||
+      null,
+    accountSid:
+      result.account_sid ||
+      result.accountSid ||
+      null,
+    friendlyName:
+      result.friendly_name ||
+      result.friendlyName ||
+      cleanFriendlyName,
+    mimeType:
+      result.mime_type ||
+      result.mimeType ||
+      detectedMime,
+    status:
+      result.status ||
+      'draft',
+    failureReason:
+      result.failure_reason ||
+      result.failureReason ||
+      null,
+    errors:
+      Array.isArray(result.errors)
+        ? result.errors
+        : [],
+    type:
+      result.type ||
+      cleanType,
+    attributes:
+      result.attributes ||
+      attributes ||
+      {},
+    dateCreated:
+      result.date_created ||
+      result.dateCreated ||
+      null,
+    dateUpdated:
+      result.date_updated ||
+      result.dateUpdated ||
+      null,
+    url:
+      result.url ||
+      null,
+  };
+}
+
 async function getRegulatoryBundle({
   bundleSid,
 }) {
@@ -1049,6 +1287,7 @@ const adapter = {
   submitRegulatoryBundle,
   listRegulatorySupportingDocumentTypes,
   createRegulatorySupportingDocument,
+  uploadRegulatorySupportingDocument,
   purchaseNumber,
   releaseNumber,
 };

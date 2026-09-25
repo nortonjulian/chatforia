@@ -589,6 +589,319 @@ describe('Twilio regulatory lifecycle primitives', () => {
     ).not.toHaveBeenCalled();
   });
 
+  test('uploads a regulatory Supporting Document with multipart form data', async () => {
+    const originalFetch = globalThis.fetch;
+    const fetchMock = jest.fn();
+
+    globalThis.fetch = fetchMock;
+
+    try {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        status: 201,
+        json: async () => ({
+          sid:
+            'RD00000000000000000000000000000001',
+          account_sid: 'AC_test',
+          friendly_name: 'Australian Passport',
+          mime_type: 'application/pdf',
+          status: 'draft',
+          failure_reason: null,
+          errors: [],
+          type: 'passport',
+          attributes: {
+            document_number: 'ABC123',
+          },
+          date_created:
+            '2026-09-25T00:00:00Z',
+          date_updated:
+            '2026-09-25T00:00:00Z',
+          url:
+            '/v2/RegulatoryCompliance/SupportingDocuments/RD00000000000000000000000000000001',
+        }),
+      });
+
+      const fileBuffer = Buffer.from(
+        '%PDF-1.7\nChatforia regulatory test document',
+        'ascii'
+      );
+
+      const result =
+        await twilio.uploadRegulatorySupportingDocument({
+          friendlyName: ' Australian Passport ',
+          type: ' passport ',
+          attributes: {
+            document_number: 'ABC123',
+          },
+          fileBuffer,
+          fileName: 'passport.pdf',
+          mimeType: 'application/pdf',
+        });
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+
+      const [url, options] =
+        fetchMock.mock.calls[0];
+
+      expect(url).toBe(
+        'https://numbers-upload.twilio.com/v2/RegulatoryCompliance/SupportingDocuments'
+      );
+
+      expect(options.method).toBe('POST');
+
+      expect(options.headers.Accept).toBe(
+        'application/json'
+      );
+
+      expect(options.headers.Authorization).toBe(
+        `Basic ${Buffer.from(
+          'AC_test:auth_test',
+          'utf8'
+        ).toString('base64')}`
+      );
+
+      expect(
+        options.headers['Content-Type']
+      ).toBeUndefined();
+
+      expect(options.body).toBeInstanceOf(FormData);
+
+      expect(
+        options.body.get('FriendlyName')
+      ).toBe('Australian Passport');
+
+      expect(
+        options.body.get('Type')
+      ).toBe('passport');
+
+      expect(
+        JSON.parse(
+          options.body.get('Attributes')
+        )
+      ).toEqual({
+        document_number: 'ABC123',
+      });
+
+      const uploadedFile =
+        options.body.get('File');
+
+      expect(uploadedFile).toBeInstanceOf(Blob);
+      expect(uploadedFile.type).toBe(
+        'application/pdf'
+      );
+      expect(uploadedFile.name).toBe(
+        'passport.pdf'
+      );
+
+      expect(result.sid).toBe(
+        'RD00000000000000000000000000000001'
+      );
+      expect(result.accountSid).toBe(
+        'AC_test'
+      );
+      expect(result.friendlyName).toBe(
+        'Australian Passport'
+      );
+      expect(result.mimeType).toBe(
+        'application/pdf'
+      );
+      expect(result.type).toBe('passport');
+      expect(result.attributes).toEqual({
+        document_number: 'ABC123',
+      });
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('rejects regulatory upload when declared MIME does not match file contents', async () => {
+    const originalFetch = globalThis.fetch;
+    const fetchMock = jest.fn();
+
+    globalThis.fetch = fetchMock;
+
+    try {
+      const pngBuffer = Buffer.from([
+        0x89, 0x50, 0x4e, 0x47,
+        0x0d, 0x0a, 0x1a, 0x0a,
+        0x00,
+      ]);
+
+      await expect(
+        twilio.uploadRegulatorySupportingDocument({
+          friendlyName: 'Government ID',
+          type: 'government_issued_document',
+          fileBuffer: pngBuffer,
+          fileName: 'id.jpg',
+          mimeType: 'image/jpeg',
+        })
+      ).rejects.toThrow(
+        'regulatory document MIME type does not match contents'
+      );
+
+      expect(fetchMock).not.toHaveBeenCalled();
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('rejects unsupported regulatory document contents before upload', async () => {
+    const originalFetch = globalThis.fetch;
+    const fetchMock = jest.fn();
+
+    globalThis.fetch = fetchMock;
+
+    try {
+      await expect(
+        twilio.uploadRegulatorySupportingDocument({
+          friendlyName: 'Government ID',
+          type: 'government_issued_document',
+          fileBuffer: Buffer.from(
+            'not-a-real-document',
+            'utf8'
+          ),
+          fileName: 'id.pdf',
+          mimeType: 'application/pdf',
+        })
+      ).rejects.toThrow(
+        'unsupported regulatory document contents'
+      );
+
+      expect(fetchMock).not.toHaveBeenCalled();
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('rejects oversized regulatory document before upload', async () => {
+    const originalFetch = globalThis.fetch;
+    const fetchMock = jest.fn();
+
+    globalThis.fetch = fetchMock;
+
+    try {
+      const oversized =
+        Buffer.alloc(
+          (5 * 1024 * 1024) + 1
+        );
+
+      oversized.write(
+        '%PDF-',
+        0,
+        'ascii'
+      );
+
+      await expect(
+        twilio.uploadRegulatorySupportingDocument({
+          friendlyName: 'Passport',
+          type: 'passport',
+          fileBuffer: oversized,
+          fileName: 'passport.pdf',
+          mimeType: 'application/pdf',
+        })
+      ).rejects.toThrow(
+        'regulatory document exceeds 5 MB'
+      );
+
+      expect(fetchMock).not.toHaveBeenCalled();
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('sanitizes Twilio regulatory upload failures', async () => {
+    const originalFetch = globalThis.fetch;
+    const fetchMock = jest.fn();
+
+    globalThis.fetch = fetchMock;
+
+    try {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 400,
+        json: async () => ({
+          message:
+            'Sensitive provider response must not escape',
+        }),
+      });
+
+      const fileBuffer = Buffer.from(
+        '%PDF-1.7\nTest',
+        'ascii'
+      );
+
+      await expect(
+        twilio.uploadRegulatorySupportingDocument({
+          friendlyName: 'Passport',
+          type: 'passport',
+          fileBuffer,
+          fileName: 'passport.pdf',
+          mimeType: 'application/pdf',
+        })
+      ).rejects.toThrow(
+        'Twilio regulatory document upload failed with status 400'
+      );
+
+      try {
+        await twilio.uploadRegulatorySupportingDocument({
+          friendlyName: 'Passport',
+          type: 'passport',
+          fileBuffer,
+          fileName: 'passport.pdf',
+          mimeType: 'application/pdf',
+        });
+      } catch (error) {
+        expect(error.message).not.toContain(
+          'Sensitive provider response'
+        );
+        expect(error.message).not.toContain(
+          'auth_test'
+        );
+      }
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('rejects invalid regulatory upload inputs before fetch', async () => {
+    const originalFetch = globalThis.fetch;
+    const fetchMock = jest.fn();
+
+    globalThis.fetch = fetchMock;
+
+    try {
+      await expect(
+        twilio.uploadRegulatorySupportingDocument({
+          friendlyName: 'Passport',
+          type: 'passport',
+          fileBuffer: 'not-a-buffer',
+          mimeType: 'application/pdf',
+        })
+      ).rejects.toThrow(
+        'fileBuffer must be a Buffer'
+      );
+
+      await expect(
+        twilio.uploadRegulatorySupportingDocument({
+          friendlyName: 'Passport',
+          type: 'passport',
+          attributes: [],
+          fileBuffer: Buffer.from(
+            '%PDF-1.7',
+            'ascii'
+          ),
+          mimeType: 'application/pdf',
+        })
+      ).rejects.toThrow(
+        'attributes must be an object'
+      );
+
+      expect(fetchMock).not.toHaveBeenCalled();
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
   test('rejects invalid lifecycle inputs before Twilio calls', async () => {
     await expect(
       twilio.createRegulatoryEndUser({

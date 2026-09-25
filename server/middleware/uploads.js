@@ -122,6 +122,60 @@ export const singleUploadMemory = multer({
   limits: { files: 1, fileSize: DEFAULT_SINGLE_MAX },
 }).single('file');
 
+const REGULATORY_DOCUMENT_MIME_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'application/pdf',
+]);
+
+const REGULATORY_DOCUMENT_EXTENSIONS = new Set([
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.pdf',
+]);
+
+const REGULATORY_DOCUMENT_MAX =
+  5 * 1024 * 1024;
+
+function regulatoryDocumentFileFilter(_req, file, cb) {
+  const mime = String(file?.mimetype || '')
+    .trim()
+    .toLowerCase();
+
+  const ext = path
+    .extname(file?.originalname || '')
+    .toLowerCase();
+
+  if (!REGULATORY_DOCUMENT_MIME_TYPES.has(mime)) {
+    return cb(
+      new Error('UNSUPPORTED_REGULATORY_DOCUMENT_TYPE'),
+      false
+    );
+  }
+
+  if (
+    ext &&
+    !REGULATORY_DOCUMENT_EXTENSIONS.has(ext)
+  ) {
+    return cb(
+      new Error('INVALID_REGULATORY_DOCUMENT_EXTENSION'),
+      false
+    );
+  }
+
+  cb(null, true);
+}
+
+export const regulatoryDocumentUploadMemory = multer({
+  storage: multer.memoryStorage(),
+  fileFilter: regulatoryDocumentFileFilter,
+  limits: {
+    files: 1,
+    fileSize: REGULATORY_DOCUMENT_MAX,
+  },
+}).single('file');
+
 /** SHA-256 of a Buffer (for dedup keys) */
 export function sha256(buf) {
   return crypto.createHash('sha256').update(buf).digest('hex');
