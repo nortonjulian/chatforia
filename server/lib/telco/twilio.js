@@ -242,6 +242,78 @@ async function searchAvailable({
   };
 }
 
+async function getRegulations({
+  country,
+  numberType = 'local',
+  endUserType = 'individual',
+  includeConstraints = true,
+}) {
+  const client = getClient();
+
+  const isoCountry = String(country || '')
+    .trim()
+    .toUpperCase();
+
+  if (!/^[A-Z]{2}$/.test(isoCountry)) {
+    throw new Error(
+      'country must be a 2-letter ISO country code'
+    );
+  }
+
+  const normalizedNumberType = String(
+    numberType || 'local'
+  )
+    .trim()
+    .toLowerCase();
+
+  const supportedNumberTypes = new Set([
+    'local',
+    'mobile',
+    'national',
+    'toll-free',
+  ]);
+
+  if (!supportedNumberTypes.has(normalizedNumberType)) {
+    throw new Error(
+      `Unsupported regulatory number type: ${normalizedNumberType}`
+    );
+  }
+
+  const normalizedEndUserType = String(
+    endUserType || 'individual'
+  )
+    .trim()
+    .toLowerCase();
+
+  if (!['individual', 'business'].includes(normalizedEndUserType)) {
+    throw new Error(
+      'endUserType must be individual or business'
+    );
+  }
+
+  const regulations =
+    await client.numbers.v2.regulatoryCompliance
+      .regulations
+      .list({
+        isoCountry,
+        numberType: normalizedNumberType,
+        endUserType: normalizedEndUserType,
+        includeConstraints: Boolean(includeConstraints),
+        limit: 20,
+      });
+
+  return regulations.map((regulation) => ({
+    sid: regulation.sid,
+    friendlyName: regulation.friendlyName || null,
+    isoCountry: regulation.isoCountry || isoCountry,
+    numberType:
+      regulation.numberType || normalizedNumberType,
+    endUserType:
+      regulation.endUserType || normalizedEndUserType,
+    requirements: regulation.requirements || null,
+  }));
+}
+
 async function purchaseNumber({
   phoneNumber,
   addressSid,
@@ -429,6 +501,7 @@ const adapter = {
   providerName,
   sendSms: sendSmsRaw,
   searchAvailable,
+  getRegulations,
   purchaseNumber,
   releaseNumber,
 };
