@@ -928,6 +928,69 @@ router.post(
     }
 
     try {
+      const reviewReservation =
+        await prisma.$transaction(async (tx) => {
+          await tx.$executeRaw`
+            SELECT pg_advisory_xact_lock(
+              CAST(${candidate.id} AS integer),
+              CAST(1 AS integer)
+            )
+          `;
+
+          const now = new Date();
+
+          const reservation =
+            await tx.numberReservation.findFirst({
+              where: {
+                phoneNumberId: candidate.id,
+                userId,
+                purpose:
+                  'REGULATORY_VERIFICATION',
+                expiresAt: {
+                  gt: now,
+                },
+              },
+              orderBy: {
+                createdAt: 'desc',
+              },
+            });
+
+          if (!reservation) {
+            return null;
+          }
+
+          const reviewDays = Math.max(
+            1,
+            Number(
+              process.env
+                .REGULATORY_REVIEW_RESERVATION_DAYS
+            ) || 7
+          );
+
+          const expiresAt = new Date(
+            now.getTime() +
+              reviewDays * 24 * 60 * 60 * 1000
+          );
+
+          return tx.numberReservation.update({
+            where: {
+              id: reservation.id,
+            },
+            data: {
+              expiresAt,
+            },
+          });
+        });
+
+      if (!reviewReservation) {
+        return res.status(409).json({
+          error:
+            'REGULATORY_RESERVATION_EXPIRED',
+          decision:
+            'REGULATORY_RESERVATION_EXPIRED',
+        });
+      }
+
       const result =
         await submitNumberRegulatoryBundle({
           userId,
