@@ -6,6 +6,7 @@ import telco, {
 } from '../lib/telco/index.js';
 import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js';
+import { regulatoryDocumentUploadMemory } from '../middleware/uploads.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import {
   evaluateNumberRegulatoryCompliance,
@@ -408,6 +409,107 @@ router.get('/pool/buyable', requireAuth, async (req, res) => {
  *  A) Explicit number: { e164: "+1760..." }
  *  B) Filter-based: { areaCode?, country?, capability?, caps? }
  */
+function runRegulatoryDocumentUpload(
+  req,
+  res,
+  next
+) {
+  regulatoryDocumentUploadMemory(
+    req,
+    res,
+    (error) => {
+      if (!error) {
+        return next();
+      }
+
+      if (error?.code === 'LIMIT_FILE_SIZE') {
+        return res.status(413).json({
+          error: 'REGULATORY_DOCUMENT_TOO_LARGE',
+        });
+      }
+
+      if (
+        error?.message ===
+        'UNSUPPORTED_REGULATORY_DOCUMENT_TYPE'
+      ) {
+        return res.status(400).json({
+          error:
+            'UNSUPPORTED_REGULATORY_DOCUMENT_TYPE',
+        });
+      }
+
+      if (
+        error?.message ===
+        'INVALID_REGULATORY_DOCUMENT_EXTENSION'
+      ) {
+        return res.status(400).json({
+          error:
+            'INVALID_REGULATORY_DOCUMENT_EXTENSION',
+        });
+      }
+
+      return res.status(400).json({
+        error: 'INVALID_REGULATORY_DOCUMENT_UPLOAD',
+      });
+    }
+  );
+}
+
+function parseRegulatoryDocumentAttributes(value) {
+  if (
+    value === undefined ||
+    value === null ||
+    value === ''
+  ) {
+    return {
+      valid: true,
+      attributes: undefined,
+    };
+  }
+
+  if (
+    typeof value === 'object' &&
+    !Array.isArray(value)
+  ) {
+    return {
+      valid: true,
+      attributes: value,
+    };
+  }
+
+  if (typeof value !== 'string') {
+    return {
+      valid: false,
+      attributes: undefined,
+    };
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+
+    if (
+      !parsed ||
+      typeof parsed !== 'object' ||
+      Array.isArray(parsed)
+    ) {
+      return {
+        valid: false,
+        attributes: undefined,
+      };
+    }
+
+    return {
+      valid: true,
+      attributes: parsed,
+    };
+  } catch {
+    return {
+      valid: false,
+      attributes: undefined,
+    };
+  }
+}
+
 router.post(
   '/regulatory/initialize',
   requireAuth,
@@ -485,6 +587,7 @@ router.post(
 router.post(
   '/regulatory/documents',
   requireAuth,
+  runRegulatoryDocumentUpload,
   async (req, res) => {
     const userId = req.user.id;
 
@@ -515,6 +618,31 @@ router.post(
     if (!documentType) {
       return res.status(400).json({
         error: 'documentType required',
+      });
+    }
+
+    const parsedAttributes =
+      parseRegulatoryDocumentAttributes(
+        req.body?.attributes
+      );
+
+    if (!parsedAttributes.valid) {
+      return res.status(400).json({
+        error:
+          'INVALID_REGULATORY_DOCUMENT_ATTRIBUTES',
+      });
+    }
+
+    const isMultipart =
+      String(
+        req.headers['content-type'] || ''
+      )
+        .toLowerCase()
+        .startsWith('multipart/form-data');
+
+    if (isMultipart && !req.file) {
+      return res.status(400).json({
+        error: 'REGULATORY_DOCUMENT_FILE_REQUIRED',
       });
     }
 
@@ -551,9 +679,11 @@ router.post(
           endUserType: 'individual',
           requirementName,
           documentType,
-          attributes: req.body?.attributes,
+          attributes:
+            parsedAttributes.attributes,
           friendlyName:
             req.body?.friendlyName,
+          file: req.file,
         });
 
       if (!result.provisioned) {
