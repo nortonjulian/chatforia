@@ -956,6 +956,269 @@ export async function initializeNumberRegulatoryVerification({
   };
 }
 
+
+export async function provisionRegulatorySupportingDocument({
+  userId,
+  provider = PROFILE_PROVIDER,
+  country,
+  numberType,
+  endUserType,
+  requirementName,
+  documentType,
+  attributes,
+  friendlyName,
+}) {
+  const key = normalizeProfileKey({
+    userId,
+    provider,
+    country,
+    numberType,
+    endUserType,
+  });
+
+  const cleanRequirementName =
+    String(requirementName || '').trim();
+
+  const cleanDocumentType =
+    String(documentType || '').trim();
+
+  if (!cleanRequirementName) {
+    throw new Error('requirementName is required');
+  }
+
+  if (!cleanDocumentType) {
+    throw new Error('documentType is required');
+  }
+
+  const profile =
+    await prisma.numberRegulatoryProfile.findUnique({
+      where: profileUniqueWhere(key),
+    });
+
+  if (!profile) {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'profile-not-found',
+      document: null,
+    };
+  }
+
+  if (!profile.regulationSid) {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'regulation-not-initialized',
+      document: null,
+    };
+  }
+
+  const api = getProvider(key.provider);
+
+  if (
+    !api ||
+    typeof api.getRegulations !== 'function'
+  ) {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'provider-regulations-unsupported',
+      document: null,
+    };
+  }
+
+  let regulations;
+
+  try {
+    regulations = await api.getRegulations({
+      country: key.isoCountry,
+      numberType: key.numberType,
+      endUserType: key.endUserType,
+      includeConstraints: true,
+    });
+  } catch {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'regulation-lookup-failed',
+      document: null,
+    };
+  }
+
+  const matchingRegulations =
+    Array.isArray(regulations)
+      ? regulations.filter(
+          (regulation) =>
+            String(regulation?.sid || '').trim() ===
+            String(profile.regulationSid).trim()
+        )
+      : [];
+
+  if (matchingRegulations.length !== 1) {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'regulation-not-found',
+      document: null,
+    };
+  }
+
+  const regulation = matchingRegulations[0];
+
+  const groups =
+    getRegulatorySupportingDocumentRequirements(
+      regulation.requirements || {}
+    );
+
+  const matchingRequirements =
+    groups
+      .flat()
+      .filter(
+        (requirement) =>
+          requirement.requirementName ===
+          cleanRequirementName
+      );
+
+  if (matchingRequirements.length !== 1) {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'supporting-document-requirement-not-found',
+      document: null,
+    };
+  }
+
+  const requirement = matchingRequirements[0];
+
+  const acceptedDocument =
+    requirement.acceptedDocuments.find(
+      (document) =>
+        document.type === cleanDocumentType
+    );
+
+  if (!acceptedDocument) {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'unsupported-supporting-document-type',
+      document: null,
+      requirement,
+    };
+  }
+
+  const existing =
+    await prisma.numberRegulatoryDocument.findUnique({
+      where: {
+        profileId_requirementName: {
+          profileId: profile.id,
+          requirementName: cleanRequirementName,
+        },
+      },
+    });
+
+  if (existing?.supportingDocumentSid) {
+    return {
+      provisioned: true,
+      reused: true,
+      reason: null,
+      document: existing,
+      requirement,
+    };
+  }
+
+  if (
+    !api ||
+    typeof api.createRegulatorySupportingDocument !==
+      'function'
+  ) {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'provider-supporting-document-unsupported',
+      document: existing || null,
+      requirement,
+    };
+  }
+
+  let supportingDocument;
+
+  try {
+    supportingDocument =
+      await api.createRegulatorySupportingDocument({
+        friendlyName:
+          String(
+            friendlyName ||
+            `Chatforia ${key.isoCountry} ${cleanRequirementName}`
+          ).trim(),
+        type: cleanDocumentType,
+        attributes,
+      });
+  } catch {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'supporting-document-creation-failed',
+      document: existing || null,
+      requirement,
+    };
+  }
+
+  const supportingDocumentSid =
+    String(
+      supportingDocument?.sid || ''
+    ).trim();
+
+  if (
+    !/^RD[a-f0-9]{32}$/i.test(
+      supportingDocumentSid
+    )
+  ) {
+    return {
+      provisioned: false,
+      reused: false,
+      reason: 'invalid-supporting-document',
+      document: existing || null,
+      requirement,
+    };
+  }
+
+  const document =
+    await prisma.numberRegulatoryDocument.upsert({
+      where: {
+        profileId_requirementName: {
+          profileId: profile.id,
+          requirementName: cleanRequirementName,
+        },
+      },
+      create: {
+        profileId: profile.id,
+        requirementName: cleanRequirementName,
+        documentType: cleanDocumentType,
+        supportingDocumentSid,
+        providerStatus:
+          supportingDocument.status || null,
+        failureReason:
+          supportingDocument.failureReason || null,
+      },
+      update: {
+        documentType: cleanDocumentType,
+        supportingDocumentSid,
+        providerStatus:
+          supportingDocument.status || null,
+        failureReason:
+          supportingDocument.failureReason || null,
+      },
+    });
+
+  return {
+    provisioned: true,
+    reused: false,
+    reason: null,
+    document,
+    requirement,
+  };
+}
+
 function isPresentRegulatoryValue(value) {
   if (value === null || value === undefined) {
     return false;
