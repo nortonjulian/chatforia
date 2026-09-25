@@ -121,7 +121,9 @@ test('searches available pool numbers and assigns selected number', async () => 
   expect(within(resultCard).getByText(/^sms$/i)).toBeInTheDocument();
   expect(within(resultCard).getByText(/^voice$/i)).toBeInTheDocument();
 
-  await user.click(within(resultCard).getByRole('button', { name: /^select$/i }));
+  await user.click(
+    within(resultCard).getByRole('button', { name: /^select$/i })
+  );
 
   await waitFor(() => {
     expect(axiosClient.post).toHaveBeenCalledWith('/numbers/lease', {
@@ -161,4 +163,62 @@ test('shows active assigned number from /numbers/my', async () => {
   expect(screen.getByText(/active/i)).toBeInTheDocument();
   expect(screen.getByRole('button', { name: /replace/i })).toBeInTheDocument();
   expect(screen.getByRole('button', { name: /release/i })).toBeInTheDocument();
+});
+test('opens regulatory verification when selected number requires verification', async () => {
+  const user = userEvent.setup();
+
+  axiosClient.post.mockImplementation((url) => {
+    if (url === '/numbers/lease') {
+      return Promise.reject({
+        response: {
+          status: 409,
+          data: {
+            error: 'REGULATORY_VERIFICATION_REQUIRED',
+            decision: 'VERIFICATION_REQUIRED',
+          },
+        },
+      });
+    }
+
+    return Promise.resolve({ data: {} });
+  });
+
+  renderWithRouter(<PhoneNumberManager />);
+
+  await screen.findByText(/no number/i);
+
+  await user.click(screen.getByRole('button', { name: /pick a number/i }));
+  await user.click(screen.getByRole('button', { name: /^search$/i }));
+
+  const numberText = await screen.findByText(/\(555\) 123-4567/i);
+  const resultCard = numberText.closest('[data-testid="card"]');
+
+  expect(resultCard).toBeTruthy();
+
+  await user.click(
+    within(resultCard).getByRole('button', {
+      name: /^select$/i,
+    })
+  );
+
+  await waitFor(() => {
+    expect(axiosClient.post).toHaveBeenCalledWith('/numbers/lease', {
+      e164: '+15551234567',
+      lockOnAssign: false,
+    });
+  });
+
+  expect(
+    await screen.findByText(/verify number eligibility/i)
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByText(/identity verification required/i)
+  ).toBeInTheDocument();
+
+  expect(screen.getByText('+15551234567')).toBeInTheDocument();
+
+  expect(screen.getByRole('button', { name: /^back$/i })).toBeInTheDocument();
+
+  expect(screen.queryByText(/number assigned/i)).not.toBeInTheDocument();
 });
