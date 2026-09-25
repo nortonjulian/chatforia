@@ -2511,6 +2511,29 @@ describe('POST /numbers/regulatory/submit', () => {
     submitNumberRegulatoryBundleMock
       .mockResolvedValueOnce(result);
 
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce({
+        id: 50,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 30 * 60 * 1000
+        ),
+        createdAt: new Date(),
+      });
+
+    prismaMock.numberReservation.update
+      .mockResolvedValueOnce({
+        id: 50,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 7 * 24 * 60 * 60 * 1000
+        ),
+      });
+
     const res = await request(app)
       .post('/numbers/regulatory/submit')
       .send({
@@ -2552,7 +2575,66 @@ describe('POST /numbers/regulatory/submit', () => {
       endUserType: 'individual',
     });
 
+    expect(
+      prismaMock.numberReservation.findFirst
+    ).toHaveBeenCalledWith({
+      where: {
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: {
+          gt: expect.any(Date),
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    expect(
+      prismaMock.numberReservation.update
+    ).toHaveBeenCalledWith({
+      where: {
+        id: 50,
+      },
+      data: {
+        expiresAt: expect.any(Date),
+      },
+    });
+
     expect(res.body).toEqual(result);
+  });
+
+  test('fails closed when the regulatory reservation expired before submission completed', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .post('/numbers/regulatory/submit')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body).toEqual({
+      error:
+        'REGULATORY_RESERVATION_EXPIRED',
+      decision:
+        'REGULATORY_RESERVATION_EXPIRED',
+    });
+
+    expect(
+      prismaMock.numberReservation.update
+    ).not.toHaveBeenCalled();
+
+    expect(
+      submitNumberRegulatoryBundleMock
+    ).not.toHaveBeenCalled();
   });
 
   test('requires e164', async () => {
@@ -2628,6 +2710,29 @@ describe('POST /numbers/regulatory/submit', () => {
     prismaMock.phoneNumber.findFirst
       .mockResolvedValueOnce(candidate);
 
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce({
+        id: 51,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 30 * 60 * 1000
+        ),
+        createdAt: new Date(),
+      });
+
+    prismaMock.numberReservation.update
+      .mockResolvedValueOnce({
+        id: 51,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 7 * 24 * 60 * 60 * 1000
+        ),
+      });
+
     submitNumberRegulatoryBundleMock
       .mockResolvedValueOnce({
         submitted: false,
@@ -2654,6 +2759,29 @@ describe('POST /numbers/regulatory/submit', () => {
   test('does not expose provider errors when submission throws', async () => {
     prismaMock.phoneNumber.findFirst
       .mockResolvedValueOnce(candidate);
+
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce({
+        id: 52,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 30 * 60 * 1000
+        ),
+        createdAt: new Date(),
+      });
+
+    prismaMock.numberReservation.update
+      .mockResolvedValueOnce({
+        id: 52,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 7 * 24 * 60 * 60 * 1000
+        ),
+      });
 
     submitNumberRegulatoryBundleMock
       .mockRejectedValueOnce(
