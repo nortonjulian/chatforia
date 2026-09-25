@@ -15,6 +15,7 @@ let prismaMock;
 let telcoAdapter;
 let getProviderMock;
 let searchAvailableMock;
+let getRegulationsMock;
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => {
   prismaMock = {
@@ -43,11 +44,13 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
 
 await jest.unstable_mockModule('../lib/telco/index.js', () => {
   searchAvailableMock = jest.fn();
+  getRegulationsMock = jest.fn();
   getProviderMock = jest.fn();
 
   telcoAdapter = {
     providerName: 'twilio-adapter',
     searchAvailable: searchAvailableMock,
+    getRegulations: getRegulationsMock,
     purchaseNumber: jest.fn(),
   };
 
@@ -253,6 +256,166 @@ describe('GET /numbers/available', () => {
     });
 
     expect(searchAvailableMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('GET /numbers/regulatory-requirements', () => {
+  test('returns regulatory requirements for the requested market', async () => {
+    const regulations = [
+      {
+        sid: 'RN_test',
+        friendlyName: 'Australia: Local - Individual',
+        isoCountry: 'AU',
+        numberType: 'local',
+        endUserType: 'individual',
+        requirements: {
+          end_user: [
+            {
+              requirement_name: 'individual_info',
+              fields: ['first_name', 'last_name'],
+            },
+          ],
+          supporting_document: [
+            [
+              {
+                requirement_name: 'proof_of_identity_info',
+                accepted_documents: [
+                  { type: 'government_issued_document' },
+                  { type: 'passport' },
+                ],
+              },
+            ],
+          ],
+        },
+      },
+    ];
+
+    getRegulationsMock.mockResolvedValueOnce(regulations);
+
+    const res = await request(app)
+      .get('/numbers/regulatory-requirements')
+      .query({
+        country: 'au',
+        numberType: 'local',
+        endUserType: 'individual',
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(getProviderMock).toHaveBeenCalledWith('twilio');
+
+    expect(getRegulationsMock).toHaveBeenCalledWith({
+      country: 'AU',
+      numberType: 'local',
+      endUserType: 'individual',
+      includeConstraints: true,
+    });
+
+    expect(res.body).toEqual({
+      country: 'AU',
+      numberType: 'local',
+      endUserType: 'individual',
+      requiresRegulatoryCompliance: true,
+      regulations,
+    });
+  });
+
+  test('returns false when no regulation applies', async () => {
+    getRegulationsMock.mockResolvedValueOnce([]);
+
+    const res = await request(app)
+      .get('/numbers/regulatory-requirements')
+      .query({ country: 'US' })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(getRegulationsMock).toHaveBeenCalledWith({
+      country: 'US',
+      numberType: 'local',
+      endUserType: 'individual',
+      includeConstraints: true,
+    });
+
+    expect(res.body).toEqual({
+      country: 'US',
+      numberType: 'local',
+      endUserType: 'individual',
+      requiresRegulatoryCompliance: false,
+      regulations: [],
+    });
+  });
+
+  test('rejects an invalid country before calling provider', async () => {
+    const res = await request(app)
+      .get('/numbers/regulatory-requirements')
+      .query({ country: 'USA' })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({
+      error: 'country must be a 2-letter ISO country code',
+    });
+
+    expect(getRegulationsMock).not.toHaveBeenCalled();
+  });
+
+  test('returns 400 for unsupported regulatory parameters', async () => {
+    getRegulationsMock.mockRejectedValueOnce(
+      new Error('Unsupported regulatory number type: satellite')
+    );
+
+    const res = await request(app)
+      .get('/numbers/regulatory-requirements')
+      .query({
+        country: 'AU',
+        numberType: 'satellite',
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({
+      error: 'Unsupported regulatory number type: satellite',
+    });
+  });
+
+  test('returns 503 when regulatory provider support is unavailable', async () => {
+    const originalGetRegulations = telcoAdapter.getRegulations;
+
+    delete telcoAdapter.getRegulations;
+
+    try {
+      const res = await request(app)
+        .get('/numbers/regulatory-requirements')
+        .query({ country: 'AU' })
+        .set('x-test-user-id', '123');
+
+      expect(res.status).toBe(503);
+      expect(res.body).toEqual({
+        error: 'Regulatory compliance provider unavailable',
+      });
+
+      expect(getRegulationsMock).not.toHaveBeenCalled();
+    } finally {
+      telcoAdapter.getRegulations = originalGetRegulations;
+    }
+  });
+
+  test('returns 502 when Twilio regulatory lookup fails', async () => {
+    getRegulationsMock.mockRejectedValueOnce(
+      new Error('Twilio unavailable')
+    );
+
+    const res = await request(app)
+      .get('/numbers/regulatory-requirements')
+      .query({ country: 'AU' })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(502);
+    expect(res.body).toEqual({
+      error: 'Regulatory requirements lookup failed',
+    });
   });
 });
 
