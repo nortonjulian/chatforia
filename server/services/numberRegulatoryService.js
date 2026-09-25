@@ -957,6 +957,310 @@ export async function initializeNumberRegulatoryVerification({
 }
 
 
+export async function submitNumberRegulatoryBundle({
+  userId,
+  provider = PROFILE_PROVIDER,
+  country,
+  numberType,
+  endUserType,
+}) {
+  const key = normalizeProfileKey({
+    userId,
+    provider,
+    country,
+    numberType,
+    endUserType,
+  });
+
+  const profile =
+    await prisma.numberRegulatoryProfile.findUnique({
+      where: profileUniqueWhere(key),
+    });
+
+  if (!profile) {
+    return {
+      submitted: false,
+      reason: 'profile-not-found',
+      profile: null,
+    };
+  }
+
+  const bundleSid =
+    String(profile.bundleSid || '').trim();
+
+  if (!/^BU[a-f0-9]{32}$/i.test(bundleSid)) {
+    return {
+      submitted: false,
+      reason: 'bundle-not-created',
+      profile,
+    };
+  }
+
+  if (profile.status !== 'DRAFT') {
+    return {
+      submitted: false,
+      reason: 'bundle-not-draft',
+      profile,
+    };
+  }
+
+  const regulationSid =
+    String(profile.regulationSid || '').trim();
+
+  const endUserSid =
+    String(profile.endUserSid || '').trim();
+
+  if (!/^RN[a-f0-9]{32}$/i.test(regulationSid)) {
+    return {
+      submitted: false,
+      reason: 'regulation-not-initialized',
+      profile,
+    };
+  }
+
+  if (!/^IT[a-f0-9]{32}$/i.test(endUserSid)) {
+    return {
+      submitted: false,
+      reason: 'end-user-not-provisioned',
+      profile,
+    };
+  }
+
+  const documents =
+    await prisma.numberRegulatoryDocument.findMany({
+      where: {
+        profileId: profile.id,
+      },
+    });
+
+  const api = getProvider(key.provider);
+
+  if (
+    !api ||
+    typeof api.getRegulations !== 'function' ||
+    typeof api.listRegulatoryBundleItems !== 'function' ||
+    typeof api.submitRegulatoryBundle !== 'function' ||
+    typeof api.normalizeRegulatoryBundleStatus !==
+      'function'
+  ) {
+    return {
+      submitted: false,
+      reason: 'provider-submission-unsupported',
+      profile,
+    };
+  }
+
+  let regulations;
+
+  try {
+    regulations =
+      await api.getRegulations({
+        country: key.isoCountry,
+        numberType: key.numberType,
+        endUserType: key.endUserType,
+        includeConstraints: true,
+      });
+  } catch {
+    return {
+      submitted: false,
+      reason: 'regulation-lookup-failed',
+      profile,
+    };
+  }
+
+  const matchingRegulations =
+    Array.isArray(regulations)
+      ? regulations.filter(
+          (regulation) =>
+            String(regulation?.sid || '').trim() ===
+            regulationSid
+        )
+      : [];
+
+  if (matchingRegulations.length !== 1) {
+    return {
+      submitted: false,
+      reason: 'regulation-not-found',
+      profile,
+    };
+  }
+
+  const requirementGroups =
+    getRegulatorySupportingDocumentRequirements(
+      matchingRegulations[0].requirements || {}
+    );
+
+  const requiredRequirementNames =
+    [
+      ...new Set(
+        requirementGroups
+          .flat()
+          .map((requirement) =>
+            String(
+              requirement?.requirementName || ''
+            ).trim()
+          )
+          .filter(Boolean)
+      ),
+    ];
+
+  const documentsByRequirement =
+    new Map(
+      documents.map((document) => [
+        String(
+          document.requirementName || ''
+        ).trim(),
+        document,
+      ])
+    );
+
+  const requiredDocuments =
+    requiredRequirementNames.map(
+      (requirementName) =>
+        documentsByRequirement.get(
+          requirementName
+        )
+    );
+
+  const missingRequirementNames =
+    requiredRequirementNames.filter(
+      (requirementName) => {
+        const document =
+          documentsByRequirement.get(
+            requirementName
+          );
+
+        return !/^RD[a-f0-9]{32}$/i.test(
+          String(
+            document?.supportingDocumentSid || ''
+          ).trim()
+        );
+      }
+    );
+
+  if (missingRequirementNames.length > 0) {
+    return {
+      submitted: false,
+      reason: 'supporting-documents-incomplete',
+      profile,
+      missingRequirementNames,
+    };
+  }
+
+  const requiredObjectSids = [
+    endUserSid,
+    ...requiredDocuments.map((document) =>
+      String(
+        document.supportingDocumentSid
+      ).trim()
+    ),
+  ];
+
+  let assignments;
+
+  try {
+    assignments =
+      await api.listRegulatoryBundleItems({
+        bundleSid,
+      });
+  } catch {
+    return {
+      submitted: false,
+      reason: 'bundle-assignment-lookup-failed',
+      profile,
+    };
+  }
+
+  const assignedObjectSids =
+    new Set(
+      (Array.isArray(assignments)
+        ? assignments
+        : []
+      )
+        .map((assignment) =>
+          String(
+            assignment?.objectSid || ''
+          ).trim()
+        )
+        .filter(Boolean)
+    );
+
+  const missingObjectSids =
+    requiredObjectSids.filter(
+      (objectSid) =>
+        !assignedObjectSids.has(objectSid)
+    );
+
+  if (missingObjectSids.length > 0) {
+    return {
+      submitted: false,
+      reason: 'bundle-incomplete',
+      profile,
+      missingObjectSids,
+    };
+  }
+
+  let bundle;
+
+  try {
+    bundle =
+      await api.submitRegulatoryBundle({
+        bundleSid,
+      });
+  } catch {
+    return {
+      submitted: false,
+      reason: 'bundle-submission-failed',
+      profile,
+    };
+  }
+
+  const providerStatus =
+    bundle?.status == null
+      ? null
+      : String(bundle.status);
+
+  const normalizedStatus =
+    bundle?.normalizedStatus ||
+    api.normalizeRegulatoryBundleStatus(
+      providerStatus
+    );
+
+  if (normalizedStatus !== 'PENDING_REVIEW') {
+    return {
+      submitted: false,
+      reason: 'unexpected-submission-status',
+      profile,
+      providerStatus,
+    };
+  }
+
+  const now = new Date();
+
+  const updated =
+    await prisma.numberRegulatoryProfile.update({
+      where: {
+        id: profile.id,
+      },
+      data: {
+        status: 'PENDING_REVIEW',
+        providerStatus,
+        submittedAt:
+          profile.submittedAt || now,
+        validUntil:
+          bundle?.validUntil ??
+          profile.validUntil,
+        rejectionReason: null,
+      },
+    });
+
+  return {
+    submitted: true,
+    reason: null,
+    profile: updated,
+  };
+}
+
 export async function assembleRegulatoryBundle({
   userId,
   provider = PROFILE_PROVIDER,
