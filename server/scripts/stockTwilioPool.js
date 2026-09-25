@@ -566,6 +566,10 @@ async function safeUpsertPreservingAssignment(
           data.isoCountry ??
           null,
 
+        regulatoryNumberType:
+          data.regulatoryNumberType ??
+          null,
+
         areaCode:
           data.areaCode ??
           null,
@@ -1021,6 +1025,11 @@ async function main() {
             ),
 
           isoCountry,
+
+          regulatoryNumberType:
+            type === 'tollfree'
+              ? 'toll-free'
+              : type,
 
           capabilities,
 
