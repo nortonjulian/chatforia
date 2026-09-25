@@ -12,6 +12,8 @@ const bundleCreateMock = jest.fn();
 const itemAssignmentCreateMock = jest.fn();
 const bundleFetchMock = jest.fn();
 const bundleUpdateMock = jest.fn();
+const supportingDocumentTypeListMock = jest.fn();
+const supportingDocumentCreateMock = jest.fn();
 
 const bundleContextMock = jest.fn(() => ({
   itemAssignments: {
@@ -35,6 +37,12 @@ await jest.unstable_mockModule('twilio', () => {
               create: bundleCreateMock,
             }
           ),
+          supportingDocumentTypes: {
+            list: supportingDocumentTypeListMock,
+          },
+          supportingDocuments: {
+            create: supportingDocumentCreateMock,
+          },
         },
       },
     },
@@ -276,6 +284,226 @@ describe('Twilio regulatory lifecycle primitives', () => {
     expect(result.normalizedStatus).toBe(
       'PENDING_REVIEW'
     );
+  });
+
+  test('lists normalized regulatory Supporting Document Types', async () => {
+    supportingDocumentTypeListMock.mockResolvedValue([
+      {
+        sid: 'SCT00000000000000000000000000000001',
+        friendlyName: 'Australian Passport',
+        machineName: 'passport',
+        fields: [
+          'document_number',
+          'document_expiration_date',
+          'document_issuing_country',
+        ],
+        url:
+          'https://api.twilio.com/supporting-document-types/1',
+      },
+      {
+        sid: 'SCT00000000000000000000000000000002',
+        friendlyName: 'Government Issued ID',
+        machineName: 'government_issued_document',
+        fields: [
+          'document_number',
+          'document_expiration_date',
+        ],
+        url:
+          'https://api.twilio.com/supporting-document-types/2',
+      },
+    ]);
+
+    const result =
+      await twilio.listRegulatorySupportingDocumentTypes({
+        limit: 25,
+      });
+
+    expect(
+      supportingDocumentTypeListMock
+    ).toHaveBeenCalledWith({
+      limit: 25,
+    });
+
+    expect(result).toEqual([
+      {
+        sid:
+          'SCT00000000000000000000000000000001',
+        friendlyName: 'Australian Passport',
+        machineName: 'passport',
+        fields: [
+          'document_number',
+          'document_expiration_date',
+          'document_issuing_country',
+        ],
+        url:
+          'https://api.twilio.com/supporting-document-types/1',
+      },
+      {
+        sid:
+          'SCT00000000000000000000000000000002',
+        friendlyName: 'Government Issued ID',
+        machineName:
+          'government_issued_document',
+        fields: [
+          'document_number',
+          'document_expiration_date',
+        ],
+        url:
+          'https://api.twilio.com/supporting-document-types/2',
+      },
+    ]);
+  });
+
+  test('uses the default Supporting Document Type limit', async () => {
+    supportingDocumentTypeListMock.mockResolvedValue([]);
+
+    await twilio.listRegulatorySupportingDocumentTypes();
+
+    expect(
+      supportingDocumentTypeListMock
+    ).toHaveBeenCalledWith({
+      limit: 100,
+    });
+  });
+
+  test('rejects an invalid Supporting Document Type limit', async () => {
+    await expect(
+      twilio.listRegulatorySupportingDocumentTypes({
+        limit: 0,
+      })
+    ).rejects.toThrow(
+      'limit must be an integer between 1 and 1000'
+    );
+
+    await expect(
+      twilio.listRegulatorySupportingDocumentTypes({
+        limit: 1001,
+      })
+    ).rejects.toThrow(
+      'limit must be an integer between 1 and 1000'
+    );
+
+    expect(
+      supportingDocumentTypeListMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('creates a normalized regulatory Supporting Document', async () => {
+    supportingDocumentCreateMock.mockResolvedValue({
+      sid:
+        'SD00000000000000000000000000000001',
+      accountSid: 'AC_test',
+      friendlyName: 'Australian Passport',
+      mimeType: 'image/jpeg',
+      status: 'draft',
+      failureReason: null,
+      errors: [],
+      type: 'passport',
+      attributes: {
+        document_number: 'ABC123',
+        document_issuing_country: 'AU',
+      },
+      dateCreated:
+        new Date('2026-09-24T00:00:00.000Z'),
+      dateUpdated:
+        new Date('2026-09-24T00:00:00.000Z'),
+      url:
+        'https://api.twilio.com/supporting-documents/1',
+    });
+
+    const result =
+      await twilio.createRegulatorySupportingDocument({
+        friendlyName: ' Australian Passport ',
+        type: ' passport ',
+        attributes: {
+          document_number: 'ABC123',
+          document_issuing_country: 'AU',
+        },
+      });
+
+    expect(
+      supportingDocumentCreateMock
+    ).toHaveBeenCalledWith({
+      friendlyName: 'Australian Passport',
+      type: 'passport',
+      attributes: {
+        document_number: 'ABC123',
+        document_issuing_country: 'AU',
+      },
+    });
+
+    expect(result.sid).toBe(
+      'SD00000000000000000000000000000001'
+    );
+    expect(result.type).toBe('passport');
+    expect(result.status).toBe('draft');
+    expect(result.attributes).toEqual({
+      document_number: 'ABC123',
+      document_issuing_country: 'AU',
+    });
+  });
+
+  test('creates a Supporting Document without optional attributes', async () => {
+    supportingDocumentCreateMock.mockResolvedValue({
+      sid:
+        'SD00000000000000000000000000000002',
+      friendlyName: 'Passport',
+      type: 'passport',
+      status: 'draft',
+    });
+
+    const result =
+      await twilio.createRegulatorySupportingDocument({
+        friendlyName: 'Passport',
+        type: 'passport',
+      });
+
+    expect(
+      supportingDocumentCreateMock
+    ).toHaveBeenCalledWith({
+      friendlyName: 'Passport',
+      type: 'passport',
+    });
+
+    expect(result.sid).toBe(
+      'SD00000000000000000000000000000002'
+    );
+    expect(result.attributes).toEqual({});
+    expect(result.errors).toEqual([]);
+  });
+
+  test('rejects invalid Supporting Document inputs before Twilio calls', async () => {
+    await expect(
+      twilio.createRegulatorySupportingDocument({
+        friendlyName: ' ',
+        type: 'passport',
+      })
+    ).rejects.toThrow(
+      'friendlyName is required'
+    );
+
+    await expect(
+      twilio.createRegulatorySupportingDocument({
+        friendlyName: 'Passport',
+        type: ' ',
+      })
+    ).rejects.toThrow(
+      'type is required'
+    );
+
+    await expect(
+      twilio.createRegulatorySupportingDocument({
+        friendlyName: 'Passport',
+        type: 'passport',
+        attributes: [],
+      })
+    ).rejects.toThrow(
+      'attributes must be an object'
+    );
+
+    expect(
+      supportingDocumentCreateMock
+    ).not.toHaveBeenCalled();
   });
 
   test('rejects invalid lifecycle inputs before Twilio calls', async () => {
