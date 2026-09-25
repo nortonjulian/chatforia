@@ -1676,6 +1676,120 @@ export async function assembleRegulatoryBundle({
   };
 }
 
+function getRegulatorySupportingDocumentTypeFieldNames(
+  fields
+) {
+  if (!Array.isArray(fields)) {
+    return {
+      recognized: false,
+      fields: [],
+    };
+  }
+
+  const names = [];
+
+  for (const field of fields) {
+    let name = null;
+
+    if (typeof field === 'string') {
+      name = field.trim();
+    } else if (
+      field &&
+      typeof field === 'object' &&
+      !Array.isArray(field)
+    ) {
+      const candidate =
+        field.machine_name ??
+        field.machineName ??
+        field.name ??
+        field.field_name ??
+        field.fieldName ??
+        field.key;
+
+      if (typeof candidate === 'string') {
+        name = candidate.trim();
+      } else {
+        return {
+          recognized: false,
+          fields: [],
+        };
+      }
+    } else {
+      return {
+        recognized: false,
+        fields: [],
+      };
+    }
+
+    if (name && !names.includes(name)) {
+      names.push(name);
+    }
+  }
+
+  return {
+    recognized: true,
+    fields: names,
+  };
+}
+
+function validateRegulatorySupportingDocumentAttributes({
+  fields,
+  attributes,
+}) {
+  const fieldSchema =
+    getRegulatorySupportingDocumentTypeFieldNames(
+      fields
+    );
+
+  if (!fieldSchema.recognized) {
+    return {
+      valid: false,
+      schemaRecognized: false,
+      requiredFields: [],
+      missingFields: [],
+      attributes: {},
+    };
+  }
+
+  const submitted =
+    attributes &&
+    typeof attributes === 'object' &&
+    !Array.isArray(attributes)
+      ? attributes
+      : {};
+
+  const missingFields =
+    fieldSchema.fields.filter(
+      (field) =>
+        !isPresentRegulatoryValue(
+          submitted[field]
+        )
+    );
+
+  const normalizedAttributes = {};
+
+  for (const field of fieldSchema.fields) {
+    if (
+      isPresentRegulatoryValue(
+        submitted[field]
+      )
+    ) {
+      normalizedAttributes[field] =
+        typeof submitted[field] === 'string'
+          ? submitted[field].trim()
+          : submitted[field];
+    }
+  }
+
+  return {
+    valid: missingFields.length === 0,
+    schemaRecognized: true,
+    requiredFields: fieldSchema.fields,
+    missingFields,
+    attributes: normalizedAttributes,
+  };
+}
+
 export async function provisionRegulatorySupportingDocument({
   userId,
   provider = PROFILE_PROVIDER,
@@ -1686,6 +1800,7 @@ export async function provisionRegulatorySupportingDocument({
   documentType,
   attributes,
   friendlyName,
+  file,
 }) {
   const key = normalizeProfileKey({
     userId,
@@ -1845,41 +1960,160 @@ export async function provisionRegulatorySupportingDocument({
     };
   }
 
-  if (
-    !api ||
-    typeof api.createRegulatorySupportingDocument !==
-      'function'
-  ) {
-    return {
-      provisioned: false,
-      reused: false,
-      reason: 'provider-supporting-document-unsupported',
-      document: existing || null,
-      requirement,
-    };
-  }
+  const cleanFriendlyName =
+    String(
+      friendlyName ||
+      `Chatforia ${key.isoCountry} ${cleanRequirementName}`
+    ).trim();
+
+  const hasFile =
+    file !== null &&
+    file !== undefined;
 
   let supportingDocument;
 
-  try {
-    supportingDocument =
-      await api.createRegulatorySupportingDocument({
-        friendlyName:
-          String(
-            friendlyName ||
-            `Chatforia ${key.isoCountry} ${cleanRequirementName}`
-          ).trim(),
-        type: cleanDocumentType,
+  if (hasFile) {
+    if (
+      !api ||
+      typeof api.listRegulatorySupportingDocumentTypes !==
+        'function' ||
+      typeof api.uploadRegulatorySupportingDocument !==
+        'function'
+    ) {
+      return {
+        provisioned: false,
+        reused: false,
+        reason: 'provider-supporting-document-upload-unsupported',
+        document: existing || null,
+        requirement,
+      };
+    }
+
+    let supportingDocumentTypes;
+
+    try {
+      supportingDocumentTypes =
+        await api.listRegulatorySupportingDocumentTypes();
+    } catch {
+      return {
+        provisioned: false,
+        reused: false,
+        reason: 'supporting-document-type-lookup-failed',
+        document: existing || null,
+        requirement,
+      };
+    }
+
+    const matchingDocumentTypes =
+      Array.isArray(supportingDocumentTypes)
+        ? supportingDocumentTypes.filter(
+            (type) =>
+              String(
+                type?.machineName || ''
+              ).trim() === cleanDocumentType
+          )
+        : [];
+
+    if (matchingDocumentTypes.length !== 1) {
+      return {
+        provisioned: false,
+        reused: false,
+        reason: 'supporting-document-type-not-found',
+        document: existing || null,
+        requirement,
+      };
+    }
+
+    const documentTypeDefinition =
+      matchingDocumentTypes[0];
+
+    const attributeValidation =
+      validateRegulatorySupportingDocumentAttributes({
+        fields:
+          documentTypeDefinition.fields,
         attributes,
       });
-  } catch {
-    return {
-      provisioned: false,
-      reused: false,
-      reason: 'supporting-document-creation-failed',
-      document: existing || null,
-      requirement,
-    };
+
+    if (!attributeValidation.schemaRecognized) {
+      return {
+        provisioned: false,
+        reused: false,
+        reason: 'supporting-document-field-schema-unsupported',
+        document: existing || null,
+        requirement,
+      };
+    }
+
+    if (!attributeValidation.valid) {
+      return {
+        provisioned: false,
+        reused: false,
+        reason: 'supporting-document-attributes-incomplete',
+        document: existing || null,
+        requirement,
+        requiredFields:
+          attributeValidation.requiredFields,
+        missingFields:
+          attributeValidation.missingFields,
+      };
+    }
+
+    try {
+      supportingDocument =
+        await api.uploadRegulatorySupportingDocument({
+          friendlyName: cleanFriendlyName,
+          type: cleanDocumentType,
+          attributes:
+            attributeValidation.attributes,
+          fileBuffer: file?.buffer,
+          fileName:
+            file?.originalname ||
+            file?.fileName ||
+            file?.filename,
+          mimeType:
+            file?.mimetype ||
+            file?.mimeType,
+        });
+    } catch {
+      return {
+        provisioned: false,
+        reused: false,
+        reason: 'supporting-document-upload-failed',
+        document: existing || null,
+        requirement,
+      };
+    }
+  } else {
+    if (
+      !api ||
+      typeof api.createRegulatorySupportingDocument !==
+        'function'
+    ) {
+      return {
+        provisioned: false,
+        reused: false,
+        reason: 'provider-supporting-document-unsupported',
+        document: existing || null,
+        requirement,
+      };
+    }
+
+    try {
+      supportingDocument =
+        await api.createRegulatorySupportingDocument({
+          friendlyName: cleanFriendlyName,
+          type: cleanDocumentType,
+          attributes,
+        });
+    } catch {
+      return {
+        provisioned: false,
+        reused: false,
+        reason: 'supporting-document-creation-failed',
+        document: existing || null,
+        requirement,
+      };
+    }
   }
 
   const supportingDocumentSid =

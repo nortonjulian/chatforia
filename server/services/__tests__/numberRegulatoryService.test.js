@@ -16,6 +16,8 @@ const getRegulatoryBundleMock = jest.fn();
 const getRegulationsMock = jest.fn();
 const createRegulatoryEndUserMock = jest.fn();
 const createRegulatorySupportingDocumentMock = jest.fn();
+const listRegulatorySupportingDocumentTypesMock = jest.fn();
+const uploadRegulatorySupportingDocumentMock = jest.fn();
 const createRegulatoryBundleMock = jest.fn();
 const listRegulatoryBundleItemsMock = jest.fn();
 const assignRegulatoryItemMock = jest.fn();
@@ -45,6 +47,10 @@ const mockProvider = {
     createRegulatoryEndUserMock,
   createRegulatorySupportingDocument:
     createRegulatorySupportingDocumentMock,
+  listRegulatorySupportingDocumentTypes:
+    listRegulatorySupportingDocumentTypesMock,
+  uploadRegulatorySupportingDocument:
+    uploadRegulatorySupportingDocumentMock,
   createRegulatoryBundle:
     createRegulatoryBundleMock,
   listRegulatoryBundleItems:
@@ -2041,6 +2047,397 @@ describe('numberRegulatoryService', () => {
       ).toBe(
         'RD55555555555555555555555555555555'
       );
+    });
+
+    test('uploads and persists an accepted Supporting Document file', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      documentFindUniqueMock.mockResolvedValue(
+        null
+      );
+
+      listRegulatorySupportingDocumentTypesMock
+        .mockResolvedValue([
+          {
+            machineName: 'passport',
+            fields: [
+              'document_number',
+              'document_issuing_country',
+            ],
+          },
+        ]);
+
+      uploadRegulatorySupportingDocumentMock
+        .mockResolvedValue({
+          sid:
+            'RD66666666666666666666666666666666',
+          status: 'draft',
+          failureReason: null,
+          type: 'passport',
+        });
+
+      documentUpsertMock.mockImplementation(
+        async ({ create }) => ({
+          id: 902,
+          ...create,
+        })
+      );
+
+      const fileBuffer = Buffer.from(
+        '%PDF-test'
+      );
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+          attributes: {
+            document_number: ' P1234567 ',
+            document_issuing_country: ' AU ',
+            ignored_field: 'do-not-forward',
+          },
+          friendlyName:
+            ' Chatforia Passport Upload ',
+          file: {
+            buffer: fileBuffer,
+            originalname: 'passport.pdf',
+            mimetype: 'application/pdf',
+          },
+        });
+
+      expect(
+        listRegulatorySupportingDocumentTypesMock
+      ).toHaveBeenCalledTimes(1);
+
+      expect(
+        uploadRegulatorySupportingDocumentMock
+      ).toHaveBeenCalledWith({
+        friendlyName:
+          'Chatforia Passport Upload',
+        type: 'passport',
+        attributes: {
+          document_number: 'P1234567',
+          document_issuing_country: 'AU',
+        },
+        fileBuffer,
+        fileName: 'passport.pdf',
+        mimeType: 'application/pdf',
+      });
+
+      expect(
+        createRegulatorySupportingDocumentMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        documentUpsertMock
+      ).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({
+            documentType: 'passport',
+            supportingDocumentSid:
+              'RD66666666666666666666666666666666',
+            providerStatus: 'draft',
+            failureReason: null,
+          }),
+        })
+      );
+
+      expect(result.provisioned).toBe(true);
+      expect(result.reused).toBe(false);
+      expect(
+        result.document.supportingDocumentSid
+      ).toBe(
+        'RD66666666666666666666666666666666'
+      );
+    });
+
+    test('fails closed when uploaded Supporting Document attributes are incomplete', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      documentFindUniqueMock.mockResolvedValue(
+        null
+      );
+
+      listRegulatorySupportingDocumentTypesMock
+        .mockResolvedValue([
+          {
+            machineName: 'passport',
+            fields: [
+              'document_number',
+              'document_issuing_country',
+            ],
+          },
+        ]);
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+          attributes: {
+            document_number: 'P1234567',
+          },
+          file: {
+            buffer: Buffer.from('%PDF-test'),
+            originalname: 'passport.pdf',
+            mimetype: 'application/pdf',
+          },
+        });
+
+      expect(result.provisioned).toBe(false);
+      expect(result.reason).toBe(
+        'supporting-document-attributes-incomplete'
+      );
+      expect(result.requiredFields).toEqual([
+        'document_number',
+        'document_issuing_country',
+      ]);
+      expect(result.missingFields).toEqual([
+        'document_issuing_country',
+      ]);
+
+      expect(
+        uploadRegulatorySupportingDocumentMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        documentUpsertMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('fails closed for an unrecognized Supporting Document field schema', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      documentFindUniqueMock.mockResolvedValue(
+        null
+      );
+
+      listRegulatorySupportingDocumentTypesMock
+        .mockResolvedValue([
+          {
+            machineName: 'passport',
+            fields: [
+              {
+                unexpected_shape: true,
+              },
+            ],
+          },
+        ]);
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+          attributes: {},
+          file: {
+            buffer: Buffer.from('%PDF-test'),
+            originalname: 'passport.pdf',
+            mimetype: 'application/pdf',
+          },
+        });
+
+      expect(result.provisioned).toBe(false);
+      expect(result.reason).toBe(
+        'supporting-document-field-schema-unsupported'
+      );
+
+      expect(
+        uploadRegulatorySupportingDocumentMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        documentUpsertMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('fails closed when Supporting Document Type lookup fails', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      documentFindUniqueMock.mockResolvedValue(
+        null
+      );
+
+      listRegulatorySupportingDocumentTypesMock
+        .mockRejectedValue(
+          new Error('Twilio unavailable')
+        );
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+          file: {
+            buffer: Buffer.from('%PDF-test'),
+            originalname: 'passport.pdf',
+            mimetype: 'application/pdf',
+          },
+        });
+
+      expect(result.provisioned).toBe(false);
+      expect(result.reason).toBe(
+        'supporting-document-type-lookup-failed'
+      );
+
+      expect(
+        uploadRegulatorySupportingDocumentMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        documentUpsertMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('fails closed when Supporting Document upload fails', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      documentFindUniqueMock.mockResolvedValue(
+        null
+      );
+
+      listRegulatorySupportingDocumentTypesMock
+        .mockResolvedValue([
+          {
+            machineName: 'passport',
+            fields: [],
+          },
+        ]);
+
+      uploadRegulatorySupportingDocumentMock
+        .mockRejectedValue(
+          new Error('Twilio unavailable')
+        );
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+          file: {
+            buffer: Buffer.from('%PDF-test'),
+            originalname: 'passport.pdf',
+            mimetype: 'application/pdf',
+          },
+        });
+
+      expect(result.provisioned).toBe(false);
+      expect(result.reason).toBe(
+        'supporting-document-upload-failed'
+      );
+
+      expect(
+        createRegulatorySupportingDocumentMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        documentUpsertMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('fails closed when uploaded Supporting Document returns an invalid SID', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      documentFindUniqueMock.mockResolvedValue(
+        null
+      );
+
+      listRegulatorySupportingDocumentTypesMock
+        .mockResolvedValue([
+          {
+            machineName: 'passport',
+            fields: [],
+          },
+        ]);
+
+      uploadRegulatorySupportingDocumentMock
+        .mockResolvedValue({
+          sid: 'BAD_SID',
+          status: 'draft',
+          failureReason: null,
+        });
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+          file: {
+            buffer: Buffer.from('%PDF-test'),
+            originalname: 'passport.pdf',
+            mimetype: 'application/pdf',
+          },
+        });
+
+      expect(result.provisioned).toBe(false);
+      expect(result.reason).toBe(
+        'invalid-supporting-document'
+      );
+
+      expect(
+        documentUpsertMock
+      ).not.toHaveBeenCalled();
     });
 
     test('rejects a document type not accepted by the requirement', async () => {
