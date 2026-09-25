@@ -20,6 +20,7 @@ let evaluateNumberRegulatoryComplianceMock;
 let initializeNumberRegulatoryVerificationMock;
 let provisionRegulatorySupportingDocumentMock;
 let assembleRegulatoryBundleMock;
+let submitNumberRegulatoryBundleMock;
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => {
   prismaMock = {
@@ -87,6 +88,9 @@ await jest.unstable_mockModule(
     assembleRegulatoryBundleMock =
       jest.fn();
 
+    submitNumberRegulatoryBundleMock =
+      jest.fn();
+
     return {
       __esModule: true,
       evaluateNumberRegulatoryCompliance:
@@ -97,6 +101,8 @@ await jest.unstable_mockModule(
         provisionRegulatorySupportingDocumentMock,
       assembleRegulatoryBundle:
         assembleRegulatoryBundleMock,
+      submitNumberRegulatoryBundle:
+        submitNumberRegulatoryBundleMock,
     };
   }
 );
@@ -1740,6 +1746,211 @@ describe('POST /numbers/regulatory/assemble', () => {
 
     expect(res.body).toEqual({
       error: 'Regulatory Bundle assembly failed',
+    });
+
+    expect(
+      JSON.stringify(res.body)
+    ).not.toContain(
+      'sensitive Twilio failure'
+    );
+  });
+});
+
+describe('POST /numbers/regulatory/submit', () => {
+  const candidate = {
+    id: 191,
+    e164: '+61255550191',
+    status: 'AVAILABLE',
+    provider: 'twilio',
+    isoCountry: 'AU',
+    regulatoryNumberType: 'local',
+    isLeasable: true,
+    isPurchasable: false,
+  };
+
+  test('submits using regulatory identity from persisted inventory', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    const result = {
+      submitted: true,
+      reason: null,
+      profile: {
+        id: 10,
+        userId: 123,
+        provider: 'twilio',
+        isoCountry: 'AU',
+        numberType: 'local',
+        endUserType: 'individual',
+        status: 'PENDING_REVIEW',
+        providerStatus: 'pending-review',
+      },
+    };
+
+    submitNumberRegulatoryBundleMock
+      .mockResolvedValueOnce(result);
+
+    const res = await request(app)
+      .post('/numbers/regulatory/submit')
+      .send({
+        e164: candidate.e164,
+
+        // These must not control regulatory identity.
+        provider: 'other',
+        country: 'US',
+        numberType: 'mobile',
+        endUserType: 'business',
+        profileId: 999,
+        regulationSid:
+          'RN99999999999999999999999999999999',
+        bundleSid:
+          'BU99999999999999999999999999999999',
+        status: 'twilio-approved',
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).toHaveBeenCalledWith({
+      where: {
+        e164: candidate.e164,
+        status: 'AVAILABLE',
+        isLeasable: true,
+      },
+    });
+
+    expect(
+      submitNumberRegulatoryBundleMock
+    ).toHaveBeenCalledWith({
+      userId: 123,
+      provider: 'twilio',
+      country: 'AU',
+      numberType: 'local',
+      endUserType: 'individual',
+    });
+
+    expect(res.body).toEqual(result);
+  });
+
+  test('requires e164', async () => {
+    const res = await request(app)
+      .post('/numbers/regulatory/submit')
+      .send({})
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(400);
+
+    expect(res.body).toEqual({
+      error: 'e164 required',
+    });
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).not.toHaveBeenCalled();
+
+    expect(
+      submitNumberRegulatoryBundleMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('rejects a number that is not available inventory', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .post('/numbers/regulatory/submit')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(404);
+
+    expect(res.body).toEqual({
+      error: 'Number not available',
+    });
+
+    expect(
+      submitNumberRegulatoryBundleMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('fails closed when persisted regulatory type is unknown', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce({
+        ...candidate,
+        regulatoryNumberType: null,
+      });
+
+    const res = await request(app)
+      .post('/numbers/regulatory/submit')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body).toEqual({
+      error: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+      decision: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+    });
+
+    expect(
+      submitNumberRegulatoryBundleMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('returns structured submission failure', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    submitNumberRegulatoryBundleMock
+      .mockResolvedValueOnce({
+        submitted: false,
+        reason: 'bundle-incomplete',
+        missingObjectSids: [
+          'RD55555555555555555555555555555555',
+        ],
+      });
+
+    const res = await request(app)
+      .post('/numbers/regulatory/submit')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+    expect(res.body.submitted).toBe(false);
+    expect(res.body.reason).toBe(
+      'bundle-incomplete'
+    );
+  });
+
+  test('does not expose provider errors when submission throws', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    submitNumberRegulatoryBundleMock
+      .mockRejectedValueOnce(
+        new Error('sensitive Twilio failure')
+      );
+
+    const res = await request(app)
+      .post('/numbers/regulatory/submit')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(502);
+
+    expect(res.body).toEqual({
+      error:
+        'Regulatory Bundle submission failed',
     });
 
     expect(
