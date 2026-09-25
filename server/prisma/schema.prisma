@@ -1651,6 +1651,7 @@ model NumberReservation {
   id            Int      @id @default(autoincrement())
   phoneNumberId Int
   userId        Int
+  purpose       String   @default("LEGACY_SELECTION")
   expiresAt     DateTime
   createdAt     DateTime @default(now())
 
@@ -1658,6 +1659,8 @@ model NumberReservation {
   user  User        @relation("UserNumberReservations", fields: [userId], references: [id])
 
   @@index([expiresAt])
+  @@index([phoneNumberId, purpose, expiresAt])
+  @@index([userId, purpose, expiresAt])
 }
 
 model PortRequest {
