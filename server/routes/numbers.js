@@ -846,6 +846,22 @@ router.post(
     }
 
     try {
+      const webhookBase = String(
+        process.env.TWILIO_WEBHOOK_BASE_URL || ''
+      )
+        .trim()
+        .replace(/\/+$/, '');
+
+      if (!webhookBase) {
+        return res.status(503).json({
+          error:
+            'Regulatory status callback is not configured',
+        });
+      }
+
+      const statusCallback =
+        `${webhookBase}/webhooks/twilio/regulatory-status`;
+
       const result =
         await assembleRegulatoryBundle({
           userId,
@@ -856,6 +872,7 @@ router.post(
           endUserType: 'individual',
           email,
           friendlyName,
+          statusCallback,
         });
 
       if (!result.assembled) {
