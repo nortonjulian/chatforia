@@ -19,6 +19,7 @@ const createRegulatorySupportingDocumentMock = jest.fn();
 const createRegulatoryBundleMock = jest.fn();
 const listRegulatoryBundleItemsMock = jest.fn();
 const assignRegulatoryItemMock = jest.fn();
+const submitRegulatoryBundleMock = jest.fn();
 const normalizeStatusMock = jest.fn();
 
 const mockPrisma = {
@@ -50,6 +51,8 @@ const mockProvider = {
     listRegulatoryBundleItemsMock,
   assignRegulatoryItem:
     assignRegulatoryItemMock,
+  submitRegulatoryBundle:
+    submitRegulatoryBundleMock,
   normalizeRegulatoryBundleStatus:
     normalizeStatusMock,
 };
@@ -83,6 +86,7 @@ const {
   initializeNumberRegulatoryVerification,
   provisionRegulatorySupportingDocument,
   assembleRegulatoryBundle,
+  submitNumberRegulatoryBundle,
   getRequiredRegulatoryEndUserFields,
   validateRegulatoryEndUserAttributes,
   getRegulatorySupportingDocumentRequirements,
@@ -1248,6 +1252,219 @@ describe('numberRegulatoryService', () => {
 
   });
 
+
+  describe('regulatory Bundle submission', () => {
+    const submissionRegulation = {
+      sid: 'RN11111111111111111111111111111111',
+      requirements: {
+        supporting_document: [
+          [
+            {
+              requirement_name:
+                'proof_of_identity_info',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name: 'Australian Passport',
+                  type: 'passport',
+                },
+              ],
+            },
+          ],
+        ],
+      },
+    };
+
+    const submissionDocument = {
+      id: 950,
+      profileId: 7,
+      requirementName:
+        'proof_of_identity_info',
+      documentType: 'passport',
+      supportingDocumentSid:
+        'RD55555555555555555555555555555555',
+      providerStatus: 'draft',
+      failureReason: null,
+    };
+
+    test('submits a complete DRAFT Bundle and persists PENDING_REVIEW', async () => {
+      const profile = baseProfile({
+        status: 'DRAFT',
+        providerStatus: 'draft',
+        submittedAt: null,
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      documentFindManyMock.mockResolvedValue([
+        submissionDocument,
+      ]);
+
+      getRegulationsMock.mockResolvedValue([
+        submissionRegulation,
+      ]);
+
+      listRegulatoryBundleItemsMock
+        .mockResolvedValue([
+          {
+            objectSid: profile.endUserSid,
+          },
+          {
+            objectSid:
+              submissionDocument.supportingDocumentSid,
+          },
+        ]);
+
+      submitRegulatoryBundleMock
+        .mockResolvedValue({
+          sid: BU,
+          status: 'pending-review',
+          normalizedStatus:
+            'PENDING_REVIEW',
+          validUntil: null,
+        });
+
+      const updated = {
+        ...profile,
+        status: 'PENDING_REVIEW',
+        providerStatus: 'pending-review',
+        submittedAt: new Date(),
+      };
+
+      updateMock.mockResolvedValue(updated);
+
+      const result =
+        await submitNumberRegulatoryBundle({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+        });
+
+      expect(
+        listRegulatoryBundleItemsMock
+      ).toHaveBeenCalledWith({
+        bundleSid: BU,
+      });
+
+      expect(
+        submitRegulatoryBundleMock
+      ).toHaveBeenCalledWith({
+        bundleSid: BU,
+      });
+
+      expect(updateMock).toHaveBeenCalledTimes(1);
+
+      const updateCall =
+        updateMock.mock.calls[0][0];
+
+      expect(updateCall.where).toEqual({
+        id: profile.id,
+      });
+
+      expect(updateCall.data.status).toBe(
+        'PENDING_REVIEW'
+      );
+
+      expect(
+        updateCall.data.providerStatus
+      ).toBe('pending-review');
+
+      expect(
+        updateCall.data.submittedAt
+      ).toBeInstanceOf(Date);
+
+      expect(result.submitted).toBe(true);
+      expect(result.reason).toBeNull();
+    });
+
+    test('does not submit when Twilio Bundle assignments are incomplete', async () => {
+      const profile = baseProfile({
+        status: 'DRAFT',
+        providerStatus: 'draft',
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      documentFindManyMock.mockResolvedValue([
+        submissionDocument,
+      ]);
+
+      getRegulationsMock.mockResolvedValue([
+        submissionRegulation,
+      ]);
+
+      listRegulatoryBundleItemsMock
+        .mockResolvedValue([
+          {
+            objectSid: profile.endUserSid,
+          },
+        ]);
+
+      const result =
+        await submitNumberRegulatoryBundle({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+        });
+
+      expect(result.submitted).toBe(false);
+      expect(result.reason).toBe(
+        'bundle-incomplete'
+      );
+
+      expect(result.missingObjectSids).toEqual([
+        submissionDocument.supportingDocumentSid,
+      ]);
+
+      expect(
+        submitRegulatoryBundleMock
+      ).not.toHaveBeenCalled();
+
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+
+    test('does not resubmit a Bundle that is no longer DRAFT', async () => {
+      const profile = baseProfile({
+        status: 'PENDING_REVIEW',
+        providerStatus: 'pending-review',
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      const result =
+        await submitNumberRegulatoryBundle({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+        });
+
+      expect(result.submitted).toBe(false);
+      expect(result.reason).toBe(
+        'bundle-not-draft'
+      );
+
+      expect(
+        documentFindManyMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        getRegulationsMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        listRegulatoryBundleItemsMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        submitRegulatoryBundleMock
+      ).not.toHaveBeenCalled();
+
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+  });
 
   describe('regulatory Bundle assembly', () => {
     const bundleRegulation = {
