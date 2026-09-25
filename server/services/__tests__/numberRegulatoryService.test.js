@@ -5,6 +5,7 @@
 import { jest } from '@jest/globals';
 
 const findUniqueMock = jest.fn();
+const createMock = jest.fn();
 const upsertMock = jest.fn();
 const updateMock = jest.fn();
 
@@ -15,6 +16,7 @@ const normalizeStatusMock = jest.fn();
 const mockPrisma = {
   numberRegulatoryProfile: {
     findUnique: findUniqueMock,
+    create: createMock,
     upsert: upsertMock,
     update: updateMock,
   },
@@ -55,6 +57,7 @@ const {
   upsertRegulatoryProfile,
   syncRegulatoryBundleStatus,
   evaluateNumberRegulatoryCompliance,
+  initializeNumberRegulatoryVerification,
 } = await import(
   '../numberRegulatoryService.js'
 );
@@ -770,6 +773,227 @@ describe('numberRegulatoryService', () => {
       expect(result.decision).toBe(
         'BLOCKED_STATUS_SYNC'
       );
+    });
+  });
+
+
+  describe('regulatory verification initialization', () => {
+    const candidate = {
+      id: 99,
+      e164: '+61255550123',
+      provider: 'twilio',
+      isoCountry: 'AU',
+      regulatoryNumberType: 'local',
+    };
+
+    const regulation = {
+      sid: 'RN11111111111111111111111111111111',
+      isoCountry: 'AU',
+      numberType: 'local',
+      endUserType: 'individual',
+      requirements: {
+        end_user: [
+          {
+            requirement_name: 'individual_info',
+            type: 'individual',
+            fields: [
+              'first_name',
+              'last_name',
+            ],
+          },
+        ],
+      },
+    };
+
+    test('creates a NOT_STARTED profile for one exact regulation', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      findUniqueMock.mockResolvedValue(null);
+
+      createMock.mockImplementation(
+        async ({ data }) => ({
+          id: 500,
+          ...data,
+        })
+      );
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.initialized).toBe(true);
+      expect(result.reused).toBe(false);
+
+      expect(createMock).toHaveBeenCalledWith({
+        data: {
+          userId: 42,
+          provider: 'twilio',
+          isoCountry: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          regulationSid: regulation.sid,
+          status: 'NOT_STARTED',
+        },
+      });
+
+      expect(result.requirements).toEqual(
+        regulation.requirements
+      );
+    });
+
+    test('reuses an existing matching profile', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      const profile = baseProfile({
+        regulationSid: regulation.sid,
+        status: 'NOT_STARTED',
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.initialized).toBe(true);
+      expect(result.reused).toBe(true);
+      expect(result.profile).toBe(profile);
+
+      expect(createMock).not.toHaveBeenCalled();
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+
+    test('backfills regulation SID on an existing empty profile', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      const profile = baseProfile({
+        regulationSid: null,
+        status: 'NOT_STARTED',
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      updateMock.mockResolvedValue({
+        ...profile,
+        regulationSid: regulation.sid,
+      });
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+        });
+
+      expect(updateMock).toHaveBeenCalledWith({
+        where: {
+          id: profile.id,
+        },
+        data: {
+          regulationSid: regulation.sid,
+        },
+      });
+
+      expect(result.initialized).toBe(true);
+      expect(result.reused).toBe(true);
+    });
+
+    test('fails closed when multiple regulations are returned', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+        {
+          ...regulation,
+          sid: 'RN22222222222222222222222222222222',
+        },
+      ]);
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.initialized).toBe(false);
+      expect(result.reason).toBe(
+        'ambiguous-regulation'
+      );
+
+      expect(findUniqueMock).not.toHaveBeenCalled();
+      expect(createMock).not.toHaveBeenCalled();
+    });
+
+    test('fails closed if an existing profile points at a different regulation', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      const profile = baseProfile({
+        regulationSid:
+          'RN22222222222222222222222222222222',
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.initialized).toBe(false);
+      expect(result.reason).toBe(
+        'regulation-changed'
+      );
+
+      expect(createMock).not.toHaveBeenCalled();
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+
+    test('does not initialize when regulation is not required', async () => {
+      getRegulationsMock.mockResolvedValue([]);
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.initialized).toBe(false);
+      expect(result.reason).toBe(
+        'regulation-not-required'
+      );
+
+      expect(findUniqueMock).not.toHaveBeenCalled();
+      expect(createMock).not.toHaveBeenCalled();
+    });
+
+    test('regulation lookup failure fails closed', async () => {
+      getRegulationsMock.mockRejectedValue(
+        new Error('Twilio unavailable')
+      );
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.initialized).toBe(false);
+      expect(result.reason).toBe(
+        'regulation-lookup-failed'
+      );
+
+      expect(findUniqueMock).not.toHaveBeenCalled();
+      expect(createMock).not.toHaveBeenCalled();
     });
   });
 

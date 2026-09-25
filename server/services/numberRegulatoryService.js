@@ -534,3 +534,180 @@ export async function evaluateNumberRegulatoryCompliance({
     regulation,
   };
 }
+
+export async function initializeNumberRegulatoryVerification({
+  userId,
+  candidate,
+  endUserType = 'individual',
+}) {
+  if (!candidate || typeof candidate !== 'object') {
+    throw new Error('candidate is required');
+  }
+
+  const provider = String(
+    candidate.provider || PROFILE_PROVIDER
+  )
+    .trim()
+    .toLowerCase();
+
+  const country = String(
+    candidate.isoCountry || ''
+  )
+    .trim()
+    .toUpperCase();
+
+  const numberType = String(
+    candidate.regulatoryNumberType || ''
+  )
+    .trim()
+    .toLowerCase();
+
+  const normalizedEndUserType = String(
+    endUserType || ''
+  )
+    .trim()
+    .toLowerCase();
+
+  const key = normalizeProfileKey({
+    userId,
+    provider,
+    country,
+    numberType,
+    endUserType: normalizedEndUserType,
+  });
+
+  const api = getProvider(key.provider);
+
+  if (
+    !api ||
+    typeof api.getRegulations !== 'function'
+  ) {
+    return {
+      initialized: false,
+      reason: 'provider-unsupported',
+      profile: null,
+      regulation: null,
+    };
+  }
+
+  let regulations;
+
+  try {
+    regulations = await api.getRegulations({
+      country: key.isoCountry,
+      numberType: key.numberType,
+      endUserType: key.endUserType,
+      includeConstraints: true,
+    });
+  } catch {
+    return {
+      initialized: false,
+      reason: 'regulation-lookup-failed',
+      profile: null,
+      regulation: null,
+    };
+  }
+
+  if (!Array.isArray(regulations)) {
+    return {
+      initialized: false,
+      reason: 'regulation-lookup-failed',
+      profile: null,
+      regulation: null,
+    };
+  }
+
+  if (regulations.length === 0) {
+    return {
+      initialized: false,
+      reason: 'regulation-not-required',
+      profile: null,
+      regulation: null,
+    };
+  }
+
+  if (regulations.length !== 1) {
+    return {
+      initialized: false,
+      reason: 'ambiguous-regulation',
+      profile: null,
+      regulation: null,
+      regulations,
+    };
+  }
+
+  const regulation = regulations[0];
+
+  const regulationSid = String(
+    regulation?.sid || ''
+  ).trim();
+
+  if (!/^RN[a-f0-9]{32}$/i.test(regulationSid)) {
+    return {
+      initialized: false,
+      reason: 'invalid-regulation',
+      profile: null,
+      regulation,
+    };
+  }
+
+  const existing =
+    await prisma.numberRegulatoryProfile.findUnique({
+      where: profileUniqueWhere(key),
+    });
+
+  if (existing) {
+    if (
+      existing.regulationSid &&
+      existing.regulationSid !== regulationSid
+    ) {
+      return {
+        initialized: false,
+        reason: 'regulation-changed',
+        profile: existing,
+        regulation,
+      };
+    }
+
+    const profile =
+      existing.regulationSid
+        ? existing
+        : await prisma.numberRegulatoryProfile.update({
+            where: {
+              id: existing.id,
+            },
+            data: {
+              regulationSid,
+            },
+          });
+
+    return {
+      initialized: true,
+      reused: true,
+      reason: null,
+      profile,
+      regulation,
+      requirements:
+        regulation.requirements || null,
+    };
+  }
+
+  const profile =
+    await prisma.numberRegulatoryProfile.create({
+      data: {
+        ...key,
+        regulationSid,
+        status: 'NOT_STARTED',
+      },
+    });
+
+  return {
+    initialized: true,
+    reused: false,
+    reason: null,
+    profile,
+    regulation,
+    requirements:
+      regulation.requirements || null,
+  };
+}
