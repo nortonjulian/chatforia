@@ -592,6 +592,8 @@ export async function initializeNumberRegulatoryVerification({
   userId,
   candidate,
   endUserType = 'individual',
+  endUserAttributes,
+  endUserFriendlyName,
 }) {
   if (!candidate || typeof candidate !== 'object') {
     throw new Error('candidate is required');
@@ -722,7 +724,7 @@ export async function initializeNumberRegulatoryVerification({
       };
     }
 
-    const profile =
+    let profile =
       existing.regulationSid
         ? existing
         : await prisma.numberRegulatoryProfile.update({
@@ -733,6 +735,102 @@ export async function initializeNumberRegulatoryVerification({
               regulationSid,
             },
           });
+
+    const shouldProvisionEndUser =
+      endUserAttributes !== undefined;
+
+    if (
+      shouldProvisionEndUser &&
+      !profile.endUserSid
+    ) {
+      const validation =
+        validateRegulatoryEndUserAttributes({
+          requirements:
+            regulation.requirements || {},
+          attributes: endUserAttributes,
+        });
+
+      if (!validation.valid) {
+        return {
+          initialized: false,
+          reused: true,
+          reason: 'missing-end-user-fields',
+          profile,
+          regulation,
+          requirements:
+            regulation.requirements || null,
+          validation,
+        };
+      }
+
+      if (
+        !api ||
+        typeof api.createRegulatoryEndUser !== 'function'
+      ) {
+        return {
+          initialized: false,
+          reused: true,
+          reason: 'provider-end-user-unsupported',
+          profile,
+          regulation,
+          requirements:
+            regulation.requirements || null,
+        };
+      }
+
+      let endUser;
+
+      try {
+        endUser =
+          await api.createRegulatoryEndUser({
+            friendlyName:
+              String(
+                endUserFriendlyName ||
+                `Chatforia User ${userId}`
+              ).trim(),
+            endUserType:
+              key.endUserType,
+            attributes:
+              validation.attributes,
+          });
+      } catch {
+        return {
+          initialized: false,
+          reused: true,
+          reason: 'end-user-creation-failed',
+          profile,
+          regulation,
+          requirements:
+            regulation.requirements || null,
+        };
+      }
+
+      const endUserSid = String(
+        endUser?.sid || ''
+      ).trim();
+
+      if (!/^IT[a-f0-9]{32}$/i.test(endUserSid)) {
+        return {
+          initialized: false,
+          reused: true,
+          reason: 'invalid-end-user',
+          profile,
+          regulation,
+          requirements:
+            regulation.requirements || null,
+        };
+      }
+
+      profile =
+        await prisma.numberRegulatoryProfile.update({
+          where: {
+            id: profile.id,
+          },
+          data: {
+            endUserSid,
+          },
+        });
+    }
 
     return {
       initialized: true,
@@ -745,7 +843,7 @@ export async function initializeNumberRegulatoryVerification({
     };
   }
 
-  const profile =
+  let profile =
     await prisma.numberRegulatoryProfile.create({
       data: {
         ...key,
@@ -753,6 +851,99 @@ export async function initializeNumberRegulatoryVerification({
         status: 'NOT_STARTED',
       },
     });
+
+  const shouldProvisionEndUser =
+    endUserAttributes !== undefined;
+
+  if (shouldProvisionEndUser) {
+    const validation =
+      validateRegulatoryEndUserAttributes({
+        requirements:
+          regulation.requirements || {},
+        attributes: endUserAttributes,
+      });
+
+    if (!validation.valid) {
+      return {
+        initialized: false,
+        reused: false,
+        reason: 'missing-end-user-fields',
+        profile,
+        regulation,
+        requirements:
+          regulation.requirements || null,
+        validation,
+      };
+    }
+
+    if (
+      !api ||
+      typeof api.createRegulatoryEndUser !== 'function'
+    ) {
+      return {
+        initialized: false,
+        reused: false,
+        reason: 'provider-end-user-unsupported',
+        profile,
+        regulation,
+        requirements:
+          regulation.requirements || null,
+      };
+    }
+
+    let endUser;
+
+    try {
+      endUser =
+        await api.createRegulatoryEndUser({
+          friendlyName:
+            String(
+              endUserFriendlyName ||
+              `Chatforia User ${userId}`
+            ).trim(),
+          endUserType:
+            key.endUserType,
+          attributes:
+            validation.attributes,
+        });
+    } catch {
+      return {
+        initialized: false,
+        reused: false,
+        reason: 'end-user-creation-failed',
+        profile,
+        regulation,
+        requirements:
+          regulation.requirements || null,
+      };
+    }
+
+    const endUserSid = String(
+      endUser?.sid || ''
+    ).trim();
+
+    if (!/^IT[a-f0-9]{32}$/i.test(endUserSid)) {
+      return {
+        initialized: false,
+        reused: false,
+        reason: 'invalid-end-user',
+        profile,
+        regulation,
+        requirements:
+          regulation.requirements || null,
+      };
+    }
+
+    profile =
+      await prisma.numberRegulatoryProfile.update({
+        where: {
+          id: profile.id,
+        },
+        data: {
+          endUserSid,
+        },
+      });
+  }
 
   return {
     initialized: true,

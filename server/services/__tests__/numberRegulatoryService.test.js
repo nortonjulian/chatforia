@@ -11,6 +11,7 @@ const updateMock = jest.fn();
 
 const getRegulatoryBundleMock = jest.fn();
 const getRegulationsMock = jest.fn();
+const createRegulatoryEndUserMock = jest.fn();
 const normalizeStatusMock = jest.fn();
 
 const mockPrisma = {
@@ -27,6 +28,8 @@ const mockProvider = {
     getRegulationsMock,
   getRegulatoryBundle:
     getRegulatoryBundleMock,
+  createRegulatoryEndUser:
+    createRegulatoryEndUserMock,
   normalizeRegulatoryBundleStatus:
     normalizeStatusMock,
 };
@@ -998,6 +1001,229 @@ describe('numberRegulatoryService', () => {
       expect(findUniqueMock).not.toHaveBeenCalled();
       expect(createMock).not.toHaveBeenCalled();
     });
+
+
+    test('creates a Twilio End User and persists its SID when attributes are valid', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      findUniqueMock.mockResolvedValue(null);
+
+      createMock.mockImplementation(
+        async ({ data }) => ({
+          id: 500,
+          ...data,
+        })
+      );
+
+      createRegulatoryEndUserMock.mockResolvedValue({
+        sid: 'IT44444444444444444444444444444444',
+        type: 'individual',
+        attributes: {
+          first_name: 'Test',
+          last_name: 'User',
+        },
+      });
+
+      updateMock.mockImplementation(
+        async ({ data }) => ({
+          id: 500,
+          userId: 42,
+          provider: 'twilio',
+          isoCountry: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          regulationSid: regulation.sid,
+          status: 'NOT_STARTED',
+          endUserSid:
+            data.endUserSid || null,
+        })
+      );
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+          endUserAttributes: {
+            first_name: ' Test ',
+            last_name: ' User ',
+          },
+          endUserFriendlyName:
+            ' Chatforia User 42 ',
+        });
+
+      expect(
+        createRegulatoryEndUserMock
+      ).toHaveBeenCalledWith({
+        friendlyName: 'Chatforia User 42',
+        endUserType: 'individual',
+        attributes: {
+          first_name: 'Test',
+          last_name: 'User',
+        },
+      });
+
+      expect(updateMock).toHaveBeenCalledWith({
+        where: {
+          id: 500,
+        },
+        data: {
+          endUserSid:
+            'IT44444444444444444444444444444444',
+        },
+      });
+
+      expect(result.initialized).toBe(true);
+      expect(result.profile.endUserSid).toBe(
+        'IT44444444444444444444444444444444'
+      );
+    });
+
+    test('rejects incomplete End User attributes before calling Twilio', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      findUniqueMock.mockResolvedValue(null);
+
+      createMock.mockImplementation(
+        async ({ data }) => ({
+          id: 501,
+          ...data,
+        })
+      );
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+          endUserAttributes: {
+            first_name: 'Test',
+          },
+        });
+
+      expect(result.initialized).toBe(false);
+      expect(result.reason).toBe(
+        'missing-end-user-fields'
+      );
+
+      expect(
+        createRegulatoryEndUserMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('reuses an existing End User instead of creating another', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      const profile = baseProfile({
+        endUserSid:
+          'IT44444444444444444444444444444444',
+        regulationSid: regulation.sid,
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+          endUserAttributes: {
+            first_name: 'Test',
+            last_name: 'User',
+          },
+        });
+
+      expect(result.initialized).toBe(true);
+      expect(result.profile).toBe(profile);
+
+      expect(
+        createRegulatoryEndUserMock
+      ).not.toHaveBeenCalled();
+
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+
+    test('fails closed when Twilio End User creation fails', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      findUniqueMock.mockResolvedValue(null);
+
+      createMock.mockImplementation(
+        async ({ data }) => ({
+          id: 502,
+          ...data,
+        })
+      );
+
+      createRegulatoryEndUserMock.mockRejectedValue(
+        new Error('Twilio unavailable')
+      );
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+          endUserAttributes: {
+            first_name: 'Test',
+            last_name: 'User',
+          },
+        });
+
+      expect(result.initialized).toBe(false);
+      expect(result.reason).toBe(
+        'end-user-creation-failed'
+      );
+
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+
+    test('fails closed when Twilio returns an invalid End User SID', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      findUniqueMock.mockResolvedValue(null);
+
+      createMock.mockImplementation(
+        async ({ data }) => ({
+          id: 503,
+          ...data,
+        })
+      );
+
+      createRegulatoryEndUserMock.mockResolvedValue({
+        sid: 'BAD_SID',
+        type: 'individual',
+        attributes: {
+          first_name: 'Test',
+          last_name: 'User',
+        },
+      });
+
+      const result =
+        await initializeNumberRegulatoryVerification({
+          userId: 42,
+          candidate,
+          endUserAttributes: {
+            first_name: 'Test',
+            last_name: 'User',
+          },
+        });
+
+      expect(result.initialized).toBe(false);
+      expect(result.reason).toBe(
+        'invalid-end-user'
+      );
+
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+
+
   });
 
 
