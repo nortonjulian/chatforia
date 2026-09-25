@@ -711,3 +711,94 @@ export async function initializeNumberRegulatoryVerification({
       regulation.requirements || null,
   };
 }
+
+function isPresentRegulatoryValue(value) {
+  if (value === null || value === undefined) {
+    return false;
+  }
+
+  if (typeof value === 'string') {
+    return value.trim().length > 0;
+  }
+
+  return true;
+}
+
+export function getRequiredRegulatoryEndUserFields(
+  requirements
+) {
+  const endUserRequirements =
+    requirements?.end_user;
+
+  if (!Array.isArray(endUserRequirements)) {
+    return [];
+  }
+
+  const fields = [];
+
+  for (const requirement of endUserRequirements) {
+    if (!Array.isArray(requirement?.fields)) {
+      continue;
+    }
+
+    for (const field of requirement.fields) {
+      const normalized = String(field || '').trim();
+
+      if (
+        normalized &&
+        !fields.includes(normalized)
+      ) {
+        fields.push(normalized);
+      }
+    }
+  }
+
+  return fields;
+}
+
+export function validateRegulatoryEndUserAttributes({
+  requirements,
+  attributes,
+}) {
+  const requiredFields =
+    getRequiredRegulatoryEndUserFields(
+      requirements
+    );
+
+  const submitted =
+    attributes &&
+    typeof attributes === 'object' &&
+    !Array.isArray(attributes)
+      ? attributes
+      : {};
+
+  const missingFields =
+    requiredFields.filter(
+      (field) =>
+        !isPresentRegulatoryValue(
+          submitted[field]
+        )
+    );
+
+  const normalizedAttributes = {};
+
+  for (const field of requiredFields) {
+    if (
+      isPresentRegulatoryValue(
+        submitted[field]
+      )
+    ) {
+      normalizedAttributes[field] =
+        typeof submitted[field] === 'string'
+          ? submitted[field].trim()
+          : submitted[field];
+    }
+  }
+
+  return {
+    valid: missingFields.length === 0,
+    requiredFields,
+    missingFields,
+    attributes: normalizedAttributes,
+  };
+}
