@@ -140,6 +140,8 @@ beforeEach(() => {
     NUMBER_HOLD_DAYS: '20',
     RESERVATION_MINUTES: '10',
     ENABLE_TWILIO_LIVE_SEARCH: 'true',
+    TWILIO_WEBHOOK_BASE_URL:
+      'https://api.chatforia.com/api',
   };
 
   prismaMock.user.findUnique.mockResolvedValue({
@@ -2280,9 +2282,52 @@ describe('POST /numbers/regulatory/assemble', () => {
       endUserType: 'individual',
       email: 'user@example.com',
       friendlyName: 'My AU Bundle',
+      statusCallback:
+        'https://api.chatforia.com/api/webhooks/twilio/regulatory-status',
     });
 
     expect(res.body).toEqual(result);
+  });
+
+  test('fails closed when the regulatory callback base is not configured', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    const previous =
+      process.env.TWILIO_WEBHOOK_BASE_URL;
+
+    delete process.env.TWILIO_WEBHOOK_BASE_URL;
+
+    try {
+      const res = await request(app)
+        .post('/numbers/regulatory/assemble')
+        .send({
+          e164: candidate.e164,
+          email: 'user@example.com',
+          statusCallback:
+            'https://attacker.invalid/callback',
+        })
+        .set('x-test-user-id', '123');
+
+      expect(res.status).toBe(503);
+
+      expect(res.body).toEqual({
+        error:
+          'Regulatory status callback is not configured',
+      });
+
+      expect(
+        assembleRegulatoryBundleMock
+      ).not.toHaveBeenCalled();
+    } finally {
+      if (previous === undefined) {
+        delete process.env
+          .TWILIO_WEBHOOK_BASE_URL;
+      } else {
+        process.env.TWILIO_WEBHOOK_BASE_URL =
+          previous;
+      }
+    }
   });
 
   test('requires e164 and email', async () => {
