@@ -18,6 +18,7 @@ let searchAvailableMock;
 let getRegulationsMock;
 let evaluateNumberRegulatoryComplianceMock;
 let initializeNumberRegulatoryVerificationMock;
+let provisionRegulatorySupportingDocumentMock;
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => {
   prismaMock = {
@@ -79,12 +80,17 @@ await jest.unstable_mockModule(
     initializeNumberRegulatoryVerificationMock =
       jest.fn();
 
+    provisionRegulatorySupportingDocumentMock =
+      jest.fn();
+
     return {
       __esModule: true,
       evaluateNumberRegulatoryCompliance:
         evaluateNumberRegulatoryComplianceMock,
       initializeNumberRegulatoryVerification:
         initializeNumberRegulatoryVerificationMock,
+      provisionRegulatorySupportingDocument:
+        provisionRegulatorySupportingDocumentMock,
     };
   }
 );
@@ -1247,6 +1253,266 @@ describe('POST /numbers/regulatory/initialize', () => {
       JSON.stringify(res.body)
     ).not.toContain(
       'sensitive provider error'
+    );
+  });
+});
+
+describe('POST /numbers/regulatory/documents', () => {
+  const candidate = {
+    id: 171,
+    e164: '+61255550171',
+    status: 'AVAILABLE',
+    provider: 'twilio',
+    isoCountry: 'AU',
+    regulatoryNumberType: 'local',
+    isLeasable: true,
+    isPurchasable: false,
+  };
+
+  const requirementName = 'Proof of Identity';
+  const documentType = 'government-issued-id';
+
+  test('provisions a document using regulatory identity from persisted inventory', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    const result = {
+      provisioned: true,
+      reused: false,
+      reason: null,
+      document: {
+        id: 20,
+        profileId: 10,
+        requirementName,
+        documentType,
+        supportingDocumentSid:
+          'RD22222222222222222222222222222222',
+      },
+      requirement: {
+        requirementName,
+        type: 'document',
+        acceptedDocuments: [
+          {
+            name: 'Government-issued ID',
+            type: documentType,
+          },
+        ],
+      },
+    };
+
+    provisionRegulatorySupportingDocumentMock
+      .mockResolvedValueOnce(result);
+
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .send({
+        e164: candidate.e164,
+        requirementName,
+        documentType,
+        attributes: {
+          document_number: 'TEST-123',
+        },
+
+        // These must not control regulatory identity.
+        country: 'US',
+        numberType: 'mobile',
+        provider: 'other',
+        profileId: 999,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).toHaveBeenCalledWith({
+      where: {
+        e164: candidate.e164,
+        status: 'AVAILABLE',
+        isLeasable: true,
+      },
+    });
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).toHaveBeenCalledWith({
+      userId: 123,
+      provider: 'twilio',
+      country: 'AU',
+      numberType: 'local',
+      endUserType: 'individual',
+      requirementName,
+      documentType,
+      attributes: {
+        document_number: 'TEST-123',
+      },
+      friendlyName: undefined,
+    });
+
+    expect(res.body).toEqual(result);
+  });
+
+  test('requires e164, requirementName, and documentType', async () => {
+    const cases = [
+      {
+        body: {
+          requirementName,
+          documentType,
+        },
+        error: 'e164 required',
+      },
+      {
+        body: {
+          e164: candidate.e164,
+          documentType,
+        },
+        error: 'requirementName required',
+      },
+      {
+        body: {
+          e164: candidate.e164,
+          requirementName,
+        },
+        error: 'documentType required',
+      },
+    ];
+
+    for (const entry of cases) {
+      const res = await request(app)
+        .post('/numbers/regulatory/documents')
+        .send(entry.body)
+        .set('x-test-user-id', '123');
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        error: entry.error,
+      });
+    }
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).not.toHaveBeenCalled();
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('rejects a number that is not available inventory', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .send({
+        e164: candidate.e164,
+        requirementName,
+        documentType,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(404);
+
+    expect(res.body).toEqual({
+      error: 'Number not available',
+    });
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('fails closed when persisted regulatory type is unknown', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce({
+        ...candidate,
+        regulatoryNumberType: null,
+      });
+
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .send({
+        e164: candidate.e164,
+        requirementName,
+        documentType,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body).toEqual({
+      error: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+      decision: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+    });
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('returns structured provisioning failure', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    provisionRegulatorySupportingDocumentMock
+      .mockResolvedValueOnce({
+        provisioned: false,
+        reused: false,
+        reason:
+          'unsupported-supporting-document-type',
+        document: null,
+        requirement: {
+          requirementName,
+          acceptedDocuments: [],
+        },
+      });
+
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .send({
+        e164: candidate.e164,
+        requirementName,
+        documentType,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body.provisioned).toBe(false);
+    expect(res.body.reason).toBe(
+      'unsupported-supporting-document-type'
+    );
+  });
+
+  test('does not expose provider errors when provisioning throws', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    provisionRegulatorySupportingDocumentMock
+      .mockRejectedValueOnce(
+        new Error('sensitive Twilio failure')
+      );
+
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .send({
+        e164: candidate.e164,
+        requirementName,
+        documentType,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(502);
+
+    expect(res.body).toEqual({
+      error:
+        'Regulatory document provisioning failed',
+    });
+
+    expect(
+      JSON.stringify(res.body)
+    ).not.toContain(
+      'sensitive Twilio failure'
     );
   });
 });
