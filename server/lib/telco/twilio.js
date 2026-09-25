@@ -314,6 +314,291 @@ async function getRegulations({
   }));
 }
 
+async function createRegulatoryEndUser({
+  friendlyName,
+  endUserType,
+  attributes,
+}) {
+  const client = getClient();
+
+  const normalizedEndUserType = String(
+    endUserType || ''
+  )
+    .trim()
+    .toLowerCase();
+
+  if (
+    normalizedEndUserType !== 'individual' &&
+    normalizedEndUserType !== 'business'
+  ) {
+    throw new Error(
+      'endUserType must be individual or business'
+    );
+  }
+
+  const cleanFriendlyName = String(
+    friendlyName || ''
+  ).trim();
+
+  if (!cleanFriendlyName) {
+    throw new Error(
+      'friendlyName is required'
+    );
+  }
+
+  const params = {
+    friendlyName: cleanFriendlyName,
+    type: normalizedEndUserType,
+  };
+
+  if (attributes !== undefined) {
+    params.attributes = attributes;
+  }
+
+  const result =
+    await client.numbers.v2.regulatoryCompliance
+      .endUsers
+      .create(params);
+
+  return {
+    sid: result.sid,
+    friendlyName:
+      result.friendlyName ||
+      cleanFriendlyName,
+    type:
+      result.type ||
+      normalizedEndUserType,
+    attributes:
+      result.attributes ??
+      attributes ??
+      null,
+  };
+}
+
+async function createRegulatoryBundle({
+  friendlyName,
+  email,
+  regulationSid,
+  country,
+  numberType,
+  endUserType,
+  statusCallback,
+  isTest = false,
+}) {
+  const client = getClient();
+
+  const cleanFriendlyName = String(
+    friendlyName || ''
+  ).trim();
+
+  const cleanEmail = String(
+    email || ''
+  ).trim();
+
+  const cleanRegulationSid = String(
+    regulationSid || ''
+  ).trim();
+
+  const isoCountry = String(
+    country || ''
+  )
+    .trim()
+    .toUpperCase();
+
+  const normalizedNumberType = String(
+    numberType || ''
+  )
+    .trim()
+    .toLowerCase();
+
+  const normalizedEndUserType = String(
+    endUserType || ''
+  )
+    .trim()
+    .toLowerCase();
+
+  if (!cleanFriendlyName) {
+    throw new Error(
+      'friendlyName is required'
+    );
+  }
+
+  if (!cleanEmail) {
+    throw new Error(
+      'email is required'
+    );
+  }
+
+  if (!/^RN[a-f0-9]{32}$/i.test(cleanRegulationSid)) {
+    throw new Error(
+      'regulationSid must be a valid Twilio Regulation SID'
+    );
+  }
+
+  if (!/^[A-Z]{2}$/.test(isoCountry)) {
+    throw new Error(
+      'country must be a 2-letter ISO country code'
+    );
+  }
+
+  const supportedNumberTypes = new Set([
+    'local',
+    'mobile',
+    'national',
+    'toll-free',
+  ]);
+
+  if (!supportedNumberTypes.has(normalizedNumberType)) {
+    throw new Error(
+      `Unsupported regulatory number type: ${normalizedNumberType}`
+    );
+  }
+
+  if (
+    normalizedEndUserType !== 'individual' &&
+    normalizedEndUserType !== 'business'
+  ) {
+    throw new Error(
+      'endUserType must be individual or business'
+    );
+  }
+
+  const params = {
+    friendlyName: cleanFriendlyName,
+    email: cleanEmail,
+    regulationSid: cleanRegulationSid,
+    isoCountry,
+    numberType: normalizedNumberType,
+    endUserType: normalizedEndUserType,
+    isTest: Boolean(isTest),
+  };
+
+  const cleanStatusCallback = String(
+    statusCallback || ''
+  ).trim();
+
+  if (cleanStatusCallback) {
+    params.statusCallback =
+      cleanStatusCallback;
+  }
+
+  const result =
+    await client.numbers.v2.regulatoryCompliance
+      .bundles
+      .create(params);
+
+  return {
+    sid: result.sid,
+    regulationSid:
+      result.regulationSid ||
+      cleanRegulationSid,
+    friendlyName:
+      result.friendlyName ||
+      cleanFriendlyName,
+    status:
+      result.status ||
+      'draft',
+    validUntil:
+      result.validUntil ||
+      null,
+    email:
+      result.email ||
+      cleanEmail,
+    statusCallback:
+      result.statusCallback ||
+      cleanStatusCallback ||
+      null,
+  };
+}
+
+async function assignRegulatoryItem({
+  bundleSid,
+  objectSid,
+}) {
+  const client = getClient();
+
+  const cleanBundleSid = String(
+    bundleSid || ''
+  ).trim();
+
+  const cleanObjectSid = String(
+    objectSid || ''
+  ).trim();
+
+  if (!/^BU[a-f0-9]{32}$/i.test(cleanBundleSid)) {
+    throw new Error(
+      'bundleSid must be a valid Twilio Bundle SID'
+    );
+  }
+
+  if (!/^[A-Z]{2}[a-f0-9]{32}$/i.test(cleanObjectSid)) {
+    throw new Error(
+      'objectSid must be a valid Twilio SID'
+    );
+  }
+
+  const result =
+    await client.numbers.v2.regulatoryCompliance
+      .bundles(cleanBundleSid)
+      .itemAssignments
+      .create({
+        objectSid: cleanObjectSid,
+      });
+
+  return {
+    sid: result.sid,
+    bundleSid:
+      result.bundleSid ||
+      cleanBundleSid,
+    objectSid:
+      result.objectSid ||
+      cleanObjectSid,
+  };
+}
+
+async function getRegulatoryBundle({
+  bundleSid,
+}) {
+  const client = getClient();
+
+  const cleanBundleSid = String(
+    bundleSid || ''
+  ).trim();
+
+  if (!/^BU[a-f0-9]{32}$/i.test(cleanBundleSid)) {
+    throw new Error(
+      'bundleSid must be a valid Twilio Bundle SID'
+    );
+  }
+
+  const result =
+    await client.numbers.v2.regulatoryCompliance
+      .bundles(cleanBundleSid)
+      .fetch();
+
+  return {
+    sid: result.sid,
+    regulationSid:
+      result.regulationSid ||
+      null,
+    friendlyName:
+      result.friendlyName ||
+      null,
+    status:
+      result.status ||
+      null,
+    validUntil:
+      result.validUntil ||
+      null,
+    email:
+      result.email ||
+      null,
+    statusCallback:
+      result.statusCallback ||
+      null,
+  };
+}
+
 async function purchaseNumber({
   phoneNumber,
   addressSid,
@@ -502,6 +787,10 @@ const adapter = {
   sendSms: sendSmsRaw,
   searchAvailable,
   getRegulations,
+  createRegulatoryEndUser,
+  createRegulatoryBundle,
+  assignRegulatoryItem,
+  getRegulatoryBundle,
   purchaseNumber,
   releaseNumber,
 };
