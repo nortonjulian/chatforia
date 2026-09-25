@@ -11,12 +11,14 @@ const endUserCreateMock = jest.fn();
 const bundleCreateMock = jest.fn();
 const itemAssignmentCreateMock = jest.fn();
 const bundleFetchMock = jest.fn();
+const bundleUpdateMock = jest.fn();
 
 const bundleContextMock = jest.fn(() => ({
   itemAssignments: {
     create: itemAssignmentCreateMock,
   },
   fetch: bundleFetchMock,
+  update: bundleUpdateMock,
 }));
 
 await jest.unstable_mockModule('twilio', () => {
@@ -202,6 +204,78 @@ describe('Twilio regulatory lifecycle primitives', () => {
 
     expect(result.status).toBe('twilio-approved');
     expect(result.validUntil).toBe(validUntil);
+  });
+
+  test('normalizes Twilio Bundle statuses', () => {
+    expect(
+      twilio.normalizeRegulatoryBundleStatus('draft')
+    ).toBe('DRAFT');
+
+    expect(
+      twilio.normalizeRegulatoryBundleStatus(
+        'pending-review'
+      )
+    ).toBe('PENDING_REVIEW');
+
+    expect(
+      twilio.normalizeRegulatoryBundleStatus(
+        'in-review'
+      )
+    ).toBe('IN_REVIEW');
+
+    expect(
+      twilio.normalizeRegulatoryBundleStatus(
+        'twilio-approved'
+      )
+    ).toBe('APPROVED');
+
+    expect(
+      twilio.normalizeRegulatoryBundleStatus(
+        'twilio-rejected'
+      )
+    ).toBe('REJECTED');
+
+    expect(
+      twilio.normalizeRegulatoryBundleStatus(
+        'provisionally-approved'
+      )
+    ).toBe('PROVISIONALLY_APPROVED');
+
+    expect(
+      twilio.normalizeRegulatoryBundleStatus(
+        'future-provider-status'
+      )
+    ).toBeNull();
+  });
+
+  test('submits a regulatory Bundle for review', async () => {
+    bundleUpdateMock.mockResolvedValue({
+      sid: BU,
+      regulationSid: RN,
+      friendlyName: 'Chatforia AU Local 42',
+      status: 'pending-review',
+      validUntil: null,
+      email: 'test@example.com',
+      statusCallback:
+        'https://example.com/regulatory-status',
+    });
+
+    const result =
+      await twilio.submitRegulatoryBundle({
+        bundleSid: BU,
+      });
+
+    expect(bundleContextMock).toHaveBeenCalledWith(BU);
+
+    expect(bundleUpdateMock).toHaveBeenCalledWith({
+      status: 'pending-review',
+    });
+
+    expect(result.status).toBe('pending-review');
+
+    expect(result.normalizedStatus).toBe(
+      'PENDING_REVIEW'
+    );
   });
 
   test('rejects invalid lifecycle inputs before Twilio calls', async () => {

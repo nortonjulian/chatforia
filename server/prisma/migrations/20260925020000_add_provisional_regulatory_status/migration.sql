@@ -1,0 +1,2 @@
+ALTER TYPE "NumberRegulatoryStatus"
+ADD VALUE 'PROVISIONALLY_APPROVED';

@@ -75,6 +75,24 @@ function optionalSid(value, prefix, label) {
   return clean;
 }
 
+export function normalizeRegulatoryBundleStatus(status) {
+  const normalized = String(status || '')
+    .trim()
+    .toLowerCase();
+
+  const statusMap = {
+    draft: 'DRAFT',
+    'pending-review': 'PENDING_REVIEW',
+    'in-review': 'IN_REVIEW',
+    'twilio-approved': 'APPROVED',
+    'twilio-rejected': 'REJECTED',
+    'provisionally-approved':
+      'PROVISIONALLY_APPROVED',
+  };
+
+  return statusMap[normalized] || null;
+}
+
 export async function sendSmsRaw({
   to,
   text,
@@ -599,6 +617,56 @@ async function getRegulatoryBundle({
   };
 }
 
+async function submitRegulatoryBundle({
+  bundleSid,
+}) {
+  const client = getClient();
+
+  const cleanBundleSid = String(
+    bundleSid || ''
+  ).trim();
+
+  if (!/^BU[a-f0-9]{32}$/i.test(cleanBundleSid)) {
+    throw new Error(
+      'bundleSid must be a valid Twilio Bundle SID'
+    );
+  }
+
+  const result =
+    await client.numbers.v2.regulatoryCompliance
+      .bundles(cleanBundleSid)
+      .update({
+        status: 'pending-review',
+      });
+
+  return {
+    sid: result.sid,
+    regulationSid:
+      result.regulationSid ||
+      null,
+    friendlyName:
+      result.friendlyName ||
+      null,
+    status:
+      result.status ||
+      'pending-review',
+    normalizedStatus:
+      normalizeRegulatoryBundleStatus(
+        result.status ||
+        'pending-review'
+      ),
+    validUntil:
+      result.validUntil ||
+      null,
+    email:
+      result.email ||
+      null,
+    statusCallback:
+      result.statusCallback ||
+      null,
+  };
+}
+
 async function purchaseNumber({
   phoneNumber,
   addressSid,
@@ -785,12 +853,14 @@ async function releaseNumber({
 const adapter = {
   providerName,
   sendSms: sendSmsRaw,
+  normalizeRegulatoryBundleStatus,
   searchAvailable,
   getRegulations,
   createRegulatoryEndUser,
   createRegulatoryBundle,
   assignRegulatoryItem,
   getRegulatoryBundle,
+  submitRegulatoryBundle,
   purchaseNumber,
   releaseNumber,
 };
