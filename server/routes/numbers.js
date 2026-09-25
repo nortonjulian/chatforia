@@ -11,6 +11,7 @@ import {
   evaluateNumberRegulatoryCompliance,
   initializeNumberRegulatoryVerification,
   provisionRegulatorySupportingDocument,
+  assembleRegulatoryBundle,
 } from '../services/numberRegulatoryService.js';
 
 const router = express.Router();
@@ -563,6 +564,88 @@ router.post(
       return res.status(502).json({
         error:
           'Regulatory document provisioning failed',
+      });
+    }
+  }
+);
+
+router.post(
+  '/regulatory/assemble',
+  requireAuth,
+  async (req, res) => {
+    const userId = req.user.id;
+
+    const e164 = String(
+      req.body?.e164 || ''
+    ).trim();
+
+    const email = String(
+      req.body?.email || ''
+    ).trim();
+
+    const friendlyName =
+      req.body?.friendlyName === undefined
+        ? undefined
+        : String(
+            req.body.friendlyName || ''
+          ).trim();
+
+    if (!e164) {
+      return res.status(400).json({
+        error: 'e164 required',
+      });
+    }
+
+    if (!email) {
+      return res.status(400).json({
+        error: 'email required',
+      });
+    }
+
+    const candidate =
+      await prisma.phoneNumber.findFirst({
+        where: {
+          e164,
+          status: 'AVAILABLE',
+          isLeasable: true,
+        },
+      });
+
+    if (!candidate) {
+      return res.status(404).json({
+        error: 'Number not available',
+      });
+    }
+
+    if (!candidate.regulatoryNumberType) {
+      return res.status(409).json({
+        error: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+        decision: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+      });
+    }
+
+    try {
+      const result =
+        await assembleRegulatoryBundle({
+          userId,
+          provider: candidate.provider,
+          country: candidate.isoCountry,
+          numberType:
+            candidate.regulatoryNumberType,
+          endUserType: 'individual',
+          email,
+          friendlyName,
+        });
+
+      if (!result.assembled) {
+        return res.status(409).json(result);
+      }
+
+      return res.status(200).json(result);
+    } catch {
+      return res.status(502).json({
+        error:
+          'Regulatory Bundle assembly failed',
       });
     }
   }
