@@ -549,6 +549,96 @@ router.post(
     }
 
     try {
+      const regulatoryReservation =
+        await prisma.$transaction(async (tx) => {
+          await tx.$executeRaw`
+            SELECT pg_advisory_xact_lock(
+              CAST(${candidate.id} AS integer),
+              CAST(1 AS integer)
+            )
+          `;
+
+          const now = new Date();
+
+          const activeReservation =
+            await tx.numberReservation.findFirst({
+              where: {
+                phoneNumberId: candidate.id,
+                purpose:
+                  'REGULATORY_VERIFICATION',
+                expiresAt: {
+                  gt: now,
+                },
+              },
+              orderBy: {
+                createdAt: 'desc',
+              },
+            });
+
+          if (
+            activeReservation &&
+            activeReservation.userId !== userId
+          ) {
+            return {
+              acquired: false,
+              reservation: activeReservation,
+            };
+          }
+
+          const ttlMinutes = Math.max(
+            1,
+            Number(
+              process.env
+                .REGULATORY_RESERVATION_MINUTES
+            ) || 60
+          );
+
+          const expiresAt = new Date(
+            now.getTime() +
+              ttlMinutes * 60 * 1000
+          );
+
+          if (activeReservation) {
+            const reservation =
+              await tx.numberReservation.update({
+                where: {
+                  id: activeReservation.id,
+                },
+                data: {
+                  expiresAt,
+                },
+              });
+
+            return {
+              acquired: true,
+              reservation,
+            };
+          }
+
+          const reservation =
+            await tx.numberReservation.create({
+              data: {
+                phoneNumberId: candidate.id,
+                userId,
+                purpose:
+                  'REGULATORY_VERIFICATION',
+                expiresAt,
+              },
+            });
+
+          return {
+            acquired: true,
+            reservation,
+          };
+        });
+
+      if (!regulatoryReservation.acquired) {
+        return res.status(409).json({
+          error: 'NUMBER_REGULATORY_RESERVED',
+          decision: 'NUMBER_REGULATORY_RESERVED',
+        });
+      }
+
       const options = {
         userId,
         candidate,
@@ -992,9 +1082,45 @@ router.post('/lease', requireAuth, async (req, res) => {
         });
       }
 
-      const leased =
+      const leaseResult =
         await prisma.$transaction(
           async (tx) => {
+            await tx.$executeRaw`
+              SELECT pg_advisory_xact_lock(
+                CAST(${candidate.id} AS integer),
+                CAST(1 AS integer)
+              )
+            `;
+
+            const now = new Date();
+
+            const activeRegulatoryReservation =
+              await tx.numberReservation.findFirst({
+                where: {
+                  phoneNumberId: candidate.id,
+                  purpose:
+                    'REGULATORY_VERIFICATION',
+                  expiresAt: {
+                    gt: now,
+                  },
+                },
+                orderBy: {
+                  createdAt: 'desc',
+                },
+              });
+
+            if (
+              activeRegulatoryReservation &&
+              activeRegulatoryReservation.userId !==
+                req.user.id
+            ) {
+              return {
+                outcome:
+                  'REGULATORY_RESERVED',
+                number: null,
+              };
+            }
+
             const updated =
               await tx.phoneNumber.updateMany({
                 where: {
@@ -1035,23 +1161,66 @@ router.post('/lease', requireAuth, async (req, res) => {
               });
 
             if (updated.count !== 1) {
-              return null;
+              return {
+                outcome: 'RACE_LOST',
+                number: null,
+              };
             }
 
-            return tx.phoneNumber.findUnique({
-              where: {
-                id: candidate.id,
-              },
-            });
+            if (
+              activeRegulatoryReservation &&
+              activeRegulatoryReservation.userId ===
+                req.user.id
+            ) {
+              await tx.numberReservation.deleteMany({
+                where: {
+                  phoneNumberId: candidate.id,
+                  userId: req.user.id,
+                  purpose:
+                    'REGULATORY_VERIFICATION',
+                },
+              });
+            }
+
+            const number =
+              await tx.phoneNumber.findUnique({
+                where: {
+                  id: candidate.id,
+                },
+              });
+
+            return {
+              outcome: 'LEASED',
+              number,
+            };
           }
         );
 
-      if (leased) {
+      if (
+        leaseResult?.outcome === 'LEASED' &&
+        leaseResult.number
+      ) {
         return res.json({
           ok: true,
-          number: leased,
+          number: leaseResult.number,
           policy: getPolicy(plan),
         });
+      }
+
+      if (
+        leaseResult?.outcome ===
+        'REGULATORY_RESERVED'
+      ) {
+        if (cleanE164) {
+          return res.status(409).json({
+            error: 'NUMBER_REGULATORY_RESERVED',
+            decision:
+              'NUMBER_REGULATORY_RESERVED',
+          });
+        }
+
+        excludedCandidateIds.push(candidate.id);
+        continue;
       }
 
       // The exact candidate lost an assignment race.

@@ -38,7 +38,10 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
     numberReservation: {
       create: jest.fn(),
       findFirst: jest.fn(),
+      update: jest.fn(),
+      deleteMany: jest.fn(),
     },
+    $executeRaw: jest.fn(),
     $transaction: jest.fn(),
   };
 
@@ -148,6 +151,9 @@ beforeEach(() => {
     async (callback) =>
       callback({
         phoneNumber: prismaMock.phoneNumber,
+        numberReservation:
+          prismaMock.numberReservation,
+        $executeRaw: prismaMock.$executeRaw,
       })
   );
 
@@ -734,6 +740,240 @@ describe('POST /numbers/lease', () => {
     expect(res.body.number.id).toBe(81);
   });
 
+  test('explicit lease rejects a number held for another users regulatory verification', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(candidate);
+
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce({
+        id: 40,
+        phoneNumberId: candidate.id,
+        userId: 999,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 30 * 60 * 1000
+        ),
+        createdAt: new Date(),
+      });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body).toEqual({
+      error: 'NUMBER_REGULATORY_RESERVED',
+      decision: 'NUMBER_REGULATORY_RESERVED',
+    });
+
+    expect(
+      prismaMock.phoneNumber.updateMany
+    ).not.toHaveBeenCalled();
+
+    expect(
+      prismaMock.numberReservation.deleteMany
+    ).not.toHaveBeenCalled();
+  });
+
+  test('regulatory reservation owner can lease and consumes the hold', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(candidate);
+
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce({
+        id: 41,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 30 * 60 * 1000
+        ),
+        createdAt: new Date(),
+      });
+
+    prismaMock.phoneNumber.updateMany
+      .mockResolvedValueOnce({
+        count: 1,
+      });
+
+    prismaMock.numberReservation.deleteMany
+      .mockResolvedValueOnce({
+        count: 1,
+      });
+
+    prismaMock.phoneNumber.findUnique
+      .mockResolvedValueOnce({
+        ...candidate,
+        status: 'ASSIGNED',
+        assignedUserId: 123,
+      });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      prismaMock.numberReservation.deleteMany
+    ).toHaveBeenCalledWith({
+      where: {
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+      },
+    });
+
+    expect(res.body.number).toEqual(
+      expect.objectContaining({
+        id: candidate.id,
+        status: 'ASSIGNED',
+        assignedUserId: 123,
+      })
+    );
+  });
+
+  test('expired regulatory reservation does not block leasing', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(candidate);
+
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce(null);
+
+    prismaMock.phoneNumber.updateMany
+      .mockResolvedValueOnce({
+        count: 1,
+      });
+
+    prismaMock.phoneNumber.findUnique
+      .mockResolvedValueOnce({
+        ...candidate,
+        status: 'ASSIGNED',
+        assignedUserId: 123,
+      });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      prismaMock.numberReservation.findFirst
+    ).toHaveBeenCalledWith({
+      where: {
+        phoneNumberId: candidate.id,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: {
+          gt: expect.any(Date),
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    expect(
+      prismaMock.numberReservation.deleteMany
+    ).not.toHaveBeenCalled();
+  });
+
+  test('filter lease skips another users regulatory hold and leases the next candidate', async () => {
+    const first = {
+      ...candidate,
+      id: 82,
+      e164: '+13035550182',
+      isoCountry: 'US',
+      regulatoryNumberType: 'local',
+    };
+
+    const second = {
+      ...candidate,
+      id: 83,
+      e164: '+13035550183',
+      isoCountry: 'US',
+      regulatoryNumberType: 'local',
+    };
+
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(first)
+      .mockResolvedValueOnce(second);
+
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce({
+        id: 42,
+        phoneNumberId: first.id,
+        userId: 999,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 30 * 60 * 1000
+        ),
+        createdAt: new Date(),
+      })
+      .mockResolvedValueOnce(null);
+
+    prismaMock.phoneNumber.updateMany
+      .mockResolvedValueOnce({
+        count: 1,
+      });
+
+    prismaMock.phoneNumber.findUnique
+      .mockResolvedValueOnce({
+        ...second,
+        status: 'ASSIGNED',
+        assignedUserId: 123,
+      });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        country: 'US',
+        areaCode: '303',
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      prismaMock.phoneNumber.updateMany
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      prismaMock.phoneNumber.updateMany
+    ).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          id: second.id,
+        }),
+      })
+    );
+
+    const candidateQueries =
+      prismaMock.phoneNumber.findFirst.mock.calls;
+
+    expect(
+      candidateQueries[2][0].where.id
+    ).toEqual({
+      notIn: [first.id],
+    });
+
+    expect(res.body.number.id).toBe(second.id);
+  });
+
   test('premium purchase intent remains premium-gated', async () => {
     prismaMock.user.findUnique.mockResolvedValueOnce({
       plan: 'FREE',
@@ -1108,6 +1348,191 @@ describe('POST /numbers/regulatory/initialize', () => {
     });
 
     expect(res.body).toEqual(result);
+  });
+
+  test('creates a regulatory reservation for an unheld exact candidate', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce(null);
+
+    prismaMock.numberReservation.create
+      .mockResolvedValueOnce({
+        id: 30,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 60 * 60 * 1000
+        ),
+      });
+
+    initializeNumberRegulatoryVerificationMock
+      .mockResolvedValueOnce({
+        initialized: true,
+        reused: false,
+        reason: null,
+        profile: { id: 10 },
+        regulation: {
+          sid: 'RN11111111111111111111111111111111',
+        },
+        requirements: {
+          end_user: [],
+        },
+      });
+
+    const res = await request(app)
+      .post('/numbers/regulatory/initialize')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      prismaMock.$executeRaw
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      prismaMock.numberReservation.findFirst
+    ).toHaveBeenCalledWith({
+      where: {
+        phoneNumberId: candidate.id,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: {
+          gt: expect.any(Date),
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    expect(
+      prismaMock.numberReservation.create
+    ).toHaveBeenCalledWith({
+      data: {
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: expect.any(Date),
+      },
+    });
+
+    expect(
+      prismaMock.numberReservation.update
+    ).not.toHaveBeenCalled();
+  });
+
+  test('renews the same users active regulatory reservation', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce({
+        id: 31,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 30 * 60 * 1000
+        ),
+        createdAt: new Date(),
+      });
+
+    prismaMock.numberReservation.update
+      .mockResolvedValueOnce({
+        id: 31,
+        phoneNumberId: candidate.id,
+        userId: 123,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 60 * 60 * 1000
+        ),
+      });
+
+    initializeNumberRegulatoryVerificationMock
+      .mockResolvedValueOnce({
+        initialized: true,
+        reused: true,
+        reason: null,
+        profile: { id: 10 },
+        regulation: {
+          sid: 'RN11111111111111111111111111111111',
+        },
+        requirements: {
+          end_user: [],
+        },
+      });
+
+    const res = await request(app)
+      .post('/numbers/regulatory/initialize')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      prismaMock.numberReservation.update
+    ).toHaveBeenCalledWith({
+      where: {
+        id: 31,
+      },
+      data: {
+        expiresAt: expect.any(Date),
+      },
+    });
+
+    expect(
+      prismaMock.numberReservation.create
+    ).not.toHaveBeenCalled();
+  });
+
+  test('rejects regulatory initialization when another user holds the number', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    prismaMock.numberReservation.findFirst
+      .mockResolvedValueOnce({
+        id: 32,
+        phoneNumberId: candidate.id,
+        userId: 999,
+        purpose: 'REGULATORY_VERIFICATION',
+        expiresAt: new Date(
+          Date.now() + 30 * 60 * 1000
+        ),
+        createdAt: new Date(),
+      });
+
+    const res = await request(app)
+      .post('/numbers/regulatory/initialize')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body).toEqual({
+      error: 'NUMBER_REGULATORY_RESERVED',
+      decision: 'NUMBER_REGULATORY_RESERVED',
+    });
+
+    expect(
+      prismaMock.numberReservation.create
+    ).not.toHaveBeenCalled();
+
+    expect(
+      prismaMock.numberReservation.update
+    ).not.toHaveBeenCalled();
+
+    expect(
+      initializeNumberRegulatoryVerificationMock
+    ).not.toHaveBeenCalled();
   });
 
   test('requires an E.164 number', async () => {
