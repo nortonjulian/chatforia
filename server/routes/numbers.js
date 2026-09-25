@@ -9,6 +9,7 @@ import { requirePremium } from '../middleware/requirePremium.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import {
   evaluateNumberRegulatoryCompliance,
+  initializeNumberRegulatoryVerification,
 } from '../services/numberRegulatoryService.js';
 
 const router = express.Router();
@@ -404,6 +405,80 @@ router.get('/pool/buyable', requireAuth, async (req, res) => {
  *  A) Explicit number: { e164: "+1760..." }
  *  B) Filter-based: { areaCode?, country?, capability?, caps? }
  */
+router.post(
+  '/regulatory/initialize',
+  requireAuth,
+  async (req, res) => {
+    const userId = req.user.id;
+
+    const e164 = String(
+      req.body?.e164 || ''
+    ).trim();
+
+    if (!e164) {
+      return res.status(400).json({
+        error: 'e164 required',
+      });
+    }
+
+    const candidate =
+      await prisma.phoneNumber.findFirst({
+        where: {
+          e164,
+          status: 'AVAILABLE',
+          isLeasable: true,
+        },
+      });
+
+    if (!candidate) {
+      return res.status(404).json({
+        error: 'Number not available',
+      });
+    }
+
+    if (!candidate.regulatoryNumberType) {
+      return res.status(409).json({
+        error: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+        decision: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+      });
+    }
+
+    try {
+      const options = {
+        userId,
+        candidate,
+        endUserType: 'individual',
+      };
+
+      if (
+        Object.prototype.hasOwnProperty.call(
+          req.body || {},
+          'endUserAttributes'
+        )
+      ) {
+        options.endUserAttributes =
+          req.body.endUserAttributes;
+      }
+
+      const result =
+        await initializeNumberRegulatoryVerification(
+          options
+        );
+
+      if (!result.initialized) {
+        return res.status(409).json(result);
+      }
+
+      return res.status(200).json(result);
+    } catch {
+      return res.status(502).json({
+        error:
+          'Regulatory verification initialization failed',
+      });
+    }
+  }
+);
+
 router.post('/lease', requireAuth, async (req, res) => {
   const rawE164 = req.body?.e164
     ? String(req.body.e164)
