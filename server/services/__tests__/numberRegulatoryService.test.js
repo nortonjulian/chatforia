@@ -9,12 +9,16 @@ const createMock = jest.fn();
 const upsertMock = jest.fn();
 const updateMock = jest.fn();
 const documentFindUniqueMock = jest.fn();
+const documentFindManyMock = jest.fn();
 const documentUpsertMock = jest.fn();
 
 const getRegulatoryBundleMock = jest.fn();
 const getRegulationsMock = jest.fn();
 const createRegulatoryEndUserMock = jest.fn();
 const createRegulatorySupportingDocumentMock = jest.fn();
+const createRegulatoryBundleMock = jest.fn();
+const listRegulatoryBundleItemsMock = jest.fn();
+const assignRegulatoryItemMock = jest.fn();
 const normalizeStatusMock = jest.fn();
 
 const mockPrisma = {
@@ -26,6 +30,7 @@ const mockPrisma = {
   },
   numberRegulatoryDocument: {
     findUnique: documentFindUniqueMock,
+    findMany: documentFindManyMock,
     upsert: documentUpsertMock,
   },
 };
@@ -39,6 +44,12 @@ const mockProvider = {
     createRegulatoryEndUserMock,
   createRegulatorySupportingDocument:
     createRegulatorySupportingDocumentMock,
+  createRegulatoryBundle:
+    createRegulatoryBundleMock,
+  listRegulatoryBundleItems:
+    listRegulatoryBundleItemsMock,
+  assignRegulatoryItem:
+    assignRegulatoryItemMock,
   normalizeRegulatoryBundleStatus:
     normalizeStatusMock,
 };
@@ -71,6 +82,7 @@ const {
   evaluateNumberRegulatoryCompliance,
   initializeNumberRegulatoryVerification,
   provisionRegulatorySupportingDocument,
+  assembleRegulatoryBundle,
   getRequiredRegulatoryEndUserFields,
   validateRegulatoryEndUserAttributes,
   getRegulatorySupportingDocumentRequirements,
@@ -1236,6 +1248,365 @@ describe('numberRegulatoryService', () => {
 
   });
 
+
+  describe('regulatory Bundle assembly', () => {
+    const bundleRegulation = {
+      sid: 'RN11111111111111111111111111111111',
+      requirements: {
+        supporting_document: [
+          [
+            {
+              requirement_name:
+                'proof_of_identity_info',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name: 'Australian Passport',
+                  type: 'passport',
+                },
+              ],
+            },
+            {
+              requirement_name:
+                'proof_of_address_info',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name: 'Utility Bill',
+                  type: 'utility_bill',
+                },
+              ],
+            },
+          ],
+        ],
+      },
+    };
+
+    const identityDocument = {
+      id: 901,
+      profileId: 7,
+      requirementName:
+        'proof_of_identity_info',
+      documentType: 'passport',
+      supportingDocumentSid:
+        'RD55555555555555555555555555555555',
+      providerStatus: 'draft',
+      failureReason: null,
+    };
+
+    const addressDocument = {
+      id: 902,
+      profileId: 7,
+      requirementName:
+        'proof_of_address_info',
+      documentType: 'utility_bill',
+      supportingDocumentSid:
+        'RD66666666666666666666666666666666',
+      providerStatus: 'draft',
+      failureReason: null,
+    };
+
+    test('creates, immediately persists, and assembles a new Bundle', async () => {
+      const profile = baseProfile({
+        bundleSid: null,
+        providerStatus: null,
+      });
+
+      const persistedProfile = {
+        ...profile,
+        bundleSid: BU,
+        status: 'DRAFT',
+        providerStatus: 'draft',
+      };
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      documentFindManyMock.mockResolvedValue([
+        identityDocument,
+        addressDocument,
+      ]);
+
+      getRegulationsMock.mockResolvedValue([
+        bundleRegulation,
+      ]);
+
+      createRegulatoryBundleMock.mockResolvedValue({
+        sid: BU,
+        status: 'draft',
+        validUntil: null,
+      });
+
+      updateMock.mockResolvedValue(
+        persistedProfile
+      );
+
+      listRegulatoryBundleItemsMock
+        .mockResolvedValue([]);
+
+      assignRegulatoryItemMock
+        .mockResolvedValue({});
+
+      const result =
+        await assembleRegulatoryBundle({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          email: 'test@example.com',
+        });
+
+      expect(
+        createRegulatoryBundleMock
+      ).toHaveBeenCalledTimes(1);
+
+      expect(updateMock).toHaveBeenCalledWith({
+        where: {
+          id: profile.id,
+        },
+        data: {
+          bundleSid: BU,
+          status: 'DRAFT',
+          providerStatus: 'draft',
+          validUntil: null,
+        },
+      });
+
+      expect(
+        listRegulatoryBundleItemsMock
+      ).toHaveBeenCalledWith({
+        bundleSid: BU,
+      });
+
+      expect(
+        assignRegulatoryItemMock.mock.calls
+          .map(([value]) => value.objectSid)
+      ).toEqual([
+        profile.endUserSid,
+        identityDocument.supportingDocumentSid,
+        addressDocument.supportingDocumentSid,
+      ]);
+
+      expect(result.assembled).toBe(true);
+      expect(result.reusedBundle).toBe(false);
+      expect(result.bundleSid).toBe(BU);
+    });
+
+    test('reuses an existing Bundle and skips objects already assigned at Twilio', async () => {
+      const profile = baseProfile();
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      documentFindManyMock.mockResolvedValue([
+        identityDocument,
+        addressDocument,
+      ]);
+
+      getRegulationsMock.mockResolvedValue([
+        bundleRegulation,
+      ]);
+
+      listRegulatoryBundleItemsMock
+        .mockResolvedValue([
+          {
+            objectSid: profile.endUserSid,
+          },
+          {
+            objectSid:
+              identityDocument.supportingDocumentSid,
+          },
+        ]);
+
+      assignRegulatoryItemMock
+        .mockResolvedValue({});
+
+      const result =
+        await assembleRegulatoryBundle({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          email: 'test@example.com',
+        });
+
+      expect(
+        createRegulatoryBundleMock
+      ).not.toHaveBeenCalled();
+
+      expect(updateMock).not.toHaveBeenCalled();
+
+      expect(
+        assignRegulatoryItemMock
+      ).toHaveBeenCalledTimes(1);
+
+      expect(
+        assignRegulatoryItemMock
+      ).toHaveBeenCalledWith({
+        bundleSid: BU,
+        objectSid:
+          addressDocument.supportingDocumentSid,
+      });
+
+      expect(result.assembled).toBe(true);
+      expect(result.reusedBundle).toBe(true);
+
+      expect(result.alreadyAssigned).toEqual([
+        profile.endUserSid,
+        identityDocument.supportingDocumentSid,
+      ]);
+    });
+
+    test('fails before Bundle creation when a required Supporting Document is missing', async () => {
+      const profile = baseProfile({
+        bundleSid: null,
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      documentFindManyMock.mockResolvedValue([
+        identityDocument,
+      ]);
+
+      getRegulationsMock.mockResolvedValue([
+        bundleRegulation,
+      ]);
+
+      const result =
+        await assembleRegulatoryBundle({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          email: 'test@example.com',
+        });
+
+      expect(result.assembled).toBe(false);
+      expect(result.reason).toBe(
+        'supporting-documents-incomplete'
+      );
+
+      expect(
+        result.missingRequirementNames
+      ).toEqual([
+        'proof_of_address_info',
+      ]);
+
+      expect(
+        createRegulatoryBundleMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        assignRegulatoryItemMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('ignores obsolete local documents not required by the current regulation', async () => {
+      const profile = baseProfile();
+
+      const obsoleteDocument = {
+        id: 903,
+        profileId: profile.id,
+        requirementName:
+          'obsolete_requirement',
+        documentType: 'obsolete_document',
+        supportingDocumentSid: null,
+        providerStatus: null,
+        failureReason: null,
+      };
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      documentFindManyMock.mockResolvedValue([
+        identityDocument,
+        addressDocument,
+        obsoleteDocument,
+      ]);
+
+      getRegulationsMock.mockResolvedValue([
+        bundleRegulation,
+      ]);
+
+      listRegulatoryBundleItemsMock
+        .mockResolvedValue([]);
+
+      assignRegulatoryItemMock
+        .mockResolvedValue({});
+
+      const result =
+        await assembleRegulatoryBundle({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          email: 'test@example.com',
+        });
+
+      expect(result.assembled).toBe(true);
+
+      expect(
+        assignRegulatoryItemMock.mock.calls
+          .map(([value]) => value.objectSid)
+      ).toEqual([
+        profile.endUserSid,
+        identityDocument.supportingDocumentSid,
+        addressDocument.supportingDocumentSid,
+      ]);
+
+      expect(
+        assignRegulatoryItemMock.mock.calls
+          .map(([value]) => value.objectSid)
+      ).not.toContain(
+        obsoleteDocument.supportingDocumentSid
+      );
+    });
+
+    test('returns resumable state when assignment fails partway through', async () => {
+      const profile = baseProfile();
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      documentFindManyMock.mockResolvedValue([
+        identityDocument,
+        addressDocument,
+      ]);
+
+      getRegulationsMock.mockResolvedValue([
+        bundleRegulation,
+      ]);
+
+      listRegulatoryBundleItemsMock
+        .mockResolvedValue([]);
+
+      assignRegulatoryItemMock
+        .mockResolvedValueOnce({})
+        .mockRejectedValueOnce(
+          new Error('Twilio unavailable')
+        );
+
+      const result =
+        await assembleRegulatoryBundle({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          email: 'test@example.com',
+        });
+
+      expect(result.assembled).toBe(false);
+      expect(result.reason).toBe(
+        'bundle-item-assignment-failed'
+      );
+
+      expect(result.failedObjectSid).toBe(
+        identityDocument.supportingDocumentSid
+      );
+
+      expect(result.assignedNow).toEqual([
+        profile.endUserSid,
+      ]);
+
+      expect(result.bundleSid).toBe(BU);
+    });
+  });
 
   describe('regulatory supporting document provisioning', () => {
     const documentRegulation = {

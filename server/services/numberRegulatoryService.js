@@ -957,6 +957,370 @@ export async function initializeNumberRegulatoryVerification({
 }
 
 
+export async function assembleRegulatoryBundle({
+  userId,
+  provider = PROFILE_PROVIDER,
+  country,
+  numberType,
+  endUserType,
+  email,
+  friendlyName,
+  statusCallback,
+}) {
+  const key = normalizeProfileKey({
+    userId,
+    provider,
+    country,
+    numberType,
+    endUserType,
+  });
+
+  let profile =
+    await prisma.numberRegulatoryProfile.findUnique({
+      where: profileUniqueWhere(key),
+    });
+
+  if (!profile) {
+    return {
+      assembled: false,
+      reusedBundle: false,
+      reason: 'profile-not-found',
+      profile: null,
+    };
+  }
+
+  const regulationSid =
+    String(profile.regulationSid || '').trim();
+
+  const endUserSid =
+    String(profile.endUserSid || '').trim();
+
+  if (!/^RN[a-f0-9]{32}$/i.test(regulationSid)) {
+    return {
+      assembled: false,
+      reusedBundle: false,
+      reason: 'regulation-not-initialized',
+      profile,
+    };
+  }
+
+  if (!/^IT[a-f0-9]{32}$/i.test(endUserSid)) {
+    return {
+      assembled: false,
+      reusedBundle: false,
+      reason: 'end-user-not-provisioned',
+      profile,
+    };
+  }
+
+  const documents =
+    await prisma.numberRegulatoryDocument.findMany({
+      where: {
+        profileId: profile.id,
+      },
+    });
+
+  const api = getProvider(key.provider);
+
+  if (
+    !api ||
+    typeof api.getRegulations !== 'function'
+  ) {
+    return {
+      assembled: false,
+      reusedBundle: Boolean(profile.bundleSid),
+      reason: 'provider-regulations-unsupported',
+      profile,
+      documents,
+    };
+  }
+
+  let regulations;
+
+  try {
+    regulations = await api.getRegulations({
+      country: key.isoCountry,
+      numberType: key.numberType,
+      endUserType: key.endUserType,
+      includeConstraints: true,
+    });
+  } catch {
+    return {
+      assembled: false,
+      reusedBundle: Boolean(profile.bundleSid),
+      reason: 'regulation-lookup-failed',
+      profile,
+      documents,
+    };
+  }
+
+  const matchingRegulations =
+    Array.isArray(regulations)
+      ? regulations.filter(
+          (regulation) =>
+            String(regulation?.sid || '').trim() ===
+            regulationSid
+        )
+      : [];
+
+  if (matchingRegulations.length !== 1) {
+    return {
+      assembled: false,
+      reusedBundle: Boolean(profile.bundleSid),
+      reason: 'regulation-not-found',
+      profile,
+      documents,
+    };
+  }
+
+  const requirementGroups =
+    getRegulatorySupportingDocumentRequirements(
+      matchingRegulations[0].requirements || {}
+    );
+
+  const requiredRequirementNames =
+    [
+      ...new Set(
+        requirementGroups
+          .flat()
+          .map((requirement) =>
+            String(
+              requirement?.requirementName || ''
+            ).trim()
+          )
+          .filter(Boolean)
+      ),
+    ];
+
+  const documentsByRequirement =
+    new Map(
+      documents.map((document) => [
+        String(
+          document.requirementName || ''
+        ).trim(),
+        document,
+      ])
+    );
+
+  const missingRequirementNames =
+    requiredRequirementNames.filter(
+      (requirementName) => {
+        const document =
+          documentsByRequirement.get(
+            requirementName
+          );
+
+        return !/^RD[a-f0-9]{32}$/i.test(
+          String(
+            document?.supportingDocumentSid || ''
+          ).trim()
+        );
+      }
+    );
+
+  if (missingRequirementNames.length > 0) {
+    return {
+      assembled: false,
+      reusedBundle: Boolean(profile.bundleSid),
+      reason: 'supporting-documents-incomplete',
+      profile,
+      documents,
+      missingRequirementNames,
+    };
+  }
+
+  const requiredDocuments =
+    requiredRequirementNames.map(
+      (requirementName) =>
+        documentsByRequirement.get(
+          requirementName
+        )
+    );
+
+  if (
+    !api ||
+    typeof api.createRegulatoryBundle !== 'function' ||
+    typeof api.listRegulatoryBundleItems !== 'function' ||
+    typeof api.assignRegulatoryItem !== 'function'
+  ) {
+    return {
+      assembled: false,
+      reusedBundle: Boolean(profile.bundleSid),
+      reason: 'provider-bundle-unsupported',
+      profile,
+      documents,
+    };
+  }
+
+  let bundleSid =
+    String(profile.bundleSid || '').trim();
+
+  let reusedBundle = Boolean(bundleSid);
+
+  if (bundleSid) {
+    if (!/^BU[a-f0-9]{32}$/i.test(bundleSid)) {
+      return {
+        assembled: false,
+        reusedBundle: true,
+        reason: 'invalid-bundle',
+        profile,
+        documents,
+      };
+    }
+  } else {
+    let bundle;
+
+    try {
+      bundle =
+        await api.createRegulatoryBundle({
+          friendlyName:
+            String(
+              friendlyName ||
+              `Chatforia ${key.isoCountry} ${key.numberType} ${key.userId}`
+            ).trim(),
+          email:
+            String(email || '').trim(),
+          regulationSid,
+          country: key.isoCountry,
+          numberType: key.numberType,
+          endUserType: key.endUserType,
+          statusCallback,
+        });
+    } catch {
+      return {
+        assembled: false,
+        reusedBundle: false,
+        reason: 'bundle-creation-failed',
+        profile,
+        documents,
+      };
+    }
+
+    bundleSid =
+      String(bundle?.sid || '').trim();
+
+    if (!/^BU[a-f0-9]{32}$/i.test(bundleSid)) {
+      return {
+        assembled: false,
+        reusedBundle: false,
+        reason: 'invalid-bundle',
+        profile,
+        documents,
+      };
+    }
+
+    try {
+      profile =
+        await prisma.numberRegulatoryProfile.update({
+          where: {
+            id: profile.id,
+          },
+          data: {
+            bundleSid,
+            status: 'DRAFT',
+            providerStatus:
+              bundle.status || 'draft',
+            validUntil:
+              bundle.validUntil || null,
+          },
+        });
+    } catch {
+      return {
+        assembled: false,
+        reusedBundle: false,
+        reason: 'bundle-persistence-failed',
+        profile,
+        documents,
+        bundleSid,
+      };
+    }
+  }
+
+  let assignments;
+
+  try {
+    assignments =
+      await api.listRegulatoryBundleItems({
+        bundleSid,
+      });
+  } catch {
+    return {
+      assembled: false,
+      reusedBundle,
+      reason: 'bundle-assignment-lookup-failed',
+      profile,
+      documents,
+      bundleSid,
+    };
+  }
+
+  const assignedObjectSids =
+    new Set(
+      (Array.isArray(assignments)
+        ? assignments
+        : []
+      )
+        .map((assignment) =>
+          String(
+            assignment?.objectSid || ''
+          ).trim()
+        )
+        .filter(Boolean)
+    );
+
+  const requiredObjectSids = [
+    endUserSid,
+    ...requiredDocuments.map((document) =>
+      String(
+        document.supportingDocumentSid
+      ).trim()
+    ),
+  ];
+
+  const assignedNow = [];
+  const alreadyAssigned = [];
+
+  for (const objectSid of requiredObjectSids) {
+    if (assignedObjectSids.has(objectSid)) {
+      alreadyAssigned.push(objectSid);
+      continue;
+    }
+
+    try {
+      await api.assignRegulatoryItem({
+        bundleSid,
+        objectSid,
+      });
+    } catch {
+      return {
+        assembled: false,
+        reusedBundle,
+        reason: 'bundle-item-assignment-failed',
+        profile,
+        documents,
+        bundleSid,
+        failedObjectSid: objectSid,
+        assignedNow,
+        alreadyAssigned,
+      };
+    }
+
+    assignedObjectSids.add(objectSid);
+    assignedNow.push(objectSid);
+  }
+
+  return {
+    assembled: true,
+    reusedBundle,
+    reason: null,
+    profile,
+    documents,
+    bundleSid,
+    assignedNow,
+    alreadyAssigned,
+  };
+}
+
 export async function provisionRegulatorySupportingDocument({
   userId,
   provider = PROFILE_PROVIDER,
