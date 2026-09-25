@@ -1359,9 +1359,260 @@ describe('POST /numbers/regulatory/documents', () => {
         document_number: 'TEST-123',
       },
       friendlyName: undefined,
+      file: undefined,
     });
 
     expect(res.body).toEqual(result);
+  });
+
+  test('uploads a multipart regulatory document with parsed attributes', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(candidate);
+
+    const result = {
+      provisioned: true,
+      reused: false,
+      reason: null,
+      document: {
+        id: 21,
+        profileId: 10,
+        requirementName,
+        documentType,
+        supportingDocumentSid:
+          'RD33333333333333333333333333333333',
+      },
+    };
+
+    provisionRegulatorySupportingDocumentMock
+      .mockResolvedValueOnce(result);
+
+    const pdfBuffer = Buffer.from(
+      '%PDF-1.4\nChatforia regulatory test\n'
+    );
+
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .field('e164', candidate.e164)
+      .field('requirementName', requirementName)
+      .field('documentType', documentType)
+      .field(
+        'attributes',
+        JSON.stringify({
+          document_number: 'TEST-456',
+          document_issuing_country: 'AU',
+        })
+      )
+      .field(
+        'friendlyName',
+        'Government ID'
+      )
+      .attach(
+        'file',
+        pdfBuffer,
+        {
+          filename: 'identity.pdf',
+          contentType: 'application/pdf',
+        }
+      )
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).toHaveBeenCalledWith({
+      where: {
+        e164: candidate.e164,
+        status: 'AVAILABLE',
+        isLeasable: true,
+      },
+    });
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).toHaveBeenCalledTimes(1);
+
+    const call =
+      provisionRegulatorySupportingDocumentMock
+        .mock.calls[0][0];
+
+    expect(call).toMatchObject({
+      userId: 123,
+      provider: 'twilio',
+      country: 'AU',
+      numberType: 'local',
+      endUserType: 'individual',
+      requirementName,
+      documentType,
+      attributes: {
+        document_number: 'TEST-456',
+        document_issuing_country: 'AU',
+      },
+      friendlyName: 'Government ID',
+    });
+
+    expect(call.file).toEqual(
+      expect.objectContaining({
+        fieldname: 'file',
+        originalname: 'identity.pdf',
+        mimetype: 'application/pdf',
+        buffer: pdfBuffer,
+      })
+    );
+
+    expect(res.body).toEqual(result);
+  });
+
+  test('requires a file for multipart regulatory document requests', async () => {
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .field('e164', candidate.e164)
+      .field('requirementName', requirementName)
+      .field('documentType', documentType)
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({
+      error: 'REGULATORY_DOCUMENT_FILE_REQUIRED',
+    });
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).not.toHaveBeenCalled();
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('rejects malformed multipart regulatory document attributes', async () => {
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .field('e164', candidate.e164)
+      .field('requirementName', requirementName)
+      .field('documentType', documentType)
+      .field('attributes', '{"broken":')
+      .attach(
+        'file',
+        Buffer.from('%PDF-1.4\ninvalid attributes\n'),
+        {
+          filename: 'identity.pdf',
+          contentType: 'application/pdf',
+        }
+      )
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({
+      error:
+        'INVALID_REGULATORY_DOCUMENT_ATTRIBUTES',
+    });
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).not.toHaveBeenCalled();
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('rejects an unsupported regulatory document MIME type without exposing Multer details', async () => {
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .field('e164', candidate.e164)
+      .field('requirementName', requirementName)
+      .field('documentType', documentType)
+      .attach(
+        'file',
+        Buffer.from('plain text'),
+        {
+          filename: 'identity.txt',
+          contentType: 'text/plain',
+        }
+      )
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({
+      error:
+        'UNSUPPORTED_REGULATORY_DOCUMENT_TYPE',
+    });
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).not.toHaveBeenCalled();
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('rejects an invalid regulatory document extension', async () => {
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .field('e164', candidate.e164)
+      .field('requirementName', requirementName)
+      .field('documentType', documentType)
+      .attach(
+        'file',
+        Buffer.from('%PDF-1.4\nwrong extension\n'),
+        {
+          filename: 'identity.txt',
+          contentType: 'application/pdf',
+        }
+      )
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({
+      error:
+        'INVALID_REGULATORY_DOCUMENT_EXTENSION',
+    });
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).not.toHaveBeenCalled();
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('rejects a regulatory document larger than 5 MB', async () => {
+    const oversizedBuffer =
+      Buffer.alloc(
+        5 * 1024 * 1024 + 1,
+        0x61
+      );
+
+    const res = await request(app)
+      .post('/numbers/regulatory/documents')
+      .field('e164', candidate.e164)
+      .field('requirementName', requirementName)
+      .field('documentType', documentType)
+      .attach(
+        'file',
+        oversizedBuffer,
+        {
+          filename: 'identity.pdf',
+          contentType: 'application/pdf',
+        }
+      )
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(413);
+    expect(res.body).toEqual({
+      error: 'REGULATORY_DOCUMENT_TOO_LARGE',
+    });
+
+    expect(
+      prismaMock.phoneNumber.findFirst
+    ).not.toHaveBeenCalled();
+
+    expect(
+      provisionRegulatorySupportingDocumentMock
+    ).not.toHaveBeenCalled();
   });
 
   test('requires e164, requirementName, and documentType', async () => {
