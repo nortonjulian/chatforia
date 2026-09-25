@@ -9,6 +9,7 @@ const upsertMock = jest.fn();
 const updateMock = jest.fn();
 
 const getRegulatoryBundleMock = jest.fn();
+const getRegulationsMock = jest.fn();
 const normalizeStatusMock = jest.fn();
 
 const mockPrisma = {
@@ -20,6 +21,8 @@ const mockPrisma = {
 };
 
 const mockProvider = {
+  getRegulations:
+    getRegulationsMock,
   getRegulatoryBundle:
     getRegulatoryBundleMock,
   normalizeRegulatoryBundleStatus:
@@ -51,6 +54,7 @@ const {
   getRegulatoryProfile,
   upsertRegulatoryProfile,
   syncRegulatoryBundleStatus,
+  evaluateNumberRegulatoryCompliance,
 } = await import(
   '../numberRegulatoryService.js'
 );
@@ -415,4 +419,358 @@ describe('numberRegulatoryService', () => {
       findUniqueMock
     ).not.toHaveBeenCalled();
   });
+
+  describe('regulatory compliance decision', () => {
+    const candidate = {
+      id: 99,
+      e164: '+61255550123',
+      provider: 'twilio',
+      isoCountry: 'AU',
+      regulatoryNumberType: 'local',
+    };
+
+    test('regulation lookup failure fails closed', async () => {
+      getRegulationsMock.mockRejectedValue(
+        new Error('Twilio unavailable')
+      );
+
+      const result =
+        await evaluateNumberRegulatoryCompliance({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.allowed).toBe(false);
+      expect(result.requiresVerification).toBe(false);
+      expect(result.decision).toBe(
+        'BLOCKED_REGULATION_LOOKUP'
+      );
+
+      expect(
+        findUniqueMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        getRegulatoryBundleMock
+      ).not.toHaveBeenCalled();
+    });
+
+    const regulation = {
+      sid: 'RN11111111111111111111111111111111',
+      isoCountry: 'AU',
+      numberType: 'local',
+      endUserType: 'individual',
+      requirements: {},
+    };
+
+    test('fails closed when inventory country is unknown', async () => {
+      const result =
+        await evaluateNumberRegulatoryCompliance({
+          userId: 42,
+          candidate: {
+            ...candidate,
+            isoCountry: null,
+          },
+        });
+
+      expect(result.decision).toBe(
+        'BLOCKED_UNKNOWN_COUNTRY'
+      );
+      expect(result.allowed).toBe(false);
+
+      expect(
+        getRegulationsMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('fails closed when regulatory number type is unknown', async () => {
+      const result =
+        await evaluateNumberRegulatoryCompliance({
+          userId: 42,
+          candidate: {
+            ...candidate,
+            regulatoryNumberType: null,
+          },
+        });
+
+      expect(result.decision).toBe(
+        'BLOCKED_UNKNOWN_NUMBER_TYPE'
+      );
+      expect(result.allowed).toBe(false);
+
+      expect(
+        getRegulationsMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('allows assignment when no regulation applies', async () => {
+      getRegulationsMock.mockResolvedValue([]);
+
+      const result =
+        await evaluateNumberRegulatoryCompliance({
+          userId: 42,
+          candidate,
+        });
+
+      expect(getRegulationsMock).toHaveBeenCalledWith({
+        country: 'AU',
+        numberType: 'local',
+        endUserType: 'individual',
+        includeConstraints: true,
+      });
+
+      expect(result.allowed).toBe(true);
+      expect(result.decision).toBe(
+        'NO_REGULATION'
+      );
+
+      expect(
+        findUniqueMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('requires verification when regulation exists but profile does not', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      findUniqueMock.mockResolvedValue(null);
+
+      const result =
+        await evaluateNumberRegulatoryCompliance({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.allowed).toBe(false);
+      expect(result.requiresVerification).toBe(
+        true
+      );
+      expect(result.decision).toBe(
+        'VERIFICATION_REQUIRED'
+      );
+      expect(result.regulation).toBe(
+        regulation
+      );
+    });
+
+    test('allows only a current approved profile', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      const profile = baseProfile({
+        status: 'IN_REVIEW',
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      const validUntil =
+        new Date('2099-01-01T00:00:00.000Z');
+
+      getRegulatoryBundleMock.mockResolvedValue({
+        sid: BU,
+        status: 'twilio-approved',
+        validUntil,
+      });
+
+      normalizeStatusMock.mockReturnValue(
+        'APPROVED'
+      );
+
+      updateMock.mockImplementation(
+        async ({ data }) => ({
+          ...profile,
+          ...data,
+        })
+      );
+
+      const result =
+        await evaluateNumberRegulatoryCompliance({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.allowed).toBe(true);
+      expect(result.decision).toBe('APPROVED');
+    });
+
+    test('expired approval requires verification again', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      const profile = baseProfile({
+        status: 'APPROVED',
+        approvedAt:
+          new Date('2025-01-01T00:00:00.000Z'),
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      const validUntil =
+        new Date('2025-02-01T00:00:00.000Z');
+
+      getRegulatoryBundleMock.mockResolvedValue({
+        sid: BU,
+        status: 'twilio-approved',
+        validUntil,
+      });
+
+      normalizeStatusMock.mockReturnValue(
+        'APPROVED'
+      );
+
+      updateMock.mockImplementation(
+        async ({ data }) => ({
+          ...profile,
+          ...data,
+        })
+      );
+
+      const result =
+        await evaluateNumberRegulatoryCompliance({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.allowed).toBe(false);
+      expect(result.requiresVerification).toBe(
+        true
+      );
+      expect(result.decision).toBe(
+        'VERIFICATION_REQUIRED'
+      );
+    });
+
+    test.each([
+      [
+        'pending-review',
+        'PENDING_REVIEW',
+        'VERIFICATION_PENDING',
+      ],
+      [
+        'in-review',
+        'IN_REVIEW',
+        'VERIFICATION_PENDING',
+      ],
+      [
+        'twilio-rejected',
+        'REJECTED',
+        'VERIFICATION_REJECTED',
+      ],
+      [
+        'provisionally-approved',
+        'PROVISIONALLY_APPROVED',
+        'BLOCKED_PROVISIONAL_APPROVAL',
+      ],
+    ])(
+      'maps %s to %s decision',
+      async (
+        providerStatus,
+        normalizedStatus,
+        expectedDecision
+      ) => {
+        getRegulationsMock.mockResolvedValue([
+          regulation,
+        ]);
+
+        const profile = baseProfile();
+
+        findUniqueMock.mockResolvedValue(profile);
+
+        getRegulatoryBundleMock.mockResolvedValue({
+          sid: BU,
+          status: providerStatus,
+          validUntil: null,
+        });
+
+        normalizeStatusMock.mockReturnValue(
+          normalizedStatus
+        );
+
+        updateMock.mockImplementation(
+          async ({ data }) => ({
+            ...profile,
+            ...data,
+          })
+        );
+
+        const result =
+          await evaluateNumberRegulatoryCompliance({
+            userId: 42,
+            candidate,
+          });
+
+        expect(result.allowed).toBe(false);
+        expect(result.decision).toBe(
+          expectedDecision
+        );
+      }
+    );
+
+    test('unknown provider status fails closed', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      const profile = baseProfile({
+        status: 'IN_REVIEW',
+      });
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      getRegulatoryBundleMock.mockResolvedValue({
+        sid: BU,
+        status: 'future-status',
+        validUntil: null,
+      });
+
+      normalizeStatusMock.mockReturnValue(null);
+
+      updateMock.mockImplementation(
+        async ({ data }) => ({
+          ...profile,
+          ...data,
+        })
+      );
+
+      const result =
+        await evaluateNumberRegulatoryCompliance({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.allowed).toBe(false);
+      expect(result.decision).toBe(
+        'BLOCKED_UNKNOWN_STATUS'
+      );
+    });
+
+    test('provider synchronization failure fails closed', async () => {
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      const profile = baseProfile();
+
+      findUniqueMock.mockResolvedValue(profile);
+
+      getRegulatoryBundleMock.mockRejectedValue(
+        new Error('Twilio unavailable')
+      );
+
+      const result =
+        await evaluateNumberRegulatoryCompliance({
+          userId: 42,
+          candidate,
+        });
+
+      expect(result.allowed).toBe(false);
+      expect(result.decision).toBe(
+        'BLOCKED_STATUS_SYNC'
+      );
+    });
+  });
+
 });
