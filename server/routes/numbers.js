@@ -215,6 +215,79 @@ router.get('/available', requireAuth, async (req, res) => {
 });
 
 /**
+ * GET /numbers/regulatory-requirements
+ * Discover Twilio regulatory requirements before number assignment.
+ *
+ * Query:
+ * - country: required ISO-2 country code
+ * - numberType: local | mobile | national | toll-free
+ * - endUserType: individual | business
+ */
+router.get('/regulatory-requirements', requireAuth, async (req, res) => {
+  const country = normalizeCountryIso2(req.query.country);
+
+  if (!country) {
+    return res.status(400).json({
+      error: 'country must be a 2-letter ISO country code',
+    });
+  }
+
+  const numberType = String(
+    req.query.numberType || 'local'
+  )
+    .trim()
+    .toLowerCase();
+
+  const endUserType = String(
+    req.query.endUserType || 'individual'
+  )
+    .trim()
+    .toLowerCase();
+
+  try {
+    const api = await resolveTwilioProvider();
+
+    if (!api || typeof api.getRegulations !== 'function') {
+      return res.status(503).json({
+        error: 'Regulatory compliance provider unavailable',
+      });
+    }
+
+    const regulations = await api.getRegulations({
+      country,
+      numberType,
+      endUserType,
+      includeConstraints: true,
+    });
+
+    return res.json({
+      country,
+      numberType,
+      endUserType,
+      requiresRegulatoryCompliance: regulations.length > 0,
+      regulations,
+    });
+  } catch (err) {
+    console.error('Regulatory requirements lookup failed:', err);
+
+    const message = String(err?.message || '');
+
+    if (
+      message.includes('Unsupported regulatory number type') ||
+      message.includes('endUserType must be')
+    ) {
+      return res.status(400).json({
+        error: message,
+      });
+    }
+
+    return res.status(502).json({
+      error: 'Regulatory requirements lookup failed',
+    });
+  }
+});
+
+/**
  * GET /numbers/pool?areaCode=303&country=US&capability=sms&caps=sms,voice&limit=20&forSale=true
  * Chatforia-owned inventory pool (DB).
  *
