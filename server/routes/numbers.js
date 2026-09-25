@@ -7,6 +7,9 @@ import telco, {
 import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
+import {
+  evaluateNumberRegulatoryCompliance,
+} from '../services/numberRegulatoryService.js';
 
 const router = express.Router();
 
@@ -402,14 +405,22 @@ router.get('/pool/buyable', requireAuth, async (req, res) => {
  *  B) Filter-based: { areaCode?, country?, capability?, caps? }
  */
 router.post('/lease', requireAuth, async (req, res) => {
-  const rawE164 = req.body?.e164 ? String(req.body.e164) : null;
-  const cleanE164 = rawE164 ? normalizeE164(rawE164) : null;
+  const rawE164 = req.body?.e164
+    ? String(req.body.e164)
+    : null;
+
+  const cleanE164 = rawE164
+    ? normalizeE164(rawE164)
+    : null;
 
   if (cleanE164 && !isE164(cleanE164)) {
-    return res.status(400).json({ error: 'Invalid e164' });
+    return res.status(400).json({
+      error: 'Invalid e164',
+    });
   }
 
-  const purchaseIntent = parseBoolean(req.body?.purchaseIntent) === true;
+  const purchaseIntent =
+    parseBoolean(req.body?.purchaseIntent) === true;
 
   const user = await prisma.user.findUnique({
     where: { id: req.user.id },
@@ -424,100 +435,206 @@ router.post('/lease', requireAuth, async (req, res) => {
     });
   }
 
-  const areaCode = req.body?.areaCode ? String(req.body.areaCode) : undefined;
-  const country = normalizeCountryIso2(req.body?.country) || 'US';
-  const capability = req.body?.capability ? String(req.body.capability) : null;
+  const areaCode = req.body?.areaCode
+    ? String(req.body.areaCode)
+    : undefined;
+
+  const country =
+    normalizeCountryIso2(req.body?.country) || 'US';
+
+  const capability = req.body?.capability
+    ? String(req.body.capability)
+    : null;
+
   const caps = parseCapsParam(req.body?.caps);
 
-  // If user already has a number, don't lease another (use /swap later)
-  const existing = await prisma.phoneNumber.findFirst({
-    where: { assignedUserId: req.user.id, status: { in: ['ASSIGNED', 'HOLD'] } },
-  });
+  // If user already has a number, don't lease another.
+  const existing =
+    await prisma.phoneNumber.findFirst({
+      where: {
+        assignedUserId: req.user.id,
+        status: {
+          in: ['ASSIGNED', 'HOLD'],
+        },
+      },
+    });
+
   if (existing) {
-    return res.status(409).json({ error: 'User already has a number', number: existing });
+    return res.status(409).json({
+      error: 'User already has a number',
+      number: existing,
+    });
   }
 
+  const excludedCandidateIds = [];
+  const maxAttempts = cleanE164 ? 1 : 3;
+
   try {
-    const leased = await prisma.$transaction(async (tx) => {
+    for (
+      let attempt = 0;
+      attempt < maxAttempts;
+      attempt += 1
+    ) {
       let candidate = null;
 
       if (cleanE164) {
-        // Explicit select
-        candidate = await tx.phoneNumber.findFirst({
-          where: {
-            e164: cleanE164,
-            status: 'AVAILABLE',
-            provider: 'twilio',
-            ...(purchaseIntent ? { isPurchasable: true } : { isLeasable: true }),
-          },
-        });
+        candidate =
+          await prisma.phoneNumber.findFirst({
+            where: {
+              e164: cleanE164,
+              status: 'AVAILABLE',
+              provider: 'twilio',
+              ...(purchaseIntent
+                ? { isPurchasable: true }
+                : { isLeasable: true }),
+            },
+          });
       } else {
-        // Filter-based pick
         const where = buildPoolWhere({
           areaCode,
           country,
           capability,
           caps,
-          forSale: purchaseIntent ? true : false,
+          forSale:
+            purchaseIntent ? true : false,
         });
-        candidate = await tx.phoneNumber.findFirst({
-          where,
-          orderBy: [{ vanity: 'desc' }, { id: 'asc' }],
+
+        if (excludedCandidateIds.length) {
+          where.id = {
+            notIn: excludedCandidateIds,
+          };
+        }
+
+        candidate =
+          await prisma.phoneNumber.findFirst({
+            where,
+            orderBy: [
+              { vanity: 'desc' },
+              { id: 'asc' },
+            ],
+          });
+      }
+
+      if (!candidate) {
+        return res.status(404).json({
+          error: cleanE164
+            ? 'That number is no longer available.'
+            : purchaseIntent
+              ? 'No premium numbers available in inventory'
+              : 'No available numbers in pool',
         });
       }
 
-      if (!candidate) return null;
+      const compliance =
+        await evaluateNumberRegulatoryCompliance({
+          userId: req.user.id,
+          candidate,
+          endUserType: 'individual',
+        });
 
-      // Atomic update: only succeed if still AVAILABLE (and still sellable if BUY)
-      const updated = await tx.phoneNumber.updateMany({
-        where: {
-          id: candidate.id,
-          status: 'AVAILABLE',
-          ...(purchaseIntent
-            ? { isPurchasable: true }
-            : { isLeasable: true }),
-        },
-        data: {
-          status: 'ASSIGNED',
-          assignedUserId: req.user.id,
-          assignedAt: new Date(),
-          holdUntil: null,
-          releaseAfter: null,
+      if (!compliance?.allowed) {
+        return res.status(409).json({
+          error:
+            compliance?.decision ||
+            'REGULATORY_COMPLIANCE_BLOCKED',
+          decision:
+            compliance?.decision ||
+            'BLOCKED_UNKNOWN_STATUS',
+          requiresVerification:
+            Boolean(
+              compliance?.requiresVerification
+            ),
+          regulation:
+            compliance?.regulation || null,
+          profile:
+            compliance?.profile || null,
+        });
+      }
 
-          locality: candidate.locality ?? null,
-          region: candidate.region ?? null,
+      const leased =
+        await prisma.$transaction(
+          async (tx) => {
+            const updated =
+              await tx.phoneNumber.updateMany({
+                where: {
+                  id: candidate.id,
+                  status: 'AVAILABLE',
+                  ...(purchaseIntent
+                    ? {
+                        isPurchasable: true,
+                      }
+                    : {
+                        isLeasable: true,
+                      }),
+                },
+                data: {
+                  status: 'ASSIGNED',
+                  assignedUserId: req.user.id,
+                  assignedAt: new Date(),
+                  holdUntil: null,
+                  releaseAfter: null,
 
-          // Assigned numbers should disappear from both pools
-          isLeasable: false,
-          isPurchasable: false,
+                  locality:
+                    candidate.locality ?? null,
+                  region:
+                    candidate.region ?? null,
 
-          // Purchased/kept numbers are protected
-          keepLocked: purchaseIntent ? true : false,
+                  isLeasable: false,
+                  isPurchasable: false,
 
-          // Legacy field for now
-          ...(purchaseIntent ? { forSale: false } : {}),
-        },
-      });
+                  keepLocked:
+                    purchaseIntent
+                      ? true
+                      : false,
 
-      if (updated.count !== 1) return null; // race lost
+                  ...(purchaseIntent
+                    ? { forSale: false }
+                    : {}),
+                },
+              });
 
-      return tx.phoneNumber.findUnique({ where: { id: candidate.id } });
-    });
+            if (updated.count !== 1) {
+              return null;
+            }
 
-    if (!leased) {
-      return res.status(404).json({
-        error: cleanE164
-          ? 'That number is no longer available.'
-          : purchaseIntent
-            ? 'No premium numbers available in inventory'
-            : 'No available numbers in pool',
-      });
+            return tx.phoneNumber.findUnique({
+              where: {
+                id: candidate.id,
+              },
+            });
+          }
+        );
+
+      if (leased) {
+        return res.json({
+          ok: true,
+          number: leased,
+          policy: getPolicy(plan),
+        });
+      }
+
+      // The exact candidate lost an assignment race.
+      // Explicit selections cannot silently switch numbers.
+      if (cleanE164) {
+        return res.status(404).json({
+          error:
+            'That number is no longer available.',
+        });
+      }
+
+      excludedCandidateIds.push(candidate.id);
     }
 
-    res.json({ ok: true, number: leased, policy: getPolicy(plan) });
+    return res.status(409).json({
+      error:
+        'Number inventory changed. Please try again.',
+    });
   } catch (err) {
     console.error('Lease failed:', err);
-    res.status(500).json({ error: 'Lease failed' });
+
+    return res.status(500).json({
+      error: 'Lease failed',
+    });
   }
 });
 
