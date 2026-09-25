@@ -1580,11 +1580,30 @@ model NumberRegulatoryProfile {
   createdAt       DateTime               @default(now())
   updatedAt       DateTime               @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documents NumberRegulatoryDocument[]
 
   @@unique([userId, provider, isoCountry, numberType, endUserType])
   @@index([userId, status])
   @@index([regulationSid])
+}
+
+model NumberRegulatoryDocument {
+  id                    Int      @id @default(autoincrement())
+  profileId             Int
+  requirementName       String
+  documentType          String
+  supportingDocumentSid String?  @unique
+  providerStatus        String?
+  failureReason         String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  profile NumberRegulatoryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, requirementName])
+  @@index([profileId])
+  @@index([providerStatus])
 }
 
 model PhoneNumber {
