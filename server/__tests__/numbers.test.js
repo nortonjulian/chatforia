@@ -16,6 +16,7 @@ let telcoAdapter;
 let getProviderMock;
 let searchAvailableMock;
 let getRegulationsMock;
+let evaluateNumberRegulatoryComplianceMock;
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => {
   prismaMock = {
@@ -34,6 +35,7 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
       create: jest.fn(),
       findFirst: jest.fn(),
     },
+    $transaction: jest.fn(),
   };
 
   return {
@@ -66,6 +68,20 @@ await jest.unstable_mockModule('../lib/telco/index.js', () => {
     providerName: 'twilio-adapter',
   };
 });
+
+await jest.unstable_mockModule(
+  '../services/numberRegulatoryService.js',
+  () => {
+    evaluateNumberRegulatoryComplianceMock =
+      jest.fn();
+
+    return {
+      __esModule: true,
+      evaluateNumberRegulatoryCompliance:
+        evaluateNumberRegulatoryComplianceMock,
+    };
+  }
+);
 
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
   __esModule: true,
@@ -103,6 +119,22 @@ beforeEach(() => {
     plan: 'FREE',
     subscriptionStatus: 'INACTIVE',
   });
+
+  prismaMock.$transaction.mockImplementation(
+    async (callback) =>
+      callback({
+        phoneNumber: prismaMock.phoneNumber,
+      })
+  );
+
+  evaluateNumberRegulatoryComplianceMock
+    .mockResolvedValue({
+      allowed: true,
+      decision: 'NO_REGULATION',
+      requiresVerification: false,
+      profile: null,
+      regulation: null,
+    });
 });
 
 afterAll(() => {
@@ -416,6 +448,329 @@ describe('GET /numbers/regulatory-requirements', () => {
     expect(res.body).toEqual({
       error: 'Regulatory requirements lookup failed',
     });
+  });
+});
+
+describe('POST /numbers/lease', () => {
+  const candidate = {
+    id: 70,
+    e164: '+61255550123',
+    status: 'AVAILABLE',
+    provider: 'twilio',
+    isoCountry: 'AU',
+    regulatoryNumberType: 'local',
+    isLeasable: true,
+    isPurchasable: false,
+    locality: 'Sydney',
+    region: 'NSW',
+    vanity: false,
+  };
+
+  test('evaluates the exact persisted candidate before assignment', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(candidate);
+
+    prismaMock.phoneNumber.updateMany
+      .mockResolvedValueOnce({
+        count: 1,
+      });
+
+    prismaMock.phoneNumber.findUnique
+      .mockResolvedValueOnce({
+        ...candidate,
+        status: 'ASSIGNED',
+        assignedUserId: 123,
+      });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        e164: candidate.e164,
+        country: 'US',
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      evaluateNumberRegulatoryComplianceMock
+    ).toHaveBeenCalledWith({
+      userId: 123,
+      candidate,
+      endUserType: 'individual',
+    });
+
+    expect(
+      prismaMock.$transaction
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      prismaMock.phoneNumber.updateMany
+    ).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          id: candidate.id,
+          status: 'AVAILABLE',
+          isLeasable: true,
+        },
+      })
+    );
+
+    expect(res.body.ok).toBe(true);
+    expect(res.body.number.status).toBe(
+      'ASSIGNED'
+    );
+  });
+
+  test('returns structured verification state without assigning', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(candidate);
+
+    const regulation = {
+      sid: 'RN11111111111111111111111111111111',
+      isoCountry: 'AU',
+      numberType: 'local',
+      endUserType: 'individual',
+      requirements: {
+        end_user: [],
+      },
+    };
+
+    evaluateNumberRegulatoryComplianceMock
+      .mockResolvedValueOnce({
+        allowed: false,
+        decision: 'VERIFICATION_REQUIRED',
+        requiresVerification: true,
+        profile: null,
+        regulation,
+      });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body).toEqual({
+      error: 'VERIFICATION_REQUIRED',
+      decision: 'VERIFICATION_REQUIRED',
+      requiresVerification: true,
+      regulation,
+      profile: null,
+    });
+
+    expect(
+      prismaMock.$transaction
+    ).not.toHaveBeenCalled();
+
+    expect(
+      prismaMock.phoneNumber.updateMany
+    ).not.toHaveBeenCalled();
+  });
+
+  test('legacy inventory with unknown regulatory type is blocked', async () => {
+    const legacyCandidate = {
+      ...candidate,
+      id: 71,
+      regulatoryNumberType: null,
+    };
+
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(
+        legacyCandidate
+      );
+
+    evaluateNumberRegulatoryComplianceMock
+      .mockResolvedValueOnce({
+        allowed: false,
+        decision:
+          'BLOCKED_UNKNOWN_NUMBER_TYPE',
+        requiresVerification: false,
+        profile: null,
+        regulation: null,
+      });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        e164: legacyCandidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body.decision).toBe(
+      'BLOCKED_UNKNOWN_NUMBER_TYPE'
+    );
+
+    expect(
+      prismaMock.$transaction
+    ).not.toHaveBeenCalled();
+  });
+
+  test('explicit number returns unavailable when atomic claim loses race', async () => {
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(candidate);
+
+    prismaMock.phoneNumber.updateMany
+      .mockResolvedValueOnce({
+        count: 0,
+      });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        e164: candidate.e164,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(404);
+
+    expect(res.body).toEqual({
+      error:
+        'That number is no longer available.',
+    });
+
+    expect(
+      prismaMock.phoneNumber.findUnique
+    ).not.toHaveBeenCalled();
+  });
+
+  test('filter-based assignment retries a different candidate after race loss', async () => {
+    const first = {
+      ...candidate,
+      id: 80,
+      e164: '+13035550180',
+      isoCountry: 'US',
+      regulatoryNumberType: 'local',
+    };
+
+    const second = {
+      ...candidate,
+      id: 81,
+      e164: '+13035550181',
+      isoCountry: 'US',
+      regulatoryNumberType: 'local',
+    };
+
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(first)
+      .mockResolvedValueOnce(second);
+
+    prismaMock.phoneNumber.updateMany
+      .mockResolvedValueOnce({
+        count: 0,
+      })
+      .mockResolvedValueOnce({
+        count: 1,
+      });
+
+    prismaMock.phoneNumber.findUnique
+      .mockResolvedValueOnce({
+        ...second,
+        status: 'ASSIGNED',
+        assignedUserId: 123,
+      });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        country: 'US',
+        areaCode: '303',
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(
+      evaluateNumberRegulatoryComplianceMock
+    ).toHaveBeenCalledTimes(2);
+
+    expect(
+      prismaMock.$transaction
+    ).toHaveBeenCalledTimes(2);
+
+    const candidateQueries =
+      prismaMock.phoneNumber.findFirst.mock.calls;
+
+    expect(
+      candidateQueries[2][0].where.id
+    ).toEqual({
+      notIn: [80],
+    });
+
+    expect(res.body.number.id).toBe(81);
+  });
+
+  test('premium purchase intent remains premium-gated', async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      plan: 'FREE',
+    });
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        e164: candidate.e164,
+        purchaseIntent: true,
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(403);
+
+    expect(res.body).toEqual({
+      error:
+        'Premium required to purchase this number',
+    });
+
+    expect(
+      evaluateNumberRegulatoryComplianceMock
+    ).not.toHaveBeenCalled();
+
+    expect(
+      prismaMock.$transaction
+    ).not.toHaveBeenCalled();
+  });
+
+  test('existing assignment still prevents another lease', async () => {
+    const existing = {
+      id: 90,
+      e164: '+13035550190',
+      status: 'ASSIGNED',
+      assignedUserId: 123,
+    };
+
+    prismaMock.phoneNumber.findFirst
+      .mockResolvedValueOnce(existing);
+
+    const res = await request(app)
+      .post('/numbers/lease')
+      .send({
+        country: 'US',
+      })
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(409);
+
+    expect(res.body).toEqual({
+      error: 'User already has a number',
+      number: existing,
+    });
+
+    expect(
+      evaluateNumberRegulatoryComplianceMock
+    ).not.toHaveBeenCalled();
+
+    expect(
+      prismaMock.$transaction
+    ).not.toHaveBeenCalled();
   });
 });
 
