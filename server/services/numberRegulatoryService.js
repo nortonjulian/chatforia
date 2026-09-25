@@ -80,6 +80,59 @@ function profileUniqueWhere(key) {
   };
 }
 
+export function getRegulatorySupportingDocumentRequirements(
+  requirements
+) {
+  const groups =
+    requirements &&
+    Array.isArray(requirements.supporting_document)
+      ? requirements.supporting_document
+      : [];
+
+  return groups.map((group) => {
+    const entries = Array.isArray(group)
+      ? group
+      : [group];
+
+    return entries
+      .filter(
+        (entry) =>
+          entry &&
+          typeof entry === 'object'
+      )
+      .map((entry) => ({
+        requirementName:
+          typeof entry.requirement_name === 'string'
+            ? entry.requirement_name
+            : null,
+        type:
+          typeof entry.type === 'string'
+            ? entry.type
+            : null,
+        acceptedDocuments: Array.isArray(
+          entry.accepted_documents
+        )
+          ? entry.accepted_documents
+              .filter(
+                (document) =>
+                  document &&
+                  typeof document === 'object'
+              )
+              .map((document) => ({
+                name:
+                  typeof document.name === 'string'
+                    ? document.name
+                    : null,
+                type:
+                  typeof document.type === 'string'
+                    ? document.type
+                    : null,
+              }))
+          : [],
+      }));
+  });
+}
+
 export async function getRegulatoryProfile(input) {
   const key = normalizeProfileKey(input);
 

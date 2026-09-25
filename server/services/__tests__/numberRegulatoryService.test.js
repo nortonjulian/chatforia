@@ -60,6 +60,7 @@ const {
   initializeNumberRegulatoryVerification,
   getRequiredRegulatoryEndUserFields,
   validateRegulatoryEndUserAttributes,
+  getRegulatorySupportingDocumentRequirements,
 } = await import(
   '../numberRegulatoryService.js'
 );
@@ -996,6 +997,160 @@ describe('numberRegulatoryService', () => {
 
       expect(findUniqueMock).not.toHaveBeenCalled();
       expect(createMock).not.toHaveBeenCalled();
+    });
+  });
+
+
+  describe('regulatory supporting document requirements', () => {
+    test('preserves requirement groups and accepted document alternatives', () => {
+      const requirements = {
+        supporting_document: [
+          [
+            {
+              requirement_name:
+                'proof_of_identity_info',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name:
+                    'Australian Government-issued ID',
+                  type:
+                    'government_issued_document',
+                },
+                {
+                  name: 'Australian Passport',
+                  type: 'passport',
+                },
+              ],
+            },
+            {
+              requirement_name:
+                'individual_address_info',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name: 'Utility bill',
+                  type: 'utility_bill',
+                },
+              ],
+            },
+          ],
+        ],
+      };
+
+      expect(
+        getRegulatorySupportingDocumentRequirements(
+          requirements
+        )
+      ).toEqual([
+        [
+          {
+            requirementName:
+              'proof_of_identity_info',
+            type: 'document',
+            acceptedDocuments: [
+              {
+                name:
+                  'Australian Government-issued ID',
+                type:
+                  'government_issued_document',
+              },
+              {
+                name: 'Australian Passport',
+                type: 'passport',
+              },
+            ],
+          },
+          {
+            requirementName:
+              'individual_address_info',
+            type: 'document',
+            acceptedDocuments: [
+              {
+                name: 'Utility bill',
+                type: 'utility_bill',
+              },
+            ],
+          },
+        ],
+      ]);
+    });
+
+    test('preserves multiple Twilio requirement groups', () => {
+      const result =
+        getRegulatorySupportingDocumentRequirements({
+          supporting_document: [
+            [
+              {
+                requirement_name: 'identity',
+                type: 'document',
+                accepted_documents: [
+                  {
+                    name: 'Passport',
+                    type: 'passport',
+                  },
+                ],
+              },
+            ],
+            [
+              {
+                requirement_name: 'address',
+                type: 'document',
+                accepted_documents: [
+                  {
+                    name: 'Utility bill',
+                    type: 'utility_bill',
+                  },
+                ],
+              },
+            ],
+          ],
+        });
+
+      expect(result).toHaveLength(2);
+      expect(result[0][0].requirementName).toBe(
+        'identity'
+      );
+      expect(result[1][0].requirementName).toBe(
+        'address'
+      );
+    });
+
+    test('handles absent supporting document requirements safely', () => {
+      expect(
+        getRegulatorySupportingDocumentRequirements({})
+      ).toEqual([]);
+
+      expect(
+        getRegulatorySupportingDocumentRequirements(null)
+      ).toEqual([]);
+    });
+
+    test('does not mutate the source requirements', () => {
+      const requirements = {
+        supporting_document: [
+          [
+            {
+              requirement_name: 'identity',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name: 'Passport',
+                  type: 'passport',
+                },
+              ],
+            },
+          ],
+        ],
+      };
+
+      const before = JSON.stringify(requirements);
+
+      getRegulatorySupportingDocumentRequirements(
+        requirements
+      );
+
+      expect(JSON.stringify(requirements)).toBe(before);
     });
   });
 
