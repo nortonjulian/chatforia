@@ -574,6 +574,142 @@ async function assignRegulatoryItem({
   };
 }
 
+async function listRegulatorySupportingDocumentTypes({
+  limit = 100,
+} = {}) {
+  const client = getClient();
+
+  const normalizedLimit = Number(limit);
+
+  if (
+    !Number.isInteger(normalizedLimit) ||
+    normalizedLimit < 1 ||
+    normalizedLimit > 1000
+  ) {
+    throw new Error(
+      'limit must be an integer between 1 and 1000'
+    );
+  }
+
+  const types =
+    await client.numbers.v2.regulatoryCompliance
+      .supportingDocumentTypes
+      .list({
+        limit: normalizedLimit,
+      });
+
+  return types.map((type) => ({
+    sid: type.sid,
+    friendlyName:
+      type.friendlyName ||
+      null,
+    machineName:
+      type.machineName ||
+      null,
+    fields:
+      Array.isArray(type.fields)
+        ? type.fields
+        : [],
+    url:
+      type.url ||
+      null,
+  }));
+}
+
+async function createRegulatorySupportingDocument({
+  friendlyName,
+  type,
+  attributes,
+}) {
+  const client = getClient();
+
+  const cleanFriendlyName =
+    typeof friendlyName === 'string'
+      ? friendlyName.trim()
+      : '';
+
+  const cleanType =
+    typeof type === 'string'
+      ? type.trim()
+      : '';
+
+  if (!cleanFriendlyName) {
+    throw new Error(
+      'friendlyName is required'
+    );
+  }
+
+  if (!cleanType) {
+    throw new Error(
+      'type is required'
+    );
+  }
+
+  const params = {
+    friendlyName: cleanFriendlyName,
+    type: cleanType,
+  };
+
+  if (
+    attributes !== undefined &&
+    attributes !== null
+  ) {
+    if (
+      typeof attributes !== 'object' ||
+      Array.isArray(attributes)
+    ) {
+      throw new Error(
+        'attributes must be an object'
+      );
+    }
+
+    params.attributes = attributes;
+  }
+
+  const result =
+    await client.numbers.v2.regulatoryCompliance
+      .supportingDocuments
+      .create(params);
+
+  return {
+    sid: result.sid,
+    accountSid:
+      result.accountSid ||
+      null,
+    friendlyName:
+      result.friendlyName ||
+      cleanFriendlyName,
+    mimeType:
+      result.mimeType ||
+      null,
+    status:
+      result.status ||
+      'draft',
+    failureReason:
+      result.failureReason ||
+      null,
+    errors:
+      Array.isArray(result.errors)
+        ? result.errors
+        : [],
+    type:
+      result.type ||
+      cleanType,
+    attributes:
+      result.attributes ||
+      {},
+    dateCreated:
+      result.dateCreated ||
+      null,
+    dateUpdated:
+      result.dateUpdated ||
+      null,
+    url:
+      result.url ||
+      null,
+  };
+}
+
 async function getRegulatoryBundle({
   bundleSid,
 }) {
@@ -861,6 +997,8 @@ const adapter = {
   assignRegulatoryItem,
   getRegulatoryBundle,
   submitRegulatoryBundle,
+  listRegulatorySupportingDocumentTypes,
+  createRegulatorySupportingDocument,
   purchaseNumber,
   releaseNumber,
 };
