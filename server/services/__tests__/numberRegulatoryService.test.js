@@ -58,6 +58,8 @@ const {
   syncRegulatoryBundleStatus,
   evaluateNumberRegulatoryCompliance,
   initializeNumberRegulatoryVerification,
+  getRequiredRegulatoryEndUserFields,
+  validateRegulatoryEndUserAttributes,
 } = await import(
   '../numberRegulatoryService.js'
 );
@@ -994,6 +996,212 @@ describe('numberRegulatoryService', () => {
 
       expect(findUniqueMock).not.toHaveBeenCalled();
       expect(createMock).not.toHaveBeenCalled();
+    });
+  });
+
+
+  describe('regulatory End User requirements', () => {
+    const requirements = {
+      end_user: [
+        {
+          requirement_name: 'individual_info',
+          type: 'individual',
+          fields: [
+            'first_name',
+            'last_name',
+            'document_number',
+            'email',
+            'purpose_for_number',
+            'website_url',
+          ],
+        },
+      ],
+      supporting_document: [
+        [
+          {
+            requirement_name:
+              'proof_of_identity_info',
+            type: 'document',
+            accepted_documents: [
+              {
+                name:
+                  'Australian Government-issued ID',
+                type:
+                  'government_issued_document',
+              },
+              {
+                name: 'Australian Passport',
+                type: 'passport',
+              },
+            ],
+          },
+        ],
+      ],
+    };
+
+    test('extracts End User fields without flattening document requirements', () => {
+      const fields =
+        getRequiredRegulatoryEndUserFields(
+          requirements
+        );
+
+      expect(fields).toEqual([
+        'first_name',
+        'last_name',
+        'document_number',
+        'email',
+        'purpose_for_number',
+        'website_url',
+      ]);
+
+      expect(fields).not.toContain(
+        'proof_of_identity_info'
+      );
+    });
+
+    test('deduplicates End User fields while preserving order', () => {
+      const fields =
+        getRequiredRegulatoryEndUserFields({
+          end_user: [
+            {
+              fields: [
+                'first_name',
+                'last_name',
+              ],
+            },
+            {
+              fields: [
+                'last_name',
+                'email',
+              ],
+            },
+          ],
+        });
+
+      expect(fields).toEqual([
+        'first_name',
+        'last_name',
+        'email',
+      ]);
+    });
+
+    test('reports missing required End User attributes', () => {
+      const result =
+        validateRegulatoryEndUserAttributes({
+          requirements,
+          attributes: {
+            first_name: 'Julian',
+            last_name: 'Norton',
+            email: 'julian@example.com',
+          },
+        });
+
+      expect(result.valid).toBe(false);
+
+      expect(result.missingFields).toEqual([
+        'document_number',
+        'purpose_for_number',
+        'website_url',
+      ]);
+    });
+
+    test('accepts complete attributes and trims string values', () => {
+      const result =
+        validateRegulatoryEndUserAttributes({
+          requirements,
+          attributes: {
+            first_name: ' Julian ',
+            last_name: ' Norton ',
+            document_number: ' ABC123 ',
+            email: ' julian@example.com ',
+            purpose_for_number:
+              ' Business communications ',
+            website_url:
+              ' https://example.com ',
+          },
+        });
+
+      expect(result.valid).toBe(true);
+      expect(result.missingFields).toEqual([]);
+
+      expect(result.attributes).toEqual({
+        first_name: 'Julian',
+        last_name: 'Norton',
+        document_number: 'ABC123',
+        email: 'julian@example.com',
+        purpose_for_number:
+          'Business communications',
+        website_url:
+          'https://example.com',
+      });
+    });
+
+    test('does not forward unexpected client attributes', () => {
+      const result =
+        validateRegulatoryEndUserAttributes({
+          requirements: {
+            end_user: [
+              {
+                fields: ['first_name'],
+              },
+            ],
+          },
+          attributes: {
+            first_name: 'Julian',
+            admin: true,
+            bundleSid: 'malicious-value',
+          },
+        });
+
+      expect(result.valid).toBe(true);
+
+      expect(result.attributes).toEqual({
+        first_name: 'Julian',
+      });
+    });
+
+    test('treats blank strings as missing', () => {
+      const result =
+        validateRegulatoryEndUserAttributes({
+          requirements: {
+            end_user: [
+              {
+                fields: [
+                  'first_name',
+                  'email',
+                ],
+              },
+            ],
+          },
+          attributes: {
+            first_name: '   ',
+            email: '\t',
+          },
+        });
+
+      expect(result.valid).toBe(false);
+
+      expect(result.missingFields).toEqual([
+        'first_name',
+        'email',
+      ]);
+    });
+
+    test('handles absent End User requirements safely', () => {
+      const result =
+        validateRegulatoryEndUserAttributes({
+          requirements: {
+            supporting_document: [],
+          },
+          attributes: {
+            unexpected: 'value',
+          },
+        });
+
+      expect(result.valid).toBe(true);
+      expect(result.requiredFields).toEqual([]);
+      expect(result.missingFields).toEqual([]);
+      expect(result.attributes).toEqual({});
     });
   });
 
