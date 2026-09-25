@@ -158,6 +158,7 @@ async function main() {
         id: true,
         twilioSid: true,
         isoCountry: true,
+        regulatoryNumberType: true,
         capabilities: true,
         provider: true,
         areaCode: true,
@@ -208,6 +209,7 @@ async function main() {
         provider: PROVIDER,
         twilioSid: n.sid || null,
         isoCountry: iso2,
+        regulatoryNumberType: null,
         capabilities: capsJson,
         areaCode,
         locality: n.locality || n.localityName || n.city || null,
@@ -229,6 +231,8 @@ async function main() {
       provider: PROVIDER,
       twilioSid: n.sid || existing.twilioSid || null,
       isoCountry: iso2 ?? existing.isoCountry ?? null,
+      regulatoryNumberType:
+        existing.regulatoryNumberType ?? null,
       capabilities: capsJson ?? existing.capabilities ?? null,
       areaCode: areaCode ?? existing.areaCode ?? null,
       locality:
@@ -251,6 +255,8 @@ async function main() {
       (next.provider ?? null) !== (existing.provider ?? null) ||
       (next.twilioSid ?? null) !== (existing.twilioSid ?? null) ||
       (next.isoCountry ?? null) !== (existing.isoCountry ?? null) ||
+      (next.regulatoryNumberType ?? null) !==
+        (existing.regulatoryNumberType ?? null) ||
       JSON.stringify(next.capabilities ?? null) !==
         JSON.stringify(existing.capabilities ?? null) ||
       (next.areaCode ?? null) !== (existing.areaCode ?? null) ||
