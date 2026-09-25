@@ -98,6 +98,7 @@ import reportsRouter from './routes/reports.js';
 import adminReportsRouter from './routes/adminReports.js';
 
 import webhooksTwilio from './routes/webhooksTwilio.js';
+import twilioRegulatoryWebhook from './routes/twilioRegulatoryWebhook.js';
 
 import familyRouter from './routes/family.js';
 import wirelessRouter from './routes/wireless.js';
@@ -501,6 +502,7 @@ export function createApp() {
   app.use('/webhooks/sms', smsWebhooks);
   app.use('/api/webhooks/sms', smsWebhooks);
   app.use('/webhooks', webhooksTwilio);
+  app.use('/webhooks', twilioRegulatoryWebhook);
   app.use('/webhooks/status', twilioStatusWebhook);
 
   app.use('/conversations', conversationsRouter);
