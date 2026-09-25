@@ -8,10 +8,13 @@ const findUniqueMock = jest.fn();
 const createMock = jest.fn();
 const upsertMock = jest.fn();
 const updateMock = jest.fn();
+const documentFindUniqueMock = jest.fn();
+const documentUpsertMock = jest.fn();
 
 const getRegulatoryBundleMock = jest.fn();
 const getRegulationsMock = jest.fn();
 const createRegulatoryEndUserMock = jest.fn();
+const createRegulatorySupportingDocumentMock = jest.fn();
 const normalizeStatusMock = jest.fn();
 
 const mockPrisma = {
@@ -20,6 +23,10 @@ const mockPrisma = {
     create: createMock,
     upsert: upsertMock,
     update: updateMock,
+  },
+  numberRegulatoryDocument: {
+    findUnique: documentFindUniqueMock,
+    upsert: documentUpsertMock,
   },
 };
 
@@ -30,6 +37,8 @@ const mockProvider = {
     getRegulatoryBundleMock,
   createRegulatoryEndUser:
     createRegulatoryEndUserMock,
+  createRegulatorySupportingDocument:
+    createRegulatorySupportingDocumentMock,
   normalizeRegulatoryBundleStatus:
     normalizeStatusMock,
 };
@@ -61,6 +70,7 @@ const {
   syncRegulatoryBundleStatus,
   evaluateNumberRegulatoryCompliance,
   initializeNumberRegulatoryVerification,
+  provisionRegulatorySupportingDocument,
   getRequiredRegulatoryEndUserFields,
   validateRegulatoryEndUserAttributes,
   getRegulatorySupportingDocumentRequirements,
@@ -1226,6 +1236,303 @@ describe('numberRegulatoryService', () => {
 
   });
 
+
+  describe('regulatory supporting document provisioning', () => {
+    const documentRegulation = {
+      sid: 'RN11111111111111111111111111111111',
+      requirements: {
+        supporting_document: [
+          [
+            {
+              requirement_name:
+                'proof_of_identity_info',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name: 'Australian Passport',
+                  type: 'passport',
+                },
+                {
+                  name:
+                    'Australian Government-issued ID',
+                  type:
+                    'government_issued_document',
+                },
+              ],
+            },
+          ],
+        ],
+      },
+    };
+
+    const documentProfile = baseProfile({
+      bundleSid: null,
+      regulationSid:
+        'RN11111111111111111111111111111111',
+    });
+
+    test('creates and persists an accepted Supporting Document', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      documentFindUniqueMock.mockResolvedValue(
+        null
+      );
+
+      createRegulatorySupportingDocumentMock
+        .mockResolvedValue({
+          sid:
+            'RD55555555555555555555555555555555',
+          status: 'draft',
+          failureReason: null,
+          type: 'passport',
+        });
+
+      documentUpsertMock.mockImplementation(
+        async ({ create }) => ({
+          id: 900,
+          ...create,
+        })
+      );
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+          attributes: {
+            address_sids: [
+              'AD11111111111111111111111111111111',
+            ],
+          },
+          friendlyName:
+            ' Chatforia Passport ',
+        });
+
+      expect(
+        createRegulatorySupportingDocumentMock
+      ).toHaveBeenCalledWith({
+        friendlyName: 'Chatforia Passport',
+        type: 'passport',
+        attributes: {
+          address_sids: [
+            'AD11111111111111111111111111111111',
+          ],
+        },
+      });
+
+      expect(
+        documentUpsertMock
+      ).toHaveBeenCalledWith({
+        where: {
+          profileId_requirementName: {
+            profileId: documentProfile.id,
+            requirementName:
+              'proof_of_identity_info',
+          },
+        },
+        create: {
+          profileId: documentProfile.id,
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+          supportingDocumentSid:
+            'RD55555555555555555555555555555555',
+          providerStatus: 'draft',
+          failureReason: null,
+        },
+        update: {
+          documentType: 'passport',
+          supportingDocumentSid:
+            'RD55555555555555555555555555555555',
+          providerStatus: 'draft',
+          failureReason: null,
+        },
+      });
+
+      expect(result.provisioned).toBe(true);
+      expect(result.reused).toBe(false);
+      expect(
+        result.document.supportingDocumentSid
+      ).toBe(
+        'RD55555555555555555555555555555555'
+      );
+    });
+
+    test('rejects a document type not accepted by the requirement', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'utility_bill',
+        });
+
+      expect(result.provisioned).toBe(false);
+      expect(result.reason).toBe(
+        'unsupported-supporting-document-type'
+      );
+
+      expect(
+        createRegulatorySupportingDocumentMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        documentUpsertMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('reuses an existing provisioned Supporting Document', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      const existingDocument = {
+        id: 901,
+        profileId: documentProfile.id,
+        requirementName:
+          'proof_of_identity_info',
+        documentType: 'passport',
+        supportingDocumentSid:
+          'RD55555555555555555555555555555555',
+        providerStatus: 'draft',
+        failureReason: null,
+      };
+
+      documentFindUniqueMock.mockResolvedValue(
+        existingDocument
+      );
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+        });
+
+      expect(result.provisioned).toBe(true);
+      expect(result.reused).toBe(true);
+      expect(result.document).toBe(
+        existingDocument
+      );
+
+      expect(
+        createRegulatorySupportingDocumentMock
+      ).not.toHaveBeenCalled();
+
+      expect(
+        documentUpsertMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('fails closed when Supporting Document creation fails', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      documentFindUniqueMock.mockResolvedValue(
+        null
+      );
+
+      createRegulatorySupportingDocumentMock
+        .mockRejectedValue(
+          new Error('Twilio unavailable')
+        );
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+        });
+
+      expect(result.provisioned).toBe(false);
+      expect(result.reason).toBe(
+        'supporting-document-creation-failed'
+      );
+
+      expect(
+        documentUpsertMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('fails closed when Twilio returns an invalid Supporting Document SID', async () => {
+      findUniqueMock.mockResolvedValue(
+        documentProfile
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        documentRegulation,
+      ]);
+
+      documentFindUniqueMock.mockResolvedValue(
+        null
+      );
+
+      createRegulatorySupportingDocumentMock
+        .mockResolvedValue({
+          sid: 'BAD_SID',
+          status: 'draft',
+          failureReason: null,
+        });
+
+      const result =
+        await provisionRegulatorySupportingDocument({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+        });
+
+      expect(result.provisioned).toBe(false);
+      expect(result.reason).toBe(
+        'invalid-supporting-document'
+      );
+
+      expect(
+        documentUpsertMock
+      ).not.toHaveBeenCalled();
+    });
+  });
 
   describe('regulatory supporting document requirements', () => {
     test('preserves requirement groups and accepted document alternatives', () => {
