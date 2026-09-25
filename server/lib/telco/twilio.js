@@ -574,6 +574,55 @@ async function assignRegulatoryItem({
   };
 }
 
+async function listRegulatoryBundleItems({
+  bundleSid,
+  limit = 100,
+}) {
+  const client = getClient();
+
+  const cleanBundleSid = String(
+    bundleSid || ''
+  ).trim();
+
+  const normalizedLimit = Number(limit);
+
+  if (!/^BU[a-f0-9]{32}$/i.test(cleanBundleSid)) {
+    throw new Error(
+      'bundleSid must be a valid Twilio Bundle SID'
+    );
+  }
+
+  if (
+    !Number.isInteger(normalizedLimit) ||
+    normalizedLimit < 1 ||
+    normalizedLimit > 1000
+  ) {
+    throw new Error(
+      'limit must be an integer between 1 and 1000'
+    );
+  }
+
+  const assignments =
+    await client.numbers.v2.regulatoryCompliance
+      .bundles(cleanBundleSid)
+      .itemAssignments
+      .list({
+        limit: normalizedLimit,
+      });
+
+  return assignments.map((assignment) => ({
+    sid:
+      assignment.sid ||
+      null,
+    bundleSid:
+      assignment.bundleSid ||
+      cleanBundleSid,
+    objectSid:
+      assignment.objectSid ||
+      null,
+  }));
+}
+
 async function listRegulatorySupportingDocumentTypes({
   limit = 100,
 } = {}) {
@@ -995,6 +1044,7 @@ const adapter = {
   createRegulatoryEndUser,
   createRegulatoryBundle,
   assignRegulatoryItem,
+  listRegulatoryBundleItems,
   getRegulatoryBundle,
   submitRegulatoryBundle,
   listRegulatorySupportingDocumentTypes,

@@ -10,6 +10,7 @@ process.env.TWILIO_AUTH_TOKEN = 'auth_test';
 const endUserCreateMock = jest.fn();
 const bundleCreateMock = jest.fn();
 const itemAssignmentCreateMock = jest.fn();
+const itemAssignmentListMock = jest.fn();
 const bundleFetchMock = jest.fn();
 const bundleUpdateMock = jest.fn();
 const supportingDocumentTypeListMock = jest.fn();
@@ -18,6 +19,7 @@ const supportingDocumentCreateMock = jest.fn();
 const bundleContextMock = jest.fn(() => ({
   itemAssignments: {
     create: itemAssignmentCreateMock,
+    list: itemAssignmentListMock,
   },
   fetch: bundleFetchMock,
   update: bundleUpdateMock,
@@ -185,6 +187,87 @@ describe('Twilio regulatory lifecycle primitives', () => {
       bundleSid: BU,
       objectSid: EN,
     });
+  });
+
+  test('lists normalized regulatory Bundle items', async () => {
+    itemAssignmentListMock.mockResolvedValue([
+      {
+        sid: 'BV55555555555555555555555555555555',
+        bundleSid: BU,
+        objectSid: EN,
+      },
+      {
+        sid: 'BV66666666666666666666666666666666',
+        bundleSid: null,
+        objectSid:
+          'RD77777777777777777777777777777777',
+      },
+    ]);
+
+    const result =
+      await twilio.listRegulatoryBundleItems({
+        bundleSid: BU,
+        limit: 25,
+      });
+
+    expect(bundleContextMock).toHaveBeenCalledWith(BU);
+
+    expect(
+      itemAssignmentListMock
+    ).toHaveBeenCalledWith({
+      limit: 25,
+    });
+
+    expect(result).toEqual([
+      {
+        sid: 'BV55555555555555555555555555555555',
+        bundleSid: BU,
+        objectSid: EN,
+      },
+      {
+        sid: 'BV66666666666666666666666666666666',
+        bundleSid: BU,
+        objectSid:
+          'RD77777777777777777777777777777777',
+      },
+    ]);
+  });
+
+  test('uses the default regulatory Bundle item limit', async () => {
+    itemAssignmentListMock.mockResolvedValue([]);
+
+    await twilio.listRegulatoryBundleItems({
+      bundleSid: BU,
+    });
+
+    expect(
+      itemAssignmentListMock
+    ).toHaveBeenCalledWith({
+      limit: 100,
+    });
+  });
+
+  test('rejects invalid regulatory Bundle item listing inputs', async () => {
+    await expect(
+      twilio.listRegulatoryBundleItems({
+        bundleSid: 'BAD',
+      })
+    ).rejects.toThrow(
+      'bundleSid must be a valid Twilio Bundle SID'
+    );
+
+    await expect(
+      twilio.listRegulatoryBundleItems({
+        bundleSid: BU,
+        limit: 0,
+      })
+    ).rejects.toThrow(
+      'limit must be an integer between 1 and 1000'
+    );
+
+    expect(
+      itemAssignmentListMock
+    ).not.toHaveBeenCalled();
   });
 
   test('fetches a regulatory Bundle', async () => {
