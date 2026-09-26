@@ -107,6 +107,9 @@ export default function NumberRegulatoryVerification({
   const [documentFiles, setDocumentFiles] = useState({});
   const [uploadingDocument, setUploadingDocument] = useState('');
   const [completedDocuments, setCompletedDocuments] = useState({});
+  const [bundleEmail, setBundleEmail] = useState('');
+  const [submittingBundle, setSubmittingBundle] = useState(false);
+  const [reviewPending, setReviewPending] = useState(false);
 
   const rejected = initialDecision === 'VERIFICATION_REJECTED';
 
@@ -119,6 +122,21 @@ export default function NumberRegulatoryVerification({
     () => getSupportingDocumentGroups(requirements),
     [requirements]
   );
+
+  const requiredDocumentNames = useMemo(
+    () =>
+      supportingDocumentGroups
+        .flat()
+        .map((requirement) => requirement.requirementName)
+        .filter(Boolean),
+    [supportingDocumentGroups]
+  );
+
+  const documentsReady =
+    requiredDocumentNames.length === 0 ||
+    requiredDocumentNames.every(
+      (requirementName) => completedDocuments[requirementName]
+    );
 
   useEffect(() => {
     let cancelled = false;
@@ -328,6 +346,87 @@ export default function NumberRegulatoryVerification({
       setUploadingDocument((current) =>
         current === requirementName ? '' : current
       );
+    }
+  };
+
+  const assembleAndSubmitBundle = async () => {
+    const email = bundleEmail.trim();
+
+    if (!email) {
+      setError(
+        t(
+          'phoneNumberManager.regulatoryEmailRequired',
+          'Email is required.'
+        )
+      );
+      return;
+    }
+
+    if (!documentsReady) {
+      setError(
+        t(
+          'phoneNumberManager.regulatoryDocumentsIncomplete',
+          'Upload all required documents before submitting.'
+        )
+      );
+      return;
+    }
+
+    setSubmittingBundle(true);
+    setError('');
+
+    try {
+      const { data: assembly } = await axiosClient.post(
+        '/numbers/regulatory/assemble',
+        {
+          e164,
+          email,
+        }
+      );
+
+      if (!assembly?.assembled) {
+        setError(
+          assembly?.reason ||
+            t(
+              'phoneNumberManager.regulatoryAssemblyFailed',
+              'Could not assemble the regulatory application.'
+            )
+        );
+        return;
+      }
+
+      const { data: submission } = await axiosClient.post(
+        '/numbers/regulatory/submit',
+        {
+          e164,
+        }
+      );
+
+      if (!submission?.submitted) {
+        setError(
+          submission?.reason ||
+            t(
+              'phoneNumberManager.regulatorySubmissionFailed',
+              'Could not submit the regulatory application.'
+            )
+        );
+        return;
+      }
+
+      setReviewPending(true);
+    } catch (e) {
+      const data = e?.response?.data || {};
+
+      setError(
+        data?.error ||
+          data?.reason ||
+          t(
+            'phoneNumberManager.regulatorySubmissionFailed',
+            'Could not submit the regulatory application.'
+          )
+      );
+    } finally {
+      setSubmittingBundle(false);
     }
   };
 
@@ -641,6 +740,42 @@ export default function NumberRegulatoryVerification({
             {t('phoneNumberManager.regulatoryContinue', 'Continue')}
           </Button>
         </Stack>
+      )}
+
+      {identityReady && documentsReady && (
+        reviewPending ? (
+          <Alert color="blue">
+            {t(
+              'phoneNumberManager.regulatoryReviewPending',
+              'Your regulatory application has been submitted and is pending review.'
+            )}
+          </Alert>
+        ) : (
+          <Stack gap="sm">
+            <TextInput
+              type="email"
+              label={t(
+                'phoneNumberManager.regulatoryBundleEmail',
+                'Contact email'
+              )}
+              value={bundleEmail}
+              required
+              onChange={(event) =>
+                setBundleEmail(event.currentTarget.value)
+              }
+            />
+
+            <Button
+              onClick={assembleAndSubmitBundle}
+              loading={submittingBundle}
+            >
+              {t(
+                'phoneNumberManager.regulatorySubmitApplication',
+                'Submit for review'
+              )}
+            </Button>
+          </Stack>
+        )
       )}
 
       <Group justify="space-between">
