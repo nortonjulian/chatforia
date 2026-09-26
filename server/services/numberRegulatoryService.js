@@ -418,6 +418,28 @@ export async function evaluateNumberRegulatoryCompliance({
     };
   }
 
+  if (
+    normalizedEndUserType !== 'individual' &&
+    normalizedEndUserType !== 'business'
+  ) {
+    throw new Error(
+      'endUserType must be individual or business'
+    );
+  }
+
+  // Twilio's international phone-number Regulatory
+  // Compliance registration flow does not apply to
+  // United States or Canada numbers.
+  if (country === 'US' || country === 'CA') {
+    return {
+      allowed: true,
+      decision: 'REGULATORY_REGISTRATION_NOT_REQUIRED',
+      requiresVerification: false,
+      profile: null,
+      regulation: null,
+    };
+  }
+
   if (!numberType) {
     return {
       allowed: false,
@@ -426,15 +448,6 @@ export async function evaluateNumberRegulatoryCompliance({
       profile: null,
       regulation: null,
     };
-  }
-
-  if (
-    normalizedEndUserType !== 'individual' &&
-    normalizedEndUserType !== 'business'
-  ) {
-    throw new Error(
-      'endUserType must be individual or business'
-    );
   }
 
   const api = getProvider(provider);

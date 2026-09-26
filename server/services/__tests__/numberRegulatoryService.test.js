@@ -612,6 +612,34 @@ describe('numberRegulatoryService', () => {
       ).not.toHaveBeenCalled();
     });
 
+    test.each(['US', 'CA'])(
+      'allows %s assignment without international regulatory registration',
+      async (isoCountry) => {
+        const result =
+          await evaluateNumberRegulatoryCompliance({
+            userId: 42,
+            candidate: {
+              ...candidate,
+              isoCountry,
+              regulatoryNumberType: null,
+            },
+          });
+
+        expect(result).toEqual({
+          allowed: true,
+          decision:
+            'REGULATORY_REGISTRATION_NOT_REQUIRED',
+          requiresVerification: false,
+          profile: null,
+          regulation: null,
+        });
+
+        expect(
+          getRegulationsMock
+        ).not.toHaveBeenCalled();
+      }
+    );
+
     test('fails closed when regulatory number type is unknown', async () => {
       const result =
         await evaluateNumberRegulatoryCompliance({
