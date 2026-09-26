@@ -146,57 +146,87 @@ test('submits only the dynamically requested End User attributes', async () => {
   ).toBeInTheDocument();
 });
 
-test('renders dynamic supporting document requirements and alternatives', async () => {
+test('loads dynamic fields for selected supporting documents', async () => {
   const user = userEvent.setup();
 
-  axiosClient.post.mockResolvedValueOnce({
-    data: {
-      initialized: true,
-      profile: {
-        status: 'NOT_STARTED',
-        endUserSid: 'IT11111111111111111111111111111111',
-      },
-      requirements: {
-        end_user: [
-          {
-            requirement_name: 'individual_info',
-            type: 'individual',
-            fields: ['first_name', 'last_name'],
-          },
-        ],
-        supporting_document: [
-          [
+  axiosClient.post
+    .mockResolvedValueOnce({
+      data: {
+        initialized: true,
+        profile: {
+          status: 'NOT_STARTED',
+          endUserSid: 'IT11111111111111111111111111111111',
+        },
+        requirements: {
+          end_user: [
             {
-              requirement_name: 'proof_of_identity_info',
-              type: 'document',
-              accepted_documents: [
-                {
-                  name: 'Australian Government-issued ID',
-                  type: 'government_issued_document',
-                },
-                {
-                  name: 'Australian Passport',
-                  type: 'passport',
-                },
-              ],
+              requirement_name: 'individual_info',
+              type: 'individual',
+              fields: ['first_name', 'last_name'],
             },
           ],
-          [
-            {
-              requirement_name: 'individual_address_info',
-              type: 'document',
-              accepted_documents: [
-                {
-                  name: 'Utility bill',
-                  type: 'utility_bill',
-                },
-              ],
-            },
+          supporting_document: [
+            [
+              {
+                requirement_name:
+                  'proof_of_identity_info',
+                type: 'document',
+                accepted_documents: [
+                  {
+                    name:
+                      'Australian Government-issued ID',
+                    type:
+                      'government_issued_document',
+                  },
+                  {
+                    name: 'Australian Passport',
+                    type: 'passport',
+                  },
+                ],
+              },
+            ],
+            [
+              {
+                requirement_name:
+                  'individual_address_info',
+                type: 'document',
+                accepted_documents: [
+                  {
+                    name: 'Utility bill',
+                    type: 'utility_bill',
+                  },
+                ],
+              },
+            ],
           ],
+        },
+      },
+    })
+    .mockResolvedValueOnce({
+      data: {
+        resolved: true,
+        reason: null,
+        requirementName:
+          'proof_of_identity_info',
+        documentType: 'passport',
+        requiredFields: [
+          'document_number',
+          'document_issuing_country',
         ],
       },
-    },
-  });
+    })
+    .mockResolvedValueOnce({
+      data: {
+        resolved: true,
+        reason: null,
+        requirementName:
+          'individual_address_info',
+        documentType: 'utility_bill',
+        requiredFields: [
+          'address_sids',
+        ],
+      },
+    });
 
   renderWithRouter(
     <NumberRegulatoryVerification
@@ -207,28 +237,8 @@ test('renders dynamic supporting document requirements and alternatives', async 
     />
   );
 
-  expect(await screen.findByText(/required documents/i)).toBeInTheDocument();
-
-  expect(screen.getByText(/proof of identity info/i)).toBeInTheDocument();
-
-  expect(screen.getByText(/individual address info/i)).toBeInTheDocument();
-
   expect(
-    screen.getByRole('radio', {
-      name: /australian government-issued id/i,
-    })
-  ).toBeInTheDocument();
-
-  expect(
-    screen.getByRole('radio', {
-      name: /australian passport/i,
-    })
-  ).toBeInTheDocument();
-
-  expect(
-    screen.getByRole('radio', {
-      name: /utility bill/i,
-    })
+    await screen.findByText(/required documents/i)
   ).toBeInTheDocument();
 
   await user.click(
@@ -237,11 +247,36 @@ test('renders dynamic supporting document requirements and alternatives', async 
     })
   );
 
+  await waitFor(() => {
+    expect(axiosClient.post).toHaveBeenNthCalledWith(
+      2,
+      '/numbers/regulatory/document-requirements',
+      {
+        e164: '+61412345678',
+        requirementName:
+          'proof_of_identity_info',
+        documentType: 'passport',
+      }
+    );
+  });
+
   expect(
-    screen.getByRole('radio', {
-      name: /australian passport/i,
-    })
-  ).toBeChecked();
+    await screen.findByLabelText(/document number/i)
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByLabelText(/document issuing country/i)
+  ).toBeInTheDocument();
+
+  await user.type(
+    screen.getByLabelText(/document number/i),
+    'P1234567'
+  );
+
+  await user.type(
+    screen.getByLabelText(/document issuing country/i),
+    'AU'
+  );
 
   await user.click(
     screen.getByRole('radio', {
@@ -249,11 +284,22 @@ test('renders dynamic supporting document requirements and alternatives', async 
     })
   );
 
-  expect(
-    screen.getByRole('radio', {
-      name: /utility bill/i,
-    })
-  ).toBeChecked();
+  await waitFor(() => {
+    expect(axiosClient.post).toHaveBeenNthCalledWith(
+      3,
+      '/numbers/regulatory/document-requirements',
+      {
+        e164: '+61412345678',
+        requirementName:
+          'individual_address_info',
+        documentType: 'utility_bill',
+      }
+    );
+  });
 
-  expect(axiosClient.post).toHaveBeenCalledTimes(1);
+  expect(
+    await screen.findByLabelText(/address sids/i)
+  ).toBeInTheDocument();
+
+  expect(axiosClient.post).toHaveBeenCalledTimes(3);
 });

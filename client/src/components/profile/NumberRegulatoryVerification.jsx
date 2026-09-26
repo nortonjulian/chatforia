@@ -101,6 +101,12 @@ export default function NumberRegulatoryVerification({
   const [error, setError] = useState('');
   const [identityReady, setIdentityReady] = useState(false);
   const [documentSelections, setDocumentSelections] = useState({});
+  const [documentFieldRequirements, setDocumentFieldRequirements] = useState({});
+  const [documentAttributes, setDocumentAttributes] = useState({});
+  const [loadingDocumentRequirement, setLoadingDocumentRequirement] = useState('');
+  const [documentFiles, setDocumentFiles] = useState({});
+  const [uploadingDocument, setUploadingDocument] = useState('');
+  const [completedDocuments, setCompletedDocuments] = useState({});
 
   const rejected = initialDecision === 'VERIFICATION_REJECTED';
 
@@ -157,6 +163,173 @@ export default function NumberRegulatoryVerification({
       cancelled = true;
     };
   }, [e164]);
+
+  const selectDocumentType = async (requirementName, documentType) => {
+    setDocumentSelections((current) => ({
+      ...current,
+      [requirementName]: documentType,
+    }));
+
+    setDocumentFieldRequirements((current) => {
+      const next = { ...current };
+      delete next[requirementName];
+      return next;
+    });
+
+    setDocumentAttributes((current) => ({
+      ...current,
+      [requirementName]: {},
+    }));
+
+    setDocumentFiles((current) => {
+      const next = { ...current };
+      delete next[requirementName];
+      return next;
+    });
+
+    setCompletedDocuments((current) => {
+      const next = { ...current };
+      delete next[requirementName];
+      return next;
+    });
+
+    setLoadingDocumentRequirement(requirementName);
+    setError('');
+
+    try {
+      const { data } = await axiosClient.post(
+        '/numbers/regulatory/document-requirements',
+        {
+          e164,
+          requirementName,
+          documentType,
+        }
+      );
+
+      if (!data?.resolved) {
+        setError(
+          data?.reason ||
+            t(
+              'phoneNumberManager.regulatoryDocumentRequirementsFailed',
+              'Could not load the document requirements.'
+            )
+        );
+        return;
+      }
+
+      setDocumentFieldRequirements((current) => ({
+        ...current,
+        [requirementName]: Array.isArray(data?.requiredFields)
+          ? data.requiredFields
+          : [],
+      }));
+    } catch (e) {
+      const data = e?.response?.data || {};
+
+      setError(
+        data?.error ||
+          data?.reason ||
+          t(
+            'phoneNumberManager.regulatoryDocumentRequirementsFailed',
+            'Could not load the document requirements.'
+          )
+      );
+    } finally {
+      setLoadingDocumentRequirement((current) =>
+        current === requirementName ? '' : current
+      );
+    }
+  };
+
+  const uploadDocument = async (requirementName) => {
+    const documentType = documentSelections[requirementName];
+    const file = documentFiles[requirementName];
+    const requiredDocumentFields =
+      documentFieldRequirements[requirementName] || [];
+    const submittedAttributes =
+      documentAttributes[requirementName] || {};
+
+    if (!documentType || !file) {
+      setError(
+        t(
+          'phoneNumberManager.regulatoryDocumentFileRequired',
+          'Choose a document file before uploading.'
+        )
+      );
+      return;
+    }
+
+    const missingDocumentFields = requiredDocumentFields.filter(
+      (field) => !String(submittedAttributes[field] || '').trim()
+    );
+
+    if (missingDocumentFields.length > 0) {
+      setError(
+        t(
+          'phoneNumberManager.regulatoryDocumentFieldsRequired',
+          'Complete all required document fields before uploading.'
+        )
+      );
+      return;
+    }
+
+    setUploadingDocument(requirementName);
+    setError('');
+
+    try {
+      const formData = new FormData();
+
+      formData.append('e164', e164);
+      formData.append('requirementName', requirementName);
+      formData.append('documentType', documentType);
+      formData.append(
+        'attributes',
+        JSON.stringify(submittedAttributes)
+      );
+      formData.append('file', file);
+
+      const { data } = await axiosClient.post(
+        '/numbers/regulatory/documents',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      if (!data?.provisioned && !data?.reused) {
+        setError(
+          data?.reason ||
+            t(
+              'phoneNumberManager.regulatoryDocumentUploadFailed',
+              'Could not upload the regulatory document.'
+            )
+        );
+        return;
+      }
+
+      setCompletedDocuments((current) => ({
+        ...current,
+        [requirementName]: true,
+      }));
+    } catch (e) {
+      const data = e?.response?.data || {};
+
+      setError(
+        data?.error ||
+          data?.reason ||
+          t(
+            'phoneNumberManager.regulatoryDocumentUploadFailed',
+            'Could not upload the regulatory document.'
+          )
+      );
+    } finally {
+      setUploadingDocument((current) =>
+        current === requirementName ? '' : current
+      );
+    }
+  };
 
   const submitIdentity = async () => {
     setSubmittingIdentity(true);
@@ -284,10 +457,10 @@ export default function NumberRegulatoryVerification({
                         documentSelections[requirement.requirementName] || ''
                       }
                       onChange={(documentType) => {
-                        setDocumentSelections((current) => ({
-                          ...current,
-                          [requirement.requirementName]: documentType,
-                        }));
+                        selectDocumentType(
+                          requirement.requirementName,
+                          documentType
+                        );
                       }}
                     >
                       <Stack gap="xs" mt="xs">
@@ -299,6 +472,120 @@ export default function NumberRegulatoryVerification({
                           />
                         ))}
                       </Stack>
+
+                      {loadingDocumentRequirement ===
+                        requirement.requirementName && (
+                        <Group mt="sm">
+                          <Loader size="sm" />
+                          <Text size="sm" c="dimmed">
+                            {t(
+                              'phoneNumberManager.regulatoryLoadingDocumentRequirements',
+                              'Loading document requirements...'
+                            )}
+                          </Text>
+                        </Group>
+                      )}
+
+                      {documentSelections[requirement.requirementName] &&
+                        Object.prototype.hasOwnProperty.call(
+                          documentFieldRequirements,
+                          requirement.requirementName
+                        ) && (
+                          <Stack gap="xs" mt="sm">
+                            {documentFieldRequirements[
+                              requirement.requirementName
+                            ].map((field) => (
+                              <TextInput
+                                key={`${requirement.requirementName}-${field}`}
+                                label={fieldLabel(field)}
+                                value={
+                                  documentAttributes[
+                                    requirement.requirementName
+                                  ]?.[field] || ''
+                                }
+                                required
+                                onChange={(event) => {
+                                  const value = event.currentTarget.value;
+
+                                  setDocumentAttributes((current) => ({
+                                    ...current,
+                                    [requirement.requirementName]: {
+                                      ...(current[
+                                        requirement.requirementName
+                                      ] || {}),
+                                      [field]: value,
+                                    },
+                                  }));
+                                }}
+                              />
+                            ))}
+
+                            {documentFieldRequirements[
+                              requirement.requirementName
+                            ].length === 0 && (
+                              <Text size="sm" c="dimmed">
+                                {t(
+                                  'phoneNumberManager.regulatoryNoDocumentFields',
+                                  'No additional document fields are required.'
+                                )}
+                              </Text>
+                            )}
+
+                            <input
+                              type="file"
+                              aria-label={`${fieldLabel(
+                                requirement.requirementName
+                              )} file`}
+                              accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+                              onChange={(event) => {
+                                const file =
+                                  event.currentTarget.files?.[0] || null;
+
+                                setDocumentFiles((current) => ({
+                                  ...current,
+                                  [requirement.requirementName]: file,
+                                }));
+
+                                setCompletedDocuments((current) => {
+                                  const next = { ...current };
+                                  delete next[requirement.requirementName];
+                                  return next;
+                                });
+                              }}
+                            />
+
+                            {completedDocuments[
+                              requirement.requirementName
+                            ] ? (
+                              <Alert
+                                color="green"
+                                icon={<IconCircleCheck size={16} />}
+                              >
+                                {t(
+                                  'phoneNumberManager.regulatoryDocumentUploaded',
+                                  'Document uploaded.'
+                                )}
+                              </Alert>
+                            ) : (
+                              <Button
+                                onClick={() =>
+                                  uploadDocument(
+                                    requirement.requirementName
+                                  )
+                                }
+                                loading={
+                                  uploadingDocument ===
+                                  requirement.requirementName
+                                }
+                              >
+                                {t(
+                                  'phoneNumberManager.regulatoryUploadDocument',
+                                  'Upload document'
+                                )}
+                              </Button>
+                            )}
+                          </Stack>
+                        )}
                     </Radio.Group>
                   ))}
                 </Stack>
