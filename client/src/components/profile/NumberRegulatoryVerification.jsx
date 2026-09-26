@@ -90,6 +90,7 @@ export default function NumberRegulatoryVerification({
   initialDecision,
   initialResponse,
   onBack,
+  onApproved,
 }) {
   const { t } = useTranslation();
 
@@ -109,7 +110,13 @@ export default function NumberRegulatoryVerification({
   const [completedDocuments, setCompletedDocuments] = useState({});
   const [bundleEmail, setBundleEmail] = useState('');
   const [submittingBundle, setSubmittingBundle] = useState(false);
-  const [reviewPending, setReviewPending] = useState(false);
+  const [reviewPending, setReviewPending] = useState(
+    initialDecision === 'VERIFICATION_PENDING'
+  );
+  const [checkingStatus, setCheckingStatus] = useState(false);
+  const [reviewRejected, setReviewRejected] = useState(
+    initialDecision === 'VERIFICATION_REJECTED'
+  );
 
   const rejected = initialDecision === 'VERIFICATION_REJECTED';
 
@@ -349,6 +356,85 @@ export default function NumberRegulatoryVerification({
     }
   };
 
+  const checkRegulatoryStatus = async () => {
+    setCheckingStatus(true);
+    setError('');
+
+    try {
+      const { data } = await axiosClient.post(
+        '/numbers/regulatory/status',
+        {
+          e164,
+        }
+      );
+
+      const decision = String(data?.decision || '').trim();
+
+      if (decision === 'APPROVED' && data?.allowed) {
+        setReviewPending(false);
+        setReviewRejected(false);
+        await onApproved?.();
+        return;
+      }
+
+      if (decision === 'VERIFICATION_REJECTED') {
+        setReviewPending(false);
+        setReviewRejected(true);
+        setError(
+          data?.profile?.rejectionReason ||
+            t(
+              'phoneNumberManager.regulatoryReviewRejected',
+              'The regulatory application was rejected. Review the requirements and submit corrected information.'
+            )
+        );
+        return;
+      }
+
+      if (decision === 'VERIFICATION_PENDING') {
+        setReviewPending(true);
+        setReviewRejected(false);
+        return;
+      }
+
+      if (
+        decision === 'VERIFICATION_REQUIRED' &&
+        data?.requiresVerification
+      ) {
+        setReviewPending(false);
+        setReviewRejected(true);
+        setError(
+          t(
+            'phoneNumberManager.regulatoryVerificationRequiredAgain',
+            'Additional regulatory verification is required.'
+          )
+        );
+        return;
+      }
+
+      setError(
+        data?.error ||
+          decision ||
+          t(
+            'phoneNumberManager.regulatoryStatusFailed',
+            'Could not confirm the regulatory status.'
+          )
+      );
+    } catch (e) {
+      const data = e?.response?.data || {};
+
+      setError(
+        data?.error ||
+          data?.reason ||
+          t(
+            'phoneNumberManager.regulatoryStatusFailed',
+            'Could not confirm the regulatory status.'
+          )
+      );
+    } finally {
+      setCheckingStatus(false);
+    }
+  };
+
   const assembleAndSubmitBundle = async () => {
     const email = bundleEmail.trim();
 
@@ -414,6 +500,7 @@ export default function NumberRegulatoryVerification({
       }
 
       setReviewPending(true);
+      setReviewRejected(false);
     } catch (e) {
       const data = e?.response?.data || {};
 
@@ -744,12 +831,48 @@ export default function NumberRegulatoryVerification({
 
       {identityReady && documentsReady && (
         reviewPending ? (
-          <Alert color="blue">
-            {t(
-              'phoneNumberManager.regulatoryReviewPending',
-              'Your regulatory application has been submitted and is pending review.'
-            )}
-          </Alert>
+          <Stack gap="sm">
+            <Alert color="blue">
+              {t(
+                'phoneNumberManager.regulatoryReviewPending',
+                'Your regulatory application has been submitted and is pending review.'
+              )}
+            </Alert>
+
+            <Button
+              variant="light"
+              onClick={checkRegulatoryStatus}
+              loading={checkingStatus}
+            >
+              {t(
+                'phoneNumberManager.regulatoryCheckStatus',
+                'Check status'
+              )}
+            </Button>
+          </Stack>
+        ) : reviewRejected ? (
+          <Stack gap="sm">
+            <Alert
+              color="red"
+              icon={<IconAlertTriangle size={16} />}
+            >
+              {t(
+                'phoneNumberManager.regulatoryReviewRejected',
+                'The regulatory application was rejected. Review the requirements and submit corrected information.'
+              )}
+            </Alert>
+
+            <Button
+              variant="light"
+              onClick={checkRegulatoryStatus}
+              loading={checkingStatus}
+            >
+              {t(
+                'phoneNumberManager.regulatoryCheckStatus',
+                'Check status'
+              )}
+            </Button>
+          </Stack>
         ) : (
           <Stack gap="sm">
             <TextInput

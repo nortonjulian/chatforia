@@ -413,3 +413,142 @@ test('assembles and submits a completed regulatory application for review', asyn
     })
   ).not.toBeInTheDocument();
 });
+
+test('checks pending regulatory status and signals approval', async () => {
+  const user = userEvent.setup();
+  const onApproved = jest.fn();
+
+  axiosClient.post.mockImplementation((url) => {
+    if (url === '/numbers/regulatory/initialize') {
+      return Promise.resolve({
+        data: {
+          initialized: true,
+          profile: {
+            status: 'PENDING_REVIEW',
+            endUserSid: 'IT11111111111111111111111111111111',
+          },
+          requirements: {
+            end_user: [],
+            supporting_document: [],
+          },
+        },
+      });
+    }
+
+    if (url === '/numbers/regulatory/status') {
+      return Promise.resolve({
+        data: {
+          allowed: true,
+          decision: 'APPROVED',
+          requiresVerification: false,
+          profile: {
+            status: 'APPROVED',
+          },
+        },
+      });
+    }
+
+    return Promise.resolve({ data: {} });
+  });
+
+  renderWithRouter(
+    <NumberRegulatoryVerification
+      e164="+61255550191"
+      initialDecision="VERIFICATION_PENDING"
+      initialResponse={{}}
+      onApproved={onApproved}
+      onBack={jest.fn()}
+    />
+  );
+
+  expect(
+    await screen.findByText(/pending review/i)
+  ).toBeInTheDocument();
+
+  await user.click(
+    screen.getByRole('button', {
+      name: /check status/i,
+    })
+  );
+
+  await waitFor(() => {
+    expect(axiosClient.post).toHaveBeenCalledWith(
+      '/numbers/regulatory/status',
+      {
+        e164: '+61255550191',
+      }
+    );
+  });
+
+  await waitFor(() => {
+    expect(onApproved).toHaveBeenCalledTimes(1);
+  });
+});
+
+test('keeps a rejected regulatory application in the correction flow', async () => {
+  const user = userEvent.setup();
+  const onApproved = jest.fn();
+
+  axiosClient.post.mockImplementation((url) => {
+    if (url === '/numbers/regulatory/initialize') {
+      return Promise.resolve({
+        data: {
+          initialized: true,
+          profile: {
+            status: 'PENDING_REVIEW',
+            endUserSid: 'IT11111111111111111111111111111111',
+          },
+          requirements: {
+            end_user: [],
+            supporting_document: [],
+          },
+        },
+      });
+    }
+
+    if (url === '/numbers/regulatory/status') {
+      return Promise.resolve({
+        data: {
+          allowed: false,
+          decision: 'VERIFICATION_REJECTED',
+          requiresVerification: true,
+          profile: {
+            status: 'REJECTED',
+          },
+        },
+      });
+    }
+
+    return Promise.resolve({ data: {} });
+  });
+
+  renderWithRouter(
+    <NumberRegulatoryVerification
+      e164="+61255550191"
+      initialDecision="VERIFICATION_PENDING"
+      initialResponse={{}}
+      onApproved={onApproved}
+      onBack={jest.fn()}
+    />
+  );
+
+  await user.click(
+    await screen.findByRole('button', {
+      name: /check status/i,
+    })
+  );
+
+  expect(
+    await screen.findByText(
+      /regulatory application was rejected/i
+    )
+  ).toBeInTheDocument();
+
+  expect(onApproved).not.toHaveBeenCalled();
+
+  expect(
+    screen.getByRole('button', {
+      name: /check status/i,
+    })
+  ).toBeInTheDocument();
+});

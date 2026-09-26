@@ -222,3 +222,236 @@ test('opens regulatory verification when selected number requires verification',
 
   expect(screen.queryByText(/number assigned/i)).not.toBeInTheDocument();
 });
+
+test('re-enters regulatory status when selected number is pending review', async () => {
+  const user = userEvent.setup();
+
+  axiosClient.post.mockImplementation((url) => {
+    if (url === '/numbers/lease') {
+      return Promise.reject({
+        response: {
+          status: 409,
+          data: {
+            error: 'REGULATORY_VERIFICATION_PENDING',
+            decision: 'VERIFICATION_PENDING',
+            requiresVerification: false,
+          },
+        },
+      });
+    }
+
+    if (url === '/numbers/regulatory/initialize') {
+      return Promise.resolve({
+        data: {
+          initialized: true,
+          profile: {
+            status: 'PENDING_REVIEW',
+            endUserSid: 'IT11111111111111111111111111111111',
+          },
+          requirements: {
+            end_user: [],
+            supporting_document: [],
+          },
+        },
+      });
+    }
+
+    return Promise.resolve({ data: {} });
+  });
+
+  renderWithRouter(<PhoneNumberManager />);
+
+  await screen.findByText(/no number/i);
+
+  await user.click(
+    screen.getByRole('button', {
+      name: /pick a number/i,
+    })
+  );
+
+  await user.click(
+    screen.getByRole('button', {
+      name: /^search$/i,
+    })
+  );
+
+  const numberText = await screen.findByText(
+    /\(555\) 123-4567/i
+  );
+
+  const resultCard = numberText.closest(
+    '[data-testid="card"]'
+  );
+
+  await user.click(
+    within(resultCard).getByRole('button', {
+      name: /^select$/i,
+    })
+  );
+
+  expect(
+    await screen.findByText(/pending review/i)
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByRole('button', {
+      name: /check status/i,
+    })
+  ).toBeInTheDocument();
+});
+
+test('retries the exact lease after regulatory approval', async () => {
+  const user = userEvent.setup();
+  let leaseCalls = 0;
+
+  axiosClient.post.mockImplementation((url, body) => {
+    if (url === '/numbers/lease') {
+      leaseCalls += 1;
+
+      if (leaseCalls === 1) {
+        return Promise.reject({
+          response: {
+            status: 409,
+            data: {
+              error: 'REGULATORY_VERIFICATION_REQUIRED',
+              decision: 'VERIFICATION_REQUIRED',
+              requiresVerification: true,
+            },
+          },
+        });
+      }
+
+      return Promise.resolve({
+        data: {
+          number: {
+            e164: body.e164,
+          },
+        },
+      });
+    }
+
+    if (url === '/numbers/regulatory/initialize') {
+      return Promise.resolve({
+        data: {
+          initialized: true,
+          profile: {
+            status: 'PENDING_REVIEW',
+            endUserSid: 'IT11111111111111111111111111111111',
+          },
+          requirements: {
+            end_user: [],
+            supporting_document: [],
+          },
+        },
+      });
+    }
+
+    if (url === '/numbers/regulatory/assemble') {
+      return Promise.resolve({
+        data: {
+          assembled: true,
+        },
+      });
+    }
+
+    if (url === '/numbers/regulatory/submit') {
+      return Promise.resolve({
+        data: {
+          submitted: true,
+          profile: {
+            status: 'PENDING_REVIEW',
+          },
+        },
+      });
+    }
+
+    if (url === '/numbers/regulatory/status') {
+      return Promise.resolve({
+        data: {
+          allowed: true,
+          decision: 'APPROVED',
+          requiresVerification: false,
+          profile: {
+            status: 'APPROVED',
+          },
+        },
+      });
+    }
+
+    return Promise.resolve({ data: {} });
+  });
+
+  renderWithRouter(<PhoneNumberManager />);
+
+  await screen.findByText(/no number/i);
+
+  await user.click(
+    screen.getByRole('button', {
+      name: /pick a number/i,
+    })
+  );
+
+  await user.click(
+    screen.getByRole('button', {
+      name: /^search$/i,
+    })
+  );
+
+  const numberText = await screen.findByText(
+    /\(555\) 123-4567/i
+  );
+
+  const resultCard = numberText.closest(
+    '[data-testid="card"]'
+  );
+
+  await user.click(
+    within(resultCard).getByRole('button', {
+      name: /^select$/i,
+    })
+  );
+
+  expect(
+    await screen.findByText(
+      /no supporting documents are required/i
+    )
+  ).toBeInTheDocument();
+
+  await user.type(
+    screen.getByLabelText(/contact email/i),
+    'user@example.com'
+  );
+
+  await user.click(
+    screen.getByRole('button', {
+      name: /submit for review/i,
+    })
+  );
+
+  await user.click(
+    await screen.findByRole('button', {
+      name: /check status/i,
+    })
+  );
+
+  await waitFor(() => {
+    const leaseRequests =
+      axiosClient.post.mock.calls.filter(
+        ([url]) => url === '/numbers/lease'
+      );
+
+    expect(leaseRequests).toHaveLength(2);
+
+    expect(leaseRequests[1]).toEqual([
+      '/numbers/lease',
+      {
+        e164: '+15551234567',
+        lockOnAssign: false,
+      },
+    ]);
+  });
+
+  expect(
+    await screen.findByText(/number assigned/i)
+  ).toBeInTheDocument();
+});

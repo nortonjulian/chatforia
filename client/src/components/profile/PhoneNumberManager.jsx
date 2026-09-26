@@ -364,6 +364,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
 
       if (
         decision === 'VERIFICATION_REQUIRED' ||
+        decision === 'VERIFICATION_PENDING' ||
         decision === 'VERIFICATION_REJECTED'
       ) {
         setRegulatoryVerification({
@@ -428,6 +429,64 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
           e164={regulatoryVerification.e164}
           initialDecision={regulatoryVerification.initialDecision}
           initialResponse={regulatoryVerification.initialResponse}
+          onApproved={async () => {
+            const {
+              e164,
+              purchaseIntent,
+              lockOnAssign: regulatoryLockOnAssign,
+            } = regulatoryVerification;
+
+            setAssigningId(e164);
+            setErr('');
+
+            try {
+              await axiosClient.post('/numbers/lease', {
+                e164,
+                ...(purchaseIntent
+                  ? { purchaseIntent: true }
+                  : {}),
+                lockOnAssign: Boolean(
+                  regulatoryLockOnAssign
+                ),
+              });
+
+              posthog.capture('number_assigned', {
+                type: purchaseIntent ? 'premium' : 'free',
+                country,
+                capability,
+                had_area_code: Boolean(
+                  String(area || '').trim()
+                ),
+              });
+
+              onAssigned?.({
+                type: 'success',
+                message: t(
+                  'phoneNumberManager.numberAssigned',
+                  'Number assigned.'
+                ),
+                e164,
+              });
+
+              setRegulatoryVerification(null);
+              onClose?.();
+            } catch (e) {
+              const data = e?.response?.data || {};
+
+              setErr(
+                data?.error ||
+                  data?.message ||
+                  t(
+                    'phoneNumberManager.couldNotLease',
+                    'Could not lease that number. It may have just been taken—try another.'
+                  )
+              );
+
+              throw e;
+            } finally {
+              setAssigningId(null);
+            }
+          }}
           onBack={() => {
             setRegulatoryVerification(null);
             setErr('');
