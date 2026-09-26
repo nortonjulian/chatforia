@@ -1790,6 +1790,235 @@ function validateRegulatorySupportingDocumentAttributes({
   };
 }
 
+export async function getRegulatorySupportingDocumentFieldRequirements({
+  userId,
+  provider = PROFILE_PROVIDER,
+  country,
+  numberType,
+  endUserType,
+  requirementName,
+  documentType,
+}) {
+  const key = normalizeProfileKey({
+    userId,
+    provider,
+    country,
+    numberType,
+    endUserType,
+  });
+
+  const cleanRequirementName =
+    String(requirementName || '').trim();
+
+  const cleanDocumentType =
+    String(documentType || '').trim();
+
+  if (!cleanRequirementName) {
+    throw new Error('requirementName is required');
+  }
+
+  if (!cleanDocumentType) {
+    throw new Error('documentType is required');
+  }
+
+  const profile =
+    await prisma.numberRegulatoryProfile.findUnique({
+      where: profileUniqueWhere(key),
+    });
+
+  if (!profile) {
+    return {
+      resolved: false,
+      reason: 'profile-not-found',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  if (!profile.regulationSid) {
+    return {
+      resolved: false,
+      reason: 'regulation-not-initialized',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  const api = getProvider(key.provider);
+
+  if (
+    !api ||
+    typeof api.getRegulations !== 'function'
+  ) {
+    return {
+      resolved: false,
+      reason: 'provider-regulations-unsupported',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  let regulations;
+
+  try {
+    regulations = await api.getRegulations({
+      country: key.isoCountry,
+      numberType: key.numberType,
+      endUserType: key.endUserType,
+      includeConstraints: true,
+    });
+  } catch {
+    return {
+      resolved: false,
+      reason: 'regulation-lookup-failed',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  const matchingRegulations =
+    Array.isArray(regulations)
+      ? regulations.filter(
+          (regulation) =>
+            String(regulation?.sid || '').trim() ===
+            String(profile.regulationSid).trim()
+        )
+      : [];
+
+  if (matchingRegulations.length !== 1) {
+    return {
+      resolved: false,
+      reason: 'regulation-not-found',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  const groups =
+    getRegulatorySupportingDocumentRequirements(
+      matchingRegulations[0].requirements || {}
+    );
+
+  const matchingRequirements =
+    groups
+      .flat()
+      .filter(
+        (requirement) =>
+          requirement.requirementName ===
+          cleanRequirementName
+      );
+
+  if (matchingRequirements.length !== 1) {
+    return {
+      resolved: false,
+      reason:
+        'supporting-document-requirement-not-found',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  const requirement = matchingRequirements[0];
+
+  const acceptedDocument =
+    requirement.acceptedDocuments.find(
+      (document) =>
+        document.type === cleanDocumentType
+    );
+
+  if (!acceptedDocument) {
+    return {
+      resolved: false,
+      reason:
+        'unsupported-supporting-document-type',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  if (
+    !api ||
+    typeof api.listRegulatorySupportingDocumentTypes !==
+      'function'
+  ) {
+    return {
+      resolved: false,
+      reason:
+        'provider-supporting-document-types-unsupported',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  let supportingDocumentTypes;
+
+  try {
+    supportingDocumentTypes =
+      await api.listRegulatorySupportingDocumentTypes();
+  } catch {
+    return {
+      resolved: false,
+      reason:
+        'supporting-document-type-lookup-failed',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  const matchingDocumentTypes =
+    Array.isArray(supportingDocumentTypes)
+      ? supportingDocumentTypes.filter(
+          (type) =>
+            String(
+              type?.machineName || ''
+            ).trim() === cleanDocumentType
+        )
+      : [];
+
+  if (matchingDocumentTypes.length !== 1) {
+    return {
+      resolved: false,
+      reason: 'supporting-document-type-not-found',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  const fieldSchema =
+    getRegulatorySupportingDocumentTypeFieldNames(
+      matchingDocumentTypes[0].fields
+    );
+
+  if (!fieldSchema.recognized) {
+    return {
+      resolved: false,
+      reason:
+        'supporting-document-field-schema-unsupported',
+      requirementName: cleanRequirementName,
+      documentType: cleanDocumentType,
+      requiredFields: [],
+    };
+  }
+
+  return {
+    resolved: true,
+    reason: null,
+    requirementName: cleanRequirementName,
+    documentType: cleanDocumentType,
+    requiredFields: fieldSchema.fields,
+  };
+}
+
 export async function provisionRegulatorySupportingDocument({
   userId,
   provider = PROFILE_PROVIDER,
