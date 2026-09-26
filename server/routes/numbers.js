@@ -676,6 +676,70 @@ router.post(
 );
 
 router.post(
+  '/regulatory/status',
+  requireAuth,
+  async (req, res) => {
+    const userId = req.user?.id;
+    const e164 = String(req.body?.e164 || '').trim();
+
+    if (!e164) {
+      return res.status(400).json({
+        error: 'e164 is required',
+      });
+    }
+
+    const candidate = await prisma.phoneNumber.findFirst({
+      where: {
+        e164,
+        status: 'AVAILABLE',
+        isLeasable: true,
+      },
+    });
+
+    if (!candidate) {
+      return res.status(404).json({
+        error: 'Number not available',
+      });
+    }
+
+    if (!candidate.regulatoryNumberType) {
+      return res.status(409).json({
+        error: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+        decision: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+        requiresVerification: false,
+        profile: null,
+        regulation: null,
+      });
+    }
+
+    try {
+      const compliance =
+        await evaluateNumberRegulatoryCompliance({
+          userId,
+          candidate,
+          endUserType: 'individual',
+        });
+
+      return res.status(200).json({
+        allowed: Boolean(compliance?.allowed),
+        decision:
+          compliance?.decision ||
+          'BLOCKED_UNKNOWN_STATUS',
+        requiresVerification: Boolean(
+          compliance?.requiresVerification
+        ),
+        profile: compliance?.profile || null,
+        regulation: compliance?.regulation || null,
+      });
+    } catch {
+      return res.status(502).json({
+        error: 'Regulatory status lookup failed',
+      });
+    }
+  }
+);
+
+router.post(
   '/regulatory/document-requirements',
   requireAuth,
   async (req, res) => {
