@@ -20,7 +20,7 @@ jest.mock('react-i18next', () => ({
 }));
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
 });
 
 test('loads and renders dynamic End User requirements', async () => {
@@ -265,7 +265,7 @@ test('loads dynamic fields for selected supporting documents', async () => {
   ).toBeInTheDocument();
 
   expect(
-    screen.getByLabelText(/document issuing country/i)
+    await screen.findByLabelText(/document issuing country/i)
   ).toBeInTheDocument();
 
   await user.type(
@@ -419,22 +419,6 @@ test('checks pending regulatory status and signals approval', async () => {
   const onApproved = jest.fn();
 
   axiosClient.post.mockImplementation((url) => {
-    if (url === '/numbers/regulatory/initialize') {
-      return Promise.resolve({
-        data: {
-          initialized: true,
-          profile: {
-            status: 'PENDING_REVIEW',
-            endUserSid: 'IT11111111111111111111111111111111',
-          },
-          requirements: {
-            end_user: [],
-            supporting_document: [],
-          },
-        },
-      });
-    }
-
     if (url === '/numbers/regulatory/status') {
       return Promise.resolve({
         data: {
@@ -465,6 +449,11 @@ test('checks pending regulatory status and signals approval', async () => {
     await screen.findByText(/pending review/i)
   ).toBeInTheDocument();
 
+  expect(axiosClient.post).not.toHaveBeenCalledWith(
+    '/numbers/regulatory/initialize',
+    expect.anything()
+  );
+
   await user.click(
     screen.getByRole('button', {
       name: /check status/i,
@@ -490,22 +479,6 @@ test('keeps a rejected regulatory application in the correction flow', async () 
   const onApproved = jest.fn();
 
   axiosClient.post.mockImplementation((url) => {
-    if (url === '/numbers/regulatory/initialize') {
-      return Promise.resolve({
-        data: {
-          initialized: true,
-          profile: {
-            status: 'PENDING_REVIEW',
-            endUserSid: 'IT11111111111111111111111111111111',
-          },
-          requirements: {
-            end_user: [],
-            supporting_document: [],
-          },
-        },
-      });
-    }
-
     if (url === '/numbers/regulatory/status') {
       return Promise.resolve({
         data: {
@@ -532,11 +505,17 @@ test('keeps a rejected regulatory application in the correction flow', async () 
     />
   );
 
-  await user.click(
+  const checkStatusButton =
     await screen.findByRole('button', {
       name: /check status/i,
-    })
+    });
+
+  expect(axiosClient.post).not.toHaveBeenCalledWith(
+    '/numbers/regulatory/initialize',
+    expect.anything()
   );
+
+  await user.click(checkStatusButton);
 
   expect(
     await screen.findByText(

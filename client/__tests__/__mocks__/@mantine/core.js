@@ -172,21 +172,28 @@ ex.Radio = ({ label, value, checked, onChange, name, ...p }) => {
 ex.Radio.Group = ({ label, value, onChange, children }) => {
   const name = `radio_group_${Math.random().toString(36).slice(2)}`;
 
-  const controls = React.Children.map(children, (child) => {
+  const applyGroupProps = (child) => {
     if (!React.isValidElement(child)) return child;
 
-    return React.cloneElement(child, {
-      children: React.Children.map(child.props.children, (radio) => {
-        if (!React.isValidElement(radio)) return radio;
+    if (child.type === ex.Radio) {
+      return React.cloneElement(child, {
+        name,
+        checked: child.props.value === value,
+        onChange: () => onChange?.(child.props.value),
+      });
+    }
 
-        return React.cloneElement(radio, {
-          name,
-          checked: radio.props.value === value,
-          onChange: () => onChange?.(radio.props.value),
-        });
-      }),
+    if (!child.props.children) return child;
+
+    return React.cloneElement(child, {
+      children: React.Children.map(
+        child.props.children,
+        applyGroupProps
+      ),
     });
-  });
+  };
+
+  const controls = React.Children.map(children, applyGroupProps);
 
   return React.createElement(
     'fieldset',

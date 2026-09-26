@@ -182,12 +182,16 @@ export default function NumberRegulatoryVerification({
       }
     };
 
-    initialize();
+    if (initialDecision === 'VERIFICATION_PENDING') {
+      setLoading(false);
+    } else {
+      initialize();
+    }
 
     return () => {
       cancelled = true;
     };
-  }, [e164]);
+  }, [e164, initialDecision]);
 
   const selectDocumentType = async (requirementName, documentType) => {
     setDocumentSelections((current) => ({
@@ -380,13 +384,7 @@ export default function NumberRegulatoryVerification({
       if (decision === 'VERIFICATION_REJECTED') {
         setReviewPending(false);
         setReviewRejected(true);
-        setError(
-          data?.profile?.rejectionReason ||
-            t(
-              'phoneNumberManager.regulatoryReviewRejected',
-              'The regulatory application was rejected. Review the requirements and submit corrected information.'
-            )
-        );
+        setError('');
         return;
       }
 
@@ -829,7 +827,7 @@ export default function NumberRegulatoryVerification({
         </Stack>
       )}
 
-      {identityReady && documentsReady && (
+      {(reviewPending || reviewRejected || (identityReady && documentsReady)) && (
         reviewPending ? (
           <Stack gap="sm">
             <Alert color="blue">

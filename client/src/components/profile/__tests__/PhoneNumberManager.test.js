@@ -240,22 +240,6 @@ test('re-enters regulatory status when selected number is pending review', async
       });
     }
 
-    if (url === '/numbers/regulatory/initialize') {
-      return Promise.resolve({
-        data: {
-          initialized: true,
-          profile: {
-            status: 'PENDING_REVIEW',
-            endUserSid: 'IT11111111111111111111111111111111',
-          },
-          requirements: {
-            end_user: [],
-            supporting_document: [],
-          },
-        },
-      });
-    }
-
     return Promise.resolve({ data: {} });
   });
 
@@ -292,6 +276,11 @@ test('re-enters regulatory status when selected number is pending review', async
   expect(
     await screen.findByText(/pending review/i)
   ).toBeInTheDocument();
+
+  expect(axiosClient.post).not.toHaveBeenCalledWith(
+    '/numbers/regulatory/initialize',
+    expect.anything()
+  );
 
   expect(
     screen.getByRole('button', {
