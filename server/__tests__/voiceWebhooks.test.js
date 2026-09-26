@@ -68,6 +68,10 @@ class MockVoiceResponse {
         dial.clients.push(clientEntry);
 
         return {
+          identity: (identity) => {
+            clientEntry.to = identity;
+            return this;
+          },
           parameter: ({ name, value }) => {
             clientEntry.params.push({
               name,
@@ -388,6 +392,84 @@ describe('POST /webhooks/voice/inbound', () => {
     expect(actions[1]).toEqual({
       type: 'hangup',
     });
+  });
+
+  it('fans out inbound PSTN calls to registered Voice destinations instead of the legacy user identity', async () => {
+    prisma.phoneNumber.findUnique.mockResolvedValueOnce({
+      id: 500,
+      e164: '+15550009999',
+      assignedUserId: 65,
+      assignedUser: {
+        id: 65,
+      },
+    });
+
+    prisma.call.create.mockResolvedValueOnce({
+      id: 884,
+      createdAt:
+        new Date('2026-09-25T00:00:00.000Z'),
+      twilioCallSid: 'CA-inbound-pstn',
+    });
+
+    getVoiceDialDestinations.mockResolvedValueOnce([
+      {
+        identity:
+          'user_65_device_ios_regina_iphone',
+        deviceId: 'regina-iphone',
+        platform: 'ios',
+        legacy: false,
+      },
+      {
+        identity: 'user:65',
+        deviceId: null,
+        platform: 'web',
+        legacy: false,
+      },
+    ]);
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/inbound')
+      .type('form')
+      .send({
+        To: '+15550009999',
+        From: '+15550001111',
+        CallSid: 'CA-inbound-pstn',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    expect(
+      getVoiceDialDestinations
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      getVoiceDialDestinations
+    ).toHaveBeenCalledWith(65);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions).toHaveLength(1);
+    expect(actions[0].type).toBe('dial');
+
+    expect(
+      actions[0].clients.map((client) => client.to)
+    ).toEqual([
+      'user_65_device_ios_regina_iphone',
+      'user:65',
+    ]);
+
+    expect(
+      actions[0].clients.map((client) => client.to)
+    ).not.toContain('user_65');
+
+    expect(
+      actions[0].clients.map((client) => client.params)
+    ).toEqual([
+      [{ name: 'backendCallId', value: '884' }],
+      [{ name: 'backendCallId', value: '884' }],
+    ]);
   });
 
   it('forwards after the app-ring fallback is unanswered', async () => {
@@ -1171,6 +1253,35 @@ describe('POST /webhooks/voice/dial-complete', () => {
     expect(prisma.call.update).toHaveBeenCalled();
 
     expect(emitToUser).toHaveBeenCalled();
+  });
+
+  it('preserves caller-canceled terminal state when dial-complete reports no-answer', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 878,
+      callerId: 65,
+      status: 'ENDED',
+      endReason: 'caller_canceled',
+      startedAt: null,
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/dial-complete')
+      .type('form')
+      .send({
+        CallSid: 'CA-caller-canceled',
+        DialCallStatus: 'no-answer',
+        DialCallDuration: '0',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions).toEqual([]);
+    expect(prisma.call.update).not.toHaveBeenCalled();
+    expect(emitToUser).not.toHaveBeenCalled();
   });
 
   it('returns empty TwiML for completed call', async () => {

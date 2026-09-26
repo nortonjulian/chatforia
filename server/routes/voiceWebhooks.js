@@ -175,6 +175,13 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
       });
     }
 
+    // Without a Call row, the iOS client cannot claim this call on Answer.
+    if (!callRecord?.id) {
+      twiml.say('The call could not be connected. Please try again.');
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
     const fallbackUrl =
       `/webhooks/voice/inbound-app-complete` +
       `?userId=${encodeURIComponent(String(user.id))}` +
@@ -192,7 +199,23 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
       method: 'POST',
     });
 
-    dial.client(`user_${user.id}`);
+    const dialDestinations =
+      await getVoiceDialDestinations(user.id);
+
+    if (dialDestinations.length === 0) {
+      twiml.say('The Chatforia user is not available for calls.');
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    for (const destination of dialDestinations) {
+      const client = dial.client();
+      client.identity(destination.identity);
+      client.parameter({
+        name: 'backendCallId',
+        value: String(callRecord.id),
+      });
+    }
 
     return res.type('text/xml').send(twiml.toString());
 
@@ -1127,11 +1150,27 @@ router.post('/dial-complete', async (req, res) => {
         select: {
           id: true,
           callerId: true,
+          status: true,
+          endReason: true,
           startedAt: true,
         },
       });
 
       if (existing) {
+        const existingStatus =
+          String(existing.status || '').toUpperCase();
+
+        const terminalStatuses = [
+          'DECLINED',
+          'ENDED',
+          'FAILED',
+          'MISSED',
+        ];
+
+        if (terminalStatuses.includes(existingStatus)) {
+          return res.type('text/xml').send(twiml.toString());
+        }
+
         let status = 'ENDED';
         let endReason = 'completed';
 
