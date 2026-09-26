@@ -303,3 +303,113 @@ test('loads dynamic fields for selected supporting documents', async () => {
 
   expect(axiosClient.post).toHaveBeenCalledTimes(3);
 });
+
+test('assembles and submits a completed regulatory application for review', async () => {
+  const user = userEvent.setup();
+
+  axiosClient.post
+    .mockResolvedValueOnce({
+      data: {
+        initialized: true,
+        profile: {
+          status: 'NOT_STARTED',
+          endUserSid: 'IT11111111111111111111111111111111',
+        },
+        requirements: {
+          end_user: [],
+          supporting_document: [],
+        },
+      },
+    })
+    .mockResolvedValueOnce({
+      data: {
+        assembled: true,
+        reusedBundle: false,
+        reason: null,
+        bundleSid:
+          'BU33333333333333333333333333333333',
+        assignedNow: [
+          'IT11111111111111111111111111111111',
+        ],
+        alreadyAssigned: [],
+      },
+    })
+    .mockResolvedValueOnce({
+      data: {
+        submitted: true,
+        reason: null,
+        profile: {
+          id: 10,
+          status: 'PENDING_REVIEW',
+          providerStatus: 'pending-review',
+        },
+      },
+    });
+
+  renderWithRouter(
+    <NumberRegulatoryVerification
+      e164="+61255550191"
+      initialDecision="VERIFICATION_REQUIRED"
+      initialResponse={{}}
+      onBack={jest.fn()}
+    />
+  );
+
+  expect(
+    await screen.findByText(
+      /no supporting documents are required/i
+    )
+  ).toBeInTheDocument();
+
+  const emailInput = screen.getByLabelText(
+    /contact email/i
+  );
+
+  await user.type(
+    emailInput,
+    'user@example.com'
+  );
+
+  await user.click(
+    screen.getByRole('button', {
+      name: /submit for review/i,
+    })
+  );
+
+  await waitFor(() => {
+    expect(axiosClient.post).toHaveBeenCalledTimes(3);
+  });
+
+  expect(
+    axiosClient.post
+  ).toHaveBeenNthCalledWith(
+    2,
+    '/numbers/regulatory/assemble',
+    {
+      e164: '+61255550191',
+      email: 'user@example.com',
+    }
+  );
+
+  expect(
+    axiosClient.post
+  ).toHaveBeenNthCalledWith(
+    3,
+    '/numbers/regulatory/submit',
+    {
+      e164: '+61255550191',
+    }
+  );
+
+  expect(
+    await screen.findByText(
+      /submitted and is pending review/i
+    )
+  ).toBeInTheDocument();
+
+  expect(
+    screen.queryByRole('button', {
+      name: /submit for review/i,
+    })
+  ).not.toBeInTheDocument();
+});
