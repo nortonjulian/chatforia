@@ -12,7 +12,7 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "test:server": "NODE_OPTIONS=--experimental-vm-modules jest --config ./server/jest.config.cjs",
-    "test:client": "jest --config ./client/jest.config.js",
+    "test:client": "jest --config ./client/jest.config.cjs",
     "test": "npm run test:server && npm run test:client",
     "test:ci": "npm run test",
     "ci": "npm run lint && npm run format:check && npm run test:ci",
