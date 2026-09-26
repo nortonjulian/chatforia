@@ -11,6 +11,7 @@ import { normalizeE164, isE164 } from '../utils/phone.js';
 import {
   evaluateNumberRegulatoryCompliance,
   initializeNumberRegulatoryVerification,
+  getRegulatorySupportingDocumentFieldRequirements,
   provisionRegulatorySupportingDocument,
   assembleRegulatoryBundle,
   submitNumberRegulatoryBundle,
@@ -669,6 +670,91 @@ router.post(
       return res.status(502).json({
         error:
           'Regulatory verification initialization failed',
+      });
+    }
+  }
+);
+
+router.post(
+  '/regulatory/document-requirements',
+  requireAuth,
+  async (req, res) => {
+    const userId = req.user.id;
+
+    const e164 = String(
+      req.body?.e164 || ''
+    ).trim();
+
+    const requirementName = String(
+      req.body?.requirementName || ''
+    ).trim();
+
+    const documentType = String(
+      req.body?.documentType || ''
+    ).trim();
+
+    if (!e164) {
+      return res.status(400).json({
+        error: 'e164 required',
+      });
+    }
+
+    if (!requirementName) {
+      return res.status(400).json({
+        error: 'requirementName required',
+      });
+    }
+
+    if (!documentType) {
+      return res.status(400).json({
+        error: 'documentType required',
+      });
+    }
+
+    const candidate =
+      await prisma.phoneNumber.findFirst({
+        where: {
+          e164,
+          status: 'AVAILABLE',
+          isLeasable: true,
+        },
+      });
+
+    if (!candidate) {
+      return res.status(404).json({
+        error: 'Number not available',
+      });
+    }
+
+    if (!candidate.regulatoryNumberType) {
+      return res.status(409).json({
+        error: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+        decision: 'BLOCKED_UNKNOWN_NUMBER_TYPE',
+      });
+    }
+
+    try {
+      const result =
+        await getRegulatorySupportingDocumentFieldRequirements({
+          userId,
+          provider: candidate.provider,
+          country: candidate.isoCountry,
+          numberType:
+            candidate.regulatoryNumberType,
+          endUserType: 'individual',
+          requirementName,
+          documentType,
+        });
+
+      if (!result.resolved) {
+        return res.status(409).json(result);
+      }
+
+      return res.status(200).json(result);
+    } catch {
+      return res.status(502).json({
+        error:
+          'Regulatory document requirements lookup failed',
       });
     }
   }
