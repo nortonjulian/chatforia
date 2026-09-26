@@ -1702,6 +1702,185 @@ describe('POST /numbers/regulatory/initialize', () => {
   });
 });
 
+describe('POST /numbers/regulatory/status', () => {
+  test('returns authoritative regulatory compliance using persisted number identity', async () => {
+    prismaMock.phoneNumber.findFirst.mockResolvedValue({
+      id: 91,
+      e164: '+61412345678',
+      provider: 'twilio',
+      isoCountry: 'AU',
+      regulatoryNumberType: 'local',
+      status: 'AVAILABLE',
+      isLeasable: true,
+    });
+
+    evaluateNumberRegulatoryComplianceMock.mockResolvedValue({
+      allowed: false,
+      decision: 'VERIFICATION_PENDING',
+      requiresVerification: false,
+      profile: {
+        id: 22,
+        status: 'PENDING_REVIEW',
+      },
+      regulation: {
+        sid: 'RN11111111111111111111111111111111',
+      },
+    });
+
+    const response = await request(app)
+      .post('/numbers/regulatory/status')
+      .set('Authorization', 'Bearer test-token')
+      .send({
+        e164: '+61412345678',
+        provider: 'malicious-provider',
+        country: 'US',
+        numberType: 'mobile',
+        endUserType: 'business',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toMatchObject({
+      allowed: false,
+      decision: 'VERIFICATION_PENDING',
+      requiresVerification: false,
+      profile: {
+        status: 'PENDING_REVIEW',
+      },
+    });
+
+    expect(
+      evaluateNumberRegulatoryComplianceMock
+    ).toHaveBeenCalledWith({
+      userId: expect.anything(),
+      candidate: expect.objectContaining({
+        e164: '+61412345678',
+        provider: 'twilio',
+        isoCountry: 'AU',
+        regulatoryNumberType: 'local',
+      }),
+      endUserType: 'individual',
+    });
+  });
+
+  test('returns approved status when compliance is approved', async () => {
+    prismaMock.phoneNumber.findFirst.mockResolvedValue({
+      id: 92,
+      e164: '+61412345679',
+      provider: 'twilio',
+      isoCountry: 'AU',
+      regulatoryNumberType: 'local',
+      status: 'AVAILABLE',
+      isLeasable: true,
+    });
+
+    evaluateNumberRegulatoryComplianceMock.mockResolvedValue({
+      allowed: true,
+      decision: 'APPROVED',
+      requiresVerification: false,
+      profile: {
+        id: 23,
+        status: 'APPROVED',
+      },
+      regulation: {
+        sid: 'RN11111111111111111111111111111111',
+      },
+    });
+
+    const response = await request(app)
+      .post('/numbers/regulatory/status')
+      .set('Authorization', 'Bearer test-token')
+      .send({
+        e164: '+61412345679',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toMatchObject({
+      allowed: true,
+      decision: 'APPROVED',
+      requiresVerification: false,
+      profile: {
+        status: 'APPROVED',
+      },
+    });
+  });
+
+  test('requires e164', async () => {
+    const response = await request(app)
+      .post('/numbers/regulatory/status')
+      .set('Authorization', 'Bearer test-token')
+      .send({});
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      error: 'e164 is required',
+    });
+
+    expect(
+      evaluateNumberRegulatoryComplianceMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('fails closed when persisted regulatory type is unknown', async () => {
+    prismaMock.phoneNumber.findFirst.mockResolvedValue({
+      id: 93,
+      e164: '+61412345680',
+      provider: 'twilio',
+      isoCountry: 'AU',
+      regulatoryNumberType: null,
+      status: 'AVAILABLE',
+      isLeasable: true,
+    });
+
+    const response = await request(app)
+      .post('/numbers/regulatory/status')
+      .set('Authorization', 'Bearer test-token')
+      .send({
+        e164: '+61412345680',
+      });
+
+    expect(response.status).toBe(409);
+    expect(response.body.decision).toBe(
+      'BLOCKED_UNKNOWN_NUMBER_TYPE'
+    );
+
+    expect(
+      evaluateNumberRegulatoryComplianceMock
+    ).not.toHaveBeenCalled();
+  });
+
+  test('returns a sanitized provider failure', async () => {
+    prismaMock.phoneNumber.findFirst.mockResolvedValue({
+      id: 94,
+      e164: '+61412345681',
+      provider: 'twilio',
+      isoCountry: 'AU',
+      regulatoryNumberType: 'local',
+      status: 'AVAILABLE',
+      isLeasable: true,
+    });
+
+    evaluateNumberRegulatoryComplianceMock.mockRejectedValue(
+      new Error('sensitive provider details')
+    );
+
+    const response = await request(app)
+      .post('/numbers/regulatory/status')
+      .set('Authorization', 'Bearer test-token')
+      .send({
+        e164: '+61412345681',
+      });
+
+    expect(response.status).toBe(502);
+    expect(response.body).toEqual({
+      error: 'Regulatory status lookup failed',
+    });
+
+    expect(
+      JSON.stringify(response.body)
+    ).not.toContain('sensitive provider details');
+  });
+});
+
 describe('POST /numbers/regulatory/document-requirements', () => {
   const candidate = {
     id: 170,
