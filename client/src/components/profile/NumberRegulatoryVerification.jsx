@@ -4,6 +4,7 @@ import {
   Button,
   Group,
   Loader,
+  Radio,
   Stack,
   Text,
   TextInput,
@@ -47,6 +48,43 @@ function fieldLabel(field) {
     .join(' ');
 }
 
+function getSupportingDocumentGroups(requirements) {
+  const groups = Array.isArray(requirements?.supporting_document)
+    ? requirements.supporting_document
+    : [];
+
+  return groups
+    .map((group) => {
+      const entries = Array.isArray(group) ? group : [group];
+
+      return entries
+        .filter(
+          (entry) =>
+            entry &&
+            typeof entry === 'object' &&
+            String(entry.requirement_name || '').trim()
+        )
+        .map((entry) => ({
+          requirementName: String(entry.requirement_name).trim(),
+          type: String(entry.type || '').trim(),
+          acceptedDocuments: Array.isArray(entry.accepted_documents)
+            ? entry.accepted_documents
+                .filter(
+                  (document) =>
+                    document &&
+                    typeof document === 'object' &&
+                    String(document.type || '').trim()
+                )
+                .map((document) => ({
+                  name: String(document.name || document.type).trim(),
+                  type: String(document.type).trim(),
+                }))
+            : [],
+        }));
+    })
+    .filter((group) => group.length > 0);
+}
+
 export default function NumberRegulatoryVerification({
   e164,
   initialDecision,
@@ -62,11 +100,17 @@ export default function NumberRegulatoryVerification({
   const [missingFields, setMissingFields] = useState([]);
   const [error, setError] = useState('');
   const [identityReady, setIdentityReady] = useState(false);
+  const [documentSelections, setDocumentSelections] = useState({});
 
   const rejected = initialDecision === 'VERIFICATION_REJECTED';
 
   const requiredFields = useMemo(
     () => getRequiredEndUserFields(requirements),
+    [requirements]
+  );
+
+  const supportingDocumentGroups = useMemo(
+    () => getSupportingDocumentGroups(requirements),
     [requirements]
   );
 
@@ -205,12 +249,70 @@ export default function NumberRegulatoryVerification({
           <Loader />
         </Group>
       ) : identityReady ? (
-        <Alert color="green" icon={<IconCircleCheck size={16} />}>
-          {t(
-            'phoneNumberManager.regulatoryIdentityReady',
-            'Identity information is ready.'
+        <Stack gap="md">
+          <Alert color="green" icon={<IconCircleCheck size={16} />}>
+            {t(
+              'phoneNumberManager.regulatoryIdentityReady',
+              'Identity information is ready.'
+            )}
+          </Alert>
+
+          {supportingDocumentGroups.length > 0 ? (
+            <Stack gap="lg">
+              <div>
+                <Title order={5}>
+                  {t(
+                    'phoneNumberManager.regulatoryDocumentsHeading',
+                    'Required documents'
+                  )}
+                </Title>
+                <Text size="sm" c="dimmed">
+                  {t(
+                    'phoneNumberManager.regulatoryDocumentsDescription',
+                    'Choose an accepted document for each requirement.'
+                  )}
+                </Text>
+              </div>
+
+              {supportingDocumentGroups.map((group, groupIndex) => (
+                <Stack key={`document-group-${groupIndex}`} gap="sm">
+                  {group.map((requirement) => (
+                    <Radio.Group
+                      key={requirement.requirementName}
+                      label={fieldLabel(requirement.requirementName)}
+                      value={
+                        documentSelections[requirement.requirementName] || ''
+                      }
+                      onChange={(documentType) => {
+                        setDocumentSelections((current) => ({
+                          ...current,
+                          [requirement.requirementName]: documentType,
+                        }));
+                      }}
+                    >
+                      <Stack gap="xs" mt="xs">
+                        {requirement.acceptedDocuments.map((document) => (
+                          <Radio
+                            key={`${requirement.requirementName}-${document.type}`}
+                            value={document.type}
+                            label={document.name}
+                          />
+                        ))}
+                      </Stack>
+                    </Radio.Group>
+                  ))}
+                </Stack>
+              ))}
+            </Stack>
+          ) : (
+            <Alert color="green" icon={<IconCircleCheck size={16} />}>
+              {t(
+                'phoneNumberManager.regulatoryNoDocuments',
+                'No supporting documents are required.'
+              )}
+            </Alert>
           )}
-        </Alert>
+        </Stack>
       ) : (
         <Stack gap="sm">
           {requiredFields.map((field) => (

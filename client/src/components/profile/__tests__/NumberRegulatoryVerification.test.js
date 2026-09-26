@@ -145,3 +145,115 @@ test('submits only the dynamically requested End User attributes', async () => {
     await screen.findByText(/identity information is ready/i)
   ).toBeInTheDocument();
 });
+
+test('renders dynamic supporting document requirements and alternatives', async () => {
+  const user = userEvent.setup();
+
+  axiosClient.post.mockResolvedValueOnce({
+    data: {
+      initialized: true,
+      profile: {
+        status: 'NOT_STARTED',
+        endUserSid: 'IT11111111111111111111111111111111',
+      },
+      requirements: {
+        end_user: [
+          {
+            requirement_name: 'individual_info',
+            type: 'individual',
+            fields: ['first_name', 'last_name'],
+          },
+        ],
+        supporting_document: [
+          [
+            {
+              requirement_name: 'proof_of_identity_info',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name: 'Australian Government-issued ID',
+                  type: 'government_issued_document',
+                },
+                {
+                  name: 'Australian Passport',
+                  type: 'passport',
+                },
+              ],
+            },
+          ],
+          [
+            {
+              requirement_name: 'individual_address_info',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name: 'Utility bill',
+                  type: 'utility_bill',
+                },
+              ],
+            },
+          ],
+        ],
+      },
+    },
+  });
+
+  renderWithRouter(
+    <NumberRegulatoryVerification
+      e164="+61412345678"
+      initialDecision="VERIFICATION_REQUIRED"
+      initialResponse={{}}
+      onBack={jest.fn()}
+    />
+  );
+
+  expect(await screen.findByText(/required documents/i)).toBeInTheDocument();
+
+  expect(screen.getByText(/proof of identity info/i)).toBeInTheDocument();
+
+  expect(screen.getByText(/individual address info/i)).toBeInTheDocument();
+
+  expect(
+    screen.getByRole('radio', {
+      name: /australian government-issued id/i,
+    })
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByRole('radio', {
+      name: /australian passport/i,
+    })
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByRole('radio', {
+      name: /utility bill/i,
+    })
+  ).toBeInTheDocument();
+
+  await user.click(
+    screen.getByRole('radio', {
+      name: /australian passport/i,
+    })
+  );
+
+  expect(
+    screen.getByRole('radio', {
+      name: /australian passport/i,
+    })
+  ).toBeChecked();
+
+  await user.click(
+    screen.getByRole('radio', {
+      name: /utility bill/i,
+    })
+  );
+
+  expect(
+    screen.getByRole('radio', {
+      name: /utility bill/i,
+    })
+  ).toBeChecked();
+
+  expect(axiosClient.post).toHaveBeenCalledTimes(1);
+});

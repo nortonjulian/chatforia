@@ -5,7 +5,7 @@ const React = require('react');
 const renderContent = (props, children) =>
   children != null && children !== false && children !== true
     ? children
-    : props?.label ?? null;
+    : (props?.label ?? null);
 
 const passthroughFactory = (defaultTag) =>
   React.forwardRef((props, ref) => {
@@ -154,6 +154,48 @@ ex.CloseButton = ({ 'aria-label': ariaLabel = 'Close', onClick, ...p }) =>
   });
 
 /* inputs */
+ex.Radio = ({ label, value, checked, onChange, name, ...p }) => {
+  const id = p.id || `radio_${Math.random().toString(36).slice(2)}`;
+  const el = React.createElement('input', {
+    id,
+    type: 'radio',
+    value,
+    checked,
+    onChange,
+    name,
+    ...p,
+  });
+
+  return withLabel(id, label, el);
+};
+
+ex.Radio.Group = ({ label, value, onChange, children }) => {
+  const name = `radio_group_${Math.random().toString(36).slice(2)}`;
+
+  const controls = React.Children.map(children, (child) => {
+    if (!React.isValidElement(child)) return child;
+
+    return React.cloneElement(child, {
+      children: React.Children.map(child.props.children, (radio) => {
+        if (!React.isValidElement(radio)) return radio;
+
+        return React.cloneElement(radio, {
+          name,
+          checked: radio.props.value === value,
+          onChange: () => onChange?.(radio.props.value),
+        });
+      }),
+    });
+  });
+
+  return React.createElement(
+    'fieldset',
+    null,
+    label ? React.createElement('legend', null, label) : null,
+    controls
+  );
+};
+
 ex.Checkbox = ({ label, checked, onChange, ...p }) => {
   const id = p.id || `chk_${Math.random().toString(36).slice(2)}`;
   const el = React.createElement('input', {
@@ -245,7 +287,14 @@ ex.Select = ({ label, data = [], value, onChange, disabled, ...p }) => {
   return withLabel(id, label, el);
 };
 
-ex.MultiSelect = ({ label, data = [], value = [], onChange, disabled, ...p }) => {
+ex.MultiSelect = ({
+  label,
+  data = [],
+  value = [],
+  onChange,
+  disabled,
+  ...p
+}) => {
   const id = p.id || `ms_${Math.random().toString(36).slice(2)}`;
 
   const opts = data.map((o) =>
