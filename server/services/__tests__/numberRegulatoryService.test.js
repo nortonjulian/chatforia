@@ -91,6 +91,7 @@ const {
   syncRegulatoryBundleStatusBySid,
   evaluateNumberRegulatoryCompliance,
   initializeNumberRegulatoryVerification,
+  getRegulatorySupportingDocumentFieldRequirements,
   provisionRegulatorySupportingDocument,
   assembleRegulatoryBundle,
   submitNumberRegulatoryBundle,
@@ -1915,6 +1916,200 @@ describe('numberRegulatoryService', () => {
       ]);
 
       expect(result.bundleSid).toBe(BU);
+    });
+  });
+
+  describe('regulatory supporting document field requirements', () => {
+    const regulation = {
+      sid: 'RN11111111111111111111111111111111',
+      requirements: {
+        supporting_document: [
+          [
+            {
+              requirement_name:
+                'proof_of_identity_info',
+              type: 'document',
+              accepted_documents: [
+                {
+                  name: 'Australian Passport',
+                  type: 'passport',
+                },
+                {
+                  name: 'Government-issued ID',
+                  type: 'government_issued_document',
+                },
+              ],
+            },
+          ],
+        ],
+      },
+    };
+
+    test('resolves dynamic fields for an accepted document type', async () => {
+      findUniqueMock.mockResolvedValue(
+        baseProfile({
+          regulationSid: regulation.sid,
+        })
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      listRegulatorySupportingDocumentTypesMock
+        .mockResolvedValue([
+          {
+            machineName: 'passport',
+            fields: [
+              {
+                machine_name: 'document_number',
+              },
+              {
+                fieldName:
+                  'document_issuing_country',
+              },
+            ],
+          },
+        ]);
+
+      const result =
+        await getRegulatorySupportingDocumentFieldRequirements({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+        });
+
+      expect(result).toEqual({
+        resolved: true,
+        reason: null,
+        requirementName:
+          'proof_of_identity_info',
+        documentType: 'passport',
+        requiredFields: [
+          'document_number',
+          'document_issuing_country',
+        ],
+      });
+
+      expect(
+        listRegulatorySupportingDocumentTypesMock
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    test('rejects a document type not accepted by the requirement', async () => {
+      findUniqueMock.mockResolvedValue(
+        baseProfile({
+          regulationSid: regulation.sid,
+        })
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      const result =
+        await getRegulatorySupportingDocumentFieldRequirements({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'utility_bill',
+        });
+
+      expect(result.resolved).toBe(false);
+      expect(result.reason).toBe(
+        'unsupported-supporting-document-type'
+      );
+
+      expect(
+        listRegulatorySupportingDocumentTypesMock
+      ).not.toHaveBeenCalled();
+    });
+
+    test('fails closed for an unrecognized Supporting Document field schema', async () => {
+      findUniqueMock.mockResolvedValue(
+        baseProfile({
+          regulationSid: regulation.sid,
+        })
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      listRegulatorySupportingDocumentTypesMock
+        .mockResolvedValue([
+          {
+            machineName: 'passport',
+            fields: [
+              {
+                unexpected_field_shape: true,
+              },
+            ],
+          },
+        ]);
+
+      const result =
+        await getRegulatorySupportingDocumentFieldRequirements({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+        });
+
+      expect(result.resolved).toBe(false);
+      expect(result.reason).toBe(
+        'supporting-document-field-schema-unsupported'
+      );
+
+      expect(result.requiredFields).toEqual([]);
+    });
+
+    test('fails closed when the Supporting Document Type cannot be resolved exactly', async () => {
+      findUniqueMock.mockResolvedValue(
+        baseProfile({
+          regulationSid: regulation.sid,
+        })
+      );
+
+      getRegulationsMock.mockResolvedValue([
+        regulation,
+      ]);
+
+      listRegulatorySupportingDocumentTypesMock
+        .mockResolvedValue([
+          {
+            machineName: 'utility_bill',
+            fields: [],
+          },
+        ]);
+
+      const result =
+        await getRegulatorySupportingDocumentFieldRequirements({
+          userId: 42,
+          country: 'AU',
+          numberType: 'local',
+          endUserType: 'individual',
+          requirementName:
+            'proof_of_identity_info',
+          documentType: 'passport',
+        });
+
+      expect(result.resolved).toBe(false);
+      expect(result.reason).toBe(
+        'supporting-document-type-not-found'
+      );
+
+      expect(result.requiredFields).toEqual([]);
     });
   });
 
