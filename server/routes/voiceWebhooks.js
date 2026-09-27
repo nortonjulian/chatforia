@@ -293,17 +293,11 @@ router.post('/inbound-app-complete', async (req, res) => {
     }
 
     /*
-     * Only a genuine unanswered timeout may continue to forwarding or
-     * voicemail. Twilio reports an explicit Voice SDK rejection as
-     * "busy". The app has already persisted that call as DECLINED.
+     * A declined app leg remains DECLINED. If voicemail is enabled,
+     * offer it directly without forwarding to another phone.
      */
-    if (dialStatus !== 'no-answer') {
-      /*
-       * Twilio Voice SDK reports an explicit rejection as "busy".
-       * Persist the same DECLINED state used by app-to-app calls.
-       */
+    if (dialStatus === 'busy') {
       if (
-        dialStatus === 'busy' &&
         Number.isInteger(relatedCallId) &&
         relatedCallId > 0 &&
         Number.isInteger(userId) &&
@@ -322,22 +316,11 @@ router.post('/inbound-app-complete', async (req, res) => {
           },
         });
       }
-
+    } else if (dialStatus !== 'no-answer') {
       console.log(
         '[Twilio Voice inbound-app-complete] terminating without voicemail',
-        {
-          dialStatus,
-          userId,
-          relatedCallId,
-        }
+        { dialStatus, userId, relatedCallId }
       );
-
-      // Give callers a predictable result when an app client declines.
-      // No forwarding or voicemail is offered for an explicit busy result.
-      if (dialStatus === 'busy') {
-        twiml.say('The person you called is unavailable.');
-      }
-
       twiml.hangup();
       return res.type('text/xml').send(twiml.toString());
     }
@@ -368,6 +351,7 @@ router.post('/inbound-app-complete', async (req, res) => {
     }
 
     const forwardingAllowed =
+      dialStatus === 'no-answer' &&
       user.forwardingEnabledCalls &&
       isE164(user.forwardToPhoneE164) &&
       !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd);
@@ -387,10 +371,11 @@ router.post('/inbound-app-complete', async (req, res) => {
     }
 
     /*
-     * The app timed out and forwarding was not used. Finalize the
-     * canonical call before beginning the optional voicemail flow.
+     * Only a genuine unanswered timeout is missed. A declined call
+     * remains DECLINED even when its caller leaves a voicemail.
      */
     if (
+      dialStatus === 'no-answer' &&
       Number.isInteger(relatedCallId) &&
       relatedCallId > 0 &&
       Number.isInteger(userId) &&

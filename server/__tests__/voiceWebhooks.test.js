@@ -473,32 +473,59 @@ describe('POST /webhooks/voice/inbound', () => {
     ]);
   });
 
-  it('tells the caller an incoming PSTN call was unavailable after a client declines', async () => {
+  it('offers voicemail after an inbound PSTN call is declined, without forwarding', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({
+      forwardingEnabledCalls: true,
+      forwardToPhoneE164: '+15556667777',
+      forwardQuietHoursStart: null,
+      forwardQuietHoursEnd: null,
+      voicemailEnabled: true,
+      voicemailGreetingText: 'Please leave Regina a message.',
+      voicemailGreetingUrl: null,
+    });
+
     const app = createApp();
 
     const res = await request(app)
       .post(
         '/webhooks/voice/inbound-app-complete' +
           '?userId=65' +
+          '&phoneNumberId=5' +
           '&callId=940' +
           '&from=%2B15550001111' +
           '&to=%2B15550009999'
       )
       .type('form')
-      .send({
-        DialCallStatus: 'busy',
-      });
+      .send({ DialCallStatus: 'busy' });
 
     expect(res.statusCode).toBe(200);
-    expect(JSON.parse(res.text)).toEqual([
-      {
-        type: 'say',
-        opts: {},
-        text: 'The person you called is unavailable.',
-      },
-      { type: 'hangup' },
+    const actions = JSON.parse(res.text);
+    expect(actions[0]).toEqual({
+      type: 'say',
+      opts: {},
+      text: 'Please leave Regina a message.',
+    });
+    expect(actions.map((action) => action.type)).toEqual([
+      'say',
+      'record',
+      'say',
+      'hangup',
     ]);
 
+    const voicemailUrl = new URL(
+      actions[1].opts.recordingStatusCallback,
+      'https://chatforia.test'
+    );
+    expect(voicemailUrl.pathname).toBe(
+      '/webhooks/voice/voicemail/recording-status'
+    );
+    expect(voicemailUrl.searchParams.get('userId')).toBe('65');
+    expect(voicemailUrl.searchParams.get('phoneNumberId')).toBe('5');
+    expect(voicemailUrl.searchParams.get('relatedCallId')).toBe('940');
+    expect(voicemailUrl.searchParams.get('did')).toBe('+15550009999');
+    expect(voicemailUrl.searchParams.get('from')).toBe('+15550001111');
+
+    expect(prisma.call.updateMany).toHaveBeenCalledTimes(1);
     expect(prisma.call.updateMany).toHaveBeenCalledWith({
       where: {
         id: 940,
@@ -510,7 +537,62 @@ describe('POST /webhooks/voice/inbound', () => {
         endReason: 'declined',
       }),
     });
+    expect(prisma.user.findUnique).toHaveBeenCalledTimes(1);
+  });
+
+  it('plays the unavailable message when a declined inbound call has voicemail disabled', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({
+      forwardingEnabledCalls: true,
+      forwardToPhoneE164: '+15556667777',
+      forwardQuietHoursStart: null,
+      forwardQuietHoursEnd: null,
+      voicemailEnabled: false,
+      voicemailGreetingText: null,
+      voicemailGreetingUrl: null,
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/inbound-app-complete' +
+          '?userId=65' +
+          '&callId=941' +
+          '&from=%2B15550001111' +
+          '&to=%2B15550009999'
+      )
+      .type('form')
+      .send({ DialCallStatus: 'busy' });
+
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.text)).toEqual([
+      {
+        type: 'say',
+        opts: {},
+        text: 'The person you called is unavailable.',
+      },
+      { type: 'hangup' },
+    ]);
+    expect(prisma.call.updateMany).toHaveBeenCalledWith({
+      where: { id: 941, callerId: 65, status: 'RINGING' },
+      data: expect.objectContaining({
+        status: 'DECLINED',
+        endReason: 'declined',
+      }),
+    });
+  });
+
+  it('does not offer voicemail for a failed inbound client leg', async () => {
+    const app = createApp();
+    const res = await request(app)
+      .post('/webhooks/voice/inbound-app-complete?userId=65&callId=942')
+      .type('form')
+      .send({ DialCallStatus: 'failed' });
+
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.text)).toEqual([{ type: 'hangup' }]);
     expect(prisma.user.findUnique).not.toHaveBeenCalled();
+    expect(prisma.call.updateMany).not.toHaveBeenCalled();
   });
 
   it('forwards after the app-ring fallback is unanswered', async () => {
