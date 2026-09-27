@@ -16,6 +16,8 @@ jest.mock('@/utils/encryptionClient', () => ({
   getLocalKeyBundleMeta: jest.fn(() => Promise.resolve(null)),
   getUnlockedPrivateKeyForPublicKey: jest.fn(),
   unlockKeyBundle: jest.fn(),
+  unlockTrustedBrowserBundle: jest.fn(() => Promise.resolve(false)),
+  lockKeyBundle: jest.fn(),
   getPersistedUnlockPasscodeForSession: jest.fn(() => null),
   clearPersistedUnlockPasscodeForSession: jest.fn(),
   requestBrowserPairing: jest.fn(),
@@ -50,6 +52,12 @@ jest.mock('../SocketContext', () => ({
 
 // SUT
 import { UserProvider, useUser } from '../UserContext';
+import {
+  getLocalKeyBundleMeta,
+  getUnlockedPrivateKeyForPublicKey,
+  unlockTrustedBrowserBundle,
+  unlockKeyBundle,
+} from '@/utils/encryptionClient';
 
 // ---- Test harness ----
 function Consumer() {
@@ -89,6 +97,10 @@ beforeEach(() => {
   mockGet.mockReset();
   mockPost.mockReset();
   i18n.changeLanguage.mockClear();
+  getLocalKeyBundleMeta.mockReset().mockResolvedValue(null);
+  getUnlockedPrivateKeyForPublicKey.mockReset();
+  unlockTrustedBrowserBundle.mockReset().mockResolvedValue(false);
+  unlockKeyBundle.mockReset();
 
   localStorage.clear();
 
@@ -117,6 +129,23 @@ afterEach(() => {
 
 // ---- Tests ----
 describe('UserContext', () => {
+  test('returning trusted browser opens secure messages without a passcode', async () => {
+    const publicKey = 'account-public-key';
+    mockGet.mockResolvedValueOnce({ data: { user: { id: 7, publicKey } } });
+    mockRefreshRooms.mockResolvedValueOnce([]);
+    getLocalKeyBundleMeta.mockResolvedValue({ publicKey, hasEncrypted: true });
+    getUnlockedPrivateKeyForPublicKey.mockRejectedValueOnce(new Error('LOCKED'));
+    unlockTrustedBrowserBundle.mockResolvedValueOnce(true);
+
+    renderWithProvider();
+
+    await waitFor(() => expect(screen.getByTestId('authLoading').textContent).toBe('false'));
+    expect(unlockTrustedBrowserBundle).toHaveBeenCalledWith(publicKey);
+    expect(unlockKeyBundle).not.toHaveBeenCalled();
+    expect(window.__userCtx.needsKeyUnlock).toBe(false);
+    expect(mockReconnect).toHaveBeenCalled();
+  });
+
   test('bootstrap success: sets user, calls reconnect & refreshRooms, clears errors, stops loading', async () => {
     mockGet.mockResolvedValueOnce({ data: { id: 7, email: 'user@x.com' } });
     mockRefreshRooms.mockResolvedValueOnce(['1', '2']);

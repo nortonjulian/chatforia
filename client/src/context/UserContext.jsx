@@ -15,6 +15,8 @@ import {
   getLocalKeyBundleMeta,
   getUnlockedPrivateKeyForPublicKey,
   unlockKeyBundle,
+  unlockTrustedBrowserBundle,
+  lockKeyBundle,
   getPersistedUnlockPasscodeForSession,
   clearPersistedUnlockPasscodeForSession,
   requestBrowserPairing,
@@ -211,14 +213,26 @@ export function UserProvider({ children }) {
           const msg = err?.message || String(err);
 
           if (msg === 'LOCKED') {
-            const savedPasscode = getPersistedUnlockPasscodeForSession();
+            let trusted = false;
+            try {
+              trusted = await unlockTrustedBrowserBundle(serverPublicKey);
+            } catch (trustErr) {
+              console.warn('Could not open trusted browser key', trustErr?.message || trustErr);
+            }
 
-            if (savedPasscode) {
+            const savedPasscode = trusted ? null : getPersistedUnlockPasscodeForSession();
+
+            if (trusted) {
+              shouldUnlock = false;
+              clearPersistedUnlockPasscodeForSession();
+              setKeyUnlockMode(null);
+            } else if (savedPasscode) {
               setKeyUnlockLoading(true);
 
               try {
                 await unlockKeyBundle(savedPasscode);
                 await getUnlockedPrivateKeyForPublicKey(serverPublicKey);
+                clearPersistedUnlockPasscodeForSession();
                 shouldUnlock = false;
                 setKeyUnlockMode(null);
               } catch {
@@ -279,6 +293,7 @@ export function UserProvider({ children }) {
     bootstrap();
 
     const onUnauthorized = () => {
+      lockKeyBundle();
       setCurrentUser(null);
       setKeyMeta(null);
       setNeedsKeyUnlock(false);
@@ -322,6 +337,7 @@ export function UserProvider({ children }) {
       localStorage.removeItem('cf_session');
 
       sessionStorage.clear();
+      lockKeyBundle();
 
       document.cookie = 'foria_jwt=; Max-Age=0; path=/';
       document.cookie = 'cf_session=; Max-Age=0; path=/';

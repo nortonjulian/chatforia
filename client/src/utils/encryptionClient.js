@@ -207,6 +207,7 @@ export function validateAccountKeyBundle(
  * ========================================================== */
 
 const DB_KEY = 'chatforia:keys:v2';
+const TRUSTED_KEY = 'chatforia:keys:trusted:v1';
 const LEGACY_KEY = 'chatforia:keys:v1';
 const PENDING_DB_KEY = 'chatforia:keys:pending:v1';
 
@@ -312,6 +313,8 @@ async function saveEncryptedBundle(
       passcode
     );
 
+  // A trust record for an older bundle must never unlock a replacement key.
+  await del(TRUSTED_KEY);
   await set(DB_KEY, built.rec);
 
   _derivedKey = built.key;
@@ -319,7 +322,49 @@ async function saveEncryptedBundle(
   _iterations = built.iterations;
   _cachedUnlockedBundle = built.bundle;
 
+  try {
+    await rememberTrustedBrowser(built.bundle);
+  } catch (err) {
+    console.warn('Trusted browser storage unavailable', err?.message || err);
+  }
+
   return built.rec;
+}
+
+async function rememberTrustedBrowser(bundle) {
+  // CryptoKey is stored by structured clone. The wrapping key cannot be
+  // exported, and neither the passcode nor plaintext private key is persisted.
+  const key = await crypto.subtle.generateKey(
+    { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
+  );
+  const { ivB64, ctB64 } = await aesGcmEncrypt(
+    key, te.encode(JSON.stringify(bundle))
+  );
+  await set(TRUSTED_KEY, {
+    publicKey: bundle.publicKey, key, ivB64, ctB64,
+  });
+}
+
+export async function unlockTrustedBrowserBundle(expectedPublicKey) {
+  const rec = await get(DB_KEY);
+  const trusted = await get(TRUSTED_KEY);
+  if (!rec?.enc || !trusted?.key ||
+      trusted.publicKey !== rec.publicKey ||
+      trusted.publicKey !== expectedPublicKey) return false;
+
+  try {
+    const plaintext = await aesGcmDecrypt(
+      trusted.key, trusted.ivB64, trusted.ctB64
+    );
+    const bundle = validateAccountKeyBundle(
+      JSON.parse(td.decode(plaintext)), expectedPublicKey
+    );
+    _cachedUnlockedBundle = bundle;
+    return true;
+  } catch {
+    await del(TRUSTED_KEY);
+    return false;
+  }
 }
 
 async function getUnlockedBundleOrThrow() {
@@ -711,14 +756,20 @@ export async function unlockKeyBundle(passcode) {
   const pt = await aesGcmDecrypt(key, ivB64, ctB64);
   const obj = JSON.parse(td.decode(pt));
 
-  if (!obj?.privateKey || !obj?.publicKey) throw new Error('Corrupt key bundle');
+  const verified = validateAccountKeyBundle(obj, rec.publicKey);
 
   _derivedKey = key;
   _saltB64 = saltB64;
   _iterations = iterations;
-  _cachedUnlockedBundle = obj;
+  _cachedUnlockedBundle = verified;
 
-  return obj;
+  try {
+    await rememberTrustedBrowser(verified);
+  } catch (err) {
+    console.warn('Trusted browser storage unavailable', err?.message || err);
+  }
+
+  return verified;
 }
 
 export async function getUnlockedPrivateKeyForPublicKey(
@@ -743,6 +794,7 @@ export async function getUnlockedPrivateKeyForPublicKey(
 }
 
 export function lockKeyBundle() {
+  _unlockPromise = null;
   _derivedKey = null;
   _saltB64 = null;
   _cachedUnlockedBundle = null;
@@ -888,6 +940,7 @@ export async function clearPendingLocalPrivateKeyBundle() {
 }
 
 export async function clearLocalKeyBundle() {
+  await del(TRUSTED_KEY);
   await del(DB_KEY);
   await del(PENDING_DB_KEY);
   try {
