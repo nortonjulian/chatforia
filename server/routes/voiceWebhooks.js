@@ -332,6 +332,12 @@ router.post('/inbound-app-complete', async (req, res) => {
         }
       );
 
+      // Give callers a predictable result when an app client declines.
+      // No forwarding or voicemail is offered for an explicit busy result.
+      if (dialStatus === 'busy') {
+        twiml.say('The person you called is unavailable.');
+      }
+
       twiml.hangup();
       return res.type('text/xml').send(twiml.toString());
     }

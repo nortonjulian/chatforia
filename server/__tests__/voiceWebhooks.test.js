@@ -142,6 +142,7 @@ const prisma = {
     create: jest.fn(),
     findFirst: jest.fn(),
     update: jest.fn(),
+    updateMany: jest.fn(),
   },
 
   user: {
@@ -470,6 +471,46 @@ describe('POST /webhooks/voice/inbound', () => {
       [{ name: 'backendCallId', value: '884' }],
       [{ name: 'backendCallId', value: '884' }],
     ]);
+  });
+
+  it('tells the caller an incoming PSTN call was unavailable after a client declines', async () => {
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/inbound-app-complete' +
+          '?userId=65' +
+          '&callId=940' +
+          '&from=%2B15550001111' +
+          '&to=%2B15550009999'
+      )
+      .type('form')
+      .send({
+        DialCallStatus: 'busy',
+      });
+
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.text)).toEqual([
+      {
+        type: 'say',
+        opts: {},
+        text: 'The person you called is unavailable.',
+      },
+      { type: 'hangup' },
+    ]);
+
+    expect(prisma.call.updateMany).toHaveBeenCalledWith({
+      where: {
+        id: 940,
+        callerId: 65,
+        status: 'RINGING',
+      },
+      data: expect.objectContaining({
+        status: 'DECLINED',
+        endReason: 'declined',
+      }),
+    });
+    expect(prisma.user.findUnique).not.toHaveBeenCalled();
   });
 
   it('forwards after the app-ring fallback is unanswered', async () => {
