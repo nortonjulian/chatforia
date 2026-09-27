@@ -142,6 +142,7 @@ const prisma = {
     create: jest.fn(),
     findFirst: jest.fn(),
     update: jest.fn(),
+    updateMany: jest.fn(),
   },
 
   user: {
