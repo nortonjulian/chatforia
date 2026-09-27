@@ -247,7 +247,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     currentUser?.voicemailAutoDeleteDays ?? null
   );
   const [voicemailForwardEmail, setVoicemailForwardEmail] = useState(
-    currentUser?.voicemailForwardEmail || currentUser?.email || ''
+    currentUser?.voicemailForwardEmail || ''
   );
   const [voicemailGreetingText, setVoicemailGreetingText] = useState(
     currentUser?.voicemailGreetingText || ''
