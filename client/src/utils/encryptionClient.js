@@ -370,16 +370,30 @@ export async function unlockTrustedBrowserBundle(expectedPublicKey) {
 async function getUnlockedBundleOrThrow() {
   console.log('[E2EE] getUnlockedBundleOrThrow ENTER');
 
+  // Prefer the current encrypted bundle. Older installations kept their
+  // private key in the separate `chatforia` IndexedDB database; use that
+  // only when no current bundle exists.
+  const rec = await get(DB_KEY);
+  if (rec?.enc) {
+    if (!_derivedKey) {
+      console.warn('[E2EE] encrypted bundle exists but is LOCKED');
+      throw new Error('LOCKED');
+    }
+    const { ivB64, ctB64 } = rec.enc;
+    const pt = await aesGcmDecrypt(_derivedKey, ivB64, ctB64);
+    const obj = JSON.parse(td.decode(pt));
+    if (!obj?.privateKey || !obj?.publicKey) {
+      throw new Error('Corrupt key bundle');
+    }
+    return obj;
+  }
+
   let trustedLocal = null;
 
-  // Skip this path on web for now because IndexedDB open timeout is slower
-  // than our encrypted bundle path and causes startup drag.
-  if (typeof window === 'undefined') {
-    try {
-      trustedLocal = await loadKeysLocal();
-    } catch {
-      trustedLocal = null;
-    }
+  try {
+    trustedLocal = await loadKeysLocal();
+  } catch {
+    trustedLocal = null;
   }
 
   if (trustedLocal?.privateKey && trustedLocal?.publicKey) {
@@ -412,33 +426,6 @@ async function getUnlockedBundleOrThrow() {
     console.log('[E2EE] using legacy localStorage keys');
     return legacyLS;
   }
-
-  let rec = null;
-  try {
-    console.log('[E2EE] before get(DB_KEY)');
-    rec = await get(DB_KEY);
-  } catch (e) {
-    console.warn('[E2EE] get(DB_KEY) threw', e?.message || e);
-  }
-
-  if (rec?.enc) {
-    if (!_derivedKey) {
-      console.warn('[E2EE] encrypted bundle exists but is LOCKED');
-      throw new Error('LOCKED');
-    }
-
-    const { ivB64, ctB64 } = rec.enc;
-    const pt = await aesGcmDecrypt(_derivedKey, ivB64, ctB64);
-    const obj = JSON.parse(td.decode(pt));
-
-    if (!obj?.privateKey || !obj?.publicKey) {
-      throw new Error('Corrupt key bundle');
-    }
-
-    console.log('[E2EE] decrypted encrypted bundle successfully');
-    return obj;
-  }
-
 
   console.warn('[E2EE] no local keypair found anywhere');
   throw new Error('No local keypair found');
@@ -665,15 +652,22 @@ export async function getUnlockedPrivateKey() {
 }
 
 export async function getLocalKeyBundleMeta() {
+  const rec = await get(DB_KEY);
+  if (rec) {
+    return {
+      version: rec.version,
+      createdAt: rec.createdAt,
+      hasEncrypted: !!rec.enc,
+      publicKey: rec.publicKey ?? null,
+    };
+  }
+
   let trustedLocal = null;
 
-  // Same optimization as startup path: avoid slow IndexedDB trusted-local load on web.
-  if (typeof window === 'undefined') {
-    try {
-      trustedLocal = await loadKeysLocal();
-    } catch {
-      trustedLocal = null;
-    }
+  try {
+    trustedLocal = await loadKeysLocal();
+  } catch {
+    trustedLocal = null;
   }
 
   if (trustedLocal?.privateKey && trustedLocal?.publicKey) {
@@ -692,16 +686,6 @@ export async function getLocalKeyBundleMeta() {
       createdAt: legacy.createdAt || null,
       hasEncrypted: false,
       publicKey: legacy.publicKey,
-    };
-  }
-
-  const rec = await get(DB_KEY);
-  if (rec) {
-    return {
-      version: rec.version,
-      createdAt: rec.createdAt,
-      hasEncrypted: !!rec.enc,
-      publicKey: rec.publicKey ?? null,
     };
   }
 

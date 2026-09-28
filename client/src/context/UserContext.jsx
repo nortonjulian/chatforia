@@ -200,12 +200,11 @@ export function UserProvider({ children }) {
           'This browser has a different encryption key than your Chatforia account. Restore the correct key.';
       }
 
-      // Locked bundle
+      // Verify either the current encrypted bundle or an existing browser key.
       if (
         !shouldUnlock &&
         serverPublicKey &&
-        meta?.publicKey === serverPublicKey &&
-        meta?.hasEncrypted
+        meta?.publicKey === serverPublicKey
       ) {
         try {
           await getUnlockedPrivateKeyForPublicKey(serverPublicKey);
@@ -248,6 +247,10 @@ export function UserProvider({ children }) {
               restoreReason = 'Unlock your encryption key to continue.';
               setKeyUnlockMode('locked');
             }
+          } else {
+            shouldUnlock = true;
+            restoreReason = 'This browser could not verify its secure message key. Restore it to continue.';
+            setKeyUnlockMode('restore');
           }
         }
       }
