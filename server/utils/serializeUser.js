@@ -1,3 +1,5 @@
+import { canForwardVoicemailEmail } from './voicemailForwarding.js';
+
 const FREE_THEMES = ['dawn', 'midnight'];
 
 function hasPremiumAccess(user) {
@@ -48,6 +50,8 @@ export function serializeUser(user) {
     voicemailEnabled: user.voicemailEnabled ?? true,
     voicemailAutoDeleteDays: user.voicemailAutoDeleteDays ?? null,
     voicemailForwardEmail: user.voicemailForwardEmail ?? null,
+    voicemailEmailForwardingEnabled: user.voicemailEmailForwardingEnabled ?? false,
+    canForwardVoicemailEmail: canForwardVoicemailEmail(user),
     voicemailGreetingText: user.voicemailGreetingText ?? null,
     voicemailGreetingUrl: user.voicemailGreetingUrl ?? null,
 

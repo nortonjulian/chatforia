@@ -34,6 +34,7 @@ import { generateKeyPair } from '../utils/encryption.js';
 import { issueResetToken, consumeResetToken } from '../utils/resetTokens.js';
 
 import { serializeUser } from '../utils/serializeUser.js';
+import { canForwardVoicemailEmail } from '../utils/voicemailForwarding.js';
 
 const router = express.Router();
 
@@ -1432,6 +1433,8 @@ router.get(
       voicemailEnabled: safeUser.voicemailEnabled,
       voicemailAutoDeleteDays: safeUser.voicemailAutoDeleteDays,
       voicemailForwardEmail: safeUser.voicemailForwardEmail,
+      voicemailEmailForwardingEnabled: safeUser.voicemailEmailForwardingEnabled ?? false,
+      canForwardVoicemailEmail: canForwardVoicemailEmail(safeUser),
       voicemailGreetingText: safeUser.voicemailGreetingText,
       voicemailGreetingUrl: safeUser.voicemailGreetingUrl,
 
