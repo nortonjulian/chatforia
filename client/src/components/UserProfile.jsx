@@ -249,6 +249,10 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const [voicemailForwardEmail, setVoicemailForwardEmail] = useState(
     currentUser?.voicemailForwardEmail || ''
   );
+  const [voicemailEmailForwardingEnabled, setVoicemailEmailForwardingEnabled] = useState(
+    currentUser?.voicemailEmailForwardingEnabled === true
+  );
+  const canForwardVoicemailEmail = currentUser?.canForwardVoicemailEmail === true;
   const [voicemailGreetingText, setVoicemailGreetingText] = useState(
     currentUser?.voicemailGreetingText || ''
   );
@@ -463,14 +467,24 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           voicemailAutoDeleteDays === '' || voicemailAutoDeleteDays == null
             ? null
             : Number(voicemailAutoDeleteDays),
-        voicemailForwardEmail,
+        ...(canForwardVoicemailEmail ? {
+          voicemailForwardEmail,
+          voicemailEmailForwardingEnabled,
+        } : {}),
         voicemailGreetingText,
       };
-      await axiosClient.patch(`/users/me`, payload);
+      const { data: savedUser } = await axiosClient.patch(`/users/me`, payload);
 
       i18n.changeLanguage(preferredLanguage);
       onLanguageChange?.(preferredLanguage);
-      setCurrentUser((prev) => ({ ...prev, ...payload }));
+      setCurrentUser((prev) => ({
+        ...prev,
+        ...payload,
+        voicemailForwardEmail: savedUser.voicemailForwardEmail,
+        voicemailEmailForwardingEnabled: savedUser.voicemailEmailForwardingEnabled,
+        canForwardVoicemailEmail: savedUser.canForwardVoicemailEmail,
+      }));
+      setVoicemailEmailForwardingEnabled(savedUser.voicemailEmailForwardingEnabled === true);
 
       notifications.show({
         color: 'green',
@@ -1001,10 +1015,23 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 }
               />
 
+              <Switch
+                checked={canForwardVoicemailEmail && voicemailEmailForwardingEnabled}
+                disabled={!canForwardVoicemailEmail}
+                onChange={(e) => setVoicemailEmailForwardingEnabled(e.currentTarget.checked)}
+                label={t('profile.voicemailForwardEmail', 'Forward voicemail to email')}
+              />
+              {!canForwardVoicemailEmail && (
+                <Text size="sm" c="dimmed">
+                  {t('profile.voicemailEmailRequiresPlus', 'Voicemail email forwarding requires Plus or Premium.')}
+                </Text>
+              )}
               <TextInput
+                disabled={!canForwardVoicemailEmail}
+                type="email"
                 label={t(
-                  'profile.voicemailForwardEmail',
-                  'Forward voicemail to email'
+                  'profile.voicemailForwardEmailAddress',
+                  'Forwarding email address'
                 )}
                 placeholder={t(
                   'profile.voicemailForwardEmailPlaceholder',

@@ -5,6 +5,7 @@ import { normalizeE164 } from '../utils/phone.js';
 import twilio from 'twilio';
 import { enqueueVoicemailTranscription } from '../services/voicemailTranscription.js';
 import { sendVoicemailForwardEmail } from '../services/voicemailEmail.js';
+import { voicemailForwardingDestination } from '../utils/voicemailForwarding.js';
 import { emitToUser } from '../services/socketBus.js';
 import {
   analyzeTwilioVoicemailAudio,
@@ -423,12 +424,14 @@ r.post(
         select: {
           email: true,
           voicemailForwardEmail: true,
+          voicemailEmailForwardingEnabled: true,
+          plan: true,
         },
       });
 
      void enqueueVoicemailTranscription(voicemail.id);
 
-      const forwardEmail = voicemailUser?.voicemailForwardEmail;
+      const forwardEmail = voicemailForwardingDestination(voicemailUser);
 
       if (forwardEmail) {
         void sendVoicemailForwardEmail({
@@ -440,6 +443,8 @@ r.post(
           audioUrl: voicemail.audioUrl,
           durationSec: voicemail.durationSec,
           createdAt: voicemail.createdAt,
+        }).catch((error) => {
+          console.error('[voicemail] email forwarding failed', error);
         });
       }
 

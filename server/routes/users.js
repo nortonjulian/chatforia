@@ -14,6 +14,7 @@ import { uploadAvatar, uploadDirs } from '../middleware/uploads.js';
 import { scanFile } from '../utils/antivirus.js';
 
 import { serializeUser } from '../utils/serializeUser.js';
+import { canForwardVoicemailEmail, isValidVoicemailEmail } from '../utils/voicemailForwarding.js';
 
 const router = express.Router();
 
@@ -306,6 +307,7 @@ router.patch('/me', requireAuth, async (req, res) => {
       voicemailEnabled,
       voicemailAutoDeleteDays,
       voicemailForwardEmail,
+      voicemailEmailForwardingEnabled,
       voicemailGreetingText,
     } = req.body ?? {};
 
@@ -428,18 +430,44 @@ router.patch('/me', requireAuth, async (req, res) => {
 
     if (typeof voicemailForwardEmail === 'string') {
       const emailTrimmed = voicemailForwardEmail.trim();
-      // Empty string disables forwarding
+      // Legacy clients may clear the address, but cannot implicitly opt in.
       if (!emailTrimmed) {
         data.voicemailForwardEmail = null;
+        data.voicemailEmailForwardingEnabled = false;
       } else if (emailTrimmed.length > 255) {
         return res.status(400).json({ error: 'voicemailForwardEmail too long' });
       } else {
         // Light sanity check; you can make this stricter if you want.
-        if (!emailTrimmed.includes('@')) {
+        if (!isValidVoicemailEmail(emailTrimmed)) {
           return res.status(400).json({ error: 'Invalid voicemailForwardEmail' });
         }
         data.voicemailForwardEmail = emailTrimmed;
       }
+    }
+
+    if (voicemailEmailForwardingEnabled !== undefined) {
+      if (typeof voicemailEmailForwardingEnabled !== 'boolean') {
+        return res.status(400).json({ error: 'Invalid voicemailEmailForwardingEnabled' });
+      }
+      if (voicemailEmailForwardingEnabled) {
+        // Read entitlement from the database, not a stale token or client plan.
+        const me = await prisma.user.findUnique({
+          where: { id: Number(req.user.id) },
+          select: { plan: true, voicemailForwardEmail: true },
+        });
+        if (!canForwardVoicemailEmail(me)) {
+          return res.status(402).json({
+            error: 'paid_plan_required',
+            message: 'Voicemail email forwarding requires Plus or Premium.',
+          });
+        }
+        const email = data.voicemailForwardEmail !== undefined
+          ? data.voicemailForwardEmail : me?.voicemailForwardEmail;
+        if (!isValidVoicemailEmail(email?.trim())) {
+          return res.status(400).json({ error: 'A valid forwarding email is required' });
+        }
+      }
+      data.voicemailEmailForwardingEnabled = voicemailEmailForwardingEnabled;
     }
 
     if (typeof voicemailGreetingText === 'string') {
@@ -631,6 +659,7 @@ router.patch('/me', requireAuth, async (req, res) => {
           voicemailEnabled: true,
           voicemailAutoDeleteDays: true,
           voicemailForwardEmail: true,
+          voicemailEmailForwardingEnabled: true,
           voicemailGreetingText: true,
           voicemailGreetingUrl: true,
         },

@@ -496,3 +496,56 @@ describe('PATCH /users/me', () => {
     });
   });
 });
+
+describe('PATCH /users/me independent voicemail email forwarding', () => {
+  const app = () => createApp({ user: { id: 65, plan: 'PREMIUM' } });
+
+  it.each(['PLUS', 'PREMIUM'])('enables forwarding for a database %s plan without changing voicemail availability', async (plan) => {
+    mockUserFindUnique.mockResolvedValue({ plan, voicemailForwardEmail: 'saved@example.com' });
+    mockUserUpdate.mockResolvedValue({ id: 65, plan, voicemailEnabled: false, voicemailForwardEmail: 'saved@example.com', voicemailEmailForwardingEnabled: true });
+    const res = await request(app()).patch('/users/me').send({ voicemailEmailForwardingEnabled: true });
+    expect(res.status).toBe(200);
+    expect(mockUserUpdate.mock.calls[0][0].data).toEqual({ voicemailEmailForwardingEnabled: true });
+    expect(res.body).toMatchObject({ voicemailEnabled: false, canForwardVoicemailEmail: true, voicemailEmailForwardingEnabled: true });
+  });
+
+  it('rejects Free entitlement even when the request token says Premium', async () => {
+    mockUserFindUnique.mockResolvedValue({ plan: 'FREE', voicemailForwardEmail: 'saved@example.com' });
+    const res = await request(app()).patch('/users/me').send({ voicemailEmailForwardingEnabled: true });
+    expect(res.status).toBe(402);
+    expect(mockUserUpdate).not.toHaveBeenCalled();
+  });
+
+  it('turns forwarding off without clearing the saved email or touching voicemail availability', async () => {
+    mockUserUpdate.mockResolvedValue({ id: 65, plan: 'FREE', voicemailEnabled: true, voicemailForwardEmail: 'saved@example.com', voicemailEmailForwardingEnabled: false });
+    const res = await request(app()).patch('/users/me').send({ voicemailEmailForwardingEnabled: false });
+    expect(res.status).toBe(200);
+    expect(mockUserUpdate.mock.calls[0][0].data).toEqual({ voicemailEmailForwardingEnabled: false });
+    expect(res.body.voicemailForwardEmail).toBe('saved@example.com');
+    expect(mockUserFindUnique).not.toHaveBeenCalled();
+  });
+
+  it('legacy address-only saves never implicitly enable forwarding', async () => {
+    mockUserUpdate.mockResolvedValue({ id: 65, plan: 'PLUS', voicemailEmailForwardingEnabled: false });
+    await request(app()).patch('/users/me').send({ voicemailForwardEmail: 'voice@example.com' }).expect(200);
+    expect(mockUserUpdate.mock.calls[0][0].data).toEqual({ voicemailForwardEmail: 'voice@example.com' });
+  });
+
+  it('clearing an address safely disables forwarding for legacy clients', async () => {
+    mockUserUpdate.mockResolvedValue({ id: 65, plan: 'PLUS' });
+    await request(app()).patch('/users/me').send({ voicemailForwardEmail: '' }).expect(200);
+    expect(mockUserUpdate.mock.calls[0][0].data).toEqual({ voicemailForwardEmail: null, voicemailEmailForwardingEnabled: false });
+  });
+
+  it('rejects enabling without an email without writing any settings', async () => {
+    mockUserFindUnique.mockResolvedValue({ plan: 'PLUS', voicemailForwardEmail: null });
+    await request(app()).patch('/users/me').send({ voicemailEmailForwardingEnabled: true, voicemailGreetingText: 'Hello' }).expect(400);
+    expect(mockUserUpdate).not.toHaveBeenCalled();
+  });
+
+  it('leaves both preferences alone when saving other settings', async () => {
+    mockUserUpdate.mockResolvedValue({ id: 65, plan: 'PLUS' });
+    await request(app()).patch('/users/me').send({ voicemailGreetingText: 'Hello' }).expect(200);
+    expect(mockUserUpdate.mock.calls[0][0].data).toEqual({ voicemailGreetingText: 'Hello' });
+  });
+});
