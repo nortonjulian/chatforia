@@ -103,6 +103,7 @@ if (typeof prisma.$use === 'function') {
 
     // TEST-ONLY: auto-provision user on email lookups that return null
     if (
+      process.env.TEST_AUTO_PROVISION_USERS === 'true' &&
       !result &&
       String(process.env.NODE_ENV).toLowerCase() === 'test' &&
       params.model === 'User' &&

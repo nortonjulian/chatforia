@@ -25,54 +25,51 @@ export async function issueResetToken(userId) {
     Date.now() + TTL_MINUTES * 60 * 1000
   );
 
-  // wipe previous unused tokens for this user
-  await prisma.passwordResetToken.deleteMany({
-    where: { userId, usedAt: null },
-  });
-
-  // store only the hash
-  await prisma.passwordResetToken.create({
-    data: {
-      userId,
-      tokenHash,
-      expiresAt,
-      usedAt: null,
-    },
+  await prisma.$transaction(async (tx) => {
+    // Serialize issuance and consumption for this account.
+    const active = await lockActiveUser(tx, userId);
+    if (!active) throw new Error('Password reset account unavailable');
+    await tx.passwordResetToken.deleteMany({ where: { userId, usedAt: null } });
+    await tx.passwordResetToken.create({
+      data: { userId, tokenHash, expiresAt, usedAt: null },
+    });
   });
 
   // caller will email/sms this plaintext
   return raw;
 }
 
-/**
- * consumeResetToken(plaintext)
- * - return null if invalid/expired/used
- * - otherwise mark token used and return userId
- */
-export async function consumeResetToken(plaintext) {
-  if (!plaintext) return null;
-  const tokenHash = hashToken(plaintext);
+// Account lock prevents concurrent issuance/reset from leaving extra valid links.
+async function lockActiveUser(tx, userId) {
+  const rows = await tx.$queryRaw`
+    SELECT id FROM "User"
+    WHERE id = ${userId} AND "deletedAt" IS NULL AND "isBanned" = false
+    FOR UPDATE
+  `;
+  return rows.length === 1;
+}
 
-  // find unused + not expired
-  const now = new Date();
-  const rec = await prisma.passwordResetToken.findFirst({
-    where: {
-      tokenHash,
-      usedAt: null,
-      expiresAt: { gt: now },
-    },
+/**
+ * Claim a reset token exactly once. Pass the route's transaction so the claim,
+ * password change, and session revocation either all commit or all roll back.
+ */
+export async function consumeResetToken(plaintext, tx = null) {
+  if (typeof plaintext !== 'string' || !/^[a-f0-9]{64}$/.test(plaintext)) return null;
+  if (!tx) return prisma.$transaction((client) => consumeResetToken(plaintext, client));
+  const tokenHash = hashToken(plaintext);
+  const rec = await tx.passwordResetToken.findFirst({
+    where: { tokenHash, usedAt: null, expiresAt: { gt: new Date() } },
     select: { id: true, userId: true },
   });
+  if (!rec || !await lockActiveUser(tx, rec.userId)) return null;
 
-  if (!rec) return null;
-
-  // mark used
-  await prisma.passwordResetToken.update({
-    where: { id: rec.id },
+  // Recheck after waiting for the account lock; another request may have won.
+  const now = new Date();
+  const claimed = await tx.passwordResetToken.updateMany({
+    where: { id: rec.id, tokenHash, usedAt: null, expiresAt: { gt: now } },
     data: { usedAt: now },
   });
-
-  return rec.userId;
+  return claimed.count === 1 ? rec.userId : null;
 }
 
 /**
@@ -88,6 +85,9 @@ export async function consumeResetToken(plaintext) {
 export async function purgeResetTokens(opts = {}) {
   const { expiredOnly = true, userId } = opts;
   const where = {};
+  if (!expiredOnly && userId === undefined) {
+    throw new Error('userId is required when purging all reset tokens');
+  }
 
   if (expiredOnly) {
     where.expiresAt = { lt: new Date(Date.now()) };

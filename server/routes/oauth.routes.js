@@ -1,33 +1,30 @@
 import express from "express";
 import { Router } from "express";
-import jwt from "jsonwebtoken";
 import passport from "../auth/passport.js";
-import { setJwtCookie } from "./auth.js";
+import { issueSession } from "./auth.js";
+import { startWebMfa } from "../services/webMfa.js";
 import axios from "axios";
 import fs from "node:fs";
 import jwtLib from "jsonwebtoken";
 import { resolveOAuthUser } from "../services/oauthIdentity.js";
+import { verifyAppleIdToken } from "../services/appleTokenVerifier.js";
+import { webOAuthState } from "../services/webOAuthState.js";
 
 const router = Router();
-const IS_TEST = String(process.env.NODE_ENV) === "test";
-const JWT_SECRET =
-  process.env.JWT_SECRET || (IS_TEST ? "test_secret" : "dev-secret");
-
 const FRONTEND =
   process.env.FRONTEND_URL ||
   process.env.FRONTEND_ORIGIN ||
   "http://localhost:5173";
 
 /* ---------- helpers ---------- */
-function getSafeNextUrl(raw) {
-  if (!raw) return FRONTEND;
-
-  if (typeof raw === "string" && raw.startsWith("chatforia://oauth/apple")) {
-    return raw;
-  }
+function getSafeNextUrl(raw, allowAppleApp = false) {
+  if (typeof raw !== 'string' || !raw) return FRONTEND;
 
   try {
     const parsed = new URL(raw);
+    if (allowAppleApp && parsed.protocol === 'chatforia:' &&
+        parsed.hostname === 'oauth' && parsed.pathname === '/apple' &&
+        !parsed.username && !parsed.password && !parsed.port) return parsed.toString();
     const allowed = new Set([
       new URL(FRONTEND).origin,
       "https://www.chatforia.com",
@@ -84,25 +81,20 @@ async function exchangeAppleCodeForTokens(code) {
   return data;
 }
 
-function decodeAppleIdToken(idToken) {
-  const decoded = jwt.decode(idToken);
-  if (!decoded || typeof decoded !== "object") {
-    throw new Error("Invalid Apple id_token");
-  }
-  return decoded;
-}
-
 async function handleAppleCallback(req, res) {
   try {
     const source = req.method === "GET" ? req.query : req.body;
-    const { code, state, user: rawUser } = source || {};
+    const { code, user: rawUser } = source || {};
 
     if (!code) {
       return res.status(400).json({ error: "Missing Apple authorization code" });
     }
 
     const tokenResponse = await exchangeAppleCodeForTokens(code);
-    const claims = decodeAppleIdToken(tokenResponse.id_token);
+    const claims = await verifyAppleIdToken(tokenResponse.id_token, {
+      audience: process.env.APPLE_CLIENT_ID,
+      nonce: req.oauthFlow.nonce,
+    });
 
     let firstName = null;
     let lastName = null;
@@ -128,6 +120,8 @@ async function handleAppleCallback(req, res) {
         displayName:
           [firstName, lastName].filter(Boolean).join(" ").trim() || null,
         avatarUrl: null,
+        referralCode: req.oauthFlow.referralCode,
+        referralSource: 'web-apple',
         logContext: {
           channel: "web",
           path: req.originalUrl,
@@ -143,24 +137,9 @@ async function handleAppleCallback(req, res) {
       throw err;
     }
 
-    const payload = {
-      id: appUser.id,
-      email: appUser.email || null,
-      username: appUser.username || null,
-      role: appUser.role || "USER",
-      plan: appUser.plan || "FREE",
-    };
-
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
-    setJwtCookie(res, token);
-
-    let nextUrl = FRONTEND;
-    try {
-      if (state) {
-        const parsed = JSON.parse(Buffer.from(state, "base64").toString("utf8"));
-        nextUrl = getSafeNextUrl(parsed?.next);
-      }
-    } catch {}
+    const nextUrl = getSafeNextUrl(req.oauthFlow.next, true);
+    if (appUser.twoFactorEnabled) return await startWebMfa(req, res, appUser, nextUrl);
+    const token = issueSession(res, appUser);
 
     if (nextUrl.startsWith("chatforia://oauth/apple")) {
       const redirectUrl = new URL(nextUrl);
@@ -170,6 +149,10 @@ async function handleAppleCallback(req, res) {
 
     return res.redirect(nextUrl);
   } catch (e) {
+    if (e?.code === 'invalid_apple_token') {
+      return res.status(401).json({ error: 'Invalid Apple token' });
+    }
+
     console.error("[APPLE MANUAL CALLBACK ERROR]", {
       message: e?.message,
       status: e?.response?.status,
@@ -179,18 +162,45 @@ async function handleAppleCallback(req, res) {
 
     return res.status(500).json({
       error: "Apple sign-in failed",
-      detail: e?.response?.data || e?.message || "Unknown error",
+      detail: process.env.NODE_ENV === 'production'
+        ? undefined
+        : e?.message || "Unknown error",
     });
   }
 }
 
+function consumeWebState(provider) {
+  return async (req, res, next) => {
+    try {
+      const source = req.method === 'GET' ? req.query : req.body;
+      req.oauthFlow = await webOAuthState.consume(req, res, provider, source?.state);
+      return next();
+    } catch (error) {
+      if (error?.code === 'invalid_oauth_state') {
+        return res.status(400).json({ error: 'invalid_oauth_state' });
+      }
+      console.error('[oauth.state] Store unavailable', { message: error?.message });
+      return res.status(503).json({ error: 'OAuth temporarily unavailable' });
+    }
+  };
+}
+
 /* ---------- GOOGLE ---------- */
-router.get("/google", (req, res, next) => {
+router.get("/google", async (req, res, next) => {
   if (!passport._strategy("google")) {
     return res.status(501).json({ error: "Google OAuth not configured" });
   }
 
-  const state = req.query.state || "";
+  let state;
+  try {
+    ({ state } = await webOAuthState.begin(req, res, {
+      provider: 'google', next: getSafeNextUrl(req.query.next),
+      referralCode: req.query.ref,
+    }));
+  } catch (error) {
+    console.error('[oauth.state] Store unavailable', { message: error?.message });
+    return res.status(503).json({ error: 'OAuth temporarily unavailable' });
+  }
 
   return passport.authenticate("google", {
     scope: ["profile", "email"],
@@ -207,45 +217,37 @@ router.get(
     }
     next();
   },
+  consumeWebState('google'),
   passport.authenticate("google", {
     failureRedirect: "/auth/failure",
     session: false,
   }),
-  (req, res) => {
-    const user = req.user || {};
-
-    const payload = {
-      id: Number(user.id),
-      email: user.email || null,
-      username: user.username || null,
-      role: user.role || "USER",
-      plan: user.plan || "FREE",
-    };
-
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
-    setJwtCookie(res, token);
-
-    let nextUrl = FRONTEND;
+  async (req, res, next) => {
     try {
-      if (req.query.state) {
-        const { next } = JSON.parse(
-          Buffer.from(req.query.state, "base64").toString("utf8")
-        );
-        nextUrl = getSafeNextUrl(next);
-      }
-    } catch {}
-
-    return res.redirect(nextUrl);
+      const user = req.user || {};
+      const nextUrl = getSafeNextUrl(req.oauthFlow.next);
+      if (user.twoFactorEnabled) return await startWebMfa(req, res, user, nextUrl);
+      issueSession(res, user);
+      return res.redirect(nextUrl);
+    } catch (error) { return next(error); }
   }
 );
 
 /* ---------- APPLE ---------- */
-router.get("/apple", (req, res) => {
-  const statePayload = {
-    next: getSafeNextUrl(req.query.next || FRONTEND),
-  };
-
-  const state = Buffer.from(JSON.stringify(statePayload)).toString("base64");
+router.get("/apple", async (req, res) => {
+  if (!process.env.APPLE_CLIENT_ID || !process.env.APPLE_CALLBACK_URL) {
+    return res.status(501).json({ error: 'Apple OAuth not configured' });
+  }
+  let state, nonce;
+  try {
+    ({ state, nonce } = await webOAuthState.begin(req, res, {
+      provider: 'apple', next: getSafeNextUrl(req.query.next, true),
+      referralCode: req.query.ref,
+    }));
+  } catch (error) {
+    console.error('[oauth.state] Store unavailable', { message: error?.message });
+    return res.status(503).json({ error: 'OAuth temporarily unavailable' });
+  }
 
   const appleUrl = new URL("https://appleid.apple.com/auth/authorize");
   appleUrl.searchParams.set("client_id", process.env.APPLE_CLIENT_ID);
@@ -254,6 +256,7 @@ router.get("/apple", (req, res) => {
   appleUrl.searchParams.set("response_mode", "form_post");
   appleUrl.searchParams.set("scope", "name email");
   appleUrl.searchParams.set("state", state);
+  appleUrl.searchParams.set("nonce", nonce);
 
   return res.redirect(appleUrl.toString());
 });
@@ -261,6 +264,20 @@ router.get("/apple", (req, res) => {
 router.all(
   "/apple/callback",
   express.urlencoded({ extended: false }),
+  (req, res, next) => {
+    if (!['GET', 'POST'].includes(req.method)) return res.sendStatus(405);
+    const source = req.method === 'GET' ? req.query : req.body;
+    if (!source?.code && !source?.error) {
+      return res.status(400).json({ error: 'Missing Apple authorization code' });
+    }
+    next();
+  },
+  consumeWebState('apple'),
+  (req, res, next) => {
+    const source = req.method === 'GET' ? req.query : req.body;
+    if (source?.error) return res.status(401).json({ error: 'Apple sign-in declined' });
+    next();
+  },
   handleAppleCallback
 );
 

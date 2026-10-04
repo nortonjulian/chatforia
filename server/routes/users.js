@@ -1,4 +1,6 @@
 import express from 'express';
+import rateLimit from 'express-rate-limit';
+import authRouter from './auth.js';
 import bcrypt from 'bcrypt';
 import path from 'path';
 import fs from 'fs';
@@ -38,134 +40,26 @@ function normalizeEmail(value) {
 
 /* ---------------------- PUBLIC: create user ---------------------- */
 // --- inside routes/users (replace the existing POST / handler) ---
-router.post('/', async (req, res) => {
-  const { username, email, password, phoneVerificationId } = req.body;
-
-  const validationError = validateRegistrationInput(username, email, password);
-  if (validationError) return res.status(400).json({ error: validationError });
-
-  const cleanUsername = String(username || '').trim();
-  const cleanEmail = email ? String(email).trim() : null;
-  const usernameNorm = normalizeUsername(cleanUsername);
-  const emailNorm = normalizeEmail(cleanEmail);
-
-  // Basic uniqueness check for email (keep existing behavior)
-  try {
-    const existingUser = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { usernameNorm },
-          ...(emailNorm ? [{ emailNorm }] : []),
-        ],
-      },
-      select: {
-        id: true,
-        usernameNorm: true,
-        emailNorm: true,
-      },
-    });
-
-    if (existingUser) {
-      if (existingUser.usernameNorm === usernameNorm) {
-        return res.status(409).json({ error: 'Username already taken' });
-      }
-
-      return res.status(409).json({ error: 'Email already in use' });
+// Legacy creation endpoint uses the same validation, verification and transaction.
+const registrationLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 20 });
+router.post('/', registrationLimiter, (req, res, next) => {
+  const originalUrl = req.url;
+  const originalJson = res.json.bind(res);
+  res.json = payload => {
+    res.json = originalJson;
+    req.url = originalUrl;
+    // Preserve the legacy top-level public user response on success.
+    if (res.statusCode === 201 && payload?.user) {
+      return originalJson({ ...payload.user, requiresEmailVerification: true });
     }
-
-    // --- PHONE VERIFICATION (optional) ---
-    // If client supplied phoneVerificationId, validate it and prepare to attach the phone.
-    let phoneToAttachId = null;
-    if (phoneVerificationId) {
-      const reqRec = await prisma.phoneVerificationRequest.findFirst({
-        where: { phoneVerificationId: String(phoneVerificationId) },
-        orderBy: { createdAt: 'desc' },
-      });
-
-      if (!reqRec) {
-        return res.status(400).json({ error: 'invalid_phone_verification' });
-      }
-      // must be previously verified via verify-phone-code flow
-      if (!reqRec.verifiedAt) {
-        return res.status(400).json({ error: 'phone_not_verified' });
-      }
-
-      // ensure not consumed / not attached
-      // optional: if you add consumedAt, check it here
-      const phoneRow = await prisma.phone.findUnique({ where: { number: reqRec.phoneNumber } });
-      if (phoneRow?.optedOut) {
-        return res.status(400).json({ error: 'phone_opted_out' });
-      }
-      if (phoneRow?.userId) {
-        return res.status(409).json({ error: 'phone_already_in_use' });
-      }
-
-      // store id for attach during transaction
-      phoneToAttachId = phoneRow?.id ?? null;
-    }
-
-    // Hash password (you already do this)
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create user + attach phone atomically if we can
-    let user;
-    if (phoneToAttachId) {
-      // use transaction to create user and attach phone
-
-      // The above array version can't update with created user id.
-      // Instead do function transaction so we can attach using the created user id:
-      user = await prisma.$transaction(async (prismaTx) => {
-        const created = await prismaTx.user.create({
-          data: {
-            username: cleanUsername,
-            email: cleanEmail,
-            usernameNorm,
-            emailNorm,
-            passwordHash: hashedPassword,
-            role: 'USER',
-          },
-        });
-
-        // attach phone record (if phone exists)
-        await prismaTx.phone.update({
-          where: { id: phoneToAttachId },
-          data: { userId: created.id },
-        });
-
-        // mark the phoneVerificationRequest as consumed to avoid reuse.
-        // If you have a consumedAt column use that; otherwise updating verifiedAt is okay.
-        await prismaTx.phoneVerificationRequest.updateMany({
-          where: { phoneVerificationId: String(phoneVerificationId) },
-          data: { /* consumedAt: new Date() */ verifiedAt: new Date() },
-        });
-
-        return created;
-      });
-    } else {
-      // standard create-without-phone
-      user = await prisma.user.create({
-        data: {
-          username: cleanUsername,
-          email: cleanEmail,
-          usernameNorm,
-          emailNorm,
-          passwordHash: hashedPassword,
-          role: 'USER',
-        },
-      });
-    }
-
-    const {
-      password: _omitPassword,
-      passwordHash: _omitPasswordHash,
-      ...userWithoutPassword
-    } = user;
-    
-    return res.status(201).json(userWithoutPassword);
-  } catch (error) {
-    console.error('Error creating user:', error);
-    return res.status(500).json({ error: 'Failed to create user' });
-  }
+    return originalJson(payload);
+  };
+  req.url = '/register';
+  return authRouter(req, res, error => {
+    req.url = originalUrl;
+    res.json = originalJson;
+    next(error);
+  });
 });
 
 /* ---------------------- GET /users/lookup ---------------------- */

@@ -83,6 +83,8 @@ export default function LoginForm({ onLoginSuccess }) {
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [mfaToken, setMfaToken] = useState('');
+  const [mfaCode, setMfaCode] = useState('');
 
   const [canResend, setCanResend] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -154,7 +156,7 @@ export default function LoginForm({ onLoginSuccess }) {
     setError('');
 
     const idValue = identifier.trim();
-    const pwd = password.trim();
+    const pwd = password;
     if (!idValue || !pwd) {
       setError(t('login.error.missing', 'Please enter your credentials.'));
       setLoading(false);
@@ -172,7 +174,15 @@ export default function LoginForm({ onLoginSuccess }) {
         axiosClient.defaults.headers.common['X-XSRF-TOKEN'] = csrfToken;
       }
 
-      const res = await axiosClient.post('/auth/login', payload);
+      const res = mfaToken
+        ? await axiosClient.post('/auth/2fa/login', { mfaToken, code: mfaCode.trim() })
+        : await axiosClient.post('/auth/login', payload);
+      if (res?.data?.mfaRequired) {
+        setMfaToken(res.data.mfaToken);
+        setMfaCode('');
+        setCanResend(false);
+        return;
+      }
       const user = res?.data?.user ?? res?.data;
 
       try {
@@ -198,6 +208,8 @@ export default function LoginForm({ onLoginSuccess }) {
 
       setIdentifier('');
       setPassword('');
+      setMfaToken('');
+      setMfaCode('');
 
       posthog.identify(user.id, {
         email: user.email,
@@ -323,7 +335,7 @@ export default function LoginForm({ onLoginSuccess }) {
           variant="light"
           leftSection={<IconBrandGoogle size={18} />}
           onClick={() => startOAuth('google')}
-          disabled={!hasGoogle}
+          disabled={!hasGoogle || !!mfaToken || loading}
           title={
             hasGoogle
               ? t('login.google', 'Continue with Google')
@@ -338,7 +350,7 @@ export default function LoginForm({ onLoginSuccess }) {
           variant="light"
           leftSection={<IconBrandApple size={18} />}
           onClick={() => startOAuth('apple')}
-          disabled={!hasApple}
+          disabled={!hasApple || !!mfaToken || loading}
           title={
             hasApple
               ? t('login.apple', 'Continue with Apple')
@@ -367,6 +379,24 @@ export default function LoginForm({ onLoginSuccess }) {
 
       <form onSubmit={handleLogin} noValidate>
         <Stack gap="sm">
+          {mfaToken ? (
+            <>
+              <Text size="sm">{t('login.mfa.prompt', 'Enter your authenticator code or an unused backup code.')}</Text>
+              <TextInput
+                label={t('login.mfa.code', 'Verification code')}
+                value={mfaCode}
+                onChange={(e) => setMfaCode(e.currentTarget.value)}
+                autoComplete="one-time-code"
+                autoFocus
+                required
+                maxLength={64}
+              />
+              <Button variant="subtle" disabled={loading} onClick={() => {
+                setMfaToken(''); setMfaCode(''); setPassword(''); setError('');
+              }}>{t('login.mfa.restart', 'Start over')}</Button>
+            </>
+          ) : (
+            <>
           <TextInput
             label={idLabel}
             placeholder={idPlaceholder}
@@ -416,6 +446,9 @@ export default function LoginForm({ onLoginSuccess }) {
             </Anchor>
           </Group>
 
+            </>
+          )}
+
           {error && (
             <Alert
               color="red"
@@ -442,7 +475,7 @@ export default function LoginForm({ onLoginSuccess }) {
           <Button type="submit" loading={loading} fullWidth mt="sm">
             {loading
               ? t('login.loggingIn', 'Logging in…')
-              : t('login.submit', 'Log In')}
+              : mfaToken ? t('login.mfa.submit', 'Verify and log in') : t('login.submit', 'Log In')}
           </Button>
         </Stack>
       </form>

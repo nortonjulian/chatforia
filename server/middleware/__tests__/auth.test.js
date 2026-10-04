@@ -1,5 +1,9 @@
 import { jest } from '@jest/globals';
 import { EventEmitter } from 'events';
+import { fileURLToPath } from 'node:url';
+
+// Resolve from this test file, even when Jest binds mock calls to a setup file.
+const PRISMA_MODULE = fileURLToPath(new URL('../../utils/prismaClient.js', import.meta.url));
 
 jest.useFakeTimers();
 
@@ -26,7 +30,7 @@ const setupMocks = () => {
     };
   });
 
-  jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+  jest.unstable_mockModule(PRISMA_MODULE, () => ({
     __esModule: true,
     default: prismaMock,
   }));
@@ -215,6 +219,8 @@ describe('auth middleware', () => {
           theme: true,
           avatarUrl: true,
           tokenVersion: true,
+          isBanned: true,
+          deletedAt: true,
         },
       });
 
@@ -237,7 +243,7 @@ describe('auth middleware', () => {
       expect(next).toHaveBeenCalledTimes(1);
     });
 
-    test('falls back to decoded values when DB user not found', async () => {
+    test('rejects authentication when the DB user is missing', async () => {
       const mod = await loadModule();
 
       verifyMock.mockReturnValue({
@@ -257,22 +263,9 @@ describe('auth middleware', () => {
 
       await mod.requireAuth(req, res, next);
 
-      expect(req.user).toEqual({
-        id: 7,
-        username: 'cookieOnly',
-        role: 'USER',
-        email: 'c@e.com',
-        plan: 'FREE',
-        emailVerifiedAt: null,
-        phoneVerifiedAt: null,
-        twoFactorEnabled: false,
-        preferredLanguage: 'en',
-        theme: 'dawn',
-        avatarUrl: null,
-        tokenVersion: 0,
-      });
-
-      expect(next).toHaveBeenCalledTimes(1);
+      expect(req.user).toBeUndefined();
+      expect(res.statusCode).toBe(401);
+      expect(next).not.toHaveBeenCalled();
     });
   });
 
@@ -358,7 +351,7 @@ describe('auth middleware', () => {
       expect(next).toHaveBeenCalledTimes(1);
     });
 
-    test('does not clobber existing req.user', async () => {
+    test('clears existing req.user when the token is invalid', async () => {
       const mod = await loadModule();
 
       const { req, res, next } = makeReqResNext({
@@ -370,7 +363,8 @@ describe('auth middleware', () => {
 
       await mod.verifyTokenOptional(req, res, next);
 
-      expect(req.user).toEqual({ id: 99, role: 'ADMIN' });
+      expect(req.user).toBeUndefined();
+      expect(verifyMock).toHaveBeenCalledTimes(1);
       expect(next).toHaveBeenCalledTimes(1);
     });
   });
@@ -415,7 +409,10 @@ describe('auth middleware', () => {
         tokenVersion: 0,
       });
 
-      prismaMock.user.findUnique.mockResolvedValue(null);
+      prismaMock.user.findUnique.mockResolvedValue({
+        id: 1, username: 'bearerUser', role: 'USER', plan: 'FREE',
+        email: 'bearer@example.com', tokenVersion: 0,
+      });
 
       const { req, res, next } = makeReqResNext({
         req: {
@@ -427,7 +424,7 @@ describe('auth middleware', () => {
 
       await mod.requireAuth(req, res, next);
 
-      expect(verifyMock).toHaveBeenCalledWith('bearer-token', 'test_secret');
+      expect(verifyMock).toHaveBeenCalledWith('bearer-token', 'test_secret', { algorithms: ['HS256'] });
       expect(next).toHaveBeenCalledTimes(1);
       expect(res._json).toBeNull();
       expect(req.user).toEqual({
@@ -435,6 +432,7 @@ describe('auth middleware', () => {
         username: 'bearerUser',
         role: 'USER',
         email: 'bearer@example.com',
+        publicKey: null,
         plan: 'FREE',
         emailVerifiedAt: null,
         phoneVerifiedAt: null,
@@ -445,5 +443,133 @@ describe('auth middleware', () => {
         tokenVersion: 0,
       });
     });
+  });
+});
+
+describe('session authentication fails closed', () => {
+  const activeUser = (overrides = {}) => ({
+    id: 42, username: 'current', role: 'USER', plan: 'FREE', tokenVersion: 2,
+    isBanned: false, deletedAt: null, ...overrides,
+  });
+  const requestWithToken = () => makeReqResNext({ req: {
+    cookies: { foria_jwt: 'token' }, user: { id: 999, role: 'ADMIN' },
+  } });
+
+  test.each([0, -1, 1.5, 'invalid', true, 2147483648])('rejects invalid user id %p before database lookup', async (id) => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id });
+    const { req, res, next } = requestWithToken();
+    await mod.requireAuth(req, res, next);
+    expect(res.statusCode).toBe(401);
+    expect(req.user).toBeUndefined();
+    expect(next).not.toHaveBeenCalled();
+    expect(prismaMock.user.findUnique).not.toHaveBeenCalled();
+  });
+
+  test.each(['mfa', 'password_reset', 'unknown', ''])('rejects tokens with purpose %p', async (typ) => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, typ, tokenVersion: 2 });
+    const { req, res, next } = requestWithToken();
+    await mod.requireAuth(req, res, next);
+    expect(res.statusCode).toBe(401);
+    expect(req.user).toBeUndefined();
+    expect(next).not.toHaveBeenCalled();
+    expect(prismaMock.user.findUnique).not.toHaveBeenCalled();
+  });
+
+  test.each(['session', 'short', undefined])('accepts a current database user for token purpose %p', async (typ) => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, typ, tokenVersion: 2 });
+    prismaMock.user.findUnique.mockResolvedValue(activeUser());
+    const { req, res, next } = requestWithToken();
+    await mod.requireAuth(req, res, next);
+    expect(req.user).toMatchObject({ id: 42, role: 'USER', tokenVersion: 2 });
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(res._json).toBeNull();
+  });
+
+  test.each([
+    ['missing', null],
+    ['banned', activeUser({ isBanned: true })],
+    ['deleted', activeUser({ deletedAt: new Date() })],
+  ])('rejects %s accounts in strict and optional authentication', async (_name, user) => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, tokenVersion: 2 });
+    prismaMock.user.findUnique.mockResolvedValue(user);
+    const strict = requestWithToken();
+    await mod.requireAuth(strict.req, strict.res, strict.next);
+    expect(strict.res.statusCode).toBe(401);
+    expect(strict.req.user).toBeUndefined();
+    expect(strict.next).not.toHaveBeenCalled();
+    const optional = requestWithToken();
+    await mod.verifyTokenOptional(optional.req, optional.res, optional.next);
+    expect(optional.req.user).toBeUndefined();
+    expect(optional.next).toHaveBeenCalledTimes(1);
+  });
+
+  test('database errors produce 503 for strict auth and anonymous optional auth', async () => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, role: 'ADMIN', tokenVersion: 2 });
+    prismaMock.user.findUnique.mockRejectedValue(new Error('Database unavailable'));
+    const strict = requestWithToken();
+    await mod.requireAuth(strict.req, strict.res, strict.next);
+    expect(strict.res.statusCode).toBe(503);
+    expect(strict.res._json).toEqual({ error: 'Authentication temporarily unavailable' });
+    expect(strict.req.user).toBeUndefined();
+    expect(strict.next).not.toHaveBeenCalled();
+    const optional = requestWithToken();
+    await mod.verifyTokenOptional(optional.req, optional.res, optional.next);
+    expect(optional.req.user).toBeUndefined();
+    expect(optional.next).toHaveBeenCalledTimes(1);
+  });
+
+  test('revoked token versions never attach a user', async () => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, tokenVersion: 1 });
+    prismaMock.user.findUnique.mockResolvedValue(activeUser());
+    const strict = requestWithToken();
+    await mod.requireAuth(strict.req, strict.res, strict.next);
+    expect(strict.res.statusCode).toBe(401);
+    expect(strict.res._json).toEqual({ error: 'invalid_session' });
+    expect(strict.req.user).toBeUndefined();
+    expect(strict.next).not.toHaveBeenCalled();
+    const optional = requestWithToken();
+    await mod.verifyTokenOptional(optional.req, optional.res, optional.next);
+    expect(optional.req.user).toBeUndefined();
+    expect(optional.next).toHaveBeenCalledTimes(1);
+  });
+
+  test.each([-1, 'not-a-version', 1.5])('rejects malformed token version %p', async (tokenVersion) => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, tokenVersion });
+    const { req, res, next } = requestWithToken();
+    await mod.requireAuth(req, res, next);
+    expect(res.statusCode).toBe(401);
+    expect(req.user).toBeUndefined();
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  test('stale JWT claims cannot restore role, contact information, or verification', async () => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, tokenVersion: 2, role: 'ADMIN', plan: 'PREMIUM',
+      email: 'old@example.com', publicKey: 'old-key', emailVerifiedAt: 'old-verification' });
+    prismaMock.user.findUnique.mockResolvedValue(activeUser({ email: null, publicKey: null }));
+    const { req, res, next } = requestWithToken();
+    await mod.requireAuth(req, res, next);
+    expect(req.user).toMatchObject({ role: 'USER', plan: 'FREE', email: null,
+      publicKey: null, emailVerifiedAt: null });
+    expect(next).toHaveBeenCalledTimes(1);
+    const adminNext = jest.fn();
+    mod.requireAdmin(req, res, adminNext);
+    expect(res.statusCode).toBe(403);
+    expect(adminNext).not.toHaveBeenCalled();
+  });
+
+  test('production cannot initialize with a missing JWT secret', async () => {
+    jest.resetModules();
+    process.env.NODE_ENV = 'production';
+    delete process.env.JWT_SECRET;
+    setupMocks();
+    await expect(import('../auth.js')).rejects.toThrow('JWT_SECRET is required in production');
   });
 });
