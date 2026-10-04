@@ -22,10 +22,18 @@ import { normalizeE164 } from '../utils/phone.js';
 
 // Token helpers for resend-email
 import { newRawToken, hashToken } from '../utils/tokens.js';
+import { consumeEmailVerification, createPhoneVerification, consumePhoneVerification } from '../services/authVerification.js';
 
 const RegisterSchema = z.object({
-  username: z.string().min(3),
-  email: z.string().email(),
+  username: z.string()
+    .trim()
+    .min(3)
+    .max(20)
+    .regex(
+      /^[a-zA-Z0-9_]+$/,
+      'Username can only contain letters, numbers, and underscores'
+    ),
+  email: z.string().trim().email().toLowerCase(),
   password: z.string().min(8),
   preferredLanguage: z.string().optional(),
 });
@@ -35,8 +43,32 @@ import { issueResetToken, consumeResetToken } from '../utils/resetTokens.js';
 
 import { serializeUser } from '../utils/serializeUser.js';
 import { canForwardVoicemailEmail } from '../utils/voicemailForwarding.js';
+import { createMfaChallenge, completeMfaChallenge } from '../services/mfaLogin.js';
+import { renderMfaPage, MFA_BROWSER_SCRIPT, MFA_BROWSER_CSS, pendingCookieName, pendingCookieOptions } from '../services/webMfa.js';
 
 const router = express.Router();
+
+// Reject legacy case-insensitive duplicates instead of choosing an account.
+async function findUniqueLoginIdentity(field, value) {
+  const normalizedField = field === 'email' ? 'emailNorm' : 'usernameNorm';
+  const candidates = await prisma.user.findMany({
+    where: {
+      deletedAt: null,
+      OR: [
+        { [normalizedField]: value.toLowerCase() },
+        { [field]: { equals: value, mode: 'insensitive' } },
+      ],
+    },
+    take: 2,
+  });
+  if (candidates.length > 1) {
+    const err = new Error('Ambiguous login identity');
+    err.code = 'ambiguous_login_identity';
+    throw err;
+  }
+  return candidates[0] ?? null;
+}
+
 
 const IS_TEST = String(process.env.NODE_ENV) === 'test';
 if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
@@ -111,22 +143,11 @@ function sha256(s) {
   return crypto.createHash('sha256').update(s, 'utf8').digest('hex');
 }
 
-function createMfaJWT(userId) {
-  // short-lived token that authorizes the /2fa/login step
-  return jwt.sign({ sub: Number(userId), typ: 'mfa' }, JWT_SECRET, { expiresIn: '5m' });
-}
-
-function verifyMfaJWT(token) {
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    if (decoded?.typ !== 'mfa') throw new Error('wrong typ');
-    return { ok: true, userId: Number(decoded.sub) };
-  } catch {
-    return { ok: false };
+export function issueSession(res, user, { mfaVerified = false } = {}) {
+  if (!user || user.isBanned || user.deletedAt || !Number.isSafeInteger(Number(user.id)) || Number(user.id) <= 0) {
+    throw new Error('Session account unavailable');
   }
-}
-
-export function issueSession(res, user) {
+  if (user.twoFactorEnabled && !mfaVerified) throw new Error('MFA must complete before session issuance');
   const payload = {
     id: Number(user.id),
     email: user.email,
@@ -181,52 +202,43 @@ router.post(
         .json({ message: 'Invalid registration data', details: parsed.error.issues });
     }
     const { username, email, password, preferredLanguage = 'en' } = parsed.data;
-
-    const existingByEmail = await prisma.user.findUnique({ where: { email } });
+    const usernameNorm = username.toLowerCase();
+    const emailNorm = email.toLowerCase();
+    const existingByEmail = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { emailNorm },
+          { email: { equals: email, mode: 'insensitive' } },
+        ],
+      },
+    });
     if (existingByEmail) {
-      if (IS_TEST) {
-        return res.status(201).json({
-          message: 'user registered',
-          user: {
-            id: existingByEmail.id,
-            email: existingByEmail.email,
-            username: existingByEmail.username,
-            publicKey: existingByEmail.publicKey ?? null,
-            plan: existingByEmail.plan ?? 'FREE',
-            role: existingByEmail.role ?? 'USER',
-          },
-          privateKey: null,
-        });
-      }
       return res.status(409).json({ error: 'Email already in use' });
     }
 
-    const existingByUsername = await prisma.user.findUnique({ where: { username } });
+    const existingByUsername = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { usernameNorm },
+          { username: { equals: username, mode: 'insensitive' } },
+        ],
+      },
+    });
+
     if (existingByUsername) {
-      if (IS_TEST) {
-        return res.status(201).json({
-          message: 'user registered',
-          user: {
-            id: existingByUsername.id,
-            email: existingByUsername.email,
-            username: existingByUsername.username,
-            publicKey: existingByUsername.publicKey ?? null,
-            plan: existingByUsername.plan ?? 'FREE',
-            role: existingByUsername.role ?? 'USER',
-          },
-          privateKey: null,
-        });
-      }
       return res.status(409).json({ error: 'Username already in use' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const { publicKey, privateKey } = generateKeyPair();
 
-    const user = await prisma.user.create({
+    const user = await prisma.$transaction(async (tx) => {
+      const created = await tx.user.create({
       data: {
         username,
         email,
+        usernameNorm,
+        emailNorm,
         passwordHash: hashedPassword,
         preferredLanguage,
         role: 'USER',
@@ -243,7 +255,18 @@ router.post(
         twoFactorEnabled: true,
         tokenVersion: true,
       },
+      });
+      return created;
+    }).catch((err) => {
+      if (err?.code === 'P2002') return null;
+      throw err;
     });
+
+    if (!user) {
+      return res.status(409).json({
+        error: 'Username or email already in use',
+      });
+    }
 
     await prisma.verificationToken.updateMany({
       where: { userId: user.id, type: 'email', usedAt: null },
@@ -311,45 +334,16 @@ router.post(
 
   const handleEmailVerify = asyncHandler(async (req, res) => {
   const { token, uid } = req.query || {};
-
-  if (!token || !uid) {
+  const userId = typeof uid === 'string' && /^\d+$/.test(uid) ? Number(uid) : NaN;
+  if (typeof token !== 'string' || !token || token.length > 1024 ||
+      !Number.isSafeInteger(userId) || userId <= 0 || userId > 2147483647) {
     return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
   }
 
-  const userId = Number(uid);
-  if (!Number.isFinite(userId)) {
+  const tokenHash = await hashToken(token);
+  if (!await consumeEmailVerification(userId, tokenHash)) {
     return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
   }
-
-  const tokenHash = await hashToken(String(token));
-
-  const record = await prisma.verificationToken.findFirst({
-    where: {
-      userId,
-      type: 'email',
-      tokenHash,
-      usedAt: null,
-      expiresAt: { gt: new Date() },
-    },
-    orderBy: { createdAt: 'desc' },
-  });
-
-
-  if (!record) {
-    return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
-  }
-
-  await prisma.$transaction([
-    prisma.verificationToken.update({
-      where: { id: record.id },
-      data: { usedAt: new Date() },
-    }),
-    prisma.user.update({
-      where: { id: userId },
-      data: { emailVerifiedAt: new Date() },
-    }),
-  ]);
-
   return res.json({ ok: true });
 });
 
@@ -380,26 +374,11 @@ router.post(
     try {
       let user = null;
 
-      // If the input looks like an email, try email first (case-insensitive).
-      if (raw.includes('@')) {
-        user = await prisma.user.findFirst({
-          where: { email: { equals: raw, mode: 'insensitive' } },
-        });
-
-        // fallback to username if email lookup fails
-        if (!user) {
-          user = await prisma.user.findUnique({ where: { username: raw } });
-        }
-      } else {
-        // otherwise try username first, then email
-        user = await prisma.user.findUnique({ where: { username: raw } });
-
-        if (!user) {
-          user = await prisma.user.findFirst({
-            where: { email: { equals: raw, mode: 'insensitive' } },
-          });
-        }
-      }
+      // Case-insensitive identity lookup must match exactly one active account.
+      const firstField = raw.includes('@') ? 'email' : 'username';
+      const secondField = firstField === 'email' ? 'username' : 'email';
+      user = await findUniqueLoginIdentity(firstField, raw);
+      if (!user) user = await findUniqueLoginIdentity(secondField, raw);
 
       // If still not found and we have a phone normalizer, try phone lookup.
       if (!user && normalizePhone) {
@@ -417,60 +396,16 @@ router.post(
         }
       }
 
-      // TEST-friendly auto-provisioning
-      if (!user) {
-        const hashed = await bcrypt.hash(password, 10);
-        const { publicKey } = generateKeyPair();
-
-        try {
-          user = await prisma.user.create({
-            data: {
-              email: raw.includes('@') ? raw : `${raw}@example.com`,
-              username: raw.includes('@') ? raw.split('@')[0] : raw,
-              passwordHash: hashed,
-              role: 'USER',
-              plan: 'FREE',
-              publicKey,
-            },
-          });
-        } catch {
-          // Best-effort: re-query in case of race/unique constraints
-          user =
-            (await prisma.user.findFirst({
-              where: { email: { equals: raw, mode: 'insensitive' } },
-            })) ||
-            (await prisma.user.findUnique({ where: { username: raw } })) ||
-            null;
-        }
-      }
-
-      // If still missing, and we're running tests, fabricate minimal payload
-      if (!user) {
-        if (IS_TEST) {
-          const emailSafe = raw.includes('@') ? raw : `${raw}@example.com`;
-          const payload = {
-            id: 0,
-            email: emailSafe,
-            username: raw.includes('@') ? raw.split('@')[0] : raw,
-            role: 'USER',
-            plan: 'FREE',
-          };
-          const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
-          setJwtCookie(res, token);
-          return res.json({ message: 'logged in', user: payload });
-        }
+      if (!user || user.isBanned || user.deletedAt) {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
-      // Ensure there's a usable password hash
-      let hash = user.passwordHash;
-      if (!hash) {
-        const newHash = await bcrypt.hash(password, 10);
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { passwordHash: newHash },
-        });
-        hash = newHash;
+      // Login must never assign a password to an existing account.
+      // OAuth-only accounts must use their provider or password reset.
+      const hash = user.passwordHash;
+
+      if (typeof hash !== 'string' || !hash || hash === 'oauth') {
+        return res.status(401).json({ error: 'Invalid credentials' });
       }
 
       // Verify password
@@ -479,16 +414,6 @@ router.post(
         ok = await bcrypt.compare(password, hash);
       } catch {}
 
-
-      // In test env: heal broken hashes if necessary
-      if (!ok && String(process.env.NODE_ENV) === 'test') {
-        const newHash = await bcrypt.hash(password, 10);
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { passwordHash: newHash },
-        });
-        ok = true;
-      }
 
       if (!ok) {
         return res.status(401).json({ error: 'Invalid credentials' });
@@ -506,7 +431,7 @@ router.post(
 
       // 2FA: if enabled, do not issue full session yet
       if (user.twoFactorEnabled) {
-        const mfaToken = createMfaJWT(user.id);
+        const mfaToken = await createMfaChallenge(user);
         return res.json({
           mfaRequired: true,
           mfaToken,
@@ -529,19 +454,8 @@ router.post(
         user: serializeUser(user),
       });
     } catch (e) {
-      // Preserve test fallback behavior on unexpected errors
-      if (String(process.env.NODE_ENV) === 'test') {
-        const emailSafe = raw.includes('@') ? raw : `${raw}@example.com`;
-        const payload = {
-          id: 0,
-          email: emailSafe,
-          username: raw.includes('@') ? raw.split('@')[0] : raw,
-          role: 'USER',
-          plan: 'FREE',
-        };
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
-        setJwtCookie(res, token);
-        return res.json({ message: 'logged in', user: payload });
+      if (e?.code === 'ambiguous_login_identity') {
+        return res.status(401).json({ error: 'Invalid credentials' });
       }
       throw e;
     }
@@ -552,67 +466,50 @@ router.post(
  *   MFA LOGIN STEP
  *   POST /auth/2fa/login { mfaToken, code }
  * ========================= */
+router.get('/2fa/challenge.css', (_req, res) => {
+  res.type('text/css').send(MFA_BROWSER_CSS);
+});
+
+router.get('/2fa/challenge.js', (_req, res) => {
+  res.set('Cache-Control', 'no-store');
+  res.type('application/javascript').send(MFA_BROWSER_SCRIPT);
+});
+
+router.get('/2fa/challenge', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const token = req.cookies?.[pendingCookieName(req)];
+  if (typeof token !== 'string' || token.length > 4096) {
+    return res.status(401).send('Sign-in expired. Please start again.');
+  }
+  return res.type('html').send(renderMfaPage(token));
+});
+
 router.post(
   '/2fa/login',
   asyncHandler(async (req, res) => {
-    const { mfaToken, code } = req.body || {};
-    if (!mfaToken || !code) {
+    res.set('Cache-Control', 'no-store');
+    const { mfaToken, code, browserMfa } = req.body || {};
+    if (typeof mfaToken !== 'string' || typeof code !== 'string' || !code.trim()) {
       return res.status(400).json({ ok: false, error: 'Missing fields' });
     }
-
-    const decoded = verifyMfaJWT(mfaToken);
-    if (!decoded.ok) {
-      return res.status(401).json({ ok: false, error: 'Invalid mfaToken' });
+    if (browserMfa === true && req.cookies?.[pendingCookieName(req)] !== mfaToken) {
+      return res.status(401).json({ ok: false, error: 'Invalid MFA browser' });
     }
-    const userId = decoded.userId;
-
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user || !user.twoFactorEnabled || !user.totpSecretEnc) {
-      return res.status(400).json({ ok: false, error: '2FA not enabled' });
-    }
-
-    const secret = open(user.totpSecretEnc);
-
-    // 1) Try TOTP
-    const okTOTP = speakeasy.totp.verify({
-      secret,
-      encoding: 'base32',
-      token: String(code),
-      window: 1,
-    });
-
-    // 2) Fallback to backup code
-    let okBackup = false;
-    if (!okTOTP) {
-      const h = sha256(
-        String(code)
-          .toUpperCase()
-          .replace(/[^A-Z0-9]/g, '')
-      );
-      const rc = await prisma.twoFactorRecoveryCode.findFirst({
-        where: { userId, codeHash: h, usedAt: null },
-      });
-      if (rc) {
-        okBackup = true;
-        await prisma.twoFactorRecoveryCode.update({
-          where: { id: rc.id },
-          data: { usedAt: new Date() },
-        });
+    const result = await completeMfaChallenge(mfaToken, code);
+    if (!result.ok) return res.status(result.status).json({ ok: false, error: result.error });
+    const token = issueSession(res, result.user, { mfaVerified: true });
+    let redirectUrl;
+    if (browserMfa === true) {
+      res.clearCookie(pendingCookieName(req), pendingCookieOptions(req));
+      redirectUrl = result.nextUrl;
+      if (redirectUrl?.startsWith('chatforia://oauth/apple')) {
+        const url = new URL(redirectUrl);
+        url.searchParams.set('token', token);
+        redirectUrl = url.toString();
       }
     }
-
-    if (!(okTOTP || okBackup)) {
-      return res.status(400).json({ ok: false, reason: 'bad_code' });
-    }
-
-    const token = issueSession(res, user);
-
-    return res.json({
-      ok: true,
-      message: 'logged in',
-      token,
-      user: serializeUser(user),
-    });
+    return res.json({ ok: true, message: 'logged in', token,
+      user: serializeUser(result.user), ...(redirectUrl ? { redirectUrl } : {}) });
   })
 );
 
@@ -658,54 +555,26 @@ router.post(
 
       let user = null;
 
-      // 1) If the input looks like an email, try email lookup first (case-insensitive).
+      // Use the same unambiguous, active-account lookup as password login.
       if (raw.includes('@')) {
-        user = await prisma.user.findFirst({
-          where: { email: { equals: raw, mode: 'insensitive' } },
-          select: { id: true, username: true, email: true, phoneNumber: true },
-        });
+        user = await findUniqueLoginIdentity('email', raw);
+      } else {
+        user = await findUniqueLoginIdentity('username', raw);
       }
-
-      // 2) If not found and normalizePhone is available, try phone lookup (normalize to E.164).
       if (!user && normalizePhone) {
-        const normalized = normalizePhone(raw);
+        let normalized = null;
+        try { normalized = normalizePhone(raw); } catch {}
         if (normalized) {
-          user = await prisma.user.findFirst({
-            where: { phoneNumber: { equals: normalized } },
-            select: { id: true, username: true, email: true, phoneNumber: true },
+          const matches = await prisma.user.findMany({
+            where: { phoneNumber: normalized, deletedAt: null },
+            take: 2,
           });
+          if (matches.length === 1) user = matches[0];
         }
       }
 
-      // 3) If still not found, try username fallback.
-      if (!user) {
-        user = await prisma.user.findUnique({
-          where: { username: raw },
-          select: { id: true, username: true, email: true, phoneNumber: true },
-        });
-      }
-
-      // 4) TEST convenience: auto-provision when running tests and an email-like input was given.
-      if (!user && IS_TEST && raw.includes('@')) {
-        const hashed = await bcrypt.hash('Temp12345!', 10);
-        user = await prisma.user.create({
-          data: {
-            email: raw,
-            username: raw.split('@')[0],
-            passwordHash: hashed,
-            role: 'USER',
-            plan: 'FREE',
-          },
-          select: { id: true, username: true, email: true, phoneNumber: true },
-        });
-      }
-
-      // 5) If no user found — respond generically.
-      if (!user) {
-        return res.json({
-          message: 'If the email exists, a reset link will be sent',
-          ...(IS_TEST ? { token: 'noop' } : {}),
-        });
+      if (!user || user.isBanned || user.deletedAt || !user.email) {
+        return res.json({ message: 'If the email exists, a reset link will be sent' });
       }
 
       // 6) Issue reset token and assemble reset link
@@ -762,14 +631,24 @@ router.post(
       return res.status(400).json({ error: 'Invalid request' });
     }
 
-    const userId = await consumeResetToken(token);
-    if (!userId) return res.status(400).json({ error: 'Invalid or expired token' });
-
+    if (typeof token !== 'string' || !/^[a-f0-9]{64}$/.test(token)) {
+      return res.status(400).json({ error: 'Invalid or expired token' });
+    }
     const hashed = await bcrypt.hash(newPassword, 10);
-    await prisma.user.update({
-      where: { id: Number(userId) },
-      data: { passwordHash: hashed, tokenVersion: { increment: 1 } },
+    const changed = await prisma.$transaction(async (tx) => {
+      const userId = await consumeResetToken(token, tx);
+      if (!userId) return false;
+      await tx.user.update({
+        where: { id: userId },
+        data: { passwordHash: hashed, tokenVersion: { increment: 1 } },
+      });
+      await tx.passwordResetToken.updateMany({
+        where: { userId, usedAt: null },
+        data: { usedAt: new Date() },
+      });
+      return true;
     });
+    if (!changed) return res.status(400).json({ error: 'Invalid or expired token' });
 
     return res.json({ ok: true });
   })
@@ -787,6 +666,12 @@ const otpLimiter = rateLimit({
   message: { message: 'Too many requests from this IP, try again later.' },
 });
 
+const otpVerifyLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 60,
+  message: { message: 'Too many verification attempts from this IP, try again later.' },
+});
+
 function isE164Simple(phone) {
   return typeof phone === 'string' && /^\+\d{7,15}$/.test(phone.trim());
 }
@@ -802,7 +687,6 @@ router.post(
 
     const rawPhone = String(req.body.phone || '').trim();
     const consent = req.body.consent === true || req.body.consent === 'true';
-    const pendingRegistration = req.body.pendingRegistration || null;
 
     if (!consent) return res.status(400).json({ message: 'Consent is required' });
     if (!isE164Simple(rawPhone)) {
@@ -813,33 +697,14 @@ router.post(
 
     const phone = normalizeE164(rawPhone);
 
-    // phone-based rate-limit: last 1 hour OTPs
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-    const recentCount = await prisma.phoneOtp.count({
-      where: { phone, createdAt: { gt: oneHourAgo } },
+    const issued = await createPhoneVerification({
+      phone,
+      consentTextVersion: process.env.SMS_CONSENT_VERSION || 'v1',
+      ipAddress: req.ip,
+      userAgent: req.get('user-agent') || null,
     });
-    if (recentCount >= 5) {
-      return res.status(429).json({ message: 'Too many code requests for this phone' });
-    }
-
-    // persist consent audit
-    await prisma.smsConsent.create({
-      data: {
-        phone,
-        pendingRegistration: pendingRegistration ? JSON.parse(JSON.stringify(pendingRegistration)) : null,
-        consentTextVersion: process.env.SMS_CONSENT_VERSION || 'v1',
-        ipAddress: req.ip,
-        userAgent: req.get('user-agent') || null,
-      },
-    });
-
-    // create OTP
-    const otp = (Math.floor(100000 + Math.random() * 900000)).toString();
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
-
-    await prisma.phoneOtp.create({
-      data: { phone, otpCode: otp, expiresAt },
-    });
+    if (issued.status !== 200) return res.status(issued.status).json({ message: issued.message });
+    const otp = issued.code;
 
     const text = `Chatforia: Your verification code is ${otp}. Msg & data rates may apply. Reply STOP to opt out, HELP for help.`;
     try {
@@ -851,13 +716,14 @@ router.post(
 
       if (sendResult?.messageSid) {
         await prisma.phoneOtp.updateMany({
-          where: { phone, otpCode: otp },
+          where: { id: issued.id },
           data: { providerMessageId: sendResult.messageSid },
         });
       }
 
       return res.json({ message: 'Verification code sent' });
     } catch (err) {
+      await prisma.phoneOtp.updateMany({ where: { id: issued.id }, data: { expiresAt: new Date() } });
       console.error('send-verify sendSms error', err);
       return res.status(500).json({ message: 'Failed to send verification code' });
     }
@@ -866,47 +732,20 @@ router.post(
 
 router.post(
   '/verify-phone-code',
+  otpVerifyLimiter,
   body('phone').isString(),
   body('code').isString(),
   asyncHandler(async (req, res) => {
-    const rawPhone = String(req.body.phone || '').trim();
-    const code = String(req.body.code || '').trim();
-
-    if (!isE164Simple(rawPhone) || !/^\d{4,6}$/.test(code)) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+    const rawPhone = req.body.phone.trim();
+    const code = req.body.code.trim();
+    if (!isE164Simple(rawPhone) || !/^\d{6}$/.test(code)) {
       return res.status(422).json({ message: 'Invalid input' });
     }
-
-    const phone = normalizeE164(rawPhone);
-
-    const otpRow = await prisma.phoneOtp.findFirst({
-      where: { phone },
-      orderBy: { createdAt: 'desc' },
-    });
-
-    if (!otpRow) return res.status(400).json({ message: 'No verification code found' });
-    if (otpRow.expiresAt < new Date()) {
-      await prisma.phoneOtp.deleteMany({ where: { id: otpRow.id } });
-      return res.status(400).json({ message: 'Code expired' });
-    }
-
-    if (otpRow.otpCode !== code) {
-      await prisma.phoneOtp.update({
-        where: { id: otpRow.id },
-        data: { attempts: (otpRow.attempts || 0) + 1 },
-      });
-      return res.status(400).json({ message: 'Invalid code' });
-    }
-
-    await prisma.phoneOtp.deleteMany({ where: { id: otpRow.id } });
-
-    const recentConsent = await prisma.smsConsent.findFirst({
-      where: { phone },
-      orderBy: { createdAt: 'desc' },
-    });
-
-    const pendingRegistration = recentConsent?.pendingRegistration ?? null;
-
-    return res.json({ message: 'Phone verified', pendingRegistration });
+    const result = await consumePhoneVerification(normalizeE164(rawPhone), code);
+    const { status, ...payload } = result;
+    return res.status(status).json(payload);
   })
 );
 
@@ -934,12 +773,9 @@ router.post(
       }
 
       const normalized = email.trim().toLowerCase();
-      const user = await prisma.user.findFirst({
-        where: { email: { equals: normalized, mode: 'insensitive' } },
-        select: { id: true, email: true, emailVerifiedAt: true },
-      });
+      const user = await findUniqueLoginIdentity('email', normalized);
 
-      if (!user) {
+      if (!user || user.isBanned || user.deletedAt) {
         return res.status(200).json({ ok: true });
       }
 
@@ -1185,7 +1021,7 @@ router.delete(
         privateKeyWrapSalt: null,
         privateKeyWrapKdf: null,
         privateKeyWrapIterations: null,
-        privateKeyWrapVersion: null,
+        privateKeyWrapVersion: 1,
       },
     });
 
@@ -1276,7 +1112,7 @@ router.post(
       data.privateKeyWrapSalt = null;
       data.privateKeyWrapKdf = null;
       data.privateKeyWrapIterations = null;
-      data.privateKeyWrapVersion = null;
+      data.privateKeyWrapVersion = 1;
     }
 
     const updated = await prisma.user.update({
@@ -1288,7 +1124,6 @@ router.post(
         username: true,
         publicKey: true,
         encryptedPrivateKeyBundle: true,
-        updatedAt: true,
       },
     });
 
@@ -1301,7 +1136,6 @@ router.post(
         publicKey: updated.publicKey,
       },
       hasBackup: !!updated.encryptedPrivateKeyBundle,
-      resetAt: updated.updatedAt,
       warning:
         'Encryption key reset. Older encrypted messages may not be readable without your previous key.',
     });

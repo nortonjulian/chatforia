@@ -16,12 +16,7 @@ import axiosClient from '@/api/axiosClient';
 import { useNavigate } from 'react-router-dom';
 import posthog from '@/utils/analytics';
 
-import { saveKeysLocal } from '@/utils/keys';
-import { uploadRemoteKeyBackup } from '@/utils/keyBackupRemote';
 
-import PhoneField from './PhoneField';
-import SmsConsentBlock from '../pages/SmsConsentBlock';
-import { isValidPhoneNumber } from 'react-phone-number-input';
 
 export default function Registration() {
   const { t } = useTranslation();
@@ -30,10 +25,8 @@ export default function Registration() {
     username: '',
     email: '',
     password: '',
-    phone: '', // ✅ new
   });
 
-  const [smsConsent, setSmsConsent] = useState(false); // ✅ new
 
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -55,27 +48,10 @@ export default function Registration() {
       );
 
     if (!form.password) nxt.password = t('auth.errors.passwordRequired', 'Password is required');
-    else if (form.password.length < 6) nxt.password = t(
-      'auth.errors.passwordLength',
-      'Password must be at least 6 characters'
+    else if (form.password.length < 8) nxt.password = t(
+      'auth.errors.passwordMinEight',
+      'Password must be at least 8 characters'
     );
-
-    // ✅ Phone is optional, but if provided must be valid AND consent must be checked
-    const phoneTrim = (form.phone || '').trim();
-    if (phoneTrim) {
-      if (!isValidPhoneNumber(phoneTrim)) {
-        nxt.phone = t(
-          'auth.errors.invalidPhone',
-          'Please enter a valid phone number'
-        );
-      }
-      if (!smsConsent) {
-        nxt.smsConsent = t(
-          'auth.errors.smsConsent',
-          'Please check the box to consent to SMS messages (or remove the phone number).'
-        );
-      }
-    }
 
     setErrors(nxt);
     return Object.keys(nxt).length === 0;
@@ -90,17 +66,6 @@ export default function Registration() {
 
     if (!validate()) return;
 
-    const phoneTrim = (form.phone || '').trim();
-
-    if (phoneTrim) {
-      posthog.capture('registration_phone_consent_started', {
-        source: 'web',
-      });
-
-      navigate('/verify-phone-consent', { state: { pendingRegistration: { ...form } } });
-      return;
-    }
-
     try {
       setSubmitting(true);
 
@@ -113,11 +78,10 @@ export default function Registration() {
       const res = await axiosClient.post('/auth/register', payload);
 
       const user = res?.data?.user || null;
-      const privateKey = res?.data?.privateKey || null;
-      const publicKey = user?.publicKey || null;
 
+      if (user?.id) posthog.identify(String(user.id));
       posthog.capture('user_registered', {
-        has_phone: Boolean(phoneTrim),
+        has_phone: false,
         source: 'web',
       });
 
@@ -247,29 +211,7 @@ export default function Registration() {
             size="md"
             disabled={submitting}
             autoComplete="new-password"
-            minLength={6}
-          />
-
-          <PhoneField
-            label={t('auth.registration.phoneLabel', 'Phone (optional)')}
-            value={form.phone}
-            onChange={(val) => setForm((f) => ({ ...f, phone: val || '' }))}
-            defaultCountry="US"
-            required={false}
-            disabled={submitting}
-            error={errors.phone}
-            helpText={t(
-              'auth.registration.phoneHelp',
-              'If you add a phone number, you’ll be asked to consent to SMS notifications.'
-            )}
-          />
-
-          <SmsConsentBlock
-            checked={smsConsent}
-            onChange={setSmsConsent}
-            disabled={submitting}
-            error={errors.smsConsent}
-            companyName="Chatforia"
+            minLength={8}
           />
 
           <Button

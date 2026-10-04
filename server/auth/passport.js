@@ -28,14 +28,21 @@ if (HAS_GOOGLE) {
           const email = profile.emails?.[0]?.value?.trim().toLowerCase() || null;
           const displayName = profile.displayName?.trim() || null;
           const avatarUrl = profile.photos?.[0]?.value || null;
+          // Set only after the callback consumes server-stored, browser-bound state.
+          const referralCode = req.oauthFlow?.referralCode || null;
 
           const user = await resolveOAuthUser({
             provider: 'google',
             providerSub: googleSub,
             email,
-            emailVerified: !!email,
+            emailVerified: Boolean(email) && (
+              profile?._json?.email_verified === true ||
+              profile?._json?.verified_email === true
+            ),
             displayName,
             avatarUrl,
+            referralCode,
+            referralSource: 'web-google',
             logContext: {
               channel: 'web-passport',
               path: req?.originalUrl || null,

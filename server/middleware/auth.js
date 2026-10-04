@@ -1,185 +1,117 @@
 import jwt from 'jsonwebtoken';
 import prisma from '../utils/prismaClient.js';
 
-/** Centralized cookie config/name */
 function getCookieName() {
   return process.env.JWT_COOKIE_NAME || 'foria_jwt';
 }
 
-/**
- * Returns the JWT string from the cookie (preferred).
- * Supports Authorization: Bearer for mobile / API clients.
- */
+// Preserve cookie precedence for browser clients; mobile clients use Bearer.
 function getTokenFromReq(req) {
-  const cookieToken = req.cookies?.[getCookieName()] || null;
-  if (cookieToken) return cookieToken;
-
-  const header = req.headers.authorization || '';
-  if (header.startsWith('Bearer ')) return header.slice(7);
-
-  return null;
+  const cookieToken = req.cookies?.[getCookieName()];
+  if (typeof cookieToken === 'string' && cookieToken) return cookieToken;
+  const header = req.headers?.authorization;
+  if (typeof header !== 'string') return null;
+  const match = /^Bearer\s+(\S+)\s*$/i.exec(header);
+  return match?.[1] || null;
 }
 
 const IS_TEST = String(process.env.NODE_ENV || '') === 'test';
-const SECRET =
-  process.env.JWT_SECRET ||
-  (IS_TEST ? 'test_secret' : 'dev_secret');
+if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
+  throw new Error('JWT_SECRET is required in production');
+}
+const SECRET = process.env.JWT_SECRET || (IS_TEST ? 'test_secret' : 'dev_secret');
 
-async function hydrateUser(decoded) {
-  const userId = Number(decoded.id);
-  if (!Number.isFinite(userId) || userId <= 0) {
-    return {
-      id: Number(decoded.id),
-      username: decoded.username || null,
-      role: decoded.role || 'USER',
-      email: decoded.email || null,
-      plan: decoded.plan || 'FREE',
-      emailVerifiedAt: decoded.emailVerifiedAt || null,
-      phoneVerifiedAt: decoded.phoneVerifiedAt || null,
-      twoFactorEnabled: !!decoded.twoFactorEnabled,
-      preferredLanguage: decoded.preferredLanguage || 'en',
-      theme: decoded.theme || 'dawn',
-      avatarUrl: decoded.avatarUrl || null,
-      tokenVersion: Number(decoded.tokenVersion ?? 0),
-    };
-  }
-
+function decodeSession(token) {
+  if (!token) return null;
+  let decoded;
   try {
-    const dbUser = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        publicKey: true,
-        role: true,
-        plan: true,
-        emailVerifiedAt: true,
-        phoneVerifiedAt: true,
-        twoFactorEnabled: true,
-        preferredLanguage: true,
-        theme: true,
-        avatarUrl: true,
-        tokenVersion: true,
-      },
-    });
-
-    if (dbUser) {
-      return {
-        id: dbUser.id,
-        username: dbUser.username || decoded.username || null,
-        email: dbUser.email || decoded.email || null,
-        publicKey: dbUser.publicKey || decoded.publicKey || null,
-        role: dbUser.role || decoded.role || 'USER',
-        plan: dbUser.plan || decoded.plan || 'FREE',
-        emailVerifiedAt: dbUser.emailVerifiedAt || null,
-        phoneVerifiedAt: dbUser.phoneVerifiedAt || null,
-        twoFactorEnabled: !!dbUser.twoFactorEnabled,
-        preferredLanguage: dbUser.preferredLanguage || 'en',
-        theme: dbUser.theme || 'dawn',
-        avatarUrl: dbUser.avatarUrl || null,
-        tokenVersion: Number(dbUser.tokenVersion ?? 0),
-      };
-    }
+    decoded = jwt.verify(token, SECRET, { algorithms: ['HS256'] });
   } catch {
-    // ignore prisma errors in tests / transient DB issues
+    return null;
   }
+  if (!decoded || typeof decoded !== 'object' || Array.isArray(decoded)) return null;
+  const typ = decoded.typ;
+  // Keep legacy session tokens without typ; reject MFA and other token purposes.
+  if (typ != null && typ !== 'session' && typ !== 'short') return null;
+  if (!['string', 'number'].includes(typeof decoded.id)) return null;
+  const userId = Number(decoded.id);
+  const tokenVersion = Number(decoded.tokenVersion ?? 0);
+  if (!Number.isSafeInteger(userId) || userId <= 0 || userId > 2147483647 ||
+      !Number.isSafeInteger(tokenVersion) || tokenVersion < 0) return null;
+  return { userId, tokenVersion };
+}
 
+async function hydrateUser(userId) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true, email: true, username: true, publicKey: true,
+      role: true, plan: true, emailVerifiedAt: true, phoneVerifiedAt: true,
+      twoFactorEnabled: true, preferredLanguage: true, theme: true,
+      avatarUrl: true, tokenVersion: true, isBanned: true, deletedAt: true,
+    },
+  });
+  if (!user || user.isBanned || user.deletedAt) return null;
   return {
-    id: userId,
-    username: decoded.username || null,
-    role: decoded.role || 'USER',
-    email: decoded.email || null,
-    plan: decoded.plan || 'FREE',
-    emailVerifiedAt: decoded.emailVerifiedAt || null,
-    phoneVerifiedAt: decoded.phoneVerifiedAt || null,
-    twoFactorEnabled: !!decoded.twoFactorEnabled,
-    preferredLanguage: decoded.preferredLanguage || 'en',
-    theme: decoded.theme || 'dawn',
-    avatarUrl: decoded.avatarUrl || null,
-    tokenVersion: Number(decoded.tokenVersion ?? 0),
+    id: user.id,
+    username: user.username ?? null,
+    email: user.email ?? null,
+    publicKey: user.publicKey ?? null,
+    role: user.role ?? 'USER',
+    plan: user.plan ?? 'FREE',
+    emailVerifiedAt: user.emailVerifiedAt ?? null,
+    phoneVerifiedAt: user.phoneVerifiedAt ?? null,
+    twoFactorEnabled: Boolean(user.twoFactorEnabled),
+    preferredLanguage: user.preferredLanguage ?? 'en',
+    theme: user.theme ?? 'dawn',
+    avatarUrl: user.avatarUrl ?? null,
+    tokenVersion: user.tokenVersion ?? 0,
   };
 }
 
-function isAllowedAuthToken(decoded) {
-  const typ = decoded?.typ;
-  return !typ || typ === 'session' || typ === 'short';
-}
-
-/** Strict auth: requires a valid JWT; attaches req.user */
+/** Requires a valid session and a current, available database user. */
 export async function requireAuth(req, res, next) {
+  delete req.user;
+  const session = decodeSession(getTokenFromReq(req));
+  if (!session) return res.status(401).json({ error: 'Unauthorized' });
+  let user;
   try {
-    const token = getTokenFromReq(req);
-    if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    let decoded;
-    try {
-      decoded = jwt.verify(token, SECRET);
-    } catch {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    if (!decoded?.id || !isAllowedAuthToken(decoded)) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    req.user = await hydrateUser(decoded);
-
-    const jwtTokenVersion = Number(decoded.tokenVersion ?? 0);
-    const dbTokenVersion = Number(req.user.tokenVersion ?? 0);
-    if (jwtTokenVersion !== dbTokenVersion) {
-      return res.status(401).json({ error: 'invalid_session' });
-    }
-
-    return next();
+    user = await hydrateUser(session.userId);
   } catch {
-    return res.status(401).json({ error: 'Unauthorized' });
+    // A database outage cannot authorize a request from JWT claims alone.
+    return res.status(503).json({ error: 'Authentication temporarily unavailable' });
   }
+  if (!user) return res.status(401).json({ error: 'Unauthorized' });
+  if (!Number.isSafeInteger(user.tokenVersion) || user.tokenVersion < 0 ||
+      session.tokenVersion !== user.tokenVersion) {
+    return res.status(401).json({ error: 'invalid_session' });
+  }
+  req.user = user;
+  return next();
 }
 
-/** Soft auth: sets req.user if token is valid; otherwise continues */
+/** Invalid or unavailable authentication continues as an anonymous request. */
 export async function verifyTokenOptional(req, _res, next) {
-  try {
-    if (req.user && req.user.id) return next();
-
-    const token = getTokenFromReq(req);
-    if (!token) return next();
-
-    let decoded;
+  delete req.user;
+  const session = decodeSession(getTokenFromReq(req));
+  if (session) {
     try {
-      decoded = jwt.verify(token, SECRET);
+      const user = await hydrateUser(session.userId);
+      if (user && Number.isSafeInteger(user.tokenVersion) && user.tokenVersion >= 0 &&
+          session.tokenVersion === user.tokenVersion) req.user = user;
     } catch {
-      return next();
+      // Continue anonymously during database failures.
     }
-
-    if (!decoded?.id || !isAllowedAuthToken(decoded)) {
-      return next();
-    }
-
-    const hydrated = await hydrateUser(decoded);
-
-    const jwtTokenVersion = Number(decoded.tokenVersion ?? 0);
-    const dbTokenVersion = Number(hydrated.tokenVersion ?? 0);
-    if (jwtTokenVersion !== dbTokenVersion) {
-      return next();
-    }
-
-    req.user = hydrated;
-  } catch {
-    // ignore invalid/expired tokens
   }
-
-  next();
+  return next();
 }
 
-/** Admin gate: requires req.user.role === 'ADMIN'. Use after requireAuth */
+/** Use after requireAuth so the role comes from the current database row. */
 export function requireAdmin(req, res, next) {
   if (!req.user || req.user.role !== 'ADMIN') {
     return res.status(403).json({ error: 'Admin access required' });
   }
-  next();
+  return next();
 }
 
 export default requireAuth;

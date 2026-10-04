@@ -489,12 +489,12 @@ export function createApp() {
   app.use('/auth', oauthRouter);
   app.use('/auth/oauth', oauthMobileRouter);
 
-  // Auth sub-routers before primary auth
-  app.use('/auth/phone', requireAuth, phoneVerification); // /auth/phone/*
-  app.use('/auth/2fa', requireAuth, mfaTotp); // /auth/2fa/*
-
-  // Primary auth API
+  // Login challenges validate their own short-lived credentials.
   app.use('/auth', authRouter);
+
+  // Enrollment and management require a full session.
+  app.use('/auth/phone', requireAuth, phoneVerification);
+  app.use('/auth/2fa', requireAuth, mfaTotp);
 
   app.use('/users', usersRouter);
 

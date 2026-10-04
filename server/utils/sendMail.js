@@ -29,6 +29,11 @@ export async function sendMail({
   from = process.env.EMAIL_FROM || 'Chatforia <hello@chatforia.com>',
   attachments,
 }) {
+  // Jest exercises email flows without contacting the delivery provider.
+  if (process.env.NODE_ENV === 'test') {
+    return { success: true, mocked: true, data: { id: 'test-email' } };
+  }
+
   try {
     const resend = getResendClient();
 

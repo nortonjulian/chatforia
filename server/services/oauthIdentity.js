@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import prisma from '../utils/prismaClient.js';
 
 function normalizeEmail(email) {
@@ -14,26 +15,26 @@ function sanitizeUsernameSeed(value) {
     .slice(0, 20);
 }
 
-async function generateUniquePendingUsername({ email, displayName }) {
+async function generateUniquePendingUsername(tx, { email, displayName }) {
   const emailSeed = email ? email.split('@')[0] : '';
   const displaySeed = displayName ? displayName.replace(/\s+/g, '_') : '';
-  const base = sanitizeUsernameSeed(emailSeed || displaySeed || 'chatforia') || 'chatforia';
+  const seed = sanitizeUsernameSeed(emailSeed || displaySeed || 'chatforia') || 'chatforia';
 
-  const candidates = [
-    `pending_${base}`,
-    `pending_${base}${Math.floor(1000 + Math.random() * 9000)}`,
-    `pending_${base}${Date.now().toString().slice(-6)}`,
-  ];
-
-  for (const candidate of candidates) {
-    const existing = await prisma.user.findUnique({
-      where: { username: candidate },
+  // 8-character prefix + 4-character seed + 8 random hex characters = 20.
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    const candidate = `pending_${seed.slice(0, 4)}${crypto.randomBytes(4).toString('hex')}`;
+    const existing = await tx.user.findFirst({
+      where: {
+        OR: [
+          { usernameNorm: candidate.toLowerCase() },
+          { username: { equals: candidate, mode: 'insensitive' } },
+        ],
+      },
       select: { id: true },
     });
     if (!existing) return candidate;
   }
-
-  return `pending_user${Date.now()}`;
+  throw new Error('Unable to allocate a unique OAuth username');
 }
 
 function providerField(provider) {
@@ -62,6 +63,29 @@ export async function resolveOAuthUser({
 
   const subField = providerField(provider);
   const normalizedEmail = normalizeEmail(email);
+  const verifiedEmail = emailVerified === true && normalizedEmail !== null;
+
+  function conflict() {
+    const err = new Error('oauth_provider_conflict');
+    err.code = 'oauth_provider_conflict';
+    return err;
+  }
+
+  function requireActive(user) {
+    if (user.deletedAt || user.isBanned) throw conflict();
+  }
+
+  async function emailMatches(tx) {
+    return tx.user.findMany({
+      where: {
+        OR: [
+          { emailNorm: normalizedEmail },
+          { email: { equals: normalizedEmail, mode: 'insensitive' } },
+        ],
+      },
+      take: 2,
+    });
+  }
 
   return prisma.$transaction(async (tx) => {
     // 1) Canonical lookup by provider subject first
@@ -70,11 +94,20 @@ export async function resolveOAuthUser({
     });
 
     if (user) {
+      requireActive(user);
+      // A provider can only verify the email it actually supplied.
+      const attachEmail = verifiedEmail && !user.email;
+      if (attachEmail) {
+        const matches = await emailMatches(tx);
+        if (matches.some((match) => match.id !== user.id)) throw conflict();
+      }
+      const verifyStoredEmail = verifiedEmail &&
+        (attachEmail || normalizeEmail(user.email) === normalizedEmail);
       const updateData = {
         ...(avatarUrl ? { avatarUrl } : {}),
         ...(displayName && !user.displayName ? { displayName } : {}),
-        ...(normalizedEmail && !user.email ? { email: normalizedEmail } : {}),
-        ...(normalizedEmail && emailVerified
+        ...(attachEmail ? { email: normalizedEmail, emailNorm: normalizedEmail } : {}),
+        ...(verifyStoredEmail
           ? { emailVerifiedAt: user.emailVerifiedAt ?? new Date() }
           : {}),
       };
@@ -97,15 +130,18 @@ export async function resolveOAuthUser({
       return user;
     }
 
-    // 2) Optional safe link by email to an existing account
+    // 2) Email linking requires one unambiguous, provider-verified match.
     if (normalizedEmail) {
-      const emailUser = await tx.user.findFirst({
-        where: {
-          email: { equals: normalizedEmail, mode: 'insensitive' },
-        },
-      });
+      const matches = await emailMatches(tx);
+      if (matches.length > 1) throw conflict();
+      const emailUser = matches[0];
 
       if (emailUser) {
+        requireActive(emailUser);
+        if (!verifiedEmail) throw conflict();
+        if (emailUser[subField] && emailUser[subField] !== providerSub) {
+          throw conflict();
+        }
         // Hard conflict guard:
         // if some *other* row already owns this providerSub, do not silently continue.
         const providerOwner = await tx.user.findFirst({
@@ -125,11 +161,23 @@ export async function resolveOAuthUser({
           throw err;
         }
 
+        // Claim an empty provider slot atomically so concurrent links cannot overwrite it.
+        const claimed = await tx.user.updateMany({
+          where: {
+            id: emailUser.id,
+            deletedAt: null,
+            isBanned: false,
+            OR: [{ [subField]: null }, { [subField]: providerSub }],
+          },
+          data: { [subField]: providerSub },
+        });
+        if (claimed.count !== 1) throw conflict();
+
         const updateData = {
-          [subField]: providerSub,
+          emailNorm: normalizedEmail,
           ...(displayName && !emailUser.displayName ? { displayName } : {}),
           ...(avatarUrl ? { avatarUrl } : {}),
-          ...(emailVerified ? { emailVerifiedAt: emailUser.emailVerifiedAt ?? new Date() } : {}),
+          emailVerifiedAt: emailUser.emailVerifiedAt ?? new Date(),
         };
 
         user = await tx.user.update({
@@ -150,7 +198,7 @@ export async function resolveOAuthUser({
     }
 
     // 3) Otherwise create a new user
-    const username = await generateUniquePendingUsername({
+    const username = await generateUniquePendingUsername(tx, {
       email: normalizedEmail,
       displayName,
     });
@@ -158,7 +206,9 @@ export async function resolveOAuthUser({
     user = await tx.user.create({
       data: {
         username,
+        usernameNorm: username.toLowerCase(),
         email: normalizedEmail,
+        emailNorm: normalizedEmail,
         displayName,
         avatarUrl,
         [subField]: providerSub,
@@ -171,6 +221,7 @@ export async function resolveOAuthUser({
         plan: 'FREE',
       },
     });
+
 
     console.info('[oauth.resolve] created new oauth user', {
       provider,

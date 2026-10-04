@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import { issueSession } from './auth.js';
-import jwt from 'jsonwebtoken';
+import { createMfaChallenge } from '../services/mfaLogin.js';
+import { verifyAppleIdToken } from '../services/appleTokenVerifier.js';
 import { resolveOAuthUser } from '../services/oauthIdentity.js';
 
 const router = Router();
@@ -26,14 +27,23 @@ async function handleGoogleOAuth(req, res, channel = 'mobile') {
   try {
     const { idToken } = req.body || {};
 
-    if (!idToken) {
+    if (typeof idToken !== 'string' || !idToken.trim()) {
       return res.status(400).json({ error: 'Missing idToken' });
     }
 
-    const ticket = await googleClient.verifyIdToken({
-      idToken,
-      audience: googleAudiences,
-    });
+    if (!googleAudiences.length) {
+      return res.status(503).json({ error: 'Google OAuth not configured' });
+    }
+
+    let ticket;
+    try {
+      ticket = await googleClient.verifyIdToken({
+        idToken,
+        audience: googleAudiences,
+      });
+    } catch {
+      return res.status(401).json({ error: 'Invalid Google token' });
+    }
 
     const payload = ticket.getPayload();
 
@@ -50,15 +60,21 @@ async function handleGoogleOAuth(req, res, channel = 'mobile') {
       provider: 'google',
       providerSub: googleSub,
       email,
-      emailVerified: !!email,
+      emailVerified: payload?.email_verified === true,
       displayName: name,
       avatarUrl: avatar,
+      referralCode: req.body?.referralCode,
+      referralSource: `${channel}-google`,
       logContext: {
         channel,
         path: req.originalUrl,
       },
     });
 
+    if (user.twoFactorEnabled) {
+      const mfaToken = await createMfaChallenge(user);
+      return res.json({ message: 'mfa_required', mfaRequired: true, mfaToken });
+    }
     const token = issueSession(res, user);
 
     return res.json({
@@ -115,42 +131,14 @@ router.post('/apple/ios', async (req, res) => {
       return res.status(400).json({ error: 'Missing identityToken' });
     }
 
-    const decoded = jwt.decode(identityToken);
-
-    if (!decoded || typeof decoded !== 'object') {
-      return res.status(400).json({ error: 'Invalid Apple token' });
-    }
-
-    if (decoded.iss !== 'https://appleid.apple.com') {
-      return res.status(400).json({ error: 'Invalid Apple issuer' });
-    }
-
-    const now = Math.floor(Date.now() / 1000);
-    if (!decoded.exp || Number(decoded.exp) < now) {
-      return res.status(400).json({ error: 'Expired Apple token' });
-    }
-
+    const decoded = await verifyAppleIdToken(identityToken, {
+      audience: [appleAudience, 'com.chatforia.Chatforia'].filter(Boolean),
+      nonce,
+    });
     const appleSub = decoded.sub;
     const email = decoded.email ?? null;
     const emailVerified =
       decoded.email_verified === true || decoded.email_verified === 'true';
-
-    if (!appleSub) {
-      return res.status(400).json({ error: 'Invalid Apple token: missing sub' });
-    }
-
-    const validAppleAudiences = [
-      appleAudience,
-      'com.chatforia.Chatforia',
-    ].filter(Boolean);
-
-    if (!validAppleAudiences.includes(decoded.aud)) {
-      return res.status(400).json({
-        error: 'Invalid Apple token audience',
-        received: decoded.aud,
-        expected: validAppleAudiences,
-      });
-    }
 
     const displayName =
       [firstName, lastName].filter(Boolean).join(' ').trim() || null;
@@ -162,12 +150,18 @@ router.post('/apple/ios', async (req, res) => {
       emailVerified,
       displayName,
       avatarUrl: null,
+      referralCode: req.body?.referralCode,
+      referralSource: 'ios-apple',
       logContext: {
         channel: 'ios',
         path: req.originalUrl,
       },
     });
 
+    if (user.twoFactorEnabled) {
+      const mfaToken = await createMfaChallenge(user);
+      return res.json({ message: 'mfa_required', mfaRequired: true, mfaToken });
+    }
     const token = issueSession(res, user);
 
     return res.json({
@@ -189,6 +183,10 @@ router.post('/apple/ios', async (req, res) => {
         message:
           'This sign-in is linked to a different Chatforia account. Please contact support.',
       });
+    }
+
+    if (err?.code === 'invalid_apple_token') {
+      return res.status(401).json({ error: 'Invalid Apple token' });
     }
 
     console.error('Apple iOS OAuth error:', {

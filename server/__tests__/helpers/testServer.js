@@ -2,6 +2,7 @@
 import request from 'supertest';
 import prisma from '../../utils/prismaClient.js';
 import { createApp } from '../../app.js';
+import { assertTestDatabaseSelected } from './testDatabase.js';
 
 // Create a single app instance for all tests that use this helper.
 const app = createApp();
@@ -26,48 +27,29 @@ export function makeAgent() {
 }
 
 /**
- * resetDb()
- *
- * Blow away all data between tests.
- * Order matters because of foreign keys.
- *
- * We try/catch each block because some projects' Prisma
- * schemas don't have all of these tables or have slightly
- * different relation requirements. This keeps tests from
- * crashing if, for example, `messageReaction` doesn't exist.
+ * Clear the selected disposable test schema atomically, preserving migrations.
+ * No swallowed errors or incomplete table lists. Never use with a live DB.
  */
 export async function resetDb() {
-  // Child / leaf tables first (things that depend on messages/users/rooms)
-  try {
-    await prisma.messageReaction?.deleteMany?.({});
-  } catch {}
-  try {
-    await prisma.attachment?.deleteMany?.({});
-  } catch {}
-
-  try {
-    await prisma.message.deleteMany({});
-  } catch {}
-
-  try {
-    await prisma.participant.deleteMany({});
-  } catch {}
-
-  try {
-    await prisma.contact?.deleteMany?.({});
-  } catch {}
-
-  try {
-    await prisma.event?.deleteMany?.({});
-  } catch {}
-
-  // Then parent tables
-  try {
-    await prisma.chatRoom.deleteMany({});
-  } catch {}
-
-  // Finally users last (everything tends to reference User)
-  try {
-    await prisma.user.deleteMany({});
-  } catch {}
+  const target = assertTestDatabaseSelected();
+  await prisma.$transaction(async (tx) => {
+    const [connected] = await tx.$queryRaw`
+      SELECT current_database() AS database, current_schema() AS schema
+    `;
+    if (connected?.database !== target.database || connected?.schema !== target.schema) {
+      throw new Error('Connected database/schema does not match the selected disposable test target');
+    }
+    const tables = await tx.$queryRaw`
+      SELECT tablename
+      FROM pg_tables
+      WHERE schemaname = ${target.schema}
+        AND tablename <> '_prisma_migrations'
+      ORDER BY tablename
+    `;
+    if (!tables.length) throw new Error('Test schema has no tables; apply migrations first');
+    const quote = (value) => '"' + value.replace(/"/g, '""') + '"';
+    const names = tables.map(({ tablename }) => `${quote(target.schema)}.${quote(tablename)}`);
+    // Identifiers come from the PostgreSQL catalog and are quoted above.
+    await tx.$executeRawUnsafe(`TRUNCATE TABLE ${names.join(', ')} RESTART IDENTITY CASCADE`);
+  });
 }

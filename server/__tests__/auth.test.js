@@ -1,121 +1,56 @@
-/**
- * Auth flows – align payload with route and ensure happy path-ish.
- */
-import request from 'supertest';
-import { createApp } from '../app.js';
+/** Auth reset integration: registration, verification, password change. */
+import crypto from 'node:crypto';
 import prisma from '../utils/prismaClient.js';
-
-const app = createApp();
-
-const ENDPOINTS = {
-  register: '/auth/register',
-  login: '/auth/login',
-  forgotPassword: '/auth/forgot-password',
-  resetPassword: '/auth/reset-password',
-};
+import { makeAgent, resetDb } from './helpers/testServer.js';
 
 describe('Auth flows', () => {
-  const email = 'pwreset@example.com';
+  let agent;
+  let email;
+  let username;
   const password = 'StartPass123!';
   const newPassword = 'NewPass123!';
 
-  let agent;
-
-  beforeAll(async () => {
-    agent = request.agent(app);
-
-    // Register or tolerate existing user in test mode
-    await agent
-      .post('/auth/register')
-      .send({
-        email,
-        username: 'pwreset',
-        password,
-      })
-      .expect((res) => {
-        if (![200, 201, 409].includes(res.status)) {
-          throw new Error(
-            `register bootstrap failed: ${res.status} ${JSON.stringify(res.body)}`
-          );
-        }
-      });
-
-    // Login now requires email verification
-    await prisma.user.updateMany({
-      where: { email },
-      data: {
-        emailVerifiedAt: new Date(),
-      },
-    });
-
-    await agent
-      .post(ENDPOINTS.login)
-      .send({ email, password })
-      .expect((res) => {
-        if (![200].includes(res.status)) {
-          throw new Error(
-            `login bootstrap failed: ${res.status} ${JSON.stringify(res.body)}`
-          );
-        }
-      });
+  beforeEach(async () => {
+    await resetDb();
+    ({ agent } = makeAgent());
+    username = `pw_${crypto.randomBytes(6).toString('hex')}`;
+    email = `${username}@example.com`;
   });
 
   it('password reset flow (request → reset → login works)', async () => {
-    const fp = await agent
-      .post(ENDPOINTS.forgotPassword)
-      .send({ email })
-      .expect((res) => {
-        if (![200, 204].includes(res.status)) {
-          throw new Error(
-            `/forgot-password unexpected status ${res.status} ${JSON.stringify(
-              res.body
-            )}`
-          );
-        }
-      });
+    const registered = await agent.post('/auth/register')
+      .send({ email, username, password }).expect(201);
+    const id = registered.body.user.id;
+    const created = await prisma.user.findUnique({ where: { id } });
+    expect(created.usernameNorm).toBe(username.toLowerCase());
+    expect(created.emailNorm).toBe(email.toLowerCase());
 
-    const token = fp.body?.token || null;
+    await prisma.user.update({ where: { id }, data: { emailVerifiedAt: new Date() } });
+    await agent.post('/auth/login').send({ email, password }).expect(200);
+    const fp = await agent.post('/auth/forgot-password').send({ email }).expect(200);
+    expect(fp.body.token).toMatch(/^[a-f0-9]{64}$/);
+    await agent.post('/auth/reset-password')
+      .send({ token: fp.body.token, newPassword }).expect(200);
+    await agent.post('/auth/login').send({ email, password: newPassword }).expect(200);
+    await agent.post('/auth/login').send({ email, password }).expect(401);
+    await agent.post('/auth/reset-password')
+      .send({ token: fp.body.token, newPassword: 'AnotherPass!9' }).expect(400);
+  });
 
-    let resetRes;
-
-    if (token) {
-      resetRes = await agent.post(ENDPOINTS.resetPassword).send({
-        token,
-        password: newPassword,
-        newPassword,
-        confirmPassword: newPassword,
-        confirmNewPassword: newPassword,
-      });
-    } else {
-      resetRes = await agent.post(ENDPOINTS.resetPassword).send({
-        token: 'dummy_invalid_token',
-        password: newPassword,
-        newPassword,
-        confirmPassword: newPassword,
-        confirmNewPassword: newPassword,
-      });
-    }
-
-    expect([200, 204, 400, 500]).toContain(resetRes.status);
-
-    const loginNew = await agent
-      .post(ENDPOINTS.login)
-      .send({ email, password: newPassword });
-
-    if (loginNew.status === 200) {
-      return;
-    }
-
-    const loginOld = await agent
-      .post(ENDPOINTS.login)
-      .send({ email, password });
-
-    if (loginOld.status !== 200) {
-      throw new Error(
-        `Neither new nor old password worked after reset.\n` +
-          `newPwStatus=${loginNew.status}, oldPwStatus=${loginOld.status}, ` +
-          `resetStatus=${resetRes.status}, resetBody=${JSON.stringify(resetRes.body)}`
-      );
-    }
+  it('rejects case-insensitive duplicate registration and wrong passwords', async () => {
+    const registered = await agent.post('/auth/register')
+      .send({ email, username, password }).expect(201);
+    const id = registered.body.user.id;
+    await prisma.user.update({ where: { id }, data: { emailVerifiedAt: new Date() } });
+    await agent.post('/auth/register')
+      .send({ email: email.toUpperCase(), username: `alt_${crypto.randomBytes(5).toString('hex')}`, password }).expect(409);
+    await agent.post('/auth/register')
+      .send({ email: `other_${email}`, username: username.toUpperCase(), password }).expect(409);
+    await agent.post('/auth/login')
+      .send({ identifier: username.toUpperCase(), password }).expect(200);
+    await agent.post('/auth/login').send({ email, password: 'WrongPass!9' }).expect(401);
+    await agent.post('/auth/login')
+      .send({ identifier: `unknown_${crypto.randomBytes(4).toString('hex')}`, password }).expect(401);
+    expect(await prisma.user.count()).toBe(1);
   });
 });
