@@ -10,7 +10,7 @@ const LOGIN_FLAG_KEY = 'chatforiaHasLoggedIn';
 export default function OAuthComplete() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { setCurrentUser } = useUser?.() || {};
+  const { refreshSession } = useUser?.() || {};
   const alive = useRef(true);
   const { t } = useTranslation();
 
@@ -20,7 +20,7 @@ export default function OAuthComplete() {
     (async () => {
       const next = searchParams.get('next') || '/';
 
-      const safeFinish = (userObj) => {
+      const safeFinish = async (userObj) => {
         if (!alive.current) return;
 
         if (userObj) {
@@ -33,7 +33,8 @@ export default function OAuthComplete() {
             // ignore storage errors
           }
 
-          setCurrentUser?.(userObj);
+          await refreshSession?.();
+          if (!alive.current) return;
           navigate(next, { replace: true });
         } else {
           navigate('/login?error=sso_failed', { replace: true });
@@ -47,7 +48,7 @@ export default function OAuthComplete() {
           (data && data.user) ||
           (data && typeof data === 'object' && 'id' in data ? data : null);
         if (user) {
-          safeFinish(user);
+          await safeFinish(user);
           return;
         }
       } catch {
@@ -61,20 +62,20 @@ export default function OAuthComplete() {
           (data2 && data2.user) ||
           (data2 && typeof data2 === 'object' && 'id' in data2 ? data2 : null);
         if (user2) {
-          safeFinish(user2);
+          await safeFinish(user2);
           return;
         }
       } catch {
         // fall through
       }
 
-      safeFinish(null);
+      await safeFinish(null);
     })();
 
     return () => {
       alive.current = false;
     };
-  }, [searchParams, navigate, setCurrentUser]);
+  }, [searchParams, navigate, refreshSession]);
 
   return (
     <Center mih={160} data-testid="center">
