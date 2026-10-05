@@ -13,18 +13,7 @@ export default function BootstrapUser() {
   const [keyModalOpen, setKeyModalOpen] = useState(false);
   const [haveServerPubKey, setHaveServerPubKey] = useState(false);
 
-  // Restore user from localStorage if context empty
-  useEffect(() => {
-    if (!currentUser) {
-      const saved = localStorage.getItem('user');
-      if (saved) {
-        try {
-          setCurrentUser(JSON.parse(saved));
-        } catch {}
-      }
-    }
-  }, [currentUser, setCurrentUser]);
-
+  // Authentication is established only by UserContext's server session check.
   useEffect(() => {
     const handler = () => {
       setCurrentUser(null);
@@ -95,10 +84,6 @@ export default function BootstrapUser() {
           await axiosClient.post('/users/keys', { publicKey: kp.publicKey });
 
           setCurrentUser((prev) => ({ ...prev, publicKey: kp.publicKey }));
-          localStorage.setItem(
-            'user',
-            JSON.stringify({ ...currentUser, publicKey: kp.publicKey })
-          );
         } catch (e) {
           console.error('Public key upload failed', e);
           setKeyModalOpen(true);
