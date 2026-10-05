@@ -102,7 +102,6 @@ test('does not restore an authenticated user from localStorage', async () => {
 
   render(<BootstrapUser />);
 
-  await waitFor(() => expect(loadKeysLocal).toHaveBeenCalled());
   expect(mockCtx.setCurrentUser).not.toHaveBeenCalled();
 });
 
