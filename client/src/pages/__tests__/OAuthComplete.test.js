@@ -29,10 +29,10 @@ jest.mock('react-router-dom', () => ({
 }));
 
 // User context
-const mockSetCurrentUser = jest.fn();
+const mockRefreshSession = jest.fn();
 jest.mock('@/context/UserContext', () => ({
   __esModule: true,
-  useUser: () => ({ setCurrentUser: mockSetCurrentUser }),
+  useUser: () => ({ refreshSession: mockRefreshSession }),
 }));
 
 // API client
@@ -55,7 +55,7 @@ const deferred = () => {
 describe('OAuthComplete', () => {
   beforeEach(() => {
     mockNavigate.mockReset();
-    mockSetCurrentUser.mockReset();
+    mockRefreshSession.mockReset().mockResolvedValue(undefined);
     mockGet.mockReset();
     mockSearchParams = new URLSearchParams(); // default no "next"
   });
@@ -76,7 +76,7 @@ describe('OAuthComplete', () => {
     render(<OAuthComplete />);
 
     await waitFor(() => {
-      expect(mockSetCurrentUser).toHaveBeenCalledWith({ id: 1, name: 'A' });
+      expect(mockRefreshSession).toHaveBeenCalledTimes(1);
       expect(mockNavigate).toHaveBeenCalledWith('/inbox', { replace: true });
     });
     // Only /auth/me called
@@ -92,7 +92,7 @@ describe('OAuthComplete', () => {
     render(<OAuthComplete />);
 
     await waitFor(() => {
-      expect(mockSetCurrentUser).toHaveBeenCalledWith({ id: 2, name: 'B' });
+      expect(mockRefreshSession).toHaveBeenCalledTimes(1);
       expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
     });
     expect(mockGet.mock.calls[0][0]).toBe('/auth/me');
@@ -145,7 +145,7 @@ describe('OAuthComplete', () => {
     });
 
     // No navigation or context updates after unmount
-    expect(mockSetCurrentUser).not.toHaveBeenCalled();
+    expect(mockRefreshSession).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 });
