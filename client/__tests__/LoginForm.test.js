@@ -2,10 +2,10 @@
 import { jest } from '@jest/globals';
 
 // ---- UserContext mock (match LoginForm’s import path resolution) ----
-const mockSetCurrentUser = jest.fn();
+const mockRefreshSession = jest.fn();
 jest.mock('../src/context/UserContext', () => ({
   __esModule: true,
-  useUser: () => ({ setCurrentUser: mockSetCurrentUser }),
+  useUser: () => ({ refreshSession: mockRefreshSession }),
 }));
 
 // ---- react-router-dom mock ----
@@ -28,16 +28,19 @@ jest.mock('../src/api/axiosClient', () => ({
 }));
 
 import userEvent from '@testing-library/user-event';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import { renderWithRouter } from '../src/test-utils';
 import LoginForm from '../src/components/LoginForm.jsx';
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockRefreshSession.mockResolvedValue(undefined);
 });
 
 test('logs in successfully and navigates home', async () => {
   mockPost.mockResolvedValueOnce({ data: { user: { id: 1, username: 'alice' } } });
+  let finishKeyCheck;
+  mockRefreshSession.mockReturnValueOnce(new Promise((resolve) => { finishKeyCheck = resolve; }));
 
   renderWithRouter(<LoginForm />);
 
@@ -47,9 +50,11 @@ test('logs in successfully and navigates home', async () => {
 
   await waitFor(() => {
     expect(mockPost).toHaveBeenCalledWith('/auth/login', { identifier: 'alice', password: 'pass123' });
-    expect(mockSetCurrentUser).toHaveBeenCalledWith({ id: 1, username: 'alice' });
-    expect(mockNavigate).toHaveBeenCalledWith('/');
+    expect(mockRefreshSession).toHaveBeenCalledTimes(1);
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
+  await act(async () => finishKeyCheck());
+  await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/'));
 });
 
 test('shows error on failed login', async () => {
