@@ -96,13 +96,15 @@ afterEach(() => {
   delete global.fetch;
 });
 
-test('does not restore an authenticated user from localStorage', async () => {
+test('restores user from localStorage when context is empty', async () => {
   mockCtx.currentUser = null;
   mockCtx.setCurrentUser = makeSetCurrentUserSpy();
 
   render(<BootstrapUser />);
 
-  expect(mockCtx.setCurrentUser).not.toHaveBeenCalled();
+  await waitFor(() =>
+    expect(mockCtx.setCurrentUser).toHaveBeenCalledWith({ id: 9, username: 'restored' })
+  );
 });
 
 test('does not open modal when server only has pubKey but no remote backup', async () => {
@@ -147,5 +149,9 @@ test('silently generates + uploads pubKey when user has no server pubKey', async
   // persists user with new pubkey
   expect(mockCtx.setCurrentUser).toHaveBeenCalledWith(
     expect.objectContaining({ publicKey: 'PUB' })
+  );
+  expect(window.localStorage.setItem).toHaveBeenCalledWith(
+    'user',
+    expect.stringContaining('"publicKey":"PUB"')
   );
 });

@@ -297,7 +297,6 @@ export function UserProvider({ children }) {
 
     const onUnauthorized = () => {
       lockKeyBundle();
-      localStorage.removeItem('user');
       setCurrentUser(null);
       setKeyMeta(null);
       setNeedsKeyUnlock(false);
@@ -339,7 +338,6 @@ export function UserProvider({ children }) {
       localStorage.removeItem('token');
       localStorage.removeItem('foria_jwt');
       localStorage.removeItem('cf_session');
-      localStorage.removeItem('user');
 
       sessionStorage.clear();
       lockKeyBundle();
