@@ -19,8 +19,6 @@ import {
 import { IconBrandGoogle, IconBrandApple } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
-import { loadKeysLocal } from '@/utils/keys';
-import { restoreRemoteKeyBackupToLocal } from '@/utils/keyBackupRemote';
 import { API_BASE_URL } from '@/config';
 import posthog from '@/utils/analytics';
 
@@ -77,7 +75,7 @@ const LOGIN_FLAG_KEY = 'chatforiaHasLoggedIn';
 
 export default function LoginForm({ onLoginSuccess }) {
   const { t } = useTranslation();
-  const { setCurrentUser } = useUser();
+  const { refreshSession } = useUser();
   const [identifier, setIdentifier] = useState(''); // username or email or phone
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
@@ -185,17 +183,9 @@ export default function LoginForm({ onLoginSuccess }) {
       }
       const user = res?.data?.user ?? res?.data;
 
-      try {
-        const localKeys = await loadKeysLocal();
-
-        if (!localKeys?.privateKey) {
-          await restoreRemoteKeyBackupToLocal({ password: pwd });
-        }
-      } catch (keyErr) {
-        console.warn('Remote key restore skipped/failed', keyErr?.message || keyErr);
-      }
-
-      setCurrentUser(user);
+      // Authenticate the browser key before exposing any authenticated routes.
+      // The account password is not the separate secure-message backup passcode.
+      await refreshSession();
       onLoginSuccess?.(user);
 
       // mark this device as having successfully logged in
