@@ -4,6 +4,7 @@ import prisma from '../utils/prismaClient.js';
 import { emitToUser } from '../services/socketBus.js';
 import { requireAuth } from '../middleware/auth.js';
 import { sendPushToUser, sendVoipCallPushToUser } from '../services/pushService.js';
+import { syncBadgeToUserDevices } from '../services/badgeSync.js';
 import { collectCallLifecycleRecipientIds } from '../utils/callLifecycleRecipients.js';
 import { claimCallActive } from '../utils/callAnswerArbitration.js';
 import { isVoiceEligibleDevice } from '../services/voiceDeviceService.js';
@@ -801,6 +802,7 @@ router.post('/end', asyncHandler(async (req, res) => {
   for (const id of notifyIds) {
     try {
       await sendPushToUser(id, {
+        badgeOnly: true,
         data: {
           type: 'call_ended',
           callId: updated.id,
@@ -1699,6 +1701,43 @@ router.post('/:id/leave-participant', asyncHandler(async (req, res) => {
   }
 
   res.json({ ok: true });
+}));
+
+/**
+ * PATCH /calls/missed/acknowledge
+ * Acknowledge all currently missed incoming calls for the current user.
+ * The call remains MISSED in history; only its attention state changes.
+ */
+router.patch('/missed/acknowledge', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+  const acknowledgedAt = new Date();
+
+  const result = await prisma.call.updateMany({
+    where: {
+      status: 'MISSED',
+      acknowledgedAt: null,
+      OR: [
+        { calleeId: userId },
+        {
+          callerId: userId,
+          calleeId: null,
+          externalPhone: { not: null },
+        },
+      ],
+    },
+    data: { acknowledgedAt },
+  });
+
+  await syncBadgeToUserDevices(
+    userId,
+    'missed_calls_acknowledged'
+  );
+
+  res.json({
+    ok: true,
+    count: result.count,
+    acknowledgedAt: acknowledgedAt.toISOString(),
+  });
 }));
 
 /**

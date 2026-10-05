@@ -258,6 +258,36 @@ router.get(
       chatContacts.map((c) => [c.userId, c.alias])
     );
 
+    const unreadChatMessages = rooms.length
+      ? await prisma.message.findMany({
+          where: {
+            chatRoomId: { in: rooms.map((r) => r.id) },
+            senderId: { not: userId },
+            deletedForAll: false,
+            reads: { none: { userId } },
+            OR: [
+              { expiresAt: null },
+              { expiresAt: { gt: new Date() } },
+            ],
+          },
+          select: {
+            chatRoomId: true,
+            createdAt: true,
+          },
+        })
+      : [];
+
+    const unreadChatCountByRoom = new Map();
+    for (const message of unreadChatMessages) {
+      const deletedAt = deletedMap.get(message.chatRoomId);
+      if (deletedAt && message.createdAt <= deletedAt) continue;
+
+      unreadChatCountByRoom.set(
+        message.chatRoomId,
+        (unreadChatCountByRoom.get(message.chatRoomId) || 0) + 1
+      );
+    }
+
     const chatConvos = rooms
       .map((r) => {
       const lastMsg = r.messages?.[0] || null;
@@ -413,7 +443,7 @@ router.get(
               ...media,
             }
           : null,
-        unreadCount: 0,
+        unreadCount: unreadChatCountByRoom.get(r.id) || 0,
       };
     })
     .filter(Boolean);
@@ -427,6 +457,7 @@ router.get(
       select: {
         id: true,
         updatedAt: true,
+        lastReadAt: true,
         // ✅ FIX: include contactPhone so we ALWAYS have the counterparty
         contactPhone: true,
         participants: { select: { phone: true }, take: 5 },
@@ -482,6 +513,33 @@ router.get(
       }
     }
 
+    const inboundSmsMessages = smsThreads.length
+      ? await prisma.smsMessage.findMany({
+          where: {
+            threadId: { in: smsThreads.map((t) => t.id) },
+            direction: 'in',
+          },
+          select: {
+            threadId: true,
+            createdAt: true,
+          },
+        })
+      : [];
+
+    const smsThreadById = new Map(smsThreads.map((t) => [t.id, t]));
+    const unreadSmsCountByThread = new Map();
+
+    for (const message of inboundSmsMessages) {
+      const thread = smsThreadById.get(message.threadId);
+      if (!thread) continue;
+      if (thread.lastReadAt && message.createdAt <= thread.lastReadAt) continue;
+
+      unreadSmsCountByThread.set(
+        message.threadId,
+        (unreadSmsCountByThread.get(message.threadId) || 0) + 1
+      );
+    }
+
     const smsConvos = smsThreads.map((t) => {
       const lastMsg = t.messages?.[0] || null;
       const media = summarizeSmsMedia(lastMsg?.mediaUrls);
@@ -527,7 +585,7 @@ router.get(
               ...media,
             }
           : null,
-        unreadCount: 0,
+        unreadCount: unreadSmsCountByThread.get(t.id) || 0,
       };
     });
 

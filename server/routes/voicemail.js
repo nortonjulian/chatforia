@@ -4,6 +4,7 @@ import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { emitToUser } from '../services/socketBus.js';
 import { fetchTwilioMedia } from '../utils/twilioMediaProxy.js';
+import { syncBadgeToUserDevices } from '../services/badgeSync.js';
 
 const r = express.Router();
 
@@ -185,6 +186,11 @@ r.patch(
       isRead: Boolean(isRead),
     });
 
+    await syncBadgeToUserDevices(
+      userId,
+      Boolean(isRead) ? 'voicemail_read' : 'voicemail_unread'
+    );
+
     res.json({ success: true });
   }),
 );
@@ -217,6 +223,11 @@ r.delete(
     }
 
     emitToUser(userId, 'voicemail:deleted', { id });
+
+    await syncBadgeToUserDevices(
+      userId,
+      'voicemail_deleted'
+    );
 
     res.json({ success: true });
   }),

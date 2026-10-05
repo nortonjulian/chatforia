@@ -40,6 +40,21 @@ const mockPrisma = {
   user: {
     findUnique: jest.fn(),
   },
+  message: {
+    findMany: jest.fn(),
+  },
+  smsThread: {
+    findMany: jest.fn(),
+  },
+  call: {
+    count: jest.fn(),
+  },
+  voicemail: {
+    count: jest.fn(),
+  },
+  threadState: {
+    findMany: jest.fn(),
+  },
 };
 
 const getFirebaseMessagingMock = jest.fn();
@@ -150,6 +165,14 @@ describe('pushService APNs environment routing', () => {
       messageTone: 'Default.mp3',
       plan: 'FREE',
     });
+
+    // Badge-state defaults for push-routing tests:
+    // no unread conversations, missed calls, or voicemails.
+    mockPrisma.message.findMany.mockResolvedValue([]);
+    mockPrisma.smsThread.findMany.mockResolvedValue([]);
+    mockPrisma.call.count.mockResolvedValue(0);
+    mockPrisma.voicemail.count.mockResolvedValue(0);
+    mockPrisma.threadState.findMany.mockResolvedValue([]);
 
     getVoiceEligibleDevicesMock.mockResolvedValue([
       {

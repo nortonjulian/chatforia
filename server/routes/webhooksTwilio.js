@@ -7,6 +7,7 @@ import { enqueueVoicemailTranscription } from '../services/voicemailTranscriptio
 import { sendVoicemailForwardEmail } from '../services/voicemailEmail.js';
 import { voicemailForwardingDestination } from '../utils/voicemailForwarding.js';
 import { emitToUser } from '../services/socketBus.js';
+import { sendPushToUser } from '../services/pushService.js';
 import {
   analyzeTwilioVoicemailAudio,
   isEffectivelySilentVoicemail,
@@ -449,6 +450,26 @@ r.post(
       }
 
       emitToUser(numericUserId, 'voicemail:new', { voicemail });
+
+      void sendPushToUser(numericUserId, {
+        alert: {
+          title: 'New voicemail',
+          body: fromDisplayName
+            ? `Voicemail from ${fromDisplayName}`
+            : `Voicemail from ${storedFrom}`,
+        },
+        sound: 'default',
+        data: {
+          type: 'voicemail_new',
+          voicemailId: voicemail.id,
+        },
+      }).catch((error) => {
+        console.warn('[voicemail] failed to send push', {
+          userId: numericUserId,
+          voicemailId: voicemail.id,
+          error: error?.message || error,
+        });
+      });
 
       console.log('[voicemail] saved voicemail', {
         userId: numericUserId,
