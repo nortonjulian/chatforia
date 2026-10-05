@@ -31,6 +31,7 @@ import { probeDurationSec } from '../utils/mediaProbe.js';
 import { __mem as roomsMem } from './rooms.js';
 
 import { sendPushToUser } from "../services/pushService.js";
+import { syncBadgeToUserDevices } from '../services/badgeSync.js';
 
 const IS_TEST = String(process.env.NODE_ENV || '') === 'test';
 const router = express.Router();
@@ -1695,6 +1696,8 @@ router.post(
         });
       }
     }
+
+    await syncBadgeToUserDevices(userId, 'messages_read');
 
     return res.json({ ok: true, count: allowedIds.length });
   })

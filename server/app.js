@@ -49,6 +49,7 @@ import authRouter from './routes/auth.js';
 import usersRouter from './routes/users.js';
 import messagesRouter from './routes/messages.js';
 import callsRouter from './routes/calls.js';
+import badgeStateRouter from './routes/badgeState.js';
 import iceRouter from './routes/ice.js';
 import roomsRouter from './routes/rooms.js';
 import chatroomsRouter from './routes/chatrooms.js';
@@ -506,6 +507,7 @@ export function createApp() {
   app.use('/webhooks/status', twilioStatusWebhook);
 
   app.use('/conversations', conversationsRouter);
+  app.use('/badge-state', badgeStateRouter);
 
   app.use('/stickers', stickersRouter);
 

@@ -12,6 +12,7 @@ import * as smsService from '../services/smsService.js';
 
 // ✅ Twilio-protected media fetch helper (does Basic Auth + returns fetch Response)
 import { fetchTwilioMedia } from '../utils/twilioMediaProxy.js';
+import { syncBadgeToUserDevices } from '../services/badgeSync.js';
 
 const r = express.Router();
 
@@ -205,6 +206,25 @@ r.get(
       throw Boom.badImplementation('smsService.getThread is not implemented');
     }
     const thread = await smsService.getThread(req.user.id, req.params.id);
+
+    const resolvedThreadId = Number(thread?.id ?? req.params.id);
+    if (thread && Number.isInteger(resolvedThreadId) && resolvedThreadId > 0) {
+      await prisma.smsThread.updateMany({
+        where: {
+          id: resolvedThreadId,
+          userId: Number(req.user.id),
+        },
+        data: { lastReadAt: new Date() },
+      });
+    }
+
+    if (thread) {
+      await syncBadgeToUserDevices(
+        Number(req.user.id),
+        'sms_thread_read'
+      );
+    }
+
     res.json(thread);
   })
 );

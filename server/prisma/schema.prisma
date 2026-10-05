@@ -1045,6 +1045,7 @@ model SmsThread {
   updatedAt    DateTime  @updatedAt
   archivedAt   DateTime?
   deletedAt    DateTime?
+  lastReadAt   DateTime?
   contactPhone String?   @db.VarChar(32)
 
   participants SmsParticipant[]
@@ -1424,6 +1425,7 @@ model Call {
   createdAt             DateTime          @default(now())
   startedAt             DateTime?
   endedAt               DateTime?
+  acknowledgedAt        DateTime?
   twilioCallSid         String?           @unique
   answeredDeviceId      String?
   answeredVoiceIdentity String?

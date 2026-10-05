@@ -3,6 +3,7 @@ import prisma from '../utils/prismaClient.js';
 import { getFirebaseMessaging } from './firebaseAdmin.js';
 import { resolveMessageNotificationSound } from '../config/messageToneCatalog.js';
 import { getVoiceEligibleDevices } from './voiceDeviceService.js';
+import { getBadgeState } from './badgeState.js';
 
 const providers = {
   production: null,
@@ -534,8 +535,9 @@ export async function sendPushToUser(userId, payload) {
   if (
     !payload.skipApns &&
     hasApnsTokens &&
-    payload.alert
+    (payload.alert || payload.badgeOnly)
   ) {
+    const badgeState = await getBadgeState(userId);
     const notificationType =
       String(payload.data?.type || '')
         .trim()
@@ -599,8 +601,10 @@ export async function sendPushToUser(userId, payload) {
 
       note.pushType = 'alert';
       note.priority = 10;
-      note.alert =
-        payload.alert || {};
+      if (payload.alert) {
+        note.alert = payload.alert;
+      }
+      note.badge = badgeState.total;
 
       /*
        * A null sound represents Chatforia's Vibrate selection.
