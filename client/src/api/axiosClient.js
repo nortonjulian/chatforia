@@ -14,10 +14,12 @@ const viteBase =
   '';
 
 const winBase = (isBrowser && window.__API_URL__) || '';
-const sameOriginFallback =
-  isBrowser && window.location ? window.location.origin : '';
 const computedBase = winBase || viteBase;
-const baseURL = isDev ? computedBase || '' : computedBase || sameOriginFallback;
+
+// Production API requests must use the API host. Falling back to the site
+// origin sends POST /auth/logout to the static-site Nginx server, which
+// rejects it with 405 when runtime env.js is missing or unavailable.
+const baseURL = isDev ? computedBase || '' : computedBase || 'https://api.chatforia.com';
 
 if (isDev) {
   console.log('[axiosClient] baseURL =', baseURL || '(empty -> Vite proxy)');
