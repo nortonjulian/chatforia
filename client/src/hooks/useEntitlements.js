@@ -9,7 +9,7 @@ export default function useEntitlements() {
   const refresh = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await axiosClient.get('/features/entitlements');
+      const { data } = await axiosClient.get('/premium/entitlements');
       setEntitlements(data);
       setErr(null);
     } catch (e) {
