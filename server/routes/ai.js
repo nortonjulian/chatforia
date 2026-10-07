@@ -4,8 +4,48 @@ import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import blockWhenStrictE2EE from '../middleware/blockWhenStrictE2EE.js';
 import { suggestReplies, rewriteText, chatWithRia } from '../services/riaService.js';
+import { getPlanEntitlements } from '../config/planEntitlements.js';
+import {
+  assertAndConsumeUsage,
+  releaseUsage,
+} from '../services/planUsageService.js';
 
 const r = express.Router();
+
+async function withRiaAllowance(req, operation) {
+  await assertAndConsumeUsage({
+    userId: req.user.id,
+    plan: req.user.plan,
+    meter: 'riaActions',
+    amount: 1,
+  });
+
+  try {
+    return await operation();
+  } catch (err) {
+    try {
+      await releaseUsage({
+        userId: req.user.id,
+        meter: 'riaActions',
+        amount: 1,
+      });
+    } catch (releaseErr) {
+      console.error('Failed to release Ria allowance', releaseErr);
+    }
+
+    throw err;
+  }
+}
+
+function requireRewriteEntitlement(req) {
+  const entitlements = getPlanEntitlements(req.user?.plan);
+
+  if (entitlements.aiRewriteLevel === 'NONE') {
+    throw Boom.paymentRequired('AI rewrite requires Chatforia Plus or Premium');
+  }
+
+  return entitlements.aiRewriteLevel;
+}
 
 r.use(requireAuth);
 r.use(express.json());
@@ -26,11 +66,13 @@ r.post('/suggest-replies', blockWhenStrictE2EE, asyncHandler(async (req, res) =>
     .filter((m) => m.content.length > 0)
     .slice(-12);
 
-  const result = await suggestReplies({
-    messages: normalizedMessages,
-    draft: String(draft || ''),
-    filterProfanity: Boolean(filterProfanity),
-  });
+  const result = await withRiaAllowance(req, () =>
+    suggestReplies({
+      messages: normalizedMessages,
+      draft: String(draft || ''),
+      filterProfanity: Boolean(filterProfanity),
+    }),
+  );
 
   res.json(result);
 }));
@@ -43,6 +85,8 @@ r.post('/rewrite', blockWhenStrictE2EE, asyncHandler(async (req, res) => {
   if (!clean) {
     throw Boom.badRequest('text is required');
   }
+
+  requireRewriteEntitlement(req);
 
   const result = await rewriteText({
     text: clean,
@@ -73,14 +117,16 @@ r.post('/chat', blockWhenStrictE2EE, asyncHandler(async (req, res) => {
     throw Boom.badRequest('at least one message is required');
   }
 
-    const result = await chatWithRia({
+  const result = await withRiaAllowance(req, () =>
+    chatWithRia({
       userId: req.user.id,
       username: req.user.username || null,
       displayName: req.user.displayName || null,
       messages: normalizedMessages,
       memoryEnabled: Boolean(memoryEnabled),
       filterProfanity: Boolean(filterProfanity),
-  });
+    }),
+  );
 
   res.json(result);
 }));

@@ -306,44 +306,44 @@ model User {
   privateKeyWrapVersion     Int     @default(1)
 
   // Relations
-  followers                  Follow[]             @relation("follower")
-  following                  Follow[]             @relation("following")
-  passwordResetTokens        PasswordResetToken[] @relation("UserPasswordResetTokens")
-  roomsOwned                 ChatRoom[]           @relation("ChatRoomOwner")
-  messages                   Message[]            @relation("UserMessages")
+  followers                  Follow[]                  @relation("follower")
+  following                  Follow[]                  @relation("following")
+  passwordResetTokens        PasswordResetToken[]      @relation("UserPasswordResetTokens")
+  roomsOwned                 ChatRoom[]                @relation("ChatRoomOwner")
+  messages                   Message[]                 @relation("UserMessages")
   messageReads               MessageRead[]
   participants               Participant[]
-  reportsSubmitted           Report[]             @relation("UserReports")
-  reportedReports            Report[]             @relation("ReportedUserReports")
-  randomChatRooms            RandomChatRoom[]     @relation("RandomChatParticipants")
-  readMessages               Message[]            @relation("ReadMessages")
-  contactsOwned              Contact[]            @relation("ContactsOwned")
-  contactsSaved              Contact[]            @relation("ContactsSaved")
-  auditLogs                  AuditLog[]           @relation("AuditActor")
+  reportsSubmitted           Report[]                  @relation("UserReports")
+  reportedReports            Report[]                  @relation("ReportedUserReports")
+  randomChatRooms            RandomChatRoom[]          @relation("RandomChatParticipants")
+  readMessages               Message[]                 @relation("ReadMessages")
+  contactsOwned              Contact[]                 @relation("ContactsOwned")
+  contactsSaved              Contact[]                 @relation("ContactsSaved")
+  auditLogs                  AuditLog[]                @relation("AuditActor")
   messageKeys                MessageKey[]
   messageDeletions           MessageDeletion[]
   devices                    Device[]
-  deviceRevocations          Device[]             @relation("DeviceRevokedBy")
-  createdInvites             ChatRoomInvite[]     @relation("InviteCreator")
+  deviceRevocations          Device[]                  @relation("DeviceRevokedBy")
+  createdInvites             ChatRoomInvite[]          @relation("InviteCreator")
   messageReactions           MessageReaction[]
   statusesAuthored           Status[]
   statusKeys                 StatusKey[]
   statusViews                StatusView[]
   statusReactions            StatusReaction[]
-  botsOwned                  Bot[]                @relation("BotsOwned")
-  botsAsService              Bot[]                @relation("BotServiceUser")
-  provisionLinks             ProvisionLink[]      @relation("ProvisionLinkUser")
-  provisionLinksCreated      ProvisionLink[]      @relation("ProvisionLinkCreator")
-  callsPlaced                Call[]               @relation("CallCaller")
-  callsReceived              Call[]               @relation("CallCallee")
+  botsOwned                  Bot[]                     @relation("BotsOwned")
+  botsAsService              Bot[]                     @relation("BotServiceUser")
+  provisionLinks             ProvisionLink[]           @relation("ProvisionLinkUser")
+  provisionLinksCreated      ProvisionLink[]           @relation("ProvisionLinkCreator")
+  callsPlaced                Call[]                    @relation("CallCaller")
+  callsReceived              Call[]                    @relation("CallCallee")
   callParticipants           CallParticipant[]
-  scheduledMessagesAuthored  ScheduledMessage[]   @relation("ScheduledMessageSender")
-  messageSessionKeysReceived MessageSessionKey[]  @relation("MsgSessionKeys_Recipient")
+  scheduledMessagesAuthored  ScheduledMessage[]        @relation("ScheduledMessageSender")
+  messageSessionKeysReceived MessageSessionKey[]       @relation("MsgSessionKeys_Recipient")
   assignedNumbers            PhoneNumber[]
-  numberReservations         NumberReservation[]  @relation("UserNumberReservations")
+  numberReservations         NumberReservation[]       @relation("UserNumberReservations")
   numberRegulatoryProfiles   NumberRegulatoryProfile[]
   transcripts                Transcript[]
-  riaRemember                Boolean              @default(true)
+  riaRemember                Boolean                   @default(true)
   riaMessages                RiaMessage[]
 
   familyMemberships FamilyMember[]
@@ -384,9 +384,9 @@ model User {
   voicemailEnabled        Boolean @default(true)
   voicemailAutoDeleteDays Int?
 
-  voicemailGreetingUrl  String?
-  voicemailGreetingText String?
-  voicemailForwardEmail String?
+  voicemailGreetingUrl            String?
+  voicemailGreetingText           String?
+  voicemailForwardEmail           String?
   voicemailEmailForwardingEnabled Boolean @default(false)
 
   voicemails Voicemail[]
@@ -1610,29 +1610,29 @@ model NumberRegulatoryDocument {
 }
 
 model PhoneNumber {
-  id             Int               @id @default(autoincrement())
-  e164           String            @unique
-  provider       String            @default("twilio")
-  twilioSid      String?
-  areaCode       String?
-  isoCountry     String?           @db.VarChar(2)
+  id                   Int               @id @default(autoincrement())
+  e164                 String            @unique
+  provider             String            @default("twilio")
+  twilioSid            String?
+  areaCode             String?
+  isoCountry           String?           @db.VarChar(2)
   regulatoryNumberType String?
-  locality       String?
-  region         String?
-  capabilities   Json?
-  vanity         Boolean           @default(false)
-  forSale        Boolean           @default(false)
-  status         NumberStatus      @default(AVAILABLE)
-  assignedUserId Int?
-  assignedAt     DateTime?
-  lastOutboundAt DateTime?
-  keepLocked     Boolean           @default(false)
-  holdUntil      DateTime?
-  releaseAfter   DateTime?
-  portStatus     PortStatus        @default(NONE)
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  source         PhoneNumberSource @default(PROVISIONED)
+  locality             String?
+  region               String?
+  capabilities         Json?
+  vanity               Boolean           @default(false)
+  forSale              Boolean           @default(false)
+  status               NumberStatus      @default(AVAILABLE)
+  assignedUserId       Int?
+  assignedAt           DateTime?
+  lastOutboundAt       DateTime?
+  keepLocked           Boolean           @default(false)
+  holdUntil            DateTime?
+  releaseAfter         DateTime?
+  portStatus           PortStatus        @default(NONE)
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  source               PhoneNumberSource @default(PROVISIONED)
 
   isLeasable    Boolean @default(true)
   isPurchasable Boolean @default(false)
