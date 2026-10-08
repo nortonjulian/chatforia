@@ -11,6 +11,8 @@ export const PLAN_ENTITLEMENTS = Object.freeze({
     voicemailTranscriptionMinutes: 0,
     cloudStorageBytes: 1 * GB,
     messageHistoryDays: null,
+    deviceLimit: 1,
+    expireMaxDays: 1,
 
     adsEnabled: true,
     aiRewriteLevel: 'NONE',
@@ -27,6 +29,8 @@ export const PLAN_ENTITLEMENTS = Object.freeze({
     voicemailTranscriptionMinutes: 0,
     cloudStorageBytes: 15 * GB,
     messageHistoryDays: null,
+    deviceLimit: 5,
+    expireMaxDays: 30,
 
     adsEnabled: false,
     aiRewriteLevel: 'STANDARD',
@@ -43,6 +47,8 @@ export const PLAN_ENTITLEMENTS = Object.freeze({
     voicemailTranscriptionMinutes: 30,
     cloudStorageBytes: 50 * GB,
     messageHistoryDays: null,
+    deviceLimit: 5,
+    expireMaxDays: 30,
 
     adsEnabled: false,
     aiRewriteLevel: 'FULL',

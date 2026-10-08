@@ -9,20 +9,28 @@ import {
   withTranslationAllowance,
 } from './translation/translationUsageService.js';
 import * as socketBus from './socketBus.js';
+import { getPlanEntitlements } from '../config/planEntitlements.js';
 
 const FORIA_BOT_USER_ID = Number(process.env.FORIA_BOT_USER_ID ?? 0);
 const MAX_TRANSLATE_CHARS = Number(process.env.TRANSLATE_MAX_INPUT_CHARS || 1200);
 
 /* =========================
- *  Plan-aware expiry limits
+ *  Plan-aware disappearing-message limits
+ *
+ *  This controls optional per-message TTL. It is separate from
+ *  message-history retention, which remains unlimited for app plans.
  * ========================= */
-const FREE_MAX = 24 * 3600; // 24h
-const PREMIUM_MAX = 7 * 24 * 3600; // 7d
-
 function clampExpireSeconds(seconds, plan = 'FREE') {
-  const max = (plan || 'FREE').toUpperCase() === 'PREMIUM' ? PREMIUM_MAX : FREE_MAX;
   if (!seconds || seconds <= 0) return 0;
-  return Math.min(seconds, max);
+
+  const normalizedPlan = String(plan || 'FREE').trim().toUpperCase();
+  const entitlementPlan = normalizedPlan === 'WIRELESS' ? 'FREE' : normalizedPlan;
+  const maxDays = Number(
+    getPlanEntitlements(entitlementPlan).expireMaxDays || 0,
+  );
+  const maxSeconds = Math.max(0, maxDays * 24 * 60 * 60);
+
+  return Math.min(Number(seconds), maxSeconds);
 }
 
 function safeJsonParse(str) {

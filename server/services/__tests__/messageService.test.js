@@ -422,7 +422,7 @@ describe('createMessageService', () => {
     const args = mockMessageCreate.mock.calls[0][0];
     const expiresAt = args.data.expiresAt;
 
-    const PREMIUM_MAX = 7 * 24 * 3600;
+    const PREMIUM_MAX = 30 * 24 * 3600;
 
     const expectedExpires = new Date(
       new Date('2025-01-01T00:00:00.000Z').getTime() +
