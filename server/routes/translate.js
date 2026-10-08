@@ -3,6 +3,10 @@ import Boom from "@hapi/boom";
 import { requireAuth } from "../middleware/auth.js";
 import prisma from "../utils/prismaClient.js";
 import { translateText } from "../services/translation/googleTranslate.js";
+import {
+  countTranslationCharacters,
+  withTranslationAllowance,
+} from '../services/translation/translationUsageService.js';
 
 const router = express.Router();
 
@@ -57,11 +61,25 @@ router.post("/message-preview", requireAuth, async (req, res, next) => {
       throw Boom.forbidden("Not a participant");
     }
 
+    const me = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { plan: true },
+    });
+
     const translations = {};
+    const amount = countTranslationCharacters(text);
 
     for (const lang of [...new Set(targetLangs)]) {
       try {
-        const out = await translateText(text, lang.toLowerCase());
+        const out = await withTranslationAllowance({
+          userId,
+          plan: me?.plan || 'FREE',
+          amount,
+          operation: () =>
+            translateText(text, lang.toLowerCase()),
+          shouldBillResult: (result) =>
+            result?.provider === 'google',
+        });
         const translated = out?.translated || null;
 
         if (translated) {
@@ -72,6 +90,10 @@ router.post("/message-preview", requireAuth, async (req, res, next) => {
           lang,
           error: err?.message || err,
         });
+
+        if (err?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+          break;
+        }
       }
     }
 

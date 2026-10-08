@@ -4,6 +4,10 @@ import { isExplicit, cleanText } from '../utils/filter.js';
 import { translateText } from '../utils/translateText.js';
 import { maybeTranslateForTarget } from './translation/translateMessage.js';
 import { allow } from '../utils/tokenBucket.js';
+import {
+  countTranslationCharacters,
+  withTranslationAllowance,
+} from './translation/translationUsageService.js';
 import * as socketBus from './socketBus.js';
 
 const FORIA_BOT_USER_ID = Number(process.env.FORIA_BOT_USER_ID ?? 0);
@@ -488,15 +492,34 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
     );
     if (targets.size === 0) return;
 
+    const sender = senderId
+      ? await db.user.findUnique({
+          where: { id: senderId },
+          select: { plan: true },
+        })
+      : null;
+
     const results = {};
+    const amount = countTranslationCharacters(clipped);
 
     for (const lang of targets) {
       try {
         if (!allow(`translate:${roomId}:${lang}`, 6, 10_000)) continue;
+        if (!senderId) continue;
 
-        const out = await translateText({
-          text: clipped,
-          targetLang: lang
+        const out = await withTranslationAllowance({
+          userId: senderId,
+          plan: sender?.plan || 'FREE',
+          amount,
+          operation: () =>
+            translateText({
+              text: clipped,
+              targetLang: lang
+            }),
+          shouldBillResult: (result) =>
+            !['cache', 'noop', 'none'].includes(
+              String(result?.provider || '').toLowerCase()
+            ),
         });
 
         const translated =
@@ -507,6 +530,10 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
         }
       } catch (err) {
         console.error('[maybeAutoTranslate] translate failed:', lang, err?.message || err);
+
+        if (err?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+          break;
+        }
       }
     }
 

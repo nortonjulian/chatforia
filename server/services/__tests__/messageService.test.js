@@ -20,6 +20,10 @@ const translateMessagePath = path.resolve(
 );
 const encryptionPath = path.resolve(__dirname, '../../utils/encryption.js');
 const translateTextPath = path.resolve(__dirname, '../../utils/translateText.js');
+const translationUsagePath = path.resolve(
+  __dirname,
+  '../translation/translationUsageService.js'
+);
 const tokenBucketPath = path.resolve(__dirname, '../../utils/tokenBucket.js');
 const socketBusPath = path.resolve(__dirname, '../socketBus.js');
 const messageServicePath = path.resolve(__dirname, '../messageService.js');
@@ -109,6 +113,15 @@ jest.unstable_mockModule(translateTextPath, () => ({
   translateText: mockTranslateText,
 }));
 
+const mockCountTranslationCharacters = jest.fn();
+const mockWithTranslationAllowance = jest.fn();
+
+jest.unstable_mockModule(translationUsagePath, () => ({
+  __esModule: true,
+  countTranslationCharacters: mockCountTranslationCharacters,
+  withTranslationAllowance: mockWithTranslationAllowance,
+}));
+
 const mockAllow = jest.fn();
 
 jest.unstable_mockModule(tokenBucketPath, () => ({
@@ -152,6 +165,17 @@ beforeEach(() => {
   mockMaybeTranslateForTarget.mockReset();
   mockEncryptMessageForParticipants.mockReset();
   mockTranslateText.mockReset();
+
+  mockCountTranslationCharacters.mockReset();
+  mockCountTranslationCharacters.mockImplementation((value) =>
+    Array.from(String(value ?? '')).length
+  );
+
+  mockWithTranslationAllowance.mockReset();
+  mockWithTranslationAllowance.mockImplementation(
+    async ({ operation }) => operation()
+  );
+
   mockAllow.mockReset();
 });
 
@@ -440,6 +464,11 @@ describe('maybeAutoTranslate', () => {
     });
 
     const db = {
+      user: {
+        findUnique: jest.fn().mockResolvedValue({
+          plan: 'PLUS',
+        }),
+      },
       chatRoom: {
         findUnique: jest.fn().mockResolvedValue({
           autoTranslateMode: 'on',

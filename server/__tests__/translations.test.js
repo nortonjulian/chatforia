@@ -19,6 +19,14 @@ const mockRequireAuth = jest.fn((req, _res, next) => {
   next();
 });
 
+const mockCountTranslationCharacters = jest.fn((value) =>
+  Array.from(String(value ?? '')).length
+);
+
+const mockWithTranslationAllowance = jest.fn(
+  async ({ operation }) => operation()
+);
+
 const mockReadFile = jest.fn();
 
 // Mock express-rate-limit so it just passes through
@@ -40,6 +48,15 @@ await jest.unstable_mockModule('../services/translation/index.js', () => ({
   __esModule: true,
   translateBatch: mockTranslateBatch,
 }));
+
+await jest.unstable_mockModule(
+  '../services/translation/translationUsageService.js',
+  () => ({
+    __esModule: true,
+    countTranslationCharacters: mockCountTranslationCharacters,
+    withTranslationAllowance: mockWithTranslationAllowance,
+  })
+);
 
 await jest.unstable_mockModule('express-rate-limit', () => ({
   __esModule: true,
@@ -89,6 +106,7 @@ describe('translations routes', () => {
       // user preferred language from DB
       mockPrisma.user.findUnique.mockResolvedValue({
         preferredLanguage: 'es',
+        plan: 'PLUS',
       });
 
       // translation service returns results for each item
@@ -111,13 +129,23 @@ describe('translations routes', () => {
       // User preferredLanguage lookup
       expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({
         where: { id: 123 },
-        select: { preferredLanguage: true },
+        select: { preferredLanguage: true, plan: true },
       });
 
       // translateBatch called with the texts + targetLanguage 'es'
       expect(mockTranslateBatch).toHaveBeenCalledWith(
         ['Hello', 'Goodbye'],
         'es'
+      );
+
+      expect(mockWithTranslationAllowance).toHaveBeenCalledWith(
+        expect.objectContaining({
+          userId: 123,
+          plan: 'PLUS',
+          amount: 'Hello'.length + 'Goodbye'.length,
+          operation: expect.any(Function),
+          shouldBillResult: expect.any(Function),
+        })
       );
 
       expect(res.body).toEqual({
@@ -138,7 +166,11 @@ describe('translations routes', () => {
       });
     });
 
-    it('uses explicit target language from body without hitting DB', async () => {
+    it('uses explicit target language from body while loading the current plan', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        plan: 'PREMIUM',
+      });
+
       mockTranslateBatch.mockResolvedValue([
         { text: 'bonjour', detectedSourceLanguage: 'en' },
       ]);
@@ -151,12 +183,24 @@ describe('translations routes', () => {
         })
         .expect(200);
 
-      // Should NOT consult user preferredLanguage when target is provided
-      expect(mockPrisma.user.findUnique).not.toHaveBeenCalled();
+      expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({
+        where: { id: 123 },
+        select: { preferredLanguage: true, plan: true },
+      });
 
       expect(mockTranslateBatch).toHaveBeenCalledWith(
         ['Hi'],
         'fr'
+      );
+
+      expect(mockWithTranslationAllowance).toHaveBeenCalledWith(
+        expect.objectContaining({
+          userId: 123,
+          plan: 'PREMIUM',
+          amount: 2,
+          operation: expect.any(Function),
+          shouldBillResult: expect.any(Function),
+        })
       );
 
       expect(res.body).toEqual({
