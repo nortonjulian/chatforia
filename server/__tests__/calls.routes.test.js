@@ -223,7 +223,7 @@ describe('calls routes', () => {
                 userId: 10,
                 role: 'HOST',
                 status: 'JOINED',
-                joinedAt: expect.any(Date),
+                joinedAt: null,
               },
               {
                 userId: 20,
@@ -499,7 +499,9 @@ describe('calls routes', () => {
       expect(mockPrisma.callParticipant.updateMany).toHaveBeenCalledWith({
         where: {
           callId: 1,
-          userId: 10,
+          userId: {
+            in: [20, 10],
+          },
         },
         data: {
           status: 'JOINED',
