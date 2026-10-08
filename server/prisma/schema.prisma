@@ -1080,6 +1080,7 @@ model SmsMessage {
 
   @@index([threadId])
   @@index([providerMessageId])
+  @@unique([provider, providerMessageId])
   @@index([phoneId, createdAt])
 }
 

@@ -4,6 +4,10 @@ import { normalizeE164, isE164 } from '../utils/phone.js';
 import { sendSms } from '../lib/telco/index.js';
 import { emitToUser } from '../services/socketBus.js';
 import { recordSupportSignal } from './supportAutomationService.js';
+import {
+  assertAndConsumeUsage,
+  releaseUsage,
+} from './planUsageService.js';
 
 /* -------------------------------------------------------------------------- */
 /*                               Helper utils                                 */
@@ -341,25 +345,59 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
 
     const thread = await upsertThread(uid, toPhone);
 
-    const clientRef = `smsout:${uid}:${Date.now()}`;
-
-    const result = await sendSms({
-      to: toPhone,
-      text: safeBody,
-      clientRef,
-      from: fromNumber,
-      mediaUrls: safeMediaUrls,
+    const me = await prisma.user.findUnique({
+      where: { id: uid },
+      select: { plan: true },
     });
 
-    if (!result?.ok) {
-      console.error('[smsService] send failed', {
-        code: result?.code || null,
-        message: result?.message || 'send failed',
+    await assertAndConsumeUsage({
+      userId: uid,
+      plan: me?.plan || 'FREE',
+      meter: 'smsMessages',
+      amount: 1,
+    });
+
+    const clientRef = `smsout:${uid}:${Date.now()}`;
+
+    let result;
+
+    try {
+      result = await sendSms({
+        to: toPhone,
+        text: safeBody,
+        clientRef,
+        from: fromNumber,
+        mediaUrls: safeMediaUrls,
       });
 
-      throw Boom.badGateway(result?.detail || result?.reason || 'SMS send failed');
-    }
+      if (!result?.ok) {
+        console.error('[smsService] send failed', {
+          code: result?.code || null,
+          message: result?.message || 'send failed',
+        });
 
+        throw Boom.badGateway(
+          result?.detail ||
+          result?.reason ||
+          'SMS send failed'
+        );
+      }
+    } catch (error) {
+      try {
+        await releaseUsage({
+          userId: uid,
+          meter: 'smsMessages',
+          amount: 1,
+        });
+      } catch (releaseError) {
+        console.error(
+          '[smsService] failed to release outbound SMS allowance',
+          releaseError
+        );
+      }
+
+      throw error;
+    }
 
     const provider = result?.provider || 'twilio';
 
@@ -568,55 +606,142 @@ export async function recordInboundSms({
 
   if (!safeBody && !hasMedia) return { ok: false, reason: 'empty' };
 
-  const thread = await upsertThread(owner.assignedUserId, fromE164);
+  const normalizedProvider =
+    provider ? String(provider).trim().toLowerCase() : null;
+  const normalizedProviderMessageId =
+    providerMessageId ? String(providerMessageId).trim() : null;
 
+  if (normalizedProviderMessageId) {
+    const duplicate = await prisma.smsMessage.findFirst({
+      where: {
+        provider: normalizedProvider,
+        providerMessageId: normalizedProviderMessageId,
+      },
+      select: { id: true, threadId: true },
+    });
+
+    if (duplicate) {
+      return {
+        ok: false,
+        duplicate: true,
+        reason: 'duplicate-provider-message',
+        userId: Number(owner.assignedUserId),
+        threadId: duplicate.threadId,
+      };
+    }
+  }
+
+  const me = await prisma.user.findUnique({
+    where: { id: Number(owner.assignedUserId) },
+    select: { plan: true },
+  });
+
+  try {
+    await assertAndConsumeUsage({
+      userId: Number(owner.assignedUserId),
+      plan: me?.plan || 'FREE',
+      meter: 'smsMessages',
+      amount: 1,
+    });
+  } catch (error) {
+    if (error?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+      return {
+        ok: false,
+        allowanceExceeded: true,
+        reason: 'plan-allowance-exceeded',
+        userId: Number(owner.assignedUserId),
+      };
+    }
+
+    throw error;
+  }
+
+  let thread;
   let createdMessage = null;
 
-  await prisma.$transaction(async (tx) => {
-    createdMessage = await tx.smsMessage.create({
-      data: {
-        threadId: thread.id,
-        direction: 'in',
-        fromNumber: fromE164,
-        toNumber: toE164,
-        body: safeBody,
-        provider: provider || null,
-        providerMessageId: providerMessageId || null,
-        mediaUrls: hasMedia ? safeMedia : null,
-      },
-    });
+  try {
+    thread = await upsertThread(owner.assignedUserId, fromE164);
 
-    /*
-     * Receiving an SMS is qualifying number activity too. The existing
-     * lastOutboundAt field currently serves as the lifecycle activity
-     * timestamp for both inbound and outbound number usage.
-     */
-    await tx.phoneNumber.updateMany({
-      where: {
-        assignedUserId: owner.assignedUserId,
-        e164: toE164,
-        status: { in: ['ASSIGNED', 'HOLD'] },
-      },
-      data: {
-        lastOutboundAt: new Date(),
-        status: 'ASSIGNED',
-        holdUntil: null,
-        releaseAfter: null,
-      },
-    });
+    await prisma.$transaction(async (tx) => {
+      createdMessage = await tx.smsMessage.create({
+        data: {
+          threadId: thread.id,
+          direction: 'in',
+          fromNumber: fromE164,
+          toNumber: toE164,
+          body: safeBody,
+          provider: normalizedProvider,
+          providerMessageId: normalizedProviderMessageId,
+          mediaUrls: hasMedia ? safeMedia : null,
+        },
+      });
 
-    await tx.smsThread.update({
-      where: { id: thread.id },
-      data: { updatedAt: new Date() },
+      await tx.phoneNumber.updateMany({
+        where: {
+          assignedUserId: owner.assignedUserId,
+          e164: toE164,
+          status: { in: ['ASSIGNED', 'HOLD'] },
+        },
+        data: {
+          lastOutboundAt: new Date(),
+          status: 'ASSIGNED',
+          holdUntil: null,
+          releaseAfter: null,
+        },
+      });
+
+      await tx.smsThread.update({
+        where: { id: thread.id },
+        data: { updatedAt: new Date() },
+      });
     });
-  });
+  } catch (error) {
+    try {
+      await releaseUsage({
+        userId: Number(owner.assignedUserId),
+        meter: 'smsMessages',
+        amount: 1,
+      });
+    } catch (releaseError) {
+      console.error(
+        '[smsService] failed to release inbound SMS allowance',
+        releaseError
+      );
+    }
+
+    if (error?.code === 'P2002' && normalizedProviderMessageId) {
+      const duplicate = await prisma.smsMessage.findFirst({
+        where: {
+          provider: normalizedProvider,
+          providerMessageId: normalizedProviderMessageId,
+        },
+        select: { id: true, threadId: true },
+      });
+
+      if (duplicate) {
+        return {
+          ok: false,
+          duplicate: true,
+          reason: 'duplicate-provider-message',
+          userId: Number(owner.assignedUserId),
+          threadId: duplicate.threadId,
+        };
+      }
+    }
+
+    throw error;
+  }
 
   emitToUser(owner.assignedUserId, 'sms:message:new', {
     threadId: thread.id,
     message: createdMessage,
   });
 
-  return { ok: true, userId: owner.assignedUserId, threadId: thread.id };
+  return {
+    ok: true,
+    userId: owner.assignedUserId,
+    threadId: thread.id,
+  };
 }
 
 /* -------------------------------------------------------------------------- */
