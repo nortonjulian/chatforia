@@ -12,6 +12,10 @@ import {
   analyzeTwilioVoicemailAudio,
   isEffectivelySilentVoicemail,
 } from '../utils/voicemailAudioAnalysis.js';
+import {
+  chargeForwardingDurationOnce,
+  chargePstnCallDurationOnce,
+} from '../services/callUsageService.js';
 
 const { VoiceResponse } = twilio.twiml;
 const r = express.Router();
@@ -45,7 +49,7 @@ r.post(
   '/voice/alias/legA',
   express.urlencoded({ extended: false }),
   asyncHandler(async (req, res) => {
-    const { userId, from, to } = req.query || {};
+    const { userId, from, to, backendCallId } = req.query || {};
 
     const twiml = new VoiceResponse();
 
@@ -56,7 +60,7 @@ r.post(
         userId || ''
       )}&from=${encodeURIComponent(from || '')}&to=${encodeURIComponent(
         to || ''
-      )}`,
+      )}&backendCallId=${encodeURIComponent(backendCallId || '')}`,
       timeout: 10,
     });
 
@@ -79,7 +83,7 @@ r.post(
   express.urlencoded({ extended: false }),
   asyncHandler(async (req, res) => {
     const { Digits } = req.body || {};
-    const { from, to } = req.query || {};
+    const { userId, from, to, backendCallId } = req.query || {};
 
     const twiml = new VoiceResponse();
 
@@ -87,7 +91,16 @@ r.post(
       const dest = normalizeE164(to);
       const callerId = normalizeE164(from);
 
-      const dial = twiml.dial({ callerId });
+      const completionParams = new URLSearchParams({
+        userId: String(userId || ''),
+        backendCallId: String(backendCallId || ''),
+      });
+
+      const dial = twiml.dial({
+        callerId,
+        action: `/webhooks/voice/alias/complete?${completionParams.toString()}`,
+        method: 'POST',
+      });
       dial.number(dest);
 
       twiml.say('Connecting your call.');
@@ -96,6 +109,51 @@ r.post(
       twiml.hangup();
     }
 
+    res.type('text/xml').send(twiml.toString());
+  })
+);
+
+/**
+ * Final callback for the alias destination leg.
+ * Counts only the real PSTN destination leg, not the user's Leg A phone.
+ */
+r.post(
+  '/voice/alias/complete',
+  express.urlencoded({ extended: false }),
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.query?.userId);
+    const backendCallId = Number(req.query?.backendCallId);
+    const dialCallStatus = String(req.body?.DialCallStatus || '').toLowerCase();
+    const dialCallDuration = Number(req.body?.DialCallDuration || 0);
+
+    if (
+      dialCallStatus === 'completed' &&
+      Number.isInteger(userId) &&
+      userId > 0 &&
+      Number.isInteger(backendCallId) &&
+      backendCallId > 0 &&
+      Number.isFinite(dialCallDuration) &&
+      dialCallDuration > 0
+    ) {
+      try {
+        await chargePstnCallDurationOnce({
+          callId: backendCallId,
+          userId,
+          durationSec: dialCallDuration,
+        });
+      } catch (error) {
+        console.error('[voice/alias/complete] PSTN usage charge failed', {
+          backendCallId,
+          userId,
+          durationSec: dialCallDuration,
+          code: error?.code || null,
+          message: error?.message || String(error),
+        });
+      }
+    }
+
+    const twiml = new VoiceResponse();
+    twiml.hangup();
     res.type('text/xml').send(twiml.toString());
   })
 );
@@ -166,13 +224,48 @@ r.post(
   '/voice/inbound/after-dial',
   express.urlencoded({ extended: false }),
   asyncHandler(async (req, res) => {
-    const { DialCallStatus } = req.body || {};
+    const {
+      DialCallStatus,
+      DialCallDuration,
+      DialCallSid,
+      CallSid,
+    } = req.body || {};
     const { userId, phoneNumberId, did, from } = req.query || {};
 
     const twiml = new VoiceResponse();
 
+    const normalizedDialStatus =
+      String(DialCallStatus || '').toLowerCase();
+
+    if (
+      normalizedDialStatus === 'completed' &&
+      Number(DialCallDuration) > 0 &&
+      Number.isInteger(Number(userId)) &&
+      Number(userId) > 0
+    ) {
+      const eventKey =
+        `forwarding:${String(DialCallSid || CallSid || '').trim()}`;
+
+      if (eventKey !== 'forwarding:') {
+        try {
+          await chargeForwardingDurationOnce({
+            eventKey,
+            userId: Number(userId),
+            durationSec: Number(DialCallDuration),
+          });
+        } catch (error) {
+          console.error('[voice/inbound/after-dial] forwarding usage charge failed', {
+            userId: Number(userId),
+            durationSec: Number(DialCallDuration),
+            code: error?.code || null,
+            message: error?.message || String(error),
+          });
+        }
+      }
+    }
+
     const shouldRecordVoicemail = ['no-answer', 'busy', 'failed', 'canceled'].includes(
-      String(DialCallStatus || '').toLowerCase()
+      normalizedDialStatus
     );
 
     if (!shouldRecordVoicemail) {

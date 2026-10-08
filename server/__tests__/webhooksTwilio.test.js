@@ -95,7 +95,12 @@ describe('webhooksTwilio routes', () => {
     it('dials destination when digit 1 is pressed', async () => {
       const res = await request(app)
         .post('/webhooks/voice/alias/confirm')
-        .query({ from: '+15550001111', to: '+15550002222' })
+        .query({
+          userId: '123',
+          backendCallId: '456',
+          from: '+15550001111',
+          to: '+15550002222',
+        })
         .type('form')
         .send({ Digits: '1' })
         .expect(200);
@@ -111,6 +116,9 @@ describe('webhooksTwilio routes', () => {
       expect(res.text).toContain('<Dial');
       expect(res.text).toContain('callerId="+' /* from mockNormalizeE164 */);
       expect(res.text).toContain('<Number>+15550002222'); // dest normalized
+      expect(res.text).toContain('/webhooks/voice/alias/complete');
+      expect(res.text).toContain('userId=123');
+      expect(res.text).toContain('backendCallId=456');
       expect(res.text).toContain('Connecting your call.');
     });
 

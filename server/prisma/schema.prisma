@@ -369,7 +369,8 @@ model User {
   bannedAt DateTime?
 
   // Usage/analytics
-  sttUsage STTUsage[] @relation("UserSTTUsage")
+  sttUsage          STTUsage[]          @relation("UserSTTUsage")
+  voiceUsageCharges VoiceUsageCharge[]
 
   // Settings
   plan              Plan    @default(FREE)
@@ -1434,6 +1435,7 @@ model Call {
   endReason             String?
   fromLabel             String?
   toLabel               String?
+  pstnUsageChargedSec   Int               @default(0)
   participants          CallParticipant[]
 
   caller User  @relation("CallCaller", fields: [callerId], references: [id])
@@ -1445,6 +1447,20 @@ model Call {
   @@index([calleeId])
   @@index([roomId])
   @@index([externalPhone])
+}
+
+model VoiceUsageCharge {
+  id        Int      @id @default(autoincrement())
+  eventKey  String   @unique
+  userId    Int
+  meter     String
+  seconds   Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt])
+  @@index([meter, createdAt])
 }
 
 model Phone {

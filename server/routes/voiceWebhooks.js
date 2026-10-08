@@ -7,6 +7,7 @@ import { emitToUser } from '../services/socketBus.js';
 import { sendIncomingForwardedCallPush } from '../services/pushService.js';
 import { getVoiceDialDestinations } from '../services/voiceDeviceService.js';
 import { parseVoiceIdentityUserId } from '../utils/voiceIdentity.js';
+import { chargePstnCallDurationOnce } from '../services/callUsageService.js';
 
 const { VoiceResponse } = twilio.twiml;
 const router = express.Router();
@@ -1096,7 +1097,7 @@ router.post('/client', async (req, res) => {
         ...(callerId ? { callerId } : {}),
         answerOnBridge: true,
         timeout: 30,
-        action: '/webhooks/voice/dial-complete',
+        action: '/webhooks/voice/dial-complete?usageType=pstn',
         method: 'POST',
       });
 
@@ -1129,6 +1130,7 @@ router.post('/dial-complete', async (req, res) => {
     const dialCallSid = req.body?.DialCallSid || null;
     const dialCallStatus = String(req.body?.DialCallStatus || '').toLowerCase();
     const dialCallDuration = req.body?.DialCallDuration;
+    const usageType = String(req.query?.usageType || '').toLowerCase();
 
     if (callSid || dialCallSid) {
       const existing = await prisma.call.findFirst({
@@ -1202,6 +1204,28 @@ router.post('/dial-complete', async (req, res) => {
             endReason: true,
           },
         });
+
+        if (
+          usageType === 'pstn' &&
+          dialCallStatus === 'completed' &&
+          Number(updated.durationSec) > 0
+        ) {
+          try {
+            await chargePstnCallDurationOnce({
+              callId: updated.id,
+              userId: updated.callerId,
+              durationSec: updated.durationSec,
+            });
+          } catch (error) {
+            console.error('[voice/dial-complete] PSTN usage charge failed', {
+              callId: updated.id,
+              userId: updated.callerId,
+              durationSec: updated.durationSec,
+              code: error?.code || null,
+              message: error?.message || String(error),
+            });
+          }
+        }
 
         emitToUser(updated.callerId, 'call:ended', {
           callId: updated.id,
