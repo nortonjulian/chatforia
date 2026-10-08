@@ -13,14 +13,24 @@ const twilioMediaProxyPath = path.resolve(
   __dirname,
   '../../utils/twilioMediaProxy.js',
 );
+const planUsageServicePath = path.resolve(
+  __dirname,
+  '../planUsageService.js',
+);
 
 const mockCreateTranscription = jest.fn();
 const fetchTwilioMediaMock = jest.fn();
+const assertAndConsumeUsageMock = jest.fn();
+const releaseUsageMock = jest.fn();
 
 const prismaMock = {
   voicemail: {
     findUnique: jest.fn(),
     update: jest.fn(),
+  },
+  voiceUsageCharge: {
+    create: jest.fn(),
+    deleteMany: jest.fn(),
   },
 };
 
@@ -44,6 +54,15 @@ async function loadService({ openaiKey } = {}) {
 
   prismaMock.voicemail.findUnique.mockReset();
   prismaMock.voicemail.update.mockReset();
+  prismaMock.voiceUsageCharge.create.mockReset();
+  prismaMock.voiceUsageCharge.deleteMany.mockReset();
+  assertAndConsumeUsageMock.mockReset();
+  releaseUsageMock.mockReset();
+
+  prismaMock.voiceUsageCharge.create.mockResolvedValue({ id: 1 });
+  prismaMock.voiceUsageCharge.deleteMany.mockResolvedValue({ count: 1 });
+  assertAndConsumeUsageMock.mockResolvedValue({});
+  releaseUsageMock.mockResolvedValue();
   loggerMock.info.mockReset();
   loggerMock.warn.mockReset();
   loggerMock.error.mockReset();
@@ -78,6 +97,12 @@ async function loadService({ openaiKey } = {}) {
   jest.unstable_mockModule(twilioMediaProxyPath, () => ({
     __esModule: true,
     fetchTwilioMedia: fetchTwilioMediaMock,
+  }));
+
+  jest.unstable_mockModule(planUsageServicePath, () => ({
+    __esModule: true,
+    assertAndConsumeUsage: assertAndConsumeUsageMock,
+    releaseUsage: releaseUsageMock,
   }));
 
   jest.unstable_mockModule('fs', () => ({
@@ -174,7 +199,7 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
     expect(loggerMock.warn).toHaveBeenCalled();
   });
 
-  test('skips transcription for FREE plan users and marks FAILED', async () => {
+  test('skips transcription when the plan has zero voicemail transcription allowance', async () => {
     const { enqueueVoicemailTranscription } = await loadService({
       openaiKey: 'test-key',
     });
@@ -183,8 +208,15 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
       id: 'vm-free',
       audioUrl: 'https://example.com/audio.mp3',
       userId: 123,
-      user: { id: 123, plan: 'FREE' },
+      durationSec: 30,
+      user: { id: 123, plan: 'PLUS' },
     });
+
+    assertAndConsumeUsageMock.mockRejectedValueOnce(
+      Object.assign(new Error('Plan allowance exceeded'), {
+        code: 'PLAN_ALLOWANCE_EXCEEDED',
+      }),
+    );
 
     prismaMock.voicemail.update.mockResolvedValueOnce({
       id: 'vm-free',
@@ -225,6 +257,7 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
     prismaMock.voicemail.findUnique.mockResolvedValueOnce({
       id: 'vm-ok',
       audioUrl: 'https://example.com/audio.mp3',
+      durationSec: 45,
       userId: 999,
       user: { id: 999, plan: 'PREMIUM' },
     });
@@ -248,6 +281,13 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
     });
 
     await enqueueVoicemailTranscription('vm-ok');
+
+    expect(assertAndConsumeUsageMock).toHaveBeenCalledWith({
+      userId: 999,
+      plan: 'PREMIUM',
+      meter: 'voicemailTranscriptionSeconds',
+      amount: 45,
+    });
 
     expect(fetchTwilioMediaMock).toHaveBeenCalledWith('https://example.com/audio.mp3');
 
@@ -294,6 +334,7 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
     prismaMock.voicemail.findUnique.mockResolvedValueOnce({
       id: 'vm-error',
       audioUrl: 'https://example.com/audio.mp3',
+      durationSec: 30,
       userId: 42,
       user: { id: 42, plan: 'PREMIUM' },
     });
@@ -326,6 +367,18 @@ describe('voicemailTranscription.enqueueVoicemailTranscription', () => {
       id: 'vm-error',
       transcript: null,
       transcriptStatus: 'FAILED',
+    });
+
+    expect(releaseUsageMock).toHaveBeenCalledWith({
+      userId: 42,
+      meter: 'voicemailTranscriptionSeconds',
+      amount: 30,
+    });
+
+    expect(prismaMock.voiceUsageCharge.deleteMany).toHaveBeenCalledWith({
+      where: {
+        eventKey: 'voicemail-transcription:vm-error',
+      },
     });
 
     expect(loggerMock.error).toHaveBeenCalled();

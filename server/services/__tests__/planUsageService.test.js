@@ -1,4 +1,14 @@
 import { jest } from '@jest/globals';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const prismaPath = path.resolve(
+  __dirname,
+  '../../utils/prismaClient.js',
+);
 
 const planUsageMock = {
   upsert: jest.fn(),
@@ -16,7 +26,7 @@ const prismaMock = {
   $executeRawUnsafe: jest.fn(),
 };
 
-jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
+jest.unstable_mockModule(prismaPath, () => ({
   __esModule: true,
   default: prismaMock,
 }));
