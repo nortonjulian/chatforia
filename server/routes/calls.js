@@ -12,6 +12,7 @@ import {
   chargeHostedParticipantSessionOnce,
   closeAndChargeHostedParticipantsForCall,
 } from '../services/hostedParticipantUsageService.js';
+import { getUsageAvailability } from '../services/callUsageService.js';
 
 const router = express.Router();
 router.use(requireAuth);
@@ -570,6 +571,27 @@ if (call.calleeId !== userId) {
     error: 'Only callee can answer',
     code: 'ONLY_CALLEE_CAN_ANSWER',
   });
+}
+
+if (!call.externalPhone) {
+  const hostedAvailability = await getUsageAvailability({
+    userId: call.callerId,
+    meter: 'hostedParticipantSeconds',
+  });
+
+  if (
+    hostedAvailability.remaining != null &&
+    hostedAvailability.remaining <= 0
+  ) {
+    return res.status(429).json({
+      error: 'Hosted call allowance exhausted',
+      code: 'PLAN_ALLOWANCE_EXCEEDED',
+      detail: 'hostedParticipantSeconds',
+      limit: hostedAvailability.limit,
+      used: hostedAvailability.used,
+      remaining: hostedAvailability.remaining,
+    });
+  }
 }
 
 const answerStartedAt = new Date();
@@ -1566,6 +1588,27 @@ router.post('/:id/answer-participant', asyncHandler(async (req, res) => {
 
   if (!participant) {
     return res.status(403).json({ error: 'Not an invited participant' });
+  }
+
+  if (!call.externalPhone) {
+    const hostedAvailability = await getUsageAvailability({
+      userId: call.callerId,
+      meter: 'hostedParticipantSeconds',
+    });
+
+    if (
+      hostedAvailability.remaining != null &&
+      hostedAvailability.remaining <= 0
+    ) {
+      return res.status(429).json({
+        error: 'Hosted call allowance exhausted',
+        code: 'PLAN_ALLOWANCE_EXCEEDED',
+        detail: 'hostedParticipantSeconds',
+        limit: hostedAvailability.limit,
+        used: hostedAvailability.used,
+        remaining: hostedAvailability.remaining,
+      });
+    }
   }
 
   const updated = await prisma.callParticipant.update({

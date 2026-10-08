@@ -5,7 +5,7 @@ export async function joinRoom({ identity, room }) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({ identity, room }),
+    body: JSON.stringify({ room }),
   });
 
   // Better error handling for non-2xx

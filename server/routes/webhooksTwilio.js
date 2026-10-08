@@ -15,6 +15,8 @@ import {
 import {
   chargeForwardingDurationOnce,
   chargePstnCallDurationOnce,
+  reserveRemainingUsage,
+  finalizeUsageReservation,
 } from '../services/callUsageService.js';
 
 const { VoiceResponse } = twilio.twiml;
@@ -203,11 +205,38 @@ r.post(
     }
 
     const dest = normalizeE164(user.forwardPhoneNumber);
+    const parentCallSid = String(req.body?.CallSid || '').trim();
+
+    if (!parentCallSid) {
+      twiml.say('The person you are trying to reach is not available. Goodbye.');
+      twiml.hangup();
+      res.type('text/xml').send(twiml.toString());
+      return;
+    }
+
+    let forwardingReservation;
+
+    try {
+      forwardingReservation = await reserveRemainingUsage({
+        userId: user.id,
+        meter: 'forwardingSeconds',
+        reservationId: `twilio-${parentCallSid}`,
+      });
+    } catch (error) {
+      if (error?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+        twiml.say('The person you are trying to reach is not available. Goodbye.');
+        twiml.hangup();
+        res.type('text/xml').send(twiml.toString());
+        return;
+      }
+      throw error;
+    }
 
     const dial = twiml.dial({
       callerId: did,
       timeout: 20,
-      action: `/webhooks/voice/inbound/after-dial?userId=${encodeURIComponent(user.id)}&phoneNumberId=${encodeURIComponent(user.assignedNumbers[0]?.id ?? '')}&did=${encodeURIComponent(did)}&from=${encodeURIComponent(fromNumber)}`,
+      timeLimit: forwardingReservation.seconds,
+      action: `/webhooks/voice/inbound/after-dial?userId=${encodeURIComponent(user.id)}&phoneNumberId=${encodeURIComponent(user.assignedNumbers[0]?.id ??'')}&did=${encodeURIComponent(did)}&from=${encodeURIComponent(fromNumber)}&reservationKey=${encodeURIComponent(forwardingReservation.eventKey)}`,
       method: 'POST',
     });
 
@@ -230,14 +259,37 @@ r.post(
       DialCallSid,
       CallSid,
     } = req.body || {};
-    const { userId, phoneNumberId, did, from } = req.query || {};
+    const {
+      userId,
+      phoneNumberId,
+      did,
+      from,
+      reservationKey,
+    } = req.query || {};
 
     const twiml = new VoiceResponse();
 
     const normalizedDialStatus =
       String(DialCallStatus || '').toLowerCase();
 
-    if (
+    if (reservationKey) {
+      try {
+        await finalizeUsageReservation({
+          eventKey: String(reservationKey),
+          actualSeconds:
+            normalizedDialStatus === 'completed'
+              ? Number(DialCallDuration || 0)
+              : 0,
+        });
+      } catch (error) {
+        console.error('[voice/inbound/after-dial] forwarding reservation finalize failed', {
+          userId: Number(userId),
+          durationSec: Number(DialCallDuration || 0),
+          code: error?.code || null,
+          message: error?.message || String(error),
+        });
+      }
+    } else if (
       normalizedDialStatus === 'completed' &&
       Number(DialCallDuration) > 0 &&
       Number.isInteger(Number(userId)) &&

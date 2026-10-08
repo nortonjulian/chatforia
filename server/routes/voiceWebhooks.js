@@ -7,7 +7,11 @@ import { emitToUser } from '../services/socketBus.js';
 import { sendIncomingForwardedCallPush } from '../services/pushService.js';
 import { getVoiceDialDestinations } from '../services/voiceDeviceService.js';
 import { parseVoiceIdentityUserId } from '../utils/voiceIdentity.js';
-import { chargePstnCallDurationOnce } from '../services/callUsageService.js';
+import {
+  chargePstnCallDurationOnce,
+  reserveRemainingUsage,
+  finalizeUsageReservation,
+} from '../services/callUsageService.js';
 
 const { VoiceResponse } = twilio.twiml;
 const router = express.Router();
@@ -358,17 +362,46 @@ router.post('/inbound-app-complete', async (req, res) => {
       !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd);
 
     if (forwardingAllowed) {
-      const dial = twiml.dial({
-        callerId: toNumber,
-        answerOnBridge: true,
-        timeout: 20,
-        action: '/webhooks/voice/dial-complete',
-        method: 'POST',
-      });
+      const parentCallSid = String(req.body?.CallSid || '').trim();
+      let forwardingReservation = null;
 
-      dial.number(user.forwardToPhoneE164);
+      if (parentCallSid) {
+        try {
+          forwardingReservation = await reserveRemainingUsage({
+            userId,
+            meter: 'forwardingSeconds',
+            reservationId: `twilio-${parentCallSid}`,
+          });
+        } catch (error) {
+          if (error?.code !== 'PLAN_ALLOWANCE_EXCEEDED') {
+            throw error;
+          }
 
-      return res.type('text/xml').send(twiml.toString());
+          console.log('[voice] forwarding allowance exhausted', {
+            userId,
+          });
+        }
+      }
+
+      if (forwardingReservation) {
+        const forwardingAction =
+          `/webhooks/voice/dial-complete?usageType=forwarding&reservationKey=${encodeURIComponent(
+            forwardingReservation.eventKey,
+          )}`;
+
+        const dial = twiml.dial({
+          callerId: toNumber,
+          answerOnBridge: true,
+          timeout: 20,
+          timeLimit: forwardingReservation.seconds,
+          action: forwardingAction,
+          method: 'POST',
+        });
+
+        dial.number(user.forwardToPhoneE164);
+
+        return res.type('text/xml').send(twiml.toString());
+      }
     }
 
     /*
@@ -1093,11 +1126,40 @@ router.post('/client', async (req, res) => {
         }
       }
 
+      if (!Number.isFinite(browserUserId) || !parentCallSid) {
+        twiml.say('We could not validate your calling allowance. Goodbye.');
+        twiml.hangup();
+        return res.type('text/xml').send(twiml.toString());
+      }
+
+      let pstnReservation;
+
+      try {
+        pstnReservation = await reserveRemainingUsage({
+          userId: browserUserId,
+          meter: 'pstnSeconds',
+          reservationId: `twilio-${parentCallSid}`,
+        });
+      } catch (error) {
+        if (error?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+          twiml.say('Your monthly calling allowance has been used.');
+          twiml.hangup();
+          return res.type('text/xml').send(twiml.toString());
+        }
+        throw error;
+      }
+
+      const pstnAction =
+        `/webhooks/voice/dial-complete?usageType=pstn&reservationKey=${encodeURIComponent(
+          pstnReservation.eventKey,
+        )}`;
+
       const dial = twiml.dial({
         ...(callerId ? { callerId } : {}),
         answerOnBridge: true,
         timeout: 30,
-        action: '/webhooks/voice/dial-complete?usageType=pstn',
+        timeLimit: pstnReservation.seconds,
+        action: pstnAction,
         method: 'POST',
       });
 
@@ -1131,6 +1193,29 @@ router.post('/dial-complete', async (req, res) => {
     const dialCallStatus = String(req.body?.DialCallStatus || '').toLowerCase();
     const dialCallDuration = req.body?.DialCallDuration;
     const usageType = String(req.query?.usageType || '').toLowerCase();
+    const reservationKey = String(req.query?.reservationKey || '').trim();
+
+    if (
+      reservationKey &&
+      ['pstn', 'forwarding'].includes(usageType)
+    ) {
+      try {
+        await finalizeUsageReservation({
+          eventKey: reservationKey,
+          actualSeconds:
+            dialCallStatus === 'completed'
+              ? Number(dialCallDuration || 0)
+              : 0,
+        });
+      } catch (error) {
+        console.error('[voice/dial-complete] usage reservation finalize failed', {
+          usageType,
+          dialCallStatus,
+          code: error?.code || null,
+          message: error?.message || String(error),
+        });
+      }
+    }
 
     if (callSid || dialCallSid) {
       const existing = await prisma.call.findFirst({
@@ -1207,6 +1292,7 @@ router.post('/dial-complete', async (req, res) => {
 
         if (
           usageType === 'pstn' &&
+          !reservationKey &&
           dialCallStatus === 'completed' &&
           Number(updated.durationSec) > 0
         ) {
