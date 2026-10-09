@@ -221,10 +221,13 @@ function isSameUser(a, b) {
 /* ---------- component ---------- */
 export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isPremium = useIsPremium();
+  const isStrictPremium =
+    String(currentUser?.plan || 'FREE').toUpperCase() === 'PREMIUM';
+
   const { entitlements: planEntitlements } = useEntitlements();
   const aiRewriteLevel =
     planEntitlements?.entitlements?.aiRewriteLevel ??
-    (isPremium ? 'FULL' : 'NONE');
+    (isStrictPremium ? 'FULL' : 'NONE');
   const hasFullAi = aiRewriteLevel === 'FULL';
 
   const navigate = useNavigate();
@@ -1661,7 +1664,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   };
 
   const openSchedulePrompt = async () => {
-    if (!isPremium) return navigate('/upgrade');
+    if (!isStrictPremium) return navigate('/upgrade');
 
     const iso = window.prompt('Schedule time (ISO or YYYY-MM-DD HH:mm):');
     if (!iso || !chatroom?.id) return;
@@ -2287,6 +2290,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                 <ThreadActionsMenu
                   isPremium={isPremium}
                   isAiPowerAvailable={hasFullAi}
+                  isScheduleAvailable={isStrictPremium}
                   aiPowerLabel="Summarize conversation"
                   showPremiumSection
                   showThreadSection

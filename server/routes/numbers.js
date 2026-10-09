@@ -1664,7 +1664,7 @@ router.post('/keep/enable', requireAuth, requirePremium, async (req, res) => {
   res.json({ ok: true });
 });
 
-router.post('/buy/keep-current', requireAuth, async (req, res) => {
+router.post('/buy/keep-current', requireAuth, requirePremium, async (req, res) => {
   try {
     const phone = await prisma.phoneNumber.findFirst({
       where: { assignedUserId: req.user.id, status: 'ASSIGNED' },
@@ -1675,10 +1675,6 @@ router.post('/buy/keep-current', requireAuth, async (req, res) => {
     if (phone.keepLocked) {
       return res.json({ ok: true, number: phone, note: 'Already locked' });
     }
-
-    // TODO: billing / entitlement gate:
-    // - requirePremium middleware here OR
-    // - charge one-time "keep number" product
 
     const updated = await prisma.phoneNumber.update({
       where: { id: phone.id },

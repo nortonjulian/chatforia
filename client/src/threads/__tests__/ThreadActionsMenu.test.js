@@ -110,4 +110,41 @@ describe('ThreadActionsMenu AI entitlement display', () => {
     expect(item).toBeInTheDocument();
     expect(item).not.toHaveTextContent('(Upgrade)');
   });
+  test('shows Schedule as upgrade-only when strict Premium is unavailable', () => {
+    render(
+      <ThreadActionsMenu
+        isPremium
+        isScheduleAvailable={false}
+        showPremiumSection
+        showThreadSection={false}
+        onSchedule={() => {}}
+      />
+    );
+
+    expect(
+      screen.getByRole('button', {
+        name: /schedule.*upgrade/i,
+      })
+    ).toBeInTheDocument();
+  });
+
+  test('shows Schedule unlocked for strict Premium', () => {
+    render(
+      <ThreadActionsMenu
+        isPremium
+        isScheduleAvailable
+        showPremiumSection
+        showThreadSection={false}
+        onSchedule={() => {}}
+      />
+    );
+
+    const item = screen.getByRole('button', {
+      name: /^schedule$/i,
+    });
+
+    expect(item).toBeInTheDocument();
+    expect(item).not.toHaveTextContent('(Upgrade)');
+  });
+
 });

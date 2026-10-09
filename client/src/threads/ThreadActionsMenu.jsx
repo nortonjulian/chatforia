@@ -18,6 +18,7 @@ export default function ThreadActionsMenu({
   // context
   isPremium = false,
   isAiPowerAvailable,
+  isScheduleAvailable,
   aiPowerLabel,
 
   // toggles
@@ -62,6 +63,10 @@ export default function ThreadActionsMenu({
   const aiPowerUnlocked =
     typeof isAiPowerAvailable === 'boolean'
       ? isAiPowerAvailable
+      : isPremium;
+  const scheduleUnlocked =
+    typeof isScheduleAvailable === 'boolean'
+      ? isScheduleAvailable
       : isPremium;
 
   const resolvedInviteLabel = inviteLabel || t('threadActions.invitePeople', 'Invite people');
@@ -115,7 +120,7 @@ export default function ThreadActionsMenu({
 
             {typeof onSchedule === 'function' && (
               <Menu.Item leftSection={<IconCalendarPlus size={16} />} onClick={onSchedule}>
-                {t('threadActions.schedule', 'Schedule')} {isPremium ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
+                {t('threadActions.schedule', 'Schedule')} {scheduleUnlocked ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
               </Menu.Item>
             )}
 
