@@ -1,5 +1,8 @@
 import prisma from '../utils/prismaClient.js';
-import { assertAndConsumeUsage } from './planUsageService.js';
+import {
+  assertAndConsumeUsage,
+  getUsageSummary,
+} from './planUsageService.js';
 
 function positiveDurationSeconds(joinedAt, leftAt) {
   const start = joinedAt instanceof Date ? joinedAt : new Date(joinedAt);
@@ -83,17 +86,47 @@ export async function chargeHostedParticipantSessionOnce({
 
   try {
     const plan = await currentPlan(hostUserId);
+    const summary = await getUsageSummary(
+      Number(hostUserId),
+      plan,
+      leftAt,
+    );
+
+    const meterUsage = summary?.usage?.hostedParticipantSeconds || null;
+    const remaining = meterUsage?.remaining == null
+      ? seconds
+      : Math.max(0, Number(meterUsage.remaining));
+    const chargeSeconds = Math.min(seconds, remaining);
+
+    if (chargeSeconds <= 0) {
+      await prisma.voiceUsageCharge.deleteMany({ where: { eventKey } });
+      return {
+        charged: false,
+        seconds: 0,
+        actualSeconds: seconds,
+        reason: 'allowance-exhausted',
+        participantUserId: Number(participantUserId),
+      };
+    }
 
     await assertAndConsumeUsage({
       userId: Number(hostUserId),
       plan,
       meter: 'hostedParticipantSeconds',
-      amount: seconds,
+      amount: chargeSeconds,
     });
+
+    if (chargeSeconds !== seconds) {
+      await prisma.voiceUsageCharge.update({
+        where: { eventKey },
+        data: { seconds: chargeSeconds },
+      });
+    }
 
     return {
       charged: true,
-      seconds,
+      seconds: chargeSeconds,
+      actualSeconds: seconds,
       participantUserId: Number(participantUserId),
     };
   } catch (error) {

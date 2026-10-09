@@ -13,9 +13,12 @@ import {
   closeAndChargeHostedParticipantsForCall,
 } from '../services/hostedParticipantUsageService.js';
 import { getUsageAvailability } from '../services/callUsageService.js';
+import { startHostedAllowanceMonitor } from '../services/hostedAllowanceMonitor.js';
 
 const router = express.Router();
 router.use(requireAuth);
+
+startHostedAllowanceMonitor();
 
 const TERMINAL_CALL_STATUSES = [
   'ENDED',
