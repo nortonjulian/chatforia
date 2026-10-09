@@ -16,6 +16,10 @@ import {
 
 // 🔮 OpenAI (Ria bot brain)
 import OpenAI from 'openai';
+import {
+  assertAndConsumeUsage,
+  releaseUsage,
+} from '../services/planUsageService.js';
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -58,8 +62,9 @@ function isAiRoom(roomId) {
 async function buildRiaReply({ user, text }) {
   const client = getOpenAI();
   if (!client) {
-    console.error('[Ria] Missing OPENAI_API_KEY env; returning fallback reply');
-    return "I’m having trouble connecting to my brain right now, but I’m here to chat!";
+    const error = new Error('OPENAI_API_KEY is missing');
+    error.code = 'OPENAI_NOT_CONFIGURED';
+    throw error;
   }
 
   // Default: remember is ON unless explicitly set false
@@ -128,8 +133,7 @@ You are Ria, a friendly chat companion inside the Chatforia app.
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error('Ria AI error:', err);
-    replyText =
-      "Oops, I had trouble replying just now. Want to try asking that again or change the topic?";
+    throw err;
   }
 
   // 3) Persist this turn ONLY if remember is on
@@ -148,6 +152,78 @@ You are Ria, a friendly chat companion inside the Chatforia app.
   }
 
   return replyText;
+}
+
+async function resolveRiaPlan(user) {
+  if (user?.plan) return user.plan;
+
+  const row = await prisma.user.findUnique({
+    where: { id: Number(user.id) },
+    select: { plan: true },
+  });
+
+  return row?.plan || 'FREE';
+}
+
+async function withRandomChatRiaAllowance(user, operation) {
+  const userId = Number(user.id);
+  const plan = await resolveRiaPlan(user);
+
+  await assertAndConsumeUsage({
+    userId,
+    plan,
+    meter: 'riaActions',
+    amount: 1,
+  });
+
+  try {
+    return await operation();
+  } catch (error) {
+    try {
+      await releaseUsage({
+        userId,
+        meter: 'riaActions',
+        amount: 1,
+      });
+    } catch (releaseError) {
+      console.error('[Ria] Failed to release Random Chat allowance', {
+        userId,
+        message: releaseError?.message || String(releaseError),
+      });
+    }
+
+    throw error;
+  }
+}
+
+function emitRiaFailure(socket, roomId, error) {
+  const allowanceExceeded =
+    error?.code === 'PLAN_ALLOWANCE_EXCEEDED';
+
+  socket.emit('random:ria_error', {
+    roomId,
+    code: allowanceExceeded
+      ? 'PLAN_ALLOWANCE_EXCEEDED'
+      : 'RIA_UNAVAILABLE',
+    meter: allowanceExceeded ? 'riaActions' : null,
+    limit: allowanceExceeded ? error?.limit ?? null : null,
+    used: allowanceExceeded ? error?.used ?? null : null,
+    remaining: allowanceExceeded ? error?.remaining ?? 0 : null,
+  });
+
+  socket.emit('random:message', {
+    content: allowanceExceeded
+      ? "You’ve reached your monthly Ria allowance. Your allowance will reset next month, or you can upgrade for more Ria actions."
+      : "I’m having trouble replying right now. Please try again in a moment.",
+    senderId: 0,
+    randomChatRoomId: roomId,
+    sender: { id: 0, username: 'Ria' },
+    createdAt: new Date().toISOString(),
+    system: true,
+    errorCode: allowanceExceeded
+      ? 'PLAN_ALLOWANCE_EXCEEDED'
+      : 'RIA_UNAVAILABLE',
+  });
 }
 
 /**
@@ -220,18 +296,26 @@ export function attachRandomChatSockets(io) {
     if (isAiRoom(roomId)) {
       // Do NOT echo the user's message back.
       // The frontend already added it optimistically.
-      const reply = await buildRiaReply({
-        user: u,
-        text: payload.content,
-      });
+      try {
+        const reply = await withRandomChatRiaAllowance(
+          u,
+          () =>
+            buildRiaReply({
+              user: u,
+              text: payload.content,
+            }),
+        );
 
-      socket.emit('random:message', {
-        content: reply,
-        senderId: 0,
-        randomChatRoomId: roomId,
-        sender: { id: 0, username: 'Ria' },
-        createdAt: new Date().toISOString(),
-      });
+        socket.emit('random:message', {
+          content: reply,
+          senderId: 0,
+          randomChatRoomId: roomId,
+          sender: { id: 0, username: 'Ria' },
+          createdAt: new Date().toISOString(),
+        });
+      } catch (error) {
+        emitRiaFailure(socket, roomId, error);
+      }
 
       return;
     }
@@ -396,3 +480,10 @@ router.delete('/ria/memory', requireAuth, async (req, res) => {
 });
 
 export default router;
+
+
+export const __testables = {
+  resolveRiaPlan,
+  withRandomChatRiaAllowance,
+  emitRiaFailure,
+};
