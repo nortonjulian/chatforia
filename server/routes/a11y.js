@@ -121,7 +121,7 @@ router.patch('/users/me/a11y', requireAuth, async (req, res) => {
       const wantOn = !!body.a11yLiveCaptions;
       if (wantOn) {
         const me = await prisma.user.findUnique({ where: { id: req.user.id }, select: { plan: true } });
-        if (String(me?.plan || 'FREE').toUpperCase() === 'FREE') {
+        if (String(me?.plan || 'FREE').toUpperCase() !== 'PREMIUM') {
           return res.status(402).json({ error: 'Premium required' });
         }
       }
