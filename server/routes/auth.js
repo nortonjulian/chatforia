@@ -1181,24 +1181,27 @@ const PREMIUM_RINGTONES = ALL_RINGTONES.filter(
   (x) => !FREE_RINGTONES.includes(x)
 );
 
-function hasPaidAccess(user) {
+function hasPremiumAccess(user) {
   if (!user) return false;
   if (user.role === 'ADMIN') return true;
 
   const active =
     user.subscriptionStatus === 'ACTIVE' &&
-    (!user.subscriptionEndsAt || new Date(user.subscriptionEndsAt) > new Date());
+    (!user.subscriptionEndsAt ||
+      new Date(user.subscriptionEndsAt) > new Date());
 
   if (!active) return false;
 
-  return ['PLUS', 'PREMIUM'].includes(
-    String(user.plan || '').toUpperCase()
+  return (
+    String(user.plan || '')
+      .trim()
+      .toUpperCase() === 'PREMIUM'
   );
 }
 
 function sanitizeEntitledSettings(user) {
   const safe = { ...user };
-  const paid = hasPaidAccess(safe);
+  const paid = hasPremiumAccess(safe);
 
   if (!paid && !FREE_THEMES.includes(safe.theme)) {
     safe.theme = 'dawn';
@@ -1233,7 +1236,7 @@ router.get(
     }
 
     const safeUser = sanitizeEntitledSettings(fullUser);
-    const paid = hasPaidAccess(safeUser);
+    const paid = hasPremiumAccess(safeUser);
 
     const userPayload = {
       id: safeUser.id,

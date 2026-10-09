@@ -332,6 +332,72 @@ describe('PATCH /users/me', () => {
     expect(mockUserUpdate).not.toHaveBeenCalled();
   });
 
+  it.each(['PLUS', 'WIRELESS'])(
+    'returns 402 when premium theme is requested on %s plan',
+    async (plan) => {
+      const user = { id: 123, plan };
+
+      mockUserFindUnique.mockResolvedValueOnce({ plan });
+
+      const app = createApp({ user });
+
+      const res = await request(app)
+        .patch('/users/me')
+        .send({ theme: 'amoled' });
+
+      expect(res.statusCode).toBe(402);
+      expect(res.body).toEqual({
+        error: 'Premium theme requires an upgraded plan',
+      });
+
+      expect(mockUserUpdate).not.toHaveBeenCalled();
+    }
+  );
+
+  it.each(['PLUS', 'WIRELESS'])(
+    'returns 402 when premium message tone is requested on %s plan',
+    async (plan) => {
+      const user = { id: 123, plan };
+
+      mockUserFindUnique.mockResolvedValueOnce({ plan });
+
+      const app = createApp({ user });
+
+      const res = await request(app)
+        .patch('/users/me')
+        .send({ messageTone: 'Dreamer.mp3' });
+
+      expect(res.statusCode).toBe(402);
+      expect(res.body).toEqual({
+        error: 'Premium message tone requires upgrade',
+      });
+
+      expect(mockUserUpdate).not.toHaveBeenCalled();
+    }
+  );
+
+  it.each(['PLUS', 'WIRELESS'])(
+    'returns 402 when premium ringtone is requested on %s plan',
+    async (plan) => {
+      const user = { id: 123, plan };
+
+      mockUserFindUnique.mockResolvedValueOnce({ plan });
+
+      const app = createApp({ user });
+
+      const res = await request(app)
+        .patch('/users/me')
+        .send({ ringtone: 'Bells.mp3' });
+
+      expect(res.statusCode).toBe(402);
+      expect(res.body).toEqual({
+        error: 'Premium ringtone requires upgrade',
+      });
+
+      expect(mockUserUpdate).not.toHaveBeenCalled();
+    }
+  );
+
   it('allows premium theme when user has PREMIUM plan', async () => {
     const user = { id: 200, plan: 'PREMIUM' };
 

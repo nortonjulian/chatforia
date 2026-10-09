@@ -37,12 +37,17 @@ function getPolicy(plan = 'FREE') {
   const inactivityDays = Number(process.env.NUMBER_INACTIVITY_DAYS) || 30;
   const holdDays = Number(process.env.NUMBER_HOLD_DAYS) || 14;
 
-  if (String(plan || 'FREE').toUpperCase() === 'FREE') {
+  if (
+    String(plan || 'FREE')
+      .trim()
+      .toUpperCase() !== 'PREMIUM'
+  ) {
     return {
       mode: 'AUTO_RECYCLE',
       inactivityDays,
       holdDays,
-      description: 'Numbers may be recycled after inactivity on the Free plan.',
+      description:
+        'Numbers may be recycled after inactivity unless protected by Premium.',
     };
   }
 
@@ -51,7 +56,7 @@ function getPolicy(plan = 'FREE') {
     inactivityDays: null,
     holdDays: null,
     description:
-      'Your number is protected from automatic recycling while your subscription is active.',
+      'Your number is protected from automatic recycling while Premium is active.',
   };
 }
 

@@ -231,8 +231,57 @@ describe('GET /numbers/my', () => {
         inactivityDays: 40,
         holdDays: 20,
         description:
-          'Numbers may be recycled after inactivity on the Free plan.',
+          'Numbers may be recycled after inactivity unless protected by Premium.',
       },
+    });
+  });
+
+  test.each(['PLUS', 'WIRELESS'])(
+    '%s does not receive Premium number protection',
+    async (plan) => {
+      prismaMock.user.findUnique.mockResolvedValueOnce({
+        plan,
+        subscriptionStatus: 'ACTIVE',
+      });
+
+      prismaMock.phoneNumber.findFirst.mockResolvedValueOnce(null);
+
+      const res = await request(app)
+        .get('/numbers/my')
+        .set('x-test-user-id', '123');
+
+      expect(res.status).toBe(200);
+
+      expect(res.body.policy).toEqual({
+        mode: 'AUTO_RECYCLE',
+        inactivityDays: 40,
+        holdDays: 20,
+        description:
+          'Numbers may be recycled after inactivity unless protected by Premium.',
+      });
+    }
+  );
+
+  test('PREMIUM receives protected number policy', async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+    });
+
+    prismaMock.phoneNumber.findFirst.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .get('/numbers/my')
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(res.body.policy).toEqual({
+      mode: 'PROTECTED',
+      inactivityDays: null,
+      holdDays: null,
+      description:
+        'Your number is protected from automatic recycling while Premium is active.',
     });
   });
 
@@ -252,7 +301,7 @@ describe('GET /numbers/my', () => {
         inactivityDays: 40,
         holdDays: 20,
         description:
-          'Numbers may be recycled after inactivity on the Free plan.',
+          'Numbers may be recycled after inactivity unless protected by Premium.',
       },
     });
   });
