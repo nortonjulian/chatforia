@@ -37,11 +37,21 @@ async function withRiaAllowance(req, operation) {
   }
 }
 
-function requireRewriteEntitlement(req) {
+function requireComposerAiEntitlement(
+  req,
+  feature = 'AI tools'
+) {
   const entitlements = getPlanEntitlements(req.user?.plan);
 
   if (entitlements.aiRewriteLevel === 'NONE') {
-    throw Boom.paymentRequired('AI rewrite requires Chatforia Plus or Premium');
+    const verb =
+      feature === 'AI rewrite'
+        ? 'requires'
+        : 'require';
+
+    throw Boom.paymentRequired(
+      `${feature} ${verb} Chatforia Plus or Premium`
+    );
   }
 
   return entitlements.aiRewriteLevel;
@@ -66,6 +76,8 @@ r.post('/suggest-replies', blockWhenStrictE2EE, asyncHandler(async (req, res) =>
     .filter((m) => m.content.length > 0)
     .slice(-12);
 
+  requireComposerAiEntitlement(req, 'AI smart replies');
+
   const result = await withRiaAllowance(req, () =>
     suggestReplies({
       messages: normalizedMessages,
@@ -86,7 +98,7 @@ r.post('/rewrite', blockWhenStrictE2EE, asyncHandler(async (req, res) => {
     throw Boom.badRequest('text is required');
   }
 
-  requireRewriteEntitlement(req);
+  requireComposerAiEntitlement(req, 'AI rewrite');
 
   const result = await rewriteText({
     text: clean,

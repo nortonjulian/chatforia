@@ -121,6 +121,49 @@ describe('AI routes', () => {
       });
     });
 
+    test('allows Chatforia Plus to use smart replies', async () => {
+      mockPlan = 'PLUS';
+
+      const result = {
+        suggestions: [{ text: 'Sure!' }],
+      };
+      suggestRepliesMock.mockResolvedValue(result);
+
+      const res = await request(app)
+        .post('/ai/suggest-replies')
+        .send({
+          messages: [{ role: 'user', content: 'Can you help?' }],
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual(result);
+      expect(assertAndConsumeUsageMock).toHaveBeenCalledWith({
+        userId: 1,
+        plan: 'PLUS',
+        meter: 'riaActions',
+        amount: 1,
+      });
+      expect(suggestRepliesMock).toHaveBeenCalledTimes(1);
+    });
+
+    test('blocks Chatforia Free from smart replies before consuming allowance', async () => {
+      mockPlan = 'FREE';
+
+      const res = await request(app)
+        .post('/ai/suggest-replies')
+        .send({
+          messages: [{ role: 'user', content: 'Can you help?' }],
+        });
+
+      expect(res.statusCode).toBe(402);
+      expect(res.body).toEqual({
+        error: 'AI smart replies require Chatforia Plus or Premium',
+      });
+      expect(assertAndConsumeUsageMock).not.toHaveBeenCalled();
+      expect(suggestRepliesMock).not.toHaveBeenCalled();
+      expect(releaseUsageMock).not.toHaveBeenCalled();
+    });
+
     test('does not call Ria when the monthly allowance is exhausted', async () => {
       const err = new Error('Plan allowance exceeded');
       err.status = 429;
