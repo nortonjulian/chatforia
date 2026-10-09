@@ -42,7 +42,7 @@ function createApp({ user } = {}) {
     if (user) {
       req.user = user;
     } else {
-      req.user = { id: 123 };
+      req.user = { id: 123, role: 'USER', plan: 'FREE' };
     }
     next();
   });
@@ -83,6 +83,91 @@ describe('GET /settings/forwarding', () => {
 });
 
 describe('PATCH /settings/forwarding', () => {
+  it.each(['FREE', 'WIRELESS'])(
+    'blocks %s from enabling SMS forwarding',
+    async (plan) => {
+      const app = createApp({
+        user: {
+          id: 88,
+          role: 'USER',
+          plan,
+        },
+      });
+
+      const res = await request(app)
+        .patch('/settings/forwarding')
+        .send({
+          forwardingEnabledSms: true,
+        });
+
+      expect(res.statusCode).toBe(402);
+      expect(res.body).toEqual({
+        error: 'Forwarding requires Chatforia Plus or Premium.',
+        code: 'FORWARDING_PLAN_REQUIRED',
+      });
+
+      expect(mockUpdateForwardingPrefs).not.toHaveBeenCalled();
+    }
+  );
+
+  it.each(['PLUS', 'PREMIUM'])(
+    'allows %s to enable SMS forwarding',
+    async (plan) => {
+      const app = createApp({
+        user: {
+          id: 89,
+          role: 'USER',
+          plan,
+        },
+      });
+
+      const incoming = {
+        forwardingEnabledSms: true,
+        forwardSmsToEmail: true,
+        forwardEmail: 'user@example.com',
+      };
+
+      mockUpdateForwardingPrefs.mockResolvedValueOnce(incoming);
+
+      const res = await request(app)
+        .patch('/settings/forwarding')
+        .send(incoming);
+
+      expect(res.statusCode).toBe(200);
+      expect(mockUpdateForwardingPrefs).toHaveBeenCalledWith(
+        89,
+        incoming
+      );
+    }
+  );
+
+  it('allows a Free user to disable forwarding after downgrade', async () => {
+    const app = createApp({
+      user: {
+        id: 90,
+        role: 'USER',
+        plan: 'FREE',
+      },
+    });
+
+    const incoming = {
+      forwardingEnabledSms: false,
+      forwardingEnabledCalls: false,
+    };
+
+    mockUpdateForwardingPrefs.mockResolvedValueOnce(incoming);
+
+    const res = await request(app)
+      .patch('/settings/forwarding')
+      .send(incoming);
+
+    expect(res.statusCode).toBe(200);
+    expect(mockUpdateForwardingPrefs).toHaveBeenCalledWith(
+      90,
+      incoming
+    );
+  });
+
   it('updates forwarding prefs for the authenticated user and returns the new prefs', async () => {
     const user = { id: 99 };
     const app = createApp({ user });
