@@ -1,9 +1,18 @@
 import { jest } from '@jest/globals';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const planUsagePath = path.resolve(
+  __dirname,
+  '../planUsageService.js',
+);
 
 const assertAndConsumeUsageMock = jest.fn();
 const releaseUsageMock = jest.fn();
 
-await jest.unstable_mockModule('../planUsageService.js', () => ({
+await jest.unstable_mockModule(planUsagePath, () => ({
   assertAndConsumeUsage: assertAndConsumeUsageMock,
   releaseUsage: releaseUsageMock,
 }));

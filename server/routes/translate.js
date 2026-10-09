@@ -10,25 +10,47 @@ import {
 
 const router = express.Router();
 
-router.post("/test", async (req, res) => {
+router.post("/test", requireAuth, async (req, res, next) => {
   try {
-    const { text, targetLang = "es" } = req.body;
+    const userId = Number(req.user?.id);
+    const text = String(req.body?.text || "").trim();
+    const targetLang = String(req.body?.targetLang || "es")
+      .trim()
+      .toLowerCase();
 
-    const out = await translateText(text, String(targetLang).toLowerCase());
-    const translatedText = out?.translated || null;
+    if (!text) {
+      throw Boom.badRequest("text required");
+    }
 
-    res.json({ original: text, translated: translatedText });
+    const me = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { plan: true },
+    });
+
+    const out = await withTranslationAllowance({
+      userId,
+      plan: me?.plan || 'FREE',
+      amount: countTranslationCharacters(text),
+      operation: () => translateText(text, targetLang),
+      shouldBillResult: (result) =>
+        result?.provider === 'google',
+    });
+
+    return res.json({
+      original: text,
+      translated: out?.translated || null,
+    });
   } catch (err) {
-   console.error("Google Translate test error:", {
+    console.error("Google Translate test error:", {
       message: err?.message,
       code: err?.code,
     });
 
-    res.status(500).json({
-      error: err?.message || "Translation failed",
-      code: err?.code || null,
-      details: err?.details || null,
-    });
+    if (err?.isBoom || err?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+      return next(err);
+    }
+
+    return next(Boom.badImplementation(err.message));
   }
 });
 
@@ -92,14 +114,18 @@ router.post("/message-preview", requireAuth, async (req, res, next) => {
         });
 
         if (err?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
-          break;
+          throw err;
         }
       }
     }
 
     return res.json({ translations });
   } catch (err) {
-    next(err.isBoom ? err : Boom.badImplementation(err.message));
+    if (err?.isBoom || err?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+      return next(err);
+    }
+
+    return next(Boom.badImplementation(err.message));
   }
 });
 

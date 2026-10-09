@@ -63,7 +63,11 @@ router.post('/batch', requireAuth, translateLimiter, async (req, res, next) => {
 
     return res.json({ translations: out });
   } catch (err) {
-    next(err.isBoom ? err : Boom.badImplementation(err.message));
+    if (err?.isBoom || err?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+      return next(err);
+    }
+
+    return next(Boom.badImplementation(err.message));
   }
 });
 
