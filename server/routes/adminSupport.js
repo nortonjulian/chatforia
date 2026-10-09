@@ -72,7 +72,10 @@ router.get('/tickets', async (req, res, next) => {
 
     const tickets = await prisma.supportTicket.findMany({
       where: status ? { status } : undefined,
-      orderBy: { createdAt: 'desc' },
+      orderBy: [
+        { supportPriority: 'desc' },
+        { createdAt: 'desc' },
+      ],
       take: 100,
     });
 
