@@ -21,6 +21,11 @@ import MicButton from '@/components/MicButton.jsx';
 import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import posthog from '@/utils/analytics';
+import useEntitlements from '@/hooks/useEntitlements';
+import {
+  buildMessageTtlOptions,
+  clampMessageTtlSeconds,
+} from '@/utils/messageTtl';
 
 const RAW_TTL_OPTIONS = [
   { value: '0', labelKey: 'messageInput.ttl.off', fallback: 'Off' },
@@ -28,7 +33,11 @@ const RAW_TTL_OPTIONS = [
   { value: '60', fallback: '1m' },
   { value: String(10 * 60), fallback: '10m' },
   { value: String(60 * 60), fallback: '1h' },
-  { value: String(24 * 3600), fallback: '1d' },
+  { value: String(24 * 3600), fallback: '1d', days: 1 },
+  { value: String(3 * 24 * 3600), fallback: '3d', days: 3 },
+  { value: String(7 * 24 * 3600), fallback: '7d', days: 7 },
+  { value: String(14 * 24 * 3600), fallback: '14d', days: 14 },
+  { value: String(30 * 24 * 3600), fallback: '30d', days: 30 },
 ];
 
 export default function MessageInput({
@@ -41,15 +50,13 @@ export default function MessageInput({
   const [ttl, setTtl] = useState(String(currentUser?.autoDeleteSeconds || 0));
 
   const { t } = useTranslation();
+  const { entitlements } = useEntitlements();
+  const expireMaxDays = Number(entitlements?.expireMaxDays || 1);
 
   const ttlOptions = useMemo(
-  () =>
-    RAW_TTL_OPTIONS.map((opt) => ({
-      value: opt.value,
-      label: opt.labelKey ? t(opt.labelKey, opt.fallback) : opt.fallback,
-    })),
-  [t]
-);
+    () => buildMessageTtlOptions(RAW_TTL_OPTIONS, expireMaxDays, t),
+    [t, expireMaxDays]
+  );
 
   // Files uploaded to R2 (or mic recordings returned as fileMeta)
   // Expected fileMeta shape from FileUploader/MicButton:
@@ -74,34 +81,23 @@ export default function MessageInput({
     return 'FILE';
   }
 
-  // Clamp TTL client-side and inform user if plan-limited
+  // Clamp TTL client-side using the backend's authoritative plan entitlement.
   const handleTtlChange = (next) => {
     const nextVal = Number(next || 0);
-    const isPremium = (currentUser?.plan || '').toUpperCase() === 'PREMIUM';
-    const maxFree = 24 * 3600;
-    const maxPremium = 30 * 24 * 3600;
+    const clamped = clampMessageTtlSeconds(nextVal, expireMaxDays);
 
-    if (!isPremium && nextVal > maxFree) {
-      setTtl(String(maxFree));
+    if (clamped !== nextVal) {
+      setTtl(String(clamped));
       toast.info(
-      t(
-        'messageInput.freeLimit',
-        'Free plan limit: auto-delete up to 1 day. Clamped to 1d.'
-      )
-    );
+        t(
+          'messageInput.planLimit',
+          `Your plan supports auto-delete up to ${expireMaxDays} day${expireMaxDays === 1 ? '' : 's'}.`
+        )
+      );
       return;
     }
-    if (isPremium && nextVal > maxPremium) {
-      setTtl(String(maxPremium));
-      toast.info(
-      t(
-        'messageInput.premiumLimit',
-        'Max auto-delete for Premium is 30 days. Clamped to 30d.'
-      )
-    );
-      return;
-    }
-    setTtl(String(nextVal));
+
+    setTtl(String(clamped));
   };
 
   // Prefetch encryption chunk when user focuses composer (reduces latency on first send)
