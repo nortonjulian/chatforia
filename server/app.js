@@ -111,6 +111,7 @@ import portingRouter from './routes/porting.js';
 import twilioPortingWebhook from './routes/twilioPortingWebhook.js';
 
 import aiRoutes from './routes/ai.js'
+import aiPowerRoutes from './routes/ai.power.js';
 
 import adminSupportRouter from './routes/adminSupport.js';
 
@@ -452,6 +453,7 @@ export function createApp() {
   app.use('/invites', RL(limiterInvites));
   app.use('/ai', RL(limiterAI));
   app.use('/ai', aiRoutes);
+  app.use('/ai/power', aiPowerRoutes);
   app.use('/features', featuresRouter);
   app.use('/media', RL(limiterMedia));
   app.use((req, res, next) => {

@@ -17,6 +17,8 @@ import {
 export default function ThreadActionsMenu({
   // context
   isPremium = false,
+  isAiPowerAvailable,
+  aiPowerLabel,
 
   // toggles
   showPremiumSection = true,
@@ -54,6 +56,13 @@ export default function ThreadActionsMenu({
   blockLabel,
 }) {
   const { t } = useTranslation();
+
+  const resolvedAiPowerLabel =
+    aiPowerLabel || t('threadActions.aiPower', 'AI Power');
+  const aiPowerUnlocked =
+    typeof isAiPowerAvailable === 'boolean'
+      ? isAiPowerAvailable
+      : isPremium;
 
   const resolvedInviteLabel = inviteLabel || t('threadActions.invitePeople', 'Invite people');
   const resolvedClearLabel =
@@ -100,7 +109,7 @@ export default function ThreadActionsMenu({
 
             {typeof onAiPower === 'function' && (
               <Menu.Item leftSection={<IconSparkles size={16} />} onClick={onAiPower}>
-                {t('threadActions.aiPower', 'AI Power')} {isPremium ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
+                {resolvedAiPowerLabel} {aiPowerUnlocked ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
               </Menu.Item>
             )}
 

@@ -69,6 +69,7 @@ import { playSound } from '@/lib/sounds.js';
 
 // 🔒 Premium check
 import useIsPremium from '@/hooks/useIsPremium';
+import useEntitlements from '@/hooks/useEntitlements';
 
 import { useTranslation } from 'react-i18next';
 import { notifications } from '@mantine/notifications';
@@ -220,6 +221,12 @@ function isSameUser(a, b) {
 /* ---------- component ---------- */
 export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isPremium = useIsPremium();
+  const { entitlements: planEntitlements } = useEntitlements();
+  const aiRewriteLevel =
+    planEntitlements?.entitlements?.aiRewriteLevel ??
+    (isPremium ? 'FULL' : 'NONE');
+  const hasFullAi = aiRewriteLevel === 'FULL';
+
   const navigate = useNavigate();
   const { setNeedsKeyUnlock } = useUser();
   const {
@@ -1617,11 +1624,39 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 };
 
   const runPowerAi = async () => {
-    if (!isPremium) return navigate('/upgrade');
+    if (!hasFullAi) return navigate('/upgrade');
+    if (!chatroom?.id) return;
+
     try {
-      await axiosClient.post('/ai/power-feature', { context: [] });
+      const { data } = await axiosClient.post(
+        '/ai/power/summarize-thread',
+        {
+          chatRoomId: Number(chatroom.id),
+          limit: 50,
+          language: currentUser?.preferredLanguage || 'en',
+        }
+      );
+
+      notifications.show({
+        title: 'Conversation summary',
+        message: (
+          <Text style={{ whiteSpace: 'pre-wrap' }}>
+            {data?.summary || 'No summary was returned.'}
+          </Text>
+        ),
+        autoClose: false,
+      });
     } catch (e) {
-      console.error('Power AI failed', e);
+      console.error('Conversation summary failed', e);
+      notifications.show({
+        title: 'Could not summarize conversation',
+        message:
+          e?.response?.data?.message ||
+          e?.response?.data?.error ||
+          e?.message ||
+          'Please try again.',
+        color: 'red',
+      });
     }
   };
 
@@ -2251,6 +2286,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
                 <ThreadActionsMenu
                   isPremium={isPremium}
+                  isAiPowerAvailable={hasFullAi}
+                  aiPowerLabel="Summarize conversation"
                   showPremiumSection
                   showThreadSection
                   isOwnerOrAdmin={isOwnerOrAdmin}

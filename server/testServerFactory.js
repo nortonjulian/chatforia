@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.js';
 import usersRouter from './routes/users.js';
 import aiRouter from './routes/ai.js';
+import aiPowerRouter from './routes/ai.power.js';
 import chatroomsRouter from './routes/chatrooms.js';
 import messagesRouter from './routes/messages.js';
 
@@ -47,6 +48,7 @@ export default async function appFactory() {
   app.use('/auth', authRouter);
   app.use('/users', usersRouter);
   app.use('/ai', aiRouter);
+  app.use('/ai/power', aiPowerRouter);
   app.use('/chatrooms', chatroomsRouter);
   app.use('/messages', messagesRouter);
 
