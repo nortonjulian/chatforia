@@ -1,6 +1,6 @@
 // Email forwarding is independent of whether voicemail accepts recordings.
 export function canForwardVoicemailEmail(user) {
-  return ['PLUS', 'PREMIUM', 'WIRELESS'].includes(
+  return ['PLUS', 'PREMIUM'].includes(
     String(user?.plan || 'FREE').trim().toUpperCase()
   );
 }

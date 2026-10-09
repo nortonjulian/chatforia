@@ -21,7 +21,6 @@ describe('device registration limits', () => {
   test.each([
     'PLUS',
     'PREMIUM',
-    'WIRELESS',
   ])('%s accounts allow five active devices', (plan) => {
     expect(getDeviceLimitForPlan(plan)).toBe(5);
 
@@ -39,6 +38,19 @@ describe('device registration limits', () => {
         isCurrentDeviceActive: false,
         activeOtherDeviceCount: 5,
         deviceLimit: getDeviceLimitForPlan(plan),
+        replaceExistingDevice: false,
+      })
+    ).toBe(true);
+  });
+
+  test('Wireless accounts use the Free one-device limit', () => {
+    expect(getDeviceLimitForPlan('WIRELESS')).toBe(1);
+
+    expect(
+      shouldRequireDeviceReplacement({
+        isCurrentDeviceActive: false,
+        activeOtherDeviceCount: 1,
+        deviceLimit: getDeviceLimitForPlan('WIRELESS'),
         replaceExistingDevice: false,
       })
     ).toBe(true);

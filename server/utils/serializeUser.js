@@ -3,8 +3,8 @@ import { canForwardVoicemailEmail } from './voicemailForwarding.js';
 const FREE_THEMES = ['dawn', 'midnight'];
 
 function hasPremiumAccess(user) {
-  return ['PREMIUM', 'WIRELESS'].includes(
-    String(user.plan || 'FREE').toUpperCase()
+  return (
+    String(user.plan || 'FREE').toUpperCase() === 'PREMIUM'
   );
 }
 

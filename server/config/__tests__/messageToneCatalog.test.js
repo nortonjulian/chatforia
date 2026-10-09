@@ -57,12 +57,12 @@ describe('resolveMessageNotificationSound', () => {
     ).toBe('Chatforia_Default.caf');
   });
 
-  test('supports Wireless paid entitlements', () => {
+  test('Wireless falls back to Free app sound entitlements', () => {
     expect(
       resolveMessageNotificationSound({
         messageTone: 'Notify.mp3',
         plan: 'WIRELESS',
       })
-    ).toBe('Chatforia_Notify.caf');
+    ).toBe('Chatforia_Default.caf');
   });
 });

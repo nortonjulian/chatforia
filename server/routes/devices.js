@@ -22,12 +22,6 @@ export function getDeviceLimitForPlan(planValue) {
       .trim()
       .toUpperCase();
 
-  // Preserve existing Wireless behavior while app plans use the
-  // canonical entitlement matrix.
-  if (plan === 'WIRELESS') {
-    return getPlanEntitlements('PREMIUM').deviceLimit;
-  }
-
   return getPlanEntitlements(plan).deviceLimit;
 }
 
@@ -175,7 +169,7 @@ router.post('/register', requireAuth, async (req, res, next) => {
 
       const plan = String(user.plan || 'FREE').toUpperCase();
       const isPaidPlan =
-        ['PLUS', 'PREMIUM', 'WIRELESS'].includes(plan);
+        ['PLUS', 'PREMIUM'].includes(plan);
 
       const deviceLimit =
         getDeviceLimitForPlan(plan);

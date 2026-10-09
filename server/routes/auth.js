@@ -1191,7 +1191,9 @@ function hasPaidAccess(user) {
 
   if (!active) return false;
 
-  return ['PLUS', 'PREMIUM', 'WIRELESS'].includes(String(user.plan || '').toUpperCase());
+  return ['PLUS', 'PREMIUM'].includes(
+    String(user.plan || '').toUpperCase()
+  );
 }
 
 function sanitizeEntitledSettings(user) {
