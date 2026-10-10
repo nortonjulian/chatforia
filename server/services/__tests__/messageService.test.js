@@ -19,7 +19,6 @@ const translateMessagePath = path.resolve(
   '../translation/translateMessage.js'
 );
 const encryptionPath = path.resolve(__dirname, '../../utils/encryption.js');
-const translateTextPath = path.resolve(__dirname, '../../utils/translateText.js');
 const translationUsagePath = path.resolve(
   __dirname,
   '../translation/translationUsageService.js'
@@ -104,14 +103,7 @@ jest.unstable_mockModule(encryptionPath, () => ({
   encryptMessageForParticipants: mockEncryptMessageForParticipants,
 }));
 
-// ----- translateText + tokenBucket mocks ------------------------------------
-
-const mockTranslateText = jest.fn();
-
-jest.unstable_mockModule(translateTextPath, () => ({
-  __esModule: true,
-  translateText: mockTranslateText,
-}));
+// ----- translation usage + tokenBucket mocks --------------------------------
 
 const mockCountTranslationCharacters = jest.fn();
 const mockWithTranslationAllowance = jest.fn();
@@ -164,7 +156,6 @@ beforeEach(() => {
   mockCleanText.mockReset();
   mockMaybeTranslateForTarget.mockReset();
   mockEncryptMessageForParticipants.mockReset();
-  mockTranslateText.mockReset();
 
   mockCountTranslationCharacters.mockReset();
   mockCountTranslationCharacters.mockImplementation((value) =>
@@ -444,7 +435,7 @@ describe('createMessageService', () => {
 
 describe('maybeAutoTranslate', () => {
   it('auto-translates when provider available, mode is on, and throttling allows', async () => {
-    process.env.DEEPL_API_KEY = 'dummy-key';
+    process.env.TRANSLATION_ENABLED = 'true';
 
     const roomId = 77;
 
@@ -497,9 +488,12 @@ describe('maybeAutoTranslate', () => {
       },
     };
 
-    mockTranslateText.mockImplementation(async ({ text, targetLang }) => ({
-      text: `[${targetLang}] ${text}`,
-    }));
+    mockMaybeTranslateForTarget.mockImplementation(
+      async (text, _sourceLang, targetLang) => ({
+        translatedText: `[${targetLang}] ${text}`,
+        provider: 'google',
+      })
+    );
 
     await maybeAutoTranslate({ savedMessage, io: null, prisma: db });
 
@@ -521,8 +515,8 @@ describe('maybeAutoTranslate', () => {
       },
     });
 
-    const langs = mockTranslateText.mock.calls
-      .map((c) => c[0].targetLang)
+    const langs = mockMaybeTranslateForTarget.mock.calls
+      .map((c) => c[2])
       .sort();
 
     expect(langs).toEqual(['en', 'es']);
@@ -540,11 +534,7 @@ describe('maybeAutoTranslate', () => {
   });
 
   it('skips translation when provider is not available', async () => {
-    delete process.env.DEEPL_API_KEY;
-    delete process.env.TRANSLATE_ENDPOINT;
-    delete process.env.GOOGLE_TRANSLATE_API_KEY;
-    delete process.env.GOOGLE_API_KEY;
-    delete process.env.GOOGLE_PROJECT_ID;
+    delete process.env.TRANSLATION_ENABLED;
 
     const savedMessage = {
       id: 1,
@@ -565,6 +555,6 @@ describe('maybeAutoTranslate', () => {
     expect(db.chatRoom.findUnique).not.toHaveBeenCalled();
     expect(db.participant.findMany).not.toHaveBeenCalled();
     expect(db.message.update).not.toHaveBeenCalled();
-    expect(mockTranslateText).not.toHaveBeenCalled();
+    expect(mockMaybeTranslateForTarget).not.toHaveBeenCalled();
   });
 });

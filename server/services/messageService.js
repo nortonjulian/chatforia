@@ -1,7 +1,6 @@
 import prisma from '../utils/prismaClient.js';
 import { isExplicit, cleanText } from '../utils/filter.js';
 // import { translateForTargets } from '../utils/translate.js';
-import { translateText } from '../utils/translateText.js';
 import { maybeTranslateForTarget } from './translation/translateMessage.js';
 import { allow } from '../utils/tokenBucket.js';
 import {
@@ -444,14 +443,10 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
   try {
     const db = prismaArg || prisma;
 
-    const hasProvider =
-      !!process.env.GOOGLE_TRANSLATE_API_KEY ||
-      !!process.env.GOOGLE_API_KEY ||
-      !!process.env.GOOGLE_PROJECT_ID ||
-      !!process.env.DEEPL_API_KEY ||
-      !!process.env.TRANSLATE_ENDPOINT;
+    const translationEnabled =
+      process.env.TRANSLATION_ENABLED === 'true';
 
-    if (!hasProvider) return;
+    if (!translationEnabled) return;
 
     const roomId = Number(savedMessage.chatRoomId);
     const senderId = Number(savedMessage.senderId ?? savedMessage.sender?.id);
@@ -520,10 +515,11 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
           plan: sender?.plan || 'FREE',
           amount,
           operation: () =>
-            translateText({
-              text: clipped,
-              targetLang: lang
-            }),
+            maybeTranslateForTarget(
+              clipped,
+              null,
+              lang
+            ),
           shouldBillResult: (result) =>
             !['cache', 'noop', 'none'].includes(
               String(result?.provider || '').toLowerCase()
