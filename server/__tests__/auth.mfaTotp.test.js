@@ -1,37 +1,49 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
-import crypto from 'crypto';
 
-// --- Prisma mocks ------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// Current MFA dependencies
+// -----------------------------------------------------------------------------
 
-const mockUserFindUnique = jest.fn();
-const mockUserUpdate = jest.fn();
-const mockRecoveryDeleteMany = jest.fn();
-const mockRecoveryCreateMany = jest.fn();
-const mockTransaction = jest.fn((ops) => Promise.all(ops));
+const mockGenerateSecret = jest.fn();
+const mockTotpVerify = jest.fn();
+const mockToDataURL = jest.fn();
 
-const mockPrisma = {
+const mockSeal = jest.fn();
+const mockOpen = jest.fn();
+
+const mockLockMfaUser = jest.fn();
+const mockRecoveryCodeHash = jest.fn();
+
+const mockIssueSession = jest.fn();
+
+const tx = {
+  $queryRaw: jest.fn(),
   user: {
-    findUnique: mockUserFindUnique,
-    update: mockUserUpdate,
+    findUnique: jest.fn(),
+    update: jest.fn(),
+  },
+  verificationToken: {
+    findFirst: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    updateMany: jest.fn(),
   },
   twoFactorRecoveryCode: {
-    deleteMany: mockRecoveryDeleteMany,
-    createMany: mockRecoveryCreateMany,
+    deleteMany: jest.fn(),
+    createMany: jest.fn(),
   },
-  $transaction: mockTransaction,
+};
+
+const mockPrisma = {
+  $transaction: jest.fn(async (callback) => callback(tx)),
 };
 
 jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
   default: mockPrisma,
 }));
-
-// --- speakeasy mock ----------------------------------------------------------
-
-const mockGenerateSecret = jest.fn();
-const mockTotpVerify = jest.fn();
 
 jest.unstable_mockModule('speakeasy', () => ({
   __esModule: true,
@@ -43,10 +55,6 @@ jest.unstable_mockModule('speakeasy', () => ({
   },
 }));
 
-// --- qrcode mock -------------------------------------------------------------
-
-const mockToDataURL = jest.fn();
-
 jest.unstable_mockModule('qrcode', () => ({
   __esModule: true,
   default: {
@@ -54,80 +62,107 @@ jest.unstable_mockModule('qrcode', () => ({
   },
 }));
 
-// --- secretBox mock ----------------------------------------------------------
-
-const mockSeal = jest.fn();
-const mockOpen = jest.fn();
-
 jest.unstable_mockModule('../utils/secretBox.js', () => ({
   __esModule: true,
   seal: mockSeal,
   open: mockOpen,
 }));
 
-// Import router AFTER mocks
-const mfaModule = await import('../routes/auth/mfaTotp.js');
-const mfaRouter = mfaModule.router;
+jest.unstable_mockModule('../services/mfaLogin.js', () => ({
+  __esModule: true,
+  lockMfaUser: mockLockMfaUser,
+  recoveryCodeHash: mockRecoveryCodeHash,
+}));
 
-// --- Helper: app builder -----------------------------------------------------
+jest.unstable_mockModule('../routes/auth.js', () => ({
+  __esModule: true,
+  issueSession: mockIssueSession,
+}));
 
-function createApp({ user } = {}) {
+const { router: mfaRouter } = await import('../routes/auth/mfaTotp.js');
+
+// -----------------------------------------------------------------------------
+// App helper — production mounts this router at /auth/2fa
+// -----------------------------------------------------------------------------
+
+function createApp(user = { id: 1, username: 'alice', tokenVersion: 0 }) {
   const app = express();
+
   app.use(express.json());
 
-  // minimal "auth" injection so routes see req.user
-  app.use((req, res, next) => {
-    if (user) {
-      req.user = user;
-    } else {
-      // default fake user
-      req.user = { id: 123, username: 'alice' };
-    }
+  app.use((req, _res, next) => {
+    req.user = user;
     next();
   });
 
-  app.use('/auth', mfaRouter);
-  return app;
-}
+  app.use('/auth/2fa', mfaRouter);
 
-// local sha256 to verify recovery code hashes
-function sha256(s) {
-  return crypto.createHash('sha256').update(s, 'utf8').digest('hex');
+  return app;
 }
 
 beforeEach(() => {
   jest.clearAllMocks();
 
-  mockUserFindUnique.mockReset();
-  mockUserUpdate.mockReset();
-  mockRecoveryDeleteMany.mockReset();
-  mockRecoveryCreateMany.mockReset();
-  mockTransaction.mockReset();
-  mockGenerateSecret.mockReset();
-  mockTotpVerify.mockReset();
-  mockToDataURL.mockReset();
-  mockSeal.mockReset();
-  mockOpen.mockReset();
+  mockPrisma.$transaction.mockImplementation(
+    async (callback) => callback(tx)
+  );
+
+  mockIssueSession.mockReturnValue('session-token');
+
+  mockSeal.mockImplementation((value) => `ENC(${value})`);
+  mockOpen.mockImplementation((value) => {
+    if (value === 'ENC(BASE32SECRET)') return 'BASE32SECRET';
+    return value;
+  });
+
+  mockRecoveryCodeHash.mockImplementation(
+    (value) => `HASH(${value})`
+  );
+
+  tx.verificationToken.updateMany.mockResolvedValue({ count: 1 });
+  tx.verificationToken.create.mockResolvedValue({ id: 501 });
+  tx.verificationToken.update.mockResolvedValue({ id: 501 });
+
+  tx.twoFactorRecoveryCode.deleteMany.mockResolvedValue({ count: 0 });
+  tx.twoFactorRecoveryCode.createMany.mockResolvedValue({ count: 10 });
+
+  tx.user.update.mockResolvedValue({
+    id: 1,
+    username: 'alice',
+    twoFactorEnabled: true,
+    tokenVersion: 1,
+  });
 });
 
-// --- Tests: POST /auth/2fa/setup ---------------------------------------------
+// -----------------------------------------------------------------------------
+// POST /auth/2fa/setup
+// -----------------------------------------------------------------------------
 
 describe('POST /auth/2fa/setup', () => {
-  it('returns a tmpSecret and qrDataUrl using speakeasy + qrcode', async () => {
-    const app = createApp({ user: { id: 1, username: 'alice' } });
-
+  it('creates a pending MFA secret and QR code', async () => {
     mockGenerateSecret.mockReturnValue({
       base32: 'BASE32SECRET',
-      otpauth_url: 'otpauth://totp/Chatforia%20(alice)?secret=BASE32SECRET',
+      otpauth_url:
+        'otpauth://totp/Chatforia%20(alice)?secret=BASE32SECRET',
     });
 
-    mockToDataURL.mockResolvedValueOnce('data:image/png;base64,QRDATA');
+    mockToDataURL.mockResolvedValue(
+      'data:image/png;base64,QRDATA'
+    );
 
-    const res = await request(app)
+    mockLockMfaUser.mockResolvedValue({
+      id: 1,
+      username: 'alice',
+      twoFactorEnabled: false,
+      tokenVersion: 0,
+    });
+
+    const res = await request(createApp())
       .post('/auth/2fa/setup')
       .send();
 
     expect(res.statusCode).toBe(200);
+
     expect(res.body).toEqual({
       ok: true,
       tmpSecret: 'BASE32SECRET',
@@ -140,141 +175,181 @@ describe('POST /auth/2fa/setup', () => {
       issuer: 'Chatforia',
     });
 
-    expect(mockToDataURL).toHaveBeenCalledWith(
-      'otpauth://totp/Chatforia%20(alice)?secret=BASE32SECRET'
+    expect(tx.verificationToken.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        userId: 1,
+        type: 'mfa_setup',
+        tokenHash: 'ENC(BASE32SECRET)',
+        expiresAt: expect.any(Date),
+      }),
+    });
+  });
+
+  it('returns 409 when MFA is already enabled', async () => {
+    mockGenerateSecret.mockReturnValue({
+      base32: 'BASE32SECRET',
+      otpauth_url: 'otpauth://example',
+    });
+
+    mockToDataURL.mockResolvedValue('data:image/png;base64,QR');
+
+    mockLockMfaUser.mockResolvedValue({
+      id: 1,
+      username: 'alice',
+      twoFactorEnabled: true,
+      tokenVersion: 0,
+    });
+
+    const res = await request(createApp())
+      .post('/auth/2fa/setup')
+      .send();
+
+    expect(res.statusCode).toBe(409);
+  });
+});
+
+// -----------------------------------------------------------------------------
+// POST /auth/2fa/enable
+// -----------------------------------------------------------------------------
+
+describe('POST /auth/2fa/enable', () => {
+  it('rejects malformed verification codes before the transaction', async () => {
+    const res = await request(createApp())
+      .post('/auth/2fa/enable')
+      .send({
+        tmpSecret: 'BASE32SECRET',
+        code: '123',
+      });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({
+      ok: false,
+      reason: 'bad_code',
+    });
+
+    expect(mockPrisma.$transaction).not.toHaveBeenCalled();
+  });
+
+  it('enables MFA and issues a new verified session', async () => {
+    const user = {
+      id: 10,
+      username: 'carol',
+      tokenVersion: 0,
+    };
+
+    mockLockMfaUser.mockResolvedValue({
+      id: 10,
+      username: 'carol',
+      twoFactorEnabled: false,
+      tokenVersion: 0,
+    });
+
+    tx.verificationToken.findFirst.mockResolvedValue({
+      id: 700,
+      userId: 10,
+      type: 'mfa_setup',
+      tokenHash: 'ENC(BASE32SECRET)',
+      usedAt: null,
+    });
+
+    mockTotpVerify.mockReturnValue(true);
+
+    tx.user.update.mockResolvedValue({
+      id: 10,
+      username: 'carol',
+      twoFactorEnabled: true,
+      tokenVersion: 1,
+    });
+
+    mockIssueSession.mockReturnValue('mfa-session-token');
+
+    const res = await request(createApp(user))
+      .post('/auth/2fa/enable')
+      .send({
+        tmpSecret: 'BASE32SECRET',
+        code: '654321',
+      });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(res.body.token).toBe('mfa-session-token');
+
+    expect(res.body.backupCodes).toHaveLength(10);
+
+    expect(mockTotpVerify).toHaveBeenCalledWith({
+      secret: 'BASE32SECRET',
+      encoding: 'base32',
+      token: '654321',
+      window: 1,
+    });
+
+    expect(tx.user.update).toHaveBeenCalledWith({
+      where: { id: 10 },
+      data: expect.objectContaining({
+        twoFactorEnabled: true,
+        totpSecretEnc: 'ENC(BASE32SECRET)',
+        twoFactorEnrolledAt: expect.any(Date),
+        tokenVersion: { increment: 1 },
+      }),
+    });
+
+    expect(tx.twoFactorRecoveryCode.createMany).toHaveBeenCalled();
+
+    expect(mockIssueSession).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        id: 10,
+        twoFactorEnabled: true,
+      }),
+      { mfaVerified: true }
     );
   });
 });
 
-// --- Tests: POST /auth/2fa/enable --------------------------------------------
-
-describe('POST /auth/2fa/enable', () => {
-  it('returns 400 when TOTP code is invalid', async () => {
-    const app = createApp({ user: { id: 5, username: 'bob' } });
-
-    mockTotpVerify.mockReturnValueOnce(false);
-
-    const res = await request(app)
-      .post('/auth/2fa/enable')
-      .send({ tmpSecret: 'INVALIDSECRET', code: '123456' });
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ ok: false, reason: 'bad_code' });
-
-    expect(mockTotpVerify).toHaveBeenCalledWith({
-      secret: 'INVALIDSECRET',
-      encoding: 'base32',
-      token: '123456',
-      window: 1,
-    });
-
-    expect(mockTransaction).not.toHaveBeenCalled();
-  });
-
-  it('enables 2FA, creates backup codes, and stores hashed recovery codes', async () => {
-    const user = { id: 10, username: 'carol' };
-    const app = createApp({ user });
-
-    mockTotpVerify.mockReturnValueOnce(true);
-
-    // seal() returns a deterministic value
-    mockSeal.mockImplementation((s) => `ENC(${s})`);
-
-    // Let prisma.$transaction resolve successfully
-    mockTransaction.mockResolvedValueOnce([]);
-
-    const res = await request(app)
-      .post('/auth/2fa/enable')
-      .send({ tmpSecret: 'BASE32SECRET', code: '654321' });
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.ok).toBe(true);
-
-    // backupCodes are random; just check shape and count
-    const { backupCodes } = res.body;
-    expect(Array.isArray(backupCodes)).toBe(true);
-    expect(backupCodes).toHaveLength(10);
-    for (const code of backupCodes) {
-      // pattern XXXX-XXXX-XXXX, uppercase, alnum + _ or -
-      expect(code).toMatch(/^[A-Z0-9_\-]{4}-[A-Z0-9_\-]{4}-[A-Z0-9_\-]{3,4}$/);
-    }
-
-    // prisma.$transaction called with three operations
-    expect(mockTransaction).toHaveBeenCalledTimes(1);
-    expect(mockUserUpdate).toHaveBeenCalledTimes(1);
-    expect(mockRecoveryDeleteMany).toHaveBeenCalledTimes(1);
-    expect(mockRecoveryCreateMany).toHaveBeenCalledTimes(1);
-
-    // user.update data
-    const userUpdateArgs = mockUserUpdate.mock.calls[0][0];
-    expect(userUpdateArgs.where).toEqual({ id: user.id });
-    expect(userUpdateArgs.data.twoFactorEnabled).toBe(true);
-    expect(userUpdateArgs.data.totpSecretEnc).toBe('ENC(BASE32SECRET)');
-    expect(userUpdateArgs.data.twoFactorEnrolledAt).toBeInstanceOf(Date);
-
-    // recovery codes created with hashes
-    const createManyArgs = mockRecoveryCreateMany.mock.calls[0][0];
-    expect(Array.isArray(createManyArgs.data)).toBe(true);
-    expect(createManyArgs.data).toHaveLength(10);
-    for (let i = 0; i < createManyArgs.data.length; i++) {
-      const row = createManyArgs.data[i];
-      expect(row.userId).toBe(user.id);
-      expect(typeof row.codeHash).toBe('string');
-      expect(row.codeHash).toHaveLength(64);
-
-      // ensure hash matches corresponding backupCode
-      const expectedHash = sha256(backupCodes[i]);
-      expect(row.codeHash).toBe(expectedHash);
-    }
-  });
-});
-
-// --- Tests: POST /auth/2fa/disable -------------------------------------------
+// -----------------------------------------------------------------------------
+// POST /auth/2fa/disable
+// -----------------------------------------------------------------------------
 
 describe('POST /auth/2fa/disable', () => {
-  it('returns 400 if no TOTP secret is stored for user', async () => {
-    const user = { id: 50, username: 'dave' };
-    const app = createApp({ user });
-
-    mockUserFindUnique.mockResolvedValueOnce({
+  it('disables MFA after verifying the current TOTP code', async () => {
+    const user = {
       id: 50,
-      totpSecretEnc: null,
+      username: 'dave',
+      tokenVersion: 3,
+    };
+
+    mockLockMfaUser.mockResolvedValue({
+      id: 50,
+      username: 'dave',
+      twoFactorEnabled: true,
+      totpSecretEnc: 'ENC(BASE32SECRET)',
+      tokenVersion: 3,
+    });
+
+    mockTotpVerify.mockReturnValue(true);
+
+    tx.user.update.mockResolvedValue({
+      id: 50,
+      username: 'dave',
       twoFactorEnabled: false,
+      tokenVersion: 4,
     });
 
-    const res = await request(app)
+    mockIssueSession.mockReturnValue('post-disable-token');
+
+    const res = await request(createApp(user))
       .post('/auth/2fa/disable')
-      .send({ code: '000000' });
+      .send({
+        code: '111222',
+      });
 
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ ok: false });
+    expect(res.statusCode).toBe(200);
 
-    expect(mockUserFindUnique).toHaveBeenCalledWith({
-      where: { id: user.id },
-    });
-    expect(mockTransaction).not.toHaveBeenCalled();
-  });
-
-  it('returns 400 bad_code when TOTP verification fails', async () => {
-    const user = { id: 60, username: 'eve' };
-    const app = createApp({ user });
-
-    mockUserFindUnique.mockResolvedValueOnce({
-      id: 60,
-      totpSecretEnc: 'ENC(SECRET)',
+    expect(res.body).toEqual({
+      ok: true,
+      token: 'post-disable-token',
     });
 
-    mockOpen.mockReturnValue('BASE32SECRET');
-    mockTotpVerify.mockReturnValueOnce(false);
-
-    const res = await request(app)
-      .post('/auth/2fa/disable')
-      .send({ code: '111222' });
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ ok: false, reason: 'bad_code' });
-
-    expect(mockOpen).toHaveBeenCalledWith('ENC(SECRET)');
     expect(mockTotpVerify).toHaveBeenCalledWith({
       secret: 'BASE32SECRET',
       encoding: 'base32',
@@ -282,46 +357,20 @@ describe('POST /auth/2fa/disable', () => {
       window: 1,
     });
 
-    expect(mockTransaction).not.toHaveBeenCalled();
-  });
-
-  it('disables 2FA and clears recovery codes when code is valid', async () => {
-    const user = { id: 70, username: 'frank' };
-    const app = createApp({ user });
-
-    mockUserFindUnique.mockResolvedValueOnce({
-      id: 70,
-      totpSecretEnc: 'ENC(SECRET)',
+    expect(tx.user.update).toHaveBeenCalledWith({
+      where: { id: 50 },
+      data: {
+        twoFactorEnabled: false,
+        totpSecretEnc: null,
+        twoFactorEnrolledAt: null,
+        tokenVersion: { increment: 1 },
+      },
     });
 
-    mockOpen.mockReturnValue('BASE32SECRET');
-    mockTotpVerify.mockReturnValueOnce(true);
-    mockTransaction.mockResolvedValueOnce([]);
-
-    const res = await request(app)
-      .post('/auth/2fa/disable')
-      .send({ code: '999000' });
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ ok: true });
-
-    expect(mockUserFindUnique).toHaveBeenCalledWith({
-      where: { id: user.id },
+    expect(tx.twoFactorRecoveryCode.deleteMany).toHaveBeenCalledWith({
+      where: { userId: 50 },
     });
 
-    expect(mockTransaction).toHaveBeenCalledTimes(1);
-    expect(mockUserUpdate).toHaveBeenCalledTimes(1);
-    expect(mockRecoveryDeleteMany).toHaveBeenCalledTimes(1);
-
-    const userUpdateArgs = mockUserUpdate.mock.calls[0][0];
-    expect(userUpdateArgs.where).toEqual({ id: user.id });
-    expect(userUpdateArgs.data).toEqual({
-      twoFactorEnabled: false,
-      totpSecretEnc: null,
-      twoFactorEnrolledAt: null,
-    });
-
-    const deleteArgs = mockRecoveryDeleteMany.mock.calls[0][0];
-    expect(deleteArgs.where).toEqual({ userId: user.id });
+    expect(mockIssueSession).toHaveBeenCalled();
   });
 });

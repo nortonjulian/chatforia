@@ -37,6 +37,12 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
 }));
 
 const emitToUserMock = jest.fn();
+const getUsageAvailabilityMock = jest.fn();
+
+await jest.unstable_mockModule('../services/callUsageService.js', () => ({
+  __esModule: true,
+  getUsageAvailability: getUsageAvailabilityMock,
+}));
 
 await jest.unstable_mockModule('../services/socketBus.js', () => ({
   __esModule: true,
@@ -93,6 +99,16 @@ describe('calls routes', () => {
       .mockResolvedValue(undefined);
 
     mockPrisma.user.findUnique.mockReset();
+
+    getUsageAvailabilityMock
+      .mockReset()
+      .mockResolvedValue({
+        plan: 'PLUS',
+        meter: 'hostedParticipantSeconds',
+        limit: 18000,
+        used: 0,
+        remaining: 18000,
+      });
 
     mockPrisma.device.findUnique
       .mockReset()

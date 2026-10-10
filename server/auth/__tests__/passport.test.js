@@ -158,9 +158,11 @@ describe('passport auth strategies', () => {
       provider: 'google',
       providerSub: 'google-user-1',
       email: 'julian@example.com',
-      emailVerified: true,
+      emailVerified: false,
       displayName: 'Julian Norton',
       avatarUrl: 'https://example.com/a.jpg',
+      referralCode: null,
+      referralSource: 'web-google',
       logContext: {
         channel: 'web-passport',
         path: '/auth/google/callback',

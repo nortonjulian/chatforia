@@ -2143,9 +2143,9 @@ router.delete(
 
     if (IS_TEST) {
       const mm = memGetMessage(messageId);
-      if (!mm) throw Boom.notFound('Message not found');
 
-      if (scope === 'all') {
+      if (mm) {
+        if (scope === 'all') {
         if (!isAdmin && mm.senderId !== requesterId) {
           throw Boom.forbidden('Unauthorized to delete for everyone');
         }
@@ -2218,7 +2218,8 @@ router.delete(
         },
       });
 
-      return res.json({ success: true, scope: 'me' });
+        return res.json({ success: true, scope: 'me' });
+      }
     }
 
     // === Production path ===

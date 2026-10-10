@@ -64,15 +64,18 @@ function setupPrismaMock() {
   const deleteMany = jest.fn(async () => ({ count: 0 }));
   const create = jest.fn(async () => ({}));
   const findFirst = jest.fn(async () => null);
-  const update = jest.fn(async () => ({}));
+  const updateMany = jest.fn(async () => ({ count: 1 }));
+  const queryRaw = jest.fn(async () => [{ id: 1 }]);
 
   prismaMock = {
     passwordResetToken: {
       deleteMany,
       create,
       findFirst,
-      update,
+      updateMany,
     },
+    $queryRaw: queryRaw,
+    $transaction: jest.fn(async (callback) => callback(prismaMock)),
   };
 
   // SUPER IMPORTANT:
@@ -90,7 +93,8 @@ function setupPrismaMock() {
       deleteMany,
       create,
       findFirst,
-      update,
+      updateMany,
+      queryRaw,
     },
   };
 }
@@ -178,15 +182,14 @@ describe('resetTokens utils', () => {
     // default spies.findFirst resolves to null
     const { consumeResetToken } = await loadModuleFresh();
 
-    const out = await consumeResetToken('SOMEPLAINTEXT');
+    const plaintext = 'a'.repeat(64);
+    const out = await consumeResetToken(plaintext);
 
-    // We expect null for invalid / no-hit
     expect(out).toBeNull();
 
-    // Ensure prisma.findFirst looked for unused, unexpired token
     expect(spies.findFirst).toHaveBeenCalledWith({
       where: {
-        tokenHash: 'HASH_SOMEPLAINTEXT',
+        tokenHash: `HASH_${plaintext}`,
         usedAt: null,
         expiresAt: { gt: new Date('2035-06-01T12:00:00.000Z') },
       },
@@ -208,18 +211,25 @@ describe('resetTokens utils', () => {
 
     const { consumeResetToken } = await loadModuleFresh();
 
-    const out = await consumeResetToken('VALIDTOKEN');
+    const plaintext = 'b'.repeat(64);
+    const out = await consumeResetToken(plaintext);
     expect(out).toBe(123);
 
-    // It should have updated usedAt
-    expect(spies.update).toHaveBeenCalledWith({
-      where: { id: 999 },
-      data: { usedAt: expect.any(Date) },
-    });
+    expect(spies.queryRaw).toHaveBeenCalled();
 
-    // usedAt should be "now"
-    const usedAtVal = spies.update.mock.calls[0][0].data.usedAt;
-    expect(usedAtVal.toISOString()).toBe('2035-06-01T12:00:00.000Z');
+    expect(spies.updateMany).toHaveBeenCalledWith({
+      where: {
+        id: 999,
+        tokenHash: `HASH_${plaintext}`,
+        usedAt: null,
+        expiresAt: {
+          gt: new Date('2035-06-01T12:00:00.000Z'),
+        },
+      },
+      data: {
+        usedAt: new Date('2035-06-01T12:00:00.000Z'),
+      },
+    });
   });
 
   test('purgeResetTokens() default: expiredOnly true, no userId -> deletes expired tokens only', async () => {

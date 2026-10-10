@@ -17,6 +17,7 @@ const prisma = {
 };
 
 const assertAndConsumeUsage = jest.fn();
+const getUsageSummary = jest.fn();
 
 jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   default: prisma,
@@ -24,6 +25,7 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
 
 jest.unstable_mockModule('../services/planUsageService.js', () => ({
   assertAndConsumeUsage,
+  getUsageSummary,
 }));
 
 const {

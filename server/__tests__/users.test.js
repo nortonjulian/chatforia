@@ -16,6 +16,9 @@ const mockHash = jest.fn();
 // registration validator
 const mockValidateRegistrationInput = jest.fn();
 
+// canonical registration router
+const mockAuthRouter = jest.fn();
+
 // Upload / AV / download mocks (imported but not used in the shown routes)
 jest.unstable_mockModule('../middleware/uploads.js', () => ({
   uploadAvatar: {
@@ -56,6 +59,11 @@ jest.unstable_mockModule('../middleware/auth.js', () => ({
   requireAuth: (req, res, next) => next(),
 }));
 
+// canonical registration router used by POST /users
+jest.unstable_mockModule('../routes/auth.js', () => ({
+  default: (req, res, next) => mockAuthRouter(req, res, next),
+}));
+
 // validation
 jest.unstable_mockModule('../utils/validateUser.js', () => ({
   validateRegistrationInput: mockValidateRegistrationInput,
@@ -87,118 +95,83 @@ beforeEach(() => {
   mockUserUpdate.mockReset();
   mockHash.mockReset();
   mockValidateRegistrationInput.mockReset();
+  mockAuthRouter.mockReset();
 });
 
 // --- Tests: POST /users ------------------------------------------------------
 
 describe('POST /users', () => {
-  it('returns 400 when validation fails', async () => {
-    mockValidateRegistrationInput.mockReturnValue('Invalid email');
+  it('delegates to canonical /auth/register and preserves legacy success shape', async () => {
+    let delegatedUrl = null;
 
-    const app = createApp();
+    mockAuthRouter.mockImplementationOnce((req, res) => {
+      delegatedUrl = req.url;
 
-    const res = await request(app)
-      .post('/users')
-      .send({ username: 'test', email: 'bad-email', password: 'pw' });
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'Invalid email' });
-
-    expect(mockUserFindUnique).not.toHaveBeenCalled();
-    expect(mockUserCreate).not.toHaveBeenCalled();
-  });
-
-  it('returns 409 when email is already in use', async () => {
-    mockValidateRegistrationInput.mockReturnValue(null);
-    mockUserFindFirst.mockResolvedValueOnce({
-      id: 1,
-      usernameNorm: 'someone-else',
-      emailNorm: 'test@example.com',
+      return res.status(201).json({
+        user: {
+          id: 42,
+          username: 'alice',
+          email: 'alice@example.com',
+          role: 'USER',
+        },
+      });
     });
 
     const app = createApp();
 
     const res = await request(app)
       .post('/users')
-      .send({ username: 'test', email: 'test@example.com', password: 'secret' });
-
-    expect(res.statusCode).toBe(409);
-    expect(res.body).toEqual({ error: 'Email already in use' });
-
-    expect(mockUserFindFirst).toHaveBeenCalledWith({
-      where: {
-        OR: [
-          { usernameNorm: 'test' },
-          { emailNorm: 'test@example.com' },
-        ],
-      },
-      select: {
-        id: true,
-        usernameNorm: true,
-        emailNorm: true,
-      },
-    });
-    expect(mockUserCreate).not.toHaveBeenCalled();
-  });
-
-  it('creates a user, hashes password, and omits it from response', async () => {
-    mockValidateRegistrationInput.mockReturnValue(null);
-    mockUserFindFirst.mockResolvedValueOnce(null);
-
-    mockHash.mockResolvedValueOnce('hashed-password');
-
-    const createdUser = {
-      id: 42,
-      username: 'alice',
-      email: 'alice@example.com',
-      passwordHash: 'hashed-password',
-      role: 'USER',
-    };
-
-    mockUserCreate.mockResolvedValueOnce(createdUser);
-
-    const app = createApp();
-
-    const res = await request(app)
-      .post('/users')
-      .send({ username: 'alice', email: 'alice@example.com', password: 'secret' });
+      .send({
+        username: 'alice',
+        email: 'alice@example.com',
+        password: 'ValidPass123!',
+      });
 
     expect(res.statusCode).toBe(201);
+    expect(delegatedUrl).toBe('/register');
+    expect(mockAuthRouter).toHaveBeenCalledTimes(1);
+
     expect(res.body).toEqual({
       id: 42,
       username: 'alice',
       email: 'alice@example.com',
       role: 'USER',
-    });
-    expect(res.body.password).toBeUndefined();
-
-    expect(mockHash).toHaveBeenCalledWith('secret', 10);
-    expect(mockUserCreate).toHaveBeenCalledWith({
-      data: {
-        username: 'alice',
-        email: 'alice@example.com',
-        usernameNorm: 'alice',
-        emailNorm: 'alice@example.com',
-        passwordHash: 'hashed-password',
-        role: 'USER',
-      },
+      requiresEmailVerification: true,
     });
   });
 
-  it('returns 500 when prisma.user.create throws', async () => {
-    mockValidateRegistrationInput.mockReturnValue(null);
-    mockUserFindFirst.mockResolvedValueOnce(null);
-    mockHash.mockResolvedValueOnce('hashed-password');
-    mockUserCreate.mockRejectedValueOnce(new Error('DB error'));
+  it('passes canonical registration errors through unchanged', async () => {
+    let delegatedUrl = null;
+
+    const canonicalError = {
+      message: 'Invalid registration data',
+      details: [
+        {
+          path: ['email'],
+          message: 'Invalid email',
+        },
+      ],
+    };
+
+    mockAuthRouter.mockImplementationOnce((req, res) => {
+      delegatedUrl = req.url;
+      return res.status(422).json(canonicalError);
+    });
 
     const app = createApp();
 
     const res = await request(app)
       .post('/users')
-      .send({ username: 'bob', email: 'bob@example.com', password: 'secret' });
+      .send({
+        username: 'test',
+        email: 'bad-email',
+        password: 'ValidPass123!',
+      });
 
-    expect(res.statusCode).toBe(500);
-    expect(res.body).toEqual({ error: 'Failed to create user' });
+    expect(res.statusCode).toBe(422);
+    expect(delegatedUrl).toBe('/register');
+    expect(mockAuthRouter).toHaveBeenCalledTimes(1);
+    expect(res.body).toEqual(canonicalError);
   });
 });
 

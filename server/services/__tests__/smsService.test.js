@@ -44,6 +44,9 @@ const mockPrisma = {
   }),
 };
 
+const modulePath = (relative) =>
+  new URL(relative, import.meta.url).pathname;
+
 const normalizeE164Mock = jest.fn((n) => n);
 const isE164Mock = jest.fn(() => true);
 
@@ -59,33 +62,33 @@ const recordSupportSignalMock = jest.fn();
 const assertAndConsumeUsageMock = jest.fn();
 const releaseUsageMock = jest.fn();
 
-await jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
+await jest.unstable_mockModule(modulePath('../../utils/prismaClient.js'), () => ({
   __esModule: true,
   default: mockPrisma,
 }));
 
-await jest.unstable_mockModule('../../utils/phone.js', () => ({
+await jest.unstable_mockModule(modulePath('../../utils/phone.js'), () => ({
   __esModule: true,
   normalizeE164: normalizeE164Mock,
   isE164: isE164Mock,
 }));
 
-await jest.unstable_mockModule('../../lib/telco/index.js', () => ({
+await jest.unstable_mockModule(modulePath('../../lib/telco/index.js'), () => ({
   __esModule: true,
   sendSms: sendSmsMock,
 }));
 
-await jest.unstable_mockModule('../socketBus.js', () => ({
+await jest.unstable_mockModule(modulePath('../socketBus.js'), () => ({
   __esModule: true,
   emitToUser: emitToUserMock,
 }));
 
-await jest.unstable_mockModule('../supportAutomationService.js', () => ({
+await jest.unstable_mockModule(modulePath('../supportAutomationService.js'), () => ({
   __esModule: true,
   recordSupportSignal: recordSupportSignalMock,
 }));
 
-await jest.unstable_mockModule('../planUsageService.js', () => ({
+await jest.unstable_mockModule(modulePath('../planUsageService.js'), () => ({
   __esModule: true,
   assertAndConsumeUsage: assertAndConsumeUsageMock,
   releaseUsage: releaseUsageMock,
