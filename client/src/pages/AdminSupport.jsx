@@ -118,6 +118,7 @@ export default function AdminSupport() {
               <Table.Th>ID</Table.Th>
               <Table.Th>Email</Table.Th>
               <Table.Th>Status</Table.Th>
+              <Table.Th>Support</Table.Th>
               <Table.Th>Message</Table.Th>
               <Table.Th>Actions</Table.Th>
             </Table.Tr>
@@ -130,6 +131,19 @@ export default function AdminSupport() {
                 <Table.Td>{ticket.email}</Table.Td>
                 <Table.Td>
                   <Badge>{ticket.status}</Badge>
+                </Table.Td>
+                <Table.Td>
+                  <Badge
+                    color={
+                      ticket.supportLevel === 'PRIORITY'
+                        ? 'red'
+                        : ticket.supportLevel === 'EMAIL'
+                          ? 'blue'
+                          : 'gray'
+                    }
+                  >
+                    {ticket.supportLevel || 'STANDARD'}
+                  </Badge>
                 </Table.Td>
                 <Table.Td>
                   <Text lineClamp={2}>{ticket.message}</Text>

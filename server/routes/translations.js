@@ -4,6 +4,10 @@ import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
 import { translateBatch } from '../services/translation/index.js';
+import {
+  countTranslationCharacters,
+  withTranslationAllowance,
+} from '../services/translation/translationUsageService.js';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -25,17 +29,30 @@ router.post('/batch', requireAuth, translateLimiter, async (req, res, next) => {
     const { items = [], target } = req.body || {};
     if (!Array.isArray(items) || !items.length) throw Boom.badRequest('items required');
 
+    const me = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { preferredLanguage: true, plan: true },
+    });
+
     let targetLanguage = (typeof target === 'string' && target) || 'en';
-    if (!req.body?.target) {
-      const me = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { preferredLanguage: true },
-      });
-      if (me?.preferredLanguage) targetLanguage = me.preferredLanguage;
+    if (!req.body?.target && me?.preferredLanguage) {
+      targetLanguage = me.preferredLanguage;
     }
 
     const texts = items.map(i => String(i.text || ''));
-    const results = await translateBatch(texts, targetLanguage);
+    const amount = texts.reduce(
+      (sum, value) => sum + countTranslationCharacters(value),
+      0
+    );
+
+    const results = await withTranslationAllowance({
+      userId,
+      plan: me?.plan || 'FREE',
+      amount,
+      operation: () => translateBatch(texts, targetLanguage),
+      shouldBillResult: () =>
+        process.env.TRANSLATION_ENABLED === 'true',
+    });
 
     const out = items.map((it, i) => ({
       id: it.id,
@@ -46,7 +63,11 @@ router.post('/batch', requireAuth, translateLimiter, async (req, res, next) => {
 
     return res.json({ translations: out });
   } catch (err) {
-    next(err.isBoom ? err : Boom.badImplementation(err.message));
+    if (err?.isBoom || err?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+      return next(err);
+    }
+
+    return next(Boom.badImplementation(err.message));
   }
 });
 

@@ -37,12 +37,17 @@ function getPolicy(plan = 'FREE') {
   const inactivityDays = Number(process.env.NUMBER_INACTIVITY_DAYS) || 30;
   const holdDays = Number(process.env.NUMBER_HOLD_DAYS) || 14;
 
-  if (String(plan || 'FREE').toUpperCase() === 'FREE') {
+  if (
+    String(plan || 'FREE')
+      .trim()
+      .toUpperCase() !== 'PREMIUM'
+  ) {
     return {
       mode: 'AUTO_RECYCLE',
       inactivityDays,
       holdDays,
-      description: 'Numbers may be recycled after inactivity on the Free plan.',
+      description:
+        'Numbers may be recycled after inactivity unless protected by Premium.',
     };
   }
 
@@ -51,7 +56,7 @@ function getPolicy(plan = 'FREE') {
     inactivityDays: null,
     holdDays: null,
     description:
-      'Your number is protected from automatic recycling while your subscription is active.',
+      'Your number is protected from automatic recycling while Premium is active.',
   };
 }
 
@@ -1664,7 +1669,7 @@ router.post('/keep/enable', requireAuth, requirePremium, async (req, res) => {
   res.json({ ok: true });
 });
 
-router.post('/buy/keep-current', requireAuth, async (req, res) => {
+router.post('/buy/keep-current', requireAuth, requirePremium, async (req, res) => {
   try {
     const phone = await prisma.phoneNumber.findFirst({
       where: { assignedUserId: req.user.id, status: 'ASSIGNED' },
@@ -1675,10 +1680,6 @@ router.post('/buy/keep-current', requireAuth, async (req, res) => {
     if (phone.keepLocked) {
       return res.json({ ok: true, number: phone, note: 'Already locked' });
     }
-
-    // TODO: billing / entitlement gate:
-    // - requirePremium middleware here OR
-    // - charge one-time "keep number" product
 
     const updated = await prisma.phoneNumber.update({
       where: { id: phone.id },

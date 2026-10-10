@@ -7,6 +7,10 @@ import { promisify } from 'util';
 import logger from '../utils/logger.js';
 import { emitToUser } from './socketBus.js';
 import { fetchTwilioMedia } from '../utils/twilioMediaProxy.js';
+import {
+  assertAndConsumeUsage,
+  releaseUsage,
+} from './planUsageService.js';
 
 const writeFile = promisify(fs.writeFile);
 const unlink = promisify(fs.unlink);
@@ -78,10 +82,15 @@ async function transcribeVoicemail(voicemailId) {
     return;
   }
 
-  if (voicemail.user?.plan === 'FREE') {
-    logger?.info?.(
-      { voicemailId, userId: voicemail.user.id },
-      'Skipping transcription for FREE plan user',
+  const durationSec = Math.max(
+    0,
+    Math.floor(Number(voicemail.durationSec || 0)),
+  );
+
+  if (durationSec <= 0) {
+    logger?.warn?.(
+      { voicemailId, userId: voicemail.user?.id },
+      'Skipping transcription because voicemail duration is unavailable',
     );
 
     const failed = await prisma.voicemail.update({
@@ -102,6 +111,77 @@ async function transcribeVoicemail(voicemailId) {
     });
 
     return;
+  }
+
+  const usageEventKey = `voicemail-transcription:${voicemail.id}`;
+  let usageReserved = false;
+
+  try {
+    await prisma.voiceUsageCharge.create({
+      data: {
+        eventKey: usageEventKey,
+        userId: Number(voicemail.user.id),
+        meter: 'voicemailTranscriptionSeconds',
+        seconds: durationSec,
+      },
+    });
+
+    try {
+      await assertAndConsumeUsage({
+        userId: Number(voicemail.user.id),
+        plan: voicemail.user.plan,
+        meter: 'voicemailTranscriptionSeconds',
+        amount: durationSec,
+      });
+
+      usageReserved = true;
+    } catch (error) {
+      await prisma.voiceUsageCharge.deleteMany({
+        where: { eventKey: usageEventKey },
+      });
+      throw error;
+    }
+  } catch (error) {
+    if (error?.code === 'P2002') {
+      logger?.info?.(
+        { voicemailId, userId: voicemail.user.id },
+        'Skipping duplicate voicemail transcription job',
+      );
+      return;
+    }
+
+    if (error?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+      logger?.info?.(
+        {
+          voicemailId,
+          userId: voicemail.user.id,
+          plan: voicemail.user.plan,
+          durationSec,
+        },
+        'Skipping voicemail transcription because plan allowance is exhausted',
+      );
+
+      const failed = await prisma.voicemail.update({
+        where: { id: voicemailId },
+        data: { transcriptStatus: 'FAILED' },
+        select: {
+          id: true,
+          userId: true,
+          transcript: true,
+          transcriptStatus: true,
+        },
+      });
+
+      emitToUser(failed.userId, 'voicemail:updated', {
+        id: failed.id,
+        transcript: failed.transcript,
+        transcriptStatus: failed.transcriptStatus,
+      });
+
+      return;
+    }
+
+    throw error;
   }
 
   const audioUrl = voicemail.audioUrl;
@@ -153,6 +233,25 @@ async function transcribeVoicemail(voicemailId) {
     );
   } catch (err) {
     logger?.error?.({ err, voicemailId }, 'Error during voicemail transcription');
+
+    if (usageReserved) {
+      try {
+        await releaseUsage({
+          userId: Number(voicemail.user.id),
+          meter: 'voicemailTranscriptionSeconds',
+          amount: durationSec,
+        });
+
+        await prisma.voiceUsageCharge.deleteMany({
+          where: { eventKey: usageEventKey },
+        });
+      } catch (releaseError) {
+        logger?.error?.(
+          { releaseError, voicemailId },
+          'Failed to release voicemail transcription usage',
+        );
+      }
+    }
 
     const failed = await prisma.voicemail.update({
       where: { id: voicemailId },

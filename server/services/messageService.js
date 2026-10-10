@@ -4,21 +4,33 @@ import { isExplicit, cleanText } from '../utils/filter.js';
 import { translateText } from '../utils/translateText.js';
 import { maybeTranslateForTarget } from './translation/translateMessage.js';
 import { allow } from '../utils/tokenBucket.js';
+import {
+  countTranslationCharacters,
+  withTranslationAllowance,
+} from './translation/translationUsageService.js';
 import * as socketBus from './socketBus.js';
+import { getPlanEntitlements } from '../config/planEntitlements.js';
 
 const FORIA_BOT_USER_ID = Number(process.env.FORIA_BOT_USER_ID ?? 0);
 const MAX_TRANSLATE_CHARS = Number(process.env.TRANSLATE_MAX_INPUT_CHARS || 1200);
 
 /* =========================
- *  Plan-aware expiry limits
+ *  Plan-aware disappearing-message limits
+ *
+ *  This controls optional per-message TTL. It is separate from
+ *  message-history retention, which remains unlimited for app plans.
  * ========================= */
-const FREE_MAX = 24 * 3600; // 24h
-const PREMIUM_MAX = 7 * 24 * 3600; // 7d
-
 function clampExpireSeconds(seconds, plan = 'FREE') {
-  const max = (plan || 'FREE').toUpperCase() === 'PREMIUM' ? PREMIUM_MAX : FREE_MAX;
   if (!seconds || seconds <= 0) return 0;
-  return Math.min(seconds, max);
+
+  const normalizedPlan = String(plan || 'FREE').trim().toUpperCase();
+  const entitlementPlan = normalizedPlan === 'WIRELESS' ? 'FREE' : normalizedPlan;
+  const maxDays = Number(
+    getPlanEntitlements(entitlementPlan).expireMaxDays || 0,
+  );
+  const maxSeconds = Math.max(0, maxDays * 24 * 60 * 60);
+
+  return Math.min(Number(seconds), maxSeconds);
 }
 
 function safeJsonParse(str) {
@@ -488,15 +500,34 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
     );
     if (targets.size === 0) return;
 
+    const sender = senderId
+      ? await db.user.findUnique({
+          where: { id: senderId },
+          select: { plan: true },
+        })
+      : null;
+
     const results = {};
+    const amount = countTranslationCharacters(clipped);
 
     for (const lang of targets) {
       try {
         if (!allow(`translate:${roomId}:${lang}`, 6, 10_000)) continue;
+        if (!senderId) continue;
 
-        const out = await translateText({
-          text: clipped,
-          targetLang: lang
+        const out = await withTranslationAllowance({
+          userId: senderId,
+          plan: sender?.plan || 'FREE',
+          amount,
+          operation: () =>
+            translateText({
+              text: clipped,
+              targetLang: lang
+            }),
+          shouldBillResult: (result) =>
+            !['cache', 'noop', 'none'].includes(
+              String(result?.provider || '').toLowerCase()
+            ),
         });
 
         const translated =
@@ -507,6 +538,10 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
         }
       } catch (err) {
         console.error('[maybeAutoTranslate] translate failed:', lang, err?.message || err);
+
+        if (err?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+          break;
+        }
       }
     }
 

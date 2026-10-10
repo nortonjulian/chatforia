@@ -4,6 +4,7 @@ import { verifyTokenOptional } from '../middleware/auth.js';
 import { runSupportAutomation } from '../services/supportAutomationService.js';
 import { newRawToken, hashToken } from '../utils/tokens.js';
 import { sendMail } from '../utils/sendMail.js';
+import { getPlanEntitlements } from '../config/planEntitlements.js';
 
 const router = express.Router();
 
@@ -18,16 +19,37 @@ router.post('/tickets', verifyTokenOptional, async (req, res, next) => {
       });
     }
 
+    const userId = req.user?.id ? Number(req.user.id) : null;
+
+    let plan = 'FREE';
+    if (userId) {
+      const me = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { plan: true },
+      });
+      plan = me?.plan || 'FREE';
+    }
+
+    const supportLevel =
+      getPlanEntitlements(plan)?.supportLevel || 'STANDARD';
+
+    const supportPriority =
+      supportLevel === 'PRIORITY'
+        ? 2
+        : supportLevel === 'EMAIL'
+          ? 1
+          : 0;
+
     const ticket = await prisma.supportTicket.create({
       data: {
         name: String(name).trim(),
         email: String(email).trim().toLowerCase(),
         message: String(message).trim(),
         status: 'new',
+        supportLevel,
+        supportPriority,
       },
     });
-
-    const userId = req.user?.id ? Number(req.user.id) : null;
 
     const automation = await runSupportAutomation({
       userId,
@@ -58,6 +80,7 @@ router.post('/tickets', verifyTokenOptional, async (req, res, next) => {
     return res.status(201).json({
       ok: true,
       ticketId: ticket.id,
+      supportLevel,
       status: automation.diagnosis.resolved
         ? 'auto_resolved'
         : shouldEscalate

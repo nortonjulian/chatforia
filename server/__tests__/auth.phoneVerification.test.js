@@ -165,6 +165,16 @@ jest.unstable_mockModule('speakeasy', () => ({
   },
 }));
 
+const mockCreatePhoneVerification = jest.fn();
+const mockConsumePhoneVerification = jest.fn();
+
+jest.unstable_mockModule('../services/authVerification.js', () => ({
+  __esModule: true,
+  consumeEmailVerification: jest.fn(),
+  createPhoneVerification: mockCreatePhoneVerification,
+  consumePhoneVerification: mockConsumePhoneVerification,
+}));
+
 // Import router AFTER mocks
 const { default: authRouter } = await import('../routes/auth.js');
 
@@ -201,6 +211,9 @@ beforeEach(() => {
   mockSendSms.mockReset();
   mockNormalizeE164.mockReset();
   mockNormalizeE164.mockImplementation((phone) => String(phone).trim());
+
+  mockCreatePhoneVerification.mockReset();
+  mockConsumePhoneVerification.mockReset();
 });
 
 afterEach(() => {
@@ -225,7 +238,7 @@ describe('POST /auth/send-verify', () => {
       message: 'Consent is required',
     });
 
-    expect(mockPhoneOtpCreate).not.toHaveBeenCalled();
+    expect(mockCreatePhoneVerification).not.toHaveBeenCalled();
     expect(mockSendSms).not.toHaveBeenCalled();
   });
 
@@ -244,33 +257,27 @@ describe('POST /auth/send-verify', () => {
       message: 'Phone must be in E.164 format (e.g. +14155551234)',
     });
 
-    expect(mockPhoneOtpCreate).not.toHaveBeenCalled();
+    expect(mockCreatePhoneVerification).not.toHaveBeenCalled();
     expect(mockSendSms).not.toHaveBeenCalled();
   });
 
-  it('creates OTP, records consent, sends SMS, and stores provider message id', async () => {
+  it('creates verification through service, sends SMS, and stores provider id', async () => {
     const app = createApp();
     const phone = '+15550001234';
 
-    jest.spyOn(Math, 'random').mockReturnValue(0.123456);
-
-    mockPhoneOtpCount.mockResolvedValueOnce(0);
-    mockSmsConsentCreate.mockResolvedValueOnce({ id: 1 });
-    mockPhoneOtpCreate.mockImplementationOnce(async ({ data }) => ({
+    mockCreatePhoneVerification.mockResolvedValueOnce({
+      status: 200,
       id: 10,
-      ...data,
-    }));
+      code: '123456',
+    });
+
     mockSendSms.mockResolvedValueOnce({
       messageSid: 'SM123',
     });
+
     mockPhoneOtpUpdateMany.mockResolvedValueOnce({
       count: 1,
     });
-
-    const pendingRegistration = {
-      username: 'julian',
-      email: 'julian@example.com',
-    };
 
     const res = await request(app)
       .post('/auth/send-verify')
@@ -278,7 +285,6 @@ describe('POST /auth/send-verify', () => {
       .send({
         phone,
         consent: true,
-        pendingRegistration,
       });
 
     expect(res.statusCode).toBe(200);
@@ -286,65 +292,33 @@ describe('POST /auth/send-verify', () => {
       message: 'Verification code sent',
     });
 
-    expect(mockNormalizeE164).toHaveBeenCalledWith(phone);
-
-    expect(mockPhoneOtpCount).toHaveBeenCalledWith({
-      where: {
-        phone,
-        createdAt: {
-          gt: expect.any(Date),
-        },
-      },
-    });
-
-    expect(mockSmsConsentCreate).toHaveBeenCalledWith({
-      data: {
-        phone,
-        pendingRegistration,
-        consentTextVersion: 'v1',
-        ipAddress: expect.any(String),
-        userAgent: 'jest-agent',
-      },
-    });
-
-    expect(mockPhoneOtpCreate).toHaveBeenCalledTimes(1);
-
-    const createArg = mockPhoneOtpCreate.mock.calls[0][0];
-
-    expect(createArg.data).toMatchObject({
+    expect(mockCreatePhoneVerification).toHaveBeenCalledWith({
       phone,
-      otpCode: expect.stringMatching(/^\d{6}$/),
-      expiresAt: expect.any(Date),
+      consentTextVersion: 'v1',
+      ipAddress: expect.any(String),
+      userAgent: 'jest-agent',
     });
 
-    expect(mockSendSms).toHaveBeenCalledTimes(1);
-
-    const smsArg = mockSendSms.mock.calls[0][0];
-
-    expect(smsArg).toMatchObject({
+    expect(mockSendSms).toHaveBeenCalledWith({
       to: phone,
-      text: expect.stringMatching(
-        /^Chatforia: Your verification code is \d{6}\./
-      ),
+      text: expect.stringContaining('123456'),
       clientRef: expect.stringMatching(/^otp:\+15550001234:/),
     });
 
     expect(mockPhoneOtpUpdateMany).toHaveBeenCalledWith({
-      where: {
-        phone,
-        otpCode: createArg.data.otpCode,
-      },
-      data: {
-        providerMessageId: 'SM123',
-      },
+      where: { id: 10 },
+      data: { providerMessageId: 'SM123' },
     });
   });
 
-  it('returns 429 when too many recent code requests exist for phone', async () => {
+  it('returns service status when verification issuance is rate limited', async () => {
     const app = createApp();
     const phone = '+15550001234';
 
-    mockPhoneOtpCount.mockResolvedValueOnce(5);
+    mockCreatePhoneVerification.mockResolvedValueOnce({
+      status: 429,
+      message: 'Too many code requests for this phone',
+    });
 
     const res = await request(app)
       .post('/auth/send-verify')
@@ -358,24 +332,21 @@ describe('POST /auth/send-verify', () => {
       message: 'Too many code requests for this phone',
     });
 
-    expect(mockSmsConsentCreate).not.toHaveBeenCalled();
-    expect(mockPhoneOtpCreate).not.toHaveBeenCalled();
     expect(mockSendSms).not.toHaveBeenCalled();
   });
 
-  it('returns 500 when SMS sending fails', async () => {
+  it('expires issued OTP and returns 500 when SMS sending fails', async () => {
     const app = createApp();
     const phone = '+15550001234';
 
-    mockPhoneOtpCount.mockResolvedValueOnce(0);
-    mockSmsConsentCreate.mockResolvedValueOnce({ id: 1 });
-    mockPhoneOtpCreate.mockResolvedValueOnce({
+    mockCreatePhoneVerification.mockResolvedValueOnce({
+      status: 200,
       id: 10,
-      phone,
-      otpCode: '123456',
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+      code: '123456',
     });
+
     mockSendSms.mockRejectedValueOnce(new Error('sms failed'));
+    mockPhoneOtpUpdateMany.mockResolvedValueOnce({ count: 1 });
 
     const res = await request(app)
       .post('/auth/send-verify')
@@ -387,6 +358,11 @@ describe('POST /auth/send-verify', () => {
     expect(res.statusCode).toBe(500);
     expect(res.body).toEqual({
       message: 'Failed to send verification code',
+    });
+
+    expect(mockPhoneOtpUpdateMany).toHaveBeenCalledWith({
+      where: { id: 10 },
+      data: { expiresAt: expect.any(Date) },
     });
   });
 });
@@ -409,14 +385,17 @@ describe('POST /auth/verify-phone-code', () => {
       message: 'Invalid input',
     });
 
-    expect(mockPhoneOtpFindFirst).not.toHaveBeenCalled();
+    expect(mockConsumePhoneVerification).not.toHaveBeenCalled();
   });
 
-  it('returns 400 when no OTP exists', async () => {
+  it('returns service error when no OTP exists', async () => {
     const app = createApp();
     const phone = '+15550001234';
 
-    mockPhoneOtpFindFirst.mockResolvedValueOnce(null);
+    mockConsumePhoneVerification.mockResolvedValueOnce({
+      status: 400,
+      message: 'No verification code found',
+    });
 
     const res = await request(app)
       .post('/auth/verify-phone-code')
@@ -430,26 +409,19 @@ describe('POST /auth/verify-phone-code', () => {
       message: 'No verification code found',
     });
 
-    expect(mockPhoneOtpFindFirst).toHaveBeenCalledWith({
-      where: { phone },
-      orderBy: { createdAt: 'desc' },
-    });
+    expect(mockConsumePhoneVerification).toHaveBeenCalledWith(
+      phone,
+      '123456'
+    );
   });
 
-  it('returns 400 and deletes OTP when code is expired', async () => {
+  it('returns expired-code response from verification service', async () => {
     const app = createApp();
     const phone = '+15550001234';
 
-    mockPhoneOtpFindFirst.mockResolvedValueOnce({
-      id: 22,
-      phone,
-      otpCode: '123456',
-      expiresAt: new Date(Date.now() - 60 * 1000),
-      attempts: 0,
-    });
-
-    mockPhoneOtpDeleteMany.mockResolvedValueOnce({
-      count: 1,
+    mockConsumePhoneVerification.mockResolvedValueOnce({
+      status: 400,
+      message: 'Code expired',
     });
 
     const res = await request(app)
@@ -463,27 +435,15 @@ describe('POST /auth/verify-phone-code', () => {
     expect(res.body).toEqual({
       message: 'Code expired',
     });
-
-    expect(mockPhoneOtpDeleteMany).toHaveBeenCalledWith({
-      where: { id: 22 },
-    });
   });
 
-  it('returns 400 and increments attempts when code is wrong', async () => {
+  it('returns invalid-code response from verification service', async () => {
     const app = createApp();
     const phone = '+15550001234';
 
-    mockPhoneOtpFindFirst.mockResolvedValueOnce({
-      id: 33,
-      phone,
-      otpCode: '111111',
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-      attempts: 2,
-    });
-
-    mockPhoneOtpUpdate.mockResolvedValueOnce({
-      id: 33,
-      attempts: 3,
+    mockConsumePhoneVerification.mockResolvedValueOnce({
+      status: 400,
+      message: 'Invalid code',
     });
 
     const res = await request(app)
@@ -497,38 +457,17 @@ describe('POST /auth/verify-phone-code', () => {
     expect(res.body).toEqual({
       message: 'Invalid code',
     });
-
-    expect(mockPhoneOtpUpdate).toHaveBeenCalledWith({
-      where: { id: 33 },
-      data: { attempts: 3 },
-    });
   });
 
-  it('verifies code, deletes OTP, and returns pending registration from latest consent', async () => {
+  it('returns successful phone verification payload', async () => {
     const app = createApp();
     const phone = '+15550001234';
 
-    const pendingRegistration = {
-      username: 'julian',
-      email: 'julian@example.com',
-    };
-
-    mockPhoneOtpFindFirst.mockResolvedValueOnce({
-      id: 44,
-      phone,
-      otpCode: '123456',
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-      attempts: 0,
-    });
-
-    mockPhoneOtpDeleteMany.mockResolvedValueOnce({
-      count: 1,
-    });
-
-    mockSmsConsentFindFirst.mockResolvedValueOnce({
-      id: 99,
-      phone,
-      pendingRegistration,
+    mockConsumePhoneVerification.mockResolvedValueOnce({
+      status: 200,
+      message: 'Phone verified',
+      phoneVerificationId: 'proof-token',
+      pendingRegistration: null,
     });
 
     const res = await request(app)
@@ -541,48 +480,13 @@ describe('POST /auth/verify-phone-code', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual({
       message: 'Phone verified',
-      pendingRegistration,
-    });
-
-    expect(mockPhoneOtpDeleteMany).toHaveBeenCalledWith({
-      where: { id: 44 },
-    });
-
-    expect(mockSmsConsentFindFirst).toHaveBeenCalledWith({
-      where: { phone },
-      orderBy: { createdAt: 'desc' },
-    });
-  });
-
-  it('verifies code and returns pendingRegistration null when no consent exists', async () => {
-    const app = createApp();
-    const phone = '+15550001234';
-
-    mockPhoneOtpFindFirst.mockResolvedValueOnce({
-      id: 55,
-      phone,
-      otpCode: '654321',
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-      attempts: 0,
-    });
-
-    mockPhoneOtpDeleteMany.mockResolvedValueOnce({
-      count: 1,
-    });
-
-    mockSmsConsentFindFirst.mockResolvedValueOnce(null);
-
-    const res = await request(app)
-      .post('/auth/verify-phone-code')
-      .send({
-        phone,
-        code: '654321',
-      });
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({
-      message: 'Phone verified',
+      phoneVerificationId: 'proof-token',
       pendingRegistration: null,
     });
+
+    expect(mockConsumePhoneVerification).toHaveBeenCalledWith(
+      phone,
+      '123456'
+    );
   });
 });

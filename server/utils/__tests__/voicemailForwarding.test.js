@@ -5,8 +5,17 @@ import { serializeUser } from '../serializeUser.js';
 const configured = { plan: 'PLUS', voicemailForwardEmail: 'voice@example.com', voicemailEmailForwardingEnabled: true };
 
 describe('voicemail email forwarding entitlement and consent', () => {
-  it.each(['PLUS', 'PREMIUM', 'WIRELESS'])('allows enabled forwarding for %s', (plan) => {
+  it.each(['PLUS', 'PREMIUM'])('allows enabled forwarding for %s', (plan) => {
     expect(voicemailForwardingDestination({ ...configured, plan })).toBe('voice@example.com');
+  });
+
+  it('blocks Wireless because data plans do not grant app forwarding entitlements', () => {
+    expect(
+      voicemailForwardingDestination({
+        ...configured,
+        plan: 'WIRELESS',
+      })
+    ).toBeNull();
   });
   it.each(['FREE', '', 'UNKNOWN'])('blocks delivery after downgrade to %s while retaining preferences', (plan) => {
     const user = { ...configured, plan };

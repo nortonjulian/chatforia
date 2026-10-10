@@ -11,7 +11,6 @@ import express from 'express';
 
 const ORIGINAL_ENV = process.env;
 
-// Set Twilio env vars BEFORE importing the router (they’re read at module load)
 process.env = {
   ...process.env,
   TWILIO_ACCOUNT_SID: 'AC_TEST_SID',
@@ -19,11 +18,33 @@ process.env = {
   TWILIO_API_KEY_SECRET: 'TEST_SECRET',
 };
 
+const prismaMock = {
+  call: {
+    findFirst: jest.fn(),
+  },
+};
+
+const availabilityMock = jest.fn();
+
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
-  requireAuth: (_req, _res, next) => next(),
+  requireAuth: (req, _res, next) => {
+    req.user = {
+      id: 42,
+      username: 'julian',
+    };
+    next();
+  },
 }));
 
-// ---- Twilio mock wiring ----
+await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+  __esModule: true,
+  default: prismaMock,
+}));
+
+await jest.unstable_mockModule('../services/callUsageService.js', () => ({
+  getUsageAvailability: availabilityMock,
+}));
+
 let AccessTokenCtor;
 let VideoGrantCtor;
 let lastAccessTokenInstance;
@@ -39,7 +60,6 @@ await jest.unstable_mockModule('twilio', () => {
   class MockAccessToken {
     constructor(accountSid, apiKeySid, apiKeySecret, options) {
       this.args = { accountSid, apiKeySid, apiKeySecret, options };
-      this.identity = undefined;
       this._grants = [];
       this.addGrant = jest.fn((grant) => {
         this._grants.push(grant);
@@ -48,6 +68,7 @@ await jest.unstable_mockModule('twilio', () => {
       lastAccessTokenInstance = this;
     }
   }
+
   MockAccessToken.VideoGrant = MockVideoGrant;
   AccessTokenCtor = MockAccessToken;
 
@@ -61,10 +82,8 @@ await jest.unstable_mockModule('twilio', () => {
   };
 });
 
-// Import the router AFTER mocks are registered (and env is set)
 const { default: videoTokensRouter } = await import('../routes/videoTokens.js');
 
-// Build test app
 const app = express();
 app.use(express.json());
 app.use(videoTokensRouter);
@@ -72,60 +91,147 @@ app.use(videoTokensRouter);
 beforeEach(() => {
   jest.clearAllMocks();
   lastAccessTokenInstance = undefined;
+
+  prismaMock.call.findFirst.mockResolvedValue({
+    id: 91,
+    callerId: 42,
+    calleeId: 99,
+    externalPhone: null,
+    status: 'RINGING',
+  });
+
+  availabilityMock.mockResolvedValue({
+    meter: 'hostedParticipantSeconds',
+    used: 30,
+    limit: 18000,
+    remaining: 17970,
+  });
 });
 
 afterAll(() => {
   process.env = ORIGINAL_ENV;
 });
 
-// ----------------------------- Tests ---------------------------------------
 describe('POST /video/token', () => {
-  test('400 when identity or room missing', async () => {
-    // missing both
-    let res = await request(app)
+  test('400 when room is missing', async () => {
+    const res = await request(app)
       .post('/video/token')
-      .send({});
+      .send({ identity: 'attacker-controlled' });
 
     expect(res.status).toBe(400);
-    expect(res.body).toEqual({ error: 'identity and room are required' });
-    expect(lastAccessTokenInstance).toBeUndefined();
-
-    // missing room only
-    res = await request(app)
-      .post('/video/token')
-      .send({ identity: 'user-1' });
-
-    expect(res.status).toBe(400);
-    expect(res.body).toEqual({ error: 'identity and room are required' });
+    expect(res.body).toEqual({ error: 'room is required' });
     expect(lastAccessTokenInstance).toBeUndefined();
   });
 
-  test('issues video token with correct args and payload', async () => {
+  test('400 for arbitrary non-call room names', async () => {
     const res = await request(app)
       .post('/video/token')
-      .send({ identity: 'julian', room: 'chatforia-room-1' });
+      .send({ room: 'chatforia-room-1' });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: 'invalid_video_room' });
+    expect(prismaMock.call.findFirst).not.toHaveBeenCalled();
+  });
+
+  test('403 when authenticated user is not authorized for the call', async () => {
+    prismaMock.call.findFirst.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .post('/video/token')
+      .send({ room: 'call_91' });
+
+    expect(res.status).toBe(403);
+    expect(res.body).toEqual({ error: 'video_room_forbidden' });
+    expect(lastAccessTokenInstance).toBeUndefined();
+  });
+
+  test('429 when hosted participant allowance is exhausted', async () => {
+    availabilityMock.mockResolvedValueOnce({
+      meter: 'hostedParticipantSeconds',
+      used: 18000,
+      limit: 18000,
+      remaining: 0,
+    });
+
+    const res = await request(app)
+      .post('/video/token')
+      .send({ room: 'call_91' });
+
+    expect(res.status).toBe(429);
+    expect(res.body).toEqual({
+      error: 'Hosted call allowance exhausted',
+      code: 'PLAN_ALLOWANCE_EXCEEDED',
+      detail: 'hostedParticipantSeconds',
+      limit: 18000,
+      used: 18000,
+      remaining: 0,
+    });
+
+    expect(lastAccessTokenInstance).toBeUndefined();
+  });
+
+  test('ignores client identity and issues token using authenticated user', async () => {
+    const res = await request(app)
+      .post('/video/token')
+      .send({
+        identity: 'someone-else',
+        room: 'call_91',
+      });
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ token: 'mock.jwt.token' });
+    expect(res.body).toEqual({
+      token: 'mock.jwt.token',
+      room: 'call_91',
+      identity: 'user-42',
+      remainingHostedSeconds: 17970,
+    });
 
-    // AccessToken instance created
+    expect(prismaMock.call.findFirst).toHaveBeenCalledWith({
+      where: {
+        id: 91,
+        OR: [
+          { callerId: 42 },
+          { calleeId: 42 },
+          {
+            participants: {
+              some: {
+                userId: 42,
+              },
+            },
+          },
+        ],
+      },
+      select: {
+        id: true,
+        callerId: true,
+        calleeId: true,
+        externalPhone: true,
+        status: true,
+      },
+    });
+
+    expect(availabilityMock).toHaveBeenCalledWith({
+      userId: 42,
+      meter: 'hostedParticipantSeconds',
+    });
+
     expect(lastAccessTokenInstance).toBeInstanceOf(AccessTokenCtor);
-
-    // Constructor arguments use env + ttl 1h
     expect(lastAccessTokenInstance.args).toEqual({
       accountSid: 'AC_TEST_SID',
       apiKeySid: 'SK_TEST_SID',
       apiKeySecret: 'TEST_SECRET',
-      options: { identity: 'julian', ttl: 60 * 60 },
+      options: {
+        identity: 'user-42',
+        ttl: 60 * 60,
+      },
     });
 
-    // addGrant called with a VideoGrant containing the room
     expect(lastAccessTokenInstance.addGrant).toHaveBeenCalledTimes(1);
+
     const [grantArg] = lastAccessTokenInstance.addGrant.mock.calls[0];
     expect(grantArg).toBeInstanceOf(VideoGrantCtor);
-    expect(grantArg.opts).toEqual({ room: 'chatforia-room-1' });
-
-    // toJwt used to produce the response token
-    expect(lastAccessTokenInstance.toJwt).toHaveBeenCalledTimes(1);
+    expect(grantArg.opts).toEqual({
+      room: 'call_91',
+    });
   });
 });

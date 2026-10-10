@@ -383,7 +383,11 @@ router.patch('/me', requireAuth, async (req, res) => {
           select: { plan: true },
         });
 
-        if (!me?.plan || me.plan === 'FREE') {
+        if (
+          String(me?.plan || 'FREE')
+            .trim()
+            .toUpperCase() !== 'PREMIUM'
+        ) {
           return res.status(402).json({
             error: 'Premium theme requires an upgraded plan',
           });
@@ -416,7 +420,11 @@ router.patch('/me', requireAuth, async (req, res) => {
           select: { plan: true },
         });
 
-        if (!me?.plan || me.plan === 'FREE') {
+        if (
+          String(me?.plan || 'FREE')
+            .trim()
+            .toUpperCase() !== 'PREMIUM'
+        ) {
           return res.status(402).json({
             error: 'Premium message tone requires upgrade',
           });
@@ -445,7 +453,11 @@ router.patch('/me', requireAuth, async (req, res) => {
           select: { plan: true },
         });
 
-        if (!me?.plan || me.plan === 'FREE') {
+        if (
+          String(me?.plan || 'FREE')
+            .trim()
+            .toUpperCase() !== 'PREMIUM'
+        ) {
           return res.status(402).json({
             error: 'Premium ringtone requires upgrade',
           });

@@ -8,9 +8,17 @@ import { syncBadgeToUserDevices } from '../services/badgeSync.js';
 import { collectCallLifecycleRecipientIds } from '../utils/callLifecycleRecipients.js';
 import { claimCallActive } from '../utils/callAnswerArbitration.js';
 import { isVoiceEligibleDevice } from '../services/voiceDeviceService.js';
+import {
+  chargeHostedParticipantSessionOnce,
+  closeAndChargeHostedParticipantsForCall,
+} from '../services/hostedParticipantUsageService.js';
+import { getUsageAvailability } from '../services/callUsageService.js';
+import { startHostedAllowanceMonitor } from '../services/hostedAllowanceMonitor.js';
 
 const router = express.Router();
 router.use(requireAuth);
+
+startHostedAllowanceMonitor();
 
 const TERMINAL_CALL_STATUSES = [
   'ENDED',
@@ -313,7 +321,7 @@ router.post('/invite', asyncHandler(async (req, res) => {
               userId: callerId,
               role: 'HOST',
               status: 'JOINED',
-              joinedAt: new Date(),
+              joinedAt: null,
             },
             {
               userId: targetCalleeId,
@@ -568,6 +576,27 @@ if (call.calleeId !== userId) {
   });
 }
 
+if (!call.externalPhone) {
+  const hostedAvailability = await getUsageAvailability({
+    userId: call.callerId,
+    meter: 'hostedParticipantSeconds',
+  });
+
+  if (
+    hostedAvailability.remaining != null &&
+    hostedAvailability.remaining <= 0
+  ) {
+    return res.status(429).json({
+      error: 'Hosted call allowance exhausted',
+      code: 'PLAN_ALLOWANCE_EXCEEDED',
+      detail: 'hostedParticipantSeconds',
+      limit: hostedAvailability.limit,
+      used: hostedAvailability.used,
+      remaining: hostedAvailability.remaining,
+    });
+  }
+}
+
 const answerStartedAt = new Date();
 
 const answerClaim =
@@ -613,7 +642,9 @@ const updated = answerClaim.call;
 await prisma.callParticipant.updateMany({
   where: {
     callId: numericCallId,
-    userId,
+    userId: {
+      in: [updated.callerId, userId],
+    },
   },
   data: {
     status: 'JOINED',
@@ -769,6 +800,19 @@ router.post('/end', asyncHandler(async (req, res) => {
       endReason: true,
     },
   });
+
+  try {
+    await closeAndChargeHostedParticipantsForCall({
+      callId: updated.id,
+      endedAt: updated.endedAt || endedAt,
+    });
+  } catch (error) {
+    console.error('[calls/end] hosted participant finalization failed', {
+      callId: updated.id,
+      code: error?.code || null,
+      message: error?.message || String(error),
+    });
+  }
 
   const notifyIds =
     collectCallLifecycleRecipientIds({
@@ -1287,6 +1331,19 @@ if (
 }
 
 if (lifecycleUpdate.count === 1 && isTerminalCallStatus(normalizedStatus)) {
+    try {
+      await closeAndChargeHostedParticipantsForCall({
+        callId: updated.id,
+        endedAt: updated.endedAt || new Date(),
+      });
+    } catch (error) {
+      console.error('[calls/status] hosted participant finalization failed', {
+        callId: updated.id,
+        code: error?.code || null,
+        message: error?.message || String(error),
+      });
+    }
+
     const notifyIds =
       collectCallLifecycleRecipientIds({
         callerId: updated.callerId,
@@ -1536,6 +1593,27 @@ router.post('/:id/answer-participant', asyncHandler(async (req, res) => {
     return res.status(403).json({ error: 'Not an invited participant' });
   }
 
+  if (!call.externalPhone) {
+    const hostedAvailability = await getUsageAvailability({
+      userId: call.callerId,
+      meter: 'hostedParticipantSeconds',
+    });
+
+    if (
+      hostedAvailability.remaining != null &&
+      hostedAvailability.remaining <= 0
+    ) {
+      return res.status(429).json({
+        error: 'Hosted call allowance exhausted',
+        code: 'PLAN_ALLOWANCE_EXCEEDED',
+        detail: 'hostedParticipantSeconds',
+        limit: hostedAvailability.limit,
+        used: hostedAvailability.used,
+        remaining: hostedAvailability.remaining,
+      });
+    }
+  }
+
   const updated = await prisma.callParticipant.update({
     where: {
       callId_userId: {
@@ -1690,6 +1768,27 @@ router.post('/:id/leave-participant', asyncHandler(async (req, res) => {
     },
     select: participantSelect(),
   });
+
+  if (!call.externalPhone && updated.joinedAt && updated.leftAt) {
+    try {
+      await chargeHostedParticipantSessionOnce({
+        callId,
+        participantId: updated.id,
+        participantUserId: updated.userId,
+        hostUserId: call.callerId,
+        joinedAt: updated.joinedAt,
+        leftAt: updated.leftAt,
+      });
+    } catch (error) {
+      console.error('[calls/leave-participant] hosted usage charge failed', {
+        callId,
+        participantUserId: updated.userId,
+        hostUserId: call.callerId,
+        code: error?.code || null,
+        message: error?.message || String(error),
+      });
+    }
+  }
 
   for (const p of call.participants) {
     if (p.userId !== userId) {

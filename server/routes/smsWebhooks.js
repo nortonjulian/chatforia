@@ -1,6 +1,10 @@
 import express from 'express';
 import prisma from '../utils/prismaClient.js';
 import { recordInboundSms } from '../services/smsService.js';
+import {
+  assertAndConsumeUsage,
+  releaseUsage,
+} from '../services/planUsageService.js';
 import { sendPushToUser } from '../services/pushService.js';
 // import { sendSmsWithFallback } from '../lib/telco/index.js';
 import { sendSms } from '../lib/telco/index.js';
@@ -331,6 +335,7 @@ router.post(
         const user = await prisma.user.findUnique({
           where: { id: rec.userId },
           select: {
+            plan: true,
             forwardingEnabledSms: true,
             forwardSmsToPhone: true,
             forwardSmsToEmail: true,
@@ -341,21 +346,72 @@ router.post(
           },
         });
 
+        const forwardingPlan = String(user?.plan || 'FREE')
+          .trim()
+          .toUpperCase();
+
+        const smsForwardingAllowed =
+          forwardingPlan === 'PLUS' ||
+          forwardingPlan === 'PREMIUM';
+
         if (
+          smsForwardingAllowed &&
           user?.forwardingEnabledSms &&
           !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd)
         ) {
-          // Forward to phone via Twilio
+          // Forward to phone via Twilio.
+          //
+          // The inbound message already consumes one smsMessages unit when
+          // recordInboundSms persists it. Forwarding that message to another
+          // real phone creates a second carrier SMS, so it consumes one
+          // additional smsMessages unit.
           if (user.forwardSmsToPhone && isE164(user.forwardPhoneNumber)) {
-            // Keep forwarding text-only to avoid MMS auth/format edge cases on forward
-            const forwardText = `From ${fromNumber}: ${bodyText || '[MMS]'}`.slice(0, 800);
+            const forwardText =
+              `From ${fromNumber}: ${bodyText || '[MMS]'}`.slice(0, 800);
 
-            await sendSms({
-              to: normalizeE164(user.forwardPhoneNumber),
-              text: forwardText,
-              from: toNumber,
-              clientRef: `fwd:${rec.userId}:${Date.now()}`,
-            });
+            let forwardingUsageReserved = false;
+
+            try {
+              await assertAndConsumeUsage({
+                userId: Number(rec.userId),
+                plan: user.plan || 'FREE',
+                meter: 'smsMessages',
+                amount: 1,
+              });
+
+              forwardingUsageReserved = true;
+
+              await sendSms({
+                to: normalizeE164(user.forwardPhoneNumber),
+                text: forwardText,
+                from: toNumber,
+                clientRef: `fwd:${rec.userId}:${Date.now()}`,
+              });
+            } catch (error) {
+              if (error?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
+                console.log(
+                  '[sms:forward] SMS allowance exhausted; skipping phone forward',
+                  { userId: rec.userId }
+                );
+              } else {
+                if (forwardingUsageReserved) {
+                  try {
+                    await releaseUsage({
+                      userId: Number(rec.userId),
+                      meter: 'smsMessages',
+                      amount: 1,
+                    });
+                  } catch (releaseError) {
+                    console.error(
+                      '[sms:forward] failed to release SMS allowance',
+                      releaseError
+                    );
+                  }
+                }
+
+                throw error;
+              }
+            }
           }
 
           // Forward to email (text-only; you can add media later if you want)

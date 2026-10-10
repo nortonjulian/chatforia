@@ -11,6 +11,7 @@ afterEach(() => {
 async function loadModuleWithMocks({ sendSucceeds = true } = {}) {
   jest.resetModules();
 
+  process.env.NODE_ENV = 'development';
   process.env.RESEND_API_KEY = 're_test_123';
   process.env.EMAIL_FROM = 'Chatforia <support@chatforia.test>';
 
@@ -104,6 +105,7 @@ describe('sendMail()', () => {
   test('returns unavailable when RESEND_API_KEY is missing', async () => {
     jest.resetModules();
 
+    process.env.NODE_ENV = 'development';
     delete process.env.RESEND_API_KEY;
 
     await jest.unstable_mockModule('resend', () => ({

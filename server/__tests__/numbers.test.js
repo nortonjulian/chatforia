@@ -128,7 +128,19 @@ await jest.unstable_mockModule('../middleware/auth.js', () => ({
 
 await jest.unstable_mockModule('../middleware/requirePremium.js', () => ({
   __esModule: true,
-  requirePremium: (_req, _res, next) => next(),
+  requirePremium: (req, res, next) => {
+    const suppliedPlan = req.headers['x-test-plan'];
+
+    if (!suppliedPlan) return next();
+
+    if (String(suppliedPlan).toUpperCase() !== 'PREMIUM') {
+      return res.status(402).json({
+        code: 'PREMIUM_REQUIRED',
+      });
+    }
+
+    return next();
+  },
 }));
 
 const { default: numbersRouter } = await import('../routes/numbers.js');
@@ -219,8 +231,57 @@ describe('GET /numbers/my', () => {
         inactivityDays: 40,
         holdDays: 20,
         description:
-          'Numbers may be recycled after inactivity on the Free plan.',
+          'Numbers may be recycled after inactivity unless protected by Premium.',
       },
+    });
+  });
+
+  test.each(['PLUS', 'WIRELESS'])(
+    '%s does not receive Premium number protection',
+    async (plan) => {
+      prismaMock.user.findUnique.mockResolvedValueOnce({
+        plan,
+        subscriptionStatus: 'ACTIVE',
+      });
+
+      prismaMock.phoneNumber.findFirst.mockResolvedValueOnce(null);
+
+      const res = await request(app)
+        .get('/numbers/my')
+        .set('x-test-user-id', '123');
+
+      expect(res.status).toBe(200);
+
+      expect(res.body.policy).toEqual({
+        mode: 'AUTO_RECYCLE',
+        inactivityDays: 40,
+        holdDays: 20,
+        description:
+          'Numbers may be recycled after inactivity unless protected by Premium.',
+      });
+    }
+  );
+
+  test('PREMIUM receives protected number policy', async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+    });
+
+    prismaMock.phoneNumber.findFirst.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .get('/numbers/my')
+      .set('x-test-user-id', '123');
+
+    expect(res.status).toBe(200);
+
+    expect(res.body.policy).toEqual({
+      mode: 'PROTECTED',
+      inactivityDays: null,
+      holdDays: null,
+      description:
+        'Your number is protected from automatic recycling while Premium is active.',
     });
   });
 
@@ -240,7 +301,7 @@ describe('GET /numbers/my', () => {
         inactivityDays: 40,
         holdDays: 20,
         description:
-          'Numbers may be recycled after inactivity on the Free plan.',
+          'Numbers may be recycled after inactivity unless protected by Premium.',
       },
     });
   });
@@ -1229,6 +1290,57 @@ describe('POST /numbers/keep/enable', () => {
         keepLocked: true,
         status: 'ASSIGNED',
         holdUntil: null,
+      },
+    });
+  });
+});
+
+describe('POST /numbers/buy/keep-current', () => {
+  test('blocks PLUS before accessing the assigned number', async () => {
+    const res = await request(app)
+      .post('/numbers/buy/keep-current')
+      .send({})
+      .set('x-test-user-id', '123')
+      .set('x-test-plan', 'PLUS');
+
+    expect(res.status).toBe(402);
+    expect(res.body).toEqual({
+      code: 'PREMIUM_REQUIRED',
+    });
+    expect(prismaMock.phoneNumber.findFirst).not.toHaveBeenCalled();
+    expect(prismaMock.phoneNumber.update).not.toHaveBeenCalled();
+  });
+
+  test('allows PREMIUM to keep the current number', async () => {
+    prismaMock.phoneNumber.findFirst.mockResolvedValueOnce({
+      id: 51,
+      e164: '+13035550128',
+      status: 'ASSIGNED',
+      assignedUserId: 123,
+      keepLocked: false,
+    });
+
+    prismaMock.phoneNumber.update.mockResolvedValueOnce({
+      id: 51,
+      keepLocked: true,
+    });
+
+    const res = await request(app)
+      .post('/numbers/buy/keep-current')
+      .send({})
+      .set('x-test-user-id', '123')
+      .set('x-test-plan', 'PREMIUM');
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+
+    expect(prismaMock.phoneNumber.update).toHaveBeenCalledWith({
+      where: { id: 51 },
+      data: {
+        keepLocked: true,
+        holdUntil: null,
+        releaseAfter: null,
+        status: 'ASSIGNED',
       },
     });
   });

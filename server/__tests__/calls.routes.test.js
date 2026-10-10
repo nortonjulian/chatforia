@@ -37,6 +37,12 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
 }));
 
 const emitToUserMock = jest.fn();
+const getUsageAvailabilityMock = jest.fn();
+
+await jest.unstable_mockModule('../services/callUsageService.js', () => ({
+  __esModule: true,
+  getUsageAvailability: getUsageAvailabilityMock,
+}));
 
 await jest.unstable_mockModule('../services/socketBus.js', () => ({
   __esModule: true,
@@ -93,6 +99,16 @@ describe('calls routes', () => {
       .mockResolvedValue(undefined);
 
     mockPrisma.user.findUnique.mockReset();
+
+    getUsageAvailabilityMock
+      .mockReset()
+      .mockResolvedValue({
+        plan: 'PLUS',
+        meter: 'hostedParticipantSeconds',
+        limit: 18000,
+        used: 0,
+        remaining: 18000,
+      });
 
     mockPrisma.device.findUnique
       .mockReset()
@@ -223,7 +239,7 @@ describe('calls routes', () => {
                 userId: 10,
                 role: 'HOST',
                 status: 'JOINED',
-                joinedAt: expect.any(Date),
+                joinedAt: null,
               },
               {
                 userId: 20,
@@ -499,7 +515,9 @@ describe('calls routes', () => {
       expect(mockPrisma.callParticipant.updateMany).toHaveBeenCalledWith({
         where: {
           callId: 1,
-          userId: 10,
+          userId: {
+            in: [20, 10],
+          },
         },
         data: {
           status: 'JOINED',

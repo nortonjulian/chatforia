@@ -44,6 +44,9 @@ const mockPrisma = {
   }),
 };
 
+const modulePath = (relative) =>
+  new URL(relative, import.meta.url).pathname;
+
 const normalizeE164Mock = jest.fn((n) => n);
 const isE164Mock = jest.fn(() => true);
 
@@ -56,31 +59,39 @@ const sendSmsMock = jest.fn(async () => ({
 
 const emitToUserMock = jest.fn();
 const recordSupportSignalMock = jest.fn();
+const assertAndConsumeUsageMock = jest.fn();
+const releaseUsageMock = jest.fn();
 
-await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+await jest.unstable_mockModule(modulePath('../../utils/prismaClient.js'), () => ({
   __esModule: true,
   default: mockPrisma,
 }));
 
-await jest.unstable_mockModule('../utils/phone.js', () => ({
+await jest.unstable_mockModule(modulePath('../../utils/phone.js'), () => ({
   __esModule: true,
   normalizeE164: normalizeE164Mock,
   isE164: isE164Mock,
 }));
 
-await jest.unstable_mockModule('../lib/telco/index.js', () => ({
+await jest.unstable_mockModule(modulePath('../../lib/telco/index.js'), () => ({
   __esModule: true,
   sendSms: sendSmsMock,
 }));
 
-await jest.unstable_mockModule('../services/socketBus.js', () => ({
+await jest.unstable_mockModule(modulePath('../socketBus.js'), () => ({
   __esModule: true,
   emitToUser: emitToUserMock,
 }));
 
-await jest.unstable_mockModule('../services/supportAutomationService.js', () => ({
+await jest.unstable_mockModule(modulePath('../supportAutomationService.js'), () => ({
   __esModule: true,
   recordSupportSignal: recordSupportSignalMock,
+}));
+
+await jest.unstable_mockModule(modulePath('../planUsageService.js'), () => ({
+  __esModule: true,
+  assertAndConsumeUsage: assertAndConsumeUsageMock,
+  releaseUsage: releaseUsageMock,
 }));
 
 const {
@@ -100,6 +111,10 @@ describe('smsService', () => {
     mockPrisma.smsOptOut.findFirst.mockResolvedValue(null);
     mockPrisma.smsBlockedNumber.findUnique.mockResolvedValue(null);
     mockPrisma.contact.findFirst.mockResolvedValue(null);
+    mockPrisma.user.findUnique.mockResolvedValue({ plan: 'PLUS' });
+    mockPrisma.smsMessage.findFirst.mockResolvedValue(null);
+    assertAndConsumeUsageMock.mockResolvedValue({});
+    releaseUsageMock.mockResolvedValue({});
     mockPrisma.smsParticipant.upsert.mockResolvedValue({});
     mockPrisma.phoneNumber.updateMany.mockResolvedValue({ count: 1 });
     mockPrisma.smsThread.update.mockResolvedValue({});
@@ -155,6 +170,14 @@ describe('smsService', () => {
         select: { id: true, e164: true, status: true },
         orderBy: { assignedAt: 'desc' },
       });
+
+      expect(assertAndConsumeUsageMock).toHaveBeenCalledWith({
+        userId: 1,
+        plan: 'PLUS',
+        meter: 'smsMessages',
+        amount: 1,
+      });
+      expect(releaseUsageMock).not.toHaveBeenCalled();
 
       expect(sendSmsMock).toHaveBeenCalledTimes(1);
       expect(sendSmsMock.mock.calls[0][0]).toMatchObject({
@@ -254,6 +277,43 @@ describe('smsService', () => {
       expect(sendSmsMock).not.toHaveBeenCalled();
     });
 
+    it('releases reserved SMS allowance when provider send fails', async () => {
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue({
+        id: 1,
+        e164: '+19998887777',
+        status: 'ASSIGNED',
+      });
+
+      mockPrisma.smsThread.findFirst.mockResolvedValue({
+        id: 10,
+        userId: 1,
+        contactPhone: '+15551234567',
+        contactId: null,
+      });
+
+      sendSmsMock.mockRejectedValueOnce(new Error('provider unavailable'));
+
+      await expect(
+        sendUserSms({
+          userId: 1,
+          to: '+15551234567',
+          body: 'Hello there',
+        })
+      ).rejects.toThrow('provider unavailable');
+
+      expect(assertAndConsumeUsageMock).toHaveBeenCalledWith({
+        userId: 1,
+        plan: 'PLUS',
+        meter: 'smsMessages',
+        amount: 1,
+      });
+      expect(releaseUsageMock).toHaveBeenCalledWith({
+        userId: 1,
+        meter: 'smsMessages',
+        amount: 1,
+      });
+    });
+
     it('throws Boom 412 when user has no assigned number', async () => {
       mockPrisma.smsOptOut.findFirst.mockResolvedValue(null);
       mockPrisma.phoneNumber.findFirst.mockResolvedValue(null);
@@ -318,6 +378,22 @@ describe('smsService', () => {
         select: { assignedUserId: true },
       });
 
+      expect(mockPrisma.smsMessage.findFirst).toHaveBeenCalledWith({
+        where: {
+          provider: 'twilio',
+          providerMessageId: 'SM-IN-1',
+        },
+        select: { id: true, threadId: true },
+      });
+
+      expect(assertAndConsumeUsageMock).toHaveBeenCalledWith({
+        userId: 7,
+        plan: 'PLUS',
+        meter: 'smsMessages',
+        amount: 1,
+      });
+      expect(releaseUsageMock).not.toHaveBeenCalled();
+
       expect(mockPrisma.smsThread.create).toHaveBeenCalledWith({
         data: {
           userId: 7,
@@ -355,6 +431,61 @@ describe('smsService', () => {
         userId: 7,
         threadId: 33,
       });
+    });
+
+    it('returns a safe non-delivery result when inbound allowance is exhausted', async () => {
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue({
+        assignedUserId: 7,
+      });
+
+      const quotaError = new Error('SMS allowance exceeded');
+      quotaError.code = 'PLAN_ALLOWANCE_EXCEEDED';
+
+      assertAndConsumeUsageMock.mockRejectedValueOnce(quotaError);
+
+      const result = await recordInboundSms({
+        toNumber: '+19998887777',
+        fromNumber: '+15551234567',
+        body: 'Over the limit',
+        provider: 'twilio',
+        providerMessageId: 'SM-OVER-LIMIT',
+      });
+
+      expect(result).toEqual({
+        ok: false,
+        allowanceExceeded: true,
+        reason: 'plan-allowance-exceeded',
+        userId: 7,
+      });
+
+      expect(mockPrisma.smsThread.findFirst).not.toHaveBeenCalled();
+      expect(mockPrisma.smsMessage.create).not.toHaveBeenCalled();
+      expect(releaseUsageMock).not.toHaveBeenCalled();
+    });
+
+    it('does not consume allowance for a duplicate inbound provider message', async () => {
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue({ assignedUserId: 7 });
+      mockPrisma.smsMessage.findFirst.mockResolvedValue({ id: 700, threadId: 33 });
+
+      const result = await recordInboundSms({
+        toNumber: '+19998887777',
+        fromNumber: '+15551234567',
+        body: 'Retry from Twilio',
+        provider: 'twilio',
+        providerMessageId: 'SM-IN-DUP',
+      });
+
+      expect(result).toEqual({
+        ok: false,
+        duplicate: true,
+        reason: 'duplicate-provider-message',
+        userId: 7,
+        threadId: 33,
+      });
+      expect(assertAndConsumeUsageMock).not.toHaveBeenCalled();
+      expect(releaseUsageMock).not.toHaveBeenCalled();
+      expect(mockPrisma.smsThread.findFirst).not.toHaveBeenCalled();
+      expect(mockPrisma.smsMessage.create).not.toHaveBeenCalled();
     });
 
     it('suppresses an inbound message from an account-blocked PSTN number', async () => {

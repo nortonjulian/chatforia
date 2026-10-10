@@ -15,8 +15,14 @@ import { buildSafeName, sha256, uploadDirs } from '../middleware/uploads.js';
 import {
   generatePresignedPutUrl,
   buildPublicUrlForKey,
+  headStorageObject,
+  deleteStorageObject,
   // uploadBufferToStorage // not used here, but available if needed
 } from '../utils/storage.js';
+import {
+  assertCloudStorageAvailable,
+  createUploadWithinCloudStorageAllowance,
+} from '../services/cloudStorageService.js';
 
 const router = express.Router();
 
@@ -44,6 +50,43 @@ function memCreate(rec) {
 
 /* ---------------- Constants & helpers ---------------- */
 const MAX_BYTES = Number(process.env.MAX_FILE_SIZE_BYTES || 10 * 1024 * 1024);
+
+function uploadErrorResponse(res, err) {
+  if (err?.code === 'STORAGE_ALLOWANCE_EXCEEDED') {
+    return res.status(413).json({
+      error: 'storage_allowance_exceeded',
+      code: err.code,
+      limit: err.limit,
+      used: err.used,
+      requested: err.requested,
+      remaining: err.remaining,
+    });
+  }
+
+  if (err?.code === 'INVALID_UPLOAD_SIZE') {
+    return res.status(400).json({
+      error: 'invalid_upload_size',
+      code: err.code,
+    });
+  }
+
+  return null;
+}
+
+function presignedOwnerPrefix(ownerId) {
+  return `uploads/u${Number(ownerId)}/`;
+}
+
+function isOwnedPresignedKey(ownerId, key) {
+  return String(key || '').startsWith(presignedOwnerPrefix(ownerId));
+}
+
+function fallbackSha256ForObject(key, size) {
+  return crypto
+    .createHash('sha256')
+    .update(`object:${String(key)}:${Number(size)}`)
+    .digest('hex');
+}
 const BANNED_MIME = new Set([
   'application/x-msdownload','application/x-msdos-program','application/x-executable',
   'application/x-dosexec','application/x-sh','application/x-bat','application/x-msi','application/x-elf',
@@ -97,9 +140,7 @@ async function findExistingByDigestOrKey({ ownerId, digest }) {
   // Try several heuristics for compatibility across DB schema variants
   const tries = [
     { sha256: digest, ownerId },
-    { sha256: digest, userId: ownerId },
     { ownerId, key: { contains: `/${digest}.` } },
-    { userId: ownerId, key: { contains: `/${digest}.` } },
     { key: { contains: `/user/${ownerId}/${digest}.` } },
   ];
 
@@ -167,10 +208,36 @@ router.post('/intent', requireAuth, async (req, res) => {
     const { name, size, mimeType, sha256: sha } = req.body || {};
     if (!name || !mimeType) return res.status(400).json({ error: 'invalid_request' });
 
-    // build a stable key: uploads/YYYY/MM/dd/<random>_<safeName>
+    const ownerId = Number(req.user?.id);
+    const declaredSize = Math.floor(Number(size));
+
+    if (!Number.isInteger(ownerId) || ownerId <= 0) {
+      return res.status(403).json({ error: 'no_access' });
+    }
+
+    if (!Number.isFinite(declaredSize) || declaredSize <= 0) {
+      return res.status(400).json({ error: 'invalid_upload_size' });
+    }
+
+    if (Number.isFinite(MAX_BYTES) && declaredSize > MAX_BYTES) {
+      return res.status(413).json({ error: 'File too large' });
+    }
+
+    try {
+      await assertCloudStorageAvailable({
+        userId: ownerId,
+        requestedBytes: declaredSize,
+      });
+    } catch (err) {
+      const handled = uploadErrorResponse(res, err);
+      if (handled) return handled;
+      throw err;
+    }
+
+    // build a stable, owner-scoped key
     const now = new Date();
     const safe = (name || 'file').replace(/[^\w.\-]+/g, '_').slice(0, 120);
-    const prefix = `uploads/${now.getUTCFullYear()}/${String(now.getUTCMonth() + 1).padStart(2,'0')}/${String(now.getUTCDate()).padStart(2,'0')}`;
+    const prefix = `${presignedOwnerPrefix(ownerId)}${now.getUTCFullYear()}/${String(now.getUTCMonth() + 1).padStart(2,'0')}/${String(now.getUTCDate()).padStart(2,'0')}`;
     const rand = crypto.randomBytes(6).toString('hex');
     const ext = path.extname(safe) || '';
     const base = path.basename(safe, ext);
@@ -211,29 +278,84 @@ router.post('/complete', requireAuth, async (req, res) => {
 
     const ownerId = Number(req.user?.id) || null;
 
+    if (!Number.isInteger(ownerId) || ownerId <= 0) {
+      return res.status(403).json({ error: 'no_access' });
+    }
+
+    if (!isOwnedPresignedKey(ownerId, key)) {
+      return res.status(403).json({ error: 'invalid_upload_key' });
+    }
+
+    let storedObject;
+    try {
+      storedObject = await headStorageObject({ key });
+    } catch (err) {
+      console.error('uploads.complete head error', err);
+      return res.status(400).json({ error: 'uploaded_object_not_found' });
+    }
+
+    const actualSize = Math.floor(Number(storedObject?.size || 0));
+
+    if (!Number.isFinite(actualSize) || actualSize <= 0) {
+      return res.status(400).json({ error: 'invalid_uploaded_object_size' });
+    }
+
+    if (Number.isFinite(MAX_BYTES) && actualSize > MAX_BYTES) {
+      await deleteStorageObject({ key }).catch(() => {});
+      return res.status(413).json({ error: 'File too large' });
+    }
+
     // If storage is public, construct public URL (otherwise client may fetch signed GET)
     const publicUrl = process.env.R2_PUBLIC_BASE ? buildPublicUrlForKey(key) : null;
 
-    // Create DB row (flexible creation to tolerate schema differences)
     const uploadPayload = {
       ownerId,
       key,
-      sha256: sha || undefined,
+      sha256: (
+        typeof sha === 'string' &&
+        /^[a-f0-9]{64}$/i.test(sha)
+      )
+        ? sha.toLowerCase()
+        : fallbackSha256ForObject(key, actualSize),
       originalName: name || path.basename(key),
       mimeType,
-      size: Number(size) || 0,
+      size: actualSize,
       driver: process.env.R2_BUCKET ? 's3' : 'local',
     };
 
-    const uploadRow = sha
-      ? await createUploadFlexible(uploadPayload)
-      : {
-          id: null,
-          key,
-          originalName: uploadPayload.originalName,
-          mimeType,
-          size: uploadPayload.size,
-        };
+    let uploadRow;
+
+    try {
+      const result = await createUploadWithinCloudStorageAllowance({
+        userId: ownerId,
+        uploadData: uploadPayload,
+      });
+      uploadRow = result.upload;
+    } catch (err) {
+      if (err?.code === 'STORAGE_ALLOWANCE_EXCEEDED') {
+        await deleteStorageObject({ key }).catch(() => {});
+      }
+
+      const handled = uploadErrorResponse(res, err);
+      if (handled) return handled;
+      throw err;
+    }
+
+    memRegistry.byId.set(uploadRow.id, {
+      id: uploadRow.id,
+      ownerId,
+      key: uploadRow.key,
+      mimeType: uploadRow.mimeType,
+      originalName: uploadRow.originalName,
+      driver: uploadRow.driver,
+      size: uploadRow.size,
+      persisted: true,
+    });
+
+    memRegistry.byOwnerDigest.set(
+      `${ownerId}:${uploadRow.sha256}`,
+      uploadRow.id,
+    );
 
     // (Optional) Thumbnail generation: skip heavy operations in this route to keep it fast.
     // You can enqueue a worker or separate job to generate thumbs from the bucket.
@@ -287,18 +409,57 @@ router.post('/', requireAuth, runUpload, async (req, res, next) => {
       if (existing) return res.status(200).json({ id: existing.id, dedup: true });
     }
 
-    const key = `user/${Number(req.user.id)}/${(digest || sha256(f.buffer))}.${ext}`;
-    await storeWithFallback({ key, buf: f.buffer, contentType: f.mimetype });
+    const ownerId = Number(req.user.id);
+    const key = `user/${ownerId}/${(digest || sha256(f.buffer))}.${ext}`;
+    const uploadDigest = digest || sha256(f.buffer);
 
-    const rec = await createUploadFlexible({
-      ownerId: Number(req.user.id),
-      key,
-      sha256: canDedup ? digest : undefined,
-      originalName: suggested,
-      mimeType: f.mimetype,
-      size: f.size,
-      driver: STORAGE_DRIVER,
+    let rec;
+
+    try {
+      const result = await createUploadWithinCloudStorageAllowance({
+        userId: ownerId,
+        uploadData: {
+          ownerId,
+          key,
+          sha256: uploadDigest,
+          originalName: suggested,
+          mimeType: f.mimetype,
+          size: f.size,
+          driver: STORAGE_DRIVER,
+        },
+      });
+
+      rec = result.upload;
+    } catch (err) {
+      const handled = uploadErrorResponse(res, err);
+      if (handled) return handled;
+      throw err;
+    }
+
+    try {
+      await storeWithFallback({ key, buf: f.buffer, contentType: f.mimetype });
+    } catch (err) {
+      await prisma.upload.delete({
+        where: { id: rec.id },
+      }).catch(() => {});
+      throw err;
+    }
+
+    memRegistry.byId.set(rec.id, {
+      id: rec.id,
+      ownerId,
+      key: rec.key,
+      mimeType: rec.mimeType,
+      originalName: rec.originalName,
+      driver: rec.driver,
+      size: rec.size,
+      persisted: true,
     });
+
+    memRegistry.byOwnerDigest.set(
+      `${ownerId}:${uploadDigest}`,
+      rec.id,
+    );
 
     return res.status(201).json({
       id: rec.id,
@@ -324,6 +485,64 @@ router.get('/avatar/:filename', async (req, res, next) => {
     res.sendFile(fullPath);
   } catch (e) {
     return next(Boom.notFound('avatar not found'));
+  }
+});
+
+/* ---------------- DELETE /uploads/:id ---------------- */
+router.delete('/:id', requireAuth, async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const ownerId = Number(req.user?.id);
+
+    if (!Number.isInteger(id) || id <= 0) {
+      throw Boom.badRequest('invalid id');
+    }
+
+    if (!Number.isInteger(ownerId) || ownerId <= 0) {
+      throw Boom.forbidden('no access');
+    }
+
+    const upload = await prisma.upload.findFirst({
+      where: {
+        id,
+        ownerId,
+      },
+      select: {
+        id: true,
+        ownerId: true,
+        key: true,
+        sha256: true,
+        driver: true,
+      },
+    });
+
+    if (!upload) {
+      throw Boom.notFound('upload not found');
+    }
+
+    if (upload.driver === 's3') {
+      await deleteStorageObject({ key: upload.key });
+    } else {
+      await storage.deleteFile(upload.key);
+    }
+
+    await prisma.upload.delete({
+      where: { id: upload.id },
+    });
+
+    memRegistry.byId.delete(upload.id);
+    if (upload.sha256) {
+      memRegistry.byOwnerDigest.delete(
+        `${ownerId}:${upload.sha256}`,
+      );
+    }
+
+    return res.json({
+      ok: true,
+      id: upload.id,
+    });
+  } catch (e) {
+    next(e.isBoom ? e : Boom.badRequest(e.message || 'Delete failed'));
   }
 });
 

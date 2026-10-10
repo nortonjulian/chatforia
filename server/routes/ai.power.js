@@ -62,24 +62,5 @@ router.post('/summarize-thread', requireAuth, requirePremium, async (req, res) =
   res.json({ ok: true, summary });
 });
 
-/** Premium-only: rewrite a draft in a specified style. */
-router.post('/rewrite', requireAuth, requirePremium, async (req, res) => {
-  const { draft, style = 'concise' } = req.body || {};
-  if (!draft) throw Boom.badRequest('draft required');
-
-  const out = await llmChat(
-    [
-      {
-        role: 'system',
-        content:
-          `Rewrite the user's draft in a ${style} style. Keep meaning. Output only the rewritten text.`,
-      },
-      { role: 'user', content: draft.slice(0, 4000) },
-    ],
-    { max_tokens: 300 }
-  );
-
-  res.json({ ok: true, text: out.trim() });
-});
 
 export default router;

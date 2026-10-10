@@ -22,7 +22,7 @@ async function makeLoggedInAgent(emailBase) {
 
   const unique = Date.now();
   const email = `${emailBase}_${unique}@example.com`;
-  const username = `${emailBase}_${unique}`;
+  const username = `${emailBase.slice(0, 6)}_${String(unique).slice(-8)}`;
   const password = 'RoomPass!23';
 
   const registerRes = await agent

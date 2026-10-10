@@ -17,6 +17,9 @@ import {
 export default function ThreadActionsMenu({
   // context
   isPremium = false,
+  isAiPowerAvailable,
+  isScheduleAvailable,
+  aiPowerLabel,
 
   // toggles
   showPremiumSection = true,
@@ -54,6 +57,17 @@ export default function ThreadActionsMenu({
   blockLabel,
 }) {
   const { t } = useTranslation();
+
+  const resolvedAiPowerLabel =
+    aiPowerLabel || t('threadActions.aiPower', 'AI Power');
+  const aiPowerUnlocked =
+    typeof isAiPowerAvailable === 'boolean'
+      ? isAiPowerAvailable
+      : isPremium;
+  const scheduleUnlocked =
+    typeof isScheduleAvailable === 'boolean'
+      ? isScheduleAvailable
+      : isPremium;
 
   const resolvedInviteLabel = inviteLabel || t('threadActions.invitePeople', 'Invite people');
   const resolvedClearLabel =
@@ -100,13 +114,13 @@ export default function ThreadActionsMenu({
 
             {typeof onAiPower === 'function' && (
               <Menu.Item leftSection={<IconSparkles size={16} />} onClick={onAiPower}>
-                {t('threadActions.aiPower', 'AI Power')} {isPremium ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
+                {resolvedAiPowerLabel} {aiPowerUnlocked ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
               </Menu.Item>
             )}
 
             {typeof onSchedule === 'function' && (
               <Menu.Item leftSection={<IconCalendarPlus size={16} />} onClick={onSchedule}>
-                {t('threadActions.schedule', 'Schedule')} {isPremium ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
+                {t('threadActions.schedule', 'Schedule')} {scheduleUnlocked ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
               </Menu.Item>
             )}
 

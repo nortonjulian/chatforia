@@ -1,4 +1,9 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  HeadObjectCommand,
+  DeleteObjectCommand,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const STORAGE_ENDPOINT =
@@ -95,6 +100,43 @@ export function buildPublicUrlForKey(key) {
   const region = STORAGE_REGION;
 
   return `https://${Bucket}.s3.${region}.amazonaws.com/${encodedKey}`;
+}
+
+export async function headStorageObject({ key }) {
+  const Bucket = STORAGE_BUCKET;
+  if (!Bucket) {
+    throw new Error('R2_BUCKET/STORAGE_BUCKET is not set');
+  }
+
+  const result = await s3.send(
+    new HeadObjectCommand({
+      Bucket,
+      Key: key,
+    }),
+  );
+
+  return {
+    key,
+    size: Number(result.ContentLength || 0),
+    contentType: result.ContentType || null,
+    etag: result.ETag || null,
+  };
+}
+
+export async function deleteStorageObject({ key }) {
+  const Bucket = STORAGE_BUCKET;
+  if (!Bucket) {
+    throw new Error('R2_BUCKET/STORAGE_BUCKET is not set');
+  }
+
+  await s3.send(
+    new DeleteObjectCommand({
+      Bucket,
+      Key: key,
+    }),
+  );
+
+  return { ok: true, key };
 }
 
 export default s3;

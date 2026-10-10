@@ -104,6 +104,18 @@ describe('a11y routes', () => {
       });
     });
 
+    test('402 when enabling live captions for PLUS user', async () => {
+      mockPrisma.user.findUnique.mockResolvedValueOnce({ plan: 'PLUS' });
+
+      const res = await request(app)
+        .patch('/a11y/users/me/a11y')
+        .send({ a11yLiveCaptions: true });
+
+      expect(res.statusCode).toBe(402);
+      expect(res.body).toEqual({ error: 'Premium required' });
+      expect(mockPrisma.user.update).not.toHaveBeenCalled();
+    });
+
     test('200 and updates fields for valid body (Premium user)', async () => {
       // First call: checking plan for live captions
       mockPrisma.user.findUnique.mockResolvedValueOnce({ plan: 'PREMIUM' });

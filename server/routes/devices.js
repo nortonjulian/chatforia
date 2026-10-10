@@ -2,7 +2,7 @@ import express from 'express';
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
 import { sendPushToUser } from '../services/pushService.js';
-import { premiumConfig } from '../config/premiumConfig.js';
+import { getPlanEntitlements } from '../config/planEntitlements.js';
 
 const router = express.Router();
 
@@ -22,9 +22,7 @@ export function getDeviceLimitForPlan(planValue) {
       .trim()
       .toUpperCase();
 
-  return ['PLUS', 'PREMIUM', 'WIRELESS'].includes(plan)
-    ? premiumConfig.PREMIUM_DEVICE_LIMIT
-    : premiumConfig.FREE_DEVICE_LIMIT;
+  return getPlanEntitlements(plan).deviceLimit;
 }
 
 export function shouldRequireDeviceReplacement({
@@ -171,7 +169,7 @@ router.post('/register', requireAuth, async (req, res, next) => {
 
       const plan = String(user.plan || 'FREE').toUpperCase();
       const isPaidPlan =
-        ['PLUS', 'PREMIUM', 'WIRELESS'].includes(plan);
+        ['PLUS', 'PREMIUM'].includes(plan);
 
       const deviceLimit =
         getDeviceLimitForPlan(plan);

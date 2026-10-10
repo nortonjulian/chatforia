@@ -2,9 +2,6 @@ const PLAN_LEVEL = Object.freeze({
   FREE: 0,
   PLUS: 1,
   PREMIUM: 2,
-
-  // Wireless currently receives paid application entitlements.
-  WIRELESS: 2,
 });
 
 export const MESSAGE_TONE_CATALOG = Object.freeze({

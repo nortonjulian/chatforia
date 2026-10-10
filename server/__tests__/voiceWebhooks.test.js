@@ -178,6 +178,16 @@ jest.unstable_mockModule('../services/pushService.js', () => ({
 }));
 
 const getVoiceDialDestinations = jest.fn();
+const reserveRemainingUsageMock = jest.fn();
+const finalizeUsageReservationMock = jest.fn();
+const chargePstnCallDurationOnceMock = jest.fn();
+
+jest.unstable_mockModule('../services/callUsageService.js', () => ({
+  __esModule: true,
+  chargePstnCallDurationOnce: chargePstnCallDurationOnceMock,
+  reserveRemainingUsage: reserveRemainingUsageMock,
+  finalizeUsageReservation: finalizeUsageReservationMock,
+}));
 
 jest.unstable_mockModule('../services/voiceDeviceService.js', () => ({
   __esModule: true,
@@ -206,7 +216,16 @@ function createApp() {
 
 beforeEach(() => {
   jest.resetAllMocks();
+
   sendIncomingForwardedCallPush.mockResolvedValue(undefined);
+
+  reserveRemainingUsageMock.mockResolvedValue({
+    seconds: 6000,
+    eventKey: 'reservation:2099-01:pstnSeconds:test',
+  });
+
+  finalizeUsageReservationMock.mockResolvedValue(undefined);
+  chargePstnCallDurationOnceMock.mockResolvedValue(undefined);
 });
 
 // -----------------------------------------------------------------------------
@@ -282,6 +301,7 @@ describe('POST /webhooks/voice/client', () => {
       .send({
         From: 'client:user_42',
         To: '+15551112222',
+        CallSid: 'CA-pstn-fallback-caller-id',
       });
 
     expect(res.statusCode).toBe(200);
@@ -318,6 +338,7 @@ describe('POST /webhooks/voice/client', () => {
       .send({
         From: 'client:user_99',
         To: '+15550001111',
+        CallSid: 'CA-pstn-assigned-caller-id',
       });
 
     expect(res.statusCode).toBe(200);
@@ -618,6 +639,7 @@ describe('POST /webhooks/voice/inbound', () => {
       .type('form')
       .send({
         DialCallStatus: 'no-answer',
+        CallSid: 'CA-forwarding-fallback',
       });
 
     expect(res.statusCode).toBe(200);
@@ -629,7 +651,9 @@ describe('POST /webhooks/voice/inbound', () => {
       callerId: '+15550009999',
       answerOnBridge: true,
       timeout: 20,
-      action: '/webhooks/voice/dial-complete',
+      action: expect.stringContaining(
+        '/webhooks/voice/dial-complete?usageType=forwarding&reservationKey='
+      ),
       method: 'POST',
     });
 
@@ -638,6 +662,12 @@ describe('POST /webhooks/voice/inbound', () => {
         to: '+15556667777',
       },
     ]);
+
+    expect(reserveRemainingUsageMock).toHaveBeenCalledWith({
+      userId: 42,
+      meter: 'forwardingSeconds',
+      reservationId: 'twilio-CA-forwarding-fallback',
+    });
   });
 
   it('offers voicemail after the app-ring fallback is unanswered', async () => {

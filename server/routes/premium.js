@@ -3,6 +3,8 @@ import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js';
 import { premiumConfig } from '../config/premiumConfig.js';
+import { getPlanEntitlements } from '../config/planEntitlements.js';
+import { getUsageSummary } from '../services/planUsageService.js';
 
 const router = express.Router();
 
@@ -12,16 +14,18 @@ router.get('/entitlements', requireAuth, async (req, res) => {
     where: { id: req.user.id },
     select: { plan: true },
   });
-  const isPremium = me?.plan === 'PREMIUM';
+  const plan = me?.plan || 'FREE';
+  const isPremium = plan === 'PREMIUM';
+  const planEntitlements = getPlanEntitlements(plan);
+  const usageSummary = await getUsageSummary(req.user.id, plan);
 
   res.json({
-    plan: me?.plan || 'FREE',
-    deviceLimit: isPremium
-      ? premiumConfig.PREMIUM_DEVICE_LIMIT
-      : premiumConfig.FREE_DEVICE_LIMIT,
-    expireMaxDays: isPremium
-      ? premiumConfig.PREMIUM_EXPIRE_MAX_DAYS
-      : premiumConfig.FREE_EXPIRE_MAX_DAYS,
+    plan,
+    entitlements: usageSummary.entitlements,
+    monthKey: usageSummary.monthKey,
+    usage: usageSummary.usage,
+    deviceLimit: planEntitlements.deviceLimit,
+    expireMaxDays: planEntitlements.expireMaxDays,
     tones: premiumConfig.tones,
     themes: premiumConfig.themes,
   });

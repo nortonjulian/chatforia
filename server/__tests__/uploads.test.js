@@ -14,6 +14,21 @@ jest.mock('../services/storage/index.js', () => ({
   },
 }));
 
+let mockUploadId = 1000;
+
+jest.unstable_mockModule('../services/cloudStorageService.js', () => ({
+  __esModule: true,
+  assertCloudStorageAvailable: jest.fn(),
+  createUploadWithinCloudStorageAllowance: jest.fn(
+    async ({ uploadData }) => ({
+      upload: {
+        id: mockUploadId++,
+        ...uploadData,
+      },
+    })
+  ),
+}));
+
 const { uploadsRouter } = await import('../routes/uploads.js');
 
 function makeApp(userId = 1) {
@@ -51,6 +66,7 @@ describe('uploadsRouter', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUploadId = 1000;
 
     agent1 = request.agent(makeApp(1));
     agent2 = request.agent(makeApp(2));

@@ -13,6 +13,8 @@ const ORIGINAL_ENV = process.env;
 
 let prismaMock;
 let recordInboundSmsMock;
+let assertAndConsumeUsageMock;
+let releaseUsageMock;
 let sendMailMock;
 let isEmailAvailableMock;
 let sendSmsMock;
@@ -53,6 +55,17 @@ await jest.unstable_mockModule('../services/smsService.js', () => {
   return {
     __esModule: true,
     recordInboundSms: recordInboundSmsMock,
+  };
+});
+
+await jest.unstable_mockModule('../services/planUsageService.js', () => {
+  assertAndConsumeUsageMock = jest.fn();
+  releaseUsageMock = jest.fn();
+
+  return {
+    __esModule: true,
+    assertAndConsumeUsage: assertAndConsumeUsageMock,
+    releaseUsage: releaseUsageMock,
   };
 });
 
@@ -170,6 +183,7 @@ describe('POST /webhooks/sms/twilio', () => {
     });
 
     prismaMock.user.findUnique.mockResolvedValueOnce({
+      plan: 'PLUS',
       forwardingEnabledSms: true,
       forwardSmsToPhone: true,
       forwardSmsToEmail: true,
@@ -197,6 +211,7 @@ describe('POST /webhooks/sms/twilio', () => {
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
       where: { id: 999 },
       select: {
+        plan: true,
         forwardingEnabledSms: true,
         forwardSmsToPhone: true,
         forwardSmsToEmail: true,
@@ -206,6 +221,15 @@ describe('POST /webhooks/sms/twilio', () => {
         forwardQuietHoursEnd: true,
       },
     });
+
+    expect(assertAndConsumeUsageMock).toHaveBeenCalledWith({
+      userId: 999,
+      plan: 'PLUS',
+      meter: 'smsMessages',
+      amount: 1,
+    });
+
+    expect(releaseUsageMock).not.toHaveBeenCalled();
 
     // Forwarded SMS
     expect(sendSmsMock).toHaveBeenCalledTimes(1);
@@ -229,6 +253,103 @@ describe('POST /webhooks/sms/twilio', () => {
       text: 'Forward this please',
     });
   });
+
+  test('skips phone forwarding at the SMS allowance but still forwards to email', async () => {
+    isE164Mock.mockReturnValue(true);
+    normalizeE164Mock.mockImplementation((n) => n);
+
+    recordInboundSmsMock.mockResolvedValueOnce({
+      ok: true,
+      userId: 999,
+    });
+
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      plan: 'PLUS',
+      forwardingEnabledSms: true,
+      forwardSmsToPhone: true,
+      forwardSmsToEmail: true,
+      forwardPhoneNumber: '+18005550123',
+      forwardEmail: 'user@example.com',
+      forwardQuietHoursStart: null,
+      forwardQuietHoursEnd: null,
+    });
+
+    const allowanceError = new Error('Plan allowance exceeded');
+    allowanceError.code = 'PLAN_ALLOWANCE_EXCEEDED';
+
+    assertAndConsumeUsageMock.mockRejectedValueOnce(allowanceError);
+
+    process.env.EMAIL_FROM = 'hello@test.app';
+
+    const res = await request(app)
+      .post('/webhooks/sms/twilio')
+      .type('form')
+      .send({
+        From: '+13035550123',
+        To: '+17205550123',
+        Body: 'Forward this please',
+        MessageSid: 'SM-LIMIT',
+      });
+
+    expect(res.status).toBe(200);
+
+    expect(assertAndConsumeUsageMock).toHaveBeenCalledWith({
+      userId: 999,
+      plan: 'PLUS',
+      meter: 'smsMessages',
+      amount: 1,
+    });
+
+    expect(sendSmsMock).not.toHaveBeenCalled();
+    expect(releaseUsageMock).not.toHaveBeenCalled();
+
+    expect(sendMailMock).toHaveBeenCalledTimes(1);
+    expect(sendMailMock).toHaveBeenCalledWith({
+      to: 'user@example.com',
+      subject: 'SMS from +13035550123',
+      text: 'Forward this please',
+    });
+  });
+
+  test.each(['FREE', 'WIRELESS'])(
+    'does not execute saved SMS forwarding for %s after downgrade',
+    async (plan) => {
+      isE164Mock.mockReturnValue(true);
+      normalizeE164Mock.mockImplementation((n) => n);
+
+      recordInboundSmsMock.mockResolvedValueOnce({
+        ok: true,
+        userId: 999,
+      });
+
+      prismaMock.user.findUnique.mockResolvedValueOnce({
+        plan,
+        forwardingEnabledSms: true,
+        forwardSmsToPhone: true,
+        forwardSmsToEmail: true,
+        forwardPhoneNumber: '+18005550123',
+        forwardEmail: 'user@example.com',
+        forwardQuietHoursStart: null,
+        forwardQuietHoursEnd: null,
+      });
+
+      const res = await request(app)
+        .post('/webhooks/sms/twilio')
+        .type('form')
+        .send({
+          From: '+13035550123',
+          To: '+17205550123',
+          Body: 'Do not forward this',
+          MessageSid: `SM-DOWNGRADE-${plan}`,
+        });
+
+      expect(res.status).toBe(200);
+
+      expect(assertAndConsumeUsageMock).not.toHaveBeenCalled();
+      expect(sendSmsMock).not.toHaveBeenCalled();
+      expect(sendMailMock).not.toHaveBeenCalled();
+    }
+  );
 
   test('skips forwarding when in quiet hours', async () => {
     isE164Mock.mockReturnValue(true);

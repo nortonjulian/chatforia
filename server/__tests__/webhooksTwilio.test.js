@@ -5,6 +5,18 @@ import request from 'supertest';
 // ---- mocks ----
 
 const mockFindFirst = jest.fn();
+const reserveRemainingUsageMock = jest.fn();
+const chargeForwardingDurationOnceMock = jest.fn();
+const chargePstnCallDurationOnceMock = jest.fn();
+const finalizeUsageReservationMock = jest.fn();
+
+jest.unstable_mockModule('../services/callUsageService.js', () => ({
+  __esModule: true,
+  chargeForwardingDurationOnce: chargeForwardingDurationOnceMock,
+  chargePstnCallDurationOnce: chargePstnCallDurationOnceMock,
+  reserveRemainingUsage: reserveRemainingUsageMock,
+  finalizeUsageReservation: finalizeUsageReservationMock,
+}));
 
 const mockNormalizeE164 = jest.fn((n) => {
   const s = String(n || '').trim();
@@ -57,6 +69,15 @@ describe('webhooksTwilio routes', () => {
   beforeEach(() => {
     app = makeApp();
     jest.clearAllMocks();
+
+    reserveRemainingUsageMock.mockResolvedValue({
+      seconds: 6000,
+      eventKey: 'reservation:2099-01:forwardingSeconds:test',
+    });
+
+    chargeForwardingDurationOnceMock.mockResolvedValue(undefined);
+    chargePstnCallDurationOnceMock.mockResolvedValue(undefined);
+    finalizeUsageReservationMock.mockResolvedValue(undefined);
   });
 
   describe('POST /webhooks/voice/alias/legA', () => {
@@ -95,7 +116,12 @@ describe('webhooksTwilio routes', () => {
     it('dials destination when digit 1 is pressed', async () => {
       const res = await request(app)
         .post('/webhooks/voice/alias/confirm')
-        .query({ from: '+15550001111', to: '+15550002222' })
+        .query({
+          userId: '123',
+          backendCallId: '456',
+          from: '+15550001111',
+          to: '+15550002222',
+        })
         .type('form')
         .send({ Digits: '1' })
         .expect(200);
@@ -111,6 +137,9 @@ describe('webhooksTwilio routes', () => {
       expect(res.text).toContain('<Dial');
       expect(res.text).toContain('callerId="+' /* from mockNormalizeE164 */);
       expect(res.text).toContain('<Number>+15550002222'); // dest normalized
+      expect(res.text).toContain('/webhooks/voice/alias/complete');
+      expect(res.text).toContain('userId=123');
+      expect(res.text).toContain('backendCallId=456');
       expect(res.text).toContain('Connecting your call.');
     });
 
@@ -176,7 +205,11 @@ describe('webhooksTwilio routes', () => {
       const res = await request(app)
         .post('/webhooks/voice/inbound')
         .type('form')
-        .send({ To: '+15550003333', From: '+15550004444' })
+        .send({
+          To: '+15550003333',
+          From: '+15550004444',
+          CallSid: 'CA-inbound-forward-test',
+        })
         .expect(200);
 
       expect(prisma.user.findFirst).toHaveBeenCalledTimes(1);
