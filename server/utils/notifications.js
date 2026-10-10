@@ -1,7 +1,5 @@
-import sgMail from '@sendgrid/mail';
 import prisma from '../utils/prismaClient.js';
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+import { sendMail } from './sendMail.js';
 
 export async function notifyUserOfPendingRelease(userId, { number, releaseDate }) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -25,6 +23,11 @@ export async function notifyUserOfPendingRelease(userId, { number, releaseDate }
     `
   };
 
-  await sgMail.send(msg);
+  const result = await sendMail(msg);
+
+  if (!result?.success) {
+    throw result?.error || new Error('Email send failed');
+  }
+
   console.log(`[Notify] Email sent: userId=${userId}`);
 }
