@@ -6,16 +6,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const prismaPath = path.resolve(__dirname, '../prismaClient.js');
+const sendMailPath = path.resolve(__dirname, '../sendMail.js');
 const notificationsPath = path.resolve(__dirname, '../notifications.js');
 
-process.env.SENDGRID_API_KEY = 'test-sendgrid-key';
+const sendMailMock = jest.fn();
 
-jest.unstable_mockModule('@sendgrid/mail', () => ({
+jest.unstable_mockModule(sendMailPath, () => ({
   __esModule: true,
-  default: {
-    setApiKey: jest.fn(),
-    send: jest.fn(),
-  },
+  sendMail: sendMailMock,
 }));
 
 jest.unstable_mockModule(prismaPath, () => ({
@@ -27,12 +25,11 @@ jest.unstable_mockModule(prismaPath, () => ({
   },
 }));
 
-const sgMailModule = await import('@sendgrid/mail');
 const prismaModule = await import(prismaPath);
 const { notifyUserOfPendingRelease } = await import(notificationsPath);
 
-const sgMail = sgMailModule.default;
 const prisma = prismaModule.default;
+const sendMail = sendMailMock;
 
 describe('notifyUserOfPendingRelease', () => {
   const userId = 'user-123';
@@ -42,6 +39,10 @@ describe('notifyUserOfPendingRelease', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    sendMail.mockResolvedValue({
+      success: true,
+      data: { id: 'test-email' },
+    });
   });
 
   it('logs a warning and returns when user is not found', async () => {
@@ -61,7 +62,7 @@ describe('notifyUserOfPendingRelease', () => {
       `[Notify] No email found for user ${userId}`
     );
 
-    expect(sgMail.send).not.toHaveBeenCalled();
+    expect(sendMail).not.toHaveBeenCalled();
     expect(logSpy).not.toHaveBeenCalled();
 
     warnSpy.mockRestore();
@@ -90,7 +91,7 @@ describe('notifyUserOfPendingRelease', () => {
       `[Notify] No email found for user ${userId}`
     );
 
-    expect(sgMail.send).not.toHaveBeenCalled();
+    expect(sendMail).not.toHaveBeenCalled();
     expect(logSpy).not.toHaveBeenCalled();
 
     warnSpy.mockRestore();
@@ -113,8 +114,8 @@ describe('notifyUserOfPendingRelease', () => {
       where: { id: userId },
     });
 
-    expect(sgMail.send).toHaveBeenCalledTimes(1);
-    const [msg] = sgMail.send.mock.calls[0];
+    expect(sendMail).toHaveBeenCalledTimes(1);
+    const [msg] = sendMail.mock.calls[0];
 
     expect(msg).toMatchObject({
       to: 'user@example.com',
@@ -148,8 +149,8 @@ describe('notifyUserOfPendingRelease', () => {
 
     await notifyUserOfPendingRelease(userId, { number, releaseDate });
 
-    expect(sgMail.send).toHaveBeenCalledTimes(1);
-    const [msg] = sgMail.send.mock.calls[0];
+    expect(sendMail).toHaveBeenCalledTimes(1);
+    const [msg] = sendMail.mock.calls[0];
 
     expect(msg.text).toContain('Hi ChatforiaUser,');
     expect(msg.html).toContain('Hi ChatforiaUser');
@@ -165,8 +166,8 @@ describe('notifyUserOfPendingRelease', () => {
 
     await notifyUserOfPendingRelease(userId, { number, releaseDate });
 
-    expect(sgMail.send).toHaveBeenCalledTimes(1);
-    const [msg] = sgMail.send.mock.calls[0];
+    expect(sendMail).toHaveBeenCalledTimes(1);
+    const [msg] = sendMail.mock.calls[0];
 
     expect(msg.text).toContain('Hi there,');
     expect(msg.html).toContain('Hi there');
