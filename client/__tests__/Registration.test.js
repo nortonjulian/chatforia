@@ -65,7 +65,7 @@ test('submits on valid data', async () => {
   await act(async () => {
     await user.type(screen.getByLabelText(/username/i), 'bob');
     await user.type(screen.getByLabelText(/email/i), 'bob@example.com');
-    await user.type(screen.getByLabelText(/password/i), 'secret');
+    await user.type(screen.getByLabelText(/password/i), 'secret123');
     await user.click(screen.getByRole('button', { name: /register/i }));
   });
 
@@ -73,7 +73,7 @@ test('submits on valid data', async () => {
     expect(mockPost).toHaveBeenCalledWith('/auth/register', {
       username: 'bob',
       email: 'bob@example.com',
-      password: 'secret',
+      password: 'secret123',
     });
   });
 });
