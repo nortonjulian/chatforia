@@ -11,7 +11,7 @@ import {
   Divider,
   Box,
 } from '@mantine/core';
-import useIsPremium from '@/hooks/useIsPremium';
+import useIsPaidPlan from '@/hooks/useIsPaidPlan';
 import AdSlot from '../ads/AdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 
@@ -49,7 +49,7 @@ export default function RoomSearchDrawer({
   const { t } = useTranslation();
   const [q, setQ] = useState('');
   const [results, setResults] = useState([]);
-  const isPremium = useIsPremium();
+  const isPaidPlan = useIsPaidPlan();
 
   useEffect(() => {
     setQ('');
@@ -134,7 +134,7 @@ export default function RoomSearchDrawer({
           </Stack>
         </ScrollArea>
 
-        {!isPremium && (
+        {!isPaidPlan && (
           <>
             <Divider my="xs" />
             <AdSlot placement={PLACEMENTS.SEARCH_RESULTS_FOOTER} />

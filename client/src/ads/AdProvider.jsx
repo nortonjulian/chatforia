@@ -1,5 +1,5 @@
 import React from 'react';
-import useIsPremium from '@/hooks/useIsPremium';
+import useIsPaidPlan from '@/hooks/useIsPaidPlan';
 
 const AdsContext = React.createContext(null);
 
@@ -8,7 +8,7 @@ export function useAds() {
 }
 
 export function AdProvider({ children, isPremium: isPremiumProp }) {
-  const hookPremium = useIsPremium();
+  const hookPremium = useIsPaidPlan();
 
   const isPremium =
     typeof isPremiumProp === 'boolean' ? isPremiumProp : hookPremium;

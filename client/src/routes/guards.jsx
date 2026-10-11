@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { Center, Loader } from '@mantine/core';
 import { useUser } from '@/context/UserContext';
+import { isPremiumUser } from '@/utils/planAccess';
 
 function LoadingScreen() {
   // Small, reusable loading UI while we resolve the user
@@ -32,10 +33,12 @@ export function RequirePremium({ children, allowAdmin = true }) {
   const { currentUser, authLoading } = useUser() || {};
   if (authLoading) return <LoadingScreen />;
 
-  const plan = (currentUser?.plan || 'FREE').toUpperCase();
   const isAdmin = currentUser?.role === 'ADMIN';
-  const isPremiumPlan = ['PREMIUM', 'PRO', 'PLUS'].includes(plan);
+  const isPremiumPlan = isPremiumUser(currentUser);
 
-  const ok = allowAdmin ? (isAdmin || isPremiumPlan) : isPremiumPlan;
+  const ok = allowAdmin
+    ? isPremiumPlan
+    : (!isAdmin && isPremiumPlan);
+
   return ok ? children : <Navigate to="/settings/upgrade" replace />;
 }
