@@ -22,7 +22,7 @@ export const PLAN_ENTITLEMENTS = Object.freeze({
   PLUS: Object.freeze({
     riaActions: 200,
     translationChars: 100_000,
-    hostedParticipantMinutes: 300,
+    hostedParticipantMinutes: 500,
     smsMessages: 500,
     pstnMinutes: 100,
     forwardingMinutes: 100,
@@ -40,7 +40,7 @@ export const PLAN_ENTITLEMENTS = Object.freeze({
   PREMIUM: Object.freeze({
     riaActions: 500,
     translationChars: 1_000_000,
-    hostedParticipantMinutes: 600,
+    hostedParticipantMinutes: 1000,
     smsMessages: 1500,
     pstnMinutes: 300,
     forwardingMinutes: 300,
