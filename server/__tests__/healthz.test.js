@@ -34,11 +34,14 @@ await jest.unstable_mockModule('../config/env.js', () => {
     FRONTEND_ORIGIN: 'https://app.chatforia.com',
     FORCE_HTTPS: true,
     COOKIE_SECURE: true,
-    TELCO_PROVIDER: 'twilio',
+    DEFAULT_PROVIDER: 'twilio',
     STRIPE_SECRET_KEY: 'sk_test_123',
     STRIPE_WEBHOOK_SECRET: 'whsec_123',
     SENTRY_DSN: 'https://sentry.example',
-    UPLOAD_TARGET: 'r2',
+    FEATURE_R2: true,
+    UPLOAD_TARGET: 'memory',
+    R2_BUCKET: 'chatforia-test',
+    R2_S3_ENDPOINT: 'example.r2.cloudflarestorage.com',
     STATUS_ENABLED: true,
   };
   return {
@@ -91,7 +94,8 @@ describe('GET /healthz', () => {
       telco: 'twilio',
       stripe: true,
       sentry: true,
-      uploads: 'r2',
+      uploads: 'memory',
+      objectStorage: 'r2',
       statusFeature: true,
     });
 

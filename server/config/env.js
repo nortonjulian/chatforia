@@ -55,8 +55,10 @@ export const ENV = {
   FEATURE_EMAIL: bool(process.env.FEATURE_EMAIL, false),
   EMAIL_FROM: process.env.EMAIL_FROM || 'Chatforia <hello@chatforia.com>',
 
-  // Billing / Paddle
+  // Billing / Stripe / Paddle
   BILLING_PROVIDER: (process.env.BILLING_PROVIDER || '').toLowerCase(),
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY || '',
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET || '',
   PADDLE_API_KEY: process.env.PADDLE_API_KEY || '',
   PADDLE_WEBHOOK_SECRET: process.env.PADDLE_WEBHOOK_SECRET || '',
 

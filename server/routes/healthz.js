@@ -52,14 +52,20 @@ router.get('/', async (_req, res) => {
     (ENV.CORS_ORIGINS && ENV.CORS_ORIGINS.length) ||
     (ENV.FRONTEND_ORIGIN ? 1 : 0);
 
+  const objectStorage =
+    ENV.FEATURE_R2 || (ENV.R2_BUCKET && ENV.R2_S3_ENDPOINT)
+      ? 'r2'
+      : 'local';
+
   const config = {
     https: ENV.FORCE_HTTPS,
     cookieSecure: ENV.COOKIE_SECURE,
     corsOrigins: corsOriginsCount,
-    telco: ENV.TELCO_PROVIDER || 'none',
+    telco: ENV.DEFAULT_PROVIDER || 'none',
     stripe: Boolean(ENV.STRIPE_SECRET_KEY && ENV.STRIPE_WEBHOOK_SECRET),
     sentry: Boolean(ENV.SENTRY_DSN),
     uploads: ENV.UPLOAD_TARGET,
+    objectStorage,
     statusFeature: ENV.STATUS_ENABLED,
   };
 
