@@ -18,7 +18,7 @@ import { MoreVertical, Archive, Undo2, Trash2 } from 'lucide-react';
 import AdSlot from '@/ads/AdSlot';
 import HouseAdSlot from '@/ads/HouseAdSlot';
 import { PLACEMENTS } from '@/ads/placements';
-import useIsPremium from '@/hooks/useIsPremium';
+import useIsPaidPlan from '@/hooks/useIsPaidPlan';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
 
@@ -225,7 +225,7 @@ export default function ChatroomsSidebar({
   __testSkipLoad = false,
 }) {
   const { t } = useTranslation();
-  const isPremium = useIsPremium();
+  const isPaidPlan = useIsPaidPlan();
 
   /** @type {[Thread[], Function]} */
   const [items, setItems] = useState(__testInitialRooms ?? []);
@@ -724,7 +724,7 @@ useEffect(() => {
           </Text>
         )}
 
-        {!isPremium && (
+        {!isPaidPlan && (
           <>
             <AdSlot
               placement={PLACEMENTS.SIDEBAR_PRIMARY}
@@ -869,7 +869,7 @@ useEffect(() => {
               </Group>
             </Box>
 
-            {!isPremium && idx === 2 && (
+            {!isPaidPlan && idx === 2 && (
               <>
                 <Divider my={6} />
                 <AdSlot

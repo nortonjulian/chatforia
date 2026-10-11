@@ -69,6 +69,7 @@ import { playSound } from '@/lib/sounds.js';
 
 // 🔒 Premium check
 import useIsPremium from '@/hooks/useIsPremium';
+import useIsPaidPlan from '@/hooks/useIsPaidPlan';
 import useEntitlements from '@/hooks/useEntitlements';
 
 import { useTranslation } from 'react-i18next';
@@ -221,13 +222,12 @@ function isSameUser(a, b) {
 /* ---------- component ---------- */
 export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isPremium = useIsPremium();
-  const isStrictPremium =
-    String(currentUser?.plan || 'FREE').toUpperCase() === 'PREMIUM';
+  const isPaidPlan = useIsPaidPlan();
 
   const { entitlements: planEntitlements } = useEntitlements();
   const aiRewriteLevel =
     planEntitlements?.entitlements?.aiRewriteLevel ??
-    (isStrictPremium ? 'FULL' : 'NONE');
+    (isPremium ? 'FULL' : 'NONE');
   const hasFullAi = aiRewriteLevel === 'FULL';
 
   const navigate = useNavigate();
@@ -528,7 +528,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [emptyDismissed] = useDismissed('empty_state_promo', 14);
   const shouldShowEmptyPromo =
     !chatroom &&
-    !isPremium &&
+    !isPaidPlan &&
     !emptyDismissed &&
     canShow(PLACEMENTS.EMPTY_STATE_PROMO, 'app');
 
@@ -1909,7 +1909,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const holdToReveal = Boolean(currentUser?.privacyHoldToReveal);
 
   const showThreadTop = Boolean(
-    chatroom?.id && !isPremium && canShow(PLACEMENTS.THREAD_TOP, String(chatroom.id))
+    chatroom?.id && !isPaidPlan && canShow(PLACEMENTS.THREAD_TOP, String(chatroom.id))
   );
 
   useEffect(() => {
@@ -2047,7 +2047,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   if (!chatroom) {
     const showPromo =
-      !isPremium &&
+      !isPaidPlan &&
       !emptyDismissed &&
       canShow(PLACEMENTS.EMPTY_STATE_PROMO, 'app') &&
       Object.keys(ADS_CONFIG?.house || {}).length > 0;
@@ -2062,7 +2062,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             Pick a chat on the left to get started.
           </Text>
 
-          {!isPremium && showPromo && (
+          {!isPaidPlan && showPromo && (
             <CardAdWrap>
               <HouseAdSlot placement="empty_state_promo" variant="card" />
             </CardAdWrap>
@@ -2290,7 +2290,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                 <ThreadActionsMenu
                   isPremium={isPremium}
                   isAiPowerAvailable={hasFullAi}
-                  isScheduleAvailable={isStrictPremium}
+                  isScheduleAvailable={isPremium}
                   aiPowerLabel="Summarize conversation"
                   showPremiumSection
                   showThreadSection
@@ -2538,7 +2538,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             overflow: 'hidden',
           }}
         >
-          {!isPremium && showThreadTop && (
+          {!isPaidPlan && showThreadTop && (
             <div style={{ padding: '8px 12px', flex: '0 0 auto' }}>
               <CardAdWrap>
                 <HouseAdSlot placement="thread_top" variant="card" />

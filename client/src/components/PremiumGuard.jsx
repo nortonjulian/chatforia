@@ -2,6 +2,7 @@ import { useUser } from '../context/UserContext';
 import { Alert, Anchor, Card, Stack, Text, Button } from '@mantine/core';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { isPremiumUser } from '@/utils/planAccess';
 
 /**
  * PremiumGuard
@@ -16,12 +17,7 @@ export default function PremiumGuard({ children, variant = 'card', silent = fals
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const plan = (currentUser?.plan || 'FREE').toUpperCase();
-
-  // Only real premium tiers count here
-  const isPremium =
-    currentUser?.role === 'ADMIN' ||
-    ['PREMIUM', 'PRO'].includes(plan);
+  const isPremium = isPremiumUser(currentUser);
 
   if (isPremium) return children;
   if (silent) return null;

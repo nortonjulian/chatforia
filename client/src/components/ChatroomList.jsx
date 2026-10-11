@@ -6,7 +6,7 @@ import EmptyState from '@/components/empty/EmptyState';
 import { useSocket } from '@/context/SocketContext';
 import { deleteRoomMessages } from '@/utils/messagesStore';
 
-import useIsPremium from '@/hooks/useIsPremium';
+import useIsPaidPlan from '@/hooks/useIsPaidPlan';
 
 import AdSlot from '../ads/AdSlot';
 import HouseAdSlot from '../ads/HouseAdSlot';
@@ -88,7 +88,7 @@ export default function ChatroomList({
   const [loading, setLoading] = useState(true);
   const viewportRef = useRef(null);
 
-  const isPremium = useIsPremium();
+  const isPaidPlan = useIsPaidPlan();
 
   const { socket } = useSocket();
 
@@ -394,9 +394,9 @@ const handleDeleteThread = async (thread) => {
           subtitle="Start a chat to get rolling."
           cta="+ New Chat"
           onCta={() => openNewChatModal?.(true)}
-          isPremium={isPremium}
+          isPremium={isPaidPlan}
         />
-        {!isPremium && (
+        {!isPaidPlan && (
           <Box mt="sm" style={{ display: 'flex', justifyContent: 'center' }}>
             <CardAdWrap>
               <HouseAdSlot placement="empty_state_promo" variant="card" />
@@ -409,7 +409,7 @@ const handleDeleteThread = async (thread) => {
 
   return (
     <Box>
-      {!isPremium && (
+      {!isPaidPlan && (
         <Box mb="xs">
           <AdSlot placement={PLACEMENTS.CONTACTS_TOP_BANNER} capKey="chatlist" />
         </Box>
@@ -483,7 +483,7 @@ const handleDeleteThread = async (thread) => {
                   aria-label={`Open ${thread.type} thread ${thread.title}`}
                 />
 
-                {!isPremium && idx === 3 && (
+                {!isPaidPlan && idx === 3 && (
                   <Box my="xs">
                     <AdSlot placement={PLACEMENTS.INBOX_NATIVE_1} capKey="inbox" />
                   </Box>
