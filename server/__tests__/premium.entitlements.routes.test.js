@@ -59,7 +59,7 @@ describe('premium entitlements route', () => {
     const entitlements = {
       riaActions: 200,
       translationChars: 100_000,
-      hostedParticipantMinutes: 300,
+      hostedParticipantMinutes: 500,
       smsMessages: 500,
       pstnMinutes: 100,
       forwardingMinutes: 100,
