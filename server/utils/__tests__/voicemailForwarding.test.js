@@ -4,6 +4,64 @@ import { serializeUser } from '../serializeUser.js';
 
 const configured = { plan: 'PLUS', voicemailForwardEmail: 'voice@example.com', voicemailEmailForwardingEnabled: true };
 
+describe('serializeUser Premium entitlement', () => {
+  const base = {
+    id: 1,
+    email: 'user@example.com',
+    username: 'user',
+    role: 'USER',
+    theme: 'amoled',
+  };
+
+  it('preserves Premium UI for ACTIVE Premium', () => {
+    const saved = serializeUser({
+      ...base,
+      plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt: new Date(Date.now() + 60_000),
+    });
+
+    expect(saved.isPremium).toBe(true);
+    expect(saved.theme).toBe('amoled');
+  });
+
+  it('preserves Premium UI for TRIALING Premium', () => {
+    const saved = serializeUser({
+      ...base,
+      plan: 'PREMIUM',
+      subscriptionStatus: 'TRIALING',
+      subscriptionEndsAt: new Date(Date.now() + 60_000),
+    });
+
+    expect(saved.isPremium).toBe(true);
+    expect(saved.theme).toBe('amoled');
+  });
+
+  it('sanitizes expired Premium UI', () => {
+    const saved = serializeUser({
+      ...base,
+      plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt: new Date(Date.now() - 60_000),
+    });
+
+    expect(saved.isPremium).toBe(false);
+    expect(saved.theme).toBe('dawn');
+  });
+
+  it('sanitizes inactive Premium UI', () => {
+    const saved = serializeUser({
+      ...base,
+      plan: 'PREMIUM',
+      subscriptionStatus: 'INACTIVE',
+      subscriptionEndsAt: null,
+    });
+
+    expect(saved.isPremium).toBe(false);
+    expect(saved.theme).toBe('dawn');
+  });
+});
+
 describe('voicemail email forwarding entitlement and consent', () => {
   it.each(['PLUS', 'PREMIUM'])('allows enabled forwarding for %s', (plan) => {
     expect(voicemailForwardingDestination({ ...configured, plan })).toBe('voice@example.com');

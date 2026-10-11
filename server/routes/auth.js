@@ -43,6 +43,7 @@ import { issueResetToken, consumeResetToken } from '../utils/resetTokens.js';
 
 import { serializeUser } from '../utils/serializeUser.js';
 import { canForwardVoicemailEmail } from '../utils/voicemailForwarding.js';
+import { hasPremiumAccess } from '../utils/planAccess.js';
 import { createMfaChallenge, completeMfaChallenge } from '../services/mfaLogin.js';
 import { renderMfaPage, MFA_BROWSER_SCRIPT, MFA_BROWSER_CSS, pendingCookieName, pendingCookieOptions } from '../services/webMfa.js';
 
@@ -1181,23 +1182,6 @@ const PREMIUM_RINGTONES = ALL_RINGTONES.filter(
   (x) => !FREE_RINGTONES.includes(x)
 );
 
-function hasPremiumAccess(user) {
-  if (!user) return false;
-  if (user.role === 'ADMIN') return true;
-
-  const active =
-    user.subscriptionStatus === 'ACTIVE' &&
-    (!user.subscriptionEndsAt ||
-      new Date(user.subscriptionEndsAt) > new Date());
-
-  if (!active) return false;
-
-  return (
-    String(user.plan || '')
-      .trim()
-      .toUpperCase() === 'PREMIUM'
-  );
-}
 
 function sanitizeEntitledSettings(user) {
   const safe = { ...user };

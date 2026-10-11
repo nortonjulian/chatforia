@@ -17,6 +17,7 @@ import { scanFile } from '../utils/antivirus.js';
 
 import { serializeUser } from '../utils/serializeUser.js';
 import { canForwardVoicemailEmail, isValidVoicemailEmail } from '../utils/voicemailForwarding.js';
+import { hasPremiumAccess } from '../utils/planAccess.js';
 
 const router = express.Router();
 
@@ -380,13 +381,11 @@ router.patch('/me', requireAuth, async (req, res) => {
       if (isPremiumTheme(t)) {
         const me = await prisma.user.findUnique({
           where: { id: req.user.id },
-          select: { plan: true },
+          select: { plan: true, role: true, subscriptionStatus: true, subscriptionEndsAt: true },
         });
 
         if (
-          String(me?.plan || 'FREE')
-            .trim()
-            .toUpperCase() !== 'PREMIUM'
+          !hasPremiumAccess(me)
         ) {
           return res.status(402).json({
             error: 'Premium theme requires an upgraded plan',
@@ -417,13 +416,11 @@ router.patch('/me', requireAuth, async (req, res) => {
       if (premiumConfig.tones.premiumMessageTones.includes(val)) {
         const me = await prisma.user.findUnique({
           where: { id: req.user.id },
-          select: { plan: true },
+          select: { plan: true, role: true, subscriptionStatus: true, subscriptionEndsAt: true },
         });
 
         if (
-          String(me?.plan || 'FREE')
-            .trim()
-            .toUpperCase() !== 'PREMIUM'
+          !hasPremiumAccess(me)
         ) {
           return res.status(402).json({
             error: 'Premium message tone requires upgrade',
@@ -450,13 +447,11 @@ router.patch('/me', requireAuth, async (req, res) => {
       if (premiumConfig.tones.premiumRingtones.includes(val)) {
         const me = await prisma.user.findUnique({
           where: { id: req.user.id },
-          select: { plan: true },
+          select: { plan: true, role: true, subscriptionStatus: true, subscriptionEndsAt: true },
         });
 
         if (
-          String(me?.plan || 'FREE')
-            .trim()
-            .toUpperCase() !== 'PREMIUM'
+          !hasPremiumAccess(me)
         ) {
           return res.status(402).json({
             error: 'Premium ringtone requires upgrade',
@@ -537,6 +532,8 @@ router.patch('/me', requireAuth, async (req, res) => {
           email: true,
           role: true,
           plan: true,
+          subscriptionStatus: true,
+          subscriptionEndsAt: true,
           publicKey: true,
           avatarUrl: true,
           discoverability: true,
