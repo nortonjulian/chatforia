@@ -2,6 +2,7 @@ import express from 'express';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js'
+import { hasPremiumAccess } from '../utils/planAccess.js';
 import * as stt from '../services/stt/index.js';
 import { a11yConfig } from '../config/a11yConfig.js';
 import { addUsageSeconds, getUsageSeconds } from '../services/stt/usage.js';
@@ -120,8 +121,16 @@ router.patch('/users/me/a11y', requireAuth, async (req, res) => {
     if (body.a11yLiveCaptions !== undefined) {
       const wantOn = !!body.a11yLiveCaptions;
       if (wantOn) {
-        const me = await prisma.user.findUnique({ where: { id: req.user.id }, select: { plan: true } });
-        if (String(me?.plan || 'FREE').toUpperCase() !== 'PREMIUM') {
+        const me = await prisma.user.findUnique({
+          where: { id: req.user.id },
+          select: {
+            role: true,
+            plan: true,
+            subscriptionStatus: true,
+            subscriptionEndsAt: true,
+          },
+        });
+        if (!hasPremiumAccess(me)) {
           return res.status(402).json({ error: 'Premium required' });
         }
       }

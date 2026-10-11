@@ -284,8 +284,13 @@ describe('PATCH /users/me', () => {
   it('returns 402 when premium theme is requested on FREE plan', async () => {
     const user = { id: 123, plan: 'FREE' };
 
-    // theme check queries the user plan via prisma
-    mockUserFindUnique.mockResolvedValueOnce({ plan: 'FREE' });
+    // theme check queries the user's active entitlement via prisma
+    mockUserFindUnique.mockResolvedValueOnce({
+      plan: 'FREE',
+      role: 'USER',
+      subscriptionStatus: 'INACTIVE',
+      subscriptionEndsAt: null,
+    });
 
     const app = createApp({ user });
 
@@ -300,7 +305,12 @@ describe('PATCH /users/me', () => {
 
     expect(mockUserFindUnique).toHaveBeenCalledWith({
       where: { id: 123 },
-      select: { plan: true },
+      select: {
+        plan: true,
+        role: true,
+        subscriptionStatus: true,
+        subscriptionEndsAt: true,
+      },
     });
     expect(mockUserUpdate).not.toHaveBeenCalled();
   });
@@ -310,7 +320,12 @@ describe('PATCH /users/me', () => {
     async (plan) => {
       const user = { id: 123, plan };
 
-      mockUserFindUnique.mockResolvedValueOnce({ plan });
+      mockUserFindUnique.mockResolvedValueOnce({
+        plan,
+        role: 'USER',
+        subscriptionStatus: 'ACTIVE',
+        subscriptionEndsAt: null,
+      });
 
       const app = createApp({ user });
 
@@ -332,7 +347,12 @@ describe('PATCH /users/me', () => {
     async (plan) => {
       const user = { id: 123, plan };
 
-      mockUserFindUnique.mockResolvedValueOnce({ plan });
+      mockUserFindUnique.mockResolvedValueOnce({
+        plan,
+        role: 'USER',
+        subscriptionStatus: 'ACTIVE',
+        subscriptionEndsAt: null,
+      });
 
       const app = createApp({ user });
 
@@ -354,7 +374,12 @@ describe('PATCH /users/me', () => {
     async (plan) => {
       const user = { id: 123, plan };
 
-      mockUserFindUnique.mockResolvedValueOnce({ plan });
+      mockUserFindUnique.mockResolvedValueOnce({
+        plan,
+        role: 'USER',
+        subscriptionStatus: 'ACTIVE',
+        subscriptionEndsAt: null,
+      });
 
       const app = createApp({ user });
 
@@ -371,10 +396,87 @@ describe('PATCH /users/me', () => {
     }
   );
 
+  it('returns 402 when PREMIUM subscription is inactive', async () => {
+    const user = { id: 201, plan: 'PREMIUM' };
+
+    mockUserFindUnique.mockResolvedValueOnce({
+      plan: 'PREMIUM',
+      role: 'USER',
+      subscriptionStatus: 'INACTIVE',
+      subscriptionEndsAt: null,
+    });
+
+    const app = createApp({ user });
+
+    const res = await request(app)
+      .patch('/users/me')
+      .send({ theme: 'amoled' });
+
+    expect(res.statusCode).toBe(402);
+    expect(mockUserUpdate).not.toHaveBeenCalled();
+  });
+
+  it('returns 402 when PREMIUM subscription is expired', async () => {
+    const user = { id: 202, plan: 'PREMIUM' };
+
+    mockUserFindUnique.mockResolvedValueOnce({
+      plan: 'PREMIUM',
+      role: 'USER',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt: new Date(Date.now() - 60_000),
+    });
+
+    const app = createApp({ user });
+
+    const res = await request(app)
+      .patch('/users/me')
+      .send({ theme: 'amoled' });
+
+    expect(res.statusCode).toBe(402);
+    expect(mockUserUpdate).not.toHaveBeenCalled();
+  });
+
+  it('allows premium theme when PREMIUM subscription is TRIALING', async () => {
+    const user = { id: 203, plan: 'PREMIUM' };
+
+    mockUserFindUnique.mockResolvedValueOnce({
+      plan: 'PREMIUM',
+      role: 'USER',
+      subscriptionStatus: 'TRIALING',
+      subscriptionEndsAt: new Date(Date.now() + 60_000),
+    });
+
+    mockUserUpdate.mockResolvedValueOnce({
+      id: 203,
+      username: 'trialuser',
+      email: 'trial@example.com',
+      role: 'USER',
+      plan: 'PREMIUM',
+      subscriptionStatus: 'TRIALING',
+      subscriptionEndsAt: new Date(Date.now() + 60_000),
+      publicKey: null,
+      theme: 'amoled',
+    });
+
+    const app = createApp({ user });
+
+    const res = await request(app)
+      .patch('/users/me')
+      .send({ theme: 'amoled' });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.theme).toBe('amoled');
+  });
+
   it('allows premium theme when user has PREMIUM plan', async () => {
     const user = { id: 200, plan: 'PREMIUM' };
 
-    mockUserFindUnique.mockResolvedValueOnce({ plan: 'PREMIUM' });
+    mockUserFindUnique.mockResolvedValueOnce({
+      plan: 'PREMIUM',
+      role: 'USER',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt: new Date(Date.now() + 60_000),
+    });
 
     const updated = {
       id: 200,
@@ -382,6 +484,8 @@ describe('PATCH /users/me', () => {
       email: 'test@example.com',
       role: 'USER',
       plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt: new Date(Date.now() + 60_000),
       publicKey: null,
       theme: 'amoled',
       enableSmartReplies: true,

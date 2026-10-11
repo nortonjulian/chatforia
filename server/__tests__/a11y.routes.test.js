@@ -87,7 +87,12 @@ describe('a11y routes', () => {
 
     test('402 when enabling live captions for FREE user', async () => {
       // User is FREE plan when checking live captions
-      mockPrisma.user.findUnique.mockResolvedValueOnce({ plan: 'FREE' });
+      mockPrisma.user.findUnique.mockResolvedValueOnce({
+        plan: 'FREE',
+        role: 'USER',
+        subscriptionStatus: 'INACTIVE',
+        subscriptionEndsAt: null,
+      });
 
       const res = await request(app)
         .patch('/a11y/users/me/a11y')
@@ -100,12 +105,22 @@ describe('a11y routes', () => {
       // prisma.user.findUnique should have been called with current user
       expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({
         where: { id: 1 },
-        select: { plan: true },
+        select: {
+          role: true,
+          plan: true,
+          subscriptionStatus: true,
+          subscriptionEndsAt: true,
+        },
       });
     });
 
     test('402 when enabling live captions for PLUS user', async () => {
-      mockPrisma.user.findUnique.mockResolvedValueOnce({ plan: 'PLUS' });
+      mockPrisma.user.findUnique.mockResolvedValueOnce({
+        plan: 'PLUS',
+        role: 'USER',
+        subscriptionStatus: 'ACTIVE',
+        subscriptionEndsAt: null,
+      });
 
       const res = await request(app)
         .patch('/a11y/users/me/a11y')
@@ -116,9 +131,72 @@ describe('a11y routes', () => {
       expect(mockPrisma.user.update).not.toHaveBeenCalled();
     });
 
+    test('402 when enabling live captions for inactive PREMIUM user', async () => {
+      mockPrisma.user.findUnique.mockResolvedValueOnce({
+        plan: 'PREMIUM',
+        role: 'USER',
+        subscriptionStatus: 'INACTIVE',
+        subscriptionEndsAt: null,
+      });
+
+      const res = await request(app)
+        .patch('/a11y/users/me/a11y')
+        .send({ a11yLiveCaptions: true });
+
+      expect(res.statusCode).toBe(402);
+      expect(mockPrisma.user.update).not.toHaveBeenCalled();
+    });
+
+    test('402 when enabling live captions for expired PREMIUM user', async () => {
+      mockPrisma.user.findUnique.mockResolvedValueOnce({
+        plan: 'PREMIUM',
+        role: 'USER',
+        subscriptionStatus: 'ACTIVE',
+        subscriptionEndsAt: new Date(Date.now() - 60_000),
+      });
+
+      const res = await request(app)
+        .patch('/a11y/users/me/a11y')
+        .send({ a11yLiveCaptions: true });
+
+      expect(res.statusCode).toBe(402);
+      expect(mockPrisma.user.update).not.toHaveBeenCalled();
+    });
+
+    test('200 when enabling live captions for TRIALING PREMIUM user', async () => {
+      mockPrisma.user.findUnique.mockResolvedValueOnce({
+        plan: 'PREMIUM',
+        role: 'USER',
+        subscriptionStatus: 'TRIALING',
+        subscriptionEndsAt: new Date(Date.now() + 60_000),
+      });
+
+      const updatedUser = {
+        id: 1,
+        a11yLiveCaptions: true,
+      };
+
+      mockPrisma.user.update.mockResolvedValueOnce(updatedUser);
+
+      const res = await request(app)
+        .patch('/a11y/users/me/a11y')
+        .send({ a11yLiveCaptions: true });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual({
+        ok: true,
+        user: updatedUser,
+      });
+    });
+
     test('200 and updates fields for valid body (Premium user)', async () => {
-      // First call: checking plan for live captions
-      mockPrisma.user.findUnique.mockResolvedValueOnce({ plan: 'PREMIUM' });
+      // First call: checking active Premium entitlement for live captions
+      mockPrisma.user.findUnique.mockResolvedValueOnce({
+        plan: 'PREMIUM',
+        role: 'USER',
+        subscriptionStatus: 'ACTIVE',
+        subscriptionEndsAt: new Date(Date.now() + 60_000),
+      });
 
       const updatedUser = {
         id: 1,
@@ -155,10 +233,15 @@ describe('a11y routes', () => {
         user: updatedUser,
       });
 
-      // plan check for live captions
+      // active Premium entitlement check for live captions
       expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({
         where: { id: 1 },
-        select: { plan: true },
+        select: {
+          role: true,
+          plan: true,
+          subscriptionStatus: true,
+          subscriptionEndsAt: true,
+        },
       });
 
       // ensure we sent the right updates to prisma

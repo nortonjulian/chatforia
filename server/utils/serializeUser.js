@@ -1,12 +1,7 @@
 import { canForwardVoicemailEmail } from './voicemailForwarding.js';
+import { hasPremiumAccess } from './planAccess.js';
 
 const FREE_THEMES = ['dawn', 'midnight'];
-
-function hasPremiumAccess(user) {
-  return (
-    String(user.plan || 'FREE').toUpperCase() === 'PREMIUM'
-  );
-}
 
 export function serializeUser(user) {
   const premium = hasPremiumAccess(user);

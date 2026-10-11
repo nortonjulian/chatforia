@@ -5,6 +5,7 @@ import { requirePremium } from '../middleware/requirePremium.js';
 import { premiumConfig } from '../config/premiumConfig.js';
 import { getPlanEntitlements } from '../config/planEntitlements.js';
 import { getUsageSummary } from '../services/planUsageService.js';
+import { hasPremiumAccess } from '../utils/planAccess.js';
 
 const router = express.Router();
 
@@ -35,9 +36,16 @@ router.get('/entitlements', requireAuth, async (req, res) => {
 router.get('/tones', requireAuth, async (req, res) => {
   const me = await prisma.user.findUnique({
     where: { id: req.user.id },
-    select: { plan: true, ringtone: true, messageTone: true },
+    select: {
+      role: true,
+      plan: true,
+      subscriptionStatus: true,
+      subscriptionEndsAt: true,
+      ringtone: true,
+      messageTone: true,
+    },
   });
-  const isPremium = me?.plan === 'PREMIUM';
+  const isPremium = hasPremiumAccess(me);
 
   res.json({
     current: { ringtone: me?.ringtone, messageTone: me?.messageTone },
@@ -60,9 +68,14 @@ router.patch('/tones', requireAuth, async (req, res) => {
   const { ringtone, messageTone } = req.body || {};
   const me = await prisma.user.findUnique({
     where: { id: req.user.id },
-    select: { plan: true },
+    select: {
+      role: true,
+      plan: true,
+      subscriptionStatus: true,
+      subscriptionEndsAt: true,
+    },
   });
-  const isPremium = me?.plan === 'PREMIUM';
+  const isPremium = hasPremiumAccess(me);
 
   const isPremiumR = ringtone
     ? premiumConfig.tones.premiumRingtones.includes(ringtone)
@@ -117,14 +130,20 @@ router.get('/themes', requireAuth, async (req, res) => {
   try {
     me = await prisma.user.findUnique({
       where: { id: req.user.id },
-      select: { plan: true, theme: true },
+      select: {
+        role: true,
+        plan: true,
+        subscriptionStatus: true,
+        subscriptionEndsAt: true,
+        theme: true,
+      },
     });
   } catch {
     // fallback if field not present yet
     me = { plan: 'FREE', theme: 'light' };
   }
 
-  const isPremium = me?.plan === 'PREMIUM';
+  const isPremium = hasPremiumAccess(me);
 
   res.json({
     current: { theme: me?.theme || 'light' },
@@ -140,12 +159,17 @@ router.patch('/theme', requireAuth, async (req, res) => {
   const { theme } = req.body || {};
   if (!theme) return res.status(400).json({ error: 'theme required' });
 
-  // Check plan
+  // Check active Premium entitlement
   const me = await prisma.user.findUnique({
     where: { id: req.user.id },
-    select: { plan: true },
+    select: {
+      role: true,
+      plan: true,
+      subscriptionStatus: true,
+      subscriptionEndsAt: true,
+    },
   });
-  const isPremium = me?.plan === 'PREMIUM';
+  const isPremium = hasPremiumAccess(me);
 
   const free = new Set(premiumConfig.themes.free);
   const prem = new Set(premiumConfig.themes.premium);
