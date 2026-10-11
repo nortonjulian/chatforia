@@ -60,7 +60,7 @@ describe('premium entitlements route', () => {
       riaActions: 200,
       translationChars: 100_000,
       hostedParticipantMinutes: 300,
-      smsMessages: 250,
+      smsMessages: 500,
       pstnMinutes: 100,
       forwardingMinutes: 100,
       voicemailTranscriptionMinutes: 0,
