@@ -10,7 +10,6 @@ import { setSocketIo, setHelpers } from './services/socketBus.js';
 import prisma from './utils/prismaClient.js';
 
 import { startNumberLifecycleJob } from './jobs/numberLifecycle.js';
-import { startMessageRetentionJob } from './jobs/messageRetention.js';
 
 import validateEnv from './config/validateEnv.js';
 import { ENV } from './config/env.js';
@@ -99,13 +98,12 @@ if (ENV.IS_TEST) {
     logger.warn({ err: e }, 'Cron init failed');
   }
 
-  // Start number lifecycle + message retention jobs
+  // Start number lifecycle jobs
   try {
     startNumberLifecycleJob();
-    startMessageRetentionJob();
-    logger.info('Number lifecycle + message retention jobs started');
+    logger.info('Number lifecycle jobs started');
   } catch (e) {
-    logger.warn({ err: e }, 'Failed to start number/message jobs');
+    logger.warn({ err: e }, 'Failed to start number lifecycle jobs');
   }
 
   // ----------------------------
