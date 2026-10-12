@@ -286,6 +286,103 @@ describe(
     );
 
     test(
+      'terminalizes a Google Play 410 so it is not reconciled again',
+      async () => {
+        const db = buildDb([
+          {
+            id: 'google-sub-gone',
+            purchaseToken:
+              'stale-secret-token',
+          },
+        ]);
+
+        db.googlePlaySubscription
+          .updateMany
+          .mockResolvedValueOnce({
+            count: 1,
+          })
+          .mockResolvedValueOnce({
+            count: 1,
+          });
+
+        const refreshFn =
+          jest.fn().mockRejectedValue(
+            Object.assign(
+              new Error(
+                'The subscription purchase is no longer available.'
+              ),
+              {
+                response: {
+                  status: 410,
+                },
+              }
+            )
+          );
+
+        const loggerInstance =
+          buildLogger();
+
+        const summary =
+          await runGooglePlayReconciliationBatch({
+            db,
+            refreshFn,
+            clock: () => fixedNow,
+            loggerInstance,
+          });
+
+        const terminalPersistence =
+          db.googlePlaySubscription
+            .updateMany
+            .mock.calls[1][0];
+
+        expect(
+          terminalPersistence
+            .data
+            .lastVerificationErrorCode
+        ).toBe('410');
+
+        expect(
+          terminalPersistence
+            .data
+            .revokedAt
+        ).toEqual(fixedNow);
+
+        expect(
+          terminalPersistence
+            .data
+            .accessGrantedSnapshot
+        ).toBe(false);
+
+        expect(
+          terminalPersistence
+            .data
+            .nextAcknowledgementAttemptAt
+        ).toBeNull();
+
+        expect(
+          terminalPersistence
+            .data
+            .reconciliationLeaseId
+        ).toBeNull();
+
+        expect(
+          terminalPersistence
+            .data
+            .reconciliationLeaseUntil
+        ).toBeNull();
+
+        expect(summary).toEqual({
+          selected: 1,
+          claimed: 1,
+          refreshed: 0,
+          failed: 1,
+          leaseSkipped: 0,
+          leaseReleaseFailed: 0,
+        });
+      }
+    );
+
+    test(
       'continues after one subscription fails',
       async () => {
         const db = buildDb([
