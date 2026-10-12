@@ -29,6 +29,7 @@ import { useTranslation } from 'react-i18next';
 export default function PeoplePage() {
   const { t } = useTranslation();
   const { currentUser } = useUser();
+  const currentUserId = currentUser?.id;
   const navigate = useNavigate();
 
   const [openImport, setOpenImport] = useState(false);
@@ -52,7 +53,7 @@ export default function PeoplePage() {
   }, []);
 
   useEffect(() => {
-    if (!currentUser || q.trim().length < 3) {
+    if (!currentUserId || q.trim().length < 3) {
       setPeopleResults([]);
       setPeopleError('');
       setPeopleLoading(false);
@@ -73,7 +74,7 @@ export default function PeoplePage() {
             (item) =>
               item.kind === 'user' &&
               item.userId &&
-              Number(item.userId) !== Number(currentUser.id)
+              Number(item.userId) !== Number(currentUserId)
           )
         );
       } catch (error) {
@@ -93,7 +94,7 @@ export default function PeoplePage() {
     return () => {
       cancelled = true;
     };
-  }, [q, currentUser, t]);
+  }, [q, currentUserId, t]);
 
   if (!currentUser) return null;
 
@@ -218,7 +219,7 @@ export default function PeoplePage() {
           <Paper withBorder radius="xl" p="md">
             <ContactList
               key={contactsRefreshKey}
-              currentUserId={currentUser.id}
+              currentUserId={currentUserId}
               searchQuery={q}
             />
           </Paper>
@@ -302,7 +303,7 @@ export default function PeoplePage() {
       <AddContactModal
         opened={openAddContact}
         onClose={() => setOpenAddContact(false)}
-        currentUserId={currentUser.id}
+        currentUserId={currentUserId}
         onAdded={() => setContactsRefreshKey((k) => k + 1)}
       />
 
