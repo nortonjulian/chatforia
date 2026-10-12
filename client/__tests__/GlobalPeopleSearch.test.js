@@ -92,7 +92,7 @@ describe('GlobalPeopleSearch', () => {
     render(<GlobalPeopleSearch />);
     axiosClient.post.mockResolvedValueOnce({ data: { id: 'thread-7' } });
 
-    typeInSearch('+1 555 123 4567');
+    typeInSearch('+1 202 555 0147');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     await waitFor(() => expect(axiosClient.post).toHaveBeenCalled());
@@ -103,12 +103,12 @@ describe('GlobalPeopleSearch', () => {
     render(<GlobalPeopleSearch />);
     axiosClient.post.mockRejectedValueOnce(new Error('network down'));
 
-    typeInSearch('+1 555 123 4567');
+    typeInSearch('+1 202 555 0147');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     await waitFor(() => {
       expect(global.mockNavigate).toHaveBeenCalledWith(
-        `/people?q=${encodeURIComponent('+1 555 123 4567')}`
+        `/people?q=${encodeURIComponent('+1 202 555 0147')}`
       );
     });
   });
