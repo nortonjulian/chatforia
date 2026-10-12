@@ -154,9 +154,9 @@ export async function seedPricing() {
   const T1 = [
     [
       'USD',
-      499,
-      2499,
-      22500,
+      799,
+      1299,
+      11999,
       null,
       null,
       null,
@@ -203,9 +203,9 @@ export async function seedPricing() {
   const ROW = [
     [
       'USD',
-      499,
-      2499,
-      22500,
+      799,
+      1299,
+      11999,
       null,
       null,
       null,
@@ -236,20 +236,21 @@ export async function seedPricing() {
       '3gb': 9.99,
       '5gb': 14.99,
       '10gb': 24.99,
-      '20gb': 44.99,
+      '20gb': 39.99,
+      unlimited: 59.99,
     },
     europe: {
-      '3gb': 14.99,
-      '5gb': 24.99,
-      '10gb': 44.99,
-      // Your earlier point: Europe 20GB cost was 64.99.
-      // Setting retail above that so you’re not break-even.
-      '20gb': 66.99,
+      '3gb': 12.99,
+      '5gb': 19.99,
+      '10gb': 32.99,
+      '20gb': 49.99,
+      unlimited: 69.99,
     },
     global: {
-      // Global: only offer 3GB and 5GB (no 1GB; no 10/20 for launch)
-      '3gb': 19.99,
-      '5gb': 29.99,
+      '3gb': 21.99,
+      '5gb': 32.99,
+      '10gb': 49.99,
+      unlimited: 79.99,
     },
   };
 
@@ -258,9 +259,9 @@ export async function seedPricing() {
   const ESIM_TIER_DISCOUNTS_PCT = {
     ROW: 0,
     T1: 0,
-    T2: 10,
-    T3: 20,
-    T4: 30,
+    T2: 0,
+    T3: 0,
+    T4: 0,
   };
 
   function productKey(scope, sizeKey) {

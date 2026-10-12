@@ -118,7 +118,7 @@ describe('GET /pricing/quote', () => {
         'USD',
 
       unitAmount:
-        1499,
+        999,
 
       active:
         true,
@@ -169,14 +169,14 @@ describe('GET /pricing/quote', () => {
         'USD',
 
       unitAmount:
-        1499,
+        999,
 
       stripePriceId:
         'price_esim_local_3',
 
       display: {
         amount:
-          '14.99',
+          '9.99',
 
         currency:
           'USD',
