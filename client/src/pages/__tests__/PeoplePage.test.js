@@ -1,22 +1,28 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-/* --- Keep axios out (avoids parsing import.meta) --- */
-jest.mock('@/api/axiosClient', () => ({ __esModule: true, default: {} }));
+const mockGet = jest.fn();
+const mockPost = jest.fn();
+jest.mock('@/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    get: (...args) => mockGet(...args),
+    post: (...args) => mockPost(...args),
+  },
+}));
 
-/* --- Provide a fake user without importing the real context file --- */
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  useNavigate: () => mockNavigate,
+}));
+
 jest.mock('@/context/UserContext', () => ({
   __esModule: true,
   useUser: () => ({ currentUser: { id: 1, username: 'julian' } }),
 }));
 
-
-/* --- Lightweight Mantine stubs (every named export PeoplePage uses) --- */
 jest.mock('@mantine/core', () => {
   const React = require('react');
-
-  const Passthru = (tid) => ({ children, ...p }) =>
-    React.createElement('div', { 'data-testid': tid, ...p }, children);
-
   const Title = ({ children, ...p }) => React.createElement('div', p, children);
   const Group = ({ children, ...p }) => React.createElement('div', p, children);
   const Paper = ({ children, ...p }) => React.createElement('div', p, children);
@@ -24,6 +30,9 @@ jest.mock('@mantine/core', () => {
   const Stack = ({ children, ...p }) => React.createElement('div', p, children);
   const Text = ({ children, ...p }) => React.createElement('div', p, children);
   const Divider = ({ ...p }) => React.createElement('hr', p);
+  const Loader = ({ ...p }) => React.createElement('div', { role: 'progressbar', ...p });
+  const Alert = ({ children, ...p }) => React.createElement('div', { role: 'alert', ...p }, children);
+  const Avatar = ({ children }) => React.createElement('div', null, children);
 
   const Button = ({ children, onClick, ...p }) =>
     React.createElement('button', { type: 'button', onClick, ...p }, children);
@@ -31,7 +40,7 @@ jest.mock('@mantine/core', () => {
   const ActionIcon = ({ children, onClick, ...p }) =>
     React.createElement('button', { type: 'button', onClick, ...p }, children);
 
-  const TextInput = ({ value, onChange, placeholder, 'aria-label': aria, leftSection, rightSection, inputRef, ...p }) =>
+  const TextInput = ({ value, onChange, onKeyDown, placeholder, 'aria-label': aria, leftSection, rightSection, inputRef }) =>
     React.createElement(
       'label',
       null,
@@ -40,17 +49,16 @@ jest.mock('@mantine/core', () => {
         placeholder,
         value: value ?? '',
         onChange,
+        onKeyDown,
         ref: inputRef,
       }),
       leftSection,
       rightSection
     );
 
-  // Very simple grid with a namespaced Col
   const Grid = ({ children, ...p }) => React.createElement('div', p, children);
   Grid.Col = ({ children, ...p }) => React.createElement('div', p, children);
 
-  // CopyButton provides render-prop API used by the page
   const CopyButton = ({ value, timeout = 1600, children }) => {
     const [copied, setCopied] = React.useState(false);
     const copy = () => {
@@ -61,11 +69,11 @@ jest.mock('@mantine/core', () => {
     return children({ copied, copy });
   };
 
-  // Tooltip just renders children
   const Tooltip = ({ children }) => React.createElement(React.Fragment, null, children);
 
   return {
     __esModule: true,
+    Avatar,
     Title,
     Group,
     Button,
@@ -79,10 +87,11 @@ jest.mock('@mantine/core', () => {
     Divider,
     CopyButton,
     Tooltip,
+    Loader,
+    Alert,
   };
 });
 
-/* --- Tabler icons as harmless spans --- */
 jest.mock('@tabler/icons-react', () => {
   const React = require('react');
   const Icon = ({ 'data-name': name }) => React.createElement('span', null, name || 'icon');
@@ -96,16 +105,6 @@ jest.mock('@tabler/icons-react', () => {
   };
 });
 
-/* --- Children components mocked on the exact paths PeoplePage uses --- */
-jest.mock('../../components/StartChatModal', () => {
-  const React = require('react');
-  return {
-    __esModule: true,
-    default: ({ onClose }) =>
-      React.createElement('div', { 'data-testid': 'startchat-modal', onClick: onClose }, 'startchat'),
-  };
-});
-
 jest.mock('../../components/ContactList', () => {
   const React = require('react');
   return {
@@ -115,7 +114,6 @@ jest.mock('../../components/ContactList', () => {
   };
 });
 
-// PeoplePage imports this via alias
 jest.mock('@/components/ImportContactsModal', () => {
   const React = require('react');
   return {
@@ -127,51 +125,67 @@ jest.mock('@/components/ImportContactsModal', () => {
 
 jest.mock('@/components/AddContactModal', () => {
   const React = require('react');
-
   return {
     __esModule: true,
     default: ({ opened }) =>
-      opened
-        ? React.createElement(
-            'div',
-            { 'data-testid': 'add-contact-modal' },
-            'add-contact-open'
-          )
-        : null,
+      opened ? React.createElement('div', { 'data-testid': 'add-contact-modal' }, 'add-contact-open') : null,
   };
 });
 
-/* --- SUT --- */
 import PeoplePage from '../PeoplePage';
 
 const renderPage = () => render(<PeoplePage />);
 
+beforeEach(() => {
+  jest.clearAllMocks();
+  window.history.replaceState({}, '', '/people');
+});
+
 test('opens Import Contacts modal', () => {
   renderPage();
-
-  // Closed initially
   expect(screen.queryByTestId('import-modal')).toBeNull();
-
-  // Button on the right-side "Quick start" card
   fireEvent.click(screen.getByRole('button', { name: /import/i }));
-
   expect(screen.getByTestId('import-modal')).toBeInTheDocument();
 });
 
-test('search input updates query param on Search', () => {
+test('search updates query and fetches Chatforia users', async () => {
+  mockGet.mockResolvedValueOnce({ data: { items: [] } });
   renderPage();
 
-  // Global search input (its placeholder text comes from PeoplePage)
-  const input = screen.getByPlaceholderText(
-  /search saved contacts by alias, name, username, or phone/i
-);
-
+  const input = screen.getByPlaceholderText(/search contacts or chatforia users/i);
   fireEvent.change(input, { target: { value: 'alice' } });
   fireEvent.click(screen.getByRole('button', { name: /^search$/i }));
 
-  const q = new URL(window.location.href).searchParams.get('q');
-  expect(q).toBe('alice');
-
-  // Also passed as prop to ContactList
+  expect(new URL(window.location.href).searchParams.get('q')).toBe('alice');
   expect(screen.getByTestId('contact-list')).toHaveAttribute('data-q', 'alice');
+  await waitFor(() => {
+    expect(mockGet).toHaveBeenCalledWith('/search/people', {
+      params: { q: 'alice', limit: 12 },
+    });
+  });
+});
+
+test('renders duplicate names with distinct usernames and messages the selected userId', async () => {
+  mockGet.mockResolvedValueOnce({
+    data: {
+      items: [
+        { kind: 'user', id: 100, userId: 100, displayName: 'John Smith', username: 'johnsmith25' },
+        { kind: 'user', id: 200, userId: 200, displayName: 'John Smith', username: 'johnsmithnyc' },
+      ],
+    },
+  });
+  mockPost.mockResolvedValueOnce({ data: { id: 77 } });
+  window.history.replaceState({}, '', '/people?q=John%20Smith');
+
+  renderPage();
+
+  expect(await screen.findAllByText('John Smith')).toHaveLength(2);
+  expect(screen.getByText('@johnsmith25')).toBeInTheDocument();
+  expect(screen.getByText('@johnsmithnyc')).toBeInTheDocument();
+
+  const messageButtons = screen.getAllByRole('button', { name: /message/i });
+  fireEvent.click(messageButtons[1]);
+
+  await waitFor(() => expect(mockPost).toHaveBeenCalledWith('/chatrooms/direct/200'));
+  expect(mockNavigate).toHaveBeenCalledWith('/chat/77');
 });
