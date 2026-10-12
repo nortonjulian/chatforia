@@ -59,7 +59,7 @@ export default function AddContactModal({ opened, onClose, currentUserId, onAdde
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [opened, trimmed, looksLikePhone, selectedUser, currentUserId, t]);
+  }, [opened, trimmed, looksLikePhone, selectedUser, currentUserId]);
 
   const reset = () => {
     setValue('');
