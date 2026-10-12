@@ -1,4 +1,5 @@
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import asyncHandler from 'express-async-handler';
 import { requireAuth } from '../middleware/auth.js';
 import { digitsOnly } from '../utils/phone.js';
@@ -9,16 +10,26 @@ const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 const router = express.Router();
 
+const peopleSearchLimiter = rateLimit({
+  windowMs: 60_000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => String(req.user?.id || req.ip || 'anonymous'),
+  message: { error: 'Too many searches. Please try again shortly.' },
+});
+
 router.get(
   '/',
   requireAuth,
+  peopleSearchLimiter,
   asyncHandler(async (req, res) => {
     const ownerId = Number(req.user?.id);
     if (!ownerId) return res.status(401).json({ error: 'Unauthorized' });
 
     const q = String(req.query.q || '').trim();
     const qDigits = digitsOnly(q);
-    const limit = Math.min(Math.max(Number(req.query.limit || 10), 1), 25);
+    const limit = Math.min(Math.max(Number(req.query.limit || 10), 1), 12);
 
     if (!q) return res.json({ items: [] });
 
@@ -49,7 +60,8 @@ router.get(
       },
     });
 
-    const users = q.length >= 2
+    // Public account discovery intentionally requires 3+ characters and never paginates.
+    const users = q.length >= 3
       ? await prisma.user.findMany({
           where: {
             id: { not: ownerId },
@@ -85,6 +97,37 @@ router.get(
         })
       : [];
 
+    // A report submitted with "blockAfterReport" is treated as a mutual discovery block.
+    // The guard keeps this route compatible with deployments/tests where Report is unavailable.
+    const blockedUserIds = new Set();
+    if (prisma.report?.findMany) {
+      const blocks = await prisma.report.findMany({
+        where: {
+          blockApplied: true,
+          OR: [
+            { reporterId: ownerId },
+            { reportedUserId: ownerId },
+          ],
+        },
+        select: {
+          reporterId: true,
+          reportedUserId: true,
+        },
+        take: 200,
+      });
+
+      for (const block of blocks) {
+        if (block.reporterId === ownerId && block.reportedUserId) {
+          blockedUserIds.add(Number(block.reportedUserId));
+        }
+        if (block.reportedUserId === ownerId && block.reporterId) {
+          blockedUserIds.add(Number(block.reporterId));
+        }
+      }
+    }
+
+    const visibleUsers = users.filter((u) => !blockedUserIds.has(Number(u.id)));
+
     let threads = [];
     if (qDigits && prisma.smsThread) {
       const recent = await prisma.smsThread.findMany({
@@ -119,7 +162,7 @@ router.get(
         score: exactPhoneContact && exactPhoneContact.id === c.id ? 100 : 70,
         lastMessageAt: null,
       })),
-      ...users.map((u) => ({
+      ...visibleUsers.map((u) => ({
         kind: 'user',
         id: u.id,
         label: u.displayName || u.username || `User #${u.id}`,
