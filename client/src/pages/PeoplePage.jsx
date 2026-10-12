@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
+  Avatar,
   Title,
   Group,
   Button,
@@ -13,29 +15,31 @@ import {
   Divider,
   CopyButton,
   Tooltip,
+  Loader,
+  Alert,
 } from '@mantine/core';
 import { IconSearch, IconX, IconCopy, IconCheck, IconDeviceMobile } from '@tabler/icons-react';
 import { useUser } from '../context/UserContext';
 import ContactList from '../components/ContactList';
 import ImportContactsModal from '@/components/ImportContactsModal';
 import AddContactModal from '@/components/AddContactModal';
+import axiosClient from '@/api/axiosClient';
 import { useTranslation } from 'react-i18next';
 
 export default function PeoplePage() {
   const { t } = useTranslation();
   const { currentUser } = useUser();
+  const navigate = useNavigate();
 
   const [openImport, setOpenImport] = useState(false);
   const [openAddContact, setOpenAddContact] = useState(false);
-
-  // global search state (for the row above the card)
   const [q, setQ] = useState('');
   const [input, setInput] = useState('');
+  const [peopleResults, setPeopleResults] = useState([]);
+  const [peopleLoading, setPeopleLoading] = useState(false);
+  const [peopleError, setPeopleError] = useState('');
 
-  // 👇 authoritative global search input reference
   const globalSearchRef = useRef(null);
-
-  // used to force a refresh of ContactList after add/delete/import
   const [contactsRefreshKey, setContactsRefreshKey] = useState(0);
 
   useEffect(() => {
@@ -46,6 +50,50 @@ export default function PeoplePage() {
       setQ(initial);
     }
   }, []);
+
+  useEffect(() => {
+    if (!currentUser || q.trim().length < 3) {
+      setPeopleResults([]);
+      setPeopleError('');
+      setPeopleLoading(false);
+      return undefined;
+    }
+
+    let cancelled = false;
+    const run = async () => {
+      setPeopleLoading(true);
+      setPeopleError('');
+      try {
+        const { data } = await axiosClient.get('/search/people', {
+          params: { q: q.trim(), limit: 12 },
+        });
+        if (cancelled) return;
+        setPeopleResults(
+          (data?.items || []).filter(
+            (item) =>
+              item.kind === 'user' &&
+              item.userId &&
+              Number(item.userId) !== Number(currentUser.id)
+          )
+        );
+      } catch (error) {
+        if (!cancelled) {
+          setPeopleResults([]);
+          setPeopleError(
+            error?.response?.data?.error ||
+              t('peoplePage.peopleSearchFailed', 'Could not search Chatforia users.')
+          );
+        }
+      } finally {
+        if (!cancelled) setPeopleLoading(false);
+      }
+    };
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [q, currentUser, t]);
 
   if (!currentUser) return null;
 
@@ -61,17 +109,28 @@ export default function PeoplePage() {
   const clearSearch = () => {
     setInput('');
     setQ('');
+    setPeopleResults([]);
+    setPeopleError('');
     const url = new URL(window.location.href);
     url.searchParams.delete('q');
     window.history.replaceState({}, '', url.toString());
     globalSearchRef.current?.focus();
   };
 
-  const focusGlobalSearch = () => {
-    const el = globalSearchRef.current;
-    if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => el.focus(), 160);
+  const startDirectChat = async (userId) => {
+    try {
+      setPeopleError('');
+      const { data } = await axiosClient.post(`/chatrooms/direct/${userId}`);
+      const roomId = data?.id ?? data?.chatRoomId ?? data?.roomId;
+      if (!roomId) throw new Error('Could not open chat.');
+      navigate(`/chat/${roomId}`);
+    } catch (error) {
+      setPeopleError(
+        error?.response?.data?.error ||
+          error?.message ||
+          t('peoplePage.chatOpenFailed', 'Could not open this chat.')
+      );
+    }
   };
 
   const inviteUrl = `${window.location.origin}/join`;
@@ -91,7 +150,7 @@ export default function PeoplePage() {
                 aria-label={t('peoplePage.search', 'Search')}
                 placeholder={t(
                   'peoplePage.searchPlaceholder',
-                  'Search saved contacts by alias, name, username, or phone'
+                  'Search contacts or Chatforia users by name, username, or phone'
                 )}
                 value={input}
                 onChange={(e) => setInput(e.currentTarget.value)}
@@ -116,6 +175,45 @@ export default function PeoplePage() {
               </Button>
             </Group>
           </Box>
+
+          {q && q.trim().length < 3 ? (
+            <Text size="sm" c="dimmed" mb="sm">
+              {t('peoplePage.searchMinChars', 'Enter at least 3 characters to search Chatforia users.')}
+            </Text>
+          ) : null}
+
+          {peopleLoading ? <Loader size="sm" mb="sm" /> : null}
+          {peopleError ? <Alert color="red" mb="sm">{peopleError}</Alert> : null}
+
+          {q.trim().length >= 3 && peopleResults.length > 0 ? (
+            <Paper withBorder radius="xl" p="md" mb="md">
+              <Text fw={700} mb="sm">
+                {t('peoplePage.chatforiaUsers', 'Chatforia users')}
+              </Text>
+              <Stack gap="xs">
+                {peopleResults.map((person) => (
+                  <Group key={`user:${person.userId}`} justify="space-between" wrap="nowrap">
+                    <Group wrap="nowrap" style={{ minWidth: 0 }}>
+                      <Avatar src={person.avatarUrl || undefined} radius="xl">
+                        {(person.displayName || person.username || '?').slice(0, 1).toUpperCase()}
+                      </Avatar>
+                      <div style={{ minWidth: 0 }}>
+                        <Text fw={600} truncate>
+                          {person.displayName || person.label || person.username}
+                        </Text>
+                        <Text size="sm" c="dimmed" truncate>
+                          @{person.username}
+                        </Text>
+                      </div>
+                    </Group>
+                    <Button size="xs" onClick={() => startDirectChat(person.userId)}>
+                      {t('peoplePage.message', 'Message')}
+                    </Button>
+                  </Group>
+                ))}
+              </Stack>
+            </Paper>
+          ) : null}
 
           <Paper withBorder radius="xl" p="md">
             <ContactList
