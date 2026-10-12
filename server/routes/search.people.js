@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get(
   '/',
-  requireAuth, // ✅ ensure req.user exists
+  requireAuth,
   asyncHandler(async (req, res) => {
     const ownerId = Number(req.user?.id);
     if (!ownerId) return res.status(401).json({ error: 'Unauthorized' });
@@ -20,12 +20,8 @@ router.get(
     const qDigits = digitsOnly(q);
     const limit = Math.min(Math.max(Number(req.query.limit || 10), 1), 25);
 
-    // Early out on empty query
     if (!q) return res.json({ items: [] });
 
-    // ---------------------------
-    // Contacts (by alias/name/digits + linked username)
-    // ---------------------------
     const contacts = await prisma.contact.findMany({
       where: {
         ownerId,
@@ -33,7 +29,6 @@ router.get(
           { alias: { contains: q, mode: 'insensitive' } },
           { externalName: { contains: q, mode: 'insensitive' } },
           ...(qDigits ? [{ externalPhone: { contains: qDigits } }] : []),
-          // Relation filter needs `is`
           { user: { is: { username: { contains: q, mode: 'insensitive' } } } },
         ],
       },
@@ -43,39 +38,40 @@ router.get(
         alias: true,
         externalName: true,
         externalPhone: true,
-        user: { select: { id: true, username: true, avatarUrl: true } },
+        user: {
+          select: {
+            id: true,
+            username: true,
+            displayName: true,
+            avatarUrl: true,
+          },
+        },
       },
     });
 
-    // ---------------------------
-    // Users (safe public username search only)
-    // ---------------------------
     const users = q.length >= 2
       ? await prisma.user.findMany({
           where: {
             id: { not: ownerId },
-
-            username: {
-              contains: q,
-              mode: 'insensitive',
-            },
-
             isBanned: false,
             isSystem: false,
             isTestAccount: false,
             deletedAt: null,
-
-            OR: [
+            AND: [
               {
-                discoverability: 'EVERYONE',
+                OR: [
+                  { username: { contains: q, mode: 'insensitive' } },
+                  { displayName: { contains: q, mode: 'insensitive' } },
+                ],
               },
               {
-                discoverability: 'CONTACTS_ONLY',
-                contactsSaved: {
-                  some: {
-                    ownerId,
+                OR: [
+                  { discoverability: 'EVERYONE' },
+                  {
+                    discoverability: 'CONTACTS_ONLY',
+                    contactsSaved: { some: { ownerId } },
                   },
-                },
+                ],
               },
             ],
           },
@@ -89,13 +85,8 @@ router.get(
         })
       : [];
 
-    // ---------------------------
-    // SMS Threads (match any participant by digits substring)
-    // ---------------------------
     let threads = [];
     if (qDigits && prisma.smsThread) {
-      // Some deployments might not have this model yet — the guard above avoids a runtime crash.
-      // We pull a capped recent set and filter by digits in app space.
       const recent = await prisma.smsThread.findMany({
         where: { ownerId },
         orderBy: { lastMessageAt: 'desc' },
@@ -112,9 +103,6 @@ router.get(
         .slice(0, limit);
     }
 
-    // ---------------------------
-    // Ranking / merge
-    // ---------------------------
     const exactPhoneContact =
       qDigits ? contacts.find((c) => digitsOnly(c.externalPhone || '') === qDigits) : null;
 
@@ -122,7 +110,9 @@ router.get(
       ...contacts.map((c) => ({
         kind: 'contact',
         id: c.id,
-        label: c.alias || c.externalName || c.user?.username || c.externalPhone,
+        label: c.alias || c.externalName || c.user?.displayName || c.user?.username || c.externalPhone,
+        username: c.user?.username || null,
+        displayName: c.user?.displayName || c.externalName || null,
         phone: c.externalPhone || null,
         userId: c.user?.id || null,
         avatarUrl: c.user?.avatarUrl || null,
@@ -133,16 +123,25 @@ router.get(
         kind: 'user',
         id: u.id,
         label: u.displayName || u.username || `User #${u.id}`,
+        username: u.username,
+        displayName: u.displayName || null,
         phone: null,
         userId: u.id,
         avatarUrl: u.avatarUrl || null,
-        score: (u.username || '').toLowerCase() === q.toLowerCase() ? 80 : 50,
+        score:
+          (u.username || '').toLowerCase() === q.toLowerCase()
+            ? 90
+            : (u.displayName || '').toLowerCase() === q.toLowerCase()
+              ? 80
+              : 50,
         lastMessageAt: null,
       })),
       ...threads.map((t) => ({
         kind: 'sms_thread',
         id: t.id,
         label: Array.isArray(t.participants) ? t.participants.join(', ') : '',
+        username: null,
+        displayName: null,
         phone: null,
         userId: null,
         avatarUrl: null,
@@ -151,7 +150,6 @@ router.get(
       })),
     ];
 
-    // De-dupe by kind:id, keep highest score
     const map = new Map();
     for (const x of scored) {
       const key = `${x.kind}:${x.id}`;
