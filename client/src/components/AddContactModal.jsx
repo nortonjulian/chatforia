@@ -81,6 +81,11 @@ export default function AddContactModal({ opened, onClose, currentUserId, onAdde
       return;
     }
 
+    if (!looksLikePhone && !selectedUser?.userId) {
+      setErr(t('addContactModal.selectPerson', 'Select the person you want to save.'));
+      return;
+    }
+
     setErr('');
     setLoading(true);
 
@@ -89,23 +94,8 @@ export default function AddContactModal({ opened, onClose, currentUserId, onAdde
 
       if (looksLikePhone) {
         payload.externalPhone = trimmed;
-      } else if (selectedUser?.userId) {
-        payload.userId = Number(selectedUser.userId);
       } else {
-        // Preserve the old exact-username path for users who know the username.
-        const { data } = await axiosClient.get('/users/lookup', {
-          params: { username: trimmed.replace(/^@/, '') },
-        });
-
-        if (!data?.userId) {
-          throw new Error(t('addContactModal.selectPerson', 'Select the person you want to save.'));
-        }
-
-        if (currentUserId && Number(data.userId) === Number(currentUserId)) {
-          throw new Error(t('addContactModal.cannotAddSelf', 'You cannot add yourself as a contact.'));
-        }
-
-        payload.userId = Number(data.userId);
+        payload.userId = Number(selectedUser.userId);
       }
 
       await axiosClient.post('/contacts', payload);
@@ -123,6 +113,11 @@ export default function AddContactModal({ opened, onClose, currentUserId, onAdde
       setLoading(false);
     }
   };
+
+  const canSubmit =
+    !loading &&
+    !!trimmed &&
+    (looksLikePhone || !!selectedUser?.userId);
 
   return (
     <Modal
@@ -237,7 +232,7 @@ export default function AddContactModal({ opened, onClose, currentUserId, onAdde
           <Button variant="subtle" onClick={close} disabled={loading}>
             {t('common.cancel', 'Cancel')}
           </Button>
-          <Button onClick={submit} loading={loading}>
+          <Button onClick={submit} loading={loading} disabled={!canSubmit}>
             {t('addContactModal.add', 'Add')}
           </Button>
         </Group>
