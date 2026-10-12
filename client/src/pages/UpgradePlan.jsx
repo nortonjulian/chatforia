@@ -649,7 +649,7 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
       cancelAt > new Date()
   );
 
-    // eSIM products (no plans under 3GB; Global only 3/5)
+    // eSIM products (no plans under 3GB; no Global 20GB at launch)
 
     // eSIM products (premium-only at launch; shared/family later)
   const esimProducts = useMemo(() => {
@@ -896,21 +896,21 @@ useEffect(() => {
   if (qPlus?.currency && typeof qPlus?.unitAmount === 'number') {
     return formatMoney(qPlus.unitAmount, qPlus.currency);
   }
-    return t('upgrade.plans.plus.price', '$6.99');
+    return t('upgrade.plans.plus.price', '$7.99');
   }, [qPlus, t]);
 
   const labelPremMonthly = useMemo(() => {
     if (qPremMonthly?.currency && typeof qPremMonthly?.unitAmount === 'number') {
       return formatMoney(qPremMonthly.unitAmount, qPremMonthly.currency);
     }
-    return t('upgrade.plans.premiumMonthly.price', '$11.99');
+    return t('upgrade.plans.premiumMonthly.price', '$12.99');
   }, [qPremMonthly, t]);
 
   const labelPremAnnual = useMemo(() => {
     if (qPremAnnual?.currency && typeof qPremAnnual?.unitAmount === 'number') {
       return formatMoney(qPremAnnual.unitAmount, qPremAnnual.currency);
     }
-    return t('upgrade.plans.premiumAnnual.price', '$99');
+    return t('upgrade.plans.premiumAnnual.price', '$119.99');
   }, [qPremAnnual, t]);
 
   const perMonthLabel = t('upgrade.perMonthLong', '/ mo');

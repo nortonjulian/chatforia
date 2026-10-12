@@ -158,11 +158,11 @@ jest.mock('@/ads/placements', () => ({
   },
 }));
 
-// -------------------- useIsPremium mock --------------------
-let mockIsPremiumValue = false;
-jest.mock('@/hooks/useIsPremium', () => ({
+// -------------------- useIsPaidPlan mock --------------------
+let mockIsPaidPlanValue = false;
+jest.mock('@/hooks/useIsPaidPlan', () => ({
   __esModule: true,
-  default: () => mockIsPremiumValue,
+  default: () => mockIsPaidPlanValue,
 }));
 
 // -------------------- axiosClient mock --------------------
@@ -178,6 +178,10 @@ const mockT = jest.fn((key, defaultValue) => defaultValue || key);
 
 jest.mock('react-i18next', () => ({
   __esModule: true,
+  initReactI18next: {
+    type: '3rdParty',
+    init: () => {},
+  },
   useTranslation: () => ({
     t: mockT,
   }),
@@ -187,7 +191,7 @@ afterEach(() => {
   cleanup();
   jest.clearAllMocks();
   mockT.mockClear();
-  mockIsPremiumValue = false;
+  mockIsPaidPlanValue = false;
 });
 
 // import SUT AFTER mocks
@@ -198,7 +202,7 @@ describe('ChatroomsSidebar', () => {
   test('shows loading skeletons and no ads while loading (free users)', () => {
     // Keep promise pending so state is "loading"
     mockAxiosGet.mockReturnValue(new Promise(() => {}));
-    mockIsPremiumValue = false;
+    mockIsPaidPlanValue = false;
 
     render(
       <ChatroomsSidebar onStartNewChat={jest.fn()} onSelect={jest.fn()} />
@@ -219,7 +223,7 @@ describe('ChatroomsSidebar', () => {
 
   test('loading hides ads for premium users', () => {
     mockAxiosGet.mockReturnValue(new Promise(() => {}));
-    mockIsPremiumValue = true;
+    mockIsPaidPlanValue = true;
 
     render(<ChatroomsSidebar />);
 
@@ -229,7 +233,7 @@ describe('ChatroomsSidebar', () => {
   });
 
   test('empty list (free): shows empty state and new chat CTA (no ads)', async () => {
-    mockIsPremiumValue = false;
+    mockIsPaidPlanValue = false;
 
     const onStart = jest.fn();
     render(
@@ -267,7 +271,7 @@ describe('ChatroomsSidebar', () => {
   });
 
   test('populated list: titles/unread/last message/selection + secondary ad after 3rd item (free)', () => {
-    mockIsPremiumValue = false;
+    mockIsPaidPlanValue = false;
 
     const rooms = [
       { id: 1, title: 'Alpha', unreadCount: 2, lastMessage: { content: 'Hello' } },
@@ -312,7 +316,7 @@ describe('ChatroomsSidebar', () => {
   });
 
   test('premium user with populated list: no ads at all', () => {
-    mockIsPremiumValue = true;
+    mockIsPaidPlanValue = true;
 
     render(
       <ChatroomsSidebar

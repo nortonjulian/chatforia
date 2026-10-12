@@ -35,22 +35,22 @@ import axiosClient from '@/api/axiosClient';
 // Hard-coded safety net for UI formatting if the quote API fails.
 const FALLBACKS = {
   // App plans
-  chatforia_plus: { currency: 'USD', unitAmount: 699 },
-  chatforia_premium_monthly: { currency: 'USD', unitAmount: 1199 },
-  chatforia_premium_annual: { currency: 'USD', unitAmount: 9900 },
+  chatforia_plus: { currency: 'USD', unitAmount: 799 },
+  chatforia_premium_monthly: { currency: 'USD', unitAmount: 1299 },
+  chatforia_premium_annual: { currency: 'USD', unitAmount: 11999 },
 
   // Local - current / legacy ids (treated as premium/default)
-  chatforia_esim_local_3: { currency: 'USD', unitAmount: 1499 },
-  chatforia_esim_local_5: { currency: 'USD', unitAmount: 2299 },
-  chatforia_esim_local_10: { currency: 'USD', unitAmount: 3499 },
-  chatforia_esim_local_20: { currency: 'USD', unitAmount: 5499 },
+  chatforia_esim_local_3: { currency: 'USD', unitAmount: 999 },
+  chatforia_esim_local_5: { currency: 'USD', unitAmount: 1499 },
+  chatforia_esim_local_10: { currency: 'USD', unitAmount: 2499 },
+  chatforia_esim_local_20: { currency: 'USD', unitAmount: 3999 },
   chatforia_esim_local_unlimited: { currency: 'USD', unitAmount: 5999 },
 
   // Europe - current / legacy ids
-  chatforia_esim_europe_3: { currency: 'USD', unitAmount: 1699 },
-  chatforia_esim_europe_5: { currency: 'USD', unitAmount: 2499 },
-  chatforia_esim_europe_10: { currency: 'USD', unitAmount: 3699 },
-  chatforia_esim_europe_20: { currency: 'USD', unitAmount: 6499 },
+  chatforia_esim_europe_3: { currency: 'USD', unitAmount: 1299 },
+  chatforia_esim_europe_5: { currency: 'USD', unitAmount: 1999 },
+  chatforia_esim_europe_10: { currency: 'USD', unitAmount: 3299 },
+  chatforia_esim_europe_20: { currency: 'USD', unitAmount: 4999 },
   chatforia_esim_europe_unlimited: { currency: 'USD', unitAmount: 6999 },
 
   // Global - current / legacy ids
@@ -60,16 +60,16 @@ const FALLBACKS = {
   chatforia_esim_global_unlimited: { currency: 'USD', unitAmount: 7999 },
 
   // Premium ids
-  chatforia_esim_local_3_premium: { currency: 'USD', unitAmount: 1499 },
-  chatforia_esim_local_5_premium: { currency: 'USD', unitAmount: 2299 },
-  chatforia_esim_local_10_premium: { currency: 'USD', unitAmount: 3499 },
-  chatforia_esim_local_20_premium: { currency: 'USD', unitAmount: 5499 },
+  chatforia_esim_local_3_premium: { currency: 'USD', unitAmount: 999 },
+  chatforia_esim_local_5_premium: { currency: 'USD', unitAmount: 1499 },
+  chatforia_esim_local_10_premium: { currency: 'USD', unitAmount: 2499 },
+  chatforia_esim_local_20_premium: { currency: 'USD', unitAmount: 3999 },
   chatforia_esim_local_unlimited_premium: { currency: 'USD', unitAmount: 5999 },
 
-  chatforia_esim_europe_3_premium: { currency: 'USD', unitAmount: 1699 },
-  chatforia_esim_europe_5_premium: { currency: 'USD', unitAmount: 2499 },
-  chatforia_esim_europe_10_premium: { currency: 'USD', unitAmount: 3699 },
-  chatforia_esim_europe_20_premium: { currency: 'USD', unitAmount: 6499 },
+  chatforia_esim_europe_3_premium: { currency: 'USD', unitAmount: 1299 },
+  chatforia_esim_europe_5_premium: { currency: 'USD', unitAmount: 1999 },
+  chatforia_esim_europe_10_premium: { currency: 'USD', unitAmount: 3299 },
+  chatforia_esim_europe_20_premium: { currency: 'USD', unitAmount: 4999 },
   chatforia_esim_europe_unlimited_premium: { currency: 'USD', unitAmount: 6999 },
 
   chatforia_esim_global_3_premium: { currency: 'USD', unitAmount: 2199 },
