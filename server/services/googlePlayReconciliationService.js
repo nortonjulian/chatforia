@@ -45,6 +45,19 @@ function safeErrorCode(error) {
   ).slice(0, 100);
 }
 
+function isTerminalGooglePlayGone(error) {
+  const candidates = [
+    error?.response?.status,
+    error?.statusCode,
+    error?.status,
+    error?.code,
+  ];
+
+  return candidates.some(
+    (value) => Number(value) === 410
+  );
+}
+
 function safeErrorMessage(
   error,
   purchaseToken
@@ -397,6 +410,9 @@ export async function runGooglePlayReconciliationBatch({
           candidate.purchaseToken
         );
 
+      const terminalGone =
+        isTerminalGooglePlayGone(error);
+
       try {
         await releaseLease({
           db,
@@ -410,6 +426,19 @@ export async function runGooglePlayReconciliationBatch({
 
             lastVerificationErrorMessage:
               errorMessage,
+
+            ...(terminalGone
+              ? {
+                  // Google permanently discards sufficiently old purchase
+                  // tokens. Mark the record terminal so reconciliation does
+                  // not retry the same 410 forever.
+                  revokedAt: startedAt,
+                  accessGrantedSnapshot:
+                    false,
+                  nextAcknowledgementAttemptAt:
+                    null,
+                }
+              : {}),
           },
         });
       } catch (persistenceError) {
