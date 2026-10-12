@@ -97,23 +97,33 @@ router.get(
         })
       : [];
 
-    // A report submitted with "blockAfterReport" is treated as a mutual discovery block.
-    // The guard keeps this route compatible with deployments/tests where Report is unavailable.
+    // Only inspect block records that could affect this result set. This avoids both
+    // unbounded block-history reads and arbitrary caps that could allow older blocks through.
+    const candidateUserIds = [
+      ...users.map((u) => Number(u.id)),
+      ...contacts.map((c) => Number(c.user?.id)).filter(Number.isFinite),
+    ].filter((id, index, all) => id !== ownerId && all.indexOf(id) === index);
+
     const blockedUserIds = new Set();
-    if (prisma.report?.findMany) {
+    if (candidateUserIds.length > 0 && prisma.report?.findMany) {
       const blocks = await prisma.report.findMany({
         where: {
           blockApplied: true,
           OR: [
-            { reporterId: ownerId },
-            { reportedUserId: ownerId },
+            {
+              reporterId: ownerId,
+              reportedUserId: { in: candidateUserIds },
+            },
+            {
+              reportedUserId: ownerId,
+              reporterId: { in: candidateUserIds },
+            },
           ],
         },
         select: {
           reporterId: true,
           reportedUserId: true,
         },
-        take: 200,
       });
 
       for (const block of blocks) {
@@ -127,6 +137,9 @@ router.get(
     }
 
     const visibleUsers = users.filter((u) => !blockedUserIds.has(Number(u.id)));
+    const visibleContacts = contacts.filter(
+      (c) => !c.user?.id || !blockedUserIds.has(Number(c.user.id))
+    );
 
     let threads = [];
     if (qDigits && prisma.smsThread) {
@@ -147,10 +160,12 @@ router.get(
     }
 
     const exactPhoneContact =
-      qDigits ? contacts.find((c) => digitsOnly(c.externalPhone || '') === qDigits) : null;
+      qDigits
+        ? visibleContacts.find((c) => digitsOnly(c.externalPhone || '') === qDigits)
+        : null;
 
     const scored = [
-      ...contacts.map((c) => ({
+      ...visibleContacts.map((c) => ({
         kind: 'contact',
         id: c.id,
         label: c.alias || c.externalName || c.user?.displayName || c.user?.username || c.externalPhone,
