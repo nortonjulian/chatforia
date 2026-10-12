@@ -1111,7 +1111,7 @@ useEffect(() => {
     : isPublic
     ? t(
         'upgrade.cta.public.premiumAnnual',
-        'Save 30% with annual – continue to login'
+        'Save 23% with annual – continue to login'
       )
     : t('upgrade.auth.continue', 'Continue to login');
 
@@ -1210,7 +1210,7 @@ useEffect(() => {
               onChange={setBillingCycle}
               data={[
                 { label: t('upgrade.toggle.monthly', 'Monthly'), value: 'monthly' },
-                { label: t('upgrade.toggle.annual', 'Annual (Save 30%)'), value: 'annual' },
+                { label: t('upgrade.toggle.annual', 'Annual (Save 23%)'), value: 'annual' },
               ]}
             />
           </Group>
@@ -1358,7 +1358,7 @@ useEffect(() => {
                 t('upgrade.plans.premiumAnnual.features.annualBilling', 'Billed once per year'),
                 t(
                   'upgrade.plans.premiumAnnual.features.save25',
-                  'Save around 30% compared to paying monthly'
+                  'Save about 23% compared to paying monthly'
                 ),
                 t(
                   'upgrade.plans.premiumAnnual.features.bestFor',
