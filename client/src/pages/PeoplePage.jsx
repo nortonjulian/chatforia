@@ -82,7 +82,7 @@ export default function PeoplePage() {
           setPeopleResults([]);
           setPeopleError(
             error?.response?.data?.error ||
-              t('peoplePage.peopleSearchFailed', 'Could not search Chatforia users.')
+              'Could not search Chatforia users.'
           );
         }
       } finally {
@@ -94,7 +94,7 @@ export default function PeoplePage() {
     return () => {
       cancelled = true;
     };
-  }, [q, currentUserId, t]);
+  }, [q, currentUserId]);
 
   if (!currentUser) return null;
 
