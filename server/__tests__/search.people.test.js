@@ -155,7 +155,21 @@ describe('GET /search/people', () => {
     expect(users.every((u) => u.displayName === 'John Smith')).toBe(true);
   });
 
-  it('filters a user when a report-backed block exists in either direction', async () => {
+  it('filters report-backed blocks from both public users and linked contacts', async () => {
+    mockContactFindMany.mockResolvedValueOnce([
+      {
+        id: 10,
+        alias: 'Blocked John',
+        externalName: null,
+        externalPhone: null,
+        user: {
+          id: 200,
+          username: 'johntwo',
+          displayName: 'John Smith',
+          avatarUrl: null,
+        },
+      },
+    ]);
     mockUserFindMany.mockResolvedValueOnce([
       { id: 100, username: 'johnone', displayName: 'John Smith', avatarUrl: null },
       { id: 200, username: 'johntwo', displayName: 'John Smith', avatarUrl: null },
@@ -170,6 +184,25 @@ describe('GET /search/people', () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.items.map((item) => item.userId)).toEqual([100]);
+    expect(mockReportFindMany).toHaveBeenCalledWith({
+      where: {
+        blockApplied: true,
+        OR: [
+          {
+            reporterId: 999,
+            reportedUserId: { in: [100, 200] },
+          },
+          {
+            reportedUserId: 999,
+            reporterId: { in: [100, 200] },
+          },
+        ],
+      },
+      select: {
+        reporterId: true,
+        reportedUserId: true,
+      },
+    });
   });
 
   it('caps returned search results at 12', async () => {
