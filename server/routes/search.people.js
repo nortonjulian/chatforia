@@ -15,7 +15,7 @@ const peopleSearchLimiter = rateLimit({
   max: 30,
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => String(req.user?.id || req.ip || 'anonymous'),
+  keyGenerator: (req) => String(req.user?.id || 'authenticated-user'),
   message: { error: 'Too many searches. Please try again shortly.' },
 });
 
