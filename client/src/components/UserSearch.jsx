@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axiosClient from '../api/axiosClient';
 import {
+  Avatar,
   Paper,
   Title,
   TextInput,
@@ -23,7 +24,6 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
   const handleSearch = async () => {
     const q = query.trim();
     if (!q) {
-      // Clear whitespace-only input so UI doesn't show "No user found"
       if (query !== '') setQuery('');
       setResults([]);
       setError('');
@@ -31,15 +31,29 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
       return;
     }
 
+    if (q.length < 3) {
+      setResults([]);
+      setError('Enter at least 3 characters to search people.');
+      return;
+    }
+
     setLoading(true);
     setError('');
     try {
-      const res = await axiosClient.get(`/users/search?query=${encodeURIComponent(q)}`);
-      const filtered = (res.data || []).filter((user) => user.id !== currentUser.id);
+      const res = await axiosClient.get('/search/people', {
+        params: { q, limit: 12 },
+      });
+
+      const filtered = (res.data?.items || []).filter(
+        (item) =>
+          item.kind === 'user' &&
+          item.userId &&
+          Number(item.userId) !== Number(currentUser.id)
+      );
       setResults(filtered);
     } catch (err) {
       console.error('Search error:', err);
-      setError('Unable to fetch users. Please try again');
+      setError(err?.response?.data?.error || 'Unable to fetch users. Please try again');
       setResults([]);
     } finally {
       setLoading(false);
@@ -48,11 +62,9 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
 
   const handleSendMessage = async (userId) => {
     try {
-      const res = await axiosClient.post('/chatrooms/direct', {
-        userId1: currentUser.id,
-        userId2: userId,
-      });
-      const chatroomId = res.data;
+      const res = await axiosClient.post(`/chatrooms/direct/${userId}`);
+      const chatroomId = res.data?.id ?? res.data?.chatRoomId ?? res.data?.roomId;
+      if (!chatroomId) throw new Error('Missing chat room id');
       onNavigateToChatRoom(chatroomId);
     } catch (err) {
       console.error('Failed to start chat', err);
@@ -66,9 +78,10 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
 
       <Group gap="sm" mb="sm">
         <TextInput
-          placeholder="Username or phone number"
+          placeholder="Name or username"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => (e.key === 'Enter' ? handleSearch() : undefined)}
           className="flex-1"
           leftSection={<IconSearch size={16} />}
           style={{ flex: 1 }}
@@ -84,7 +97,7 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
         </Alert>
       )}
 
-      {!loading && results.length === 0 && query && !error && (
+      {!loading && results.length === 0 && query.trim().length >= 3 && !error && (
         <Text size="sm" c="dimmed">No user found</Text>
       )}
 
@@ -92,20 +105,27 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
 
       <Stack gap="xs" mt="sm">
         {results.map((user, index) => (
-          <div key={user.id}>
+          <div key={`user:${user.userId}`}>
             {index > 0 && <Divider my="xs" />}
-            <Group justify="space-between">
-              <div>
-                <Text fw={500}>{user.username}</Text>
-                {user.phoneNumber && (
-                  <Text size="sm" c="dimmed">{user.phoneNumber}</Text>
-                )}
-              </div>
+            <Group justify="space-between" wrap="nowrap">
+              <Group wrap="nowrap" style={{ minWidth: 0 }}>
+                <Avatar src={user.avatarUrl || undefined} radius="xl">
+                  {(user.displayName || user.username || '?').slice(0, 1).toUpperCase()}
+                </Avatar>
+                <div style={{ minWidth: 0 }}>
+                  <Text fw={600} truncate>
+                    {user.displayName || user.label || user.username}
+                  </Text>
+                  <Text size="sm" c="dimmed" truncate>
+                    @{user.username}
+                  </Text>
+                </div>
+              </Group>
               <Button
                 size="xs"
                 color="green"
                 leftSection={<IconSend size={14} />}
-                onClick={() => handleSendMessage(user.id)}
+                onClick={() => handleSendMessage(user.userId)}
               >
                 Send
               </Button>

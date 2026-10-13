@@ -1,9 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import GlobalPeopleSearch from '@/components/GlobalPeopleSearch';
 
-// ---------- Mocks ----------
-
-// Mantine -> simple primitives
 jest.mock('@mantine/core', () => {
   const React = require('react');
   const TextInput = ({ value, onChange, onKeyDown, placeholder, 'aria-label': aria, style }) => (
@@ -24,20 +21,17 @@ jest.mock('@mantine/core', () => {
   return { __esModule: true, TextInput, Button };
 });
 
-// Icon (not behavior-critical)
 jest.mock('@tabler/icons-react', () => ({
   __esModule: true,
   IconSearch: (props) => <span data-testid="icon-search" {...props} />,
 }));
 
-// Router: expose a global mock (allowed in factory)
 global.mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   useNavigate: () => global.mockNavigate,
 }));
 
-// axios client: define fns inside factory, then use imported mock
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
@@ -45,14 +39,13 @@ jest.mock('@/api/axiosClient', () => ({
     post: jest.fn(),
   },
 }));
-import axiosClient from '@/api/axiosClient'; // <-- use these mocks
+import axiosClient from '@/api/axiosClient';
 
 beforeEach(() => {
   jest.clearAllMocks();
   global.mockNavigate.mockReset();
 });
 
-// helpers
 function typeInSearch(value) {
   const input = screen.getByLabelText(/global people search/i);
   fireEvent.change(input, { target: { value } });
@@ -60,12 +53,10 @@ function typeInSearch(value) {
 }
 
 describe('GlobalPeopleSearch', () => {
-  test('respects layout props: default align left, custom align center and maxWidth', () => {
+  test('respects layout props', () => {
     const { container, rerender } = render(<GlobalPeopleSearch />);
-
     const outer = container.querySelector('div');
     const inner = outer.querySelector('div');
-
     expect(outer.style.justifyContent).toBe('flex-start');
     expect(inner.style.maxWidth).toBe('640px');
 
@@ -78,96 +69,54 @@ describe('GlobalPeopleSearch', () => {
 
   test('does nothing on empty or whitespace-only query', () => {
     render(<GlobalPeopleSearch />);
-
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
-    expect(axiosClient.get).not.toHaveBeenCalled();
     expect(global.mockNavigate).not.toHaveBeenCalled();
 
     typeInSearch('   ');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
-    expect(axiosClient.get).not.toHaveBeenCalled();
     expect(global.mockNavigate).not.toHaveBeenCalled();
-  });
-
-  test('successful flow: finds user (items) -> creates room -> navigates to /chat/:id', async () => {
-    render(<GlobalPeopleSearch />);
-
-    // New API shape: { items: [...] }
-    axiosClient.get.mockResolvedValueOnce({
-      data: { items: [{ kind: 'user', userId: 'u123' }] },
-    });
-    axiosClient.post.mockResolvedValueOnce({ data: { id: 'r999' } });
-
-    typeInSearch('  alice  ');
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
-
-    await waitFor(() => {
-      expect(axiosClient.get).toHaveBeenCalledWith('/search/people', { params: { q: 'alice', limit: 8 } });
-    });
-    expect(axiosClient.post).toHaveBeenCalledWith('/chatrooms/direct/u123');
-
-    await waitFor(() => {
-      expect(global.mockNavigate).toHaveBeenCalledWith('/chat/r999');
-    });
-  });
-
-  test('successful flow: finds user but room missing id => navigates to /people?q=', async () => {
-    render(<GlobalPeopleSearch />);
-
-    axiosClient.get.mockResolvedValueOnce({
-      data: { items: [{ kind: 'user', userId: 'u55' }] },
-    });
-    // Room creation returns object without id -> fallback to results page
-    axiosClient.post.mockResolvedValueOnce({ data: {} });
-
-    typeInSearch('bob');
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
-
-    await waitFor(() => expect(axiosClient.get).toHaveBeenCalled());
-    expect(axiosClient.post).toHaveBeenCalledWith('/chatrooms/direct/u55');
-
-    await waitFor(() => {
-      expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=bob');
-    });
-  });
-
-  test('no match: navigates to /people?q=', async () => {
-    render(<GlobalPeopleSearch />);
-
-    axiosClient.get.mockResolvedValueOnce({ data: { items: [] } });
-
-    typeInSearch('charlie');
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
-
-    await waitFor(() => expect(axiosClient.get).toHaveBeenCalled());
     expect(axiosClient.post).not.toHaveBeenCalled();
-    expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=charlie');
   });
 
-  test('any error falls back to /people?q=', async () => {
+  test('name search always routes to explicit results selection', () => {
     render(<GlobalPeopleSearch />);
+    typeInSearch('  John Smith  ');
+    fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
-    axiosClient.get.mockRejectedValueOnce(new Error('network down'));
+    expect(axiosClient.get).not.toHaveBeenCalled();
+    expect(axiosClient.post).not.toHaveBeenCalled();
+    expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=John%20Smith');
+  });
 
-    typeInSearch('daisy');
+  test('raw phone number can still start an SMS thread directly', async () => {
+    render(<GlobalPeopleSearch />);
+    axiosClient.post.mockResolvedValueOnce({ data: { id: 'thread-7' } });
+
+    typeInSearch('+1 202 555 0147');
+    fireEvent.click(screen.getByRole('button', { name: /search/i }));
+
+    await waitFor(() => expect(axiosClient.post).toHaveBeenCalled());
+    expect(global.mockNavigate).toHaveBeenCalledWith('/texts/thread-7');
+  });
+
+  test('phone thread failure falls back to results instead of guessing', async () => {
+    render(<GlobalPeopleSearch />);
+    axiosClient.post.mockRejectedValueOnce(new Error('network down'));
+
+    typeInSearch('+1 202 555 0147');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     await waitFor(() => {
-      expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=daisy');
+      expect(global.mockNavigate).toHaveBeenCalledWith(
+        `/people?q=${encodeURIComponent('+1 202 555 0147')}`
+      );
     });
   });
 
-  test('pressing Enter triggers submit', async () => {
+  test('pressing Enter triggers explicit results navigation', () => {
     render(<GlobalPeopleSearch />);
-
-    axiosClient.get.mockResolvedValueOnce({ data: { items: [] } });
-
-    const input = typeInSearch('eve');
+    const input = typeInSearch('alice');
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-
-    await waitFor(() => {
-      expect(axiosClient.get).toHaveBeenCalledWith('/search/people', { params: { q: 'eve', limit: 8 } });
-    });
-    expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=eve');
+    expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=alice');
   });
 });

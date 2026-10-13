@@ -15,37 +15,19 @@ export default function GlobalPeopleSearch({ maxWidth = 640, align = 'left' }) {
     const query = q.trim();
     if (!query) return;
 
-    try {
-      const { data } = await axiosClient.get('/search/people', { params: { q: query, limit: 8 } });
-      const items = data?.items || [];
-
-      if (items.length) {
-        const top = items[0];
-        if (top.kind === 'sms_thread') {
-          return navigate(`/texts/${top.id}`);
-        }
-        if (top.kind === 'contact' && top.phone) {
-          const { data: thr } = await axiosClient.post('/sms/threads', { to: top.phone });
-          if (thr?.id) return navigate(`/texts/${thr.id}`);
-        }
-        if (top.kind === 'user' && top.userId) {
-          const { data: room } = await axiosClient.post(`/chatrooms/direct/${top.userId}`);
-          if (room?.id) return navigate(`/chat/${room.id}`);
-        }
-      }
-
-      // If user typed a raw number and nothing matched, start a new thread
-      const e164 = toE164(query, defaultRegion);
-      if (e164) {
+    // Phone numbers remain unambiguous and can go directly to SMS.
+    const e164 = toE164(query, defaultRegion);
+    if (e164) {
+      try {
         const { data: thr } = await axiosClient.post('/sms/threads', { to: e164 });
         if (thr?.id) return navigate(`/texts/${thr.id}`);
+      } catch {
+        // Fall through to the results page instead of guessing.
       }
-
-      // Fallback to results page
-      navigate(`/people?q=${encodeURIComponent(query)}`);
-    } catch {
-      navigate(`/people?q=${encodeURIComponent(query)}`);
     }
+
+    // Names/usernames must always go through an explicit result-selection step.
+    navigate(`/people?q=${encodeURIComponent(query)}`);
   };
 
   return (
