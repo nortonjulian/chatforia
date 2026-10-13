@@ -2,6 +2,7 @@ import express from 'express';
 import asyncHandler from 'express-async-handler';
 import { requireAuth } from '../middleware/auth.js';
 import { toE164 } from '../utils/phone.js';
+import { upsertLinkedPhoneContact } from '../services/linkedPhoneContactService.js';
 
 import pkg from '@prisma/client';
 const { PrismaClient } = pkg;
@@ -63,6 +64,7 @@ router.get(
           select: {
             id: true,
             username: true,
+            displayName: true,
             avatarUrl: true,
           },
         },
@@ -90,6 +92,32 @@ router.post(
     }
 
     let contact;
+    if (userId && externalPhone) {
+      const normalized = externalPhone.startsWith('+')
+        ? toE164(externalPhone)
+        : toE164(externalPhone, req.region || 'US');
+      if (!normalized) {
+        return res.status(400).json({ error: 'Invalid phone number.' });
+      }
+      const matched = await prisma.user.findFirst({
+        where: {
+          id: Number(userId),
+          OR: [
+            { phoneNumber: normalized },
+            { assignedNumbers: { some: { e164: normalized, status: 'ASSIGNED' } } },
+          ],
+        },
+        select: { id: true },
+      });
+      if (!matched) {
+        return res.status(400).json({ error: 'This number does not belong to the selected Chatforia user.' });
+      }
+      const linked = await upsertLinkedPhoneContact(prisma, {
+        ownerId, userId: matched.id, externalPhone: normalized, alias, externalName, favorite,
+      });
+      return res.status(201).json(linked);
+    }
+
     if (userId) {
       contact = await prisma.contact.upsert({
         where: { ownerId_userId: { ownerId, userId: Number(userId) } },
@@ -110,7 +138,8 @@ router.post(
           externalPhone: true,
           externalName: true,
           createdAt: true,
-          user: { select: { id: true, username: true, avatarUrl: true } },
+          userId: true,
+          user: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
         },
       });
     } else {
@@ -128,12 +157,18 @@ router.post(
         where: {
           OR: [
             { phoneNumber: normalized },
+            { assignedNumbers: { some: { e164: normalized, status: 'ASSIGNED' } } },
           ],
         },
         select: { id: true },
       });
 
-      contact = await prisma.contact.upsert({
+      contact = matchedUser
+        ? await upsertLinkedPhoneContact(prisma, {
+            ownerId, userId: matchedUser.id, externalPhone: normalized,
+            alias, externalName, favorite,
+          })
+        : await prisma.contact.upsert({
         where: { ownerId_externalPhone: { ownerId, externalPhone: normalized } },
         update: {
           alias: alias ?? undefined,
@@ -156,7 +191,8 @@ router.post(
           externalPhone: true,
           externalName: true,
           createdAt: true,
-          user: { select: { id: true, username: true, avatarUrl: true } },
+          userId: true,
+          user: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
         },
       });
     }
@@ -231,12 +267,17 @@ router.post(
     where: {
       OR: [
         { phoneNumber: item.externalPhone },
+        { assignedNumbers: { some: { e164: item.externalPhone, status: 'ASSIGNED' } } },
       ],
     },
     select: { id: true },
   });
 
-  const result = await prisma.contact.upsert({
+  const result = matchedUser
+    ? await upsertLinkedPhoneContact(prisma, {
+        ownerId, userId: matchedUser.id, ...item,
+      })
+    : await prisma.contact.upsert({
     where: {
       ownerId_externalPhone: {
         ownerId,
@@ -271,6 +312,7 @@ router.post(
         select: {
           id: true,
           username: true,
+          displayName: true,
           avatarUrl: true,
         },
       },
@@ -333,7 +375,8 @@ router.patch(
         externalPhone: true,
         externalName: true,
         createdAt: true,
-        user: { select: { id: true, username: true, avatarUrl: true } },
+        userId: true,
+        user: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
       },
     });
 
