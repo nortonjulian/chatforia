@@ -47,6 +47,11 @@ await jest.unstable_mockModule('../utils/phone.js', () => ({
   toE164: mockToE164,
 }));
 
+const mockLinkedPhoneContact = jest.fn();
+await jest.unstable_mockModule('../services/linkedPhoneContactService.js', () => ({
+  upsertLinkedPhoneContact: mockLinkedPhoneContact,
+}));
+
 // Import router under test
 const contactsRouter = (await import('../routes/contacts.js')).default;
 
@@ -77,6 +82,7 @@ describe('contacts routes', () => {
     app = makeApp();
 
     jest.clearAllMocks();
+    mockLinkedPhoneContact.mockReset();
 
     mockPrisma.contact.findMany.mockReset();
     mockPrisma.contact.upsert.mockReset();
@@ -190,11 +196,37 @@ describe('contacts routes', () => {
           externalPhone: true,
           externalName: true,
           createdAt: true,
-          user: { select: { id: true, username: true, avatarUrl: true } },
+          userId: true,
+          user: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
         },
       });
 
       expect(res.body).toEqual(contact);
+    });
+
+    it('links an assigned Chatforia number through the canonical contact merge', async () => {
+      mockToE164.mockReturnValueOnce('+17609249652');
+      mockPrisma.user.findFirst.mockResolvedValueOnce({ id: 2 });
+      const contact = { id: 17, userId: 2, externalPhone: '+17609249652',
+        user: { id: 2, username: 'julian', displayName: 'Julian Norton' } };
+      mockLinkedPhoneContact.mockResolvedValueOnce(contact);
+
+      const res = await request(app).post('/contacts')
+        .send({ externalPhone: '+17609249652', favorite: false }).expect(201);
+
+      expect(mockLinkedPhoneContact).toHaveBeenCalledWith(mockPrisma, {
+        ownerId: 1, userId: 2, externalPhone: '+17609249652',
+        alias: undefined, externalName: undefined, favorite: false,
+      });
+      expect(mockPrisma.contact.upsert).not.toHaveBeenCalled();
+      expect(res.body.user.displayName).toBe('Julian Norton');
+    });
+
+    it('rejects attaching a phone to a selected user who does not own it', async () => {
+      mockToE164.mockReturnValueOnce('+17609249652');
+      await request(app).post('/contacts')
+        .send({ userId: 2, externalPhone: '+17609249652' }).expect(400);
+      expect(mockLinkedPhoneContact).not.toHaveBeenCalled();
     });
 
     it('returns 400 for invalid externalPhone', async () => {
@@ -247,6 +279,7 @@ describe('contacts routes', () => {
         where: {
           OR: [
             { phoneNumber: '+15551234567' },
+            { assignedNumbers: { some: { e164: '+15551234567', status: 'ASSIGNED' } } },
           ],
         },
         select: { id: true },
@@ -280,7 +313,8 @@ describe('contacts routes', () => {
           externalPhone: true,
           externalName: true,
           createdAt: true,
-          user: { select: { id: true, username: true, avatarUrl: true } },
+          userId: true,
+          user: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
         },
       });
 
