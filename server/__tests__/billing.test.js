@@ -104,6 +104,7 @@ beforeAll(async () => {
       stripeMock = {
         customers: {
           create: jest.fn(),
+          retrieve: jest.fn(),
         },
 
         subscriptions: {
@@ -155,6 +156,13 @@ beforeAll(async () => {
 
 beforeEach(() => {
   jest.clearAllMocks();
+
+  stripeMock.customers.retrieve.mockImplementation(
+    async (customerId) => ({
+      id: customerId,
+      deleted: false,
+    })
+  );
 
   assertAppSubscriptionProviderAvailableMock
     .mockReset()
@@ -840,6 +848,101 @@ describe('POST /billing/checkout', () => {
     stripeMock.checkout.sessions.create
   ).not.toHaveBeenCalled();
 });
+
+  test(
+    'repairs stale Stripe customer before iOS eSIM checkout',
+    async () => {
+      const app = buildApp();
+
+      prismaMock.user.findUnique.mockResolvedValue({
+        id: 1,
+        email: 'user@test.com',
+        username: 'julian',
+        plan: 'FREE',
+        billingProvider: null,
+        billingCustomerId: 'cus_stale_test_mode',
+        billingSubscriptionId: null,
+        subscriptionStatus: 'INACTIVE',
+        subscriptionEndsAt: null,
+      });
+
+      const missingCustomerError =
+        new Error('No such customer');
+
+      missingCustomerError.code =
+        'resource_missing';
+
+      stripeMock.customers.retrieve
+        .mockRejectedValueOnce(
+          missingCustomerError
+        );
+
+      stripeMock.customers.create
+        .mockResolvedValue({
+          id: 'cus_live_replacement',
+        });
+
+      stripeMock.checkout.sessions.create
+        .mockResolvedValue({
+          id: 'cs_esim_ios_repaired',
+          url:
+            'https://stripe.test/checkout/cs_esim_ios_repaired',
+        });
+
+      const res = await request(app)
+        .post('/billing/checkout')
+        .send({
+          product: 'chatforia_esim_local_5',
+          platform: 'ios',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(
+        stripeMock.customers.retrieve
+      ).toHaveBeenCalledWith(
+        'cus_stale_test_mode'
+      );
+
+      expect(
+        stripeMock.customers.create
+      ).toHaveBeenCalledWith({
+        email: 'user@test.com',
+        name: 'julian',
+        metadata: {
+          userId: '1',
+          app: 'chatforia',
+        },
+      });
+
+      expect(
+        prismaMock.user.update
+      ).toHaveBeenCalledWith({
+        where: { id: 1 },
+        data: {
+          billingCustomerId:
+            'cus_live_replacement',
+        },
+      });
+
+      expect(
+        stripeMock.checkout.sessions.create
+      ).toHaveBeenCalledWith(
+        expect.objectContaining({
+          mode: 'payment',
+          customer:
+            'cus_live_replacement',
+          metadata:
+            expect.objectContaining({
+              userId: '1',
+              product:
+                'chatforia_esim_local_5',
+              platform: 'ios',
+            }),
+        })
+      );
+    }
+  );
 
   test(
     'creates iOS eSIM checkout with mobile return URLs',
