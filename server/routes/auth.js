@@ -1271,6 +1271,16 @@ router.get(
     try {
       subscriber = await prisma.subscriber.findFirst({
         where: { userId: Number(req.user.id) },
+
+        /*
+         * A user can have multiple Subscriber rows after an eSIM
+         * device replacement. The newest row owns the current
+         * installation credentials.
+         */
+        orderBy: {
+          createdAt: 'desc',
+        },
+
         select: {
           id: true,
           provider: true,
