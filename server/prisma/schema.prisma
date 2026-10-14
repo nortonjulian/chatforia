@@ -372,6 +372,7 @@ model User {
   // Usage/analytics
   sttUsage          STTUsage[]          @relation("UserSTTUsage")
   voiceUsageCharges VoiceUsageCharge[]
+  planUsage         PlanUsage[]
 
   // Settings
   plan              Plan    @default(FREE)
@@ -1454,6 +1455,27 @@ model Call {
   @@index([calleeId])
   @@index([roomId])
   @@index([externalPhone])
+}
+
+model PlanUsage {
+  id                            Int      @id @default(autoincrement())
+  userId                        Int
+  monthKey                      String
+  riaActions                    Int      @default(0)
+  translationChars              Int      @default(0)
+  hostedParticipantSeconds      Int      @default(0)
+  smsMessages                   Int      @default(0)
+  pstnSeconds                   Int      @default(0)
+  forwardingSeconds             Int      @default(0)
+  voicemailTranscriptionSeconds Int      @default(0)
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, monthKey])
+  @@index([monthKey])
+  @@index([userId, updatedAt])
 }
 
 model VoiceUsageCharge {
