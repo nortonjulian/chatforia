@@ -568,19 +568,19 @@ async function getReusableSubscriberForUser(userId) {
           'PENDING',
           'PROVISIONING',
           'ACTIVE',
-          'SUSPENDED',
         ],
       },
     },
 
-    orderBy: [
-      {
-        activatedAt: 'desc',
-      },
-      {
-        createdAt: 'desc',
-      },
-    ],
+    /*
+     * The newest Subscriber is the customer's current eSIM.
+     * This is especially important after device replacement:
+     * an older activated/suspended profile must never win merely
+     * because it has an activatedAt timestamp.
+     */
+    orderBy: {
+      createdAt: 'desc',
+    },
   });
 }
 
