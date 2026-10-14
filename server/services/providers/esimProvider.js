@@ -386,6 +386,62 @@ export async function provisionEsimPack(params = {}) {
  *   providerMeta: object | null
  * }
  */
+/**
+ * Change the lifecycle status of a provider data package.
+ *
+ * For Telna Connect v2.1 the supported values are:
+ *   ACTIVE
+ *   TERMINATED
+ *
+ * providerPurchaseId is the provider-specific package identifier.
+ */
+export async function setEsimPackageStatus(
+  providerPurchaseId,
+  status
+) {
+  ensureEnabled();
+
+  if (
+    providerPurchaseId === null ||
+    providerPurchaseId === undefined ||
+    (
+      typeof providerPurchaseId !== 'string' &&
+      typeof providerPurchaseId !== 'number'
+    ) ||
+    String(providerPurchaseId).trim() === ''
+  ) {
+    const err = new Error(
+      'setEsimPackageStatus requires a provider package identifier'
+    );
+    err.code = 'ESIM_INVALID_PACKAGE_IDENTIFIER';
+    throw err;
+  }
+
+  const normalizedStatus =
+    typeof status === 'string'
+      ? status.trim().toUpperCase()
+      : '';
+
+  if (
+    normalizedStatus !== 'ACTIVE' &&
+    normalizedStatus !== 'TERMINATED'
+  ) {
+    const err = new Error(
+      'setEsimPackageStatus status must be ACTIVE or TERMINATED'
+    );
+    err.code = 'ESIM_INVALID_PACKAGE_STATUS';
+    throw err;
+  }
+
+  return callProvider(
+    'setEsimPackageStatus',
+    [
+      String(providerPurchaseId),
+      normalizedStatus,
+    ]
+  );
+}
+
 export async function fetchEsimUsage(providerUsageId) {
   ensureEnabled();
 

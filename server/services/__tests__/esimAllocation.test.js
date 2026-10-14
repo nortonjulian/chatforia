@@ -7,6 +7,75 @@ import {
 
 describe('eSIM allocation', () => {
   test(
+    'passes caller-supplied excluded ICCIDs to the provider',
+    async () => {
+      const oldIccid = '8910300000059080799';
+      const newIccid = '8910300000059080800';
+
+      const provider = {
+        reserveEsimProfile: jest.fn().mockResolvedValue({
+          providerProfileId: newIccid,
+          iccid: newIccid,
+          iccidHint: '891030••••••',
+          activationCode: 'ACT-REPLACEMENT',
+          lpaUri: 'LPA:1$replacement',
+          qrPayload: 'LPA:1$replacement',
+        }),
+      };
+
+      const createdSubscriber = {
+        id: 88,
+        userId: 999,
+        purchaseId: 123,
+        provider: 'telna',
+        providerProfileId: newIccid,
+        iccid: newIccid,
+        status: 'PENDING',
+      };
+
+      const prismaClient = {
+        subscriber: {
+          create: jest.fn().mockResolvedValue(
+            createdSubscriber
+          ),
+        },
+      };
+
+      const result =
+        await createSubscriberWithAllocatedEsim(
+          {
+            userId: 999,
+            purchaseId: 123,
+            region: 'US',
+            product: 'local-10gb',
+            addonKind: 'local-10gb',
+            testMode: false,
+            excludedIccids: [
+              oldIccid,
+              oldIccid,
+              ' ',
+            ],
+          },
+          {
+            prismaClient,
+            provider,
+            esimProviderName: 'telna',
+          }
+        );
+
+      expect(provider.reserveEsimProfile).toHaveBeenCalledWith(
+        expect.objectContaining({
+          excludedIccids: [oldIccid],
+        })
+      );
+
+      expect(result.subscriber).toBe(
+        createdSubscriber
+      );
+    }
+  );
+
+  test(
     'recognizes an ICCID Prisma unique collision',
     () => {
       expect(
