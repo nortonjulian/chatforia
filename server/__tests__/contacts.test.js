@@ -24,6 +24,7 @@ class FakePrismaClient {
 }
 
 const mockToE164 = jest.fn();
+const mockUpsertLinkedPhoneContact = jest.fn();
 
 const mockRequireAuth = jest.fn((req, _res, next) => {
   req.user = { id: 1 };
@@ -46,6 +47,15 @@ await jest.unstable_mockModule('../utils/phone.js', () => ({
   __esModule: true,
   toE164: mockToE164,
 }));
+
+await jest.unstable_mockModule(
+  '../services/linkedPhoneContactService.js',
+  () => ({
+    __esModule: true,
+    upsertLinkedPhoneContact:
+      mockUpsertLinkedPhoneContact,
+  })
+);
 
 // Import router under test
 const contactsRouter = (await import('../routes/contacts.js')).default;
@@ -86,6 +96,8 @@ describe('contacts routes', () => {
 
     mockPrisma.user.findFirst.mockReset();
     mockPrisma.user.findFirst.mockResolvedValue(null);
+
+    mockUpsertLinkedPhoneContact.mockReset();
   });
 
   describe('GET /contacts', () => {
@@ -190,7 +202,15 @@ describe('contacts routes', () => {
           externalPhone: true,
           externalName: true,
           createdAt: true,
-          user: { select: { id: true, username: true, avatarUrl: true } },
+          userId: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              avatarUrl: true,
+            },
+          },
         },
       });
 
@@ -247,6 +267,14 @@ describe('contacts routes', () => {
         where: {
           OR: [
             { phoneNumber: '+15551234567' },
+            {
+              assignedNumbers: {
+                some: {
+                  e164: '+15551234567',
+                  status: 'ASSIGNED',
+                },
+              },
+            },
           ],
         },
         select: { id: true },
@@ -280,13 +308,155 @@ describe('contacts routes', () => {
           externalPhone: true,
           externalName: true,
           createdAt: true,
-          user: { select: { id: true, username: true, avatarUrl: true } },
+          userId: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              avatarUrl: true,
+            },
+          },
         },
       });
 
       expect(res.body).toEqual(contact);
     });
   });
+
+
+    it('links an assigned Chatforia number to the matched user', async () => {
+      mockToE164.mockReturnValueOnce(
+        '+15551234567'
+      );
+
+      mockPrisma.user.findFirst.mockResolvedValueOnce({
+        id: 2,
+      });
+
+      const linked = {
+        id: 102,
+        userId: 2,
+        alias: 'Friend',
+        favorite: false,
+        externalPhone: '+15551234567',
+        externalName: 'Friend',
+        createdAt: '2025-01-03T00:00:00.000Z',
+        user: {
+          id: 2,
+          username: 'friend',
+          displayName: 'Friend',
+          avatarUrl: null,
+        },
+      };
+
+      mockUpsertLinkedPhoneContact.mockResolvedValueOnce(
+        linked
+      );
+
+      const res = await request(app)
+        .post('/contacts')
+        .send({
+          externalPhone: '555-123-4567',
+          alias: 'Friend',
+          externalName: 'Friend',
+        })
+        .expect(201);
+
+      expect(
+        mockPrisma.user.findFirst
+      ).toHaveBeenCalledWith({
+        where: {
+          OR: [
+            {
+              phoneNumber: '+15551234567',
+            },
+            {
+              assignedNumbers: {
+                some: {
+                  e164: '+15551234567',
+                  status: 'ASSIGNED',
+                },
+              },
+            },
+          ],
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      expect(
+        mockUpsertLinkedPhoneContact
+      ).toHaveBeenCalledWith(
+        mockPrisma,
+        {
+          ownerId: 1,
+          userId: 2,
+          externalPhone: '+15551234567',
+          alias: 'Friend',
+          externalName: 'Friend',
+          favorite: false,
+        }
+      );
+
+      expect(
+        mockPrisma.contact.upsert
+      ).not.toHaveBeenCalled();
+
+      expect(res.body).toEqual(linked);
+    });
+
+    it('rejects userId plus phone when the number does not belong to that user', async () => {
+      mockToE164.mockReturnValueOnce(
+        '+15551234567'
+      );
+
+      mockPrisma.user.findFirst.mockResolvedValueOnce(
+        null
+      );
+
+      const res = await request(app)
+        .post('/contacts')
+        .send({
+          userId: 2,
+          externalPhone: '555-123-4567',
+        })
+        .expect(400);
+
+      expect(
+        mockPrisma.user.findFirst
+      ).toHaveBeenCalledWith({
+        where: {
+          id: 2,
+          OR: [
+            {
+              phoneNumber: '+15551234567',
+            },
+            {
+              assignedNumbers: {
+                some: {
+                  e164: '+15551234567',
+                  status: 'ASSIGNED',
+                },
+              },
+            },
+          ],
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      expect(
+        mockUpsertLinkedPhoneContact
+      ).not.toHaveBeenCalled();
+
+      expect(res.body).toEqual({
+        error:
+          'This number does not belong to the selected Chatforia user.',
+      });
+    });
 
   describe('PATCH /contacts', () => {
     it('returns 400 for invalid externalPhone when updating by phone', async () => {
