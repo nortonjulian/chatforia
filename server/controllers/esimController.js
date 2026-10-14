@@ -48,31 +48,151 @@ export async function getMyEsim(req, res) {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    const subscriber = await prisma.subscriber.findFirst({
+    let subscriber = await prisma.subscriber.findFirst({
       where: { userId: Number(userId) },
       orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        provider: true,
-        providerProfileId: true,
-        iccid: true,
-        iccidHint: true,
-        smdp: true,
-        activationCode: true,
-        lpaUri: true,
-        qrPayload: true,
-        msisdn: true,
-        region: true,
-        status: true,
-        activatedAt: true,
-        suspendedAt: true,
-        expiresAt: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
 
-    return res.json({ subscriber: subscriber || null });
+    /*
+     * Apple may install the eSIM outside Chatforia through the system
+     * QR/manual-install flow. In that case the client cannot reliably
+     * tell us the exact moment installation completes.
+     *
+     * Reconcile only transitional subscribers against the provider.
+     * For Telna, activateProfile() is a read-only eUICC status lookup
+     * and returns ok=true only when the profile state is ENABLED.
+     */
+    if (
+      subscriber &&
+      (
+        subscriber.status === 'PENDING' ||
+        subscriber.status === 'PROVISIONING'
+      ) &&
+      typeof esimProvider.activateProfile === 'function'
+    ) {
+      try {
+        const existingProviderMeta =
+          subscriber.providerMeta &&
+          typeof subscriber.providerMeta === 'object' &&
+          !Array.isArray(subscriber.providerMeta)
+            ? subscriber.providerMeta
+            : {};
+
+        const testMode =
+          String(
+            subscriber.providerProfileId || ''
+          ).startsWith('mock-telna-') ||
+
+          existingProviderMeta?.reserve
+            ?.providerMeta?.mock === true ||
+
+          existingProviderMeta?.providerPack
+            ?.providerMeta?.mock === true;
+
+        const activation =
+          await esimProvider.activateProfile({
+            iccid:
+              subscriber.iccid ||
+              undefined,
+
+            activationCode:
+              subscriber.activationCode ||
+              undefined,
+
+            providerProfileId:
+              subscriber.providerProfileId ||
+              undefined,
+
+            testMode,
+          });
+
+        /*
+         * Never downgrade or rewrite a transitional subscriber merely
+         * because the provider has not confirmed activation yet.
+         */
+        if (activation?.ok === true) {
+          const providerActivatedAt =
+            activation?.activatedAt
+              ? new Date(activation.activatedAt)
+              : null;
+
+          subscriber =
+            await prisma.subscriber.update({
+              where: {
+                id: subscriber.id,
+              },
+              data: {
+                status: 'ACTIVE',
+
+                /*
+                 * Preserve an existing activation timestamp. Otherwise
+                 * use the provider's authoritative timestamp when one
+                 * is available; never manufacture one here.
+                 */
+                activatedAt:
+                  subscriber.activatedAt ||
+                  providerActivatedAt ||
+                  undefined,
+
+                msisdn:
+                  activation?.msisdn ||
+                  subscriber.msisdn ||
+                  null,
+
+                providerMeta: {
+                  ...existingProviderMeta,
+                  activation: {
+                    ...activation,
+                    testMode,
+                  },
+                },
+              },
+            });
+        }
+      } catch (activationErr) {
+        /*
+         * Provider reconciliation is best-effort. A temporary Telna
+         * lookup failure must not make GET /esim/me unavailable.
+         */
+        console.warn(
+          '[esim] activation reconciliation failed:',
+          activationErr?.message || activationErr
+        );
+      }
+    }
+
+    if (!subscriber) {
+      return res.json({ subscriber: null });
+    }
+
+    /*
+     * Preserve the existing GET /esim/me response contract.
+     * Internal provider/audit fields used during reconciliation must
+     * not become part of the client-facing API accidentally.
+     */
+    return res.json({
+      subscriber: {
+        id: subscriber.id,
+        provider: subscriber.provider,
+        providerProfileId:
+          subscriber.providerProfileId,
+        iccid: subscriber.iccid,
+        iccidHint: subscriber.iccidHint,
+        smdp: subscriber.smdp,
+        activationCode:
+          subscriber.activationCode,
+        lpaUri: subscriber.lpaUri,
+        qrPayload: subscriber.qrPayload,
+        msisdn: subscriber.msisdn,
+        region: subscriber.region,
+        status: subscriber.status,
+        activatedAt: subscriber.activatedAt,
+        suspendedAt: subscriber.suspendedAt,
+        expiresAt: subscriber.expiresAt,
+        createdAt: subscriber.createdAt,
+        updatedAt: subscriber.updatedAt,
+      },
+    });
   } catch (err) {
     console.error('[esim] getMyEsim error:', err);
     return res.status(500).json({ error: 'Failed to load eSIM profile' });
@@ -260,10 +380,19 @@ export async function activateProfile(req, res) {
         testMode,
       });
 
+    /*
+     * A successful provider lookup does not itself mean the eSIM is
+     * active. Telna returns ok=true only when the eUICC profile is
+     * actually ENABLED.
+     */
+    const providerConfirmedActive =
+      out?.ok === true;
+
     const activatedAt =
+      providerConfirmedActive &&
       out?.activatedAt
         ? new Date(out.activatedAt)
-        : new Date();
+        : null;
 
     const updatedSubscriber =
       await prisma.subscriber.update({
@@ -271,7 +400,10 @@ export async function activateProfile(req, res) {
           id: existing.id,
         },
         data: {
-          status: 'ACTIVE',
+          status:
+            providerConfirmedActive
+              ? 'ACTIVE'
+              : 'PROVISIONING',
           activatedAt,
 
           msisdn:
@@ -291,8 +423,8 @@ export async function activateProfile(req, res) {
       });
 
     return res.json({
-      ok: true,
       ...out,
+      ok: providerConfirmedActive,
       status: updatedSubscriber.status,
     });
   } catch (err) {

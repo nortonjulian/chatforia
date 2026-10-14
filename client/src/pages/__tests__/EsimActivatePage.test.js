@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 jest.mock('@/api/esim', () => ({
   __esModule: true,
   getMyEsim: jest.fn(),
+  activateEsim: jest.fn(),
 }));
 
 jest.mock('qrcode', () => ({
@@ -12,7 +13,7 @@ jest.mock('qrcode', () => ({
   toDataURL: jest.fn(),
 }));
 
-import { getMyEsim } from '@/api/esim';
+import { getMyEsim, activateEsim } from '@/api/esim';
 import QRCode from 'qrcode';
 import EsimActivatePage from '../EsimActivatePage.jsx';
 
@@ -105,6 +106,69 @@ describe('EsimActivatePage', () => {
       'LPA:1$sm-dp.example.com$ABC123',
       expect.any(Object)
     );
+  });
+
+  it('automatically checks activation when the saved eSIM is PROVISIONING', async () => {
+    getMyEsim.mockResolvedValueOnce({
+      subscriber: {
+        id: 77,
+        status: 'PROVISIONING',
+        iccid: '8910300000059080801',
+        providerProfileId: '8910300000059080801',
+        activationCode: 'ABC123',
+        smdp: 'sm-dp.example.com',
+      },
+    });
+
+    activateEsim.mockResolvedValueOnce({
+      ok: true,
+      status: 'ACTIVE',
+      activatedAt: '2026-10-13T20:00:00.000Z',
+    });
+
+    render(<EsimActivatePage />);
+
+    await waitFor(() => {
+      expect(activateEsim).toHaveBeenCalledWith({
+        iccid: '8910300000059080801',
+        activationCode: 'ABC123',
+        providerProfileId: '8910300000059080801',
+      });
+    });
+
+    expect(
+      await screen.findByText(/ACTIVE/i)
+    ).toBeInTheDocument();
+  });
+
+  it('keeps PROVISIONING and offers a manual activation recheck when Telna has not enabled the profile', async () => {
+    getMyEsim.mockResolvedValueOnce({
+      subscriber: {
+        id: 77,
+        status: 'PROVISIONING',
+        iccid: '8910300000059080801',
+        providerProfileId: '8910300000059080801',
+        activationCode: 'ABC123',
+        smdp: 'sm-dp.example.com',
+      },
+    });
+
+    activateEsim.mockResolvedValueOnce({
+      ok: false,
+      status: 'PROVISIONING',
+    });
+
+    render(<EsimActivatePage />);
+
+    expect(
+      await screen.findByText(/PROVISIONING/i)
+    ).toBeInTheDocument();
+
+    expect(
+      await screen.findByRole('button', {
+        name: /check activation status/i,
+      })
+    ).toBeInTheDocument();
   });
 
   it('shows generating QR while QR creation is pending', async () => {

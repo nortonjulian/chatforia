@@ -27,6 +27,7 @@ const {
   suspendLine,
   resumeLine,
   provisionEsimPack,
+  setEsimPackageStatus,
   fetchEsimUsage,
 } = await import('../providers/telnaEsim.js');
 
@@ -403,6 +404,7 @@ describe('telnaEsim provider', () => {
             sim: '8910300000059080801',
             package_template: 900001,
           },
+          attempts: 1,
         }
       );
 
@@ -451,6 +453,7 @@ describe('telnaEsim provider', () => {
             sim: '8910300000059080801',
             package_template: 900002,
           },
+          attempts: 1,
         }
       );
 
@@ -499,12 +502,82 @@ describe('telnaEsim provider', () => {
     });
   });
 
+  describe('setEsimPackageStatus', () => {
+    it('terminates an existing Telna package', async () => {
+      telnaRequestMock.mockResolvedValue({
+        id: 456789,
+        status: 'TERMINATED',
+      });
+
+      const result =
+        await setEsimPackageStatus(
+          '456789',
+          'terminated'
+        );
+
+      expect(
+        telnaRequestMock
+      ).toHaveBeenCalledTimes(1);
+
+      expect(
+        telnaRequestMock
+      ).toHaveBeenCalledWith(
+        '/v2.1/pcr/packages/456789',
+        {
+          method: 'PUT',
+          body: {
+            package_status: 'TERMINATED',
+          },
+        }
+      );
+
+      expect(result).toEqual({
+        providerPurchaseId: '456789',
+        status: 'TERMINATED',
+      });
+    });
+
+    it('rejects an invalid status without calling Telna', async () => {
+      await expect(
+        setEsimPackageStatus(
+          '456789',
+          'DELETED'
+        )
+      ).rejects.toMatchObject({
+        code: 'TELNA_INVALID_PACKAGE_STATUS',
+      });
+
+      expect(
+        telnaRequestMock
+      ).not.toHaveBeenCalled();
+    });
+
+    it('propagates a Telna package-status failure', async () => {
+      const providerError =
+        new Error('Telna package update failed');
+
+      telnaRequestMock.mockRejectedValue(
+        providerError
+      );
+
+      await expect(
+        setEsimPackageStatus(
+          '456789',
+          'TERMINATED'
+        )
+      ).rejects.toBe(providerError);
+    });
+  });
+
   describe('fetchEsimUsage', () => {
     it('retrieves usage by Telna package ID and converts remaining bytes to MB', async () => {
       telnaRequestMock.mockResolvedValue({
         id: 456789,
         sim: '8910300000059080801',
-        status: 'ACTIVE',
+
+        // Telna package GET uses status in production.
+        status: ' active ',
+
         expiry_date:
           '2026-10-19T12:00:00Z',
         data_usage_remaining:
@@ -526,7 +599,14 @@ describe('telnaEsim provider', () => {
       expect(result.totalMb).toBeNull();
       expect(result.remainingMb).toBe(1500);
       expect(result.expiresAt).toBeInstanceOf(Date);
+
+      // Provider lifecycle state is normalized for callers.
+      expect(result.providerStatus).toBe('ACTIVE');
+
       expect(result.providerMeta.id).toBe(456789);
+      expect(result.providerMeta.status).toBe(
+        ' active '
+      );
     });
   });
 

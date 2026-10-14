@@ -733,7 +733,36 @@ router.post('/checkout', async (req, res) => {
       );
     }
 
-    if (!customerId || !String(customerId).startsWith('cus_')) {
+    // A cus_* identifier alone does not prove that the customer
+    // belongs to the Stripe environment currently in use. This can
+    // happen when an account was previously used with Stripe test
+    // mode and is later used against live mode.
+    //
+    // Validate stored Stripe customers before reusing them. If Stripe
+    // says the customer does not exist in the current environment,
+    // create a new customer and repair the stored association.
+    if (customerId && String(customerId).startsWith('cus_')) {
+      try {
+        const existingCustomer =
+          await stripe.customers.retrieve(customerId);
+
+        // Stripe can return a deleted customer object. Treat it the
+        // same as a missing customer so checkout gets a usable one.
+        if (existingCustomer?.deleted) {
+          customerId = null;
+        }
+      } catch (error) {
+        if (error?.code === 'resource_missing') {
+          customerId = null;
+        } else {
+          throw error;
+        }
+      }
+    } else {
+      customerId = null;
+    }
+
+    if (!customerId) {
       const customer = await stripe.customers.create({
         email: user.email || undefined,
         name: user.username || undefined,

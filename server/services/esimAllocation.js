@@ -39,6 +39,7 @@ export async function createSubscriberWithAllocatedEsim(
     stripeSessionId,
     stripePaymentIntentId,
     testMode,
+    excludedIccids: initialExcludedIccids = [],
   },
   {
     prismaClient = prisma,
@@ -46,7 +47,21 @@ export async function createSubscriberWithAllocatedEsim(
     esimProviderName = ESIM_PROVIDER,
   } = {}
 ) {
-  const excludedIccids = [];
+  /*
+   * Callers such as device replacement may already know that specific
+   * ICCIDs must never be selected. Keep a private mutable copy because
+   * collision retries append additional ICCIDs below.
+   */
+  const excludedIccids = Array.isArray(initialExcludedIccids)
+    ? [
+        ...new Set(
+          initialExcludedIccids
+            .map((value) => String(value || '').trim())
+            .filter(Boolean)
+        ),
+      ]
+    : [];
+
   const maxAttempts = 25;
 
   for (

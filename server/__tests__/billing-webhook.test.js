@@ -814,6 +814,272 @@ describe(
     );
 
     test(
+      'Sandbox eSIM purchase reuses the current active replacement instead of an older suspended subscriber',
+      async () => {
+        await createTestUser();
+
+        const oldIccid =
+          '89000000000009991';
+
+        const currentIccid =
+          '89000000000009992';
+
+        const oldSubscriber =
+          await prisma.subscriber.create({
+            data: {
+              userId:
+                TEST_USER_ID,
+
+              provider:
+                'telna',
+
+              providerProfileId:
+                'mock-telna-old-suspended',
+
+              iccid:
+                oldIccid,
+
+              region:
+                'US',
+
+              status:
+                'SUSPENDED',
+
+              activatedAt:
+                new Date(
+                  Date.now() -
+                    48 *
+                      60 *
+                      60 *
+                      1000
+                ),
+
+              suspendedAt:
+                new Date(
+                  Date.now() -
+                    2 *
+                      60 *
+                      60 *
+                      1000
+                ),
+
+              providerMeta: {
+                mock:
+                  true,
+              },
+            },
+          });
+
+        /*
+         * Ensure createdAt ordering is deterministic. The replacement
+         * subscriber must be newer than the suspended device.
+         */
+        await new Promise(
+          (resolve) =>
+            setTimeout(resolve, 10)
+        );
+
+        const currentSubscriber =
+          await prisma.subscriber.create({
+            data: {
+              userId:
+                TEST_USER_ID,
+
+              provider:
+                'telna',
+
+              providerProfileId:
+                'mock-telna-current-replacement',
+
+              iccid:
+                currentIccid,
+
+              region:
+                'US',
+
+              status:
+                'ACTIVE',
+
+              activatedAt:
+                new Date(
+                  Date.now() -
+                    60 *
+                      60 *
+                      1000
+                ),
+
+              providerMeta: {
+                mock:
+                  true,
+              },
+            },
+          });
+
+        const checkoutSession = {
+          object:
+            'checkout.session',
+
+          id:
+            'cs_esim_after_device_replacement',
+
+          mode:
+            'payment',
+
+          status:
+            'complete',
+
+          payment_status:
+            'paid',
+
+          payment_intent:
+            'pi_esim_after_device_replacement',
+
+          client_reference_id:
+            String(TEST_USER_ID),
+
+          livemode:
+            false,
+
+          metadata: {
+            userId:
+              String(TEST_USER_ID),
+
+            product:
+              'chatforia_esim_local_3_premium',
+
+            platform:
+              'web',
+          },
+        };
+
+        const event =
+          makeStripeEvent({
+            id:
+              'evt_esim_after_device_replacement',
+
+            type:
+              'checkout.session.completed',
+
+            object:
+              checkoutSession,
+          });
+
+        await agent
+          .post(
+            ENDPOINTS.webhook
+          )
+          .set(
+            'Stripe-Signature',
+            't=0,v1=testsig'
+          )
+          .set(
+            'Content-Type',
+            'application/json'
+          )
+          .send(
+            JSON.stringify(event)
+          )
+          .expect(200);
+
+        const purchase =
+          await prisma
+            .mobileDataPackPurchase
+            .findUnique({
+              where: {
+                billingTransactionId:
+                  checkoutSession
+                    .payment_intent,
+              },
+            });
+
+        const subscribers =
+          await prisma.subscriber.findMany({
+            where: {
+              userId:
+                TEST_USER_ID,
+            },
+
+            orderBy: {
+              createdAt:
+                'asc',
+            },
+          });
+
+        expect(
+          subscribers
+        ).toHaveLength(2);
+
+        const oldAfterPurchase =
+          subscribers.find(
+            (subscriber) =>
+              subscriber.id ===
+              oldSubscriber.id
+          );
+
+        const currentAfterPurchase =
+          subscribers.find(
+            (subscriber) =>
+              subscriber.id ===
+              currentSubscriber.id
+          );
+
+        expect(
+          oldAfterPurchase
+        ).toEqual(
+          expect.objectContaining({
+            status:
+              'SUSPENDED',
+
+            providerProfileId:
+              'mock-telna-old-suspended',
+
+            iccid:
+              oldIccid,
+
+            purchaseId:
+              null,
+          })
+        );
+
+        expect(
+          currentAfterPurchase
+        ).toEqual(
+          expect.objectContaining({
+            id:
+              currentSubscriber.id,
+
+            status:
+              'ACTIVE',
+
+            providerProfileId:
+              'mock-telna-current-replacement',
+
+            iccid:
+              currentIccid,
+
+            purchaseId:
+              purchase.id,
+          })
+        );
+
+        expect(
+          purchase
+        ).toEqual(
+          expect.objectContaining({
+            userId:
+              TEST_USER_ID,
+
+            esimProfileId:
+              'mock-telna-current-replacement',
+
+            iccid:
+              currentIccid,
+          })
+        );
+      }
+    );
+
+    test(
       'Sandbox eSIM purchase does not reuse a canceled subscriber',
       async () => {
         await createTestUser();

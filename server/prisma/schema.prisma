@@ -350,6 +350,7 @@ model User {
   familiesOwned     FamilyGroup[]  @relation("FamilyOwner")
 
   mobileDataPackPurchases MobileDataPackPurchase[]
+  esimReplacements        EsimReplacement[]
   googlePlaySubscriptions GooglePlaySubscription[]
   appSubscriptions        AppSubscription[]
   wirelessEntitlements    WirelessEntitlement[]
@@ -371,6 +372,7 @@ model User {
   // Usage/analytics
   sttUsage          STTUsage[]          @relation("UserSTTUsage")
   voiceUsageCharges VoiceUsageCharge[]
+  planUsage         PlanUsage[]
 
   // Settings
   plan              Plan    @default(FREE)
@@ -671,6 +673,8 @@ model MobileDataPackPurchase {
 
   qrCodeSvg         String?
   provisioningError String?
+
+  esimReplacements EsimReplacement[]
 
   @@index([userId, purchasedAt])
   @@index([userId, expiresAt])
@@ -1453,6 +1457,27 @@ model Call {
   @@index([externalPhone])
 }
 
+model PlanUsage {
+  id                            Int      @id @default(autoincrement())
+  userId                        Int
+  monthKey                      String
+  riaActions                    Int      @default(0)
+  translationChars              Int      @default(0)
+  hostedParticipantSeconds      Int      @default(0)
+  smsMessages                   Int      @default(0)
+  pstnSeconds                   Int      @default(0)
+  forwardingSeconds             Int      @default(0)
+  voicemailTranscriptionSeconds Int      @default(0)
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, monthKey])
+  @@index([monthKey])
+  @@index([userId, updatedAt])
+}
+
 model VoiceUsageCharge {
   id        Int      @id @default(autoincrement())
   eventKey  String   @unique
@@ -1517,6 +1542,72 @@ model SmsCarrierEvent {
   createdAt DateTime @default(now())
 }
 
+model EsimReplacement {
+  id String @id @default(cuid())
+
+  // The account and purchased entitlement being moved to a new eSIM.
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  purchaseId Int
+  purchase   MobileDataPackPurchase @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+
+  // Preserve both sides of the replacement permanently for audit/recovery.
+  oldSubscriberId Int
+  oldSubscriber   Subscriber @relation("EsimReplacementOldSubscriber", fields: [oldSubscriberId], references: [id], onDelete: Restrict)
+
+  newSubscriberId Int?
+  newSubscriber   Subscriber? @relation("EsimReplacementNewSubscriber", fields: [newSubscriberId], references: [id], onDelete: Restrict)
+
+  oldIccid String
+  newIccid String?
+
+  oldProviderProfileId String?
+  newProviderProfileId String?
+
+  // A provider package can be the source of only one replacement.
+  // This protects concurrent attempts against the same source package.
+  oldProviderPurchaseId String  @unique
+  newProviderPurchaseId String?
+
+  // Stable client-generated key for one logical replacement request.
+  // Retrying the same request for the same user must return the
+  // existing workflow instead of consuming another ICCID.
+  idempotencyKey String
+
+  // Authoritative balance captured immediately before replacement.
+  remainingDataMb    Int
+  originalExpiresAt DateTime?
+
+  // The replacement package may round upward to the smallest available
+  // Telna template that fully covers the customer's remaining allowance.
+  replacementDataMb    Int?
+  replacementAddonKind String?
+
+  reason String @default("DEVICE_REPLACEMENT")
+
+  // PENDING -> PROVISIONED -> OLD_PACKAGE_TERMINATED -> COMPLETED
+  // Failure after provisioning is REQUIRES_RECONCILIATION so the newly
+  // provisioned customer service is never silently lost.
+  status String @default("PENDING")
+
+  errorCode    String?
+  errorMessage String? @db.Text
+
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  provisionedAt          DateTime?
+  oldPackageTerminatedAt DateTime?
+  completedAt            DateTime?
+
+  @@unique([userId, idempotencyKey])
+  @@index([userId, createdAt])
+  @@index([purchaseId, createdAt])
+  @@index([oldSubscriberId])
+  @@index([newSubscriberId])
+  @@index([status])
+}
+
 model Subscriber {
   id                   Int       @id @default(autoincrement())
   userId               Int?
@@ -1540,6 +1631,9 @@ model Subscriber {
   suspendedAt          DateTime?
   expiresAt            DateTime?
   updatedAt            DateTime  @updatedAt
+
+  replacementsAsOld EsimReplacement[] @relation("EsimReplacementOldSubscriber")
+  replacementsAsNew EsimReplacement[] @relation("EsimReplacementNewSubscriber")
 
   @@index([userId])
   @@index([provider, providerProfileId])

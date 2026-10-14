@@ -788,6 +788,14 @@ export async function provisionEsimPack({
         {
           method: 'POST',
           body: payload,
+
+          /*
+           * Package creation is not known to be safely idempotent.
+           * Never replay this POST automatically after an ambiguous
+           * timeout, transport failure, or Telna 5xx response.
+           * The replacement workflow will reconcile uncertain outcomes.
+           */
+          attempts: 1,
         }
       );
 
@@ -855,6 +863,67 @@ export async function provisionEsimPack({
  * can be migrated one layer at a time. The caller must pass the
  * providerPurchaseId after that caller is updated.
  */
+/**
+ * Change the status of an existing Telna Connect v2.1 package.
+ *
+ * Telna:
+ *   PUT /v2.1/pcr/packages/{package_id}
+ *
+ * Body:
+ *   { package_status: 'ACTIVE' | 'TERMINATED' }
+ */
+export async function setEsimPackageStatus(
+  providerPurchaseId,
+  status
+) {
+  ensureConfigured();
+
+  const packageId =
+    providerPurchaseId === null ||
+    providerPurchaseId === undefined
+      ? ''
+      : String(providerPurchaseId).trim();
+
+  if (!packageId) {
+    const err = new Error(
+      'setEsimPackageStatus requires providerPurchaseId'
+    );
+    err.code = 'TELNA_PACKAGE_ID_REQUIRED';
+    throw err;
+  }
+
+  const normalizedStatus =
+    typeof status === 'string'
+      ? status.trim().toUpperCase()
+      : '';
+
+  if (
+    normalizedStatus !== 'ACTIVE' &&
+    normalizedStatus !== 'TERMINATED'
+  ) {
+    const err = new Error(
+      'Telna package status must be ACTIVE or TERMINATED'
+    );
+    err.code = 'TELNA_INVALID_PACKAGE_STATUS';
+    throw err;
+  }
+
+  await telnaRequest(
+    `/v2.1/pcr/packages/${encodeURIComponent(packageId)}`,
+    {
+      method: 'PUT',
+      body: {
+        package_status: normalizedStatus,
+      },
+    }
+  );
+
+  return {
+    providerPurchaseId: packageId,
+    status: normalizedStatus,
+  };
+}
+
 export async function fetchEsimUsage(
   providerPurchaseId
 ) {
@@ -907,6 +976,25 @@ export async function fetchEsimUsage(
       totalMb: null,
       remainingMb,
       expiresAt,
+
+      /*
+       * Surface Telna's package lifecycle state so callers can
+       * distinguish the package currently being consumed from a
+       * queued/not-yet-active top-up on the same ICCID.
+       */
+      providerStatus:
+        typeof (
+          data?.status ??
+          data?.package_status
+        ) === 'string'
+          ? (
+              data.status ??
+              data.package_status
+            )
+              .trim()
+              .toUpperCase()
+          : null,
+
       providerMeta:
         data ?? null,
     };
@@ -1067,6 +1155,7 @@ export default {
   reserveEsimProfile,
   activateProfile,
   provisionEsimPack,
+  setEsimPackageStatus,
   fetchEsimUsage,
   suspendLine,
   resumeLine,

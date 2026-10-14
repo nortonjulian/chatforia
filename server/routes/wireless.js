@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { createEsimProfileForProvider, handleProviderWebhook } from '../services/provisioningService.js';
 import { requireAuth } from '../middleware/auth.js';
 import { fetchEsimUsage } from '../services/providers/esimProvider.js';
+import { replaceEsimForDevice } from '../services/esimReplacementService.js';
 
 const router = express.Router();
 
@@ -45,18 +46,116 @@ function computeStatus(totalMb, remainingMb, expiresAt) {
 }
 
 /**
- * Helper: get the user's active individual eSIM pack (if any).
- * Picks the most recently created, non-expired pack with remaining data.
+ * Return usable individual eSIM pack candidates newest-first.
+ *
+ * Multiple Telna packages may share one ICCID after a top-up. In that
+ * case the newest purchase is not necessarily the package currently
+ * being consumed: Telna may report the new package as NOT_ACTIVE while
+ * an older package remains ACTIVE.
  */
-async function getActiveIndividualPack(userId) {
+async function getIndividualPackCandidates(userId) {
   const now = new Date();
-  return prisma.mobileDataPackPurchase.findFirst({
+
+  return prisma.mobileDataPackPurchase.findMany({
     where: {
       userId: Number(userId),
       expiresAt: { gt: now },
+      remainingDataMb: { gt: 0 },
     },
-    orderBy: { purchasedAt: 'desc' },
+    orderBy: {
+      purchasedAt: 'desc',
+    },
+
+    /*
+     * Avoid polling an unbounded purchase history on every status
+     * request. A small recent window is enough to resolve current and
+     * queued top-ups while historical packs remain in the database.
+     */
+    take: 10,
   });
+}
+
+/**
+ * Resolve the pack that should drive Current Usage.
+ *
+ * Provider ACTIVE is authoritative when available. If provider state
+ * is unavailable (legacy purchase, mock provider, or transient provider
+ * failure), preserve the historical newest-pack behavior as a safe
+ * compatibility fallback.
+ */
+async function resolveActiveIndividualPack(userId) {
+  const candidates =
+    await getIndividualPackCandidates(userId);
+
+  if (!candidates.length) {
+    return {
+      pack: null,
+      providerStatus: null,
+      queuedPacks: [],
+    };
+  }
+
+  let fallback = null;
+  let active = null;
+  const queuedPacks = [];
+
+  /*
+   * Refresh/classify every recent usable candidate once. Do not stop
+   * after finding ACTIVE because another candidate may be a queued
+   * NOT_ACTIVE top-up that the client should surface separately.
+   */
+  for (const candidate of candidates) {
+    const refreshed =
+      await refreshPackUsageFromProvider(
+        userId,
+        candidate
+      );
+
+    if (!fallback) {
+      fallback = refreshed;
+    }
+
+    if (
+      refreshed?.providerStatus === 'ACTIVE' &&
+      !active
+    ) {
+      active = refreshed;
+      continue;
+    }
+
+    /*
+     * Telna production uses NOT_ACTIVE for a purchased package waiting
+     * behind the currently ACTIVE package. Do not treat arbitrary
+     * non-ACTIVE provider states as customer-usable queued data.
+     */
+    if (
+      refreshed?.providerStatus === 'NOT_ACTIVE' &&
+      refreshed?.pack
+    ) {
+      queuedPacks.push(refreshed.pack);
+    }
+  }
+
+  const selected =
+    active ??
+    fallback ?? {
+      pack: null,
+      providerStatus: null,
+    };
+
+  return {
+    ...selected,
+
+    /*
+     * A compatibility fallback may itself be NOT_ACTIVE.
+     * Only expose queued packages when the provider has
+     * confirmed which package is currently ACTIVE. Otherwise
+     * the fallback could appear as both Current Usage and a
+     * queued pack, causing customer-facing data to be counted
+     * twice.
+     */
+    queuedPacks: active ? queuedPacks : [],
+  };
 }
 
 async function getLatestSubscriberForUser(userId) {
@@ -69,13 +168,64 @@ async function getLatestSubscriberForUser(userId) {
   });
 }
 
+export function replacementEntitlementRemainingMb({
+  entitlementMb,
+  providerCapacityMb,
+  providerRemainingMb,
+}) {
+  const entitlement = Number(entitlementMb);
+  const capacity = Number(providerCapacityMb);
+  const providerRemaining = Number(providerRemainingMb);
+
+  if (
+    !Number.isFinite(entitlement) ||
+    entitlement < 0 ||
+    !Number.isFinite(capacity) ||
+    capacity <= 0 ||
+    !Number.isFinite(providerRemaining) ||
+    providerRemaining < 0
+  ) {
+    return null;
+  }
+
+  /*
+   * A replacement package is only a provider-side container.
+   * The customer keeps the entitlement that existed immediately
+   * before replacement; unused capacity in the larger Telna template
+   * must never become customer data.
+   *
+   * Round provider consumption UP because MobileDataPackPurchase
+   * stores integer MB. This is conservative: fractional provider
+   * consumption can never result in Chatforia granting extra data.
+   */
+  const boundedProviderRemaining =
+    Math.min(providerRemaining, capacity);
+
+  const providerConsumedMb =
+    Math.ceil(
+      Math.max(
+        0,
+        capacity - boundedProviderRemaining
+      )
+    );
+
+  return Math.max(
+    0,
+    Math.min(
+      Math.ceil(entitlement),
+      Math.ceil(entitlement) -
+        providerConsumedMb
+    )
+  );
+}
+
 async function refreshPackUsageFromProvider(userId, pack) {
-  if (!pack) return pack;
-
-  const subscriber =
-    await getLatestSubscriberForUser(userId);
-
-  if (!subscriber) return pack;
+  if (!pack) {
+    return {
+      pack,
+      providerStatus: null,
+    };
+  }
 
   /*
    * Usage is associated with the provider's purchased data package,
@@ -93,7 +243,10 @@ async function refreshPackUsageFromProvider(userId, pack) {
    * profile ID or ICCID for Telna package usage.
    */
   if (!providerUsageId) {
-    return pack;
+    return {
+      pack,
+      providerStatus: null,
+    };
   }
 
   // Sandbox/mock purchases do not have a real provider package to
@@ -102,7 +255,10 @@ async function refreshPackUsageFromProvider(userId, pack) {
     String(providerUsageId)
       .startsWith('mock-')
   ) {
-    return pack;
+    return {
+      pack,
+      providerStatus: null,
+    };
   }
 
   try {
@@ -117,16 +273,77 @@ async function refreshPackUsageFromProvider(userId, pack) {
         ? Math.round(usage.totalMb)
         : pack.totalDataMb;
 
-    const nextRemainingMb =
+    let nextRemainingMb =
       typeof usage.remainingMb === 'number' &&
       usage.remainingMb >= 0
         ? Math.round(usage.remainingMb)
         : pack.remainingDataMb;
 
+    /*
+     * A replacement may require a larger provider-side package
+     * container than the customer's transferred entitlement.
+     * Translate consumption against the replacement audit so unused
+     * Telna template capacity never becomes customer data.
+     */
+    if (
+      typeof usage.remainingMb === 'number' &&
+      usage.remainingMb >= 0
+    ) {
+      const replacement =
+        await prisma.esimReplacement.findFirst({
+          where: {
+            userId: Number(userId),
+            newProviderPurchaseId:
+              String(providerUsageId),
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        });
+
+      if (
+        replacement &&
+        typeof replacement.remainingDataMb === 'number' &&
+        typeof replacement.replacementDataMb === 'number'
+      ) {
+        const translatedRemainingMb =
+          replacementEntitlementRemainingMb({
+            entitlementMb:
+              replacement.remainingDataMb,
+            providerCapacityMb:
+              replacement.replacementDataMb,
+            providerRemainingMb:
+              usage.remainingMb,
+          });
+
+        if (translatedRemainingMb != null) {
+          nextRemainingMb =
+            translatedRemainingMb;
+        }
+      }
+    }
+
     const nextExpiresAt =
       usage.expiresAt ??
       pack.expiresAt ??
       null;
+
+    /*
+     * Provider usage refresh is consumption-only. A stale or
+     * out-of-order provider response must never replenish customer
+     * entitlement. Legitimate balance increases belong to explicit
+     * billing/top-up flows instead.
+     */
+    nextRemainingMb = Math.min(
+      Math.max(
+        0,
+        Number(pack.remainingDataMb) || 0
+      ),
+      Math.max(
+        0,
+        nextRemainingMb
+      )
+    );
 
     const updated =
       await prisma.mobileDataPackPurchase.update({
@@ -144,15 +361,13 @@ async function refreshPackUsageFromProvider(userId, pack) {
           expiresAt:
             nextExpiresAt,
 
-          iccid:
-            subscriber.iccid ??
-            pack.iccid ??
-            undefined,
-
-          esimProfileId:
-            subscriber.providerProfileId ??
-            pack.esimProfileId ??
-            undefined,
+          /*
+           * Do not rewrite ICCID/profile identity during a usage
+           * refresh. A user may own multiple Subscriber records,
+           * especially after an eSIM device replacement. Usage is
+           * scoped by providerPurchaseId, so identity must remain
+           * attached to the pack that already owns it.
+           */
 
           /*
            * Preserve the provider package identifier used for this
@@ -163,14 +378,23 @@ async function refreshPackUsageFromProvider(userId, pack) {
         },
       });
 
-    return updated;
+    return {
+      pack: updated,
+      providerStatus:
+        typeof usage.providerStatus === 'string'
+          ? usage.providerStatus
+          : null,
+    };
   } catch (err) {
     console.warn(
       'provider usage refresh failed:',
       err?.message || err
     );
 
-    return pack;
+    return {
+      pack,
+      providerStatus: null,
+    };
   }
 }
 
@@ -228,12 +452,21 @@ router.get('/status', async (req, res) => {
     //   });
     // }
 
-    // 2) Otherwise, check individual eSIM pack
-    let pack = await getActiveIndividualPack(userId);
+    // 2) Otherwise, check individual eSIM pack.
+    //
+    // Provider lifecycle state wins when multiple packages share an
+    // ICCID. This prevents a queued NOT_ACTIVE top-up from replacing
+    // the package Telna is currently consuming.
+    const resolvedPack =
+      await resolveActiveIndividualPack(userId);
 
-    if (pack) {
-      pack = await refreshPackUsageFromProvider(userId, pack);
-    }
+    const pack =
+      resolvedPack.pack;
+
+    const queuedPacks =
+      Array.isArray(resolvedPack.queuedPacks)
+        ? resolvedPack.queuedPacks
+        : [];
 
     if (!pack) {
       // Check if there is an expired/zero pack to surface exhausted state
@@ -303,6 +536,44 @@ router.get('/status', async (req, res) => {
     //   where: { userId: Number(req.user.id) },
     // });
 
+    const queuedPackSummaries =
+      queuedPacks.map((queuedPack) => {
+        const queuedRemainingDataMb =
+          Math.max(
+            0,
+            Number(
+              queuedPack.remainingDataMb
+            ) || 0
+          );
+
+        return {
+          id: queuedPack.id,
+          addonKind: queuedPack.addonKind,
+          totalDataMb:
+            queuedPack.totalDataMb || 0,
+          remainingDataMb:
+            queuedRemainingDataMb,
+          expiresAt:
+            queuedPack.expiresAt ?? null,
+        };
+      });
+
+    const queuedDataMb =
+      queuedPackSummaries.reduce(
+        (sum, queuedPack) =>
+          sum +
+          queuedPack.remainingDataMb,
+        0
+      );
+
+    /*
+     * Customer-facing aggregate only. Telna continues to meter the
+     * ACTIVE and queued packages independently.
+     */
+    const totalAvailableDataMb =
+      Math.max(0, remainingDataMb) +
+      queuedDataMb;
+
     return res.json({
       mode: 'INDIVIDUAL',
       state: status.state,
@@ -318,6 +589,10 @@ router.get('/status', async (req, res) => {
         expiresAt: pack.expiresAt,
         daysRemaining,
       },
+      queuedPacks:
+        queuedPackSummaries,
+      queuedDataMb,
+      totalAvailableDataMb,
     });
   } catch (err) {
     console.error('wireless status error:', err);
@@ -328,6 +603,247 @@ router.get('/status', async (req, res) => {
     });
   }
 });
+
+/* -------------------- eSIM device replacement ------------------ */
+
+/**
+ * POST /api/wireless/esim/:purchaseId/replace
+ *
+ * Replaces the authenticated customer's eSIM delivery profile while
+ * preserving the remaining finite data entitlement and expiration.
+ *
+ * The client supplies only the Chatforia purchase ID. User ownership,
+ * ICCIDs and provider package identifiers are resolved server-side.
+ */
+router.post(
+  '/esim/:purchaseId/replace',
+  async (req, res) => {
+    try {
+      const userId = Number(req.user?.id);
+      const purchaseId =
+        Number(req.params.purchaseId);
+
+      const idempotencyKey =
+        String(
+          req.get('Idempotency-Key') ||
+          ''
+        ).trim();
+
+      if (
+        !Number.isInteger(userId) ||
+        userId <= 0
+      ) {
+        return res
+          .status(401)
+          .json({
+            error: 'Unauthorized',
+          });
+      }
+
+      if (
+        !Number.isInteger(purchaseId) ||
+        purchaseId <= 0
+      ) {
+        return res
+          .status(400)
+          .json({
+            error:
+              'Valid purchaseId required',
+          });
+      }
+
+      if (
+        !idempotencyKey ||
+        idempotencyKey.length > 200
+      ) {
+        return res
+          .status(400)
+          .json({
+            error:
+              'Valid Idempotency-Key header required',
+            code:
+              'ESIM_REPLACEMENT_INVALID_IDEMPOTENCY_KEY',
+          });
+      }
+
+      const replacement =
+        await replaceEsimForDevice({
+          userId,
+          purchaseId,
+          idempotencyKey,
+          reason:
+            'DEVICE_REPLACEMENT',
+        });
+
+      return res.json({
+        ok: true,
+        replacement: {
+          id:
+            replacement.id,
+          purchaseId:
+            replacement.purchaseId,
+          status:
+            replacement.status,
+          oldIccid:
+            replacement.oldIccid,
+          newIccid:
+            replacement.newIccid ??
+            null,
+          remainingDataMb:
+            replacement.remainingDataMb,
+          expiresAt:
+            replacement.originalExpiresAt ??
+            null,
+          createdAt:
+            replacement.createdAt ??
+            null,
+          completedAt:
+            replacement.completedAt ??
+            null,
+
+          /*
+           * Installation credentials always come from the newly
+           * allocated Subscriber. Never expose credentials from the
+           * replaced Subscriber or reconstruct an LPA payload here.
+           */
+          installation: replacement.newSubscriber
+            ? {
+                subscriberId:
+                  replacement.newSubscriber.id,
+                iccid:
+                  replacement.newSubscriber.iccid ??
+                  null,
+                providerProfileId:
+                  replacement.newSubscriber
+                    .providerProfileId ??
+                  null,
+                smdp:
+                  replacement.newSubscriber.smdp ??
+                  null,
+                activationCode:
+                  replacement.newSubscriber
+                    .activationCode ??
+                  null,
+                lpaUri:
+                  replacement.newSubscriber.lpaUri ??
+                  null,
+                qrPayload:
+                  replacement.newSubscriber.qrPayload ??
+                  null,
+              }
+            : null,
+        },
+      });
+    } catch (err) {
+      console.error(
+        'wireless eSIM replacement error:',
+        err
+      );
+
+      const code = err?.code;
+
+      if (
+        code ===
+          'ESIM_REPLACEMENT_INVALID_IDEMPOTENCY_KEY'
+      ) {
+        return res
+          .status(400)
+          .json({
+            error:
+              err.message,
+            code,
+          });
+      }
+
+      if (
+        code ===
+          'ESIM_REPLACEMENT_IDEMPOTENCY_CONFLICT'
+      ) {
+        return res
+          .status(409)
+          .json({
+            error:
+              err.message,
+            code,
+          });
+      }
+
+      if (
+        code ===
+          'ESIM_REPLACEMENT_NOT_FOUND' ||
+        code ===
+          'ESIM_REPLACEMENT_PURCHASE_NOT_FOUND'
+      ) {
+        return res
+          .status(404)
+          .json({
+            error:
+              'eSIM purchase not found',
+            code,
+          });
+      }
+
+      if (
+        code ===
+          'ESIM_REPLACEMENT_UNLIMITED_UNSUPPORTED' ||
+        code ===
+          'ESIM_REPLACEMENT_NO_CAPACITY' ||
+        code ===
+          'ESIM_REPLACEMENT_EXPIRED' ||
+        code ===
+          'ESIM_REPLACEMENT_UNKNOWN_SCOPE' ||
+        code ===
+          'ESIM_REPLACEMENT_INVALID_BALANCE' ||
+        code ===
+          'ESIM_REPLACEMENT_EXHAUSTED' ||
+        code ===
+          'ESIM_REPLACEMENT_MISSING_EXPIRY' ||
+        code ===
+          'ESIM_REPLACEMENT_INVALID_EXPIRY' ||
+        code ===
+          'ESIM_REPLACEMENT_MISSING_SUBSCRIBER_IDENTITY' ||
+        code ===
+          'ESIM_REPLACEMENT_SUBSCRIBER_NOT_FOUND' ||
+        code ===
+          'ESIM_REPLACEMENT_MISSING_PACKAGE' ||
+        code ===
+          'ESIM_REPLACEMENT_MISSING_ICCID' ||
+        code ===
+          'ESIM_REPLACEMENT_USAGE_UNAVAILABLE'
+      ) {
+        return res
+          .status(409)
+          .json({
+            error:
+              err.message,
+            code,
+          });
+      }
+
+      if (
+        code ===
+        'ESIM_REPLACEMENT_COLLISION_UNRESOLVED'
+      ) {
+        return res
+          .status(409)
+          .json({
+            error:
+              'An eSIM replacement is already being processed',
+            code,
+          });
+      }
+
+      return res
+        .status(500)
+        .json({
+          error:
+            'Failed to replace eSIM',
+          code:
+            code || undefined,
+        });
+    }
+  }
+);
 
 /* -------------------- debug consume (unchanged) ------------------ */
 
@@ -420,18 +936,37 @@ router.post('/checkout', async (req, res) => {
  */
 router.post('/activate', async (req, res) => {
   try {
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const userId = Number(req.user.id);
     const { subscriberId, activationToken } = req.body;
     let subscriber = null;
+
     if (subscriberId) {
-      subscriber = await prisma.subscriber.findUnique({ where: { id: Number(subscriberId) } });
-    } else if (activationToken) {
-      // look up by providerMeta.activationToken
       subscriber = await prisma.subscriber.findFirst({
-        where: { providerMeta: { path: ['activationToken'], equals: activationToken } },
+        where: {
+          id: Number(subscriberId),
+          userId,
+        },
+      });
+    } else if (activationToken) {
+      // Activation tokens are scoped to the authenticated owner too.
+      subscriber = await prisma.subscriber.findFirst({
+        where: {
+          userId,
+          providerMeta: {
+            path: ['activationToken'],
+            equals: activationToken,
+          },
+        },
       });
     }
 
-    if (!subscriber) return res.status(404).json({ error: 'subscriber not found' });
+    if (!subscriber) {
+      return res.status(404).json({ error: 'subscriber not found' });
+    }
 
     // Call provider adapter (normalize response)
     const prov = await createEsimProfileForProvider(subscriber.provider, {
@@ -480,13 +1015,48 @@ router.post('/claim', async (req, res) => {
     const { subscriberId } = req.body;
     if (!subscriberId) return res.status(400).json({ error: 'subscriberId required' });
 
-    const sub = await prisma.subscriber.findUnique({ where: { id: Number(subscriberId) } });
-    if (!sub) return res.status(404).json({ error: 'subscriber not found' });
+    const userId = Number(req.user.id);
 
-    await prisma.subscriber.update({
-      where: { id: sub.id },
-      data: { userId: Number(req.user.id) },
+    const sub = await prisma.subscriber.findUnique({
+      where: { id: Number(subscriberId) },
     });
+
+    if (!sub) {
+      return res.status(404).json({ error: 'subscriber not found' });
+    }
+
+    /*
+     * Wireless-first onboarding may legitimately create an unowned
+     * Subscriber. It may be claimed once, but an authenticated user
+     * must never be able to take a Subscriber already owned by
+     * somebody else.
+     */
+    if (sub.userId != null && Number(sub.userId) !== userId) {
+      return res.status(404).json({ error: 'subscriber not found' });
+    }
+
+    if (sub.userId == null) {
+      await prisma.subscriber.updateMany({
+        where: {
+          id: sub.id,
+          userId: null,
+        },
+        data: { userId },
+      });
+
+      const claimed = await prisma.subscriber.findFirst({
+        where: {
+          id: sub.id,
+          userId,
+        },
+      });
+
+      if (!claimed) {
+        return res.status(409).json({
+          error: 'subscriber already claimed',
+        });
+      }
+    }
 
     // optionally mirror iccid to User.iccid for convenience
     if (sub.iccid) {

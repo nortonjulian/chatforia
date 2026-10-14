@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import QRCode from 'qrcode';
 import { useTranslation, Trans } from 'react-i18next';
-import { getMyEsim } from '@/api/esim';
+import { activateEsim, getMyEsim } from '@/api/esim';
 import posthog from '@/utils/analytics';
 
 export default function EsimActivatePage() {
@@ -11,6 +11,7 @@ export default function EsimActivatePage() {
   const [provision, setProvision] = useState(null);
   const [qrDataUrl, setQrDataUrl] = useState(null);
   const [error, setError] = useState(null);
+  const [checkingActivation, setCheckingActivation] = useState(false);
 
   useEffect(() => {
     posthog.capture('esim_activation_page_viewed');
@@ -112,6 +113,64 @@ export default function EsimActivatePage() {
     [t],
   );
 
+  const checkActivationStatus = async (subscriber = provision) => {
+    if (!subscriber || checkingActivation) return;
+
+    try {
+      setCheckingActivation(true);
+      setError(null);
+
+      const result = await activateEsim({
+        iccid: subscriber.iccid,
+        activationCode: subscriber.activationCode,
+        providerProfileId: subscriber.providerProfileId,
+      });
+
+      setProvision((current) =>
+        current
+          ? {
+              ...current,
+              status: result?.status || current.status,
+              activatedAt:
+                result?.activatedAt ?? current.activatedAt ?? null,
+              msisdn:
+                result?.msisdn ?? current.msisdn ?? null,
+            }
+          : current,
+      );
+
+      posthog.capture('esim_activation_status_checked', {
+        active: result?.ok === true,
+        status: result?.status || null,
+      });
+    } catch (e) {
+      console.error('Failed to check eSIM activation status', e);
+
+      setError(
+        t(
+          'esim.activationCheckFailed',
+          'Unable to check activation status. Please try again.',
+        ),
+      );
+    } finally {
+      setCheckingActivation(false);
+    }
+  };
+
+  useEffect(() => {
+    if (provision?.status !== 'PROVISIONING') return;
+
+    /*
+     * Check once when a provisioned eSIM is loaded. Telna is the
+     * authority for whether the installed profile has reached ENABLED.
+     */
+    void checkActivationStatus(provision);
+
+    // Intentionally check once for this loaded Subscriber rather than
+    // polling Telna continuously.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [provision?.id]);
+
   const statusLabel = provision?.status
     ? t(`esim.status.${String(provision.status).toLowerCase()}`, provision.status)
     : null;
@@ -150,6 +209,34 @@ export default function EsimActivatePage() {
           {statusLabel && (
             <div className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium">
               {t('esim.statusLabel', 'Status')}: {statusLabel}
+            </div>
+          )}
+
+          {provision?.status === 'PROVISIONING' && (
+            <div className="space-y-2">
+              <button
+                type="button"
+                onClick={() => void checkActivationStatus()}
+                disabled={checkingActivation}
+                className="rounded border px-3 py-2 text-sm font-medium disabled:opacity-60"
+              >
+                {checkingActivation
+                  ? t(
+                      'esim.checkingActivationStatus',
+                      'Checking activation status…',
+                    )
+                  : t(
+                      'esim.checkActivationStatus',
+                      'Check activation status',
+                    )}
+              </button>
+
+              <p className="text-xs text-gray-500">
+                {t(
+                  'esim.activationPendingHelp',
+                  'After installing and enabling the eSIM on your device, check again to confirm activation.',
+                )}
+              </p>
             </div>
           )}
 

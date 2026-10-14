@@ -114,6 +114,7 @@ import aiRoutes from './routes/ai.js'
 import aiPowerRoutes from './routes/ai.power.js';
 
 import adminSupportRouter from './routes/adminSupport.js';
+import adminEsimReplacementsRouter from './routes/adminEsimReplacements.js';
 
 // 🔒 auth gates
 import { requireAuth, verifyTokenOptional } from './middleware/auth.js';
@@ -432,6 +433,10 @@ export function createApp() {
   app.use("/translate", translateRoutes);
 
   app.use('/admin/support', adminSupportRouter);
+  app.use(
+    '/admin/esim-replacements',
+    adminEsimReplacementsRouter
+  );
 
 
   app.get('/auth/csrf', (req, res) => {

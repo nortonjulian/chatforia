@@ -6,6 +6,7 @@ const mockActivateProfile = jest.fn();
 const mockSuspendLine = jest.fn();
 const mockResumeLine = jest.fn();
 const mockProvisionEsimPack = jest.fn();
+const mockSetEsimPackageStatus = jest.fn();
 const mockFetchEsimUsage = jest.fn();
 
 async function loadSubject({ enabled = true } = {}) {
@@ -18,6 +19,7 @@ async function loadSubject({ enabled = true } = {}) {
     suspendLine: mockSuspendLine,
     resumeLine: mockResumeLine,
     provisionEsimPack: mockProvisionEsimPack,
+    setEsimPackageStatus: mockSetEsimPackageStatus,
     fetchEsimUsage: mockFetchEsimUsage,
   }));
 
@@ -83,6 +85,11 @@ describe('esimProvider', () => {
           addonKind: 'DATA',
           planCode: 'US-5GB',
         },
+      ],
+      [
+        'setEsimPackageStatus',
+        'setEsimPackageStatus',
+        'package-123',
       ],
       [
         'fetchEsimUsage',
@@ -347,6 +354,78 @@ describe('esimProvider', () => {
 
       expect(
         mockProvisionEsimPack
+      ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('setEsimPackageStatus', () => {
+    it('normalizes and delegates package status to Telna', async () => {
+      const {
+        setEsimPackageStatus,
+      } = await loadSubject({
+        enabled: true,
+      });
+
+      mockSetEsimPackageStatus.mockResolvedValue({
+        providerPurchaseId: '456789',
+        status: 'TERMINATED',
+      });
+
+      const result =
+        await setEsimPackageStatus(
+          456789,
+          'terminated'
+        );
+
+      expect(
+        mockSetEsimPackageStatus
+      ).toHaveBeenCalledWith(
+        '456789',
+        'TERMINATED'
+      );
+
+      expect(result).toEqual({
+        providerPurchaseId: '456789',
+        status: 'TERMINATED',
+      });
+    });
+
+    it('rejects a missing package ID before calling the provider', async () => {
+      const {
+        setEsimPackageStatus,
+      } = await loadSubject({
+        enabled: true,
+      });
+
+      await expect(
+        setEsimPackageStatus('', 'TERMINATED')
+      ).rejects.toMatchObject({
+        code: 'ESIM_INVALID_PACKAGE_IDENTIFIER',
+      });
+
+      expect(
+        mockSetEsimPackageStatus
+      ).not.toHaveBeenCalled();
+    });
+
+    it('rejects an invalid package status before calling the provider', async () => {
+      const {
+        setEsimPackageStatus,
+      } = await loadSubject({
+        enabled: true,
+      });
+
+      await expect(
+        setEsimPackageStatus(
+          '456789',
+          'DELETED'
+        )
+      ).rejects.toMatchObject({
+        code: 'ESIM_INVALID_PACKAGE_STATUS',
+      });
+
+      expect(
+        mockSetEsimPackageStatus
       ).not.toHaveBeenCalled();
     });
   });
