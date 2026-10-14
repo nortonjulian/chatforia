@@ -936,18 +936,37 @@ router.post('/checkout', async (req, res) => {
  */
 router.post('/activate', async (req, res) => {
   try {
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const userId = Number(req.user.id);
     const { subscriberId, activationToken } = req.body;
     let subscriber = null;
+
     if (subscriberId) {
-      subscriber = await prisma.subscriber.findUnique({ where: { id: Number(subscriberId) } });
-    } else if (activationToken) {
-      // look up by providerMeta.activationToken
       subscriber = await prisma.subscriber.findFirst({
-        where: { providerMeta: { path: ['activationToken'], equals: activationToken } },
+        where: {
+          id: Number(subscriberId),
+          userId,
+        },
+      });
+    } else if (activationToken) {
+      // Activation tokens are scoped to the authenticated owner too.
+      subscriber = await prisma.subscriber.findFirst({
+        where: {
+          userId,
+          providerMeta: {
+            path: ['activationToken'],
+            equals: activationToken,
+          },
+        },
       });
     }
 
-    if (!subscriber) return res.status(404).json({ error: 'subscriber not found' });
+    if (!subscriber) {
+      return res.status(404).json({ error: 'subscriber not found' });
+    }
 
     // Call provider adapter (normalize response)
     const prov = await createEsimProfileForProvider(subscriber.provider, {
@@ -996,13 +1015,48 @@ router.post('/claim', async (req, res) => {
     const { subscriberId } = req.body;
     if (!subscriberId) return res.status(400).json({ error: 'subscriberId required' });
 
-    const sub = await prisma.subscriber.findUnique({ where: { id: Number(subscriberId) } });
-    if (!sub) return res.status(404).json({ error: 'subscriber not found' });
+    const userId = Number(req.user.id);
 
-    await prisma.subscriber.update({
-      where: { id: sub.id },
-      data: { userId: Number(req.user.id) },
+    const sub = await prisma.subscriber.findUnique({
+      where: { id: Number(subscriberId) },
     });
+
+    if (!sub) {
+      return res.status(404).json({ error: 'subscriber not found' });
+    }
+
+    /*
+     * Wireless-first onboarding may legitimately create an unowned
+     * Subscriber. It may be claimed once, but an authenticated user
+     * must never be able to take a Subscriber already owned by
+     * somebody else.
+     */
+    if (sub.userId != null && Number(sub.userId) !== userId) {
+      return res.status(404).json({ error: 'subscriber not found' });
+    }
+
+    if (sub.userId == null) {
+      await prisma.subscriber.updateMany({
+        where: {
+          id: sub.id,
+          userId: null,
+        },
+        data: { userId },
+      });
+
+      const claimed = await prisma.subscriber.findFirst({
+        where: {
+          id: sub.id,
+          userId,
+        },
+      });
+
+      if (!claimed) {
+        return res.status(409).json({
+          error: 'subscriber already claimed',
+        });
+      }
+    }
 
     // optionally mirror iccid to User.iccid for convenience
     if (sub.iccid) {

@@ -973,6 +973,198 @@ describe('wireless routes', () => {
   });
 
 
+  // ---------------- POST /activate ownership ---------------- //
+
+  it('allows the authenticated owner to activate their Subscriber', async () => {
+    const app = makeApp();
+
+    prismaMock.subscriber.findFirst.mockResolvedValueOnce({
+      id: 70,
+      userId: 123,
+      purchaseId: null,
+      provider: 'telna',
+      providerMeta: {},
+    });
+
+    createEsimProfileForProviderMock.mockResolvedValueOnce({
+      success: true,
+      profileId: 'profile-70',
+      iccid: '8910300000000000070',
+      externalId: 'external-70',
+      qrSvg: null,
+    });
+
+    prismaMock.subscriber.update.mockResolvedValueOnce({});
+
+    const res = await request(app)
+      .post('/api/wireless/activate')
+      .send({ subscriberId: 70 });
+
+    expect(res.status).toBe(200);
+
+    expect(prismaMock.subscriber.findFirst).toHaveBeenCalledWith({
+      where: {
+        id: 70,
+        userId: 123,
+      },
+    });
+
+    expect(createEsimProfileForProviderMock).toHaveBeenCalledWith(
+      'telna',
+      {
+        subscriberId: 70,
+        purchaseId: null,
+      },
+    );
+
+    expect(prismaMock.subscriber.update).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not activate another users Subscriber by ID', async () => {
+    const app = makeApp();
+
+    /*
+     * Ownership-constrained lookup returns nothing even if that numeric
+     * Subscriber ID exists for somebody else.
+     */
+    prismaMock.subscriber.findFirst.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .post('/api/wireless/activate')
+      .send({ subscriberId: 999 });
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({
+      error: 'subscriber not found',
+    });
+
+    expect(prismaMock.subscriber.findFirst).toHaveBeenCalledWith({
+      where: {
+        id: 999,
+        userId: 123,
+      },
+    });
+
+    expect(createEsimProfileForProviderMock).not.toHaveBeenCalled();
+    expect(prismaMock.subscriber.update).not.toHaveBeenCalled();
+  });
+
+  it('scopes activationToken lookup to the authenticated user', async () => {
+    const app = makeApp();
+
+    prismaMock.subscriber.findFirst.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .post('/api/wireless/activate')
+      .send({
+        activationToken: 'token-owned-by-someone-else',
+      });
+
+    expect(res.status).toBe(404);
+
+    expect(prismaMock.subscriber.findFirst).toHaveBeenCalledWith({
+      where: {
+        userId: 123,
+        providerMeta: {
+          path: ['activationToken'],
+          equals: 'token-owned-by-someone-else',
+        },
+      },
+    });
+
+    expect(createEsimProfileForProviderMock).not.toHaveBeenCalled();
+    expect(prismaMock.subscriber.update).not.toHaveBeenCalled();
+  });
+
+  // ---------------- POST /claim ownership ---------------- //
+
+  it('allows an unowned Subscriber to be claimed', async () => {
+    const app = makeApp();
+
+    prismaMock.subscriber.findUnique.mockResolvedValueOnce({
+      id: 80,
+      userId: null,
+      iccid: null,
+    });
+
+    prismaMock.subscriber.updateMany.mockResolvedValueOnce({
+      count: 1,
+    });
+
+    prismaMock.subscriber.findFirst.mockResolvedValueOnce({
+      id: 80,
+      userId: 123,
+      iccid: null,
+    });
+
+    const res = await request(app)
+      .post('/api/wireless/claim')
+      .send({ subscriberId: 80 });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ ok: true });
+
+    expect(prismaMock.subscriber.updateMany).toHaveBeenCalledWith({
+      where: {
+        id: 80,
+        userId: null,
+      },
+      data: {
+        userId: 123,
+      },
+    });
+
+    expect(prismaMock.subscriber.findFirst).toHaveBeenCalledWith({
+      where: {
+        id: 80,
+        userId: 123,
+      },
+    });
+  });
+
+  it('does not allow a Subscriber owned by another user to be claimed', async () => {
+    const app = makeApp();
+
+    prismaMock.subscriber.findUnique.mockResolvedValueOnce({
+      id: 81,
+      userId: 456,
+      iccid: '8910300000000000081',
+    });
+
+    const res = await request(app)
+      .post('/api/wireless/claim')
+      .send({ subscriberId: 81 });
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({
+      error: 'subscriber not found',
+    });
+
+    expect(prismaMock.subscriber.updateMany).not.toHaveBeenCalled();
+    expect(prismaMock.subscriber.update).not.toHaveBeenCalled();
+    expect(prismaMock.user.update).not.toHaveBeenCalled();
+  });
+
+  it('allows claiming a Subscriber already owned by the same user without rewriting ownership', async () => {
+    const app = makeApp();
+
+    prismaMock.subscriber.findUnique.mockResolvedValueOnce({
+      id: 82,
+      userId: 123,
+      iccid: null,
+    });
+
+    const res = await request(app)
+      .post('/api/wireless/claim')
+      .send({ subscriberId: 82 });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ ok: true });
+
+    expect(prismaMock.subscriber.updateMany).not.toHaveBeenCalled();
+    expect(prismaMock.subscriber.update).not.toHaveBeenCalled();
+  });
+
   // ---------------- POST /esim/:purchaseId/replace ---------------- //
 
   it('returns 401 for an unauthenticated eSIM replacement request', async () => {
