@@ -51,13 +51,39 @@ describe('EsimActivatePage', () => {
         lpaUri: 'LPA:1$sm-dp.example.com$ABC123',
         qrPayload: 'LPA:1$sm-dp.example.com$ABC123',
         iccidHint: '8901*********',
+        iccid: '8910300000059080801',
+        msisdn: '+15551234567',
       },
     });
 
     render(<EsimActivatePage />);
 
     expect(
-      await screen.findByText(/Status.*ACTIVE/i)
+      await screen.findByRole('heading', {
+        name: /Your eSIM is active/i,
+      })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('heading', {
+        name: /Mobile service is active/i,
+      })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText('+15551234567')
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText('•••• •••• •••• 0801')
+    ).toBeInTheDocument();
+
+    expect(
+      screen.queryByText('8910300000059080801')
+    ).not.toBeInTheDocument();
+
+    expect(
+      screen.getByText(/Status.*ACTIVE/i)
     ).toBeInTheDocument();
 
     expect(
@@ -133,7 +159,13 @@ describe('EsimActivatePage', () => {
     });
 
     expect(
-      await screen.findByText(/ACTIVE/i)
+      await screen.findByRole('heading', {
+        name: /Your eSIM is active/i,
+      })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/Status.*ACTIVE/i)
     ).toBeInTheDocument();
   });
 
