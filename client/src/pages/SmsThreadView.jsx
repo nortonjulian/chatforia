@@ -281,18 +281,33 @@ export default function SmsThreadView({ currentUserId, currentUser }) {
 
                   <span>Smart Replies</span>
 
-                  {!aiComposerEnabled && (
-                    <span
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 600,
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      Upgrade
-                    </span>
-                  )}
                 </label>
+
+                {!aiComposerEnabled && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      navigate('/upgrade');
+                    }}
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 600,
+                      whiteSpace: 'nowrap',
+                      lineHeight: 1,
+                      padding: '3px 6px',
+                      border: '1px solid currentColor',
+                      borderRadius: 999,
+                      background: 'transparent',
+                      color: 'inherit',
+                      cursor: 'pointer',
+                    }}
+                    aria-label="Upgrade to use Smart Replies"
+                  >
+                    Upgrade
+                  </button>
+                )}
 
                 {aiComposerEnabled && (
                   <SmartReplyBar
