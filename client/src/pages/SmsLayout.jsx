@@ -562,7 +562,7 @@ const showCallBanner = Boolean(
                     title={
                       aiComposerEnabled
                         ? 'Enable Smart Replies'
-                        : 'Smart Replies are available with Chatforia Plus or Premium.'
+                        : 'Available with Plus or Premium.'
                     }
                   >
                     <input
@@ -579,7 +579,7 @@ const showCallBanner = Boolean(
                       aria-label={
                         aiComposerEnabled
                           ? 'Enable Smart Replies'
-                          : 'Smart Replies — Plus or Premium required'
+                          : 'Smart Replies — Upgrade'
                       }
                     />
 
@@ -593,7 +593,7 @@ const showCallBanner = Boolean(
                           whiteSpace: 'nowrap',
                         }}
                       >
-                        Plus required
+                        Upgrade
                       </span>
                     )}
                   </label>

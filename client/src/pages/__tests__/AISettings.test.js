@@ -236,7 +236,7 @@ describe('AISettings', () => {
     );
 
     const smartReplies = screen.getByRole('checkbox', {
-      name: /Enable Smart Replies — Plus required/i,
+      name: /Enable Smart Replies — Upgrade/i,
     });
 
     expect(smartReplies).toBeDisabled();

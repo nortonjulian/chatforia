@@ -127,7 +127,7 @@ export default function AISettings() {
           label={
             aiComposerEnabled
               ? t('aiSettings.enableSmartReplies', 'Enable Smart Replies')
-              : t('aiSettings.enableSmartRepliesLocked', 'Enable Smart Replies — Plus required')
+              : t('aiSettings.enableSmartRepliesLocked', 'Enable Smart Replies — Upgrade')
           }
           description={
             aiComposerEnabled
@@ -137,7 +137,7 @@ export default function AISettings() {
                 )
               : t(
                   'aiSettings.smartRepliesUpgradeHint',
-                  'Smart Replies are available with Chatforia Plus or Premium.'
+                  'Available with Plus or Premium.'
                 )
           }
         />
