@@ -150,6 +150,7 @@ export default function MessageBubble({
   '[image]',
   '[video]',
   '[audio]',
+  '[voice note]',
   '[file]',
   '[attachment]',
   '[gif]',
