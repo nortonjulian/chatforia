@@ -605,25 +605,42 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       msg?.content,
     ];
 
-  const hasAttachments =
-    Array.isArray(msg?.attachments) &&
-    msg.attachments.length > 0;
+    const attachments = Array.isArray(msg?.attachments)
+      ? msg.attachments
+      : Array.isArray(msg?.attachmentsInline)
+        ? msg.attachmentsInline
+        : [];
 
-  const firstNonPlaceholder = candidates.find((value) => {
-    const normalized = String(value || '').trim().toLowerCase();
-    return normalized && !PLACEHOLDER_TEXTS.has(normalized);
-  });
+    const hasAttachments = attachments.length > 0;
 
-  if (firstNonPlaceholder) return firstNonPlaceholder;
+    const hasAudioAttachment = attachments.some(
+      (attachment) =>
+        String(attachment?.kind || '').toUpperCase() === 'AUDIO'
+    );
 
-  const rawContentNormalized = String(msg?.rawContent || '').trim().toLowerCase();
-  if (rawContentNormalized === '[gif]') return '[gif]';
+    const firstNonPlaceholder = candidates.find((value) => {
+      const normalized = String(value || '').trim().toLowerCase();
+      return normalized && !PLACEHOLDER_TEXTS.has(normalized);
+    });
 
-  if (hasAttachments) {
-    return t('chat.mediaAttachment', 'Media attachment');
+    if (firstNonPlaceholder) return firstNonPlaceholder;
+
+    const rawContentNormalized = String(
+      msg?.rawContent || ''
+    ).trim().toLowerCase();
+
+    if (rawContentNormalized === '[gif]') return '[gif]';
+
+    if (hasAudioAttachment) {
+      return '';
+    }
+
+    if (hasAttachments) {
+      return t('chat.mediaAttachment', 'Media attachment');
+    }
+
+    return '';
   }
-  return '';
-}
 
   const startChatCall = useCallback(async () => {
     if (directCallUnavailable) return;
