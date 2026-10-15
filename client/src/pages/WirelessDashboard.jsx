@@ -71,6 +71,10 @@ export default function WirelessDashboard() {
 
   const isNone = !status || status.mode === 'NONE';
   const isFamily = status?.mode === 'FAMILY';
+  const isEsimActive = subscriber?.status === 'ACTIVE';
+  const maskedIccid = subscriber?.iccid
+    ? `•••• •••• •••• ${String(subscriber.iccid).slice(-4)}`
+    : null;
 
   const statusBadgeColor = !subscriber?.status
     ? 'gray'
@@ -95,18 +99,25 @@ export default function WirelessDashboard() {
         <Group justify="space-between" align="flex-start">
           <Stack gap={2}>
             <Title order={3}>
-              {t('wireless.esim.title', 'Set up your eSIM')}
+              {isEsimActive
+                ? t('wireless.esim.activeTitle', 'Your eSIM is active')
+                : t('wireless.esim.title', 'Set up your eSIM')}
             </Title>
             <Text size="sm" c="dimmed">
-              {hasEsim
+              {isEsimActive
                 ? t(
-                    'wireless.esim.readyBody',
-                    'Your Chatforia eSIM is ready. Open it to install, re-scan your QR code, or review your activation details.'
+                    'wireless.esim.activeBody',
+                    'Your Chatforia eSIM is installed and your mobile service is active.'
                   )
-                : t(
-                    'wireless.esim.body',
-                    'Install your Chatforia eSIM to enable mobile connectivity on your device.'
-                  )}
+                : hasEsim
+                  ? t(
+                      'wireless.esim.readyBody',
+                      'Your Chatforia eSIM is ready to install. Open setup to continue activation.'
+                    )
+                  : t(
+                      'wireless.esim.body',
+                      'Install your Chatforia eSIM to enable mobile connectivity on your device.'
+                    )}
             </Text>
           </Stack>
 
@@ -123,17 +134,19 @@ export default function WirelessDashboard() {
           </Text>
         )}
 
-        {subscriber?.iccid && (
+        {maskedIccid && (
           <Text size="xs" c="dimmed">
-            ICCID: {subscriber.iccid}
+            ICCID: {maskedIccid}
           </Text>
         )}
 
         <Group mt="xs">
           <Button size="sm" onClick={goToEsim}>
-            {hasEsim
-              ? t('wireless.esim.openCta', 'Open eSIM setup')
-              : t('wireless.esim.setupCta', 'Set up eSIM')}
+            {isEsimActive
+              ? t('wireless.esim.manageCta', 'Manage eSIM')
+              : hasEsim
+                ? t('wireless.esim.openCta', 'Open eSIM setup')
+                : t('wireless.esim.setupCta', 'Set up eSIM')}
           </Button>
         </Group>
       </Stack>

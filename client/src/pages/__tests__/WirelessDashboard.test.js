@@ -135,6 +135,113 @@ describe('WirelessDashboard', () => {
     expect(fetchWirelessStatus).toHaveBeenCalled();
   });
 
+  test('shows ACTIVE eSIM management state and masks the ICCID', async () => {
+    useUser.mockReturnValue({
+      currentUser: {
+        id: 1,
+        username: 'julian',
+        subscriber: {
+          status: 'ACTIVE',
+          iccid: '8910300000059080801',
+        },
+      },
+    });
+
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'ACTIVE',
+      source: {
+        totalDataMb: 3072,
+        remainingDataMb: 2867,
+      },
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(
+      await screen.findByText(/Your eSIM is active/i)
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        /Your Chatforia eSIM is installed and your mobile service is active/i
+      )
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/ICCID:.*0801/i)
+    ).toBeInTheDocument();
+
+    expect(
+      screen.queryByText(/8910300000059080801/)
+    ).not.toBeInTheDocument();
+
+    expect(
+      screen.queryByText(/re-scan your QR code/i)
+    ).not.toBeInTheDocument();
+
+    const manageButton = screen.getByRole('button', {
+      name: /Manage eSIM/i,
+    });
+
+    await userEvent.click(manageButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('/account/esim');
+  });
+
+  test('keeps eSIM setup available while the subscriber is PROVISIONING', async () => {
+    useUser.mockReturnValue({
+      currentUser: {
+        id: 1,
+        username: 'julian',
+        subscriber: {
+          status: 'PROVISIONING',
+          iccid: '8910300000059080801',
+          activationCode: 'ABC123',
+        },
+      },
+    });
+
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'ACTIVE',
+      source: {
+        totalDataMb: 3072,
+        remainingDataMb: 3072,
+      },
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(
+      await screen.findByRole('heading', {
+        name: /Set up your eSIM/i,
+      })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        /Your Chatforia eSIM is ready to install. Open setup to continue activation/i
+      )
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/ICCID:.*0801/i)
+    ).toBeInTheDocument();
+
+    expect(
+      screen.queryByText(/8910300000059080801/)
+    ).not.toBeInTheDocument();
+
+    const setupButton = screen.getByRole('button', {
+      name: /Open eSIM setup/i,
+    });
+
+    await userEvent.click(setupButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('/account/esim');
+  });
+
   test('shows error message when wireless status fetch fails', async () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
