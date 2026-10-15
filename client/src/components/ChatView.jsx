@@ -585,6 +585,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   '[image]',
   '[video]',
   '[audio]',
+  '[voice note]',
   '[file]',
   '[attachment]',
   '[gif]',
