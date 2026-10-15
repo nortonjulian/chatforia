@@ -39,6 +39,8 @@ import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
 
 import SmartReplyBar from '@/components/SmartReplyBar.jsx';
 import { useSmartReplies } from '@/hooks/useSmartReplies.js';
+import useEntitlements from '@/hooks/useEntitlements';
+import { canUseAiComposer } from '@/utils/planAccess';
 import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 import { API_BASE_URL } from '@/config';
 
@@ -59,6 +61,15 @@ function isSmsOutgoing(m) {
 }
 
 export default function SmsLayout({ currentUserId, currentUser }) {
+  const { entitlements: planEntitlements } = useEntitlements();
+  const backendAiRewriteLevel =
+    planEntitlements?.entitlements?.aiRewriteLevel;
+
+  const aiComposerEnabled = canUseAiComposer(
+    backendAiRewriteLevel,
+    currentUser
+  );
+
   const { threadId } = useParams();
   const navigate = useNavigate();
 
@@ -208,7 +219,7 @@ const showCallBanner = Boolean(
   const { suggestions, clear } = useSmartReplies({
     messages: normalizedMessages,
     currentUserId,
-    enabled: smartEnabled,
+    enabled: smartEnabled && aiComposerEnabled,
     locale: navigator.language || 'en-US',
   });
 
@@ -545,26 +556,55 @@ const showCallBanner = Boolean(
                       alignItems: 'center',
                       gap: 6,
                       userSelect: 'none',
+                      opacity: aiComposerEnabled ? 1 : 0.65,
+                      cursor: aiComposerEnabled ? 'pointer' : 'not-allowed',
                     }}
+                    title={
+                      aiComposerEnabled
+                        ? 'Enable Smart Replies'
+                        : 'Smart Replies are available with Chatforia Plus or Premium.'
+                    }
                   >
                     <input
                       type="checkbox"
-                      checked={smartEnabled}
+                      checked={aiComposerEnabled && smartEnabled}
+                      disabled={!aiComposerEnabled}
                       onChange={(e) => {
+                        if (!aiComposerEnabled) return;
+
                         const v = e.target.checked;
                         setSmartEnabled(v);
                         setPref(PREF_SMART_REPLIES, v);
                       }}
-                      aria-label="Enable Smart Replies"
+                      aria-label={
+                        aiComposerEnabled
+                          ? 'Enable Smart Replies'
+                          : 'Smart Replies — Plus or Premium required'
+                      }
                     />
-                    Smart Replies
+
+                    <span>Smart Replies</span>
+
+                    {!aiComposerEnabled && (
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 600,
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        Plus required
+                      </span>
+                    )}
                   </label>
 
-                  <SmartReplyBar
-                    suggestions={suggestions}
-                    onPick={(t) => sendSms(t)}
-                    compact
-                  />
+                  {aiComposerEnabled && (
+                    <SmartReplyBar
+                      suggestions={suggestions}
+                      onPick={(t) => sendSms(t)}
+                      compact
+                    />
+                  )}
                 </Group>
               }
               onSend={async (payload) => {

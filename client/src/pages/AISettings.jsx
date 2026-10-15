@@ -7,6 +7,8 @@ import { DateTimePicker } from '@mantine/dates';
 import { useUser } from '@/context/UserContext';
 import axiosClient from '@/api/axiosClient';
 import PremiumGuard from '@/components/PremiumGuard';
+import useEntitlements from '@/hooks/useEntitlements';
+import { canUseAiComposer } from '@/utils/planAccess';
 import { setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 import { useTranslation } from 'react-i18next';
 
@@ -15,6 +17,15 @@ export default function AISettings() {
   const { currentUser, setCurrentUser } = useUser();
   const [status, setStatus] = useState({ kind: '', msg: '' });
   const u = currentUser || {};
+
+  const { entitlements: planEntitlements } = useEntitlements();
+  const backendAiRewriteLevel =
+    planEntitlements?.entitlements?.aiRewriteLevel;
+
+  const aiComposerEnabled = canUseAiComposer(
+    backendAiRewriteLevel,
+    currentUser
+  );
 
   // local state mirrors user preferences
   const [enableSmartReplies, setEnableSmartReplies] = useState(!!u.enableSmartReplies);
@@ -107,10 +118,28 @@ export default function AISettings() {
         {/* Smart Replies */}
         <Divider label={t('aiSettings.smartReplies', 'Smart Replies')} labelPosition="center" />
         <Switch
-          checked={enableSmartReplies}
-          onChange={(e) => setEnableSmartReplies(e.currentTarget.checked)}
-          label={t('aiSettings.enableSmartReplies', 'Enable Smart Replies')}
-          description={t('aiSettings.smartRepliesHint', 'Send the last few received messages (sanitized) to AI to suggest quick replies.')}
+          checked={aiComposerEnabled && enableSmartReplies}
+          disabled={!aiComposerEnabled}
+          onChange={(e) => {
+            if (!aiComposerEnabled) return;
+            setEnableSmartReplies(e.currentTarget.checked);
+          }}
+          label={
+            aiComposerEnabled
+              ? t('aiSettings.enableSmartReplies', 'Enable Smart Replies')
+              : t('aiSettings.enableSmartRepliesLocked', 'Enable Smart Replies — Plus required')
+          }
+          description={
+            aiComposerEnabled
+              ? t(
+                  'aiSettings.smartRepliesHint',
+                  'Send the last few received messages (sanitized) to AI to suggest quick replies.'
+                )
+              : t(
+                  'aiSettings.smartRepliesUpgradeHint',
+                  'Smart Replies are available with Chatforia Plus or Premium.'
+                )
+          }
         />
         <Switch
           checked={aiFilterProfanity}
