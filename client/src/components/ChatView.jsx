@@ -71,6 +71,7 @@ import { playSound } from '@/lib/sounds.js';
 import useIsPremium from '@/hooks/useIsPremium';
 import useIsPaidPlan from '@/hooks/useIsPaidPlan';
 import useEntitlements from '@/hooks/useEntitlements';
+import { resolveAiRewriteLevel, canUseAiComposer } from '@/utils/planAccess';
 
 import { useTranslation } from 'react-i18next';
 import { notifications } from '@mantine/notifications';
@@ -225,9 +226,19 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isPaidPlan = useIsPaidPlan();
 
   const { entitlements: planEntitlements } = useEntitlements();
-  const aiRewriteLevel =
-    planEntitlements?.entitlements?.aiRewriteLevel ??
-    (isPremium ? 'FULL' : 'NONE');
+  const backendAiRewriteLevel =
+    planEntitlements?.entitlements?.aiRewriteLevel;
+
+  const aiRewriteLevel = resolveAiRewriteLevel(
+    backendAiRewriteLevel,
+    currentUser
+  );
+
+  const aiComposerEnabled = canUseAiComposer(
+    backendAiRewriteLevel,
+    currentUser
+  );
+
   const hasFullAi = aiRewriteLevel === 'FULL';
 
   const navigate = useNavigate();
@@ -1431,7 +1442,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const { suggestions, clear } = useSmartReplies({
     messages,
     currentUserId,
-    enabled: smartEnabled,
+    enabled: smartEnabled && aiComposerEnabled,
     locale: navigator.language || 'en-US',
   });
 
@@ -2339,22 +2350,60 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               topSlot={
                 <Group gap="sm" align="center" wrap="wrap">
                   <label
-                    style={{ fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}
+                    style={{
+                      fontSize: 12,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      opacity: aiComposerEnabled ? 1 : 0.65,
+                      cursor: aiComposerEnabled ? 'pointer' : 'not-allowed',
+                    }}
+                    title={
+                      aiComposerEnabled
+                        ? 'Enable Smart Replies'
+                        : 'Smart Replies are available with Chatforia Plus or Premium.'
+                    }
                   >
                     <input
                       type="checkbox"
-                      checked={smartEnabled}
+                      checked={aiComposerEnabled && smartEnabled}
+                      disabled={!aiComposerEnabled}
                       onChange={(e) => {
+                        if (!aiComposerEnabled) return;
+
                         const v = e.target.checked;
                         setSmartEnabled(v);
                         setPref(PREF_SMART_REPLIES, v);
                       }}
-                      aria-label="Enable Smart Replies"
+                      aria-label={
+                        aiComposerEnabled
+                          ? 'Enable Smart Replies'
+                          : 'Smart Replies — Plus or Premium required'
+                      }
                     />
-                    Smart Replies
+
+                    <span>Smart Replies</span>
+
+                    {!aiComposerEnabled && (
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 600,
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        Plus required
+                      </span>
+                    )}
                   </label>
 
-                  <SmartReplyBar suggestions={suggestions} onPick={sendSmartReply} compact />
+                  {aiComposerEnabled && (
+                    <SmartReplyBar
+                      suggestions={suggestions}
+                      onPick={sendSmartReply}
+                      compact
+                    />
+                  )}
                 </Group>
               }
               onSend={async (payload) => {

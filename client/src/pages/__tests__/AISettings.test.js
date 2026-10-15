@@ -22,6 +22,22 @@ jest.mock('../../context/UserContext', () => ({
   }),
 }));
 
+// Entitlements — default tests to Plus/STANDARD unless overridden.
+global.__mockAiRewriteLevel = 'STANDARD';
+jest.mock('../../hooks/useEntitlements', () => ({
+  __esModule: true,
+  default: () => ({
+    entitlements: {
+      entitlements: {
+        aiRewriteLevel: global.__mockAiRewriteLevel,
+      },
+    },
+    loading: false,
+    error: null,
+    refresh: jest.fn(),
+  }),
+}));
+
 // prefs store — define fns inside the factory; import named exports in tests
 jest.mock('../../utils/prefsStore', () => ({
   __esModule: true,
@@ -158,8 +174,9 @@ import AISettings from '../AISettings';
 
 /* ---------- Test helpers ---------- */
 
-function renderWithUser(user) {
+function renderWithUser(user, aiRewriteLevel = 'STANDARD') {
   global.__mockCurrentUser = user;
+  global.__mockAiRewriteLevel = aiRewriteLevel;
   global.__setCurrentUserMock.mockReset();
   axiosClient.patch.mockReset();
   setPref.mockReset();
@@ -207,6 +224,23 @@ describe('AISettings', () => {
     expect(screen.getByTestId('dtp-Active until (optional)')).toHaveAttribute('data-disabled', 'true');
     expect(screen.getByLabelText('Signature')).toBeDisabled();
     expect(screen.getByRole('spinbutton', { name: /Cooldown/i })).toBeDisabled();
+  });
+
+  test('locks Smart Replies when AI composer entitlement is NONE', () => {
+    renderWithUser(
+      {
+        id: 10,
+        enableSmartReplies: true,
+      },
+      'NONE'
+    );
+
+    const smartReplies = screen.getByRole('checkbox', {
+      name: /Enable Smart Replies — Plus required/i,
+    });
+
+    expect(smartReplies).toBeDisabled();
+    expect(smartReplies).not.toBeChecked();
   });
 
   test('enabling auto-responder unlocks its controls', () => {
