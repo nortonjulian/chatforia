@@ -42,7 +42,7 @@ describe('EsimActivatePage', () => {
     ).toBeInTheDocument();
   });
 
-  it('loads an existing eSIM and shows QR plus activation details', async () => {
+  it('hides provisioning credentials once the eSIM is ACTIVE', async () => {
     getMyEsim.mockResolvedValueOnce({
       subscriber: {
         status: 'ACTIVE',
@@ -54,34 +54,30 @@ describe('EsimActivatePage', () => {
       },
     });
 
-    QRCode.toDataURL.mockResolvedValueOnce(
-      'data:image/png;base64,QRMOCK'
-    );
-
     render(<EsimActivatePage />);
 
     expect(
-      await screen.findByText('sm-dp.example.com')
+      await screen.findByText(/Status.*ACTIVE/i)
     ).toBeInTheDocument();
 
-    expect(screen.getByText('ABC123')).toBeInTheDocument();
+    expect(
+      screen.queryByText('sm-dp.example.com')
+    ).not.toBeInTheDocument();
 
-    const img = await screen.findByRole('img', {
-      name: /eSIM QR/i,
-    });
+    expect(
+      screen.queryByText('ABC123')
+    ).not.toBeInTheDocument();
 
-    expect(img).toHaveAttribute(
-      'src',
-      expect.stringContaining('data:image/png;base64,QRMOCK')
-    );
+    expect(
+      screen.queryByText('LPA:1$sm-dp.example.com$ABC123')
+    ).not.toBeInTheDocument();
+
+    expect(
+      screen.queryByRole('img', { name: /eSIM QR/i })
+    ).not.toBeInTheDocument();
 
     expect(getMyEsim).toHaveBeenCalledTimes(1);
-    expect(QRCode.toDataURL).toHaveBeenCalledWith(
-      'LPA:1$sm-dp.example.com$ABC123',
-      expect.objectContaining({
-        errorCorrectionLevel: 'M',
-      })
-    );
+    expect(QRCode.toDataURL).not.toHaveBeenCalled();
   });
 
   it('builds the QR payload from SM-DP+ and activation code', async () => {

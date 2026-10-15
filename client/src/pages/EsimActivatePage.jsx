@@ -51,6 +51,8 @@ export default function EsimActivatePage() {
       (provision?.smdp && provision?.activationCode)
   );
 
+  const isActive = provision?.status === 'ACTIVE';
+
   const qrPayload =
     provision?.qrPayload ||
     provision?.lpaUri ||
@@ -62,7 +64,7 @@ export default function EsimActivatePage() {
     let cancelled = false;
 
     (async () => {
-      if (!qrPayload) {
+      if (isActive || !qrPayload) {
         setQrDataUrl(null);
         return;
       }
@@ -86,7 +88,7 @@ export default function EsimActivatePage() {
     return () => {
       cancelled = true;
     };
-  }, [qrPayload]);
+  }, [isActive, qrPayload]);
 
   const instructions = useMemo(
     () => (
@@ -204,7 +206,7 @@ export default function EsimActivatePage() {
 
       {provision && (
         <div className="space-y-4">
-          {instructions}
+          {!isActive && instructions}
 
           {statusLabel && (
             <div className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium">
@@ -240,7 +242,9 @@ export default function EsimActivatePage() {
             </div>
           )}
 
-          {qrDataUrl ? (
+          {!isActive && (
+            <>
+              {qrDataUrl ? (
             <div className="flex flex-col items-center gap-2">
               <img
                 src={qrDataUrl}
@@ -304,12 +308,14 @@ export default function EsimActivatePage() {
             )}
           </div>
 
-          <p className="text-xs text-gray-500">
-            {t(
-              'esim.secrecyNote',
-              'Keep this info secret. Treat it like a password until activation completes.',
-            )}
-          </p>
+              <p className="text-xs text-gray-500">
+                {t(
+                  'esim.secrecyNote',
+                  'Keep this info secret. Treat it like a password until activation completes.',
+                )}
+              </p>
+            </>
+          )}
         </div>
       )}
     </div>
