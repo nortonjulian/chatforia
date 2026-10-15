@@ -625,13 +625,17 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     if (firstNonPlaceholder) return firstNonPlaceholder;
 
+    const hasVoiceNotePlaceholder = candidates.some(
+      (value) => String(value || '').trim().toLowerCase() === '[voice note]'
+    );
+
+    if (hasVoiceNotePlaceholder) {
+      return 'Voice note';
+    }
+
     const rawContentNormalized = String(msg?.rawContent || '').trim().toLowerCase();
 
     if (rawContentNormalized === '[gif]') return '[gif]';
-
-    if (hasAudioAttachment) {
-      return 'Voice note';
-    }
 
     if (hasAttachments) {
       return t('chat.mediaAttachment', 'Media attachment');
