@@ -227,56 +227,30 @@ export default function EsimActivatePage() {
                 </p>
               </div>
 
-              <div className="grid gap-3 text-sm">
-                <div
-                  className="items-center"
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'minmax(0, 1fr) auto',
-                    columnGap: '1rem',
-                  }}
-                >
-                  <span className="text-gray-500">
-                    {t('esim.service', 'Service')}
-                  </span>
-
+              <div className="text-sm">
+                <div>
                   <span className="font-medium">
+                    {t('esim.service', 'Service')}:
+                  </span>{' '}
+                  <span>
                     {t('esim.serviceActive', 'Active')}
                   </span>
                 </div>
 
                 {provision.msisdn && (
-                  <div
-                    className="items-center"
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'minmax(0, 1fr) auto',
-                      columnGap: '1rem',
-                    }}
-                  >
-                    <span className="text-gray-500">
-                      {t('esim.msisdn', 'Phone number')}
-                    </span>
-
+                  <div>
                     <span className="font-medium">
-                      {provision.msisdn}
-                    </span>
+                      {t('esim.msisdn', 'Phone number')}:
+                    </span>{' '}
+                    <span>{provision.msisdn}</span>
                   </div>
                 )}
 
                 {maskedIccid && (
-                  <div
-                    className="items-center"
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'minmax(0, 1fr) auto',
-                      columnGap: '1rem',
-                    }}
-                  >
-                    <span className="text-gray-500">
-                      {t('esim.iccid', 'ICCID')}
-                    </span>
-
+                  <div>
+                    <span className="font-medium">
+                      {t('esim.iccid', 'ICCID')}:
+                    </span>{' '}
                     <span className="font-mono text-xs">
                       {maskedIccid}
                     </span>
