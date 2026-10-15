@@ -297,10 +297,10 @@ export default function SmsThreadView({ currentUserId, currentUser }) {
                       whiteSpace: 'nowrap',
                       lineHeight: 1,
                       padding: '3px 6px',
-                      border: '1px solid currentColor',
+                      border: '1px solid var(--accent)',
                       borderRadius: 999,
-                      background: 'transparent',
-                      color: 'inherit',
+                      background: 'color-mix(in oklab, var(--accent) 8%, transparent)',
+                      color: 'var(--accent)',
                       cursor: 'pointer',
                     }}
                     aria-label="Upgrade to use Smart Replies"
