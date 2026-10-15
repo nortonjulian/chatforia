@@ -228,7 +228,14 @@ export default function EsimActivatePage() {
               </div>
 
               <div className="grid gap-3 text-sm">
-                <div className="flex items-center justify-between gap-4">
+                <div
+                  className="items-center"
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'minmax(0, 1fr) auto',
+                    columnGap: '1rem',
+                  }}
+                >
                   <span className="text-gray-500">
                     {t('esim.service', 'Service')}
                   </span>
@@ -239,7 +246,14 @@ export default function EsimActivatePage() {
                 </div>
 
                 {provision.msisdn && (
-                  <div className="flex items-center justify-between gap-4">
+                  <div
+                    className="items-center"
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'minmax(0, 1fr) auto',
+                      columnGap: '1rem',
+                    }}
+                  >
                     <span className="text-gray-500">
                       {t('esim.msisdn', 'Phone number')}
                     </span>
@@ -251,7 +265,14 @@ export default function EsimActivatePage() {
                 )}
 
                 {maskedIccid && (
-                  <div className="flex items-center justify-between gap-4">
+                  <div
+                    className="items-center"
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'minmax(0, 1fr) auto',
+                      columnGap: '1rem',
+                    }}
+                  >
                     <span className="text-gray-500">
                       {t('esim.iccid', 'ICCID')}
                     </span>
