@@ -53,6 +53,10 @@ export default function EsimActivatePage() {
 
   const isActive = provision?.status === 'ACTIVE';
 
+  const maskedIccid = provision?.iccid
+    ? `•••• •••• •••• ${String(provision.iccid).slice(-4)}`
+    : null;
+
   const qrPayload =
     provision?.qrPayload ||
     provision?.lpaUri ||
@@ -180,7 +184,9 @@ export default function EsimActivatePage() {
   return (
     <div className="max-w-xl mx-auto p-6 space-y-6">
       <h1 className="text-2xl font-bold">
-        {t('esim.title', 'Activate your eSIM')}
+        {isActive
+          ? t('esim.activeTitle', 'Your eSIM is active')
+          : t('esim.title', 'Activate your eSIM')}
       </h1>
 
       {!loadingExisting && !provision && (
@@ -206,7 +212,60 @@ export default function EsimActivatePage() {
 
       {provision && (
         <div className="space-y-4">
-          {!isActive && instructions}
+          {isActive ? (
+            <div className="rounded-xl border p-5 space-y-4">
+              <div>
+                <h2 className="text-lg font-semibold">
+                  {t('esim.activeServiceTitle', 'Mobile service is active')}
+                </h2>
+
+                <p className="mt-1 text-sm text-gray-600">
+                  {t(
+                    'esim.activeServiceBody',
+                    'Your Chatforia eSIM is installed and your mobile service is active.',
+                  )}
+                </p>
+              </div>
+
+              <div className="grid gap-3 text-sm">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-gray-500">
+                    {t('esim.service', 'Service')}
+                  </span>
+
+                  <span className="font-medium">
+                    {t('esim.serviceActive', 'Active')}
+                  </span>
+                </div>
+
+                {provision.msisdn && (
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-gray-500">
+                      {t('esim.msisdn', 'Phone number')}
+                    </span>
+
+                    <span className="font-medium">
+                      {provision.msisdn}
+                    </span>
+                  </div>
+                )}
+
+                {maskedIccid && (
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-gray-500">
+                      {t('esim.iccid', 'ICCID')}
+                    </span>
+
+                    <span className="font-mono text-xs">
+                      {maskedIccid}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            instructions
+          )}
 
           {statusLabel && (
             <div className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium">
