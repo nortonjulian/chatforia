@@ -23,6 +23,10 @@ const mockPrisma = {
     delete: jest.fn(),
     findMany: jest.fn(),
   },
+  callHistoryDeletion: {
+    upsert: jest.fn(),
+    createMany: jest.fn(),
+  },
   callParticipant: {
     findUnique: jest.fn(),
     updateMany: jest.fn(),
@@ -127,6 +131,20 @@ describe('calls routes', () => {
       });
     mockPrisma.call.delete.mockReset();
     mockPrisma.call.findMany.mockReset();
+
+    mockPrisma.callHistoryDeletion.upsert
+      .mockReset()
+      .mockResolvedValue({
+        id: 1,
+        callId: 1,
+        userId: 10,
+      });
+
+    mockPrisma.callHistoryDeletion.createMany
+      .mockReset()
+      .mockResolvedValue({
+        count: 0,
+      });
 
     mockPrisma.callParticipant.findUnique.mockReset();
     mockPrisma.callParticipant.updateMany.mockReset();
@@ -1425,4 +1443,190 @@ describe('calls routes', () => {
 
 
   });
+
+  describe('call history deletion', () => {
+    test('GET /calls/history excludes calls deleted for the current user', async () => {
+      mockPrisma.call.findMany.mockResolvedValueOnce([]);
+
+      const res = await request(app)
+        .get('/calls/history');
+
+      expect(res.statusCode).toBe(200);
+
+      expect(mockPrisma.call.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            historyDeletions: {
+              none: {
+                userId: 10,
+              },
+            },
+          }),
+        })
+      );
+    });
+
+    test('DELETE /calls/:id hides the call for the current user without deleting the Call row', async () => {
+      mockPrisma.call.findUnique.mockResolvedValueOnce({
+        id: 123,
+        callerId: 10,
+        calleeId: 20,
+      });
+
+      mockPrisma.callHistoryDeletion.upsert.mockResolvedValueOnce({
+        id: 1,
+        callId: 123,
+        userId: 10,
+      });
+
+      const res = await request(app)
+        .delete('/calls/123');
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual({ ok: true });
+
+      expect(mockPrisma.callHistoryDeletion.upsert).toHaveBeenCalledWith({
+        where: {
+          callId_userId: {
+            callId: 123,
+            userId: 10,
+          },
+        },
+        update: {},
+        create: {
+          callId: 123,
+          userId: 10,
+        },
+      });
+
+      expect(mockPrisma.call.delete).not.toHaveBeenCalled();
+    });
+
+    test('POST /calls/history/delete-selected hides only matching calls for the current user', async () => {
+      mockPrisma.call.findMany.mockResolvedValueOnce([
+        { id: 101 },
+        { id: 102 },
+      ]);
+
+      mockPrisma.callHistoryDeletion.createMany.mockResolvedValueOnce({
+        count: 2,
+      });
+
+      const res = await request(app)
+        .post('/calls/history/delete-selected')
+        .send({
+          ids: [101, 102, 102, 'bad'],
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual({
+        ok: true,
+        count: 2,
+      });
+
+      expect(mockPrisma.call.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            id: {
+              in: [101, 102],
+            },
+            historyDeletions: {
+              none: {
+                userId: 10,
+              },
+            },
+          }),
+          select: {
+            id: true,
+          },
+        })
+      );
+
+      expect(mockPrisma.callHistoryDeletion.createMany).toHaveBeenCalledWith({
+        data: [
+          {
+            callId: 101,
+            userId: 10,
+          },
+          {
+            callId: 102,
+            userId: 10,
+          },
+        ],
+        skipDuplicates: true,
+      });
+    });
+
+    test('DELETE /calls/history hides all visible calls for the current user', async () => {
+      mockPrisma.call.findMany.mockResolvedValueOnce([
+        { id: 201 },
+        { id: 202 },
+        { id: 203 },
+      ]);
+
+      mockPrisma.callHistoryDeletion.createMany.mockResolvedValueOnce({
+        count: 3,
+      });
+
+      const res = await request(app)
+        .delete('/calls/history');
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual({
+        ok: true,
+        count: 3,
+      });
+
+      expect(mockPrisma.call.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            historyDeletions: {
+              none: {
+                userId: 10,
+              },
+            },
+          }),
+          select: {
+            id: true,
+          },
+        })
+      );
+
+      expect(mockPrisma.callHistoryDeletion.createMany).toHaveBeenCalledWith({
+        data: [
+          {
+            callId: 201,
+            userId: 10,
+          },
+          {
+            callId: 202,
+            userId: 10,
+          },
+          {
+            callId: 203,
+            userId: 10,
+          },
+        ],
+        skipDuplicates: true,
+      });
+
+      expect(mockPrisma.call.delete).not.toHaveBeenCalled();
+    });
+
+    test('POST /calls/history/delete-selected rejects an empty id list', async () => {
+      const res = await request(app)
+        .post('/calls/history/delete-selected')
+        .send({
+          ids: [],
+        });
+
+      expect(res.statusCode).toBe(400);
+      expect(res.body).toEqual({
+        error: 'ids required',
+      });
+
+      expect(mockPrisma.callHistoryDeletion.createMany).not.toHaveBeenCalled();
+    });
+  });
+
 });

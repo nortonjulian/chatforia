@@ -196,6 +196,125 @@ r.patch(
 );
 
 /**
+ * POST /api/voicemail/delete-selected
+ *
+ * Body: { ids: string[] }
+ * Soft delete selected voicemails for the current user.
+ */
+r.post(
+  '/delete-selected',
+  express.json(),
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user.id);
+
+    const ids = Array.from(
+      new Set(
+        (Array.isArray(req.body?.ids) ? req.body.ids : [])
+          .map((id) => String(id).trim())
+          .filter(Boolean)
+      )
+    );
+
+    if (!ids.length) {
+      return res.status(400).json({ error: 'ids required' });
+    }
+
+    const voicemails = await prisma.voicemail.findMany({
+      where: {
+        id: { in: ids },
+        userId,
+        deleted: false,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (voicemails.length) {
+      const voicemailIds = voicemails.map((voicemail) => voicemail.id);
+
+      await prisma.voicemail.updateMany({
+        where: {
+          id: { in: voicemailIds },
+          userId,
+          deleted: false,
+        },
+        data: {
+          deleted: true,
+          deletedAt: new Date(),
+        },
+      });
+
+      for (const id of voicemailIds) {
+        emitToUser(userId, 'voicemail:deleted', { id });
+      }
+
+      await syncBadgeToUserDevices(
+        userId,
+        'voicemail_deleted'
+      );
+    }
+
+    res.json({
+      success: true,
+      count: voicemails.length,
+    });
+  }),
+);
+
+/**
+ * DELETE /api/voicemail
+ *
+ * Soft delete all visible voicemails for the current user.
+ */
+r.delete(
+  '/',
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user.id);
+
+    const voicemails = await prisma.voicemail.findMany({
+      where: {
+        userId,
+        deleted: false,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (voicemails.length) {
+      const voicemailIds = voicemails.map((voicemail) => voicemail.id);
+
+      await prisma.voicemail.updateMany({
+        where: {
+          id: { in: voicemailIds },
+          userId,
+          deleted: false,
+        },
+        data: {
+          deleted: true,
+          deletedAt: new Date(),
+        },
+      });
+
+      for (const id of voicemailIds) {
+        emitToUser(userId, 'voicemail:deleted', { id });
+      }
+
+      await syncBadgeToUserDevices(
+        userId,
+        'voicemail_deleted'
+      );
+    }
+
+    res.json({
+      success: true,
+      count: voicemails.length,
+    });
+  }),
+);
+
+/**
  * DELETE /api/voicemail/:id
  *
  * Soft delete a voicemail for the current user.

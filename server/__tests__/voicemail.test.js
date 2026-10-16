@@ -36,6 +36,20 @@ jest.unstable_mockModule('../middleware/auth.js', () => ({
   },
 }));
 
+const emitToUserMock = jest.fn();
+
+jest.unstable_mockModule('../services/socketBus.js', () => ({
+  __esModule: true,
+  emitToUser: emitToUserMock,
+}));
+
+const syncBadgeToUserDevicesMock = jest.fn();
+
+jest.unstable_mockModule('../services/badgeSync.js', () => ({
+  __esModule: true,
+  syncBadgeToUserDevices: syncBadgeToUserDevicesMock,
+}));
+
 // Now import the router AFTER mocks are in place
 const { default: voicemailRouter } = await import('../routes/voicemail.js');
 
@@ -370,4 +384,224 @@ describe('voicemail routes', () => {
 
     expect(res.body).toEqual({ error: 'Voicemail not found' });
   });
+
+  test('POST /api/voicemail/delete-selected soft-deletes selected voicemails for the current user', async () => {
+    const app = makeApp();
+
+    prismaMock.voicemail.findMany.mockResolvedValueOnce([
+      { id: 'vm-1' },
+      { id: 'vm-2' },
+    ]);
+
+    prismaMock.voicemail.updateMany.mockResolvedValueOnce({ count: 2 });
+
+    const res = await request(app)
+      .post('/api/voicemail/delete-selected')
+      .send({
+        ids: ['vm-1', ' vm-2 ', 'vm-1', ''],
+      })
+      .expect(200);
+
+    expect(prismaMock.voicemail.findMany).toHaveBeenCalledWith({
+      where: {
+        id: {
+          in: ['vm-1', 'vm-2'],
+        },
+        userId: 123,
+        deleted: false,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    expect(prismaMock.voicemail.updateMany).toHaveBeenCalledWith({
+      where: {
+        id: {
+          in: ['vm-1', 'vm-2'],
+        },
+        userId: 123,
+        deleted: false,
+      },
+      data: {
+        deleted: true,
+        deletedAt: expect.any(Date),
+      },
+    });
+
+    expect(emitToUserMock).toHaveBeenCalledTimes(2);
+    expect(emitToUserMock).toHaveBeenNthCalledWith(
+      1,
+      123,
+      'voicemail:deleted',
+      { id: 'vm-1' }
+    );
+    expect(emitToUserMock).toHaveBeenNthCalledWith(
+      2,
+      123,
+      'voicemail:deleted',
+      { id: 'vm-2' }
+    );
+
+    expect(syncBadgeToUserDevicesMock).toHaveBeenCalledWith(
+      123,
+      'voicemail_deleted'
+    );
+
+    expect(res.body).toEqual({
+      success: true,
+      count: 2,
+    });
+  });
+
+  test('POST /api/voicemail/delete-selected rejects an empty id list', async () => {
+    const app = makeApp();
+
+    const res = await request(app)
+      .post('/api/voicemail/delete-selected')
+      .send({
+        ids: [],
+      })
+      .expect(400);
+
+    expect(res.body).toEqual({
+      error: 'ids required',
+    });
+
+    expect(prismaMock.voicemail.findMany).not.toHaveBeenCalled();
+    expect(prismaMock.voicemail.updateMany).not.toHaveBeenCalled();
+    expect(emitToUserMock).not.toHaveBeenCalled();
+    expect(syncBadgeToUserDevicesMock).not.toHaveBeenCalled();
+  });
+
+  test('POST /api/voicemail/delete-selected ignores voicemails not returned for the current user', async () => {
+    const app = makeApp();
+
+    // Simulates only vm-owned belonging to the authenticated user.
+    // vm-other is excluded by the route's userId/deleted query.
+    prismaMock.voicemail.findMany.mockResolvedValueOnce([
+      { id: 'vm-owned' },
+    ]);
+
+    prismaMock.voicemail.updateMany.mockResolvedValueOnce({ count: 1 });
+
+    const res = await request(app)
+      .post('/api/voicemail/delete-selected')
+      .send({
+        ids: ['vm-owned', 'vm-other'],
+      })
+      .expect(200);
+
+    expect(prismaMock.voicemail.findMany).toHaveBeenCalledWith({
+      where: {
+        id: {
+          in: ['vm-owned', 'vm-other'],
+        },
+        userId: 123,
+        deleted: false,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    expect(prismaMock.voicemail.updateMany).toHaveBeenCalledWith({
+      where: {
+        id: {
+          in: ['vm-owned'],
+        },
+        userId: 123,
+        deleted: false,
+      },
+      data: {
+        deleted: true,
+        deletedAt: expect.any(Date),
+      },
+    });
+
+    expect(emitToUserMock).toHaveBeenCalledTimes(1);
+    expect(emitToUserMock).toHaveBeenCalledWith(
+      123,
+      'voicemail:deleted',
+      { id: 'vm-owned' }
+    );
+
+    expect(res.body).toEqual({
+      success: true,
+      count: 1,
+    });
+  });
+
+  test('DELETE /api/voicemail soft-deletes all visible voicemails for the current user', async () => {
+    const app = makeApp();
+
+    prismaMock.voicemail.findMany.mockResolvedValueOnce([
+      { id: 'vm-a' },
+      { id: 'vm-b' },
+      { id: 'vm-c' },
+    ]);
+
+    prismaMock.voicemail.updateMany.mockResolvedValueOnce({ count: 3 });
+
+    const res = await request(app)
+      .delete('/api/voicemail')
+      .expect(200);
+
+    expect(prismaMock.voicemail.findMany).toHaveBeenCalledWith({
+      where: {
+        userId: 123,
+        deleted: false,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    expect(prismaMock.voicemail.updateMany).toHaveBeenCalledWith({
+      where: {
+        id: {
+          in: ['vm-a', 'vm-b', 'vm-c'],
+        },
+        userId: 123,
+        deleted: false,
+      },
+      data: {
+        deleted: true,
+        deletedAt: expect.any(Date),
+      },
+    });
+
+    expect(emitToUserMock).toHaveBeenCalledTimes(3);
+
+    expect(syncBadgeToUserDevicesMock).toHaveBeenCalledWith(
+      123,
+      'voicemail_deleted'
+    );
+
+    expect(res.body).toEqual({
+      success: true,
+      count: 3,
+    });
+  });
+
+  test('DELETE /api/voicemail succeeds when there are no visible voicemails', async () => {
+    const app = makeApp();
+
+    prismaMock.voicemail.findMany.mockResolvedValueOnce([]);
+
+    const res = await request(app)
+      .delete('/api/voicemail')
+      .expect(200);
+
+    expect(prismaMock.voicemail.updateMany).not.toHaveBeenCalled();
+    expect(emitToUserMock).not.toHaveBeenCalled();
+    expect(syncBadgeToUserDevicesMock).not.toHaveBeenCalled();
+
+    expect(res.body).toEqual({
+      success: true,
+      count: 0,
+    });
+  });
+
+
 });

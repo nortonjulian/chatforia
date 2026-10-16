@@ -1407,6 +1407,105 @@ if (lifecycleUpdate.count === 1 && isTerminalCallStatus(normalizedStatus)) {
   res.json({ call: updated });
 }));
 
+router.post('/history/delete-selected', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+
+  const ids = Array.from(
+    new Set(
+      (Array.isArray(req.body?.ids) ? req.body.ids : [])
+        .map(Number)
+        .filter((id) => Number.isInteger(id) && id > 0)
+    )
+  );
+
+  if (!ids.length) {
+    return res.status(400).json({ error: 'ids required' });
+  }
+
+  const calls = await prisma.call.findMany({
+    where: {
+      id: { in: ids },
+      OR: [
+        { callerId: userId },
+        { calleeId: userId },
+        {
+          participants: {
+            some: {
+              userId,
+            },
+          },
+        },
+      ],
+      historyDeletions: {
+        none: {
+          userId,
+        },
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (calls.length) {
+    await prisma.callHistoryDeletion.createMany({
+      data: calls.map((call) => ({
+        callId: call.id,
+        userId,
+      })),
+      skipDuplicates: true,
+    });
+  }
+
+  res.json({
+    ok: true,
+    count: calls.length,
+  });
+}));
+
+router.delete('/history', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+
+  const calls = await prisma.call.findMany({
+    where: {
+      OR: [
+        { callerId: userId },
+        { calleeId: userId },
+        {
+          participants: {
+            some: {
+              userId,
+            },
+          },
+        },
+      ],
+      historyDeletions: {
+        none: {
+          userId,
+        },
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (calls.length) {
+    await prisma.callHistoryDeletion.createMany({
+      data: calls.map((call) => ({
+        callId: call.id,
+        userId,
+      })),
+      skipDuplicates: true,
+    });
+  }
+
+  res.json({
+    ok: true,
+    count: calls.length,
+  });
+}));
+
 router.delete('/:id', asyncHandler(async (req, res) => {
   const userId = Number(req.user.id);
   const callId = Number(req.params.id);
@@ -1423,8 +1522,18 @@ router.delete('/:id', asyncHandler(async (req, res) => {
     return res.status(403).json({ error: 'Not a participant' });
   }
 
-  await prisma.call.delete({
-    where: { id: callId },
+  await prisma.callHistoryDeletion.upsert({
+    where: {
+      callId_userId: {
+        callId,
+        userId,
+      },
+    },
+    update: {},
+    create: {
+      callId,
+      userId,
+    },
   });
 
   res.json({ ok: true });
@@ -1869,6 +1978,11 @@ router.get('/history', asyncHandler(async (req, res) => {
           },
         },
       ],
+      historyDeletions: {
+        none: {
+          userId,
+        },
+      },
     },
     include: {
       caller: {

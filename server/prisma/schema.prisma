@@ -337,6 +337,7 @@ model User {
   callsPlaced                Call[]                    @relation("CallCaller")
   callsReceived              Call[]                    @relation("CallCallee")
   callParticipants           CallParticipant[]
+  callHistoryDeletions       CallHistoryDeletion[]
   scheduledMessagesAuthored  ScheduledMessage[]        @relation("ScheduledMessageSender")
   messageSessionKeysReceived MessageSessionKey[]       @relation("MsgSessionKeys_Recipient")
   assignedNumbers            PhoneNumber[]
@@ -370,7 +371,7 @@ model User {
   bannedAt DateTime?
 
   // Usage/analytics
-  sttUsage          STTUsage[]          @relation("UserSTTUsage")
+  sttUsage          STTUsage[]         @relation("UserSTTUsage")
   voiceUsageCharges VoiceUsageCharge[]
   planUsage         PlanUsage[]
 
@@ -1083,9 +1084,9 @@ model SmsMessage {
   phoneId Int?
   phone   Phone? @relation(fields: [phoneId], references: [id])
 
+  @@unique([provider, providerMessageId])
   @@index([threadId])
   @@index([providerMessageId])
-  @@unique([provider, providerMessageId])
   @@index([phoneId, createdAt])
 }
 
@@ -1432,19 +1433,20 @@ model Call {
 
   offerSdp              String?
   answerSdp             String?
-  createdAt             DateTime          @default(now())
+  createdAt             DateTime              @default(now())
   startedAt             DateTime?
   endedAt               DateTime?
   acknowledgedAt        DateTime?
-  twilioCallSid         String?           @unique
+  twilioCallSid         String?               @unique
   answeredDeviceId      String?
   answeredVoiceIdentity String?
   durationSec           Int?
   endReason             String?
   fromLabel             String?
   toLabel               String?
-  pstnUsageChargedSec   Int               @default(0)
+  pstnUsageChargedSec   Int                   @default(0)
   participants          CallParticipant[]
+  historyDeletions      CallHistoryDeletion[]
 
   caller User  @relation("CallCaller", fields: [callerId], references: [id])
   callee User? @relation("CallCallee", fields: [calleeId], references: [id])
@@ -1455,6 +1457,20 @@ model Call {
   @@index([calleeId])
   @@index([roomId])
   @@index([externalPhone])
+}
+
+model CallHistoryDeletion {
+  id        Int      @id @default(autoincrement())
+  callId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  call Call @relation(fields: [callId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([callId, userId])
+  @@index([userId, createdAt])
+  @@index([callId])
 }
 
 model PlanUsage {
@@ -1576,7 +1592,7 @@ model EsimReplacement {
   idempotencyKey String
 
   // Authoritative balance captured immediately before replacement.
-  remainingDataMb    Int
+  remainingDataMb   Int
   originalExpiresAt DateTime?
 
   // The replacement package may round upward to the smallest available
