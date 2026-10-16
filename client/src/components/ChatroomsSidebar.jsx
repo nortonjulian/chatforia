@@ -25,6 +25,7 @@ import loadEncryptionClient from '@/utils/loadEncryptionClient';
 
 // ✅ Socket for live preview updates
 import { useSocket } from '@/context/SocketContext';
+import { useUser } from '@/context/UserContext';
 
 const CACHE_KEY = 'chatforia:conversations:v1';
 
@@ -219,6 +220,8 @@ export default function ChatroomsSidebar({
 }) {
   const { t } = useTranslation();
   const isPaidPlan = useIsPaidPlan();
+  const userContext = useUser();
+  const needsKeyUnlock = userContext?.needsKeyUnlock ?? false;
 
   /** @type {[Thread[], Function]} */
   const [items, setItems] = useState(__testInitialRooms ?? []);
@@ -338,6 +341,7 @@ export default function ChatroomsSidebar({
     items,
     currentUser?.id,
     currentUser?.publicKey,
+    needsKeyUnlock,
   ]);
 
   const load = useCallback(async () => {
