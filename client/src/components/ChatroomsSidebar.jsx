@@ -123,15 +123,6 @@ function getTextFromPayload(payload) {
   );
 }
 
-function isDeleteForAll(payload) {
-  return (
-    Boolean(payload?.deletedForAll) ||
-    payload?.mode === 'all' ||
-    payload?.scope === 'all' ||
-    payload?.deleteForAll === true
-  );
-}
-
 /**
  * Try to infer media info from a socket payload (for MMS + attachments).
  * Works if payload contains any of:
@@ -632,8 +623,6 @@ useEffect(() => {
   const onMessageDeleted = (payload) => {
     const roomId = getChatRoomIdFromPayload(payload);
     const messageId = getMessageIdFromPayload(payload);
-    const delAll = isDeleteForAll(payload);
-
     if (!messageId) return;
 
     if (!roomId) {
@@ -648,21 +637,9 @@ useEffect(() => {
 
     if (!lastId || String(lastId) !== String(messageId)) return;
 
-    if (delAll) {
-      patchConversation('chat', roomId, (c) => ({
-        ...c,
-        last: {
-          ...(c.last || {}),
-          text: t('messages.deletedPreview', 'Message deleted'),
-          hasMedia: false,
-          mediaCount: 0,
-          mediaKinds: [],
-          thumbUrl: null,
-        },
-      }));
-    } else {
-      load();
-    }
+    // Refetch so the backend supplies the newest message still visible
+    // to this user instead of showing a deleted-message tombstone.
+    load();
   };
 
   socket.on('message:upsert', onReceiveMessage);
