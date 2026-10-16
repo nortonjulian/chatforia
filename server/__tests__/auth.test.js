@@ -37,6 +37,44 @@ describe('Auth flows', () => {
       .send({ token: fp.body.token, newPassword: 'AnotherPass!9' }).expect(400);
   });
 
+  it('returns accessibility preferences from GET /auth/me', async () => {
+    const registered = await agent.post('/auth/register')
+      .send({ email, username, password }).expect(201);
+    const id = registered.body.user.id;
+
+    await prisma.user.update({
+      where: { id },
+      data: {
+        emailVerifiedAt: new Date(),
+        a11yUiFont: 'lg',
+        a11yVisualAlerts: true,
+        a11yVibrate: true,
+        a11yFlashOnCall: true,
+        a11yLiveCaptions: false,
+        a11yVoiceNoteSTT: true,
+        a11yCaptionFont: 'sm',
+        a11yCaptionBg: 'transparent',
+      },
+    });
+
+    await agent.post('/auth/login')
+      .send({ email, password })
+      .expect(200);
+
+    const me = await agent.get('/auth/me').expect(200);
+
+    expect(me.body.user).toMatchObject({
+      a11yUiFont: 'lg',
+      a11yVisualAlerts: true,
+      a11yVibrate: true,
+      a11yFlashOnCall: true,
+      a11yLiveCaptions: false,
+      a11yVoiceNoteSTT: true,
+      a11yCaptionFont: 'sm',
+      a11yCaptionBg: 'transparent',
+    });
+  });
+
   it('rejects case-insensitive duplicate registration and wrong passwords', async () => {
     const registered = await agent.post('/auth/register')
       .send({ email, username, password }).expect(201);
