@@ -525,7 +525,7 @@ function PricingFaqSection() {
             <Text size="sm">
               {t(
                 'upgrade.faq.plusPremium.a',
-                'Plus removes ads and extends your history. Premium adds AI power tools, more customization, and priority support.'
+                'Plus includes Standard AI tools, removes ads, and extends your history. Premium upgrades you to Full AI tools, more customization, and priority support.'
               )}
             </Text>
           </Accordion.Panel>
@@ -1235,7 +1235,7 @@ useEffect(() => {
                 ),
                 t(
                   'upgrade.plans.free.features.ai',
-                  'AI-powered smart replies and instant translation (fair use)'
+                  'Limited Ria chat and instant translation'
                 ),
                 t(
                   'upgrade.plans.free.features.disappearing',
@@ -1272,6 +1272,10 @@ useEffect(() => {
                   'Longer message history (up to 6 months)'
                 ),
                 t(
+                  'upgrade.plans.plus.features.ai',
+                  'Standard AI tools, including Smart Replies and rewrite assistance'
+                ),
+                t(
                   'upgrade.plans.plus.features.support',
                   'Faster support when something goes wrong'
                 ),
@@ -1298,7 +1302,7 @@ useEffect(() => {
               priceSuffix={perMonthLabel}
               description={t(
                 'upgrade.plans.premiumMonthly.desc',
-                'The full Chatforia experience: AI power tools, customization, and priority support.'
+                'The full Chatforia experience: Full AI tools, customization, and priority support.'
               )}
               features={[
                 t('upgrade.plans.premiumMonthly.features.plusAll', 'Everything in Plus'),
@@ -1312,7 +1316,7 @@ useEffect(() => {
                 ),
                 t(
                   'upgrade.plans.premiumMonthly.features.ai',
-                  'Premium-only AI power tools for rewrites, smart replies, and summaries'
+                  'Full AI tools, including advanced rewrites and summaries'
                 ),
                 t(
                   'upgrade.plans.premiumMonthly.features.support',
