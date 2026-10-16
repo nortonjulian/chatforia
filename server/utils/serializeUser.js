@@ -32,6 +32,16 @@ export function serializeUser(user) {
     showReadReceipts: user.showReadReceipts ?? true,
     autoDeleteSeconds: user.autoDeleteSeconds ?? 0,
 
+    // Accessibility preferences
+    a11yUiFont: user.a11yUiFont ?? 'md',
+    a11yVisualAlerts: user.a11yVisualAlerts ?? false,
+    a11yVibrate: user.a11yVibrate ?? false,
+    a11yFlashOnCall: user.a11yFlashOnCall ?? false,
+    a11yLiveCaptions: user.a11yLiveCaptions ?? false,
+    a11yVoiceNoteSTT: user.a11yVoiceNoteSTT ?? false,
+    a11yCaptionFont: user.a11yCaptionFont ?? 'lg',
+    a11yCaptionBg: user.a11yCaptionBg ?? 'dark',
+
     privacyBlurEnabled: user.privacyBlurEnabled ?? false,
     privacyBlurOnUnfocus: user.privacyBlurOnUnfocus ?? false,
     privacyHoldToReveal: user.privacyHoldToReveal ?? false,
