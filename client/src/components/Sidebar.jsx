@@ -432,6 +432,7 @@ function Sidebar({ currentUser, features = {} }) {
           {showChats ? (
             <Suspense fallback={<Text size="sm" c="dimmed">Loading chats...</Text>}>
               <ChatroomsSidebar
+                currentUser={currentUser}
                 onStartNewChat={() => {
                   setInitialDraft(null);
                   setShowStartModal(true);

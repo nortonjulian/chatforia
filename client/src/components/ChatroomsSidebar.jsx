@@ -21,6 +21,7 @@ import { PLACEMENTS } from '@/ads/placements';
 import useIsPaidPlan from '@/hooks/useIsPaidPlan';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
+import loadEncryptionClient from '@/utils/loadEncryptionClient';
 
 // ✅ Socket for live preview updates
 import { useSocket } from '@/context/SocketContext';
@@ -203,6 +204,7 @@ function formatLastPreview(last, t) {
 /* ---------------- component ---------------- */
 
 export default function ChatroomsSidebar({
+  currentUser,
   onStartNewChat,
   onSelect,
   hideEmpty = false,
@@ -222,6 +224,7 @@ export default function ChatroomsSidebar({
   const [items, setItems] = useState(__testInitialRooms ?? []);
   const [loading, setLoading] = useState(__testSkipLoad ? false : true);
   const [err, setErr] = useState(__testInitialError ?? '');
+  const [decryptedPreviews, setDecryptedPreviews] = useState({});
 
   const socket = useSocket();
 
@@ -230,6 +233,112 @@ export default function ChatroomsSidebar({
   useEffect(() => {
     itemsRef.current = items;
   }, [items]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function decryptConversationPreviews() {
+      const userId = Number(currentUser?.id);
+
+      if (!userId) {
+        if (!cancelled) setDecryptedPreviews({});
+        return;
+      }
+
+      const encryptedThreads = (Array.isArray(items) ? items : []).filter((c) => {
+        if (String(c?.kind) !== 'chat' || !c?.last?.messageId) return false;
+
+        return Boolean(
+          c.last?.encryptedPayloadForMe?.contentCiphertext ||
+          c.last?.contentCiphertext
+        );
+      });
+
+      if (!encryptedThreads.length) {
+        if (!cancelled) setDecryptedPreviews({});
+        return;
+      }
+
+      try {
+        const mod = await loadEncryptionClient();
+
+        let privateKey = null;
+
+        if (
+          typeof mod.getUnlockedPrivateKeyForPublicKey === 'function' &&
+          currentUser?.publicKey
+        ) {
+          privateKey = await mod.getUnlockedPrivateKeyForPublicKey(
+            currentUser.publicKey
+          );
+        }
+
+        if (!privateKey && typeof mod.getUnlockedPrivateKey === 'function') {
+          privateKey = await mod.getUnlockedPrivateKey();
+        }
+
+        if (!privateKey || typeof mod.decryptFetchedMessages !== 'function') {
+          if (!cancelled) setDecryptedPreviews({});
+          return;
+        }
+
+        const rows = encryptedThreads.map((c) => ({
+          ...c.last,
+          id: c.last.messageId,
+        }));
+
+        const decrypted = await mod.decryptFetchedMessages(
+          rows,
+          privateKey,
+          null,
+          userId
+        );
+
+        const next = {};
+
+        encryptedThreads.forEach((thread, index) => {
+          const text = String(
+            decrypted?.[index]?.decryptedContent || ''
+          ).trim();
+
+          if (
+            !text ||
+            text === '[Encrypted – key unavailable]' ||
+            text === '[Encrypted – could not decrypt]'
+          ) {
+            return;
+          }
+
+          next[
+            `${thread.kind}:${thread.id}:${thread.last.messageId}`
+          ] = text;
+        });
+
+        if (!cancelled) {
+          setDecryptedPreviews(next);
+        }
+      } catch (err) {
+        console.warn(
+          '[ChatroomsSidebar] failed to decrypt conversation previews',
+          err
+        );
+
+        if (!cancelled) {
+          setDecryptedPreviews({});
+        }
+      }
+    }
+
+    decryptConversationPreviews();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    items,
+    currentUser?.id,
+    currentUser?.publicKey,
+  ]);
 
   const load = useCallback(async () => {
     if (__testSkipLoad) return;
@@ -327,11 +436,17 @@ export default function ChatroomsSidebar({
 
     return base.filter((c) => {
       const title = (c.title || c.displayName || '').toLowerCase();
-      const snippet = formatLastPreview(c.last, t).toLowerCase();
+      const previewKey = c?.last?.messageId
+        ? `${c.kind}:${c.id}:${c.last.messageId}`
+        : null;
+      const snippet = String(
+        (previewKey && decryptedPreviews[previewKey]) ||
+        formatLastPreview(c.last, t)
+      ).toLowerCase();
       const phone = (c.phone || '').toLowerCase();
       return title.includes(q) || snippet.includes(q) || phone.includes(q);
     });
-  }, [items, q, t]);
+  }, [items, q, t, decryptedPreviews]);
 
   const activeBg = useMemo(
     () => 'color-mix(in oklab, var(--mantine-color-blue-2) 22%, transparent)',
@@ -756,7 +871,12 @@ useEffect(() => {
           String(c.id) === String(activeId) &&
           (activeKind ? String(c.kind) === String(activeKind) : true);
 
-        const lastPreview = formatLastPreview(c.last, t);
+        const previewKey = c?.last?.messageId
+          ? `${c.kind}:${c.id}:${c.last.messageId}`
+          : null;
+        const lastPreview =
+          (previewKey && decryptedPreviews[previewKey]) ||
+          formatLastPreview(c.last, t);
 
         return (
           <div key={`${c.kind}:${c.id}`} className="sidebar-row">
