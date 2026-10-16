@@ -951,14 +951,12 @@ describe('POST /webhooks/voice/app-call-complete', () => {
       })
     );
 
-    expect(emitToUser).toHaveBeenCalledWith(
+    // The caller must keep its live Voice/CallKit audio session for
+    // the greeting and Record verb, even though Recents is now MISSED.
+    expect(emitToUser).not.toHaveBeenCalledWith(
       42,
       'call:ended',
-      expect.objectContaining({
-        callId: 777,
-        status: 'MISSED',
-        reason: 'no_answer',
-      })
+      expect.anything()
     );
 
     expect(emitToUser).toHaveBeenCalledWith(

@@ -722,11 +722,17 @@ router.post('/app-call-complete', async (req, res) => {
           forwarded: false,
         };
 
-        emitToUser(
-          updated.callerId,
-          'call:ended',
-          endedPayload
-        );
+        // The recipient's ringing leg has ended, but the caller's Twilio
+        // leg must stay alive for the voicemail greeting and recording.
+        // A caller-side call:ended event closes CallKit/audio on mobile.
+        // If voicemail is disabled, the TwiML Hangup below ends that leg.
+        if (dialCallStatus !== 'no-answer') {
+          emitToUser(
+            updated.callerId,
+            'call:ended',
+            endedPayload
+          );
+        }
 
         if (
           updated.calleeId &&
