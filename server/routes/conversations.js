@@ -179,6 +179,21 @@ router.get(
           },
         },
         messages: {
+          where: {
+            deletedForAll: false,
+            deletions: {
+              none: {
+                userId,
+              },
+            },
+            OR: [
+              { deletedBySender: false },
+              {
+                deletedBySender: true,
+                senderId: { not: userId },
+              },
+            ],
+          },
           select: {
             id: true,
             rawContent: true,
@@ -203,7 +218,10 @@ router.get(
               take: 12,
             },
           },
-          orderBy: { createdAt: 'desc' },
+          orderBy: [
+            { createdAt: 'desc' },
+            { id: 'desc' },
+          ],
           take: 1,
         }
       },
@@ -307,16 +325,12 @@ router.get(
         return aliasByUser[String(id)] || aliasByUser[Number(id)] || null;
       }
 
-      const deleted = Boolean(lastMsg?.deletedForAll) || Boolean(lastMsg?.deletedBySender);
-
       const plaintextPreview = (lastMsg?.translatedContent || lastMsg?.rawContent || '').trim();
       const hasEncryptedText = !!lastMsg?.contentCiphertext;
 
       const previewText = !lastMsg
         ? ''
-        : deleted
-          ? '(deleted)'
-          : plaintextPreview
+        : plaintextPreview
             ? buildLastPreviewText({
                 text: plaintextPreview,
                 hasMedia: media.hasMedia,
