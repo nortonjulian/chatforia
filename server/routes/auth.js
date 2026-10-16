@@ -1242,6 +1242,16 @@ router.get(
       showReadReceipts: safeUser.showReadReceipts,
       autoDeleteSeconds: safeUser.autoDeleteSeconds,
 
+      // Accessibility preferences
+      a11yUiFont: safeUser.a11yUiFont,
+      a11yVisualAlerts: safeUser.a11yVisualAlerts,
+      a11yVibrate: safeUser.a11yVibrate,
+      a11yFlashOnCall: safeUser.a11yFlashOnCall,
+      a11yLiveCaptions: safeUser.a11yLiveCaptions,
+      a11yVoiceNoteSTT: safeUser.a11yVoiceNoteSTT,
+      a11yCaptionFont: safeUser.a11yCaptionFont,
+      a11yCaptionBg: safeUser.a11yCaptionBg,
+
       privacyBlurEnabled: safeUser.privacyBlurEnabled,
       privacyBlurOnUnfocus: safeUser.privacyBlurOnUnfocus,
       privacyHoldToReveal: safeUser.privacyHoldToReveal,
