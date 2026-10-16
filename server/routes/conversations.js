@@ -211,7 +211,23 @@ router.get(
                 displayName: true,
                 phoneNumber: true,
                 avatarUrl: true,
+                publicKey: true,
               },
+            },
+            keys: {
+              where: { userId },
+              select: { encryptedKey: true },
+              take: 1,
+            },
+            payloads: {
+              where: { userId },
+              select: {
+                contentCiphertext: true,
+                encryptedKey: true,
+                language: true,
+                sourceLanguage: true,
+              },
+              take: 1,
             },
             attachments: {
               select: { kind: true, mimeType: true, url: true },
@@ -326,7 +342,10 @@ router.get(
       }
 
       const plaintextPreview = (lastMsg?.translatedContent || lastMsg?.rawContent || '').trim();
-      const hasEncryptedText = !!lastMsg?.contentCiphertext;
+      const hasEncryptedText = Boolean(
+        lastMsg?.contentCiphertext ||
+        lastMsg?.payloads?.[0]?.contentCiphertext
+      );
 
       const previewText = !lastMsg
         ? ''
@@ -454,6 +473,22 @@ router.get(
               messageId: lastMsg.id,
               at: (lastMsg.editedAt || lastMsg.createdAt).toISOString(),
               senderName,
+              sender: lastMsg.sender
+                ? {
+                    id: lastMsg.sender.id,
+                    publicKey: lastMsg.sender.publicKey || null,
+                  }
+                : null,
+              contentCiphertext: lastMsg.contentCiphertext || null,
+              encryptedKeyForMe: lastMsg.keys?.[0]?.encryptedKey || null,
+              encryptedPayloadForMe: lastMsg.payloads?.[0]
+                ? {
+                    contentCiphertext: lastMsg.payloads[0].contentCiphertext,
+                    encryptedKey: lastMsg.payloads[0].encryptedKey,
+                    language: lastMsg.payloads[0].language ?? null,
+                    sourceLanguage: lastMsg.payloads[0].sourceLanguage ?? null,
+                  }
+                : null,
               ...media,
             }
           : null,
