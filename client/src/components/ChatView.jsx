@@ -1532,7 +1532,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         userId,
         publicKey,
         preferredLang || null,
-        null
+        null,
+        plaintextForUser !== text ? text : null
       );
     }
 
@@ -2014,10 +2015,12 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               patched.decryptedContent &&
               patched.decryptedContent !== '[Encrypted – could not decrypt]' &&
               patched.decryptedContent !== '[Encrypted – key unavailable]' &&
-              patched.decryptedContent !== m.decryptedContent
+              (patched.decryptedContent !== m.decryptedContent ||
+                patched.decryptedOriginalKey !== m.decryptedOriginalKey ||
+                patched.decryptedOriginalContent !== m.decryptedOriginalContent)
             ) {
               changed = true;
-              return { ...m, decryptedContent: patched.decryptedContent };
+              return { ...m, decryptedContent: patched.decryptedContent, decryptedOriginalContent: patched.decryptedOriginalContent, decryptedOriginalKey: patched.decryptedOriginalKey };
             }
 
             return m;
@@ -2726,6 +2729,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                           msg={msg}
                           isGroup={Boolean(chatroom?.isGroup || (chatroom?.participants?.length || 0) > 2)}
                           currentUserId={currentUserId}
+                          showOriginalWithTranslation={currentUser?.showOriginalWithTranslation === true}
                           onRetry={handleRetry}
                           onEdit={openEditModal}
                           onDeleteMe={(mm) => openDeleteModal(mm, 'me')}

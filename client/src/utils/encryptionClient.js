@@ -1,4 +1,5 @@
 import { get, set, del } from 'idb-keyval';
+import { encryptedOriginalCiphertext, preserveEncryptedOriginal } from './encryptedOriginal.js';
 import { decryptMessageForUserBrowser } from './decryptionClient.js';
 import { loadKeysLocal, clearKeysLocal } from './keys.js';
 import nacl from 'tweetnacl';
@@ -1009,6 +1010,8 @@ export async function decryptFetchedMessages(
         if (!ciphertext) {
           return {
             ...msg,
+            decryptedOriginalContent: null,
+            decryptedOriginalKey: null,
             decryptedContent:
               msg.decryptedContent ??
               msg.translatedForMe ??
@@ -1019,7 +1022,7 @@ export async function decryptFetchedMessages(
         }
 
         if (!encryptedKey) {
-          return { ...msg, decryptedContent: '[Encrypted – key unavailable]' };
+          return { ...msg, decryptedContent: '[Encrypted – key unavailable]', decryptedOriginalContent: null, decryptedOriginalKey: null };
         }
 
         const decrypted = await decryptMessageForUserBrowser(
@@ -1030,7 +1033,23 @@ export async function decryptFetchedMessages(
           currentUserId
         );
 
-        return { ...msg, decryptedContent: decrypted };
+        let original = null;
+        const originalCiphertext = encryptedOriginalCiphertext(encryptedKey);
+        if (originalCiphertext && !msg.deletedForAll && !msg.deletedBySender) {
+          try {
+            original = await decryptMessageForUserBrowser(
+              originalCiphertext, encryptedKey, currentUserPrivateKey, senderPublicKey, currentUserId
+            );
+          } catch {
+            // A missing/damaged optional original must not hide the readable message.
+          }
+        }
+        return {
+          ...msg,
+          decryptedContent: decrypted,
+          decryptedOriginalContent: original,
+          decryptedOriginalKey: encryptedKey,
+        };
       } catch (err) {
         console.warn(
           `[decryptFetchedMessages] failed for message ${msg.id}`,
@@ -1039,6 +1058,8 @@ export async function decryptFetchedMessages(
 
         return {
           ...msg,
+          decryptedOriginalContent: null,
+          decryptedOriginalKey: null,
           decryptedContent:
             '[Encrypted – could not decrypt]',
         };
@@ -1223,7 +1244,8 @@ export async function encryptForSingleUser(
   recipientUserId,
   recipientPublicKeyB64,
   language = null,
-  sourceLanguage = null
+  sourceLanguage = null,
+  originalText = null
 ) {
   const { privateKey: senderPrivB64 } = await getUnlockedBundleCached();
 
@@ -1238,12 +1260,16 @@ export async function encryptForSingleUser(
   const packedCiphertext = concatBytes(ivBytes, encPart, tagPart);
   const contentCiphertext = bytes2b64(packedCiphertext);
 
-  const encryptedKey = await sealSessionKeyForRecipient(
+  let encryptedKey = await sealSessionKeyForRecipient(
     keyRaw,
     senderPrivB64,
     recipientPublicKeyB64,
     { recipientId: recipientUserId }
   );
+
+  if (typeof originalText === 'string' && originalText !== plaintext) {
+    encryptedKey = await preserveEncryptedOriginal(encryptedKey, keyRaw, originalText);
+  }
 
   return {
     contentCiphertext,
