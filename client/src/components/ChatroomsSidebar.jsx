@@ -130,7 +130,7 @@ export default function ChatroomsSidebar({
   const [err, setErr] = useState(__testInitialError ?? '');
   const [decryptedPreviews, setDecryptedPreviews] = useState({});
 
-  const socket = useSocket();
+  const { socket } = useSocket() ?? {};
 
   // ✅ Avoid stale closures in socket handlers
   const itemsRef = useRef(items);
@@ -314,10 +314,10 @@ export default function ChatroomsSidebar({
 
     if (!roomIds.length) return;
 
-    socket.emit('join:rooms', roomIds);
-
-    // Optional debug (safe to remove later)
-    console.log('[Sidebar] join:rooms →', roomIds);
+    const join = () => socket.emit('join:rooms', roomIds);
+    if (socket.connected) join();
+    socket.on('connect', join);
+    return () => socket.off('connect', join);
   }, [socket, items]);
 
   useEffect(() => {
@@ -495,11 +495,15 @@ export default function ChatroomsSidebar({
       'connect',
     ];
     events.forEach((event) => socket.on(event, refresh));
+    // The transport may have connected before this component subscribed.
+    if (socket.connected) refresh();
+    window.addEventListener('online', refresh);
     window.addEventListener('focus', refresh);
     document.addEventListener('visibilitychange', refresh);
     return () => {
       clearTimeout(timer);
       events.forEach((event) => socket.off(event, refresh));
+      window.removeEventListener('online', refresh);
       window.removeEventListener('focus', refresh);
       document.removeEventListener('visibilitychange', refresh);
     };
