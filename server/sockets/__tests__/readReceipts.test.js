@@ -31,11 +31,17 @@ function makeSocket({ userId } = {}) {
 }
 
 function makePrisma() {
-  return {
+  const prisma = {
     participant: { findUnique: jest.fn() },
-    message: { findUnique: jest.fn() },
-    messageRead: { findUnique: jest.fn(), create: jest.fn() },
+    user: { findUnique: jest.fn().mockResolvedValue({ id: 7, username: 'reader', showReadReceipts: true }), update: jest.fn().mockResolvedValue({ id: 7 }) },
+    message: { findUnique: jest.fn(), update: jest.fn().mockResolvedValue({ id: 55 }) },
+    messageRead: {
+      findUnique: jest.fn(), create: jest.fn(),
+      findMany: jest.fn().mockResolvedValue([]), createMany: jest.fn().mockResolvedValue({ count: 1 }),
+    },
   };
+  prisma.$transaction = jest.fn(async (fn) => fn(prisma));
+  return prisma;
 }
 
 describe('registerReadReceipts', () => {
@@ -177,31 +183,32 @@ describe('registerReadReceipts', () => {
     prisma.message.findUnique.mockResolvedValueOnce({ id: 55, chatRoomId: 123 });
     prisma.messageRead.findUnique.mockResolvedValueOnce(null);
 
-    const createdDate = new Date('2026-02-14T20:31:22.123Z');
-    prisma.messageRead.create.mockResolvedValueOnce({ readAt: createdDate });
-
     registerReadReceipts(io, socket, { prisma, IS_TEST: true });
 
     const ack = jest.fn();
     await socket._fire('message:read', { roomId: 123, messageId: 55 }, ack);
 
-    expect(prisma.messageRead.create).toHaveBeenCalledWith({
-      data: { messageId: 55, userId: 7 },
-      select: { readAt: true },
+    expect(prisma.messageRead.createMany).toHaveBeenCalledWith({
+      data: [{ messageId: 55, userId: 7, readAt: expect.any(Date) }],
+      skipDuplicates: true,
     });
+    expect(prisma.user.update).toHaveBeenCalledWith({
+      where: { id: 7 }, data: { readMessages: { connect: [{ id: 55 }] } }, select: { id: true },
+    });
+    const actualReadAt = prisma.messageRead.createMany.mock.calls[0][0].data[0].readAt.toISOString();
 
     const room = io._room('123');
     expect(room.emit).toHaveBeenCalledWith('message:read', {
       roomId: 123,
       messageId: 55,
       userId: 7,
-      readAt: createdDate.toISOString(),
+      readAt: actualReadAt,
     });
 
     expect(ack).toHaveBeenCalledWith({
       ok: true,
       created: true,
-      readAt: createdDate.toISOString(),
+      readAt: actualReadAt,
     });
   });
 

@@ -2,6 +2,7 @@
 // effect callbacks with controlled database/DOM/socket boundaries.
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
+import { recordMessageReads } from '../server/services/readReceiptService.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 const root = new URL('../', import.meta.url);
@@ -28,10 +29,14 @@ function routeHarness(messages, { member = true } = {}) {
         ).sort((a, b) => a.id - b.id).slice(0, take);
       },
     },
+    user: { findUnique: async () => ({ id: 7, username: 'reader', showReadReceipts: true }) },
     messageRead: {
+      findMany: async ({ where }) => [...read].filter((id) => where.messageId.in.includes(id)).map((messageId) => ({ messageId })),
       createMany: async ({ data }) => { data.forEach((row) => read.add(row.messageId)); },
     },
   };
+  prisma.$transaction = async (fn) => fn(prisma);
+  prisma.user.update = async ({ where }) => ({ id: where.id });
   const errors = Object.fromEntries([
     ['badRequest', 400], ['forbidden', 403],
   ].map(([name, status]) => [name, (message) => Object.assign(new Error(message), { status })]));
@@ -42,7 +47,7 @@ function routeHarness(messages, { member = true } = {}) {
   vm.runInNewContext(s.slice(start, end), {
     router: { post: (_path, _auth, fn) => { handler = fn; } },
     requireAuth: () => {}, asyncHandler: (fn) => fn, prisma, Boom: errors,
-    IS_TEST: false,
+    IS_TEST: false, recordMessageReads,
     emitMessageUpsertPerParticipant: async () => {},
     getParticipantUserIds: async () => [7, 8],
     emitToUser: (...args) => emissions.push(args),

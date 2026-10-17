@@ -580,6 +580,9 @@ export async function fetchMessageById(id) {
       audioUrl: true,
       audioDurationSec: true,
 
+      readBy: {
+        select: { id: true, username: true, avatarUrl: true },
+      },
       sender: {
         select: {
           id: true,
@@ -653,6 +656,9 @@ export async function shapeMessageForUser(messageId, viewerUserId) {
       audioDurationSec: true,
       revision: true,
 
+      readBy: {
+        select: { id: true, username: true, avatarUrl: true },
+      },
       sender: {
         select: {
           id: true,
