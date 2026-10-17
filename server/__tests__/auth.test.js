@@ -48,8 +48,6 @@ describe('Auth flows', () => {
         emailVerifiedAt: new Date(),
         a11yUiFont: 'lg',
         a11yVisualAlerts: true,
-        a11yVibrate: true,
-        a11yFlashOnCall: true,
         a11yLiveCaptions: false,
         a11yVoiceNoteSTT: true,
         a11yCaptionFont: 'sm',
@@ -66,8 +64,6 @@ describe('Auth flows', () => {
     expect(me.body.user).toMatchObject({
       a11yUiFont: 'lg',
       a11yVisualAlerts: true,
-      a11yVibrate: true,
-      a11yFlashOnCall: true,
       a11yLiveCaptions: false,
       a11yVoiceNoteSTT: true,
       a11yCaptionFont: 'sm',

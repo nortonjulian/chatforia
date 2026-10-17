@@ -11,8 +11,6 @@ describe('serializeUser accessibility preferences', () => {
 
       a11yUiFont: 'lg',
       a11yVisualAlerts: true,
-      a11yVibrate: true,
-      a11yFlashOnCall: true,
       a11yLiveCaptions: false,
       a11yVoiceNoteSTT: true,
       a11yCaptionFont: 'sm',
@@ -22,8 +20,6 @@ describe('serializeUser accessibility preferences', () => {
     expect(serializeUser(user)).toMatchObject({
       a11yUiFont: 'lg',
       a11yVisualAlerts: true,
-      a11yVibrate: true,
-      a11yFlashOnCall: true,
       a11yLiveCaptions: false,
       a11yVoiceNoteSTT: true,
       a11yCaptionFont: 'sm',
@@ -43,8 +39,6 @@ describe('serializeUser accessibility preferences', () => {
     expect(serialized).toMatchObject({
       a11yUiFont: 'md',
       a11yVisualAlerts: false,
-      a11yVibrate: false,
-      a11yFlashOnCall: false,
       a11yLiveCaptions: false,
       a11yVoiceNoteSTT: false,
       a11yCaptionFont: 'lg',
