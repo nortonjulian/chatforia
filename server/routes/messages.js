@@ -11,6 +11,7 @@ import { audit } from '../middleware/audit.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { emitMessageUpsert, emitMessageUpsertToUser, emitMessageAck, emitToUser } from '../services/socketBus.js';
 import { shapeMessageForUser, createMessageService } from '../services/messageService.js';
+import { recordMessageReads } from '../services/readReceiptService.js';
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
 
@@ -1623,17 +1624,17 @@ router.patch(
     });
     if (!isMember) throw Boom.forbidden('Forbidden');
 
-    await prisma.messageRead.createMany({
-      data: [{ messageId: id, userId, readAt: new Date() }],
-      skipDuplicates: true,
-    });
-
-    const io = req.app.get('io');
-    io?.to(String(m.chatRoomId)).emit('message_read', {
-      messageId: id,
-      reader: { id: userId, username: req.user.username },
-      readAt: new Date().toISOString(),
-    });
+    const receipt = await recordMessageReads(prisma, [id], userId);
+    if (receipt.sharedIds.includes(id)) {
+      const io = req.app.get('io');
+      io?.to(String(m.chatRoomId)).emit('message_read', {
+        chatRoomId: m.chatRoomId,
+        messageId: id,
+        reader: receipt.reader,
+        readAt: receipt.readAt.toISOString(),
+      });
+    }
+    await syncBadgeToUserDevices(userId, 'messages_read');
 
     return res.json({ ok: true });
   })
@@ -1711,26 +1712,18 @@ router.post(
 
     if (!allowedIds.length) return res.json({ ok: true });
 
-    const rows = allowedIds.map((id) => ({ messageId: id, userId, readAt: new Date() }));
-    if (rows.length) {
-      await prisma.messageRead.createMany({
-        data: rows,
-        skipDuplicates: true,
-      });
-    }
+    const receipt = await recordMessageReads(prisma, allowedIds, userId);
+    const sharedIds = new Set(receipt.sharedIds);
 
-    const readAtISO = new Date().toISOString();
-
-    for (const m of msgs.filter((m) => allowedIds.includes(m.id))) {
+    for (const m of msgs.filter((m) => sharedIds.has(m.id))) {
       await emitMessageUpsertPerParticipant(m.chatRoomId, m.id);
-
       const participantIds = await getParticipantUserIds(m.chatRoomId);
-
       for (const participantId of participantIds) {
         emitToUser(participantId, 'message_read', {
+          chatRoomId: m.chatRoomId,
           messageId: m.id,
-          reader: { id: userId, username: req.user.username },
-          readAt: readAtISO,
+          reader: receipt.reader,
+          readAt: receipt.readAt.toISOString(),
         });
       }
     }

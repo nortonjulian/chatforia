@@ -1,3 +1,4 @@
+import { recordMessageReads } from '../services/readReceiptService.js';
 export function registerReadReceipts(io, socket, { prisma, IS_TEST = false }) {
   socket.on('message:read', async (payload, ack) => {
     try {
@@ -51,20 +52,24 @@ export function registerReadReceipts(io, socket, { prisma, IS_TEST = false }) {
         });
       }
 
-      const created = await prisma.messageRead.create({
-        data: { messageId: mid, userId: Number(userId) },
-        select: { readAt: true },
-      });
-
+      const receipt = await recordMessageReads(prisma, [mid], Number(userId));
       const evt = {
         roomId: chatRoomId,
         messageId: mid,
         userId: Number(userId),
-        readAt: created.readAt.toISOString(),
+        readAt: receipt.readAt.toISOString(),
       };
 
-      // Broadcast only on first insert (less churn)
-      io.to(String(chatRoomId)).emit('message:read', evt);
+      if (receipt.sharedIds.includes(mid)) {
+        io.to(String(chatRoomId)).emit('message:read', evt);
+        // Existing web clients consume the underscore alias.
+        io.to(String(chatRoomId)).emit('message_read', {
+          chatRoomId,
+          messageId: mid,
+          reader: receipt.reader,
+          readAt: evt.readAt,
+        });
+      }
 
       return ack?.({ ok: true, created: true, readAt: evt.readAt });
     } catch (e) {
