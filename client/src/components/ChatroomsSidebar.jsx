@@ -83,105 +83,6 @@ function sortThreadsNewestFirst(list) {
   });
 }
 
-function getChatRoomIdFromPayload(payload) {
-  return (
-    payload?.chatRoomId ??
-    payload?.chatroomId ??
-    payload?.roomId ??
-    payload?.chatRoom?.id ??
-    payload?.chatroom?.id ??
-    payload?.message?.chatRoomId ??
-    payload?.message?.chatroomId ??
-    payload?.message?.roomId ??
-    payload?.item?.chatRoomId ??
-    payload?.item?.chatroomId ??
-    payload?.item?.roomId ??
-    null
-  );
-}
-
-function getMessageIdFromPayload(payload) {
-  return (
-    payload?.messageId ??
-    payload?.id ??
-    payload?.message?.id ??
-    payload?.item?.id ??
-    null
-  );
-}
-
-function getTextFromPayload(payload) {
-  return (
-    payload?.rawContent ??
-    payload?.content ??
-    payload?.text ??
-    payload?.message?.rawContent ??
-    payload?.message?.content ??
-    payload?.message?.text ??
-    payload?.item?.rawContent ??
-    payload?.item?.content ??
-    payload?.item?.text ??
-    ''
-  );
-}
-
-/**
- * Try to infer media info from a socket payload (for MMS + attachments).
- * Works if payload contains any of:
- * - media: [{ kind, url, thumbUrl }]
- * - attachments: [{ mimeType, url, thumbUrl }]
- * - message.media / message.attachments
- */
-function getMediaFromPayload(payload) {
-  const list =
-    payload?.media ||
-    payload?.attachments ||
-    payload?.message?.media ||
-    payload?.message?.attachments ||
-    payload?.item?.media ||
-    payload?.item?.attachments ||
-    [];
-
-  if (!Array.isArray(list) || list.length === 0) {
-    return {
-      hasMedia: false,
-      mediaCount: 0,
-      mediaKinds: [],
-      thumbUrl: null,
-    };
-  }
-
-  const kinds = [];
-  let thumbUrl = null;
-
-  for (const item of list) {
-    const k =
-      item?.kind ||
-      (typeof item?.mimeType === 'string'
-        ? item.mimeType.startsWith('image/')
-          ? 'image'
-          : item.mimeType.startsWith('video/')
-            ? 'video'
-            : item.mimeType.startsWith('audio/')
-              ? 'audio'
-              : 'file'
-        : null);
-
-    if (k && !kinds.includes(k)) kinds.push(k);
-
-    if (!thumbUrl) {
-      thumbUrl = item?.thumbUrl || item?.thumbnailUrl || item?.url || null;
-    }
-  }
-
-  return {
-    hasMedia: true,
-    mediaCount: list.length,
-    mediaKinds: kinds,
-    thumbUrl,
-  };
-}
-
 function formatLastPreview(last, t) {
   if (!last) return '';
 
@@ -233,6 +134,7 @@ export default function ChatroomsSidebar({
 
   // ✅ Avoid stale closures in socket handlers
   const itemsRef = useRef(items);
+  const loadRequestRef = useRef(0);
   useEffect(() => {
     itemsRef.current = items;
   }, [items]);
@@ -347,12 +249,13 @@ export default function ChatroomsSidebar({
   const load = useCallback(async () => {
     if (__testSkipLoad) return;
 
+    const requestId = ++loadRequestRef.current;
     let usedCache = false;
 
     try {
       setErr('');
 
-      const cached = localStorage.getItem(CACHE_KEY);
+      const cached = !itemsRef.current.length ? localStorage.getItem(CACHE_KEY) : null;
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
@@ -365,6 +268,7 @@ export default function ChatroomsSidebar({
       }
 
       const res = await axiosClient.get('/conversations');
+      if (requestId !== loadRequestRef.current) return;
       const data = res?.data;
 
       const list = Array.isArray(data?.items)
@@ -379,6 +283,7 @@ export default function ChatroomsSidebar({
       setItems(sorted);
       localStorage.setItem(CACHE_KEY, JSON.stringify(sorted));
     } catch (e) {
+      if (requestId !== loadRequestRef.current) return;
       if (!usedCache) {
         setErr(
           e?.response?.data?.error ||
@@ -390,12 +295,13 @@ export default function ChatroomsSidebar({
         console.warn('[ChatroomsSidebar] refresh failed, using cached conversations', e);
       }
     } finally {
-      setLoading(false);
+      if (requestId === loadRequestRef.current) setLoading(false);
     }
 }, [t, __testSkipLoad]);
 
   useEffect(() => {
     load();
+    return () => { loadRequestRef.current += 1; };
   }, [load]);
 
     useEffect(() => {
@@ -456,37 +362,6 @@ export default function ChatroomsSidebar({
     () => 'color-mix(in oklab, var(--mantine-color-blue-2) 22%, transparent)',
     []
   );
-
-  // ✅ patch a single conversation in-place
-  const patchConversation = useCallback((kind, id, patchFn) => {
-    setItems((prev) => {
-      const list = Array.isArray(prev) ? prev : [];
-      const idx = list.findIndex(
-        (c) => String(c.kind) === String(kind) && String(c.id) === String(id)
-      );
-      if (idx === -1) return prev;
-
-      const next = list.slice();
-      next[idx] = patchFn(next[idx]);
-      return sortThreadsNewestFirst(next);
-    });
-}, []);
-
-  // ✅ move convo to top (UI ordering)
-  const bumpToTop = useCallback((kind, id) => {
-    setItems((prev) => {
-      const list = Array.isArray(prev) ? prev : [];
-      const idx = list.findIndex(
-        (c) => String(c.kind) === String(kind) && String(c.id) === String(id)
-      );
-      if (idx <= 0) return prev;
-
-      const next = list.slice();
-      const [row] = next.splice(idx, 1);
-      next.unshift(row);
-      return next;
-    });
-  }, []);
 
   /* ---------------- archive (thread delete UX) ---------------- */
 
@@ -603,178 +478,32 @@ export default function ChatroomsSidebar({
   [t]
 );
 
- /* ---------------- live updates: message preview ---------------- */
+  /* ---------------- authoritative live conversation state ---------------- */
 
-useEffect(() => {
-  if (__testSkipLoad) return;
-  if (!socket) return;
-
-  function getCreatedAtFromPayload(payload) {
-    return (
-      payload?.createdAt ??
-      payload?.at ??
-      payload?.message?.createdAt ??
-      payload?.item?.createdAt ??
-      payload?.shaped?.createdAt ??
-      null
-    );
-  }
-
-  function getEditedAtFromPayload(payload) {
-    return (
-      payload?.editedAt ??
-      payload?.message?.editedAt ??
-      payload?.item?.editedAt ??
-      payload?.shaped?.editedAt ??
-      null
-    );
-  }
-
-  const onReceiveMessage = (payload) => {
-    const roomId = getChatRoomIdFromPayload(payload);
-    if (!roomId) return;
-
-    const kind = 'chat';
-
-    const text = getTextFromPayload(payload) || '';
-    const messageId = getMessageIdFromPayload(payload);
-    const media = getMediaFromPayload(payload);
-    const eventAt = getCreatedAtFromPayload(payload);
-
-    const safeText =
-      text ||
-      (media?.hasMedia
-        ? media.mediaKinds?.includes('image')
-          ? t('messages.mediaPhoto', '📷 Photo')
-          : media.mediaKinds?.includes('video')
-            ? t('messages.mediaVideo', '🎥 Video')
-            : media.mediaKinds?.includes('audio')
-              ? t('messages.mediaAudio', '🎙️ Audio')
-              : t('messages.mediaFile', '📎 Attachment')
-        : '');
-
-    const isActive =
-      String(activeKind || 'chat') === 'chat' &&
-      String(activeId) === String(roomId);
-
-    const existing = (itemsRef.current || []).some(
-      (c) => String(c.kind) === kind && String(c.id) === String(roomId)
-    );
-
-    if (!existing) {
-      load();
-      return;
-    }
-
-    patchConversation(kind, roomId, (c) => {
-      const unreadCount = Number(c.unreadCount || 0);
-      const nextAt = eventAt || c?.last?.at || c?.updatedAt || null;
-
-      return {
-        ...c,
-        updatedAt: nextAt,
-        last: {
-          ...(c.last || {}),
-          text: safeText,
-          messageId: messageId ?? c.last?.messageId,
-          at: nextAt,
-          ...media,
-        },
-        unreadCount: isActive ? unreadCount : unreadCount + 1,
-      };
-    });
-
-    bumpToTop(kind, roomId);
-  };
-
-  const onMessageEdited = (payload) => {
-  const roomId = getChatRoomIdFromPayload(payload);
-  const messageId = getMessageIdFromPayload(payload);
-  const text = getTextFromPayload(payload);
-  const media = getMediaFromPayload(payload);
-  const editedAt = getEditedAtFromPayload(payload);
-
-  const safeText =
-    text ||
-    (media?.hasMedia
-      ? media.mediaKinds?.includes('image')
-        ? t('messages.mediaPhoto', '📷 Photo')
-        : media.mediaKinds?.includes('video')
-          ? t('messages.mediaVideo', '🎥 Video')
-          : media.mediaKinds?.includes('audio')
-            ? t('messages.mediaAudio', '🎙️ Audio')
-            : t('messages.mediaFile', '📎 Attachment')
-      : '');
-
-  if (!messageId) return;
-
-  if (!roomId) {
-    load();
-    return;
-  }
-
-  let shouldBump = false;
-
-  patchConversation('chat', roomId, (c) => {
-    const lastId = c?.last?.messageId ?? null;
-    if (!lastId || String(lastId) !== String(messageId)) return c;
-
-    const nextAt = editedAt || c?.last?.at || c?.updatedAt || null;
-    shouldBump = true;
-
-    return {
-      ...c,
-      updatedAt: nextAt,
-      last: {
-        ...(c.last || {}),
-        text: safeText,
-        at: nextAt,
-        ...media,
-      },
+  useEffect(() => {
+    if (__testSkipLoad || !socket) return;
+    let timer;
+    // Upserts also carry edits, receipts and duplicate delivery aliases.
+    // Recount on the server instead of treating every event as a new message.
+    const refresh = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => load(), 120);
     };
-  });
-
-  if (shouldBump) {
-    bumpToTop('chat', roomId);
-  }
-};
-
-  const onMessageDeleted = (payload) => {
-    const roomId = getChatRoomIdFromPayload(payload);
-    const messageId = getMessageIdFromPayload(payload);
-    if (!messageId) return;
-
-    if (!roomId) {
-      load();
-      return;
-    }
-
-    const convo = (itemsRef.current || []).find(
-      (c) => String(c.kind) === 'chat' && String(c.id) === String(roomId)
-    );
-    const lastId = convo?.last?.messageId ?? null;
-
-    if (!lastId || String(lastId) !== String(messageId)) return;
-
-    // Refetch so the backend supplies the newest message still visible
-    // to this user instead of showing a deleted-message tombstone.
-    load();
-  };
-
-  socket.on('message:upsert', onReceiveMessage);
-  socket.on('message:new', onReceiveMessage);
-  socket.on('receive:message', onReceiveMessage);
-  socket.on('message:edited', onMessageEdited);
-  socket.on('message:deleted', onMessageDeleted);
-
-  return () => {
-    socket.off('message:upsert', onReceiveMessage);
-    socket.off('message:new', onReceiveMessage);
-    socket.off('receive:message', onReceiveMessage);
-    socket.off('message:edited', onMessageEdited);
-    socket.off('message:deleted', onMessageDeleted);
-  };
-}, [socket, activeId, activeKind, load, patchConversation, bumpToTop, t, __testSkipLoad]);
+    const events = [
+      'message:upsert', 'message:new', 'receive:message',
+      'message:edited', 'message:deleted', 'message_read', 'message:read',
+      'connect',
+    ];
+    events.forEach((event) => socket.on(event, refresh));
+    window.addEventListener('focus', refresh);
+    document.addEventListener('visibilitychange', refresh);
+    return () => {
+      clearTimeout(timer);
+      events.forEach((event) => socket.off(event, refresh));
+      window.removeEventListener('focus', refresh);
+      document.removeEventListener('visibilitychange', refresh);
+    };
+  }, [socket, load, __testSkipLoad]);
 
   /* ---------------- UI states ---------------- */
 
@@ -910,9 +639,15 @@ useEffect(() => {
                       {title}
                     </Text>
 
-                    <Group gap={8} wrap="nowrap">
+                    <Group gap={8} wrap="nowrap" style={{ flexShrink: 0 }}>
                       {!!unread && (
-                        <Badge size="sm" variant="light" data-testid="badge">
+                        <Badge
+                          size="sm"
+                          variant="light"
+                          data-testid="badge"
+                          style={{ flexShrink: 0, minWidth: 'max-content' }}
+                          styles={{ label: { overflow: 'visible', textOverflow: 'clip' } }}
+                        >
                           {unread}
                         </Badge>
                       )}
