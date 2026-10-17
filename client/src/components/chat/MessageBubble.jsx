@@ -9,6 +9,7 @@ import {
   Copy,
 } from 'lucide-react';
 import dayjs from 'dayjs';
+import { visibleOriginal } from '../../utils/encryptedOriginal.js';
 
 function normalizeAttachments(msg) {
   const attachments = Array.isArray(msg?.attachments) ? msg.attachments.filter(Boolean) : [];
@@ -102,6 +103,7 @@ function LinkifiedText({ text }) {
 export default function MessageBubble({
   msg,
   currentUserId,
+  showOriginalWithTranslation = false,
   onRetry,
   onEdit,
   onDeleteMe,
@@ -165,7 +167,7 @@ export default function MessageBubble({
   const candidateText = isTombstone
     ? 'This message was deleted'
     : (
-        (msg.editedAt ? null : msg.decryptedContent) ||
+        msg.decryptedContent ||
         msg.translatedForMe ||
         msg.rawContent ||
         msg.content ||
@@ -180,6 +182,11 @@ export default function MessageBubble({
   const isPlaceholder = PLACEHOLDER_TEXTS.has(normalizedText);
 
   const displayText = isPlaceholder ? '' : candidateText;
+  const originalText = visibleOriginal(msg, displayText, {
+    enabled: showOriginalWithTranslation,
+    mine,
+    deleted: isTombstone || msg.deletedBySender,
+  });
 
   const bubbleStyle = mine
     ? {
@@ -431,6 +438,11 @@ export default function MessageBubble({
                   }}
                 >
                     <LinkifiedText text={displayText} />
+                    {originalText && (
+                      <Text component="span" size="sm" style={{ display: 'block', marginTop: 6 }}>
+                        <LinkifiedText text={originalText} />
+                      </Text>
+                    )}
                   {Boolean(msg.editedAt) && !isTombstone ? (
                     <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
                       (edited)
@@ -565,6 +577,11 @@ export default function MessageBubble({
                     }}
                   >
                         <LinkifiedText text={displayText} />
+                    {originalText && (
+                      <Text component="span" size="sm" style={{ display: 'block', marginTop: 6 }}>
+                        <LinkifiedText text={originalText} />
+                      </Text>
+                    )}
                     {Boolean(msg.editedAt) && !isTombstone ? (
                       <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
                         (edited)
