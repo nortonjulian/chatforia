@@ -248,4 +248,87 @@ describe('Conversations: deleted-message preview fallback', () => {
     expect(recipientConversation?.last?.text)
       .toBe('legacy sender-deleted message');
   });
+
+  test('empty SMS threads disappear and return when a new MMS arrives', async () => {
+    const thread = await prisma.smsThread.create({
+      data: {
+        userId: senderId,
+        contactPhone: '+12025550101',
+      },
+    });
+
+    const otherThread = await prisma.smsThread.create({
+      data: {
+        userId: recipientId,
+        contactPhone: '+12025550102',
+      },
+    });
+
+    async function addMessage(threadId, overrides = {}) {
+      return prisma.smsMessage.create({
+        data: {
+          threadId,
+          direction: 'in',
+          fromNumber: '+12025550101',
+          toNumber: '+12025550103',
+          body: 'SMS test message',
+          ...overrides,
+        },
+      });
+    }
+
+    async function smsConversationIDs(userId) {
+      const response = await asUser(
+        request(app).get(ENDPOINTS.conversations),
+        userId
+      ).expect(200);
+
+      return (response.body.items || response.body.conversations || [])
+        .filter(item => item.kind === 'sms')
+        .map(item => Number(item.id));
+    }
+
+    await addMessage(otherThread.id);
+
+    // Empty threads stay out of the list.
+    expect(await smsConversationIDs(senderId)).not.toContain(thread.id);
+
+    const first = await addMessage(thread.id);
+    const second = await addMessage(thread.id);
+
+    expect(await smsConversationIDs(senderId)).toContain(thread.id);
+
+    // Deleting one message preserves a thread with another message.
+    await asUser(
+      request(app).delete(`/sms/messages/${first.id}`),
+      senderId
+    ).expect(200);
+
+    expect(await smsConversationIDs(senderId)).toContain(thread.id);
+
+    // Deleting the final message hides the thread without deleting its record.
+    await asUser(
+      request(app).delete(`/sms/messages/${second.id}`),
+      senderId
+    ).expect(200);
+
+    expect(await smsConversationIDs(senderId)).not.toContain(thread.id);
+    expect(await prisma.smsThread.findUnique({
+      where: { id: thread.id },
+    })).not.toBeNull();
+
+    // A new attachment-only message makes the thread visible again.
+    await addMessage(thread.id, {
+      body: '',
+      mediaUrls: ['https://example.com/photo.jpg'],
+    });
+
+    expect(await smsConversationIDs(senderId)).toContain(thread.id);
+
+    // Each account sees only its own SMS threads.
+    expect(await smsConversationIDs(senderId)).not.toContain(otherThread.id);
+    expect(await smsConversationIDs(recipientId)).toContain(otherThread.id);
+    expect(await smsConversationIDs(recipientId)).not.toContain(thread.id);
+  });
+
 });
