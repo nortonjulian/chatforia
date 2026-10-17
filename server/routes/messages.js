@@ -1646,9 +1646,47 @@ router.post(
   asyncHandler(async (req, res) => {
     const userId = Number(req.user?.id);
     const rawIds = req.body?.ids ?? req.body?.messageIds ?? [];
-    const ids = (Array.isArray(rawIds) ? rawIds : []).map(Number).filter(Number.isFinite);
+    let ids = [...new Set((Array.isArray(rawIds) ? rawIds : [])
+      .map(Number).filter((id) => Number.isSafeInteger(id) && id > 0))];
+    let hasMore = false;
 
-    if (!ids.length) return res.json({ ok: true });
+    // Room reads stop at a message actually loaded by this client. Newer
+    // arrivals are left unread, including arrivals during a backlog drain.
+    if (!ids.length && req.body?.chatRoomId != null) {
+      const chatRoomId = Number(req.body.chatRoomId);
+      const throughMessageId = Number(req.body.throughMessageId);
+      if (!Number.isSafeInteger(chatRoomId) || chatRoomId <= 0 ||
+          !Number.isSafeInteger(throughMessageId) || throughMessageId <= 0) {
+        throw Boom.badRequest('chatRoomId and throughMessageId must be positive integers');
+      }
+      const member = await prisma.participant.findFirst({
+        where: { chatRoomId, userId }, select: { id: true },
+      });
+      if (!member) throw Boom.forbidden('Forbidden');
+      const anchor = await prisma.message.findUnique({
+        where: { id: throughMessageId }, select: { chatRoomId: true },
+      });
+      if (!anchor || anchor.chatRoomId !== chatRoomId) {
+        throw Boom.badRequest('Read boundary does not belong to this room');
+      }
+      const unread = await prisma.message.findMany({
+        where: {
+          chatRoomId,
+          id: { lte: throughMessageId },
+          senderId: { not: userId },
+          deletedForAll: false,
+          reads: { none: { userId } },
+          OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
+        },
+        select: { id: true },
+        orderBy: { id: 'asc' },
+        take: 501,
+      });
+      hasMore = unread.length > 500;
+      ids = unread.slice(0, 500).map((message) => message.id);
+    }
+
+    if (!ids.length) return res.json({ ok: true, count: 0, hasMore: false });
 
     if (IS_TEST) {
       for (const id of ids) {
@@ -1699,7 +1737,7 @@ router.post(
 
     await syncBadgeToUserDevices(userId, 'messages_read');
 
-    return res.json({ ok: true, count: allowedIds.length });
+    return res.json({ ok: true, count: allowedIds.length, hasMore });
   })
 );
 

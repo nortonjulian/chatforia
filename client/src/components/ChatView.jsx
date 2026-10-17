@@ -362,20 +362,72 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const MESSAGE_ACTION_WINDOW_SEC = 900;
 
-  const markNewestUnreadBulk = useCallback(
-    async (limit = 50) => {
-      if (!chatroom?.id) return;
+  const readThroughRef = useRef({ roomId: null, userId: null, messageId: 0 });
+
+  useEffect(() => {
+    const roomId = Number(chatroom?.id);
+    const userId = Number(currentUserId);
+    if (!roomId || !userId || !messages.length) return;
+
+    const throughMessageId = messages.reduce((max, message) => {
+      const id = Number(message?.id);
+      return Number.isSafeInteger(id) && id > max ? id : max;
+    }, 0);
+    if (!throughMessageId) return;
+
+    let cancelled = false;
+    let timer;
+    let inFlight = false;
+    const viewport = scrollViewportRef.current;
+
+    const markRead = async () => {
+      if (cancelled || inFlight || document.visibilityState !== 'visible' ||
+          !document.hasFocus()) return;
+      const v = scrollViewportRef.current;
+      if (v && v.scrollHeight - v.scrollTop - v.clientHeight > 120) return;
+      const previous = readThroughRef.current;
+      if (previous.roomId === roomId && previous.userId === userId &&
+          previous.messageId >= throughMessageId) return;
+
+      inFlight = true;
       try {
-        await axiosClient.post('/messages/read-bulk', {
-          chatRoomId: chatroom.id,
-          limit,
-        });
-      } catch (e) {
-        console.error('read-bulk failed', e);
+        let hasMore;
+        do {
+          const { data } = await axiosClient.post('/messages/read-bulk', {
+            chatRoomId: roomId,
+            throughMessageId,
+          });
+          if (data?.ok !== true) throw new Error('Read acknowledgement failed');
+          hasMore = data?.hasMore === true;
+          if (hasMore && !(Number(data?.count) > 0)) {
+            throw new Error('Read acknowledgement made no progress');
+          }
+        } while (hasMore && !cancelled);
+        if (cancelled) return;
+        readThroughRef.current = { roomId, userId, messageId: throughMessageId };
+        window.dispatchEvent(new Event('sidebar:reload-rooms'));
+      } catch (error) {
+        console.error('read-bulk failed', error);
+      } finally {
+        inFlight = false;
       }
-    },
-    [chatroom?.id]
-  );
+    };
+    const scheduleRead = () => {
+      clearTimeout(timer);
+      timer = setTimeout(markRead, 150);
+    };
+    scheduleRead();
+    window.addEventListener('focus', scheduleRead);
+    document.addEventListener('visibilitychange', scheduleRead);
+    viewport?.addEventListener('scroll', scheduleRead, { passive: true });
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+      window.removeEventListener('focus', scheduleRead);
+      document.removeEventListener('visibilitychange', scheduleRead);
+      viewport?.removeEventListener('scroll', scheduleRead);
+    };
+  }, [chatroom?.id, currentUserId, messages]);
 
     const jumpToMessage = useCallback((messageId) => {
     if (!messageId) return;
@@ -1246,7 +1298,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           canLoadOlderRef.current = true;
         });
 
-        await markNewestUnreadBulk(50);
+
       } catch (e) {
         console.error('initial load failed', e);
       }
@@ -1255,7 +1307,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     return () => {
       alive = false;
     };
-  }, [chatroom?.id, markNewestUnreadBulk]);
+  }, [chatroom?.id]);
 
   useEffect(() => {
     const v = scrollViewportRef.current;
