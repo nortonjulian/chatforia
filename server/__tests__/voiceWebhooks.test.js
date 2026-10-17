@@ -36,6 +36,22 @@ class MockVoiceResponse {
     return this;
   }
 
+  start() {
+    const start = {
+      type: 'start',
+      transcriptions: [],
+    };
+
+    this.actions.push(start);
+
+    return {
+      transcription: (opts = {}) => {
+        start.transcriptions.push({ opts });
+        return this;
+      },
+    };
+  }
+
   dial(opts = {}) {
     const dial = {
       type: 'dial',
@@ -99,14 +115,22 @@ class MockVoiceResponse {
   }
 }
 
+const realTwilioModule = await jest.requireActual('twilio');
+const realTwilio = realTwilioModule.default ?? realTwilioModule;
+
 jest.unstable_mockModule('twilio', () => ({
   __esModule: true,
   default: {
     twiml: {
       VoiceResponse: MockVoiceResponse,
     },
+    validateRequest: realTwilio.validateRequest,
+    getExpectedTwilioSignature:
+      realTwilio.getExpectedTwilioSignature,
   },
 }));
+
+const { default: twilio } = await import('twilio');
 
 // -----------------------------------------------------------------------------
 // Mock phone utils
@@ -731,6 +755,154 @@ describe('POST /webhooks/voice/inbound', () => {
 // -----------------------------------------------------------------------------
 
 describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
+  it('starts live transcription for an active Premium callee with Live Captions enabled', async () => {
+    process.env.APP_API_ORIGIN = 'https://api.example.com';
+    process.env.TWILIO_VOICE_WEBHOOK_URL = '';
+
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 99,
+        plan: 'PREMIUM',
+        subscriptionStatus: 'ACTIVE',
+        subscriptionEndsAt: null,
+        a11yLiveCaptions: true,
+      })
+      .mockResolvedValueOnce({
+        id: 42,
+        username: 'caller42',
+        displayName: 'Caller Forty Two',
+      });
+
+    getVoiceDialDestinations.mockResolvedValueOnce([
+      {
+        identity: 'user_99_device_ios_regina_iphone',
+        deviceId: 'regina-iphone',
+        platform: 'ios',
+        legacy: false,
+      },
+    ]);
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/client')
+      .type('form')
+      .send({
+        From: 'client:user_42_device_caller_device_abc',
+        To: '99',
+        backendCallId: '777',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions[0]).toEqual({
+      type: 'start',
+      transcriptions: [
+        {
+          opts: expect.objectContaining({
+            name: 'chatforia-live-captions-777-99',
+            track: 'both_tracks',
+            partialResults: true,
+            statusCallbackMethod: 'POST',
+          }),
+        },
+      ],
+    });
+
+    expect(
+      actions[0].transcriptions[0].opts.statusCallbackUrl
+    ).toContain(
+      'https://api.example.com/webhooks/voice/transcription'
+    );
+
+    expect(
+      actions[0].transcriptions[0].opts.statusCallbackUrl
+    ).toContain('backendCallId=777');
+
+    expect(
+      actions[0].transcriptions[0].opts.statusCallbackUrl
+    ).toContain('captionUserId=99');
+
+    expect(actions[1].type).toBe('dial');
+  });
+
+  it.each([
+    {
+      label: 'Free',
+      plan: 'FREE',
+      subscriptionStatus: 'INACTIVE',
+      a11yLiveCaptions: true,
+    },
+    {
+      label: 'Plus',
+      plan: 'PLUS',
+      subscriptionStatus: 'ACTIVE',
+      a11yLiveCaptions: true,
+    },
+    {
+      label: 'inactive Premium',
+      plan: 'PREMIUM',
+      subscriptionStatus: 'INACTIVE',
+      a11yLiveCaptions: true,
+    },
+    {
+      label: 'Premium with Live Captions disabled',
+      plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+      a11yLiveCaptions: false,
+    },
+  ])(
+    'does not start live transcription for $label callee',
+    async ({
+      plan,
+      subscriptionStatus,
+      a11yLiveCaptions,
+    }) => {
+      prisma.user.findUnique
+        .mockResolvedValueOnce({
+          id: 99,
+          plan,
+          subscriptionStatus,
+          subscriptionEndsAt: null,
+          a11yLiveCaptions,
+        })
+        .mockResolvedValueOnce({
+          id: 42,
+          username: 'caller42',
+          displayName: 'Caller Forty Two',
+        });
+
+      getVoiceDialDestinations.mockResolvedValueOnce([
+        {
+          identity: 'user_99_device_ios_regina_iphone',
+          deviceId: 'regina-iphone',
+          platform: 'ios',
+          legacy: false,
+        },
+      ]);
+
+      const app = createApp();
+
+      const res = await request(app)
+        .post('/webhooks/voice/client')
+        .type('form')
+        .send({
+          From: 'client:user_42_device_caller_device_abc',
+          To: '99',
+          backendCallId: '777',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      const actions = JSON.parse(res.text);
+
+      expect(actions).toHaveLength(1);
+      expect(actions[0].type).toBe('dial');
+    }
+  );
+
   it('fans out one Dial to mobile devices and the browser while parsing a device-specific caller identity', async () => {
     prisma.user.findUnique
       .mockResolvedValueOnce({
@@ -858,6 +1030,124 @@ describe('POST /webhooks/voice/client app-to-app voicemail handoff', () => {
 // -----------------------------------------------------------------------------
 // POST /webhooks/voice/app-call-complete
 // -----------------------------------------------------------------------------
+
+describe('POST /webhooks/voice/transcription', () => {
+  const authToken = 'test_twilio_auth_token';
+  const callbackBase = 'https://api.example.com';
+
+  beforeEach(() => {
+    process.env.TWILIO_AUTH_TOKEN = authToken;
+    process.env.APP_API_ORIGIN = callbackBase;
+    process.env.TWILIO_VOICE_WEBHOOK_URL = '';
+  });
+
+  it('emits an authenticated Twilio caption to only the caption recipient', async () => {
+    const query = 'backendCallId=777&captionUserId=99';
+    const callbackUrl =
+      `${callbackBase}/webhooks/voice/transcription?${query}`;
+
+    const body = {
+      TranscriptionEvent: 'transcription-content',
+      TranscriptionData: JSON.stringify({
+        transcript: 'Hello from the caller',
+        confidence: 0.968,
+      }),
+      Track: 'inbound_track',
+      Final: 'true',
+    };
+
+    const signature = twilio.getExpectedTwilioSignature(
+      authToken,
+      callbackUrl,
+      body
+    );
+
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 777,
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(`/webhooks/voice/transcription?${query}`)
+      .set('X-Twilio-Signature', signature)
+      .type('form')
+      .send(body);
+
+    expect(res.statusCode).toBe(204);
+
+    expect(emitToUser).toHaveBeenCalledTimes(1);
+    expect(emitToUser).toHaveBeenCalledWith(
+      99,
+      'call:caption',
+      {
+        callId: 777,
+        text: 'Hello from the caller',
+        track: 'inbound_track',
+        isFinal: true,
+      }
+    );
+  });
+
+  it('rejects a signed caption callback for a user who is not the call recipient', async () => {
+    const query = 'backendCallId=777&captionUserId=123';
+    const callbackUrl =
+      `${callbackBase}/webhooks/voice/transcription?${query}`;
+
+    const body = {
+      TranscriptionEvent: 'transcription-content',
+      TranscriptionData: JSON.stringify({
+        transcript: 'Do not deliver this',
+        confidence: 0.968,
+      }),
+      Track: 'inbound_track',
+      Final: 'true',
+    };
+
+    const signature = twilio.getExpectedTwilioSignature(
+      authToken,
+      callbackUrl,
+      body
+    );
+
+    prisma.call.findFirst.mockResolvedValueOnce(null);
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post(`/webhooks/voice/transcription?${query}`)
+      .set('X-Twilio-Signature', signature)
+      .type('form')
+      .send(body);
+
+    expect(res.statusCode).toBe(403);
+    expect(emitToUser).not.toHaveBeenCalled();
+  });
+
+  it('rejects a transcription callback with an invalid Twilio signature', async () => {
+    const app = createApp();
+
+    const res = await request(app)
+      .post(
+        '/webhooks/voice/transcription?' +
+          'backendCallId=777&captionUserId=99'
+      )
+      .set('X-Twilio-Signature', 'invalid-signature')
+      .type('form')
+      .send({
+        TranscriptionEvent: 'transcription-content',
+        TranscriptionData: JSON.stringify({
+          transcript: 'Forged caption',
+          confidence: 0.968,
+        }),
+        Track: 'inbound_track',
+        Final: 'true',
+      });
+
+    expect(res.statusCode).toBe(403);
+    expect(emitToUser).not.toHaveBeenCalled();
+  });
+});
 
 describe('POST /webhooks/voice/app-call-complete', () => {
   it('stops the unanswered recipient and sends the caller into voicemail', async () => {
