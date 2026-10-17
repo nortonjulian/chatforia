@@ -50,6 +50,7 @@ import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 // ✅ Local message cache for search/media
 import { fetchLatestMessages, fetchOlderMessages, fetchMessageDeltas } from '@/lib/api';
 import { addMessages, upsertMessage } from '@/utils/messagesStore';
+import { mergeRecoveredReadReceipts, recoverLoadedReadReceipts } from '@/utils/readReceiptRecovery';
 
 // ✅ Modals
 import RoomSettingsModal from '@/components/RoomSettingsModal.jsx';
@@ -250,6 +251,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   } = useCall();
 
   const [messages, setMessages] = useState([]);
+  const receiptMessagesRef = useRef(messages);
+  receiptMessagesRef.current = messages;
   const [typingUser, setTypingUser] = useState('');
   const [showNewMessage, setShowNewMessage] = useState(false);
 
@@ -1417,6 +1420,50 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   socket.on('message_read', onRead);
   return () => socket.off('message_read', onRead);
 }, [socket, currentUserId]);
+
+  // Receipt recovery is independent of newer-message deltas: a read does not
+  // give an existing message a new ID. Failures leave known receipts intact.
+  useEffect(() => {
+    if (!socket || !chatroom?.id || !currentUserId) return;
+    let cancelled = false;
+    let pending = false;
+    let rerun = false;
+    const roomId = chatroom.id;
+    const recover = async () => {
+      if (cancelled) return;
+      if (pending) { rerun = true; return; }
+      pending = true;
+      try {
+        const rows = await recoverLoadedReadReceipts({
+          messages: receiptMessagesRef.current, roomId, userId: currentUserId,
+          fetchLatest: fetchLatestMessages, fetchOlder: fetchOlderMessages,
+          isActive: () => !cancelled,
+        });
+        if (!cancelled && rows.length) {
+          setMessages((prev) => cancelled ? prev : mergeRecoveredReadReceipts(prev, rows, roomId));
+        }
+      } catch (error) {
+        if (!cancelled) console.warn('[ChatView] receipt recovery failed', error);
+      } finally {
+        pending = false;
+        if (rerun && !cancelled) { rerun = false; void recover(); }
+      }
+    };
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') void recover();
+    };
+    socket.on('connect', recover);
+    window.addEventListener('online', recover);
+    window.addEventListener('focus', recover);
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      cancelled = true;
+      socket.off('connect', recover);
+      window.removeEventListener('online', recover);
+      window.removeEventListener('focus', recover);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [socket, chatroom?.id, currentUserId]);
 
   useEffect(() => {
   if (!socket) return;
