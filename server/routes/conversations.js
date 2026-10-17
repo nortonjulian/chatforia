@@ -502,7 +502,13 @@ router.get(
     // SMS / MMS threads
     // ----------------
     const smsThreads = await prisma.smsThread.findMany({
-      where: { userId, archivedAt: null, deletedAt: null, },
+      where: {
+        userId,
+        archivedAt: null,
+        deletedAt: null,
+        // Empty SMS/MMS threads should not appear in the Chats list.
+        messages: { some: {} },
+      },
       select: {
         id: true,
         updatedAt: true,
