@@ -157,7 +157,6 @@ describe('A11Y/AI quotas and guards (integration-ish)', () => {
       .send({
         a11yUiFont: 'lg',
         a11yVisualAlerts: true,
-        a11yFlashOnCall: false,
         a11yLiveCaptions: true,
         a11yCaptionFont: 'md',
         a11yCaptionBg: 'dark',

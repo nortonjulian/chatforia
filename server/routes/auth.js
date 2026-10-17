@@ -1245,8 +1245,6 @@ router.get(
       // Accessibility preferences
       a11yUiFont: safeUser.a11yUiFont,
       a11yVisualAlerts: safeUser.a11yVisualAlerts,
-      a11yVibrate: safeUser.a11yVibrate,
-      a11yFlashOnCall: safeUser.a11yFlashOnCall,
       a11yLiveCaptions: safeUser.a11yLiveCaptions,
       a11yVoiceNoteSTT: safeUser.a11yVoiceNoteSTT,
       a11yCaptionFont: safeUser.a11yCaptionFont,

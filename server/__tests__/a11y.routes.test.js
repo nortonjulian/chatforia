@@ -202,8 +202,6 @@ describe('a11y routes', () => {
         id: 1,
         a11yUiFont: 'lg',
         a11yVisualAlerts: true,
-        a11yVibrate: false,
-        a11yFlashOnCall: true,
         a11yLiveCaptions: true,
         a11yVoiceNoteSTT: true,
         a11yCaptionFont: 'md',
@@ -217,8 +215,6 @@ describe('a11y routes', () => {
         a11yCaptionFont: 'md',
         a11yCaptionBg: 'dark',
         a11yVisualAlerts: 1,     // truthy -> true
-        a11yVibrate: 0,          // falsy -> false
-        a11yFlashOnCall: true,
         a11yVoiceNoteSTT: 'yes', // truthy -> true
         a11yLiveCaptions: true,
       };
@@ -252,8 +248,6 @@ describe('a11y routes', () => {
           a11yCaptionFont: 'md',
           a11yCaptionBg: 'dark',
           a11yVisualAlerts: true,
-          a11yVibrate: false,
-          a11yFlashOnCall: true,
           a11yVoiceNoteSTT: true,
           a11yLiveCaptions: true,
         },
@@ -261,8 +255,6 @@ describe('a11y routes', () => {
           id: true,
           a11yUiFont: true,
           a11yVisualAlerts: true,
-          a11yVibrate: true,
-          a11yFlashOnCall: true,
           a11yLiveCaptions: true,
           a11yVoiceNoteSTT: true,
           a11yCaptionFont: true,
