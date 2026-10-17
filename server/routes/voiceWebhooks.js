@@ -7,6 +7,7 @@ import { emitToUser } from '../services/socketBus.js';
 import { sendIncomingForwardedCallPush } from '../services/pushService.js';
 import { getVoiceDialDestinations } from '../services/voiceDeviceService.js';
 import { parseVoiceIdentityUserId } from '../utils/voiceIdentity.js';
+import { hasPremiumAccess } from '../utils/planAccess.js';
 import {
   chargePstnCallDurationOnce,
   reserveRemainingUsage,
@@ -865,6 +866,97 @@ router.post('/app-call-complete', async (req, res) => {
   }
 });
 
+router.post('/transcription', async (req, res) => {
+  const authToken = process.env.TWILIO_AUTH_TOKEN || '';
+  const baseUrl = (
+    process.env.TWILIO_VOICE_WEBHOOK_URL ||
+    process.env.APP_API_ORIGIN ||
+    ''
+  ).replace(/\/+$/, '');
+
+  if (!authToken || !baseUrl) {
+    console.error(
+      '[Twilio Voice transcription] missing callback validation configuration'
+    );
+    return res.sendStatus(503);
+  }
+
+  const callbackUrl = new URL(req.originalUrl, baseUrl).toString();
+  const signature = req.get('X-Twilio-Signature') || '';
+
+  const validSignature = twilio.validateRequest(
+    authToken,
+    signature,
+    callbackUrl,
+    req.body
+  );
+
+  if (!validSignature) {
+    console.warn(
+      '[Twilio Voice transcription] rejected invalid Twilio signature'
+    );
+    return res.sendStatus(403);
+  }
+
+  const backendCallId = Number(req.query.backendCallId);
+  const captionUserId = Number(req.query.captionUserId);
+
+  if (
+    !Number.isInteger(backendCallId) ||
+    backendCallId <= 0 ||
+    !Number.isInteger(captionUserId) ||
+    captionUserId <= 0
+  ) {
+    return res.sendStatus(400);
+  }
+
+  if (req.body?.TranscriptionEvent !== 'transcription-content') {
+    return res.sendStatus(204);
+  }
+
+  const captionCall = await prisma.call.findFirst({
+    where: {
+      id: backendCallId,
+      calleeId: captionUserId,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!captionCall) {
+    console.warn(
+      '[Twilio Voice transcription] rejected caption recipient mismatch'
+    );
+    return res.sendStatus(403);
+  }
+
+  let transcriptionData;
+
+  try {
+    transcriptionData = JSON.parse(
+      String(req.body?.TranscriptionData || '{}')
+    );
+  } catch {
+    return res.sendStatus(400);
+  }
+
+  const text = String(transcriptionData?.transcript || '').trim();
+
+  if (!text) {
+    return res.sendStatus(204);
+  }
+
+  emitToUser(captionUserId, 'call:caption', {
+    callId: backendCallId,
+    text,
+    track: String(req.body?.Track || ''),
+    isFinal: String(req.body?.Final || '').toLowerCase() === 'true',
+  });
+
+  return res.sendStatus(204);
+});
+
 router.post('/client', async (req, res) => {
   const twiml = new VoiceResponse();
 
@@ -885,7 +977,13 @@ router.post('/client', async (req, res) => {
     if (/^\d{1,9}$/.test(to) && !Number.isNaN(numericUserId)) {
       const targetUser = await prisma.user.findUnique({
         where: { id: numericUserId },
-        select: { id: true },
+        select: {
+          id: true,
+          plan: true,
+          subscriptionStatus: true,
+          subscriptionEndsAt: true,
+          a11yLiveCaptions: true,
+        },
       });
 
       if (!targetUser) {
@@ -944,6 +1042,51 @@ router.post('/client', async (req, res) => {
         twiml.say('The Chatforia user is not available for calls.');
         twiml.hangup();
         return res.type('text/xml').send(twiml.toString());
+      }
+
+      const shouldStartLiveCaptions =
+        targetUser.a11yLiveCaptions === true &&
+        hasPremiumAccess(targetUser) &&
+        Number.isInteger(appBackendCallId) &&
+        appBackendCallId > 0;
+
+      if (shouldStartLiveCaptions) {
+        const captionParams = new URLSearchParams({
+          backendCallId: String(appBackendCallId),
+          captionUserId: String(numericUserId),
+        });
+
+        const captionBaseUrl = (
+          process.env.TWILIO_VOICE_WEBHOOK_URL ||
+          process.env.APP_API_ORIGIN ||
+          ''
+        ).replace(/\/+$/, '');
+
+        const captionCallbackUrl = captionBaseUrl
+          ? new URL(
+              `/webhooks/voice/transcription?${captionParams.toString()}`,
+              captionBaseUrl
+            ).toString()
+          : null;
+
+        if (!captionCallbackUrl) {
+          console.error(
+            '[Twilio Voice transcription] missing callback URL configuration'
+          );
+        }
+
+        if (captionCallbackUrl) {
+          twiml.start().transcription({
+          name:
+            `chatforia-live-captions-${appBackendCallId}-` +
+            `${numericUserId}`,
+          track: 'both_tracks',
+          partialResults: true,
+          languageCode: 'en-US',
+          statusCallbackUrl: captionCallbackUrl,
+          statusCallbackMethod: 'POST',
+          });
+        }
       }
 
       const dial = twiml.dial({
