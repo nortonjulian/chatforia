@@ -35,6 +35,7 @@ export function serializeUser(user) {
     // Accessibility preferences
     a11yUiFont: user.a11yUiFont ?? 'md',
     a11yVisualAlerts: user.a11yVisualAlerts ?? false,
+    a11yVibrate: user.a11yVibrate ?? false,
     a11yLiveCaptions: user.a11yLiveCaptions ?? false,
     a11yVoiceNoteSTT: user.a11yVoiceNoteSTT ?? false,
     a11yCaptionFont: user.a11yCaptionFont ?? 'lg',
