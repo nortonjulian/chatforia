@@ -118,10 +118,14 @@ test('video-first invitation flashes once independently of the banner preference
   expect(overlay).not.toBeNull();
   expect(overlay).toHaveAttribute('aria-hidden', 'true');
   expect(overlay.style.pointerEvents).toBe('none');
+  expect(overlay.style.border).toBe('12px solid rgb(255, 179, 0)');
+  expect(overlay.style.boxSizing).toBe('border-box');
   emit('call:incoming', invitation);
   expect(document.querySelectorAll('[data-a11y-call-flash]')).toHaveLength(1);
   expect(notifications.show).not.toHaveBeenCalled();
-  act(() => jest.advanceTimersByTime(220));
+  act(() => jest.advanceTimersByTime(599));
+  expect(flashNode()).toBe(overlay);
+  act(() => jest.advanceTimersByTime(1));
   expect(flashNode()).toBeNull();
   emit('video:incoming', invitation);
   expect(flashNode()).toBeNull();

@@ -7,8 +7,10 @@ export function flashIncomingCall({ document: doc = globalThis.document,
   const overlay = doc.createElement('div');
   overlay.setAttribute('data-a11y-call-flash', '');
   overlay.setAttribute('aria-hidden', 'true');
-  Object.assign(overlay.style, { position: 'fixed', inset: '0', background: 'white',
-    opacity: '0.85', pointerEvents: 'none', zIndex: '2147483647' });
+  Object.assign(overlay.style, { position: 'fixed', inset: '0', background: 'rgba(255, 179, 0, 0.18)',
+    border: '12px solid #ffb300', boxSizing: 'border-box',
+    boxShadow: 'inset 0 0 0 3px #111, inset 0 0 0 6px #fff',
+    opacity: '1', pointerEvents: 'none', zIndex: '2147483647' });
   let timer = null;
   let removed = false;
   function cleanup() {
@@ -26,6 +28,6 @@ export function flashIncomingCall({ document: doc = globalThis.document,
   doc.addEventListener('visibilitychange', visibilityChanged);
   if (motion?.addEventListener) motion.addEventListener('change', motionChanged);
   else motion?.addListener?.(motionChanged);
-  timer = schedule(cleanup, 220);
+  timer = schedule(cleanup, 600);
   return cleanup;
 }
