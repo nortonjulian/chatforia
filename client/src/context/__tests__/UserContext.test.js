@@ -129,6 +129,18 @@ afterEach(() => {
 
 // ---- Tests ----
 describe('UserContext', () => {
+  test('fresh auth restores font globally; account changes and sign-out reset it', async () => {
+    mockGet.mockResolvedValueOnce({ data: { user: { id: 68, a11yUiFont: 'xl' } } });
+    mockRefreshRooms.mockResolvedValue([]);
+    renderWithProvider();
+    await waitFor(() => expect(document.documentElement.style.fontSize).toBe('125%'));
+    expect(document.documentElement.getAttribute('data-a11y-ui-font')).toBe('xl');
+    act(() => window.__userCtx.setCurrentUser({ id: 65, a11yUiFont: 'sm' }));
+    await waitFor(() => expect(document.documentElement.style.fontSize).toBe('87.5%'));
+    act(() => window.__userCtx.setCurrentUser(null));
+    await waitFor(() => expect(document.documentElement.style.fontSize).toBe('100%'));
+  });
+
   test('existing browser key bypasses recovery on sign-in', async () => {
     const publicKey = 'existing-public-key';
     mockGet.mockResolvedValueOnce({ data: { user: { id: 7, publicKey } } });

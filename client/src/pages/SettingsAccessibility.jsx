@@ -1,17 +1,22 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Switch, Title } from '@mantine/core';
 import PremiumGuard from '../components/PremiumGuard';
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
 import { useTranslation } from 'react-i18next';
+import { applyInterfaceFont } from '../utils/interfaceFont';
 
 const FONT_OPTIONS = ['sm', 'md', 'lg', 'xl'];
-const UI_FONT_SIZE_CLASSES = { sm: 'text-sm', md: 'text-base', lg: 'text-lg', xl: 'text-xl' };
 const A11Y_PATH = '/users/me/a11y';
 
 export default function SettingsAccessibility() {
   const { t } = useTranslation();
-  const { currentUser } = useUser();
+  const { currentUser, setCurrentUser } = useUser();
+  const currentUserRef = useRef(currentUser);
+  currentUserRef.current = currentUser;
+  const savingRef = useRef(false);
+  const prefsAccountRef = useRef(currentUser?.id);
+  const mountedRef = useRef(true);
 
   // Drive UI from currentUser; no separate load call
   const [user, setUser] = useState(currentUser || null);
@@ -24,7 +29,8 @@ export default function SettingsAccessibility() {
   useEffect(() => {
     if (currentUser) {
       setUser(currentUser);
-      setPrefs(projectPrefs(currentUser));
+      if (!savingRef.current || prefsAccountRef.current !== currentUser.id) setPrefs(projectPrefs(currentUser));
+      prefsAccountRef.current = currentUser.id;
       setError('');
     } else {
       setUser(null);
@@ -37,29 +43,47 @@ export default function SettingsAccessibility() {
     typeof window !== 'undefined' &&
     window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
 
-  const uiFont = prefs.a11yUiFont || 'md';
-  const uiFontClass = useMemo(
-    () => UI_FONT_SIZE_CLASSES[uiFont] || UI_FONT_SIZE_CLASSES.md,
-    [uiFont]
-  );
+  // Cancel any unsaved font preview when leaving the settings page.
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      applyInterfaceFont(currentUserRef.current?.a11yUiFont);
+    };
+  }, []);
 
   async function savePref(field, value) {
+    if (savingRef.current) return;
+    const accountId = currentUser?.id;
+    savingRef.current = true;
     setFieldErrors((m) => ({ ...m, [field]: '' }));
     setPrefs((p) => ({ ...p, [field]: value })); // optimistic
+    if (field === 'a11yUiFont') applyInterfaceFont(value);
     setSaving(true);
     try {
       const body = { [field]: value };
       const { data } = await axiosClient.patch(A11Y_PATH, body);
       const serverUser = data?.user || null;
-      if (serverUser) {
-        setUser((u) => ({ ...(u || {}), ...serverUser }));
-        setPrefs((p) => ({ ...p, ...projectPrefs(serverUser) }));
+      if (currentUserRef.current?.id !== accountId) return;
+      if (!serverUser || !Object.hasOwn(serverUser, field)) throw new Error('Save response did not confirm the setting');
+      // Merge only the acknowledged field. A partial response must not reset
+      // unrelated preferences or overwrite auth, entitlement or encryption state.
+      const saved = { [field]: serverUser[field] };
+      setCurrentUser((previous) => previous?.id === accountId ? { ...previous, ...saved } : previous);
+      if (mountedRef.current) {
+        setUser((u) => ({ ...(u || {}), ...saved }));
+        setPrefs((p) => ({ ...p, ...saved }));
       }
     } catch (e) {
+      if (!mountedRef.current || currentUserRef.current?.id !== accountId) return;
+      const previous = projectPrefs(currentUserRef.current)[field];
+      setPrefs((p) => ({ ...p, [field]: previous }));
+      if (field === 'a11yUiFont') applyInterfaceFont(previous);
       const msg = readableAxiosError(e, t) || t('common.saveError', 'Save failed');
       setFieldErrors((m) => ({ ...m, [field]: msg }));
     } finally {
-      setSaving(false);
+      savingRef.current = false;
+      if (mountedRef.current) setSaving(false);
     }
   }
 
@@ -78,7 +102,7 @@ export default function SettingsAccessibility() {
   }
 
   return (
-    <div className={`p-4 max-w-3xl ${uiFontClass}`}>
+    <div className="settings-accessibility p-4 max-w-3xl">
       <Title order={3} className="mb-1">
         {t('accessibilitySettings.title', 'Accessibility & Alerts')}
       </Title>
@@ -89,7 +113,7 @@ export default function SettingsAccessibility() {
         )}
       </p>
 
-      <section className="space-y-4">
+      <fieldset disabled={saving} className="space-y-4" style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
         <Card>
           <CardTitle>{t('accessibilitySettings.interfaceFontSize', 'Interface font size')}</CardTitle>
           <SelectRow
@@ -208,7 +232,7 @@ export default function SettingsAccessibility() {
           />
         </Card>
 
-      </section>
+      </fieldset>
 
       <div className="pt-4 text-sm text-gray-500">
         {saving

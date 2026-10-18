@@ -41,7 +41,7 @@ jest.mock('../../components/PremiumGuard', () => ({
 global.mockCurrentUser = null;
 jest.mock('../../context/UserContext', () => ({
   __esModule: true,
-  useUser: () => ({ currentUser: global.mockCurrentUser }),
+  useUser: () => ({ currentUser: global.mockCurrentUser, setCurrentUser: global.mockSetCurrentUser }),
 }));
 
 // i18n stub so useTranslation() doesn't require a real i18next instance
@@ -139,6 +139,11 @@ describe('SettingsAccessibility', () => {
     setNavigatorVibrate(true);
     setMatchMedia(false);
     global.mockCurrentUser = null;
+    global.mockSetCurrentUser = jest.fn((update) => {
+      global.mockCurrentUser = update(global.mockCurrentUser);
+    });
+    document.documentElement.style.fontSize = '';
+    document.documentElement.removeAttribute('data-a11y-ui-font');
   });
 
   test('shows error view when no user is present', () => {
@@ -149,14 +154,13 @@ describe('SettingsAccessibility', () => {
     expect(screen.getByText(/Failed to load settings/i)).toBeInTheDocument();
   });
 
-  test('renders with user and derives ui font class; selecting a new font saves and updates class', async () => {
+  test('selecting a font immediately scales the interface and saves shared account state', async () => {
     global.mockCurrentUser = { a11yUiFont: 'lg' }; // initial
     render(<SettingsAccessibility />);
 
     // Grab the root container by its known class
     const root = document.querySelector('.max-w-3xl');
     expect(root).toBeTruthy();
-    expect(root.className).toMatch(/text-lg/);
 
     // Change the "Interface font size" select to xl
     const ifaceSelect = screen.getByLabelText(/Interface font size/i); // select element itself
@@ -164,6 +168,8 @@ describe('SettingsAccessibility', () => {
     axiosClient.patch.mockReturnValueOnce(inFlight.promise); // keep it pending to see "Saving…"
 
     fireEvent.change(ifaceSelect, { target: { value: 'xl' } });
+    expect(document.documentElement.style.fontSize).toBe('125%');
+    expect(ifaceSelect).toBeDisabled();
     expect(screen.getByText(/Saving…/i)).toBeInTheDocument();
 
     // Server responds with user echoing new font
@@ -176,12 +182,65 @@ describe('SettingsAccessibility', () => {
       expect(
         screen.getByText(/Changes are saved instantly\./i)
       ).toBeInTheDocument();
-      expect(root.className).toMatch(/text-xl/);
+      expect(document.documentElement.style.fontSize).toBe('125%');
+      expect(global.mockCurrentUser.a11yUiFont).toBe('xl');
+      expect(ifaceSelect).not.toBeDisabled();
     });
 
     expect(axiosClient.patch).toHaveBeenCalledWith('/users/me/a11y', {
       a11yUiFont: 'xl',
     });
+  });
+
+  test('profile rerender and settings remount keep the acknowledged size', async () => {
+    global.mockCurrentUser = { id: 68, a11yUiFont: 'md', a11yCaptionFont: 'sm', publicKey: 'keep-key' };
+    axiosClient.patch.mockResolvedValueOnce({ data: { user: { id: 68, a11yUiFont: 'xl' } } });
+    const { rerender, unmount } = render(<SettingsAccessibility />);
+    fireEvent.change(screen.getByLabelText(/Interface font size/i), { target: { value: 'xl' } });
+    await waitFor(() => expect(global.mockCurrentUser.a11yUiFont).toBe('xl'));
+    global.mockCurrentUser = { ...global.mockCurrentUser, username: 'papi' };
+    rerender(<SettingsAccessibility />);
+    expect(screen.getByLabelText(/Interface font size/i)).toHaveValue('xl');
+    expect(global.mockCurrentUser).toMatchObject({ a11yCaptionFont: 'sm', publicKey: 'keep-key' });
+    unmount();
+    render(<SettingsAccessibility />);
+    expect(screen.getByLabelText(/Interface font size/i)).toHaveValue('xl');
+    expect(document.documentElement.style.fontSize).toBe('125%');
+  });
+
+  test('failed save rolls back both preview and selection', async () => {
+    global.mockCurrentUser = { id: 68, a11yUiFont: 'md' };
+    axiosClient.patch.mockRejectedValueOnce({ response: { status: 403 } });
+    render(<SettingsAccessibility />);
+    fireEvent.change(screen.getByLabelText(/Interface font size/i), { target: { value: 'xl' } });
+    await waitFor(() => expect(screen.getByText('Not allowed.')).toBeInTheDocument());
+    expect(screen.getByLabelText(/Interface font size/i)).toHaveValue('md');
+    expect(document.documentElement.style.fontSize).toBe('100%');
+    expect(global.mockSetCurrentUser).not.toHaveBeenCalled();
+  });
+
+  test('a save response missing the changed field is not reported as saved', async () => {
+    global.mockCurrentUser = { id: 68, a11yUiFont: 'md' };
+    axiosClient.patch.mockResolvedValueOnce({ data: { user: { id: 68 } } });
+    render(<SettingsAccessibility />);
+    fireEvent.change(screen.getByLabelText(/Interface font size/i), { target: { value: 'xl' } });
+    await waitFor(() => expect(screen.getByText(/did not confirm/)).toBeInTheDocument());
+    expect(screen.getByLabelText(/Interface font size/i)).toHaveValue('md');
+    expect(global.mockSetCurrentUser).not.toHaveBeenCalled();
+  });
+
+  test('an old save response cannot change the next account', async () => {
+    global.mockCurrentUser = { id: 68, a11yUiFont: 'md' };
+    const pending = deferred();
+    axiosClient.patch.mockReturnValueOnce(pending.promise);
+    const { rerender } = render(<SettingsAccessibility />);
+    fireEvent.change(screen.getByLabelText(/Interface font size/i), { target: { value: 'xl' } });
+    global.mockCurrentUser = { id: 65, a11yUiFont: 'sm' };
+    rerender(<SettingsAccessibility />);
+    await act(async () => { pending.resolve({ data: { user: { id: 68, a11yUiFont: 'xl' } } }); });
+    expect(screen.getByLabelText(/Interface font size/i)).toHaveValue('sm');
+    expect(global.mockCurrentUser).toEqual({ id: 65, a11yUiFont: 'sm' });
+    expect(global.mockSetCurrentUser).not.toHaveBeenCalled();
   });
 
   test('toggling Visual alerts switch sends PATCH with correct field/value', async () => {
