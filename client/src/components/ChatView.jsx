@@ -2829,6 +2829,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                           msg={msg}
                           isGroup={Boolean(chatroom?.isGroup || (chatroom?.participants?.length || 0) > 2)}
                           currentUserId={currentUserId}
+                          currentUser={currentUser}
                           showOriginalWithTranslation={currentUser?.showOriginalWithTranslation === true}
                           onRetry={handleRetry}
                           onEdit={openEditModal}

@@ -83,7 +83,6 @@ import connectivityRouter from './routes/connectivity.js';
 import esimRouter from './routes/esim.js';
 import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
 import pricingRouter from './routes/pricing.js';
-import transcriptsRouter from './routes/transcripts.js';
 
 import stickersRouter from './routes/stickers.js';
 
@@ -571,7 +570,6 @@ app.use(['/invites', '/api/invites'], RL(limiterInvites));
 app.use(['/invites', '/api/invites'], invitesRouter);
 app.use('/media', mediaRouter);
 app.use('/devices', devicesRouter);
-app.use('/', transcriptsRouter);
 
 // Backups require auth
 app.use('/backups', requireAuth, backupsRouter);

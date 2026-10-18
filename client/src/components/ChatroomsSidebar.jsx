@@ -1,3 +1,4 @@
+import { voiceNotePreview } from '../utils/voiceNotePreview';
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import {
   Stack,
@@ -350,8 +351,9 @@ export default function ChatroomsSidebar({
         ? `${c.kind}:${c.id}:${c.last.messageId}`
         : null;
       const snippet = String(
-        (previewKey && decryptedPreviews[previewKey]) ||
-        formatLastPreview(c.last, t)
+        voiceNotePreview(
+          (previewKey && decryptedPreviews[previewKey]) || formatLastPreview(c.last, t), t
+        )
       ).toLowerCase();
       const phone = (c.phone || '').toLowerCase();
       return title.includes(q) || snippet.includes(q) || phone.includes(q);
@@ -611,9 +613,9 @@ export default function ChatroomsSidebar({
         const previewKey = c?.last?.messageId
           ? `${c.kind}:${c.id}:${c.last.messageId}`
           : null;
-        const lastPreview =
-          (previewKey && decryptedPreviews[previewKey]) ||
-          formatLastPreview(c.last, t);
+        const lastPreview = voiceNotePreview(
+          (previewKey && decryptedPreviews[previewKey]) || formatLastPreview(c.last, t), t
+        );
 
         return (
           <div key={`${c.kind}:${c.id}`} className="sidebar-row">
