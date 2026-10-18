@@ -12,6 +12,7 @@ const router = express.Router();
 // ---------- helpers ----------
 const A11Y_KEYS = new Set([
   'a11yVisualAlerts',
+  'a11yVibrate',
   'a11yLiveCaptions',
   'a11yVoiceNoteSTT',
   'a11yCaptionFont',
@@ -113,6 +114,15 @@ router.patch('/users/me/a11y', requireAuth, async (req, res) => {
     if (body.a11yVisualAlerts !== undefined) updates.a11yVisualAlerts = !!body.a11yVisualAlerts;
     if (body.a11yVoiceNoteSTT !== undefined) updates.a11yVoiceNoteSTT = !!body.a11yVoiceNoteSTT;
 
+    // Vibration is an independent preference; reject malformed values rather
+    // than treating a string such as "false" as enabled.
+    if (body.a11yVibrate !== undefined) {
+      if (typeof body.a11yVibrate !== 'boolean') {
+        return res.status(400).json({ error: 'a11yVibrate must be a boolean' });
+      }
+      updates.a11yVibrate = body.a11yVibrate;
+    }
+
     // Premium-gated: live captions
     if (body.a11yLiveCaptions !== undefined) {
       const wantOn = !!body.a11yLiveCaptions;
@@ -151,6 +161,7 @@ router.patch('/users/me/a11y', requireAuth, async (req, res) => {
         id: true,
         a11yUiFont: true,
         a11yVisualAlerts: true,
+        a11yVibrate: true,
         a11yLiveCaptions: true,
         a11yVoiceNoteSTT: true,
         a11yCaptionFont: true,

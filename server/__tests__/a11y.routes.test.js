@@ -73,6 +73,27 @@ describe('a11y routes', () => {
   });
 
   describe('PATCH /users/me/a11y', () => {
+    test.each([true, false])('saves vibration %s for only the authenticated user', async (enabled) => {
+      const saved = { id: 1, a11yVibrate: enabled, a11yVisualAlerts: true, a11yUiFont: 'xl' };
+      mockPrisma.user.update.mockResolvedValueOnce(saved);
+      const res = await request(app).patch('/a11y/users/me/a11y')
+        .send({ id: 99, a11yVibrate: enabled });
+      expect(res.statusCode).toBe(200);
+      expect(res.body.user).toEqual(saved);
+      expect(mockPrisma.user.update).toHaveBeenCalledWith({
+        where: { id: 1 }, data: { a11yVibrate: enabled },
+        select: expect.objectContaining({ a11yVibrate: true }),
+      });
+      expect(mockPrisma.user.findUnique).not.toHaveBeenCalled();
+    });
+
+    test.each(['false', 'true', 0, 1, null, {}, []])('rejects malformed vibration %j without saving other fields', async (value) => {
+      const res = await request(app).patch('/a11y/users/me/a11y')
+        .send({ a11yVibrate: value, a11yVisualAlerts: false });
+      expect(res.statusCode).toBe(400);
+      expect(mockPrisma.user.update).not.toHaveBeenCalled();
+    });
+
     test('400 when no valid fields are provided', async () => {
       const res = await request(app)
         .patch('/a11y/users/me/a11y')
@@ -255,6 +276,7 @@ describe('a11y routes', () => {
           id: true,
           a11yUiFont: true,
           a11yVisualAlerts: true,
+          a11yVibrate: true,
           a11yLiveCaptions: true,
           a11yVoiceNoteSTT: true,
           a11yCaptionFont: true,
