@@ -15,6 +15,11 @@ jest.mock(
   })
 );
 
+jest.mock('@/components/call/CallCaptions', () => ({
+  __esModule: true,
+  default: ({ callId }) => callId ? <div data-testid="active-call-captions">{callId}</div> : null,
+}));
+
 // Mock analytics used by CallScreen.
 jest.mock('@/utils/analytics', () => ({
   __esModule: true,
@@ -156,6 +161,7 @@ describe('CallScreen', () => {
     mockUseCall = () => ({
       active: {
         mode: 'AUDIO',
+        callId: 1027,
         peerUser: {
           id: '77',
         },
@@ -184,6 +190,7 @@ describe('CallScreen', () => {
 
     expect(videos).toHaveLength(0);
 
+    expect(screen.getByTestId('active-call-captions')).toHaveTextContent('1027');
     expect(screen.getByText(/^Audio call$/i)).toBeInTheDocument();
     expect(screen.getByText(/^ringing$/i)).toBeInTheDocument();
   });

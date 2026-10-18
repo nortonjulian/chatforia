@@ -14,6 +14,7 @@ import { Phone, PhoneOff, UserPlus, Video } from 'lucide-react';
 import { useCall } from '../../context/CallContext';
 import AddCallParticipantModal from './AddCallParticipantModal';
 import posthog from '@/utils/analytics';
+import CallCaptions from './CallCaptions';
 
 export default function CallScreen() {
   const {
@@ -384,6 +385,8 @@ export default function CallScreen() {
         </Box>
         </Box>
       </Portal>
+
+      <CallCaptions callId={active.callId} />
 
       <AddCallParticipantModal
         opened={addOpen}
