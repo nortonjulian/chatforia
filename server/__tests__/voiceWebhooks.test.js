@@ -1064,6 +1064,7 @@ describe('POST /webhooks/voice/transcription', () => {
 
     prisma.call.findFirst.mockResolvedValueOnce({
       id: 777,
+      callee: { plan: 'PREMIUM', subscriptionStatus: 'ACTIVE', a11yLiveCaptions: true },
     });
 
     const app = createApp();
@@ -1122,6 +1123,28 @@ describe('POST /webhooks/voice/transcription', () => {
 
     expect(res.statusCode).toBe(403);
     expect(emitToUser).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['captions disabled', { plan: 'PREMIUM', subscriptionStatus: 'ACTIVE', a11yLiveCaptions: false }],
+    ['Free', { plan: 'FREE', a11yLiveCaptions: true }],
+    ['Plus', { plan: 'PLUS', subscriptionStatus: 'ACTIVE', a11yLiveCaptions: true }],
+    ['inactive Premium', { plan: 'PREMIUM', subscriptionStatus: 'CANCELED', a11yLiveCaptions: true }],
+    ['expired Premium', { plan: 'PREMIUM', subscriptionStatus: 'ACTIVE', subscriptionEndsAt: '2000-01-01T00:00:00Z', a11yLiveCaptions: true }],
+  ])('does not disclose caption text to %s recipients', async (_label, callee) => {
+    const query = 'backendCallId=777&captionUserId=99';
+    const body = { TranscriptionEvent: 'transcription-content',
+      TranscriptionData: JSON.stringify({ transcript: 'Private call text' }), Final: 'true' };
+    prisma.call.findFirst.mockResolvedValueOnce({ id: 777, callee });
+    const signature = twilio.getExpectedTwilioSignature(authToken,
+      `${callbackBase}/webhooks/voice/transcription?${query}`, body);
+    const res = await request(createApp()).post(`/webhooks/voice/transcription?${query}`)
+      .set('X-Twilio-Signature', signature).type('form').send(body);
+    expect(res.statusCode).toBe(204);
+    expect(emitToUser).not.toHaveBeenCalled();
+    expect(prisma.call.findFirst).toHaveBeenCalledWith(expect.objectContaining({
+      where: { id: 777, calleeId: 99, endedAt: null },
+    }));
   });
 
   it('rejects a transcription callback with an invalid Twilio signature', async () => {

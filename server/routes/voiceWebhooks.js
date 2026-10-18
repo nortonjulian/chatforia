@@ -918,9 +918,19 @@ router.post('/transcription', async (req, res) => {
     where: {
       id: backendCallId,
       calleeId: captionUserId,
+      endedAt: null,
     },
     select: {
       id: true,
+      callee: {
+        select: {
+          role: true,
+          plan: true,
+          subscriptionStatus: true,
+          subscriptionEndsAt: true,
+          a11yLiveCaptions: true,
+        },
+      },
     },
   });
 
@@ -929,6 +939,14 @@ router.post('/transcription', async (req, res) => {
       '[Twilio Voice transcription] rejected caption recipient mismatch'
     );
     return res.sendStatus(403);
+  }
+
+  // Recheck saved eligibility for every segment, including during an active call.
+  if (
+    captionCall.callee?.a11yLiveCaptions !== true ||
+    !hasPremiumAccess(captionCall.callee)
+  ) {
+    return res.sendStatus(204);
   }
 
   let transcriptionData;
