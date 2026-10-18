@@ -12,6 +12,7 @@ describe('serializeUser accessibility preferences', () => {
       a11yUiFont: 'lg',
       a11yVisualAlerts: true,
       a11yVibrate: true,
+      a11yFlashOnCall: true,
       a11yLiveCaptions: false,
       a11yVoiceNoteSTT: true,
       a11yCaptionFont: 'sm',
@@ -22,11 +23,16 @@ describe('serializeUser accessibility preferences', () => {
       a11yUiFont: 'lg',
       a11yVisualAlerts: true,
       a11yVibrate: true,
+      a11yFlashOnCall: true,
       a11yLiveCaptions: false,
       a11yVoiceNoteSTT: true,
       a11yCaptionFont: 'sm',
       a11yCaptionBg: 'transparent',
     });
+  });
+
+  test('preserves explicitly disabled call flash', () => {
+    expect(serializeUser({ id: 1, a11yFlashOnCall: false }).a11yFlashOnCall).toBe(false);
   });
 
   test('preserves explicitly disabled vibration', () => {
@@ -46,6 +52,7 @@ describe('serializeUser accessibility preferences', () => {
       a11yUiFont: 'md',
       a11yVisualAlerts: false,
       a11yVibrate: false,
+      a11yFlashOnCall: false,
       a11yLiveCaptions: false,
       a11yVoiceNoteSTT: false,
       a11yCaptionFont: 'lg',

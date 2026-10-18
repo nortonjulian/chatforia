@@ -13,6 +13,7 @@ const router = express.Router();
 const A11Y_KEYS = new Set([
   'a11yVisualAlerts',
   'a11yVibrate',
+  'a11yFlashOnCall',
   'a11yLiveCaptions',
   'a11yVoiceNoteSTT',
   'a11yCaptionFont',
@@ -123,6 +124,13 @@ router.patch('/users/me/a11y', requireAuth, async (req, res) => {
       updates.a11yVibrate = body.a11yVibrate;
     }
 
+    if (body.a11yFlashOnCall !== undefined) {
+      if (typeof body.a11yFlashOnCall !== 'boolean') {
+        return res.status(400).json({ error: 'a11yFlashOnCall must be a boolean' });
+      }
+      updates.a11yFlashOnCall = body.a11yFlashOnCall;
+    }
+
     // Premium-gated: live captions
     if (body.a11yLiveCaptions !== undefined) {
       const wantOn = !!body.a11yLiveCaptions;
@@ -162,6 +170,7 @@ router.patch('/users/me/a11y', requireAuth, async (req, res) => {
         a11yUiFont: true,
         a11yVisualAlerts: true,
         a11yVibrate: true,
+        a11yFlashOnCall: true,
         a11yLiveCaptions: true,
         a11yVoiceNoteSTT: true,
         a11yCaptionFont: true,
