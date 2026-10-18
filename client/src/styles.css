@@ -531,6 +531,10 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 /* Sensible body defaults */
 body { font-size: 16px; line-height: 1.4; }
 
+/* Follow the account's root-relative interface font, including native controls. */
+html[data-a11y-ui-font] body { font-size: 1rem; }
+.settings-accessibility select { font: inherit; }
+
 html, body, #root { height: 100%; }
 
 .app-shell, .app, .main-route {

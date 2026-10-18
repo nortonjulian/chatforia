@@ -11,6 +11,7 @@ import axiosClient from '@/api/axiosClient';
 import { useSocket } from './SocketContext';
 import i18n from '@/i18n';
 import { applyAccountTheme } from '@/utils/themeManager';
+import { applyInterfaceFont } from '@/utils/interfaceFont';
 import {
   getLocalKeyBundleMeta,
   getUnlockedPrivateKeyForPublicKey,
@@ -49,6 +50,9 @@ function hasAuthHint() {
 
 export function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  useEffect(() => {
+    applyInterfaceFont(currentUser?.a11yUiFont);
+  }, [currentUser?.id, currentUser?.a11yUiFont]);
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
 
