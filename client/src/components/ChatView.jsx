@@ -65,6 +65,7 @@ import StickerPicker from '@/components/StickerPicker.jsx';
 
 // ✅ Message row UI (menu + tombstone)
 import MessageBubble from '@/components/chat/MessageBubble.jsx';
+import GroupReadReceipt from '@/components/chat/GroupReadReceipt.jsx';
 
 import { playSound } from '@/lib/sounds.js';
 
@@ -2841,6 +2842,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                           sameAsPrev={sameAsPrev}
                           sameAsNext={sameAsNext}
                         />
+
+                        {isGroupChat && msg.mine && isLastOutgoing && (
+                          <GroupReadReceipt message={msg} />
+                        )}
 
                         {chatroom?.participants?.length === 2 && msg.mine && isLastOutgoing && (
                           <Text size="xs" c="dimmed" ta="right" mt={4} mr={6}>
