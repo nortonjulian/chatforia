@@ -1,5 +1,6 @@
 // A visual-only subscriber: never writes messages, receipts, badges or audio state.
 export function attachVisualAlerts({ socket, userId, getEnabled, show, hide,
+  getFlashEnabled = () => false, startCallFlash = () => () => {},
   getLabels = () => ({ message: 'New message', call: 'Incoming call', body: 'Return to Chatforia to view it.' }),
   document: doc = globalThis.document, window: win = globalThis.window,
   now = Date.now, setInterval: startTimer = globalThis.setInterval, clearInterval: stopTimer = globalThis.clearInterval,
@@ -13,6 +14,14 @@ export function attachVisualAlerts({ socket, userId, getEnabled, show, hide,
   let alertTitle = null;
   let blinkingKey = null;
   let disposed = false;
+  let flashKey = null;
+  let cancelFlash = null;
+
+  function stopFlash() {
+    cancelFlash?.();
+    cancelFlash = null;
+    flashKey = null;
+  }
 
   const isForeground = () => doc.visibilityState !== 'hidden' && doc.hasFocus();
   function stopBlink() {
@@ -73,10 +82,18 @@ export function attachVisualAlerts({ socket, userId, getEnabled, show, hide,
     const callerId = Number(payload?.callerId ?? payload?.fromUser?.id);
     if (id == null || !String(id).trim() || callerId === Number(userId)) return;
     alert('call', `call-${id}`);
+    // Independent preference: disabling title/banner alerts must not disable
+    // call flashing. Claim aliases even while OFF so they cannot replay later.
+    if (!disposed && claim(`flash-call-${id}`) && getFlashEnabled()) {
+      stopFlash();
+      flashKey = `call-${id}`;
+      cancelFlash = startCallFlash();
+    }
   }
   function endCall(payload) {
     if (payload?.callId == null) return;
     const key = `call-${payload.callId}`;
+    if (flashKey === key) stopFlash();
     if (blinkingKey === key) stopBlink();
     const id = `a11y-${key}`;
     if (banners.delete(id)) hide(id);
@@ -90,13 +107,17 @@ export function attachVisualAlerts({ socket, userId, getEnabled, show, hide,
   doc.addEventListener('visibilitychange', onFocus);
 
   return {
-    syncPreference() { if (!getEnabled()) clear(); },
+    syncPreference() {
+      if (!getEnabled()) clear();
+      if (!getFlashEnabled()) stopFlash();
+    },
     dispose() {
       disposed = true;
       listeners.forEach(([event, handler]) => socket.off(event, handler));
       win.removeEventListener('focus', onFocus);
       doc.removeEventListener('visibilitychange', onFocus);
       clear();
+      stopFlash();
     },
   };
 }
