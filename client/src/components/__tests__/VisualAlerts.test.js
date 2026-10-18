@@ -99,3 +99,70 @@ test('account change and unmount remove listeners and timers', () => {
   unmount();
   expect(jest.getTimerCount()).toBe(0);
 });
+
+const flashNode = () => document.querySelector('[data-a11y-call-flash]');
+function enableFlash({ reduced = false, visual = false } = {}) {
+  mockUser = { ...mockUser, a11yFlashOnCall: true, a11yVisualAlerts: visual };
+  Object.defineProperty(document, 'visibilityState', { configurable: true, value: 'visible' });
+  document.hasFocus.mockReturnValue(true);
+  Object.defineProperty(window, 'matchMedia', { configurable: true, writable: true,
+    value: jest.fn(() => ({ matches: reduced, addEventListener: jest.fn(), removeEventListener: jest.fn() })) });
+}
+
+test('video-first invitation flashes once independently of the banner preference', () => {
+  enableFlash();
+  render(<VisualAlerts />);
+  const invitation = { callId: 1007, callerId: 1, mode: 'VIDEO', offer: null };
+  emit('video:incoming', invitation);
+  const overlay = flashNode();
+  expect(overlay).not.toBeNull();
+  expect(overlay).toHaveAttribute('aria-hidden', 'true');
+  expect(overlay.style.pointerEvents).toBe('none');
+  emit('call:incoming', invitation);
+  expect(document.querySelectorAll('[data-a11y-call-flash]')).toHaveLength(1);
+  expect(notifications.show).not.toHaveBeenCalled();
+  act(() => jest.advanceTimersByTime(220));
+  expect(flashNode()).toBeNull();
+  emit('video:incoming', invitation);
+  expect(flashNode()).toBeNull();
+});
+
+test('flash OFF suppresses only the flash, while call banners remain enabled', () => {
+  enableFlash({ visual: true }); mockUser.a11yFlashOnCall = false;
+  render(<VisualAlerts />);
+  emit('call:incoming', { callId: 1007, callerId: 1 });
+  expect(flashNode()).toBeNull();
+  expect(notifications.show).toHaveBeenCalledTimes(1);
+});
+
+test('reduced motion suppresses flash without changing normal call alerts', () => {
+  enableFlash({ reduced: true, visual: true });
+  render(<VisualAlerts />);
+  emit('video:incoming', { callId: 1007, callerId: 1 });
+  expect(flashNode()).toBeNull();
+  expect(notifications.show).toHaveBeenCalledTimes(1);
+});
+
+test('preference changes and account cleanup remove the active overlay', () => {
+  enableFlash();
+  const { rerender, unmount } = render(<VisualAlerts />);
+  emit('call:incoming', { callId: 1007, callerId: 1 });
+  expect(flashNode()).not.toBeNull();
+  mockUser = { ...mockUser, a11yFlashOnCall: false }; rerender(<VisualAlerts />);
+  expect(flashNode()).toBeNull();
+  mockUser = { ...mockUser, a11yFlashOnCall: true }; rerender(<VisualAlerts />);
+  emit('call:incoming', { callId: 1008, callerId: 1 });
+  expect(flashNode()).not.toBeNull();
+  mockUser = null; rerender(<VisualAlerts />);
+  expect(flashNode()).toBeNull();
+  unmount(); expect(jest.getTimerCount()).toBe(0);
+});
+
+test('ending or answering the matching call clears the overlay immediately', () => {
+  enableFlash(); render(<VisualAlerts />);
+  emit('video:incoming', { callId: 1007, callerId: 1 });
+  emit('video:ended', { callId: 999 }); expect(flashNode()).not.toBeNull();
+  emit('call:ended', { callId: '1007' }); expect(flashNode()).toBeNull();
+  emit('call:incoming', { callId: 1008, callerId: 1 });
+  emit('call:answer', { callId: 1008 }); expect(flashNode()).toBeNull();
+});

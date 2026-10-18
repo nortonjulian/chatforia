@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useUser } from '@/context/UserContext';
 import { useSocketRaw } from '@/context/SocketContext';
 import { attachVisualAlerts } from '@/utils/visualAlerts';
+import { flashIncomingCall } from '@/utils/callFlash';
 
 export default function VisualAlerts() {
   const { currentUser } = useUser() ?? {};
@@ -19,6 +20,8 @@ export default function VisualAlerts() {
     const alerts = attachVisualAlerts({
       socket, userId,
       getEnabled: () => latest.current.user?.id === userId && latest.current.user?.a11yVisualAlerts === true,
+      getFlashEnabled: () => latest.current.user?.id === userId && latest.current.user?.a11yFlashOnCall === true,
+      startCallFlash: () => flashIncomingCall(),
       getLabels: () => ({
         message: latest.current.t('visualAlerts.newMessage', 'New message'),
         call: latest.current.t('visualAlerts.incomingCall', 'Incoming call'),
@@ -36,6 +39,6 @@ export default function VisualAlerts() {
 
   useEffect(() => {
     controller.current?.syncPreference();
-  }, [currentUser?.a11yVisualAlerts]);
+  }, [currentUser?.a11yVisualAlerts, currentUser?.a11yFlashOnCall]);
   return null;
 }
