@@ -1,9 +1,9 @@
 import express from 'express';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
+import transcriptsRouter from './transcripts.js';
 import { requirePremium } from '../middleware/requirePremium.js'
 import { hasPremiumAccess } from '../utils/planAccess.js';
-import * as stt from '../services/stt/index.js';
 import { a11yConfig } from '../config/a11yConfig.js';
 import { addUsageSeconds, getUsageSeconds } from '../services/stt/usage.js';
 
@@ -25,26 +25,6 @@ const A11Y_KEYS = new Set([
   'a11yCaptionPosition',
   'a11yCaptionMaxLines',
 ]);
-
-async function userCanAccessMessage(userId, messageId) {
-  const msg = await prisma.message.findUnique({
-    where: { id: messageId },
-    select: {
-      chatRoomId: true,
-      sender: { select: { id: true } },
-    },
-  });
-
-  if (!msg) return false;
-  if (msg.sender?.id === userId) return true;
-
-  const part = await prisma.participant.findFirst({
-    where: { chatRoomId: msg.chatRoomId, userId },
-    select: { id: true },
-  });
-
-  return !!part;
-}
 
 async function userInCall(userId, callId) {
   const call = await prisma.call.findUnique({
@@ -207,101 +187,7 @@ router.get('/users/me/a11y/quota', requireAuth, async (req, res) => {
 });
 
 // Transcribe a voice note (Free with quota; Premium unlimited)
-router.post('/media/:messageId/transcribe', requireAuth, async (req, res) => {
-  try {
-    const messageId = Number(req.params.messageId);
-    if (!Number.isInteger(messageId)) return res.status(400).json({ error: 'Invalid messageId' });
-
-    const can = await userCanAccessMessage(req.user.id, messageId);
-    if (!can) return res.status(403).json({ error: 'Forbidden' });
-
-    const msg = await prisma.message.findUnique({
-      where: { id: messageId },
-      select: { audioUrl: true, audioDurationSec: true },
-    });
-    if (!msg || !msg.audioUrl) return res.status(404).json({ error: 'No audio to transcribe' });
-
-    const language = req.body?.language || 'en-US';
-    const me = await prisma.user.findUnique({
-      where: { id: req.user.id },
-      select: { plan: true, a11yStoreTranscripts: true },
-    });
-
-    // Quota for Free users
-    const durationSec = msg.audioDurationSec ?? 60;
-    if (me.plan === 'FREE') {
-      const perDayMin = Number(a11yConfig.FREE_STT_MIN_PER_DAY || 0);
-      const perMonthMin = Number(a11yConfig.FREE_STT_MIN_PER_MONTH || 0);
-      const langIsFree = (a11yConfig.FREE_STT_LANGS || []).includes(language);
-
-      if (!langIsFree) {
-        return res.status(402).json({ code: 'PREMIUM_REQUIRED', reason: 'LANGUAGE' });
-      }
-
-      const period = perDayMin > 0 ? 'day' : 'month';
-      const budgetSec = (period === 'day' ? perDayMin : perMonthMin) * 60;
-      const usedSec = await getUsageSeconds(req.user.id, { period });
-
-      if (usedSec + durationSec > budgetSec) {
-        return res.status(402).json({ code: 'PREMIUM_REQUIRED', reason: 'QUOTA' });
-      }
-    }
-
-    // Do the transcription
-    const { segments } = await stt.transcribeFromUrl(msg.audioUrl, language);
-
-    // Track usage against quota regardless of persistence
-    await addUsageSeconds(req.user.id, durationSec);
-
-    // Respect "store transcripts" preference
-    if (me?.a11yStoreTranscripts === false) {
-      return res.json({
-        ok: true,
-        transcript: {
-          id: null,
-          language,
-          segments,
-          createdAt: new Date().toISOString(),
-          ephemeral: true,
-        },
-      });
-    }
-
-    // Persist transcript
-    const transcript = await prisma.transcript.create({
-      data: {
-        userId: req.user.id,
-        messageId,
-        language,
-        segments,
-      },
-      select: { id: true, language: true, segments: true, createdAt: true },
-    });
-
-    res.json({ ok: true, transcript });
-  } catch (err) {
-    console.error('POST /media/:messageId/transcribe error', err);
-    res.status(500).json({ error: 'Transcription failed' });
-  }
-});
-
-// Fetch transcript for a voice note (current user scope)
-router.get('/transcripts/:messageId', requireAuth, async (req, res) => {
-  try {
-    const messageId = Number(req.params.messageId);
-    if (!Number.isInteger(messageId)) return res.status(400).json({ error: 'Invalid messageId' });
-
-    const t = await prisma.transcript.findFirst({
-      where: { messageId, userId: req.user.id },
-      orderBy: { createdAt: 'desc' },
-    });
-    if (!t) return res.status(404).json({ error: 'Transcript not found' });
-    res.json({ transcript: t });
-  } catch (err) {
-    console.error('GET /transcripts/:messageId error', err);
-    res.status(500).json({ error: 'Failed to fetch transcript' });
-  }
-});
+router.use(transcriptsRouter);
 
 // Start live captions (Premium only) — returns wsUrl for client to connect
 router.post('/calls/:callId/captions/start', requireAuth, requirePremium, async (req, res) => {

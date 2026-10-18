@@ -1,3 +1,4 @@
+import VoiceNoteTranscript from './VoiceNoteTranscript';
 import { Tooltip, Text, ActionIcon, Menu, Box, Group } from '@mantine/core';
 import {
   RotateCw,
@@ -103,6 +104,7 @@ function LinkifiedText({ text }) {
 export default function MessageBubble({
   msg,
   currentUserId,
+  currentUser,
   showOriginalWithTranslation = false,
   onRetry,
   onEdit,
@@ -591,6 +593,9 @@ export default function MessageBubble({
                 </Tooltip>
               )}
             </Box>
+          ) : null}
+          {hasMedia && attachments.some(a => isAudio(a?.mimeType, a?.url)) ? (
+            <VoiceNoteTranscript msg={msg} currentUser={currentUser} />
           ) : null}
 
           {msg.failed && (

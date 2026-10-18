@@ -2,6 +2,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import MessageBubble from '@/components/chat/MessageBubble';
+import axiosClient from '@/api/axiosClient';
+jest.mock('@/api/axiosClient', () => ({ __esModule: true, default: { post: jest.fn() } }));
 
 // -------- Mocks --------
 
@@ -296,5 +298,23 @@ describe('original text with translation', () => {
   test('does not add a second version to outgoing messages', () => {
     render(<MessageBubble msg={translatedMessage} currentUserId={2} showOriginalWithTranslation />);
     expect(screen.queryByText('Hola, nos vemos mañana')).not.toBeInTheDocument();
+  });
+});
+
+
+describe('voice-note transcription in the actual message bubble', () => {
+  const voice = { id: 10, senderId: 1, rawContent: '[voice note]', createdAt: '2026-10-18T00:00:00Z',
+    attachments: [{ kind: 'AUDIO', mimeType: 'audio/mp4', url: 'https://media.example/a.m4a' }] };
+  test('preserves one audio player and mounts one transcript for an enabled receiving account', async () => {
+    axiosClient.post.mockResolvedValue({ data: { transcript: { segments: [{ text: 'Recorded words' }] } } });
+    const { container } = render(<MessageBubble msg={voice} currentUserId={65} currentUser={{ id: 65, a11yVoiceNoteSTT: true }} />);
+    expect(container.querySelectorAll('audio')).toHaveLength(1);
+    expect(await screen.findByLabelText('Voice-note transcript')).toHaveTextContent('Recorded words');
+    expect(screen.queryByText('[voice note]')).toBeNull();
+  });
+  test('a deleted voice note cannot mount the transcript or player', () => {
+    axiosClient.post.mockClear();
+    const { container } = render(<MessageBubble msg={{ ...voice, deletedForAll: true }} currentUserId={65} currentUser={{ id: 65, a11yVoiceNoteSTT: true }} />);
+    expect(container.querySelector('audio')).toBeNull(); expect(axiosClient.post).not.toHaveBeenCalled();
   });
 });
