@@ -42,7 +42,7 @@ test('voice invitation flashes with title/banner preference OFF', () => {
 test('captured video-first event sequence produces exactly one brief pulse', () => {
   const q = harness(); q.emit('video:incoming'); q.emit('call:incoming'); q.emit('video:incoming');
   assert.equal(q.pulses, 1); assert.equal(q.nodes.size, 1);
-  assert.equal([...q.timers.values()][0].delay, 220);
+  assert.equal([...q.timers.values()][0].delay, 600);
   q.expire(); assert.equal(q.nodes.size, 0); assert.equal(q.timers.size, 0);
   q.emit('call:incoming'); assert.equal(q.pulses, 1);
 });
@@ -50,7 +50,11 @@ test('overlay is decorative, above dialogs, and cannot intercept clicks', () => 
   const q = harness(); q.emit('video:incoming'); const node = [...q.nodes][0];
   assert.equal(node.attrs['aria-hidden'], 'true');
   assert.equal(node.style.pointerEvents, 'none'); assert.equal(node.style.position, 'fixed');
-  assert.equal(node.style.zIndex, '2147483647'); assert.equal(node.style.opacity, '0.85');
+  assert.equal(node.style.background, 'rgba(255, 179, 0, 0.18)');
+  assert.equal(node.style.border, '12px solid #ffb300');
+  assert.equal(node.style.boxSizing, 'border-box');
+  assert.equal(node.style.boxShadow, 'inset 0 0 0 3px #111, inset 0 0 0 6px #fff');
+  assert.equal(node.style.zIndex, '2147483647'); assert.equal(node.style.opacity, '1');
 });
 test('OFF suppresses flash while normal visual alerts remain enabled', () => {
   const q = harness({ flash: false, visual: true }); q.emit('video:incoming');
