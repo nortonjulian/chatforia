@@ -46,7 +46,7 @@ jest.mock('../../context/UserContext', () => ({
 
 // i18n stub so useTranslation() doesn't require a real i18next instance
 jest.mock('react-i18next', () => {
-  const mockT = (key, defaultStr) => defaultStr || key; // stable reference
+  const mockT = (key, defaultStr) => global.mockTranslations?.[key] ?? defaultStr ?? key; // stable reference
   return {
     __esModule: true,
     useTranslation: () => ({
@@ -269,7 +269,7 @@ describe('SettingsAccessibility', () => {
     render(<SettingsAccessibility />);
 
     const sw = screen.getByRole('switch', {
-      name: /Enable live captions during calls/i,
+      name: /^Enable live captions$/i,
     });
     axiosClient.patch.mockRejectedValueOnce({
       response: { status: 402 },
@@ -325,4 +325,16 @@ describe('SettingsAccessibility', () => {
       ).toBeInTheDocument();
     });
   });
+});
+
+
+test('live caption title, switch and help text remain distinct with the real title translation present', () => {
+  global.mockCurrentUser = { id: 65, a11yLiveCaptions: true };
+  global.mockTranslations = { 'accessibilitySettings.liveCaptions': 'Live captions (calls)' };
+  try {
+    render(<SettingsAccessibility />);
+    expect(screen.getAllByText('Live captions (calls)')).toHaveLength(1);
+    expect(screen.getByRole('switch', { name: 'Enable live captions' })).toBeChecked();
+    expect(screen.getByText('Show captions of the other participant’s speech during calls. Requires Premium.')).toBeInTheDocument();
+  } finally { delete global.mockTranslations; }
 });

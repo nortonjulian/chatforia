@@ -177,12 +177,12 @@ export default function SettingsAccessibility() {
           <PremiumGuard inline>
             <SwitchRow
               label={t(
-                'accessibilitySettings.liveCaptions',
-                'Enable live captions during calls (Premium)'
+                'accessibilitySettings.enableLiveCaptions',
+                'Enable live captions'
               )}
               desc={t(
-                'accessibilitySettings.liveCaptions',
-                "Show real-time captions from the other participant’s audio."
+                'accessibilitySettings.liveCaptionsDescription',
+                'Show captions of the other participant’s speech during calls. Requires Premium.'
               )}
               checked={!!prefs.a11yLiveCaptions}
               onChange={(v) => savePref('a11yLiveCaptions', v)}

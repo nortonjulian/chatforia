@@ -133,7 +133,27 @@ function browser() {
   function track(name, kind = 'audio') { return { id: name, kind, readyState: 'live', stopped: false,
     stop() { this.stopped = true; }, clone() { const c = track(name + '-clone', kind); copies.push(c); return c; } }; }
   const remote = track('remote-audio'), local = track('local-mic'), video = track('remote-video', 'video');
-  const tracks = [remote];
+  const tracks = [remote], contexts = [], outputs = [];
+  class Stream {
+    constructor(tracks) { this.tracks = tracks; }
+    getTracks() { return this.tracks; }
+    getAudioTracks() { return this.tracks.filter(t => t.kind === 'audio'); }
+  }
+  class AudioGraph {
+    constructor() { contexts.push(this); this.state = 'running'; this.sources = []; }
+    createMediaStreamDestination() {
+      const output = track('local-caption-output-' + outputs.length);
+      outputs.push(output);
+      return this.destination = { stream: new Stream([output]) };
+    }
+    createMediaStreamSource(stream) {
+      const source = { stream, connect(destination) { this.destination = destination; },
+        disconnect() { this.disconnected = true; } };
+      this.sources.push(source);
+      return source;
+    }
+    async resume() {} async close() { this.closed = true; }
+  }
   const api = { post: async (url, body, options) => { requests.push({ url, body, options }); return { data: { sdp: 'v=0\r\nanswer' } }; }, delete: async url => { requests.push({ delete: url }); } };
   class Peer {
     constructor() { peers.push(this); this.connectionState = 'new'; this.sent = []; }
@@ -143,19 +163,25 @@ function browser() {
     async setLocalDescription() {} async setRemoteDescription() {}
     close() { this.closed = true; }
   }
-  const env = { crypto: { randomUUID: () => SESSION }, RTCPeerConnection: Peer,
+  const env = { AudioContext: AudioGraph, MediaStream: Stream, crypto: { randomUUID: () => SESSION }, RTCPeerConnection: Peer,
     setInterval: (fn, ms) => { intervals.set(++id, { fn, ms }); return id; }, clearInterval: i => intervals.delete(i),
     setTimeout: (fn, ms) => { timeouts.set(++id, { fn, ms }); return id; }, clearTimeout: i => timeouts.delete(i),
   };
   const stop = observeVideoCaptions({ api, callId: 20, remoteStream: { current: { getAudioTracks: () => tracks, getVideoTracks: () => [video] } }, env, onText: t => text.push(t), onStatus: s => status.push(s) });
   return { env, api, requests, peers, copies, remote, local, video, tracks, status, text, stop,
     tick: async ms => { for (const timer of [...intervals.values()]) if (timer.ms === ms) await timer.fn(); await new Promise(setImmediate); },
-    intervals, timeouts };
+    intervals, timeouts, contexts, outputs };
 }
-test('only a clone of received audio is sent; local microphone, remote video and original call audio stay untouched', async () => {
+test('single received caller is re-sourced through local Web Audio before sending; call media stays untouched', async () => {
   const f = browser(); await f.tick(500); assert.equal(f.peers.length, 1); assert.equal(f.peers[0].sent.length, 1);
-  assert.equal(f.peers[0].sent[0].track, f.copies[0]); assert.equal(f.peers[0].sent[0].options.direction, 'sendonly'); assert.equal(f.requests[0].body.sdp, OFFER);
+  assert.notEqual(f.peers[0].sent[0].track, f.copies[0]);
+  assert.equal(f.peers[0].sent[0].track, f.outputs[0]);
+  assert.equal(f.contexts[0].sources[0].stream.getTracks()[0], f.copies[0]);
+  assert.equal(f.contexts[0].sources[0].destination, f.contexts[0].destination);
+  assert.equal(f.contexts[0].sources.length, 1); assert.equal(f.peers[0].sent[0].options.direction, 'sendonly'); assert.equal(f.requests[0].body.sdp, OFFER);
   f.stop(); assert.equal(f.remote.stopped, false); assert.equal(f.local.stopped, false); assert.equal(f.video.stopped, false); assert.equal(f.copies[0].stopped, true);
+  assert.equal(f.outputs[0].stopped, true); assert.equal(f.contexts[0].closed, true);
+  assert.equal(f.contexts[0].sources[0].disconnected, true);
   assert.equal(f.peers[0].closed, true); assert.ok(f.requests.some(r => r.delete)); assert.equal(f.intervals.size, 0);
 });
 test('actual data-channel transcript reaches the renderer, but late delivery after cleanup cannot', async () => {
@@ -193,7 +219,7 @@ test('multi-participant capture mixes only remote audio and releases its own con
   f.env.AudioContext = class {
     constructor() { context = this; this.state = 'running'; this.sources = []; }
     createMediaStreamDestination() { return { stream: new f.env.MediaStream([mixed]) }; }
-    createMediaStreamSource(stream) { this.sources.push(stream); return { connect() {} }; }
+    createMediaStreamSource(stream) { this.sources.push(stream); return { connect() {}, disconnect() {} }; }
     async resume() {} async close() { this.closed = true; }
   };
   await f.tick(500); assert.equal(f.copies.length, 2); assert.equal(context.sources.length, 2);
@@ -215,4 +241,40 @@ test('long calls renew their caption connection without stopping the call', asyn
   const b = browser(); await b.tick(500); const originalPost = b.api.post;
   b.api.post = async (url, ...args) => url.endsWith('/lease') ? { data: { reconnect: true } } : originalPost(url, ...args);
   await b.tick(5000); await b.tick(500); assert.equal(b.peers.length, 2); assert.equal(b.peers[0].closed, true); assert.equal(b.remote.stopped, false); b.stop();
+});
+
+for (const mode of ['unavailable', 'suspended', 'resume failure', 'missing output']) test(`caption audio ${mode} fails explicitly without affecting the call or allocating a provider`, async () => {
+  const f = browser();
+  if (mode === 'unavailable') delete f.env.AudioContext;
+  else {
+    const Original = f.env.AudioContext;
+    f.env.AudioContext = class extends Original {
+      constructor() { super(); if (mode === 'suspended') this.state = 'suspended'; }
+      async resume() { if (mode === 'resume failure') throw new Error('not allowed'); }
+      createMediaStreamDestination() {
+        const destination = super.createMediaStreamDestination();
+        if (mode === 'missing output') destination.stream.tracks = [];
+        return destination;
+      }
+    };
+  }
+  await f.tick(500);
+  assert.equal(f.status.at(-1), 'error'); assert.equal(f.requests.length, 0);
+  assert.ok(f.copies.every(t => t.stopped)); assert.equal(f.remote.stopped, false);
+  assert.equal(f.local.stopped, false); assert.equal(f.video.stopped, false);
+  if (f.contexts.length) assert.equal(f.contexts[0].closed, true);
+  f.stop();
+});
+test('disposing during caption audio resume releases the late graph without starting a connection', async () => {
+  const f = browser(), Original = f.env.AudioContext; let resume;
+  f.env.AudioContext = class extends Original { resume() { return new Promise(resolve => { resume = resolve; }); } };
+  await f.tick(500); f.stop(); resume(); await new Promise(setImmediate);
+  assert.equal(f.peers.length, 0); assert.equal(f.requests.length, 0);
+  assert.equal(f.contexts[0].closed, true); assert.ok(f.copies.every(t => t.stopped));
+  assert.equal(f.outputs[0].stopped, true); assert.equal(f.remote.stopped, false);
+});
+test('caption audio graph never connects to a speaker destination', async () => {
+  const f = browser(); await f.tick(500);
+  assert.ok(f.contexts[0].sources.every(source => source.destination === f.contexts[0].destination));
+  f.stop();
 });
