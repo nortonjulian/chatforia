@@ -15,6 +15,7 @@ import {
 import { Link } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
 import posthog from '@/utils/analytics';
+import CallingAllowance from '../components/CallingAllowance';
 
 export default function MyPlan() {
   const { t } = useTranslation();
@@ -266,6 +267,7 @@ export default function MyPlan() {
             </Stack>
           </Paper>
         )}
+        {!loading && plan && <CallingAllowance />}
       </Stack>
     </Container>
   );

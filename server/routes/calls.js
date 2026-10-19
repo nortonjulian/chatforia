@@ -13,6 +13,7 @@ import {
   closeAndChargeHostedParticipantsForCall,
 } from '../services/hostedParticipantUsageService.js';
 import { getUsageAvailability } from '../services/callUsageService.js';
+import { hostedAllowanceResponse } from '../utils/hostedAllowanceResponse.js';
 import { startHostedAllowanceMonitor } from '../services/hostedAllowanceMonitor.js';
 
 const router = express.Router();
@@ -586,14 +587,9 @@ if (!call.externalPhone) {
     hostedAvailability.remaining != null &&
     hostedAvailability.remaining <= 0
   ) {
-    return res.status(429).json({
-      error: 'Hosted call allowance exhausted',
-      code: 'PLAN_ALLOWANCE_EXCEEDED',
-      detail: 'hostedParticipantSeconds',
-      limit: hostedAvailability.limit,
-      used: hostedAvailability.used,
-      remaining: hostedAvailability.remaining,
-    });
+    return res.status(429).json(
+      hostedAllowanceResponse(hostedAvailability, userId === call.callerId)
+    );
   }
 }
 
@@ -1712,14 +1708,9 @@ router.post('/:id/answer-participant', asyncHandler(async (req, res) => {
       hostedAvailability.remaining != null &&
       hostedAvailability.remaining <= 0
     ) {
-      return res.status(429).json({
-        error: 'Hosted call allowance exhausted',
-        code: 'PLAN_ALLOWANCE_EXCEEDED',
-        detail: 'hostedParticipantSeconds',
-        limit: hostedAvailability.limit,
-        used: hostedAvailability.used,
-        remaining: hostedAvailability.remaining,
-      });
+      return res.status(429).json(
+        hostedAllowanceResponse(hostedAvailability, userId === call.callerId)
+      );
     }
   }
 

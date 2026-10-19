@@ -3,6 +3,7 @@ import { requireAuth } from '../middleware/auth.js';
 import twilio from 'twilio';
 import prisma from '../utils/prismaClient.js';
 import { getUsageAvailability } from '../services/callUsageService.js';
+import { hostedAllowanceResponse } from '../utils/hostedAllowanceResponse.js';
 
 const router = express.Router();
 
@@ -79,14 +80,9 @@ router.post('/video/token', requireAuth, async (req, res) => {
       hostedAvailability.remaining != null &&
       hostedAvailability.remaining <= 0
     ) {
-      return res.status(429).json({
-        error: 'Hosted call allowance exhausted',
-        code: 'PLAN_ALLOWANCE_EXCEEDED',
-        detail: 'hostedParticipantSeconds',
-        limit: hostedAvailability.limit,
-        used: hostedAvailability.used,
-        remaining: hostedAvailability.remaining,
-      });
+      return res.status(429).json(
+      hostedAllowanceResponse(hostedAvailability, userId === call.callerId)
+    );
     }
 
     const accountSid = process.env.TWILIO_ACCOUNT_SID;

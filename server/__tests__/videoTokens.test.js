@@ -147,6 +147,7 @@ describe('POST /video/token', () => {
 
   test('429 when hosted participant allowance is exhausted', async () => {
     availabilityMock.mockResolvedValueOnce({
+      monthKey: '2026-10',
       meter: 'hostedParticipantSeconds',
       used: 18000,
       limit: 18000,
@@ -159,7 +160,10 @@ describe('POST /video/token', () => {
 
     expect(res.status).toBe(429);
     expect(res.body).toEqual({
-      error: 'Hosted call allowance exhausted',
+      error: 'Your monthly app-calling allowance has been used up. It resets on November 1, 2026 at 00:00 UTC. Check My plan for usage and available plan options.',
+      allowanceOwner: 'self',
+      monthKey: '2026-10',
+      resetAt: '2026-11-01T00:00:00.000Z',
       code: 'PLAN_ALLOWANCE_EXCEEDED',
       detail: 'hostedParticipantSeconds',
       limit: 18000,

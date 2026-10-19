@@ -1,4 +1,5 @@
 import express from 'express';
+import { allowanceResetAt } from '../utils/hostedAllowanceResponse.js';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js';
@@ -24,6 +25,7 @@ router.get('/entitlements', requireAuth, async (req, res) => {
     plan,
     entitlements: usageSummary.entitlements,
     monthKey: usageSummary.monthKey,
+    resetAt: allowanceResetAt(usageSummary.monthKey),
     usage: usageSummary.usage,
     deviceLimit: planEntitlements.deviceLimit,
     expireMaxDays: planEntitlements.expireMaxDays,
