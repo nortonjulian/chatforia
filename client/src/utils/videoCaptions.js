@@ -36,31 +36,40 @@ export function createVideoCaptionReceiver(onText) {
 }
 
 async function captionAudio(tracks, env) {
-  const copies = [];
+  const copies = [], sources = [];
   let context, output;
   const cleanup = () => {
+    sources.forEach(source => source.disconnect());
     copies.forEach(track => track.stop());
     output?.getTracks().forEach(track => track.stop());
     context?.close().catch(() => {});
   };
   try {
     tracks.forEach(track => copies.push(track.clone()));
-    if (copies.length === 1) return { track: copies[0], cleanup };
-    // Mix only remote participants if a call contains more than one remote audio track.
+    // A received WebRTC track can be live and unmuted yet send zero RTP when
+    // forwarded directly to another peer connection. Always create a local
+    // Web Audio output, even for one caller, so the caption sender encodes PCM.
+    // This graph never connects to speakers or owns the original call tracks.
     const AudioContext = env.AudioContext || env.webkitAudioContext;
     if (!AudioContext) throw new Error('Audio mixing unavailable');
     context = new AudioContext();
     const destination = context.createMediaStreamDestination();
     output = destination.stream;
-    copies.forEach(track => context.createMediaStreamSource(new env.MediaStream([track])).connect(destination));
+    copies.forEach(track => {
+      const source = context.createMediaStreamSource(new env.MediaStream([track]));
+      sources.push(source);
+      source.connect(destination);
+    });
     let timer;
     try {
       await Promise.race([context.resume(), new Promise((_, reject) => {
         timer = env.setTimeout(() => reject(new Error('Audio mixing unavailable')), 4000);
       })]);
     } finally { env.clearTimeout(timer); }
-    if (context.state === 'suspended') throw new Error('Audio mixing suspended');
-    return { track: output.getAudioTracks()[0], cleanup };
+    if (context.state !== 'running') throw new Error('Caption audio is not running');
+    const track = output.getAudioTracks()[0];
+    if (!track) throw new Error('Caption audio output unavailable');
+    return { track, cleanup };
   } catch (error) { cleanup(); throw error; }
 }
 
