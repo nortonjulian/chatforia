@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
   Box,
   Card,
@@ -19,7 +19,7 @@ import {
   Voicemail,
   Video,
 } from 'lucide-react';
-import { getCallHistoryPage } from '@/api/calls';
+import { useCallHistory } from '@/hooks/useCallHistory';
 import { useUser } from '@/context/UserContext';
 import { useTranslation } from 'react-i18next';
 
@@ -75,71 +75,8 @@ const CALL_HISTORY_PAGE_SIZE = 50;
 export default function CallHistory() {
   const { t } = useTranslation();
   const { currentUser } = useUser();
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  const [nextCursor, setNextCursor] = useState(null);
-  const [loadingMore, setLoadingMore] = useState(false);
-
-  useEffect(() => {
-    let alive = true;
-
-    (async () => {
-      try {
-        setLoading(true);
-        setError('');
-
-        const data = await getCallHistoryPage({
-          limit: CALL_HISTORY_PAGE_SIZE,
-        });
-
-        if (!alive) return;
-
-        setItems(data.items);
-        setNextCursor(data.nextCursor);
-      } catch (err) {
-        if (!alive) return;
-
-        setError(
-          err?.response?.data?.error ||
-            err?.message ||
-            t('callHistory.loadFailed', 'Could not load call history.')
-        );
-      } finally {
-        if (alive) setLoading(false);
-      }
-    })();
-
-    return () => {
-      alive = false;
-    };
-  }, [t]);
-
-  const handleLoadMore = async () => {
-    if (!nextCursor || loadingMore) return;
-
-    try {
-      setLoadingMore(true);
-      setError('');
-
-      const data = await getCallHistoryPage({
-        limit: CALL_HISTORY_PAGE_SIZE,
-        cursor: nextCursor,
-      });
-
-      setItems((prev) => [...prev, ...data.items]);
-      setNextCursor(data.nextCursor);
-    } catch (err) {
-      setError(
-        err?.response?.data?.error ||
-          err?.message ||
-          t('callHistory.loadFailed', 'Could not load call history.')
-      );
-    } finally {
-      setLoadingMore(false);
-    }
-  };
+  const { items, loading, error, nextCursor, loadingMore, loadMore: handleLoadMore } =
+    useCallHistory(currentUser?.id, CALL_HISTORY_PAGE_SIZE);
 
   const content = useMemo(() => {
     if (loading) {
@@ -150,7 +87,7 @@ export default function CallHistory() {
       );
     }
 
-    if (error) {
+    if (error && !items.length) {
       return (
         <Alert color="red" title={t('callHistory.loadFailedTitle', 'Couldn’t load call history')}>
           {error}
@@ -286,6 +223,7 @@ export default function CallHistory() {
         <Text size="sm" c="dimmed">
           {t('callHistory.subtitle', 'Your recent incoming and outgoing calls.')}
         </Text>
+        {error && items.length > 0 ? <Alert color="red">{error}</Alert> : null}
         {content}
 
         {!loading && !error && nextCursor ? (

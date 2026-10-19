@@ -376,6 +376,9 @@ router.post('/invite', asyncHandler(async (req, res) => {
   }
 
   const call = arbitration.call;
+  // Notify every signed-in client for each owner; consumers refetch authorized history.
+  emitToUser(call.callerId, 'call:history-changed', {});
+  emitToUser(call.calleeId, 'call:history-changed', {});
 
   const roomName = `call_${call.id}`;
 
@@ -536,6 +539,8 @@ router.post('/start-external', asyncHandler(async (req, res) => {
     },
   });
 
+  emitToUser(callerId, 'call:history-changed', {});
+
   res.status(201).json({
     callId: call.id,
     resolvedCallId: call.id,
@@ -656,6 +661,8 @@ emitToUser(updated.callerId, 'call:answer', {
 });
 
 await notifyAnsweredElsewhere(updated);
+emitToUser(updated.callerId, 'call:history-changed', {});
+emitToUser(updated.calleeId, 'call:history-changed', {});
 
 res.json({
   ok: true,
@@ -1324,6 +1331,8 @@ if (
   lifecycleUpdate.count === 1
 ) {
   await notifyAnsweredElsewhere(updated);
+  emitToUser(updated.callerId, 'call:history-changed', {});
+  emitToUser(updated.calleeId, 'call:history-changed', {});
 }
 
 if (lifecycleUpdate.count === 1 && isTerminalCallStatus(normalizedStatus)) {
@@ -1453,6 +1462,8 @@ router.post('/history/delete-selected', asyncHandler(async (req, res) => {
     });
   }
 
+  if (calls.length) emitToUser(userId, 'call:history-changed', {});
+
   res.json({
     ok: true,
     count: calls.length,
@@ -1496,6 +1507,8 @@ router.delete('/history', asyncHandler(async (req, res) => {
     });
   }
 
+  if (calls.length) emitToUser(userId, 'call:history-changed', {});
+
   res.json({
     ok: true,
     count: calls.length,
@@ -1532,6 +1545,7 @@ router.delete('/:id', asyncHandler(async (req, res) => {
     },
   });
 
+  emitToUser(userId, 'call:history-changed', {});
   res.json({ ok: true });
 }));
 
@@ -1944,6 +1958,7 @@ router.patch('/missed/acknowledge', asyncHandler(async (req, res) => {
  * Returns recent calls where the user is caller or callee
  */
 router.get('/history', asyncHandler(async (req, res) => {
+  res.set('Cache-Control', 'private, no-store');
   const userId = Number(req.user.id);
 
   const requestedLimit = Number.parseInt(String(req.query.limit || ''), 10);
