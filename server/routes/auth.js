@@ -1240,7 +1240,7 @@ router.get(
       showOriginalWithTranslation: safeUser.showOriginalWithTranslation,
       allowExplicitContent: safeUser.allowExplicitContent,
       showReadReceipts: safeUser.showReadReceipts,
-      autoDeleteSeconds: safeUser.autoDeleteSeconds,
+      autoDeleteSeconds: safeUser.autoDeleteSeconds ?? 0,
 
       // Accessibility preferences
       a11yUiFont: safeUser.a11yUiFont,

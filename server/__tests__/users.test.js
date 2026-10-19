@@ -100,6 +100,57 @@ beforeEach(() => {
 
 // --- Tests: POST /users ------------------------------------------------------
 
+describe('PATCH /users/me disappearing-message preference', () => {
+  it.each([0, 1, 10, 60, 86400, 604800, 2592000])('saves and acknowledges %i seconds for only the authenticated account', async (seconds) => {
+    mockUserUpdate.mockImplementationOnce(async ({ where, data, select }) => {
+      expect(where).toEqual({ id: 123 });
+      expect(data).toEqual({ autoDeleteSeconds: seconds });
+      expect(select.autoDeleteSeconds).toBe(true);
+      return { id: 123, autoDeleteSeconds: data.autoDeleteSeconds };
+    });
+    const res = await request(createApp({ user: { id: 123 } }))
+      .patch('/users/me').send({ autoDeleteSeconds: seconds, id: 999, userId: 999 });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.autoDeleteSeconds).toBe(seconds);
+  });
+
+  it('accepts legacy null as OFF', async () => {
+    mockUserUpdate.mockResolvedValueOnce({ id: 123, autoDeleteSeconds: 0 });
+    const res = await request(createApp({ user: { id: 123 } }))
+      .patch('/users/me').send({ autoDeleteSeconds: null });
+    expect(res.statusCode).toBe(200);
+    expect(mockUserUpdate.mock.calls[0][0].data).toEqual({ autoDeleteSeconds: 0 });
+    expect(res.body.autoDeleteSeconds).toBe(0);
+  });
+
+  it.each([-1, 1.5, '10', '', true, false, {}, [], 2147483648])('rejects invalid timer %j without saving other settings', async (value) => {
+    const res = await request(createApp({ user: { id: 123 } }))
+      .patch('/users/me').send({ autoDeleteSeconds: value, showReadReceipts: false });
+    expect(res.statusCode).toBe(400);
+    expect(res.body.error).toBe('Invalid autoDeleteSeconds');
+    expect(mockUserUpdate).not.toHaveBeenCalled();
+  });
+
+  it('preserves an enabled timer when saving an unrelated setting', async () => {
+    mockUserUpdate.mockImplementationOnce(async ({ data, select }) => {
+      expect(data).toEqual({ showReadReceipts: false });
+      expect(select.autoDeleteSeconds).toBe(true);
+      return { id: 123, autoDeleteSeconds: 10, showReadReceipts: false };
+    });
+    const res = await request(createApp({ user: { id: 123 } }))
+      .patch('/users/me').send({ showReadReceipts: false });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.autoDeleteSeconds).toBe(10);
+  });
+
+  it('does not report success after a database failure', async () => {
+    mockUserUpdate.mockRejectedValueOnce(new Error('controlled failure'));
+    const res = await request(createApp({ user: { id: 123 } }))
+      .patch('/users/me').send({ autoDeleteSeconds: 10 });
+    expect(res.statusCode).toBe(500);
+  });
+});
+
 describe('POST /users', () => {
   it('delegates to canonical /auth/register and preserves legacy success shape', async () => {
     let delegatedUrl = null;

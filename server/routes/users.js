@@ -182,6 +182,7 @@ router.patch('/me', requireAuth, async (req, res) => {
       discoverability,
       showOriginalWithTranslation,
       showReadReceipts,
+      autoDeleteSeconds,
       allowExplicitContent,
       privacyBlurEnabled,
       privacyBlurOnUnfocus,
@@ -208,6 +209,16 @@ router.patch('/me', requireAuth, async (req, res) => {
 
     // Build whitelist of updatable fields
     const data = {};
+    // Shared client contract: 0 (or legacy null) disables the default timer.
+    // Validate before writing any settings; Prisma Int is a signed 32-bit value.
+    // Message creation retains its existing per-plan expiration enforcement.
+    if (autoDeleteSeconds !== undefined) {
+      if (autoDeleteSeconds !== null &&
+          (!Number.isInteger(autoDeleteSeconds) || autoDeleteSeconds < 0 || autoDeleteSeconds > 2147483647)) {
+        return res.status(400).json({ error: 'Invalid autoDeleteSeconds' });
+      }
+      data.autoDeleteSeconds = autoDeleteSeconds ?? 0;
+    }
     // ✅ Username update (for OAuth onboarding)
     if (typeof username === 'string' && username.trim()) {
       const clean = username.trim();
@@ -543,6 +554,7 @@ router.patch('/me', requireAuth, async (req, res) => {
           autoTranslate: true,
           showOriginalWithTranslation: true,
           showReadReceipts: true,
+          autoDeleteSeconds: true,
           allowExplicitContent: true,
           privacyBlurEnabled: true,
           privacyBlurOnUnfocus: true,
