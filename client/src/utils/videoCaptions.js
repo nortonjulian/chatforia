@@ -108,7 +108,10 @@ export function observeVideoCaptions({ api, callId, remoteStream, onText, onStat
       current.audio = await captionAudio(tracks, env);
       if (disposed || current.closed) { current.audio.cleanup(); return; }
       current.peer = new env.RTCPeerConnection();
-      current.peer.addTransceiver(current.audio.track, { direction: 'sendonly' });
+      // The transcription endpoint negotiates sendonly offers as inactive.
+      // Permit sendrecv for negotiation; this transcription-only session has
+      // no assistant response and we never attach its receiver to a player.
+      current.peer.addTransceiver(current.audio.track, { direction: 'sendrecv' });
       current.channel = current.peer.createDataChannel('oai-events');
       current.channel.onmessage = ({ data }) => {
         if (current.closed || disposed) return;
@@ -132,6 +135,10 @@ export function observeVideoCaptions({ api, callId, remoteStream, onText, onStat
       if (typeof data?.sdp !== 'string' || !data.sdp.startsWith('v=0')) throw new Error('Invalid caption connection');
       await current.peer.setRemoteDescription({ type: 'answer', sdp: data.sdp });
       if (disposed || current.closed) return;
+      const canSendAudio = current.peer.getTransceivers().some(t =>
+        t.sender.track === current.audio.track &&
+        ['sendonly', 'sendrecv'].includes(t.currentDirection));
+      if (!canSendAudio) throw new Error('Caption audio negotiation inactive');
       if (current.channel.readyState !== 'open') current.readyTimer = env.setTimeout(() => fail(current), 15000);
       current.leaseTimer = env.setInterval(async () => {
         if (current.closed || current.leasing) return;

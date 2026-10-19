@@ -156,11 +156,21 @@ function browser() {
   }
   const api = { post: async (url, body, options) => { requests.push({ url, body, options }); return { data: { sdp: 'v=0\r\nanswer' } }; }, delete: async url => { requests.push({ delete: url }); } };
   class Peer {
-    constructor() { peers.push(this); this.connectionState = 'new'; this.sent = []; }
-    addTransceiver(track, options) { this.sent.push({ track, options }); }
+    constructor() { peers.push(this); this.connectionState = 'new'; this.sent = []; this.transceivers = []; }
+    addTransceiver(track, options) {
+      this.sent.push({ track, options });
+      this.transceivers.push({ direction: options.direction, currentDirection: null, sender: { track } });
+    }
+    getTransceivers() { return this.transceivers; }
     createDataChannel() { return this.channel = { readyState: 'connecting', close() { this.closed = true; } }; }
     async createOffer() { return { type: 'offer', sdp: OFFER }; }
-    async setLocalDescription() {} async setRemoteDescription() {}
+    async setLocalDescription() {}
+    async setRemoteDescription() {
+      // Reproduce the production negotiation: the old sendonly offer became
+      // inactive even though the data channel could open successfully.
+      this.transceivers.forEach(t => { t.currentDirection = this.answerDirection ||
+        (t.direction === 'sendrecv' ? 'sendrecv' : 'inactive'); });
+    }
     close() { this.closed = true; }
   }
   const env = { AudioContext: AudioGraph, MediaStream: Stream, crypto: { randomUUID: () => SESSION }, RTCPeerConnection: Peer,
@@ -178,7 +188,7 @@ test('single received caller is re-sourced through local Web Audio before sendin
   assert.equal(f.peers[0].sent[0].track, f.outputs[0]);
   assert.equal(f.contexts[0].sources[0].stream.getTracks()[0], f.copies[0]);
   assert.equal(f.contexts[0].sources[0].destination, f.contexts[0].destination);
-  assert.equal(f.contexts[0].sources.length, 1); assert.equal(f.peers[0].sent[0].options.direction, 'sendonly'); assert.equal(f.requests[0].body.sdp, OFFER);
+  assert.equal(f.contexts[0].sources.length, 1); assert.equal(f.peers[0].sent[0].options.direction, 'sendrecv'); assert.equal(f.requests[0].body.sdp, OFFER);
   f.stop(); assert.equal(f.remote.stopped, false); assert.equal(f.local.stopped, false); assert.equal(f.video.stopped, false); assert.equal(f.copies[0].stopped, true);
   assert.equal(f.outputs[0].stopped, true); assert.equal(f.contexts[0].closed, true);
   assert.equal(f.contexts[0].sources[0].disconnected, true);
@@ -277,4 +287,31 @@ test('caption audio graph never connects to a speaker destination', async () => 
   const f = browser(); await f.tick(500);
   assert.ok(f.contexts[0].sources.every(source => source.destination === f.contexts[0].destination));
   f.stop();
+});
+
+
+test('a sending audio direction is negotiated before the caption connection can remain ready', async () => {
+  const f = browser(); await f.tick(500);
+  assert.equal(f.peers[0].getTransceivers()[0].currentDirection, 'sendrecv');
+  assert.equal(f.peers[0].closed, undefined);
+  f.peers[0].channel.onopen(); assert.equal(f.status.at(-1), 'ready');
+  f.peers[0].channel.onmessage({ data: event('conversation.item.input_audio_transcription.completed', 'negotiated', { transcript: 'Working after negotiation' }) });
+  assert.equal(f.text.at(-1), 'Working after negotiation'); f.stop();
+});
+for (const direction of ['inactive', 'recvonly', null]) test(`a data channel with non-sending audio ${direction} cannot silently report success or keep a provider lease`, async () => {
+  const f = browser(), Peer = f.env.RTCPeerConnection;
+  f.env.RTCPeerConnection = class extends Peer {
+    async setRemoteDescription() { this.transceivers.forEach(t => { t.currentDirection = direction; }); }
+  };
+  await f.tick(500);
+  assert.equal(f.status.at(-1), 'error'); assert.equal(f.peers[0].closed, true);
+  assert.equal(f.peers[0].channel.closed, true); assert.ok(f.requests.some(r => r.delete));
+  assert.equal([...f.intervals.values()].filter(t => t.ms === 5000).length, 0);
+  assert.equal(f.remote.stopped, false); assert.equal(f.local.stopped, false); assert.equal(f.video.stopped, false);
+  assert.equal(f.contexts[0].closed, true); assert.equal(f.outputs[0].stopped, true); f.stop();
+});
+test('a negotiated sendonly direction is also accepted when the sender can transmit', async () => {
+  const f = browser(), Peer = f.env.RTCPeerConnection;
+  f.env.RTCPeerConnection = class extends Peer { constructor() { super(); this.answerDirection = 'sendonly'; } };
+  await f.tick(500); assert.equal(f.peers[0].closed, undefined); f.stop();
 });
