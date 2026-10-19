@@ -1006,6 +1006,10 @@ test('acceptCall consumes incoming offer, sends answer, sets active and clears i
 
   test('endCall disconnects Twilio Video and stops local media', async () => {
 renderWithProvider();
+fetchMock.mockResolvedValueOnce({
+  ok: true,
+  json: async () => ({ callId: 123 }),
+});
 
 await act(async () => {
 await ctxRef.startCall({
@@ -1026,6 +1030,9 @@ url.includes('/calls/end')
 );
 
 expect(endCall).toBeTruthy();
+expect(JSON.parse(endCall[1].body)).toEqual({
+  callId: 123, reason: 'hangup',
+});
 
 expect(
 mockTwilioLocalTrack.stop
