@@ -104,6 +104,7 @@ describe('premium entitlements route', () => {
       expect.objectContaining({
         plan: 'PLUS',
         monthKey: '2026-10',
+        resetAt: '2026-11-01T00:00:00.000Z',
         entitlements,
         usage,
         deviceLimit: expect.any(Number),
