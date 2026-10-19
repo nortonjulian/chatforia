@@ -11,7 +11,7 @@ import { normalizeE164, isE164 } from '../utils/phone.js';
 import * as smsService from '../services/smsService.js';
 
 // ✅ Twilio-protected media fetch helper (does Basic Auth + returns fetch Response)
-import { fetchTwilioMedia } from '../utils/twilioMediaProxy.js';
+import { fetchSMSMedia } from '../utils/smsMediaFetch.js';
 import { syncBadgeToUserDevices } from '../services/badgeSync.js';
 
 const r = express.Router();
@@ -102,10 +102,11 @@ r.get(
         ? Object.values(msg.mediaUrls)
         : [];
 
-    const url = urls?.[idx];
+    const item = urls?.[idx];
+    const url = typeof item === 'string' ? item : item?.url;
     if (!url) throw Boom.notFound('Media item not found');
 
-    const upstream = await fetchTwilioMedia(String(url));
+    const upstream = await fetchSMSMedia(url);
     if (!upstream.ok) throw Boom.badGateway('Failed to fetch upstream media');
 
     const contentType =
