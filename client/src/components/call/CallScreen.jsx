@@ -15,6 +15,7 @@ import { useCall } from '../../context/CallContext';
 import AddCallParticipantModal from './AddCallParticipantModal';
 import posthog from '@/utils/analytics';
 import CallCaptions from './CallCaptions';
+import VideoCallCaptions from './VideoCallCaptions';
 
 export default function CallScreen() {
   const {
@@ -386,7 +387,11 @@ export default function CallScreen() {
         </Box>
       </Portal>
 
-      <CallCaptions callId={active.callId} />
+      {isVideo ? (
+        <VideoCallCaptions callId={active.callId} remoteStream={remoteStream} />
+      ) : (
+        <CallCaptions callId={active.callId} />
+      )}
 
       <AddCallParticipantModal
         opened={addOpen}
