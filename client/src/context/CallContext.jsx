@@ -3,6 +3,8 @@ import { useSocketRaw } from '@/context/SocketContext';
 import { API_BASE } from '@/config';
 import { useTwilioVoice } from '@/hooks/useTwilioVoice';
 import { joinRoom } from '@/video/video';
+import { notifications } from '@mantine/notifications';
+import { createVideoCallEndQueue } from '@/utils/videoCallEndQueue';
 
 const CallCtx = createContext(null);
 export const useCall = () => useContext(CallCtx);
@@ -55,6 +57,43 @@ export function CallProvider({ children, me }) {
   const incomingRef = useRef(null);
   const answeringCallIdRef = useRef(null);
 const twilioVideoRoomRef = useRef(null);
+  const videoEndQueueRef = useRef(null);
+  const accountIdRef = useRef(me?.id);
+  accountIdRef.current = me?.id;
+
+  useEffect(() => {
+    const accountId = me?.id;
+    if (!accountId) return undefined;
+    let storage;
+    try { storage = window.sessionStorage; } catch {}
+    const noticeId = callId => `video-end-pending-${accountId}-${callId}`;
+    const pendingNotices = new Set();
+    const queue = createVideoCallEndQueue({
+      accountId, storage,
+      isCurrentAccount: () => accountIdRef.current === accountId,
+      send: (body, signal) => fetch(`${API_BASE}/calls/end`, {
+        method: 'POST', credentials: 'include', signal,
+        headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+      }),
+      onPending: callId => { pendingNotices.add(callId); notifications.show({
+        id: noticeId(callId), autoClose: false, title: 'Call ended on this device',
+        message: 'Waiting for a connection to finish ending the call for everyone.',
+      }); },
+      onSettled: callId => { pendingNotices.delete(callId); notifications.hide(noticeId(callId)); },
+      onFailure: callId => {
+        pendingNotices.delete(callId);
+        notifications.hide(noticeId(callId));
+        notifications.show({ color: 'red', title: 'Could not confirm the call ended',
+          message: 'The server could not confirm ending this call. Check the other device.' });
+      },
+    });
+    videoEndQueueRef.current = queue;
+    return () => {
+      queue.dispose();
+      pendingNotices.forEach(callId => notifications.hide(noticeId(callId)));
+      if (videoEndQueueRef.current === queue) videoEndQueueRef.current = null;
+    };
+  }, [me?.id]);
 
   useEffect(() => {
     activeRef.current = active;
@@ -531,7 +570,7 @@ setStatus('Connecting…');
 }
 );
 
-room.on('disconnected', () => {
+room.on('disconnected', (_room, error) => {
 if (
 twilioVideoRoomRef.current !== room
 ) {
@@ -539,6 +578,12 @@ return;
 }
 
 twilioVideoRoomRef.current = null;
+// Only a terminal disconnect ends the call. A temporary reconnect attempt
+// keeps the SDK's existing recovery behavior. Duplicate identity means
+// another client took over; do not terminate that client's call.
+if (Number(error?.code) !== 53205 && accountIdRef.current === me?.id) {
+videoEndQueueRef.current?.enqueue(callId, 'media_disconnected');
+}
 cleanup();
 });
 
@@ -1246,6 +1291,12 @@ async function onParticipantOffer({ callId, fromUser, offer }) {
   async function endCall(reason) {
     const callId = active?.callId || incoming?.callId;
     if (!callId) return;
+    const target = active || incoming;
+    if (target?.mode?.toUpperCase() === 'VIDEO' && videoEndQueueRef.current) {
+      videoEndQueueRef.current.enqueue(callId, reason || 'ended');
+      cleanup();
+      return;
+    }
     await fetch(`${API_BASE}/calls/end`, {
       method: 'POST',
       credentials: 'include',
