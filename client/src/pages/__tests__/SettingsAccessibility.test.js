@@ -292,6 +292,25 @@ describe('SettingsAccessibility', () => {
       name: /Vibrate on new messages/i,
     });
     expect(sw).toBeDisabled();
+    expect(screen.getByText(/Vibration is unavailable in this browser/i)).toBeInTheDocument();
+  });
+
+  test('Vibrate rejects a non-callable API and preserves an enabled saved preference', () => {
+    Object.defineProperty(global.navigator, 'vibrate', { configurable: true, value: true });
+    global.mockCurrentUser = { a11yVibrate: true };
+    render(<SettingsAccessibility />);
+    const sw = screen.getByRole('switch', { name: /Vibrate on new messages/i });
+    expect(sw).toBeDisabled();
+    expect(sw).toBeChecked();
+    expect(axiosClient.patch).not.toHaveBeenCalled();
+  });
+
+  test('Vibrate describes the visible mobile-browser requirement when supported', () => {
+    setNavigatorVibrate(true);
+    global.mockCurrentUser = { id: 7, a11yVibrate: false };
+    render(<SettingsAccessibility />);
+    expect(screen.getByText(/while Chatforia is visible/i)).toBeInTheDocument();
+    expect(screen.getByRole('switch', { name: /Vibrate on new messages/i })).not.toBeDisabled();
   });
 
   test('Flash screen on incoming call disabled when prefers-reduced-motion is true', () => {

@@ -5,6 +5,7 @@ import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
 import { useTranslation } from 'react-i18next';
 import { applyInterfaceFont } from '../utils/interfaceFont';
+import { supportsMessageVibration } from '../utils/messageVibration';
 
 const FONT_OPTIONS = ['sm', 'md', 'lg', 'xl'];
 const A11Y_PATH = '/users/me/a11y';
@@ -38,7 +39,7 @@ export default function SettingsAccessibility() {
     }
   }, [currentUser, t]);
 
-  const vibSupported = typeof navigator !== 'undefined' && 'vibrate' in navigator;
+  const vibSupported = supportsMessageVibration();
   const reduceMotion =
     typeof window !== 'undefined' &&
     window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
@@ -150,8 +151,8 @@ export default function SettingsAccessibility() {
             label={t('accessibilitySettings.vibrateOnNewShort', 'Vibrate on new messages (when supported)')}
             desc={
               vibSupported
-                ? t('accessibilitySettings.vibrateOnNewDesc', 'Trigger device vibration with notifications.')
-                : t('accessibilitySettings.vibrateOnNewDesc', 'Not supported on this device.')
+                ? t('accessibilitySettings.vibrateBrowserHelp', 'Vibrate for new messages on supported mobile devices while Chatforia is visible. Tap the page first. Browser and device settings may prevent vibration.')
+                : t('accessibilitySettings.vibrateBrowserUnsupported', 'Vibration is unavailable in this browser. Your saved preference is kept for supported devices.')
             }
             checked={!!prefs.a11yVibrate}
             onChange={(v) => savePref('a11yVibrate', v)}

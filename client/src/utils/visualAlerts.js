@@ -1,6 +1,7 @@
-// A visual-only subscriber: never writes messages, receipts, badges or audio state.
+// Notification effects only: never writes messages, receipts, badges or audio state.
 export function attachVisualAlerts({ socket, userId, getEnabled, show, hide,
   getFlashEnabled = () => false, startCallFlash = () => () => {},
+  getVibrationEnabled = () => false, vibrateMessage = () => {},
   getLabels = () => ({ message: 'New message', call: 'Incoming call', body: 'Return to Chatforia to view it.' }),
   document: doc = globalThis.document, window: win = globalThis.window,
   now = Date.now, setInterval: startTimer = globalThis.setInterval, clearInterval: stopTimer = globalThis.clearInterval,
@@ -76,6 +77,11 @@ export function attachVisualAlerts({ socket, userId, getEnabled, show, hide,
         (row.expiresAt && Date.parse(row.expiresAt) <= now()) ||
         (Array.isArray(row.readBy) && row.readBy.some((reader) => Number(reader?.id) === Number(userId)))) return;
     alert('message', `message-${id}`);
+    // Independent of banners/title blinking. Claim while OFF too, so an alias
+    // delivered after enabling cannot replay an already received message.
+    if (!disposed && claim(`vibrate-message-${id}`) && getVibrationEnabled()) {
+      try { vibrateMessage(); } catch { /* Device refusal cannot break delivery. */ }
+    }
   }
   function call(payload) {
     const id = payload?.callId;

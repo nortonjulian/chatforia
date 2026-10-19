@@ -5,6 +5,7 @@ import { useUser } from '@/context/UserContext';
 import { useSocketRaw } from '@/context/SocketContext';
 import { attachVisualAlerts } from '@/utils/visualAlerts';
 import { flashIncomingCall } from '@/utils/callFlash';
+import { vibrateIncomingMessage } from '@/utils/messageVibration';
 
 export default function VisualAlerts() {
   const { currentUser } = useUser() ?? {};
@@ -21,6 +22,8 @@ export default function VisualAlerts() {
       socket, userId,
       getEnabled: () => latest.current.user?.id === userId && latest.current.user?.a11yVisualAlerts === true,
       getFlashEnabled: () => latest.current.user?.id === userId && latest.current.user?.a11yFlashOnCall === true,
+      getVibrationEnabled: () => latest.current.user?.id === userId && latest.current.user?.a11yVibrate === true,
+      vibrateMessage: () => vibrateIncomingMessage(),
       startCallFlash: () => flashIncomingCall(),
       getLabels: () => ({
         message: latest.current.t('visualAlerts.newMessage', 'New message'),
