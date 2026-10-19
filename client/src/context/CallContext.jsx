@@ -5,6 +5,8 @@ import { useTwilioVoice } from '@/hooks/useTwilioVoice';
 import { joinRoom } from '@/video/video';
 import { notifications } from '@mantine/notifications';
 import { createVideoCallEndQueue } from '@/utils/videoCallEndQueue';
+import { startVideoRingback } from '@/utils/videoRingback';
+import { getVolume } from '@/utils/sounds';
 
 const CallCtx = createContext(null);
 export const useCall = () => useContext(CallCtx);
@@ -58,6 +60,34 @@ export function CallProvider({ children, me }) {
   const answeringCallIdRef = useRef(null);
 const twilioVideoRoomRef = useRef(null);
   const videoEndQueueRef = useRef(null);
+  const videoRingbackRef = useRef(null);
+  const [videoRingbackStatus, setVideoRingbackStatus] = useState(null);
+
+  function stopVideoRingback() {
+    videoRingbackRef.current?.stop();
+    videoRingbackRef.current = null;
+  }
+
+  // Only the originating browser rings back while waiting for its first peer.
+  // pending stays false after connection, so a media reconnect never rings again.
+  useEffect(() => {
+    setVideoRingbackStatus(null);
+    if (active?.mode !== 'VIDEO' || !active?.outgoing || !pending ||
+        active?.originatorAccountId !== me?.id) return undefined;
+    let disposed = false;
+    let volume = 0.7;
+    try { volume = getVolume(); } catch {}
+    const ringback = startVideoRingback({
+      volume,
+      onStatus: value => { if (!disposed) setVideoRingbackStatus(value); },
+    });
+    videoRingbackRef.current = ringback;
+    return () => {
+      disposed = true;
+      ringback.stop();
+      if (videoRingbackRef.current === ringback) videoRingbackRef.current = null;
+    };
+  }, [active?.callId, active?.mode, active?.outgoing, active?.originatorAccountId, pending, me?.id]);
   const accountIdRef = useRef(me?.id);
   accountIdRef.current = me?.id;
 
@@ -539,6 +569,7 @@ wireParticipant(participant);
 );
 
 if (room.participants.size > 0) {
+stopVideoRingback();
 setPending(false);
 setStatus('In call');
 }
@@ -547,6 +578,7 @@ room.on(
 'participantConnected',
 (participant) => {
 wireParticipant(participant);
+stopVideoRingback();
 setPending(false);
 setStatus('In call');
 }
@@ -710,6 +742,8 @@ mode: 'VIDEO',
 peerName,
 roomName,
 mediaTransport: 'twilio-video',
+outgoing: true,
+originatorAccountId: me?.id,
 });
 
 return data;
@@ -1413,6 +1447,7 @@ function onParticipantDeclined({ participant }) {
   function cleanup({
   preserveTwilioVoice = false,
 } = {}) {
+stopVideoRingback();
 if (!preserveTwilioVoice) {
 try {
 twilioVoice.hangup();
@@ -1486,6 +1521,8 @@ setStatus(null);
     active,
     pending,
     status,
+    videoRingbackStatus: pending ? videoRingbackStatus : null,
+    retryVideoRingback: () => videoRingbackRef.current?.retry(),
     inviteHint,  // { requiresInvite, inviteUrl? } -> show CTA / toast / modal
     me,
 

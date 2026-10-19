@@ -34,6 +34,14 @@ jest.mock(
   })
 );
 
+const mockRingbackStop = jest.fn();
+const mockRingbackRetry = jest.fn();
+const mockStartVideoRingback = jest.fn();
+jest.mock('@/utils/videoRingback', () => ({
+  startVideoRingback: (...args) => mockStartVideoRingback(...args),
+}));
+jest.mock('@/utils/sounds', () => ({ getVolume: () => 0.35 }));
+
 const mockJoinRoom = jest.fn();
 let mockVideoRoom;
 let mockTwilioLocalTrack;
@@ -268,6 +276,10 @@ function renderWithProvider(props = {}) {
 }
 
 beforeEach(() => {
+  mockRingbackStop.mockReset();
+  mockRingbackRetry.mockReset();
+  mockStartVideoRingback.mockReset();
+  mockStartVideoRingback.mockReturnValue({ stop: mockRingbackStop, retry: mockRingbackRetry });
   ctxRef = null;
 
 mockTwilioLocalTrack = {
@@ -1285,4 +1297,80 @@ test(
   }
 );
 
+});
+
+
+describe('outgoing video ringback', () => {
+  async function dial(mode = 'VIDEO') {
+    await act(async () => { await ctxRef.startCallByUser({ calleeId: 99, mode }); });
+  }
+  function joinPeer() {
+    const listener = mockVideoRoom.on.mock.calls.find(([name]) => name === 'participantConnected')[1];
+    act(() => { listener({ tracks: new Map(), on: jest.fn() }); });
+  }
+  test('outgoing video starts exactly one local ringback at saved volume', async () => {
+    const view = renderWithProvider(); await dial();
+    expect(mockStartVideoRingback).toHaveBeenCalledTimes(1);
+    expect(mockStartVideoRingback).toHaveBeenCalledWith(expect.objectContaining({ volume: 0.35 }));
+    view.rerender(<CallProvider me={{ id: 7 }}><Harness /></CallProvider>);
+    expect(mockStartVideoRingback).toHaveBeenCalledTimes(1);
+  });
+  test('joining peer stops ringback and disconnect/reconnect does not restart it', async () => {
+    renderWithProvider(); await dial(); joinPeer();
+    expect(mockRingbackStop).toHaveBeenCalled();
+    const left = mockVideoRoom.on.mock.calls.find(([name]) => name === 'participantDisconnected')[1];
+    act(() => { left({ tracks: new Map() }); }); joinPeer();
+    expect(mockStartVideoRingback).toHaveBeenCalledTimes(1);
+  });
+  test('an already joined peer never triggers a ringback', async () => {
+    mockVideoRoom.participants.set('peer', { tracks: new Map(), on: jest.fn() });
+    renderWithProvider(); await dial(); expect(mockStartVideoRingback).not.toHaveBeenCalled();
+  });
+  test('outgoing voice remains with the Voice SDK', async () => {
+    renderWithProvider(); await dial('AUDIO'); expect(mockStartVideoRingback).not.toHaveBeenCalled();
+    expect(mockStartBrowserCall).toHaveBeenCalled();
+  });
+  test('failed video invite cannot play ringback', async () => {
+    renderWithProvider(); fetchMock.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: 'Allowance exhausted' }) });
+    await act(async () => { await expect(ctxRef.startCallByUser({ calleeId: 99, mode: 'VIDEO' })).rejects.toThrow('Allowance exhausted'); });
+    expect(mockStartVideoRingback).not.toHaveBeenCalled();
+  });
+  test('failed room connection cannot play ringback', async () => {
+    mockJoinRoom.mockRejectedValueOnce(new Error('No media'));
+    renderWithProvider();
+    await act(async () => { await expect(ctxRef.startCallByUser({ calleeId: 99, mode: 'VIDEO' })).rejects.toThrow('No media'); });
+    expect(mockStartVideoRingback).not.toHaveBeenCalled();
+  });
+  test.each(['DECLINED', 'MISSED', 'ENDED'])('%s stops the matching video ringback', async status => {
+    renderWithProvider(); await dial();
+    act(() => { socketMock.emit('call:ended', { callId: 'call-123', status }); });
+    expect(mockRingbackStop).toHaveBeenCalled(); expect(ctxRef.active).toBeNull();
+  });
+  test('another call ending cannot silence this call', async () => {
+    renderWithProvider(); await dial();
+    act(() => { socketMock.emit('call:ended', { callId: 'other-call', status: 'ENDED' }); });
+    expect(mockRingbackStop).not.toHaveBeenCalled();
+  });
+  test('local cancellation immediately stops ringback', async () => {
+    renderWithProvider(); await dial();
+    await act(async () => { await ctxRef.endCall('hangup'); });
+    expect(mockRingbackStop).toHaveBeenCalled();
+  });
+  test('blocked playback exposes retry on the same controller', async () => {
+    renderWithProvider(); await dial();
+    act(() => { mockStartVideoRingback.mock.calls[0][0].onStatus('blocked'); });
+    expect(ctxRef.videoRingbackStatus).toBe('blocked');
+    act(() => { ctxRef.retryVideoRingback(); }); expect(mockRingbackRetry).toHaveBeenCalledTimes(1);
+    joinPeer(); expect(ctxRef.videoRingbackStatus).toBeNull();
+  });
+  test('unmount stops the tone and discards late playback status', async () => {
+    const view = renderWithProvider(); await dial(); const { onStatus } = mockStartVideoRingback.mock.calls[0][0];
+    view.unmount(); expect(mockRingbackStop).toHaveBeenCalled();
+    act(() => { onStatus('blocked'); });
+  });
+  test('account switch stops the previous account ringback', async () => {
+    const view = renderWithProvider(); await dial();
+    view.rerender(<CallProvider me={{ id: 8 }}><Harness /></CallProvider>);
+    expect(mockRingbackStop).toHaveBeenCalled(); expect(mockStartVideoRingback).toHaveBeenCalledTimes(1);
+  });
 });
