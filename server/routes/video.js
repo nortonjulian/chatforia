@@ -1,4 +1,5 @@
 import express from 'express';
+import videoCaptionsRouter from './videoCaptions.js';
 import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
@@ -7,6 +8,7 @@ import { emitToUser } from '../services/socketBus.js';
 import { sendPushToUser, sendVoipCallPushToUser } from '../services/pushService.js';
 
 const router = express.Router();
+router.use(videoCaptionsRouter);
 
 router.post('/start', requireAuth, asyncHandler(async (req, res) => {
   const callerId = Number(req.user.id);

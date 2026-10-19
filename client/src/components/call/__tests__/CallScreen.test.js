@@ -20,6 +20,11 @@ jest.mock('@/components/call/CallCaptions', () => ({
   default: ({ callId }) => callId ? <div data-testid="active-call-captions">{callId}</div> : null,
 }));
 
+jest.mock('@/components/call/VideoCallCaptions', () => ({
+  __esModule: true,
+  default: ({ callId }) => callId ? <div data-testid="active-video-captions">{callId}</div> : null,
+}));
+
 // Mock analytics used by CallScreen.
 jest.mock('@/utils/analytics', () => ({
   __esModule: true,
@@ -103,6 +108,7 @@ describe('CallScreen', () => {
     mockUseCall = () => ({
       active: {
         mode: 'VIDEO',
+        callId: 1028,
         peerUser: {
           id: 'u2',
         },
@@ -126,6 +132,8 @@ describe('CallScreen', () => {
       container.querySelectorAll('video');
 
     expect(videos).toHaveLength(2);
+    expect(screen.getByTestId('active-video-captions')).toHaveTextContent('1028');
+    expect(screen.queryByTestId('active-call-captions')).toBeNull();
 
     const [remoteVideo, localVideo] = videos;
 
