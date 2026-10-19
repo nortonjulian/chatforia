@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('@/api/axiosClient', () => ({
@@ -9,10 +9,18 @@ jest.mock('@/api/axiosClient', () => ({
   },
 }));
 
-jest.mock('@/api/calls', () => ({
-  __esModule: true,
-  getCallHistory: jest.fn().mockResolvedValue([]),
-}));
+const mockSocketListeners = {};
+jest.mock('@/context/SocketContext', () => ({ useSocketRaw: () => ({
+  on: (name, callback) => { (mockSocketListeners[name] ||= new Set()).add(callback); },
+  off: (name, callback) => mockSocketListeners[name]?.delete(callback),
+}) }));
+jest.mock('@/api/calls', () => {
+  const getCallHistory = jest.fn().mockResolvedValue([]);
+  return { __esModule: true, getCallHistory,
+    getCallHistoryPage: options => getCallHistory(options).then(items => ({ items, nextCursor: null })),
+    deleteCallHistory: jest.fn().mockResolvedValue({ ok: true, count: 2 }),
+  };
+});
 
 jest.mock('@/context/UserContext', () => ({
   __esModule: true,
@@ -231,13 +239,14 @@ jest.mock('@mantine/core', () => {
 });
 
 import axiosClient from '@/api/axiosClient';
-import { getCallHistory } from '@/api/calls';
+import { getCallHistory, deleteCallHistory } from '@/api/calls';
 import Dialer from '../Dialer';
 
 describe('Dialer', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    getCallHistory.mockResolvedValue([]);
+    getCallHistory.mockReset().mockResolvedValue([]);
+    deleteCallHistory.mockReset().mockResolvedValue({ ok: true, count: 2 });
   });
 
   it('renders header, helper text, input, keypad, and actions', async () => {
@@ -450,4 +459,58 @@ describe('Dialer', () => {
       screen.queryByText('Bob')
     ).not.toBeInTheDocument();
   });
+  const row = (id, username) => ({ id, callerId: 1, callee: { id: 2, username },
+    mode: 'VIDEO', status: 'ENDED', createdAt: `2026-10-19T10:${String(id).padStart(2, '0')}:00Z` });
+
+  it('selects multiple calls by ID, confirms and removes only those rows', async () => {
+    const user = userEvent.setup(); getCallHistory.mockResolvedValue([row(42, 'Bob'), row(43, 'Regina'), row(44, 'Papi')]);
+    render(<Dialer />); await screen.findByText('Bob');
+    await user.click(screen.getByRole('button', { name: 'Edit' }));
+    await user.click(screen.getByRole('checkbox', { name: /Select call with Bob/ }));
+    await user.click(screen.getByRole('checkbox', { name: /Select call with Regina/ }));
+    await user.click(screen.getByRole('button', { name: 'Delete selected (2)' }));
+    expect(deleteCallHistory).not.toHaveBeenCalled();
+    expect(screen.getByRole('dialog', { name: 'Delete selected calls?' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    await waitFor(() => expect(deleteCallHistory).toHaveBeenCalledWith([43, 42]));
+    expect(screen.queryByText('Bob')).toBeNull(); expect(screen.queryByText('Regina')).toBeNull();
+    expect(screen.getByText('Papi')).toBeInTheDocument();
+  });
+
+  it('cancel preserves selection; Done exits without a deletion', async () => {
+    const user = userEvent.setup(); getCallHistory.mockResolvedValue([row(42, 'Bob'), row(43, 'Regina')]);
+    render(<Dialer />); await screen.findByText('Bob');
+    await user.click(screen.getByRole('button', { name: 'Edit' }));
+    await user.click(screen.getByRole('button', { name: 'Select all shown' }));
+    await user.click(screen.getByRole('button', { name: 'Delete selected (2)' }));
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(screen.getAllByRole('checkbox').every(box => box.checked)).toBe(true);
+    await user.click(screen.getByRole('button', { name: 'Done' }));
+    expect(screen.queryByRole('checkbox')).toBeNull(); expect(deleteCallHistory).not.toHaveBeenCalled();
+  });
+
+  it('failed bulk deletion leaves rows and selection available for retry', async () => {
+    const user = userEvent.setup(); getCallHistory.mockResolvedValue([row(42, 'Bob'), row(43, 'Regina')]);
+    deleteCallHistory.mockRejectedValueOnce(new Error('Network unavailable'));
+    render(<Dialer />); await screen.findByText('Bob');
+    await user.click(screen.getByRole('button', { name: 'Edit' }));
+    await user.click(screen.getByRole('button', { name: 'Select all shown' }));
+    await user.click(screen.getByRole('button', { name: 'Delete selected (2)' }));
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    expect(await screen.findByRole('alert')).toHaveTextContent('Network unavailable');
+    expect(screen.getByText('Bob')).toBeInTheDocument(); expect(screen.getAllByRole('checkbox').every(box => box.checked)).toBe(true);
+  });
+
+  it('socket events refetch and preserve selected identities without selecting new calls', async () => {
+    const user = userEvent.setup(); getCallHistory.mockResolvedValue([row(42, 'Bob')]);
+    render(<Dialer />); await screen.findByText('Bob');
+    await user.click(screen.getByRole('button', { name: 'Edit' }));
+    await user.click(screen.getByRole('checkbox', { name: /Select call with Bob/ }));
+    getCallHistory.mockResolvedValue([row(43, 'Regina'), row(42, 'Bob')]);
+    act(() => { mockSocketListeners['call:history-changed'].forEach(fn => fn()); });
+    await screen.findByText('Regina');
+    expect(screen.getByRole('checkbox', { name: /Select call with Bob/ })).toBeChecked();
+    expect(screen.getByRole('checkbox', { name: /Select call with Regina/ })).not.toBeChecked();
+  });
+
 });

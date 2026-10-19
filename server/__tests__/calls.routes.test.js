@@ -227,6 +227,9 @@ describe('calls routes', () => {
         mockPrisma.$executeRaw
       ).toHaveBeenCalledTimes(1);
 
+      expect(emitToUserMock).toHaveBeenCalledWith(10, 'call:history-changed', {});
+      expect(emitToUserMock).toHaveBeenCalledWith(20, 'call:history-changed', {});
+
       const [
         sqlParts,
         lowUserId,
@@ -1500,6 +1503,8 @@ describe('calls routes', () => {
       });
 
       expect(mockPrisma.call.delete).not.toHaveBeenCalled();
+      expect(emitToUserMock).toHaveBeenCalledWith(10, 'call:history-changed', {});
+      expect(emitToUserMock.mock.calls.filter(([, event]) => event === 'call:history-changed').map(([id]) => id)).toEqual([10]);
     });
 
     test('POST /calls/history/delete-selected hides only matching calls for the current user', async () => {
@@ -1555,6 +1560,8 @@ describe('calls routes', () => {
         ],
         skipDuplicates: true,
       });
+      expect(emitToUserMock).toHaveBeenCalledWith(10, 'call:history-changed', {});
+      expect(emitToUserMock.mock.calls.filter(([, event]) => event === 'call:history-changed').map(([id]) => id)).toEqual([10]);
     });
 
     test('DELETE /calls/history hides all visible calls for the current user', async () => {
@@ -1611,6 +1618,8 @@ describe('calls routes', () => {
       });
 
       expect(mockPrisma.call.delete).not.toHaveBeenCalled();
+      expect(emitToUserMock).toHaveBeenCalledWith(10, 'call:history-changed', {});
+      expect(emitToUserMock.mock.calls.filter(([, event]) => event === 'call:history-changed').map(([id]) => id)).toEqual([10]);
     });
 
     test('POST /calls/history/delete-selected rejects an empty id list', async () => {

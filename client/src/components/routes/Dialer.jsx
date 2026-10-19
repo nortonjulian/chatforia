@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useCall } from '@/context/CallContext';
 import {
@@ -27,7 +27,8 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
-import { getCallHistory } from '@/api/calls';
+import { deleteCallHistory } from '@/api/calls';
+import { useCallHistory } from '@/hooks/useCallHistory';
 import { useUser } from '@/context/UserContext';
 import { usePstnCall } from '@/hooks/usePstnCall';
 import { useTwilioVoice } from '@/hooks/useTwilioVoice';
@@ -116,10 +117,14 @@ export default function Dialer() {
   const [resolving, setResolving] = useState(false);
   const [resolveError, setResolveError] = useState('');
 
-  const [history, setHistory] = useState([]);
-  const [historyLoading, setHistoryLoading] = useState(true);
+  const { items: history, loading: historyLoading, error: historyLoadError,
+    nextCursor, loadingMore, loadMore, remove: removeHistory } = useCallHistory(currentUser?.id, 25);
   const [historyError, setHistoryError] = useState('');
-  const [deleteCallId, setDeleteCallId] = useState(null);
+  const [deleteIds, setDeleteIds] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const [selected, setSelected] = useState(new Set());
+  const accountRef = useRef(currentUser?.id);
+  accountRef.current = currentUser?.id;
   const [deletingCallId, setDeletingCallId] = useState(null);
 
   const { startCall, pending: appCallPending } = useCall();
@@ -133,38 +138,14 @@ export default function Dialer() {
   } = useTwilioVoice();
 
   useEffect(() => {
-    let mounted = true;
+    setEditing(false); setSelected(new Set()); setDeleteIds([]);
+    setHistoryError(''); setDeletingCallId(null);
+  }, [currentUser?.id]);
 
-    async function loadHistory() {
-      try {
-        setHistoryLoading(true);
-        setHistoryError('');
-
-        const items = await getCallHistory({ limit: 25 });
-        if (!mounted) return;
-
-        const sorted = [...items].sort((a, b) => {
-          const aTime = new Date(a.endedAt || a.startedAt || a.createdAt).getTime();
-          const bTime = new Date(b.endedAt || b.startedAt || b.createdAt).getTime();
-          return bTime - aTime;
-        });
-
-        setHistory(sorted);
-      } catch (e) {
-        if (!mounted) return;
-        setHistoryError(
-          e?.response?.data?.error || e?.message || 'Could not load recent calls.'
-        );
-      } finally {
-        if (mounted) setHistoryLoading(false);
-      }
-    }
-
-    loadHistory();
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  useEffect(() => {
+    const visible = new Set(history.map(item => String(item.id)));
+    setSelected(previous => new Set([...previous].filter(id => visible.has(id))));
+  }, [history]);
 
   useEffect(() => {
     setResolveError('');
@@ -239,29 +220,36 @@ export default function Dialer() {
 
   const closeDeleteModal = () => {
     if (deletingCallId != null) return;
-    setDeleteCallId(null);
+    setDeleteIds([]);
   };
 
   const handleDelete = async () => {
-    const callId = deleteCallId;
-    if (callId == null) return;
-
+    const ids = [...deleteIds];
+    if (!ids.length || deletingCallId != null) return;
+    const accountId = currentUser?.id;
     try {
-      setDeletingCallId(callId);
-      await axiosClient.delete(`/calls/${callId}`);
-      setHistory((prev) => prev.filter((item) => item.id !== callId));
-      setDeleteCallId(null);
+      setDeletingCallId(ids[0]);
+      setHistoryError('');
+      if (ids.length === 1) await axiosClient.delete(`/calls/${ids[0]}`);
+      else await deleteCallHistory(ids);
+      if (accountRef.current !== accountId) return;
+      removeHistory(ids);
+      setSelected(previous => new Set([...previous].filter(id => !ids.some(value => String(value) === id))));
+      setDeleteIds([]);
+      window.dispatchEvent(new Event('chatforia:call-history-changed'));
     } catch (e) {
-      console.error(t('dialer.deleteFailedLog', 'Failed to delete call'), e);
-      setHistoryError(
-        e?.response?.data?.error ||
-          e?.message ||
-          t('dialer.deleteFailed', 'Could not delete call.')
-      );
+      if (accountRef.current !== accountId) return;
+      setHistoryError(e?.response?.data?.error || e?.message || t('dialer.deleteFailed', 'Could not delete call.'));
     } finally {
-      setDeletingCallId(null);
+      if (accountRef.current === accountId) setDeletingCallId(null);
     }
   };
+
+  const toggleSelected = id => setSelected(previous => {
+    const next = new Set(previous), key = String(id);
+    if (next.has(key)) next.delete(key); else next.add(key);
+    return next;
+  });
 
   const anyError = resolveError || pstnError || voiceError;
 
@@ -351,16 +339,31 @@ export default function Dialer() {
 
       <Divider my="lg" />
 
-      <Text fw={600} mb={6}>
-        {t('dialer.recents', 'Recents')}
-      </Text>
+      <Group justify="space-between" mb={6}>
+        <Text fw={600}>{t('dialer.recents', 'Recents')}</Text>
+        <Button variant="subtle" size="xs" disabled={deletingCallId != null || (!history.length && !editing)}
+          onClick={() => { setEditing(value => !value); setSelected(new Set()); }}>
+          {editing ? t('common.done', 'Done') : t('common.edit', 'Edit')}
+        </Button>
+      </Group>
+      {editing && (
+        <Group mb="sm" gap="xs">
+          <Button size="xs" variant="light" disabled={!history.length || deletingCallId != null}
+            onClick={() => setSelected(new Set(history.map(item => String(item.id))))}>
+            {t('dialer.selectAllShown', 'Select all shown')}
+          </Button>
+          <Button size="xs" color="red" disabled={!selected.size || deletingCallId != null}
+            onClick={() => setDeleteIds(history.filter(item => selected.has(String(item.id))).map(item => item.id))}>
+            {t('dialer.deleteSelected', 'Delete selected')} ({selected.size})
+          </Button>
+        </Group>
+      )}
+      {(historyError || historyLoadError) && <Text c="red" size="sm" role="alert">{historyError || historyLoadError}</Text>}
 
-      {historyLoading ? (
+      {historyLoading && !history.length ? (
         <Group justify="center" py="md">
           <Loader size="sm" />
         </Group>
-      ) : historyError ? (
-        <Text c="red" size="sm">{historyError}</Text>
       ) : history.length === 0 ? (
         <Text c="dimmed" size="sm">
           {t('dialer.noRecents', 'No recent calls yet.')}
@@ -416,6 +419,10 @@ export default function Dialer() {
             return (
               <Card key={item.id} withBorder radius="lg" p="md">
                 <Group align="flex-start" wrap="nowrap">
+                  {editing && <input type="checkbox" checked={selected.has(String(item.id))}
+                    onChange={() => toggleSelected(item.id)} disabled={deletingCallId != null}
+                    aria-label={`${t('dialer.selectCall', 'Select call with')} ${otherPartyName}, ${timestamp}`}
+                    style={{ accentColor: 'var(--mantine-color-yellow-6)', marginTop: 12 }} />}
                   <ThemeIcon radius="xl" size={40} variant="light" color={color}>
                     <Icon size={18} />
                   </ThemeIcon>
@@ -473,7 +480,7 @@ export default function Dialer() {
                           </Badge>
                         ) : null}
 
-                        <Group gap={6} wrap="nowrap">
+                        {!editing && <Group gap={6} wrap="nowrap">
                           {canPhoneCall ? (
                             <ActionIcon
                               variant="light"
@@ -513,12 +520,12 @@ export default function Dialer() {
                             color="red"
                             radius="xl"
                             size={32}
-                            onClick={() => setDeleteCallId(item.id)}
+                            onClick={() => setDeleteIds([item.id])}
                             aria-label={`Delete call with ${otherPartyName}`}
                           >
                             <Trash2 size={15} />
                           </ActionIcon>
-                        </Group>
+                        </Group>}
                       </Stack>
                     </Group>
                   </Box>
@@ -529,18 +536,21 @@ export default function Dialer() {
         </Stack>
       )}
 
+      {nextCursor != null && <Button variant="light" mt="sm" loading={loadingMore} onClick={loadMore}>
+        {t('callHistory.loadMore', 'Load more')}
+      </Button>}
+
       <Modal
-        opened={deleteCallId != null}
+        opened={deleteIds.length > 0}
         onClose={closeDeleteModal}
-        title={t('dialer.deleteTitle', 'Delete recent call?')}
+        title={deleteIds.length > 1 ? t('dialer.deleteSelectedTitle', 'Delete selected calls?') : t('dialer.deleteTitle', 'Delete recent call?')}
         centered
       >
         <Stack gap="md">
           <Text size="sm">
-            {t(
-              'dialer.deleteConfirm',
-              'This call will be removed from your recent calls.'
-            )}
+            {deleteIds.length > 1
+              ? t('dialer.deleteSelectedConfirm', 'Remove these calls from your history only? Other participants keep their history.')
+              : t('dialer.deleteConfirm', 'This call will be removed from your recent calls.')}
           </Text>
 
           <Group justify="flex-end">
