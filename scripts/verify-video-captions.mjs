@@ -129,6 +129,8 @@ test('caption text is bounded and a late partial cannot corrupt a finished utter
 
 function browser() {
   const intervals = new Map(), timeouts = new Map(), peers = [], copies = [], requests = [], status = [], text = [];
+  const listeners = new Map();
+  let uuid = 0;
   let id = 0;
   function track(name, kind = 'audio') { return { id: name, kind, readyState: 'live', stopped: false,
     stop() { this.stopped = true; }, clone() { const c = track(name + '-clone', kind); copies.push(c); return c; } }; }
@@ -173,14 +175,23 @@ function browser() {
     }
     close() { this.closed = true; }
   }
-  const env = { AudioContext: AudioGraph, MediaStream: Stream, crypto: { randomUUID: () => SESSION }, RTCPeerConnection: Peer,
+  const env = { AudioContext: AudioGraph, MediaStream: Stream, crypto: { randomUUID: () => `${SESSION}-${++uuid}` }, RTCPeerConnection: Peer,
+    navigator: { onLine: true },
+    addEventListener: (name, fn) => { if (!listeners.has(name)) listeners.set(name, new Set()); listeners.get(name).add(fn); },
+    removeEventListener: (name, fn) => listeners.get(name)?.delete(fn),
     setInterval: (fn, ms) => { intervals.set(++id, { fn, ms }); return id; }, clearInterval: i => intervals.delete(i),
     setTimeout: (fn, ms) => { timeouts.set(++id, { fn, ms }); return id; }, clearTimeout: i => timeouts.delete(i),
   };
   const stop = observeVideoCaptions({ api, callId: 20, remoteStream: { current: { getAudioTracks: () => tracks, getVideoTracks: () => [video] } }, env, onText: t => text.push(t), onStatus: s => status.push(s) });
   return { env, api, requests, peers, copies, remote, local, video, tracks, status, text, stop,
+    event: name => { for (const fn of [...(listeners.get(name) || [])]) fn(); },
+    flush: () => new Promise(setImmediate),
+    fireTimeout: async ms => {
+      for (const [key, timer] of [...timeouts]) if (timer.ms === ms) { timeouts.delete(key); timer.fn(); }
+      await new Promise(setImmediate);
+    },
     tick: async ms => { for (const timer of [...intervals.values()]) if (timer.ms === ms) await timer.fn(); await new Promise(setImmediate); },
-    intervals, timeouts, contexts, outputs };
+    intervals, timeouts, contexts, outputs, listeners };
 }
 test('single received caller is re-sourced through local Web Audio before sending; call media stays untouched', async () => {
   const f = browser(); await f.tick(500); assert.equal(f.peers.length, 1); assert.equal(f.peers[0].sent.length, 1);
@@ -207,8 +218,8 @@ test('remote track replacement releases only the caption connection and starts w
 test('no remote audio means no provider request, and a disposed development probe cannot start capture', async () => {
   const f = browser(); f.tracks.length = 0; await f.tick(500); assert.equal(f.requests.length, 0); f.stop(); await f.tick(500); assert.equal(f.requests.length, 0);
 });
-test('failed lease clears text and stops caption capture while leaving the call running', async () => {
-  const f = browser(); await f.tick(500); f.api.post = async () => { throw new Error('revoked'); }; await f.tick(5000);
+test('revoked lease clears text and stops caption capture while leaving the call running', async () => {
+  const f = browser(); await f.tick(500); f.api.post = async () => { throw Object.assign(new Error('revoked'), { response: { status: 403 } }); }; await f.tick(5000);
   assert.equal(f.status.at(-1), 'error'); assert.equal(f.text.at(-1), ''); assert.equal(f.remote.stopped, false); assert.equal(f.copies[0].stopped, true); f.stop();
 });
 test('provider errors are visible and do not terminate the real call', async () => {
@@ -314,4 +325,141 @@ test('a negotiated sendonly direction is also accepted when the sender can trans
   const f = browser(), Peer = f.env.RTCPeerConnection;
   f.env.RTCPeerConnection = class extends Peer { constructor() { super(); this.answerDirection = 'sendonly'; } };
   await f.tick(500); assert.equal(f.peers[0].closed, undefined); f.stop();
+});
+
+test('offline then online rebuilds captions for unchanged remote audio without touching the call', async () => {
+  const f = browser(); await f.tick(500); const old = f.peers[0];
+  f.env.navigator.onLine = false; f.event('offline'); await f.tick(500);
+  assert.equal(old.closed, true); assert.equal(f.status.at(-1), 'reconnecting');
+  assert.equal(f.requests.filter(r => r.delete).length, 0);
+  const before = f.requests.length; await f.tick(500); assert.equal(f.requests.length, before);
+  f.env.navigator.onLine = true; f.event('online'); await f.flush();
+  assert.equal(f.peers.length, 2); assert.notEqual(f.requests[0].url, f.requests.find(r => r.url && r.url !== f.requests[0].url).url);
+  f.peers[1].channel.onmessage({ data: event('conversation.item.input_audio_transcription.completed', 'recovered', { transcript: 'After reconnect' }) });
+  assert.equal(f.text.at(-1), 'After reconnect');
+  assert.equal(f.remote.stopped, false); assert.equal(f.local.stopped, false); assert.equal(f.video.stopped, false);
+  f.stop();
+});
+
+test('a disconnected caption peer recovers with bounded backoff even without a browser online event', async () => {
+  const f = browser(); await f.tick(500);
+  f.peers[0].connectionState = 'disconnected'; f.peers[0].onconnectionstatechange();
+  assert.equal(f.status.at(-1), 'reconnecting'); await f.tick(500); assert.equal(f.peers.length, 1);
+  await f.fireTimeout(1000); assert.equal(f.peers.length, 2);
+  f.peers[1].channel.onmessage({ data: event('conversation.item.input_audio_transcription.completed', 'recovered', { transcript: 'Restored automatically' }) });
+  assert.equal(f.text.at(-1), 'Restored automatically'); f.stop();
+});
+
+test('explicit Retry reuses the observer and waits for cleanup acknowledgement before new setup', async () => {
+  const f = browser(); await f.tick(500); let release;
+  f.api.delete = () => new Promise(resolve => { release = resolve; });
+  f.peers[0].channel.onmessage({ data: JSON.stringify({ type: 'error' }) });
+  assert.equal(f.status.at(-1), 'error');
+  assert.equal(typeof f.stop.retry, 'function');
+  f.stop.retry(); await f.flush(); assert.equal(f.peers.length, 1);
+  release(); await f.flush(); assert.equal(f.peers.length, 2);
+  f.api.delete = async () => {};
+  f.peers[1].channel.onmessage({ data: event('conversation.item.input_audio_transcription.completed', 'retry', { transcript: 'Retry works' }) });
+  assert.equal(f.text.at(-1), 'Retry works'); f.stop();
+});
+
+test('lost cleanup response cannot wedge Retry forever and cleanup is abortable', async () => {
+  const f = browser(); await f.tick(500); let signal;
+  f.api.delete = (_path, options) => { signal = options.signal; return new Promise(() => {}); };
+  f.peers[0].channel.onmessage({ data: JSON.stringify({ type: 'error' }) });
+  f.stop.retry(); await f.flush(); assert.equal(f.peers.length, 1);
+  await f.fireTimeout(8000); assert.equal(signal.aborted, true); assert.equal(f.peers.length, 2);
+  f.api.delete = async () => {}; f.stop();
+});
+
+test('temporary server session conflict retries without deleting an unknown session', async () => {
+  const f = browser(); let posts = 0; const original = f.api.post;
+  f.api.post = async (...args) => {
+    if (++posts === 1) throw Object.assign(new Error('busy'), { response: { status: 409, data: { code: 'CAPTIONS_ALREADY_ACTIVE' } } });
+    return original(...args);
+  };
+  await f.tick(500); assert.equal(f.status.at(-1), 'reconnecting');
+  await f.fireTimeout(1000); assert.equal(posts, 2);
+  const setup = f.requests.find(r => r.url);
+  assert.ok(f.requests.filter(r => r.delete).every(r => r.delete !== setup.url));
+  f.stop();
+});
+
+for (const status of [401, 402, 403]) test(`authorization denial ${status} stops automatic retries`, async () => {
+  const f = browser(); let posts = 0;
+  f.api.post = async () => { posts++; throw Object.assign(new Error('denied'), { response: { status } }); };
+  await f.tick(500); assert.equal(f.status.at(-1), 'error');
+  f.event('online'); f.event('focus'); await f.tick(500); await f.fireTimeout(1000);
+  assert.equal(posts, 1); assert.equal(f.remote.stopped, false); f.stop();
+});
+
+test('persistent network failure reaches an error after six retries instead of looping forever', async () => {
+  const f = browser(); let posts = 0;
+  f.api.post = async () => { posts++; throw new Error('network'); };
+  await f.tick(500);
+  for (const ms of [1000, 2000, 4000, 8000, 8000, 8000]) await f.fireTimeout(ms);
+  assert.equal(posts, 7); assert.equal(f.status.at(-1), 'error');
+  f.event('online'); await f.tick(500); assert.equal(posts, 7);
+  const original = async () => ({ data: { sdp: 'v=0\r\nanswer' } });
+  f.api.post = original; f.stop.retry(); await f.flush();
+  assert.equal(f.peers.length, 8); f.stop();
+});
+
+test('replacement remote audio with the same track ID rebuilds the caption graph', async () => {
+  const f = browser(); await f.tick(500); const replacement = { ...f.remote };
+  f.tracks.splice(0, 1, replacement); await f.tick(500);
+  assert.equal(f.peers.length, 2); assert.equal(f.peers[0].closed, true);
+  assert.equal(replacement.stopped, false); f.stop();
+});
+
+test('muted remote audio waits and restarts capture once live audio resumes', async () => {
+  const f = browser(); await f.tick(500);
+  f.remote.muted = true; await f.tick(500); assert.equal(f.peers[0].closed, true);
+  assert.equal(f.status.at(-1), 'waiting'); f.remote.muted = false; await f.tick(500);
+  assert.equal(f.peers.length, 2); assert.equal(f.remote.stopped, false); f.stop();
+});
+
+test('OFF or unmount cancels reconnect timers and browser listeners', async () => {
+  const f = browser(); await f.tick(500);
+  f.peers[0].connectionState = 'failed'; f.peers[0].onconnectionstatechange();
+  f.stop(); f.event('online'); await f.fireTimeout(1000); await f.tick(500);
+  assert.equal(f.peers.length, 1); assert.equal(f.intervals.size, 0);
+  assert.equal([...f.listeners.values()].reduce((n, set) => n + set.size, 0), 0);
+  assert.equal(f.remote.stopped, false);
+});
+
+test('old session text and old channel closure cannot affect a successful replacement', async () => {
+  const f = browser(); await f.tick(500); const old = f.peers[0];
+  old.connectionState = 'failed'; old.onconnectionstatechange(); await f.fireTimeout(1000);
+  const fresh = f.peers[1]; fresh.channel.onmessage({ data: event('conversation.item.input_audio_transcription.completed', 'new', { transcript: 'Current session' }) });
+  old.channel.onmessage({ data: event('conversation.item.input_audio_transcription.completed', 'old', { transcript: 'Stale session' }) });
+  old.channel.onclose(); assert.equal(f.text.at(-1), 'Current session'); assert.equal(f.status.at(-1), 'ready');
+  assert.notEqual(fresh.closed, true); f.stop();
+});
+
+test('manual Retry and duplicate online events cannot allocate parallel caption peers', async () => {
+  const f = browser(); await f.tick(500);
+  f.peers[0].channel.onmessage({ data: JSON.stringify({ type: 'error' }) });
+  f.stop.retry(); f.event('online'); f.event('online'); f.event('focus'); await f.flush();
+  assert.equal(f.peers.length, 2); await f.tick(500); assert.equal(f.peers.length, 2); f.stop();
+});
+
+test('retry through actual server session handlers releases the old slot before new provider allocation', async () => {
+  const b = backend(), f = browser(), operations = [];
+  const request = async (method, url, body) => {
+    const [, callId, sessionId, lease] = /^\/video\/(\d+)\/captions\/([^/]+)(\/lease)?$/.exec(url);
+    operations.push([method, sessionId]);
+    const result = await b.call(method === 'delete' ? 'stop' : lease ? 'lease' : 'start',
+      b.req({ params: { callId, sessionId }, body }));
+    if (result.status !== 200) throw Object.assign(new Error('server'), { response: result });
+    return { data: result.body };
+  };
+  f.api.post = (url, body) => request('post', url, body);
+  f.api.delete = url => request('delete', url);
+  await f.tick(500); assert.equal(b.state.starts, 1);
+  f.env.navigator.onLine = false; f.event('offline');
+  f.env.navigator.onLine = true; f.event('online'); await f.flush();
+  assert.equal(b.state.starts, 2); assert.equal(b.state.stops.length, 1);
+  assert.equal(operations[1][0], 'delete'); assert.equal(operations[2][0], 'post');
+  assert.notEqual(operations[1][1], operations[2][1]); f.stop();
 });

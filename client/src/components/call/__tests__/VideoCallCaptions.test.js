@@ -11,6 +11,7 @@ jest.mock('@/utils/videoCaptions', () => ({ observeVideoCaptions: jest.fn(option
 const remoteStream = { current: {} };
 beforeEach(() => {
   jest.clearAllMocks(); mockCallbacks = null;
+  delete mockStop.retry;
   mockUser = { id: 65, isPremium: true, a11yLiveCaptions: true, a11yCaptionFont: 'lg', a11yCaptionBg: 'dark' };
 });
 test('actual received caption text renders with the saved appearance', () => {
@@ -67,4 +68,28 @@ test('caption markup is displayed literally', () => {
   render(<VideoCallCaptions callId={20} remoteStream={remoteStream} />);
   act(() => mockCallbacks.onText('<img src=x onerror=alert(1)>'));
   expect(screen.getByRole('status').querySelector('img')).toBeNull();
+});
+
+test('Retry uses the existing caption controller and shows progress without allowing repeated clicks', () => {
+  render(<VideoCallCaptions callId={20} remoteStream={remoteStream} />);
+  mockStop.retry = jest.fn(() => mockCallbacks.onStatus('connecting'));
+  act(() => mockCallbacks.onStatus('error'));
+  fireEvent.click(screen.getByRole('button', { name: 'Retry captions' }));
+  expect(mockStop.retry).toHaveBeenCalledTimes(1);
+  expect(mockStop).not.toHaveBeenCalled();
+  expect(observeVideoCaptions).toHaveBeenCalledTimes(1);
+  expect(screen.getByRole('status')).toHaveTextContent('Connecting live captions…');
+  expect(screen.queryByRole('button', { name: 'Retry captions' })).toBeNull();
+  act(() => { mockCallbacks.onStatus('ready'); mockCallbacks.onText('Recovered with the same observer'); });
+  expect(screen.getByRole('status')).toHaveTextContent('Recovered with the same observer');
+});
+
+test('automatic reconnection clears stale speech and visibly reports progress', () => {
+  render(<VideoCallCaptions callId={20} remoteStream={remoteStream} />);
+  act(() => { mockCallbacks.onStatus('ready'); mockCallbacks.onText('Before disconnect'); });
+  act(() => { mockCallbacks.onText(''); mockCallbacks.onStatus('reconnecting'); });
+  expect(screen.getByRole('status')).toHaveTextContent('Reconnecting live captions…');
+  expect(screen.queryByText('Before disconnect')).toBeNull();
+  act(() => mockCallbacks.onStatus('error'));
+  expect(screen.getByRole('button', { name: 'Retry captions' })).toBeInTheDocument();
 });
