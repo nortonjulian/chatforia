@@ -1,3 +1,4 @@
+import { isMessageExpired } from '../utils/messageExpiry';
 import { voiceNotePreview } from '../utils/voiceNotePreview';
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import {
@@ -321,6 +322,20 @@ export default function ChatroomsSidebar({
     return () => socket.off('connect', join);
   }, [socket, items]);
 
+  // Reconcile a preview at its own deadline even when its thread is closed.
+  const [previewExpiryTick, updateExpiryClock] = useState(0);
+  useEffect(() => {
+    const deadlines = items.filter((item) => item.kind === 'chat')
+      .map((item) => new Date(item.last?.expiresAt ?? NaN).getTime())
+      .filter((deadline) => Number.isFinite(deadline) && deadline > Date.now());
+    if (!deadlines.length) return;
+    const timer = setTimeout(() => {
+      updateExpiryClock((value) => value + 1);
+      load();
+    }, Math.min(2_147_483_647, Math.max(1, Math.min(...deadlines) - Date.now())));
+    return () => clearTimeout(timer);
+  }, [items, load, previewExpiryTick]);
+
   useEffect(() => {
     const handler = () => load();
     window.addEventListener('sidebar:reload-rooms', handler);
@@ -350,7 +365,7 @@ export default function ChatroomsSidebar({
       const previewKey = c?.last?.messageId
         ? `${c.kind}:${c.id}:${c.last.messageId}`
         : null;
-      const snippet = String(
+      const snippet = isMessageExpired(c.last) ? '' : String(
         voiceNotePreview(
           (previewKey && decryptedPreviews[previewKey]) || formatLastPreview(c.last, t), t
         )
@@ -358,7 +373,7 @@ export default function ChatroomsSidebar({
       const phone = (c.phone || '').toLowerCase();
       return title.includes(q) || snippet.includes(q) || phone.includes(q);
     });
-  }, [items, q, t, decryptedPreviews]);
+  }, [items, q, t, decryptedPreviews, previewExpiryTick]);
 
   const activeBg = useMemo(
     () => 'color-mix(in oklab, var(--mantine-color-blue-2) 22%, transparent)',
@@ -494,6 +509,7 @@ export default function ChatroomsSidebar({
     const events = [
       'message:upsert', 'message:new', 'receive:message',
       'message:edited', 'message:deleted', 'message_read', 'message:read',
+      'message:expired', 'message_expired',
       'connect',
     ];
     events.forEach((event) => socket.on(event, refresh));
@@ -613,7 +629,7 @@ export default function ChatroomsSidebar({
         const previewKey = c?.last?.messageId
           ? `${c.kind}:${c.id}:${c.last.messageId}`
           : null;
-        const lastPreview = voiceNotePreview(
+        const lastPreview = isMessageExpired(c.last) ? '' : voiceNotePreview(
           (previewKey && decryptedPreviews[previewKey]) || formatLastPreview(c.last, t), t
         );
 

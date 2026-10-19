@@ -1,3 +1,5 @@
+import { isMessageExpired } from './messageExpiry.js';
+
 const DB_NAME = 'chatforia';
 const STORE = 'room_msgs';
 
@@ -45,7 +47,7 @@ async function _writeRaw(roomId, payload) {
   const os = await _getConn('readwrite');
   const key = String(roomId);
   return new Promise((resolve, reject) => {
-    const req = os.put({ key, messages: payload });
+    const req = os.put({ key, messages: payload.filter((message) => !isMessageExpired(message)) });
     req.onsuccess = () => resolve();
     req.onerror = () => reject(req.error);
   });
@@ -114,6 +116,10 @@ function mergeMessage(existing, incoming) {
  */
 export async function upsertMessage(roomId, msg) {
   if (!roomId || !msg) return;
+  if (isMessageExpired(msg)) {
+    await removeExpiredMessages(roomId, [msg.id]);
+    return;
+  }
   const key = String(roomId);
   const os = await _getConn('readwrite');
 
@@ -212,7 +218,7 @@ export async function upsertMessage(roomId, msg) {
  */
 export async function getRoomMessages(roomId) {
   const raw = await _readRaw(roomId);
-  return raw.messages || [];
+  return (raw.messages || []).filter((message) => !isMessageExpired(message));
 }
 
 /**
@@ -332,4 +338,24 @@ export async function getMediaInRoom(roomId) {
 
   // Newest first by messageId (works for legacy items too)
   return out.sort((a, b) => (b.messageId ?? 0) - (a.messageId ?? 0));
+}
+/** Purge only expired/explicitly expired IDs in one IndexedDB transaction. */
+export async function removeExpiredMessages(roomId, messageIds = []) {
+  if (roomId == null) return;
+  const ids = new Set(messageIds.map(Number).filter((id) => Number.isSafeInteger(id) && id > 0));
+  const os = await _getConn('readwrite');
+  const key = String(roomId);
+  return new Promise((resolve, reject) => {
+    const get = os.get(key);
+    get.onerror = () => reject(get.error);
+    get.onsuccess = () => {
+      const row = get.result;
+      if (!row) return resolve();
+      const messages = (row.messages || []).filter((message) =>
+        !isMessageExpired(message) && !ids.has(Number(message.id)));
+      const put = os.put({ key, messages });
+      put.onsuccess = () => resolve();
+      put.onerror = () => reject(put.error);
+    };
+  });
 }

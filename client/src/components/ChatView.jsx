@@ -49,7 +49,8 @@ import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 
 // ✅ Local message cache for search/media
 import { fetchLatestMessages, fetchOlderMessages, fetchMessageDeltas } from '@/lib/api';
-import { addMessages, upsertMessage } from '@/utils/messagesStore';
+import { addMessages, upsertMessage, removeExpiredMessages } from '@/utils/messagesStore';
+import { isMessageExpired, expiryEventMessageId } from '@/utils/messageExpiry';
 import { mergeRecoveredReadReceipts, recoverLoadedReadReceipts } from '@/utils/readReceiptRecovery';
 
 // ✅ Modals
@@ -252,6 +253,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   } = useCall();
 
   const [messages, setMessages] = useState([]);
+  const expiredMessageIds = useRef(new Set());
   const receiptMessagesRef = useRef(messages);
   receiptMessagesRef.current = messages;
   const [typingUser, setTypingUser] = useState('');
@@ -454,7 +456,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   // ✅ Stable merge for realtime upsert (must be inside component)
   const mergeIncomingMessage = useCallback((incoming) => {
-  if (!incoming) return;
+  if (!incoming || isMessageExpired(incoming) || expiredMessageIds.current.has(Number(incoming.id))) return;
 
   const shouldScroll = isNearBottom();
 
@@ -583,9 +585,22 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const messagesEndRef = useRef(null);
   const scrollViewportRef = useRef(null);
-  useNow();
+  const expiryNow = useNow();
+  const visibleMessages = messages.filter((message) =>
+    !isMessageExpired(message) && !expiredMessageIds.current.has(Number(message.id)));
 
   useEffect(() => {
+    const expired = messages.filter((message) => isMessageExpired(message));
+    if (!expired.length) return;
+    const ids = expired.map((message) => Number(message.id)).filter((id) => id > 0);
+    ids.forEach((id) => expiredMessageIds.current.add(id));
+    setMessages((previous) => previous.filter((message) => !isMessageExpired(message)));
+    if (chatroom?.id) removeExpiredMessages(chatroom.id, ids).catch(() => {});
+    window.dispatchEvent(new Event('sidebar:reload-rooms'));
+  }, [expiryNow, messages, chatroom?.id]);
+
+  useEffect(() => {
+    expiredMessageIds.current.clear();
     setMessages([]);
     setCursor(null);
     setHasMore(true);
@@ -2304,6 +2319,15 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     console.log(`🌐 WEB Removed message ${targetId} from local state`);
   };
 
+  const handleRealtimeExpired = (payload) => {
+    const id = expiryEventMessageId(payload, currentRoomId);
+    if (id == null) return;
+    expiredMessageIds.current.add(id);
+    setMessages((previous) => previous.filter((message) => Number(message.id) !== id));
+    removeExpiredMessages(currentRoomId, [id]).catch(() => {});
+  };
+  socket.on('message:expired', handleRealtimeExpired);
+  socket.on('message_expired', handleRealtimeExpired);
   socket.on('message:upsert', handleRealtimeMessage);
   socket.on('message:new', handleRealtimeMessage);
   socket.on('message:edited', handleRealtimeMessage);
@@ -2313,6 +2337,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   return () => {
     console.log(`🌐 WEB Cleaning up listeners for room ${currentRoomId}`);
+    socket.off('message:expired', handleRealtimeExpired);
+    socket.off('message_expired', handleRealtimeExpired);
     socket.off('message:upsert', handleRealtimeMessage);
     socket.off('message:new', handleRealtimeMessage);
     socket.off('message:edited', handleRealtimeMessage);
@@ -2774,14 +2800,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     marginTop: 'auto',
                   }}
                 >
-                  {messages.map((m, idx) => {
+                  {visibleMessages.map((m, idx) => {
                     const msg = normalizeMsg(m);
                     const isLastOutgoing = msg.id && msg.id === lastOutgoingId;
 
-                    const prevRaw = messages[idx - 1];
+                    const prevRaw = visibleMessages[idx - 1];
                     const prevMsg = prevRaw ? normalizeMsg(prevRaw) : null;
 
-                    const nextRaw = messages[idx + 1];
+                    const nextRaw = visibleMessages[idx + 1];
                     const nextMsg = nextRaw ? normalizeMsg(nextRaw) : null;
 
                     const thisSenderId = Number(msg?.sender?.id ?? msg?.senderId ?? 0);
