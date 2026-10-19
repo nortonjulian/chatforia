@@ -399,3 +399,17 @@ describe('CallScreen', () => {
   );
 
 });
+
+
+test('blocked outgoing video ringback offers a working enable button', () => {
+  const retry = jest.fn();
+  mockUseCall = () => ({ active: { callId: 123, mode: 'VIDEO', outgoing: true },
+    videoRingbackStatus: 'blocked', retryVideoRingback: retry, endCall: jest.fn() });
+  const view = render(<CallScreen />);
+  fireEvent.click(screen.getByRole('button', { name: 'Enable call audio' }));
+  expect(retry).toHaveBeenCalledTimes(1);
+  mockUseCall = () => ({ active: { callId: 123, mode: 'VIDEO', outgoing: true },
+    videoRingbackStatus: null, retryVideoRingback: retry, endCall: jest.fn() });
+  view.rerender(<CallScreen />);
+  expect(screen.queryByRole('button', { name: 'Enable call audio' })).toBeNull();
+});

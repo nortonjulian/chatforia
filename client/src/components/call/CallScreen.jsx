@@ -24,6 +24,8 @@ export default function CallScreen() {
     localStream,
     remoteStream,
     endCall,
+    videoRingbackStatus,
+    retryVideoRingback,
     participants = [],
     addParticipant,
     me,
@@ -164,6 +166,12 @@ export default function CallScreen() {
         </Button>
       )}
 
+      {active.mode === 'VIDEO' && active.outgoing &&
+        ['blocked', 'error'].includes(videoRingbackStatus) && (
+          <Button variant="light" onClick={retryVideoRingback}>
+            {videoRingbackStatus === 'blocked' ? 'Enable call audio' : 'Retry call audio'}
+          </Button>
+        )}
       <Button
         radius="xl"
         leftSection={<PhoneOff size={16} />}
