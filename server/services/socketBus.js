@@ -281,8 +281,26 @@ export async function emitMessageUpdated(chatRoomId, messageOrRow) {
  * Emit an authoritative expired/tombstoned message state.
  * Uses canonical upsert underneath.
  */
-export async function emitMessageExpired(chatRoomId, messageOrId, _expiresAt) {
+export async function emitMessageExpired(chatRoomId, messageOrId, expiresAt) {
+  // Preserve canonical tombstones for existing clients, including their deadline.
   await emitMessageUpsert(chatRoomId, messageOrId);
+  const id = typeof messageOrId === 'object' ? messageOrId?.id : messageOrId;
+  emitMessageExpiryNotice(chatRoomId, id, expiresAt);
+}
+
+/** A content-free expiry event remains usable after permanent row deletion. */
+export function emitMessageExpiryNotice(chatRoomId, messageId, expiresAt) {
+  const roomId = Number(chatRoomId);
+  const id = Number(messageId);
+  const deadline = expiresAt == null ? NaN : new Date(expiresAt).getTime();
+  if (!_io || !Number.isSafeInteger(roomId) || roomId <= 0 ||
+      !Number.isSafeInteger(id) || id <= 0 || !Number.isFinite(deadline) ||
+      deadline > Date.now()) return;
+  const payload = { id, messageId: id, chatRoomId: roomId, roomId,
+    expiresAt: new Date(deadline).toISOString() };
+  for (const event of ['message:expired', 'message_expired']) {
+    _io.to(String(roomId)).emit(event, payload);
+  }
 }
 
 /**

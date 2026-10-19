@@ -1,4 +1,5 @@
 import prisma from '../utils/prismaClient.js';
+import { emitMessageExpiryNotice } from '../services/socketBus.js';
 
 /**
  * Polls for expired messages and removes them. Emits a socket event so
@@ -19,7 +20,7 @@ export function initDeleteExpired(io, intervalMs = 10_000) {
 
       const expired = await prisma.message.findMany({
         where: { expiresAt: { lte: now } },
-        select: { id: true, chatRoomId: true },
+        select: { id: true, chatRoomId: true, expiresAt: true },
         take: 250,
       });
 
@@ -29,10 +30,10 @@ export function initDeleteExpired(io, intervalMs = 10_000) {
         where: { id: { in: expired.map((m) => m.id) } },
       });
 
-      if (io) {
-        for (const m of expired) {
-          io.to(String(m.chatRoomId)).emit('message_expired', { id: m.id });
-        }
+      // Resolve the live socket dynamically: startup invokes this job before
+      // Socket.IO exists. A deleted row can no longer be fetched for an upsert.
+      for (const m of expired) {
+        emitMessageExpiryNotice(m.chatRoomId, m.id, m.expiresAt);
       }
     } catch (err) {
       console.error('[deleteExpiredMessages] failed:', err);

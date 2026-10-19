@@ -160,6 +160,7 @@ if (ENV.IS_TEST) {
         chatRoomId: message.chatRoomId,
         createdAt: message.createdAt,
         editedAt: message.editedAt,
+        expiresAt: message.expiresAt,
         deletedForAll: message.deletedForAll,
         deletedAt: message.deletedAt,
         deletedById: message.deletedById,

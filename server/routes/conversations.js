@@ -181,6 +181,7 @@ router.get(
         messages: {
           where: {
             deletedForAll: false,
+            AND: [{ OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] }],
             deletions: {
               none: {
                 userId,
@@ -203,6 +204,7 @@ router.get(
             deletedForAll: true,
             createdAt: true,
             editedAt: true,
+            expiresAt: true,
             senderId: true,
             sender: {
               select: {
@@ -471,6 +473,7 @@ router.get(
           ? {
               text: previewText,
               messageId: lastMsg.id,
+              expiresAt: lastMsg.expiresAt?.toISOString() ?? null,
               at: (lastMsg.editedAt || lastMsg.createdAt).toISOString(),
               senderName,
               sender: lastMsg.sender

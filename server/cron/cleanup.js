@@ -44,7 +44,7 @@ export function startCleanupJobs() {
       // --- Messages: disappearing / expiresAt ---
       try {
         const res = await prisma.message?.deleteMany?.({
-          where: { expiresAt: { lt: now } },
+          where: { expiresAt: { lt: now }, deletedForAll: true },
         });
         if (res?.count) {
           console.log(`🧹 Deleted ${res.count} expired Messages`);
