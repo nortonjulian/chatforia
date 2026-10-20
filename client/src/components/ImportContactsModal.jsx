@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Box, Button, Checkbox, FileInput, Group, Modal, ScrollArea, SimpleGrid, Stack, Table, Text, TextInput } from '@mantine/core';
 import Papa from 'papaparse';
 import { parse as parseVCard } from 'vcard-parser';
 import { importContacts } from '@/api/contacts';
@@ -41,7 +42,9 @@ function mapCSV(rows) {
 
 function mapVCF(text) {
   try {
-    const cards = parseVCard(text);
+    // vcard-parser returns one object per card, not an array for the file.
+    const blocks = String(text || '').match(/BEGIN:VCARD[\s\S]*?END:VCARD/gi) || [];
+    const cards = blocks.map(block => parseVCard(block));
     return cards
       .map((card) => {
         const name = (card.fn && card.fn[0]?.value) || '';
@@ -72,186 +75,201 @@ export default function ImportContactsModal({ opened, onClose, defaultCountry = 
   const [selected, setSelected] = useState(new Set());
   const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(false);
+  const [parsing, setParsing] = useState(false);
+  const [error, setError] = useState('');
+  const [csvFile, setCSVFile] = useState(null);
+  const [vcfFile, setVCFFile] = useState(null);
+  const generation = useRef(0);
+  const submitting = useRef(false);
 
   useEffect(() => {
-    if (!opened) {
-      setRows([]);
-      setSelected(new Set());
-      setFilter('');
-    }
+    generation.current += 1;
+    setRows([]);
+    setSelected(new Set());
+    setFilter('');
+    setError('');
+    setParsing(false);
+    setCSVFile(null);
+    setVCFFile(null);
+    return () => { generation.current += 1; };
   }, [opened]);
 
+  // Retain the original row identity when searching or hiding rows.
   const filtered = useMemo(() => {
-    const f = filter.toLowerCase();
-    if (!f) return rows;
-    return rows.filter(
-      (r) =>
-        (r.name || '').toLowerCase().includes(f) ||
-        (r.phones || []).some((p) => p.includes(f)) ||
-        (r.emails || []).some((e) => e.toLowerCase().includes(f))
+    const f = filter.trim().toLowerCase();
+    return rows.map((contact, index) => ({ contact, index })).filter(({ contact }) =>
+      !f || (contact.name || '').toLowerCase().includes(f) ||
+      (contact.phones || []).some(phone => phone.toLowerCase().includes(f)) ||
+      (contact.emails || []).some(email => email.toLowerCase().includes(f))
     );
   }, [rows, filter]);
+  const selectedContacts = rows.filter((_, index) => selected.has(index));
+  const busy = loading || parsing;
+  const allVisibleSelected = filtered.length > 0 && filtered.every(({ index }) => selected.has(index));
+  const someVisibleSelected = filtered.some(({ index }) => selected.has(index));
 
-  const toggle = (idx) => {
-    const next = new Set(selected);
-    if (next.has(idx)) next.delete(idx);
-    else next.add(idx);
-    setSelected(next);
+  const close = () => {
+    if (submitting.current) return;
+    generation.current += 1;
+    onClose?.();
   };
-
+  const toggle = index => setSelected(previous => {
+    const next = new Set(previous);
+    if (next.has(index)) next.delete(index); else next.add(index);
+    return next;
+  });
+  const toggleVisible = () => setSelected(previous => {
+    const next = new Set(previous);
+    filtered.forEach(({ index }) => {
+      if (allVisibleSelected) next.delete(index); else next.add(index);
+    });
+    return next;
+  });
+  const acceptPreview = (mapped, request) => {
+    if (request !== generation.current) return;
+    setParsing(false);
+    setRows(mapped);
+    setSelected(new Set(mapped.map((_, index) => index)));
+    setFilter('');
+    setError(mapped.length ? '' : 'No contacts found. Choose a CSV with name, phone or email columns, or a VCF contact file.');
+  };
+  const failPreview = (request, message) => {
+    if (request !== generation.current) return;
+    setParsing(false);
+    setError(message);
+  };
+  const beginPreview = () => {
+    const request = ++generation.current;
+    setRows([]); setSelected(new Set()); setError(''); setParsing(true);
+    return request;
+  };
   const pickFromDevice = async () => {
+    const request = beginPreview();
     try {
-      const props = ['name', 'tel', 'email'];
-      const opts = { multiple: true };
-      const picked = await navigator.contacts.select(props, opts);
-      const mapped = picked.map((p) => ({
-        name: Array.isArray(p.name) ? p.name[0] : p.name,
-        phones: (p.tel || []).map(String),
-        emails: (p.email || []).map(String),
-      }));
-      setRows(mapped);
-      setSelected(new Set(mapped.map((_, i) => i)));
-      toast.ok(`Imported ${mapped.length} from device (preview)`);
-    } catch {
-      toast.err('Unable to read contacts from device.');
+      const picked = await navigator.contacts.select(['name', 'tel', 'email'], { multiple: true });
+      acceptPreview(picked.map(contact => ({
+        name: String((Array.isArray(contact.name) ? contact.name[0] : contact.name) || ''),
+        phones: (contact.tel || []).map(String),
+        emails: (contact.email || []).map(String),
+      })), request);
+    } catch (err) {
+      if (err?.name === 'AbortError') {
+        if (request === generation.current) setParsing(false);
+      } else failPreview(request, 'Unable to read device contacts. You can choose a CSV or VCF file instead.');
     }
   };
-
-  const onCSV = (file) => {
+  const onCSV = file => {
     if (!file) return;
+    setCSVFile(file); setVCFFile(null);
+    const request = beginPreview();
     Papa.parse(file, {
-      complete: (res) => {
-        const mapped = mapCSV(res.data);
-        setRows(mapped);
-        setSelected(new Set(mapped.map((_, i) => i)));
-        toast.ok(`Parsed ${mapped.length} contacts from CSV.`);
+      complete: result => {
+        if (result.errors?.length) {
+          failPreview(request, 'Could not read this CSV. Check the file format and try again.');
+          return;
+        }
+        acceptPreview(mapCSV(result.data), request);
       },
-      error: () => toast.err('Failed parsing CSV.'),
+      error: () => failPreview(request, 'Could not read this CSV. Please try again.'),
       skipEmptyLines: true,
     });
   };
-
-  const onVCF = async (file) => {
+  const onVCF = async file => {
     if (!file) return;
-    const text = await file.text();
-    const mapped = mapVCF(text);
-    setRows(mapped);
-    setSelected(new Set(mapped.map((_, i) => i)));
-    toast.ok(`Parsed ${mapped.length} contacts from VCF.`);
+    setVCFFile(file); setCSVFile(null);
+    const request = beginPreview();
+    try { acceptPreview(mapVCF(await file.text()), request); }
+    catch { failPreview(request, 'Could not read this VCF. Please try again.'); }
   };
-
   const submit = async () => {
-    const payload = filtered
-      .map((c, i) => ({ c, i }))
-      .filter(({ i }) => selected.has(i))
-      .map(({ c }) => c);
-
-    if (!payload.length) {
-      toast.info('Select at least one contact.');
+    if (busy || submitting.current || !selectedContacts.length) return;
+    if (selectedContacts.length > 2000) {
+      setError('Select no more than 2,000 contacts per import.');
       return;
     }
-    if (payload.length > 2000) {
-      toast.err('Limit 2000 contacts per import.');
-      return;
-    }
-
-    setLoading(true);
+    const request = generation.current;
+    submitting.current = true; setLoading(true); setError('');
     try {
-      const res = await importContacts({ defaultCountry, contacts: payload });
-      toast.ok(
-        `Imported: ${res.added} • Updated: ${res.updated} • Duplicates: ${res.skippedDuplicates} • Invalid: ${res.invalid}`
-      );
+      const result = await importContacts({ defaultCountry, contacts: selectedContacts });
+      if (request !== generation.current) return;
+      toast.ok(`Imported: ${result.added} • Updated: ${result.updated} • Duplicates: ${result.skippedDuplicates} • Invalid: ${result.invalid}`);
       onClose?.();
     } catch {
-      toast.err('Import failed. Please try again.');
+      if (request === generation.current) setError('Import failed. Your selection is preserved. Please try again.');
     } finally {
+      submitting.current = false;
       setLoading(false);
     }
   };
 
-  if (!opened) return null;
-
   return (
-    <section role="dialog" aria-label="Import contacts" style={{ padding: 16, border: '1px solid #eee', borderRadius: 8 }}>
-      <h2>Import contacts</h2>
-
-      <p style={{ opacity: 0.75 }}>
-        Only the contacts you select will be uploaded. Phone numbers are normalized to your region ({defaultCountry}).
-      </p>
-
-      {canUseContactsPicker() && (
-        <div style={{ marginBottom: 8 }}>
-          <button type="button" onClick={pickFromDevice}>Open phone contacts</button>
-        </div>
-      )}
-
-      <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-        <label style={{ display: 'block' }}>
-          CSV:&nbsp;
-          <input
-            type="file"
-            accept=".csv,text/csv"
-            onChange={(e) => onCSV(e.target.files?.[0] || null)}
-          />
-        </label>
-        <label style={{ display: 'block' }}>
-          VCF:&nbsp;
-          <input
-            type="file"
-            accept=".vcf,text/vcard"
-            onChange={(e) => onVCF(e.target.files?.[0] || null)}
-          />
-        </label>
-        <input
-          type="text"
-          placeholder="Filter…"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          style={{ flex: 1 }}
-        />
-      </div>
-
-      <hr />
-
-      <div style={{ overflowX: 'auto', marginTop: 8 }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr>
-              <th style={{ width: 48 }} />
-              <th style={{ textAlign: 'left', padding: '6px' }}>Name</th>
-              <th style={{ textAlign: 'left', padding: '6px' }}>Phones</th>
-              <th style={{ textAlign: 'left', padding: '6px' }}>Emails</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.slice(0, 500).map((c, i) => (
-              <tr key={i} style={{ borderTop: '1px solid rgba(0,0,0,0.08)' }}>
-                <td style={{ padding: '6px' }}>
-                  <input
-                    type="checkbox"
-                    checked={selected.has(i)}
-                    onChange={() => toggle(i)}
-                    aria-label={`Select row ${i}`}
-                  />
-                </td>
-                <td style={{ padding: '6px' }}>{c.name || <span style={{ opacity: 0.6 }}>—</span>}</td>
-                <td style={{ padding: '6px' }}>{(c.phones || []).join(', ') || <span style={{ opacity: 0.6 }}>—</span>}</td>
-                <td style={{ padding: '6px' }}>{(c.emails || []).join(', ') || <span style={{ opacity: 0.6 }}>—</span>}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {filtered.length > 500 && (
-          <p style={{ opacity: 0.75, marginTop: 6 }}>Showing first 500… refine filter to narrow.</p>
+    <Modal opened={opened} onClose={close} title="Import contacts" size="lg" centered
+      closeOnClickOutside={!loading} closeOnEscape={!loading} withCloseButton={!loading}>
+      <Stack gap="md">
+        <Text size="sm" c="dimmed">
+          Preview a CSV or VCF file, then choose which contacts to import. Only selected contacts
+          will be uploaded. Phone numbers use your region ({defaultCountry}).
+        </Text>
+        {canUseContactsPicker() && (
+          <Button variant="light" onClick={pickFromDevice} disabled={busy}>Choose device contacts</Button>
         )}
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 12 }}>
-        <button type="button" onClick={onClose}>Cancel</button>
-        <button type="button" onClick={submit} aria-busy={loading ? 'true' : 'false'}>
-          Import selected
-        </button>
-      </div>
-    </section>
+        <SimpleGrid cols={{ base: 1, sm: 2 }}>
+          <FileInput label="CSV file" placeholder="Choose a CSV file" accept=".csv,text/csv"
+            value={csvFile} onChange={onCSV} disabled={busy} />
+          <FileInput label="VCF file" placeholder="Choose a VCF file" accept=".vcf,text/vcard"
+            value={vcfFile} onChange={onVCF} disabled={busy} />
+        </SimpleGrid>
+        {error && <Alert role="alert" color="red">{error}</Alert>}
+        {parsing && <Text role="status" size="sm">Reading contacts…</Text>}
+        {!rows.length && !parsing ? (
+          <Box p="lg" style={{ border: '1px dashed var(--mantine-color-default-border)', borderRadius: 'var(--mantine-radius-md)' }}>
+            <Text fw={600} ta="center">Choose a file to preview your contacts</Text>
+            <Text size="sm" c="dimmed" ta="center" mt="xs">
+              CSV files should include name, phone or email columns. VCF files are contact exports
+              from your address book. Nothing is uploaded until you click Import selected.
+            </Text>
+          </Box>
+        ) : rows.length > 0 ? (
+          <>
+            <TextInput label="Search preview" placeholder="Search by name, phone or email"
+              value={filter} onChange={event => setFilter(event.currentTarget.value)} disabled={busy} />
+            <Group justify="space-between">
+              <Text size="sm" aria-live="polite">{selectedContacts.length} of {rows.length} contacts selected</Text>
+              {filter && <Text size="xs" c="dimmed">Selection includes contacts hidden by search.</Text>}
+            </Group>
+            <ScrollArea.Autosize mah={320} type="auto">
+              <Table striped highlightOnHover style={{ minWidth: 420 }}>
+                <Table.Thead><Table.Tr>
+                  <Table.Th w={44}><Checkbox aria-label="Select all matching contacts" checked={allVisibleSelected}
+                    indeterminate={!allVisibleSelected && someVisibleSelected} onChange={toggleVisible} disabled={busy} /></Table.Th>
+                  <Table.Th>Name</Table.Th><Table.Th>Phones</Table.Th><Table.Th>Emails</Table.Th>
+                </Table.Tr></Table.Thead>
+                <Table.Tbody>
+                  {filtered.slice(0, 500).map(({ contact, index }) => (
+                    <Table.Tr key={index}>
+                      <Table.Td><Checkbox aria-label={`Select ${contact.name || contact.phones[0] || contact.emails[0] || 'contact'} (row ${index + 1})`}
+                        checked={selected.has(index)} onChange={() => toggle(index)} disabled={busy} /></Table.Td>
+                      <Table.Td>{contact.name || '—'}</Table.Td>
+                      <Table.Td>{contact.phones.join(', ') || '—'}</Table.Td>
+                      <Table.Td>{contact.emails.join(', ') || '—'}</Table.Td>
+                    </Table.Tr>
+                  ))}
+                </Table.Tbody>
+              </Table>
+              {!filtered.length && <Text size="sm" c="dimmed" p="md">No matching contacts.</Text>}
+            </ScrollArea.Autosize>
+            {filtered.length > 500 && <Text size="xs" c="dimmed">Showing the first 500 matches. Search to find others; the selected count includes all rows.</Text>}
+          </>
+        ) : null}
+        <Group justify="flex-end" wrap="wrap">
+          <Button variant="default" onClick={close} disabled={loading}>Cancel</Button>
+          <Button onClick={submit} loading={loading}
+            disabled={busy || !selectedContacts.length || selectedContacts.length > 2000}>
+            Import selected{selectedContacts.length ? ` (${selectedContacts.length})` : ''}
+          </Button>
+        </Group>
+        {selectedContacts.length > 2000 && <Text size="sm" c="red">Select no more than 2,000 contacts per import.</Text>}
+      </Stack>
+    </Modal>
   );
 }
