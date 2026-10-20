@@ -42,7 +42,9 @@ import { useSmartReplies } from '@/hooks/useSmartReplies.js';
 import useEntitlements from '@/hooks/useEntitlements';
 import { canUseAiComposer } from '@/utils/planAccess';
 import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
-import { API_BASE_URL } from '@/config';
+import { useSocket } from '@/context/SocketContext';
+import SmsMessageMedia from '@/components/sms/SmsMessageMedia';
+import { createSmsThreadLoader, subscribeSmsThread } from '@/utils/smsThreadLive';
 
 // ✅ NEW: local SMS cache + UI
 import {
@@ -88,7 +90,12 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
 
-  const loadingRef = useRef(false);
+  const loaderRef = useRef(null);
+  const { socket } = useSocket() ?? {};
+  const accountKey = String(currentUser?.id ?? currentUserId ?? '');
+  const scopeKey = `${accountKey}:${threadId}`;
+  const [loadedScope, setLoadedScope] = useState('');
+  const [loadError, setLoadError] = useState('');
   const bottomRef = useRef(null);
 
   const {
@@ -160,25 +167,8 @@ const showCallBanner = Boolean(
     return Number.isFinite(id) ? id : null;
   }, [thread?.chatRoomId]);
 
-  async function loadThread() {
-    if (!threadId || loadingRef.current) return;
-    loadingRef.current = true;
-
-    try {
-      const res = await axiosClient.get(`/sms/threads/${threadId}`);
-      setThread(res.data);
-
-      // ✅ Cache locally for search + media
-      try {
-        await addSmsMessages(String(threadId), res.data?.messages || []);
-      } catch {
-        // ignore local cache errors
-      }
-    } catch {
-      setThread(null);
-    } finally {
-      loadingRef.current = false;
-    }
+  function loadThread() {
+    return loaderRef.current?.refresh() ?? Promise.resolve();
   }
 
   // Pull setting from user profile if present; otherwise use IndexedDB pref
@@ -196,15 +186,25 @@ const showCallBanner = Boolean(
   }, [currentUser?.enableSmartReplies]);
 
   useEffect(() => {
-    setThread(null);
-    setDraft('');
-    setEditingId(null);
-    setEditingText('');
-    setSearchOpen(false);
-    setGalleryOpen(false);
-    loadThread();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [threadId]);
+    setThread(null); setLoadedScope(''); setLoadError('');
+    setDraft(''); setEditingId(null); setEditingText('');
+    setSearchOpen(false); setGalleryOpen(false);
+    if (!accountKey || !threadId) return;
+    const loader = createSmsThreadLoader({
+      fetchThread: async () => (await axiosClient.get(`/sms/threads/${threadId}`)).data,
+      onThread: data => { setThread(data); setLoadedScope(scopeKey); setLoadError(''); },
+      onError: () => setLoadError('Could not refresh this conversation. Try again.'),
+      cache: data => addSmsMessages(String(threadId), data?.messages || []),
+      onRefresh: () => window.dispatchEvent(new Event('sidebar:reload-rooms')),
+    });
+    loaderRef.current = loader;
+    void loader.refresh();
+    return () => { loader.dispose(); if (loaderRef.current === loader) loaderRef.current = null; };
+  }, [threadId, accountKey]);
+
+  useEffect(() => subscribeSmsThread({ socket, threadId,
+    refresh: () => loaderRef.current?.refresh(),
+  }), [socket, threadId, accountKey]);
 
   // Normalize SMS messages so Smart Replies can work consistently
   const normalizedMessages = useMemo(() => {
@@ -406,7 +406,9 @@ const showCallBanner = Boolean(
     return getSmsMediaItems(String(threadId));
   }, [threadId, thread?.messages?.length]); // refresh when messages change
 
-  if (!thread) return null;
+  if (!thread || loadedScope !== scopeKey) {
+    return loadError ? <Text role="alert">{loadError} <Button onClick={loadThread}>Retry</Button></Text> : null;
+  }
   
   return (
     <Box
@@ -419,6 +421,7 @@ const showCallBanner = Boolean(
         overflow: 'hidden',
       }}
     >
+      {loadError && <Text role="alert" c="red" size="sm">{loadError} <Button size="xs" onClick={loadThread}>Retry</Button></Text>}
       <ThreadShell
             header={
               <>
@@ -836,28 +839,11 @@ const showCallBanner = Boolean(
 
                                 {media.length > 0 && (
                                   <Group gap="xs" mt={8} wrap="wrap">
-                                    {media.map((_, idx) => {
-                                      const base = API_BASE_URL;
-                                      const src = `${base}/sms/media/${m.id}/${idx}`;
-
-                                      return (
-                                        <img
-                                          key={`${m.id}-${idx}`}
-                                          src={src}
-                                          alt="MMS"
-                                          style={{
-                                            width: 140,
-                                            height: 140,
-                                            objectFit: 'cover',
-                                            borderRadius: 12,
-                                            cursor: 'pointer',
-                                          }}
-                                          onClick={() => {
-                                            setGalleryOpen(true);
-                                          }}
-                                        />
-                                      );
-                                    })}
+                                    {media.map((item, idx) => (
+                                      <SmsMessageMedia key={`${accountKey}:${m.id}-${idx}`}
+                                        messageId={m.id} mediaIndex={idx} item={item}
+                                        accountKey={accountKey} onOpenImage={() => setGalleryOpen(true)} />
+                                    ))}
                                   </Group>
                                 )}
                               </>
