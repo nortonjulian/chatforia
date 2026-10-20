@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react';
+import './UserProfile.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
@@ -1156,7 +1157,9 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           <Accordion.Control>
             {t('profile.disappearing', 'Disappearing messages')}
           </Accordion.Control>
-          <Accordion.Panel>
+          <Accordion.Panel
+            className={openItems.includes('disappearing') ? 'cf-disappearing-panel-open' : undefined}
+          >
             <Stack gap="sm">
               <Switch
                 checked={autoDeleteSeconds > 0}
