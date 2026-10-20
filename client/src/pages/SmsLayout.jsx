@@ -15,7 +15,6 @@ import {
   Text,
   Title,
   Stack,
-  ScrollArea,
   ActionIcon,
   Tooltip,
   Menu,
@@ -99,6 +98,7 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   const [loadError, setLoadError] = useState('');
   const bottomRef = useRef(null);
   const scrollViewportRef = useRef(null);
+  const followBottomRef = useRef(true);
 
   const {
     startBrowserCall,
@@ -118,18 +118,30 @@ export default function SmsLayout({ currentUserId, currentUser }) {
     };
 
     const frame = requestAnimationFrame(scroll);
-    const settleTimer = window.setTimeout(scroll, 250);
 
     return () => {
       cancelAnimationFrame(frame);
-      window.clearTimeout(settleTimer);
     };
   }, []);
 
   useLayoutEffect(() => {
     if (!thread) return undefined;
+    followBottomRef.current = true;
     return scrollToBottom();
   }, [thread?.id, thread?.messages?.length, scrollToBottom]);
+
+  // Attachments and composer previews can resize after history first renders.
+  // Follow those changes only while the reader is already at the bottom.
+  useLayoutEffect(() => {
+    const viewport = scrollViewportRef.current;
+    if (!viewport || typeof ResizeObserver === 'undefined') return undefined;
+    const observer = new ResizeObserver(() => {
+      if (followBottomRef.current) viewport.scrollTop = viewport.scrollHeight;
+    });
+    observer.observe(viewport);
+    if (viewport.firstElementChild) observer.observe(viewport.firstElementChild);
+    return () => observer.disconnect();
+  }, [thread?.id, loadedScope]);
 
   // Thread display helpers
   const toNumber = useMemo(() => thread?.contactPhone || '', [thread]);
@@ -425,9 +437,11 @@ const showCallBanner = Boolean(
   return (
     <Box
       style={{
-        flex: 1,
+        flex: '1 1 0',
         minHeight: 0,
-        height: '100%',
+        minWidth: 0,
+        width: '100%',
+        boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -705,31 +719,25 @@ const showCallBanner = Boolean(
         }
       >
         <Box
+          ref={scrollViewportRef}
+          className="sms-thread-viewport"
+          onScroll={event => {
+            const viewport = event.currentTarget;
+            followBottomRef.current =
+              viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight <= 32;
+          }}
           w="100%"
           style={{
             flex: '1 1 auto',
             minHeight: 0,
-            height: 0,
+            minWidth: 0,
+            width: '100%',
+            overflowY: 'auto',
+            overflowX: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            overflow: 'hidden',
           }}
         >
-          <ScrollArea
-            viewportRef={scrollViewportRef}
-            style={{ flex: '1 1 auto', minHeight: 0, height: 0 }}
-            viewportProps={{ className: 'sms-thread-viewport' }}
-            type="auto"
-            scrollbars="y"
-            styles={{
-              viewport: { display: 'flex', flexDirection: 'column' },
-              content: {
-                display: 'flex',
-                flexDirection: 'column',
-                flex: '1 1 auto',
-              },
-            }}
-          >
             <Stack className="sms-thread-messages" gap="xs" p="xs">
               {(thread.messages || []).length ? (
                 (thread.messages || []).map((m, index, arr) => {
@@ -993,7 +1001,6 @@ const showCallBanner = Boolean(
 
               <div ref={bottomRef} style={{ height: 12, flexShrink: 0 }} />
             </Stack>
-          </ScrollArea>
         </Box>
 
         {/* ✅ Local Search Drawer (IndexedDB) */}

@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { Routes, Route, Navigate, Outlet, Link, useParams } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, Link, useParams, useMatch } from 'react-router-dom';
 import {
   AppShell,
   Burger,
@@ -137,6 +137,10 @@ function LegacySmsThreadRedirect() {
 }
 
 function AuthedLayout() {
+  const smsThreadMatch = useMatch('/sms/:threadId');
+  const isSMSThread = Boolean(
+    smsThreadMatch && smsThreadMatch.params.threadId !== 'compose'
+  );
   const [opened, { toggle }] = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
   const { currentUser, logout, needsKeyUnlock } = useUser();
@@ -192,6 +196,8 @@ function AuthedLayout() {
           padding="md"
           style={{
             minHeight: '100dvh',
+            height: isSMSThread ? '100dvh' : undefined,
+            overflow: isSMSThread ? 'hidden' : undefined,
             display: 'flex',
             flexDirection: 'column',
           }}
@@ -289,7 +295,9 @@ function AuthedLayout() {
               minHeight: 0,
               display: 'flex',
               flexDirection: 'column',
-              overflowY: 'auto', // 🔥 THIS FIXES YOUR PROBLEM
+              overflowY: isSMSThread ? 'hidden' : 'auto',
+              minWidth: 0,
+              boxSizing: 'border-box',
             }}
           >
             {/* Global call UI */}

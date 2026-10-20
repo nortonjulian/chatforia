@@ -1,16 +1,7 @@
-/* Keep the SMS thread constrained to the available pane. Mantine's ScrollArea
-   may otherwise preserve intrinsic media width and expose a horizontal scrollbar. */
+/* The SMS message pane is the only scrolling region between the fixed header
+   and composer. Keep horizontal overflow impossible at the viewport boundary. */
 .sms-thread-viewport {
-  overflow-x: hidden !important;
-}
-
-/* Mantine/Radix puts one sizing wrapper inside the scroll viewport. */
-.sms-thread-viewport > div {
-  display: flex !important;
-  flex-direction: column;
-  min-height: 100%;
-  width: 100%;
-  min-width: 0;
+  box-sizing: border-box;
   max-width: 100%;
 }
 
