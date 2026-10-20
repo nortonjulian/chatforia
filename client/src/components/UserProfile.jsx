@@ -32,7 +32,6 @@ import { IconUpload, IconCloudUpload, IconSun, IconMoon } from '@tabler/icons-re
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
 import LanguageSelector from './LanguageSelector';
-import PremiumGuard from './PremiumGuard';
 import SoundSettings from './SoundSettings';
 import LinkedDevicesPanel from './LinkedDevicesPanel';
 import PrivacySection from '../pages/PrivacySection';
@@ -95,29 +94,6 @@ class SectionBoundary extends React.Component {
     }
     return this.props.children;
   }
-}
-
-function AdvancedTtlControls({ value, onChange }) {
-  const { t } = useTranslation();
-  return (
-    <Group align="flex-end" gap="sm">
-      <NumberInput
-        label={t('profile.disappearAfterSeconds', 'Disappear after (seconds)')}
-        min={1}
-        max={7 * 24 * 3600}
-        step={60}
-        value={value}
-        onChange={(v) => onChange(Number(v) || 0)}
-        clampBehavior="strict"
-      />
-      <NumberInput
-        label={t('profile.presetSeconds', 'Preset (seconds)')}
-        placeholder={t('profile.typeOrPick', 'Type or pick')}
-        value={value}
-        onChange={(v) => onChange(Number(v) || 0)}
-      />
-    </Group>
-  );
 }
 
 /* Utility: find the nearest scrollable parent (Drawer content, etc.) */
@@ -1172,25 +1148,17 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 )}
               />
               {autoDeleteSeconds > 0 && (
-                <>
-                  <NumberInput
-                    min={1}
-                    step={1}
-                    value={autoDeleteSeconds}
-                    onChange={(val) => setAutoDeleteSeconds(Number(val) || 0)}
-                    placeholder={t(
-                      'profile.autoDeleteSeconds',
-                      'Seconds until delete'
-                    )}
-                    clampBehavior="strict"
-                  />
-                  <PremiumGuard silent>
-                    <AdvancedTtlControls
-                      value={autoDeleteSeconds}
-                      onChange={setAutoDeleteSeconds}
-                    />
-                  </PremiumGuard>
-                </>
+                <NumberInput
+                  label={t(
+                    'profile.disappearingTimerLabel',
+                    'Disappear after (seconds)'
+                  )}
+                  min={1}
+                  step={1}
+                  value={autoDeleteSeconds}
+                  onChange={(val) => setAutoDeleteSeconds(Number(val) || 0)}
+                  clampBehavior="strict"
+                />
               )}
             </Stack>
           </Accordion.Panel>
