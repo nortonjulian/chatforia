@@ -459,10 +459,24 @@ const showCallBanner = Boolean(
                 )}
 
                 <Box p="md" w="100%">
-                  <Group mb="sm" justify="space-between" align="center">
-                    <Title order={4}>{titleText}</Title>
+                  <Group mb="sm" justify="space-between" align="center" wrap="nowrap">
+                    <Stack gap={0} style={{ minWidth: 0, flex: 1 }}>
+                      <Title
+                        order={4}
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {titleText}
+                      </Title>
+                      <Text size="xs" c="dimmed" data-transport="sms">
+                        SMS
+                      </Text>
+                    </Stack>
 
-                    <Group gap="xs">
+                    <Group gap="xs" wrap="nowrap" style={{ flexShrink: 0 }}>
                       <Tooltip label="Call" withArrow withinPortal>
                         <ActionIcon
                           variant="subtle"
@@ -755,7 +769,7 @@ const showCallBanner = Boolean(
                       align="flex-start"
                       wrap="nowrap"
                       gap={6}
-                      style={{ width: '100%' }}
+                      style={{ width: '100%', minWidth: 0, maxWidth: '100%' }}
                     >
                       {/* ✅ SENT: dots on LEFT */}
                       {isOut && (
@@ -806,6 +820,8 @@ const showCallBanner = Boolean(
                           position: 'relative',
                           display: 'inline-block',
                           maxWidth: 360,
+                          minWidth: 0,
+                          flexShrink: 1,
                         }}
                       >
                         <Tooltip label={ts} withinPortal>

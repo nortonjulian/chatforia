@@ -1,14 +1,36 @@
+/* Keep the SMS thread constrained to the available pane. Mantine's ScrollArea
+   may otherwise preserve intrinsic media width and expose a horizontal scrollbar. */
+.sms-thread-viewport {
+  overflow-x: hidden !important;
+}
+
 /* Mantine/Radix puts one sizing wrapper inside the scroll viewport. */
 .sms-thread-viewport > div {
   display: flex !important;
   flex-direction: column;
   min-height: 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* Auto margin consumes spare space; long threads still grow and scroll normally. */
 .sms-thread-messages {
   margin-top: auto;
   flex-shrink: 0;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.sms-message-row {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.sms-bubble {
+  box-sizing: border-box;
 }
 
 /* Use the actual loaded player to recognize opaque inbound audio URLs too.

@@ -2373,21 +2373,26 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           >
             <Group mb="sm" justify="space-between" wrap="nowrap">
               <Group gap="sm" wrap="nowrap" style={{ minWidth: 0 }}>
-                <Title
-                  order={4}
-                  style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    maxWidth: '100%',
-                  }}
-                >
-                  {chatroom?.name ||
-                    otherUser?.displayName ||
-                    otherUser?.username ||
-                    otherUser?.name ||
-                    'Chat'}
-                </Title>
+                <Stack gap={0} style={{ minWidth: 0, flex: '0 1 auto' }}>
+                  <Title
+                    order={4}
+                    style={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      maxWidth: '100%',
+                    }}
+                  >
+                    {chatroom?.name ||
+                      otherUser?.displayName ||
+                      otherUser?.username ||
+                      otherUser?.name ||
+                      'Chat'}
+                  </Title>
+                  <Text size="xs" c="dimmed" data-transport="chat">
+                    {t('conversation.transport.chatforia', 'Chatforia')}
+                  </Text>
+                </Stack>
 
                 {isRandomRoom && (
                   <Badge variant="light" radius="sm" leftSection={<IconDice5 size={14} />}>
