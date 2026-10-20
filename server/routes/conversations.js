@@ -53,14 +53,46 @@ function normalizeSmsMediaUrls(mediaUrls) {
   return [];
 }
 
+function smsPreviewMediaKind(item) {
+  const raw = typeof item === 'string' ? item : item?.url;
+  if (typeof raw !== 'string' || !raw.trim()) return null;
+  const mime = String(item?.contentType || item?.mimeType || '')
+    .split(';')[0].trim().toLowerCase();
+  for (const kind of ['image', 'video', 'audio']) {
+    if (mime.startsWith(kind + '/')) return kind;
+  }
+  if (mime && mime !== 'application/octet-stream') return 'file';
+  let path;
+  try { path = new URL(raw, 'https://invalid.example').pathname.toLowerCase(); }
+  catch { return 'file'; }
+  if (/\.(m4a|mp3|wav|aac|ogg|amr)$/.test(path)) return 'audio';
+  if (/\.(mp4|mov|webm|3gp)$/.test(path)) return 'video';
+  if (/\.(jpe?g|png|gif|webp|heic|heif)$/.test(path)) return 'image';
+  return 'file';
+}
+
 function summarizeSmsMedia(mediaUrls) {
   const list = normalizeSmsMediaUrls(mediaUrls);
-  return {
-    hasMedia: list.length > 0,
-    mediaCount: list.length,
-    mediaKinds: list.length ? ['image'] : [],
-    thumbUrl: list[0] || null,
-  };
+  const mediaKinds = [];
+  let mediaCount = 0, thumbUrl = null;
+  for (const item of list) {
+    const kind = smsPreviewMediaKind(item);
+    if (!kind) continue;
+    mediaCount += 1;
+    if (!mediaKinds.includes(kind)) mediaKinds.push(kind);
+    if (!thumbUrl && kind === 'image') thumbUrl = typeof item === 'string' ? item : item.url;
+  }
+  return { hasMedia: mediaCount > 0, mediaCount, mediaKinds, thumbUrl };
+}
+
+function buildSmsPreviewText({ text, hasMedia, mediaKinds }) {
+  const body = String(text || '').trim();
+  if (body) return body;
+  if (hasMedia && mediaKinds.includes('audio') &&
+      !mediaKinds.includes('image') && !mediaKinds.includes('video') && !mediaKinds.includes('file')) {
+    return 'Voice note';
+  }
+  return buildLastPreviewText({ text, hasMedia, mediaKinds });
 }
 
 function buildLastPreviewText({ text, hasMedia, mediaKinds }) {
@@ -610,7 +642,7 @@ router.get(
         phone ||
         `SMS #${t.id}`;
 
-      const previewText = buildLastPreviewText({
+      const previewText = buildSmsPreviewText({
         text: String(lastMsg?.body || ''),
         hasMedia: media.hasMedia,
         mediaKinds: media.mediaKinds,

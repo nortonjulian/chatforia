@@ -1,0 +1,25 @@
+/* Mantine/Radix puts one sizing wrapper inside the scroll viewport. */
+.sms-thread-viewport > div {
+  display: flex !important;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Auto margin consumes spare space; long threads still grow and scroll normally. */
+.sms-thread-messages {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+/* Use the actual loaded player to recognize opaque inbound audio URLs too.
+   Text + audio, images, videos and files retain their normal bubble treatment. */
+.sms-bubble[data-media-only="true"]:has(audio[data-sms-audio]):not(:has(img, video, a)) {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none;
+  box-shadow: none;
+}
+
+.sms-bubble[data-media-only="true"]:has(audio[data-sms-audio]):not(:has(img, video, a)) > div:last-child {
+  margin-top: 0 !important;
+}

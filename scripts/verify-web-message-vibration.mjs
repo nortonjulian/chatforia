@@ -8,7 +8,7 @@ const load = async (path) => import(`data:text/javascript;base64,${Buffer.from(a
 const { attachVisualAlerts } = await load('client/src/utils/visualAlerts.js');
 const { supportsMessageVibration, vibrateIncomingMessage } = await load('client/src/utils/messageVibration.js');
 
-function harness() {
+function harness(options = {}) {
   const clock = Date.parse('2026-10-19T18:00:00Z');
   const events = new Map(), pulses = [], banners = [];
   const doc = new EventTarget();
@@ -23,6 +23,7 @@ function harness() {
     document: doc, window: new EventTarget(), show: (banner) => banners.push(banner), hide() {},
     getEnabled: () => prefs.visual, getVibrationEnabled: () => prefs.vibration,
     vibrateMessage: () => vibrateIncomingMessage({ navigator: nav, document: doc }),
+    ...options,
   });
   const row = (extra = {}) => ({ id: 20, sender: { id: 8 }, createdAt: new Date(clock + 1).toISOString(), ...extra });
   return { prefs, pulses, banners, doc, nav, alerts, row, events,
@@ -126,4 +127,68 @@ test('actual mounted component uses current saved preference and rejects old-acc
   assert.equal(captured.getVibrationEnabled(), false);
   currentUser = { id: 8, a11yVibrate: true }; index = 0; context.render();
   assert.equal(captured.getVibrationEnabled(), false); cleanup();
+});
+
+// Production SMS envelope has no app-to-app sender metadata.
+const smsRow = (extra = {}) => ({ id: 20, threadId: 34, direction: 'in', body: '',
+  createdAt: '2026-10-19T18:00:00.001Z', mediaUrls: ['https://media.example/voice.m4a'], ...extra });
+test('incoming SMS/MMS vibrates once with Visual alerts OFF and aliases deduplicate', () => {
+  const h = harness(); const payload = {threadId: 34, message: smsRow()};
+  const before = JSON.stringify(payload);
+  h.emit('sms:message:new', payload); h.emit('sms_message_new', payload); h.emit('sms:message:new', payload);
+  assert.deepEqual(h.pulses, [150]); assert.equal(h.banners.length, 0);
+  assert.equal(JSON.stringify(payload), before);
+});
+test('fresh text-only SMS and string identifiers use the same short vibration', () => {
+  const h = harness(); h.emit('sms:message:new', {threadId: '34', message: smsRow({id:'21',threadId:'34',body:'hello',mediaUrls:[]})});
+  assert.deepEqual(h.pulses, [150]);
+});
+test('Visual alerts ON does not double SMS vibration or add an unrequested SMS banner', () => {
+  const h = harness(); h.prefs.visual = true;
+  h.emit('sms:message:new',{threadId:34,message:smsRow()});h.emit('sms_message_new',{threadId:34,message:smsRow()});
+  assert.deepEqual(h.pulses,[150]); assert.equal(h.banners.length,0);
+});
+test('SMS vibration OFF applies immediately and reenabling cannot replay an alias', () => {
+  const h = harness();h.prefs.vibration=false;h.emit('sms:message:new',{threadId:34,message:smsRow()});
+  h.prefs.vibration=true;h.emit('sms_message_new',{threadId:34,message:smsRow()});
+  assert.equal(h.pulses.length,0);h.emit('sms:message:new',{threadId:34,message:smsRow({id:21})});
+  assert.deepEqual(h.pulses,[150]);
+});
+for(const [label,extra] of [
+ ['own outgoing SMS',{direction:'out'}],['outbound SMS',{direction:'outbound-api'}],
+ ['missing direction',{direction:null}],['historical SMS',{createdAt:'2026-10-18T18:00:00Z'}],
+ ['missing timestamp',{createdAt:null}],['invalid message ID',{id:0}],['boolean message ID',{id:true}],
+ ['invalid thread',{threadId:0}],['conflicting thread',{threadId:35}],
+ ['edited SMS',{editedAt:'2026-10-19T18:01:00Z'}],['deleted SMS',{deletedAt:'2026-10-19T18:01:00Z'}],
+ ['expired SMS',{expiresAt:'2026-10-19T17:00:00Z'}],
+])test(`${label} cannot produce SMS vibration`,()=>{
+ const h=harness();h.emit('sms:message:new',{threadId:34,message:smsRow(extra)});assert.equal(h.pulses.length,0);
+});
+test('SMS and app-message IDs cannot suppress each other',()=>{
+ const h=harness();h.emit();h.emit('sms:message:new',{threadId:34,message:smsRow()});assert.deepEqual(h.pulses,[150,150]);
+});
+test('hidden SMS is not replayed on becoming visible',()=>{
+ const h=harness();h.doc.visibilityState='hidden';h.emit('sms:message:new',{threadId:34,message:smsRow()});
+ h.doc.visibilityState='visible';h.emit('sms_message_new',{threadId:34,message:smsRow()});assert.equal(h.pulses.length,0);
+});
+test('SMS without prior page interaction does not vibrate',()=>{
+ const h=harness();h.nav.userActivation.hasBeenActive=false;
+ h.emit('sms:message:new',{threadId:34,message:smsRow()});assert.equal(h.pulses.length,0);
+});
+test('SMS device refusal cannot interrupt socket delivery',()=>{
+ const h=harness();h.nav.vibrate=()=>{throw Error('refused');};
+ assert.doesNotThrow(()=>h.emit('sms:message:new',{threadId:34,message:smsRow()}));
+});
+test('SMS subscriptions are removed on cleanup and saved callbacks stay inactive',()=>{
+ const h=harness();const callback=[...h.events.get('sms:message:new')][0];h.alerts.dispose();
+ callback({threadId:34,message:smsRow()});h.emit('sms:message:new',{threadId:34,message:smsRow()});
+ assert.equal(h.pulses.length,0);assert.ok([...h.events.values()].every(set=>set.size===0));
+});
+
+test('incoming call aliases still flash once and matching end stops the flash',()=>{
+ let starts=0,stops=0;
+ const h=harness({getFlashEnabled:()=>true,startCallFlash:()=>{starts++;return()=>{stops++;};}});
+ h.emit('video:incoming',{callId:12,callerId:8});h.emit('call:incoming',{callId:12,callerId:8});
+ assert.equal(starts,1);assert.equal(stops,0);assert.equal(h.pulses.length,0);
+ h.emit('video:ended',{callId:12});assert.equal(stops,1);h.alerts.dispose();assert.equal(stops,1);
 });

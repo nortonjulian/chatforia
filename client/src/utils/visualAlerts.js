@@ -83,6 +83,32 @@ export function attachVisualAlerts({ socket, userId, getEnabled, show, hide,
       try { vibrateMessage(); } catch { /* Device refusal cannot break delivery. */ }
     }
   }
+  // SMS has direction/thread metadata instead of an app-message sender.
+  // Keep this vibration-only; existing banner and call behavior stays scoped.
+  function smsMessage(payload) {
+    if (disposed) return;
+    const row = payload?.message ?? payload;
+    const positiveID = value => {
+      if (typeof value !== 'number' &&
+          !(typeof value === 'string' && /^\d+$/.test(value))) return null;
+      const id = Number(value);
+      return Number.isSafeInteger(id) && id > 0 ? id : null;
+    };
+    const id = positiveID(row?.id);
+    const threadId = positiveID(payload?.threadId ?? row?.threadId);
+    const rowThreadId = row?.threadId == null ? threadId : positiveID(row.threadId);
+    const direction = String(row?.direction || '').trim().toLowerCase();
+    const createdAt = Date.parse(row?.createdAt);
+    if (!id || !threadId || rowThreadId !== threadId ||
+        !['in', 'inbound'].includes(direction) ||
+        !Number.isFinite(createdAt) || createdAt < startedAt ||
+        row.editedAt || row.deletedAt || row.deletedForAll ||
+        (row.expiresAt && Date.parse(row.expiresAt) <= now())) return;
+    // Separate namespace from app-message IDs; claim while OFF/hidden too.
+    if (claim(`vibrate-sms-${threadId}-${id}`) && getVibrationEnabled()) {
+      try { vibrateMessage(); } catch { /* Device refusal cannot break delivery. */ }
+    }
+  }
   function call(payload) {
     const id = payload?.callId;
     const callerId = Number(payload?.callerId ?? payload?.fromUser?.id);
@@ -107,6 +133,7 @@ export function attachVisualAlerts({ socket, userId, getEnabled, show, hide,
   function onFocus() { if (isForeground()) stopBlink(); }
   function on(event, handler) { socket.on(event, handler); listeners.push([event, handler]); }
   for (const event of ['message:upsert', 'message:new', 'receive:message']) on(event, message);
+  for (const event of ['sms:message:new', 'sms_message_new']) on(event, smsMessage);
   for (const event of ['call:incoming', 'video:incoming', 'call:participant-invite']) on(event, call);
   for (const event of ['call:ended', 'video:ended', 'call:answer']) on(event, endCall);
   win.addEventListener('focus', onFocus);

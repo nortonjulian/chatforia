@@ -45,6 +45,7 @@ import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 import { useSocket } from '@/context/SocketContext';
 import SmsMessageMedia from '@/components/sms/SmsMessageMedia';
 import { createSmsThreadLoader, subscribeSmsThread } from '@/utils/smsThreadLive';
+import './SmsLayout.css';
 
 // ✅ NEW: local SMS cache + UI
 import {
@@ -702,7 +703,7 @@ const showCallBanner = Boolean(
               },
             }}
           >
-            <Stack gap="xs" p="xs">
+            <Stack className="sms-thread-messages" gap="xs" p="xs">
               {(thread.messages || []).length ? (
                 (thread.messages || []).map((m, index, arr) => {
                   const isOut = isSmsOutgoing(m);
@@ -824,6 +825,7 @@ const showCallBanner = Boolean(
                               borderBottomLeftRadius: !isOut && shouldShowTail ? 6 : !isOut && sameAsNext ? 13 : 18,
                             }}
                             className="sms-bubble"
+                            data-media-only={!hasText && !isEditing ? "true" : undefined}
                           >
                             {!isEditing ? (
                               <>
