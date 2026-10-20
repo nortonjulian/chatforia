@@ -1,7 +1,8 @@
-/* The SMS message pane is the only scrolling region between the fixed header
-   and composer. Keep horizontal overflow impossible at the viewport boundary. */
+/* SMS uses a native scroller bounded by the thread layout. */
 .sms-thread-viewport {
   box-sizing: border-box;
+  min-width: 0;
+  overflow-x: hidden !important;
   max-width: 100%;
 }
 
