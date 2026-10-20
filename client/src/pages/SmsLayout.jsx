@@ -98,6 +98,7 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   const [loadedScope, setLoadedScope] = useState('');
   const [loadError, setLoadError] = useState('');
   const bottomRef = useRef(null);
+  const scrollViewportRef = useRef(null);
 
   const {
     startBrowserCall,
@@ -110,14 +111,24 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   } = useTwilioVoice();
 
   const scrollToBottom = useCallback(() => {
-    requestAnimationFrame(() => {
-      bottomRef.current?.scrollIntoView({ block: 'end' });
-    });
+    const scroll = () => {
+      const viewport = scrollViewportRef.current;
+      if (!viewport) return;
+      viewport.scrollTop = viewport.scrollHeight;
+    };
+
+    const frame = requestAnimationFrame(scroll);
+    const settleTimer = window.setTimeout(scroll, 250);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(settleTimer);
+    };
   }, []);
 
   useLayoutEffect(() => {
-    if (!thread) return;
-    scrollToBottom();
+    if (!thread) return undefined;
+    return scrollToBottom();
   }, [thread?.id, thread?.messages?.length, scrollToBottom]);
 
   // Thread display helpers
@@ -705,9 +716,11 @@ const showCallBanner = Boolean(
           }}
         >
           <ScrollArea
+            viewportRef={scrollViewportRef}
             style={{ flex: '1 1 auto', minHeight: 0, height: 0 }}
             viewportProps={{ className: 'sms-thread-viewport' }}
             type="auto"
+            scrollbars="y"
             styles={{
               viewport: { display: 'flex', flexDirection: 'column' },
               content: {
@@ -978,7 +991,7 @@ const showCallBanner = Boolean(
                 </Text>
               )}
 
-              <div ref={bottomRef} />
+              <div ref={bottomRef} style={{ height: 12, flexShrink: 0 }} />
             </Stack>
           </ScrollArea>
         </Box>
