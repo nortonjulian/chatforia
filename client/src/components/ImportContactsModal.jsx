@@ -70,7 +70,7 @@ function canUseContactsPicker() {
   );
 }
 
-export default function ImportContactsModal({ opened, onClose, defaultCountry = 'US' }) {
+export default function ImportContactsModal({ opened, onClose, onImported, defaultCountry = 'US' }) {
   const [rows, setRows] = useState([]);
   const [selected, setSelected] = useState(new Set());
   const [filter, setFilter] = useState('');
@@ -193,6 +193,7 @@ export default function ImportContactsModal({ opened, onClose, defaultCountry = 
       const result = await importContacts({ defaultCountry, contacts: selectedContacts });
       if (request !== generation.current) return;
       toast.ok(`Saved ${result.importedCount} phone contact${result.importedCount === 1 ? '' : 's'}.`);
+      onImported?.(result);
       onClose?.();
     } catch (error) {
       if (request === generation.current) setError(error?.response?.data?.error || error?.message || 'Import failed. Your selection is preserved. Please try again.');
