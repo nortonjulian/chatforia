@@ -657,9 +657,22 @@ export default function ChatroomsSidebar({
               <Group justify="space-between" wrap="nowrap" align="flex-start">
                 <Box style={{ minWidth: 0, flex: 1 }}>
                   <Group justify="space-between" wrap="nowrap" align="center">
-                    <Text fw={500} lineClamp={1} style={{ minWidth: 0 }}>
-                      {title}
-                    </Text>
+                    <Group gap={6} wrap="nowrap" style={{ minWidth: 0, flex: 1 }}>
+                      <Text fw={500} lineClamp={1} style={{ minWidth: 0 }}>
+                        {title}
+                      </Text>
+                      <Badge
+                        size="xs"
+                        variant="light"
+                        radius="sm"
+                        data-transport={c.kind}
+                        style={{ flexShrink: 0 }}
+                      >
+                        {c.kind === 'sms'
+                          ? t('conversation.transport.sms', 'SMS')
+                          : t('conversation.transport.chatforia', 'Chatforia')}
+                      </Badge>
+                    </Group>
 
                     <Group gap={8} wrap="nowrap" style={{ flexShrink: 0 }}>
                       {!!unread && (
