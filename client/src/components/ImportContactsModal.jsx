@@ -192,10 +192,10 @@ export default function ImportContactsModal({ opened, onClose, defaultCountry = 
     try {
       const result = await importContacts({ defaultCountry, contacts: selectedContacts });
       if (request !== generation.current) return;
-      toast.ok(`Imported: ${result.added} • Updated: ${result.updated} • Duplicates: ${result.skippedDuplicates} • Invalid: ${result.invalid}`);
+      toast.ok(`Saved ${result.importedCount} phone contact${result.importedCount === 1 ? '' : 's'}.`);
       onClose?.();
-    } catch {
-      if (request === generation.current) setError('Import failed. Your selection is preserved. Please try again.');
+    } catch (error) {
+      if (request === generation.current) setError(error?.response?.data?.error || error?.message || 'Import failed. Your selection is preserved. Please try again.');
     } finally {
       submitting.current = false;
       setLoading(false);
@@ -208,7 +208,7 @@ export default function ImportContactsModal({ opened, onClose, defaultCountry = 
       <Stack gap="md">
         <Text size="sm" c="dimmed">
           Preview a CSV or VCF file, then choose which contacts to import. Only selected contacts
-          will be uploaded. Phone numbers use your region ({defaultCountry}).
+          will be uploaded. Each phone number is saved as a phone contact. Email addresses are not imported; contacts without a phone number are skipped.
         </Text>
         {canUseContactsPicker() && (
           <Button variant="light" onClick={pickFromDevice} disabled={busy}>Choose device contacts</Button>
