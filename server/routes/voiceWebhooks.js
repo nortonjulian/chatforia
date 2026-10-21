@@ -21,6 +21,21 @@ router.use(express.urlencoded({ extended: false }));
 
 const voiceLimiter = rateLimit({ windowMs: 60 * 1000, max: 120 });
 
+// Inbound PSTN rows store the recipient in callerId. Notify that account
+// after its app ringing leg ends; the external caller may continue to voicemail.
+async function finishInboundAppLeg(userId, callId, mutation) {
+  const result = await prisma.call.updateMany(mutation);
+  if (result?.count === 1) {
+    emitToUser(userId, 'call:ended', {
+      callId,
+      status: mutation.data.status,
+      reason: mutation.data.endReason,
+      endedAt: mutation.data.endedAt,
+      forwarded: false,
+    });
+  }
+}
+
 function inQuietHours(start, end, now = new Date()) {
   if (start == null || end == null) return false;
   const h = now.getHours();
@@ -268,7 +283,7 @@ router.post('/inbound-app-complete', async (req, res) => {
             ? Math.round(rawDuration)
             : 0;
 
-        await prisma.call.updateMany({
+        await finishInboundAppLeg(userId, relatedCallId, {
           where: {
             id: relatedCallId,
             callerId: userId,
@@ -309,7 +324,7 @@ router.post('/inbound-app-complete', async (req, res) => {
         Number.isInteger(userId) &&
         userId > 0
       ) {
-        await prisma.call.updateMany({
+        await finishInboundAppLeg(userId, relatedCallId, {
           where: {
             id: relatedCallId,
             callerId: userId,
@@ -416,7 +431,7 @@ router.post('/inbound-app-complete', async (req, res) => {
       Number.isInteger(userId) &&
       userId > 0
     ) {
-      await prisma.call.updateMany({
+      await finishInboundAppLeg(userId, relatedCallId, {
         where: {
           id: relatedCallId,
           callerId: userId,
