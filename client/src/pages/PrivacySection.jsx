@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Switch, Group, Text } from '@mantine/core';
+import { Switch } from '@mantine/core';
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
 import { useTranslation } from 'react-i18next';
@@ -38,25 +38,17 @@ export default function PrivacySection() {
   };
 
   return (
-    <Group justify="space-between" mt="md" align="flex-start">
-      <div style={{ maxWidth: 720 }}>
-        <Text fw={600}>
-          {t('privacySection.strictE2EE', 'Strict end-to-end encryption')}
-        </Text>
-        <Text c="dimmed" size="sm">
-          {t(
-            'privacySection.ciphertextOnlyNote',
-            'Store only ciphertext on the server. Disables AI/Translate and moderation previews.'
-          )}
-        </Text>
-      </div>
-
-      <Switch
-        checked={strict}
-        onChange={(e) => onToggle(e.currentTarget.checked)}
-        disabled={!currentUser || saving}
-        aria-label={t('privacySection.strictE2EE', 'Strict end-to-end encryption')}
-      />
-    </Group>
+    <Switch
+      mt="md"
+      checked={strict}
+      onChange={(e) => onToggle(e.currentTarget.checked)}
+      disabled={!currentUser || saving}
+      label={t('privacySection.strictE2EE', 'Strict end-to-end encryption')}
+      description={t(
+        'privacySection.ciphertextOnlyNote',
+        'Store only ciphertext on the server. Disables AI/Translate and moderation previews.'
+      )}
+      styles={{ label: { fontWeight: 600 } }}
+    />
   );
 }

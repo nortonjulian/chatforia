@@ -195,6 +195,15 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     currentUser?.privacyHoldToReveal ?? false
   );
   const [notifyOnCopy, setNotifyOnCopy] = useState(currentUser?.notifyOnCopy ?? false);
+  const [discoverability, setDiscoverability] = useState(
+    currentUser?.discoverability ?? null
+  );
+
+  // Follow the loaded account value, including account changes. An unknown
+  // value stays unset instead of silently making a private account public.
+  useEffect(() => {
+    setDiscoverability(currentUser?.discoverability ?? null);
+  }, [currentUser?.id, currentUser?.discoverability]);
 
   // 🔢 Age + Random Chat
   const [ageBand, setAgeBand] = useState(currentUser?.ageBand || null);
@@ -432,6 +441,8 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         privacyBlurOnUnfocus,
         privacyHoldToReveal,
         notifyOnCopy,
+        // Do not overwrite an account preference before it has loaded.
+        ...(discoverability ? { discoverability } : {}),
         // Age + Random Chat
         ageBand,
         wantsAgeFilter,
@@ -1267,6 +1278,37 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           </Accordion.Control>
           <Accordion.Panel>
             <Stack gap="sm">
+              <Select
+                label={t('profile.discoverabilityLabel', 'Who can find me')}
+                description={t(
+                  'profile.discoverabilityDescription',
+                  'Controls who can find you by username in Chatforia search.'
+                )}
+                placeholder={t(
+                  'profile.discoverabilityPlaceholder',
+                  'Choose who can find you'
+                )}
+                value={discoverability}
+                onChange={setDiscoverability}
+                allowDeselect={false}
+                clearable={false}
+                disabled={!currentUser}
+                data={[
+                  {
+                    value: 'EVERYONE',
+                    label: t('profile.discoverabilityEveryone', 'Everyone'),
+                  },
+                  {
+                    value: 'CONTACTS_ONLY',
+                    label: t('profile.discoverabilityContactsOnly', 'Contacts only'),
+                  },
+                  {
+                    value: 'NO_ONE',
+                    label: t('profile.discoverabilityNoOne', 'No one'),
+                  },
+                ]}
+              />
+
               <PrivacySection />
 
               <Switch
