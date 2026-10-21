@@ -5,6 +5,8 @@ import { useUser } from '@/context/UserContext';
 import axiosClient from '@/api/axiosClient';
 import { useTranslation } from 'react-i18next';
 
+import { voicemailLinkTarget, pendingVoicemailReturn } from '@/utils/voicemailLink.js';
+
 const LOGIN_FLAG_KEY = 'chatforiaHasLoggedIn';
 
 export default function OAuthComplete() {
@@ -18,7 +20,7 @@ export default function OAuthComplete() {
     alive.current = true;
 
     (async () => {
-      const next = searchParams.get('next') || '/';
+      const next = voicemailLinkTarget(searchParams.get('next')) || pendingVoicemailReturn() || searchParams.get('next') || '/';
 
       const safeFinish = async (userObj) => {
         if (!alive.current) return;

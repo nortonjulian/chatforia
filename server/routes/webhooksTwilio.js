@@ -581,6 +581,7 @@ r.post(
 
       if (forwardEmail) {
         void sendVoicemailForwardEmail({
+          voicemailId: voicemail.id,
           toEmail: forwardEmail,
           fromNumber: voicemail.fromNumber,
           fromDisplayName,

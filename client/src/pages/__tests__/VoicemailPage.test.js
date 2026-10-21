@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import VoicemailPage from '../VoicemailPage.jsx';
 
 // Mock i18next
@@ -19,7 +20,7 @@ jest.mock('../../components/voicemail/VoicemailList.jsx', () => ({
 
 describe('VoicemailPage', () => {
   test('renders page title and voicemail list', () => {
-    render(<VoicemailPage />);
+    render(<MemoryRouter><VoicemailPage /></MemoryRouter>);
 
     // Header title uses the translation key
     expect(screen.getByText('voicemail.pageTitle')).toBeInTheDocument();

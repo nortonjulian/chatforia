@@ -2,17 +2,18 @@ const { render, screen, fireEvent, waitFor } = require('@testing-library/react')
 const React = require('react');
 
 // ---- Mock i18next ----
-jest.mock('react-i18next', () => ({
-  __esModule: true,
-  useTranslation: () => ({
-    t: (key, opts) => {
-      if (opts && typeof opts.count !== 'undefined') {
-        return `${key}(${opts.count})`;
-      }
-      return key;
-    },
-  }),
-}));
+jest.mock('react-i18next', () => {
+  const t = (key, opts) => {
+    if (opts && typeof opts.count !== 'undefined') {
+      return `${key}(${opts.count})`;
+    }
+    return key;
+  };
+  return {
+    __esModule: true,
+    useTranslation: () => ({ t }),
+  };
+});
 
 // ---- Mock API layer (for interactions that call setVoicemailRead/deleteVoicemail) ----
 const mockFetchVoicemails = jest.fn();
@@ -202,5 +203,29 @@ describe('VoicemailList (with injected initial state)', () => {
     expect(mockDeleteVoicemail).not.toHaveBeenCalled();
     // Still present
     expect(screen.getByText('+15550001')).toBeInTheDocument();
+  });
+});
+
+
+describe('voicemail email destination', () => {
+  const rows = [
+    { id: 'newest', fromNumber: '+15550001', isRead: true },
+    { id: 'linked', fromNumber: '+15550002', isRead: true },
+  ];
+  test('opens the linked recording rather than the newest recording', () => {
+    render(<VoicemailList requestedId="linked" initialVoicemails={rows} />);
+    expect(screen.getByTestId('voicemail-player')).toHaveTextContent('Player for linked');
+  });
+  test('missing or foreign recording never falls back to playing another recording', () => {
+    render(<VoicemailList requestedId="foreign" initialVoicemails={rows} />);
+    expect(screen.queryByTestId('voicemail-player')).toBeNull();
+    expect(screen.getByRole('status')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('+15550002'));
+    expect(screen.getByTestId('voicemail-player')).toHaveTextContent('Player for linked');
+  });
+  test('authenticated history resolves the linked recording after fetching', async () => {
+    mockFetchVoicemails.mockResolvedValueOnce({ voicemails: rows });
+    render(<VoicemailList requestedId="linked" />);
+    await waitFor(() => expect(screen.getByTestId('voicemail-player')).toHaveTextContent('Player for linked'));
   });
 });
