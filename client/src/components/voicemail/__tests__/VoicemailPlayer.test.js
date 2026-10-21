@@ -1,4 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { fetchVoicemailAudio } from '@/api/voicemailApi.js';
+jest.mock('@/api/voicemailApi.js', () => ({ fetchVoicemailAudio: jest.fn() }));
+beforeEach(() => {
+  jest.clearAllMocks();
+  URL.createObjectURL = jest.fn(() => 'blob:authorized-audio');
+  URL.revokeObjectURL = jest.fn();
+  fetchVoicemailAudio.mockResolvedValue(new Blob(['audio'], { type: 'audio/mpeg' }));
+});
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import VoicemailPlayer from '../VoicemailPlayer.jsx';
 
 // Mock i18next translations so we get stable strings
@@ -20,8 +28,9 @@ describe('VoicemailPlayer', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  test('renders basic info and audio player', () => {
+  test('renders basic info and audio player', async () => {
     const voicemail = {
+      id: 'vm-owner-1',
       fromNumber: '+15551234567',
       toNumber: '+15557654321',
       audioUrl: 'https://example.com/vm.mp3',
@@ -50,7 +59,9 @@ describe('VoicemailPlayer', () => {
     const audio = screen.getByLabelText('voicemail.audioAria');
     expect(audio).toBeInTheDocument();
     expect(audio.tagName.toLowerCase()).toBe('audio');
-    expect(audio).toHaveAttribute('src', voicemail.audioUrl);
+    await waitFor(() => expect(audio).toHaveAttribute('src', 'blob:authorized-audio'));
+    expect(fetchVoicemailAudio).toHaveBeenCalledWith('vm-owner-1', expect.anything());
+    expect(audio).not.toHaveAttribute('src', voicemail.audioUrl);
   });
 
   test('uses unknown/yourNumber fallbacks when numbers are missing', () => {
@@ -74,6 +85,7 @@ describe('VoicemailPlayer', () => {
 
   test('shows transcript when status is COMPLETE and transcript has content', () => {
     const voicemail = {
+      id: 'vm-owner-1',
       fromNumber: '+15551234567',
       toNumber: '+15557654321',
       audioUrl: 'https://example.com/vm.mp3',
@@ -96,6 +108,7 @@ describe('VoicemailPlayer', () => {
 
   test('shows pending message when transcriptStatus is PENDING', () => {
     const voicemail = {
+      id: 'vm-owner-1',
       fromNumber: '+15551234567',
       toNumber: '+15557654321',
       audioUrl: 'https://example.com/vm.mp3',
@@ -114,6 +127,7 @@ describe('VoicemailPlayer', () => {
 
   test('shows failed message when transcriptStatus is FAILED', () => {
     const voicemail = {
+      id: 'vm-owner-1',
       fromNumber: '+15551234567',
       toNumber: '+15557654321',
       audioUrl: 'https://example.com/vm.mp3',
@@ -129,4 +143,24 @@ describe('VoicemailPlayer', () => {
       screen.getByText('voicemail.transcriptFailed')
     ).toBeInTheDocument();
   });
+});
+
+test('failed audio remains visible and explicit retry recovers', async () => {
+  fetchVoicemailAudio.mockRejectedValueOnce(new Error('offline'));
+  render(<VoicemailPlayer voicemail={{id:'vm-retry'}} />);
+  expect(await screen.findByRole('alert')).toHaveTextContent('Unable to load');
+  fireEvent.click(screen.getByRole('button', {name:'Retry audio'}));
+  await waitFor(() => expect(screen.getByLabelText('voicemail.audioAria')).toHaveAttribute('src','blob:authorized-audio'));
+});
+test('switching messages rejects stale media and releases the previous URL', async () => {
+  let resolveOld;
+  fetchVoicemailAudio.mockImplementationOnce(() => new Promise(resolve => { resolveOld=resolve; }));
+  const view=render(<VoicemailPlayer voicemail={{id:'old'}} />);
+  view.rerender(<VoicemailPlayer voicemail={{id:'new'}} />);
+  await waitFor(() => expect(URL.createObjectURL).toHaveBeenCalledTimes(1));
+  resolveOld(new Blob(['old'],{type:'audio/mpeg'}));
+  await waitFor(() => expect(fetchVoicemailAudio).toHaveBeenCalledTimes(2));
+  expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
+  view.unmount();
+  expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:authorized-audio');
 });
