@@ -18,6 +18,7 @@ import { scanFile } from '../utils/antivirus.js';
 import { serializeUser } from '../utils/serializeUser.js';
 import { canForwardVoicemailEmail, isValidVoicemailEmail } from '../utils/voicemailForwarding.js';
 import { hasPremiumAccess } from '../utils/planAccess.js';
+import { canonicalCatalogValue } from '../utils/canonicalCatalogValue.js';
 
 const router = express.Router();
 
@@ -413,18 +414,16 @@ router.patch('/me', requireAuth, async (req, res) => {
 
     // Message tone
     if (typeof messageTone === 'string') {
-      const val = messageTone.trim();
-
-      const all = new Set([
+      const canonical = canonicalCatalogValue(messageTone, [
         ...premiumConfig.tones.freeMessageTones,
         ...premiumConfig.tones.premiumMessageTones,
       ]);
 
-      if (!all.has(val)) {
+      if (!canonical) {
         return res.status(400).json({ error: 'Invalid messageTone' });
       }
 
-      if (premiumConfig.tones.premiumMessageTones.includes(val)) {
+      if (premiumConfig.tones.premiumMessageTones.includes(canonical)) {
         const me = await prisma.user.findUnique({
           where: { id: req.user.id },
           select: { plan: true, role: true, subscriptionStatus: true, subscriptionEndsAt: true },
@@ -439,23 +438,21 @@ router.patch('/me', requireAuth, async (req, res) => {
         }
       }
 
-      data.messageTone = val;
+      data.messageTone = canonical;
     }
 
     // Ringtone
     if (typeof ringtone === 'string') {
-      const val = ringtone.trim();
-
-      const all = new Set([
+      const canonical = canonicalCatalogValue(ringtone, [
         ...premiumConfig.tones.freeRingtones,
         ...premiumConfig.tones.premiumRingtones,
       ]);
 
-      if (!all.has(val)) {
+      if (!canonical) {
         return res.status(400).json({ error: 'Invalid ringtone' });
       }
 
-      if (premiumConfig.tones.premiumRingtones.includes(val)) {
+      if (premiumConfig.tones.premiumRingtones.includes(canonical)) {
         const me = await prisma.user.findUnique({
           where: { id: req.user.id },
           select: { plan: true, role: true, subscriptionStatus: true, subscriptionEndsAt: true },
@@ -470,7 +467,7 @@ router.patch('/me', requireAuth, async (req, res) => {
         }
       }
 
-      data.ringtone = val;
+      data.ringtone = canonical;
     }
 
     if (soundVolume !== undefined) {
