@@ -25,6 +25,8 @@ export async function sendVoicemailForwardEmail({
       .replace(/[\r\n]+/g, ' ')
       .trim() || 'Unknown caller';
 
+  // Open the authenticated inbox; never send a provider recording URL.
+  const listenUrl = 'https://www.chatforia.com/voicemail';
   const subject = `New voicemail from ${callerLabel}`;
   const created = createdAt ? new Date(createdAt) : new Date();
 
@@ -45,7 +47,7 @@ export async function sendVoicemailForwardEmail({
   }
 
   if (audioUrl) {
-    plainLines.push('', `Audio: ${audioUrl}`);
+    plainLines.push('', `Listen to voicemail: ${listenUrl}`, 'Sign in to the Chatforia account that received this voicemail.');
   }
 
   const text = plainLines.join('\n');
@@ -71,7 +73,7 @@ export async function sendVoicemailForwardEmail({
     }
     ${
       audioUrl
-        ? `<p><a href="${audioUrl}" target="_blank" rel="noopener noreferrer">Listen to voicemail</a></p>`
+        ? `<p><a href="${listenUrl}" target="_blank" rel="noopener noreferrer">Listen to voicemail</a></p><p>Sign in to the Chatforia account that received this voicemail.</p>`
         : ''
     }
   `;

@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { fetchVoicemailAudio } from '@/api/voicemailApi.js';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -7,12 +9,37 @@ import { useTranslation } from 'react-i18next';
 export default function VoicemailPlayer({ voicemail }) {
   const { t } = useTranslation();
 
+  const id = voicemail?.id;
+  const [audio, setAudio] = useState(null);
+  const [audioError, setAudioError] = useState('');
+  const [attempt, setAttempt] = useState(0);
+  useEffect(() => {
+    const controller = new AbortController();
+    let live = true;
+    let objectUrl;
+    setAudio(null);
+    setAudioError('');
+    if (id) {
+      fetchVoicemailAudio(id, controller.signal).then(blob => {
+        if (!live) return;
+        objectUrl = URL.createObjectURL(blob);
+        setAudio({ id, url: objectUrl });
+      }).catch(() => {
+        if (live) setAudioError('Unable to load voicemail audio. Please try again.');
+      });
+    }
+    return () => {
+      live = false;
+      controller.abort();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [id, attempt]);
+
   if (!voicemail) return null;
 
   const {
     fromNumber,
     toNumber,
-    audioUrl,
     durationSec,
     createdAt,
     transcript,
@@ -50,10 +77,17 @@ export default function VoicemailPlayer({ voicemail }) {
       {/* Audio player */}
       <audio
         controls
-        src={audioUrl}
+        src={audio && audio.id === id ? audio.url : undefined}
+        key={id}
+        preload="metadata"
         className="w-full rounded border border-gray-200"
         aria-label={t('voicemail.audioAria')}
       />
+
+      {audioError && <div role="alert">
+        {audioError}{' '}
+        <button type="button" onClick={() => setAttempt(n => n + 1)}>Retry audio</button>
+      </div>}
 
       {/* Transcript section */}
       {transcriptStatus === 'COMPLETE' && transcript && transcript.trim() && (

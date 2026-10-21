@@ -11,12 +11,12 @@ const logger = {
   error: jest.fn(),
 };
 
-await jest.unstable_mockModule('../utils/sendMail.js', () => ({
+await jest.unstable_mockModule(new URL('../../utils/sendMail.js', import.meta.url).pathname, () => ({
   __esModule: true,
   sendMail,
 }));
 
-await jest.unstable_mockModule('../utils/logger.js', () => ({
+await jest.unstable_mockModule(new URL('../../utils/logger.js', import.meta.url).pathname, () => ({
   __esModule: true,
   default: logger,
 }));
@@ -73,12 +73,14 @@ describe('sendVoicemailForwardEmail', () => {
     expect(callArg.text).toContain('Duration: 42s');
     expect(callArg.text).toContain('Transcript:');
     expect(callArg.text).toContain('Hello <b>world</b>');
-    expect(callArg.text).toContain('https://example.com/vm.mp3');
+    expect(callArg.text).toContain('https://www.chatforia.com/voicemail');
+    expect(callArg.text).not.toContain('https://example.com/vm.mp3');
 
     expect(callArg.html).toContain('<strong>Transcript:</strong>');
     expect(callArg.html).toContain('&lt;b&gt;world&lt;/b&gt;');
     expect(callArg.html).not.toContain('<b>world</b>');
-    expect(callArg.html).toContain('https://example.com/vm.mp3');
+    expect(callArg.html).toContain('https://www.chatforia.com/voicemail');
+    expect(callArg.html).not.toContain('https://example.com/vm.mp3');
     expect(callArg.html).toContain('Listen to voicemail');
 
     expect(logger.info).toHaveBeenCalledWith(

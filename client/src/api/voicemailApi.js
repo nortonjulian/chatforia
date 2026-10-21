@@ -1,3 +1,16 @@
+import axiosClient from './axiosClient';
+
+/** Fetch only the signed-in owner's recording through the existing proxy. */
+export async function fetchVoicemailAudio(id, signal) {
+  if (typeof id !== 'string' || !id.trim()) throw new Error('Missing voicemail identity');
+  const { data } = await axiosClient.get(`/voicemail/${encodeURIComponent(id)}/audio`, {
+    responseType: 'blob', signal,
+  });
+  if (!(data instanceof Blob) || data.size === 0 ||
+      !/^audio\//i.test(data.type)) throw new Error('Voicemail audio is unavailable');
+  return data;
+}
+
 /**
  * Fetch the current user's voicemails.
  * Returns: { voicemails: Voicemail[] }
