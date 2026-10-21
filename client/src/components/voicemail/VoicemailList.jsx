@@ -18,6 +18,7 @@ import socket from '@/lib/socket';
  *   and skips the auto-fetch as well.
  */
 export default function VoicemailList({
+  requestedId = null,
   initialVoicemails = null,
   initialError = '',
 }) {
@@ -25,7 +26,7 @@ export default function VoicemailList({
 
   const [voicemails, setVoicemails] = useState(initialVoicemails ?? []);
   const [activeId, setActiveId] = useState(
-    initialVoicemails && initialVoicemails.length ? initialVoicemails[0].id : null,
+    requestedId || (initialVoicemails && initialVoicemails.length ? initialVoicemails[0].id : null),
   );
   const [loading, setLoading] = useState(
     initialVoicemails == null && !initialError,
@@ -45,7 +46,7 @@ export default function VoicemailList({
         if (!isMounted) return;
         const list = data?.voicemails ?? [];
         setVoicemails(list);
-        if (list.length && !activeId) {
+        if (list.length && !activeId && !requestedId) {
           setActiveId(list[0].id);
         }
       } catch (err) {
@@ -163,7 +164,7 @@ export default function VoicemailList({
   }
 
   const activeVoicemail =
-    voicemails.find((v) => v.id === activeId) || voicemails[0];
+    voicemails.find((v) => v.id === activeId) || (!requestedId ? voicemails[0] : null);
 
   return (
     <div className="flex h-full">
@@ -216,6 +217,9 @@ export default function VoicemailList({
 
       {/* Right: active voicemail details */}
       <div className="flex-1 p-4 flex flex-col gap-3">
+        {!activeVoicemail && requestedId && (
+          <p role="status">{t('voicemail.linkUnavailable', 'This voicemail is unavailable. Sign in to the account that received it, or choose another voicemail.')}</p>
+        )}
         {activeVoicemail && (
           <>
             <VoicemailPlayer voicemail={activeVoicemail} />

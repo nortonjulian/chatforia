@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 
 import { API_BASE_URL } from '@/config';
 import posthog from '@/utils/analytics';
+import { voicemailLinkTarget, pendingVoicemailReturn, rememberVoicemailReturn } from '@/utils/voicemailLink.js';
 
 
 /* ---------------- env + helpers ---------------- */
@@ -63,7 +64,8 @@ async function getCsrfToken() {
 
 // Begin an OAuth flow on the API, with a clean return to the app
 function startOAuth(provider) {
-  const next = `${window.location.origin}/auth/complete`;
+  const target = rememberVoicemailReturn(window.location.pathname + window.location.search) || pendingVoicemailReturn();
+  const next = `${window.location.origin}/auth/complete${target ? `?next=${encodeURIComponent(target)}` : ''}`;
   window.location.assign(
     absoluteApi(`${oauthBase}/${provider}?next=${encodeURIComponent(next)}`)
   );
@@ -162,6 +164,7 @@ export default function LoginForm({ onLoginSuccess }) {
     }
 
     // NOTE: backend expects `{ username, password }` — keep that but allow frontend to accept email/phone.
+    const destination = voicemailLinkTarget(window.location.pathname + window.location.search) || pendingVoicemailReturn() || '/';
     const payload = { identifier: idValue, password: pwd };
 
     try {
@@ -212,7 +215,7 @@ export default function LoginForm({ onLoginSuccess }) {
         plan: user.plan || 'FREE',
       });
 
-      navigate('/');
+      navigate(destination);
     } catch (err) {
       const status = err?.response?.status;
       const data = err?.response?.data || {};

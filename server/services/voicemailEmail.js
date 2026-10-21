@@ -2,6 +2,7 @@ import logger from '../utils/logger.js';
 import { sendMail } from '../utils/sendMail.js';
 
 export async function sendVoicemailForwardEmail({
+  voicemailId,
   toEmail,
   fromNumber,
   fromDisplayName,
@@ -26,7 +27,8 @@ export async function sendVoicemailForwardEmail({
       .trim() || 'Unknown caller';
 
   // Open the authenticated inbox; never send a provider recording URL.
-  const listenUrl = 'https://www.chatforia.com/voicemail';
+  const safeId = typeof voicemailId === 'string' && /^[A-Za-z0-9_-]{1,128}$/.test(voicemailId) ? voicemailId : null;
+  const listenUrl = `https://www.chatforia.com/voicemail${safeId ? `?id=${encodeURIComponent(safeId)}` : ''}`;
   const subject = `New voicemail from ${callerLabel}`;
   const created = createdAt ? new Date(createdAt) : new Date();
 

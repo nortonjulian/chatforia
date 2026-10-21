@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { Routes, Route, Navigate, Outlet, Link, useParams, useMatch } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, Link, useParams, useMatch, useLocation } from 'react-router-dom';
 import {
   AppShell,
   Burger,
@@ -121,6 +121,16 @@ import Video from '@/components/routes/Video.jsx';
 
 // ✅ eSIM activation page
 import EsimActivatePage from '@/pages/EsimActivatePage.jsx';
+
+import { pendingVoicemailReturn, rememberVoicemailReturn } from '@/utils/voicemailLink.js';
+
+function VoicemailSignIn() {
+  const location = useLocation();
+  useEffect(() => {
+    rememberVoicemailReturn(location.pathname + location.search);
+  }, [location.pathname, location.search]);
+  return <LoginForm />;
+}
 
 const NAV_W = 300;
 const ASIDE_W = 280;
@@ -357,6 +367,7 @@ function AuthedLayout() {
 }
 
 export default function AppRoutes() {
+  const location = useLocation();
  const {
     currentUser,
     authLoading,
@@ -373,6 +384,11 @@ export default function AppRoutes() {
 
   if (currentUser && pairingPending) {
     return <Navigate to="/pair-browser" replace />;
+  }
+
+  const voicemailReturn = pendingVoicemailReturn();
+  if (currentUser && voicemailReturn && ['/', '/auth/complete'].includes(location.pathname)) {
+    return <Navigate to={voicemailReturn} replace />;
   }
 
   if (!currentUser) {
@@ -402,6 +418,7 @@ export default function AppRoutes() {
         {/* Auth + marketing layout */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
+          <Route path="/voicemail" element={<VoicemailSignIn />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/verify-phone-consent" element={<VerifyPhoneConsentPage />} />
