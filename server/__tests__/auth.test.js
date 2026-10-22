@@ -37,7 +37,7 @@ describe('Auth flows', () => {
       .send({ token: fp.body.token, newPassword: 'AnotherPass!9' }).expect(400);
   });
 
-  it('returns accessibility preferences from GET /auth/me', async () => {
+  it('returns accessibility and discoverability preferences from GET /auth/me', async () => {
     const registered = await agent.post('/auth/register')
       .send({ email, username, password }).expect(201);
     const id = registered.body.user.id;
@@ -59,9 +59,14 @@ describe('Auth flows', () => {
       .send({ email, password })
       .expect(200);
 
+    const saved = await agent.patch('/users/me')
+      .send({ discoverability: 'NO_ONE' }).expect(200);
+    expect(saved.body.discoverability).toBe('NO_ONE');
+
     const me = await agent.get('/auth/me').expect(200);
 
     expect(me.body.user).toMatchObject({
+      discoverability: 'NO_ONE',
       a11yUiFont: 'lg',
       a11yVisualAlerts: true,
       a11yLiveCaptions: false,
