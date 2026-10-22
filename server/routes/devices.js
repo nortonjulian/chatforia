@@ -1,4 +1,8 @@
 import express from 'express';
+import bcrypt from 'bcrypt';
+import speakeasy from 'speakeasy';
+import rateLimit from 'express-rate-limit';
+import { open as openMfaSecret } from '../utils/secretBox.js';
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
 import { sendPushToUser } from '../services/pushService.js';
@@ -117,6 +121,120 @@ const deviceSelect = {
   updatedAt: true,
   revokedAt: true,
 };
+
+// A revoked device ID is NEVER unrevoked. Account reauthentication allows
+// a new installation identity to enroll without deleting account E2EE keys.
+// The recovery endpoint uses its own strict rate limit (including MFA).
+const deviceRecoveryLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+});
+
+router.post('/recovery', requireAuth, deviceRecoveryLimiter, async (req, res, next) => {
+  try {
+    res.set('Cache-Control', 'no-store');
+    const userId = Number(req.user.id);
+    const oldDeviceId = normalizeString(req.body?.oldDeviceId, 191);
+    const newDeviceId = normalizeString(req.body?.newDeviceId, 191);
+    const publicKey = normalizeString(req.body?.publicKey, 4096);
+    const password = req.body?.password;
+    const mfaCode = req.body?.mfaCode;
+
+    const validUuid = (value) => typeof value === 'string' &&
+      /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(value);
+    // Validate curve25519 public-key size, not just that it is a string.
+    const keyBytes = typeof publicKey === 'string'
+      ? Buffer.from(publicKey, 'base64') : Buffer.alloc(0);
+    if (!validUuid(oldDeviceId) || !validUuid(newDeviceId) ||
+        oldDeviceId === newDeviceId || keyBytes.length !== 32 ||
+        typeof password !== 'string' || password.length < 1 || password.length > 512) {
+      return res.status(400).json({ code: 'INVALID_RECOVERY_REQUEST', error: 'Invalid recovery request' });
+    }
+
+    const account = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { passwordHash: true, twoFactorEnabled: true, totpSecretEnc: true,
+        isBanned: true, deletedAt: true },
+    });
+    if (!account || account.isBanned || account.deletedAt ||
+        !account.passwordHash || account.passwordHash === 'oauth') {
+      return res.status(403).json({ code: 'RECOVERY_UNAVAILABLE', error: 'Password recovery is unavailable for this account' });
+    }
+    const passwordValid = await bcrypt.compare(password, account.passwordHash);
+    if (!passwordValid) {
+      return res.status(401).json({ code: 'INVALID_RECOVERY_CREDENTIALS', error: 'Invalid recovery credentials' });
+    }
+    if (account.twoFactorEnabled) {
+      if (typeof mfaCode !== 'string' || !/^\d{6}$/.test(mfaCode.trim()) || !account.totpSecretEnc) {
+        return res.status(403).json({ code: 'MFA_REQUIRED', error: 'Enter your authenticator code' });
+      }
+      let validMfa = false;
+      try {
+        validMfa = speakeasy.totp.verify({
+          secret: openMfaSecret(account.totpSecretEnc),
+          encoding: 'base32', token: mfaCode.trim(), window: 1,
+        });
+      } catch { /* Fail closed */ }
+      if (!validMfa) {
+        return res.status(401).json({ code: 'INVALID_RECOVERY_CREDENTIALS', error: 'Invalid recovery credentials' });
+      }
+    }
+
+    const result = await prisma.$transaction(async (tx) => {
+      // Serialize device-limit decisions and new registrations for this account.
+      await tx.$queryRaw`SELECT id FROM "User" WHERE id = ${userId} FOR UPDATE`;
+      const user = await tx.user.findUnique({
+        where: { id: userId }, select: { plan: true, isBanned: true, deletedAt: true },
+      });
+      if (!user || user.isBanned || user.deletedAt) {
+        return { status: 403, body: { code: 'RECOVERY_UNAVAILABLE' } };
+      }
+      const previous = await tx.device.findUnique({
+        where: { userId_deviceId: { userId, deviceId: oldDeviceId } },
+        select: { revokedAt: true },
+      });
+      if (!previous?.revokedAt) {
+        return { status: 409, body: { code: 'RECOVERY_SOURCE_NOT_REVOKED',
+          error: 'This device is not eligible for revoked-device recovery' } };
+      }
+      const existing = await tx.device.findUnique({
+        where: { userId_deviceId: { userId, deviceId: newDeviceId } },
+      });
+      if (existing?.revokedAt || (existing && existing.publicKey !== publicKey)) {
+        return { status: 409, body: { code: 'RECOVERY_IDENTITY_CONFLICT',
+          error: 'The replacement device identity is unavailable' } };
+      }
+      // Idempotence when the server saved the new identity but the app was
+      // interrupted before committing the staged local identity.
+      if (existing) return { device: existing };
+
+      const active = await tx.device.findMany({
+        where: { userId, revokedAt: null },
+        select: { deviceId: true, name: true, platform: true,
+          createdAt: true, lastSeenAt: true },
+      });
+      if (active.length >= getDeviceLimitForPlan(user.plan)) {
+        return { status: 409, body: {
+          code: 'DEVICE_REPLACEMENT_REQUIRED',
+          error: 'Device limit reached. Remove a trusted device before recovering this installation.',
+          existingDevices: active,
+        } };
+      }
+      const device = await tx.device.create({
+        data: { userId, deviceId: newDeviceId, name: 'Android (Recovered)',
+          platform: 'Android', publicKey, keyAlgorithm: 'curve25519',
+          keyVersion: 1, pairingStatus: 'approved',
+          pairingApprovedAt: new Date(), lastSeenAt: new Date() },
+        select: deviceSelect,
+      });
+      return { device };
+    });
+    if (result.status) return res.status(result.status).json(result.body);
+    return res.status(200).json({ ok: true, device: result.device });
+  } catch (error) { next(error); }
+});
 
 router.post('/register', requireAuth, async (req, res, next) => {
   try {
