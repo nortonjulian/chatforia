@@ -1226,6 +1226,8 @@ router.get(
       id: safeUser.id,
       email: safeUser.email,
       username: safeUser.username,
+      // Match PATCH /users/me and serializeUser so native clients can reload privacy.
+      discoverability: safeUser.discoverability ?? 'EVERYONE',
       publicKey: safeUser.publicKey,
       role: safeUser.role,
       plan: safeUser.plan,
