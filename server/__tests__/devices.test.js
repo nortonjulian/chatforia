@@ -162,7 +162,7 @@ describe('Device registration and replacement', () => {
     expect(prismaMock.device.updateMany).not.toHaveBeenCalled();
   });
 
-  test('FREE reinstall requires replacement confirmation', async () => {
+  test('FREE third device requires replacement confirmation', async () => {
     prismaMock.device.findMany.mockResolvedValue([
       {
         deviceId: 'device-old',
@@ -170,6 +170,13 @@ describe('Device registration and replacement', () => {
         platform: 'Android',
         lastSeenAt: new Date('2026-07-19T20:00:00.000Z'),
         createdAt: new Date('2026-07-18T20:00:00.000Z'),
+      },
+      {
+        deviceId: 'device-spare',
+        name: 'Other trusted device',
+        platform: 'Web',
+        lastSeenAt: new Date('2026-07-18T20:00:00.000Z'),
+        createdAt: new Date('2026-07-17T20:00:00.000Z'),
       },
     ]);
 
@@ -193,13 +200,18 @@ describe('Device registration and replacement', () => {
         name: 'Old Android Device',
         platform: 'Android',
       }),
+      expect.objectContaining({
+        deviceId: 'device-spare',
+        name: 'Other trusted device',
+        platform: 'Web',
+      }),
     ]);
 
     expect(prismaMock.device.updateMany).not.toHaveBeenCalled();
     expect(prismaMock.device.upsert).not.toHaveBeenCalled();
   });
 
-  test('confirmed FREE replacement revokes old device and registers new one', async () => {
+  test('confirmed FREE replacement revokes only selected device and registers new one', async () => {
     prismaMock.device.findMany.mockResolvedValue([
       {
         deviceId: 'device-old',
@@ -207,6 +219,13 @@ describe('Device registration and replacement', () => {
         platform: 'Android',
         lastSeenAt: new Date('2026-07-19T20:00:00.000Z'),
         createdAt: new Date('2026-07-18T20:00:00.000Z'),
+      },
+      {
+        deviceId: 'device-spare',
+        name: 'Desktop Browser',
+        platform: 'Web',
+        lastSeenAt: new Date('2026-07-18T20:00:00.000Z'),
+        createdAt: new Date('2026-07-17T20:00:00.000Z'),
       },
     ]);
 
@@ -238,9 +257,7 @@ describe('Device registration and replacement', () => {
     expect(prismaMock.device.updateMany).toHaveBeenCalledWith({
       where: {
         userId: 1,
-        deviceId: {
-          not: 'device-new',
-        },
+        deviceId: 'device-old',
         revokedAt: null,
       },
       data: expect.objectContaining({

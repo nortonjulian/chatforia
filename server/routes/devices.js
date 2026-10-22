@@ -168,9 +168,6 @@ router.post('/register', requireAuth, async (req, res, next) => {
       }
 
       const plan = String(user.plan || 'FREE').toUpperCase();
-      const isPaidPlan =
-        ['PLUS', 'PREMIUM'].includes(plan);
-
       const deviceLimit =
         getDeviceLimitForPlan(plan);
 
@@ -294,19 +291,14 @@ router.post('/register', requireAuth, async (req, res, next) => {
 
         const now = new Date();
 
-        const replacementWhere = isPaidPlan
-          ? {
-              userId,
-              deviceId: replaceDeviceId,
-              revokedAt: null,
-            }
-          : {
-              userId,
-              deviceId: {
-                not: deviceId,
-              },
-              revokedAt: null,
-            };
+        // Only revoke the device the user explicitly chose, even on Free.
+        // Free now has two device slots; revoking *all* other devices would
+        // silently log out a phone or desktop the user intended to keep.
+        const replacementWhere = {
+          userId,
+          deviceId: replaceDeviceId,
+          revokedAt: null,
+        };
 
         await tx.device.updateMany({
           where: replacementWhere,
@@ -377,13 +369,7 @@ router.post('/register', requireAuth, async (req, res, next) => {
       });
 
       const replacedDeviceIds =
-        replaceExistingDevice
-          ? isPaidPlan
-            ? [replaceDeviceId]
-            : activeOtherDevices.map(
-                (item) => item.deviceId
-              )
-          : [];
+        replaceExistingDevice ? [replaceDeviceId] : [];
 
       return {
         device,

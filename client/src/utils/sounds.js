@@ -134,7 +134,7 @@ export function ringtoneUrl(filename = getRingtone()) {
  * =======================*/
 export const premiumConfig = {
   // Device limits
-  FREE_DEVICE_LIMIT: Number(import.meta.env.VITE_FREE_DEVICE_LIMIT ?? 1),
+  FREE_DEVICE_LIMIT: Number(import.meta.env.VITE_FREE_DEVICE_LIMIT ?? 2),
   PREMIUM_DEVICE_LIMIT: Number(import.meta.env.VITE_PREMIUM_DEVICE_LIMIT ?? 5),
 
   // Disappearing message caps (in days)

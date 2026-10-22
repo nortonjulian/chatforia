@@ -11,7 +11,7 @@ export const PLAN_ENTITLEMENTS = Object.freeze({
     voicemailTranscriptionMinutes: 0,
     cloudStorageBytes: 1 * GB,
     messageHistoryDays: null,
-    deviceLimit: 1,
+    deviceLimit: 2,
     expireMaxDays: 1,
 
     adsEnabled: true,
