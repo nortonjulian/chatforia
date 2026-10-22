@@ -1,6 +1,6 @@
 export const premiumConfig = {
   // Device limits
-  FREE_DEVICE_LIMIT: Number(process.env.FREE_DEVICE_LIMIT || 1),
+  FREE_DEVICE_LIMIT: Number(process.env.FREE_DEVICE_LIMIT || 2),
   PREMIUM_DEVICE_LIMIT: Number(process.env.PREMIUM_DEVICE_LIMIT || 5),
 
   // Disappearing message caps (days)

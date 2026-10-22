@@ -5,13 +5,22 @@ import {
 } from '../devices.js';
 
 describe('device registration limits', () => {
-  test('Free accounts allow one active device', () => {
-    expect(getDeviceLimitForPlan('FREE')).toBe(1);
+  test('Free accounts allow two active devices before requiring replacement', () => {
+    expect(getDeviceLimitForPlan('FREE')).toBe(2);
 
     expect(
       shouldRequireDeviceReplacement({
         isCurrentDeviceActive: false,
         activeOtherDeviceCount: 1,
+        deviceLimit: getDeviceLimitForPlan('FREE'),
+        replaceExistingDevice: false,
+      })
+    ).toBe(false);
+
+    expect(
+      shouldRequireDeviceReplacement({
+        isCurrentDeviceActive: false,
+        activeOtherDeviceCount: 2,
         deviceLimit: getDeviceLimitForPlan('FREE'),
         replaceExistingDevice: false,
       })
@@ -43,13 +52,13 @@ describe('device registration limits', () => {
     ).toBe(true);
   });
 
-  test('Wireless accounts use the Free one-device limit', () => {
-    expect(getDeviceLimitForPlan('WIRELESS')).toBe(1);
+  test('Wireless accounts use the Free two-device limit', () => {
+    expect(getDeviceLimitForPlan('WIRELESS')).toBe(2);
 
     expect(
       shouldRequireDeviceReplacement({
         isCurrentDeviceActive: false,
-        activeOtherDeviceCount: 1,
+        activeOtherDeviceCount: 2,
         deviceLimit: getDeviceLimitForPlan('WIRELESS'),
         replaceExistingDevice: false,
       })
@@ -79,8 +88,8 @@ describe('device registration limits', () => {
   });
 
   test('unknown plans receive the Free limit', () => {
-    expect(getDeviceLimitForPlan(null)).toBe(1);
-    expect(getDeviceLimitForPlan('unexpected')).toBe(1);
+    expect(getDeviceLimitForPlan(null)).toBe(2);
+    expect(getDeviceLimitForPlan('unexpected')).toBe(2);
   });
 });
 
