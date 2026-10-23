@@ -346,7 +346,7 @@ model User {
   numberReservations         NumberReservation[]       @relation("UserNumberReservations")
   numberRegulatoryProfiles   NumberRegulatoryProfile[]
   transcripts                Transcript[]
-  riaRemember                Boolean                   @default(true) @map("foriaRemember")
+  riaRemember                Boolean                   @default(true)
   riaMessages                RiaMessage[]
 
   familyMemberships FamilyMember[]
