@@ -145,3 +145,71 @@ test('the Saved Contacts pencil opens the edit dialog', async () => {
 
   expect(screen.getByRole('dialog', { name: 'Edit contact' })).toBeInTheDocument();
 });
+
+test('links an account-owned phone number using the verified endpoint', async () => {
+  const contact = {
+    id: 7,
+    userId: 5,
+    user: { username: 'regina' },
+    favorite: false,
+  };
+
+  const { onSaved } = renderModal(contact);
+
+  axiosClient.post.mockResolvedValueOnce({
+    data: { ...contact, externalPhone: '+15551234567' },
+  });
+
+  fireEvent.change(
+    screen.getByRole('textbox', { name: 'Phone number' }),
+    { target: { value: '+15551234567' } }
+  );
+
+  fireEvent.click(screen.getByRole('button', { name: 'Save Changes' }));
+
+  await waitFor(() => {
+    expect(axiosClient.post).toHaveBeenCalledWith('/contacts', {
+      userId: 5,
+      externalPhone: '+15551234567',
+      alias: '',
+      favorite: false,
+    });
+    expect(onSaved).toHaveBeenCalledTimes(1);
+  });
+
+  expect(axiosClient.patch).not.toHaveBeenCalled();
+});
+
+test('rejecting an unrelated phone number preserves the edit dialog', async () => {
+  const { onSaved } = renderModal({
+    id: 7,
+    userId: 5,
+    user: { username: 'regina' },
+  });
+
+  axiosClient.post.mockRejectedValueOnce({
+    response: {
+      data: {
+        error: 'This number does not belong to the selected Chatforia user.',
+      },
+    },
+  });
+
+  fireEvent.change(
+    screen.getByRole('textbox', { name: 'Phone number' }),
+    { target: { value: '+15551234567' } }
+  );
+
+  fireEvent.click(screen.getByRole('button', { name: 'Save Changes' }));
+
+  expect(
+    await screen.findByText(
+      'This number does not belong to the selected Chatforia user.'
+    )
+  ).toBeInTheDocument();
+
+  expect(screen.getByRole('dialog', { name: 'Edit contact' }))
+    .toBeInTheDocument();
+
+  expect(onSaved).not.toHaveBeenCalled();
+});

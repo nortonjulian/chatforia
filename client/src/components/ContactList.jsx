@@ -387,12 +387,13 @@ const openSmsThreadOrCompose = async ({ phone, alias }) => {
               : t('contactList.videoRequiresAccount', 'Video requires a Chatforia account');
 
             return (
-              <Group key={key} justify="space-between" align="center">
+              <Group key={key} justify="space-between" align="center" wrap="wrap" gap="xs">
                 <button
                   type="button"
                   onClick={handleRowPrimaryClick}
                   style={{
-                    flex: 1,
+                    flex: '1 1 140px',
+                    minWidth: 0,
                     textAlign: 'left',
                     background: 'none',
                     border: 0,
@@ -422,15 +423,7 @@ const openSmsThreadOrCompose = async ({ phone, alias }) => {
                   </div>
                 </button>
 
-                <TextInput
-                  placeholder={t('contactList.alias', 'Alias')}
-                  defaultValue={c.alias || ''}
-                  size="xs"
-                  maw={180}
-                  onBlur={(e) => updateAlias(c.userId, c.externalPhone, e.currentTarget.value)}
-                />
-
-                <Group gap="xs">
+                <Group gap={6} wrap="nowrap" style={{ marginLeft: 'auto' }}>
                   <Tooltip label={t('contactList.message', 'Message')}>
                     <ActionIcon
                       variant="light"
