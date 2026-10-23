@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
   Button,
+  Modal,
   Group,
   ActionIcon,
   Skeleton,
@@ -59,6 +60,7 @@ const startCall = callContext?.startCall;
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [editingContact, setEditingContact] = useState(null);
+  const [messageChoiceContact, setMessageChoiceContact] = useState(null);
 
   async function fetchContacts({ cursor = null, append = false } = {}) {
     try {
@@ -373,10 +375,12 @@ const openSmsThreadOrCompose = async ({ phone, alias }) => {
             };
 
             const handleMessageClick = () => {
-              // ✅ if joined user -> DM
+              // Offer the transport choice only when both routes are available.
+              if (c.userId && String(c.externalPhone || '').trim()) {
+                setMessageChoiceContact(c);
+                return;
+              }
               if (c.userId) return startChat(c.userId);
-
-              // ✅ else SMS
               if (c.externalPhone) return openSmsThreadOrCompose({ phone: c.externalPhone, alias: c.alias });
               toast.info(t('contactList.noRoute', 'No message route for this contact.'));
             };
@@ -504,6 +508,50 @@ const openSmsThreadOrCompose = async ({ phone, alias }) => {
           })}
         </Stack>
       )}
+
+      <Modal
+        opened={Boolean(messageChoiceContact)}
+        onClose={() => setMessageChoiceContact(null)}
+        title={t('contactList.messageChoiceTitle', 'Send message with')}
+        centered
+        size="sm"
+      >
+        <Text size="sm" c="dimmed" mb="md">
+          {t('contactList.messageChoicePrompt', 'How would you like to message {{name}}?', {
+            name: messageChoiceContact?.alias ||
+              messageChoiceContact?.user?.username ||
+              messageChoiceContact?.externalName ||
+              messageChoiceContact?.externalPhone ||
+              t('contactList.contact', 'this contact'),
+          })}
+        </Text>
+        <Stack gap="sm">
+          <Button
+            variant="light"
+            fullWidth
+            onClick={() => {
+              const contact = messageChoiceContact;
+              setMessageChoiceContact(null);
+              if (contact?.userId) startChat(contact.userId);
+            }}
+          >
+            {t('conversation.transport.chatforia', 'Chatforia')}
+          </Button>
+          <Button
+            variant="light"
+            fullWidth
+            onClick={() => {
+              const contact = messageChoiceContact;
+              setMessageChoiceContact(null);
+              if (contact?.externalPhone) {
+                openSmsThreadOrCompose({ phone: contact.externalPhone, alias: contact.alias });
+              }
+            }}
+          >
+            {t('conversation.transport.sms', 'SMS')}
+          </Button>
+        </Stack>
+      </Modal>
 
       {editingContact && (
         <EditSavedContactModal
