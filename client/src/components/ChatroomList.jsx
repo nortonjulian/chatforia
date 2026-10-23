@@ -307,6 +307,10 @@ useEffect(() => {
     return merged;
   }, [chatrooms, smsThreads]);
 
+  const showTransportBadges =
+    threads.some((thread) => thread.type === 'sms') &&
+    threads.some((thread) => thread.type === 'chat');
+
   const handleSelect = (thread) => {
     if (!thread) return;
 
@@ -434,15 +438,16 @@ const handleDeleteThread = async (thread) => {
                   onClick={() => handleSelect(thread)}
                   rightSection={
                     <Group gap={6} wrap="nowrap">
-                      {thread.type === 'sms' ? (
+                      {showTransportBadges && (
                         <Badge size="xs" variant="light" radius="sm">
-                          SMS
+                          {thread.type === 'sms' ? 'SMS' : 'Chatforia'}
                         </Badge>
-                      ) : thread.isGroup ? (
+                      )}
+                      {thread.isGroup && (
                         <Badge size="xs" variant="light" radius="sm">
                           Group
                         </Badge>
-                      ) : null}
+                      )}
 
                       {/* ✅ per-thread menu (delete for now) */}
                       <Menu withinPortal position="bottom-end" shadow="md" radius="md">
