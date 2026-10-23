@@ -209,6 +209,7 @@ describe('ContactList', () => {
 
     // Action buttons still exist in multiple mode.
     // Internal contact "Message" should still start DM flow.
+    axiosClient.post.mockResolvedValueOnce({ data: { id: 779 } });
     const messageButtons = screen.getAllByRole('button', { name: /message/i });
 
     fireEvent.click(messageButtons[0]);
@@ -231,5 +232,78 @@ describe('ContactList', () => {
         expect.stringMatching(/^\/sms\/compose\?to=/)
       );
     });
+  });
+});
+
+
+describe('ContactList transport chooser regression', () => {
+  const linkedContact = {
+    id: 21,
+    userId: 42,
+    externalPhone: '+12125550123',
+    alias: 'Regina',
+    user: { id: 42, username: 'regina' },
+  };
+
+  test('a dual-route contact offers both choices and Chatforia opens a DM', async () => {
+    axiosClient.get.mockResolvedValueOnce({ data: [linkedContact] });
+    axiosClient.post.mockResolvedValueOnce({ data: { id: 777 } });
+    renderSut();
+
+    expect(await screen.findByText('Regina')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Message' }));
+    expect(screen.getByRole('dialog', { name: 'Send message with' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Chatforia' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'SMS' })).toBeInTheDocument();
+    expect(axiosClient.post).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Chatforia' }));
+    await waitFor(() => expect(axiosClient.post).toHaveBeenCalledWith('/chatrooms/direct/42'));
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/chat/777'));
+    expect(screen.queryByRole('dialog', { name: 'Send message with' })).not.toBeInTheDocument();
+  });
+
+  test('a dual-route contact choosing SMS opens the existing SMS thread', async () => {
+    axiosClient.get
+      .mockResolvedValueOnce({ data: [linkedContact] })
+      .mockResolvedValueOnce({ data: { threadId: 901 } });
+    renderSut();
+
+    expect(await screen.findByText('Regina')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Message' }));
+    fireEvent.click(screen.getByRole('button', { name: 'SMS' }));
+
+    await waitFor(() => expect(axiosClient.get).toHaveBeenCalledWith(
+      '/sms/threads/lookup',
+      { params: { to: '+12125550123' } }
+    ));
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/sms/901'));
+    expect(axiosClient.post).not.toHaveBeenCalled();
+  });
+
+  test('a Chatforia-only contact opens directly without a chooser', async () => {
+    axiosClient.get.mockResolvedValueOnce({ data: [{ id: 22, userId: 44, alias: 'Alex' }] });
+    axiosClient.post.mockResolvedValueOnce({ data: { id: 778 } });
+    renderSut();
+
+    expect(await screen.findByText('Alex')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Message' }));
+    expect(screen.queryByRole('dialog', { name: 'Send message with' })).not.toBeInTheDocument();
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/chat/778'));
+  });
+
+  test('an SMS-only contact opens directly without a chooser', async () => {
+    axiosClient.get
+      .mockResolvedValueOnce({ data: [{ id: 23, externalPhone: '+12125550124', alias: 'Taylor' }] })
+      .mockResolvedValueOnce({ data: { threadId: null } });
+    renderSut();
+
+    expect(await screen.findByText('Taylor')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Message' }));
+    expect(screen.queryByRole('dialog', { name: 'Send message with' })).not.toBeInTheDocument();
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith(
+      expect.stringMatching(/^\/sms\/compose\?to=%2B12125550124/)
+    ));
+    expect(axiosClient.post).not.toHaveBeenCalled();
   });
 });
