@@ -375,6 +375,10 @@ export default function ChatroomsSidebar({
     });
   }, [items, q, t, decryptedPreviews, previewExpiryTick]);
 
+  const showTransportBadges =
+    items.some((c) => c.kind === 'sms') &&
+    items.some((c) => c.kind === 'chat');
+
   const activeBg = useMemo(
     () => 'color-mix(in oklab, var(--mantine-color-blue-2) 22%, transparent)',
     []
@@ -661,6 +665,7 @@ export default function ChatroomsSidebar({
                       <Text fw={500} lineClamp={1} style={{ minWidth: 0 }}>
                         {title}
                       </Text>
+                      {showTransportBadges && (
                       <Badge
                         size="xs"
                         variant="light"
@@ -672,6 +677,7 @@ export default function ChatroomsSidebar({
                           ? t('conversation.transport.sms', 'SMS')
                           : t('conversation.transport.chatforia', 'Chatforia')}
                       </Badge>
+                      )}
                     </Group>
 
                     <Group gap={8} wrap="nowrap" style={{ flexShrink: 0 }}>

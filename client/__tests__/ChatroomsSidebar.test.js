@@ -374,3 +374,60 @@ describe('ChatroomsSidebar', () => {
     ).toBeInTheDocument();
   });
 });
+
+
+describe('ChatroomsSidebar conditional transport badges', () => {
+  const renderWithRooms = (rooms, filterQuery = '') =>
+    render(
+      <ChatroomsSidebar
+        __testInitialRooms={rooms}
+        __testSkipLoad
+        filterQuery={filterQuery}
+      />
+    );
+
+  test('hides transport badges when all loaded conversations are Chatforia', () => {
+    renderWithRooms([
+      { id: 101, kind: 'chat', title: 'Alice' },
+      { id: 102, kind: 'chat', title: 'Bob' },
+    ]);
+
+    expect(screen.getByText('Alice')).toBeInTheDocument();
+    expect(screen.getByText('Bob')).toBeInTheDocument();
+    expect(screen.queryByText(/^Chatforia$/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^SMS$/)).not.toBeInTheDocument();
+  });
+
+  test('hides transport badges when all loaded conversations are SMS', () => {
+    renderWithRooms([
+      { id: 201, kind: 'sms', title: 'Carla' },
+      { id: 202, kind: 'sms', title: 'Dan' },
+    ]);
+
+    expect(screen.getByText('Carla')).toBeInTheDocument();
+    expect(screen.getByText('Dan')).toBeInTheDocument();
+    expect(screen.queryByText(/^Chatforia$/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^SMS$/)).not.toBeInTheDocument();
+  });
+
+  test('shows both transport badges when loaded conversations are mixed', () => {
+    renderWithRooms([
+      { id: 301, kind: 'chat', title: 'Elena' },
+      { id: 302, kind: 'sms', title: 'Frank' },
+    ]);
+
+    expect(screen.getByText(/^Chatforia$/)).toBeInTheDocument();
+    expect(screen.getByText(/^SMS$/)).toBeInTheDocument();
+  });
+
+  test('search uses full loaded list to decide badge visibility', () => {
+    renderWithRooms([
+      { id: 401, kind: 'chat', title: 'Grace' },
+      { id: 402, kind: 'sms', title: 'Henry' },
+    ], 'Grace');
+
+    expect(screen.getByText('Grace')).toBeInTheDocument();
+    expect(screen.queryByText('Henry')).not.toBeInTheDocument();
+    expect(screen.getByText(/^Chatforia$/)).toBeInTheDocument();
+  });
+});
