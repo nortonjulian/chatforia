@@ -134,7 +134,8 @@ router.post('/', requireAuth, async (req, res) => {
       message.translatedContent ||
       '[Encrypted or unavailable content]';
 
-    const report = await prisma.report.create({
+    const report = await prisma.$transaction(async (tx) => {
+      const created = await tx.report.create({
       data: {
         messageId: message.id,
         reporterId,
@@ -167,6 +168,15 @@ router.post('/', requireAuth, async (req, res) => {
           },
         },
       },
+      });
+      if (blockAfterReport) {
+        await tx.userBlock.upsert({
+          where: { blockerId_blockedId: { blockerId: reporterId, blockedId: message.senderId } },
+          update: {},
+          create: { blockerId: reporterId, blockedId: message.senderId },
+        });
+      }
+      return created;
     });
 
     res.locals.audit = {

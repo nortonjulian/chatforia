@@ -95,6 +95,7 @@ import smsConsentRouter from './routes/smsConsent.js';
 import conversationsRouter from './routes/conversations.js';
 
 import reportsRouter from './routes/reports.js';
+import blocksRouter from './routes/blocks.js';
 import adminReportsRouter from './routes/adminReports.js';
 
 import webhooksTwilio from './routes/webhooksTwilio.js';
@@ -559,6 +560,7 @@ app.use('/messages', messagesRouter);
 app.use('/people-invites', peopleInvitesRouter);
 
 app.use('/reports', reportsRouter);
+app.use('/blocks', blocksRouter);
 app.use('/admin/reports', adminReportsRouter);
 
 app.use(a11yRouter);

@@ -170,6 +170,49 @@ export default function RandomChatPage() {
       setBannerText(payload?.message || 'Looking for someone to chat with…');
     });
 
+    // Handle backend safety rejections explicitly: never leave the UI stuck matching.
+    socket.on('random:error', (payload) => {
+      const code = String(payload?.code || '');
+      const textByCode = {
+        AGE_ATTESTATION_REQUIRED: t(
+          'randomChat.ageAttestationRequired',
+          'Confirm your age range in Profile → Age & Random Chat before finding a match.'
+        ),
+        ACCOUNT_BLOCKED: t(
+          'randomChat.pairingUnavailable',
+          'This conversation is unavailable. You can find another match.'
+        ),
+        NOT_IN_ACTIVE_SESSION: t(
+          'randomChat.sessionExpired',
+          'This chat session is no longer active. Start a new conversation.'
+        ),
+        MATCHMAKING_UNAVAILABLE: t(
+          'randomChat.matchmakingUnavailable',
+          'Matchmaking is temporarily unavailable. Please try again.'
+        ),
+        MESSAGING_UNAVAILABLE: t(
+          'randomChat.messagingUnavailable',
+          'Messaging is temporarily unavailable. Please try again.'
+        ),
+      };
+      setErrorText(
+        textByCode[code] || t('randomChat.unavailable', 'Random Chat is temporarily unavailable.')
+      );
+      setBannerText('');
+      if (code === 'AGE_ATTESTATION_REQUIRED') {
+        // The server is authoritative even if a stale profile has an age band.
+        setProfile((previous) => ({ ...previous, ageBand: null }));
+      }
+      if (code === 'ACCOUNT_BLOCKED' || code === 'NOT_IN_ACTIVE_SESSION') {
+        setActive(null);
+        setMessages([]);
+        setDraft('');
+        setStatus('idle');
+      } else {
+        setStatus((previous) => previous === 'matching' ? 'idle' : previous);
+      }
+    });
+
     socket.on('random:matched', (payload) => {
       setStatus('matched');
       setErrorText('');

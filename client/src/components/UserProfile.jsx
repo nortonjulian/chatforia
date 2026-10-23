@@ -36,6 +36,7 @@ import SoundSettings from './SoundSettings';
 import LinkedDevicesPanel from './LinkedDevicesPanel';
 import PrivacySection from '../pages/PrivacySection';
 import BlockedNumbersPanel from './profile/BlockedNumbersPanel';
+import BlockedAccountsPanel from './profile/BlockedAccountsPanel';
 
 import ThemeSelect from '../components/settings/ThemeSelect.jsx';
 import { getTheme, setTheme, onThemeChange, isLightTheme } from '../utils/themeManager.js';
@@ -1312,6 +1313,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
 
               <PrivacySection />
 
+              <BlockedAccountsPanel />
               <BlockedNumbersPanel />
 
               <Switch

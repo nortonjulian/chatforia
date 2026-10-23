@@ -81,14 +81,42 @@ export function buildQueues() {
   };
 }
 
+const AGE_BANDS = new Map([
+  ['TEEN_13_17', 'TEEN_13_17'],
+  ['ADULT_18_24', 'ADULT_18_24'],
+  ['ADULT_25_34', 'ADULT_25_34'],
+  ['ADULT_35_49', 'ADULT_35_49'],
+  ['ADULT_50_PLUS', 'ADULT_50_PLUS'],
+  // Historical test-fixture / imported preference representations.
+  ['13-17', 'TEEN_13_17'],
+  ['18-24', 'ADULT_18_24'],
+  ['25-34', 'ADULT_25_34'],
+  ['35-49', 'ADULT_35_49'],
+  ['50+', 'ADULT_50_PLUS'],
+]);
+
+const ageBandFor = (entry) => AGE_BANDS.get(String(entry?.ageBand ?? '')) ?? null;
+
 export function areCompatible(a, b) {
-  if (!a || !b) return false;
-  if (a.userId === b.userId) return false;
+  if (!a || !b || String(a.userId) === String(b.userId)) return false;
 
-  // If either side wants an age filter, and both have ageBand, they must match
-  if (a.wantsAgeFilter && a.ageBand && b.ageBand && a.ageBand !== b.ageBand) return false;
-  if (b.wantsAgeFilter && b.ageBand && a.ageBand && a.ageBand !== b.ageBand) return false;
+  const aBand = ageBandFor(a);
+  const bBand = ageBandFor(b);
+  // Unknown/unattested age must never be matched to someone else.
+  if (!aBand || !bBand) return false;
 
+  // Non-negotiable separation: minors can match only minors.
+  if ((aBand === 'TEEN_13_17') !== (bBand === 'TEEN_13_17')) return false;
+
+  // Preserve existing optional stricter age filtering among adults.
+  if ((a.wantsAgeFilter || b.wantsAgeFilter) && aBand !== bBand) return false;
+
+  // A configured allow-list is respected on BOTH sides; empty lists follow
+  // existing adult matching defaults until product policy is confirmed.
+  const allowedA = Array.isArray(a.randomChatAllowedBands) ? a.randomChatAllowedBands : [];
+  const allowedB = Array.isArray(b.randomChatAllowedBands) ? b.randomChatAllowedBands : [];
+  if (allowedA.length && !allowedA.some((band) => AGE_BANDS.get(String(band)) === bBand)) return false;
+  if (allowedB.length && !allowedB.some((band) => AGE_BANDS.get(String(band)) === aBand)) return false;
   return true;
 }
 
@@ -282,7 +310,31 @@ async function emitMatched(prisma, io, roomId, session, userA, userB) {
  * - If peer: creates DB room, joins sockets to io room, emits random:matched
  */
 export async function tryMatch({ queues, prisma, io, currentEntry, getSocketById }) {
-  const peerIdx = queues.waitingQueue.findIndex((e) => areCompatible(currentEntry, e));
+  if (!ageBandFor(currentEntry)) {
+    throw new Error('An attested age band is required for human Random Chat');
+  }
+  let peerIdx = -1;
+  for (let i = 0; i < queues.waitingQueue.length; i++) {
+    const candidate = queues.waitingQueue[i];
+    if (!areCompatible(currentEntry, candidate)) continue;
+    if (typeof prisma.userBlock?.findFirst !== 'function') {
+      throw new Error('Account-blocking enforcement is unavailable');
+    }
+    // A database failure must not silently allow a blocked pair to match.
+    const block = await prisma.userBlock.findFirst({
+      where: {
+        OR: [
+          { blockerId: Number(currentEntry.userId), blockedId: Number(candidate.userId) },
+          { blockerId: Number(candidate.userId), blockedId: Number(currentEntry.userId) },
+        ],
+      },
+      select: { id: true },
+    });
+    if (!block) {
+      peerIdx = i;
+      break;
+    }
+  }
 
   if (peerIdx === -1) {
     enqueue(queues, currentEntry);

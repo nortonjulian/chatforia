@@ -243,23 +243,40 @@ export function attachRandomChatSockets(io) {
       queues.activeRoomBySocket.get(socket.id)
     ) return;
 
-    const entry = {
-      socketId: socket.id,
-      userId: u.id,
-      username: u.username || `user:${u.id}`,
-      ageBand: u.ageBand || null,
-      wantsAgeFilter: !!u.wantsAgeFilter,
-      topic: payload.topic || null,
-      region: payload.region || null,
-    };
-
-    await tryMatch({
-      queues,
-      prisma,
-      io,
-      currentEntry: entry,
-      getSocketById,
-    });
+    try {
+      // Read authoritative preferences on every join; socket identity excludes
+      // the age fields and may outlive a subsequent profile change.
+      const prefs = await prisma.user.findUnique({
+        where: { id: Number(u.id) },
+        select: {
+          ageBand: true,
+          ageAttestedAt: true,
+          wantsAgeFilter: true,
+          randomChatAllowedBands: true,
+          isBanned: true,
+          deletedAt: true,
+        },
+      });
+      if (!prefs || prefs.isBanned || prefs.deletedAt ||
+          !prefs.ageBand || !prefs.ageAttestedAt) {
+        socket.emit('random:error', { code: 'AGE_ATTESTATION_REQUIRED' });
+        return;
+      }
+      const entry = {
+        socketId: socket.id,
+        userId: Number(u.id),
+        username: u.username || `user:${u.id}`,
+        ageBand: prefs.ageBand,
+        wantsAgeFilter: prefs.wantsAgeFilter === true,
+        randomChatAllowedBands: prefs.randomChatAllowedBands,
+        topic: payload.topic || null,
+        region: payload.region || null,
+      };
+      await tryMatch({ queues, prisma, io, currentEntry: entry, getSocketById });
+    } catch (error) {
+      console.error('[random:join] matchmaking failed', error);
+      socket.emit('random:error', { code: 'MATCHMAKING_UNAVAILABLE' });
+    }
   });
 
   socket.on('random:leave', async () => {
@@ -282,8 +299,42 @@ export function attachRandomChatSockets(io) {
   socket.on('random:message', async (payload) => {
     if (!payload?.content || !payload?.roomId) return;
 
-    const senderId = u.id;
+    const senderId = Number(u.id);
     const roomId = payload.roomId;
+    if (isAiRoom(roomId)) {
+      // The user may only talk to their own Ria session.
+      if (roomId !== `random:AI:${socket.id}` || !socket.rooms.has(roomId)) {
+        socket.emit('random:error', { code: 'NOT_IN_ACTIVE_SESSION' });
+        return;
+      }
+    } else {
+      const active = queues.activeRoomBySocket.get(socket.id);
+      const session = active && queues.sessionByRoomId.get(active.roomId);
+      if (!active || String(active.roomId) !== String(roomId) ||
+          session?.users?.[senderId]?.socketId !== socket.id) {
+        socket.emit('random:error', { code: 'NOT_IN_ACTIVE_SESSION' });
+        return;
+      }
+      // Blocking is checked again at message-time so a newly blocked user
+      // cannot continue an already matched Random Chat session.
+      try {
+        const block = await prisma.userBlock.findFirst({
+          where: { OR: [
+            { blockerId: senderId, blockedId: Number(active.peerUserId) },
+            { blockerId: Number(active.peerUserId), blockedId: senderId },
+          ] },
+          select: { id: true },
+        });
+        if (block) {
+          socket.emit('random:error', { code: 'ACCOUNT_BLOCKED' });
+          return;
+        }
+      } catch (error) {
+        console.error('[random:message] block check failed', error);
+        socket.emit('random:error', { code: 'MESSAGING_UNAVAILABLE' });
+        return;
+      }
+    }
 
     const message = {
       content: payload.content,

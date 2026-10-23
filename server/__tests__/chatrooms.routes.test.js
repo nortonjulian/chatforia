@@ -18,7 +18,9 @@ const participantFindFirst = jest.fn();
 const participantFindUnique = jest.fn();
 const participantDelete = jest.fn();
 
+const userBlockFindFirst = jest.fn();
 const mockPrisma = {
+  userBlock: { findFirst: userBlockFindFirst },
   $transaction: jest.fn((fn) =>
     fn({
       chatRoom: { create: chatRoomCreate },
@@ -104,6 +106,8 @@ describe('chatrooms routes', () => {
 
     jest.clearAllMocks();
 
+    userBlockFindFirst.mockReset();
+    userBlockFindFirst.mockResolvedValue(null);
     chatRoomCreate.mockReset();
     chatRoomFindMany.mockReset();
     chatRoomFindFirst.mockReset();
@@ -192,11 +196,64 @@ describe('chatrooms routes', () => {
       });
 
       expect(chatRoomFindMany).toHaveBeenCalledWith({
-        where: {},
+        where: {
+          AND: [{ participants: { some: { userId: 1 } } }],
+        },
         orderBy: [{ updatedAt: 'desc' }, { id: 'desc' }],
         take: 2,
-        include: { participants: { include: { user: true } } },
+        include: {
+          participants: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  displayName: true,
+                  avatarUrl: true,
+                  publicKey: true,
+                  preferredLanguage: true,
+                  autoTranslate: true,
+                },
+              },
+            },
+          },
+        },
       });
+    });
+  });
+
+  describe('GET /rooms/ privacy', () => {
+    test('optional user filter cannot remove the requester membership constraint', async () => {
+      chatRoomFindMany.mockResolvedValueOnce([]);
+      const res = await request(app).get('/rooms?userId=2');
+      expect(res.statusCode).toBe(200);
+      expect(chatRoomFindMany.mock.calls[0][0].where).toEqual({
+        AND: [
+          { participants: { some: { userId: 1 } } },
+          { participants: { some: { userId: 2 } } },
+        ],
+      });
+    });
+
+    test('cursor pagination still retains requester membership scoping', async () => {
+      chatRoomFindMany.mockResolvedValueOnce([]);
+      const at = '2026-10-20T00:00:00.000Z';
+      const res = await request(app).get('/rooms')
+        .query({ limit: 3, cursorId: 12, cursorUpdatedAt: at });
+      expect(res.statusCode).toBe(200);
+      expect(chatRoomFindMany.mock.calls[0][0].where).toEqual({
+        AND: [{ participants: { some: { userId: 1 } } }],
+        OR: [
+          { updatedAt: { lt: new Date(at) } },
+          { updatedAt: new Date(at), id: { lt: 12 } },
+        ],
+      });
+    });
+
+    test('rejects malformed optional user id without hitting the database', async () => {
+      const res = await request(app).get('/rooms?userId=oops');
+      expect(res.statusCode).toBe(400);
+      expect(chatRoomFindMany).not.toHaveBeenCalled();
     });
   });
 
@@ -322,7 +379,15 @@ describe('chatrooms routes', () => {
   });
 
   describe('GET /rooms/:id/public-keys', () => {
+    test('403 for a nonmember, before querying users', async () => {
+      participantFindFirst.mockResolvedValueOnce(null);
+      const res = await request(app).get('/rooms/10/public-keys');
+      expect(res.statusCode).toBe(403);
+      expect(participantFindMany).not.toHaveBeenCalled();
+    });
+
     test('returns list of user public keys', async () => {
+      participantFindFirst.mockResolvedValueOnce({ id: 1 });
       participantFindMany.mockResolvedValueOnce([
         { user: { id: 1, publicKey: 'pub1', username: 'alice' } },
         { user: { id: 2, publicKey: 'pub2', username: 'bob' } },
@@ -506,7 +571,15 @@ describe('chatrooms routes', () => {
   });
 
   describe('meta routes', () => {
+    test('GET /rooms/:id/meta returns 403 for a nonmember', async () => {
+      participantFindFirst.mockResolvedValueOnce(null);
+      const res = await request(app).get('/rooms/10/meta');
+      expect(res.statusCode).toBe(403);
+      expect(chatRoomFindUnique).not.toHaveBeenCalled();
+    });
+
     test('GET /rooms/:id/meta returns room meta', async () => {
+      participantFindFirst.mockResolvedValueOnce({ id: 1 });
       chatRoomFindUnique.mockResolvedValueOnce({
         id: 10,
         name: 'Meta Room',

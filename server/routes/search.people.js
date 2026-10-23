@@ -105,34 +105,19 @@ router.get(
     ].filter((id, index, all) => id !== ownerId && all.indexOf(id) === index);
 
     const blockedUserIds = new Set();
-    if (candidateUserIds.length > 0 && prisma.report?.findMany) {
-      const blocks = await prisma.report.findMany({
+    if (candidateUserIds.length > 0) {
+      const blocks = await prisma.userBlock.findMany({
         where: {
-          blockApplied: true,
           OR: [
-            {
-              reporterId: ownerId,
-              reportedUserId: { in: candidateUserIds },
-            },
-            {
-              reportedUserId: ownerId,
-              reporterId: { in: candidateUserIds },
-            },
+            { blockerId: ownerId, blockedId: { in: candidateUserIds } },
+            { blockedId: ownerId, blockerId: { in: candidateUserIds } },
           ],
         },
-        select: {
-          reporterId: true,
-          reportedUserId: true,
-        },
+        select: { blockerId: true, blockedId: true },
       });
-
       for (const block of blocks) {
-        if (block.reporterId === ownerId && block.reportedUserId) {
-          blockedUserIds.add(Number(block.reportedUserId));
-        }
-        if (block.reportedUserId === ownerId && block.reporterId) {
-          blockedUserIds.add(Number(block.reporterId));
-        }
+        blockedUserIds.add(Number(block.blockerId) === ownerId
+          ? Number(block.blockedId) : Number(block.blockerId));
       }
     }
 

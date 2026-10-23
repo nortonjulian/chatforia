@@ -4,6 +4,7 @@ import Boom from '@hapi/boom';
 
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
+import { assertDirectUsersAllowed } from '../services/userBlockService.js';
 
 import {
   requireRoomRank,
@@ -36,6 +37,9 @@ router.post(
   asyncHandler(async (req, res) => {
     const { name, isGroup = false, userIds = [] } = req.body || {};
     const me = Number(req.user.id);
+    if (!isGroup && Array.isArray(userIds)) {
+      for (const target of userIds) await assertDirectUsersAllowed(me, Number(target));
+    }
 
     const room = await prisma.$transaction(async (tx) => {
       let created;
@@ -79,10 +83,19 @@ router.get(
   requireAuth,
   asyncHandler(async (req, res) => {
     const limit = Math.min(Math.max(1, Number(req.query.limit ?? 30)), 100);
+    const me = Number(req.user?.id);
+    if (!Number.isSafeInteger(me) || me <= 0) throw Boom.unauthorized();
     const qUserId = req.query.userId ? Number(req.query.userId) : null;
-    const whereBase = qUserId
-      ? { participants: { some: { userId: qUserId } } }
-      : {};
+    if (req.query.userId && (!Number.isSafeInteger(qUserId) || qUserId <= 0)) {
+      throw Boom.badRequest('Invalid userId');
+    }
+    // Always scope to the authenticated user. An optional userId only narrows it.
+    const whereBase = {
+      AND: [
+        { participants: { some: { userId: me } } },
+        ...(qUserId ? [{ participants: { some: { userId: qUserId } } }] : []),
+      ],
+    };
 
     const curIdRaw = req.query.cursorId;
     const curAtRaw = req.query.cursorUpdatedAt;
@@ -114,7 +127,24 @@ router.get(
       where,
       orderBy: [{ updatedAt: 'desc' }, { id: 'desc' }],
       take: limit,
-      include: { participants: { include: { user: true } } },
+      // Never expose users' private identity, billing or credential fields.
+      include: {
+        participants: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                username: true,
+                displayName: true,
+                avatarUrl: true,
+                publicKey: true,
+                preferredLanguage: true,
+                autoTranslate: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     const nextCursor =
@@ -358,6 +388,7 @@ router.post(
     if (!Number.isFinite(userId1) || !Number.isFinite(userId2) || userId1 === userId2) {
       throw Boom.badRequest('Invalid or duplicate user IDs');
     }
+    await assertDirectUsersAllowed(userId1, userId2);
 
     const participantInclude = {
       participants: {
@@ -526,7 +557,13 @@ router.get(
   requireAuth,
   asyncHandler(async (req, res) => {
     const id = Number(req.params.id);
-    if (!Number.isFinite(id)) throw Boom.badRequest('Invalid id');
+    if (!Number.isSafeInteger(id) || id <= 0) throw Boom.badRequest('Invalid id');
+
+    const member = await prisma.participant.findFirst({
+      where: { chatRoomId: id, userId: Number(req.user.id) },
+      select: { id: true },
+    });
+    if (!member) throw Boom.forbidden('Not a participant');
 
     const participants = await prisma.participant.findMany({
       where: { chatRoomId: id },
@@ -655,7 +692,13 @@ router.get(
   requireAuth,
   asyncHandler(async (req, res) => {
     const id = Number(req.params.id);
-    if (!Number.isFinite(id)) throw Boom.badRequest('Invalid id');
+    if (!Number.isSafeInteger(id) || id <= 0) throw Boom.badRequest('Invalid id');
+
+    const member = await prisma.participant.findFirst({
+      where: { chatRoomId: id, userId: Number(req.user.id) },
+      select: { id: true },
+    });
+    if (!member) throw Boom.forbidden('Not a participant');
 
     const room = await prisma.chatRoom.findUnique({
       where: { id },
@@ -670,6 +713,7 @@ router.get(
 router.patch(
   '/:id/meta',
   requireAuth,
+  requireRoomRank(prisma, RoleRank.ADMIN),
   asyncHandler(async (req, res) => {
     const id = Number(req.params.id);
     if (!Number.isFinite(id)) throw Boom.badRequest('Invalid id');

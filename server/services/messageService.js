@@ -1,4 +1,5 @@
 import prisma from '../utils/prismaClient.js';
+import { assertDirectRoomAllowed } from './userBlockService.js';
 import { isExplicit, cleanText } from '../utils/filter.js';
 // import { translateForTargets } from '../utils/translate.js';
 import { maybeTranslateForTarget } from './translation/translateMessage.js';
@@ -108,6 +109,7 @@ export async function createMessageService({
     where: { chatRoomId: roomIdNum, userId: Number(senderId) },
   });
   if (!membership) throw new Error('Not a participant in this chat');
+  await assertDirectRoomAllowed(roomIdNum, sender.id);
 
   // ✅ Idempotency: normalize client message id once and use it both for lookup and create
   const cid = typeof clientMessageId === 'string' ? clientMessageId.trim() : '';
