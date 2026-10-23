@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler';
 import prisma from '../utils/prismaClient.js';
 import { emitToUser } from '../services/socketBus.js';
 import { requireAuth } from '../middleware/auth.js';
+import { assertDirectUsersAllowed } from '../services/userBlockService.js';
 import { sendPushToUser, sendVoipCallPushToUser } from '../services/pushService.js';
 import { syncBadgeToUserDevices } from '../services/badgeSync.js';
 import { collectCallLifecycleRecipientIds } from '../utils/callLifecycleRecipients.js';
@@ -211,6 +212,7 @@ router.post('/invite', asyncHandler(async (req, res) => {
   if (!callee) {
     return res.status(404).json({ error: 'Callee not found' });
   }
+  await assertDirectUsersAllowed(callerId, targetCalleeId);
 
   /*
    * Prevent simultaneous reciprocal calls from creating two live
@@ -1606,6 +1608,7 @@ router.post('/:id/add-participant', asyncHandler(async (req, res) => {
   if (!addedUser) {
     return res.status(404).json({ error: 'User not found' });
   }
+  await assertDirectUsersAllowed(userId, Number(addedUserId));
 
   const existing = await prisma.callParticipant.findUnique({
     where: {

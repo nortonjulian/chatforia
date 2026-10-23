@@ -12,6 +12,7 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import { emitMessageUpsert, emitMessageUpsertToUser, emitMessageAck, emitToUser } from '../services/socketBus.js';
 import { shapeMessageForUser, createMessageService } from '../services/messageService.js';
 import { recordMessageReads } from '../services/readReceiptService.js';
+import { assertDirectRoomAllowed } from '../services/userBlockService.js';
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
 
@@ -581,6 +582,7 @@ router.post(
     // Membership check with test fallback
     const okMember = await isMemberOrMemFallback(chatRoomId, senderId);
     if (!okMember) throw Boom.forbidden('Not a participant in this chat');
+    await assertDirectRoomAllowed(chatRoomId, senderId);
 
     // Clamp optional per-message TTL (5s .. 7d)
     let secs = Number(expireSeconds);
@@ -971,6 +973,7 @@ router.post(
       select: { id: true, archivedAt: true },
     });
     if (!membership) throw Boom.forbidden('Not a participant in this chat');
+    await assertDirectRoomAllowed(roomId, senderId);
 
     const ts =
       typeof scheduledAt === 'string' || typeof scheduledAt === 'number'
@@ -2610,6 +2613,14 @@ router.post(
         },
       });
 
+      if (blockAfterReport) {
+        await tx.userBlock.upsert({
+          where: { blockerId_blockedId: { blockerId: reporterId, blockedId: effectiveReportedUserId } },
+          update: {},
+          create: { blockerId: reporterId, blockedId: effectiveReportedUserId },
+        });
+      }
+
       if (autoHidden && !primaryMessage.isHiddenByModeration) {
         await tx.message.update({
           where: { id: primaryMessageId },
@@ -2649,6 +2660,7 @@ router.post(
 
     if (!Number.isFinite(srcId)) throw Boom.badRequest('Invalid id');
     if (!toRoomId) throw Boom.badRequest('toRoomId is required');
+    await assertDirectRoomAllowed(Number(toRoomId), userId);
 
     if (IS_TEST) {
       const srcMem = memGetMessage(srcId);

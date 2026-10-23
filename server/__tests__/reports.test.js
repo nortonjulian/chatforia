@@ -6,11 +6,12 @@ const mockFindUnique = jest.fn();
 const mockFindFirst = jest.fn();
 const mockFindMany = jest.fn();
 const mockCreate = jest.fn();
+const mockUserBlockUpsert = jest.fn();
 
 let mockAuthUserId = '123';
 
 await jest.unstable_mockModule('@prisma/client', () => {
-  const PrismaClient = jest.fn(() => ({
+  const instance = {
     message: {
       findUnique: mockFindUnique,
       findMany: mockFindMany,
@@ -19,7 +20,10 @@ await jest.unstable_mockModule('@prisma/client', () => {
       findFirst: mockFindFirst,
       create: mockCreate,
     },
-  }));
+    userBlock: { upsert: mockUserBlockUpsert },
+  };
+  instance.$transaction = jest.fn(async (fn) => fn(instance));
+  const PrismaClient = jest.fn(() => instance);
 
   return {
     __esModule: true,

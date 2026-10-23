@@ -6,6 +6,7 @@ import asyncHandler from 'express-async-handler';
 import { emitMessageUpsert } from '../services/socketBus.js';
 import { shapeMessageForUser } from '../services/messageService.js';
 import Boom from '@hapi/boom';
+import { assertDirectRoomAllowed, assertDirectUsersAllowed } from '../services/userBlockService.js';
 
 const router = express.Router();
 const env = String(process.env.NODE_ENV || '');
@@ -96,8 +97,10 @@ async function upsertParticipantRole(roomId, userId, role) {
   return null;
 }
 
-router.get('/', asyncHandler(async (req, res) => {
+router.get('/', requireAuth, asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
   const rooms = await prisma.chatRoom.findMany({
+    where: { participants: { some: { userId } } },
     orderBy: { updatedAt: 'desc' },
     take: 50,
   });
@@ -105,209 +108,61 @@ router.get('/', asyncHandler(async (req, res) => {
   return res.json({ rooms });
 }));
 
-// GET /chatrooms/:roomId/messages
+// Legacy room messages endpoint: keep the established { messages } response
+// while enforcing access *before* querying data. The modern /messages/:id
+// API remains the preferred read path for all supported clients.
 router.get(
   '/:roomId/messages',
+  requireAuth,
   asyncHandler(async (req, res) => {
-    const roomIdRaw = req.params.roomId;
-    const roomId = Number(roomIdRaw);
-
-    console.log('🔥 GET /chatrooms/:roomId/messages', { roomIdRaw, roomId });
-
-    if (!Number.isFinite(roomId)) {
-      return res.status(400).json({ error: 'Invalid roomId', roomIdRaw });
+    const roomId = Number(req.params.roomId);
+    const userId = Number(req.user.id);
+    if (!Number.isSafeInteger(roomId) || roomId <= 0) {
+      throw Boom.badRequest('Invalid room ID');
     }
 
-    try {
-      // --- GLOBAL DEBUG (proves if DB has messages at all) ---
-      // --- GLOBAL DEBUG ---
-      const totalMessages = await prisma.message.count();
+    // Legacy callers may pass either a ChatRoom ID or a RandomChatRoom ID.
+    // Check both memberships independently to avoid cross-ID disclosure.
+    const [chatMember, randomMember] = await Promise.all([
+      prisma.participant.findFirst({
+        where: { chatRoomId: roomId, userId },
+        select: { id: true },
+      }),
+      prisma.randomChatRoom.findFirst({
+        where: { id: roomId, participants: { some: { id: userId } } },
+        select: { id: true },
+      }),
+    ]);
+    if (!chatMember && !randomMember) throw Boom.forbidden('Not a participant');
 
-      const latest = await prisma.message.findFirst({
-        orderBy: { createdAt: 'desc' },
-        select: {
-          id: true,
-          chatRoomId: true,
-          randomChatRoomId: true,
-          createdAt: true,
-          senderId: true,
-        },
-      });
-
-      const sampleRoomIds = await prisma.message.findMany({
-        distinct: ['chatRoomId'],
-        select: { chatRoomId: true },
-        take: 10,
-      });
-
-      const roomExists = await prisma.chatRoom.findUnique({
-        where: { id: roomId },
-        select: { id: true, name: true, isGroup: true },
-      });
-
-      // DB identity (helps confirm you're hitting the expected database/schema)
-      let dbInfo = null;
-      try {
-        const r = await prisma.$queryRaw`
-          SELECT current_database() as db, current_schema() as schema
-        `;
-        dbInfo = Array.isArray(r) ? (r[0] ?? null) : null;
-      } catch {
-        // ignore if non-Postgres / restricted / etc.
-      }
-
-      const globalDebug = {
-        roomId,
-        roomExists,
-        totalMessages,
-        latestMessage: latest,
-        sampleChatRoomIdsWithMessages: sampleRoomIds.map((r) => r.chatRoomId),
-        dbInfo,
-      };
-
-      // --- 1) New schema fetch ---
-      const messagesNew = await prisma.message.findMany({
-        where: {
-          OR: [{ chatRoomId: roomId }, { randomChatRoomId: roomId }],
-        },
-        orderBy: { createdAt: 'asc' },
-        take: 200,
-      });
-
-      // counts (cheap + decisive)
-      const countChatRoomId = await prisma.message.count({ where: { chatRoomId: roomId } });
-      const countRandomChatRoomId = await prisma.message.count({ where: { randomChatRoomId: roomId } });
-
-      // If we have messages in the new schema, return them now
-      if (messagesNew.length) {
-        console.log('✅ Returning NEW schema messages:', { count: messagesNew.length });
-        return res.json({
-          messages: messagesNew,
-          debug: {
-            ...globalDebug,
-            countChatRoomId,
-            countRandomChatRoomId,
-            used: 'new-schema',
-          },
-        });
-      }
-
-      console.warn('⚠️ No messages via NEW schema. Checking for legacy chatId…', {
-        roomId,
-        countChatRoomId,
-        countRandomChatRoomId,
-      });
-
-      // --- 2) Detect legacy column existence (Postgres) ---
-      let hasChatIdColumn = false;
-
-      try {
-        const cols = await prisma.$queryRaw`
-          SELECT 1
-          FROM information_schema.columns
-          WHERE table_schema = 'public'
-            AND lower(table_name) = lower('Message')
-            AND lower(column_name) IN (lower('chatId'), lower('chat_id'))
-          LIMIT 1
-        `;
-        hasChatIdColumn = Array.isArray(cols) && cols.length > 0;
-      } catch (e) {
-        console.warn('⚠️ Could not query information_schema (non-Postgres or permissions).', e?.message || e);
-      }
-
-      if (!hasChatIdColumn) {
-        return res.json({
-          messages: [],
-          debug: {
-            ...globalDebug,
-            countChatRoomId,
-            countRandomChatRoomId,
-            hasChatIdColumn: false,
-            used: 'none',
-            note:
-              'No rows for chatRoomId/randomChatRoomId, and legacy chatId column not detected (or DB is not Postgres).',
-          },
-        });
-      }
-
-      // --- 3) Legacy chatId fallback ---
-      // Try both "Message" and "message" table names safely.
-      let legacyCount = 0;
-      let legacyRows = [];
-
-      try {
-        const legacyCountRows = await prisma.$queryRaw`
-          SELECT COUNT(*)::int AS count
-          FROM "Message"
-          WHERE "chatId" = ${roomId}
-        `;
-        legacyCount = Number(legacyCountRows?.[0]?.count ?? 0);
-
-        legacyRows = await prisma.$queryRaw`
-          SELECT
-            m."id",
-            m."createdAt",
-            m."senderId",
-            m."chatId" as "chatRoomId",
-            m."text" as "rawContent"
-          FROM "Message" m
-          WHERE m."chatId" = ${roomId}
-          ORDER BY m."createdAt" ASC
-          LIMIT 200
-        `;
-      } catch (e1) {
-        console.warn('⚠️ Legacy query on "Message" failed, trying "message"...', e1?.message || e1);
-
-        const legacyCountRows2 = await prisma.$queryRaw`
-          SELECT COUNT(*)::int AS count
-          FROM "message"
-          WHERE "chatId" = ${roomId}
-        `;
-        legacyCount = Number(legacyCountRows2?.[0]?.count ?? 0);
-
-        legacyRows = await prisma.$queryRaw`
-          SELECT
-            m."id",
-            m."createdAt",
-            m."senderId",
-            m."chatId" as "chatRoomId",
-            m."text" as "rawContent"
-          FROM "message" m
-          WHERE m."chatId" = ${roomId}
-          ORDER BY m."createdAt" ASC
-          LIMIT 200
-        `;
-      }
-
-      return res.json({
-        messages: legacyRows,
-        debug: {
-          ...globalDebug,
-          countChatRoomId,
-          countRandomChatRoomId,
-          hasChatIdColumn: true,
-          legacyCount,
-          used: 'legacy-chatId',
-        },
-      });
-    } catch (e) {
-      console.error('❌ chatrooms/:roomId/messages failed', e);
-      return res.status(500).json({
-        error: 'Failed to fetch messages',
-        detail: String(e?.message || e),
-      });
-    }
+    const permittedSources = [];
+    if (chatMember) permittedSources.push({ chatRoomId: roomId });
+    if (randomMember) permittedSources.push({ randomChatRoomId: roomId });
+    const messages = await prisma.message.findMany({
+      where: { OR: permittedSources },
+      orderBy: { createdAt: 'asc' },
+      take: 200,
+    });
+    // Never return whole-database statistics, DB identity, or raw exceptions.
+    return res.json({ messages });
   })
 );
 
 router.post(
   '/__debug/seed-message',
+  requireAuth,
   asyncHandler(async (req, res) => {
-    const roomId = Number(req.body?.roomId ?? 7673);
-    const senderId = Number(req.user?.id); // uses your auth middleware
-
-    if (!senderId) return res.status(401).json({ error: 'Not authorized' });
-    if (!Number.isFinite(roomId)) return res.status(400).json({ error: 'Invalid roomId' });
+    if (isProd) return res.status(404).json({ error: 'Not found' });
+    const roomId = Number(req.body?.roomId);
+    const senderId = Number(req.user.id);
+    if (!Number.isSafeInteger(roomId) || roomId <= 0) {
+      throw Boom.badRequest('Invalid roomId');
+    }
+    const member = await prisma.participant.findFirst({
+      where: { chatRoomId: roomId, userId: senderId },
+      select: { id: true },
+    });
+    if (!member) throw Boom.forbidden('Not a participant');
 
     const msg = await prisma.message.create({
       data: {
@@ -341,6 +196,7 @@ router.post('/dev/direct', requireAuth, asyncHandler(async (req, res) => {
   if (!Number.isFinite(userB) || userA === userB) {
     throw Boom.badRequest('Valid other userId required');
   }
+  await assertDirectUsersAllowed(userA, userB);
 
   const candidates = await prisma.chatRoom.findMany({
     where: {
@@ -388,13 +244,18 @@ router.post('/dev/direct', requireAuth, asyncHandler(async (req, res) => {
 // POST /chatrooms/:roomId/messages
 router.post(
   '/:roomId/messages',
+  requireAuth,
   asyncHandler(async (req, res) => {
     const roomId = Number(req.params.roomId);
-    if (!Number.isFinite(roomId)) return res.status(400).json({ error: 'Invalid roomId' });
-
-    // Auth middleware should set req.user from JWT
-    const senderId = Number(req.user?.id);
-    if (!senderId) return res.status(401).json({ error: 'Not authorized' });
+    if (!Number.isSafeInteger(roomId) || roomId <= 0) {
+      throw Boom.badRequest('Invalid roomId');
+    }
+    const senderId = Number(req.user.id);
+    const membership = await prisma.participant.findFirst({
+      where: { chatRoomId: roomId, userId: senderId }, select: { id: true },
+    });
+    if (!membership) throw Boom.forbidden('Not a participant');
+    await assertDirectRoomAllowed(roomId, senderId);
 
     const { rawContent, clientMessageId } = req.body || {};
     const text = String(rawContent || '').trim();

@@ -20,6 +20,26 @@ describe('buildQueues', () => {
 });
 
 describe('areCompatible', () => {
+  it('never matches teens with adults when both optional age filters are off', () => {
+    const teen = { userId: 1, ageBand: 'TEEN_13_17', wantsAgeFilter: false };
+    const adult = { userId: 2, ageBand: 'ADULT_18_24', wantsAgeFilter: false };
+    expect(areCompatible(teen, adult)).toBe(false);
+    expect(areCompatible(adult, teen)).toBe(false);
+  });
+
+  it('permits two age-attested teens to match with each other', () => {
+    const teenA = { userId: 1, ageBand: 'TEEN_13_17', wantsAgeFilter: false };
+    const teenB = { userId: 2, ageBand: 'TEEN_13_17', wantsAgeFilter: false };
+    expect(areCompatible(teenA, teenB)).toBe(true);
+  });
+
+  it("respects both users' explicitly configured permitted adult bands", () => {
+    const a = { userId: 1, ageBand: 'ADULT_18_24', wantsAgeFilter: false,
+      randomChatAllowedBands: ['ADULT_25_34'] };
+    const b = { userId: 2, ageBand: 'ADULT_35_49', wantsAgeFilter: false };
+    expect(areCompatible(a, b)).toBe(false);
+  });
+
   const baseA = { userId: 'userA', ageBand: '18-24', wantsAgeFilter: false };
   const baseB = { userId: 'userB', ageBand: '18-24', wantsAgeFilter: false };
 
@@ -49,11 +69,11 @@ describe('areCompatible', () => {
     expect(areCompatible(a, b)).toBe(false);
   });
 
-  it('allows match when filter is requested but other side has no ageBand', () => {
+  it('rejects an unknown age band even when the other user has an age filter', () => {
     const a = { userId: 'userA', ageBand: '18-24', wantsAgeFilter: true };
     const b = { userId: 'userB', ageBand: null, wantsAgeFilter: false };
 
-    expect(areCompatible(a, b)).toBe(true);
+    expect(areCompatible(a, b)).toBe(false);
   });
 
   it('returns true when both want age filter and bands match', () => {
@@ -313,6 +333,9 @@ describe('tryMatch', () => {
     const queues = buildQueues();
 
     const prisma = {
+      userBlock: {
+        findFirst: jest.fn().mockResolvedValue(null),
+      },
       contact: {
         findUnique: jest.fn().mockResolvedValue(null),
       },
@@ -433,5 +456,33 @@ describe('tryMatch', () => {
       partnerDisplayName: expect.any(String),
       relationshipStatus: 'none',
     });
+  });
+});
+
+describe('Random Chat blocked account exclusion', () => {
+  it('never creates a room for a mutually blocked pair', async () => {
+    const { buildQueues, enqueue, tryMatch } = await import('../randomChatService.js');
+    const queues = buildQueues();
+    enqueue(queues, {
+      socketId: 'waiting', userId: 22, username: 'B',
+      ageBand: 'ADULT_18_24', wantsAgeFilter: false,
+    });
+    const prisma = {
+      userBlock: { findFirst: jest.fn().mockResolvedValue({ id: 1 }) },
+      $transaction: jest.fn(),
+    };
+    const socket = { emit: jest.fn() };
+    const currentEntry = {
+      socketId: 'current', userId: 11, username: 'A',
+      ageBand: 'ADULT_18_24', wantsAgeFilter: false,
+    };
+    const result = await tryMatch({
+      queues, prisma, io: {}, currentEntry,
+      getSocketById: () => socket,
+    });
+    expect(result).toEqual({ matched: false });
+    expect(prisma.userBlock.findFirst).toHaveBeenCalledTimes(1);
+    expect(prisma.$transaction).not.toHaveBeenCalled();
+    expect(queues.waitingQueue).toHaveLength(2);
   });
 });

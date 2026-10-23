@@ -11,6 +11,9 @@ const mockPrisma = {
   user: {
     findUnique: jest.fn(),
   },
+  userBlock: {
+    findFirst: jest.fn(),
+  },
   device: {
     findUnique: jest.fn(),
   },
@@ -76,7 +79,7 @@ function makeApp() {
   app.use('/calls', callsRouter);
 
   app.use((err, _req, res, _next) => {
-    return res.status(500).json({
+    return res.status(err?.output?.statusCode || err?.statusCode || 500).json({
       error: err?.message || 'Internal Server Error',
     });
   });
@@ -103,6 +106,7 @@ describe('calls routes', () => {
       .mockResolvedValue(undefined);
 
     mockPrisma.user.findUnique.mockReset();
+    mockPrisma.userBlock.findFirst.mockReset().mockResolvedValue(null);
 
     getUsageAvailabilityMock
       .mockReset()
@@ -180,6 +184,48 @@ describe('calls routes', () => {
 
       expect(res.statusCode).toBe(404);
       expect(res.body).toEqual({ error: 'Callee not found' });
+    });
+
+    test('403 when either account has blocked the other', async () => {
+      mockPrisma.user.findUnique
+        .mockResolvedValueOnce({
+          id: 10,
+          username: 'caller',
+          displayName: 'Caller',
+          avatarUrl: null,
+        })
+        .mockResolvedValueOnce({
+          id: 20,
+          username: 'callee',
+          displayName: 'Callee',
+          avatarUrl: null,
+        });
+
+      mockPrisma.userBlock.findFirst.mockResolvedValueOnce({ id: 55 });
+
+      const res = await request(app)
+        .post('/calls/invite')
+        .send({
+          calleeId: 20,
+          mode: 'AUDIO',
+          offer: { type: 'offer', sdp: 'fake-sdp' },
+        });
+
+      expect(res.statusCode).toBe(403);
+      expect(res.body.error).toMatch(/Direct interaction unavailable/);
+
+      expect(mockPrisma.userBlock.findFirst).toHaveBeenCalledWith({
+        where: {
+          OR: [
+            { blockerId: 10, blockedId: 20 },
+            { blockerId: 20, blockedId: 10 },
+          ],
+        },
+        select: { id: true },
+      });
+
+      expect(mockPrisma.call.create).not.toHaveBeenCalled();
+      expect(emitToUserMock).not.toHaveBeenCalled();
     });
 
     test('201 and emits call:incoming on success', async () => {

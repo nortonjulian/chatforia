@@ -1361,11 +1361,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const handleBlockThread = useCallback(async () => {
     const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
-    const other =
-      participants.find((p) => Number(p?.id) !== Number(currentUserId)) ||
-      participants.find((p) => Number(p?.userId) !== Number(currentUserId));
-
-    const otherId = Number(other?.id ?? other?.userId);
+    const other = participants.find((p) =>
+      Number(p?.userId ?? p?.user?.id ?? p?.id) !== Number(currentUserId)
+    );
+    const otherId = Number(other?.userId ?? other?.user?.id ?? other?.id);
     const name =
       other?.username ||
       other?.displayName ||
@@ -1391,7 +1390,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     } catch (e) {
       console.error('Block failed', e);
       window.alert(
-        t('chat.blockFailed', 'Block failed (backend not wired yet).')
+        e?.response?.data?.message || e?.response?.data?.error || t('chat.blockFailed', 'Could not block this account.')
       );
     }
   }, [chatroom?.participants, currentUserId, navigate]);

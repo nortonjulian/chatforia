@@ -196,6 +196,50 @@ describe('RandomChatPage', () => {
     expect(mockEmit).toHaveBeenCalledWith('random:ai_start');
   });
 
+  test('age attestation rejection ends searching and asks for profile confirmation', async () => {
+    render(<RandomChatPage />);
+
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: /find me a match/i })).toBeEnabled()
+    );
+    fireEvent.click(screen.getByRole('button', { name: /find me a match/i }));
+
+    triggerSocket('random:error', { code: 'AGE_ATTESTATION_REQUIRED' });
+
+    expect(screen.getByText(/confirm your age range/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /^cancel$/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /find me a match/i })).toBeDisabled();
+  });
+
+  test('blocked pairing rejection resets UI without revealing the blocked identity', async () => {
+    render(<RandomChatPage />);
+    triggerSocket('random:matched', {
+      roomId: 'room-blocked',
+      myAlias: 'You',
+      partnerAlias: 'Someone',
+    });
+
+    triggerSocket('random:error', { code: 'ACCOUNT_BLOCKED' });
+
+    expect(screen.getByText(/this conversation is unavailable/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /find me a match/i })).toBeInTheDocument();
+    expect(screen.queryByText(/you matched with someone/i)).not.toBeInTheDocument();
+  });
+
+  test('invalid room message rejection returns user to start screen', async () => {
+    render(<RandomChatPage />);
+    triggerSocket('random:matched', {
+      roomId: 'expired-room',
+      myAlias: 'You',
+      partnerAlias: 'Alex',
+    });
+
+    triggerSocket('random:error', { code: 'NOT_IN_ACTIVE_SESSION' });
+
+    expect(screen.getByText(/this chat session is no longer active/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /find me a match/i })).toBeInTheDocument();
+  });
+
   test('random:matched opens human chat pane', async () => {
     render(<RandomChatPage />);
 

@@ -3,6 +3,7 @@ import videoCaptionsRouter from './videoCaptions.js';
 import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
+import { assertDirectUsersAllowed } from '../services/userBlockService.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { emitToUser } from '../services/socketBus.js';
 import { sendPushToUser, sendVoipCallPushToUser } from '../services/pushService.js';
@@ -29,6 +30,9 @@ router.post('/start', requireAuth, asyncHandler(async (req, res) => {
   });
 
   if (!callee) throw Boom.notFound('User not found');
+
+  // Block the alternate video-start route before creating or announcing a call.
+  await assertDirectUsersAllowed(callerId, calleeId);
 
   const call = await prisma.call.create({
     data: {

@@ -5,13 +5,13 @@ import request from 'supertest';
 const mockContactFindMany = jest.fn();
 const mockUserFindMany = jest.fn();
 const mockSmsThreadFindMany = jest.fn();
-const mockReportFindMany = jest.fn();
+const mockUserBlockFindMany = jest.fn();
 
 const mockPrismaInstance = {
   contact: { findMany: mockContactFindMany },
   user: { findMany: mockUserFindMany },
   smsThread: { findMany: mockSmsThreadFindMany },
-  report: { findMany: mockReportFindMany },
+  userBlock: { findMany: mockUserBlockFindMany },
 };
 
 jest.unstable_mockModule('@prisma/client', () => {
@@ -49,7 +49,7 @@ beforeEach(() => {
   mockContactFindMany.mockResolvedValue([]);
   mockUserFindMany.mockResolvedValue([]);
   mockSmsThreadFindMany.mockResolvedValue([]);
-  mockReportFindMany.mockResolvedValue([]);
+  mockUserBlockFindMany.mockResolvedValue([]);
 });
 
 describe('GET /search/people', () => {
@@ -155,7 +155,7 @@ describe('GET /search/people', () => {
     expect(users.every((u) => u.displayName === 'John Smith')).toBe(true);
   });
 
-  it('filters report-backed blocks from both public users and linked contacts', async () => {
+  it('filters persistent bidirectional account blocks from users and linked contacts', async () => {
     mockContactFindMany.mockResolvedValueOnce([
       {
         id: 10,
@@ -174,8 +174,8 @@ describe('GET /search/people', () => {
       { id: 100, username: 'johnone', displayName: 'John Smith', avatarUrl: null },
       { id: 200, username: 'johntwo', displayName: 'John Smith', avatarUrl: null },
     ]);
-    mockReportFindMany.mockResolvedValueOnce([
-      { reporterId: 999, reportedUserId: 200 },
+    mockUserBlockFindMany.mockResolvedValueOnce([
+      { blockerId: 999, blockedId: 200 },
     ]);
 
     const res = await request(createApp({ user: { id: 999 } }))
@@ -184,24 +184,14 @@ describe('GET /search/people', () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.items.map((item) => item.userId)).toEqual([100]);
-    expect(mockReportFindMany).toHaveBeenCalledWith({
+    expect(mockUserBlockFindMany).toHaveBeenCalledWith({
       where: {
-        blockApplied: true,
         OR: [
-          {
-            reporterId: 999,
-            reportedUserId: { in: [100, 200] },
-          },
-          {
-            reportedUserId: 999,
-            reporterId: { in: [100, 200] },
-          },
+          { blockerId: 999, blockedId: { in: [100, 200] } },
+          { blockedId: 999, blockerId: { in: [100, 200] } },
         ],
       },
-      select: {
-        reporterId: true,
-        reportedUserId: true,
-      },
+      select: { blockerId: true, blockedId: true },
     });
   });
 
