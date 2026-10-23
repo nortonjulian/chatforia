@@ -294,15 +294,23 @@ const showCallBanner = Boolean(
     if (!ok) return;
 
     try {
-      // ✅ Backend should implement:
-      // POST /sms/blocks  { phone }
-      await axiosClient.post('/sms/blocks', { phone: target });
+      const { data } = await axiosClient.post(
+        '/sms/blocked-numbers',
+        { phone: target }
+      );
+      if (!data?.success) {
+        throw new Error('Blocking was not confirmed by the server.');
+      }
 
       window.alert(`Blocked ${titleText || target}.`);
       navigate('/sms');
     } catch (e) {
       console.error('SMS Block failed', e);
-      window.alert('Block failed (backend not wired yet).');
+      window.alert(
+        e?.response?.data?.message ||
+        e?.response?.data?.error ||
+        'Could not block this number. Please try again.'
+      );
     }
   }, [toNumber, titleText, navigate]);
 
