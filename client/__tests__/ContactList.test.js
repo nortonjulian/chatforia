@@ -135,46 +135,40 @@ describe('ContactList', () => {
     expect(onChanged).toHaveBeenCalled();
   });
 
-  test('editing alias triggers PATCH on blur', async () => {
+  test('editing alias through the dialog saves and refreshes', async () => {
     axiosClient.get
       .mockResolvedValueOnce({
-        data: [{ userId: 5, alias: '', user: { username: 'amy' } }],
-      }) // initial
+        data: [{ id: 5, userId: 5, alias: '', user: { username: 'amy' } }],
+      })
       .mockResolvedValueOnce({
-        data: [
-          {
-            userId: 5,
-            alias: 'Bestie',
-            user: { username: 'amy' },
-          },
-        ],
-      }); // refresh after PATCH
-    axiosClient.patch.mockResolvedValueOnce({ status: 200 });
+        data: [{ id: 5, userId: 5, alias: 'Bestie', user: { username: 'amy' } }],
+      });
+
+    axiosClient.patch.mockResolvedValueOnce({
+      data: { id: 5, userId: 5, alias: 'Bestie', favorite: false },
+    });
 
     renderSut();
 
     expect(await screen.findByText('amy')).toBeInTheDocument();
 
-    const aliasInput = screen.getByPlaceholderText(/alias/i);
-    fireEvent.change(aliasInput, {
+    fireEvent.click(screen.getByRole('button', { name: 'Edit contact' }));
+
+    fireEvent.change(screen.getByRole('textbox', { name: 'Alias' }), {
       target: { value: 'Bestie' },
     });
-    fireEvent.blur(aliasInput);
 
-    await waitFor(() =>
-      expect(axiosClient.patch).toHaveBeenCalledWith(
-        '/contacts',
-        {
-          ownerId: 1,
-          userId: 5,
-          alias: 'Bestie',
-        }
-      )
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'Save Changes' }));
 
-    expect(
-      await screen.findByText('Bestie')
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(axiosClient.patch).toHaveBeenCalledWith('/contacts', {
+        userId: 5,
+        alias: 'Bestie',
+        favorite: false,
+      });
+    });
+
+    expect(await screen.findByText('Bestie')).toBeInTheDocument();
   });
 
   test('multiple selection mode toggles checkboxes instead of navigating', async () => {
