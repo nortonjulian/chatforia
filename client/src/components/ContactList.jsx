@@ -21,9 +21,11 @@ import {
   IconMessage,
   IconPhoneCall,
   IconVideo,
+  IconPencil,
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useCall } from '@/context/CallContext';
+import EditSavedContactModal from './EditSavedContactModal';
 
 // --- tiny, safe toast fallback so we don't crash if your toast util isn't wired yet
 const toast = {
@@ -56,6 +58,7 @@ const startCall = callContext?.startCall;
   const [nextCursor, setNextCursor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [editingContact, setEditingContact] = useState(null);
 
   async function fetchContacts({ cursor = null, append = false } = {}) {
     try {
@@ -474,6 +477,20 @@ const openSmsThreadOrCompose = async ({ phone, alias }) => {
                     </span>
                   </Tooltip>
 
+                  <Tooltip label={t('contactList.edit', 'Edit contact')}>
+                    <ActionIcon
+                      variant="light"
+                      aria-label={t('contactList.edit', 'Edit contact')}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setEditingContact(c);
+                      }}
+                    >
+                      <IconPencil size={16} />
+                    </ActionIcon>
+                  </Tooltip>
+
                   <Tooltip label={t('contactList.delete', 'Delete')}>
                     <ActionIcon
                       color="red"
@@ -493,6 +510,18 @@ const openSmsThreadOrCompose = async ({ phone, alias }) => {
             );
           })}
         </Stack>
+      )}
+
+      {editingContact && (
+        <EditSavedContactModal
+          key={editingContact.id ?? editingContact.externalPhone}
+          contact={editingContact}
+          onClose={() => setEditingContact(null)}
+          onSaved={async () => {
+            setEditingContact(null);
+            await fetchContacts({ append: false });
+          }}
+        />
       )}
 
       {nextCursor && (
