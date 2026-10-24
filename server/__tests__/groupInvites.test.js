@@ -1,335 +1,135 @@
 import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
+import { readFileSync } from 'node:fs';
 
-// --- Prisma + middleware mocks ---
-const mockPrisma = {
-  chatRoom: {
-    findUnique: jest.fn(),
-  },
+const db = {
+  chatRoom: { findUnique: jest.fn() },
   chatRoomInvite: {
-    create: jest.fn(),
-    findMany: jest.fn(),
-    findUnique: jest.fn(),
-    update: jest.fn(),
+    create: jest.fn(), findMany: jest.fn(), findUnique: jest.fn(),
+    deleteMany: jest.fn(), updateMany: jest.fn(),
   },
-  participant: {
-    upsert: jest.fn(),
-  },
+  participant: { findUnique: jest.fn(), create: jest.fn() },
+  $transaction: jest.fn(),
 };
-
-// Fake PrismaClient: new PrismaClient() -> mockPrisma
-class FakePrismaClient {
-  constructor() {
-    return mockPrisma;
-  }
+await jest.unstable_mockModule('../utils/prismaClient.js', () => ({ default: db }));
+await jest.unstable_mockModule('../middleware/auth.js', () => ({
+  requireAuth: (req, _res, next) => { req.user = { id: 1 }; next(); },
+}));
+const router = (await import('../routes/groupInvites.js')).default;
+function app() {
+  const a = express();
+  a.use(express.json());
+  a.use('/', router);
+  return a;
 }
-
-const mockRequireAuth = jest.fn((req, _res, next) => {
-  // Simulate authed user
-  req.user = { id: 1 };
-  next();
+const group = { isGroup: true, ownerId: 1, participants: [{ role: 'ADMIN' }] };
+const future = () => new Date(Date.now() + 3_600_000);
+const invite = (extra = {}) => ({
+  id: 7, chatRoomId: 10, code: 'test-code', maxUses: 5, uses: 0,
+  expiresAt: future(), chatRoom: { isGroup: true, id: 10, name: 'Test group' },
+  ...extra,
 });
 
-// ---- Mock modules BEFORE importing the router ----
-await jest.unstable_mockModule('@prisma/client', () => ({
-  __esModule: true,
-  default: { PrismaClient: FakePrismaClient },
-}));
+beforeEach(() => {
+  jest.clearAllMocks();
+  process.env.APP_BASE_URL = 'https://www.chatforia.com';
+  db.chatRoom.findUnique.mockResolvedValue(group);
+  db.chatRoomInvite.create.mockResolvedValue({ code: 'newcode', expiresAt: future(), maxUses: 2, uses: 0 });
+  db.chatRoomInvite.findUnique.mockImplementation(async () => invite());
+  db.chatRoomInvite.findMany.mockResolvedValue([]);
+  db.chatRoomInvite.deleteMany.mockResolvedValue({ count: 1 });
+  db.chatRoomInvite.updateMany.mockResolvedValue({ count: 1 });
+  db.participant.findUnique.mockResolvedValue(null);
+  db.participant.create.mockResolvedValue({ id: 42 });
+  db.$transaction.mockImplementation(async cb => cb(db));
+});
 
-await jest.unstable_mockModule('../middleware/auth.js', () => ({
-  __esModule: true,
-  requireAuth: mockRequireAuth,
-}));
-
-// Import router under test
-const groupInvitesRouter = (await import('../routes/groupInvites.js')).default;
-
-// Build an Express app using the router
-function makeApp() {
-  const app = express();
-  app.use(express.json());
-  app.use('/', groupInvitesRouter);
-
-  // Generic error handler (should rarely be hit here)
-  app.use((err, _req, res, _next) => {
-    return res.status(500).json({ error: err.message });
-  });
-
-  return app;
-}
-
-describe('groupInvites routes', () => {
-  let app;
-
-  beforeEach(() => {
-    app = makeApp();
-    jest.clearAllMocks();
-    // Default base URL for invites
-    process.env.APP_BASE_URL = 'https://app.test';
-  });
-
-  describe('POST /chatrooms/:roomId/invites (create invite)', () => {
-    it('creates an invite when user is owner/admin', async () => {
-      // User is owner of room 10
-      mockPrisma.chatRoom.findUnique.mockResolvedValue({
-        ownerId: 1,
-        participants: [],
-      });
-
-      const inviteRow = {
-        code: 'invitecode123',
-        expiresAt: new Date('2030-01-01T00:00:00.000Z').toISOString(),
-        maxUses: 5,
-        usedCount: 0,
-      };
-      mockPrisma.chatRoomInvite.create.mockResolvedValue(inviteRow);
-
-      const res = await request(app)
-        .post('/chatrooms/10/invites')
-        .send({ maxUses: 5, expiresInMinutes: 60 })
-        .expect(200);
-
-      // Permission check
-      expect(mockPrisma.chatRoom.findUnique).toHaveBeenCalledWith({
-        where: { id: 10 },
-        select: {
-          ownerId: true,
-          participants: {
-            where: { userId: 1 },
-            select: { role: true },
-          },
-        },
-      });
-
-      // Invite creation
-      const createArgs = mockPrisma.chatRoomInvite.create.mock.calls[0][0];
-      expect(createArgs.where).toBeUndefined();
-      expect(createArgs.data.chatRoomId).toBe(10);
-      expect(createArgs.data.createdById).toBe(1);
-      expect(createArgs.data.maxUses).toBe(5);
-      expect(createArgs.data.expiresAt).toBeInstanceOf(Date);
-
-      // URL built from APP_BASE_URL + /join/:code
-      expect(res.body).toEqual({
-        code: 'invitecode123',
-        expiresAt: inviteRow.expiresAt,
-        maxUses: 5,
-        usedCount: 0,
-        url: 'https://app.test/join/invitecode123',
-      });
-    });
-
-    it('returns 403 when user cannot manage room', async () => {
-      // User is neither owner nor ADMIN
-      mockPrisma.chatRoom.findUnique.mockResolvedValue({
-        ownerId: 2,
-        participants: [{ role: 'MEMBER' }],
-      });
-
-      const res = await request(app)
-        .post('/chatrooms/10/invites')
-        .send({ maxUses: 5 })
-        .expect(403);
-
-      expect(res.body).toEqual({ error: 'Forbidden' });
-      expect(mockPrisma.chatRoomInvite.create).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('GET /chatrooms/:roomId/invites (list invites)', () => {
-    it('lists invites for a room when user can manage room', async () => {
-      mockPrisma.chatRoom.findUnique.mockResolvedValue({
-        ownerId: 1,
-        participants: [],
-      });
-
-      const invites = [
-        {
-          code: 'c1',
-          maxUses: 5,
-          usedCount: 1,
-          expiresAt: null,
-          revokedAt: null,
-          createdAt: '2025-01-01T00:00:00.000Z',
-        },
-        {
-          code: 'c2',
-          maxUses: 0,
-          usedCount: 0,
-          expiresAt: '2030-01-01T00:00:00.000Z',
-          revokedAt: null,
-          createdAt: '2025-01-02T00:00:00.000Z',
-        },
-      ];
-      mockPrisma.chatRoomInvite.findMany.mockResolvedValue(invites);
-
-      const res = await request(app)
-        .get('/chatrooms/10/invites')
-        .expect(200);
-
-      expect(mockPrisma.chatRoomInvite.findMany).toHaveBeenCalledWith({
-        where: { chatRoomId: 10 },
-        orderBy: { createdAt: 'desc' },
-        select: {
-          code: true,
-          maxUses: true,
-          usedCount: true,
-          expiresAt: true,
-          revokedAt: true,
-          createdAt: true,
-        },
-      });
-
-      expect(res.body).toEqual(invites);
-    });
-  });
-
-  describe('DELETE /chatrooms/:roomId/invites/:code (revoke invite)', () => {
-    it('revokes invite when user can manage room', async () => {
-      mockPrisma.chatRoom.findUnique.mockResolvedValue({
-        ownerId: 1,
-        participants: [],
-      });
-
-      mockPrisma.chatRoomInvite.update.mockResolvedValue({});
-
-      const res = await request(app)
-        .delete('/chatrooms/10/invites/abc123')
-        .expect(200);
-
-      expect(mockPrisma.chatRoomInvite.update).toHaveBeenCalledWith({
-        where: { code: 'abc123' },
-        data: { revokedAt: expect.any(Date) },
-      });
-
-      expect(res.body).toEqual({ ok: true });
-    });
-  });
-
-  describe('GET /invites/:code (resolve/preview invite)', () => {
-    it('returns 404 when invite does not exist', async () => {
-      mockPrisma.chatRoomInvite.findUnique.mockResolvedValue(null);
-
-      const res = await request(app)
-        .get('/invites/unknown')
-        .expect(404);
-
-      expect(res.body).toEqual({ error: 'Invite not found' });
-    });
-
-    it('returns status "ok" when invite is valid', async () => {
-      const future = new Date(Date.now() + 60 * 60 * 1000).toISOString();
-      mockPrisma.chatRoomInvite.findUnique.mockResolvedValue({
-        code: 'okcode',
-        expiresAt: future,
-        maxUses: 10,
-        usedCount: 1,
-        revokedAt: null,
-        chatRoom: { id: 123, name: 'Cool Room' },
-      });
-
-      const res = await request(app)
-        .get('/invites/okcode')
-        .expect(200);
-
-      expect(res.body).toEqual({
-        code: 'okcode',
-        roomId: 123,
-        roomName: 'Cool Room',
-        status: 'ok',
-      });
-    });
-
-    it('returns status "expired" when invite is expired', async () => {
-      const past = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-      mockPrisma.chatRoomInvite.findUnique.mockResolvedValue({
-        code: 'expiredcode',
-        expiresAt: past,
-        maxUses: 0,
-        usedCount: 0,
-        revokedAt: null,
-        chatRoom: { id: 123, name: 'Room' },
-      });
-
-      const res = await request(app)
-        .get('/invites/expiredcode')
-        .expect(200);
-
-      expect(res.body.status).toBe('expired');
-    });
-  });
-
-  describe('POST /invites/:code/accept (join via invite)', () => {
-    it('allows join when invite is valid and increments usedCount', async () => {
-      const future = new Date(Date.now() + 60 * 60 * 1000).toISOString();
-      mockPrisma.chatRoomInvite.findUnique.mockResolvedValue({
-        id: 1,
-        code: 'joincode',
-        expiresAt: future,
-        maxUses: 5,
-        usedCount: 1,
-        revokedAt: null,
-        chatRoomId: 999,
-      });
-
-      mockPrisma.participant.upsert.mockResolvedValue({});
-      mockPrisma.chatRoomInvite.update.mockResolvedValue({});
-
-      const res = await request(app)
-        .post('/invites/joincode/accept')
-        .expect(200);
-
-      // Participant upsert as MEMBER
-      expect(mockPrisma.participant.upsert).toHaveBeenCalledWith({
-        where: {
-          chatRoomId_userId: { chatRoomId: 999, userId: 1 },
-        },
-        create: {
-          chatRoomId: 999,
-          userId: 1,
-          role: 'MEMBER',
-        },
-        update: {},
-      });
-
-      // usedCount increment
-      expect(mockPrisma.chatRoomInvite.update).toHaveBeenCalledWith({
-        where: { code: 'joincode' },
-        data: { usedCount: { increment: 1 } },
-      });
-
-      expect(res.body).toEqual({ ok: true, roomId: 999 });
-    });
-
-    it('returns 410 when invite is revoked', async () => {
-      mockPrisma.chatRoomInvite.findUnique.mockResolvedValue({
-        id: 1,
-        code: 'revoked',
-        expiresAt: null,
-        maxUses: 0,
-        usedCount: 0,
-        revokedAt: new Date().toISOString(),
-        chatRoomId: 1,
-      });
-
-      const res = await request(app)
-        .post('/invites/revoked/accept')
-        .expect(410);
-
-      expect(res.body).toEqual({ error: 'Invite revoked' });
-      expect(mockPrisma.participant.upsert).not.toHaveBeenCalled();
-      expect(mockPrisma.chatRoomInvite.update).not.toHaveBeenCalled();
-    });
-
-    it('returns 404 when invite not found', async () => {
-      mockPrisma.chatRoomInvite.findUnique.mockResolvedValue(null);
-
-      const res = await request(app)
-        .post('/invites/missing/accept')
-        .expect(404);
-
-      expect(res.body).toEqual({ error: 'Invite not found' });
-    });
-  });
+test('production app registers group invite router explicitly', () => {
+  const code = readFileSync(new URL('../app.js', import.meta.url), 'utf8');
+  expect(code).toMatch(/import groupInvitesRouter from '\.\/routes\/groupInvites\.js'/);
+  expect(code).toMatch(/app\.use\('\/', groupInvitesRouter\)/);
+});
+test('owner creates real invite URL using schema `uses` field', async () => {
+  const r = await request(app()).post('/chatrooms/10/invites')
+    .send({ expiresInMinutes: 60, maxUses: 2 }).expect(200);
+  expect(r.body.url).toBe('https://www.chatforia.com/join/newcode');
+  expect(r.body.uses).toBe(0);
+  expect(db.chatRoomInvite.create.mock.calls[0][0].select).toHaveProperty('uses', true);
+  expect(db.chatRoomInvite.create.mock.calls[0][0].data.expiresAt).toBeInstanceOf(Date);
+});
+test('rejects invalid limits and refuses to create', async () => {
+  await request(app()).post('/chatrooms/10/invites').send({ maxUses: -1 }).expect(400);
+  await request(app()).post('/chatrooms/10/invites').send({ expiresInMinutes: 999999 }).expect(400);
+  expect(db.chatRoomInvite.create).not.toHaveBeenCalled();
+});
+test('a regular member cannot generate invites', async () => {
+  db.chatRoom.findUnique.mockResolvedValue({ isGroup: true, ownerId: 2, participants: [{ role: 'MEMBER' }] });
+  await request(app()).post('/chatrooms/10/invites').send({}).expect(403);
+  expect(db.chatRoomInvite.create).not.toHaveBeenCalled();
+});
+test('a direct chat cannot create group invites', async () => {
+  db.chatRoom.findUnique.mockResolvedValue({ isGroup: false, ownerId: 1, participants: [{ role: 'ADMIN' }] });
+  await request(app()).post('/chatrooms/10/invites').send({}).expect(400);
+});
+test('list uses valid schema fields and owner permission', async () => {
+  db.chatRoomInvite.findMany.mockResolvedValue([{ code:'one', uses:0, maxUses:5 }]);
+  const r=await request(app()).get('/chatrooms/10/invites').expect(200);
+  expect(r.body).toHaveLength(1);
+  expect(db.chatRoomInvite.findMany.mock.calls[0][0].select.uses).toBe(true);
+});
+test('revoking removes token only from current group', async () => {
+  await request(app()).delete('/chatrooms/10/invites/safe').expect(200);
+  expect(db.chatRoomInvite.deleteMany).toHaveBeenCalledWith({where:{code:'safe',chatRoomId:10}});
+});
+test('missing invite cannot be revoked', async () => {
+  db.chatRoomInvite.deleteMany.mockResolvedValue({count:0});
+  await request(app()).delete('/chatrooms/10/invites/missing').expect(404);
+});
+test('preview returns room name, valid state, and no secret membership data', async () => {
+  const r=await request(app()).get('/invites/test-code').expect(200);
+  expect(r.body).toEqual({ code:'test-code',roomId:10,roomName:'Test group',status:'ok'});
+});
+test('expired and exhausted invites report their status', async () => {
+  db.chatRoomInvite.findUnique.mockResolvedValueOnce(invite({expiresAt:new Date(0)}));
+  expect((await request(app()).get('/invites/old')).body.status).toBe('expired');
+  db.chatRoomInvite.findUnique.mockResolvedValueOnce(invite({uses:5,maxUses:5}));
+  expect((await request(app()).get('/invites/used')).body.status).toBe('exhausted');
+});
+test('missing invite returns 404 without revealing participants', async () => {
+  db.chatRoomInvite.findUnique.mockResolvedValue(null);
+  await request(app()).get('/invites/missing').expect(404);
+});
+test('accept atomically claims a usage and creates membership', async () => {
+  const r=await request(app()).post('/invites/test-code/accept').send({}).expect(200);
+  expect(r.body).toEqual({ok:true, roomId:10, alreadyMember:false});
+  expect(db.$transaction).toHaveBeenCalledTimes(1);
+  expect(db.chatRoomInvite.updateMany).toHaveBeenCalledWith(expect.objectContaining({
+    data:{uses:{increment:1}},
+  }));
+  expect(db.participant.create).toHaveBeenCalledWith({data:{chatRoomId:10,userId:1,role:'MEMBER'}});
+});
+test('already joined member does not use another invite slot', async () => {
+  db.participant.findUnique.mockResolvedValue({id:99});
+  const r=await request(app()).post('/invites/test-code/accept').expect(200);
+  expect(r.body.alreadyMember).toBe(true);
+  expect(db.chatRoomInvite.updateMany).not.toHaveBeenCalled();
+});
+test('expired invitation cannot join', async () => {
+  db.chatRoomInvite.findUnique.mockResolvedValue(invite({expiresAt:new Date(0)}));
+  await request(app()).post('/invites/test-code/accept').expect(410);
+  expect(db.participant.create).not.toHaveBeenCalled();
+});
+test('when conditional quota claim fails, no participant is created', async () => {
+  db.chatRoomInvite.updateMany.mockResolvedValue({count:0});
+  await request(app()).post('/invites/test-code/accept').expect(410);
+  expect(db.participant.create).not.toHaveBeenCalled();
+});
+test('revoked invitation is invalid because token was deleted', async () => {
+  db.chatRoomInvite.findUnique.mockResolvedValue(null);
+  await request(app()).post('/invites/deleted/accept').expect(404);
+});
+test('failure during transaction never reports membership as successful', async () => {
+  db.participant.create.mockRejectedValue(new Error('db failed'));
+  await request(app()).post('/invites/test-code/accept').expect(409);
 });

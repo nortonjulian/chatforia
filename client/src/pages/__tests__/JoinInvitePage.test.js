@@ -102,7 +102,7 @@ describe('JoinInvitePage', () => {
 
   test('valid invite + logged in: accepts and navigates to room', async () => {
     mockGet.mockResolvedValueOnce({ data: { status: 'ok', roomName: 'General' } });
-    mockPost.mockResolvedValueOnce({ data: { roomId: 'r-789' } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true, roomId: 789, alreadyMember: false } });
     mockCurrentUser = { id: 7 };
 
     render(<JoinInvitePage />);
@@ -112,7 +112,7 @@ describe('JoinInvitePage', () => {
 
     await waitFor(() => {
       expect(mockPost).toHaveBeenCalledWith('/invites/abc123/accept');
-      expect(mockNavigate).toHaveBeenCalledWith('/chat/r-789');
+      expect(mockNavigate).toHaveBeenCalledWith('/chat/789');
     });
   });
 

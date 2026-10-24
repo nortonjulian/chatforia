@@ -57,6 +57,7 @@ import followsRouter from './routes/follows.js';
 import randomChatsRouter from './routes/randomChats.js';
 import contactRoutes from './routes/contacts.js';
 import invitesRouter from './routes/invites.js';
+import groupInvitesRouter from './routes/groupInvites.js';
 import mediaRouter from './routes/media.js';
 import billingRouter from './routes/billing.js';
 import billingWebhook from './routes/billingWebhook.js';
@@ -552,6 +553,8 @@ app.use('/ice-servers', requireAuth, requireEmailVerified, iceRouter);
   app.post('/numbers/lock', requireAuth, requireEmailVerified, requirePremium, (req, _res, next) => next());
   app.use('/numbers', requireAuth, requireEmailVerified, numbersRouter);
 
+// Group invite routes use /chatrooms/:roomId/invites and /invites/:code.
+app.use('/', groupInvitesRouter);
 app.use('/rooms', roomsRouter);
 app.use('/chatrooms', chatroomsRouter);
 app.use('/conversations', conversationsRouter);
