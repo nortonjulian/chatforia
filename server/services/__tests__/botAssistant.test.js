@@ -147,3 +147,37 @@ describe('maybeInvokeForiaBot (gating / early returns)', () => {
     expect(io.to).not.toHaveBeenCalled();
   });
 });
+
+describe('maybeInvokeForiaBot (room sender consent)', () => {
+  it('never reads message context or sends to AI when sender has opted out', async () => {
+    process.env.FORIA_BOT_USER_ID = '999';
+    process.env.OPENAI_API_KEY = 'test-key';
+
+    const prisma = {
+      chatRoom: {
+        findUnique: jest.fn().mockResolvedValue({
+          allowForiaBot: true,
+          aiAssistantMode: 'ALWAYS',
+          participants: [
+            { userId: 10, allowAIBot: false, user: { username: 'sender' } },
+            { userId: 11, allowAIBot: true, user: { username: 'other' } },
+          ],
+        }),
+      },
+      message: { findMany: jest.fn() },
+    };
+    const { io } = makeIoMock();
+    const { maybeInvokeForiaBot } = await import('../botAssistant.js');
+
+    await maybeInvokeForiaBot({
+      text: 'a private message that must not reach AI',
+      savedMessage: { chatRoomId: 135, senderId: 10 },
+      io,
+      prisma,
+    });
+
+    expect(prisma.chatRoom.findUnique).toHaveBeenCalledTimes(1);
+    expect(prisma.message.findMany).not.toHaveBeenCalled();
+    expect(io.to).not.toHaveBeenCalled();
+  });
+});
