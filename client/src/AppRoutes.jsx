@@ -415,6 +415,9 @@ export default function AppRoutes() {
           }
         />
 
+        {/* Public group invite preview; joining still requires sign-in. */}
+        <Route path="/join/:code" element={<JoinInvitePage />} />
+
         {/* Auth + marketing layout */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />

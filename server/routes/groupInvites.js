@@ -1,195 +1,180 @@
 import express from 'express';
 import crypto from 'crypto';
 import { requireAuth } from '../middleware/auth.js';
+import prisma from '../utils/prismaClient.js';
 
-import pkg from '@prisma/client';
-const { PrismaClient } = pkg;
-
-const prisma = new PrismaClient();
 const router = express.Router();
+const validId = (value) => {
+  const id = Number(value);
+  return Number.isSafeInteger(id) && id > 0 ? id : null;
+};
+const fail = (res, status, error) => res.status(status).json({ error });
+const inviteStatus = (invite, now = new Date()) => {
+  if (invite.expiresAt && new Date(invite.expiresAt) <= now) return 'expired';
+  if (invite.maxUses > 0 && invite.uses >= invite.maxUses) return 'exhausted';
+  return 'ok';
+};
 
-// helper: only owner/admins can manage invites
-async function assertCanManageRoom(roomId, userId) {
+async function requireGroupManager(roomId, userId, res) {
   const room = await prisma.chatRoom.findUnique({
-    where: { id: Number(roomId) },
+    where: { id: roomId },
     select: {
+      isGroup: true,
       ownerId: true,
-      participants: {
-        where: { userId: Number(userId) },
-        select: { role: true },
-      },
+      participants: { where: { userId }, select: { role: true } },
     },
   });
-  if (!room) throw Object.assign(new Error('Room not found'), { status: 404 });
-  const myRole = room.participants[0]?.role;
-  const can = room.ownerId === Number(userId) || myRole === 'ADMIN';
-  if (!can) {
-    const err = new Error('Forbidden');
-    err.status = 403;
-    throw err;
+  if (!room) { fail(res, 404, 'Group not found'); return false; }
+  if (!room.isGroup) { fail(res, 400, 'Invitations are only for group chats'); return false; }
+  const role = room.participants?.[0]?.role;
+  if (!role || (room.ownerId !== userId && role !== 'ADMIN')) {
+    fail(res, 403, 'Only group owners or admins may manage invitations');
+    return false;
   }
+  return true;
 }
 
-// short code
-function makeCode(len = 10) {
-  return crypto.randomBytes(len).toString('base64url'); // URL-safe
-}
-
-// Create invite
 router.post('/chatrooms/:roomId/invites', requireAuth, async (req, res) => {
   try {
-    const { roomId } = req.params;
-    await assertCanManageRoom(roomId, req.user.id);
+    const roomId = validId(req.params.roomId);
+    const userId = validId(req.user?.id);
+    if (!roomId || !userId) return fail(res, 400, 'Invalid group or account');
+    if (!(await requireGroupManager(roomId, userId, res))) return;
 
-    const { maxUses = 0, expiresInMinutes = 60 * 24 } = req.body ?? {};
-    const code = makeCode(8);
+    const rawMax = req.body?.maxUses ?? 0;
+    const rawExpiry = req.body?.expiresInMinutes ?? 1440;
+    const maxUses = Number(rawMax);
+    const expiresInMinutes = Number(rawExpiry);
+    if (!Number.isSafeInteger(maxUses) || maxUses < 0 || maxUses > 10000 ||
+        !Number.isSafeInteger(expiresInMinutes) || expiresInMinutes < 0 || expiresInMinutes > 10080) {
+      return fail(res, 400, 'Invalid invite limits');
+    }
 
     const invite = await prisma.chatRoomInvite.create({
       data: {
-        code,
-        chatRoomId: Number(roomId),
-        createdById: req.user.id,
-        maxUses: Number(maxUses) || 0,
-        expiresAt:
-          expiresInMinutes > 0
-            ? new Date(Date.now() + expiresInMinutes * 60 * 1000)
-            : null,
+        code: crypto.randomBytes(16).toString('base64url'),
+        chatRoomId: roomId,
+        createdById: userId,
+        maxUses,
+        expiresAt: expiresInMinutes === 0 ? null : new Date(Date.now() + expiresInMinutes * 60000),
       },
-      select: { code: true, expiresAt: true, maxUses: true, usedCount: true },
+      select: { code: true, expiresAt: true, maxUses: true, uses: true },
     });
-
-    const baseUrl =
-      process.env.APP_BASE_URL ||
-      process.env.WEB_URL ||
-      'http://localhost:5173';
-    const url = `${baseUrl}/join/${invite.code}`;
-
-    res.json({ ...invite, url });
-  } catch (e) {
-    res
-      .status(e.status || 500)
-      .json({ error: e.message || 'Failed to create invite' });
+    const root = String(process.env.APP_BASE_URL || process.env.WEB_URL ||
+      process.env.FRONTEND_ORIGIN || 'https://www.chatforia.com').replace(/\/+$/, '');
+    const url = `${root}/join/${invite.code}`;
+    return res.json({ ...invite, url });
+  } catch (error) {
+    console.error('Create group invite failed:', error);
+    return fail(res, 500, 'Could not create invite');
   }
 });
 
-// List invites
 router.get('/chatrooms/:roomId/invites', requireAuth, async (req, res) => {
   try {
-    const { roomId } = req.params;
-    await assertCanManageRoom(roomId, req.user.id);
-
-    const list = await prisma.chatRoomInvite.findMany({
-      where: { chatRoomId: Number(roomId) },
+    const roomId = validId(req.params.roomId);
+    const userId = validId(req.user?.id);
+    if (!roomId || !userId) return fail(res, 400, 'Invalid group or account');
+    if (!(await requireGroupManager(roomId, userId, res))) return;
+    const items = await prisma.chatRoomInvite.findMany({
+      where: { chatRoomId: roomId },
+      select: { code: true, expiresAt: true, maxUses: true, uses: true, createdAt: true },
       orderBy: { createdAt: 'desc' },
+    });
+    return res.json(items);
+  } catch (error) {
+    console.error('List group invites failed:', error);
+    return fail(res, 500, 'Could not list invites');
+  }
+});
+
+// Revocation deletes the invite token. No migration or nonexistent revokedAt column required.
+router.delete('/chatrooms/:roomId/invites/:code', requireAuth, async (req, res) => {
+  try {
+    const roomId = validId(req.params.roomId);
+    const userId = validId(req.user?.id);
+    if (!roomId || !userId) return fail(res, 400, 'Invalid group or account');
+    if (!(await requireGroupManager(roomId, userId, res))) return;
+    const deleted = await prisma.chatRoomInvite.deleteMany({
+      where: { code: req.params.code, chatRoomId: roomId },
+    });
+    if (deleted.count !== 1) return fail(res, 404, 'Invite not found');
+    return res.json({ ok: true });
+  } catch (error) {
+    console.error('Revoke group invite failed:', error);
+    return fail(res, 500, 'Could not revoke invite');
+  }
+});
+
+router.get('/invites/:code', async (req, res) => {
+  try {
+    const invite = await prisma.chatRoomInvite.findUnique({
+      where: { code: req.params.code },
       select: {
-        code: true,
-        maxUses: true,
-        usedCount: true,
-        expiresAt: true,
-        revokedAt: true,
-        createdAt: true,
+        code: true, expiresAt: true, maxUses: true, uses: true,
+        chatRoom: { select: { id: true, name: true, isGroup: true } },
       },
     });
-    res.json(list);
-  } catch (e) {
-    res
-      .status(e.status || 500)
-      .json({ error: e.message || 'Failed to list invites' });
+    if (!invite || !invite.chatRoom?.isGroup) return fail(res, 404, 'Invite not found');
+    return res.json({
+      code: invite.code,
+      roomId: invite.chatRoom.id,
+      roomName: invite.chatRoom.name,
+      status: inviteStatus(invite),
+    });
+  } catch (error) {
+    console.error('Resolve group invite failed:', error);
+    return fail(res, 500, 'Could not resolve invite');
   }
 });
 
-// Revoke invite
-router.delete(
-  '/chatrooms/:roomId/invites/:code',
-  requireAuth,
-  async (req, res) => {
-    try {
-      const { roomId, code } = req.params;
-      await assertCanManageRoom(roomId, req.user.id);
-      await prisma.chatRoomInvite.update({
-        where: { code },
-        data: { revokedAt: new Date() },
-      });
-      res.json({ ok: true });
-    } catch (e) {
-      res
-        .status(e.status || 500)
-        .json({ error: e.message || 'Failed to revoke invite' });
-    }
-  }
-);
-
-// Resolve invite (preview)
-router.get('/invites/:code', async (req, res) => {
-  const { code } = req.params;
-  const inv = await prisma.chatRoomInvite.findUnique({
-    where: { code },
-    select: {
-      code: true,
-      expiresAt: true,
-      maxUses: true,
-      usedCount: true,
-      revokedAt: true,
-      chatRoom: { select: { id: true, name: true } },
-    },
-  });
-  if (!inv) return res.status(404).json({ error: 'Invite not found' });
-
-  const expired = inv.expiresAt && new Date(inv.expiresAt) < new Date();
-  const exhausted = inv.maxUses > 0 && inv.usedCount >= inv.maxUses;
-  const revoked = !!inv.revokedAt;
-
-  res.json({
-    code: inv.code,
-    roomId: inv.chatRoom.id,
-    roomName: inv.chatRoom.name,
-    status: revoked
-      ? 'revoked'
-      : expired
-        ? 'expired'
-        : exhausted
-          ? 'exhausted'
-          : 'ok',
-  });
-});
-
-// Accept invite (join room)
 router.post('/invites/:code/accept', requireAuth, async (req, res) => {
-  const { code } = req.params;
-  const inv = await prisma.chatRoomInvite.findUnique({
-    where: { code },
-    select: {
-      id: true,
-      code: true,
-      expiresAt: true,
-      maxUses: true,
-      usedCount: true,
-      revokedAt: true,
-      chatRoomId: true,
-    },
-  });
-  if (!inv) return res.status(404).json({ error: 'Invite not found' });
-  if (inv.revokedAt) return res.status(410).json({ error: 'Invite revoked' });
-  if (inv.expiresAt && new Date(inv.expiresAt) < new Date())
-    return res.status(410).json({ error: 'Invite expired' });
-  if (inv.maxUses > 0 && inv.usedCount >= inv.maxUses)
-    return res.status(410).json({ error: 'Invite exhausted' });
+  const userId = validId(req.user?.id);
+  if (!userId) return fail(res, 401, 'Authentication required');
 
-  // upsert participant as MEMBER
-  await prisma.participant.upsert({
-    where: {
-      chatRoomId_userId: { chatRoomId: inv.chatRoomId, userId: req.user.id },
-    },
-    create: { chatRoomId: inv.chatRoomId, userId: req.user.id, role: 'MEMBER' },
-    update: {},
-  });
+  try {
+    // The conditional usage increment is atomic. If creating membership fails,
+    // Prisma rolls back the claimed invite usage in the same DB transaction.
+    const result = await prisma.$transaction(async (tx) => {
+      const invite = await tx.chatRoomInvite.findUnique({
+        where: { code: req.params.code },
+        select: {
+          id: true, chatRoomId: true, expiresAt: true,
+          maxUses: true, uses: true,
+          chatRoom: { select: { isGroup: true } },
+        },
+      });
+      if (!invite || !invite.chatRoom?.isGroup) return { status: 404, error: 'Invite not found' };
+      if (inviteStatus(invite) !== 'ok') return { status: 410, error: `Invite ${inviteStatus(invite)}` };
+      const key = { chatRoomId_userId: { chatRoomId: invite.chatRoomId, userId } };
+      const member = await tx.participant.findUnique({ where: key, select: { id: true } });
+      if (member) return { status: 200, roomId: invite.chatRoomId, alreadyMember: true };
 
-  await prisma.chatRoomInvite.update({
-    where: { code },
-    data: { usedCount: { increment: 1 } },
-  });
-
-  res.json({ ok: true, roomId: inv.chatRoomId });
+      const now = new Date();
+      const claimed = await tx.chatRoomInvite.updateMany({
+        where: {
+          id: invite.id,
+          AND: [
+            { OR: [{ expiresAt: null }, { expiresAt: { gt: now } }] },
+            { OR: [{ maxUses: 0 }, { uses: { lt: invite.maxUses } }] },
+          ],
+        },
+        data: { uses: { increment: 1 } },
+      });
+      if (claimed.count !== 1) return { status: 410, error: 'Invite expired or exhausted' };
+      await tx.participant.create({
+        data: { chatRoomId: invite.chatRoomId, userId, role: 'MEMBER' },
+      });
+      return { status: 200, roomId: invite.chatRoomId, alreadyMember: false };
+    });
+    if (result.error) return fail(res, result.status, result.error);
+    return res.json({ ok: true, roomId: result.roomId, alreadyMember: result.alreadyMember });
+  } catch (error) {
+    // Concurrent duplicate accepts may race on the unique membership key.
+    // Their transaction rolls back; client can re-open the group safely.
+    console.error('Accept group invite failed:', error);
+    return fail(res, 409, 'Could not join group; please retry');
+  }
 });
 
 export default router;

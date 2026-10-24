@@ -164,7 +164,11 @@ export default function LoginForm({ onLoginSuccess }) {
     }
 
     // NOTE: backend expects `{ username, password }` — keep that but allow frontend to accept email/phone.
-    const destination = voicemailLinkTarget(window.location.pathname + window.location.search) || pendingVoicemailReturn() || '/';
+    // Only restore a tightly scoped group-invite path after authentication.
+    const requestedNext = new URLSearchParams(window.location.search).get('next');
+    const inviteNext = /^\/join\/[A-Za-z0-9_-]{8,64}$/.test(requestedNext || '')
+      ? requestedNext : null;
+    const destination = inviteNext || voicemailLinkTarget(window.location.pathname + window.location.search) || pendingVoicemailReturn() || '/';
     const payload = { identifier: idValue, password: pwd };
 
     try {

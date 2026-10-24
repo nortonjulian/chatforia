@@ -10,6 +10,8 @@ export default function JoinInvitePage() {
   const { currentUser } = useUser();
   const [info, setInfo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [joining, setJoining] = useState(false);
+  const [joinError, setJoinError] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -30,8 +32,17 @@ export default function JoinInvitePage() {
       nav(`/?next=/join/${code}`);
       return;
     }
-    const { data } = await axiosClient.post(`/invites/${code}/accept`);
-    nav(`/chat/${data.roomId}`);
+    setJoining(true);
+    setJoinError('');
+    try {
+      const { data } = await axiosClient.post(`/invites/${code}/accept`);
+      if (!data?.ok || !data?.roomId) throw new Error('Group join was not confirmed.');
+      nav(`/chat/${data.roomId}`);
+    } catch (error) {
+      setJoinError(error?.response?.data?.error || error?.message || 'Could not join group.');
+    } finally {
+      setJoining(false);
+    }
   };
 
   if (loading) return <Text>Loading…</Text>;
@@ -54,7 +65,8 @@ export default function JoinInvitePage() {
         <Group>
           <Badge color="green">Valid</Badge>
         </Group>
-        <Button onClick={accept}>Join chat</Button>
+        {joinError && <Text role="alert" c="red" size="sm">{joinError}</Text>}
+        <Button onClick={accept} loading={joining} disabled={joining}>Join chat</Button>
       </Stack>
     </Card>
   );

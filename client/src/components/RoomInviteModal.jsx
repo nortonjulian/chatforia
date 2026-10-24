@@ -37,6 +37,11 @@ export default function RoomInviteModal({ opened, onClose, roomId }) {
 
       // ✅ toast
       notifications.show({ message: 'Invite link generated', withBorder: true });
+    } catch (error) {
+      notifications.show({
+        message: error?.response?.data?.error || 'Could not generate invite link.',
+        color: 'red',
+      });
     } finally {
       setLoading(false);
     }
