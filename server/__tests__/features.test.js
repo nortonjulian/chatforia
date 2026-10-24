@@ -106,7 +106,7 @@ describe('features routes', () => {
       const updatedRoom = {
         id: 42,
         name: 'Test Room',
-        autoTranslateMode: 'tagged',
+        autoTranslateMode: 'TAGGED',
       };
 
       mockPrisma.chatRoom.update.mockResolvedValue(updatedRoom);
@@ -119,7 +119,7 @@ describe('features routes', () => {
       // prisma.chatRoom.update called with correct args
       expect(mockPrisma.chatRoom.update).toHaveBeenCalledWith({
         where: { id: 42 },
-        data: { autoTranslateMode: 'tagged' },
+        data: { autoTranslateMode: 'TAGGED' },
         select: { id: true, name: true, autoTranslateMode: true },
       });
 
