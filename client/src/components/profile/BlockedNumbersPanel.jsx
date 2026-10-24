@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Button, Group, Paper, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Group, Modal, Paper, Stack, Text, TextInput } from '@mantine/core';
 import axiosClient from '../../api/axiosClient';
 
 function apiError(error, fallback) {
@@ -17,6 +17,7 @@ export default function BlockedNumbersPanel() {
   const [unblockingId, setUnblockingId] = useState(null);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [pendingUnblock, setPendingUnblock] = useState(null);
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -73,8 +74,7 @@ export default function BlockedNumbersPanel() {
   }
 
   async function unblockNumber(item) {
-    if (!window.confirm(`Unblock ${item.phone}?`)) return;
-
+    if (!item || unblockingId !== null) return;
     setUnblockingId(item.id);
     setError('');
     setNotice('');
@@ -91,6 +91,7 @@ export default function BlockedNumbersPanel() {
       setItems((previous) =>
         previous.filter((entry) => entry.id !== item.id)
       );
+      setPendingUnblock(null);
       setNotice('Number unblocked successfully.');
     } catch (err) {
       setError(apiError(err, 'Could not unblock number.'));
@@ -151,7 +152,7 @@ export default function BlockedNumbersPanel() {
                   color="red"
                   loading={unblockingId === item.id}
                   disabled={unblockingId !== null}
-                  onClick={() => unblockNumber(item)}
+                  onClick={() => { setError(''); setPendingUnblock(item); }}
                   aria-label={`Unblock ${item.phone}`}
                 >
                   Unblock
@@ -161,9 +162,40 @@ export default function BlockedNumbersPanel() {
           </Stack>
         )}
 
-        {error && <Text role="alert" size="sm" c="red">{error}</Text>}
+        {!pendingUnblock && error && <Text role="alert" size="sm" c="red">{error}</Text>}
         {notice && <Text role="status" size="sm">{notice}</Text>}
       </Stack>
+      <Modal
+        opened={Boolean(pendingUnblock)}
+        onClose={() => {
+          if (unblockingId === null) { setPendingUnblock(null); setError(''); }
+        }}
+        title="Unblock phone number?"
+        centered
+        size="sm"
+        radius="lg"
+        closeOnClickOutside={unblockingId === null}
+        closeOnEscape={unblockingId === null}
+        withCloseButton={unblockingId === null}
+      >
+        <Stack gap="md">
+          <Text size="sm">
+            Remove the block on <strong>{pendingUnblock?.phone}</strong>?
+          </Text>
+          <Text size="sm" c="dimmed">
+            SMS and MMS from this number may be delivered again. Chatforia account blocking is unchanged.
+          </Text>
+          {error && <Text role="alert" size="sm" c="red">{error}</Text>}
+          <Group justify="flex-end" gap="sm">
+            <Button variant="default" disabled={unblockingId !== null} onClick={() => { setPendingUnblock(null); setError(''); }}>
+              Cancel
+            </Button>
+            <Button loading={unblockingId !== null} disabled={!pendingUnblock} onClick={() => void unblockNumber(pendingUnblock)}>
+              Unblock number
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
     </Paper>
   );
 }
