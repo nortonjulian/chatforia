@@ -64,7 +64,7 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
   });
   if (!room) return;
   if (!room.allowForiaBot) return; // hard gate
-  if (room.aiAssistantMode === 'off') return; // disabled
+  if (String(room.aiAssistantMode || 'OFF').toUpperCase() === 'OFF') return; // disabled
 
   const participants = room.participants || [];
 
@@ -84,7 +84,7 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
     /(^|\s)@foriabot\b/i.test(body) ||
     /^\/ask(\s|$)/i.test(body) ||
     /^\/foria(\s|$)/i.test(body);
-  if (room.aiAssistantMode === 'mention' && !mentioned) return;
+  if (String(room.aiAssistantMode || '').toUpperCase() === 'MENTION' && !mentioned) return;
 
   // Build compact context using only lines from opted-in users (+ the sender)
   const allowedUserIds = new Set(
