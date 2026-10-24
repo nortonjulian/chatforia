@@ -128,7 +128,7 @@ describe('RoomSettingsModal', () => {
     expect(await findRowByUsername('mem')).toBeTruthy();
     expect(screen.queryByRole('combobox', { name: /ai assistant/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('combobox', { name: /auto-translation/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole('switch', { name: /ria assistant/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('switch', { name: /allow ria to use my messages/i })).toBeInTheDocument();
   });
 
   test('loads participants, saves AI mode, and toggles allow bot', async () => {
@@ -147,7 +147,7 @@ describe('RoomSettingsModal', () => {
 
     // Toggle the switch twice
     const allowSwitch = screen.getByRole('switch', {
-      name: /allow ria assistant for my messages in this room/i,
+      name: /allow ria to use my messages in this room/i,
     });
     await user.click(allowSwitch);
     await user.click(allowSwitch);
@@ -223,7 +223,7 @@ describe('RoomSettingsModal', () => {
       const aiSelect = screen.getByRole('combobox', { name: /ai assistant/i });
       const trSelect = screen.getByRole('combobox', { name: /auto-translation/i });
       const roomSwitch = screen.getByRole('switch', { name: /enable ria assistant for this room/i });
-      const mySwitch = screen.getByRole('switch', { name: /allow ria assistant for my messages/i });
+      const mySwitch = screen.getByRole('switch', { name: /allow ria to use my messages/i });
 
       await waitFor(() => {
         expect(aiSelect).toHaveValue('MENTION');
