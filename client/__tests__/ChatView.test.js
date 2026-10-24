@@ -1,7 +1,7 @@
 /** @jest-environment jsdom */
 
 import { jest } from '@jest/globals';
-import { screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderWithRouter } from '../src/test-utils.js';
 
 /* ---------- Vite/env-safe mocks ---------- */
@@ -119,7 +119,13 @@ jest.mock('@/threads/ThreadShell.jsx', () => ({
 
 jest.mock('@/threads/ThreadActionsMenu.jsx', () => ({
   __esModule: true,
-  default: () => <div data-testid="thread-actions-menu" />,
+  default: ({ onBlock }) => (
+    <div data-testid="thread-actions-menu">
+      {typeof onBlock === 'function' && (
+        <button type="button" onClick={onBlock}>Block Chatforia account</button>
+      )}
+    </div>
+  ),
 }));
 
 jest.mock('@/components/SmartReplyBar.jsx', () => ({
@@ -253,6 +259,7 @@ import ChatView, {
   formatCallStartError,
 } from '../src/components/ChatView.jsx';
 import axiosClient from '@/api/axiosClient';
+import { notifications } from '@mantine/notifications';
 import { fetchLatestMessages } from '@/lib/api';
 
 beforeAll(() => {
@@ -340,4 +347,91 @@ test('loads initial messages and renders room title', async () => {
 
   expect(await screen.findByText(/second/i)).toBeInTheDocument();
   expect(await screen.findByText(/third/i)).toBeInTheDocument();
+});
+
+test('blocks only after an in-app direct-chat confirmation', async () => {
+  renderWithRouter(
+    <ChatView
+      chatroom={{ id: 10, isGroup: false, participants: [
+        { userId: 1 }, { userId: 2, user: { id: 2, username: 'papi' } },
+      ] }}
+      currentUserId={1}
+      currentUser={{ id: 1 }}
+    />
+  );
+
+  fireEvent.click(await screen.findByRole('button', { name: 'Block Chatforia account' }));
+  expect(screen.getByRole('dialog')).toHaveTextContent('Block Chatforia account?');
+  expect(screen.getByRole('dialog')).toHaveTextContent('papi');
+  expect(axiosClient.post).not.toHaveBeenCalledWith('/blocks', expect.anything());
+  expect(window.confirm).not.toHaveBeenCalled();
+  expect(window.alert).not.toHaveBeenCalled();
+
+  axiosClient.post.mockResolvedValueOnce({ data: { success: true } });
+  fireEvent.click(screen.getByRole('button', { name: 'Block account' }));
+  await waitFor(() => expect(axiosClient.post).toHaveBeenCalledWith('/blocks', { targetUserId: 2 }));
+  await waitFor(() => expect(notifications.show).toHaveBeenCalled());
+  expect(window.alert).not.toHaveBeenCalled();
+});
+
+test('canceling direct-chat block does not call the API', async () => {
+  renderWithRouter(
+    <ChatView
+      chatroom={{ id: 10, isGroup: false, participants: [{ userId: 1 }, { userId: 2 }] }}
+      currentUserId={1} currentUser={{ id: 1 }}
+    />
+  );
+  fireEvent.click(await screen.findByRole('button', { name: 'Block Chatforia account' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  expect(axiosClient.post).not.toHaveBeenCalledWith('/blocks', expect.anything());
+});
+
+test('group conversations never offer a shortcut that blocks an arbitrary member', async () => {
+  renderWithRouter(
+    <ChatView
+      chatroom={{ id: 10, isGroup: true, participants: [{ userId: 1 }, { userId: 2 }, { userId: 3 }] }}
+      currentUserId={1} currentUser={{ id: 1 }}
+    />
+  );
+  expect(await screen.findByTestId('thread-actions-menu')).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Block Chatforia account' })).not.toBeInTheDocument();
+  expect(axiosClient.post).not.toHaveBeenCalledWith('/blocks', expect.anything());
+});
+
+test('Random Chat never shows a generic direct-account Block shortcut', async () => {
+  renderWithRouter(
+    <ChatView
+      chatroom={{ id: 10, isRandom: true, participants: [{ userId: 1 }, { userId: 2 }] }}
+      currentUserId={1} currentUser={{ id: 1 }}
+    />
+  );
+  expect(await screen.findByTestId('thread-actions-menu')).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Block Chatforia account' })).not.toBeInTheDocument();
+});
+
+test('direct conversations with an ambiguous peer never show Block', async () => {
+  renderWithRouter(
+    <ChatView
+      chatroom={{ id: 10, isGroup: false, participants: [{ userId: 1 }, { userId: 2 }, { userId: 3 }] }}
+      currentUserId={1} currentUser={{ id: 1 }}
+    />
+  );
+  expect(await screen.findByTestId('thread-actions-menu')).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Block Chatforia account' })).not.toBeInTheDocument();
+});
+
+test('a failed account block stays open and displays an error', async () => {
+  renderWithRouter(
+    <ChatView
+      chatroom={{ id: 10, isGroup: false, participants: [{ userId: 1 }, { userId: 2 }] }}
+      currentUserId={1} currentUser={{ id: 1 }}
+    />
+  );
+  fireEvent.click(await screen.findByRole('button', { name: 'Block Chatforia account' }));
+  axiosClient.post.mockRejectedValueOnce(new Error('Network unavailable'));
+  fireEvent.click(screen.getByRole('button', { name: 'Block account' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent(/could not block this account/i);
+  expect(screen.getByRole('dialog')).toBeInTheDocument();
+  expect(window.alert).not.toHaveBeenCalled();
 });

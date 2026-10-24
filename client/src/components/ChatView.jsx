@@ -285,6 +285,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [blockAfterReport, setBlockAfterReport] = useState(true);
   const [reportSubmitting, setReportSubmitting] = useState(false);
   const [reportError, setReportError] = useState('');
+  const [blockDialogTarget, setBlockDialogTarget] = useState(null);
+  const [blockSubmitting, setBlockSubmitting] = useState(false);
+  const [blockError, setBlockError] = useState('');
 
   const [e2eeLocked, setE2eeLocked] = useState(false);
 
@@ -359,6 +362,20 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isGroupChat =
     Boolean(chatroom?.isGroup) ||
     (chatroom?.participants?.length || 0) > 2;
+
+  // A group or Random Chat must never use the single-peer Block shortcut.
+  // Require exactly one validated other participant in a direct conversation.
+  const directOtherCount = Array.isArray(chatroom?.participants)
+    ? chatroom.participants.filter((participant) => {
+        const id = Number(participant?.userId ?? participant?.user?.id ?? participant?.id);
+        return Number.isSafeInteger(id) && id > 0 && id !== Number(currentUserId);
+      }).length
+    : 0;
+  const canBlockDirectAccount =
+    !isGroupChat && !isRandomRoom &&
+    !['sms', 'pstn'].includes(String(chatroom?.kind || chatroom?.type || '').toLowerCase()) &&
+    Number.isSafeInteger(Number(currentUserId)) && Number(currentUserId) > 0 &&
+    directOtherCount === 1 && Number.isSafeInteger(otherUserId) && otherUserId > 0;
 
   const directCallUnavailable =
     isGroupChat ||
@@ -1360,41 +1377,50 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   }, [chatroom?.id, cursor, hasMore]);
 
 
-  const handleBlockThread = useCallback(async () => {
-    const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
-    const other = participants.find((p) =>
-      Number(p?.userId ?? p?.user?.id ?? p?.id) !== Number(currentUserId)
-    );
-    const otherId = Number(other?.userId ?? other?.user?.id ?? other?.id);
+  const handleBlockThread = useCallback(() => {
+    if (!canBlockDirectAccount) return;
     const name =
-      other?.username ||
-      other?.displayName ||
-      other?.name ||
+      otherUser?.displayName || otherUser?.username ||
       t('chat.thisUser', 'this user');
+    setBlockError('');
+    setBlockDialogTarget({ userId: otherUserId, name });
+  }, [canBlockDirectAccount, otherUser, otherUserId, t]);
 
-    const ok = window.confirm(
-      t('chat.blockConfirm', "Block {{name}}? You won't receive messages from them.", { name })
-    );
-    if (!ok) return;
+  const closeBlockDialog = () => {
+    if (blockSubmitting) return;
+    setBlockDialogTarget(null);
+    setBlockError('');
+  };
 
-    try {
-      if (Number.isFinite(otherId)) {
-        await axiosClient.post('/blocks', { targetUserId: otherId });
-      } else {
-        throw new Error(
-          t('chat.blockError', 'Could not determine a target user to block.')
-        );
-      }
-
-      window.alert(t('chat.blockedUser', { name }))
-      navigate('/');
-    } catch (e) {
-      console.error('Block failed', e);
-      window.alert(
-        e?.response?.data?.message || e?.response?.data?.error || t('chat.blockFailed', 'Could not block this account.')
-      );
+  const confirmBlockThread = async () => {
+    const target = blockDialogTarget;
+    // Recheck identity in case the active conversation changed while dialog was open.
+    if (!target || !canBlockDirectAccount || target.userId !== otherUserId || blockSubmitting) {
+      setBlockError(t('chat.blockError', 'Could not determine a target user to block.'));
+      return;
     }
-  }, [chatroom?.participants, currentUserId, navigate]);
+    setBlockSubmitting(true);
+    setBlockError('');
+    try {
+      const { data } = await axiosClient.post('/blocks', { targetUserId: target.userId });
+      if (data?.success !== true) throw new Error('Server did not confirm the block.');
+      setBlockDialogTarget(null);
+      notifications.show({
+        title: t('chat.blockedAccountTitle', 'Account blocked'),
+        message: t('chat.blockedAccountNotice', 'Direct messaging and calling are now unavailable. Your message history remains.'),
+        color: 'orange',
+      });
+      navigate('/');
+    } catch (error) {
+      console.error('Block failed', error);
+      setBlockError(
+        error?.response?.data?.message || error?.response?.data?.error ||
+        t('chat.blockFailed', 'Could not block this account. Please try again.')
+      );
+    } finally {
+      setBlockSubmitting(false);
+    }
+  };
 
 
   useEffect(() => {
@@ -2467,7 +2493,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   onMedia={() => setGalleryOpen(true)}
                   onInvitePeople={() => setInviteOpen(true)}
                   onRoomSettings={() => setSettingsOpen(true)}
-                  onBlock={handleBlockThread}
+                  onBlock={canBlockDirectAccount ? handleBlockThread : undefined}
                   onClear={handleClearForMe}
                   onClearAll={handleClearForEveryone}
                 />
@@ -2958,6 +2984,39 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           onClose={() => setGalleryOpen(false)}
           roomId={chatroom.id}
         />
+
+        {/* Block account: only available for a verified direct Chatforia peer. */}
+        <Modal
+          opened={Boolean(blockDialogTarget)}
+          onClose={closeBlockDialog}
+          title={t('chat.blockAccountTitle', 'Block Chatforia account?')}
+          centered
+          size="sm"
+          radius="lg"
+          closeOnClickOutside={!blockSubmitting}
+          closeOnEscape={!blockSubmitting}
+          withCloseButton={!blockSubmitting}
+        >
+          <Stack gap="md">
+            <Text size="sm">
+              {t('chat.blockAccountPrompt', 'Block')}{' '}
+              <strong>{blockDialogTarget?.name}</strong>?
+            </Text>
+            <Text size="sm" c="dimmed">
+              {t('chat.blockAccountConsequences',
+                'Direct messaging and calling between your accounts will be unavailable. Your message history will remain. Phone-number blocking is managed separately.')}
+            </Text>
+            {blockError && <Text role="alert" size="sm" c="red">{blockError}</Text>}
+            <Group justify="flex-end" gap="sm">
+              <Button variant="default" disabled={blockSubmitting} onClick={closeBlockDialog}>
+                {t('common.cancel', 'Cancel')}
+              </Button>
+              <Button loading={blockSubmitting} disabled={!blockDialogTarget} onClick={() => void confirmBlockThread()}>
+                {t('chat.blockAccountAction', 'Block account')}
+              </Button>
+            </Group>
+          </Stack>
+        </Modal>
 
         {/* ✅ Edit modal */}
         <Modal
