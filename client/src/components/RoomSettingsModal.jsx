@@ -68,7 +68,7 @@ export default function RoomSettingsModal({
 
   const AI_MODE_OPTS = [
   { value: 'OFF', label: t('roomSettings.aiMode.off', 'Off') },
-  { value: 'MENTION', label: t('roomSettings.aiMode.mention', 'Only on @Ria or /ask') },
+  { value: 'MENTION', label: String(t('roomSettings.aiMode.mention', 'Only on @Ria or /ask')).replace(/ForiaBot/g, 'Ria') },
   { value: 'ALWAYS', label: t('roomSettings.aiMode.always', 'Reply proactively') },
 ];
 
@@ -82,7 +82,7 @@ export default function RoomSettingsModal({
   useEffect(() => {
     setAiMode(String(room?.aiAssistantMode || 'OFF').toUpperCase());
     setAutoTranslateMode(String(room?.autoTranslateMode || 'OFF').toUpperCase());
-    setAllowAIBot(room?.me?.allowAIBot ?? true);
+    setAllowAIBot(room?.me?.allowAIBot ?? false);
     setRoomBotEnabled(Boolean(room?.allowForiaBot));
   }, [
     room?.id,
@@ -390,7 +390,7 @@ export default function RoomSettingsModal({
 
         {/* Personal Ria consent remains visible even while experimental controls are hidden. */}
         <Switch
-          label={t('roomSettings.allowBot', 'Allow Ria to use my messages in this room')}
+          label={t('roomSettings.personalRiaConsent', 'Allow Ria to use my messages in this room')}
           checked={allowAIBot}
           onChange={(e) => toggleAllowBot(e.currentTarget.checked)}
           disabled={savingAllow}
