@@ -121,7 +121,7 @@ describe('requireRoomMember()', () => {
     await mw(req, res, next);
     expect(next).toHaveBeenCalledWith();
     expect(prismaMock.participant.findUnique).toHaveBeenCalledWith({
-      where: { userId_chatRoomId: { userId: 3, chatRoomId: 77 } },
+      where: { chatRoomId_userId: { chatRoomId: 77, userId: 3 } },
       select: { role: true },
     });
   });
