@@ -664,6 +664,17 @@ describe('chatrooms routes', () => {
 });
 
 describe('production Room settings route contract', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    chatRoomFindUnique.mockReset();
+    chatRoomUpdate.mockReset();
+    participantFindUnique.mockReset();
+    participantUpdate.mockReset();
+    participantUpdateMany.mockReset();
+    getEffectiveRoomRankMock.mockReset();
+    canActOnRankMock.mockReset();
+    requireRoomRankMock.mockImplementation(() => (_req, _res, next) => next());
+  });
   test('room owner changes existing member role (no upsert)', async () => {
     getEffectiveRoomRankMock.mockResolvedValueOnce(RoleRank.OWNER);
     chatRoomFindUnique.mockResolvedValueOnce({ ownerId: 1 });
