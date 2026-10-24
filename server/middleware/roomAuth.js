@@ -13,9 +13,9 @@ export async function getRoomRole(user, chatRoomId) {
 
   const member = await prisma.participant.findUnique({
     where: {
-      userId_chatRoomId: {
-        userId: Number(user.id),
+      chatRoomId_userId: {
         chatRoomId: Number(chatRoomId),
+        userId: Number(user.id),
       },
     },
     select: { role: true },
