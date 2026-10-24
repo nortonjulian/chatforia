@@ -21,25 +21,28 @@ test('shows persistent blocked Chatforia accounts from authenticated API', async
   expect(axiosClient.get).toHaveBeenCalledWith('/blocks');
 });
 
-test('requires confirmation and unblocks by target user id', async () => {
+test('requires an in-app confirmation and unblocks by target user id', async () => {
   axiosClient.get.mockResolvedValueOnce({ data: { items: [
     { userId: 22, username: 'regina', displayName: 'Regina' },
   ] } });
   axiosClient.delete.mockResolvedValueOnce({ data: { success: true } });
-  jest.spyOn(window, 'confirm').mockReturnValue(true);
   show();
   fireEvent.click(await screen.findByRole('button', { name: 'Unblock' }));
+  expect(await screen.findByRole('dialog')).toHaveTextContent('Unblock Chatforia account?');
+  expect(axiosClient.delete).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole('button', { name: 'Unblock account' }));
   await waitFor(() => expect(axiosClient.delete).toHaveBeenCalledWith('/blocks/22'));
   expect(await screen.findByText('No blocked accounts.')).toBeInTheDocument();
 });
 
-test('canceling unblock leaves the account blocked', async () => {
+test('canceling the dialog leaves the account blocked', async () => {
   axiosClient.get.mockResolvedValueOnce({ data: { items: [
     { userId: 22, username: 'regina', displayName: 'Regina' },
   ] } });
-  jest.spyOn(window, 'confirm').mockReturnValue(false);
   show();
   fireEvent.click(await screen.findByRole('button', { name: 'Unblock' }));
+  expect(await screen.findByRole('dialog')).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
   expect(axiosClient.delete).not.toHaveBeenCalled();
   expect(screen.getByText('Regina (@regina)')).toBeInTheDocument();
 });
@@ -48,4 +51,17 @@ test('failed GET shows error instead of silently appearing empty', async () => {
   axiosClient.get.mockRejectedValueOnce(new Error('Network unavailable'));
   show();
   expect(await screen.findByRole('alert')).toHaveTextContent('Network unavailable');
+});
+
+test('failed unblock keeps the confirmation open and displays the error', async () => {
+  axiosClient.get.mockResolvedValueOnce({ data: { items: [
+    { userId: 22, username: 'regina', displayName: 'Regina' },
+  ] } });
+  axiosClient.delete.mockRejectedValueOnce(new Error('Network unavailable'));
+  show();
+  fireEvent.click(await screen.findByRole('button', { name: 'Unblock' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Unblock account' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Network unavailable');
+  expect(screen.getByRole('dialog')).toBeInTheDocument();
+  expect(screen.getByText('Regina (@regina)')).toBeInTheDocument();
 });

@@ -63,42 +63,28 @@ test('blocks a number and displays the confirmed result', async () => {
   expect(await screen.findByText('+15551234567')).toBeInTheDocument();
 });
 
-test('unblocks only after confirmation', async () => {
+test('unblocks only after in-app confirmation', async () => {
   axiosClient.get.mockResolvedValueOnce({
     data: { items: [{ id: 9, phone: '+15551234567' }] },
   });
-  axiosClient.delete.mockResolvedValueOnce({
-    data: { success: true, id: 9 },
-  });
-
-  jest.spyOn(window, 'confirm').mockReturnValue(true);
+  axiosClient.delete.mockResolvedValueOnce({ data: { success: true, id: 9 } });
   showPanel();
-
-  fireEvent.click(
-    await screen.findByRole('button', { name: 'Unblock +15551234567' })
-  );
-
-  await waitFor(() =>
-    expect(axiosClient.delete).toHaveBeenCalledWith(
-      '/sms/blocked-numbers/9'
-    )
-  );
-
+  fireEvent.click(await screen.findByRole('button', { name: 'Unblock +15551234567' }));
+  expect(await screen.findByRole('dialog')).toHaveTextContent('Unblock phone number?');
+  expect(axiosClient.delete).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole('button', { name: 'Unblock number' }));
+  await waitFor(() => expect(axiosClient.delete).toHaveBeenCalledWith('/sms/blocked-numbers/9'));
   expect(await screen.findByText('No blocked numbers.')).toBeInTheDocument();
 });
 
-test('canceling unblock preserves the blocked number', async () => {
+test('canceling the in-app dialog preserves the blocked number', async () => {
   axiosClient.get.mockResolvedValueOnce({
     data: { items: [{ id: 10, phone: '+15551234567' }] },
   });
-
-  jest.spyOn(window, 'confirm').mockReturnValue(false);
   showPanel();
-
-  fireEvent.click(
-    await screen.findByRole('button', { name: 'Unblock +15551234567' })
-  );
-
+  fireEvent.click(await screen.findByRole('button', { name: 'Unblock +15551234567' }));
+  expect(await screen.findByRole('dialog')).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
   expect(axiosClient.delete).not.toHaveBeenCalled();
   expect(screen.getByText('+15551234567')).toBeInTheDocument();
 });
@@ -133,4 +119,17 @@ test('failed list requests display an error', async () => {
   expect(await screen.findByRole('alert')).toHaveTextContent(
     'Network unavailable'
   );
+});
+
+test('failed number unblock displays error without removing the block', async () => {
+  axiosClient.get.mockResolvedValueOnce({
+    data: { items: [{ id: 9, phone: '+15551234567' }] },
+  });
+  axiosClient.delete.mockRejectedValueOnce(new Error('Network unavailable'));
+  showPanel();
+  fireEvent.click(await screen.findByRole('button', { name: 'Unblock +15551234567' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Unblock number' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Network unavailable');
+  expect(screen.getByRole('dialog')).toBeInTheDocument();
+  expect(screen.getAllByText('+15551234567').length).toBeGreaterThan(0);
 });
