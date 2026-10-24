@@ -35,6 +35,7 @@ import { useSocket } from '@/context/SocketContext';
 import { useUser } from '@/context/UserContext';
 import { useCall } from '@/context/CallContext';
 import axiosClient from '@/api/axiosClient';
+import { messageSendFeedback } from '@/utils/messageSendFeedback';
 
 // dynamic: keep heavy crypto out of the initial bundle
 import { encryptForRoom, encryptForSingleUser } from '@/utils/encryptionClient';
@@ -2556,11 +2557,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               }
               onSend={async (payload) => {
                 const text = (draft || '').trim();
+                let optimisticClientMessageId = null;
 
                 try {
 
                   if (payload?.attachments?.length) {
                       const clientMessageId = `web-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+                      optimisticClientMessageId = clientMessageId;
 
                       const captionText = (payload.text || '').trim();
 
@@ -2733,12 +2736,21 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   await insertSavedMessage(data, text);
                   setDraft('');
                 } catch (e) {
+                // Never leave a rejected optimistic attachment looking as if it is sending.
+                if (optimisticClientMessageId) {
+                  setMessages((previous) => previous.map((message) =>
+                    message.clientMessageId === optimisticClientMessageId
+                      ? { ...message, optimistic: false, failed: true }
+                      : message
+                  ));
+                }
                 if (handleLockedEncryptionError(e)) {
                   console.warn('Send blocked until encryption key is unlocked');
                   return;
                 }
 
                 console.error('Send failed', e);
+                notifications.show(messageSendFeedback(e));
               }
               }}
             />
