@@ -55,7 +55,7 @@ export default function RoomSettingsModal({
   const [savingAutoTranslate, setSavingAutoTranslate] = useState(false);
 
   // Per-user (in this room) preference
-  const [allowAIBot, setAllowAIBot] = useState(room?.me?.allowAIBot ?? true);
+  const [allowAIBot, setAllowAIBot] = useState(room?.me?.allowAIBot ?? false);
   const [savingAllow, setSavingAllow] = useState(false);
   const [roomBotEnabled, setRoomBotEnabled] = useState(Boolean(room?.allowForiaBot));
   const [savingRoomBot, setSavingRoomBot] = useState(false);
@@ -68,7 +68,7 @@ export default function RoomSettingsModal({
 
   const AI_MODE_OPTS = [
   { value: 'OFF', label: t('roomSettings.aiMode.off', 'Off') },
-  { value: 'MENTION', label: t('roomSettings.aiMode.mention', 'Only on @ForiaBot or /ask') },
+  { value: 'MENTION', label: t('roomSettings.aiMode.mention', 'Only on @Ria or /ask') },
   { value: 'ALWAYS', label: t('roomSettings.aiMode.always', 'Reply proactively') },
 ];
 
@@ -385,16 +385,16 @@ export default function RoomSettingsModal({
         )}
 
         <Divider />
+          </>
+        )}
 
-        {/* Per-user preference in this room */}
+        {/* Personal Ria consent remains visible even while experimental controls are hidden. */}
         <Switch
-          label="Allow Ria assistant for my messages in this room"
+          label={t('roomSettings.allowBot', 'Allow Ria to use my messages in this room')}
           checked={allowAIBot}
           onChange={(e) => toggleAllowBot(e.currentTarget.checked)}
           disabled={savingAllow}
         />
-          </>
-        )}
       </Stack>
     </Modal>
   );
