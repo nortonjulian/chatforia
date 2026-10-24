@@ -515,7 +515,7 @@ describe('chatrooms routes', () => {
       expect(res.body).toEqual({ ok: true });
 
       expect(participantFindUnique).toHaveBeenCalledWith({
-        where: { userId_chatRoomId: { userId: 2, chatRoomId: 10 } },
+        where: { chatRoomId_userId: { chatRoomId: 10, userId: 2 } },
       });
 
       expect(participantCreate).not.toHaveBeenCalled();
@@ -564,10 +564,43 @@ describe('chatrooms routes', () => {
       expect(res.statusCode).toBe(200);
       expect(res.body).toEqual({ ok: true });
 
+      expect(participantFindUnique).toHaveBeenCalledWith({
+        where: { chatRoomId_userId: { chatRoomId: 10, userId: 2 } },
+        select: { role: true },
+      });
       expect(participantDelete).toHaveBeenCalledWith({
-        where: { userId_chatRoomId: { userId: 2, chatRoomId: 10 } },
+        where: { chatRoomId_userId: { chatRoomId: 10, userId: 2 } },
       });
     });
+  });
+
+  test('removing a participant evicts their active group sockets', async () => {
+    const { setSocketIo, _resetSocketBus } =
+      await import('../services/socketBus.js');
+
+    const socketsLeave = jest.fn().mockResolvedValue(undefined);
+    const roomIo = {
+      in: jest.fn(() => ({ socketsLeave })),
+    };
+
+    setSocketIo(roomIo);
+
+    try {
+      getEffectiveRoomRankMock.mockResolvedValueOnce(RoleRank.OWNER);
+      participantFindUnique.mockResolvedValueOnce({ role: 'MEMBER' });
+      canActOnRankMock.mockReturnValueOnce(true);
+      participantDelete.mockResolvedValueOnce({});
+
+      const res = await request(app)
+        .delete('/rooms/10/participants/2');
+
+      expect(res.statusCode).toBe(200);
+      expect(participantDelete).toHaveBeenCalledTimes(1);
+      expect(roomIo.in).toHaveBeenCalledWith('user:2');
+      expect(socketsLeave).toHaveBeenCalledWith('10');
+    } finally {
+      _resetSocketBus();
+    }
   });
 
   describe('meta routes', () => {

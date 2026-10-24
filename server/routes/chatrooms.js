@@ -5,6 +5,7 @@ import Boom from '@hapi/boom';
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
 import { assertDirectUsersAllowed } from '../services/userBlockService.js';
+import { getIo } from '../services/socketBus.js';
 
 import {
   requireRoomRank,
@@ -642,7 +643,7 @@ router.post(
     if (!userId) throw Boom.badRequest('userId required');
 
     const existing = await prisma.participant.findUnique({
-      where: { userId_chatRoomId: { userId: Number(userId), chatRoomId: roomId } },
+      where: { chatRoomId_userId: { chatRoomId: roomId, userId: Number(userId) } },
     });
     if (existing) return res.json({ ok: true });
 
@@ -668,7 +669,7 @@ router.delete(
     if (actorRank === null || actorRank < RoleRank.MODERATOR) throw Boom.forbidden('Forbidden');
 
     const target = await prisma.participant.findUnique({
-      where: { userId_chatRoomId: { userId: targetId, chatRoomId: roomId } },
+      where: { chatRoomId_userId: { chatRoomId: roomId, userId: targetId } },
       select: { role: true },
     });
     if (!target) return res.json({ ok: true });
@@ -677,8 +678,22 @@ router.delete(
     if (!canActOnRank(actorRank, targetRank)) throw Boom.forbidden('Insufficient rank');
 
     await prisma.participant.delete({
-      where: { userId_chatRoomId: { userId: targetId, chatRoomId: roomId } },
+      where: { chatRoomId_userId: { chatRoomId: roomId, userId: targetId } },
     });
+
+    // Evict every active device for this user from the group Socket.IO room.
+    // Applies across nodes when the Socket.IO Redis adapter is configured.
+    const io = getIo();
+    if (io) {
+      try {
+        await io.in(`user:${targetId}`).socketsLeave(String(roomId));
+      } catch (error) {
+        console.error('[chatrooms] failed to evict removed participant from live room', {
+          roomId, targetId, error,
+        });
+        throw Boom.serverUnavailable('Membership removed; live room revocation needs attention');
+      }
+    }
 
     return res.json({ ok: true });
   })
