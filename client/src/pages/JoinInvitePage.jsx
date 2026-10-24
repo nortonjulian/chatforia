@@ -66,6 +66,13 @@ export default function JoinInvitePage() {
           <Badge color="green">Valid</Badge>
         </Group>
         {joinError && <Text role="alert" c="red" size="sm">{joinError}</Text>}
+        <Button
+          component="a"
+          href={`chatforia://join/${encodeURIComponent(code)}`}
+          variant="light"
+        >
+          Open in Chatforia app
+        </Button>
         <Button onClick={accept} loading={joining} disabled={joining}>Join chat</Button>
       </Stack>
     </Card>
