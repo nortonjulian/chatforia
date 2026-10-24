@@ -94,7 +94,7 @@ export default function RoomSettingsModal({
     let active = true;
     axiosClient.get(`/chatrooms/${room.id}`)
       .then(({ data }) => {
-        if (!active || !data || Number(data.id) !== Number(room.id)) return;
+        if (!active || !data || String(data.id) !== String(room.id)) return;
         setAiMode(String(data.aiAssistantMode || 'OFF').toUpperCase());
         setAutoTranslateMode(String(data.autoTranslateMode || 'OFF').toUpperCase());
         setRoomBotEnabled(Boolean(data.allowForiaBot));
