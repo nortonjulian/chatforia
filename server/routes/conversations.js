@@ -1,3 +1,4 @@
+import { loadSmsContactNames, smsPhoneKeys } from '../services/smsContactNames.js';
 import express from 'express';
 import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
@@ -579,29 +580,7 @@ router.get(
 
     const phoneVariants = [...phoneVariantSet];
 
-    const contacts = phoneVariants.length
-      ? await prisma.contact.findMany({
-          where: {
-            ownerId: userId,
-            externalPhone: { in: phoneVariants },
-          },
-          select: {
-            externalPhone: true,
-            alias: true,
-            externalName: true,
-            user: { select: { username: true } },
-          },
-        })
-      : [];
-
-    // ✅ map BOTH + and no-plus keys → same display value
-    const contactNameByPhone = new Map();
-    for (const c of contacts) {
-      const value = c.alias || c.externalName || c.user?.username || c.externalPhone;
-      for (const k of phoneKeys(c.externalPhone)) {
-        contactNameByPhone.set(k, value);
-      }
-    }
+    const contactNameByPhone = await loadSmsContactNames(prisma, userId, phoneVariants);
 
     const inboundSmsMessages = smsThreads.length
       ? await prisma.smsMessage.findMany({
