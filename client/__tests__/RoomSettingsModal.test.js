@@ -117,8 +117,9 @@ describe('RoomSettingsModal', () => {
   const baseRoom = {
     id: 'room-123',
     ownerId: 'u1',
-    aiAssistantMode: 'off',
-    autoTranslateMode: 'off',
+    aiAssistantMode: 'OFF',
+    autoTranslateMode: 'OFF',
+    allowForiaBot: false,
     me: { allowAIBot: true },
   };
 
@@ -138,7 +139,7 @@ describe('RoomSettingsModal', () => {
 
     // Toggle the switch twice
     const allowSwitch = screen.getByRole('switch', {
-      name: /allow foriabot to engage in this room/i,
+      name: /allow ria assistant for my messages in this room/i,
     });
     await user.click(allowSwitch);
     await user.click(allowSwitch);
