@@ -16,7 +16,7 @@ const MAX_CHARS = Number(process.env.AI_MAX_INPUT_CHARS || 1500);
  * - aiAssistantMode respected: 'off' | 'mention' | 'always'
  * - At least one *other* participant must have allowAIBot = true
  * - Per-room and per-sender throttles
- * - Context includes only lines from opted-in users (plus the sender)
+ * - Sender must opt in; context includes only opted-in users
  * - Queued execution to bound concurrency/latency
  */
 export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
@@ -70,7 +70,7 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
 
   // Must be a current member
   const senderMembership = participants.find((p) => p.userId === senderId);
-  if (!senderMembership) return;
+  if (!senderMembership || senderMembership.allowAIBot !== true) return;
 
   // For privacy: require at least one *other* participant to opt in
   const someoneElseOptedIn = participants.some(
@@ -90,7 +90,7 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
   const allowedUserIds = new Set(
     participants.filter((p) => p.allowAIBot === true).map((p) => p.userId)
   );
-  allowedUserIds.add(senderId); // always include the sender’s own text
+  // Sender was required to opt in above; never override a member's consent.
 
   const last = await prisma.message.findMany({
     where: { chatRoomId: roomId },
