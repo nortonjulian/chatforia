@@ -131,6 +131,32 @@ describe('RoomSettingsModal', () => {
     expect(screen.getByRole('switch', { name: /allow ria to use my messages/i })).toBeInTheDocument();
   });
 
+  test('personal Ria consent is off when unknown and can be turned on independently', async () => {
+    const api = require('../src/api/axiosClient').default;
+    const user = userEvent.setup();
+    const oldPatch = api.patch.getMockImplementation();
+    api.patch.mockImplementation((url, body) => {
+      if (url.endsWith('/ai-opt')) {
+        return Promise.resolve({ data: { allowAIBot: body.allow } });
+      }
+      return oldPatch(url, body);
+    });
+    try {
+      renderWithProviders(
+        <RoomSettingsModal opened onClose={() => {}} room={{ ...baseRoom, me: undefined }} />
+      );
+      const consent = screen.getByRole('switch', { name: /allow ria to use my messages/i });
+      expect(consent).not.toBeChecked();
+      await user.click(consent);
+      await waitFor(() => expect(api.patch).toHaveBeenCalledWith(
+        '/chatrooms/room-123/ai-opt', { allow: true }
+      ));
+      await waitFor(() => expect(consent).toBeChecked());
+    } finally {
+      api.patch.mockImplementation(oldPatch);
+    }
+  });
+
   test('loads participants, saves AI mode, and toggles allow bot', async () => {
     const user = userEvent.setup();
     renderWithProviders(<RoomSettingsModal opened onClose={() => {}} room={baseRoom} showExperimentalRoomControls />);
