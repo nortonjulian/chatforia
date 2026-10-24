@@ -226,13 +226,23 @@ export function initSocket(httpServer) {
       }
     }
 
-    // Bulk join (preferred)
+    // Allow only current room members to subscribe to room traffic.
+    // Recheck membership for every client-requested join, including reconnects.
     socket.on('join:rooms', async (roomIds) => {
       try {
-        if (!Array.isArray(roomIds)) return;
-        const ids = roomIds.map((r) => String(r)).filter(Boolean);
-        for (const rid of ids) await socket.join(rid);
-        if (!IS_TEST) console.log(`[WS] user:${userId} joined rooms:`, ids);
+        if (!userId || !Array.isArray(roomIds)) return;
+        const requested = [...new Set(roomIds.map(Number).filter(
+          (id) => Number.isSafeInteger(id) && id > 0
+        ))].slice(0, 100);
+        if (!requested.length) return;
+        const allowed = new Set(await getUserRoomIds(userId));
+        const joined = [];
+        for (const id of requested) {
+          if (!allowed.has(String(id))) continue;
+          await socket.join(String(id));
+          joined.push(String(id));
+        }
+        if (!IS_TEST) console.log(`[WS] user:${userId} joined rooms:`, joined);
       } catch (e) {
         console.warn('[WS] join:rooms error', e?.message || e);
       }
@@ -246,12 +256,18 @@ export function initSocket(httpServer) {
               ? roomLike.roomId
               : roomLike;
 
-          if (!roomId) return;
+          const id = Number(roomId);
+          if (!userId || !Number.isSafeInteger(id) || id <= 0) return;
+          const membership = await prisma.participant.findFirst({
+            where: { chatRoomId: id, userId: Number(userId) },
+            select: { id: true },
+          });
+          if (!membership) return;
 
-          await socket.join(String(roomId));
+          await socket.join(String(id));
 
           if (!IS_TEST) {
-            console.log(`[WS] user:${userId} joined room ${roomId}`);
+            console.log(`[WS] user:${userId} joined room ${id}`);
           }
         } catch (e) {
           console.warn('[WS] join error', e?.message || e);
@@ -287,10 +303,11 @@ export function initSocket(httpServer) {
     // ---- Typing indicators ----
     socket.on('typing:start', ({ roomId }) => {
       try {
-        if (!roomId) return;
-        lastTypingRoomId = Number(roomId);
+        const id = Number(roomId);
+        if (!Number.isSafeInteger(id) || id <= 0 || !socket.rooms?.has(String(id))) return;
+        lastTypingRoomId = id;
 
-        socket.to(String(roomId)).emit('typing:update', {
+        socket.to(String(id)).emit('typing:update', {
           roomId: Number(roomId),
           userId: socket.user?.id,
           username: socket.user?.username,
@@ -303,10 +320,11 @@ export function initSocket(httpServer) {
 
     socket.on('typing:stop', ({ roomId }) => {
       try {
-        if (!roomId) return;
-        lastTypingRoomId = Number(roomId);
+        const id = Number(roomId);
+        if (!Number.isSafeInteger(id) || id <= 0 || !socket.rooms?.has(String(id))) return;
+        lastTypingRoomId = id;
 
-        socket.to(String(roomId)).emit('typing:update', {
+        socket.to(String(id)).emit('typing:update', {
           roomId: Number(roomId),
           userId: socket.user?.id,
           username: socket.user?.username,
@@ -320,7 +338,7 @@ export function initSocket(httpServer) {
     socket.on('disconnect', (reason) => {
       // ✅ If the user disconnects mid-typing, force-stop typing for others
       try {
-        if (lastTypingRoomId) {
+        if (lastTypingRoomId && socket.rooms?.has(String(lastTypingRoomId))) {
           socket.to(String(lastTypingRoomId)).emit('typing:update', {
             roomId: lastTypingRoomId,
             userId: socket.user?.id,

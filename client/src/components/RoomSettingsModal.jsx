@@ -34,6 +34,7 @@ export default function RoomSettingsModal({
   const [ownerId, setOwnerId] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [loadingParticipants, setLoadingParticipants] = useState(false);
+  const [removingUserId, setRemovingUserId] = useState(null);
 
   // Room-level settings
   const [aiMode, setAiMode] = useState(room?.aiAssistantMode || 'off');
@@ -109,9 +110,23 @@ export default function RoomSettingsModal({
   };
 
   const removeUser = async (userId) => {
-    await axiosClient.delete(`/chatrooms/${room.id}/participants/${userId}`);
-    await loadParticipants();
-    notifications.show({ message: 'Settings updated', withBorder: true });
+    if (removingUserId !== null) return;
+    setRemovingUserId(userId);
+    try {
+      await axiosClient.delete(`/chatrooms/${room.id}/participants/${userId}`);
+      await loadParticipants();
+      notifications.show({ message: 'Participant removed', withBorder: true });
+    } catch (error) {
+      notifications.show({
+        title: 'Could not remove participant',
+        message: error?.response?.data?.message || error?.response?.data?.error ||
+          error?.message || 'Please try again.',
+        color: 'red',
+        withBorder: true,
+      });
+    } finally {
+      setRemovingUserId(null);
+    }
   };
 
   // Room settings actions
@@ -236,7 +251,8 @@ export default function RoomSettingsModal({
                             color="red"
                             variant="light"
                             onClick={() => removeUser(user.id)}
-                            disabled={!canEdit}
+                            disabled={!canEdit || removingUserId !== null}
+                            loading={removingUserId === user.id}
                             aria-label={`Remove ${user.username || `user #${user.id}`}`}
                           >
                             {t('roomSettings.remove', 'Remove')}

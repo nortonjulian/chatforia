@@ -48,6 +48,7 @@ function makeSocketDouble({ tokenFrom = 'auth', token = 'jwt' } = {}) {
   return {
     handshake,
     data: {},
+    rooms: joined,
     user: null,
     join: jest.fn(async (room) => joined.add(room)),
     leave: jest.fn(async (room) => joined.delete(room)),
@@ -121,6 +122,7 @@ const reload = async (env = {}) => {
     },
     participant: {
       findMany: jest.fn(),
+      findFirst: jest.fn(),
     },
   };
 
@@ -330,11 +332,14 @@ describe('initSocket', () => {
       riaRemember: false,
     });
 
-    prismaMock.participant.findMany.mockResolvedValueOnce([
-      { chatRoomId: 7 },
-      { chatRoomId: 7 },
-      { chatRoomId: 8 },
-    ]);
+    prismaMock.participant.findMany
+      .mockResolvedValueOnce([
+        { chatRoomId: 7 }, { chatRoomId: 7 }, { chatRoomId: 8 },
+      ])
+      .mockResolvedValueOnce([
+        { chatRoomId: 9 }, { chatRoomId: 10 },
+      ]);
+    prismaMock.participant.findFirst.mockResolvedValue({ id: 1 });
 
     const mw = serverInstance._getMiddlewares()[0];
     const socket = makeSocketDouble({ tokenFrom: 'auth', token: 't99' });
@@ -357,19 +362,42 @@ describe('initSocket', () => {
 
     expect(socket.join).toHaveBeenCalledWith('9');
     expect(socket.join).toHaveBeenCalledWith('10');
-    expect(socket.join).toHaveBeenCalledWith('null');
+    expect(socket.join).not.toHaveBeenCalledWith('null');
 
-    socket._emitClient('join_room', 11);
+    await socket._emitClient('join_room', 11);
     expect(socket.join).toHaveBeenCalledWith('11');
 
-    socket._emitClient('leave_room', 11);
+    await socket._emitClient('leave_room', 11);
     expect(socket.leave).toHaveBeenCalledWith('11');
 
-    socket._emitClient('joinRoom', { roomId: 12 });
+    await socket._emitClient('joinRoom', { roomId: 12 });
     expect(socket.join).toHaveBeenCalledWith('12');
 
-    socket._emitClient('leaveRoom', { roomId: 12 });
+    await socket._emitClient('leaveRoom', { roomId: 12 });
     expect(socket.leave).toHaveBeenCalledWith('12');
+  });
+
+  test('rejects room subscriptions and typing from nonmembers', async () => {
+    const { initSocket } = await reload({ JWT_SECRET: 's', SOCKET_AUTOJOIN: 'false' });
+    initSocket({});
+    const socket = makeSocketDouble();
+    socket.user = { id: 99 };
+    prismaMock.participant.findMany.mockResolvedValue([]);
+    prismaMock.participant.findFirst.mockResolvedValue(null);
+
+    await serverInstance._getHandler('connection')(socket);
+    await socket._emitClient('join:rooms', [83, 'user:1', null]);
+    await socket._emitClient('join_room', 83);
+    await socket._emitClient('joinRoom', { roomId: 83 });
+    await socket._emitClient('typing:start', { roomId: 83 });
+
+    expect(socket.join).not.toHaveBeenCalledWith('83');
+    expect(socket.join).not.toHaveBeenCalledWith('user:1');
+    expect(socket.to).not.toHaveBeenCalledWith('83');
+    expect(prismaMock.participant.findFirst).toHaveBeenCalledWith({
+      where: { chatRoomId: 83, userId: 99 },
+      select: { id: true },
+    });
   });
 
   test('attaches random chat sockets when exported', async () => {
