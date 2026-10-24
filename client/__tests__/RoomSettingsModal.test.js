@@ -123,9 +123,17 @@ describe('RoomSettingsModal', () => {
     me: { allowAIBot: true },
   };
 
+  test('launch default shows roles but hides experimental room AI and translation controls', async () => {
+    renderWithProviders(<RoomSettingsModal opened onClose={() => {}} room={baseRoom} />);
+    expect(await findRowByUsername('mem')).toBeTruthy();
+    expect(screen.queryByRole('combobox', { name: /ai assistant/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: /auto-translation/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('switch', { name: /ria assistant/i })).not.toBeInTheDocument();
+  });
+
   test('loads participants, saves AI mode, and toggles allow bot', async () => {
     const user = userEvent.setup();
-    renderWithProviders(<RoomSettingsModal opened onClose={() => {}} room={baseRoom} />);
+    renderWithProviders(<RoomSettingsModal opened onClose={() => {}} room={baseRoom} showExperimentalRoomControls />);
 
     const ownerRow = await findRowByUsername('own');
     const modRow = await findRowByUsername('mod');
@@ -150,7 +158,7 @@ describe('RoomSettingsModal', () => {
   test('owner/admin can change a member role and remove user', async () => {
     const user = userEvent.setup();
     const axiosClient = require('../src/api/axiosClient').default;
-    renderWithProviders(<RoomSettingsModal opened onClose={() => {}} room={baseRoom} />);
+    renderWithProviders(<RoomSettingsModal opened onClose={() => {}} room={baseRoom} showExperimentalRoomControls />);
 
     const memRow = await findRowByUsername('mem');
     expect(memRow).toBeTruthy();
@@ -211,7 +219,7 @@ describe('RoomSettingsModal', () => {
       return originalPatch(url, body);
     });
     try {
-      renderWithProviders(<RoomSettingsModal opened onClose={() => {}} room={baseRoom} />);
+      renderWithProviders(<RoomSettingsModal opened onClose={() => {}} room={baseRoom} showExperimentalRoomControls />);
       const aiSelect = screen.getByRole('combobox', { name: /ai assistant/i });
       const trSelect = screen.getByRole('combobox', { name: /auto-translation/i });
       const roomSwitch = screen.getByRole('switch', { name: /enable ria assistant for this room/i });
