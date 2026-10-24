@@ -1,0 +1,80 @@
+name: Room Settings PR Verification
+
+# This workflow NEVER deploys. Production DigitalOcean deployment remains
+# restricted to the existing push-to-main deployment workflows.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'client/src/components/RoomSettingsModal*'
+      - 'client/__tests__/RoomSettingsModal.test.js'
+      - 'server/**'
+      - 'scripts/verify-room-settings-db.mjs'
+      - '.github/workflows/deploy.yml'
+      - '.github/workflows/room-settings-pr-verify.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  room-settings-check:
+    name: Node 22 build + room permissions
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: chatforia
+          POSTGRES_PASSWORD: qa_password
+          POSTGRES_DB: chatforia_room_settings_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U chatforia -d chatforia_room_settings_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      TEST_DATABASE_URL: postgresql://chatforia:qa_password@127.0.0.1:5432/chatforia_room_settings_test
+      DATABASE_URL: postgresql://chatforia:qa_password@127.0.0.1:5432/chatforia_room_settings_test
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Apply test-database migrations
+        run: npx prisma migrate deploy --schema=server/prisma/schema.prisma
+
+      - name: Verify room routes, authorization, and real HTTP/DB behavior
+        env:
+          NODE_ENV: test
+        run: |
+          npm run -w server test -- \
+            --coverage=false --watchman=false \
+            __tests__/chatrooms.routes.test.js \
+            __tests__/roomAuth.test.js \
+            utils/__tests__/roomAuth.test.js \
+            middleware/__tests__/roomAuth.test.js \
+            __tests__/features.test.js \
+            __tests__/roomSettings.http.integration.test.js \
+            services/__tests__/botAssistant.test.js
+
+      - name: Verify website Room settings
+        run: npm run -w client test -- --runInBand RoomSettingsModal.test.js
+
+      - name: Build production website using Node 22 (no deploy)
+        env:
+          NODE_ENV: production
+        run: npm run -w client build
