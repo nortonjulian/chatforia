@@ -55,7 +55,8 @@ test('layout styles are scoped to SMS and preserve tall-thread scrolling',()=>{
  const css=read('client/src/pages/SmsLayout.css'),layout=read('client/src/pages/SmsLayout.jsx');
  assert.match(layout,/import '\.\/SmsLayout.css'/);
  assert.match(layout,/className="sms-thread-messages"/);
- assert.match(css,/\.sms-thread-viewport > div\s*\{[^}]*min-height: 100%/);
+ assert.match(layout,/className="sms-thread-viewport"/);
+ assert.match(css,/\.sms-thread-viewport\s*\{[^}]*overflow-x:\s*hidden[^}]*max-width:\s*100%/);
  assert.match(css,/\.sms-thread-messages\s*\{[^}]*margin-top: auto;[^}]*flex-shrink: 0/);
  assert.doesNotMatch(css,/column-reverse|justify-content:\s*flex-end|height:\s*100vh/);
 });
