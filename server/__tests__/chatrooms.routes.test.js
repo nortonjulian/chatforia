@@ -682,7 +682,12 @@ describe('production Room settings route contract', () => {
     canActOnRankMock.mockReturnValueOnce(true);
     participantUpdate.mockResolvedValueOnce({ userId: 3, role: 'MODERATOR' });
     const res = await request(makeApp()).patch('/rooms/42/participants/3/role').send({ role: 'MODERATOR' });
+    // Verify the response proves a persisted update, not merely a 200 status.
     expect(res.statusCode).toBe(200);
+    expect(res.body).toMatchObject({
+      ok: true,
+      participant: { userId: 3, role: 'MODERATOR' },
+    });
     expect(participantUpdate).toHaveBeenCalledWith({
       where: { chatRoomId_userId: { chatRoomId: 42, userId: 3 } },
       data: { role: 'MODERATOR' },
