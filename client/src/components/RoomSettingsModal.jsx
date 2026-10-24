@@ -23,6 +23,10 @@ export default function RoomSettingsModal({
   onClose,
   room,
   onUpdated,
+  // Launch-safe default: expose only verified participant management.
+  // These room-specific controls must remain hidden until their actual
+  // AI/E2EE and translation message behavior is validated end-to-end.
+  showExperimentalRoomControls = false,
 }) {
   const { currentUser } = useUser();
   const { t } = useTranslation();
@@ -331,6 +335,8 @@ export default function RoomSettingsModal({
           )}
         </div>
 
+        {showExperimentalRoomControls && (
+          <>
         <Divider />
 
         {/* Room-level AI assistant (owner/admin) */}
@@ -385,6 +391,8 @@ export default function RoomSettingsModal({
           onChange={(e) => toggleAllowBot(e.currentTarget.checked)}
           disabled={savingAllow}
         />
+          </>
+        )}
       </Stack>
     </Modal>
   );
