@@ -1,3 +1,4 @@
+import { loadSmsContactNames, smsPhoneKeys } from './smsContactNames.js';
 import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
@@ -22,23 +23,8 @@ function phoneVariants(raw) {
 }
 
 async function getContactDisplayNameForPhone(ownerId, phone) {
-  const variants = phoneVariants(phone);
-  if (!variants.length) return null;
-
-  const c = await prisma.contact.findFirst({
-    where: {
-      ownerId: Number(ownerId),
-      externalPhone: { in: variants },
-    },
-    select: {
-      alias: true,
-      externalName: true,
-      externalPhone: true,
-      user: { select: { username: true } },
-    },
-  });
-
-  return c ? (c.alias || c.externalName || c.user?.username || c.externalPhone) : null;
+  const names = await loadSmsContactNames(prisma, ownerId, [phone]);
+  return smsPhoneKeys(phone).map(key => names.get(key)).find(Boolean) || null;
 }
 
 /* -------------------------------------------------------------------------- */
