@@ -1,0 +1,68 @@
+/* Room settings: the desktop table becomes participant cards on narrow screens.
+   Presentation only: role authorization and actions stay in the existing component. */
+@media (max-width: 600px) {
+  .room-settings-participants-table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .room-settings-participants-table thead {
+    display: none;
+  }
+
+  .room-settings-participants-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .room-settings-participants-table tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px 12px;
+    padding: 12px;
+    border: 1px solid var(--mantine-color-default-border);
+    border-radius: 10px;
+    background: var(--mantine-color-body);
+  }
+
+  .room-settings-participants-table tbody tr td {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .room-settings-participants-table tbody tr td:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .room-settings-participants-table tbody tr td:nth-child(2) {
+    grid-column: 1;
+  }
+
+  .room-settings-participants-table tbody tr td:nth-child(3) {
+    grid-column: 2;
+    justify-content: flex-end;
+  }
+
+  .room-settings-participant-identity {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .room-settings-participant-username {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .room-settings-role-select {
+    width: 100%;
+    max-width: 190px;
+  }
+
+  .room-settings-role-select input {
+    min-width: 0;
+  }
+}
