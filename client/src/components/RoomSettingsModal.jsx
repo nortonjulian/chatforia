@@ -17,6 +17,7 @@ import { notifications } from '@mantine/notifications';
 import { useUser } from '../context/UserContext';
 import axiosClient from '../api/axiosClient';
 import { useTranslation } from 'react-i18next';
+import './RoomSettingsModal.css';
 
 export default function RoomSettingsModal({
   opened,
@@ -272,7 +273,7 @@ export default function RoomSettingsModal({
               <Loader />
             </Group>
           ) : (
-            <Table striped highlightOnHover>
+            <Table striped highlightOnHover className="room-settings-participants-table">
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th>{t('roomSettings.user', 'User')}</Table.Th>
@@ -286,9 +287,9 @@ export default function RoomSettingsModal({
                   return (
                     <Table.Tr key={user.id}>
                       <Table.Td>
-                        <Group gap="xs">
+                        <Group gap="xs" className="room-settings-participant-identity" wrap="wrap">
                           <Avatar src={user.avatarUrl} radius="xl" size="sm" />
-                          <Text>{user.username}</Text>
+                          <Text className="room-settings-participant-username">{user.username}</Text>
                           {isOwnerRow && <Badge color="violet">
                             {t('roomSettings.owner', 'Owner')}
                           </Badge>}
@@ -302,6 +303,7 @@ export default function RoomSettingsModal({
                           <Text c="dimmed">Owner</Text>
                         ) : canEdit ? (
                           <Select
+                            className="room-settings-role-select"
                             value={role}
                             data={ROLE_OPTS}
                             onChange={(v) => v && changeRole(user.id, v)}
