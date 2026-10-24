@@ -25,14 +25,18 @@ export default function RoomSettingsModal({
   onUpdated,
 }) {
   const { currentUser } = useUser();
-  const canEdit = currentUser?.role === 'ADMIN' || Number(currentUser?.id) === Number(room?.ownerId);
-  const isOwner = Number(currentUser?.id) === Number(room?.ownerId);
-
   const { t } = useTranslation();
 
   // Participants state
   const [ownerId, setOwnerId] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const myUserId = String(currentUser?.id ?? '');
+  const effectiveOwnerId = String(ownerId ?? room?.ownerId ?? '');
+  const isOwner = Boolean(myUserId && effectiveOwnerId && myUserId === effectiveOwnerId);
+  const isRoomAdmin = participants.some(
+    (p) => String(p.userId ?? p.user?.id) === myUserId && p.role === 'ADMIN'
+  );
+  const canEdit = currentUser?.role === 'ADMIN' || isOwner || isRoomAdmin;
   const [loadingParticipants, setLoadingParticipants] = useState(false);
   const [removingUserId, setRemovingUserId] = useState(null);
 
@@ -64,15 +68,15 @@ export default function RoomSettingsModal({
 ];
 
   const AUTO_TRANSLATE_OPTS = [
-  { value: 'off', label: t('roomSettings.autoTranslateMode.off', 'Off') },
+  { value: 'OFF', label: t('roomSettings.autoTranslateMode.off', 'Off') },
   { value: 'TAGGED', label: t('roomSettings.autoTranslateMode.tagged', 'Tagged only (/tr …)') },
   { value: 'ALL', label: t('roomSettings.autoTranslateMode.all', 'All messages') },
 ];
 
   // keep local state in sync when room prop changes
   useEffect(() => {
-    setAiMode(room?.aiAssistantMode || 'off');
-    setAutoTranslateMode(room?.autoTranslateMode || 'off');
+    setAiMode(String(room?.aiAssistantMode || 'OFF').toUpperCase());
+    setAutoTranslateMode(String(room?.autoTranslateMode || 'OFF').toUpperCase());
     setAllowAIBot(room?.me?.allowAIBot ?? true);
     setRoomBotEnabled(Boolean(room?.allowForiaBot));
   }, [
@@ -82,6 +86,27 @@ export default function RoomSettingsModal({
     room?.me?.allowAIBot,
     room?.allowForiaBot,
   ]);
+
+  // The parent ChatView owns the room prop but does not pass an onUpdated callback.
+  // Refresh canonical values on each opening so previously saved settings reappear.
+  useEffect(() => {
+    if (!opened || !room?.id) return;
+    let active = true;
+    axiosClient.get(`/chatrooms/${room.id}`)
+      .then(({ data }) => {
+        if (!active || !data || Number(data.id) !== Number(room.id)) return;
+        setAiMode(String(data.aiAssistantMode || 'OFF').toUpperCase());
+        setAutoTranslateMode(String(data.autoTranslateMode || 'OFF').toUpperCase());
+        setRoomBotEnabled(Boolean(data.allowForiaBot));
+        if (typeof data.me?.allowAIBot === 'boolean') {
+          setAllowAIBot(data.me.allowAIBot);
+        }
+      })
+      .catch(() => {
+        // Keep prop-backed settings if the refresh is temporarily unavailable.
+      });
+    return () => { active = false; };
+  }, [opened, room?.id]);
 
   const loadParticipants = async () => {
     if (!room?.id) return;
@@ -105,12 +130,21 @@ export default function RoomSettingsModal({
 
   // Participants actions
   const changeRole = async (userId, role) => {
-    await axiosClient.patch(
-      `/chatrooms/${room.id}/participants/${userId}/role`,
-      { role }
-    );
-    await loadParticipants();
-    notifications.show({ message: 'Settings updated', withBorder: true });
+    try {
+      await axiosClient.patch(
+        `/chatrooms/${room.id}/participants/${userId}/role`,
+        { role }
+      );
+      await loadParticipants();
+      notifications.show({ message: 'Settings updated', withBorder: true });
+    } catch (error) {
+      notifications.show({
+        message: error?.response?.data?.message || error?.response?.data?.error ||
+          'Could not change participant role',
+        color: 'red',
+        withBorder: true,
+      });
+    }
   };
 
   const removeUser = async (userId) => {
@@ -144,6 +178,7 @@ export default function RoomSettingsModal({
           mode: aiMode,
         }
       );
+      setAiMode(String(data.aiAssistantMode || aiMode).toUpperCase());
       onUpdated?.(data);
       onClose();
       notifications.show({ message: 'Settings updated', withBorder: true });
@@ -243,7 +278,7 @@ export default function RoomSettingsModal({
               </Table.Thead>
               <Table.Tbody>
                 {participants.map(({ user, role }) => {
-                  const isOwnerRow = Number(user.id) === Number(ownerId);
+                  const isOwnerRow = String(user.id) === String(ownerId ?? room?.ownerId);
                   return (
                     <Table.Tr key={user.id}>
                       <Table.Td>
