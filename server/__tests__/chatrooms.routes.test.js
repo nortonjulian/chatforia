@@ -419,9 +419,7 @@ describe('chatrooms routes', () => {
 
   describe('POST /rooms/:id/participants/:userId/promote', () => {
     test('allows global admin and updates participant role', async () => {
-      mockPrisma.participant.update = jest
-        .fn()
-        .mockResolvedValue({ userId: 2, role: 'ADMIN' });
+      participantUpdate.mockResolvedValueOnce({ userId: 2, role: 'ADMIN' });
 
       const res = await request(app).post('/rooms/10/participants/2/promote');
 
@@ -431,7 +429,7 @@ describe('chatrooms routes', () => {
         participant: { userId: 2, role: 'ADMIN' },
       });
 
-      expect(mockPrisma.participant.update).toHaveBeenCalledWith({
+      expect(participantUpdate).toHaveBeenCalledWith({
         where: { chatRoomId_userId: { chatRoomId: 10, userId: 2 } },
         data: { role: 'ADMIN' },
       });
