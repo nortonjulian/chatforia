@@ -95,7 +95,25 @@ router.post('/share-event', upload.single('file'), express.json(), async (req, r
     if (payload.startUTC >= payload.endUTC) return res.status(400).json({ error: 'start must be before end' });
 
     const roomId = Number(req.body.chatId || req.query.chatId); // rename param later
-    if (!Number.isFinite(roomId)) return res.status(400).json({ error: 'chatId must be a number' });
+    if (!Number.isSafeInteger(roomId) || roomId <= 0) {
+      return res.status(400).json({ error: 'chatId must be a number' });
+    }
+
+    // Authorization must precede BOTH event and message creation.
+    // Being authenticated does not grant access to arbitrary rooms.
+    const membership = await prisma.participant.findFirst({
+      where: {
+        chatRoomId: roomId,
+        userId: Number(userId),
+      },
+      select: { id: true },
+    });
+
+    if (!membership) {
+      return res.status(403).json({
+        error: 'Not a participant',
+      });
+    }
 
     const event = await prisma.event.create({ data: { ...payload, createdById: userId } });
 

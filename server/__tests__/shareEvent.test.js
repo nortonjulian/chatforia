@@ -15,6 +15,9 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => {
       message: {
         create: jest.fn(),
       },
+      participant: {
+        findFirst: jest.fn(),
+      },
     },
   };
 });
@@ -44,6 +47,7 @@ function makeApp({ userId } = {}) {
 describe('POST /share-event', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    prisma.participant.findFirst.mockResolvedValue({ id: 1 });
   });
 
   test('401 if no user', async () => {
@@ -87,6 +91,39 @@ END:VCALENDAR`;
 
     expect(res.status).toBe(400);
     expect(res.body).toEqual({ error: 'Invalid ICS' });
+  });
+
+  test('403: nonmember cannot share an event into a room', async () => {
+    const app = makeApp({ userId: 7 });
+
+    prisma.participant.findFirst.mockResolvedValue(null);
+    prisma.event.create.mockResolvedValue({
+      id: 777, title: 'Unauthorized event',
+    });
+    prisma.message.create.mockResolvedValue({
+      id: 778, chatRoomId: 123, senderId: 7,
+      rawContent: 'Unauthorized event',
+      sender: { id: 7, username: 'tester' },
+    });
+
+    const res = await request(app)
+      .post('/share-event')
+      .send({
+        chatId: '123',
+        fields: {
+          title: 'Unauthorized event',
+          startISO: '2026-11-01T10:00:00Z',
+          endISO: '2026-11-01T11:00:00Z',
+        },
+      });
+
+    expect(res.status).toBe(403);
+    expect(prisma.participant.findFirst).toHaveBeenCalledWith({
+      where: { chatRoomId: 123, userId: 7 },
+      select: { id: true },
+    });
+    expect(prisma.event.create).not.toHaveBeenCalled();
+    expect(prisma.message.create).not.toHaveBeenCalled();
   });
 
   test('creates event/message from valid ICS upload', async () => {
