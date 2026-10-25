@@ -48,6 +48,8 @@ await jest.unstable_mockModule('../middleware/auth.js', () => ({
 }));
 await jest.unstable_mockModule('../middleware/uploads.js', () => ({
   uploadMedia: { array: () => (_req, _res, next) => next() },
+  // thumbnailer imports this at module load even for text-only requests.
+  uploadDirs: { ROOT: '/tmp/chatforia-group-ria-http-qa' },
 }));
 await jest.unstable_mockModule('../services/userBlockService.js', () => ({
   assertDirectRoomAllowed: jest.fn(async () => {}),
