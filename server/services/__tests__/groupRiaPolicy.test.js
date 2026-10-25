@@ -36,6 +36,7 @@ describe('group Ria explicit invocation policy', () => {
     expect(hasEncryptedMessageIndicators({ encryptedPayloads: { 1: { ciphertext: 'x' } } })).toBe(true);
     expect(hasEncryptedMessageIndicators({ keys: [{ userId: 1 }] })).toBe(true);
     expect(hasEncryptedMessageIndicators({ payloads: [{ userId: 1 }] })).toBe(true);
+    expect(hasEncryptedMessageIndicators({ sessionKeys: [{ messageId: 5 }] })).toBe(true);
     expect(hasEncryptedMessageIndicators({ rawContent: '@Ria hello' })).toBe(false);
   });
 });
