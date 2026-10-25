@@ -597,7 +597,7 @@ export default function ChatroomsSidebar({
   }
 
   return (
-    <Stack p="sm" gap="xs">
+    <Stack p="sm" gap="xs" style={{ width: '100%', minWidth: 0, maxWidth: '100%', overflowX: 'hidden' }}>
       {!listOnly && (
         <Text fw={600} aria-label="Conversations header">
           {t('sidebar.conversations', 'Conversations')}
@@ -638,7 +638,7 @@ export default function ChatroomsSidebar({
         );
 
         return (
-          <div key={`${c.kind}:${c.id}`} className="sidebar-row">
+          <div key={`${c.kind}:${c.id}`} className="sidebar-row" style={{ width: '100%', maxWidth: '100%', minWidth: 0, overflow: 'hidden' }}>
             <Box
               onClick={() => {
                 console.log('[ChatroomsSidebar] clicked conversation row:', c);
@@ -646,6 +646,10 @@ export default function ChatroomsSidebar({
               }}
               style={{
                 width: '100%',
+                minWidth: 0,
+                maxWidth: '100%',
+                boxSizing: 'border-box',
+                overflow: 'hidden',
                 padding: '18px 14px',
                 minHeight: 82,
                 borderRadius: 12,
@@ -658,8 +662,8 @@ export default function ChatroomsSidebar({
               aria-current={isActive ? 'true' : undefined}
               data-active={isActive ? 'true' : undefined}
             >
-              <Group justify="space-between" wrap="nowrap" align="flex-start">
-                <Box style={{ minWidth: 0, flex: 1 }}>
+              <Group justify="space-between" wrap="nowrap" align="flex-start" style={{ minWidth: 0, width: '100%' }}>
+                <Box style={{ minWidth: 0, flex: 1, maxWidth: '100%' }}>
                   <Group justify="space-between" wrap="nowrap" align="center">
                     <Group gap={6} wrap="nowrap" style={{ minWidth: 0, flex: 1 }}>
                       <Text fw={500} lineClamp={1} style={{ minWidth: 0 }}>
@@ -738,7 +742,7 @@ export default function ChatroomsSidebar({
                   </Group>
 
                   {!!lastPreview && (
-                    <Text size="sm" c="dimmed" mt={4} lineClamp={1}>
+                    <Text size="sm" c="dimmed" mt={4} lineClamp={1} style={{ minWidth: 0, maxWidth: '100%', overflowWrap: 'anywhere' }}>
                       {lastPreview}
                     </Text>
                   )}
