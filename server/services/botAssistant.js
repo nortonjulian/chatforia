@@ -2,6 +2,7 @@ import { enqueueAI } from './aiQueue.js';
 import { allow } from '../utils/tokenBucket.js';
 import { generateAIResponse } from '../utils/generateAIResponse.js';
 import { createMessageService } from './messageService.js';
+import { extractGroupRiaPrompt, hasEncryptedMessageIndicators } from './groupRiaPolicy.js';
 
 // Read env once per module load – tests set env before importing this file
 const BOT_ID = Number(process.env.FORIA_BOT_USER_ID || 0);
@@ -14,14 +15,19 @@ const MAX_CHARS = Number(process.env.AI_MAX_INPUT_CHARS || 1500);
  * - Requires OPENAI_API_KEY to be set
  * - Room must have allowForiaBot = true
  * - aiAssistantMode respected: 'off' | 'mention' | 'always'
- * - At least one *other* participant must have allowAIBot = true
- * - Per-room and per-sender throttles
- * - Sender must opt in; context includes only opted-in users
- * - Queued execution to bound concurrency/latency
+ * - Feature flag GROUP_RIA_ENABLED must explicitly be true (default disabled)
+ * - MENTION only: explicit @Ria, /ask or legacy @ForiaBot
+ * - Sender and another member must have demonstrably consented
+ * - Only an unencrypted persisted group message can be sent to AI
+ * - No other room messages or plaintext conversation history are read
+ * - Per-room and per-sender throttles, bounded queue
  */
 export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
-  // 1) Bot must be configured
-  if (!BOT_ID) return;
+  // Explicit opt-in to this backend feature; there is no live message-send hook yet.
+  if (process.env.GROUP_RIA_ENABLED !== 'true') return;
+
+  // 1) Bot must be configured and the supplied text must be an intentional prompt.
+  if (!BOT_ID || !extractGroupRiaPrompt(text)) return;
 
   // 2) Global kill-switch — don’t leak messages if no API key configured.
   //    We check both:
@@ -34,11 +40,10 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
   const openaiKey = hasOwnKey ? process.env.OPENAI_API_KEY : '';
   if (!hasOwnKey || !openaiKey) return;
 
-  const roomId = Number(savedMessage.chatRoomId);
-  const senderId = Number(
-    savedMessage.sender?.id || savedMessage.senderId || 0
-  );
-  if (!roomId || !senderId) return;
+  const roomId = Number(savedMessage?.chatRoomId);
+  const senderId = Number(savedMessage?.sender?.id || savedMessage?.senderId || 0);
+  const messageId = Number(savedMessage?.id);
+  if (![roomId, senderId, messageId].every((n) => Number.isSafeInteger(n) && n > 0)) return;
 
   // 3) Don’t reply to the bot itself
   if (senderId === BOT_ID) return;
@@ -52,22 +57,26 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
     where: { id: roomId },
     select: {
       allowForiaBot: true,
-      aiAssistantMode: true, // 'off' | 'mention' | 'always'
+      isGroup: true,
+      aiAssistantMode: true,
       participants: {
         select: {
           userId: true,
           allowAIBot: true, // legacy room preference
           riaGroupConsentedAt: true, // explicit affirmative opt-in evidence
-          user: { select: { username: true } },
+          user: { select: { username: true, strictE2EE: true } },
         },
       },
     },
   });
-  if (!room) return;
-  if (!room.allowForiaBot) return; // hard gate
-  if (String(room.aiAssistantMode || 'OFF').toUpperCase() === 'OFF') return; // disabled
+  if (!room?.isGroup || !room.allowForiaBot) return;
+  // Do not honor historical ALWAYS mode. Group Ria is explicit invocation only.
+  if (String(room.aiAssistantMode || 'OFF').toUpperCase() !== 'MENTION') return;
 
   const participants = room.participants || [];
+  // Any Strict E2EE participant is a reason to refuse server-side group AI.
+  // An omitted strictE2EE field is not evidence that access is permitted.
+  if (participants.some((p) => p.user?.strictE2EE !== false)) return;
 
   // Must be a current member
   const senderMembership = participants.find((p) => p.userId === senderId);
@@ -79,47 +88,38 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
   );
   if (!someoneElseOptedIn) return;
 
-  // Mode enforcement: mention-only requires explicit mention/command
-  const body = String(text || '');
-  const mentioned =
-    /(^|\s)@foriabot\b/i.test(body) ||
-    /^\/ask(\s|$)/i.test(body) ||
-    /^\/foria(\s|$)/i.test(body);
-  if (String(room.aiAssistantMode || '').toUpperCase() === 'MENTION' && !mentioned) return;
-
-  // Build compact context using only lines from opted-in users (+ the sender)
-  const allowedUserIds = new Set(
-    participants.filter((p) => p.allowAIBot === true && !!p.riaGroupConsentedAt).map((p) => p.userId)
-  );
-  // Sender was required to opt in above; never override a member's consent.
-
-  const last = await prisma.message.findMany({
-    where: { chatRoomId: roomId },
-    orderBy: { id: 'desc' },
-    take: 12,
+  // Independently load the canonical saved message; never trust plaintext passed
+  // by a client or a partially shaped message from the create pipeline.
+  const persisted = await prisma.message.findUnique({
+    where: { id: messageId },
     select: {
+      chatRoomId: true,
+      senderId: true,
       rawContent: true,
-      sender: { select: { id: true, username: true } },
+      contentCiphertext: true,
+      isAutoReply: true,
+      deletedForAll: true,
+      sender: { select: { strictE2EE: true } },
+      keys: { select: { messageId: true }, take: 1 },
+      payloads: { select: { messageId: true }, take: 1 },
+      sessionKeys: { select: { messageId: true }, take: 1 },
     },
   });
+  if (!persisted ||
+      persisted.chatRoomId !== roomId ||
+      persisted.senderId !== senderId ||
+      persisted.isAutoReply ||
+      persisted.deletedForAll ||
+      persisted.sender?.strictE2EE !== false ||
+      hasEncryptedMessageIndicators(persisted)) {
+    return;
+  }
 
-  const context = last
-    .reverse()
-    .filter((m) => m.sender?.id && allowedUserIds.has(m.sender.id))
-    .map((m) => `${m.sender.username}: ${m.rawContent || ''}`)
-    .join('\n')
-    .slice(-2000); // keep small to reduce exposure/cost
+  const prompt = extractGroupRiaPrompt(persisted.rawContent);
+  if (!prompt) return;
 
-  // Strip command/mention noise from the user prompt and clip size
-  const userPrompt = body
-    .replace(/(^|\s)@foriabot\b/i, ' ')
-    .replace(/^\/ask\s*/i, '')
-    .replace(/^\/foria\s*/i, '')
-    .trim()
-    .slice(0, MAX_CHARS);
-
-  const system =
-    'You are ForiaBot, a concise, friendly assistant in a group chat. Be helpful, avoid personal data, and do not provide medical, legal, or financial advice.';
+  // Do NOT fetch group history: even consented members have not necessarily
+  // authorized historical context sharing. Only the invoking plaintext is used.
 
   // Queue the AI call under a per-room key to avoid bursts
   const roomKey = `room:${roomId}`;
@@ -127,15 +127,33 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
     roomKey,
     dropIfBusy: true, // shed load under burst without piling up
     fn: async () => {
-      const reply = await generateAIResponse(
-        userPrompt || body.slice(0, MAX_CHARS),
-        {
-          system,
-          context,
-          maxTokens: 220,
-          temperature: 0.4,
-        }
-      );
+      // Re-check room permissions/consent immediately before external AI use,
+      // since a member may opt out while the request is queued.
+      const current = await prisma.chatRoom.findUnique({
+        where: { id: roomId },
+        select: {
+          isGroup: true,
+          allowForiaBot: true,
+          aiAssistantMode: true,
+          participants: {
+            select: {
+              userId: true, allowAIBot: true, riaGroupConsentedAt: true,
+              user: { select: { strictE2EE: true } },
+            },
+          },
+        },
+      });
+      const members = current?.participants || [];
+      const initiator = members.find((p) => p.userId === senderId);
+      if (!current?.isGroup || !current.allowForiaBot ||
+          String(current.aiAssistantMode || '').toUpperCase() !== 'MENTION' ||
+          members.some((p) => p.user?.strictE2EE !== false) ||
+          !initiator?.allowAIBot || !initiator.riaGroupConsentedAt ||
+          !members.some((p) => p.userId !== senderId && p.allowAIBot === true && p.riaGroupConsentedAt)) {
+        return;
+      }
+
+      const reply = await generateAIResponse(prompt.slice(0, MAX_CHARS));
       if (!reply) return;
 
       // Persist via the normal pipeline (encryption/keys etc.)
