@@ -107,3 +107,120 @@ describe('group Ria gated integration', () => {
     expect(emit).not.toHaveBeenCalled();
   });
 });
+
+describe('group Ria pre-activation failure gates', () => {
+  it('requires a provisioned bot participant before reading the invoking message', async () => {
+    const prisma = db({ participants: members().filter((member) => member.userId !== 999) });
+    await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+    expect(prisma.message.findUnique).not.toHaveBeenCalled();
+    expect(generate).not.toHaveBeenCalled();
+  });
+
+  it('does not infer another member\'s consent from a legacy true flag', async () => {
+    const participants = members().map((member) =>
+      member.userId === 11 ? { ...member, riaGroupConsentedAt: null } : member);
+    const prisma = db({ participants });
+    await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+    expect(prisma.message.findUnique).not.toHaveBeenCalled();
+    expect(generate).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['room-wide Ria disabled', { allowForiaBot: false }],
+    ['assistant mode disabled', { aiAssistantMode: 'OFF' }],
+    ['not a group', { isGroup: false }],
+  ])('refuses a request when %s', async (_label, override) => {
+    const prisma = db();
+    prisma.chatRoom.findUnique.mockResolvedValue({ ...room(), ...override });
+    await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+    expect(prisma.message.findUnique).not.toHaveBeenCalled();
+    expect(generate).not.toHaveBeenCalled();
+  });
+
+  it('does not read room data or call the provider when the API key is absent', async () => {
+    process.env.OPENAI_API_KEY = '';
+    const prisma = db();
+    await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+    expect(prisma.chatRoom.findUnique).not.toHaveBeenCalled();
+    expect(generate).not.toHaveBeenCalled();
+  });
+
+  it('stops before a billable call if consent is revoked after claiming', async () => {
+    const prisma = db();
+    let reads = 0;
+    prisma.chatRoom.findUnique.mockImplementation(async () => {
+      reads += 1;
+      return room(reads >= 3 ? members(false) : members());
+    });
+    await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+    expect(prisma.groupRiaInvocation.create).toHaveBeenCalledTimes(1);
+    expect(generate).not.toHaveBeenCalled();
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it('does not deliver after source deletion while the provider was running', async () => {
+    const prisma = db();
+    let reads = 0;
+    prisma.message.findUnique.mockImplementation(async () => {
+      reads += 1;
+      return reads >= 4 ? { ...persisted, deletedForAll: true } : persisted;
+    });
+    await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+    expect(generate).toHaveBeenCalledTimes(1);
+    expect(create).not.toHaveBeenCalled();
+    expect(emit).not.toHaveBeenCalled();
+  });
+
+  it('does not deliver after the source message text was edited', async () => {
+    const prisma = db();
+    let reads = 0;
+    prisma.message.findUnique.mockImplementation(async () => {
+      reads += 1;
+      return reads >= 4 ? { ...persisted, rawContent: '@Ria a different request' } : persisted;
+    });
+    await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+    expect(generate).toHaveBeenCalledWith('help');
+    expect(create).not.toHaveBeenCalled();
+    expect(emit).not.toHaveBeenCalled();
+  });
+
+  it('does not deliver if the room owner switches Ria OFF during generation', async () => {
+    const prisma = db();
+    let reads = 0;
+    prisma.chatRoom.findUnique.mockImplementation(async () => {
+      reads += 1;
+      return reads >= 4 ? { ...room(), allowForiaBot: false } : room();
+    });
+    await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+    expect(generate).toHaveBeenCalledTimes(1);
+    expect(create).not.toHaveBeenCalled();
+    expect(emit).not.toHaveBeenCalled();
+  });
+
+  it('does not deliver after the global kill switch is turned OFF mid-request', async () => {
+    const prisma = db();
+    generate.mockImplementationOnce(async () => {
+      process.env.GROUP_RIA_ENABLED = 'false';
+      return 'Not to be delivered';
+    });
+    await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+    expect(generate).toHaveBeenCalledTimes(1);
+    expect(create).not.toHaveBeenCalled();
+    expect(emit).not.toHaveBeenCalled();
+  });
+
+  it('never falls back to AI if the permanent idempotency claim cannot be saved', async () => {
+    const prisma = db();
+    prisma.groupRiaInvocation.create.mockRejectedValueOnce({ code: 'P1001' });
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma });
+      expect(prisma.groupRiaInvocation.create).toHaveBeenCalledTimes(1);
+      expect(generate).not.toHaveBeenCalled();
+      expect(create).not.toHaveBeenCalled();
+      expect(emit).not.toHaveBeenCalled();
+    } finally {
+      warn.mockRestore();
+    }
+  });
+});
