@@ -185,6 +185,16 @@ test('HTTP @Ria request creates exactly one persisted bot reply and per-member u
       expect(generate).toHaveBeenCalledTimes(1);
       expect(generate).toHaveBeenCalledWith('hello');
 
+      // Retry the exact HTTP submission with the same clientMessageId.
+      // Neither the original message nor the AI-generated reply may duplicate.
+      const retry = await request(app)
+        .post('/messages')
+        .set('x-ria-qa-user', String(sender.id))
+        .send({ chatRoomId: room.id, clientMessageId: cid, content: '@Ria hello' });
+      expect(retry.status).toBe(201);
+      expect(retry.body.message.id).toBe(send.body.message.id);
+      expect(generate).toHaveBeenCalledTimes(1);
+
       const stored = await tx.message.findMany({
         where: { chatRoomId: room.id },
         orderBy: { id: 'asc' },
