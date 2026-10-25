@@ -7,7 +7,7 @@ import {
 describe('group Ria explicit invocation policy', () => {
   test.each([
     ['@Ria explain this', 'explain this'],
-    ['hello @Ria, explain this', 'hello   explain this'],
+    ['hello @Ria, explain this', 'hello, explain this'],
     ['@ForiaBot explain this', 'explain this'],
     ['/ask explain this', 'explain this'],
     ['/ASK explain this', 'explain this'],
