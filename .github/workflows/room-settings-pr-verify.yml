@@ -72,7 +72,8 @@ jobs:
             services/__tests__/botAssistant.test.js \
             services/__tests__/groupRiaPolicy.test.js \
             services/__tests__/groupRiaDelivery.test.js \
-            __tests__/groupRiaClaim.db.integration.test.js
+            __tests__/groupRiaClaim.db.integration.test.js \
+            __tests__/groupRiaPositive.http.integration.test.js
 
       - name: Verify website Room settings
         run: npm run -w client test -- --runInBand RoomSettingsModal.test.js
