@@ -106,6 +106,7 @@ function appFor(router) {
   app.use(express.json());
   app.use('/messages', router);
   app.use((error, _req, res, _next) => {
+    console.error('[Group Ria QA] HTTP failure', error?.name, error?.code);
     res.status(error?.isBoom ? error.output.statusCode : 500).json({
       error: error?.isBoom ? error.message : 'QA request failed',
     });
