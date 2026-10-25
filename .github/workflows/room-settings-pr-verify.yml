@@ -69,7 +69,8 @@ jobs:
             middleware/__tests__/roomAuth.test.js \
             __tests__/features.test.js \
             __tests__/roomSettings.http.integration.test.js \
-            services/__tests__/botAssistant.test.js
+            services/__tests__/botAssistant.test.js \
+            services/__tests__/groupRiaPolicy.test.js
 
       - name: Verify website Room settings
         run: npm run -w client test -- --runInBand RoomSettingsModal.test.js
