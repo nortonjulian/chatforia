@@ -149,18 +149,48 @@ describe('maybeInvokeForiaBot (gating / early returns)', () => {
 });
 
 describe('maybeInvokeForiaBot (room sender consent)', () => {
+  it('never treats legacy allowAIBot=true without affirmative timestamp as consent', async () => {
+    process.env.FORIA_BOT_USER_ID = '999';
+    process.env.OPENAI_API_KEY = 'test-key';
+    process.env.GROUP_RIA_ENABLED = 'true';
+    const prisma = {
+      chatRoom: {
+        findUnique: jest.fn().mockResolvedValue({
+          allowForiaBot: true,
+          isGroup: true,
+          aiAssistantMode: 'MENTION',
+          participants: [
+            { userId: 10, allowAIBot: true, riaGroupConsentedAt: null },
+            { userId: 11, allowAIBot: true, riaGroupConsentedAt: new Date(), user: { strictE2EE: false } },
+          ],
+        }),
+      },
+      message: { findMany: jest.fn() },
+    };
+    const { io } = makeIoMock();
+    const { maybeInvokeForiaBot } = await import('../botAssistant.js');
+    await maybeInvokeForiaBot({
+      text: '@Ria please help', savedMessage: { id: 143, chatRoomId: 142, senderId: 10 }, io, prisma,
+    });
+    expect(prisma.message.findMany).not.toHaveBeenCalled();
+    expect(io.to).not.toHaveBeenCalled();
+  });
+
+
   it('never reads message context or sends to AI when sender has opted out', async () => {
     process.env.FORIA_BOT_USER_ID = '999';
     process.env.OPENAI_API_KEY = 'test-key';
+    process.env.GROUP_RIA_ENABLED = 'true';
 
     const prisma = {
       chatRoom: {
         findUnique: jest.fn().mockResolvedValue({
           allowForiaBot: true,
-          aiAssistantMode: 'ALWAYS',
+          isGroup: true,
+          aiAssistantMode: 'MENTION',
           participants: [
-            { userId: 10, allowAIBot: false, user: { username: 'sender' } },
-            { userId: 11, allowAIBot: true, user: { username: 'other' } },
+            { userId: 10, allowAIBot: false, riaGroupConsentedAt: null, user: { username: 'sender', strictE2EE: false } },
+            { userId: 11, allowAIBot: true, riaGroupConsentedAt: new Date(), user: { username: 'other', strictE2EE: false } },
           ],
         }),
       },
@@ -170,13 +200,78 @@ describe('maybeInvokeForiaBot (room sender consent)', () => {
     const { maybeInvokeForiaBot } = await import('../botAssistant.js');
 
     await maybeInvokeForiaBot({
-      text: 'a private message that must not reach AI',
-      savedMessage: { chatRoomId: 135, senderId: 10 },
+      text: '@Ria a private message that must not reach AI',
+      savedMessage: { id: 154, chatRoomId: 135, senderId: 10 },
       io,
       prisma,
     });
 
     expect(prisma.chatRoom.findUnique).toHaveBeenCalledTimes(1);
+    expect(prisma.message.findMany).not.toHaveBeenCalled();
+    expect(io.to).not.toHaveBeenCalled();
+  });
+});
+
+describe('group Ria E2EE and delivery safety', () => {
+  const member = (userId, strictE2EE = false) => ({
+    userId, allowAIBot: true, riaGroupConsentedAt: new Date(),
+    user: { username: 'member', strictE2EE },
+  });
+
+  async function invoke({ participants, message, text = '@Ria explain this', enabled = true, mode = 'MENTION' }) {
+    jest.resetModules();
+    process.env.FORIA_BOT_USER_ID = '999';
+    process.env.OPENAI_API_KEY = 'test-key';
+    process.env.GROUP_RIA_ENABLED = enabled ? 'true' : 'false';
+    const prisma = {
+      chatRoom: { findUnique: jest.fn().mockResolvedValue({
+        isGroup: true, allowForiaBot: true, aiAssistantMode: mode,
+        participants: participants || [member(10), member(11)],
+      }) },
+      message: { findUnique: jest.fn().mockResolvedValue(message), findMany: jest.fn() },
+    };
+    const { io } = makeIoMock();
+    const { maybeInvokeForiaBot } = await import('../botAssistant.js');
+    await maybeInvokeForiaBot({
+      text, savedMessage: { id: 25, chatRoomId: 42, senderId: 10 }, io, prisma,
+    });
+    return { prisma, io };
+  }
+
+  const stored = {
+    chatRoomId: 42, senderId: 10, rawContent: '@Ria explain this',
+    contentCiphertext: null, deletedForAll: false, isAutoReply: false,
+    sender: { strictE2EE: false }, keys: [], payloads: [], sessionKeys: [],
+  };
+
+  it('does not access room data when feature flag is disabled', async () => {
+    const { prisma } = await invoke({ enabled: false });
+    expect(prisma.chatRoom.findUnique).not.toHaveBeenCalled();
+    expect(prisma.message.findUnique).not.toHaveBeenCalled();
+  });
+
+  it('does not access room data for ordinary group messages', async () => {
+    const { prisma } = await invoke({ text: 'hello team' });
+    expect(prisma.chatRoom.findUnique).not.toHaveBeenCalled();
+  });
+
+  it('rejects rooms with a strict-E2EE member before message lookup', async () => {
+    const { prisma } = await invoke({ participants: [member(10), member(11, true)] });
+    expect(prisma.message.findUnique).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['ciphertext', { contentCiphertext: { ciphertext: 'secret' } }],
+    ['encrypted keys', { keys: [{ messageId: 25 }] }],
+    ['encrypted payloads', { payloads: [{ messageId: 25 }] }],
+    ['session keys', { sessionKeys: [{ messageId: 25 }] }],
+    ['strict sender', { sender: { strictE2EE: true } }],
+    ['wrong sender', { senderId: 11 }],
+    ['deleted message', { deletedForAll: true }],
+    ['bot reply', { isAutoReply: true }],
+  ])('rejects %s without reading history or emitting replies', async (_name, override) => {
+    const { prisma, io } = await invoke({ message: { ...stored, ...override } });
+    expect(prisma.message.findUnique).toHaveBeenCalledTimes(1);
     expect(prisma.message.findMany).not.toHaveBeenCalled();
     expect(io.to).not.toHaveBeenCalled();
   });

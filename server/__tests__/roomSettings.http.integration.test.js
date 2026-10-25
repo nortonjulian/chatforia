@@ -139,6 +139,11 @@ test('HTTP settings respect room ownership, rank, consent and persistence', asyn
       expect(enabled.status).toBe(200);
       expect(enabled.body.allowForiaBot).toBe(true);
 
+      // Legacy default true must never count as active affirmative consent.
+      const legacy = await request(app).get(endpoint).set(as(admin));
+      expect(legacy.status).toBe(200);
+      expect(legacy.body.me.allowAIBot).toBe(false);
+
       // Only the authenticated member's own consent can change.
       const blocked = await request(app).patch(`${endpoint}/ai-opt`)
         .set(as(outsider)).send({ allow: false });
@@ -147,6 +152,24 @@ test('HTTP settings respect room ownership, rank, consent and persistence', asyn
         .set(as(member)).send({ allow: false });
       expect(optOut.status).toBe(200);
       expect(optOut.body.allowAIBot).toBe(false);
+      const optIn = await request(app).patch(`${endpoint}/ai-opt`)
+        .set(as(member)).send({ allow: true });
+      expect(optIn.status).toBe(200);
+      expect(optIn.body.allowAIBot).toBe(true);
+      const confirmed = await tx.participant.findUnique({
+        where: { chatRoomId_userId: { chatRoomId: room.id, userId: member.id } },
+        select: { allowAIBot: true, riaGroupConsentedAt: true },
+      });
+      expect(confirmed.allowAIBot).toBe(true);
+      expect(confirmed.riaGroupConsentedAt).toBeInstanceOf(Date);
+      const revoke = await request(app).patch(`${endpoint}/ai-opt`)
+        .set(as(member)).send({ allow: false });
+      expect(revoke.status).toBe(200);
+      const afterRevoke = await tx.participant.findUnique({
+        where: { chatRoomId_userId: { chatRoomId: room.id, userId: member.id } },
+        select: { allowAIBot: true, riaGroupConsentedAt: true },
+      });
+      expect(afterRevoke).toEqual({ allowAIBot: false, riaGroupConsentedAt: null });
 
       const dbRoom = await tx.chatRoom.findUnique({
         where: { id: room.id },
@@ -172,7 +195,7 @@ test('HTTP settings respect room ownership, rank, consent and persistence', asyn
       expect(readMember.body.me.allowAIBot).toBe(false);
       const readAdmin = await request(app).get(endpoint).set(as(admin));
       expect(readAdmin.status).toBe(200);
-      expect(readAdmin.body.me.allowAIBot).toBe(true);
+      expect(readAdmin.body.me.allowAIBot).toBe(false); // historical default is not opt-in
       expect((await request(app).get(endpoint).set(as(outsider))).status).toBe(403);
       expect((await request(app).get(`${endpoint}/participants`).set(as(outsider))).status).toBe(403);
 

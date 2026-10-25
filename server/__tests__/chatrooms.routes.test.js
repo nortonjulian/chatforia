@@ -722,7 +722,8 @@ describe('production Room settings route contract', () => {
     const consent = await request(makeApp()).patch('/rooms/42/ai-opt').send({ allow: false });
     expect(consent.statusCode).toBe(200);
     expect(participantUpdateMany).toHaveBeenCalledWith({
-      where: { chatRoomId: 42, userId: 1 }, data: { allowAIBot: false },
+      where: { chatRoomId: 42, userId: 1 },
+      data: { allowAIBot: false, riaGroupConsentedAt: null },
     });
   });
 

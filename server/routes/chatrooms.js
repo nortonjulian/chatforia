@@ -293,7 +293,10 @@ router.get(
     return res.json({
       ...room,
       me: {
-        allowAIBot: room.participants?.find((p) => Number(p.userId) === me)?.allowAIBot ?? false,
+        allowAIBot: (() => {
+          const member = room.participants?.find((p) => Number(p.userId) === me);
+          return member?.allowAIBot === true && member?.riaGroupConsentedAt != null;
+        })(),
       },
       isRandomChat: Boolean(randomChat),
       randomChat: randomChat
@@ -469,7 +472,10 @@ router.patch(
     if (typeof req.body?.allow !== 'boolean') throw Boom.badRequest('allow must be a boolean');
     const result = await prisma.participant.updateMany({
       where: { chatRoomId: roomId, userId },
-      data: { allowAIBot: req.body.allow },
+      data: {
+        allowAIBot: req.body.allow,
+        riaGroupConsentedAt: req.body.allow ? new Date() : null,
+      },
     });
     if (result.count !== 1) throw Boom.forbidden('Not a room participant');
     return res.json({ allowAIBot: req.body.allow });
