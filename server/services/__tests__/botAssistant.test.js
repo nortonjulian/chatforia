@@ -217,6 +217,9 @@ describe('group Ria E2EE and delivery safety', () => {
     userId, allowAIBot: true, riaGroupConsentedAt: new Date(),
     user: { username: 'member', strictE2EE },
   });
+  // A Ria reply is persisted as a room message: the bot must be a real member.
+  const botMember = { userId: 999, allowAIBot: false, riaGroupConsentedAt: null,
+    user: { username: 'ria', strictE2EE: false } };
 
   async function invoke({ participants, message, text = '@Ria explain this', enabled = true, mode = 'MENTION' }) {
     jest.resetModules();
@@ -226,7 +229,7 @@ describe('group Ria E2EE and delivery safety', () => {
     const prisma = {
       chatRoom: { findUnique: jest.fn().mockResolvedValue({
         isGroup: true, allowForiaBot: true, aiAssistantMode: mode,
-        participants: participants || [member(10), member(11)],
+        participants: participants || [member(10), member(11), botMember],
       }) },
       message: { findUnique: jest.fn().mockResolvedValue(message), findMany: jest.fn() },
     };
