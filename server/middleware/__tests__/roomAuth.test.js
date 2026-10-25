@@ -80,7 +80,7 @@ describe('getRoomRole()', () => {
 
     const out = await getRoomRole({ id: '7', role: 'USER' }, '55');
     expect(prismaMock.participant.findUnique).toHaveBeenCalledWith({
-      where: { userId_chatRoomId: { userId: 7, chatRoomId: 55 } },
+      where: { chatRoomId_userId: { chatRoomId: 55, userId: 7 } },
       select: { role: true },
     });
     expect(out).toEqual({ role: 'MODERATOR' });
@@ -121,7 +121,7 @@ describe('requireRoomMember()', () => {
     await mw(req, res, next);
     expect(next).toHaveBeenCalledWith();
     expect(prismaMock.participant.findUnique).toHaveBeenCalledWith({
-      where: { userId_chatRoomId: { userId: 3, chatRoomId: 77 } },
+      where: { chatRoomId_userId: { chatRoomId: 77, userId: 3 } },
       select: { role: true },
     });
   });

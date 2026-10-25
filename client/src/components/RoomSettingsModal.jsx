@@ -17,37 +17,48 @@ import { notifications } from '@mantine/notifications';
 import { useUser } from '../context/UserContext';
 import axiosClient from '../api/axiosClient';
 import { useTranslation } from 'react-i18next';
+import './RoomSettingsModal.css';
 
 export default function RoomSettingsModal({
   opened,
   onClose,
   room,
   onUpdated,
+  // Launch-safe default: expose only verified participant management.
+  // These room-specific controls must remain hidden until their actual
+  // AI/E2EE and translation message behavior is validated end-to-end.
+  showExperimentalRoomControls = false,
 }) {
   const { currentUser } = useUser();
-  const canEdit = currentUser?.role === 'ADMIN' || currentUser?.id === room?.ownerId;
-  const isOwner = currentUser?.id === room?.ownerId;
-
   const { t } = useTranslation();
 
   // Participants state
   const [ownerId, setOwnerId] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const myUserId = String(currentUser?.id ?? '');
+  const effectiveOwnerId = String(ownerId ?? room?.ownerId ?? '');
+  const isOwner = Boolean(myUserId && effectiveOwnerId && myUserId === effectiveOwnerId);
+  const isRoomAdmin = participants.some(
+    (p) => String(p.userId ?? p.user?.id) === myUserId && p.role === 'ADMIN'
+  );
+  const canEdit = currentUser?.role === 'ADMIN' || isOwner || isRoomAdmin;
   const [loadingParticipants, setLoadingParticipants] = useState(false);
   const [removingUserId, setRemovingUserId] = useState(null);
 
   // Room-level settings
-  const [aiMode, setAiMode] = useState(room?.aiAssistantMode || 'off');
+  const [aiMode, setAiMode] = useState(String(room?.aiAssistantMode || 'OFF').toUpperCase());
   const [savingAIMode, setSavingAIMode] = useState(false);
 
   const [autoTranslateMode, setAutoTranslateMode] = useState(
-    room?.autoTranslateMode || 'off'
+    String(room?.autoTranslateMode || 'OFF').toUpperCase()
   );
   const [savingAutoTranslate, setSavingAutoTranslate] = useState(false);
 
   // Per-user (in this room) preference
-  const [allowAIBot, setAllowAIBot] = useState(room?.me?.allowAIBot ?? true);
+  const [allowAIBot, setAllowAIBot] = useState(room?.me?.allowAIBot ?? false);
   const [savingAllow, setSavingAllow] = useState(false);
+  const [roomBotEnabled, setRoomBotEnabled] = useState(Boolean(room?.allowForiaBot));
+  const [savingRoomBot, setSavingRoomBot] = useState(false);
 
   const ROLE_OPTS = [
   { value: 'MEMBER', label: t('roomSettings.roles.member', 'Member') },
@@ -56,28 +67,51 @@ export default function RoomSettingsModal({
  ];
 
   const AI_MODE_OPTS = [
-  { value: 'off', label: t('roomSettings.aiMode.off', 'Off') },
-  { value: 'mention', label: t('roomSettings.aiMode.mention', 'Only on @ForiaBot or /ask') },
-  { value: 'always', label: t('roomSettings.aiMode.always', 'Reply proactively') },
+  { value: 'OFF', label: t('roomSettings.aiMode.off', 'Off') },
+  { value: 'MENTION', label: String(t('roomSettings.aiMode.mention', 'Only on @Ria or /ask')).replace(/ForiaBot/g, 'Ria') },
+  { value: 'ALWAYS', label: t('roomSettings.aiMode.always', 'Reply proactively') },
 ];
 
   const AUTO_TRANSLATE_OPTS = [
-  { value: 'off', label: t('roomSettings.autoTranslateMode.off', 'Off') },
-  { value: 'tagged', label: t('roomSettings.autoTranslateMode.tagged', 'Tagged only (/tr …)') },
-  { value: 'all', label: t('roomSettings.autoTranslateMode.all', 'All messages') },
+  { value: 'OFF', label: t('roomSettings.autoTranslateMode.off', 'Off') },
+  { value: 'TAGGED', label: t('roomSettings.autoTranslateMode.tagged', 'Tagged only (/tr …)') },
+  { value: 'ALL', label: t('roomSettings.autoTranslateMode.all', 'All messages') },
 ];
 
   // keep local state in sync when room prop changes
   useEffect(() => {
-    setAiMode(room?.aiAssistantMode || 'off');
-    setAutoTranslateMode(room?.autoTranslateMode || 'off');
-    setAllowAIBot(room?.me?.allowAIBot ?? true);
+    setAiMode(String(room?.aiAssistantMode || 'OFF').toUpperCase());
+    setAutoTranslateMode(String(room?.autoTranslateMode || 'OFF').toUpperCase());
+    setAllowAIBot(room?.me?.allowAIBot ?? false);
+    setRoomBotEnabled(Boolean(room?.allowForiaBot));
   }, [
     room?.id,
     room?.aiAssistantMode,
     room?.autoTranslateMode,
     room?.me?.allowAIBot,
+    room?.allowForiaBot,
   ]);
+
+  // The parent ChatView owns the room prop but does not pass an onUpdated callback.
+  // Refresh canonical values on each opening so previously saved settings reappear.
+  useEffect(() => {
+    if (!opened || !room?.id) return;
+    let active = true;
+    axiosClient.get(`/chatrooms/${room.id}`)
+      .then(({ data }) => {
+        if (!active || !data || String(data.id) !== String(room.id)) return;
+        setAiMode(String(data.aiAssistantMode || 'OFF').toUpperCase());
+        setAutoTranslateMode(String(data.autoTranslateMode || 'OFF').toUpperCase());
+        setRoomBotEnabled(Boolean(data.allowForiaBot));
+        if (typeof data.me?.allowAIBot === 'boolean') {
+          setAllowAIBot(data.me.allowAIBot);
+        }
+      })
+      .catch(() => {
+        // Keep prop-backed settings if the refresh is temporarily unavailable.
+      });
+    return () => { active = false; };
+  }, [opened, room?.id]);
 
   const loadParticipants = async () => {
     if (!room?.id) return;
@@ -101,12 +135,21 @@ export default function RoomSettingsModal({
 
   // Participants actions
   const changeRole = async (userId, role) => {
-    await axiosClient.patch(
-      `/chatrooms/${room.id}/participants/${userId}/role`,
-      { role }
-    );
-    await loadParticipants();
-    notifications.show({ message: 'Settings updated', withBorder: true });
+    try {
+      await axiosClient.patch(
+        `/chatrooms/${room.id}/participants/${userId}/role`,
+        { role }
+      );
+      await loadParticipants();
+      notifications.show({ message: 'Settings updated', withBorder: true });
+    } catch (error) {
+      notifications.show({
+        message: error?.response?.data?.message || error?.response?.data?.error ||
+          'Could not change participant role',
+        color: 'red',
+        withBorder: true,
+      });
+    }
   };
 
   const removeUser = async (userId) => {
@@ -131,7 +174,7 @@ export default function RoomSettingsModal({
 
   // Room settings actions
   const saveAIMode = async () => {
-    if (!canEdit) return onClose();
+    if (!canEdit) return;
     setSavingAIMode(true);
     try {
       const { data } = await axiosClient.patch(
@@ -140,9 +183,12 @@ export default function RoomSettingsModal({
           mode: aiMode,
         }
       );
+      setAiMode(String(data.aiAssistantMode || aiMode).toUpperCase());
       onUpdated?.(data);
       onClose();
       notifications.show({ message: 'Settings updated', withBorder: true });
+    } catch (error) {
+      notifications.show({ message: error?.response?.data?.error || 'Could not save AI mode', color: 'red', withBorder: true });
     } finally {
       setSavingAIMode(false);
     }
@@ -157,11 +203,32 @@ export default function RoomSettingsModal({
           mode: value,
         }
       );
-      setAutoTranslateMode(data.autoTranslateMode || value);
+      setAutoTranslateMode(String(data.autoTranslateMode || value).toUpperCase());
       onUpdated?.(data);
       notifications.show({ message: 'Settings updated', withBorder: true });
+    } catch (error) {
+      notifications.show({ message: error?.response?.data?.error || 'Could not save translation mode', color: 'red', withBorder: true });
     } finally {
       setSavingAutoTranslate(false);
+    }
+  };
+
+  const toggleRoomBot = async (checked) => {
+    setSavingRoomBot(true);
+    try {
+      const { data } = await axiosClient.patch(`/chatrooms/${room.id}/ai-enabled`, {
+        enabled: checked,
+      });
+      setRoomBotEnabled(Boolean(data.allowForiaBot));
+      onUpdated?.(data);
+      notifications.show({ message: 'Settings updated', withBorder: true });
+    } catch (error) {
+      notifications.show({
+        message: error?.response?.data?.error || 'Could not update room AI permission',
+        color: 'red', withBorder: true,
+      });
+    } finally {
+      setSavingRoomBot(false);
     }
   };
 
@@ -173,6 +240,8 @@ export default function RoomSettingsModal({
       });
       setAllowAIBot(!!data.allowAIBot);
       notifications.show({ message: 'Settings updated', withBorder: true });
+    } catch (error) {
+      notifications.show({ message: error?.response?.data?.error || 'Could not update your AI consent', color: 'red', withBorder: true });
     } finally {
       setSavingAllow(false);
     }
@@ -204,7 +273,7 @@ export default function RoomSettingsModal({
               <Loader />
             </Group>
           ) : (
-            <Table striped highlightOnHover>
+            <Table striped highlightOnHover className="room-settings-participants-table">
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th>{t('roomSettings.user', 'User')}</Table.Th>
@@ -214,13 +283,13 @@ export default function RoomSettingsModal({
               </Table.Thead>
               <Table.Tbody>
                 {participants.map(({ user, role }) => {
-                  const isOwnerRow = user.id === ownerId;
+                  const isOwnerRow = String(user.id) === String(ownerId ?? room?.ownerId);
                   return (
                     <Table.Tr key={user.id}>
                       <Table.Td>
-                        <Group gap="xs">
+                        <Group gap="xs" className="room-settings-participant-identity" wrap="wrap">
                           <Avatar src={user.avatarUrl} radius="xl" size="sm" />
-                          <Text>{user.username}</Text>
+                          <Text className="room-settings-participant-username">{user.username}</Text>
                           {isOwnerRow && <Badge color="violet">
                             {t('roomSettings.owner', 'Owner')}
                           </Badge>}
@@ -234,6 +303,7 @@ export default function RoomSettingsModal({
                           <Text c="dimmed">Owner</Text>
                         ) : canEdit ? (
                           <Select
+                            className="room-settings-role-select"
                             value={role}
                             data={ROLE_OPTS}
                             onChange={(v) => v && changeRole(user.id, v)}
@@ -267,6 +337,8 @@ export default function RoomSettingsModal({
           )}
         </div>
 
+        {showExperimentalRoomControls && (
+          <>
         <Divider />
 
         {/* Room-level AI assistant (owner/admin) */}
@@ -278,6 +350,13 @@ export default function RoomSettingsModal({
               value={aiMode}
               onChange={setAiMode}
               withinPortal
+            />
+            <Switch
+              label="Enable Ria assistant for this room"
+              description="Room-wide permission. Each member's personal consent is separate."
+              checked={roomBotEnabled}
+              onChange={(e) => toggleRoomBot(e.currentTarget.checked)}
+              disabled={savingRoomBot}
             />
             <Group justify="flex-end">
               <Button
@@ -306,10 +385,12 @@ export default function RoomSettingsModal({
         )}
 
         <Divider />
+          </>
+        )}
 
-        {/* Per-user preference in this room */}
+        {/* Personal Ria consent remains visible even while experimental controls are hidden. */}
         <Switch
-          label={t('roomSettings.allowBot', 'Allow ForiaBot to engage in this room')}
+          label={t('roomSettings.personalRiaConsent', 'Allow Ria to use my messages in this room')}
           checked={allowAIBot}
           onChange={(e) => toggleAllowBot(e.currentTarget.checked)}
           disabled={savingAllow}

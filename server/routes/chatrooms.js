@@ -292,6 +292,9 @@ router.get(
 
     return res.json({
       ...room,
+      me: {
+        allowAIBot: room.participants?.find((p) => Number(p.userId) === me)?.allowAIBot ?? false,
+      },
       isRandomChat: Boolean(randomChat),
       randomChat: randomChat
         ? {
@@ -372,6 +375,122 @@ router.get(
       ownerId: room.ownerId ?? null,
       participants: room.participants,
     });
+  })
+);
+
+// Production room-settings routes. The older /rooms/:id/participants/.../role
+// handler is registered only in non-production environments.
+router.patch(
+  '/:id/participants/:userId/role',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const roomId = Number(req.params.id);
+    const targetId = Number(req.params.userId);
+    const role = String(req.body?.role || '').toUpperCase();
+    if (!Number.isSafeInteger(roomId) || roomId <= 0 ||
+        !Number.isSafeInteger(targetId) || targetId <= 0) {
+      throw Boom.badRequest('Invalid room or participant ID');
+    }
+    if (!['MEMBER', 'MODERATOR', 'ADMIN'].includes(role)) {
+      throw Boom.badRequest('Invalid role');
+    }
+
+    const [ownerId, target, actorRank] = await Promise.all([
+      getRoomOwnerIdDbTolerant(roomId),
+      prisma.participant.findUnique({
+        where: { chatRoomId_userId: { chatRoomId: roomId, userId: targetId } },
+        select: { userId: true, role: true },
+      }),
+      getEffectiveRoomRank(prisma, req.user.id, roomId, req.user.role),
+    ]);
+    if (!target) throw Boom.notFound('Participant not found');
+    if (targetId === ownerId) throw Boom.forbidden('Cannot change owner role');
+    const targetRank = RoleRank[target.role] ?? RoleRank.MEMBER;
+    if (actorRank === null || actorRank < RoleRank.ADMIN ||
+        !canActOnRank(actorRank, targetRank)) {
+      throw Boom.forbidden('Insufficient room permissions');
+    }
+    if (role === 'ADMIN' && Number(req.user.id) !== ownerId) {
+      throw Boom.forbidden('Only the room owner can grant ADMIN');
+    }
+    const updated = await prisma.participant.update({
+      where: { chatRoomId_userId: { chatRoomId: roomId, userId: targetId } },
+      data: { role },
+      select: { userId: true, role: true },
+    });
+    return res.json({ ok: true, participant: updated });
+  })
+);
+
+router.patch(
+  '/:id/ai-assistant',
+  requireAuth,
+  requireRoomRank(prisma, RoleRank.ADMIN),
+  asyncHandler(async (req, res) => {
+    const roomId = Number(req.params.id);
+    const mode = String(req.body?.mode || '').toUpperCase();
+    if (!Number.isSafeInteger(roomId) || roomId <= 0) throw Boom.badRequest('Invalid room ID');
+    if (!['OFF', 'MENTION', 'ALWAYS'].includes(mode)) throw Boom.badRequest('Invalid AI mode');
+    const updated = await prisma.chatRoom.update({
+      where: { id: roomId },
+      data: { aiAssistantMode: mode },
+      select: { id: true, aiAssistantMode: true, allowForiaBot: true },
+    });
+    return res.json(updated);
+  })
+);
+
+// The room-wide AI gate is distinct from each member's personal opt-in.
+router.patch(
+  '/:id/ai-enabled',
+  requireAuth,
+  requireRoomRank(prisma, RoleRank.ADMIN),
+  asyncHandler(async (req, res) => {
+    const roomId = Number(req.params.id);
+    if (!Number.isSafeInteger(roomId) || roomId <= 0) throw Boom.badRequest('Invalid room ID');
+    if (typeof req.body?.enabled !== 'boolean') throw Boom.badRequest('enabled must be a boolean');
+    const updated = await prisma.chatRoom.update({
+      where: { id: roomId },
+      data: { allowForiaBot: req.body.enabled },
+      select: { id: true, aiAssistantMode: true, allowForiaBot: true },
+    });
+    return res.json(updated);
+  })
+);
+
+// A participant can only change their own room-level AI consent.
+router.patch(
+  '/:id/ai-opt',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const roomId = Number(req.params.id);
+    const userId = Number(req.user.id);
+    if (!Number.isSafeInteger(roomId) || roomId <= 0) throw Boom.badRequest('Invalid room ID');
+    if (typeof req.body?.allow !== 'boolean') throw Boom.badRequest('allow must be a boolean');
+    const result = await prisma.participant.updateMany({
+      where: { chatRoomId: roomId, userId },
+      data: { allowAIBot: req.body.allow },
+    });
+    if (result.count !== 1) throw Boom.forbidden('Not a room participant');
+    return res.json({ allowAIBot: req.body.allow });
+  })
+);
+
+router.patch(
+  '/:id/auto-translate',
+  requireAuth,
+  requireRoomRank(prisma, RoleRank.ADMIN),
+  asyncHandler(async (req, res) => {
+    const roomId = Number(req.params.id);
+    const mode = String(req.body?.mode || '').toUpperCase();
+    if (!Number.isSafeInteger(roomId) || roomId <= 0) throw Boom.badRequest('Invalid room ID');
+    if (!['OFF', 'TAGGED', 'ALL'].includes(mode)) throw Boom.badRequest('Invalid translation mode');
+    const updated = await prisma.chatRoom.update({
+      where: { id: roomId },
+      data: { autoTranslateMode: mode },
+      select: { id: true, autoTranslateMode: true },
+    });
+    return res.json(updated);
   })
 );
 

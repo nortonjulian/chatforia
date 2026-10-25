@@ -36,7 +36,7 @@ export async function getEffectiveRoomRank(
   if (room.ownerId === uid) return RoleRank.OWNER;
 
   const participant = await prisma.participant.findUnique({
-    where: { userId_chatRoomId: { userId: uid, chatRoomId: rid } },
+    where: { chatRoomId_userId: { chatRoomId: rid, userId: uid } },
     select: { role: true },
   });
 

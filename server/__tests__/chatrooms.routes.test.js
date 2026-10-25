@@ -17,6 +17,8 @@ const participantFindMany = jest.fn();
 const participantFindFirst = jest.fn();
 const participantFindUnique = jest.fn();
 const participantDelete = jest.fn();
+const participantUpdate = jest.fn();
+const participantUpdateMany = jest.fn();
 
 const userBlockFindFirst = jest.fn();
 const mockPrisma = {
@@ -44,6 +46,8 @@ const mockPrisma = {
     findFirst: participantFindFirst,
     findUnique: participantFindUnique,
     delete: participantDelete,
+    update: participantUpdate,
+    updateMany: participantUpdateMany,
   },
 };
 
@@ -120,6 +124,8 @@ describe('chatrooms routes', () => {
     participantFindFirst.mockReset();
     participantFindUnique.mockReset();
     participantDelete.mockReset();
+    participantUpdate.mockReset();
+    participantUpdateMany.mockReset();
 
     getEffectiveRoomRankMock.mockReset();
     canActOnRankMock.mockReset();
@@ -413,9 +419,7 @@ describe('chatrooms routes', () => {
 
   describe('POST /rooms/:id/participants/:userId/promote', () => {
     test('allows global admin and updates participant role', async () => {
-      mockPrisma.participant.update = jest
-        .fn()
-        .mockResolvedValue({ userId: 2, role: 'ADMIN' });
+      participantUpdate.mockResolvedValueOnce({ userId: 2, role: 'ADMIN' });
 
       const res = await request(app).post('/rooms/10/participants/2/promote');
 
@@ -425,7 +429,7 @@ describe('chatrooms routes', () => {
         participant: { userId: 2, role: 'ADMIN' },
       });
 
-      expect(mockPrisma.participant.update).toHaveBeenCalledWith({
+      expect(participantUpdate).toHaveBeenCalledWith({
         where: { chatRoomId_userId: { chatRoomId: 10, userId: 2 } },
         data: { role: 'ADMIN' },
       });
@@ -654,5 +658,83 @@ describe('chatrooms routes', () => {
         select: { id: true, description: true },
       });
     });
+  });
+});
+
+describe('production Room settings route contract', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    chatRoomFindUnique.mockReset();
+    chatRoomUpdate.mockReset();
+    participantFindUnique.mockReset();
+    participantUpdate.mockReset();
+    participantUpdateMany.mockReset();
+    getEffectiveRoomRankMock.mockReset();
+    canActOnRankMock.mockReset();
+    requireRoomRankMock.mockImplementation(() => (_req, _res, next) => next());
+  });
+  test('room owner changes existing member role (no upsert)', async () => {
+    getEffectiveRoomRankMock.mockResolvedValueOnce(RoleRank.OWNER);
+    chatRoomFindUnique.mockResolvedValueOnce({ ownerId: 1 });
+    participantFindUnique.mockResolvedValueOnce({ userId: 3, role: 'MEMBER' });
+    canActOnRankMock.mockReturnValueOnce(true);
+    participantUpdate.mockResolvedValueOnce({ userId: 3, role: 'MODERATOR' });
+    const res = await request(makeApp()).patch('/rooms/42/participants/3/role').send({ role: 'MODERATOR' });
+    // Verify the response proves a persisted update, not merely a 200 status.
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toMatchObject({
+      ok: true,
+      participant: { userId: 3, role: 'MODERATOR' },
+    });
+    expect(participantUpdate).toHaveBeenCalledWith({
+      where: { chatRoomId_userId: { chatRoomId: 42, userId: 3 } },
+      data: { role: 'MODERATOR' },
+      select: { userId: true, role: true },
+    });
+  });
+
+  test('unprivileged user cannot change participant role', async () => {
+    getEffectiveRoomRankMock.mockResolvedValueOnce(RoleRank.MEMBER);
+    chatRoomFindUnique.mockResolvedValueOnce({ ownerId: 4 });
+    participantFindUnique.mockResolvedValueOnce({ userId: 3, role: 'MEMBER' });
+    const res = await request(makeApp()).patch('/rooms/42/participants/3/role').send({ role: 'ADMIN' });
+    expect(res.statusCode).toBe(403);
+    expect(participantUpdate).not.toHaveBeenCalled();
+  });
+
+  test('AI mode persists enum case and rejects unsupported modes', async () => {
+    chatRoomUpdate.mockResolvedValueOnce({ id: 42, aiAssistantMode: 'MENTION', allowForiaBot: false });
+    const accepted = await request(makeApp()).patch('/rooms/42/ai-assistant').send({ mode: 'mention' });
+    expect(accepted.statusCode).toBe(200);
+    expect(chatRoomUpdate).toHaveBeenCalledWith({
+      where: { id: 42 }, data: { aiAssistantMode: 'MENTION' },
+      select: { id: true, aiAssistantMode: true, allowForiaBot: true },
+    });
+    const rejected = await request(makeApp()).patch('/rooms/42/ai-assistant').send({ mode: 'everything' });
+    expect(rejected.statusCode).toBe(400);
+  });
+
+  test('AI opt-in is restricted to caller membership', async () => {
+    participantUpdateMany.mockResolvedValueOnce({ count: 0 });
+    const notMember = await request(makeApp()).patch('/rooms/42/ai-opt').send({ allow: true });
+    expect(notMember.statusCode).toBe(403);
+    participantUpdateMany.mockResolvedValueOnce({ count: 1 });
+    const consent = await request(makeApp()).patch('/rooms/42/ai-opt').send({ allow: false });
+    expect(consent.statusCode).toBe(200);
+    expect(participantUpdateMany).toHaveBeenCalledWith({
+      where: { chatRoomId: 42, userId: 1 }, data: { allowAIBot: false },
+    });
+  });
+
+  test('room translation stores correct enum and validates requested modes', async () => {
+    chatRoomUpdate.mockResolvedValueOnce({ id: 42, autoTranslateMode: 'TAGGED' });
+    const valid = await request(makeApp()).patch('/rooms/42/auto-translate').send({ mode: 'tagged' });
+    expect(valid.statusCode).toBe(200);
+    expect(chatRoomUpdate).toHaveBeenCalledWith({
+      where: { id: 42 }, data: { autoTranslateMode: 'TAGGED' },
+      select: { id: true, autoTranslateMode: true },
+    });
+    const invalid = await request(makeApp()).patch('/rooms/42/auto-translate').send({ mode: 'nonsense' });
+    expect(invalid.statusCode).toBe(400);
   });
 });

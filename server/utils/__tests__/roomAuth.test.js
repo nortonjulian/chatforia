@@ -122,7 +122,7 @@ describe('getEffectiveRoomRank', () => {
       select: { ownerId: true },
     });
     expect(prisma.participant.findUnique).toHaveBeenCalledWith({
-      where: { userId_chatRoomId: { userId: 5, chatRoomId: 123 } },
+      where: { chatRoomId_userId: { chatRoomId: 123, userId: 5 } },
       select: { role: true },
     });
   });
