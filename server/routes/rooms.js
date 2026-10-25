@@ -241,7 +241,7 @@ router.post('/dev/direct', requireAuth, asyncHandler(async (req, res) => {
   return res.status(201).json({ roomId: room.id });
 }));
 
-// POST /chatrooms/:roomId/messages
+// POST /rooms/:roomId/messages (legacy plaintext route)
 router.post(
   '/:roomId/messages',
   requireAuth,
@@ -257,19 +257,66 @@ router.post(
     if (!membership) throw Boom.forbidden('Not a participant');
     await assertDirectRoomAllowed(roomId, senderId);
 
+    // This legacy endpoint only supports plaintext.
+    // Strict-E2EE accounts must use the modern encrypted path.
+    const sender = await prisma.user.findUnique({
+      where: { id: senderId },
+      select: { strictE2EE: true },
+    });
+
+    if (!sender) throw Boom.forbidden('Sender not found');
+
+    if (sender.strictE2EE === true) {
+      throw Boom.badRequest('Encrypted message payload is required');
+    }
+
     const { rawContent, clientMessageId } = req.body || {};
     const text = String(rawContent || '').trim();
     if (!text) return res.status(400).json({ error: 'Message is empty' });
 
-    // ✅ De-dupe (prevents duplicates on retries / double-taps / socket echo)
-    // Requires: Message.clientMessageId String? @unique in Prisma
-    if (clientMessageId) {
-      const existing = await prisma.message.findUnique({
-        where: { clientMessageId: String(clientMessageId) },
-        include: { sender: { select: { id: true, username: true } } },
+    // Legacy retries must be scoped to this room AND sender.
+    // The schema does not have a globally unique clientMessageId.
+    const cid = typeof clientMessageId === 'string'
+      ? clientMessageId.trim()
+      : '';
+
+    if (clientMessageId != null && !cid) {
+      throw Boom.badRequest('Invalid clientMessageId');
+    }
+
+    // Do not let the legacy endpoint claim an explicit Ria ID.
+    if (cid.startsWith('ria-v1:') ||
+        Object.prototype.hasOwnProperty.call(
+          req.body || {}, 'riaInvocation'
+        )) {
+      throw Boom.badRequest('Use the explicit Ria invocation endpoint');
+    }
+
+    if (cid) {
+      const existing = await prisma.message.findFirst({
+        where: {
+          chatRoomId: roomId,
+          senderId,
+          clientMessageId: cid,
+        },
+        include: {
+          sender: { select: { id: true, username: true } },
+        },
       });
 
       if (existing) {
+        // A retry cannot switch to different plaintext or reuse
+        // an encrypted/automated message as a legacy plaintext one.
+        if (
+          existing.rawContent !== text ||
+          (existing.contentCiphertext != null &&
+           existing.contentCiphertext !== '') ||
+          existing.isAutoReply === true
+        ) {
+          return res.status(409).json({
+            error: 'clientMessageId conflict',
+          });
+        }
         return res.json({
           message: {
             id: existing.id,
@@ -293,7 +340,7 @@ router.post(
         chatRoomId: roomId,
         senderId,
         rawContent: text,
-        clientMessageId: clientMessageId ? String(clientMessageId) : null,
+        clientMessageId: cid || null,
         contentCiphertext: "",
         translatedFrom: "en",
         translatedTo: null,
