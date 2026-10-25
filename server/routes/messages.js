@@ -13,6 +13,10 @@ import { emitMessageUpsert, emitMessageUpsertToUser, emitMessageAck, emitToUser 
 import { shapeMessageForUser, createMessageService } from '../services/messageService.js';
 import { recordMessageReads } from '../services/readReceiptService.js';
 import { assertDirectRoomAllowed } from '../services/userBlockService.js';
+import {
+  authorizeGroupRiaInvocation,
+  GroupRiaInvocationError,
+} from '../services/groupRiaInvocationContract.js';
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
 
@@ -513,6 +517,68 @@ router.post(
   '/',
   postMessageLimiter,
   requireAuth,
+  asyncHandler(async (req, res, next) => {
+    const body = req.body || {};
+    const hasIntent = Object.prototype.hasOwnProperty.call(
+      body, 'riaInvocation'
+    );
+
+    if (!hasIntent) return next();
+
+    try {
+      // Only a deliberately declared, JSON-only invocation
+      // may carry plaintext into the Group Ria pipeline.
+      if (!req.is('application/json')) {
+        return res.status(415).json({
+          error: 'RIA_JSON_REQUIRED',
+        });
+      }
+
+      const authorized = await authorizeGroupRiaInvocation({
+        prisma,
+        body,
+        senderId: req.user.id,
+      });
+
+      // A retry must not repurpose a different stored message.
+      const existing = await prisma.message.findFirst({
+        where: {
+          chatRoomId: authorized.roomId,
+          senderId: authorized.senderId,
+          clientMessageId: authorized.clientMessageId,
+        },
+        select: {
+          rawContent: true,
+          contentCiphertext: true,
+          isAutoReply: true,
+          deletedForAll: true,
+          keys: { select: { messageId: true }, take: 1 },
+          payloads: { select: { messageId: true }, take: 1 },
+        },
+      });
+
+      if (existing && (
+        existing.rawContent !== authorized.content ||
+        existing.contentCiphertext != null ||
+        existing.isAutoReply ||
+        existing.deletedForAll ||
+        existing.keys.length > 0 ||
+        existing.payloads.length > 0
+      )) {
+        return res.status(409).json({
+          error: 'RIA_IDEMPOTENCY_CONFLICT',
+        });
+      }
+
+      res.locals.groupRiaInvocationAuthorized = true;
+      return next();
+    } catch (err) {
+      if (err instanceof GroupRiaInvocationError) {
+        return res.status(err.status).json({ error: err.code });
+      }
+      return next(err);
+    }
+  }),
   uploadMedia.array('files', 10),
   asyncHandler(async (req, res) => {
     const senderId = Number(req.user?.id);
@@ -522,6 +588,18 @@ router.post(
 
     const clientMessageId =
       body.clientMessageId ?? body.client_message_id ?? body.cid ?? null;
+
+    // Also enforce after multipart parsing: no alternate request
+    // format may sneak an invocation through the normal route.
+    if (!res.locals.groupRiaInvocationAuthorized && (
+      Object.prototype.hasOwnProperty.call(body, 'riaInvocation') ||
+      (typeof clientMessageId === 'string' &&
+       clientMessageId.startsWith('ria-v1:'))
+    )) {
+      return res.status(400).json({
+        error: 'RIA_EXPLICIT_INVOCATION_REQUIRED',
+      });
+    }
 
     if (clientMessageId != null && typeof clientMessageId !== 'string') {
       throw Boom.badRequest('clientMessageId must be a string');
@@ -749,6 +827,21 @@ router.post(
       }
     }
 
+    // Recheck after membership processing. The authoritative final
+    // check happens under database locks inside createMessageService.
+    if (res.locals.groupRiaInvocationAuthorized === true) {
+      try {
+        await authorizeGroupRiaInvocation({
+          prisma, body, senderId,
+        });
+      } catch (err) {
+        if (err instanceof GroupRiaInvocationError) {
+          return res.status(err.status).json({ error: err.code });
+        }
+        throw err;
+      }
+    }
+
     // ✅ Save via service
     let saved;
 
@@ -763,7 +856,27 @@ router.post(
         encryptedPayloads,
         expireSeconds: secs,
         attachments,
+        riaInvocationBody:
+          res.locals.groupRiaInvocationAuthorized === true ? body : null,
       });
+
+      // Start Ria dispatch after persistence, before delivery I/O.
+      // Socket/push failures must not suppress an accepted invocation.
+      if (
+        res.locals.groupRiaInvocationAuthorized === true &&
+        saved.groupRiaWasRetry !== true &&
+        process.env.GROUP_RIA_ENABLED === 'true' &&
+        !IS_TEST
+      ) {
+        try {
+          const { maybeInvokeForiaBot } = await import('../services/botAssistant.js');
+          // Intentionally not awaited: AI latency must not delay message-send ACK.
+          void maybeInvokeForiaBot({ text: content, savedMessage: saved, prisma })
+            .catch((err) => console.warn('[group-ria] dispatch failed:', err?.code || err?.name || 'error'));
+        } catch (err) {
+          console.warn('[group-ria] dispatch unavailable:', err?.code || err?.name || 'error');
+        }
+      }
 
      // Restore archived conversations when a new message is sent.
     // Do not reset clearedAt or ThreadState.deletedAt.
@@ -777,6 +890,9 @@ router.post(
     });
 
     } catch (err) {
+      if (err instanceof GroupRiaInvocationError) {
+        return res.status(err.status).json({ error: err.code });
+      }
       console.error('[message create FAILED]', err);
 
       if (IS_TEST) {
@@ -824,7 +940,11 @@ router.post(
       }
     }
 
-    await emitMessageUpsertPerParticipant(chatRoomId, saved.id);
+    // Retried invocations already have a canonical message.
+    // Do not broadcast that message again.
+    if (saved.groupRiaWasRetry !== true) {
+      await emitMessageUpsertPerParticipant(chatRoomId, saved.id);
+    }
 
     // Private ACK for the sender
     if (saved?.clientMessageId && senderId) {
@@ -836,30 +956,22 @@ router.post(
       });
     }
 
-    await sendMessagePushesToRecipients({
-      chatRoomId,
-      senderId,
-      senderName: sender?.username || 'Chatforia',
-      saved,
-      content,
-      contentCiphertext,
-      encryptedPayloads,
-      attachments,
-    });
-
-
-    // Group Ria is disabled by default. No AI path, DB lookup, or import when OFF.
-    // Run only after the normal message is persisted and emitted to participants.
-    if (process.env.GROUP_RIA_ENABLED === 'true' && !IS_TEST) {
-      try {
-        const { maybeInvokeForiaBot } = await import('../services/botAssistant.js');
-        // Intentionally not awaited: AI latency must not delay message-send ACK.
-        void maybeInvokeForiaBot({ text: content, savedMessage: saved, prisma })
-          .catch((err) => console.warn('[group-ria] dispatch failed:', err?.code || err?.name || 'error'));
-      } catch (err) {
-        console.warn('[group-ria] dispatch unavailable:', err?.code || err?.name || 'error');
-      }
+    if (saved.groupRiaWasRetry !== true) {
+      await sendMessagePushesToRecipients({
+        chatRoomId,
+        senderId,
+        senderName: sender?.username || 'Chatforia',
+        saved,
+        // Keep explicit Ria invocation text out of push previews.
+        content: res.locals.groupRiaInvocationAuthorized === true
+          ? null
+          : content,
+        contentCiphertext,
+        encryptedPayloads,
+        attachments,
+      });
     }
+
 
     return res.status(201).json({ message: senderShaped });
   })

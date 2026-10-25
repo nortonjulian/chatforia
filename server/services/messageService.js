@@ -1,5 +1,9 @@
 import prisma from '../utils/prismaClient.js';
 import { assertDirectRoomAllowed } from './userBlockService.js';
+import {
+  authorizeGroupRiaInvocation,
+  GroupRiaInvocationError,
+} from './groupRiaInvocationContract.js';
 import { isExplicit, cleanText } from '../utils/filter.js';
 // import { translateForTargets } from '../utils/translate.js';
 import { maybeTranslateForTarget } from './translation/translateMessage.js';
@@ -41,6 +45,54 @@ function safeJsonParse(str) {
   }
 }
 
+
+// Resolve only a previously accepted, identical explicit Ria invocation.
+// Never convert a different message with the same ID into an AI request.
+async function findExistingRiaInvocation({
+  roomId, senderId, clientMessageId, content,
+}) {
+  const existing = await prisma.message.findFirst({
+    where: {
+      chatRoomId: roomId,
+      senderId: Number(senderId),
+      clientMessageId,
+    },
+    select: {
+      id: true,
+      chatRoomId: true,
+      senderId: true,
+      clientMessageId: true,
+      createdAt: true,
+      rawContent: true,
+      contentCiphertext: true,
+      isAutoReply: true,
+      deletedForAll: true,
+      keys: { select: { messageId: true }, take: 1 },
+      payloads: { select: { messageId: true }, take: 1 },
+    },
+  });
+
+  if (!existing) return null;
+
+  if (
+    existing.rawContent !== content ||
+    existing.contentCiphertext != null ||
+    existing.isAutoReply === true ||
+    existing.deletedForAll === true ||
+    existing.keys.length > 0 ||
+    existing.payloads.length > 0
+  ) {
+    throw new GroupRiaInvocationError(
+      'RIA_IDEMPOTENCY_CONFLICT', 409
+    );
+  }
+
+  return {
+    ...existing,
+    groupRiaWasRetry: true,
+  };
+}
+
 /* =========================
  *  Message pipeline (IN-APP)
  * ========================= */
@@ -59,6 +111,7 @@ export async function createMessageService({
   audioDurationSec = null,
   isAutoReply = false,
   attachments = [],
+  riaInvocationBody = null,
 }) {
   const roomIdNum = Number(chatRoomId);
 
@@ -113,7 +166,18 @@ export async function createMessageService({
 
   // ✅ Idempotency: normalize client message id once and use it both for lookup and create
   const cid = typeof clientMessageId === 'string' ? clientMessageId.trim() : '';
-  if (cid) {
+
+  if (cid && riaInvocationBody) {
+    const existingRia = await findExistingRiaInvocation({
+      roomId: roomIdNum,
+      senderId,
+      clientMessageId: cid,
+      content,
+    });
+    if (existingRia) return existingRia;
+  }
+
+  if (cid && !riaInvocationBody) {
     const existing = await prisma.message.findFirst({
       where: {
         chatRoomId: roomIdNum,
@@ -239,7 +303,7 @@ export async function createMessageService({
   // 4) Translations map
   let translationsMap = null;
   let translatedFrom = sender.preferredLanguage || 'en';
-  if (cleanContent) {
+  if (cleanContent && !riaInvocationBody) {
       const targetLangs = [
     ...new Set(
       recipientsExceptSender
@@ -340,6 +404,54 @@ translationsMap = Object.keys(map).length ? map : null;
 
     // Run a transaction: create message, then (if keys) create messageKey rows referencing saved.id
     saved = await prisma.$transaction(async (tx) => {
+      if (riaInvocationBody) {
+        // Room row lock coordinates setting changes and new
+        // participant FK references while this invocation commits.
+        const lockedRooms = await tx.$queryRaw`
+          SELECT "id" FROM "ChatRoom"
+          WHERE "id" = ${roomIdNum}
+          FOR UPDATE
+        `;
+        if (!lockedRooms.length) {
+          throw new GroupRiaInvocationError('GROUP_RIA_NOT_ALLOWED');
+        }
+
+        // Prevent existing participant consent changes or removals
+        // from committing between final validation and persistence.
+        await tx.$queryRaw`
+          SELECT "id" FROM "Participant"
+          WHERE "chatRoomId" = ${roomIdNum}
+          ORDER BY "id"
+          FOR SHARE
+        `;
+
+        // Protect Strict-E2EE eligibility during this transaction.
+        await tx.$queryRaw`
+          SELECT "id" FROM "User"
+          WHERE "id" IN (
+            SELECT "userId" FROM "Participant"
+            WHERE "chatRoomId" = ${roomIdNum}
+          )
+          ORDER BY "id"
+          FOR SHARE
+        `;
+
+        const approved = await authorizeGroupRiaInvocation({
+          prisma: tx,
+          body: riaInvocationBody,
+          senderId,
+        });
+
+        if (approved.roomId !== roomIdNum ||
+            approved.senderId !== Number(senderId) ||
+            approved.content !== content ||
+            approved.clientMessageId !== cid) {
+          throw new GroupRiaInvocationError(
+            'RIA_INVOCATION_MISMATCH', 400
+          );
+        }
+      }
+
       const created = await tx.message.create({
         data: messageCreateData,
         select: {
@@ -412,23 +524,45 @@ translationsMap = Object.keys(map).length ? map : null;
       return created;
     });
   } catch (e) {
-    console.error('[createMessageService] persist failed', e?.message || e);
+    // A competing request may have committed the same source message
+    // while our transaction was waiting. Query only AFTER rollback.
+    if (riaInvocationBody && e?.code === 'P2002') {
+      const existingRia = await findExistingRiaInvocation({
+        roomId: roomIdNum,
+        senderId,
+        clientMessageId: cid,
+        content,
+      });
+      if (existingRia) return existingRia;
+    }
+
+    // Expected authorization rejection is not a server failure.
+    if (!(e instanceof GroupRiaInvocationError)) {
+      console.error(
+        '[createMessageService] persist failed',
+        e?.code || e?.name || 'error'
+      );
+    }
     throw e;
   }
 
-  // 8.5) Bot webhook events (non-blocking)
-  try {
-    const { enqueueBotEventsForMessage } = await import('./botPlatform.js');
-    enqueueBotEventsForMessage(saved).catch(() => {});
-  } catch {
-    // ignore
+  // 8.5) Ordinary messages can produce bot webhook events.
+  // A private explicit AI invocation must not be forwarded to
+  // unrelated bot integrations.
+  if (!riaInvocationBody) {
+    try {
+      const { enqueueBotEventsForMessage } = await import('./botPlatform.js');
+      enqueueBotEventsForMessage(saved).catch(() => {});
+    } catch {
+      // ignore
+    }
   }
 
   // ✅ IMPORTANT: NO SMS fan-out here.
   // In-app chat stays in-app.
   // External SMS sending belongs in smsService (SmsThread flow) using the user's active DID as `from`.
 
-  if (!hasEncryptedPayloads) {
+  if (!hasEncryptedPayloads && !riaInvocationBody) {
     await maybeAutoTranslate({
       savedMessage: saved,
       prisma,

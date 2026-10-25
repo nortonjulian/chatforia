@@ -179,12 +179,21 @@ test('HTTP @Ria request creates exactly one persisted bot reply and per-member u
         process.env.NODE_ENV = wasTest;
       }
       const app = appFor(router);
-      const cid = `qa-ria-${suffix}`;
+      const cid = `ria-v1:${suffix}`;
+      const riaPayload = {
+        chatRoomId: room.id,
+        clientMessageId: cid,
+        content: '@Ria hello',
+        riaInvocation: {
+          version: 1,
+          acknowledgePlaintext: true,
+        },
+      };
 
       const send = await request(app)
         .post('/messages')
         .set('x-ria-qa-user', String(sender.id))
-        .send({ chatRoomId: room.id, clientMessageId: cid, content: '@Ria hello' });
+        .send(riaPayload);
 
       expect(send.status).toBe(201);
       expect(send.body.message.chatRoomId).toBe(room.id);
@@ -199,6 +208,28 @@ test('HTTP @Ria request creates exactly one persisted bot reply and per-member u
       expect(claim.replyMessageId).toEqual(expect.any(Number));
       expect(generate).toHaveBeenCalledTimes(1);
       expect(generate).toHaveBeenCalledWith('hello');
+
+      // RIA REALTIME ORDER REGRESSION
+      // Every human should receive the invoking message event
+      // before the bot reply event under normal socket delivery.
+      for (const viewer of [sender, member]) {
+        const sourceIndex = events.findIndex((event) =>
+          event.event === 'message:upsert' &&
+          event.userId === viewer.id &&
+          event.item?.id === send.body.message.id
+        );
+
+        const replyIndex = events.findIndex((event) =>
+          event.event === 'message:upsert' &&
+          event.userId === viewer.id &&
+          event.item?.id === claim.replyMessageId
+        );
+
+        expect(sourceIndex).toBeGreaterThanOrEqual(0);
+        expect(replyIndex).toBeGreaterThan(sourceIndex);
+      }
+
+
 
       const stored = await tx.message.findMany({
         where: { chatRoomId: room.id },
@@ -241,19 +272,83 @@ test('HTTP @Ria request creates exactly one persisted bot reply and per-member u
         expect(delta.body.items[0].sender.id).toBe(bot.id);
       }
 
-      // Retry only AFTER all read-side DB checks.  An intentionally failed
-      // duplicate unique-key insert aborts a PostgreSQL transaction, even when
-      // Prisma catches P2002.  This entire QA run shares one rollback-only
-      // transaction, unlike production's separate HTTP transactions.
-      // The dedicated claim-uniqueness DB test verifies the DB constraint.
-      const retry = await request(app)
+      // ORDINARY MESSAGE REGRESSION: mentioning Ria alone is not consent.
+      const ordinary = await request(app)
         .post('/messages')
         .set('x-ria-qa-user', String(sender.id))
-        .send({ chatRoomId: room.id, clientMessageId: cid, content: '@Ria hello' });
-      expect(retry.status).toBe(201);
-      expect(retry.body.message.id).toBe(send.body.message.id);
-      // The dispatch path handles P2002, never calls the provider twice.
+        .send({
+          chatRoomId: room.id,
+          clientMessageId: `ordinary-${suffix}`,
+          content: '@Ria ordinary group message',
+        });
+
+      expect(ordinary.status).toBe(201);
+      expect(ordinary.body.message.rawContent)
+        .toBe('@Ria ordinary group message');
+
+      const ordinaryClaim = await tx.groupRiaInvocation.findUnique({
+        where: { sourceMessageId: ordinary.body.message.id },
+      });
+      expect(ordinaryClaim).toBeNull();
+
+      // ENCRYPTED MESSAGE REGRESSION: existing encrypted submissions
+      // must persist without entering the Ria invocation path.
+      // These are deliberately dummy test envelopes, not real ciphertext.
+      const encryptedPayloads = Object.fromEntries(
+        [sender, member, bot].map((user) => [
+          String(user.id),
+          {
+            contentCiphertext: `test-opaque-${user.id}`,
+            encryptedKey: `test-key-${user.id}`,
+            language: 'en',
+          },
+        ])
+      );
+
+      const encrypted = await request(app)
+        .post('/messages')
+        .set('x-ria-qa-user', String(sender.id))
+        .send({
+          chatRoomId: room.id,
+          clientMessageId: `encrypted-${suffix}`,
+          content: null,
+          encryptedPayloads,
+        });
+
+      expect(encrypted.status).toBe(201);
+
+      const persistedEncrypted = await tx.message.findUnique({
+        where: { id: encrypted.body.message.id },
+        select: {
+          rawContent: true,
+          payloads: { select: { userId: true } },
+        },
+      });
+
+      expect(persistedEncrypted.rawContent).toBe('');
+      expect(persistedEncrypted.payloads).toHaveLength(3);
+
+      const encryptedClaim = await tx.groupRiaInvocation.findUnique({
+        where: { sourceMessageId: encrypted.body.message.id },
+      });
+      expect(encryptedClaim).toBeNull();
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
       await Promise.allSettled(invocationTasks);
+      expect(generate).toHaveBeenCalledTimes(1);
+
+      console.log(
+        'PASS: Ordinary mention and encrypted message do not invoke Ria'
+      );
+
+      // This test uses one rollback-only transaction.
+      // A duplicate unique-key insert aborts that transaction.
+      // Verify the single durable claim here; independent-transaction
+      // retry behavior requires a separate integration test.
+      const sourceClaimCount = await tx.groupRiaInvocation.count({
+        where: { sourceMessageId: send.body.message.id },
+      });
+      expect(sourceClaimCount).toBe(1);
       expect(generate).toHaveBeenCalledTimes(1);
 
       console.log('PASS: real HTTP + Postgres message delivery, one Ria reply, shaped upserts and reconnect deltas');
