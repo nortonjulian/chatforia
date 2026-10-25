@@ -53,6 +53,8 @@ await jest.unstable_mockModule('../middleware/uploads.js', () => ({
 }));
 await jest.unstable_mockModule('../services/userBlockService.js', () => ({
   assertDirectRoomAllowed: jest.fn(async () => {}),
+  assertDirectUsersAllowed: jest.fn(async () => {}),
+  isBlockedEitherWay: jest.fn(async () => false),
 }));
 await jest.unstable_mockModule('../services/translation/translateMessage.js', () => ({
   maybeTranslateForTarget: jest.fn(async () => null),
