@@ -33,6 +33,7 @@ export function hasEncryptedMessageIndicators(message) {
     message.encryptedPayloads ||
     message.encryptedKeys ||
     (Array.isArray(message.keys) && message.keys.length > 0) ||
-    (Array.isArray(message.payloads) && message.payloads.length > 0)
+    (Array.isArray(message.payloads) && message.payloads.length > 0) ||
+    (Array.isArray(message.sessionKeys) && message.sessionKeys.length > 0)
   );
 }
