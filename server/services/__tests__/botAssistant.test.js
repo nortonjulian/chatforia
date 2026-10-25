@@ -149,6 +149,32 @@ describe('maybeInvokeForiaBot (gating / early returns)', () => {
 });
 
 describe('maybeInvokeForiaBot (room sender consent)', () => {
+  it('never treats legacy allowAIBot=true without affirmative timestamp as consent', async () => {
+    process.env.FORIA_BOT_USER_ID = '999';
+    process.env.OPENAI_API_KEY = 'test-key';
+    const prisma = {
+      chatRoom: {
+        findUnique: jest.fn().mockResolvedValue({
+          allowForiaBot: true,
+          aiAssistantMode: 'ALWAYS',
+          participants: [
+            { userId: 10, allowAIBot: true, riaGroupConsentedAt: null },
+            { userId: 11, allowAIBot: true, riaGroupConsentedAt: new Date() },
+          ],
+        }),
+      },
+      message: { findMany: jest.fn() },
+    };
+    const { io } = makeIoMock();
+    const { maybeInvokeForiaBot } = await import('../botAssistant.js');
+    await maybeInvokeForiaBot({
+      text: '@Ria please help', savedMessage: { chatRoomId: 142, senderId: 10 }, io, prisma,
+    });
+    expect(prisma.message.findMany).not.toHaveBeenCalled();
+    expect(io.to).not.toHaveBeenCalled();
+  });
+
+
   it('never reads message context or sends to AI when sender has opted out', async () => {
     process.env.FORIA_BOT_USER_ID = '999';
     process.env.OPENAI_API_KEY = 'test-key';
