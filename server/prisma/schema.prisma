@@ -743,7 +743,8 @@ model Participant {
 
   role       RoomRole @default(MEMBER)
   joinedAt   DateTime @default(now())
-  allowAIBot Boolean  @default(true)
+  allowAIBot Boolean  @default(true) // Legacy value; not proof of an affirmative group-Ria opt-in.
+  riaGroupConsentedAt DateTime? // Null for all historical members; populated only on explicit opt-in.
 
   archivedAt DateTime?
 
