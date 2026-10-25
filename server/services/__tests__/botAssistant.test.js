@@ -152,14 +152,16 @@ describe('maybeInvokeForiaBot (room sender consent)', () => {
   it('never treats legacy allowAIBot=true without affirmative timestamp as consent', async () => {
     process.env.FORIA_BOT_USER_ID = '999';
     process.env.OPENAI_API_KEY = 'test-key';
+    process.env.GROUP_RIA_ENABLED = 'true';
     const prisma = {
       chatRoom: {
         findUnique: jest.fn().mockResolvedValue({
           allowForiaBot: true,
-          aiAssistantMode: 'ALWAYS',
+          isGroup: true,
+          aiAssistantMode: 'MENTION',
           participants: [
             { userId: 10, allowAIBot: true, riaGroupConsentedAt: null },
-            { userId: 11, allowAIBot: true, riaGroupConsentedAt: new Date() },
+            { userId: 11, allowAIBot: true, riaGroupConsentedAt: new Date(), user: { strictE2EE: false } },
           ],
         }),
       },
@@ -168,7 +170,7 @@ describe('maybeInvokeForiaBot (room sender consent)', () => {
     const { io } = makeIoMock();
     const { maybeInvokeForiaBot } = await import('../botAssistant.js');
     await maybeInvokeForiaBot({
-      text: '@Ria please help', savedMessage: { chatRoomId: 142, senderId: 10 }, io, prisma,
+      text: '@Ria please help', savedMessage: { id: 143, chatRoomId: 142, senderId: 10 }, io, prisma,
     });
     expect(prisma.message.findMany).not.toHaveBeenCalled();
     expect(io.to).not.toHaveBeenCalled();
@@ -178,15 +180,17 @@ describe('maybeInvokeForiaBot (room sender consent)', () => {
   it('never reads message context or sends to AI when sender has opted out', async () => {
     process.env.FORIA_BOT_USER_ID = '999';
     process.env.OPENAI_API_KEY = 'test-key';
+    process.env.GROUP_RIA_ENABLED = 'true';
 
     const prisma = {
       chatRoom: {
         findUnique: jest.fn().mockResolvedValue({
           allowForiaBot: true,
-          aiAssistantMode: 'ALWAYS',
+          isGroup: true,
+          aiAssistantMode: 'MENTION',
           participants: [
-            { userId: 10, allowAIBot: false, user: { username: 'sender' } },
-            { userId: 11, allowAIBot: true, user: { username: 'other' } },
+            { userId: 10, allowAIBot: false, riaGroupConsentedAt: null, user: { username: 'sender', strictE2EE: false } },
+            { userId: 11, allowAIBot: true, riaGroupConsentedAt: new Date(), user: { username: 'other', strictE2EE: false } },
           ],
         }),
       },
@@ -196,8 +200,8 @@ describe('maybeInvokeForiaBot (room sender consent)', () => {
     const { maybeInvokeForiaBot } = await import('../botAssistant.js');
 
     await maybeInvokeForiaBot({
-      text: 'a private message that must not reach AI',
-      savedMessage: { chatRoomId: 135, senderId: 10 },
+      text: '@Ria a private message that must not reach AI',
+      savedMessage: { id: 154, chatRoomId: 135, senderId: 10 },
       io,
       prisma,
     });
