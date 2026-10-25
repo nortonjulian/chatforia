@@ -17,7 +17,7 @@ export function extractGroupRiaPrompt(input) {
 
   const mention = /(^|\s)@(?:ria|foriabot)(?=$|[\s,:!?])/i;
   if (!mention.test(text)) return null;
-  const prompt = text.replace(mention, ' ').trim().replace(/^[,:!?]+\s*/, '');
+  const prompt = text.replace(mention, '$1').trim().replace(/^[,:!?]+\s*/, '').replace(/\s+,/g, ',');
   return prompt || null;
 }
 
