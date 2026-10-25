@@ -81,8 +81,13 @@ await jest.unstable_mockModule('../services/socketBus.js', () => ({
   emitMessageAck: jest.fn(),
   emitToUser: jest.fn(),
 }));
+const invocationTasks = [];
 await jest.unstable_mockModule('../services/aiQueue.js', () => ({
-  enqueueAI: jest.fn(async ({ fn }) => fn()),
+  enqueueAI: jest.fn(({ fn }) => {
+    const task = Promise.resolve().then(fn);
+    invocationTasks.push(task);
+    return task;
+  }),
 }));
 await jest.unstable_mockModule('../services/groupRiaProvider.js', () => ({
   generateGroupRiaReply: generate,
@@ -130,6 +135,7 @@ test('HTTP @Ria request creates exactly one persisted bot reply and per-member u
     await client.$transaction(async (tx) => {
       activeTransaction = tx;
       events.length = 0;
+      invocationTasks.length = 0;
       generate.mockClear();
       sendPush.mockClear();
 
@@ -190,16 +196,6 @@ test('HTTP @Ria request creates exactly one persisted bot reply and per-member u
       expect(generate).toHaveBeenCalledTimes(1);
       expect(generate).toHaveBeenCalledWith('hello');
 
-      // Retry the exact HTTP submission with the same clientMessageId.
-      // Neither the original message nor the AI-generated reply may duplicate.
-      const retry = await request(app)
-        .post('/messages')
-        .set('x-ria-qa-user', String(sender.id))
-        .send({ chatRoomId: room.id, clientMessageId: cid, content: '@Ria hello' });
-      expect(retry.status).toBe(201);
-      expect(retry.body.message.id).toBe(send.body.message.id);
-      expect(generate).toHaveBeenCalledTimes(1);
-
       const stored = await tx.message.findMany({
         where: { chatRoomId: room.id },
         orderBy: { id: 'asc' },
@@ -240,6 +236,21 @@ test('HTTP @Ria request creates exactly one persisted bot reply and per-member u
         }));
         expect(delta.body.items[0].sender.id).toBe(bot.id);
       }
+
+      // Retry only AFTER all read-side DB checks.  An intentionally failed
+      // duplicate unique-key insert aborts a PostgreSQL transaction, even when
+      // Prisma catches P2002.  This entire QA run shares one rollback-only
+      // transaction, unlike production's separate HTTP transactions.
+      // The dedicated claim-uniqueness DB test verifies the DB constraint.
+      const retry = await request(app)
+        .post('/messages')
+        .set('x-ria-qa-user', String(sender.id))
+        .send({ chatRoomId: room.id, clientMessageId: cid, content: '@Ria hello' });
+      expect(retry.status).toBe(201);
+      expect(retry.body.message.id).toBe(send.body.message.id);
+      // The dispatch path handles P2002, never calls the provider twice.
+      await Promise.allSettled(invocationTasks);
+      expect(generate).toHaveBeenCalledTimes(1);
 
       console.log('PASS: real HTTP + Postgres message delivery, one Ria reply, shaped upserts and reconnect deltas');
       throw rollback;
