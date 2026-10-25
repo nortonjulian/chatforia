@@ -192,6 +192,10 @@ test('HTTP @Ria request creates exactly one persisted bot reply and per-member u
       expect(send.body.message.rawContent).toBe('@Ria hello');
 
       const claim = await waitForDelivered(tx, send.body.message.id);
+      // DELIVERED is saved before per-member socket upserts finish.
+      // Wait for the mocked queue task's complete delivery lifecycle.
+      expect(invocationTasks).toHaveLength(1);
+      await Promise.all(invocationTasks);
       expect(claim.replyMessageId).toEqual(expect.any(Number));
       expect(generate).toHaveBeenCalledTimes(1);
       expect(generate).toHaveBeenCalledWith('hello');
