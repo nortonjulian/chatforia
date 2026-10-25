@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import prisma from './utils/prismaClient.js';
 import { setSocketIo } from './services/socketBus.js';
 import { registerReadReceipts } from './sockets/readReceipts.js';
+import { registerCopyNotices } from './sockets/copyNotices.js';
 
 /** Env helpers */
 const IS_TEST = String(process.env.NODE_ENV || '') === 'test';
@@ -213,6 +214,7 @@ export function initSocket(httpServer) {
 
     // ✅ Sprint 4: Read receipts
     registerReadReceipts(io, socket, { prisma, IS_TEST });
+    registerCopyNotices(io, socket, { prisma });
 
     // Optional auto-join all rooms this user is in
     if (process.env.SOCKET_AUTOJOIN === 'true' && userId) {
