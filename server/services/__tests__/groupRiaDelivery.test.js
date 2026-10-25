@@ -1,4 +1,8 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const modulePath = (relative) => path.resolve(__dirname, relative);
 
 const enqueue = jest.fn(async ({ fn }) => fn());
 const allow = jest.fn(() => true);
@@ -20,16 +24,16 @@ const room = (participants = members()) => ({
   isGroup: true, allowForiaBot: true, aiAssistantMode: 'MENTION', participants,
 });
 
-jest.unstable_mockModule('../aiQueue.js', () => ({ enqueueAI: enqueue }));
-jest.unstable_mockModule('../../utils/tokenBucket.js', () => ({ allow }));
-jest.unstable_mockModule('../groupRiaProvider.js', () => ({ generateGroupRiaReply: generate }));
-jest.unstable_mockModule('../messageService.js', () => ({
+jest.unstable_mockModule(modulePath('../aiQueue.js'), () => ({ enqueueAI: enqueue }));
+jest.unstable_mockModule(modulePath('../../utils/tokenBucket.js'), () => ({ allow }));
+jest.unstable_mockModule(modulePath('../groupRiaProvider.js'), () => ({ generateGroupRiaReply: generate }));
+jest.unstable_mockModule(modulePath('../messageService.js'), () => ({
   createMessageService: create, shapeMessageForUser: shape,
 }));
-jest.unstable_mockModule('../socketBus.js', () => ({ emitMessageUpsertToUser: emit }));
+jest.unstable_mockModule(modulePath('../socketBus.js'), () => ({ emitMessageUpsertToUser: emit }));
 
 process.env.FORIA_BOT_USER_ID = '999';
-const { maybeInvokeForiaBot } = await import('../botAssistant.js');
+const { maybeInvokeForiaBot } = await import(modulePath('../botAssistant.js'));
 
 function db({ participants = members(), message = persisted, duplicate = false } = {}) {
   return {
