@@ -88,9 +88,13 @@ jest.mock('@mantine/core', () => {
   // Drawer mock:
   // - only renders when `opened`
   // - includes a hidden close button we can target in tests
-  const Drawer = ({ opened, onClose, children, ...p }) =>
+  const Drawer = ({ opened, onClose, transitionProps, children, ...p }) =>
     opened ? (
       <div data-testid="drawer" data-opened="true" {...p}>
+        <button
+          aria-label="finish-drawer-enter"
+          onClick={() => transitionProps?.onEntered?.()}
+        />
         <button
           aria-label="close-drawer"
           onClick={onClose}
@@ -197,6 +201,7 @@ const mockUserProfile = jest.fn((p) => (
   <div
     data-testid="user-profile"
     data-open-section={p.openSection || ''}
+    data-scroll-ready={String(Boolean(p.drawerScrollReady))}
   />
 ));
 jest.mock('@/components/UserProfile', () => ({
@@ -358,6 +363,9 @@ describe('Sidebar', () => {
     expect(screen.getByTestId('user-profile').dataset.openSection).toBe(
       'forwarding'
     );
+    expect(screen.getByTestId('user-profile').dataset.scrollReady).toBe('false');
+    fireEvent.click(screen.getByLabelText('finish-drawer-enter'));
+    expect(screen.getByTestId('user-profile').dataset.scrollReady).toBe('true');
   });
 
   test('does not render sidebar ad slot', () => {

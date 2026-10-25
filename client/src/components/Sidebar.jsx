@@ -54,6 +54,7 @@ function Sidebar({ currentUser, features = {} }) {
   const [initialDraft, setInitialDraft] = useState(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileTarget, setProfileTarget] = useState(null);
+  const [profileScrollReady, setProfileScrollReady] = useState(false);
   const [query, setQuery] = useState('');
   const [count, setCount] = useState(0);
 
@@ -260,7 +261,7 @@ function Sidebar({ currentUser, features = {} }) {
   );
 
   return (
-    <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
+    <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column', width: '100%', minWidth: 0, maxWidth: '100%', overflowX: 'hidden' }}>
       {/* Top icons */}
       <Group justify="space-between" mb="sm">
         <ActionIcon
@@ -293,6 +294,7 @@ function Sidebar({ currentUser, features = {} }) {
           aria-label={t('sidebar.settings', 'Settings')}
           onClick={() => {
             if (!currentUser) return;
+            setProfileScrollReady(false);
             setProfileTarget(null);
             setProfileOpen(true);
           }}
@@ -380,6 +382,7 @@ function Sidebar({ currentUser, features = {} }) {
             aria-label="Open call and text forwarding settings"
             leftSection={<PhoneForwarded size={16} />}
             onClick={() => {
+              setProfileScrollReady(false);
               setProfileTarget('forwarding');
               setProfileOpen(true);
             }}
@@ -427,8 +430,8 @@ function Sidebar({ currentUser, features = {} }) {
       />
 
       {/* Chat list */}
-      <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 220px)">
-        <Stack gap="md">
+      <ScrollArea.Autosize style={{ flex: 1, width: '100%', minWidth: 0, maxWidth: '100%', overflowX: 'hidden' }} mah="calc(100vh - 220px)">
+        <Stack gap="md" style={{ width: '100%', minWidth: 0 }}>
           {showChats ? (
             <Suspense fallback={<Text size="sm" c="dimmed">Loading chats...</Text>}>
               <ChatroomsSidebar
@@ -471,15 +474,20 @@ function Sidebar({ currentUser, features = {} }) {
         opened={profileOpen}
         onClose={() => {
           setProfileOpen(false);
+          setProfileScrollReady(false);
           setProfileTarget(null);
         }}
         position="right"
         size="md"
         radius="lg"
+        transitionProps={{
+          onEntered: () => setProfileScrollReady(true),
+          onExit: () => setProfileScrollReady(false),
+        }}
       >
         {currentUser ? (
           <Stack gap="xl">
-            <UserProfile openSection={profileTarget} />
+            <UserProfile openSection={profileTarget} drawerScrollReady={profileScrollReady} />
           </Stack>
         ) : (
           <Stack gap="sm">
