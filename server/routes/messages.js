@@ -848,6 +848,19 @@ router.post(
     });
 
 
+    // Group Ria is disabled by default. No AI path, DB lookup, or import when OFF.
+    // Run only after the normal message is persisted and emitted to participants.
+    if (process.env.GROUP_RIA_ENABLED === 'true' && !IS_TEST) {
+      try {
+        const { maybeInvokeForiaBot } = await import('../services/botAssistant.js');
+        // Intentionally not awaited: AI latency must not delay message-send ACK.
+        void maybeInvokeForiaBot({ text: content, savedMessage: saved, prisma })
+          .catch((err) => console.warn('[group-ria] dispatch failed:', err?.code || err?.name || 'error'));
+      } catch (err) {
+        console.warn('[group-ria] dispatch unavailable:', err?.code || err?.name || 'error');
+      }
+    }
+
     return res.status(201).json({ message: senderShaped });
   })
 );
