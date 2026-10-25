@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react';
 import './UserProfile.css';
+import { scrollToProfileAnchor } from '@/utils/profileScroll';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
@@ -96,18 +97,6 @@ class SectionBoundary extends React.Component {
     }
     return this.props.children;
   }
-}
-
-/* Utility: find the nearest scrollable parent (Drawer content, etc.) */
-function getScrollParent(el) {
-  let p = el?.parentElement;
-  while (p) {
-    const style = window.getComputedStyle(p);
-    const oy = style.overflowY;
-    if ((oy === 'auto' || oy === 'scroll') && p.scrollHeight > p.clientHeight) return p;
-    p = p.parentElement;
-  }
-  return document.scrollingElement || document.documentElement;
 }
 
 /* ---------- main ---------- */
@@ -334,19 +323,16 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
   useEffect(() => {
     if (openSection === 'forwarding' && drawerScrollReady && forwardingAnchorRef.current) {
       const el = forwardingAnchorRef.current;
-      const scrollToAnchor = () => {
-        const parent = getScrollParent(el);
-        const rect = el.getBoundingClientRect();
-        const parentRect = parent.getBoundingClientRect
-          ? parent.getBoundingClientRect()
-          : { top: 0 };
-        const top = (parent.scrollTop || 0) + (rect.top - parentRect.top) - 12;
-        parent.scrollTo({ top, behavior: 'smooth' });
+      // Forwarding loads asynchronously; a bounded retry handles the Drawer
+      // animation and content layout without changing the section order.
+      const frame = requestAnimationFrame(() => scrollToProfileAnchor(el));
+      const retries = [150, 400, 800].map((ms) =>
+        setTimeout(() => scrollToProfileAnchor(el), ms)
+      );
+      return () => {
+        cancelAnimationFrame(frame);
+        retries.forEach(clearTimeout);
       };
-      // The sidebar waits for the Drawer enter transition before setting ready.
-      // A single post-layout scroll avoids animation-time race conditions.
-      const frame = requestAnimationFrame(scrollToAnchor);
-      return () => cancelAnimationFrame(frame);
     }
   }, [openSection, drawerScrollReady]);
 
