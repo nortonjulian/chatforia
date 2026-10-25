@@ -876,6 +876,8 @@ model Message {
   sessionKeys MessageSessionKey[] @relation("MsgSessionKeys_Message")
 
   deletions MessageDeletion[]
+  groupRiaInvocationSource GroupRiaInvocation? @relation("GroupRiaSource")
+  groupRiaInvocationReply GroupRiaInvocation? @relation("GroupRiaReply")
 
   isHiddenByModeration Boolean @default(false)
   moderationStatus     String?
@@ -2075,4 +2077,13 @@ model WirelessEntitlement {
   @@index([userId, grantsAccess, endsAt])
   @@index([provider, status])
   @@index([externalReference])
+}
+
+model GroupRiaInvocation {
+  sourceMessageId Int @id
+  sourceMessage Message @relation("GroupRiaSource", fields: [sourceMessageId], references: [id], onDelete: Cascade)
+  status String @default("CLAIMED")
+  replyMessageId Int? @unique
+  replyMessage Message? @relation("GroupRiaReply", fields: [replyMessageId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
 }
