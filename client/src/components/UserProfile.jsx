@@ -111,7 +111,7 @@ function getScrollParent(el) {
 }
 
 /* ---------- main ---------- */
-export default function UserProfile({ onLanguageChange, openSection }) {
+export default function UserProfile({ onLanguageChange, openSection, drawerScrollReady = true }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useUser();
@@ -332,7 +332,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
 
   // Scroll to forwarding section (outside accordion) if requested
   useEffect(() => {
-    if (openSection === 'forwarding' && forwardingAnchorRef.current) {
+    if (openSection === 'forwarding' && drawerScrollReady && forwardingAnchorRef.current) {
       const el = forwardingAnchorRef.current;
       const scrollToAnchor = () => {
         const parent = getScrollParent(el);
@@ -343,12 +343,12 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         const top = (parent.scrollTop || 0) + (rect.top - parentRect.top) - 12;
         parent.scrollTo({ top, behavior: 'smooth' });
       };
-      requestAnimationFrame(() => {
-        scrollToAnchor();
-        setTimeout(scrollToAnchor, 80);
-      });
+      // The sidebar waits for the Drawer enter transition before setting ready.
+      // A single post-layout scroll avoids animation-time race conditions.
+      const frame = requestAnimationFrame(scrollToAnchor);
+      return () => cancelAnimationFrame(frame);
     }
-  }, [openSection]);
+  }, [openSection, drawerScrollReady]);
 
   /* ---------- derived values & helpers ---------- */
 
