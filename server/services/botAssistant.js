@@ -56,7 +56,8 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
       participants: {
         select: {
           userId: true,
-          allowAIBot: true, // per-user room opt-in
+          allowAIBot: true, // legacy room preference
+          riaGroupConsentedAt: true, // explicit affirmative opt-in evidence
           user: { select: { username: true } },
         },
       },
@@ -70,11 +71,11 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
 
   // Must be a current member
   const senderMembership = participants.find((p) => p.userId === senderId);
-  if (!senderMembership || senderMembership.allowAIBot !== true) return;
+  if (!senderMembership || senderMembership.allowAIBot !== true || !senderMembership.riaGroupConsentedAt) return;
 
   // For privacy: require at least one *other* participant to opt in
   const someoneElseOptedIn = participants.some(
-    (p) => p.userId !== senderId && p.allowAIBot === true
+    (p) => p.userId !== senderId && p.allowAIBot === true && !!p.riaGroupConsentedAt
   );
   if (!someoneElseOptedIn) return;
 
@@ -88,7 +89,7 @@ export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
 
   // Build compact context using only lines from opted-in users (+ the sender)
   const allowedUserIds = new Set(
-    participants.filter((p) => p.allowAIBot === true).map((p) => p.userId)
+    participants.filter((p) => p.allowAIBot === true && !!p.riaGroupConsentedAt).map((p) => p.userId)
   );
   // Sender was required to opt in above; never override a member's consent.
 
