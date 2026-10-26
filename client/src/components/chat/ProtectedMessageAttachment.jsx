@@ -20,7 +20,6 @@ function toAbsolute(url) {
 function useAuthorizedMedia(id, original, variant = 'file') {
   const local = isLocalPrivateMedia(original);
   const [result, setResult] = useState(() => local ? null : original);
-  const [revision, setRevision] = useState(0);
 
   useEffect(() => {
     if (!local) {
@@ -55,9 +54,9 @@ function useAuthorizedMedia(id, original, variant = 'file') {
       window.clearInterval(interval);
       document.removeEventListener('visibilitychange', onFocus);
     };
-  }, [id, original, variant, local, revision]);
+  }, [id, original, variant, local]);
 
-  return { url: result, retry: () => setRevision(v => v + 1) };
+  return { url: result };
 }
 
 export default function ProtectedMessageAttachment({ attachment, index }) {
@@ -78,13 +77,13 @@ export default function ProtectedMessageAttachment({ attachment, index }) {
   if (!file.url && !(isImage && preview.url)) {
     return <span key={key} role="status">Media unavailable or loading…</span>;
   }
-  if (isAudio) return <audio controls src={file.url || undefined} onError={file.retry} style={{ width: 260, maxWidth: '100%' }} />;
+  if (isAudio) return <audio controls src={file.url || undefined} style={{ width: 260, maxWidth: '100%' }} />;
   if (isVideo) return <video controls src={file.url || undefined} onError={file.retry} style={{ width: 260, maxWidth: '100%', borderRadius: 12 }} />;
   if (isImage) {
     const display = preview.url || file.url;
     return (
       <a href={file.url || display} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block' }}>
-        <img src={display} alt="Attachment" onError={preview.retry}
+        <img src={display} alt="Attachment"
           style={{ width: 220, maxWidth: '100%', borderRadius: 12 }} />
       </a>
     );
