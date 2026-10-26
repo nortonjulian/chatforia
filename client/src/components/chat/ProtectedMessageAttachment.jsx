@@ -72,10 +72,13 @@ export default function ProtectedMessageAttachment({ attachment, index, viewerId
   const isImage = kind === 'IMAGE' || kind === 'GIF' || mime.startsWith('image/');
 
   const file = useAuthorizedMedia(attachment?.id, original, 'file', viewerId);
+  // Only fetch a second URL when an image actually has a separate thumbnail.
+  // Otherwise reuse the already-authorized original; do not issue twice.
+  const thumbnail = isImage
+    ? (attachment?.thumbUrl || attachment?.thumbnailUrl || null)
+    : null;
   const preview = useAuthorizedMedia(
-    attachment?.id, attachment?.thumbUrl || attachment?.thumbnailUrl || original,
-    attachment?.thumbUrl || attachment?.thumbnailUrl ? 'thumb' : 'file',
-    viewerId
+    attachment?.id, thumbnail, 'thumb', viewerId
   );
 
   const key = attachment?.id ?? `pending-${index}`;
