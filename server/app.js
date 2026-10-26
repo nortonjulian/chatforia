@@ -67,6 +67,7 @@ import featuresRouter from './routes/features.js';
 import peopleInvitesRouter from "./routes/peopleInvites.js";
 import contactsImportRouter from './routes/contactsImport.js';
 import uploadsRouter from './routes/uploads.js';
+import filesRouter from './routes/files.js';
 import smsRouter from './routes/sms.js';
 import searchPeopleRouter from './routes/search.people.js';
 import voiceRouter from './routes/voice.js';
@@ -521,6 +522,7 @@ export function createApp() {
   app.use('/stickers', stickersRouter);
 
   app.use('/uploads', uploadsRouter);
+  app.use('/files', filesRouter);
 
   // PSTN/telephony surfaces (require at least email verification)
   app.use('/voice', voiceRouter);
