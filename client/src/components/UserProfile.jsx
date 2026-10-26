@@ -185,7 +185,6 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
   const [privacyHoldToReveal, setPrivacyHoldToReveal] = useState(
     currentUser?.privacyHoldToReveal ?? false
   );
-  const [notifyOnCopy, setNotifyOnCopy] = useState(currentUser?.notifyOnCopy ?? false);
   const [discoverability, setDiscoverability] = useState(
     currentUser?.discoverability ?? null
   );
@@ -428,7 +427,6 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
         privacyBlurEnabled,
         privacyBlurOnUnfocus,
         privacyHoldToReveal,
-        notifyOnCopy,
         // Do not overwrite an account preference before it has loaded.
         ...(discoverability ? { discoverability } : {}),
         // Age + Random Chat
@@ -1343,14 +1341,6 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
                   setPrivacyHoldToReveal(e.currentTarget.checked)
                 }
                 label={t('profile.holdToReveal', 'Hold to reveal')}
-              />
-              <Switch
-                checked={notifyOnCopy}
-                onChange={(e) => setNotifyOnCopy(e.currentTarget.checked)}
-                label={t(
-                  'profile.notifyOnCopy',
-                  'Notify me if my message is copied'
-                )}
               />
             </Stack>
           </Accordion.Panel>
