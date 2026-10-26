@@ -62,8 +62,10 @@ test('inline variant shows alert-style note for free user', () => {
   expect(screen.getByText(/premium plan/i)).toBeInTheDocument();
 
   // Anchor exists with href to upgrade
-  const link = screen.getByRole('link', { name: /upgrade/i });
+  const link = screen.getByRole('link', { name: /upgrade to unlock this feature/i });
   expect(link).toHaveAttribute('href', '/settings/upgrade');
+  expect(link).toHaveTextContent('Upgrade to unlock this feature.');
+  expect(screen.getByRole('note').textContent.match(/Upgrade/g)).toHaveLength(1);
 });
 
 test('default variant shows card with Upgrade CTA and navigates on click', async () => {

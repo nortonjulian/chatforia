@@ -29,11 +29,9 @@ export default function PremiumGuard({ children, variant = 'card', silent = fals
         <Anchor
           component={Link}
           to="/settings/upgrade"
-          aria-label={t('premium.upgrade', 'Upgrade')}
         >
-          {t('premium.upgrade', 'Upgrade')}
-        </Anchor>{' '}
-        {t('premiumGuard.toUnlock', 'to unlock.')}
+          {t('premiumGuard.toUnlock', 'Upgrade to unlock this feature.')}
+        </Anchor>
       </Alert>
     );
   }
