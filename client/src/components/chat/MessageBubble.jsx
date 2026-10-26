@@ -502,6 +502,7 @@ export default function MessageBubble({
                     key={a.id ?? `attachment-${i}`}
                     attachment={a}
                     index={i}
+                    viewerId={currentUser?.id ?? currentUserId}
                   />
                 ))}
               </Group>
