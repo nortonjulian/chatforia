@@ -17,17 +17,21 @@ function toAbsolute(url) {
   return new URL(url, base.endsWith('/') ? base : base + '/').href;
 }
 
-function useAuthorizedMedia(id, original, variant = 'file') {
+function useAuthorizedMedia(id, original, variant = 'file', viewerId) {
   const local = isLocalPrivateMedia(original);
-  const [result, setResult] = useState(() => local ? null : original);
+  const scope = `${viewerId ?? 'anonymous'}:${id}:${variant}:${original ?? ''}`;
+  const [result, setResult] = useState(() => ({
+    scope, url: local ? null : (original || null),
+  }));
+  const visibleUrl = result.scope === scope ? result.url : null;
 
   useEffect(() => {
     if (!local) {
-      setResult(original || null);
+      setResult({ scope, url: original || null });
       return undefined;
     }
     if (!Number.isSafeInteger(Number(id)) || Number(id) <= 0) {
-      setResult(null); // optimistic items have no authoritative ACL yet
+      setResult({ scope, url: null }); // optimistic items have no authoritative ACL yet
       return undefined;
     }
 
@@ -37,13 +41,13 @@ function useAuthorizedMedia(id, original, variant = 'file') {
         const { data } = await axiosClient.get(`/private-media/message/${id}`, {
           params: { variant }, headers: { 'Cache-Control': 'no-store' },
         });
-        if (!cancelled) setResult(toAbsolute(data.url));
+        if (!cancelled) setResult({ scope, url: toAbsolute(data.url) });
       } catch {
-        if (!cancelled) setResult(null); // never fall back to public local path
+        if (!cancelled) setResult({ scope, url: null }); // never fall back to public local path
       }
     };
 
-    setResult(null);
+    setResult({ scope, url: null });
     refresh();
     // Tokens expire after 60s; renew while viewing without storing them.
     const interval = window.setInterval(refresh, 40000);
@@ -54,12 +58,12 @@ function useAuthorizedMedia(id, original, variant = 'file') {
       window.clearInterval(interval);
       document.removeEventListener('visibilitychange', onFocus);
     };
-  }, [id, original, variant, local]);
+  }, [id, original, variant, local, scope]);
 
-  return { url: result };
+  return { url: visibleUrl };
 }
 
-export default function ProtectedMessageAttachment({ attachment, index }) {
+export default function ProtectedMessageAttachment({ attachment, index, viewerId }) {
   const original = attachment?.url;
   const mime = String(attachment?.mimeType || '').toLowerCase();
   const kind = String(attachment?.kind || '').toUpperCase();
@@ -67,10 +71,11 @@ export default function ProtectedMessageAttachment({ attachment, index }) {
   const isVideo = kind === 'VIDEO' || mime.startsWith('video/');
   const isImage = kind === 'IMAGE' || kind === 'GIF' || mime.startsWith('image/');
 
-  const file = useAuthorizedMedia(attachment?.id, original);
+  const file = useAuthorizedMedia(attachment?.id, original, 'file', viewerId);
   const preview = useAuthorizedMedia(
     attachment?.id, attachment?.thumbUrl || attachment?.thumbnailUrl || original,
-    attachment?.thumbUrl || attachment?.thumbnailUrl ? 'thumb' : 'file'
+    attachment?.thumbUrl || attachment?.thumbnailUrl ? 'thumb' : 'file',
+    viewerId
   );
 
   const key = attachment?.id ?? `pending-${index}`;
@@ -78,7 +83,7 @@ export default function ProtectedMessageAttachment({ attachment, index }) {
     return <span key={key} role="status">Media unavailable or loading…</span>;
   }
   if (isAudio) return <audio controls src={file.url || undefined} style={{ width: 260, maxWidth: '100%' }} />;
-  if (isVideo) return <video controls src={file.url || undefined} onError={file.retry} style={{ width: 260, maxWidth: '100%', borderRadius: 12 }} />;
+  if (isVideo) return <video controls src={file.url || undefined} style={{ width: 260, maxWidth: '100%', borderRadius: 12 }} />;
   if (isImage) {
     const display = preview.url || file.url;
     return (
