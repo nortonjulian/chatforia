@@ -6,6 +6,7 @@ import path from 'node:path';
 import os from 'node:os';
 import fs from 'node:fs/promises';
 import { signDownloadToken } from '../utils/downloadTokens.js';
+import jwt from 'jsonwebtoken';
 import filesRouter from '../routes/files.js';
 
 describe('authenticated signed file download contract', () => {
@@ -33,6 +34,17 @@ describe('authenticated signed file download contract', () => {
         .query({ token });
       expect(forbidden.status).toBe(403);
       expect(forbidden.text).not.toContain('private test content');
+
+      // A correctly signed but already expired token must not reveal the file.
+      const expiredToken = jwt.sign(
+        { p: 'media/test.txt', o: 101, u: 'file', aud: 'download', iss: 'chatforia', exp: Math.floor(Date.now() / 1000) - 30 },
+        process.env.FILE_TOKEN_SECRET || 'test-secret'
+      );
+      const expired = await request(app).get('/files')
+        .set('x-test-user-id', '101')
+        .query({ token: expiredToken });
+      expect(expired.status).not.toBe(200);
+      expect(expired.text).not.toContain('private test content');
 
       const missingToken = await request(app).get('/files')
         .set('x-test-user-id', '101');
