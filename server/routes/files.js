@@ -14,18 +14,23 @@ router.get('/', requireAuth, async (req, res) => {
     const token = req.query.token;
     if (!token) throw Boom.badRequest('token required');
 
-    const payload = verifyDownloadToken(token); // { p, o, u }
-    // Optional: enforce ownership check (e.g., payload.o === req.user.id) or richer ACLs.
-    // If files can be shared with others (e.g., room participants), you can skip strict owner match
-    // and instead verify membership before streaming. Keep it simple for now:
-    if (payload.o !== req.user.id && req.user.role !== 'ADMIN') {
+    // The token verifier returns these canonical property names.
+    const { path: relativePath, ownerId } = verifyDownloadToken(token);
+
+    // This legacy token grants the owner access only; room-participant access
+    // must be authorized by a separate message-aware endpoint.
+    if (Number(ownerId) !== Number(req.user.id) && req.user.role !== 'ADMIN') {
       throw Boom.forbidden('forbidden');
     }
 
-    // Resolve path safely inside your storage root
+    // Keep the resolved path inside the configured upload root.
     const storageRoot = path.resolve(process.env.UPLOADS_DIR || 'uploads');
-    const abs = path.resolve(storageRoot, '.' + path.sep + payload.p);
-    if (!abs.startsWith(storageRoot)) throw Boom.forbidden('bad path');
+    const abs = path.resolve(storageRoot, relativePath);
+    const relative = path.relative(storageRoot, abs);
+    if (relative === '' || relative === '..' ||
+        relative.startsWith('..' + path.sep) || path.isAbsolute(relative)) {
+      throw Boom.forbidden('bad path');
+    }
 
     // Basic existence & type
     const stat = await fs.promises.stat(abs).catch(() => null);
