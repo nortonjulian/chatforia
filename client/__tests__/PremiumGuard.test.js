@@ -80,6 +80,8 @@ test('default variant shows card with Upgrade CTA and navigates on click', async
 
   // Button label is just "Upgrade" (with aria-label "Upgrade")
   const btn = screen.getByRole('button', { name: /upgrade/i });
+  expect(btn).toHaveTextContent(/^Upgrade$/);
+  expect(screen.queryByText(/continue to login/i)).not.toBeInTheDocument();
   await userEvent.click(btn);
   expect(mockNavigate).toHaveBeenCalledWith('/settings/upgrade');
 });

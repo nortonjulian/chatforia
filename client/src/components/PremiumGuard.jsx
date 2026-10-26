@@ -50,7 +50,7 @@ export default function PremiumGuard({ children, variant = 'card', silent = fals
           onClick={() => navigate('/settings/upgrade')}
           aria-label={t('premium.upgrade', 'Upgrade')}
         >
-          {t('upgrade.auth.continue', t('premium.upgrade', 'Upgrade'))}
+          {t('premium.upgrade', 'Upgrade')}
         </Button>
       </Stack>
     </Card>
