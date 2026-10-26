@@ -522,7 +522,11 @@ export default function RandomChatPage() {
                 )}
               </Group>
 
-              {!isLoadingProfile && !canStartHumanMatch ? (
+              {!isLoadingProfile && profileLoadError ? (
+                <Alert color="red" variant="light">
+                  {t('randomChat.profileUnavailable', 'Could not verify your age range. Please try again.')}
+                </Alert>
+              ) : !isLoadingProfile && !canStartHumanMatch ? (
                 <Alert color="yellow" variant="light">
                   {t('randomChat.setAge', 'Set your age range in Profile → Age & Random Chat to be matched with people.')}
                 </Alert>
@@ -769,7 +773,11 @@ export default function RandomChatPage() {
                 </Button>
               </Group>
 
-              {!isLoadingProfile && !canStartHumanMatch ? (
+              {!isLoadingProfile && profileLoadError ? (
+                <Alert color="red" variant="light">
+                  {t('randomChat.profileUnavailable', 'Could not verify your age range. Please try again.')}
+                </Alert>
+              ) : !isLoadingProfile && !canStartHumanMatch ? (
                 <Alert color="yellow" variant="light">
                   {t('randomChat.setAge', 'Set your age range in Profile → Age & Random Chat to be matched with people.')}
                 </Alert>
