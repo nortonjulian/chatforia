@@ -23,6 +23,21 @@ function formatGb(mb) {
   return `${(mb / 1024).toFixed(1)} GB`;
 }
 
+function formatEsimPackLabel(addonKind, t) {
+  if (!addonKind) return t('wireless.esimPackLabel', 'eSIM data pack');
+
+  const match = String(addonKind).match(
+    /^chatforia_esim_(local|europe|global)_(3|5|10|20)(?:_(?:premium|standard))?$/i
+  );
+  if (!match) return addonKind;
+
+  const region = match[1].toLowerCase();
+  const gb = match[2];
+  const regionLabel = region.charAt(0).toUpperCase() + region.slice(1);
+
+  return t(`upgrade.esim.${region}.${gb}.title`, `${regionLabel} ${gb} GB`);
+}
+
 export default function WirelessDashboard() {
   const { t } = useTranslation();
   const { currentUser } = useUser();
@@ -194,7 +209,7 @@ export default function WirelessDashboard() {
             <Text size="sm" c="dimmed">
               {isFamily
                 ? t('wireless.plan.familyLabel', 'Shared plan')
-                : src.addonKind || t('wireless.esimPackLabel', 'eSIM data pack')}
+                : formatEsimPackLabel(src.addonKind, t)}
             </Text>
           </Group>
 
