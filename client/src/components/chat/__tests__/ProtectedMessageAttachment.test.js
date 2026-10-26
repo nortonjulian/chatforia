@@ -23,6 +23,7 @@ test('requests a recipient-authorized URL for local private media', async () => 
       'src', 'https://api.chatforia.com/private-media/file?token=short-lived'
     );
   });
+  expect(axiosClient.get).toHaveBeenCalledTimes(1);
   expect(axiosClient.get).toHaveBeenCalledWith(
     '/private-media/message/31',
     expect.objectContaining({ params: { variant: 'file' } })
