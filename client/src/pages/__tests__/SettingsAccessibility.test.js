@@ -34,7 +34,9 @@ jest.mock('@mantine/core', () => {
 // PremiumGuard passthrough (path from __tests__/ to pages/components)
 jest.mock('../../components/PremiumGuard', () => ({
   __esModule: true,
-  default: ({ children }) => <div data-testid="premium-guard">{children}</div>,
+  default: ({ children, variant }) => (
+    <div data-testid="premium-guard" data-variant={variant}>{children}</div>
+  ),
 }));
 
 // UserContext: read currentUser from a global (allowed in factory; avoids out-of-scope var)
@@ -262,6 +264,14 @@ describe('SettingsAccessibility', () => {
         a11yVisualAlerts: true,
       });
     });
+  });
+
+  test('Live captions uses compact Premium notice', () => {
+    global.mockCurrentUser = { id: 68, plan: 'FREE' };
+    render(<SettingsAccessibility />);
+
+    expect(screen.getByTestId('premium-guard'))
+      .toHaveAttribute('data-variant', 'inline');
   });
 
   test('Live captions: 402 error surfaces "Premium required." under that control', async () => {

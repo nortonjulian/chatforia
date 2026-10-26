@@ -175,7 +175,7 @@ export default function SettingsAccessibility() {
 
         <Card>
           <CardTitle>{t('accessibilitySettings.liveCaptions', 'Live captions (calls)')}</CardTitle>
-          <PremiumGuard inline>
+          <PremiumGuard variant="inline">
             <SwitchRow
               label={t(
                 'accessibilitySettings.enableLiveCaptions',
@@ -191,7 +191,7 @@ export default function SettingsAccessibility() {
             />
           </PremiumGuard>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <div className="a11y-caption-grid">
             <SelectRow
               label={t('accessibilitySettings.captionFontSize', 'Caption font size')}
               options={FONT_OPTIONS.map((k) => ({
@@ -288,14 +288,14 @@ function FieldError({ msg }) {
 }
 
 function Card({ children }) {
-  return <div className="rounded-2xl border p-4 shadow-sm bg-white space-y-3">{children}</div>;
+  return <div className="a11y-settings-card">{children}</div>;
 }
 function CardTitle({ children }) {
-  return <h2 className="font-medium">{children}</h2>;
+  return <h2 className="a11y-card-title">{children}</h2>;
 }
 function SwitchRow({ label, desc, checked, onChange, disabled, errorMsg }) {
   return (
-    <div className="flex items-start justify-between gap-4">
+    <div className="a11y-switch-row">
       <div className="min-w-0">
         <div className="font-medium">{label}</div>
         {desc && <div className="text-xs text-gray-500">{desc}</div>}
@@ -316,7 +316,7 @@ function SwitchRow({ label, desc, checked, onChange, disabled, errorMsg }) {
 }
 function SelectRow({ label, options, value, onChange }) {
   return (
-    <label className="flex items-center justify-between gap-4">
+    <label className="a11y-select-row">
       <span className="font-medium">{label}</span>
       <select
         value={value}

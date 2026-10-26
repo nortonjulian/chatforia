@@ -759,3 +759,80 @@ body.auth-scroll-page #root {
   height: auto;
   min-height: 100%;
 } */
+
+/* Accessibility settings scoped layout */
+.settings-accessibility {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 48rem;
+  min-width: 0;
+  padding: 1rem;
+  container-type: inline-size;
+}
+
+.settings-accessibility fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.settings-accessibility .a11y-settings-card {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--card);
+}
+
+.settings-accessibility .a11y-card-title {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  font-weight: 650;
+}
+
+.settings-accessibility .a11y-switch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.settings-accessibility .a11y-switch-row > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-accessibility .a11y-select-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem;
+  min-width: 0;
+}
+
+.settings-accessibility .a11y-select-row select {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: .4rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  background: var(--card);
+  color: var(--fg);
+}
+
+.settings-accessibility .a11y-caption-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+@container (max-width: 520px) {
+  .settings-accessibility .a11y-caption-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
