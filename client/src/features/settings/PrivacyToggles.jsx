@@ -13,7 +13,6 @@ export default function PrivacyToggles() {
     allowExplicitContent: !!currentUser?.allowExplicitContent,
     privacyBlurEnabled: !!currentUser?.privacyBlurEnabled,
     privacyHoldToReveal: !!currentUser?.privacyHoldToReveal,
-    notifyOnCopy: !!currentUser?.notifyOnCopy,
   });
 
   useEffect(() => {
@@ -22,8 +21,7 @@ export default function PrivacyToggles() {
       allowExplicitContent: !!currentUser?.allowExplicitContent,
       privacyBlurEnabled: !!currentUser?.privacyBlurEnabled,
       privacyHoldToReveal: !!currentUser?.privacyHoldToReveal,
-      notifyOnCopy: !!currentUser?.notifyOnCopy,
-    });
+      });
   }, [currentUser]);
 
   async function patch(patchObj) {
@@ -38,8 +36,7 @@ export default function PrivacyToggles() {
         allowExplicitContent: !!currentUser?.allowExplicitContent,
         privacyBlurEnabled: !!currentUser?.privacyBlurEnabled,
         privacyHoldToReveal: !!currentUser?.privacyHoldToReveal,
-        notifyOnCopy: !!currentUser?.notifyOnCopy,
-      });
+          });
       alert('Could not save setting. Please try again.');
     }
   }
@@ -80,13 +77,6 @@ export default function PrivacyToggles() {
           disabled={!state.privacyBlurEnabled}
         />
       </Group>
-
-      <Switch
-        checked={state.notifyOnCopy}
-        label="Notify me if someone copies my message"
-        description="Sends a subtle notice when your message is copied."
-        onChange={(e) => patch({ notifyOnCopy: e.currentTarget.checked })}
-      />
 
       {/* Example of a premium-only control (deferred if you want) */}
       <PremiumGuard variant="inline">
