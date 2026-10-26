@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 
 // import listEndpoints from 'express-list-endpoints';
 import path from 'path';
+import { mountPublicAvatarFiles } from './middleware/publicUploadAssets.js';
 import { fileURLToPath } from 'url';
 
 import authMiddleware from './middleware/auth.js';
@@ -579,7 +580,9 @@ app.use('/devices', devicesRouter);
 // Backups require auth
 app.use('/backups', requireAuth, backupsRouter);
 
-app.use('/uploads', express.static(path.resolve('uploads')));
+// Only public avatars may be served without authentication.
+// Private media and thumbnails must use authorization-aware delivery.
+mountPublicAvatarFiles(app);
 app.use('/settings', settingsForwardingRouter);
 app.use('/premium', premiumRouter);
 app.use('/api/translations', translationsRouter);
