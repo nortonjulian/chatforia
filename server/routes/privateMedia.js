@@ -4,6 +4,7 @@ import fsp from 'node:fs/promises';
 import path from 'node:path';
 import jwt from 'jsonwebtoken';
 import mime from 'mime-types';
+import { parseSingleByteRange } from '../utils/httpByteRanges.js';
 import { requireAuth } from '../middleware/auth.js';
 import {
   getAuthorizedMessageMedia,
@@ -58,13 +59,33 @@ router.get('/file', async (req, res) => {
     if (!abs) return res.sendStatus(404);
     const info = await fsp.stat(abs).catch(() => null);
     if (!info?.isFile()) return res.sendStatus(404);
+    const mediaType = mime.lookup(abs) || 'application/octet-stream';
     res.set({
-      'Content-Type': mime.lookup(abs) || 'application/octet-stream',
+      'Content-Type': mediaType,
       'Content-Disposition': 'inline',
       'Cache-Control': 'private, no-store',
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'no-referrer',
+      'Accept-Ranges': 'bytes',
     });
+    const rangeHeader = req.headers.range;
+    if (rangeHeader) {
+      const range = parseSingleByteRange(rangeHeader, info.size);
+      if (!range) {
+        res.set('Content-Range', `bytes */${info.size}`);
+        return res.sendStatus(416);
+      }
+      const { start, end } = range;
+      res.set({
+        'Content-Range': `bytes ${start}-${end}/${info.size}`,
+        'Content-Length': String(end - start + 1),
+      });
+      if (req.method === 'HEAD') return res.status(206).end();
+      const stream = fs.createReadStream(abs, { start, end });
+      stream.on('error', () => { if (!res.headersSent) res.sendStatus(404); else res.destroy(); });
+      return stream.pipe(res.status(206));
+    }
+    res.set('Content-Length', String(info.size));
     if (req.method === 'HEAD') return res.status(200).end();
     const stream = fs.createReadStream(abs);
     stream.on('error', () => { if (!res.headersSent) res.sendStatus(404); else res.destroy(); });
