@@ -26,6 +26,7 @@ import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 import { WS_URL } from '@/config';
 import posthog from '@/utils/analytics';
+import axiosClient from '@/api/axiosClient';
 
 const SOCKET_URL = WS_URL;
 
@@ -93,6 +94,7 @@ export default function RandomChatPage() {
     wantsAgeFilter: false,
   });
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+  const [profileLoadError, setProfileLoadError] = useState(false);
   const { t } = useTranslation();
 
   const canSend = useMemo(() => {
@@ -109,22 +111,10 @@ export default function RandomChatPage() {
     async function loadProfile() {
       try {
         setIsLoadingProfile(true);
+        setProfileLoadError(false);
 
-        const token = localStorage.getItem('token');
-        const res = await fetch('/api/auth/me', {
-          headers: token
-            ? {
-                Authorization: `Bearer ${token}`,
-              }
-            : {},
-          credentials: 'include',
-        });
-
-        if (!res.ok) {
-          throw new Error('Failed to load profile');
-        }
-
-        const data = await res.json();
+        // Match Profile's authenticated API origin and credentials.
+        const { data } = await axiosClient.get('/auth/me');
 
         if (cancelled) return;
 
@@ -134,6 +124,7 @@ export default function RandomChatPage() {
         });
       } catch (err) {
         if (!cancelled) {
+          setProfileLoadError(true);
           setProfile({
             ageBand: null,
             wantsAgeFilter: false,
@@ -333,7 +324,9 @@ export default function RandomChatPage() {
     if (!socket) return;
 
     if (!canStartHumanMatch) {
-      setErrorText('');
+      setErrorText(profileLoadError
+        ? t('randomChat.profileUnavailable', 'Could not verify your age range. Please try again.')
+        : '');
       setBannerText(
         t('randomChat.setAge', 'Set your age range in Profile → Age & Random Chat to be matched with people.')
       );
