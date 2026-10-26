@@ -21,7 +21,7 @@ export default function PrivacyToggles() {
       allowExplicitContent: !!currentUser?.allowExplicitContent,
       privacyBlurEnabled: !!currentUser?.privacyBlurEnabled,
       privacyHoldToReveal: !!currentUser?.privacyHoldToReveal,
-      });
+    });
   }, [currentUser]);
 
   async function patch(patchObj) {
@@ -36,7 +36,7 @@ export default function PrivacyToggles() {
         allowExplicitContent: !!currentUser?.allowExplicitContent,
         privacyBlurEnabled: !!currentUser?.privacyBlurEnabled,
         privacyHoldToReveal: !!currentUser?.privacyHoldToReveal,
-          });
+      });
       alert('Could not save setting. Please try again.');
     }
   }
