@@ -242,6 +242,41 @@ describe('WirelessDashboard', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/account/esim');
   });
 
+  test('shows a readable Local 3 GB label for a purchased eSIM', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'ACTIVE',
+      source: {
+        addonKind: 'chatforia_esim_local_3_premium',
+        totalDataMb: 3072,
+        remainingDataMb: 3072,
+      },
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText('Local 3 GB')).toBeInTheDocument();
+    expect(
+      screen.queryByText('chatforia_esim_local_3_premium')
+    ).not.toBeInTheDocument();
+  });
+
+  test('keeps unknown package identifiers visible rather than mislabeling them', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'ACTIVE',
+      source: {
+        addonKind: 'new_provider_package',
+        totalDataMb: 3072,
+        remainingDataMb: 3072,
+      },
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText('new_provider_package')).toBeInTheDocument();
+  });
+
   test('shows error message when wireless status fetch fails', async () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 

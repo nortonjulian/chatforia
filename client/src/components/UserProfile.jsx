@@ -368,6 +368,8 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
   const hasEsim =
     Boolean(currentUser?.iccid) ||
     Boolean(currentUser?.subscriber?.iccid);
+  const isEsimActive =
+    String(currentUser?.subscriber?.status || '').toUpperCase() === 'ACTIVE';
 
   const refreshAuthUser = async () => {
     try {
@@ -894,15 +896,20 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
               </Text>
 
               <Text size="sm" c="dimmed" mt={4}>
-                {hasEsim
+                {isEsimActive
                   ? t(
                       'profile.esim.descActive',
                       'Your Chatforia eSIM is active. You can view usage, re-scan your QR code, or manage your line in the Wireless dashboard.'
                     )
-                  : t(
-                      'profile.esim.desc',
-                      'Get mobile data for Chatforia when you’re away from Wi-Fi.'
-                    )}
+                  : hasEsim
+                    ? t(
+                        'profile.esim.descPending',
+                        'Your eSIM has been assigned. Open eSIM setup to install it or check activation status.'
+                      )
+                    : t(
+                        'profile.esim.desc',
+                        'Get mobile data for Chatforia when you’re away from Wi-Fi.'
+                      )}
               </Text>
 
               {/* 🔥 NEW: Status */}
