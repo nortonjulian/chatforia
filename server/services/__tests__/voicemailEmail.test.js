@@ -26,7 +26,7 @@ const { sendVoicemailForwardEmail } = await import('../voicemailEmail.js');
 describe('sendVoicemailForwardEmail', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    sendMail.mockResolvedValue(undefined);
+    sendMail.mockResolvedValue({ success: true, data: { id: 'email-123' } });
   });
 
   test('returns early and logs warn when toEmail is missing', async () => {
@@ -85,7 +85,28 @@ describe('sendVoicemailForwardEmail', () => {
 
     expect(logger.info).toHaveBeenCalledWith(
       { toEmail: 'user@example.com' },
-      'Voicemail forward email sent',
+      'Voicemail forward email accepted by provider',
+    );
+  });
+
+  test('logs error rather than success when provider returns failure without throwing', async () => {
+    sendMail.mockResolvedValueOnce({ success: false, error: new Error('Provider rejected') });
+
+    await sendVoicemailForwardEmail({
+      toEmail: 'user@example.com',
+      fromNumber: '+15551234567',
+      toNumber: '+15557654321',
+      transcript: null,
+      audioUrl: 'https://example.com/vm.mp3',
+      durationSec: 10,
+      createdAt: '2026-10-26T12:00:00.000Z',
+    });
+
+    expect(sendMail).toHaveBeenCalledTimes(1);
+    expect(logger.info).not.toHaveBeenCalled();
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.objectContaining({ toEmail: 'user@example.com' }),
+      'Failed to send voicemail forward email',
     );
   });
 
