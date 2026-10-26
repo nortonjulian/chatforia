@@ -119,8 +119,8 @@ describe('GET /files', () => {
 
   test('403 when payload owner does not match user and user is not ADMIN', async () => {
     verifyDownloadTokenMock.mockReturnValue({
-      p: 'docs/file.txt',
-      o: 999, // ownerId from token
+      path: 'docs/file.txt',
+      ownerId: 999, // ownerId from token
       u: 999,
     });
 
@@ -139,8 +139,8 @@ describe('GET /files', () => {
 
   test('403 when resolved path escapes storage root', async () => {
     verifyDownloadTokenMock.mockReturnValue({
-      p: '../evil.txt', // path escape attempt
-      o: 42,
+      path: '../evil.txt', // path escape attempt
+      ownerId: 42,
       u: 42,
     });
 
@@ -159,8 +159,8 @@ describe('GET /files', () => {
 
   test('404 when file does not exist or is not a file', async () => {
     verifyDownloadTokenMock.mockReturnValue({
-      p: 'docs/missing.txt',
-      o: 5,
+      path: 'docs/missing.txt',
+      ownerId: 5,
       u: 5,
     });
 
@@ -180,8 +180,8 @@ describe('GET /files', () => {
 
   test('200 and streams file with correct headers (inline for image)', async () => {
     verifyDownloadTokenMock.mockReturnValue({
-      p: 'images/photo.png',
-      o: 7,
+      path: 'images/photo.png',
+      ownerId: 7,
       u: 7,
     });
 
