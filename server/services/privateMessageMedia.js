@@ -21,6 +21,29 @@ export function localMessageMediaPath(value) {
   return parts.join('/');
 }
 
+
+/**
+ * The legacy CDN custom domain was publicly reachable. Resolve only keys
+ * from Chatforia's own message uploads; never authorize arbitrary remote URLs.
+ * The attachment database record, not the key owner, determines membership.
+ */
+export function cloudMessageMediaKey(value) {
+  if (typeof value !== 'string') return null;
+  let url;
+  try { url = new URL(value.trim()); } catch { return null; }
+  if (url.protocol !== 'https:' || url.hostname !== 'cdn.chatforia.com' ||
+      url.port || url.username || url.password || url.search || url.hash) return null;
+  const pathname = url.pathname;
+  if (pathname.includes('%') || pathname.includes('\\')) return null;
+  const key = pathname.replace(/^\//, '');
+  const parts = key.split('/');
+  if (parts.length < 3 || parts[0] !== 'uploads' ||
+      !/^u[1-9][0-9]*$/.test(parts[1]) ||
+      parts.slice(2).some(part => !/^[a-zA-Z0-9._-]{1,200}$/.test(part) ||
+        part === '.' || part === '..')) return null;
+  return key;
+}
+
 function after(date, other) {
   const time = date ? new Date(date).getTime() : NaN;
   const otherTime = other ? new Date(other).getTime() : NaN;
@@ -88,12 +111,13 @@ export async function getAuthorizedMessageMedia({
   });
   if (after(threadState?.deletedAt, message.createdAt)) return null;
 
-  const relativePath = localMessageMediaPath(
-    variant === 'thumb' ? attachment.thumbUrl : attachment.url
-  );
-  if (!relativePath) return null;
+  const mediaReference = variant === 'thumb' ? attachment.thumbUrl : attachment.url;
+  const relativePath = localMessageMediaPath(mediaReference);
+  const storageKey = cloudMessageMediaKey(mediaReference);
+  if (!relativePath && !storageKey) return null;
   return {
     relativePath,
+    storageKey,
     attachmentId: id,
     viewerId: userId,
     variant,
