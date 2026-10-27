@@ -83,8 +83,11 @@ try {
   }
   const message = await prisma.message.create({
     data: {
-      senderId: sender.id,
-      chatRoomId: room.id,
+      // The centralized Prisma client normalizes scalar chatRoomId input
+      // to a checked relation; supply both relations explicitly so it cannot
+      // become a mixed checked/unchecked create.
+      sender: { connect: { id: sender.id } },
+      chatRoom: { connect: { id: room.id } },
       rawContent: 'Disposable private-media authorization QA',
     },
   });
