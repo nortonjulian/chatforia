@@ -99,7 +99,7 @@ describe('authorized R2 message media streaming over HTTP', () => {
 
     const grant = await issue(2);
     expect(grant.status).toBe(200);
-    expect(grant.body.url).toMatch(/^\\/private-media\\/file\\?token=/);
+    expect(grant.body.url).toMatch(/^\/private-media\/file\?token=/);
 
     const download = await request(app).get(grant.body.url);
     expect(download.status).toBe(200);
