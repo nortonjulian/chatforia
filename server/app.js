@@ -30,6 +30,7 @@ import adminVoiceLogsRouter from './routes/adminVoiceLogs.js';
 import { requestId } from './middleware/requestId.js';
 import pinoHttp from 'pino-http';
 import logger from './utils/logger.js';
+import { logSafeRequestPath } from './utils/logSafeRequestPath.js';
 
 import smsDevRouter from './routes/smsDev.js';
 import smsDevMock from './routes/smsDevMock.js';
@@ -314,7 +315,7 @@ export function createApp() {
         requestId: req.id,
         userId: req.user?.id ?? null,
         method: req.method,
-        path: req.originalUrl || req.url,
+        path: logSafeRequestPath(req.originalUrl || req.url),
         region: req.region || null,
       }),
       customLogLevel: (req, res, err) => {
