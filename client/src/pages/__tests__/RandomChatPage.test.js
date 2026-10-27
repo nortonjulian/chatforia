@@ -2,6 +2,12 @@ import React, { act } from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import RandomChatPage from '../RandomChatPage.jsx';
 
+const mockGetProfile = jest.fn();
+jest.mock('@/api/axiosClient', () => ({
+  __esModule: true,
+  default: { get: (...args) => mockGetProfile(...args) },
+}));
+
 /* ---------------- Mantine mock ---------------- */
 jest.mock('@mantine/core', () => {
   const React = require('react');
@@ -137,20 +143,33 @@ beforeEach(() => {
 
   localStorage.clear();
 
-  global.fetch = jest.fn().mockResolvedValue({
-    ok: true,
-    json: async () => ({
-      user: {
-        ageBand: '18-24',
-        wantsAgeFilter: false,
-      },
-    }),
+  mockGetProfile.mockResolvedValue({
+    data: { user: {
+      ageBand: 'ADULT_18_24',
+      wantsAgeFilter: false,
+    } },
   });
 
   Element.prototype.scrollIntoView = jest.fn();
 });
 
 describe('RandomChatPage', () => {
+  test('loads age from the authenticated API rather than the site origin', async () => {
+    render(<RandomChatPage />);
+    await waitFor(() => {
+      expect(mockGetProfile).toHaveBeenCalledWith('/auth/me');
+      expect(screen.getByRole('button', { name: /find me a match/i })).toBeEnabled();
+    });
+  });
+
+  test('a profile fetch failure never masquerades as an unset age', async () => {
+    mockGetProfile.mockRejectedValueOnce(new Error('Network error'));
+    render(<RandomChatPage />);
+    await waitFor(() => {
+      expect(screen.getByText(/could not verify your age range/i)).toBeInTheDocument();
+    });
+  });
+
   test('initial UI shows Idle badge and action buttons', async () => {
     render(<RandomChatPage />);
 
